@@ -10,12 +10,14 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E X1 X2 : Subgroup G}
 
+omit [Finite G] in
 theorem sec8t84d2_mem_autIn {Y : Subgroup G} {a : MulAut ↥E} (ha : a ∈ autIn Y E) :
     ∃ x ∈ Y, ∀ e : ↥E, ((a e : ↥E) : G) = x * (e : G) * x⁻¹ := by
   rw [autIn] at ha
   obtain ⟨n, hn, rfl⟩ := ha
   exact ⟨(n : G), hn, fun e => Subgroup.normalizerMonoidHom_apply_apply_coe E n e⟩
 
+omit [Finite G] in
 theorem sec8t84d2_conj_mem {Y : Subgroup G} (hY : Y ≤ normalizer (E : Set G)) {x : G}
     (hx : x ∈ Y) : ∃ a ∈ autIn Y E, ∀ e : ↥E, ((a e : ↥E) : G) = x * (e : G) * x⁻¹ := by
   refine ⟨E.normalizerMonoidHom ⟨x, hY hx⟩, ?_, fun e =>
@@ -23,8 +25,9 @@ theorem sec8t84d2_conj_mem {Y : Subgroup G} (hY : Y ≤ normalizer (E : Set G)) 
   rw [autIn]
   exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hx)
 
+omit [Finite G] in
 theorem sec8t84d2_equiv {Y : Subgroup G} (hY : Y ≤ normalizer (E : Set G))
-    (hC : centralizer (E : Set G) ≤ Y) {F : Type} [Group F]
+    (_hC : centralizer (E : Set G) ≤ Y) {F : Type} [Group F]
     (hq : QuotEquivTo Y (centralizer (E : Set G)) F) : Nonempty (↥(autIn Y E) ≃* F) := by
   let φ : ↥Y →* MulAut ↥E := E.normalizerMonoidHom.comp (Subgroup.inclusion hY)
   have hrange : φ.range = autIn Y E := by
@@ -36,7 +39,7 @@ theorem sec8t84d2_equiv {Y : Subgroup G} (hY : Y ≤ normalizer (E : Set G))
     rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
     simp
   obtain ⟨f, hf_surj, hf_ker⟩ := hq
-  haveI hnorm : ((centralizer (E : Set G)).subgroupOf Y).Normal := hf_ker ▸ inferInstance
+  have hnorm : ((centralizer (E : Set G)).subgroupOf Y).Normal := hf_ker ▸ inferInstance
   refine ⟨?_⟩
   exact (((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivRange φ)).trans (MulEquiv.subgroupCongr hrange)).symm.trans
@@ -72,14 +75,17 @@ theorem sec8t84d2_comm (hX : Sec8X G t E X1 X2) :
           exact hcd
     _ = y * (x * (e : G) * x⁻¹) * y⁻¹ := by group
 
+omit [Finite G] in
 theorem sec8t84d2_E_comm {k : ℕ} (hE : IsElemAb2 E k) : ∀ x y : ↥E, x * y = y * x :=
   fun x y => hE.1.1.is_comm.comm x y
 
+omit [Finite G] in
 theorem sec8t84d2_E_sq {k : ℕ} (hE : IsElemAb2 E k) : ∀ x : ↥E, x * x = 1 := by
   intro x
   apply Subtype.ext
   simpa [pow_two] using hE.1.2 x x.2
 
+omit [Finite G] in
 theorem sec8t84d2_orderOf_five_iff {x : G} (hx : x ∈ normalizer (E : Set G)) {a : MulAut ↥E}
     (ha : ∀ e : ↥E, ((a e : ↥E) : G) = x * (e : G) * x⁻¹) :
     orderOf a = 5 ↔ (x ^ 5 ∈ centralizer (E : Set G) ∧ x ∉ centralizer (E : Set G)) := by
@@ -94,7 +100,7 @@ theorem sec8t84d2_orderOf_five_iff {x : G} (hx : x ∈ normalizer (E : Set G)) {
     rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
   have hker1 : E.normalizerMonoidHom ⟨x, hx⟩ = 1 ↔ x ∈ centralizer (E : Set G) := by
     rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   rw [orderOf_eq_prime_iff]
   constructor
   · rintro ⟨h5, hne⟩

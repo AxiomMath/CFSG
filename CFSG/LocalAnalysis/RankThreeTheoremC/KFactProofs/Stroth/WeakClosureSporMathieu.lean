@@ -17,7 +17,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open
 
 theorem wcOn_M11_three
     [Finite (Carrier .M11)] : WCOn 3 (Carrier .M11) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   exact WCOn.of_normalizer_transitive fun P a b ha hb ha1 hb1 =>
     CFSG.LocalAnalysis.RankThreeTheoremC.m11SylowTransitive_proved (Carrier .M11) ⟨e⟩ P a b ha hb
@@ -38,7 +38,7 @@ theorem wcSporadicAt_M11
 
 theorem wcOn_M12_three [Finite (Carrier .M12)] :
     WCOn 3 (Carrier .M12) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.M12_sylow3_cubic_witness
   exact WCOn.of_hasNoncommPair
     (CFSG.RankThree.PartOne.CTP.hasNoncommPair_of_cubic Nat.prime_three hx hy hz hc)
@@ -58,7 +58,7 @@ theorem wcSporadicAt_M12
 
 theorem wcOn_M22_three [Finite (Carrier .M22)] :
     WCOn 3 (Carrier .M22) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   open CFSG.RankThree.Asc83Table.M22 in
   exact WCOn.of_square_witness (x := X) (y := Y) (h := GI) X_cube Y_cube XY_comm.eq
     (by
@@ -87,7 +87,7 @@ theorem wcSporadicAt_M22 [Finite (Carrier .M22)] :
 
 theorem wcOn_M23_three [Finite (Carrier .M23)] :
     WCOn 3 (Carrier .M23) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   open CFSG.RankThree.Asc83Table.M23 in
   exact WCOn.of_square_witness (x := X) (y := Y) (h := GR) X_cube Y_cube XY_comm.eq
     (by
@@ -116,7 +116,7 @@ theorem wcSporadicAt_M23 [Finite (Carrier .M23)] :
 
 theorem wcOn_M24_three [Finite (Carrier .M24)] :
     WCOn 3 (Carrier .M24) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.M24_sylow3_cubic_witness
   exact WCOn.of_hasNoncommPair
     (CFSG.RankThree.PartOne.CTP.hasNoncommPair_of_cubic Nat.prime_three hx hy hz hc)

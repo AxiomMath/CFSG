@@ -13,7 +13,7 @@ namespace CFSG.ComponentClassification.GrSLit.L34Facts
 
 open CFSG.PSL3Four CFSG.PSL3Four.Native CFSG.ComponentClassification.PSL3Four Subgroup
 
-@[expose] def Q8 : Subgroup (Equiv.Perm (Fin 42)) := centralizer {r₄} ⊓ T0
+def Q8 : Subgroup (Equiv.Perm (Fin 42)) := centralizer {r₄} ⊓ T0
 
 theorem mem_Q8 {t : Equiv.Perm (Fin 42)} : t ∈ Q8 ↔ t * r₄ = r₄ * t ∧ t ∈ T0 := by
   rw [Q8, mem_inf, mem_centralizer_singleton_iff]

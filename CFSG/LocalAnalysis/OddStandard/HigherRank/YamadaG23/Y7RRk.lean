@@ -22,7 +22,7 @@ private lemma isElemAbelian_map_iff {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ
     IsElemAbelian p (E.map f) ↔ IsElemAbelian p E := by
   constructor
   · intro h
-    haveI : IsMulCommutative (E.map f) := h.1
+    have : IsMulCommutative (E.map f) := h.1
     refine ⟨IsMulCommutative.of_setLike_mul_comm ?_, ?_⟩
     · intro a ha b hb
       apply hf
@@ -32,7 +32,7 @@ private lemma isElemAbelian_map_iff {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ
       apply hf
       simpa using h.2 (f x) (show f x ∈ E.map f from ⟨x, hx, rfl⟩)
   · intro h
-    haveI : IsMulCommutative E := h.1
+    have : IsMulCommutative E := h.1
     refine ⟨inferInstance, ?_⟩
     rintro y ⟨x, hx, rfl⟩
     simpa using congrArg f (h.2 x hx)

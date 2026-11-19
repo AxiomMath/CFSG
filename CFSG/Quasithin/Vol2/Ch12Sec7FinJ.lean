@@ -47,6 +47,7 @@ theorem map_conj_le_normalizer (c : G) {X Y : Subgroup G}
   rw [← conjSubgroup_inv_eq_map, ← conjSubgroup_inv_eq_map, ← conjSubgroup_normalizer]
   exact conjSubgroup_mono_left _ h
 
+omit [Finite G] in
 theorem relIndex_inf_centralizer_conj (c : G) (X Y : Subgroup G) :
     (X.map (MulAut.conj c).toMonoidHom ⊓
         Subgroup.centralizer (Y.map (MulAut.conj c).toMonoidHom : Set G)).relIndex
@@ -70,6 +71,7 @@ theorem le_normalizer_inf_centralizer_of {X P W : Subgroup G}
   have := key x⁻¹ (X.inv_mem hx) _ hu
   rwa [show x⁻¹ * (x * u * x⁻¹) * x⁻¹⁻¹ = u by group] at this
 
+omit [Finite G] in
 theorem le_normalizer_cClos (V : Subgroup G) (k : ℕ) (H₁ : Subgroup G) :
     H₁ ≤ Subgroup.normalizer (cClos V k (pCoreOf 2 H₁) : Set G) :=
   le_normalizer_inf_centralizer_of (le_normalizer_pCoreOf 2 H₁)

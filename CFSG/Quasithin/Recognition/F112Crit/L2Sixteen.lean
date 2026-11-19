@@ -165,7 +165,7 @@ theorem TorusLocal.card_fixed_sub_two_dvd {μ : CosetGeom G₀ G₁ G₂} {M : S
       rw [hx]
       exact hμ₀Φ
   have hc2' : Nat.card ↥(Φ ∩ ({ω₀', μ₀'} : Set ↥(nbrs μ))ᶜ) = Nat.card F - 2 := by
-    rw [← Set.diff_eq, Nat.card_coe_set_eq, Set.ncard_diff hsub, hpair, ← Nat.card_coe_set_eq,
+    rw [← Set.sdiff_eq, Nat.card_coe_set_eq, Set.ncard_sdiff hsub, hpair, ← Nat.card_coe_set_eq,
       hcardF]
   rw [hc2, hc2'] at hdvd
   exact hdvd
@@ -231,7 +231,7 @@ theorem card_nbrs_γ₀_ne_seventeen (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : 
     rw [Nat.card_coe_set_eq]
     omega
   have hc1' : Nat.card ↥(Φ ∩ ({ω₀'} : Set ↥(nbrs α'))ᶜ) = Nat.card F - 1 := by
-    rw [← Set.diff_eq, Nat.card_coe_set_eq, Set.ncard_diff_singleton_of_mem hω₀Φ,
+    rw [← Set.sdiff_eq, Nat.card_coe_set_eq, Set.ncard_sdiff_singleton_of_mem hω₀Φ,
       ← Nat.card_coe_set_eq, hcardF]
   rw [hc1, hc1'] at hdvd1
   have hdvd2 := hT'.card_fixed_sub_two_dvd hzα' hω₀ hμ₀ hν₀ h01 h02 h12

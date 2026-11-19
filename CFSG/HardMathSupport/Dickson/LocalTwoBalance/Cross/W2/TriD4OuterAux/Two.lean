@@ -112,7 +112,7 @@ theorem coreFreeAt_of_equiv_projImage {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field
     have h1 : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by
       have := Nat.sq_sub_sq (2 ^ f) 1
       simpa using this
-    simp only [cond_true]
+    simp only [_root_.Bool.cond_true]
     rw [h1]
     exact Dvd.dvd.mul_left (Dvd.dvd.mul_right (dvd_mul_right _ _) _) _
 

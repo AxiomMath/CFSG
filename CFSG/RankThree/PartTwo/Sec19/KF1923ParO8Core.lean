@@ -19,7 +19,7 @@ open scoped Pointwise
 private theorem kfParO8_sylowConj {X : Type} [Group X] [Finite X] {S U : Subgroup X}
     (hS : IsSylowOf 2 S ⊤) (hU : IsSylowOf 2 U ⊤) :
     ∃ g : X, S.map (MulAut.conj g).toMonoidHom = U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have toSyl : ∀ S : Subgroup X, IsSylowOf 2 S ⊤ → ∃ P : Sylow 2 X, (P : Subgroup X) = S := by
     intro S hS
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right] at hS
@@ -105,7 +105,7 @@ private theorem kfParO8_pow_normalizes {X : Type} [Group X] {E : Subgroup X} {t 
 private theorem kfParO8_exists_sylow {X : Type} [Group X] [Finite X] {P : Subgroup X} {z : X}
     {k : ℕ} (hzP : z ∈ P) (hz : z ^ 2 ^ k = 1) :
     ∃ Q : Subgroup X, IsSylowOf 2 Q P ∧ z ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpz : IsPGroup 2 (Subgroup.zpowers z) :=
     IsPGroup.of_card_dvd_pow (n := k) (by
       rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hz)
@@ -119,7 +119,7 @@ private theorem kfParO8_exists_sylow {X : Type} [Group X] [Finite X] {P : Subgro
 
 private theorem kfParO8_isSylow_top {X : Type} [Group X] [Finite X] {P Q T : Subgroup X}
     (hT : IsSylowOf 2 T ⊤) (hTP : T ≤ P) (hQ : IsSylowOf 2 Q P) : IsSylowOf 2 Q ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hT hQ ⊢
   obtain ⟨-, -, hTd⟩ := hT
   obtain ⟨hQP, hQ2, hQd⟩ := hQ
@@ -136,7 +136,7 @@ private theorem kfParO8_isSylow_top {X : Type} [Group X] [Finite X] {P Q T : Sub
 private theorem kfParO8_normalizer_le {X : Type} [Group X] [Finite X] {P Q T : Subgroup X}
     (hT : IsSylowOf 2 T ⊤) (hTP : Subgroup.normalizer (T : Set X) ≤ P) (hQ : IsSylowOf 2 Q P) :
     Subgroup.normalizer (Q : Set X) ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTle : T ≤ P := le_trans Subgroup.le_normalizer hTP
   have hTP' : IsSylowOf 2 T P := hT.of_le hTle le_top
   obtain ⟨T', hT'⟩ := hTP'.exists_sylow_eq_subgroupOf
@@ -198,7 +198,7 @@ private theorem kfParO8_not_five_dvd_sup {X : Type} [Group X] [Finite X] {P Y N 
     (hYP : Y ≤ P) (hNP : N ≤ P) (hYn : ∀ p ∈ P, ∀ y ∈ Y, p * y * p⁻¹ ∈ Y)
     (hY : ¬ 5 ∣ Nat.card Y) (hN : ¬ 5 ∣ Nat.card N) :
     ¬ 5 ∣ Nat.card (Y ⊔ N : Subgroup X) := by
-  haveI : (Y.subgroupOf P).Normal := ⟨fun y hy g => by
+  have : (Y.subgroupOf P).Normal := ⟨fun y hy g => by
     rw [Subgroup.mem_subgroupOf] at hy ⊢
     simpa using hYn g g.2 y hy⟩
   have hYc : Nat.card (Y.subgroupOf P) = Nat.card Y :=
@@ -239,7 +239,7 @@ theorem kfParO8_core {X : Type} [Group X] [Finite X] (hd : KFParO8Data X) {P Y E
 
 theorem kfParO8_sylow_map {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y] (e : X ≃* Y)
     {S : Subgroup X} (hS : IsSylowOf 2 S ⊤) : IsSylowOf 2 (S.map e.toMonoidHom) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hS ⊢
   obtain ⟨-, hp, hd⟩ := hS
   refine ⟨le_top, hp.map _, ?_⟩
@@ -258,7 +258,7 @@ theorem KFParO8Data.of_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X] [Fin
       exact Subgroup.map_mono hND
     · rwa [Subgroup.card_map_of_injective e.injective]
     · rintro _ ⟨x, hx, rfl⟩
-      rw [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, ← map_pow, hE3 x hx, map_one]
+      rw [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, ← map_pow, hE3 x hx, map_one]
     · rwa [Subgroup.card_map_of_injective e.injective]
     · rintro _ ⟨x, hx, rfl⟩
       exact ⟨t * x * t⁻¹, htN x hx, by simp⟩

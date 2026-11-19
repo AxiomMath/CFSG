@@ -99,17 +99,17 @@ private def conjHom {E : Subgroup Γ} [E.Normal] : Γ →* Equiv.Perm (Esharp E)
 
 private lemma eq_one_of_isPerfect_of_isSolvable {G H : Type*} [Group G] [Group H]
     [Group.IsPerfect G] [Group.IsSolvable H] (f : G →* H) : f = 1 := by
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hsub : Subsingleton f.range := by
     by_contra h
-    haveI : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isSolvable f.range inferInstance
   ext g
   have h1 : (⟨f g, MonoidHom.mem_range.mpr ⟨g, rfl⟩⟩ : f.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val h1
 
 private lemma centralizes_of_card_four [Finite Γ] {E Λ : Subgroup Γ} [E.Normal]
-    (hcard : Nat.card ↥E = 4) (hΛ : Group.IsPerfect Λ) (hEΛ : E ≤ Λ) :
+    (hcard : Nat.card ↥E = 4) (hΛ : Group.IsPerfect Λ) (_hEΛ : E ≤ Λ) :
     ∀ l ∈ Λ, ∀ s ∈ E, l * s = s * l := by
   classical
   have hcardsharp : Nat.card (Esharp E) ≤ 4 := by
@@ -117,8 +117,8 @@ private lemma centralizes_of_card_four [Finite Γ] {E Λ : Subgroup Γ} [E.Norma
     · omega
     · intro x y hxy
       exact Subtype.ext (congrArg (fun z : ↥E => (z : Γ)) hxy)
-  haveI : Group.IsPerfect ↥Λ := hΛ
-  haveI : Group.IsSolvable (Equiv.Perm (Esharp E)) := Equiv.Perm.isSolvable hcardsharp
+  have : Group.IsPerfect ↥Λ := hΛ
+  have : Group.IsSolvable (Equiv.Perm (Esharp E)) := Equiv.Perm.isSolvable hcardsharp
   let φ : ↥Λ →* Equiv.Perm (Esharp E) := (conjHom (E := E)).comp Λ.subtype
   have hφ : φ = 1 := eq_one_of_isPerfect_of_isSolvable φ
   intro l hl s hs
@@ -136,7 +136,7 @@ private lemma centralizes_of_card_four [Finite Γ] {E Λ : Subgroup Γ} [E.Norma
 private lemma exists_two_ne_one [Finite Γ] {E : Subgroup Γ} (hcard : 4 ≤ Nat.card ↥E) :
     ∃ a ∈ E, ∃ b ∈ E, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  haveI : Fintype ↥E := Fintype.ofFinite ↥E
+  have : Fintype ↥E := Fintype.ofFinite ↥E
   let S : Finset ↥E := Finset.univ.erase 1
   have hS : 3 ≤ S.card := by
     have h := Finset.card_erase_of_mem (Finset.mem_univ (1 : ↥E))
@@ -158,7 +158,7 @@ private lemma exists_three_with_ne_mul [Finite Γ] {E : Subgroup Γ}
     ∃ u ∈ E, ∃ a ∈ E, ∃ b ∈ E,
       u ≠ 1 ∧ a ≠ 1 ∧ b ≠ 1 ∧ a ≠ u ∧ b ≠ u ∧ b ≠ a ∧ b ≠ u * a := by
   classical
-  haveI : Fintype ↥E := Fintype.ofFinite ↥E
+  have : Fintype ↥E := Fintype.ofFinite ↥E
   let S : Finset ↥E := Finset.univ.erase 1
   have hS : 7 ≤ S.card := by
     have h := Finset.card_erase_of_mem (Finset.mem_univ (1 : ↥E))
@@ -246,9 +246,9 @@ private lemma nontrivial_of_isIrreducible {ρ : Representation K Γ V} (hρ : ρ
     Nontrivial V := by
   by_contra h
   rw [not_nontrivial_iff_subsingleton] at h
-  haveI : Subsingleton V := h
-  haveI : IsSimpleOrder (Subrepresentation ρ) := hρ
-  haveI : Nontrivial (Subrepresentation ρ) := IsSimpleOrder.toNontrivial
+  have : Subsingleton V := h
+  have : IsSimpleOrder (Subrepresentation ρ) := hρ
+  have : Nontrivial (Subrepresentation ρ) := IsSimpleOrder.toNontrivial
   obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial (Subrepresentation ρ)).exists_pair_ne
   apply hxy
   apply Subrepresentation.toSubmodule_injective
@@ -360,7 +360,7 @@ theorem exists_neg_one_of_eight_le (h2 : (2 : K) ≠ 0) [Finite Γ] [FiniteDimen
     (h8 : 8 ≤ Module.finrank K V) :
     ∃ z ∈ E, z ≠ 1 ∧ ρ z = -1 ∧ ∀ s ∈ E, s = 1 ∨ s = z := by
   classical
-  haveI : E.Normal := hEn
+  have : E.Normal := hEn
   have hcardlt : Nat.card ↥E < 8 := eight_le_card_lt_eight h2 hE2 h3 h8
   have hE2grp : IsPGroup 2 ↥E := by
     intro x
@@ -477,7 +477,7 @@ private lemma apply_quadratic {ρ : Representation K Γ V} {σ : Γ}
 private theorem cube_parity (h2 : (2 : K) ≠ 0) [FiniteDimensional K V]
     {ρ : Representation K Γ V} {E Λ : Subgroup Γ}
     (hΛ : Group.IsPerfect Λ) (hEΛ : E ≤ Λ) (hE2 : ∀ s ∈ E, s * s = 1)
-    {s : Γ} (hs : s ∈ E) (hs1 : s ≠ 1) :
+    {s : Γ} (hs : s ∈ E) (_hs1 : s ≠ 1) :
     ∃ m : ℕ, Module.finrank K V =
       Module.finrank K (LinearMap.ker (ρ s - 1)) + 2 * m := by
   have hs2 : s * s = 1 := hE2 s hs
@@ -654,14 +654,14 @@ private theorem cube_no_card_ge_eight (h2 : (2 : K) ≠ 0) [Finite Γ] [FiniteDi
 
 private theorem cube_no_card_four (h3 : (3 : K) ≠ 0) [Finite Γ] [FiniteDimensional K V]
     {ρ : Representation K Γ V} {E Λ : Subgroup Γ} (hEn : E.Normal)
-    (hE2 : ∀ s ∈ E, s * s = 1) (hΛ : Group.IsPerfect Λ) (hEΛ : E ≤ Λ)
+    (_hE2 : ∀ s ∈ E, s * s = 1) (hΛ : Group.IsPerfect Λ) (hEΛ : E ≤ Λ)
     {σ : Γ} (hσΛ : σ ∈ Λ) (hσ : ∀ g : Γ, ρ σ * ρ g = ρ g * ρ σ)
     (hσ3 : ρ σ * ρ σ + ρ σ + 1 = 0)
     (h2' : ∀ s ∈ E, s ≠ 1 → Module.finrank K (LinearMap.ker (ρ s - 1)) ≤ 2)
     (hcpos : ∀ s ∈ E, s ≠ 1 → 0 < Module.finrank K (LinearMap.ker (ρ s - 1)))
     (hcard : Nat.card ↥E = 4) : False := by
   classical
-  haveI : E.Normal := hEn
+  have : E.Normal := hEn
   have hne : E ≠ ⊥ := by
     intro h
     rw [Subgroup.eq_bot_iff_card] at h
@@ -693,8 +693,8 @@ theorem exists_neg_one_of_cube (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) [Finite
     (h2' : ∀ s ∈ E, s ≠ 1 → Module.finrank K (LinearMap.ker (ρ s - 1)) ≤ 2) :
     ∃ z ∈ E, z ≠ 1 ∧ ρ z = -1 ∧ ∀ s ∈ E, s = 1 ∨ s = z := by
   classical
-  haveI : E.Normal := hEn
-  haveI hV : Nontrivial V := nontrivial_of_isIrreducible hρ
+  have : E.Normal := hEn
+  have hV : Nontrivial V := nontrivial_of_isIrreducible hρ
   have hnpos : 0 < Module.finrank K V := Module.finrank_pos
   have hn3 : 3 ∣ Module.finrank K V := by
     have h := three_dvd_finrank_of_isPerfect h3 ρ hΛ ⊤

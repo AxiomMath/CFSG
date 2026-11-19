@@ -63,14 +63,14 @@ theorem s16h_card_le_mul_cent_of_normalizes {X : Type*} [Group X] [Finite X] {e 
     have h := Subgroup.card_map_of_injective (K := ψ.ker) (f := E.subtype) E.subtype_injective
     rw [hkermap] at h
     exact h.symm
-  haveI : IsCyclic ↥H := hHcyc
+  have : IsCyclic ↥H := hHcyc
   have hMulAut : Nat.card (MulAut ↥H) = p - 1 := by
     rw [IsCyclic.card_mulAut ↥H, hHcard, Nat.totient_prime hp]
-  haveI : IsCyclic (MulAut ↥H) := by
+  have : IsCyclic (MulAut ↥H) := by
     have h := (IsCyclic.mulAutMulEquiv ↥H).isCyclic
     rw [hHcard] at h
     exact h.mpr (ZMod.isCyclic_units_prime hp)
-  haveI : IsCyclic ↥ψ.range :=
+  have : IsCyclic ↥ψ.range :=
     isCyclic_of_injective (Subgroup.subtype ψ.range) (Subgroup.subtype_injective ψ.range)
   have hdivp : Nat.card ↥ψ.range ∣ p - 1 := by
     have h := Subgroup.card_subgroup_dvd_card ψ.range
@@ -88,9 +88,9 @@ theorem s16h_card_le_mul_cent_of_normalizes {X : Type*} [Group X] [Finite X] {e 
     exact hexp
   have hle : Nat.card ↥ψ.range ≤ (if q ∣ p - 1 then q else 1) := by
     by_cases hqp : q ∣ p - 1
-    · rw [if_pos hqp]
+    · rw [ite_eq_left hqp]
       exact Nat.le_of_dvd hq.pos hdivq
-    · rw [if_neg hqp]
+    · rw [ite_eq_right hqp]
       rcases (Nat.dvd_prime hq).mp hdivq with h | h
       · omega
       · exact absurd (h ▸ hdivp) hqp
@@ -119,7 +119,7 @@ theorem s16h_blockBound_of_cyclic {W : Type} [CommGroup W] [Finite W]
   have heord : orderOf e = p := by
     rw [← Nat.card_zpowers, he]
     exact hLp
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hEn' : E ≤ normalizer ((Subgroup.zpowers e : Subgroup (MulAut W)) : Set (MulAut W)) := by
     rw [he]; exact hEn
@@ -168,13 +168,13 @@ theorem s16h_blockBound_of_cyclic {W : Type} [CommGroup W] [Finite W]
       q ^ (s16h_cTable p (rk ↥U) q) * Nat.card ↥(E ⊓ centSub U) := by
     rw [s16h_cTable]
     by_cases h : q ∣ p - 1
-    · rw [if_pos h, if_pos h, pow_succ]; ring
-    · rw [if_neg h, if_neg h, one_mul, add_zero]
+    · rw [ite_eq_left h, ite_eq_left h, pow_succ]; ring
+    · rw [ite_eq_right h, ite_eq_right h, one_mul, add_zero]
   rw [hpow] at hmain
   exact hmain
 
 private lemma s16h_orderOf_two_zmod_three : orderOf (2 : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 private lemma s16h_orderOf_two_zmod_five : orderOf (2 : ZMod 5) = 4 := by
@@ -182,10 +182,10 @@ private lemma s16h_orderOf_two_zmod_five : orderOf (2 : ZMod 5) = 4 := by
   decide
 
 private lemma s16h_orderOf_two_zmod_seven : orderOf (2 : ZMod 7) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
-private lemma s16h_prime_dvd_two_pow_orderOf_sub_one {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
+private lemma s16h_prime_dvd_two_pow_orderOf_sub_one {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) :
     q ∣ 2 ^ orderOf (2 : ZMod q) - 1 := by
   have h1 : ((2 ^ orderOf (2 : ZMod q) : ℕ) : ZMod q) = 1 := by
     rw [Nat.cast_pow, Nat.cast_ofNat, pow_orderOf_eq_one]
@@ -195,7 +195,7 @@ private lemma s16h_prime_dvd_two_pow_orderOf_sub_one {q : ℕ} (hq : q.Prime) (h
 
 private lemma s16h_orderOf_two_zmod_pos {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     0 < orderOf (2 : ZMod q) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hne : (2 : ZMod q) ≠ 0 := by
     intro h0
     exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp
@@ -262,7 +262,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
   rcases hrow with ⟨rfl, hm⟩ | ⟨rfl, rfl⟩ | ⟨rfl, hm⟩
   · rcases hm with rfl | rfl | rfl
     · rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hle : 2 / Nat.lcm 2 (orderOf (2 : ZMod q)) ≤ 1 := by
         apply s16h_div_le_of_lt_mul (lt_of_lt_of_le (by norm_num : (0:ℕ) < 2)
@@ -271,7 +271,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         nlinarith
       omega
     · rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hle : 4 / Nat.lcm 2 (orderOf (2 : ZMod q)) ≤ 2 := by
         apply s16h_div_le_of_lt_mul (lt_of_lt_of_le (by norm_num : (0:ℕ) < 2)
@@ -281,7 +281,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
       omega
     · have hq3 : q ≠ 3 := fun h => hex ⟨rfl, rfl, h⟩
       rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
         have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -295,7 +295,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         nlinarith
       omega
   · rw [s16h_cTable, s16h_orderOf_two_zmod_five, show (5:ℕ) - 1 = 4 by norm_num,
-      if_neg (s16h_not_dvd_four_of_odd_prime hq hq2)]
+      ite_eq_right (s16h_not_dvd_four_of_odd_prime hq hq2)]
     have hd := s16h_orderOf_two_zmod_pos hq hq2
     have hle : 4 / Nat.lcm 4 (orderOf (2 : ZMod q)) ≤ 1 := by
       apply s16h_div_le_of_lt_mul (lt_of_lt_of_le (by norm_num : (0:ℕ) < 4)
@@ -309,7 +309,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
       · subst hq3
         rw [s16h_orderOf_two_zmod_three]
         norm_num
-      · rw [if_neg (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
+      · rw [ite_eq_right (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
         have hd := s16h_orderOf_two_zmod_pos hq hq2
         have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
           have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -327,7 +327,7 @@ theorem s16h_cTable_le_two {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
       · subst hq3
         rw [s16h_orderOf_two_zmod_three]
         norm_num
-      · rw [if_neg (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
+      · rw [ite_eq_right (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
         have hd := s16h_orderOf_two_zmod_pos hq hq2
         have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
           have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -346,7 +346,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
   rcases hrow with ⟨rfl, hm⟩ | ⟨rfl, rfl⟩ | ⟨rfl, hm⟩
   · rcases hm with rfl | rfl | rfl
     · rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
         have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -360,7 +360,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         nlinarith
       omega
     · rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
         have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -374,7 +374,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         nlinarith
       omega
     · rw [s16h_cTable, s16h_orderOf_two_zmod_three, show (3:ℕ) - 1 = 2 by norm_num,
-        if_neg (s16h_not_dvd_two_of_odd_prime hq hq2)]
+        ite_eq_right (s16h_not_dvd_two_of_odd_prime hq hq2)]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
         have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -393,7 +393,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         nlinarith
       omega
   · rw [s16h_cTable, s16h_orderOf_two_zmod_five, show (5:ℕ) - 1 = 4 by norm_num,
-      if_neg (s16h_not_dvd_four_of_odd_prime hq hq2)]
+      ite_eq_right (s16h_not_dvd_four_of_odd_prime hq hq2)]
     have hd := s16h_orderOf_two_zmod_pos hq hq2
     have hle : 4 / Nat.lcm 4 (orderOf (2 : ZMod q)) ≤ 1 := by
       apply s16h_div_le_of_lt_mul (lt_of_lt_of_le (by norm_num : (0:ℕ) < 4)
@@ -407,7 +407,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
       · subst hq3
         rw [s16h_orderOf_two_zmod_three]
         norm_num
-      · rw [if_neg (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
+      · rw [ite_eq_right (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
         have hd := s16h_orderOf_two_zmod_pos hq hq2
         have hd3 : 3 ≤ orderOf (2 : ZMod q) := by
           have h2 := s16h_two_le_orderOf_two_zmod hq hq2
@@ -422,7 +422,7 @@ theorem s16h_cTable_le_one {p m q : ℕ} (hrow : s16h_ZpRow p m) (hq : q.Prime) 
         omega
     · have hq3 : q ≠ 3 := fun h => hex ⟨rfl, rfl, h⟩
       rw [s16h_cTable, s16h_orderOf_two_zmod_seven, show (7:ℕ) - 1 = 6 by norm_num,
-        if_neg (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
+        ite_eq_right (fun h => hq3 ((s16h_dvd_six_iff hq hq2).mp h))]
       have hd := s16h_orderOf_two_zmod_pos hq hq2
       have hd4 : 4 ≤ orderOf (2 : ZMod q) := by
         have h2 := s16h_two_le_orderOf_two_zmod hq hq2

@@ -28,13 +28,13 @@ theorem expandList_map (hf : Function.Injective f) (hm : ∀ a b, f (a * b) = m 
     · have h' : m (f s) (f g) ∈ vis.map f := by
         rw [← hm]
         exact List.mem_map_of_mem h
-      rw [if_pos h, if_pos h']
+      rw [ite_eq_left h, ite_eq_left h']
     · have h' : m (f s) (f g) ∉ vis.map f := by
         rw [← hm]
         intro hx
         obtain ⟨y, hy, hye⟩ := List.mem_map.1 hx
         exact h (hf hye ▸ hy)
-      rw [if_neg h, if_neg h', List.map_append, List.map_singleton, hm]
+      rw [ite_eq_right h, ite_eq_right h', List.map_append, List.map_singleton, hm]
 
 theorem closeList_map (hf : Function.Injective f) (hm : ∀ a b, f (a * b) = m (f a) (f b))
     (gens : List G) : ∀ (fuel : ℕ) (vis : List G) (i : ℕ),
@@ -46,8 +46,8 @@ theorem closeList_map (hf : Function.Injective f) (hm : ∀ a b, f (a * b) = m (
     intro vis i
     simp only [closeList, closeListK, List.length_map]
     by_cases hi : i < vis.length
-    · rw [dif_pos hi, dif_pos hi, ih, expandList_map hf hm, List.getElem_map]
-    · rw [dif_neg hi, dif_neg hi]
+    · rw [dite_eq_left hi, dite_eq_left hi, ih, expandList_map hf hm, List.getElem_map]
+    · rw [dite_eq_right hi, dite_eq_right hi]
 
 end Transport
 

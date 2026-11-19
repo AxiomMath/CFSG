@@ -53,7 +53,7 @@ theorem sec5cn_core (h36 : Asc82Lemma36) (h52a : Asc82Lemma52a) (hO : Asc82Outsi
     (hs1 : m⁻¹ * t * m ≠ t) (hs3 : m⁻¹ * t * m ≠ t * z)
     (hK : ∀ k ∈ K₁ ⊔ K₂, (m⁻¹ * t * m) * k = k * (m⁻¹ * t * m)) :
     m ∈ normalizer ((K₁ ⊔ K₂ : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOm : IsOm6Z2 L := c.toSec5Ctx.toSec5Setting.isOm6Z2
   have ht2 : orderOf t = 2 := c.involution
   have hss : (m⁻¹ * t * m) * (m⁻¹ * t * m) = 1 := by

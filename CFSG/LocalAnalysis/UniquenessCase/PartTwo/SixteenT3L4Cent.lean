@@ -57,7 +57,7 @@ theorem s16t_l4_uniqueMax_of_ptStab (hS : S16tL4Setting D V₀ V L hV)
     (hV₀ : V₀ ≠ ⊥) {Y : Subgroup G} (hY : S16tL4Pack D V₀ V L hV Y) {w : G} (hw : w ∈ V)
     (hpt : Close16PtStab (lBar V₀ V hV L) (tilOf V₀ V hV w hw)) :
     UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Ψ, hΨ, hker⟩ := s16t_l4_zc_quot hS hY hw hpt
   set Z : Subgroup G := Y ⊓ centralizer ({w} : Set G) with hZdef
   have hZM : Z ≤ D.M := inf_le_left.trans hY.le

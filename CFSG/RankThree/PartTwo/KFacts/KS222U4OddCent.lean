@@ -38,7 +38,7 @@ theorem dvecD0_eq {ω : Kˣ} (h1 : ω ≠ 1) (h2 : ω ≠ ω⁻¹) {k l : Fin 4}
     (h : dvecD0 ω k = dvecD0 ω l) : k = l ∨ (k.val < 2 ∧ l.val < 2) := by
   have h1' : ω⁻¹ ≠ 1 := fun h => h1 (inv_eq_one.mp h)
   fin_cases k <;> fin_cases l <;> simp [dvecD0] at h ⊢ <;>
-    first | exact h1 h.symm | exact h1 h | exact h1' h.symm | exact h1' h | exact h2 h |
+    first | exact h1 h.symm | exact h1 h | exact h2 h |
       exact h2 h.symm
 
 namespace U4OddCtx

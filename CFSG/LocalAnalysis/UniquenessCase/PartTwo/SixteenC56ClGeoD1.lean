@@ -12,7 +12,7 @@ variable {W : Type} [CommGroup W] {S : OmegaModel W} {E : Subgroup (MulAut W)}
 
 @[expose] def secondLayer (E : Subgroup (MulAut W)) : Subgroup W where
   carrier := {w | ∀ e ∈ E, e w * w⁻¹ ∈ fixV E}
-  one_mem' := fun e _ => by simpa using (fixV E).one_mem
+  one_mem' := fun e _ => by simp
   mul_mem' := fun {a b} ha hb e he => by
     have h : e (a * b) * (a * b)⁻¹ = (e a * a⁻¹) * (e b * b⁻¹) := by
       rw [map_mul, mul_inv_rev]
@@ -39,11 +39,11 @@ theorem Geo2.isSub_secondLayer (hE : Geo2 S E) : S.IsSub (secondLayer E) := fun 
   exact hE.isSub_fixV c _ (hw e he)
 
 theorem Geo2.secondLayer_le_perp (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
-    (hF : Nat.card (fixV E) = 4) : secondLayer E ≤ S.perp (fixV E) := fun w hw =>
+    (hF : Nat.card (fixV E) = 4) : secondLayer E ≤ S.perp (fixV E) := fun _w hw =>
   (S.mem_perp).2 fun z hz => hE.pol_eq_zero_of_secondLayer hSK hF hw z hz
 
 theorem Geo2.fixV_lt_secondLayer (hE : Geo2 S E) : fixV E < secondLayer E := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
   obtain ⟨w, hwF, hw2⟩ :=
     exists_mem_secondLayer hW2 hE.elem (le_refl (fixV E)) (fixV_ne_top hE.ne_bot)
@@ -60,7 +60,7 @@ theorem Geo2.card_perp_fix (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
 theorem Geo2.card_secondLayer_cases (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 4) :
     Nat.card (secondLayer E) = 16 ∨ Nat.card (secondLayer E) = 64 := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have h1 : Nat.card (fixV E) < Nat.card (secondLayer E) :=
     Subgroup.card_lt_of_lt hE.fixV_lt_secondLayer
   have h2 : Nat.card (secondLayer E) ≤ Nat.card (S.perp (fixV E)) :=
@@ -73,7 +73,7 @@ theorem Geo2.comm_mem_secondLayer (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 4) {h : W} (hh : h ∈ S.perp (fixV E)) {e : MulAut W}
     (he : e ∈ E) : e h * h⁻¹ ∈ secondLayer E := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hδperp : e h * h⁻¹ ∈ S.perp (fixV E) := S.commutator_mem_perp_fixV hE.iso he h
   rcases hE.card_secondLayer_cases hSK hF with h16 | h64
   · by_contra hδ

@@ -112,9 +112,9 @@ theorem lieModel_psl_two_of_isNaturalO4Plus {D : Data G} {V₀ V L : Subgroup G}
   have hKq : CFSG.Open.IsQuasisimple Kc := hKcomp.2.2
   obtain ⟨K, hKfield, hKfinite, hKcard, hK4, ⟨eK⟩⟩ :=
     exists_mulEquiv_sl2_of_isSubnormal_isNaturalO4Plus hKq hsn hnat
-  letI : Field K := hKfield
+  let : Field K := hKfield
   have : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have : CharP K 2 := by
     have h1 : Fintype.card K = 2 ^ e := by
       rw [← Nat.card_eq_fintype_card]
@@ -182,7 +182,7 @@ theorem caseTwo_package {D : Data G} {V₀ V L : Subgroup G} (h : Hyp125 D V₀ 
   have hKcomp : K ∈ compBar D.M V₀ V h.isElemAbelian :=
     barSub_mem_compBar_of_ne_bot h hL hne
   have hKleM : K ≤ Mbar := hKcomp.1
-  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp⟩
   have hKleH : K ≤ H := le_iSup₂_of_le (f := fun X (_ : X ∈ conjSet K Mbar) => X) K hKmem le_rfl
   have hKZ : K ≤ stabSub Z := hKleH.trans (CFSG.Quasithin.RonanF918.le_stabSub_fixV H)
   have hZK : Z ≤ fixV K := fixV_anti hKleH

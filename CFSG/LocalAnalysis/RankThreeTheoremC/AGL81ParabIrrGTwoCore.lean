@@ -54,6 +54,7 @@ theorem centralizes {t m u g : G} (ht : t ∈ T) (hm : m ∈ L) (hu : u ∈ U) (
     L.mul_mem (hD.conj_mem_L ht hm hs) (L.inv_mem hs)
   exact mul_inv_eq_iff_eq_mul.1 (mul_inv_eq_one.1 (hD.L_inf_O _ hL1 hO1))
 
+omit hD in
 theorem commute_of_centralizes {t m : G} (hm : m ∈ L) (hz : ∀ s ∈ L, t * m * s = s * (t * m)) :
     Commute t m := by
   have h' : t * m * m = m * t * m := by rw [hz m hm]; group
@@ -93,7 +94,7 @@ theorem commute_torus {t m : G} (ht : t ∈ T) (hm : m ∈ L)
 theorem map_eq_pow {S : MulAut G} {n : ℕ} (hSL : ∀ x ∈ L, S x ∈ L) (hSL' : ∀ x ∈ L, S⁻¹ x ∈ L)
     (hST : ∀ t ∈ T, S t = t ^ n) {t m : G} (ht : t ∈ T) (hm : m ∈ L)
     (hz : ∀ s ∈ L, t * m * s = s * (t * m)) : S (t * m) = (t * m) ^ n := by
-  have hcomm : Commute t m := hD.commute_of_centralizes hm hz
+  have hcomm : Commute t m := ParabLeviData.commute_of_centralizes hm hz
   obtain ⟨c, hcdef⟩ : ∃ c : G, c = S (t * m) * ((t * m) ^ n)⁻¹ := ⟨_, rfl⟩
   have hcL : c ∈ L := by
     have e : c = t ^ n * (S m * (m ^ n)⁻¹) * (t ^ n)⁻¹ := by
@@ -142,7 +143,7 @@ theorem conj_pow_mem {t m : G} (ht : t ∈ T) (hm : m ∈ L) (hz : ∀ s ∈ L, 
 theorem pow_mul_mem {z u : G} (hz : z ∈ A) (hu : u ∈ O) (j : ℕ) :
     (z ^ j)⁻¹ * (z * u) ^ j ∈ O := by
   induction j with
-  | zero => simpa using O.one_mem
+  | zero => simp
   | succ j ih =>
     have e : (z ^ (j + 1))⁻¹ * (z * u) ^ (j + 1) = z⁻¹ * ((z ^ j)⁻¹ * (z * u) ^ j) * z * u := by
       rw [pow_succ, pow_succ]

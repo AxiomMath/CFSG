@@ -70,7 +70,7 @@ theorem exists_diagonal {N Y : Subgroup G} {z : G} {p : ℕ} (hp : 0 < p) (hz : 
 
 theorem mem_of_pow_mem {A : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (hz : z ^ p = 1)
     {i : ℕ} (hi : ¬ p ∣ i) (hzi : z ^ i ∈ A) : z ∈ A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hz1 : z = 1
   · rw [hz1]
     exact A.one_mem

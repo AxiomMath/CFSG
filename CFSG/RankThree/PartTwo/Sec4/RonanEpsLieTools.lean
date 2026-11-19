@@ -35,7 +35,7 @@ theorem CfgSEps.map [Finite S] [Finite T] {A : Subgroup (MulAut S)} {σ : MulAut
       faithful := ?_ }
   · rw [hfix, ← map_subgroupOf_equivMap]
     exact h.isSubnormal.map (MulEquiv.surjective _)
-  · haveI := h.isPerfect
+  · have := h.isPerfect
     exact Group.IsPerfect.map _
   · rintro _ ⟨a, ha, rfl⟩ _ ⟨k, hk, rfl⟩
     refine ⟨a k, h.map_mem a ha k hk, ?_⟩
@@ -108,7 +108,7 @@ theorem CfgSEps.false_of_le_quasisimple_central (hc : CfgSEps S A σ K) {N : Sub
     obtain ⟨k', rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) q
     rw [← map_mul, ← map_mul, hkc k']
   rw [hc.center_quot, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hcen
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)) ⟨_, hcen⟩
   have hn' : k ^ 2 ^ n = 1 := congrArg Subtype.val hn
   have hd : orderOf k ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn'
@@ -372,11 +372,11 @@ theorem false_of_isTypeEps_of_isoLThreePi {X : Type} [Group X] (h1 : IsTypeEps X
     [Fact p.Prime] (he : 1 ≤ e) (h2 : IsoLThreePi X p e) : False := by
   obtain ⟨E, hE, hE9⟩ := Sec15.exists_e9_of_isLThreePi ⟨p, e, inferInstance, he, h2⟩
   obtain ⟨p', f, hp', -, hf, ⟨hq, ⟨ψ⟩⟩ | ⟨hq, -, ⟨ψ⟩⟩⟩ := h1
-  · haveI : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
+  · have : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
     have hcyc := isCyclic_sylow_three_of_mulEquiv_projSL
       (by rw [GaloisField.card p' f (by omega)]; exact hq) ψ
     exact RonanK429Lie.false_of_e9_of_isCyclic_sylow hcyc hE.2 hE9
-  · haveI : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
+  · have : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
     have hcyc := isCyclic_sylow_three_of_mulEquiv_projSU (by omega) hq ψ
     exact RonanK429Lie.false_of_e9_of_isCyclic_sylow hcyc hE.2 hE9
 

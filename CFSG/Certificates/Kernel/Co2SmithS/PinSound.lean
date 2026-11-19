@@ -22,7 +22,7 @@ theorem testBit_bit (c s q : Nat) (p : Nat) :
   rw [Nat.testBit_shiftLeft]
   by_cases h : p = q
   · subst h
-    simp [Nat.testBit_and, Nat.testBit_shiftRight]
+    simp
   · by_cases h' : p ≥ q
     · have : p - q ≠ 0 := by omega
       simp only [h', decide_true, Bool.true_and, Nat.testBit_and, Nat.testBit_shiftRight, h,
@@ -40,7 +40,7 @@ theorem xr_eq (c i : Nat) :
   simp only [Nat.testBit_or, testBit_bit]
   have hi : i % 2 = 0 ∨ i % 2 = 1 := by omega
   by_cases hp : p < 8
-  · interval_cases p <;> rcases hi with hi | hi <;> simp [hi] <;> omega
+  · interval_cases p <;> rcases hi with hi | hi <;> simp [hi]
   · have h1 : p ≠ i % 2 := by omega
     have h2 : p ≠ 2 + i % 2 := by omega
     have h3 : p ≠ 4 + i % 2 := by omega

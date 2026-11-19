@@ -119,7 +119,7 @@ variable {G : Type} [Group G] [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
 
 namespace A2Cfg
 
-theorem kstruct_pre (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (c : A2Cfg G T M L D H K q) :
+theorem kstruct_pre (_h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (c : A2Cfg G T M L D H K q) :
     ∃ t₀ ∈ T, t₀ ∉ Subgroup.normalizer (K : Set G) ∧
       K.map (MulAut.conj t₀).toMonoidHom ∈ cComp (H ⊔ D) ∧
       conjClosure K T = K ⊔ K.map (MulAut.conj t₀).toMonoidHom ∧
@@ -326,8 +326,8 @@ theorem exists_x (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat)
     have := c.q_mod
     have := hq.two_le
     omega
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hF : Nat.card (ZMod q) = q := Nat.card_zmod q
   have hcyc : ∀ X : Subgroup ↥(modO2Image (H ⊔ D) (K.map (MulAut.conj t₀).toMonoidHom)),
       IsPGroup 3 X → IsCyclic X :=
@@ -354,7 +354,7 @@ theorem exists_x (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat)
     have hy1' : y = 1 := Subtype.ext h
     apply hz1'
     rw [← hyz, hy1', map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨(y : G), hP3Y hyP', hyK, orderOf_eq_prime (hP3exp _ hyP') hy1⟩
 
 theorem pCoreOf_K_le_R (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (c : A2Cfg G T M L D H K q) :
@@ -369,7 +369,7 @@ theorem pCoreOf_K_le_R (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (c : A2Cfg G 
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
     exact sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K)
       (hK'N.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K))
-  exact h1.trans ((c.N0_le_TC).trans c.TC_le_R)
+  exact h1.trans ((CFSG.Quasithin.H13.NFa2.A2Cfg.N0_le_TC).trans c.TC_le_R)
 
 theorem R_le_normalizer_K (h37 : A37ForSQTKCat)
     (h38 : A38ForSQTKCat) (c : A2Cfg G T M L D H K q) :
@@ -380,8 +380,8 @@ theorem R_le_normalizer_K (h37 : A37ForSQTKCat)
       have := c.q_mod
       have := c.q_prime.two_le
       omega
-    haveI : Fact q.Prime := ⟨c.q_prime⟩
-    haveI : NeZero q := ⟨c.q_prime.ne_zero⟩
+    have : Fact q.Prime := ⟨c.q_prime⟩
+    have : NeZero q := ⟨c.q_prime.ne_zero⟩
     obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod c.q_prime c.model
     have hcen : Subgroup.center (PSL(2, ZMod q)) = ⊥ :=
       L2q.center_eq_bot (Nat.card_zmod q) c.q_prime hq5

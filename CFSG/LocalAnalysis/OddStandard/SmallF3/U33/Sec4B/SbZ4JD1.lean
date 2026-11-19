@@ -29,6 +29,7 @@ theorem comm_t_mem_E (g : H) : g * t * g⁻¹ * t⁻¹ ∈ centralizer (Y : Set 
 
 variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
+omit [Finite H] in
 theorem Mh_cent_V {m v : H} (hm : m ∈ Mh) (hv : v ∈ V) : m * v * m⁻¹ = v := by
   have hVY : V ≤ Y := by
     rw [h.Y_eq]
@@ -47,6 +48,7 @@ theorem Mh_cent_V {m v : H} (hm : m ∈ Mh) (hv : v ∈ V) : m * v * m⁻¹ = v 
   have hmemY : m * v * m⁻¹ ∈ Y := h.normal_Y m v hvY
   exact h.eq_of_code_eq hmemY hvY hcode
 
+omit [Finite H] in
 theorem Mh_comm_Y {m u : H} (hm : m ∈ Mh) (hu : u ∈ Y) : m * u * m⁻¹ * u⁻¹ ∈ V := by
   have hmM : zjMat y z v₁ v₂ m ∈ ZJFin.Mlist := (hMh m).mp hm
   have hn16 : zjCode y z v₁ v₂ u < 16 := h.code_lt hu
@@ -67,6 +69,7 @@ theorem Mh_comm_Y {m u : H} (hm : m ∈ Mh) (hu : u ∈ Y) : m * u * m⁻¹ * u�
     exact hcode1
   exact (h.code_lt_four_iff hwY).mp hcodew
 
+omit [Finite H] in
 theorem Mh_cent_Y {m u : H} (hm : m ∈ Mh) (hmE : m ∉ centralizer (Y : Set H)) (hu : u ∈ Y)
     (hc : m * u * m⁻¹ = u) : u ∈ V := by
   have hmM : zjMat y z v₁ v₂ m ∈ ZJFin.Mlist := (hMh m).mp hm

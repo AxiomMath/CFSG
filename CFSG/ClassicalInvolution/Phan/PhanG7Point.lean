@@ -139,9 +139,8 @@ theorem exists_chain_123 (hK : Nat.card K = (p ^ f) ^ 2) (hq : 5 ≤ p ^ f) (hg 
       · rfl
       · exact absurd hi (by decide)
     · intro i j hij a b
-      fin_cases i <;> fin_cases j <;> first
+      fin_cases i <;> fin_cases j <;> try first
         | exact absurd hij (by decide)
-        | skip
       have ha : (θ 0) (embSUid (unitaryInvolution K p f) 2 a) ∈ (S.ι 2).range := by
         rw [← h12_0']
         exact ⟨_, ⟨a, rfl⟩, rfl⟩

@@ -35,7 +35,7 @@ theorem orderOf_mul_ne_two_pow_sub_one_of_mem_normalizer {G : Type*} [Group G] (
   have hxQ := mem_sylow_of_mem_normalizer_of_mul_self Q hx hx2
   have hyQ := mem_sylow_of_mem_normalizer_of_mul_self Q hy hy2
   have hxyQ : x * y ∈ (Q : Subgroup G) := (Q : Subgroup G).mul_mem hxQ hyQ
-  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨x * y, hxyQ⟩
+  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨x * y, hxyQ⟩
   rw [Subgroup.orderOf_mk] at hj
   rw [hj] at h
   have h4 : 4 ≤ 2 ^ n := by

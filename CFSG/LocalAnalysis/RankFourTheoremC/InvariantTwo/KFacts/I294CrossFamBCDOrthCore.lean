@@ -18,9 +18,10 @@ section Restrict
 
 variable {M₀ : Type} [Group M₀] [Finite M₀] {p : ℕ} [hp : Fact p.Prime]
 
+omit hp [Finite M₀] in
 theorem restrict_isMulCommutative (M' : Subgroup M₀)
-    (hM₀ : ∀ P : Subgroup M₀, IsPGroup p P → IsMulCommutative P) :
-    ∀ P : Subgroup M', IsPGroup p P → IsMulCommutative P := fun P hP =>
+    (hM₀ : ∀ _P : Subgroup M₀, IsPGroup p _P → IsMulCommutative _P) :
+    ∀ _P : Subgroup M', IsPGroup p _P → IsMulCommutative _P := fun _P hP =>
   isMulCommutative_of_map_injective M'.subtype M'.subtype_injective (hM₀ _ (hP.map _))
 
 theorem restrict_le_pRank (M' : Subgroup M₀) (hcont : ∀ g : M₀, g ^ p = 1 → g ∈ M') {d : ℕ}
@@ -56,7 +57,7 @@ theorem not_dvd_index_of_contains_pElements (M' : Subgroup M₀)
     (hcont : ∀ g : M₀, (∃ k : ℕ, g ^ (p ^ k) = 1) → g ∈ M') : ¬ p ∣ M'.index := by
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p M₀))
   have hSM : (S : Subgroup M₀) ≤ M' := fun x hx => hcont x (by
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩)
   have h1 := Subgroup.relIndex_mul_index hSM
   intro hd

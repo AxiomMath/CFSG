@@ -53,7 +53,7 @@ theorem sym1119_comm_cube_mem {G : Type*} [Group G] {A : Subgroup G} {x g : G}
   obtain ⟨i, u, hu, hW'⟩ := hW
   have h3dvd : (3 : ℕ) ∣ orderOf x := ⟨9, by omega⟩
   have hordy : orderOf (x ^ 3) = 9 := by
-    rw [orderOf_pow_of_dvd (by norm_num : (3 : ℕ) ≠ 0) h3dvd, hord] <;> norm_num
+    rw [orderOf_pow_of_dvd (by norm_num : (3 : ℕ) ≠ 0) h3dvd, hord]
   have hz : g⁻¹ * x ^ 3 * g = (x ^ 3) ^ (1 + i) * u := by
     calc g⁻¹ * x ^ 3 * g = x ^ 3 * ((x ^ 3)⁻¹ * (g⁻¹ * x ^ 3 * g)) :=
           (mul_inv_cancel_left _ _).symm
@@ -67,7 +67,7 @@ theorem sym1119_comm_cube_mem {G : Type*} [Group G] {A : Subgroup G} {x g : G}
       rw [pow_succ, ih, pow_succ]
       simp only [mul_assoc, mul_inv_cancel_left]
   have h39 : (x ^ 3) ^ 3 = x ^ 9 := by
-    rw [← pow_mul] <;> norm_num
+    rw [← pow_mul]
   have hgx9 : g⁻¹ * x ^ 9 * g = x ^ 9 := by
     rw [mul_assoc, ← hg9, inv_mul_cancel_left]
   have hcube : (g⁻¹ * x ^ 3 * g) ^ 3 = x ^ 9 := by
@@ -133,7 +133,7 @@ theorem sym1119_le_of_two_gens {G : Type*} [Group G] [Finite G] {B C : Subgroup 
   have hle9 : Nat.card K ≤ 9 := Nat.le_of_dvd (by norm_num) hdvdB
   have key : ∀ n : ℕ, n ∣ 9 → 3 ∣ n → n ≤ 9 → n = 3 ∨ n = 9 := by
     intro n h1 h2 h3
-    interval_cases n <;> first | omega | simp_all
+    interval_cases n <;> first | omega
   rcases key _ hdvdB hdvdK hle9 with h3 | h9
   · exfalso
     have heq : Subgroup.zpowers d = K := Subgroup.eq_of_le_of_card_ge hzK (by omega)

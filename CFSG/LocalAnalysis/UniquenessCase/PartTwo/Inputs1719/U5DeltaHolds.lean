@@ -42,7 +42,7 @@ private theorem isMaxParabolicOver_u5PtP (h : UnitaryFieldData 2 2 K) :
 private theorem opp_eq_perfectCore_u5PtP (h : UnitaryFieldData 2 2 K) :
     Opp 2 (u5PtP h) = perfectCore (u5PtP h) := by
   have := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   have hUP : hypProjUnitriangular h 2 1 ≤ u5PtP h :=
     (U_le_perfectCore_u5PtP (h := h) (by norm_num)).trans (perfectCore_le _)
   have hU : IsSylowIn 2 (hypProjUnitriangular h 2 1) ⊤ :=
@@ -63,7 +63,7 @@ private theorem opp_map_u5PtP (h : UnitaryFieldData 2 2 K) {Y : Type} [Group Y]
     (φ : hypPSU h 2 1 ≃* Y) :
     Opp 2 ((u5PtP h).map φ.toMonoidHom) = (perfectCore (u5PtP h)).map φ.toMonoidHom := by
   have := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [opp_map φ 2 (u5PtP h), opp_eq_perfectCore_u5PtP h]
 
 private theorem isMaxParabolicOver_u5PtP_map (h : UnitaryFieldData 2 2 K) {Y : Type} [Group Y]
@@ -92,14 +92,14 @@ private theorem opp_perfect_u5PtP_map (h : UnitaryFieldData 2 2 K) {Y : Type} [G
     ⁅Opp 2 ((u5PtP h).map φ.toMonoidHom), Opp 2 ((u5PtP h).map φ.toMonoidHom)⁆ =
       Opp 2 ((u5PtP h).map φ.toMonoidHom) := by
   have := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [opp_map_u5PtP h φ, ← Subgroup.map_commutator, perfectCore_perfect]
 
 private theorem isQuasisimple_bar2_opp_u5PtP_map (h : UnitaryFieldData 2 2 K) {Y : Type}
     [Group Y] (φ : hypPSU h 2 1 ≃* Y) :
     CFSG.Open.IsQuasisimple (Bar2 (Opp 2 ((u5PtP h).map φ.toMonoidHom))) := by
   have := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [opp_map_u5PtP h φ]
   obtain ⟨e⟩ := nonempty_bar2_map φ (perfectCore (u5PtP h))
   exact CFSG.Open.IsQuasisimple.of_mulEquiv e
@@ -110,16 +110,16 @@ private theorem isU3_bar2_opp_u5PtP_map (h : UnitaryFieldData 2 2 K) {Y : Type} 
     (φ : hypPSU h 2 1 ≃* Y) :
     IsU3 (Bar2 (Opp 2 ((u5PtP h).map φ.toMonoidHom))) 2 := by
   have := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [opp_map_u5PtP h φ]
   obtain ⟨e⟩ := nonempty_bar2_map φ (perfectCore (u5PtP h))
   exact CFSG.Blueprint.LieModel.of_mulEquiv e.symm (lieModel_modO2_perfectCore_u5PtP h)
 
 theorem kU5Delta_holds : KU5Delta := by
   intro Y _ _ hY S R hS _ hRS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, _, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.F431.Un.OL5.exists_model5 hY
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   obtain ⟨φ, hφ⟩ := exists_mulEquiv_map_eq_of_isSylowIn e.symm
     (isSylowIn_hypProjUnitriangular h) hS
   refine ⟨(u5PtP h).map φ.toMonoidHom, ?_, ?_, ?_, ?_, ?_⟩

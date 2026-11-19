@@ -104,6 +104,7 @@ theorem act_relVal (ht : ∀ k, X.θ (t k) = s k) {r : List (Letter n)} (hr : ev
   refine Multiplicative.ofAdd.injective (X.ι_inj ?_)
   rw [← hc, X.ι_relVal ht hr, h]
 
+omit [Group P] in
 theorem sum_map_eq_zero_of_even [DecidableEq P] (L : List (P × Fin n)) (f : P × Fin n → U)
     (h2 : ∀ u : U, u + u = 0) (hL : ∀ e ∈ L, Even (L.count e)) : (L.map f).sum = 0 := by
   rw [Finset.sum_list_map_count]

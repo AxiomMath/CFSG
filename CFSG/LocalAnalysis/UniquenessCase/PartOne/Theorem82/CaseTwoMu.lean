@@ -180,7 +180,7 @@ theorem normalizer_le_of_le_pCoreOf (hη : t.KyInEta) {Y : Subgroup G} (hY : t.I
     (hCc : (C.subgroupOf (CFSG.Open.pCoreOf 2 Y)).Characteristic) :
     Subgroup.normalizer (C : Set G) ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 Y) :=
     CFSG.PreuniquenessRankFour.Helpers.pCoreOf_isPGroup 2 Y
   have hRM : CFSG.Open.pCoreOf 2 Y ≤ c.S.M :=
@@ -236,7 +236,7 @@ theorem le_pCoreOf_of_isCalH (hη : t.KyInEta) {Y : Subgroup G} (hY : t.IsMuStar
     {H : Subgroup G} (hH : IsCalH c.S.M Y H) {T : Subgroup G} (hT : IsPGroup 2 T) (hTH : T ≤ H)
     (hYT : Y ≤ Subgroup.normalizer (T : Set G)) : T ≤ CFSG.Open.pCoreOf 2 Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYR : Y ≤ Subgroup.normalizer ((CFSG.Open.pCoreOf 2 Y) : Set G) :=
     CFSG.PreuniquenessRankFour.Helpers.subgroup_normalizes_pCoreOf 2 Y
   have hNS : Subgroup.normalizer ((CFSG.Open.pCoreOf 2 Y) : Set G) ≤ c.S.M :=
@@ -360,7 +360,7 @@ theorem normalizer_le_of_le_of_isCalH (hη : t.KyInEta) {Y : Subgroup G} (hY : t
     (hYP : Y ≤ Subgroup.normalizer (P : Set G)) {C : Subgroup G} (hCP : C ≤ P) (hC1 : C ≠ ⊥)
     (hCc : (C.subgroupOf P).Characteristic) : Subgroup.normalizer (C : Set G) ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 Y) :=
     CFSG.PreuniquenessRankFour.Helpers.pCoreOf_isPGroup 2 Y
   have hRM : CFSG.Open.pCoreOf 2 Y ≤ c.S.M :=

@@ -33,9 +33,9 @@ private lemma ggK1CAr_hasOrbit_and (d j t : ℕ) :
         (if d = 1 then ggK1CCo_Kind.sl t else ggK1CCo_Kind.su t) &&
       decide (1 ≤ j ∧ 1 ≤ t)) = decide (1 ≤ j ∧ 2 ≤ t) := by
   by_cases hd : d = 1
-  · rw [if_pos hd, ggK1CAr_hasOrbit_sl]
+  · rw [ite_eq_left hd, ggK1CAr_hasOrbit_sl]
     exact ggK1CAr_bool_aux j t
-  · rw [if_neg hd, ggK1CAr_hasOrbit_su]
+  · rw [ite_eq_right hd, ggK1CAr_hasOrbit_su]
     exact ggK1CAr_bool_aux j t
 
 private lemma ggK1CAr_blockA_eq (r nf d : ℕ) (hd : d ≠ 1) :
@@ -48,12 +48,12 @@ private lemma ggK1CAr_kindOrbit_blockA (nf d t : ℕ) (ht : 2 ≤ t) :
       ggMultBlockA (t - 1) nf d := by
   by_cases hd : d = 1
   · subst hd
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rcases t with _ | _ | t
     · omega
     · omega
     · rfl
-  · rw [if_neg hd]
+  · rw [ite_eq_right hd]
     rcases t with _ | _ | t
     · omega
     · omega
@@ -98,7 +98,7 @@ private lemma ggK1CAr_sp_part (nf m0 : ℕ) :
   · by_cases hnf : nf = 1 <;> simp [ggK1CCo_Kind.hasOrbit, ggK1CCo_kindOrbit, hnf]
   · have h1 : ¬ (k + 3 = 1) := by omega
     have h2 : ¬ (k + 3 = 2 ∧ nf = 1) := by omega
-    simp [ggK1CCo_Kind.hasOrbit, ggK1CCo_kindOrbit, h1, h2]
+    simp [ggK1CCo_Kind.hasOrbit, ggK1CCo_kindOrbit]
 
 private lemma ggK1CAr_lambda2_A (n r : ℕ) (hn : 1 ≤ n) (hr : 1 ≤ r) (h : r = 1 → 2 ≤ n) :
     LargeEvenInLambda2 (⟨.A, r, n⟩ : LargeEvenLabel) := by
@@ -123,15 +123,15 @@ private lemma ggK1CAr_blockA_arith {r nf d : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ r
     (hqs : (ggMultBlockA r nf d).qs = true) :
     nf ∣ (ggMultBlockA r nf d).lab.n ∧ LargeEvenInLambda2 (ggMultBlockA r nf d).lab := by
   by_cases hd : d = 1
-  · rw [ggMultBlockA, if_pos hd] at hqs ⊢
+  · rw [ggMultBlockA, ite_eq_left hd] at hqs ⊢
     rw [decide_eq_true_eq] at hqs
     exact ⟨dvd_refl nf, ggK1CAr_lambda2_A nf r hnf hr (by rintro rfl; omega)⟩
-  · rw [ggMultBlockA, if_neg hd] at hqs ⊢
+  · rw [ggMultBlockA, ite_eq_right hd] at hqs ⊢
     by_cases h2 : 2 ≤ r
-    · rw [if_pos h2] at hqs ⊢
+    · rw [ite_eq_left h2] at hqs ⊢
       rw [decide_eq_true_eq] at hqs
       exact ⟨dvd_refl nf, ggK1CAr_lambda2_twA nf r hnf h2 (by rintro rfl; omega)⟩
-    · rw [if_neg h2] at hqs ⊢
+    · rw [ite_eq_right h2] at hqs ⊢
       have hr1 : r = 1 := by omega
       subst hr1
       rw [decide_eq_true_eq] at hqs

@@ -174,6 +174,7 @@ section Fixed
 
 variable {S : Type*} [Group S] [Finite S] {B : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem fixed_rho_t_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t200 m).action.φρ (D.ec y) = D.ec y := by
@@ -219,6 +220,7 @@ theorem fixed_rho_t_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) {y : B}
   rw [h0]
   simp
 
+omit [Finite S] in
 theorem fixed_rho_t_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t201 m).action.φρ (D.ec y) = D.ec y := by
@@ -265,6 +267,7 @@ theorem fixed_rho_t_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) {y : B}
   rw [h0]
   simp
 
+omit [Finite S] in
 theorem fixed_rho_t_t220 {s : ℕ} {hs : 1 ≤ s} (D : StrothTypeData B (StrothTypeIndex.t220 s hs))
     {y : B} (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t220 s hs).action.φρ (D.ec y) = D.ec y := by

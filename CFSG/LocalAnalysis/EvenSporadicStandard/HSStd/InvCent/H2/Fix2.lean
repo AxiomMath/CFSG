@@ -13,7 +13,7 @@ variable {G : Type*} [Group G]
 theorem exists_commute_of_normal_two_group [Finite G] {t : G} (ht : t * t = 1) {Z : Subgroup G}
     (hZn : Z.Normal) (hZ2 : IsPGroup 2 ↥Z) (hZ1 : Z ≠ ⊥) :
     ∃ z ∈ Z, z ≠ 1 ∧ z * t = t * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases ht1 : t = 1
   · obtain ⟨z, hz⟩ := (Subgroup.ne_bot_iff_exists_ne_one (H := Z)).1 hZ1
     exact ⟨z, z.2, fun h => hz (Subtype.ext h), by rw [ht1]; simp⟩
@@ -59,9 +59,9 @@ theorem exists_commute_of_normal_two_group [Finite G] {t : G} (ht : t * t = 1) {
 
 theorem inf_centralizer_ne_bot [Finite G] {W : Subgroup G} (hW2 : IsPGroup 2 ↥W) (hW1 : W ≠ ⊥) :
     W ⊓ centralizer (W : Set G) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hW1
-  haveI : Nontrivial (Subgroup.center ↥W) := hW2.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hW1
+  have : Nontrivial (Subgroup.center ↥W) := hW2.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center ↥W)
   have hx1 : ((c : ↥W) : G) ≠ 1 := by
     intro h1
@@ -75,7 +75,7 @@ theorem inf_centralizer_ne_bot [Finite G] {W : Subgroup G} (hW2 : IsPGroup 2 ↥
   · intro h1
     exact hx1 (congrArg Subtype.val h1)
 
-theorem exists_fixed_of_simple_nonab [Finite G] {L : Subgroup G} (hL : IsSimpleGroup ↥L)
+theorem exists_fixed_of_simple_nonab [Finite G] {L : Subgroup G} (_hL : IsSimpleGroup ↥L)
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) {z : G} (hz : z * z = 1)
     (hzL : ∀ x ∈ L, z * x * z⁻¹ ∈ L) : ∃ x ∈ L, x ≠ 1 ∧ x * z = z * x := by
   by_contra hcon

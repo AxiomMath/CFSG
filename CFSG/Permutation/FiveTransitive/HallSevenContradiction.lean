@@ -72,7 +72,7 @@ theorem false_of_sevenPointConfiguration_card_ge_twentySeven
   rcases exists_prime_ne_three_dvd_or_eq_three_pow t (by omega) with
       hprime | hthreePow
   · obtain ⟨ell, hellPrime, hellDvd, hellNeThree⟩ := hprime
-    letI : Fact ell.Prime := ⟨hellPrime⟩
+    let : Fact ell.Prime := ⟨hellPrime⟩
     have hellC : ell ∣ Nat.card C := hellDvd.trans htDvdC
     have hellTwo : ell ≠ 2 := by
       intro hell
@@ -93,7 +93,7 @@ theorem false_of_sevenPointConfiguration_card_ge_twentySeven
       have hwOne : w = 1 := by omega
       rw [hwOne, pow_one] at htPow
       omega
-    letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hthreeDvd : 3 ∣ t := by
       rw [htPow]
       exact dvd_pow_self 3 (by omega)
@@ -110,7 +110,7 @@ theorem false_of_sevenPointConfiguration_card_ge_twentySeven
       have hfixedRange : MulAction.fixedPoints A X = Set.range e := by
         simpa only [A] using hexceptional.2.2
       have hA : IsPGroup 3 A := by
-        exact Q.isPGroup'.map (MulAction.stabilizer G e).subtype
+        exact Q.isPGroup.map (MulAction.stabilizer G e).subtype
       have hCfix : ∀ c : C, ∀ x ∈ exceptionalSet (X := X) a b,
           (c : G) • x = x := by
         intro c x hx

@@ -30,11 +30,11 @@ theorem map_gammaCore_le {p : ℕ} [Fact p.Prime] {J : Type*} [Group J] [Finite 
 theorem exists_conj_ge_of_gammaCore_eq_top {M J : Subgroup G} (hM : IsStronglyPEmbedded 3 M)
     (R : Sylow 3 ↥J) (hΓ : gammaCore 3 1 ⊤ (R : Subgroup ↥J) = ⊤) :
     ∃ g : G, J ≤ conjSub g M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hRG : IsPGroup 3 ↥((R : Subgroup ↥J).map J.subtype) := R.isPGroup'.map J.subtype
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hRG : IsPGroup 3 ↥((R : Subgroup ↥J).map J.subtype) := R.isPGroup.map J.subtype
   obtain ⟨P, hRP⟩ := hRG.exists_le_sylow
   have hP : CFSG.RankThree.PartOne.IsSylowOf 3 (P : Subgroup G) ⊤ :=
-    ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   obtain ⟨g, hg⟩ := hM.exists_conj_ge hP
   have hM' : IsStronglyPEmbedded 3 (conjSub g M) := hM.conj g
   have hle : gammaCore 3 1 ⊤ ((R : Subgroup ↥J).map J.subtype) ≤ conjSub g M := by
@@ -49,6 +49,7 @@ theorem exists_conj_ge_of_gammaCore_eq_top {M J : Subgroup G} (hM : IsStronglyPE
   exact hle (map_gammaCore_le (p := 3) J.subtype J.subtype_injective (R : Subgroup ↥J)
     (Subgroup.mem_map_of_mem J.subtype hxΓ))
 
+omit [Finite G] in
 theorem le_of_le_normalizer_of_dvd_of_strong {p : ℕ} {Y J H : Subgroup G}
     (hY : IsStronglyPEmbedded p Y) (hJY : J ≤ Y) (hHJ : H ≤ Subgroup.normalizer (J : Set G))
     (hpJ : p ∣ Nat.card J) : H ≤ Y := by
@@ -67,7 +68,7 @@ theorem exists_layerLift_cover (k : Sec7Core4 G) {H : Subgroup G} (hH : Config k
         ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)),
       Function.Surjective φ ∧ φ.ker ≤ Subgroup.center ↥(layerLift k.p H) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
@@ -75,7 +76,7 @@ theorem exists_layerLift_cover (k : Sec7Core4 G) {H : Subgroup G} (hH : Config k
   let KG : Subgroup G := K₀.map H.subtype
   have hJH : J ≤ H := layerLift_le k.p H
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -122,8 +123,8 @@ theorem kIDExcluded_of_strongThree (k : Sec7Core4 G) (hp5 : 5 ≤ k.p)
     (h3 : IsStronglyPEmbedded 3 k.M) (hB : BadNoStrongThree) : KIDExcluded k := by
   intro H hH h75 hbad
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact k.p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' K₀)
   have hKH : CFSG.Open.IsKGroup ↥H :=

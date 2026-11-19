@@ -89,7 +89,7 @@ theorem eq_one_of_commute_five (hdim : finrank (ZMod 2) V ≤ 5) (y u : Module.E
       simp only [Module.End.mul_apply, LinearMap.coe_restrict_apply]
       exact (by simpa using congrArg (fun T => T (v : V)) hcomm)
     have hK : u.restrict hSu ∈ K (y.restrict hS) := mem_K_of_commute hirr hcS
-    letI : Field (K (y.restrict hS)) := fieldK hirr
+    let : Field (K (y.restrict hS)) := fieldK hirr
     set a : K (y.restrict hS) := ⟨u.restrict hSu, hK⟩ with ha
     have haa : a * a = 1 := by
       apply Subtype.ext

@@ -53,7 +53,7 @@ theorem sec128_schurW (g : EvW →+ EvW)
   let δ : (Fin 5 → ZMod 2) → (Fin 5 → ZMod 2) := fun v =>
     if hv : v ∈ evenSub then ((g ⟨v, hv⟩ : EvW) : Fin 5 → ZMod 2) else 0
   have hδ : ∀ (v) (hv : v ∈ evenSub), δ v = ((g ⟨v, hv⟩ : EvW) : Fin 5 → ZMod 2) :=
-    fun v hv => by simp only [δ, dif_pos hv]
+    fun v hv => by simp only [δ, dite_eq_left hv]
   rcases sec122_schur δ
     (fun v hv => by
       rw [hδ v (hmem v hv)]

@@ -44,7 +44,7 @@ theorem S_facts :
   exact ⟨c, hc.symm⟩
 
 theorem S_sylow : IsPGroup 2 SJ ∧ ¬ 2 ∣ (SJ.subgroupOf ⊤).index := by
-  refine ⟨(lySylow : Sylow 2 J).isPGroup', ?_⟩
+  refine ⟨(lySylow : Sylow 2 J).isPGroup, ?_⟩
   have e : (SJ.subgroupOf ⊤).index = SJ.index := by
     rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
   have hm := SJ.card_mul_index
@@ -57,7 +57,7 @@ theorem exists_noncentral_involution : ∃ u ∈ KJ, u * u = 1 ∧ u ≠ 1 ∧ u
   have hcard : Nat.card (lyE1 : Subgroup lyS) = 16 := eaSub_card e16a_mem
   obtain ⟨u, hu, hu'⟩ : ∃ u ∈ (lyE1 : Set lyS), u ∉ ({1, zS} : Set lyS) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : Nat.card (lyE1 : Subgroup lyS) ≤ ({1, zS} : Set lyS).ncard := by
       rw [← SetLike.coe_sort_coe, Nat.card_coe_set_eq]
       exact Set.ncard_le_ncard hc (Set.toFinite _)

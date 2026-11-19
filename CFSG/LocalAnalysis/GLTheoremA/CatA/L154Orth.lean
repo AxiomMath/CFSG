@@ -62,15 +62,15 @@ theorem orth_marking_notInner {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} (hp :
     (hΓ : ∀ (l : ↥J) (hl : y⁻¹ * (l : Ω) * y ∈ J), ρ ⟨_, hl⟩ = Γ (ρ l))
     (hno : ∀ L : G₀, ¬ ∀ ω : ↥J₀, ((Γ ω : ↥J₀) : G₀) = L * ω * L⁻¹)
     {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (hraw : OrthRealized lab J₀) :
-    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab' R _ I _ θ =>
+    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab' _R _ I _ θ =>
       lab' = lab ∧ MulAut.congr θ (MI.indAut p J y hy) ∉ I := by
   have hperfJ : commutator ↥J = ⊤ := orth_commutator_eq_top_of_glaPComponent hJ
   have hperf0 : commutator ↥J₀ = ⊤ := orth_commutator_eq_top_of_surjective hperfJ ρ hρs
   have hperfQ : commutator (PQuot p J) = ⊤ :=
     (isQuasisimple_pQuot_of_glaPComponent hp hJ).1
   refine ⟨hperfQ, lab, hlab, Canonical.largeEvenRawDatum_mono ?_ hraw⟩
-  rintro R _ I F ⟨hs, hna, Θ₁, hΘs, hΘk, hreal⟩
-  set Θ : ↥J →* R := Θ₁.comp ρ with hΘdef
+  rintro _R _ I F ⟨hs, hna, Θ₁, hΘs, hΘk, hreal⟩
+  set Θ : ↥J →* _R := Θ₁.comp ρ with hΘdef
   have hΘsurj : Function.Surjective Θ := hΘs.comp hρs
   have hΘker : Θ.ker ≤ Subgroup.center ↥J := by
     intro l hl
@@ -226,13 +226,12 @@ open CFSG.LocalAnalysis.GLTheoremA.Y10F (HasLabel)
 
 open scoped commutatorElement
 
-theorem orth_lab_eq_of_canon_D {lab : LargeEvenLabel} {m f : ℕ} (hm3 : m ≠ 3)
+theorem orth_lab_eq_of_canon_D {lab : LargeEvenLabel} {m f : ℕ} (_hm3 : m ≠ 3)
     (h : canonLabel lab = ⟨.D, m, f⟩) : lab = ⟨.D, m, f⟩ := by
   obtain ⟨tag, rank, n⟩ := lab
   cases tag <;> simp only [canonLabel, LargeEvenLabel.mk.injEq] at h ⊢
-  all_goals first
+  all_goals try first
     | (exact absurd h.1 (by decide))
-    | skip
   · by_cases h3 : rank = 3
     · simp [h3] at h
     · simp only [h3, ↓reduceIte, LargeEvenLabel.mk.injEq] at h
@@ -240,23 +239,22 @@ theorem orth_lab_eq_of_canon_D {lab : LargeEvenLabel} {m f : ℕ} (hm3 : m ≠ 3
   · by_cases h3 : rank = 3
     · simp [h3] at h
     · by_cases h2 : rank = 2
-      · simp [h3, h2] at h
+      · simp [h2] at h
       · simp [h3, h2] at h
 
-theorem orth_lab_eq_of_canon_twD {lab : LargeEvenLabel} {m f : ℕ} (hm2 : m ≠ 2) (hm3 : m ≠ 3)
+theorem orth_lab_eq_of_canon_twD {lab : LargeEvenLabel} {m f : ℕ} (_hm2 : m ≠ 2) (_hm3 : m ≠ 3)
     (h : canonLabel lab = ⟨.twD, m, f⟩) : lab = ⟨.twD, m, f⟩ := by
   obtain ⟨tag, rank, n⟩ := lab
   cases tag <;> simp only [canonLabel, LargeEvenLabel.mk.injEq] at h ⊢
-  all_goals first
+  all_goals try first
     | (exact absurd h.1 (by decide))
-    | skip
   · by_cases h3 : rank = 3
     · simp [h3] at h
     · simp [h3] at h
   · by_cases h3 : rank = 3
     · simp [h3] at h
     · by_cases h2 : rank = 2
-      · simp [h3, h2] at h
+      · simp [h2] at h
       · simp only [h3, h2, ↓reduceIte, LargeEvenLabel.mk.injEq] at h
         exact ⟨trivial, h.2⟩
 
@@ -362,7 +360,7 @@ theorem orth_plus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp :
   simp only [show m ≠ 3 by omega, ↓reduceIte] at hraw
   unfold LargeEvenRecipeOmegaPlus at hraw
   obtain ⟨K, hKf, hKfin, hcard, hs, hna, θ, ⟨-, f₀, hf₀, u, hu, hord, hindy⟩, φx, hφx, hindx⟩ := hraw
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
   have hm1 : 1 ≤ m := by omega
   set Θ := RecipeFieldOmega.plusEquiv (K := K) hm1 with hΘ
   obtain ⟨ru, rfl⟩ := hu
@@ -381,7 +379,7 @@ theorem orth_plus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp :
     rw [orderOf_one] at hord
     exact hp.one_lt.ne hord
   have hfp : f₀ ^ p = 1 := by rw [← hord]; exact pow_orderOf_eq_one f₀
-  haveI := hs
+  have := hs
   have hsS : IsSimpleGroup (PSimple p S) := θ.isSimpleGroup
   have hnaS : ∃ a b : PSimple p S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
@@ -425,7 +423,7 @@ theorem orth_minus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp 
     (hQ : catalogIs (PSimple p S) l154TwOrth)
     (hInn : InnDiagOn p (Subgroup.zpowers x) S) (hF : FieldOn p y S) :
     ∃ (m : ℕ) (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (hm4 : 4 ≤ m) (b c : K)
-      (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
+      (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
       (e : PSimple p S ≃* matrixDerived (CFSG.RankThree.PartOne.AUTSL.Qm m hm4 b c))
       (A : matrixDerived (CFSG.RankThree.PartOne.AUTSL.Qm m hm4 b c))
       (g : similarityPairs (CFSG.RankThree.PartOne.AUTSL.Qm m hm4 b c)),
@@ -452,19 +450,19 @@ theorem orth_minus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp 
   unfold CFSG.Assembly.LargeEvenRawDatum at hraw
   simp only [show m ≠ 3 by omega, show m ≠ 2 by omega, ↓reduceIte] at hraw
   unfold LargeEvenRecipeOmegaMinus at hraw
-  obtain ⟨K, hKf, hKfin, hcard, b, c, hirr, hs, hna, θ, ⟨-, f₀, hf₀, u, hu, hord, hindy⟩, φx, hφx,
+  obtain ⟨K, hKf, hKfin, hcard, b, c, _hirr, hs, hna, θ, ⟨-, f₀, hf₀, u, hu, hord, hindy⟩, φx, hφx,
     hindx⟩ := hraw
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
   obtain ⟨ru, rfl⟩ := hu
   obtain ⟨r, rfl⟩ := hφx
-  obtain ⟨k, hk⟩ := RecipeFieldOmega.congr_minusEquiv_of_mem_phi hm4 hirr hf₀
-  have hb : b ≠ 0 := CFSG.RankThree.PartOne.AUTSL.ne_zero_of_irreducible_tail b c hirr
+  obtain ⟨k, hk⟩ := RecipeFieldOmega.congr_minusEquiv_of_mem_phi hm4 _hirr hf₀
+  have hb : b ≠ 0 := CFSG.RankThree.PartOne.AUTSL.ne_zero_of_irreducible_tail b c _hirr
   set Qm := CFSG.RankThree.PartOne.AUTSL.Qm m hm4 b c with hQm
   set Θ := RecipeFieldOmega.minusEquiv (K := K) (n := m) hm4 b c with hΘ
   set gu := matrixDerivedInclusion Qm (Θ ru) with hgu
   set gf := (CFSG.RankThree.PartOne.AUTSL.frobPair m (by omega) b c hb : similarityPairs Qm) ^ k
     with hgf
-  have hτ : AutOm.frobAut hm4 hirr ^ k = conjAct Qm gf := by
+  have hτ : AutOm.frobAut hm4 _hirr ^ k = conjAct Qm gf := by
     rw [hgf, map_pow]
     rfl
   have hgfr : ((gf : similarityPairs Qm) : coordinateSemilinearGroup (2 * m) K).right =
@@ -477,12 +475,12 @@ theorem orth_minus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp 
     simp
   have hfp : f₀ ^ p = 1 := by rw [← hord]; exact pow_orderOf_eq_one f₀
   have hFord := orth_orderOf_frobenius hcard hf1
-  haveI := hs
+  have := hs
   have hsS : IsSimpleGroup (PSimple p S) := θ.isSimpleGroup
   have hnaS : ∃ a b : PSimple p S, a * b ≠ b * a := by
     obtain ⟨a, b', hab⟩ := hna
     exact ⟨θ.symm a, θ.symm b', fun h => hab (θ.symm.injective (by rw [map_mul, map_mul, h]))⟩
-  refine ⟨m, K, hKf, hKfin, inferInstance, hm4, b, c, hirr, θ.trans Θ, Θ r, gu * gf * gu⁻¹,
+  refine ⟨m, K, hKf, hKfin, inferInstance, hm4, b, c, _hirr, θ.trans Θ, Θ r, gu * gf * gu⁻¹,
     ⟨f, hmodel⟩, hsS, hnaS, ?_, ?_, ?_, ?_⟩
   · rw [hright]
     intro h1
@@ -490,16 +488,16 @@ theorem orth_minus_marking_data (hOD : Y10GFldOrth.OrthLabelDict) {p : ℕ} (hp 
     obtain ⟨j, rfl⟩ := hdvd
     have h2 : MulAut.congr Θ (f₀ ^ 2) = 1 := by
       rw [map_pow, hk, ← pow_mul, show f * j * 2 = 2 * f * j by ring, pow_mul,
-        AutOm.frobAut_pow_two_mul hm4 hirr hcard, one_pow]
+        AutOm.frobAut_pow_two_mul hm4 _hirr hcard, one_pow]
     have h3 : f₀ ^ 2 = 1 := (MulAut.congr Θ).injective (by rw [h2, map_one])
     have h4 : p ∣ 2 := hord ▸ orderOf_dvd_of_pow_eq_one h3
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h4)
   · rw [hright, ← pow_mul]
-    have h1 : AutOm.frobAut hm4 hirr ^ (k * p) ∈
+    have h1 : AutOm.frobAut hm4 _hirr ^ (k * p) ∈
         CFSG.ComponentClassification.OuterAutomorphisms.inner (matrixDerived Qm) := by
       rw [pow_mul, ← hk, ← map_pow, hfp, map_one]
       exact one_mem _
-    have h2 := AutOm.dvd_of_frobAut_pow_mem_inner hm4 hirr hcard hf1 h1
+    have h2 := AutOm.dvd_of_frobAut_pow_mem_inner hm4 _hirr hcard hf1 h1
     rw [← hFord] at h2
     exact orderOf_dvd_iff_pow_eq_one.1 h2
   · intro q q' hqq'
@@ -1156,7 +1154,7 @@ theorem l154NIDOn_and_TD4On_of_omegaNT {Q : TauCeti.CFSGIndex → Prop} (hΩ : L
       have h := normalizer_le_normalizer_glaPPrimeCoreOf p M
       rw [Subgroup.normalizer_eq_top_iff.2 hMn, top_le_iff] at h
       exact Subgroup.normalizer_eq_top_iff.1 h
-    haveI := hN0n
+    have := hN0n
     set N0 : Subgroup ↥H := GLAPPrimeCoreOf p M with hN0def
     set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
     have hN : ¬ p ∣ Nat.card π.ker := by
@@ -1267,7 +1265,7 @@ theorem orthRealized_of_centerQuot {G₀ : Type} [Group G₀] {J₀ : Subgroup G
   refine Canonical.largeEvenRawDatum_mono ?_ hraw
   rintro R _ I F ⟨⟨eR⟩, hI⟩
   obtain ⟨-, hs, a, b, hab⟩ := hq
-  haveI := hs
+  have := hs
   refine ⟨eR.symm.isSimpleGroup, ⟨eR a, eR b, fun h => hab (eR.injective (by rw [map_mul, map_mul, h]))⟩,
     eR.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥J₀)), ?_, ?_, ?_⟩
   · exact eR.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -1343,7 +1341,7 @@ theorem orth_matConj_SL_sub_inn (hpow : ∀ c : E, c ≠ 0 → ∃ c' : E, c' �
   have hP'mem : P' ∈ LargeEvenSLGroup (Fin d) E := by
     rw [largeEvenSLGroup_eq_statedSL, CFSG.Open.StatedAPI.mem_statedSL_iff, hP', hs, Units.val_mul,
       Matrix.det_mul]
-    simp [Matrix.GeneralLinearGroup.scalar, Matrix.det_smul, ← hc, hc0]
+    simp [Matrix.GeneralLinearGroup.scalar, ← hc, hc0]
   refine ⟨LargeEvenProjMk _ ⟨P', hP'mem⟩, ?_⟩
   refine MulEquiv.ext fun z => ?_
   obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective z
@@ -1370,7 +1368,7 @@ theorem orth_matConj_SL_sub_inn (hpow : ∀ c : E, c ≠ 0 → ∃ c' : E, c' �
 
 theorem orth_exists_pow_two_pow {E : Type*} [Field E] [Finite E] [CharP E 2] (j : ℕ) (c : E) (hc : c ≠ 0) :
     ∃ c' : E, c' ≠ 0 ∧ c' ^ 2 ^ j = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := iterateFrobeniusEquiv_apply E 2 j ((iterateFrobeniusEquiv E 2 j).symm c)
   rw [RingEquiv.apply_symm_apply, iterateFrobenius_def] at h
   refine ⟨(iterateFrobeniusEquiv E 2 j).symm c, ?_, h.symm⟩
@@ -1415,7 +1413,7 @@ theorem orth_exists_norm_eq {q : ℕ} (hq : 2 ≤ q) (hE : Nat.card E = q ^ 2) {
   rw [← Units.val_pow_eq_pow_val, ← pow_mul, mul_comm j, ← hj, hk', Units.val_mk0]
 
 theorem orth_pow_two_pow_injective [CharP E 2] (j : ℕ) {a b : E} (h : a ^ 2 ^ j = b ^ 2 ^ j) : a = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := iterateFrobeniusEquiv_apply E 2 j a
   have h2 := iterateFrobeniusEquiv_apply E 2 j b
   rw [iterateFrobenius_def] at h1 h2
@@ -1426,7 +1424,7 @@ theorem orth_matConj_SU_sub_inn [CharP E 2] {q f : ℕ} (hqf : q = 2 ^ f) (hf : 
     (hE : Nat.card E = q ^ 2) :
     LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin 4) E q)) (LargeEvenGUSet (Fin 4) E q) ⊆
       LargeEvenInnSet (LargeEvenProj (LargeEvenSUGroup (Fin 4) E q)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro φ ⟨A, ⟨μ, hμ0, hμq, hAμ⟩, hφ⟩
   have hq2 : 2 ≤ q := by rw [hqf]; exact Nat.le_self_pow (by omega) 2 |>.trans' (by norm_num)
   set δ := (A : Matrix (Fin 4) (Fin 4) E).det with hδ
@@ -1525,26 +1523,29 @@ theorem orthTorusLin_apply (e f : V) (t : K) (v : V) :
 variable {e f : V} (he : Q e = 0) (hf : Q f = 0) (hef : polar Q e f = 1)
 include he hf hef
 
+omit he in
 theorem orthTorusLin_polar_f (t : K) (v : V) : polar Q (orthTorusLin Q e f t v) f = t * polar Q v f := by
   rw [orthTorusLin_apply, polar_add_left, polar_add_left, polar_smul_left, polar_smul_left, hef,
     CFSG.ClassicalGroups.Orthogonal.polar_self_eq_zero hf]
   ring
 
-theorem orthTorusLin_polar_e (t : K) (v : V) (ht : t ≠ 0) :
+omit hf in
+theorem orthTorusLin_polar_e (t : K) (v : V) (_ht : t ≠ 0) :
     polar Q (orthTorusLin Q e f t v) e = t⁻¹ * polar Q v e := by
   rw [orthTorusLin_apply, polar_add_left, polar_add_left, polar_smul_left, polar_smul_left,
     polar_comm Q f e, hef, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_zero he]
   ring
 
-theorem orthTorusLin_comp {s t : K} (hs : s ≠ 0) (ht : t ≠ 0) (v : V) :
+theorem orthTorusLin_comp {s t : K} (_hs : s ≠ 0) (ht : t ≠ 0) (v : V) :
     orthTorusLin Q e f s (orthTorusLin Q e f t v) = orthTorusLin Q e f (s * t) v := by
-  rw [orthTorusLin_apply e f s, orthTorusLin_polar_f he hf hef, orthTorusLin_polar_e he hf hef t v ht,
+  rw [orthTorusLin_apply e f s, orthTorusLin_polar_f hf hef, orthTorusLin_polar_e he hef t v ht,
     orthTorusLin_apply, orthTorusLin_apply, mul_inv]
   have h1 : (s - 1) * (t * polar Q v f) = (s * t - 1 - (t - 1)) * polar Q v f := by ring
   have h2 : (s⁻¹ - 1) * (t⁻¹ * polar Q v e) = (t⁻¹ * s⁻¹ - 1 - (t⁻¹ - 1)) * polar Q v e := by ring
   rw [h1, h2]
   module
 
+omit he hf hef in
 theorem orthTorusLin_one (v : V) : orthTorusLin Q e f 1 v = v := by
   rw [orthTorusLin_apply]
   simp
@@ -1557,14 +1558,14 @@ theorem orthTorusLin_isometry {t : K} (ht : t ≠ 0) (v : V) : Q (orthTorusLin Q
   linear_combination (polar Q v e * polar Q v f) * key
 
 @[expose] noncomputable def orthTorus (t : Kˣ) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (orthTorusLin Q e f (t : K)) (orthTorusLin Q e f ((t⁻¹ : Kˣ) : K))
+  LinearEquiv.ofLinearMap (orthTorusLin Q e f (t : K)) (orthTorusLin Q e f ((t⁻¹ : Kˣ) : K))
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, orthTorusLin_comp he hf hef t.ne_zero (t⁻¹).ne_zero, ← Units.val_mul,
-        mul_inv_cancel, Units.val_one, orthTorusLin_one he hf hef]
+        mul_inv_cancel, Units.val_one, orthTorusLin_one]
       rfl)
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, orthTorusLin_comp he hf hef (t⁻¹).ne_zero t.ne_zero, ← Units.val_mul,
-        inv_mul_cancel, Units.val_one, orthTorusLin_one he hf hef]
+        inv_mul_cancel, Units.val_one, orthTorusLin_one]
       rfl)
 
 theorem orthTorus_apply (t : Kˣ) (v : V) :
@@ -1741,6 +1742,7 @@ section LargeFixed
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [CharP K 2] in
 theorem orthRealized_fixed_plus (hx : OddOrderIsometry Q p x) {s f : ℕ} (hs4 : 4 ≤ s)
     (hK : Nat.card K = 2 ^ f)
     (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus s K))
@@ -1753,7 +1755,7 @@ theorem orthRealized_fixed_plus (hx : OddOrderIsometry Q p x) {s f : ℕ} (hs4 :
   unfold CFSG.Assembly.LargeEvenRawDatum
   simp only [show s ≠ 3 by omega, ↓reduceIte]
   unfold LargeEvenRecipeOmegaPlus
-  haveI hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K s))) :=
+  have hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K s))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (by omega)
   set Θ₁ : ↥(supportedFixedDerived Q x) →* LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K s)) :=
     (QuotientGroup.mk' _).comp e.toMonoidHom with hΘ₁
@@ -1761,6 +1763,7 @@ theorem orthRealized_fixed_plus (hx : OddOrderIsometry Q p x) {s f : ℕ} (hs4 :
   exact ⟨K, inferInstance, inferInstance, hK, hsimp, orth_exists_noncomm_of_surjective hq.1 Θ₁ hΘs,
     subset_rfl, Θ₁, hΘs, orth_ker_mk'_comp_le_center e _ (orth_statedScalars_subgroupOf_le_center _)⟩
 
+omit [CharP K 2] in
 theorem orthRealized_fixed_minus (hx : OddOrderIsometry Q p x) {s f : ℕ} (hs4 : 4 ≤ s)
     (hK : Nat.card K = 2 ^ f) {b c : K} (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadMinus s K b c))
@@ -1773,9 +1776,9 @@ theorem orthRealized_fixed_minus (hx : OddOrderIsometry Q p x) {s f : ℕ} (hs4 
   unfold CFSG.Assembly.LargeEvenRawDatum
   simp only [show s ≠ 3 by omega, show s ≠ 2 by omega, ↓reduceIte]
   unfold LargeEvenRecipeOmegaMinus
-  haveI hsimp' : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus s K b c))) :=
+  have hsimp' : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus s K b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus hs4 hirr
-  haveI hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (s - 1) b c))) :=
+  have hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (s - 1) b c))) :=
     (omegaMinusProjEquiv s b c).isSimpleGroup
   set Θ₁ : ↥(supportedFixedDerived Q x) →* LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (s - 1) b c)) :=
     (omegaMinusProjEquiv s b c).symm.toMonoidHom.comp ((QuotientGroup.mk' _).comp e.toMonoidHom) with hΘ₁

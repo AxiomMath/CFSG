@@ -72,14 +72,14 @@ theorem w16q_center_le_oddCoreCenter {X : Type} [Group X] [Finite X] {Y : Subgro
     intro m
     exact Subtype.ext (Subgroup.mem_center_iff.mp hx (m : X))
   · exfalso
-    haveI hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
+    have hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
     have hvO : v ∉ fusionOddCore X := fun hv =>
       hxO (hvo ▸ (fusionOddCore X).mul_mem hv hoO)
     have hv1 : v ≠ 1 := fun h1 => hvO (h1 ▸ (fusionOddCore X).one_mem)
     have hcenter : ∀ n (hn : n ∈ fusionOddCore X),
         (⟨n, hn⟩ : ↥(fusionOddCore X)) ∈ Subgroup.center ↥(fusionOddCore X) := by
       intro n hn
-      haveI hQea : IsElementaryAbelian p
+      have hQea : IsElementaryAbelian p
           (↥(fusionOddCore X) ⧸ Subgroup.center ↥(fusionOddCore X)) :=
         CFSG.IsExtraspecial.quotient_elementary_abelian p ↥(fusionOddCore X)
       let nO : ↥(fusionOddCore X) := ⟨n, hn⟩
@@ -188,7 +188,7 @@ theorem w16q_fixedPointFree [Finite X] (d : DichCfg M V₀ V U S H φ)
     (h : Heis2p X (SevenK.barSub (conjClosure V H) φ V) p)
     (hfaith : conjClosure V H ⊓ centralizer (iSub16 V H : Set G) ≤ iSub16 V H)
     {k : ℕ}
-    (hk : Nat.card ↥(iSub (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))
+    (_hk : Nat.card ↥(iSub (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))
           (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H))) = 2 ^ (p * k))
     (hcomm : ⁅iSub (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))
           (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H)),
@@ -202,8 +202,8 @@ theorem w16q_fixedPointFree [Finite X] (d : DichCfg M V₀ V U S H φ)
       conjClosure V₀ H ⊓ centralizer ({(z : G)} : Set G) = ⊥ := by
   intro z hzZ hz1
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
   let K : Subgroup G := conjClosure V H
   let G' : Subgroup (LGL 2 D.W) := D.img H
   let A0 : Subgroup (LGL 2 D.W) := D.img V
@@ -214,7 +214,7 @@ theorem w16q_fixedPointFree [Finite X] (d : DichCfg M V₀ V U S H φ)
   let I' : Subgroup (VG G') := iSub V' ⊤ E'
   have hHyp : SevenK.Hyp716 V' ⊤ E' :=
     IsMinFam16.hyp716_UAOf_img d.cfg.one d.cfg.five d.cfg.std d.cfg.cex d.cfg.min d.cfg.not_le D
-  haveI hI'norm : I'.Normal :=
+  have hI'norm : I'.Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp
       ((Subgroup.normal_subgroupOf_iff_le_normalizer (H := I') (K := ⊤) le_top).mp
         hHyp.jnormal))

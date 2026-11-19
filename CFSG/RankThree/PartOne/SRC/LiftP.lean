@@ -187,7 +187,7 @@ theorem exists_lift_through_pPrime_kernel {K : Type*} [Group K] [Finite K] {p : 
       Nat.Prime.factorization_pos_of_dvd Nat.prime_two Nat.card_pos.ne' h2W
     have := Nat.one_lt_pow hfac.ne' Nat.one_lt_two
     omega
-  · exact (P.isPGroup').map _
+  · exact (P.isPGroup).map _
   · intro x hx
     rw [Subgroup.mem_normalizer_iff]
     intro y

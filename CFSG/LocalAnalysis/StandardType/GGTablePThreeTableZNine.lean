@@ -37,7 +37,7 @@ private theorem tzNine_nine_dvd_two_pow_three_mul_add_one {n : ℕ} (h3 : 3 ∣ 
 
 open CFSG.HardMathSupport.Timmesfeld.CrossChar in
 theorem tableZ_exists_diag_nine
-    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {n : ℕ} (hn : 1 ≤ n) (h3 : 3 ∣ 2 ^ n + 1)
+    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {n : ℕ} (_hn : 1 ≤ n) (h3 : 3 ∣ 2 ^ n + 1)
     (σQ : L ≃+* L) (hσQ : ∀ c, σQ c = c ^ (2 ^ (3 * n))) :
     ∃ ζ : Lˣ, ζ ^ 9 = 1 ∧ ζ ^ 3 ≠ 1 ∧
       ∃ c : ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := 3) σQ)),
@@ -47,8 +47,8 @@ theorem tableZ_exists_diag_nine
     intro h
     have hd : 2 ∣ 9 := (CharP.cast_eq_zero_iff L 2 9).1 h
     norm_num at hd
-  haveI : NeZero ((9 : ℕ) : L) := ⟨h9ne⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 9
+  have : NeZero ((9 : ℕ) : L) := ⟨h9ne⟩
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 9
   have hu : IsUnit ζ0 := hζ0.isUnit (by norm_num)
   let ζ : Lˣ := hu.unit
   have hζ : IsPrimitiveRoot ζ 9 := by
@@ -83,8 +83,8 @@ theorem tableZ_exists_diag_nine
     rw [Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
   have hdet : Matrix.det (Matrix.diagonal v) = 1 := by
     rw [Matrix.det_diagonal, Fin.prod_univ_three]
-    simp only [v, Matrix.cons_val_zero, Matrix.cons_val_zero', Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.cons_val_succ', Matrix.head_cons, Matrix.tail_cons, hv1]
+    simp only [v, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, hv1]
     rw [show (ζ : L) * (((ζ : L)) ^ 2)⁻¹ * (ζ : L) =
       ((ζ : L)) ^ 2 * (((ζ : L)) ^ 2)⁻¹ by ring]
     exact mul_inv_cancel₀ (pow_ne_zero 2 hζne)
@@ -95,8 +95,7 @@ theorem tableZ_exists_diag_nine
   have hv_ne : ∀ i, v i ≠ 0 := by
     intro i
     fin_cases i <;>
-      simp only [v, Matrix.cons_val_zero, Matrix.cons_val_zero', Matrix.cons_val_one,
-        Matrix.cons_val_two, Matrix.cons_val_succ', Matrix.head_cons, Matrix.tail_cons, hv1]
+      simp only [v, Matrix.cons_val_zero', Matrix.cons_val_succ', hv1]
     · exact hζne
     · exact inv_ne_zero (pow_ne_zero 2 hζne)
     · exact hζne
@@ -117,8 +116,7 @@ theorem tableZ_exists_diag_nine
     rw [hinv, Matrix.diagonal_transpose, Matrix.diagonal_injective.eq_iff]
     funext i
     fin_cases i <;>
-      simp only [v, Matrix.cons_val_zero, Matrix.cons_val_zero', Matrix.cons_val_one,
-        Matrix.cons_val_two, Matrix.cons_val_succ', Matrix.head_cons, Matrix.tail_cons, hv1]
+      simp only [v, Matrix.cons_val_zero', Matrix.cons_val_succ', hv1]
     · exact h0
     · exact h2
     · exact h0

@@ -87,7 +87,7 @@ theorem cmPt_of {t r q : CV n} {p : Nat} (hp : p < n) (h : eq22C (t * r) q q (t 
     cmPt t r q p = true := by
   rw [eq22C_eq, decide_eq_true_iff] at h
   have h' := congrArg (fun σ : CV n => (ev σ ⟨p, hp⟩ : Nat)) h
-  simp only [ev_mul, Equiv.Perm.mul_apply, ev_apply, Fin.val_mk] at h'
+  simp only [ev_mul, Equiv.Perm.mul_apply, ev_apply] at h'
   exact Nat.beq_eq.mpr h'
 
 @[expose] noncomputable def sqEqPt (t r c : CV n) (p : Nat) : Bool :=
@@ -97,7 +97,7 @@ theorem sqEqPt_of {t r c : CV n} {p : Nat} (hp : p < n) (h : eq22C (t * r) (t * 
     sqEqPt t r c p = true := by
   rw [eq22C_eq, decide_eq_true_iff, mul_one] at h
   have h' := congrArg (fun σ : CV n => (ev σ ⟨p, hp⟩ : Nat)) h
-  simp only [ev_mul, Equiv.Perm.mul_apply, ev_apply, Fin.val_mk] at h'
+  simp only [ev_mul, Equiv.Perm.mul_apply, ev_apply] at h'
   exact Nat.beq_eq.mpr h'
 
 @[expose] noncomputable def filterSplit (L : List (List (CV n))) (pre : CV n → CV n → Bool)

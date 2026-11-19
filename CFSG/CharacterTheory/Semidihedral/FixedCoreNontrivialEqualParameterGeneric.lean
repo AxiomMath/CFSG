@@ -169,7 +169,7 @@ theorem odd_mem_pPrimeCore_of_isCyclic_sylow {F : Subgroup X} (S : Sylow 2 F)
       ∀ x ∈ F, Odd (orderOf x) → x ∈ (CFSG.pPrimeCore 2 F).map F.subtype := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, ⟨hN, -, hidx, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hS
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hq : IsPGroup 2 (F ⧸ CFSG.pPrimeCore 2 F) := by
     apply IsPGroup.of_card (n := k)
     rw [← Subgroup.index, hidx, hk]

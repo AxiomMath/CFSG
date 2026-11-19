@@ -15,8 +15,8 @@ variable {G : Type} [Group G]
 
 theorem generalizedFitting_eq_top_of_simple' [Finite G] (hs : IsSimpleGroup G)
     (hna : ∃ x y : G, x * y ≠ y * x) : generalizedFitting G = ⊤ := by
-  haveI : (⊤ : Subgroup G).Normal := inferInstance
-  haveI : IsSimpleGroup (⊤ : Subgroup G) := Subgroup.topEquiv.isSimpleGroup
+  have : (⊤ : Subgroup G).Normal := inferInstance
+  have : IsSimpleGroup (⊤ : Subgroup G) := Subgroup.topEquiv.isSimpleGroup
   have hna' : ∃ a b : (⊤ : Subgroup G), a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hna
     exact ⟨⟨x, trivial⟩, ⟨y, trivial⟩, fun h => hxy (congrArg Subtype.val h)⟩
@@ -37,19 +37,19 @@ theorem generalizedFitting_eq_top_of_simple' [Finite G] (hs : IsSimpleGroup G)
     exact hxy (Subgroup.mem_center_iff.mp this x)
 
 theorem thmA_exists_sylow [Finite G] (H : Subgroup G) : ∃ B : Subgroup G, IsSylowOf 3 B H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (P.not_dvd_index)
 
 theorem pRank_cen_eq_three [Finite G] {b : G} {B : Subgroup G} (hB : IsSylowOf 3 B (Cen b))
     (hB3 : IsElemAb 3 3 B) : CFSG.Open.pRank 3 (Cen b) = 3 := by
-  haveI : IsElementaryAbelian 3 B := hB3.1
+  have : IsElementaryAbelian 3 B := hB3.1
   have hel : CFSG.Open.IsElemAbelian 3 B :=
     ⟨hB3.1.toIsMulCommutative, fun x hx => elemPow_eq_one_of_isElementaryAbelian x hx⟩
   apply le_antisymm

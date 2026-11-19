@@ -77,7 +77,7 @@ section Quat
 variable {G : Type} [Group G] {R : Subgroup G} {n : ℕ} [NeZero n]
 
 theorem soc_commutator_le_self (P : Subgroup G) : ⁅P, P⁆ ≤ P :=
-  Subgroup.commutator_le.mpr fun x hx y hy =>
+  Subgroup.commutator_le.mpr fun _x hx _y hy =>
     P.mul_mem (P.mul_mem (P.mul_mem hx hy) (P.inv_mem hx)) (P.inv_mem hy)
 
 theorem soc_commutator_eq_zpowers (e : ↥R ≃* QuaternionGroup n) :

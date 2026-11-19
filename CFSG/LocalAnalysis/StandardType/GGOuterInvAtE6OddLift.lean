@@ -62,11 +62,11 @@ theorem exists_conj_torusGroup_of_odd_order_lift
     (hcube : ∃ h ∈ adjointGroup Tag.E6 L, h⁻¹ * x ^ p * h ∈ torusGroup Tag.E6 L) :
     ∃ g ∈ adjointGroup Tag.E6 L, g⁻¹ * x * g ∈ torusGroup Tag.E6 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hpdvd : p ∣ m
   ·
     have hp2 : p ≠ 2 := hm.ne_two_of_dvd_nat hpdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨h, hh, hdT⟩ := hcube
     set x₀ : ModGL Tag.E6 L := h⁻¹ * x * h with hx₀
     have hx₀A : x₀ ∈ adjointGroup Tag.E6 L := mul_mem (mul_mem (inv_mem hh) hx) hh
@@ -79,7 +79,7 @@ theorem exists_conj_torusGroup_of_odd_order_lift
       have h := conj_pow (a := h⁻¹) (b := x) (i := m)
       rw [hxm] at h
       simpa using h
-    haveI hBfin : Finite (Subgroup.zpowers x₀) :=
+    have hBfin : Finite (Subgroup.zpowers x₀) :=
       finite_zpowers.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨m, hm.pos, hx₀m⟩)
     obtain ⟨a, ha⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hd
     set M : ℕ := (Nat.card (WeylGroup Tag.E6)).factorization p + 1 with hM
@@ -91,7 +91,7 @@ theorem exists_conj_torusGroup_of_odd_order_lift
       exists_descent_subgroup (τ := Tag.E6) (L := L) (ℓ := 2) (r := p) hp2.symm
         (by simpa using halg) (Subgroup.zpowers_le.2 hx₀A) (Set.toFinite _) E₀ (M := M)
         (by omega)
-    haveI : Finite K₁ := hK₁fin
+    have : Finite K₁ := hK₁fin
     set ι := K₁.subtype with hι
     have ha1 : ∀ i, (a i : L) ∈ K₁ := fun i =>
       hE₀K (Finset.mem_coe.2 (Finset.mem_union_left _

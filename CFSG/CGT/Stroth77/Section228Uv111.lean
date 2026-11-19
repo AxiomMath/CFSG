@@ -33,7 +33,7 @@ theorem t111_uv_fixes_a_half (t : ℕ) :
   have hva : (2 ^ (t + 2) : ℕ) • Torus.a (k := Type111.k t) =
       Torus.ofInt (Type111.k t) ![0, (2 : ℤ) ^ (t + 2), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   rw [hva]
   have h4 : (2 : ℤ) ^ (t + 2) = 4 * 2 ^ t := by
     rw [show (2 : ℤ) ^ (t + 2) = 2 ^ t * 2 ^ 2 by rw [← pow_add]]
@@ -111,7 +111,7 @@ theorem t111_φuv_a_add_b (t : ℕ) :
   rw [map_add, Type111.uv_a t, Type111.uv_b t]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
   all_goals ring
 
 theorem t111_uv_preimage (t : ℕ) :
@@ -150,7 +150,6 @@ theorem t111_uv_preimage (t : ℕ) :
         simp only [Pi.smul_apply, zsmul_eq_mul, Int.cast_id, Fin.reduceFinMk, Fin.isValue,
           Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
           Matrix.tail_cons]
-      all_goals ring
     rw [hvec]
   have hw : (2 ^ (t + 1) : ℕ) •
       (Torus.a (k := (StrothTypeIndex.t111 t).k) +
@@ -212,6 +211,7 @@ theorem t111_φuv_ab_half (t : ℕ) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t111_u_swaps_a_half {D : Subgroup G} {t : ℕ}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t111 t)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (t + 2)) * dD.u = (dD.b : G) ^ 2 ^ (t + 2) := by
@@ -238,8 +238,8 @@ theorem t111_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {t : ℕ}
   set bh : G := (dD.b : G) ^ 2 ^ (t + 2) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (t + 1) * ab ^ 2 ^ (t + 1) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (t + 3) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -401,11 +401,11 @@ theorem t111_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {t : ℕ}
     have hva : (2 ^ (t + 2) : ℕ) • Torus.a (k := (StrothTypeIndex.t111 t).k) =
         Torus.ofInt (StrothTypeIndex.t111 t).k ![0, (2 : ℤ) ^ (t + 2), 0] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.a]
     have hvb : (2 ^ (t + 2) : ℕ) • Torus.b (k := (StrothTypeIndex.t111 t).k) =
         Torus.ofInt (StrothTypeIndex.t111 t).k ![0, 0, (2 : ℤ) ^ (t + 2)] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.b]
     intro htor
     rw [hva, hvb, Torus.ofInt_eq_ofInt_iff] at htor
     have h2 := htor 2
@@ -462,6 +462,7 @@ theorem t111_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {t : ℕ}
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t111_d2_ofTorus {D : Subgroup G} {t : ℕ}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t111 t)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t111 t).n - 2) =
@@ -481,8 +482,8 @@ theorem t111_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {t : ℕ}
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

@@ -109,7 +109,7 @@ theorem SG.false_of_simple_fix {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgr
     exact (hAY ▸ h3).trans (Subgroup.relIndex_dvd_of_le_left _ hZ)
   have h3K : 3 ∣ Nat.card ↥K :=
     (h3.trans (Subgroup.card_dvd_of_le hAf)).trans (Subgroup.card_range_dvd f)
-  haveI : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
+  have : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
   have hne : GLAPPrimeCore 3 ↥K ≠ ⊤ := fun htop => by
     have hco : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) :=
       CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥K)

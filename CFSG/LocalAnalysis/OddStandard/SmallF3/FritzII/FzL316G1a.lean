@@ -22,6 +22,7 @@ lemma fzl_card_cases (n : ℕ) (hle : n ≤ 64) (hge : 16 ≤ n) (hmod : n % 3 =
     (hdiv : n ∣ 64) : n = 16 ∨ n = 64 := by
   interval_cases n <;> norm_num at *
 
+omit [Finite G] in
 lemma fzl_inv_conj_mem {rho : G} (hrho3 : rho ^ 3 = 1) {E : Subgroup G}
     (hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E) : ∀ e ∈ E, rho⁻¹ * e * rho ∈ E := by
   intro e he
@@ -36,18 +37,18 @@ lemma fzl_inv_conj_mem {rho : G} (hrho3 : rho ^ 3 = 1) {E : Subgroup G}
   rw [← key]
   exact hrE _ (hrE e he)
 
-lemma fzl_rho_mem_sup_closure {P E : Subgroup G} {rho y : G}
+lemma fzl_rho_mem_sup_closure {P E : Subgroup G} {rho _y : G}
     (hrho3 : rho ^ 3 = 1) (hcardP : Nat.card P = 64) (hcardE : Nat.card E = 16)
     (hEP : E ≤ P) (hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
     (hEcent : ∀ e ∈ E, ∀ p ∈ P, p * e = e * p)
-    (hrP : ∀ p ∈ P, rho * p * rho⁻¹ ∈ P) (hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E)
+    (_hrP : ∀ p ∈ P, rho * p * rho⁻¹ ∈ P) (hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E)
     (hfpf : ∀ p ∈ P, rho * p * rho⁻¹ = p → p = 1)
     (hna : ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a)
-    {y : G} (hyP : y ∈ P) (hyE : y ∉ E)
-    (hyN : rho * y * rho⁻¹ ∈ E ⊔ Subgroup.closure ({y} : Set G)) : False := by
-  set N : Subgroup G := E ⊔ Subgroup.closure ({y} : Set G) with hN
+    {_y : G} (hyP : _y ∈ P) (hyE : _y ∉ E)
+    (hyN : rho * _y * rho⁻¹ ∈ E ⊔ Subgroup.closure ({_y} : Set G)) : False := by
+  set N : Subgroup G := E ⊔ Subgroup.closure ({_y} : Set G) with hN
   have hEN : E ≤ N := le_sup_left
-  have hyN' : y ∈ N := Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
+  have hyN' : _y ∈ N := Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
   have hNP : N ≤ P := by
     rw [hN]
     refine sup_le hEP ?_
@@ -91,7 +92,7 @@ lemma fzl_rho_mem_sup_closure {P E : Subgroup G} {rho y : G}
   have hNPeq : N = P := Subgroup.eq_of_le_of_card_ge hNP (by omega)
   have hMcomm : IsMulCommutative N := by
     rw [hN]
-    have heq : E ⊔ Subgroup.closure ({y} : Set G) = Subgroup.closure ((E : Set G) ∪ {y}) := by
+    have heq : E ⊔ Subgroup.closure ({_y} : Set G) = Subgroup.closure ((E : Set G) ∪ {_y}) := by
       rw [Subgroup.closure_union, Subgroup.closure_eq]
     rw [heq]
     apply Subgroup.isMulCommutative_closure
@@ -100,33 +101,33 @@ lemma fzl_rho_mem_sup_closure {P E : Subgroup G} {rho y : G}
     rcases ha with haE | ha_eq
     · rcases hb with hbE | hb_eq
       · exact hEcomm a haE b hbE
-      · rw [hb_eq]; exact (hEcent a haE y hyP).symm
+      · rw [hb_eq]; exact (hEcent a haE _y hyP).symm
     · rw [ha_eq]
       rcases hb with hbE | hb_eq
-      · exact hEcent b hbE y hyP
+      · exact hEcent b hbE _y hyP
       · rw [hb_eq]
   obtain ⟨a, haP, b, hbP, hab⟩ := hna
-  haveI : IsMulCommutative P := hNPeq ▸ hMcomm
+  have : IsMulCommutative P := hNPeq ▸ hMcomm
   exact hab (setLike_mul_comm haP hbP)
 
-lemma fzl_mem_of_coset {P E : Subgroup G} {rho y : G}
+lemma fzl_mem_of_coset {P E : Subgroup G} {rho _y : G}
     (hrho3 : rho ^ 3 = 1) (hcardP : Nat.card P = 64) (hcardE : Nat.card E = 16)
     (hEP : E ≤ P) (hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
     (hEcent : ∀ e ∈ E, ∀ p ∈ P, p * e = e * p)
     (hrP : ∀ p ∈ P, rho * p * rho⁻¹ ∈ P) (hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E)
     (hfpf : ∀ p ∈ P, rho * p * rho⁻¹ = p → p = 1)
     (hna : ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a)
-    {y : G} (hyP : y ∈ P) (hy : y⁻¹ * (rho * y * rho⁻¹) ∈ E) : y ∈ E := by
+    {_y : G} (hyP : _y ∈ P) (hy : _y⁻¹ * (rho * _y * rho⁻¹) ∈ E) : _y ∈ E := by
   by_contra hyE
-  have hyN : rho * y * rho⁻¹ ∈ E ⊔ Subgroup.closure ({y} : Set G) := by
-    have h1 : y ∈ E ⊔ Subgroup.closure ({y} : Set G) :=
+  have hyN : rho * _y * rho⁻¹ ∈ E ⊔ Subgroup.closure ({_y} : Set G) := by
+    have h1 : _y ∈ E ⊔ Subgroup.closure ({_y} : Set G) :=
       Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
-    have h2 : y⁻¹ * (rho * y * rho⁻¹) ∈ E ⊔ Subgroup.closure ({y} : Set G) :=
+    have h2 : _y⁻¹ * (rho * _y * rho⁻¹) ∈ E ⊔ Subgroup.closure ({_y} : Set G) :=
       Subgroup.mem_sup_left hy
-    have : rho * y * rho⁻¹ = y * (y⁻¹ * (rho * y * rho⁻¹)) := by group
+    have : rho * _y * rho⁻¹ = _y * (_y⁻¹ * (rho * _y * rho⁻¹)) := by group
     rw [this]
     exact Subgroup.mul_mem _ h1 h2
-  exact fzl_rho_mem_sup_closure (y := y) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna
+  exact fzl_rho_mem_sup_closure (_y := _y) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna
     hyP hyE hyN
 
 end CFSG.OddStandard.SmallF3.FritzII

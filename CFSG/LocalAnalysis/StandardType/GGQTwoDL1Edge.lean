@@ -23,6 +23,7 @@ private theorem p9uLE_commute_of_sq_eq_one {H : Type} [Group H] {a b : H}
     _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
     _ = b * a := by rw [inv_eq_of_mul_eq_one_left hb', inv_eq_of_mul_eq_one_right ha']
 
+omit [Finite G] in
 private theorem p9uLE_conj_coe {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (u v : M.Group) :
     ((e u : ↥A) : MulAut ↥Bs) * ((e v : ↥A) : MulAut ↥Bs) * ((e u : ↥A) : MulAut ↥Bs)⁻¹ =
@@ -30,6 +31,7 @@ private theorem p9uLE_conj_coe {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {
   rw [map_mul, map_mul, map_inv]
   rfl
 
+omit [Finite G] in
 private theorem p9uLE_pow_three_coe {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (t t' : M.Group)
     (h : (((e t : ↥A) : MulAut ↥Bs) * ((e t' : ↥A) : MulAut ↥Bs)) ^ 3 = 1) :
@@ -139,6 +141,7 @@ theorem qtwoDL1_card_rankTwo_eq {p : ℕ} {Bs L : Subgroup G} {𝒦 : Finset (Su
   rw [← hgmap]
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem qtwoDL1_rankTwoIn_le_rankTwo (X Bs : Subgroup G) (r r' : MulAut ↥Bs) :
     ggRankTwoIn X Bs r r' ≤ ggRankTwo Bs r r' := by
   unfold ggRankTwoIn ggRankTwo

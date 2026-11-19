@@ -149,7 +149,7 @@ theorem centralizer_R_eq (H : Hyp14 G S a b y x) :
   have hPQ : (P : Subgroup ↥(Zc)) ≤
       (zpowers (a ^ 2 * b ^ 2)).subgroupOf (Zc) := by
     intro p hp
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hp⟩
     have hpn : ((p : ↥(Zc)) : G) ^ 2 ^ n = 1 := by
       have := congrArg (fun t : ↥(P : Subgroup ↥(Zc)) =>
         (((t : ↥(Zc)) : G))) hn
@@ -191,7 +191,7 @@ theorem centralizer_R_eq (H : Hyp14 G S a b y x) :
   obtain ⟨K, hKn, hKodd, hKidx, -, -, -, -, -, ⟨e, -⟩, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement P hPn
   have := hKn
-  have hq : IsPGroup 2 (↥Zc ⧸ K) := P.isPGroup'.of_surjective e.toMonoidHom e.surjective
+  have hq : IsPGroup 2 (↥Zc ⧸ K) := P.isPGroup.of_surjective e.toMonoidHom e.surjective
   set K' : Subgroup G := K.map Zc.subtype with hK'
   have hK'Zc : K' ≤ Zc := by
     rintro _ ⟨k₀, _, rfl⟩
@@ -1093,7 +1093,7 @@ theorem lemma14_3_conc (H : Hyp14 G S a b y x) :
     obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hXne
     have hwX : (w : ↥(centralizer ({a ^ 2 * b ^ 2} : Set G))) ∈ X := w.2
     have hW3 : (w : ↥(centralizer ({a ^ 2 * b ^ 2} : Set G))) ^ 3 = 1 := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp X.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp X.isPGroup
       have hdvd192 : Nat.card X ∣ 192 :=
         h192 ▸ Subgroup.card_subgroup_dvd_card (X : Subgroup ↥(centralizer ({a ^ 2 * b ^ 2} : Set G)))
       have hn1 : n ≤ 1 := by

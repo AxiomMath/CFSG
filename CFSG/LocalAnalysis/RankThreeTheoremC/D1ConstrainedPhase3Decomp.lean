@@ -29,7 +29,7 @@ theorem D1ConstrainedReducedData3.exists_decomposition {p : ℕ} [Fact p.Prime] 
   have hp : p.Prime := Fact.out
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hFC : F ≤ Subgroup.centralizer ({z} : Set G) := hFP.trans hPC
-  obtain ⟨φ, hφ⟩ := CFSG.AGLEmbedding.exists_mulEquiv_map_mk _ hp hO (P.isPGroup'.to_le hFP) hFC
+  obtain ⟨φ, hφ⟩ := CFSG.AGLEmbedding.exists_mulEquiv_map_mk _ hp hO (P.isPGroup.to_le hFP) hFC
   let zC : Subgroup.centralizer ({z} : Set G) :=
     ⟨z, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hzbar := hdata.zbar_eq zC rfl

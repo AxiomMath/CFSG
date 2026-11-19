@@ -38,7 +38,7 @@ theorem exists_normal_pComplement_centralizer {p : ℕ} (hp : p.Prime) {X : Type
     set τ : S := MonoidHom.transferSylow S hP c with hτ
     have hτpow : τ ^ orderOf c = 1 := by
       rw [hτ, ← map_pow, pow_orderOf_eq_one, map_one]
-    obtain ⟨k, hk⟩ := S.isPGroup' τ
+    obtain ⟨k, hk⟩ := S.isPGroup τ
     have h1 : orderOf τ ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
     have h2 : orderOf τ ∣ orderOf c := orderOf_dvd_of_pow_eq_one hτpow
     have h3 : Nat.Coprime (orderOf τ) (orderOf c) :=

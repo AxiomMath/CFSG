@@ -14,12 +14,15 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 abbrev Mbar (M Q : Subgroup G) := ↥M ⧸ Q.subgroupOf M
 
+omit [Finite G] in
 theorem Ctx.normal_Q_in_M (hc : Ctx M Q Z B) : (Q.subgroupOf M).Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
 
+omit [Finite G] in
 theorem Ctx.LB_le_M (hc : Ctx M Q Z B) : LB M Q B ≤ M :=
   sup_le hc.hyp.Q_normal.1 inf_le_right
 
+omit [Finite G] in
 theorem Rt_le_M {L : Subgroup G} (hL : L ≤ M) (t : G) : Rt M L t ≤ M := by
   refine iSup₂_le fun m hm => iSup_le fun _ => ?_
   intro x hx
@@ -28,6 +31,7 @@ theorem Rt_le_M {L : Subgroup G} (hL : L ≤ M) (t : G) : Rt M L t ≤ M := by
   have h2 : m * (m⁻¹ * x * m) * m⁻¹ ∈ M := M.mul_mem (M.mul_mem hm this) (M.inv_mem hm)
   rwa [show m * (m⁻¹ * x * m) * m⁻¹ = x by group] at h2
 
+omit [Finite G] in
 theorem QB_conj (g : G) (B : Subgroup G) : QB (conjSubgroup g B) = conjSubgroup g (QB B) := by
   unfold QB
   have hN : Subgroup.normalizer ((conjSubgroup g B : Subgroup G) : Set G) =
@@ -41,15 +45,18 @@ theorem QB_conj (g : G) (B : Subgroup G) : QB (conjSubgroup g B) = conjSubgroup 
   show (generalizedFitting ↥(conjSubgroup g N)).map (conjSubgroup g N).subtype =
     ((generalizedFitting ↥N).map N.subtype).map (MulAut.conj g).toMonoidHom
   rw [← key, Subgroup.map_map, Subgroup.map_map]
-  congr 1 <;> ext x <;> rfl
+  congr 1
 
+omit [Finite G] in
 theorem Ctx.conj_Q_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m Q = Q :=
   conjSubgroup_eq_self_iff.mpr (hc.hyp.Q_normal.2 hm)
 
+omit [Finite G] in
 theorem Ctx.conj_Z_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m Z = Z :=
   conjSubgroup_eq_self_iff.mpr (hc.hyp.Z_normal.2 hm)
 
-theorem Ctx.conj_M_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m M = M := by
+omit [Finite G] in
+theorem Ctx.conj_M_eq (_hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m M = M := by
   rw [conjSubgroup_eq_self_iff]
   exact (Subgroup.mem_normalizer_iff.mpr fun x => by
     constructor
@@ -58,6 +65,7 @@ theorem Ctx.conj_M_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m
       have := M.mul_mem (M.mul_mem (M.inv_mem hm) hx) hm
       simpa [mul_assoc] using this)
 
+omit [Finite G] in
 theorem Ctx.conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     Ctx M Q Z (conjSubgroup m B) where
   hyp := hc.hyp
@@ -74,6 +82,7 @@ theorem Ctx.conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     rwa [← conjSubgroup_mul, inv_mul_cancel, conjSubgroup_one, hc.conj_Z_eq (M.inv_mem hm)]
       at this
 
+omit [Finite G] in
 theorem Ctx.LB_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     LB M Q (conjSubgroup m B) = conjSubgroup m (LB M Q B) := by
   unfold LB
@@ -107,6 +116,7 @@ theorem Ctx.LB_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
 @[expose] def GenByB (M Q B : Subgroup G) : Prop :=
   Q = ⨆ (m : G) (_ : m ∈ M), conjSubgroup m B
 
+omit [Finite G] in
 theorem GenByB.conj_of_mem {M Q B : Subgroup G} (h : GenByB M Q B) {m : G} (hm : m ∈ M) :
     GenByB M Q (conjSubgroup m B) := by
   unfold GenByB at h ⊢

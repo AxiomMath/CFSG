@@ -28,13 +28,13 @@ theorem inf_commutator_sup_le_of_central {M R Z U P : Subgroup G} [Finite ↥M]
     (hP : IsSylowTwoOf P M) (hPUZ : P ≤ U ⊔ Z) :
     Z ⊓ (⁅M, M⁆ ⊔ R) ≤ R := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥M := R.subgroupOf M
   have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRM).mpr hRn
-  letI : N.Normal := hNn
+  let : N.Normal := hNn
   let E := ↥M ⧸ N
   let π : ↥M →* E := QuotientGroup.mk' N
-  haveI : Finite E := inferInstance
+  have : Finite E := inferInstance
   let PM : Subgroup ↥M := P.subgroupOf M
   have hPM2 : IsPGroup 2 PM := hP.2.1.comap_subtype
   let Pbar : Subgroup E := PM.map π
@@ -93,7 +93,7 @@ theorem inf_commutator_sup_le_of_central {M R Z U P : Subgroup G} [Finite ↥M]
       Subgroup.mem_subgroupOf.mpr (hPUZ (Subgroup.mem_subgroupOf.mp hq))
     have hle : PM.map π ≤ ((U ⊔ Z).subgroupOf M).map π := Subgroup.map_mono hsub
     rwa [Subgroup.subgroupOf_sup hUM hZM, Subgroup.map_sup] at hle
-  haveI : Zbar.Normal := Subgroup.normal_of_le_center hZbar_center
+  have : Zbar.Normal := Subgroup.normal_of_le_center hZbar_center
   have hPbar_comm : IsMulCommutative Pbar := by
     rw [isMulCommutative_iff]
     intro a b
@@ -171,7 +171,7 @@ theorem exists_commutator_mul_of_fixedPointFree {U R : Subgroup G} [Finite ↥U]
   classical
   let N : Subgroup ↥U := R.subgroupOf U
   have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRU).mpr hRn
-  letI : N.Normal := hNn
+  let : N.Normal := hNn
   let f : ↥U → ↥U := fun v =>
     ⟨⁅k, (v : G)⁆, by
       have hv : (v : G) ∈ U := v.2
@@ -304,7 +304,7 @@ theorem Hyp30.exists_odd_transitive (h : Hyp30 Γ G) {v : V}
     rcases hp3or5 with h3 | h5
     · rw [h3]; decide
     · rw [h5]; decide
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := h.exists_adj v
   have horbit : MulAction.orbit ↥L a = Γ.neighborSet v := by
     refine Set.Subset.antisymm ?_ ?_
@@ -326,7 +326,7 @@ theorem Hyp30.exists_odd_transitive (h : Hyp30 Γ G) {v : V}
   have hdvd : p ∣ Nat.card L := by
     rw [← hrel, ← Subgroup.relIndex_mul_card (H := MulAction.stabilizer G a) (K := L)]
     exact dvd_mul_right _ _
-  haveI : Finite ↥L := finite_of_le_stabilizer h hLle
+  have : Finite ↥L := finite_of_le_stabilizer h hLle
   obtain ⟨xL, hxordL⟩ := exists_prime_orderOf_dvd_card' p hdvd
   let x : G := (xL : G)
   have hxL' : x ∈ L := xL.2

@@ -27,7 +27,7 @@ private theorem l829_exists_noncomm {A : Type} [Group A] [Nontrivial A]
     (h : commutator A = ⊤) : ∃ a b : A, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI := Group.isSolvable_of_comm hc
+  have := Group.isSolvable_of_comm hc
   exact (not_subsingleton_iff_nontrivial.mpr inferInstance)
     (l829_subsingleton_of_perfect_solvable h)
 
@@ -70,7 +70,7 @@ private theorem l829_inf_subgroupOf_normal {G : Type} [Group G] {A Q : Subgroup 
       (Subgroup.mem_normalizer_iff.mp (hA g.2) (n : G)).mp hn2⟩
 
 private def l829Cen {G : Type} [Group G] (H Q : Subgroup G)
-    (hQ : H ≤ Subgroup.normalizer (Q : Set G)) (k : G) (hk : k ∈ H) : Subgroup G where
+    (hQ : H ≤ Subgroup.normalizer (Q : Set G)) (k : G) (_hk : k ∈ H) : Subgroup G where
   carrier := {x | x ∈ H ∧ k * x * k⁻¹ * x⁻¹ ∈ Q}
   one_mem' := ⟨H.one_mem, by simp⟩
   mul_mem' := by
@@ -169,7 +169,7 @@ theorem proper_normal_le_ker_of_perfect {K Ks : Type} [Group K] [Group Ks] [Fini
     (hψ : Function.Surjective ψ) (hsolv : Group.IsSolvable ↥ψ.ker) :
     ∀ N : Subgroup K, N.Normal → N ≠ ⊤ → N ≤ ψ.ker := by
   intro N hN hNtop n hn
-  haveI : (N.map ψ).Normal := hN.map ψ hψ
+  have : (N.map ψ).Normal := hN.map ψ hψ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map ψ) with hbot | htop
   · rw [MonoidHom.mem_ker]
     have hmem : ψ n ∈ N.map ψ := Subgroup.mem_map_of_mem ψ hn
@@ -194,10 +194,10 @@ theorem proper_normal_le_ker_of_perfect {K Ks : Type} [Group K] [Group Ks] [Fini
       refine ⟨⟨z, hz⟩, ?_⟩
       show (QuotientGroup.mk z : K ⧸ N) = QuotientGroup.mk (y * z)
       rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff y).mpr hy, one_mul]
-    haveI : Group.IsSolvable (K ⧸ N) := Group.isSolvable_of_surjective hf
+    have : Group.IsSolvable (K ⧸ N) := Group.isSolvable_of_surjective hf
     have hperfQ : commutator (K ⧸ N) = ⊤ :=
       l829_commutator_eq_top_of_surj (QuotientGroup.mk'_surjective N) hperf
-    haveI := l829_subsingleton_of_perfect_solvable hperfQ
+    have := l829_subsingleton_of_perfect_solvable hperfQ
     apply hNtop
     rw [eq_top_iff]
     intro g _
@@ -232,7 +232,7 @@ theorem star_facts_case2 {G : Type} [Group G] [Finite G] {H T M K : Subgroup G}
   have hK : ∀ {k : G}, k ∈ K → (k ∈ kerIn M H ↔ ∀ y ∈ K, k * y * k⁻¹ * y⁻¹ ∈ pCoreOf 2 K) :=
     fun {k} hk => l829_mem_kerIn_iff hJ hKH hHn hk
   obtain ⟨hq1, hq2⟩ := hq
-  haveI : IsSimpleGroup ((↥K ⧸ CFSG.Open.pCore 2 ↥K) ⧸
+  have : IsSimpleGroup ((↥K ⧸ CFSG.Open.pCore 2 ↥K) ⧸
       Subgroup.center (↥K ⧸ CFSG.Open.pCore 2 ↥K)) := hq2
   have hker_eq : (starHom M H K hKH).ker = (l829Quot ↥K (CFSG.Open.pCore 2 ↥K)).ker := by
     ext k
@@ -262,16 +262,16 @@ theorem star_facts_case2 {G : Type} [Group G] [Finite G] {H T M K : Subgroup G}
   have hsolv : Group.IsSolvable ↥(K ⊓ kerIn M H) := by
     have hP2 : IsPGroup 2 ↥((pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H)) :=
       IsPGroup.comap_subtype (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
-    haveI : ((pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H)).Normal :=
+    have : ((pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H)).Normal :=
       l829_subgroupOf_normal (inf_le_left.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K))
-    haveI := IsPGroup.isNilpotent hP2
+    have := IsPGroup.isNilpotent hP2
     have hcomm : ∀ a y : ↥(K ⊓ kerIn M H),
         a * y * a⁻¹ * y⁻¹ ∈ (pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H) := by
       intro a y
       rw [Subgroup.mem_subgroupOf]
       obtain ⟨ha1, ha2⟩ := Subgroup.mem_inf.mp a.2
       exact (hK ha1).mp ha2 _ (Subgroup.mem_inf.mp y.2).1
-    haveI : Group.IsSolvable (↥(K ⊓ kerIn M H) ⧸ (pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H)) :=
+    have : Group.IsSolvable (↥(K ⊓ kerIn M H) ⧸ (pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H)) :=
       Group.isSolvable_of_comm (l829_quotient_comm _ hcomm)
     exact Group.isSolvable_of_subgroup_quotient ((pCoreOf 2 K).subgroupOf (K ⊓ kerIn M H))
   exact ⟨hstar_simple, hnonab, hsolv⟩
@@ -281,7 +281,7 @@ theorem solvable_kerIn_case1 {G : Type} [Group G] [Finite G] {H M K : Subgroup G
   rw [hJ]
   have hp : IsPGroup 2 ↥(K ⊓ pCoreOf 2 H) :=
     IsPGroup.to_le (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H) inf_le_right
-  haveI := IsPGroup.isNilpotent hp
+  have := IsPGroup.isNilpotent hp
   infer_instance
 
 theorem proper_normal_le_ker_star {G : Type} [Group G] [Finite G] {H M K : Subgroup G}
@@ -296,7 +296,7 @@ theorem proper_normal_le_ker_star {G : Type} [Group G] [Finite G] {H M K : Subgr
     have h1 : ((x.1 : ↥K) : G) = ((y.1 : ↥K) : G) :=
       congrArg (fun z : ↥(K ⊓ kerIn M H) => (z : G)) hxy
     exact Subtype.ext (Subtype.ext h1)
-  haveI hker : Group.IsSolvable ↥(starHom M H K hKH).ker :=
+  have hker : Group.IsSolvable ↥(starHom M H K hKH).ker :=
     Group.isSolvable_of_isSolvable_injective hinj
   exact proper_normal_le_ker_of_perfect (commutator_top_of_perfect hperf) hs
     (starHom M H K hKH) (starHom_surjective M H K hKH) hker

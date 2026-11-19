@@ -39,7 +39,7 @@ theorem commutator_le_pCoreOf_of_symThreePairs {G : Type} [Group G] [Finite G]
     (hs₁ : Nonempty (↥I₁ ⧸ CFSG.pCore 2 ↥I₁ ≃* Equiv.Perm (Fin 3)))
     (hs₂ : Nonempty (↥I₂ ⧸ CFSG.pCore 2 ↥I₂ ≃* Equiv.Perm (Fin 3)))
     (hne : oUpperTwo I₁ ≠ oUpperTwo I₂) : ⁅I₁, I₂⁆ ≤ pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup ↥X := CFSG.pCore 2 ↥X with hNdef
   set π := QuotientGroup.mk' N with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective N

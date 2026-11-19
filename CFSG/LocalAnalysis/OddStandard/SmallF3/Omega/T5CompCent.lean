@@ -36,7 +36,7 @@ theorem t5_comp_not_central {G : Type} [Group G] [Finite G] {L : Subgroup G} (hL
       rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center (↥L ⧸ oddCore ↥L)) with h | h
       · exact h
       · exfalso
-        haveI : IsMulCommutative (↥L ⧸ oddCore ↥L) := Subgroup.center_eq_top_iff.mp h
+        have : IsMulCommutative (↥L ⧸ oddCore ↥L) := Subgroup.center_eq_top_iff.mp h
         exact hab (mul_comm' a b)
     have hcard : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) = 1 := by
       rw [hcenter, Subgroup.card_bot]
@@ -48,10 +48,10 @@ theorem t5_comp_not_central {G : Type} [Group G] [Finite G] {L : Subgroup G} (hL
     have hcomm : ⁅J.subgroupOf L, J.subgroupOf L⁆ = ⊥ := by
       rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
       exact hKle.trans (Subgroup.center_le_centralizer (J.subgroupOf L : Set ↥L))
-    haveI : IsMulCommutative ↥(J.subgroupOf L) :=
+    have : IsMulCommutative ↥(J.subgroupOf L) :=
       Subgroup.commutator_self_eq_bot_iff.mp hcomm
-    haveI : Nontrivial ↥(J.subgroupOf L) := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-    haveI : Group.IsPerfect ↥(J.subgroupOf L) := hK.1.1
+    have : Nontrivial ↥(J.subgroupOf L) := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    have : Group.IsPerfect ↥(J.subgroupOf L) := hK.1.1
     exact Group.IsPerfect.not_isSolvable ↥(J.subgroupOf L) inferInstance
 
 

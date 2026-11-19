@@ -85,7 +85,7 @@ theorem inR_iff {x : Nat × Nat × Nat} :
 theorem sz_eq : CS3.sz fi22TLevels = 131072 := by
   rw [CS3.sz, lev_pts.1, lev_pts.2.1, lev_pts.2.2]
 
-theorem idx_xN {I : Nat} (hI : I < 131072) : idx3 fi22TLevels (xN I) = I := by
+theorem idx_xN {I : Nat} (_hI : I < 131072) : idx3 fi22TLevels (xN I) = I := by
   unfold idx3 xN
   rw [lev_pts.2.1, lev_pts.2.2]
   simp only
@@ -98,7 +98,7 @@ theorem dec_eq (I : Nat) : CS3.dec fi22TLevels I = xN I := by
 theorem lvOK : Dec.LvOK 3510 fi22TLevels (#[0, 1, 2, 3, 6, 4] : Array Nat).toList :=
   Dec.lvOK_rawLevels Fi22X.bindsT Fi22X.permT fun t ht => by interval_cases t <;> decide
 
-@[expose] def toF (x : Nat × Nat × Nat) : Fin 1024 × Fin 32 × Fin 4 :=
+def toF (x : Nat × Nat × Nat) : Fin 1024 × Fin 32 × Fin 4 :=
   (⟨x.1 % 1024, Nat.mod_lt _ (by norm_num)⟩, ⟨x.2.1 % 32, Nat.mod_lt _ (by norm_num)⟩,
     ⟨x.2.2 % 4, Nat.mod_lt _ (by norm_num)⟩)
 
@@ -110,10 +110,10 @@ theorem toF_val {x : Nat × Nat × Nat} (h : CS3.InR fi22TLevels x) :
   simp only [Prod.mk.injEq] at h ⊢
   omega
 
-theorem toF_xN {I : Nat} (h : I < 131072) : toF (xN I) = xF I := by
+theorem toF_xN {I : Nat} (_h : I < 131072) : toF (xN I) = xF I := by
   simp [toF, xN, xF]
 
-@[expose] noncomputable def gT (k : Nat) : Equiv.Perm (Fin 3510) := permOfArr 3510 (fi22OuterStrong3510 4)[k]!
+noncomputable def gT (k : Nat) : Equiv.Perm (Fin 3510) := permOfArr 3510 (fi22OuterStrong3510 4)[k]!
 
 theorem gens_get {k : Nat} (hk : k < 9) :
     ((fi22OuterStrong3510 4).extract 0 9)[k]! = (fi22OuterStrong3510 4)[k]! := by

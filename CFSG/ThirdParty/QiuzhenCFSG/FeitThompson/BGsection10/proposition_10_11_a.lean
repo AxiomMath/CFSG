@@ -126,7 +126,7 @@ private theorem CFSG.section10_hall_compl_sylow_map_to_maximal_sylow
   have : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup M := (P : Subgroup E).map E.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup E)) P.isPGroup' E.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup E)) P.isPGroup E.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup E).index * E.index := by

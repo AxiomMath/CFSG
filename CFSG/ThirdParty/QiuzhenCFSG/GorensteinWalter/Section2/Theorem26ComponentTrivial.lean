@@ -190,7 +190,6 @@ private theorem reflected_R_conj_reflects_t26
     have hfb : f b = y * (c.t * c0 * c.t⁻¹) * y⁻¹ := by
       rw [hbval]
       dsimp [f]
-      change s * (y * c0 * y⁻¹) * s⁻¹ = y * (c.t * c0 * c.t⁻¹) * y⁻¹
       calc
         s * (y * c0 * y⁻¹) * s⁻¹
             = (y * c.t * y⁻¹) * (y * c0 * y⁻¹) * (y * c.t * y⁻¹)⁻¹ := by
@@ -201,7 +200,6 @@ private theorem reflected_R_conj_reflects_t26
       ⁅a,b⁆ ∈ Pre := by
     intro a ha b hb
     rw [Subgroup.mem_comap]
-    change f ⁅a,b⁆ ∈ X
     have hfcomm : f ⁅a,b⁆ = ⁅f a, f b⁆ := by
       dsimp [f, commutatorElement_def]
       change s * (a * b * a⁻¹ * b⁻¹) * s⁻¹ =
@@ -471,7 +469,7 @@ private lemma conjugate_sylow_le_centralizer_of_conj_ts_t26
 /-- If `S` normalizes `R^g`, then `S^(g⁻¹)` normalizes `R`. -/
 private lemma conjugate_sylow_le_normalizer_of_normalizes_conjugate_t26
     {G : Type u} [Group G] [Finite G]
-    (S R : Subgroup G) {g : G} (hgI : IsInvolution g)
+    (S R : Subgroup G) {g : G} (_hgI : IsInvolution g)
     (hSN : S ≤ Subgroup.normalizer
       (R.map (MulAut.conj g).toMonoidHom : Set G)) :
     conjugateSubgroup S g⁻¹ ≤ Subgroup.normalizer (R : Set G) := by
@@ -905,7 +903,7 @@ private theorem four_dvd_card_ambient_join_t26
   have hMamb_mem_le : ∀ a : Mamb, f a ∈ M0 := by
     intro a
     have haM : (a : G) ∈ (R ⊔ Subgroup.zpowers c.t) ⊔ Rstar := by
-      simpa [Mamb] using a.2
+      simp [Mamb]
     rw [Subgroup.sup_eq_closure] at haM
     let k : Set G :=
       ((R ⊔ Subgroup.zpowers c.t : Subgroup G) : Set G) ∪ (Rstar : Set G)
@@ -1015,7 +1013,7 @@ private theorem four_dvd_card_ambient_join_t26
   have hTmap : (Subgroup.zpowers ld.T.t).map cg.toMonoidHom =
       Subgroup.zpowers t0 := by
     rw [← hcg_t]
-    simpa using (MonoidHom.map_zpowers cg.toMonoidHom ld.T.t)
+    simp
   have hM0eq : M0 =
       ((ld.T.R ⊔ Subgroup.zpowers ld.T.t) ⊔ ld.T.Rstar).map
         cg.toMonoidHom := by

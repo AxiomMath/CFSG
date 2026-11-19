@@ -51,6 +51,7 @@ theorem D_le_R (dD : StrothWeakTypeData D τ) (hDS : D ≤ S) : D ≤ 𝓡[S, D]
     Subgroup.mem_centralizer_iff.mpr fun _ hy =>
       comm_of_mem dD (CFSG.GroupTheory.HuppertProduct.mho_le D 2 hy) hx⟩
 
+omit [Finite G] in
 theorem mem_mhoOne_iff (dD : StrothWeakTypeData D τ) {x : G} :
     x ∈ mhoOne D ↔ ∃ d ∈ D, d * d = x := by
   rw [mhoOne, mem_mho_iff_exists_pow_of_comm (fun a ha b hb => comm_of_mem dD ha hb)]
@@ -95,6 +96,7 @@ theorem barD_surjective (hk : ∀ i, 2 ≤ τ.k i) : Function.Surjective (barD d
   have hd : 2 ∣ 2 ^ τ.k i := dvd_pow_self 2 (by have := hk i; omega)
   rw [ZMod.cast_natCast hd, ZMod.natCast_zmod_val]
 
+omit [Finite G] in
 theorem barD_eq_zero_iff (hk : ∀ i, 2 ≤ τ.k i) (d : D) :
     barD dD hk d = 0 ↔ (d : G) ∈ mhoOne D := by
   constructor
@@ -162,6 +164,7 @@ theorem barD_c (hk : ∀ i, 2 ≤ τ.k i) : barD dD hk dD.c = ![1, 0, 0] := by
     rw [gen, Pi.single_eq_of_ne (by decide)]
     exact ZMod.cast_zero
 
+omit [Finite G] in
 theorem omegaIn_one_le_mhoOne (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k i) :
     omegaIn 1 D ≤ mhoOne D := by
   intro w hw
@@ -176,6 +179,7 @@ theorem omegaIn_one_le_mhoOne (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ 
     exact torusBar_torusHalf _ _ hk ε
   exact (barD_eq_zero_iff hk _).mp h0
 
+omit [Finite G] in
 theorem commutator_mem_omegaIn_one (dD : StrothWeakTypeData D τ) {x d : G} (hx : x ∈ 𝓡[S, D])
     (hd : d ∈ D) :
     x * d * x⁻¹ * d⁻¹ ∈ omegaIn 1 D := by
@@ -196,6 +200,7 @@ theorem commutator_mem_omegaIn_one (dD : StrothWeakTypeData D τ) {x d : G} (hx 
     _ = ((x * d * x⁻¹) * (x * d * x⁻¹)) * (d * d)⁻¹ := by group
     _ = 1 := by rw [hxdd, mul_inv_cancel]
 
+omit [Finite G] in
 theorem commute_of_mem_omegaIn_one (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k i) {x w : G}
     (hx : x ∈ 𝓡[S, D]) (hw : w ∈ omegaIn 1 D) : x * w * x⁻¹ = w := by
   have hc := Subgroup.mem_centralizer_iff.mp (mem_centralizer_of_mem_R hx) _
@@ -234,10 +239,12 @@ theorem commute_of_mem_omegaIn_one (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2
       _ = (x * p * x⁻¹) * ((p⁻¹ * (x * q * x⁻¹)) * q⁻¹) := by rw [h1]
       _ = x * p * x⁻¹ * p⁻¹ * (x * q * x⁻¹ * q⁻¹) := by group
 
+omit [Finite G] in
 theorem devHom_apply (x : G) (hx : x ∈ 𝓡[S, D]) (d : D) :
     devHom dD x hx (Additive.ofMul d) = dD.e (Additive.ofMul ⟨x * d * x⁻¹ * (d : G)⁻¹,
       omegaIn_le 1 D (commutator_mem_omegaIn_one dD hx d.2)⟩) := rfl
 
+omit [Finite G] in
 theorem two_zsmul_devHom (x : G) (hx : x ∈ 𝓡[S, D]) (d : D) :
     (2 : ℤ) • devHom dD x hx (Additive.ofMul d) = 0 := by
   rw [devHom_apply, ← map_zsmul, two_zsmul, ← ofMul_mul]
@@ -248,6 +255,7 @@ theorem two_zsmul_devHom (x : G) (hx : x ∈ 𝓡[S, D]) (d : D) :
     Subtype.ext (by simpa [pow_two] using h)
   rw [this, ofMul_one, map_zero]
 
+omit [Finite G] in
 theorem devHom_mul (hk : ∀ i, 2 ≤ τ.k i) {x y : G} (hx : x ∈ 𝓡[S, D]) (hy : y ∈ 𝓡[S, D]) :
     devHom dD (x * y) (mul_mem hx hy) = devHom dD x hx + devHom dD y hy := by
   refine AddMonoidHom.ext fun d => ?_
@@ -269,6 +277,7 @@ theorem devHom_mul (hk : ∀ i, 2 ≤ τ.k i) {x y : G} (hx : x ∈ 𝓡[S, D]) 
     _ = e * (x * (d : G) * x⁻¹ * (d : G)⁻¹) := by rw [hxe]
     _ = (x * (d : G) * x⁻¹ * (d : G)⁻¹) * e := hcomm
 
+omit [Finite G] in
 theorem devHom_eq_zero_iff (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
     {x : G} (hx : x ∈ 𝓡[S, D]) : devHom dD x hx = 0 ↔ x ∈ D := by
   constructor
@@ -293,6 +302,7 @@ theorem devHom_eq_zero_iff (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
       Subtype.ext (by simp only [Subgroup.coe_one]; rw [hc]; group)
     rw [this, ofMul_one, map_zero]
 
+omit [Finite G] in
 theorem mul_self_mem_of_mem_R (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x : G} (hx : x ∈ 𝓡[S, D]) :
     x * x ∈ D := by
@@ -328,6 +338,7 @@ theorem mul_self_mem_of_mem_R (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ 
     (exists_torusHalf_eq τ.k (one_le_of_two_le hk)
       (two_zsmul_devHom (dD := dD) x hx (genD dD j))).choose i
 
+omit [Finite G] in
 theorem torusHalf_devMat_col (hk : ∀ i, 2 ≤ τ.k i) (x : G) (hx : x ∈ 𝓡[S, D]) (j : Fin 3) :
     torusHalf τ.k (fun i => devMat dD hk x hx i j) =
       devHom dD x hx (Additive.ofMul (genD dD j)) :=
@@ -343,6 +354,7 @@ theorem mulVec_eq_sum_smul_col (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) (w : Fin 3 
   funext i
   simp [Matrix.mulVec, dotProduct, Finset.sum_apply, mul_comm]
 
+omit [Finite G] in
 theorem devHom_eq_torusHalf (hk : ∀ i, 2 ≤ τ.k i) (x : G) (hx : x ∈ 𝓡[S, D]) (d : D) :
     devHom dD x hx (Additive.ofMul d) = torusHalf τ.k (devMat dD hk x hx *ᵥ barD dD hk d) := by
   set v := dD.e (Additive.ofMul d) with hv
@@ -368,6 +380,7 @@ theorem devHom_eq_torusHalf (hk : ∀ i, 2 ≤ τ.k i) (x : G) (hx : x ∈ 𝓡[
     rw [genD, ofMul_toMul]
   rw [map_zsmul, ← hf, hg, ← torusHalf_devMat_col hk x hx j, ← map_zsmul, zsmul_eq_cast_smul]
 
+omit [Finite G] in
 theorem devMat_val_eq (hk : ∀ i, 2 ≤ τ.k i) (x : G) (hx : x ∈ 𝓡[S, D]) (d : D) :
     dD.e (Additive.ofMul ⟨x * d * x⁻¹ * (d : G)⁻¹,
         omegaIn_le 1 D (commutator_mem_omegaIn_one dD hx d.2)⟩) =
@@ -385,6 +398,7 @@ theorem matrix_eq_of_mulVec_barD (hk : ∀ i, 2 ≤ τ.k i)
   have := congrFun (h' (Pi.single j 1)) i
   simpa [Matrix.mulVec_single_one] using this
 
+omit [Finite G] in
 theorem devMat_mul (hk : ∀ i, 2 ≤ τ.k i) {x y : G} (hx : x ∈ 𝓡[S, D]) (hy : y ∈ 𝓡[S, D]) :
     devMat dD hk (x * y) (mul_mem hx hy) = devMat dD hk x hx + devMat dD hk y hy := by
   refine matrix_eq_of_mulVec_barD (dD := dD) hk fun d => ?_
@@ -392,6 +406,7 @@ theorem devMat_mul (hk : ∀ i, 2 ≤ τ.k i) {x y : G} (hx : x ∈ 𝓡[S, D]) 
   rw [← devHom_eq_torusHalf, Matrix.add_mulVec, map_add, ← devHom_eq_torusHalf,
     ← devHom_eq_torusHalf, devHom_mul hk hx hy, AddMonoidHom.add_apply]
 
+omit [Finite G] in
 theorem devMat_eq_zero_iff (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x : G} (hx : x ∈ 𝓡[S, D]) :
     devMat dD hk x hx = 0 ↔ x ∈ D := by
@@ -406,10 +421,12 @@ theorem devMat_eq_zero_iff (hk : ∀ i, 2 ≤ τ.k i)
     apply torusHalf_injective τ.k (one_le_of_two_le hk)
     rw [← devHom_eq_torusHalf, Matrix.zero_mulVec, map_zero, h, AddMonoidHom.zero_apply]
 
+omit [Finite G] in
 theorem devMat_congr (hk : ∀ i, 2 ≤ τ.k i) {x x' : G} (h : x = x') (hx : x ∈ 𝓡[S, D])
     (hx' : x' ∈ 𝓡[S, D]) : devMat dD hk x hx = devMat dD hk x' hx' := by
   subst h; rfl
 
+omit [Finite G] in
 theorem devMat_one (hk : ∀ i, 2 ≤ τ.k i) (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) :
     devMat (S := S) dD hk 1 (one_mem _) = (0 : Matrix (Fin 3) (Fin 3) (ZMod 2)) :=
   (devMat_eq_zero_iff hk hcent _).mpr D.one_mem
@@ -425,6 +442,7 @@ theorem matrix_add_self (f : Matrix (Fin 3) (Fin 3) (ZMod 2)) : f + f = 0 := by
   ext i j
   exact CharTwo.add_self_eq_zero _
 
+omit [Finite G] in
 theorem devMat_inv (hk : ∀ i, 2 ≤ τ.k i) (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
     {x : G} (hx : x ∈ 𝓡[S, D]) :
     devMat dD hk x⁻¹ (inv_mem hx) = devMat dD hk x hx := by
@@ -432,12 +450,14 @@ theorem devMat_inv (hk : ∀ i, 2 ≤ τ.k i) (hcent : S ⊓ Subgroup.centralize
   rw [devMat_congr hk (mul_inv_cancel x) _ (one_mem _), devMat_one hk hcent] at h
   exact eq_of_add_eq_zero_two h.symm
 
+omit [Finite G] in
 theorem inv_mul_mem_of_devMat_eq (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) (h : devMat dD hk x hx = devMat dD hk y hy) : x⁻¹ * y ∈ D := by
   rw [← devMat_eq_zero_iff (dD := dD) hk hcent (mul_mem (inv_mem hx) hy),
     devMat_mul hk (inv_mem hx) hy, devMat_inv hk hcent hx, h, matrix_add_self]
 
+omit [Finite G] in
 theorem commutator_mem_D (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) : x * y * x⁻¹ * y⁻¹ ∈ D := by
@@ -449,6 +469,7 @@ theorem commutator_mem_D (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k 
   rw [hconj]
   exact (Subgroup.mem_normalizer_iff.mp (mem_normalizer_of_mem_R hyx) _).mp h
 
+omit [Finite G] in
 theorem devMat_mul_eq_of_conj (hk : ∀ i, 2 ≤ τ.k i) {x y l : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) (hl : l ∈ Subgroup.normalizer (D : Set G)) {M : IntMat}
     {hM : Compat τ.k M}
@@ -473,6 +494,7 @@ theorem devMat_mul_eq_of_conj (hk : ∀ i, 2 ≤ τ.k i) {x y l : G} (hx : x ∈
   simp only [conjBy]
   exact hyx d d.2
 
+omit [Finite G] in
 theorem barD_conj_of_mem (hk : ∀ i, 2 ≤ τ.k i) {y : G} (hy : y ∈ 𝓡[S, D]) (d : D) :
     barD dD hk ⟨y * d * y⁻¹,
       (Subgroup.mem_normalizer_iff.mp (mem_normalizer_of_mem_R hy) (d : G)).mp d.2⟩ =
@@ -495,10 +517,12 @@ theorem barD_conj_of_mem (hk : ∀ i, 2 ≤ τ.k i) {y : G} (hy : y ∈ 𝓡[S, 
 
 variable (hk : ∀ i, 2 ≤ τ.k i) (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
 
+omit [Finite G] in
 theorem sqBar_congr {x x' : G} (h : x = x') (hx : x ∈ 𝓡[S, D]) (hx' : x' ∈ 𝓡[S, D]) :
     sqBar dD hk hcent x hx = sqBar dD hk hcent x' hx' := by
   subst h; rfl
 
+omit [Finite G] in
 theorem devMat_mulVec_sqBar {x : G} (hx : x ∈ 𝓡[S, D]) :
     devMat dD hk x hx *ᵥ sqBar dD hk hcent x hx = 0 := by
   apply torusHalf_injective τ.k (one_le_of_two_le hk)
@@ -508,6 +532,7 @@ theorem devMat_mulVec_sqBar {x : G} (hx : x ∈ 𝓡[S, D]) :
     Subtype.ext (by simp only [Subgroup.coe_one]; group)
   rw [h1, ofMul_one, map_zero]
 
+omit [Finite G] in
 theorem sqBar_mul {x y : G} (hx : x ∈ 𝓡[S, D]) (hy : y ∈ 𝓡[S, D]) :
     sqBar dD hk hcent (x * y) (mul_mem hx hy) =
       sqBar dD hk hcent x hx + sqBar dD hk hcent y hy +
@@ -522,6 +547,7 @@ theorem sqBar_mul {x y : G} (hx : x ∈ 𝓡[S, D]) (hy : y ∈ 𝓡[S, D]) :
   rw [sqBar, hc, barD_mul, barD_mul, barD_conj_of_mem hk hy x2, sqBar, sqBar]
   abel
 
+omit [Finite G] in
 theorem sqBar_mul_D (hDS : D ≤ S) {x d : G} (hx : x ∈ 𝓡[S, D]) (hd : d ∈ D) :
     sqBar dD hk hcent (x * d) (mul_mem hx (D_le_R dD hDS hd)) = sqBar dD hk hcent x hx := by
   rw [sqBar_mul hk hcent hx (D_le_R dD hDS hd)]
@@ -536,6 +562,7 @@ theorem sqBar_mul_D (hDS : D ≤ S) {x d : G} (hx : x ∈ 𝓡[S, D]) (hd : d �
     exact this
   rw [h1, h2, add_zero, add_zero]
 
+omit [Finite G] in
 theorem sqBar_eq_of_devMat_eq (hDS : D ≤ S) {x y : G} (hx : x ∈ 𝓡[S, D]) (hy : y ∈ 𝓡[S, D])
     (h : devMat dD hk x hx = devMat dD hk y hy) :
     sqBar dD hk hcent x hx = sqBar dD hk hcent y hy := by
@@ -543,6 +570,7 @@ theorem sqBar_eq_of_devMat_eq (hDS : D ≤ S) {x y : G} (hx : x ∈ 𝓡[S, D]) 
   rw [← sqBar_mul_D hk hcent hDS hx hd]
   exact sqBar_congr hk hcent (by group) _ _
 
+omit [Finite G] in
 theorem sqBar_conj {x l : G} (hx : x ∈ 𝓡[S, D]) (hl : l ∈ Subgroup.normalizer (D : Set G))
     (hlx : l⁻¹ * x * l ∈ 𝓡[S, D]) {M : IntMat} {hM : Compat τ.k M}
     (hmat : ∀ d : D,

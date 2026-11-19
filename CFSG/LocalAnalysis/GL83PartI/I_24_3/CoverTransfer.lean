@@ -36,7 +36,7 @@ theorem weakCore_eq_top_of_cover {L : Type} [Group L] [Finite L] {p : ℕ} [Fact
     (isPGroup_center_quotient hq) (isCyclic_center_quotient hq hcyc)
     (nonempty_equiv_center_quotient hq) (T.mapSurjective hρ)
   rw [Sylow.coe_mapSurjective] at h1
-  have h2 := weakCore_map_le_map_weakCore _ hρ hker hcop T.isPGroup'
+  have h2 := weakCore_map_le_map_weakCore _ hρ hker hcop T.isPGroup
   rw [h1] at h2
   have h3 : GLBWeakCore p (T : Subgroup L) ⊔ primeCentre p L = ⊤ := by
     have h4 := Subgroup.comap_map_eq (QuotientGroup.mk' (primeCentre p L))
@@ -57,7 +57,7 @@ theorem le_weakCore_of_cover
       Nonempty (K' ⧸ Subgroup.center K' ≃* (↥K ⧸ Subgroup.center ↥K)) →
       ∀ T : Sylow 3 K', GLBWeakCore 3 (T : Subgroup K') = ⊤) :
     K ≤ GLBWeakCore 3 (R : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal R
     (CFSG.Open.IsSubnormal.top_iff.1 hK.2.1)
   have htop := Cover.weakCore_eq_top_of_cover hK.2.2 hZ hcyc hcw S

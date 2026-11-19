@@ -52,13 +52,13 @@ theorem k_U7CartanRank_holds :
       refine (Nat.prime_dvd_prime_iff_eq hp (by norm_num : Nat.Prime 3)).1 ?_
       simpa using hpd
     subst hp3
-    haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+    have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
     obtain ⟨Kf, hFld, hFin, h, ⟨e⟩⟩ :=
       CFSG.LocalAnalysis.UniquenessCase.UC22.uc22pwliu_exists_hypPSU
         (n := 1) (r := 3) (ε := 1) le_rfl (by norm_num) hL
-    letI := hFld
-    letI := hFin
-    haveI : CharP Kf 2 := h.charP
+    let := hFld
+    let := hFin
+    have : CharP Kf 2 := h.charP
     have hZcard : Nat.card (hypScalars h 3 1) = 1 := by
       rw [card_hypScalars h (by norm_num : 1 ≤ 2 * 3 + 1)]
       norm_num

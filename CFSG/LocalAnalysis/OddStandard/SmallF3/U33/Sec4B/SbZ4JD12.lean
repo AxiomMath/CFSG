@@ -42,7 +42,7 @@ theorem Cq_le_center (hb : ZJBound t) (hZ : ∀ m ∈ Mc, m ∉ Q → m * m ∉ 
           rw [heq]
           exact Subgroup.subset_closure (Or.inl ⟨ρ * m * ρ⁻¹, hc, rfl⟩)
         · exact Subgroup.subset_closure (Or.inr (h.rho_norm_V a hv))
-    | one => simpa using U.one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
         have heq : ρ * (a * b) * ρ⁻¹ = (ρ * a * ρ⁻¹) * (ρ * b * ρ⁻¹) := by group
         rw [heq]
@@ -63,7 +63,7 @@ theorem Cq_le_center (hb : ZJBound t) (hZ : ∀ m ∈ Mc, m ∉ Q → m * m ∉ 
         · intro m hm
           exact (h.Mc_sq_central hMh hMc hm₀ hm).symm
         · intro m hm
-          have hc := h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hm) hv
+          have hc := h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm) hv
           calc m * a = (m * a * m⁻¹) * m := by group
             _ = a * m := by rw [hc]
     | one => intro m _; rw [mul_one, one_mul]
@@ -84,7 +84,7 @@ theorem cent_tt_comm
   let C : Subgroup H := Mc ⊓ centralizer ({t * τ} : Set H)
   let Cq : Subgroup H := Q ⊓ centralizer ({t * τ} : Set H)
   change ∀ a ∈ C, ∀ b ∈ C, a * b = b * a
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   intro a ha b hb
   by_cases hcover : ∀ w ∈ C, w ∈ Q
   · exact h.Q_comm a (hcover a ha) b (hcover b hb)

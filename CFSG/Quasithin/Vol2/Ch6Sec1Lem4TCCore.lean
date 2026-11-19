@@ -89,7 +89,7 @@ theorem exists_cartan_three614 (hO2 : L216ModuleFact) (hO4 : L216NormalizerFact)
       d ∈ Subgroup.normalizer (V : Set G) ∧ orderOf d = 3 ∧
       d ∈ Subgroup.normalizer ((X ⊔ pCoreOf 2 L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := (hO2 G T M L V h horth).1
   have h3 : 3 ∣ Nat.card ↥(autOn L V ⊓ Subgroup.normalizer
       ((autOn (T ⊓ L) V : Subgroup (MulAut V)) : Set (MulAut V))) := by
@@ -136,8 +136,7 @@ theorem exists_cartan_three614 (hO2 : L216ModuleFact) (hO4 : L216NormalizerFact)
     rw [Subgroup.mem_centralizer_iff]
     intro v hv
     have h1 := congrArg (fun φ : MulAut V => ((φ ⟨v, hv⟩ : V) : G)) hℓ3
-    simp only [conjAct_apply614, MulAut.one_apply, Subgroup.coe_pow, Subgroup.coe_mul,
-      Subgroup.coe_inv] at h1
+    simp only [conjAct_apply614, MulAut.one_apply, Subgroup.coe_pow] at h1
     rw [mul_inv_eq_iff_eq_mul] at h1
     exact h1.symm
   have hℓ3P : (ℓ : G) ^ 3 ∈ pCoreOf 2 L :=

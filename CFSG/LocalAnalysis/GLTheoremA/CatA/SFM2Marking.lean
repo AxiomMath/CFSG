@@ -17,8 +17,8 @@ open CFSG.Yardstones.Md0ec50421ce4
 theorem marking_b2der_n_one {X : Type} [Group X] (hX : commutator X = ⊤)
     (e : X ⧸ Subgroup.center X ≃* alternatingGroup (Fin 6)) :
     CFSG.Assembly.LargeEvenMarkingLegacy X fun lab _ _ _ _ _ => lab.n = 1 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := e.isSimpleGroup
   have hK : Nat.card (ZMod 2) = 2 := by simp
   obtain ⟨e₆⟩ := nonempty_b2der_equiv_alternatingGroup hK
   have hnab := exists_mul_ne_mul_centerQuot_of_perfect hX inferInstance
@@ -30,7 +30,7 @@ theorem marking_g2der_n_one {X : Type} [Group X]
     (hX : commutator X = ⊤)
     (h : StatedClassicalModel (X ⧸ Subgroup.center X) .PSU 3 3 1) :
     CFSG.Assembly.LargeEvenMarkingLegacy X fun lab _ _ _ _ _ => lab.n = 1 := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) :=
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
   have hK : Nat.card (ZMod 2) = 2 := by simp
   have hC : StatedClassicalModel ↥⁅adjointGroup .G2 (ZMod 2), adjointGroup .G2 (ZMod 2)⁆ .PSU 3 3 1 :=

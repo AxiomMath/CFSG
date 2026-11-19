@@ -35,7 +35,7 @@ theorem card_prodOneSubgroup_mul (C : Type) [CommGroup C] [Finite C] {r : ℕ} (
 theorem wcOn_projSL_of_dvd_sub_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {F : Type}
     [Field F] [Finite F] {n : ℕ} (hn : 3 ≤ n) (hpq : p ∣ Nat.card F - 1) (hpn : ¬ p ∣ n) :
     WCOn p (StatedProj (StatedSL n F)) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hp := (Fact.out : p.Prime)
   have hq1 : 1 < Nat.card F := Finite.one_lt_card
   have hpq' : ¬ p ∣ Nat.card F := by
@@ -64,7 +64,7 @@ theorem wcOn_projSL_of_dvd_sub_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {F :
   have hord := factorization_card_projSL hp2 hpq' hN
   rw [hva, he1, Nat.div_one] at hord
   generalize CrossNum.crossA p (Nat.card F) = a at ha1 hdvd hord hva
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := CFSG.GroupTheory.WeirSylow.exists_units_orderOf_eq (L := F) (d := p ^ a)
     hdvd
   obtain ⟨ρ₀, hρ₀⟩ := CFSG.GroupTheory.WeirSylow.exists_injective_hom_of_orderOf_eq

@@ -18,7 +18,7 @@ private theorem w183_herm_self_eq_ncard_support {K : Type} [Field K] [Finite K] 
     intro i
     by_cases hi : a i = 0
     · simp [hi]
-    · rw [if_neg hi]; exact s16nt_su_norm_one hK hi
+    · rw [ite_eq_right hi]; exact s16nt_su_norm_one hK hi
   have hsum : (∑ i : Fin n, (if a i = 0 then (0 : K) else 1)) =
       ((Function.support a).ncard : K) := by
     have hsupp : Function.support a = ↑(Finset.univ.filter fun i => a i ≠ 0) := by

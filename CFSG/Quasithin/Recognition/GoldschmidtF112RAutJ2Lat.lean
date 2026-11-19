@@ -92,7 +92,7 @@ theorem overgroup {Z : Subgroup R} (hSZ : rCtx.S ≤ Z) :
 
 theorem normalizer_ne_top {Q : Subgroup R} (hQ : Q ≠ ⊥)
     (h2 : IsPGroup 2 Q) : Subgroup.normalizer (Q : Set R) ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h
   have hn : Q.Normal := Subgroup.normalizer_eq_top_iff.mp h
   set N := Q.map R.subtype with hN
@@ -103,7 +103,7 @@ theorem normalizer_ne_top {Q : Subgroup R} (hQ : Q ≠ ⊥)
     rintro r hr _ ⟨q, hq, rfl⟩
     exact ⟨⟨r, hr⟩ * q * ⟨r, hr⟩⁻¹, hn.conj_mem q hq _, rfl⟩
   have hN2 : IsPGroup 2 N := h2.map _
-  haveI := isSimpleGroup_P
+  have := isSimpleGroup_P
   have hnorm : ((N ⊓ P).subgroupOf P).Normal := by
     constructor
     intro x hx p

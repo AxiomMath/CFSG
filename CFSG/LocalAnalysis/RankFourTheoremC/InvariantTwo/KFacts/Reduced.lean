@@ -102,7 +102,7 @@ theorem Lemma212ConfigGe.map_mk [Fact p.Prime] (hN : p.Coprime (Nat.card N)) {n 
     Lemma212ConfigGe n p (P.mapSurjective (QuotientGroup.mk'_surjective N))
       (QuotientGroup.mk' N z) (D.map (QuotientGroup.mk' N)) := by
   have hp : p.Prime := Fact.out
-  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup
   have hDp : IsPGroup p D := IsPGroup.of_card h.card
   have hinjP := injOn_mk_of_isPGroup_coprime N hp hN hPp
   have hzP : z ∈ (P : Subgroup H) := h.le h.mem
@@ -351,7 +351,7 @@ end Constraint
 
 theorem KFactLemma212Red.toGe {n : ℕ} (h : KFactLemma212Red n) : KFactLemma212Ge n := by
   intro p hp hp2 H _ _ hcat P z D hconf hg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := hg
   exact h p hp hp2 (H ⧸ primeComplementCore (G := H) p) (hcat.quotient _)
     (primeComplementCore_quotient_eq_bot p) _ _ _
@@ -359,7 +359,7 @@ theorem KFactLemma212Red.toGe {n : ℕ} (h : KFactLemma212Red n) : KFactLemma212
 
 theorem KFactLemma213Red.toGe {n : ℕ} (h : KFactLemma213Red n) : KFactLemma213Ge n := by
   intro p hp hp2 H _ _ hcat hcon hpc P z D hconf hg hemb
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := hg
   have hN := primeComplementCore_coprime (G := H) p
   have hDp : IsPGroup p D := IsPGroup.of_card hconf.card

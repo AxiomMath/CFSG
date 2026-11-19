@@ -71,8 +71,8 @@ theorem conjSub_mem_omegaOfSet_twin (hΩ : ConjInvariant Ω) {K J : Subgroup Y}
   have h := omegaNbr_conj hΩ (hJ.2 _ hL') m
   rwa [conjSub_conjSub_inv] at h
 
-theorem not_mem_twinSet_of_mem_omegaOfSet {K J : Subgroup Y} (hK : K ∈ Ω)
-    {z : Y} (hz : IsUniqueInvolution K z) (hJ : J ∈ omegaOfSet Ω (twinSet Ω K)) :
+theorem not_mem_twinSet_of_mem_omegaOfSet {K J : Subgroup Y} (_hK : K ∈ Ω)
+    {z : Y} (_hz : IsUniqueInvolution K z) (hJ : J ∈ omegaOfSet Ω (twinSet Ω K)) :
     J ∉ twinSet Ω K := fun h => (hJ.2 J h).2.1 rfl
 
 end Clique

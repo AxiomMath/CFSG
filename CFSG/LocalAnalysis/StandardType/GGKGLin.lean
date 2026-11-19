@@ -58,8 +58,8 @@ theorem kgLin_holds :
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.ker_projMk_le_center hM.2.2.1 hMJ
   obtain ⟨eMZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv
     (Subgroup.equivMapOfInjective M _ hMinj)
-  letI := hEf
-  letI := hEalg
+  let := hEf
+  let := hEalg
   obtain ⟨kE, hkE⟩ := CFSG.LocalAnalysis.GLTheoremA.CanonTriL.exists_card_eq_two_pow
     (F := F) (E := E) h2
   have hlabK' : GGHasLabel ⟨.C, k, f⟩

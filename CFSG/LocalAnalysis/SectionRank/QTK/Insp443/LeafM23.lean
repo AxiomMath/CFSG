@@ -17,7 +17,7 @@ theorem conclK_M23
     {L V MK : Subgroup (NativeSporadic.Carrier .M23)}
     (h : KConfig (NativeSporadic.Carrier .M23) L V MK) :
     ConclK (NativeSporadic.Carrier .M23) L V MK := by
-  haveI : Finite (NativeSporadic.Carrier .M23) := by
+  have : Finite (NativeSporadic.Carrier .M23) := by
     dsimp [NativeSporadic.Carrier]
     infer_instance
   obtain ⟨g, hcase⟩ := KConfig.m23_cases h
@@ -28,7 +28,7 @@ theorem conclK_M23
 
 theorem forK_M23 :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .M23)) := by
-  haveI : Finite (NativeSporadic.Carrier .M23) := by
+  have : Finite (NativeSporadic.Carrier .M23) := by
     dsimp [NativeSporadic.Carrier]
     infer_instance
   refine forK_of_kConfig ?_ (fun L V MK h => conclK_M23 h)

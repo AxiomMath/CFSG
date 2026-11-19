@@ -122,7 +122,7 @@ omit [Finite G] in
 theorem isPGroup (h : B2Setting a J S) : IsPGroup 2 S := by
   obtain ⟨P₀, hP₀⟩ := h.isSylow
   have h1 : IsPGroup 2 ((P₀ : Subgroup _).map
-      (centralizer ({a} : Set G) ⊓ normalizer (J : Set G)).subtype) := P₀.isPGroup'.map _
+      (centralizer ({a} : Set G) ⊓ normalizer (J : Set G)).subtype) := P₀.isPGroup.map _
   rwa [hP₀, map_subgroupOf_eq_of_le h.le_H] at h1
 
 omit [Finite G] in

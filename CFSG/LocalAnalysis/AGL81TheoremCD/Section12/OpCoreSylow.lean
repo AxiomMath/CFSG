@@ -12,6 +12,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCoreOf_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {Q H : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf p Q H) :
     pCoreOf p H ≤ Q := by
@@ -21,6 +22,7 @@ theorem pCoreOf_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {Q H : Subgroup G}
     (IsPGroup.le_sylow_of_normal (p := p) (N := CFSG.pCore p H)
       (CFSG.pCore_isPGroup (p := p) (G := ↥H)) Q')
 
+omit [Finite G] in
 theorem pCoreOf_le_of_isSylowOf_le {p : ℕ} [Fact p.Prime] {Q H M : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf p Q H) (hQM : Q ≤ M) :
     pCoreOf p H ≤ M :=

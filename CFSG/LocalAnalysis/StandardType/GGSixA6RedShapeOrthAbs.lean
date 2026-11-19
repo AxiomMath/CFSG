@@ -96,7 +96,7 @@ theorem ggA6_shape_orthCentralizer_abs {K : Type} [Field K] [Finite K] [CharP K 
       Subgroup.centralizer (A : Set (V ≃ₗ[K] V)))) :
     GGA6CharTwoLie ↥J := by
   classical
-  haveI hfin : Finite (V ≃ₗ[K] V) := finite_linearEquiv (K := K) (V := V)
+  have hfin : Finite (V ≃ₗ[K] V) := finite_linearEquiv (K := K) (V := V)
   have : Fintype A := Fintype.ofFinite A
   have hA : (Fintype.card A : K) ≠ 0 := by
     rw [← Nat.card_eq_fintype_card]
@@ -107,11 +107,11 @@ theorem ggA6_shape_orthCentralizer_abs {K : Type} [Field K] [Finite K] [CharP K 
   let O₀ : Subgroup G₀ := TauCeti.QuadraticMap.orthogonalGroup (Q.restrict (fixSp A))
   let C₁ : Subgroup G₁ := OrthSplit.freeCent A Q
   let H : Subgroup (G₀ × G₁) := O₀.prod C₁
-  haveI hG₀fin : Finite G₀ := by
+  have hG₀fin : Finite G₀ := by
     dsimp only [G₀]; exact finite_linearEquiv (K := K) (V := fixSp A)
-  haveI hG₁fin : Finite G₁ := by
+  have hG₁fin : Finite G₁ := by
     dsimp only [G₁]; exact finite_linearEquiv (K := K) (V := freeSp A)
-  haveI hHfin : Finite ↥H :=
+  have hHfin : Finite ↥H :=
     Finite.of_injective (fun x : ↥H => (x : G₀ × G₁)) Subtype.coe_injective
   have hφinj : Function.Injective φ := OrthSplit.split_injective hA
   have hC : H.map φ = TauCeti.QuadraticMap.orthogonalGroup Q ⊓
@@ -145,8 +145,8 @@ theorem ggA6_shape_orthCentralizer_abs {K : Type} [Field K] [Finite K] [CharP K 
     CFSG.Assembly.isComponentOf_iff_open.mp hK'
   let N₁ : Subgroup ↥H := ((MonoidHom.snd G₀ G₁).comp H.subtype).ker
   let N₂ : Subgroup ↥H := ((MonoidHom.fst G₀ G₁).comp H.subtype).ker
-  haveI hN₁ : N₁.Normal := MonoidHom.normal_ker _
-  haveI hN₂ : N₂.Normal := MonoidHom.normal_ker _
+  have hN₁ : N₁.Normal := MonoidHom.normal_ker _
+  have hN₂ : N₂.Normal := MonoidHom.normal_ker _
   have hsup : N₁ ⊔ N₂ = ⊤ := by
     rw [eq_top_iff]
     intro x _
@@ -157,8 +157,8 @@ theorem ggA6_shape_orthCentralizer_abs {K : Type} [Field K] [Finite K] [CharP K 
       exact Prod.ext (by simp) (by simp)
     rw [hx_eq]
     refine mul_mem (Subgroup.mem_sup_left ?_) (Subgroup.mem_sup_right ?_)
-    · exact MonoidHom.mem_ker.mpr (by simp [N₁])
-    · exact MonoidHom.mem_ker.mpr (by simp [N₂])
+    · exact MonoidHom.mem_ker.mpr (by simp)
+    · exact MonoidHom.mem_ker.mpr (by simp)
   have hchoice := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_component_le_or_le
     (X := ↥H) (A₁ := N₁) (A₂ := N₂) (K' := J₁.subgroupOf H) hsup hK'open
   have hHfst : H.map (MonoidHom.fst G₀ G₁) = O₀ := by

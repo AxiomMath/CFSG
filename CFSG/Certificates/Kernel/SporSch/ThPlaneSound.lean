@@ -104,7 +104,7 @@ theorem mulRowsId_sound {X : Nat → Nat} (hX : ∀ i < 248, X i < 2 ^ 248) :
   rw [frApply_frTable_toVec]
   funext k
   simp only [hone, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 theorem inUAT_sound {Q : Nat → Nat} {x : Nat} (hQ : ∀ i < 248, Q i < 2 ^ 248) (hx : x < 2 ^ 248)
     (h : Nat.shiftRight (vmT Q x) 120 = 0) : inUAT (frTable (rowsV Q)) (v4OfNat x) = true := by

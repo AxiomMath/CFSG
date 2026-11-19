@@ -23,8 +23,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem eq_bot_of_normal_isPGroup_two_alternatingGroup_seven
     {Q : Subgroup (alternatingGroup (Fin 7))} [Q.Normal] (hQ : IsPGroup 2 Q) : Q = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   rcases Subgroup.Normal.eq_bot_or_eq_top Q with h | h
   · exact h
   · exfalso
@@ -47,8 +47,8 @@ theorem le_normalizer_of_mem_scriptY0Star_of_a7 {A : Subgroup G} {c : G} {L K : 
     (h135 : Item135) (hKbar : Lemma95KQuotient K) :
     L ≤ Subgroup.normalizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Subgroup.zpowers c ∈ omegaA A := h.zpowers_mem_omegaA
   have hcard7 : Nat.card (alternatingGroup (Fin 7)) = 2520 :=
     KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1
@@ -273,7 +273,7 @@ theorem oTwo_le_of_mem_scriptQPiStar {A : Subgroup G} {c : G} {L K : Subgroup G}
     (h : Sec15R G A c L) (hK : K ∈ scriptY0Star A (lB A))
     (hWH : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (h153 : Item153Main A (lB A)) (hobs : Claim153Obs A (lB A))
-    (h1411 : Item1411_1 A (lB A)) (h142 : Concl142 A (lB A)) (h135 : Item135)
+    (h1411 : Item1411_1 A (lB A)) (h142 : Concl142 A (lB A)) (_h135 : Item135)
     (h3L : 3 ∣ Nat.card L) :
     ∀ S : Subgroup G, Maximal (fun T : Subgroup G =>
         T ∈ scriptQPi A (lB A)
@@ -282,14 +282,14 @@ theorem oTwo_le_of_mem_scriptQPiStar {A : Subgroup G} {c : G} {L K : Subgroup G}
       CFSG.Open.pCoreOf 2 L ≤ S ∧ S ≤ Subgroup.normalizer (K : Set G) := by
   classical
   intro S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Subgroup.zpowers c ∈ omegaA A := h.zpowers_mem_omegaA
   set H : Subgroup G := Subgroup.normalizer (Subgroup.zpowers c : Set G) with hH
   have hK4 : K ∈ scriptY4 A (lB A) := hK.prop.1
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Subgroup.zpowers c ∈ omegaA A := h.zpowers_mem_omegaA
   have hcard7 : Nat.card (alternatingGroup (Fin 7)) = 2520 :=
     KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1
@@ -355,7 +355,7 @@ theorem pCoreOf_two_le_normalizer_of_mem_scriptY0Star {A : Subgroup G} {c : G} {
     (h3L : 3 ∣ Nat.card L) :
     CFSG.Open.pCoreOf 2 L ≤ Subgroup.normalizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : (⊥ : Subgroup G) ∈
       scriptQPi A (lB A)
         (Subgroup.normalizer (oPrimeResidualOf 3

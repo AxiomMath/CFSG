@@ -69,7 +69,7 @@ private theorem s16c1_invC_gens : ∀ w ∈ s16c1b_gens, s16c1b_invC w ∈ s16c1
 
 private theorem s16c1_κ_inj_sub :
     Function.Injective (s16c1b_κ.comp (Ω₀ true).subtype) :=
-  fun a b h => Subtype.ext (s16c1b_κ_injective h)
+  fun _a _b h => Subtype.ext (s16c1b_κ_injective h)
 
 private theorem s16c1_gens_codes :
     ∀ g ∈ s16c1b_gens.map wordC, ∃ G ∈ s16c1b_S₀, Coded G g := by
@@ -93,8 +93,8 @@ private theorem s16c1_inner {g : ℕ} (hg : ∃ G ∈ s16c1b_S₀, Coded G g) :
     rw [List.foldl_cons] at hc
     refine ih (fun y hy => hl y (List.mem_cons_of_mem x hy)) ?_ c hc
     by_cases hcont : acc.contains (Code.mul g x)
-    · rw [if_pos hcont]; exact hacc
-    · rw [if_neg hcont]
+    · rw [ite_eq_left hcont]; exact hacc
+    · rw [ite_eq_right hcont]
       intro y hy
       rw [List.mem_append, List.mem_singleton] at hy
       rcases hy with hy | rfl
@@ -263,10 +263,10 @@ private theorem s16c1_isSylowIn_map_of_injective {G H : Type*} [Group G] [Group 
 theorem s16c1b_sylow_conj {S : Subgroup (MulAut (Multiplicative V₀))}
     (hS : IsSylowIn 2 S s16c1b_ΩM) :
     ∃ h ∈ s16c1b_ΩM, S = s16c1b_SM.map (MulAut.conj h).toMonoidHom := by
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) :=
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) :=
     Finite.of_injective (fun f : V₀ ≃ₗ[ZMod 2] V₀ => (f : V₀ → V₀))
       (fun f g h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (MulAut (Multiplicative V₀)) :=
+  have : Finite (MulAut (Multiplicative V₀)) :=
     Finite.of_injective
       (fun f : MulAut (Multiplicative V₀) => (f : Multiplicative V₀ → Multiplicative V₀))
       (fun f g h => MulEquiv.ext (congrFun h))

@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 theorem c626gen_of_lieModel_three (h619 : m.C619) (h620 : m.C620) (hr3 : m.r = 3)
     (hL : LieModel m.Lbar .PSL 2 m.r 2) : m.C626gen := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hEs := m.isSylowOf_Ebar_of_lieModel h620 hL
   have hcen : Subgroup.center m.Lbar = ⊥ := by
     obtain ⟨F, _, _, e, -, -⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' m.hr m.d.odd hL

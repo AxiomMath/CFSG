@@ -120,7 +120,7 @@ theorem card_fix_sq_of_semilinear_involution {K C : Type*} [Field K] [Finite K] 
 lemma eq_of_mul_self_eq_one_of_isCyclic {G : Type*} [Group G] [Finite G] [IsCyclic G] {a b : G}
     (ha : a * a = 1) (hb : b * b = 1) (ha1 : a ≠ 1) (hb1 : b ≠ 1) : a = b := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   by_contra hab
   have hsub : ({1, a, b} : Finset G) ⊆ Finset.univ.filter (fun x : G => x ^ 2 = 1) := by
     intro x hx
@@ -142,8 +142,8 @@ lemma eq_of_mul_self_eq_one_of_isCyclic {G : Type*} [Group G] [Finite G] [IsCycl
 theorem ringAut_involution_unique {F : Type*} [Field F] [Finite F]
     (θ₁ θ₂ : F ≃+* F) (h₁ : ∀ x, θ₁ (θ₁ x) = x) (h₂ : ∀ x, θ₂ (θ₂ x) = x)
     (h₁ne : ∃ x, θ₁ x ≠ x) (h₂ne : ∃ x, θ₂ x ≠ x) : θ₁ = θ₂ := by
-  haveI : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
-  letI : Algebra (ZMod (ringChar F)) F := ZMod.algebra F (ringChar F)
+  have : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
+  let : Algebra (ZMod (ringChar F)) F := ZMod.algebra F (ringChar F)
   have hfix : ∀ θ : F ≃+* F, ∀ x : ZMod (ringChar F),
       θ (algebraMap (ZMod (ringChar F)) F x) = algebraMap (ZMod (ringChar F)) F x := by
     intro θ x
@@ -163,7 +163,7 @@ theorem ringAut_involution_unique {F : Type*} [Field F] [Finite F]
     apply hx
     have := congrArg (fun τ : F ≃ₐ[ZMod (ringChar F)] F => τ x) h
     simpa [happ] using this
-  haveI : Finite (F ≃ₐ[ZMod (ringChar F)] F) :=
+  have : Finite (F ≃ₐ[ZMod (ringChar F)] F) :=
     Finite.of_injective (DFunLike.coe : (F ≃ₐ[ZMod (ringChar F)] F) → (F → F))
       DFunLike.coe_injective
   have key := eq_of_mul_self_eq_one_of_isCyclic (hsq θ₁ h₁) (hsq θ₂ h₂) (hne θ₁ h₁ne)

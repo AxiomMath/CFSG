@@ -24,7 +24,7 @@ theorem Xm_comm (r0 r1 r2 s a b e k0 k1 : ZMod 2) :
     Xm r0 r1 r2 s a b e k0 k1 * tt = tt * Xm r0 r1 r2 s a b e k0 k1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Xm, tt, Matrix.mul_apply, Fin.sum_univ_five,
-    Matrix.one_apply, Matrix.single_apply] <;> ring
+    Matrix.one_apply, Matrix.single_apply]; ring
 
 @[expose] def SXm (r0 r1 r2 s a b e k0 k1 : ZMod 2) : Matrix.SpecialLinearGroup (Fin 5) (ZMod 2) :=
   ⟨Xm r0 r1 r2 s a b e k0 k1, Xm_det r0 r1 r2 s a b e k0 k1⟩

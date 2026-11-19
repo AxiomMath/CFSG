@@ -11,6 +11,7 @@ open Equiv Equiv.Perm Subgroup CFSG.Open
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem exists_conjHom {X : Subgroup K} {n : ℕ} (hn : 7 ≤ n)
     (e : X ≃* alternatingGroup (Fin n)) :
     ∃ ρ : ↥(normalizer (X : Set K)) →* Perm (Fin n),
@@ -118,6 +119,7 @@ theorem exists_fibre_subgroup_of_mulEquiv {X S : Subgroup K} {n : ℕ} (hn : 8 �
     have h2 := isElemAbelian_map X.subtype h1
     rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left hPX] at h2
 
+omit [Finite K] in
 theorem exists_injective_hom {X T : Subgroup K} {n : ℕ} (hn : 7 ≤ n) (hXn : X.Normal)
     (hO : CFSG.pCore 2 K = ⊥) (hT : IsPGroup 2 T) (hXT : X ⊔ T = ⊤)
     (e : X ≃* alternatingGroup (Fin n)) :
@@ -142,7 +144,7 @@ theorem exists_injective_hom {X T : Subgroup K} {n : ℕ} (hn : 7 ≤ n) (hXn : 
     rw [hxy, map_mul, map_mul, map_inv]
     rfl
   have hCX : centralizer (X : Set K) ≤ CFSG.pCore 2 K := by
-    haveI := hXn
+    have := hXn
     refine le_sSup ⟨inferInstance, ?_⟩
     have hQ : IsPGroup 2 (K ⧸ X) := by
       refine IsPGroup.of_surjective hT ((QuotientGroup.mk' X).comp T.subtype) ?_

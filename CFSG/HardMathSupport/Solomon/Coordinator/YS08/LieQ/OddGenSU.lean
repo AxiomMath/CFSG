@@ -21,7 +21,7 @@ variable {q f : ℕ} [Fact q.Prime] {K : Type} [Field K] [Finite K] [CharP K q]
 theorem unitaryForm_β_eq_stdHermForm (h : UnitaryFieldData q f K) (hK : Nat.card K = (q ^ f) ^ 2)
     {n : ℕ} (u v : Fin n → K) : (unitaryForm q f hK n).β u v = stdHermForm h n u v := by
   rw [unitaryForm_β]
-  simp [stdHermForm, UnitaryFieldData.bar_apply, unitaryInvolution_apply, iterateFrobenius_def]
+  simp [stdHermForm, UnitaryFieldData.bar_apply, iterateFrobenius_def]
 
 end SUGen
 
@@ -52,6 +52,7 @@ section SUMain
 variable {q f : ℕ} [Fact q.Prime] {K : Type} [Field K] [Finite K] [CharP K q]
   {h : UnitaryFieldData q f K} {r ε : ℕ}
 
+omit [Fact (Nat.Prime q)] [CharP K q] in
 theorem map_projIsoStabilizer_le {R : Matrix (Fin (2 * r + ε)) (HypIndex r ε) K}
     (hR : IsHypTransport h R) (hn : 1 ≤ 2 * r + ε) (W : Submodule K (HypIndex r ε → K)) :
     (projIsoStabilizer h r ε W).map (hypPSUEquivStatedProj h hR hn).toMonoidHom ≤
@@ -66,12 +67,13 @@ theorem map_projIsoStabilizer_le {R : Matrix (Fin (2 * r + ε)) (HypIndex r ε) 
 @[expose] def hypVec (r ε : ℕ) (K : Type) [Field K] (a : Fin r) : HypIndex r ε → K :=
   Pi.single (Sum.inl a) 1
 
+omit [Finite K] in
 theorem isoFlag_one (hr : 0 < r) :
     CFSG.ClassicalGroups.UnitaryFlag.isoFlag r ε K 1 = Submodule.span K {hypVec r ε K ⟨0, hr⟩} := by
   unfold CFSG.ClassicalGroups.UnitaryFlag.isoFlag
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have : j = ⟨0, hr⟩ := Fin.ext (show (j : ℕ) = 0 by omega)
@@ -80,6 +82,7 @@ theorem isoFlag_one (hr : 0 < r) :
   · rintro rfl
     exact ⟨⟨0, hr⟩, by simp, rfl⟩
 
+omit [Finite K] in
 theorem isoFlag_two (hr : 1 < r) :
     CFSG.ClassicalGroups.UnitaryFlag.isoFlag r ε K 2 = Submodule.span K {hypVec r ε K ⟨0, by omega⟩} ⊔
       Submodule.span K {hypVec r ε K ⟨1, hr⟩} := by
@@ -87,7 +90,7 @@ theorem isoFlag_two (hr : 1 < r) :
   rw [← Submodule.span_union]
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     by_cases hj0 : (j : ℕ) = 0
@@ -103,17 +106,20 @@ theorem isoFlag_two (hr : 1 < r) :
     · exact ⟨⟨0, by omega⟩, by simp, rfl⟩
     · exact ⟨⟨1, hr⟩, by simp, rfl⟩
 
+omit [Fact (Nat.Prime q)] [Finite K] [CharP K q] in
 theorem hypForm_hypVec (i j : Fin r) : hypForm h r ε (hypVec r ε K i) (hypVec r ε K j) = 0 := by
   unfold hypVec
   rw [hypForm_single_inl]
-  simp [Pi.single_apply]
+  simp
 
+omit [Fact (Nat.Prime q)] [Finite K] [CharP K q] in
 theorem transportSubspace_span_singleton {R : Matrix (Fin (2 * r + ε)) (HypIndex r ε) K}
     (hR : IsHypTransport h R) (v : HypIndex r ε → K) :
     transportSubspace h hR (Submodule.span K {v}) = Submodule.span K {R *ᵥ v} := by
   rw [transportSubspace_apply, Submodule.map_span, Set.image_singleton]
   rfl
 
+omit [Fact (Nat.Prime q)] [Finite K] [CharP K q] in
 theorem transport_injective {R : Matrix (Fin (2 * r + ε)) (HypIndex r ε) K}
     (hR : IsHypTransport h R) {a b : HypIndex r ε → K} (hab : R *ᵥ a = R *ᵥ b) : a = b := by
   have := congrArg (fun w => transportInv h R *ᵥ w) hab
@@ -126,6 +132,7 @@ section SUFinal
 
 variable {q f : ℕ} [Fact q.Prime] {K : Type} [Field K] [Finite K] [CharP K q]
 
+omit [Finite K] in
 theorem hypVec_ne_zero {r ε : ℕ} (a : Fin r) : (hypVec r ε K a) ≠ 0 := fun hz => by
   have := congrFun hz (Sum.inl a)
   simp [hypVec] at this
@@ -146,7 +153,7 @@ theorem twoParabolics_PSU_hyp (h : UnitaryFieldData q f K) (hK : Nat.card K = (q
         MonoidHom.id (hypPSU h r ε) := by
       rw [map_one]
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [h1, Subgroup.map_id]
   obtain ⟨T, hT⟩ := hB
   have hTB : (T : Subgroup (hypPSU h r ε)) ≤ hypProjBorel h r ε := hT ▸ Subgroup.le_normalizer
@@ -165,10 +172,10 @@ theorem twoParabolics_PSU_hyp (h : UnitaryFieldData q f K) (hK : Nat.card K = (q
   set x₁ : Fin (2 * r + ε) → K := R *ᵥ hypVec r ε K ⟨0, hr0⟩ with hx₁
   set x₂ : Fin (2 * r + ε) → K := R *ᵥ hypVec r ε K ⟨1, hr2⟩ with hx₂
   have hF₁ : transportSubspace h hR (hypFlag h r ε 1) = Submodule.span K {x₁} := by
-    rw [hypFlag, if_pos hr1, isoFlag_one hr0, transportSubspace_span_singleton]
+    rw [hypFlag, ite_eq_left hr1, isoFlag_one hr0, transportSubspace_span_singleton]
   have hF₂ : transportSubspace h hR (hypFlag h r ε 2) =
       Submodule.span K {x₁} ⊔ Submodule.span K {x₂} := by
-    rw [hypFlag, if_pos hr, isoFlag_two hr2, OrderIso.map_sup, transportSubspace_span_singleton,
+    rw [hypFlag, ite_eq_left hr, isoFlag_two hr2, OrderIso.map_sup, transportSubspace_span_singleton,
       transportSubspace_span_singleton]
   have hP₁le := map_projIsoStabilizer_le (f := f) hR hn1 (hypFlag h r ε 1)
   rw [hF₁] at hP₁le
@@ -193,7 +200,7 @@ theorem twoParabolics_PSU_hyp (h : UnitaryFieldData q f K) (hK : Nat.card K = (q
       rw [Matrix.mulVec_smul]
       exact ha
     have h2 := congrFun (transport_injective hR h1) (Sum.inl ⟨1, hr2⟩)
-    simp [hypVec, Pi.single_apply] at h2
+    simp [hypVec] at h2
   exact twoParabolics_of_form (unitaryForm q f hK (2 * r + ε))
     (natRep (StatedSU (2 * r + ε) (q ^ f) K)) (natRep_injective _)
     (isIsometric_natRep_statedSU hK _)
@@ -215,7 +222,7 @@ theorem twoParabolics_PSU {n f : ℕ} {S : Type} [Group S] [Finite S] (hn : 4 �
   obtain ⟨r, ε, hε, rfl⟩ : ∃ r ε : ℕ, ε ≤ 1 ∧ n = 2 * r + ε := ⟨n / 2, n % 2, by omega, by omega⟩
   obtain ⟨⟨hq, hf, -⟩, K, _, hfin, hcard, ⟨e⟩⟩ := hm
   have hh : UnitaryFieldData q f K := ⟨hq, hf, by rw [hcard, ← pow_mul, mul_comm]⟩
-  haveI : CharP K q := hh.charP
+  have : CharP K q := hh.charP
   have key := twoParabolics_PSU_hyp hh hcard (r := r) (ε := ε) (by omega) hε
   exact key.of_mulEquiv e.symm
 

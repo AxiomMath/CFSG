@@ -91,7 +91,7 @@ theorem ne_of_neOK (hB : Bridge) {ps : List (List ℕ × List ℕ)} (h : neOK NW
   obtain ⟨b, hb, hne⟩ := neOK_spec h (u, v) hp
   intro e
   have hb' : b < 306936 := by
-    simp only [cb, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hb
+    simp only [cb, List.mem_cons, List.not_mem_nil, or_false] at hb
     rcases hb with h | h | h | h | h | h <;> rw [h] <;> norm_num
   have e1 := word_val hB u hu ⟨b, hb'⟩
   have e2 := word_val hB v hv ⟨b, hb'⟩
@@ -210,8 +210,8 @@ theorem conj_facts (hB : Bridge) {t : ℕ} (ht : t ∈ [3, 21, 49, 56, 63, 70, 7
   have hr : (fi24SevenData.conj[c.1]!).1 = c.2.1 := by rw [hconj]
   rw [e3, hr]
   by_cases h0 : c.2.1 = 0
-  · rw [beq_of h0, lIf_true, findU_eq hB hasY, if_pos (by rw [h0]; rfl)]
-  · rw [beq_ne h0, lIf_false, findU_eq hB hasC, if_neg (by
+  · rw [beq_of h0, lIf_true, findU_eq hB hasY, ite_eq_left (by rw [h0]; rfl)]
+  · rw [beq_ne h0, lIf_false, findU_eq hB hasC, ite_eq_right (by
       intro h
       exact h0 (beq_iff_eq.1 h))]
 
@@ -280,9 +280,9 @@ theorem elt_facts (hB : Bridge) :
   have n5 := ne_of_neOK hB hN (by simp) (pw_lt hu4 2) nil_lt
   have n6 := ne_of_neOK hB hN (by simp) hu2 nil_lt
   have n7 := ne_of_neOK hB hN (by simp) hu3 nil_lt
-  simp only [wordElt_pw, wordElt_append, X_eq hB, Y_eq hB, C_eq hB, wordElt_nil] at e1 e2 e3 e6 e7 e8
-  simp only [wordElt_pw, wordElt_append, X_eq hB, Y_eq hB, C_eq hB, wordElt_nil] at e9 e10 e11 e12 e13
-  simp only [wordElt_pw, wordElt_append, X_eq hB, Y_eq hB, C_eq hB, wordElt_nil] at e14 e15 e16 e17
+  simp only [wordElt_pw, wordElt_append, Y_eq hB, wordElt_nil] at e1 e2 e3 e6 e7 e8
+  simp only [wordElt_pw, wordElt_append, Y_eq hB, C_eq hB, wordElt_nil] at e9 e10 e11 e12 e13
+  simp only [wordElt_pw, wordElt_append, X_eq hB, Y_eq hB, C_eq hB] at e14 e15 e16 e17
   simp only [wordElt_pw, wordElt_append, wordElt_nil] at n1 n2 n3 n4 n5 n6 n7
   exact ⟨e1, e2, e3, e6, e7, n1, n2, n3, n4, e8, n5, e9, e10, n6, e11, e14, e15, e12, n7, e13, e16, e17⟩
 

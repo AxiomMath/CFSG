@@ -67,7 +67,7 @@ theorem e6d4t2_rootChar_std
     {i : KernelComponent (rootCharHom a)} (std : E6D4T2Std S a i) :
     ∃ z : Lˣ, z ^ 3 = 1 ∧ z ≠ 1 ∧ ∀ x, rootChar a (std.v • x) = z ^ (x 0 + x 5) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hΨ := std.hΨ
   have hall : kernelRoots (rootCharHom a) ⊆ componentRoots (rootCharHom a) i :=
     fun γ hγ => std.hker ▸ hγ
@@ -154,7 +154,7 @@ theorem e6d4t2_conj_mem
     obtain ⟨γ, hγ, rfl⟩ := hx
     refine Subgroup.subset_closure ⟨u • γ, hu γ hγ, ?_⟩
     exact rootReflection_smul_root u hγ.1
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : u * (x * y) * u⁻¹ = (u * x * u⁻¹) * (u * y * u⁻¹) := by group
     rw [this]

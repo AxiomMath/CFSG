@@ -181,13 +181,13 @@ theorem t300_c_pow : (dD.c : G) ^ 2 ^ (n - 1) = dD.ofTorus (om300 n ![1, 0, 0]) 
   rw [c_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om300, gen, Pi.single_apply]
+  fin_cases i <;> simp [om300, gen]
 
 theorem t300_a_pow : (dD.a : G) ^ 2 ^ (n - 1) = dD.ofTorus (om300 n ![0, 1, 0]) := by
   rw [a_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om300, gen, Pi.single_apply]
+  fin_cases i <;> simp [om300, gen]
 
 theorem t300_eq_om_of_mul_self (hn : 1 ≤ n) {y : G} (hy : y ∈ D) (h2 : y * y = 1) :
     ∃ ε : Fin 3 → ℤ, (∀ i, ε i = 0 ∨ ε i = 1) ∧ y = dD.ofTorus (om300 n ε) := by
@@ -588,7 +588,7 @@ theorem t300_h7 (hn : 3 ≤ n) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨a, b, hd⟩ := hfix (e * e₀⁻¹) (mul_mem he (inv_mem he₀)) hmem
         refine ⟨(true, a, b), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, h8] at hle
@@ -618,7 +618,7 @@ theorem t300_h9 (hn : 3 ≤ n) :
     obtain ⟨v₀, hv₀⟩ := dD.t300_mem_CSz_of_not_mem hn1 (hX hx₀) hx₀D
     have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-    haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+    have : NeZero (2 ^ n) := ⟨by positivity⟩
     have hfix : ∀ d ∈ X, d ∈ D → ∃ p q : ZMod (2 ^ n),
         d = dD.ofTorus (Torus.ofInt _ ![(p.val : ℤ), (q.val : ℤ), (q.val : ℤ)]) := by
       intro d hd hdD
@@ -657,7 +657,7 @@ theorem t300_h9 (hn : 3 ≤ n) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨p, q, hd⟩ := hfix (e * x₀⁻¹) (mul_mem he (inv_mem hx₀)) hmem
         refine ⟨(true, p, q), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, hDcard, Nat.card_prod, Nat.card_prod, Nat.card_zmod] at hle
@@ -666,7 +666,7 @@ theorem t300_h9 (hn : 3 ≤ n) :
     have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hle
     omega
   · simp only [not_exists, not_and, not_not] at hD
-    haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+    have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge (fun x hx => hD x hx) hcard.ge
 
 end StrothWeakTypeData

@@ -62,23 +62,23 @@ theorem bfsRowK_wit (h : Nat) : ∀ k l c, bfsRowK F P PAR LAB W ng h k l c ≠ 
     rw [bfsRowK_succ_eq] at hne ⊢
     by_cases hw : W (h * ng + l) < c
     · by_cases hp : P (W (h * ng + l)) = F (P h) l
-      · rw [if_pos hw, if_pos hp] at hne ⊢
+      · rw [ite_eq_left hw, ite_eq_left hp] at hne ⊢
         obtain ⟨hle, hall⟩ := ih _ _ hne
         refine ⟨hle, fun l' h1 h2 => ?_⟩
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · exact ⟨Nat.lt_of_lt_of_le hw hle, hp⟩
         · exact hall l' h1 (by omega)
-      · rw [if_pos hw, if_neg hp] at hne
+      · rw [ite_eq_left hw, ite_eq_right hp] at hne
         exact absurd rfl hne
     · by_cases hq : W (h * ng + l) = c ∧ P c = F (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_neg hw, if_pos hq] at hne ⊢
+      · rw [ite_eq_right hw, ite_eq_left hq] at hne ⊢
         obtain ⟨hle, hall⟩ := ih _ _ hne
         refine ⟨Nat.le_of_succ_le hle, fun l' h1 h2 => ?_⟩
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · rw [hq.1]
           exact ⟨hle, hq.2.1⟩
         · exact hall l' h1 (by omega)
-      · rw [if_neg hw, if_neg hq] at hne
+      · rw [ite_eq_right hw, ite_eq_right hq] at hne
         exact absurd rfl hne
 
 theorem bfsSegK_wit : ∀ k h c, bfsSegK F P PAR LAB W ng cap k h c ≠ 0 →
@@ -215,7 +215,7 @@ theorem gtPinK_of_seg {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat �
         rw [Nat.succ_mul] at hle ⊢; omega
       rw [hf, bfsRunK_of_seg _ _ _ _ hne, e, Nat.succ_mul]
   have htail : bfsRunK (gtStepK GM) P PAR LAB W ng cap (0 + 1) N N = N := by
-    rw [bfsRunK_succ_eq, if_neg (fun h => Nat.lt_irrefl N h.1)]
+    rw [bfsRunK_succ_eq, ite_eq_right (fun h => Nat.lt_irrefl N h.1)]
   have hfin : bfsRunK (gtStepK GM) P PAR LAB W ng cap (N + 1) 0 1 = N := by
     rw [hrun m (Nat.le_refl m), hmK, hcN, show N + 1 - N = 0 + 1 by omega, htail]
   unfold gtPinK bfsK

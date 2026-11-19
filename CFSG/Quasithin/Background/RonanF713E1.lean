@@ -44,7 +44,7 @@ theorem inE_one_of_nParam_eq_one_loc {H : Subgroup G} (h : E1.nParam H = 1) : E1
 theorem isE_map_mulEquiv_loc (e : G ≃* G') {i : ℕ} {H T A K : Subgroup G} [Finite ↥K] :
     E1.IsE i (H.map e.toMonoidHom) (T.map e.toMonoidHom) (A.map e.toMonoidHom)
       (K.map e.toMonoidHom) ↔ E1.IsE i H T A K := by
-  haveI : Finite ↥(K.map e.toMonoidHom) := finite_map_loc e K
+  have : Finite ↥(K.map e.toMonoidHom) := finite_map_loc e K
   unfold E1.IsE
   rw [← Subgroup.map_inf T K e.toMonoidHom e.injective, E1.tauOf_map_mulEquiv,
     ← map_subgroupOf_restrictEquivLoc e A K, ← map_subgroupOf_restrictEquivLoc e (T ⊓ K) K,
@@ -78,7 +78,7 @@ theorem eGen_conj_image_loc (i : ℕ) (g : G) (H T : Subgroup G) [Finite ↥H]
     have hAT : A ≤ T := by
       have h2 := CFSG.Quasithin.conjSub_mono g⁻¹ hA'T
       rwa [CFSG.Quasithin.conjSub_conjSub_inv, CFSG.Quasithin.conjSub_conjSub_inv] at h2
-    haveI : Finite ↥K := finite_of_le_loc hKH
+    have : Finite ↥K := finite_of_le_loc hKH
     have hK : E1.IsE i H T A K := (isE_conj_loc g).mp hK''
     exact CFSG.Quasithin.conjSub_mono g
       (le_iSup₂_of_le A hA (le_iSup_of_le hAT (le_iSup₂_of_le K hK le_rfl)))
@@ -86,7 +86,7 @@ theorem eGen_conj_image_loc (i : ℕ) (g : G) (H T : Subgroup G) [Finite ↥H]
     rw [Subgroup.map_le_iff_le_comap]
     refine iSup₂_le fun A hA => iSup_le fun hAT => iSup₂_le fun K hK => ?_
     have hK0 : E1.IsE i H T A K := hK
-    haveI : Finite ↥K := finite_of_le_loc hK0.1
+    have : Finite ↥K := finite_of_le_loc hK0.1
     rw [← Subgroup.map_le_iff_le_comap]
     exact le_iSup₂_of_le (conjSub g A) ⟨A, hA, rfl⟩ (le_iSup_of_le
       (CFSG.Quasithin.conjSub_mono g hAT)
@@ -164,7 +164,7 @@ theorem exists_isE_not_le_of_inEFor_one_loc {X TX M A : Subgroup G} [Finite ↥X
   · have := conjSub_mono x⁻¹ hA₀T
     rwa [conjSub_conjSub_inv] at this
   · have hH₀X : H₀ ≤ X := hH₀.1
-    haveI : Finite ↥H₀ := finite_of_le_loc hH₀X
+    have : Finite ↥H₀ := finite_of_le_loc hH₀X
     have h1 : E1.IsE 1 (conjSub x⁻¹ X) (conjSub x⁻¹ TX) (conjSub x⁻¹ (conjSub x A))
         (conjSub x⁻¹ H₀) := (isE_conj_loc x⁻¹).mpr hH₀
     have e1 : conjSub x⁻¹ X = X := F7.conjSub_eq_of_mem (X.inv_mem hx)

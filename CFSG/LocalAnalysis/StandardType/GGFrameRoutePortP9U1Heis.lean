@@ -46,7 +46,7 @@ theorem finrank_eq_three_mul_finrank_inf_ker_sub_one {ω : k} (hω : IsPrimitive
   have hω4 : ω ^ 2 * ω ^ 2 = ω := by
     rw [← sq, ← pow_mul, show 2 * 2 = 3 + 1 from rfl, pow_succ, hω3, one_mul]
   have h3 : (3 : k) ≠ 0 := by
-    haveI : NeZero ((3 : ℕ) : k) := hω.neZero'
+    have : NeZero ((3 : ℕ) : k) := hω.neZero'
     exact NeZero.ne (3 : k)
   let E : k → Submodule k W := fun t => P ⊓ Module.End.eigenspace x t
   have hE1 : E 1 = P ⊓ LinearMap.ker (x - 1) := by

@@ -31,9 +31,9 @@ private theorem t3_eq_one_or_eq_of_mem_zpowers {G : Type} [Group G] {z q : G}
 
 private theorem t3_pow_two_mem_centerOf {K : Type*} [Group K] {Q : Subgroup K}
     (hQ : IsPlusExtraspecial 4 Q) {q : K} (hq : q ∈ Q) : q ^ 2 ∈ centerOf Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let qQ : ↥Q := ⟨q, hq⟩
-  haveI : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
+  have : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
     hQ.1.quotient_elementary_abelian
   have hExp : Monoid.exponent (↥Q ⧸ Subgroup.center ↥Q) ∣ 2 :=
     CFSG.IsElementaryAbelian.exponent_dvd_p 2 (↥Q ⧸ Subgroup.center ↥Q)

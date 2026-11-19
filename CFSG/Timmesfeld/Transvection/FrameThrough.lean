@@ -41,7 +41,7 @@ theorem exists_isFrame_forall_le (h : TransvectionHyp H Δ) (hML : MeetsLines Δ
     ∃ m, 2 ≤ m ∧ (∃ P Q : Fin m → Subgroup H, IsFrame Δ P Q) ∧
       ∀ n, (∃ P Q : Fin n → Subgroup H, IsFrame Δ P Q) → n ≤ m := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨r, hr, P, Q, hF⟩ := exists_isMaxFrame h hML
   have hbound : ∀ n, (∃ P Q : Fin n → Subgroup H, IsFrame Δ P Q) →
       n ≤ Nat.card (Subgroup H) := by
@@ -62,7 +62,7 @@ theorem exists_isMaxFrame_last (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
     ∃ n, 1 ≤ n ∧ ∃ P Q : Fin (n + 1) → Subgroup H,
       IsMaxFrame Δ P Q ∧ P (Fin.last n) = A ∧ Q (Fin.last n) = B := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hΔ := h.cls
   have hiso : NoIsolated Δ := hΔ.noIsolated h.points h.rank
   obtain ⟨m, hm, ⟨P, Q, hF⟩, hle⟩ := exists_isFrame_forall_le h hML

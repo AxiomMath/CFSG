@@ -19,7 +19,7 @@ private theorem commutator_eq_top_of_isExtNotation_altSix {X : Type} [Group X] [
       (fun B _ => Nat.card B = 3) X) :
     _root_.commutator X = ⊤ := by
   obtain ⟨N, hNnormal, hN3, hAN, hno⟩ := h
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   obtain ⟨e⟩ := hAN
   have hA6 : _root_.commutator (alternatingGroup (Fin 6)) = ⊤ :=
     commutator_alternatingGroup_eq_top (by simp)
@@ -51,14 +51,14 @@ private theorem center_eq_of_perfect_of_normal_card_three {X : Type} [Group X] [
     {N : Subgroup X} [N.Normal] (hN3 : Nat.card N = 3)
     (e : (X ⧸ N) ≃* alternatingGroup (Fin 6)) (hperf : _root_.commutator X = ⊤) :
     Subgroup.center X = N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNcyc : IsCyclic N := isCyclic_of_prime_card hN3
-  haveI hcommAut : IsMulCommutative (MulAut N) := by
+  have hcommAut : IsMulCommutative (MulAut N) := by
     refine ⟨⟨fun a b => ?_⟩⟩
     apply (IsCyclic.mulAutMulEquiv N).injective
     rw [map_mul, map_mul]
     exact mul_comm _ _
-  letI : CommGroup (MulAut N) := IsMulCommutative.instCommGroup
+  let : CommGroup (MulAut N) := IsMulCommutative.instCommGroup
   have hNcenter : N ≤ Subgroup.center X := by
     have hker : _root_.commutator X ≤ (MulAut.conjNormal : X →* MulAut N).ker :=
       Abelianization.commutator_subset_ker _
@@ -100,7 +100,7 @@ private theorem perfect_quot_center_altSix {X : Type} [Group X] [Finite X]
       Nonempty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6)) := by
   have hperf := commutator_eq_top_of_isExtNotation_altSix h
   obtain ⟨N, hNnormal, hN3, hAN, -⟩ := h
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   obtain ⟨e⟩ := hAN
   have hcenter := center_eq_of_perfect_of_normal_card_three hN3 e hperf
   refine ⟨hperf, ?_, ?_⟩

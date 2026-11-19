@@ -297,7 +297,7 @@ theorem LUComps.transport [Finite G] [Finite Gs] {q : ℕ} (I : CompatIso G z S 
     have hcompX : CFSG.IsComponent ((pull ψ E).subgroupOf (layerTimesSylow z (S : Subgroup G))) := by
       rw [pull_subgroupOf]
       exact CFSG.LocalCores.isComponent_map_mulEquiv ψ.symm hcomp
-    exact isCompIn_of_isComponent_X S.isPGroup' hSC (pull_le ψ E) hcompX
+    exact isCompIn_of_isComponent_X S.isPGroup hSC (pull_le ψ E) hcompX
   have hlay : ∀ {E₁ E₂ : Subgroup Gs}, E₁ ≤ layerTimesSylow z' (S' : Subgroup Gs) →
       E₂ ≤ layerTimesSylow z' (S' : Subgroup Gs) → E₁ ⊔ E₂ ≤ layerTimesSylow z' (S' : Subgroup Gs) :=
     fun h₁ h₂ => sup_le h₁ h₂
@@ -315,7 +315,7 @@ theorem LUComps.transport [Finite G] [Finite Gs] {q : ℕ} (I : CompatIso G z S 
       rw [push_subgroupOf]
       exact CFSG.LocalCores.isComponent_map_mulEquiv ψ hLcX
     have hEc : IsCompIn (Cz z') (push ψ L) :=
-      isCompIn_of_isComponent_X S'.isPGroup' hS'C hEX' hEcomp
+      isCompIn_of_isComponent_X S'.isPGroup hS'C hEX' hEcomp
     have hEp : IsPCompIn 2 (Cz z') (push ψ L) :=
       ⟨hEc.1, CFSG.LocalAnalysis.ComponentInitial.isPComponent_two_of_isComponent hEc.2⟩
     have hL' : pull ψ (push ψ L) = L := pull_push ψ hLX

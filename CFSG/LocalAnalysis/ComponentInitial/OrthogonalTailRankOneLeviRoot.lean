@@ -51,7 +51,7 @@ private theorem eichler_eps_sub_eps_single_H05 {i j k : Fin r} (hij : i < j) (t 
       Pi.single_eq_of_ne (fun hh => hkj (Sum.inl.inj hh).symm) 1
     have h2 : (Pi.single (Sum.inl k) (1 : K) : Fin r ⊕ Fin r → K) (Sum.inr i) = 0 :=
       Pi.single_eq_of_ne (fun hh => Sum.inr_ne_inl hh) 1
-    rw [h1, h2, if_neg hkj]
+    rw [h1, h2, ite_eq_right hkj]
     simp
 
 private theorem eichler_neg_eps_add_eps_single_H05 {i j k : Fin r} (hij : i < j) (t : K) :
@@ -69,7 +69,7 @@ private theorem eichler_neg_eps_add_eps_single_H05 {i j k : Fin r} (hij : i < j)
       Pi.single_eq_of_ne (fun hh => hki (Sum.inl.inj hh).symm) 1
     have h2 : (Pi.single (Sum.inl k) (1 : K) : Fin r ⊕ Fin r → K) (Sum.inr j) = 0 :=
       Pi.single_eq_of_ne (fun hh => Sum.inr_ne_inl hh) 1
-    rw [h1, h2, if_neg hki]
+    rw [h1, h2, ite_eq_right hki]
     simp
 
 private theorem tailLongElt_eps_sub_eps_apply_H05 {i j : Fin r} (hij : i < j) (t : K)
@@ -133,10 +133,10 @@ private theorem mem_tailFlag_of_action_H05 {k : ℕ} {g : TailModel K A r} {b0 b
     g (hypVec K A (.inl j)) ∈ tailFlag K A r k := by
   rw [hact j]
   by_cases h : j = b0
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact Submodule.add_mem _ (Submodule.subset_span ⟨j, hj, rfl⟩)
       (Submodule.smul_mem _ _ (Submodule.subset_span ⟨b1, hcond j hj h, rfl⟩))
-  · rw [if_neg h, add_zero]
+  · rw [ite_eq_right h, add_zero]
     exact Submodule.subset_span ⟨j, hj, rfl⟩
 
 theorem tailUpperRoot_mem_tailLeviDom {i : Fin r} (hi : i.val + 1 < r) (s : K) :
@@ -189,7 +189,7 @@ theorem tailLeviBlk_tailUpperRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     rw [tailLeviBlk_apply, tailCoeff, tailUpperRoot_apply_hypVec_inl] <;>
-    simp [hypVec, Pi.single_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+    simp [hypVec, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val_fin_one, hne, hne.symm]
 
 theorem tailLeviBlk_tailLowerRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) :
@@ -198,7 +198,7 @@ theorem tailLeviBlk_tailLowerRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     rw [tailLeviBlk_apply, tailCoeff, tailLowerRoot_apply_hypVec_inl] <;>
-    simp [hypVec, Pi.single_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+    simp [hypVec, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val_fin_one, hne, hne.symm]
 
 theorem tailCoeff_diag_tailUpperRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) {j : Fin r}
@@ -206,14 +206,14 @@ theorem tailCoeff_diag_tailUpperRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) {j
   have h1 : j ≠ tailPair hi 0 := fun h => hj.1 (by rw [h, tailPair_val]; simp)
   have h2 : j ≠ tailPair hi 1 := fun h => hj.2 (by rw [h, tailPair_val]; simp)
   rw [tailCoeff, tailUpperRoot_apply_hypVec_inl]
-  simp [hypVec, Pi.single_apply, h1, h2]
+  simp [hypVec, h2]
 
 theorem tailCoeff_diag_tailLowerRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) {j : Fin r}
     (hj : j.val ≠ i.val ∧ j.val ≠ i.val + 1) : tailCoeff (tailLowerRoot qA hi s) j j = 1 := by
   have h1 : j ≠ tailPair hi 0 := fun h => hj.1 (by rw [h, tailPair_val]; simp)
   have h2 : j ≠ tailPair hi 1 := fun h => hj.2 (by rw [h, tailPair_val]; simp)
   rw [tailCoeff, tailLowerRoot_apply_hypVec_inl]
-  simp [hypVec, Pi.single_apply, h1, h2]
+  simp [hypVec, h1]
 
 theorem tailABlock_tailUpperRoot {i : Fin r} (hi : i.val + 1 < r) (s : K) :
     tailABlock (tailUpperRoot qA hi s) = 1 := by

@@ -203,14 +203,14 @@ theorem D1OneSmallData.forall_mul_mem_fusionSet_of_a6 (hOut : KFactSmallOutPPrim
       norm_num
     have hB0' : ∀ g ∈ (P : Subgroup G), g * z = z * g → g ∈ R := fun g hg hgz =>
       hd.inf_centralizer_le_of_b0 hB0 ⟨hg, Subgroup.mem_centralizer_singleton_iff.mpr hgz⟩
-    exact false_of_frame P.isPGroup' hd.cfg.ext.le_P hRcomm hexpR hRcard hTR
+    exact false_of_frame P.isPGroup hd.cfg.ext.le_P hRcomm hexpR hRcard hTR
       (by simpa using hTcard) hzR hzT hzp hB0' hZ hZT h4
   ·
     have heq := Set.eq_of_subset_of_ncard_le hinv₁.1 (by rw [hT1]; omega)
     have hTZ : ∀ t ∈ T, t ≠ 1 → t ∈ fusionSet R z := fun t ht ht1 => by
       have : t ∈ S₁ := heq ▸ ⟨ht, ht1⟩
       exact this.1
-    exact false_of_frame_dual P.isPGroup' hd.cfg.ext.le_P hRcomm hRcard hTR
+    exact false_of_frame_dual P.isPGroup hd.cfg.ext.le_P hRcomm hRcard hTR
       (by simpa using hTcard) hzR hzp hstab hTZ h4
 
 theorem D1OneSmallData.false_of_a6_ia (hUP : KFactUPrimeSmall) (hSch : KFactCatalogSchreier)

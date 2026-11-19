@@ -59,7 +59,7 @@ theorem IsMinFam16.kGenIn_hat (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     rw [mem_omegaSet]
     refine ⟨k, rfl, ?_, ?_⟩
     · intro hbot
-      haveI : E.Normal := hEnorm
+      have : E.Normal := hEnorm
       have hconjE : conjSubgroup E k = E := by
         rw [conjSubgroup_eq_iff_mem_normalizer]
         exact Subgroup.le_normalizer_of_normal (H := E) (K := ⊤) trivial
@@ -71,7 +71,7 @@ theorem IsMinFam16.kGenIn_hat (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
       exact hEA h2
     · intro hle
       apply hApc
-      haveI : (pCoreOf 2 (⊤ : Subgroup (VG (D.img H)))).Normal := hpcn
+      have : (pCoreOf 2 (⊤ : Subgroup (VG (D.img H)))).Normal := hpcn
       have hconjPc : conjSubgroup (pCoreOf 2 (⊤ : Subgroup (VG (D.img H)))) k⁻¹ =
           pCoreOf 2 (⊤ : Subgroup (VG (D.img H))) := by
         rw [conjSubgroup_eq_iff_mem_normalizer]

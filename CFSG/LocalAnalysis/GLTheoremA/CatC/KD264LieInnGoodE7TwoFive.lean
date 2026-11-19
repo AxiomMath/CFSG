@@ -72,8 +72,9 @@ variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] {p : ℕ
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
 
+omit [Finite K] [IsAlgClosure K L] in
 theorem exists_e7Four_charTuple_of_plane (F : E7FourFrame K L ℓ f p)
-    (hK : Nat.card K = ℓ ^ f) {E : Subgroup (adjointGroup .E7 K)}
+    (_hK : Nat.card K = ℓ ^ f) {E : Subgroup (adjointGroup .E7 K)}
     (c : adjointGroup .E7 K)
     (hc : ∀ x ∈ E, F.g0⁻¹ * adjEmb .E7 K L (c * x * c⁻¹) * F.g0 ∈
       twistedTorusOf F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) :
@@ -165,7 +166,7 @@ theorem exists_perfect_le_centralizer_of_e7FourFrame (hD4 : D4TranspositionLayer
     rw [hΨx]
     exact hPDroot.trans (rootSpan_le_centralizer (K := L) (βhom q) hD4ker)
   have hPperf : ⁅PD, PD⁆ = PD := by
-    haveI : Group.IsPerfect ↥PD := hPq.1
+    have : Group.IsPerfect ↥PD := hPq.1
     exact Subgroup.commutator_eq_self
   have hdiv' : p ∣ Nat.card PD := by
     rw [hPD]
@@ -183,15 +184,15 @@ theorem perfectCentralizerPlanes_adjointGroup_E7_two_five (K : Type) [Field K] [
     (hK : Nat.card K = 2) : PerfectCentralizerPlanes 5 (adjointGroup Tag.E7 K) := by
   classical
   have hℓ : Nat.Prime 2 := Nat.prime_two
-  haveI : Fact (Nat.Prime 2) := ⟨hℓ⟩
+  have : Fact (Nat.Prime 2) := ⟨hℓ⟩
   have hf : 1 ≤ 1 := le_rfl
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; rfl
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK'
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hpf : ((5 : ℕ) : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1 := by rw [hK]; norm_num
   obtain ⟨F⟩ := exists_e7FourFrame K hf hK' Nat.prime_five (by norm_num) hpf L
   have hstab := e7_stabHyp F hK' Nat.prime_five (by norm_num) hpf

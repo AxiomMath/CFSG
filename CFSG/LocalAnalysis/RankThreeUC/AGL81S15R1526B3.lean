@@ -21,7 +21,7 @@ theorem ncard_CY_le_three (hKSML3 : KSML3) {T T₁ T₂ : Subgroup X} (hX : GNSe
       LiftOf T L Ls → IsLThreeOfExp 1 ↥Ls) :
     Set.ncard (CY T T₁ T₂) ≤ 3 := by
   classical
-  haveI : Finite (Subgroup X) := Finite.of_injective _ (SetLike.coe_injective (A := Subgroup X))
+  have : Finite (Subgroup X) := Finite.of_injective _ (SetLike.coe_injective (A := Subgroup X))
   have hfin : (CY T T₁ T₂).Finite := Set.toFinite _
   have hmem : ∀ L ∈ hfin.toFinset, L ∈ CY T T₁ T₂ := fun L hL => hfin.mem_toFinset.1 hL
   have hkey : ∀ L ∈ hfin.toFinset, IsC2 L ∧ CFSG.Open.pRank 3 L = 1 ∧

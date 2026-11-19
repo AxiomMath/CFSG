@@ -24,7 +24,7 @@ theorem s21_15N_of_r8100Res3
     (h614 : UC6.R6_14 D)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
     (hres : R8100Res3 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D)
-    (hGL : GL3Excl.GL3Excl) : S21_15N D Ch := by
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) : S21_15N D Ch := by
   intro h1930 c L hL n hshape hne s hsOdd hsdvd r hr hrdvd p hp A hAcard hAL
   have hr2 : 2 ≤ r := hr.two_le
   have hs1 : 1 < s := by

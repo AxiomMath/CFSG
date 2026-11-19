@@ -92,7 +92,7 @@ theorem dEdgeless_of_mulEquiv_m11 (e : ↥NativeSporadic.M11 ≃* G) (hΩ : HypO
     obtain ⟨J', hJ', P, rfl⟩ := hR
     obtain ⟨zK, hzK⟩ := hΩ.classical K hK
     obtain ⟨zJ, hzJ⟩ := hΩ.classical J hJ
-    have hR2 : IsPGroup 2 ((P : Subgroup ↥J').map J'.subtype) := P.isPGroup'.map _
+    have hR2 : IsPGroup 2 ((P : Subgroup ↥J').map J'.subtype) := P.isPGroup.map _
     have hR8 : Nat.card ((P : Subgroup ↥J').map J'.subtype) = 8 := by
       rw [Subgroup.card_map_of_injective J'.subtype_injective, Sylow.card_eq_multiplicity,
         hcard J' hJ', h24]

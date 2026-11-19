@@ -10,7 +10,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 open CFSG.EvenSporadicStandard.HNRecog Subgroup
 
 theorem card_A5WrTwo_eq : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -23,7 +23,7 @@ theorem card_A5WrTwo_eq : Nat.card A5WrTwo = 7200 := by
 theorem card_eq_of_isExtraspecialPlusByA5WrTwo {C : Type} [Group C]
     (h : IsExtraspecialPlusByA5WrTwo C) : Nat.card C = 2 ^ 9 * 7200 := by
   obtain ⟨Q, hQ, hw⟩ := h
-  haveI := hQ
+  have := hQ
   have hQcard : Nat.card Q = 2 ^ 9 := by
     have hcard := hw.plus.2.1
     norm_num at hcard ⊢

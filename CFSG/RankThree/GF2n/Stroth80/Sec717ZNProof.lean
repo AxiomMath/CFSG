@@ -128,7 +128,7 @@ theorem sec717ZN_of_parts (h51 : Stroth51Statement)
     obtain ⟨hQL, hLN, hLcard, hLR, hLcomm, hZ0L⟩ := hL
     obtain ⟨K, hKf, hKfin, hKZ, φ, hφr, hker, -⟩ := hp3c
     obtain ⟨n0, -, hZn0, -⟩ := hc.hyp.cp
-    haveI : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
+    have : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
     have e1 : Nat.card (sec717CentreN M Q (hc.CN t) hNM hQnorm) =
         Nat.card Z0 * Nat.card Z ^ 4 := by
       rw [hLcard, hZcard]

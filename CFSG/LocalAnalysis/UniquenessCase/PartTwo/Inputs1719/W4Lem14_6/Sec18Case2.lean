@@ -60,7 +60,7 @@ theorem commSub_commSub_eq_bot_of_dirSum {W : Type} [CommGroup W] [Finite W]
   set B : Subgroup (MulAut W) := L.map (MulAut.conj g).toMonoidHom with hB
   have hBmem : B ∈ CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y := ⟨g, hg, hB⟩
   have hLmem : L ∈ CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y :=
-    ⟨1, Y.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+    ⟨1, Y.one_mem, by ext x; simp⟩
   have hBL : B ≠ L := by
     intro h
     have hnorm : g ∈ Subgroup.normalizer (L : Set (MulAut W)) :=

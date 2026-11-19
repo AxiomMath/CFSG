@@ -43,7 +43,7 @@ theorem lemmaO_lie_P (hExc : FF79KLemmaOExc) {L : Type} [Group L] [Finite L]
   have hKO : CFSG.Open.IsComponentOf K (fixSubgroup x) := openComponentOf_of_native hKle hKc
   have hout' : ∀ c : L, MulAut.conj c ≠ x := fun c h => hout c h.symm
   have hquot := nonempty_centerQuot_a5 eA
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := d
   replace hc : lieIndexChar d = 2 ∨ lieIndexChar d = 5 := hc
   have hKcard : Nat.card K = 60 := by

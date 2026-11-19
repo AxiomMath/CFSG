@@ -192,7 +192,7 @@ theorem exists_mul_ne_mul_of_isSz {K : Subgroup G} {n : ℕ}
       have := hab k (e.symm z)
       have h3 := congrArg e this
       simpa using h3
-    obtain ⟨r, hr⟩ := P.isPGroup' ⟨e k, hkP⟩
+    obtain ⟨r, hr⟩ := P.isPGroup ⟨e k, hkP⟩
     refine ⟨r, e.injective ?_⟩
     have := congrArg Subtype.val hr
     simpa using this

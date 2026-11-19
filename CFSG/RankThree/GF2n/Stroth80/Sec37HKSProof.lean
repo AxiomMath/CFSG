@@ -16,7 +16,7 @@ open CFSG CFSG.Open CFSG.LocalAnalysis CFSG.Timmesfeld CFSG.Timmesfeld.ARS
 theorem hksNormal_holds : HKSNormalStatement := by
   intro H _ _ Ω _ _ _ m hm hΩ h2 α R hRα hRn hRel hreg
   classical
-  haveI : MulAction.IsPretransitive H Ω :=
+  have : MulAction.IsPretransitive H Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive (h2 := h2)
   have htr : ∀ x y : Ω, ∃ g : H, g • x = y := MulAction.exists_smul_eq H
   have hq4 : 4 ≤ 2 ^ m := by
@@ -26,7 +26,7 @@ theorem hksNormal_holds : HKSNormalStatement := by
   obtain ⟨-, ⟨V, ⟨hD, hVα⟩, -⟩, -, -⟩ :=
     split_action_conjugate_root_group_construction htr h3 α R hRα hRn hreg
   obtain ⟨β, hβα⟩ : ∃ β : Ω, β ≠ α := by
-    haveI : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     exact exists_ne α
   have hαβ : α ≠ β := hβα.symm
   obtain ⟨γ, hγα, hγβ⟩ : ∃ γ : Ω, γ ≠ α ∧ γ ≠ β := by
@@ -109,7 +109,7 @@ theorem hksNormal_holds : HKSNormalStatement := by
         obtain ⟨u, hu, -⟩ := hreg β γ' hβα hγ'
         exact ⟨u, Subtype.ext hu⟩
     have hsub : Nat.card {x : Ω // x ≠ α} = Nat.card Ω - 1 := by
-      letI : Fintype Ω := Fintype.ofFinite Ω
+      let : Fintype Ω := Fintype.ofFinite Ω
       rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_subtype_compl,
         Fintype.card_subtype_eq]
     rw [Nat.card_congr (Equiv.ofBijective _ hbij), hsub, hΩ]
@@ -122,7 +122,7 @@ theorem hksNormal_holds : HKSNormalStatement := by
   have hnm : n = m := Nat.pow_right_injective le_rfl (hn.symm.trans hcardA)
   subst hnm
   obtain ⟨-, hLn, htrans2, -, -⟩ := two_root_groups_generate_normal_subgroup hD hαβ
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
     CFSG.ComponentClassification.Asc75T4.isSimpleGroup_sl2 hn2
   refine ⟨V α ⊔ V β, hLn, φ.isSimpleGroup, ⟨φ⟩, ?_, hVα ▸ le_sup_left⟩
   rw [MulAction.is_two_pretransitive_iff]

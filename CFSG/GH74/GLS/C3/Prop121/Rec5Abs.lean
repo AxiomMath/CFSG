@@ -35,7 +35,7 @@ theorem exists_hom_alt6
   have hO : CFSG.pPrimeCore 2 (M ⧸ zpowers t₀) = ⊥ := pPrimeCore_eq_bot_of_forall _ hN hodd
   have hPcard : Nat.card ↥(P : Subgroup M) = 8 := by
     rw [Nat.card_congr eP.toEquiv, DihedralGroup.nat_card]
-  have hPpg : IsPGroup 2 ↥(P : Subgroup M) := P.isPGroup'
+  have hPpg : IsPGroup 2 ↥(P : Subgroup M) := P.isPGroup
   have hPidx : ¬ 2 ∣ (P : Subgroup M).index := Sylow.not_dvd_index P
   obtain ⟨S₀, hS₀, ⟨eS⟩⟩ := sylow_image (zpowers t₀) hN hN3 hPpg hPidx
   have hSyl : ∀ S : Sylow 2 (M ⧸ zpowers t₀),

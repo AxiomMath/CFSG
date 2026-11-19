@@ -22,6 +22,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_eq_of_sup_inf {M N L : Subgroup G} (hLN : L ≤ N)
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) (hsup : L ⊔ (N ⊓ M) = N)
     (hidx : (L ⊓ M).relIndex L = 280) :

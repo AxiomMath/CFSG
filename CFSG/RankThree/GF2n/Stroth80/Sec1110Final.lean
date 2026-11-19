@@ -16,16 +16,16 @@ theorem sectionAct_on_complement {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] {Q R X₄ X₂ W Z : Subgroup G}
     {φ : R →* GL ι K} {act : GL ι K → Matrix ι ι K}
     (hact : SectionAct K R X₄ X₂ φ act)
-    (hX₂Q : X₂ ≤ Q) (hX₄Q : X₄ ≤ Q) (hX₂X₄ : X₂ ≤ X₄) (hWX₄ : W ≤ X₄)
-    (hZW : Z ≤ W) (hinf : W ⊓ X₂ = Z) (hsup : W ⊔ X₂ = Q)
+    (_hX₂Q : X₂ ≤ Q) (hX₄Q : X₄ ≤ Q) (hX₂X₄ : X₂ ≤ X₄) (hWX₄ : W ≤ X₄)
+    (_hZW : Z ≤ W) (hinf : W ⊓ X₂ = Z) (hsup : W ⊔ X₂ = Q)
     (hWinv : ∀ r ∈ R, conjSubgroup r W = W) :
     SectionAct K R W Z φ act := by
   obtain ⟨-, hN, ψ, hψ⟩ := hact
-  haveI := hN
+  have := hN
   have hZnorm : (Z.subgroupOf W).Normal := by
     have h := Subgroup.inf_subgroupOf_inf_normal_of_right (A := W) (B' := X₂) (B := X₄)
     rwa [inf_of_le_left hWX₄, hinf] at h
-  letI : (Z.subgroupOf W).Normal := hZnorm
+  let : (Z.subgroupOf W).Normal := hZnorm
   let f : ↥W →* ↥X₄ := Subgroup.inclusion hWX₄
   have hf : Z.subgroupOf W ≤ (X₂.subgroupOf X₄).comap f := by
     intro z hz

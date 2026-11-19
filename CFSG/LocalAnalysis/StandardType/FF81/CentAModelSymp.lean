@@ -52,6 +52,7 @@ private theorem caSymp_antiDiag_apply_self (m : ℕ) (i : BlkIdx 1 m) :
     Equiv.toPEquiv_apply, hinv]
   simp
 
+omit [DecidableEq ι] [Fintype ι] in
 private theorem caSymp_sqrtDiag_apply (S : Matrix ι ι (ZMod 2)) (i : ι) :
     sqrtDiag S i = S i i := by
   have h := sqrtDiag_apply_sq S i
@@ -142,20 +143,23 @@ private theorem caSymp_sigmaStd_eq_iff (m : ℕ) (g : GL (BlkIdx 1 m) (ZMod 2)) 
       Matrix.transpose_nonsing_inv, Units.val_mul, Units.val_mul]
     simpa only [Matrix.mul_assoc] using hm
 
+omit [DecidableEq ι] in
 private theorem caSymp_vecMul_eq (M : Matrix ι ι (ZMod 2)) (x : ι → ZMod 2) :
     x ᵥ* M = Mᵀ *ᵥ x := by
   simpa using Matrix.vecMul_transpose (A := Mᵀ) (x := x)
 
+omit [DecidableEq ι] in
 private theorem caSymp_mulVec_dotProduct (M : Matrix ι ι (ZMod 2)) (x z : ι → ZMod 2) :
     (M *ᵥ x) ⬝ᵥ z = x ⬝ᵥ (Mᵀ *ᵥ z) := by
   rw [dotProduct_comm, Matrix.dotProduct_mulVec, caSymp_vecMul_eq, dotProduct_comm]
 
+omit [DecidableEq ι] in
 private theorem caSymp_beta_apply (M A : Matrix ι ι (ZMod 2)) (x y : ι → ZMod 2)
     (h : Mᵀ * A * M = A) :
     (M *ᵥ x) ⬝ᵥ (A *ᵥ (M *ᵥ y)) = x ⬝ᵥ (A *ᵥ y) := by
   rw [caSymp_mulVec_dotProduct, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, h]
 
-private theorem caSymp_nondegenerate (A : Matrix ι ι (ZMod 2)) (hAt : Aᵀ = A) (hA2 : A * A = 1)
+private theorem caSymp_nondegenerate (A : Matrix ι ι (ZMod 2)) (_hAt : Aᵀ = A) (hA2 : A * A = 1)
     {w : ι → ZMod 2} (h : ∀ u, w ⬝ᵥ (A *ᵥ u) = 0) : w = 0 := by
   have h1 : w ᵥ* A = 0 := by
     funext i
@@ -212,8 +216,8 @@ private theorem caSymp_fixed_ne (K : Subgroup (GL ι (ZMod 2)))
           ((k : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2)) *ᵥ
             (((l : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2)) *ᵥ (x : ι → ZMod 2))
         rw [Subgroup.coe_mul, Units.val_mul, Matrix.mulVec_mulVec] }
-  letI : SMul K ↥W := act.toSMul
-  letI : MulAction K ↥W := act
+  let : SMul K ↥W := act.toSMul
+  let : MulAction K ↥W := act
   have h0 : (⟨0, W.zero_mem⟩ : ↥W) ∈ MulAction.fixedPoints K ↥W := by
     intro k
     change smulF k ⟨0, W.zero_mem⟩ = ⟨0, W.zero_mem⟩
@@ -255,7 +259,7 @@ private theorem caSymp_core (A : Matrix ι ι (ZMod 2)) (hAt : Aᵀ = A) (hA2 : 
     (hWnd : ∀ w ∈ W, (∀ v ∈ W, w ⬝ᵥ (A *ᵥ v) = 0) → w = 0)
     (K : Subgroup (GL ι (ZMod 2)))
     (hKW : ∀ k ∈ K, ∀ w ∈ W, ((k : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2)) *ᵥ w ∈ W)
-    (hKiso : ∀ k ∈ K, ((k : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2))ᵀ * A *
+    (_hKiso : ∀ k ∈ K, ((k : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2))ᵀ * A *
       ((k : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2)) = A)
     (hnorm : ∀ k ∈ K, ∀ g : GL ι (ZMod 2),
       ((g : GL ι (ZMod 2)) : Matrix ι ι (ZMod 2))ᵀ * A *
@@ -338,6 +342,7 @@ private theorem caSymp_core (A : Matrix ι ι (ZMod 2)) (hAt : Aᵀ = A) (hA2 : 
   have hwC : w ∈ C := hWC w hw
   exact hwC.2 k hk
 
+omit [DecidableEq ι] in
 private theorem caSymp_two_dvd_card (W : Submodule (ZMod 2) (ι → ZMod 2)) [Nontrivial ↥W] :
     2 ∣ Nat.card ↥W := by
   have hdvd : Nat.card ↥W ∣ Nat.card (ι → ZMod 2) :=
@@ -347,7 +352,7 @@ private theorem caSymp_two_dvd_card (W : Submodule (ZMod 2) (ι → ZMod 2)) [No
     rw [Nat.card_eq_fintype_card, ZMod.card]
   rw [hZ] at hdvd
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
-  haveI : Fintype ↥W := Fintype.ofFinite _
+  have : Fintype ↥W := Fintype.ofFinite _
   have h2 : 2 ≤ Nat.card ↥W := by
     have h3 : 1 < Fintype.card ↥W := Fintype.one_lt_card
     rwa [Nat.card_eq_fintype_card]
@@ -432,12 +437,12 @@ theorem eq_bot_of_isPGroup_of_normal_sigmaFixed {m : ℕ} (hm : m = 6 ∨ m = 7)
       intro k hk g hg
       exact hn g ((caSymp_sigmaStd_eq_iff 6 g).mpr hg) k hk
     have hW2 : 2 ∣ Nat.card (⊤ : Submodule (ZMod 2) (BlkIdx 1 6 → ZMod 2)) := by
-      haveI : Nontrivial ↥(⊤ : Submodule (ZMod 2) (BlkIdx 1 6 → ZMod 2)) := by
+      have : Nontrivial ↥(⊤ : Submodule (ZMod 2) (BlkIdx 1 6 → ZMod 2)) := by
         refine ⟨⟨0, Submodule.mem_top⟩, ⟨Pi.single (Sum.inl 0) 1, Submodule.mem_top⟩, ?_⟩
         intro h
         have := congrArg (fun x : BlkIdx 1 6 → ZMod 2 => x (Sum.inl 0))
           (Subtype.ext_iff.mp h)
-        simpa using this
+        simp at this
       exact caSymp_two_dvd_card ⊤
     have htriv := caSymp_core _ hAt hA2 ⊤ hWalt hWnd K hKW hKiso hnorm hK2 hW2
     rw [eq_bot_iff]
@@ -501,7 +506,7 @@ theorem eq_bot_of_isPGroup_of_normal_sigmaFixed {m : ℕ} (hm : m = 6 ∨ m = 7)
         exact (hmem_iff w).mp hw
       have huW : u - (u caSymp_B3) • caSymp_e ∈ W := by
         rw [hmem_iff]
-        simp [caSymp_e, Pi.single_apply]
+        simp [caSymp_e]
       have h1 := h (u - (u caSymp_B3) • caSymp_e) huW
       have hu : u = (u - (u caSymp_B3) • caSymp_e) + (u caSymp_B3) • caSymp_e := by abel
       rw [hu, Matrix.mulVec_add, Matrix.mulVec_smul, hAe]
@@ -562,7 +567,7 @@ theorem eq_bot_of_isPGroup_of_normal_sigmaFixed {m : ℕ} (hm : m = 6 ∨ m = 7)
     have hmemW : (Pi.single (Sum.inl 0) 1 : BlkIdx 1 7 → ZMod 2) ∈ W := by
       rw [hmem_iff, Pi.single_eq_of_ne (by intro h; exact Sum.inl_ne_inr h.symm)]
     have hW2 : 2 ∣ Nat.card W := by
-      haveI : Nontrivial ↥W := by
+      have : Nontrivial ↥W := by
         refine ⟨⟨0, W.zero_mem⟩, ⟨Pi.single (Sum.inl 0) 1, hmemW⟩, ?_⟩
         intro h
         have := congrArg (fun x : BlkIdx 1 7 → ZMod 2 => x (Sum.inl 0))

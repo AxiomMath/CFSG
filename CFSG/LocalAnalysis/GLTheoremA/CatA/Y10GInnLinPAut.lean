@@ -24,7 +24,7 @@ theorem linAutDecomp3_of_eq (h2 : (2 : K) = 0) (hd : 3 ≤ d) (H : Subgroup (GL 
       u ∈ LargeEvenMatConjImage (LargeEvenProjMk H) Set.univ ∧
       f ∈ LargeEvenMatFieldImage (LargeEvenProjMk H) ∧ f ^ 3 = 1 := by
   subst hH
-  haveI : CharP K 2 := charP_two_of_two_eq_zero h2
+  have : CharP K 2 := charP_two_of_two_eq_zero h2
   let ψ : LargeEvenProj (StatedSL d K) ≃* projectiveSL d K :=
     CFSG.ComponentClassification.RankTwoClassical.statedProjEquiv d K
   let sL : SpecialLinearGroup (Fin d) K ≃* StatedSL d K :=

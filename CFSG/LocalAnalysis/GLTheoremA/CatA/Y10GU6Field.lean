@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.Y10GU6
 theorem apply_eq_of_fix_fifth {F : Type} [Field F] [Finite F] (hF : Nat.card F = 16)
     (φ : F ≃+* F) {ζ : F} (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠ 1) (hφ : φ ζ = ζ) (x : F) : φ x = x := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let T : Subfield F := RingHom.eqLocusField (φ : F →+* F) (RingHom.id F)
   have hT : ∀ y : F, y ∈ T ↔ φ y = y := fun y => RingHom.mem_eqLocusField
   have hζT : ζ ∈ T := (hT ζ).2 hφ
@@ -25,8 +25,8 @@ theorem apply_eq_of_fix_fifth {F : Type} [Field F] [Finite F] (hF : Nat.card F =
     intro h0
     rw [h0] at hζ5
     norm_num at hζ5
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype T := Fintype.ofFinite T
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hunit : (⟨ζ, hζT⟩ : T) ^ (Fintype.card T - 1) = 1 :=
     FiniteField.pow_card_sub_one_eq_one _ (fun h => hζ0 (congrArg Subtype.val h))
   have hord : orderOf (⟨ζ, hζT⟩ : T) = 5 := by

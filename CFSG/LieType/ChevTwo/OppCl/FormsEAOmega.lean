@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LieType.BorelTits
 variable (F : Type) [Field F] [Finite F] [CharP F 2]
 variable {ι : Type} [Fintype ι] [DecidableEq ι] (Φ : QuadForm F (ι → F))
 
+omit [Finite F] [CharP F 2] in
 theorem ea_Omega_aux (hι : 5 ≤ Fintype.card ι) :
     EA0 Φ.polar (fun v => Φ.Q v = 0) (natRep (StatedOmega Φ.Q)) ∧
     EA1 Φ.polar (fun v => Φ.Q v = 0) (natRep (StatedOmega Φ.Q)) ∧

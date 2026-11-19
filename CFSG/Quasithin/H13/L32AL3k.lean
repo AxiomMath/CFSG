@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {T L V K : Subgroup G} {t₀ : G}
 omit [Finite G] in
 theorem centralizer_sup_le (z' : G) :
     Subgroup.centralizer ((fsuV1 T V ⊔ Subgroup.zpowers z' : Subgroup G) : Set G) ≤
-      A6.g1 T V := fun x hx =>
+      A6.g1 T V := fun _x hx =>
   Subgroup.centralizer_le_normalizer _
     (Subgroup.centralizer_le (le_sup_left : fsuV1 T V ≤ _) hx)
 

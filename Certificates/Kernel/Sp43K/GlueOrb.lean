@@ -96,11 +96,11 @@ theorem spC_cases {i : ℕ} (hi : i < 5) :
     · exact ⟨h'.1.1.1, h'.1.1.2, h'.1.2⟩
     · exact ih h'.2 d hd
 
-theorem inG_hAB {j : ℕ} (hj : j < 6) : InG (hA j) ∧ InG (hB j) := by
+theorem inG_hAB {j : ℕ} (_hj : j < 6) : InG (hA j) ∧ InG (hB j) := by
   by_cases h5 : j < 5
-  · rw [hA, hB, if_pos h5, if_pos h5]
+  · rw [hA, hB, ite_eq_left h5, ite_eq_left h5]
     exact ⟨(lst_member h5).1, (lst_member h5).2.1⟩
-  · rw [hA, hB, if_neg h5, if_neg h5]
+  · rw [hA, hB, ite_eq_right h5, ite_eq_right h5]
     exact ⟨inG_G5.1, inG_G5.2.1⟩
 
 theorem case_spec {i : ℕ} (hi : i < 5) {r : ℕ} (hr : r < nr.getD i 0) :

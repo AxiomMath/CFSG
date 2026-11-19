@@ -26,7 +26,7 @@ theorem StrothFrame.stroth_3_5_to_3_9 {G : Type} [Group G] [Finite G] (F : Strot
   have hk : τ'.k 0 = τ'.k 1 := by
     have h0 := congrFun τ'.k_eq 0
     have h1 := congrFun τ'.k_eq 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h0 h1
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
     rw [h0, h1, hmn]
   cases τ'
   all_goals first

@@ -26,7 +26,7 @@ theorem statedProj_statedSL_four_simple_nonabelian (K : Type) [Field K] [Finite 
       ∃ a b : StatedProj (StatedSL 4 K), a * b ≠ b * a := by
   refine ⟨CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 4) (by norm_num)
     (Or.inl (by norm_num)) (Or.inl (by norm_num)), ?_⟩
-  haveI := CFSG.LinearGroups.linear_projective_nontrivial (K := K) (n := 4) (by norm_num)
+  have := CFSG.LinearGroups.linear_projective_nontrivial (K := K) (n := 4) (by norm_num)
   have hperf := CFSG.LinearGroups.linear_projective_perfect (K := K) (n := 4) (by norm_num)
     (Or.inl (by norm_num))
   obtain ⟨a, b, hab⟩ := exists_noncomm_of_perfect hperf
@@ -53,7 +53,7 @@ theorem flag_type_of_radical_equiv
     (U P : Subgroup X) (hU1 : U ≠ ⊥) (hU2 : IsPGroup 2 U)
     (hrad : inSubgroup (pCore 2) (Subgroup.normalizer (U : Set X)) = U)
     (hZ : Nat.card ↥(Subgroup.center ↥U) = q) (hcard : Nat.card U = q ^ 9)
-    (hUP : U ≤ P) (hPn : P ≤ Subgroup.normalizer (U : Set X))
+    (_hUP : U ≤ P) (hPn : P ≤ Subgroup.normalizer (U : Set X))
     (hPN : ∀ k ∈ Subgroup.normalizer (U : Set X), k ∈ Subgroup.normalizer (P : Set X))
     (hPU : ∃ _ : (U.subgroupOf P).Normal,
       Nonempty ((↥P ⧸ U.subgroupOf P) ≃* StatedProj (StatedSL 4 K'))) :
@@ -104,7 +104,7 @@ theorem flag_type_of_radical_equiv
       exact hu
     · intro hp
       exact ⟨p, hp, rfl⟩
-  haveI hnUP' : (U.subgroupOf P).Normal := hnUP
+  have hnUP' : (U.subgroupOf P).Normal := hnUP
   let S : Subgroup (↥N1 ⧸ U'.subgroupOf N1) := ψ.range
   have hSnormal : S.Normal := by
     refine ⟨fun s hs g => ?_⟩
@@ -125,8 +125,8 @@ theorem flag_type_of_radical_equiv
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans (QuotientGroup.quotientKerEquivRange ψ)
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K'
   let eS' : ↥S ≃* StatedProj (StatedSL 4 K') := eS.symm.trans ePU
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
-  haveI : IsSimpleGroup ↥S := eS'.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
+  have : IsSimpleGroup ↥S := eS'.isSimpleGroup
   have hnabS : ∃ a b : ↥S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab4
     exact ⟨eS'.symm a, eS'.symm b, fun h => hab (eS'.symm.injective (by simpa using h))⟩

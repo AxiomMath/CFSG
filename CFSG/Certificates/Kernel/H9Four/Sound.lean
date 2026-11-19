@@ -416,7 +416,7 @@ theorem checkInv_sound (L : List ℕ) (S : List (ℕ × ℕ)) (h : checkInvK L S
       rfl
     · rw [beq_iff_eq]
       unfold Elt.mul Elt.one
-      simp only [Bool.false_eq_true, if_false, key hsq, Bool.xor_self]
+      simp only [Bool.false_eq_true, ite_false, key hsq, Bool.xor_self]
     · rw [bne_iff_ne]
       intro h3
       have h4 : Mat.ofCode k = Mat.ofCode one4 := by rw [← one_ofCode]; exact congrArg Elt.a h3
@@ -434,7 +434,7 @@ theorem checkInv_sound (L : List ℕ) (S : List (ℕ × ℕ)) (h : checkInvK L S
       rfl
     · rw [beq_iff_eq]
       unfold Elt.mul Elt.one
-      simp only [if_true, ← ofCode_tr4, key h4, key h5, Bool.xor_self]
+      simp only [ite_true, ← ofCode_tr4, key h4, key h5, Bool.xor_self]
     · rw [bne_iff_ne]
       intro h3
       exact Bool.noConfusion (congrArg Elt.b h3)
@@ -690,7 +690,7 @@ theorem constFix_imp {X : List ℕ} (hc : ∀ v ∈ X, Canon (eltX v) ∧ maskX 
       exact mask2_eq h4
 
 theorem mem_ptsOf {U u : ℕ} (hu : u < 256) : ptOfCode u ∈ ptsOf U ↔ U.testBit u = true :=
-  ⟨fun ⟨w, hw, h1, h2⟩ => (ptOfCode_eq_iff hw hu).mp h2 ▸ h1, fun h => ⟨u, hu, h, rfl⟩⟩
+  ⟨fun ⟨_w, hw, h1, h2⟩ => (ptOfCode_eq_iff hw hu).mp h2 ▸ h1, fun h => ⟨u, hu, h, rfl⟩⟩
 
 theorem mem_fixPts_pair {x y u : ℕ} (hu : u < 256) :
     ptOfCode u ∈ fixPts [decE x, decE y] ↔ ((fixK x).testBit u && (fixK y).testBit u) = true := by
@@ -723,7 +723,7 @@ theorem mem_gam2 {X : List ℕ} (hc : ∀ v ∈ X, Canon (eltX v) ∧ maskX v = 
   rw [hcond]
   cases (!(Nat.beq (eltX v) oneE) && (!(Nat.beq (eltX w) oneE) && !(Nat.beq (eltX v) (eltX w))))
   · simp
-  · rw [if_pos rfl, mem_fixPts_pair hu, Bool.true_and]
+  · rw [ite_eq_left rfl, mem_fixPts_pair hu, Bool.true_and]
 
 theorem mem_gam3 {X : List ℕ} (hc : ∀ v ∈ X, Canon (eltX v) ∧ maskX v = fixK (eltX v))
     {u : ℕ} (hu : u < 256) :
@@ -740,7 +740,7 @@ theorem mem_gam3 {X : List ℕ} (hc : ∀ v ∈ X, Canon (eltX v) ∧ maskX v = 
   rw [hcond]
   cases (!(Nat.beq (eltX v) oneE))
   · simp
-  · rw [if_pos rfl, mem_fixPts_one hu, Bool.true_and]
+  · rw [ite_eq_left rfl, mem_fixPts_one hu, Bool.true_and]
 
 theorem closure_eq_of_mem {L : List Pt} {U : ℕ}
     (h : ∀ u < 256, ptOfCode u ∈ L ↔ U.testBit u = true) :
@@ -748,7 +748,7 @@ theorem closure_eq_of_mem {L : List Pt} {U : ℕ}
   congr 1
   ext p
   obtain ⟨u, hu, rfl⟩ := exists_code_pt p
-  rw [Set.mem_setOf_eq, mem_ptsOf hu, h u hu]
+  rw [Set.mem_ofPred_eq, mem_ptsOf hu, h u hu]
 
 theorem span_gam2 {X : List ℕ} (hc : ∀ v ∈ X, Canon (eltX v) ∧ maskX v = fixK (eltX v)) :
     (spanList (gam2Pts ((X.map eltX).map decE))).length = pop256 (spanM (gam2K X)) :=
@@ -822,7 +822,7 @@ theorem invar_one {X G : List ℕ} {es : List Elt} (hE : (X.map eltX).map decE =
       intro v hv
       obtain ⟨hcv, hmv⟩ := hc v hv
       have h7 := h6 v hv
-      simp only [orB_eq, andB_eq, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq] at h7
+      simp only [Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq] at h7
       simp only [Function.comp_apply, one_iff hcv, Bool.or_eq_true, Bool.and_eq_true, beq_iff_eq,
         Nat.beq_eq, fixPts₁_length, fixPts₂_length, ← hmv]
       exact h7
@@ -888,7 +888,7 @@ theorem e16_sound (R : List (List (ℕ × ℕ × Bool))) (RG RX : List (List ℕ
     unfold e16PairK at hX
     simp only [andB_eq, Bool.and_eq_true, anyL_iff, Nat.ble_eq] at hX
     obtain ⟨⟨v, hv, hv1⟩, ⟨u, hu, hu1⟩, h3⟩ := hX
-    simp only [Bool.and_eq_true, notB_eq, Bool.not_eq_true', Nat.beq_eq] at hv1 hu1
+    simp only [notB_eq, Bool.not_eq_true', Nat.beq_eq] at hv1 hu1
     rw [List.map_map, List.any_map, List.any_map]
     simp only [Bool.and_eq_true, List.any_eq_true, decide_eq_true_eq]
     obtain ⟨hcv, hmv⟩ := hc v hv
@@ -932,8 +932,7 @@ theorem e16_sound (R : List (List (ℕ × ℕ × Bool))) (RG RX : List (List ℕ
       · rw [testBit_fixK _ hu256, decide_eq_false_iff_not] at hu2
         rw [bne_iff_ne]
         exact hu2
-  simp only [List.all_cons, List.all_nil, Bool.and_true, beq_self_eq_true, Bool.true_and,
-    hall2, span_gam3 hc1, span_gam3 hc2, hpair hc1 hp1, hpair hc2 hp2]
+  simp only [List.all_cons, List.all_nil, Bool.and_true, beq_self_eq_true, hall2, span_gam3 hc1, span_gam3 hc2, hpair hc1 hp1, hpair hc2 hp2]
 
 end CFSG.KC.H9Four.Sound
 

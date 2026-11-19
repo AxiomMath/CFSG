@@ -61,7 +61,7 @@ theorem tmAsm_normalizer_ne_top {G : Type*} [Group G] [Finite G] [IsSimpleGroup 
     (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {m : ℕ} (hm : 2 ≤ m) (hcard : Nat.card E = 3 ^ m) :
     Subgroup.normalizer (E : Set G) ≠ ⊤ := by
   intro htop
-  haveI hn : E.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have hn : E.Normal := Subgroup.normalizer_eq_top_iff.1 htop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal E with h | h
   · have h1 : Nat.card E = 1 := by rw [h]; exact Subgroup.card_bot
     rw [hcard] at h1
@@ -73,7 +73,7 @@ theorem tmAsm_normalizer_ne_top {G : Type*} [Group G] [Finite G] [IsSimpleGroup 
       have hb : b ∈ E := h ▸ Subgroup.mem_top b
       exact hE a ha b hb
     have hp : (Nat.card G).Prime := by
-      letI : CommGroup G := { ‹Group G› with mul_comm := hab }
+      let : CommGroup G := { ‹Group G› with mul_comm := hab }
       exact IsSimpleGroup.prime_card
     have hG : Nat.card G = 3 ^ m := by
       rw [← hcard, h, Subgroup.card_top]
@@ -102,7 +102,7 @@ theorem tmAsm_case_parabolic {G : Type*} [Group G] [Finite G] (E P H : Subgroup 
   have h1 := tmAsm_card_dvd_of_inf_eq_bot _ H P hEH hPH hPn hinf
   have h2 : 3 ^ (c + 1) ∣ Nat.card (H ⧸ P.subgroupOf H) := hdvd.trans h1
   have hpos : Nat.card (H ⧸ P.subgroupOf H) ≠ 0 := Nat.card_pos.ne'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 := (padicValNat_dvd_iff_le (p := 3) hpos).1 h2
   omega
 
@@ -114,7 +114,7 @@ theorem tmAsm_case_normal_three {G : Type*} [Group G] [Finite G] (E H Q : Subgro
     (hsyl : ∃ P : Sylow 3 G, (P : Subgroup G) ≤ Subgroup.normalizer (E : Set G))
     (hMH : Subgroup.normalizer (E : Set G) < H) (hQH : Q ≤ H) (hQn : (Q.subgroupOf H).Normal)
     (hQ3 : Nat.card Q = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQp : IsPGroup 3 Q := IsPGroup.of_card (n := 1) (by simpa using hQ3)
   have hQ0 : Q ≠ ⊥ := by
     intro h
@@ -133,11 +133,11 @@ def tmAsm_conj {G : Type*} [Group G] (H J : Subgroup G) (hJH : J ≤ H)
   toFun h :=
     { toFun := fun j =>
         ⟨(h : G) * j * (h : G)⁻¹, by
-          have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simpa [Subgroup.mem_subgroupOf] using j.2) h
+          have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simp [Subgroup.mem_subgroupOf]) h
           simpa [Subgroup.mem_subgroupOf] using this⟩
       invFun := fun j =>
         ⟨(h : G)⁻¹ * j * (h : G), by
-          have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simpa [Subgroup.mem_subgroupOf] using j.2) h⁻¹
+          have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simp [Subgroup.mem_subgroupOf]) h⁻¹
           simpa [Subgroup.mem_subgroupOf] using this⟩
       left_inv := fun j => by ext; simp [mul_assoc]
       right_inv := fun j => by ext; simp [mul_assoc]

@@ -50,11 +50,11 @@ theorem Hyp.le_center_of_disjoint (h : Hyp G D) {K : Subgroup G} (hK : K.Normal)
       have hg_eq : g = k * (k⁻¹ * g) := by group
       rw [hg_eq]
       exact Subgroup.mul_mem_sup hk hmem
-    haveI : K.Normal := hK
+    have : K.Normal := hK
     have hcomm : commutator G ≤ K :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
         (H := Subgroup.center G) hsup
-    haveI : IsMulCommutative (G ⧸ K) :=
+    have : IsMulCommutative (G ⧸ K) :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
     let πK : G →* G ⧸ K := QuotientGroup.mk' K
     obtain ⟨u, hu, v, hv, -, -, huv⟩ := h.sq
@@ -77,6 +77,7 @@ theorem Hyp.le_center_of_disjoint (h : Hyp G D) {K : Subgroup G} (hK : K.Normal)
     exact hKD u hu ((QuotientGroup.eq_one_iff (N := K) u).mp hu1)
 
 
+omit [Finite G] in
 private theorem mem_normalizer_rootSet_conj_image_iff (D : Set G) {x : G} {g h : G} :
     h ∈ Subgroup.normalizer ((fun y => g * y * g⁻¹) '' rootSet D x) ↔
       g⁻¹ * h * g ∈ Subgroup.normalizer (rootSet D x) := by
@@ -231,6 +232,7 @@ private theorem mem_normalizer_rootSet_of_mem_rootSet (c : SzCfg G D d E e n) {a
 
 
 
+omit [Finite G] in
 private theorem mem_normalizer_rootSet_of_commute {a y : G}
     (hclass : ∃ d₀ : G, D = {g | IsConj d₀ g}) (h : Commute a y) :
     a ∈ Subgroup.normalizer (rootSet D y) := by
@@ -380,6 +382,7 @@ private theorem mem_normalizer_rootSet_of_mem (c : SzCfg G D d E e n) {a b : G}
 private def rootSetKernel (D : Set G) : Subgroup G :=
   ⨅ x : D, Subgroup.normalizer (rootSet D x)
 
+omit [Finite G] in
 private theorem rootSetKernel_normal (c : SzCfg G D d E e n) :
     (rootSetKernel D).Normal := by
   refine ⟨fun g hg h => ?_⟩

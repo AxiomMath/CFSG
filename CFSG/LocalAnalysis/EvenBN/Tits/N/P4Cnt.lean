@@ -45,9 +45,9 @@ theorem centralizes_of_isPGroup_two [Finite Γ] (h : IsF20 U x v) {P : Subgroup 
     (hPU : P ≤ normalizer (U : Set Γ)) (hxP : ∀ p ∈ P, x * p * x⁻¹ ∈ P) :
     ∀ p ∈ P, ∀ u ∈ U, p * u = u * p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
-  letI : MulAction P U :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
+  let : MulAction P U :=
     { smul := fun p u => ⟨(p : Γ) * u * (p : Γ)⁻¹, (mem_normalizer_iff.1 (hPU p.2) u).1 u.2⟩
       one_smul := fun u => Subtype.ext (by
         change (1 : P).1 * u.1 * ((1 : P).1)⁻¹ = u.1

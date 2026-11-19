@@ -220,15 +220,15 @@ theorem exists_conj_of_pow_eq_one {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
       hp hp2 (by rw [Nat.dvd_one]; omega) e α hα)
   ·
     obtain ⟨e⟩ := hSL5
-    letI : Field (ZMod 5) := @ZMod.instField 5 ⟨by norm_num⟩
+    let : Field (ZMod 5) := @ZMod.instField 5 ⟨by norm_num⟩
     exact Or.inl (exists_conj_of_mulEquiv_sl2 (L := ↥L) (F := ZMod 5) (q := 5) (f := 1) (r := p)
       (show Nat.Prime 5 by norm_num) (by norm_num)
       (by rw [Nat.card_zmod]; norm_num) (by norm_num)
       hp hp2 (by rw [Nat.dvd_one]; omega) e α hα)
   ·
     obtain ⟨e⟩ := hSL9
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    letI : Field (GaloisField 3 2) := instFieldGaloisField 3 2
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    let : Field (GaloisField 3 2) := instFieldGaloisField 3 2
     exact Or.inl (exists_conj_of_mulEquiv_sl2 (L := ↥L) (F := GaloisField 3 2)
       (q := 3) (f := 2) (r := p)
       (show Nat.Prime 3 by norm_num) (by norm_num)

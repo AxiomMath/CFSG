@@ -75,11 +75,12 @@ theorem cPair_orth (F : Type) [Field F] (b c : F) (i j : Fin 4) (hij : i ≠ j) 
     (pairDisjoint_minus (n := 5) (by norm_num) hij)
 
 
+omit [CharP F 2] in
 theorem exists_order_q_sl2 {n q : ℕ} (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ n)
     (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) :
     ∃ t : Matrix.SpecialLinearGroup (Fin 2) F, orderOf t = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 2 ^ n := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨-, ⟨T, -, hcard⟩, -⟩ :=
     CFSG.LocalAnalysis.SteinbergBS.even_sl2_nonsplit_cyclic_sylow (k := F) (e := n) (by omega) hF'

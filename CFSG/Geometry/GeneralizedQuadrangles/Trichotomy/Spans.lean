@@ -23,13 +23,13 @@ variable {Γ : SimpleGraph V}
 theorem spanOrLine_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) {x y : V}
     (h : Γ.dist x y = 4) : spanOrLine hP x y = spanSet Γ x y := by
   classical
-  rw [spanOrLine, if_pos h]
+  rw [spanOrLine, ite_eq_left h]
 
 theorem spanOrLine_of_dist_eq_two (hP : IsGeneralizedPolygon Γ 4) {x y : V}
     (h : Γ.dist x y = 2) :
     spanOrLine hP x y = Γ.neighborSet (commonNeighbor hP h) := by
   classical
-  rw [spanOrLine, if_neg (by rw [h]; norm_num), dif_pos h]
+  rw [spanOrLine, ite_eq_right (by rw [h]; norm_num), dite_eq_left h]
 
 @[simp] theorem mem_spanOrLine_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) {x y z : V}
     (h : Γ.dist x y = 4) : z ∈ spanOrLine hP x y ↔ z ∈ spanSet Γ x y := by
@@ -76,6 +76,7 @@ section Colours
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem color_eq_of_adj_adj {c : Γ.Coloring (Fin 2)} {W a b : V}
     (ha : Γ.Adj W a) (hb : Γ.Adj W b) : c a = c b := by
   have h1 : c a ≠ c W := (c.valid ha).symm
@@ -86,7 +87,7 @@ private theorem color_eq_of_adj_adj {c : Γ.Coloring (Fin 2)} {W a b : V}
 
 private theorem color_eq_of_mem_span_of_adj_left
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {L x y z : V} (hL : c L = 1) (hLx : Γ.Adj L x) (hxy : Γ.dist x y = 4)
+    {L x y z : V} (_hL : c L = 1) (_hLx : Γ.Adj L x) (hxy : Γ.dist x y = 4)
     (hz : z ∈ spanSet Γ x y) : c z = c x := by
   exact color_eq_of_mem_span hP hT c hxy hz
 
@@ -99,6 +100,7 @@ private theorem dist_eq_three_of_span
   exact dist_eq_three_of_not_adj_of_color_ne hP c (fun h => hzL h.symm)
     (by rw [hcz, hx0, hL]; decide)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem dist_eq_three_of_adj_adj
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L x W z : V} (hL : c L = 1) (hLx : Γ.Adj L x) (hxW : Γ.Adj W x)
@@ -108,6 +110,7 @@ private theorem dist_eq_three_of_adj_adj
   exact dist_eq_three_of_not_adj_of_color_ne hP c (fun h => hzL h.symm)
     (by rw [hcz, hx0, hL]; decide)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem not_adj_of_dist_eq_four_of_adj_right
     (hP : IsGeneralizedPolygon Γ 4) {L M y : V} (hLM : Γ.dist L M = 4)
     (hyM : Γ.Adj M y) : ¬ Γ.Adj L y := by
@@ -120,6 +123,7 @@ theorem not_adj_of_dist_eq_four_of_adj_right
       omega
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem dist_eq_three_of_adj_right
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L M y : V} (hL : c L = 1) (hM : c M = 1) (hyM : Γ.Adj M y)
@@ -129,6 +133,7 @@ private theorem dist_eq_three_of_adj_right
     (fun h => (not_adj_of_dist_eq_four_of_adj_right (L := L) (M := M) (y := y)
       hP hLM hyM) h.symm) (by rw [hy0, hL]; decide)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem not_adj_of_dist_eq_four_of_adj_left
     (hP : IsGeneralizedPolygon Γ 4) {L M x : V} (hLM : Γ.dist L M = 4)
     (hxL : Γ.Adj L x) : ¬ Γ.Adj M x := by
@@ -141,6 +146,7 @@ theorem not_adj_of_dist_eq_four_of_adj_left
       omega
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem eq_of_adj_right_of_dist_eq_two
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {L M w y y' : V}
     (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
@@ -171,6 +177,7 @@ private theorem eq_proj_of_mem_span (hP : IsGeneralizedPolygon Γ 4)
     dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hz hwtrace
   exact (eq_proj hP hz3 hLw hzw).symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem eq_proj_of_adj_adj (hP : IsGeneralizedPolygon Γ 4)
     {L x W z : V} (hz3 : Γ.dist z L = 3) (hLx : Γ.Adj L x)
     (hxW : Γ.Adj W x) (hzW : Γ.Adj W z) (hzx : z ≠ x) :
@@ -276,9 +283,10 @@ private theorem neighborSet_commonNeighbor_inter_spanSet_subset
       (L := commonNeighbor hP h2) hzV.symm hyV.symm hzy
   omega
 
+omit [Fintype V] in
 private theorem neighborSet_inter_neighborSet_subset
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
-    {L M x x' y y' : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
+    {L M x x' y y' : V} (hL : c L = 1) (hM : c M = 1) (_hLM : Γ.dist L M = 4)
     (hLx : Γ.Adj L x) (hLx' : Γ.Adj L x') (hMy : Γ.Adj M y) (hMy' : Γ.Adj M y')
     (h2 : Γ.dist x y = 2) (h2' : Γ.dist x' y' = 2)
     (hne : (x, y) ≠ (x', y')) :
@@ -347,7 +355,7 @@ theorem spanOrLine_inter_subset
         exact neighborSet_commonNeighbor_inter_spanSet_subset hP hT c hL hM hLM
           hLx' hLx hMy' hMy h2' h4 hne' hz'
       · have hnil : spanOrLine hP x' y' = ∅ := by
-          rw [spanOrLine, if_neg h4', dif_neg h2']
+          rw [spanOrLine, ite_eq_right h4', dite_eq_right h2']
         simp [hnil] at hz
   · by_cases h2 : Γ.dist x y = 2
     · rw [spanOrLine_of_dist_eq_two hP h2] at hz
@@ -360,10 +368,10 @@ theorem spanOrLine_inter_subset
           exact neighborSet_inter_neighborSet_subset hP c hL hM hLM
             hLx hLx' hMy hMy' h2 h2' hne hz
         · have hnil : spanOrLine hP x' y' = ∅ := by
-            rw [spanOrLine, if_neg h4', dif_neg h2']
+            rw [spanOrLine, ite_eq_right h4', dite_eq_right h2']
           simp [hnil] at hz
     · have hnil : spanOrLine hP x y = ∅ := by
-        rw [spanOrLine, if_neg h4, dif_neg h2]
+        rw [spanOrLine, ite_eq_right h4, dite_eq_right h2]
       simp [hnil] at hz
 
 end StepOne

@@ -90,7 +90,7 @@ theorem subsingleton_of_perfect_of_two_small {E : Type} [Group E] [Finite E]
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 2 E))
-  have hR2 : Nat.card (R : Subgroup E) ≤ 2 := h2 R R.isPGroup'
+  have hR2 : Nat.card (R : Subgroup E) ≤ 2 := h2 R R.isPGroup
   have hR1 : (R : Subgroup E) = ⊥ := by
     by_contra hne
     have h4 := CFSG.GroupTheory.four_le_index_center_subgroupOf_sylow_two (B := E) R hne
@@ -137,12 +137,12 @@ theorem eq_bot_of_perfect_of_centralizer_two_small {X : Type} [Group X] [Finite 
   obtain ⟨P, hP⟩ := (isPGroup_zpowers_of_sq_eq_one_two ht'2).exists_le_sylow
   have htP : t' ∈ (P : Subgroup H) := hP (mem_zpowers t')
   have hPcard : Nat.card (P : Subgroup H) ≤ 2 := by
-    refine card_le_two_of_card_centralizer_le_two P.isPGroup' ⟨t', htP⟩ ?_
+    refine card_le_two_of_card_centralizer_le_two P.isPGroup ⟨t', htP⟩ ?_
     set C : Subgroup (P : Subgroup H) := centralizer ({(⟨t', htP⟩ : (P : Subgroup H))} : Set _)
     have hinj : Function.Injective (H.subtype.comp (P : Subgroup H).subtype) :=
       H.subtype_injective.comp (P : Subgroup H).subtype_injective
     have hU' := hC (C.map (H.subtype.comp (P : Subgroup H).subtype))
-      ((P.isPGroup'.to_subgroup C).map _) (by
+      ((P.isPGroup.to_subgroup C).map _) (by
         rintro _ ⟨x, -, rfl⟩
         exact ((x : (P : Subgroup H)) : H).2) (by
         rintro _ ⟨x, hx, rfl⟩

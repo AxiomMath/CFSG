@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 theorem Z1_of_odd (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     (h41 : Opp 3 (Cen b) ≤ Opp 3 (Cen (b * b₁)))
     (hodd : Odd (Nat.card (Opp 3 (Cen (b * b₁))))) : Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Zc : Subgroup G := (Subgroup.center ↥L).map L.subtype with hZc
   have hcard : Nat.card Zc ∣ 2 := by
     rw [hZc, Subgroup.card_map_of_injective L.subtype_injective]; exact hA.2
@@ -98,7 +98,7 @@ theorem le_X (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     {W : Subgroup G} (hWb : W ≤ Cen b) (hW2 : W ≤ Cen (b₁ * b₂))
     (hWo : ∀ w ∈ W, Nat.Coprime (orderOf w) 6) (hW3 : Nat.Coprime 3 (Nat.card W))
     (hWn : ∀ c ∈ Cen b ⊓ CenS L, ∀ w ∈ W, c * w * c⁻¹ ∈ W) : W ≤ Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWZ : W ≤ Cen b ⊓ CenS L := fun w hw =>
     Subgroup.mem_inf.2 ⟨hWb hw, cen_L_of_coprime6 hA h (hWb hw) (hW2 hw) (hWo w hw)⟩
   have h1 : W ≤ Opp 3 (Cen b ⊓ CenS L) := FF79.L14.le_Opp_of_normalized hWZ hWn hW3

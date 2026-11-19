@@ -12,8 +12,8 @@ variable {G : Type} [Group G] {QF V : Subgroup G} {K : Type} [Field K] [Finite K
   {γ : G → K}
 
 theorem exists_mu_of_dihedral (M₀ : QuadModel QF V K γ)
-    {D T : M₀.E ≃ₗ[K] M₀.E} (hD : ∀ e, M₀.Qf (D e) = M₀.Qf e) (hT : ∀ e, M₀.Qf (T e) = M₀.Qf e)
-    (hD2 : ∀ e, D (D e) = e) (hDT : ∀ e, D (T e) = T.symm (D e))
+    {D T : M₀.E ≃ₗ[K] M₀.E} (_hD : ∀ e, M₀.Qf (D e) = M₀.Qf e) (hT : ∀ e, M₀.Qf (T e) = M₀.Qf e)
+    (_hD2 : ∀ e, D (D e) = e) (hDT : ∀ e, D (T e) = T.symm (D e))
     {m : ℕ} (hm : Odd m) (hTm : (T : M₀.E →ₗ[K] M₀.E) ^ m = 1)
     (hR : Module.finrank K (LinearMap.range ((D : M₀.E →ₗ[K] M₀.E) - 1)) ≤ 2)
     (hsing : ∀ v ∈ LinearMap.range ((D : M₀.E →ₗ[K] M₀.E) - 1), M₀.Qf v = 0) :

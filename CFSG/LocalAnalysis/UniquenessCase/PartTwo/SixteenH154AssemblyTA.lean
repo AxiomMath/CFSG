@@ -27,7 +27,7 @@ private theorem s16h_cyclic_sylow_three_of_lie_shape {X : Type} [Group X] [Finit
     (h : IsL3 X 1 ∨ UC22.IsL2 X 2 ∨ UC22.IsL2 X 3) :
     ∀ Q : Sylow 3 X, IsCyclic ↥(Q : Subgroup X) := by
   intro Q
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h3 | h2 | h2
   · exact isCyclic_of_prime_card (p := 3) (card_sylow_three_of_isL3 h3 Q)
   · have hrank : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1 :=
@@ -36,14 +36,14 @@ private theorem s16h_cyclic_sylow_three_of_lie_shape {X : Type} [Group X] [Finit
       rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) (Q : Subgroup X)]
       exact (CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt
         (le_top : (Q : Subgroup X) ≤ ⊤)).trans hrank
-    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup' hQrank
+    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup hQrank
   · have hrank : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1 :=
       UC22.pRank_le_one_of_isL2_or_isSz (Or.inl h2) Nat.prime_three (by norm_num)
     have hQrank : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(Q : Subgroup X)) ≤ 1 := by
       rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) (Q : Subgroup X)]
       exact (CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt
         (le_top : (Q : Subgroup X) ≤ ⊤)).trans hrank
-    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup' hQrank
+    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup hQrank
 
 theorem s16h_pRank_three_eq_one_of_lie_cover (D : Data G) {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) {K : Subgroup G} (hK : K ∈ calC D.M)
@@ -52,7 +52,7 @@ theorem s16h_pRank_three_eq_one_of_lie_cover (D : Data G) {V₀ V : Subgroup G}
     (hshape : IsL3 ↥B 1 ∨ UC22.IsL2 ↥B 2 ∨ UC22.IsL2 ↥B 3) :
     CFSG.Open.pRank 3 K = 1 := by
   subst B
-  haveI : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) :=
+  have : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) :=
     Finite.of_injective
       (fun e : MulAut (Vtil V₀ V h.isElemAbelian) =>
         (e : Vtil V₀ V h.isElemAbelian → Vtil V₀ V h.isElemAbelian))
@@ -77,13 +77,13 @@ theorem s16h_pRank_three_eq_one_of_lie_cover (D : Data G) {V₀ V : Subgroup G}
   · rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) K]
     exact CFSG.one_le_pRank_of_dvd_card Nat.prime_three h3K
 
-theorem s16h_four_or_strong_of_tensor (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
+theorem s16h_four_or_strong_of_tensor (D : Data G) (S : s16h_Std D) (_hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)}
-    (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
-    (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
-    (hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t
+    (_ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian) (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1)
+    (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t
       (lBar V₀ V h.hyp151.isElemAbelian L))
     {K : Subgroup (MulAut (Vtil V₀ V h.hyp151.isElemAbelian))}
     (hK : IsComponentOf K (Mbar D.M V₀ V h.hyp151.isElemAbelian))
@@ -127,7 +127,7 @@ theorem s16h_four_or_strong_of_tensor (D : Data G) (S : s16h_Std D) (hσ : D.sig
     · exact Or.inr (Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e h2))
     · exact Or.inr (Or.inr (CFSG.Blueprint.LieModel.of_mulEquiv e h3))
   have hKne : K ≠ ⊥ := by
-    haveI := hK.2.2.2
+    have := hK.2.2.2
     have hnt : Nontrivial ↥K :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot K).mp hnt

@@ -12,6 +12,7 @@ section Trace
 
 variable {L K : Type} [Field L] [Finite L] [Field K] [Finite K] [Algebra L K]
 
+omit [Finite L] in
 theorem trace_comp_eq (ρ : K →+* K) (τ : L →+* L)
     (hρL : ∀ l : L, ρ (algebraMap L K l) = algebraMap L K (τ l)) (z : K) :
     Algebra.trace L K (ρ z) = τ (Algebra.trace L K z) := by
@@ -71,7 +72,7 @@ theorem exists_trace_form (ρ : K →+* K) (τ : L →+* L) (hρρ : ∀ x, ρ (
     intro x y y'
     refine eq_of_trace_mul_eq (L := L) _ _ ?_
     intro c
-    simp only [map_add, add_mul, hkey, smul_add, LinearMap.map_add]
+    simp only [map_add, add_mul, hkey, smul_add]
   have hsmul_y : ∀ (a : K) x y, B0 x (a • y) = a • B0 x y := by
     intro a x y
     refine eq_of_trace_mul_eq (L := L) _ _ ?_
@@ -111,9 +112,8 @@ theorem form_apply_of_orthonormal {ρ : K →+* K} {B : W →ₛₗ[ρ] W →ₗ
   have hxy : B x y = B (∑ a, e.repr x a • e a) (∑ b, e.repr y b • e b) := by
     rw [e.sum_repr, e.sum_repr]
   rw [hxy]
-  simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, map_smul, he,
-    smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.sum_ite_eq,
-    Finset.mem_univ, if_true, RingHom.id_apply]
+  simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, he,
+    smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, RingHom.id_apply]
   exact Finset.sum_congr rfl fun a _ => mul_comm _ _
 
 theorem sum_mulVec_mul_eq {ρ : K →+* K} {d : ℕ} (M : Matrix (Fin d) (Fin d) K) (r s : Fin d → K) :
@@ -157,9 +157,7 @@ theorem unitary_iff_matrix {ρ : K →+* K} {B : W →ₛₗ[ρ] W →ₗ[K] K} 
     ext a b
     have h1 := hg (e a) (e b)
     rw [form_map_apply e he, he] at h1
-    simp only [Module.Basis.repr_self_apply, apply_ite ρ, map_one, map_zero, ite_mul, one_mul,
-      zero_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true] at h1
+    simp only [Module.Basis.repr_self_apply, apply_ite ρ, map_one, map_zero, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h1
     rw [Matrix.one_apply]
     exact h1
   · intro hM x y

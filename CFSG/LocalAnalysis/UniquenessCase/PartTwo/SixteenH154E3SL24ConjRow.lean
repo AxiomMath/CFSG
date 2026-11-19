@@ -21,6 +21,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl24_conj_row {L : Subgroup (MulAut W)} (σ : MulAut W)
     (hrow : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
     (hZ4 : 2 < Nat.card ↥(commSub ⊤ L ⊓ fixV L)) :

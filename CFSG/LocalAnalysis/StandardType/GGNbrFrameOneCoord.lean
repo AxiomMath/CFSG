@@ -105,7 +105,7 @@ theorem card_fix_swapAut (hp : p.Prime) {i j : Fin k} (hij : i ≠ j) :
     show ofAdd (toAdd (ofAdd (Pi.single i (toAdd x) : Fin k → ZMod p)) i -
       toAdd (ofAdd (Pi.single i (toAdd x) : Fin k → ZMod p)) j) = x
     rw [toAdd_ofAdd, Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm hij)]
-    simpa using ofAdd_toAdd x
+    simp
   have hcard_range : Nat.card δ.range = p := by
     rw [hrange]
     calc Nat.card (⊤ : Subgroup (Multiplicative (ZMod p)))
@@ -121,7 +121,7 @@ theorem orderOf_negAut_mul_swapAut (hp : p.Prime) (hp2 : p ≠ 2) {i j : Fin k} 
     orderOf (negAut i * swapAut i j :
       MulAut (Multiplicative (Fin k → ZMod p))) = 4 := by
   have := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let w : MulAut (Multiplicative (Fin k → ZMod p)) := negAut i * swapAut i j
   have hconj : (swapAut i j * negAut i * swapAut i j :
       MulAut (Multiplicative (Fin k → ZMod p))) = negAut j := by
@@ -132,11 +132,10 @@ theorem orderOf_negAut_mul_swapAut (hp : p.Prime) (hp2 : p ≠ 2) {i j : Fin k} 
     by_cases hl : l = i
     · subst hl
       simp [Equiv.swap_apply_left, Equiv.swap_apply_right, hij, Ne.symm hij,
-        Function.update_of_ne, Function.update_self]
+        Function.update_of_ne]
     · by_cases hl2 : l = j
       · subst hl2
-        simp [Equiv.swap_apply_left, Equiv.swap_apply_right, hij, Ne.symm hij,
-          Function.update_of_ne, Function.update_self]
+        simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Function.update_self]
       · simp [Equiv.swap_apply_of_ne_of_ne hl hl2, Function.update_of_ne hl,
           Function.update_of_ne hl2]
   have hcomm : (negAut i * negAut j : MulAut (Multiplicative (Fin k → ZMod p))) =
@@ -172,11 +171,10 @@ theorem orderOf_negAut_mul_swapAut (hp : p.Prime) (hp2 : p ≠ 2) {i j : Fin k} 
           (ofAdd (Pi.single j (1 : ZMod p))) := by rw [h]
     rw [hw2, MulAut.mul_apply, negAut_apply, negAut_apply, MulAut.one_apply,
       ofAdd.injective.eq_iff] at h1
-    simp [hij, Ne.symm hij, Function.update_of_ne, Function.update_self,
-      Pi.single_eq_same] at h1
+    simp [hij, Function.update_of_ne, Pi.single_eq_same] at h1
     have h2 : (2 : ZMod p) = 0 := by
       have h := congrArg (fun v : Fin k → ZMod p => v j) h1
-      simp [hij, Ne.symm hij, Function.update_of_ne, Function.update_self,
+      simp [Ne.symm hij, Function.update_of_ne, Function.update_self,
         Pi.single_eq_same] at h
       linear_combination -h
     exact (SpCoord.coord_two_ne_zero hp hp2) h2

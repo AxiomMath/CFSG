@@ -70,7 +70,7 @@ theorem proper_centric_radical_subgroups (n : ℕ) (hn : 4 ≤ n) (S : Sylow 2 G
     have hcT : (t : G)⁻¹ * y ∈ T := Subgroup.map_subtype_le _ hc
     have h := T.mul_mem htT' hcT
     rwa [mul_inv_cancel_left] at h
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : T.subgroupOf S < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact hTS.not_ge

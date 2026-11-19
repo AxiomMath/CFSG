@@ -16,7 +16,7 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K] {p : ℕ}
 
 theorem exists_pow_eq_one_not_mem [Fact p.Prime] {P A : Subgroup K}
-    (hrank : 2 ≤ CFSG.Open.pRank p P) (hAP : A ≤ P) (hA : Nat.card A = p) :
+    (hrank : 2 ≤ CFSG.Open.pRank p P) (_hAP : A ≤ P) (hA : Nat.card A = p) :
     ∃ b ∈ P, b ^ p = 1 ∧ b ∉ A := by
   obtain ⟨E, hEP, hE, hEcard⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank (Fact.out : p.Prime) hrank
@@ -98,7 +98,7 @@ theorem not_isMulCommutative_of_order_count [Fact p.Prime] {P : Subgroup K} {k m
   have hTP : T ≤ P := fun y hy => hy.1
   have hTset : (T : Set K) = insert 1 {y : K | y ∈ P ∧ orderOf y = p} := by
     ext y
-    simp only [SetLike.mem_coe, Set.mem_insert_iff, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, Set.mem_insert_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hyP, hyp⟩
       by_cases hy1 : y = 1
@@ -201,7 +201,7 @@ theorem WCOn.of_normalizer_invariant [Fact p.Prime] (c : ℕ)
       (∀ n ∈ Subgroup.normalizer ((P : Subgroup K) : Set K), ∀ t ∈ O, n * t * n⁻¹ ∈ O) →
         O.ncard = 0 ∨ O.ncard = c) : WCOn p K := by
   refine WCOn.of_normalizer_irreducible fun P C hCP hN => ?_
-  have hO := h P ((C : Set K) \ {1}) (Set.diff_subset_diff_left hCP) (by
+  have hO := h P ((C : Set K) \ {1}) (Set.sdiff_subset_sdiff_left hCP) (by
     intro n hn t ht
     have hnC : ∀ y, y ∈ C ↔ n * y * n⁻¹ ∈ C := Subgroup.mem_normalizer_iff.1 (hN hn)
     refine ⟨(hnC t).1 ht.1, fun h1 => ht.2 ?_⟩
@@ -213,7 +213,7 @@ theorem WCOn.of_normalizer_invariant [Fact p.Prime] (c : ℕ)
     rw [← Nat.card_coe_set_eq]
     rfl
   have h1 : (((C : Set K) \ {1}).ncard) = Nat.card C - 1 := by
-    rw [Set.ncard_diff_singleton_of_mem C.one_mem, hCfin]
+    rw [Set.ncard_sdiff_singleton_of_mem C.one_mem, hCfin]
   have hpos : 0 < Nat.card C := Nat.card_pos
   rw [h1] at hO
   rcases hO with h0 | hc
@@ -369,7 +369,7 @@ theorem WCOn.of_plane_fusion [Fact p.Prime] {s t : K} (hs : s ^ p = 1) (ht : t ^
     have hsA : s ∈ A := by
       have hle : A ≤ Subgroup.zpowers s := by
         rw [hAy, Subgroup.zpowers_le, hij]
-        simpa using (Subgroup.pow_mem _ (Subgroup.mem_zpowers s) i)
+        simp
       have heq : A = Subgroup.zpowers s :=
         Subgroup.eq_of_le_of_card_ge hle (by rw [Nat.card_zpowers, hos, hA])
       rw [heq]
@@ -427,7 +427,7 @@ theorem card_closure_pair_sq {a b : K} (hp : p.Prime) (hab : a * b = b * a) (ha 
     (hb : b ^ p = 1) (ha1 : a ≠ 1) (hba : ∀ k : ℕ, b ≠ a ^ k) :
     Nat.card (Subgroup.closure ({a, b} : Set K)) = p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb1 : b ≠ 1 := by simpa using hba 0
   have hoa : orderOf a = p := orderOf_eq_prime ha ha1
   have hob : orderOf b = p := orderOf_eq_prime hb hb1
@@ -579,7 +579,7 @@ theorem factorization_eq_of_dvd {N a : ℕ} (hp : p.Prime) (hN : N ≠ 0) (h2 : 
 
 theorem card_sylow_eq_pow {N a : ℕ} (hN : Nat.card K = N) (hp : p.Prime) (h2 : p ^ a ∣ N)
     (h3 : ¬ p ^ (a + 1) ∣ N) (P : Sylow p K) : Nat.card (P : Subgroup K) = p ^ a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [P.card_eq_multiplicity, hN]
   congr 1
   have hN0 : N ≠ 0 := by
@@ -600,7 +600,7 @@ theorem wcSporadicAt_of_card (s : TauCeti.SporadicName) [Finite (Carrier s)] {N 
     (hN : Nat.card (Carrier s) = N)
     (h : ∀ q : ℕ, q.Prime → q ≠ 2 → q ^ 2 ∣ N → WCOn q (Carrier s)) : WCSporadicAt s := by
   intro q hq hq2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hd : q ^ 2 ∣ N
   · exact h q hq hq2 hd
   · refine WCOn.of_factorization_le_one ?_

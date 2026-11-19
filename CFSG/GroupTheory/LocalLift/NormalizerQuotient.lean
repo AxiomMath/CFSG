@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {H H' : Type*} [Group H] [Group H'] [Finite H]
 
+omit [Finite H] in
 private theorem comap_le_of_le_map (π : H →* H') {M : Subgroup H}
     (hker : π.ker ≤ M) {R' : Subgroup H'} (hR'M : R' ≤ M.map π) :
     R'.comap π ≤ M := by
@@ -34,8 +35,8 @@ private theorem exists_isSylowOf_map_eq {r : ℕ} [Fact r.Prime] (π : H →* H'
   let W : Subgroup H := R'.comap π
   have hWM : W ≤ M := comap_le_of_le_map π hker hR'M
   have hWmap : W.map π = R' := Subgroup.map_comap_eq_self_of_surjective hπ R'
-  haveI hR'fin : Finite ↥R' := by
-    haveI : Finite ↥(M.map π) :=
+  have hR'fin : Finite ↥R' := by
+    have : Finite ↥(M.map π) :=
       Finite.of_surjective (π.subgroupMap M) (MonoidHom.subgroupMap_surjective π M)
     exact Finite.of_injective (Subgroup.inclusion hR'M) (Subgroup.inclusion_injective hR'M)
   let φ : W →* R' := (π.comp W.subtype).codRestrict R' fun w =>
@@ -130,7 +131,7 @@ theorem two_le_pRank_of_map {r : ℕ} [Fact r.Prime] [Finite H'] (hr2 : r ≠ 2)
   have hodd : Odd r := hr.odd_of_ne_two hr2
   have hRnc : ¬ IsCyclic R := by
     intro hcyc
-    haveI : Finite ↥(R.map π) :=
+    have : Finite ↥(R.map π) :=
       Finite.of_surjective (π.subgroupMap R) (MonoidHom.subgroupMap_surjective π R)
     have hcyc' : IsCyclic ↥(R.map π) :=
       isCyclic_of_surjective (π.subgroupMap R) (MonoidHom.subgroupMap_surjective π R)

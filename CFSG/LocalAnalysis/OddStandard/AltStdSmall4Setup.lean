@@ -52,8 +52,9 @@ private theorem comm_of_elem (helem : ∀ x ∈ T, x ^ 2 = 1) {a b : G} (ha : a 
 omit [Finite G] in
 private theorem le_centralizer_of_elem (helem : ∀ x ∈ T, x ^ 2 = 1) :
     T ≤ centralizer (T : Set G) :=
-  fun a ha => mem_centralizer_iff.2 fun b hb => comm_of_elem helem hb ha
+  fun _a ha => mem_centralizer_iff.2 fun _b hb => comm_of_elem helem hb ha
 
+omit [Finite G] in
 private theorem conj_z_mem {hn : 8 ≤ n} (h0 : N0Data θ hn z T) {x : G} (hx : x ∈ T) :
     z * x * z⁻¹ ∈ T :=
   (mem_normalizer_iff.1 h0.norm x).1 hx
@@ -175,6 +176,7 @@ end Inv
 
 section Cent
 
+omit [Finite G] in
 private theorem rho_conj_eq (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {x : G}
     (hx : x ∈ normalizer (L : Set G)) (a b : L) (hab : (b : G) = x * a * x⁻¹) :
     AltStdBal.rho θ hn ⟨x, hx⟩ * (θ a : Perm (Fin n)) * (AltStdBal.rho θ hn ⟨x, hx⟩)⁻¹ =
@@ -330,7 +332,7 @@ theorem not_two_dvd_index (c : Config G L Q n θ z) (h0 : N0Data θ c.hn8 z T)
   have hnC : ∀ x ∈ centralizer (T : Set G), z * x * z⁻¹ ∈ centralizer (T : Set G) :=
     fun x hx => conj_mem_centralizer h0.norm hx
   have hcardR : Nat.card ↥(T ⊔ zpowers z) = 128 := by
-    rw [card_sup_zpowers' hz2 hnT hzT, h0.card_eq] <;> norm_num
+    rw [card_sup_zpowers' hz2 hnT hzT, h0.card_eq]
   have hcardD : Nat.card ↥(centralizer (T : Set G) ⊔ zpowers z) =
       2 * Nat.card (centralizer (T : Set G)) := card_sup_zpowers' hz2 hnC hzC
   have hRD : T ⊔ zpowers z ≤ centralizer (T : Set G) ⊔ zpowers z := sup_le_sup_right hTC _
@@ -344,10 +346,10 @@ theorem not_two_dvd_index (c : Config G L Q n θ z) (h0 : N0Data θ c.hn8 z T)
     ⟨m, by rw [hcardD, hCidx, hm]; ring⟩
   have hR' : Nat.card ((T ⊔ zpowers z).subgroupOf (centralizer (T : Set G) ⊔ zpowers z)) =
       2 ^ 7 := by
-    rw [Nat.card_congr (subgroupOfEquivOfLe hRD).toEquiv, hcardR] <;> norm_num
+    rw [Nat.card_congr (subgroupOfEquivOfLe hRD).toEquiv, hcardR]; norm_num
   obtain ⟨K', hK'card, hRK'⟩ := Sylow.exists_subgroup_card_pow_succ hdvd hR'
   have hKcard : Nat.card (K'.map (centralizer (T : Set G) ⊔ zpowers z).subtype) = 256 := by
-    rw [card_map_of_injective (Subgroup.subtype_injective _), hK'card] <;> norm_num
+    rw [card_map_of_injective (Subgroup.subtype_injective _), hK'card]; norm_num
   have hRK : T ⊔ zpowers z ≤ K'.map (centralizer (T : Set G) ⊔ zpowers z).subtype :=
     fun r hr => ⟨⟨r, hRD hr⟩, hRK' (by rw [mem_subgroupOf]; exact hr), rfl⟩
   have hKD : K'.map (centralizer (T : Set G) ⊔ zpowers z).subtype ≤
@@ -414,8 +416,7 @@ theorem centralizer_eq_sup (c : Config G L Q n θ z) (h0 : N0Data θ c.hn8 z T)
   have hTC : T ≤ C := le_centralizer_of_elem helem
   have hCH : C ≤ H := Subgroup.centralizer_le_normalizer (T : Set G)
   have hinfO : T ⊓ AltStdSec.oddCoreOf H = ⊥ :=
-    inf_eq_bot_of_coprime
-      (by rw [h0.card_eq]; exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [h0.card_eq]; exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))))
   have hOC : AltStdSec.oddCoreOf H ≤ C := by
     rintro _ ⟨o, ho, rfl⟩
     show ((o : H) : G) ∈ C
@@ -439,7 +440,7 @@ theorem centralizer_eq_sup (c : Config G L Q n θ z) (h0 : N0Data θ c.hn8 z T)
   ·
     have hidx := not_two_dvd_index c h0 helem
     have hTp : IsPGroup 2 (T.subgroupOf C) := IsPGroup.of_card (n := 6) (by
-      rw [Nat.card_congr (subgroupOfEquivOfLe hTC).toEquiv, h0.card_eq] <;> norm_num)
+      rw [Nat.card_congr (subgroupOfEquivOfLe hTC).toEquiv, h0.card_eq]; norm_num)
     let P : Sylow 2 ↥C := hTp.toSylow hidx
     have hPeq : (P : Subgroup ↥C) = T.subgroupOf C := IsPGroup.toSylow_coe hTp hidx
     have hP' : normalizer ((P : Subgroup ↥C) : Set ↥C) ≤

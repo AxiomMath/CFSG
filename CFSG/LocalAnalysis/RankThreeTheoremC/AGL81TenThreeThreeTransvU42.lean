@@ -59,8 +59,8 @@ theorem exists_conj_of_odd_u42 {E : Type} [Group E]
     (h : CFSG.Blueprint.LieModel E .PSU 4 2 1) {α : MulAut E} (hα : Odd (orderOf α)) :
     ∃ g : E, MulAut.conj g = α ∧ Odd (orderOf g) := by
   obtain ⟨hAut, hcard⟩ := card_mulAut_of_lieModel_psu42 h
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsSimpleGroup E :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : IsSimpleGroup E :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   obtain ⟨a, b, hab⟩ := not_commutative_of_lieModel_psu42 h
   have hZ : Subgroup.center E = ⊥ := by
@@ -105,7 +105,7 @@ theorem eq_one_of_commute_two_five_u42
     g = 1 := by
   by_contra hg1
   obtain ⟨-, hcard⟩ := card_mulAut_of_lieModel_psu42 h
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hk1 : orderOf g ≠ 1 := fun h1 => hg1 (orderOf_eq_one_iff.1 h1)
   have hr : (orderOf g).minFac.Prime := Nat.minFac_prime hk1
   have hrk : (orderOf g).minFac ∣ orderOf g := Nat.minFac_dvd _
@@ -151,7 +151,7 @@ theorem centralizes_u42 {A : Type} [Group A] [Finite A]
     (hd : ∃ q : TauCeti.PrimePower, q.card = 2 ∧ d.1 = .twistedA 3 q)
     (eY : ↥Y ≃* (TauCeti.CFSGIndex.lie d).Group) (eP : ↥P ≃* Equiv.Perm (Fin 6))
     {b : A} (hbo : Odd (orderOf b)) (hbY : b ∈ normalizer (Y : Set A))
-    (hbP : b ∈ normalizer (P : Set A))
+    (_hbP : b ∈ normalizer (P : Set A))
     (hW : ∀ w (hw : w ∈ P), QuotientGroup.mk' (CFSG.pCore 2 ↥P) ⟨w, hw⟩ ∈
         wSup (↥P ⧸ CFSG.pCore 2 ↥P) → b * w * b⁻¹ * w⁻¹ ∈ pCoreOf 2 P) :
     ∀ y ∈ Y, b * y = y * b := by
@@ -204,7 +204,7 @@ theorem centralizes_u42 {A : Type} [Group A] [Finite A]
         Fintype.card_fin]
       rfl
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨s₀, hs₀⟩ := exists_prime_orderOf_dvd_card' (G := alternatingGroup (Fin 6)) 2
     (by rw [hA6card]; norm_num)
   obtain ⟨u₀, hu₀⟩ := exists_prime_orderOf_dvd_card' (G := alternatingGroup (Fin 6)) 5

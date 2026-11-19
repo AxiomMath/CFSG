@@ -325,7 +325,7 @@ private theorem e8f5b_torus_coords_of_conj
     intro m
     rw [Finset.prod_subtype Jf (p := fun x => x ∈ (↑Jf : Set (Fin Tag.E8.rank)))
       (fun x => Iff.rfl) (fun j => a' j ^ Tag.E8.cartan j m)]
-    exact Finset.prod_congr rfl fun j _ => by simp [a', j.2]
+    exact Finset.prod_congr rfl fun j _ => by simp [a']
   have ht' : t = n * (n⁻¹ * t * n) * n⁻¹ := by group
   refine ⟨fun β => a' (Function.invFun
     (fun j : Fin Tag.E8.rank => w • (Pi.single j 1 : Fin Tag.E8.rank → ℤ)) β), ?_⟩
@@ -380,8 +380,8 @@ private theorem e8f5b_coords_unique_of_conj
         corootPair (w • (Pi.single j 1 : Fin Tag.E8.rank → ℤ)) (w • ν) =
         f (w • (Pi.single j₀ 1 : Fin Tag.E8.rank → ℤ)) := by
     intro f
-    rw [Finset.prod_eq_single j₀ (fun j hj hne => by rw [hcp j hj, if_neg hne, zpow_zero])
-      (fun h => absurd hj₀ h), hcp j₀ hj₀, if_pos rfl, zpow_one]
+    rw [Finset.prod_eq_single j₀ (fun j hj hne => by rw [hcp j hj, ite_eq_right hne, zpow_zero])
+      (fun h => absurd hj₀ h), hcp j₀ hj₀, ite_eq_left rfl, zpow_one]
   rw [hsingle c, hsingle c'] at h1
   exact h1
 
@@ -433,8 +433,8 @@ private theorem e8f5b_fixedSpinPerfect
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hperf, hDs, hDt, hε, hmap⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.KSGen.exists_twoD_export_fixed S
       (Or.inr (Or.inr (Or.inr rfl))) hT i hkind (by omega)
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hmcard : m = 6 := by
     have h1 : Fintype.card (simpleRoots (componentRoots (rootCharHom a) i)) = m := by
       rw [Fintype.card_congr ε, Fintype.card_fin]
@@ -553,10 +553,10 @@ private theorem e8f5b_b_iform_nu
     iform α (ν j) = α j := by
   have hjbd : 1 ≤ j.val ∧ j.val ≤ 6 := by simpa [e8f5b_J] using hj
   rw [e8f5b_b_iform_parabolic hα, Finset.sum_eq_single j]
-  · rw [e8f5b_b_iform_single, hν j j hjbd.1 hjbd.2 hjbd.1 hjbd.2, if_pos rfl, mul_one]
+  · rw [e8f5b_b_iform_single, hν j j hjbd.1 hjbd.2 hjbd.1 hjbd.2, ite_eq_left rfl, mul_one]
   · intro j' hj' hne
     have hj'bd : 1 ≤ j'.val ∧ j'.val ≤ 6 := by simpa [e8f5b_J] using hj'
-    rw [e8f5b_b_iform_single, hν j j' hjbd.1 hjbd.2 hj'bd.1 hj'bd.2, if_neg hne, mul_zero]
+    rw [e8f5b_b_iform_single, hν j j' hjbd.1 hjbd.2 hj'bd.1 hj'bd.2, ite_eq_right hne, mul_zero]
   · intro h; exact absurd hj h
 
 private theorem e8f5b_mem_rootSpan_of_char_one
@@ -800,7 +800,7 @@ private theorem e8f5b_lieModel
       LieModel (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .POmegaMinus N 2 e := by
   have hq : S.D.q = 2 := h.1
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     LangRat.charP_two_of_langSetup_q_eq_two_pow S (show S.D.q = 2 ^ 1 by rw [hq, pow_one])
   have hring : ringChar L = 2 := ringChar.eq L 2
   have hTp : rootDiagUnit Tag.E8 a ^ 5 = 1 := by
@@ -913,8 +913,8 @@ theorem e8TwoFive_isFiveBIn_with_minus_model
     unfold rationalComponent rationalSpan
     rw [hrat, h1]
     exact hP
-  haveI : Finite ↥S.D.model := S.finite
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have : Finite ↥S.D.model := S.finite
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     Finite.of_injective
       (Subgroup.inclusion ((hK₀.le).trans inf_le_right :
         rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ S.D.model))

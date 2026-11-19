@@ -90,7 +90,7 @@ theorem exists_P : ∃ P : Subgroup G, PData A B y₀ P := by
   · exact hmem y₀ ((le_sup_right : Subgroup.zpowers y₀ ≤ A ⊔ Subgroup.zpowers y₀)
     (Subgroup.mem_zpowers y₀))
   · exact Subgroup.map_subtype_le _
-  · exact S.isPGroup'.map _
+  · exact S.isPGroup.map _
   · exact (CFSG.ABGLocalTools.isSylowOf_iff.mp ⟨S, rfl⟩).2.2
 
 theorem not_dvd_relIndex_centralizer :

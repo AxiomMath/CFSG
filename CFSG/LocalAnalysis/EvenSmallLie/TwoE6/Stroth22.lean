@@ -677,7 +677,7 @@ theorem exists_sylow_inf_eq
       T ⊓ L = (T₁s : Subgroup (commutator Eam)).map (phiOf ι) := by
   have hp : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₁2 : IsPGroup 2 ((T₁s : Subgroup (commutator Eam)).map (phiOf ι)) :=
-    T₁s.isPGroup'.map _
+    T₁s.isPGroup.map _
   have hT₁L : (T₁s : Subgroup (commutator Eam)).map (phiOf ι) ≤ L := by
     rintro _ ⟨t, -, rfl⟩
     exact phiOf_mem ι t
@@ -685,7 +685,7 @@ theorem exists_sylow_inf_eq
   obtain ⟨P, hP⟩ := (hT₁2.comap_of_injective (normalizer (L : Set G)).subtype
     (normalizer (L : Set G)).subtype_injective).exists_le_sylow
   refine ⟨(P : Subgroup (normalizer (L : Set G))).map (normalizer (L : Set G)).subtype,
-    P.isPGroup'.map _, map_subtype_le _, ?_, ?_⟩
+    P.isPGroup.map _, map_subtype_le _, ?_, ?_⟩
   · have e : ((P : Subgroup (normalizer (L : Set G))).map
         (normalizer (L : Set G)).subtype).subgroupOf (normalizer (L : Set G)) =
         (P : Subgroup (normalizer (L : Set G))) :=
@@ -703,7 +703,7 @@ theorem exists_sylow_inf_eq
     refine eq_of_le_of_card_ge (le_inf hT₁T hT₁L) ?_
     have h2 : IsPGroup 2 ((((P : Subgroup (normalizer (L : Set G))).map
         (normalizer (L : Set G)).subtype) ⊓ L).subgroupOf L) :=
-      ((P.isPGroup'.map _).to_le inf_le_left).comap_of_injective L.subtype L.subtype_injective
+      ((P.isPGroup.map _).to_le inf_le_left).comap_of_injective L.subtype L.subtype_injective
     obtain ⟨S, hS⟩ := h2.exists_le_sylow
     calc Nat.card (((P : Subgroup (normalizer (L : Set G))).map
           (normalizer (L : Set G)).subtype ⊓ L : Subgroup G)) =

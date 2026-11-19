@@ -74,20 +74,20 @@ public theorem proposition84Proper_sylow_regular_fields
   have hYM : Y ≤ M := by
     intro y hy
     exact (hYV hy).1.1
-  letI : (Y₀.subgroupOf Y).Normal := hY₀normal
+  let : (Y₀.subgroupOf Y).Normal := hY₀normal
   have hYleNormY₀ : Y ≤ Subgroup.normalizer (Y₀ : Set X) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hY₀Y
   have hYleNMY₀ : Y ≤ normalizerIn M Y₀ := by
     intro y hy
     exact ⟨hYM hy, hYleNormY₀ hy⟩
-  letI : (S₀.subgroupOf (normalizerIn M Y₀)).Normal :=
+  let : (S₀.subgroupOf (normalizerIn M Y₀)).Normal :=
     hS₀normalNMY₀
   have hYnormS₀ : Y ≤ Subgroup.normalizer (S₀ : Set X) :=
     hYleNMY₀.trans
       (Subgroup.le_normalizer_of_normal_subgroupOf hS₀leNMY₀)
   have hS₀p : IsPGroup 2 S₀ := by
     rw [hS₀eq]
-    exact P₀.isPGroup'.map (F₀ ⊓ M).subtype
+    exact P₀.isPGroup.map (F₀ ⊓ M).subtype
   have hS₀leF₀M : S₀ ≤ F₀ ⊓ M := by
     rw [hS₀eq]
     exact Subgroup.map_subtype_le (P₀ : Subgroup ↥(F₀ ⊓ M))
@@ -209,7 +209,7 @@ public theorem IsStronglyEmbedded.proposition84ProperStep_of_source
   have hSfix : S ≤ MulAction.stabilizer X alpha := by
     intro s hs
     rw [show MulAction.stabilizer X alpha = M by
-      simpa [alpha] using baseCoset_stabilizer M]
+      simp [alpha]]
     exact (hSle hs).1
   have hstable : ∀ (f : F) ⦃omega : conjugateCosetSpace M⦄,
       omega ∈ fixedPointsOfSubgroup X (conjugateCosetSpace M) Y →

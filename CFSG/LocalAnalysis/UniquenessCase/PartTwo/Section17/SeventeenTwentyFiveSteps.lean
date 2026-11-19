@@ -55,7 +55,7 @@ theorem barSub_centSection_le_centralizer {D : Data G} {V₀ V L : Subgroup G}
       ⟨(x₀ : G), hxstab⟩ * ⟨(c₀ : G), hcstab⟩ =
         ⟨(c₀ : G), hcstab⟩ * ⟨(x₀ : G), hxstab⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
   calc actTil V₀ V hV ⟨(c₀ : G), hcstab⟩ * actTil V₀ V hV ⟨(x₀ : G), hxstab⟩
       = actTil V₀ V hV (⟨(c₀ : G), hcstab⟩ * ⟨(x₀ : G), hxstab⟩) :=
@@ -85,7 +85,7 @@ theorem inFSq_two_alternating_five_perm
     CFSG.LocalAnalysis.WeakClosure81.InFSq 2
       (alternatingGroup (Fin 5) : Subgroup (Equiv.Perm (Fin 5))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup (Equiv.Perm (Fin 5)) := alternatingGroup (Fin 5)
   let P : Sylow 2 ↥K := Classical.choice (Sylow.nonempty (p := 2) (G := ↥K))
   let T : Subgroup (Equiv.Perm (Fin 5)) := (P : Subgroup ↥K).map K.subtype
@@ -112,13 +112,13 @@ theorem inFSq_two_top_perm_five
     CFSG.LocalAnalysis.WeakClosure81.InFSq 2
       (⊤ : Subgroup (Equiv.Perm (Fin 5))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup (Equiv.Perm (Fin 5)) := alternatingGroup (Fin 5)
   let S : Sylow 2 (Equiv.Perm (Fin 5)) :=
     Classical.choice (Sylow.nonempty (p := 2) (G := Equiv.Perm (Fin 5)))
   let T : Subgroup (Equiv.Perm (Fin 5)) := S
   have hTsyl : CFSG.Quasithin.IsSylowIn 2 T ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hTsyl2 : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤ :=

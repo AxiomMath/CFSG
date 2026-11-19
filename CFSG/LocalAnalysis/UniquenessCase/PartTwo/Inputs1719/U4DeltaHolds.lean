@@ -26,7 +26,7 @@ private theorem map_aut_eq_of_map_eq {G Y : Type} [Group G] [Group Y] {φ : G �
   have hcomp : φ.toMonoidHom.comp ((φ.trans r).trans φ.symm).toMonoidHom =
       r.toMonoidHom.comp φ.toMonoidHom := by
     ext x
-    simp [MulEquiv.trans_apply]
+    simp
   rw [hcomp, ← Subgroup.map_map, hφ, hr]
 
 section Model
@@ -53,8 +53,8 @@ private theorem isMaxParabolicOver_parP_map {Y : Type} [Group Y]
 private theorem opp_parP_map {Y : Type} [Group Y] (hn : 2 ≤ n)
     (φ : hypSU h 2 0 ≃* Y) :
     Opp 2 ((parP h).map φ.toMonoidHom) = (perfectCore (parP h)).map φ.toMonoidHom := by
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hU : IsSylowIn 2 (hypUnitriangular h 2 0) ⊤ := isSylowIn_hypUnitriangular h
   have hUP : hypUnitriangular h 2 0 ≤ parP h :=
     (hypUnitriangular_le_perfectCore_parP h hn).trans (perfectCore_le _)
@@ -72,8 +72,8 @@ private theorem commutator_opp_parP_map {Y : Type} [Group Y] (hn : 2 ≤ n)
     (φ : hypSU h 2 0 ≃* Y) :
     ⁅Opp 2 ((parP h).map φ.toMonoidHom), Opp 2 ((parP h).map φ.toMonoidHom)⁆ =
       Opp 2 ((parP h).map φ.toMonoidHom) := by
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   calc ⁅Opp 2 ((parP h).map φ.toMonoidHom), Opp 2 ((parP h).map φ.toMonoidHom)⁆
       = ⁅(perfectCore (parP h)).map φ.toMonoidHom,
           (perfectCore (parP h)).map φ.toMonoidHom⁆ := by rw [opp_parP_map h hn φ]
@@ -154,10 +154,10 @@ end Model
 theorem kU4Delta_holds : KU4Delta := by
   classical
   intro Y _ _ n hn hY S R p hS _ hRS hp hpq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, instK, h, ⟨e⟩⟩ := exists_hypSU_equiv_of_lieModel hY
-  letI : Field K := instK
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  let : Field K := instK
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hU : IsSylowIn 2 (hypUnitriangular h 2 0) ⊤ := isSylowIn_hypUnitriangular h
   obtain ⟨φ, hφ⟩ := S17.exists_mulEquiv_map_eq_of_isSylowIn e hU hS
   obtain ⟨a, ha, hap⟩ := exists_bar_mul_eq_one_orderOf_eq h hp hpq

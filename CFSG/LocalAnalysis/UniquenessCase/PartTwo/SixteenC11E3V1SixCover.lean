@@ -32,13 +32,13 @@ private theorem s1611e3_stable_commSub {A : Subgroup (MulAut W)} {Y : Subgroup W
     refine Subgroup.subset_closure ⟨l * x * l⁻¹, A.mul_mem (A.mul_mem hl hx) (A.inv_mem hl),
       l w, hY l hl w hw, ?_⟩
     simp [MulAut.mul_apply]
-  | one => simpa using (commSub Y A).one_mem
+  | one => simp
   | mul a b ha hb iha ihb => simpa [map_mul] using (commSub Y A).mul_mem iha ihb
   | inv a ha ih => simpa [map_inv] using (commSub Y A).inv_mem ih
 
 private theorem s1611e3_commSub_commSub {A : Subgroup (MulAut W)} (hperf : ⁅A, A⁆ = A)
     {Y : Subgroup W} (hY : StableUnder A Y) : commSub (commSub Y A) A = commSub Y A := by
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
   apply le_antisymm
   · exact commSub_le_of_invariant fun l hl r hr => s1611e3_stable_commSub hY l hl r hr
   · refine (Subgroup.closure_le (commSub (commSub Y A) A)).mpr ?_
@@ -124,9 +124,9 @@ theorem s1611e3_six_cover (h : SixHyp M L L' κ e) {I : Subgroup W'}
   have hle : Wj ≤ U := commSub_le_of_invariant hUi
   have hperf : ⁅L, L⁆ = L := by
     obtain ⟨eL⟩ := h.isAlt
-    haveI : Group.IsPerfect ↥(alternatingGroup (Fin 6)) :=
+    have : Group.IsPerfect ↥(alternatingGroup (Fin 6)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (α := Fin 6) (by simp))
-    haveI : Group.IsPerfect ↥L :=
+    have : Group.IsPerfect ↥L :=
       Group.IsPerfect.ofSurjective (f := eL.symm.toMonoidHom) eL.symm.surjective
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hWj_eq : commSub Wj L = Wj := by

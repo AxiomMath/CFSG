@@ -30,7 +30,7 @@ theorem inf_eq_bot_of_sec19DataT (hDT : Sec19DataT p f K z S W L t V) : K ⊓ V 
   have hdvd : Nat.card ↥(K ⊓ V) ∣ Nat.card ↥(L ⊓ K) :=
     Subgroup.card_dvd_of_le (le_inf (inf_le_right.trans (le_of_sec19DataT hDT)) inf_le_left)
   have h2 : IsPGroup 2 ↥(K ⊓ V) :=
-    (S.isPGroup'.to_le (hDT.leW.trans hDT.hWS)).to_le inf_le_right
+    (S.isPGroup.to_le (hDT.leW.trans hDT.hWS)).to_le inf_le_right
   obtain ⟨k, hk⟩ := h2.exists_card_eq
   rcases k with _ | k
   · rw [pow_zero] at hk
@@ -77,11 +77,11 @@ theorem isSylow2In_sup_of_sec19DataT (hDT : Sec19DataT p f K z S W L t V) {R₀ 
     (hR₀ : IsSylow2In R₀ K) (hVR₀ : V ≤ Subgroup.normalizer (R₀ : Set G)) :
     IsSylow2In (R₀ ⊔ V) (K ⊔ V) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hDT.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hDT.hWS)
   have hRsyl : IsSylow2In ((S : Subgroup G) ⊓ K) K := by
     obtain ⟨Q₀, hQ⟩ := hDT.sylow
     rw [inf_eq_map_of_sec19Data hQ]
-    refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, fun R' hR'K hR'2 hle => ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup.map _, fun R' hR'K hR'2 hle => ?_⟩
     have hP : (Q₀ : Subgroup K) ≤ R'.subgroupOf K := Subgroup.map_le_iff_le_comap.mp hle
     have := Q₀.maximal_isPGroup.eq_of_ge hR'2.comap_subtype hP
     rw [← Subgroup.map_subgroupOf_eq_of_le hR'K]
@@ -147,7 +147,7 @@ theorem isWreathed_inf_sup [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t V
     have hRsyl : IsSylow2In ((S : Subgroup G) ⊓ K) K := by
       obtain ⟨Q₀, hQ⟩ := hDT.sylow
       rw [inf_eq_map_of_sec19Data hQ]
-      refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, fun R' hR'K hR'2 hle => ?_⟩
+      refine ⟨Subgroup.map_subtype_le _, Q₀.isPGroup.map _, fun R' hR'K hR'2 hle => ?_⟩
       have hP : (Q₀ : Subgroup K) ≤ R'.subgroupOf K := Subgroup.map_le_iff_le_comap.mp hle
       have := Q₀.maximal_isPGroup.eq_of_ge hR'2.comap_subtype hP
       rw [← Subgroup.map_subgroupOf_eq_of_le hR'K]

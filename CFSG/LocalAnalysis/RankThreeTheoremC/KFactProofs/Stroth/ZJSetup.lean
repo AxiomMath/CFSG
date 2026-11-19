@@ -80,7 +80,7 @@ theorem zjW_le_omegaOneCenter_pCore {S : Subgroup X} (hcore : CFSG.pCore 2 X ≤
 theorem zjV_le_omegaOneCenter_pCore {S : Subgroup X} (hcore : CFSG.pCore 2 X ≤ S)
     (hcent : centralizer (CFSG.pCore 2 X : Set X) ≤ CFSG.pCore 2 X) :
     zjV S ≤ CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X) := by
-  haveI : (CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X)).Normal :=
+  have : (CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X)).Normal :=
     zj_omegaOneCenter_normal (CFSG.pCore 2 X)
   unfold zjV
   refine Subgroup.normalClosure_le_normal (fun x hx => ?_)

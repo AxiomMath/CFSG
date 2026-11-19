@@ -98,7 +98,7 @@ theorem MinCE.not_le_centralizer (h : MinCE G T S₁ S₂) {N : Subgroup G} (hNn
     exact normalClosure_le_normal (le_centralizer_iff.mp (hN₀N.trans hNS))
   have hG : centralizer (N₀ : Set G) ⊔ S₂ = ⊤ :=
     top_le_iff.mp (h.sup_eq_top.symm.le.trans (sup_le_sup_right hH₁C _))
-  obtain ⟨hN₀Z, hN₀2⟩ := minimal_normal_central hO hN₀n hN₀1 hmin (T.isPGroup'.to_le h.le₂) hG
+  obtain ⟨hN₀Z, hN₀2⟩ := minimal_normal_central hO hN₀n hN₀1 hmin (T.isPGroup.to_le h.le₂) hG
   obtain ⟨n, hn⟩ := exists_prime_orderOf_dvd_card' (G := N₀) 2 (by rw [hN₀2])
   have hn2 : orderOf (n : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hn
   obtain ⟨Z, hZc, hZp, hnZ, hZd⟩ := h.exists_central (hN₀Z n.2) hn2
@@ -122,8 +122,8 @@ theorem MinCE.not_le_centralizer (h : MinCE G T S₁ S₂) {N : Subgroup G} (hNn
     exact (commutator_mono inf_le_left inf_le_right).trans (hcomm.trans hZc)
   have hG2 : ∀ g : G, ∃ k : ℕ, g ^ (2 ^ k) = 1 := by
     intro g
-    obtain ⟨k, hk⟩ := exists_two_pow_mem (T.isPGroup'.to_le h.le₂) h.sup_eq_top g
-    obtain ⟨l, hl⟩ := exists_two_pow_mem (T.isPGroup'.to_le h.le₁) h.symm.sup_eq_top g
+    obtain ⟨k, hk⟩ := exists_two_pow_mem (T.isPGroup.to_le h.le₂) h.sup_eq_top g
+    obtain ⟨l, hl⟩ := exists_two_pow_mem (T.isPGroup.to_le h.le₁) h.symm.sup_eq_top g
     have hmem : g ^ (2 ^ (k + l)) ∈ H₁ ⊓ H₂ := by
       refine ⟨?_, ?_⟩
       · rw [pow_add, pow_mul]

@@ -15,7 +15,7 @@ theorem isSylowOf_of_card_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     IsSylowOf p P K := by
   obtain ⟨Q, hQ⟩ := (hP.comap_subtype : IsPGroup p (P.subgroupOf K)).exists_le_sylow
   have hPQ : P ≤ (Q : Subgroup K).map K.subtype := fun x hx => ⟨⟨x, hPK hx⟩, hQ hx, rfl⟩
-  have hle := h _ (map_subtype_le _) (Q.isPGroup'.map K.subtype) hPQ
+  have hle := h _ (map_subtype_le _) (Q.isPGroup.map K.subtype) hPQ
   exact ⟨Q, (Subgroup.eq_of_le_of_card_ge hPQ hle).symm⟩
 
 variable {X : Type} [Group X] {t : X} {L : Subgroup X} {p f : ℕ}

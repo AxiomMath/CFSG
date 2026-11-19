@@ -46,6 +46,7 @@ private theorem map_pCore_le {H H' : Type*} [Group H] [Group H'] (p : ℕ) (f : 
   exact le_sSup ⟨Subgroup.Normal.map hK.1 f.toMonoidHom f.surjective,
     IsPGroup.map hK.2 f.toMonoidHom⟩
 
+omit [Finite G] in
 theorem oddCoreIn_centralizer_conj_eq_bot {b z : G}
     (h : oddCoreIn (Subgroup.centralizer ({z} : Set G)) = ⊥) :
     oddCoreIn (Subgroup.centralizer ({b * z * b⁻¹} : Set G)) = ⊥ := by
@@ -59,6 +60,7 @@ theorem oddCoreIn_centralizer_conj_eq_bot {b z : G}
       Subgroup.map_bot]
   rw [oddCoreIn, hD, Subgroup.map_bot]
 
+omit [Finite G] in
 theorem conj_mem_pCore_centralizer_conj {b z e : G}
     (h : e ∈ (CFSG.pCore 2 ↥(Subgroup.centralizer ({z} : Set G))).map
       (Subgroup.centralizer ({z} : Set G)).subtype) :

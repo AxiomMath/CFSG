@@ -29,7 +29,7 @@ theorem mem_of_pow_eq_one_of_twoPower_mem {G : Type*} [Group G] {M : Subgroup G}
 theorem outTwoTowerAt_of_twoNilpotent_outer {K : Type*} [Group K] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (h : TwoNilpotent (Outer K)) : OutTwoTowerAt K p := by
   obtain ⟨M, hM, hodd, h2⟩ := h
-  haveI : (inner K).Normal := inner_normal K
+  have : (inner K).Normal := inner_normal K
   let π : MulAut K →* Outer K := QuotientGroup.mk' (inner K)
   refine ⟨M.comap π, fun γ α ⟨k, hk⟩ => ?_, fun α _ δ hδ ⟨m, hm⟩ => ?_⟩
   · have hk' : π α ^ (p ^ k) = 1 := by rw [← map_pow, hk, map_one]

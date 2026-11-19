@@ -61,7 +61,7 @@ theorem commutator_le_of_pCore_ne_bot
   have hYn : Y.Normal := (goldschmidtOddCore_normal _).comap q
   have hQ : Y ⊓ centralizer (Z : Set G) ≤ Z :=
     le_of_le_centralizer_of_odd hO (normal_inf_normal _ _) inf_le_right
-      (T.isPGroup'.to_le (hZA.trans hAT)) (odd_index_of_le_comap_oddCore inf_le_left)
+      (T.isPGroup.to_le (hZA.trans hAT)) (odd_index_of_le_comap_oddCore inf_le_left)
   have hH₁ : normalClosure (S₁ : Set G) ≤ centralizer (Z : Set G) :=
     normalClosure_le_normal fun s hs => centralizer_le hZA (hS₁C hs)
   have hXC : ⁅normalClosure (S₁ : Set G), normalClosure (S₂ : Set G)⁆ ≤

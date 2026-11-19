@@ -126,10 +126,10 @@ private theorem exists_arcStab_neg_eq_GT (Y : Setup Γ G) :
   let f : ℕ → ℕ := fun m => Nat.card ↥(Y.arcStab (-(m : ℤ)) (m : ℤ))
   have hfanti : ∀ m, f (m + 1) ≤ f m := by
     intro m
-    haveI : Finite ↥(Y.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ)) :=
+    have : Finite ↥(Y.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ)) :=
       finite_of_le_stabilizer Y.hyp (H := Y.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ))
         (Y.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
-    haveI : Finite ↥(Y.arcStab (-(m : ℤ)) (m : ℤ)) :=
+    have : Finite ↥(Y.arcStab (-(m : ℤ)) (m : ℤ)) :=
       finite_of_le_stabilizer Y.hyp (H := Y.arcStab (-(m : ℤ)) (m : ℤ))
         (Y.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
     exact Subgroup.card_le_of_le (Y.arcStab_anti (by omega) (by omega))
@@ -159,10 +159,10 @@ private theorem exists_arcStab_neg_eq_GT (Y : Setup Γ G) :
       simpa using this
     have hcard : Nat.card ↥(Y.arcStab (-(k : ℤ)) (k : ℤ)) =
         Nat.card ↥(Y.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) := by rw [hfk, hfm]
-    haveI : Finite ↥(Y.arcStab (-(k : ℤ)) (k : ℤ)) :=
+    have : Finite ↥(Y.arcStab (-(k : ℤ)) (k : ℤ)) :=
       finite_of_le_stabilizer Y.hyp (H := Y.arcStab (-(k : ℤ)) (k : ℤ))
         (Y.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
-    haveI : Finite ↥(Y.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) :=
+    have : Finite ↥(Y.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) :=
       finite_of_le_stabilizer Y.hyp (H := Y.arcStab (-(m₀ : ℤ)) (m₀ : ℤ))
         (Y.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
     have hle : Y.arcStab (-(k : ℤ)) (k : ℤ) ≤ Y.arcStab (-(m₀ : ℤ)) (m₀ : ℤ) :=
@@ -415,8 +415,8 @@ private theorem card_pCoreOf_eq_pow_of_odd (Y : Setup Γ G) (i : ℤ) {A H : Sub
     Nat.card (pCoreOf 2 A) = 2 ^ j := by
   classical
   have hKcard := Y.card_eq_card_K_mul_card_pCoreOf i hKA hA
-  haveI : Finite ↥A := finite_of_le_stabilizer Y.hyp (hA.trans inf_le_left)
-  haveI : Finite ↥(pCoreOf 2 A) :=
+  have : Finite ↥A := finite_of_le_stabilizer Y.hyp (hA.trans inf_le_left)
+  have : Finite ↥(pCoreOf 2 A) :=
     Finite.of_injective (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 A))
       (Subgroup.inclusion_injective (CFSG.LieType.BorelTits.pCoreOf_le 2 A))
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (pCoreOf_isPGroup' A)

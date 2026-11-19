@@ -108,7 +108,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
       have hji : ¬j = i := fun h => hab (by rw [h])
       refine ⟨torusHom (Sp4.sp4TorusParam i (Units.mk0 (s / t) hc)), torusHom_mem_torus _, ?_⟩
       rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inl,
-        Sp4.diagSp4TorusHomFun_sp4TorusParam_inl, if_pos rfl, if_neg hji]
+        Sp4.diagSp4TorusHomFun_sp4TorusParam_inl, ite_eq_left rfl, ite_eq_right hji]
       congr 1
       simp only [Units.val_mk0, inv_one, mul_one]
       exact hct
@@ -122,7 +122,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
           exact hc (by simpa using hw)
         refine ⟨torusHom (Sp4.sp4TorusParam j (Units.mk0 w hw0)), torusHom_mem_torus _, ?_⟩
         rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inl,
-          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, if_pos rfl, if_pos rfl]
+          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, ite_eq_left rfl, ite_eq_left rfl]
         congr 1
         simp only [Units.val_inv_eq_inv_val, inv_inv, Units.val_mk0]
         rw [← hw]
@@ -130,7 +130,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
       ·
         refine ⟨torusHom (Sp4.sp4TorusParam i (Units.mk0 (s / t) hc)), torusHom_mem_torus _, ?_⟩
         rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inl,
-          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, if_pos rfl, if_neg hji]
+          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, ite_eq_left rfl, ite_eq_right hji]
         congr 1
         simp only [Units.val_mk0, inv_one, mul_one]
         exact hct
@@ -145,7 +145,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
           exact hc (by simpa using hw)
         refine ⟨torusHom (Sp4.sp4TorusParam j (Units.mk0 w hw0)⁻¹), torusHom_mem_torus _, ?_⟩
         rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inl,
-          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, if_pos rfl, if_pos rfl]
+          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, ite_eq_left rfl, ite_eq_left rfl]
         congr 1
         simp only [Units.val_inv_eq_inv_val, inv_inv, Units.val_mk0]
         rw [← hw]
@@ -153,7 +153,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
       ·
         refine ⟨torusHom (Sp4.sp4TorusParam i (Units.mk0 (s / t) hc)⁻¹), torusHom_mem_torus _, ?_⟩
         rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inl,
-          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, if_pos rfl, if_neg hji]
+          Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, ite_eq_left rfl, ite_eq_right hji]
         congr 1
         simp only [inv_inv, Units.val_mk0, inv_one, mul_one]
         exact hct
@@ -161,7 +161,7 @@ theorem exists_mem_torus_conj_pairRootElt {a b : Fin 2 ⊕ Fin 2} (hab : a ≠ b
       have hji : ¬j = i := fun h => hab (by rw [h])
       refine ⟨torusHom (Sp4.sp4TorusParam i (Units.mk0 (s / t) hc)⁻¹), torusHom_mem_torus _, ?_⟩
       rw [conj_torusHom_pairRootElt, Sp4.diagSp4TorusHomFun_sp4TorusParam_inr,
-        Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, if_pos rfl, if_neg hji]
+        Sp4.diagSp4TorusHomFun_sp4TorusParam_inr, ite_eq_left rfl, ite_eq_right hji]
       congr 1
       simp only [inv_inv, Units.val_mk0, inv_one, mul_one]
       exact hct

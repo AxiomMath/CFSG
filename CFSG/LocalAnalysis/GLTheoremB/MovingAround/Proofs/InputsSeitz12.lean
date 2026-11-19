@@ -115,7 +115,7 @@ theorem card_center_eq_three_of_twistedE6
     (CFSG.RankThree.PartTwo.Sec4.Census.card_center_dvd_tableOrder hGA
       (CFSG.AGLEmbedding.KFactProofs.CoverFive.isQuasisimple_of_open hK) e hm).trans
       (tableOrder_twistedE6_dvd _ _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hZp
   have ha1 : a ≤ 1 := by
     by_contra h
@@ -142,12 +142,12 @@ theorem six_le_pRank_of_twistedE6Cover {K : Type} [Group K] [Finite K] {q : TauC
     (hZ : 3 ∣ Nat.card (Subgroup.center K)) : 6 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
   classical
   obtain ⟨F, _, σ, hF, hσ, ⟨e'⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hF]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP F q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP F q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hF, ← pow_mul])
   have hσ'' : ∀ x, σ.toRingHom x = x ^ (q.p ^ q.exponent) := fun x => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
@@ -170,7 +170,7 @@ theorem six_le_pRank_of_twistedE6Cover {K : Type} [Group K] [Finite K] {q : TauC
     change e2 (e' (e (QuotientGroup.mk x))) = 1 ↔ _
     rw [MulEquiv.map_eq_one_iff, MulEquiv.map_eq_one_iff, MulEquiv.map_eq_one_iff,
       QuotientGroup.eq_one_iff]
-  haveI : Finite ↥(CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twDerived σ.toRingHom) :=
+  have : Finite ↥(CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twDerived σ.toRingHom) :=
     Subtype.finite
   exact CFSG.HardMathSupport.Timmesfeld.Tables.T1b.six_le_pRank_of_cover_twE6 σ.toRingHom
     q.exponent_pos h3 hF hσ'' π hπs hker hZ
@@ -249,7 +249,7 @@ theorem input23_19CoverCase_of_griess
     hU6 _ _ _ _ _ _ _ _ _ hZ hci _
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨q, hq2, hqf, hdq⟩ := twistedE6_of_coverCase hexc htits hl28 hg hU38 hU6 hci
   obtain ⟨e⟩ := hd
   obtain ⟨dd, hv⟩ := d

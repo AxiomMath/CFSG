@@ -38,7 +38,7 @@ private theorem card_frattini_le_eight_of_sylow_psu_three {X : Type} [Group X] [
       CFSG.GH74.GLS.IVK.Proofs2.Lemma44b.sylow_U3_sd hp hp2 hLn hmod
         (Nat.one_lt_pow hm hp.one_lt) S
     have hR2 : IsPGroup 2 ↥R :=
-      S.isPGroup'.of_injective (Subgroup.inclusion hRS) (Subgroup.inclusion_injective hRS)
+      S.isPGroup.of_injective (Subgroup.inclusion hRS) (Subgroup.inclusion_injective hRS)
     have hTG : CFSG.GF2Type.Aschbacher1976Common.TwoGenSubgroups ↥(S : Subgroup X) :=
       CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv e
         (CFSG.GF2Type.Aschbacher1976Common.twoGen_semidihedral n hn)
@@ -47,7 +47,7 @@ private theorem card_frattini_le_eight_of_sylow_psu_three {X : Type} [Group X] [
   · obtain ⟨n, hn, ⟨e⟩⟩ :=
       CFSG.GH74.GLS.IVK.Proofs2.Lemma44b.sylow_U3_wr hp hp2 hLn hmod S
     exact CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KDType.card_le_eight
-      (S := (S : Subgroup X)) S.isPGroup' (by omega) e hRS
+      (S := (S : Subgroup X)) S.isPGroup (by omega) e hRS
 
 theorem not_hasL34Section_mulAut_of_lieModel_psu_three {X : Type} [Group X] [Finite X] {p m : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (h : LieModel X .PSU 3 p m) :

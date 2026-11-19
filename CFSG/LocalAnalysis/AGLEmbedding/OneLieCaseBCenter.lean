@@ -156,7 +156,7 @@ theorem eq_bot_of_normal_of_isPGroup (hc : D1OneLieCompetitorData p P M H R Rbar
   obtain ⟨Rb₁, hRb₁, -⟩ := hc.escape.reducedNongeneration
   have hRbS : (Rb₁ : Subgroup _) = St := hRb₁
   have hUS : U ≤ St := hRbS ▸ hUp.le_sylow_of_normal Rb₁
-  have hStp : IsPGroup p St := hRbS ▸ Rb₁.isPGroup'
+  have hStp : IsPGroup p St := hRbS ▸ Rb₁.isPGroup
   obtain ⟨b, hbU, hbC, hbp⟩ := exists_mem_inf_centralizer_orderOf_eq hStp hUS
     (fun x _ => Subgroup.mem_normalizer_iff.mpr fun y => ⟨fun hy => hU.conj_mem y hy x,
       fun hy => by simpa [mul_assoc] using hU.conj_mem _ hy x⁻¹⟩) hU1

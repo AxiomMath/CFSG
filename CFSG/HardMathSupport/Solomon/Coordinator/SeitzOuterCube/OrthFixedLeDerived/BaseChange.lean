@@ -103,7 +103,7 @@ theorem detSpinorNorm_orthIncl [Finite k] (hext : IsExtension k Q₀ Q)
     refine TauCeti.QuadraticMap.orthogonalGroup_hom_ext Q₀ hnd₀ fun u hu => ?_
     have hQu : Q (vecIncl k u) ≠ 0 := map_vecIncl_ne_zero k hext
       (isUnit_of_invertible (Q₀ u)).ne_zero
-    letI : Invertible (Q (vecIncl k u)) := invertibleOfNonzero hQu
+    let : Invertible (Q (vecIncl k u)) := invertibleOfNonzero hQu
     rw [MonoidHom.comp_apply, MonoidHom.comp_apply, orthIncl_reflectionOrthogonal,
       detSpinorNorm_reflectionOrthogonal, detSpinorNorm_reflectionOrthogonal,
       detSquareClassMap_apply]

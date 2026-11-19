@@ -19,7 +19,7 @@ section Generic
 theorem burnsideF4nA_exists_fixed {X : Type*} {Λ : Set X} (hΛ : Nat.card Λ = 5) (σ : X → X)
     (hσΛ : ∀ r ∈ Λ, σ r ∈ Λ) (hσσ : ∀ r ∈ Λ, σ (σ r) = r) : ∃ r ∈ Λ, σ r = r := by
   have hfin : Finite Λ := Nat.finite_of_card_ne_zero (by rw [hΛ]; norm_num)
-  letI : Fintype Λ := Fintype.ofFinite Λ
+  let : Fintype Λ := Fintype.ofFinite Λ
   let e : Equiv.Perm Λ :=
     { toFun := fun r => ⟨σ r, hσΛ r r.2⟩
       invFun := fun r => ⟨σ r, hσΛ r r.2⟩
@@ -29,7 +29,7 @@ theorem burnsideF4nA_exists_fixed {X : Type*} {Λ : Set X} (hΛ : Nat.card Λ = 
     ext r
     show σ (σ r) = r
     exact hσσ r r.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : ¬ 2 ∣ Fintype.card Λ := by
     rw [← Nat.card_eq_fintype_card, hΛ]
     norm_num
@@ -114,10 +114,10 @@ theorem burnsideF4nA_smul_mem_SigmaST (κ : GLKind) (cc : c.Γ) {s t w : c.G0}
   · exact Or.inl (Or.inr ⟨w * w', mul_mem hw hw', mul_smul w w' _⟩)
   · right
     by_cases h : κ = GLKind.G2d
-    · rw [if_pos h] at hu ⊢
+    · rw [ite_eq_left h] at hu ⊢
       obtain ⟨w', hw', rfl⟩ := hu
       exact ⟨w * w', mul_mem hw hw', mul_smul w w' _⟩
-    · rw [if_neg h] at hu
+    · rw [ite_eq_right h] at hu
       exact hu.elim
 
 theorem burnsideF4nA_mem_setStab_SigmaST (κ : GLKind) (cc : c.Γ) {s t w : c.G0}
@@ -163,8 +163,8 @@ theorem burnsideF4nA_maps_tits (hU : UniqueGeod c.graph 8) {cc y y' : c.Γ} {s t
     (hs : s ∈ N1set c GLKind.Tits cc y) (ht : t ∈ N2set c GLKind.Tits cc y y')
     (hst : orderOf (s * t) = 8) :
     SigmaST c GLKind.Tits cc s t ∈ Bset c GLKind.Tits cc y y' := by
-  rw [N1set, if_pos rfl] at hs
-  rw [N2set, if_pos rfl] at ht
+  rw [N1set, ite_eq_left rfl] at hs
+  rw [N2set, ite_eq_left rfl] at ht
   obtain ⟨hsx, ⟨hss, hlc, hsl, -⟩, -⟩ := hs
   obtain ⟨htl, ⟨htt, hxy, htx, -⟩⟩ := ht
   have hsx' : s • c.xv = c.xv := MulAction.mem_stabilizer_iff.mp hsx
@@ -181,11 +181,11 @@ theorem burnsideF4nA_maps_tits (hU : UniqueGeod c.graph 8) {cc y y' : c.Γ} {s t
   have heq : SigmaST c GLKind.Tits cc s t =
       MulAction.orbit (↥(Subgroup.closure {s, t})) c.xv ∪
         MulAction.orbit (↥(Subgroup.closure {s, t})) c.lv := by
-    rw [SigmaST, if_neg (by decide), Set.union_empty, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq]
+    rw [SigmaST, ite_eq_right (by decide), Set.union_empty, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq]
   refine ⟨?_, ?_⟩
   · rw [heq]
     exact hpoly
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     intro u hu
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu
     rcases hu with rfl | rfl | rfl | rfl
@@ -199,8 +199,8 @@ theorem burnsideF4nA_maps_g2d (hU : UniqueGeod c.graph 6) {cc y y' : c.Γ}
     (hs : s ∈ N1set c GLKind.G2d cc y) (ht : t ∈ N2set c GLKind.G2d cc y y')
     (hst : orderOf (s * t) = 3) :
     SigmaST c GLKind.G2d cc s t ∈ Bset c GLKind.G2d cc y y' := by
-  rw [N1set, if_neg (by decide)] at hs
-  rw [N2set, if_neg (by decide)] at ht
+  rw [N1set, ite_eq_right (by decide)] at hs
+  rw [N2set, ite_eq_right (by decide)] at ht
   obtain ⟨hsl, ⟨hss, hxy, hsx, -⟩⟩ := hs
   obtain ⟨htc, ⟨htt, hxy', htx, -⟩⟩ := ht
   have hsl' : s • c.lv = c.lv := MulAction.mem_stabilizer_iff.mp hsl
@@ -223,18 +223,18 @@ theorem burnsideF4nA_maps_g2d (hU : UniqueGeod c.graph 6) {cc y y' : c.Γ}
       MulAction.orbit (↥(Subgroup.closure {t, s})) c.xv ∪
         MulAction.orbit (↥(Subgroup.closure {t, s})) c.lv ∪
         MulAction.orbit (↥(Subgroup.closure {t, s})) cc := by
-    rw [SigmaST, if_pos rfl, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq,
+    rw [SigmaST, ite_eq_left rfl, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq, burnsideF4nA_orbit_eq,
       hcl]
   refine ⟨?_, ?_⟩
   · rw [heq]
     exact hpoly
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     intro u hu
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu
     rcases hu with rfl | rfl | rfl | rfl | rfl
     · exact Or.inl (Or.inl ⟨t, burnsideF4nA_mem_closure_right s t, htx⟩)
     · refine Or.inr ?_
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact ⟨1, Subgroup.one_mem _, one_smul _ _⟩
     · exact Or.inl (Or.inl ⟨1, Subgroup.one_mem _, one_smul _ _⟩)
     · exact Or.inl (Or.inr ⟨1, Subgroup.one_mem _, one_smul _ _⟩)
@@ -301,9 +301,9 @@ theorem burnsideF4nA_injOn_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChart
   have F := burnsideF4a_facts46_of_compat hF hcompat hyp β hβ
   rintro ⟨s, t⟩ ⟨hs1, ht1, hst⟩ ⟨s', t'⟩ ⟨hs1', ht1', hst'⟩ heq
   have heq' : SigmaST β GLKind.Tits cc s t = SigmaST β GLKind.Tits cc s' t' := heq
-  rw [m0Of, if_pos rfl] at hst
+  rw [m0Of, ite_eq_left rfl] at hst
   obtain ⟨hSap, hsub⟩ := burnsideF4nA_maps_tits F.uniqueGeod hs1 ht1 hst
-  rw [if_pos rfl] at hsub
+  rw [ite_eq_left rfl] at hsub
   have hx : β.xv ∈ SigmaST β GLKind.Tits cc s t := hsub (by simp)
   have hl : β.lv ∈ SigmaST β GLKind.Tits cc s t := hsub (by simp)
   have hK : ∀ g : β.G0, (∀ v ∈ SigmaST β GLKind.Tits cc s t, g • v = v) → g = 1 := fun g hg =>
@@ -316,8 +316,8 @@ theorem burnsideF4nA_injOn_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChart
   have hT1' : t' ∈ setStab β (SigmaST β GLKind.Tits cc s t) := by
     rw [heq']
     exact burnsideF4nA_mem_setStab_SigmaST GLKind.Tits cc (burnsideF4nA_mem_closure_right s' t')
-  rw [N1set, if_pos rfl] at hs1 hs1'
-  rw [N2set, if_pos rfl] at ht1 ht1'
+  rw [N1set, ite_eq_left rfl] at hs1 hs1'
+  rw [N2set, ite_eq_left rfl] at ht1 ht1'
   obtain ⟨hsx, ⟨-, -, hsl, -⟩, -⟩ := hs1
   obtain ⟨hsx', ⟨-, -, hsl', -⟩, -⟩ := hs1'
   obtain ⟨htl, ⟨-, -, htx, -⟩⟩ := ht1
@@ -339,9 +339,9 @@ theorem burnsideF4nA_injOn_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
   have F := burnsideF4a_facts46_of_compat hF hcompat hyp β hβ
   rintro ⟨s, t⟩ ⟨hs1, ht1, hst⟩ ⟨s', t'⟩ ⟨hs1', ht1', hst'⟩ heq
   have heq' : SigmaST β GLKind.G2d cc s t = SigmaST β GLKind.G2d cc s' t' := heq
-  rw [m0Of, if_neg (by decide)] at hst
+  rw [m0Of, ite_eq_right (by decide)] at hst
   obtain ⟨hSap, hsub⟩ := burnsideF4nA_maps_g2d F.uniqueGeod hcc hccl hs1 ht1 hst
-  rw [if_neg (by decide)] at hsub
+  rw [ite_eq_right (by decide)] at hsub
   have hccS : cc ∈ SigmaST β GLKind.G2d cc s t := hsub (by simp)
   have hx : β.xv ∈ SigmaST β GLKind.G2d cc s t := hsub (by simp)
   have hl : β.lv ∈ SigmaST β GLKind.G2d cc s t := hsub (by simp)
@@ -355,8 +355,8 @@ theorem burnsideF4nA_injOn_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
   have hT1' : t' ∈ setStab β (SigmaST β GLKind.G2d cc s t) := by
     rw [heq']
     exact burnsideF4nA_mem_setStab_SigmaST GLKind.G2d cc (burnsideF4nA_mem_closure_right s' t')
-  rw [N1set, if_neg (by decide)] at hs1 hs1'
-  rw [N2set, if_neg (by decide)] at ht1 ht1'
+  rw [N1set, ite_eq_right (by decide)] at hs1 hs1'
+  rw [N2set, ite_eq_right (by decide)] at ht1 ht1'
   obtain ⟨hsl, ⟨-, -, hsx, -⟩⟩ := hs1
   obtain ⟨hsl', ⟨-, -, hsx', -⟩⟩ := hs1'
   obtain ⟨htc, ⟨-, -, htx, -⟩⟩ := ht1
@@ -408,7 +408,7 @@ theorem burnsideF4nA_tits_geod (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
     have hcard := burnsideF4k_asm_card_stab_geods hq' htr'
     rw [hqm, Nat.card_congr e.toEquiv, DihedralGroup.nat_card, hc] at hcard
     have h2 : Nat.card (q.stabPath : Subgroup β.G0) = 2 := by omega
-    haveI : Finite (q.stabPath : Subgroup β.G0) :=
+    have : Finite (q.stabPath : Subgroup β.G0) :=
       Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
     have hle : Subgroup.zpowers sx ≤ q.stabPath := by
       rw [Subgroup.zpowers_le]
@@ -427,7 +427,7 @@ theorem burnsideF4nA_surj_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
       (Pset β GLKind.Tits cc y y') (Bset β GLKind.Tits cc y y') := by
   intro S hS
   obtain ⟨hSap, hsub⟩ := hS
-  rw [if_pos rfl] at hsub
+  rw [ite_eq_left rfl] at hsub
   have hccS : cc ∈ S := hsub (by simp)
   have hx : β.xv ∈ S := hsub (by simp)
   have hl : β.lv ∈ S := hsub (by simp)
@@ -466,7 +466,7 @@ theorem burnsideF4nA_surj_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
     rintro rfl
     exact GPath.arc_ne z hz hnb _ hper (by decide) 0 (by rw [← e1, GPath.one_smul'])
   have hN1 : sx ∈ N1set β GLKind.Tits cc y := by
-    rw [N1set, if_pos rfl]
+    rw [N1set, ite_eq_left rfl]
     have hr : GPath.arc₁ z hz GLKind.Tits.m 0 ∈ GPath.nbPaths β.graph β.xv GLKind.Tits.m :=
       ⟨by rw [GPath.arc₁_zero, hz0], GPath.arc₁_noBack z hz hnb _ 0⟩
     have hsxb : sx ∈ stv β β.xv ⊓ stv β (GPath.arc₁ z hz GLKind.Tits.m 0 GLKind.Tits.m) := by
@@ -479,7 +479,7 @@ theorem burnsideF4nA_surj_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
     · rw [hc15, ← hz1]; exact ax1'
     · rw [hc15, ← hz1]; exact ax15'
   have hN2 : sl ∈ N2set β GLKind.Tits cc y y' := by
-    rw [N2set, if_pos rfl]
+    rw [N2set, ite_eq_left rfl]
     refine ⟨MulAction.mem_stabilizer_iff.mpr (by rw [← hz1]; exact al1),
       ⟨hll, Ne.symm hyx, ?_, ?_⟩⟩
     · rw [hy2, ← hz0]; exact al0
@@ -506,7 +506,7 @@ theorem burnsideF4nA_surj_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
     · rintro ((⟨w, hw, rfl⟩ | ⟨w, hw, rfl⟩) | hu)
       · exact burnsideF4k_setStab_mem β (hWle hw) hx
       · exact burnsideF4k_setStab_mem β (hWle hw) hl
-      · rw [if_neg (by decide)] at hu
+      · rw [ite_eq_right (by decide)] at hu
         exact hu.elim
     · intro hu
       cases hv : CosetGeom.vtype u
@@ -516,7 +516,7 @@ theorem burnsideF4nA_surj_tits (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartC
         exact Or.inl (Or.inr ⟨w, hw, hwu⟩)
   refine ⟨(sx, sl), ⟨hN1, hN2, ?_⟩, hSig⟩
   show orderOf (sx * sl) = m0Of GLKind.Tits
-  rw [m0Of, if_pos rfl]
+  rw [m0Of, ite_eq_left rfl]
   exact hord
 
 theorem burnsideF4nA_surj_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartCompatibilityGoal)
@@ -528,7 +528,7 @@ theorem burnsideF4nA_surj_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartCo
       (Pset β GLKind.G2d cc y y') (Bset β GLKind.G2d cc y y') := by
   intro S hS
   obtain ⟨hSap, hsub⟩ := hS
-  rw [if_neg (by decide)] at hsub
+  rw [ite_eq_right (by decide)] at hsub
   have hy'S : y' ∈ S := hsub (by simp)
   have hccS : cc ∈ S := hsub (by simp)
   have hx : β.xv ∈ S := hsub (by simp)
@@ -583,12 +583,12 @@ theorem burnsideF4nA_surj_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartCo
   have hll : sl * sl = 1 := hK _ (burnsideF4k_polyRefl β _ hm hU z hz hnb hper 1 sl f1 f2).1
   have hcc2 : sc * sc = 1 := hK _ (burnsideF4k_polyRefl β _ hm hU z hz hnb hper 11 sc g1 g2).1
   have hN1 : sl ∈ N1set β GLKind.G2d (z 11) y := by
-    rw [N1set, if_neg (by decide)]
+    rw [N1set, ite_eq_right (by decide)]
     refine ⟨MulAction.mem_stabilizer_iff.mpr (by rw [← hz1]; exact al1), hll, Ne.symm hyx, ?_, ?_⟩
     · rw [hy2, ← hz0]; exact al0
     · rw [hy2, ← hz0]; exact al2'
   have hN2 : sc ∈ N2set β GLKind.G2d (z 11) y y' := by
-    rw [N2set, if_neg (by decide)]
+    rw [N2set, ite_eq_right (by decide)]
     refine ⟨MulAction.mem_stabilizer_iff.mpr ac11, hcc2, Ne.symm hy'x, ?_, ?_⟩
     · rw [hy'22, ← hz0]; exact ac0
     · rw [hy'22, ← hz0]; exact ac22'
@@ -604,7 +604,7 @@ theorem burnsideF4nA_surj_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartCo
   obtain ⟨hcl', -, -, hreg, hlines, -⟩ := burnsideF4k_polyG2d β hU z hz hnb hper hz0 hz1 sl sc
     f1 f2 g1 g2 (by rw [hz0]; exact hfree)
   have hSig : SigmaST β GLKind.G2d (z 11) sl sc = Set.range z := by
-    rw [SigmaST, if_pos rfl, ← hcl']
+    rw [SigmaST, ite_eq_left rfl, ← hcl']
     ext u
     constructor
     · rintro ((⟨w, hw, rfl⟩ | ⟨w, hw, rfl⟩) | ⟨w, hw, rfl⟩)
@@ -622,7 +622,7 @@ theorem burnsideF4nA_surj_g2d (hF : F_4_6) (h5 : F_4_5) (hcompat : NativeChartCo
         · exact Or.inr ⟨w, hw, hwu⟩
   refine ⟨(sl, sc), ⟨hN1, hN2, ?_⟩, hSig⟩
   show orderOf (sl * sc) = m0Of GLKind.G2d
-  rw [m0Of, if_neg (by decide)]
+  rw [m0Of, ite_eq_right (by decide)]
   exact hord
 
 end SurjOn
@@ -637,13 +637,13 @@ theorem burnside_as_F_4_19_of
       burnsideF4nA_surj_g2d h46 h45 ChF.nativeChartCompatibility hyp hGp β hβ hs hcc hccl hy hyx
         hy' hy'x⟩
     obtain ⟨h1, h2, h3⟩ := hst
-    rw [m0Of, if_neg (by decide)] at h3
+    rw [m0Of, ite_eq_right (by decide)] at h3
     exact burnsideF4nA_maps_g2d F.uniqueGeod hcc hccl h1 h2 h3
   · refine ⟨fun st hst => ?_,
       burnsideF4nA_injOn_tits h46 h45 ChF.nativeChartCompatibility hyp β hβ hs cc y y',
       burnsideF4nA_surj_tits h46 h45 ChF.nativeChartCompatibility hyp β hβ hs hcc hccl hy hyx y'⟩
     obtain ⟨h1, h2, h3⟩ := hst
-    rw [m0Of, if_pos rfl] at h3
+    rw [m0Of, ite_eq_left rfl] at h3
     exact burnsideF4nA_maps_tits F.uniqueGeod h1 h2 h3
 
 end CFSG.ASVolI

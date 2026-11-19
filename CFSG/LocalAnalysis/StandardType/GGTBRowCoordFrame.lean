@@ -60,7 +60,7 @@ theorem ggTorusWeylFrameW_of_coordFrameElt {p r : ℕ} (hp : p.Prime) (hp2 : p �
         ggConjAut A hn = MulAut.congr Θ (s i) := by
     intro i
     have hsi := hs i
-    simp only [NbrTableBExc.ggTorusInvolSet, Set.mem_setOf_eq] at hsi
+    simp only [NbrTableBExc.ggTorusInvolSet, Set.mem_ofPred_eq] at hsi
     obtain ⟨hs2, hsfix, w, hw⟩ := hsi
     obtain ⟨n, rfl⟩ := hψ w
     have hconjψ : ∀ f, ψ n * ψ (σ f) * (ψ n)⁻¹ = ψ (σ (s i f)) :=

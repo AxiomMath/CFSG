@@ -78,13 +78,13 @@ private lemma l48bK_central
 
 theorem ggB2der_hker {G : Type} [Group G] [Finite G] {B L D J : Subgroup G} {x : G}
     {hBL : B ≤ Subgroup.normalizer (L : Set G)} {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hK : Nat.card K = 2) {r : ℕ} [NeZero r] (hr : 3 ≤ r)
+    (hK : Nat.card K = 2) {r : ℕ} [NeZero r] (_hr : 3 ≤ r)
     {ψ : ↥L →* LargeEvenProj (LargeEvenSpGroup K r)}
     {β : ↥B →* LargeEvenProj (LargeEvenSpGroup K r)} (hM : GGB2derModelProp B L hBL ψ β)
     (hJL : J ≤ L) (hJperf : commutator ↥J = ⊤) (hBJ : B ≤ Subgroup.normalizer (J : Set G))
-    (hDB : D ≤ B) (hDcent : D = B ⊓ Subgroup.centralizer (J : Set G))
+    (_hDB : D ≤ B) (hDcent : D = B ⊓ Subgroup.centralizer (J : Set G))
     (hβx : ∀ b : ↥B, (b : G) ∈ Subgroup.zpowers x → β b = 1) {y : ↥B}
-    (hDxy : ∀ d ∈ D, ∃ i j : ℤ, d = x ^ i * (y : G) ^ j) (hyD : (y : G) ∈ D)
+    (hDxy : ∀ d ∈ D, ∃ i j : ℤ, d = x ^ i * (y : G) ^ j) (_hyD : (y : G) ∈ D)
     (hcompl : IsCompl (SmallRule.fixSpaceOf SmallRule.spRep (Subgroup.zpowers (β y)))
       ((SmallRule.spBilin K r).orthogonal
         (SmallRule.fixSpaceOf SmallRule.spRep (Subgroup.zpowers (β y)))))

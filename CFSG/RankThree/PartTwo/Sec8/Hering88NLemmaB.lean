@@ -12,11 +12,11 @@ open Polynomial
 
 theorem matrix_pow_two_pow_eq_one {F : Type*} [Field F] [CharP F 2] {n j : ℕ} (hn : n ≤ 2 ^ j)
     {u : Matrix (Fin n) (Fin n) F} (h2 : ∃ k : ℕ, u ^ 2 ^ k = 1) : u ^ 2 ^ j = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.eq_zero_or_pos n with rfl | hn1
   · exact Subsingleton.elim _ _
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn1⟩⟩
-  haveI : CharP (Matrix (Fin n) (Fin n) F) 2 :=
+  have : Nonempty (Fin n) := ⟨⟨0, hn1⟩⟩
+  have : CharP (Matrix (Fin n) (Fin n) F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (Matrix (Fin n) (Fin n) F)).injective 2
   obtain ⟨k, hk⟩ := h2
   have hN : IsNilpotent (u - 1) := ⟨2 ^ k, by

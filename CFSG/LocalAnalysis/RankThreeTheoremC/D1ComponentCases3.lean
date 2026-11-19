@@ -19,7 +19,7 @@ theorem D1CentralizerInput3.odd_of_ne_sylow {p : ℕ} [Fact p.Prime] {P : Sylow 
   have hPC : (P : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mpr
       (Subgroup.mem_centralizer_iff.mp h.mem_centralizer x hx)
-  exact CFSG.AGLEmbedding.odd_card_of_twoLocals_le hext.prime P.isPGroup' hPC h.not_le
+  exact CFSG.AGLEmbedding.odd_card_of_twoLocals_le hext.prime P.isPGroup hPC h.not_le
     (glbPrimeCore_le p _) (glbPrimeCore_normal p _) (glbPrimeCore_coprime p _) h.core_le
     fun T hT hT1 hPT => hext.normalizer_le_of_sylow_le hRP hT hT1 hPT
 

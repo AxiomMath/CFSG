@@ -87,8 +87,8 @@ theorem gen_eq_S : Gen 360 SA 4 = Subgroup.closure {g | g ∈ sGens ()} := by
   ext g
   have hs : sGens () = [(curtisPerms ()).getD 0 1, (curtisPerms ()).getD 2 1,
       (curtisPerms ()).getD 4 1, (curtisPerms ()).getD 6 1] := rfl
-  rw [Set.mem_setOf_eq, hs]
-  simp only [List.mem_cons, List.mem_nil_iff, or_false, Set.mem_range]
+  rw [Set.mem_ofPred_eq, hs]
+  simp only [List.mem_cons, List.mem_nil_iff, or_false]
   constructor
   · rintro ⟨j, rfl⟩
     simp only [gen_eq j.isLt]
@@ -345,7 +345,6 @@ theorem q8_fact {r : Equiv.Perm (Fin 360)} (hr : r ∈ Gen 360 SA 4) (ho : order
       rw [e1, e2, hcr]
     · simp only [φ]
       rw [hcl, map_conj_map, map_conj_map]
-      try simp only [mul_assoc]
   have hfin : {J' | ∃ c ∈ GC, c * r = r * c ∧
       (Subgroup.closure {x, y}).map (MulAut.conj c).toMonoidHom = J'}.Finite := by
     refine (Set.finite_univ.image fun c : Equiv.Perm (Fin 360) =>

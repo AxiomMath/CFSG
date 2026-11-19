@@ -24,7 +24,7 @@ theorem card_range_filter_eq {m N : Nat} (g : Nat → Nat) (q R : Nat → Bool)
     rw [← List.toFinset_card_of_nodup ((List.nodup_range).filter _)]
     congr 1
     ext y
-    simp [List.mem_filter, Finset.mem_filter]
+    simp [Finset.mem_filter]
   rw [e]
   refine Finset.card_bij (fun k _ => g k) (fun k hk => ?_) (fun a ha b hb hab => ?_) (fun y hy => ?_)
   · simp only [Finset.mem_filter, Finset.mem_range] at hk ⊢

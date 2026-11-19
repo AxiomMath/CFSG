@@ -30,7 +30,7 @@ theorem coprime_card_of_isPGroup {p q : ℕ} [Fact p.Prime] (hq : q.Prime) (hpq 
 
 theorem commutator_pCoreOf_eq_bot_of_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {D N K Z : Subgroup G} (hKN : K ≤ N) (hND : N ≤ D)
-    (hDN : D ≤ Subgroup.normalizer (N : Set G)) (hNK : N ≤ Subgroup.normalizer (K : Set G))
+    (hDN : D ≤ Subgroup.normalizer (N : Set G)) (_hNK : N ≤ Subgroup.normalizer (K : Set G))
     (hpN : CFSG.Open.pCoreOf p N ≤ K) (hZN : Z ≤ N) (hZ2 : IsPGroup 2 Z)
     (hK : ⁅CFSG.Open.pCoreOf p K, Z⁆ = ⊥) : ⁅CFSG.Open.pCoreOf p D, Z⁆ = ⊥ := by
   set P := CFSG.Open.pCoreOf p D with hPdef

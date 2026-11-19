@@ -152,7 +152,7 @@ theorem normalizer_V_le_centralizer_z (ht : t ^ 2 = 1) (hz : z ^ 2 = 1) (hc : t 
   · exact absurd (htz.trans (isConj_iff.mpr ⟨n, h⟩).symm) hzt
 
 theorem conj_t_of_mem_normalizer_V (ht : t ^ 2 = 1) (hz : z ^ 2 = 1) (hc : t * z = z * t)
-    (hzt : ¬ IsConj t z) (htz : IsConj t (t * z)) {n : G}
+    (hzt : ¬ IsConj t z) (_htz : IsConj t (t * z)) {n : G}
     (hn : n ∈ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G)) :
     n * t * n⁻¹ = t ∨ n * t * n⁻¹ = t * z := by
   have htV : n * t * n⁻¹ ∈ zpowers t ⊔ zpowers z :=

@@ -48,7 +48,7 @@ theorem pow_three_dvd_card_statedSp_three : Nat.card K ^ 3 ∣ Nat.card ↥(Stat
 theorem pow_three_dvd_card_statedSU_four {a : ℕ} (hK : Nat.card K = (2 ^ a) ^ 2) :
     Nat.card K ^ 3 ∣ Nat.card ↥(StatedSU 4 (2 ^ a) K) := by
   have hcard : 1 < Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have ha : 1 ≤ a := by

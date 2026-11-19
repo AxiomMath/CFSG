@@ -141,7 +141,6 @@ private theorem a11ga_tC_inv (c : Fin 3 → ZMod 7) : (tC c)⁻¹ = tC (-c) := b
   change (ggSL9TorusCoord (Multiplicative.ofAdd c))⁻¹ =
     ggSL9TorusCoord (Multiplicative.ofAdd (-c))
   rw [← map_inv, ofAdd_neg]
-  try rfl
 
 private def a11ga_gamma : MulAut GLV where
   toFun g := a11ga_adjEquiv (g⁻¹)

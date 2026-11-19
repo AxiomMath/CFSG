@@ -65,7 +65,7 @@ theorem ggRankOneModel_PSL {n f : ℕ} (hadm : StatedLieAdmissible .PSL n 2 f)
     exact hh _ hγ
   exact sl_x_normalizer_scalar hγ hN
 
-theorem ggRankOneModel_POmegaPlus {n f : ℕ} (hadm : StatedLieAdmissible .POmegaPlus n 2 f)
+theorem ggRankOneModel_POmegaPlus {n f : ℕ} (_hadm : StatedLieAdmissible .POmegaPlus n 2 f)
     (hrank : 3 ≤ bnRank .POmegaPlus n) :
     GGRankOneModel (ggU .POmegaPlus n f).D (GaloisField 2 f) := by
   have hn : 3 ≤ n := by simpa [bnRank] using hrank

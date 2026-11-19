@@ -74,7 +74,7 @@ theorem exists_elemAbelian_le_normalizer_rootSubgroup
     ∃ (E X : Subgroup (adjointGroup τ F)),
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian p E ∧ Nat.card E = Nat.card V ∧
         E ≤ Subgroup.normalizer (X : Set (adjointGroup τ F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨V, (rootSubgroup τ F α).subgroupOf (adjointGroup τ F), ?_, ?_, ?_, rfl, ?_⟩
   · rw [← Subgroup.one_lt_card_iff_ne_bot]
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (rootSubgroup_le_adjointGroup α)).toEquiv,
@@ -146,7 +146,7 @@ theorem exists_elemAbelian_243_le_torusGroup_E6 {K : Type} [Field K] [Finite K]
     ∃ E : Subgroup (adjointGroup .E6 K), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 5 ∧
       E ≤ (torusGroup .E6 K).subgroupOf (adjointGroup .E6 K) := by
   have h3 : 3 ∣ Nat.card K - 1 := by
-    simpa [hK] using (show 3 ∣ (4 - 1) by norm_num)
+    simp [hK]
   have hle : torusGroup .E6 K ≤ adjointGroup .E6 K :=
     (Subgroup.closure_le _).2 (by
       rintro _ ⟨⟨i, t⟩, rfl⟩
@@ -188,8 +188,7 @@ theorem exists_elemAbelian_243_le_torusGroup_E6 {K : Type} [Field K] [Finite K]
       Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv]
   have hcont : f.range ≤ (torusGroup .E6 K).subgroupOf (adjointGroup .E6 K) := by
     rintro y ⟨x, rfl⟩
-    exact Subgroup.mem_subgroupOf.mpr (by simpa [f, Θ] using
-      (torusCoordHom .E6 K (x.1 : Fin Tag.E6.rank → Kˣ)).2)
+    exact Subgroup.mem_subgroupOf.mpr (by simp [f, Θ])
   have hE : IsElemAbelian 3 f.range := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
     · obtain ⟨x, hx⟩ := a.2
@@ -243,7 +242,7 @@ theorem not_dvd_card_center_of_markedModel_E6 {K : Type} [Group K] [Finite K] {l
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
     norm_num
-  haveI : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero
       (by rw [hcard]; exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
@@ -276,7 +275,7 @@ private theorem not_dvd_card_center_F4 {K : Type} [Group K] [Finite K] {lab : GL
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
     by_cases hn : n = 1 <;> simp [hn]
-  haveI : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; by_cases hn : n = 1 <;> simp [hn])
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
     (MulEquiv.refl (K ⧸ Subgroup.center K))
@@ -307,7 +306,7 @@ private theorem center_eq_bot_of_E6_one {K : Type} [Group K] [Finite K] {lab : G
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
     norm_num
-  haveI : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
     (MulEquiv.refl (K ⧸ Subgroup.center K))
@@ -325,10 +324,10 @@ theorem rk2_low_f4 (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_F4 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.F4 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   obtain ⟨p, hp, hp2, hpd⟩ := CFSG.RankThree.Chevalley.exists_odd_prime_dvd_two_pow_sub_one hn
@@ -363,10 +362,10 @@ theorem rk2_low_e7 (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E7 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   obtain ⟨p, hp, hp2, hpd⟩ := CFSG.RankThree.Chevalley.exists_odd_prime_dvd_two_pow_sub_one hn
@@ -405,10 +404,10 @@ theorem rk2_low_e8 (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E8 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E8 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   obtain ⟨p, hp, hp2, hpd⟩ := CFSG.RankThree.Chevalley.exists_odd_prime_dvd_two_pow_sub_one hn
@@ -447,10 +446,10 @@ theorem rk2_low_e6_of_three_le (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E6 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   obtain ⟨p, hp, hp5, hpd⟩ := CFSG.RankThree.PartTwo.Census.exists_prime_five_le_dvd_two_pow_sub_one hn
@@ -488,8 +487,8 @@ theorem rk2_low_e6_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E6 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hQ' : CFSG.IsQuasisimple K :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ
   have hz : Subgroup.center K = ⊥ := center_eq_bot_of_E6_one hQ' hM rfl rfl
@@ -501,12 +500,12 @@ theorem rk2_low_e6_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
   obtain ⟨K', hK'fld, hK'fin, hK'card, hK'char, ⟨eCat⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       (CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6) q hv
-  letI : Field K' := hK'fld
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'fld
+  let : Finite K' := hK'fin
   have hcardFK : Nat.card F = Nat.card K' := by
     simp [hFcard, hK'card, TauCeti.PrimePower.card_def, q]
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype K' := Fintype.ofFinite K'
   let eField : F ≃+* K' := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcardFK)
@@ -514,7 +513,7 @@ theorem rk2_low_e6_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     CFSG.TauCetiBridge.adjointGroupCongr (τ := Tag.E6) eField
   let e : K ≃* CFSG.LieType.SeitzGeneration.Cat
       ⟨TauCeti.LieTypeIndex.E6 q, hv⟩ := eK.trans (eAdj.trans eCat.symm)
-  haveI : Finite (CFSG.LieType.SeitzGeneration.Cat
+  have : Finite (CFSG.LieType.SeitzGeneration.Cat
       ⟨TauCeti.LieTypeIndex.E6 q, hv⟩) := Finite.of_equiv K e.toEquiv
   have h4 : 4 ≤ CFSG.twoLocalOddRank (CFSG.LieType.SeitzGeneration.Cat
       ⟨TauCeti.LieTypeIndex.E6 q, hv⟩) :=
@@ -541,12 +540,12 @@ theorem rk2_low_e6_two_of_center_eq_bot (K : Type) [Group K] [Finite K] (lab : G
     lieModel_of_markedModel_E6 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hcardF : Nat.card F = 4 := by
     rw [hFcard]
     norm_num
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by norm_num) (k := 2) (by rw [hcardF]; norm_num)
   obtain ⟨E, hE, hEcard, hEle⟩ := exists_elemAbelian_243_le_torusGroup_E6 hcardF

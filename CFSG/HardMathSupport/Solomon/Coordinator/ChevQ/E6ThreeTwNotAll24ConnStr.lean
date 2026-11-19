@@ -38,14 +38,14 @@ theorem noPlane3_alternatingGroup_five : NoPlane3 (alternatingGroup (Fin 5)) := 
 namespace KSNotAll24
 
 theorem le_hyperGamma_of_range_ne {X : Type} [Group X] [Finite X]
-    (E : Subgroup (MulAut X)) (hE : CFSG.Open.IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 3)
+    (E : Subgroup (MulAut X)) (_hE : CFSG.Open.IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 3)
     (f : MulAut X) (hf : f ∈ E) (hf1 : f ≠ 1) (J : Subgroup X)
     (hJfix : ∀ g ∈ Subgroup.zpowers f, ∀ y ∈ J, g y = y)
     (hJE : ∀ g ∈ E, J.map g.toMonoidHom = J)
     (hD : Nat.card (resHom J E hJE).range ≠ 3 ^ 2) : J ≤ seitzHyperGamma 3 E := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ : ↥E →* MulAut J := resHom J E hJE with hρ
   have hρker : ∀ g : ↥E, g ∈ ρ.ker → ∀ y ∈ J, g.1 y = y := by
     intro g hg y hy
@@ -105,11 +105,11 @@ theorem card_range_ne_nine {X : Type} [Group X] [Finite X] (E : Subgroup (MulAut
 theorem not_three_dvd_card_of_perfect {J : Type} [Group J] [Finite J] (hJ : commutator J = ⊤)
     (h3 : ¬ 3 ∣ Nat.card (J ⧸ Subgroup.center J)) : ¬ 3 ∣ Nat.card J := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 J) := inferInstance
   have hcent : ∀ x ∈ (P : Subgroup J), x ∈ Subgroup.center J := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hxk : x ^ (3 ^ k) = 1 := congrArg Subtype.val hk
     have hq : (QuotientGroup.mk x : J ⧸ Subgroup.center J) ^ (3 ^ k) = 1 := by
       rw [← QuotientGroup.mk_pow, hxk, QuotientGroup.mk_one]
@@ -141,7 +141,7 @@ theorem not_three_dvd_card_of_perfect {J : Type} [Group J] [Finite J] (hJ : comm
       group
     rw [hJ] at hcomm
     exact top_le_iff.1 hcomm
-  have hcard := hcompl.card_mul
+  have hcard := hcompl.card_mul_card
   rw [hker, Subgroup.card_top] at hcard
   have hP1 : Nat.card (P : Subgroup J) = 1 := by
     have hpos : 0 < Nat.card J := Nat.card_pos
@@ -158,16 +158,16 @@ theorem le_hyperGamma_of_coprime {X : Type} [Group X] [Finite X]
   by_cases hD : Nat.card (resHom J E hJE).range = 3 ^ 2
   swap
   · exact le_hyperGamma_of_range_ne E hE hEc f hf hf1 J hJfix hJE hD
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ : ↥E →* MulAut J := resHom J E hJE with hρ
   have hDel : CFSG.Open.IsElemAbelian 3 ρ.range := isElemAbelian_range hE ρ
-  haveI : Finite ρ.range := Finite.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
-  haveI : Nontrivial ρ.range := by
+  have : Finite ρ.range := Finite.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
+  have : Nontrivial ρ.range := by
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     rw [hD]
     norm_num
-  haveI : IsElementaryAbelian 3 ρ.range :=
+  have : IsElementaryAbelian 3 ρ.range :=
     { is_comm := hDel.1.is_comm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (hDel.2 x x.2) }

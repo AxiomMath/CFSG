@@ -194,7 +194,7 @@ theorem row_of_rowFacts
     (h1 : ¬ p ∣ 1816657920) (h3 : ¬ p ∣ 21799895040)
     (hsyl : ¬ p ^ 2 ∣ 86775571046077562880) :
     FongSporLocal.KFactSporLocalRow .J4 p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : J4Facts := j4Facts
   have hM := hF.mat
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv

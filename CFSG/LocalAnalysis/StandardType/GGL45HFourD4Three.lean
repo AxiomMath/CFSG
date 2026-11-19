@@ -11,8 +11,8 @@ open CFSG CFSG.Assembly
 
 private theorem ggL45_exists_mul_ne {R : Type*} [Group R] [IsSimpleGroup R]
     (hperf : commutator R = ⊤) : ∃ a b : R, a * b ≠ b * a := by
-  haveI : Group.IsPerfect R := Group.isPerfect_def.mpr hperf
-  haveI : Nontrivial R := IsSimpleGroup.toNontrivial
+  have : Group.IsPerfect R := Group.isPerfect_def.mpr hperf
+  have : Nontrivial R := IsSimpleGroup.toNontrivial
   have hnc : ¬ IsMulCommutative R := Group.IsPerfect.not_isMulCommutative R
   rw [isMulCommutative_iff] at hnc
   push Not at hnc
@@ -46,8 +46,8 @@ private lemma ggL45_conj_conj {R : Type*} [Group R] (α : MulAut R) (r : R) :
 
 private theorem ggL45_commutator_eq_top_of_centerQuot {K R : Type*} [Group K] [Group R]
     (hK : commutator K = ⊤) (θ : K ⧸ Subgroup.center K ≃* R) : commutator R = ⊤ := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hK
-  haveI hQ : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hK
+  have hQ : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective (Subgroup.center K))
   exact (Group.IsPerfect.ofSurjective (f := θ.toMonoidHom) θ.surjective).commutator_eq_top
@@ -82,7 +82,7 @@ private theorem ggL45HFour_d4_three_H4 {R : Type} [Group R] {I F : Set (MulAut R
     (h27 : 27 ≤ Nat.card E) (hEI : ∀ e ∈ E, GGL45InducesIn θ I e) :
     GGL45HFour 3 I θ E := by
   classical
-  haveI : IsSimpleGroup R := hsimple
+  have : IsSimpleGroup R := hsimple
   have hperfR : commutator R = ⊤ := ggL45_commutator_eq_top_of_centerQuot hK θ
   have hnc : ∃ a b : R, a * b ≠ b * a := ggL45_exists_mul_ne hperfR
   have hconj_inj : Function.Injective (MulAut.conj : R →* MulAut R) := ggL45_conj_injective hnc
@@ -142,7 +142,7 @@ private theorem ggL45HFour_d4_three_H4Mod {R : Type} [Group R] {I F : Set (MulAu
     (f : MulAut R) (hf3 : f ^ 3 = 1) (hfI : f ∉ I)
     (hfE : ∀ e ∈ E, f * ggInducedAut θ e = ggInducedAut θ e * f) :
     GGL45HFourMod 3 I θ E f := by
-  haveI : IsSimpleGroup R := hsimple
+  have : IsSimpleGroup R := hsimple
   have hperfR : commutator R = ⊤ := ggL45_commutator_eq_top_of_centerQuot hK θ
   have hnc : ∃ a b : R, a * b ≠ b * a := ggL45_exists_mul_ne hperfR
   obtain ⟨hIeq, S, hInnS, hcyc, hSfix⟩ := hfix hsimple hnc
@@ -150,7 +150,7 @@ private theorem ggL45HFour_d4_three_H4Mod {R : Type} [Group R] {I F : Set (MulAu
   have hI'eq : (I' : Set (MulAut R)) = I := by
     rw [hIeq]
     rfl
-  haveI : I'.Normal := ggInnNormal R
+  have : I'.Normal := ggInnNormal R
   have hfI' : f ∉ I' := fun hf => hfI (hI'eq ▸ hf)
   have hH4 : GGL45HFour 3 I θ E :=
     ggL45HFour_d4_three_H4 hfix hsimple K θ hK E hE h27 hEI

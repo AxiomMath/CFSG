@@ -16,6 +16,7 @@ local notation "Inn" => CFSG.ComponentClassification.OuterAutomorphisms.inner
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem orth3_layer_inner_le (hinj : Function.Injective
       (MulAut.conj : ProjOrthDerived Q →* MulAut (ProjOrthDerived Q))) (a : ProjOrthDerived Q) :
     (CFSG.layer ↥(Inn (ProjOrthDerived Q) ⊓

@@ -95,6 +95,7 @@ theorem oddCore_eq_bot_of_subnormal {C K : Subgroup G} (hKC : K ≤ C)
   rw [h2]
   exact sSup_le_sSup fun N ⟨hN, hodd⟩ => ⟨hN, Nat.coprime_two_left.2 hodd⟩
 
+omit [Finite G] in
 theorem noOdd_of_tests {C : Subgroup G} {Cl : List G} (hCl : ∀ x, x ∈ Cl ↔ x ∈ C) {k m : ℕ}
     (hm : m ∣ 9) (hcard : Nat.card C = 2 ^ k * m)
     (h1 : ∀ o ∈ Cl, o ≠ 1 → o ^ 3 = 1 → ∃ c ∈ Cl, (o * (c * o * c⁻¹)) ^ 3 ≠ 1)
@@ -148,7 +149,7 @@ theorem card_listSub_le [DecidableEq G] {l : List G} (h1 : (1 : G) ∈ l)
     Nat.card (listSub l) ≤ l.length := by
   have hset : ((listSub l : Subgroup G) : Set G) = ↑l.toFinset := by
     ext x
-    simp only [SetLike.mem_coe, Finset.mem_coe, List.mem_toFinset]
+    simp only [SetLike.mem_coe, List.mem_toFinset]
     exact mem_listSub_iff h1 hmul hinv
   rw [← SetLike.coe_sort_coe, hset, Nat.card_coe_set_eq, Set.ncard_coe_finset]
   exact List.toFinset_card_le l

@@ -35,7 +35,7 @@ theorem sylow_image_cyclic_or_dihedral {G K Y : Type} [Group G] [Group K] [Group
     obtain ⟨p, hp, rfl⟩ := hy
     exact ⟨⟨p, hp⟩, rfl⟩
   set R : Subgroup G := (SK : Subgroup K).map ι with hR
-  have hR2 : IsPGroup 2 ↥R := SK.isPGroup'.map ι
+  have hR2 : IsPGroup 2 ↥R := SK.isPGroup.map ι
   obtain ⟨T, hRT⟩ := hR2.exists_le_sylow
   obtain ⟨m, hm, ⟨eT⟩⟩ := hG T
   let f0 : ↥(SK : Subgroup K) →* ↥(T : Subgroup G) :=
@@ -63,7 +63,7 @@ theorem sylow_image_cyclic_or_dihedral {G K Y : Type} [Group G] [Group K] [Group
   rcases subgroups_dihedral_twoGroup_cyclic_or_dihedral hm H with hc | ⟨k, hk, ⟨eH⟩⟩
   · left
     exact isCyclic_of_ker_le gq hgq hι hhι hkerι
-  · refine isCyclic_or_dihedral_of_dihedral_hom SY.isPGroup' gq hgq (eH.toMonoidHom.comp hι)
+  · refine isCyclic_or_dihedral_of_dihedral_hom SY.isPGroup gq hgq (eH.toMonoidHom.comp hι)
       (eH.surjective.comp hhι) ?_
     intro a ha
     rw [MonoidHom.mem_ker] at ha

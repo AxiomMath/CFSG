@@ -13,8 +13,8 @@ open CFSG.ComponentClassification.PerfectAutomorphisms
 private theorem quasisimple_centerQuotient_nonabelian {G : Type*} [Group G]
     (hq : CFSG.Open.IsQuasisimple G) :
     ∃ a b : G ⧸ Subgroup.center G, a * b ≠ b * a := by
-  letI : Group.IsPerfect G := ⟨hq.1⟩
-  letI : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2
+  let : Group.IsPerfect G := ⟨hq.1⟩
+  let : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2
   have h := Group.IsPerfect.not_isMulCommutative (G ⧸ Subgroup.center G)
   simpa only [isMulCommutative_iff, not_forall] using h
 
@@ -51,15 +51,15 @@ private theorem mem_inner_of_centerQuotientHom_mem {X : Type*} [Group X] [Group.
 theorem perfectAutInner_of_schreier (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) :
     PerfectAutInner := by
   intro X _ _ hXK hXq _ _ Y hY y hy
-  haveI : Group.IsPerfect X := ⟨hXq.1⟩
+  have : Group.IsPerfect X := ⟨hXq.1⟩
   have hSsimple : IsSimpleGroup (X ⧸ Subgroup.center X) := hXq.2
   have hSnonab : ∃ a b : X ⧸ Subgroup.center X, a * b ≠ b * a :=
     quasisimple_centerQuotient_nonabelian hXq
   have hScat : CFSG.Open.IsCatalogGroup (X ⧸ Subgroup.center X) :=
     isCatalogGroup_centerQuotient hXK hXq
-  haveI : Group.IsSolvable (Outer (X ⧸ Subgroup.center X)) :=
+  have : Group.IsSolvable (Outer (X ⧸ Subgroup.center X)) :=
     hSch (X ⧸ Subgroup.center X) hSsimple hSnonab hScat
-  haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
   obtain ⟨s, hs⟩ := perfect_action_inner ((centerQuotientHom X).comp Y.subtype) ⟨y, hy⟩
   have hs' : centerQuotientHom X y = MulAut.conj s := by simpa using hs
   exact mem_inner_of_centerQuotientHom_mem (a := y) ⟨s, hs'.symm⟩

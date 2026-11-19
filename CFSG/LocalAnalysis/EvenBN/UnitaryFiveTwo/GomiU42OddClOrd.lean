@@ -47,7 +47,7 @@ theorem u42_factorization_three_u42GU {f : ℕ} (hf : 1 ≤ f) (k : ℕ) :
     Nat.factorization_prod hne]
   have hprod : (∑ i ∈ Finset.Icc 1 k,
       (if i % 2 = 1 then (3 ^ f) ^ i + 1 else (3 ^ f) ^ i - 1).factorization) 3 = 0 := by
-    rw [Finsupp.coe_finset_sum, Finset.sum_apply]
+    rw [_root_.Finsupp.coe_finsetSum, Finset.sum_apply]
     apply Finset.sum_eq_zero
     intro i hi
     have hi1 : 1 ≤ i := (Finset.mem_Icc.mp hi).1
@@ -56,6 +56,6 @@ theorem u42_factorization_three_u42GU {f : ℕ} (hf : 1 ≤ f) (k : ℕ) :
     · exact u42_not_three_dvd_pow_add_one hf hi1
     · exact u42_not_three_dvd_pow_sub_one hf hi1
   rw [hprod, add_zero, ← pow_mul, Nat.Prime.factorization_pow Nat.prime_three]
-  simp [mul_comm]
+  simp
 
 end CFSG.LocalAnalysis.EvenBN.UnitaryFiveTwo

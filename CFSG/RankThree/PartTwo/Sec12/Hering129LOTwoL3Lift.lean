@@ -45,7 +45,7 @@ theorem lift_isPGroup_three {G : Type*} [Group G] {x₁ x₂ : G} (h1 : x₁ ^ 3
 theorem lift_exists_pGroup_map_eq {Y L : Type*} [Group Y] [Finite Y] [Group L] (φ : Y →* L)
     (hφ : Function.Surjective φ) {E : Subgroup L} (hE : IsPGroup 3 E) :
     ∃ B : Subgroup Y, IsPGroup 3 B ∧ B.map φ = E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set M : Subgroup Y := E.comap φ with hM
   obtain ⟨P⟩ : Nonempty (Sylow 3 M) := inferInstance
   let ψ : M →* E := (φ.comp M.subtype).codRestrict E (fun y => y.2)
@@ -57,7 +57,7 @@ theorem lift_exists_pGroup_map_eq {Y L : Type*} [Group Y] [Finite Y] [Group L] (
   have htop : ((P.mapSurjective hψ : Sylow 3 E) : Subgroup E) = ⊤ :=
     top_le_iff.mp ((P.mapSurjective hψ).maximal_isPGroup.le_of_ge hEtop le_top)
   rw [Sylow.coe_mapSurjective] at htop
-  refine ⟨(P : Subgroup M).map M.subtype, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup M).map M.subtype, P.isPGroup.map _, ?_⟩
   ext x
   constructor
   · rintro ⟨_, ⟨y, -, rfl⟩, rfl⟩
@@ -92,8 +92,8 @@ theorem lift_exists_mem_normalizer {Y L : Type*} [Group Y] [Finite Y] [Group L] 
     (hφ : Function.Surjective φ) (h3 : ¬ 3 ∣ Nat.card φ.ker) {B : Subgroup Y} (hB : IsPGroup 3 B)
     {n : L} (hn : n ∈ normalizer ((B.map φ : Subgroup L) : Set L)) :
     ∃ m ∈ normalizer (B : Set Y), φ m = n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 B) := ⟨hB⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 B) := ⟨hB⟩
   have hcop : Nat.Coprime 3 (Nat.card φ.ker) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3
   have hFr := CFSG.normalizer_map_quotient_eq_map_normalizer 3 B φ.ker (MonoidHom.normal_ker φ)

@@ -41,7 +41,7 @@ theorem card_dvd_of_isPGroup (h : D1SocleConfig T p P M H R X) (_hT : JStarTarge
   obtain ⟨Rb, hRb, -⟩ := h'.reducedNongeneration
   have hp : p.Prime := Fact.out
   have hdvd : Nat.card (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ∣ b :=
-    card_dvd_of_isPGroup_of_target hTc hKn hKe hC _ Rbar.isPGroup'
+    card_dvd_of_isPGroup_of_target hTc hKn hKe hC _ Rbar.isPGroup
   obtain ⟨T', hST⟩ := hS.exists_le_sylow
   have h1 : Nat.card (T' : Subgroup (H' ⧸ primeComplementCore (G := H') p)) =
       Nat.card (Rb : Subgroup (H' ⧸ primeComplementCore (G := H') p)) := by

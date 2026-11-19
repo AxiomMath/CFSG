@@ -19,7 +19,7 @@ theorem geomBody_sp4 (hp : p.Prime) (hp2 : p ≠ 2) {t : LargeEvenLieTag} (ht : 
     GeomBody p ⟨t, 2, n⟩ (LargeEvenProj (LargeEvenSpGroup K 2))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K 2)) (LargeEvenGSpSet K 2))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup K 2))) := by
-  haveI : CharP K 2 := CFSG.ComponentClassification.RankTwoClassical.charP_two_of_card hK
+  have : CharP K 2 := CFSG.ComponentClassification.RankTwoClassical.charP_two_of_card hK
   refine geomBody_of_field (by rcases ht with rfl | rfl <;> simp) fun hS hna f hf hord => ?_
   obtain ⟨σ, hσf⟩ := RecipeFieldSp.exists_fieldAut_of_mem hf
   have hσ : orderOf σ = p := by

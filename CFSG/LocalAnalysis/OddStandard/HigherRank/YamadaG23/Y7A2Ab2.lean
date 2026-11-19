@@ -13,11 +13,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y7a_fpf_I {I F W : Subgroup G} {t k : G}
     (hI : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x) (hFI : F ≤ I) (hWF : W ≤ F)
     (hkt : k * t = t * k) (hFt : ∀ f ∈ F, f * t = t * f)
     (hxt : ∀ x ∈ I, ⁅x, t⁆ ∈ W) (hker : ∀ x ∈ I, x * t = t * x → x ∈ F)
-    (hkI : ∀ x ∈ I, k * x * k⁻¹ ∈ I) (hkW : ∀ w ∈ W, k * w * k⁻¹ ∈ W)
+    (_hkI : ∀ x ∈ I, k * x * k⁻¹ ∈ I) (_hkW : ∀ w ∈ W, k * w * k⁻¹ ∈ W)
     (hfix : ∀ w ∈ W, k * w * k⁻¹ = w → w = 1) :
     ∀ x ∈ I, k * x * k⁻¹ * x⁻¹ ∈ F → x ∈ F := by
   intro x hx hxf
@@ -40,6 +41,7 @@ theorem y7a_fpf_I {I F W : Subgroup G} {t k : G}
     rw [← h1, hkx, h2]
   exact hker x hx (commutatorElement_eq_one_iff_mul_comm.mp (hfix _ hw h3))
 
+omit [Finite G] in
 private lemma y7a_zpowers_sq {x v : G} (hx : x * x = 1) (hv : v ∈ zpowers x) :
     v = 1 ∨ v = x := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
@@ -52,6 +54,7 @@ private lemma y7a_zpowers_sq {x v : G} (hx : x * x = 1) (hv : v ∈ zpowers x) :
     have hn : n = 2 * (n / 2) + 1 := by omega
     rw [hn, zpow_add, zpow_mul, hx2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma y7a_conj_inv_mem {W : Subgroup G} {k : G} (hk3 : k ^ 3 = 1)
     (hkW : ∀ w ∈ W, k * w * k⁻¹ ∈ W) : ∀ w ∈ W, k⁻¹ * w * k ∈ W := by
   intro w hw
@@ -64,13 +67,14 @@ private lemma y7a_conj_inv_mem {W : Subgroup G} {k : G} (hk3 : k ^ 3 = 1)
   rw [h4]
   exact h3
 
+omit [Finite G] in
 theorem y7a_fpf_B {B F W : Subgroup G} {k f₀ : G}
     (hFB : F ≤ B) (hWF : W ≤ F) (hF : F = W ⊔ zpowers f₀)
     (hFab : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x) (hFsq : ∀ f ∈ F, f * f = 1)
     (hf₀ : f₀ ∈ F) (hf₀W : f₀ ∉ W) (hWB : ∀ w ∈ W, ∀ b ∈ B, b * w = w * b)
     (hBB : ∀ b ∈ B, ∀ b' ∈ B, ⁅b, b'⁆ ∈ W)
     (hcentF : ∀ b ∈ B, (∀ f ∈ F, b * f = f * b) → b ∈ F)
-    (hkB : ∀ b ∈ B, k * b * k⁻¹ ∈ B) (hkF : ∀ f ∈ F, k * f * k⁻¹ ∈ F)
+    (_hkB : ∀ b ∈ B, k * b * k⁻¹ ∈ B) (hkF : ∀ f ∈ F, k * f * k⁻¹ ∈ F)
     (hkW : ∀ w ∈ W, k * w * k⁻¹ ∈ W) (hk3 : k ^ 3 = 1)
     (hfix : ∀ w ∈ W, k * w * k⁻¹ = w → w = 1) :
     ∀ b ∈ B, k * b * k⁻¹ * b⁻¹ ∈ F → b ∈ F := by
@@ -133,6 +137,7 @@ theorem y7a_fpf_B {B F W : Subgroup G} {k f₀ : G}
       _ = w * (f₀ * b) := by rw [hbf₀]
       _ = (w * f₀) * b := by rw [mul_assoc]
 
+omit [Finite G] in
 private lemma y7a_relIndex_two_mul_mem {H K : Subgroup G} (hidx : H.relIndex K = 2) {a b : G}
     (haK : a ∈ K) (hbK : b ∈ K) (haH : a ∉ H) (hbH : b ∉ H) : a * b ∈ H := by
   have h2 : (H.subgroupOf K).index = 2 := hidx
@@ -153,7 +158,7 @@ theorem y7a_B_gen {B F E : Subgroup G} {k : G}
     obtain ⟨y, hy, rfl⟩ := mem_conjSub.mp hx
     exact hkB y (hEB hy)
   have hle : F ⊔ E ⊔ conjSub k E ≤ B := sup_le (sup_le hFB hEB) hEk
-  obtain ⟨e₀, he₀E, he₀F⟩ := SetLike.not_le_iff_exists.mp hEF
+  obtain ⟨e₀, he₀E, he₀F⟩ := IsConcreteLE.not_le_iff_exists.mp hEF
   have he₀B' : e₀ ∈ F ⊔ E ⊔ conjSub k E :=
     Subgroup.mem_sup_left (Subgroup.mem_sup_right he₀E)
   have he₁B' : k * e₀ * k⁻¹ ∈ F ⊔ E ⊔ conjSub k E :=

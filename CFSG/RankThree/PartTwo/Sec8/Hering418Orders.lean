@@ -111,7 +111,7 @@ theorem card_projSU_three_three_dvd {e : ℕ} (he : 1 ≤ e) :
   exact Dvd.intro _ rfl
 
 theorem not_dvd_projSL_five_two : ¬ 3 ^ 4 ∣ Nat.card (projSL 5 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (projSL 5 (GaloisField 2 1)) :=
     Finite.of_equiv _ (Sec4.projSLEquivPSLn 5 (GaloisField 2 1)).symm.toEquiv
   intro h
@@ -121,7 +121,7 @@ theorem not_dvd_projSL_five_two : ¬ 3 ^ 4 ∣ Nat.card (projSL 5 (GaloisField 2
   norm_num [Fin.prod_univ_succ] at h1
 
 theorem not_dvd_projSL_three_three : ¬ 3 ^ 4 ∣ Nat.card (projSL 3 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (projSL 3 (GaloisField 3 1)) :=
     Finite.of_equiv _ (Sec4.projSLEquivPSLn 3 (GaloisField 3 1)).symm.toEquiv
   intro h
@@ -131,7 +131,7 @@ theorem not_dvd_projSL_three_three : ¬ 3 ^ 4 ∣ Nat.card (projSL 3 (GaloisFiel
   norm_num [Fin.prod_univ_succ] at h1
 
 theorem not_seven_dvd_projSL_four_three : ¬ 7 ∣ Nat.card (projSL 4 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (projSL 4 (GaloisField 3 1)) :=
     Finite.of_equiv _ (Sec4.projSLEquivPSLn 4 (GaloisField 3 1)).symm.toEquiv
   intro h
@@ -141,7 +141,7 @@ theorem not_seven_dvd_projSL_four_three : ¬ 7 ∣ Nat.card (projSL 4 (GaloisFie
   norm_num [Fin.prod_univ_succ] at h1
 
 theorem not_dvd_projSU_three_three : ¬ 3 ^ 4 ∣ Nat.card (projSU 3 3 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 (2 * 1)) = 9 := by
     rw [GaloisField.card 3 (2 * 1) (by norm_num)]
     norm_num
@@ -157,7 +157,7 @@ theorem not_dvd_projSU_three_three : ¬ 3 ^ 4 ∣ Nat.card (projSU 3 3 1) := by
   norm_num at h1
 
 theorem not_dvd_projSU_five_four : ¬ 3 ^ 4 ∣ Nat.card (projSU 5 2 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU := Sec4.unitaryFieldData_galoisField 2 2 (by norm_num)
   have hSU := CFSG.RankThree.PartTwo.Census.card_statedSU_five_four hU
   have : Finite (CFSG.Assembly.LowTwoRank.StatedSU 5 (2 ^ 2) (GaloisField 2 (2 * 2))) :=
@@ -183,8 +183,8 @@ section Final
 
 
 theorem kF418ModelOn_sevenEight : KF418ModelOn (fun X _ => IsSevenEightByOrders X) := by
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine kF418ModelOn_of_card ?_ ?_
   · intro X _ _ hX σ hσ
     rcases hX with ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩

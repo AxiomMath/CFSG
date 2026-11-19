@@ -107,7 +107,7 @@ theorem quotCenter_cases_symp_of_component {m n p : ℕ} {K : Type} [Field K] [F
       (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
       hp hp2 Nat.prime_two hn hK hm hp2 (fun h => h.elim) x hx
   obtain ⟨X, inst, hXfin, ⟨hXLie, hA6⟩, hfac, f, hf, hker⟩ := hcomp J hJ
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac
@@ -127,12 +127,12 @@ theorem quotCenter_cases_symp_of_component {m n p : ℕ} {K : Type} [Field K] [F
     obtain ⟨e4⟩ := CFSG.StandardType.nonempty_commutator_equiv e3
     let eXS : X ≃* ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       eX4.trans e4
-    haveI hsS : IsSimpleGroup (commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+    have hsS : IsSimpleGroup (commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-    haveI hpS : Group.IsPerfect (commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+    have hpS : Group.IsPerfect (commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isPerfect_commutator_sympFour
-    haveI : IsSimpleGroup X := eXS.isSimpleGroup
-    haveI : Group.IsPerfect X :=
+    have : IsSimpleGroup X := eXS.isSimpleGroup
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (f := eXS.symm.toMonoidHom) eXS.symm.surjective
     obtain ⟨eXZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.nonempty_quotCenter_equiv
       (eXS.trans CFSG.ComponentClassification.PresentationLocal.commutatorEquivAlternating)
@@ -200,7 +200,7 @@ private theorem negC_symp_inn_common (hRig : GGLabelRigidInput) {S : Type} [Grou
       omega
     · exact h0
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' K
     have hc := hcard
     rw [Nat.card_eq_fintype_card, hqcard] at hc

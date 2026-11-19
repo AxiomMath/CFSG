@@ -15,6 +15,7 @@ open MulAction
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 private theorem orbit_ncard_dvd_set_ncard
     (P : Subgroup G) (t : ℕ) (S : Set X)
     (horbitSub : ∀ x ∈ S, MulAction.orbit P x ⊆ S)
@@ -38,7 +39,7 @@ private theorem orbit_ncard_dvd_set_ncard
         have hOpos : 0 < O.ncard := hOnonempty.ncard_pos
         have hOle : O.ncard ≤ S.ncard := Set.ncard_le_ncard hOS
         have hRcard : R.ncard = S.ncard - O.ncard := by
-          exact Set.ncard_diff hOS
+          exact Set.ncard_sdiff hOS
         have hRlt : R.ncard < S.ncard := by omega
         have hRltN : R.ncard < n := by omega
         have hRorbitSub :
@@ -60,7 +61,7 @@ private theorem orbit_ncard_dvd_set_ncard
         have hRdvd : t ∣ R.ncard := by
           exact ih R.ncard hRltN R hRorbitSub hRorbitCard rfl
         have hsum : R.ncard + O.ncard = S.ncard :=
-          Set.ncard_diff_add_ncard_of_subset hOS
+          Set.ncard_sdiff_add_ncard_of_subset hOS
         have hOcard : O.ncard = t := horbitCard x hx
         obtain ⟨k, hk⟩ := hRdvd
         refine ⟨k + 1, ?_⟩
@@ -70,6 +71,7 @@ private theorem orbit_ncard_dvd_set_ncard
           _ = t * k + t := by rw [hk, hOcard]
           _ = t * (k + 1) := by rw [Nat.mul_add, Nat.mul_one]
 
+omit [Finite G] in
 theorem pgroup_orbit_eq_triple
     (A P : Subgroup G) (hA : IsPGroup 3 A) (hPA : P ≤ A)
     (B T E : Set X) (hfixed : MulAction.fixedPoints A X = B)
@@ -172,7 +174,7 @@ theorem pgroup_orbit_eq_triple
     exact dvd_pow_self 3 (by omega)
   have hthreeS : 3 ∣ S.ncard := hthreeT.trans htS
   have hsum : I.ncard + S.ncard = O.ncard := by
-    simpa only [I, S] using Set.ncard_inter_add_ncard_diff_eq_ncard O E
+    simpa only [I, S] using Set.ncard_inter_add_ncard_sdiff_eq_ncard O E
   have hthreeO : 3 ∣ O.ncard := by
     rw [hOcard]
     exact dvd_pow_self 3 (by omega)

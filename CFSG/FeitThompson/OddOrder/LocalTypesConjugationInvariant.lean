@@ -24,7 +24,7 @@ theorem image_conj_image (e : G ≃* G') (z : G) (D : Set G) :
 theorem map_normalizer_image (e : G ≃* G') (D : Set G) :
     (Subgroup.normalizer D).map (e : G →* G') = Subgroup.normalizer (e '' D) := by
   ext y
-  simp only [Subgroup.mem_map, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨z, hz, rfl⟩
     rw [Subgroup.mem_normalizer_iff_conj_image_eq] at hz ⊢
@@ -103,7 +103,7 @@ theorem image_cyclicTIset (e : G ≃* G') (W₁ W₂ : Subgroup G) :
     e '' cyclicTIset W₁ W₂ = cyclicTIset (W₁.map (e : G →* G')) (W₂.map (e : G →* G')) := by
   ext y
   simp only [Set.mem_image, mem_cyclicTIset, ← Subgroup.map_sup, Subgroup.mem_map,
-    MonoidHom.coe_coe]
+    _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨x, ⟨hx, hx1, hx2⟩, rfl⟩
     exact ⟨⟨x, hx, rfl⟩, fun ⟨z, hz, hzx⟩ => hx1 (e.injective hzx ▸ hz),
@@ -189,7 +189,7 @@ theorem IsFrobeniusType.map [Finite G] [Finite G'] {E : Subgroup G} (h : IsFrobe
       rw [← hH] at hy
       obtain ⟨x, hx, rfl⟩ := hy
       have hx1 : x ≠ 1 := fun hcx => hy1 (by simp [hcx])
-      rw [MonoidHom.coe_coe] at *
+      rw [_root_.MonoidHom.coe_ofClass] at *
       rw [← map_centralizer_singleton, ← Subgroup.map_inf _ _ _ e.injective]
       exact Subgroup.map_mono (hcent x hx hx1)
   · obtain ⟨E₀, hle, hexp, hcent⟩ := h.exists_exponent_eq
@@ -200,7 +200,7 @@ theorem IsFrobeniusType.map [Finite G] [Finite G'] {E : Subgroup G} (h : IsFrobe
     · intro y hy hy1
       obtain ⟨x, hx, rfl⟩ := hy
       have hx1 : x ≠ 1 := fun hcx => hy1 (by simp [hcx])
-      rw [MonoidHom.coe_coe] at *
+      rw [_root_.MonoidHom.coe_ofClass] at *
       rw [← hH, ← map_centralizer_singleton, ← Subgroup.map_inf _ _ _ e.injective,
         hcent x hx hx1, Subgroup.map_bot]
 
@@ -273,7 +273,7 @@ theorem IsWitnessedPConfiguration.map [Finite G] [Finite G'] {M E W₁ W₂ : Su
   · intro y hy hy1
     obtain ⟨x, hx, rfl⟩ := hy
     have hx1 : x ≠ 1 := fun hcx => hy1 (by simp [hcx])
-    rw [MonoidHom.coe_coe] at *
+    rw [_root_.MonoidHom.coe_ofClass] at *
     rw [← hcomm, ← map_centralizer_singleton, ← Subgroup.map_inf _ _ _ e.injective,
       hc.inf_centralizer_eq_W₂ x hx hx1]
   · rw [← Subgroup.map_sup]; exact hc.isInternalDirectProduct_sup.map e

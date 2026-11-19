@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 theorem y7b_comm_mem_of_sq_mem {V N : Subgroup G} (hNV : N ≤ V)
     (hnorm : ∀ v ∈ V, ∀ n ∈ N, v * n * v⁻¹ ∈ N) (hsq : ∀ v ∈ V, v ^ 2 ∈ N) :
     ∀ u ∈ V, ∀ v ∈ V, ⁅u, v⁆ ∈ N := by
-  haveI hnorm' : (N.subgroupOf V).Normal :=
+  have hnorm' : (N.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff hNV).mpr fun h k hh hk => hnorm k hk h hh
   have hexp : ∀ g : (↥V ⧸ N.subgroupOf V), g ^ 2 = 1 := by
     intro g
@@ -75,9 +75,9 @@ private theorem y7b_exp2_cube_aux {Q : Type*} [Group Q] [IsMulCommutative Q]
     _ = 1 := by rw [hAA, one_mul]
 
 theorem y7b_exp2_cube {P Z : Subgroup G} (hZP : Z ≤ P)
-    (hZn : ∀ y ∈ P, ∀ z ∈ Z, y * z * y⁻¹ ∈ Z) (hcomm : ∀ y ∈ P, ∀ y' ∈ P, ⁅y, y'⁆ ∈ Z)
+    (hZn : ∀ y ∈ P, ∀ z ∈ Z, y * z * y⁻¹ ∈ Z) (_hcomm : ∀ y ∈ P, ∀ y' ∈ P, ⁅y, y'⁆ ∈ Z)
     (hsq : ∀ y ∈ P, y ^ 2 ∈ Z) {k : G} (hk3 : k ^ 3 = 1) (hkP : ∀ y ∈ P, k * y * k⁻¹ ∈ P)
-    (hkZ : ∀ z ∈ Z, k * z * k⁻¹ ∈ Z) {c : G} (hc : c ∈ P)
+    (_hkZ : ∀ z ∈ Z, k * z * k⁻¹ ∈ Z) {c : G} (hc : c ∈ P)
     (hsum : c * (k * c * k⁻¹) * (k ^ 2 * c * (k ^ 2)⁻¹) ∈ Z) :
     ∃ x ∈ P, ⁅x, k⁆ * c⁻¹ ∈ Z := by
   let c₂ : G := k * c * k⁻¹
@@ -97,12 +97,11 @@ theorem y7b_exp2_cube {P Z : Subgroup G} (hZP : Z ≤ P)
     rw [h1, hc3conj, hc2eq]
   refine ⟨c * c₃, P.mul_mem hc hc3, ?_⟩
   let ZP : Subgroup ↥P := Z.subgroupOf P
-  haveI hZPn : ZP.Normal :=
+  have hZPn : ZP.Normal :=
     (Subgroup.normal_subgroupOf_iff hZP).mpr fun h k hh hk => hZn k hk h hh
   have hexpQ : ∀ q : ↥P ⧸ ZP, q ^ 2 = 1 := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective ZP q
-    change (QuotientGroup.mk' ZP y) ^ 2 = 1
     rw [← map_pow]
     show ((y ^ 2 : ↥P) : ↥P ⧸ ZP) = 1
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -118,7 +117,7 @@ theorem y7b_exp2_cube {P Z : Subgroup G} (hZP : Z ≤ P)
         have hh := hexpQ h
         rw [pow_two] at hg hh
         rw [inv_eq_of_mul_eq_one_right hg, inv_eq_of_mul_eq_one_right hh]
-  haveI : IsMulCommutative (↥P ⧸ ZP) := IsMulCommutative.of_comm hQcomm
+  have : IsMulCommutative (↥P ⧸ ZP) := IsMulCommutative.of_comm hQcomm
   let A : ↥P ⧸ ZP := QuotientGroup.mk' ZP (⟨c, hc⟩ : ↥P)
   let B2 : ↥P ⧸ ZP := QuotientGroup.mk' ZP (⟨c₂, hc2⟩ : ↥P)
   let B3 : ↥P ⧸ ZP := QuotientGroup.mk' ZP (⟨c₃, hc3⟩ : ↥P)

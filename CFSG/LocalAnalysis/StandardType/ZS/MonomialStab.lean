@@ -67,15 +67,15 @@ theorem isRefl_diagMap_mul_permMap_swap (f : Module.Basis (Fin n) (ZMod p) U) {i
     simp only [diagMap_apply_basis, permMap_apply_basis, map_smul, smul_smul]
     by_cases hki : k = i
     · rw [hki]
-      simp only [Equiv.swap_apply_left, ite_true, if_neg hij, if_neg (Ne.symm hij), pairUnit,
+      simp only [Equiv.swap_apply_left, ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij), pairUnit,
         Units.val_one, one_mul]
     · by_cases hkj : k = j
       · rw [hkj]
-        simp only [Equiv.swap_apply_right, ite_true, if_neg hij, if_neg (Ne.symm hij), pairUnit,
+        simp only [Equiv.swap_apply_right, ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij), pairUnit,
           Units.val_one, Units.inv_mul, one_smul]
       · have hswap : Equiv.swap i j k = k := Equiv.swap_apply_of_ne_of_ne hki hkj
         rw [hswap]
-        simp only [if_neg hki, if_neg hkj, pairUnit, Units.val_one, one_mul, one_smul]
+        simp only [ite_eq_right hki, ite_eq_right hkj, pairUnit, Units.val_one, one_mul, one_smul]
   have h_eq : diagMap p f (pairUnit p i j ζ) * permMap p f (Equiv.swap i j)
       = c * permMap p f (Equiv.swap i j) * c⁻¹ := by
     calc diagMap p f (pairUnit p i j ζ) * permMap p f (Equiv.swap i j)
@@ -143,9 +143,9 @@ private theorem pairUnit_mem_zpowers {i₀ i₁ : Fin n} (ζ : (ZMod p)ˣ) (k : 
   by_cases hk₀ : k = i₀
   · subst hk₀; simp
   · by_cases hk₁ : k = i₁
-    · subst hk₁; simp only [hk₀, if_false, if_true]
+    · subst hk₁; simp only [hk₀, ite_false, ite_true]
       exact Subgroup.inv_mem _ (Subgroup.mem_zpowers ζ)
-    · simp only [hk₀, hk₁, if_false]; exact Subgroup.one_mem _
+    · simp only [hk₀, hk₁, ite_false]; exact Subgroup.one_mem _
 
 theorem exists_eq_diagMap_mul_permMap_of_mem_gmmn (f : Module.Basis (Fin n) (ZMod p) U)
     {i₀ i₁ : Fin n} (hi : i₀ ≠ i₁) {ζ : (ZMod p)ˣ} {g : U ≃ₗ[ZMod p] U}
@@ -196,18 +196,18 @@ private theorem prod_sign {i₀ : Fin n} :
 private theorem sign_mem_closure {i₀ : Fin n} (ζ : (ZMod p)ˣ) (k : Fin n) :
     (if k = i₀ then (-1 : (ZMod p)ˣ) else 1) ∈ Subgroup.closure {ζ, -1} := by
   by_cases hk : k = i₀
-  · subst hk; simp only [if_true]; exact Subgroup.subset_closure (Or.inr rfl)
-  · simp only [hk, if_false]; exact Subgroup.one_mem _
+  · subst hk; simp only [ite_true]; exact Subgroup.subset_closure (Or.inr rfl)
+  · simp only [hk, ite_false]; exact Subgroup.one_mem _
 
 private theorem pairUnit_mem_closure {i₀ i₁ : Fin n} (ζ : (ZMod p)ˣ) (k : Fin n) :
     pairUnit p i₀ i₁ ζ k ∈ Subgroup.closure {ζ, -1} := by
   rw [pairUnit]
   by_cases hk₀ : k = i₀
-  · subst hk₀; simp only [if_true]; exact Subgroup.subset_closure (Or.inl rfl)
+  · subst hk₀; simp only [ite_true]; exact Subgroup.subset_closure (Or.inl rfl)
   · by_cases hk₁ : k = i₁
-    · subst hk₁; simp only [hk₀, if_false, if_true]
+    · subst hk₁; simp only [hk₀, ite_false, ite_true]
       exact Subgroup.inv_mem _ (Subgroup.subset_closure (Or.inl rfl))
-    · simp only [hk₀, hk₁, if_false]; exact Subgroup.one_mem _
+    · simp only [hk₀, hk₁, ite_false]; exact Subgroup.one_mem _
 
 theorem exists_eq_diagMap_mul_permMap_of_mem_g2mmn (f : Module.Basis (Fin n) (ZMod p) U)
     {i₀ i₁ : Fin n} (hi : i₀ ≠ i₁) {ζ : (ZMod p)ˣ} {g : U ≃ₗ[ZMod p] U}
@@ -635,7 +635,7 @@ private theorem diagMap_signMap_mem_fixReflSubgroup (hp : p ≠ 2)
   refine mem_fixReflSubgroup ?_ ?_ ?_
   · exact diagMap_signMap_mem_g2mmn f hi ζ k₀
   · exact isRefl_diagMap_sign hp f k₀
-  · rw [diagMap_apply_basis, if_neg (Ne.symm hk₀), Units.val_one, one_smul]
+  · rw [diagMap_apply_basis, ite_eq_right (Ne.symm hk₀), Units.val_one, one_smul]
 
 private theorem diagMap_eq_mul_signMap (f : Module.Basis (Fin n) (ZMod p) U)
     (d : Fin n → (ZMod p)ˣ) (k₀ : Fin n) :
@@ -674,12 +674,12 @@ private theorem diagMap_mem_fixReflSubgroup_g2mmn_prod_neg_one (hp : p ≠ 2)
       refine Subgroup.mul_mem _ (hd k) ?_
       change (if k = k₀ then (-1 : (ZMod p)ˣ) else 1) ∈ Subgroup.closure {ζ, -1}
       by_cases h : k = k₀
-      · rw [if_pos h]; exact Subgroup.subset_closure (Or.inr rfl)
-      · rw [if_neg h]; exact Subgroup.one_mem _
+      · rw [ite_eq_left h]; exact Subgroup.subset_closure (Or.inr rfl)
+      · rw [ite_eq_right h]; exact Subgroup.one_mem _
     have hdl' : (d * sgn) l = 1 := by
       rw [Pi.mul_apply, hdl, one_mul]
       change (if l = k₀ then (-1 : (ZMod p)ˣ) else 1) = 1
-      rw [if_neg (Ne.symm hk₀)]
+      rw [ite_eq_right (Ne.symm hk₀)]
     have hprod' : ∏ k, (d * sgn) k = 1 := by
       rw [Finset.prod_congr rfl (fun k _ => Pi.mul_apply d sgn k), Finset.prod_mul_distrib,
         hprod, hsgn_prod, mul_neg_one, neg_neg]

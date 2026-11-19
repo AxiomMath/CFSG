@@ -53,8 +53,8 @@ theorem genPlaneE6Three_holds : GenPlaneE6Three := by
   ·
     obtain ⟨K, hF, hFin, hK, hKchar, ⟨ε⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     let φ : T ≃* adjointGroup Tag.E6 K := e.trans ε
     have hK3 : ringChar K ≠ 3 := by
       rw [ringChar.eq K Q.p]
@@ -73,11 +73,11 @@ theorem genPlaneE6Three_holds : GenPlaneE6Three := by
     · exact e6Three_not_common_component_of_not_le_inndiag hP' hcard' hdiag _ hcomp'
   ·
     obtain ⟨K, hF, σ, hK, hσ, ⟨ε⟩⟩ := exists_catEquiv_twistedE6 Q hv
-    letI : Field K := hF
+    let : Field K := hF
     have hℓ := Q.prime_p
     have hf := Q.exponent_pos
     have hqc : Q.card = Q.p ^ Q.exponent := TauCeti.PrimePower.card_def Q
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by
+    have : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hK]
       exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
     let φ : T ≃* twistedE6RootGroup K σ := e.trans ε

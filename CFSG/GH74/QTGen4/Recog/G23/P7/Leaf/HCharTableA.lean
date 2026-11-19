@@ -161,6 +161,7 @@ open Classical
 
 variable [Fintype X]
 
+omit [Fintype X] in
 theorem irr_one {θ : X → ℂ} (hθ : θ ∈ CFSG.BlocksIrr X) : ∃ n : ℕ, 0 < n ∧ θ 1 = (n : ℂ) := by
   obtain ⟨ρ, hρ, hρθ⟩ := (Set.ext_iff.mp (CFSG.blocksIrr_eq_irreducible_characters X) θ).mp hθ
   have hdim : 0 < Module.finrank ℂ ρ.vector := by
@@ -328,7 +329,7 @@ theorem irr_eq_row (h : TabHyp X z rep) {θ : X → ℂ} (hθ : θ ∈ CFSG.Bloc
     simp [map_div₀]
   have hnorm : c * starRingEnd ℂ c = 1 := by
     have h1 := h.irr_orth hθ hθ
-    simp only [if_true, mul_one] at h1
+    simp only [ite_true, mul_one] at h1
     have h2 : ∑ j, (hcSize j : ℂ) * (θ (rep j) * starRingEnd ℂ (θ (rep j))) =
         c * starRingEnd ℂ c * ∑ j, (hcSize j : ℂ) * (hcT m j : ℂ) * (hcT m j : ℂ) := by
       rw [Finset.mul_sum]
@@ -337,7 +338,7 @@ theorem irr_eq_row (h : TabHyp X z rep) {θ : X → ℂ} (hθ : θ ∈ CFSG.Bloc
       simp only [map_mul, map_intCast]
       ring
     rw [h2, row_orth_c m m] at h1
-    simp only [if_true] at h1
+    simp only [ite_true] at h1
     have h576 : (576 : ℂ) ≠ 0 := by norm_num
     exact mul_right_cancel₀ h576 (by rw [one_mul]; exact h1)
   rw [hconj] at hnorm
@@ -363,7 +364,7 @@ theorem sum_irr_deg_sq (h : TabHyp X z rep) :
   have hmult := (CFSG.CharacterTheory.SteinbergBS.class_multiplication_count (1 : X) 1 1).1
   have hC : (Finset.univ.filter fun g : X => IsConj g 1) = {1} := by
     ext g
-    simp [isConj_comm (g := g), isConj_one_right]
+    simp
   rw [hC, h.card_X] at hmult
   have hpair : ((({1} : Finset X) ×ˢ ({1} : Finset X)).filter
       fun q : X × X => q.1 * q.2 = 1).card = 1 := by

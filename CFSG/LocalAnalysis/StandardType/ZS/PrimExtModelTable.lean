@@ -117,7 +117,7 @@ theorem coord_vecR (φ : R →+* ZMod p) (f : Module.Basis (Fin n) (ZMod p) U) (
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hji
-    rw [if_neg hji, mul_zero]
+    rw [ite_eq_right hji, mul_zero]
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
 theorem covecR_vecR (φ : R →+* ZMod p) (f : Module.Basis (Fin n) (ZMod p) U) (c v : Fin n → R) :
@@ -225,19 +225,19 @@ theorem covecU_vecU (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) :
 
 theorem refl_apply (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) (v : U) :
     T.refl φ f j v = v - T.covecU φ f j v • T.vecU φ f j := by
-  rw [ReflTable.refl, dif_pos (covecU_vecU hv hp j), Module.reflection_apply]
+  rw [ReflTable.refl, dite_eq_left (covecU_vecU hv hp j), Module.reflection_apply]
 
 theorem refl_mul_self (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) :
     T.refl φ f j * T.refl φ f j = 1 := by
   have hinv : (T.refl φ f j)⁻¹ = T.refl φ f j := by
-    rw [ReflTable.refl, dif_pos (covecU_vecU hv hp j), Module.reflection_inv]
+    rw [ReflTable.refl, dite_eq_left (covecU_vecU hv hp j), Module.reflection_inv]
   nth_rewrite 2 [← hinv]
   exact mul_inv_cancel _
 
 theorem isRefl_refl (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) : IsRefl p (T.refl φ f j) := by
   let : Module.Finite (ZMod p) U := Module.Finite.of_basis f
   refine (isRefl_iff hp _).mpr ⟨T.vecU φ f j, T.covecU φ f j, covecU_vecU hv hp j, ?_⟩
-  rw [ReflTable.refl, dif_pos (covecU_vecU hv hp j)]
+  rw [ReflTable.refl, dite_eq_left (covecU_vecU hv hp j)]
 
 theorem movedSpace_refl (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) :
     HardMathSupport.Kantor79.movedSpace (T.refl φ f j) =
@@ -404,7 +404,7 @@ private theorem refl_vecU_conj (hv : T.Valid good) (hp : p ≠ 2) {i k k' : Fin 
 
 private theorem refl_refl_apply (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) (v : U) :
     T.refl φ f j (T.refl φ f j v) = v := by
-  rw [ReflTable.refl, dif_pos (covecU_vecU (φ := φ) (f := f) hv hp j)]
+  rw [ReflTable.refl, dite_eq_left (covecU_vecU (φ := φ) (f := f) hv hp j)]
   exact Module.involutive_reflection (covecU_vecU (φ := φ) (f := f) hv hp j) v
 
 private theorem sgnR_smul_smul (s : Bool) (c : ZMod p) (r : U) :
@@ -434,7 +434,7 @@ private theorem covecR_reindex (e : Fin n ≃ Fin n) (c : Fin n → R) :
 theorem refl_conj_eq (hv : T.Valid good) (hp : p ≠ 2) {i k k' : Fin N} {s : Bool}
     (h : T.ConjRel i k k' s) : T.refl φ f i * T.refl φ f k * (T.refl φ f i)⁻¹ = T.refl φ f k' := by
   have hii : (T.refl φ f i)⁻¹ = T.refl φ f i := by
-    rw [ReflTable.refl, dif_pos (covecU_vecU (φ := φ) (f := f) hv hp i), Module.reflection_inv]
+    rw [ReflTable.refl, dite_eq_left (covecU_vecU (φ := φ) (f := f) hv hp i), Module.reflection_inv]
   rw [hii]
   apply LinearEquiv.ext
   intro v
@@ -549,7 +549,7 @@ theorem exists_eq_refl (hv : T.Valid good) (hp : p ≠ 2)
 theorem toMatrix_refl (hv : T.Valid good) (hp : p ≠ 2) (j : Fin N) :
     LinearMap.toMatrix f f (T.refl φ f j : U →ₗ[ZMod p] U) =
       evMat φ 1 (reflZ (T.root j) (T.coroot j)) := by
-  rw [ReflTable.refl, dif_pos (covecU_vecU (φ := φ) (f := f) hv hp j)]
+  rw [ReflTable.refl, dite_eq_left (covecU_vecU (φ := φ) (f := f) hv hp j)]
   rw [toMatrix_reflection f (covecU_vecU (φ := φ) (f := f) hv hp j), evMat_reflZ hp]
   congr 1
   ext i k
@@ -690,8 +690,8 @@ theorem refl_foldr_rc_mem_closure (hv : T.Valid good) (hp : p ≠ 2) {rc : Fin N
 theorem refl_mul_comm (hv : T.Valid good) (hp : p ≠ 2) {i j : Fin N}
     (h₁ : dotProduct (T.coroot i) (T.root j) = 0) (h₂ : dotProduct (T.coroot j) (T.root i) = 0) :
     T.refl φ f i * T.refl φ f j = T.refl φ f j * T.refl φ f i := by
-  rw [ReflTable.refl, dif_pos (covecU_vecU (φ := φ) (f := f) hv hp i),
-    ReflTable.refl, dif_pos (covecU_vecU (φ := φ) (f := f) hv hp j)]
+  rw [ReflTable.refl, dite_eq_left (covecU_vecU (φ := φ) (f := f) hv hp i),
+    ReflTable.refl, dite_eq_left (covecU_vecU (φ := φ) (f := f) hv hp j)]
   refine reflection_mul_comm (covecU_vecU (φ := φ) (f := f) hv hp i)
     (covecU_vecU (φ := φ) (f := f) hv hp j) ?_ ?_
   · rw [show T.covecU φ f i (T.vecU φ f j) =
@@ -857,9 +857,9 @@ private theorem diagForm_apply (φ : R →+* ZMod p) (f : Module.Basis (Fin n) (
   apply Finset.sum_congr rfl
   intro i _
   rw [Finset.sum_eq_single i]
-  · rw [if_pos rfl]; ring
+  · rw [ite_eq_left rfl]; ring
   · intro j _ hij
-    rw [if_neg (fun h : i = j => hij h.symm)]
+    rw [ite_eq_right (fun h : i = j => hij h.symm)]
     ring
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
@@ -954,7 +954,7 @@ private theorem diagForm_gen_isometry (hv : T.Valid good) (hgood : ∀ x, good x
   have hc := covecU_vecU (T := T) (φ := φ) (f := f) hv hp (T.gen k)
   have hcB := diagForm_hcB (T := T) (φ := φ) (f := f) hv hgood hp D hD hform k
   have hrefl : T.refl φ f (T.gen k) = Module.reflection hc := by
-    rw [ReflTable.refl, dif_pos hc]
+    rw [ReflTable.refl, dite_eq_left hc]
   rw [hrefl]
   exact reflection_isometry hp (diagForm φ f D) hB hnd hc hcB
 

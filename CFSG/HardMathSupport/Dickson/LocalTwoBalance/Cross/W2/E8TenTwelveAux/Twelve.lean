@@ -25,11 +25,11 @@ theorem innerPlaneBalance_adjointE8_twelve (K : Type) [Field K] [Finite K] {p : 
   classical
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨hp7', -, hΦ, -⟩ := e8Twelve_arith hp hp7 he
   obtain ⟨F⟩ := exists_e8TwelveFrame K hf hK hp hp7 he L
   have hordW : ¬ p ∣ Nat.card (WeylGroup Tag.E8) :=

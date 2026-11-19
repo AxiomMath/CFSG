@@ -35,8 +35,8 @@ section Main
 
 theorem burnsideF429_C7ZInput_of (h : burnsideF429_C7ZInput') : burnsideF429_C7ZInput := by
   intro κ f E _ Gp M₁ M₂ hyp hκ T hT
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hf : 2 ≤ f
   · exact h κ f E Gp M₁ M₂ hyp hκ hf T hT
   · have hf1 : f = 1 := by

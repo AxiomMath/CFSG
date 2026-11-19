@@ -154,9 +154,9 @@ theorem twE6LiftBridge_holds : TwE6LiftBridge := by
   have hq2 : 2 ≤ q := by
     by_contra h
     push Not at h
-    interval_cases q <;> norm_num at hK <;> omega
+    interval_cases q <;> norm_num at hK; omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hKℓ : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [hK, hqf]
   have hσℓ : ∀ c, σ.toRingHom c = c ^ (ringChar K ^ f) := fun c => by rw [← hqf]; exact hσ c
   have hFrℓ : ∀ c, Fr c = c ^ (ringChar K ^ f) := fun c => by rw [← hqf]; exact hFr c
@@ -184,7 +184,7 @@ theorem twE6LiftBridge_holds : TwE6LiftBridge := by
       ring
     rw [e, hm]
     ring
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 hcard
   have hprimK : IsPrimitiveRoot (g : K) 3 := by
     have h1 : IsPrimitiveRoot g 3 := by
@@ -201,7 +201,7 @@ theorem twE6LiftBridge_holds : TwE6LiftBridge := by
     simp only [Finset.mem_union, Finset.mem_image, Finset.mem_univ, true_and]
     exact ⟨Or.inl ⟨i, rfl⟩, Or.inr ⟨i, rfl⟩⟩
   obtain ⟨K₂, hK₂, hEK₂, hrange⟩ := exists_finite_subfield_of_finset (K := K) (Ec ∪ Ev)
-  haveI : Finite K₂ := hK₂
+  have : Finite K₂ := hK₂
   have hcK : (Ec : Set L) ⊆ K₂ := fun x hx =>
     hEK₂ (Finset.mem_coe.2 (Finset.mem_union_left _ hx))
   have hvK : ∀ x ∈ Ev, x ∈ K₂ := fun x hx =>

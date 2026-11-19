@@ -69,7 +69,7 @@ theorem card_comm_sections {V : Type} [CommGroup V] [Finite V] (hsq : ∀ v : V,
     refine ⟨ζ v, ?_⟩
     rw [map_mul, map_inv, hcomm_apply v]
   have hfix1 : Nat.card {d : R // ζ d = d} = 1 := by
-    haveI : Unique {d : R // ζ d = d} :=
+    have : Unique {d : R // ζ d = d} :=
       { default := ⟨1, by simp⟩
         uniq := fun d => by
           apply Subtype.ext
@@ -77,7 +77,7 @@ theorem card_comm_sections {V : Type} [CommGroup V] [Finite V] (hsq : ∀ v : V,
           exact hfix (d : V) d.2 }
     exact Nat.card_unique
   have hmod : Nat.card R ≡ 1 [MOD 3] := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := L218.card_fix_modEq ζ R hRinv 3 1 (by simpa using hζ)
     rwa [hfix1] at h
   have hxne : ∃ v : V, x v ≠ v := by
@@ -134,7 +134,7 @@ theorem sec_comm_trivial {V : Type} [CommGroup V] [Finite V] (hsq : ∀ v : V, v
   let S := ↥Tt ⧸ Rr.subgroupOf Tt
   obtain ⟨ρ, hρ⟩ := exists_sectionAct Rr Tt hRT M hT hR
   let ζS : MulAut S := ρ ⟨ζ, hζM⟩
-  haveI : Finite S := inferInstance
+  have : Finite S := inferInstance
   have hsqS : ∀ s : S, s * s = 1 := by
     intro s
     refine QuotientGroup.induction_on s ?_
@@ -187,10 +187,10 @@ theorem sec_comm_trivial {V : Type} [CommGroup V] [Finite V] (hsq : ∀ v : V, v
       _ = QuotientGroup.mk t * QuotientGroup.mk t * QuotientGroup.mk t :=
           (mul_assoc _ _ _).symm
       _ = 1 := hprod'
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun f : MulAut S => (f : S → S))
       (fun f g h => MulEquiv.ext (fun x => congrFun h x))
-  haveI : Finite ↥(Subgroup.centralizer ({ζS} : Set (MulAut S))) := inferInstance
+  have : Finite ↥(Subgroup.centralizer ({ζS} : Set (MulAut S))) := inferInstance
   have hcent := card_centralizer_zeta_le hsqS ζS hζS3 hfixS hS
   have hL : Nat.card ↥(Subgroup.centralizer ({ζS} : Set (MulAut S))) < 360 := by
     omega

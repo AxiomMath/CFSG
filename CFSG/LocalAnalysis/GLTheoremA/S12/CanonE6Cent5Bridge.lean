@@ -61,7 +61,7 @@ private theorem labelOf_of_subcompMark {Γ : Type} [Group Γ] {K : Subgroup Γ} 
     (e : X ≃* ↥K) (h : E6FourSubcompMark X) :
     LabelOf K ⟨.twD, 4, 2⟩ ∨ LabelOf K ⟨.A, 5, 2⟩ := by
   obtain ⟨hcomm, lab, hlab, hraw⟩ := h
-  haveI : Group.IsPerfect X := ⟨hcomm⟩
+  have : Group.IsPerfect X := ⟨hcomm⟩
   have hK : commutator ↥K = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective).commutator_eq_top
   let eZ : ↥K ⧸ Subgroup.center ↥K ≃* X ⧸ Subgroup.center X :=
@@ -165,7 +165,7 @@ theorem e6FourCent5_of_facts (hT3 : E6FourOutInner) (hE1 : E6FourSylowFive)
         _ ≤ Nat.card B := by rw [hcHB]; exact hcount
         _ = Nat.card β.ker * Nat.card β.range := hcB.symm
     exact Nat.le_of_mul_le_mul_left h1 Nat.card_pos
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hA4le : Nat.card β.range ≤ 5 ^ 4 := by
     have hA5 : IsPGroup 5 β.range :=
       (CFSG.Open.IsElemAbelian.isPGroup hB).of_surjective β.rangeRestrict β.rangeRestrict_surjective

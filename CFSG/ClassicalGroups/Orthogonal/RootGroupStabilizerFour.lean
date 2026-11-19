@@ -122,7 +122,7 @@ theorem finrank_span_pair_eq_two {u u' : V} (hu : Q u = 0) (hu' : Q u' = 0)
 theorem Lom_eq_pCoreOf_pointStabilizer_four [FiniteDimensional K V] [Finite K] [CharP K 2]
     (hQ : (polarBilin Q).Nondegenerate) (hdim : Module.finrank K V = 4) {u : V} (hu : u ≠ 0)
     (hQu : Q u = 0) : Lom Q u = pCoreOf 2 (pointStabilizer Q u) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   refine le_antisymm (Lom_le_pCoreOf_pointStabilizer u) fun t ht => ?_
   have htS : t ∈ pointStabilizer Q u := pCoreOf_le 2 _ ht
   obtain ⟨k, hk⟩ : ∃ k : ℕ, t ^ 2 ^ k = 1 := by

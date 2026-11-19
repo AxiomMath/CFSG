@@ -317,7 +317,7 @@ theorem tensor_or_two_mul_le (hW : ∀ w : W, w ^ 2 = 1) (ht2 : orderOf t = 2)
   have ht : t * t = 1 := by rw [← sq, ← ht2, pow_orderOf_eq_one]
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
   have : Nontrivial W := by
-    obtain ⟨w, -, hw⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨w, -, hw⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨⟨w, 1, fun h => hw (h ▸ Subgroup.one_mem _)⟩⟩
   have hinjGL : Function.Injective (toGL : MulAut W →* GLV (Additive W)) := toGL_injective
   set K₁ : Subgroup (GLV (Additive W)) := L.map toGL with hK₁

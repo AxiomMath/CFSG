@@ -58,7 +58,7 @@ private theorem omegaBlock_apply_succ_castSucc (n : ℕ) (k : Fin n) :
     ((omegaBlock n k : SpecialLinearGroup (Fin (n + 1)) F2) :
         Matrix (Fin (n + 1)) (Fin (n + 1)) F2) k.succ k.castSucc = 1 := by
   rw [coe_omegaBlock_eq, Matrix.add_apply, signedPerm_apply, Matrix.single_apply]
-  simp [Equiv.swap_apply_left, (Fin.castSucc_lt_succ (i := k)).ne, (Fin.castSucc_lt_succ (i := k)).ne']
+  simp [Equiv.swap_apply_left, (Fin.castSucc_lt_succ (i := k)).ne']
 
 private theorem omegaBlock_apply_succ_succ (n : ℕ) (k : Fin n) :
     ((omegaBlock n k : SpecialLinearGroup (Fin (n + 1)) F2) :
@@ -71,7 +71,7 @@ private theorem omegaBlock_apply_apply_castSucc (n : ℕ) (k : Fin n) (x : Fin (
         Matrix (Fin (n + 1)) (Fin (n + 1)) F2) x k.castSucc =
       if x = k.succ then 1 else 0 := by
   rw [coe_omegaBlock_eq, Matrix.add_apply, signedPerm_apply, Matrix.single_apply]
-  simp [Equiv.swap_apply_left, (Fin.castSucc_lt_succ (i := k)).ne, (Fin.castSucc_lt_succ (i := k)).ne']
+  simp [Equiv.swap_apply_left, (Fin.castSucc_lt_succ (i := k)).ne']
 
 private theorem omegaBlock_sq_apply_succ_castSucc (n : ℕ) (k : Fin n) :
     (((omegaBlock n k) ^ 2 : SpecialLinearGroup (Fin (n + 1)) F2) :
@@ -80,7 +80,7 @@ private theorem omegaBlock_sq_apply_succ_castSucc (n : ℕ) (k : Fin n) :
   rw [Finset.sum_eq_single k.succ]
   · rw [omegaBlock_apply_succ_succ, omegaBlock_apply_succ_castSucc, mul_one]
   · intro x _ hx
-    rw [omegaBlock_apply_apply_castSucc, if_neg hx, mul_zero]
+    rw [omegaBlock_apply_apply_castSucc, ite_eq_right hx, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ k.succ) h
 
@@ -106,7 +106,7 @@ private theorem slLowerBlockHom_apply_one_zero (n : ℕ)
     rw [slLowerBlockEquiv_inr]
     exact Fin.ext rfl
   rw [h0, h1, slLowerBlockMat_apply]
-  simp [Matrix.fromBlocks_apply₁₂]
+  simp
 
 private theorem slLower2Hom_apply_one_zero (m : ℕ)
     (s : SpecialLinearGroup (Fin (m + 1)) F2) :
@@ -191,7 +191,7 @@ theorem halfTorus_succ_succ (m : ℕ) :
           omega
         · rw [slLower2Hom_omegaBlock]
           congr 1
-          exact Fin.ext (by simp only [Fin.val_mk]; omega)
+          exact Fin.ext (by simp only; omega)
     · rintro (ht | ht)
       · rw [Set.mem_singleton_iff] at ht
         rw [ht]
@@ -230,7 +230,7 @@ theorem halfTorusK_succ_succ (m : ℕ) :
       · left
         rw [Set.mem_singleton_iff]
         congr 1
-        exact Fin.ext (by simp only [Fin.val_mk]; omega)
+        exact Fin.ext (by simp only; omega)
       · right
         have hkm : k.val < m := by omega
         refine ⟨omegaBlock m ⟨k.val, by omega⟩, ?_, ?_⟩
@@ -246,7 +246,7 @@ theorem halfTorusK_succ_succ (m : ℕ) :
         obtain ⟨k, hk, rfl⟩ := hg
         refine ⟨((⟨k, by omega⟩ : Fin m).castSucc).castSucc, ?_, ?_⟩
         · right
-          refine ⟨?_, by simp only [Fin.val_castSucc, Fin.val_mk]; omega⟩
+          refine ⟨?_, by simp only [Fin.val_castSucc]; omega⟩
           simpa only [Fin.val_castSucc, Fin.val_mk] using hk
         · rw [slUpper2Hom_omegaBlock]
           congr 1

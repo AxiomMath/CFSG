@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s168e3_row153_2 {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (c : S168e3Ctx D V₀ V L hV) (hs : s15 D.M V₀ V hV L = 1) (h : Case153_2 D V₀ V hV L) :
     False := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hwtop : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 c.conc hs
   obtain ⟨ρ, hρs, hρk, hρe⟩ := s168e3_starnat_exists c hs
   obtain ⟨t, ht, ht2, ht1, htr, hW⟩ := c.conc
@@ -57,13 +57,13 @@ theorem s168e3_row153_2 {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian
   obtain ⟨x, hx, hxp⟩ : ∃ x ∈ barSub V₀ V hV K₀, orderOf x = p := by
     rcases hK with ⟨hp, hA⟩ | ⟨hp, hL3⟩
     · subst hp
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       have hcard : Nat.card ↥(barSub V₀ V hV K₀) = 60 := Om8Excl.card_isAlt_five hA
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 (G := ↥(barSub V₀ V hV K₀))
         (by rw [hcard]; norm_num)
       exact ⟨y.1, y.2, by rw [Subgroup.orderOf_coe y]; exact hy⟩
     · subst hp
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       have hcard : Nat.card ↥(barSub V₀ V hV K₀) = 168 := Om8Excl.card_isL3_one hL3
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 7 (G := ↥(barSub V₀ V hV K₀))
         (by rw [hcard]; norm_num)

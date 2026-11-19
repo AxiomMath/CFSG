@@ -49,7 +49,7 @@ theorem exists_commutator_ne_one_of_perfect {G : Type*} [Group G] [Finite G] {K 
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
     have hPg : ((P' : Subgroup ↥K).map K.subtype) ≤ K := Subgroup.map_subtype_le _
-    have hPgrp : IsPGroup r ((P' : Subgroup ↥K).map K.subtype) := P'.isPGroup'.map K.subtype
+    have hPgrp : IsPGroup r ((P' : Subgroup ↥K).map K.subtype) := P'.isPGroup.map K.subtype
     have hnN : (n : G) ∈ Subgroup.normalizer
         (((P' : Subgroup ↥K).map K.subtype) : Set G) :=
       Subgroup.le_normalizer_map (f := K.subtype)

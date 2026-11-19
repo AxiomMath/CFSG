@@ -25,18 +25,18 @@ variable {K}
     (F : QTwoPhanFamily K Y (n + 1)) : QTwoPhanFamily K Y n where
   ι i := F.ι i.castSucc
   θ i := F.θ i.castSucc
-  left i h := F.left i.castSucc (by rw [Fin.coe_castSucc]; omega)
+  left i h := F.left i.castSucc (by rw [Fin.val_castSucc]; omega)
   right i h := by
-    rw [F.right i.castSucc (by rw [Fin.coe_castSucc]; omega)]
+    rw [F.right i.castSucc (by rw [Fin.val_castSucc]; omega)]
     rfl
   comm i j h a b := F.comm i.castSucc j.castSucc (by simpa using h) a b
   four i h := by
-    obtain ⟨Θ, h0, h1⟩ := F.four i.castSucc (by rw [Fin.coe_castSucc]; omega)
+    obtain ⟨Θ, h0, h1⟩ := F.four i.castSucc (by rw [Fin.val_castSucc]; omega)
     exact ⟨Θ, h0, h1⟩
   farNodeEdge i j hj hij a b :=
-    F.farNodeEdge i.castSucc j.castSucc (by rw [Fin.coe_castSucc]; omega) (by simpa using hij) a b
+    F.farNodeEdge i.castSucc j.castSucc (by rw [Fin.val_castSucc]; omega) (by simpa using hij) a b
   farEdgeEdge i j hj hij a b :=
-    F.farEdgeEdge i.castSucc j.castSucc (by rw [Fin.coe_castSucc]; omega) (by simpa using hij) a b
+    F.farEdgeEdge i.castSucc j.castSucc (by rw [Fin.val_castSucc]; omega) (by simpa using hij) a b
 
 variable (K)
 

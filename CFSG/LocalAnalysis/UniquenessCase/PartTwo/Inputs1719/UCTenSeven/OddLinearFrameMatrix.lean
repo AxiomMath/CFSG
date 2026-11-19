@@ -304,7 +304,7 @@ theorem exists_blockScalar_of_commute_frame_sylow {F : Type} [Field F] [Finite F
           rw [blockSel_conj_apply (i := 2 * k.val) hk2, hbx, hby] at hMxy
           exact hMxy
         · exact hoff a b hclass
-      rw [if_neg hab, hzero]
+      rw [ite_eq_right hab, hzero]
   · intro a b hclass
     change A a a = A b b
     by_cases hab : a = b

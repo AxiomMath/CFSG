@@ -259,7 +259,7 @@ theorem rc3_centN_phi3 {q : TauCeti.PrimePower} (hq : q.p = 2) {K : Type} [Group
     rw [← map_pow, CFSG.elemPow_eq_one_of_isElementaryAbelian y hy, map_one]
   have hE'c : Nat.card E' = p ^ 2 := by
     rw [hE', Subgroup.card_map_of_injective e₀.injective, hEc]
-  obtain ⟨c, hc⟩ := F.hconj (S' : Subgroup 𝒞[X, σ]) S'.isPGroup'
+  obtain ⟨c, hc⟩ := F.hconj (S' : Subgroup 𝒞[X, σ]) S'.isPGroup
   obtain ⟨Ln⟩ := rce_exists_lines F S' (c := c) hc hE'S hE'p hE'c
   obtain ⟨y, hyE, hy⟩ := (Ln.hx 0).1
   refine ⟨y, hyE, fun h1 => (Ln.hx 0).2 (by rw [← hy, h1, map_one]), ?_⟩

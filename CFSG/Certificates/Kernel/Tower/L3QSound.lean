@@ -132,7 +132,7 @@ theorem CycExt.conj_y (D : ExtData X) (x : X) :
   change (⟨1, true⟩ * ⟨x, false⟩ * (⟨1, true⟩ : CycExt D)⁻¹ : CycExt D) = ⟨D.α x, false⟩
   rw [CycExt.inv_mk_true, CycExt.mk_mul_mk, CycExt.mk_mul_mk]
   simp only [CycExt.pw, CycExt.sq, ite_true, Bool.and_false, Bool.and_true, Bool.false_eq_true,
-    ite_false, Bool.xor_false, Bool.xor_true, Bool.not_true, mul_one, one_mul, map_mul, map_inv,
+    ite_false, Bool.xor_false, Bool.xor_true, Bool.not_true, mul_one, one_mul, map_inv,
     map_one, D.hαg, inv_one, CycExt.mk.injEq, and_true]
   group
 
@@ -198,11 +198,11 @@ theorem cycQ {D : ExtData X} (χ : X → Nat) (h01 : ∀ x, χ x = 0 ∨ χ x = 
         rw [h1, ha, Nat.xor_zero] at e
         exact e.symm }
   refine ⟨Q, Subgroup.index_eq_two_iff.mpr ⟨CycExt.incl D t, fun b => ?_⟩, ?_⟩
-  · change Xor' (χ (b * CycExt.incl D t).k = 0) (χ b.k = 0)
+  · change Xor (χ (b * CycExt.incl D t).k = 0) (χ b.k = 0)
     rw [hψ]
-    change Xor' (χ b.k ^^^ χ t = 0) (χ b.k = 0)
+    change Xor (χ b.k ^^^ χ t = 0) (χ b.k = 0)
     rw [ht]
-    rcases h01 b.k with hb | hb <;> rw [hb] <;> simp [Xor']
+    rcases h01 b.k with hb | hb <;> rw [hb] <;> simp [Xor]
   · change ¬ χ t = 0
     rw [ht]
     decide

@@ -78,7 +78,7 @@ theorem psl2_le_of_isCyclic_of_inf_ne_bot {p f : ℕ} [Fact p.Prime] (hcard : Na
     rcases hXmem with ⟨g, rfl⟩ | ⟨g, rfl⟩ | ⟨g, rfl⟩
     · exfalso
       have hXp : IsPGroup p ((P : Subgroup (PSL2 F)).map (MulAut.conj g).toMonoidHom) :=
-        P.isPGroup'.map _
+        P.isPGroup.map _
       obtain ⟨n, hn⟩ := hXp.exists_card_eq
       rw [hn] at hdvd
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).mp hdvd
@@ -392,7 +392,7 @@ theorem odd_card_of_kleinFour_le_normalizer
   have hPK : P ≤ K := Subgroup.map_subtype_le _
   have hTP : T ≤ P := fun t ht =>
     ⟨⟨t, hTK ht⟩, hTQ (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
-  have hP2 : IsPGroup 2 P := Q.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := Q.isPGroup.map _
   have h8 : 8 ∣ Nat.card P := by
     rw [hPdef, Subgroup.card_map_of_injective K.subtype_injective]
     apply Q.pow_dvd_card_of_pow_dvd_card (n := 3)

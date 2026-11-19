@@ -38,6 +38,7 @@ section EndNone
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem E187C.endgame_none_of (hcI : ConjInvariant Ω)
     (hlesq : ∀ {M L : Subgroup G}, M ∈ Ω → (∀ x ∈ M, x * x ∈ L) → M ≤ L)
     (hfour4 : ∀ {M : Subgroup G}, M ∈ Ω → ∃ u ∈ M, orderOf u = 4)
@@ -176,6 +177,7 @@ theorem commSub_normal (K : Subgroup G) (δ : G) :
     rw [this]
     exact Subgroup.inv_mem _ ha
 
+omit [Finite G] in
 theorem E187C.endgame_one_of {t : G} (hcI : ConjInvariant Ω)
     (hlesq : ∀ {M L : Subgroup G}, M ∈ Ω → (∀ x ∈ M, x * x ∈ L) → M ≤ L)
     (hfour4 : ∀ {M : Subgroup G}, M ∈ Ω → ∃ u ∈ M, orderOf u = 4)
@@ -324,6 +326,7 @@ section EndFour
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem E187C.endgame_four_exact_of {H : Subgroup G} {t : G}
     (hall : ∀ {K₁ : Subgroup G} {d₁ d₂ : G}, K₁ ∈ Ω → IsUniqueInvolution K₁ t →
       (∀ u ∈ K₁, orderOf u = 4 → u ∉ H) → GoodInv H t d₁ → GoodInv H t d₂ →

@@ -33,8 +33,8 @@ theorem exists_elemAbelian_wreath {p : ℕ} (hp : p.Prime) {D : Type*} [Group D]
     (hdvd : p ∣ Nat.card D) :
     ∃ E : Subgroup (D ≀ᵣ Multiplicative (ZMod p)),
       CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hgp : g ^ p = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
   have hZcard : Nat.card (Subgroup.zpowers g) = p := by rw [Nat.card_zpowers, hg]
@@ -68,9 +68,9 @@ theorem exists_elemAbelian_wreathTower {p : ℕ} (hp : p.Prime) {a : ℕ} (ha : 
         CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ p := by
   intro n hn
   obtain ⟨n', rfl⟩ : ∃ n', n = n' + 1 := ⟨n - 1, by omega⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
   have hC : Nat.card (Multiplicative (ZMod (p ^ a))) = p ^ a := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   have hD := card_wreathTower p (Multiplicative (ZMod (p ^ a))) hC n'
@@ -123,7 +123,7 @@ theorem sylow_isMulCommutative_of_sigmaModel_of_lt {p : ℕ} (hp : p.Prime) {G :
 theorem SylowDichotomyAt.of_sylow_sigmaModel {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {G : Type}
     [Group G] [Finite G] {e a N : ℕ} (ha : 1 ≤ a)
     (h : ∀ P : Sylow p G, Nonempty (P ≃* sigmaModel p e a N)) : SylowDichotomyAt G p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hm : N / e < p
   ·
     exact SylowDichotomyAt.of_sylow_comm (sylow_isMulCommutative_of_sigmaModel_of_lt hp hm h)

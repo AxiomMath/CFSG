@@ -268,9 +268,9 @@ theorem twoRankLow_G2_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
   have e0 : LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K false) ≃*
       AdjointQuotient Tag.G2 K :=
     (CFSG.StandardType.centerQuot_chevGroup_equiv K Tag.G2).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K false)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K false)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (AdjointQuotient Tag.G2 K) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (AdjointQuotient Tag.G2 K) := Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0]
   exact g2Quot_pRank hn hK

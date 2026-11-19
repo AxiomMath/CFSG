@@ -23,7 +23,7 @@ theorem exists_lift_isElemAbelian_card {K L : Type*} [Group K] [Group L] [Finite
   let P : Subgroup K := Ē.comap ρ
   obtain ⟨Q⟩ : Nonempty (Sylow p P) := inferInstance
   let E₁ : Subgroup K := (Q : Subgroup P).map P.subtype
-  have hE₁p : IsPGroup p E₁ := Q.isPGroup'.map P.subtype
+  have hE₁p : IsPGroup p E₁ := Q.isPGroup.map P.subtype
   have hinj : ∀ x ∈ E₁, ρ x = 1 → x = 1 := by
     intro x hx h1
     have hxk : x ∈ ρ.ker := h1

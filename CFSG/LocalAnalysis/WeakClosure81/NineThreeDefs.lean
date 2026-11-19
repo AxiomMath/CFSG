@@ -31,6 +31,7 @@ variable {G : Type} [Group G] [Finite G]
     rw [conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one] at h
     exact h.symm
 
+omit [Finite G] in
 theorem mem_nineDeltaStab {V S : Subgroup G} {g : G} :
     g ∈ nineDeltaStab V S ↔
       ∀ B : Subgroup G, B ∈ nineDelta V S ↔ conjSubgroup B g ∈ nineDelta V S :=

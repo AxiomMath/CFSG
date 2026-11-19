@@ -39,7 +39,7 @@ theorem geomBody_of_field {p : ℕ} {lab : LargeEvenLabel} (ht : lab.tag ≠ .tr
 
 theorem dvd_two_pow_div_sub_one' {p n : ℕ} (hp : p.Prime) (hpn : p ∣ n) (h : p ∣ 2 ^ n - 1) :
     p ∣ 2 ^ (n / p) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, rfl⟩ := hpn
   rw [Nat.mul_div_cancel_left k hp.pos]
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
@@ -52,7 +52,7 @@ section Families
 
 variable {p : ℕ}
 
-theorem cAll_geomBody_A (hp : p.Prime) (hp2 : p ≠ 2) {l n : ℕ} (hl : 2 ≤ l) :
+theorem cAll_geomBody_A (_hp : p.Prime) (_hp2 : p ≠ 2) {l n : ℕ} (hl : 2 ≤ l) :
     MI.CAll ⟨.A, l, n⟩ (GeomBody p ⟨.A, l, n⟩) := by
   intro Q hQ
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
@@ -67,7 +67,7 @@ theorem cAll_geomBody_A (hp : p.Prime) (hp2 : p ≠ 2) {l n : ℕ} (hl : 2 ≤ l
     exact ⟨by omega, fun h => by omega⟩
   exact fixAlt_of_raw hlab₀ (ggRawFieldFixStd_linear (l := l) hl hn hK (p := p) hS hna f hf hord)
 
-theorem cAll_geomBody_D3 (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} :
+theorem cAll_geomBody_D3 (_hp : p.Prime) (_hp2 : p ≠ 2) {n : ℕ} :
     MI.CAll ⟨.D, 3, n⟩ (GeomBody p ⟨.D, 3, n⟩) := by
   intro Q hQ
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
@@ -89,7 +89,7 @@ theorem geomBody_sp (hp : p.Prime) (hp2 : p ≠ 2) {t : LargeEvenLieTag} (ht : t
     GeomBody p ⟨t, l, n⟩ (LargeEvenProj (LargeEvenSpGroup K l))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K l)) (LargeEvenGSpSet K l))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup K l))) := by
-  haveI : CharP K 2 := CFSG.ComponentClassification.RankTwoClassical.charP_two_of_card hK
+  have : CharP K 2 := CFSG.ComponentClassification.RankTwoClassical.charP_two_of_card hK
   refine geomBody_of_field (by rcases ht with rfl | rfl <;> simp) fun hS hna f hf hord => ?_
   have hn : 1 ≤ n := one_le_of_card_field hK
   have h := FieldFixSp.exists_fixGeom hl hn hp hp2 hK hS hna hf hord
@@ -105,7 +105,7 @@ theorem geomBody_sp (hp : p.Prime) (hp2 : p ≠ 2) {t : LargeEvenLieTag} (ht : t
 
 theorem cAll_geomBody_BC (hp : p.Prime) (hp2 : p ≠ 2) {t : LargeEvenLieTag} (ht : t = .B ∨ t = .C)
     {l n : ℕ} (hl : 3 ≤ l) : MI.CAll ⟨t, l, n⟩ (GeomBody p ⟨t, l, n⟩) := by
-  haveI : NeZero l := ⟨by omega⟩
+  have : NeZero l := ⟨by omega⟩
   intro Q hQ
   have hraw : ∀ Q', CFSG.Assembly.LargeEvenRawDatum ⟨t, l, n⟩ Q' =
       LargeEvenRecipeSymplectic l (2 ^ n) false Q' := by
@@ -184,7 +184,7 @@ section Exceptional
 
 variable {p : ℕ}
 
-theorem cAll_geomBody_chev (hp : p.Prime) (hp2 : p ≠ 2) {τ : CFSG.Blueprint.Chevalley.Tag}
+theorem cAll_geomBody_chev (hp : p.Prime) (_hp2 : p ≠ 2) {τ : CFSG.Blueprint.Chevalley.Tag}
     (hτ : τ = .F4 ∨ τ = .E7 ∨ τ = .E8) {t : LargeEvenLieTag}
     (ht : (t = .F4 ∧ τ = .F4) ∨ (t = .E7 ∧ τ = .E7) ∨ (t = .E8 ∧ τ = .E8)) {n : ℕ} (hn : 1 ≤ n) :
     MI.CAll ⟨t, 0, n⟩ (GeomBody p ⟨t, 0, n⟩) := by

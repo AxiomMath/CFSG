@@ -26,7 +26,7 @@ theorem ch10Reselect_of (h37 : Vol2Native.A37ForSQTKCat)
     fun k hk hk0 => lemma3 h37 h38 h322 hfsu hlt hA M hk hk0
   obtain ⟨w, hw0, hw⟩ := exists_fixed_line autSL2Exists hK4 (actML M) (actML_add M)
     (actML_hnorm M) (hH2_of autSL2Exists h37 h38 hfsu hlt hA hK4 hL3 M)
-  haveI : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨t, ht, htn⟩ := Set.not_subset.mp (not_le_normalizer_of_lt hlt)
   have hJ := jData_of_line hfsu hlt hA M hw0 hw
   have hVR := fsuVM_le_reducedAggregate h37 h38 h322 hfsu hlt hL3

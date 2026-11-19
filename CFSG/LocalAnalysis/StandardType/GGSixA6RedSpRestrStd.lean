@@ -69,8 +69,7 @@ theorem ggA6_sp_std_equiv {F : Type} [Field F] {V : Type} [AddCommGroup V] [Modu
     rw [h1, CFSG.ClassicalGroups.Symplectic.spForm]
     rw [Matrix.toBilin'_single]
     rcases i with a | a <;> rcases j with c | c <;>
-      simp [Matrix.J, CFSG.ClassicalGroups.Symplectic.spJ, Matrix.fromBlocks, Pi.single_apply,
-        CharTwo.neg_eq, Matrix.one_apply, eq_comm]
+      simp [Matrix.J, CFSG.ClassicalGroups.Symplectic.spJ, Matrix.fromBlocks, CharTwo.neg_eq, Matrix.one_apply]
   rw [hform]
   exact (isometryGroupEquivBilinIsometryGroup
       (CFSG.ClassicalGroups.Symplectic.spForm m F)).trans

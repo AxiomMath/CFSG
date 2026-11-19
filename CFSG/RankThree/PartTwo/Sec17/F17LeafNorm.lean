@@ -104,7 +104,7 @@ theorem case148_struct
     intro c' L' hc' hL'
     rw [eq_of_mem_lA hch hΩ hL h3L hc' hL']
     exact hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hcases with h1 | h2 | h3 | h4 | h5 | h6 | h7
   ·
     exact Or.inl h1
@@ -137,7 +137,7 @@ theorem case148_struct
     exfalso
     obtain ⟨a₁, a₂, L₁, L₂, J₁, J₂, p₁, f₁, e₁, p₂, f₂, e₂, hp₁, hp₂, ha₁, ha₂, hL₁, hL₂, -, -, -,
       -, -, -, -, -, -, -, -, hπ₁, hπ₂⟩ := h7
-    haveI := hp₁
+    have := hp₁
     exact not_isoLThreePi_of_equiv_J2 (hLJ a₁ L₁ ha₁ hL₁) p₁ (f₁ * e₁) hπ₁
 
 end Item148Binders
@@ -292,7 +292,7 @@ theorem key_lemma (h148 : Item148R) (hbal : Step143Balance) (h1514 : Item1514S17
     (hAU : A ≤ Subgroup.normalizer (U : Set G)) (hUA : ⁅U, A⁆ = U) :
     U ≤ pPrimeCoreOf 3 Y := by
   obtain ⟨hΩ, -, -⟩ := rank3II_17_15_HJ_of hs (h1514 G A c L Y₀ hs) (hMeets G A c L Y₀ hs) hJ
-  haveI : (ker148 A Y).Normal := ker148_normal hY.2
+  have : (ker148 A Y).Normal := ker148_normal hY.2
   have h148Y := h148 G A c L hs.toSec15R Y hY
   have hn := h148Y.1
   have hcases : Item148Cases A (lB A) Y := h148Y.2
@@ -326,7 +326,7 @@ theorem item1724NormThreePrime_of_inputs (h148 : Item148R) (hbal : Step143Balanc
   have hA3 : IsPGroup 3 A := hA.isPGroup
   have hp : p.Prime := h.p_prime
   have hp3 : 3 < p := h.three_lt_p
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDq : D ∈ scriptQ A (lB A) := hD.1.1
   have hAD : A ≤ Subgroup.normalizer (D : Set G) := (mem_scriptQ_iff.mp hDq).2.1
   have hDp : IsPGroup p D := (isPiSubgroup_piOf_iff hp D).mp hD.2

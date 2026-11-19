@@ -95,7 +95,7 @@ theorem planesGenerate_of_isReeGTwoIndex {d : TauCeti.ValidLieTypeIndex}
   intro E hE hEc hnot
   obtain ⟨a, ha, -, ⟨e⟩⟩ := CFSG.AGLEmbedding.ReeModel.exists_equiv_reeGamma hd
     ⟨MulEquiv.refl (CFSG.AGLEmbedding.CatGroup d)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : Nat.card (GaloisField 3 (2 * a + 1)) = 3 ^ (2 * a + 1) :=
     GaloisField.card 3 (2 * a + 1) (by omega)
   have hFAD := fieldAutData_reeG2_three (K := GaloisField 3 (2 * a + 1)) ha hX

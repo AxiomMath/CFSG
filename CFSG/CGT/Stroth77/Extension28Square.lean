@@ -32,6 +32,7 @@ variable (D : StrothTypeData B (StrothTypeIndex.t310 m hm))
 
 variable {D hsq}
 
+omit [Finite S] in
 theorem sqParity310_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
     sqParity310 D hsq (x * y) = sqParity310 D hsq x + sqParity310 D hsq y := by
   have hxy : (⟨((x * y : C) : S) * ((x * y : C) : S), hsq (x * y)⟩ : B) =
@@ -45,6 +46,7 @@ theorem sqParity310_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
   simp only [sqParity310]
   rw [hxy, D.ec_mul, map_add]
 
+omit [Finite S] in
 theorem sqParity310_of_mem (x : C) (hx : (x : S) ∈ B) : sqParity310 D hsq x = 0 := by
   simp only [sqParity310]
   rw [parityTorus_eq_zero_iff]
@@ -52,6 +54,7 @@ theorem sqParity310_of_mem (x : C) (hx : (x : S) ∈ B) : sqParity310 D hsq x = 
   have h : (⟨(x : S) * x, hsq x⟩ : B) = ⟨x, hx⟩ * ⟨x, hx⟩ := rfl
   rw [h, D.ec_mul, two_nsmul]
 
+omit [Finite S] in
 theorem mem_of_sqParity310_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) (hH : NoInvolutionsCentralizing S' B)
     (hcS : C ≤ S') (hBC : B ≤ C) (x : C) (h : sqParity310 D hsq x = 0) :
@@ -83,6 +86,7 @@ theorem mem_of_sqParity310_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
   rw [hx]
   exact B.mul_mem hwB σ.2
 
+omit [Finite S] in
 theorem sqParity310_conj_ρ (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
     sqParity310 D hsq (conjBy (hL D.ρ_mem_L) x) = rhoBar300 (sqParity310 D hsq x) := by
   have h : (⟨((conjBy (hL D.ρ_mem_L) x : C) : S) * (conjBy (hL D.ρ_mem_L) x : C),
@@ -97,6 +101,7 @@ theorem sqParity310_conj_ρ (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
   rw [hconj]
   exact parityTorus_rho310 (t310_k_pos hm) _
 
+omit [Finite S] in
 theorem sqParity310_of_sq_eq_a (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.a, hBC D.a.2⟩) :
     sqParity310 D hsq x = Pi.single 1 1 := by
   have h : (⟨(x : S) * x, hsq x⟩ : B) = D.a := by
@@ -106,6 +111,7 @@ theorem sqParity310_of_sq_eq_a (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.a, hBC
   rw [h, D.ec_a]
   exact parityTorus_gen _ _ 1
 
+omit [Finite S] in
 theorem sqParity310_of_sq_eq_b (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.b, hBC D.b.2⟩) :
     sqParity310 D hsq x = Pi.single 2 1 := by
   have h : (⟨(x : S) * x, hsq x⟩ : B) = D.b := by

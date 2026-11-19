@@ -21,7 +21,7 @@ theorem upperSubgroup_ne_bot : upperSubgroup F ≠ ⊥ := by
   have hmem : upperPSL F (Multiplicative.ofAdd (1 : F)) ∈ upperSubgroup F := upperPSL_mem _
   rw [h, Subgroup.mem_bot] at hmem
   have := upperPSL_injective (hmem.trans (map_one (upperPSL F)).symm)
-  exact one_ne_zero (α := F) (by simpa using this)
+  exact one_ne_zero (α := F) (by simp at this)
 
 theorem isIrreducibleUnder_mono {G : Type} [Group G] {L L' V : Subgroup G} (h : L ≤ L')
     (hirr : CFSG.LocalAnalysis.RankThreeUC.Section6.IsIrreducibleUnder L V) :
@@ -31,7 +31,7 @@ theorem isIrreducibleUnder_mono {G : Type} [Group G] {L L' V : Subgroup G} (h : 
 
 @[expose] def rootAddSubgroup (W : Subgroup PSL(2, F)) : AddSubgroup F where
   carrier := {x | upperPSL F (Multiplicative.ofAdd x) ∈ W}
-  zero_mem' := by simpa using W.one_mem
+  zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
     have := W.mul_mem hx hy

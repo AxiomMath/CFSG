@@ -747,7 +747,7 @@ theorem centralizer_κSo_le (hm : q = 3 * m ^ 2) {σ : PSL(2, K)} (hσ : σ ∈ 
   obtain ⟨T, hT⟩ := hJp.exists_le_sylow
   have hsq : ∀ u ∈ (T : Subgroup C), (u : G) * u = 1 := by
     intro u hu
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨u, hu⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨u, hu⟩
     rw [Subgroup.orderOf_mk] at hn
     have hn' : orderOf (u : G) = 2 ^ n := by rw [Subgroup.orderOf_coe]; exact hn
     have hn1 : n ≤ 1 := by

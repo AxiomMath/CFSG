@@ -26,7 +26,7 @@ theorem lstar_coprime_criterion {p : ℕ} [hpF : Fact p.Prime] {Q D N : Subgroup
   classical
   have conjmem : ∀ (q : ↥Q) (d : ↥D), (q : X) * (d : X) * (q : X)⁻¹ ∈ D := fun q d =>
     (Subgroup.mem_normalizer_iff.1 (hQD q.2) (d : X)).1 d.2
-  letI act : MulDistribMulAction ↥Q ↥D :=
+  let act : MulDistribMulAction ↥Q ↥D :=
     { smul := fun q d => ⟨(q : X) * (d : X) * (q : X)⁻¹, conjmem q d⟩
       one_smul := fun d => Subtype.ext (by
         show (1 : X) * (d : X) * (1 : X)⁻¹ = (d : X)
@@ -66,6 +66,7 @@ theorem lstar_coprime_criterion {p : ℕ} [hpF : Fact p.Prime] {Q D N : Subgroup
   intro d hd
   exact htop (Subgroup.mem_top (⟨d, hd⟩ : ↥D))
 
+omit [Finite X] in
 theorem lstar_normalizer_centralizer {p : ℕ} {B : Subgroup X} {q : X}
     (hq : q ∈ Subgroup.normalizer (B : Set X)) :
     q ∈ Subgroup.normalizer
@@ -92,7 +93,7 @@ theorem lstar_centralizer_normalizes_of_TE_le {p : ℕ} [hpF : Fact p.Prime]
     (hTE : T ⊓ compE X ≤ B) {K : Subgroup X} (hK : IsComponentOf K ⊤) {g : X}
     (hg : g ∈ Subgroup.centralizer (B : Set X)) : g ∈ Subgroup.normalizer (K : Set X) := by
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
-    haveI := compE_normal (X := X)
+    have := compE_normal (X := X)
     infer_instance
   have hTEf : CFSG.Open.fusionIsSylowIn p (T ⊓ compE X) (compE X) :=
     fusion_inf_normal hT le_top hEn
@@ -173,6 +174,7 @@ theorem lstar_TE_le_of_Q_le {p : ℕ} [hpF : Fact p.Prime] {T B : Subgroup X} (h
   intro t ht
   exact hYB ⟨1, B.one_mem, t, ht, by group⟩
 
+omit [Finite X] in
 theorem lstar_glaPPrimeCoreOf_le (p : ℕ) (H : Subgroup X) : GLAPPrimeCoreOf p H ≤ H := by
   unfold GLAPPrimeCoreOf
   exact Subgroup.map_subtype_le _
@@ -264,7 +266,7 @@ theorem lstar_claim {p : ℕ} [hpF : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥
   intro B hB hn K hK
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
+    ⟨le_top, Ts.isPGroup, fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   set TE : Subgroup X := (Ts : Subgroup X) ⊓ compE X with hTEdef
   set Q : Subgroup X := TE ⊓ Subgroup.normalizer (B : Set X) with hQdef
   have hQT : ∀ q ∈ Q, q ∈ (Ts : Subgroup X) := fun q hq =>
@@ -272,11 +274,11 @@ theorem lstar_claim {p : ℕ} [hpF : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥
   have hQE : ∀ q ∈ Q, q ∈ compE X := fun q hq =>
     (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hq).1).2
   have hQN : Q ≤ Subgroup.normalizer (B : Set X) := fun q hq => (Subgroup.mem_inf.1 hq).2
-  have hQp : IsPGroup p Q := Ts.isPGroup'.to_le (fun q hq => hQT q hq)
+  have hQp : IsPGroup p Q := Ts.isPGroup.to_le (fun q hq => hQT q hq)
   by_cases hQB : Q ≤ B
   ·
     have hTE : TE ≤ B :=
-      lstar_TE_le_of_Q_le Ts.isPGroup' hBT (fun t ht hN => hQB (Subgroup.mem_inf.2 ⟨ht, hN⟩))
+      lstar_TE_le_of_Q_le Ts.isPGroup hBT (fun t ht hN => hQB (Subgroup.mem_inf.2 ⟨ht, hN⟩))
     have hC : Subgroup.centralizer (B : Set X) ≤ Subgroup.normalizer (K : Set X) :=
       fun g hg => lstar_centralizer_normalizes_of_TE_le hO hT hTE hK hg
     exact (lstar_glaPPrimeCoreOf_le p _).trans hC
@@ -289,7 +291,7 @@ theorem lstar_claim {p : ℕ} [hpF : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥
       rw [← heq] at h1
       exact h1
     have hRT : Q ⊔ B ≤ (Ts : Subgroup X) := sup_le (fun q hq => hQT q hq) hBT
-    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup'.to_le hRT
+    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup.to_le hRT
     have hc1 : Nat.card B < Nat.card ↥(Q ⊔ B) := Subgroup.card_lt_of_lt hBR
     have hc2 : Nat.card ↥(Q ⊔ B) ≤ Nat.card X := Subgroup.card_le_card_group _
     have hlt : Nat.card X - Nat.card ↥(Q ⊔ B) < n := by omega

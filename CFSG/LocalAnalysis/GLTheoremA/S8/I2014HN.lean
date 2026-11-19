@@ -125,7 +125,7 @@ theorem bar_core {Y : Type} [Group Y] [Finite Y] (hc : A9.A9Fact) {s₁ s₃ : Y
     (hkN : k ∈ Subgroup.normalizer (Sb : Set Y)) :
     Ib ≤ Subgroup.centralizer (Sb : Set Y) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hcJb : 181440 ∣ Nat.card Jb := by
     rw [← card_of_equiv_alt9 eJb]
     have := Subgroup.index_dvd_card (GLAPPrimeCore 3 ↥Jb)
@@ -228,12 +228,13 @@ theorem hnData_JH : HNData JH (sJ 0) (sJ 2) L1J psiJ := by
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_le_normalizer {H A B : Subgroup G} (hA : A ≤ Subgroup.normalizer (B : Set G)) :
     A.subgroupOf H ≤ Subgroup.normalizer ((B.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   intro a ha
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact Subgroup.mem_normalizer_iff.1 (hA ha) x
 
 theorem card_pQuot_of_comp_top {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y]
@@ -242,7 +243,7 @@ theorem card_pQuot_of_comp_top {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y]
   by_cases hJt : J = ⊤
   · right
     subst hJt
-    haveI : IsSimpleGroup (⊤ : Subgroup Y) := Subgroup.topEquiv.symm.isSimpleGroup_congr.1 inferInstance
+    have : IsSimpleGroup (⊤ : Subgroup Y) := Subgroup.topEquiv.symm.isSimpleGroup_congr.1 inferInstance
     rw [Nat.card_congr (pQuotEquivSelf (⊤ : Subgroup Y)
       (by rw [Subgroup.card_top]; exact h3)).toEquiv, Subgroup.card_top]
   · left
@@ -267,11 +268,11 @@ theorem i2014_bar (hc : A9.A9Fact) {X K J I S : Subgroup G} {d : G}
     (hK : GLAPComponent 3 X K) (hcat : catalogIs (PSimple 3 K) (S8.sporIs .HN))
     (hdN : d ∈ Subgroup.normalizer (K : Set G)) (hd3 : d ^ 3 = 1)
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({d} : Set G)) J) (hJt : IsAltPType 3 J 9)
-    (hIJ : I ≤ J) (hIt : IsAltPType 3 I 8) (hSK : S ≤ K) (hS : IsPGroup 2 S)
+    (hIJ : I ≤ J) (hIt : IsAltPType 3 I 8) (_hSK : S ≤ K) (hS : IsPGroup 2 S)
     (hIS : I ≤ Subgroup.normalizer (S : Set G)) (hdS : d ∈ Subgroup.normalizer (S : Set G)) :
     imageMod 3 K I ≤ Subgroup.centralizer ((imageMod 3 K S : Subgroup (PQuot 3 K)) : Set (PQuot 3 K)) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨hZ, ⟨ψ⟩⟩ := nonempty_pquot_equiv_HN hK hcat
   let e : PQuot 3 K ≃* JH := ψ.trans hnEquivJ
   obtain ⟨hOut2, hcY, hYs⟩ := facts_of_equiv_JH e

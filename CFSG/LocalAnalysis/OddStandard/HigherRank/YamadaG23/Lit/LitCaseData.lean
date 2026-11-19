@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G}
     Subgroup (Equiv.Perm (Fin 6)) :=
   (M.subgroupOf (normalizer (A : Set G))).map φ
 
+omit [Finite G] in
 theorem lit_quotIso_M {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)} (h : LitBar A φ)
     (M : Subgroup G) : IsQuotIso (normIn M A) (centIn M A) ↥(litImg φ M) := by
   have hle : normIn M A ≤ normalizer (A : Set G) := by rw [normIn]; exact inf_le_right
@@ -84,7 +85,7 @@ theorem lit_sylow_M {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)} (
   refine ⟨hAC, hA, ?_⟩
   intro h2
   let A' : Subgroup ↥(centIn M A) := A.subgroupOf (centIn M A)
-  haveI hA'norm : A'.Normal := by
+  have hA'norm : A'.Normal := by
     change (A.subgroupOf (centIn M A)).Normal
     rw [Subgroup.normal_subgroupOf_iff hAC]
     intro x y hx hy
@@ -97,7 +98,7 @@ theorem lit_sylow_M {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)} (
   have hdvd : 2 ∣ Nat.card (↥(centIn M A) ⧸ A') := by
     rw [← Subgroup.index_eq_card (H := A')]
     exact h2
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(centIn M A) ⧸ A') 2 hdvd
   obtain ⟨c, hc⟩ := QuotientGroup.mk'_surjective A' x
   have horder : orderOf (QuotientGroup.mk' A' c) = 2 := by rw [hc, hx]
@@ -129,6 +130,7 @@ theorem lit_sylow_M {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)} (
       _ = 1 := hk'
   exact hc_notA (h.two_mem (c : G) (Subgroup.mem_inf.mp c.2).2 hpow)
 
+omit [Finite G] in
 theorem lit_image_cases {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)} {M : Subgroup G}
     (hA6 : ∀ σ ∈ alternatingGroup (Fin 6),
       ∃ g : ↥(normalizer (A : Set G)), (g : G) ∈ M ∧ φ g = σ) :
@@ -154,6 +156,7 @@ theorem lit_image_cases {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6
       have hrel : (alternatingGroup (Fin 6)).relIndex (litImg φ M) = 1 := by omega
       exact le_antisymm (Subgroup.relIndex_eq_one.mp hrel) hle
 
+omit [Finite G] in
 theorem lit_isE_bar {X : Type} [Group X] [Finite X] {Z B : Subgroup X} [Z.Normal]
     (h : LitCtx Z B) {π : X →* G} (hk : π.ker = litP Z) : IsE 4 ↥(B.map π) := by
   change CFSG.Open.IsElemAbelian 2 (⊤ : Subgroup ↥(B.map π)) ∧
@@ -164,8 +167,7 @@ theorem lit_isE_bar {X : Type} [Group X] [Finite X] {Z B : Subgroup X} [Z.Normal
     exact Subtype.ext (lit_map_comm h hk (a : G) a.2 (b : G) b.2)
   · intro x _
     exact Subtype.ext (lit_map_sq h hk (x : G) x.2)
-  · change Nat.card (B.map π) = 2 ^ 4
-    rw [lit_map_card h hk]
+  · rw [lit_map_card h hk]
     norm_num
 
 end CFSG.OddStandard.HigherRank.YamadaG23

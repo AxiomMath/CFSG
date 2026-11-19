@@ -26,12 +26,12 @@ theorem le_center_or_not_twoCore_le {q : ℕ} [Fact q.Prime] {P : Subgroup (GL (
     by_cases hs2 : s = 2
     · subst hs2
       exact h2
-    haveI : Fact s.Prime := ⟨hsp⟩
-    haveI : ((CFSG.pCore s R).map R.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
+    have : Fact s.Prime := ⟨hsp⟩
+    have : ((CFSG.pCore s R).map R.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
     have hSp : IsPGroup s ((CFSG.pCore s R).map R.subtype) :=
       (CFSG.pCore_isPGroup (p := s) (G := R)).map R.subtype
     have hSs : Group.IsSolvable ((CFSG.pCore s R).map R.subtype) := by
-      haveI := hSp.isNilpotent
+      have := hSp.isNilpotent
       infer_instance
     have hSodd : Odd (Nat.card ((CFSG.pCore s R).map R.subtype)) := by
       obtain ⟨k, hk⟩ := hSp.exists_card_eq
@@ -61,6 +61,7 @@ theorem eq_center_of_le_center {P : Type} [Group P] [Finite P] [Group.IsPerfect 
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem isIrreducibleOn_comp {q : ℕ} [Fact q.Prime] {σ : Type} [Fintype σ] [DecidableEq σ]
     {τ : GL (Fin 4) (ZMod q) ≃* GL σ (ZMod q)} {c : (Fin 4 → ZMod q) ≃ₗ[ZMod q] (σ → ZMod q)}
     (hτc : ∀ (M : GL (Fin 4) (ZMod q)) (v : Fin 4 → ZMod q),
@@ -90,6 +91,7 @@ theorem isIrreducibleOn_comp {q : ℕ} [Fact q.Prime] {σ : Type} [Fintype σ] [
     rw [Submodule.mem_comap, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply] at h1
     exact h1
 
+omit [Finite L] in
 theorem range_comp_equiv {G H : Type*} [Group G] [Group H] (τ : G ≃* H) (φ : L →* G) :
     ∃ e : φ.range ≃* (τ.toMonoidHom.comp φ).range,
       ∀ g : L, e (φ.rangeRestrict g) = (τ.toMonoidHom.comp φ).rangeRestrict g := by

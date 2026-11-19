@@ -37,9 +37,9 @@ theorem rootCast_single {k : Fin (2 * r / 2)} (hk : k.val + 1 ≠ r) :
   rw [rootCast, Pi.single_apply, Pi.single_apply]
   by_cases ha : a = finCastOdd r k
   · subst ha
-    rw [if_pos (Equiv.symm_apply_apply (finCastOdd r) k), val_finCastOdd, if_neg hk, one_mul,
-      if_pos rfl]
-  · rw [if_neg ha, if_neg (fun h => ha ((Equiv.symm_apply_eq (finCastOdd r)).mp h)), mul_zero]
+    rw [ite_eq_left (Equiv.symm_apply_apply (finCastOdd r) k), val_finCastOdd, ite_eq_right hk, one_mul,
+      ite_eq_left rfl]
+  · rw [ite_eq_right ha, ite_eq_right (fun h => ha ((Equiv.symm_apply_eq (finCastOdd r)).mp h)), mul_zero]
 
 theorem rootCast_neg (γ : Fin (2 * r / 2) → ℤ) : rootCast r (-γ) = -rootCast r γ := by
   funext a
@@ -226,7 +226,7 @@ theorem even_reflection_last_iff {r : ℕ} (hr : 1 ≤ r) (k : Fin ((2 * r + 1) 
     rw [CFSG.LieType.RootSystem.reflection_apply_coroot, Pi.sub_apply, Pi.smul_apply,
       Pi.single_eq_same, smul_eq_mul, mul_one,
       coroot_cartan_of_odd (Nat.not_even_two_mul_add_one r) hL γ, Int.even_sub]
-    simp [even_two_mul]
+    simp
   · rw [CFSG.LieType.RootSystem.reflection_apply_of_ne _ (Ne.symm h) γ]
 
 theorem levelPermS_inl_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 1 = k.val) :
@@ -235,7 +235,7 @@ theorem levelPermS_inl_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 
   have hk : k = ⟨j.val + 1, hj⟩ := Fin.ext (by simp [hjk])
   subst hk
   rw [levelPermS, dite_eq_left hj]
-  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, Fin.ext_iff]
+  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def]
 
 theorem levelPermS_inr_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 1 = k.val) :
     levelPermS j (Sum.inr k) = Sum.inr j := by
@@ -243,7 +243,7 @@ theorem levelPermS_inr_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 
   have hk : k = ⟨j.val + 1, hj⟩ := Fin.ext (by simp [hjk])
   subst hk
   rw [levelPermS, dite_eq_left hj]
-  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, Fin.ext_iff]
+  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def]
 
 theorem idx_levelPermS_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 1 = k.val)
     (a : Fin (m / 2) ⊕ Fin (m / 2)) : idx (levelPermS j a) = Equiv.swap j k (idx a) := by
@@ -252,9 +252,9 @@ theorem idx_levelPermS_of_val_succ {m : ℕ} {j k : Fin (m / 2)} (hjk : j.val + 
   subst hk
   rcases a with i | i <;>
     simp only [levelPermS, dite_eq_left hj, Equiv.Perm.mul_apply, Equiv.swap_apply_def,
-      Sum.map_inl, Sum.map_inr, idx_inl, idx_inr]
-  · split_ifs <;> simp_all [idx_inl, idx_inr, Fin.ext_iff]
-  · split_ifs <;> simp_all [idx_inl, idx_inr, Fin.ext_iff]
+      idx_inl, idx_inr]
+  · split_ifs <;> simp_all [idx_inl, Fin.ext_iff]
+  · split_ifs <;> simp_all [idx_inr, Fin.ext_iff]
 
 theorem levelPermS_of_not_lt_of_idx_ne {m : ℕ} {k : Fin (m / 2)} (hk : ¬k.val + 1 < m / 2)
     {a : Fin (m / 2) ⊕ Fin (m / 2)} (ha : idx a ≠ k) : levelPermS k a = a := by
@@ -290,7 +290,7 @@ theorem levelWeyl_one_last_eq {m : ℕ} {k : Fin (m / 2)} (hk : ¬k.val + 1 < m 
     levelWeyl hσ ⟨1, one_mem_traceZero⟩ k =
       suLong σ (Sum.inl k) 1 * suLong σ (Sum.inr k) 1 * suLong σ (Sum.inl k) 1 := by
   unfold levelWeyl
-  rw [dif_neg hk]
+  rw [dite_eq_right hk]
   have h := longWeyl_eq (σ := σ) (i := k) one_mem_traceZero
   simpa [inv_one, CharTwo.neg_eq] using h.symm
 
@@ -402,10 +402,10 @@ theorem prev_eq_zero_iff_of_toStd_eq_wt {r : ℕ} (hr : 2 ≤ r)
   have hPL := bcPrevIdx_ne_bcLastIdx hr
   rcases eq_signed_weight_of_toStd_eq_wt hr ha hγ with
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · simp [Pi.single_apply, hPL]
-  · simp [Pi.single_apply, hPL]
-  · simp [Pi.add_apply, Pi.single_apply, hPL]
-  · simp [Pi.add_apply, Pi.single_apply, hPL]
+  · simp [hPL]
+  · simp [hPL]
+  · simp [Pi.add_apply, hPL]
+  · simp [Pi.add_apply, hPL]
 
 end BC2
 
@@ -427,7 +427,7 @@ theorem exists_toStd_eq_wt_of_mem_pairRoots_bc2 {r : ℕ} (hr : 2 ≤ r)
   have hy : ¬Even y := by
     have h : γ (bcLastIdx r (Nat.one_le_of_lt hr)) = y := by
       rw [hγeq]
-      simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hPL.symm]
+      simp [Pi.add_apply, hPL.symm]
     rwa [h] at hodd
   simp only [bc2Coeffs, Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at hxy
   rcases hxy with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
@@ -469,7 +469,7 @@ theorem eq_of_mem_pairRoots_last {r : ℕ} (hr : 2 ≤ r) {γ : Fin ((2 * r + 1)
   have hx : x = 0 := by
     have h : γ (bcPrevIdx r hr) = x := by
       rw [hγeq]
-      simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hPL]
+      simp [Pi.add_apply, hPL]
     have h0 : γ (bcPrevIdx r hr) = 0 := hγ.2 _ hPL hPL
     exact h.symm.trans h0
   simp only [bc2Coeffs, Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at hxy
@@ -482,17 +482,17 @@ theorem eq_of_mem_pairRoots_last {r : ℕ} (hr : 2 ≤ r) {γ : Fin ((2 * r + 1)
     simp
   · right; right; left
     rw [hγeq]
-    simp [two_zsmul]
+    simp
   · omega
   · omega
   · omega
   · omega
   · right; left
     rw [hγeq]
-    simp [neg_one_smul]
+    simp
   · right; right; right
     rw [hγeq]
-    simp [neg_one_smul, two_zsmul]
+    simp
   · omega
   · omega
   · omega
@@ -512,34 +512,34 @@ theorem eq_single_or_mem_pairRoots_last {r : ℕ} (hr : 2 ≤ r) {i : Fin ((2 * 
     simp
   · left; right
     rw [hγeq]
-    simp [neg_one_smul]
+    simp
   · right
     refine ⟨hγ.1, ?_⟩
     change ∀ k : Fin ((2 * r + 1) / 2), k ≠ bcLastIdx r (Nat.one_le_of_lt hr) →
       k ≠ bcLastIdx r (Nat.one_le_of_lt hr) → γ k = 0
     intro k hk _
     rw [hγeq]
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk, smul_zero, zero_add]
+    simp [Pi.add_apply, hk]
   · right
     refine ⟨hγ.1, ?_⟩
     change ∀ k : Fin ((2 * r + 1) / 2), k ≠ bcLastIdx r (Nat.one_le_of_lt hr) →
       k ≠ bcLastIdx r (Nat.one_le_of_lt hr) → γ k = 0
     intro k hk _
     rw [hγeq]
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk, smul_zero, zero_add]
+    simp [Pi.add_apply, hk]
   · right
     refine ⟨hγ.1, ?_⟩
     change ∀ k : Fin ((2 * r + 1) / 2), k ≠ bcLastIdx r (Nat.one_le_of_lt hr) →
       k ≠ bcLastIdx r (Nat.one_le_of_lt hr) → γ k = 0
     intro k hk _
     rw [hγeq]
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk, smul_zero, zero_add]
+    simp [Pi.add_apply, hk]
   · right
     refine ⟨hγ.1, ?_⟩
     change ∀ k : Fin ((2 * r + 1) / 2), k ≠ bcLastIdx r (Nat.one_le_of_lt hr) →
       k ≠ bcLastIdx r (Nat.one_le_of_lt hr) → γ k = 0
     intro k hk _
     rw [hγeq]
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk, smul_zero, zero_add]
+    simp [Pi.add_apply, hk]
 
 end CFSG.Timmesfeld.Transvection.Pres

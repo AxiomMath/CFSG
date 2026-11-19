@@ -35,14 +35,14 @@ public theorem proposition111_fittingSubgroup_map_mulEquiv
   · refine le_sSup ⟨?_, ?_⟩
     · exact (show (fittingSubgroup A).Normal from inferInstance).map
         e.toMonoidHom e.surjective
-    · haveI : Group.IsNilpotent (fittingSubgroup A) := inferInstance
+    · have : Group.IsNilpotent (fittingSubgroup A) := inferInstance
       exact Group.nilpotent_of_mulEquiv (e.subgroupMap (fittingSubgroup A))
   · have hpre :
         (fittingSubgroup B).map e.symm.toMonoidHom ≤ fittingSubgroup A := by
       refine le_sSup ⟨?_, ?_⟩
       · exact (show (fittingSubgroup B).Normal from inferInstance).map
           e.symm.toMonoidHom e.symm.surjective
-      · haveI : Group.IsNilpotent (fittingSubgroup B) := inferInstance
+      · have : Group.IsNilpotent (fittingSubgroup B) := inferInstance
         exact Group.nilpotent_of_mulEquiv
           (e.symm.subgroupMap (fittingSubgroup B))
     intro b hb
@@ -82,7 +82,7 @@ public theorem proposition111_sylow_of_card_eq
     (hPsyl : theorem4bIsSylowSubgroupOf r P F)
     (hPD : P ≤ D) (hcard : Nat.card D = Nat.card F) :
     theorem4bIsSylowSubgroupOf r P D := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rcases hPsyl with ⟨PF, hP⟩
   have hPcard : Nat.card P = r ^ (Nat.card F).factorization r := by
     rw [hP, Subgroup.card_map_of_injective F.subtype_injective]
@@ -105,7 +105,7 @@ public theorem proposition111_sylow_of_subgroup_card_eq
     (hPsyl : theorem4bIsSylowSubgroupOf r P E)
     (hQE : Q ≤ E) (hcard : Nat.card Q = Nat.card P) :
     theorem4bIsSylowSubgroupOf r Q E := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rcases hPsyl with ⟨PE, hP⟩
   have hPcard : Nat.card P = r ^ (Nat.card E).factorization r := by
     rw [hP, Subgroup.card_map_of_injective E.subtype_injective]
@@ -127,7 +127,7 @@ public theorem proposition111_sylow_eq_of_right_normal
     (hQsyl : theorem4bIsSylowSubgroupOf r Q H)
     (hQnormal : (Q.subgroupOf H).Normal) :
     P = Q := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rcases hPsyl with ⟨PS, hP⟩
   rcases hQsyl with ⟨QS, hQ⟩
   have hQleH : Q ≤ H := by
@@ -139,7 +139,7 @@ public theorem proposition111_sylow_eq_of_right_normal
     exact hQ
   have hQSnormal : (QS : Subgroup H).Normal := by
     simpa [hQsubeq] using hQnormal
-  letI : Unique (Sylow r H) := Sylow.unique_of_normal QS hQSnormal
+  let : Unique (Sylow r H) := Sylow.unique_of_normal QS hQSnormal
   calc
     P = (PS : Subgroup H).map H.subtype := hP
     _ = (QS : Subgroup H).map H.subtype := by
@@ -180,7 +180,7 @@ public theorem proposition111_fitting_normal_sylow_rightConjugate
               proposition111_fittingSubgroupOf_rightConjugate V g
       _ = Fg := by rw [← hFeq]
   have hVgNormFg : Vg ≤ Subgroup.normalizer (Fg : Set X) := by
-    letI : (fittingSubgroup Vg).Characteristic :=
+    let : (fittingSubgroup Vg).Characteristic :=
       fittingSubgroup_characteristic
     have hVgNormVg : Vg ≤ Subgroup.normalizer (Vg : Set X) :=
       Vg.le_normalizer
@@ -211,10 +211,10 @@ public theorem proposition111_normalizes_of_normal_sylow_overgroup
     (hFnormalVg : (F.subgroupOf Vg).Normal)
     (hNnormY : N ≤ Subgroup.normalizer (Y : Set X)) :
     N ≤ Subgroup.normalizer (F : Set X) := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hFleVg : F ≤ Vg := hFleY.trans hYleVg
   have hVgnormF : Vg ≤ Subgroup.normalizer (F : Set X) := by
-    letI : (F.subgroupOf Vg).Normal := hFnormalVg
+    let : (F.subgroupOf Vg).Normal := hFnormalVg
     exact Subgroup.le_normalizer_of_normal_subgroupOf hFleVg
   have hYnormF : Y ≤ Subgroup.normalizer (F : Set X) :=
     hYleVg.trans hVgnormF
@@ -233,7 +233,7 @@ public theorem proposition111_normalizes_of_normal_sylow_overgroup
   have hCoreMap : (pCore r Y).map Y.subtype = F := by
     rw [hCore]
     exact hFS.symm
-  letI : (pCore r Y).Characteristic := pCore_characteristic
+  let : (pCore r Y).Characteristic := pCore_characteristic
   have hNormCore : Subgroup.normalizer (Y : Set X) ≤
       Subgroup.normalizer ((pCore r Y).map Y.subtype : Set X) :=
     proposition102_normalizer_le_normalizer_map_subtype_of_characteristic

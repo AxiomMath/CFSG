@@ -143,7 +143,7 @@ theorem s168e3_four_le_pRank_of_cover {D : Data G} {V₀ V L : Subgroup G}
       have h1 : (⟨y * u * y⁻¹ * u⁻¹, hcommS⟩ : ↥(stabTil V₀ V)) =
           ⟨y, hys⟩ * ⟨u, hus⟩ * ⟨y, hys⟩⁻¹ * ⟨u, hus⟩⁻¹ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [h1]
       simp only [map_mul, map_inv]
       rw [hcomm_zy_u]

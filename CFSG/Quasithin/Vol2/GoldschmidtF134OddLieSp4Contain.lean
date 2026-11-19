@@ -74,7 +74,7 @@ theorem exists_le_stabilizer_flag_of_card [Finite K] [CharP K 2] (hK : 4 ≤ Nat
   obtain ⟨S, hS⟩ := exists_sylow_unipotent (K := K) 2 2
   have hU : CFSG.ABGLocalTools.IsSylowOf 2 (unipotent 2 K) ⊤ :=
     hS ▸ CFSG.Quasithin.F134.LieF4.isSylowOf_of_sylow S le_top
-  have hUc : IsPGroup 2 (unipotent 2 K) := hS ▸ S.isPGroup'
+  have hUc : IsPGroup 2 (unipotent 2 K) := hS ▸ S.isPGroup
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hUc
   have hcop : Nat.Coprime (Nat.card P) (Nat.card (unipotent 2 K)) := by
     rw [hPa, hm]

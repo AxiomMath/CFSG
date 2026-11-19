@@ -141,7 +141,7 @@ theorem aeIdent_map_injective {P : Set (Subgroup G)} (hP : P ⊆ Ω) {n : ℕ} (
 theorem false_of_aeIdent_three {P : Set (Subgroup G)} (hP : P ⊆ Ω) (I : AEIdent P 5)
     {L₁ L₂ L₃ : Subgroup G} (h₁ : L₁ ∈ P) (h₂ : L₂ ∈ P) (h₃ : L₃ ∈ P) (h₁₂ : L₁ ≠ L₂)
     (h₁₃ : L₁ ≠ L₃) (h₂₃ : L₂ ≠ L₃) (c₁₂ : Commutes L₁ L₂) (c₁₃ : Commutes L₁ L₃)
-    (c₂₃ : Commutes L₂ L₃) : False := by
+    (_c₂₃ : Commutes L₂ L₃) : False := by
   have hα : ∀ {M M' : Subgroup G} {β β' : Finset (Fin 5)} {e : β.card = 4} {e' : β'.card = 4}
       {b b' : Bool}, M ∈ P → M' ∈ P → M ≠ M' → Commutes M M' →
       (M.subgroupOf (pSpan P)).map I.φ = AE.memBar β e b →

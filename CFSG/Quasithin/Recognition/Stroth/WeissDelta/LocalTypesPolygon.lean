@@ -14,6 +14,7 @@ namespace CFSG.Quasithin.Stroth.WeissDelta
 
 variable {X : Type} [Group X] {P1 P2 : Subgroup X} {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private theorem localGroup_eq_rangeGroup_of
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) [Fintype c.Γ]
     [DecidableRel c.graph.Adj] {P : Subgroup X} {ψ : ↥P →* c.G0} {u : c.Γ}
@@ -39,6 +40,7 @@ private theorem localGroup_eq_rangeGroup_of
     show (ψ a : c.G0) • w.1 = (σ w).1
     rw [ha w]
 
+omit [Finite Y] in
 private theorem isMultiplyPretransitive_rangeGroup_of
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) [Fintype c.Γ]
     [DecidableRel c.graph.Adj] {P : Subgroup X} {ψ : ↥P →* c.G0} {u : c.Γ}
@@ -113,8 +115,8 @@ private theorem isLocalSz_xv_of_completion {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     IsLocalSz c.G0 c.graph c.xv a := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   let ψ1 : ↥P1 →* c.G0 := RankTwoAmalgam.Completion.f1 (c := c)
   let hψ1u : ψ1.range ≤ MulAction.stabilizer c.G0 c.xv := f1_range_le_stabilizer_xv c
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by
@@ -151,8 +153,8 @@ private theorem isLocalU3_xv_of_completion {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     IsLocalU3 c.G0 c.graph c.xv k F := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   let ψ1 : ↥P1 →* c.G0 := RankTwoAmalgam.Completion.f1 (c := c)
   let hψ1u : ψ1.range ≤ MulAction.stabilizer c.G0 c.xv := f1_range_le_stabilizer_xv c
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by
@@ -189,8 +191,8 @@ private theorem isLocalL2_lv_of_completion {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     IsLocalL2 c.G0 c.graph c.lv m := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   let ψ2 : ↥P2 →* c.G0 := RankTwoAmalgam.Completion.f2 (c := c)
   let hψ2v : ψ2.range ≤ MulAction.stabilizer c.G0 c.lv := f2_range_le_stabilizer_lv c
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by

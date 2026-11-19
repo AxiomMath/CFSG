@@ -84,8 +84,8 @@ theorem polar_v (i j : Fin 7) :
     polar Q (Fr.v i) (Fr.v j) = if i = j then 2 * Fr.ν else 0 := by
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, polar_self_eq_two_mul, Fr.Q_v]
-  · rw [if_neg h, Fr.orth i j h]
+    rw [ite_eq_left rfl, polar_self_eq_two_mul, Fr.Q_v]
+  · rw [ite_eq_right h, Fr.orth i j h]
 
 @[expose] def sgn (K : Type*) [Field K] (i j : Fin 7) : K := if i = j then -1 else 1
 
@@ -180,7 +180,7 @@ theorem g_mul_g_not_mem_scalars (h2 : (2 : K) ≠ 0) {i j : Fin 6} (hij : i ≠ 
   obtain ⟨m, hmi, hmj⟩ := fin_six_exists_ne_ne i j hij
   have h1 := hev i.castSucc
   have h2' := hev m.castSucc
-  simp [sgn_six_castSucc, sgn_castSucc_castSucc, hij, hij.symm, hmi, hmj, Ne.symm hmi,
+  simp [sgn_six_castSucc, sgn_castSucc_castSucc, hij.symm, Ne.symm hmi,
     Ne.symm hmj] at h1 h2'
   apply h2
   linear_combination h2' - h1
@@ -207,13 +207,13 @@ theorem reflect_sub_apply (h2 : (2 : K) ≠ 0) {a b : Fin 7} (hab : a ≠ b) (j 
   rw [reflect_apply (Fr.Q_sub_ne_zero h2 hab), polar_sub_left, Fr.polar_v, Fr.polar_v,
     Fr.Q_sub hab]
   rcases eq_or_ne j a with rfl | hja
-  · rw [Equiv.swap_apply_left, if_pos rfl, if_neg (Ne.symm hab), sub_zero, hν, one_smul]
+  · rw [Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right (Ne.symm hab), sub_zero, hν, one_smul]
     abel
   rcases eq_or_ne j b with rfl | hjb
-  · rw [Equiv.swap_apply_right, if_neg hja.symm, if_pos rfl, zero_sub, neg_div, hν, neg_smul,
+  · rw [Equiv.swap_apply_right, ite_eq_right hja.symm, ite_eq_left rfl, zero_sub, neg_div, hν, neg_smul,
       one_smul, sub_neg_eq_add]
     abel
-  · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, if_neg hja.symm, if_neg hjb.symm, sub_zero,
+  · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, ite_eq_right hja.symm, ite_eq_right hjb.symm, sub_zero,
       zero_div, zero_smul, sub_zero]
 
 @[expose] noncomputable def tau : V ≃ₗ[K] V :=

@@ -201,7 +201,7 @@ theorem isSylowOf_Q₁_sup (hZQ : Zs ≤ Q) :
   have hQY : Q₀ ⊔ Q ≤ Y := le_sup_left
   have hQS' : Q₀ ⊔ Q ≤ S' := fun q hq =>
     ⟨⟨q, hQY hq⟩, hS (show (⟨q, hQY hq⟩ : ↥Y) ∈ (Q₀ ⊔ Q).subgroupOf Y from hq), rfl⟩
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hYmul : ((Y : Subgroup G) : Set G) = ((Q₀ ⊔ Q : Subgroup G) : Set G) * (C : Set G) :=
     coe_mul_of_left_le_normalizer_right _ _ H.Q₁_le_normalizer_C
   have hS'Q : S' ≤ Q₀ ⊔ Q := by
@@ -247,7 +247,7 @@ theorem centralizer_U_le_sup (hZQ : Zs ≤ Q) :
     (mem_centralizer_iff.mp hc s (H.Zs_le_U hZQ hs)).symm
   let P : Sylow 2 ↥C₁ := default
   have hPz : (P : Subgroup ↥C₁).map C₁.subtype ≤ Zs := by
-    have hP2 : IsPGroup 2 ((P : Subgroup ↥C₁).map C₁.subtype) := P.isPGroup'.map _
+    have hP2 : IsPGroup 2 ((P : Subgroup ↥C₁).map C₁.subtype) := P.isPGroup.map _
     have hPN : (P : Subgroup ↥C₁).map C₁.subtype ≤ normalizer (Zs : Set G) := fun c hc =>
       centralizer_le_normalizer _ (mem_centralizer_iff.mpr fun s hs =>
         (hZc s hs c (map_subtype_le _ hc)).symm)

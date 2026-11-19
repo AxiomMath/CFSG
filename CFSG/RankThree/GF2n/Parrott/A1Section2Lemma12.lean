@@ -93,6 +93,7 @@ private theorem exists_mem_H_map_conj_zpowers_eq
     rw [Subgroup.mem_centralizer_singleton_iff.mp hc]
     group
 
+omit [Finite G] in
 private theorem CJ_le_of_isSylowOf (hJ2 : IsPGroup 2 (J z)) {x : G} {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ Subgroup.centralizer ({x} : Set G))) : CJ z x ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

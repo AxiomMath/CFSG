@@ -294,12 +294,12 @@ private theorem nref_mul_nref_conj_pinnedX_fixing_neg_one_neg
 private theorem nref_mul_nref_conj_pinnedX_fixing_neg_one
     {τ : Tag} {L : Type} [Field L] [CharP L 2] {ι : Type} {a : ι → Fin τ.rank → Lˣ}
     {β γ : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (hγ : IsRoot τ γ) :
-    ∀ ε, ε ∈ familyKernel a → iform β ε = 0 → iform γ ε = 0 →
-      (nref τ L β * nref τ L γ) * pinnedX τ L ε 1 * (nref τ L β * nref τ L γ)⁻¹ =
-          pinnedX τ L ε 1 ∧
-        (nref τ L β * nref τ L γ) * pinnedX τ L (-ε) 1 * (nref τ L β * nref τ L γ)⁻¹ =
-          pinnedX τ L (-ε) 1 :=
-  fun ε hε h1 h2' =>
+    ∀ _ε, _ε ∈ familyKernel a → iform β _ε = 0 → iform γ _ε = 0 →
+      (nref τ L β * nref τ L γ) * pinnedX τ L _ε 1 * (nref τ L β * nref τ L γ)⁻¹ =
+          pinnedX τ L _ε 1 ∧
+        (nref τ L β * nref τ L γ) * pinnedX τ L (-_ε) 1 * (nref τ L β * nref τ L γ)⁻¹ =
+          pinnedX τ L (-_ε) 1 :=
+  fun _ε hε h1 h2' =>
     ⟨nref_mul_nref_conj_pinnedX_fixing_neg_one_pos hβ hγ hε h1 h2',
       nref_mul_nref_conj_pinnedX_fixing_neg_one_neg hβ hγ hε h1 h2'⟩
 
@@ -442,12 +442,12 @@ private theorem nref3_conj_pinnedX_fixing_one_neg
 private theorem nref3_conj_pinnedX_fixing_one
     {τ : Tag} {L : Type} [Field L] [CharP L 2] {ι : Type} {a : ι → Fin τ.rank → Lˣ}
     {β γ : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (hγ : IsRoot τ γ) :
-    ∀ ε, ε ∈ familyKernel a → iform β ε = 0 → iform γ ε = 0 →
-      (nref τ L γ * nref τ L β * nref τ L γ) * pinnedX τ L ε 1 *
-          (nref τ L γ * nref τ L β * nref τ L γ)⁻¹ = pinnedX τ L ε 1 ∧
-        (nref τ L γ * nref τ L β * nref τ L γ) * pinnedX τ L (-ε) 1 *
-          (nref τ L γ * nref τ L β * nref τ L γ)⁻¹ = pinnedX τ L (-ε) 1 :=
-  fun ε hε h1 h2' =>
+    ∀ _ε, _ε ∈ familyKernel a → iform β _ε = 0 → iform γ _ε = 0 →
+      (nref τ L γ * nref τ L β * nref τ L γ) * pinnedX τ L _ε 1 *
+          (nref τ L γ * nref τ L β * nref τ L γ)⁻¹ = pinnedX τ L _ε 1 ∧
+        (nref τ L γ * nref τ L β * nref τ L γ) * pinnedX τ L (-_ε) 1 *
+          (nref τ L γ * nref τ L β * nref τ L γ)⁻¹ = pinnedX τ L (-_ε) 1 :=
+  fun _ε hε h1 h2' =>
     ⟨nref3_conj_pinnedX_fixing_one_pos hβ hγ hε h1 h2',
       nref3_conj_pinnedX_fixing_one_neg hβ hγ hε h1 h2'⟩
 
@@ -537,7 +537,7 @@ private theorem exists_iterate_fixed_of_familyKernel
       rw [Function.iterate_succ_apply', Function.iterate_succ_apply']
       change ρ ↑(f^[k] x) = ρ ((⇑ρ)^[k] ↑x)
       rw [ih]
-  haveI : Fintype {γ // γ ∈ s} := (familyKernel_finite a).fintype
+  have : Fintype {γ // γ ∈ s} := (familyKernel_finite a).fintype
   have hid := Function.injective_iff_iterate_factorial_card_eq_id.1 hf
   refine ⟨(Fintype.card {γ // γ ∈ s}).factorial, Nat.factorial_pos _, ?_⟩
   have hx : (f^[(Fintype.card {γ // γ ∈ s}).factorial]) ⟨β, hβ⟩ = ⟨β, hβ⟩ := by
@@ -634,7 +634,7 @@ private theorem famKernel_step_mem_torusGroup
     {Q : ModGL τ L} (hstep : D.step = frobTwistGL τ L 2 f Q)
     (hQ : Q ∈ Subgroup.normalizer (torusGroup τ L : Set (ModGL τ L))) :
     (torusGroup τ L).map D.step ≤ torusGroup τ L := by
-  haveI : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
+  have : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
   rw [hstep, map_frobTwistGL_torusGroup 2 f hQ]
 
 private theorem famKernel_step_mem_rootSpan

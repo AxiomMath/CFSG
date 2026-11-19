@@ -95,7 +95,7 @@ theorem eq_top_of_coprime_card_quotient (h : JStarHyp p n Rb Y₀ Jt Xt φ) (V :
     [V.Normal] (hV : p.Coprime (Nat.card (Jt ⧸ V))) : V = ⊤ := by
   have hX : ∀ x : Jt, (x : Y) ∈ Xt → x ∈ V := by
     intro x hxX
-    obtain ⟨k, hk⟩ := Rb.isPGroup' ⟨x, h.le_R hxX⟩
+    obtain ⟨k, hk⟩ := Rb.isPGroup ⟨x, h.le_R hxX⟩
     have hxk : x ^ p ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
     have h1 : orderOf (x : Jt ⧸ V) ∣ p ^ k := orderOf_dvd_of_pow_eq_one (by
       rw [← QuotientGroup.mk_pow, hxk, QuotientGroup.mk_one])
@@ -202,7 +202,7 @@ theorem sylow_isElemAbelian (h : JStarHyp p n Rb Y₀ Jt Xt φ) (S : Sylow p Jt)
   have hT := psl2GF_sylow p n hn (S.mapSurjective h.surj)
   rw [Sylow.coe_mapSurjective] at hT
   have hdisj : (S : Subgroup Jt) ⊓ φ.ker = ⊥ := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     exact (Subgroup.disjoint_of_coprime_natCard (hk ▸ h.coprime.pow_left k)).eq_bot
   set ψ : (S : Subgroup Jt) →* PSL2GF p n := φ.comp (S : Subgroup Jt).subtype
   have hinj : Function.Injective ψ := by

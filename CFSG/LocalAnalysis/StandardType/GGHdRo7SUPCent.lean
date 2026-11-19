@@ -29,10 +29,10 @@ theorem su_pCent_holds : SUPCentLeaf := by
     simp only [LinearEquiv.coe_toLinearMap, Module.Basis.equiv_apply] at h
     have hh : T (b (σ j)) = ∑ k, t k j • b (σ k) := by
       rw [h, ← b.sum_repr (T (b j))]
-      simp only [t, map_sum, map_smul, LinearEquiv.coe_toLinearMap, Module.Basis.equiv_apply]
+      simp only [t, map_sum, map_smul, Module.Basis.equiv_apply]
     have hc := congrArg (fun w => b.repr w (σ i)) hh
     have hc' : b.repr (∑ k, t k j • b (σ k)) (σ i) = t i j := by
-      simp only [map_sum, map_smul, Finsupp.finset_sum_apply, Module.Basis.repr_self_apply,
+      simp only [map_sum, map_smul, _root_.Finsupp.finsetSum_apply, Module.Basis.repr_self_apply,
         Finsupp.smul_apply, smul_eq_mul]
       rw [Finset.sum_eq_single i]
       · simp

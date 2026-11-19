@@ -39,8 +39,8 @@ theorem fixed_eq_one {k j : ℕ} (hk : k < 3) (hj : j = 1 ∨ j = 2) {c : Fin Ta
     (h1 : c (fixedCoord k) = 1) : c = 1 := by
   have row : ∀ r, c r = _ := fun r => (congrFun h r).symm.trans (tupAct_apply_four _ c r)
   interval_cases k <;> rcases hj with rfl | rfl <;> simp only [fixedCoord] at h1 <;>
-    simp only [if_true, show (1 : ℕ) ≠ 0 from one_ne_zero, show (2 : ℕ) ≠ 0 from two_ne_zero,
-      if_false] at h1
+    simp only [ite_true, show (1 : ℕ) ≠ 0 from one_ne_zero, show (2 : ℕ) ≠ 0 from two_ne_zero,
+      ite_false] at h1
   ·
     have e1 := row ⟨1, by decide⟩
     have e0 := row ⟨0, by decide⟩
@@ -221,6 +221,7 @@ theorem gammaP_HSL_not_inner {ω : Kˣ} (hω : orderOf ω = 3) (hK3 : 3 ≤ Nat.
 
 variable {ω : Kˣ} (hω3 : ω ^ 3 = 1)
 
+omit [Finite K] in
 theorem yP_pow_conj_mem (μ : Subgroup Kˣ) (k : ℕ) {g : ↥(adjointGroup Tag.D4 K)}
     (hg : g ∈ torusSub μ) : yP hω3 ^ k * g * (yP hω3 ^ k)⁻¹ ∈ torusSub μ := by
   obtain ⟨a, ha, hga⟩ := hg
@@ -280,6 +281,7 @@ theorem card_S1 (hω : orderOf ω = 3) (μ : Subgroup Kˣ) :
   rw [S1, card_sup_of_le_normalizer ((Subgroup.zpowers_le).2 (yP_mem_normalizer hω3 μ))
     (torusSub_inf_zpowers_yP hω3 hω μ), Nat.card_zpowers, orderOf_yP hω3 hω]
 
+omit [Finite K] in
 theorem gammaP_HSL_pow_diag (ω : Kˣ) (j : ℕ) {g : ↥(adjointGroup Tag.D4 K)}
     {a : Fin Tag.D4.rank → Kˣ} (hga : (g : ModGL Tag.D4 K) = rootDiagUnit Tag.D4 a) :
     (((gammaP K (HSL ω) ^ j) g : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) =
@@ -376,8 +378,8 @@ theorem card_T3fix_ge (μ : Subgroup Kˣ) (hμ : ∀ u ∈ μ, ∃ b : Kˣ, u = 
     funext j
     simp only [tup]
     by_cases hj : j = ⟨2, by decide⟩
-    · rw [if_pos ((hρ j).2 hj), if_pos hj]
-    · rw [if_neg (fun h => hj ((hρ j).1 h)), if_neg hj]
+    · rw [ite_eq_left ((hρ j).2 hj), ite_eq_left hj]
+    · rw [ite_eq_right (fun h => hj ((hρ j).1 h)), ite_eq_right hj]
   let f : μ × μ → T3fix (ω := ω) (K := K) μ := fun p =>
     ⟨⟨rootDiagUnit Tag.D4 (tup p), rootDiagUnit_mem_of_sq (fun j => hμ _ (htup p j))⟩,
       ⟨⟨tup p, htup p, rfl⟩, Subtype.ext (by
@@ -388,8 +390,8 @@ theorem card_T3fix_ge (μ : Subgroup Kˣ) (hμ : ∀ u ∈ μ, ∃ b : Kˣ, u = 
       ((z : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K)) hpp)
     have h0 := congrFun h ⟨0, by decide⟩
     have h2 := congrFun h ⟨2, by decide⟩
-    simp only [tup, show (⟨0, by decide⟩ : Fin Tag.D4.rank) ≠ ⟨2, by decide⟩ by decide, if_false,
-      if_true] at h0 h2
+    simp only [tup, show (⟨0, by decide⟩ : Fin Tag.D4.rank) ≠ ⟨2, by decide⟩ by decide, ite_false,
+      ite_true] at h0 h2
     exact Prod.ext (Subtype.ext h0) (Subtype.ext h2)
   calc Nat.card μ ^ 2 = Nat.card (μ × μ) := by rw [Nat.card_prod, sq]
     _ ≤ Nat.card (T3fix (ω := ω) (K := K) μ) := Nat.card_le_card_of_injective f hf
@@ -424,10 +426,12 @@ theorem card_Q0 (hω : orderOf ω = 3) (μ : Subgroup Kˣ) :
   exact le_trans (inf_le_inf_right _ inf_le_left)
     (le_of_eq (torusSub_inf_zpowers_yP hω3 hω μ))
 
+omit [Finite K] in
 theorem Q0_le_fixed (μ : Subgroup Kˣ) :
     Q0 (K := K) hω3 μ ≤ fixedSubgroup (gammaP K (HSL ω)) :=
   sup_le inf_le_right ((Subgroup.zpowers_le).2 (gammaP_HSL_yP hω3))
 
+omit [Finite K] in
 theorem Q0_le_centralizer (μ : Subgroup Kˣ) (l : Kˣ) :
     Q0 (K := K) hω3 μ ≤ Subgroup.centralizer
       ({torusElement Tag.D4 K ⟨0, by decide⟩ l * torusElement Tag.D4 K ⟨1, by decide⟩ l⁻¹} :

@@ -99,11 +99,11 @@ theorem ltK_rep (hS : ∀ j < 7, PRep 276 9 (S j) (m j) ∧ PRep 276 9 (SI j) (m
       have h2 : Nat.blt l (nat_lit 8) = true := Nat.blt_eq.mpr h
       rw [hb] at h2
       exact Bool.noConfusion h2
-    rw [if_neg h8]
+    rw [ite_eq_right h8]
     exact (hS (l - 8) (by omega)).2
   | true =>
     have h8 : l < 8 := Nat.blt_eq.mp hb
-    rw [if_pos h8]
+    rw [ite_eq_left h8]
     exact (hS (l - 1) (by omega)).1
 
 theorem walk_eq (hS : ∀ j < 7, PRep 276 9 (S j) (m j) ∧ PRep 276 9 (SI j) (m j)⁻¹) :

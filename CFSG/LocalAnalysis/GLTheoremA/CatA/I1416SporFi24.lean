@@ -30,9 +30,9 @@ variable {Good : ∀ (T : Type) [Group T], Prop}
 
 include hGood hN in
 theorem shapeRkAt_s0_good : ShapeRkAt 3 Good (fun _ _ => True) s0 := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hcard, hsimple, hnab, -⟩ := fiN_facts
-  haveI : Finite ↥fiN := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥fiN := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine shapeRkAt_of_simple_pindex Nat.prime_three hGood (fun _ _ _ _ _ h => h) fiN
     (fiN_le_lvl_two.trans lvl_two_le_cent0) hsimple hnab (k := 2) ?_ ?_ ?_
     (hN _ hsimple hcard) trivial
@@ -45,10 +45,10 @@ theorem shapeRkAt_s0_good : ShapeRkAt 3 Good (fun _ _ => True) s0 := by
 
 include hGood hG2 in
 theorem shapeRkAt_xJ_good : ShapeRkAt 3 Good (fun _ _ => True) xJ := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have hF := frame_facts
   obtain ⟨-, hsimp, hnab, hcard⟩ := leaf_closure_of_six_some epsJ hF.eps_rel hF.eps_ne
-  haveI : Finite ↥(Subgroup.closure (Set.range epsJ)) :=
+  have : Finite ↥(Subgroup.closure (Set.range epsJ)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hLS : Subgroup.closure (Set.range epsJ) ≤ stab4 := by
     rw [Subgroup.closure_le]
@@ -71,7 +71,7 @@ theorem shapeRkAt_xJ_good : ShapeRkAt 3 Good (fun _ _ => True) xJ := by
 include hGood hN hG2 in
 theorem shapeRkAt_fi24Rep3_good (i : Fin 5) :
     ShapeRkAt 3 Good (fun _ _ => True) (fi24Rep3 i) := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   fin_cases i
   · obtain ⟨c, hc⟩ := isConj_iff.1 isConj_rep0_s0
@@ -104,8 +104,8 @@ include hGood hN hG2 in
 theorem centShapeRk_J_good : CentShapeRk 3 Good (fun _ _ => True) ↥J := by
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hkp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥J :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hord : orderOf k = 3 := orderOf_eq_prime hkp hk1
   obtain ⟨i, hconj⟩ := Fi24Sylow.fi24ThreeClasses_holds k hord

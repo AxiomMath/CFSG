@@ -57,9 +57,9 @@ private theorem closureK_foldr_least (f : Nat → Bool) (k : Nat) : ∀ d : Nat,
     rcases ih (if f k = true then k else d) with ⟨i, ⟨hi1, hi2, hi3⟩, hi4⟩ | ⟨h1, h2⟩
     · exact Or.inl ⟨i, ⟨by omega, hi2, hi3⟩, hi4⟩
     · by_cases hfk : f k = true
-      · rw [if_pos hfk] at h2 ⊢
+      · rw [ite_eq_left hfk] at h2 ⊢
         exact Or.inl ⟨k, ⟨Nat.lt_succ_self k, hfk, h1⟩, h2⟩
-      · rw [if_neg hfk] at h2 ⊢
+      · rw [ite_eq_right hfk] at h2 ⊢
         refine Or.inr ⟨fun i hi => ?_, h2⟩
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | hi
         · exact h1 i hi
@@ -87,20 +87,20 @@ private theorem closureK_stepC_cases {n w m c PP LP h k x tp r : Nat} {G E : Nat
   simp only [Raw.Orb.nIf_eq, Raw.Orb.strictN_eq, Raw.Orb.bAnd_eq, htp] at hr
   by_cases hhx : h < x
   · refine ⟨hhx, ?_⟩
-    rw [if_pos (by simpa using hhx)] at hr
+    rw [ite_eq_left (by simpa using hhx)] at hr
     have hspec := closureK_firstIdx_spec c (fun j => Nat.beq (E j) tp)
     generalize firstIdx c (fun j => Nat.beq (E j) tp) = j at hr hspec
     by_cases hjx : j < x
-    · rw [if_pos (by simpa using hjx)] at hr
+    · rw [ite_eq_left (by simpa using hjx)] at hr
       subst hr
       refine Or.inl ⟨j, hjx, ?_, rfl⟩
       rcases hspec with ⟨-, h2, -⟩ | ⟨h1, -⟩
       · exact Nat.eq_of_beq_eq_true h2
       · omega
-    · rw [if_neg (by simpa using hjx)] at hr
+    · rw [ite_eq_right (by simpa using hjx)] at hr
       by_cases hcond : (j.beq x && (((PP.shiftRight (Nat.mul 16 x)).land 65535).beq h &&
           ((LP.shiftRight (Nat.mul 8 x)).land 255).beq k)) = true
-      · rw [if_pos hcond] at hr
+      · rw [ite_eq_left hcond] at hr
         simp only [Bool.and_eq_true, Nat.beq_eq] at hcond
         obtain ⟨rfl, hP, hL⟩ := hcond
         subst hr
@@ -110,9 +110,9 @@ private theorem closureK_stepC_cases {n w m c PP LP h k x tp r : Nat} {G E : Nat
           simp only [he, Nat.beq_refl] at h4
           exact Bool.noConfusion h4
         · omega
-      · rw [if_neg hcond, hF] at hr
+      · rw [ite_eq_right hcond, hF] at hr
         omega
-  · rw [if_neg (by simpa using hhx), hF] at hr
+  · rw [ite_eq_right (by simpa using hhx), hF] at hr
     omega
 
 private theorem closureK_stepC_mono {n w m c PP LP h k x : Nat} {G E : Nat → Nat}
@@ -122,19 +122,19 @@ private theorem closureK_stepC_mono {n w m c PP LP h k x : Nat} {G E : Nat → N
   unfold stepC
   simp only [Raw.Orb.nIf_eq, Raw.Orb.strictN_eq, Raw.Orb.bAnd_eq]
   by_cases hhx : h < x
-  · rw [if_pos (by simpa using hhx)]
+  · rw [ite_eq_left (by simpa using hhx)]
     have hspec := closureK_firstIdx_spec c (fun j => Nat.beq (E j) (pcomp n w m (G k) (E h)))
     generalize firstIdx c (fun j => Nat.beq (E j) (pcomp n w m (G k) (E h))) = j at hspec ⊢
     have hjc : j ≤ c := by rcases hspec with ⟨h1, -⟩ | ⟨h1, -⟩ <;> omega
     by_cases hjx : j < x
-    · rw [if_pos (by simpa using hjx)]
+    · rw [ite_eq_left (by simpa using hjx)]
       exact ⟨le_rfl, hx⟩
-    · rw [if_neg (by simpa using hjx)]
+    · rw [ite_eq_right (by simpa using hjx)]
       split
       · omega
       · rw [hF]
         omega
-  · rw [if_neg (by simpa using hhx), hF]
+  · rw [ite_eq_right (by simpa using hhx), hF]
     omega
 
 private def ckIn (f : Nat → Nat → Nat) (k x : Nat) : Nat :=
@@ -261,7 +261,7 @@ private theorem closureK_inner_step {n w PP LP bound c h k x r : Nat} {G E : Nat
           eqA n y (unpack n w (pcomp n w (mask w) (G k) (E h)))) = true := by
       rw [hany, hsz]
       simp [hxb]
-    rw [if_pos hcond, closureK_state_succ, hP, hL, hEx]
+    rw [ite_eq_left hcond, closureK_state_succ, hP, hL, hEx]
 
 private noncomputable def ckStep (n w : Nat) (G E : Nat → Nat) (c PP LP h k x : Nat) : Nat :=
   stepC n w (mask w) G E c PP LP h k x
@@ -357,7 +357,7 @@ private theorem closureK_outer_loop {n w PP LP bound c kg : Nat} {G E : Nat → 
             (ckOut (ckStep n w G E c PP LP) kg (q + 1))) (q + 1))) := by
         unfold ckOuter ckFull
         dsimp only
-        rw [if_pos hcond, closureK_state_get n w PP LP E hhd]
+        rw [ite_eq_left hcond, closureK_state_get n w PP LP E hhd]
         simp only [Prod.mk.eta]
         rw [hinner, closureK_out_succ]
       rw [key, hq1]
@@ -369,7 +369,7 @@ private theorem closureK_outer_loop {n w PP LP bound c kg : Nat} {G E : Nat → 
           pure (ForInStep.yield (ckFull (ckState n w PP LP E c) c)) := by
         unfold ckOuter ckFull
         dsimp only
-        rw [if_neg (by rw [closureK_state_size]; simp)]
+        rw [ite_eq_right (by rw [closureK_state_size]; simp)]
       rw [key, hq1, hfin]
       rfl
   · intro b hb

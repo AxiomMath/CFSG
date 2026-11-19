@@ -17,7 +17,7 @@ open scoped commutatorElement
 
 theorem k37G_pow_three_of_isPGroup (hSyl : InputONSylow) {Y : Type} [Group Y] [Finite Y]
     (hY : IsHatON Y) {k : Y} (hk : IsPGroup 3 (Subgroup.zpowers k)) : k ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := hk.exists_le_sylow
   exact (hSyl Y hY P).2.1 k (hP (Subgroup.mem_zpowers k))
 
@@ -46,7 +46,7 @@ theorem k37G_exists_E27 (hSyl : InputONSylow) {Y : Type} [Group Y] [Finite Y] (h
     {k : Y} (hk : IsPGroup 3 (Subgroup.zpowers k)) (hkz : k ∉ Subgroup.center Y) :
     ∃ F : Subgroup Y, IsElemAbelian 3 F ∧ Nat.card F = 27 ∧ ∀ x ∈ F, x * k = k * x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hkP⟩ := hk.exists_le_sylow
   obtain ⟨hcardP, hexp, hcomm, -⟩ := hSyl Y hY P
   have hkP' : k ∈ (P : Subgroup Y) := hkP (Subgroup.mem_zpowers k)

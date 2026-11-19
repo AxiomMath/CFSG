@@ -81,7 +81,7 @@ theorem exists_fixed_basis (h : UnitaryFieldData p f F) (h2 : (2 : F) ≠ 0) {g�
     exact this.symm
   let e : b ≃ Fin 4 := Fintype.equivFinOfCardEq hcard
   refine ⟨Matrix.of fun i j => ((e.symm j : b) : Fin 4 → F) i, ?_, ?_⟩
-  · rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_cols_iff_isUnit]
+  · rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_col_iff_isUnit]
     exact hbli.comp e.symm e.symm.injective
   · ext i j
     have hj : τ ((e.symm j : b) : Fin 4 → F) = ((e.symm j : b) : Fin 4 → F) := hbS (e.symm j).2

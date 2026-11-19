@@ -63,11 +63,13 @@ theorem sixFF_ff3a_pow_diagTorus (k : ℕ) :
     ∀ g ∈ diagTorus K, (frobAut K ^ k) g ∈ diagTorus K :=
   sixFF_ff3a_frob_pow_mem _ sixFF_ff3a_frob_diagTorus k
 
+omit [Finite G] [IsSimpleGroup G] [CharP K 2] [Finite K] in
 theorem sixFF_ff3a_conj_symm (f : normalizer (L : Set G)) (a : antiSp K) :
     (f : G) * ((φ.symm a : L) : G) * (f : G)⁻¹ =
       ((φ.symm (FieldInvolution.transAct φ f a) : L) : G) :=
   (FieldInvolution.coe_symm_transAct φ f a).symm
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff3a_conj_pull (f : normalizer (L : Set G)) (k : ℕ)
     (hk : FieldInvolution.transAct φ f = frobAut K ^ k) (H : Subgroup (antiSp K))
     (hH : ∀ a ∈ H, (frobAut K ^ k) a ∈ H) :
@@ -78,6 +80,7 @@ theorem sixFF_ff3a_conj_pull (f : normalizer (L : Set G)) (k : ℕ)
   rw [← hx', sixFF_ff3a_conj_symm, symm_mem_pull, hk]
   exact hH _ hxH
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff3a_conj_zpowers {f e : G} (hfC : f ∈ centralizer ({e} : Set G)) :
     ∀ x ∈ zpowers e, f * x * f⁻¹ ∈ zpowers e := by
   intro x hx
@@ -86,6 +89,7 @@ theorem sixFF_ff3a_conj_zpowers {f e : G} (hfC : f ∈ centralizer ({e} : Set G)
   rw [(hc.zpow_right m).eq, mul_inv_cancel_right]
   exact zpow_mem_zpowers e m
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff3a_conj_map (f c : G) (hfc : f * c = c * f) (M : Subgroup G)
     (hM : ∀ x ∈ M, f * x * f⁻¹ ∈ M) :
     ∀ x ∈ M.map (MulAut.conj c).toMonoidHom,
@@ -105,6 +109,7 @@ theorem sixFF_ff3a_weyl_fixed (k : ℕ) (ax : Axis) :
   cases ax <;> fin_cases a <;> fin_cases b <;>
     simp [mat, FullCenterWeyl.glMat_weylElt, FullCenterWeyl.weylMat]
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff3a_comm_w (f : normalizer (L : Set G)) (k : ℕ)
     (hk : FieldInvolution.transAct φ f = frobAut K ^ k) (ax : Axis) :
     (f : G) * w φ ax = w φ ax * (f : G) := by
@@ -115,7 +120,8 @@ theorem sixFF_ff3a_comm_w (f : normalizer (L : Set G)) (k : ℕ)
   calc (f : G) * w φ ax = ((f : G) * w φ ax * (f : G)⁻¹) * (f : G) := by group
     _ = w φ ax * (f : G) := by rw [h]
 
-theorem sixFF_ff3a (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) :
+omit [IsSimpleGroup G] in
+theorem sixFF_ff3a (hS : SCSetting L K n φ t i) (_hH : SixHConclusion φ t i) :
     FF3aConcl φ t i := by
   intro f hfC k hk
   have hP : ∀ x ∈ P φ, (f : G) * x * (f : G)⁻¹ ∈ P φ :=
@@ -155,6 +161,7 @@ theorem sixFF_ff3a (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) :
     fun x hx => RootAxisTwoCore.conj_mem_sup (hMhat Axis.one) (hMhat Axis.two) hx
   exact ⟨RootAxisTwoCore.mem_normalizer_of_conj_le hSt, hfTp⟩
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff3 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hK : SixKConclusion φ t i) (f0 : FF0Concl φ t i) (f1 : FF1Concl φ t i)
     (f2 : FF2Concl n φ t i) (f3a : FF3aConcl φ t i) : FF3Concl φ t i := by

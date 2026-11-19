@@ -38,7 +38,7 @@ theorem i112d_conj_of_mem_conjImage {F : Type} [Field F] [Finite F] {m : ℕ} (h
       (CFSG.Assembly.LargeEvenProj (CFSG.Assembly.LargeEvenSLGroup (Fin 2) F)) := by
   obtain ⟨A, -, hA⟩ := hφ
   have hodd : Odd (Nat.card Fˣ) := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     classical
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hF]
     have h2 : 2 ≤ 2 ^ m := by
@@ -95,7 +95,7 @@ theorem i112d_card_le_three {G : Type} [Group G] [Finite G] {X K B : Subgroup G}
       chevAut 3 K ⟨a, ha⟩ ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple 3 K))
     (hZ : Subgroup.center (PSimple 3 K) = ⊥) (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup (PSimple 3 K)) ≤ 1) :
     Nat.card B ≤ 3 * Nat.card ↥(B ⊓ centModSubgroup 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup G := Subgroup.normalizer (K : Set G)
   let H : Subgroup N := B.subgroupOf N
   let ψ : H →* MulAut (PSimple 3 K) := (chevAut 3 K).comp H.subtype
@@ -207,7 +207,7 @@ theorem i112d_l2_label {lab : CFSG.Assembly.LargeEvenLabel}
         h2] at h
       omega
     · by_cases h3 : rank = 3
-      · simp [CFSG.StandardType.markTag, h2, h3] at h
+      · simp [CFSG.StandardType.markTag, h3] at h
       · simp [CFSG.StandardType.markTag, h2, h3] at h
   case B2der =>
     exfalso
@@ -242,7 +242,7 @@ theorem i112d_chevAut_inner {G : Type} [Group G] [Finite G] {K B : Subgroup G}
   have hn3 : 3 ≤ n := by
     obtain ⟨k, hk⟩ := hn
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h5 : 5 ≤ 2 ^ n :=
     calc 5 ≤ 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3

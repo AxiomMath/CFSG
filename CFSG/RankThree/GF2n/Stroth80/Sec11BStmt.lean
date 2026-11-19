@@ -42,7 +42,7 @@ theorem CaseVI.of_core {M Q Z S : Subgroup G} {n : ℕ} (h : CaseVICore M Q Z S 
 
 @[expose] def Stroth117Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     IsLmChar2 (XbarMod M Q Z B) ∨ IsSpChar2 (XbarMod M Q Z B) ∨ IsOmegaChar2 (XbarMod M Q Z B)
 
@@ -53,23 +53,23 @@ theorem CaseVI.of_core {M Q Z S : Subgroup G} {n : ℕ} (h : CaseVICore M Q Z S 
 
 @[expose] def Stroth117ExclStatement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → (∃ a ∈ LB M Q B, IsA2 Q Z a) →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     ¬ ExcludedByElevenSeven (XbarMod M Q Z B)
 
 @[expose] def Stroth118Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) → ¬ IsSpChar2 (XbarMod M Q Z B)
 
 @[expose] def Stroth119Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) → IsOmegaChar2 (XbarMod M Q Z B) →
     ∃ y : ℕ, 2 ^ y = Nat.card Z ∧ CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL 4 2 y
 
 @[expose] def Stroth1110Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) → IsLmChar2 (XbarMod M Q Z B) →
     Xbar M Q Z B = bar M Q (Lgen M (LB M Q B)) ∧ CaseVICore M Q Z (Lgen M (LB M Q B)) n
 

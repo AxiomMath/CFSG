@@ -226,7 +226,7 @@ theorem twoSmall_centerQuotientAut {D : Subgroup (fixedSubgroup τ)} (hD : IsCom
   set P : Subgroup K := Ū.comap (QuotientGroup.mk' (center K)) with hP
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   set U : Subgroup K := (S : Subgroup P).map P.subtype with hU
-  have hUp : IsPGroup 2 U := S.isPGroup'.map _
+  have hUp : IsPGroup 2 U := S.isPGroup.map _
   have hUmem : ∀ u ∈ U, QuotientGroup.mk' (center K) u ∈ Ū := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

@@ -501,7 +501,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
     (le_inf hVN (V.le_normalizer.trans hMD)).trans
       (Subgroup.inf_normalizer_le_normalizer_sup Na D)
   obtain ⟨Q, hDaQ, hVQ⟩ := invariant_ambient_sylow_containing hell V ND Da hV2 hNDodd
-    hVND (hDaD.trans le_sup_right) (PD.isPGroup'.map D.subtype) hVDa
+    hVND (hDaD.trans le_sup_right) (PD.isPGroup.map D.subtype) hVDa
   let Qa := (Q : Subgroup ND).map ND.subtype
   obtain ⟨Pi, hPi⟩ := ambient_normal_sylow_intersection hell ND Na le_sup_left hNnormalND Q
   let Pa := (Pi : Subgroup Na).map Na.subtype
@@ -509,7 +509,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
   have hPaQ : Pa ≤ Qa := by rw [hPiEq]; exact inf_le_right
   have hPaN : Pa ≤ Na := Subgroup.map_subtype_le _
   have hPaCt : Pa ≤ C t := hPaN.trans hNCt
-  have hPap : IsPGroup ell Pa := Pi.isPGroup'.map Na.subtype
+  have hPap : IsPGroup ell Pa := Pi.isPGroup.map Na.subtype
   have hVPa : V ≤ Subgroup.normalizer (Pa : Set G) := by
     rw [hPiEq]
     exact (le_inf hVN hVQ).trans Subgroup.inf_normalizer_le_normalizer_inf
@@ -530,7 +530,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
     exact Na.subtype_injective hyx ▸ hy
   have hPcPa : originalSylowAmbient t Pc = Pa := by
     change ((Pc : Subgroup (N t)).map (N t).subtype).map (C t).subtype = Pa
-    rw [← hPcA, Pi.maximal_isPGroup.eq_of_ge PcA.isPGroup' hPiPcA]
+    rw [← hPcA, Pi.maximal_isPGroup.eq_of_ge PcA.isPGroup hPiPcA]
   have hPaPo : Pa = Po.map (MulAut.conj (c : G)).toMonoidHom := hPcPa.symm.trans hPcPo
   have hloc : ∀ U : Subgroup G, U ≠ ⊥ → U ≤ Pa →
       V ≤ Subgroup.normalizer (U : Set G) →
@@ -601,7 +601,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
     have hFproper : Pa ⊓ Da < Pa := hFPaDa ▸ lt_of_le_of_ne inf_le_left hFP
     have hFP1 : F < P1 := by
       rw [hFPaDa]
-      exact normalizer_prime_product_strict hell Pa Da Qa (Q.isPGroup'.map ND.subtype)
+      exact normalizer_prime_product_strict hell Pa Da Qa (Q.isPGroup.map ND.subtype)
         hPaQ hDaQ hfactorQ hFproper
     have hVP1 : V ≤ Subgroup.normalizer (P1 : Set G) :=
       (le_inf hVPa (hVDa.trans H.le_normalizer)).trans Subgroup.inf_normalizer_le_normalizer_inf
@@ -663,7 +663,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
       have hP1F : P1 ≤ F := le_inf inf_le_left hP1Cs
       exact hFP1.ne (le_antisymm hFP1.le hP1F)
     obtain ⟨x, hxW, hx1, hxinverted, hxcomm, hxnot⟩ := odd_pgroup_inverted_centralizing_witness
-      hell hellodd t ht Wa (W.isPGroup'.map R.subtype) (hVW htV) hWnot
+      hell hellodd t ht Wa (W.isPGroup.map R.subtype) (hVW htV) hWnot
     have hFWfixed : F ≤ Wa ⊓ C t := le_inf (hFP1.le.trans hP1W) (inf_le_left.trans hPaCt)
     have hxCF : x ∈ Subgroup.centralizer (F : Set G) :=
       Subgroup.mem_centralizer_iff.mpr fun y hy => (hxcomm y (hFWfixed hy)).eq.symm
@@ -677,7 +677,7 @@ theorem stationary_layer_cover_local_prime_is_centralized_or_inverted
       change Subgroup.zpowers (t * x * t⁻¹) = Subgroup.zpowers x
       rw [hxinverted, Subgroup.zpowers_inv]
     exact hxnot (hloc F hFbot inf_le_left hVF X hXK
-      ((W.isPGroup'.map R.subtype).to_le hXW) htX (Subgroup.mem_zpowers x))
+      ((W.isPGroup.map R.subtype).to_le hXW) htX (Subgroup.mem_zpowers x))
   have hcs : (MulAut.conj (c : G)) s = s := by
     have hcc : Commute s (c : G) := Subgroup.mem_centralizer_iff.mp hcV s hsV
     exact hcc.symm.mul_inv_cancel

@@ -15,7 +15,7 @@ namespace ExcFrames
 open scoped Pointwise
 
 theorem exists_conj_map_eq_of_SC {H : Type} [Group H] [Finite H] {p : ℕ} [Fact p.Prime]
-    {T X : Subgroup H} (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hXT : X ≤ T)
+    {T X : Subgroup H} (_hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hXT : X ≤ T)
     (hXp : ∀ x ∈ X, x ^ p = 1) (hTp : ∀ t ∈ T, t ^ p = 1 → t ∈ X)
     (hord : (Nat.card H).factorization p = (Nat.card T).factorization p + 1)
     (hcent : ∀ c : H, (∀ x ∈ X, c * x = x * c) → c ∈ T)
@@ -28,7 +28,7 @@ theorem exists_conj_map_eq_of_SC {H : Type} [Group H] [Finite H] {p : ℕ} [Fact
   have hp : p.Prime := Fact.out
   have hp_pos : 0 < p := hp.pos
   have hp_ne : p ≠ 0 := hp.ne_zero
-  haveI : Finite T := Finite.of_injective Subtype.val Subtype.coe_injective
+  have : Finite T := Finite.of_injective Subtype.val Subtype.coe_injective
   have hXpg : IsPGroup p X := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -43,7 +43,7 @@ theorem exists_conj_map_eq_of_SC {H : Type} [Group H] [Finite H] {p : ℕ} [Fact
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
     exact y.2
-  have hQpg : IsPGroup p Q := Q₀.isPGroup'.map T.subtype
+  have hQpg : IsPGroup p Q := Q₀.isPGroup.map T.subtype
   obtain ⟨P, hQP⟩ := hQpg.exists_le_sylow
   have hcardP : Nat.card P = p ^ (Nat.card H).factorization p := Sylow.card_eq_multiplicity P
   have hcardQ0 : Nat.card Q₀ = p ^ (Nat.card T).factorization p := Sylow.card_eq_multiplicity Q₀
@@ -176,12 +176,12 @@ theorem exists_conj_map_eq_of_SC {H : Type} [Group H] [Finite H] {p : ℕ} [Fact
   · rintro ⟨y, ⟨z, hz, hyz⟩, hxy⟩
     have hxz : x = z := by
       rw [← hxy, ← hyz]
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulAut.conj_apply, inv_inv]
       group
     rwa [hxz]
   · intro hx
     exact ⟨MulAut.conj c⁻¹ x, ⟨x, hx, rfl⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]; group⟩
+      simp only [MulAut.conj_apply, inv_inv]; group⟩
 
 theorem card_lt_of_weylHom {H : Type} [Group H] {τ : Tag} {p : ℕ} [Fact p.Prime]
     (hW : GGWeylNoOffender τ p)
@@ -192,7 +192,7 @@ theorem card_lt_of_weylHom {H : Type} [Group H] {τ : Tag} {p : ℕ} [Fact p.Pri
     (hker : ∀ a, φ a = 1 → (a : H) ∈ ι₀.range) (hne : φ.range ≠ ⊥) :
     Nat.card A < p ^ τ.rank := by
   have hφel : CFSG.Open.IsElemAbelian p φ.range := by
-    haveI : IsMulCommutative A := hA.1
+    have : IsMulCommutative A := hA.1
     refine ⟨?_, ?_⟩
     · rw [← Subgroup.map_top φ]
       exact Subgroup.map_isMulCommutative _ _

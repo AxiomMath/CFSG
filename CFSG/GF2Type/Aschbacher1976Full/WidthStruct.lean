@@ -23,6 +23,7 @@ def mulHom (hD : Z4Data z w Z A) : ↥Z × ↥A →* G where
     simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul]
     rw [Commute.mul_mul_mul_comm hc]
 
+omit [Finite G] in
 theorem range_mulHom (hD : Z4Data z w Z A) : (mulHom hD).range = Z ⊔ A := by
   apply le_antisymm
   · rintro _ ⟨p, rfl⟩
@@ -33,12 +34,14 @@ theorem range_mulHom (hD : Z4Data z w Z A) : (mulHom hD).range = Z ⊔ A := by
     · intro a ha
       exact ⟨(1, ⟨a, ha⟩), by simp [mulHom]⟩
 
+omit [Finite G] in
 theorem exists_decomp (hD : Z4Data z w Z A) {x : G} (hx : x ∈ Fz z) :
     ∃ c ∈ Z, ∃ a ∈ A, x = c * a := by
   rw [← hD.sup_eq, ← range_mulHom hD] at hx
   obtain ⟨p, rfl⟩ := hx
   exact ⟨p.1, p.1.2, p.2, p.2.2, rfl⟩
 
+omit [Finite G] in
 theorem card_ker (hD : Z4Data z w Z A) (hz : orderOf z = 2) :
     Nat.card (mulHom hD).ker = 2 := by
   have hkey : ∀ p : (mulHom hD).ker,
@@ -68,6 +71,7 @@ theorem card_ker (hD : Z4Data z w Z A) (hz : orderOf z = 2) :
       exact ⟨⟨_, hq⟩, Subtype.ext rfl⟩
   rw [Nat.card_congr (Equiv.ofBijective f hbij), hD.inf_eq, Nat.card_zpowers, hz]
 
+omit [Finite G] in
 theorem card_Fz (hD : Z4Data z w Z A) (hz : orderOf z = 2) :
     Nat.card (Fz z) = 2 ^ (2 * w + 2) := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (mulHom hD).ker
@@ -80,6 +84,7 @@ theorem card_Fz (hD : Z4Data z w Z A) (hz : orderOf z = 2) :
     ring
   exact Nat.eq_of_mul_eq_mul_right (by norm_num) key
 
+omit [Finite G] in
 theorem Z_comm_F (hD : Z4Data z w Z A) {h : G} (hh : h ∈ Z) {f : G} (hf : f ∈ Fz z) :
     h * f = f * h := by
   obtain ⟨c, hc, a, ha, rfl⟩ := exists_decomp hD hf

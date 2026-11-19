@@ -23,8 +23,8 @@ theorem caseVICore_of_CMLmChain_three [Finite G]
     rcases hC G M Q Z B hc n 3 x hw hn ha2 hLm (le_refl 3) with
       ⟨X₁, X₂, X₃, X₄, hX₁, h₁₂, h₂₃, h₃₄, hX₄Q, -, -, -, -,
         K', hK'f, hK'fin, hK'card, nat2, -⟩ | ⟨h34, -⟩
-    · letI : Field K' := hK'f
-      letI : Finite K' := hK'fin
+    · let : Field K' := hK'f
+      let : Finite K' := hK'fin
       have hX₂Q : X₂ ≤ Q := by rw [← hX₄Q]; exact h₂₃.trans h₃₄
       exact two_pow_eq_card_Z_of_naturalRep (K := K') hc (m := 3) (by norm_num)
         hX₁ hX₂Q nat2 hLm hK'card

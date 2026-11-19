@@ -57,6 +57,7 @@ namespace K43
 variable {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V]
   [Module (ZMod p) V] [Finite V] {ρ : Representation (ZMod p) G V} {D : Subgroup G}
 
+omit [Finite G] [Finite V] in
 theorem nontrivial_of_card_three (hρ : Function.Injective ρ) (hD : Nat.card D = 3) :
     Nontrivial V := by
   by_contra hV
@@ -65,10 +66,11 @@ theorem nontrivial_of_card_three (hρ : Function.Injective ρ) (hD : Nat.card D 
   have : Nat.card D = 1 := Nat.card_unique
   omega
 
+omit [Finite G] in
 theorem p_ne_three (hρ : Function.Injective ρ) (hD : Nat.card D = 3) (hfix : fixV ρ D = ⊥) :
     p ≠ 3 := by
   intro hp3
-  haveI := nontrivial_of_card_three hρ hD
+  have := nontrivial_of_card_three hρ hD
   have hD3 : IsPGroup p D := IsPGroup.of_card (n := 1) (by rw [hD, hp3, pow_one])
   exact UC46.fixV_ne_bot_of_pGroup (ρ := ρ) hD3 hfix
 

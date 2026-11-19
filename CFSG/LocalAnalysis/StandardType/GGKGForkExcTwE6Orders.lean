@@ -27,7 +27,7 @@ private theorem ggKGTo_q_sub_one_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) 
 
 private theorem ggKGTo_q2_sub_one_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1 ≤ q)
     (hpq : p ∣ q + 1) : padicValNat p (q ^ 2 - 1) = padicValNat p (q + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_le : p ≤ q + 1 := Nat.le_of_dvd (by omega) hpq
   have hq1 : q + 1 ≠ 0 := by omega
   have hqm : q - 1 ≠ 0 := by omega
@@ -38,7 +38,7 @@ private theorem ggKGTo_q2_sub_one_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
 private theorem ggKGTo_odd_pow_add_one_val {p q n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ q + 1) (hn : Odd n) :
     padicValNat p (q ^ n + 1) = padicValNat p (q + 1) + padicValNat p n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two (by omega)
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro h
@@ -52,7 +52,7 @@ private theorem ggKGTo_odd_pow_add_one_val {p q n : ℕ} (hp : p.Prime) (hp5 : 5
 private theorem ggKGTo_even_pow_sub_one_val {p q m : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hq : 1 ≤ q) (hpq : p ∣ q + 1) (hm : m ≠ 0) :
     padicValNat p ((q ^ 2) ^ m - 1) = padicValNat p (q + 1) + padicValNat p m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two (by omega)
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro h
@@ -79,7 +79,7 @@ private theorem ggKGTo_prod_val {p q : ℕ} (hp : p.Prime) (hq : 2 ≤ q) :
       = padicValNat p (q ^ 36) + padicValNat p (q ^ 12 - 1) + padicValNat p (q ^ 9 + 1)
         + padicValNat p (q ^ 8 - 1) + padicValNat p (q ^ 6 - 1) + padicValNat p (q ^ 5 + 1)
         + padicValNat p (q ^ 2 - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h36 : q ^ 36 ≠ 0 := by positivity
   have h12 : q ^ 12 - 1 ≠ 0 := by
     have h : 1 < q ^ 12 := Nat.one_lt_pow (by norm_num) (by omega : 1 < q)
@@ -110,7 +110,7 @@ private theorem ggKGTo_prod_val {p q : ℕ} (hp : p.Prime) (hq : 2 ≤ q) :
 private theorem ggKGTo_A_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1 ≤ q)
     (hpq : p ∣ q + 1) :
     padicValNat p (ggKGTo_A q) = 6 * padicValNat p (q + 1) + padicValNat p 51840 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_le : p ≤ q + 1 := Nat.le_of_dvd (by omega) hpq
   have hq2 : 2 ≤ q := by omega
   have hp_not_dvd_q : ¬ p ∣ q := by
@@ -176,7 +176,7 @@ private theorem ggKGTo_A_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1 
 private theorem ggKGTo_ordTwistedE6_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hq : 1 ≤ q) (hpq : p ∣ q + 1) :
     padicValNat p (ordTwistedE6 q) = 6 * padicValNat p (q + 1) + padicValNat p 51840 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_3 : ¬ p ∣ 3 := by
     intro h
     have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h

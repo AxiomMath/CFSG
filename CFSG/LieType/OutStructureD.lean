@@ -23,7 +23,7 @@ theorem exists_fieldPart_graphFixedRootGroup_trialityD4
       (CFSG.ComponentClassification.OuterAutomorphisms.inner (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ⊔ F) = ⊤ := by
   classical
   intro K _ _ hK σ hσ
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   let C := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
   have key : ∀ (hNF : ∀ α : MulAut C, ∃! gδ : C × (K ≃+* K),
@@ -91,7 +91,7 @@ theorem i713ClauseFor_lie_trialityD4
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let L := GaloisField q.p (3 * q.exponent)
   have hLcardp : Nat.card L = (q.p ^ q.exponent) ^ 3 := by
     rw [GaloisField.card q.p (3 * q.exponent)

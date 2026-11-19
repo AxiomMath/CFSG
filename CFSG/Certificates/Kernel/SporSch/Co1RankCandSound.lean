@@ -25,7 +25,7 @@ theorem bvec_inj {n x y : ℕ} (hx : x < 2 ^ n) (hy : y < 2 ^ n) (h : bvec n x =
   · have := congrFun h ⟨k, hk⟩
     simp only [bvec] at this
     cases hx' : x.testBit k <;> cases hy' : y.testBit k <;> rw [hx', hy'] at this <;>
-      first | rfl | exact absurd this (by decide)
+      exact absurd this (by decide)
   · have hd : 2 ^ n ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hx hd), Nat.testBit_lt_two_pow (lt_of_lt_of_le hy hd)]
 
@@ -171,11 +171,10 @@ theorem lhs_expand (C : Co1RankCoord.Dat) (j : ℕ) (gs : List ℕ) (W u : ℕ) 
         Nat.testBit_xor _ _ i
       rw [ex, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
       rcases lt_trichotomy i n with h | rfl | h
-      · cases u.testBit n <;> simp [h, show i < n + 1 by omega, Nat.testBit_two_pow,
-          show n ≠ i by omega]
-      · cases hb : u.testBit i <;> simp [hb]
+      · cases u.testBit n <;> simp [h, show i < n + 1 by omega, show n ≠ i by omega]
+      · cases hb : u.testBit i <;> simp
       · cases u.testBit n <;> simp [show ¬ i < n by omega, show ¬ i < n + 1 by omega,
-          Nat.testBit_two_pow, show n ≠ i by omega]
+          show n ≠ i by omega]
     have hb : (if u.testBit n then 2 ^ n else 0) < 2 ^ C.d := by
       split_ifs
       · exact h2
@@ -220,7 +219,6 @@ theorem rowsF_bit (C : Co1RankCoord.Dat) (j : ℕ) (gs : List ℕ) (t k : ℕ)
       (decide (t < C.d) && (lhs C j gs (2 ^ t)).testBit k) := by
   have e := packR_bit (C.d * (gs.length + 1)) (fun s => lhs C j gs (Nat.shiftLeft 1 s)) t k hk C.d
     (fun s hs => by
-      change lhs C j gs (Nat.shiftLeft 1 s) < _
       rw [shl1]
       exact lhs_lt C j gs (Nat.pow_lt_pow_right (by norm_num) hs))
   rw [rowsF, e, shl1]
@@ -251,7 +249,7 @@ theorem packL_bit {d : ℕ} {k : ℕ} (hk : k < d) : ∀ (K : List ℕ), (∀ q 
     rw [lor_shift (hK q List.mem_cons_self), Co1RankRC.testBit_split (hK q List.mem_cons_self)]
     rcases t with _ | t
     · simp [hk]
-    · rw [if_neg (by nlinarith), show d * (t + 1) + k - d = d * t + k by rw [Nat.mul_succ]; omega,
+    · rw [ite_eq_right (by nlinarith), show d * (t + 1) + k - d = d * t + k by rw [Nat.mul_succ]; omega,
         packL_bit hk K (fun q hq => hK q (List.mem_cons_of_mem _ hq)) t]
       simp
 

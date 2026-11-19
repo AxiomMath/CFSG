@@ -161,6 +161,7 @@ section Pair
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem uc22pwt_le_normalizer_of_comm {A B : Subgroup X} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     A ≤ normalizer (B : Set X) := by
   intro a ha
@@ -180,6 +181,7 @@ theorem uc22pwt_le_normalizer_of_comm {A B : Subgroup X} (h : ∀ a ∈ A, ∀ b
     rw [h2]
     exact hx
 
+omit [Finite X] in
 theorem uc22pwt_exists_mul_of_comm {A B : Subgroup X} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : X}
     (hx : x ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, x = a * b :=
   uc22pws_exists_mul_of_mem_sup (uc22pwt_le_normalizer_of_comm h) hx
@@ -203,6 +205,7 @@ structure UC22pwtPair (h h' : X) (m a b : ℕ) (α : Set ℕ) : Prop where
 @[expose] def uc22pwtE (h h' : X) (a b : ℕ) : Subgroup X :=
   zpowers (h ^ a) ⊔ zpowers (h' ^ a) ⊔ zpowers (h ^ b * h' ^ b)
 
+omit [Finite X] in
 theorem uc22pwtE_le_M (h h' : X) (a b : ℕ) : uc22pwtE h h' a b ≤ zpowers h ⊔ zpowers h' := by
   refine sup_le (sup_le ?_ ?_) ?_
   · exact le_trans (Subgroup.zpowers_le.2 (Subgroup.pow_mem _ (Subgroup.mem_zpowers h) a)) le_sup_left
@@ -211,12 +214,15 @@ theorem uc22pwtE_le_M (h h' : X) (a b : ℕ) : uc22pwtE h h' a b ≤ zpowers h �
       (Subgroup.mem_sup_left (Subgroup.pow_mem _ (Subgroup.mem_zpowers h) b))
       (Subgroup.mem_sup_right (Subgroup.pow_mem _ (Subgroup.mem_zpowers h') b)))
 
+omit [Finite X] in
 theorem uc22pwtE_ha_mem (h h' : X) (a b : ℕ) : h ^ a ∈ uc22pwtE h h' a b :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
+omit [Finite X] in
 theorem uc22pwtE_ha'_mem (h h' : X) (a b : ℕ) : h' ^ a ∈ uc22pwtE h h' a b :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers _))
 
+omit [Finite X] in
 theorem uc22pwtE_d_mem (h h' : X) (a b : ℕ) : h ^ b * h' ^ b ∈ uc22pwtE h h' a b :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
 
@@ -226,6 +232,7 @@ variable {h h' : X} {m a b : ℕ} {α : Set ℕ} (P : UC22pwtPair h h' m a b α)
 
 include P
 
+omit [Finite X] in
 theorem isMulCommutative_M : IsMulCommutative ↥(zpowers h ⊔ zpowers h') := by
   have key : ∀ x ∈ zpowers h ⊔ zpowers h', ∃ s t : ℤ, x = h ^ s * h' ^ t := by
     intro x hx
@@ -246,6 +253,7 @@ theorem isMulCommutative_M : IsMulCommutative ↥(zpowers h ⊔ zpowers h') := b
   have hBD : Commute (h' ^ t) (h' ^ t') := (Commute.refl h').zpow_zpow t t'
   exact (Commute.mul_left (Commute.mul_right hAC hAD) (Commute.mul_right hBC hBD)).eq
 
+omit [Finite X] in
 theorem exists_zpow_of_mem_M {x : X} (hx : x ∈ zpowers h ⊔ zpowers h') :
     ∃ s t : ℤ, x = h ^ s * h' ^ t := by
   obtain ⟨y, hy, z, hz, rfl⟩ := uc22pwt_exists_mul_of_comm (A := zpowers h) (B := zpowers h')
@@ -257,14 +265,17 @@ theorem exists_zpow_of_mem_M {x : X} (hx : x ∈ zpowers h ⊔ zpowers h') :
   obtain ⟨t, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
   exact ⟨s, t, rfl⟩
 
+omit [Finite X] in
 theorem pow_m : h ^ m = 1 := by
   rw [← P.ord]
   exact pow_orderOf_eq_one h
 
+omit [Finite X] in
 theorem pow_m' : h' ^ m = 1 := by
   rw [← P.ord']
   exact pow_orderOf_eq_one h'
 
+omit [Finite X] in
 theorem exists_exps_of_mem_E {x : X} (hx : x ∈ uc22pwtE h h' a b) :
     ∃ i j k : ℤ, x = h ^ ((a : ℤ) * i + b * k) * h' ^ ((a : ℤ) * j + b * k) := by
   have hM := P.isMulCommutative_M
@@ -296,9 +307,11 @@ theorem exists_exps_of_mem_E {x : X} (hx : x ∈ uc22pwtE h h' a b) :
         hc2.mul_mul_mul_comm _ _
     _ = _ := rfl
 
+omit [Finite X] in
 theorem isMulCommutative_E : IsMulCommutative ↥(uc22pwtE h h' a b) :=
   uc22pws_isMulCommutative_of_le P.isMulCommutative_M (uc22pwtE_le_M h h' a b)
 
+omit [Finite X] in
 theorem pow_m_of_mem_E {x : X} (hx : x ∈ uc22pwtE h h' a b) : x ^ m = 1 := by
   obtain ⟨i, j, k, rfl⟩ := P.exists_exps_of_mem_E hx
   have e1 : ∀ s : ℤ, (h ^ s) ^ m = 1 := fun s => by
@@ -316,6 +329,7 @@ theorem odd_card_E : Odd (Nat.card (uc22pwtE h h' a b)) := by
   have : 2 ∣ m := hyo ▸ orderOf_dvd_of_pow_eq_one (P.pow_m_of_mem_E hy)
   exact (Nat.not_even_iff_odd.2 P.odd) (even_iff_two_dvd.2 this)
 
+omit [Finite X] in
 theorem card_E_dvd : Nat.card (uc22pwtE h h' a b) ∣ m * m := by
   let μ : ↥(zpowers h) × ↥(zpowers h') →* X :=
     (zpowers h).subtype.noncommCoprod (zpowers h').subtype (fun x y => by
@@ -337,12 +351,12 @@ theorem card_E_dvd : Nat.card (uc22pwtE h h' a b) ∣ m * m := by
 theorem rank_E : ∀ p : ℕ, p.Prime → ∃ Q : Sylow p ↥(uc22pwtE h h' a b),
     IsElemAbelian p (Q : Subgroup ↥(uc22pwtE h h' a b)) ∧ Nat.card Q ≤ p ^ 2 := by
   intro p hp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥(uc22pwtE h h' a b) := P.isMulCommutative_E
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥(uc22pwtE h h' a b) := P.isMulCommutative_E
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥(uc22pwtE h h' a b)) := inferInstance
   refine ⟨Q, ⟨inferInstance, ?_⟩, ?_⟩
   · intro x hx
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
     have hk' : ((x : uc22pwtE h h' a b) : X) ^ (p ^ k) = 1 := by
       have := congrArg (fun z : ↥Q => ((z : uc22pwtE h h' a b) : X)) hk
       simpa using this
@@ -382,7 +396,7 @@ theorem piSet_E : piSet (uc22pwtE h h' a b) = {p | p.Prime ∧ p ∣ m} := by
   · rintro ⟨hp, hdvd⟩
     exact ⟨hp, (hp.dvd_mul.1 (hdvd.trans P.card_E_dvd)).elim id id⟩
   · rintro ⟨hp, hpm⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine ⟨hp, ?_⟩
     have hab : p ∣ a ∨ p ∣ b := hp.dvd_mul.1 (P.ab ▸ hpm)
     have hy : ∃ y ∈ uc22pwtE h h' a b, orderOf y = p := by

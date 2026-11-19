@@ -14,7 +14,7 @@ theorem isPGroup_center_of_glaPPrimeCore_eq_bot {p : ℕ} (hp : p.Prime) {Y : Ty
   have hO' : CFSG.pPrimeCore p Y = ⊥ := hO
   refine IsPGroup.of_card (n := (Nat.card (Subgroup.center Y)).primeFactorsList.length) ?_
   refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {r} hr hrd => ?_
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' r hrd
   by_contra hrp
   have hN : (Subgroup.zpowers (z : Y)).Normal :=

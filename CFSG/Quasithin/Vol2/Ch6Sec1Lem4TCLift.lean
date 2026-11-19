@@ -7,7 +7,7 @@ public section
 namespace CFSG.Quasithin.H13.T614.Lift
 
 theorem exists_elemAbelian27_of_mod2 {G : Type} [Group G] [Finite G] {F N : Subgroup G}
-    (hNF : N ≤ F) (hNn : (N.subgroupOf F).Normal) (hN2 : IsPGroup 2 N)
+    (_hNF : N ≤ F) (_hNn : (N.subgroupOf F).Normal) (hN2 : IsPGroup 2 N)
     (hcomm : ∀ f ∈ F, ∀ g ∈ F, f * g * f⁻¹ * g⁻¹ ∈ N)
     (hexp : ∀ f ∈ F, f ^ 3 ∈ N) (hcard : Nat.card F = 27 * Nat.card N) :
     ∃ S : Subgroup G, S ≤ F ∧ IsMulCommutative S ∧ (∀ x ∈ S, x ^ 3 = 1) ∧ Nat.card S = 27 := by

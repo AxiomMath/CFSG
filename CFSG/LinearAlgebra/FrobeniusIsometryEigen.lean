@@ -114,7 +114,7 @@ theorem symm_comm {x : V ≃ₗ[K] V} (hx : ∀ v, x (e v) = e (x v)) (v : V) :
 
 @[expose] noncomputable def partEquiv (e : V →ₗ[K] V) (he : ∀ v, e (e v) = e v) (x : V ≃ₗ[K] V)
     (hx : ∀ v, x (e v) = e (x v)) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (part e x) (part e x.symm)
+  LinearEquiv.ofLinearMap (part e x) (part e x.symm)
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, part_part he (symm_comm hx), LinearEquiv.apply_symm_apply,
         sub_add_cancel, LinearMap.id_apply])

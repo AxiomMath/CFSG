@@ -22,7 +22,7 @@ theorem bParam_le_two_of_isTits_of_le_normalizer
     (hTN : T ≤ Subgroup.normalizer (L : Set (MulAut W))) (hT : IsTits ↥L) :
     bParam L Y ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTY : T ≤ Y := hsyl.1
   have hLY : L ≤ Y := hcomp.1
   have hLM : LieModel ↥L .Tits 0 2 1 :=
@@ -145,13 +145,13 @@ theorem bParam_le_two_of_isTits_of_le_normalizer
     rw [show Nat.card A₂ = orderOf (y₂ : MulAut W) from Nat.card_zpowers _,
       Subgroup.orderOf_coe, hy₂]
   have hA₁inf : A₁ ⊓ T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hA₁card]
     obtain ⟨k, hk⟩ := hsyl.2.1.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (by norm_num : Nat.Coprime 3 2)
   have hA₂inf : A₂ ⊓ T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hA₂card]
     obtain ⟨k, hk⟩ := hsyl.2.1.exists_card_eq
     rw [hk]

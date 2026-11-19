@@ -97,8 +97,8 @@ theorem kFactJ1L27_holds :
   have hLc : Nat.card ↥L = 175560 := by
     rw [Nat.card_congr φ.toEquiv]
     exact CFSG.Sporadic.J1.card_J
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPzL : zpowers z ≤ L := Subgroup.zpowers_le.mpr hzL
   let P0 : Subgroup ↥L := (zpowers z).subgroupOf L
   have hP0card : Nat.card P0 = 7 := by

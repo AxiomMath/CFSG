@@ -37,7 +37,7 @@ theorem P_eq [Finite G] {u v : G} {T : Subgroup G}
       (fun g hg => mem_normalizer_inf (c.K'_le hg.1) (Subgroup.le_normalizer hg.2))
       (fun g hg => ⟨hg.2, hg.1.2⟩)
   have hSN : (S : Subgroup G) ⊓ (K ⊔ K') = (K ⊓ (S : Subgroup G)) ⊔ (K' ⊓ (S : Subgroup G)) :=
-    hRR'.eq_of_le (S.isPGroup'.to_le inf_le_left) inf_le_right
+    hRR'.eq_of_le (S.isPGroup.to_le inf_le_left) inf_le_right
       (le_inf (sup_le inf_le_right inf_le_right)
         (sup_le (inf_le_left.trans le_sup_left) (inf_le_left.trans le_sup_right)))
   have hvS : Subgroup.zpowers v ≤ (S : Subgroup G) := by rw [hv]; exact inf_le_right.trans c.hWS
@@ -98,7 +98,7 @@ theorem D_dichotomy [Finite G] {u v : G} {T : Subgroup G}
         exact orderOf_dvd_natCard _
       exact Odd.of_dvd_nat (oddCoreOf_odd_natCard _) h1
     have hdw : d * w' = w' * d := (Subgroup.mem_centralizer_iff.mp hdC w' hw').symm
-    obtain ⟨a, ha⟩ := (S.isPGroup'.to_le (le_sup_left.trans c.hPS) : IsPGroup 2 P) ⟨d, hd.1⟩
+    obtain ⟨a, ha⟩ := (S.isPGroup.to_le (le_sup_left.trans c.hPS) : IsPGroup 2 P) ⟨d, hd.1⟩
     obtain ⟨b, hb⟩ := t.UV_isPGroup ⟨w', hw'⟩
     have hda : d ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
     have hwb : w' ^ 2 ^ b = 1 := by simpa using congrArg Subtype.val hb

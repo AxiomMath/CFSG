@@ -75,7 +75,7 @@ theorem excres_rankOne_explicit {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
   have hinner := excres_twistInner_of_rankOne S hβ hΨ hs1
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i (s := 1) Nat.one_pos hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ e) := fun c => by rw [hσ, hq, pow_one]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e) he σ hσ'
   have hsL : ∃ u : Lˣ, u ^ 2 ≠ 1 := by
@@ -103,13 +103,13 @@ theorem excres_rankOne_explicit {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
     by_contra hQ4
     exfalso
     have hKle : Nat.card (fixSubfield σ) ≤ 3 := by rw [hKcard]; omega
-    haveI : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
+    have : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
       isSolvable_specialLinear_two_of_card_le_three hKle
-    haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+    have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
       Group.isSolvable_of_isSolvable_injective (f := eSL.symm.toMonoidHom) eSL.symm.injective
-    haveI : Group.IsSolvable ↥f.range :=
+    have : Group.IsSolvable ↥f.range :=
       Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-    haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
     exact CFSG.HardMathSupport.Solomon.Coordinator.LieComp.not_isSolvable_of_isQuasisimple hQS
       inferInstance
@@ -121,7 +121,7 @@ theorem excres_rankOne_explicit {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hP0 : P.S 0 = rootSpan τ L (componentRoots (rootCharHom a) i) := by
     rw [hP, outerOrbitFamily_S, ZMod.val_zero]
-    simp only [Function.iterate_zero, id_eq, Set.image_id'] <;> rfl
+    simp only [Function.iterate_zero, id_eq, Set.image_id']
   set ι := baseChangeGL (τ := τ) (fixSubfield σ).subtype with hι
   have hιC : ∀ x ∈ componentRootSpan (fixSubfield σ) (rootCharHom a) i, ι x ∈ CQ σ i := by
     intro x hx
@@ -156,10 +156,10 @@ theorem excres_rankOne_explicit {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
     rintro _ ⟨g, rfl⟩
     rw [hθeq]
     exact hmem _
-  haveI : Finite (SL2 (fixSubfield σ)) := inferInstance
-  haveI : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+  have : Finite (SL2 (fixSubfield σ)) := inferInstance
+  have : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
     Finite.of_equiv _ eSL.toEquiv
-  haveI : Finite ↥f.range := Finite.of_surjective _ f.rangeRestrict_surjective
+  have : Finite ↥f.range := Finite.of_surjective _ f.rangeRestrict_surjective
   have hcard : Nat.card (rationalComponent S.ρ S.Γ (rootCharHom a) i) ≤
       Nat.card (excresTheta τ (fixSubfield σ) β z).range := by
     calc Nat.card (rationalComponent S.ρ S.Γ (rootCharHom a) i) = Nat.card f.range := by
@@ -169,7 +169,7 @@ theorem excres_rankOne_explicit {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
       _ = Nat.card (SL2 (fixSubfield σ)) := Nat.card_congr eSL.toEquiv.symm
       _ = Nat.card (excresTheta τ (fixSubfield σ) β z).range :=
           (Nat.card_range_of_injective (excresTheta_injective τ (fixSubfield σ) β z)).symm
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
     rw [← hRf]
     infer_instance
   exact ⟨fixSubfield σ, hfinK, β, z, hβ, by rw [hKcard]; exact hQ4,

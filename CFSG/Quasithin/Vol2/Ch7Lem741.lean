@@ -27,7 +27,7 @@ theorem not_isFOneModule_of_alphaH (hW : ∀ w : W, w ^ 2 = 1) {M : Subgroup (Mu
       simp [rkIdx] at hk
     have hne : (alphaSet M).Nonempty := ⟨_, hmem⟩
     unfold alphaH at hα
-    rw [if_pos hne] at hα
+    rw [ite_eq_left hne] at hα
     have := (Nat.sInf_mem hne).1
     omega
   · apply hFF

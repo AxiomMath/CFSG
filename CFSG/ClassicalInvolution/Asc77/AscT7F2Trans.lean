@@ -102,7 +102,7 @@ theorem false_of_fusion [Finite G] (hG : ∀ f : G →* Multiplicative (ZMod 2),
   have hϕc : ∀ (y : G) (hy : y ∈ H), y ∉ B → ϕ ⟨y, hy⟩ = Multiplicative.ofAdd 1 := fun y hy hyB =>
     charOfIndexTwo_apply_of_not_mem hidx (fun h => hyB (Subgroup.mem_subgroupOf.mp h))
   have hord : ∃ m : ℕ, orderOf a = 2 ^ m := by
-    have := (IsPGroup.iff_orderOf (p := 2) (G := ↥H)).mp S.isPGroup' ⟨a, haS⟩
+    have := (IsPGroup.iff_orderOf (p := 2) (G := ↥H)).mp S.isPGroup ⟨a, haS⟩
     obtain ⟨m, hm⟩ := this
     exact ⟨m, by simpa using hm⟩
   obtain ⟨m, hm⟩ := hord

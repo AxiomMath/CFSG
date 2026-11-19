@@ -16,6 +16,7 @@ open CFSG.ClassicalInvolution CFSG.LieType.Multipliers CFSG.LieType.Multipliers.
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBData_iota_inv (ι : OGroup Q →* Matrix (Fin 6) (Fin 6) (ZMod 3))
     (horth : ∀ g, ι g * (ι g)ᵀ = 1) (x : OGroup Q) : ι x⁻¹ = (ι x)ᵀ := by
   have h1 : ι x * ι x⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
@@ -54,7 +55,7 @@ theorem zetaOmegaData_of_frameHom (hF : ZetaFrameHom) (hM : ZetaMatrixFacts) :
   have hr_iota : ∀ (v : Fin 6 → ZMod 3) (h : v ⬝ᵥ v ≠ 0), ι (r v) = zRefl v := by
     intro v h
     show ι (if h' : v ⬝ᵥ v ≠ 0 then (hrefl v h').choose else 1) = zRefl v
-    rw [dif_pos h]
+    rw [dite_eq_left h]
     exact (hrefl v h).choose_spec.1
   have hr_dsn' : ∀ (v : Fin 6 → ZMod 3), v ⬝ᵥ v ≠ 0 →
       detSpinorNorm hQ (r v) = ((-1 : (ZMod 3)ˣ), TauCeti.squareClassHom (qu v)) := by
@@ -63,13 +64,13 @@ theorem zetaOmegaData_of_frameHom (hF : ZetaFrameHom) (hM : ZetaMatrixFacts) :
         ((-1 : (ZMod 3)ˣ), TauCeti.squareClassHom (Units.mk0 (v ⬝ᵥ v) h)) := by
       show detSpinorNorm hQ
         (if h' : v ⬝ᵥ v ≠ 0 then (hrefl v h').choose else 1) = _
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       exact (hrefl v h).choose_spec.2
     rw [h1]
     congr 1
     show TauCeti.squareClassHom (Units.mk0 (v ⬝ᵥ v) h) =
       TauCeti.squareClassHom (if h' : v ⬝ᵥ v ≠ 0 then Units.mk0 (v ⬝ᵥ v) h' else 1)
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hlA : ∀ v ∈ zVecsA, v ⬝ᵥ v ≠ 0 := by
     intro v hv
     exact hne v (by simp [hv])
@@ -90,7 +91,7 @@ theorem zetaOmegaData_of_frameHom (hF : ZetaFrameHom) (hM : ZetaMatrixFacts) :
     show ((qu v : (ZMod 3)ˣ) : ZMod 3) = v ⬝ᵥ v
     show ((if h : v ⬝ᵥ v ≠ 0 then Units.mk0 (v ⬝ᵥ v) h else 1 : (ZMod 3)ˣ) : ZMod 3) =
       v ⬝ᵥ v
-    rw [dif_pos (hl v hv)]
+    rw [dite_eq_left (hl v hv)]
     rfl
   have hqu_prod_one : ∀ (l : List (Fin 6 → ZMod 3)), (∀ v ∈ l, v ⬝ᵥ v ≠ 0) →
       (l.map fun v => v ⬝ᵥ v).prod = 1 → (l.map qu).prod = 1 := by
@@ -116,7 +117,7 @@ theorem zetaOmegaData_of_frameHom (hF : ZetaFrameHom) (hM : ZetaMatrixFacts) :
         have htl : ∀ v ∈ tl, v ⬝ᵥ v ≠ 0 := fun v hv => hl v (by simp [hv])
         simp only [List.map_cons, List.prod_cons, List.length_cons]
         rw [ih htl, hr_dsn' a ha]
-        simp only [List.map_cons, List.prod_cons, pow_succ, map_mul]
+        simp only [pow_succ, map_mul]
         exact Prod.ext (mul_comm _ _) rfl
   set A₀ : OGroup Q := (zVecsA.map r).prod with hA₀
   set B₀ : OGroup Q := (zVecsB.map r).prod with hB₀
@@ -204,11 +205,10 @@ theorem zetaOmegaData_of_frameHom (hF : ZetaFrameHom) (hM : ZetaMatrixFacts) :
         obtain ⟨i, b⟩ := p
         cases b
         · simp only [List.map_cons, List.prod_cons, zWordEval, Bool.false_eq_true,
-            if_false, List.map_map, Function.comp_apply, Bool.cond_false]
+            ite_false, Function.comp_apply, Bool.cond_false]
           rw [ih, zetaBData_iota_inv ι horth (f i)]
           simp only [zWordEval]
-        · simp only [List.map_cons, List.prod_cons, zWordEval, if_true, List.map_map,
-            Function.comp_apply, Bool.cond_true]
+        · simp only [List.map_cons, List.prod_cons, zWordEval, ite_true, Function.comp_apply, Bool.cond_true]
           rw [ih]
           simp only [zWordEval]
   have hcoe : ∀ w : List (Fin 2 × Bool),

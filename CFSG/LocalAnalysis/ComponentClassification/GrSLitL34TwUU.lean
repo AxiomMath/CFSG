@@ -35,6 +35,7 @@ private theorem odd_card_ker_uu {M : Subgroup G} {ρ : ↥M →* WrE}
   rw [hk]
   exact Nat.coprime_two_left.mp pPrimeCore_coprime_card
 
+omit [Finite G] in
 private theorem mem_imgT_iff_uu {M T : Subgroup G} {ρ : ↥M →* WrE} {z : WrE} :
     z ∈ imgT T M ρ ↔ ∃ m : ↥M, (m : G) ∈ T ∧ ρ m = z := by
   unfold imgT
@@ -61,6 +62,7 @@ private theorem orderOf_rho_uu {M T : Subgroup G} (hT : IsSylowTwoIn T M) {ρ : 
   exact orderOf_eq_orderOf_iff.mpr fun n =>
     ⟨fun hn => pow_eq_one_of_rho_uu hT hker hm hn, fun hn => by rw [← map_pow, hn, map_one]⟩
 
+omit [Finite G] in
 private theorem conjugate_le_uu {M K : Subgroup G} {t : G} (hK : K ≤ M) (ht : t ∈ M) :
     conjugate K t ≤ M := by
   rintro _ ⟨k, hk, rfl⟩

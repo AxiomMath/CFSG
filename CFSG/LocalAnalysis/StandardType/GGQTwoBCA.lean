@@ -34,7 +34,6 @@ private lemma ggQ2x_dot_apply {n : ℕ} (c v : GGBCV n) : ggBCDot c v = c ⬝ᵥ
 
 private lemma ggQ2x_dot_apply_c {n : ℕ} (c v : GGBCV n) :
     (ggBCDot c : ggQ2x_Dualc n) v = c ⬝ᵥ v := by
-  change ggBCDot c v = c ⬝ᵥ v
   exact ggQ2x_dot_apply c v
 
 private noncomputable def ggQ2x_reflc {n : ℕ} (c : GGBCV n) (hc : c ⬝ᵥ c ≠ 0) : ggQ2x_LEc n :=
@@ -110,19 +109,19 @@ private lemma ggQ2xA_dot_self_eq_wt {n : ℕ} (v : GGBCV n) :
 
 private lemma ggQ2x_root_smul {n : ℕ} {v : GGBCV n} (hv : v ∈ ggBCRoots n)
     (μ : ZMod 3) (hμ : μ ≠ 0) : μ • v ∈ ggBCRoots n := by
-  simp only [ggBCRoots, Set.mem_setOf_eq] at hv ⊢
+  simp only [ggBCRoots, Set.mem_ofPred_eq] at hv ⊢
   rw [ggQ2x_wt_smul v μ hμ]
   exact hv
 
 private lemma ggQ2x_lam1_smul {n : ℕ} [NeZero n] {v : GGBCV n} (hv : v ∈ ggBCRootsLam1 n)
     (μ : ZMod 3) (hμ : μ ≠ 0) : μ • v ∈ ggBCRootsLam1 n := by
-  simp only [ggBCRootsLam1, Set.mem_setOf_eq] at hv ⊢
+  simp only [ggBCRootsLam1, Set.mem_ofPred_eq] at hv ⊢
   refine ⟨ggQ2x_root_smul hv.1 μ hμ, ?_⟩
   rw [Pi.smul_apply, smul_eq_mul, hv.2, mul_zero]
 
 private lemma ggQ2x_lamN_smul {n : ℕ} {v : GGBCV n} (hv : v ∈ ggBCRootsLamN n)
     (μ : ZMod 3) (hμ : μ ≠ 0) : μ • v ∈ ggBCRootsLamN n := by
-  simp only [ggBCRootsLamN, Set.mem_setOf_eq] at hv ⊢
+  simp only [ggBCRootsLamN, Set.mem_ofPred_eq] at hv ⊢
   refine ⟨?_, ?_⟩
   · rw [ggQ2x_wt_smul v μ hμ, hv.1]
   · simp only [Pi.smul_apply, smul_eq_mul]
@@ -130,7 +129,7 @@ private lemma ggQ2x_lamN_smul {n : ℕ} {v : GGBCV n} (hv : v ∈ ggBCRootsLamN 
 
 private lemma ggQ2x_root_dot_ne_zero {n : ℕ} {v : GGBCV n} (hv : v ∈ ggBCRoots n) :
     v ⬝ᵥ v ≠ 0 := by
-  simp only [ggBCRoots, Set.mem_setOf_eq] at hv
+  simp only [ggBCRoots, Set.mem_ofPred_eq] at hv
   rw [ggQ2xA_dot_self_eq_wt]
   have hw : ggBCWt v = 1 ∨ ggBCWt v = 2 := by
     have h1 : 1 ≤ ggBCWt v := hv.1
@@ -223,7 +222,7 @@ private lemma ggQ2x_refl_eq_bc {n : ℕ} {c : GGBCV n}
 private lemma ggQ2x_root_ne_zero {n : ℕ} {v : GGBCV n} (hv : v ∈ ggBCRoots n) :
     v ≠ 0 := by
   intro h0
-  simp only [ggBCRoots, Set.mem_setOf_eq, h0, ggBCWt, Pi.zero_apply, ne_eq,
+  simp only [ggBCRoots, Set.mem_ofPred_eq, h0, ggBCWt, Pi.zero_apply, ne_eq,
     not_true_eq_false, Finset.filter_false, Finset.card_empty] at hv
   omega
 
@@ -243,7 +242,7 @@ private lemma ggQ2x_dot_one {n : ℕ} (z : GGBCV n) :
 
 theorem ggQ2_bc_A_le_W_a1 (n : ℕ) [NeZero n] (hn : 5 ≤ n)
     (A : Subgroup (GGBCV n ≃ₗ[ZMod 3] GGBCV n))
-    (hW : ggBCW n ≤ A) (hTF : TransvectionFree A)
+    (hW : ggBCW n ≤ A) (_hTF : TransvectionFree A)
     (hS1 : ∀ (c : GGBCV n) (φ : Module.Dual (ZMod 3) (GGBCV n)) (h : φ c = 2),
       Module.reflection h ∈ A → ∃ ε : ZMod 3, (ε = 1 ∨ ε = -1) ∧ ∀ v, φ v = ε * (c ⬝ᵥ v))
     (hHL : ∀ φ ∈ A, φ (Pi.single 0 1) ∈ Submodule.span (ZMod 3) {Pi.single 0 1} →
@@ -409,7 +408,7 @@ theorem ggQ2_bc_A_le_W_a1 (n : ℕ) [NeZero n] (hn : 5 ≤ n)
   exact ggQ2_bc_normalizer n (by omega) a hnorm
 
 theorem ggQ2_bc_A_le_W_aN (n : ℕ) (hn : 5 ≤ n) (A : Subgroup (GGBCV n ≃ₗ[ZMod 3] GGBCV n))
-    (hW : ggBCW n ≤ A) (hTF : TransvectionFree A)
+    (hW : ggBCW n ≤ A) (_hTF : TransvectionFree A)
     (hS1 : ∀ (c : GGBCV n) (φ : Module.Dual (ZMod 3) (GGBCV n)) (h : φ c = 2),
       Module.reflection h ∈ A → ∃ ε : ZMod 3, (ε = 1 ∨ ε = -1) ∧ ∀ v, φ v = ε * (c ⬝ᵥ v))
     (hHL : ∀ φ ∈ A, φ (fun _ => 1) ∈ Submodule.span (ZMod 3) {fun _ => (1 : ZMod 3)} →
@@ -473,7 +472,7 @@ theorem ggQ2_bc_A_le_W_aN (n : ℕ) (hn : 5 ≤ n) (A : Subgroup (GGBCV n ≃ₗ
       simp
     have hnorm := hHL (ggBCRefl z hz) hzA hfix
     have hρroot : ρ ∈ ggBCRoots n := by
-      simp only [ggBCRoots, Set.mem_setOf_eq]
+      simp only [ggBCRoots, Set.mem_ofPred_eq]
       have hw : ggBCWt ρ = 2 := hρ.1
       omega
     have hρ0 : ρ ⬝ᵥ ρ ≠ 0 := ggQ2x_root_dot_ne_zero hρroot

@@ -20,7 +20,7 @@ theorem IsMaxFrame.comp_equiv {s : ℕ} (hF : IsMaxFrame Δ P Q) (e : Fin s ≃ 
 theorem frameResidue_comp_perm (σ : Equiv.Perm (Fin r)) (k : Fin r) :
     frameResidue Δ (P ∘ σ) (Q ∘ σ) k = frameResidue Δ P Q (σ k) := by
   ext X
-  simp only [frameResidue, Function.comp_apply, Set.mem_setOf_eq]
+  simp only [frameResidue, Function.comp_apply, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hX, hc⟩
     refine ⟨hX, fun j hj => ?_⟩

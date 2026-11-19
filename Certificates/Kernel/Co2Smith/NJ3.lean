@@ -20,10 +20,10 @@ theorem njIns_eq (a : Nat) : ∀ l : List Nat, njIns a l = l.orderedInsert (· �
     rw [e, njIns_eq a t, List.orderedInsert_cons]
     by_cases h : a ≤ b
     · have hb : Nat.ble a b = true := by simpa using h
-      rw [hb, if_pos h]
+      rw [hb, ite_eq_left h]
       rfl
     · have hb : Nat.ble a b = false := Bool.eq_false_iff.2 fun hh => h (by simpa using hh)
-      rw [hb, if_neg h]
+      rw [hb, ite_eq_right h]
       rfl
 
 theorem njSort_eq : ∀ l : List Nat, njSort l = l.insertionSort (· ≤ ·)
@@ -166,7 +166,7 @@ theorem nj3_ok : glNJ3OK = true := by
   dsimp only
   rw [nbr_eq]
   simp only [colour_eq, classCount_eq]
-  simp only [List.size_toArray, toArray_get!, List.toList_toArray, colK_length, beq_self_eq_true,
+  simp only [List.size_toArray, toArray_get!, colK_length, beq_self_eq_true,
     Bool.and_true]
   rfl
 

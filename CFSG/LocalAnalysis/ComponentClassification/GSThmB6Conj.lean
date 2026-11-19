@@ -156,7 +156,7 @@ theorem not_isoCorrSub_B (h : Hyp52 H) (L : Subgroup H) : ¬ IsoCorrSub h.a h.J 
   have hB2 : IsPGroup 2 h.B := by
     obtain ⟨R, hR⟩ := h.S_sylow
     have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set H) ⊓
-        normalizer (h.J : Set H))) := hR ▸ R.isPGroup'
+        normalizer (h.J : Set H))) := hR ▸ R.isPGroup
     have h2 := h1.map (centralizer ({h.a} : Set H) ⊓ normalizer (h.J : Set H)).subtype
     rw [map_subgroupOf_eq_of_le h.S_le] at h2
     exact h2.to_le (h.B_le.trans inf_le_left)

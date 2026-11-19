@@ -98,7 +98,7 @@ theorem genProp_of_index_ne {X : Type*} [Group X] [Finite X]
   intro q hqp hq2 hq3 D P hD
   have hq : q.Prime := hqp.out
   have hdvd : q ∣ Nat.card X := by
-    obtain ⟨k, hk⟩ := (D.isPGroup').exists_card_eq
+    obtain ⟨k, hk⟩ := (D.isPGroup).exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hD (Subgroup.card_eq_one.1 (by simpa using hk))

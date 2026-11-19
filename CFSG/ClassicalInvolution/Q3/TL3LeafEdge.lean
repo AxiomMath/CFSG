@@ -128,6 +128,7 @@ theorem tightThreeElementLarge_iff_good : TightThreeElementLarge ↔
     fun h G _ _ _ hnab hlarge R S hS t ht hto hRC hRn h2 =>
       h G hnab hlarge R S t ⟨hS, ht, hto, hRC, hRn, h2⟩⟩
 
+omit [Finite G] in
 theorem isSubnormal_of_centralizer_nbhd {C X L : Subgroup G} {t : G}
     (hCX : ∀ c ∈ C, ∀ x ∈ X, c * x * c⁻¹ ∈ X) (htX : t ∈ X)
     (hLN : L ≤ C ⊓ Subgroup.centralizer (X : Set G))

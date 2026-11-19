@@ -20,8 +20,7 @@ namespace TwinDisc
 namespace ExitE4
 
 theorem shapeNoRootE4_of_models (hSp : E4Sp6SqModel) (hO8 : E4O8TwinModel) : ShapeNoRootE4 := by
-  intro X _ _ Φ hS htrans h2 hno hTO hE A B x₀ hA hB hxA hxB hnc α hα4 hperm hfixA hfixB
-  intro hroot
+  intro X _ _ Φ hS htrans h2 hno hTO hE A B x₀ hA hB hxA hxB hnc α hα4 hperm hfixA hfixB hroot
   have hcomm : ∀ q : X, (α * α) q = q → x₀ * q = q * x₀ := by
     intro q hq
     have h1 : (α * α) q = x₀ * q * x₀⁻¹ := by

@@ -23,10 +23,10 @@ private theorem sp_false_of_three_components {K : Type} [Field K] [Finite K] {r 
     (h3 : IsComponentOf J₃ (fixSubgroup (MulAut.conj (SymplecticFlag.proj r K x))))
     (h12 : J₁ ≠ J₂) (h13 : J₁ ≠ J₃) (h23 : J₂ ≠ J₃) : False := by
   classical
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 :=
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := s) (by rw [Fintype.card_eq_nat_card, hK])
   have ha : orderOf (SymplecticFlag.proj r K x) = 3 :=
     orderOf_eq_prime (by rw [← map_pow, hx, map_one]) hx1
@@ -39,7 +39,7 @@ private theorem sp_false_of_three_components {K : Type} [Field K] [Finite K] {r 
     norm_num at h
   have hsq := (altPrimaryData_spLin (p := 3) hpK hx).squarefree
   have hq2 : 2 ≤ 2 ^ s := Nat.le_self_pow (by omega) 2
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
@@ -74,7 +74,7 @@ private theorem censusBodyB_at (d : TauCeti.ValidLieTypeIndex) {n : ℕ} {q : Ta
     rw [hd]
     exact Or.inr hq2
   obtain ⟨r', hr', hne, hcard, ⟨eP⟩⟩ := KD264Lie.exists_mulEquiv_statedProj_of_isSymplecticIdx hS
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hfs : KD264Lie.fieldSize d.1 = 2 ^ q.exponent := by
     rw [hd]
     show q.card = _
@@ -99,7 +99,7 @@ private theorem censusBodyB_at (d : TauCeti.ValidLieTypeIndex) {n : ℕ} {q : Ta
     obtain ⟨hsimple, hperf⟩ :=
       CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := ↥d.fixedField) hr'
         (fun h => hne' ⟨h.1, hK.symm.trans h.2⟩)
-    haveI := hsimple
+    have := hsimple
     have hnc : ∃ u v : StatedProj (StatedSp r' ↥d.fixedField), u * v ≠ v * u := by
       by_contra h
       push Not at h

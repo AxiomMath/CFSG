@@ -129,7 +129,7 @@ open scoped MatrixGroups
 local notation "Tag" => CFSG.Assembly.LowTwoRank.StatedLieTag
 
 theorem red_1 :
-    (∀ (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) (H : Subgroup PSL(2, GaloisField p f)),
+    (∀ (p f : ℕ) [Fact p.Prime] (_hf : 1 ≤ f) (H : Subgroup PSL(2, GaloisField p f)),
     (IsElemAbelian p H ∧ ∃ m : ℕ, m ≤ f ∧ Nat.card H = p ^ m) ∨
     (IsCyclic H ∧ (Nat.card H ∣ (p ^ f + 1) / Nat.gcd 2 (p ^ f - 1) ∨
       Nat.card H ∣ (p ^ f - 1) / Nat.gcd 2 (p ^ f - 1))) ∨
@@ -143,8 +143,8 @@ theorem red_1 :
       t ∣ (p ^ f - 1) / Nat.gcd 2 (p ^ f - 1)) ∨
     (∃ m : ℕ, m ∣ f ∧ Nonempty (H ≃* PSL(2, GaloisField p m))) ∨
     (∃ m : ℕ, 2 * m ∣ f ∧ Nonempty (H ≃* PGL(2, GaloisField p m)))) := by
-  intro p f _ hf H
-  exact CFSG.Quasithin.F6.dicksonPSL2_holds p f hf H
+  intro p f _ _hf H
+  exact CFSG.Quasithin.F6.dicksonPSL2_holds p f _hf H
 
 local instance uniqueZModOne : Unique (ZMod 1) := inferInstanceAs (Unique (Fin 1))
 
@@ -741,7 +741,7 @@ section Final
 
 
 theorem registered_reduction :
-    ((∀ (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) (H : Subgroup PSL(2, GaloisField p f)),
+    ((∀ (p f : ℕ) [Fact p.Prime] (_hf : 1 ≤ f) (H : Subgroup PSL(2, GaloisField p f)),
     (IsElemAbelian p H ∧ ∃ m : ℕ, m ≤ f ∧ Nat.card H = p ^ m) ∨
     (IsCyclic H ∧ (Nat.card H ∣ (p ^ f + 1) / Nat.gcd 2 (p ^ f - 1) ∨
       Nat.card H ∣ (p ^ f - 1) / Nat.gcd 2 (p ^ f - 1))) ∨

@@ -14,7 +14,7 @@ set_option linter.unusedSectionVars false
 theorem ringEquiv_mul_comm_of_finite (K : Type) [Field K] [Finite K] (σ τ : K ≃+* K) :
     σ * τ = τ * σ := by
   have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   let toAlg : (K ≃+* K) → (K ≃ₐ[ZMod (ringChar K)] K) := fun σ =>
     AlgEquiv.ofRingEquiv (f := σ) fun x => by
       have h := RingHom.congr_fun
@@ -23,7 +23,7 @@ theorem ringEquiv_mul_comm_of_finite (K : Type) [Field K] [Finite K] (σ τ : K 
       exact h
   have hmul : ∀ a b : K ≃+* K, toAlg (a * b) = toAlg a * toAlg b :=
     fun a b => AlgEquiv.ext fun x => rfl
-  letI : CommGroup (K ≃ₐ[ZMod (ringChar K)] K) := IsCyclic.commGroup
+  let : CommGroup (K ≃ₐ[ZMod (ringChar K)] K) := IsCyclic.commGroup
   have hc := mul_comm (toAlg σ) (toAlg τ)
   rw [← hmul σ τ, ← hmul τ σ] at hc
   exact RingEquiv.ext fun x => congrArg (fun f : K ≃ₐ[ZMod (ringChar K)] K => f x) hc

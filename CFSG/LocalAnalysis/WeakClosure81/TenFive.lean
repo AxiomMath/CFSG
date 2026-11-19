@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 Subgroup
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem commSpace_top_eq_commSub (X : Subgroup (LGL 2 V)) :
     commSpace X ⊤ = commSub X := by
   unfold commSpace commSub
@@ -28,7 +29,7 @@ theorem commSpace_top_eq_commSub (X : Subgroup (LGL 2 V)) :
 
 theorem isCompl_fixSub_commSub_of_odd (X : Subgroup (LGL 2 V)) (hodd : Odd (Nat.card X)) :
     IsCompl (fixSub X) (commSub X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact isCompl_fixSub_commSub (p := 2) (Q := X) (Nat.coprime_two_left.mpr hodd)
 
 def trivModSub (U : Submodule (ZMod 2) V) : Subgroup (LGL 2 V) where
@@ -47,6 +48,7 @@ def trivModSub (U : Submodule (ZMod 2) V) : Subgroup (LGL 2 V) where
     rw [h2]
     exact U.neg_mem (ha (a⁻¹ v))
 
+omit [Finite V] in
 theorem commSub_sup (A B : Subgroup (LGL 2 V)) :
     commSub (A ⊔ B) = commSub A ⊔ commSub B := by
   refine le_antisymm ?_ ?_

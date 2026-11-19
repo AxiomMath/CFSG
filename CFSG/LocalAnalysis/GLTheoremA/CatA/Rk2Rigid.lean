@@ -25,7 +25,7 @@ theorem rk2_cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenI
   rw [hc2] at hM
   rcases hc with rfl | rfl | rfl | rfl | rfl | rfl
   · rcases (show r = 1 ∨ 2 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 2 2 nn := hM
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.RankOne.sl2EvenTypeDet X nn t n f' hM' h.admissible h
       exact ⟨h1, h2, h3⟩
@@ -33,7 +33,7 @@ theorem rk2_cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenI
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.LinearPilot.lieModel_PSL_two_unique (by omega) hM' h
       exact ⟨h1, h2, h3⟩
   · rcases (show r = 2 ∨ 3 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSU 3 2 nn := hM
       obtain ⟨h1, h2, h3⟩ :=
         CFSG.LocalAnalysis.EvenBN.GMSK.su3EvenTypeDet X nn t n f' hM' h.admissible h
@@ -52,7 +52,7 @@ theorem rk2_cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenI
       CFSG.SeitzReduction.SymplecticPilot.sp2mEvenTypeDet r X nn t n f' hM' h.admissible h
     exact ⟨h1, h2, h3⟩
   · rcases (show r = 3 ∨ 4 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 4 2 nn := hM
       obtain ⟨h1, h2, h3⟩ :=
         CFSG.SeitzReduction.LinearPilot.lieModel_PSL_two_unique (by norm_num) hM' h
@@ -61,15 +61,15 @@ theorem rk2_cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenI
       have hM' : CFSG.Blueprint.LieModel X .POmegaPlus r 2 nn := by
         have h' := hM
         simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-          CFSG.StandardType.markDeg, if_neg hr3] at h'
+          CFSG.StandardType.markDeg, ite_eq_right hr3] at h'
         exact h'
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.OmegaPilot.omegaEvenTypeDetAt r X .POmegaPlus nn t n
         f' (Or.inl rfl) hM' h.admissible h
       simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-        CFSG.StandardType.markDeg, if_neg hr3]
+        CFSG.StandardType.markDeg, ite_eq_right hr3]
       exact ⟨h1, h2, h3⟩
   · rcases (show r = 2 ∨ r = 3 ∨ 4 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 2 2 (2 * nn) := hM
       obtain ⟨h1, h2, h3⟩ :=
         CFSG.SeitzReduction.RankOne.sl2EvenTypeDet X (2 * nn) t n f' hM' h.admissible h
@@ -84,12 +84,12 @@ theorem rk2_cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenI
       have hM' : CFSG.Blueprint.LieModel X .POmegaMinus r 2 nn := by
         have h' := hM
         simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-          CFSG.StandardType.markDeg, if_neg hr2, if_neg hr3] at h'
+          CFSG.StandardType.markDeg, ite_eq_right hr2, ite_eq_right hr3] at h'
         exact h'
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.OmegaPilot.omegaEvenTypeDetAt r X .POmegaMinus nn t
         n f' (Or.inr rfl) hM' h.admissible h
       simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-        CFSG.StandardType.markDeg, if_neg hr2, if_neg hr3]
+        CFSG.StandardType.markDeg, ite_eq_right hr2, ite_eq_right hr3]
       exact ⟨h1, h2, h3⟩
 
 theorem rk2_ord_big_ne_small {a b : ℕ} (ha : 1 ≤ a) (hb : 1 ≤ b) {s t : StatedLieTag}
@@ -136,7 +136,7 @@ theorem rk2_rigid {G : Type} [Group G] [Finite G] {K : Subgroup G} {lab₁ lab�
       (first
         | (simp [CFSG.StandardType.markTag] at hs; done)
         | (by_cases h2 : r₁ = 2 <;> by_cases h3 : r₁ = 3 <;>
-            simp [CFSG.StandardType.markTag, h2, h3] at hs <;> done))
+            simp [CFSG.StandardType.markTag, h2, h3] at hs))
   have hbig : (t₁ = .E6 ∨ t₁ = .E7 ∨ t₁ = .E8 ∨ t₁ = .F4 ∨ t₁ = .twE6) → False := by
     intro hb
     have hM₁' := CFSG.LocalAnalysis.GLTheoremA.lieModel_of_mark_two hM₁
@@ -201,13 +201,13 @@ theorem rk2_E6two_unique {G : Type} [Group G] [Finite G] {K : Subgroup G} {lab :
       (first
         | (simp [CFSG.StandardType.markTag] at hs; done)
         | (by_cases h2 : r₁ = 2 <;> by_cases h3 : r₁ = 3 <;>
-            simp [CFSG.StandardType.markTag, h2, h3] at hs <;> done))
+            simp [CFSG.StandardType.markTag, h2, h3] at hs))
   have hr₁ : ∀ {t : LargeEvenLieTag}, LargeEvenInLambda2 ⟨t, r₁, n₁⟩ →
       (t = .E6 ∨ t = .E7 ∨ t = .E8 ∨ t = .F4 ∨ t = .twE6 ∨ t = .triD4 ∨ t = .G2 ∨ t = .twB2 ∨
         t = .twF4 ∨ t = .B2der ∨ t = .G2der ∨ t = .twF4der) → r₁ = 0 := by
     intro t hl ht
     have h2 := hl.2
-    simp only [LargeEvenInLambda2] at h2
+    simp only at h2
     rcases ht with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
       simp_all
   cases t₁
@@ -261,7 +261,7 @@ theorem rk2_E6two_unique {G : Type} [Group G] [Finite G] {K : Subgroup G} {lab :
     have hr : r₁ = 0 := hr₁ hl₁ (by simp)
     have hn : n₁ = 1 := by
       have h2 := hl₁.2
-      simp only [LargeEvenInLambda2] at h2
+      simp only at h2
       simp_all
     subst hr hn
     have h360 := card_of_B2der hM₁
@@ -271,7 +271,7 @@ theorem rk2_E6two_unique {G : Type} [Group G] [Finite G] {K : Subgroup G} {lab :
     have hr : r₁ = 0 := hr₁ hl₁ (by simp)
     have hn : n₁ = 1 := by
       have h2 := hl₁.2
-      simp only [LargeEvenInLambda2] at h2
+      simp only at h2
       simp_all
     subst hr hn
     have h6048 := card_of_G2der hM₁

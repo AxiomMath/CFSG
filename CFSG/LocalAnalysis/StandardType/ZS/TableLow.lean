@@ -582,7 +582,7 @@ private theorem exists_isRefl_of_ne_bot {J : Subgroup (U ≃ₗ[ZMod p] U)} (hge
   push Not at h
   have hset : {t : U ≃ₗ[ZMod p] U | t ∈ J ∧ IsRefl p t} = ∅ := by
     ext t
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
     exact h t
   exact hnonbot (by rw [hgen, hset]; simp)
 

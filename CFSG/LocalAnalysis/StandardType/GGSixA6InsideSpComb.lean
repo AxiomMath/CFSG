@@ -140,7 +140,7 @@ theorem exists_pair_or_separating {s : ℕ} (P : (Fin s → ZMod 3) → Prop)
     intro f x y hrep r hr
     have hc_r : c r = 0 := hczero r ((hRmem r).mp hr).1
     rw [congrFun hrep r]
-    simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hc_r, hal_mul r hr,
+    simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, hc_r, hal_mul r hr,
       hbe_mul r hr, mul_zero, zero_add]
     ring
   by_cases hA : ∃ r ∈ R, ∃ t ∈ R, r ≠ t ∧ al r = al t
@@ -163,7 +163,7 @@ theorem exists_pair_or_separating {s : ℕ} (P : (Fin s → ZMod 3) → Prop)
       intro h
       have h1 := congrFun h a
       rw [hd'a] at h1
-      have h2 : (1 : ZMod 3) = 0 := by simpa using h1
+      have h2 : (1 : ZMod 3) = 0 := by simp at h1
       exact one_ne_zero h2
     have hd'r : d' r = 0 := by
       rw [hd'def]
@@ -225,7 +225,7 @@ theorem exists_pair_or_separating {s : ℕ} (P : (Fin s → ZMod 3) → Prop)
       intro h
       have h1 := congrFun h b
       rw [hd'b] at h1
-      have h2 : (1 : ZMod 3) = 0 := by simpa using h1
+      have h2 : (1 : ZMod 3) = 0 := by simp at h1
       exact one_ne_zero h2
     have hd'r : d' r = 0 := by
       rw [hd'def]

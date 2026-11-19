@@ -25,6 +25,7 @@ namespace Hyp
 variable (hc : Hyp G L z)
 include hc
 
+omit hc in
 theorem finrank_tildeV_of_type
     (htype : IsAltNaturalModule L 6 ∨ IsOmegaMinusModule L 2 ∨ IsOmegaMinusModule L 3) :
     (IsAltNaturalModule L 6 ∧ Module.finrank (ZMod 2) (TildeV L) = 4) ∨
@@ -49,6 +50,7 @@ theorem card_L_of_type
   · obtain ⟨e⟩ := mulEquiv_of_omegaMinus h hc.faithful
     exact Or.inr (Or.inr ((Nat.card_congr e.toEquiv).trans card_omegaMinusTwo_three))
 
+omit [Finite V] hc in
 theorem card_mapGL_L : Nat.card ↥(mapGL L) = Nat.card ↥L :=
   (Nat.card_congr (L.equivMapOfInjective _ (toGL : GLV V ≃* _).injective).toEquiv).symm
 
@@ -57,8 +59,8 @@ theorem false_of_shape
     (hdim : Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) = 1)
     (hzE : z ∉ layerIn G) : False := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  have hdV := hc.finrank_tildeV_of_type htype
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have hdV := CFSG.CGT.Foote82.BAS.Hyp.finrank_tildeV_of_type htype
   have hn2 := hc.finrank_tildeV_add_two_le hdim
   have hn6 : 6 ≤ Module.finrank (ZMod 2) V := by
     rcases hdV with ⟨-, h⟩ | h <;> omega
@@ -66,7 +68,7 @@ theorem false_of_shape
   obtain ⟨S, hS, hGS⟩ := hc.genByTransvections_mapGL hdim
   have hidx := hc.relIndex_eq_two hdim hzE
   have hEperf : ⁅mapGL (layerIn G), mapGL (layerIn G)⁆ = mapGL (layerIn G) := by
-    rw [← mapGL_commutator, hc.layerIn_perfect]
+    rw [← mapGL_commutator, CFSG.CGT.Foote82.BAS.Hyp.layerIn_perfect]
   have hEne : mapGL (layerIn G) ≠ ⊥ := by
     intro h
     apply hc.layerIn_ne_bot
@@ -82,7 +84,7 @@ theorem false_of_shape
     exact hzE (by simpa using mem_mapGL.1 h)
   have hcomp := hc.isComponentOf_mapGL
   rw [hE] at hcomp
-  have hcardL := hc.card_mapGL_L
+  have hcardL := (CFSG.CGT.Foote82.BAS.Hyp.card_mapGL_L (L := L))
   have hcardT := hc.card_L_of_type htype
   rcases hcases with ⟨h4, -⟩ | ⟨Q, hQ, hO⟩ | ⟨heven, hsym⟩
   · omega
@@ -171,7 +173,7 @@ theorem false_of_transvection
     (htype : IsAltNaturalModule L 6 ∨ IsOmegaMinusModule L 2 ∨ IsOmegaMinusModule L 3)
     (hdim : Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) = 1) : False := by
   by_cases hzE : z ∈ layerIn G
-  · have hdV := hc.finrank_tildeV_of_type htype
+  · have hdV := CFSG.CGT.Foote82.BAS.Hyp.finrank_tildeV_of_type htype
     have hn2 := hc.finrank_tildeV_add_two_le hdim
     exact hc.false_of_perfect hdim hzE (by rcases hdV with ⟨-, h⟩ | h <;> omega)
   · exact hc.false_of_shape htype hdim hzE

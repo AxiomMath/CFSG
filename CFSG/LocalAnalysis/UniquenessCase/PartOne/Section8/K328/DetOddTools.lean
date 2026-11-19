@@ -276,11 +276,11 @@ private theorem k328de8_card_fixed8 {K : Type} [Field K] [CharP K 2]  (hK : Nat.
     · intro c1 c2 h
       by_cases h1 : (c1 : K) = 0 <;> by_cases h2 : (c2 : K) = 0
       · exact Subtype.ext (by rw [h1, h2])
-      · simp only [f, dif_pos h1, dif_neg h2] at h
+      · simp only [f, dite_eq_left h1, dite_eq_right h2] at h
         exact absurd h (by simp)
-      · simp only [f, dif_neg h1, dif_pos h2] at h
+      · simp only [f, dite_eq_right h1, dite_eq_left h2] at h
         exact absurd h (by simp)
-      · simp only [f, dif_neg h1, dif_neg h2, Option.some.injEq] at h
+      · simp only [f, dite_eq_right h1, dite_eq_right h2, Option.some.injEq] at h
         have hv : (c1 : K) = (c2 : K) := by
           have hh := congrArg (fun x : {u : Kˣ // u ^ 7 = 1} => (x.1 : K)) h
           simpa [Units.val_mk0] using hh
@@ -296,7 +296,7 @@ private theorem k328de8_card_fixed8 {K : Type} [Field K] [CharP K 2]  (hK : Nat.
         let c₀ : {c : K // c ^ 8 = c} := ⟨(u : Kˣ), h8u⟩
         have hne : (c₀ : K) ≠ 0 := u.1.ne_zero
         refine ⟨c₀, ?_⟩
-        simp only [f, dif_neg hne]
+        simp only [f, dite_eq_right hne]
         congr 1
         exact Subtype.ext (Units.ext (by rw [Units.val_mk0]))
   have hcard : Nat.card {c : K // c ^ 8 = c} =
@@ -1746,13 +1746,13 @@ private theorem k328dr_exists_commuting_outside {G : Type*} [Group G] [Finite G]
           simpa [ha1] using hab.symm
         have hb1 : (b : ↥C) = 1 := by
           by_contra hbne
-          rw [if_neg hbne] at hindb
+          rw [ite_eq_right hbne] at hindb
           exact absurd hindb (by decide)
         exact Subtype.ext (ha1.trans hb1.symm)
       · have hindb : (if (b : ↥C) = 1 then (0 : Fin 2) else 1) = 1 := by
           simpa [ha1] using hab.symm
         have hbne : (b : ↥C) ≠ 1 := by
-          intro hb1; rw [if_pos hb1] at hindb; exact absurd hindb (by decide)
+          intro hb1; rw [ite_eq_left hb1] at hindb; exact absurd hindb (by decide)
         have ha' : (a : ↥C) = ⟨c, hcC⟩ := ha.resolve_left ha1
         have hb' : (b : ↥C) = ⟨c, hcC⟩ := hb.resolve_left hbne
         exact Subtype.ext (ha'.trans hb'.symm)
@@ -1943,7 +1943,7 @@ private theorem k328dr_central_ext_false {E : Type} [Field E] [Finite E] (h2 : (
     have hC2ne : C2 ≠ ⊥ := hC2bot
     have hC2nt : Nontrivial ↥C2 := (Subgroup.nontrivial_iff_ne_bot C2).mpr hC2ne
     have hC2p : IsPGroup 2 C2 :=
-      IsPGroup.of_injective (p := 2) (hG := T.isPGroup') C2.subtype Subtype.coe_injective
+      IsPGroup.of_injective (p := 2) (hG := T.isPGroup) C2.subtype Subtype.coe_injective
     obtain ⟨n₂, hn₂pos, hn₂card⟩ :=
       (IsPGroup.nontrivial_iff_card (p := 2) hC2p).mp hC2nt
     have hFintypeC2 : Fintype ↥C2 := Fintype.ofFinite ↥C2
@@ -1991,7 +1991,7 @@ private theorem k328dr_central_ext_false {E : Type} [Field E] [Finite E] (h2 : (
       rcases huniqY (θ x) hx2Y with h | h
       · left; exact hθinj (h.trans (map_one θ).symm)
       · right; exact hθinj h
-    exact k328dr_false_of_unique_involution_cover T.isPGroup' C2 hC2center hcardTQ hsqTB hcommTB
+    exact k328dr_false_of_unique_involution_cover T.isPGroup C2 hC2center hcardTQ hsqTB hcommTB
       c hcC2 hc2 hc1 huniqTB
 
 
@@ -2681,8 +2681,8 @@ private theorem k328dch3_core
     ext i j
     refine (Matrix.natCast_apply (n := Fin n) (i := i) (j := j) (d := 3)).trans ?_
     by_cases h : i = j
-    · rw [if_pos h]; exact CharP.cast_eq_zero E 3
-    · rw [if_neg h]; simp
+    · rw [ite_eq_left h]; exact CharP.cast_eq_zero E 3
+    · rw [ite_eq_right h]; simp
   have hf3 : f ^ 3 = 0 := by
     rw [show f = Matrix.toLin' (Mz - 1) from rfl, ← Matrix.toLin'_pow,
       k328dch3_sub_pow_three h3mat Mz hMz3, map_zero]

@@ -66,7 +66,7 @@ theorem false_of_fischerCentralQuotientModel_five (h89 : PartThree.Lemma8_9)
     have heven : Even (blockLine D hC.alpha β \ {hC.alpha}).ncard := by
       rw [hdiff]
       exact (Nat.even_pow.mpr ⟨even_two, hs0⟩).mul_left _
-    rw [Set.ncard_diff_singleton_of_mem hαℓ] at heven
+    rw [Set.ncard_sdiff_singleton_of_mem hαℓ] at heven
     rw [← Nat.sub_add_cancel (by omega : 1 ≤ (blockLine D hC.alpha β).ncard)]
     exact heven.add_one
   have hline : (blockLine D hC.alpha β).ncard = 3 := by

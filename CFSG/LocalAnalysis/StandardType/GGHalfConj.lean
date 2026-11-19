@@ -100,13 +100,13 @@ theorem zpowers_conj_gElt_y :
         (⟨2, by omega⟩ : Fin (m + 1 + 1)).castSucc := by
       rw [show (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc =
           (0 : Fin (m + 1 + 1 + 1)) from Fin.castSucc_zero, sigmaPerm_apply_zero m hm]
-      exact Fin.ext (by simp [Fin.val_castSucc, Fin.val_mk, Fin.coe_ofNat_eq_mod,
+      exact Fin.ext (by simp [Fin.val_mk, Fin.coe_ofNat_eq_mod,
         Nat.mod_eq_of_lt (show (2 : ℕ) < m + 1 + 1 + 1 by omega)])
     have h1 : sigmaPerm m (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ =
         (⟨2, by omega⟩ : Fin (m + 1 + 1)).succ := by
       rw [show (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ =
           (1 : Fin (m + 1 + 1 + 1)) from Fin.succ_zero_eq_one, sigmaPerm_apply_one m hm]
-      exact Fin.ext (by simp [Fin.val_succ, Fin.val_mk, Fin.coe_ofNat_eq_mod,
+      exact Fin.ext (by simp [Fin.val_mk, Fin.coe_ofNat_eq_mod,
         Nat.mod_eq_of_lt (show (3 : ℕ) < m + 1 + 1 + 1 by omega)])
     calc (MulAut.conj (gElt φ₁)) (φ₁ (omegaBlock (m + 1 + 1) ⟨0, by omega⟩))
         = gElt φ₁ * φ₁ (omegaBlock (m + 1 + 1) ⟨0, by omega⟩) * (gElt φ₁)⁻¹ :=
@@ -214,7 +214,7 @@ theorem levi4_le_conj_h :
 
 theorem conj_eq (hm : 4 ≤ m) :
     K.map (MulAut.conj (gElt φ₁)).toMonoidHom = L.map (MulAut.conj (hElt φ₂)).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup G :=
     (slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val}).map (φ₁.comp (slLower2Hom m))
   have hzw : Subgroup.zpowers (gElt φ₁ * y * (gElt φ₁)⁻¹) =
@@ -230,9 +230,9 @@ theorem conj_eq (hm : 4 ≤ m) :
         by show (2 : ℕ) ≤ 2; norm_num,
         by show (2 : ℕ) ≤ 3; norm_num,
         by show (2 : ℕ) ≤ 4; norm_num,
-        by intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega,
-        by intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega,
-        by intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega⟩
+        by intro hh; have := congrArg Fin.val hh; simp only at this; omega,
+        by intro hh; have := congrArg Fin.val hh; simp only at this; omega,
+        by intro hh; have := congrArg Fin.val hh; simp only at this; omega⟩
     have h1 := Subgroup.map_mono (f := φ₁.comp (slLower2Hom m)) h0
     rw [Subgroup.map_commutator] at h1
     exact h1

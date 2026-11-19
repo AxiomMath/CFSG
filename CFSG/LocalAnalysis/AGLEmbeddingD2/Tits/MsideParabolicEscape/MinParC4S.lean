@@ -17,6 +17,7 @@ open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.RootSystem
 variable {K : Type*} {S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] [Finite S] in
 theorem eq_one_of_mem_ker_posUnipotent (h : BorelQuotient D n H π M) {z : K}
     (hz : z ∈ posUnipotent D) (hk : z ∈ π.ker) : z = 1 := by
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos h.extras h.pGroup
@@ -28,6 +29,7 @@ theorem eq_one_of_mem_ker_posUnipotent (h : BorelQuotient D n H π M) {z : K}
     (orderOf_dvd_of_pow_eq_one hM)
   exact orderOf_eq_one_iff.1 h1
 
+omit [Finite K] in
 theorem false_of_odd_centralizes (h : BorelQuotient D n H π M) {j k : Fin D.rank} (hjk : j ≠ k)
     (hcart : D.cartan j k ≠ 0) {Wb Nb : Subgroup S}
     (hW : Wb ≤ Subgroup.normalizer (Nb : Set S))
@@ -61,7 +63,7 @@ theorem false_of_odd_centralizes (h : BorelQuotient D n H π M) {j k : Fin D.ran
     set g' : ↥Wb := g ^ (orderOf (θ g) / p) with hg'def
     have hg' : orderOf (θ g') = p := by
       rw [hg'def, map_pow]; exact orderOf_pow_orderOf_div hne hpr
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨e, ⟨a, ha⟩, hfe⟩ := exists_pElement_lift θ (p := p) (x := g')
       ⟨1, by rw [hg', pow_one]⟩
     have hcent := hodd p hp hp2 ((g' ^ e : ↥Wb) : S) (g' ^ e).2

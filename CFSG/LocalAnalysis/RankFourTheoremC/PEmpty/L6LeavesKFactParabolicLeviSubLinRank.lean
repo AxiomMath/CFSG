@@ -16,7 +16,7 @@ namespace KPLeviSub
 open CFSG.Open Subgroup Matrix GL83.I713
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
-theorem two_le_pRank_caseC {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+theorem two_le_pRank_caseC {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     (hr3 : r ≠ 3) {x : K} (hx : x ≠ 0) (hxr : x ^ r = 1)
     (hkey : ∀ m : ℕ, x ^ m = 1 → r ∣ m) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup (projectiveSL 3 K)) := by
@@ -101,7 +101,7 @@ theorem two_le_pRank_caseC {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Pr
 theorem two_le_pRank_psl_of_dvd_sub_one {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 3 ≤ n)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ Nat.card K - 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup (projectiveSL n K)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvdK : r ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hrq

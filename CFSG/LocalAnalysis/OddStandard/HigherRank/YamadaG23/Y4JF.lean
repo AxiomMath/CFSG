@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {s : Setting3 G L}
   {e : Setting3.Ext s}
 
 theorem y4_T_normF (hH : F33Hyp s e) : s.T ≤ normalizer (s.fr.F : Set G) := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hH.hS
   have hFL : s.fr.F ≤ L := y54_F_le_L s
   have hF2 : IsPGroup 2 ↥s.fr.F :=
     s3_isPGroup_of_le s ((s3_F_le_A s).trans (s3_A_le_S s))

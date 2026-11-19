@@ -44,7 +44,7 @@ private theorem card_modEq_card_inter_fixedBy {G V : Type*} [Group G] [MulAction
     Nat.card S ≡ Nat.card ↥(S ∩ MulAction.fixedBy V g) [MOD p] := by
   classical
   have hgp : g ^ p = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   let f : Function.End S := fun x => ⟨g • (x : V), hS x.1 x.2⟩
   have hpow : ∀ (m : ℕ) (x : S), ((f ^ m) x : V) = g ^ m • (x : V) := by
     intro m
@@ -91,7 +91,7 @@ private theorem card_modEq_card_inf_fixedAdd {n : Type*} [Fintype n] [DecidableE
   have hset : (↑(S ⊓ fixedAdd g) : Set (n → K)) = (S : Set (n → K)) ∩
       MulAction.fixedBy (n → K) g := by
     ext x
-    simp [fixedAdd, AddSubgroup.mem_inf, MulAction.mem_fixedBy]
+    simp [fixedAdd, MulAction.mem_fixedBy]
   rwa [← hset] at h
 
 private theorem eq_one_of_fixedAdd_eq_top {n : Type*} [Fintype n] [DecidableEq n] {K : Type*}
@@ -137,8 +137,8 @@ private lemma eq_of_le_four_of_modEq_four_seven {m : ℕ} (hle : m ≤ 4) (hmod 
 theorem false_of_commute_orderOf_five_seven {n K : Type*} [Fintype n] [DecidableEq n] [Field K]
     [Finite K] (hV : Nat.card (n → K) = 64) {a b : GL n K} (hab : Commute a b)
     (ha : orderOf a = 5) (hb : orderOf b = 7) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hva : Nat.card (n → K) ≡ Nat.card (fixedAdd a) [MOD 5] :=
     card_modEq_card_fixedAdd (p := 5) a ha
   have hvb : Nat.card (n → K) ≡ Nat.card (fixedAdd b) [MOD 7] :=
@@ -206,8 +206,8 @@ theorem rSp6SmallIndex_holds : RSp6SmallIndex := by
   unfold RSp6SmallIndex
   intro K _ _ hK H hH
   by_contra h3
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hprod : (∏ j ∈ Finset.Icc 1 3, (2 ^ (2 * j) - 1)) = 2835 := by
     rw [show Finset.Icc 1 3 = ({1, 2, 3} : Finset ℕ) by decide]
     decide
@@ -304,7 +304,7 @@ theorem rSp6SmallIndex_holds : RSp6SmallIndex := by
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.normalizer ((P : Subgroup H) : Set H))) 5 h5Norm
   have h7P : 7 ∣ Nat.card ↥(P : Subgroup H) := by
-    simpa [hPcard] using dvd_rfl (7 : ℕ)
+    simp [hPcard]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(P : Subgroup H)) 7 h7P
   let yy : ↥(Subgroup.normalizer ((P : Subgroup H) : Set H)) := y
   have hyy : orderOf yy = 5 := hy
@@ -314,7 +314,7 @@ theorem rSp6SmallIndex_holds : RSp6SmallIndex := by
     show (Subgroup.normalizerMonoidHom (P : Subgroup H) yy) ^ 5 = 1
     rw [← map_pow, hyy5, map_one]
   have hφdvd5 : orderOf φ ∣ 5 := orderOf_dvd_iff_pow_eq_one.mpr hφ5
-  haveI hcyc : IsCyclic ↥(P : Subgroup H) := isCyclic_of_prime_card hPcard
+  have hcyc : IsCyclic ↥(P : Subgroup H) := isCyclic_of_prime_card hPcard
   have hAut : Nat.card (MulAut ↥(P : Subgroup H)) = 6 := by
     rw [IsCyclic.card_mulAut (↥(P : Subgroup H)), hPcard]
     decide

@@ -23,7 +23,7 @@ theorem spanOfList_cons (x : ℕ) (S : List ℕ) :
   rw [show Code.vec '' {y : ℕ | y ∈ x :: S} =
       insert (Code.vec x) (Code.vec '' {y : ℕ | y ∈ S}) by
     ext v
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, Set.mem_insert_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, Set.mem_insert_iff]
     constructor
     · rintro ⟨y, rfl | hy, rfl⟩
       · exact Or.inl rfl
@@ -51,9 +51,9 @@ theorem spanStep_represents {B : Array ℕ} {W : Submodule (ZMod 2) V₀}
     have hxW : Code.vec x ∈ W := h1 x hxmem
     have hsup : W ⊔ Submodule.span (ZMod 2) {Code.vec x} = W :=
       sup_eq_left.mpr (Submodule.span_le.mpr (by simpa using hxW))
-    rw [spanStep, if_pos hx, hsup]
+    rw [spanStep, ite_eq_left hx, hsup]
     exact ⟨h1, h2⟩
-  · rw [spanStep, if_neg hx]
+  · rw [spanStep, ite_eq_right hx]
     constructor
     · intro b hb
       rw [Array.toList_append, Array.toList_map] at hb
@@ -131,7 +131,7 @@ theorem spanOfList_eq_of_mem_iff {S T : List ℕ}
   unfold spanOfList
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨x, hx, rfl⟩
     exact ⟨x, (h x).mp hx, rfl⟩
@@ -152,7 +152,7 @@ theorem spanOfList_vPlus : spanOfList vPlusVecs = VPlus := by
   have hset : Code.vec '' {x : ℕ | x ∈ [2, 4, 32]} =
       ({Code.vec 2, Code.vec 4, Code.vec 32} : Set V₀) := by
     ext v
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨x, rfl | rfl | rfl, rfl⟩ <;> simp
@@ -173,7 +173,7 @@ theorem spanOfList_vStar : spanOfList vStarVecs = VStar := by
   have hset : Code.vec '' {x : ℕ | x ∈ [1, 8, 16]} =
       ({Code.vec 1, Code.vec 8, Code.vec 16} : Set V₀) := by
     ext v
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨x, rfl | rfl | rfl, rfl⟩ <;> simp

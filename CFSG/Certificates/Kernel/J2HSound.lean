@@ -49,9 +49,9 @@ theorem rep_wordA_sgn {S Sinv : Array (Array ℕ)} {gs : ℕ → Equiv.Perm (Fin
     refine rep_compA ?_ (rep_wordA_sgn hS hSi wd hw)
     unfold letterA
     by_cases hpos : 0 < l
-    · rw [if_pos hpos, if_pos hpos]
+    · rw [ite_eq_left hpos, ite_eq_left hpos]
       exact hS _ (by omega)
-    · rw [if_neg hpos, if_neg hpos]
+    · rw [ite_eq_right hpos, ite_eq_right hpos]
       exact hSi _ (by omega)
 
 theorem sgnProd_mem {H : Subgroup (Equiv.Perm (Fin n))} {gs : ℕ → Equiv.Perm (Fin n)} {m : ℕ}

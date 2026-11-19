@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem mem_normalizer_of_normalIn {A B : Subgroup G} (h : NormalIn A B) {g : G}
     (hg : g ∈ B) : g ∈ normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -20,6 +21,7 @@ private theorem mem_normalizer_of_normalIn {A B : Subgroup G} (h : NormalIn A B)
   have heq : g⁻¹ * (g * a * g⁻¹) * g⁻¹⁻¹ = a := by group
   rwa [heq] at hmem
 
+omit [Finite G] in
 private theorem mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -52,6 +54,7 @@ theorem c13_Q_le_K (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
   rw [ctxK, ← l12_R_eq hc]
   exact (l12_Q_le_R hc).trans Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem c13_normalizer_Q_le_Y (t tau x₁ x₂ rho : G) :
     normalizer ((ctxQ t tau x₁ x₂ rho : Subgroup G) : Set G) ≤
       normalizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) := by
@@ -64,7 +67,7 @@ theorem c13_normalizer_Q_le_Y (t tau x₁ x₂ rho : G) :
       refine Subgroup.subset_closure ⟨(Subgroup.mem_normalizer_iff.mp hm g).mp hgQ, ?_⟩
       calc (m * g * m⁻¹) ^ 2 = m * g ^ 2 * m⁻¹ := by rw [conj_pow]
         _ = 1 := by rw [hg2]; group
-    · simpa using Subgroup.one_mem (ctxYq t tau x₁ x₂ rho)
+    · simp
     · intro a b _ _ ha hb
       rw [show m * (a * b) * m⁻¹ = (m * a * m⁻¹) * (m * b * m⁻¹) by group]
       exact Subgroup.mul_mem _ ha hb
@@ -171,7 +174,7 @@ theorem c13_normalizer_Qtau_le_Q (hc : Ctx13C t L S x₁ x₂ lam rho tau om) :
           have h1 : m * a ^ 2 * m⁻¹ = m * m⁻¹ := by rw [h, mul_inv_cancel]
           exact mul_right_cancel h1
         exact mul_left_cancel (by rw [hmul, mul_one])
-    · simpa using Subgroup.one_mem (ctxQ t tau x₁ x₂ rho)
+    · simp
     · intro a b _ _ ha hb
       rw [show m * (a * b) * m⁻¹ = (m * a * m⁻¹) * (m * b * m⁻¹) by group]
       exact Subgroup.mul_mem _ ha hb

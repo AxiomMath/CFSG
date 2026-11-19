@@ -90,9 +90,9 @@ theorem look_sound : ∀ {tab : List (ℕ × ℕ × ℕ)}, TabSound val tab → 
   | (a, b, c) :: t, ht, x, y, z, h => by
     unfold look at h
     cases hc : (Nat.beq a x && Nat.beq b y)
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       exact look_sound (fun p hp => ht p (List.mem_cons_of_mem _ hp)) h
-    · rw [hc, cond_true, Option.some.injEq] at h
+    · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
       rw [Bool.and_eq_true] at hc
       have e1 := Nat.eq_of_beq_eq_true hc.1
       have e2 := Nat.eq_of_beq_eq_true hc.2
@@ -129,14 +129,14 @@ theorem symPow_sound {tab : List (ℕ × ℕ × ℕ)} (ht : TabSound val tab) :
     have e2 := symPow_sound ht f ((e + 2) / 2) hY
     rw [← e1, ← pow_two, ← pow_mul] at e2
     cases hm : Nat.beq ((e + 2) % 2) 1
-    · rw [hm, cond_false, Option.some.injEq] at hc
+    · rw [hm, Bool.cond_false, Option.some.injEq] at hc
       have : (e + 2) % 2 = 0 := by
         have := Nat.ne_of_beq_eq_false hm
         omega
       rw [← hc, ← e2]
       congr 1
       omega
-    · rw [hm, cond_true] at hc
+    · rw [hm, _root_.Bool.cond_true] at hc
       have : (e + 2) % 2 = 1 := Nat.eq_of_beq_eq_true hm
       rw [← symMul_sound ht hc, ← e2, ← pow_succ']
       congr 1
@@ -153,8 +153,8 @@ theorem valO_upd (σ : ℕ → Option ℕ) (k : ℕ) (o : Option ℕ) :
   unfold upd
   by_cases hi : i = k
   · subst hi
-    rw [Nat.beq_refl, cond_true, Function.update_self]
-  · rw [beq_ne hi, cond_false, Function.update_of_ne hi]
+    rw [Nat.beq_refl, _root_.Bool.cond_true, Function.update_self]
+  · rw [beq_ne hi, Bool.cond_false, Function.update_of_ne hi]
 
 theorem step_sound {tab : List (ℕ × ℕ × ℕ)} (ht : TabSound val tab) (σ : ℕ → Option ℕ) (ins : Ins)
     (o : Option ℕ) (h : stepVal tab σ ins = some o) :

@@ -21,17 +21,20 @@ variable {A : Type} [Group A] [Finite A] {T : Subgroup A} [T.Normal] {z : A} {K 
 
 @[expose] def L3Frame.J : Subgroup A := (slPart (⊤ : Subgroup (GL (Fin 2) K))).map F.π
 
+omit [Finite A] [T.Normal] in
 theorem L3Frame.J_le : F.J ≤ T ⊓ Subgroup.centralizer ({z} : Set A) := by
   rw [← F.hrange]
   exact Subgroup.map_le_range _ _
 
+omit [Finite A] [T.Normal] in
 theorem L3Frame.comm_le :
     ⁅T ⊓ Subgroup.centralizer ({z} : Set A), T ⊓ Subgroup.centralizer ({z} : Set A)⁆ ≤ F.J := by
   rw [← F.hrange]
   exact commutator_range_le F.π
 
+omit [Finite A] [T.Normal] in
 theorem L3Frame.J_perfect (h4 : 4 ≤ Nat.card K) : Group.IsPerfect ↥F.J := by
-  haveI : Group.IsPerfect ↥(slPart (⊤ : Subgroup (GL (Fin 2) K))) :=
+  have : Group.IsPerfect ↥(slPart (⊤ : Subgroup (GL (Fin 2) K))) :=
     isPerfect_of_equiv_sl2 h4 slPartTopEquiv
   exact Group.IsPerfect.map F.π
 
@@ -39,10 +42,12 @@ theorem L3Frame.J_perfect (h4 : 4 ≤ Nat.card K) : Group.IsPerfect ↥F.J := by
   (MulAut.conjNormal (H := T)).comp
     ((F.π.comp (slPart (⊤ : Subgroup (GL (Fin 2) K))).subtype).comp slPartTopEquiv.symm.toMonoidHom)
 
+omit [Finite A] in
 theorem L3Frame.Φ_injective (hC : Subgroup.centralizer (T : Set A) = ⊥) :
     Function.Injective F.Φ :=
   (conjNormal_injective hC).comp ((injective_slPart F.hk).comp slPartTopEquiv.symm.injective)
 
+omit [Finite A] in
 theorem L3Frame.Φ_range : F.Φ.range = F.J.map (MulAut.conjNormal (H := T)) := by
   ext x
   constructor

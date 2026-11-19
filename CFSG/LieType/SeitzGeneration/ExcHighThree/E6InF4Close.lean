@@ -180,9 +180,9 @@ theorem e6HighInF4_of_closing {ε : ℕ}
 
 theorem exists_units_orderOf_three (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) :
     ∃ ω : Kˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype Kˣ := Fintype.ofFinite Kˣ
   have hdvd : 3 ∣ Fintype.card Kˣ := by
     rw [← Nat.card_eq_fintype_card, Nat.card_units]
     have h1 : 1 ≤ Nat.card K := Nat.card_pos
@@ -209,7 +209,7 @@ theorem hClose_one_of_purity
   obtain ⟨ω, hω⟩ := exists_units_orderOf_three K hK
   obtain ⟨D, hD⟩ := hReg K hK E₃ hexp hcard hnF
   have hnt : Nontrivial E₃ := by
-    haveI : Fintype E₃ := Fintype.ofFinite E₃
+    have : Fintype E₃ := Fintype.ofFinite E₃
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcard]
     norm_num
   obtain ⟨x, hx⟩ := exists_ne (1 : E₃)

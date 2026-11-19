@@ -129,7 +129,7 @@ theorem kl {g b : G} (hbg : b ∈ cs Z g) (hbV : b ∈ V) (hb1 : b ≠ 1) : cs Z
       calc (g⁻¹ * b * g) * x = g⁻¹ * (b * (g * x * g⁻¹)) * g := by group
         _ = g⁻¹ * ((g * x * g⁻¹) * b) * g := by rw [hvb]
         _ = x * (g⁻¹ * b * g) := by group
-    first | exact key | exact key.symm
+    exact key.symm
   have hV2 : IsPGroup 2 ↥(cs V g⁻¹) := (elemAb2_cj h.elemAb2_V g⁻¹).isPGroup
   obtain ⟨m, hm, hmJ⟩ := exists_conj_le_of_isSylowOf h.side₁.sylow_T hVg hV2
   have hcj : cj m (cs V g⁻¹) = cs V (m * g⁻¹) := cj_cj m g⁻¹ V

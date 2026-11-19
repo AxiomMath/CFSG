@@ -43,7 +43,7 @@ theorem exists_prime_pow_of_isSLThreePi {X : Type} [Group X] (hX : Sec4.IsSLThre
   obtain ⟨q, K, hF, hfin, hcase⟩ := hX
   have := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hnc : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   rcases hcase with ⟨hK, hq, ⟨e⟩⟩ | ⟨hK, hq, ⟨e⟩⟩
   · have hqn : q = ringChar K ^ (n : ℕ) := by rw [← hK, hnc]
@@ -97,7 +97,7 @@ theorem false_of_isSLThreePiTwo {G : Type} [Group G] [Finite G] {F Y : Subgroup 
         ((Sec12.lBar b Y).subgroupOf (lBarA b Y F)).subtype_injective
     have : Nontrivial ((Sec12.lBar b Y).subgroupOf (lBarA b Y F)) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hN1
-    haveI := hNp
+    have := hNp
     exact Group.IsPerfect.not_isSolvable ((Sec12.lBar b Y).subgroupOf (lBarA b Y F)) inferInstance
 
 end M12Inv
@@ -105,7 +105,7 @@ end M12Inv
 open M12Inv in
 theorem invPartA_of (h131a : Item131a) (hspor : SporadicModels131) : InvPartA := by
   intro G _ _ F b Y hD hM
-  haveI : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
+  have : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
   obtain ⟨e₂⟩ : Nonempty (Y ⧸ solvableRadical Y ≃* CFSG.Blueprint.NativeSporadic.M12) := hM
   have hq : CFSG.IsQuasisimple (Y ⧸ aschbacherSolvableCore 3 Y) :=
     Sec6.isQuasisimple_of_mem_thetaComponentsAt hD.mem_thetaComponentsAt

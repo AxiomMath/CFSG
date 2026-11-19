@@ -67,7 +67,7 @@ private theorem actTil_inverter_eq_one (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c
         (⟨a ^ j, c.L_le_stabTil (c.L.zpow_mem ha j)⟩ :
           ↥(stabTil (⊥ : Subgroup G) c.V))⁻¹ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   rw [hyeq]
   simp only [map_mul, map_inv, actTil_zpow_eq c hV ha i, actTil_zpow_eq c hV ha j]
   rw [show actTil (⊥ : Subgroup G) c.V hV ⟨s', c.T_le_stabTil hs'⟩ = tstar from hs'eq,
@@ -79,7 +79,7 @@ private theorem actTil_inverter_eq_one (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c
   rw [← hbetaeq, hre, ← htbeta]
   group
 
-private theorem mem_sup_stabTil_inverter (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {a s s' : G}
+private theorem mem_sup_stabTil_inverter (c : Ctx23L D Ch) (_hV : IsElemAbelian 2 c.V) {a s s' : G}
     (ha : a ∈ c.L) (hs : s ∈ D.T) (hs' : s' ∈ D.T) (i j : ℤ) :
     (s'⁻¹ * a ^ i * s * (a ^ j)⁻¹ : G) ∈ c.L ⊔ D.T ∧
       (s'⁻¹ * a ^ i * s * (a ^ j)⁻¹ : G) ∈ stabTil (⊥ : Subgroup G) c.V := by
@@ -175,7 +175,7 @@ private def ModuleData (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) : Prop :=
     IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z)
 
 private theorem exists_module_data (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (h4 : S23_4 D Ch)
-    (h1930 : H1930 D) (hA : KTab23a) (hK : KOrdNatural) (hS : KSchurL2) (hKP : KOmPlus)
+    (h1930 : H1930 D) (hA : KTab23a) (_hK : KOrdNatural) (_hS : KSchurL2) (hKP : KOmPlus)
     (hn2 : 2 ≤ CFSG.Open.pRank 2 D.Z)
     (hP : IsOmegaPlus (c.H hV) 4 (CFSG.Open.pRank 2 D.Z))
     (hNat : NatOmegaPlus (c.H hV) ⊤ ⊥ 4 (CFSG.Open.pRank 2 D.Z)) :
@@ -234,7 +234,7 @@ private theorem permutes_lift (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L)
     (hφ₁ : c.phiL hV z₁ ∈ Subgroup.zpowers (⟨a, haH⟩ : ↥(c.H hV))) :
     Permutes (Subgroup.zpowers (z₁ : G)) D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hφ₁ne : c.phiL hV z₁ ≠ 1 := by
     intro h
     have hz₁Q : z₁ ∈ CFSG.pCore 2 ↥c.L := by
@@ -287,7 +287,7 @@ private theorem Y_odd_inf (c : Ctx23L D Ch) {z₁ z₂ w₁ : ↥c.L}
         Odd (orderOf y)) ∧
       CFSG.pCore 2 ↥c.L ⊓
         (Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂).map (MulAut.conj w₁).toMonoidHom = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYodd : ∀ y ∈ (Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂).map
       (MulAut.conj w₁).toMonoidHom, Odd (orderOf y) := by
     intro y hy
@@ -448,7 +448,7 @@ private theorem orderOf_pow_two (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hkerQ : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L)
     (htφ : c.phiL hV tL = ⟨w, hwH⟩) :
     ∃ k : ℕ, orderOf tL = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht2Q : tL * tL ∈ CFSG.pCore 2 ↥c.L := by
     have hww : (⟨w, hwH⟩ : ↥(c.H hV)) * ⟨w, hwH⟩ = 1 := Subtype.ext hwsq
     have h1 : c.phiL hV (tL * tL) = 1 := by
@@ -474,11 +474,11 @@ private theorem tL_not_mem_M (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (h4 : 
     (hwmove : (c.Ztil hV).map w.toMonoidHom ≠ c.Ztil hV)
     (htφ : c.phiL hV tL = ⟨w, hwH⟩) : (tL : G) ∉ D.M := by
   intro ht
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hstab := (c.phiL_mem_stabilizer_Ztil_iff hV h4 h1930 tL).2 ht
   rw [htφ] at hstab
   have hstab' : (⟨w, hwH⟩ : ↥(c.H hV)) • (c.Ztil hV : Set (c.W hV)) =
@@ -495,11 +495,11 @@ private theorem exists_lift_root (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (e : Bar2 c.L ≃* ↥(c.H hV))
     (he_mk : ∀ x : ↥c.L, e (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) x) = c.phiL hV x)
     {a : MulAut (c.W hV)} (haH : a ∈ c.H hV) {r : ℕ} (haord : orderOf a = r)
-    (hr : r.Prime) (hr2 : r ≠ 2) (hafix : ∀ x ∈ c.Ztil hV, a x = x) :
+    (hr : r.Prime) (hr2 : r ≠ 2) (_hafix : ∀ x ∈ c.Ztil hV, a x = x) :
     ∃ z₁ : ↥c.L, z₁ ≠ 1 ∧ orderOf z₁ = r ∧
       c.phiL hV z₁ ∈ Subgroup.zpowers (⟨a, haH⟩ : ↥(c.H hV)) ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) z₁ ∈ Subgroup.zpowers (e.symm ⟨a, haH⟩) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have haH1 : (⟨a, haH⟩ : ↥(c.H hV)) ≠ 1 := by
     intro h
     have h1 : orderOf (⟨a, haH⟩ : ↥(c.H hV)) = 1 := by rw [h, orderOf_one]
@@ -518,7 +518,7 @@ private theorem exists_lift_root (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     exact haHr
   obtain ⟨z₁, -, hz₁r, hz₁ne, hz₁mem⟩ :=
     exists_pow_eq_one_commute_of_commute_bar (M := c.L) (b := (1 : ↥c.L))
-      (by simpa using odd_one) hr hr2 hxa1 hxar (by simp)
+      (by simp) hr hr2 hxa1 hxar (by simp)
   have hz₁ord : orderOf z₁ = r := orderOf_eq_prime hz₁r hz₁ne
   have hφ₁ : c.phiL hV z₁ ∈ Subgroup.zpowers (⟨a, haH⟩ : ↥(c.H hV)) := by
     obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hz₁mem
@@ -533,11 +533,11 @@ private theorem root_centralizes (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     {a : MulAut (c.W hV)} (haH : a ∈ c.H hV) (hafix : ∀ x ∈ c.Ztil hV, a x = x)
     {z₁ : ↥c.L} (hφ₁ : c.phiL hV z₁ ∈ Subgroup.zpowers (⟨a, haH⟩ : ↥(c.H hV))) :
     (z₁ : G) ∈ Subgroup.centralizer (D.Z : Set G) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hafixmem : (⟨a, haH⟩ : ↥(c.H hV)) ∈ fixingSubgroupOf ↥(c.H hV) (c.W hV)
       ((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)) := by
     rw [mem_fixingSubgroup_iff]
@@ -548,14 +548,14 @@ private theorem root_centralizes (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
 
 private theorem exists_lift_diag (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (e : Bar2 c.L ≃* ↥(c.H hV))
-    (he_mk : ∀ x : ↥c.L, e (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) x) = c.phiL hV x)
+    (_he_mk : ∀ x : ↥c.L, e (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) x) = c.phiL hV x)
     {a b : MulAut (c.W hV)} (haH : a ∈ c.H hV) (hbH : b ∈ c.H hV) (hab : a * b = b * a)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hbord : orderOf b = r) {z₁ : ↥c.L}
     (hz₁ord : orderOf z₁ = r)
     (hz₁mem : QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) z₁ ∈ Subgroup.zpowers (e.symm ⟨a, haH⟩)) :
     ∃ z₂ : ↥c.L, z₂ * z₁ = z₁ * z₂ ∧ orderOf z₂ = r ∧ z₂ ≠ 1 ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) z₂ ∈ Subgroup.zpowers (e.symm ⟨b, hbH⟩) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hbH1 : (⟨b, hbH⟩ : ↥(c.H hV)) ≠ 1 := by
     intro h
     have h1 : orderOf (⟨b, hbH⟩ : ↥(c.H hV)) = 1 := by rw [h, orderOf_one]
@@ -607,11 +607,11 @@ private theorem diag_mem_M (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (h4 : S2
     (hbnorm : (c.Ztil hV).map b.toMonoidHom = c.Ztil hV) {z₂ : ↥c.L}
     (hφ₂ : c.phiL hV z₂ ∈ Subgroup.zpowers (⟨b, hbH⟩ : ↥(c.H hV))) :
     (z₂ : G) ∈ D.M := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hbStab : (⟨b, hbH⟩ : ↥(c.H hV)) ∈ MulAction.stabilizer ↥(c.H hV)
       ((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)) := by
     rw [MulAction.mem_stabilizer_iff]
@@ -627,7 +627,7 @@ private theorem diag_phiL_ne_one (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     {z₂ : ↥c.L} (hz₂ord : orderOf z₂ = r) (hz₂ne : z₂ ≠ 1) :
     c.phiL hV z₂ ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz₂Q : z₂ ∉ CFSG.pCore 2 ↥c.L := by
     intro hz
     have h2 : 2 ∣ orderOf z₂ := by
@@ -647,9 +647,9 @@ private theorem diag_not_centralizes (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V
     (hφ₂ne : c.phiL hV z₂ ≠ 1) :
     (z₂ : G) ∉ Subgroup.centralizer (D.Z : Set G) := by
   intro hcent
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
   have hfix₂ : c.phiL hV z₂ ∈ fixingSubgroupOf ↥(c.H hV) (c.W hV)
       ((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)) :=
@@ -756,7 +756,7 @@ private theorem torus_index (c : Ctx23L D Ch) {z₁ z₂ : ↥c.L}
     (hEodd : ∀ x ∈ Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂, Odd (orderOf x)) :
     ¬ 2 ∣ (CFSG.pCore 2 ↥c.L).relIndex
       (CFSG.pCore 2 ↥c.L ⊔ (Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup ↥c.L := Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂
   let F : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L ⊔ E
   have hEcard : ¬ 2 ∣ Nat.card ↥E := by
@@ -918,8 +918,8 @@ theorem exists_omegaPlusTorus (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (h4 :
   obtain ⟨r, a, b, w, hr, hr2, hafix', hbnorm', hbmove', hwmove', hwsq, hwa, hwb, haT,
     haH, hbH, hwH, haord, hbord, hab, hnat⟩ :=
     exists_module_data c hV h4 h1930 hA hK hS hKP hn2 hP hNat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   let e : Bar2 c.L ≃* ↥(c.H hV) := c.e₀ hV hK hS hn2 hnat hP
   have he_mk : ∀ x : ↥c.L, e (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) x) = c.phiL hV x :=
     fun x => c.e₀_mk hV hK hS hn2 hnat hP x

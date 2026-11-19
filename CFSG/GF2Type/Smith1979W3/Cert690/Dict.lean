@@ -123,13 +123,13 @@ theorem foldl_map_mem {gens E : List ℕ}
 
 theorem hasCode_foldl_mul {x : V₀ ≃ₗ[ZMod 2] V₀} {c : ℕ}
     (hx : Code.HasCode (x : V₀ →ₗ[ZMod 2] V₀) c) :
-    ∀ {gs : List (V₀ ≃ₗ[ZMod 2] V₀)} {l : List ℕ},
-      List.Forall₂ (fun (g : V₀ ≃ₗ[ZMod 2] V₀) (m : ℕ) =>
-        Code.HasCode (g : V₀ →ₗ[ZMod 2] V₀) m) gs l →
-      Code.HasCode ((gs.foldl (· * ·) x : V₀ ≃ₗ[ZMod 2] V₀) : V₀ →ₗ[ZMod 2] V₀)
-        (l.foldl Code.mul c)
+    ∀ {_gs : List (V₀ ≃ₗ[ZMod 2] V₀)} {_l : List ℕ},
+      List.Forall₂ (fun (_g : V₀ ≃ₗ[ZMod 2] V₀) (_m : ℕ) =>
+        Code.HasCode (_g : V₀ →ₗ[ZMod 2] V₀) _m) _gs _l →
+      Code.HasCode ((_gs.foldl (· * ·) x : V₀ ≃ₗ[ZMod 2] V₀) : V₀ →ₗ[ZMod 2] V₀)
+        (_l.foldl Code.mul c)
   | [], [], .nil => hx
-  | g :: gs, m :: l, .cons hg h => hasCode_foldl_mul (hx.mul hg) h
+  | _g :: _gs, _m :: _l, .cons hg h => hasCode_foldl_mul (hx.mul hg) h
 
 theorem foldl_mul_mem_subgroup {G : Type*} [Group G] {H : Subgroup G} {x : G}
     (hx : x ∈ H) :
@@ -163,7 +163,7 @@ theorem EnumCert.exists_mem {gens E : List ℕ} (h : EnumCert gens E) {c : ℕ} 
   have hgenOf : ∀ i (hi : i < gens.length),
       Code.HasCode (genOf i : V₀ →ₗ[ZMod 2] V₀) gens[i]! := by
     intro i hi
-    simp only [genOf, dif_pos hi]
+    simp only [genOf, dite_eq_left hi]
     exact Classical.choose_spec (hex i hi)
   have hforall : ∀ (w : List ℕ), (∀ i ∈ w, i < gens.length) →
       List.Forall₂ (fun (g : V₀ ≃ₗ[ZMod 2] V₀) (m : ℕ) =>
@@ -189,7 +189,7 @@ theorem EnumCert.exists_code_mem {gens E : List ℕ} (h : EnumCert gens E)
     {g : V₀ ≃ₗ[ZMod 2] V₀} (hg : g ∈ codeSubgroup gens) :
     ∃ c ∈ E, Code.HasCode (g : V₀ →ₗ[ZMod 2] V₀) c := by
   classical
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   let P : (V₀ ≃ₗ[ZMod 2] V₀) → Prop := fun x =>
     ∃ c ∈ E, Code.HasCode (x : V₀ →ₗ[ZMod 2] V₀) c
   have hPone : P 1 := ⟨Code.one, h.one_mem, Code.hasCode_one⟩
@@ -293,7 +293,7 @@ theorem isoQ_of_mem_O₀ {minus : Bool} {g : V₀ ≃ₗ[ZMod 2] V₀} {m : ℕ}
     TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup h _
   rw [apply_vec_of_hasCode hg n, qModel_vec, qModel_vec] at hmem
   revert hmem
-  cases h1 : qB minus (Code.act m n) <;> cases h2 : qB minus n <;> simp [h1, h2]
+  cases h1 : qB minus (Code.act m n) <;> cases h2 : qB minus n <;> simp
 
 theorem codeSubgroup_map_wordC_le_O₀ {minus : Bool} (ws : List (List ℕ))
     (hl : ∀ w ∈ ws, ∀ n ∈ w, qB minus n = true) :
@@ -394,7 +394,7 @@ theorem natCard_Ω₀ (minus : Bool) :
 
 theorem eq_of_le_of_natCard {H K : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} (h : H ≤ K)
     (hc : Nat.card H = Nat.card K) : H = K := by
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   exact Subgroup.eq_of_le_of_card_ge h (le_of_eq hc.symm)
 
 @[expose] def omegaWords : Bool → List (List ℕ)

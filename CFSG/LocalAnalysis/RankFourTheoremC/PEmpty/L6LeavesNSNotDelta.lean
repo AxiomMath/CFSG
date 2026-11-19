@@ -48,7 +48,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 theorem stepNotDeltaOmega_of_kfact64ii (h : KFact64iiNPC) : StepNotDeltaOmega := by
   intro G _ _ p P M x z hS hx hz H S hopt hO hΩ hnpc
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hHtop : H ≠ ⊤ := isTwoLocal_ne_top hS hopt.ext.pair.isTwoLocal
   have hKH : CFSG.Open.IsKGroup ↥H :=
     CFSG.AGLEmbedding.catalogSimpleSections_iff_isKGroup.mp

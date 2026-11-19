@@ -13,7 +13,7 @@ theorem isCyclic_of_inf_eq_bot_of_sup_cyclic_right
     (hQC : Q ⊔ C = ⊤) (hC : IsCyclic C) (hYQ : Y ⊓ Q = ⊥) :
     IsCyclic Y := by
   classical
-  haveI : IsCyclic (H ⧸ Q) := quotient_isCyclic_of_sup_cyclic_right hQC hC
+  have : IsCyclic (H ⧸ Q) := quotient_isCyclic_of_sup_cyclic_right hQC hC
   let φ : ↥Y →* H ⧸ Q := (QuotientGroup.mk' Q).comp Y.subtype
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]

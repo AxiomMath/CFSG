@@ -15,15 +15,15 @@ variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k : �
 
 theorem exists_mem_normalizer_not_mem {P R : Subgroup G} (hP : IsPGroup 2 ↥P) (hRP : R < P) :
     ∃ s ∈ P, s ∈ Subgroup.normalizer (R : Set G) ∧ s ∉ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hlt : R.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     have hPR : P ≤ R := fun x hx =>
       Subgroup.mem_subgroupOf.mp (h ▸ Subgroup.mem_top (⟨x, hx⟩ : ↥P))
     exact absurd hRP (not_lt_of_ge hPR)
   have hN := Group.normalizerCondition_of_isNilpotent (G := ↥P) (R.subgroupOf P) hlt
-  obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt hN
+  obtain ⟨x, hxN, hxR⟩ := IsConcreteLE.exists_of_lt hN
   refine ⟨x, x.2, ?_, fun h => hxR (Subgroup.mem_subgroupOf.mpr h)⟩
   rw [Subgroup.mem_normalizer_iff]
   intro y
@@ -40,11 +40,13 @@ theorem exists_mem_normalizer_not_mem {P R : Subgroup G} (hP : IsPGroup 2 ↥P) 
         simpa [mul_assoc] using h1
       exact absurd this hy
 
+omit [Finite G] in
 theorem I_le_normalizer_sup (hIH : I ≤ H) (hHK : H ≤ Subgroup.normalizer (K : Set G)) :
     I ≤ Subgroup.normalizer ((K ⊔ pCoreOf 2 I : Subgroup G) : Set G) := by
   intro i hi
   exact mem_normalizer_sup (hHK (hIH hi)) (le_normalizer_pCoreOf 2 I hi)
 
+omit [Finite G] in
 theorem zAt_alphaV_ne_bot (A B Z : Subgroup G) (hZ : Z ≠ ⊥) :
     zAt A B Z (alphaV A B) ≠ ⊥ := by
   intro h

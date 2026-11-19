@@ -27,9 +27,11 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZM
 private abbrev rootPerp (a : V) : Submodule (ZMod 2) V :=
   LinearMap.BilinForm.orthogonal (polarBilin Q) ((ZMod 2) ∙ a)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem rootPerp_self {a : V} (ha : Q a = 0) : a ∈ rootPerp (Q := Q) a :=
   mem_orth_span_single_iff.mpr (polar_self_eq_zero ha)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem rootPerp_mapsTo {a : V} {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hE : ∀ g ∈ E, IsRootElt Q a g) (g : E) :
     ∀ z : rootPerp (Q := Q) a, g.1 z.1 ∈ rootPerp (Q := Q) a := by
@@ -50,10 +52,12 @@ private noncomputable def rootAction {a : V} (E : Subgroup (V ≃ₗ[ZMod 2] V))
       map_smul' := by intro c z; ext; simp }
   MonoidHom.mk (OneHom.mk fP (by ext z; rfl)) (by intro g h; ext z; rfl)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem rootAction_apply {a : V} {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hE : ∀ g ∈ E, IsRootElt Q a g) (g : E) (z : rootPerp (Q := Q) a) :
     (rootAction E hE g z : V) = g.1 z.1 := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem apply_eq_self_of_sub_mem_span_of_polar_ne_zero {a : V} (ha : Q a = 0)
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {z : V}
     (hz : polar Q z a ≠ 0) (hsub : g z - z ∈ (ZMod 2) ∙ a) : g z = z := by
@@ -96,6 +100,7 @@ theorem eq_one_of_forall_sub_mem_span (hQ : (polarBilin Q).Nondegenerate) {a : V
     rw [hxyfix, hyfix] at h1
     exact (add_right_cancel h1).symm
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_eq_of_sub_mem_span_of_map_eq_one {b : V} (hb : Q b = 1)
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {z : V}
     (hz : polar Q z b = 0) (h : g z - z ∈ (ZMod 2) ∙ b) : g z = z := by
@@ -151,6 +156,7 @@ theorem IsRootElt.exists_sub_eq (hQ : (polarBilin Q).Nondegenerate) {a : V}
       exact absurd hc.symm (hcon z hz')
   exact hg1 (eq_one_of_fix_orthogonal_of_map_eq_zero hQ ha hg.1 hfix)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem reflect_apply_eq_self_iff {b : V} (hb : Q b = 1) {x : V} :
     reflect Q b x = x ↔ polar Q x b = 0 := by
   have hb0 : b ≠ 0 := fun h0 => by rw [h0, map_zero] at hb; exact zero_ne_one hb
@@ -170,8 +176,9 @@ private theorem exists_singular_in_submodule {W : Submodule (ZMod 2) V}
     exists_ne_zero_map_eq_zero (V := W) (Q := Q.restrict W) hW
   exact ⟨w.1, w.2, fun h => hw0 (Subtype.ext h), by simpa using hQw⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem finrank_span_pair_eq_two_of_singular_nonsingular {u b : V}
-    (hu : Q u = 0) (hb : Q b = 1) (hu0 : u ≠ 0) (hub : u ≠ b) :
+    (_hu : Q u = 0) (hb : Q b = 1) (hu0 : u ≠ 0) (hub : u ≠ b) :
     Module.finrank (ZMod 2) (Submodule.span (ZMod 2) ({u, b} : Set V)) = 2 := by
   have hb0 : b ≠ 0 := fun h0 => by rw [h0, map_zero] at hb; exact zero_ne_one hb
   have hli : LinearIndependent (ZMod 2) ![u, b] := by
@@ -186,7 +193,7 @@ private theorem finrank_span_pair_eq_two_of_singular_nonsingular {u b : V}
   simpa using finrank_span_eq_card hli
 
 private theorem exists_singular_ne_of_finrank_four {R : Submodule (ZMod 2) V} {u₁ : V}
-    (hu₁R : u₁ ∈ R) (hu₁Q : Q u₁ = 0) (hu₁0 : u₁ ≠ 0)
+    (hu₁R : u₁ ∈ R) (_hu₁Q : Q u₁ = 0) (hu₁0 : u₁ ≠ 0)
     (hR : 4 ≤ Module.finrank (ZMod 2) R) :
     ∃ u₂ ∈ R, Q u₂ = 0 ∧ u₂ ≠ 0 ∧ u₂ ≠ u₁ := by
   let pR : Submodule (ZMod 2) R := Submodule.span (ZMod 2) {⟨u₁, hu₁R⟩}
@@ -286,9 +293,10 @@ private theorem exists_singular_polar_ne_zero_of_not_mem (hQ : (polarBilin Q).No
   · rw [polar_add_right, hxb0, add_zero]
     exact hxz
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem eichler_add_smul_mem_of_invariant {b x u w : V} {X : Submodule (ZMod 2) V}
-    (hb : Q b = 1) (hinv : ∀ g ∈ elementaryGroup Q, g b = b → ∀ y ∈ X, g y ∈ X)
-    (hxX : x ∈ X) (hxP : x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ((ZMod 2) ∙ b))
+    (_hb : Q b = 1) (hinv : ∀ g ∈ elementaryGroup Q, g b = b → ∀ y ∈ X, g y ∈ X)
+    (hxX : x ∈ X) (_hxP : x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ((ZMod 2) ∙ b))
     (huP : u ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ((ZMod 2) ∙ b))
     (huQ : Q u = 0) (hxu : polar Q x u = 1)
     (hw : w ∈ LinearMap.BilinForm.orthogonal (polarBilin Q)
@@ -307,6 +315,7 @@ private theorem eichler_add_smul_mem_of_invariant {b x u w : V} {X : Submodule (
       _ = w + (polar Q x w + Q w) • u := by rw [vec_add_self, add_zero]
   rwa [hformula] at hsub
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem mem_of_three_eichler_displacements {x u w₁ w₂ : V} {X : Submodule (ZMod 2) V}
     (h1X : w₁ + (polar Q x w₁ + Q w₁) • u ∈ X)
     (h2X : w₂ + (polar Q x w₂ + Q w₂) • u ∈ X)
@@ -407,7 +416,7 @@ private theorem rootAction_commonCenter (hQ : (polarBilin Q).Nondegenerate) {a :
     apply le_antisymm
     · rintro _ ⟨z, rfl⟩
       have hzroot : polar Q a z.1 = 0 :=
-        mem_orth_span_single_iff.mp (by simpa [rootPerp] using z.2)
+        mem_orth_span_single_iff.mp (by simp [rootPerp])
       have hzroot2 : polar Q z.1 a = 0 := by rwa [polar_comm] at hzroot
       obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (hgroot.2.2 z.1 hzroot2)
       have hc' : rootAction E hE g z - z =
@@ -425,6 +434,7 @@ private theorem rootAction_commonCenter (hQ : (polarBilin Q).Nondegenerate) {a :
       subst hx
       exact ⟨⟨z, hzP⟩, hdisp⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem rootAction_elementary (hQ : (polarBilin Q).Nondegenerate) {a : V}
     (ha : Q a = 0) (ha0 : a ≠ 0) {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hE : ∀ g ∈ E, IsRootElt Q a g) : IsElementaryAbelian2 E := by
@@ -448,13 +458,13 @@ private theorem rootAction_exists_card_eq (hQ : (polarBilin Q).Nondegenerate) {a
     ∃ r : ℕ, Nat.card E = 2 ^ r ∧ IsElementaryAbelian2 E := by
   classical
   have helem := rootAction_elementary hQ ha ha0 hE
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fintype V := Fintype.ofFinite V
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun g : V ≃ₗ[ZMod 2] V => (g : V → V)) DFunLike.coe_injective
-  haveI : Finite E := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2group : IsPGroup 2 E := by
     rw [isPGroup_iff_exists_pow_pow_eq_one]
     exact ⟨1, fun g => by simpa using helem.2 g⟩
@@ -462,7 +472,7 @@ private theorem rootAction_exists_card_eq (hQ : (polarBilin Q).Nondegenerate) {a
   exact ⟨r, hcardE, helem⟩
 
 private theorem rootAction_fixed_mem_rootPerp (hQ : (polarBilin Q).Nondegenerate) {a v : V}
-    (ha : Q a = 0) (ha0 : a ≠ 0) {E : Subgroup (V ≃ₗ[ZMod 2] V)}
+    (ha : Q a = 0) (_ha0 : a ≠ 0) {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hE : ∀ g ∈ E, IsRootElt Q a g) (hE1 : E ≠ ⊥)
     (hv : ∀ g ∈ E, g v = v) : v ∈ rootPerp (Q := Q) a := by
   by_contra hvp
@@ -510,14 +520,14 @@ theorem card_mul_card_fixed_le (hQ : (polarBilin Q).Nondegenerate) {a : V} (ha :
     (hE1 : E ≠ ⊥) :
     Nat.card E * Nat.card {v : V // ∀ g ∈ E, g v = v} * 2 ≤ Nat.card V := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have haP : a ∈ rootPerp (Q := Q) a := rootPerp_self (Q := Q) ha
   have hPdim : Module.finrank (ZMod 2) (rootPerp (Q := Q) a) =
       Module.finrank (ZMod 2) V - 1 := by
     dsimp only [rootPerp]
     rw [LinearMap.BilinForm.finrank_orthogonal hQ, finrank_span_singleton ha0]
   obtain ⟨r, hcardE, helem⟩ := rootAction_exists_card_eq hQ ha ha0 hE
-  haveI : Module.Finite (ZMod 2) (rootPerp (Q := Q) a) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (rootPerp (Q := Q) a) := Module.Finite.of_finite
   have hcenter := rootAction_commonCenter hQ ha ha0 hE
   have hdim := finrank_fixedSpace_univ_of_commonTransvectionCenter
     (action := rootAction E hE) (center := (⟨a, haP⟩ : rootPerp (Q := Q) a))
@@ -527,7 +537,7 @@ theorem card_mul_card_fixed_le (hQ : (polarBilin Q).Nondegenerate) {a : V} (ha :
   have hcardFix := rootAction_card_fixed hQ ha ha0 hE hE1
   have hcardCP : Nat.card (fixedSpace (rootAction E hE) Set.univ) =
       2 ^ (Module.finrank (ZMod 2) (rootPerp (Q := Q) a) - r) := by
-    haveI : Module.Finite (ZMod 2) (fixedSpace (rootAction E hE) Set.univ) :=
+    have : Module.Finite (ZMod 2) (fixedSpace (rootAction E hE) Set.univ) :=
       Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod, hdim.2]
   have hfinVpos : 0 < Module.finrank (ZMod 2) V := by

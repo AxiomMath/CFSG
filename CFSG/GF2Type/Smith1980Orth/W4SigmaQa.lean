@@ -45,7 +45,7 @@ private theorem eq_one_or_eq_spTransvection {V : Type*} [AddCommGroup V] [Module
   have h3 : w = β b w • a := by
     have h4 : w - β b w • a = 0 := by
       refine hnd.2 _ fun x => ?_
-      simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul]
+      simp only [map_sub, map_smul, smul_eq_mul]
       rw [h2 x, mul_comm]
       exact sub_self _
     exact sub_eq_zero.mp h4
@@ -129,7 +129,7 @@ private theorem core (hP : PGL25Case D.good.H D.good.C D.good.ht D.good.ht1 D.go
     exact Submodule.sub_mem _ hx' (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
   · have h := D.apply_sub_cl_mem heQ heQa D.good.ht
     rw [he, D.t_apply_coord u v, D.coord_sub_coord, add_sub_cancel_left, sub_self] at h
-    exact (D.coord_mem_cases (by rwa [D.coord_apply_zero_right] at h ⊢)).1
+    exact (D.coord_mem_cases (by rw [D.coord_apply_zero_right] at h ⊢; assumption)).1
 
 private theorem finrank_clSub_QG_inf_Qa (hw : S.width = 4) :
     finrank (ZMod 2) (S.clSub (S.QG ⊓ S.Qa D.g)) = 4 := by

@@ -87,7 +87,7 @@ theorem kxSection_of_nonabelian_simple {G : Type} [Group G] {p : ℕ} (hp : p.Pr
     by_contra hcon
     exact hnc (isMulCommutative_iff.mpr fun a b => by_contra fun hab => hcon ⟨a, b, hab⟩)
   have hS : S622IsSimpleSection H (⊥ : Subgroup G) := by
-    haveI := hsimp
+    have := hsimp
     have h := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.S622IsSimpleSection.of_surjective
       (MonoidHom.id ↥H) Function.surjective_id hnab
     rwa [(MonoidHom.ker_eq_bot_iff (MonoidHom.id ↥H)).mpr Function.injective_id,

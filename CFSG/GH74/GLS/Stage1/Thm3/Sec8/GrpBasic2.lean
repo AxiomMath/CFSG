@@ -318,7 +318,7 @@ theorem GQ.Q8_comm_mod_z {G : Type*} [Group G] [Finite G] {Q : Subgroup G} {z : 
 
 theorem GQ.outside_cyclic {G : Type*} [Group G] [Finite G] {Q : Subgroup G} {z : G} (hQ : GQ Q z)
     {j : ℕ} (hj : Nat.card ↥Q = 2 ^ j) {C : Subgroup G} (hCQ : C ≤ Q) (hCc : IsCyclic ↥C)
-    (hC : 2 * Nat.card ↥C = Nat.card ↥Q) (h4 : 4 ≤ Nat.card ↥C) {y : G} (hy : y ∈ Q) (hyC : y ∉ C) :
+    (hC : 2 * Nat.card ↥C = Nat.card ↥Q) (_h4 : 4 ≤ Nat.card ↥C) {y : G} (hy : y ∈ Q) (hyC : y ∉ C) :
     y * y = z ∧ ∀ c ∈ C, y * c * y⁻¹ = c⁻¹ := by
   obtain ⟨M, hMQ, hMc, hzM, hM4, hMi, hM⟩ := hQ.ex
   have hMcard : 2 * Nat.card ↥M = Nat.card ↥Q := by

@@ -424,6 +424,7 @@ private theorem q3_rigidity_data (hS : Sec5Hyp M V) {g h : G}
   exact ⟨hS, hg, hh, hE, hEC, hx₀P, hx₀C, huU, hu'U, hb, hbx,
     hC, hCEg, hZA, hVP, hPP, hVN, hbC, hAx_eq, hAx_E, hAx_card⟩
 
+omit [Finite G] in
 private theorem q3_centralizer_le_centralizer_plane {g h x₀ u u' b : G}
     (d : Q3RigidityData M V g h x₀ u u' b) :
     Pc M V ⊓ Subgroup.centralizer (conjSubgroup g V : Set G) ≤
@@ -476,6 +477,7 @@ private theorem q3_centralizer_plane_lt {g h x₀ u u' b : G}
   have h4 := d.hS.toRootHyp.four_le_card
   nlinarith
 
+omit [Finite G] in
 private theorem q3_commutator_mem_V_of_mul_mem_centralizer {g h x₀ u u' b : G}
     (d : Q3RigidityData M V g h x₀ u u' b) {y : G}
     (hzC : x₀ * y ∈ Pc M V ⊓ Subgroup.centralizer (conjSubgroup g V : Set G)) :
@@ -766,7 +768,7 @@ private theorem q3_hOf_eq (hS : Sec5Hyp M V) {g h : G}
   classical
   have hroot := hS.toRootHyp
   obtain ⟨hE, hC, hC_lt⟩ := q3_equal_data hS hg hh hle
-  obtain ⟨x₀, hx₀P, hx₀C⟩ := SetLike.exists_of_lt hC_lt
+  obtain ⟨x₀, hx₀P, hx₀C⟩ := _root_.IsConcreteLE.exists_of_lt hC_lt
   have hUne : conjSubgroup g V ≠ ⊥ := by
     intro hbot
     have h1 : Nat.card V = 1 := by

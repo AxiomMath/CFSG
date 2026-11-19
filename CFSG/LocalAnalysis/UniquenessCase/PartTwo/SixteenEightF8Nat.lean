@@ -84,8 +84,8 @@ theorem s16g_mem_norm_natHom_iff (Γ : Subgroup (GL ι K)) (g : GL ι K) :
       exact ⟨fun h => (ha (hmap h)).elim, fun h => (hn (hmap h)).elim⟩
 
 theorem s16g_charP_two [Finite K] (hK : Nat.card K = 8) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

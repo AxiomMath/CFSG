@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
 
 include h
 
+omit [Group G] [Finite G] h in
 private theorem sigmaPerm_apply_four {m : ℕ} (hm : 3 ≤ m) :
     sigmaPerm m (4 : Fin (m + 1 + 1 + 1)) = 4 := by
   have h0 : (4 : Fin (m + 1 + 1 + 1)) ≠ (0 : Fin (m + 1 + 1 + 1)) := by
@@ -197,14 +198,14 @@ theorem conj_map_slOn012_of_three_le (hm : 3 ≤ m) :
       rcases hj with rfl | rfl | rfl
       · rw [sigmaPerm_apply_two m (by omega)]; left; rfl
       · rw [sigmaPerm_apply_three m (by omega)]; right; left; rfl
-      · rw [h.sigmaPerm_apply_four hm]; right; right; rfl
+      · rw [GGHalfCtx.sigmaPerm_apply_four hm]; right; right; rfl
     · rintro (rfl | rfl | rfl)
       · refine ⟨2, by left; rfl, ?_⟩
         rw [sigmaPerm_apply_two m (by omega)]
       · refine ⟨3, by right; left; rfl, ?_⟩
         rw [sigmaPerm_apply_three m (by omega)]
       · refine ⟨4, by right; right; rfl, ?_⟩
-        exact h.sigmaPerm_apply_four hm
+        exact GGHalfCtx.sigmaPerm_apply_four hm
   have hU : slOn (m + 1 + 1 + 1) ({0, 1, 2} : Set (Fin (m + 1 + 1 + 1))) =
       (slOn (m + 1) ({0, 1, 2} : Set (Fin (m + 1)))).map (slUpper2Hom m) := by
     rw [← hcastU, ← slUpper2Hom_map_slOn]
@@ -251,7 +252,7 @@ theorem normSL014_of_alphaInner_of_three_le (hm : 3 ≤ m) (hα : GGHalfAlphaInn
             ((MulAut.conj (hElt φ₂)).toMonoidHom.comp
               (φ₁.comp (MulAut.conj a).toMonoidHom)) := by
           rw [← hmap]
-          simp only [Subgroup.map_map, MonoidHom.comp_assoc]
+          simp only [Subgroup.map_map]
     _ = (slOn (m + 1 + 1 + 1) ({0, 1, 2} : Set (Fin (m + 1 + 1 + 1)))).map
             ((MulAut.conj (gElt φ₁)).toMonoidHom.comp φ₂) := by rw [hcomp]
     _ = ((slOn (m + 1 + 1 + 1) ({0, 1, 2} : Set (Fin (m + 1 + 1 + 1)))).map φ₂).map

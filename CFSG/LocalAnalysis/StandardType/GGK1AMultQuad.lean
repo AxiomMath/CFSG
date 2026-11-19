@@ -148,9 +148,9 @@ private lemma orderOf_cast_two_pow_eq_two {p nf : ℕ} (hp : p.Prime) (hp2 : p �
     by_contra h
     have hsub : ¬ p ∣ 2 ^ nf - 1 := by
       intro h1
-      rw [ggMultOrd, if_pos h1] at hord
+      rw [ggMultOrd, ite_eq_left h1] at hord
       omega
-    rw [ggMultOrd, if_neg hsub, if_neg h] at hord
+    rw [ggMultOrd, ite_eq_right hsub, ite_eq_right h] at hord
     omega
   have hcast : ((2 ^ nf : ℕ) : ZMod p) = -1 := by
     have h0 : ((2 ^ nf + 1 : ℕ) : ZMod p) = 0 := by

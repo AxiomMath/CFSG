@@ -21,11 +21,11 @@ theorem relIndex_modEq_one {G : Type*} [Group G] [Finite G] {W B Z : Subgroup G}
   classical
   set H : Subgroup W := B.subgroupOf W with hH
   set Z' : Subgroup W := Z.subgroupOf W with hZ'
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype (W ⧸ H) := Fintype.ofFinite _
-  haveI : Fintype Z' := Fintype.ofFinite _
-  haveI : ∀ g : Z', Fintype (fixedBy (W ⧸ H) g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (orbitRel.Quotient Z' (W ⧸ H)) := Fintype.ofFinite _
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype (W ⧸ H) := Fintype.ofFinite _
+  have : Fintype Z' := Fintype.ofFinite _
+  have : ∀ g : Z', Fintype (fixedBy (W ⧸ H) g) := fun g => Fintype.ofFinite _
+  have : Fintype (orbitRel.Quotient Z' (W ⧸ H)) := Fintype.ofFinite _
   have hburn := sum_card_fixedBy_eq_card_orbits_mul_card_group Z' (W ⧸ H)
   have hone : ∀ g : Z', g ≠ 1 → Fintype.card (fixedBy (W ⧸ H) g) = 1 := by
     intro g hg
@@ -60,12 +60,12 @@ theorem relIndex_modEq_one {G : Type*} [Group G] [Finite G] {W B Z : Subgroup G}
         ext y
         simp [mem_fixedBy]
       have hpos : 0 < Fintype.card (W ⧸ H) := Fintype.card_pos
-      simp only [this, if_true]
+      simp only [this, ite_true]
       rw [Fintype.card_setUniv]
       omega
-    · rw [hone g hg, if_neg hg]
+    · rw [hone g hg, ite_eq_right hg]
   simp only [hall, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, smul_eq_mul,
-    mul_one, Finset.sum_ite_eq', Finset.mem_univ, if_true] at hburn
+    mul_one, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hburn
   have hcardZ : Fintype.card Z' = Nat.card Z := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZW).toEquiv

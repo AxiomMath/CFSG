@@ -71,7 +71,7 @@ theorem hs_member_eq {wg : List ℕ} (hw : ∀ l ∈ wg, l < 2)
     rw [hZ, huniq i hi5 (by omega)]
   · have e : memberOrTop 5 hsCtx.Y i = ⊤ := by
       simp only [memberOrTop]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     rw [e] at hZ
     have h2 : Nat.card (hsCtx.litGrp wg) = 2 ^ 9 * 86625 := by
       rw [hZ, Subgroup.card_top, hs_card]

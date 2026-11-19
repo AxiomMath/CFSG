@@ -210,7 +210,7 @@ theorem false_of_suz_pump
     (hne : L.map (MulAut.conj (QuotientGroup.mk' (pPrimeCore 2 ↥M) ⟨t, htM⟩)).toMonoidHom ≠ L)
     (hPL : (P.subgroupOf M).map (QuotientGroup.mk' (pPrimeCore 2 ↥M)) ≤
       L ⊔ L.map (MulAut.conj (QuotientGroup.mk' (pPrimeCore 2 ↥M) ⟨t, htM⟩)).toMonoidHom)
-    (hPL1 : (P.subgroupOf M).map (QuotientGroup.mk' (pPrimeCore 2 ↥M)) ⊓ L ≤
+    (_hPL1 : (P.subgroupOf M).map (QuotientGroup.mk' (pPrimeCore 2 ↥M)) ⊓ L ≤
       (Subgroup.center ↥L).map L.subtype)
     (hPL2 : (P.subgroupOf M).map (QuotientGroup.mk' (pPrimeCore 2 ↥M)) ⊓
       L.map (MulAut.conj (QuotientGroup.mk' (pPrimeCore 2 ↥M) ⟨t, htM⟩)).toMonoidHom ≤
@@ -353,7 +353,7 @@ theorem false_of_suz_pump
       (f := (Subgroup.subgroupOfEquivOfLe hDvM).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hDvM).symm.surjective
   have hDbarperf : Group.IsPerfect ↥Dbar := by
-    haveI : Group.IsPerfect ↥((UnbalancedGS.gsFixedLayer P v).subgroupOf M) := hDsubMperf
+    have : Group.IsPerfect ↥((UnbalancedGS.gsFixedLayer P v).subgroupOf M) := hDsubMperf
     exact Group.IsPerfect.map (H := (UnbalancedGS.gsFixedLayer P v).subgroupOf M) (f := π)
   have hPtyCard : Nat.card (↥P ⧸ Open.fusionZStar ↥P) = 448345497600 := by
     obtain ⟨ePty⟩ := hc.type

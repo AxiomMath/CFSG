@@ -86,7 +86,7 @@ private theorem conjHom_eq_one
       (a : Perm (Fin 24))⁻¹ * d = d * (a : Perm (Fin 24))⁻¹ := by
     intro d
     have h := congrArg (fun x : Perm (Fin 24) => x⁻¹) (hcomm d⁻¹)
-    simp only [mul_inv_rev, inv_inv] at h
+    simp only [mul_inv_rev] at h
     exact h.symm
   rcases (mem_sup_zpowers_iff (P := D24) (u := m12Sigma) sigma_mul_self
     sigma_conj_mem).mp a.2 with haD | haD

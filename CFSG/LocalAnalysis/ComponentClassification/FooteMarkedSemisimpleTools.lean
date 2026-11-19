@@ -24,13 +24,16 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_of_isKleinFour {B : Subgroup G} (hB : IsKleinFour ↥B) : IsPGroup 2 B :=
   CFSG.Goldschmidt75.isPGroup_of_isKleinFour hB
 
+omit [Finite G] in
 theorem orderOf_eq_two_of_isKleinFour {B : Subgroup G} (hB : IsKleinFour ↥B) {b : G}
     (hb : b ∈ B) (hb1 : b ≠ 1) : orderOf b = 2 :=
   CFSG.Goldschmidt75.orderOf_eq_two_of_isKleinFour hB hb hb1
 
+omit [Finite G] in
 theorem exists_ne_one_of_isKleinFour {B : Subgroup G} (hB : IsKleinFour ↥B) : ∃ b ∈ B, b ≠ 1 := by
   obtain ⟨b, hb, hb1, -⟩ := CFSG.Goldschmidt75.exists_mem_ne_of_isKleinFour hB 1
   exact ⟨b, hb, hb1⟩
@@ -91,23 +94,27 @@ theorem exists_isKleinFour_of_footeFamilyType {L : Subgroup G} (hL : FooteLit.Fo
       exact CFSG.ComponentClassification.UnbalancedGS.RankSmallSources.two_le_pRank_psl_two hF2
     exact CFSG.ComponentClassification.Sol76.exists_isKleinFour_of_two_le_pRank h2
 
+omit [Finite G] in
 private theorem oddCoreIn_eq_map (K : Subgroup G) :
     FooteLit.oddCoreIn K = (pPrimeCore 2 ↥K).map K.subtype := rfl
 
 private theorem odd_card_pPrimeCore (K : Subgroup G) : Odd (Nat.card (pPrimeCore 2 ↥K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥K))
 
+omit [Finite G] in
 private theorem le_oddCoreIn (K : Subgroup G) : FooteLit.oddCoreIn K ≤ K := by
   rw [oddCoreIn_eq_map]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem subgroupOf_oddCoreIn (K : Subgroup G) :
     (FooteLit.oddCoreIn K).subgroupOf K = pPrimeCore 2 ↥K := by
   refine Subgroup.map_subtype_inj.mp ?_
   rw [Subgroup.subgroupOf_map_subtype, ← oddCoreIn_eq_map]
   exact inf_eq_left.mpr (le_oddCoreIn K)
 
+omit [Finite G] in
 private theorem subgroupOf_sup_eq_top_of_sup_oddCoreIn_eq {K P : Subgroup G} (hPK : P ≤ K)
     (h : P ⊔ FooteLit.oddCoreIn K = K) : P.subgroupOf K ⊔ pPrimeCore 2 ↥K = ⊤ := by
   have h1 : (P ⊔ FooteLit.oddCoreIn K).subgroupOf K = (⊤ : Subgroup ↥K) := by
@@ -118,7 +125,7 @@ theorem exists_isKleinFour_le_of_sup_oddCoreIn {T : Type} [Group T] {K X : Subgr
     (hXK : X ≤ K) (hX : X ⊔ FooteLit.oddCoreIn K = K) (e : ↥K ⧸ pPrimeCore 2 ↥K ≃* T)
     (hT : ∃ V : Subgroup T, IsKleinFour ↥V) : ∃ V : Subgroup G, V ≤ X ∧ IsKleinFour ↥V := by
   obtain ⟨V, hV⟩ := hT
-  haveI : Finite T := Finite.of_surjective e e.surjective
+  have : Finite T := Finite.of_surjective e e.surjective
   have hEA : IsElementaryAbelian 2 ↥V :=
     { toIsMulCommutative := IsKleinFour.isMulCommutative
       exponent_dvd_p := by rw [hV.exponent_two] }
@@ -151,7 +158,7 @@ theorem mem_centralizer_of_mem_coreActionKernel {K P : Subgroup G} {β : G} (hPK
     (hP : Group.IsPerfect ↥P) (hPc : FooteLit.oddCoreIn P ≤ centralizer (P : Set G))
     (hβP : β ∈ normalizer (P : Set G)) (hβK : β ∈ UnbalancedLayer.coreActionKernel K) :
     β ∈ centralizer (P : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hβKn, hβKo⟩ := UnbalancedLayer.mem_coreActionKernel.mp hβK
   have hβOn : β ∈ normalizer (FooteLit.oddCoreIn K : Set G) :=
     FooteLit.mem_normalizer_oddCoreIn hβKn
@@ -165,7 +172,7 @@ theorem mem_centralizer_of_mem_coreActionKernel {K P : Subgroup G} {β : G} (hPK
     rw [Subgroup.mem_inf, Subgroup.mem_inf]
     exact and_congr (h1 x) (h2 x)
   have hsub_le : (P ⊓ FooteLit.oddCoreIn K).subgroupOf P ≤ pPrimeCore 2 ↥P := by
-    haveI : ((P ⊓ FooteLit.oddCoreIn K).subgroupOf P).Normal :=
+    have : ((P ⊓ FooteLit.oddCoreIn K).subgroupOf P).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hPN
     have hodd : Nat.Coprime 2 (Nat.card ((P ⊓ FooteLit.oddCoreIn K).subgroupOf P)) := by
       have hcard : Nat.card ((P ⊓ FooteLit.oddCoreIn K).subgroupOf P) =
@@ -205,7 +212,7 @@ theorem le_of_forall_isKleinFour_le {K X : Subgroup G} (hK : CFSG.IsQuasisimple 
     (h4 : ∃ V : Subgroup G, V ≤ K ∧ IsKleinFour ↥V)
     (hX : ∀ V : Subgroup G, V ≤ K → IsKleinFour ↥V → V ≤ X) : K ≤ X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup G := ⨆ V : {V : Subgroup G // V ≤ K ∧ IsKleinFour ↥V}, (V : Subgroup G)
     with hWdef
   have hWK : W ≤ K := by
@@ -246,13 +253,13 @@ theorem le_of_forall_isKleinFour_le {K X : Subgroup G} (hK : CFSG.IsQuasisimple 
       exact le_iSup (fun V : {V : Subgroup G // V ≤ K ∧ IsKleinFour ↥V} => (V : Subgroup G))
         ⟨V, hVK, hV4⟩
     have hcenter : Subgroup.center ↥K ≤ pPrimeCore 2 ↥K := by
-      haveI : Group.IsPerfect ↥K := hK.1
+      have : Group.IsPerfect ↥K := hK.1
       have hcenter_q : Subgroup.center (↥K ⧸ pPrimeCore 2 ↥K) = ⊥ := by
         rcases hKs.eq_bot_or_eq_top_of_normal (Subgroup.center (↥K ⧸ pPrimeCore 2 ↥K)) with
           hz | hz
         · exact hz
         · exfalso
-          haveI : IsMulCommutative (↥K ⧸ pPrimeCore 2 ↥K) := center_eq_top_iff.mp hz
+          have : IsMulCommutative (↥K ⧸ pPrimeCore 2 ↥K) := center_eq_top_iff.mp hz
           exact Group.IsPerfect.not_isMulCommutative (↥K ⧸ pPrimeCore 2 ↥K) inferInstance
       intro x hx
       have hxQ : (QuotientGroup.mk x : ↥K ⧸ pPrimeCore 2 ↥K) ∈
@@ -273,11 +280,12 @@ theorem le_of_forall_isKleinFour_le {K X : Subgroup G} (hK : CFSG.IsQuasisimple 
       hcardV ▸ Subgroup.card_dvd_of_le hVleO
     exact (odd_card_pPrimeCore K).not_two_dvd_nat (dvd_trans (by norm_num : 2 ∣ 4) hdvd)
 
+omit [Finite G] in
 private theorem sup_oddCoreIn_eq_of_le_normalizer_of_isSimpleGroup {C J : Subgroup G}
     (hCJ : C ≤ J) (hJN : J ≤ normalizer (C : Set G))
     (hJs : IsSimpleGroup (↥J ⧸ pPrimeCore 2 ↥J)) (hnot : ¬ C ≤ FooteLit.oddCoreIn J) :
     C ⊔ FooteLit.oddCoreIn J = J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOC : (C.subgroupOf J).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hJN
   let q : ↥J →* ↥J ⧸ pPrimeCore 2 ↥J := QuotientGroup.mk' _
   have hqker : q.ker = pPrimeCore 2 ↥J := QuotientGroup.ker_mk' _
@@ -292,7 +300,7 @@ private theorem sup_oddCoreIn_eq_of_le_normalizer_of_isSimpleGroup {C J : Subgro
   have hmapN : ((C.subgroupOf J).map q).Normal :=
     hOC.map q (QuotientGroup.mk'_surjective _)
   have hsup : C.subgroupOf J ⊔ pPrimeCore 2 ↥J = ⊤ := by
-    haveI : ((C.subgroupOf J).map q).Normal := hmapN
+    have : ((C.subgroupOf J).map q).Normal := hmapN
     rcases hJs.eq_bot_or_eq_top_of_normal ((C.subgroupOf J).map q) with h | h
     · exfalso
       apply hnot'
@@ -323,10 +331,10 @@ private theorem sup_oddCoreIn_eq_of_le_normalizer_of_isSimpleGroup {C J : Subgro
 theorem eq_and_le_centralizer_oddCoreIn {b : G} {J P V : Subgroup G}
     (hJ : FooteLit.IsTwoComponentIn J (centralizer ({b} : Set G)))
     (hJs : IsSimpleGroup (↥J ⧸ pPrimeCore 2 ↥J)) (hPJ : P ⊔ FooteLit.oddCoreIn J = J)
-    (hP : Group.IsPerfect ↥P) (hVP : V ≤ P) (hV : IsKleinFour ↥V)
+    (_hP : Group.IsPerfect ↥P) (hVP : V ≤ P) (hV : IsKleinFour ↥V)
     (hVc : V ≤ centralizer (FooteLit.oddCoreIn (centralizer ({b} : Set G)) : Set G)) :
     P = J ∧ J ≤ centralizer (FooteLit.oddCoreIn (centralizer ({b} : Set G)) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPJle : P ≤ J := by
     rw [← hPJ]
     exact le_sup_left
@@ -387,7 +395,7 @@ theorem eq_and_le_centralizer_oddCoreIn {b : G} {J P V : Subgroup G}
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hOJcent hxJ) (y : G) y.2)
   have hsup : P.subgroupOf J ⊔ pPrimeCore 2 ↥J = ⊤ :=
     subgroupOf_sup_eq_top_of_sup_oddCoreIn_eq hPJle hPJ
-  haveI : Group.IsPerfect ↥J := hperfect
+  have : Group.IsPerfect ↥J := hperfect
   have hPtop : P.subgroupOf J = ⊤ :=
     CFSG.GroupTheory.eq_top_of_sup_le_center_of_isPerfect hOZ hsup
   have hJP : J ≤ P := by

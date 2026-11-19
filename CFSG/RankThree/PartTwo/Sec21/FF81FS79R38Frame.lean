@@ -26,26 +26,32 @@ noncomputable abbrev O1 : Subgroup H := Opp 2 (C1 S A₁)
 
 variable {S A₁}
 
+omit [Finite H] in
 theorem Asub_le_J : Asub S A₁ ≤ J := by
   rintro _ ⟨s, -, rfl⟩
   exact S.ι_mem s
 
+omit [Finite H] in
 theorem ι_mem_Asub {s : J6.S6} (hs : s ∈ A₁) : S.ι s ∈ Asub S A₁ := ⟨s, hs, rfl⟩
 
+omit [Finite H] in
 theorem Asub_sq {c₀ : J6.S6} {J₁ : Subgroup J6.S6} (Fr : Frame A₁ c₀ J₁) :
     ∀ a ∈ Asub S A₁, a * a = 1 := by
   rintro _ ⟨s, hs, rfl⟩
   rw [← map_mul, Fr.sq s hs, map_one]
 
+omit [Finite H] in
 theorem Asub_comm {c₀ : J6.S6} {J₁ : Subgroup J6.S6} (Fr : Frame A₁ c₀ J₁) :
     ∀ a ∈ Asub S A₁, ∀ a' ∈ Asub S A₁, a * a' = a' * a := by
   rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩
   rw [← map_mul, ← map_mul, Fr.comm s hs s' hs']
 
+omit [Finite H] in
 theorem Asub_le_C1 {c₀ : J6.S6} {J₁ : Subgroup J6.S6} (Fr : Frame A₁ c₀ J₁) :
     Asub S A₁ ≤ C1 S A₁ := fun a ha =>
   Subgroup.mem_centralizer_iff.mpr fun a' ha' => (Asub_comm Fr a' ha' a ha)
 
+omit [Finite H] in
 theorem mem_C1_iff {x : H} : x ∈ C1 S A₁ ↔ ∀ a ∈ Asub S A₁, x * a = a * x := by
   constructor
   · intro hx a ha
@@ -53,9 +59,10 @@ theorem mem_C1_iff {x : H} : x ∈ C1 S A₁ ↔ ∀ a ∈ Asub S A₁, x * a = 
   · intro h
     exact Subgroup.mem_centralizer_iff.mpr fun a ha => (h a ha).symm
 
-theorem C1_le_Nor : C1 S A₁ ≤ Nor (Asub S A₁) := fun x hx =>
+theorem C1_le_Nor : C1 S A₁ ≤ Nor (Asub S A₁) := fun _x hx =>
   mem_Nor_of_comm_all fun a ha => mem_C1_iff.mp hx a ha
 
+omit [Finite H] in
 theorem C1_inf_J {c₀ : J6.S6} {J₁ : Subgroup J6.S6} (Fr : Frame A₁ c₀ J₁) {x : H} (hxJ : x ∈ J)
     (hx : x ∈ C1 S A₁) : x ∈ Asub S A₁ := by
   obtain ⟨σ, rfl⟩ := S.exists_ι hxJ
@@ -64,11 +71,13 @@ theorem C1_inf_J {c₀ : J6.S6} {J₁ : Subgroup J6.S6} (Fr : Frame A₁ c₀ J�
   rw [map_mul, map_mul]
   exact mem_C1_iff.mp hx _ (ι_mem_Asub hs)
 
+omit [Finite H] in
 theorem b_mem_C1 : b ∈ C1 S A₁ := by
   rw [mem_C1_iff]
   rintro _ ⟨s, -, rfl⟩
   exact (S.ι_comm_b s).symm
 
+omit [Finite H] in
 theorem t_mem_C1 : t ∈ C1 S A₁ := by
   rw [mem_C1_iff]
   rintro _ ⟨s, -, rfl⟩
@@ -80,6 +89,7 @@ theorem K_le_C1 : Opp 3 (Nor (Subgroup.zpowers b)) ≤ C1 S A₁ := by
   rintro _ ⟨s, -, rfl⟩
   exact S.hyp.K_comm_J hk (S.ι_mem s)
 
+omit [Finite H] in
 theorem Nor_conj_C1 {g x : H} (hg : g ∈ Nor (Asub S A₁)) (hx : x ∈ C1 S A₁) :
     g * x * g⁻¹ ∈ C1 S A₁ := by
   rw [mem_C1_iff]
@@ -97,7 +107,7 @@ theorem O1_le_Opp_Nor : O1 S A₁ ≤ Opp 2 (Nor (Asub S A₁)) :=
 
 theorem Nor_conj_O1 {g o : H} (hg : g ∈ Nor (Asub S A₁)) (ho : o ∈ O1 S A₁) :
     g * o * g⁻¹ ∈ O1 S A₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : g * o * g⁻¹ ∈ Opp 2 (Nor (Asub S A₁)) := L14.Opp_conj_mem hg (O1_le_Opp_Nor ho)
   have h2 : g * o * g⁻¹ ∈ C1 S A₁ := Nor_conj_C1 hg (L14.Opp_le 2 _ ho)
   have hle : Opp 2 (Nor (Asub S A₁)) ⊓ C1 S A₁ ≤ O1 S A₁ := by
@@ -139,7 +149,7 @@ theorem cen_decomp (h : FS79Hyp b t b₁ b₂ J) {p : H} (hp : p ∈ Cen b) :
 theorem pgroup_eq_zpowers (Fr : Frame A₁ c₀ J₁) {P : Subgroup H} (hP : IsPGroup 3 P)
     (hbP : b ∈ P) (hPC : P ≤ C1 S A₁) : P = Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]
@@ -194,7 +204,7 @@ theorem pgroup_eq_zpowers (Fr : Frame A₁ c₀ J₁) {P : Subgroup H} (hP : IsP
 
 theorem isSylowOf_b (Fr : Frame A₁ c₀ J₁) : IsSylowOf 3 (Subgroup.zpowers b) (C1 S A₁) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   have hbC : Subgroup.zpowers b ≤ C1 S A₁ := Subgroup.zpowers_le.mpr b_mem_C1
   have hcardb : Nat.card (Subgroup.zpowers b) = 3 := by rw [Nat.card_zpowers, h.ord_b]
@@ -204,7 +214,7 @@ theorem isSylowOf_b (Fr : Frame A₁ c₀ J₁) : IsSylowOf 3 (Subgroup.zpowers 
     hb3g.of_equiv (Subgroup.subgroupOfEquivOfLe hbC).symm
   obtain ⟨P, hAP⟩ := hA.exists_le_sylow
   set S₀ : Subgroup H := (P : Subgroup ↥(C1 S A₁)).map (C1 S A₁).subtype with hS₀
-  have hS₀3 : IsPGroup 3 S₀ := P.isPGroup'.map (C1 S A₁).subtype
+  have hS₀3 : IsPGroup 3 S₀ := P.isPGroup.map (C1 S A₁).subtype
   have hS₀C : S₀ ≤ C1 S A₁ := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
@@ -219,6 +229,7 @@ theorem isSylowOf_b (Fr : Frame A₁ c₀ J₁) : IsSylowOf 3 (Subgroup.zpowers 
   rw [hrel]
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr P.not_dvd_index
 
+omit [Finite H] in
 theorem isSylowOf_of_le {P K H' : Subgroup H} (hP : IsSylowOf 3 P H') (hPK : P ≤ K)
     (hKH : K ≤ H') : IsSylowOf 3 P K := by
   refine ⟨hPK, hP.2.1, ?_⟩
@@ -228,7 +239,7 @@ theorem isSylowOf_of_le {P K H' : Subgroup H} (hP : IsSylowOf 3 P H') (hPK : P �
 theorem b_mem_O1_or_coprime (Fr : Frame A₁ c₀ J₁) :
     b ∈ O1 S A₁ ∨ Nat.Coprime 3 (Nat.card (O1 S A₁)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hc : Nat.Coprime 3 (Nat.card (O1 S A₁))
   · exact Or.inr hc
   left
@@ -272,8 +283,8 @@ theorem b_mem_O1_or_coprime (Fr : Frame A₁ c₀ J₁) :
 theorem r38_of_b_mem_O1 (Fr : Frame A₁ c₀ J₁) (hb : b ∈ O1 S A₁) :
     R38Stmt b (Asub S A₁) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := S.hyp
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]

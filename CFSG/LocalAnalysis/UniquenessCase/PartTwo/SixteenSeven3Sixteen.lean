@@ -19,8 +19,8 @@ theorem s16c167_exists_central_z (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 
   have hP := h.pairFacts
   have hVT : V ≤ D.T := s15_13A_le_T h
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥D.T := hT2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥D.T := hT2.isNilpotent
   have hTn : D.T ≤ normalizer (V : Set G) := D.sylowM.le.trans hP.le_normalizer
   have hnormal : (V.subgroupOf D.T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTn
   have hne : V.subgroupOf D.T ≠ ⊥ := by

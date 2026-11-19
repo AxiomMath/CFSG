@@ -31,23 +31,23 @@ private lemma oddIdxRest_isSolvable_normalizer_rootU (hF : Nat.card F = (2 ^ f) 
     rw [← hDsup]; exact le_sup_right
   have hBnorm : B ≤ Subgroup.normalizer (rootU hF : Set (SU (unitaryInvolution F 2 f) 3)) :=
     le_rfl
-  haveI : ((rootU hF).subgroupOf B).Normal :=
+  have : ((rootU hF).subgroupOf B).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hBnorm
-  haveI : ((rootU hF).subgroupOf D).Normal :=
+  have : ((rootU hF).subgroupOf D).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hDnorm
-  haveI : ((rootU hF).subgroupOf
+  have : ((rootU hF).subgroupOf
       (D ⊔ rootU hF : Subgroup (SU (unitaryInvolution F 2 f) 3))).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hDnorm
   have hU2 : IsPGroup 2 (rootU hF) := isPGroup_rootU hF
   have hUsolv : Group.IsSolvable ↥(rootU hF) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥(rootU hF) := IsPGroup.isNilpotent hU2
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥(rootU hF) := IsPGroup.isNilpotent hU2
     infer_instance
   have hDsolv : Group.IsSolvable ↥D := by
-    haveI : IsCyclic ↥D := hDcyc
+    have : IsCyclic ↥D := hDcyc
     infer_instance
-  haveI hDsolv' : Group.IsSolvable (↥D ⧸ (rootU hF).subgroupOf D) := by
-    haveI : Group.IsSolvable ↥D := hDsolv
+  have hDsolv' : Group.IsSolvable (↥D ⧸ (rootU hF).subgroupOf D) := by
+    have : Group.IsSolvable ↥D := hDsolv
     infer_instance
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient D (rootU hF) hDnorm
   have hquot : Group.IsSolvable
@@ -56,14 +56,14 @@ private lemma oddIdxRest_isSolvable_normalizer_rootU (hF : Nat.card F = (2 ^ f) 
     Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
   have hDsupU : rootU hF ≤ (D ⊔ rootU hF : Subgroup (SU (unitaryInvolution F 2 f) 3)) :=
     le_sup_right
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥((rootU hF).subgroupOf
         (D ⊔ rootU hF : Subgroup (SU (unitaryInvolution F 2 f) 3))) := by
-    haveI : Group.IsSolvable ↥(rootU hF) := hUsolv
+    have : Group.IsSolvable ↥(rootU hF) := hUsolv
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hDsupU).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hDsupU).injective
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ((D ⊔ rootU hF : Subgroup (SU (unitaryInvolution F 2 f) 3)) ⧸
         (rootU hF).subgroupOf (D ⊔ rootU hF)) := hquot
   have htop : Group.IsSolvable
@@ -97,7 +97,7 @@ theorem eq_top_of_not_two_dvd_index (hF : Nat.card F = (2 ^ f) ^ 2) (hq3 : 2 ^ f
     intro hsol
     refine hns ?_
     let e : W ≃* W.map f' := Subgroup.equivMapOfInjective W f' hf'inj
-    haveI : Group.IsSolvable ↥(W.map f') := hsol
+    have : Group.IsSolvable ↥(W.map f') := hsol
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have hUi : ¬ 2 ∣ (rootU hF).index := by
     rw [index_rootU hF]; exact odd_index_factor hF
@@ -111,9 +111,9 @@ theorem eq_top_of_not_two_dvd_index (hF : Nat.card F = (2 ^ f) ^ 2) (hq3 : 2 ^ f
     intro hle
     refine hnsW' ?_
     have hsub : Group.IsSolvable ↥((W.map f').subgroupOf B) := by
-      haveI : Group.IsSolvable ↥B := hBsolv
+      have : Group.IsSolvable ↥B := hBsolv
       infer_instance
-    haveI : Group.IsSolvable ↥((W.map f').subgroupOf B) := hsub
+    have : Group.IsSolvable ↥((W.map f').subgroupOf B) := hsub
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).symm.injective

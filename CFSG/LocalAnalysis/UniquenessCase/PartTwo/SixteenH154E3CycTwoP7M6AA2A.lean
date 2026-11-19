@@ -15,7 +15,7 @@ private theorem s16h_e3_CycTwoP7M6A_isCharacteristicP_of_normalSylow
     (hPnorm : H ≤ Subgroup.normalizer (P : Set X)) (hPgrp : IsPGroup 7 P)
     (hPcent : Subgroup.centralizer (P : Set X) ⊓ H ≤ P) :
     CFSG.IsCharacteristicP 7 ↥H := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hN : (P.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPle).mpr hPnorm
   have hsub : P.subgroupOf H ≤ CFSG.pCore 7 ↥H :=

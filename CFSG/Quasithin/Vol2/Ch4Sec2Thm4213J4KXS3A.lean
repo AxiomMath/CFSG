@@ -35,7 +35,7 @@ theorem oddCore_centralizes_iSup {Γ : Type} [Group Γ] {K : Subgroup Γ}
         _ = g⁻¹ * (k₀ * (g * o * g⁻¹)) * g := by rw [hc]
         _ = (g⁻¹ * k₀ * g) * o := by group
     have e : (MulAut.conj g⁻¹).toMonoidHom k₀ = g⁻¹ * k₀ * g := by
-      simp [MulAut.conj_apply]
+      simp
     rw [e, Subgroup.mem_centralizer_singleton_iff]
     exact hmain.symm
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hle hj)).symm

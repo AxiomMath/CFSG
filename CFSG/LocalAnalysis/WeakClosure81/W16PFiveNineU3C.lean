@@ -98,7 +98,7 @@ theorem IsMinFam16.le_center_of_forall_mem_centralizer (hF₁ : PSUThreeRootFact
     X₀ ≤ Subgroup.center X := by
   classical
   by_contra hX₀nc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Fam16 M U S H := hH.1
   have hIea : IsElemAbelian 2 (iSub16 V H) := Cex16.isElemAbelian_iSub16 h1 hS h hF
   have hHnormI : H ≤ Subgroup.normalizer (iSub16 V H : Set G) :=
@@ -302,7 +302,7 @@ theorem IsMinFam16.le_center_of_forall_mem_centralizer (hF₁ : PSUThreeRootFact
   have hX'K : X' ≤ kSub V' ⊤ E' := by
     have hEnorm : (E'.subgroupOf (⊤ : Subgroup (VG (D.img H)))).Normal :=
       (normal_vHat (G := D.img H)).subgroupOf _
-    haveI hKsub_normal : (kSub V' ⊤ E').Normal := by
+    have hKsub_normal : (kSub V' ⊤ E').Normal := by
       have h1 := kSub_subgroupOf_normal (V := V') (H := ⊤) (E := E') le_top hEnorm
         (fun _ _ => le_top)
       have h2 : (⊤ : Subgroup (VG (D.img H))) ≤

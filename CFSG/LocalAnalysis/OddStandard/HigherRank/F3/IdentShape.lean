@@ -21,7 +21,7 @@ theorem isMTypeSchur_clauses {J : Type} [Group J] [Finite J] (hJ2 : IsTwoQuasisi
   rcases hM with ⟨-, hc, hev, hcl⟩ | ⟨_, ⟨e⟩⟩
   · exact ⟨hc, hev, hcl⟩
   · exfalso
-    haveI : Group.IsPerfect (J ⧸ pPrimeCore 2 J) := hJ2.2.1
+    have : Group.IsPerfect (J ⧸ pPrimeCore 2 J) := hJ2.2.1
     exact ComponentClassification.TBLit.not_isPerfect_sl2Three
       (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective)
 

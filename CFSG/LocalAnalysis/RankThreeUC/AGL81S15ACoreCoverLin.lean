@@ -66,8 +66,8 @@ theorem coverIdLin (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group K
   obtain ⟨hadm, F, instF, instFin, hcardF, ⟨φ⟩⟩ :=
     CFSG.RankThree.PartOne.N143.statedClassicalModel_of_isoLie_A hv e
   rw [hQ] at hadm hcardF
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨k, hM⟩ := card_hopfMultiplier_psl_char_two hG hcardF hadm
   let ρ : K →* StatedProj (StatedSL (l + 1) F) :=
     φ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))

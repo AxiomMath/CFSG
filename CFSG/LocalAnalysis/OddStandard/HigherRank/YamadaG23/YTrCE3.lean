@@ -11,15 +11,15 @@ open Subgroup
 theorem centExt_split_of_sylow_split {G : Type} [Group G] [Finite G]
     {N Z P K₀ : Subgroup G} (hZN : Z ≤ N) (hZc : ∀ z ∈ Z, ∀ g ∈ N, z * g = g * z)
     (hZ3 : IsPGroup 3 ↥Z) (hPN : P ≤ N) (hP : IsPGroup 3 ↥P) (hPi : ¬ 3 ∣ P.relIndex N)
-    (hZP : Z ≤ P) (hK₀P : K₀ ≤ P) (hZK : Z ⊓ K₀ = ⊥) (hZK₀ : Z ⊔ K₀ = P) :
+    (_hZP : Z ≤ P) (hK₀P : K₀ ≤ P) (hZK : Z ⊓ K₀ = ⊥) (hZK₀ : Z ⊔ K₀ = P) :
     ∃ K : Subgroup G, K ≤ N ∧ Z ⊓ K = ⊥ ∧ Z ⊔ K = N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK₀N : K₀ ≤ N := hK₀P.trans hPN
-  haveI hVnorm : (Z.subgroupOf N).Normal :=
+  have hVnorm : (Z.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff hZN).mpr fun z n hz hn => by
       have h : n * z * n⁻¹ = z := by rw [← hZc z hz n hn]; group
       rwa [h]
-  haveI hVcomm : IsMulCommutative ↥(Z.subgroupOf N) :=
+  have hVcomm : IsMulCommutative ↥(Z.subgroupOf N) :=
     IsMulCommutative.of_comm fun a b => by
       apply Subtype.ext
       apply Subtype.ext

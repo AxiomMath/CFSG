@@ -15,13 +15,17 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def mat (x : ↥(StatedSp 2 K)) : Matrix Ix Ix K := ((x : GL Ix K) : Matrix Ix Ix K)
 
+omit [CharP K 2] in
 theorem mat_mul (x y : ↥(StatedSp 2 K)) : mat (x * y) = mat x * mat y := rfl
 
+omit [CharP K 2] in
 theorem mat_one : mat (1 : ↥(StatedSp 2 K)) = 1 := rfl
 
+omit [CharP K 2] in
 theorem mem_mat (x : ↥(StatedSp 2 K)) : (mat x)ᵀ * JJ K * mat x = JJ K :=
   mem_statedSp_iff.1 x.2
 
+omit [CharP K 2] in
 theorem planeMat_pair_mul (A B : Matrix (Fin 2) (Fin 2) K) :
     planeMat ![A, 1] * planeMat ![B, 1] = planeMat ![A * B, 1] := by
   rw [planeMat_mul]
@@ -29,6 +33,7 @@ theorem planeMat_pair_mul (A B : Matrix (Fin 2) (Fin 2) K) :
   funext k
   fin_cases k <;> simp
 
+omit [CharP K 2] in
 theorem planeMat_one_pair : planeMat ![(1 : Matrix (Fin 2) (Fin 2) K), 1] = 1 := by
   rw [planeMat_one]
   congr 1
@@ -41,6 +46,7 @@ theorem planeMat_one_pair : planeMat ![(1 : Matrix (Fin 2) (Fin 2) K), 1] = 1 :=
     by rw [planeMat_pair_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one, planeMat_one_pair],
     by rw [planeMat_pair_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one, planeMat_one_pair]⟩
 
+omit [CharP K 2] in
 theorem iotaU_mem {X : GL (Fin 2) K} (hX : X ∈ StatedSL 2 K) : iotaU X ∈ StatedSp 2 K := by
   rw [mem_statedSp_iff]
   show (planeMat ![(X : Matrix (Fin 2) (Fin 2) K), 1])ᵀ * JJ K *
@@ -63,6 +69,7 @@ theorem iotaU_mem {X : GL (Fin 2) K} (hX : X ∈ StatedSL 2 K) : iotaU X ∈ Sta
       planeMat ![(X : GL (Fin 2) K).val, 1] * planeMat ![(Y : GL (Fin 2) K).val, 1]
     rw [planeMat_pair_mul, Units.val_mul]
 
+omit [CharP K 2] in
 theorem iotaH_injective : Function.Injective (iotaH (K := K)) := by
   rw [injective_iff_map_eq_one]
   intro X hX
@@ -84,11 +91,13 @@ section Centralizer
 
 variable {c : K}
 
+omit [CharP K 2] in
 theorem planeMat_symp_det {M : Fin 2 → Matrix (Fin 2) (Fin 2) K}
     (h : (planeMat M)ᵀ * JJ K * planeMat M = JJ K) (k : Fin 2) : (M k).det = 1 :=
   (J2_symp_iff _).1 ((planeMat_symp_iff M).1 h k)
 
-theorem comm_T_of_mem (hc : c ≠ 0) {B x : ↥(StatedSp 2 K)} (hB : mat B = planeMat ![1, Tmat c])
+omit [CharP K 2] in
+theorem comm_T_of_mem (_hc : c ≠ 0) {B x : ↥(StatedSp 2 K)} (hB : mat B = planeMat ![1, Tmat c])
     (hx : x ∈ Subgroup.centralizer ({B} : Set ↥(StatedSp 2 K))) :
     mat x * planeMat ![1, Tmat c] = planeMat ![1, Tmat c] * mat x := by
   rw [Subgroup.mem_centralizer_singleton_iff] at hx
@@ -116,6 +125,7 @@ theorem blk_one_comm (hc : c ≠ 0) {B x : ↥(StatedSp 2 K)} (hB : mat B = plan
   have := congrFun (planeMat_inj h) 1
   simpa using this
 
+omit [CharP K 2] in
 theorem comm_of_Tmat (hc : c ≠ 0) {Y Y' : Matrix (Fin 2) (Fin 2) K} (hY : Y * Tmat c = Tmat c * Y)
     (hY' : Y' * Tmat c = Tmat c * Y') : Y * Y' = Y' * Y := by
   obtain ⟨p, q, hp⟩ : ∃ p q : K, Y = p • 1 + q • Tmat c := ⟨_, _, commutant_form hc Y hY⟩
@@ -125,6 +135,7 @@ theorem comm_of_Tmat (hc : c ≠ 0) {Y Y' : Matrix (Fin 2) (Fin 2) K} (hY : Y * 
     smul_add]
   module
 
+omit [CharP K 2] in
 theorem planeMat_comm_block {Mg Mh Mc : Fin 2 → Matrix (Fin 2) (Fin 2) K}
     (h : planeMat Mc * planeMat Mh * planeMat Mg = planeMat Mg * planeMat Mh) :
     Mc 1 * (Mh 1 * Mg 1) = Mg 1 * Mh 1 := by
@@ -132,6 +143,7 @@ theorem planeMat_comm_block {Mg Mh Mc : Fin 2 → Matrix (Fin 2) (Fin 2) K}
   have h1 := congrFun (planeMat_inj h) 1
   simpa [mul_assoc] using h1
 
+omit [CharP K 2] in
 theorem eq_one_of_cancel {Yc M : Matrix (Fin 2) (Fin 2) K} (hdet : M.det = 1)
     (h : Yc * M = M) : Yc = 1 := by
   have hu : IsUnit M.det := by rw [hdet]; exact isUnit_one
@@ -150,7 +162,7 @@ theorem comm_mem_D0 (hc : c ≠ 0) {B g h : ↥(StatedSp 2 K)} (hB : mat B = pla
     exact mul_mem (mul_mem (mul_mem hg hh) (inv_mem hg)) (inv_mem hh)
   have key : ⁅g, h⁆ * h * g = g * h := by
     rw [commutatorElement_def]
-    simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left, inv_mul_cancel, mul_one]
+    simp only [mul_assoc, inv_mul_cancel, mul_one]
   have hkey : mat ⁅g, h⁆ * mat h * mat g = mat g * mat h := by
     have := congrArg mat key
     simpa only [mat_mul] using this
@@ -184,7 +196,7 @@ theorem comm_mem_D0 (hc : c ≠ 0) {B g h : ↥(StatedSp 2 K)} (hB : mat B = pla
   apply Units.ext
   exact hmat.symm
 
-theorem D0_le_centralizer (hc : c ≠ 0) {B : ↥(StatedSp 2 K)} (hB : mat B = planeMat ![1, Tmat c]) :
+theorem D0_le_centralizer (_hc : c ≠ 0) {B : ↥(StatedSp 2 K)} (hB : mat B = planeMat ![1, Tmat c]) :
     D0 K ≤ Subgroup.centralizer ({B} : Set ↥(StatedSp 2 K)) := by
   intro x hx
   obtain ⟨X, rfl⟩ := (D0_mem_iff _).1 hx

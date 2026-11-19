@@ -20,7 +20,7 @@ private theorem isClosed_setOf_pt_eq {ι : Type} [Fintype ι] [DecidableEq ι]
   have h : {g : SeminaireExp3.ZariskiGL ι k | SeminaireExp3.ZariskiGL.pt g a = c} =
       {g | SeminaireExp3.ZariskiGL.pt g (a - algebraMap k (GLCoord k ι) c) = 0} := by
     ext g
-    simp only [Set.mem_setOf_eq, map_sub, AlgHom.commutes, Algebra.algebraMap_self,
+    simp only [Set.mem_ofPred_eq, map_sub, AlgHom.commutes, Algebra.algebraMap_self,
       RingHom.id_apply, sub_eq_zero]
   rw [h]
   exact (SeminaireExp3.isClosed_iff_exists (e := SeminaireExp3.ZariskiGL.pt)
@@ -100,7 +100,7 @@ private theorem end_apply_eq_sum (g : Module.End k (RootModule τ k)) (v : RootM
     simp
   conv_lhs => rw [hv]
   rw [map_sum]
-  simp only [map_smul, Finsupp.finset_sum_apply, Finsupp.smul_apply, smul_eq_mul]
+  simp only [map_smul, _root_.Finsupp.finsetSum_apply, Finsupp.smul_apply, smul_eq_mul]
 
 private theorem linearMap_apply_eq_sum (f : RootModule τ k →ₗ[k] k) (v : RootModule τ k) :
     f v = ∑ a : Label τ, f (Finsupp.single a 1) * v a := by
@@ -234,14 +234,14 @@ private theorem isPointClosed_setOf_linearMap_apply_eq_aux
     ext z
     constructor
     · rintro ⟨g, hg, rfl⟩
-      rw [Set.mem_setOf_eq, pt_modGLZariski, hP, ← linearMap_apply_eq_sum_entries, hg]
+      rw [Set.mem_ofPred_eq, pt_modGLZariski, hP, ← linearMap_apply_eq_sum_entries, hg]
     · intro hz
       set g : ModGL τ k := (modGLZariski τ k).symm z with hg
       have hze : z = modGLZariski τ k g := by
         rw [hg, MulEquiv.apply_symm_apply]
       refine ⟨g, ?_, hze.symm⟩
       have h := hz
-      rw [Set.mem_setOf_eq, hze, pt_modGLZariski, hP,
+      rw [Set.mem_ofPred_eq, hze, pt_modGLZariski, hP,
         ← linearMap_apply_eq_sum_entries] at h
       exact h
   rw [isPointClosed_iff_isClosed_image, hset]

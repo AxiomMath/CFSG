@@ -38,7 +38,7 @@ theorem centralizerImageRewrite_holds : CentralizerImageRewrite := by
     rw [h, finrank_bot] at hU3
     omega
   obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hUne
-  haveI : Nontrivial V := ⟨⟨u, 0, hu0⟩⟩
+  have : Nontrivial V := ⟨⟨u, 0, hu0⟩⟩
   have hinj : Function.Injective
       (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))) :=
     CFSG.RankThree.PartOne.S15K.mk_injective_orth hQ

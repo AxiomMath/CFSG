@@ -18,7 +18,7 @@ variable {A B : Type} [Group A] [Group B]
 
 private lemma commutator_sup_center_le {G : Type*} [Group G] (X Z : Subgroup G)
     (hZ : Z ≤ Subgroup.center G) : ⁅X ⊔ Z, X ⊔ Z⁆ ≤ X := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [Subgroup.commutator_le]
   intro y1 hy1 y2 hy2
   obtain ⟨x1, hx1, z1, hz1, rfl⟩ :=
@@ -42,10 +42,10 @@ theorem t5_layer_perfect (C : Subgroup A) :
   exact h.map C.subtype
 
 theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.center A)
-    (ht2 : t * t = 1) (hker : f.ker ≤ Subgroup.zpowers t) {C : Subgroup A} (htC : t ∈ C)
+    (ht2 : t * t = 1) (hker : f.ker ≤ Subgroup.zpowers t) {C : Subgroup A} (_htC : t ∈ C)
     (h : (twoPrimeRes (twoRes C)).map f = (CFSG.inSubgroup CFSG.layer C).map f) :
     twoPrimeRes (twoRes C) = CFSG.inSubgroup CFSG.layer C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup A := CFSG.inSubgroup CFSG.layer C
   let D : Subgroup A := twoRes C
   let X : Subgroup A := twoPrimeRes D
@@ -54,7 +54,7 @@ theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.
   have hDC : D ≤ C := (Subgroup.closure_le C).mpr fun _ hg => hg.1
   have hXD : X ≤ D := (Subgroup.closure_le D).mpr fun _ hg => hg.1
   have hZc : Z ≤ Subgroup.center A := Subgroup.zpowers_le.mpr ht
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
   have hZmem : ∀ z ∈ Z, z = 1 ∨ z = t := by
     intro z hz
     rw [Subgroup.mem_zpowers_iff] at hz
@@ -90,7 +90,7 @@ theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.
       _ ≤ X := hYX
   suffices hXle : X ≤ E by exact le_antisymm hXle hEX
   by_contra hne
-  obtain ⟨x, hxX, hxE⟩ := SetLike.not_le_iff_exists.mp hne
+  obtain ⟨x, hxX, hxE⟩ := IsConcreteLE.not_le_iff_exists.mp hne
   obtain ⟨e, heE, z, hzZ, hez⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := E) (t := Z)).mp (hXEZ hxX)
   have hx_et : x = e * t := by
@@ -108,7 +108,7 @@ theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.
   have hEnormC : ∀ c ∈ C, ∀ e ∈ E, c * e * c⁻¹ ∈ E := by
     intro c hc e he
     obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.mp he
-    haveI : (CFSG.layer ↥C).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer ↥C).Characteristic := CFSG.LocalCores.layer_characteristic
     have hconj : (⟨c, hc⟩ : ↥C) * l * (⟨c, hc⟩ : ↥C)⁻¹ ∈ CFSG.layer ↥C :=
       (inferInstance : (CFSG.layer ↥C).Normal).conj_mem l hl ⟨c, hc⟩
     exact Subgroup.mem_map.mpr ⟨_, hconj, rfl⟩
@@ -122,7 +122,7 @@ theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.
     rw [Subgroup.normal_subgroupOf_iff hE'D]
     intro e d he hd
     exact hEnormC d (hDC hd) e he
-  haveI : E'.Normal := hE'normal
+  have : E'.Normal := hE'normal
   let Q := D' ⧸ E'
   let q : Q := QuotientGroup.mk' E' ⟨t, htD⟩
   have hq_ne : q ≠ 1 := by
@@ -182,21 +182,21 @@ theorem t5_xout_eq_layer [Finite A] (f : A →* B) {t : A} (ht : t ∈ Subgroup.
   have hXq_center : Xq ≤ Subgroup.center Q := by
     rw [hXq_eq, Subgroup.zpowers_le, Subgroup.mem_center_iff]
     intro v; exact (hq_central v).symm
-  haveI : Xq.Normal := Subgroup.normal_of_le_center hXq_center
+  have : Xq.Normal := Subgroup.normal_of_le_center hXq_center
   have hX'index_odd : ¬ 2 ∣ X'.index := by
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 D'))
     have hPX' : (P : Subgroup D') ≤ X' := by
       intro p hp
       rw [Subgroup.mem_subgroupOf]
       refine Subgroup.subset_closure ⟨p.2, ?_⟩
-      obtain ⟨k, hk⟩ := P.isPGroup'.exists_orderOf_eq_pow (⟨p, hp⟩ : ↥(P : Subgroup D'))
+      obtain ⟨k, hk⟩ := P.isPGroup.exists_orderOf_eq_pow (⟨p, hp⟩ : ↥(P : Subgroup D'))
       refine ⟨k, ?_⟩
       have h1 : orderOf (⟨p, hp⟩ : ↥(P : Subgroup D')) = orderOf p :=
         Subgroup.orderOf_mk p hp
       have h2 : orderOf (p : A) = orderOf p := (Subgroup.orderOf_mk (p : A) p.2).symm
       rw [h2, ← h1]; exact hk
     intro h2
-    haveI : P.FiniteIndex := inferInstance
+    have : P.FiniteIndex := inferInstance
     exact P.not_dvd_index (h2.trans (Subgroup.index_dvd_of_le hPX'))
   have hindex_map : Xq.index = X'.index := by
     have hk : (QuotientGroup.mk' E').ker ≤ X' := by

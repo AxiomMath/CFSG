@@ -13,9 +13,9 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614F
 
 theorem pieceChevAlt_holds : PieceChevAlt := by
   intro hZJ G _ _ P M x z H S K hyp _ hvi hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup G := hyp.setting.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup G := hyp.setting.simple
   have hopt := hyp.optimal
   have hSH : S ≤ H := hopt.maxInv.1.1
   have hS2 : IsPGroup 2 S := hopt.maxInv.1.2.1
@@ -30,7 +30,7 @@ theorem pieceChevAlt_holds : PieceChevAlt := by
   have hSX : S ≤ X := hX ▸ le_sup_right
   have hXH : X ≤ H := hX ▸ sup_le hK.le hSH
   have hXK : X ≤ normalizer (K : Set G) := hXH.trans hK.normal
-  haveI hKn : (K.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hKX).mpr hXK
+  have hKn : (K.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hKX).mpr hXK
   have hS2' : IsPGroup 2 (S.subgroupOf X) := hS2.comap_subtype
   have hKS : K.subgroupOf X ⊔ S.subgroupOf X = ⊤ := by
     apply Subgroup.map_injective X.subtype_injective

@@ -332,9 +332,8 @@ private theorem ggKGUo_hypGram_split {K : Type} [Field K] (r : ℕ) :
       Matrix.fromBlocks (hypGram r 0 K) 0 0 (1 : Matrix Unit Unit K) := by
   ext a b
   rcases a with (i | k | i) | u <;> rcases b with (j | l | j) | v
-  all_goals first | exact Fin.elim0 k | exact Fin.elim0 l | skip
-  all_goals simp [Matrix.submatrix_apply, ggKGUo_osplit, hypGram_apply, ggKGUo_c,
-    Matrix.fromBlocks, Fin.elim0]
+  all_goals try first | exact Fin.elim0 k | exact Fin.elim0 l
+  all_goals simp [Matrix.submatrix_apply, ggKGUo_osplit, hypGram_apply, Matrix.fromBlocks, Fin.elim0]
 
 private noncomputable def ggKGUo_betaMatOfMat {K : Type} [Field K] {r : ℕ}
     (B : Matrix (HypIndex r 0) (HypIndex r 0) K) : Matrix (HypIndex r 1) (HypIndex r 1) K :=
@@ -413,7 +412,7 @@ private theorem ggKGUo_betaBlock_isometry {n r : ℕ} {K : Type} [Field K]
   have h0' : ((0 : Matrix Unit (HypIndex r 0) K).map h.bar)ᵀ = 0 := by ext a b; simp
   have h1 : (1 : Matrix Unit Unit K).map h.bar = 1 := by ext a b; simp
   simp only [h0, h0', h1, Matrix.transpose_zero, Matrix.transpose_one, Matrix.zero_mul,
-    Matrix.mul_zero, add_zero, zero_add, Matrix.one_mul, Matrix.mul_one]
+    Matrix.mul_zero, add_zero, zero_add, Matrix.mul_one]
   rw [hG]
 
 private theorem ggKGUo_betaMat_one {K : Type} [Field K] {r : ℕ} :
@@ -454,8 +453,8 @@ private theorem ggKGUo_col_c_eq {K : Type} [Field K] {r : ℕ}
   rw [ggKGUo_eC, Matrix.mulVec_single_one, Matrix.col_apply] at h
   rw [h]
   by_cases ha : a = ggKGUo_c r
-  · subst ha; simp [ggKGUo_eC]
-  · rw [if_neg ha]; simp [ggKGUo_eC, ha]
+  · subst ha; simp
+  · rw [ite_eq_right ha]; simp [ha]
 
 private theorem ggKGUo_hypPartner_c {r : ℕ} :
     hypPartner (ggKGUo_c r) = ggKGUo_c r := rfl
@@ -624,8 +623,7 @@ private theorem ggKGUo_delMat_isometry {n r : ℕ} {K : Type} [Field K]
           Matrix.fromBlocks B 0 0 (1 : Matrix Unit Unit K)) =
         (ggKGUo_reindexEquiv (K := K))
           (Matrix.fromBlocks (hypGram r 0 K) 0 0 (1 : Matrix Unit Unit K)) := by
-      simp only [map_mul, ggKGUo_reindexEquiv_transpose, ggKGUo_reindexEquiv_map_bar h,
-        ggKGUo_reindexEquiv_blockJ]
+      simp only [map_mul, ggKGUo_reindexEquiv_blockJ]
       exact hthis
     exact (ggKGUo_reindexEquiv (K := K)).injective hR
   have h0 : (0 : Matrix (HypIndex r 0) Unit K).map h.bar = 0 := by ext a b; simp
@@ -654,9 +652,7 @@ private theorem ggKGUo_betaGL_mem {n r : ℕ} {K : Type} [Field K]
     rw [ggKGUo_betaMat_eq,
       show (ggKGUo_reindexEquiv (K := K) (ggKGUo_betaBlock (g : GL (HypIndex r 0) K))).det =
           (ggKGUo_betaBlock (g : GL (HypIndex r 0) K)).det from by
-        simpa [ggKGUo_reindexEquiv] using
-          Matrix.det_reindex_self (K := K) (ggKGUo_osplit r).symm
-            (ggKGUo_betaBlock (g : GL (HypIndex r 0) K)),
+        simp [ggKGUo_reindexEquiv],
       ggKGUo_betaBlock, Matrix.det_fromBlocks_zero₂₁]
     simp [(mem_hypSU.mp g.2).2]
 
@@ -806,9 +802,9 @@ private theorem ggKGUo_exists_oddFrame {n r p : ℕ} {K : Type} [Field K]
     (E : Subgroup (hypSU h r 1)) (hE : IsElemAbelian p E) :
     Nonempty (ggKGUo_OddFrame (p := p) h E) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd_two_pow_sub_one h hp hpq
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let φ : E →* GL (HypIndex r 1) K := (hypSU h r 1).subtype.comp E.subtype
   let S : Set (GL (HypIndex r 1) K) := Set.range φ
   have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
@@ -1194,7 +1190,7 @@ private theorem ggKGUo_exists_add_bar_eq_one {n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) : ∃ c : K, c + h.bar c = 1 := by
   obtain ⟨c, hc⟩ := exists_add_bar_eq_neg_one h
   refine ⟨c, ?_⟩
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have htwo : (1 : K) + 1 = 0 := by
     simpa [show (2 : K) = 1 + 1 by norm_num] using h2
@@ -1205,13 +1201,13 @@ private theorem ggKGUo_card_ne_zero {n p : ℕ} {K : Type} [Field K]
     {E : Type*} [Group E] [Fintype E] (hp : p.Prime) (hp2 : p ≠ 2)
     (hpg : IsPGroup p E) (h : UnitaryFieldData 2 n K) :
     (Nat.card E : K) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hpg
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hodd : Odd (Nat.card E) := by rw [hk]; exact hpodd.pow
   have hnot : ¬ 2 ∣ Nat.card E :=
     fun hd => (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hd)
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   exact fun hz => hnot ((CharP.cast_eq_zero_iff K 2 (Nat.card E)).mp hz)
 
 private theorem ggKGUo_hypForm_smul_right {n r : ℕ} {K : Type} [Field K]
@@ -1236,9 +1232,9 @@ private theorem ggKGUo_exists_fixed_norm_one {n r p : ℕ} {K : Type} [Field K]
     (E : Subgroup (hypSU h r 1)) (hE : IsElemAbelian p E) :
     ∃ v : HypIndex r 1 → K, (∀ e ∈ E, e • v = v) ∧ hypForm h r 1 v v = 1 := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype E := Fintype.ofFinite E
   have hpg : IsPGroup p E := by
     rw [isPGroup_iff_exists_pow_pow_eq_one]
     exact ⟨1, fun g => by
@@ -1525,12 +1521,12 @@ private theorem ggKGUo_betaMat_mulVec {n r : ℕ} {K : Type} [Field K]
   funext a
   rcases a with i | k | i
   · simp [ggKGUo_betaMat, ggKGUo_betaMatOfMat, Matrix.mulVec, dotProduct,
-      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_oc, ggKGUo_c]
+      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_oc]
   · fin_cases k
     simp [ggKGUo_betaMat, ggKGUo_betaMatOfMat, Matrix.mulVec, dotProduct,
-      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_oc, ggKGUo_c]
+      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_c]
   · simp [ggKGUo_betaMat, ggKGUo_betaMatOfMat, Matrix.mulVec, dotProduct,
-      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_oc, ggKGUo_c]
+      Matrix.reindex_apply, Matrix.submatrix_apply, ggKGUo_osplit, ggKGUo_oc]
 
 private theorem ggKGUo_oc_part_fixed {n r : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) (g0 : hypSU h r 0) (x : HypIndex r 1 → K)

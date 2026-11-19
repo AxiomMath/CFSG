@@ -20,8 +20,8 @@ theorem stdVanishes_torusPow_exc_F4
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n - 1)
     {d : ↥(adjointGroup .F4 F)} (hd : IsStdElt p (TableBExc.torusPow .F4 F p) d) :
     StdVanishes (TableBExc.torusPow .F4 F p) d := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite ↥(adjointGroup .F4 F) := generated_group_finite .F4 F
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite ↥(adjointGroup .F4 F) := generated_group_finite .F4 F
   obtain ⟨a, ha, hda⟩ :=
     exists_rootDiagUnit_eq_of_mem_torusPow (τ := .F4) (F := F) (p := p) hd.1
   have hker : ∀ b : Fin Tag.F4.rank → Fˣ, (∀ i, b i ^ p = 1) →
@@ -59,8 +59,8 @@ theorem stdVanishes_torusPow_exc_F4
 
 theorem modelFactExcSplit_F4 : ModelFactExcSplit .F4 := by
   intro F _ _ _ n p hn hp hp2 hpq hp3
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hn)
   refine modelFactV_of_frame (TableBExc.torusPow .F4 F p) ?_ ?_
   · intro A hA

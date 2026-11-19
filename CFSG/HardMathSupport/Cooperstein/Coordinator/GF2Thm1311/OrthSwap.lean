@@ -11,10 +11,11 @@ open QuadraticMap Module Matrix CFSG.ComponentClassification.CatalogueBOrthogona
 
 variable {K : Type} [Field K] [CharP K 2] {d : ℕ}
 
+omit [CharP K 2] in
 theorem bigInv_of_swapframe [Finite K] (Q : QuadraticForm K (Fin d → K)) (g : similarityPairs Q)
     (hgg : g * g = 1) (hZ : matrixDerivedScalars Q = ⊥)
     (hab : Nat.card (Abelianization (matrixIsometries Q)) ≤ 2)
-    (hσσ : ∀ x, g.val.right (g.val.right x) = x)
+    (_hσσ : ∀ x, g.val.right (g.val.right x) = x)
     (hTQ : ∀ v, Q (coordSemilinear g.val v) = g.val.right (Q v))
     {r : ℕ} (F : HFrame Q r)
     (hs : ∀ i, coordSemilinear g.val (F.e i) = F.f i ∧ coordSemilinear g.val (F.f i) = F.e i)

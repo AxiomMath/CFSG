@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem oUpperTwo_le (X : Subgroup Y) : oUpperTwo X ≤ X :=
   (closure_le _).mpr fun _ hx => hx.1
 
@@ -46,7 +47,7 @@ theorem exists_two_pow_mem {T : Subgroup Y} {t : Y} (ht : t ∈ T) :
   exact hm
 
 theorem le_normalizer_commutator_zpowers {N : Subgroup Y} {t : Y}
-    (ht : t ∈ normalizer (N : Set Y)) :
+    (_ht : t ∈ normalizer (N : Set Y)) :
     N ≤ normalizer ((⁅N, zpowers t⁆ : Subgroup Y) : Set Y) := by
   intro x hx
   refine mem_normalizer_fintype fun c hc => ?_
@@ -110,7 +111,7 @@ theorem commute_of_conj_mem_zpowers_three {a b : Y} (ha : orderOf a = 3) {k : �
 
 theorem eq_of_le_of_noncomm {A Z B : Subgroup Y} (hA : Heis27 A Z) (hBA : B ≤ A) {s d : Y}
     (hs : s ∈ B) (hd : d ∈ B) (hsd : s * d ≠ d * s) : B = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine eq_of_le_of_card_ge hBA ?_
   rw [hA.card]
   have hdvd : Nat.card B ∣ 27 := hA.card ▸ card_dvd_of_le hBA
@@ -123,16 +124,16 @@ theorem eq_of_le_of_noncomm {A Z B : Subgroup Y} (hA : Heis27 A Z) (hBA : B ≤ 
   rcases this with h | h | h | h
   · exfalso
     apply hnc
-    haveI : Subsingleton ↥B := (Nat.card_eq_one_iff_unique.mp h).1
+    have : Subsingleton ↥B := (Nat.card_eq_one_iff_unique.mp h).1
     intro a b
     exact Subsingleton.elim _ _
   · exfalso
     apply hnc
-    haveI : IsCyclic ↥B := isCyclic_of_prime_card h
-    letI := IsCyclic.commGroup (α := ↥B)
+    have : IsCyclic ↥B := isCyclic_of_prime_card h
+    let := IsCyclic.commGroup (α := ↥B)
     exact fun a b => mul_comm a b
   · exfalso
-    exact hnc (IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [h]; norm_num))
+    exact hnc ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [h]; norm_num)).is_comm.comm)
   · rw [h]
 
 theorem conj_mem_oUpperTwo {T : Subgroup Y} {g a : Y} (hg : g ∈ T) (ha : a ∈ oUpperTwo T) :
@@ -170,8 +171,8 @@ theorem exists_common_two_subgroup {D : Subgroup Y} [D.Normal] (hD3 : IsPGroup 3
     (hf₂2 : ∃ k : ℕ, f₂ ^ (2 ^ k) = 1) :
     ∃ d ∈ D, ∃ S : Subgroup Y, IsPGroup 2 S ∧ f₁ ∈ S ∧ d⁻¹ * f₂ * d ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' D with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective D
   set Q : Subgroup (Y ⧸ D) := pCoreOf 2 (⊤ : Subgroup (Y ⧸ D)) with hQ
@@ -207,14 +208,14 @@ theorem exists_common_two_subgroup {D : Subgroup Y} [D.Normal] (hD3 : IsPGroup 3
   obtain ⟨S₂, hS₂⟩ := (h2f hf₂O hf₂2).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥O S₁ S₂
   set S : Subgroup Y := (S₁ : Subgroup ↥O).map O.subtype with hS
-  have hS2 : IsPGroup 2 S := S₁.isPGroup'.map O.subtype
+  have hS2 : IsPGroup 2 S := S₁.isPGroup.map O.subtype
   have hf₁S : f₁ ∈ S := ⟨⟨f₁, hf₁O⟩, hS₁ (mem_subgroupOf.mpr (mem_zpowers f₁)), rfl⟩
   have hf₂g : (g : Y)⁻¹ * f₂ * g ∈ S := by
     have h : (⟨f₂, hf₂O⟩ : ↥O) ∈ (S₂ : Subgroup ↥O) :=
       hS₂ (mem_subgroupOf.mpr (mem_zpowers f₂))
     rw [← hg, Sylow.coe_subgroup_smul, mem_pointwise_smul_iff_inv_smul_mem] at h
     refine ⟨_, h, ?_⟩
-    simp [MulAut.smul_def, MulAut.conj_apply, mul_assoc]
+    simp [MulAut.smul_def, mul_assoc]
   set φ : ↥O →* Y ⧸ D := π.comp O.subtype with hφ
   have hker : φ.ker = D.subgroupOf O := by
     ext x
@@ -264,8 +265,8 @@ theorem exists_common_two_subgroup {D : Subgroup Y} [D.Normal] (hD3 : IsPGroup 3
 theorem subnormalSUThreeTwoCommute_holds : SubnormalSUThreeTwoCommute := by
   intro Y _ _ _ T₁ T₂ h₁ h₂ hu₁ hu₂ hne
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s₁, d₁, z₁, f₁, -, -, hf₁T, hf₁4, hs₁u, hd₁u, hz₁c, hH₁, hs₁O, hd₁O, hsd₁⟩ :=
     exists_data_of_su hu₁
   obtain ⟨s₂, d₂, z₂, f₂, -, -, hf₂T, hf₂4, hs₂u, hd₂u, hz₂c, hH₂, hs₂O, hd₂O, hsd₂⟩ :=
@@ -276,7 +277,7 @@ theorem subnormalSUThreeTwoCommute_holds : SubnormalSUThreeTwoCommute := by
   have hD3 : IsPGroup 3 D := CFSG.LieType.BorelTits.pCoreOf_isPGroup 3 ⊤
   have hDN : ∀ g : Y, g ∈ normalizer (D : Set Y) := fun g =>
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 3 ⊤ (le_normalizer (mem_top g))
-  haveI hDn : D.Normal := normalizer_eq_top_iff.mp (eq_top_iff.mpr fun g _ => hDN g)
+  have hDn : D.Normal := normalizer_eq_top_iff.mp (eq_top_iff.mpr fun g _ => hDN g)
   have hD3el : ∀ x ∈ D, ∃ k : ℕ, x ^ (3 ^ k) = 1 := fun x hx => by
     obtain ⟨k, hk⟩ := hD3 ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
@@ -419,8 +420,8 @@ theorem subnormalSUThreeTwoCommute_holds : SubnormalSUThreeTwoCommute := by
       (fun a ha => mem_sup_right (hnorm hA₂N x hx a ha))
   have hKcard : Nat.card K ≤ 243 := by
     have hle : A₁ ≤ normalizer (A₂ : Set Y) := hA₁D.trans hA₂N
-    haveI := Subgroup.normal_subgroupOf_of_le_normalizer hle
-    haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
+    have := Subgroup.normal_subgroupOf_of_le_normalizer hle
+    have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
     have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient A₁ A₂ hle
     have c1 := card_eq_card_quotient_mul_card_subgroup (A₂.subgroupOf A₁)
     have c2 := card_eq_card_quotient_mul_card_subgroup (A₂.subgroupOf (A₁ ⊔ A₂))

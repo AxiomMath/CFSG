@@ -68,7 +68,7 @@ theorem szj_pow5_mul (hQ : Sz32QFacts Q a c y x) {f g : X} (hf : f ∈ Q) (hg : 
 
 theorem szj_exists_card_pow [Finite X] {E : Subgroup X} (hE : IsElemAbelian 5 E) :
     ∃ k : ℕ, Nat.card E = 5 ^ k := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpg : IsPGroup 5 E := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hE.2 (g : X) g.2⟩
@@ -112,7 +112,7 @@ theorem szj_omega [Finite X] (hQ : Sz32QFacts Q a c y x)
     (hUF : U ≤ F) (hFQ : F ≤ Q) (hrank : CFSG.Open.pRank 5 F ≤ 2) :
     ∀ f ∈ F, f ^ 5 = 1 → f ∈ U := by
   intro f hf hf5
-  haveI hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
+  have hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
   have hfOm : f ∈ sz32Om a c y := hQ.Om_all f (hFQ hf) hf5
   have hUOm : U ≤ sz32Om a c y := fun u hu => hQ.Om_all u (hFQ (hUF hu)) (hUe.2 u hu)
   have hEOm : U ⊔ Subgroup.zpowers f ≤ sz32Om a c y :=
@@ -164,7 +164,7 @@ theorem szj_rank_step [Finite X] {Q : Subgroup X} {a c y x : X} (hQ : Sz32QFacts
     (hAB : ∀ s ∈ Q, ∃ a ∈ A, ∃ b ∈ B, s = a * b) :
     3 ≤ CFSG.Open.pRank 5 A ∨ 3 ≤ CFSG.Open.pRank 5 B := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hA3, hB3⟩ := hcon
   have hA := szj_card_le hQ hUe hUcard hUZ hUA hAQ
     (szj_omega hQ hUe hUcard hUA hAQ (by omega))
@@ -192,13 +192,14 @@ theorem szj_Z_eq (hP : Sz32Struct P x J a c y) :
   rw [hP.facts.x_eq]
   rfl
 
+omit [Finite G] in
 theorem szj_mem_map_conj_iff {V : Subgroup G} {l s : G} :
     s ∈ V.map (MulAut.conj l).toMonoidHom ↔ l⁻¹ * s * l ∈ V := by
   simp only [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
 theorem szj_rank_conj (hP : Sz32Struct P x J a c y) (hZ : Sz32ZFacts P M x (a ^ 5))
     {U : Subgroup G} (hU : Sz32Plane P x a c y U) (l : G) {A B : Subgroup G}
-    (hUS : U ≤ (P : Subgroup G).map (MulAut.conj l).toMonoidHom)
+    (_hUS : U ≤ (P : Subgroup G).map (MulAut.conj l).toMonoidHom)
     (hAS : A ≤ (P : Subgroup G).map (MulAut.conj l).toMonoidHom)
     (hBS : B ≤ (P : Subgroup G).map (MulAut.conj l).toMonoidHom)
     (hUA : U ≤ A) (hUB : U ≤ B)
@@ -234,7 +235,7 @@ theorem szj_rank_conj (hP : Sz32Struct P x J a c y) (hZ : Sz32ZFacts P M x (a ^ 
     rw [Subgroup.card_map_of_injective (MulAut.conj l⁻¹).injective, hU.abs.card]
   have hUZ : Nat.card ((U.map (MulAut.conj l⁻¹).toMonoidHom) ⊓ sz32Z a c : Subgroup G) ≤ 5 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have hdvd : Nat.card ((U.map (MulAut.conj l⁻¹).toMonoidHom) ⊓ sz32Z a c : Subgroup G) ∣
         5 ^ 2 := by
       rw [← hUcard]

@@ -22,6 +22,7 @@ private theorem five_le_of_prime {p : ℕ} (hp : p.Prime) (h3 : 3 < p) : 5 ≤ p
   subst this
   exact absurd hp (by norm_num)
 
+omit [Finite G] in
 private theorem closure_pair_eq_sup (c d : G) :
     Subgroup.closure ({c, d} : Set G) = Subgroup.zpowers c ⊔ Subgroup.zpowers d := by
   rw [Set.insert_eq, Subgroup.closure_union, ← Subgroup.zpowers_eq_closure,
@@ -83,7 +84,7 @@ theorem isCyclic_pCore_d (hC3 : SimsR1L2CubeCentThree) (h45 : Sec4.Item4_5)
     IsCyclic ↥(inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({c} : Set G) ⊓
       Subgroup.centralizer ({d} : Set G))) := by
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
+  have := hp
   have hp5 := five_le_of_prime hp.out hp3
   set C := Subgroup.centralizer ({c} : Set G) with hC
   set N := Subgroup.normalizer (L : Set G) with hN

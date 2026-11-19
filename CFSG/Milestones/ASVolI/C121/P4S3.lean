@@ -19,6 +19,7 @@ theorem burnsideC121_p4_sl2F2_gen : ∀ s x : C1Pack.SL2F2, s ^ 2 = 1 → s ≠ 
 
 variable {𝕎 : Type} [CommGroup 𝕎] [Finite 𝕎]
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_le_stabSub_commV (G : Subgroup (MulAut 𝕎)) : G ≤ stabSub (commV G) := by
   intro g hg u
   have key : ∀ x ∈ G, ∀ v ∈ commV G, x v ∈ commV G := by
@@ -37,6 +38,7 @@ theorem burnsideC121_p4_le_stabSub_commV (G : Subgroup (MulAut 𝕎)) : G ≤ st
   have := key g⁻¹ (G.inv_mem hg) _ hu
   simpa using this
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_le_stabSub_bot (G : Subgroup (MulAut 𝕎)) :
     G ≤ stabSub (⊥ : Subgroup 𝕎) := by
   intro g _ u

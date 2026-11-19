@@ -15,7 +15,7 @@ theorem s16c11_modelRF3_orthMinus_free {K : Type} [Field K] [Finite K] (hK : Nat
     S16C11ModelRF3 (FFModel.nat
       (CFSG.MatrixModel.isometryCore (StatedQuadMinus m K b c))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : K ≃+* ZMod 2 := (ZMod.ringEquivOfPrime K Nat.prime_two hK').symm
   have hpoly' : ∀ t : ZMod 2, t ^ 2 + e b * t + e c ≠ 0 := by
@@ -41,8 +41,8 @@ theorem s16c11_rf3_of_natOmegaMinus_free {W : Type} [CommGroup W] [Finite W]
     (hJ : ∀ x ∈ L₀, ∀ y ∈ J, x y ∈ J) (hN : NatOmegaMinus L J ⊥ n 1) :
     S16C11RF3 L₀ J := by
   obtain ⟨K, hKf, hKfin, b, c, hKcard, hpoly, hreal⟩ := s16c11_orth_realizes hn hle hL₀ hL hJ hN
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hm : n / 2 = 3 ∨ n / 2 = 4 := by rcases hn with rfl | rfl <;> simp
   exact s16c11_rf3_of_modelRF3 (FFModel.nat_faithful _) hreal
     (s16c11_modelRF3_orthMinus_free hKcard hm hpoly)

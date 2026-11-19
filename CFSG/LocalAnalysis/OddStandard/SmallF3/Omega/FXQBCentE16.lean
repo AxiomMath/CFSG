@@ -43,14 +43,14 @@ theorem fx_qb_exists_E16 {B : Subgroup G} (hBL : B ≤ L) (hB : IsElemAb2 B 5)
       exact ⟨2, by omega⟩
     · rw [h] at hcard
       exact ⟨1, by omega⟩
-  haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   obtain ⟨U, hUcard, -, hUle⟩ := Sylow.exists_subgroup_card_pow_prime_le_le Nat.prime_two
     (H := (⊥ : Subgroup ↥(omegaProj hQ))) (L := ψ.range) (n := 4) (by simp) h16 bot_le
   refine ⟨U, ?_, ?_⟩
   · unfold IsElemAb2 CFSG.Open.IsElemAbelian
     refine ⟨⟨?_, ?_⟩, hUcard⟩
-    · haveI : IsMulCommutative ↥B := hB.1.1
-      haveI : IsMulCommutative ↥ψ.range := inferInstance
+    · have : IsMulCommutative ↥B := hB.1.1
+      have : IsMulCommutative ↥ψ.range := inferInstance
       exact isMulCommutative_anti hUle
     · intro x hx
       obtain ⟨b, rfl⟩ := hUle hx

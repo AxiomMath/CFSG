@@ -91,9 +91,9 @@ theorem etaVn_spec (hM : MatFacts) (c0 : Nat) {x : Nat}
     rw [land_shiftRight_one, eta_succ, map_mul]
     cases hb : c0.testBit n
     · refine ⟨ih1, ?_⟩
-      simp only [Bool.false_eq_true, if_false, map_one, Matrix.mul_one]
+      simp only [Bool.false_eq_true, ite_false, map_one, Matrix.mul_one]
       exact ih2
-    · simp only [if_true]
+    · simp only [ite_true]
       obtain ⟨hw, he⟩ := uTab_enc n (by rw [Us_length]; omega)
       rw [Us_getN (by omega), ← he]
       obtain ⟨v1, v2⟩ := vecJ_vec hw ih1
@@ -109,7 +109,7 @@ theorem etaV_sound (hM : MatFacts) (c0 : Nat) {x : Nat}
   rw [smul_row, CFSG.Quasithin.J4Loc.eta_inv hM, ← Mx_apply]
   exact h2
 
-theorem FM_getD {j : Nat} (hj : j < 10) :
+theorem FM_getD {j : Nat} (_hj : j < 10) :
     FM7850.getD j one = getN one CertificateChecks.KernelJ4M4F.FMs j := by
   rw [getN_eq]
   rfl
@@ -148,11 +148,11 @@ theorem mod_two_pow_succ_xor (c n : Nat) :
   rw [Nat.testBit_mod_two_pow, Nat.testBit_xor, Nat.testBit_mod_two_pow]
   rcases Nat.lt_trichotomy i n with h | rfl | h
   · have h1 : i < n + 1 := by omega
-    split <;> simp [h, h1, Nat.testBit_two_pow, Nat.ne_of_gt h]
-  · split <;> simp_all [Nat.testBit_two_pow]
+    split <;> simp [h, h1, Nat.ne_of_gt h]
+  · split <;> simp_all
   · have h1 : ¬ i < n + 1 := by omega
     have h2 : ¬ i < n := by omega
-    split <;> simp [h1, h2, Nat.testBit_two_pow, Nat.ne_of_lt h]
+    split <;> simp [h1, h2, Nat.ne_of_lt h]
 
 theorem xor_rearr (a b e p : Nat) : (a ^^^ b) ^^^ e = (a ^^^ (e ^^^ p)) ^^^ (b ^^^ p) := by
   apply Nat.eq_of_testBit_eq
@@ -181,7 +181,7 @@ theorem y8_dec : ∀ n ≤ 11, ∀ c, ∃ s < 2 ^ 6, ∃ t < 2 ^ 5,
       obtain ⟨s2, hs2, es2⟩ := combK_xor_mem ⟨s, hs, rfl⟩ ⟨s', hs', rfl⟩
       obtain ⟨t2, ht2, et2⟩ := combK_xor_mem ⟨t, ht, rfl⟩ ⟨t', ht', rfl⟩
       refine ⟨s2, hs2, t2, ht2, ?_⟩
-      rw [if_pos rfl, es2, et2, es', et']
+      rw [ite_eq_left rfl, es2, et2, es', et']
       exact xor_rearr _ _ _ _
 
 @[expose] def Fx (c : Nat) : Prop := ∀ k < 31, eta uJ 11 c • rowN (pv.getD k 0) = rowN (pv.getD k 0)

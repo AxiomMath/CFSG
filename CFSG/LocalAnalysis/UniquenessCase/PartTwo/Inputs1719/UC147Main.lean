@@ -52,7 +52,7 @@ theorem uc2_14_7BR_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hKG : KGen147)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hKG : KGen147)
     (hSz : CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.KFactSuzukiThreeFree)
     (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G) (hMS : S.InMSigma)
     (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S)) :
@@ -73,7 +73,7 @@ theorem uc2_14_7Three_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hKG : KGen147)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hKG : KGen147)
     (hSz : CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.KFactSuzukiThreeFree)
     (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G) (hMS : S.InMSigma)
     (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S)) :

@@ -261,7 +261,7 @@ private theorem kgw_rank_case_four_split {K : Type} [Field K] [Fintype K] {V : T
     kgw_CoverRank (ringChar K) (Nat.card K) L := by
   have hM : CFSG.IsComponent (L.map (OmegaAux.ιO Q)) := OmegaAux.isComponent_map_ιO Q hL
   by_cases hK : Nat.card K = 2 ∨ Nat.card K = 3
-  · haveI := OmegaAux.A.isSolvable_orthogonalGroup_of_smallFixedException Q hQ (by omega)
+  · have := OmegaAux.A.isSolvable_orthogonalGroup_of_smallFixedException Q hQ (by omega)
       (Or.inr ⟨⟨hd, hS⟩, hK⟩)
     exact (not_isComponent_of_isSolvable hM).elim
   push Not at hK
@@ -311,7 +311,7 @@ private theorem kgw_rank_case_four_nonsplit_even {K : Type} [Field K] [Fintype K
     (hno : ¬ ∃ S : Submodule K V, Module.finrank K S = 2 ∧ ∀ x ∈ S, Q x = 0)
     (L : Subgroup ↥(orthDerived Q)) (hLn : L.Normal) (hL : CFSG.IsQuasisimple ↥L) :
     kgw_CoverRank (ringChar K) (Nat.card K) L := by
-  haveI : CharP K 2 := ringChar.of_eq h2
+  have : CharP K 2 := ringChar.of_eq h2
   have hts : ∀ U : Submodule K V, Module.finrank K U = 2 → ∃ u ∈ U, Q u ≠ 0 := by
     intro U hU
     by_contra hcon
@@ -319,7 +319,7 @@ private theorem kgw_rank_case_four_nonsplit_even {K : Type} [Field K] [Fintype K
     exact hno ⟨U, hU, hcon⟩
   obtain ⟨E, _, _, _, hE, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.K159.exists_orthDerived_four_sl2 Q hQ hd hts
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hK2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
   have hE4 : 4 ≤ Nat.card E := by
     rw [hE]
@@ -347,7 +347,7 @@ private theorem kgw_rank_case_six_split_even {K : Type} [Field K] [Fintype K] {V
     (hT : ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0)
     (L : Subgroup ↥(orthDerived Q)) (hLn : L.Normal) (hL : CFSG.IsQuasisimple ↥L) :
     kgw_CoverRank (ringChar K) (Nat.card K) L := by
-  haveI : CharP K 2 := ringChar.of_eq h2
+  have : CharP K 2 := ringChar.of_eq h2
   obtain ⟨κ⟩ := OmegaAux.B.klein_commutator_orthogonal_six_of_charTwo Q hQ hd hT
   let e : ↥(orthDerived Q) ≃* Matrix.SpecialLinearGroup (Fin 4) K :=
     ((CFSG.RankThree.PartOne.orthDerivedEquivCommutator Q).symm.trans κ).trans
@@ -369,7 +369,7 @@ private theorem kgw_rank_case_six_nonsplit_even {K : Type} [Field K] [Fintype K]
     (hno : ¬ ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0)
     (L : Subgroup ↥(orthDerived Q)) (hLn : L.Normal) (hL : CFSG.IsQuasisimple ↥L) :
     kgw_CoverRank (ringChar K) (Nat.card K) L := by
-  haveI : CharP K 2 := ringChar.of_eq h2
+  have : CharP K 2 := ringChar.of_eq h2
   have hts : ∀ U : Submodule K V, Module.finrank K U = 3 → ∃ u ∈ U, Q u ≠ 0 := by
     intro U hU
     by_contra hcon
@@ -378,9 +378,9 @@ private theorem kgw_rank_case_six_nonsplit_even {K : Type} [Field K] [Fintype K]
   obtain ⟨E, _, _, D, ψ, hψ⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.exists_evenMinus_model Q hQ (n := 3) (by norm_num)
       (by omega) hts
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
-  haveI := D.finite_E
-  haveI : Fintype E := Fintype.ofFinite E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
+  have := D.finite_E
+  have : Fintype E := Fintype.ofFinite E
   let e1 : Q.IsometryEquiv (CFSG.RankThree.PartOne.KCOrthogonal.evenNormTailForm D.N 2) :=
     { toLinearEquiv := ψ
       map_app' := fun w => hψ w }
@@ -394,9 +394,9 @@ private theorem kgw_rank_case_six_nonsplit_even {K : Type} [Field K] [Fintype K]
   obtain ⟨e4⟩ := D.nonempty_sixSU_mulEquiv hU hbar
   let e5 : CFSG.Open.StatedSU 4 (2 ^ f) E ≃* ↥(orthDerived Q) :=
     e4.symm.trans (e3.trans (CFSG.RankThree.PartOne.orthDerivedEquiv e2).symm)
-  haveI := OmegaAux.finite_orthDerived Q
-  haveI : Finite ↥(CFSG.Open.StatedSU 4 (2 ^ f) E) := Finite.of_equiv _ e5.toEquiv.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := OmegaAux.finite_orthDerived Q
+  have : Finite ↥(CFSG.Open.StatedSU 4 (2 ^ f) E) := Finite.of_equiv _ e5.toEquiv.symm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNat : Nat.card E = (2 ^ f) ^ 2 := by rw [D.card_E, hcard]
   have hF : Fintype.card E = (2 ^ f) ^ 2 := by rw [Nat.card_eq_fintype_card] at hNat; exact hNat
   have hnq : ((4 : ℕ), 2 ^ f) ≠ (3, 2) := by
@@ -427,7 +427,7 @@ private theorem kgw_rank_case_large {K : Type} [Field K] [Fintype K] {V : Type}
   have hqs : CFSG.IsQuasisimple ↥(orthDerived Q) :=
     CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_orthDerived hQ ⟨T, hT3, hT⟩
   have hLtop : L = ⊤ := OmegaAux.eq_top_of_isQuasisimple hqs hLn hL
-  haveI := OmegaAux.finite_orthDerived Q
+  have := OmegaAux.finite_orthDerived Q
   have hfd : LieFactorData (ringChar K) ↥(orthDerived Q) :=
     ⟨hqs.1.commutator_eq_top, OmegaAux.C.large_chev hQ hd, fun ⟨e⟩ =>
       ((OmegaAux.M.large_no_a6 hQ hd).false e).elim⟩

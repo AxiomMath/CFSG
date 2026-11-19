@@ -43,7 +43,7 @@ theorem mem_USet_restrict_of_le (hΩ : HypOmegaGen Ω) {Y L U : Subgroup G} (hU 
 theorem mem_sylow_of_mem {Y : Subgroup G} {S' : Sylow 2 G} {S₁ : Sylow 2 ↥Y}
     (hS₁ : (S₁ : Subgroup ↥Y).map Y.subtype ≤ (S' : Subgroup G)) {x : ↥Y}
     (hx : (x : G) ∈ (S' : Subgroup G)) : x ∈ (S₁ : Subgroup ↥Y) := by
-  have h2 : IsPGroup 2 ↥((S' : Subgroup G).subgroupOf Y) := S'.isPGroup'.comap_subtype
+  have h2 : IsPGroup 2 ↥((S' : Subgroup G).subgroupOf Y) := S'.isPGroup.comap_subtype
   have hle : (S₁ : Subgroup ↥Y) ≤ (S' : Subgroup G).subgroupOf Y := fun y hy =>
     hS₁ ⟨y, hy, rfl⟩
   have heq := S₁.maximal_isPGroup.eq_of_le h2 hle

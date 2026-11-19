@@ -28,7 +28,7 @@ lemma l04fD5_swap_mul_apply {p m : ℕ} {V : Type} [AddCommGroup V] [Module (ZMo
       omega
     have hadj : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) := Or.inr hij
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hne, if_pos hadj]
+    rw [ite_eq_right hne, ite_eq_left hadj]
     norm_num
   have hij' : α i (h j) = -1 := by
     rw [hpair i j]
@@ -38,7 +38,7 @@ lemma l04fD5_swap_mul_apply {p m : ℕ} {V : Type} [AddCommGroup V] [Module (ZMo
       omega
     have hadj : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) := Or.inl hij
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hne, if_pos hadj]
+    rw [ite_eq_right hne, ite_eq_left hadj]
     norm_num
   have hii : α i (h i) = 2 := by
     rw [hpair i i]
@@ -197,7 +197,7 @@ theorem l04fD5_perm_embed {p m : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hm : 5 ≤
           intro hh
           rcases hh with hh | hh <;> (dsimp only [a, d] at hh; omega)
         simp only [CartanMatrix.A, Matrix.of_apply]
-        rw [if_neg hne, if_neg hnot]
+        rw [ite_eq_right hne, ite_eq_right hnot]
         norm_num
       rw [h0] at hc
       exact hc

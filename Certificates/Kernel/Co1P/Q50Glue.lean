@@ -52,7 +52,7 @@ theorem closQ_parts (h : closQ = true) : orbChk BK BIK 8 (repK 0) 9 (recsT orbQM
   obtain ⟨h5, h6⟩ := CFSG.KC.TreeK.andB_true h3
   exact ⟨h1, h5, h6, h4⟩
 
-theorem exact_Q (h : closQ = true) (hb : andB (Nat.beq (lenL BK) 8) (invsOK BK BIK) = true) :
+theorem exact_Q (h : closQ = true) (_hb : andB (Nat.beq (lenL BK) 8) (invsOK BK BIK) = true) :
     exactOK orbQ zRows 270 = true := by
   obtain ⟨hc, hs, ha, himg⟩ := closQ_parts h
   have hw := orbChk_walks hc
@@ -304,7 +304,7 @@ theorem rep11_eq (i : Nat) : rep11 i = unpackR 24 (rep11K i) := by
   unfold rep11 rep11K
   by_cases h0 : i = 0
   · subst h0
-    rw [iotaA_K, if_pos rfl]
+    rw [iotaA_K, ite_eq_left rfl]
     rfl
   · have hb : (i == 0) = false := by simpa using h0
     rw [hb, ite_eq_right h0, repRows_eq]

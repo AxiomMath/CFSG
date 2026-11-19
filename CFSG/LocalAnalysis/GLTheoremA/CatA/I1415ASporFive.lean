@@ -21,7 +21,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem arow_Co3_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1415Row .Co3 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hrec25, hC0, -, hDs, hDnab, hDcard,
     hDcent, -, hC25, -, hAC, hAn, hAcard, -, -, hAc⟩ := R3E_Co3_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co3 ≃* ↥co3P := co3PermEquiv
@@ -97,7 +97,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem arow_Co2_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1415Row .Co2 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hC0, -, hAC, hAn, hAcard, -, -,
     hAc, hC1, -, hDs, hDnab, hDcard, hDcent, hDcard5⟩ := R3E_Co2_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co2 ≃* ↥co2P := co2PermEquiv
@@ -157,7 +157,7 @@ theorem arow_Co2_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
       by_cases h : (j : ℕ) = 0
       · rw [(hrec0 j).2 h]; exact hL0
       · have h1 : co2FiveRecordOf j = 1 := by
-          simp only [co2FiveRecordOf, h, if_false]
+          simp only [co2FiveRecordOf, h, ite_false]
         rw [h1]; exact hL1
     have h := acompOK_conj Nat.prime_five hnorm hjP (hmem _) hr
     have heq : (⟨co2FiveTransporter j * co2FiveLine (co2FiveRepLine (co2FiveRecordOf j)) *

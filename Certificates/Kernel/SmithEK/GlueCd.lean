@@ -56,7 +56,7 @@ theorem invD_get {y : Nat} (hy : y < 693) :
     (invTab (ptMapT dltC))[y]! = at' 10 pd.DI y ∧ at' 10 pd.DI y < 693 := by
   have h := c21276inv_0
   have e0 : Nat.beq (nat_lit 0) (nat_lit 0) = true := rfl
-  rw [e0, cond_true] at h
+  rw [e0, _root_.Bool.cond_true] at h
   have hB := cdInvK_sound h
   have hB' : ∀ y < 693, at' 10 pd.DI y < 693 ∧ (ptMapT dltC)[at' 10 pd.DI y]! = y := by
     intro y hy
@@ -70,7 +70,7 @@ theorem invE_get {y : Nat} (hy : y < 693) :
     (invTab (compTab (ptMapT dltC) (ptMapT dltC)))[y]! = at' 10 pd.EI y ∧ at' 10 pd.EI y < 693 := by
   have h := c21276inv_1
   have e1 : Nat.beq (nat_lit 1) (nat_lit 0) = false := rfl
-  rw [e1, cond_false] at h
+  rw [e1, Bool.cond_false] at h
   have hB := cdInvK_sound h
   have hB' : ∀ y < 693, at' 10 pd.EI y < 693 ∧
       (compTab (ptMapT dltC) (ptMapT dltC))[at' 10 pd.EI y]! = y := by

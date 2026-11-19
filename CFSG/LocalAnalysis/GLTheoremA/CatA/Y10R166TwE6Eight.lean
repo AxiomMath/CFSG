@@ -15,13 +15,16 @@ variable {Ω : Type} [Field Ω] {q : ℕ} [NeZero q]
 @[expose] def twE6Cast (v : Fin 6 → ZMod q) : Fin Tag.E6.rank → ZMod q :=
   fun i => v (Fin.cast (by rfl : Tag.E6.rank = 6) i)
 
+omit [NeZero q] in
 theorem twE6Cast_add (v w : Fin 6 → ZMod q) :
     twE6Cast (q := q) (v + w) = twE6Cast v + twE6Cast w := rfl
 
+omit [NeZero q] in
 theorem twE6Cast_zero : twE6Cast (q := q) (0 : Fin 6 → ZMod q) = 0 := by
   funext i
   simp [twE6Cast]
 
+omit [NeZero q] in
 theorem twE6Cast_injective : Function.Injective (twE6Cast (q := q)) := by
   intro v w h
   funext i
@@ -55,29 +58,35 @@ theorem twE6QVec_zero (ζ : Ωˣ) (hζ : ζ ^ q = 1) :
 @[expose] def twE6B0Vec (j : Fin 4) : Fin 6 → ZMod q :=
   fun i => (twE6B0Mat j i : ZMod q)
 
+omit [NeZero q] in
 theorem twE6B0Vec_last (j : Fin 4) : twE6B0Vec (q := q) j 5 = 0 := by
   fin_cases j <;> simp [twE6B0Vec, twE6B0Mat]
 
 @[expose] def twE6B0Comb (c : Fin 4 → ZMod q) : Fin 6 → ZMod q :=
   ∑ j : Fin 4, c j • twE6B0Vec j
 
+omit [NeZero q] in
 theorem twE6B0Comb_apply (c : Fin 4 → ZMod q) (i : Fin 6) :
     twE6B0Comb c i = ∑ j : Fin 4, c j * twE6B0Vec j i := by
   simp only [twE6B0Comb, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
 
+omit [NeZero q] in
 theorem twE6B0Comb_zero : twE6B0Comb (0 : Fin 4 → ZMod q) = 0 := by
   funext i
   simp [twE6B0Comb]
 
+omit [NeZero q] in
 theorem twE6B0Comb_add (c d : Fin 4 → ZMod q) :
     twE6B0Comb (c + d) = twE6B0Comb c + twE6B0Comb d := by
   funext i
   simp only [twE6B0Comb_apply, Pi.add_apply, add_mul, Finset.sum_add_distrib]
 
+omit [NeZero q] in
 theorem twE6B0Comb_neg (c : Fin 4 → ZMod q) : twE6B0Comb (-c) = -twE6B0Comb c := by
   funext i
   simp only [twE6B0Comb_apply, Pi.neg_apply, neg_mul, Finset.sum_neg_distrib]
 
+omit [NeZero q] in
 theorem twE6B0Comb_last (c : Fin 4 → ZMod q) : twE6B0Comb c 5 = 0 := by
   rw [twE6B0Comb_apply]
   simp [twE6B0Vec_last]
@@ -104,27 +113,32 @@ theorem twE6B0Comb_mem (ζ : Ωˣ) (hζ : ζ ^ q = 1) (c : Fin 4 → ZMod q) :
     twE6QVec ζ hζ (twE6B0Comb c)
   rw [h1]
 
+omit [NeZero q] in
 private theorem twE6B0Comb_coord0 (c : Fin 4 → ZMod q) :
     (4 : ZMod q) * c 0 =
       -4 * twE6B0Comb c 0 + 2 * twE6B0Comb c 1 - 2 * twE6B0Comb c 2 := by
   simp [twE6B0Comb_apply, twE6B0Vec, twE6B0Mat, Fin.sum_univ_four]
   ring
 
+omit [NeZero q] in
 private theorem twE6B0Comb_coord1 (c : Fin 4 → ZMod q) :
     (4 : ZMod q) * c 1 = -4 * twE6B0Comb c 0 := by
   simp [twE6B0Comb_apply, twE6B0Vec, twE6B0Mat, Fin.sum_univ_four]
 
+omit [NeZero q] in
 private theorem twE6B0Comb_coord2 (c : Fin 4 → ZMod q) :
     (4 : ZMod q) * c 2 = -8 * twE6B0Comb c 0 - 4 * twE6B0Comb c 2 := by
   simp [twE6B0Comb_apply, twE6B0Vec, twE6B0Mat, Fin.sum_univ_four]
   ring
 
+omit [NeZero q] in
 private theorem twE6B0Comb_coord3 (c : Fin 4 → ZMod q) :
     (4 : ZMod q) * c 3 = -4 * twE6B0Comb c 0 - twE6B0Comb c 1 -
       3 * twE6B0Comb c 2 - 2 * twE6B0Comb c 3 := by
   simp [twE6B0Comb_apply, twE6B0Vec, twE6B0Mat, Fin.sum_univ_four]
   ring
 
+omit [NeZero q] in
 private theorem four_ne_zero_zmod (hq : q.Prime) (hq2 : q ≠ 2) : (4 : ZMod q) ≠ 0 := by
   intro h0
   have hdvd : q ∣ 4 := (ZMod.natCast_eq_zero_iff 4 q).1 h0
@@ -133,9 +147,10 @@ private theorem four_ne_zero_zmod (hq : q.Prime) (hq2 : q ≠ 2) : (4 : ZMod q) 
     exact hq.dvd_of_dvd_pow h2
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 hdvd2)
 
+omit [NeZero q] in
 theorem twE6B0Comb_injective (hq : q.Prime) (hq2 : q ≠ 2)
     {c : Fin 4 → ZMod q} (h : twE6B0Comb c = 0) : c = 0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have h4 : (4 : ZMod q) ≠ 0 := four_ne_zero_zmod hq hq2
   have h0 : twE6B0Comb c 0 = 0 := by rw [h]; rfl
   have h1 : twE6B0Comb c 1 = 0 := by rw [h]; rfl
@@ -145,7 +160,7 @@ theorem twE6B0Comb_injective (hq : q.Prime) (hq2 : q ≠ 2)
   have e1 := twE6B0Comb_coord1 c
   have e2 := twE6B0Comb_coord2 c
   have e3 := twE6B0Comb_coord3 c
-  simp only [h0, h1, h2, h3, mul_zero, sub_self, add_zero, sub_zero] at e0 e1 e2 e3
+  simp only [h0, h1, h2, h3, mul_zero, sub_self, add_zero] at e0 e1 e2 e3
   funext j
   fin_cases j
   · simpa using (mul_eq_zero.1 e0).resolve_left h4
@@ -189,7 +204,7 @@ theorem natCard_twE6BZero (hq : q.Prime) (hq2 : q ≠ 2) (ζ : Ωˣ) (hζ : ζ ^
 
 end Certs
 
-theorem isElemAbelian_twE6BZero (hq : q.Prime) (ζ : Ωˣ) (hζ : ζ ^ q = 1) :
+theorem isElemAbelian_twE6BZero (_hq : q.Prime) (ζ : Ωˣ) (hζ : ζ ^ q = 1) :
     CFSG.Open.IsElemAbelian q (twE6BZero ζ hζ) := by
   change CFSG.Open.IsElemAbelian q (twE6BZeroHom ζ hζ).range
   refine ⟨⟨⟨fun p q => ?_⟩⟩, ?_⟩

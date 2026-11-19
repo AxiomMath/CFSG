@@ -75,7 +75,7 @@ theorem card_mulAut_dvd_card_mulAut_quotient_center {C : Type} [Group C] [Finite
         rw [(Subgroup.mem_center_iff.mp hz ⁅x, y⁆).symm]
         simp
       rw [hxy]
-      simpa [mul_assoc] using hzc
+      simp [mul_assoc]
     rw [map_commutatorElement]
     conv_lhs =>
       rw [show φ a = (φ a * a⁻¹) * a by group,
@@ -89,15 +89,15 @@ theorem card_mulAut_dvd_card_mulAut_quotient_center {C : Type} [Group C] [Finite
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hK : commutator C ≤ K :=
     Subgroup.commutator_le.mpr (fun a _ b _ => by
-      simp only [K, Set.mem_setOf_eq]
+      simp only [K]
       exact hcomm a b)
   have htop : (⊤ : Subgroup C) ≤ K := by
     rw [← hC.commutator_eq_top]
@@ -110,7 +110,7 @@ private lemma open_pRank_le_one_of_not_dvd_sq {d : ℕ} (hd : d.Prime) {G : Type
     [Finite G] (H : Subgroup G) (h : ¬ d ^ 2 ∣ Nat.card G) :
     CFSG.Open.pRank d H ≤ 1 := by
   by_contra hge
-  push_neg at hge
+  push Not at hge
   obtain ⟨E, -, -, hEcard⟩ := CFSG.SectionRank.exists_pRank hd.one_lt H
   have hdvd : Nat.card E ∣ Nat.card G := Subgroup.card_subgroup_dvd_card E
   have hE : d ^ 2 ∣ Nat.card E := by

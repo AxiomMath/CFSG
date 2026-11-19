@@ -48,7 +48,7 @@ theorem sylow_inf_oddCore_eq_one (Q : Sylow 2 ↥K) {x : ↥K} (hx : x ∈ (Q : 
   have h1 : orderOf x ∣ Nat.card (classicalInvolutionOddCore ↥K) :=
     Subgroup.orderOf_dvd_natCard _ hxN
   have h2 : orderOf x ∣ Nat.card Q := Subgroup.orderOf_dvd_natCard (Q : Subgroup ↥K) hx
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
   rw [hk] at h2
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h2
   by_cases hm0 : m = 0
@@ -135,7 +135,7 @@ theorem exists_quaternion_sylow_of_witness (hw : A7Witness K) (Q : Sylow 2 ↥K)
   have hdvd : 2 ∣ Nat.card (Q : Subgroup ↥K) := by
     by_contra hnd
     apply hnc
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
     have hk0 : k = 0 := by
       by_contra hk0
       exact hnd (by rw [hk]; exact dvd_pow_self 2 hk0)
@@ -161,7 +161,7 @@ theorem exists_quaternion_sylow_of_witness (hw : A7Witness K) (Q : Sylow 2 ↥K)
     rw [hvx] at hle hc1
     exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hc1, hV])).symm
   rcases (CFSG.BenderSuzuki.External.huppert_III_8_2_pgroup_unique_order_prime_subgroup
-    Nat.prime_two Q.isPGroup' hunique).2 rfl with hcyc | hq
+    Nat.prime_two Q.isPGroup hunique).2 rfl with hcyc | hq
   · exact absurd hcyc hnc
   · exact hq
 

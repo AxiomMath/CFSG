@@ -98,7 +98,7 @@ theorem FTS_type_I_complement_structure
       Subgroup.equivMapOfInjective _ _ U.subtype_injective
     have hQU : (P : Subgroup ↥U).map U.subtype ≤ U := Subgroup.map_subtype_le _
     have hQM : (P : Subgroup ↥U).map U.subtype ≤ M := hQU.trans hUM
-    have hQpg : IsPGroup p ↥((P : Subgroup ↥U).map U.subtype) := P.isPGroup'.of_equiv hequiv
+    have hQpg : IsPGroup p ↥((P : Subgroup ↥U).map U.subtype) := P.isPGroup.of_equiv hequiv
     have hQcard : Nat.card ↥((P : Subgroup ↥U).map U.subtype)
         = p ^ (Nat.card ↥U).factorization p := by
       rw [Subgroup.card_subtype, P.card_eq_multiplicity]

@@ -382,7 +382,7 @@ theorem exists_conj_mem_bar_centralizer {J : Subgroup G} (hAlt : IsAlt (Bar2 J) 
         orderOf (⟨x, hxJ⟩ : ↥(Subgroup.normalizer (J : Set G))) :=
       orderOf_map_dvd (J.normalizerMonoidHom) ⟨x, hxJ⟩
     have hxord : orderOf (⟨x, hxJ⟩ : ↥(Subgroup.normalizer (J : Set G))) = orderOf x := by
-      simpa using (Subgroup.orderOf_coe ⟨x, hxJ⟩).symm
+      simp
     exact Odd.of_dvd_nat (hxord.symm ▸ hodd) hdiv
   obtain ⟨ℓ, hℓ, hspec⟩ := CFSG.GroupTheory.exists_inner_sec_of_odd_order e
     (le_top : N ≤ ⊤) hβ hoddβ
@@ -632,12 +632,12 @@ theorem opp_three_eq_of_isAlt_five {M J Y : Subgroup G} (hJY : J ≤ Y)
       have hqcdvd : orderOf (q ⟨c, hcX⟩) ∣ orderOf c := by
         have h1 := orderOf_map_dvd q ⟨c, hcX⟩
         have hco : orderOf (⟨c, hcX⟩ : ↥X) = orderOf c := by
-          simpa using (Subgroup.orderOf_coe ⟨c, hcX⟩).symm
+          simp
         rwa [hco] at h1
       have hqxdvd : orderOf (q ⟨x, hxX⟩) ∣ 3 ^ k := by
         have h1 := orderOf_map_dvd q ⟨x, hxX⟩
         have hxo : orderOf (⟨x, hxX⟩ : ↥X) = orderOf x := by
-          simpa using (Subgroup.orderOf_coe ⟨x, hxX⟩).symm
+          simp
         rw [hxo, hxord] at h1
         exact h1
       have hq3 : orderOf (q ⟨c, hcX⟩) ∣ 3 ^ k := by

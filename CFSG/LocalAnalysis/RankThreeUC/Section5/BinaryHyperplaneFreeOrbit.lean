@@ -20,7 +20,7 @@ theorem free_at (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPri
     b = 1 := by
   by_contra hb
   obtain ⟨hcard, hprime, hodd, -⟩ := PrimeB.prime_order hc hr
-  haveI : Fact (Nat.card B).Prime := ⟨hprime⟩
+  have : Fact (Nat.card B).Prime := ⟨hprime⟩
   have htop : Subgroup.zpowers b = ⊤ := by
     have hd : orderOf b ∣ Nat.card B := orderOf_dvd_natCard b
     have hne : orderOf b ≠ 1 := fun h => hb (orderOf_eq_one_iff.mp h)

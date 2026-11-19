@@ -28,7 +28,7 @@ open Matrix CFSG.StandardType.ClassicalPosition
 theorem GGPresentsG0.range_comp_PSp_source
     {G : Type} [Group G] {G₀ X : Subgroup G} {n r f : ℕ}
     {ψ : (ggU .PSp n f).K →* G}
-    (hpres : GGPresentsG0 G₀ (ggU .PSp n f).D .PSp n f ψ)
+    (_hpres : GGPresentsG0 G₀ (ggU .PSp n f).D .PSp n f ψ)
     (ι : (ggU .PSp r f).K →* (ggU .PSp n f).K)
     (hrange : ι.range = X.comap ψ) (hmap : (X.comap ψ).map ψ = X) :
     (ψ.comp ι).range = X := by
@@ -46,7 +46,7 @@ theorem GGPresentsG0.isPerfect_PSp_source
   let e : (ggU .PSp r f).K ≃* ↥X :=
     (MonoidHom.ofInjective hcomp_inj).trans
       (MulEquiv.subgroupCongr (hpres.range_comp_PSp_source ι hrange hmap))
-  letI : Group.IsPerfect ↥X := ⟨hmark.1⟩
+  let : Group.IsPerfect ↥X := ⟨hmark.1⟩
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem GGPresentsG0.admissible_PSp_source
@@ -62,7 +62,7 @@ theorem GGPresentsG0.admissible_PSp_source
   classical
   have hf : 1 ≤ f := hpres.1.1.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  letI : Group.IsPerfect (StatedSp r (GaloisField 2 f)) :=
+  let : Group.IsPerfect (StatedSp r (GaloisField 2 f)) :=
     hpres.isPerfect_PSp_source hmark ι hι hrange hmap
   have hcomp_inj : Function.Injective (ψ.comp ι) := hpres.injective_PSp.comp hι
   let e : (ggU .PSp r f).K ≃* ↥X :=
@@ -83,8 +83,8 @@ theorem GGPresentsG0.admissible_PSp_source
         (CFSG.HardMathSupport.Solomon.Coordinator.l2opStatedSLEquiv 2 (GaloisField 2 f)))
     by_cases hf1 : f = 1
     · have hcard : Nat.card (GaloisField 2 f) = 2 := by simpa [hf1] using hK
-      letI : Group.IsPerfect ↥X := ⟨hmark.1⟩
-      letI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+      let : Group.IsPerfect ↥X := ⟨hmark.1⟩
+      let : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
         Group.IsPerfect.ofSurjective (f := eSL.toMonoidHom) eSL.surjective
       have hne : CFSG.LieType.Steinberg.sl2Upper (1 : GaloisField 2 f) ≠ 1 := by
         intro h
@@ -92,7 +92,7 @@ theorem GGPresentsG0.admissible_PSp_source
           (a : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) 0 1) h
         change (1 : GaloisField 2 f) = 0 at he
         exact one_ne_zero he
-      letI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+      let : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
         ⟨⟨CFSG.LieType.Steinberg.sl2Upper 1, 1, hne⟩⟩
       exact Group.IsPerfect.not_isSolvable
         (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f))

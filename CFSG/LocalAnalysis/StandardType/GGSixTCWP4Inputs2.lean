@@ -90,17 +90,17 @@ open Classical in
       (∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) → (∀ u j, a u j ^ p = 1) →
       ∀ K : Subgroup (ModGL τ L),
         IsComponentOf K (S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u))) →
-        ∀ i : KernelComponent (Pi.monoidHom fun u => rootCharHom (a u)),
+        ∀ i : KernelComponent (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
           K ≤ rootSpan τ L {γ | ∃ (k : ℕ) (δ : Fin τ.rank → ℤ),
-              δ ∈ componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i ∧
+              δ ∈ componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i ∧
                 γ = (S.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[k] δ} →
           ∃ n : ℕ, 2 ^ n = S.D.q ^ componentOrbitLength S.ρ
-              (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i) ∧
+              (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i) ∧
             GGCompLabelAt
               (componentLabel
-                (compRank (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i))
-                (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i).ncard
-                (twistKindOf S.ρ (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i)) n) K
+                (compRank (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i))
+                (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i).ncard
+                (twistKindOf S.ρ (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i)) n) K
 
 @[expose] def GGTCInputG6InnerDiagLang :
     Prop :=

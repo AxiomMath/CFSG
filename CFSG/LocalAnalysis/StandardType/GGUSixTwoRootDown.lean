@@ -25,8 +25,8 @@ theorem root_downstairs {Lb : Type} [Group Lb] [Finite Lb] {K : Type} [Field K] 
         ∃ S₁ : Finset (Fin 6), S₁.card = 4 ∧
           LargeEvenLayer (ggFix g₁) = (blockSU S₁).map φ) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hpq : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have hd3 : 3 ≤ 6 := by norm_num
@@ -169,11 +169,11 @@ theorem root_downstairs {Lb : Type} [Group Lb] [Finite Lb] {K : Type} [Field K] 
         apply hI
         obtain ⟨g, hg⟩ := (hM_mem _).mp hc
         have hvne : ∀ k : ↥F, k ≠ c → v g k = 0 := fun k hk => by
-          rw [hg, Pi.single_apply, if_neg hk]
+          rw [hg, Pi.single_apply, ite_eq_right hk]
         have hν1 : ∀ k : ↥F, k ≠ c → ν g k.1 = 1 := fun k hk => (hvzero g k).mp (hvne k hk)
         have hcne : ν g c.1 ≠ 1 := fun h => by
           have h1 := (hvzero g c).mpr h
-          rw [hg, Pi.single_apply, if_pos rfl] at h1
+          rw [hg, Pi.single_apply, ite_eq_left rfl] at h1
           exact one_ne_zero h1
         refine ⟨g, c.1, hcne, fun k hk => ?_⟩
         by_cases hkF : k ∈ F

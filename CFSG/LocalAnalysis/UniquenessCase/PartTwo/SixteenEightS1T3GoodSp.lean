@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 open CFSG.Open
 
-theorem s16t3_good_nat_sp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}
+theorem s16t3_good_nat_sp {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2) {m : ℕ}
     (hm : 3 ≤ m) (x : Fin m ⊕ Fin m → K) :
     ∃ F : Subgroup ↥(StatedSp m K), IsPGroup 3 ↥F ∧ ¬ IsCyclic ↥F ∧
       ∀ γ ∈ F, ((γ : Matrix.GeneralLinearGroup (Fin m ⊕ Fin m) K) :

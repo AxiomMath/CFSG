@@ -296,8 +296,8 @@ theorem sec64_Z2Z4 [Finite G] {T H : Subgroup G} {x y : G} (c : Sec64Cfg T H x y
   have hdom : Nat.card (Multiplicative (ZMod 2) × Multiplicative (ZMod 4)) = 8 := by
     rw [Nat.card_prod, sec64_card_m2, sec64_card_m4]
   have hbij : Function.Bijective e := by
-    haveI : Fintype (Multiplicative (ZMod 2) × Multiplicative (ZMod 4)) := Fintype.ofFinite _
-    haveI : Fintype ↥R := Fintype.ofFinite _
+    have : Fintype (Multiplicative (ZMod 2) × Multiplicative (ZMod 4)) := Fintype.ofFinite _
+    have : Fintype ↥R := Fintype.ofFinite _
     rw [Fintype.bijective_iff_surjective_and_card]
     refine ⟨hsurj, ?_⟩
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hdom, hcardR]

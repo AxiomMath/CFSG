@@ -120,7 +120,7 @@ private theorem e0_mem_V1A_map : V1A.map
   rw [mem_vTwo]
   obtain ⟨k, hk⟩ := cOne_conj_vTwoF m
   refine ⟨k, ?_⟩
-  simp only [e0, MulEquiv.coe_toMonoidHom, MulAut.conjNormal_apply]
+  simp only [e0, MulAut.conjNormal_apply]
   rw [hm]
   exact hk
 
@@ -246,7 +246,7 @@ private theorem eq_of_ne_one_of_card_two {F : Subgroup Alt7} (hF : Nat.card F = 
     exact hyk
 
 private theorem map_conj_ne_of_card_two {V F : Subgroup Alt7} (e : Alt7)
-    (heV : V.map (MulAut.conjNormal (H := Alt7) (e : Perm (Fin 7))).toMonoidHom = V)
+    (_heV : V.map (MulAut.conjNormal (H := Alt7) (e : Perm (Fin 7))).toMonoidHom = V)
     (hefree : ∀ x ∈ V, x ≠ 1 →
       (MulAut.conjNormal (H := Alt7) (e : Perm (Fin 7))) x ≠ x)
     (hF : F ≤ V) (hFcard : Nat.card F = 2) :
@@ -271,7 +271,7 @@ private theorem map_conj_ne_of_card_two {V F : Subgroup Alt7} (e : Alt7)
         (MulAut.conjNormal (H := Alt7) (e : Perm (Fin 7))) 1 := by simpa using h
     exact (MulAut.conjNormal (H := Alt7) (e : Perm (Fin 7))).injective h1
   have heq_d := eq_of_ne_one_of_card_two hFcard hdF hdne hconj_mem hconj_ne
-  exact hefree (d : Alt7) (hF hdF) hdne (by simpa [heq_d] using heq_d)
+  exact hefree (d : Alt7) (hF hdF) hdne (by simp [heq_d])
 
 private theorem conj_e0_normalizes_and_free (g : Perm (Fin 7)) :
     let e' : Alt7 := (MulAut.conjNormal (H := Alt7) g) e0
@@ -320,7 +320,7 @@ private theorem conj_e0_normalizes_and_free (g : Perm (Fin 7)) :
           ((MulAut.conjNormal (H := Alt7) g) y) := by
       subst e'
       apply Subtype.ext
-      simp only [MulAut.conjNormal_apply, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [MulAut.conjNormal_apply]
       group
     have hconj' : (MulAut.conjNormal (H := Alt7) (e0 : Perm (Fin 7))) y = y :=
       (MulAut.conjNormal (H := Alt7) g).injective (hcomp.trans hconj)
@@ -328,8 +328,8 @@ private theorem conj_e0_normalizes_and_free (g : Perm (Fin 7)) :
 
 
 private theorem index_conjugateKleinA7_le_four {M : Type*} [Group M] [Finite M] [Nontrivial M]
-    (hM : IsPGroup 2 M) (ρ : Alt7 →* MulAut M)
-    (hfix : ∀ m : M, (∀ a, ρ a m = m) → m = 1)
+    (_hM : IsPGroup 2 M) (ρ : Alt7 →* MulAut M)
+    (_hfix : ∀ m : M, (∀ a, ρ a m = m) → m = 1)
     (F : Subgroup Alt7) (hF : F ≠ ⊥) (g : Perm (Fin 7))
     (hFV : F.map Alt7.subtype ≤ vTwo.map (MulAut.conj g).toMonoidHom)
     (hidx : (fixedSubgroup ρ F).index ≤ Nat.card F) :
@@ -343,7 +343,7 @@ private theorem index_conjugateKleinA7_le_four {M : Type*} [Group M] [Finite M] 
     rwa [card_conjugateKleinA7 g] at h
   have hF2le : 2 ≤ Nat.card F := by
     have hnt : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).mpr hF
-    letI : Nontrivial F := hnt
+    let : Nontrivial F := hnt
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
   have hcardF : Nat.card F = 2 ∨ Nat.card F = 4 := by
@@ -675,15 +675,15 @@ private theorem exists_twoPart_odd_automorphism {M : Type*} [Group M] [Finite M]
 
 private theorem false_of_odd_automorphism {M : Type*} [Group M] [Finite M] [Nontrivial M]
     (hM : IsPGroup 2 M) (ρ : Alt7 →* MulAut M) (hρinj : Function.Injective ρ)
-    (hfix : ∀ m : M, (∀ a : Alt7, ρ a m = m) → m = 1)
+    (_hfix : ∀ m : M, (∀ a : Alt7, ρ a m = m) → m = 1)
     (hM16 : Nat.card M = 16)
     (hCu1 : Nat.card (fixedSubgroup ρ (Subgroup.zpowers u0)) = 1) :
     ∀ (σ : MulAut M) {π : Perm (Fin 7)}, π ∉ Alt7 →
       (∀ a : Alt7, σ * ρ a * σ⁻¹ =
         ρ ((MulAut.conjNormal (H := Alt7) π) a)) → False := by
   intro σ π hπ hσ
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨z, hz1, ⟨a, hzord⟩, hcomm_z_u, hz_conj⟩ :=
     exists_twoPart_odd_automorphism ρ hρinj σ hπ hσ
   let Pz : Subgroup (MulAut M) := Subgroup.zpowers z
@@ -817,7 +817,7 @@ private theorem false_of_odd_automorphism {M : Type*} [Group M] [Finite M] [Nont
       change (1 : M) ∈ CFSG.fixedPointSubgroup Pz M
       rw [FixedPoints.mem_subgroup]
       intro p
-      simpa [MulAut.smul_def] using map_one p.1⟩
+      simp⟩
     have hfixOne : oneS ∈ MulAction.fixedPoints P S := by
       rw [MulAction.mem_fixedPoints]
       intro p
@@ -840,8 +840,8 @@ private theorem card_eq_sixteen_and_fixed_u_eq_one {M : Type*} [Group M] [Finite
     [Nontrivial M] (hM : IsPGroup 2 M) (ρ : Alt7 →* MulAut M)
     (hρinj : Function.Injective ρ) (hM16 : Nat.card M ≤ 16) :
     Nat.card M = 16 ∧ Nat.card (fixedSubgroup ρ (Subgroup.zpowers u0)) = 1 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let P : Subgroup (MulAut M) := Subgroup.zpowers (ρ u0)
   have horderρ : orderOf (ρ u0) = 5 :=
     (orderOf_injective ρ hρinj u0).trans u0_orderOf
@@ -922,7 +922,7 @@ private theorem card_eq_sixteen_and_fixed_u_eq_one {M : Type*} [Group M] [Finite
   have hnm : n = 4 ∧ m = 0 := by
     interval_cases n
     · omega
-    · interval_cases m <;> norm_num [Nat.ModEq] at hmod
+    · interval_cases m; norm_num [Nat.ModEq] at hmod
     · interval_cases m <;> norm_num [Nat.ModEq] at hmod
     · interval_cases m <;> norm_num [Nat.ModEq] at hmod
     · interval_cases m
@@ -987,7 +987,7 @@ theorem card_mul_card_fixed_lt {M : Type*} [Group M] [Finite M] [Nontrivial M]
       _ = 16 := by norm_num
   have hρinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI : IsSimpleGroup Alt7 := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup Alt7 := alternatingGroup.isSimpleGroup (by simp)
     have hker_ne_top : ρ.ker ≠ ⊤ := by
       intro htop
       have hAll : ∀ m : M, (∀ a : Alt7, ρ a m = m) := by

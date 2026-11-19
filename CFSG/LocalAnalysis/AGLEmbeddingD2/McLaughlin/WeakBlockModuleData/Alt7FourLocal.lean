@@ -51,7 +51,7 @@ theorem card_eq_orbit_mul {G : Type*} [Group G] [Finite G] (K : Subgroup G) (t :
   have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group K t
   have hset : (MulAction.orbit K t : Set G) = {x : G | ∃ k ∈ K, x = k * t * k⁻¹} := by
     ext x
-    simp only [MulAction.mem_orbit_iff, hsmul, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, hsmul, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, rfl⟩; exact ⟨k, k.2, rfl⟩
     · rintro ⟨k, hk, rfl⟩; exact ⟨⟨k, hk⟩, rfl⟩
@@ -86,10 +86,12 @@ variable (ρ : Representation (ZMod 2) G Q) (hρ : Function.Injective ρ)
 
 include hρ hdim H
 
+omit [Finite G] [Finite Q] hρ hdim H in
 theorem fix_le_ker {R : Subgroup G} {t : G} (ht : t ∈ R) :
     fixSub ρ R ≤ LinearMap.ker (nilMap ρ t) := fun v hv =>
   (mem_ker_nilMap ρ t v).2 (hv t ht)
 
+omit [Finite G] in
 theorem finrank_ker_le_two {t : G} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) :
     finrank (ZMod 2) (LinearMap.ker (nilMap ρ t)) ≤ 2 := by
   have : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
@@ -97,9 +99,10 @@ theorem finrank_ker_le_two {t : G} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) :
   have h2 := two_le_finrank_range_nilMap ρ hρ H.conj H.order5 ht1 ht2
   omega
 
+omit [Finite G] in
 theorem finrank_fix_le_two {R : Subgroup G} {t : G} (htR : t ∈ R) (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) :
     finrank (ZMod 2) (fixSub ρ R) ≤ 2 :=
-  (Submodule.finrank_mono (fix_le_ker ρ hρ hdim H htR)).trans
+  (Submodule.finrank_mono (fix_le_ker ρ htR)).trans
     (finrank_ker_le_two ρ hρ hdim H ht1 ht2)
 
 theorem card_R_eq_four {R : Subgroup G} (hR1 : R ≠ ⊥) (hRab : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a)
@@ -128,7 +131,7 @@ theorem fix_eq_ker {R : Subgroup G} (hR1 : R ≠ ⊥) (hRab : ∀ a ∈ R, ∀ b
     rw [natCard_submodule_zmod2] at hc
     have : (2 : ℕ) ^ finrank (ZMod 2) (fixSub ρ R) = 2 ^ 2 := by rw [hc]; norm_num
     exact Nat.pow_right_injective (le_refl 2) this
-  refine Submodule.eq_of_le_of_finrank_le (fix_le_ker ρ hρ hdim H htR) ?_
+  refine Submodule.eq_of_le_of_finrank_le (fix_le_ker ρ htR) ?_
   rw [hfr]
   exact finrank_ker_le_two ρ hρ hdim H ht1 (hR2 t htR)
 
@@ -148,12 +151,15 @@ section FGroup
 
 variable (ρ : Representation (ZMod 2) G Q) (ℓ : Submodule (ZMod 2) Q)
 
+omit [Finite G] [Finite Q] in
 theorem rho_inv_apply_rho (g : G) (w : Q) : ρ g⁻¹ (ρ g w) = w := by
   rw [← Module.End.mul_apply, ← map_mul]; simp
 
+omit [Finite G] [Finite Q] in
 theorem rho_apply_rho_inv (g : G) (w : Q) : ρ g (ρ g⁻¹ w) = w := by
   rw [← Module.End.mul_apply, ← map_mul]; simp
 
+omit [Finite G] [Finite Q] in
 theorem fix_aux {g h : G} (hg1 : ∀ v ∈ ℓ, ρ g v = v) (hh2 : ∀ q, nilMap ρ h q ∈ ℓ) (q : Q) :
     ρ g (ρ h q) = (ρ h q - q) + ρ g q := by
   have hm := hg1 _ (hh2 q)
@@ -185,6 +191,7 @@ theorem fix_aux {g h : G} (hg1 : ∀ v ∈ ℓ, ρ g v = v) (hh2 : ∀ q, nilMap
       rw [this]
       exact ℓ.neg_mem h1
 
+omit [Finite G] [Finite Q] in
 theorem fixF_sq (hρ : Function.Injective ρ) {g : G} (hg : g ∈ fixF ρ ℓ) : g ^ 2 = 1 := by
   obtain ⟨hg1, hg2⟩ := hg
   apply hρ
@@ -197,6 +204,7 @@ theorem fixF_sq (hρ : Function.Injective ρ) {g : G} (hg : g ∈ fixF ρ ℓ) :
     _ = -q := by rw [two_smul_zmod2, zero_sub]
     _ = q := neg_eq_self_zmod2 q
 
+omit [Finite G] [Finite Q] in
 theorem fixF_comm (hρ : Function.Injective ρ) {g h : G} (hg : g ∈ fixF ρ ℓ) (hh : h ∈ fixF ρ ℓ) :
     g * h = h * g := by
   obtain ⟨hg1, hg2⟩ := hg
@@ -319,7 +327,7 @@ theorem card_normalizer_eq : Nat.card (Subgroup.normalizer (R : Set G)) = 72 := 
   have hSN : {x : G | ∃ k ∈ Subgroup.normalizer (R : Set G), x = k * t * k⁻¹} =
       {x : G | x ∈ R ∧ x ≠ 1} := by
     ext x
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, hk, rfl⟩
       refine ⟨(Subgroup.mem_normalizer_iff.1 hk t).1 htR, fun h => ht1' ?_⟩
@@ -330,7 +338,7 @@ theorem card_normalizer_eq : Nat.card (Subgroup.normalizer (R : Set G)) = 72 := 
       exact ⟨n, hn, hxn⟩
   have hSG : {x : G | ∃ k ∈ (⊤ : Subgroup G), x = k * t * k⁻¹} = {x : G | x ^ 2 = 1 ∧ x ≠ 1} := by
     ext x
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, -, rfl⟩
       refine ⟨?_, fun h => ht1' ?_⟩

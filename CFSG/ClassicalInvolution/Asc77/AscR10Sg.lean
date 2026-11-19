@@ -94,7 +94,7 @@ theorem Std20.r_four_le_relIndex [IsSimpleGroup G] (d : Std20 p f K K' J S R R' 
   have hniv : n⁻¹ = n := inv_eq_of_mul_eq_one_right hn2
   have hz1 : z ≠ 1 := d.viol.hzK.ne_one
   have hz2 : z * z = 1 := d.viol.hzK.sq
-  obtain ⟨a, ha⟩ := R10.r_relIndex_eq_pow S.isPGroup' n
+  obtain ⟨a, ha⟩ := R10.r_relIndex_eq_pow S.isPGroup n
   by_contra hlt
   have ha1 : a ≤ 1 := by
     by_contra h

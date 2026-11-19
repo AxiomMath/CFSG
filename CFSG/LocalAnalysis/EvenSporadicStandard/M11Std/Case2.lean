@@ -34,7 +34,7 @@ theorem exists_P (hn : Nat.card {x : G // IsConj H.t x} % 4 = 2) :
     ∃ P : Subgroup G, IsPGroup 2 P ∧ H.S ≤ P ∧ Nat.card P = 64 ∧ ¬ 2 ∣ P.index := by
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hSP⟩ := H.isPGroup_S.exists_le_sylow
-  refine ⟨P, P.isPGroup', hSP, ?_, P.not_dvd_index⟩
+  refine ⟨P, P.isPGroup, hSP, ?_, P.not_dvd_index⟩
   have hcard := P.card_eq_multiplicity
   obtain ⟨q, hq⟩ : ∃ q, Nat.card {x : G // IsConj H.t x} = 4 * q + 2 :=
     ⟨Nat.card {x : G // IsConj H.t x} / 4, by omega⟩

@@ -14,21 +14,25 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def phiS {M S : Subgroup G} (hSM : S ≤ M) : ↥S →* ↥(tl M S) :=
   ((piM M).comp (Subgroup.inclusion hSM)).codRestrict (tl M S) fun s => piM_mem_tl s.2
 
+omit [Finite G] in
 theorem phiS_apply_coe {M S : Subgroup G} (hSM : S ≤ M) (s : ↥S) :
     ((phiS hSM s : ↥(tl M S)) : Mt M) = piM M ⟨(s : G), hSM s.2⟩ := rfl
 
+omit [Finite G] in
 theorem phiS_surjective {M S : Subgroup G} (hSM : S ≤ M) : Function.Surjective (phiS hSM) := by
   rintro ⟨y, hy⟩
   obtain ⟨x, hx, rfl⟩ := mem_tl.1 hy
   exact ⟨⟨(x : G), hx⟩, Subtype.ext rfl⟩
 
+omit [Finite G] in
 theorem phiS_eq_one_iff {M S : Subgroup G} (hSM : S ≤ M) (s : ↥S) :
     phiS hSM s = 1 ↔ (s : G) ∈ pCoreOf 2 M := by
   have h1 : phiS hSM s = 1 ↔ piM M ⟨(s : G), hSM s.2⟩ = 1 :=
     ⟨fun h => congrArg Subtype.val h, fun h => Subtype.ext h⟩
   rw [h1, piM_eq_one_iff]
 
-theorem comap_phiS_subgroupOf {M S A : Subgroup G} (hSM : S ≤ M) (hAS : A ≤ S)
+omit [Finite G] in
+theorem comap_phiS_subgroupOf {M S A : Subgroup G} (hSM : S ≤ M) (_hAS : A ≤ S)
     (hOA : pCoreOf 2 M ≤ A) :
     ((tl M A).subgroupOf (tl M S)).comap (phiS hSM) = A.subgroupOf S := by
   ext y
@@ -46,6 +50,7 @@ theorem comap_phiS_subgroupOf {M S A : Subgroup G} (hSM : S ≤ M) (hAS : A ≤ 
   · intro hy
     exact piM_mem_tl hy
 
+omit [Finite G] in
 theorem index_subgroupOf_eq_tl {M S A : Subgroup G} (hSM : S ≤ M) (hAS : A ≤ S)
     (hOA : pCoreOf 2 M ≤ A) :
     (A.subgroupOf S).index = ((tl M A).subgroupOf (tl M S)).index := by
@@ -72,7 +77,7 @@ theorem isSolvable_of_tl {M S : Subgroup G} (hSM : S ≤ M) (h : Group.IsSolvabl
 theorem not_dvd_card_of_tl {M S : Subgroup G} (hSM : S ≤ M) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : ¬ p ∣ Nat.card ↥(tl M S)) : ¬ p ∣ Nat.card ↥S := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have h1 : orderOf (phiS hSM y) ∣ p := by
     rw [← hy]; exact orderOf_map_dvd _ _
@@ -93,6 +98,7 @@ theorem not_dvd_card_of_tl {M S : Subgroup G} (hSM : S ≤ M) {p : ℕ} (hp : p.
   have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h6)
   exact hp2 this
 
+omit [Finite G] in
 theorem tl_sup {M A B : Subgroup G} (hA : A ≤ M) (hB : B ≤ M) :
     tl M (A ⊔ B) = tl M A ⊔ tl M B := by
   unfold tl
@@ -111,16 +117,21 @@ theorem not_dvd_card_of_isPGroup_two {H : Type*} [Group H] [Finite H] (hH : IsPG
   intro hdvd
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow hdvd))
 
+omit [Finite G] in
 theorem yGrp_le_M (hD : Prop95Hyp p M D) (h : Lemma97Chief p M D X W) : yGrp D W ≤ M :=
   sup_le (gammaD_le_of_hyp hD) (commutator_le_of_le (gammaD_le_of_hyp hD) (chief_le_M h))
 
+omit [Finite G] in
 theorem gammaD_le_yGrp : gammaD D ≤ yGrp D W := le_sup_left
 
+omit [Finite G] in
 theorem commutator_le_yGrp : ⁅gammaD D, W⁆ ≤ yGrp D W := le_sup_right
 
+omit [Finite G] in
 theorem pCoreOf_le_yGrp (hD : Prop95Hyp p M D) : pCoreOf 2 M ≤ yGrp D W :=
   hD.clause_c.trans gammaD_le_yGrp
 
+omit [Finite G] in
 theorem tl_yGrp (hD : Prop95Hyp p M D) (h : Lemma97Chief p M D X W) :
     tl M (yGrp D W) = tl M (gammaD D) ⊔ ⁅tl M (gammaD D), tl M W⁆ := by
   have hΓM := gammaD_le_of_hyp hD
@@ -178,7 +189,8 @@ theorem charTwo_yGrp (hS : GLStanding G m p) (hD : Prop95Hyp p M D)
     ⟨hYM hyY, Subgroup.centralizer_le hOle hyC⟩
   exact hOle (hS.charTwo M hD.twoLocal hyM)
 
-theorem mem_normalizer_yGrp (hD : Prop95Hyp p M D) (h : Lemma97Chief p M D X W) {g : G}
+omit [Finite G] in
+theorem mem_normalizer_yGrp (_hD : Prop95Hyp p M D) (h : Lemma97Chief p M D X W) {g : G}
     (hgM : g ∈ M) (hgΓ : g ∈ Subgroup.normalizer (gammaD D : Set G)) :
     g ∈ Subgroup.normalizer (yGrp D W : Set G) := by
   have hWN : M ≤ Subgroup.normalizer (W : Set G) :=

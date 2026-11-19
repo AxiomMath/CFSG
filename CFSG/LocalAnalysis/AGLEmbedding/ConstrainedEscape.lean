@@ -58,7 +58,7 @@ theorem exists_mem_center_of_normalizer_not_le (hp : p.Prime) (hp2 : p ≠ 2) (P
     ∃ z : G, z ∈ D ∧ orderOf z = p ∧ z ∈ Subgroup.centralizer ((P : Subgroup G) : Set G) ∧
       ∀ y ∈ Subgroup.centralizer ((P : Subgroup G) : Set G), y ∈ (P : Subgroup G) →
         orderOf y = p → y ∈ Subgroup.zpowers z := by
-  refine exists_mem_center_of_pRank_centralizer_le_two hp hp2 P.isPGroup' hP hD hDcard hDP ?_
+  refine exists_mem_center_of_pRank_centralizer_le_two hp hp2 P.isPGroup hP hD hDcard hDP ?_
   by_contra! h3
   exact hDN (normalizer_le_of_centralizer_rank_in_containing_sylow p hp P hPM hWM (hDP.trans hPM)
     (IsPGroup.of_card hDcard) (le_csSup (pRank_bddAbove p hp D) ⟨D, le_rfl, hD, hDcard⟩)
@@ -156,7 +156,7 @@ theorem D1Extremal.exists_central_of_hasPrimeConstraint {G : Type} [Group G] [Fi
       ((show 3 ≤ Open.pRank p (P : Subgroup G) by omega).trans
         (PreuniquenessRankFour.Helpers.pRank_mono p hp (le_inf hPC h.sylow_le)))
   refine ⟨z, hzR, hzp, hzc, huniq, hCM, hcoreM, ?_, ?_⟩
-  · exact odd_card_of_twoLocals_le hp P.isPGroup' hPC hCM (glbPrimeCore_le p _)
+  · exact odd_card_of_twoLocals_le hp P.isPGroup hPC hCM (glbPrimeCore_le p _)
       (glbPrimeCore_normal p _) (glbPrimeCore_coprime p _) hcoreM
       fun T hT hT1 hPT => h.normalizer_le_of_sylow_le hRP hT hT1 hPT
   ·

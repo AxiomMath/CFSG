@@ -16,6 +16,7 @@ theorem ThreeNat.odd_card_irrSet (h : ThreeNat A L T) : Odd (Nat.card ↥(irrSet
     obtain ⟨g, hg, hgI⟩ := h.trans I₁ h₁ I₂ h₂
     exact ⟨g, hg.2, hgI⟩
 
+omit [Finite W] in
 theorem ThreeNat.exists_stable_irr (h : ThreeNat A L T)
     (hodd : Odd (Nat.card ↥(irrSet L))) : ∃ I ∈ irrSet L, StableUnder T I :=
   s16t3_exists_stable_irr h hodd

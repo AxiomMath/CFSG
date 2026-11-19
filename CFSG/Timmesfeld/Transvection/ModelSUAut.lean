@@ -216,8 +216,7 @@ theorem IsSemilinearLift.exists_smul [CharP F 2] {K : Type*} [Group K] {Φ : SU 
     rw [hmat, mul_uTrans_of_isometry hL.isometry]
   have hAinv : (A : Matrix (Fin n) (Fin n) F) *
       ((A : GL (Fin n) F)⁻¹ : Matrix (Fin n) (Fin n) F) = 1 := by
-    simpa using congrArg (fun x : GL (Fin n) F => (x : Matrix (Fin n) (Fin n) F))
-      (mul_inv_cancel A)
+    simp
   have hcancel : uTrans σ u 1 =
       uTrans σ ((A : Matrix (Fin n) (Fin n) F) *ᵥ fun i => φ (u i)) 1 := by
     calc uTrans σ u 1 = uTrans σ u 1 * 1 := by rw [mul_one]
@@ -308,8 +307,8 @@ private theorem exists_semilinear_data [Finite F] [CharP F 2] {f : ℕ}
             ((A : GL (Fin n) F)⁻¹ : Matrix (Fin n) (Fin n) F)) ∧
       (∀ g, Φ (α g) = y * Φ g * y⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Φ.range.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Φ.range.Normal := hN
   let E : SU (unitaryInvolution F 2 f) n ≃*
       gramSU h (C : Matrix (Fin n) (Fin n) F) := MulEquiv.subgroupCongr hSU
   let π : SU (unitaryInvolution F 2 f) n →*
@@ -320,7 +319,7 @@ private theorem exists_semilinear_data [Finite F] [CharP F 2] {f : ℕ}
     (QuotientGroup.mk'_surjective _).comp E.surjective
   have hπker : π.ker = Subgroup.center (SU (unitaryInvolution F 2 f) n) :=
     ker_quotient_comp_subgroupCongr h hCg hn hq hSU
-  haveI : Group.IsPerfect (SU (unitaryInvolution F 2 f) n) :=
+  have : Group.IsPerfect (SU (unitaryInvolution F 2 f) n) :=
     (isQuasisimple_SU hF hn
       (fun hq' => hq ⟨congrArg Prod.fst hq', congrArg Prod.snd hq'⟩)).1
   let θ : SU (unitaryInvolution F 2 f) n →* Φ.range := Φ.rangeRestrict
@@ -407,7 +406,7 @@ private theorem isSemilinearLift_of_primeForm {f : ℕ} {F : Type} [Field F] [Fi
         ((A : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 := by
       have := congrArg (fun x : GL (Fin n) F => (x : Matrix (Fin n) (Fin n) F))
         (inv_mul_cancel (A : GL (Fin n) F))
-      simpa using this
+      simp
     calc
       (((A : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
           (suMat (unitaryInvolution F 2 f) n g).map φ *
@@ -433,7 +432,7 @@ theorem exists_isSemilinearLift [Finite F] [CharP F 2] {f : ℕ}
       (α : SU (unitaryInvolution F 2 f) n →* SU (unitaryInvolution F 2 f) n),
       IsSemilinearLift Φ y A φ α := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let h : UnitaryFieldData 2 f F := CFSG.StandardType.RootDetectSU.unitaryFieldData_two hF hf
   let C : GL (Fin n) F := ⟨antidiag n, antidiag n, antidiag_mul_antidiag, antidiag_mul_antidiag⟩
   have hCa : (C : Matrix (Fin n) (Fin n) F) = antidiag n := rfl

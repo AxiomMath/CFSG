@@ -180,7 +180,7 @@ theorem psi6_surj (g : P8) (hg : g ∈ Cen (Equiv.swap 6 7) ⊓ A8s) : ∃ σ, p
     simpa [Perm.mul_apply] using this
   have hcases : g 6 = 6 ∨ g 6 = 7 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h1 : Equiv.swap (6 : Fin 8) 7 (g 6) = g 6 := Equiv.swap_apply_of_ne_of_ne hne.1 hne.2
     have h2 : g 7 = g 6 := h7.trans h1
     have h3 := g.injective h2
@@ -191,7 +191,7 @@ theorem psi6_surj (g : P8) (hg : g ∈ Cen (Equiv.swap 6 7) ⊓ A8s) : ∃ σ, p
     refine ⟨σ, ?_⟩
     have hs : Equiv.Perm.sign σ = 1 := by rw [← ext6_sign σ, hσ, hsign]
     unfold psi6 tau6
-    rw [if_pos hs, mul_one, hσ]
+    rw [ite_eq_left hs, mul_one, hσ]
   · have e7 : g 7 = 6 := by rw [h7, e6]; simp
     obtain ⟨σ, hσ⟩ := ext6_surj (h := g * Equiv.swap 6 7)
       (by simp [Perm.mul_apply, e7]) (by simp [Perm.mul_apply, e6])
@@ -200,18 +200,18 @@ theorem psi6_surj (g : P8) (hg : g ∈ Cen (Equiv.swap 6 7) ⊓ A8s) : ∃ σ, p
       rw [← ext6_sign σ, hσ, map_mul, hsign, Equiv.Perm.sign_swap (by decide : (6 : Fin 8) ≠ 7),
         one_mul]
     unfold psi6 tau6
-    rw [if_neg (by simp [hs]), hσ, mul_assoc, Equiv.swap_mul_self, mul_one]
+    rw [ite_eq_right (by simp [hs]), hσ, mul_assoc, Equiv.swap_mul_self, mul_one]
 
 theorem psi6_inj_one (σ : Perm (Fin 6)) (h : psi6 σ = 1) : σ = 1 := by
   by_cases hs : Equiv.Perm.sign σ = 1
   · have h' : ext6 σ = 1 := by
       unfold psi6 tau6 at h
-      rw [if_pos hs, mul_one] at h
+      rw [ite_eq_left hs, mul_one] at h
       exact h
     exact ext6_injective (h'.trans (map_one ext6).symm)
   · exfalso
     unfold psi6 tau6 at h
-    rw [if_neg hs] at h
+    rw [ite_eq_right hs] at h
     have h6 := congrArg (fun π : P8 => π 6) h
     simp [Perm.mul_apply, ext6_fix7] at h6
 

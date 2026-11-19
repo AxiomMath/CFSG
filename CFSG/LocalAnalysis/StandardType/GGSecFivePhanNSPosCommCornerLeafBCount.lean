@@ -23,7 +23,7 @@ open scoped MatrixGroups commutatorElement
 open CFSG.LocalAnalysis.GLTheoremA.S267.ModelGen
 
 theorem ggNSPosPF3C_exists_commutant_nonscalar {K : Type} [Field K] [Finite K] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card Kˣ) {n : ℕ} (hn : 0 < n)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (_hpK : p ∣ Nat.card Kˣ) {n : ℕ} (hn : 0 < n)
     {E : Subgroup (GL (Fin n) K ⧸ Subgroup.center (GL (Fin n) K))}
     (hE : CFSG.Open.IsElemAbelian p E) (hcard : p ^ 3 ≤ Nat.card E) {X Y : GL (Fin n) K}
     (hX : X ∈ E.comap (QuotientGroup.mk' (Subgroup.center (GL (Fin n) K))))
@@ -32,8 +32,8 @@ theorem ggNSPosPF3C_exists_commutant_nonscalar {K : Type} [Field K] [Finite K] {
       u * X = X * u ∧ u * Y = Y * u ∧
         ¬ ∃ c : Kˣ, u = Matrix.GeneralLinearGroup.scalar (Fin n) c := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set Q : Subgroup (GL (Fin n) K) := E.comap (pglMk n K) with hQ
   have hZQ : Subgroup.center (GL (Fin n) K) ≤ Q := center_le_comap_pglMk E
   set U : Subgroup (GL (Fin n) K) :=

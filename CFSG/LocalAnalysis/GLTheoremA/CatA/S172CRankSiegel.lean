@@ -26,7 +26,7 @@ theorem mul_self_eq_one_of_mem_rootGroup {e : V} {g : V ≃ₗ[F] V} (hg : g ∈
 
 theorem isPGroup_two_subgroupOf_rootGroup (e : V) :
     IsPGroup 2 ((rootGroup Q e).subgroupOf (orthDerived Q)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro g
   have hg : g * g = 1 := by
@@ -80,6 +80,7 @@ theorem subgroupOf_rootGroup_ne_bot {e f a w : V} (he : Q e = 0) (ha : Q a ≠ 0
   have h6 := congrArg Q h4
   rwa [map_smul_eq_sq, he, mul_zero] at h6
 
+omit [CharP F 2] in
 theorem mem_normalizer_subgroupOf_rootGroup {e : V} {g : ↥(orthDerived Q)}
     (hg : (g : V ≃ₗ[F] V) e = e) :
     g ∈ Subgroup.normalizer

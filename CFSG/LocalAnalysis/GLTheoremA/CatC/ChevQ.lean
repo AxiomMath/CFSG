@@ -50,13 +50,13 @@ open CFSG.HardMathSupport.Solomon.Coordinator (b3Lie_isQuasisimple_of_simple b3L
 
 theorem glaPPrimeCore_pSimple_eq_bot (hp : p.Prime) {X C : Subgroup G}
     (hC : GLAPComponent p X C) : GLAPPrimeCore p (PSimple p C) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTs, -⟩ := chev_pSimple_simple_nonabelian hp hC
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hC
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p (PSimple p C)) with h | h
   · exact h
   · exfalso
-    haveI : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
+    have : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
     have h1 : ¬ p ∣ Nat.card (PQuot p C ⧸ Subgroup.center (PQuot p C)) := by
       have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p (PSimple p C))) :=
         CFSG.pPrimeCore_coprime_card
@@ -71,9 +71,10 @@ theorem glaPPrimeCore_pSimple_eq_bot (hp : p.Prime) {X C : Subgroup G}
       rw [Subgroup.card_top]
       exact (hp.coprime_iff_not_dvd).2 h2
     rw [hbot, top_le_iff] at hle
-    haveI := isQuasisimple_nontrivial hq
+    have := isQuasisimple_nontrivial hq
     exact absurd hle.symm ((Subgroup.nontrivial_iff_ne_bot _).1 inferInstance)
 
+omit [Finite G] in
 private theorem chevQ_conj_mem_centMod {L : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hc : c ∈ centModSubgroup p L) :
     g * c * g⁻¹ ∈ centModSubgroup p L := by
@@ -90,6 +91,7 @@ private theorem chevQ_conj_mem_centMod {L : Subgroup G} {g c : G}
       simp only [commutatorElement_def]; group
     rw [h3]; exact h2
 
+omit [Finite G] in
 private theorem chevQ_normalizer_le_normalizer_centMod (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (centModSubgroup p L : Set G) := by
   intro b hb
@@ -99,6 +101,7 @@ private theorem chevQ_normalizer_le_normalizer_centMod (L : Subgroup G) :
   have := chevQ_conj_mem_centMod (Subgroup.inv_mem _ hb) hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem chevQ_mem_sup_mul {A N : Subgroup G} (h : A ≤ Subgroup.normalizer (N : Set G))
     {x : G} (hx : x ∈ A ⊔ N) : ∃ a ∈ A, ∃ n ∈ N, x = a * n := by
   have hx' : x ∈ ((A ⊔ N : Subgroup G) : Set G) := hx
@@ -106,6 +109,7 @@ private theorem chevQ_mem_sup_mul {A N : Subgroup G} (h : A ≤ Subgroup.normali
   obtain ⟨a, ha, n, hn, rfl⟩ := Set.mem_mul.1 hx'
   exact ⟨a, ha, n, hn, rfl⟩
 
+omit [Finite G] in
 private theorem chevQ_chevAut_of_mem {C : Subgroup G} {c : G} (hc : c ∈ C) :
     chevAut p C ⟨c, Subgroup.le_normalizer hc⟩ = MulAut.conj (chevQuotHom p C ⟨c, hc⟩) := by
   ext t
@@ -200,10 +204,10 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal (Input18_3_4)
 private theorem chevQ_exists_hyperplane (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B)
     (hB1 : B ≠ ⊥) :
     ∃ B₁ : Subgroup G, B₁ ≤ B ∧ (B₁.subgroupOf B).index = p ∧ ∃ d ∈ B, d ∉ B₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : IsPGroup p B := isPGroup_of_isElemAbelian hB
-  haveI : Group.IsNilpotent B := hBp.isNilpotent
-  haveI : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).2 hB1
+  have : Group.IsNilpotent B := hBp.isNilpotent
+  have : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).2 hB1
   have hnt : (⊥ : Subgroup ↥B) ≠ ⊤ := bot_ne_top
   obtain ⟨H, hH, -⟩ := (IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Subgroup ↥B)).resolve_left hnt
   have hidx : H.index = p := hBp.isCoatom_iff_index_eq_prime.1 hH
@@ -220,6 +224,7 @@ private theorem chevQ_exists_hyperplane (hp : p.Prime) {B : Subgroup G} (hB : Is
   have : y = x := Subtype.ext hyx
   exact this ▸ hy
 
+omit [Finite G] in
 private theorem chevQ_eq_sup_zpowers (hp : p.Prime) {B₁ B : Subgroup G} (hB₁B : B₁ ≤ B)
     (hidx : (B₁.subgroupOf B).index = p) {d : G} (hdB : d ∈ B) (hdB₁ : d ∉ B₁) :
     B₁ ⊔ Subgroup.zpowers d = B := by
@@ -237,10 +242,12 @@ private theorem chevQ_eq_sup_zpowers (hp : p.Prime) {B₁ B : Subgroup G} (hB₁
       Nat.eq_of_mul_eq_mul_left hp.pos (hmul.trans (mul_one p).symm)
     exact le_antisymm hMD (Subgroup.relIndex_eq_one.1 h2)
 
+omit [Finite G] in
 private theorem chevQ_le_centralizer {A B : Subgroup G} (hA : IsElemAbelian p A) (hBA : B ≤ A) :
-    A ≤ Subgroup.centralizer (B : Set G) := fun a ha =>
-  Subgroup.mem_centralizer_iff.2 fun b hb => isElemAbelian_commute hA (hBA hb) ha
+    A ≤ Subgroup.centralizer (B : Set G) := fun _a ha =>
+  Subgroup.mem_centralizer_iff.2 fun _b hb => isElemAbelian_commute hA (hBA hb) ha
 
+omit [Finite G] in
 private theorem chevQ_centralizer_facts {K A B : Subgroup G} (hA : IsElemAbelian p A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) (hKA : K ⊔ A = ⊤) (hBA : B ≤ A) :
     A ≤ Subgroup.normalizer ((K ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) ∧
@@ -372,6 +379,7 @@ theorem chevQ_core (hp : p.Prime) (hp2 : p ≠ 2) (hD : KDChevDownQ p q) (h183 :
         rwa [hCeq] at h1
       exact chevQ_step hp hD (hcomp C hC) (hCchev C hC) hdN (hBel.2 d hdB) hJd
 
+omit [Finite G] in
 private theorem chevQ_pSimple_equiv_subgroupOf (p : ℕ) {H L : Subgroup G} (hLH : L ≤ H) :
     Nonempty (PSimple p L ≃* PSimple p (L.subgroupOf H)) := by
   obtain ⟨g⟩ := nonempty_pQuot_equiv_subgroupOf p hLH
@@ -467,7 +475,7 @@ theorem chevQ_transport (hp : p.Prime) {S T : Type} [Group S] [Group T] [Finite 
 
 private theorem chevQ_false_of_solvable {T : Type} [Group T] [Finite T] {X I : Subgroup T}
     (hsolv : Group.IsSolvable ↥X) (hI : GLAPComponent p X I) : False := by
-  haveI := hsolv
+  have := hsolv
   have hJX : I ≤ X := hI.1
   have hperf : ⁅I, I⁆ = I := glaPComponent_perfect hI
   have hne : I ≠ ⊥ := glaPComponent_ne_bot' hI
@@ -493,14 +501,14 @@ private theorem chevQ_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
 private theorem chevQ_glaPPrimeCore_simple (hp : p.Prime) {S : Type} [Group S] [Finite S]
     [IsSimpleGroup S] {X I : Subgroup S} (hI : GLAPComponent p X I) :
     GLAPPrimeCore p S = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p S) with h | h
   · exact h
   · exfalso
@@ -513,7 +521,7 @@ private theorem chevQ_glaPPrimeCore_simple (hp : p.Prime) {S : Type} [Group S] [
       refine le_sSup ⟨inferInstance, ?_⟩
       rw [Subgroup.card_top]
       exact hIcop
-    haveI := isQuasisimple_nontrivial hq
+    have := isQuasisimple_nontrivial hq
     obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot p I)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -608,12 +616,12 @@ private theorem chevQ_l2_carrier {q' : TauCeti.PrimePower}
     IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group ∧
       Nat.card (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group =
         q'.card * (q'.card ^ 2 - 1) / Nat.gcd 2 (q'.card - 1) := by
-  haveI : Fact q'.p.Prime := ⟨q'.prime_p⟩
+  have : Fact q'.p.Prime := ⟨q'.prime_p⟩
   have hK : Nat.card (GaloisField q'.p q'.exponent) = q'.card := by
     rw [TauCeti.PrimePower.card_def]
     exact GaloisField.card q'.p q'.exponent q'.exponent_pos.ne'
   let ePSL := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q' hv
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
       (GaloisField q'.p q'.exponent)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hK]; exact hq4)
   refine ⟨ePSL.isSimpleGroup, ?_⟩
@@ -642,7 +650,7 @@ private theorem chevQ_isSolvable_of_card_504 {S : Type} [Group S] [Finite S] [Is
   have hidx : 7 ≤ H.index := by
     by_contra hlt
     push Not at hlt
-    interval_cases h : H.index <;> simp_all [Nat.factorial] <;> omega
+    interval_cases h : H.index <;> simp_all [Nat.factorial]
   have hle : Nat.card H ≤ 72 := by
     by_contra hgt
     push Not at hgt
@@ -667,8 +675,8 @@ theorem ambiguous_L27_noPComponent {q' : TauCeti.PrimePower}
   obtain ⟨hsimple, hcard⟩ := chevQ_l2_carrier hv (by rw [hq']; norm_num)
   rw [hq'] at hcard
   norm_num at hcard
-  haveI := hsimple
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group :=
+  have := hsimple
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact chevQ_false_of_solvable
     (CFSG.HardMathSupport.Solomon.Coordinator.B2FamAlt.isSolvable_of_card_168 hcard
@@ -683,8 +691,8 @@ theorem ambiguous_L28_noPComponent {q' : TauCeti.PrimePower}
   obtain ⟨hsimple, hcard⟩ := chevQ_l2_carrier hv (by rw [hq']; norm_num)
   rw [hq'] at hcard
   norm_num at hcard
-  haveI := hsimple
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group :=
+  have := hsimple
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact chevQ_false_of_solvable
     (chevQ_isSolvable_of_card_504 hcard (chevQ_fixSubgroup_ne_top hα1)) hI
@@ -693,7 +701,7 @@ private theorem chevQ_nonab_of_card_not_prime {T : Type} [Group T] [IsSimpleGrou
     (hc : ¬ (Nat.card T).Prime) : ∃ a b : T, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
+  let : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := T)).1 ‹IsSimpleGroup T›)
 
 private theorem chevQ_prime_dvd_25920 {r : ℕ} (hr : r.Prime) (h : r ∣ 25920) :
@@ -712,7 +720,7 @@ private theorem chevQ_u42_cent_solvable {S : Type} [Group S] [Finite S]
   have hord : orderOf g = 5 := orderOf_eq_prime hg5 hg1
   have hnd : ¬ 3 ∣ Nat.card (Subgroup.centralizer ({g} : Set S)) := by
     intro hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨h, hh⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
     have hcomm : Commute g (h : S) := by
       have hmem : (h : S) ∈ Subgroup.centralizer ({g} : Set S) := h.2
@@ -747,7 +755,7 @@ theorem ambiguous_U42_noPComponent (hp : p.Prime) (hp2 : p ≠ 2)
     (I : Subgroup (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group) :
     ¬ GLAPComponent p (fixSubgroup α) I := by
   intro hI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard2 : q'.p ^ q'.exponent = 2 := by rw [← TauCeti.PrimePower.card_def]; exact hq'
   have hpq : q'.p = 2 := by
     have hdvd : q'.p ∣ 2 := by
@@ -763,9 +771,9 @@ theorem ambiguous_U42_noPComponent (hp : p.Prime) (hp2 : p ≠ 2)
     rw [hpq, hfq] at h
     exact Or.inl ⟨by decide, h⟩
   obtain ⟨hAut, hS⟩ := CFSG.EvenSporadicStandard.M22Std.card_mulAut_of_lieModel_psu42 hmodel
-  haveI hfin : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group :=
+  have hfin : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group :=
     Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
-  haveI hsimple : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group :=
+  have hsimple : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity _ 4 2 1 (by
       have h := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q' hv
         (MulEquiv.refl (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group)
@@ -775,7 +783,7 @@ theorem ambiguous_U42_noPComponent (hp : p.Prime) (hp2 : p ≠ 2)
     chevQ_nonab_of_card_not_prime (by rw [hS]; norm_num)
   have hz := chev_center_eq_bot_of_simple_nonabelian hnc
   have hout := chevQ_card_outer hz hS (by omega) (by norm_num)
-  haveI : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group) :=
+  have : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group) :=
     Nat.finite_of_card_ne_zero (by rw [hout]; norm_num)
   have hpout : ¬ p ∣ Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q', hv⟩).Group) := by
     rw [hout]
@@ -812,7 +820,7 @@ private theorem chevQ_prime_dvd_6048 {r : ℕ} (hr : r.Prime) (h : r ∣ 6048) :
 private theorem chevQ_cent_solvable_of_central {S : Type} [Group S] [Finite S] {p n : ℕ}
     (hp : p.Prime) (hS : Nat.card S = p * n) (hn : n.primeFactors.card ≤ 2) (g : S)
     (hg : g ^ p = 1) (hg1 : g ≠ 1) : Group.IsSolvable ↥(Subgroup.centralizer ({g} : Set S)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup S := Subgroup.centralizer ({g} : Set S) with hC
   have hgC : g ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
   let g' : ↥C := ⟨g, hgC⟩
@@ -822,13 +830,13 @@ private theorem chevQ_cent_solvable_of_central {S : Type} [Group S] [Finite S] {
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.1 c.2)
   set Z : Subgroup ↥C := Subgroup.zpowers g' with hZ
   have hZc : Z ≤ Subgroup.center ↥C := Subgroup.zpowers_le.2 hg'c
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
-  haveI hZsolv : Group.IsSolvable ↥Z :=
-    isSolvable_of_comm fun a b => Subtype.ext ((Subgroup.mem_center_iff.1 (hZc a.2) b.1).symm)
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
+  have hZsolv : Group.IsSolvable ↥Z :=
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext ((Subgroup.mem_center_iff.1 (hZc a.2) b.1).symm)
   have hord : orderOf g' = p :=
     orderOf_eq_prime (Subtype.ext hg) (fun h => hg1 (congrArg Subtype.val h))
   have hZcard : Nat.card Z = p := by rw [hZ, Nat.card_zpowers, hord]
-  haveI hQsolv : Group.IsSolvable (↥C ⧸ Z) := by
+  have hQsolv : Group.IsSolvable (↥C ⧸ Z) := by
     refine CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two ?_
     have h1 : Nat.card (↥C ⧸ Z) * p = Nat.card ↥C := by
       rw [← hZcard]
@@ -841,7 +849,7 @@ private theorem chevQ_cent_solvable_of_central {S : Type} [Group S] [Finite S] {
       rw [mul_zero] at hS
       exact Nat.card_pos.ne' hS
     exact (Finset.card_le_card (Nat.primeFactors_mono h3 hn0)).trans hn
-  exact solvable_of_ker_le_range Z.subtype (QuotientGroup.mk' Z) (by simp)
+  exact Group.isSolvable_of_ker_le_range Z.subtype (QuotientGroup.mk' Z) (by simp)
 
 theorem ambiguous_U33_noPComponent
     (hp : p.Prime) (hp2 : p ≠ 2) (hInner : KDChevInner p) {q' : TauCeti.PrimePower}
@@ -850,7 +858,7 @@ theorem ambiguous_U33_noPComponent
     (I : Subgroup (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group) :
     ¬ GLAPComponent p (fixSubgroup α) I := by
   intro hI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard3 : q'.p ^ q'.exponent = 3 := by rw [← TauCeti.PrimePower.card_def]; exact hq'
   have hpq : q'.p = 3 := by
     have hdvd : q'.p ∣ 3 := by
@@ -870,15 +878,15 @@ theorem ambiguous_U33_noPComponent
   have hS : Nat.card (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group = 6048 := by
     rw [Nat.card_congr e.toEquiv, CFSG.GH74.KGroups.card_group _ CFSG.GH74.KGroups.U33.QP_ok,
       CFSG.GH74.KGroups.U33.QP_valid.2]
-  haveI hfin : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group :=
+  have hfin : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group :=
     Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
-  haveI hsimple : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group :=
+  have hsimple : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity _ 3 3 1 hmodel').2
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group, a * b ≠ b * a :=
     chevQ_nonab_of_card_not_prime (by rw [hS]; norm_num)
   have hz := chev_center_eq_bot_of_simple_nonabelian hnc
   have hout := chevQ_card_outer hz hS (by omega) (by norm_num)
-  haveI : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group) :=
+  have : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group) :=
     Nat.finite_of_card_ne_zero (by rw [hout]; norm_num)
   have hpout : ¬ p ∣ Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q', hv⟩).Group) := by
     rw [hout]
@@ -985,7 +993,7 @@ theorem kdAmbDownQ_holds
     (hInner : KDChevInner p) (hA : KDAmbSolv p) :
     KDAmbDownQ p q := by
   intro S _ _ i hi ⟨e⟩ α hα hα1 I hI
-  haveI : Finite i.Group := Finite.of_equiv S e.toEquiv
+  have : Finite i.Group := Finite.of_equiv S e.toEquiv
   obtain ⟨hβ, ⟨e₁⟩⟩ := chevQ_transport hp e hI
   have hβp : MulAut.congr e α ^ p = 1 := by rw [← map_pow, hα, map_one]
   have hβ1 : MulAut.congr e α ≠ 1 := fun h =>

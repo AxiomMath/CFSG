@@ -17,8 +17,8 @@ variable {C : Type} [Group C] {Q : Subgroup C} [Q.Normal]
 
 theorem WeakHyp.le_commutator [Finite C] (hC : WeakHyp C Q) : Q ≤ commutator C := by
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  haveI : Finite Q := hC.plus.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hC.plus.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
   let W : Subgroup C := Q ⊓ commutator C
   have hZW : centerOf Q ≤ W := by

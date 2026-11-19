@@ -188,7 +188,7 @@ theorem largeEvenLabelAll_typeA_two {lab : LargeEvenLabel} (htag : lab.tag = .A)
   intro Q hQ
   obtain ⟨K, hKf, hKfin, hKn, hQ'⟩ := hQ
   have hK2 : Nat.card K = 2 := by simpa using hKn
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (le_refl 1) (by rw [hK2, pow_one])
   refine ⟨K, hKf, hKfin, hKn, hQ', ?_⟩
   exact CFSG.StandardType.TypeA.ggTorusLift_of_mulEquiv
@@ -205,7 +205,7 @@ theorem largeEvenLabelAll_sp_two {lab : LargeEvenLabel}
   · intro Q hQ
     obtain ⟨K, hKf, hKfin, hKn, hQ'⟩ := hQ
     have hK2 : Nat.card K = 2 := by simpa using hKn
-    haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (le_refl 1) (by rw [hK2, pow_one])
     refine ⟨K, hKf, hKfin, hKn, hQ', ?_⟩
     have h := CFSG.StandardType.TwoThree.ggTorusLift_sp_two (K := K) (k := l - 1) hK2
@@ -213,7 +213,7 @@ theorem largeEvenLabelAll_sp_two {lab : LargeEvenLabel}
   · intro Q hQ
     obtain ⟨K, hKf, hKfin, hKn, hQ'⟩ := hQ
     have hK2 : Nat.card K = 2 := by simpa using hKn
-    haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (le_refl 1) (by rw [hK2, pow_one])
     refine ⟨K, hKf, hKfin, hKn, hQ', ?_⟩
     have h := CFSG.StandardType.TwoThree.ggTorusLift_sp_two (K := K) (k := l - 1) hK2

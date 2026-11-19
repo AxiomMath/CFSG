@@ -18,7 +18,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (GenericComponentClass u3_
 variable {G : Type} [Group G] [Finite G]
 
 theorem spw_normalizerPowers_of_class {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [Group Q] [Finite Q]
-    (hQ : IsRankTwoSEGroupE3 p Q) (hTits : TitsFacts) (hA10 : A10Facts) (hXe : A10Ext)
+    (hQ : IsRankTwoSEGroupE3 p Q) (hTits : TitsFacts) (_hA10 : A10Facts) (hXe : A10Ext)
     (hMcL : ExtraFacts IsMcLType 5 McLShape) (hJ4 : ExtraFacts IsJ4Type 11 J4Shape) :
     SylowIsPlane p Q → NormalizerPowers p Q := by
   intro hpl
@@ -92,7 +92,7 @@ theorem lemma42_routeW' (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD
     group
   obtain ⟨J, hJC, hCJ, hperf, hlt, hmin, hnot, Q, hQg, ψ, hψ, hker, hlist, -⟩ :=
     hClass p hp P M hM hfail hIH u hgen h5
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hz : Subgroup.center Q = ⊥ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.u3main_center_bot (CFSG.AGLEmbedding.glbPrimeCore_le p J)
       hperf hlt hmin ψ hψ hker

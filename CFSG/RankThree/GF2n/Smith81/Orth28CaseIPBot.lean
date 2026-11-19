@@ -22,12 +22,14 @@ variable {K : Type} [Field K] [CharP K 2] {ι : Type} [Fintype ι]
 @[expose] def oBeta (o : (ι → K) ≃ₗ[K] (ι → K)) (β : K) (v : ι → K) : ι → K :=
   v + β • (o v - v)
 
+omit [Fintype ι] in
 theorem oBeta_oBeta (hoo : ∀ v, o (o v) = v) (β : K) (v : ι → K) :
     oBeta o β (oBeta o β v) = v := by
   have h2N : (2 : K) • (o v - v) = 0 := by rw [CharTwo.two_eq_zero, zero_smul]
   simp only [oBeta, map_add, map_smul, map_sub, hoo]
   linear_combination (norm := module) (β - β * β) • h2N
 
+omit [CharP K 2] [Fintype ι] in
 theorem polar_oBeta (hO : o ∈ TauCeti.QuadraticMap.orthogonalGroup qU) (hoo : o * o = 1)
     (β : K) (u v : ι → K) : polar qU (oBeta o β u) v = polar qU u (oBeta o β v) := by
   have h := OrthogonalInvolutions.polar_sub_eq_polar_sub hO hoo u v
@@ -41,6 +43,7 @@ section PBotOne
 
 variable [Finite G] {X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem even_card_of_cfg (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) :
     Even (Fintype.card C.ι) := by
   obtain ⟨n, hw', hev, -⟩ := hc.orth.exists_width
@@ -48,6 +51,7 @@ theorem even_card_of_cfg (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) :
   rw [width_eq_of_width hZ (width_of_tensor C.hD C.φ) hw']
   exact hev
 
+omit [Finite G] in
 theorem exists_ne_one_mem_Z (H : StrothHyp M Q Z) : ∃ z ∈ Z, z ≠ 1 := by
   have hZne : Z ≠ ⊥ := by
     intro h
@@ -369,7 +373,7 @@ theorem pbot_t (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : Sit M Q Z
 theorem pbot_t_of_index (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : Sit M Q Z X x)
     (hIc : ∀ z' ∈ Z, ∃ q ∈ Q, q⁻¹ * x * q = x * z')
     {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hI : InvAct C x !![1, 1; 0, 1] o)
-    (hD : Q ⊓ QB X = ⊥) (h4 : Fintype.card C.ι = 4) {S₀ : Subgroup G} (hS₀ : S₀ ≤ H0 M Z)
+    (hD : Q ⊓ QB X = ⊥) (h4 : Fintype.card C.ι = 4) {S₀ : Subgroup G} (_hS₀ : S₀ ≤ H0 M Z)
     (hidx : S₀.relIndex (H0 M Z) ≤ 6) (hfac : ∀ m ∈ S₀, TensorFactor C m) : False := by
   have H := hc.ctx.hyp
   have hw : Width Q Z (Fintype.card C.ι) := width_of_tensor C.hD C.φ

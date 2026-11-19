@@ -26,11 +26,10 @@ private lemma det_block_two_torusElt_E04 {K : Type} [Field K] (a : Fin 3 → Kˣ
   have hp : predCut ({2, 3} : Finset ℕ) 2 = 0 := by decide
   rw [Matrix.GeneralLinearGroup.val_det_apply, coe_plusEBlockHom, Subtype.coe_mk,
     autMat_torusElt, Matrix.submatrix_diagonal _ _ (plusEIdx_injective _), Matrix.det_diagonal]
-  simp only [Function.comp_apply, plusEIdx, Sum.elim_inl, Nat.add_zero, Nat.zero_add, hp,
-    Nat.sub_zero]
+  simp only [Function.comp_apply, plusEIdx, Sum.elim_inl, Nat.zero_add, hp]
   show (∏ x : Fin 2, ((a ⟨(x : ℕ), by omega⟩ : Kˣ) : K)) = (a 0 : K) * (a 1 : K)
   rw [Fin.prod_univ_two]
-  congr 1 <;> exact congrArg (fun u : Kˣ => (u : K)) (congrArg a (Fin.ext rfl))
+  congr 1
 
 private lemma det_block_three_torusElt_E04 {K : Type} [Field K] (a : Fin 3 → Kˣ)
     (hq : torusElt 3 K a ∈ plusFlagStab K 3 ({2, 3} : Finset ℕ)) :
@@ -40,7 +39,7 @@ private lemma det_block_three_torusElt_E04 {K : Type} [Field K] (a : Fin 3 → K
   have h3 : (3 : ℕ) - 2 = 1 := by norm_num
   rw [Matrix.GeneralLinearGroup.val_det_apply, coe_plusEBlockHom, Subtype.coe_mk,
     autMat_torusElt, Matrix.submatrix_diagonal _ _ (plusEIdx_injective _), Matrix.det_diagonal]
-  simp only [Function.comp_apply, plusEIdx, Sum.elim_inl, Nat.add_zero, Nat.zero_add, hp, h3]
+  simp only [Function.comp_apply, plusEIdx, Sum.elim_inl, hp]
   show (∏ x : Fin 1, ((a ⟨2 + (x : ℕ), by omega⟩ : Kˣ) : K)) = (a 2 : K)
   rw [Fin.prod_univ_one]
   exact congrArg (fun u : Kˣ => (u : K)) (congrArg a (Fin.ext rfl))

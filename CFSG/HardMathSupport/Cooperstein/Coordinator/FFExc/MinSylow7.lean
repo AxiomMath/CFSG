@@ -92,7 +92,7 @@ theorem e7_posU7_sylow : ∃ P : Sylow 2 (e7Data_valid.minGroup K), (P : Subgrou
   obtain ⟨P, hP⟩ := (isPGroup_posU7 K).exists_le_sylow
   refine ⟨P, ?_⟩
   symm
-  have hPp : IsPGroup 2 (P : Subgroup (e7Data_valid.minGroup K)) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup (e7Data_valid.minGroup K)) := P.isPGroup
   set π := e7Isogeny K with hπ
   have hfin : Finite (adjointGroup Tag.E7 K) := by
     have := finite_modGL (τ := Tag.E7) (K := K)

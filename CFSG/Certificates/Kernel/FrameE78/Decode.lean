@@ -67,10 +67,10 @@ theorem dec_sRt (n C c : ℕ) (i : Fin n) :
   simp only [sR, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hb]
   by_cases h : q = i
   · subst h
-    simp only [ev, Pi.single_eq_same, if_true, cast_mod3, dec_apply, Nat.cast_add, Nat.cast_mul,
+    simp only [ev, Pi.single_eq_same, ite_true, cast_mod3, dec_apply, Nat.cast_add, Nat.cast_mul,
       Nat.cast_ofNat, two_eq]
     ring
-  · rw [if_neg (fun e => h (Fin.ext e))]
+  · rw [ite_eq_right (fun e => h (Fin.ext e))]
     simp only [ev, Pi.single_eq_of_ne h, mul_zero, sub_zero, dec_apply]
 
 theorem dec_shl_one (n : ℕ) (i : Fin n) : dec n (1 <<< (2 * (i : ℕ))) = ev i := by
@@ -78,8 +78,8 @@ theorem dec_shl_one (n : ℕ) (i : Fin n) : dec n (1 <<< (2 * (i : ℕ))) = ev i
   rw [dec_apply, ln_shl (by decide)]
   by_cases h : q = i
   · subst h
-    simp only [ev, if_true, Pi.single_eq_same, Nat.cast_one]
-  · rw [if_neg (fun e => h (Fin.ext e))]
+    simp only [ev, ite_true, Pi.single_eq_same, Nat.cast_one]
+  · rw [ite_eq_right (fun e => h (Fin.ext e))]
     simp only [ev, Pi.single_eq_of_ne h, Nat.cast_zero]
 
 private theorem bits21845_odd : ∀ k, Nat.testBit 21845 (2 * k + 1) = false := by
@@ -119,12 +119,12 @@ theorem VOK_negL {n y : ℕ} (hn : n ≤ 8) (hy : VOK n y) : VOK n (negL y) := b
 
 theorem VOK_enc (n : ℕ) (x : Fin n → ZMod 3) : VOK n (enc n x) := by
   refine ⟨pack_lt _ n, fun q hq => ?_⟩
-  rw [enc, ln_pack, if_pos hq]
+  rw [enc, ln_pack, ite_eq_left hq]
   omega
 
 theorem dec_enc (n : ℕ) (x : Fin n → ZMod 3) : dec n (enc n x) = x := by
   funext q
-  rw [dec_apply, enc, ln_pack, if_pos q.isLt, dif_pos q.isLt,
+  rw [dec_apply, enc, ln_pack, ite_eq_left q.isLt, dite_eq_left q.isLt,
     Nat.mod_eq_of_lt (ZMod.val_lt (x ⟨q, q.isLt⟩)), ZMod.natCast_zmod_val]
 
 theorem dec_inj {n x y : ℕ} (hx : VOK n x) (hy : VOK n y) (h : dec n x = dec n y) : x = y := by

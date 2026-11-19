@@ -37,11 +37,11 @@ theorem rep_FG {j i : Nat} (hj : j < 21) (hi : i < (repD j).2.length + 1) :
   have hR := rep_word_kgens (repData_letters j hj).1
   rcases i with _ | s
   · unfold gam
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hR
   · have hs : s < (repD j).2.length := by omega
     unfold gam
-    rw [if_neg (Nat.succ_ne_zero s), Nat.add_sub_cancel]
+    rw [ite_eq_right (Nat.succ_ne_zero s), Nat.add_sub_cancel]
     have hw : ∀ l ∈ (repD j).2.getD s [], l = 1 ∨ l = 2 :=
       (repData_letters j hj).2 _ (by rw [List.getD_eq_getElem _ _ hs]; exact List.getElem_mem hs)
     have hC := rep_word_kgens hw
@@ -73,7 +73,7 @@ theorem GT_spec {j i : Nat} (hj : j < 21) (hi : i < McLC.GL j) {y : Nat} (hy : y
   rcases i with _ | s
   · rw [h0 y hy, RP_spec hj hy]
     unfold gam
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   · have hs' : s < (repD j).2.length := by omega
     have hx := actN_lt (wp qK ((repD j).2.getD s []))⁻¹ hy
     have e := hs s hs' _ hx
@@ -84,7 +84,7 @@ theorem GT_spec {j i : Nat} (hj : j < 21) (hi : i < McLC.GL j) {y : Nat} (hy : y
       foldr_wp (fun c _ z hz => GK_eq c hz) (actN_lt (rho j) hx)] at e
     rw [e]
     unfold gam
-    rw [if_neg (Nat.succ_ne_zero s), Nat.add_sub_cancel, actN_mul, actN_mul]
+    rw [ite_eq_right (Nat.succ_ne_zero s), Nat.add_sub_cancel, actN_mul, actN_mul]
 
 theorem vOK_spec {j : Nat} (hj : j < 21) {e : Nat} (he : e < 2) :
     (∀ i ∈ vword (2 * j + e), i < McLC.GL j) ∧

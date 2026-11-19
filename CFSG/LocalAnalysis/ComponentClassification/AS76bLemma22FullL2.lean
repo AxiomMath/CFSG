@@ -67,7 +67,7 @@ theorem card_map_sylow_of_odd_center (hZ : Odd (Nat.card (center L))) (S : Sylow
     intro s hs
     rw [MonoidHom.mem_ker, hf, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff] at hs
-    have hS2 : IsPGroup 2 ↥((S : Subgroup L) ⊓ center L) := S.isPGroup'.to_inf_left
+    have hS2 : IsPGroup 2 ↥((S : Subgroup L) ⊓ center L) := S.isPGroup.to_inf_left
     have hbot : (S : Subgroup L) ⊓ center L = ⊥ :=
       two_subgroup_of_odd_eq_bot _ (center L) hS2 hZ inf_le_right
     have hs' : (s : L) ∈ (S : Subgroup L) ⊓ center L := mem_inf.mpr ⟨s.2, hs⟩

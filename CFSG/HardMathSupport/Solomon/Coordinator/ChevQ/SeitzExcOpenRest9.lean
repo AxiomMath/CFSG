@@ -47,7 +47,7 @@ theorem layer_le_hyperClosure_three {G M : Type} [Group G] [Group M] (ψ : G →
     (hPnorm : ∀ e ∈ E, ∀ u ∈ P, ψ e * u * (ψ e)⁻¹ ∈ P) :
     ∀ g : G, ψ g ∈ P → g ∈ hyperClosure 3 ⊤ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfinE : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
   have hEN : ∀ e : E, ψ e ∈ Subgroup.normalizer (P : Set M) := by
     intro e
@@ -207,7 +207,7 @@ theorem centralizer_le_hyperClosure_of_layer_split {G M : Type} [Group G] [Group
     (hlayer : ∀ g : G, ψ g ∈ P → g ∈ hyperClosure 3 ⊤ E)
     (hsplit : ∀ k : G, k * y = y * k → ∃ a x : M, ψ k = a * x ∧ x ∈ P ∧ a * ψ z = ψ z * a) :
     Subgroup.centralizer {y} ≤ hyperClosure 3 ⊤ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro k hk
   have hky : k * y = y * k := Subgroup.mem_centralizer_singleton_iff.1 hk
   obtain ⟨a, x, hkax, hxP, haz⟩ := hsplit k hky
@@ -425,10 +425,10 @@ theorem native_a2a5_line_le_hyperClosure {L : Type} [Field L] [IsAlgClosed L] {�
   have hqc : q.card = ℓ ^ f := TauCeti.PrimePower.card_def q
   obtain ⟨Φ', hΦ', hfin, hqs, ρ, hρs, hρc, -⟩ :=
     exists_a5Std_data hf hΩ n hnm ⟨u, hu, hact⟩ (q := q) rfl rfl hv
-  haveI := hfin
+  have := hfin
   set P : Subgroup (ModGL Tag.E7 L) := (fixSubgroup Φ').map (a5Frame L) with hPdef
   obtain ⟨hPfin, hPq⟩ := finite_quasisimple_map Φ' hqs
-  haveI hPfin' : Finite P := hPfin
+  have hPfin' : Finite P := hPfin
   set Γ : Subgroup (ModGL Tag.E7 L) :=
     rootSpan Tag.E7 L (parabolicRoots Tag.E7 (a5Nodes Tag.E7)) ⊓ twistedFixedPoints n Φ with hΓ
   have hPeq : ⁅Γ, Γ⁆ = P := commutator_Gamma Fr n Φ' hΦ' hqs
@@ -627,7 +627,7 @@ theorem r9_diagMap_rational {K : Type} [Field K] [Finite K]
     Units.map (entrywiseHom D.Fr) with hΦ
   set P' : Subgroup (ModGL Tag.E7 (AlgebraicClosure K)) := P.map (MulAut.conj D.g0).toMonoidHom
     with hP'
-  haveI hP'fin : Finite P' :=
+  have hP'fin : Finite P' :=
     Finite.of_surjective _ ((MulAut.conj D.g0).toMonoidHom.subgroupMap_surjective P)
   have hP'C : P' ≤ adjointGroup Tag.E7 (AlgebraicClosure K) := by
     rintro _ ⟨v, hv, rfl⟩
@@ -714,7 +714,7 @@ theorem r9_mem_parabolicRoots_iff {α : Fin Tag.E7.rank → ℤ} :
     refine ⟨hr, fun i hi => ?_⟩
     obtain ⟨i, hi7⟩ := i
     have hi7' : i < 7 := hi7
-    simp only [a5Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hi
+    simp only [a5Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hi
     interval_cases i
     · exact h0
     · exact absurd (Or.inl rfl) hi
@@ -730,7 +730,7 @@ theorem r9_u_mem : wordW Tag.E7 r9UWord ∈ parabolicWeylGroup Tag.E7 (a5Nodes T
     fun i hi hJ => Subgroup.subset_closure ⟨⟨i, hi⟩, hJ, rfl⟩
   have e : wordW Tag.E7 r9UWord = simple Tag.E7 ⟨6, by decide⟩ * (simple Tag.E7 ⟨5, by decide⟩ *
       (simple Tag.E7 ⟨1, by decide⟩ * simple Tag.E7 ⟨3, by decide⟩)) := by
-    simp only [r9UWord, wordW, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
+    simp only [r9UWord, wordW]
     rfl
   rw [e]
   exact mul_mem (hs 6 _ (by simp)) (mul_mem (hs 5 _ (by simp))
@@ -800,7 +800,6 @@ theorem r9_line_cases {L : Type} [Field L] {a : Fin Tag.E7.rank → Lˣ} (h3 : �
     have h2 : ζ ^ ((∑ i, (e i : ℤ) * r9C0Col j i) - (e j : ℤ)) = 1 := by
       have h1' : ζ ^ (-(∑ i, (e i : ℤ) * r9C0Col j i)) = ζ ^ (-(e j : ℤ)) := by
         rw [_root_.zpow_neg, _root_.zpow_neg, zpow_natCast, ← h1]
-        congr 1
         rw [← _root_.zpow_neg]
         congr 1
         simp only [Pi.neg_apply, mul_neg, Finset.sum_neg_distrib]
@@ -979,7 +978,7 @@ theorem r9_line_le_hyperClosure {K : Type} [Field K] [Finite K] (hK : Nat.card K
     (haσ : rootChar a (Pi.single 6 1) = 1) :
     Subgroup.centralizer {y} ≤ hyperClosure 3 ⊤ E₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, -, hKq, hgood, -⟩ := hs
   have hq28 : ¬ (q.p = 2 ∧ (q.exponent = 1 ∨ q.exponent = 3)) := by
     rintro ⟨h2, h13⟩
@@ -993,12 +992,12 @@ theorem r9_line_le_hyperClosure {K : Type} [Field K] [Finite K] (hK : Nat.card K
   set L := AlgebraicClosure K with hLdef
   set ℓ := q.p with hℓdef
   set f := q.exponent with hfdef
-  haveI : Fact ℓ.Prime := ⟨q.prime_p⟩
+  have : Fact ℓ.Prime := ⟨q.prime_p⟩
   have hf : 1 ≤ f := q.exponent_pos
   have hKℓ : Nat.card K = ℓ ^ f := by rw [hKq, TauCeti.PrimePower.card_def]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hKℓ)
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hKℓ)
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hΩ := isAlgebraic_zmod_of_card (k := K) (L := L) hKℓ
   have hℓ3 : ℓ ≠ 3 := by
     intro h3
@@ -1076,7 +1075,7 @@ theorem r9_line_le_hyperClosure {K : Type} [Field K] [Finite K] (hK : Nat.card K
   let ψ : adjointGroup Tag.E7 K →* ModGL Tag.E7 L :=
     (MulAut.conj V⁻¹).toMonoidHom.comp (diagMap D)
   have hψapp : ∀ x, ψ x = V⁻¹ * diagMap D x * V := fun x => by
-    simp [ψ, MulAut.conj_apply]
+    simp [ψ]
   have hψinj : Function.Injective ψ :=
     (MulAut.conj V⁻¹).injective.comp (diagMap_injective D)
   have hψd : ∀ (x : adjointGroup Tag.E7 K) (b : Fin Tag.E7.rank → Lˣ),
@@ -1156,7 +1155,7 @@ theorem r9_line_le_hyperClosure {K : Type} [Field K] [Finite K] (hK : Nat.card K
   ·
     intro P hPfin hPC hPF hPP x hx
     set P₁ : Subgroup (ModGL Tag.E7 L) := P.map (MulAut.conj V).toMonoidHom with hP₁
-    haveI : Finite P := hPfin
+    have : Finite P := hPfin
     have hP₁fin : Finite P₁ :=
       Finite.of_surjective _ ((MulAut.conj V).toMonoidHom.subgroupMap_surjective P)
     have hP₁C : P₁ ≤ adjointGroup Tag.E7 L := by

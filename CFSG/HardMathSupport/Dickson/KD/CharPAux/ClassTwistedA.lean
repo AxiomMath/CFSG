@@ -59,8 +59,8 @@ theorem comm_of_conj_fix {G : Type*} [Group G] {s q : G} (h : (MulAut.conj s : M
 
 theorem frame_primeFormP [NeZero n] (hn : 3 ≤ n) (hp2 : p ≠ 2) (y : primeFormP h (Cm n K))
     (hy : orderOf y = p) : Frame p y := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP K p := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP K p := h.charP
   obtain ⟨u, N, hu1, hN, hN0, hUN, hu⟩ := exists_unipotent_lift (h := h) y hy
   refine ⟨GenSet h N, {y}, ?_, ?_, ?_, ?_, ?_⟩
   · rintro q (hq | hq)
@@ -116,8 +116,8 @@ theorem kdCharPAt_twistedA (q : TauCeti.PrimePower) (r : ℕ)
     (eT.trans (unitaryPSUEquiv h (by omega)).symm).trans eP.symm
   subst hpq
   have hn3 : 3 ≤ r + 1 := by omega
-  haveI : NeZero (r + 1) := ⟨by omega⟩
-  haveI : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.twistedA r q, hv⟩) := hS
+  have : NeZero (r + 1) := ⟨by omega⟩
+  have : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.twistedA r q, hv⟩) := hS
   exact kdCharPAt_of_frame_simple e e.symm.isSimpleGroup fun y hy => frame_primeFormP hn3 hp2 y hy
 
 end CFSG.HardMathSupport.Dickson.KD

@@ -19,7 +19,7 @@ theorem exists_isSylowOf_ge [Finite G] {p : ℕ} [Fact p.Prime] {K X : Subgroup 
   have hX' : IsPGroup p (X.subgroupOf K) := hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXK).symm
   obtain ⟨Q, hQ⟩ := hX'.exists_le_sylow
   refine ⟨(Q : Subgroup ↥K).map K.subtype, ⟨Subgroup.map_subtype_le _, ?_, ?_⟩, ?_⟩
-  · exact Q.isPGroup'.map K.subtype
+  · exact Q.isPGroup.map K.subtype
   · have hsub : ((Q : Subgroup ↥K).map K.subtype).subgroupOf K = (Q : Subgroup ↥K) :=
       Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
     have : ((Q : Subgroup ↥K).map K.subtype).relIndex K = (Q : Subgroup ↥K).index := by

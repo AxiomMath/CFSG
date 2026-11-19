@@ -103,6 +103,7 @@ theorem commutatorSpace_closure_eq_iSup_movedSpace {ι : Type*} (x : ι → E �
   rintro w ⟨h, hh, v, rfl⟩
   exact (hcl hh).1 v
 
+omit [FiniteDimensional K E] in
 theorem finrank_span_pair_le_two (a b : E) :
     finrank K ↥(Submodule.span K ({a, b} : Set E)) ≤ 2 := by
   have hEq : Submodule.span K ({a, b} : Set E) =

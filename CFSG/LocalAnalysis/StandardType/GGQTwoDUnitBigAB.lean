@@ -51,7 +51,7 @@ theorem qtwoDB41_fixedSub_nondegenerate [FiniteDimensional (ZMod 2) V]
     {Q : QuadraticForm (ZMod 2) V} (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : E ≤ orthogonalGroup Q) (hodd : Odd (Nat.card E)) :
     ∀ x ∈ fixedSub E, (∀ y ∈ fixedSub E, polar Q x y = 0) → x = 0 := by
-  letI : Finite E := Nat.finite_of_card_ne_zero (by
+  let : Finite E := Nat.finite_of_card_ne_zero (by
     obtain ⟨k, hk⟩ := hodd
     rw [hk]; positivity)
   intro x hx hperp
@@ -103,7 +103,7 @@ theorem qtwoDB41_isElementaryAbelian_range {m : ℕ}
 theorem qtwoDB41_odd_card_range {m : ℕ} [FiniteDimensional (ZMod 2) V]
     (τ : Multiplicative (DVec m) →* (V ≃ₗ[ZMod 2] V)) :
     Odd (Nat.card τ.range) := by
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv_zmod2
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv_zmod2
   have hP : IsPGroup 3 (τ.range) := (qtwoDB41_isElementaryAbelian_range τ).isPGroup 3 _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP
   rw [hn]

@@ -76,10 +76,10 @@ theorem d4_of_residuals (hb : CatDistinct.OrderBridge) (hI : D4InnerDiagRes) (hO
   intro H _ _ J B d hJq hcat hdB hIn hd3 hdJ K hK
   have hdN : d ∈ Subgroup.normalizer (J : Set H) := hIn.1 hdB
   have hind := hI H J B d hJq hcat hIn hdB
-  haveI : Nontrivial (PSimple 3 J) := nontrivial_pSimple_isD4two hb hcat
+  have : Nontrivial (PSimple 3 J) := nontrivial_pSimple_isD4two hb hcat
   obtain ⟨c, hc⟩ := exists_conj_equiv hdN
   obtain ⟨i, hi, ⟨e0⟩⟩ := hcat
-  haveI : Nontrivial i.Group := e0.injective.nontrivial
+  have : Nontrivial i.Group := e0.injective.nontrivial
   refine comp_fix hJq hdN hd3 hdJ e0 c hc ?_ K hK
   intro α hrel h3 h1 L hL
   obtain ⟨s, hs⟩ := inner_of_inducesInnerMod e0 c hc hind α hrel

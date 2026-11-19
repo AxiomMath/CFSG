@@ -39,7 +39,6 @@ theorem commTheta_of_kfactS4 (hKF : S43_KFactS4)
   refine Subgroup.mem_map.2 ⟨y * t' * y⁻¹ * t'⁻¹, hmem, ?_⟩
   have hy' : D.subtype y = b₂ := hyb
   simp only [map_mul, map_inv, hy']
-  first | done | rfl
 
 theorem s43_commThetaAll :
     S43_CommThetaAll := fun _ _ _ _ _ _ _ _ _ h =>

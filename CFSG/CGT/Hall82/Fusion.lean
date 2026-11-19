@@ -39,12 +39,12 @@ theorem le_of_forall_map_conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fac
       rw [Subgroup.map_subgroupOf_eq_of_le (inf_le_left : K ≤ H), Subgroup.map_top,
         Subgroup.range_subtype] at hmap
       exact hmap)
-  letI : Group.IsNilpotent H := hHp.isNilpotent
+  let : Group.IsNilpotent H := hHp.isNilpotent
   have hnc : NormalizerCondition H :=
     Group.normalizerCondition_of_isNilpotent (G := H)
   have hgrowth : K.subgroupOf H < Subgroup.normalizer (K.subgroupOf H : Set H) :=
     hnc _ hKlt
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt hgrowth
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt hgrowth
   have hxnormK : ((x : H) : G) ∈ Subgroup.normalizer (K : Set G) := by
     have hxsub : x ∈ (Subgroup.normalizer (K : Set G)).subgroupOf H := by
       rw [Subgroup.subgroupOf_normalizer_eq (show K ≤ H from inf_le_left)]
@@ -106,7 +106,7 @@ theorem conj_mem_pCoreOf_centralizer (S : Setting G M L) {m : G} (hm : m ∈ M) 
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _ hmN
   exact (Subgroup.mem_normalizer_iff.mp hmN' w).mp hw
 
-theorem conj_mem_pCoreOf (S : Setting G M L) {m : G} (hm : m ∈ M) {j : G}
+theorem conj_mem_pCoreOf (_S : Setting G M L) {m : G} (hm : m ∈ M) {j : G}
     (hj : j ∈ CFSG.Open.pCoreOf 2 M) : m * j * m⁻¹ ∈ CFSG.Open.pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hm) j).mp hj
 
@@ -463,7 +463,7 @@ theorem eq_of_le_pCoreOf_centralizer (S : Setting G M L)
     (hW2 : ∀ Q : Subgroup G, IsPGroup 2 Q →
       Q ≤ Subgroup.centralizer (L : Set G) →
       Q ≤ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)))
-    (hWab : ∀ a ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)),
+    (_hWab : ∀ a ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)),
       ∀ b ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)), a * b = b * a)
     {t : G} (ht : t ∈ CFSG.Open.pCoreOf 2 M) {A : Subgroup G}
     (hA : A ≤ CFSG.Open.pCoreOf 2 (M ⊓ Subgroup.centralizer ({t} : Set G)))

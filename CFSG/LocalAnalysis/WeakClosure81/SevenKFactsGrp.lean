@@ -27,8 +27,8 @@ theorem seven_k_grp_exists_mulEquiv_sz {X : Type} [Group X] {n : ℕ}
     ∃ a : ℕ, 1 ≤ a ∧ n = 2 * a + 1 ∧ Nonempty (X ≃* Sz a) := by
   unfold CFSG.Quasithin.IsSz CFSG.Blueprint.SuzukiModel at h
   obtain ⟨-, a, ha, K, hKfld, hKfin, hf, hKcard, ⟨eX⟩⟩ := h
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
+  let : Field K := hKfld
+  let : Finite K := hKfin
   have hcard : Nat.card K = Nat.card (GaloisField 2 (2 * a + 1)) := by
     rw [GaloisField.card 2 (2 * a + 1) (by omega)]
     rw [hf] at hKcard
@@ -118,7 +118,7 @@ theorem seven_k_grp_fusionZStar_le_fusionOddCore {X : Type} [Group X] [Finite X]
   exact le_sSup ⟨inferInstance, hOddZ⟩
 
 theorem pRank_eq_of_isL2OrSz {S : Type} [Group S] [Finite S]
-    {n : ℕ} (hn : 1 < n) (hS : IsL2OrSz S n) : CFSG.pRank 2 S = n := by
+    {n : ℕ} (_hn : 1 < n) (hS : IsL2OrSz S n) : CFSG.pRank 2 S = n := by
   rcases hS with hS | hS
   · rw [CFSG.GH74.GLS.pRank_two_eq_twoRank]
     exact CFSG.GH74.SmallRanks.twoRank_eq_of_statedClassicalModel_PSL_two_two hS
@@ -130,10 +130,10 @@ theorem not_isPGroup_two_of_isL2OrSz {S : Type} [Group S] [Finite S] {n : ℕ} (
     (hS : IsL2OrSz S n) : ¬ IsPGroup 2 S := by
   unfold IsL2OrSz at hS
   intro h2
-  haveI : IsSimpleGroup S := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hS
+  have : IsSimpleGroup S := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hS
   have hcomm : commutator S = ⊤ := CFSG.Quasithin.E2.commutator_eq_top_of_psl_or_sz hn hS
-  haveI : Group.IsNilpotent S := IsPGroup.isNilpotent h2
-  have hlt := IsSolvable.commutator_lt_top_of_nontrivial S
+  have : Group.IsNilpotent S := IsPGroup.isNilpotent h2
+  have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial S
   rw [hcomm] at hlt
   exact absurd hlt (lt_irrefl ⊤)
 

@@ -64,7 +64,6 @@ theorem cons_sprod (a : α) (l : List α) (m : List γ) :
     (a :: l) ×ˢ m = m.map (Prod.mk a) ++ l ×ˢ m := by
   first
     | rfl
-    | simp [SProd.sprod, List.product]
 
 theorem f2_product {L : List α} {Lp : List β} {M : List γ} {Mp : List δ} (h : List.Forall₂ R L Lp)
     (h' : List.Forall₂ S M Mp) :

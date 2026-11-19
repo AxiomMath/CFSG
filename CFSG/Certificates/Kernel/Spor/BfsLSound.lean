@@ -34,11 +34,10 @@ private theorem hd_spec {m root cnt : Nat} {PTS POS PAR LAB : Nat → Nat}
   obtain ⟨h1, h2, h3, -, h5, -, -, h8⟩ := h
   refine ⟨h1, h2, h3, h5, fun z hz => ?_⟩
   have hq := CFSG.KS.allN_spec h8 z hz
-  simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq,
-    Nat.beq_eq] at hq
+  simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, Nat.beq_eq] at hq
   by_cases e : r32 POS z = noneK
   · exact Or.inl e
-  · rw [if_neg e] at hq
+  · rw [ite_eq_right e] at hq
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hq
     exact Or.inr hq
 
@@ -65,9 +64,8 @@ private theorem pt_spec {m cnt k : Nat} {L : Nat → Nat → Nat} {PTS POS PAR L
     simp only [hc', ↓reduceIte] at h4
     exact lexLtK_iff.1 h4
   · have hq := CFSG.KS.allN_spec hs s hs'
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq,
-      Nat.blt_eq, Nat.beq_eq] at hq
-    rw [if_pos hlt] at hq
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, Nat.blt_eq, Nat.beq_eq] at hq
+    rw [ite_eq_left hlt] at hq
     simp only [Bool.and_eq_true, Nat.blt_eq] at hq
     obtain ⟨hq1, hq2⟩ := hq
     refine ⟨hq1, ?_⟩
@@ -75,7 +73,7 @@ private theorem pt_spec {m cnt k : Nat} {L : Nat → Nat → Nat} {PTS POS PAR L
     · exact Or.inl h0
     · right
       intro hl
-      rw [if_neg h0, if_pos (lexLtK_iff.2 hl)] at hq2
+      rw [ite_eq_right h0, ite_eq_left (lexLtK_iff.2 hl)] at hq2
       exact absurd hq2 (by decide)
 
 private structure Facts (m k cnt : Nat) (L : Nat → Nat → Nat) (T pos par lab : Nat → Nat) :
@@ -294,9 +292,9 @@ private theorem inner_step (F : Facts m k cnt L T pos par lab) {h j : Nat} (hh :
       · simp [hsz]
       · rw [Array.size_push, set_get' (by omega)]
         by_cases e : L j (T h) = z
-        · rw [if_pos e]
+        · rw [ite_eq_left e]
           exact iff_of_true rfl ⟨st.1.size, by omega, by rw [← hqm, hx, e]⟩
-        · rw [if_neg e, hseen z hz]
+        · rw [ite_eq_right e, hseen z hz]
           constructor
           · rintro ⟨i, hi, e'⟩
             exact ⟨i, by omega, e'⟩
@@ -393,9 +391,9 @@ private theorem outer_spec (F : Facts m k cnt L T pos par lab) {gens : Array (Ar
         by_cases h0 : h = 0
         · exact Or.inl h0
         · exact Or.inr (Or.inl (F.tree h (by omega) a).1)
-      exact ⟨_, by unfold outerB; rw [if_pos hhs], inner_spec F hgs hgv a hI⟩
+      exact ⟨_, by unfold outerB; rw [ite_eq_left hhs], inner_spec F hgs hgv a hI⟩
     · have hns : ¬ h < st.1.size := by have := hI.1; omega
-      refine ⟨st, by unfold outerB; rw [if_neg hns], hI.1, hI.2.1, hI.2.2.1, hI.2.2.2.1,
+      refine ⟨st, by unfold outerB; rw [ite_eq_right hns], hI.1, hI.2.1, hI.2.2.1, hI.2.2.2.1,
         fun i hi => ?_⟩
       rw [hI.2.2.2.2 i hi]
       have hpar : 0 < i → par i < i := fun h0 => (F.tree i h0 hi).1
@@ -423,9 +421,9 @@ private theorem outer_spec (F : Facts m k cnt L T pos par lab) {gens : Array (Ar
       simp [hroot]
     · rw [set_get' (by simp; omega)]
       by_cases e : root = z
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact iff_of_true rfl ⟨0, by simp, by rw [hroot, e]⟩
-      · rw [if_neg e, getElem!_pos (Array.replicate m false) z (by simp; omega),
+      · rw [ite_eq_right e, getElem!_pos (Array.replicate m false) z (by simp; omega),
           Array.getElem_replicate]
         refine iff_of_false (by simp) fun ⟨i, hi, e'⟩ => e ?_
         have : i = 0 := by omega
@@ -516,7 +514,7 @@ private theorem rec_step {gens : Array (Array Nat)} {Q P : Array Nat}
   · obtain ⟨c1, c2, c3⟩ := hcond
     have ht : (decide (kk0 < Q.size) && decide (j0 < kk0) && !st.2.2[kk0]!) = true := by
       simp [c1, c2, c3]
-    refine ⟨(st.1.set! kk0 j0, st.2.1.set! kk0 s0, st.2.2.set! kk0 true), by rw [if_pos ht], ?_⟩
+    refine ⟨(st.1.set! kk0 j0, st.2.1.set! kk0 s0, st.2.2.set! kk0 true), by rw [ite_eq_left ht], ?_⟩
     have hy : Q[kk0]! = (gens[s0]!)[Q[j0]!]! := hy0 c1
     unfold RInv
     dsimp only
@@ -525,24 +523,24 @@ private theorem rec_step {gens : Array (Array Nat)} {Q P : Array Nat}
     · rw [set_get' (by omega)] at hd
       rw [set_get' (by omega), set_get' (by omega)]
       by_cases e : kk0 = kk
-      · rw [if_pos e, if_pos e]
+      · rw [ite_eq_left e, ite_eq_left e]
         subst e
         exact ⟨c2, hs0, hy.symm⟩
-      · rw [if_neg e] at hd
-        rw [if_neg e, if_neg e]
+      · rw [ite_eq_right e] at hd
+        rw [ite_eq_right e, ite_eq_right e]
         exact hv kk hkk hd
     · rw [set_get' (by omega)]
       rcases hmove j s hl with hl' | ⟨rfl, rfl⟩
       · by_cases e : kk0 = P[(gens[s]!)[Q[j]!]!]!
-        · rw [if_pos e]
-        · rw [if_neg e]
+        · rw [ite_eq_left e]
+        · rw [ite_eq_right e]
           exact hc j s hl' hs hlt hjl
-      · rw [hk, if_pos rfl]
+      · rw [hk, ite_eq_left rfl]
   · have hf : ¬ (decide (kk0 < Q.size) && decide (j0 < kk0) && !st.2.2[kk0]!) = true := by
       intro h
       rw [Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_iff, decide_eq_true_iff] at h
       exact hcond ⟨h.1.1, h.1.2, by simpa using h.2⟩
-    refine ⟨st, by rw [if_neg hf], h1, h2, h3, hv, fun j s hl hs hlt hjl => ?_⟩
+    refine ⟨st, by rw [ite_eq_right hf], h1, h2, h3, hv, fun j s hl hs hlt hjl => ?_⟩
     rcases hmove j s hl with hl' | ⟨rfl, rfl⟩
     · exact hc j s hl' hs hlt hjl
     · rw [hk] at hlt hjl ⊢

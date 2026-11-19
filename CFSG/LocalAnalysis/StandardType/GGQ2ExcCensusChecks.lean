@@ -171,16 +171,16 @@ private theorem ec_line_Phi_mulVec {rows : List ℕ} {p : ℕ} {w : V m}
       rw [root_apply]
       apply Finset.sum_congr rfl
       intro j _
-      simp only [Chk.phiN, if_pos hi]
+      simp only [Chk.phiN, ite_eq_left hi]
       have hget : rows.getD i.val 0 = rows[i.val] := List.getD_eq_getElem rows 0 hik
       rw [hget, tabsOK_f hT ⟨rows[i.val], hrow⟩ j]
     rw [hroot, hrowz]
   · have hid : i.val + 1 = dim m := by omega
     rw [Finset.sum_eq_single (a := ⟨p, hp⟩)]
-    · simp only [Chk.phiN, if_neg hi]
+    · simp only [Chk.phiN, ite_eq_right hi]
       simp [hwp]
     · intro b _ hb
-      simp only [Chk.phiN, if_neg hi]
+      simp only [Chk.phiN, ite_eq_right hi]
       have hbp : b.val ≠ p := fun h => hb (Fin.ext h)
       simp [hbp]
     · intro hpnot
@@ -281,7 +281,7 @@ theorem inOK_sound (hT : Chk.tabsOK m T = true) {c cv : ℕ} {coef : List (ℕ �
       refine Submodule.add_mem _ ?_ (ih (fun x hx => hltl x (List.mem_cons_of_mem e hx))
         (fun x hx => hbitl x (List.mem_cons_of_mem e hx)))
       rw [show term e = (e.2 : ZMod 3) • coroot m ⟨e.1, hltl e List.mem_cons_self⟩ from
-        dif_pos (hltl e List.mem_cons_self)]
+        dite_eq_left (hltl e List.mem_cons_self)]
       refine Submodule.smul_mem _ _ (Submodule.subset_span ?_)
       exact ⟨⟨e.1, hltl e List.mem_cons_self⟩,
         mem_ofMask.mpr (hbitl e List.mem_cons_self), rfl⟩
@@ -298,7 +298,7 @@ theorem inOK_sound (hT : Chk.tabsOK m T = true) {c cv : ℕ} {coef : List (ℕ �
         ih (fun x hx => hltl x (List.mem_cons_of_mem e hx))
           (fun x hx => hbitl x (List.mem_cons_of_mem e hx)) k,
         show term e = (e.2 : ZMod 3) • coroot m ⟨e.1, hltl e List.mem_cons_self⟩ from
-          dif_pos (hltl e List.mem_cons_self)]
+          dite_eq_left (hltl e List.mem_cons_self)]
       simp only [Pi.smul_apply, smul_eq_mul, coroot,
         tabsOK_h hT ⟨e.1, hltl e List.mem_cons_self⟩ k]
   have hvec : vec m cv = (coef.map term).sum := by
@@ -415,7 +415,7 @@ theorem growN_fold_spec {m : Fin 6} {T : Chk.Tabs} (hT : Chk.tabsOK m T = true)
   | succ n ih =>
     rw [Nat.fold_succ]
     by_cases hAn : A.testBit n = true
-    · rw [if_pos hAn]
+    · rw [ite_eq_left hAn]
       refine ⟨fun t ht => ?_, fun t ht hb => ?_⟩
       · rw [Nat.testBit_lor, ih.1 t ht, Nat.testBit_land, hchi t ht]
         simp
@@ -433,7 +433,7 @@ theorem growN_fold_spec {m : Fin 6} {T : Chk.Tabs} (hT : Chk.tabsOK m T = true)
           have hadj' : Adj m ⟨n, hn⟩ ⟨t, ht⟩ :=
             (tabsOK_adj hT ⟨n, hn⟩ t).mp hadj |>.choose_spec
           exact hclosed ⟨n, hn⟩ hiC ⟨t, ht⟩ hjC hadj'
-    · rw [if_neg hAn]
+    · rw [ite_eq_right hAn]
       exact ih
 
 theorem growN_repeat_spec {m : Fin 6} {T : Chk.Tabs} (hT : Chk.tabsOK m T = true)
@@ -667,7 +667,7 @@ private theorem ec_deriv_fold_mem {m : Fin 6} {T : Chk.Tabs} (hT : Chk.tabsOK m 
         have hA' : A' = A ||| 1 <<< (T.rt[e.1]!)[e.2]! := by
           have hsome : some (A ||| 1 <<< (T.rt[e.1]!)[e.2]!) = some A' := by
             rw [← hstep]
-            simp only [Option.bind_some, if_pos hc]
+            simp only [Option.bind_some, ite_eq_left hc]
           exact (Option.some.injEq _ _).mp hsome.symm
         rw [hA', Nat.testBit_lor, Bool.or_eq_true] at hbit
         rcases hbit with hbit | hbit
@@ -685,7 +685,7 @@ private theorem ec_deriv_fold_mem {m : Fin 6} {T : Chk.Tabs} (hT : Chk.tabsOK m 
             if decide (e.1 < nroots m) && decide (e.2 < nroots m) && gens.testBit e.1 && S.testBit e.2 then
               some (S ||| 1 <<< (T.rt[e.1]!)[e.2]!)
             else none) = some A' := hstep
-        simp only [Option.bind_some, if_neg hc] at hsome
+        simp only [Option.bind_some, ite_eq_right hc] at hsome
         exact absurd hsome (by simp)
 
 theorem genOK_subset {gens c : ℕ} {L : List (ℕ × ℕ)}
@@ -783,7 +783,7 @@ theorem normalizerGroup_ofMask {c : ℕ} (h : Chk.notB2 m c = true) :
       exact ⟨h0, hcardN⟩
     rw [htrue] at h'
     exact absurd h' (by simp)
-  rw [normalizerGroup, if_neg hnot]
+  rw [normalizerGroup, ite_eq_right hnot]
 
 theorem normalizerGroup_le_weyl (c : Finset (Root m)) : normalizerGroup m c ≤ weyl m c := by
   rw [normalizerGroup]

@@ -42,7 +42,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.Row CFSG.KS.PEnum
     (lo len : Nat) : Bool :=
   penumSlK (nat_lit 32) (nat_lit 6) (nat_lit 63) (nat_lit 192) false G G k cnt T PL POS SRT SRI lo len
 
-@[expose] noncomputable def eSylHdK (cnt : Nat) (T SP : Nat → Nat) (kS cntS : Nat)
+@[expose] noncomputable def eSylHdK (cnt : Nat) (_T SP : Nat → Nat) (kS cntS : Nat)
     (ST SPL : Nat → Nat) : Bool :=
   bAnd(allN kS (fun j => Nat.blt (SP j) cnt), penumHdK eId cntS cntS ST SPL)
 

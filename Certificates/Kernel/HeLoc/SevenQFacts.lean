@@ -60,8 +60,8 @@ theorem qg_inP : ∀ k < 2, gp k ∈ heP := by
   · exact (gp_mem 0 (by norm_num)).2.2 fl_rep.2.2.2.1
   · exact (gp_mem 1 (by norm_num)).2.2 fl_rep.2.2.2.2
 
-theorem hmulP : ∀ a ∈ heP, ∀ b ∈ heP, (a * b ∈ heP ↔ (a ∈ heP ↔ b ∈ heP)) :=
-  fun a ha b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
+theorem hmulP : ∀ _a ∈ heP, ∀ _b ∈ heP, (_a * _b ∈ heP ↔ (_a ∈ heP ↔ _b ∈ heP)) :=
+  fun _a ha _b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
 
 theorem tree : TreeOK 2 343 Q.P Q.L := treeOK_of fun i hi h0 => by
   have h := allN_spec kTree i hi

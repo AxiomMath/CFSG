@@ -295,12 +295,12 @@ theorem eq_bot_of_full (h : UnitaryFieldData ℓ f K) {k : ℕ} (hq : ℓ ^ f + 
     (hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hAD : ∀ d ∈ D, ∀ x ∈ A, d * x * d⁻¹ ∈ A)
     (hAU : ∀ x ∈ A, ((x : Matrix (Fin n) (Fin n) K).map h.bar)ᵀ * x = 1)
     (hA3 : ∀ x ∈ A, Nat.Coprime 3 (orderOf x)) : A = ⊥ := by
-  haveI : Finite K := h.finite
-  haveI : Finite (Matrix (Fin n) (Fin n) K) := inferInstanceAs (Finite (Fin n → Fin n → K))
-  haveI : Finite (GL (Fin n) K) :=
+  have : Finite K := h.finite
+  have : Finite (Matrix (Fin n) (Fin n) K) := inferInstanceAs (Finite (Fin n → Fin n → K))
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (Units.val : GL (Fin n) K → Matrix (Fin n) (Fin n) K)
       fun _ _ hab => Units.ext hab
-  haveI : IsMulCommutative A := IsMulCommutative.of_comm fun x y => Subtype.ext (hAc x x.2 y y.2)
+  have : IsMulCommutative A := IsMulCommutative.of_comm fun x y => Subtype.ext (hAc x x.2 y y.2)
   rcases A.bot_or_exists_ne_one with hA | ⟨t₀, ht₀A, ht₀1⟩
   · exact hA
   exfalso

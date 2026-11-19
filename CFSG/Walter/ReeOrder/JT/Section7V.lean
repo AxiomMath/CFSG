@@ -70,7 +70,7 @@ theorem lemma_7_11_b
     have h74 := h.lemma_7_4 hp3 c.torus.le c.torus.cyclic c.card_C g.2
       (fun h0 => hg (Subtype.ext h0))
     have h1 := Subgroup.orderOf_dvd_natCard _ hyC
-    obtain ⟨k, hk⟩ := P₀.isPGroup' y
+    obtain ⟨k, hk⟩ := P₀.isPGroup y
     have h2 : orderOf y ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
     rw [← Subgroup.orderOf_coe] at h2
     have hcop : Nat.Coprime (3 ^ k) (Nat.card (Subgroup.centralizer ({(g : G)} : Set G))) :=
@@ -106,7 +106,7 @@ theorem lemma_7_11_b
     rw [h2] at h1
     exact (Nat.dvd_add_left (dvd_refl _)).mp h1
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at hdvd
-  obtain ⟨n, hn⟩ := P₀.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P₀.isPGroup.exists_card_eq
   have hqpow : h.q = 3 ^ h.f := by rw [JTHyp.q_eq, hp3]
   have hCcard : Nat.card c.C = (3 ^ h.f - 1) / 2 := by
     have := c.card_C

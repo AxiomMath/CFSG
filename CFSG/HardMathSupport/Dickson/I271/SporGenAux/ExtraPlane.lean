@@ -17,7 +17,7 @@ theorem pfree_centralizer_plane_extra {M : Type*} [Group M] [Finite M] {R Q E : 
       Subgroup M))
     (hEQ : E ≤ Q) (hEel : IsElemAbelian p E) (hE2 : Nat.card E = p ^ 2) :
     PFree p (R ⊓ Subgroup.centralizer (E : Set M) : Subgroup M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzord : orderOf z = p := orderOf_eq_prime (hQexp z hzQ) hz1
   have hzcard : Nat.card (Subgroup.zpowers z) = p := by rw [Nat.card_zpowers, hzord]
   have hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
@@ -115,7 +115,7 @@ theorem pfree_centralizer_plane_extra {M : Type*} [Group M] [Finite M] {R Q E : 
       have : p ^ 3 = p ^ 2 * p := by ring
       rw [this] at h
       exact (Nat.eq_of_mul_eq_mul_right hp0 h).symm
-    haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq hquot
+    have := IsPGroup.isMulCommutative_of_card_eq_prime_sq hquot
     have hmk := mul_comm' (QuotientGroup.mk (⟨v, hv⟩ : ↥Q) : ↥Q ⧸ N) (QuotientGroup.mk ⟨e, he⟩)
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul] at hmk
     have hmem := QuotientGroup.eq.1 hmk.symm

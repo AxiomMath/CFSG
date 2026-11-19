@@ -39,6 +39,7 @@ private theorem mul_comm_of_commute {g g' : (Fin n → K) ≃ₗ[K] (Fin n → K
     (hc : Commute g.toLinearMap g'.toLinearMap) : g' * g = g * g' :=
   LinearEquiv.ext fun v => (LinearMap.congr_fun hc.eq v).symm
 
+omit [Fintype E0] [IsMulCommutative E0] in
 private theorem actEquiv_symm_toLinearMap (e : ↥E0) :
     (actEquiv e).symm.toLinearMap = act ρ₀ e⁻¹ := by
   refine LinearMap.ext fun v => (actEquiv e).injective ?_
@@ -217,7 +218,7 @@ theorem orthBlockConcl_of_piece [Finite K] [CharP K 2]
     have hmem : c ∈ L' ⊓ L := ⟨hcL', hcL⟩
     rwa [hP.inf_eq_bot (mem_lines.mp hL') (mem_lines.mp hL) hL'L, Subgroup.mem_bot] at hmem)
   have hx := oddOrderIsometry_auxEquiv hP hpK hEQ hreg hL c 1
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hX1 : h ≠ X - 1 := by rwa [C_1] at hX
   have hself : reciprocalPolynomial h = h := hx.reciprocal_eq_of_dvd_card_succ hp hpq hh hX1
   have hgood : ∀ {z : (Fin n → K) ≃ₗ[K] (Fin n → K)}, OddOrderIsometry Q p z →
@@ -232,7 +233,7 @@ theorem orthBlockConcl_of_piece [Finite K] [CharP K 2]
       fun h4 => by have := hm.2 h4; omega, by omega⟩
   obtain ⟨hPq, hm2⟩ := hgood hx hh hns
   set P := specialBlock Q (auxEquiv hP hpK hL c 1) h with hPdef
-  haveI : Group.IsPerfect ↥P := hPq.1
+  have : Group.IsPerfect ↥P := hPq.1
   have hPdvd : p ∣ Nat.card (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.dvd_card_quotient_center_of_quasisimple hPq hp
       (CFSG.HardMathSupport.Timmesfeld.CrossChar.orth3_dvd_card_orthSpecialBlock hx hp hp2 hh

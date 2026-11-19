@@ -96,12 +96,12 @@ private theorem r10a11_conj_mem_centralizer {F : Subgroup G} {k g : G}
 
 theorem eq_one_of_fixes_of_isPGroup_three {F : Subgroup G} {x z : G}
     (hB : IsSylowOf 3 (zpowers x ⊔ zpowers z) (normalizer (F : Set G)))
-    (hxC : x ∈ centralizer (F : Set G)) (hzC : z ∉ centralizer (F : Set G)) (hz3 : z ^ 3 = 1)
+    (hxC : x ∈ centralizer (F : Set G)) (_hzC : z ∉ centralizer (F : Set G)) (hz3 : z ^ 3 = 1)
     (hxz : x * z = z * x) (hzF : ∀ a ∈ F, z * a * z⁻¹ = a → a = 1) :
     ∀ m ∈ normalizer (F : Set G), IsPGroup 3 (zpowers m) → m ∉ centralizer (F : Set G) →
       ∀ a ∈ F, m * a * m⁻¹ = a → a = 1 := by
   intro m hmN hm3 hmC a haF hma
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3' : z ^ (3 : ℤ) = 1 := by exact_mod_cast hz3
   have hzB : z ∈ zpowers x ⊔ zpowers z := mem_sup_right (mem_zpowers z)
   have hzN : z ∈ normalizer (F : Set G) := hB.le hzB
@@ -202,6 +202,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a13_conj_mem {V C : Subgroup G} {z v : G} (hzV : z ∈ normalizer (V : Set G))
     (hcomm : ∀ w ∈ V, z * w * z⁻¹ * w⁻¹ ∈ C) {u : G} (hu : u ∈ V ∧ u * v⁻¹ ∈ C) :
     z * u * z⁻¹ ∈ V ∧ z * u * z⁻¹ * v⁻¹ ∈ C := by
@@ -214,7 +215,7 @@ private theorem r10a13_not_dvd_card {V C : Subgroup G} {r : ℕ} (hr : r.Prime) 
     (hV : IsPGroup r V) {v : G} (hv : v ∈ V) :
     ¬ 3 ∣ Nat.card {u : G // u ∈ V ∧ u * v⁻¹ ∈ C} := by
   intro h3
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let e : {u : G // u ∈ V ∧ u * v⁻¹ ∈ C} ≃ ↥(V ⊓ C) :=
     { toFun := fun u => ⟨u.1 * v⁻¹, Subgroup.mem_inf.mpr ⟨V.mul_mem u.2.1 (V.inv_mem hv), u.2.2⟩⟩
       invFun := fun c => ⟨c.1 * v, V.mul_mem (Subgroup.mem_inf.mp c.2).1 hv, by
@@ -235,7 +236,7 @@ theorem exists_fixed_mem_coset {V C : Subgroup G} {r : ℕ} {z : G} (hr : r.Prim
     (hcomm : ∀ v ∈ V, z * v * z⁻¹ * v⁻¹ ∈ C) :
     ∀ v ∈ V, ∃ u ∈ V, u * v⁻¹ ∈ C ∧ z * u = u * z := by
   intro v hv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX3 := r10a13_not_dvd_card (C := C) hr hr3 hV hv
   have hinj : Function.Injective (fun u : {u : G // u ∈ V ∧ u * v⁻¹ ∈ C} =>
       (⟨z * u.1 * z⁻¹, r10a13_conj_mem hzV hcomm u.2⟩ : {u : G // u ∈ V ∧ u * v⁻¹ ∈ C})) := by
@@ -282,6 +283,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a14_conj_mem {V F : Subgroup G} (hVF : V ≤ normalizer (F : Set G))
     (v : V) (a : F) : (v : G) * (a : G) * (v : G)⁻¹ ∈ F :=
   (Subgroup.mem_set_normalizer_iff.mp (hVF v.2) (a : G)).mp a.2
@@ -300,6 +302,7 @@ private def r10a14_act {V F : Subgroup G} (hVF : V ≤ normalizer (F : Set G)) :
       = (v : G) * ((w : G) * (a : G) * (w : G)⁻¹) * (v : G)⁻¹
     simp only [mul_inv_rev, mul_assoc]
 
+omit [Finite G] in
 theorem false_of_fixed_vector {M F V : Subgroup G} {x z a : G}
     (hP65 : ∀ W : Subgroup G, W ≤ M → W ≠ ⊥ → Nat.Coprime (Nat.card W) 6 →
       zpowers x ⊔ zpowers z ≤ normalizer (W : Set G) → normalizer (W : Set G) ≤ M)
@@ -330,8 +333,8 @@ theorem false_of_fixed_vector {M F V : Subgroup G} {x z a : G}
 theorem exists_fixed_ne_one_of_isPGroup {V F : Subgroup G} {f : ℕ} (hf : f.Prime)
     (hV : IsPGroup f V) (hF : IsPGroup f F) (hF1 : F ≠ ⊥) (hVF : V ≤ normalizer (F : Set G)) :
     ∃ a ∈ F, a ≠ 1 ∧ ∀ v ∈ V, v * a * v⁻¹ = a := by
-  haveI hfact : Fact f.Prime := ⟨hf⟩
-  letI hact : MulAction V F := r10a14_act hVF
+  have hfact : Fact f.Prime := ⟨hf⟩
+  let hact : MulAction V F := r10a14_act hVF
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := f)).mp hF
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -372,7 +375,7 @@ theorem exists_threeComplement {Y0 : Subgroup G} {x : G} (hx1 : x ≠ 1) (hx3 : 
     exact hx3Y
   have hordx : orderOf xY = 3 := orderOf_eq_prime hx3Y hx1Y
   have hcomm : ∀ g : Y0, g * xY = xY * g := fun g => Subtype.ext (hxc g.1 g.2)
-  haveI hKn : (zpowers xY).Normal := ⟨fun n hn g => by
+  have hKn : (zpowers xY).Normal := ⟨fun n hn g => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
     have hc : Commute g (xY ^ k) := (show Commute g xY from hcomm g).zpow_right k
     have hc' : g * xY ^ k * g⁻¹ = xY ^ k := by
@@ -466,10 +469,12 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a16_conj_mul (z x y : G) :
     z * (x * y) * z⁻¹ = z * x * z⁻¹ * (z * y * z⁻¹) := by
   group
 
+omit [Finite G] in
 private theorem r10a16_pow_three_eq_one {z r s : G} (hz3 : z ^ 3 = 1) (hzr : z * r = r * z)
     (hzs : z * s * z⁻¹ = r * s) : r ^ 3 = 1 := by
   have hcr : z * r * z⁻¹ = r := by
@@ -491,6 +496,7 @@ private theorem r10a16_pow_three_eq_one {z r s : G} (hz3 : z ^ 3 = 1) (hzr : z *
   rw [pow_three]
   exact mul_right_cancel h6
 
+omit [Finite G] in
 private theorem r10a16_eq_one_of_pow_three {S : Subgroup G} (hS : IsPGroup 2 S) {r : G}
     (hrS : r ∈ S) (h3 : r ^ 3 = 1) : r = 1 := by
   obtain ⟨k, hk⟩ := hS ⟨r, hrS⟩
@@ -503,6 +509,7 @@ private theorem r10a16_eq_one_of_pow_three {S : Subgroup G} (hS : IsPGroup 2 S) 
   rw [hg, pow_one] at h1
   exact h1
 
+omit [Finite G] in
 private theorem r10a16_conj_eq_self {S : Subgroup G} {z : G} (hS : IsPGroup 2 S)
     (hz3 : z ^ 3 = 1) (hzS : z ∈ normalizer (S : Set G))
     (hzC : z ∈ centralizer ((⁅zpowers z, S⁆ : Subgroup G) : Set G)) {s : G} (hs : s ∈ S) :
@@ -523,6 +530,7 @@ private theorem r10a16_conj_eq_self {S : Subgroup G} {z : G} (hS : IsPGroup 2 S)
   have hr1 : r = 1 := r10a16_eq_one_of_pow_three hS hrS hr3
   exact mul_inv_eq_one.mp (hr.symm.trans hr1)
 
+omit [Finite G] in
 theorem not_mem_centralizer_commutator {S : Subgroup G} {z : G} (hS : IsPGroup 2 S)
     (hz3 : z ^ 3 = 1) (hzS : z ∈ normalizer (S : Set G)) (hR1 : ⁅zpowers z, S⁆ ≠ ⊥) :
     z ∉ centralizer ((⁅zpowers z, S⁆ : Subgroup G) : Set G) := by
@@ -541,6 +549,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a17_three_dvd_orderOf {Q : Subgroup G} (hQ : IsPGroup 3 Q) {g : G}
     (hgQ : g ∈ Q) (hg1 : g ≠ 1) : 3 ∣ orderOf g := by
   obtain ⟨k, hk⟩ := hQ ⟨g, hgQ⟩
@@ -581,6 +590,7 @@ theorem exists_mem_not_mem_pow_three_mem {Q B : Subgroup G} (hQ : IsPGroup 3 Q)
     exact r10a17_orderOf_pow_three_lt h3
   exact Nat.find_min hex hlt ⟨g ^ 3, Q.pow_mem hgQ 3, hcon, rfl⟩
 
+omit [Finite G] in
 private theorem r10a17_plane_decomp {x z b : G} (hxz : x * z = z * x)
     (hb : b ∈ zpowers x ⊔ zpowers z) : ∃ j i : ℤ, b = x ^ j * z ^ i := by
   have hxz' : Commute x z := hxz
@@ -616,6 +626,7 @@ private theorem r10a17_plane_decomp {x z b : G} (hxz : x * z = z * x)
     exact ⟨0, 1, by simp⟩
   exact (sup_le hxM hzM) hb
 
+omit [Finite G] in
 theorem mem_zpowers_of_mem_plane_of_mem_centralizer {x z : G} {R : Subgroup G}
     (hxz : x * z = z * x) (hx : x ∈ centralizer (R : Set G)) (hz3 : z ^ 3 = 1)
     (hz : z ∉ centralizer (R : Set G)) {b : G} (hb : b ∈ zpowers x ⊔ zpowers z)
@@ -645,6 +656,7 @@ theorem mem_zpowers_of_mem_plane_of_mem_centralizer {x z : G} {R : Subgroup G}
       zpow_one] at h4
     exact h4
 
+omit [Finite G] in
 private theorem r10a17_conj_mem_commutator {S : Subgroup G} {g z : G}
     (hg : g ∈ normalizer (S : Set G)) (hgz : g * z = z * g) {c : G}
     (hc : c ∈ (⁅zpowers z, S⁆ : Subgroup G)) :
@@ -671,6 +683,7 @@ private theorem r10a17_conj_mem_commutator {S : Subgroup G} {g z : G}
     exact h3
   exact hle hc
 
+omit [Finite G] in
 theorem mem_normalizer_commutator_of_commute {S : Subgroup G} {g z : G}
     (hg : g ∈ normalizer (S : Set G)) (hgz : g * z = z * g) :
     g ∈ normalizer ((⁅zpowers z, S⁆ : Subgroup G) : Set G) := by
@@ -690,7 +703,7 @@ theorem mem_normalizer_commutator_of_commute {S : Subgroup G} {g z : G}
 theorem le_centralizer_of_isPGroup_of_normalizes {W X : Subgroup G} (hW : IsPGroup 3 W)
     (hX3 : Nat.card X = 3) (hWX : W ≤ normalizer (X : Set G)) :
     W ≤ centralizer (X : Set G) := by
-  haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨⟨y, hyX⟩, hy1⟩ := exists_ne (1 : X)
   have hy1' : y ≠ 1 := fun h => hy1 (Subtype.ext h)
   have hy3 : y ^ 3 = 1 := by
@@ -698,7 +711,7 @@ theorem le_centralizer_of_isPGroup_of_normalizes {W X : Subgroup G} (hW : IsPGro
       rw [← hX3]
       exact pow_card_eq_one'
     simpa using congrArg Subtype.val h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf y = 3 := orderOf_eq_prime hy3 hy1'
   have hy3z : y ^ (3 : ℤ) = 1 := by
     rw [show (3 : ℤ) = ((3 : ℕ) : ℤ) by norm_num, zpow_natCast, hy3]
@@ -775,7 +788,8 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem exists_pow_inv_mul_eq {C N : Subgroup G} (hCN : C ≤ N)
+omit [Finite G] in
+theorem exists_pow_inv_mul_eq {C N : Subgroup G} (_hCN : C ≤ N)
     (hnorm : ∀ n ∈ N, ∀ c ∈ C, n * c * n⁻¹ ∈ C) {c g : G} (hc : c ∈ C) (hgN : g ∈ N) (k : ℕ) :
     ∃ c' ∈ C, (c⁻¹ * g) ^ k = c' * g ^ k := by
   induction k with
@@ -787,6 +801,7 @@ theorem exists_pow_inv_mul_eq {C N : Subgroup G} (hCN : C ≤ N)
     rw [pow_succ (c⁻¹ * g) k, hpow, pow_succ g k]
     simp only [mul_assoc, inv_mul_cancel_left]
 
+omit [Finite G] in
 private theorem r10a18_eq_of_isSylowOf {p : ℕ} {B K T : Subgroup G} (hB : IsSylowOf p B K)
     (hT : IsPGroup p T) (hTK : T ≤ K) (hBT : B ≤ T) : T = B := by
   obtain ⟨Q0, hQ0⟩ := hB
@@ -804,6 +819,7 @@ private theorem r10a18_eq_of_isSylowOf {p : ℕ} {B K T : Subgroup G} (hB : IsSy
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTK] at h2
   exact h2
 
+omit [Finite G] in
 theorem isSylowOf_of_le_of_le {p : ℕ} {B Y K : Subgroup G} (hB : IsSylowOf p B K)
     (hBY : B ≤ Y) (hYK : Y ≤ K) : IsSylowOf p B Y := by
   have hBp : IsPGroup p (B.subgroupOf Y) := hB.isPGroup.comap_subtype
@@ -815,7 +831,7 @@ theorem isSylowOf_of_le_of_le {p : ℕ} {B Y K : Subgroup G} (hB : IsSylowOf p B
     exact Subgroup.mem_map.mpr ⟨⟨x, hxY⟩, hS hmem, rfl⟩
   have hTK : (S : Subgroup Y).map Y.subtype ≤ K :=
     (Subgroup.map_subtype_le (S : Subgroup Y)).trans hYK
-  have hT := r10a18_eq_of_isSylowOf hB (S.isPGroup'.map Y.subtype) hTK hBT
+  have hT := r10a18_eq_of_isSylowOf hB (S.isPGroup.map Y.subtype) hTK hBT
   exact ⟨S, hT⟩
 
 theorem card_dvd_three_of_le_normal {Y Y0 B : Subgroup G} {x : G} (hx1 : x ≠ 1)

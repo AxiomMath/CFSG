@@ -19,14 +19,14 @@ open CFSG.ClassicalInvolution.Q3.AE
     ∃ w : Wr n, ∀ x : ↥H, (σ x : AEQ n) = mkQ n w * (x : AEQ n) * (mkQ n w)⁻¹
 
 @[expose] def AEPerm (n : ℕ) : Prop :=
-  ∀ (α : Finset (Fin n)) (hα : α.card = 4) (w : Wr n),
+  ∀ (α : Finset (Fin n)) (_hα : α.card = 4) (w : Wr n),
     (∃ a : ℕ, ∀ x ∈ Hn n, mkQ n (w ^ 3 ^ a) * x * (mkQ n (w ^ 3 ^ a))⁻¹ = x) →
     (∀ (β : Finset (Fin n)) (hβ : β.card = 4) (c : Bool), (Disjoint α β ∨ β = α) →
       ∀ x ∈ memBar β hβ c, mkQ n w * x * (mkQ n w)⁻¹ = x) →
     n = 7 ∨ ∀ x ∈ Hn n, mkQ n w * x * (mkQ n w)⁻¹ = x
 
 @[expose] def AEThree (n : ℕ) : Prop :=
-  ∀ (α : Finset (Fin n)) (hα : α.card = 4) (H : Subgroup (AEQ n)), H = Hn n → ∀ σ : ↥H →* ↥H,
+  ∀ (α : Finset (Fin n)) (_hα : α.card = 4) (H : Subgroup (AEQ n)), H = Hn n → ∀ σ : ↥H →* ↥H,
     (∃ a : ℕ, ∀ r, (⇑σ)^[3 ^ a] r = r) → PermMembers H σ →
     (∀ (β : Finset (Fin n)) (hβ : β.card = 4) (c : Bool), (Disjoint α β ∨ β = α) →
       ∀ x : ↥H, (x : AEQ n) ∈ memBar β hβ c → σ x = x) →

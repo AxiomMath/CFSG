@@ -80,21 +80,21 @@ theorem Jm_symm_transpose : (Jm : Mat6)ᵀ = Jm := by
   ext x y
   rw [Matrix.transpose_apply, Jm_apply, Jm_apply]
   by_cases h : x = y.swap
-  · rw [if_pos h, if_pos (by rw [h, Sum.swap_swap])]
-  · rw [if_neg h, if_neg (fun h' => h (by rw [h', Sum.swap_swap]))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h, Sum.swap_swap])]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (by rw [h', Sum.swap_swap]))]
 
 theorem Jm_mul_single (a b : Fin 3 ⊕ Fin 3) (c : F4) :
     (Jm : Mat6) * Matrix.single a b c = Matrix.single a.swap b c := by
   ext x y
   rw [Matrix.mul_apply, Finset.sum_eq_single x.swap]
-  · rw [Jm_apply, if_pos rfl, Matrix.single_apply, Matrix.single_apply, one_mul]
+  · rw [Jm_apply, ite_eq_left rfl, Matrix.single_apply, Matrix.single_apply, one_mul]
     by_cases h : a = x.swap
     · have h' : a.swap = x := by rw [h, Sum.swap_swap]
-      simp [h, h']
+      simp [h]
     · have h' : ¬ a.swap = x := fun h'' => h (by rw [← h'', Sum.swap_swap])
       simp [h, h']
   · intro z _ hz
-    rw [Jm_apply, if_neg hz, zero_mul]
+    rw [Jm_apply, ite_eq_right hz, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -111,7 +111,7 @@ theorem Jm_levN_symm (p q : Fin 3) : ((Jm : Mat6) * levN p q)ᵀ = Jm * levN p q
 theorem single_apply_eq_zero {v : Fin 3 → ZMod 3} {a b x y : Fin 3 ⊕ Fin 3}
     (hab : ext v a = ext v b) (hxy : ext v x ≠ ext v y) :
     (Matrix.single a b (1 : F4) : Mat6) x y = 0 := by
-  rw [Matrix.single_apply, if_neg]
+  rw [Matrix.single_apply, ite_eq_right]
   rintro ⟨rfl, rfl⟩
   exact hxy hab
 
@@ -141,21 +141,21 @@ theorem hind0 : ∀ s t : F4, s • sigN 1 + t • sigN 2 = 0 → s = 0 ∧ t = 
   intro s t h
   have h1 := congrFun₂ h (Sum.inl 1) (Sum.inr 1)
   have h2 := congrFun₂ h (Sum.inl 2) (Sum.inr 2)
-  simp [sigN, Matrix.single_apply] at h1 h2
+  simp [sigN] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem hind1 : ∀ s t : F4, s • sigN 2 + t • levN 0 1 = 0 → s = 0 ∧ t = 0 := by
   intro s t h
   have h1 := congrFun₂ h (Sum.inl 2) (Sum.inr 2)
   have h2 := congrFun₂ h (Sum.inl 0) (Sum.inl 1)
-  simp [sigN, levN, Matrix.single_apply] at h1 h2
+  simp [sigN, levN] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem hind2 : ∀ s t : F4, s • levN 0 1 + t • levN 0 2 = 0 → s = 0 ∧ t = 0 := by
   intro s t h
   have h1 := congrFun₂ h (Sum.inl 0) (Sum.inl 1)
   have h2 := congrFun₂ h (Sum.inl 0) (Sum.inl 2)
-  simp [levN, Matrix.single_apply] at h1 h2
+  simp [levN] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem sp_E16_of_pair {v : Fin 3 → ZMod 3} {N₁ N₂ : Mat6} (h : NilPair N₁ N₂)
@@ -273,7 +273,7 @@ theorem terminalE16Sp64 : TerminalE16Sp64 := by
     inf_le_left
   have hY := CFSG.LocalCores.isComponent_map_mulEquiv (thetaK hHI Φ hΦH) hX
   obtain ⟨E₀, hab, hcard, hE₀C, hYn⟩ := sp_model i hΦb
-  haveI : (X.map (thetaK hHI Φ hΦH).toMonoidHom).Normal := hYn _ hY
+  have : (X.map (thetaK hHI Φ hΦH).toMonoidHom).Normal := hYn _ hY
   have hB : E₀ ≤ Subgroup.normalizer
       ((Subgroup.zpowers (Φ ⟨b, hbI⟩) : Subgroup Sp) : Set Sp) := by
     have h1 : Subgroup.centralizer ((Subgroup.zpowers (Φ ⟨b, hbI⟩) : Subgroup Sp) : Set Sp) =

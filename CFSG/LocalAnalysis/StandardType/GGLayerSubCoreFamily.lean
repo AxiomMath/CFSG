@@ -11,7 +11,7 @@ namespace CFSG.StandardType.LayerCores
 
 theorem exists_ggDer_perfect {S : Type*} [Group S] [Finite S] (H : Subgroup S) :
     ∃ k, ⁅LayerFacts.ggDer H k, LayerFacts.ggDer H k⁆ = LayerFacts.ggDer H k := by
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun K : Subgroup S => (K : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun K : Subgroup S => (K : Set S))
     (fun K L h => SetLike.coe_injective h)
   obtain ⟨m, n, hmn, h⟩ := Finite.exists_ne_map_eq_of_infinite
     (fun k : ℕ => LayerFacts.ggDer H k)

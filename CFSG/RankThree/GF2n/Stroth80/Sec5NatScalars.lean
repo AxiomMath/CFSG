@@ -522,13 +522,13 @@ private lemma quadPlus_plusAniso (j : Fin m) : quadPlus m K (plusAniso K j) = 1 
   simp
 
 private lemma plusAniso_inl_self (j : Fin m) : plusAniso K j (Sum.inl j) = 1 := by
-  simp [plusAniso, Pi.single_apply]
+  simp [plusAniso]
 
 private lemma plusAniso_mem_perp {i j : Fin m} (hij : j ≠ i) :
     plusAniso K j ∈ (plusPair K i).perp := by
   rw [HypPair.mem_perp, plusPair_e, plusPair_f, polar_single_inl_quadPlus,
     polar_single_inr_quadPlus]
-  simp [plusAniso, Pi.single_apply, hij, hij.symm]
+  simp [plusAniso, hij.symm]
 
 private lemma plus_hyp_mem_hom (f : (Fin m ⊕ Fin m → K) →+ (Fin m ⊕ Fin m → K))
     (hf : ∀ g ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup (quadPlus m K),
@@ -547,12 +547,12 @@ private lemma plus_hyp_mem_hom (f : (Fin m ⊕ Fin m → K) →+ (Fin m ⊕ Fin 
   · intro a b c h
     have h1 := congrFun h (Sum.inl j)
     have h2 := congrFun h (Sum.inl k)
-    simp [plusPair_e, plusAniso, Pi.single_apply, hji, hki, hjk, hjk.symm] at h1 h2
+    simp [plusPair_e, plusAniso, hji, hki, hjk, hjk.symm] at h1 h2
     exact ⟨h1, h2⟩
   · intro a b c h
     have h1 := congrFun h (Sum.inl j)
     have h2 := congrFun h (Sum.inl k)
-    simp [plusPair_f, plusAniso, Pi.single_apply, hji, hki, hjk, hjk.symm] at h1 h2
+    simp [plusPair_f, plusAniso, hjk, hjk.symm] at h1 h2
     exact ⟨h1, h2⟩
 
 theorem addCommutantScalar_statedOmegaPlus (hm : 3 ≤ m) :
@@ -606,19 +606,19 @@ variable {K : Type} [Field K] {m : ℕ} {b c : K}
 private lemma quadMinus_single_inr_inr_zero :
     quadMinus m K b c (Pi.single (Sum.inr (Sum.inr 0)) 1) = 1 := by
   rw [quadMinus_apply]
-  simp [Pi.single_apply]
+  simp
 
 private lemma quadMinus_single_inr_inr_one :
     quadMinus m K b c (Pi.single (Sum.inr (Sum.inr 1)) 1) = c := by
   rw [quadMinus_apply]
-  simp [Pi.single_apply]
+  simp
 
 private lemma single_inr_inr_mem_perp (i : Fin (m - 1)) (j : Fin 2) :
     (Pi.single (Sum.inr (Sum.inr j)) 1 : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈
       (minusPair K b c i).perp := by
   rw [HypPair.mem_perp, minusPair_e, minusPair_f, polar_single_inl_quadMinus,
     polar_single_inr_quadMinus]
-  simp [Pi.single_apply]
+  simp
 
 private lemma minus_hyp_mem_hom [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (f : (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) →+ (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K))
@@ -641,12 +641,12 @@ private lemma minus_hyp_mem_hom [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c 
   · intro a β γ h
     have h1 := congrFun h (Sum.inr (Sum.inr 0))
     have h2 := congrFun h (Sum.inr (Sum.inr 1))
-    simp [minusPair_e, Pi.single_apply] at h1 h2
+    simp [minusPair_e] at h1 h2
     exact ⟨h1, h2⟩
   · intro a β γ h
     have h1 := congrFun h (Sum.inr (Sum.inr 0))
     have h2 := congrFun h (Sum.inr (Sum.inr 1))
-    simp [minusPair_f, Pi.single_apply] at h1 h2
+    simp [minusPair_f] at h1 h2
     exact ⟨h1, h2⟩
 
 theorem addCommutantScalar_statedOmegaMinus [Finite K] (hm : 2 ≤ m)

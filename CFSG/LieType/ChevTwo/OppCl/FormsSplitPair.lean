@@ -13,13 +13,15 @@ variable {F : Type} [Field F] [Finite F] {V : Type} [AddCommGroup V] [Module F V
 
 
 
+omit [Finite F] in
 theorem finrank_compl_eq (Φ : ReflForm F V) (W Cc : Submodule F V)
     (hC : IsCompl (Φ.perp W) Cc) : Module.finrank F Cc = Module.finrank F W := by
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   have h1 := Φ.finrank_perp W
   have h2 := Submodule.finrank_add_eq_of_isCompl hC
   omega
 
+omit [Finite F] [Finite V] in
 theorem eq_zero_of_forall_β_compl (Φ : ReflForm F V) (W Cc : Submodule F V)
     (hC : IsCompl (Φ.perp W) Cc) {w : V} (hw : w ∈ W) (h : ∀ c ∈ Cc, Φ.β w c = 0) : w = 0 := by
   refine Φ.nondeg w fun v => ?_
@@ -31,7 +33,7 @@ theorem eq_zero_of_forall_β_compl (Φ : ReflForm F V) (W Cc : Submodule F V)
 
 theorem exists_β_eq (Φ : ReflForm F V) (W Cc : Submodule F V) (hC : IsCompl (Φ.perp W) Cc)
     (φ : Cc →ₗ[F] F) : ∃ w ∈ W, ∀ c : Cc, Φ.β w (c : V) = φ c := by
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   obtain ⟨Ψ, hΨ⟩ : ∃ Ψ : W → Module.Dual F Cc,
       ∀ (w : W) (c : Cc), Ψ w c = Φ.β (w : V) (c : V) :=
     ⟨fun w => LinearMap.comp (Φ.toDual (w : V)) Cc.subtype, fun _ _ => rfl⟩
@@ -51,7 +53,7 @@ theorem exists_β_eq (Φ : ReflForm F V) (W Cc : Submodule F V) (hC : IsCompl (�
       Module.natCard_eq_pow_finrank
     have h2 : Nat.card W = Nat.card F ^ Module.finrank F W := Module.natCard_eq_pow_finrank
     rw [h1, h2, Subspace.dual_finrank_eq, finrank_compl_eq Φ W Cc hC]
-  haveI : Finite (Module.Dual F Cc) := Module.finite_of_finite F
+  have : Finite (Module.Dual F Cc) := Module.finite_of_finite F
   have hbij : Function.Bijective Ψ := hinj.bijective_of_nat_card_le hcard.le
   obtain ⟨w, hw⟩ := hbij.2 φ
   refine ⟨(w : V), w.2, fun c => ?_⟩

@@ -140,7 +140,7 @@ theorem card_of_maximal {A : Type*} [Group A] [Finite A] {p : ℕ} [Fact p.Prime
   have hV : (P : Subgroup K).map K.subtype = H := by
     apply hmax
     · rintro _ ⟨y, -, rfl⟩; exact y.2
-    · exact P.isPGroup'.map K.subtype
+    · exact P.isPGroup.map K.subtype
     · intro x hx
       exact ⟨⟨x, hHK hx⟩, hP hx, rfl⟩
   rw [← hV, Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity]

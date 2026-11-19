@@ -13,6 +13,7 @@ open scoped Pointwise
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem isPolygonApartment_neg {t : ZMod (2 * n) → V}
     (ht : IsPolygonApartment Γ n t) :
     IsPolygonApartment Γ n (fun j => t (-j)) := by
@@ -20,6 +21,7 @@ private theorem isPolygonApartment_neg {t : ZMod (2 * n) → V}
   have h := (ht.2 (-(k + 1))).symm
   rwa [show -(k + 1) + 1 = -k from by ring] at h
 
+omit [Fintype V] in
 private theorem apt_neg {t : ZMod (2 * n) → V} (k : ℤ) :
     apt (fun j => t (-j)) k = apt t (-k) := by
   show t (-((k : ℤ) : ZMod (2 * n))) = t (((-k : ℤ) : ZMod (2 * n)))
@@ -27,6 +29,7 @@ private theorem apt_neg {t : ZMod (2 * n) → V} (k : ℤ) :
   push_cast
   ring
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem aptPath_neg {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     aptPath (isPolygonApartment_neg ht).2 k = aptPathRev ht.2 (-k - (n : ℤ)) := by
   refine GPath.ext' fun i hi => ?_
@@ -37,11 +40,13 @@ private theorem aptPath_neg {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
   push_cast
   ring
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_neg {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (k : ℤ) : aptRoot D Γ n (fun j => t (-j)) k = aptRoot D Γ n t (-k - (n : ℤ)) := by
   rw [aptRoot_eq_pathRootGroup (isPolygonApartment_neg ht) k, aptPath_neg ht k,
     ← aptRoot_eq_pathRootGroupRev (by omega) ht (-k - (n : ℤ))]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRootGroup_neg {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) :
     aptRootGroup D Γ n (fun j => t (-j)) = aptRootGroup D Γ n t := by
   refine le_antisymm ?_ ?_
@@ -60,6 +65,7 @@ section Helper
 
 variable {t : ZMod (2 * n) → V}
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 private theorem exists_smul_of_gpath
     {t' : ZMod (2 * n) → V} (ht' : IsPolygonApartment Γ n t')
     (hn : 3 ≤ n) (hM : MoufangCondition D Γ n)
@@ -76,12 +82,12 @@ private theorem exists_smul_of_gpath
   let z : ℤ → V := fun s => if s ≤ b then pp (s - a).toNat else apt t' (b + 1)
   have hzb' : z b = apt t' b := by
     show (if b ≤ b then pp (b - a).toNat else apt t' (b + 1)) = apt t' b
-    rw [if_pos le_rfl, hba]
+    rw [ite_eq_left le_rfl, hba]
     rw [Int.toNat_natCast]
     exact hzb
   have hzb1' : z (b + 1) = apt t' (b + 1) := by
     show (if b + 1 ≤ b then pp ((b + 1) - a).toNat else apt t' (b + 1)) = apt t' (b + 1)
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   have hzadj : ∀ s : ℤ, a ≤ s → s ≤ b → Γ.Adj (z s) (z (s + 1)) := by
     intro s hs1 hs2
     by_cases hsb : s = b
@@ -92,11 +98,11 @@ private theorem exists_smul_of_gpath
       exact apt_adj ht' s
     · have e1 : z s = pp (s - a).toNat := by
         show (if s ≤ b then pp (s - a).toNat else apt t' (b + 1)) = pp (s - a).toNat
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
       have e2 : z (s + 1) = pp ((s + 1) - a).toNat := by
         show (if s + 1 ≤ b then pp ((s + 1) - a).toNat else apt t' (b + 1)) =
           pp ((s + 1) - a).toNat
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
       rw [e1, e2]
       have hi : (((s - a).toNat : ℕ) : ℤ) = s - a :=
         Int.toNat_of_nonneg (by omega : (0 : ℤ) ≤ s - a)
@@ -120,11 +126,11 @@ private theorem exists_smul_of_gpath
     by_cases hcase : s ≤ b - 2
     · have e1 : z s = pp (s - a).toNat := by
         show (if s ≤ b then pp (s - a).toNat else apt t' (b + 1)) = pp (s - a).toNat
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
       have e2 : z (s + 2) = pp ((s + 2) - a).toNat := by
         show (if s + 2 ≤ b then pp ((s + 2) - a).toNat else apt t' (b + 1)) =
           pp ((s + 2) - a).toNat
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
       rw [e1, e2] at hEq
       have hi : (((s - a).toNat : ℕ) : ℤ) = s - a :=
         Int.toNat_of_nonneg (by omega : (0 : ℤ) ≤ s - a)
@@ -146,7 +152,7 @@ private theorem exists_smul_of_gpath
       subst hsb
       have e1 : z (b - 1) = pp (ℓ - 1) := by
         show (if b - 1 ≤ b then pp ((b - 1) - a).toNat else apt t' (b + 1)) = pp (ℓ - 1)
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
         congr 1
         have h1 : (((b - 1) - a).toNat : ℤ) = (b - 1) - a :=
           Int.toNat_of_nonneg (by omega)
@@ -160,7 +166,7 @@ private theorem exists_smul_of_gpath
       have e2 : z (b - 1 + 2) = apt t' (b + 1) := by
         show (if b - 1 + 2 ≤ b then pp ((b - 1 + 2) - a).toNat else apt t' (b + 1)) =
           apt t' (b + 1)
-        rw [if_neg (by omega)]
+        rw [ite_eq_right (by omega)]
       rw [e1, e2] at hEq
       exact hlast hEq
   obtain ⟨y, hy, hyb, hyz⟩ := exists_smul_apt_path (t := t') ht' hn hM (a := a) (b := b) hab
@@ -169,7 +175,7 @@ private theorem exists_smul_of_gpath
   have h := hyz s hs1 hs2
   rwa [show z s = pp (s - a).toNat from by
     show (if s ≤ b then pp (s - a).toNat else apt t' (b + 1)) = pp (s - a).toNat
-    rw [if_pos (by omega)]] at h
+    rw [ite_eq_left (by omega)]] at h
 
 end Helper
 
@@ -177,6 +183,7 @@ section Edge
 
 variable {t : ZMod (2 * n) → V}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem dist_end_geodesic {d : ℕ} {g : GPath Γ d} (hconn : Γ.Connected)
     (hgeo : g.IsGeodesic) {i : ℕ} (hi : i ≤ d) :
     Γ.dist (g i) (g d) = d - i := by
@@ -186,13 +193,15 @@ private theorem dist_end_geodesic {d : ℕ} {g : GPath Γ d} (hconn : Γ.Connect
   have h4 := hconn.dist_triangle (u := g 0) (v := g i) (w := g d)
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 private theorem iSup_aptRoot_le_aptRootGroup {t : ZMod (2 * n) → V} (a b : ℤ) :
     (⨆ s ∈ Set.Ioc a b, aptRoot D Γ n t s) ≤ aptRootGroup D Γ n t := by
   rw [aptRootGroup]
   exact iSup_le fun s => iSup_le fun _ => le_iSup (fun j => aptRoot D Γ n t j) s
 
+omit [FaithfulSMul D V] in
 private theorem exists_smul_apt_edge_of_far (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
-    (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
+    (hP : IsGeneralizedPolygon Γ n) (_hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     {x y : V} (hxy : Γ.Adj x y) {d : ℕ}
     (hd : Γ.dist (apt t (n : ℤ)) x = d) (hdy : Γ.dist (apt t (n : ℤ)) y = d + 1)
     (hdn : d + 1 ≤ n) :
@@ -323,6 +332,7 @@ private theorem exists_smul_apt_edge_of_far (ht : IsPolygonApartment Γ n t) (hn
     refine ⟨m, hmM, (n : ℤ) - ((d : ℤ) + 1), Or.inr ⟨h1, ?_⟩⟩
     exact h2
 
+omit [FaithfulSMul D V] in
 theorem aptRootGroup_exists_smul_apt_edge (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     {u v : V} (huv : Γ.Adj u v) :
@@ -347,8 +357,9 @@ section Start
 
 variable {t : ZMod (2 * n) → V}
 
+omit [FaithfulSMul D V] in
 theorem pathRootGroup_le_aptRootGroup_of_start (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
-    (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
+    (_hP : IsGeneralizedPolygon Γ n) (_hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     {q : GPath Γ n} (hq : q.NoBack) {k : ℤ} (hq0 : q 0 = apt t k)
     (hq1 : q 1 = apt t (k + 1)) :
     pathRootGroup D Γ q ≤ aptRootGroup D Γ n t := by
@@ -367,7 +378,7 @@ theorem pathRootGroup_le_aptRootGroup_of_start (ht : IsPolygonApartment Γ n t) 
     ring
   obtain ⟨m, hm, hfix, hmap⟩ := exists_smul_of_gpath (t' := fun j => t (-j)) ht' hn hM
     (ℓ := n) q.rev (GPath.NoBack.rev hq) (a := -k - (n : ℤ)) (b := -k) (by omega)
-    (by push_cast; ring) le_rfl hzb hlast
+    (by ring) le_rfl hzb hlast
   have hmM : m ∈ aptRootGroup D Γ n t := by
     have hle : (⨆ s ∈ Set.Ioc (-k - (n : ℤ)) (-k),
         aptRoot D Γ n (fun j => t (-j)) s) ≤ aptRootGroup D Γ n (fun j => t (-j)) :=
@@ -387,7 +398,7 @@ theorem pathRootGroup_le_aptRootGroup_of_start (ht : IsPolygonApartment Γ n t) 
           ring] at h
         exact h
       rw [show k + ((0 : ℕ) : ℤ) = k from by norm_num, hfix', hq0]
-    · have hs1 : -k - (n : ℤ) ≤ -k - (i : ℤ) := by push_cast; omega
+    · have hs1 : -k - (n : ℤ) ≤ -k - (i : ℤ) := by omega
       have hs2 : -k - (i : ℤ) ≤ -k - 1 := by omega
       have h := hmap (-k - (i : ℤ)) hs1 hs2
       have e : apt (fun j => t (-j)) (-k - (i : ℤ)) = apt t (k + (i : ℤ)) := by
@@ -419,6 +430,7 @@ theorem pathRootGroup_le_aptRootGroup_of_start (ht : IsPolygonApartment Γ n t) 
   show m * y * m⁻¹ ∈ aptRootGroup D Γ n t
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hmM hyM) (Subgroup.inv_mem _ hmM)
 
+omit [FaithfulSMul D V] in
 theorem pathRootGroup_le_aptRootGroup (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     {p : GPath Γ n} (hp : p.NoBack) :
@@ -472,12 +484,14 @@ theorem pathRootGroup_le_aptRootGroup (ht : IsPolygonApartment Γ n t) (hn : 3 �
     show m * y * m⁻¹ ∈ aptRootGroup D Γ n t
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hmM (hle hy)) (Subgroup.inv_mem _ hmM)
 
+omit [FaithfulSMul D V] in
 theorem littleGroup_le_aptRootGroup (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     littleGroup D Γ n ≤ aptRootGroup D Γ n t := by
   rw [littleGroup]
   exact iSup_le fun p => iSup_le fun hp => pathRootGroup_le_aptRootGroup ht hn hP hT hM hp
 
+omit [FaithfulSMul D V] in
 theorem aptRootGroup_eq_littleGroup (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     aptRootGroup D Γ n t = littleGroup D Γ n :=

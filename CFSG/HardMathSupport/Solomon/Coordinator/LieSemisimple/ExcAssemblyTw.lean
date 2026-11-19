@@ -42,7 +42,7 @@ private theorem perfectInLayer_of_derived_eq_simple {S : Type*} [Group S] {δ : 
       rw [commutatorElement_def]
       exact (fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ha hb)
         ((fixSubgroup δ).inv_mem ha)) ((fixSubgroup δ).inv_mem hb)
-  haveI hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
+  have hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
     rw [← hder]
     have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup δ) (fixSubgroup δ)
     rwa [sup_idem] at h
@@ -115,7 +115,7 @@ private theorem perfectInLayer_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
     (hβ1 : β ≠ 1) (hβout : β ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     PerfectInLayer β := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβord : orderOf β = p := orderOf_eq_prime hβ hβ1
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   obtain ⟨hηord, hpf, ⟨h₀, hh₀⟩, -⟩ :=
@@ -158,7 +158,7 @@ private theorem perfectInLayer_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
   obtain ⟨-, -, -, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     CFSG.RankThree.Chevalley.triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd
       hp.two_le hm3 K hK' σ hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   have e3 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype_injective).trans
@@ -166,7 +166,7 @@ private theorem perfectInLayer_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
   have hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) :=
     e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
@@ -238,7 +238,7 @@ theorem perfectInLayer_exc_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) 
     (β : MulAut ↥(twistedE6RootGroup K σ)) (hβ : β ^ p = 1)
     (hβ1 : β ≠ 1) :
     PerfectInLayer β := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, hΘ, -, hker, -⟩, -⟩ :=
@@ -275,7 +275,7 @@ theorem perfectInLayer_exc_triD4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hmon : MonomialToralAt Tag.D4 p)
     (β : MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (hβ : β ^ p = 1) (hβ1 : β ≠ 1) : PerfectInLayer β := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   obtain ⟨hZ, -, Θ, hΘ, hker⟩ :=
@@ -302,7 +302,7 @@ theorem perfectInLayer_exc_triD4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       hΘβ (by rw [← MonoidHom.mem_ker, hker]; exact hmem)
     by_cases hp3 : p = 3
     · subst hp3
-      haveI : Fact ℓ.Prime := ⟨hℓ⟩
+      have : Fact ℓ.Prime := ⟨hℓ⟩
       exact D4Dual.perfectInLayer_triality_outer_three (Ne.symm hpℓ) hf hK σ hσ β hβ hβout
     · have hp5 : 5 ≤ p := by
         have h2 := hp.two_le

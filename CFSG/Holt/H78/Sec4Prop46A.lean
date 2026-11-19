@@ -321,7 +321,7 @@ theorem exists_odd_normal_inv_mul_mem {M Z : Subgroup X} [hM : M.Normal] (hZM : 
     obtain ⟨Q⟩ : Nonempty (Sylow 2 M) := inferInstance
     have hQ : (Q : Subgroup M) ≤ Z' := fun q hq => by
       refine Subgroup.mem_subgroupOf.mpr (h2 q q.2 ?_)
-      have h1 : IsPGroup 2 (Subgroup.zpowers q) := Q.isPGroup'.to_le (Subgroup.zpowers_le.mpr hq)
+      have h1 : IsPGroup 2 (Subgroup.zpowers q) := Q.isPGroup.to_le (Subgroup.zpowers_le.mpr hq)
       have h2' := h1.map M.subtype
       rwa [MonoidHom.map_zpowers] at h2'
     have hdvd := Subgroup.index_dvd_of_le hQ

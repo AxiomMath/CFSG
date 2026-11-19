@@ -170,8 +170,8 @@ open scoped Pointwise
 theorem natParMax_of_isL2 {W : Type} [CommGroup W] [Finite W] {H S X : Subgroup (MulAut W)}
     {m : ℕ} (hH : IsL2 ↥H m) (hS : IsSylowIn 2 S H) (hXge : H ⊓ stabSub (fixV S) ≤ X)
     (hXlt : X < H) : X = H ⊓ stabSub (fixV S) := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : Finite ↥H := inferInstance
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite ↥H := inferInstance
   have hm : 2 ≤ m := s13_two_le_of_isL2 hH
   have hSX : S ≤ X := (le_inf hS.le Subgroup.le_normalizer).trans
     ((inf_normalizer_le_inf_stabSub H S).trans hXge)
@@ -194,8 +194,8 @@ theorem natParMax_of_isOmegaMinus_four {W : Type} [CommGroup W] [Finite W]
     (hXge : H ⊓ stabSub (fixV S) ≤ X) (hXlt : X < H) : X = H ⊓ stabSub (fixV S) := by
   have hn : 1 ≤ n := by
     obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, -, -⟩ := hΩ
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard] at hKgt
     exact Nat.one_le_iff_ne_zero.mpr (Nat.one_lt_two_pow_iff.mp hKgt)
@@ -289,7 +289,7 @@ theorem orthParab_one_maximal {K : Type} [Field K] {A : Type} [AddCommGroup A] [
   · right
     have hI : {i : Fin r | tailWeylElt r qA a₀ i ∈ M} = Set.univ := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       by_cases hi : i = ⟨0, hr⟩
       · simpa [hi] using hni
       · exact (Subgroup.map_mono hY)

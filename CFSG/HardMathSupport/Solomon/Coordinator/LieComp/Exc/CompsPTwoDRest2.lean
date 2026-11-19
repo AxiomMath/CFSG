@@ -39,7 +39,7 @@ theorem rationalLieType_of_twoD_highG {p : ℕ} (hp : p.Prime) {τ : Tag} {L : T
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
   have hkind : twistKind S.ρ (rootCharHom a) i = .twoD := by
     unfold twistKind
-    rw [if_neg hout, if_neg, if_pos ⟨by omega, hn⟩]
+    rw [ite_eq_right hout, ite_eq_right, ite_eq_left ⟨by omega, hn⟩]
     rintro (⟨h6, h72⟩ | ⟨h4', -, -⟩)
     · rw [hn, h6] at h72
       omega

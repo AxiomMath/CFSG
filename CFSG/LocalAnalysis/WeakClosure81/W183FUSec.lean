@@ -28,7 +28,7 @@ private theorem w183fu_inf_eq_bot_of_commute {Y : Type} [Group Y] {A₁ A₂ : S
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hgn]; group
       rw [he]; exact hn.2⟩
-  haveI := hNnormal
+  have := hNnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · rw [eq_bot_iff]
     intro x hx
@@ -44,14 +44,15 @@ private theorem w183fu_inf_eq_bot_of_commute {Y : Type} [Group Y] {A₁ A₂ : S
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf] at haN hbN
     exact hab (Subtype.ext (hcomm (a : Y) a.2 (b : Y) hbN.2))
 
+omit [Finite G] in
 private theorem w183fu_isU3_image_quotient {K H L : Subgroup G}
     (hKn : (K.subgroupOf H).Normal) (hLH : L ≤ H)
     (hQ : HasQuotShape L (K : Set G) (fun X _ => IsU3 X 2)) :
     IsU3 ↥((L.subgroupOf H).map (QuotientGroup.mk' (K.subgroupOf H))) 2 := by
   classical
-  haveI := hKn
+  have := hKn
   obtain ⟨X, hX, φ, hφs, hφk, hXU⟩ := hQ
-  letI : Group X := hX
+  let : Group X := hX
   let q := QuotientGroup.mk' (K.subgroupOf H)
   let A : Subgroup (↥H ⧸ (K.subgroupOf H)) := (L.subgroupOf H).map q
   let eL : ↥(L.subgroupOf H) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLH
@@ -90,9 +91,9 @@ theorem w183fu_prod_layer_rank {S : Type} [Group S] [Finite S] {A₁ A₂ : Subg
     (h₁ : IsU3 ↥A₁ 2) (h₂ : IsU3 ↥A₂ 2) (hn₁ : A₁.Normal) (hn₂ : A₂.Normal)
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) (hgen : A₁ ⊔ A₂ = ⊤) :
     CFSG.layer S = ⊤ ∧ 4 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup S) := by
-  haveI hsimple₁ : IsSimpleGroup ↥A₁ :=
+  have hsimple₁ : IsSimpleGroup ↥A₁ :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 h₁
-  haveI hsimple₂ : IsSimpleGroup ↥A₂ :=
+  have hsimple₂ : IsSimpleGroup ↥A₂ :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 h₂
   have hnab₁ : ∃ a b : ↥A₁, a * b ≠ b * a :=
     CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_PSU3 h₁
@@ -180,6 +181,7 @@ theorem w183fu_prod_layer_rank {S : Type} [Group S] [Finite S] {A₁ A₂ : Subg
       (by norm_num) hcomm' hpow' hcard f hf le_top
   exact ⟨hlayer, by omega⟩
 
+omit [Finite G] in
 theorem w183fu_normal_subgroupOf {K H M : Subgroup G} (hK : (K.subgroupOf H).Normal)
     (hKM : K ≤ M) (hMH : M ≤ H) : (K.subgroupOf M).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hKM]
@@ -250,7 +252,7 @@ theorem w183fu_pRank_five_gt (h22 : Asch2_2One) {K L₁ L₂ H : Subgroup G}
   by_contra hle
   have hKM : K ≤ L₁ ⊔ L₂ := h₁.2.1.trans le_sup_left
   have hMH : L₁ ⊔ L₂ ≤ H := sup_le h₁.2.2.1 h₂.2.2.1
-  haveI hN : (K.subgroupOf (L₁ ⊔ L₂)).Normal := w183fu_normal_subgroupOf h₁.1 hKM hMH
+  have hN : (K.subgroupOf (L₁ ⊔ L₂)).Normal := w183fu_normal_subgroupOf h₁.1 hKM hMH
   obtain ⟨hlayer, hrank⟩ := w183fu_section h₁ h₂ hne hQ₁ hQ₂
   have h3 := h22 G H 5 Nat.prime_five (by norm_num) hH (not_lt.mp hle) (L₁ ⊔ L₂) K hKM hMH
     hlayer

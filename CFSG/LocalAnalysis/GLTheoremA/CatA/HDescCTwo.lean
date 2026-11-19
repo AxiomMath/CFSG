@@ -26,6 +26,7 @@ section SLevel
 
 variable (d : TauCeti.ValidLieTypeIndex) [Finite (TauCeti.CFSGIndex.lie d).Group]
 
+omit [Finite (TauCeti.CFSGIndex.lie d).Group] in
 theorem layer_ne_bot_of_component {p : ℕ} (hp : p.Prime) {β : MulAut (TauCeti.CFSGIndex.lie d).Group}
     {J : Subgroup (TauCeti.CFSGIndex.lie d).Group} (hJ : GLAPComponent p (fixSubgroup β) J)
     (hJp : p ∣ Nat.card J) : GLAPLayer p (fixSubgroup β) ≠ ⊥ := by

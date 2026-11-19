@@ -51,15 +51,15 @@ theorem ggIndep_cartan_of_reindex {m : ℕ} {Λ : Type} [Fintype Λ] [DecidableE
     have hne : eA i ≠ eA j := fun h => hij (eA.injective h)
     by_cases h3 : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
     · have hM3 : ML (eA i) (eA j) = 3 := by
-        rw [hentryM, l6aF_coxeterA_entry, if_neg hij]
-        rw [if_pos (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
+        rw [hentryM, l6aF_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_left (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
       have hthree := l6aF_ggIntCartan_three hCL hne hM3
-      rw [hthree.1, l6aF_cartanA_entry, if_neg hij, if_pos h3]
+      rw [hthree.1, l6aF_cartanA_entry, ite_eq_right hij, ite_eq_left h3]
     · have hM2 : ML (eA i) (eA j) = 2 := by
-        rw [hentryM, l6aF_coxeterA_entry, if_neg hij]
-        rw [if_neg (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
+        rw [hentryM, l6aF_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_right (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
       have htwo := l6aF_ggIntCartan_two hCL hne hM2
-      rw [htwo.1, l6aF_cartanA_entry, if_neg hij, if_neg h3]
+      rw [htwo.1, l6aF_cartanA_entry, ite_eq_right hij, ite_eq_right h3]
 
 private theorem l6aF_x_ne_one {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Subgroup G}
@@ -213,26 +213,26 @@ theorem l6aF_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega
@@ -318,7 +318,7 @@ theorem ggIndep_center_functional_vanish {p N : ℕ} [Fact p.Prime] (hpN : p ∣
     refine Finset.sum_congr rfl fun i _ => ?_
     have hsymm : (CartanMatrix.A (N - 1) i j : ZMod p) = (CartanMatrix.A (N - 1) j i : ZMod p) := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      split_ifs <;> first | rfl | omega | simp_all
+      split_ifs <;> first | rfl | omega
     rw [hsymm, mul_comm]
   · simp
   · intro a b _ _ ha hb

@@ -13,12 +13,14 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field K]
 
+omit [Finite G] in
 private lemma normalizer_U_of_fsuML (s : ↥(fsuML T L)) :
     (s : G) ∈ Subgroup.normalizer (fsuUL T L I : Set G) := by
   have h := mem_acting_of_mem_fsuML (I := I) s.2
   unfold UModel.acting at h
   exact (Subgroup.mem_inf.mp h).1
 
+omit [Finite G] in
 private lemma conj_mem_commutator_of {H K : Subgroup G} {s : G}
     (hH : s ∈ Subgroup.normalizer (H : Set G)) (hK : s ∈ Subgroup.normalizer (K : Set G))
     {x : G} (hx : x ∈ ⁅H, K⁆) : s * x * s⁻¹ ∈ ⁅H, K⁆ := by
@@ -32,6 +34,7 @@ private lemma conj_mem_commutator_of {H K : Subgroup G} {s : G}
     simpa [commutatorElement_def, mul_assoc] using hc
   exact Subgroup.mem_comap.mp (hle hx)
 
+omit [Finite G] in
 private lemma normalizer_commutator_of_mem {H K : Subgroup G} {s : G}
     (hH : s ∈ Subgroup.normalizer (H : Set G)) (hK : s ∈ Subgroup.normalizer (K : Set G)) :
     s ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -45,6 +48,7 @@ private lemma normalizer_commutator_of_mem {H K : Subgroup G} {s : G}
     have e : s⁻¹ * (s * y * s⁻¹) * s⁻¹⁻¹ = y := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem fsuML_le_normalizer_lineSub (M : RModel T L I K) {w : Fin 2 → K}
     (hw : ∀ (γ : ↥(fsuML T L)) (p : UTilde K), p ∈ linePair K w → actML M γ p ∈ linePair K w) :
     fsuML T L ≤ Subgroup.normalizer (M.lineSub w : Set G) := by
@@ -72,6 +76,7 @@ theorem fsuML_le_normalizer_lineSub (M : RModel T L I K) {w : Fin 2 → K}
     have e : s⁻¹ * (s * u * s⁻¹) * (s⁻¹)⁻¹ = u := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem fsuML_le_normalizer_lineJ (M : RModel T L I K) {w : Fin 2 → K}
     (hw : ∀ (γ : ↥(fsuML T L)) (p : UTilde K), p ∈ linePair K w → actML M γ p ∈ linePair K w) :
     fsuML T L ≤ Subgroup.normalizer (M.lineJ w : Set G) := by
@@ -79,6 +84,7 @@ theorem fsuML_le_normalizer_lineJ (M : RModel T L I K) {w : Fin 2 → K}
   exact normalizer_commutator_of_mem (fsuML_le_normalizer_lineSub M hw hs)
     (Subgroup.mem_inf.mp hs).2
 
+omit [Finite G] in
 theorem Z_le_centralizer_L (T L I : Subgroup G) :
     fsuUL T L I ⊓ Subgroup.centralizer (fsuL0 T L : Set G) ≤ Subgroup.centralizer (L : Set G) := by
   intro x hx
@@ -87,7 +93,7 @@ theorem Z_le_centralizer_L (T L I : Subgroup G) :
   exact Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hx).2 l (le_fsuL0 T L hl)
 
 theorem jData_of_line (hfsu : FSU G T L I) (hlt : L < fsuL0 T L) (hA : Concl326A T L I)
-    [Nontrivial K] (M : RModel T L I K) {w : Fin 2 → K} (hw0 : w ≠ 0)
+    (M : RModel T L I K) {w : Fin 2 → K} (hw0 : w ≠ 0)
     (hw : ∀ (γ : ↥(fsuML T L)) (p : UTilde K), p ∈ linePair K w → actML M γ p ∈ linePair K w) :
     JData T L I (M.lineJ w) :=
   { fsu := hfsu

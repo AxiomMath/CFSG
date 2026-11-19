@@ -17,6 +17,7 @@ section Generic
 variable {p : ℕ} [Fact p.Prime] {U Q : Type*} [Group U] [Finite U] [Group Q] {f : U →* Q}
   {Z W : Subgroup U}
 
+omit [Fact (Nat.Prime p)] [Finite U] in
 theorem mk_mem_center_of_pow (hZW : ∀ b ∈ oPrimeResidual p U, ∃ z ∈ Z, ∃ w ∈ W, b = z * w)
     (hZ : ∀ z ∈ Z, ∀ u : U, z * u * z⁻¹ * u⁻¹ ∈ pPrimeCore p U) (hZf : ∀ z ∈ Z, f z = 1)
     (hWf : ∀ w ∈ W, f w = 1 → w ∈ pPrimeCore p U) {x : U} (hx : f x = 1) {b : ℕ}
@@ -66,14 +67,14 @@ theorem isPGroup_map_ker (hZW : ∀ b ∈ oPrimeResidual p U, ∃ z ∈ Z, ∃ w
     (hWf : ∀ w ∈ W, f w = 1 → w ∈ pPrimeCore p U) :
     IsPGroup p ↥(f.ker.map (QuotientGroup.mk' (pPrimeCore p U))) := by
   set C := f.ker.map (QuotientGroup.mk' (pPrimeCore p U)) with hCdef
-  haveI : C.Normal :=
+  have : C.Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective (pPrimeCore p U))
   have hQ : pPrimeCore p ↥C = ⊥ := by
     have h := CFSG.pPrimeCore_map_subtype_le_pPrimeCore_of_normal p C
     rw [CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p, le_bot_iff,
       Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective] at h
     exact h
-  haveI := CFSG.GH74.GLS.Stage1.Thm6.Prod.oPrimeResidual_normal p ↥C
+  have := CFSG.GH74.GLS.Stage1.Thm6.Prod.oPrimeResidual_normal p ↥C
   refine Sylow155C3.isPGroup_of_le_center hQ (Sylow155C3.not_dvd_index_oPrimeResidual p ↥C) ?_
   rw [oPrimeResidual, Subgroup.closure_le]
   rintro c ⟨b, hcb⟩
@@ -116,7 +117,7 @@ theorem pCoreOf_subgroupOf_le (A M X : Subgroup G) :
   have hUC : u155 A M X ≤ centralizerSection X (CFSG.Open.pCoreOf 2 X) := inf_le_right
   have hV2 : IsPGroup 2 ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X).comap_of_injective _ Subtype.coe_injective
-  haveI : ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)).Normal := by
+  have : ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)).Normal := by
     refine ⟨fun a ha u => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     obtain ⟨-, hu, -⟩ := hUC u.2
@@ -128,7 +129,7 @@ theorem pCoreOf_subgroupOf_le (A M X : Subgroup G) :
 
 theorem ker_central_u155 {A M X : Subgroup G} (hBXW : b155 A M X ≤ X ⊔ w155 A M X)
     {Q : Type*} [Group Q] (f : ↥(u155 A M X) →* Q)
-    (hXf : ∀ (x : G) (hx : x ∈ X) (hxU : x ∈ u155 A M X), f ⟨x, hxU⟩ = 1)
+    (hXf : ∀ (x : G) (_hx : x ∈ X) (hxU : x ∈ u155 A M X), f ⟨x, hxU⟩ = 1)
     (hWf : ∀ (w : G) (hw : w ∈ w155 A M X), f ⟨w, Proof155Wx.w155_le_u155 A M X hw⟩ = 1 →
       w ∈ pPrimeCoreOf 3 (u155 A M X))
     {k : G} (hk : k ∈ u155 A M X) (hkf : f ⟨k, hk⟩ = 1) :
@@ -151,12 +152,12 @@ theorem ker_central_u155 {A M X : Subgroup G} (hBXW : b155 A M X ≤ X ⊔ w155 
     have hbG : (b : G) ∈ b155 A M X := Subgroup.mem_map_of_mem _ hb
     have hmem' : (b : G) ∈ ((X ⊔ w155 A M X : Subgroup G) : Set G) := hBXW hbG
     rw [Subgroup.coe_mul_of_right_le_normalizer_left X (w155 A M X) hWX] at hmem'
-    obtain ⟨x, hx, w, hw, hxw⟩ := Set.mem_mul.mp hmem'
+    obtain ⟨x, _hx, w, hw, hxw⟩ := Set.mem_mul.mp hmem'
     have hwU := Proof155Wx.w155_le_u155 A M X hw
     have hxU : x ∈ u155 A M X := by
       rw [eq_mul_inv_of_mul_eq hxw]
       exact (u155 A M X).mul_mem b.2 ((u155 A M X).inv_mem hwU)
-    exact ⟨⟨x, hxU⟩, Subgroup.mem_subgroupOf.mpr hx, ⟨w, hwU⟩, Subgroup.mem_subgroupOf.mpr hw,
+    exact ⟨⟨x, hxU⟩, Subgroup.mem_subgroupOf.mpr _hx, ⟨w, hwU⟩, Subgroup.mem_subgroupOf.mpr hw,
       Subtype.ext hxw.symm⟩
   have hZ : ∀ z ∈ X.subgroupOf (u155 A M X), ∀ u : ↥(u155 A M X),
       z * u * z⁻¹ * u⁻¹ ∈ pPrimeCore 3 ↥(u155 A M X) := by

@@ -42,7 +42,7 @@ private theorem q2cFT_pow_three_eq_one {N : ℕ} (hN : 2 ≤ N) {F : Type} [Fiel
     rw [map_pow, ← hgu, ← huo, pow_orderOf_eq_one]
   obtain ⟨c, hc⟩ := q1CentLin_scalar_of_linConjAut_eq_one hN hker
   have hcard : Nat.card Fˣ = 1 := by rw [Nat.card_units, hF]
-  haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
   have hc1 : c = 1 := Subsingleton.elim c 1
   rw [hc1] at hc
   simpa using hc.symm
@@ -122,7 +122,7 @@ private theorem q2cFT_centralQuot {N : ℕ} {F : Type} [Field F] [Finite F]
   exact ⟨e1.symm.trans e2⟩
 
 theorem q2cFT_component {N : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
-    (hN : 2 ≤ N) {g : GL (Fin N) F} (hg : g ^ 3 = 1) (hg1 : g ≠ 1)
+    (_hN : 2 ≤ N) {g : GL (Fin N) F} (hg : g ^ 3 = 1) (_hg1 : g ≠ 1)
     {J : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) F))}
     (hJ : CFSG.Open.IsComponentOf J (ggAutFixedSubgroup (TableB.linConjAut (Fin N) F g)))
     (huniq : ∀ J' : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) F)),
@@ -136,7 +136,7 @@ theorem q2cFT_component {N : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card
             Nonempty (↥J ⧸ Subgroup.center ↥J ≃*
               LargeEvenProj (LargeEvenSLGroup (Fin a₁) E)))) := by
   classical
-  haveI : CharP F 2 := charP_two_of_card (m := 1) (by rw [hF]; norm_num)
+  have : CharP F 2 := charP_two_of_card (m := 1) (by rw [hF]; norm_num)
   have hpk : (3 : F) ≠ 0 := by
     have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
     have h31 : (3 : F) = 1 := by
@@ -144,7 +144,6 @@ theorem q2cFT_component {N : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card
       rw [this, h2, zero_add]
     rw [h31]; exact one_ne_zero
   have hx3 : (glA g : Module.End F (Fin N → F)) ^ 3 = 1 := by
-    change (glA g : Module.End F (Fin N → F)) ^ 3 = 1
     rw [← Units.val_pow_eq_pow_val, ← map_pow, hg, map_one, Units.val_one]
   have hg' : g ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin N) (1 : Fˣ) := by
     simpa using hg
@@ -217,8 +216,8 @@ theorem q2cFT_component {N : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card
       (irreducible_of_mem_primaryFactors hmem) (monic_of_mem_primaryFactors hmem) hdvd
   have hdeg1 : (X - C 1 : F[X]).natDegree = 1 := Polynomial.natDegree_X_sub_C 1
   have hdeg2 : (X ^ 2 + X + 1 : F[X]).natDegree = 2 := by compute_degree!
-  haveI : Fact (Irreducible (X - C 1 : F[X])) := ⟨Polynomial.irreducible_X_sub_C 1⟩
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
+  have : Fact (Irreducible (X - C 1 : F[X])) := ⟨Polynomial.irreducible_X_sub_C 1⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
     ⟨CFSG.RankThree.PartOne.KFOUT3.irreducible_quad (by rw [hF]; norm_num)⟩
   have hcop : IsCoprime (X - C 1 : F[X]) (X ^ 2 + X + 1) :=
     CFSG.RankThree.PartOne.KFOUT3.coprime_quad
@@ -311,9 +310,9 @@ theorem q2cFT_component {N : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card
   ·
     rw [hquad] at hmem hgood hTeq
     obtain ⟨eT⟩ := q2cFT_centralQuot (h := (X ^ 2 + X + 1 : F[X])) hpk hg hmem hgood hTeq
-    haveI : Module.Finite F (AdjoinRoot (X ^ 2 + X + 1 : F[X])) :=
+    have : Module.Finite F (AdjoinRoot (X ^ 2 + X + 1 : F[X])) :=
       (AdjoinRoot.powerBasis (Fact.out : Irreducible (X ^ 2 + X + 1 : F[X])).ne_zero).finite
-    haveI : Finite (AdjoinRoot (X ^ 2 + X + 1 : F[X])) := Module.finite_of_finite F
+    have : Finite (AdjoinRoot (X ^ 2 + X + 1 : F[X])) := Module.finite_of_finite F
     refine Or.inr ⟨?_, ?_, AdjoinRoot (X ^ 2 + X + 1 : F[X]), inferInstance, inferInstance,
       ?_, ?_⟩
     · by_contra hlt
@@ -367,7 +366,7 @@ theorem q2c_rLevel_fieldTwo :
   have hFcard' : Nat.card F = 2 := by simpa using hFcard
   refine ⟨F, inferInstance, inferInstance, hFcard, hQ', ?_⟩
   intro A hA hAI hbig h3 hlo hup u hu huo J hJ huniq hAJ K _ _ hKcard he
-  haveI : CharP F 2 := charP_two_of_card hFcard
+  have : CharP F 2 := charP_two_of_card hFcard
   have hN2 : 2 ≤ l + 1 := by omega
   obtain ⟨g, hgu⟩ := TableB.exists_eq_linConjAut (hAI u hu)
   have hu1 : u ≠ 1 := by
@@ -402,8 +401,8 @@ theorem q2c_rLevel_fieldTwo :
     have h2m : 2 ^ m = 2 ^ 1 := by rw [pow_one, ← hKcard, ← hFeq, hFcard']
     exact absurd (Nat.pow_right_injective (a := 2) (by norm_num) h2m) (by omega)
   ·
-    letI : Field E := hEfld
-    letI : Finite E := hEfin
+    let : Field E := hEfld
+    let : Finite E := hEfin
     obtain ⟨eJ⟩ := he
     have hψ : LinearFlag.projectiveSL d K ≃*
         LargeEvenProj (LargeEvenSLGroup (Fin a₁) E) :=

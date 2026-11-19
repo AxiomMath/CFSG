@@ -83,7 +83,7 @@ theorem rce_card_line (Ln : RceLines F S c E) [Fact p.Prime] (k : Fin 4) :
   interval_cases e
   · exfalso
     have hSP : IsPGroup p ↥((S : Subgroup 𝒞[K, σ]) ⊓ rclPx (Ln.sp k)) :=
-      S.isPGroup'.to_inf_left
+      S.isPGroup.to_inf_left
     obtain ⟨z, hz, hzo⟩ := rcn_exists_orderOf_eq hSP hA1
     have hzE : z ∈ E := rcy_mem_of_pow_eq_one hp κ hκ Ln.hES Ln.hEp Ln.hEc hz.1
       (by rw [← hzo]; exact pow_orderOf_eq_one z)
@@ -260,7 +260,7 @@ theorem rce_card_sylow_inf (Ln : RceLines F S c E) [Fact p.Prime] (k : Fin 4) :
   have hq2 : 2 ≤ ℓ ^ f := Nat.one_lt_pow (by have := F.hf; omega) hℓ.one_lt
   have hxS : Ln.x k ∈ (S : Subgroup 𝒞[K, σ]) := Ln.hES (Ln.hx k).1
   obtain ⟨-, -, hidx, -, -, -⟩ := rcy_sylow_split F S Ln.hc (Ln.sp k) (Ln.hspc k) hxS
-  have hTp : IsPGroup p ↥(S : Subgroup 𝒞[K, σ]) := S.isPGroup'
+  have hTp : IsPGroup p ↥(S : Subgroup 𝒞[K, σ]) := S.isPGroup
   have hrel := Subgroup.relIndex_mul_card (S : Subgroup 𝒞[K, σ]) (rclPx (Ln.sp k))
   rw [← Subgroup.inf_relIndex_right] at hrel
   obtain ⟨m, hm⟩ := (hTp.to_inf_left (K := rclPx (Ln.sp k))).exists_card_eq
@@ -309,7 +309,7 @@ theorem rce_sylow_le_sup (Ln : RceLines F S c E) [Fact p.Prime] :
   have hA01 : ∀ z, z ∈ A₀ → z ∈ A₁ → z = 1 := by
     intro z h0 h1
     by_contra hz1
-    have hpz : IsPGroup p ↥(A₀ ⊓ A₁) := S.isPGroup'.to_inf_left.to_le inf_le_left
+    have hpz : IsPGroup p ↥(A₀ ⊓ A₁) := S.isPGroup.to_inf_left.to_le inf_le_left
     have hne : A₀ ⊓ A₁ ≠ ⊥ := fun h => hz1 (by
       have : z ∈ A₀ ⊓ A₁ := ⟨h0, h1⟩
       rw [h, Subgroup.mem_bot] at this

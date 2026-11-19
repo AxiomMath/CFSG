@@ -88,16 +88,16 @@ theorem card_J_r_or_crConj {c : ℕ} (hc : c < 10) (h1 : classSizes[c]! ≠ 1) :
   have hd : Disjoint {j : subW jWords | IsConj (rep c) (j : Cr)} {j | (j : Cr) = rCr} := by
     rw [Set.disjoint_left]
     rintro j hj (e : (j : Cr) = rCr)
-    rw [Set.mem_setOf_eq, e] at hj
+    rw [Set.mem_ofPred_eq, e] at hj
     exact not_isConj_rep_rCr hc h1 hj
   have hr : {j : subW jWords | (j : Cr) = rCr} = {⟨rCr, rCr_mem_J⟩} := by
     ext j
-    rw [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨fun e => Subtype.ext e, fun e => by rw [e]⟩
   have e : Nat.card {j : subW jWords // (j : Cr) = rCr ∨ IsConj (rep c) (j : Cr)} =
       Nat.card ↥({j : subW jWords | IsConj (rep c) (j : Cr)} ∪ {j | (j : Cr) = rCr}) :=
     Nat.card_congr (Equiv.subtypeEquivRight fun j => by
-      rw [Set.mem_union, Set.mem_setOf_eq, Set.mem_setOf_eq, or_comm])
+      rw [Set.mem_union, Set.mem_ofPred_eq, Set.mem_ofPred_eq, or_comm])
   rw [e, Nat.card_coe_set_eq, Set.ncard_union_eq hd (Set.toFinite _) (Set.toFinite _), hr,
     Set.ncard_singleton, ← Nat.card_coe_set_eq]
   exact congrArg (· + 1) (card_J_crConj hc)

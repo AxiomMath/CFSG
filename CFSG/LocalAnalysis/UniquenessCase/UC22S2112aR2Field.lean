@@ -109,7 +109,7 @@ theorem uc22s2112r2_exists_sub_one_sq {p : ℕ} [Fact p.Prime] {F : Type} [Field
   let N : Module.End (ZMod p) F := T - 1
   have hNt : ∀ t, N t = τ t - t := fun t => rfl
   have : CharP (Module.End (ZMod p) F) p := Module.charP_end
-    ⟨1, (Ideal.torsionOf_eq_bot_iff_of_noZeroSMulDivisors (ZMod p) (1 : F)).2 one_ne_zero⟩
+    ⟨1, (Ideal.torsionOf_eq_bot_iff_of_isTorsionFree (ZMod p) (1 : F)).2 one_ne_zero⟩
   have hT : T ^ p = 1 := by
     ext t
     rw [Module.End.pow_apply, Module.End.one_apply]

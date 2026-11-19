@@ -17,6 +17,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 variable {K : Type} [Field K] [Finite K] {n d p : ℕ} {L' : Type} [Group L']
   {φ : ↥(unitarySU 2 n K d) →* L'}
 
+omit [Finite K] in
 theorem swap_comm_diag {s t : Fin d} {τ : Fin d → Kˣ} (hτ : τ s = τ t) :
     permGL (Equiv.swap s t) * diagHom d τ = diagHom d τ * permGL (Equiv.swap s t) := by
   have h1 := permGL_mul_diagHom_mul_inv (K := K) (Equiv.swap s t) τ
@@ -32,6 +33,7 @@ theorem swap_comm_diag {s t : Fin d} {τ : Fin d → Kˣ} (hτ : τ s = τ t) :
         (permGL (Equiv.swap s t))⁻¹ * permGL (Equiv.swap s t) := by group
     _ = diagHom d τ * permGL (Equiv.swap s t) := by rw [h1]
 
+omit [Finite K] in
 theorem exists_swap_group (hM : Model φ) {s t : Fin d} (hst : s ≠ t) (hd : 3 ≤ d)
     {A : Subgroup (MulAut L')} (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiagU φ a t)
     (hpair : ∀ a ∈ A, ∀ σ : Fin d → Kˣ, ActsU φ a σ → σ s = σ t) :
@@ -107,6 +109,7 @@ theorem exists_swap_group_le_layer (hM : Model φ) (hn : 2 ≤ n) (hd : 3 ≤ d)
     layer_eq_block hM hσ (cls_isCls σ s) (isQuasisimple_block hM hbig) hEcomp
   exact ⟨U, hU1, hU2, hUA, hlayer ▸ hUS (cls σ s) hsS htS⟩
 
+omit [Finite K] in
 theorem exists_witness (hM : Model φ) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hn : 1 ≤ n)
     {s t c e : Fin d} (hst : s ≠ t) (hsc : s ≠ c) (hse : s ≠ e) (htc : t ≠ c) (hte : t ≠ e)
     (hce : c ≠ e) :

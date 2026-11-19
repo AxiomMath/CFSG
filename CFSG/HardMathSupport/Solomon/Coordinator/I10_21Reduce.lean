@@ -157,7 +157,7 @@ theorem i1021_main {F : Type} [Group F] [Finite F] [IsSimpleGroup F]
       set P' : Subgroup X := (P : Subgroup φ.ker).map φ.ker.subtype with hP'def
       have hfr : normalizer (P' : Set X) ⊔ φ.ker = ⊤ := Sylow.normalizer_sup_eq_top P
       have hP'Y : P' ≤ φ.ker := map_subtype_le _
-      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup'.map φ.ker.subtype)
+      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup.map φ.ker.subtype)
       have hP'q : ¬ q ∣ Nat.card P' := by
         rw [hm]
         intro h

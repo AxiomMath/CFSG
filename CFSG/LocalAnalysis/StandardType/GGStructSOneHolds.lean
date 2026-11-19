@@ -154,7 +154,7 @@ open CFSG.Assembly
 theorem ggStructSOne_of_compTypesElem
     (hT : CFSG.LocalAnalysis.GLTheoremA.I142T.CompTypesElem) : GGStructSOne := by
   intro X _ _ p G₀ A hp hp2 hG₀ hA hAN hM C hC
-  haveI := hG₀
+  have := hG₀
   have hnc : ∃ a b : ↥G₀, a * b ≠ b * a := by
     by_contra h
     push Not at h

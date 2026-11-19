@@ -167,7 +167,7 @@ theorem tiData_of_cfg (L : Lem) (cfg : GCfg M V Q P H Φ ψ a T)
           ⟨hq, Subgroup.mem_centralizer_iff.mpr fun v hv => (h v hv).symm⟩ }
 
 omit [Finite G] in
-theorem exists_perp_pair {n : ℕ} {a y : Fin n ⊕ Fin n → GaloisField 2 1} (ha : a ≠ 0)
+theorem exists_perp_pair {n : ℕ} {a y : Fin n ⊕ Fin n → GaloisField 2 1} (_ha : a ≠ 0)
     (hy : y ≠ 0) (hya : y ≠ a) : ∃ w, spForm a w = 0 ∧ spForm y w = 1 := by
   obtain ⟨v₂, hv₂⟩ := exists_spForm_ne_zero hy
   have hay : a + y ≠ 0 := fun h => hya (by
@@ -285,7 +285,7 @@ set_option hygiene false in
 local notation "ψG " v:max => ((Additive.toMul (ψ v) : ↥(wOf V H)) : G)
 
 theorem P_norm_of_cfg (cfg : GCfg M V Q P H Φ ψ a T) :
-    ∀ m ∈ M, ∀ p ∈ P, m * p * m⁻¹ ∈ P := fun m hm p hp =>
+    ∀ _m ∈ M, ∀ p ∈ P, _m * p * _m⁻¹ ∈ P := fun _m hm p hp =>
   (Subgroup.mem_normalizer_iff.mp (cfg.hyp.setup.mc.toMinCex.M_le_normalizer_P hm) p).mp hp
 
 theorem V_norm_of_cfg (cfg : GCfg M V Q P H Φ ψ a T) :

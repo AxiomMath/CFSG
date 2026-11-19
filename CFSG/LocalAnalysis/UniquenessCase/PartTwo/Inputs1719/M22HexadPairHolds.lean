@@ -230,7 +230,7 @@ theorem hexadPair_of_center_three
     (MulEquiv.subgroupCongr hψrange.symm).trans (eQ.symm.trans eM)
   obtain ⟨H₁, -, -, hSH₁, -, hH₁c, -⟩ := m22_overgroups_of_equiv hS' e₀
   have hZS : Z ⊓ S = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hS.2.1.exists_card_eq
     rw [hZcard, hk]
     exact Nat.Coprime.pow_right _ (by norm_num)
@@ -335,7 +335,7 @@ theorem k_M22CoverNine_of_hexadPair (h : K_M22HexadPair) :
       simpa [hX] using Subgroup.orderOf_dvd_natCard X hx
     exact orderOf_dvd_iff_pow_eq_one.mp hdvd
   have hZS : Z ⊓ S = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hZcard, hSylYcard]
     exact Nat.Coprime.pow_right _ (by norm_num)
   have hcardZS : Nat.card ↥(Z ⊔ S) = 3 * Nat.card S := by

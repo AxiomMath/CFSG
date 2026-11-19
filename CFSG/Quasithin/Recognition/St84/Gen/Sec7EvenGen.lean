@@ -94,8 +94,8 @@ theorem card_S_gen (hs : IsSingularity Γ G 4) : Nat.card X.S = 2 ^ (3 * X.n 0) 
     ring
   rw [hcastn] at hcardA1
   rw [hcardA1] at hK
-  haveI : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
-  haveI : Nonempty ↥X.K := ⟨⟨1, X.K.one_mem⟩⟩
+  have : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
+  have : Nonempty ↥X.K := ⟨⟨1, X.K.one_mem⟩⟩
   have hKpos : 0 < Nat.card ↥X.K := Nat.card_pos
   rw [mul_comm (2 ^ (3 * X.n 0)) (Nat.card ↥X.K)] at hK
   exact Nat.eq_of_mul_eq_mul_left hKpos hK
@@ -195,7 +195,7 @@ theorem le_card_Q_inf_centralizer_gen (hc : CharTwoStab (V := V) (G := G))
     exact Subgroup.le_centralizer_iff.mpr hsupcent
   have hcard : Nat.card ↥(X.Q 0 ⊓ X.Q 1) = 2 ^ X.n 0 := X.card_Q_inf_gen hc hs
   rcases hi with rfl | rfl
-  · haveI : Finite ↥(X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G)) :=
+  · have : Finite ↥(X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G)) :=
       finite_of_le_stabilizer X.hyp (H := X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G))
         (inf_le_left.trans (X.Q_le_Gi 0))
     have hle : X.Q 0 ⊓ X.Q 1 ≤ X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G) :=
@@ -204,7 +204,7 @@ theorem le_card_Q_inf_centralizer_gen (hc : CharTwoStab (V := V) (G := G))
       (Subgroup.inclusion_injective hle)
     rw [hcard] at h
     exact h
-  · haveI : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G)) :=
+  · have : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G)) :=
       finite_of_le_stabilizer X.hyp (H := X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G))
         (inf_le_left.trans (X.Q_le_Gi 1))
     have hle : X.Q 1 ⊓ X.Q 0 ≤ X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G) :=
@@ -244,12 +244,12 @@ theorem Setup.even_singularity_gen (X : Setup Γ G) (hc : CharTwoStab (V := V) (
   have hcard1 : Nat.card (X.Q 1) = 2 ^ (2 * X.n 0) := X.card_Q_gen hs (Or.inr rfl)
   have hL0 : IsLocL2 Γ G (X.vert 0) (X.n 0) (X.L 0) := X.hyp.isLocL2_oTwoPrime (X.vert 0)
   have hL1 : IsLocL2 Γ G (X.vert 1) (X.n 1) (X.L 1) := X.hyp.isLocL2_oTwoPrime (X.vert 1)
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
-  haveI : Finite ↥(X.L 0) :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.L 0) :=
     Finite.of_injective (Subgroup.inclusion (X.L_le_Gi 0))
       (Subgroup.inclusion_injective (X.L_le_Gi 0))
-  haveI : Finite ↥(X.L 1) :=
+  have : Finite ↥(X.L 1) :=
     Finite.of_injective (Subgroup.inclusion (X.L_le_Gi 1))
       (Subgroup.inclusion_injective (X.L_le_Gi 1))
   have hquot0 : IsL2Quot (X.n 0) (oTwoQuot ↥(X.L 0)) := by

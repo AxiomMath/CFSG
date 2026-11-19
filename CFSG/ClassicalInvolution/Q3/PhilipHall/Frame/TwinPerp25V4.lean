@@ -67,14 +67,14 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
             mul := ?_, ker := ?_, mem := ?_, surj := ?_, act := ?_, lab := ?_, exc := ?_ }⟩
   · intro y₁ h₁ y₂ h₂
     have h12 : y₁ * y₂ ∈ layerX Ω c := Subgroup.mul_mem _ h₁ h₂
-    simp only [dif_pos h₁, dif_pos h₂, dif_pos h12]
+    simp only [dite_eq_left h₁, dite_eq_left h₂, dite_eq_left h12]
     exact map_mul ε₀ ⟨y₁, h₁⟩ ⟨y₂, h₂⟩
   · intro y hy
-    simp only [dif_pos hy]
+    simp only [dite_eq_left hy]
     rw [hε₀, OneMemClass.coe_eq_one, MulEquiv.map_eq_one_iff, MulEquiv.map_eq_one_iff]
     exact mk_eq_one_iff (layerX Ω c) ⟨y, hy⟩
   · intro y hy
-    simp only [dif_pos hy]
+    simp only [dite_eq_left hy]
     rw [hε₀]
     exact (e _).2
   · intro w hw
@@ -82,7 +82,7 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
     obtain ⟨b', hb'⟩ := Λ.lbe.surjective b
     obtain ⟨⟨y, hy⟩, hy'⟩ := QuotientGroup.mk_surjective b'
     refine ⟨y, hy, ?_⟩
-    simp only [dif_pos hy]
+    simp only [dite_eq_left hy]
     rw [hε₀, hy', hb', hb]
   · intro g hg
     have hb : conjSub g (layerX Ω c) = layerX Ω c := conjSub_layerX_of_mem Λ.hΩ hg
@@ -91,7 +91,7 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
     have hgy : g * y * g⁻¹ ∈ layerX Ω c := by
       have := Generic.conj_mem_conjSub (n := g) hy
       rwa [hb] at this
-    simp only [dif_pos hy, dif_pos hgy]
+    simp only [dite_eq_left hy, dite_eq_left hgy]
     have h1 : (⟨g * y * g⁻¹, hgy⟩ : ↥(layerX Ω c)) = C25Y.conjOnSub (layerX Ω c) hb ⟨y, hy⟩ := rfl
     rw [hε₀, hε₀, h1, ← C25Y.layerAut_mk, Λ.lbe_layerAut hg hb]
     have := hx (e (Λ.lbe (QuotientGroup.mk ⟨y, hy⟩)))
@@ -101,7 +101,7 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
     obtain ⟨α, h, b, hlab⟩ := I.label _ hJ0
     refine ⟨α, h, b, ?_, ?_⟩
     · intro y hy hyJ
-      simp only [dif_pos hy]
+      simp only [dite_eq_left hy]
       rw [hε₀]
       have hC := layerX_le_centralizer Ω c hy
       have hY := mem_coreHull_of_mem_layerX Λ.hΩ Λ.hc2' Λ.h2 hy
@@ -129,7 +129,7 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
         rw [layerX_eq_coreLayer Λ.hΩ Λ.hc2' Λ.h2]
         exact ⟨⟨y, hC⟩, hY, rfl⟩
       refine ⟨y, hyX, hyJ, ?_⟩
-      simp only [dif_pos hyX]
+      simp only [dite_eq_left hyX]
       have hl : Λ.lbe (QuotientGroup.mk ⟨y, hyX⟩) = QuotientGroup.mk ⟨⟨y, hC⟩, hY⟩ :=
         layerBarHullEquiv_mk Λ.hΩ Λ.hc2' Λ.h2 ⟨y, hyX⟩ (hC := hC) (hY := hY)
       have hys' : (QuotientGroup.mk (⟨⟨y, hC⟩, hY⟩ : ↥(coreHull Ω c)) :
@@ -167,7 +167,7 @@ theorem AE5Layer.of_lay (Λ : Lay Ω K K' W S R R' z t u₁ u₂ c) (hAE : Layer
         have := Generic.conj_mem_conjSub (n := d * z * d⁻¹) hy
         rwa [hb] at this
       have h1 := hx y hy
-      simp only [dif_pos hy, dif_pos hgy] at h1
+      simp only [dite_eq_left hy, dite_eq_left hgy] at h1
       rw [hε₀, hε₀] at h1
       apply e.injective
       apply Subtype.ext

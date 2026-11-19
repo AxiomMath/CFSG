@@ -94,16 +94,16 @@ theorem listRow_H8 : ListRow H8 :=
     sp8F_conj.1 sp8F_conj.2.1 sp8F_conj.2.2.1 sp8F_conj.2.2.2 sp8S_conj
 
 theorem listRow_sp82 : ListRow (projSp 4 (GaloisField 2 1)) := by
-  haveI : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ sp82Equiv.symm.toEquiv
+  have : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ sp82Equiv.symm.toEquiv
   exact ListRow.of_mulEquiv sp82Equiv.symm listRow_H8
 
 theorem outerRow_sp82 : OuterRow (projSp 4 (GaloisField 2 1)) := by
-  haveI : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ sp82Equiv.symm.toEquiv
+  have : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ sp82Equiv.symm.toEquiv
   exact outerRow_of_not_three_dvd_outer Item434SmallTwoIV.not_three_dvd_card_outer_projSp_four_two
 
 theorem row_sp82 : RowOf (projSp 4 (GaloisField 2 1)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
+  have : Finite (projSp 4 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
   exact GoodRow.of_mulEquiv (S := projSp 4 (GaloisField 2 1)) e.symm
     ⟨listRow_sp82, outerRow_sp82⟩
 

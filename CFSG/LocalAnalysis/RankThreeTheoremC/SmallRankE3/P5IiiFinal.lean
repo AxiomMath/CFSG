@@ -32,8 +32,8 @@ theorem s62L630Iii3_of_steps (hI : KFactI2026) (h5 : StepFiveFPF3) (h9 : StepNin
   have hf : f.Prime := hsetting.prime
   have hf2 : f ≠ 2 := hsetting.ne_two
   have hf5 : Nat.Prime 5 := by norm_num
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact (Nat.Prime 5) := ⟨hf5⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact (Nat.Prime 5) := ⟨hf5⟩
   have hFe : IsElemAbelian f (smallRankF 5 f x) := hL629.2.2.2.1
   have hFc : Nat.card (smallRankF 5 f x) = f ^ 4 := hL629.2.2.2.2.1
   have hloc : rankThreeLocalRank f G ≤ 3 := hL629.2.2.1
@@ -87,7 +87,7 @@ theorem s62L630Iii3_of_steps (hI : KFactI2026) (h5 : StepFiveFPF3) (h9 : StepNin
     apply Subtype.ext
     simpa using hFe.2 e e.2
   obtain ⟨hscal, hinv⟩ := hI f F hf hf2 hcomm hexp hFc _ _ _ hPX hPcard hSX hSO hSP hSQ8
-  haveI : Finite (MulAut F) := Finite.of_injective (fun e : MulAut F => e.toEquiv)
+  have : Finite (MulAut F) := Finite.of_injective (fun e : MulAut F => e.toEquiv)
     (fun a b h => MulEquiv.ext fun y => congrArg (fun e : F ≃ F => e y) h)
   have hOX : rankThreePrimeCore 2 ψ.range ≤ ψ.range := rankThreePrimeCore_le_self 2 ψ.range
   have hQX : pCoreOf 2 ψ.range ≤ ψ.range := pCoreOf_le_self 2 ψ.range
@@ -135,7 +135,7 @@ theorem s62L630Iii3_of_steps (hI : KFactI2026) (h5 : StepFiveFPF3) (h9 : StepNin
             ((rankThreePrimeCore 2 ψ.range ⊔ pCoreOf 2 ψ.range).subgroupOf ψ.range) := by
           rw [Subgroup.mem_subgroupOf]
           exact hwK
-        haveI : Fact q.Prime := ⟨hq⟩
+        have : Fact q.Prime := ⟨hq⟩
         have hpowW : (⟨ψ g, hwX⟩ : ψ.range) ^ q = 1 := by
           apply Subtype.ext
           rw [Subgroup.coe_pow, Subgroup.coe_one]

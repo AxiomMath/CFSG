@@ -50,7 +50,7 @@ theorem small_two_sylow_normal_prime_complement_odd [Finite C] {p : ℕ} (hp : p
     rw [h0] at hcong
     exact hdvd (Nat.modEq_zero_iff_dvd.mp hcong)
   set B' : Subgroup C := (B : Subgroup K).map K.subtype with hB'def
-  have hB'2 : IsPGroup 2 B' := B.isPGroup'.map _
+  have hB'2 : IsPGroup 2 B' := B.isPGroup.map _
   have hZB' : Z ≤ normalizer (B' : Set C) := by
     refine le_normalizer_of_forall_conj_mem fun g hg x hx => ?_
     obtain ⟨k, hk, rfl⟩ := hx

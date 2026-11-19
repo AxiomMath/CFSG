@@ -24,12 +24,12 @@ variable {G : Type} [Group G] [Finite G]
 private theorem isSolvable_sup_of_prime_le_normalizer {X T : Subgroup G}
     (hXcard : (Nat.card X).Prime) (hXT : X ≤ normalizer (T : Set G)) (hT2 : IsPGroup 2 T) :
     Group.IsSolvable ↥(X ⊔ T) := by
-  haveI : Fact (Nat.card X).Prime := ⟨hXcard⟩
+  have : Fact (Nat.card X).Prime := ⟨hXcard⟩
   have hXcyc : IsCyclic ↥X := isCyclic_of_card_dvd_prime (p := Nat.card X) dvd_rfl
-  haveI : IsCyclic ↥X := hXcyc
-  haveI hXsolv : Group.IsSolvable ↥X :=
+  have : IsCyclic ↥X := hXcyc
+  have hXsolv : Group.IsSolvable ↥X :=
     Group.isSolvable_of_comm fun a b => (IsCyclic.commGroup).mul_comm a b
-  haveI hTsolv : Group.IsSolvable ↥T := CFSG.GorensteinWalter.isSolvable_of_isPGroup hT2
+  have hTsolv : Group.IsSolvable ↥T := CFSG.GorensteinWalter.isSolvable_of_isPGroup hT2
   have h := CFSG.Quasithin.A3.isSolvable_sup_of_le_normalizer (M := T) (N := X) hXT
   rw [sup_comm X T]
   exact h
@@ -66,12 +66,13 @@ private theorem isHallOddIn_sup_of_prime_le_normalizer {X T : Subgroup G}
     exact Nat.eq_of_mul_eq_mul_left Nat.card_pos h
   exact ⟨le_sup_left, hXodd, ⟨k, by rw [hidx, hTcard]⟩⟩
 
+omit [Finite G] in
 private theorem isCyclic_quotient_sup_of_prime_le_normalizer {X T Y : Subgroup G}
     [hN : (T.subgroupOf Y).Normal] (hXY : X ≤ Y)
     (hXcard : (Nat.card X).Prime) (hIP : (T.subgroupOf Y) ⊔ (X.subgroupOf Y) = ⊤) :
     IsCyclic (↥Y ⧸ (T.subgroupOf Y)) := by
   classical
-  haveI : Fact (Nat.card X).Prime := ⟨hXcard⟩
+  have : Fact (Nat.card X).Prime := ⟨hXcard⟩
   have hXcyc : IsCyclic ↥X := isCyclic_of_card_dvd_prime (p := Nat.card X) dvd_rfl
   let f : ↥X →* ↥Y ⧸ (T.subgroupOf Y) :=
     (QuotientGroup.mk' (T.subgroupOf Y)).comp (Subgroup.inclusion hXY)
@@ -100,7 +101,7 @@ private theorem pRank_sup_of_prime_le_normalizer {X T : Subgroup G}
   set Y : Subgroup G := X ⊔ T with hY
   have hTY : T ≤ Y := le_sup_right
   have hYnorm : Y ≤ normalizer (T : Set G) := sup_le hXT Subgroup.le_normalizer
-  haveI hN : (T.subgroupOf Y).Normal :=
+  have hN : (T.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTY).2 hYnorm
   have hTtopzero : CFSG.Open.pRank p (⊤ : Subgroup ↥(T.subgroupOf Y)) = 0 := by
     refine GL83.I713.pRank_top_eq_zero_of_not_dvd hp ?_
@@ -125,7 +126,7 @@ private theorem pRank_sup_of_prime_le_normalizer {X T : Subgroup G}
 
 theorem not_mem_uniqueSet_of_le_normalizer (D : Data G) (Ch : Choice2011 G)
     (h211 : S21_1 D Ch) (h1930 : H1930 D) (c : Ctx21 D Ch) {X : Subgroup G}
-    (hp : (Nat.card X).Prime) (hodd : Odd (Nat.card X)) (hXM : X ≤ D.M)
+    (hp : (Nat.card X).Prime) (hodd : Odd (Nat.card X)) (_hXM : X ≤ D.M)
     (hXN : X ≤ normalizer (D.T : Set G)) : X ∉ uniqueSet D.M := by
   intro hXU
   have hX2 : Nat.card X ≠ 2 := by
@@ -138,9 +139,9 @@ theorem not_mem_uniqueSet_of_le_normalizer (D : Data G) (Ch : Choice2011 G)
     isSolvable_sup_of_prime_le_normalizer hp hXN hT2
   have hYhall : IsHallOddIn X (X ⊔ D.T) :=
     isHallOddIn_sup_of_prime_le_normalizer hp hodd hXN hT2
-  haveI : Fact (Nat.card X).Prime := ⟨hp⟩
+  have : Fact (Nat.card X).Prime := ⟨hp⟩
   have hXcyc : IsCyclic ↥X := isCyclic_of_card_dvd_prime (p := Nat.card X) dvd_rfl
-  haveI : IsCyclic ↥X := hXcyc
+  have : IsCyclic ↥X := hXcyc
   have hXcomm : IsMulCommutative ↥X := inferInstance
   have hYrank : ∀ p ∈ piSet (X ⊔ D.T), p ≠ 2 → CFSG.Open.pRank p (X ⊔ D.T) ≤ 2 := by
     intro p hpPi hp2
@@ -175,7 +176,7 @@ theorem not_lieModel_psl2_of_isSU3 {X : Type} [Group X] [Finite X] {n ℓ f : �
   by_cases hℓ2 : ℓ = 2
   · subst hℓ2
     exact uc22p21k_not_isL2 hX.1 (Or.inr ⟨n, hX.2⟩) f hL
-  · haveI : IsSimpleGroup X :=
+  · have : IsSimpleGroup X :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL
     have hZ : Subgroup.center X = ⊥ := uc22p21k_center_eq_bot hX.1
     have hU : CFSG.Blueprint.LieModel X .PSU 3 2 n :=
@@ -306,7 +307,7 @@ theorem s21_9NFull_of_r847SU3G4 (D : Data G) (Ch : Choice2011 G) (hsig : D.sig.N
     (h211 : S21_1 D Ch) (h846 : F08.R846 D) (h847 : R847SU3G4 D) (h898 : F08.R898 D)
     (htor : S21_9TorusN D Ch) : S21_9NFull D Ch :=
   s21_9NFull_of_key D Ch hsig h211 h846 h898 htor
-    fun L X n r hL hLN hXL hXcard hSU hrPrime hr2 hN hrn =>
+    fun _L _X _n _r hL hLN hXL hXcard hSU hrPrime hr2 hN hrn =>
       hkey_of_r847SU3G4 h847 hL hLN hXL hXcard hSU hrPrime hr2 hN hrn
 
 theorem s21_9N_of_s21_9NFull {D : Data G} {Ch : Choice2011 G} (h : S21_9NFull D Ch) :

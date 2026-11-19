@@ -41,7 +41,7 @@ theorem mem_TB {c : Nat} (hc : c < 32) {U : GL} (hU : U ∈ pGrp (five CFSG.KD.G
     unfold pGrp
     congr 1
     ext U
-    simp only [Set.mem_setOf_eq, List.mem_map]
+    simp only [Set.mem_ofPred_eq, List.mem_map]
     constructor
     · rintro ⟨g, hg, hU⟩
       exact ⟨g, hg, IsP.inj (isP_autP (hex g hg)) hU⟩

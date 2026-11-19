@@ -25,12 +25,12 @@ theorem c16_comm_of_rho {Q K : Subgroup G} {rho : G} (hQ : IsPGroup 2 Q) (hKQ : 
       have h := hQK q⁻¹ (Q.inv_mem hq) (q * k * q⁻¹) hk
       have h' : q⁻¹ * (q * k * q⁻¹) * (q⁻¹)⁻¹ = k := by group
       rwa [h'] at h
-  haveI hNn : (K.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQnorm
+  have hNn : (K.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQnorm
   have hcardSub : Nat.card (K.subgroupOf Q) = 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKQ).toEquiv, hcard]
-  haveI hNt : Nontrivial (K.subgroupOf Q) :=
+  have hNt : Nontrivial (K.subgroupOf Q) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardSub]; norm_num)
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
   obtain ⟨x, hx1, hxc⟩ :=
     CFSG.exists_nontrivial_center_mem_normal (N := K.subgroupOf Q) (p := 2)
   let k : G := ((x : ↥Q) : G)

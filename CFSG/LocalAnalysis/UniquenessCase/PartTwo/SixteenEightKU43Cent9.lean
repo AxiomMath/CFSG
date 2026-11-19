@@ -16,6 +16,7 @@ section Linear
 
 variable {K : Type*} [Field K] [CharP K 3]
 
+omit [CharP K 3] in
 theorem pow_four_eq_zero_of_pow {N : Matrix (Fin 4) (Fin 4) K} {k : ℕ} (h : N ^ k = 0) :
     N ^ 4 = 0 := by
   set f := Matrix.toLinAlgEquiv' N with hf
@@ -36,7 +37,7 @@ theorem pow_four_eq_zero_of_pow {N : Matrix (Fin 4) (Fin 4) K} {k : ℕ} (h : N 
 
 theorem pow_nine_eq_scalar_of_commute {N Y : Matrix (Fin 4) (Fin 4) K} (hN4 : N ^ 4 = 0)
     (hN3 : N ^ 3 ≠ 0) (hc : Y * N = N * Y) : ∃ c : K, Y ^ 9 = Matrix.scalar (Fin 4) (c ^ 9) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨v, hv⟩ : ∃ v : Fin 4 → K, N ^ 3 *ᵥ v ≠ 0 := by
     by_contra h
     push Not at h
@@ -139,7 +140,7 @@ theorem pow_nine_of_mem_centralizer_projSU (g : projSU 4 3 1) (hg : orderOf g = 
   have hU : UnitaryFieldData 3 1 K :=
     ⟨Nat.prime_three, le_rfl, GaloisField.card 3 (2 * 1) (by norm_num)⟩
   have : CharP K 3 := hU.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlift : ∀ z : projSU 4 3 1, ∃ Z : GL (Fin 4) K, Z ∈ unitarySU 3 1 K 4 ∧
       ProjGenLinGroup.mk Z = (z : ProjGenLinGroup (Fin 4) K) := fun z =>
     Subgroup.mem_map.mp
@@ -243,7 +244,7 @@ theorem pow_nine_of_mem_centralizer_projSU (g : projSU 4 3 1) (hg : orderOf g = 
 theorem u43Cent9 : U43Cent9Statement := by
   unfold U43Cent9Statement
   intro S _ _ hS g hg
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := projSU_of_statedClassicalModel_gen (hS.statedClassicalModel (by decide))
   intro y
   refine ⟨2, ?_⟩

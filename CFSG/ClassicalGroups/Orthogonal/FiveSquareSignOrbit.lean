@@ -34,7 +34,7 @@ private noncomputable def diagNegOneO2 : CFSG.GH74.GLS.IVK.Proofs2.Sp48.O2 F whe
     change Matrix.transpose diagMat * diagMat = 1
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [diagMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply] <;> decide
+      simp [diagMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply]
 private theorem reflect_r24_e2 :
     CFSG.ClassicalGroups.Orthogonal.reflect (Generic.Q F) (e 2 - e 4) (e 2) = e 4 :=
   Generic.reflect_sub_apply_left F (i := 2) (j := 4) (by decide)
@@ -130,14 +130,14 @@ public theorem sign_t : signEquiv stdFrame.e ({0, 1} : Finset (Fin 5)) = stdFram
   intro i
   change (signEquiv stdFrame.e ({0, 1} : Finset (Fin 5))) (stdFrame.e i) = stdFrame.t (stdFrame.e i)
   rw [signEquiv_apply_basis, FrameData.t_e]
-  fin_cases i <;> simp <;> rfl
+  fin_cases i <;> simp
 public theorem sign_z : signEquiv stdFrame.e ({0, 1, 2, 3} : Finset (Fin 5)) = stdFrame.z := by
   apply LinearEquiv.toLinearMap_injective
   apply stdFrame.e.ext
   intro i
   change (signEquiv stdFrame.e ({0, 1, 2, 3} : Finset (Fin 5))) (stdFrame.e i) = stdFrame.z (stdFrame.e i)
   rw [signEquiv_apply_basis, FrameData.z_e]
-  fin_cases i <;> simp <;> rfl
+  fin_cases i <;> simp
 private theorem sign_beta :
     signEquiv stdFrame.e ({0, 2} : Finset (Fin 5)) =
       stdFrame.betaO diagNegOneO2 diagNegOneO2 := by
@@ -153,35 +153,35 @@ private theorem sign_beta :
     funext j
     fin_cases j <;>
       simp [diagMat, diagNegOneO2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, stdFrame_e,
-        Generic.e_apply, Pi.single_apply, Pi.smul_apply, Pi.add_apply, Pi.neg_apply] <;> decide
+        Generic.e_apply, Pi.smul_apply, Pi.add_apply]
   · change (signEquiv stdFrame.e ({0, 2} : Finset (Fin 5))) (stdFrame.e 1) =
       (stdFrame.betaO diagNegOneO2 diagNegOneO2 : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)) (stdFrame.e 1)
     rw [signEquiv_apply_basis, FrameData.beta_e_one]
     funext j
     fin_cases j <;>
       simp [diagMat, diagNegOneO2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, stdFrame_e,
-        Generic.e_apply, Pi.single_apply, Pi.smul_apply, Pi.add_apply, Pi.neg_apply] <;> decide
+        Generic.e_apply, Pi.smul_apply, Pi.add_apply]
   · change (signEquiv stdFrame.e ({0, 2} : Finset (Fin 5))) (stdFrame.e 2) =
       (stdFrame.betaO diagNegOneO2 diagNegOneO2 : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)) (stdFrame.e 2)
     rw [signEquiv_apply_basis, FrameData.beta_e_two]
     funext j
     fin_cases j <;>
       simp [diagMat, diagNegOneO2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, stdFrame_e,
-        Generic.e_apply, Pi.single_apply, Pi.smul_apply, Pi.add_apply, Pi.neg_apply] <;> decide
+        Generic.e_apply, Pi.smul_apply, Pi.add_apply]
   · change (signEquiv stdFrame.e ({0, 2} : Finset (Fin 5))) (stdFrame.e 3) =
       (stdFrame.betaO diagNegOneO2 diagNegOneO2 : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)) (stdFrame.e 3)
     rw [signEquiv_apply_basis, FrameData.beta_e_three]
     funext j
     fin_cases j <;>
       simp [diagMat, diagNegOneO2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, stdFrame_e,
-        Generic.e_apply, Pi.single_apply, Pi.smul_apply, Pi.add_apply, Pi.neg_apply] <;> decide
+        Generic.e_apply, Pi.smul_apply, Pi.add_apply]
   · change (signEquiv stdFrame.e ({0, 2} : Finset (Fin 5))) (stdFrame.e 4) =
       (stdFrame.betaO diagNegOneO2 diagNegOneO2 : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)) (stdFrame.e 4)
     rw [signEquiv_apply_basis, FrameData.beta_e_four]
     funext j
     fin_cases j <;>
       simp [diagMat, diagNegOneO2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, stdFrame_e,
-        Generic.e_apply, Pi.single_apply, Pi.smul_apply, Pi.add_apply, Pi.neg_apply] <;> decide
+        Generic.e_apply, Pi.smul_apply]
 private noncomputable def betaGi : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F) :=
   stdFrame.betaO diagNegOneO2 diagNegOneO2
 private theorem betaGi_mem_derived : betaGi ∈ derived := stdFrame.betaO_diag_mem_commutator diagNegOneO2
@@ -220,13 +220,13 @@ theorem conj_signEquiv {g : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)} {σ : Equiv.P
   by_cases hi : σ.symm i ∈ S
   · have hmem : i ∈ S.image σ := by
       refine Finset.mem_image.mpr ⟨σ.symm i, hi, ?_⟩; simp
-    rw [if_pos hi, if_pos hmem]
+    rw [ite_eq_left hi, ite_eq_left hmem]
   · have hnot : i ∉ S.image σ := by
       intro h
       obtain ⟨j, hj, hji⟩ := Finset.mem_image.mp h
       have hji' : j = σ.symm i := by simpa using congrArg σ.symm hji
       exact hi (hji' ▸ hj)
-    rw [if_neg hi, if_neg hnot]
+    rw [ite_eq_right hi, ite_eq_right hnot]
 private theorem sign_c4 :
     cycle124 * betaGi * cycle124⁻¹ = signEquiv stdFrame.e ({0, 4} : Finset (Fin 5)) := by
   rw [show betaGi = signEquiv stdFrame.e ({0, 2} : Finset (Fin 5)) from sign_beta.symm]
@@ -271,8 +271,7 @@ private theorem genProd_mem_derived (a b c d : Bool) : genProd a b c d ∈ deriv
 private theorem signEquiv_genSet (a b c d : Bool) :
     signEquiv stdFrame.e (genSet a b c d) = genProd a b c d := by
   rcases a with _ | _ <;> rcases b with _ | _ <;> rcases c with _ | _ <;> rcases d with _ | _ <;>
-    simp [genSet, genProd, betaGi, ← signEquiv_mul, sign_t, sign_z, sign_beta, sign_c4,
-      signEquiv_empty, sign_c4.symm]
+    simp [genSet, genProd, betaGi, ← signEquiv_mul, sign_t, sign_z, sign_beta, signEquiv_empty, sign_c4.symm]
 
 private theorem even_finset_decomp (S : Finset (Fin 5)) (hS : Even S.card) :
     ∃ a b c d : Bool, S = genSet a b c d := by
@@ -363,9 +362,9 @@ theorem not_mem_signMask_of_mem_coordinateEight {b : frameSigns} {i : Fin 5}
     rw [← signMask_apply_basis b i]
     exact hact
   have hcoord_i := congrFun hcoord i
-  simp only [Pi.smul_apply, if_true, smul_eq_mul, mul_one] at hcoord_i
-  rw [if_pos hi] at hcoord_i
-  simp [Generic.e_apply, Pi.single_apply] at hcoord_i
+  simp only [Pi.smul_apply, smul_eq_mul] at hcoord_i
+  rw [ite_eq_left hi] at hcoord_i
+  simp [Generic.e_apply] at hcoord_i
   exact (by decide : (-1 : F) ≠ 1) hcoord_i
 
 @[expose]
@@ -374,7 +373,7 @@ noncomputable def coordinateEightOfEven (i : Fin 5) (S : Finset (Fin 5))
   (⟨frameSignsOfEven S hS,
     mem_coordinateEight_iff.mpr (by
       change (signEquiv stdFrame.e S) (stdFrame.e i) = stdFrame.e i
-      rw [signEquiv_apply_basis, if_neg hi, one_smul])⟩ : coordinateEight i)
+      rw [signEquiv_apply_basis, ite_eq_right hi, one_smul])⟩ : coordinateEight i)
 
 private theorem frameSignsToEven_injective :
     Function.Injective (fun b : frameSigns =>
@@ -524,7 +523,7 @@ theorem coordinateEight_one_mem_rankThreeOrbit :
       change ((MulAut.conj c y : G) : (Fin 5 → F) ≃ₗ[F] (Fin 5 → F)) (e 1) = e 1
       rw [hwval]
       change (signEquiv stdFrame.e (S.image cPerm)) (stdFrame.e 1) = stdFrame.e 1
-      rw [signEquiv_apply_basis, if_neg h1not, one_smul]
+      rw [signEquiv_apply_basis, ite_eq_right h1not, one_smul]
     exact mem_coordinateEight_iff.mpr hfix
   have hcard : Nat.card (CFSG.Quasithin.A1b.conjSub c (coordinateEight 4)) = 8 := by
     change Nat.card ((coordinateEight 4).map (MulAut.conj c).toMonoidHom) = 8

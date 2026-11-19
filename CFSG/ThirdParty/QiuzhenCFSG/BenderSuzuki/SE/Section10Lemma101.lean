@@ -199,7 +199,6 @@ public theorem lemma101_normalizer_eq_of_fixedPointFree
     have hzOne : z = 1 :=
       hfixed (g : X) hgP (by simpa using hgne) z hzI hzgComm
     have hnEqY : n = y := by
-      change n = y
       change y * z = n at hyzEq
       simpa [hzOne] using hyzEq.symm
     rw [hnEqY]
@@ -289,7 +288,7 @@ private theorem lemma101_inf_le_complement_of_coprime
   let R : Subgroup X := K ⊓ V
   let RV : Subgroup V := R.subgroupOf V
   let q : V →* V ⧸ AV := QuotientGroup.mk' AV
-  letI : AV.Normal := by simpa [AV] using hAnormal
+  let : AV.Normal := by simpa [AV] using hAnormal
   have hsupV : AV ⊔ PV = ⊤ := by
     calc
       AV ⊔ PV = (A ⊔ P).subgroupOf V := by
@@ -420,13 +419,13 @@ public theorem hallPResidual_eq_hktPResidual
     External.hallPResidual p G = External.hktPResidual p G := by
   apply le_antisymm
   · let N : Subgroup G := External.hktPResidual p G
-    letI : N.Normal := External.hktPResidual_normal (Q := G) (q := p)
+    let : N.Normal := External.hktPResidual_normal (Q := G) (q := p)
     let q : G →* G ⧸ N := QuotientGroup.mk' N
     have hq : IsPGroup p (G ⧸ N) := by
       simpa [N] using
         (External.hktPResidual_quotient_isPGroup (Q := G) (q := p))
     have hk : q.ker = N := by
-      simpa [q, N] using (QuotientGroup.ker_mk' N)
+      simp [q, N]
     intro x hx
     have hkill : q x = 1 :=
       (External.hallPResidual_le_ker_of_isPGroup q hq) hx
@@ -435,7 +434,7 @@ public theorem hallPResidual_eq_hktPResidual
       exact hkill
     exact hxN
   · let N : Subgroup G := External.hallPResidual p G
-    letI : N.Normal := External.hallPResidual_normal p G
+    let : N.Normal := External.hallPResidual_normal p G
     have hq : IsPGroup p (G ⧸ N) := by
       simpa [N] using
         (External.hallPResidual_quotient_isPGroup (G := G) p)
@@ -452,7 +451,7 @@ public theorem hallPResidual_eq_top_of_minimalNormalSupplement
     External.hallPResidual p W = ⊤ := by
   classical
   let WM : Subgroup M := W.subgroupOf M
-  letI : WM.Normal := hW.prop.normal_in_M
+  let : WM.Normal := hW.prop.normal_in_M
   let QW : Sylow p WM := External.hallSylowSubgroupOfNormal Q WM
   let eWM : WM ≃* W := Subgroup.subgroupOfEquivOfLe hW.prop.le_M
   let SW : Sylow p W := QW.mapSurjective (f := eWM.toMonoidHom) eWM.surjective
@@ -774,7 +773,7 @@ public theorem Lemma101ChoiceData.card_P_eq
     {D E V : Subgroup X} {t : X}
     (d : Lemma101ChoiceData D E V t) :
     Nat.card d.P = d.p := by
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hcard : Nat.card d.P =
       d.p ^ (Nat.card E).factorization d.p := by
     calc
@@ -813,7 +812,7 @@ public theorem theorem4bIsSylowSubgroupOf_of_between
     (hPE : P ≤ E) (hED : E ≤ D) :
     theorem4bIsSylowSubgroupOf p P E := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PD, hP⟩
   let ED : Subgroup D := E.subgroupOf D
   have hPDle : (PD : Subgroup D) ≤ ED := by
@@ -887,7 +886,7 @@ public theorem Lemma101ChoiceData.A1_eq_pPrimeCore
   let A : Subgroup X := d.initial.A1
   let P : Subgroup X := d.P
   let O : Subgroup X := (pPrimeCore d.p V).map V.subtype
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hAV : A ≤ V := by
     dsimp [A, V]
     rw [d.initial.A1_eq]
@@ -935,7 +934,7 @@ public theorem Lemma101ChoiceData.A1_eq_pPrimeCore
       simpa [pow_two] using hp2p
     exact d.p_prime.not_dvd_one hpOne
   have hAleO : A ≤ O := by
-    letI : (A.subgroupOf V).Normal := d.initial.A1_normal_V
+    let : (A.subgroupOf V).Normal := d.initial.A1_normal_V
     exact subgroupOf_le_pPrimeCore_map hAV hcopA
   have hOcop : Nat.Coprime d.p (Nat.card O) := by
     have hcardO : Nat.card O = Nat.card (pPrimeCore d.p V) :=
@@ -1049,7 +1048,7 @@ public theorem Lemma101ChoiceData.inf_derived_D_eq_bot
     let AD : Subgroup D := A.subgroupOf D
     let ND : Subgroup D := N.subgroupOf D
     let xD : D := ⟨x, hPD hxP⟩
-    letI : KD.Normal := by simpa [KD] using hKnormal
+    let : KD.Normal := by simpa [KD] using hKnormal
     have hND_eq : ND = KD ⊔ AD := by
       simpa [ND, KD, AD, N] using Subgroup.subgroupOf_sup hKD hAD
     have hmulD : (ND : Set D) = (KD : Set D) * (AD : Set D) := by
@@ -1085,12 +1084,12 @@ public theorem Lemma101ChoiceData.inf_derived_D_eq_bot
     calc
       Nat.card PD = Nat.card P := natCard_subgroupOf_eq P D hPD
       _ = d.p := d.card_P_eq
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hPDcomm : IsMulCommutative PD :=
     ⟨(isCyclic_of_prime_card hPDcard).isMulCommutative.is_comm⟩
   have hcommSub : commutator D ≤ ND := by
     have hNnormal' : ND.Normal := by simpa [ND] using hNnormal
-    letI : IsMulCommutative PD := hPDcomm
+    let : IsMulCommutative PD := hPDcomm
     exact hNnormal'.commutator_le_of_self_sup_commutative_eq_top hNtop
   have hcommAmb : (commutator D).map D.subtype ≤ N := by
     calc
@@ -1308,9 +1307,9 @@ public theorem lemma101_exists_choice_data
   classical
   let D : Subgroup X := M ⊓ rightConjugate M t
   let V : Subgroup X := peterfalviV D t
-  letI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
+  let : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
   obtain ⟨p, hp, hpAb⟩ := lemma99_exists_prime_dvd_abelianization hEodd
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hScyclic, hSV, hStrivial⟩ := h95 p hp hpAb
   let P : Subgroup X := (S : Subgroup E).map E.subtype
   have hPV : P ≤ V := by simpa [D, V, P] using hSV
@@ -1506,7 +1505,7 @@ public theorem eq_right_of_cyclic_isPGroup_of_internalDirectProduct
       exact ⟨c, ⟨hc, hcR⟩, q, hq, hrEq⟩
   let e : CR × P ≃* R := Section3.internalDirectProductMulEquiv hprodR
   have hprodCyclic : IsCyclic (CR × P) := e.isCyclic.mpr hRcyclic
-  letI : IsCyclic (CR × P) := hprodCyclic
+  let : IsCyclic (CR × P) := hprodCyclic
   have hcop : Nat.Coprime (Nat.card CR) (Nat.card P) :=
     coprime_card_of_isCyclic_prod CR P
   rw [hPcard] at hcop
@@ -1714,7 +1713,7 @@ public theorem Lemma101ChoiceData.D_eq_kernel_mul_A1_mul_P
         simpa [KD, VD] using (Subgroup.subgroupOf_sup hKD hVD).symm
       _ = D.subgroupOf D := by rw [hKV]
       _ = ⊤ := Subgroup.subgroupOf_self D
-  letI : KD.Normal := by simpa [KD] using hKnormal
+  let : KD.Normal := by simpa [KD] using hKnormal
   ext x
   constructor
   · intro hxD
@@ -1787,7 +1786,7 @@ public theorem false_of_lemma94AlternativeB_of_internalDirectProduct
       (⟨xD, hxQ⟩ : (Q : Subgroup D))
       (⟨yD, hyQ⟩ : (Q : Subgroup D))
     exact (congrArg (fun z : (Q : Subgroup D) => (z : G)) hcomm).symm
-  have hRp : IsPGroup p R := Q.isPGroup'.map D.subtype
+  have hRp : IsPGroup p R := Q.isPGroup.map D.subtype
   have hRP : R = P :=
     eq_right_of_cyclic_isPGroup_of_internalDirectProduct
       hprod hRN hPR hRp hRcyclic hPcard
@@ -1804,10 +1803,10 @@ public theorem false_of_choiceData_lemma94AlternativeB
     (hnot : ¬ theorem4bIsSylowSubgroupOf d.p d.P D)
     (hB : Lemma94AlternativeB D D t d.p) :
     False := by
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hPp : IsPGroup d.p d.P := by
     rw [d.P_eq_map]
-    exact d.S.isPGroup'.map E.subtype
+    exact d.S.isPGroup.map E.subtype
   have hPD : d.P ≤ D := d.P_le_V.trans inf_le_left
   have hA_V : d.initial.A1 ≤ peterfalviV D t := by
     rw [d.initial.A1_eq]
@@ -1851,7 +1850,7 @@ public theorem lemma101_sylow_D
   let D : Subgroup X := M ⊓ rightConjugate M t
   let E : Subgroup X := W ⊓ D
   let V : Subgroup X := peterfalviV D t
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hDle : D ≤ M := inf_le_left
   have hDodd : Odd (Nat.card D) := by
     simpa [D] using hM.inf_rightConjugate_card_odd htM
@@ -1861,7 +1860,7 @@ public theorem lemma101_sylow_D
     simpa [D] using inf_rightConjugate_mem_normalizer_of_isInvolution M ht
   have hPp : IsPGroup d.p d.P := by
     rw [d.P_eq_map]
-    exact d.S.isPGroup'.map (W ⊓ (M ⊓ rightConjugate M t)).subtype
+    exact d.S.isPGroup.map (W ⊓ (M ⊓ rightConjugate M t)).subtype
   have hPne : d.P ≠ ⊥ := by
     intro hPbot
     exact d.initial.card_P_prime.ne_one (by simp [hPbot])
@@ -2073,7 +2072,7 @@ private theorem lemma101_coprime_card_sup_of_left_normal
     (hKcop : Nat.Coprime p (Nat.card K))
     (hAcop : Nat.Coprime p (Nat.card A)) :
     Nat.Coprime p (Nat.card (K ⊔ A : Subgroup G)) := by
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   have hmul : ((K ⊔ A : Subgroup G) : Set G) =
       (A : Set G) * (K : Set G) := by
     simpa [sup_comm] using Subgroup.mul_normal A K
@@ -2123,7 +2122,7 @@ public theorem Lemma101ChoiceData.kernel_sup_A1_eq_pPrimeCore
   let P : Subgroup X := d.P
   let N : Subgroup X := K ⊔ A
   let O : Subgroup X := (pPrimeCore d.p D).map D.subtype
-  letI : Fact d.p.Prime := ⟨d.p_prime⟩
+  let : Fact d.p.Prime := ⟨d.p_prime⟩
   have hKD : K ≤ D := by
     rw [Subgroup.closure_le]
     intro x hx
@@ -2187,7 +2186,7 @@ public theorem Lemma101ChoiceData.kernel_sup_A1_eq_pPrimeCore
       exact lemma101_coprime_card_sup_of_left_normal hKnormal hKDcop hADcop
     have hNDcard : Nat.card ND = Nat.card N := natCard_subgroupOf_eq N D hND
     rwa [hNDcard] at hNDcop
-  letI : (N.subgroupOf D).Normal := hNnormal
+  let : (N.subgroupOf D).Normal := hNnormal
   have hNO : N ≤ O := by
     simpa [O] using subgroupOf_le_pPrimeCore_map hND hNcop
   have hNsupP : N ⊔ P = D := by
@@ -2244,7 +2243,7 @@ private theorem lemma101_normalizer_ne_centralizer_of_sylow_M
     (hPsylM : theorem4bIsSylowSubgroupOf p P M) :
     normalizerIn M P ≠ M ⊓ Subgroup.centralizer (P : Set X) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsylM with ⟨Q, hPmap⟩
   have hQD : (Q : Subgroup M) ≤ D.subgroupOf M := by
     intro x hxQ
@@ -2290,7 +2289,7 @@ private theorem lemma101_normalizer_ne_centralizer_of_sylow_M
       exact Subgroup.mem_map_of_mem M.subtype hqQ
     exact Subtype.ext
       (Subgroup.mem_centralizer_iff.mp hnCent (q : X) hqP)
-  letI : IsMulCommutative (Q : Subgroup M) :=
+  let : IsMulCommutative (Q : Subgroup M) :=
     ⟨⟨fun a b => Subtype.ext
       (hNormCent (Subgroup.le_normalizer b.2) a a.2)⟩⟩
   let tr := MonoidHom.transferSylow Q hNormCent
@@ -2358,7 +2357,7 @@ public theorem Lemma101ChoiceData.centralizer_lt_normalizer_of_sylow_M
     d.P_le_V.trans inf_le_left
   have hPp : IsPGroup d.p d.P := by
     rw [d.P_eq_map]
-    exact d.S.isPGroup'.map
+    exact d.S.isPGroup.map
       (W ⊓ (M ⊓ rightConjugate M t)).subtype
   have hPne : d.P ≠ ⊥ := by
     intro hPbot
@@ -2448,12 +2447,12 @@ public theorem lemma_10_1
   have hEne : E ≠ ⊥ := by
     intro hEbot
     apply h96.inf_fixed_ne_bot
-    simpa [D, E, V, hEbot]
+    simp [D, E, hEbot]
   have h95 : ∀ p : ℕ, Nat.Prime p →
       p ∣ Nat.card (E ⧸ derivedSubgroup E) →
       Lemma94AlternativeB D E t p := by
     intro p hp hpAb
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     simpa [D, E] using
       corollary_9_5_ambient_abelianization hM ht htM d83 h84 hW hpAb
         hIne h43b
@@ -2469,7 +2468,7 @@ public theorem lemma_10_1
     simpa [D] using inf_rightConjugate_mem_normalizer_of_isInvolution M ht
   have hPp : IsPGroup d.p d.P := by
     rw [d.P_eq_map]
-    exact d.S.isPGroup'.map E.subtype
+    exact d.S.isPGroup.map E.subtype
   have hPne : d.P ≠ ⊥ := by
     intro hPbot
     exact d.initial.card_P_prime.ne_one (by simp [hPbot])

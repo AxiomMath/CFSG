@@ -40,7 +40,7 @@ theorem isCoatom_bitKer (i : Nat) {x : ↥Q} (hx : (D.wc x.1).testBit i = true) 
     rw [mem_bitKer] at this
     rw [hx] at this
     exact absurd this (by simp)
-  · obtain ⟨y, hyM', hyK⟩ := SetLike.exists_of_lt hlt
+  · obtain ⟨y, hyM', hyK⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     rw [mem_bitKer] at hyK
     have hy : (D.wc y.1).testBit i = true := by simpa using hyK
     rw [eq_top_iff]

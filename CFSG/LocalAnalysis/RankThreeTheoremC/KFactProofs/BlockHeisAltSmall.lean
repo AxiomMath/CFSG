@@ -29,7 +29,7 @@ theorem exists_four_disjoint_threeCycles {n : ℕ} (hn : 12 ≤ n) :
   let σ : Fin 4 → Perm (Fin n) := fun i =>
     swap (p (3 * i)) (p (3 * i + 1)) * swap (p (3 * i + 1)) (p (3 * i + 2))
   have hnd : ∀ l : Fin 4, [p (3 * l), p (3 * l + 1), p (3 * l + 2)].Nodup := fun l => by
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+    simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
       not_false_eq_true, List.nodup_nil, and_true]
     exact ⟨⟨hne _ _ (by omega) (by omega) (by omega), hne _ _ (by omega) (by omega) (by omega)⟩,
       hne _ _ (by omega) (by omega) (by omega)⟩
@@ -43,7 +43,6 @@ theorem exists_four_disjoint_threeCycles {n : ℕ} (hn : 12 ≤ n) :
   have hij' : (i : ℕ) ≠ j := fun h => hij (Fin.ext h)
   dsimp only
   rw [disjoint_iff_disjoint_support]
-  change Disjoint (σ i).support (σ j).support
   simp only [σ]
   rw [support_swap_mul_swap (hnd i), support_swap_mul_swap (hnd j), Finset.disjoint_left]
   intro v hv hv'

@@ -173,8 +173,8 @@ theorem i1016At89_fi22
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat
   rw [sporIs] at hi
   subst hi
-  haveI : IsSimpleGroup (PSimple 3 J) := hq.2
-  haveI : IsSimpleGroup TauCeti.SporadicName.Fi22.Group :=
+  have : IsSimpleGroup (PSimple 3 J) := hq.2
+  have : IsSimpleGroup TauCeti.SporadicName.Fi22.Group :=
     (e.symm : TauCeti.SporadicName.Fi22.Group ≃* PSimple 3 J).isSimpleGroup
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_Fi22
   let ψ₁ : NativeSporadic.Carrier .Fi22 ≃* NativeSporadic.Fi22 := MulEquiv.refl _

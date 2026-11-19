@@ -123,7 +123,7 @@ theorem octad_iff {g : G} {u : G ⧸ c.G1} {L M N : G ⧸ c.G2} {π : G ⧸ c.G3
     · exact hcop.2
 
 include ρ in
-theorem existsUnique_plane_meetsP (hJ : HypJ4 G z) {u : G ⧸ c.G1} {L M : G ⧸ c.G2}
+theorem existsUnique_plane_meetsP (_hJ : HypJ4 G z) {u : G ⧸ c.G1} {L M : G ⧸ c.G2}
     (hL : c.OnL u L) (hM : c.OnL u M) (h : M ∈ c.deltaAt 3 u L) :
     ∃! π, c.OnP u π ∧ c.LnP L π ∧ c.MeetsP u M π := by
   obtain ⟨g, hg, -⟩ := c.exists_frame hL
@@ -172,7 +172,7 @@ theorem ncard_delta_one_of_meetsP {u : G ⧸ c.G1} {L M : G ⧸ c.G2} {π : G �
   refine Set.ncard_congr (fun N _ => ρ.trio (g⁻¹ • N)) (fun N hN => ?_)
     (fun N N' hN hN' e => ?_) (fun k hk => ?_)
   · obtain ⟨hN1, hN2, hN3⟩ := hN
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     exact ⟨ρ.isTrio_trio_at hg hN1, (ρ.lnP_iff_trioIn_at hg hπ hN1).1 hN2,
       ((ρ.octad_iff hg hL hM h hπ hLπ hN1 hN2 hκ hym hyπ).2.1 hN3)⟩
   · obtain ⟨hN1, -, -⟩ := hN
@@ -182,7 +182,7 @@ theorem ncard_delta_one_of_meetsP {u : G ⧸ c.G1} {L M : G ⧸ c.G2} {π : G �
     obtain ⟨N, hN1, hN2, hNk⟩ :=
       ρ.exists_line_of_mem_triosOf hg hπ ((M24G.mem_triosOf (U := ρ.sext (g⁻¹ • π))).2 ⟨hk1, hk2⟩)
     refine ⟨N, ?_, hNk⟩
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     exact ⟨hN1, hN2,
       (ρ.octad_iff hg hL hM h hπ hLπ hN1 hN2 hκ hym hyπ).2.2 (by rw [hNk]; exact hk3)⟩
 

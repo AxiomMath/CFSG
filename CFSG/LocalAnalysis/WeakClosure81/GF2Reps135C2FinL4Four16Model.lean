@@ -59,20 +59,20 @@ theorem exists_mulEquiv_specialLinear_four_of_lieModel
     ∃ (K : Type) (_ : Field K) (_ : Fintype K) (_ : CharP K 2), Fintype.card K = 4 ∧
       Nonempty (Matrix.SpecialLinearGroup (Fin 4) K ≃* ↥L) := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Finite (MulAut W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun a b h => MulEquiv.ext (congr_fun h))
   have hsc : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSL 4 2 2 :=
     hlie.statedClassicalModel_of_ne_zero (by omega)
   simp only [StatedClassicalModel] at hsc
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hsc
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hKcard]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hKcard])
   have hcenter : Subgroup.center (Matrix.SpecialLinearGroup (Fin 4) K) = ⊥ :=
     w183_center_specialLinear_four_eq_bot hK4

@@ -31,10 +31,12 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def ktQuotSub (K V : Subgroup G) : Subgroup (↥K ⧸ Subgroup.center ↥K) :=
   (V.subgroupOf K).map (QuotientGroup.mk' (Subgroup.center ↥K))
 
+omit [Finite G] in
 theorem ktLiftG_le (K : Subgroup G) (B : Subgroup (↥K ⧸ Subgroup.center ↥K)) :
     ktLiftG K B ≤ K :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem mem_ktLiftG {K : Subgroup G} {B : Subgroup (↥K ⧸ Subgroup.center ↥K)} {x : G}
     (hx : x ∈ K) :
     x ∈ ktLiftG K B ↔ QuotientGroup.mk' (Subgroup.center ↥K) ⟨x, hx⟩ ∈ B := by
@@ -48,6 +50,7 @@ theorem mem_ktLiftG {K : Subgroup G} {B : Subgroup (↥K ⧸ Subgroup.center ↥
   · intro h
     exact Subgroup.mem_map.mpr ⟨⟨x, hx⟩, Subgroup.mem_comap.mpr h, rfl⟩
 
+omit [Finite G] in
 theorem ktLiftG_inf (K : Subgroup G) (B C : Subgroup (↥K ⧸ Subgroup.center ↥K)) :
     ktLiftG K (B ⊓ C) = ktLiftG K B ⊓ ktLiftG K C := by
   unfold ktLiftG
@@ -78,6 +81,7 @@ theorem card_ktLiftG (K : Subgroup G) (B : Subgroup (↥K ⧸ Subgroup.center �
   unfold ktLiftG
   rw [Subgroup.card_map_of_injective K.subtype_injective, card_ktComap]
 
+omit [Finite G] in
 theorem ktQuotSub_comap {K V : Subgroup G} (hZV : (Subgroup.center ↥K).map K.subtype ≤ V) :
     (ktQuotSub K V).comap (QuotientGroup.mk' (Subgroup.center ↥K)) = V.subgroupOf K := by
   unfold ktQuotSub
@@ -86,6 +90,7 @@ theorem ktQuotSub_comap {K V : Subgroup G} (hZV : (Subgroup.center ↥K).map K.s
   rw [Subgroup.mem_subgroupOf]
   exact hZV (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
 
+omit [Finite G] in
 theorem mem_ktQuotSub {K V : Subgroup G} (hZV : (Subgroup.center ↥K).map K.subtype ≤ V)
     {x : G} (hx : x ∈ K) :
     QuotientGroup.mk' (Subgroup.center ↥K) ⟨x, hx⟩ ∈ ktQuotSub K V ↔ x ∈ V := by
@@ -112,6 +117,7 @@ theorem isElemAbelian_two_of_sq {H : Type} [Group H] (E : Subgroup H)
   rw [mul_inv_rev, hinv _ a.2, hinv _ b.2] at hab
   exact hab.symm
 
+omit [Finite G] in
 theorem isElemAbelian_ktQuotSub {K V : Subgroup G} (hVab : IsElemAbelian 2 V) :
     IsElemAbelian 2 (ktQuotSub K V) := by
   apply isElemAbelian_two_of_sq
@@ -122,6 +128,7 @@ theorem isElemAbelian_ktQuotSub {K V : Subgroup G} (hVab : IsElemAbelian 2 V) :
   have hy2 : y ^ 2 = 1 := Subtype.ext (hVab.2 _ hyV)
   rw [← map_pow, hy2, map_one]
 
+omit [Finite G] in
 theorem sq_eq_one_of_ktLift {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbelian 2 V)
     (hZV : (Subgroup.center ↥K).map K.subtype ≤ V)
     (hvex : ∃ v ∈ V, v ∉ (Subgroup.center ↥K).map K.subtype)
@@ -176,6 +183,7 @@ theorem sq_eq_one_of_ktLift {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbe
       _ = (u : G) * (u : G) := by rw [hyy, mul_one]
       _ = 1 := huu
 
+omit [Finite G] in
 theorem ktLiftG_conj {K : Subgroup G} {B : Subgroup (↥K ⧸ Subgroup.center ↥K)} {gK : ↥K}
     (hg : QuotientGroup.mk' (Subgroup.center ↥K) gK ∈
       Subgroup.normalizer (B : Set (↥K ⧸ Subgroup.center ↥K)))
@@ -187,6 +195,7 @@ theorem ktLiftG_conj {K : Subgroup G} {B : Subgroup (↥K ⧸ Subgroup.center �
   rw [hel, map_mul, map_mul, map_inv]
   exact (Subgroup.mem_normalizer_iff.mp hg _).mp ((mem_ktLiftG hhK).mp hh)
 
+omit [Finite G] in
 theorem normalizer_ktLiftG {K : Subgroup G} {B : Subgroup (↥K ⧸ Subgroup.center ↥K)} {gK : ↥K}
     (hg : QuotientGroup.mk' (Subgroup.center ↥K) gK ∈
       Subgroup.normalizer (B : Set (↥K ⧸ Subgroup.center ↥K))) :
@@ -256,12 +265,12 @@ theorem ktLine_of_quot {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbelian 
   have hUV : U ⊓ V = ktLiftG K (Ub ⊓ Vb) := by
     rw [hU, ktLiftG_inf, hliftV]
   have hUV_card : Nat.card ↥(U ⊓ V) = 16 := by
-    rw [hUV, card_ktLiftG, hUb_inf, hZ4] <;> norm_num
+    rw [hUV, card_ktLiftG, hUb_inf, hZ4]
   have hU_card : Nat.card ↥U = 64 := by
-    rw [hU, card_ktLiftG, hUb_card, hZ4] <;> norm_num
+    rw [hU, card_ktLiftG, hUb_card, hZ4]
   have hvex : ∃ v ∈ V, v ∉ (Subgroup.center ↥K).map K.subtype := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_le_of_le (show V ≤ (Subgroup.center ↥K).map K.subtype from
       fun v hv => hcon v hv)
     rw [Subgroup.card_map_of_injective K.subtype_injective, hZ4, hV64] at h1
@@ -305,7 +314,7 @@ theorem ktLine_of_quot {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbelian 
     by_cases h : s = 1
     · subst h
       simp
-    · simp only [if_neg h]
+    · simp only [ite_eq_right h]
       exact Classical.choose_spec (hsurj s)
   obtain ⟨kG, hkG⟩ : ∃ kG : Fin 5 → G, ∀ i, kG i = ((kl (kb i) : ↥K) : G) :=
     ⟨_, fun i => rfl⟩
@@ -317,7 +326,7 @@ theorem ktLine_of_quot {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbelian 
     have : (⟨kG i, hkGK i⟩ : ↥K) = kl (kb i) := Subtype.ext (hkG i)
     rw [this, hkl]
   have hkG0 : kG 0 = 1 := by
-    rw [hkG, hkb0, hkl1] <;> simp
+    rw [hkG, hkb0, hkl1]; simp
   have hkGN : ∀ i, kG i ∈ Subgroup.normalizer (U : Set G) := by
     intro i
     have hgi : QuotientGroup.mk' (Subgroup.center ↥K) (kl (kb i)) ∈

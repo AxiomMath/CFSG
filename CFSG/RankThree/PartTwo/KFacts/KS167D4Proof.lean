@@ -91,6 +91,7 @@ section Certs
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem card_trialityFixedField {n : ℕ} (hn : 1 ≤ n) {σ : K ≃+* K}
     (hK : Nat.card K = (2 ^ n) ^ 3) (hσ : ∀ c, σ c = c ^ 2 ^ n) (hσ3 : σ ^ 3 = 1) :
     Nat.card (trialityFixedField K σ.toRingHom) = 2 ^ n := by
@@ -126,6 +127,7 @@ private theorem delta_fixes_trialityFixedField {n : ℕ} (hn3 : ¬ 3 ∣ n)
     hδ'1
   simpa [δ', coe_fixSubfieldRestrict] using h
 
+omit [Finite K] in
 private theorem three_dvd_card_trialityFixedField_sub_one {n : ℕ} (hev : Even n)
     {σ : K ≃+* K} (hk : Nat.card (trialityFixedField K σ.toRingHom) = 2 ^ n) :
     3 ∣ Nat.card (trialityFixedField K σ.toRingHom) - 1 := by
@@ -133,6 +135,7 @@ private theorem three_dvd_card_trialityFixedField_sub_one {n : ℕ} (hev : Even 
   have := two_pow_mod_three_of_even hev
   omega
 
+omit [Finite K] in
 private theorem trialityOuterTorus_mem_d4Torsion {σ : K ≃+* K} (hσ3 : σ ^ 3 = 1)
     {ζ : (trialityFixedField K σ.toRingHom)ˣ} (hζ : orderOf ζ = 3) :
     trialityOuterTorus K σ (trialityFixedUnit K σ ζ) ∈ K133H.d4Torsion σ.toRingHom 3 := by
@@ -167,6 +170,7 @@ private theorem trialityOuterTorus_mem_d4Torsion {σ : K ≃+* K} (hσ3 : σ ^ 3
       interval_cases k <;> rfl
     rw [hmap, h1, h2, vec4_one, map_one]
 
+omit [Finite K] in
 private theorem trialityMiddleTorus_mem_d4Torsion {σ : K ≃+* K} (hσ3 : σ ^ 3 = 1)
     {ζ : (trialityFixedField K σ.toRingHom)ˣ} (hζ : orderOf ζ = 3) :
     trialityMiddleTorus K σ ζ ∈ K133H.d4Torsion σ.toRingHom 3 := by
@@ -209,6 +213,7 @@ private theorem exists_zeta_order_three {σ : K ≃+* K}
     3 (by rw [Nat.card_units (trialityFixedField K σ.toRingHom)]; exact h3)
   exact ⟨ζ, hζ⟩
 
+omit [Finite K] in
 private theorem fieldActor_outerTuple_fixed {δ : K ≃+* K} {z : Kˣ}
     (hδz : Units.map δ.toRingHom.toMonoidHom z = z) :
     Units.map (entrywiseHom δ.toRingHom)
@@ -229,6 +234,7 @@ private theorem fieldActor_outerTuple_fixed {δ : K ≃+* K} {z : Kˣ}
   rw [hmap]
   congr 1 <;> rw [map_zpow, hδz]
 
+omit [Finite K] in
 private theorem fieldActor_middleTuple_fixed {δ : K ≃+* K} {z : Kˣ}
     (hδz : Units.map δ.toRingHom.toMonoidHom z = z) :
     Units.map (entrywiseHom δ.toRingHom)
@@ -360,9 +366,9 @@ private theorem exists_t_of_even {J : Type} [Group J] [Finite J] {n : ℕ}
   classical
   obtain ⟨K, instField, instFinite, instCharP, σ, hK, hσ, hσ3, hn1, -, ⟨φ⟩⟩ :=
     exists_graphFixedRootGroup_of_trialityD4 hJ
-  letI : Field K := instField
-  letI : Finite K := instFinite
-  letI : CharP K 2 := instCharP
+  let : Field K := instField
+  let : Finite K := instFinite
+  let : CharP K 2 := instCharP
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := graphFixedRootGroup TwistTag.D4 K σ.toRingHom with hC
@@ -509,7 +515,7 @@ private theorem exists_t_of_even {J : Type} [Group J] [Finite J] {n : ℕ}
 private theorem even_contradiction
     {J : Type} [Group J] [Finite J] {n : ℕ} (hn4 : 4 ≤ n) (hn3 : ¬ 3 ∣ n) (hev : Even n)
     (hJ : ChevalleyExceptionalModel J .trialityD4 2 n)
-    {α : MulAut J} (hα3 : α ^ 3 = 1) (hout : ¬ IsInnerAut α)
+    {α : MulAut J} (_hα3 : α ^ 3 = 1) (_hout : ¬ IsInnerAut α)
     {L : Subgroup J} (hLα : L ≤ MonoidHom.eqLocus α.toMonoidHom (MonoidHom.id J))
     (hLiso : Sec4.IsoLThreePi ↥L 2 n)
     (hLsn : (L.subgroupOf (MonoidHom.eqLocus α.toMonoidHom (MonoidHom.id J))).IsSubnormal)
@@ -621,7 +627,7 @@ private theorem even_contradiction
     exact congrArg Subtype.val (Subgroup.mem_bot.1 hmem)
   have hLsimple : IsSimpleGroup ↥L := by
     rcases hLiso with ⟨-, ⟨e⟩⟩ | ⟨h2, -⟩
-    · haveI : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 2 n)) :=
+    · have : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 2 n)) :=
         CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 n) (by norm_num)
           (Or.inl (by norm_num)) (Or.inl (by norm_num))
       exact MulEquiv.isSimpleGroup e
@@ -690,7 +696,7 @@ private theorem even_contradiction
     rw [Subgroup.eq_bot_iff_forall]
     intro x hx
     by_contra hx1
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hcardP : Nat.card ↥(Subgroup.zpowers t₀) = r := by rw [Nat.card_zpowers, ht0ord]
     have ht0mem : t₀ ∈ Subgroup.zpowers x := by
       have h := mem_zpowers_of_prime_card (G := ↥(Subgroup.zpowers t₀)) hcardP
@@ -739,9 +745,9 @@ private theorem even_contradiction
     exact h.symm
   obtain ⟨K, instField, instFinite, instCharP, σ, hK, hσ, hσ3, hn1, -, ⟨φ⟩⟩ :=
     exists_graphFixedRootGroup_of_trialityD4 hJ
-  letI : Field K := instField
-  letI : Finite K := instFinite
-  letI : CharP K 2 := instCharP
+  let : Field K := instField
+  let : Finite K := instFinite
+  let : CharP K 2 := instCharP
   have hcardJ : Nat.card J = ordTrialityD4 (2 ^ n) := by
     rw [Nat.card_congr φ.toEquiv]
     exact CFSG.Timmesfeld.ExceptionalOrders.card_graphFixedRootGroup_D4_two hn1 hK

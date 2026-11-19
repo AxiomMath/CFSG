@@ -81,7 +81,7 @@ noncomputable def hatFun (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
 theorem hatFun_of_dist_le {z z' : c.Γ} {a : c.G0} {u : c.Γ}
     (hu : c.graph.dist z u ≤ n - 1) : hatFun c Good n z z' a u = a • u := by
   unfold hatFun
-  rw [if_pos hu]
+  rw [ite_eq_left hu]
 
 theorem dist_smul_right (a : c.G0) (x v : c.Γ) :
     c.graph.dist x (a • v) = c.graph.dist (a⁻¹ • x) v := by
@@ -102,8 +102,8 @@ theorem mem_edgeBall_iff (hz : (z = c.xv ∧ z' = c.lv) ∨ (z = c.lv ∧ z' = c
     u ∈ edgeBall r c ↔
       c.graph.dist z u ≤ r ∨ c.graph.dist z' u ≤ r := by
   rcases hz with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · simp only [edgeBall, Set.mem_setOf_eq]
-  · simp only [edgeBall, Set.mem_setOf_eq]
+  · simp only [edgeBall, Set.mem_ofPred_eq]
+  · simp only [edgeBall, Set.mem_ofPred_eq]
     exact Or.comm
 
 private theorem adj_z_inv_smul_z' (hz : (z = c.xv ∧ z' = c.lv) ∨ (z = c.lv ∧ z' = c.xv))
@@ -233,7 +233,7 @@ theorem hatFun_of_smul_eq (hn : 3 ≤ n) (hG : GoodPathSystem c.G0 c.graph n Goo
       refine hnb (n - 1) (show n - 1 + 2 ≤ 2 * n by omega) ?_
       rwa [show n - 1 + 2 = n + 1 by omega]
     unfold hatFun
-    rw [if_neg hd, dif_neg hempty]
+    rw [ite_eq_right hd, dite_eq_right hempty]
 
 theorem hatFun_eq_of_good (hn : 3 ≤ n)
     (hgirth : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth)
@@ -290,7 +290,7 @@ theorem hatFun_eq_of_good (hn : 3 ≤ n)
       · exact hqN.trans hpn.symm
       · exact hqN2.trans hpn2.symm
   unfold hatFun
-  rw [if_neg hnot, dif_pos hex]
+  rw [ite_eq_right hnot, dite_eq_left hex]
   congr 1
   have hpt : Good (n + 1) (p.take (n + 1) (by omega)) := hG.take (2 * n) p (n + 1) (by omega) hp
   obtain ⟨r, ⟨hrgood, hreq⟩, hruniq⟩ :=

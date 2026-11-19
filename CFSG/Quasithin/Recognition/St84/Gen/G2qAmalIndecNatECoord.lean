@@ -105,7 +105,7 @@ theorem natE_eq_zero_of_map_mul_inv {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : 5 ≤ Nat.card F) {ψ : F → F} (hadd : ∀ x y, ψ (x + y) = ψ x + ψ y)
     (hmul : ∀ c : F, c ≠ 0 → ∀ x, ψ (c * x) = c⁻¹ * ψ x) (x : F) : ψ x = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hg : ψ 1 = 0 := by
     by_contra hg
     set T : Finset F := Finset.univ \ {0, 1} with hT
@@ -272,7 +272,7 @@ theorem E_le_core_right (hC : G2qNatEConf L1 L2 S Q1 Q2 Z1 Z2 W E α₁ α₂ vE
     refine hle fun e he => hC.mem_core_right_of_commute (hC.core_left (hC.E_le he))
       fun z hz => ?_
     exact hC.commute_center_of_commute hyE hy1 (fun z hz => hC.split.comm z hz y hyQ) he hz
-  obtain ⟨x, hxE, hxQ⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨x, hxE, hxQ⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   have hxS : x ∈ S := hC.core_left (hC.E_le hxE)
   have hxL : x ∈ L2 := hC.le_right hxS
   obtain ⟨r, hr⟩ := mem_utri_iff.mp ((hC.memS_right ⟨x, hxL⟩).mp hxS)

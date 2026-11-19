@@ -23,24 +23,24 @@ theorem IsL2OrSzGroup.isConj_of_sq_eq_one
     (hx : x * x = 1) (hx1 : x ≠ 1) (hy : y * y = 1) (hy1 : y ≠ 1) : IsConj x y := by
   rcases hX with ⟨F, hField, hFintype, hCharP, -, ⟨e⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, -, hcard, ⟨e⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     suffices h : IsConj (e x) (e y) by simpa using e.symm.toMonoidHom.map_isConj h
     have hx' : e x * e x = 1 := by rw [← map_mul, hx, map_one]
     have hx1' : e x ≠ 1 := fun h => hx1 (e.injective (by rw [h, map_one]))
     have hy' : e y * e y = 1 := by rw [← map_mul, hy, map_one]
     have hy1' : e y ≠ 1 := fun h => hy1 (e.injective (by rw [h, map_one]))
     exact isConj_of_mul_self_eq_one hx' hx1' hy' hy1'
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     suffices h : IsConj (e x) (e y) by simpa using e.symm.toMonoidHom.map_isConj h
     have hx' : e x * e x = 1 := by rw [← map_mul, hx, map_one]
     have hx1' : e x ≠ 1 := fun h => hx1 (e.injective (by rw [h, map_one]))
     have hy' : e y * e y = 1 := by rw [← map_mul, hy, map_one]
     have hy1' : e y ≠ 1 := fun h => hy1 (e.injective (by rw [h, map_one]))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hK : Nat.card F = 2 ^ (2 * a + 1) := by rw [Nat.card_eq_fintype_card]; exact hcard
     have hxo : orderOf (e x) = 2 := orderOf_eq_prime (by rwa [pow_two]) hx1'
     have hyo : orderOf (e y) = 2 := orderOf_eq_prime (by rwa [pow_two]) hy1'
@@ -64,6 +64,7 @@ private theorem weaklyClosed_imgK_self (h : RootHyp M V) (hPH : Pc M V ≤ H) :
   rw [← imgK_conjSubgroup z.2 hPH] at hg ⊢
   exact weaklyClosed_imgK h hPH z.2 hg
 
+omit [Finite G] in
 private theorem exists_frobeniusComplement_pullback {X : Type} [Group X]
     (e : HBar V H ≃* X) (D : Subgroup X)
     (hDle : D ≤ Subgroup.normalizer
@@ -131,18 +132,18 @@ theorem exists_frobeniusComplement_imgK
   have hwc := weaklyClosed_imgK_self h hPH
   rcases hL with ⟨F, hField, hFintype, hCharP, -, ⟨e⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, -, hcard, ⟨e⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     have hTp' : IsPGroup 2 ((imgK V H (Pc M V)).map e.toMonoidHom) := hTp.map e.toMonoidHom
     have hTne' : (imgK V H (Pc M V)).map e.toMonoidHom ≠ ⊥ :=
       (Subgroup.map_eq_bot_iff_of_injective _ e.injective).not.mpr hne
     have hTwc' := CentralTI.weaklyClosed_map_mulEquiv e hwc
     obtain ⟨D, hDle, hDcard, hDcomm, hDfpf⟩ := exists_frobeniusComplement hTp' hTne' hTwc'
     exact exists_frobeniusComplement_pullback e D hDle hDcard hDcomm hDfpf
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     have hK : Nat.card F = 2 ^ (2 * a + 1) := by rw [Nat.card_eq_fintype_card]; exact hcard
     have hTp' : IsPGroup 2 ((imgK V H (Pc M V)).map e.toMonoidHom) := hTp.map e.toMonoidHom
     have hTne' : (imgK V H (Pc M V)).map e.toMonoidHom ≠ ⊥ :=
@@ -299,13 +300,13 @@ private theorem exists_swap_imgK (h : RootHyp M V) (hPH : Pc M V ≤ H)
   classical
   rcases hL with ⟨F, hField, hFintype, hCharP, -, ⟨e⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, -, hcard, ⟨e⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     exact exists_swap_imgK_sl2 h hPH hVH hyH hTne hne e
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     exact exists_swap_imgK_sz h hPH hVH hyH hTne hne hcard e
 
 private theorem exists_swap_of_isL2OrSz_aux

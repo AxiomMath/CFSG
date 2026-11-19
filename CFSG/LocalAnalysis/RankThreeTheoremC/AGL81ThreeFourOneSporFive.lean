@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (exists_isElemAbelian_card_sq_of_card_
 open CFSG.RankThree.Native in
 theorem signalizerThreeAt_hs :
     SignalizerThreeAt 5 (TauCeti.CFSGIndex.sporadic .HS).Group := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, hQcard, hQexp⟩, -⟩ := R3E_HS_full_five_centralizer_structures
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
   have hZ : Subgroup.center hs100P = ⊥ :=
@@ -40,7 +40,7 @@ theorem signalizerThreeAt_hs :
 open CFSG.RankThree.PartOne CFSG.Sporadic.RuSchreier in
 theorem signalizerThreeAt_ru :
     SignalizerThreeAt 5 (TauCeti.CFSGIndex.sporadic .Ru).Group := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, hQcard, hQexp⟩, -⟩ := R3E_Ru_full_five_centralizer_structures
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Ru.nonempty_mulEquiv
   have hZ : Subgroup.center ruP = ⊥ := autModel_center_eq_bot ru_autModel

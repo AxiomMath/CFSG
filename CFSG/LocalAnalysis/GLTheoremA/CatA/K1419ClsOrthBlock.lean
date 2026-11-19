@@ -189,7 +189,7 @@ private theorem self_mem_specialBlock {K V : Type*} [Field K] [AddCommGroup V] [
     (hm : 3 ∣ primaryMultiplicity x.toLinearMap h) :
     x ∈ specialBlock Q x h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hx_supp : x ∈ supportedBlock Q x h := self_mem_supportedBlock hx hh hne1
   refine mem_specialBlock.mpr ⟨hx_supp, ?_⟩
   obtain ⟨hroot, hord⟩ := hx.orderOf_root Nat.prime_three hh hne1
@@ -309,7 +309,7 @@ theorem orth_component_named {p : ℕ} {K : Type} [Field K] [Finite K]
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -390,7 +390,7 @@ private theorem specialBlock_concl {K : Type} [Field K] [Finite K] {V : Type} [A
     (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h) :
     OrthConcl f b J := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm : 2 ≤ primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -471,10 +471,10 @@ private theorem specialBlock_concl {K : Type} [Field K] [Finite K] {V : Type} [A
     let e₁ : ↥(specialBlock Q (x : V ≃ₗ[K] V) h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
       (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
         (MulEquiv.subgroupCongr hrange)
-    haveI := hU.finite
-    haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-    haveI := hU.charP
-    letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+    have := hU.finite
+    have : Fact ℓ.Prime := ⟨hU.prime⟩
+    have := hU.charP
+    let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
     have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (ff * d)) ^ 2 := by
       rw [hU.card, ← pow_mul, mul_comm]
     have hK : Fintype.card (AdjoinRoot h) = (ℓ ^ (ff * d)) ^ 2 := by
@@ -490,13 +490,13 @@ private theorem specialBlock_concl {K : Type} [Field K] [Finite K] {V : Type} [A
         exact this
       obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU
         hBsymm hBl hm2
-      letI : Fintype ↥hU.fixedField := Fintype.ofFinite _
+      let : Fintype ↥hU.fixedField := Fintype.ofFinite _
       have hcardF : Fintype.card ↥hU.fixedField = ℓ ^ (ff * d) := by
         rw [Fintype.card_eq_nat_card, hU.card_fixedField]
       have h4 : 4 ≤ Fintype.card ↥hU.fixedField := by
         by_contra hlt
         refine false_of_isQuasisimple_of_isSolvable' hq ?_
-        haveI := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
+        have := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
           (by rw [Nat.card_eq_fintype_card]; omega)
         exact Group.isSolvable_of_isSolvable_injective (f := (e₁.trans φ).toMonoidHom)
           (e₁.trans φ).injective
@@ -512,7 +512,7 @@ private theorem specialBlock_concl {K : Type} [Field K] [Finite K] {V : Type} [A
         have h3 : primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h = 3 := (Prod.mk.inj he).1
         have h2 : ℓ ^ (ff * d) = 2 := (Prod.mk.inj he).2
         refine false_of_isQuasisimple_of_isSolvable' hq ?_
-        haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
+        have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
           refine isSolvable_of_card_primeFactors_le_two ?_
           have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
             (n := primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h) rfl (by omega)).2.1
@@ -587,7 +587,7 @@ private theorem fixedFactor_concl {K : Type} [Field K] [Finite K] {V : Type} [Ad
       (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))))) :
     OrthConcl f b J := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hFΩ : F ≤ orthDerived Q := hFle.trans hx.supportedFixedDerived_le_orthDerived
   have hcomp : OrthCompData (OrthRankP (Nat.card K)) ↥F :=
     orthCompData_fixedFactor_of (P := OrthRankP (Nat.card K)) hx
@@ -652,7 +652,7 @@ private theorem k1419_orth_model {K : Type} [Field K] [Finite K] {V : Type} [Add
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ U : Submodule K V, finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0)
     (hchar : ringChar K = 2) (f : ℕ) (hcard : Nat.card K = 2 ^ f)
-    (b : ProjOrthDerived Q) (hb : b ^ 3 = 1) (hb1 : b ≠ 1)
+    (b : ProjOrthDerived Q) (hb : b ^ 3 = 1) (_hb1 : b ≠ 1)
     {J : Subgroup (ProjOrthDerived Q)}
     (hJ : CFSG.Open.IsComponentOf J (Subgroup.centralizer ({b} : Set (ProjOrthDerived Q))))
     (hnt : Nontrivial (PSimple 3 J)) :
@@ -693,7 +693,7 @@ theorem k1419ClsOrthBlock {G : Type} [Group G] [Finite G] {t : StatedLieTag}
   have hnt : Nontrivial (PSimple 3 J) := by
     have hQJ : CFSG.Open.IsQuasisimple (PQuot 3 J) :=
       CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp3 hJ
-    haveI : IsSimpleGroup (PSimple 3 J) := hQJ.2
+    have : IsSimpleGroup (PSimple 3 J) := hQJ.2
     infer_instance
   have hJp : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJq.1
   have hfix : fixSubgroup (MulAut.congr e (MulAut.conj a)) =

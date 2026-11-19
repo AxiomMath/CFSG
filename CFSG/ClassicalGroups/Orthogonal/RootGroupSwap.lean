@@ -59,9 +59,8 @@ theorem eichlerG_pair_app_left [CharP K 2] {e f w : V} {t : K} (he : Q e = 0) (h
   have hww : polar Q w w = 0 := by rw [polar_self_eq_two_mul, CharTwo.two_eq_zero, zero_mul]
   have hff : polar Q f f = 0 := polar_self_eq_zero hf
   rw [Gom.app_mul, eichlerG_app hf hfw e, eichlerG_app he hew₀]
-  simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, polar_add_right, polar_sub_right,
-    polar_smul_right_eq, hee, hwe, hfe, ht, hew, hfw, hww, hff, mul_zero, zero_add, add_zero,
-    zero_smul, mul_neg, map_smul_eq_sq]
+  simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, polar_smul_right_eq, hee, hwe, hfe, ht, hew, hfw, hww, mul_zero, zero_add, add_zero,
+    map_smul_eq_sq]
   match_scalars
   · field_simp
     linear_combination (Q w * t ^ 2) * (CharTwo.two_eq_zero (R := K))
@@ -70,8 +69,8 @@ theorem eichlerG_pair_app_left [CharP K 2] {e f w : V} {t : K} (he : Q e = 0) (h
   · exact CharTwo.neg_eq _
 
 theorem eichlerG_pair_app_param [CharP K 2] {e f w : V} {t : K} (he : Q e = 0) (hf : Q f = 0)
-    (ht : polar Q e f = t) (htne : t ≠ 0) (hew : polar Q e w = 0) (hfw : polar Q f w = 0)
-    (hc : Q w ≠ 0) :
+    (_ht : polar Q e f = t) (_htne : t ≠ 0) (hew : polar Q e w = 0) (hfw : polar Q f w = 0)
+    (_hc : Q w ≠ 0) :
     (eichlerG Q e ((Q w * t)⁻¹ • w) * eichlerG Q f w).app ((Q w * t)⁻¹ • w) =
       (Q w * t)⁻¹ • w := by
   have hew₀ : polar Q e ((Q w * t)⁻¹ • w) = 0 := by rw [polar_smul_right_eq, hew, mul_zero]
@@ -79,8 +78,7 @@ theorem eichlerG_pair_app_param [CharP K 2] {e f w : V} {t : K} (he : Q e = 0) (
   have hwf : polar Q w f = 0 := by rw [polar_comm, hfw]
   have hww : polar Q w w = 0 := by rw [polar_self_eq_two_mul, CharTwo.two_eq_zero, zero_mul]
   rw [Gom.app_mul, eichlerG_app hf hfw, eichlerG_app he hew₀]
-  simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, polar_add_right, polar_sub_right,
-    polar_smul_right_eq, hwe, hwf, hww, mul_zero, zero_add, add_zero, zero_smul, sub_zero]
+  simp only [polar_smul_left_eq, polar_smul_right_eq, hwe, hwf, hww, mul_zero, add_zero, zero_smul, sub_zero]
 
 theorem eichlerG_braid [CharP K 2] {e f w : V} {t : K} (he : Q e = 0) (hf : Q f = 0)
     (ht : polar Q e f = t) (htne : t ≠ 0) (hew : polar Q e w = 0) (hfw : polar Q f w = 0)

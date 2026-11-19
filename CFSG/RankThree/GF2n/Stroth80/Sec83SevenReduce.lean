@@ -21,8 +21,8 @@ theorem sec83W1_card_le_of_comm (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec
     Nat.card ↥(Sec8W1 M Q Z B t r) ≤ Nat.card Z ^ (n + 1) := by
   classical
   obtain ⟨K, iK, iF, γ, M₀, hKcard, -, hγinj, -, -, -⟩ := stroth_globalModel hc.hyp
-  letI := iK
-  letI := iF
+  let := iK
+  let := iF
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   have hqpos : 0 < Nat.card Z := by omega
   have hZV : Z ≤ Sec8V1 M Q Z B t r :=

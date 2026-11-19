@@ -129,8 +129,7 @@ theorem decomp3' (x : ↥(permCore 3)) : x = coord0 x • w1 + coord2 x • w2 :
 
 theorem tensor_decomp (t : ↥(permCore 3) ⊗[ZMod 2] ↥(permCore 5)) :
     ∃ a₁ a₂ : ↥(permCore 5), t = w1 ⊗ₜ a₁ + w2 ⊗ₜ a₂ := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x a =>
     refine ⟨coord0 x • a, coord2 x • a, ?_⟩
     conv_lhs => rw [decomp3' x]

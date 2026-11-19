@@ -30,7 +30,7 @@ theorem card_U : Nat.card m.U = Nat.card (CFSG.pPrimeCore m.r ↥m.K) :=
   Subgroup.card_map_of_injective m.K.subtype_injective
 
 theorem coprime_card_U : Nat.Coprime m.r (Nat.card m.U) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rw [m.card_U]
   exact CFSG.pPrimeCore_coprime_card
 
@@ -46,7 +46,7 @@ theorem mem_normalizer_K {g : G} (hg : g ∈ m.M) : g ∈ normalizer (m.K : Set 
 
 theorem K_le_normalizer_U : m.K ≤ normalizer (m.U : Set G) := by
   intro k hk
-  haveI := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.K)
+  have := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.K)
   rw [mem_normalizer_iff]
   intro x
   constructor
@@ -96,14 +96,14 @@ theorem conj_U_le {g : G} (hg : g ∈ m.M) : ∀ u ∈ m.U, g * u * g⁻¹ ∈ m
 theorem isCyclic_of_isSylowOf (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) {S : Subgroup G}
     (hS : IsSylowOf m.r S m.K) : IsCyclic ↥S := by
   obtain ⟨Q, rfl⟩ := hS
-  haveI := hcyc Q
+  have := hcyc Q
   exact isCyclic_of_surjective
     (Subgroup.equivMapOfInjective (Q : Subgroup ↥m.K) m.K.subtype m.K.subtype_injective).toMonoidHom
     (MulEquiv.surjective _)
 
 theorem Z_le_of_normal_gt_U (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) {N : Subgroup G}
     (hNK : N ≤ m.K) (hn : m.K ≤ normalizer (N : Set G)) (hlt : m.U < N) : m.Z ≤ N := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hrN : m.r ∣ Nat.card N := by
     by_contra h
     exact absurd (m.le_U_of_normal_coprime hNK hn
@@ -162,7 +162,7 @@ theorem eq_K_of_normal_gt_U (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) {N 
     refine lt_of_le_of_ne hUN' (fun h => ?_)
     apply (not_le_of_gt hlt)
     intro n hn'
-    have h1 : g⁻¹ * n * g ∈ N' := ⟨n, hn', by simp [MulAut.conj_apply]⟩
+    have h1 : g⁻¹ * n * g ∈ N' := ⟨n, hn', by simp⟩
     rw [← h] at h1
     have h2 := m.conj_U_le hg _ h1
     simpa [mul_assoc] using h2
@@ -183,18 +183,18 @@ theorem not_Z_le_U : ¬ m.Z ≤ m.U := by
   exact m.hr.ne_one (m.coprime_card_U.eq_one_of_dvd this)
 
 theorem Kbar_isSimple (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) : IsSimpleGroup m.Kbar := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨z, hzZ, hzU⟩ := Set.not_subset.1 m.not_Z_le_U
   have hzne : (QuotientGroup.mk (⟨z, m.Z_le_K hzZ⟩ : ↥m.K) : m.Kbar) ≠ 1 := by
     intro h
     apply hzU
     have h2 := (QuotientGroup.eq_one_iff _).1 h
     exact ⟨_, h2, rfl⟩
-  haveI hnt : Nontrivial m.Kbar :=
+  have hnt : Nontrivial m.Kbar :=
     ⟨⟨(QuotientGroup.mk (⟨z, m.Z_le_K hzZ⟩ : ↥m.K) : m.Kbar), 1, hzne⟩⟩
   refine { toNontrivial := hnt, eq_bot_or_eq_top_of_normal := fun Nb hNb => ?_ }
   set N' : Subgroup ↥m.K := Nb.comap (QuotientGroup.mk' (CFSG.pPrimeCore m.r ↥m.K)) with hN'
-  haveI : N'.Normal := Subgroup.Normal.comap hNb _
+  have : N'.Normal := Subgroup.Normal.comap hNb _
   set N : Subgroup G := N'.map m.K.subtype with hN
   have hNK : N ≤ m.K := Subgroup.map_subtype_le _
   have hsub : N.subgroupOf m.K = N' := Subgroup.comap_map_eq_self_of_injective m.K.subtype_injective N'
@@ -238,11 +238,11 @@ theorem dvd_card_M_of_mem_sigma {p : ℕ} (hp : p ∈ Dat.sig) : p ∣ Nat.card 
 
 theorem false_of_Kbar_comm (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) (h626 : m.C626)
     (h628b : m.C628b) (hcomm : ∀ a b : m.Kbar, a * b = b * a) : False := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI hsimple := m.Kbar_isSimple hcyc
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have hsimple := m.Kbar_isSimple hcyc
   set U' := CFSG.pPrimeCore m.r ↥m.K with hU'
   set Zb : Subgroup m.Kbar := (m.Z.subgroupOf m.K).map (QuotientGroup.mk' U') with hZb
-  haveI hZbn : Zb.Normal := ⟨fun n hn g => by
+  have hZbn : Zb.Normal := ⟨fun n hn g => by
     rw [hcomm g n, mul_inv_cancel_right]
     exact hn⟩
   obtain ⟨z, hzZ, hzU⟩ := Set.not_subset.1 m.not_Z_le_U
@@ -295,7 +295,7 @@ theorem false_of_Kbar_comm (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) (h62
   have hpN : ¬ p ∣ Nat.card ↥(m.M ⊓ normalizer (m.Z : Set G)) := h626 p hp
   set K' : Subgroup ↥m.M := m.K.subgroupOf m.M with hK'
   set N' : Subgroup ↥m.M := (m.M ⊓ normalizer (m.Z : Set G)).subgroupOf m.M with hN'
-  haveI hK'n : K'.Normal :=
+  have hK'n : K'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer m.K_le_M).2
       (fun g hg => m.mem_normalizer_K hg)
   have htop : (⊤ : Subgroup ↥m.M).map m.M.subtype = m.M := by

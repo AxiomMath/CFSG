@@ -152,6 +152,7 @@ section Transport
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem coordGL_inv {ι : Type} [Fintype ι] [DecidableEq ι] {V : Type} [AddCommGroup V]
     [Module K V] (c : V ≃ₗ[K] (ι → K)) (α : V ≃ₗ[K] V) :
     (coordGL c α)⁻¹ = coordGL c α.symm := by
@@ -248,7 +249,7 @@ section Forms
 
 theorem statedQuadPlus_hom {K : Type} [Field K] (n : ℕ) (a : K) (v : Fin n ⊕ Fin n → K) :
     StatedQuadPlus n K (a • v) = a ^ 2 * StatedQuadPlus n K v := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Pi.smul_apply, smul_eq_mul,
+  simp only [StatedQuadPlus, Pi.smul_apply, smul_eq_mul,
     Finset.mul_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   ring
@@ -256,13 +257,12 @@ theorem statedQuadPlus_hom {K : Type} [Field K] (n : ℕ) (a : K) (v : Fin n ⊕
 theorem statedQuadPlus_nz (K : Type) [Field K] :
     ∃ v : Fin 2 ⊕ Fin 2 → K, StatedQuadPlus 2 K v ≠ 0 := by
   refine ⟨fun j => if j = Sum.inl 0 ∨ j = Sum.inr 0 then 1 else 0, ?_⟩
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [StatedQuadPlus]
 
 theorem statedQuadMinus_hom {K : Type} [Field K] (n : ℕ) (b c : K) (a : K)
     (v : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) :
     StatedQuadMinus n K b c (a • v) = a ^ 2 * StatedQuadMinus n K b c v := by
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.smul_apply, smul_eq_mul,
-    Finset.mul_sum]
+  simp only [StatedQuadMinus, Pi.smul_apply, smul_eq_mul]
   have : ∀ i : Fin (n - 1), a * v (Sum.inl i) * (a * v (Sum.inr (Sum.inl i))) =
       a ^ 2 * (v (Sum.inl i) * v (Sum.inr (Sum.inl i))) := fun i => by ring
   rw [Finset.sum_congr rfl fun i _ => this i, ← Finset.mul_sum]
@@ -271,7 +271,7 @@ theorem statedQuadMinus_hom {K : Type} [Field K] (n : ℕ) (b c : K) (a : K)
 theorem statedQuadMinus_nz {K : Type} [Field K] (b c : K) :
     ∃ v : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K, StatedQuadMinus 2 K b c v ≠ 0 := by
   refine ⟨Pi.single (Sum.inr (Sum.inr 0)) 1, ?_⟩
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+  simp [StatedQuadMinus]
 
 end Forms
 
@@ -377,7 +377,7 @@ theorem semiConj_apply {K E : Type} [Field K] [AddCommGroup E] [Module K E] (σ 
 
 theorem semiConj_mem_O {K E : Type} [Field K] [AddCommGroup E] [Module K E] (σ : K ≃+* K)
     (T : E ≃+ E) (hT : ∀ (c : K) (e : E), T (c • e) = σ c • T e) (Qf : E → K) (a : K)
-    (hQ : ∀ e, Qf (T e) = a * σ (Qf e)) (ha : a ≠ 0) (g : E ≃ₗ[K] E)
+    (hQ : ∀ e, Qf (T e) = a * σ (Qf e)) (_ha : a ≠ 0) (g : E ≃ₗ[K] E)
     (hg : ∀ e, Qf (g e) = Qf e) : ∀ e, Qf (semiConj σ T hT g e) = Qf e := by
   intro e
   rw [semiConj_apply, hQ, hg]
@@ -419,7 +419,7 @@ theorem exists_conj_hom (AM : ActionModel M Q Z)
   show _ = T ((AM.φ ⟨k, hk⟩) (T.symm (AM.M₀.π x)))
   rw [hT1', ← AM.φ_π ⟨k, hk⟩ _ hx'Q, ← hT2 _ hkx]
   congr 1
-  simp only [Subgroup.coe_mk]
+  simp only
   group
 
 theorem map_Omega_le {K : Type} [Field K] (S : QSpace K)
@@ -469,6 +469,7 @@ open CFSG.RankThree.GF2n.Stroth80
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem xpre_le_Rt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) :
     E1Xpre M Q B t ≤ Rt M (LB M Q B) t := by
   unfold E1Xpre
@@ -835,7 +836,7 @@ theorem L_sylow_props (hH : E1Hyp M Q Z B t) (hSplit : RtSplitStatement) :
       exact dvd_pow_self 2 hn0
     have hsq1 : 1 ≤ Nat.card Z ^ 2 := Nat.one_le_pow _ _ hpos
     rcases hQuot with ⟨hnorm, K, hKf, hKfin, hK, ⟨e⟩⟩ | ⟨hnorm, K, hKf, hKfin, hK, b, c, hirr, ⟨e⟩⟩
-    · haveI := hnorm
+    · have := hnorm
       have _hchar : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (Nat.pos_of_ne_zero hn0) (hK.trans hqn)
@@ -844,7 +845,7 @@ theorem L_sylow_props (hH : E1Hyp M Q Z B t) (hSplit : RtSplitStatement) :
         Odd.pow (odd_sub_one_of_two_dvd (dvd_pow h2 two_ne_zero) (pow_pos hpos 2)), ?_⟩
       zify [hsq1] at h ⊢
       exact h
-    · haveI := hnorm
+    · have := hnorm
       have _hchar : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (Nat.pos_of_ne_zero hn0) (hK.trans hqn)
@@ -872,6 +873,7 @@ theorem L_sylow_props (hH : E1Hyp M Q Z B t) (hSplit : RtSplitStatement) :
   intro h
   exact (Nat.not_even_iff_odd.mpr hu) (even_iff_two_dvd.mpr h)
 
+omit [Finite G] in
 theorem isPGroup_subgroupOf_of_sq {Q : Subgroup G} (hQ : IsPGroup 2 Q) (T R : Subgroup G)
     (hT : ∀ y ∈ T, y ^ 2 ∈ Q) : IsPGroup 2 (T.subgroupOf R) := by
   intro w
@@ -880,7 +882,7 @@ theorem isPGroup_subgroupOf_of_sq {Q : Subgroup G} (hQ : IsPGroup 2 Q) (T R : Su
   refine ⟨j + 1, ?_⟩
   apply Subtype.ext
   apply Subtype.ext
-  simp only [Subgroup.coe_pow, Subgroup.coe_one, OneMemClass.coe_one]
+  simp only [Subgroup.coe_pow, Subgroup.coe_one]
   rw [show 2 ^ (j + 1) = 2 * 2 ^ j by ring, pow_mul]
   have h2 := congrArg Subtype.val hj
   simpa using h2
@@ -910,7 +912,7 @@ theorem caseA_forward (hH : E1Hyp M Q Z B t) (hSplit : RtSplitStatement) (hA : E
   obtain ⟨P, hPle⟩ := hTpg.exists_le_sylow
   obtain ⟨hLpg, hLidx⟩ := L_sylow_props hH hSplit
   obtain ⟨c, hc'⟩ := exists_conj_of_sylow2 (P : Subgroup (Rt M (LB M Q B) t))
-    ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)) P.isPGroup' hLpg (Sylow.not_dvd_index P) hLidx
+    ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)) P.isPGroup hLpg (Sylow.not_dvd_index P) hLidx
   have hconjL : ∀ y ∈ conjSubgroup x (Nt M (LB M Q B) t), (c : G) * y * (c : G)⁻¹ ∈ LB M Q B := by
     intro y hy
     have hyR : y ∈ Rt M (LB M Q B) t := hheart hy
@@ -967,7 +969,7 @@ theorem caseA1_core (hH : E1Hyp M Q Z B t) (AM : ActionModel M Q Z) (hA : E1Case
       ∀ e, AM.φ x e = e + c • β e)
     (hNsq : ∀ x ∈ Nt M (LB M Q B) t, x ^ 2 ∈ Q)
     (hE8 : Module.finrank AM.K AM.M₀.E = 8)
-    (hTS : AM.S.IsTS (AM.Vsp hH.ctx t))
+    (_hTS : AM.S.IsTS (AM.Vsp hH.ctx t))
     (hdim : Module.finrank AM.K ↥(AM.Vsp hH.ctx t) = 4)
     (hPΩ : AM.S.P (AM.Vsp hH.ctx t) ≤ AM.S.Ω)
     (hEven : ∀ g ∈ AM.S.Ω, Even (Module.finrank AM.K ↥(AM.Vsp hH.ctx t ⊓
@@ -1034,7 +1036,7 @@ section Main
 
 
 theorem caseA1_of (hNK : E1NaturalKStatement) (hCt : CtStructureStatement)
-    (hSplit : RtSplitStatement) (hLine : NtLineStatement) (hTI : NtTIStatement)
+    (hSplit : RtSplitStatement) (hLine : NtLineStatement) (_hTI : NtTIStatement)
     (hKFd : DicksonNatStatement) (hKFs : DicksonSpaceStatement) : CaseA1Statement := by
   intro G _ _ M Q Z B t hH hA g hg
   constructor

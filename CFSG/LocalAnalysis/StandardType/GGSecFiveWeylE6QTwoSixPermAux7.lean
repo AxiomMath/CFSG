@@ -14,6 +14,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 variable {Bs L : Subgroup G} {x : G}
 
+omit [Finite K] in
 theorem e6QTwoSix_frameAct_comm
     (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     {hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
@@ -39,6 +40,7 @@ theorem e6QTwoSix_frameAct_comm
     (hσ := hcube (σ₂ * σ₁) (fun k => by
       rw [Pi.mul_apply, mul_pow, hσ₂ k, hσ₁ k, mul_one])) h12 h21
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAct_mem_range
     (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     {hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
@@ -76,7 +78,7 @@ theorem e6QTwoSix_exists_mem_normalizer
         (LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) (LargeEvenGUSet (Fin 6) K (2 ^ 1)),
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) ψ)
     (hLx : L ≤ Subgroup.centralizer {x}) (τ : Equiv.Perm (Fin 6)) :
-    ∃ (n' : G) (hnL : n' ∈ L) (hn' : n' ∈ Subgroup.normalizer (Bs : Set G)) (b₀ : ↥Bs),
+    ∃ (n' : G) (hnL : n' ∈ L) (_hn' : n' ∈ Subgroup.normalizer (Bs : Set G)) (b₀ : ↥Bs),
       e6QTwoSixNormAction θ ⟨n', Subgroup.le_normalizer hnL⟩ =
         e6QTwoSixFrameAction hNL θ b₀ * e6QTwoSixFramePerm hK hQ τ *
           (e6QTwoSixFrameAction hNL θ b₀)⁻¹ := by

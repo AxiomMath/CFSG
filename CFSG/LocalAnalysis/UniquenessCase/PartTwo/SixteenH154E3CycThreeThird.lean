@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_e3_CycThreeThird_isPGroup_two_of_le {V U : Subgroup G}
     (hV : IsElemAbelian 2 V) (hUV : U ≤ V) : IsPGroup 2 U := by
   intro g
@@ -28,11 +29,12 @@ private theorem s16h_e3_CycThreeThird_wConj_le_v (D : Data G) {V₀ V L : Subgro
     conjSubgroup_eq_iff_mem_normalizer.mpr (h.hyp125.pairFacts.le_normalizer hm)
   exact (Subgroup.map_mono hW).trans (le_of_eq hVm)
 
+omit [Finite G] in
 private theorem s16h_e3_CycThreeThird_exists_mul_mem_v0 {V₀ V A C : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hV0V : V₀ ≤ V) (hAV : A ≤ V) (hCV : C ≤ V)
+    (hV : IsElemAbelian 2 V) (_hV0V : V₀ ≤ V) (hAV : A ≤ V) (hCV : C ≤ V)
     (hC0 : C ≤ V₀) {w : G} (hw : w ∈ A ⊔ C) : ∃ a ∈ A, w * a⁻¹ ∈ V₀ := by
-  haveI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   have hwV : w ∈ V := (sup_le hAV hCV) hw
   have hmem : (⟨w, hwV⟩ : ↥V) ∈ (A.subgroupOf V) ⊔ (C.subgroupOf V) := by
     rw [← Subgroup.subgroupOf_sup hAV hCV]
@@ -49,11 +51,12 @@ private theorem s16h_e3_CycThreeThird_exists_mul_mem_v0 {V₀ V A C : Subgroup G
     group
   exact ⟨(y : G), hyA, by rw [hw_eq]; exact hC0 hzC⟩
 
+omit [Finite G] in
 private theorem s16h_e3_CycThreeThird_cElt_le_of_mul_mem_v0 {M V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) (hV0V : V₀ ≤ V) (hMV : M ≤ normalizer (V : Set G))
-    {u w : G} (huV : u ∈ V) (hwV : w ∈ V) (hwu : w * u⁻¹ ∈ V₀) :
+    {u w : G} (huV : u ∈ V) (_hwV : w ∈ V) (hwu : w * u⁻¹ ∈ V₀) :
     F11.CElt M V₀ u ≤ F11.CElt M V₀ w := by
-  haveI : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥V := hV.1
   intro x hx
   obtain ⟨hxM, hxN0, hxu⟩ := hx
   refine ⟨hxM, hxN0, ?_⟩
@@ -137,7 +140,7 @@ private theorem s16h_e3_CycThreeThird_disj
       exact hcop.dvd_of_dvd_mul_left hdvd_w
     have h3cent : 3 ∣ Nat.card ↥(D.M ⊓ centralizer ({w} : Set G)) :=
       h3card.trans (Subgroup.card_dvd_of_le inf_le_left)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨y, hyord⟩ :=
       exists_prime_orderOf_dvd_card' (G := ↥(D.M ⊓ centralizer ({w} : Set G))) 3 h3cent
     let E : Subgroup G := Subgroup.zpowers (y : G)

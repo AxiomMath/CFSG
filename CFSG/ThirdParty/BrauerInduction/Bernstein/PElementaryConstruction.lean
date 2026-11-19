@@ -105,10 +105,10 @@ lemma f_apply_mul_pSingular_eq_sum
           exact (E_subgroup p a).mul_mem h_a_in_E h_P_in_E
       by_cases hP : x * s * x⁻¹ ∈ P_of_Z p a
       · have hE : x * (a * s) * x⁻¹ ∈ E_subgroup p a := h_E_iff.mpr hP
-        rw [dif_pos hE, if_pos h_reg_eq_a]
+        rw [dite_eq_left hE, ite_eq_left h_reg_eq_a]
         simp [hxC, hP]
       · have hnE : x * (a * s) * x⁻¹ ∉ E_subgroup p a := fun h => hP (h_E_iff.mp h)
-        rw [dif_neg hnE]
+        rw [dite_eq_right hnE]
         simp [hP]
     · have h_reg_ne_a : Group.pRegular p (x * (a * s) * x⁻¹) ≠ a := by
         intro h_eq
@@ -123,9 +123,9 @@ lemma f_apply_mul_pSingular_eq_sum
             _ = y * x := by rw [h_eq]
         exact Eq.symm h_xa
       by_cases hE : x * (a * s) * x⁻¹ ∈ E_subgroup p a
-      · rw [dif_pos hE, if_neg h_reg_ne_a]
+      · rw [dite_eq_left hE, ite_eq_right h_reg_ne_a]
         simp [hxC]
-      · rw [dif_neg hE]
+      · rw [dite_eq_right hE]
         simp [hxC]
   rw [h_sum, Finset.sum_const, nsmul_eq_mul, mul_assoc]
 
@@ -144,7 +144,7 @@ lemma f_apply_mul_pSingular_eq_card_fixedCosets
     (Nat.card { c : ↥(centralizer ({a} : Set G)) ⧸ (P_in_Z p a : Subgroup _) //
       (⟨s, fun y hy => by rcases hy with rfl; exact h_comm.eq⟩ :
         ↥(centralizer ({a} : Set G))) • c = c } : k) := by
-  letI: Fintype G := Fintype.ofFinite G
+  let: Fintype G := Fintype.ofFinite G
   rw [f_apply_mul_pSingular_eq_sum p ha s hs_sing h_comm]
   let Z_group := centralizer ({a} : Set G)
   let P_Z : Subgroup Z_group := P_in_Z p a

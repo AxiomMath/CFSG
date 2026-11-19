@@ -79,7 +79,7 @@ private lemma hdRo7CNormAux_sigma_spec {V : Type} [AddCommGroup V] [Module (ZMod
 private lemma hdRo7CNormAux_unique {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (s : hdRo7CNormAux_P b)
     {σ : Equiv.Perm (Fin (n + 1))} {c : Fin (n + 1) → ZMod 3}
-    (hc : ∀ i, c i = 1 ∨ c i = -1)
+    (_hc : ∀ i, c i = 1 ∨ c i = -1)
     (h : ∀ i, s.1 (b i) = c i • b (σ i)) : σ = hdRo7CNormAux_sigma b s ∧ c = hdRo7CNormAux_sign b s := by
   have hσc : ∀ i, hdRo7CNormAux_sigma b s i = σ i ∧ hdRo7CNormAux_sign b s i = c i := by
     intro i
@@ -87,11 +87,11 @@ private lemma hdRo7CNormAux_unique {V : Type} [AddCommGroup V] [Module (ZMod 3) 
       rw [← hdRo7CNormAux_sigma_spec b s i, h i]
     have hcoord := congrArg (fun v => b.coord (hdRo7CNormAux_sigma b s i) v) heq
     rw [hdRo7CNormAux_coord_smul_basis, hdRo7CNormAux_coord_smul_basis] at hcoord
-    rw [if_pos rfl, mul_one] at hcoord
+    rw [ite_eq_left rfl, mul_one] at hcoord
     by_cases hsi : σ i = hdRo7CNormAux_sigma b s i
-    · rw [if_pos hsi, mul_one] at hcoord
+    · rw [ite_eq_left hsi, mul_one] at hcoord
       exact ⟨hsi.symm, hcoord⟩
-    · rw [if_neg hsi, mul_zero] at hcoord
+    · rw [ite_eq_right hsi, mul_zero] at hcoord
       exfalso
       rcases hdRo7CNormAux_sign_pm b s i with h1 | h1 <;> rw [h1] at hcoord <;>
         exact absurd hcoord (by decide)
@@ -188,9 +188,9 @@ private lemma hdRo7CNormAux_D_sq {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     congrArg (fun f : V →ₗ[ZMod 3] V => f x) hmap
 private lemma hdRo7CNormAux_finite_P {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) : Finite (hdRo7CNormAux_P b) := by
-  haveI : Finite V := Finite.of_equiv _ b.repr.toEquiv.symm
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype (Fin (n + 1) → V) := inferInstance
+  have : Finite V := Finite.of_equiv _ b.repr.toEquiv.symm
+  have : Fintype V := Fintype.ofFinite V
+  have : Fintype (Fin (n + 1) → V) := inferInstance
   exact Finite.of_injective (fun s : hdRo7CNormAux_P b => fun i => s.1 (b i)) (by
     intro s t h
     apply Subtype.ext
@@ -205,8 +205,8 @@ private noncomputable def hdRo7CNormAux_conj {V : Type} [AddCommGroup V] [Module
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
     (hnorm : ∀ s, C2SP 3 b s → C2SP 3 b (a * s * a⁻¹)) : hdRo7CNormAux_P b →* hdRo7CNormAux_P b where
   toFun s := ⟨a * s.1 * a⁻¹, hnorm s.1 s.2⟩
-  map_one' := by apply Subtype.ext; simp only [Subgroup.coe_mul, Subgroup.coe_one]; group
-  map_mul' s t := by apply Subtype.ext; simp only [Subgroup.coe_mul, Subgroup.coe_one]; group
+  map_one' := by apply Subtype.ext; simp only [Subgroup.coe_one]; group
+  map_mul' s t := by apply Subtype.ext; simp only [Subgroup.coe_mul]; group
 private lemma hdRo7CNormAux_conj_injective {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
     (hnorm : ∀ s, C2SP 3 b s → C2SP 3 b (a * s * a⁻¹)) : Function.Injective (hdRo7CNormAux_conj b a hnorm) := by
@@ -217,7 +217,7 @@ private lemma hdRo7CNormAux_conj_injective {V : Type} [AddCommGroup V] [Module (
 private lemma hdRo7CNormAux_conj_surjective {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
     (hnorm : ∀ s, C2SP 3 b s → C2SP 3 b (a * s * a⁻¹)) : Function.Surjective (hdRo7CNormAux_conj b a hnorm) := by
-  haveI := hdRo7CNormAux_finite_P b
+  have := hdRo7CNormAux_finite_P b
   exact Finite.surjective_of_injective (hdRo7CNormAux_conj_injective b a hnorm)
 private lemma hdRo7CNormAux_D_isPGroup {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) : IsPGroup 2 (hdRo7CNormAux_D b) := by
@@ -287,12 +287,12 @@ private lemma hdRo7CNormAux_signChange_mem_P {V : Type} [AddCommGroup V] [Module
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (j : Fin n) : CFSG.StandardType.OrthF3.ggOrthSignChange b j.succ ∈ hdRo7CNormAux_P b := by
   refine ⟨1, fun k => if k = j.succ then -1 else 1, rfl, ?_, ?_, ?_⟩
   · show (if (0 : Fin (n + 1)) = j.succ then (-1 : ZMod 3) else 1) = 1
-    rw [if_neg (fun h => Fin.succ_ne_zero j h.symm)]
+    rw [ite_eq_right (fun h => Fin.succ_ne_zero j h.symm)]
   · intro k
     dsimp only
     by_cases hk : k = j.succ
-    · rw [if_pos hk]; exact Or.inr rfl
-    · rw [if_neg hk]; exact Or.inl rfl
+    · rw [ite_eq_left hk]; exact Or.inr rfl
+    · rw [ite_eq_right hk]; exact Or.inl rfl
   · intro k
     by_cases hk : k = j.succ
     · subst hk; simp [CFSG.StandardType.OrthF3.ggOrthSignChange_apply_self]
@@ -350,7 +350,7 @@ private lemma hdRo7CNormAux_coord_line {V : Type} [AddCommGroup V] [Module (ZMod
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
     (hnorm : ∀ s, C2SP 3 b s → C2SP 3 b (a * s * a⁻¹)) (hn : 5 ≤ n) (j : Fin n) :
     ∃ (k : Fin n) (lam : ZMod 3), lam ≠ 0 ∧ a (b j.succ) = lam • b k.succ := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   have hepsP : CFSG.StandardType.OrthF3.ggOrthSignChange b j.succ ∈ hdRo7CNormAux_P b := hdRo7CNormAux_signChange_mem_P b j
   have hepsD : (⟨CFSG.StandardType.OrthF3.ggOrthSignChange b j.succ, hepsP⟩ : hdRo7CNormAux_P b) ∈ hdRo7CNormAux_D b :=
     hdRo7CNormAux_signChange_mem_D b j
@@ -445,9 +445,9 @@ theorem c2_normalizer_holds : C2NormalizerLeaf := by
       exact (inv_smul_smul₀ (hlam j').1 (b (τ j').succ)).symm
     have h4 := congrArg (fun v => b.coord j.succ v) h3
     rw [show b.coord j.succ (b j.succ) = 1 from by
-      simpa using hdRo7CNormAux_coord_smul_basis b j.succ j.succ 1,
+      simp,
       hdRo7CNormAux_coord_smul_basis] at h4
-    rw [if_neg (fun hh => hne (Fin.succ_injective n hh).symm), mul_zero] at h4
+    rw [ite_eq_right (fun hh => hne (Fin.succ_injective n hh).symm), mul_zero] at h4
     exact one_ne_zero h4
   let τe : Equiv.Perm (Fin n) := Equiv.ofBijective τ ⟨hτinj, Finite.surjective_of_injective hτinj⟩
   let σ : Equiv.Perm (Fin (n + 1)) := Equiv.Perm.decomposeFin.symm (0, τe)
@@ -459,12 +459,12 @@ theorem c2_normalizer_holds : C2NormalizerLeaf := by
     rfl
   refine ⟨σ, fun i => if h : i = 0 then 1 else lam (Fin.pred i h), hσ0, ?_, ?_, ?_⟩
   · dsimp only
-    rw [dif_pos rfl]
+    rw [dite_eq_left rfl]
   · intro i
     dsimp only
     by_cases hi : i = 0
-    · subst hi; rw [dif_pos rfl]; exact Or.inl rfl
-    · rw [dif_neg hi]
+    · subst hi; rw [dite_eq_left rfl]; exact Or.inl rfl
+    · rw [dite_eq_right hi]
       have hpm : ∀ x : ZMod 3, x ≠ 0 → x = 1 ∨ x = -1 := by
         intro x hx
         fin_cases x
@@ -476,9 +476,9 @@ theorem c2_normalizer_holds : C2NormalizerLeaf := by
     dsimp only
     by_cases hi : i = 0
     · subst hi
-      rw [dif_pos rfl, hfix, hσ0]
+      rw [dite_eq_left rfl, hfix, hσ0]
       simp
-    · rw [dif_neg hi]
+    · rw [dite_eq_right hi]
       have hτ : (Fin.pred i hi).succ = i := Fin.succ_pred i hi
       have hσi : σ i = (τ (Fin.pred i hi)).succ := by
         conv_lhs => rw [show i = (Fin.pred i hi).succ from hτ.symm]

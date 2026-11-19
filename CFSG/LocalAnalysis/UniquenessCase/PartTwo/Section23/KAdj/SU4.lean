@@ -112,8 +112,8 @@ theorem kAdj_model_su4_hyp {a : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 
     (ha : 2 ≤ a) {r : ℕ} (hr : r ∣ 2 ^ a - 1) {t : ↥(hypSU h 2 0)}
     (ht : t ∈ Hinf (flagStabilizer h 2 0 {2}) ⊓ parP h) (hord : orderOf t = r) :
     KAdjConcl (Hinf (parP h)) t r a := by
-  haveI := h.finite
-  haveI : Finite ↥(hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
+  have := h.finite
+  have : Finite ↥(hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
   obtain ⟨htQα, htQ₀⟩ := Subgroup.mem_inf.mp ht
   have htQα' : t ∈ flagStabilizer h 2 0 {2} := uc22p21c_Hinf_le _ htQα
   have htB : t ∈ hypBorel h 2 0 := by

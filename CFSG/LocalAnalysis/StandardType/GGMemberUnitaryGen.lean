@@ -50,12 +50,12 @@ section Nbr
 
 theorem ggGenConcl_unitary_nbr {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
-    (hnsL : ¬ GGSplitLie p L) {ι : Type} {M : CoxeterMatrix ι}
+    (_hnsL : ¬ GGSplitLie p L) {ι : Type} {M : CoxeterMatrix ι}
     {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e) (hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
     (hbig : ∀ r ∈ ggAutomizer L Bs, r ∈ ggCoxRefl M e → Nat.card (ggRankOneIn L Bs r) ≠ 6)
     {X : Subgroup G} (hXnbr : X = L ∨ ∃ y : G, GGNbr p B x D J y X)
-    (hXA : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦) (hnsX : ¬ GGSplitLie p X)
+    (hXA : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦) (_hnsX : ¬ GGSplitLie p X)
     (hU : GGMemberUnitary p Bs X) (hrL : ∃ r ∈ ggAutomizer L Bs, r ∈ ggCoxRefl M e)
     (hL1Xall : ∀ r ∈ ggAutomizer X Bs, r ∈ ggCoxRefl M e → ggRankOnePerf Bs r = ggRankOneIn X Bs r)
     (hL1Lall : ∀ r ∈ ggAutomizer L Bs, r ∈ ggCoxRefl M e → ggRankOnePerf Bs r = ggRankOneIn L Bs r) :

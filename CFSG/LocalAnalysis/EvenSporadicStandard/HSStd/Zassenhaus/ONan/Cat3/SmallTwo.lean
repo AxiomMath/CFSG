@@ -25,7 +25,7 @@ private lemma cz_ne : Cz ≠ 1 := by decide
 
 private lemma pow_six_of_isUnit {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 2)
     {A : Matrix (Fin 2) (Fin 2) K} (hA : IsUnit A) : A ^ 6 = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 := Nat.card_eq_fintype_card.symm.trans hK
   have hcardGL : Nat.card (GL (Fin 2) K) = 6 := by
     rw [Matrix.card_GL_field, Fin.prod_univ_two, hcardK]
@@ -104,10 +104,10 @@ theorem false_of_psl_four_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hC' : CentHyp (GL (Fin 2 ⊕ Fin 2) K) :=
     CentHyp.of_mulEquiv
       (glSumEquivStatedProjSL K hK (N := 4) (finSumFinEquiv (m := 2) (n := 2))) hC
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 := Nat.card_eq_fintype_card.symm.trans hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime hcardK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime hcardK
   let f : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   have hf_inj : Function.Injective f := ZMod.castHom_injective K
   let X : Matrix (Fin 2) (Fin 2) K := (RingHom.mapMatrix f) Xz
@@ -143,7 +143,7 @@ theorem false_of_psl_four_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hM_mul' : M ^ 2 * M = 1 := by rw [← pow_succ]; exact hM3
   let x : GL (Fin 2 ⊕ Fin 2) K := Units.mk M (M ^ 2) hM_mul hM_mul'
   have hx : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · apply Units.ext
       rw [Units.val_pow_eq_pow_val, Units.val_one]
@@ -175,10 +175,10 @@ theorem false_of_psl_five_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hC' : CentHyp (GL (Fin 2 ⊕ Fin 3) K) :=
     CentHyp.of_mulEquiv
       (glSumEquivStatedProjSL K hK (N := 5) (finSumFinEquiv (m := 2) (n := 3))) hC
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 := Nat.card_eq_fintype_card.symm.trans hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime hcardK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime hcardK
   let f : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   have hf_inj : Function.Injective f := ZMod.castHom_injective K
   let X : Matrix (Fin 2) (Fin 2) K := (RingHom.mapMatrix f) Xz
@@ -248,7 +248,7 @@ theorem false_of_psl_five_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hM_mul' : M ^ 2 * M = 1 := by rw [← pow_succ]; exact hM3
   let x : GL (Fin 2 ⊕ Fin 3) K := Units.mk M (M ^ 2) hM_mul hM_mul'
   have hx : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · apply Units.ext
       rw [Units.val_pow_eq_pow_val, Units.val_one]
@@ -262,7 +262,7 @@ theorem false_of_psl_five_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hN_mul' : N ^ 6 * N = 1 := by rw [← pow_succ]; exact hN7
   let y : GL (Fin 2 ⊕ Fin 3) K := Units.mk N (N ^ 6) hN_mul hN_mul'
   have hy : orderOf y = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · apply Units.ext
       rw [Units.val_pow_eq_pow_val, Units.val_one]

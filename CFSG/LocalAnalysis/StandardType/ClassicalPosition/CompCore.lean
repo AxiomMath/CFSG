@@ -39,7 +39,7 @@ private lemma cc_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
     (fun x y hx hy => cc_hpair S hS x hx y hy)
     (fun r₁ r₂ => by
       rw [Algebra.algebraMap_eq_smul_one]
-      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm])
+      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
     (fun r x hx => by
       rw [Algebra.algebraMap_eq_smul_one]
       simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
@@ -139,7 +139,7 @@ private lemma cc_blk_val {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     (cc_blk x e : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) := by
   have h : ∃ u : GL ι F, (u : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) :=
     ⟨cc_blkAux x e hid hcomm, rfl⟩
-  rw [cc_blk, dif_pos h]
+  rw [cc_blk, dite_eq_left h]
   exact Classical.choose_spec h
 
 private lemma cc_blk_one {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
@@ -356,10 +356,10 @@ private lemma cc_commutator_self {G : Type} [Group G] {L : Subgroup G}
 private lemma cc_not_comm_of_quasisimple {Q : Type} [Group Q]
     (h : CFSG.Assembly.IsQuasisimple Q) : ¬ ∀ a b : Q, a * b = b * a := by
   intro hcomm
-  haveI : IsMulCommutative Q := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative Q := ⟨⟨hcomm⟩⟩
   have hcenter : Subgroup.center Q = ⊤ := Subgroup.center_eq_top
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := h.2.toNontrivial
-  haveI : Subsingleton (Q ⧸ Subgroup.center Q) := by
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := h.2.toNontrivial
+  have : Subsingleton (Q ⧸ Subgroup.center Q) := by
     rw [hcenter]
     constructor
     intro x y
@@ -382,8 +382,8 @@ private lemma cc_subgroupOf_isSubnormal {G : Type} [Group G] {H K : Subgroup G}
 
 private lemma cc_gw_isQuasisimple {Q : Type} [Group Q]
     (h : CFSG.Assembly.IsQuasisimple Q) : CFSG.GorensteinWalter.IsQuasisimple Q := by
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := h.2.toNontrivial
-  haveI : Nontrivial Q :=
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := h.2.toNontrivial
+  have : Nontrivial Q :=
     Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center Q))
   exact ⟨inferInstance, h.1, h.2⟩
 
@@ -419,8 +419,8 @@ theorem exists_isPrimStarIdemIn_isComponentOf_glBlockCentralizer
   have hpA : ∀ p ∈ P, p ∈ A := fun p hp => ((hPprim p hp).1).1
   have hpid : ∀ p ∈ P, IsIdempotentElem p := fun p hp => ((hPprim p hp).1).2.1
   have hpstar : ∀ p ∈ P, star p = p := fun p hp => ((hPprim p hp).1).2.2.2.1
-  haveI hUfin : Finite U := by
-    haveI : Finite (GL ι F) := inferInstance
+  have hUfin : Finite U := by
+    have : Finite (GL ι F) := inferInstance
     exact Finite.of_injective j hj
   have claim : ∀ T : Finset (Matrix ι ι F), T ⊆ P →
       ∀ x ∈ C, ∀ y ∈ C,

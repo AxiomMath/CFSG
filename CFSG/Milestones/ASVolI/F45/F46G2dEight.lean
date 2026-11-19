@@ -61,6 +61,7 @@ theorem stab_trans_line {a : c.Γ} (ha : CosetGeom.vtype a = true) {p : GPath c.
     _ = k⁻¹ • y' := by rw [h1]
     _ = y' := by rw [inv_smul_eq_iff, hky]
 
+omit D in
 theorem smul_geods {a b : c.Γ} {g : c.G0} (hg : g ∈ stv c a ⊓ stv c b) {t : GPath c.graph 6}
     (ht : t ∈ c.geods 6 a b) : g • t ∈ c.geods 6 a b := by
   refine ⟨?_, ?_, ht.2.2.smul (connected_graph c) g⟩
@@ -100,11 +101,11 @@ theorem alt_line {a : c.Γ} (ha : CosetGeom.vtype a = true) {p : GPath c.graph 6
   have hpg := D.mem_geods hp
   have htg' : t ∈ c.geods 6 a (p 6) := ⟨ht0, ht6, htg⟩
   have h1 : p 1 ≠ t 1 := fun h => htp (D.eq_of_first htg' hpg h.symm)
-  refine Or.inr ⟨fun s hs => burnsideF45_adj_first (by norm_num) (D.nbPaths_of_geods hs),
+  refine Or.inr ⟨fun s hs => burnsideF45_adj_first (by norm_num) (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods hs),
     fun s₁ h₁ s₂ h₂ he => D.eq_of_first h₁ h₂ he, fun z hz => ?_⟩
-  obtain ⟨g, hg, hgz⟩ := D.trans_nbrs_line ha hp (D.nbPaths_of_geods htg') ht6 h1
+  obtain ⟨g, hg, hgz⟩ := D.trans_nbrs_line ha hp (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods htg') ht6 h1
     (burnsideF45_adj_first (by norm_num) hp) hz
-  exact ⟨g • p, D.smul_geods hg hpg, hgz⟩
+  exact ⟨g • p, burnsideF46_g2d_Data.smul_geods hg hpg, hgz⟩
 
 theorem alt_point [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtype a = false)
     {p : GPath c.graph 6} (hp : p ∈ GPath.nbPaths c.graph a 6) :
@@ -117,16 +118,16 @@ theorem alt_point [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtype
   have hpg := D.mem_geods hp
   have htg' : t ∈ c.geods 6 a (p 6) := ⟨ht0, ht6, htg⟩
   have h1 : p 1 ≠ t 1 := fun h => htp (D.eq_of_first htg' hpg h.symm)
-  refine Or.inr ⟨fun s hs => burnsideF45_adj_first (by norm_num) (D.nbPaths_of_geods hs),
+  refine Or.inr ⟨fun s hs => burnsideF45_adj_first (by norm_num) (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods hs),
     fun s₁ h₁ s₂ h₂ he => D.eq_of_first h₁ h₂ he, fun z hz => ?_⟩
   by_contra hno
   have hp1 : c.graph.Adj a (p 1) := burnsideF45_adj_first (by norm_num) hp
-  have ht1 : c.graph.Adj a (t 1) := burnsideF45_adj_first (by norm_num) (D.nbPaths_of_geods htg')
+  have ht1 : c.graph.Adj a (t 1) := burnsideF45_adj_first (by norm_num) (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods htg')
   have hz' : c.graph.Adj a z := hz
   have hzp : z ≠ p 1 := fun h => hno ⟨p, hpg, h.symm⟩
   have hzt : z ≠ t 1 := fun h => hno ⟨t, htg', h.symm⟩
   have h3 := D.ncard_nbrs a
-  obtain ⟨g, hga, hgp⟩ := D.transPt ha p t hp (D.nbPaths_of_geods htg')
+  obtain ⟨g, hga, hgp⟩ := D.transPt ha p t hp (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods htg')
   have hg6 : g • p 6 = p 6 := by
     have := congrArg (fun r : GPath c.graph 6 => r 6) hgp
     simp only [GPath.smul_apply] at this
@@ -143,7 +144,7 @@ theorem alt_point [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtype
     have hgzF : ∀ s ∈ c.geods 6 a (p 6), s 1 ≠ g • z := by
       intro s hs he
       apply hno
-      refine ⟨g⁻¹ • s, D.smul_geods (inv_mem hgH) hs, ?_⟩
+      refine ⟨g⁻¹ • s, burnsideF46_g2d_Data.smul_geods (inv_mem hgH) hs, ?_⟩
       show (g⁻¹ • s) 1 = z
       rw [GPath.smul_apply, he, inv_smul_smul]
     rcases burnsideF45_mem_three h3 (show p 1 ∈ c.graph.neighborSet a from hp1)
@@ -186,7 +187,7 @@ theorem trans_nbrs_of_bij {a : c.Γ} (ha : CosetGeom.vtype a = true) {p : GPath 
   obtain ⟨z, hz, hz1, -⟩ := D.hval a (p 1) (p 1)
   obtain ⟨q, hq, hq1⟩ := hb.2.2 (show z ∈ CosetGeom.nbrs a from hz)
   have hq1' : q 1 = z := hq1
-  exact D.trans_nbrs_line ha hp (D.nbPaths_of_geods hq) hq.2.1
+  exact D.trans_nbrs_line ha hp (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods hq) hq.2.1
     (by rw [hq1']; exact Ne.symm hz1) hy hy'
 
 theorem two_trans_line {a : c.Γ} (ha : CosetGeom.vtype a = true) {u₁ u₂ u₁' u₂' : c.Γ}
@@ -278,14 +279,14 @@ theorem eight_line [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtyp
       rw [hh', mul_smul, hg1, hxfix _ (hb.1 hr₁)]
     have e2 : h • q₂ 1 = r₂ 1 := by
       rw [hh', mul_smul, hg2, hxfix _ (hb.1 hr₂)]
-    exact ⟨h, hh, hb.2.1 (D.smul_geods hh hq₁) hr₁ (by simpa using e1),
-      hb.2.1 (D.smul_geods hh hq₂) hr₂ (by simpa using e2)⟩
+    exact ⟨h, hh, hb.2.1 (burnsideF46_g2d_Data.smul_geods hh hq₁) hr₁ (by simpa using e1),
+      hb.2.1 (burnsideF46_g2d_Data.smul_geods hh hq₂) hr₂ (by simpa using e2)⟩
   · rw [Nat.card_congr (hb.equiv _), burnsideF4b_card_nbrs D.faithful a]
 
 theorem trans_geods_point {a : c.Γ} (ha : CosetGeom.vtype a = false) {b : c.Γ}
     {q₁ q₂ : GPath c.graph 6} (h₁ : q₁ ∈ c.geods 6 a b) (h₂ : q₂ ∈ c.geods 6 a b) :
     ∃ g ∈ stv c a ⊓ stv c b, g • q₁ = q₂ := by
-  obtain ⟨g, hga, hgq⟩ := D.transPt ha q₁ q₂ (D.nbPaths_of_geods h₁) (D.nbPaths_of_geods h₂)
+  obtain ⟨g, hga, hgq⟩ := D.transPt ha q₁ q₂ (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods h₁) (CFSG.ASVolI.burnsideF46_g2d_Data.nbPaths_of_geods h₂)
   refine ⟨g, ⟨MulAction.mem_stabilizer_iff.mpr hga, MulAction.mem_stabilizer_iff.mpr ?_⟩, hgq⟩
   have := congrArg (fun r : GPath c.graph 6 => r 6) hgq
   simp only [GPath.smul_apply] at this
@@ -327,8 +328,8 @@ theorem eight_point [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vty
       rw [hst, D.card_point ha hp, burnsideF45_relIndex_stv, horb, ← Nat.card_coe_set_eq,
         D.card_nbrs a] at h1
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥(stv c a ⊓ stv c (p 6)) := isCyclic_of_prime_card hcard
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥(stv c a ⊓ stv c (p 6)) := isCyclic_of_prime_card hcard
     exact ⟨mulEquivOfCyclicCardEq (by rw [hcard]; simp)⟩
   · rw [Nat.card_congr (hb.equiv _), D.card_nbrs a]
 
@@ -345,7 +346,7 @@ theorem paths_trans [Finite α.G1] [Finite α.G2] {a : c.Γ} {q₁ q₂ : GPath 
       rw [GPath.one_smul']
       exact (hi q₂ h₂.1 he.symm hg₂.2.2).symm
     · obtain ⟨g, hg, hg1⟩ := D.trans_nbrs_of_bij ha h₁ hb (hb.1 (D.mem_geods h₁)) (hb.1 hg₂)
-      exact ⟨g, hg, hb.2.1 (D.smul_geods hg (D.mem_geods h₁)) hg₂ (by simpa using hg1)⟩
+      exact ⟨g, hg, hb.2.1 (burnsideF46_g2d_Data.smul_geods hg (D.mem_geods h₁)) hg₂ (by simpa using hg1)⟩
 
 theorem five (a : c.Γ) {q : GPath c.graph 6} (hq : q ∈ GPath.nbPaths c.graph a 6) :
     IsComplementIn (q.stabPath : Subgroup c.G0) (c.Qvert Qx Ql (q 6)) (stv c (q 5) ⊓ stv c (q 6)) ∨

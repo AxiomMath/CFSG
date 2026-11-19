@@ -65,7 +65,7 @@ theorem noSylowNormalizesTwo_F4 {K : Type} [Field K] [Finite K] [CharP K 2] {p :
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) (h346 : e = 3 ∨ e = 4 ∨ e = 6) :
     NoSylowNormalizesTwo p (adjointGroup Tag.F4 K) := by
   classical
-  haveI : Fintype (WeylGroup .F4) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .F4) := Fintype.ofFinite _
   have he3 : 3 ≤ e := by omega
   have hB : 12 < p * e := by
     have := Nat.mul_le_mul hp5 he3
@@ -86,7 +86,7 @@ theorem sylowTorus_of_degCount_F4 (K : Type) [Field K] [Finite K] {p : ℕ} (hp 
   have hle := le_thirty_of_degCount_pos (τ := Tag.F4) (by simp) (by omega : 0 < degCount Tag.F4 e)
   have h346 : e = 3 ∨ e = 4 ∨ e = 6 := by
     interval_cases e <;> first | (left; rfl) | (right; left; rfl) | (right; right; rfl) |
-      exact absurd hcnt (by decide) | omega
+      exact absurd hcnt (by decide)
   have hk1 : 1 ≤ Nat.card K := Nat.card_pos
   refine ⟨h346, ?_⟩
   rcases h346 with rfl | rfl | rfl
@@ -132,7 +132,7 @@ theorem chevTwoPClosureOddF4_holds : ChevTwoPClosureOddF4 := by
     · have hp5 := five_le_of_prime_ne hp hp2 hp3
       obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q hv
-      haveI : CharP K 2 := hq2 ▸ hchK
+      have : CharP K 2 := hq2 ▸ hchK
       let θ : L ≃* adjointGroup Tag.F4 K := e.trans eK
       obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk θ
       have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]

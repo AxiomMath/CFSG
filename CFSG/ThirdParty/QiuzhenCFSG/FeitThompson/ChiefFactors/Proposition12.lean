@@ -39,7 +39,7 @@ public lemma CFSG.le_fittingSubgroupOf_of_normal_nilpotent {H N : Subgroup G} (h
   classical
   have hN_H_norm : (N.subgroupOf H).Normal :=
     (Subgroup.Normal.subgroupOf (G := G) (hH := hN_norm) H)
-  haveI : Group.IsNilpotent (N.subgroupOf H) := by
+  have : Group.IsNilpotent (N.subgroupOf H) := by
     let e := (Subgroup.subgroupOfEquivOfLe (G := G) (H := N) (K := H) hHN).symm
     have : Group.IsNilpotent (↥N) := hN_nil
     exact Group.nilpotent_of_mulEquiv (G := N) (G' := N.subgroupOf H) e
@@ -87,7 +87,7 @@ variable [Finite G]
 public lemma CFSG.fittingSubgroupOf_isNilpotent (H : Subgroup G) :
     Group.IsNilpotent (fittingSubgroupOf (G := G) H) := by
   classical
-  haveI : Group.IsNilpotent (fittingSubgroup (↥H)) := by infer_instance
+  have : Group.IsNilpotent (fittingSubgroup (↥H)) := by infer_instance
   change Group.IsNilpotent ((fittingSubgroup (↥H)).map H.subtype)
   let e : fittingSubgroup (↥H) ≃* (fittingSubgroup (↥H)).map H.subtype :=
     Subgroup.equivMapOfInjective (f := H.subtype) (fittingSubgroup (↥H)) H.subtype_injective
@@ -343,8 +343,8 @@ public theorem CFSG.normal_le_fittingSubgroupOf_of_centralizes_restricted_chiefF
   · simp [hH_bot]
   · obtain ⟨M, hM_norm, hM_le_H, hM_ne_bot, hM_min⟩ :=
       exists_minimal_normal_le (G := G) H hH hH_bot
-    haveI : M.Normal := hM_norm
-    haveI : IsMinimalNormal M := {
+    have : M.Normal := hM_norm
+    have : IsMinimalNormal M := {
       minimal := by
         intro L _instL hL_le_M
         by_cases hL_bot : L = ⊥
@@ -352,7 +352,7 @@ public theorem CFSG.normal_le_fittingSubgroupOf_of_centralizes_restricted_chiefF
         · exact Or.inr (hM_min L inferInstance hL_le_M hL_bot)
     }
     have hM_nil : Group.IsNilpotent M := by
-      letI : IsMulCommutative M := minimalNormal_solvable_isMulCommutative M
+      let : IsMulCommutative M := minimalNormal_solvable_isMulCommutative M
       exact CommGroup.isNilpotent (G := M)
     have hM_le_fitH : M ≤ fittingSubgroupOf (G := G) H :=
       le_fittingSubgroupOf_of_normal_nilpotent (G := G) (H := H) (N := M)
@@ -483,7 +483,7 @@ public theorem CFSG.proposition_1_2 {G : Type*} [Group G] [Finite G] (hsolv : Gr
   have hF_le_H : F ≤ H := fittingSubgroupOf_le (G := G) H
   have hF_norm : F.Normal := fittingSubgroupOf_normal (G := G) H hH
   have hF_nil : Group.IsNilpotent F := fittingSubgroupOf_isNilpotent (G := G) H
-  letI : Group.IsSolvable G := hsolv
+  let : Group.IsSolvable G := hsolv
 
   -- FIRST EQUALITY
   have hF_le_all : F ≤ sInf (centralizerOfChiefFactor (G := G) H '' (Set.univ : Set (ChiefFactor G))) := by
@@ -530,9 +530,9 @@ public theorem CFSG.proposition_1_2 {G : Type*} [Group G] [Finite G] (hsolv : Gr
         have h1 : (⨅ cf' : ChiefFactor G, centralizerOfChiefFactor (G := G) H cf') ≤
             centralizerOfChiefFactor (G := G) H cf := iInf_le _ cf
         exact h1.trans h_cf_le
-      haveI : Group.IsNilpotent (baer (G := G)) := baer_nilpotent (G := G) hsolv
+      have : Group.IsNilpotent (baer (G := G)) := baer_nilpotent (G := G) hsolv
       let J : Subgroup (↥(baer (G := G))) := I.subgroupOf (baer (G := G))
-      haveI : Group.IsNilpotent J := by infer_instance
+      have : Group.IsNilpotent J := by infer_instance
       let e := Subgroup.subgroupOfEquivOfLe (G := G) (H := I) (K := baer (G := G)) hI_le_baer
       exact Group.nilpotent_of_mulEquiv (G := J) (G' := I) e
     exact le_fittingSubgroupOf_of_normal_nilpotent (G := G) (H := H) (N := I) hI_le_H hI_norm hI_nil
@@ -559,15 +559,15 @@ public theorem CFSG.proposition_1_2 {G : Type*} [Group G] [Finite G] (hsolv : Gr
     have hH_bot : H = ⊥ := by
       by_contra! hH_ne_bot
       rcases exists_minimal_normal_le (G := G) H hH hH_ne_bot with ⟨M, hM_norm, hM_le_H, hM_ne_bot, hM_min⟩
-      haveI : IsMinimalNormal M :=
+      have : IsMinimalNormal M :=
         { minimal := fun K hK_norm hK_le => by
             by_cases hK_bot : K = ⊥
             · exact Or.inl hK_bot
             · exact Or.inr (hM_min K hK_norm hK_le hK_bot) }
-      letI : Group.IsSolvable (↥M) := by infer_instance
+      let : Group.IsSolvable (↥M) := by infer_instance
       have hM_abelian : IsMulCommutative (↥M) := minimalNormal_solvable_isMulCommutative M
       have hM_nil : Group.IsNilpotent M := by
-        haveI : IsMulCommutative (↥M) := hM_abelian
+        have : IsMulCommutative (↥M) := hM_abelian
         exact CommGroup.isNilpotent (G := M)
       have hM_le_F : M ≤ F := le_fittingSubgroupOf_of_normal_nilpotent hM_le_H hM_norm hM_nil
       have : M = ⊥ := le_bot_iff.mp (hM_le_F.trans (by simp [hF_bot]))
@@ -684,18 +684,18 @@ public theorem CFSG.proposition_1_2 {G : Type*} [Group G] [Finite G] (hsolv : Gr
         exact h_comm
       have h_chief0 : IsChiefFactor (f 1) K := by
         simpa [hf0] using hf_chief 0 hr_pos
-      haveI : (f 1).Normal := h_chief0.normal_K
+      have : (f 1).Normal := h_chief0.normal_K
       have hK1_le_K : f 1 ≤ K := hK1_lt_K.le
-      haveI : ((f 1).subgroupOf K).Normal :=
+      have : ((f 1).subgroupOf K).Normal :=
         Subgroup.Normal.subgroupOf (G := G) (hH := h_chief0.normal_K) K
       let π : G →* G ⧸ f 1 := QuotientGroup.mk' (f 1)
       let Uq : Subgroup (G ⧸ f 1) := K.map π
       have h_abelian_Uq : IsMulCommutative (↥Uq) := by
-        haveI : Uq.Normal := h_chief0.normal_H.map π (QuotientGroup.mk'_surjective (f 1))
-        haveI : IsMinimalNormal Uq :=
+        have : Uq.Normal := h_chief0.normal_H.map π (QuotientGroup.mk'_surjective (f 1))
+        have : IsMinimalNormal Uq :=
           chiefFactor_quotient_isMinimalNormal (G := G) ⟨f 1, K, h_chief0⟩
-        letI : Group.IsSolvable (G ⧸ f 1) := by infer_instance
-        letI : Group.IsSolvable (↥Uq) := by infer_instance
+        let : Group.IsSolvable (G ⧸ f 1) := by infer_instance
+        let : Group.IsSolvable (↥Uq) := by infer_instance
         exact minimalNormal_solvable_isMulCommutative (G := G ⧸ f 1) Uq
       have h_comm1 : ⁅K, K⁆ ≤ f 1 := by
         have h_self_centralizing : Uq ≤ Subgroup.centralizer (Uq : Set (G ⧸ f 1)) :=
@@ -891,6 +891,6 @@ public theorem CFSG.isNilpotent_of_le_centralizerOfChiefFactor
   have hF_le_H : fittingSubgroupOf (G := G) H ≤ H := fittingSubgroupOf_le (G := G) H
   have hF_eq : fittingSubgroupOf (G := G) H = H := le_antisymm hF_le_H hH_le_F
   let e : fittingSubgroupOf (G := G) H ≃* H := MulEquiv.subgroupCongr hF_eq
-  haveI : Group.IsNilpotent (fittingSubgroupOf (G := G) H) :=
+  have : Group.IsNilpotent (fittingSubgroupOf (G := G) H) :=
     fittingSubgroupOf_isNilpotent (G := G) H
   exact Group.nilpotent_of_mulEquiv e

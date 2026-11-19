@@ -249,7 +249,7 @@ theorem l31_d_core {H J R : Subgroup G} (hJ : IsPCompIn 2 H J)
   have himg := map_sylow_comap_eq π hπsurj (P₂ ⊔ P₃) hB Pl
   set B₀ : Subgroup ↥H := (Pl : Subgroup ↥((P₂ ⊔ P₃).comap π)).map
     ((P₂ ⊔ P₃).comap π).subtype with hB₀
-  have hB₀pg : IsPGroup 2 ↥B₀ := Pl.isPGroup'.map _
+  have hB₀pg : IsPGroup 2 ↥B₀ := Pl.isPGroup.map _
   have hπB₀ : B₀.map π = P₂ ⊔ P₃ := himg
   have hker : Odd (Nat.card π.ker) := by
     have : π.ker = pPrimeCore 2 ↥H := QuotientGroup.ker_mk' _

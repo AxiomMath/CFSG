@@ -17,7 +17,7 @@ theorem burnsideF42g_card_conj_pred [Finite G] (a : G) (P : G → Prop) :
     Nat.card {g : G // P (g * a * g⁻¹)} =
       Nat.card {y : G // P y ∧ IsConj a y} * Nat.card (Subgroup.centralizer ({a} : Set G)) := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   rw [Nat.subtype_card (Finset.univ.filter (fun g => P (g * a * g⁻¹))) (by simp),
     Nat.subtype_card (Finset.univ.filter (fun y => P y ∧ IsConj a y)) (by simp),
     Nat.subtype_card (Finset.univ.filter (fun g : G => g * a = a * g))
@@ -76,6 +76,7 @@ section LemmaA
 
 variable {Eb M : Type*} [Group Eb] [Group M] [Finite Eb] [Finite M]
 
+omit [Finite Eb] [Finite M] in
 theorem burnsideF42g_card_slice_eq {cb db : Eb} {c d : M}
     (ψ : Subgroup.centralizer ({cb} : Set Eb) →* M) (hψ : Function.Injective ψ)
     (hr : ψ.range = Subgroup.centralizer ({c} : Set M))
@@ -112,7 +113,7 @@ theorem burnsideF42g_lemmaA {zb tb : Eb} {z t : M}
     (hh : h ∈ Subgroup.centralizer ({t} : Set M)) (hhy : h⁻¹ * y * h ∈ ψ₂.range) :
     h ∈ ψ₂.range := by
   classical
-  haveI := Fintype.ofFinite M
+  have := Fintype.ofFinite M
   have cM := burnsideF42g_pair_count z t
   have cE := burnsideF42g_pair_count zb tb
   have tr1 : Nat.card (Subgroup.centralizer ({z} : Set M)) =

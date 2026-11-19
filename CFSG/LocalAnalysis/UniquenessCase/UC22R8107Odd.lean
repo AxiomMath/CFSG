@@ -26,8 +26,8 @@ theorem three_dvd_card_of_pRank_eq_one {L : Subgroup G} (h : CFSG.Open.pRank 3 L
 
 theorem not_three_dvd_card_center {M L : Subgroup G} (hL : L ∈ calC M)
     (h : CFSG.Open.pRank 3 L = 1) : ¬ 3 ∣ Nat.card (center (Bar2 L)) := by
-  haveI : Group.IsPerfect (Bar2 L) := ⟨hL.2.2.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect (Bar2 L) := ⟨hL.2.2.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact PartOne.Theorem82.not_dvd_card_center_of_pRank_eq_one (by norm_num)
     ((pRank_bar2_eq_of_odd Nat.prime_three (by norm_num)).trans h)
 

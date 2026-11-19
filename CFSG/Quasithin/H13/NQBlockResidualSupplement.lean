@@ -14,7 +14,7 @@ variable {G : Type*} [Group G] [Finite G]
 theorem isSylowOf_top {p : ℕ} [Fact p.Prime] (T : Sylow p G) :
     CFSG.ABGLocalTools.IsSylowOf p (T : Subgroup G) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [relIndex_top_right]
   exact T.not_dvd_index
 
@@ -102,7 +102,7 @@ theorem supplement_frattini {L N R L₁ : Subgroup G} (T : Sylow 2 G) [N.Normal]
     le_antisymm (le_inf ((inf_le_inf_left _ inf_le_right).trans hTNR) inf_le_right)
       (inf_le_inf_right _ hRT)
   rw [hTR] at hS2
-  have hS3 := isSylowOf_sup_of_inf hRN₁ (T.isPGroup'.to_le hRT) hS2
+  have hS3 := isSylowOf_sup_of_inf hRN₁ (T.isPGroup.to_le hRT) hS2
   have hconj : ∀ l ∈ L₁, ∀ y ∈ (L₁ ⊓ N) ⊔ R, l * y * l⁻¹ ∈ (L₁ ⊓ N) ⊔ R := by
     intro l hl y hy
     have hy' : y ∈ (((L₁ ⊓ N) ⊔ R : Subgroup G) : Set G) := hy
@@ -223,7 +223,7 @@ theorem supplement_residual_eq {L N R K L₁ : Subgroup G} (T : Sylow 2 G) [N.No
     exact sup_le le_normalizer (hKNR.trans hRK₁)
   have hK₁n : (K₁.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hK₁K).mpr hKK₁
   have hKNs : Group.IsSolvable (K ⊓ N : Subgroup G) := by
-    have hp : IsPGroup 2 (K ⊓ N : Subgroup G) := T.isPGroup'.to_le (hKNR.trans hRT)
+    have hp : IsPGroup 2 (K ⊓ N : Subgroup G) := T.isPGroup.to_le (hKNR.trans hRT)
     have := hp.isNilpotent
     infer_instance
   have hKeq : K₁ = K := by

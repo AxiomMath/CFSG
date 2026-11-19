@@ -113,7 +113,7 @@ theorem cStarTwoRankOne_of_c19_E2Tmp (hE : C19_E2Tmp p f) (hd : Sec19Data p f K 
   have hinv : ∀ x : G, x ∈ cStar K → orderOf x = 2 → x * x = 1 →
       c * x * c⁻¹ ∈ (S : Subgroup G) → c * x * c⁻¹ = z := by
     intro x hx hx2 hxx hcx
-    have h1 := mem_centralizer_inf_of_mem_cStar S.isPGroup' (conj_mem_cStar hcN hx) hcx
+    have h1 := mem_centralizer_inf_of_mem_cStar S.isPGroup (conj_mem_cStar hcN hx) hcx
     have h2 : c * x * c⁻¹ * (c * x * c⁻¹) = 1 := by
       calc c * x * c⁻¹ * (c * x * c⁻¹) = c * (x * x) * c⁻¹ := by group
         _ = 1 := by rw [hxx]; group
@@ -140,7 +140,7 @@ theorem c19_E2Tmp_of_c19_12Tmp (h6 : C19_6Tmp p f) (h14 : C19_14Tmp p f)
   have hI := isUniqueInvolution_of_tight hd.tight.toTightBranch
   obtain ⟨Q₀, hQ₀⟩ := hd.sylow
   have hzR : z ∈ (S : Subgroup G) := hQ₀ (mem_of_uniqueInvolution_of_pGroup hI
-    (Subgroup.map_subtype_le _) (Q₀.isPGroup'.map _)
+    (Subgroup.map_subtype_le _) (Q₀.isPGroup.map _)
     (by have := (exists_ne_comm_of_mem_rSet hd.tight.branch.odd hd.tight.branch.five
       hd.tight.branch.member (R := (Q₀ : Subgroup K).map K.subtype)
       ⟨K, CoreAssembly.mem_conjClass_self K, Q₀, rfl⟩).2; omega))

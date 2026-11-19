@@ -17,11 +17,13 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem s16c1G43_KOf_le_LOf (M V : Subgroup G) (g : G) :
     KOf M V g ≤ LOf V g := by
   unfold KOf LOf UOf BOf
   exact sup_le_sup inf_le_left inf_le_left
 
+omit [Finite G] in
 private theorem s16c1G43_BOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
     BOf M V g ≤ normalizer (UOf M V g : Set G) := by
   have hconj : ∀ b ∈ BOf M V g, ∀ u ∈ UOf M V g, b * u * b⁻¹ ∈ UOf M V g := by
@@ -44,6 +46,7 @@ private theorem s16c1G43_BOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
     have h := hconj b⁻¹ ((BOf M V g).inv_mem hb) (b * u * b⁻¹) hbu
     rwa [show b⁻¹ * (b * u * b⁻¹) * (b⁻¹)⁻¹ = u by group] at h
 
+omit [Finite G] in
 private theorem s16c1G43_KOf_coe_eq_mul (h : Hyp612Sym n M V g) :
     (KOf M V g : Set G) = (BOf M V g : Set G) * (UOf M V g : Set G) := by
   change ((UOf M V g ⊔ BOf M V g : Subgroup G) : Set G) =
@@ -52,19 +55,21 @@ private theorem s16c1G43_KOf_coe_eq_mul (h : Hyp612Sym n M V g) :
   exact Subgroup.coe_mul_of_left_le_normalizer_right (BOf M V g) (UOf M V g)
     (s16c1G43_BOf_le_normalizer_UOf h)
 
-private theorem s16c1G43_mQuot_eq_one (h : Hyp612Sym n M V g) (hV64 : Nat.card ↥V = 64)
+omit [Finite G] in
+private theorem s16c1G43_mQuot_eq_one (_h : Hyp612Sym n M V g) (hV64 : Nat.card ↥V = 64)
     (hU : Nat.card ↥(UOf M V g) = 32) : E3.mQuot V (conjSubgroup M g) = 1 := by
   have hcard : Nat.card ↥(conjSubgroup M g ⊓ V) = 32 := by
     rw [inf_comm]
     exact hU
   have hmul : (conjSubgroup M g).relIndex V * 32 = 64 := by
-    have h := Subgroup.relIndex_mul_card (H := conjSubgroup M g) (K := V)
-    rwa [hcard, hV64] at h
+    have _h := Subgroup.relIndex_mul_card (H := conjSubgroup M g) (K := V)
+    rwa [hcard, hV64] at _h
   have hrel : (conjSubgroup M g).relIndex V = 2 := by omega
   unfold E3.mQuot
   rw [hrel]
   exact padicValNat_self
 
+omit [Finite G] in
 private theorem s16c1G43_inf_centralizer_eq (h : Hyp612Sym n M V g) :
     V ⊓ centralizer ((BOf M V g : Subgroup G) : Set G) = (V ⊓ conjSubgroup V g) ⊔ ⊥ := by
   rw [sup_bot_eq]
@@ -82,7 +87,7 @@ theorem s16c1G43_asm {M V : Subgroup G} {g : G} (h : Hyp612Sym 1 M V g)
     (hB : Nat.card ↥(BOf M V g) = 32) (hN : Nat.card ↥(NOf M V g) = 2)
     (hTI : ∀ x : G, conjSubgroup V x ≠ V → Nat.card ↥(V ⊓ conjSubgroup V x) ≤ 4) :
     InCalOStar 1 M ⊥ V g ∧ IsQ8FourDih ↥(V ⊔ conjSubgroup V g) := by
-  haveI : ((KOf M V g).subgroupOf (V ⊔ conjSubgroup V g)).Normal := h.normal_KOf
+  have : ((KOf M V g).subgroupOf (V ⊔ conjSubgroup V g)).Normal := h.normal_KOf
   have hW64 : Nat.card ↥(conjSubgroup V g) = 64 := (E3.card_conjSubgroup V g).trans hV64
   have hVK : Nat.card ↥(V ⊓ KOf M V g) = 32 := by
     rw [h.V_inf_KOf]; exact hU
@@ -102,8 +107,8 @@ theorem s16c1G43_asm {M V : Subgroup G} {g : G} (h : Hyp612Sym 1 M V g)
       le_antisymm inf_le_left (le_inf le_rfl hle)
     rw [h1, hW64] at hWK
     exact absurd hWK (by decide)
-  obtain ⟨v, hvV, hvK⟩ := SetLike.not_le_iff_exists.1 hVnK
-  obtain ⟨w, hwW, hwK⟩ := SetLike.not_le_iff_exists.1 hWnK
+  obtain ⟨v, hvV, hvK⟩ := IsConcreteLE.not_le_iff_exists.1 hVnK
+  obtain ⟨w, hwW, hwK⟩ := IsConcreteLE.not_le_iff_exists.1 hWnK
   have hvsq : v * v = 1 := by simpa [pow_two] using h.elemAbelian.2 v hvV
   have hwsq : w * w = 1 := by simpa [pow_two] using h.elemAbelian_conj.2 w hwW
   have hVcos : ∀ x ∈ V, x ∉ KOf M V g → v⁻¹ * x ∈ KOf M V g :=

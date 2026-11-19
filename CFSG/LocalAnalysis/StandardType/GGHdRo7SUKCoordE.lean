@@ -32,7 +32,7 @@ theorem hdRo7SUKCoordAux_permData
   let m := hdRo7SUKCoordAux_rowRank hrow
   have hp3 : p = 3 := (hdRo7SUKCoordAux_rowRank_spec hrow).1
   have hp : Nat.Prime p := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsE : CFSG.Open.IsElemAbelian p Bs := hH.1.2.1.2.1
   have hBsSC : ∀ z ∈ Subgroup.centralizer (Bs : Set G), z ^ p = 1 → z ∈ Bs :=
     hH.1.2.1.2.2.2

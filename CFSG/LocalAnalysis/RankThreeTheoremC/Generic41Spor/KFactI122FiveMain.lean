@@ -62,9 +62,9 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
     KFactI122Five := by
   intro X _ _ K hKn hs hnab hcat hKC Q A B y hQcard hAQ hBQ hAc hBc hAcard hBcard hAB hcomm hyQ
     hyord hyAB hgen hyA hyB hZ
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : K.Normal := hKn
+  have : IsSimpleGroup K := hs
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨E, hEQ, hEcomm, hEcard, hEmem, hQnab⟩ :=
     fiveShape_exists_elem (Q : Subgroup X) A B y hAQ hBQ hAc hBc hAcard hBcard hAB hcomm hyQ hyord
       hyAB hgen hyA hyB hZ
@@ -75,7 +75,7 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
     exact ⟨g, fun s hs => hg _ ⟨s, hs, rfl⟩⟩
   have hSle : ∀ S : Sylow 5 K, Nat.card (S : Subgroup K) ≤ 5 ^ 5 := by
     intro S
-    obtain ⟨g, hg⟩ := hconj (S : Subgroup K) S.isPGroup'
+    obtain ⟨g, hg⟩ := hconj (S : Subgroup K) S.isPGroup
     rw [← hQcard]
     refine Nat.card_le_card_of_injective
       (fun s : (S : Subgroup K) => (⟨g * ((s : K) : X) * g⁻¹, hg _ s.2⟩ : (Q : Subgroup X))) ?_
@@ -86,7 +86,7 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
   by_cases hdiag : FiveDiagType K
   · exfalso
     obtain ⟨S⟩ : Nonempty (Sylow 5 K) := inferInstance
-    obtain ⟨g, hg⟩ := hconj (S : Subgroup K) S.isPGroup'
+    obtain ⟨g, hg⟩ := hconj (S : Subgroup K) S.isPGroup
     rcases hR2 K hs hnab hcat hdiag S with h6 | ⟨h4, hexp⟩
     · have := hSle S
       have h56 : 5 ^ 5 < 5 ^ 6 := by norm_num
@@ -135,7 +135,7 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
         ⟨q, hq, ⟨e⟩⟩ | ⟨n, hn5, ⟨e⟩⟩ | ⟨t, n, ℓ, f, hadm, hmodel⟩ | ⟨s, ⟨e⟩⟩
       · obtain ⟨a, b, hab⟩ := hnab
         exact hab (e.injective (by rw [map_mul, map_mul, mul_comm]))
-      · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
         have hcard : Nat.card K = Nat.card (alternatingGroup (Fin n)) := Nat.card_congr e.toEquiv
         have h2 : 2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
           have h2' := two_mul_nat_card_alternatingGroup (α := Fin n)
@@ -160,7 +160,7 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
             refine hEmem _ (hmemQ g hg.1) ?_
             have := congrArg (fun k : K => (k : X)) hg.2
             simpa using this
-          | one => simpa using E.one_mem
+          | one => simp
           | mul a b _ _ ha hb => simpa using E.mul_mem ha hb
           | inv a _ ha => simpa using E.inv_mem ha
         have hcommC : IsMulCommutative
@@ -179,11 +179,11 @@ theorem kFactI122Five_of_inputs (hR1 : Sylow5OmegaLie) (hR2 : FiveDiagSylow) :
         simpa using congrArg (fun k : (S : Subgroup K) => ((k : K) : X)) this
       · have hcard : Nat.card K = sporOrd s :=
           (Nat.card_congr e.toEquiv).trans
-            (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card s)
+            (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card s)
         exact hnd6 (hcard ▸ sporOrd_five_dvd s (hcard ▸ hd5))
-    · obtain ⟨q, hqQ, hqK⟩ := SetLike.not_le_iff_exists.1 hQK
+    · obtain ⟨q, hqQ, hqK⟩ := IsConcreteLE.not_le_iff_exists.1 hQK
       have hq5 : ∃ k : ℕ, q ^ (5 ^ k) = 1 := by
-        obtain ⟨k, hk⟩ := Q.isPGroup' ⟨q, hqQ⟩
+        obtain ⟨k, hk⟩ := Q.isPGroup ⟨q, hqQ⟩
         exact ⟨k, by simpa using congrArg Subtype.val hk⟩
       exact exists_normal_index_pow_of_pGoodOut Nat.prime_five K hKC hP hq5 hqK
 

@@ -43,29 +43,29 @@ private theorem excPayQ_weylAct_inv {τ : Tag} {K : Type} [Field K] (w : WeylGro
   intro v
   rw [rootChar_weylAct]
   rw [show rootChar ((weylAct w a)⁻¹) v = (rootChar (weylAct w a) v)⁻¹ by
-    simp [rootChar, Finset.prod_inv_distrib, inv_zpow]]
+    simp [rootChar, Finset.prod_inv_distrib]]
   rw [rootChar_weylAct]
-  simp [rootChar, Finset.prod_inv_distrib, inv_zpow]
+  simp [rootChar, Finset.prod_inv_distrib]
 
 private noncomputable abbrev excPayQ_muP (p : ℕ) : Subgroup (Fin Tag.E7.rank → GGLˣ) :=
   Subgroup.pi Set.univ fun _ => rootsOfUnity p GGL
 
 private def excPayQ_muP_equiv (p : ℕ) :
-    ↥(excPayQ_muP p) ≃ (∀ i : Fin Tag.E7.rank, rootsOfUnity p GGL) where
-  toFun a i :=
-    ⟨a.1 i, (Subgroup.mem_pi Set.univ).1 a.2 i (Set.mem_univ i)⟩
-  invFun f := ⟨fun i => (f i : GGLˣ), by
-    show (fun i => (f i : GGLˣ)) ∈ Subgroup.pi Set.univ
+    ↥(excPayQ_muP p) ≃ (∀ _i : Fin Tag.E7.rank, rootsOfUnity p GGL) where
+  toFun a _i :=
+    ⟨a.1 _i, (Subgroup.mem_pi Set.univ).1 a.2 _i (Set.mem_univ _i)⟩
+  invFun f := ⟨fun _i => (f _i : GGLˣ), by
+    show (fun _i => (f _i : GGLˣ)) ∈ Subgroup.pi Set.univ
       (fun _ : Fin Tag.E7.rank => rootsOfUnity p GGL)
     rw [Subgroup.mem_pi]
-    intro i _
-    exact (f i).2⟩
-  left_inv a := by ext i; rfl
-  right_inv f := by ext i; rfl
+    intro _i _
+    exact (f _i).2⟩
+  left_inv a := by ext _i; rfl
+  right_inv f := by ext _i; rfl
 
 private theorem excPayQ_card_rootsOfUnity {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     Nat.card (rootsOfUnity p GGL) = p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   exact IsPrimitiveRoot.card_rootsOfUnity'
     (IsPrimitiveRoot.iff_orderOf.2 (ggZeta_order p hp hp2))
 
@@ -115,13 +115,13 @@ private theorem excPayQ_card_Tp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
   rw [excPayQ_card_muP hp hp2, show Tag.E7.rank = 7 from rfl]
 
 private theorem excPayQ_coord_mod {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hplus : p ∣ 2 ^ f + 1) {w : WeylGroup Tag.E7}
+    (_hplus : p ∣ 2 ^ f + 1) {w : WeylGroup Tag.E7}
     (h : ∀ a : Fin Tag.E7.rank → GGLˣ, (∀ i, a i ^ p = 1) →
       weylAct w a = a⁻¹) :
     ∀ k j : Fin Tag.E7.rank,
       (p : ℤ) ∣ (w • (Pi.single k (1 : ℤ) : Fin Tag.E7.rank → ℤ)) j -
         (-1) * (Pi.single k (1 : ℤ) : Fin Tag.E7.rank → ℤ) j := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let ζ : GGLˣ := ggZeta p hp hp2
   have hζo : orderOf ζ = p := ggZeta_order p hp hp2
   have hζp : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
@@ -182,7 +182,6 @@ private theorem excPayQ_smul_neg_of_weylAct_inv {p f : ℕ} (hp : p.Prime) (hp3 
       have h2 := hmod k k
       rw [h] at h2
       simp at h2
-      norm_num at h2
       have hdiv : p ∣ 2 := Int.natCast_dvd_natCast.mp h2
       have := Nat.le_of_dvd (by norm_num) hdiv
       omega
@@ -193,7 +192,7 @@ private theorem excPayQ_smul_neg_of_weylAct_inv {p f : ℕ} (hp : p.Prime) (hp3 
   rw [Finset.sum_neg_distrib]
   exact congrArg Neg.neg (eq_sum_single u).symm
 
-private theorem excPayQ_weylAct_inv_of_mem_torus {p f : ℕ} (hp : p.Prime)
+private theorem excPayQ_weylAct_inv_of_mem_torus {p f : ℕ} (_hp : p.Prime)
     (hplus : p ∣ 2 ^ f + 1) {w : WeylGroup Tag.E7}
     {A' : Subgroup (ModGL Tag.E7 GGL)}
     (hT : A' ≤ twistedTorusOf (canonicalRep (coxeterSystem Tag.E7) GGL w)
@@ -271,7 +270,7 @@ private theorem excPayQ_eq_Tp_of_torus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     exact Subgroup.subset_closure
       ⟨a, fun i => by simpa using congrFun ha1 i, rfl⟩
   have hA'eq : A' = excPayQ_Tp p := by
-    haveI : Finite (excPayQ_Tp p) :=
+    have : Finite (excPayQ_Tp p) :=
       Nat.finite_of_card_ne_zero (by
         rw [excPayQ_card_Tp hp hp2]
         exact pow_ne_zero 7 hp.ne_zero)

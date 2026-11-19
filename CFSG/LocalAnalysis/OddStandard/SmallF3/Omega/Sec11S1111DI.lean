@@ -79,7 +79,7 @@ private lemma zmod_two_ne_one {x : ZMod 2} (h : x ≠ 1) : x = 0 :=
 
 private lemma eq_half_of_two_mul_eq_zero {m : ℕ} (hm : 2 ≤ m) {i : ZMod (2 ^ m)}
     (h : (2 : ZMod (2 ^ m)) * i = 0) (hi : i ≠ 0) : i = (2 ^ m / 2 : ℕ) := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   have hlt : 2 < 2 ^ m := by
     have h4 : 4 ≤ 2 ^ m := by
       have h := Nat.pow_le_pow_right (n := 2) (by norm_num : 0 < 2) hm
@@ -146,7 +146,7 @@ private lemma r_invol_unique {m : ℕ} (hm : 2 ≤ m) {i j : ZMod (2 ^ m)}
 private lemma zmod_two_mul_of_par_zero {m : ℕ} (hm1 : 1 ≤ m) {x : ZMod (2 ^ m)}
     (hx : ZMod.castHom (two_dvd_two_pow hm1) (ZMod 2) x = 0) :
     ∃ k : ZMod (2 ^ m), x = 2 * k := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   have hx'' : (ZMod.cast x : ZMod 2) = 0 := by
     simpa only [ZMod.castHom_apply] using hx
   have hx' : (x.val : ZMod 2) = 0 := by
@@ -278,7 +278,7 @@ theorem sec11_dihedral_invol_mem_aux {m : ℕ} (hm : 2 ≤ m) {Θ : Set (Dihedra
   have h_exists_even : ∃ a : ZMod (2 ^ m), DihedralGroup.sr a ∈ Θ ∧
       ZMod.castHom (two_dvd_two_pow hm1) (ZMod 2) a = 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Θ ⊆ oddSub hm1 := by
       intro s hs
       obtain ⟨i, rfl⟩ := hΘ_refl s hs
@@ -296,7 +296,7 @@ theorem sec11_dihedral_invol_mem_aux {m : ℕ} (hm : 2 ≤ m) {Θ : Set (Dihedra
   have h_exists_odd : ∃ b : ZMod (2 ^ m), DihedralGroup.sr b ∈ Θ ∧
       ZMod.castHom (two_dvd_two_pow hm1) (ZMod 2) b = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Θ ⊆ evenSub hm1 := by
       intro s hs
       obtain ⟨i, rfl⟩ := hΘ_refl s hs

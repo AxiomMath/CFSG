@@ -114,7 +114,7 @@ theorem w183b2_false_of_dynkin (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : 
     simpa [inf_eq_left.2 hTY] using hc.sylow
   obtain ⟨D₀, hD₀⟩ := hne
   have hD₀card : 8 ≤ Nat.card D₀ := by
-    haveI : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
+    have : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
     have h := hrk D₀ hD₀
     dsimp only [mRank] at h
     have h2 : 2 ^ 3 ≤ Nat.card D₀ := Nat.pow_le_of_le_log Nat.card_pos.ne' h

@@ -132,7 +132,7 @@ theorem PInvol.inf_centralizer_le_sup_zpowers [Finite G] {p : ℕ} {Q : Subgroup
     (h : PInvol p Q u) (h1 : InvertedSmall p Q u) {a : G} (haQ : a ∈ Q) (ha1 : a ≠ 1)
     (hua : u * a * u⁻¹ = a⁻¹) :
     Q ⊓ Subgroup.centralizer {a} ≤ ⁅Q, Q⁆ ⊔ Subgroup.zpowers a := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_left h.sq_eq_one
   intro c hc
   rw [Subgroup.mem_inf] at hc
@@ -190,7 +190,7 @@ theorem PInvol.inf_centralizer_le_sup_zpowers [Finite G] {p : ℕ} {Q : Subgroup
     · exact hbComm.symm
     · exact hbComm
     · exact absurd rfl hxy
-  haveI : IsMulCommutative ↥S := isMulCommutative_closure hpair
+  have : IsMulCommutative ↥S := isMulCommutative_closure hpair
   have haS : a ∈ S := Subgroup.subset_closure (by simp)
   have hbS : b ∈ S := Subgroup.subset_closure (by simp)
   have hSQ : S ≤ Q := Subgroup.closure_le Q |>.mpr (by
@@ -262,7 +262,7 @@ theorem PInvol.inf_centralizer_le_sup_zpowers [Finite G] {p : ℕ} {Q : Subgroup
 theorem PInvol.card_le_of_not_commutative [Finite G] {p : ℕ} {Q : Subgroup G} {u : G}
     (h : PInvol p Q u) (hQ : ∃ x ∈ Q, ∃ y ∈ Q, ⁅x, y⁆ ≠ 1) (h1 : InvertedSmall p Q u)
     (h2 : CentralSmall p Q u) : Nat.card Q ≤ p ^ 3 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hDle : ⁅Q, Q⁆ ≤ Subgroup.centralizer (Q : Set G) := by
     rw [Subgroup.commutator_le]
     intro x hx y hy
@@ -324,7 +324,7 @@ theorem PInvol.card_le_of_not_commutative [Finite G] {p : ℕ} {Q : Subgroup G} 
 theorem PInvol.card_main [Finite G] {p : ℕ} {Q : Subgroup G} {u : G} (h : PInvol p Q u)
     (hQ : Q ≠ ⊥) (h1 : InvertedSmall p Q u) (h2 : CentralSmall p Q u) :
     Nat.card Q = p ∨ (Nat.card Q = p ^ 3 ∧ ∃ x ∈ Q, ∃ y ∈ Q, ⁅x, y⁆ ≠ 1) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hpg : IsPGroup p ↥Q := by
     intro g
     refine ⟨1, ?_⟩
@@ -359,13 +359,13 @@ theorem PInvol.card_main [Finite G] {p : ℕ} {Q : Subgroup G} {u : G} (h : PInv
       exact hQ (Subgroup.card_eq_one.mp hn)
     have hn1 : n ≠ 1 := by
       intro hn1
-      haveI : IsCyclic ↥Q := isCyclic_of_prime_card (p := p) (by rw [hn, hn1, pow_one])
+      have : IsCyclic ↥Q := isCyclic_of_prime_card (p := p) (by rw [hn, hn1, pow_one])
       exact hnot (fun x hx y hy => by
         rw [commutatorElement_eq_one_iff_mul_comm]
         simpa using congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥Q) ⟨y, hy⟩))
     have hn2 : n ≠ 2 := by
       intro hn2
-      haveI : IsMulCommutative ↥Q :=
+      have : IsMulCommutative ↥Q :=
         IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) (by rw [hn, hn2])
       exact hnot (fun x hx y hy => by
         rw [commutatorElement_eq_one_iff_mul_comm]

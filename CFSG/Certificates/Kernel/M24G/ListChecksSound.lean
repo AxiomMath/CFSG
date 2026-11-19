@@ -301,6 +301,7 @@ theorem filter_pair0 (O : List Nat) {t m : Nat} (h : t &&& m = m) :
 theorem tetrads0_of : Native.tetrads0 () = (List.range 24).flatMap tetsA := rfl
 
 include hO hOl hOi hS hSl hSi hTet in
+omit hOl in
 theorem tets_of : ((Native.tetrads0 ()).all fun t =>
     ((Native.octList ()).toList.filter (fun o => o &&& t == t)).length == 5 &&
       decide (Native.sextIdx (Native.sextOf t) < Native.nSext)) = true := by
@@ -332,7 +333,7 @@ theorem tets_of : ((Native.tetrads0 ()).all fun t =>
 include hO hOl hOi hB hS hSl hSi hTet in
 theorem sextCheck_of : Native.sextCheck () = true := by
   obtain ⟨hpos, hb, -, -, -, hc⟩ := replay_facts hS
-  have ht := tets_of hO hOl hOi hS hSl hSi hTet
+  have ht := tets_of hO hOi hS hSl hSi hTet
   unfold Native.sextCheck
   simp only [sextList_of hS, sextData_of hS, octList_of hO] at ht ⊢
   rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]

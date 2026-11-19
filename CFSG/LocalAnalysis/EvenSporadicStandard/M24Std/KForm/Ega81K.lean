@@ -49,8 +49,8 @@ theorem ega81HypAZ2A8KSharp_holds : Ega81HypAZ2A8KSharp := by
   · obtain ⟨e2⟩ := h2
     exact Or.inr (Or.inl ⟨e2.trans (MulEquiv.prodCongr Subgroup.topEquiv Subgroup.topEquiv)⟩)
   · obtain ⟨S, hSn, hSs, hSc, hSe⟩ := h3
-    haveI := hSn
-    haveI := hSs
+    have := hSn
+    have := hSs
     have hcat : Catalog ↥S :=
       CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK' S (MonoidHom.id ↥S)
         Function.surjective_id

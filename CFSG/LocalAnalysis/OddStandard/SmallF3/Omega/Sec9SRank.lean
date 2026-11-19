@@ -17,7 +17,7 @@ variable {G : Type} [Group G]
 
 theorem sec9r_exists_sylow2 [Finite G] {L U : Subgroup G} (hU : U ≤ L) (hp : IsPGroup 2 U) :
     ∃ P : Subgroup G, IsSylow2Of P L ∧ U ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp' : IsPGroup 2 (U.subgroupOf L) :=
     hp.of_equiv (Subgroup.subgroupOfEquivOfLe hU).symm
   obtain ⟨Q, hUQ⟩ := hp'.exists_le_sylow
@@ -29,7 +29,7 @@ theorem sec9r_exists_sylow2 [Finite G] {L U : Subgroup G} (hU : U ≤ L) (hp : I
 
 theorem sec9r_exists_card_32 [Finite G] {U : Subgroup G} (hp : IsPGroup 2 U)
     (h : 32 ≤ Nat.card U) : ∃ E : Subgroup G, E ≤ U ∧ Nat.card E = 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hp.exists_card_eq
   have hn5 : 5 ≤ n := by
     by_contra hlt
@@ -47,7 +47,7 @@ theorem sec9r_exists_card_32 [Finite G] {U : Subgroup G} (hp : IsPGroup 2 U)
 theorem sec9r_exists_card_16 [Finite G] {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E)
     (hc : Nat.card E = 32) {a : G} (ha : a ∈ E) :
     ∃ K : Subgroup G, K ≤ E ∧ a ∈ K ∧ Nat.card K = 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha2 : a ^ 2 = 1 := hE.2 a ha
   have hdvd : Nat.card (Subgroup.zpowers a) ∣ 2 ^ 4 := by
     rw [Nat.card_zpowers a]
@@ -86,7 +86,7 @@ theorem asc82RankOm6M_of (hT6 : Asc82Tab6M) : Asc82RankOm6M := by
   by_contra hle
   simp only [not_le] at hle
   have hU2 : 32 ≤ Nat.card U := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (CFSG.Open.IsElemAbelian.isPGroup hUe).exists_card_eq
     have hn5 : 5 ≤ n := by
       by_contra hlt

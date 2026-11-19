@@ -46,7 +46,7 @@ theorem wcOn_trialityD4_class {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F
         (not_dvd_cyclotomic_eval_of_ne hp.out he (by norm_num) (fun h => by
           have := Nat.le_of_dvd (by norm_num) h
           omega))
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       d4One_moves D hq2 hFr hΦ hn hMΓ hp2 hp5 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, hMΓ, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
@@ -54,21 +54,21 @@ theorem wcOn_trialityD4_class {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F
         ((coxeterSystem TwistTag.D4.tag).wordProd d4TwoWord) d4Two_hw (by norm_num) d4Two_pow
         (cyclotomic 6 ℤ) d4Two_det
         (not_dvd_cyclotomic_eval_of_ne hp.out he (by norm_num) (tw_not_dvd_six hp.out hp5))
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       d4Two_moves D hq2 hFr hΦ hn hMΓ hp2 hp5 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, hMΓ, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       exists_lang_triD4_data_of_class hF hℓ hf F hF3 σ hσ hp.out hp5 hpq hC he (by decide)
         ((coxeterSystem TwistTag.D4.tag).wordProd d4ThreeWord) d4Three_hw (by norm_num)
         d4Three_pow (1) d4Three_det (by rw [eval_one]; exact not_dvd_one_int hp.out)
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       d4Three_moves D hq2 hFr hΦ hn hMΓ hp2 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, hMΓ, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       exists_lang_triD4_data_of_class hF hℓ hf F hF3 σ hσ hp.out hp5 hpq hC he (by decide)
         ((coxeterSystem TwistTag.D4.tag).wordProd d4SixWord) d4Six_hw (by norm_num)
         d4Six_pow (1) d4Six_det (by rw [eval_one]; exact not_dvd_one_int hp.out)
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       d4Six_moves D hq2 hFr hΦ hn hMΓ hp2 he S₀ hS₀)
 
@@ -83,13 +83,13 @@ theorem wcOn_trialityD4_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F
   · obtain ⟨L, _, _, hLchar, Fr, hFr, D, hΦ, hn, hMΓ, hfin, ⟨eΓ⟩⟩ :=
       exists_lang_triD4_model hℓ hf F hF3 σ hσ
         ((coxeterSystem TwistTag.D4.tag).wordProd d4OneWord)
-    haveI := hfin
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
-    haveI : NeZero ((3 : ℕ) : L) := ⟨by
+    have := hfin
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : NeZero ((3 : ℕ) : L) := ⟨by
       intro h
       have := (CharP.cast_eq_zero_iff L ℓ 3).1 h
       exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this)⟩
-    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
     have hζu := hζ0.isUnit_unit (by norm_num)
     obtain ⟨Q, x, y, hQ, hxQ, hyQ, hxM, hyM, hxy⟩ :=
       d4One_witness D hq2 hFr hΦ hn (ζ := (hζ0.isUnit (by norm_num)).unit) hζu.pow_eq_one
@@ -98,13 +98,13 @@ theorem wcOn_trialityD4_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F
   · obtain ⟨L, _, _, hLchar, Fr, hFr, D, hΦ, hn, hMΓ, hfin, ⟨eΓ⟩⟩ :=
       exists_lang_triD4_model hℓ hf F hF3 σ hσ
         ((coxeterSystem TwistTag.D4.tag).wordProd d4TwoWord)
-    haveI := hfin
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
-    haveI : NeZero ((3 : ℕ) : L) := ⟨by
+    have := hfin
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : NeZero ((3 : ℕ) : L) := ⟨by
       intro h
       have := (CharP.cast_eq_zero_iff L ℓ 3).1 h
       exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this)⟩
-    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
     have hζu := hζ0.isUnit_unit (by norm_num)
     obtain ⟨Q, x, y, hQ, hxQ, hyQ, hxM, hyM, hxy⟩ :=
       d4Two_witness D hq2 hFr hΦ hn (ζ := (hζ0.isUnit (by norm_num)).unit) hζu.pow_eq_one
@@ -154,7 +154,7 @@ theorem crossChevalley_trialityD4 : CrossChevalley .trialityD4 := by
       have hp5 : 5 ≤ p := by
         have := hp.out.two_le
         omega
-      haveI : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) :=
+      have : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) :=
         Finite.of_equiv K eK.toEquiv
       exact WCOn.of_mulEquiv eK (WCOn.of_pRank_top_le_one (by
         rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]

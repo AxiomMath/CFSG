@@ -174,6 +174,7 @@ private theorem crossMatrix_diag {K : Type} [Field K] (a : Fin 3 → K) :
   intro i
   fin_cases i <;> simp [CFSG.LinearAlgebra.crossMatrix]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.muVec_eq_zero_iff_phiMat (n : ↥(hc.CN t)) :
     D.muVec AM n = 0 ↔ D.phiMat AM ⟨n, D.CN_le_H0 n.2⟩ = 0 := by
   constructor
@@ -267,12 +268,14 @@ theorem Sec108Data.ker_mu : (D.mu AM).ker = (bar M Q Y).subgroupOf (bar M Q (hc.
     have hq : y⁻¹ * n ∈ Q := (HS6.piM_eq_iff hyM hnM').mp hpy
     exact (D.phiMat_eq_zero_iff_root AM hnCN).mpr ⟨y, hy, hq⟩
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.rhoMat_body (r : ↥(Rt M (LB M Q B) t)) :
     D.rhoMat AM r =
       (((D.frameB AM)⁻¹ : Matrix.SpecialLinearGroup (Fin 3) AM.K) :
         Matrix (Fin 3) (Fin 3) AM.K) * D.matV AM ⟨(r : G), D.Rt_le_H0 r.2⟩ *
         (D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K) := rfl
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.rho_mat_eq [(Q.subgroupOf M).Normal] {r : G}
     (hr : r ∈ Rt M (LB M Q B) t)
     (h : HS6.piM M Q r ∈ bar M Q (Rt M (LB M Q B) t)) :
@@ -292,6 +295,7 @@ private theorem Sec108Data.rho_mat_eq [(Q.subgroupOf M).Normal] {r : G}
     exact (Matrix.inv_eq_left_inv hmul).symm
   rw [hP]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.rho_inv_transpose_eq [(Q.subgroupOf M).Normal] {r : G}
     (hr : r ∈ Rt M (LB M Q B) t)
     (h : HS6.piM M Q r ∈ bar M Q (Rt M (LB M Q B) t)) :
@@ -302,7 +306,6 @@ private theorem Sec108Data.rho_inv_transpose_eq [(Q.subgroupOf M).Normal] {r : G
         ((D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K)ᵀ)⁻¹ := by
   have hPt : IsUnit ((D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K)ᵀ).det := by
     rw [Matrix.det_transpose]
-    change IsUnit ((D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K).det)
     rw [(D.frameB AM).2]
     exact isUnit_one
   rw [Matrix.GeneralLinearGroup.coe_inv, Sec108Data.rho_mat_eq D AM hr h,
@@ -323,6 +326,7 @@ private theorem mulVec_conj_cancel {K : Type} [Field K] (P M : Matrix (Fin 3) (F
           rw [Matrix.nonsing_inv_mul_cancel_right (Pᵀ) (Pᵀ * M) hPt]
     _ = Pᵀ *ᵥ (M *ᵥ a) := by rw [Matrix.mulVec_mulVec]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.muVec_conj [(Q.subgroupOf M).Normal] {r n : G}
     (hr : r ∈ Rt M (LB M Q B) t) (hn : n ∈ hc.CN t)
     (h : HS6.piM M Q r ∈ bar M Q (Rt M (LB M Q B) t)) :
@@ -389,6 +393,7 @@ theorem Sec108Data.mu_conj (r : Mbar M Q) (hr : r ∈ bar M Q (Rt M (LB M Q B) t
   rw [hsub, D.mu_piM AM hn₁CN, D.mu_piM AM hnCN hmemN]
   exact D.muVec_conj AM hrR hnCN (HS6.piM_mem_bar hrR (hc.Rt_le_M t hrR))
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.muVec_zero_eq_dotProduct (n : ↥(hc.CN t)) :
     D.muVec AM n 0 =
       ![D.phiMat AM ⟨n, D.CN_le_H0 n.2⟩ 2 1,
@@ -415,7 +420,7 @@ theorem Sec108Data.mem_bar_LB_iff_mu (n : Mbar M Q) (hn : n ∈ bar M Q (hc.CN t
     have he0 : Sec108.e₀ AM.K ≠ 0 := by
       intro h
       have := congrFun h 0
-      simpa [Sec108.e₀] using this
+      simp [Sec108.e₀] at this
     have hPdet : P.det = 1 := (D.frameB AM).2
     have h3 : P⁻¹ *ᵥ β = Sec108.e₀ AM.K := by
       rw [hβdef, Matrix.mulVec_mulVec,

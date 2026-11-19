@@ -109,8 +109,8 @@ theorem pPrimeCore_of_le_centralizer {s : StatedSp 4 (ZMod 2)} (hs3 : s ^ 3 = 1)
             (hb (x * y)) (A₁.mul_mem (hb x) (hb y))
             (by rw [← hab, h1, hab x, hab y, hcomm'])
           exact this.2 }
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥A₁ := isCyclic_of_prime_card hcard₁
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥A₁ := isCyclic_of_prime_card hcard₁
     have hLρ : ∀ x ∈ L, ρ x = 1 := by
       intro x hx
       have h1 : x ∈ ⁅L, L⁆ := by rw [Subgroup.isPerfect_iff.1 hLp]; exact hx

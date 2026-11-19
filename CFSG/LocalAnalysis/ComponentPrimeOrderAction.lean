@@ -144,7 +144,7 @@ theorem exists_isPGroup_not_le_centralizer_of_not_le_normalizer
     ∃ P : Subgroup G, IsPGroup s P ∧ A ≤ normalizer (P : Set G) ∧
       ¬ A ≤ centralizer (P : Set G) := by
   classical
-  obtain ⟨a, haA, haN⟩ := SetLike.not_le_iff_exists.mp hAL
+  obtain ⟨a, haA, haN⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   have : Fact s.Prime := ⟨hs⟩
   obtain ⟨P₁, hP₁⟩ := CFSG.ABGLocalTools.exists_isSylowOf (G := G) s L
   let Pfun : A → Subgroup G := fun x => P₁.map (MulAut.conj (x : G)).toMonoidHom

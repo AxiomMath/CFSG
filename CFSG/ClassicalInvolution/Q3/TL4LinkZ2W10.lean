@@ -274,6 +274,7 @@ private theorem Z2Set.conjSub_Λu_swap (hs : Z2Set n R S t J u R₀ T₀ P) {c :
       linkLayer R t := by
   rw [conjSub_linkLayerAt hs.large.datum.hypOmegaGen.conjInvariant, hs.conjSub_J_swap hc, hc]
 
+omit [Finite Y] in
 private theorem conj_eq_of_comm {c x : Y} (h : c * x = x * c) : c * x * c⁻¹ = x := by
   rw [h, mul_inv_cancel_right]
 
@@ -300,14 +301,17 @@ private theorem Z2Set.swap_of_not_mem (hs : Z2Set n R S t J u R₀ T₀ P) {b : 
   · exact absurd (hs.mem_edgeCent_iff.mpr ⟨hbP, h1⟩) hbA
   · exact h1
 
+omit [Finite Y] in
 private theorem inv_conj_of_conj {b x y : Y} (h : b * x * b⁻¹ = y) : b⁻¹ * y * b⁻¹⁻¹ = x := by
   rw [← h]
   group
 
+omit [Finite Y] in
 private theorem conj_pow' (g b : Y) (k : ℕ) : (g⁻¹ * b * g) ^ k = g⁻¹ * b ^ k * g := by
   have h := conj_pow (a := g⁻¹) (b := b) (i := k)
   rwa [inv_inv] at h
 
+omit [Finite Y] in
 private theorem eq_of_conj_eq {g b c : Y} (h : g⁻¹ * b * g = g⁻¹ * c * g) : b = c := by
   have h1 := congrArg (fun z => g * z * g⁻¹) h
   simpa [mul_assoc] using h1
@@ -352,6 +356,7 @@ private theorem Z2Set.eq_tu_of_conj_mem_E (hs : Z2Set n R S t J u R₀ T₀ P) {
   · exact absurd (by rw [inv_inv]; exact h') (hs.tu_not_conj_u g⁻¹)
   · exact h'
 
+omit [Finite Y] in
 private theorem mem_centralizer_of_conj_eq {g a : Y} (h : g⁻¹ * a * g = a) :
     g⁻¹ ∈ Subgroup.centralizer ({a} : Set Y) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -491,7 +496,7 @@ private theorem Z2Set.fstar_card (hs : Z2Set n R S t J u R₀ T₀ P) :
     (∃ m : ℕ, Odd m ∧ Nat.card ↥(genFittingFStar ↥(linkGrp R t)) = 8 * m) ∧
       Subgroup.center ↥(genFittingFStar ↥(linkGrp R t)) = ⊥ := by
   obtain ⟨p, f, hp, hp2, hf, h16, hk⟩ := hs.mod16
-  haveI := hs.simple
+  have := hs.simple
   obtain ⟨-, -, F, _, _, hFc, ⟨e⟩⟩ := MF163.psl2_of_lieModel hk
   obtain ⟨m, hm, hcardF⟩ := card_psl2_of_mod16 (F := F) (by rw [hFc]; exact h16)
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -517,7 +522,7 @@ private theorem Z2Set.card_le_sixteen (hs : Z2Set n R S t J u R₀ T₀ P)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨m, hm, hcard⟩, -⟩ := hs.fstar_card
   set N := genFittingFStar ↥(linkGrp R t) with hN
-  haveI : N.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal _
+  have : N.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal _
   have h1 := Subgroup.relIndex_mul_card N D
   have h2 : N.relIndex D ≤ 2 := by
     have h3 := Subgroup.relIndex_dvd_index_of_normal N D
@@ -537,7 +542,7 @@ private theorem Z2Set.card_le_sixteen (hs : Z2Set n R S t J u R₀ T₀ P)
 
 private theorem Z2Set.conj_injective (hs : Z2Set n R S t J u R₀ T₀ P) :
     Function.Injective (MulAut.conj : ↥(linkGrp R t) →* MulAut ↥(linkGrp R t)) := by
-  haveI := hs.simple
+  have := hs.simple
   obtain ⟨⟨m, hm, hcard⟩, hZ⟩ := hs.fstar_card
   have hnab : ∃ a b : ↥(genFittingFStar ↥(linkGrp R t)), a * b ≠ b * a := by
     by_contra h
@@ -564,7 +569,7 @@ private theorem Z2Set.conj_injective (hs : Z2Set n R S t J u R₀ T₀ P) :
   exact hxC
 
 theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
-    (hall : ∀ R₁ T₁ : Subgroup Y, IsSylow2In R₁ (tightCore R) →
+    (_hall : ∀ R₁ T₁ : Subgroup Y, IsSylow2In R₁ (tightCore R) →
       R₁ ≤ Subgroup.centralizer ({u} : Set Y) → IsSylow2In T₁ J →
       T₁ ≤ Subgroup.normalizer ((tightCore R : Subgroup Y) : Set Y) → NoA1 t u R₁ T₁)
     {x : Y} (hx : x ∈ edgeCent (P : Subgroup Y) t u) (hin : InnerModOdd (linkLayer R t) x) :
@@ -613,7 +618,7 @@ theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
   set S₂ : Subgroup Y := (Q : Subgroup ↥(linkLayer R t)).map (linkLayer R t).subtype with hS₂def
   have hS₂Λ : S₂ ≤ linkLayer R t := Subgroup.map_subtype_le _
   have hT₀S₂ : T₀ ≤ S₂ := fun z hz => ⟨⟨z, hT₀Λ hz⟩, hQ hz, rfl⟩
-  have hS₂2 : IsPGroup 2 ↥S₂ := Q.isPGroup'.map _
+  have hS₂2 : IsPGroup 2 ↥S₂ := Q.isPGroup.map _
   have hLQ : Function.Injective
       ((linkLayerHom' hs.large).comp (Q : Subgroup ↥(linkLayer R t)).subtype) := by
     rw [injective_iff_map_eq_one]
@@ -622,10 +627,10 @@ theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
     rw [ker_linkLayerHom] at hq'
     exact Subtype.ext (eq_one_of_isPGroup_of_mem_odd
       (CFSG.ComponentClassification.OddCore.odd_card ↥(linkLayer R t)) hq'
-      (Q.isPGroup'.to_le (Subgroup.zpowers_le.mpr q.2)))
+      (Q.isPGroup.to_le (Subgroup.zpowers_le.mpr q.2)))
   have hQcard : Nat.card ↥(Q : Subgroup ↥(linkLayer R t)) ≤ 16 := by
     rw [Nat.card_congr (MonoidHom.ofInjective hLQ).toEquiv]
-    exact hs.card_le_sixteen (Q.isPGroup'.of_equiv (MonoidHom.ofInjective hLQ))
+    exact hs.card_le_sixteen (Q.isPGroup.of_equiv (MonoidHom.ofInjective hLQ))
   have hS₂card : Nat.card ↥S₂ ≤ 16 := by
     rw [hS₂def, Subgroup.card_map_of_injective Subtype.val_injective]
     exact hQcard
@@ -644,7 +649,7 @@ theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
     · have hsT : s ∈ T₀ := Subgroup.relIndex_eq_one.mp h1 hs₂
       exact ⟨T₀.mul_mem hsT hsT, fun z hz => T₀.mul_mem (T₀.mul_mem hsT hz) (T₀.inv_mem hsT)⟩
     · have h2' : (T₀.subgroupOf S₂).index = 2 := h2
-      haveI := Subgroup.normal_of_index_eq_two h2'
+      have := Subgroup.normal_of_index_eq_two h2'
       refine ⟨?_, fun z hz => ?_⟩
       · have h3 := Subgroup.sq_mem_of_index_two h2' ⟨s, hs₂⟩
         rw [Subgroup.mem_subgroupOf] at h3
@@ -842,7 +847,7 @@ theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
     have h1 := key e⁻¹ (Subgroup.inv_mem _ he) _ h
     rwa [show e⁻¹ * (e * c * e⁻¹) * e⁻¹⁻¹ = c by group] at h1
   have hA2 : IsPGroup 2 ↥(edgeCent (P : Subgroup Y) t u) :=
-    P.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+    P.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hAE : IsSylow2In (edgeCent (P : Subgroup Y) t u)
       (Subgroup.centralizer ({t} : Set Y) ⊓ Subgroup.centralizer ({u} : Set Y)) := by
     refine ⟨fun c hc => ⟨hc.1.2, hc.2⟩, hA2, fun V hVE hV2 hAV => ?_⟩
@@ -978,7 +983,7 @@ theorem Z2Set.exists_split_t (hs : Z2Set n R S t J u R₀ T₀ P)
   exact ⟨b, hbB.1, actsLike_trans hbw' (actsLike_symm hxw), hbB.2.2⟩
 
 theorem Z2Set.innerModOdd_conj_swap (hs : Z2Set n R S t J u R₀ T₀ P) {b : Y}
-    (hbP : b ∈ (P : Subgroup Y)) (hbt : b * t * b⁻¹ = u) (x : Y) :
+    (_hbP : b ∈ (P : Subgroup Y)) (hbt : b * t * b⁻¹ = u) (x : Y) :
     InnerModOdd (linkLayer R t) x ↔
       InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) (b * x * b⁻¹) := by
   rw [innerModOdd_conj_iff x b, hs.conjSub_Λt_swap hbt]
@@ -1078,7 +1083,7 @@ theorem Z2Set.innerModOdd_mul_inv_of_outer (hs : Z2Set n R S t J u R₀ T₀ P) 
   have h2pow : ∀ {c : Y} (hc : c ∈ edgeCent (P : Subgroup Y) t u),
       ∃ k : ℕ, χ ⟨c, hN hc⟩ ^ 2 ^ k = 1 := by
     intro c hc
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨c, hc.1.1⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨c, hc.1.1⟩
     refine ⟨k, ?_⟩
     rw [← map_pow]
     have e : (⟨c, hN hc⟩ : ↥(Subgroup.normalizer ((linkLayer R t : Subgroup Y) : Set Y))) ^ 2 ^ k
@@ -1206,7 +1211,7 @@ theorem Z2Set.pow_four_mul_eq (hs : Z2Set n R S t J u R₀ T₀ P) {b : Y}
     rw [← hbu, ← h, hcomm, mul_inv_cancel_right]
   · exact h
 
-theorem Z2Set.innerModOdd_t_of_mem_omegaNbr (hs : Z2Set n R S t J u R₀ T₀ P) {y : Y}
+theorem Z2Set.innerModOdd_t_of_mem_omegaNbr (_hs : Z2Set n R S t J u R₀ T₀ P) {y : Y}
     (hyA : y ∈ edgeCent (P : Subgroup Y) t u) {L : Subgroup Y}
     (hL : L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R))
     (hy : IsUniqueInvolution L y) : InnerModOdd (linkLayer R t) y := by
@@ -1216,7 +1221,7 @@ theorem Z2Set.innerModOdd_t_of_mem_omegaNbr (hs : Z2Set n R S t J u R₀ T₀ P)
   rw [mul_inv_cancel]
   exact Subgroup.one_mem _
 
-theorem Z2Set.innerModOdd_u_of_mem_omegaNbr (hs : Z2Set n R S t J u R₀ T₀ P) {y : Y}
+theorem Z2Set.innerModOdd_u_of_mem_omegaNbr (_hs : Z2Set n R S t J u R₀ T₀ P) {y : Y}
     (hyA : y ∈ edgeCent (P : Subgroup Y) t u) {L : Subgroup Y}
     (hL : L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) J)
     (hy : IsUniqueInvolution L y) :
@@ -1393,7 +1398,7 @@ theorem Z2Set.not_innerModOdd_conj (hs : Z2Set n R S t J u R₀ T₀ P)
       hy'2 hkodd ?_
     rwa [← e]
 
-private theorem Z2Set.innerModOdd_t_t (hs : Z2Set n R S t J u R₀ T₀ P) :
+private theorem Z2Set.innerModOdd_t_t (_hs : Z2Set n R S t J u R₀ T₀ P) :
     InnerModOdd (linkLayer R t) t := by
   refine innerModOdd_of_actsTriv fun z hz => ?_
   have hzt : t * z = z * t :=
@@ -1407,7 +1412,7 @@ private theorem Z2Set.innerModOdd_t_u (hs : Z2Set n R S t J u R₀ T₀ P) :
     ⟨⟨hs.hu.mem, Subgroup.mem_centralizer_singleton_iff.mpr hs.tu_comm.symm⟩,
       Balance.isPGroup_zpowers_of_mul_self_eq_one hs.u2⟩), actsLike_refl _ u⟩
 
-private theorem Z2Set.innerModOdd_u_u (hs : Z2Set n R S t J u R₀ T₀ P) :
+private theorem Z2Set.innerModOdd_u_u (_hs : Z2Set n R S t J u R₀ T₀ P) :
     InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) u := by
   refine innerModOdd_of_actsTriv fun z hz => ?_
   have hzu : u * z = z * u :=
@@ -1431,7 +1436,7 @@ private theorem Z2Set.isSylow2In_edgeCent_t (hs : Z2Set n R S t J u R₀ T₀ P)
   have ht := hs.large.datum.isUniqueInvolution_core
   have hTF := TightLargeHypR.typeRFam hs.large
   have hA2 : IsPGroup 2 ↥(edgeCent (P : Subgroup Y) t u) :=
-    P.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+    P.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hT₀A : T₀ ≤ edgeCent (P : Subgroup Y) t u := fun x hx =>
     ⟨⟨hs.hT₀P hx, S1916.normalizer_le_centralizer_of_isUniqueInvolution ht (hs.hT₀N hx)⟩,
       hTF.le_centralizer hs.hJ.1 hs.hu (hs.hT₀.1 hx)⟩
@@ -1453,8 +1458,8 @@ private theorem Z2Set.isSylow2In_edgeCent_t (hs : Z2Set n R S t J u R₀ T₀ P)
     inf_le_left.trans inf_le_right
   refine ⟨hAt, hA2, fun V hVt hV2 hAV => ?_⟩
   have hVJ : ∀ v ∈ V, conjSub v J = J := by
-    letI := act _ hAt
-    letI := act V hVt
+    let := act _ hAt
+    let := act V hVt
     have hFA : MulAction.fixedPoints ↥(edgeCent (P : Subgroup Y) t u)
         ↥(omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R)) = {⟨J, hs.hJ⟩} := by
       ext J'
@@ -1569,40 +1574,40 @@ private theorem Z2Set.two_lt_card_of_mem_USet (hs : Z2Set n R S t J u R₀ T₀ 
   omega
 
 theorem Z2Set.false_of_type33 (hs : Z2Set n R S t J u R₀ T₀ P)
-    (h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
-    (hyA : y ∈ edgeCent (P : Subgroup Y) t u) (hy2 : y * y = 1)
+    (_h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
+    (_hyA : y ∈ edgeCent (P : Subgroup Y) t u) (_hy2 : y * y = 1)
     (hyt : ¬ InnerModOdd (linkLayer R t) y)
-    (hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
+    (_hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
     {L : Subgroup Y} (hL : L ∈ CoreAssembly.conjClass (tightCore R)) (hyL : IsUniqueInvolution L y)
     {Vt Vu : Subgroup Y} (hVt : IsSylow2In Vt (L ⊓ Subgroup.centralizer ({t} : Set Y)))
-    (hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
-    (hyVu : y ∈ Vu) (h3t : Vt ∈ USet (CoreAssembly.conjClass (tightCore R)))
-    (h3u : Vu ∈ USet (CoreAssembly.conjClass (tightCore R))) : False :=
+    (_hyVt : y ∈ Vt) (_hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
+    (_hyVu : y ∈ Vu) (h3t : Vt ∈ USet (CoreAssembly.conjClass (tightCore R)))
+    (_h3u : Vu ∈ USet (CoreAssembly.conjClass (tightCore R))) : False :=
   hs.false_of_big_t hyt hL hyL hVt.2.1 (hVt.1.trans inf_le_left) (hVt.1.trans inf_le_right)
     (hs.two_lt_card_of_mem_USet h3t)
 
 theorem Z2Set.false_of_type32 (hs : Z2Set n R S t J u R₀ T₀ P)
-    (h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
-    (hyA : y ∈ edgeCent (P : Subgroup Y) t u) (hy2 : y * y = 1)
+    (_h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
+    (_hyA : y ∈ edgeCent (P : Subgroup Y) t u) (_hy2 : y * y = 1)
     (hyt : ¬ InnerModOdd (linkLayer R t) y)
-    (hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
+    (_hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
     {L : Subgroup Y} (hL : L ∈ CoreAssembly.conjClass (tightCore R)) (hyL : IsUniqueInvolution L y)
     {Vt Vu : Subgroup Y} (hVt : IsSylow2In Vt (L ⊓ Subgroup.centralizer ({t} : Set Y)))
-    (hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
-    (hyVu : y ∈ Vu) (h3t : Vt ∈ USet (CoreAssembly.conjClass (tightCore R)))
-    (h2u : Vu = Subgroup.zpowers y) : False :=
+    (_hyVt : y ∈ Vt) (_hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
+    (_hyVu : y ∈ Vu) (h3t : Vt ∈ USet (CoreAssembly.conjClass (tightCore R)))
+    (_h2u : Vu = Subgroup.zpowers y) : False :=
   hs.false_of_big_t hyt hL hyL hVt.2.1 (hVt.1.trans inf_le_left) (hVt.1.trans inf_le_right)
     (hs.two_lt_card_of_mem_USet h3t)
 
 theorem Z2Set.false_of_type23 (hs : Z2Set n R S t J u R₀ T₀ P)
-    (h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
-    (hyA : y ∈ edgeCent (P : Subgroup Y) t u) (hy2 : y * y = 1)
-    (hyt : ¬ InnerModOdd (linkLayer R t) y)
+    (_h1 : C264One (CoreAssembly.conjClass (tightCore R)) t u) {y : Y}
+    (_hyA : y ∈ edgeCent (P : Subgroup Y) t u) (_hy2 : y * y = 1)
+    (_hyt : ¬ InnerModOdd (linkLayer R t) y)
     (hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
     {L : Subgroup Y} (hL : L ∈ CoreAssembly.conjClass (tightCore R)) (hyL : IsUniqueInvolution L y)
-    {Vt Vu : Subgroup Y} (hVt : IsSylow2In Vt (L ⊓ Subgroup.centralizer ({t} : Set Y)))
-    (hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
-    (hyVu : y ∈ Vu) (h2t : Vt = Subgroup.zpowers y)
+    {Vt Vu : Subgroup Y} (_hVt : IsSylow2In Vt (L ⊓ Subgroup.centralizer ({t} : Set Y)))
+    (_hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
+    (_hyVu : y ∈ Vu) (_h2t : Vt = Subgroup.zpowers y)
     (h3u : Vu ∈ USet (CoreAssembly.conjClass (tightCore R))) : False :=
   hs.false_of_big_u hyu hL hyL hVu.2.1 (hVu.1.trans inf_le_left) (hVu.1.trans inf_le_right)
     (hs.two_lt_card_of_mem_USet h3u)
@@ -1614,8 +1619,8 @@ theorem Z2Set.false_of_type22 (hs : Z2Set n R S t J u R₀ T₀ P)
     (hyu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) y)
     {L : Subgroup Y} (hL : L ∈ CoreAssembly.conjClass (tightCore R)) (hyL : IsUniqueInvolution L y)
     {Vt Vu : Subgroup Y} (hVt : IsSylow2In Vt (L ⊓ Subgroup.centralizer ({t} : Set Y)))
-    (hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
-    (hyVu : y ∈ Vu) (h2t : Vt = Subgroup.zpowers y) (h2u : Vu = Subgroup.zpowers y) : False := by
+    (_hyVt : y ∈ Vt) (hVu : IsSylow2In Vu (L ⊓ Subgroup.centralizer ({u} : Set Y)))
+    (_hyVu : y ∈ Vu) (h2t : Vt = Subgroup.zpowers y) (h2u : Vu = Subgroup.zpowers y) : False := by
   have hTF := TightLargeHypR.typeRFam hs.large
   have hyt' : y * t = t * y := Subgroup.mem_centralizer_singleton_iff.mp hyA.1.2
   have hyu' : y * u = u * y := Subgroup.mem_centralizer_singleton_iff.mp hyA.2
@@ -1789,16 +1794,16 @@ theorem Z2Set.not_conj_tu_of_outer (hs : Z2Set n R S t J u R₀ T₀ P)
       R₁ ≤ Subgroup.centralizer ({u} : Set Y) → IsSylow2In T₁ J →
       T₁ ≤ Subgroup.normalizer ((tightCore R : Subgroup Y) : Set Y) → NoA1 t u R₁ T₁)
     (hno : ¬ ∃ c ∈ (P : Subgroup Y), c ∉ edgeCent (P : Subgroup Y) t u ∧ c * c = 1) {x : Y}
-    (hxA : x ∈ edgeCent (P : Subgroup Y) t u) (hx2 : x * x = 1)
+    (hxA : x ∈ edgeCent (P : Subgroup Y) t u) (_hx2 : x * x = 1)
     (hxt : ¬ InnerModOdd (linkLayer R t) x)
-    (hxu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) x) (g : Y) :
+    (_hxu : ¬ InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) x) (g : Y) :
     g * x * g⁻¹ ≠ t * u := by
   intro hg
   have hxt' : x * t = t * x := Subgroup.mem_centralizer_singleton_iff.mp hxA.1.2
   have hxu' : x * u = u * x := Subgroup.mem_centralizer_singleton_iff.mp hxA.2
   obtain ⟨m, hm⟩ := hs.exists_conj_u
   have hQ2 : IsPGroup 2 ↥(conjSub g ((P : Subgroup Y) ⊓ Subgroup.centralizer ({x} : Set Y))) :=
-    (P.isPGroup'.to_le inf_le_left).map _
+    (P.isPGroup.to_le inf_le_left).map _
   have hQa : conjSub g ((P : Subgroup Y) ⊓ Subgroup.centralizer ({x} : Set Y)) ≤
       Subgroup.centralizer ({t * u} : Set Y) := by
     intro q hq
@@ -1833,7 +1838,7 @@ theorem Z2Set.not_conj_tu_of_outer (hs : Z2Set n R S t J u R₀ T₀ P)
     exact hkP u hs.u_mem_P hxu'.symm
   set Q' := conjSub k⁻¹ ((P : Subgroup Y) ⊓ Subgroup.centralizer ({k * t * k⁻¹} : Set Y) ⊓
     Subgroup.centralizer ({k * u * k⁻¹} : Set Y)) with hQ'
-  have hQ'2 : IsPGroup 2 ↥Q' := (P.isPGroup'.to_le (inf_le_left.trans inf_le_left)).map _
+  have hQ'2 : IsPGroup 2 ↥Q' := (P.isPGroup.to_le (inf_le_left.trans inf_le_left)).map _
   have hcomm_conj : ∀ {q a : Y}, k * q * k⁻¹ * (k * a * k⁻¹) = k * a * k⁻¹ * (k * q * k⁻¹) →
       q * a = a * q := by
     intro q a h
@@ -2003,7 +2008,7 @@ theorem Z2Set.false_of_noInvolution (hs : Z2Set n R S t J u R₀ T₀ P)
   refine false_of_transfer_1515 (p := 2) (P := (P : Subgroup Y))
     (Q := edgeCent (P : Subgroup Y) t u) (R₀ := R₀) (u := b)
     (fun _ _ f hf => LinkZ2B.hom_eq_one_of_sylow_tight hs.large.cls.2.1 hs.hR₀ f hf)
-    P.isPGroup' P.not_dvd_index (fun x hx q hq => hs.conj_mem_edgeCent hx hq)
+    P.isPGroup P.not_dvd_index (fun x hx q hq => hs.conj_mem_edgeCent hx hq)
     ⟨b, hbP, fun x hx => ?_⟩ hbP hbA (fun g k hg => hs.hb_of_noInvolution h1 hall hno hbP hbt g k hg)
     (fun g hg _ => hs.mem_or_mem_of_swap hbP hbt hg)
     (fun g => hs.hT1_of_noInvolution h1 hall hno hbP hbt g) (hs.hweak h1)

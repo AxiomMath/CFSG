@@ -641,7 +641,6 @@ theorem eltSmall_diag_two (hK : Nat.card K = (2 ^ 1) ^ 2) (hd3 : ¬ 3 ∣ d) (hd
         Nat.prime_two Nat.prime_three (by norm_num) (G := D) (a := a₁) (b := b₁) (by
           rw [← Nat.card_eq_fintype_card]
           first
-          | exact hd12
           | exact hd12.symm)
       have := CFSG.LocalCores.isQuasisimple_nontrivial hDq
       have := hDq.1

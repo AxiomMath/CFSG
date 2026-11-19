@@ -19,7 +19,7 @@ theorem burnsideF411_row_iff {M : Matrix (Fin 3) (Fin 3) K} {i : Fin 3} :
   constructor
   · intro h v
     simp only [Matrix.mulVec, dotProduct, h, Matrix.one_apply, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   · intro h j
     have := h (Pi.single j 1)
     rw [Matrix.mulVec_single_one] at this
@@ -230,6 +230,7 @@ theorem burnsideF411_pow_char_of_sq_zero (p : ℕ) [CharP K p] {g : SpecialLinea
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem burnsideF411_l3R1_isPGroup (p : ℕ) [CharP K p] : IsPGroup p (burnsideF411_l3R1 K) := by
   intro g
   refine ⟨1, Subtype.ext ?_⟩
@@ -251,6 +252,7 @@ theorem burnsideF411_l3R1_isPGroup (p : ℕ) [CharP K p] : IsPGroup p (burnsideF
   · simp [hrow 1 0 (by decide)]
   · simp [hrow 2 0 (by decide)]
 
+omit [Finite K] in
 theorem burnsideF411_l3R2_isPGroup (p : ℕ) [CharP K p] : IsPGroup p (burnsideF411_l3R2 K) := by
   intro g
   refine ⟨1, Subtype.ext ?_⟩
@@ -359,7 +361,7 @@ theorem burnsideF411_l3_pCoreOf_le_projU (p : ℕ) [Fact p.Prime] [CharP K p]
     pCoreOf p L ≤ projUnitriangular 3 K := by
   obtain ⟨SU, hSU⟩ := exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
   have hSB : (SU : Subgroup (projectiveSL 3 K)) ≤ L := hSU ▸ hUL
-  haveI := CFSG.LieType.BorelTits.pCore_normal p (G := ↥L)
+  have := CFSG.LieType.BorelTits.pCore_normal p (G := ↥L)
   have hle := (CFSG.LieType.BorelTits.pCore_isPGroup p (G := ↥L)).le_sylow_of_normal
     (SU.subtype hSB)
   rintro _ ⟨x, hx, rfl⟩
@@ -367,11 +369,13 @@ theorem burnsideF411_l3_pCoreOf_le_projU (p : ℕ) [Fact p.Prime] [CharP K p]
   rw [Sylow.coe_subtype, Subgroup.mem_subgroupOf, hSU] at hx'
   exact hx'
 
+omit [Finite K] in
 theorem burnsideF411_l3_projU_le (d : ℕ) :
     projUnitriangular 3 K ≤ projStabilizer (flagSpace 3 K d) :=
   Subgroup.map_mono ((unitriangular_le_upperTriangular 3 K).trans
     (upperTriangular_le_stabilizer_flagSpace d))
 
+omit [Finite K] in
 theorem burnsideF411_l3_conj_scalar {u u' w : SpecialLinearGroup (Fin 3) K}
     (h : proj 3 K u' = proj 3 K (w⁻¹ * u * w)) :
     ∃ c : Kˣ, ∀ v : Fin 3 → K, (w : Matrix (Fin 3) (Fin 3) K) *ᵥ ((u' : Matrix (Fin 3) (Fin 3) K) *ᵥ v) =
@@ -401,6 +405,7 @@ theorem burnsideF411_l3_conj_scalar {u u' w : SpecialLinearGroup (Fin 3) K}
 @[expose] def burnsideF411_l3w2 : SpecialLinearGroup (Fin 3) K :=
   ⟨!![0, 1, 0; -1, 0, 0; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
 
+omit [Finite K] in
 theorem burnsideF411_l3w1_mem : burnsideF411_l3w1 (K := K) ∈ stabilizer (flagSpace 3 K 1) := by
   refine mem_stabilizer_of_map_le ?_
   rintro _ ⟨v, hv, rfl⟩
@@ -408,6 +413,7 @@ theorem burnsideF411_l3w1_mem : burnsideF411_l3w1 (K := K) ∈ stabilizer (flagS
   rw [burnsideF411_mem_flag1]
   simp [burnsideF411_l3w1, Matrix.mulVec, dotProduct, Fin.sum_univ_three, h1, h2]
 
+omit [Finite K] in
 theorem burnsideF411_l3w2_mem : burnsideF411_l3w2 (K := K) ∈ stabilizer (flagSpace 3 K 2) := by
   refine mem_stabilizer_of_map_le ?_
   rintro _ ⟨v, hv, rfl⟩
@@ -437,10 +443,7 @@ theorem burnsideF411_l3_pCoreOf_point (p : ℕ) [Fact p.Prime] [CharP K p] :
     simp [burnsideF411_l3w1, Matrix.mulVec, dotProduct, Fin.sum_univ_three, h21] at e
     have h12 : (u : Matrix (Fin 3) (Fin 3) K) 1 2 = 0 := by
       first
-        | exact e.symm
         | exact e
-        | exact (mul_eq_zero.mp e.symm).resolve_left c.ne_zero
-        | exact (mul_eq_zero.mp e).resolve_left c.ne_zero
     refine ⟨u, fun i j hi => ?_, rfl⟩
     fin_cases i
     · exact absurd rfl hi
@@ -478,10 +481,7 @@ theorem burnsideF411_l3_pCoreOf_line (p : ℕ) [Fact p.Prime] [CharP K p] :
     simp [burnsideF411_l3w2, Matrix.mulVec, dotProduct, Fin.sum_univ_three, h10] at e
     have h01 : (u : Matrix (Fin 3) (Fin 3) K) 0 1 = 0 := by
       first
-        | exact e.symm
         | exact e
-        | exact (mul_eq_zero.mp e.symm).resolve_left c.ne_zero
-        | exact (mul_eq_zero.mp e).resolve_left c.ne_zero
     refine ⟨u, fun i j hj => ?_, rfl⟩
     fin_cases j
     · fin_cases i

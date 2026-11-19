@@ -81,7 +81,7 @@ theorem pair_sylow_full_fixed_set_of_double_transitivity
   have hPGindex : ¬ p ∣ PG.index := by
     rw [Subgroup.index_map_subtype]
     exact hp.not_dvd_mul P.not_dvd_index hBindex
-  let Pambient : Sylow p G := (P.isPGroup'.map B.subtype).toSylow hPGindex
+  let Pambient : Sylow p G := (P.isPGroup.map B.subtype).toSylow hPGindex
   have hPGpair : PG ≤ B := Subgroup.map_subtype_le _
   have ha : a ∈ pointFixedSet H PG :=
     (mem_pointFixedSet_iff H PG a).mpr (hPGpair.trans inf_le_left)

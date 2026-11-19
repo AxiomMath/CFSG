@@ -100,7 +100,7 @@ theorem innerBlockAt_orthDerived [Finite K] [CharP K 2] (Q : QuadraticForm K (Fi
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K + 1) : InnerBlockAt p ↥(orthDerived Q) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   intro A a hA hAc haA ha1 hns
   have hpK : (p : K) ≠ 0 := by
     intro h0
@@ -115,14 +115,14 @@ theorem innerBlockAt_orthDerived [Finite K] [CharP K 2] (Q : QuadraticForm K (Fi
       DFunLike.coe_injective
   have hΩO : orthDerived Q ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
     Subgroup.commutator_le_self _
-  haveI : IsMulCommutative ↥(A.map (orthToSL Q)) := ⟨⟨fun x y => by
+  have : IsMulCommutative ↥(A.map (orthToSL Q)) := ⟨⟨fun x y => by
     obtain ⟨x', hx', hx⟩ := Subgroup.mem_map.mp x.2
     obtain ⟨y', hy', hy⟩ := Subgroup.mem_map.mp y.2
     have hc := congrArg Subtype.val (hA.1.is_comm.comm ⟨x', hx'⟩ ⟨y', hy'⟩)
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hx, ← hy, ← map_mul, ← map_mul]
     exact congrArg _ hc⟩⟩
-  letI : Fintype ↥(A.map (orthToSL Q)) := Fintype.ofFinite _
+  let : Fintype ↥(A.map (orthToSL Q)) := Fintype.ofFinite _
   have hP : IsPlane p ↥(A.map (orthToSL Q)) :=
     { prime := hp
       card := by rw [Subgroup.card_map_of_injective (orthToSL_injective Q), hAc]
@@ -138,12 +138,12 @@ theorem innerBlockAt_orthDerived [Finite K] [CharP K 2] (Q : QuadraticForm K (Fi
     rw [he, act_orthToSL hg]
     exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp (hΩO g.2) v
   obtain ⟨D, hDp, hD⟩ := exists_isPerfect_ne_bot hns
-  haveI := hDp
+  have := hDp
   set f : ↥(Subgroup.centralizer (A : Set ↥(orthDerived Q))) →* (Fin n → K) ≃ₗ[K] (Fin n → K) :=
     (orthDerived Q).subtype.comp (Subgroup.centralizer (A : Set ↥(orthDerived Q))).subtype
     with hf
   have hinj : Function.Injective f := fun x y h => Subtype.ext (Subtype.ext h)
-  haveI : Group.IsPerfect ↥(D.map f) := Group.IsPerfect.map _
+  have : Group.IsPerfect ↥(D.map f) := Group.IsPerfect.map _
   have hR0 : D.map f ≠ ⊥ := fun h => hD ((Subgroup.map_eq_bot_iff_of_injective D hinj).mp h)
   have hRO : D.map f ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by
     rintro _ ⟨d, -, rfl⟩

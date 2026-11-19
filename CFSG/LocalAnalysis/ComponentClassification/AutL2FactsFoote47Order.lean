@@ -54,7 +54,7 @@ theorem HarrisHyp.right_mul_self_of_centralizes (hH : HarrisHyp F) (T : Sylow 2 
         rw [← h2]
       _ = (incl F h)⁻¹ * g * incl F h * incl F t := by group
   have hR2 : IsPGroup 2 (rStd F) := by
-    have := (stdSylow F hH.odd hH.sq hH.q4).isPGroup'
+    have := (stdSylow F hH.odd hH.sq hH.q4).isPGroup
     rw [coe_stdSylow] at this
     exact this.map _
   have hox : orderOf x' = 2 ^ k := by

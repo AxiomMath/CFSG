@@ -88,7 +88,7 @@ theorem m6_core {Zw : Subgroup W} (hZ2 : Nat.card Zw = 2) (hcomm : ∀ x y : W, 
   have hQnon : NonAdd Qf := by
     by_contra hna
     unfold NonAdd at hna
-    push_neg at hna
+    push Not at hna
     obtain ⟨x, y, hxy⟩ := hnab
     apply hxy
     have h1 := sqb_mul hZ2 hcomm hsq hcent x y
@@ -104,21 +104,21 @@ theorem m6_core {Zw : Subgroup W} (hZ2 : Nat.card Zw = 2) (hcomm : ∀ x y : W, 
     · subst h0
       rw [hQ0]
       unfold Qab
-      rw [if_neg hO.zero_o1, if_neg hO.zero_o2]
+      rw [ite_eq_right hO.zero_o1, ite_eq_right hO.zero_o2]
     · obtain ⟨m, hm, hmv⟩ := hO.trans1 v h1
       rw [← hmv, hQinv m hm]
       unfold Qab
-      rw [if_pos (hmv ▸ h1)]
+      rw [ite_eq_left (hmv ▸ h1)]
     · obtain ⟨m, hm, hmv⟩ := hO.trans2 v h2
       have hn1 : v ∉ O1 := fun h => hO.disj v h h2
       rw [← hmv, hQinv m hm]
       unfold Qab
-      rw [if_neg (hmv ▸ hn1), if_pos (hmv ▸ h2)]
+      rw [ite_eq_right (hmv ▸ hn1), ite_eq_left (hmv ▸ h2)]
   have hab := hO.unique _ _ (hfun ▸ hQ3) (hfun ▸ hQnon)
   have hfun2 : Qf = Qab 1 0 := by rw [hfun, hab.1, hab.2]
   have hcard6 : (Finset.univ.filter fun v : Vec4 => Qf v = 0).card = 6 := by
     rw [hfun2]; exact hO.count
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hfiber : ∀ b : Vec4,
       (Finset.univ.filter fun x : W => Multiplicative.toAdd (φ x) = b).card = 2 := by
     intro b
@@ -196,7 +196,7 @@ theorem leafM6 : LeafM6 := by
     have := comm_of_card_two hZ hz (w : G) hw
     exact Subtype.ext this.symm
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hV
     rw [eq_bot_iff, Subgroup.commutator_le]
     intro a ha b hb

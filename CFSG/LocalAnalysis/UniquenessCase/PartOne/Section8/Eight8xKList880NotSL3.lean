@@ -24,7 +24,7 @@ private theorem l3Num_ge (r : ℕ) (b : Bool) : r ^ 3 * ((r ^ 2 - 1) * (r ^ 3 - 
   unfold l3Num
   cases b
   · simp
-  · simp only [if_true]
+  · simp only [ite_true]
     exact Nat.mul_le_mul_left _ (Nat.mul_le_mul_left _ (by omega))
 
 private theorem seventeen_mul_lt {r : ℕ} (hr : 4 ≤ r) :
@@ -64,14 +64,14 @@ private theorem two_pow_le_of_dvd_l3Num {r k : ℕ} (b : Bool) (hr : Odd r) (hr1
     · left
       have h3 : (2 * t + 1) ^ 3 - 1 = 2 * t * (4 * t ^ 2 + 6 * t + 3) := by
         apply Nat.sub_eq_of_eq_add; ring
-      simp only [Bool.false_eq_true, if_false, h2, h3] at h
+      simp only [Bool.false_eq_true, ite_false, h2, h3] at h
       have e : (2 * t + 1) ^ 3 * (4 * t * (t + 1) * (2 * t * (4 * t ^ 2 + 6 * t + 3))) =
           8 * t ^ 2 * (t + 1) * ((2 * t + 1) ^ 3 * (4 * t ^ 2 + 6 * t + 3)) := by ring
       rw [e] at h
       exact (coprime_two_pow_of_odd k (hodd3.mul ⟨2 * t ^ 2 + 3 * t + 1, by ring⟩)).dvd_of_dvd_mul_right h
     · right
       have h3 : (2 * t + 1) ^ 3 + 1 = 2 * (t + 1) * (4 * t ^ 2 + 2 * t + 1) := by ring
-      simp only [if_true, h2, h3] at h
+      simp only [ite_true, h2, h3] at h
       have e : (2 * t + 1) ^ 3 * (4 * t * (t + 1) * (2 * (t + 1) * (4 * t ^ 2 + 2 * t + 1))) =
           8 * t * (t + 1) ^ 2 * ((2 * t + 1) ^ 3 * (4 * t ^ 2 + 2 * t + 1)) := by ring
       rw [e] at h
@@ -189,8 +189,8 @@ private theorem three_mul_sp4_ne_l3Num {n p f : ℕ} (b : Bool) (hn : 1 ≤ n) (
     have h2 : 3 * (Q ^ 6 - 1) * (Q ^ 12 - 1) < (Q ^ 8 - 1) * (Q ^ 12 - 1) :=
       Nat.mul_lt_mul_of_pos_right h1 (by omega)
     cases b
-    · simp only [Bool.false_eq_true, if_false] at hodd; rw [← mul_assoc] at hodd; omega
-    · simp only [if_true] at hodd
+    · simp only [Bool.false_eq_true, ite_false] at hodd; rw [← mul_assoc] at hodd; omega
+    · simp only [ite_true] at hodd
       have h3 : (Q ^ 8 - 1) * (Q ^ 12 - 1) ≤ (Q ^ 8 - 1) * (Q ^ 12 + 1) :=
         Nat.mul_le_mul_left _ (by omega)
       rw [← mul_assoc] at hodd; omega
@@ -248,8 +248,8 @@ private theorem three_mul_g2_ne_l3Num {n p f : ℕ} (b : Bool) (hn : 1 ≤ n) (h
     have e2 : (q ^ 6 - 1) * (q ^ 4 - 1) = (q ^ 4 - 1) * (q ^ 6 - 1) := by ring
     rw [e1] at hodd
     cases b
-    · simp only [Bool.false_eq_true, if_false] at hodd; omega
-    · simp only [if_true] at hodd
+    · simp only [Bool.false_eq_true, ite_false] at hodd; omega
+    · simp only [ite_true] at hodd
       have h3 : (q ^ 4 - 1) * (q ^ 6 - 1) ≤ (q ^ 4 - 1) * (q ^ 6 + 1) :=
         Nat.mul_le_mul_left _ (by omega)
       omega
@@ -342,7 +342,7 @@ private theorem three_mul_u5_ne_l3Num {m p f : ℕ} (b : Bool) (hm : 1 ≤ m) (h
       calc (Q ^ 20 - 1) * (Q ^ 30 - 1) ≤ (Q ^ 20 - 1) * (if b then Q ^ 30 + 1 else Q ^ 30 - 1) := by
             cases b
             · simp
-            · simp only [if_true]; exact Nat.mul_le_mul_left _ (by omega)
+            · simp only [ite_true]; exact Nat.mul_le_mul_left _ (by omega)
         _ ≤ d * ((Q ^ 20 - 1) * (if b then Q ^ 30 + 1 else Q ^ 30 - 1)) := Nat.le_mul_of_pos_left _ hd1
     omega
   · have hdvd : 2 ^ (10 * m) ∣ l3Num (p ^ f) b := by

@@ -222,7 +222,7 @@ theorem overBool2_mulAut_of_orbits (hn : 3 ≤ n) {O₁ O₂ : Set ℕ}
       · exact Or.inr (Or.inl rfl)
       · exact Or.inr (Or.inr (Or.inl rfl))
       · exact Or.inl (PI_full n)
-  exact OverBool2.of_sylow Q.isPGroup' Q.not_dvd_index hT hTi hOQ
+  exact OverBool2.of_sylow Q.isPGroup Q.not_dvd_index hT hTi hOQ
 
 theorem cl4 {I : Set ℕ} (hI : ∀ i ∈ I, 1 ≤ i ∧ i < 4) (hsw : swapCuts 4 I = I) :
     I = ∅ ∨ I = {2} ∨ I = {1, 3} ∨ I = fullCuts 4 := by

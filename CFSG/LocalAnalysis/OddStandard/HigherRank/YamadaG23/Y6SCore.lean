@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y6SCore_mem_zpowers_eq_one_or_self {z v : G} (hz2 : z ^ 2 = 1)
     (hv : v ∈ zpowers z) : v = 1 ∨ v = z := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv

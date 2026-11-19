@@ -63,10 +63,10 @@ theorem sol78Thm46Noncat_of_inputs_of_uhered (hRK : Outer.RankTwoStdRec)
     (hty : (∃ n : ℕ, 2 ≤ n ∧ LieModel (↥P ⧸ center ↥P) .PSL 3 2 n) ∨
       IsSporadic (↥P ⧸ center ↥P) .Suz ∨ IsSporadic (↥P ⧸ center ↥P) .He)
     (hsuz : IsSporadic (↥P ⧸ center ↥P) .Suz → Even (Nat.card ↥(center ↥P))) : False := by
-  haveI := hs
+  have := hs
   have hL := standardComponentIsStandard_of_solStd hP hPq
   have hcore := oddCore_bot_of_noncat_of_uhered hU hna hkp hnc
-  haveI : IsSimpleGroup (↥P ⧸ center ↥P) := hPq.2.1
+  have : IsSimpleGroup (↥P ⧸ center ↥P) := hPq.2.1
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥(centralizer (P : Set G))) := inferInstance
   rcases hty with ⟨n, hn, hL3⟩ | hSz | hHe
   · rcases Nat.lt_or_ge n 3 with hn3 | hn3
@@ -105,10 +105,10 @@ theorem sol78Thm412Noncat_of_inputs_of_uhered (hRK : Outer.RankTwoStdRec)
     (hPq : CFSG.IsQuasisimple ↥P) (hG2 : ∃ n : ℕ, 2 ≤ n ∧ LieModel (↥P ⧸ center ↥P) .G2 0 2 n) :
     False := by
   obtain ⟨n, hn, hG2⟩ := hG2
-  haveI := hs
+  have := hs
   have hL := standardComponentIsStandard_of_solStd hP hPq
   have hcore := oddCore_bot_of_noncat_of_uhered hU hna hkp hnc
-  haveI : IsSimpleGroup (↥P ⧸ center ↥P) := hPq.2.1
+  have : IsSimpleGroup (↥P ⧸ center ↥P) := hPq.2.1
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥(centralizer (P : Set G))) := inferInstance
   have hgt := hord.g2_gt _ n hn hG2
   have hcyc := isCyclic_sylow_of_noncat hRK thm24_1 hna hkp hnc hP hPq
@@ -131,7 +131,7 @@ theorem sol78Thm46FSHered_of_inputs (hRK : Outer.RankTwoStdRec) (thm24_1 : Sol78
       hsuz
   · have hNtop := catalog_or_top hN hidx hkp hcat
     subst hNtop
-    haveI : IsSimpleGroup Y := by
+    have : IsSimpleGroup Y := by
       have := hN.isSimpleGroup
       exact (Subgroup.topEquiv (G := Y)).symm.isSimpleGroup
     have hna : ∃ a b : Y, a * b ≠ b * a := by
@@ -152,7 +152,7 @@ theorem sol78Thm412FSHered_of_inputs (hRK : Outer.RankTwoStdRec) (thm24_1 : Sol7
   · exact sol78Thm412CatFS_of_inputs hG2 hCo1 Y N' hN hidx hkp hcat P hP hPq hty
   · have hNtop := catalog_or_top hN hidx hkp hcat
     subst hNtop
-    haveI : IsSimpleGroup Y := by
+    have : IsSimpleGroup Y := by
       have := hN.isSimpleGroup
       exact (Subgroup.topEquiv (G := Y)).symm.isSimpleGroup
     have hna : ∃ a b : Y, a * b ≠ b * a := by

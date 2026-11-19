@@ -70,11 +70,11 @@ private def T6Z (b : Fin 2) : Matrix.SpecialLinearGroup (Fin 6) F2Z :=
 private def e6 : Fin 3 ⊕ Fin 3 ≃ Fin 6 where
   toFun := Sum.elim (Fin.castLE (by omega : 3 ≤ 6)) (Fin.natAdd 3)
   invFun := fun i => if h : i.val < 3 then Sum.inl ⟨i.val, h⟩ else Sum.inr ⟨i.val - 3, by omega⟩
-  left_inv := by rintro (i | i) <;> simp [Fin.ext_iff] <;> omega
+  left_inv := by rintro (i | i) <;> simp
   right_inv := by
     intro i
     by_cases h : i.val < 3
-    · simp [h, Fin.ext_iff]
+    · simp [h]
     · simp [h, Fin.ext_iff]; omega
 
 private theorem T6matZ0_block :

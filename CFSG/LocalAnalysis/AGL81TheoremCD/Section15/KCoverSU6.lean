@@ -93,7 +93,7 @@ theorem false_of_su_six_q (hS : IsSylowTwoOf S₀ L)
   obtain ⟨π', hπ', hcl⟩ := cover_classes hS hcov hbq
   have hdiv : (Unitary.rootDatum hF 6).divisible = ∅ := by
     show Unitary.divisible 6 = ∅
-    simp only [Unitary.divisible, if_pos (show Even 6 by decide)]
+    simp only [Unitary.divisible, ite_eq_left (show Even 6 by decide)]
   have hodd : ∀ i, OddNode (rankOne (Unitary.rootDatum hF 6).rootGroup i) q := fun i =>
     CFSG.LocalAnalysis.RankThreeUC.S15.K517ChevGenQ.oddNode_su_sq hF (by norm_num) i hq hq2 hpd
   let i0 : Fin (6 / 2) := ⟨0, by norm_num⟩
@@ -102,12 +102,12 @@ theorem false_of_su_six_q (hS : IsSylowTwoOf S₀ L)
   have hbad02 : BadPair (Unitary.rootDatum hF 6) i0 i2 := by
     show BadPairMat (Unitary.cartan 6) i0 i2
     unfold Unitary.cartan
-    rw [if_pos (show Even 6 by decide)]
+    rw [ite_eq_left (show Even 6 by decide)]
     decide +kernel
   have hbad12 : BadPair (Unitary.rootDatum hF 6) i1 i2 := by
     show BadPairMat (Unitary.cartan 6) i1 i2
     unfold Unitary.cartan
-    rw [if_pos (show Even 6 by decide)]
+    rw [ite_eq_left (show Even 6 by decide)]
     decide +kernel
   obtain ⟨a, b, m, ha, hm, hb, haq, hbq', ha1, hb1, hma, hab, hmb⟩ :=
     su_short_pair_q hF (by norm_num) (by decide) hq hq5 hqf i0 i1 (by norm_num) (by norm_num)
@@ -152,13 +152,13 @@ theorem KCoverSU6_holds :
     have hmodel := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 5 Q hv e
     rw [hQ2] at hmodel
     obtain ⟨⟨-, -, -, -⟩, F, hFfield, hFfin, hcard, ⟨e'⟩⟩ := hmodel
-    letI : Field F := hFfield
-    letI : Finite F := hFfin
-    letI : Fintype F := Fintype.ofFinite F
+    let : Field F := hFfield
+    let : Finite F := hFfin
+    let : Fintype F := Fintype.ofFinite F
     have hchar : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := Q.exponent * 2)
         (by rw [← Nat.card_eq_fintype_card, hcard, pow_mul])
-    letI : CharP F 2 := hchar
+    let : CharP F 2 := hchar
     have hQc : Q.card = 2 ^ Q.exponent := by rw [TauCeti.PrimePower.card_def, hQ2]
     have hqf : q ∣ 2 ^ Q.exponent + 1 := by
       rw [← hQc]

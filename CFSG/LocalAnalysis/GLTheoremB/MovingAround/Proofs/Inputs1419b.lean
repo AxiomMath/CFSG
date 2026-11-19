@@ -137,7 +137,7 @@ theorem false_of_sl_cover {E : Type} [Field E] [Fintype E] {m : ℕ} (hm : 2 ≤
     push Not at hcon
     obtain rfl : m = 2 := by omega
     have hlt : Fintype.card E < 4 := by rw [← Nat.card_eq_fintype_card]; exact hcon.2
-    haveI := isSolvable_sl_two_of_card_lt_four hlt
+    have := isSolvable_sl_two_of_card_lt_four hlt
     exact not_isSolvable_of_quasisimple hL (Group.isSolvable_of_surjective hf)
   have hX := CFSG.SeitzReduction.LinearPilot.isQuasisimple_specialLinearGroup_of_le hm h4
   have hperf : commutator (Matrix.SpecialLinearGroup (Fin m) E) = ⊤ :=
@@ -295,7 +295,7 @@ theorem false_of_layer_sl {S : Type} [Group S] [Finite S] {β : MulAut S} (hlaye
     {A : Subgroup S} (hA : GLAPComponent 5 (fixSubgroup β) A) (hcard : Nat.card (PSimple 5 A) = 25920) :
     False := by
   obtain ⟨hsimp, hna⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian Nat.prime_five hA
-  haveI := hsimp
+  have := hsimp
   let ψ : ↥A →* PSimple 5 A :=
     (QuotientGroup.mk' (Subgroup.center (PQuot 5 A))).comp (QuotientGroup.mk' (GLAPPrimeCore 5 ↥A))
   have hψ : Function.Surjective ψ :=
@@ -422,7 +422,7 @@ theorem false_of_psl_five {F : Type} [Field F] [Finite F] (h5 : 5 ∣ Nat.card F
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfectInLayer_fieldAut
         (by norm_num) Nat.prime_five (by norm_num) σ hσ) (fun L hL => ?_) hA' (hcard'.trans hcard)
     obtain ⟨-, f, hf, hfk⟩ := linearFieldAut_components (n := 5) (by norm_num) σ L hL
-    haveI : Finite ↥(CFSG.GH74.GLS.IVK.fixedField σ) := inferInstance
+    have : Finite ↥(CFSG.GH74.GLS.IVK.fixedField σ) := inferInstance
     exact ⟨_, inferInstance, Fintype.ofFinite _, 5, by norm_num, f, hf, hfk⟩
 
 end Linear
@@ -484,7 +484,7 @@ theorem natCard_statedSU_cast {p f : ℕ} {K : Type} [Field K]
 
 theorem exists_pow_of_card_sq {K : Type} [Field K] [Fintype K] {q : ℕ}
     (hK : Fintype.card K = q ^ 2) : ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f ∧ (ringChar K).Prime := by
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hq : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hn, hK]
@@ -504,7 +504,7 @@ theorem false_of_su_cover {K : Type} [Field K] [Fintype K] {m q : ℕ} (hm : 3 �
     {T : Type} [Group T] [IsSimpleGroup T] (hTna : ∃ a b : T, a * b ≠ b * a)
     (hT : Nat.card T = 25920) (ρ : L →* T) (hρ : Function.Surjective ρ) : False := by
   obtain ⟨g, hg, rfl, hp⟩ := exists_pow_of_card_sq hK
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hNat : Nat.card K = (ringChar K ^ g) ^ 2 := by rw [Nat.card_eq_fintype_card, hK]
   have hUF : UnitaryFieldData (ringChar K) g K := ⟨hp, hg, by rw [hNat, ← pow_mul, mul_comm]⟩
   have hmq : (m, ringChar K ^ g) ≠ (3, 2) := fun hc => by
@@ -541,7 +541,7 @@ theorem false_of_layer {S : Type} [Group S] [Finite S] {β : MulAut S} (hlayer :
     {A : Subgroup S} (hA : GLAPComponent 5 (fixSubgroup β) A) (hcard : Nat.card (PSimple 5 A) = 25920) :
     False := by
   obtain ⟨hsimp, hna⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian Nat.prime_five hA
-  haveI := hsimp
+  have := hsimp
   let ψ : ↥A →* PSimple 5 A :=
     (QuotientGroup.mk' (Subgroup.center (PQuot 5 A))).comp (QuotientGroup.mk' (GLAPPrimeCore 5 ↥A))
   have hψ : Function.Surjective ψ :=
@@ -568,13 +568,13 @@ theorem specialBlock_type_of_good (hℓ : 3 ≤ ℓ) (H : UnitaryPrimaryData hK.
         Nonempty (↥(specialBlock B x (a : K[X])) ≃* Matrix.SpecialLinearGroup (Fin m) E)) ∨
       (∃ (E : Type) (_ : Field E) (_ : Fintype E) (m q : ℕ), 3 ≤ m ∧ 3 ≤ q ∧
         Fintype.card E = q ^ 2 ∧ Nonempty (↥(specialBlock B x (a : K[X])) ≃* ↥(StatedSU m q E))) := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · obtain ⟨hE, Hf, hHf, hHfl, ⟨e⟩⟩ :=
@@ -591,7 +591,7 @@ theorem specialBlock_type_of_good (hℓ : 3 ≤ ℓ) (H : UnitaryPrimaryData hK.
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       exact Or.inl ⟨hE.fixedField, inferInstance, Fintype.ofFinite _, 2, le_rfl, ⟨e.trans e2⟩⟩
     · obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis hHf hHfl
       obtain ⟨e3⟩ :=
@@ -646,7 +646,7 @@ theorem cover_of_component_primeFormConjHom (hℓ : 3 ≤ ℓ) {p : ℕ} (hp : p
     (hT : CFSG.Open.IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K n) A))) :
     SLCover ↥T ∨ SUCover ↥T := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -692,7 +692,7 @@ theorem false_of_psu_five {f : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 3
     (β : MulAut (primeFormP h (idGram F 5))) (hβ : β ^ 5 = 1)
     {A : Subgroup (primeFormP h (idGram F 5))} (hA : GLAPComponent 5 (fixSubgroup β) A)
     (hcard : Nat.card (PSimple 5 A) = 25920) : False := by
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 5) F) := isPrimeFormGram_idGram
   have hn3 : 3 ≤ 5 := by norm_num
   have hq' : ¬(5 = 3 ∧ 3 ^ f = 2) := by omega
@@ -714,7 +714,7 @@ theorem false_of_psu_five {f : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 3
       (fun L hL => cover_of_component_primeFormConjHom le_rfl Nat.prime_five (by norm_num) A0 hAp L hL)
       hA hcard
   · have hne : β ≠ 1 := fun h1 => hσ (by rw [h1, map_one])
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hord : orderOf β = 5 := orderOf_eq_prime hβ hne
     have hσp : orderOf (primeFormFieldFactor h hC hn3 hq' β) = 5 :=
       orderOf_eq_prime (by rw [← map_pow, hβ, map_one]) hσ
@@ -733,8 +733,8 @@ theorem false_of_psu_five {f : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 3
         Nat.prime_five (by norm_num) _ hσp) (fun L hL => Or.inr ?_) hA' (hcard'.trans hcard)
     obtain ⟨-, g, hg, hgk⟩ := unitary_fieldAut_components h hn3 hC Nat.prime_five (by norm_num) hσp L hL
     have h₀ := CFSG.RankThree.Classical.fixSubfield_unitaryFieldData h Nat.prime_five (by norm_num) hσp
-    haveI := h₀.finite
-    letI : Fintype (CFSG.LieType.Chevalley.fixSubfield (primeFormFieldFactor h hC hn3 hq' β)) :=
+    have := h₀.finite
+    let : Fintype (CFSG.LieType.Chevalley.fixSubfield (primeFormFieldFactor h hC hn3 hq' β)) :=
       Fintype.ofFinite _
     refine ⟨_, inferInstance, inferInstance, 5, 3 ^ (f / 5), by norm_num, ?_, ?_, g, hg, hgk⟩
     · exact Nat.le_self_pow (by have := h₀.one_le; omega) 3
@@ -765,7 +765,7 @@ theorem center_transfer {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
 
 theorem exists_pow_of_natCard_sq {K : Type} [Field K] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) : ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f ∧ (ringChar K).Prime := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   exact exists_pow_of_card_sq (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 end Transfer
@@ -794,7 +794,7 @@ theorem mul_card_pSimple_dvd {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.P
     (hI : GLAPComponent p (Subgroup.centralizer ({s} : Set T)) I) :
     p * Nat.card (PSimple p I) ∣ Nat.card (Subgroup.centralizer ({s} : Set T)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup T := Subgroup.centralizer ({s} : Set T) with hC
   have hQ : Nat.card (PQuot p I) =
       Nat.card (Subgroup.center (PQuot p I)) * Nat.card (PSimple p I) := by
@@ -848,7 +848,7 @@ theorem mul_card_pSimple_dvd {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.P
         have hprime : (Nat.card ↥(Subgroup.zpowers s)).Prime := by
           rw [Nat.card_zpowers, hs]; exact hp
         have hsub : (I ⊓ Subgroup.zpowers s).subgroupOf (Subgroup.zpowers s) = ⊤ := by
-          haveI : Fact (Nat.card ↥(Subgroup.zpowers s)).Prime := ⟨hprime⟩
+          have : Fact (Nat.card ↥(Subgroup.zpowers s)).Prime := ⟨hprime⟩
           rcases Subgroup.eq_bot_or_eq_top_of_prime_card
             ((I ⊓ Subgroup.zpowers s).subgroupOf (Subgroup.zpowers s)) with h | h
           · exact absurd ((Subgroup.subgroupOf_eq_bot.1 h).eq_bot_of_le inf_le_right) hne
@@ -889,8 +889,8 @@ theorem exists_spor_comp (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime) (h
     ∃ s : K ⧸ Subgroup.center K, orderOf s = p ∧ ∃ I : Subgroup (K ⧸ Subgroup.center K),
       GLAPComponent p (Subgroup.centralizer ({s} : Set (K ⧸ Subgroup.center K))) I ∧
         Nonempty (PSimple p J₁ ≃* PSimple p I) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hcen : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
@@ -906,7 +906,7 @@ theorem exists_spor_comp (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime) (h
     hout (centerQuotientHom K x) hβp
   have hs1 : s ≠ 1 := by
     rintro rfl
-    haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+    have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
     apply hx1
     apply CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective K
     rw [← hs]
@@ -1009,7 +1009,7 @@ theorem card_centralizer_le_of_lines {G : Type*} [Group G] [Finite G] {p : ℕ} 
     (hlines : ∀ H : Subgroup G, H ≤ Q → Nat.card H = p → ∃ j, H = Subgroup.zpowers (line j))
     {N : ℕ} (hline : ∀ j, Nat.card ↥(Subgroup.centralizer ({line j} : Set G) ⊓ R) ≤ N) :
     ∀ y ∈ P, orderOf y = p → Nat.card ↥(Subgroup.centralizer ({y} : Set G) ⊓ P) ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro y hyP hyo
   obtain ⟨g, hgP, hgQ⟩ :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co3T.exists_conj_mem_of_full hQP hQ hyP hyo
@@ -1064,7 +1064,7 @@ theorem card_centralizer_co3P_le :
       Nat.card ↥(Subgroup.centralizer ({y} : Set (Equiv.Perm (Fin 276))) ⊓ co3P) ≤ 1500 := by
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlines, -⟩, htrans, hrec0, hrec25, hC0, hC0card, -, -, -, -, -, hC25,
     hC25card, -⟩ := R3E_Co3_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine card_centralizer_le_of_lines Nat.prime_five hQP le_rfl
     (CFSG.HardMathSupport.Solomon.Coordinator.card_eq_of_sylow_subgroupOf hQP hQsyl) co3FiveLine
     (CFSG.HardMathSupport.Solomon.Coordinator.lines_of_eq hlines) fun j => ?_
@@ -1092,7 +1092,7 @@ theorem card_centralizer_co2P_le :
       Nat.card ↥(Subgroup.centralizer ({y} : Set (Equiv.Perm (Fin 2300))) ⊓ co2P) ≤ 3000 := by
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlines, -⟩, htrans, -, hC0, hC0card, -, -, -, -, -, -, hC1, hC1card,
     -⟩ := R3E_Co2_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine card_centralizer_le_of_lines Nat.prime_five hQP le_rfl
     (CFSG.HardMathSupport.Solomon.Coordinator.card_eq_of_sylow_subgroupOf hQP hQsyl) co2FiveLine
     (CFSG.HardMathSupport.Solomon.Coordinator.lines_of_eq hlines) fun j => ?_
@@ -1125,7 +1125,7 @@ theorem card_centralizer_mcl275P_le :
       Nat.card ↥(Subgroup.centralizer ({y} : Set (Equiv.Perm (Fin 275))) ⊓ mcl275P) ≤ 1500 := by
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlines, -⟩, htrans, hrecmem, -, ⟨hC0, hC0card⟩, ⟨hC1, hC1card⟩, -⟩ :=
     R3E_McL_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hPR : mcl275P ≤ mcl275R :=
     Subgroup.closure_mono (Set.insert_subset_insert
       (Set.singleton_subset_iff.2 (Set.mem_insert _ _)))
@@ -1162,7 +1162,7 @@ theorem card_centralizer_suzM_le :
       Nat.card ↥(Subgroup.centralizer ({y} : Set (Equiv.Perm (Fin 1782))) ⊓ suzM) ≤ 3600 := by
   obtain ⟨⟨hQP, -, -, -, hQsyl⟩, ⟨hlines, -⟩, hrec, hgood, hbad⟩ :=
     R3E_Suz_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine card_centralizer_le_of_lines Nat.prime_five hQP suzM_le_suzT
     (CFSG.HardMathSupport.Solomon.Coordinator.card_eq_of_sylow_subgroupOf hQP hQsyl) suzFiveLine
     (CFSG.HardMathSupport.Solomon.Coordinator.lines_of_eq hlines) fun i => ?_
@@ -1238,7 +1238,7 @@ theorem inputU42Lin5_holds : Inputs1419.InputU42Lin5 := by
   intro K _ _ hK hO hC3 J _ hJ x hx hQ
   obtain ⟨Q, hQ⟩ := hQ
   obtain ⟨hxo, J1, hJ1, ⟨eJ⟩⟩ := hx
-  haveI : Finite J := Finite.of_equiv _ eJ.toEquiv
+  have : Finite J := Finite.of_equiv _ eJ.toEquiv
   have hZJ : Subgroup.center J = ⊥ := Inputs1419.center_eq_bot_of_isOmegaTwo (n := 2) le_rfl hJ
   have hJcard : Nat.card J = 25920 := by
     obtain ⟨e⟩ := hJ

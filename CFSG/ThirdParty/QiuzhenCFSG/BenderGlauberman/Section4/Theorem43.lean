@@ -56,6 +56,7 @@ section Section4
 variable {G : Type u} [Group G] [Fintype G]
 variable (c : Hyp11 G)
 
+omit [Fintype G] in
 /-- Conjugation by a normalizing element distributes over products. -/
 private lemma conjChar_mul {H0 : Subgroup G} {s : G}
     (hsH0 : ∀ x : ↥H0, s * (x : G) * s⁻¹ ∈ H0)
@@ -378,6 +379,7 @@ private lemma deltaNu_isGeneralized (h12 : Hyp12 c) (ν : Irr (↥c.H0)) :
   exact isGeneralizedCharacter_sub (tildeNu_isGeneralized c h12 ν)
     (tildeNu_isGeneralized c h12 (lambdaTwoMul c h12 ν))
 
+omit [Group G] [Fintype G] in
 /-- The signed-pair cases produce signed integer coefficients. -/
 private lemma signed_pair_coeff {δ χ ψ : ClassFunction G}
     (h : δ = χ - ψ ∨ δ = χ + ψ ∨ δ = -χ - ψ ∨ δ = -χ + ψ) :
@@ -517,7 +519,7 @@ private lemma deltaNu_signed_four_decomp (h12 : Hyp12 c) (hSC : Section3Hyp c)
   · rcases hv with hv | hv <;> simp [hv]
   · rw [deltaNu]
     rw [hA', hB']
-    simp [sub_eq_add_neg, add_assoc, add_left_comm, add_comm, mul_neg]
+    simp [sub_eq_add_neg, add_assoc, add_comm]
 
 /-- The irreducible constituents of a class function. -/
 private def involved (δ : ClassFunction G) : Finset (Irr G) :=
@@ -570,7 +572,7 @@ private noncomputable def glaubermanEquiv43 (c : Hyp11 G) :
   classical
   let e0 := Classical.choose (glauberman_correspondence
     (S := ↥(c.S : Subgroup G)) (U := ↥c.U)
-    c.S.isPGroup' (U_coprime_two c))
+    c.S.isPGroup (U_coprime_two c))
   exact e0.trans (irrCongr_s4 (B_fixedSubgroup_equiv c))
 
 /-- `S0 = {1, t}` in the Section-4 case. -/
@@ -596,7 +598,7 @@ private lemma S0_pair43 (hS4 : Section4Hyp c) (r : ↥(c.S0 : Subgroup G)) :
   simpa using hr
 
 /-- For `ν` with `ν(t) = ν(1)`, `ν(ut) = ν(u)` for `u ∈ U`. -/
-private lemma char_trivial_on_t_mul43 (h12 : Hyp12 c) {ν : Irr (↥c.H0)}
+private lemma char_trivial_on_t_mul43 (_h12 : Hyp12 c) {ν : Irr (↥c.H0)}
     (hνt : ν.1 (tH0 c) = ν.1 1) (u : ↥c.U) :
     ν.1 ⟨(u : G) * c.t, c.H0.mul_mem (U_le_H0 c u.2) (S0_le_H0 c c.t_mem_S0)⟩ =
       ν.1 ⟨(u : G), U_le_H0 c u.2⟩ := by
@@ -638,9 +640,9 @@ private lemma char_trivial_on_t_mul43 (h12 : Hyp12 c) {ν : Irr (↥c.H0)}
 /-- Characters trivial on `t` are determined by their restriction to `U`. -/
 private lemma restrictU_injective_on_Delta43 (h12 : Hyp12 c)
     (hS4 : Section4Hyp c) {ν μ : Irr (↥c.H0)}
-    (hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1)
+    (_hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1)
     (hνt : ν.1 (tH0 c) = ν.1 1)
-    (hμs : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
+    (_hμs : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
     (hμt : μ.1 (tH0 c) = μ.1 1)
     (hEq : restrictU c h12 ν.1 = restrictU c h12 μ.1) :
     ν = μ := by
@@ -690,7 +692,7 @@ public lemma nuHat_injective_on_Delta (h12 : Hyp12 c) (hSC : Section3Hyp c)
       restrictU c h12 μ.1 = α.1 :=
     exists_fixed_alpha_of_section4 c h12 hSC hS4 hμs hμt
   unfold nuHat at hEq
-  rw [dif_pos hνP, dif_pos hμP] at hEq
+  rw [dite_eq_left hνP, dite_eq_left hμP] at hEq
   have hEq' := (glaubermanEquiv43 c).injective hEq
   have hEqα : Classical.choose hνP = Classical.choose hμP := congrArg Subtype.val hEq'
   have hresν : restrictU c h12 ν.1 = (Classical.choose hνP).1 :=
@@ -1275,7 +1277,7 @@ private lemma odd_sum_iff_odd_card {ι : Type*} (s : Finset ι) (f : ι → ℤ)
 
 /-- Scalar product against a signed `Fin 4` sum, expanded on the left. -/
 private lemma scalarProduct_signed_sum_left {δ : ClassFunction G}
-    {a : Fin 4 → ClassFunction G} (ha : ∀ i, IsIrreducibleCharacter (a i))
+    {a : Fin 4 → ClassFunction G} (_ha : ∀ i, IsIrreducibleCharacter (a i))
     {s : Fin 4 → ℤ} (hδ : δ = ∑ i, (s i : ℂ) • a i) (ε : ClassFunction G) :
     scalarProduct G δ ε = ∑ i, (s i : ℂ) * scalarProduct G (a i) ε := by
   rw [hδ, scalarProduct_sum_left]
@@ -1302,7 +1304,7 @@ private lemma scalarProduct_irr_decomp_right {ε : ClassFunction G}
     rw [scalarProduct_sum_right]
     rw [Finset.sum_eq_single i₀ ?_ ?_]
     · have hχi₀ : χ = b i₀ := hi₀.symm
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       rw [hchoose]
       rw [scalarProduct_smul_right, scalarProduct_irr_ite hχ (hb i₀)]
       simp [hχi₀]
@@ -1338,7 +1340,7 @@ private lemma scalarProduct_irr_decomp_right {ε : ClassFunction G}
 member. -/
 private lemma scalarProduct_signed_four_eq_int_sum {δ ε : ClassFunction G}
     {a : Fin 4 → ClassFunction G} (ha : ∀ i, IsIrreducibleCharacter (a i))
-    (hainj : Function.Injective a) {s : Fin 4 → ℤ}
+    (_hainj : Function.Injective a) {s : Fin 4 → ℤ}
     (hs : ∀ i, s i = 1 ∨ s i = -1)
     (hδ : δ = ∑ i, (s i : ℂ) • a i)
     {b : Fin 4 → ClassFunction G} (hb : ∀ i, IsIrreducibleCharacter (b i))
@@ -1396,17 +1398,17 @@ are `x` and `y`, given matching indices. -/
 private lemma scalarProduct_two_common_of_indices
     {δ₁ δ₂ : ClassFunction G}
     {a : Fin 4 → ClassFunction G} (ha : ∀ i, IsIrreducibleCharacter (a i))
-    (hainj : Function.Injective a) {s : Fin 4 → ℤ}
-    (hs : ∀ i, s i = 1 ∨ s i = -1)
+    (_hainj : Function.Injective a) {s : Fin 4 → ℤ}
+    (_hs : ∀ i, s i = 1 ∨ s i = -1)
     (hδ₁ : δ₁ = ∑ i, (s i : ℂ) • a i)
     {b : Fin 4 → ClassFunction G} (hb : ∀ i, IsIrreducibleCharacter (b i))
     (hbinj : Function.Injective b) {t : Fin 4 → ℤ}
-    (ht : ∀ i, t i = 1 ∨ t i = -1)
+    (_ht : ∀ i, t i = 1 ∨ t i = -1)
     (hδ₂ : δ₂ = ∑ i, (t i : ℂ) • b i)
     {i₁ i₂ j₁ j₂ : Fin 4} {x y : Irr G}
     (hx₁ : a i₁ = x.1) (hx₂ : b j₁ = x.1)
     (hy₁ : a i₂ = y.1) (hy₂ : b j₂ = y.1)
-    (hi : i₁ ≠ i₂) (hj : j₁ ≠ j₂)
+    (hi : i₁ ≠ i₂) (_hj : j₁ ≠ j₂)
     (hother : ∀ i, i ≠ i₁ → i ≠ i₂ → ∀ j, b j ≠ a i) :
     scalarProduct G δ₁ δ₂ =
       (((s i₁ * t j₁ + s i₂ * t j₂ : ℤ) : ℂ)) := by
@@ -1422,7 +1424,7 @@ private lemma scalarProduct_two_common_of_indices
     have h'ex : ∃ j, b j = a i₁ := ⟨j₁, hx₁₂.symm⟩
     have hchoose : Classical.choose h'ex = j₁ := hbinj (by
       simpa [Classical.choose_spec h'ex] using hx₁₂)
-    rw [dif_pos h'ex, hchoose]
+    rw [dite_eq_left h'ex, hchoose]
     norm_num
   have hterm₂ : f i₂ = ((s i₂ * t j₂ : ℤ) : ℂ) := by
     dsimp [f]
@@ -1431,7 +1433,7 @@ private lemma scalarProduct_two_common_of_indices
     have h'ex : ∃ j, b j = a i₂ := ⟨j₂, hy₁₂.symm⟩
     have hchoose : Classical.choose h'ex = j₂ := hbinj (by
       simpa [Classical.choose_spec h'ex] using hy₁₂)
-    rw [dif_pos h'ex, hchoose]
+    rw [dite_eq_left h'ex, hchoose]
     norm_num
   have hzero : ∀ i, i ≠ i₁ → i ≠ i₂ → f i = 0 := by
     intro i hi₁ hi₂
@@ -1439,8 +1441,8 @@ private lemma scalarProduct_two_common_of_indices
     rw [scalarProduct_irr_decomp_right (ε := δ₂) (b := b) (t := t)
       hb hbinj hδ₂ (χ := a i) (ha i)]
     by_cases h'ex : ∃ j, b j = a i
-    · rcases h'ex with ⟨j, hj⟩
-      exact False.elim ((hother i hi₁ hi₂ j) hj)
+    · rcases h'ex with ⟨j, _hj⟩
+      exact False.elim ((hother i hi₁ hi₂ j) _hj)
     · simp [h'ex]
   have hsum0 : (∑ i ∈ ((Finset.univ.erase i₁).erase i₂), f i) = 0 := by
     apply Finset.sum_eq_zero
@@ -1452,8 +1454,6 @@ private lemma scalarProduct_two_common_of_indices
     exact hzero i hi₁ hi₂
   calc
     (∑ i, f i) = f i₁ + f i₂ + (∑ i ∈ ((Finset.univ.erase i₁).erase i₂), f i) := by
-      change (∑ i ∈ (Finset.univ : Finset (Fin 4)), f i) =
-        f i₁ + f i₂ + (∑ i ∈ ((Finset.univ.erase i₁).erase i₂), f i)
       rw [← Finset.add_sum_erase (s := Finset.univ) f (a := i₁) (by simp)]
       rw [← Finset.add_sum_erase (s := (Finset.univ.erase i₁)) f (a := i₂) (by simp [hi.symm])]
       abel
@@ -1469,8 +1469,8 @@ private lemma nuHat_mem_orbit_of_BPrime (h12 : Hyp12 c) (hSC : Section3Hyp c)
     (hχδ : scalarProduct G χ.1 (deltaNu c h12 μ) ≠ 0)
     (hμs : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
     (hμt : μ.1 (tH0 c) = μ.1 1)
-    (hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1)
-    (hνt : ν.1 (tH0 c) = ν.1 1)
+    (_hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1)
+    (_hνt : ν.1 (tH0 c) = ν.1 1)
     (horb : (nuHatOrbit c h12 (nuHat c h12 μ)).card = 3)
     (hνB : ν ∈ BPrimeOf c h12 χ.1) :
     nuHat c h12 ν ∈ nuHatOrbit c h12 (nuHat c h12 μ) := by
@@ -1666,7 +1666,7 @@ the same component. -/
 private lemma mem_Delta0_of_adjacent (c : Hyp11 G) (h12 : Hyp12 c)
     {Δ0 : Set (ClassFunction G)}
     (hcomp : IsConnectedComponent c h12 Δ0) {δ ε : ClassFunction G}
-    (hδ : δ ∈ Δ0) (hεΔ : ε ∈ Delta c h12)
+    (hδ : δ ∈ Δ0) (_hεΔ : ε ∈ Delta c h12)
     (hadj : deltaAdjacent c h12 δ ε) : ε ∈ Δ0 := by
   by_contra hnot
   exact (hcomp.2.2.2 ε hnot δ hδ) (deltaAdjacent_symm c h12 hadj)
@@ -1735,7 +1735,7 @@ private lemma deltaNu_orthogonal (h12 : Hyp12 c) (hSC : Section3Hyp c)
     {ν μ : Irr (↥c.H0)}
     (hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1)
     (hνt : ν.1 (tH0 c) = ν.1 1)
-    (hμs : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
+    (_hμs : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
     (hμt : μ.1 (tH0 c) = μ.1 1)
     (hne : ν ≠ μ) :
     scalarProduct G (deltaNu c h12 ν) (deltaNu c h12 μ) = 0 := by
@@ -2222,7 +2222,7 @@ private lemma signs_three_pairwise_contradiction
   rw [Fin.sum_univ_two] at h23
   rcases hr 0 with r0 | r0 <;> rcases hr 1 with r1 | r1 <;>
     rcases hs 0 with s0 | s0 <;> rcases hs 1 with s1 | s1 <;>
-      simp [r0, r1, s0, s1] at h12 h13 h23 <;> omega
+      simp [r0, r1, s0, s1] at h12 h13 h23
 /-- Three pairwise-orthogonal signed four-sums with pairwise two-element
 common sets share exactly one constituent. -/
 private lemma triple_inter_card_eq_one_of_pairwise_orthogonal
@@ -2408,6 +2408,7 @@ private lemma standard_sign_perm (w₂ w₃ : Fin 4 → ℤ)
     · rw [h]
       simpa [b₃, h] using hσ₃ i
 
+omit [Group G] [Fintype G] in
 /-- Reindexing a signed sum by a permutation. -/
 private lemma sum_smul_perm {χ : Fin 4 → ClassFunction G} (σ : Equiv.Perm (Fin 4))
     {u w : Fin 4 → ℤ} (huw : ∀ j, u j = w (σ.symm j)) :
@@ -2422,6 +2423,7 @@ private lemma sum_smul_perm {χ : Fin 4 → ClassFunction G} (σ : Equiv.Perm (F
       rw [huw (σ j)]
       simp
 
+omit [Fintype G] in
 /-- A signed irreducible character is a plus-minus irreducible. -/
 private lemma pmIrr_sign_smul {χ : ClassFunction G} (hχ : IsIrreducibleCharacter χ)
     {t : ℤ} (ht : t = 1 ∨ t = -1) : IsPMIrr G ((t : ℂ) • χ) := by
@@ -2437,6 +2439,7 @@ private lemma mul_sign_one_or_neg_one {a b : ℤ} (ha : a = 1 ∨ a = -1)
     (hb : b = 1 ∨ b = -1) : a * b = 1 ∨ a * b = -1 := by
   rcases ha with ha | ha <;> rcases hb with hb | hb <;> simp [ha, hb]
 
+omit [Fintype G] in
 /-- Swapping the second and third terms of a four-term signed sum. -/
 private lemma four_sum_swap_mid {δ : ClassFunction G} {p q r s : Irr G}
     (u : Fin 4 → ℤ)
@@ -2536,7 +2539,7 @@ private lemma scalarProduct_four_points_common_two
       (t 2 : ℂ) • w.1 + (t 3 : ℂ) • x.1)
     (hab : a ≠ b) (hau : a ≠ u) (hav : a ≠ v) (haw : a ≠ w) (hax : a ≠ x)
     (hbu : b ≠ u) (hbv : b ≠ v) (hbw : b ≠ w) (hbx : b ≠ x)
-    (huv : u ≠ v) (hwx : w ≠ x)
+    (_huv : u ≠ v) (_hwx : w ≠ x)
     (huw : u ≠ w) (hux : u ≠ x) (hvw : v ≠ w) (hvx : v ≠ x) :
     scalarProduct G δ ε = (((s 0 * t 0 + s 1 * t 1 : ℤ) : ℂ)) := by
   rw [hδ, hε]
@@ -2552,21 +2555,11 @@ private lemma scalarProduct_four_points_common_two
   simp [scalarProduct_add_left, scalarProduct_add_right, scalarProduct_smul_left,
     scalarProduct_smul_right, star_intCast,
     hsc0 a b hab, hsc0 b a hab.symm,
-    hsc0 a u hau, hsc0 u a hau.symm,
-    hsc0 a v hav, hsc0 v a hav.symm,
-    hsc0 a w haw, hsc0 w a haw.symm,
-    hsc0 a x hax, hsc0 x a hax.symm,
-    hsc0 b u hbu, hsc0 u b hbu.symm,
-    hsc0 b v hbv, hsc0 v b hbv.symm,
-    hsc0 b w hbw, hsc0 w b hbw.symm,
-    hsc0 b x hbx, hsc0 x b hbx.symm,
-    hsc0 u v huv, hsc0 v u huv.symm,
-    hsc0 w x hwx, hsc0 x w hwx.symm,
-    hsc0 u w huw, hsc0 w u huw.symm,
-    hsc0 u x hux, hsc0 x u hux.symm,
-    hsc0 v w hvw, hsc0 w v hvw.symm,
-    hsc0 v x hvx, hsc0 x v hvx.symm,
-    hsc1 a, hsc1 b]
+    hsc0 u a hau.symm,
+    hsc0 v a hav.symm,
+    hsc0 a w haw, hsc0 a x hax, hsc0 u b hbu.symm,
+    hsc0 v b hbv.symm,
+    hsc0 b w hbw, hsc0 b x hbx, hsc0 u w huw, hsc0 u x hux, hsc0 v w hvw, hsc0 v x hvx, hsc1 a, hsc1 b]
 
 /-- The first three fixed deltas have the source's displayed signed
 patterns, up to a global sign on each equation. -/
@@ -2771,19 +2764,19 @@ private lemma fixed_signed_three_pattern
   have hδ₁eq : δ₁ = (η₁ : ℂ) • (χ₁ + χ₂ + χ₃ + ψ₁) := by
     rw [hδ₁']
     ext x
-    simp [η₁, χ₁, χ₂, χ₃, ψ₁, hsq11ℂ]
+    simp [η₁, χ₁, χ₂, χ₃, ψ₁]
     linear_combination -((t₁ 1 : ℂ) * b.1 x + (t₁ 2 : ℂ) * c₀.1 x +
       (t₁ 3 : ℂ) * d.1 x) * hsq11ℂ
   have hδ₂eq : δ₂ = (η₂ : ℂ) • (χ₁ - χ₂ + φ + ψ₂) := by
     rw [hδ₂']
     ext x
-    simp [η₂, χ₁, χ₂, φ, ψ₂, hsq21ℂ]
+    simp [η₂, χ₁, χ₂, φ, ψ₂]
     linear_combination b.1 x * hbcoefℂ -
       ((t₂ 2 : ℂ) * e.1 x + (t₂ 3 : ℂ) * f.1 x) * hsq21ℂ
   have hδ₃eq : δ₃ = (η₃ : ℂ) • (χ₁ - χ₃ - φ + ψ₃) := by
     rw [hδ₃']
     ext x
-    simp [η₃, χ₁, χ₃, φ, ψ₃, hsq31ℂ]
+    simp [η₃, χ₁, χ₃, φ, ψ₃]
     linear_combination c₀.1 x * hc1coefℂ + e.1 x * hc2coefℂ -
       (t₃ 3 : ℂ) * g.1 x * hsq31ℂ
   exact ⟨η₁, η₂, η₃, hη₁, hη₂, hη₃, χ₁, χ₂, χ₃, ψ₁, ψ₂, ψ₃, φ,
@@ -3230,7 +3223,7 @@ private lemma scalarProduct_signed_four_support
       rw [scalarProduct_irr_decomp_right (ε := δ) (b := a) (t := s)
         ha hainj hδ (χ := χ.1) χ.2]
       have hchoose : Classical.choose hmem = i₀ := rfl
-      simp [hmem, hchoose, hi₀]
+      simp [hmem, hchoose]
     refine ⟨s i₀, hsp.symm, ?_, ?_⟩
     · rcases hs i₀ with h | h <;> simp [h]
     · have hinvolved : χ ∈ involved δ := by
@@ -3303,7 +3296,7 @@ private lemma scalarProduct_even_of_four_signed_support
       norm_num [even_iff_two_dvd] at hq ⊢ <;> omega
   refine ⟨z₀ + z₁ + z₂ + z₃, ?_, hsum_even⟩
   rw [scalarProduct_add_right, scalarProduct_add_right, scalarProduct_add_right]
-  simpa [Int.cast_add, hz₀, hz₁, hz₂, hz₃]
+  simp [Int.cast_add, hz₀, hz₁, hz₂, hz₃]
 
 /-- A four-element finset containing three named distinct points has a
 fourth point outside those three. -/
@@ -3355,12 +3348,12 @@ private lemma exists_fourth_of_card_four {ι : Type*} [DecidableEq ι]
 /-- Sign equations forced by the five-block repeated-incidence pattern. -/
 private lemma repeated_incidence_sign_contradiction
     {A0 A1 A2 B0 B1 B2 B3 C0 C1 C2 C3 D0 D1 D2 D3 F0 F1 F2 : ℤ}
-    (hA0 : A0 * A0 = 1) (hA1 : A1 * A1 = 1) (hA2 : A2 * A2 = 1)
-    (hB0 : B0 * B0 = 1) (hB1 : B1 * B1 = 1) (hB2 : B2 * B2 = 1)
-    (hB3 : B3 * B3 = 1) (hC0 : C0 * C0 = 1) (hC1 : C1 * C1 = 1)
-    (hC2 : C2 * C2 = 1) (hC3 : C3 * C3 = 1) (hD0 : D0 * D0 = 1)
-    (hD1 : D1 * D1 = 1) (hD2 : D2 * D2 = 1) (hD3 : D3 * D3 = 1)
-    (hF0 : F0 * F0 = 1) (hF1 : F1 * F1 = 1) (hF2 : F2 * F2 = 1)
+    (_hA0 : A0 * A0 = 1) (hA1 : A1 * A1 = 1) (hA2 : A2 * A2 = 1)
+    (hB0 : B0 * B0 = 1) (_hB1 : B1 * B1 = 1) (_hB2 : B2 * B2 = 1)
+    (hB3 : B3 * B3 = 1) (_hC0 : C0 * C0 = 1) (_hC1 : C1 * C1 = 1)
+    (hC2 : C2 * C2 = 1) (hC3 : C3 * C3 = 1) (_hD0 : D0 * D0 = 1)
+    (_hD1 : D1 * D1 = 1) (hD2 : D2 * D2 = 1) (_hD3 : D3 * D3 = 1)
+    (_hF0 : F0 * F0 = 1) (hF1 : F1 * F1 = 1) (_hF2 : F2 * F2 = 1)
     (hAB : A0 * B0 + A1 * B1 = 0)
     (hAC : A0 * C0 + A2 * C1 = 0)
     (hBC : B0 * C0 + B2 * C2 = 0)
@@ -3738,7 +3731,7 @@ private lemma incidence_distinct_contradiction
 /-- If two 2-element intersections with `A` share one point and carry two
 further distinct points, the two third blocks cannot coincide. -/
 private lemma incidence_pair_neq_of_third_blocks {ι : Type*} [DecidableEq ι]
-    {A D E : Finset ι} (hAD : (A ∩ D).card = 2) (hAE : (A ∩ E).card = 2)
+    {A D E : Finset ι} (hAD : (A ∩ D).card = 2) (_hAE : (A ∩ E).card = 2)
     {b c d : ι}
     (hbD : b ∈ D) (hdD : d ∈ D) (hcE : c ∈ E) (hdE : d ∈ E)
     (hbA : b ∈ A) (hcA : c ∈ A) (hdA : d ∈ A)
@@ -3788,7 +3781,7 @@ private lemma incidence_six_pairwise_ne {ι : Type*} [DecidableEq ι]
     (hCE : (C ∩ E).card = 2) (hCF : (C ∩ F).card = 2)
     {b c d e f g : ι}
     (hbD : b ∈ D) (hdD : d ∈ D) (hcE : c ∈ E) (hdE : d ∈ E)
-    (hcF : c ∈ F) (hgF : g ∈ F) (heE : e ∈ E) (hgE : g ∈ E)
+    (_hcF : c ∈ F) (hgF : g ∈ F) (_heE : e ∈ E) (hgE : g ∈ E)
     (heF : e ∈ F)
     (hbF : b ∈ F) (hfF : f ∈ F) (heD : e ∈ D) (hfD : f ∈ D)
     (hbA : b ∈ A) (hcA : c ∈ A) (hdA : d ∈ A)
@@ -4189,10 +4182,10 @@ private lemma repeated_supports_of_intersections {ι : Type*} [DecidableEq ι]
     (hBF : (B ∩ F).card = 2) (hCF : (C ∩ F).card = 2)
     (haD : a ∉ D) (heD : e ∉ D)
     (haF : a ∉ F) (hbF : b ∉ F) (hcF : c₀ ∉ F)
-    (hab : a ≠ b) (hac : a ≠ c₀) (hae : a ≠ e)
-    (haf : a ≠ f) (hag : a ≠ g) (hbc : b ≠ c₀)
-    (hbe : b ≠ e) (hbf : b ≠ f) (hbg : b ≠ g)
-    (hce : c₀ ≠ e) (hcf : c₀ ≠ f) (hcg : c₀ ≠ g)
+    (_hab : a ≠ b) (_hac : a ≠ c₀) (_hae : a ≠ e)
+    (_haf : a ≠ f) (_hag : a ≠ g) (hbc : b ≠ c₀)
+    (_hbe : b ≠ e) (hbf : b ≠ f) (hbg : b ≠ g)
+    (_hce : c₀ ≠ e) (hcf : c₀ ≠ f) (hcg : c₀ ≠ g)
     (hef : e ≠ f) (heg : e ≠ g) (hfg : f ≠ g) :
     ∃ h : ι,
       D = ({b, c₀, f, g} : Finset ι) ∧
@@ -4571,9 +4564,9 @@ private lemma fixed_incidence_three_partition (h12 : Hyp12 c)
     (hν₁s : conjChar c.H0 (s_normalizes_H0 c h12) ν₁.1 = ν₁.1)
     (hν₂s : conjChar c.H0 (s_normalizes_H0 c h12) ν₂.1 = ν₂.1)
     (hν₃s : conjChar c.H0 (s_normalizes_H0 c h12) ν₃.1 = ν₃.1)
-    (hχ₁ : χ ∈ involved (deltaNu c h12 ν₁))
-    (hχ₂ : χ ∈ involved (deltaNu c h12 ν₂))
-    (hχ₃ : χ ∈ involved (deltaNu c h12 ν₃))
+    (_hχ₁ : χ ∈ involved (deltaNu c h12 ν₁))
+    (_hχ₂ : χ ∈ involved (deltaNu c h12 ν₂))
+    (_hχ₃ : χ ∈ involved (deltaNu c h12 ν₃))
     (hpair12 : (involved (deltaNu c h12 ν₁) ∩ involved (deltaNu c h12 ν₂)).card = 2)
     (hpair13 : (involved (deltaNu c h12 ν₁) ∩ involved (deltaNu c h12 ν₃)).card = 2)
     (hpair23 : (involved (deltaNu c h12 ν₂) ∩ involved (deltaNu c h12 ν₃)).card = 2)
@@ -5386,22 +5379,21 @@ private lemma fixed_distinct_incidence_contradiction (h12 : Hyp12 c)
     intro x
     rw [hAset, hBset, hEset, hFset]
     by_cases hxa : x = a
-    · subst x; simp [hab, hac, had, hae, haf, hag, hσa, hσa.symm]
+    · subst x; simp [hab, hac, had, hae, haf, hag, hσa.symm]
     by_cases hxb : x = b
-    · subst x; simp [hxa, hab, hbc, hbd, hbe, hbf, hbg, hσb, hσb.symm]
+    · subst x; simp [hxa, hbc, hbd, hbe, hbf, hbg, hσb.symm]
     by_cases hxc : x = c₀
-    · subst x; simp [hxa, hxb, hac, hbc, hcd, hce, hcf, hcg, hσc, hσc.symm]
+    · subst x; simp [hxa, hxb, hcd, hce, hcf, hcg, hσc.symm]
     by_cases hxd : x = d
-    · subst x; simp [hxa, hxb, hxc, had, hbd, hcd, hde, hdf, hdg, hσd, hσd.symm]
+    · subst x; simp [hxa, hxb, hxc, hde, hdf, hdg, hσd.symm]
     by_cases hxe : x = e
-    · subst x; simp [hxa, hxb, hxc, hxd, hae, hbe, hce, hde, hef, heg,
-        hσe, hσe.symm]
+    · subst x; simp [hxa, hxb, hxc, hxd, hef, heg,
+        hσe.symm]
     by_cases hxf : x = f
-    · subst x; simp [hxa, hxb, hxc, hxd, hxe, haf, hbf, hcf, hdf, hef, hfg,
-        hσf, hσf.symm]
+    · subst x; simp [hxa, hxb, hxc, hxd, hxe, hfg,
+        hσf.symm]
     by_cases hxg : x = g
-    · subst x; simp [hxa, hxb, hxc, hxd, hxe, hxf, hag, hbg, hcg, hdg, heg,
-        hfg, hσg, hσg.symm]
+    · subst x; simp [hxa, hxb, hxc, hxd, hxe, hxf, hσg.symm]
     by_cases hxσ : x = σ
     · subst x; simp [hσa, hσb, hσc, hσd, hσe, hσf, hσg]
     simp [hxa, hxb, hxc, hxd, hxe, hxf, hxg, hxσ]
@@ -5967,7 +5959,7 @@ private lemma BPrime_eq_singleton_of_tetrahedron
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hδν
     rcases hδν with h | h | h | h
     · have heq := deltaNu_injective c h12 hSC hS4 hνs hνt hν₀s hν₀t h
-      simpa [heq]
+      simp [heq]
     · exfalso
       apply hχ₁
       have heq := deltaNu_injective c h12 hSC hS4 hνs hνt hν₁s hν₁t h
@@ -6076,7 +6068,7 @@ private lemma odd_class_has_centralizing_rep (x : G)
       right_inv := by intro y; rfl }
     rw [Nat.card_congr e]
     exact hnot'
-  have hfixed := c.S.isPGroup'.nonempty_fixed_point_of_prime_not_dvd_card C hnot
+  have hfixed := c.S.isPGroup.nonempty_fixed_point_of_prime_not_dvd_card C hnot
   rcases hfixed with ⟨y, hy⟩
   refine ⟨(y : G), y.2, ?_⟩
   change (y : G) ∈ Subgroup.centralizer ((c.S : Subgroup G) : Set G)
@@ -6173,6 +6165,7 @@ private lemma odd_class_common_reduction (hS4 : Section4Hyp c)
     exact (CongruentModTwo.of_eq hval).trans
       (lemma_1_6 φ hφ c.t_involution hbcent hbodd)
 
+omit [Fintype G] in
 private lemma representation_degree_odd
     {n : ℕ} (ρ : Representation ℂ G (Fin n → ℂ))
     [Representation.IsIrreducible ρ] {χ : Irr G}
@@ -6191,6 +6184,7 @@ private lemma representation_degree_odd
 private noncomputable def classRepChoice (s : ConjClasses G) : G :=
   Classical.choose (ConjClasses.exists_rep s)
 
+omit [Fintype G] in
 private lemma classRepChoice_spec (s : ConjClasses G) :
     ConjClasses.mk (classRepChoice s) = s :=
   Classical.choose_spec (ConjClasses.exists_rep s)
@@ -6199,6 +6193,7 @@ private noncomputable def classSumCoefficient
     (i j s : ConjClasses G) : ℕ :=
   Theory.Character.classSumPairCountMul i j (classRepChoice s)
 
+omit [Fintype G] in
 private lemma classSumCoefficient_data :
     ∀ i j s : ConjClasses G, ∀ x : G, x ∈ s.carrier →
       classSumCoefficient i j s =
@@ -6578,7 +6573,7 @@ private lemma fixed_tetrahedron_contradiction
     (hν₁Δ0 : deltaNu c h12 ν₁ ∈ Δ0)
     (hν₂Δ0 : deltaNu c h12 ν₂ ∈ Δ0)
     (hν₃Δ0 : deltaNu c h12 ν₃ ∈ Δ0)
-    (hν₄Δ0 : deltaNu c h12 ν₄ ∈ Δ0)
+    (_hν₄Δ0 : deltaNu c h12 ν₄ ∈ Δ0)
     (hν₁s : conjChar c.H0 (s_normalizes_H0 c h12) ν₁.1 = ν₁.1)
     (hν₁t : ν₁.1 (tH0 c) = ν₁.1 1)
     (hν₂s : conjChar c.H0 (s_normalizes_H0 c h12) ν₂.1 = ν₂.1)
@@ -6587,22 +6582,22 @@ private lemma fixed_tetrahedron_contradiction
     (hν₃t : ν₃.1 (tH0 c) = ν₃.1 1)
     (hν₄s : conjChar c.H0 (s_normalizes_H0 c h12) ν₄.1 = ν₄.1)
     (hν₄t : ν₄.1 (tH0 c) = ν₄.1 1)
-    (hν₁₂ : ν₁ ≠ ν₂) (hν₁₃ : ν₁ ≠ ν₃) (hν₁₄ : ν₁ ≠ ν₄)
-    (hν₂₃ : ν₂ ≠ ν₃) (hν₂₄ : ν₂ ≠ ν₄) (hν₃₄ : ν₃ ≠ ν₄)
+    (hν₁₂ : ν₁ ≠ ν₂) (hν₁₃ : ν₁ ≠ ν₃) (_hν₁₄ : ν₁ ≠ ν₄)
+    (hν₂₃ : ν₂ ≠ ν₃) (_hν₂₄ : ν₂ ≠ ν₄) (_hν₃₄ : ν₃ ≠ ν₄)
     {a b c₀ d e f g h : Irr G}
     (hAset : involved (deltaNu c h12 ν₁) = {a, b, c₀, d})
     (hBset : involved (deltaNu c h12 ν₂) = {a, b, e, f})
     (hCset : involved (deltaNu c h12 ν₃) = {a, c₀, e, g})
     (hDset : involved (deltaNu c h12 ν₄) = {b, c₀, e, h})
     (hab : a ≠ b) (hac : a ≠ c₀) (had : a ≠ d)
-    (hbc : b ≠ c₀) (hbd : b ≠ d) (hcd : c₀ ≠ d)
+    (_hbc : b ≠ c₀) (hbd : b ≠ d) (hcd : c₀ ≠ d)
     (hae : a ≠ e) (haf : a ≠ f) (hag : a ≠ g)
-    (hbe : b ≠ e) (hbf : b ≠ f) (hbg : b ≠ g)
-    (hce : c₀ ≠ e) (hcf : c₀ ≠ f) (hcg : c₀ ≠ g)
+    (_hbe : b ≠ e) (hbf : b ≠ f) (hbg : b ≠ g)
+    (_hce : c₀ ≠ e) (hcf : c₀ ≠ f) (hcg : c₀ ≠ g)
     (hde : d ≠ e) (hdf : d ≠ f) (hdg : d ≠ g)
     (hef : e ≠ f) (heg : e ≠ g) (hfg : f ≠ g)
-    (hha : h ≠ a) (hhb : h ≠ b) (hhc : h ≠ c₀)
-    (hhd : h ≠ d) (hhe : h ≠ e) (hhf : h ≠ f) (hhg : h ≠ g)
+    (hha : h ≠ a) (_hhb : h ≠ b) (_hhc : h ≠ c₀)
+    (hhd : h ≠ d) (_hhe : h ≠ e) (hhf : h ≠ f) (hhg : h ≠ g)
     (hΔeq : Δ0 = ({deltaNu c h12 ν₁, deltaNu c h12 ν₂,
       deltaNu c h12 ν₃, deltaNu c h12 ν₄} : Set (ClassFunction G))) : False := by
   classical
@@ -6884,7 +6879,7 @@ private lemma fixed_tetrahedron_contradiction
     intro u
     have hs := CongruentModTwo.sub (hfirst u)
       (CongruentModTwo.refl (β (ULift.up (0 : Fin 3)) u))
-    convert hs.symm using 1 <;> simp [hsumβ, β, βIrr] <;> ring
+    convert hs.symm using 1 <;> simp [hsumβ, β, βIrr]; ring
   let coeff₂ : I → ℂ := fun i => ![(0 : ℂ), 1, 1] i.down
   have hc₂ : ∀ i, IsIntegral ℤ (coeff₂ i) := by
     intro i

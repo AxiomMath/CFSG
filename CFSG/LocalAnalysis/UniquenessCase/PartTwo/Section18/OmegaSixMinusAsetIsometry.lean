@@ -99,8 +99,7 @@ theorem k_Omega6Minus_aSet_isometry_holds :
           _ = Multiplicative.toAdd (eM (eM.symm (Multiplicative.ofAdd x))) := by
                 rw [show a'⁻¹ (a' (eM.symm (Multiplicative.ofAdd x))) =
                   eM.symm (Multiplicative.ofAdd x) from by
-                    simpa using MulAut.apply_inv_self a'⁻¹
-                      (eM.symm (Multiplicative.ofAdd x))]
+                    simp]
           _ = Multiplicative.toAdd (Multiplicative.ofAdd x) := by rw [eM.apply_symm_apply]
           _ = x := by simp
       right_inv := by

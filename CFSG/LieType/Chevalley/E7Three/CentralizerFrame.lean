@@ -135,6 +135,7 @@ theorem theta_two_centralWord (w : NativeFrame K) (ζ : Kˣ) (hζ : ζ ^ 3 = 1) 
     ← zpow_eq_zpow_emod' _ hζ]
   rfl
 
+omit [CharP K 2] in
 theorem conjDiag3_conjDiag3_inv (d : Fin 3 → Kˣ) (A : SL(3, K)) :
     conjDiag3 d (conjDiag3 d⁻¹ A) = A := by
   apply Subtype.ext
@@ -167,6 +168,7 @@ theorem range_theta_two (w : NativeFrame K) :
     change (w.rho 2) (conjDiag3 (w.diag 2) (conjDiag3 (w.diag 2)⁻¹ A)) = _
     rw [conjDiag3_conjDiag3_inv]
 
+omit [CharP K 2] in
 theorem rootSubgroup_a5Root_le (a b : Fin 6) (hab : a ≠ b) :
     rootSubgroup .E7 K (a5Root a b) ≤ (a5Frame K).range := by
   obtain ⟨ε, hε⟩ := a5Frame_transv (L := K) a b hab
@@ -181,6 +183,7 @@ theorem a5_or_a2_of_three_dvd : ∀ m : Fin 126,
         ∃ i j : Fin 3, i ≠ j ∧ CFSG.RankThree.PartOne.KE.e7RootVec m = nativeA2Roots 2 i j := by
   decide +kernel
 
+omit [CharP K 2] in
 theorem rootChar_scalar (ζ : Kˣ) (α : Fin Tag.E7.rank → ℤ) :
     rootChar (cubeChar ζ scalarExp) α = ζ ^ α (e7Index 2) := by
   change ∏ i : Fin 7, (ζ ^ scalarExp i) ^ α i = ζ ^ α 2

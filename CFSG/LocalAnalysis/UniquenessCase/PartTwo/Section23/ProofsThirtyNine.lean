@@ -20,12 +20,12 @@ namespace Ctx23L
 private theorem s23_39_exists_s (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     (h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch) :
     ∃ (hV : IsElemAbelian 2 c.V)
-      (hnat : BinaryNaturalSL (barSub ⊥ c.V hV c.L) ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z))
+      (_hnat : BinaryNaturalSL (barSub ⊥ c.V hV c.L) ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z))
       (s : MulAut (Vtil ⊥ c.V hV)) (z : Vtil ⊥ c.V hV) (l : G),
       s ∈ barSub ⊥ c.V hV c.L ∧ s ≠ 1 ∧ z ≠ 1 ∧ s z = z ∧
       l ∈ D.T ⊓ c.L ∧ ∀ hstab : l ∈ stabTil ⊥ c.V, s = actTil ⊥ c.V hV ⟨l, hstab⟩ := by
   classical
-  obtain ⟨hV, -, hnat⟩ := h23 h1930 c
+  obtain ⟨hV, -, _hnat⟩ := h23 h1930 c
   have hsupN : c.L ⊔ D.T ≤ c.N := Ctx23L.sup_le_N D Ch c
   have hNnorm : Subgroup.normalizer (c.V : Set G) = c.N := c.normalizer_V_eq h4 h1930
   have hLnorm : c.L ≤ Subgroup.normalizer (c.V : Set G) := by
@@ -37,7 +37,7 @@ private theorem s23_39_exists_s (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D C
   have hstabL : c.L ≤ stabTil ⊥ c.V := le_stabTil hLnorm (by rw [hbotnorm]; exact le_top)
   have hstabT : D.T ≤ stabTil ⊥ c.V := le_stabTil hTnorm (by rw [hbotnorm]; exact le_top)
   let H : Subgroup (MulAut (Vtil ⊥ c.V hV)) := barSub ⊥ c.V hV c.L
-  have hnatH : BinaryNaturalSL H ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z) := hnat
+  have hnatH : BinaryNaturalSL H ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z) := _hnat
   let actL : ↥c.L →* MulAut (Vtil ⊥ c.V hV) :=
     (actTil ⊥ c.V hV).comp (Subgroup.inclusion hstabL)
   let ψ : ↥c.L →* H := actL.codRestrict H fun l => by
@@ -60,8 +60,8 @@ private theorem s23_39_exists_s (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D C
   let S : Sylow 2 H := Q.mapSurjective hψsurj
   have hEvenH : Even (Nat.card H) := by
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨eH⟩⟩ := BinaryNaturalSL.exists_equiv hnatH
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hEvenK : Even (Nat.card K) := by
       rw [hKcard]
       have hn : (CFSG.Open.pRank 2 D.Z) ≠ 0 := by
@@ -138,8 +138,8 @@ private theorem s23_39_exists_s (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D C
     exact hs_eq.trans (by congr 1)
 
 
-private theorem actTil_fixes_mkTil (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
-    (h1930 : H1930 D) (c : Ctx23L D Ch) {hV : IsElemAbelian 2 c.V}
+private theorem actTil_fixes_mkTil (D : Data G) (Ch : Choice2011 G) (_h4 : S23_4 D Ch)
+    (_h1930 : H1930 D) (c : Ctx23L D Ch) {hV : IsElemAbelian 2 c.V}
     {l z : G} (hlT : l ∈ D.T) (hstab : l ∈ stabTil ⊥ c.V)
     (hzZ : z ∈ D.Z) :
     actTil ⊥ c.V hV ⟨l, hstab⟩
@@ -159,7 +159,7 @@ private theorem actTil_fixes_mkTil (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 
   rw [hEq]
 
 private theorem fixed_point_mem_image (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
-    (h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
+    (_h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
     {hV : IsElemAbelian 2 c.V}
     (hnat : BinaryNaturalSL (barSub ⊥ c.V hV c.L) ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z))
     {s : MulAut (Vtil ⊥ c.V hV)}
@@ -388,7 +388,7 @@ private theorem centModE_clause4 (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D 
     centModE_le_normalizer D Ch h4 h1930 c
   have hCnormY : (C.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCY).2 (hYM.trans hCnormM)
-  letI : (C.subgroupOf Y).Normal := hCnormY
+  let : (C.subgroupOf Y).Normal := hCnormY
   have hMY : D.M ≤ Subgroup.normalizer (Y : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYM).1 hYnormal
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 S Y :=
@@ -527,8 +527,8 @@ private theorem barSub_T_le_barSub_L_of_data (D : Data G) (Ch : Choice2011 G)
     (hnat : BinaryNaturalSL (barSub ⊥ c.V hV c.L) ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z))
     {s : MulAut (Vtil ⊥ c.V hV)} {z : Vtil ⊥ c.V hV} {l : G}
     (hsH : s ∈ barSub ⊥ c.V hV c.L) (hs1 : s ≠ 1) (hz1 : z ≠ 1) (hsz : s z = z)
-    (hlT : l ∈ D.T) (hlL : l ∈ c.L)
-    (hs_eq : ∀ hstab : l ∈ stabTil ⊥ c.V, s = actTil ⊥ c.V hV ⟨l, hstab⟩)
+    (_hlT : l ∈ D.T) (_hlL : l ∈ c.L)
+    (_hs_eq : ∀ hstab : l ∈ stabTil ⊥ c.V, s = actTil ⊥ c.V hV ⟨l, hstab⟩)
     (hfixZ : ∀ w : D.Z,
       s (mkTil ⊥ c.V hV (IntMod.mk hV ⟨w.1, uc22p22v_le_conjClosure c.N D.Z w.2⟩)) =
         mkTil ⊥ c.V hV (IntMod.mk hV ⟨w.1, uc22p22v_le_conjClosure c.N D.Z w.2⟩))
@@ -592,7 +592,7 @@ private theorem exists_sylow_barSub_T_inf_L (D : Data G) (Ch : Choice2011 G)
       (S : Subgroup (barSub ⊥ c.V hV c.L)).map (barSub ⊥ c.V hV c.L).subtype =
         barSub ⊥ c.V hV (D.T ⊓ c.L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hstabL, -⟩ := stabTil_T_and_L D Ch h4 h1930 c
   let H : Subgroup (MulAut (Vtil ⊥ c.V hV)) := barSub ⊥ c.V hV c.L
   let actL : ↥c.L →* MulAut (Vtil ⊥ c.V hV) :=
@@ -637,7 +637,7 @@ private theorem barSub_T_eq_barSub_T_inf_L_of_le (D : Data G) (Ch : Choice2011 G
     (hle : barSub ⊥ c.V hV D.T ≤ barSub ⊥ c.V hV c.L) :
     barSub ⊥ c.V hV D.T = barSub ⊥ c.V hV (D.T ⊓ c.L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSmap⟩ := exists_sylow_barSub_T_inf_L D Ch h4 h1930 c (hV := hV)
   have hSylBar : CFSG.ABGLocalTools.IsSylowOf 2
       (barSub ⊥ c.V hV (D.T ⊓ c.L)) (barSub ⊥ c.V hV c.L) := ⟨S, hSmap⟩
@@ -655,11 +655,11 @@ private theorem card_barSub_T_inf_L (D : Data G) (Ch : Choice2011 G)
     (hnat : BinaryNaturalSL (barSub ⊥ c.V hV c.L) ⊤ ⊥ 2 (CFSG.Open.pRank 2 D.Z)) :
     Nat.card (barSub ⊥ c.V hV (D.T ⊓ c.L)) = 2 ^ CFSG.Open.pRank 2 D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSmap⟩ := exists_sylow_barSub_T_inf_L D Ch h4 h1930 c (hV := hV)
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨eH⟩⟩ := BinaryNaturalSL.exists_equiv hnat
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hcardH : Nat.card (barSub ⊥ c.V hV c.L) =
       Nat.card K * (Nat.card K ^ 2 - 1) := by
     rw [← Nat.card_congr eH.toEquiv,

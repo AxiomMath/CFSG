@@ -33,11 +33,11 @@ theorem s16c1_sl2five_facts {X : Type} [Group X] (h : IsSL2Prime X 5) :
       ∃ u t g : X, orderOf u = 5 ∧ t * u * t⁻¹ = u⁻¹ ∧ g * u * g⁻¹ ∉ Subgroup.zpowers u := by
   classical
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hchar : CharP K 5 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hchar : CharP K 5 :=
     charP_of_card_eq_prime (p := 5) (by simpa [Nat.card_eq_fintype_card] using hKcard)
   have h5 : (5 : K) = 0 := CharP.cast_eq_zero K 5
   have h2 : (2 : K) ≠ 0 := by
@@ -134,9 +134,9 @@ theorem s16c1_sl2five_facts {X : Type} [Group X] (h : IsSL2Prime X 5) :
         rw [show u' = SpecialLinearGroup.transvection hij (1 : K) from rfl,
           SpecialLinearGroup.transvection_coe]
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, Pi.single_apply]
+        fin_cases i <;> fin_cases j <;> simp
       have hg'inv : (g'⁻¹).val = !![0, -1; 1, 0] := by
-        simp [SpecialLinearGroup.coe_inv, hg'M, Matrix.adjugate_fin_two_of]
+        simp [hg'M, Matrix.adjugate_fin_two_of]
       have hgug : g' * u' * g'⁻¹ =
           SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) (-1 : K) := by
         apply Subtype.ext
@@ -146,18 +146,17 @@ theorem s16c1_sl2five_facts {X : Type} [Group X] (h : IsSL2Prime X 5) :
         ext i j
         fin_cases i <;> fin_cases j <;>
           simp_rw [Matrix.mul_fin_two] <;>
-          simp [Matrix.one_apply, Pi.single_apply] <;>
-          ring_nf
+          simp
       have h1 : ((g' * u' * g'⁻¹ : SpecialLinearGroup (Fin 2) K) :
           Matrix (Fin 2) (Fin 2) K) 1 0 = -1 := by
         rw [hgug, SpecialLinearGroup.transvection_coe]
-        simp [Matrix.one_apply, Pi.single_apply]
+        simp
       have h2c : ((φ c : SpecialLinearGroup (Fin 2) K) :
           Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
         change ((SpecialLinearGroup.transvection hij (Multiplicative.toAdd c) :
           SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 1 0 = 0
         rw [SpecialLinearGroup.transvection_coe]
-        simp [Matrix.one_apply, Pi.single_apply]
+        simp
       rw [← hc] at h1
       rw [h2c] at h1
       exact one_ne_zero (neg_eq_zero.mp h1.symm)
@@ -180,7 +179,7 @@ private theorem s16c1_conj_eq_self_of_prime {Y : Type} [Group Y] [Finite Y] {p :
   have hP : IsPGroup p G' := IsPGroup.of_card (n := 1) (by rw [pow_one, hcardG'])
   let ψ : G' →* MulAut ↥Z :=
     (MulAut.conjNormal (H := Z)).comp (Subgroup.zpowers u).subtype
-  letI : MulAction G' ↥Z := MulAction.compHom ↥Z ψ
+  let : MulAction G' ↥Z := MulAction.compHom ↥Z ψ
   have hmod := hP.card_modEq_card_fixedPoints ↥Z
   have hF0 : Nat.card (MulAction.fixedPoints G' ↥Z) ≡ 0 [MOD p] := by
     have h := hmod.symm
@@ -192,7 +191,7 @@ private theorem s16c1_conj_eq_self_of_prime {Y : Type} [Group Y] [Finite Y] {p :
     intro w
     exact map_one (ψ w)
   have hpos : 0 < Nat.card (MulAction.fixedPoints G' ↥Z) := by
-    haveI : Nonempty ↥(MulAction.fixedPoints G' ↥Z) := ⟨⟨1, h1fix⟩⟩
+    have : Nonempty ↥(MulAction.fixedPoints G' ↥Z) := ⟨⟨1, h1fix⟩⟩
     exact Nat.card_pos
   have hle : Nat.card (MulAction.fixedPoints G' ↥Z) ≤ p := by
     rw [← hZ]
@@ -233,7 +232,7 @@ private theorem s16c1_mulAut_eq_one_of_pow_prime {Q : Type*} [Group Q] [Finite Q
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_dvd_of_pow_eq_one hσ
-  letI : MulAction G Q := MulAction.compHom Q (Subgroup.zpowers σ).subtype
+  let : MulAction G Q := MulAction.compHom Q (Subgroup.zpowers σ).subtype
   have hmod := hP.card_modEq_card_fixedPoints Q
   have hFix1 : (1 : Q) ∈ MulAction.fixedPoints G Q := by
     rw [MulAction.mem_fixedPoints]
@@ -245,7 +244,7 @@ private theorem s16c1_mulAut_eq_one_of_pow_prime {Q : Type*} [Group Q] [Finite Q
       exact hmod.symm.trans (by rw [hQ]; exact hp)
     exact Nat.modEq_zero_iff_dvd.mp h
   have hpos : 1 ≤ Nat.card (MulAction.fixedPoints G Q) := by
-    haveI : Nonempty ↥(MulAction.fixedPoints G Q) := ⟨⟨1, hFix1⟩⟩
+    have : Nonempty ↥(MulAction.fixedPoints G Q) := ⟨⟨1, hFix1⟩⟩
     have h : 0 < Nat.card (MulAction.fixedPoints G Q) := Nat.card_pos
     omega
   have hle : Nat.card (MulAction.fixedPoints G Q) ≤ p := by
@@ -298,7 +297,7 @@ private theorem s16c1_neg_branch {Y : Type} [Group Y] [Finite Y] {N Z L : Subgro
     (hker : ∀ x ∈ L, ⁅u, x⁆ = 1 → x ∈ Z)
     (hy : ∃ y ∈ L, y ∉ Z) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hconj : ∀ z ∈ Z, ∀ n ∈ N, n * z * n⁻¹ = z := fun z hz n hn => by
     rw [← hZcent z hz n hn, mul_inv_cancel_right]
   have huZ' : ∀ z ∈ Z, u⁻¹ * z * u = z := fun z hz => by
@@ -346,7 +345,7 @@ private theorem s16c1_neg_branch {Y : Type} [Group Y] [Finite Y] {N Z L : Subgro
   have hZN : Z ≤ N := hZL.trans hLN
   have hLcomm : ∀ a ∈ L, ∀ b ∈ L, a * b = b * a := by
     intro a ha b hb
-    haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) hcardL
+    have := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) hcardL
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : L) ⟨b, hb⟩)
   obtain ⟨y, hyL, hyZ⟩ := hy
   have hyN : y ∈ N := hLN hyL
@@ -491,8 +490,8 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     ∃ u ∈ S, ∃ b ∈ N, orderOf u = 5 ∧ u ∉ N ∧ b ∉ (Subgroup.center ↥N).map N.subtype ∧
       u * b * u⁻¹ = b := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hNext : CFSG.IsExtraspecial 5 ↥N := hN.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hNext : CFSG.IsExtraspecial 5 ↥N := hN.1
   obtain ⟨hcardS, hperfS, u0, t0, g0, hu0ord, ht0rel, hg0rel⟩ := s16c1_sl2five_facts hS
   let u : Y := u0
   let t : Y := t0
@@ -536,14 +535,14 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     have hzpc : Nat.card (Subgroup.zpowers u) = 5 := by rw [Nat.card_zpowers, huo]
     have hE_gt5 : 5 < Nat.card ↥E := by
       by_contra hle
-      push_neg at hle
+      push Not at hle
       have hEq : Subgroup.zpowers u = E :=
         Subgroup.eq_of_le_of_card_ge hzp_le (by rw [hzpc]; exact hle)
       exact hgu (hEq.symm ▸ hgugE)
     obtain ⟨m, hm⟩ := hE5.exists_card_eq
     have hm2 : 2 ≤ m := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have hle : Nat.card ↥E ≤ 5 := by
         rw [hm]
         interval_cases m <;> norm_num
@@ -556,7 +555,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
       rwa [hcardS] at h
     exact absurd (dvd_trans h25dvd hEdvd120) (by norm_num)
   let Z : Subgroup Y := (Subgroup.center ↥N).map N.subtype
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     change (Subgroup.map N.subtype (Subgroup.center ↥N)).Normal
     rw [← CFSG.GroupTheory.inf_centralizer_eq_map_center (H := Y) N]
     infer_instance
@@ -605,7 +604,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     rw [h1]
     exact Z.one_mem
   let ZN : Subgroup ↥N := Subgroup.center ↥N
-  haveI hZNN : ZN.Normal := inferInstance
+  have hZNN : ZN.Normal := inferInstance
   have hZN_eq : ZN = Z.subgroupOf N := by
     ext x
     simp [ZN, Z, Subgroup.mem_subgroupOf]
@@ -658,7 +657,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_dvd_of_pow_eq_one hU5
-  letI : MulAction G'' Q := MulAction.compHom Q (Subgroup.zpowers U).subtype
+  let : MulAction G'' Q := MulAction.compHom Q (Subgroup.zpowers U).subtype
   have hfix_action : MulAction.fixedPoints G'' Q = (Fix : Set Q) := by
     ext q
     rw [MulAction.mem_fixedPoints]
@@ -677,7 +676,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
       exact hmod.symm.trans h25
     exact Nat.modEq_zero_iff_dvd.mp h
   have hFixpos : 1 ≤ Nat.card Fix := by
-    haveI : Nonempty ↥Fix := ⟨⟨1, by simp [Fix]⟩⟩
+    have : Nonempty ↥Fix := ⟨⟨1, by simp [Fix]⟩⟩
     have hpos : 0 < Nat.card Fix := Nat.card_pos
     omega
   have hFixge : 5 ≤ Nat.card Fix := Nat.le_of_dvd (by omega) hFixdvd
@@ -762,7 +761,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
       exact hLneZ (Subgroup.eq_of_le_of_card_ge hZL (by rw [hZcard, h])).symm
     have hj2 : 2 ≤ j := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases j
       · rw [hj] at h5le
         norm_num at h5le
@@ -774,7 +773,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
   · obtain ⟨x, hxker, hxnotZ⟩ := hker
     obtain ⟨b', hb'N, hb'Z, hb'fix⟩ := key x hxnotZ hxker
     exact ⟨u, huS, b', hb'N, huo, huN, hb'Z, hb'fix⟩
-  · push_neg at hker
+  · push Not at hker
     have hker_eq : δ.ker = Z.subgroupOf L := le_antisymm hker hZker
     have hker_card : Nat.card δ.ker = 5 := by
       rw [hker_eq, natCard_subgroupOf_eq Z L hZL, hZcard]
@@ -793,7 +792,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
         rw [commutator_def]
         exact Subgroup.commutator_mem_commutator (Subgroup.mem_top n) (Subgroup.mem_top x)
       have hcomm_le : commutator ↥N ≤ Subgroup.center ↥N := by
-        letI : IsMulCommutative (↥N ⧸ Subgroup.center ↥N) :=
+        let : IsMulCommutative (↥N ⧸ Subgroup.center ↥N) :=
           (IsExtraspecial.quotient_elementary_abelian 5 ↥N).toIsMulCommutative
         exact (Subgroup.Normal.quotient_commutative_iff_commutator_le
           (N := Subgroup.center ↥N)).mp inferInstance
@@ -806,7 +805,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
         rw [h0]; rfl
       rw [h1]
       exact L.mul_mem hz hxL
-    haveI : (L.subgroupOf N).Normal := hLnorm
+    have : (L.subgroupOf N).Normal := hLnorm
     have hNLcard : Nat.card (↥N ⧸ L.subgroupOf N) = 5 := by
       have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup (L.subgroupOf N)
       rw [natCard_subgroupOf_eq L N hLleN, hN.2.1, hLcard25] at hcard
@@ -873,7 +872,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     have htZ : ∀ z ∈ Z, t * z * t⁻¹ = z :=
       s16c1_perfect_centralizes (p := 5) hZcard hperfS t htS
     have hcomm_le : commutator ↥N ≤ Subgroup.center ↥N := by
-      letI : IsMulCommutative (↥N ⧸ Subgroup.center ↥N) :=
+      let : IsMulCommutative (↥N ⧸ Subgroup.center ↥N) :=
         (IsExtraspecial.quotient_elementary_abelian 5 ↥N).toIsMulCommutative
       exact (Subgroup.Normal.quotient_commutative_iff_commutator_le
         (N := Subgroup.center ↥N)).mp inferInstance
@@ -907,12 +906,12 @@ theorem s16c1_exists_elemAbelian_five_cube {Y : Type} [Group Y] [Finite Y] {N S 
     [N.Normal] (hN : IsPOnePlusTwo 5 ↥N) (hS : IsSL2Prime ↥S 5) :
     ∃ E : Subgroup Y, IsElemAbelian 5 E ∧ Nat.card E = 5 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hNinst : CFSG.IsExtraspecial 5 ↥N := hN.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hNinst : CFSG.IsExtraspecial 5 ↥N := hN.1
   obtain ⟨u, -, b, hbN, huo, huN, hbZ, hub⟩ := s16c1_exists_fixed_noncentral hN hS
   let Z : Subgroup Y := (Subgroup.center ↥N).map N.subtype
   have hbZ' : b ∉ Z := hbZ
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     change (Subgroup.map N.subtype (Subgroup.center ↥N)).Normal
     rw [← CFSG.GroupTheory.inf_centralizer_eq_map_center (H := Y) N]
     infer_instance

@@ -65,7 +65,7 @@ theorem pRank_le_two_of_card_sylow {G : Type} [Group G] [Finite G] {K S : Subgro
   have hSK : S ≤ K := hSKC.trans inf_le_left
   obtain ⟨T, hST⟩ := (hS2.comap_subtype (K := K)).exists_le_sylow
   set T₀ : Subgroup G := (T : Subgroup ↥K).map K.subtype with hT₀
-  have hT₀2 : IsPGroup 2 T₀ := T.isPGroup'.map _
+  have hT₀2 : IsPGroup 2 T₀ := T.isPGroup.map _
   have hST₀ : S ≤ T₀ := fun s hs => ⟨⟨s, hSK hs⟩, hST (mem_comap.mpr hs), rfl⟩
   have hcard : Nat.card ↥(T₀ ⊓ centralizer ({b} : Set G)) = 4 := by
     apply le_antisymm

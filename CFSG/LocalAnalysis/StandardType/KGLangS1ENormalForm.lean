@@ -62,18 +62,18 @@ theorem kgLangS1E_normalForm_toral_E7
         (⟨y, hy⟩ : ↥(adjointGroup .E7 k)) * Ψ z * (⟨y, hy⟩ : ↥(adjointGroup .E7 k))⁻¹) :
     ExcFramesHalf.IsToralSubgroup .E7 L
       (Subgroup.closure ((baseChangeGL (τ := .E7) ι) '' Y)) := by
-  haveI hcharK₀ : CharP K₀ 2 :=
+  have hcharK₀ : CharP K₀ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two he hK₀
-  haveI hchark : CharP k 2 :=
+  have hchark : CharP k 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two he hk
   have hringK₀ : ringChar K₀ = 2 := ringChar.eq K₀ 2
   have hInndiag_le : RecipeExcLang.inndiagGroup .E7 K₀ ≤ adjointGroup .E7 K₀ := by
     rintro w ⟨b, j, hj, rfl⟩
     exact mul_mem (rootDiagUnit_mem_adjointGroup_E7_E8 (Or.inl rfl) hringK₀ b) hj
-  letI : Fintype K₀ := Fintype.ofFinite K₀
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype K₀ := Fintype.ofFinite K₀
+  let : Fintype k := Fintype.ofFinite k
   have hcardF : Fintype.card K₀ = Fintype.card k := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hk]
   let φ₀ : K₀ ≃+* k := FiniteField.ringEquivOfCardEq hcardF

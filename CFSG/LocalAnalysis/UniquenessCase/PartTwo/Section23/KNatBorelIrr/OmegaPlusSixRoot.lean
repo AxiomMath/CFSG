@@ -78,7 +78,7 @@ theorem plusExtGL_alpha_eq_diagGL (c : Kˣ) (A : SL(2, K))
   have hB : (!![(c : K), 0; 0, ((c⁻¹ : Kˣ) : K)] : Matrix (Fin 2) (Fin 2) K) =
       Matrix.diagonal (fun i : Fin 2 => (![c, c⁻¹] i : K)) := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   apply Units.ext
   rw [coe_plusExtGL, Matrix.SpecialLinearGroup.coe_GL_coe_matrix, hA, hB]
   rw [extendMat_alpha_L12 c]
@@ -102,7 +102,7 @@ theorem torusElt_alpha_apply_e0 (c : Kˣ) :
   funext x
   rw [torusElt_apply]
   rcases x with i | i
-  · fin_cases i <;> simp [Pi.single_apply]
-  · fin_cases i <;> simp [Pi.single_apply]
+  · fin_cases i <;> simp
+  · fin_cases i <;> simp
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.NatBorelIrr

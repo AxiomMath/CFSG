@@ -16,6 +16,7 @@ variable {k : Type} [Field k] {V W : Type} [AddCommGroup V] [Module k V] [Finite
   [AddCommGroup W] [Module k W] [FiniteDimensional k W] {Q : QuadraticForm k V}
   {Q' : QuadraticForm k W} (χ : V ≃ₗ[k] W) (t : V ≃ₗ[k] V)
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem orthogonalGroup_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     (orthogonalGroup Q).map (LinearEquiv.autCongr χ).toMonoidHom = orthogonalGroup Q' := by
   ext g
@@ -33,12 +34,14 @@ theorem orthogonalGroup_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     rw [← hχ (χ.symm (g (χ v))), χ.apply_symm_apply]
     rw [map_app_of_mem_orthogonalGroup hg (χ v), hχ v]
 
+omit [FiniteDimensional k V] in
 private lemma plh_mem_torV₀_set (t : V ≃ₗ[k] V) {v : V} :
     v ∈ (torV₀ t : Set V) ↔ t v = v := by
   change v ∈ torV₀ t ↔ t v = v
   rw [torV₀, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.id_apply]
   exact sub_eq_zero
 
+omit [FiniteDimensional k V] in
 private lemma plh_mem_torV₁_set (t : V ≃ₗ[k] V) {v : V} :
     v ∈ (torV₁ t : Set V) ↔ ∃ z : V, t z - z = v := by
   change v ∈ torV₁ t ↔ ∃ z : V, t z - z = v
@@ -49,6 +52,7 @@ private lemma plh_mem_torV₁_set (t : V ≃ₗ[k] V) {v : V} :
   · rintro ⟨z, hz⟩
     exact ⟨z, by simpa [LinearMap.sub_apply, LinearMap.id_apply] using hz⟩
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torV₀_map : (torV₀ t).map (χ : V →ₗ[k] W) = torV₀ (LinearEquiv.autCongr χ t) := by
   ext w
   constructor
@@ -67,6 +71,7 @@ theorem torV₀_map : (torV₀ t).map (χ : V →ₗ[k] W) = torV₀ (LinearEqui
     have h := congrArg χ.symm hw'
     simpa [LinearEquiv.autCongr_apply_apply] using h
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torV₁_map : (torV₁ t).map (χ : V →ₗ[k] W) = torV₁ (LinearEquiv.autCongr χ t) := by
   ext w
   constructor
@@ -78,9 +83,7 @@ theorem torV₁_map : (torV₁ t).map (χ : V →ₗ[k] W) = torV₁ (LinearEqui
     rw [LinearEquiv.autCongr_apply_apply]
     change χ (t (χ.symm (χ z))) - χ z = χ v
     rw [LinearEquiv.symm_apply_apply]
-    change χ (t z) - χ z = χ v
     rw [← map_sub]
-    change χ (t z - z) = χ v
     rw [hz']
   · intro hw
     obtain ⟨y, hy⟩ := (plh_mem_torV₁_set (LinearEquiv.autCongr χ t)).mp hw
@@ -96,6 +99,7 @@ theorem torV₁_map : (torV₁ t).map (χ : V →ₗ[k] W) = torV₁ (LinearEqui
       rw [LinearEquiv.apply_symm_apply]
       exact hy''
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 private lemma plh_torFix_map_autCongr (χ : V ≃ₗ[k] W) (U : Submodule k V) :
     (torFix U).map (LinearEquiv.autCongr χ).toMonoidHom =
       torFix (U.map (χ : V →ₗ[k] W)) := by
@@ -118,6 +122,7 @@ private lemma plh_torFix_map_autCongr (χ : V ≃ₗ[k] W) (U : Submodule k V) :
     change χ.symm (χ v) = v
     rw [LinearEquiv.symm_apply_apply]
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 private lemma plh_centralizer_map (χ : V ≃ₗ[k] W) (t : V ≃ₗ[k] V) :
     (Subgroup.centralizer ({t} : Set (V ≃ₗ[k] V))).map
         (LinearEquiv.autCongr χ).toMonoidHom =
@@ -144,6 +149,7 @@ private lemma plh_centralizer_map (χ : V ≃ₗ[k] W) (t : V ≃ₗ[k] V) :
     have hc := congrArg (LinearEquiv.autCongr χ).symm hg'
     simpa [MulEquiv.coe_toMonoidHom] using hc
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torE₀_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     (torE₀ Q t).map (LinearEquiv.autCongr χ).toMonoidHom =
       torE₀ Q' (LinearEquiv.autCongr χ t) := by
@@ -152,6 +158,7 @@ theorem torE₀_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
       (LinearEquiv.autCongr χ).injective,
     orthogonalGroup_map_autCongr χ hχ, plh_torFix_map_autCongr χ (torV₁ t), torV₁_map χ t]
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torE₁_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     (torE₁ Q t).map (LinearEquiv.autCongr χ).toMonoidHom =
       torE₁ Q' (LinearEquiv.autCongr χ t) := by
@@ -164,11 +171,13 @@ theorem torE₁_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     orthogonalGroup_map_autCongr χ hχ, plh_torFix_map_autCongr χ (torV₀ t), torV₀_map χ t,
     plh_centralizer_map χ t]
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torP₀_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     (torP₀ Q t).map (LinearEquiv.autCongr χ).toMonoidHom =
       torP₀ Q' (LinearEquiv.autCongr χ t) := by
   rw [torP₀, torP₀, Subgroup.map_commutator, torE₀_map_autCongr χ t hχ]
 
+omit [FiniteDimensional k V] [FiniteDimensional k W] in
 theorem torP₁_map_autCongr (hχ : ∀ v, Q' (χ v) = Q v) :
     (torP₁ Q t).map (LinearEquiv.autCongr χ).toMonoidHom =
       torP₁ Q' (LinearEquiv.autCongr χ t) := by

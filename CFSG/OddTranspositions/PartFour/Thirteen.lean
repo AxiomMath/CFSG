@@ -16,7 +16,7 @@ theorem derivedSeries_one_eq_two_of_sup_eq_top {X : Type*} [Group X] {N A : Subg
     derivedSeries X 1 = N ∧ derivedSeries X 2 = N := by
   have h1 : derivedSeries X 1 = N := by
     rw [derivedSeries_one]
-    haveI : IsMulCommutative A := hA
+    have : IsMulCommutative A := hA
     refine le_antisymm
       (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := A) hNA) ?_
     calc N = ⁅N, N⁆ := hN.symm
@@ -26,8 +26,8 @@ theorem derivedSeries_one_eq_two_of_sup_eq_top {X : Type*} [Group X] {N A : Subg
 
 theorem commutator_self_eq_of_isSimpleGroup {X : Type*} [Group X] {M : Subgroup X}
     (hMs : IsSimpleGroup M) (hMna : ¬ IsMulCommutative M) : ⁅M, M⁆ = M := by
-  haveI := hMs
-  haveI := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hMna
+  have := hMs
+  have := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hMna
   exact Subgroup.isPerfect_iff.mp inferInstance
 
 theorem sup_subgroupOf_sup_eq_top {X : Type*} [Group X] (A B : Subgroup X) :
@@ -39,6 +39,7 @@ theorem sup_subgroupOf_sup_eq_top {X : Type*} [Group X] (A B : Subgroup X) :
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem not_isMulCommutative_of_ne_bot
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥) {M : Subgroup G} [M.Normal]
     (hM : M ≠ ⊥) : ¬ IsMulCommutative M := by
@@ -68,7 +69,7 @@ theorem derivedSeries_eq_or_l2Wreath_or_almostSimpleCase
         IsConj (SemidirectProduct.inr (Equiv.swap i j)) (Φ u)) ∨
       AlmostSimpleCase G D := by
   obtain ⟨M, hM⟩ := exists_minimalNormal hS
-  haveI := hM.1
+  have := hM.1
   have hC := centralizer_eq_bot_of_minimal hS hrad hM
   by_cases hMs : IsSimpleGroup M
   · have hperf : ⁅M, M⁆ = M :=
@@ -102,17 +103,19 @@ section SupZpowers
 
 variable {M : Subgroup G} {u : G}
 
+omit [Finite G] in
 theorem setup_sup_zpowers (hcls : IsOddTranspClass (conjSet M u)) :
     Setup ↥(M ⊔ Subgroup.zpowers u) (conjSet M u) :=
   ⟨hcls.1, hcls.2.1, hcls.2.2⟩
 
+omit [Finite G] in
 theorem eq_bot_of_not_le_subgroupOf [M.Normal] (hMs : IsSimpleGroup M)
     (hcent : Subgroup.centralizer (M : Set G) = ⊥) {N : Subgroup ↥(M ⊔ Subgroup.zpowers u)}
     [hN : N.Normal] (hNM : ¬ M.subgroupOf (M ⊔ Subgroup.zpowers u) ≤ N) : N = ⊥ := by
   have hle : M ≤ M ⊔ Subgroup.zpowers u := le_sup_left
-  haveI := hMs
-  haveI hM'n : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
-  haveI : IsSimpleGroup ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) :=
+  have := hMs
+  have hM'n : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
+  have : IsSimpleGroup ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) :=
     (Subgroup.subgroupOfEquivOfLe hle).isSimpleGroup
   have hdisj : Disjoint N (M.subgroupOf (M ⊔ Subgroup.zpowers u)) := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -134,30 +137,32 @@ theorem eq_bot_of_not_le_subgroupOf [M.Normal] (hMs : IsSimpleGroup M)
   rw [hcent, Subgroup.mem_bot] at hnc
   exact Subgroup.mem_bot.mpr (Subtype.ext hnc)
 
+omit [Finite G] in
 theorem solvableRadical_sup_zpowers_eq_bot [M.Normal] (hMs : IsSimpleGroup M)
     (hMna : ¬ IsMulCommutative M) (hcent : Subgroup.centralizer (M : Set G) = ⊥) :
     ∀ N : Subgroup ↥(M ⊔ Subgroup.zpowers u), N.Normal → Group.IsSolvable N → N = ⊥ := by
   intro N hN hNs
   refine eq_bot_of_not_le_subgroupOf hMs hcent fun hle => hMna ?_
   have e := Subgroup.subgroupOfEquivOfLe (le_sup_left : M ≤ M ⊔ Subgroup.zpowers u)
-  haveI : Group.IsSolvable ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
-  haveI : Group.IsSolvable ↥M := solvable_of_solvable_injective (f := e.symm.toMonoidHom)
+  have : Group.IsSolvable ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) :=
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
+  have : Group.IsSolvable ↥M := Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
     e.symm.injective
-  haveI := hMs
+  have := hMs
   exact ⟨⟨IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance⟩⟩
 
+omit [Finite G] in
 theorem derivedSeries_sup_zpowers [M.Normal] (hMs : IsSimpleGroup M)
     (hMna : ¬ IsMulCommutative M) :
     derivedSeries ↥(M ⊔ Subgroup.zpowers u) 1 = derivedSeries ↥(M ⊔ Subgroup.zpowers u) 2 := by
   have e := Subgroup.subgroupOfEquivOfLe (le_sup_left : M ≤ M ⊔ Subgroup.zpowers u)
-  haveI := hMs
-  haveI : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
+  have := hMs
+  have : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
   have hM'na : ¬ IsMulCommutative ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) := by
     rintro ⟨⟨hc⟩⟩
     exact hMna ⟨⟨fun a b => by simpa using congrArg e (hc (e.symm a) (e.symm b))⟩⟩
   have hperf := commutator_self_eq_of_isSimpleGroup e.isSimpleGroup hM'na
-  haveI := Subgroup.zpowers_isMulCommutative u
+  have := Subgroup.zpowers_isMulCommutative u
   obtain ⟨h1, h2⟩ := derivedSeries_one_eq_two_of_sup_eq_top hperf
     (Subgroup.subgroupOf_isMulCommutative (H := Subgroup.zpowers u) (K := M ⊔ Subgroup.zpowers u))
     (sup_subgroupOf_sup_eq_top M (Subgroup.zpowers u))

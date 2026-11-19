@@ -44,7 +44,7 @@ theorem asc82Lemma37_of_parts (h36 : Asc82Lemma36) (h37F : Asc82Lemma37F)
     rw [conjugate_inv_eq_map_conj] at this
     simpa using this
   have hw2 : orderOf (g⁻¹ * z * g) = 2 := by
-    rw [show g⁻¹ * z * g = (MulAut.conj g⁻¹) z by simp [MulAut.conj_apply]]
+    rw [show g⁻¹ * z * g = (MulAut.conj g⁻¹) z by simp]
     rw [MulEquiv.orderOf_eq, hz.1]
   have hJF : InFStar J := by
     have hL := hS.inF

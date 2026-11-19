@@ -101,7 +101,7 @@ theorem cfInner_powOpₗ_powOpₗ [Fintype G] (hk : k.Coprime (Nat.card G)) (f h
 
 def classFun.powOpEquiv [Finite G] (hkb : k * b ≡ 1 [MOD Nat.card G]) :
     classFun G ≃ₗ[ℂ] classFun G :=
-  LinearEquiv.ofLinear (classFun.powOpₗ G k) (classFun.powOpₗ G b)
+  LinearEquiv.ofLinearMap (classFun.powOpₗ G k) (classFun.powOpₗ G b)
     (by ext f x; simpa using congrFun (powOp_powOp_eq_self' (M := ℂ) hkb (f : G → ℂ)) x)
     (by ext f x; simpa using congrFun (powOp_powOp_eq_self (M := ℂ) hkb (f : G → ℂ)) x)
 

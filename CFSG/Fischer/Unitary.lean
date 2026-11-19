@@ -5,7 +5,7 @@ public import CFSG.Fischer.UnitaryCounts
 public import CFSG.Fischer.OrbitBound
 import all CFSG.Fischer.F4
 public import Mathlib.CategoryTheory.Action.Concrete
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Tactic.Polynomial.Basic

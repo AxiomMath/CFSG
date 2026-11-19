@@ -31,6 +31,7 @@ private theorem w1369_isSLn_three_of_isL3 {X : Type} [Group X] (h : IsL3 X 1) :
   obtain ⟨f⟩ := w1369_statedProj_equiv_of_card_two (K := K) (by simpa using hK) (StatedSL 3 K)
   exact ⟨K, hF, hfin, hK, ⟨e.trans f⟩⟩
 
+omit [Finite W] in
 private theorem w1369_commSub_map_conj (U : Subgroup W) (X : Subgroup (MulAut W))
     (g : MulAut W) :
     commSub (U.map g.toMonoidHom) (X.map (MulAut.conj g).toMonoidHom) =
@@ -45,13 +46,14 @@ private theorem w1369_commSub_map_conj (U : Subgroup W) (X : Subgroup (MulAut W)
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj g x₀, ⟨x₀, hx₀, rfl⟩, g w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
+omit [Finite W] in
 private theorem w1369_commSub_map_conj_inv (U : Subgroup W) (X : Subgroup (MulAut W))
     (g : MulAut W) :
     (commSub (U.map (g⁻¹).toMonoidHom) X).map g.toMonoidHom =
@@ -62,6 +64,7 @@ private theorem w1369_commSub_map_conj_inv (U : Subgroup W) (X : Subgroup (MulAu
       Subgroup.map_id]
   rw [← w1369_commSub_map_conj (U.map (g⁻¹).toMonoidHom) X g, hcomp]
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊔ B) := by
   intro x hx u hu
@@ -69,6 +72,7 @@ private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup 
   rw [map_mul]
   exact Subgroup.mul_mem_sup (hA x hx a ha) (hB x hx b hb)
 
+omit [Finite W] in
 private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   apply le_antisymm
@@ -88,8 +92,9 @@ private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
       (Subgroup.subset_closure ⟨x, hx, b, hb, rfl⟩)
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem w1369_false_of_component_le_both {Y : Subgroup (MulAut W)} {t : MulAut W}
-    (S : Std136 Y t) {L : Subgroup (MulAut W)} {g : MulAut W} (hgY : g ∈ Y)
+    (_S : Std136 Y t) {L : Subgroup (MulAut W)} {g : MulAut W} (_hgY : g ∈ Y)
     (hWgL : commSub ((Wd L).map g.toMonoidHom) L = ⊥)
     {K₁ : Subgroup (MulAut W)} (hK₁ : IsComponentOf K₁ Y) (hK₁L : K₁ ≤ L)
     (hK₁Lg : K₁ ≤ L.map (MulAut.conj g).toMonoidHom) : False := by
@@ -112,7 +117,7 @@ private theorem w1369_false_of_component_le_both {Y : Subgroup (MulAut W)} {t : 
       exact mem_fixV.mp (hfix (Subgroup.mem_top w)) x hx
     rw [hx1]
     exact Subgroup.one_mem _
-  haveI : Nontrivial ↥K₁ := CFSG.ComponentClassification.Quasisimple.nontrivial hK₁.2.2
+  have : Nontrivial ↥K₁ := CFSG.ComponentClassification.Quasisimple.nontrivial hK₁.2.2
   exact (K₁.nontrivial_iff_ne_bot.mp this) hK₁bot
 
 private theorem w1369_commutator_components {Y : Subgroup (MulAut W)} {t : MulAut W}
@@ -127,6 +132,7 @@ private theorem w1369_commutator_components {Y : Subgroup (MulAut W)} {t : MulAu
     exact w1369_false_of_component_le_both S hgY hWgL hA hAL hBLg
   · exact CFSG.LargeExtraspecial.S5.commute_of_isComponentOf_ne hA hB hAB
 
+omit [Finite W] in
 private theorem w1369_irrSet_eq_singleton {K : Subgroup (MulAut W)}
     (hI : commSub ⊤ K ∈ irrSet K) {J : Subgroup W} (hJ : J ∈ irrSet K) :
     J = commSub ⊤ K := by

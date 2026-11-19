@@ -145,7 +145,7 @@ theorem exists_sq_eq_of_noncomm {x : G} (hxM : x ∈ M) (hx2 : x * x = 1)
   rw [← he']
   have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx2
   have hei : (e : G)⁻¹ = e := inv_eq_of_mul_eq_one_right (H.conj_sq e.2)
-  simp only [commutatorElement_def, mul_inv_rev, inv_inv, hxi, hei, mul_assoc]
+  simp only [commutatorElement_def, mul_inv_rev, hxi, hei, mul_assoc]
 
 end Certified
 

@@ -119,7 +119,7 @@ theorem exists_singular_eigen_semilinear [Finite K] (hK2 : ringChar K ≠ 2) (hd
     ring
   have hTQ : ∀ x, (z₀⁻¹ • Q) (T x) = g.val.right ((z₀⁻¹ • Q) x) := by
     intro x
-    rw [QuadraticMap.smul_apply, QuadraticMap.smul_apply, smul_eq_mul, smul_eq_mul, hQT,
+    rw [_root_.smul_apply, _root_.smul_apply, smul_eq_mul, smul_eq_mul, hQT,
       map_mul, hσz]
     ring
   have hW : 3 ≤ Module.finrank (descentField g.val.right)
@@ -143,7 +143,7 @@ theorem exists_singular_eigen_semilinear [Finite K] (hK2 : ringChar K ≠ 2) (hd
   · have hQ'w : (z₀⁻¹ • Q) (w : Fin d → K) = 0 := by
       rw [← coe_descentForm hTQ w, hwQ]
       rfl
-    rw [QuadraticMap.smul_apply, smul_eq_mul] at hQ'w
+    rw [_root_.smul_apply, smul_eq_mul] at hQ'w
     exact (mul_eq_zero.mp hQ'w).resolve_left (inv_ne_zero hz0)
   · have hfix : lam • coordinateSemilinearMap g.val (w : Fin d → K) = (w : Fin d → K) :=
       mem_fixSpace.1 w.2

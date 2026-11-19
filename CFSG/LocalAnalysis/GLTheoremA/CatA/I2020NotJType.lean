@@ -136,7 +136,7 @@ private lemma goodFactor_U4 {q b M : ℕ} (hb : 0 < b) (hM : 6 * b < M) :
         (GoodFactor.add (q := q) (M := M) (3 * b) (by omega) (by omega))
         (GoodFactor.sub (q := q) (M := M) (4 * b) (by omega) (by omega))))
 
-private lemma exists_prim_PSL2 {q a : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (ha : 0 < a)
+private lemma exists_prim_PSL2 {q a : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (_ha : 0 < a)
     (hm : 3 ≤ 2 * a) :
     ∃ r : ℕ, IsPrimDiv r q (2 * a) ∧ r ∣ q ^ a * (q ^ (2 * a) - 1) ∧ ¬ r ∣ 2 := by
   obtain ⟨r, hr⟩ := exists_isPrimDiv (a := q) (by have := hq.two_le; omega) hm
@@ -175,7 +175,7 @@ private lemma exists_prim_U3 {q b : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hb : 0 
       exact dvd_mul_of_dvd_right hb1 _
     exact (hr.2.2 (2 * b) (by omega) (by omega)) (by simpa [hr3] using h2)
 
-private lemma exists_prim_G2 {q a : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (ha : 0 < a)
+private lemma exists_prim_G2 {q a : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (_ha : 0 < a)
     (hm : 3 ≤ 6 * a) :
     ∃ r : ℕ, IsPrimDiv r q (6 * a) ∧
       r ∣ q ^ (6 * a) * ((q ^ (6 * a) - 1) * (q ^ (2 * a) - 1)) ∧ ¬ r ∣ 1 := by
@@ -1350,7 +1350,6 @@ theorem not_jType_of_card {G : Type} [Group G] [Finite G] {p q : ℕ} (hq : q.Pr
     · rcases h3 with ⟨rfl, rfl⟩
       have hM : Nat.card (PSimple p J) = 12 := by
         simp [lieOrderDivisor, lieOrderNumerator_PSL_two] at hcard
-        norm_num at hcard ⊢
         omega
       have hF : (Nat.card (PSimple p J)).factorization 3 = 1 * 1 := by
         have hM0 : 0 < Nat.card (PSimple p J) := by omega

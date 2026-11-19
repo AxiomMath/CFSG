@@ -117,7 +117,7 @@ lemma w1369_ta_top_not_simple {Λ : Subgroup (MulAut Q)} {k : ℕ} (hk2 : 2 ≤ 
     (hsimple : ∀ i, w1369_ta_IsSimple Λ (I i))
     (hind : ∀ i, I i ⊓ (⨆ (j : Fin k) (_ : j ≠ i), I j) = ⊥) :
     ¬ w1369_ta_IsSimple Λ (⊤ : Subgroup Q) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   intro htop
   rcases htop.2.2 (I 0) (hstab 0) le_top with h0 | h0
   · exact (hsimple 0).1 h0

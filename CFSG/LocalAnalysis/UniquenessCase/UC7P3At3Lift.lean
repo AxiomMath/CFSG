@@ -31,7 +31,7 @@ theorem alt1_of_quotient (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgroup G} (hH
         CFSG.Open.rankThreeLayer H ⊓ normalizer (P : Set G) ≤ normalizer (W : Set G) →
           W ≤ ⁅P, P⁆ ∨ W = P := by
   subst hPb
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hPHM, hPp, -⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hP
   have hPH : P ≤ H := hPHM.trans inf_le_left
   have hinj := CFSG.OrderReductions.ThompsonQuotient.prime_subgroup_injective_of_coprime_kernel

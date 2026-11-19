@@ -60,7 +60,7 @@ theorem s16c167_insp18_case2 (D : Data G) (hk : D.k = 1) {V L : Subgroup G}
     · calc imgTil ⊥ V hV b = commSub (imgTil ⊥ V hV b) (barSub ⊥ V hV L) := hirrb.1.symm
         _ ≤ commSub ⊤ (barSub ⊥ V hV L) := commSub_mono le_top le_rfl
   have hLbot : barSub ⊥ V hV L ≠ ⊥ := by
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hnorm : ∀ x ∈ Mbar D.M ⊥ V hV,
       (barSub ⊥ V hV L).map (MulAut.conj x).toMonoidHom = barSub ⊥ V hV L := by

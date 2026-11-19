@@ -160,7 +160,7 @@ theorem A7_perfect_central_cover_kernel_has_normal_Sylow_two {A : Type*} [Group 
       Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
   have hQ2 : IsPGroup 2 Q := by
     rintro ⟨_, x, hx, rfl⟩
-    obtain ⟨a, ha⟩ := P'.isPGroup' ⟨QuotientGroup.mk' _ x, hx⟩
+    obtain ⟨a, ha⟩ := P'.isPGroup ⟨QuotientGroup.mk' _ x, hx⟩
     have h1 : (QuotientGroup.mk' (R.subgroupOf N) x) ^ 2 ^ a = 1 := congrArg Subtype.val ha
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, mem_subgroupOf] at h1
     obtain ⟨b, hb⟩ := hR ⟨_, h1⟩
@@ -194,7 +194,7 @@ theorem A7_perfect_central_cover_kernel_has_normal_Sylow_two {A : Type*} [Group 
   have hQT : ∀ T : Sylow 2 X, Q = (T : Subgroup X) ⊓ N := by
     intro T
     exact le_antisymm (le_inf (hQ2.le_sylow_of_normal T) hQN)
-      (hQmax _ inf_le_right (T.isPGroup'.to_le inf_le_left))
+      (hQmax _ inf_le_right (T.isPGroup.to_le inf_le_left))
   refine ⟨Q, hQN, hQ2, hQidx, hQmax, hQn, hQT, fun T V _ hVc hVT hNV => ?_⟩
   have hQV : Q = (T : Subgroup X) ⊓ centralizer (V : Set X) := by rw [hQT T, hNV]
   refine ⟨hQV, ?_, hQV ▸ hQn⟩

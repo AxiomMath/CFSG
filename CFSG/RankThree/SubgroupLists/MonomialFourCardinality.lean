@@ -200,7 +200,7 @@ theorem card_eq_twenty_seven_or_eighty_one_of_odd_monomial_irreducible_rank
     omega
   · have hcard9 : Nat.card J = 3 ^ 2 := by simpa using hcard
     have hcommJ : ∀ a b : J, a * b = b * a :=
-      IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hcard9
+      (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard9).is_comm.comm
     have hcomm : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a :=
       fun a ha b hb => congrArg Subtype.val (hcommJ ⟨a, ha⟩ ⟨b, hb⟩)
     obtain ⟨hcyc, -, -⟩ :=

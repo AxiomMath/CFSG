@@ -85,8 +85,8 @@ theorem normConcl_of_normalizes_four (hOm : OmegaFourInput) (hSU : UnitaryThreeI
     (hE : EndData 3 (orthDerived Q) A D a) (hcard : 3 ^ (4 - 1) ≤ Nat.card A)
     (hU : NormalizesTwoGroup (orthDerived Q) A) : NormConcl 3 A D := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hpK : ((3 : ℕ) : K) ≠ 0 := natCast_ne_zero_of_odd Nat.prime_three (by norm_num)
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) 3 A :=
     isoGroup_of_le hQ hE.A_le hE.A_elem
@@ -123,7 +123,7 @@ open CFSG.Assembly TableB TableBOrth SmallOrthUn
 theorem plusTwoFourInput_of (hOm : OmegaFourInput) (hSU : UnitaryThreeInput) :
     PlusTwoFourInput := by
   intro K _ _ hK A D a hE hr hU
-  haveI : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
   have hK1 : ∀ c : K, c ^ 3 = 1 → c = 1 :=
     OrthRestOdd.eq_one_of_pow_eq_one_of_dvd (n := 1) (p := 3) (by rw [hK, pow_one])
       Nat.prime_three (by norm_num)
@@ -144,7 +144,7 @@ theorem plusTwoFourInput_of (hOm : OmegaFourInput) (hSU : UnitaryThreeInput) :
 theorem minusUnitThreeInput_of (hOm : OmegaFourInput) (hSU : UnitaryThreeInput) :
     MinusUnitThreeInput := by
   intro K _ _ b c hK hirr A D a hE hr hU
-  haveI : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
   have hK1 : ∀ x : K, x ^ 3 = 1 → x = 1 :=
     OrthRestOdd.eq_one_of_pow_eq_one_of_dvd (n := 1) (p := 3) (by rw [hK, pow_one])
       Nat.prime_three (by norm_num)

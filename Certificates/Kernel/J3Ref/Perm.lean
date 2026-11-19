@@ -131,12 +131,12 @@ theorem spanAtL_eq : ∀ (L : List Nat) (Ls : List Pm), List.Forall₂ HasP L Ls
     · have e : Nat.beq (Nat.mod c 2) 1 = true := by
         rw [Nat.beq_eq]
         exact hm
-      rw [if_pos e, if_pos hm, ih', hXA.at (spanP Ls (c / 2) ⟨y, hy⟩).isLt]
+      rw [ite_eq_left e, ite_eq_left hm, ih', hXA.at (spanP Ls (c / 2) ⟨y, hy⟩).isLt]
     · have e : Nat.beq (Nat.mod c 2) 1 = false := by
         cases e : Nat.beq (Nat.mod c 2) 1
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true e) hm
-      rw [if_neg (by rw [e]; decide), if_neg hm, ih']
+      rw [ite_eq_right (by rw [e]; decide), ite_eq_right hm, ih']
       rfl
 
 theorem spanP_mem_of {L : List Nat} {Ls : List Pm} (hL : List.Forall₂ HasP L Ls) (c : Nat) :

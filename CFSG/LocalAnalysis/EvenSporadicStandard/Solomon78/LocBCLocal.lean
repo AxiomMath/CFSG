@@ -135,7 +135,7 @@ theorem co1_twoAdic_centralizer {X : Type} [Group X] [Finite X] (f : X ≃* GA) 
   set C : Subgroup X := Subgroup.centralizer (K' : Set X) with hC
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
   set S : Subgroup X := (P : Subgroup ↥C).map C.subtype with hS
-  have hSp : IsPGroup 2 S := P.isPGroup'.map C.subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map C.subtype
   have hSK : ∀ s ∈ S, ∀ k ∈ K', s * k = k * s := by
     rintro _ ⟨c, -, rfl⟩ k hk
     exact (Subgroup.mem_centralizer_iff.1 c.2 k hk).symm

@@ -127,7 +127,7 @@ theorem kgFieldCompCont_E6Three {lab : LargeEvenLabel} (hlab : LargeEvenInLambda
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K .E6
   have hRsimple :
       IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K) := hq.2.1
     exact eQ.isSimpleGroup
   have hRnab : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false),
       a * b ≠ b * a :=
@@ -143,9 +143,9 @@ theorem kgFieldCompCont_E6Three {lab : LargeEvenLabel} (hlab : LargeEvenInLambda
   obtain ⟨eQ₀⟩ := centerQuot_chevGroup_equiv k .E6
   have hR₀simple :
       IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) k false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 k) := hq₀.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 k) := hq₀.2.1
     exact eQ₀.isSimpleGroup
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) k false)) :=
+  have : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) k false)) :=
     hR₀simple
   have eDerR : ↥(ggFixDer f') ≃*
       LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) k false) :=
@@ -166,13 +166,13 @@ theorem kgFieldCompCont_E6Three {lab : LargeEvenLabel} (hlab : LargeEvenInLambda
     (CFSG.LieType.BorelTits.commutatorSubgroupEquiv C).trans
       ((CFSG.LieType.BorelTits.commutatorEquiv eC).trans
         (CFSG.LieType.BorelTits.commutatorSubgroupEquiv (ggFixSub f')).symm)
-  haveI : IsSimpleGroup ↥(ggFixDer f') := hDerSimple
-  haveI : IsSimpleGroup ↥⁅C, C⁆ := eJiso.isSimpleGroup
+  have : IsSimpleGroup ↥(ggFixDer f') := hDerSimple
+  have : IsSimpleGroup ↥⁅C, C⁆ := eJiso.isSimpleGroup
   have hJ₀eq : J₀ = ⁅C, C⁆ :=
     CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_commutator_eq
       (K := J₀) (J := ⁅C, C⁆) (F := C) rfl hJ₀
   let eJ₀ : ↥J₀ ≃* ↥⁅C, C⁆ := MulEquiv.subgroupCongr hJ₀eq
-  haveI : IsSimpleGroup ↥J₀ := eJ₀.isSimpleGroup
+  have : IsSimpleGroup ↥J₀ := eJ₀.isSimpleGroup
   have hnabJ : ∃ a b : ↥J₀, a * b ≠ b * a :=
     kgFieldCompContExcAux_nonabelian eJ₀.symm
       (kgFieldCompContExcAux_nonabelian eJiso.symm hDerNab)
@@ -216,7 +216,7 @@ theorem kgFieldCompCont_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Lar
       CFSG.Blueprint.Chevalley.TwistTag.E6 K σ.toRingHom), a * b ≠ b * a := by
     obtain ⟨x, hx, y, hy, hxy⟩ := hnaG
     exact ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hxy (congrArg Subtype.val h)⟩
-  haveI : IsSimpleGroup (CFSG.LieType.Chevalley.graphFixedRootGroup
+  have : IsSimpleGroup (CFSG.LieType.Chevalley.graphFixedRootGroup
       CFSG.Blueprint.Chevalley.TwistTag.E6 K σ.toRingHom) :=
     (CFSG.LieType.Chevalley.isSimpleGroup_graphFixedRootGroup_of_perfect
       CFSG.Blueprint.Chevalley.TwistTag.E6 K σ hperfG).1
@@ -234,7 +234,7 @@ theorem kgFieldCompCont_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Lar
         σ.toRingHom) :=
     (QuotientGroup.congr _ _ eSub (Subgroup.map_center_eq eSub)).trans
       ((QuotientGroup.quotientMulEquivOfEq hcenterG).trans QuotientGroup.quotientBot)
-  haveI : IsSimpleGroup (CFSG.Blueprint.DerivedCentralQuotient (CFSG.Blueprint.twistedFixedGroup
+  have : IsSimpleGroup (CFSG.Blueprint.DerivedCentralQuotient (CFSG.Blueprint.twistedFixedGroup
       CFSG.Blueprint.Chevalley.TwistTag.E6 K σ.toRingHom)) := eD.isSimpleGroup
   obtain ⟨eR⟩ := centerQuot_twistedH_equiv (K := K) CFSG.Blueprint.Chevalley.TwistTag.E6 n
     σ.toRingHom hσ
@@ -267,7 +267,7 @@ theorem kgFieldCompCont_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Lar
     ((Nat.coprime_primes hp Nat.prime_two).2 hp2).dvd_of_dvd_mul_left hp2n
   obtain ⟨k, hkF, hkFin, hkCard, hR₀simple, hR₀nab, θ₀, -⟩ :=
     twE6Fix_fixStd hn hK hp hp2 hf'F hord'
-  haveI : IsSimpleGroup (LargeEvenCenterQuot
+  have : IsSimpleGroup (LargeEvenCenterQuot
       (LargeEvenTwistedH (LargeEvenCartanE 6) k LargeEvenRhoE6 (n / p))) := hR₀simple
   let C : Subgroup (LargeEvenCenterQuot
       (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
@@ -281,13 +281,13 @@ theorem kgFieldCompCont_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Lar
     (CFSG.LieType.BorelTits.commutatorSubgroupEquiv C).trans
       ((CFSG.LieType.BorelTits.commutatorEquiv eC).trans
         (CFSG.LieType.BorelTits.commutatorSubgroupEquiv (ggFixSub f')).symm)
-  haveI : IsSimpleGroup ↥(ggFixDer f') := θ₀.isSimpleGroup
-  haveI : IsSimpleGroup ↥⁅C, C⁆ := eJiso.isSimpleGroup
+  have : IsSimpleGroup ↥(ggFixDer f') := θ₀.isSimpleGroup
+  have : IsSimpleGroup ↥⁅C, C⁆ := eJiso.isSimpleGroup
   have hJ₀eq : J₀ = ⁅C, C⁆ :=
     CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_commutator_eq
       (K := J₀) (J := ⁅C, C⁆) (F := C) rfl hJ₀
   let eJ₀ : ↥J₀ ≃* ↥⁅C, C⁆ := MulEquiv.subgroupCongr hJ₀eq
-  haveI : IsSimpleGroup ↥J₀ := eJ₀.isSimpleGroup
+  have : IsSimpleGroup ↥J₀ := eJ₀.isSimpleGroup
   have hnabJ : ∃ a b : ↥J₀, a * b ≠ b * a :=
     kgFieldCompContExcAux_nonabelian eJ₀.symm
       (kgFieldCompContExcAux_nonabelian eJiso.symm

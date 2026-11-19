@@ -67,7 +67,7 @@ theorem lowerBlock2_one {n m : ℕ} (h : n = m + 2) : lowerBlock2 h (1 : Matrix 
       have := congrArg Fin.val e
       dsimp only at this
       omega
-    rw [if_neg hne, if_neg hab]
+    rw [ite_eq_right hne, ite_eq_right hab]
 
 theorem lowerBlock2_mul {n m : ℕ} (h : n = m + 2) {g₁ g₂ : Matrix (Fin n) (Fin n) (ZMod 2)}
     (h₁ : FixesA m g₁) (h₂ : FixesA m g₂) :
@@ -82,7 +82,7 @@ theorem lowerBlock2_mul {n m : ℕ} (h : n = m + 2) {g₁ g₂ : Matrix (Fin n) 
       g₂ (Fin.castAdd 2 c) ⟨m + b.val, by omega⟩ = 0 := by
     intro c
     have hz := entry_zero_nsbla h₁ (⟨m + a.val, by omega⟩ : Fin (m + 2)) (Fin.castAdd 2 c)
-      (by simpa using c.isLt) (Nat.le_add_right _ _)
+      (by simp) (Nat.le_add_right _ _)
     rw [hz, zero_mul]
   rw [Finset.sum_eq_zero (fun c _ => hA c), zero_add]
   exact Finset.sum_congr rfl (fun k _ => rfl)
@@ -97,7 +97,7 @@ private theorem diag_one_nsbla {n m : ℕ} (hn : n = m + 1) (g : GL (Fin n) (ZMo
       have h2 : k.val ≠ m := fun e => hk (Fin.ext (e.trans hmm.symm))
       omega
     rw [fixesA_entry_nsbla hg mm k hk', Matrix.one_apply,
-      if_neg (show ¬ (mm = k) from fun e => hk e.symm)]
+      ite_eq_right (show ¬ (mm = k) from fun e => hk e.symm)]
   have hsum : ∀ y : Fin n → ZMod 2,
       ((g : Matrix (Fin n) (Fin n) (ZMod 2)).mulVec y) mm =
         (g : Matrix (Fin n) (Fin n) (ZMod 2)) mm mm * y mm := by
@@ -176,7 +176,7 @@ private theorem one_block_entry_nsbla {n m : ℕ} (r j : Fin n) (hr : m ≤ r.va
       have := congrArg Fin.val e
       dsimp only at this
       omega
-    rw [if_neg hne, if_neg hrj]
+    rw [ite_eq_right hne, ite_eq_right hrj]
 
 private theorem entry_of_lowerBlock2_one_nsbla {n m : ℕ} (h : n = m + 2)
     (M : Matrix (Fin n) (Fin n) (ZMod 2)) (hD : lowerBlock2 h M = 1) (r j : Fin n)

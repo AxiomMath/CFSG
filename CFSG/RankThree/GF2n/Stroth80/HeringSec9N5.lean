@@ -28,7 +28,7 @@ theorem exists_trivial_on_WV (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : �
   have ht : t ∈ LB M Q B := hs5.mem
   obtain ⟨K, fK, finK, chK, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ₀, hφπ, hφQ, -⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   set V := Vt M (LB M Q B) B Z t with hV
   set W := Wt Q V with hW
   have hZQ : Z ≤ Q := hc.hyp.Z_normal.1

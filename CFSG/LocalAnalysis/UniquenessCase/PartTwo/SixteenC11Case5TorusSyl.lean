@@ -13,7 +13,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem s16c11_case5_card_N1 (hK : Nat.card K = 4) :
     Nat.card ↥(s16c11_case5_N1 (K := K)) = 21600 := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   have h4 : 4 ≤ Nat.card K := by rw [hK]
   have hle : s16c11_case5_N1 (K := K) ≤
       s16c11_case5_lrRange ⊔ Subgroup.zpowers (s16c11_case5_sigma (K := K)) :=
@@ -66,7 +66,7 @@ theorem s16c11_case5_card_S0 (hK : Nat.card K = 4) :
 
 theorem s16c11_case5_isSylowIn_S0 (hK : Nat.card K = 4) :
     IsSylowIn 2 (s16c11_case5_S0 (K := K)) (s16c11_case5_N1 (K := K)) := by
-  haveI : CharP K 2 := s16c11_case5_charP hK
+  have : CharP K 2 := s16c11_case5_charP hK
   have hle := s16c11_case5_S0_le_N1 (K := K)
   have h0 := s16c11_case5_card_S0 (K := K) hK
   have h1 := s16c11_case5_card_N1 (K := K) hK

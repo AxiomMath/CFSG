@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem exists_fixed_add_commSub_of_odd {t : LGL 2 V} (ht : Odd (orderOf t))
     {H : Subgroup (LGL 2 V)} (htH : t ∈ H) {U : Submodule (ZMod 2) V}
     (hU : ∀ u ∈ U, t u ∈ U) {u : V} (hu : u ∈ U) :
@@ -60,6 +61,7 @@ section PartTwo
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite V] in
 theorem Setting12Two.exists_odd_mem_fix (h : Setting12Two A M n)
     (hA : IsElemAbelian 2 A) (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) :
     ∃ x : G, x ∈ M ∧ Odd (orderOf x) ∧

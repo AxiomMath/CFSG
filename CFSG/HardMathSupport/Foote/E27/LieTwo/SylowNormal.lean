@@ -10,6 +10,7 @@ open Subgroup
 
 variable {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
 
+omit [Finite X] [Fact (Nat.Prime p)] in
 theorem mem_sylow_of_centralizes (S : Sylow p X) {t : X} (ht : IsPGroup p (zpowers t))
     (hS : (S : Subgroup X) ≤ centralizer ({t} : Set X)) : t ∈ (S : Subgroup X) := by
   have hcomm : ∀ s ∈ (S : Subgroup X), s * t = t * s := fun s hs =>
@@ -50,7 +51,7 @@ theorem exists_sylow_subgroupOf_eq (K : Subgroup X) [K.Normal] (S : Sylow p X) :
   have hS : ∀ x : X, x ∈ (S : Subgroup X) ↔ g⁻¹ * x * g ∈ (Q : Subgroup X) := by
     intro x
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.smul_def, MulAut.conj_apply]
+    simp [MulAut.smul_def]
   have hcardS : Nat.card ((S : Subgroup X).subgroupOf K) =
       Nat.card ((Q : Subgroup X).subgroupOf K) := by
     refine Nat.card_congr ((MulAut.conjNormal g : MulAut K).toEquiv.subtypeEquiv fun k => ?_).symm
@@ -63,9 +64,10 @@ theorem exists_sylow_subgroupOf_eq (K : Subgroup X) [K.Normal] (S : Sylow p X) :
   exact ⟨Sylow.ofCard _ (hcardS.trans hcardQ), rfl⟩
 
 omit [Finite X] in
+omit [Fact (Nat.Prime p)] in
 theorem mem_smul_sylow_iff (g : X) (P : Sylow p X) (x : X) :
     x ∈ ((g • P : Sylow p X) : Subgroup X) ↔ g⁻¹ * x * g ∈ (P : Subgroup X) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.smul_def, MulAut.conj_apply]
+  simp [MulAut.smul_def]
 
 end CFSG.HardMathSupport.Foote.E27

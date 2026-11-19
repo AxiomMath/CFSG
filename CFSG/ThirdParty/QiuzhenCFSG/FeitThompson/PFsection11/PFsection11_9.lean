@@ -248,7 +248,7 @@ private theorem theorem_11_3_complementIn_left_isHall_of_right_hall
     (hLHall : section16HallSubgroupOf L D) :
     IsHallSubgroup (subgroupPrimeSet K) (K.subgroupOf D) := by
   classical
-  letI : (K.subgroupOf D).Normal := hKnorm.2
+  let : (K.subgroupOf D).Normal := hKnorm.2
   have hcomp' : (L.subgroupOf D).IsComplement' (K.subgroupOf D) :=
     theorem_11_3_complementIn_normal_isComplement'
       (G := G) (D := D) (K := L) (L := K)
@@ -326,13 +326,13 @@ private theorem theorem_11_3_relIndex_sup_eq_quotient_card
     dsimp [H0C]
     exact theorem_11_3_sup_isComplement'_of_disjoint_le_normalizer H0 C hdisjH0C hH0normC
   have hcardHC : Nat.card HC = Nat.card H * Nat.card C := by
-    have h := hcompHC.card_mul
+    have h := hcompHC.card_mul_card
     dsimp [HC] at h ⊢
     rw [natCard_subgroupOf_eq H (H ⊔ C) le_sup_left,
       natCard_subgroupOf_eq C (H ⊔ C) le_sup_right] at h
     exact h.symm
   have hcardH0C : Nat.card H0C = Nat.card H0 * Nat.card C := by
-    have h := hcompH0C.card_mul
+    have h := hcompH0C.card_mul_card
     dsimp [H0C] at h ⊢
     rw [natCard_subgroupOf_eq H0 (H0 ⊔ C) le_sup_left,
       natCard_subgroupOf_eq C (H0 ⊔ C) le_sup_right] at h
@@ -401,7 +401,7 @@ private theorem theorem_11_3_ambientDerived_solvable_of_typePDefinitionData
   have hDleM : D ≤ M := by
     simpa [D] using (section12_ambientDerivedSubgroup_le (G := G) (E := M))
   have hM_norm_MF : M ≤ Subgroup.normalizer (MF : Set G) := by
-    haveI : (MF.subgroupOf M).Normal := hMFnormM
+    have : (MF.subgroupOf M).Normal := hMFnormM
     exact Subgroup.le_normalizer_of_normal_subgroupOf hMFleM
   have hD_norm_MF : D ≤ Subgroup.normalizer (MF : Set G) :=
     hDleM.trans hM_norm_MF
@@ -418,19 +418,19 @@ private theorem theorem_11_3_ambientDerived_solvable_of_typePDefinitionData
     theorem_11_3_complementIn_normal_isComplement' hcomp_symm hMFnormalInD
   have hMFsub_solv : Group.IsSolvable (MF.subgroupOf D) := by
     have hMFsub_nil : Group.IsNilpotent (MF.subgroupOf D) := by
-      haveI : Group.IsNilpotent MF := hMFnil
+      have : Group.IsNilpotent MF := hMFnil
       exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe (by simpa [D] using hcomp.1)).symm
-    haveI : Group.IsNilpotent (MF.subgroupOf D) := hMFsub_nil
+    have : Group.IsNilpotent (MF.subgroupOf D) := hMFsub_nil
     infer_instance
   have hquot_solv : Group.IsSolvable (D ⧸ MF.subgroupOf D) := by
     have hUsub_nil : Group.IsNilpotent (U.subgroupOf D) := by
-      haveI : Group.IsNilpotent U := hUnil
+      have : Group.IsNilpotent U := hUnil
       exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hcomp.2.1).symm
-    haveI : Group.IsNilpotent (U.subgroupOf D) := hUsub_nil
+    have : Group.IsNilpotent (U.subgroupOf D) := hUsub_nil
     have _ : Group.IsSolvable (U.subgroupOf D) := by infer_instance
     exact Group.isSolvable_of_isSolvable_injective (f := hcompl.QuotientMulEquiv.toMonoidHom)
       hcompl.QuotientMulEquiv.injective
-  haveI : (MF.subgroupOf D).Normal := hMFnormD
+  have : (MF.subgroupOf D).Normal := hMFnormD
   exact theorem_11_3_solvable_of_normal_and_quotient (MF.subgroupOf D)
     hMFsub_solv hquot_solv
 
@@ -870,12 +870,12 @@ private theorem theorem_11_3_core_normalities_of_C_normal
   intro hH0M hHM hCM hH0norm hHnorm hCnorm
   constructor
   · rw [Subgroup.subgroupOf_sup hH0M hCM]
-    haveI : (H0.subgroupOf M).Normal := hH0norm
-    haveI : (C.subgroupOf M).Normal := hCnorm
+    have : (H0.subgroupOf M).Normal := hH0norm
+    have : (C.subgroupOf M).Normal := hCnorm
     infer_instance
   · rw [Subgroup.subgroupOf_sup hHM hCM]
-    haveI : (H.subgroupOf M).Normal := hHnorm
-    haveI : (C.subgroupOf M).Normal := hCnorm
+    have : (H.subgroupOf M).Normal := hHnorm
+    have : (C.subgroupOf M).Normal := hCnorm
     infer_instance
 
 /-- The Type `P` component of Hypothesis `(11.2)` gives that `W1`
@@ -1150,13 +1150,13 @@ private theorem theorem_11_3_HC_nilpotent_subgroupOf_M_of_hypothesis
   have hHC_le_M : H ⊔ C ≤ M := hHC_le_F.trans (section8FittingSubgroup_le M)
   let F : Subgroup G := section8FittingSubgroup M
   have hHCsubF_nil : Group.IsNilpotent ((H ⊔ C).subgroupOf F) := by
-    haveI : Group.IsNilpotent F := section8FittingSubgroup_isNilpotent M
+    have : Group.IsNilpotent F := section8FittingSubgroup_isNilpotent M
     infer_instance
   let eF : ((H ⊔ C).subgroupOf F) ≃* ↥(H ⊔ C) :=
     Subgroup.subgroupOfEquivOfLe hHC_le_F
   let eM : ((H ⊔ C).subgroupOf M) ≃* ↥(H ⊔ C) :=
     Subgroup.subgroupOfEquivOfLe hHC_le_M
-  haveI : Group.IsNilpotent ((H ⊔ C).subgroupOf F) := hHCsubF_nil
+  have : Group.IsNilpotent ((H ⊔ C).subgroupOf F) := hHCsubF_nil
   exact Group.nilpotent_of_mulEquiv (eF.trans eM.symm)
 
 /-- A nilpotent normal subgroup is a nilpotent quotient over `1`. -/
@@ -1169,8 +1169,8 @@ private theorem theorem_11_3_nilpotentQuotient_bot_of_normal_nilpotent
       Group.IsNilpotent H →
         Section6.nilpotentQuotient (⊥ : Subgroup L) H := by
   intro hHnorm hHnil
-  haveI : H.Normal := hHnorm
-  haveI : Group.IsNilpotent H := hHnil
+  have : H.Normal := hHnorm
+  have : Group.IsNilpotent H := hHnil
   refine ⟨bot_le, inferInstance, inferInstance, inferInstance, ?_⟩
   infer_instance
 
@@ -1453,7 +1453,7 @@ private theorem theorem_11_quotientBarUCardinality_eq_card_div
       u = Nat.card U / Nat.card C := by
   intro hBarU
   rcases hBarU with ⟨hCU, hnormal, hcard⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   have hCsub_card : Nat.card (C.subgroupOf U) = Nat.card C :=
     natCard_subgroupOf_eq C U hCU
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (s := C.subgroupOf U)
@@ -1491,7 +1491,7 @@ private theorem theorem_11_7_pairing_eq_one_on_cyclic_subgroup
     { toFun := fun t => pairing z t
       map_one' := honeRight z
       map_mul' := hmulRight z }
-  letI : IsCyclic Q := hQcyc
+  let : IsCyclic Q := hQcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Q)
   rcases Subgroup.mem_zpowers_iff.mp (hg ⟨x, hx⟩) with ⟨m, hm⟩
   rcases Subgroup.mem_zpowers_iff.mp (hg ⟨y, hy⟩) with ⟨n, hn⟩
@@ -1685,7 +1685,7 @@ private theorem theorem_11_7_pairing_invariant_cyclic_aut_mul_eq_one
     (f g : MulAut Q)
     (hinv : ∀ a b, D (f a) (g b) = D a b) :
     f * g = 1 := by
-  letI : Fact (Nat.Prime (Nat.card Q)) := ⟨hQprime⟩
+  let : Fact (Nat.Prime (Nat.card Q)) := ⟨hQprime⟩
   rcases hnontriv with ⟨x0, y0, hxy⟩
   have honeRight : D x0 1 = 1 := by
     have h := hmulRight x0 1 1
@@ -1751,12 +1751,12 @@ private theorem theorem_11_7_factorAction_apply_eq_inv_smul
         (H0.subgroupOf MF) hH0inv
     (ρ z a : MF ⧸ H0.subgroupOf MF) =
       (u⁻¹ : U) • (a : MF ⧸ H0.subgroupOf MF) := by
-  letI : (C.subgroupOf U).Normal := hnormalC
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
-  letI : MulAction.QuotientAction U (H0.subgroupOf MF) :=
+  let : (C.subgroupOf U).Normal := hnormalC
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : MulAction.QuotientAction U (H0.subgroupOf MF) :=
     quotientAction_of_isInvariant (A := U) (G := MF)
       (H0.subgroupOf MF) hH0inv
-  letI : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
     quotientMulDistribMulAction (A := U) (G := MF)
       (H0.subgroupOf MF) hH0inv
   obtain ⟨h, hh⟩ :=
@@ -1812,12 +1812,12 @@ private theorem theorem_11_case_9_7_a_pairingVanishing_source_bridge
     ⟨hnormalH0, components, _hcard, _hnormalized, _hindep, hcomponents_top,
       hfactorAction, hconjugate⟩
   rcases hBarU with ⟨hC9leU, hnormalC9, _hbarUcard⟩
-  letI : (C9.subgroupOf U).Normal := hnormalC9
+  let : (C9.subgroupOf U).Normal := hnormalC9
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     le_sup_left.trans
       (Section9.theorem_9_3_action_normalizes_and_solvable_sec9
         M MF U W1 W2 q h92).1
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   rcases hp96 with ⟨hp', _hpval, h94, _h96⟩
   have h94Full := h94
   rcases h94 with
@@ -1840,7 +1840,7 @@ private theorem theorem_11_case_9_7_a_pairingVanishing_source_bridge
   apply theorem_11_7_pairing_component_vanish_of_cross
     pairing hmulLeft hmulRight hself components hcomponents_top
   · intro i
-    letI : Fact (Nat.Prime p) := ⟨Section9.case_9_7_a_p_prime_sec9 hcaseA⟩
+    let : Fact (Nat.Prime p) := ⟨Section9.case_9_7_a_p_prime_sec9 hcaseA⟩
     exact isCyclic_of_prime_card (_hcard i)
   · intro i j hij x hx y hy
     by_contra hxy
@@ -1851,7 +1851,7 @@ private theorem theorem_11_case_9_7_a_pairingVanishing_source_bridge
           _hfitLeD, _hW2le, _hW2cyc, _hW2ne, _hcentW1, _hnormX⟩
       exact hW1normUinM.trans
         (subgroupNormalizerIn_le_normalizer M (U : Set G))
-    letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+    let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
     have hW1normMF : W1 ≤ Subgroup.normalizer (MF : Set G) :=
       le_sup_right.trans
         (Section9.theorem_9_3_action_normalizes_and_solvable_sec9
@@ -1860,7 +1860,7 @@ private theorem theorem_11_case_9_7_a_pairingVanishing_source_bridge
       Section9.theorem_9_7_quotientCentralizerIn_isInvariant_W1_sec9
         h92 h94Full (Section9.case_9_7_a_quotientCentralizerIn_sec9 hcaseA)
         hW1normU hW1normMF
-    letI : MulDistribMulAction W1 (U ⧸ C9.subgroupOf U) :=
+    let : MulDistribMulAction W1 (U ⧸ C9.subgroupOf U) :=
       quotientMulDistribMulAction (A := W1) (G := U)
         (C9.subgroupOf U) hC9inv
     rcases hconjugate with ⟨hqpos, hconjugate⟩
@@ -1905,8 +1905,8 @@ private theorem theorem_11_case_9_7_a_pairingVanishing_source_bridge
       have hbasePrime : Nat.Prime (Nat.card (components i0)) := by
         rw [_hcard i0]
         exact Section9.case_9_7_a_p_prime_sec9 hcaseA
-      letI : Fact (Nat.Prime (Nat.card (components i0))) := ⟨hbasePrime⟩
-      letI : IsCyclic (components i0) :=
+      let : Fact (Nat.Prime (Nat.card (components i0))) := ⟨hbasePrime⟩
+      let : IsCyclic (components i0) :=
         isCyclic_of_prime_card (p := Nat.card (components i0)) rfl
       apply theorem_11_7_pairing_invariant_cyclic_aut_mul_eq_one
         hbasePrime
@@ -2232,7 +2232,7 @@ private theorem theorem_11_pf96_W2_image_card_eq_source_of_hypothesis
       M MF U W1 W2 H0 hp' h92Nat h94 htype with
     ⟨hWbar2, _hcard⟩
   rcases hWbar2 with ⟨hH0normMF, hWbar2card⟩
-  letI : (H0.subgroupOf MF).Normal := hH0normMF
+  let : (H0.subgroupOf MF).Normal := hH0normMF
   have h92 : Section9.hypothesis_9_2_statement M MF U W1 W2 q :=
     theorem_11_hypothesis_9_2_of_hypothesis
       M MF MF U C H0 W1 W2 S τ p q h11'
@@ -2241,7 +2241,7 @@ private theorem theorem_11_pf96_W2_image_card_eq_source_of_hypothesis
     ⟨hUW1normMF, hsolvMF⟩
   have hW1normMF : W1 ≤ Subgroup.normalizer (MF : Set G) :=
     le_sup_right.trans hUW1normMF
-  letI : Subgroup.Normalizes W1 MF := ⟨hW1normMF⟩
+  let : Subgroup.Normalizes W1 MF := ⟨hW1normMF⟩
   have hMnormH0 : M ≤ Subgroup.normalizer (H0 : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hH0normM.1).1 hH0normM.2
   have hW1M : W1 ≤ M := by
@@ -2255,9 +2255,9 @@ private theorem theorem_11_pf96_W2_image_card_eq_source_of_hypothesis
   have hH0inv : IsInvariant W1 MF (H0.subgroupOf MF) :=
     isInvariant_subgroupOf_of_le_normalizer
       (A := W1) (H := MF) (K := H0) hW1normMF hW1normH0 hH0MF
-  letI : MulDistribMulAction W1 (MF ⧸ H0.subgroupOf MF) :=
+  let : MulDistribMulAction W1 (MF ⧸ H0.subgroupOf MF) :=
     quotientMulDistribMulAction (A := W1) (G := MF) (H0.subgroupOf MF) hH0inv
-  letI : MulAction.QuotientAction W1 (H0.subgroupOf MF) :=
+  let : MulAction.QuotientAction W1 (H0.subgroupOf MF) :=
     quotientAction_of_isInvariant (A := W1) (G := MF) (H0.subgroupOf MF) hH0inv
   have hfixedPred :
       ∀ x : MF ⧸ H0.subgroupOf MF,
@@ -2366,10 +2366,10 @@ private theorem theorem_11_pf96_W2_quotient_card_eq_source_of_hypothesis
           M MF H U C H0 W1 W2 S τ p q h11
       Nat.card (W2 ⧸ (H0 ⊓ W2 : Subgroup G).subgroupOf W2) = p := by
   intro h11
-  letI : (((H0 ⊓ W2 : Subgroup G).subgroupOf W2)).Normal :=
+  let : (((H0 ⊓ W2 : Subgroup G).subgroupOf W2)).Normal :=
     theorem_11_pf96_H0_inf_W2_normal_subgroupOf_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : (H0.subgroupOf MF).Normal :=
+  let : (H0.subgroupOf MF).Normal :=
     theorem_11_pf96_H0_normal_subgroupOf_MF_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
   have hW2MF : W2 ≤ MF := by
@@ -2401,7 +2401,7 @@ private theorem theorem_11_pf96_H0_inf_W2_eq_bot_of_hypothesis
     hypothesis_11_2_data M MF H U C H0 W1 W2 S τ p q →
       H0 ⊓ W2 = ⊥ := by
   intro h11
-  letI : (((H0 ⊓ W2 : Subgroup G).subgroupOf W2)).Normal :=
+  let : (((H0 ⊓ W2 : Subgroup G).subgroupOf W2)).Normal :=
     theorem_11_pf96_H0_inf_W2_normal_subgroupOf_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
   have hquot :
@@ -2634,7 +2634,7 @@ public theorem theorem_11_3
               ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
                 _hp, hquot, _hchief, _hcomm, _hpW2, _hqW1⟩
             rcases hquot with ⟨hH0normH, _hquotNontrivial, _hquotElementary⟩
-            letI : (H0.subgroupOf H).Normal := hH0normH
+            let : (H0.subgroupOf H).Normal := hH0normH
             have hquotCard : Nat.card (H ⧸ H0.subgroupOf H) = p ^ q :=
               theorem_11_3_quotient_card_eq_of_hypothesis
                 M MF H U C H0 W1 W2 S τ p q hH0normH h11
@@ -2718,7 +2718,7 @@ private theorem theorem_11_4_H0C_subgroupOf_lt_HC_subgroupOf_of_hypothesis
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
       _hp, hquot, _hchief, _hcomm, _hpW2, _hqW1⟩
   rcases hquot with ⟨hH0normH, hquotNontrivial, _hquotElementary⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
+  let : (H0.subgroupOf H).Normal := hH0normH
   have hleft :
       ((H0 ⊔ C).subgroupOf M).relIndex ((H ⊔ C).subgroupOf M) =
         Nat.card (H ⧸ H0.subgroupOf H) :=
@@ -2761,8 +2761,8 @@ private theorem theorem_11_4_commutator_HC_subgroupOf_le_H0C_subgroupOf_of_hypot
     exact ⟨h10, hHMF, htype, hHleD, hUleD, hCeq, hH0H, hH0normM,
       hp, hquot, hchief, hcomm, hpW2, hqW1⟩
   rcases hquot with ⟨hH0normH, _hquotNontrivial, hquotElementary⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
-  haveI : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hquotElementary
+  let : (H0.subgroupOf H).Normal := hH0normH
+  have : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hquotElementary
   have hHquotComm : Std.Commutative (· * · : H ⧸ H0.subgroupOf H → _ → _) := by
     infer_instance
   have hHquotComm' : IsMulCommutative (H ⧸ H0.subgroupOf H) := ⟨hHquotComm⟩
@@ -2925,7 +2925,7 @@ private theorem theorem_11_4_relIndex_HC_derived_eq_card_U_div_card_C
   have hcompUH : (U.subgroupOf D).IsComplement' (H.subgroupOf D) :=
     theorem_11_3_complementIn_normal_isComplement' hcomp_symm hHnormalInD
   have hcardD : Nat.card D = Nat.card H * Nat.card U := by
-    have h := hcompUH.card_mul
+    have h := hcompUH.card_mul_card
     rw [natCard_subgroupOf_eq U D hUleD, natCard_subgroupOf_eq H D hHleD] at h
     simpa [Nat.mul_comm] using h.symm
   have hdisjHC : Disjoint H C :=
@@ -2937,7 +2937,7 @@ private theorem theorem_11_4_relIndex_HC_derived_eq_card_U_div_card_C
     dsimp [HC]
     exact theorem_11_3_sup_isComplement'_of_disjoint_le_normalizer H C hdisjHC hHnormC
   have hcardHC : Nat.card HC = Nat.card H * Nat.card C := by
-    have h := hcompHC.card_mul
+    have h := hcompHC.card_mul_card
     dsimp [HC] at h ⊢
     rw [natCard_subgroupOf_eq H (H ⊔ C) le_sup_left,
       natCard_subgroupOf_eq C (H ⊔ C) le_sup_right] at h
@@ -3281,7 +3281,7 @@ private theorem theorem_11_5_ambientDerived_lt_of_solvable_ne_bot
   intro hsolv hne
   classical
   have _ : Group.IsSolvable E := hsolv
-  haveI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot (H := E)).2 hne
+  have : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot (H := E)).2 hne
   have hDlt : derivedSubgroup E < (⊤ : Subgroup E) := by
     simpa [derivedSubgroup, derivedSeries_one, _root_.commutator] using
       Group.IsSolvable.commutator_lt_top_of_nontrivial (G := E)
@@ -3375,7 +3375,7 @@ private theorem theorem_11_5_secondDerived_quotient_commutative
   have hA_eq : A = ambientDerivedSubgroup K := by
     dsimp [A, K]
     exact theorem_11_5_secondDerived_subgroupOf_eq_ambientDerived_derived M
-  haveI : (A.subgroupOf K).Normal := hA_norm.subgroupOf K
+  have : (A.subgroupOf K).Normal := hA_norm.subgroupOf K
   refine { is_comm := (Subgroup.Normal.quotient_commutative_iff_commutator_le
     (N := A.subgroupOf K)).2 ?_ |>.is_comm }
   rw [hA_eq]
@@ -4011,7 +4011,7 @@ private theorem theorem_11_5_isInvariant_subgroupOf_of_le_normalizer
     (hRnormH : R ≤ Subgroup.normalizer (H : Set G)) :
     letI : Subgroup.Normalizes R K := ⟨hRnormK⟩
     IsInvariant R K (H.subgroupOf K) := by
-  letI : Subgroup.Normalizes R K := ⟨hRnormK⟩
+  let : Subgroup.Normalizes R K := ⟨hRnormK⟩
   refine ⟨?_⟩
   intro r x
   constructor
@@ -4048,7 +4048,7 @@ private theorem theorem_11_5_W1_le_normalizer_HC_of_hypothesis
   have hHCM : H ⊔ C ≤ M := sup_le hHM hCM
   have hHCnorm : ((H ⊔ C).subgroupOf M).Normal :=
     (theorem_11_3_core_normalities_of_hypothesis M MF H U C H0 W1 W2 S τ p q h11).2
-  haveI : ((H ⊔ C).subgroupOf M).Normal := hHCnorm
+  have : ((H ⊔ C).subgroupOf M).Normal := hHCnorm
   have hMnormHC : M ≤ Subgroup.normalizer ((H ⊔ C : Subgroup G) : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hHCM
   exact hW1M.trans hMnormHC
@@ -4184,9 +4184,9 @@ private theorem theorem_11_5_HC_solvable_of_hypothesis
   have hHCM : H ⊔ C ≤ M := sup_le hHM hCM
   let eM : ((H ⊔ C).subgroupOf M) ≃* ↥(H ⊔ C) :=
     Subgroup.subgroupOfEquivOfLe hHCM
-  haveI : Group.IsNilpotent ((H ⊔ C).subgroupOf M) := hHCnilM
+  have : Group.IsNilpotent ((H ⊔ C).subgroupOf M) := hHCnilM
   have hHCnil : Group.IsNilpotent ↥(H ⊔ C) := Group.nilpotent_of_mulEquiv eM
-  haveI : Group.IsNilpotent ↥(H ⊔ C) := hHCnil
+  have : Group.IsNilpotent ↥(H ⊔ C) := hHCnil
   exact inferInstance
 
 /-- In the `(11.5)` context, the acting group `W₁` has order coprime to
@@ -4251,7 +4251,7 @@ private theorem theorem_11_5_natCard_actor_dvd_group_card_sub_one
     Nat.card A ∣ Nat.card Q - 1 := by
   classical
   let α := {q : Q // q ≠ 1}
-  letI : MulAction A α :=
+  let : MulAction A α :=
     { smul := fun a x => ⟨a • (x : Q), by
         intro h
         apply x.2
@@ -4282,8 +4282,8 @@ private theorem theorem_11_5_natCard_actor_dvd_group_card_sub_one
     exact x.2 (hfree a ha_ne (x : Q) hfix)
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card Q - 1 := by
-    letI : Fintype Q := Fintype.ofFinite Q
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype Q := Fintype.ofFinite Q
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {q : Q // q ≠ 1} = Fintype.card Q - 1
     simp
@@ -4318,7 +4318,7 @@ private theorem theorem_11_5_fixedPointSubgroup_HC_le_secondDerived
     dsimp [HC]
     exact theorem_11_5_W1_le_normalizer_HC_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : Subgroup.Normalizes W1 HC := ⟨hW1normHC⟩
+  let : Subgroup.Normalizes W1 HC := ⟨hW1normHC⟩
   dsimp
   intro x hxfix
   have hPDef : Section8.typePDefinitionData M MF U W1 W2 :=
@@ -4377,19 +4377,19 @@ private theorem theorem_11_5_fixedPointFree_index_dvd
     dsimp [HC]
     exact theorem_11_5_W1_le_normalizer_HC_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : Subgroup.Normalizes W1 HC := ⟨hW1normHC⟩
+  let : Subgroup.Normalizes W1 HC := ⟨hW1normHC⟩
   have hDDnorm : (DD.subgroupOf HC).Normal := by
     dsimp [DD, HC]
     exact theorem_11_5_secondDerived_subgroupOf_HC_normal
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : (DD.subgroupOf HC).Normal := hDDnorm
+  let : (DD.subgroupOf HC).Normal := hDDnorm
   have hInv : IsInvariant W1 HC (DD.subgroupOf HC) := by
     dsimp [DD, HC]
     exact theorem_11_5_isInvariant_secondDerived_subgroupOf_HC
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : MulDistribMulAction W1 (HC ⧸ DD.subgroupOf HC) :=
+  let : MulDistribMulAction W1 (HC ⧸ DD.subgroupOf HC) :=
     quotientMulDistribMulAction (A := W1) (G := HC) (DD.subgroupOf HC) hInv
-  letI : MulAction.QuotientAction W1 (DD.subgroupOf HC) :=
+  let : MulAction.QuotientAction W1 (DD.subgroupOf HC) :=
     quotientAction_of_isInvariant (A := W1) (DD.subgroupOf HC) hInv
   have hHCsolv : Group.IsSolvable HC := by
     dsimp [HC]
@@ -4418,7 +4418,7 @@ private theorem theorem_11_5_fixedPointFree_index_dvd
   have hqprime : Nat.Prime q :=
     (theorem_11_3_arithmetic_data_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11).2.1
-  haveI : Fact (Nat.Prime q) := ⟨hqprime⟩
+  have : Fact (Nat.Prime q) := ⟨hqprime⟩
   have hqW1 : q = Nat.card W1 := by
     rcases h11 with
       ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
@@ -4692,8 +4692,8 @@ private theorem theorem_11_6_ambientDerived_H_le_H0_of_hypothesis
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
       _hp, hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef⟩
   rcases hquot with ⟨hH0Hnorm, _hne, hElem⟩
-  haveI : (H0.subgroupOf H).Normal := hH0Hnorm
-  haveI : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hElem
+  have : (H0.subgroupOf H).Normal := hH0Hnorm
+  have : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hElem
   have hcommQ : Std.Commutative (· * · : H ⧸ H0.subgroupOf H → _ → _) := by
     infer_instance
   have hcommQ' : IsMulCommutative (H ⧸ H0.subgroupOf H) := ⟨hcommQ⟩
@@ -4800,7 +4800,7 @@ private theorem theorem_11_6_secondDerived_le_H_sup_ambientDerived_U_of_hypothes
       _ = ⊤ := by simp
   have hderD :
       derivedSubgroup D ≤ H.subgroupOf D ⊔ ⁅U.subgroupOf D, U.subgroupOf D⁆ := by
-    letI : (H.subgroupOf D).Normal := hHnormD
+    let : (H.subgroupOf D).Normal := hHnormD
     exact lemma_6_5_derived_le_sup_commutator hsup_local
   have hmap_le :
       (H.subgroupOf D ⊔ ⁅U.subgroupOf D, U.subgroupOf D⁆).map D.subtype ≤
@@ -4911,7 +4911,7 @@ private theorem theorem_11_6_C_le_ambientDerived_U_of_hypothesis
       symm
       exact Subgroup.subgroupOf_sup (A := H) (A' := K) (B := D) hHleD hKleD]
     exact hxHUprime
-  letI : (H.subgroupOf D).Normal := hHnormD
+  let : (H.subgroupOf D).Normal := hHnormD
   rcases (Subgroup.mem_sup_of_normal_left
       (s := H.subgroupOf D) (t := K.subgroupOf D) (x := xD)).1 hxHUprimeD with
     ⟨hD, hhH, kD, hkK, hmul⟩
@@ -5069,12 +5069,12 @@ private theorem theorem_11_6_frobeniusActionData_H0_of_hypothesis
     have hHnil : Group.IsNilpotent H :=
       theorem_11_3_H_nilpotent_of_hypothesis M MF H U C H0 W1 W2 S τ p q h11
     have hH0sub_nil : Group.IsNilpotent (H0.subgroupOf H) := by
-      haveI : Group.IsNilpotent H := hHnil
+      have : Group.IsNilpotent H := hHnil
       infer_instance
     have hH0nil : Group.IsNilpotent H0 :=
       Group.nilpotent_of_mulEquiv (G := H0.subgroupOf H) (G' := H0)
         (Subgroup.subgroupOfEquivOfLe hH0H)
-    haveI : Group.IsNilpotent H0 := hH0nil
+    have : Group.IsNilpotent H0 := hH0nil
     exact (inferInstance : Group.IsSolvable H0)
   · have hH0MF : H0 ≤ MF := by
       have hH0H : H0 ≤ H :=
@@ -5237,10 +5237,10 @@ private theorem theorem_11_6_fixedPointSubgroup_quotient_commutator_isCompl_of_h
         (commutatorAction (A := U) (G := H ⧸ commutator H)) := by
   intro h11
   classical
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   let hcommInv : IsInvariant U H (commutator H) :=
     isInvariant_of_characteristic (A := U) (G := H) (commutator H)
-  letI : MulDistribMulAction U (H ⧸ commutator H) :=
+  let : MulDistribMulAction U (H ⧸ commutator H) :=
     quotientMulDistribMulAction (A := U) (G := H) (commutator H) hcommInv
   rcases h11 with
     ⟨_h10, hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
@@ -5250,7 +5250,7 @@ private theorem theorem_11_6_fixedPointSubgroup_quotient_commutator_isCompl_of_h
       M MF H U C H0 W1 W2 S τ p q
       ⟨_h10, hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
         _hp, _hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef, _hOdd, h92⟩
-  haveI : Group.IsNilpotent H := hHnil
+  have : Group.IsNilpotent H := hHnil
   have _ : Group.IsSolvable H := by infer_instance
   have hsolvQ : Group.IsSolvable (H ⧸ commutator H) := by
     infer_instance
@@ -5331,9 +5331,9 @@ private theorem theorem_11_6_commutatorAction_quotient_commutator_eq_top
       quotientMulDistribMulAction (A := A) (G := H) (commutator H) hcommInv
     commutatorAction (A := A) (G := H ⧸ commutator H) = ⊤ := by
   classical
-  letI : MulAction.QuotientAction A (commutator H) :=
+  let : MulAction.QuotientAction A (commutator H) :=
     quotientAction_of_isInvariant (A := A) (commutator H) hcommInv
-  letI : MulDistribMulAction A (H ⧸ commutator H) :=
+  let : MulDistribMulAction A (H ⧸ commutator H) :=
     quotientMulDistribMulAction (A := A) (G := H) (commutator H) hcommInv
   let qcomm : H →* (H ⧸ commutator H) := QuotientGroup.mk' (commutator H)
   have hmap_top :
@@ -5389,7 +5389,7 @@ private theorem theorem_11_6_commutatorAction_H_eq_top_of_hypothesis
   intro h11
   classical
   let D : Subgroup G := ambientDerivedSubgroup M
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   have hHleD : H ≤ D := by
     dsimp [D]
     rcases h11 with
@@ -5425,7 +5425,7 @@ private theorem theorem_11_6_commutatorAction_H_eq_top_of_hypothesis
   have hDnormH : D ≤ Subgroup.normalizer (H : Set G) := hDleM.trans hMnormH
   have hHnormD : (H.subgroupOf D).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHleD).2 hDnormH
-  letI : (H.subgroupOf D).Normal := hHnormD
+  let : (H.subgroupOf D).Normal := hHnormD
   have hHnormalInD : section10NormalIn H D := ⟨hHleD, hHnormD⟩
   have hcompH : section12ComplementIn D H U := by
     dsimp [D]
@@ -5512,10 +5512,10 @@ private theorem theorem_11_6_fixedPointSubgroup_le_commutatorAction_of_hypothesi
         commutatorAction (A := U) (G := H ⧸ commutator H) := by
   intro h11
   classical
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   let hcommInv : IsInvariant U H (commutator H) :=
     isInvariant_of_characteristic (A := U) (G := H) (commutator H)
-  letI : MulDistribMulAction U (H ⧸ commutator H) :=
+  let : MulDistribMulAction U (H ⧸ commutator H) :=
     quotientMulDistribMulAction (A := U) (G := H) (commutator H) hcommInv
   change fixedPointSubgroup U (H ⧸ commutator H) ≤
     commutatorAction (A := U) (G := H ⧸ commutator H)
@@ -5559,10 +5559,10 @@ private theorem theorem_11_6_fixedPointSubgroup_quotient_commutator_eq_bot_of_co
       fixedPointSubgroup U (H ⧸ commutator H) = ⊥ := by
   intro h11
   classical
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   let hcommInv : IsInvariant U H (commutator H) :=
     isInvariant_of_characteristic (A := U) (G := H) (commutator H)
-  letI : MulDistribMulAction U (H ⧸ commutator H) :=
+  let : MulDistribMulAction U (H ⧸ commutator H) :=
     quotientMulDistribMulAction (A := U) (G := H) (commutator H) hcommInv
   have hle :
       fixedPointSubgroup U (H ⧸ commutator H) ≤
@@ -5634,12 +5634,12 @@ private theorem theorem_11_6_H0_le_ambientDerived_H_of_fixedPointSubgroup_bot
       fixedPointSubgroup U (H ⧸ commutator H) = ⊥) :
     H0 ≤ ambientDerivedSubgroup H := by
   classical
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   let hcommInv : IsInvariant U H (commutator H) :=
     isInvariant_of_characteristic (A := U) (G := H) (commutator H)
-  letI : MulDistribMulAction U (H ⧸ commutator H) :=
+  let : MulDistribMulAction U (H ⧸ commutator H) :=
     quotientMulDistribMulAction (A := U) (G := H) (commutator H) hcommInv
-  letI : MulAction.QuotientAction U (commutator H) :=
+  let : MulAction.QuotientAction U (commutator H) :=
     quotientAction_of_isInvariant (A := U) (G := H) (commutator H) hcommInv
   intro x hxH0
   have hxH : x ∈ H := hH0H hxH0
@@ -5769,8 +5769,8 @@ private theorem theorem_11_6_isPGroup_H_of_hypothesis
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
       hp, hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef, _hOddAnd92⟩
   rcases hquot with ⟨hH0normH, _hne, hElem⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
+  let : Fact p.Prime := ⟨hp⟩
+  let : (H0.subgroupOf H).Normal := hH0normH
   have hHnil : Group.IsNilpotent H :=
     theorem_11_3_H_nilpotent_of_hypothesis M MF H U C H0 W1 W2 S τ p q h11Full
   have hH0sub_eq : H0.subgroupOf H = commutator H := by
@@ -5813,7 +5813,7 @@ private theorem theorem_11_7_isElementaryAbelian_of_equiv
     IsElementaryAbelian p A →
       IsElementaryAbelian p B := by
   intro hElem
-  letI : IsElementaryAbelian p A := hElem
+  let : IsElementaryAbelian p A := hElem
   refine
     { toIsMulCommutative := { is_comm := Std.Commutative.mk ?_ }
       exponent_dvd_p := ?_ }
@@ -5917,8 +5917,8 @@ private theorem theorem_11_7_exists_normal_subgroup_H0_card_factor
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, hH0H, _hH0normM,
       hp, hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef, _hOddAnd92⟩
   rcases hquot with ⟨hH0normH, _hne, _hElem⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (IsPGroup p H) := ⟨hHp⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (IsPGroup p H) := ⟨hHp⟩
   have hH0p : IsPGroup p (H0.subgroupOf H) :=
     hHp.to_subgroup (H0.subgroupOf H)
   rcases hH0p.exists_card_eq with ⟨k, hkcard⟩
@@ -5989,12 +5989,12 @@ private theorem theorem_11_7_quotient_image_le_center_of_normal_card_factor
     (hcard : Nat.card N = p * Nat.card Q) :
     N.map (QuotientGroup.mk' Q) ≤ Subgroup.center (G ⧸ Q) := by
   classical
-  letI : Q.Normal := hQnorm
+  let : Q.Normal := hQnorm
   let qG : G →* G ⧸ Q := QuotientGroup.mk' Q
   let Nbar : Subgroup (G ⧸ Q) := N.map qG
   have hNbar_norm : Nbar.Normal := by
     simpa [Nbar, qG] using (QuotientGroup.map_normal Q N)
-  letI : Nbar.Normal := hNbar_norm
+  let : Nbar.Normal := hNbar_norm
   let φ : N →* G ⧸ Q := qG.comp N.subtype
   have hkerφ : φ.ker = Q.subgroupOf N := by
     ext x
@@ -6028,7 +6028,7 @@ private theorem theorem_11_7_quotient_image_le_center_of_normal_card_factor
         exact (Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv).symm
       _ = Nat.card (N ⧸ Q.subgroupOf N) := by rw [hkerφ]
       _ = p := hquot_card
-  letI : Fact (IsPGroup p (G ⧸ Q)) := ⟨(Fact.out : IsPGroup p G).to_quotient Q⟩
+  let : Fact (IsPGroup p (G ⧸ Q)) := ⟨(Fact.out : IsPGroup p G).to_quotient Q⟩
   simpa [Nbar, qG] using
     normal_subgroup_card_eq_prime_le_center (G := G ⧸ Q) (p := p) (N := Nbar) hNbar_card
 
@@ -6048,7 +6048,7 @@ private theorem theorem_11_7_commutator_le_of_normal_card_factor
     (hcard : Nat.card N = p * Nat.card Q) :
     ⁅(⊤ : Subgroup G), N⁆ ≤ Q := by
   classical
-  letI : Q.Normal := hQnorm
+  let : Q.Normal := hQnorm
   let qG : G →* G ⧸ Q := QuotientGroup.mk' Q
   let Nbar : Subgroup (G ⧸ Q) := N.map qG
   have hNbar_center : Nbar ≤ Subgroup.center (G ⧸ Q) := by
@@ -6097,9 +6097,9 @@ private theorem theorem_11_7_exists_normal_subgroup_H0_commutator_card_factor
   rcases theorem_11_7_exists_normal_subgroup_H0_card_factor
       M MF H U C H0 W1 W2 S τ p q h11Full hH0ne with
     ⟨Q, hQnorm, hQle, hQcard⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (IsPGroup p H) := ⟨hHp⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (IsPGroup p H) := ⟨hHp⟩
+  let : (H0.subgroupOf H).Normal := hH0normH
   have hcomm_le_Q :
       ⁅(⊤ : Subgroup H), H0.subgroupOf H⁆ ≤ Q :=
     theorem_11_7_commutator_le_of_normal_card_factor
@@ -6156,10 +6156,10 @@ private theorem theorem_11_7_finrank_eq_of_elementaryAbelian_card
     (hcard : Nat.card A = p ^ q) :
     Module.finrank (ZMod p) (Additive A) = q := by
   let Q := Additive A
-  letI : AddCommGroup Q := Additive.addCommGroup
-  letI : Module (ZMod p) Q := inferInstance
-  letI : Finite Q := inferInstance
-  letI : FiniteDimensional (ZMod p) Q := Module.Finite.of_finite
+  let : AddCommGroup Q := Additive.addCommGroup
+  let : Module (ZMod p) Q := inferInstance
+  let : Finite Q := inferInstance
+  let : FiniteDimensional (ZMod p) Q := Module.Finite.of_finite
   have hcardQ : Nat.card A = p ^ Module.finrank (ZMod p) Q := by
     simpa [Q, Nat.card_eq_fintype_card, ZMod.card] using
       (Module.natCard_eq_pow_finrank (K := ZMod p) (V := Q))
@@ -6185,8 +6185,8 @@ private theorem theorem_11_7_not_nondegenerate_alt_form_of_odd_card_exponent
     (hAlt : B.IsAlt) :
     ¬ B.Nondegenerate := by
   intro hNondeg
-  letI : FiniteDimensional (ZMod p) (Additive A) := Module.Finite.of_finite
-  letI : Invertible (2 : ZMod p) :=
+  let : FiniteDimensional (ZMod p) (Additive A) := Module.Finite.of_finite
+  let : Invertible (2 : ZMod p) :=
     invertibleOfCharPNotDvd (K := ZMod p) (p := p) (t := 2) (by
       intro hp_dvd_two
       have hp_le_two := Nat.le_of_dvd (by decide : 0 < 2) hp_dvd_two
@@ -6897,9 +6897,9 @@ private theorem theorem_11_7_quotientSubgroupNormalizedBy_of_isInvariant
         quotientMulDistribMulAction (A := U) (G := MF) (H0.subgroupOf MF) hH0inv
       IsInvariant U (MF ⧸ H0.subgroupOf MF) Q) :
     Section9.quotientSubgroupNormalizedBy MF H0 U Q := by
-  letI : MulAction.QuotientAction U (H0.subgroupOf MF) :=
+  let : MulAction.QuotientAction U (H0.subgroupOf MF) :=
     quotientAction_of_isInvariant (A := U) (G := MF) (H0.subgroupOf MF) hH0inv
-  letI : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) (H0.subgroupOf MF) hH0inv
   intro a
   let hconjMF : ∀ h : MF, (a : G)⁻¹ * (h : G) * (a : G) ∈ MF := by
@@ -7004,7 +7004,7 @@ private theorem theorem_11_7_scalarBilinForm_nondegenerate_of_pairingLeftRadical
         (p := p) pairing hmul_left hmul_right)
       e).Nondegenerate := by
   classical
-  letI : Module.Finite (ZMod p) (Additive A) := Module.Finite.of_finite
+  let : Module.Finite (ZMod p) (Additive A) := Module.Finite.of_finite
   let bilin : LinearMap.BilinMap (ZMod p) (Additive A) (Additive B) :=
     theorem_11_7_additiveBilinMap_of_multiplicativePairing
       (p := p) pairing hmul_left hmul_right
@@ -7093,13 +7093,13 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
       _hp, hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef, _hOddAnd92⟩
   rcases hquot with ⟨hH0normH, _hne, hElem⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
-  letI : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hElem
+  let : Fact p.Prime := ⟨hp⟩
+  let : (H0.subgroupOf H).Normal := hH0normH
+  let : IsElementaryAbelian p (H ⧸ H0.subgroupOf H) := hElem
   have hUnormH : U ≤ Subgroup.normalizer (H : Set G) :=
     theorem_11_6_U_le_normalizer_H_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11Full
-  letI : Subgroup.Normalizes U H := ⟨hUnormH⟩
+  let : Subgroup.Normalizes U H := ⟨hUnormH⟩
   have hH0inv : IsInvariant U H (H0.subgroupOf H) := by
     have hforward :
         ∀ (u : U) (x : H), x ∈ H0.subgroupOf H → u • x ∈ H0.subgroupOf H := by
@@ -7127,7 +7127,7 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
       have hx' : u⁻¹ • (u • x) ∈ H0.subgroupOf H :=
         hforward u⁻¹ (u • x) hx
       simpa [smul_smul] using hx'
-  letI : IsInvariant U H (H0.subgroupOf H) := hH0inv
+  let : IsInvariant U H (H0.subgroupOf H) := hH0inv
   have hQinv : IsInvariant U H Q := by
     have hforward :
         ∀ (u : U) (x : H), x ∈ Q → u • x ∈ Q := by
@@ -7156,17 +7156,17 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
       have hx' : u⁻¹ • (u • x) ∈ Q :=
         hforward u⁻¹ (u • x) hx
       simpa [smul_smul] using hx'
-  letI : IsInvariant U H Q := hQinv
+  let : IsInvariant U H Q := hQinv
   let Hbar := H ⧸ H0.subgroupOf H
-  letI : MulAction.QuotientAction U (H0.subgroupOf H) :=
+  let : MulAction.QuotientAction U (H0.subgroupOf H) :=
     quotientAction_of_isInvariant (A := U) (G := H) (H0.subgroupOf H) hH0inv
-  letI : MulDistribMulAction U Hbar :=
+  let : MulDistribMulAction U Hbar :=
     quotientMulDistribMulAction (A := U) (G := H) (H0.subgroupOf H) hH0inv
-  letI : MulAction.QuotientAction U Q :=
+  let : MulAction.QuotientAction U Q :=
     quotientAction_of_isInvariant (A := U) (G := H) Q hQinv
-  letI : MulDistribMulAction U (H ⧸ Q) :=
+  let : MulDistribMulAction U (H ⧸ Q) :=
     quotientMulDistribMulAction (A := U) (G := H) Q hQinv
-  letI : FiniteDimensional (ZMod p) (Additive Hbar) := Module.Finite.of_finite
+  let : FiniteDimensional (ZMod p) (Additive Hbar) := Module.Finite.of_finite
   have hHbar_card : Nat.card Hbar = p ^ q :=
     theorem_11_3_quotient_card_eq_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q hH0normH h11Full
@@ -7232,10 +7232,10 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
       p (H0.subgroupOf H) Q hQle hQcard
   have hH0bar_cyclic : IsCyclic H0bar :=
     isCyclic_of_prime_card hH0bar_card
-  letI : IsCyclic H0bar := hH0bar_cyclic
-  letI : IsElementaryAbelian p H0bar :=
+  let : IsCyclic H0bar := hH0bar_cyclic
+  let : IsElementaryAbelian p H0bar :=
     isElementaryAbelian_of_prime_card_isCyclic (p := p) hH0bar_card
-  letI : FiniteDimensional (ZMod p) (Additive H0bar) := Module.Finite.of_finite
+  let : FiniteDimensional (ZMod p) (Additive H0bar) := Module.Finite.of_finite
   have hH0bar_finrank :
       Module.finrank (ZMod p) (Additive H0bar) = 1 := by
     exact theorem_11_7_finrank_eq_of_elementaryAbelian_card
@@ -7423,7 +7423,7 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
       (Subgroup.normal_subgroupOf_iff_le_normalizer hMFleM).1
         hMFnormal
     have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) := hUleM.trans hMnormMF
-    letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+    let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
     have hH0normMF : (H0.subgroupOf MF).Normal := by
       rw [← _hHMF]
       exact hH0normH
@@ -7498,7 +7498,7 @@ private theorem theorem_11_7_quotient_commutator_eq_one_of_bilinear_source
         ⟨_h92b, _hH0MFb, _hCb, _hpb, _hqb, _hpdatab, _hcardb,
           _hcentb, _hcycb, hirr, _hfieldb, _hcopb, _hdivb⟩
       rcases hirr with ⟨hnormalMF, hirr⟩
-      letI : (H0.subgroupOf MF).Normal := hnormalMF
+      let : (H0.subgroupOf MF).Normal := hnormalMF
       have hnorm :
           Section9.quotientSubgroupNormalizedBy MF H0 U leftRadical :=
         theorem_11_7_quotientSubgroupNormalizedBy_of_isInvariant
@@ -7652,10 +7652,10 @@ private theorem theorem_11_7_H0_eq_bot_of_hypothesis
   rcases theorem_11_7_exists_normal_subgroup_H0_commutator_card_factor
       M MF H U C H0 W1 W2 S τ p q h11Full hH0ne with
     ⟨Q, hQnorm, hQcomm, hQle, hQcard⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (IsPGroup p H) := ⟨hHp⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
-  letI : Q.Normal := hQnorm
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (IsPGroup p H) := ⟨hHp⟩
+  let : (H0.subgroupOf H).Normal := hH0normH
+  let : Q.Normal := hQnorm
   have hQcenter :
       (H0.subgroupOf H).map (QuotientGroup.mk' Q) ≤ Subgroup.center (H ⧸ Q) :=
     theorem_11_7_quotient_image_le_center_of_normal_card_factor
@@ -7687,7 +7687,7 @@ public theorem theorem_11_7
     ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
       _hp, hquot, _hchief, _hcomm, _hpW2, _hqW1, _hPDef, _hOddAnd92⟩
   rcases hquot with ⟨hH0normH, _hne, hElem⟩
-  letI : (H0.subgroupOf H).Normal := hH0normH
+  let : (H0.subgroupOf H).Normal := hH0normH
   have hH0sub_bot : H0.subgroupOf H = (⊥ : Subgroup H) := by
     rw [hH0bot, Subgroup.bot_subgroupOf]
   let e : H ⧸ H0.subgroupOf H ≃* H :=
@@ -8162,7 +8162,7 @@ private theorem theorem_11_8_exists_SC_S2_set_split
             (∀ χ : Section1.ClassFunction M, χ ∈ S2 ↔ χ ∈ SC ∧ χ ∉ SHC) ∧
               SC = SHC ∪ S2 := by
   intro hSHC
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   classical
   let SC : Finset (Section1.ClassFunction M) :=
     S.filter fun χ => Section1.subgroupInKernel' χ (C.subgroupOf M)
@@ -9683,8 +9683,8 @@ private theorem theorem_11_8_6_kernel_family_subset_SC_of_hypothesis
       ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : (C.subgroupOf M).Normal := hCnormal
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : (C.subgroupOf M).Normal := hCnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hCleD : C ≤ ambientDerivedSubgroup M := by
     rcases h11 with
       ⟨_h10, _hHMF, _htype, _hHleD, hUleD, hCeq, _hrest⟩
@@ -9881,8 +9881,8 @@ private theorem theorem_11_8_1_subfamily_count_of_hypothesis
   have hAnorm : A.Normal := by
     dsimp [A]
     exact (theorem_11_5_secondDerived_normalIn_M M).2
-  letI : A.Normal := hAnorm
-  haveI : K.Normal := by
+  let : A.Normal := hAnorm
+  have : K.Normal := by
     dsimp [K]
     infer_instance
   have hDDnorm :
@@ -9890,20 +9890,20 @@ private theorem theorem_11_8_1_subfamily_count_of_hypothesis
     (theorem_11_5_secondDerived_normalIn_M M).2
   have hcomm : IsMulCommutative (K ⧸ A.subgroupOf K) := by
     exact theorem_11_5_secondDerived_quotient_commutative M hDDnorm
-  letI : IsMulCommutative (K ⧸ A.subgroupOf K) := hcomm
+  let : IsMulCommutative (K ⧸ A.subgroupOf K) := hcomm
   have hAeq : A = ambientDerivedSubgroup K := by
     dsimp [A, K]
     exact theorem_11_5_secondDerived_subgroupOf_eq_ambientDerived_derived M
   have hNchar : (A.subgroupOf K).Characteristic := by
     rw [hAeq, section12_ambientDerivedSubgroup_subgroupOf_eq]
     infer_instance
-  letI : (A.subgroupOf K).Characteristic := hNchar
+  let : (A.subgroupOf K).Characteristic := hNchar
   have hInv : IsInvariant R K (A.subgroupOf K) :=
     isInvariant_of_characteristic (A := R) (G := K) (A.subgroupOf K)
-  letI : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : IsInvariant R K (A.subgroupOf K) := hInv
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     Section10.characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
   have hP : Section8.typePDefinitionData M MF U W1 W2 :=
     theorem_11_5_typePDefinitionData_of_hypothesis
@@ -9971,8 +9971,8 @@ private theorem theorem_11_8_1_subfamily_count_of_hypothesis
     rw [← Subgroup.index_eq_card]
     simpa [Subgroup.relIndex, hSA.1] using hrelInternal
   have hlinCard : Nat.card ((K ⧸ A.subgroupOf K) →* ℂˣ) = u := by
-    letI : CommGroup (K ⧸ A.subgroupOf K) := IsMulCommutative.instCommGroup
-    letI : HasEnoughRootsOfUnity ℂ (Monoid.exponent (K ⧸ A.subgroupOf K)) :=
+    let : CommGroup (K ⧸ A.subgroupOf K) := IsMulCommutative.instCommGroup
+    let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (K ⧸ A.subgroupOf K)) :=
       Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent (K ⧸ A.subgroupOf K))
     rw [← hquotCard]
     exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (K ⧸ A.subgroupOf K) ℂ
@@ -10621,9 +10621,9 @@ private theorem theorem_11_8_6_coherentFamily_S2_of_hypothesis
       ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : (C.subgroupOf M).Normal := hCnormal
-  letI : ((H ⊔ C).subgroupOf M).Normal := hHCnormal
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : (C.subgroupOf M).Normal := hCnormal
+  let : ((H ⊔ C).subgroupOf M).Normal := hHCnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hderived : Section10.derivedInducedFamily M S := by
     rcases h10 with
       ⟨_hMmax, _htype10, hderived, _hW1M, _hW2M, _hW12M, _hDade,
@@ -11035,7 +11035,7 @@ private theorem theorem_11_8_6_all_reducible_extension_with_columns_of_hypothesi
           tau2 (Section10.muColumn mu j) =
             Finset.sum Finset.univ (fun i : I => sigma (omega i j)) := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   have hJgt : 1 < Fintype.card J := by
     rw [← Nat.card_eq_fintype_card, hUniform.2.1]
     exact hUniform.2.2.1.one_lt
@@ -11320,7 +11320,7 @@ private theorem theorem_11_8_6_irreducible_coherent_image_sigma_omega_orthogonal
     ∀ i j, Section1.scalarProduct G (tau2 xi) (sigma (omega i j)) = 0 := by
   intro i j
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   rcases Section10.derivedSupportedFourSixData_of_hypothesis_10_1_supported_data
       h11.1 hNotation with
     ⟨sigmaM, xChar, _H_A, _H_A0, hSupported⟩
@@ -11447,7 +11447,7 @@ private theorem theorem_11_8_6_exists_extension_with_columns_of_hypothesis
           tau2 (Section10.muColumn mu j) =
             Finset.sum Finset.univ (fun i : I => sigma (omega i j)) := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   by_cases hAllReducible : ∀ chi : Section1.ClassFunction M, chi ∈ S2 →
       ¬ Section1.IsIrreducibleCharacterOnGroup chi
   · exact theorem_11_8_6_all_reducible_extension_with_columns_of_hypothesis
@@ -11780,7 +11780,7 @@ private theorem theorem_11_8_coherent_image_sigma_omega_orthogonal_of_hypothesis
                 Section1.scalarProduct G (τ₁ ξ) (σ (ω i j)) = 0 := by
   intro h11 hNotation hSHC hξ hExt i j
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   rcases Section10.derivedSupportedFourSixData_of_hypothesis_10_1_supported_data
       h11.1 hNotation with ⟨σM, xChar, H_A, _H_A0, hSupported⟩
   have hsub : SHC ⊆ S := theorem_11_8_SHC_subset_S hSHC
@@ -13023,7 +13023,7 @@ private theorem theorem_11_8_2_projectionData_of_hypothesis
       simp [hImagePair η hη ξ hξ, hηξ]
     · exact fun h => (h hξ).elim
   have hζImageSelf : Section1.scalarProduct G (τ₁ ζ) (τ₁ ζ) = 1 :=
-    hImagePair ζ hζ ζ hζ |>.trans (if_pos rfl)
+    hImagePair ζ hζ ζ hζ |>.trans (ite_eq_left rfl)
   have hζT : Section1.scalarProduct G (τ₁ ζ) T = 1 := by
     have hstar := Section1.scalarProduct_star_swap (G := G) (τ₁ ζ) T
     simpa [hTpair ζ hζ] using hstar.symm
@@ -13064,14 +13064,14 @@ private theorem theorem_11_8_2_projectionData_of_hypothesis
       Section10.scalarProduct_irreducible_ne (hmuIrr i j0) hξIrr hbase_ne
     by_cases hξζ : ξ = ζ
     · subst ξ
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       dsimp [α, Section10.alphaChar]
       rw [Section5.scalarProduct_sub_left, Section5.scalarProduct_sub_left,
         Section1.scalarProduct_smul_left, Section1.scalarProduct_smul_left,
         hentryPair, hbasePair,
         Section10.scalarProduct_irreducible_self hζIrr, hδ]
       norm_num
-    · rw [if_neg hξζ]
+    · rw [ite_eq_right hξζ]
       have hζPair : Section1.scalarProduct M ζ ξ = 0 :=
         Section10.scalarProduct_irreducible_ne hζIrr hξIrr (Ne.symm hξζ)
       dsimp [α, Section10.alphaChar]
@@ -13124,7 +13124,7 @@ private theorem theorem_11_8_2_projectionData_of_hypothesis
         rw [hTauIso α (ζ - ξ) hAlphaClass (hXiClass ξ hξ)
           hAlphaSupport (hXiSupport ξ hξ)]
         rw [Section5.scalarProduct_sub_right, hAlphaPair ζ hζ,
-          hAlphaPair ξ hξ, if_pos rfl, if_neg hξζ]
+          hAlphaPair ξ hξ, ite_eq_left rfl, ite_eq_right hξζ]
         ring
       have hζξ : Section1.scalarProduct G (τ₁ ζ) (τ₁ ξ) = 0 := by
         simpa [Ne.symm hξζ] using hImagePair ζ hζ ξ hξ
@@ -13169,7 +13169,7 @@ private theorem theorem_11_8_2_projectionData_of_hypothesis
     rw [Section1.scalarProduct_add_left, Section1.scalarProduct_smul_left] at hc
     by_cases hξζ : ξ = ζ
     · subst ξ
-      simp only [if_pos, hζImageSelf, mul_one] at hc ⊢
+      simp only [ite_eq_left, hζImageSelf, mul_one] at hc ⊢
       linear_combination hc
     · have hζξ : Section1.scalarProduct G (τ₁ ζ) (τ₁ ξ) = 0 := by
         simpa [Ne.symm hξζ] using hImagePair ζ hζ ξ hξ
@@ -13409,10 +13409,10 @@ private theorem theorem_11_8_2_projectionData_of_hypothesis
       intro r k hcell hcell0
       have hleft : Section1.scalarProduct G (e i j) (e r k) = 0 := by
         rw [heOrth]
-        exact if_neg (fun hEq => hcell hEq.symm)
+        exact ite_eq_right (fun hEq => hcell hEq.symm)
       have hright : Section1.scalarProduct G (e i j0) (e r k) = 0 := by
         rw [heOrth]
-        exact if_neg (fun hEq => hcell0 hEq.symm)
+        exact ite_eq_right (fun hEq => hcell0 hEq.symm)
       have hZrk : Section1.scalarProduct G Z (e r k) = 0 := by
         dsimp [Z]
         rw [Section5.scalarProduct_sub_left, hleft, hright]
@@ -14158,7 +14158,7 @@ private theorem theorem_11_8_5_scalarData_of_hypothesis
     apply Finset.sum_eq_zero
     intro r _hr
     rw [hSigmaPair]
-    exact if_neg (by
+    exact ite_eq_right (by
       intro hEq
       exact hj (congrArg Prod.snd hEq).symm)
   have hEtaBase : Section1.scalarProduct G eta0 (σ (ω i j0)) = 1 := by
@@ -15288,7 +15288,7 @@ private theorem theorem_11_9_fixedPointSubgroup_U_le_C_of_hypothesis
   have hW1normU : W1 ≤ Subgroup.normalizer (U : Set G) :=
     theorem_11_9_W1_le_normalizer_U_of_hypothesis
       M MF H U C H0 W1 W2 S τ p q h11
-  letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+  let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
   intro x hxfix
   have hPDef : Section8.typePDefinitionData M MF U W1 W2 :=
     theorem_11_typePDefinitionData_of_hypothesis M MF H U C H0 W1 W2 S τ p q h11
@@ -15352,8 +15352,8 @@ private theorem theorem_11_9_quotient_card_gt_one_and_dvd_sub_one_of_hypothesis
     have hW1normU : W1 ≤ Subgroup.normalizer (U : Set G) :=
       theorem_11_9_W1_le_normalizer_U_of_hypothesis
         M MF H U C H0 W1 W2 S τ p q h11
-    letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
-    letI : (C.subgroupOf U).Normal := hnormal
+    let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+    let : (C.subgroupOf U).Normal := hnormal
     have hCeqDer : C = ambientDerivedSubgroup U :=
       (theorem_11_6 M MF H U C H0 W1 W2 S τ p q h11).2.2.2
     have hCsub_eq : C.subgroupOf U = commutator U := by
@@ -15363,9 +15363,9 @@ private theorem theorem_11_9_quotient_card_gt_one_and_dvd_sub_one_of_hypothesis
     have hInv : IsInvariant W1 U (C.subgroupOf U) := by
       rw [hCsub_eq]
       exact isInvariant_of_characteristic (A := W1) (G := U) (commutator U)
-    letI : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
+    let : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
       quotientMulDistribMulAction (A := W1) (G := U) (C.subgroupOf U) hInv
-    letI : MulAction.QuotientAction W1 (C.subgroupOf U) :=
+    let : MulAction.QuotientAction W1 (C.subgroupOf U) :=
       quotientAction_of_isInvariant (A := W1) (C.subgroupOf U) hInv
     have hUsolv : Group.IsSolvable U := by
       have hPDef : Section8.typePDefinitionData M MF U W1 W2 :=
@@ -15374,7 +15374,7 @@ private theorem theorem_11_9_quotient_card_gt_one_and_dvd_sub_one_of_hypothesis
         ⟨_hMF, _hW1cyc, _hW1ne, _hW1hall, _hcompMW1, _hUleD, hUnil,
           _hW1normU, _hcompDU, _hMFnotCyc, _hSecond, _hfitMF, _hfitD,
           _hW2le, _hW2cyc, _hW2ne, _hcentW1, _hW0norm⟩
-      haveI : Group.IsNilpotent U := hUnil
+      have : Group.IsNilpotent U := hUnil
       infer_instance
     have hcop : Nat.Coprime (Nat.card W1) (Nat.card U) :=
       theorem_11_9_W1_card_coprime_U_card_of_hypothesis
@@ -15397,7 +15397,7 @@ private theorem theorem_11_9_quotient_card_gt_one_and_dvd_sub_one_of_hypothesis
     have hqprime : Nat.Prime q :=
       (theorem_11_3_arithmetic_data_of_hypothesis
         M MF H U C H0 W1 W2 S τ p q h11).2.1
-    haveI : Fact (Nat.Prime q) := ⟨hqprime⟩
+    have : Fact (Nat.Prime q) := ⟨hqprime⟩
     have hqW1 : q = Nat.card W1 := by
       rcases h11 with
         ⟨_h10, _hHMF, _htype, _hHleD, _hUleD, _hCeq, _hH0H, _hH0normM,
@@ -15926,10 +15926,10 @@ public theorem theorem_11_exists_hypothesis_10_1_supported_of_typeP_typeIIIIV
   rcases Section8.section8Hypothesis52FullData_baseRow_of_late_notation_source_data
       hNotation hWitness hLateSource' with
     ⟨d52, hBaseRow, hA0M, hTauA0⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   let Apre : Set M := Section8.section8SubgroupSetPreimage M A
   let A0local : Set M :=
     Section4Scratch.a0Set (W2.subgroupOf M) d52.W Apre
@@ -16064,16 +16064,16 @@ public theorem theorem_11_9_isCyclic_of_nilpotent_cyclic_abelianization
     rcases eq_top_or_exists_le_coatom H with htop | ⟨K, hKcoatom, hHK⟩
     · exact hHne htop
     · have hKnorm : K.Normal := by
-        haveI : Group.IsNilpotent U := hNil
+        have : Group.IsNilpotent U := hNil
         exact Subgroup.NormalizerCondition.normal_of_coatom K
           (Group.normalizerCondition_of_isNilpotent (G := U)) hKcoatom
-      letI : K.Normal := hKnorm
+      let : K.Normal := hKnorm
       have hsimple : IsSimpleGroup (U ⧸ K) := by
         let e : Subgroup (U ⧸ K) ≃o Set.Ici K := QuotientGroup.comapMk'OrderIso K
         have hsimpleOrder : IsSimpleOrder (Set.Ici K) :=
           (Set.isSimpleOrder_Ici_iff_isCoatom (a := K)).2 hKcoatom
-        letI : IsSimpleOrder (Set.Ici K) := hsimpleOrder
-        letI : IsSimpleOrder (Subgroup (U ⧸ K)) := e.isSimpleOrder
+        let : IsSimpleOrder (Set.Ici K) := hsimpleOrder
+        let : IsSimpleOrder (Subgroup (U ⧸ K)) := e.isSimpleOrder
         refine {
           toNontrivial := ?_
           eq_bot_or_eq_top_of_normal := ?_
@@ -16083,10 +16083,10 @@ public theorem theorem_11_9_isCyclic_of_nilpotent_cyclic_abelianization
         · intro L _
           simpa using (show L = ⊥ ∨ L = ⊤ from eq_bot_or_eq_top L)
       have hNilQuot : Group.IsNilpotent (U ⧸ K) := by
-        haveI : Group.IsNilpotent U := hNil
+        have : Group.IsNilpotent U := hNil
         infer_instance
-      letI : IsSimpleGroup (U ⧸ K) := hsimple
-      letI : Group.IsNilpotent (U ⧸ K) := hNilQuot
+      let : IsSimpleGroup (U ⧸ K) := hsimple
+      let : Group.IsNilpotent (U ⧸ K) := hNilQuot
       have hcommQuot : Std.Commutative (· * · : U ⧸ K → U ⧸ K → U ⧸ K) := by
         infer_instance
       have hcommQuot' : IsMulCommutative (U ⧸ K) := { is_comm := hcommQuot }
@@ -17009,7 +17009,7 @@ private theorem theorem_11_9_muColumn_base_supportedOn_derived_of_section10FourS
     ⟨_hω, _h43b, _h43c, _h43d, h45a, _h45b, _hTauCyclic,
       _hTauExtension, _hTauIso, _hTauPunctured, _hTauVirtual, _hBaseColumn⟩
   rcases h46 with ⟨_h42, hDnormal, _hW2D, _hDD, _hcentA, _hAinD⟩
-  letI : (derivedSubgroup M : Subgroup M).Normal := hDnormal
+  let : (derivedSubgroup M : Subgroup M).Normal := hDnormal
   have hIndSupp :
       Section1.supportedOn (Section1.inducedCF (derivedSubgroup M) (xChar j0))
         ((derivedSubgroup M : Subgroup M) : Set M) :=
@@ -17202,7 +17202,7 @@ private theorem theorem_11_9_orthogonalToFinset_of_base_column_coefficients
       ⟨_MF, _Ms, _Abook, _A0book, _A1book, _hSource, _hW, _hA0, _h46, hω,
         _hIso, _hVirt, _hPrin, _hσAgreeCyc, _h45, _h48, _hTauA0, _hFull⟩]
     by_cases hk : k = j0
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       calc
         (∑ i : I, if (i, j0) = (p, k) then (1 : ℂ) else 0) =
             if (p, j0) = (p, k) then (1 : ℂ) else 0 := by
@@ -17216,7 +17216,7 @@ private theorem theorem_11_9_orthogonalToFinset_of_base_column_coefficients
           · intro hp
             exact (hp (Finset.mem_univ p)).elim
         _ = 1 := by simp [hk]
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       refine Finset.sum_eq_zero ?_
       intro i _hi
       have hp : (i, j0) ≠ (p, k) := by
@@ -18744,7 +18744,7 @@ private theorem theorem_11_9_tau_SHC_sub_conjugate_sigma_omega_scalarProduct_eq_
                 (τ (ζ - Section1.conjugateCharacter ζ)) (σ (ω i j)) = 0 := by
   intro h11 hNotation hSHC hζ i j
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   let ζbar : Section1.ClassFunction M := Section1.conjugateCharacter ζ
   have hζbar : ζbar ∈ SHC := by
     dsimp [ζbar]
@@ -19103,7 +19103,7 @@ private theorem theorem_11_9_muColumn_sub_SHC_muEntry_scalarProduct_eq_ite_of_hy
     rw [hsum, Section1.scalarProduct_fintype_sum_left]
     by_cases hj : j = j0
     · subst j
-      rw [if_pos rfl, Finset.sum_eq_single i]
+      rw [ite_eq_left rfl, Finset.sum_eq_single i]
       · exact Section10.scalarProduct_irreducible_self (hmuIrr i j0)
       · intro r _hr hri
         exact Section10.scalarProduct_irreducible_ne (hmuIrr r j0) (hmuIrr i j0)
@@ -19111,7 +19111,7 @@ private theorem theorem_11_9_muColumn_sub_SHC_muEntry_scalarProduct_eq_ite_of_hy
             intro heq
             exact hri (congrArg Prod.fst heq)))
       · simp
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       apply Finset.sum_eq_zero
       intro r _hr
       exact Section10.scalarProduct_irreducible_ne (hmuIrr r j0) (hmuIrr i j)
@@ -23173,8 +23173,8 @@ private theorem theorem_11_9_case_a_lambda_ne_SHC_of_kernel_family
       M MF H U C H0 W1 W2 S τ p q h11).2
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((H ⊔ C).subgroupOf M).Normal := hHCnormal
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((H ⊔ C).subgroupOf M).Normal := hHCnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   rcases hθirr with ⟨n, ρ, _hρirr, hθeq⟩
   subst θ
   have hIndKer :
@@ -24572,8 +24572,8 @@ private theorem theorem_11_exists_transformedIrreducibleFamily
   rcases Theory.Character.exists_completeIrreducibleCharacterFamily_sum_degree_normSq
       (G := W) with
     ⟨ι, hι, χrep, hχrep, _hsum⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let χ : ι → Section1.ClassFunction W :=
     fun i => Section1.ofConjClassFunction (χrep i)
   have hχirr : ∀ i, Section1.IsIrreducibleCharacterOnGroup (χ i) := by
@@ -24626,10 +24626,10 @@ public theorem theorem_11_complement_isCyclic_of_hypothesis
   rcases Section10.exists_section10FourSixNotationSupportedData_of_hypothesis_10_1_supported_data h10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   let SHC : Finset (Section1.ClassFunction M) :=
     S.filter fun χ =>
       Section1.subgroupInKernel' χ ((H ⊔ C).subgroupOf M)
@@ -24705,7 +24705,7 @@ public theorem theorem_11_complement_isCyclic_of_typeP_typeIIIIV
         Nontrivial (MF ⧸ H0.subgroupOf MF) ∧
           IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := by
     refine ⟨hH0NormalMF, ?_⟩
-    letI : (H0.subgroupOf MF).Normal := hH0NormalMF
+    let : (H0.subgroupOf MF).Normal := hH0NormalMF
     constructor
     · have hH0neTop : H0.subgroupOf MF ≠ ⊤ := by
         intro htop

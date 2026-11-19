@@ -16,7 +16,7 @@ theorem CSideSetup.q_invariant [Finite C] (hC : WeakHyp C Q) (S : CSideSetup C Q
     (u : Additive (Abelianization Q)) :
     extraspecialQuadForm hC.isExtraspecialPGroup (S.σ g u) =
       extraspecialQuadForm hC.isExtraspecialPGroup u := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   obtain ⟨l, rfl⟩ := S.surj g
   rw [S.sigma_eq l]
   exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1
@@ -24,8 +24,8 @@ theorem CSideSetup.q_invariant [Finite C] (hC : WeakHyp C Q) (S : CSideSetup C Q
 
 theorem CSideSetup.model [Finite C] (hC : WeakHyp C Q)
     (S : CSideSetup C Q) : CSideModel (extraspecialQuadForm hC.isExtraspecialPGroup) S.σ := by
-  haveI : Finite Q := hC.finite_Q
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite Q := hC.finite_Q
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   exact cSideModel_of_stdHyp _ (extraspecialQuadForm_nondegenerate hC.isExtraspecialPGroup)

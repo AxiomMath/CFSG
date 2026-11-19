@@ -51,7 +51,7 @@ theorem pattern_of_charpoly {d : Fin 4 → K} {t : K} (ht : t ≠ 1)
     | (exfalso
        have hc := hm'.count_eq 1
        rw [h0, h1, h2, h3] at hc
-       simp [List.count_cons, ht] at hc
+       simp [ht] at hc
        done)
     | exact ⟨0, h0, fun j hj => by fin_cases j <;> first | exact absurd rfl hj | assumption⟩
     | exact ⟨1, h1, fun j hj => by fin_cases j <;> first | exact absurd rfl hj | assumption⟩
@@ -145,12 +145,12 @@ theorem nf_model {γ : MulAut SU4} (hγ3 : γ ^ 3 = 1) (hγ1 : fieldFactor4 γ �
     intro i
     by_cases hi3 : i = 3
     · subst hi3
-      rw [hτdef, Equiv.swap_apply_right, hk1, if_pos rfl]
+      rw [hτdef, Equiv.swap_apply_right, hk1, ite_eq_left rfl]
     · by_cases hik : i = k
       · subst hik
         have h3i : (3 : Fin 4) ≠ i := fun h => hi3 h.symm
-        rw [hτdef, Equiv.swap_apply_left, hkt 3 h3i, if_neg hi3]
-      · rw [hτdef, Equiv.swap_apply_of_ne_of_ne hik hi3, hkt i hik, if_neg hi3]
+        rw [hτdef, Equiv.swap_apply_left, hkt 3 h3i, ite_eq_right hi3]
+      · rw [hτdef, Equiv.swap_apply_of_ne_of_ne hik hi3, hkt i hik, ite_eq_right hi3]
   obtain ⟨P, hPdef⟩ : ∃ P : GL (Fin 4) K, P = TauCeti.permutationGL (k := K) τ := ⟨_, rfl⟩
   have hPval : ((P : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) = τ⁻¹.permMatrix K := by
     rw [hPdef, TauCeti.permutationGL_coe]
@@ -334,7 +334,7 @@ theorem statedProj_field_ne_one {φ' : K ≃+* K} (hφ'3 : φ' ^ 3 = 1) (hφ'1 :
   have hζfix : φ' ζ ≠ ζ := by
     intro hfix
     have hmem : ζ ∈ fixField φ' := mem_fixField.2 hfix
-    haveI : Fintype (fixField φ') := Fintype.ofFinite _
+    have : Fintype (fixField φ') := Fintype.ofFinite _
     have h4 : Fintype.card (fixField φ') = 4 := by
       rw [Fintype.card_eq_nat_card, card_fixField hord]
     have hpow := FiniteField.pow_card (⟨ζ, hmem⟩ : fixField φ')
@@ -362,13 +362,11 @@ theorem statedProj_field_ne_one {φ' : K ≃+* K} (hφ'3 : φ' ^ 3 = 1) (hφ'1 :
   have hm := congrArg (fun X : GL (Fin 3) K => (X : Matrix (Fin 3) (Fin 3) K)) hab
   have e00 := congrFun (congrFun hm 0) 0
   have e11 := congrFun (congrFun hm 1) 1
-  simp [ha, hb, Matrix.mul_diagonal, Matrix.map_apply, Matrix.diagonal_apply] at e00 e11
+  simp [ha, hb, Matrix.mul_diagonal] at e00 e11
   apply hζfix
   have hc1 : ((c : Kˣ) : K) = 1 := by
     first
     | exact e00.symm
-    | exact e00
-    | simpa using e00.symm
   rw [hc1, mul_one] at e11
   exact e11.symm
 
@@ -460,7 +458,7 @@ theorem fieldOn_layer_model {G : Type} [Group G] [Finite G] {M : Subgroup G} {g 
     intro h
     have h1 := Subgroup.mem_normalizer_iff.1 hgM h
     have h2 := Subgroup.mem_normalizer_iff.1 (normalizer_cx_of_comm hgy) h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [h1, h2]
   have hgJ : g ∈ Subgroup.normalizer (J : Set G) := by
     apply mem_normalizer_iff_gLBConj_eq.2
@@ -534,7 +532,7 @@ theorem fieldOn_layer_model {G : Type} [Group G] [Finite G] {M : Subgroup G} {g 
     exact hmat.symm
   have hQ := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
   have hsimple : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ 3) K)) := by
-    haveI := hQ.2
+    have := hQ.2
     exact θ.symm.isSimpleGroup
   have hcomm : commutator (PQuot 3 J ⧸ Subgroup.center (PQuot 3 J)) = ⊤ := by
     let f := QuotientGroup.mk' (Subgroup.center (PQuot 3 J))
@@ -547,7 +545,7 @@ theorem fieldOn_layer_model {G : Type} [Group G] [Finite G] {M : Subgroup G} {g 
     rw [hc, htop] at key
     exact key.symm
   have hnon : ∃ a b : StatedProj (StatedSU 3 (2 ^ 3) K), a * b ≠ b * a := by
-    haveI := hQ.2
+    have := hQ.2
     obtain ⟨a, b, hab⟩ := exists_noncomm_of_commutator_top hcomm
     exact ⟨θ a, θ b, fun h => hab (θ.injective (by rw [map_mul, map_mul]; exact h))⟩
   have hord : orderOf (statedProjSUEquiv φ' 3 (2 ^ 3)) = 3 :=
@@ -561,7 +559,7 @@ theorem fieldOn_layer_model {G : Type} [Group G] [Finite G] {M : Subgroup G} {g 
   intro l l' hrel
   obtain ⟨a, b, rfl, rfl, hab⟩ := hrel
   have hb : b = conjL J g hgJ a := Subtype.ext (by rw [conjL_apply]; exact hab)
-  simp only [one_mul, mul_one, inv_one]
+  simp only [mul_one, inv_one]
   rw [hb]
   exact hcore a
 

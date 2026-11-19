@@ -35,6 +35,7 @@ private theorem w16q_conjClosure_le_normalizer_iSub16 {M V₀ V U S H : Subgroup
     rw [iSub16]
     exact le_normalizer_conjClosure _ _)
 
+omit [Finite G] in
 private theorem w16q_mem_centralizer_sup {A B : Subgroup G} {y : G}
     (hA : y ∈ centralizer (A : Set G)) (hB : y ∈ centralizer (B : Set G)) :
     y ∈ centralizer ((A ⊔ B : Subgroup G) : Set G) := by

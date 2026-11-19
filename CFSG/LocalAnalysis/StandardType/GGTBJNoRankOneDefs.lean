@@ -34,7 +34,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 @[expose] def GGSU6DiagInvertedKnown : Prop :=
   ∀ f : ℕ, 3 ∣ 2 ^ f + 1 →
-    LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun R _ I _ => GGSU6DiagInvertedAt I
+    LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun _R _ I _ => GGSU6DiagInvertedAt I
 
 end CFSG.StandardType
 

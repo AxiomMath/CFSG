@@ -271,7 +271,7 @@ public noncomputable def noSpansTwoMid
     have hstab_card : Nat.card ↥(MulAction.stabilizer ↥E z1) = Nat.card ↥S1s := by
       rw [hstab, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
     have horb_nat : Nat.card ↥(MulAction.orbit ↥E z1) = s := horbit1card
-    haveI : Fintype ↥(MulAction.stabilizer ↥E z1) := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.stabilizer ↥E z1) := Fintype.ofFinite _
     have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥E) (b := z1)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       ← Nat.card_eq_fintype_card] at h
@@ -320,7 +320,7 @@ public noncomputable def noSpansTwoMid
     rw [hsB1, hsB2, hsB3] at h
     have hd : Γ.degree (sB 4) = t + 1 := by
       rw [hsB4, hdeg w2]
-      exact if_pos (color_eq_zero_of_adj_of_color_eq_one hcL2 hw2L2)
+      exact ite_eq_left (color_eq_zero_of_adj_of_color_eq_one hcL2 hw2L2)
     have hd' : Γ.degree (sB 4) - 1 = t := by rw [hd]; omega
     rw [hd'] at h
     exact h
@@ -398,7 +398,7 @@ public noncomputable def noSpansTwoMid
     have h := card_rootGroup hP hT hM qW hq
     rw [hq1, hq2, hq3] at h
     have hd : Γ.degree (qW 4) = s + 1 := by
-      rw [hq4, hdeg M1, if_neg (by rw [hcM1]; decide)]
+      rw [hq4, hdeg M1, ite_eq_right (by rw [hcM1]; decide)]
     have hd' : Γ.degree (qW 4) - 1 = s := by rw [hd]; omega
     rw [hd'] at h
     exact h

@@ -23,7 +23,7 @@ theorem qAct_rep_apply {k : ℕ} (hk : k < 360) {n : ℕ} (hn : n < 16) :
       (Multiplicative.ofAdd (wOfCode n)) = Multiplicative.ofAdd (wOfCode (qMat k n))
   rw [← tabEquiv_apply qTab_ok hn]
   rw [actHom_apply]
-  simp only [Subtype.coe_mk]
+  simp only
   refine (congrArg (tabEquiv qTab_ok) ?_).trans (tabEquiv_apply qTab_ok (qMat_lt k hk n hn))
   apply Subtype.ext
   exact qRep_conj hk hn
@@ -48,7 +48,7 @@ theorem qAct_eq_rep (x : ↥stdMQ) :
     actHom hN (tabEquiv qTab_ok) ⟨qRep k, (qRep_spec hk).2⟩ ((tabEquiv qTab_ok) y)
   conv_lhs => rw [actHom_apply]
   conv_rhs => rw [actHom_apply]
-  simp only [Subtype.coe_mk]
+  simp only
   refine congrArg (tabEquiv qTab_ok) ?_
   apply Subtype.ext
   calc

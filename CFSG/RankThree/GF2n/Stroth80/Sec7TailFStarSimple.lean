@@ -17,7 +17,7 @@ theorem fstar_eq_of_simple {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y} [S.N
     generalizedFitting Y = S := by
   have hcore : ∀ p : ℕ, p.Prime → CFSG.pCore p Y = ⊥ := by
     intro p hp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     by_cases h2 : p = 2
     · subst h2
       exact hO2 _ CFSG.pCore_normal CFSG.pCore_isPGroup
@@ -32,7 +32,7 @@ theorem fstar_eq_of_simple {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y} [S.N
   have hnab' : ∃ x y : S, x * y ≠ y * x := by
     obtain ⟨a, ha, b, hb, hab⟩ := hnab
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (congrArg Subtype.val h)⟩
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   have hSq : CFSG.IsQuasisimple S := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab').1
   have hSc : CFSG.IsComponent S := ⟨hSq, Subgroup.Normal.isSubnormal inferInstance⟩
   have hL : CFSG.layer Y = S := by

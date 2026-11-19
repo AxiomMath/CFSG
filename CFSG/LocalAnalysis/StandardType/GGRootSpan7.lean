@@ -38,8 +38,7 @@ theorem ggRS7_pair_symm (A : Subgroup (V ≃ₗ[ZMod 3] V))
     have e4 : t (s (t (s v))) = s (t (s v)) - b (s (t (s v))) • k :=
       htv (s (t (s v)))
     rw [e4, e3, e2, e1]
-    simp only [map_sub, map_smul, ha, hb, hak, mul_zero, zero_smul, sub_zero, sub_self,
-      neg_zero, mul_neg, neg_neg]
+    simp only [map_sub, map_smul, ha, hb, hak]
     module
   have hker_a : ∀ v, a (g v - v) = 0 := by
     intro v
@@ -94,7 +93,7 @@ theorem ggRS7_indepD {hD : Fin 6 → V} {aD : Fin 6 → Module.Dual (ZMod 3) V}
     simpa only [pairD] using h)
 
 theorem ggRS7_cross_ne {hE : Fin 6 → V} {aD aE : Fin 6 → Module.Dual (ZMod 3) V} (x : V)
-    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E₆ i j : ZMod 3))
+    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E 6 i j : ZMod 3))
     (fixD : ∀ v, (∀ i, aD i v = 0) → v ∈ Submodule.span (ZMod 3) {x}) :
     ∃ i j, aD i (hE j) ≠ 0 := by
   by_contra h
@@ -106,16 +105,16 @@ theorem ggRS7_cross_ne {hE : Fin 6 → V} {aD aE : Fin 6 → Module.Dual (ZMod 3
     intro i j
     rw [hc' j, map_smul, smul_eq_mul]
   have h00 : c 0 * aE 0 x = 2 := by
-    rw [← hu 0 0, pairE 0 0, CartanMatrix.E₆, CartanMatrix.E_diag]
+    rw [← hu 0 0, pairE 0 0, CartanMatrix.E_diag]
     norm_num
   have h11 : c 1 * aE 1 x = 2 := by
-    rw [← hu 1 1, pairE 1 1, CartanMatrix.E₆, CartanMatrix.E_diag]
+    rw [← hu 1 1, pairE 1 1, CartanMatrix.E_diag]
     norm_num
   have h01 : c 1 * aE 0 x = 0 := by
-    rw [← hu 0 1, pairE 0 1, CartanMatrix.E₆]
+    rw [← hu 0 1, pairE 0 1]
     decide +kernel
   have h10 : c 0 * aE 1 x = 0 := by
-    rw [← hu 1 0, pairE 1 0, CartanMatrix.E₆]
+    rw [← hu 1 0, pairE 1 0]
     decide +kernel
   have hcon : (2 : ZMod 3) * 2 = 0 := by
     calc (2 : ZMod 3) * 2
@@ -138,7 +137,7 @@ theorem ggRS7_connected (A : Subgroup (V ≃ₗ[ZMod 3] V))
     (rD rE : Fin 6 → V ≃ₗ[ZMod 3] V) (x : V)
     (rDA : ∀ i, rD i ∈ A) (rEA : ∀ i, rE i ∈ A)
     (pairD : ∀ i j, aD i (hD j) = (CartanMatrix.D 6 i j : ZMod 3))
-    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E₆ i j : ZMod 3))
+    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hrD : ∀ i v, rD i v = v - aD i v • hD i) (hrE : ∀ i v, rE i v = v - aE i v • hE i)
     (fixD : ∀ v, (∀ i, aD i v = 0) → v ∈ Submodule.span (ZMod 3) {x}) :
     ∀ a b : Fin 6 ⊕ Fin 6,
@@ -159,8 +158,8 @@ theorem ggRS7_connected (A : Subgroup (V ≃ₗ[ZMod 3] V))
     intro i j hij hji
     dsimp only [R]
     simp only [Sum.elim_inr]
-    exact ⟨by rw [pairE i j, CartanMatrix.E₆]; exact hij,
-      by rw [pairE j i, CartanMatrix.E₆]; exact hji⟩
+    exact ⟨by rw [pairE i j]; exact hij,
+      by rw [pairE j i]; exact hji⟩
   have h01 : R (Sum.inl 0) (Sum.inl 1) := hdd 0 1 (by decide +kernel) (by decide +kernel)
   have h12 : R (Sum.inl 1) (Sum.inl 2) := hdd 1 2 (by decide +kernel) (by decide +kernel)
   have h23 : R (Sum.inl 2) (Sum.inl 3) := hdd 2 3 (by decide +kernel) (by decide +kernel)
@@ -198,7 +197,7 @@ theorem ggRS7_connected (A : Subgroup (V ≃ₗ[ZMod 3] V))
       rw [pairD i i, CartanMatrix.D_diag]
       norm_num
     have ha : aE j (hE j) = 2 := by
-      rw [pairE j j, CartanMatrix.E₆, CartanMatrix.E_diag]
+      rw [pairE j j, CartanMatrix.E_diag]
       norm_num
     exact hi (ggRS7_pair_symm A hA (rE j) (rD i) (rEA j) (rDA i) (hE j) (hD i)
       (aE j) (aD i) (hrE j) (hrD i) ha hb hzero)
@@ -286,9 +285,9 @@ theorem ggRS7_w0 {hD : Fin 6 → V} {aD : Fin 6 → Module.Dual (ZMod 3) V}
     intro i c
     change (∑ k, ((E i).mulVec c) k • hD k) = _
     rw [Finset.sum_eq_single i
-      (fun k _ hk => by rw [hEvec i c k, if_neg hk, zero_smul])
+      (fun k _ hk => by rw [hEvec i c k, ite_eq_right hk, zero_smul])
       (fun hi => absurd (Finset.mem_univ i) hi)]
-    rw [hEvec i c i, if_pos rfl]
+    rw [hEvec i c i, ite_eq_left rfl]
   have hRmvec : ∀ i c, (Rm i).mulVec c = c - (E i).mulVec c := by
     intro i c
     simp only [Rm, Matrix.sub_mulVec, Matrix.one_mulVec]
@@ -350,15 +349,15 @@ theorem ggRS7_span_top (hdim : Module.finrank (ZMod 3) V = 7)
     {hD hE : Fin 6 → V} {aD aE : Fin 6 → Module.Dual (ZMod 3) V}
     (rD rE : Fin 6 → V ≃ₗ[ZMod 3] V) (x : V)
     (pairD : ∀ i j, aD i (hD j) = (CartanMatrix.D 6 i j : ZMod 3))
-    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E₆ i j : ZMod 3))
+    (_pairE : ∀ i j, aE i (hE j) = ((CartanMatrix.E 6) i j : ZMod 3))
     (hrD : ∀ i v, rD i v = v - aD i v • hD i) (hrE : ∀ i v, rE i v = v - aE i v • hE i)
-    (hx : x ≠ 0) (hxD : ∀ i, aD i x = 0)
+    (_hx : x ≠ 0) (_hxD : ∀ i, aD i x = 0)
     (fixD : ∀ v, (∀ i, aD i v = 0) → v ∈ Submodule.span (ZMod 3) {x})
     (moves : ∃ i, rE i x ≠ x)
     (hA : ∀ g ∈ Subgroup.closure (Set.range rD ∪ Set.range rE),
       ¬ (Module.finrank (ZMod 3) (ggLinMove g) = 1 ∧ ∀ v, g (g v - v) = g v - v)) :
     Submodule.span (ZMod 3) (Set.range hD ∪ Set.range hE) = ⊤ := by
-  haveI : FiniteDimensional (ZMod 3) V :=
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; decide)
   let A : Subgroup (V ≃ₗ[ZMod 3] V) := Subgroup.closure (Set.range rD ∪ Set.range rE)
   let T : Submodule (ZMod 3) V := Submodule.span (ZMod 3) (Set.range hD ∪ Set.range hE)
@@ -381,13 +380,13 @@ theorem ggRS7_span_top (hdim : Module.finrank (ZMod 3) V = 7)
   have hT_stable : ∀ g ∈ A, ∀ v, g v - v ∈ T := by
     intro g hg
     refine Subgroup.closure_induction (p := fun g _ => ∀ v, g v - v ∈ T)
-      (fun x hx v => hgen x hx v) (fun v => by simp) ?_ ?_ hg
-    · intro x y hx hy ihx ihy v
+      (fun x _hx v => hgen x _hx v) (fun v => by simp) ?_ ?_ hg
+    · intro x y _hx hy ihx ihy v
       have hsub : (x * y) v - v = (x (y v) - y v) + (y v - v) := by
         rw [LinearEquiv.mul_apply]; module
       rw [hsub]
       exact T.add_mem (ihx (y v)) (ihy v)
-    · intro x hx ihx v
+    · intro x _hx ihx v
       have hsub : x⁻¹ v - v = -(x (x⁻¹ v) - x⁻¹ v) := by
         change x.symm v - v = -(x (x.symm v) - x.symm v)
         rw [LinearEquiv.apply_symm_apply]
@@ -457,9 +456,9 @@ theorem ggRS7_span_top (hdim : Module.finrank (ZMod 3) V = 7)
     · rintro y ⟨j, rfl⟩
       exact ggRS7_w0 rD pairD hrD j
     · simp
-    · intro x y hx hy ihx ihy
+    · intro x y _hx hy ihx ihy
       rw [map_add, ihx, ihy, neg_add]
-    · intro a x hx ihx
+    · intro a x _hx ihx
       rw [map_smul, ihx, smul_neg]
   have hww : w * w = 1 := by
     apply hinj (w * w) (A.mul_mem hwA hwA)
@@ -549,7 +548,7 @@ theorem ggRootSpan7_holds
     (hD hE : Fin 6 → V) (aD aE : Fin 6 → Module.Dual (ZMod 3) V)
     (rD rE : Fin 6 → V ≃ₗ[ZMod 3] V) (x : V)
     (pairD : ∀ i j, aD i (hD j) = (CartanMatrix.D 6 i j : ZMod 3))
-    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E₆ i j : ZMod 3))
+    (pairE : ∀ i j, aE i (hE j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hrD : ∀ i v, rD i v = v - aD i v • hD i) (hrE : ∀ i v, rE i v = v - aE i v • hE i)
     (hx : x ≠ 0) (hxD : ∀ i, aD i x = 0)
     (fixD : ∀ v, (∀ i, aD i v = 0) → v ∈ Submodule.span (ZMod 3) {x})
@@ -571,7 +570,7 @@ theorem ggRootSpan7_holds
       rw [pairD i i, CartanMatrix.D_diag]
       norm_num
     · change aE i (hE i) = 2
-      rw [pairE i i, CartanMatrix.E₆, CartanMatrix.E_diag]
+      rw [pairE i i, CartanMatrix.E_diag]
       norm_num
   · rw [Set.Sum.elim_range]
     exact hspan

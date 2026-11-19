@@ -23,6 +23,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem piCenterQuot_eq_one_iff {R : Type} [Group R]
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) (x : ↥L) :
     piCenterQuot θ x = 1 ↔ x ∈ Subgroup.center ↥L := by
@@ -42,7 +43,7 @@ theorem centralizes_of_mem_gLAPPrimeCoreOf {p : ℕ} (hp : p.Prime)
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
   have hxL : x ∈ L := Subgroup.map_subtype_le (pPrimeCore p ↥L) hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOtop : GLAPPrimeCore p ↥L ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) :=
@@ -57,8 +58,9 @@ theorem centralizes_of_mem_gLAPPrimeCoreOf {p : ℕ} (hp : p.Prime)
   have hxc : (⟨x, hxL⟩ : ↥L) ∈ Subgroup.center ↥L := hcenter hx'
   exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hxc ⟨y, hy⟩)
 
+omit [Finite G] in
 theorem exists_conj_of_inducesInnerMod {p : ℕ} {g : G}
-    (hg : g ∈ Subgroup.normalizer (L : Set G))
+    (_hg : g ∈ Subgroup.normalizer (L : Set G))
     (hO : GLAPPrimeCoreOf p L ≤ Subgroup.centralizer (L : Set G))
     (hin : InducesInnerMod p L g) {R : Type} [Group R]
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) :
@@ -95,16 +97,17 @@ theorem exists_conj_of_inducesInnerMod {p : ℕ} {g : G}
     have := congrArg (QuotientGroup.mk (s := Subgroup.center ↥L)) h1
     simpa only [QuotientGroup.mk_mul, hmk, mul_one] using this
   have hθl : (θ (QuotientGroup.mk lL))⁻¹ = θ (QuotientGroup.mk lL⁻¹) := by
-    simpa using (map_inv θ (QuotientGroup.mk lL)).symm
+    simp
   have hcalc : MulAut.conj (θ (QuotientGroup.mk lL))⁻¹ (θ (QuotientGroup.mk y)) =
       θ (QuotientGroup.mk (⟨l⁻¹ * (y : G) * l,
         L.mul_mem (L.mul_mem (L.inv_mem hlL) hyL) hlL⟩ : ↥L)) := by
     rw [MulAut.conj_apply, hθl, ← map_mul, show (θ (QuotientGroup.mk lL⁻¹))⁻¹ =
       θ (QuotientGroup.mk lL) from by
-        simpa using (map_inv θ (QuotientGroup.mk lL⁻¹)).symm, ← map_mul]
+        simp, ← map_mul]
     congr 1
   rw [hcalc, hd]
 
+omit [Finite G] in
 theorem innerOn_iff_inv {J : Subgroup G} {b : G} :
     InnerOn J b ↔ ∃ a ∈ J, ∀ j ∈ J, b⁻¹ * j * b = a⁻¹ * j * a := by
   constructor
@@ -176,10 +179,10 @@ theorem reeF4CompInnerThree_holds : ReeF4CompInnerThree := by
     have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
     obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
       CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-    letI := hfield
-    letI := hfinite
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
-    haveI : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K k) := Subtype.finite
+    let := hfield
+    let := hfinite
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
+    have : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K k) := Subtype.finite
     obtain ⟨eP⟩ := CFSG.LocalAnalysis.GLTheoremA.S172A.pSimple_equiv_centerQuot hS.qs hpL
     have ePS' : PSimple 3 L ≃*
         (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.reeF4 k, hv⟩).Group := hdd ▸ ePS
@@ -216,7 +219,7 @@ theorem reeF4CompInnerThree_holds : ReeF4CompInnerThree := by
         (θ (QuotientGroup.mk (⟨w, hwL⟩ : ↥L)))⁻¹ = θ (QuotientGroup.mk x')
       rw [show (θ (QuotientGroup.mk (⟨w, hwL⟩ : ↥L)))⁻¹ =
         θ (QuotientGroup.mk (⟨w, hwL⟩ : ↥L)⁻¹) from by
-          simpa using (map_inv θ (QuotientGroup.mk (⟨w, hwL⟩ : ↥L))).symm,
+          simp,
         ← map_mul, ← map_mul, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hX]
     have hd3 : d ^ 3 = 1 := hS.elem.2 d hS.d_mem
     have hφd3 : (MulAut.conj r_d) ^ 3 = 1 :=
@@ -300,7 +303,7 @@ theorem reeF4CompInnerThree_holds : ReeF4CompInnerThree := by
       have hwval : w = (jL : G) * zG := by
         have h3 : (⟨w, hwL⟩ : ↥L) = jL * ((jL : ↥L)⁻¹ * ⟨w, hwL⟩) := by group
         have h4 := congrArg Subtype.val h3
-        simpa [zG] using h4
+        simp [zG]
       have hzc : zG * y = y * zG := by
         have h := congrArg Subtype.val (Subgroup.mem_center_iff.mp hcentW ⟨y, hyL⟩)
         exact h.symm

@@ -16,7 +16,7 @@ open CFSG.Quasithin Subgroup
 variable {W : Type} [CommGroup W]
 
 theorem s16fh_sum_cover [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
-    (hperf : Group.IsPerfect ↥L) {U Z : Subgroup W} (hUinv : ∀ l ∈ L, ∀ u ∈ U, l u ∈ U)
+    (hperf : Group.IsPerfect ↥L) {U Z : Subgroup W} (_hUinv : ∀ l ∈ L, ∀ u ∈ U, l u ∈ U)
     (hUc : commSub U L = U) (hZ : Z ≤ fixV L)
     {N : Subgroup (MulAut W) → Subgroup W → Subgroup W → Prop} {k c : ℕ}
     (hN : ∀ I : Subgroup W, N L I Z →

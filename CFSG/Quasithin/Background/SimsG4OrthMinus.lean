@@ -236,7 +236,6 @@ theorem orthIdent_minus {K : Type} [Field K] [Finite K] [CharP K 2]
     exact hg.1
   have hGeq : G = O := eq_of_index_two_le hΩG hGO hidx fun h => hreflΩ r₀ hr₀ (h (hreflG r₀ hr₀))
   intro g hg
-  change g ∈ G
   rw [hGeq]
   exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.2 hg
 

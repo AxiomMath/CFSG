@@ -56,6 +56,7 @@ private theorem secondKernel_normal {z : V}
     have heq : g⁻¹ * (g * x * g⁻¹) * (g⁻¹)⁻¹ = x := by group
     rwa [hginv, heq] at h
 
+omit [GraphAction H Γ] in
 private theorem secondKernel_le_edgeUnion {x y : V} (hxy : Γ.Adj x y) :
     secondKernel H Γ x ≤ edgeUnion H Γ x y := by
   have hx : secondKernel H Γ x ≤ fixingSubgroup H (Γ.neighborSet x) := by
@@ -77,7 +78,7 @@ private theorem secondKernel_le_edgeUnion {x y : V} (hxy : Γ.Adj x y) :
 private theorem secondKernel_subgroupOf_edgeUnion_normal (hL : ∀ z, LocalFacts H Γ z)
     {x y : V} (hxy : Γ.Adj x y) :
     ((secondKernel H Γ x).subgroupOf (edgeUnion H Γ x y)).Normal := by
-  haveI := secondKernel_normal (hL x).kernel_le
+  have := secondKernel_normal (hL x).kernel_le
   exact Subgroup.normal_subgroupOf_of_le_normalizer
     ((edgeUnion_le_stabilizer (fun z => (hL z).kernel_le) hxy).trans inf_le_left |>.trans
       (Subgroup.le_normalizer_of_normal_subgroupOf (inf_le_left.trans (hL x).kernel_le)))
@@ -182,12 +183,12 @@ theorem kernelCenter_ne_bot [Finite H] (hW : WeissFree H Γ 4)
   let Q := secondKernel H Γ x₀
   let U := edgeUnion H Γ x₀ y
   have hQU : Q ≤ U := secondKernel_le_edgeUnion hxy
-  haveI : (Q.subgroupOf U).Normal :=
+  have : (Q.subgroupOf U).Normal :=
     secondKernel_subgroupOf_edgeUnion_normal hL hxy
   have hU2 : IsPGroup 2 ↥U :=
     edgeUnion_isPGroup (n := 4) (by norm_num) hW hval
       (fun z => (hL z).kernel_le) hxy
-  haveI : Group.IsNilpotent ↥U := IsPGroup.isNilpotent hU2
+  have : Group.IsNilpotent ↥U := IsPGroup.isNilpotent hU2
   have hQne : Q.subgroupOf U ≠ ⊥ := by
     intro hbot
     apply h2
@@ -209,7 +210,7 @@ theorem kernelCenter_ne_bot [Finite H] (hW : WeissFree H Γ 4)
     have h' := congrArg (fun x : ↥U => (x : H)) h
     simpa [z] using h'
   have hcU : z ∈ U := by
-    simpa [z] using c.1.2
+    simp [z]
   have hzP : z ∈ kernelCenter H Γ x₀ y :=
     mem_kernelCenter.mpr ⟨hcQ, hcCentral, hcU⟩
   have hzne : z ≠ 1 := by
@@ -239,6 +240,7 @@ private theorem kernelCenter_not_le_fixing [Finite H] (hW : WeissFree H Γ 4)
   rw [secondKernel_inf_fixingSubgroup_eq_bot hW hne hxy hyy₂ hy₂x₀] at hmem
   simpa using hmem
 
+omit [GraphAction H Γ] in
 theorem pathRootGroup_le_edgeUnion_one_two {p : GPath Γ 4} {x y : V}
     (hp1 : p 1 = y) (hp2 : p 2 = x) :
     pathRootGroup H Γ p ≤ edgeUnion H Γ x y := by
@@ -259,6 +261,7 @@ theorem pathRootGroup_le_edgeUnion_one_two {p : GPath Γ 4} {x y : V}
     exact (p.adj 1 (by norm_num)).symm
   · exact ⟨hgy, hgx⟩
 
+omit [GraphAction H Γ] in
 theorem pathRootGroup_le_edgeUnion_two_three {p : GPath Γ 4} {x y : V}
     (hp2 : p 2 = x) (hp3 : p 3 = y) :
     pathRootGroup H Γ p ≤ edgeUnion H Γ x y := by
@@ -279,6 +282,7 @@ theorem pathRootGroup_le_edgeUnion_two_three {p : GPath Γ 4} {x y : V}
     exact (p.adj 2 (by norm_num))
   · exact ⟨hgy, hgx⟩
 
+omit [GraphAction H Γ] in
 theorem pathRootGroup_le_edgeUnion_penultimate {p : GPath Γ 4} {x y : V}
     (hp3 : p 3 = x) :
     pathRootGroup H Γ p ≤ edgeUnion H Γ y x := by

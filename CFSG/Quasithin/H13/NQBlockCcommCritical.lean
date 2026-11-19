@@ -288,7 +288,7 @@ theorem le_fitting_of_primewise (K : Subgroup L) [K.Normal]
       have hPF : P ≤ CFSG.fittingSubgroup L := by
         rintro _ ⟨y, ⟨z, -, rfl⟩, rfl⟩
         exact z.2
-      have hPq : IsPGroup q P := (Q.isPGroup'.map _).map _
+      have hPq : IsPGroup q P := (Q.isPGroup.map _).map _
       obtain ⟨S, hS⟩ :=
         (hPq.of_equiv (subgroupOfEquivOfLe hPF).symm :
           IsPGroup q (P.subgroupOf (CFSG.fittingSubgroup L))).exists_le_sylow

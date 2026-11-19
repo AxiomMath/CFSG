@@ -99,7 +99,7 @@ theorem y2l_rho_wprod {a b : X} (ha : y2l_rho τ a = y2l_dec y2l_alpha0)
   | [] => by rw [y2l_wprod, y2l_wcode, map_one, y2l_dec_one3]
   | l :: w => by
     rw [y2l_wprod, y2l_wcode, map_mul, y2l_rho_wprod ha hb w, y2l_dec_mul3]
-    cases l <;> simp only [cond_false, cond_true, ha, hb]
+    cases l <;> simp only [Bool.cond_false, _root_.Bool.cond_true, ha, hb]
 
 theorem y2l_rho_conj {y j : X} {N : Matrix (Fin 3) (Fin 3) (ZMod 4)}
     (h : y2l_rho τ j * y2l_rho τ y = y2l_rho τ y * N) : y2l_rho τ (y⁻¹ * j * y) = N := by
@@ -200,15 +200,16 @@ theorem y2l_adjust {r t : X} (hr : y2l_rho τ r = y2l_dec y2l_alpha0)
   · have h : r * y2l_el τ ![0, 1, 0] * t = r * t * (t⁻¹ * y2l_el τ ![0, 1, 0] * t) := by group
     rw [h, y2l_conj_el, ht, y2l_vec_RS, y2l_pow4_mul_el τ hs, y2l_norm_vec]
 
+omit [M.Normal] in
 theorem y2l_e_of_pow4 {s : X} {k : ZMod 4} (hs : s ^ 4 = y2l_el τ ![k, 0, k])
     (hk : k = 0 ∨ k = 1) :
     ∃ e : Bool, s ^ 4 = if e then y2l_el τ ![1, 0, 0] * y2l_el τ ![0, 0, 1] else 1 := by
   rcases hk with rfl | rfl
   · refine ⟨false, ?_⟩
-    rw [hs, if_neg Bool.false_ne_true]
+    rw [hs, ite_eq_right Bool.false_ne_true]
     exact (y2l_el_eq_one_iff τ _).mpr (by decide)
   · refine ⟨true, ?_⟩
-    rw [hs, if_pos rfl, ← y2l_el_add]
+    rw [hs, ite_eq_left rfl, ← y2l_el_add]
     congr 1
     decide
 
@@ -229,6 +230,7 @@ theorem y2l_exists_rels (hC : centralizer (M : Set X) = M) {xa xb : X}
     obtain ⟨e, he⟩ := y2l_e_of_pow4 τ hk' h23
     exact ⟨e, _, _, y2l_rels_of_frame τ h1 ht h2 ht2 he⟩
 
+omit [M.Normal] in
 theorem y2l_el_basis (a b c : ℕ) :
     y2l_el τ ![1, 0, 0] ^ a * y2l_el τ ![0, 1, 0] ^ b * y2l_el τ ![0, 0, 1] ^ c =
       y2l_el τ ![(a : ZMod 4), (b : ZMod 4), (c : ZMod 4)] := by
@@ -237,6 +239,7 @@ theorem y2l_el_basis (a b c : ℕ) :
   funext i
   fin_cases i <;> simp
 
+omit [M.Normal] in
 theorem y2l_seven (r s : X) : ∀ y ∈ y2l_ws7 2, FreeGroup.lift
     (![y2l_el τ ![1, 0, 0], y2l_el τ ![0, 1, 0], y2l_el τ ![0, 0, 1], r, s] : Fin 5 → X)
     (FreeGroup.mk y) ≠ 1 := by
@@ -252,6 +255,7 @@ theorem y2l_seven (r s : X) : ∀ y ∈ y2l_ws7 2, FreeGroup.lift
   rw [y2l_el_basis, Ne, y2l_el_eq_one_iff]
   exact key t ht
 
+omit [M.Normal] in
 theorem y2l_closure_el :
     closure ({y2l_el τ ![1, 0, 0], y2l_el τ ![0, 1, 0], y2l_el τ ![0, 0, 1]} : Set X) = M := by
   refine le_antisymm ((closure_le _).mpr ?_) fun m hm => ?_
@@ -261,7 +265,7 @@ theorem y2l_closure_el :
   · obtain ⟨c, rfl⟩ := y2l_exists_el τ hm
     have hc : c = ![((c 0).val : ZMod 4), ((c 1).val : ZMod 4), ((c 2).val : ZMod 4)] := by
       funext i
-      fin_cases i <;> simp [ZMod.natCast_zmod_val]
+      fin_cases i <;> simp
     rw [hc, ← y2l_el_basis]
     exact mul_mem (mul_mem (pow_mem (subset_closure (by simp)) _)
       (pow_mem (subset_closure (by simp)) _)) (pow_mem (subset_closure (by simp)) _)

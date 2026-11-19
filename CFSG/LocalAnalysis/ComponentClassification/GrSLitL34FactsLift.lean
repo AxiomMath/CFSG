@@ -46,7 +46,7 @@ theorem exists_lift_fixed (hxN : x ∈ normalizer (J : Set G)) (hx2 : x * x = 1)
     rintro _ ⟨t, -, rfl⟩
     exact t.2
   have hEJ : E ≤ J ⊓ centralizer {x} := hEM.trans hMJ
-  have hE2 : IsPGroup 2 E := T.isPGroup'.map M.subtype
+  have hE2 : IsPGroup 2 E := T.isPGroup.map M.subtype
   let θ' : ↥E →* ↥F :=
     { toFun := fun u => ⟨jq J ⟨u, (hEJ u.2).1⟩, hMF u (hEM u.2)⟩
       map_one' := Subtype.ext (map_one (jq J))

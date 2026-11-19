@@ -26,7 +26,7 @@ private lemma pow_val_add (a b : ZMod 5) :
   rw [ZMod.val_add, pow_mod_five, pow_add]
 
 private lemma zmod5_val_one : (1 : ZMod 5).val = 1 := by
-  haveI : Fact (1 < 5) := ⟨by norm_num⟩
+  have : Fact (1 < 5) := ⟨by norm_num⟩
   exact ZMod.val_one 5
 
 private noncomputable def v₀ (d : A5 × A5 → V) : V :=

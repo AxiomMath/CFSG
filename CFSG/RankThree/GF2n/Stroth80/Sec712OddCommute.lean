@@ -14,7 +14,7 @@ theorem eqOneOfCommutesOdd_holds :
       ∀ T : E ≃ₗ[K] E, (∀ g ∈ Λ, g * T = T * g) → (∀ e, Qf (T e) = Qf e) →
       ∀ m : ℕ, Odd m → T ^ m = 1 → T = 1 := by
   intro K E _ _ _ _ _ _ Λ hΛ b hb hbfix hline Qf hQ hQne T hcomm hQT m hm hTm
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcx : ∀ g ∈ Λ, ∀ x : E, g (T x) = T (g x) := fun g hg x =>
     DFunLike.congr_fun (hcomm g hg) x
   have hTb : ∀ g ∈ Λ, g (T b) = T b := fun g hg => by

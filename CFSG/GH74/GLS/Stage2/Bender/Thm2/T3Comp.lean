@@ -27,7 +27,7 @@ theorem sylow_le_oPrimeResidual {X : Type} [Group X] [Finite X] (T : Sylow 2 X) 
     (T : Subgroup X) ≤ oPrimeResidual 2 X := by
   intro x hx
   apply Subgroup.subset_closure
-  have : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup'
+  have : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp this) ⟨x, hx⟩
   refine ⟨k, ?_⟩
   have h1 : (⟨x, hx⟩ : ↥(T : Subgroup X)) ^ (2 ^ k) = 1 := by

@@ -109,10 +109,10 @@ theorem s168e3_false_of_omegaMinus_six_four_natural_original_denominator
     (hN : NatOmegaMinus (lBar V₀ V hV L) (wTil V₀ V hV L)
       (wTil V₀ V hV L ⊓ fixV (lBar V₀ V hV L)) 6 2) : False := by
   obtain ⟨-, K, hF, hFin, b, d, hK, hirr, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hchar : CharP K 2 := s16k_charP_two_of_card (a := 2) (by norm_num) hK
-  letI := hchar
+  let := hchar
   have hwt : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 c.conc hs
   have hcomm : commV (lBar V₀ V hV L) = ⊤ := by
     rw [commV_eq_commSub]

@@ -44,6 +44,7 @@ private theorem s11f4a_injOn_of_card_map_eq {X Y : Type*} [Group X] [Group Y] [F
   have hxy' : g ⟨x, hx⟩ = g ⟨y, hy⟩ := hxy
   exact Subtype.ext_iff.mp (hinj hxy')
 
+omit [Finite G] in
 private theorem s11f4a_subtype_image (w : Fin 4 → Halpha D hC.alpha) (i : Fin 4) :
     (Halpha D hC.alpha).subtype '' (Set.range w \ {w i})
       = Set.range (fun j => (w j : G)) \ {(w i : G)} := by
@@ -56,6 +57,7 @@ private theorem s11f4a_subtype_image (w : Fin 4 → Halpha D hC.alpha) (i : Fin 
   · rintro ⟨⟨j, rfl⟩, hx2⟩
     exact ⟨⟨w j, ⟨j, rfl⟩, rfl⟩, by simpa using hx2⟩
 
+omit [Finite G] in
 private theorem s11f4a_frameLift_map {T : Sylow 2 (Halpha D hC.alpha)}
     {r : Fin 4 → Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hr : O4PlusFrame (imageClass hC) ((T : Subgroup (Halpha D hC.alpha)).map
@@ -73,7 +75,7 @@ private theorem s11f4a_frameLift_map {T : Sylow 2 (Halpha D hC.alpha)}
     rw [← hwr j, ← hwr k, hjk]
   have hset : (↑(Finset.univ.erase i) : Set (Fin 4)) = Set.univ \ {i} := by
     ext j
-    simp [Finset.mem_erase]
+    simp
   have hw_image : w '' (↑(Finset.univ.erase i) : Set (Fin 4)) = Set.range w \ {w i} := by
     rw [hset, Set.image_sdiff hw_inj, Set.image_univ, Set.image_singleton]
   have hr_image : r '' (↑(Finset.univ.erase i) : Set (Fin 4)) = Set.range r \ {r i} := by
@@ -103,7 +105,7 @@ private theorem s11f4a_frameLift_card {T : Sylow 2 (Halpha D hC.alpha)}
     rw [← hwr j, ← hwr k, hjk]
   have hset : (↑(Finset.univ.erase i) : Set (Fin 4)) = Set.univ \ {i} := by
     ext j
-    simp [Finset.mem_erase]
+    simp
   have hw_image : w '' (↑(Finset.univ.erase i) : Set (Fin 4)) = Set.range w \ {w i} := by
     rw [hset, Set.image_sdiff hw_inj, Set.image_univ, Set.image_singleton]
   let k : Set (Halpha D hC.alpha) := Set.range w \ {w i}
@@ -112,10 +114,10 @@ private theorem s11f4a_frameLift_card {T : Sylow 2 (Halpha D hC.alpha)}
     intro x hx y hy _
     obtain ⟨⟨j, rfl⟩, -⟩ := hx
     obtain ⟨⟨l, rfl⟩, -⟩ := hy
-    exact (DstarH_isOddTransp hC).commute_of_isPGroup T.isPGroup'
+    exact (DstarH_isOddTransp hC).commute_of_isPGroup T.isPGroup
       (hw_mem j).2 (hw_mem l).2 (hw_mem j).1 (hw_mem l).1
-  haveI : IsMulCommutative CH := Subgroup.isMulCommutative_closure hcommk
-  letI : CommGroup CH := IsMulCommutative.instCommGroup
+  have : IsMulCommutative CH := Subgroup.isMulCommutative_closure hcommk
+  let : CommGroup CH := IsMulCommutative.instCommGroup
   let f : Fin 4 → CH := fun j => if hj : j = i then 1 else
     ⟨w j, Subgroup.subset_closure ⟨⟨j, rfl⟩, by
       simp only [Set.mem_singleton_iff]
@@ -123,7 +125,7 @@ private theorem s11f4a_frameLift_card {T : Sylow 2 (Halpha D hC.alpha)}
   have hf_coe : ∀ j ∈ Finset.univ.erase i, ((f j : CH) : Halpha D hC.alpha) = w j := by
     intro j hj
     rw [Finset.mem_erase] at hj
-    simp only [f, dif_neg hj.1]
+    simp only [f, dite_eq_right hj.1]
   have hsq : ∀ j ∈ Finset.univ.erase i, f j ^ 2 = 1 := by
     intro j hj
     have hwj := (DstarH_isOddTransp hC).mul_self_eq_one (hw_mem j).2
@@ -165,7 +167,7 @@ private theorem s11f4a_frameLift_card {T : Sylow 2 (Halpha D hC.alpha)}
     exact h1
   exact le_antisymm hupper hlower
 
-theorem card_closure_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alpha)}
+theorem card_closure_frameLift (_h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alpha)}
     {r : Fin 4 → Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hr : O4PlusFrame (imageClass hC) ((T : Subgroup (Halpha D hC.alpha)).map
       (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)))) r)
@@ -224,6 +226,7 @@ theorem d_not_mem_closure_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D
   rw [hd1, orderOf_one] at hord
   exact absurd hord (by norm_num)
 
+omit [Finite G] in
 theorem even_frameLift {T : Sylow 2 (Halpha D hC.alpha)}
     {r : Fin 4 → Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hr : O4PlusFrame (imageClass hC) ((T : Subgroup (Halpha D hC.alpha)).map

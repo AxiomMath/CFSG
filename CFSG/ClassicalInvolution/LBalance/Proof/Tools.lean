@@ -196,7 +196,7 @@ theorem exists_involution_centralizing_layer_sylow (hX : pPrimeCore 2 X = ⊥) (
       push Not
       exact ⟨Nat.prime_two, h3, Nat.card_pos.ne'⟩
     exact h4 h2
-  have : Fact (IsPGroup 2 (Q : Subgroup X)) := ⟨Q.isPGroup'⟩
+  have : Fact (IsPGroup 2 (Q : Subgroup X)) := ⟨Q.isPGroup⟩
   have hN0n : ((generalizedFitting X).subgroupOf (Q : Subgroup X)).Normal :=
     Subgroup.normal_subgroupOf
   have hN0ne : (generalizedFitting X).subgroupOf (Q : Subgroup X) ≠ ⊥ := by
@@ -219,7 +219,7 @@ theorem exists_involution_centralizing_layer_sylow (hX : pPrimeCore 2 X = ⊥) (
     intro q hq
     have := Subgroup.mem_center_iff.1 hxc ⟨q, hq⟩
     exact congrArg Subtype.val this.symm
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).1 Q.isPGroup' (x : (Q : Subgroup X))
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).1 Q.isPGroup (x : (Q : Subgroup X))
   have hk' : orderOf g = 2 ^ k := by
     rw [hg, Subgroup.orderOf_coe]
     exact hk

@@ -53,7 +53,7 @@ theorem five_not_dvd_center_of_model (hGA : CFSG.Open.GriessAllModelsStatement) 
 theorem coverInv_of_inverts (hGA : CFSG.Open.GriessAllModelsStatement) {Q : Type} [Group Q]
     {t : StatedLieTag} {n f : ℕ} (hf : 1 ≤ f) (hQ : StatedClassicalModel Q t n 5 f)
     (hinv : ∀ w : Q, w ≠ 1 → w * w = 1 → InvData Q w) : CoverInv Q :=
-  coverInv_of_data hinv fun L _ _ hq hodd he =>
+  coverInv_of_data hinv fun _L _ _ hq _hodd he =>
     five_not_dvd_center_of_model hGA (isQuasisimple_of_open hq) hf
       (statedModel_of_mulEquiv he.some.symm hQ)
 

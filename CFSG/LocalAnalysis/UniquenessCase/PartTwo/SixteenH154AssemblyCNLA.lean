@@ -77,18 +77,18 @@ private theorem s16h_pRank_le_one_of_isOmegaMinus_four {X : Type} [Group X] [Fin
 
 private theorem s16h_nontrivial_of_isQuasisimple {X : Type} [Group X]
     (h : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
-  haveI := h.2
+  have := h.2
   exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
 
 private theorem s16h_not_isNilpotent_of_isQuasisimple {X : Type} [Group X]
     (h : CFSG.Open.IsQuasisimple X) : ¬ Group.IsNilpotent X := by
-  haveI : Nontrivial X := s16h_nontrivial_of_isQuasisimple h
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr h.1
+  have : Nontrivial X := s16h_nontrivial_of_isQuasisimple h
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr h.1
   exact Group.IsPerfect.not_isNilpotent (G := X)
 
 private theorem s16h_false_of_isPGroup {X : Type} [Group X] [Finite X]
     {p : ℕ} (hp : p.Prime) (hQ : CFSG.Open.IsQuasisimple X) (h : IsPGroup p X) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact s16h_not_isNilpotent_of_isQuasisimple hQ h.isNilpotent
 
 private theorem s16h_false_of_isPOnePlusTwo {X : Type} [Group X] [Finite X]
@@ -107,7 +107,7 @@ private theorem s16h_isMulCommutative_of_isElemAbelianOfRank {X : Type} [Group X
 
 private theorem s16h_false_of_isElemAbelianOfRank {X : Type} [Group X]
     (hQ : CFSG.Open.IsQuasisimple X) {p n : ℕ} (h : IsElemAbelianOfRank p n X) : False := by
-  haveI : IsMulCommutative X := s16h_isMulCommutative_of_isElemAbelianOfRank h
+  have : IsMulCommutative X := s16h_isMulCommutative_of_isElemAbelianOfRank h
   exact s16h_not_isNilpotent_of_isQuasisimple hQ (inferInstance : Group.IsNilpotent X)
 
 theorem s16h_nonthin_shape_concl162 (D : Data G) {V₀ V L : Subgroup G}
@@ -117,7 +117,7 @@ theorem s16h_nonthin_shape_concl162 (D : Data G) {V₀ V L : Subgroup G}
     (h : Concl162 D V₀ V hV L) :
     UC22.IsAlt ↥(lBar V₀ V hV L) 6 ∨ UC22.IsAlt ↥(lBar V₀ V hV L) 7 ∨
       UC22.IsAlt ↥(lBar V₀ V hV L) 8 := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have h' : Desc153 D V₀ V hV L ∨ Case162_1 D V₀ V hV L ∨ Case162_2 D V₀ V hV L ∨
       Case162_3 D V₀ V hV L ∨ Case162_4 D V₀ V hV L ∨ Case162_5 D V₀ V hV L ∨
       Case162_6 D V₀ V hV L ∨ Case162_7 D V₀ V hV L ∨ Case162_8 D V₀ V hV L ∨
@@ -165,7 +165,7 @@ theorem s16h_nonthin_shape_concl162 (D : Data G) {V₀ V L : Subgroup G}
         s15_T7_isElemAbelian_of_cyclicOrd hcyc
       have hXabel : IsElemAbelian 3 (lBar V₀ V hV L) :=
         s15_T7_isElemAbelian_of_directProd hKabel hdir
-      haveI : IsMulCommutative ↥(lBar V₀ V hV L) := hXabel.1
+      have : IsMulCommutative ↥(lBar V₀ V hV L) := hXabel.1
       exact s16h_not_isNilpotent_of_isQuasisimple hcomp.2.2
         (inferInstance : Group.IsNilpotent ↥(lBar V₀ V hV L))
   ·

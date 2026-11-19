@@ -27,7 +27,7 @@ private theorem s16h_sup_zpowers_noncyclic_of_prime {X : Type} [Group X] [Finite
     (hdisj : Subgroup.zpowers u ⊓ Subgroup.zpowers v = ⊥) :
     IsPGroup p ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) ∧
       ¬ IsCyclic ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : Nat.card (Subgroup.zpowers u) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hu hu1]
   have hT : Nat.card (Subgroup.zpowers v) = p := by

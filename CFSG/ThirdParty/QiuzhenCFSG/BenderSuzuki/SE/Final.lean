@@ -137,7 +137,7 @@ public theorem recognition_borel_of_involutionCore_theoremSE
       (twoPrimeCore C).map e.toMonoidHom = twoPrimeCore L := by
     simpa [twoPrimeCore] using
       (pPrimeCore_map_iso (p := 2) e)
-  letI : ((twoPrimeCore C).map e.toMonoidHom).Normal :=
+  let : ((twoPrimeCore C).map e.toMonoidHom).Normal :=
     Subgroup.Normal.map (inferInstance : (twoPrimeCore C).Normal)
       e.toMonoidHom e.surjective
   let q0 : (C ⧸ twoPrimeCore C) ≃*
@@ -228,11 +228,11 @@ public theorem IsStronglyEmbedded.isSimpleGroup_quotient_twoPrimeCore
     have hModd : Odd (Nat.card M) :=
       hGodd.of_dvd_nat (Subgroup.card_subgroup_dvd_card M)
     exact (Nat.not_even_iff_odd.mpr hModd) hM.card_even
-  letI : Nontrivial (G ⧸ O) := QuotientGroup.nontrivial_iff.mpr hOtop
+  let : Nontrivial (G ⧸ O) := QuotientGroup.nontrivial_iff.mpr hOtop
   apply IsSimpleGroup.mk
   intro K hK
   let N : Subgroup G := K.comap q
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp [N]
     infer_instance
   have hmap : N.map q = K := by
@@ -297,7 +297,7 @@ public theorem IsStronglyEmbedded.isBorelSubgroup_of_normal_complement
   have hQMsolv : Group.IsSolvable (Q.subgroupOf M) := by
     let eQ : Q.subgroupOf M ≃* Q :=
       Subgroup.subgroupOfEquivOfLe hQ.le_M
-    letI : Group.IsNilpotent Q := hQnil
+    let : Group.IsNilpotent Q := hQnil
     exact Group.isSolvable_of_surjective eQ.symm.toEquiv.surjective
       (f := eQ.symm.toMonoidHom)
   have hDMsolv : Group.IsSolvable (D.subgroupOf M) := by
@@ -311,7 +311,7 @@ public theorem IsStronglyEmbedded.isBorelSubgroup_of_normal_complement
     exact odd_order_theorem _ hodd
   let QM : Subgroup M := Q.subgroupOf M
   let DM : Subgroup M := D.subgroupOf M
-  letI : QM.Normal := by
+  let : QM.Normal := by
     simpa [QM] using hQMnormal
   have hdisjointM : Disjoint QM DM := by
     rw [Subgroup.disjoint_def]
@@ -332,15 +332,15 @@ public theorem IsStronglyEmbedded.isBorelSubgroup_of_normal_complement
       hdisjointM hsupM
   have hMsolv : Group.IsSolvable M := by
     let eQuot : M ⧸ QM ≃* DM := hcomp.symm.QuotientMulEquiv
-    letI : Group.IsSolvable QM := by simpa [QM] using hQMsolv
-    letI : Group.IsSolvable DM := by simpa [DM] using hDMsolv
-    letI : Group.IsSolvable (M ⧸ QM) :=
+    let : Group.IsSolvable QM := by simpa [QM] using hQMsolv
+    let : Group.IsSolvable DM := by simpa [DM] using hDMsolv
+    let : Group.IsSolvable (M ⧸ QM) :=
       Group.isSolvable_of_surjective eQuot.symm.toEquiv.surjective
         (f := eQuot.symm.toMonoidHom)
     exact isSolvable_of_normal_subgroup_and_quotient QM
   have hQnormalizer : M ≤ Subgroup.normalizer (Q : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ.le_M).mp hQMnormal
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨PM, hPM⟩ := exists_sylow_map_eq_of_normal_complement
     (p := 2) hQ.le_M inf_le_left hQnormalizer
       (by exact hQ.disjoint_D.eq_bot) hQ.sup_eq hQp
@@ -472,7 +472,7 @@ public theorem theoremSEBenderConclusion_of_involutionCore_eq_top
   have hcoremap :
       (twoPrimeCore L).map e.toMonoidHom = twoPrimeCore G := by
     simpa [twoPrimeCore] using (pPrimeCore_map_iso (p := 2) e)
-  letI : ((twoPrimeCore L).map e.toMonoidHom).Normal :=
+  let : ((twoPrimeCore L).map e.toMonoidHom).Normal :=
     Subgroup.Normal.map (inferInstance : (twoPrimeCore L).Normal)
       e.toMonoidHom e.surjective
   let q0 : (L ⧸ twoPrimeCore L) ≃*

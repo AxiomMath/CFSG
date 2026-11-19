@@ -51,9 +51,9 @@ private theorem omegaPlus_equiv {Y : Type} [Group Y] (h : IsOmegaPlus Y 4 2) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2), 4 ≤ Nat.card K ∧
       Nonempty (Y ≃* (SL(2, K) × SL(2, K))) := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := h
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2) (by rw [← Nat.card_eq_fintype_card, hcard])
   have h4 : 4 ≤ Nat.card K := by rw [hcard]; norm_num
   obtain ⟨ε⟩ := Om4.iso_of_card K h4

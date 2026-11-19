@@ -215,18 +215,18 @@ theorem A_eq_D_sup_V0 (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.n 0)
   have hDA : X.D ≤ X.A := X.D_le_A hc hn0 hs hodd h5 hX hGT hreg
   have hVA : X.V0 ≤ X.A := X.V0_le_A hc hn0 hs hodd h5 hX hGT hreg
   refine le_antisymm ?_ (sup_le hDA hVA)
-  haveI hAfin : Finite ↥X.A := finite_of_le_stabilizer X.hyp (H := X.A)
+  have hAfin : Finite ↥X.A := finite_of_le_stabilizer X.hyp (H := X.A)
     (X.A_le_Q_zero.trans (X.Q_le_Gi 0))
   have hKi_le : X.Ki 0 ≤ X.K := inf_le_left
-  haveI hKfin : Finite ↥(X.Ki 0) :=
+  have hKfin : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 0) (hKi_le.trans (X.K_le_Gi 0))
   have hKA : X.Ki 0 ≤ Subgroup.normalizer (X.A : Set G) :=
     (hKi_le.trans (X.K_le_Gi 0)).trans (X.Gi_zero_le_normalizer_A hc hn0 hs hodd h5 hX hGT hreg)
-  letI : MulDistribMulAction ↥(X.Ki 0) ↥X.A :=
+  let : MulDistribMulAction ↥(X.Ki 0) ↥X.A :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (X.Ki 0) X.A hKA
   have hA2 : IsPGroup 2 ↥X.A := (pCoreOf_isPGroup' (X.Gi 1)).to_le inf_le_left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hnil : Group.IsNilpotent ↥X.A := hA2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hnil : Group.IsNilpotent ↥X.A := hA2.isNilpotent
   have hsolv : Group.IsSolvable ↥X.A := IsNilpotent.to_isSolvable
   obtain ⟨na, hna⟩ := hA2.exists_card_eq
   have hcop : Nat.Coprime (Nat.card ↥(X.Ki 0)) (Nat.card ↥X.A) := by
@@ -240,7 +240,7 @@ theorem A_eq_D_sup_V0 (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.n 0)
   have hfix : fixedPointSubgroup (↥(X.Ki 0)) (↥X.A) =
       (subgroupCentralizerIn X.A (X.Ki 0)).subgroupOf X.A :=
     fixedPointSubgroup_subgroup_conj_eq_subgroupCentralizerIn X.A (X.Ki 0) hKA
-  haveI : (commutatorAction (A := ↥(X.Ki 0)) (G := ↥X.A)).Normal :=
+  have : (commutatorAction (A := ↥(X.Ki 0)) (G := ↥X.A)).Normal :=
     (commutatorAction_normal_and_invariant (A := ↥(X.Ki 0)) (G := ↥X.A)).1
   have hcomm_le : ⁅X.A, X.Ki 0⁆ ≤ X.V0 := by
     rw [Subgroup.commutator_le]
@@ -728,9 +728,9 @@ private theorem D_inf_Q_four_eq_QT (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2
   by_contra hne
   let P : Subgroup G := X.D ⊓ X.Q 4
   have hPQ0 : P ≤ X.Q 0 := fun x hx => hx.1.1
-  haveI hPfin : Finite ↥P :=
+  have hPfin : Finite ↥P :=
     finite_of_le_stabilizer X.hyp (H := P) (hPQ0.trans (X.Q_le_Gi 0))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 ↥P := (pCoreOf_isPGroup' (X.Gi 0)).to_le hPQ0
   let U : Subgroup ↥P := X.QT.subgroupOf P
   have hU : U < ⊤ := by
@@ -738,14 +738,14 @@ private theorem D_inf_Q_four_eq_QT (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2
     intro hple
     exact hne (le_antisymm hple hQD4)
   have hltN : U < Subgroup.normalizer (U : Set ↥P) := by
-    haveI : Finite ↥(⊤ : Subgroup ↥P) :=
+    have : Finite ↥(⊤ : Subgroup ↥P) :=
       Finite.of_equiv ↥P (Subgroup.topEquiv (G := ↥P)).symm
     have htop2 : IsPGroup 2 (⊤ : Subgroup ↥P) :=
       hP2.of_equiv (Subgroup.topEquiv (G := ↥P)).symm
     have h := CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup (p := 2) (P := ⊤) (S := U)
       htop2 hU
     simpa using h
-  obtain ⟨x, hxN, hxU⟩ := SetLike.exists_of_lt hltN
+  obtain ⟨x, hxN, hxU⟩ := _root_.IsConcreteLE.exists_of_lt hltN
   have hnP : (x : G) ∈ P := x.2
   have hnQD : (x : G) ∈ X.D := hnP.1
   have hnQ0 : (x : G) ∈ X.Q 0 := hnQD.1

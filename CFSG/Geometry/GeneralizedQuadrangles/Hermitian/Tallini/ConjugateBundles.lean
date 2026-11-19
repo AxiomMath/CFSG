@@ -43,7 +43,7 @@ private theorem false_of_isConjPlane_inter (hP : IsGeneralizedPolygon Γ 4) (hT 
     {X' Y Z ℓ : Set V} {x : V} (hX' : IsNonabsPlane Γ c X') (hY : IsNonabsPlane Γ c Y)
     (hZ : IsStarPlane Γ c Z) (hx' : x ∈ X') (hxY : x ∈ Y) (hxZ : x ∈ Z)
     (hconjY : IsConjPlane Γ c X' Y) (hconjZ : IsConjPlane Γ c X' Z)
-    (hℓ : IsStarLine Γ c ℓ) (hxℓ : x ∈ ℓ) (hℓY : ℓ ⊆ Y) (hℓX' : ℓ ⊆ X')
+    (hℓ : IsStarLine Γ c ℓ) (_hxℓ : x ∈ ℓ) (hℓY : ℓ ⊆ Y) (hℓX' : ℓ ⊆ X')
     (hℓZ : ¬ ℓ ⊆ Z) (hnotsing : Y ∩ Z ≠ {x}) : False := by
   classical
   have hYZ : Y ≠ Z := fun h => hℓZ (h ▸ hℓY)

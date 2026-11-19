@@ -54,8 +54,6 @@ private theorem decode_evalP {m : ℕ} {im : Array Mat} {z : Fin m → Y}
   change (List.map ((fun a => (φ a : Matrix (Fin 14) (Fin 14) F4)) ∘ z) w).prod =
     (φ ((w.map z).prod) : Matrix (Fin 14) (Fin 14) F4)
   rw [← List.map_map]
-  change (List.map (fun a => (φ a : Matrix (Fin 14) (Fin 14) F4)) (w.map z)).prod =
-    (φ ((w.map z).prod) : Matrix (Fin 14) (Fin 14) F4)
   exact (map_list_prod ((Units.coeHom (Matrix (Fin 14) (Fin 14) F4)).comp φ) (w.map z)).symm
 
 theorem decode_evalF {im : Array Mat} {z : Fin 4 → Y}

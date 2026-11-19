@@ -52,7 +52,7 @@ private theorem sbl2triv_exists_pow_mem {Y : Type*} [Group Y] [Finite Y] (y : Y)
 private theorem sbl2triv_eq_one_of_centralizes {Y : Type} [Group Y] [Finite Y]
     (hQ : CFSG.pCore 2 Y = ⊥) (hZ : Subgroup.center ↥(oResidual 2 Y) = ⊥) {c : Y}
     (hc : ∀ l ∈ oResidual 2 Y, l * c = c * l) : c = 1 := by
-  haveI : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
+  have : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
   have hCn : (Subgroup.centralizer (oResidual 2 Y : Set Y)).Normal := inferInstance
   have hCp : IsPGroup 2 ↥(Subgroup.centralizer (oResidual 2 Y : Set Y)) := by
     rintro ⟨g, hg⟩
@@ -173,7 +173,7 @@ private theorem sbl2triv_omega_normal {Y : Type*} [Group Y] (R : Subgroup Y) [hR
       calc (g * y * g⁻¹) ^ 2 = g * y ^ 2 * g⁻¹ := conj_pow
         _ = 1 := by rw [hy.2]; group
     exact Subgroup.subset_closure ⟨⟨hR.conj_mem y hy.1.1 g, hc⟩, hsq⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using Subgroup.mul_mem _ ihx ihy
   | inv x _ ih => simpa [mul_assoc] using Subgroup.inv_mem _ ih
 
@@ -191,6 +191,7 @@ private theorem sbl2triv_isElemAbelian_omega {Y : Type*} [Group Y] (R : Subgroup
     rw [Commute.mul_pow (hcomm x hx y hy) 2, ihx, ihy, mul_one]
   | inv x hx ih => rw [inv_pow, ih, inv_one]
 
+omit [Finite X] in
 private theorem sbl2triv_pCore_le_centralizer :
     CFSG.pCore 2 X ≤ Subgroup.centralizer (W315 X : Set X) := by
   intro q hq'
@@ -203,15 +204,15 @@ private theorem sbl2triv_centralizer_le_pCore
     (hZ : Subgroup.center ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)) = ⊥)
     (hWL : ⁅W315 X, oResidual 2 X⁆ ≠ ⊥) :
     Subgroup.centralizer (W315 X : Set X) ≤ CFSG.pCore 2 X := by
-  haveI hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
-  haveI hCn : (Subgroup.centralizer (W315 X : Set X)).Normal := inferInstance
+  have hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
+  have hCn : (Subgroup.centralizer (W315 X : Set X)).Normal := inferInstance
   have hQC := sbl2triv_pCore_le_centralizer (X := X)
   have hLC : ¬ oResidual 2 X ≤ Subgroup.centralizer (W315 X : Set X) := by
     intro h
     refine hWL ?_
     rw [Subgroup.commutator_comm]
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mpr h
-  haveI hLbn : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
+  have hLbn : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
     Stage1.Thm6.Prod.oResidual_normal 2 _
   have hCb : ((Subgroup.centralizer (W315 X : Set X)).map
       (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal :=
@@ -319,7 +320,7 @@ private theorem sbl2triv_exists_t {n : ℕ} (hn : 2 ≤ n)
     (hJ : ¬ CFSG.Quasithin.thompsonJ S ≤ CFSG.pCore 2 X) :
     ∃ t : X, t ∈ S ∧ t ∉ oResidual 2 X ⊔ CFSG.pCore 2 X ∧ t ^ 2 = 1 ∧
       (W315 X ⊓ Subgroup.centralizer ({t} : Set X)).relIndex (W315 X) ≤ 2 := by
-  haveI hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
+  have hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
   obtain ⟨E, hEmax, hEQ⟩ : ∃ E : Subgroup X, CFSG.Quasithin.IsMaxElemAbelian S E ∧
       ¬ E ≤ CFSG.pCore 2 X := by
     by_contra h
@@ -354,7 +355,7 @@ private theorem sbl2triv_exists_order_three_mem {A : Subgroup X}
     (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hAmax : ∀ B : Subgroup X, CFSG.Assembly.IsElemAbelian 3 B → A ≤ B → B = A)
     (h3 : 3 ∣ Nat.card X) : ∃ a ∈ A, orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3
   by_contra hno
   push Not at hno
@@ -405,8 +406,8 @@ private theorem sbl2triv_main
     have h3 : Nat.card (X ⧸ CFSG.pCore 2 X) ∣ Nat.card X :=
       Subgroup.card_dvd_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))
     exact h1.trans (h2.trans h3)
-  haveI hX : Nontrivial X := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hX : Nontrivial X := by
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3X
     refine ⟨⟨g, 1, fun h => ?_⟩⟩
     rw [h, orderOf_one] at hg
@@ -415,7 +416,7 @@ private theorem sbl2triv_main
   · exact concl315_of_commutator_eq_bot hF hS hX hWL (sup_normal_of_typeL2 hn2 e S)
   have hQS : CFSG.pCore 2 X ≤ S := Push153.pCore_le_of_mem_maxInvariant hS
   by_cases hJ : CFSG.Quasithin.thompsonJ S ≤ CFSG.pCore 2 X
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hS2 : IsPGroup 2 S := (isPiSubgroup_piOf_iff Nat.prime_two S).mp hS.prop.2.1
     have hQ1 : CFSG.pCore 2 X ≠ ⊥ := Push153.pCore_ne_bot_of_nontrivial hF
     have hS1 : S ≠ ⊥ := fun h => hQ1 (eq_bot_iff.mpr (hQS.trans h.le))
@@ -424,7 +425,7 @@ private theorem sbl2triv_main
   obtain ⟨t, htS, htM, ht2, htW⟩ := sbl2triv_exists_t hn2 e hQS htriv hJ
   obtain ⟨a, haA, ha3⟩ := sbl2triv_exists_order_three_mem hA hAmax h3X
   have hCQ := sbl2triv_centralizer_le_pCore hq hZ hWL
-  haveI hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
+  have hWn : (W315 X).Normal := sbl2triv_omega_normal (CFSG.pCore 2 X)
   have hWnorm : ∀ g : X, g ∈ Subgroup.normalizer (W315 X : Set X) := fun g => by
     rw [Subgroup.normalizer_eq_top (W315 X)]
     exact Subgroup.mem_top g
@@ -434,9 +435,9 @@ private theorem sbl2triv_main
   have hM : oResidual 2 X ⊔ CFSG.pCore 2 X =
       (oResidual 2 (X ⧸ CFSG.pCore 2 X)).comap (QuotientGroup.mk' (CFSG.pCore 2 X)) := by
     rw [← hmap, Subgroup.comap_map_eq, QuotientGroup.ker_mk']
-  haveI hLbn : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
+  have hLbn : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
     Stage1.Thm6.Prod.oResidual_normal 2 _
-  haveI hMn : (oResidual 2 X ⊔ CFSG.pCore 2 X).Normal := by
+  have hMn : (oResidual 2 X ⊔ CFSG.pCore 2 X).Normal := by
     rw [hM]
     exact Subgroup.Normal.comap hLbn _
   have haL : a ∈ oResidual 2 X :=
@@ -459,7 +460,7 @@ private theorem sbl2triv_main
     simp only [map_mul, map_inv] at h1
     exact (mul_inv_eq_iff_eq_mul.mp (mul_inv_eq_one.mp h1)).symm
   have hbar_a3 : orderOf (QuotientGroup.mk' (CFSG.pCore 2 X) a) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · rw [← map_pow]
       have : a ^ 3 = 1 := by

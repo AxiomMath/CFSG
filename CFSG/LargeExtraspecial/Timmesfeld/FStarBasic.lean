@@ -19,7 +19,7 @@ theorem fStar_le (M : Subgroup G) : fStar M ≤ M := by
 theorem fStar_normal [Finite G] {M : Subgroup G} {g x : G} (hg : g ∈ M) (hx : x ∈ fStar M) :
     g * x * g⁻¹ ∈ fStar M := by
   obtain ⟨f, hf, rfl⟩ := hx
-  haveI : (CFSG.generalizedFitting ↥M).Normal :=
+  have : (CFSG.generalizedFitting ↥M).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥M)).2
   exact ⟨⟨g, hg⟩ * f * ⟨g, hg⟩⁻¹, Subgroup.Normal.conj_mem inferInstance f hf ⟨g, hg⟩, rfl⟩
 

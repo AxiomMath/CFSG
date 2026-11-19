@@ -15,6 +15,7 @@ open CFSG.GH74.L5U5
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem blk4_apply (A B : Matrix (Fin 2) (Fin 2) K) (a b : Fin 4) :
     blk4 A B a b = if h : a.val < 2 ∧ b.val < 2 then A ⟨a.val, h.1⟩ ⟨b.val, h.2⟩
       else if h : 2 ≤ a.val ∧ 2 ≤ b.val then
@@ -23,6 +24,7 @@ private theorem blk4_apply (A B : Matrix (Fin 2) (Fin 2) K) (a b : Fin 4) :
   rw [blk4_eq_reindex]
   fin_cases a <;> fin_cases b <;> rfl
 
+omit [Finite K] in
 private theorem blk4_comm_diagonal (A B : Matrix (Fin 2) (Fin 2) K) (u : Fin 4 → K)
     (h01 : u 0 = u 1) (h23 : u 2 = u 3) :
     blk4 A B * Matrix.diagonal u = Matrix.diagonal u * blk4 A B := by
@@ -30,6 +32,7 @@ private theorem blk4_comm_diagonal (A B : Matrix (Fin 2) (Fin 2) K) (u : Fin 4 �
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   fin_cases i <;> fin_cases j <;> simp [blk4_apply, h01, h23, mul_comm]
 
+omit [Finite K] in
 private theorem diagGL_comm_diagUnit (a b : GL (Fin 2) K) (u : Fin 4 → Kˣ)
     (h01 : u 0 = u 1) (h23 : u 2 = u 3) :
     diagGL a b * diagUnit u = diagUnit u * diagGL a b := by
@@ -41,6 +44,7 @@ private theorem diagGL_comm_diagUnit (a b : GL (Fin 2) K) (u : Fin 4 → Kˣ)
         blk4 (a : Matrix (Fin 2) (Fin 2) K) (b : Matrix (Fin 2) (Fin 2) K)
   exact blk4_comm_diagonal _ _ _ (by rw [h01]) (by rw [h23])
 
+omit [Finite K] in
 private theorem diagGL_comm_d₁ (ζ : CubeRoot K) (a b : GL (Fin 2) K) :
     diagGL a b * d₁ ζ = d₁ ζ * diagGL a b := by
   have hd : d₁ ζ = diagUnit (fun i => ζ.pow (![1, 1, -1, -1] i -
@@ -48,13 +52,15 @@ private theorem diagGL_comm_d₁ (ζ : CubeRoot K) (a b : GL (Fin 2) K) :
   rw [hd]
   exact diagGL_comm_diagUnit a b _ rfl rfl
 
+omit [Finite K] in
 private theorem scalar_neg_one (n : ℕ) :
     (Matrix.GeneralLinearGroup.scalar (Fin n) (-1 : Kˣ) : GL (Fin n) K) = -1 := by
   apply Units.ext
   rw [Matrix.GeneralLinearGroup.coe_scalar, Units.val_neg, Units.val_one, Matrix.scalar_apply]
   ext i j
-  by_cases h : i = j <;> simp [Matrix.diagonal_apply, Matrix.neg_apply, Matrix.one_apply, h]
+  by_cases h : i = j <;> simp [Matrix.neg_apply, h]
 
+omit [Finite K] in
 private theorem scalar4_eq (c : Kˣ) :
     (Matrix.GeneralLinearGroup.scalar (Fin 4) c : GL (Fin 4) K) =
       diagGL (Matrix.GeneralLinearGroup.scalar (Fin 2) c)
@@ -71,6 +77,7 @@ private theorem scalar4_eq (c : Kˣ) :
     simp
   rw [h, hb, map_smul, map_one, Matrix.smul_one_eq_diagonal, Matrix.scalar_apply]
 
+omit [Finite K] in
 private theorem eq_scalar_of_diagGL_mem_scalars {a b : GL (Fin 2) K}
     (h : diagGL a b ∈ StatedScalars (Fin 4) K) :
     ∃ c : Kˣ, a = Matrix.GeneralLinearGroup.scalar (Fin 2) c ∧
@@ -88,6 +95,7 @@ private noncomputable def blk2Hom (K : Type) [Field K] :
   map_one' := by simp [diagGL_one]
   map_mul' x y := by simp [diagGL_mul]
 
+omit [Finite K] in
 private theorem blk2Hom_injective : Function.Injective (blk2Hom K) := by
   intro x y h
   have h' : diagGL (Matrix.SpecialLinearGroup.toGL x.1) (Matrix.SpecialLinearGroup.toGL x.2) =
@@ -107,6 +115,7 @@ private noncomputable def blk2HomSL (K : Type) [Field K] :
     rw [det_diagGL, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
       Matrix.SpecialLinearGroup.coe_GL_coe_matrix, x.1.2, x.2.2, mul_one]
 
+omit [Finite K] in
 private theorem blk2HomSL_injective : Function.Injective (blk2HomSL K) := by
   intro x y h
   exact blk2Hom_injective (congrArg Subtype.val h)
@@ -130,6 +139,7 @@ private noncomputable def zSL (K : Type) [Field K] : StatedSL 4 K :=
       Units.val_one, Matrix.det_one]
     norm_num⟩
 
+omit [Finite K] in
 private theorem det_scalar_two_neg_one :
     (Matrix.scalar (Fin 2) (-1 : K)).det = 1 := by
   rw [Matrix.det_fin_two, Matrix.scalar_apply]
@@ -145,12 +155,13 @@ private theorem toGL_pSL : Matrix.SpecialLinearGroup.toGL (pSL K) =
   rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.GeneralLinearGroup.coe_scalar]
   rfl
 
+omit [Finite K] in
 private theorem zSL_eq_scalar : (zSL K : GL (Fin 4) K) =
     Matrix.GeneralLinearGroup.scalar (Fin 4) (-1 : Kˣ) := by
   show (-1 : GL (Fin 4) K) = _
   exact (scalar_neg_one 4).symm
 
-private theorem zSL_mem_range {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r) :
+private theorem zSL_mem_range {r : ℕ} (_hr : r.Prime) (_h5 : 5 ≤ r) (_hK : Nat.card K = r) :
     zSL K ∈ (blk2HomSL K).range := by
   refine ⟨(pSL K, pSL K), ?_⟩
   apply Subtype.ext
@@ -158,6 +169,7 @@ private theorem zSL_mem_range {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.
       (Matrix.SpecialLinearGroup.toGL (pSL K)) = (-1 : GL (Fin 4) K)
   rw [toGL_pSL, ← scalar4_eq (-1), scalar_neg_one 4]
 
+omit [Finite K] in
 private theorem zSL_mem_scalars : zSL K ∈
     (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K) :=
   Subgroup.mem_subgroupOf.mpr (by
@@ -174,8 +186,9 @@ private theorem zSL_ne_one {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.car
     simpa using this
   exact neg_one_ne_one hr h5 hK h00
 
-private theorem zSL_classification {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r)
-    (hK : Nat.card K = r) {y : StatedSL 4 K} (hyK : y ∈ (blk2HomSL K).range)
+omit [Finite K] in
+private theorem zSL_classification {r : ℕ} (_hr : r.Prime) (_h5 : 5 ≤ r)
+    (_hK : Nat.card K = r) {y : StatedSL 4 K} (hyK : y ∈ (blk2HomSL K).range)
     (hys : y ∈ (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K)) :
     y = 1 ∨ y = zSL K := by
   obtain ⟨p, rfl⟩ := hyK
@@ -228,8 +241,9 @@ private theorem card_inf_scalars_blk2 {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r)
     intro y
     rcases hclass y with h | h <;> simp [h]
 
-private theorem blk2HomSL_mem_centralizer {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r)
-    (hK : Nat.card K = r) (ζ : CubeRoot K) (d : StatedSL 4 K)
+omit [Finite K] in
+private theorem blk2HomSL_mem_centralizer {r : ℕ} (_hr : r.Prime) (_h5 : 5 ≤ r)
+    (_hK : Nat.card K = r) (ζ : CubeRoot K) (d : StatedSL 4 K)
     (hd : (d : GL (Fin 4) K) = d₁ ζ) :
     (blk2HomSL K).range ≤ Subgroup.centralizer ({d} : Set (StatedSL 4 K)) := by
   rintro _ ⟨x, rfl⟩
@@ -271,6 +285,7 @@ private def blk3Mat (X : Matrix (Fin 3) (Fin 3) K) : Matrix (Fin 4) (Fin 4) K :=
   Matrix.reindex finSumFinEquiv finSumFinEquiv
     (Matrix.fromBlocks X 0 0 (1 : Matrix (Fin 1) (Fin 1) K))
 
+omit [Finite K] in
 private theorem blk3Mat_mul (X Y : Matrix (Fin 3) (Fin 3) K) :
     blk3Mat (X * Y) = blk3Mat X * blk3Mat Y := by
   unfold blk3Mat
@@ -278,22 +293,26 @@ private theorem blk3Mat_mul (X Y : Matrix (Fin 3) (Fin 3) K) :
   rw [Matrix.submatrix_mul_equiv, Matrix.fromBlocks_multiply]
   simp
 
+omit [Finite K] in
 private theorem blk3Mat_one : blk3Mat (1 : Matrix (Fin 3) (Fin 3) K) = 1 := by
   unfold blk3Mat
   rw [Matrix.fromBlocks_one]
   simp
 
+omit [Finite K] in
 private theorem blk3Mat_det (X : Matrix (Fin 3) (Fin 3) K) : (blk3Mat X).det = X.det := by
   unfold blk3Mat
   rw [Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
   simp
 
+omit [Finite K] in
 private theorem blk3Mat_apply (X : Matrix (Fin 3) (Fin 3) K) (a b : Fin 4) :
     blk3Mat X a b = if h : a.val < 3 ∧ b.val < 3 then X ⟨a.val, h.1⟩ ⟨b.val, h.2⟩
       else if a = b then 1 else 0 := by
   unfold blk3Mat
   fin_cases a <;> fin_cases b <;> rfl
 
+omit [Finite K] in
 private theorem blk3Mat_inj {X Y : Matrix (Fin 3) (Fin 3) K}
     (h : blk3Mat X = blk3Mat Y) : X = Y := by
   ext a b
@@ -321,6 +340,7 @@ private theorem blk3GL_injective : Function.Injective (blk3GLHom K) := by
     simpa [blk3GLHom, blk3GL] using
       congrArg (fun g : GL (Fin 4) K => (g : Matrix (Fin 4) (Fin 4) K)) h)
 
+omit [Finite K] in
 private theorem blk3Mat_comm_diagonal (X : Matrix (Fin 3) (Fin 3) K) (u : Fin 4 → K)
     (h01 : u 0 = u 1) (h12 : u 1 = u 2) :
     blk3Mat X * Matrix.diagonal u = Matrix.diagonal u * blk3Mat X := by
@@ -328,6 +348,7 @@ private theorem blk3Mat_comm_diagonal (X : Matrix (Fin 3) (Fin 3) K) (u : Fin 4 
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   fin_cases i <;> fin_cases j <;> simp [blk3Mat_apply, h01, h12, mul_comm]
 
+omit [Finite K] in
 private theorem blk3GL_comm_diagUnit (A : GL (Fin 3) K) (u : Fin 4 → Kˣ)
     (h01 : u 0 = u 1) (h12 : u 1 = u 2) :
     blk3GL A * diagUnit u = diagUnit u * blk3GL A := by
@@ -339,6 +360,7 @@ private theorem blk3GL_comm_diagUnit (A : GL (Fin 3) K) (u : Fin 4 → Kˣ)
         blk3Mat (A : Matrix (Fin 3) (Fin 3) K)
   exact blk3Mat_comm_diagonal _ _ (by rw [h01]) (by rw [h12])
 
+omit [Finite K] in
 private theorem blk3GL_comm_d₃ (ζ : CubeRoot K) (A : GL (Fin 3) K) :
     blk3GL A * d₃ ζ = d₃ ζ * blk3GL A := by
   have hd : d₃ ζ = diagUnit (fun i => ζ.pow (![1, 1, 1, 0] i -
@@ -346,6 +368,7 @@ private theorem blk3GL_comm_d₃ (ζ : CubeRoot K) (A : GL (Fin 3) K) :
   rw [hd]
   exact blk3GL_comm_diagUnit A _ rfl rfl
 
+omit [Finite K] in
 private theorem blk3GL_mem_statedSL (A : GL (Fin 3) K) (hA : A ∈ StatedSL 3 K) :
     blk3GL A ∈ StatedSL 4 K := by
   rw [CFSG.Open.StatedAPI.mem_statedSL_iff]
@@ -363,8 +386,8 @@ private theorem blk3SL_injective : Function.Injective (blk3SL K) := by
   apply Subtype.ext
   exact blk3GL_injective (congrArg Subtype.val h)
 
-private theorem blk3SL_mem_centralizer {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r)
-    (hK : Nat.card K = r) (ζ : CubeRoot K) (d : StatedSL 4 K)
+private theorem blk3SL_mem_centralizer {r : ℕ} (_hr : r.Prime) (_h5 : 5 ≤ r)
+    (_hK : Nat.card K = r) (ζ : CubeRoot K) (d : StatedSL 4 K)
     (hd : (d : GL (Fin 4) K) = d₃ ζ) :
     (blk3SL K).range ≤ Subgroup.centralizer ({d} : Set (StatedSL 4 K)) := by
   rintro _ ⟨x, rfl⟩
@@ -386,8 +409,8 @@ private theorem blk3SL_apply_three_three (x : StatedSL 3 K) :
   rw [blk3Mat_apply]
   simp
 
-private theorem blk3_inf_scalars_eq_bot {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r)
-    (hK : Nat.card K = r) :
+private theorem blk3_inf_scalars_eq_bot {r : ℕ} (_hr : r.Prime) (_h5 : 5 ≤ r)
+    (_hK : Nat.card K = r) :
     (blk3SL K).range ⊓ (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K) = ⊥ := by
   rw [eq_bot_iff]
   rintro y ⟨hyK, hys⟩
@@ -422,7 +445,7 @@ theorem sl3_block_data {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K 
   have hq3 : CFSG.IsQuasisimple ↥K₃ :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hq
   obtain ⟨hperf, hsimple, -⟩ := (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥K₃).1.mp hq3
-  haveI : Group.IsPerfect ↥K₃ := hperf
+  have : Group.IsPerfect ↥K₃ := hperf
   refine ⟨Subgroup.commutator_eq_self, hsimple, ?_⟩
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three, hK]
   have hodd : Odd r := hr.odd_of_ne_two (by omega)

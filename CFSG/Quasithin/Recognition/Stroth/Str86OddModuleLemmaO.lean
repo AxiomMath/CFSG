@@ -76,7 +76,7 @@ theorem str86_orth_le_q2_of_isMaxElemAbelian
 private theorem o2_eq_of_le_of_relIndex_eq {A H K : Subgroup G}
     (hHA : H ≤ A) (hKA : K ≤ A) (hHK : H ≤ K)
     (hrel : H.relIndex A = K.relIndex A) : H = K := by
-  haveI : H.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : H.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hH := Subgroup.relIndex_mul_card H A
   have hK := Subgroup.relIndex_mul_card K A
   rw [inf_eq_left.mpr hHA] at hH
@@ -131,7 +131,7 @@ private theorem o2s_centralizer_relIndex_le {L1 L2 S A : Subgroup G} {g : G}
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     exact (hAe.comm hx.2 hy.1).symm
-  haveI : (MulAut.conj g • Z2 L1 L2 S ⊓ A).IsFiniteRelIndex
+  have : (MulAut.conj g • Z2 L1 L2 S ⊓ A).IsFiniteRelIndex
       (MulAut.conj g • Z2 L1 L2 S) := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hle : MulAut.conj g • Z2 L1 L2 S ⊓ A ≤
       Subgroup.centralizer (A ⊓ Q1 L1 L2 S : Set G) ⊓
@@ -156,7 +156,7 @@ private theorem o2s_relIndex_le_mul {L1 L2 S A : Subgroup G} {g : G} :
   · have hle : (A ⊓ Q1 L1 L2 S) ⊓ MulAut.conj g • Q2 L1 L2 S ≤
         MulAut.conj g • Q2 L1 L2 S ⊓ A :=
       le_inf inf_le_right (inf_le_left.trans inf_le_left)
-    haveI : ((A ⊓ Q1 L1 L2 S) ⊓ MulAut.conj g • Q2 L1 L2 S).IsFiniteRelIndex A :=
+    have : ((A ⊓ Q1 L1 L2 S) ⊓ MulAut.conj g • Q2 L1 L2 S).IsFiniteRelIndex A :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     have h := Subgroup.relIndex_le_of_le_left
       (H := (A ⊓ Q1 L1 L2 S) ⊓ MulAut.conj g • Q2 L1 L2 S)
@@ -170,6 +170,7 @@ private theorem o2s_relIndex_le_mul {L1 L2 S A : Subgroup G} {g : G} :
     rw [Subgroup.inf_relIndex_left] at h
     rw [← h, mul_comm]
 
+omit [Finite G] in
 private theorem o2s_chain_eq {L1 L2 S A : Subgroup G} {g : G} {k l m d : ℕ}
     (hkm : 2 * k ≤ m) (hml : m = 2 * l)
     (hT1c : 2 ^ l * d ≤
@@ -204,6 +205,7 @@ private theorem o2s_chain_eq {L1 L2 S A : Subgroup G} {g : G} {k l m d : ℕ}
   have hdge2 : 2 ≤ d := by omega
   exact ⟨hlk, hdge2⟩
 
+omit [Finite G] in
 private theorem o2s_index_eq {L1 L2 S A : Subgroup G} {g : G} {k l d : ℕ}
     (hlk : l = k)
     (hT1c : 2 ^ l * d ≤
@@ -333,9 +335,9 @@ theorem str86_orth_chain {L1 L2 S : Subgroup G} {k m : ℕ}
   let Zg : Subgroup G := MulAut.conj g • Z2 L1 L2 S
   let Qg : Subgroup G := MulAut.conj g • Q2 L1 L2 S
   let d : ℕ := Qg.relIndex D
-  haveI : (Zg ⊓ A).IsFiniteRelIndex Zg := Subgroup.isFiniteRelIndex_of_finiteIndex
-  haveI : (D ⊓ Qg).IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
-  haveI : Qg.IsFiniteRelIndex D := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (Zg ⊓ A).IsFiniteRelIndex Zg := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (D ⊓ Qg).IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : Qg.IsFiniteRelIndex D := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hm : 2 ≤ m := by omega
   have hT1c : 2 ^ l * d ≤ (Subgroup.centralizer (D : Set G)).relIndex Zg :=
     o2s_pow_mul_relIndex_le_centralizer hF hSB hm hL2 hstepW hWZ2 hE e hl hml horth hg hgA
@@ -358,11 +360,13 @@ theorem str86_orth_chain {L1 L2 S : Subgroup G} {k m : ℕ}
   obtain ⟨hQ1, hfin⟩ := o2s_conclusion hmono_eq hmul hf_eq hB1 hdge2
   exact ⟨hlk, hQ1, hB1, hfin⟩
 
+omit [Finite G] in
 private theorem o3_isElemAbelian_smul {a : MulAut G} {E : Subgroup G}
     (hE : IsElemAbelian 2 E) : IsElemAbelian 2 (a • E) := by
   rw [Subgroup.pointwise_smul_def]
   exact hE.map a.toMonoidHom
 
+omit [Finite G] in
 private theorem o3_card_smul (a : MulAut G) (E : Subgroup G) :
     Nat.card ↥(a • E) = Nat.card E := by
   rw [Subgroup.pointwise_smul_def]
@@ -398,6 +402,7 @@ private theorem o3_card_sup_eq {Z Q A R E : Subgroup G} (hR : R = A ⊓ Q)
       _ = Nat.card A * Nat.card ↥(Z ⊓ A) := by rw [ha]
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hkey
 
+omit [Finite G] in
 private theorem o3_le_centralizer {Z L E V Q : Subgroup G} (hV : V = conjClosure Z L)
     (hO1 : ∀ h ∈ L, MulAut.conj h⁻¹ • E ≤ Q)
     (hQZ : Q ≤ Subgroup.centralizer (Z : Set G)) :
@@ -509,6 +514,7 @@ private theorem o3s_E_elemAbelian_card {L1 L2 S A : Subgroup G} {g : G}
         (A ⊓ MulAut.conj g • Q2 L1 L2 S)) rfl rfl hZgR hZgQg inf_le_left hd
   exact ⟨hEel, hEcard⟩
 
+omit [Finite G] in
 private theorem o3s_E_le_q1 {L1 L2 S A : Subgroup G} {g : G}
     (hZQ : Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hAQ : A ⊓ MulAut.conj g • Q2 L1 L2 S ≤ Q1 L1 L2 S)
@@ -634,6 +640,7 @@ theorem str86_orth_conjClosure_eq_sup {L1 L2 S : Subgroup G}
     hstepW hWZ2 hE e hl hml horth hA hEfacts.1 hEQ1 hEfacts.2
   exact o3s_conjClosure_eq_sup_aux hF hSB hZQ hab hA hg hVE hidx
 
+omit [Finite G] in
 private theorem o4_bigB_le_normalizer_iInf {L1 L2 S : Subgroup G} {Z W' : Subgroup G}
     (hW' : W' = ⨅ k : P1 L1 L2 S, MulAut.conj (k : G) • Z) :
     bigB L1 L2 S ≤ Subgroup.normalizer (W' : Set G) := by
@@ -669,6 +676,7 @@ private theorem o4_bigB_le_normalizer_iInf {L1 L2 S : Subgroup G} {Z W' : Subgro
     rw [heq]
     exact hmem
 
+omit [Finite G] in
 private theorem o4_z1_le_iInf {L1 L2 S : Subgroup G} {Z W' : Subgroup G}
     (hW' : W' = ⨅ k : P1 L1 L2 S, MulAut.conj (k : G) • Z)
     (hZ1Z : Z1 L1 L2 S ≤ Z) :
@@ -747,7 +755,7 @@ theorem str86_orth_iInf_eq_z1 {L1 L2 S : Subgroup G} {m : ℕ}
       _ ≤ Nat.card W := h1
   have hpos : 0 < Nat.card W := Nat.card_pos
   have hle : 2 ≤ 1 := by
-    have h' : 2 * Nat.card W ≤ 1 * Nat.card W := by simpa using h2
+    have h' : 2 * Nat.card W ≤ 1 * Nat.card W := by simp at h2
     exact Nat.le_of_mul_le_mul_right h' hpos
   omega
 

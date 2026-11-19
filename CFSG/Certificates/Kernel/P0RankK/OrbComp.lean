@@ -166,12 +166,12 @@ theorem orb_lAct_pows : ∀ (n y : ℕ), lAct ((List.range n).map (2 ^ ·)) y = 
     rcases Nat.lt_trichotomy i n with hin | rfl | hin
     · have h1 : n ≠ i := by omega
       have h2 : i < n + 1 := by omega
-      split_ifs <;> simp [hin, h1, h2, Nat.testBit_two_pow]
-    · split_ifs with hb <;> simp [hb, Nat.testBit_two_pow]
+      split_ifs <;> simp [hin, h1, h2]
+    · split_ifs with hb <;> simp [hb]
     · have h1 : n ≠ i := by omega
       have h2 : ¬ i < n + 1 := by omega
       have h3 : ¬ i < n := by omega
-      split_ifs <;> simp [h1, h2, h3, Nat.testBit_two_pow]
+      split_ifs <;> simp [h1, h2, h3]
 
 theorem orb_xor_solve {a b c s : ℕ} (h : a ^^^ b ^^^ c = s) : c = s ^^^ a ^^^ b := by
   subst h
@@ -335,11 +335,11 @@ theorem orb_triOK_zero : ∀ (fs ps : List ℕ), triOK fs ps = true → ∀ x, l
     have hx0 : x.testBit 0 = false := by
       by_contra hc
       rw [Bool.not_eq_false] at hc
-      rw [if_pos hc] at hx
+      rw [ite_eq_left hc] at hx
       have := congrArg (fun v => v.testBit p) hx
       simp only [Nat.testBit_xor, hf, hb, Nat.zero_testBit] at this
       exact absurd this (by decide)
-    rw [if_neg (by rw [hx0]; decide), Nat.zero_xor] at hx
+    rw [ite_eq_right (by rw [hx0]; decide), Nat.zero_xor] at hx
     have ih := orb_triOK_zero fs ps ht (x / 2) hx
     have hx2 : x % 2 = 0 := by
       rw [Nat.testBit_zero, decide_eq_false_iff_not] at hx0
@@ -373,7 +373,7 @@ theorem orb_redZ_fold : ∀ (B : List ℕ) (y : ℕ), ∃ x < 2 ^ B.length,
       refine ⟨2 * x' + 1, ?_, ?_⟩
       · rw [List.length_cons, pow_succ']
         omega
-      · rw [lAct_cons, h1, h2, if_pos rfl, hm, Nat.xor_assoc]
+      · rw [lAct_cons, h1, h2, ite_eq_left rfl, hm, Nat.xor_assoc]
 
 theorem orb_redZ_mem {B : List ℕ} {y : ℕ} (h : redZ B y = true) : y ∈ spanF B := by
   obtain ⟨x, hx, he⟩ := orb_redZ_fold B y
@@ -444,7 +444,7 @@ theorem orb_gwalk_reach {AT RT d BC BU : ℕ} {bs : List ℕ} {beta : List (List
     change gwalk AT RT d bs E (Nat.xor σ e.1) _ _ recs1 = some l at hg
     rw [List.map_cons, lAct_cons]
     by_cases hx0 : x.testBit 0 = true
-    · rw [if_pos hx0, ← Nat.xor_assoc]
+    · rw [ite_eq_left hx0, ← Nat.xor_assoc]
       refine orb_gwalk_reach hbc E hE' (σ ^^^ e.1) _ _ recs1 l (Nat.xor_lt_two_pow hσ he1) ?_
         (fun e' he' => ?_) hg (x / 2)
       · rw [p0o_qf_xor hbc hσ he1, hqσ, heq, hv e List.mem_cons_self]
@@ -454,7 +454,7 @@ theorem orb_gwalk_reach {AT RT d BC BU : ℕ} {bs : List ℕ} {beta : List (List
         rw [p0b_g_lin, p0o_bet_xor_left BC hσ he1 he'1]
         exact congrArg₂ (· ^^^ ·) (hv e' (List.mem_cons_of_mem _ he'))
           (herow e' (List.mem_cons_of_mem _ he'))
-    · rw [if_neg hx0, Nat.zero_xor]
+    · rw [ite_eq_right hx0, Nat.zero_xor]
       exact orb_gwalk_reach hbc E hE' σ q v recs recs1 hσ hqσ
         (fun e' he' => hv e' (List.mem_cons_of_mem _ he')) hg1 (x / 2)
 

@@ -49,7 +49,7 @@ theorem anyLQ_iff (L : List ℕ) (f : ℕ → Bool) : anyLQ L f = true ↔ ∃ x
     rw [e, Bool.or_eq_true, ih]
     simp
 
-theorem beq_iff {c u w : ℕ} (hc : c < 65536) (hu : u < 16) (hw : w < 16) :
+theorem beq_iff {c u w : ℕ} (_hc : c < 65536) (hu : u < 16) (hw : w < 16) :
     Nat.beq (mul4F c (colC u)) (colC w) = true ↔ ofCode c *ᵥ vecOfCode u = vecOfCode w := by
   rw [Nat.beq_eq]
   constructor

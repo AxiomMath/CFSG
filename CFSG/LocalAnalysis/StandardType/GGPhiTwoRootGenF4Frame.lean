@@ -61,7 +61,7 @@ private theorem frobenius_baseChangeGL_F4Frame
     refine RingHom.ext fun c => ?_
     rw [RingHom.comp_apply, hFr, ← map_pow]
     congr 1
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   calc
@@ -459,7 +459,7 @@ private theorem exists_frameMulEquiv_F4_neg
     show eT 0 = eE 1
     apply Subtype.ext
     rw [heT, heE, frameDiag_zero]
-    simp only [Subgroup.coe_one, map_one, inv_one, mul_one]
+    simp only [Subgroup.coe_one, map_one, mul_one]
     group
   have e0_mul : ∀ a b : Multiplicative (Fin Tag.F4.rank → ZMod p),
       e0 (a * b) = e0 a * e0 b := frame_e0_mul_F4_neg heE heT

@@ -28,21 +28,21 @@ theorem not_three_dvd_card_sylow_two {R : Type*} [Group R] [Finite R] (Θ : Subg
   let P₀ : Sylow 2 R := Classical.arbitrary _
   set W : Subgroup R := (P₀ : Subgroup R) ⊔ Θ with hW
   have hW3 : ¬ 3 ∣ Nat.card W :=
-    Sec6.not_dvd_card_sup_of_isPGroup Nat.prime_three (by norm_num) P₀.isPGroup'
+    Sec6.not_dvd_card_sup_of_isPGroup Nat.prime_three (by norm_num) P₀.isPGroup
       Subgroup.le_normalizer_of_normal hΘ
   have hSW : (S : Subgroup R) ≤ Subgroup.normalizer (W : Set R) := by
     refine Sec6.le_normalizer_sup_of_conj (fun a ha x hx => ?_) (fun a ha x hx => ?_)
     · have h1 : a * x * a⁻¹ * x⁻¹ ∈ Θ := by
         rw [show a * x * a⁻¹ * x⁻¹ = a * x * a⁻¹ * x⁻¹ from rfl]
         refine hc a x ?_
-        obtain ⟨j, hj⟩ := S.isPGroup' ⟨a, ha⟩
+        obtain ⟨j, hj⟩ := S.isPGroup ⟨a, ha⟩
         exact ⟨j, by simpa using congrArg Subtype.val hj⟩
       have h2 : a * x * a⁻¹ = (a * x * a⁻¹ * x⁻¹) * x := by group
       rw [h2]
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_right h1) (Subgroup.mem_sup_left hx)
     · exact Subgroup.mem_sup_right (Subgroup.Normal.conj_mem inferInstance x hx a)
   obtain ⟨P', hfus, -, hSP'⟩ := exists_invariant_sylow_containing Nat.prime_three Nat.prime_two
-    S.isPGroup' hW3 hSW bot_le IsPGroup.of_bot Subgroup.le_normalizer_of_normal
+    S.isPGroup hW3 hSW bot_le IsPGroup.of_bot Subgroup.le_normalizer_of_normal
   obtain ⟨hP'W, hP'2, -⟩ := id hfus
   obtain ⟨Q, hQ⟩ := exists_sylow_of_fusionIsSylowIn hfus
   have h1 : ¬ 2 ∣ P'.relIndex W := by
@@ -129,7 +129,7 @@ theorem u38_two_elt_mem (hloc : CFSG.Assembly.RankThreeEven.localRank 3 G ≤ 3)
     have := (Sec6.mem_thetaQuotCentralizer_iff.mp hrC).2 ((s : G)⁻¹) (Y.inv_mem hsY)
     rw [Subgroup.mem_subgroupOf]
     simpa [mul_assoc] using this
-  haveI : (Θ.subgroupOf R).Normal :=
+  have : (Θ.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hΘR).mpr (hRN.trans hNΘ)
   have hΘ3' : ¬ 3 ∣ Nat.card (Θ.subgroupOf R) := by
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hΘR).toEquiv]
@@ -148,7 +148,7 @@ theorem u38_two_elt_mem (hloc : CFSG.Assembly.RankThreeEven.localRank 3 G ≤ 3)
   have hconjPG : ∀ e ∈ A, ∀ z ∈ PG, e * z * e⁻¹ ∈ PG := by
     rintro e he _ ⟨s, hs, rfl⟩
     exact ⟨_, hPinv ⟨e, he⟩ s hs, rfl⟩
-  have hPG2 : IsPGroup 2 PG := P.isPGroup'.map R.subtype
+  have hPG2 : IsPGroup 2 PG := P.isPGroup.map R.subtype
   have hPGΘ : PG ≤ Subgroup.normalizer (Θ : Set G) :=
     (Subgroup.map_subtype_le _).trans (hRN.trans hNΘ)
   have hX3 : ¬ 3 ∣ Nat.card (PG ⊔ Θ : Subgroup G) :=

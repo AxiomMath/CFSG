@@ -21,8 +21,8 @@ theorem exists_twLangData_of_conj_torus {K : Type} [Field K] [Finite K] {n : ℕ
     (hgA : ∀ x ∈ A, g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g ∈
       torusGroup TwistTag.E6.tag (AlgebraicClosure K)) :
     ∃ D : TwLangData K σ (2 ^ n) A, D.c = 1 := by
-  haveI : CharP K 2 := charP_two_of_card_sq hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K _).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c
@@ -55,7 +55,7 @@ theorem exists_twLangData_of_twNormTwo (hT : ExcFramesHalf.BigElemAbelianToralBa
     (hσ : ∀ c, σ c = c ^ 2 ^ n) (h3 : 3 ∣ 2 ^ n + 1) {A : Subgroup (ModGL TwistTag.E6.tag K)}
     (hAI : A ≤ twistedE6InndiagGL K σ) (hA : IsElemAbelian 3 A) (hcard : 3 ^ 4 ≤ Nat.card A)
     (hU : TwNormTwo K σ A) : ∃ D : TwLangData K σ (2 ^ n) A, D.c = 1 := by
-  haveI : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP K 2 := charP_two_of_card_sq hK
   obtain ⟨g, hg, hgA⟩ := exists_conj_torus_of_twNormTwo hT hK hσ h3
     (algebraMap K (AlgebraicClosure K)) hAI hA hcard hU
   exact exists_twLangData_of_conj_torus
@@ -64,8 +64,8 @@ theorem exists_twLangData_of_twNormTwo (hT : ExcFramesHalf.BigElemAbelianToralBa
 theorem subfieldLangDatumThreeFour_of_toral (hT : ExcFramesHalf.BigElemAbelianToralBar .E6 3) :
     SubfieldLangDatumThreeFour := by
   intro K₀ K _ _ _ _ ι σ₀ σ q₀ hK₀ hK hσ₀ hσ hchar h3 A₀ hA₀I hA₀ hA₀c hU
-  haveI : CharP K₀ 2 := ringChar.of_eq hchar
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
+  have : CharP K₀ 2 := ringChar.of_eq hchar
+  have : Fintype K₀ := Fintype.ofFinite K₀
   obtain ⟨k, -, hk⟩ := FiniteField.card K₀ 2
   have hdvd : q₀ ∣ 2 ^ (k : ℕ) := by
     rw [← hk, ← Nat.card_eq_fintype_card, hK₀]
@@ -80,7 +80,7 @@ theorem subfieldLangDatumThreeFour_of_toral (hT : ExcFramesHalf.BigElemAbelianTo
     simpa only [one_pow, pow_mul] using Odd.nat_add_dvd_pow_add_pow (2 ^ m) 1 (n := 3) ⟨1, rfl⟩)
   have hι : ∀ c, σ (ι c) = ι (σ₀ c) := fun c => by
     rw [hσ', ← map_pow, pow_two_pow_mul_odd hK₀ (p := 3) ⟨1, rfl⟩ c, hσ₀]
-  letI : Algebra K₀ K := ι.toAlgebra
+  let : Algebra K₀ K := ι.toAlgebra
   let j' : K →ₐ[K₀] AlgebraicClosure K₀ := IsAlgClosed.lift
   set j : K →+* AlgebraicClosure K₀ := (j' : K →+* AlgebraicClosure K₀)
   have hj : j.comp ι = algebraMap K₀ (AlgebraicClosure K₀) := j'.comp_algebraMap

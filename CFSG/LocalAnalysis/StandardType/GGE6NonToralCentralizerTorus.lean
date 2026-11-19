@@ -220,14 +220,14 @@ theorem original_connected_centralizer_conj_le_torus
 
 theorem connected_centralizer_three_torsion_mem_original
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    (halg : letI := ZMod.algebra L 2; Algebra.IsAlgebraic (ZMod 2) L)
+    (_halg : letI := ZMod.algebra L 2; Algebra.IsAlgebraic (ZMod 2) L)
     {E : Subgroup (ModGL .E6 L)} [Finite E]
     (hEG : E ≤ adjointGroup .E6 L) (hE : CFSG.Open.IsElemAbelian 3 E)
     (hcard : Nat.card E = 3 ^ 4) (hnt : ¬ CFSG.StandardType.SCFourCover.E6AdToral E)
     {x : ModGL .E6 L}
     (hx : x ∈ closedIdentityComponent (adjointGroup .E6 L ⊓ centralizer (E : Set (ModGL .E6 L))))
     (hx3 : x ^ 3 = 1) : x ∈ E := by
-  clear halg
+  clear _halg
   exact mem_of_mem_original_centralizer_of_cube_eq_one hEG hE hcard hnt
     (closedIdentityComponent_le _ hx) hx3
 

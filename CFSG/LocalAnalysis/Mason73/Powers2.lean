@@ -39,10 +39,9 @@ theorem x1T_mem_commutator_centralizer (hn : 3 ≤ n) {m m' : Fin 4 → ZMod (2 
             sum_pv]; ring) ^ 2 ^ (n - 3) := by
     rw [el_one_pow, x1T, el_eq_el_iff (by omega), OneMemClass.coe_one, pv_one, pv_zP]
     refine ⟨rfl, isConst_of_eq_four (2 * ss n) ?_ ?_ ?_ ?_⟩ <;>
-      simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, hv, Matrix.cons_val, nsmul_eq_mul,
+      simp only [Pi.sub_apply, Pi.add_apply, hv, Matrix.cons_val, nsmul_eq_mul,
         Pi.mul_apply, Pi.natCast_apply, Nat.cast_one, Nat.cast_zero, mul_one, mul_zero] <;>
-      first | ring1 | linear_combination -h4 - hh2 | linear_combination h4 + hh2 |
-        linear_combination h4 - hh2 | linear_combination -h4 + hh2
+      first | ring1 | linear_combination -h4 - hh2
   rw [hx]
   exact Subgroup.pow_mem _ hc _
 
@@ -66,7 +65,7 @@ theorem x1T_mem_commutator_centralizer_txT (hn : 3 ≤ n) :
 
 theorem two_mul_eq_zero_of_red_eq_zero (hn : 1 ≤ n) {x : ZMod (2 ^ n)} (hx : red n x = 0) :
     2 * x = 0 := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   rw [red, ← ZMod.natCast_zmod_val x, map_natCast, ZMod.natCast_eq_zero_iff] at hx
   obtain ⟨k, hk⟩ := hx
   have h2 : (2 : ZMod (2 ^ n)) * x = ((2 * x.val : ℕ) : ZMod (2 ^ n)) := by
@@ -96,7 +95,7 @@ theorem le_card_centA_of_piT_zP (hn : 2 ≤ n) {μ : L4Model n} (hπ : piT μ = 
     rw [pv_zP]
     refine isConst_of_eq_four (vec e 1 - vec e 0) ?_ ?_ ?_ ?_ <;>
       simp only [Pi.sub_apply, Matrix.cons_val] <;>
-      first | ring1 | linear_combination -h2 | linear_combination hs - h1 - h2 |
+      first | linear_combination -h2 | linear_combination hs - h1 - h2 |
         linear_combination -hs + h1
   have h1 := Subgroup.card_le_of_le hle
   rw [card_comap_beta hn inf_le_left, card_ker_pairHom (a := 0) (b := 1) (c := 2) (d' := 3)

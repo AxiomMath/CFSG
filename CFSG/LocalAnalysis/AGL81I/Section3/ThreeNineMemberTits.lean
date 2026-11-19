@@ -184,7 +184,7 @@ theorem threeNineFiveTits_holds :
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 5 ((Q : Subgroup X) ⊓ K) K := by
     have hQ : CFSG.ABGLocalTools.IsSylowOf 5 (Q : Subgroup X) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
-      refine ⟨le_top, Q.isPGroup', ?_⟩
+      refine ⟨le_top, Q.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact Q.not_dvd_index
     exact hQ.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top_iff.mpr h.normal])
@@ -195,7 +195,7 @@ theorem threeNineFiveTits_holds :
       (by norm_num)).symm
   rw [hv5] at hQcard
   have hQY : ((Q : Subgroup X) ⊓ K).subgroupOf K ≤ Y := fun x hx =>
-    h.inf_K_le Q.isPGroup' hEQ hx
+    h.inf_K_le Q.isPGroup hEQ hx
   have h25 : 25 ∣ Nat.card Y := by
     have := Subgroup.card_dvd_of_le hQY
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv, hQcard] at this

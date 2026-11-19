@@ -18,6 +18,7 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
 @[expose] def dirVec (ω : K) : Fin 4 → K := ![0, 1, ω, 0]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_Vsub_three_iff (v : Fin 4 → K) : v ∈ Vsub 4 3 ↔ v 3 = 0 := by
   constructor
   · intro hv
@@ -33,7 +34,7 @@ private theorem plh_sgv_ne_zero {w : Fin 4 → K} (hw : w ≠ 0) : sgv K f 4 w �
   funext i
   exact (sg K f).map_eq_zero_iff.mp (by simpa [sgv_apply] using congrFun h i)
 
-private theorem plh_mem_span_sgv_iff (hK : Nat.card K = (2 ^ f) ^ 2) {w : Fin 4 → K}
+private theorem plh_mem_span_sgv_iff (_hK : Nat.card K = (2 ^ f) ^ 2) {w : Fin 4 → K}
     (hw : w ∈ (W2 : Submodule K (Fin 4 → K))) (hwn : w ≠ 0) :
     sgv K f 4 w ∈ Submodule.span K {w} ↔ w 1 * sg K f (w 2) = w 2 * sg K f (w 1) := by
   rw [W2, Submodule.mem_inf] at hw
@@ -78,6 +79,7 @@ private theorem plh_mem_span_sgv_iff (hK : Nat.card K = (2 ^ f) ^ 2) {w : Fin 4 
       · simpa [sgv_apply] using hh
       · simp [sgv_apply, hw3]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_W2_iff (w : Fin 4 → K) : w ∈ (W2 : Submodule K (Fin 4 → K)) ↔ w 0 = 0 ∧ w 3 = 0 := by
   rw [W2, Submodule.mem_inf]
   constructor
@@ -121,6 +123,7 @@ theorem nrvec_dirVec (hK : Nat.card K = (2 ^ f) ^ 2) {ω : K} (h : sg K f ω ≠
     simp [dirVec] at this
   · simpa [dirVec, map_one] using h
 
+omit [Finite K] in
 private theorem plh_ne_iff_add_ne_zero {x y : K} : x ≠ y ↔ x + y ≠ 0 := by
   constructor
   · intro h h0
@@ -158,7 +161,7 @@ private theorem plh_det_expand (hK : Nat.card K = (2 ^ f) ^ 2) {w δ : Fin 4 →
   simp only [map_add, map_mul, sg_sg hK]
   ring
 
-private theorem plh_herm_iff (hK : Nat.card K = (2 ^ f) ^ 2) {A B C : K}
+private theorem plh_herm_iff (_hK : Nat.card K = (2 ^ f) ^ 2) {A B C : K}
     (hA : A ≠ 0) (hAf : sg K f A = A) (β : K) :
     A * (β * sg K f β) + B * sg K f β + sg K f B * β + C = 0 ↔
       (A * β + B) * sg K f (A * β + B) = A * C + B * sg K f B := by
@@ -167,7 +170,7 @@ private theorem plh_herm_iff (hK : Nat.card K = (2 ^ f) ^ 2) {A B C : K}
         (A * C + B * sg K f B) := by
     simp only [map_add, map_mul, hAf]
     ring_nf
-    simp [CharTwo.two_eq_zero, CharTwo.two_nsmul]
+    simp [CharTwo.two_eq_zero]
   constructor
   · intro h
     rw [hkey, h, mul_zero, zero_add]
@@ -184,7 +187,7 @@ private theorem plh_card_hermitian_le (hK : Nat.card K = (2 ^ f) ^ 2) {A B C : K
     Nat.card {β : K // A * (β * sg K f β) + B * sg K f β + sg K f B * β + C = 0} ≤
       2 ^ f + 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hpow : ∀ u : K, u * sg K f u = u ^ (2 ^ f + 1) := by
     intro u
     have hσ : sg K f u = u ^ 2 ^ f :=
@@ -216,7 +219,7 @@ theorem card_not_nrvec_le (hK : Nat.card K = (2 ^ f) ^ 2) {δ : Fin 4 → K}
     (hw : w ∈ (W2 : Submodule K (Fin 4 → K))) {α : K} (hα : α ≠ 0) :
     Nat.card {s : K // ¬ NRvec f (w + (α * s) • δ)} ≤ 2 ^ f + 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   set A : K := δ 1 * sg K f (δ 2) + δ 2 * sg K f (δ 1) with hAdef
   set B : K := w 1 * sg K f (δ 2) + w 2 * sg K f (δ 1) with hBdef
   set C : K := w 1 * sg K f (w 2) + w 2 * sg K f (w 1) with hCdef
@@ -245,6 +248,7 @@ theorem card_not_nrvec_le (hK : Nat.card K = (2 ^ f) ^ 2) {δ : Fin 4 → K}
   simp only [Subtype.mk.injEq] at h
   exact Subtype.ext (mul_left_cancel₀ hα h)
 
+omit [Finite K] in
 private theorem plh_W2_le_span_dirVec {ω ω' : K} (h : ω ≠ ω') :
     W2 ≤ Submodule.span K {dirVec ω} ⊔ Submodule.span K {dirVec ω'} := by
   intro v hv
@@ -279,7 +283,7 @@ theorem exists_nrvec_dir_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f
     (S : Finset (Submodule K (Fin 4 → K))) (hS : ∀ P ∈ S, P ≤ Vtail ∧ ¬ W2 ≤ P)
     (hcard : S.card ≤ 3) : ∃ ω : K, sg K f ω ≠ ω ∧ ∀ P ∈ S, dirVec ω ∉ P := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   set bad : Finset K := S.biUnion (fun P => Finset.univ.filter (fun ω => dirVec ω ∈ P)) with hbad
   have hbad_le : bad.card ≤ 3 := by
     calc bad.card ≤ ∑ P ∈ S, (Finset.univ.filter (fun ω => dirVec ω ∈ P)).card :=

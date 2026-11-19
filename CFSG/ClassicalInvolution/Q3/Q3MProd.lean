@@ -117,7 +117,7 @@ theorem exists_sylow_sup_inf {U V : Subgroup C} [U.Normal] [V.Normal]
     rw [eq_bot_iff]
     intro x hx
     obtain ⟨k, hk⟩ := h2 x ⟨hx.1.2, hx.2.2⟩
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨x, hx.1.1⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨x, hx.1.1⟩
     exact (Subgroup.mem_bot.mpr (eq_one_of_pow_two_pow_of_pow_three_pow hk
       (by simpa using congrArg Subtype.val hj)))
   have hcardAB : Nat.card ↥(A ⊔ B) = Nat.card ↥A * Nat.card ↥B := by
@@ -127,7 +127,7 @@ theorem exists_sylow_sup_inf {U V : Subgroup C} [U.Normal] [V.Normal]
   obtain ⟨hBc, hBi⟩ := card_sylow_inf_normal P' V
   have hPle : (P : Subgroup C) ≤ U ⊔ V := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     obtain ⟨u, hu, v, hv, rfl⟩ := h3 x ⟨k, by simpa using congrArg Subtype.val hk⟩
     exact Subgroup.mul_mem_sup hu hv
   have hdvd1 : Nat.card ↥(P : Subgroup C) ∣ Nat.card ↥(U ⊔ V) := Subgroup.card_dvd_of_le hPle

@@ -45,7 +45,7 @@ theorem burnsideF411_pCoreOf_projBorel [Finite K] (p : ℕ) [Fact p.Prime] [Char
   ·
     have hSB : (SU : Subgroup (StatedProj (StatedSp 2 K))) ≤ projBorel 2 K :=
       hSU ▸ burnsideF411_projUnipotent_le_projBorel
-    haveI := CFSG.LieType.BorelTits.pCore_normal p (G := ↥(projBorel 2 K))
+    have := CFSG.LieType.BorelTits.pCore_normal p (G := ↥(projBorel 2 K))
     have hle := (CFSG.LieType.BorelTits.pCore_isPGroup p (G := ↥(projBorel 2 K))).le_sylow_of_normal
       (SU.subtype hSB)
     rintro _ ⟨x, hx, rfl⟩
@@ -55,7 +55,7 @@ theorem burnsideF411_pCoreOf_projBorel [Finite K] (p : ℕ) [Fact p.Prime] [Char
   · refine burnsideF411_le_pCoreOf burnsideF411_projUnipotent_le_projBorel
       burnsideF411_projBorel_le_normalizer ?_
     rw [← hSU]
-    exact SU.isPGroup'
+    exact SU.isPGroup
 
 theorem burnsideF411_proj_dt_mem (t : Kˣ) : proj 2 K (burnsideF411_dt t) ∈ projBorel 2 K :=
   ⟨_, torus_le_borelSubgroup ⟨_, rfl⟩, rfl⟩
@@ -134,10 +134,10 @@ private theorem burnsideF411_sp4_marking_parabolic {p f : ℕ} {H : Type} [Group
           Units.val_one])]
     simp only [Units.val_one, Matrix.one_mulVec, Set.image_id']
     cases b
-    · simp only [Bool.false_eq_true, if_false, ChF.ClassicalRoots.flagOne]
+    · simp only [Bool.false_eq_true, ite_false, ChF.ClassicalRoots.flagOne]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sp_coordinateSpace _).1, (burnsideF4h_cl_sp_coordinateSpace _).1]
-    · simp only [if_true, ChF.ClassicalRoots.flagTwo]
+    · simp only [ite_true, ChF.ClassicalRoots.flagTwo]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sp_coordinateSpace _).2, (burnsideF4h_cl_sp_coordinateSpace _).2]
   ext h
@@ -162,7 +162,7 @@ theorem burnsideF411_sp4_chart {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
   iterate 5 exact absurd hk (by decide)
   have hc : c = .Sp4 := by cases c <;> first | rfl | exact absurd hk (by decide)
   subst hc
-  haveI : Fact p.Prime := ⟨marking.prime⟩
+  have : Fact p.Prime := ⟨marking.prime⟩
   set K := marking.field
   have hK : Nat.card K = p ^ f := by simpa using marking.field_card
   let e : StatedProj (StatedSp 2 K) ≃* ↥Gp := marking.identification
@@ -181,13 +181,13 @@ theorem burnsideF411_key_Sp4_odd {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ (p ^ k) = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf p (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr k hrk hcomm
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
+  have : Finite E := hyp.finite
+  have := hyp.normal
   have hp : p.Prime := hyp.model.1
   have hf : 1 ≤ f := hyp.model.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, e, hK, hG1, hG2, hP⟩ := burnsideF411_sp4_chart hyp
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : CharP K p := burnsideF4h_cl_charP hK
   set Ψ : StatedProj (StatedSp 2 K) →* E := Gp.subtype.comp e.toMonoidHom with hΨdef
   have hΨ : Function.Injective Ψ := Gp.subtype_injective.comp e.injective
   have hGB : Gp ⊓ (M₁ ⊓ M₂) = (projBorel 2 K).map Ψ := by
@@ -262,11 +262,11 @@ theorem burnsideF411_key_Sp4_odd {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
 
 theorem burnsideF411_swap_Sp4_odd {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 p f Gp M₁ M₂) (hp2 : p ≠ 2) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hp : p.Prime := hyp.model.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, e, hK, hG1, hG2, hP⟩ := burnsideF411_sp4_chart hyp
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : CharP K p := burnsideF4h_cl_charP hK
   have h2K : (2 : K) ≠ 0 := by
     intro h0
     have h1' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h0

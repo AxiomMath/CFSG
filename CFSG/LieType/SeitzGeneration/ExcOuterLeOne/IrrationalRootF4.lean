@@ -124,7 +124,7 @@ theorem eq_top_of_irrational_longRootElt {K : Type} [Field K] [Finite K] (k : Su
   let S : Subring K :=
     { carrier := {u | ∀ γ : Fin Tag.F4.rank → ℤ, IsRoot Tag.F4 γ → rootNorm Tag.F4 γ = 4 →
         xPar (rootOperatorFamily Tag.F4) γ u ∈ H}
-      zero_mem' := fun γ _ _ => by simpa [xPar_zero] using H.one_mem
+      zero_mem' := fun γ _ _ => by simp [xPar_zero]
       one_mem' := fun γ hγ _ => hrat γ hγ 1 k.one_mem
       add_mem' := fun {a b} ha hb γ hγ hn => by
         rw [xPar_add]

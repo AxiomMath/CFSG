@@ -42,7 +42,7 @@ theorem sum_norm_sq_character_of_isIrreducible [Fintype K] (ρ : Representation 
     [ρ.IsIrreducible] : ∑ k : K, ‖ρ.character k‖ ^ 2 = (Nat.card K : ℝ) := by
   classical
   have h : cfInner ρ.character ρ.character = 1 := by
-    rw [cfInner_character_character ρ ρ, if_pos ⟨Representation.Equiv.refl ρ⟩]
+    rw [cfInner_character_character ρ ρ, ite_eq_left ⟨Representation.Equiv.refl ρ⟩]
   rw [cfInner_self_eq_sum_norm_sq] at h
   have hK : (Nat.card K : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.card_pos (α := K)).ne'
   have h2 : ∑ k : K, ((‖ρ.character k‖ : ℂ)) ^ 2 = (Nat.card K : ℂ) := by

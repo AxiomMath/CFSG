@@ -11,12 +11,13 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_pCore_bar (K : Subgroup G) : CFSG.pCore 2 (Bar2 K) = ⊥ :=
   CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (H := ↥K) (p := 2)
 
 theorem s16c1_G47_pRank_bar (H : Subgroup G) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 H)) = CFSG.Open.pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnd : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥H) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(CFSG.pCore 2 ↥H))).1
       (CFSG.pCore_isPGroup (p := 2) (G := ↥H))
@@ -26,10 +27,12 @@ theorem s16c1_G47_pRank_bar (H : Subgroup G) {p : ℕ} (hp : p.Prime) (hp2 : p �
   rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup H]
   exact CFSG.SectionRank.pRank_quotient_eq (p := p) (G := ↥H) (CFSG.pCore 2 ↥H) hnd
 
+omit [Finite G] in
 theorem s16c1_G47_xInf_le (L : Subgroup G) (z : G) :
     xInf L z ≤ centralizer ({z} : Set G) ⊓ L :=
   perfectCore_le _
 
+omit [Finite G] in
 theorem s16c1_G47_yGen_le (L : Subgroup G) (z : G) : yGen L z ≤ centralizer ({z} : Set G) := by
   rw [yGen, hConjClosure]
   refine iSup_le fun k => ?_
@@ -40,6 +43,7 @@ theorem s16c1_G47_yGen_le (L : Subgroup G) (z : G) : yGen L z ≤ centralizer ({
         (conjSubgroup_eq_iff_mem_normalizer (A := centralizer ({z} : Set G)) (g := (k : G))).2
           (Subgroup.le_normalizer k.2)
 
+omit [Finite G] in
 theorem s16c1_G47_yGen_normal (L : Subgroup G) (z : G) :
     ((yGen L z).subgroupOf (centralizer ({z} : Set G))).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -49,7 +53,8 @@ theorem s16c1_G47_yGen_normal (L : Subgroup G) (z : G) :
     simpa only [yGen] using (hinv.symm ▸ hn' : (n : G) ∈ conjSubgroup (hConjClosure z (xInf L z)) g)
   exact Subgroup.mem_subgroupOf.2 (mem_conjSubgroup_iff.1 this)
 
-theorem s16c1_G47_starImg_conj {H K V : Subgroup G} (hKH : K ≤ H)
+omit [Finite G] in
+theorem s16c1_G47_starImg_conj {H K V : Subgroup G} (_hKH : K ≤ H)
     (hKV : K ≤ normalizer (V : Set G)) {b v : Bar2 H} (hb : b ∈ starImg H K)
     (hv : v ∈ starImg H V) : b * v * b⁻¹ ∈ starImg H V := by
   obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.1 hb
@@ -61,6 +66,7 @@ theorem s16c1_G47_starImg_conj {H K V : Subgroup G} (hKH : K ≤ H)
   have : (k : G) * (w : G) * (k : G)⁻¹ ∈ V := (Subgroup.mem_normalizer_iff.1 (hKV hkK) w).1 hwV
   simpa using this
 
+omit [Finite G] in
 theorem s16c1_G47_starImg_sq {H V : Subgroup G} (hV : IsElemAbelian 2 V) :
     (∀ v ∈ starImg H V, v * v = 1) ∧ IsPGroup 2 (starImg H V) := by
   have hsq : ∀ v ∈ starImg H V, v * v = 1 := by

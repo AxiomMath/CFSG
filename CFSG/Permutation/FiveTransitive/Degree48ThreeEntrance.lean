@@ -31,7 +31,7 @@ theorem three_entrance
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X :=
     FixedNormalizerAction.fixed_eq Q
   have hbound := Degree48ThreeBound.three_card_le_6561 P hcard h5 hnotAlt Q
-    (S.isPGroup'.map (fixingSubgroup P s).subtype) (by rw [← hfixeq,hF])
+    (S.isPGroup.map (fixingSubgroup P s).subtype) (by rw [← hfixeq,hF])
   exact ⟨hF,by rwa [hQcard] at hbound⟩
 
 end FiveTransitive.Degree48ThreeEntrance

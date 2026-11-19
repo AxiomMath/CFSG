@@ -338,6 +338,7 @@ section Lift
 
 variable {W : Type} [Group W] [Finite W]
 
+omit [Finite W] in
 theorem conjSub_eq_of_isSylow2In {K P P₂ : Subgroup W} (hP : IsSylow2In P K)
     (h2 : IsPGroup 2 P₂) {w w' : W} (hw : conjSub w P ≤ P₂) (hw' : conjSub w' P ≤ P₂)
     (hK : conjSub w K = conjSub w' K) : conjSub w P = conjSub w' P := by
@@ -349,6 +350,7 @@ theorem conjSub_eq_of_isSylow2In {K P P₂ : Subgroup W} (hP : IsSylow2In P K)
   have e2 := h1'.eq_of_le hT inf_le_right (le_inf hw' h1'.1)
   rw [← e1, ← e2]
 
+omit [Finite W] in
 theorem eq_one_of_map_eq_one {Q : Type} [Group Q] {f : W →* Q} (hker : IsPGroup 2 ↥f.ker)
     {K P : Subgroup W} {k : W} (hk : IsUniqueInvolution K k)
     (hO2 : ¬ ∃ P : Subgroup W, P.Normal ∧ IsPGroup 2 ↥P ∧ k ∈ P) (hPK : P ≤ K)

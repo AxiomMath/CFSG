@@ -22,13 +22,14 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 theorem cStarL_eq (p : ℕ) (H : Subgroup G) :
     cStarL p H = centralizer (starImg p H (pLayerIn p H) : Set (StarGroup p H)) :=
   cStarL_eq_aux p H
 
 theorem starImg_pLayerIn (hp : p.Prime) (H : Subgroup G) :
     starImg p H (pLayerIn p H) = CFSG.layer (StarGroup p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmain : starImg p H (pLayerIn p H) =
       (CFSG.pLayer ↥H p).map
         (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) := by
@@ -45,7 +46,7 @@ theorem cStarL_eq_centralizer_layer (hp : p.Prime) (H : Subgroup G) :
 
 theorem pLayerIn_eq_bot_iff (hp : p.Prime) (H : Subgroup G) :
     pLayerIn p H = ⊥ ↔ CFSG.layer (StarGroup p H) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   constructor
   · intro h
     rw [← starImg_pLayerIn hp, h]
@@ -78,6 +79,7 @@ theorem pLayerIn_eq_bot_iff (hp : p.Prime) (H : Subgroup G) :
     unfold pLayerIn
     rw [hbot, Subgroup.map_bot]
 
+omit [Finite G] in
 theorem isComponent_starImg {J : Subgroup G} (hJ : IsPComponentIn p J H) :
     CFSG.IsComponent (starImg p H J) := by
   obtain ⟨K, hK, -, hJK, -⟩ := hJ.2
@@ -86,7 +88,7 @@ theorem isComponent_starImg {J : Subgroup G} (hJ : IsPComponentIn p J H) :
 
 theorem exists_isPComponentIn_starImg_eq (hp : p.Prime) {C : Subgroup (StarGroup p H)}
     (hC : CFSG.IsComponent C) : ∃ J : Subgroup G, IsPComponentIn p J H ∧ starImg p H J = C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let L₀ := CFSG.ComponentClassification.CatalogueBPrimeJoin.canonicalPrimeLift (X := ↥H) p C
   have hP := (CFSG.ComponentClassification.CatalogueBPrimeJoin.canonical_prime_component_lift
     (X := ↥H) p).1 C hC
@@ -108,7 +110,7 @@ theorem exists_isPComponentIn_starImg_eq (hp : p.Prime) {C : Subgroup (StarGroup
 
 theorem eq_of_starImg_eq (hp : p.Prime) {J J' : Subgroup G} (hJ : IsPComponentIn p J H)
     (hJ' : IsPComponentIn p J' H) (h : starImg p H J = starImg p H J') : J = J' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmap : (J.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) =
       (J'.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) := h
   have hsub := CFSG.ComponentClassification.UnbalancedLayer.pComponent_eq_of_map_eq
@@ -119,7 +121,7 @@ theorem eq_of_starImg_eq (hp : p.Prime) {J J' : Subgroup G} (hJ : IsPComponentIn
 
 private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
     relPPrimeCore p C = (primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -142,8 +144,8 @@ private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
 theorem pCore_le_centralizer_layer (hp : p.Prime) (H : Subgroup G) :
     CFSG.pCore p (StarGroup p H) ≤
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent (CFSG.pCore p (StarGroup p H)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent (CFSG.pCore p (StarGroup p H)) :=
     (CFSG.pCore_isPGroup (p := p) (G := StarGroup p H)).isNilpotent
   have hsub : (CFSG.pCore p (StarGroup p H)).IsSubnormal :=
     (CFSG.pCore_normal (p := p) (G := StarGroup p H)).isSubnormal
@@ -156,7 +158,7 @@ theorem centralizer_pCore_sup_layer_le (hp : p.Prime) (H : Subgroup G) :
     centralizer ((CFSG.pCore p (StarGroup p H) ⊔ CFSG.layer (StarGroup p H) :
         Subgroup (StarGroup p H)) : Set (StarGroup p H)) ≤
       CFSG.pCore p (StarGroup p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO : CFSG.pPrimeCore p (StarGroup p H) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥H) p
   have hgf : CFSG.generalizedFitting (StarGroup p H) =
@@ -169,13 +171,13 @@ theorem layer_inf_centralizer_le_pCore (hp : p.Prime) (H : Subgroup G) :
     CFSG.layer (StarGroup p H) ⊓
         centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) ≤
       CFSG.pCore p (StarGroup p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO : CFSG.pPrimeCore p (StarGroup p H) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥H) p
-  haveI hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
-  haveI hZcomm : IsMulCommutative
+  have hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+  have hZcomm : IsMulCommutative
       ↥(CFSG.layer (StarGroup p H) ⊓
         centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))) := by
     rw [← Subgroup.le_centralizer_iff_isMulCommutative]

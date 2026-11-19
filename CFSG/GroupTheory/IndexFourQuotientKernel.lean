@@ -41,7 +41,7 @@ theorem exists_ne_one_commutator_mem_of_index_four {G : Type*} [Group G] {T N H 
     (hHT : H ≤ Subgroup.normalizer (T : Set G)) (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hidx : (N.subgroupOf T).index = 4) (hH : 6 < Nat.card H) :
     ∃ h ∈ H, h ≠ 1 ∧ ∀ t ∈ T, ⁅h, t⁆ ∈ N := by
-  haveI : (N.subgroupOf T).Normal :=
+  have : (N.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNT).mpr hTN
   have hA := card_mulAut_dvd_six_of_card_eq_four (V := ↥T ⧸ N.subgroupOf T)
     (by rw [← Subgroup.index_eq_card, hidx])

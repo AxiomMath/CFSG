@@ -30,6 +30,7 @@ theorem coreAt_eq_Fz {z : G} (hF2 : IsPGroup 2 (Fz z)) : coreAt z = Fz z := by
   show (pCore 2 ↥(Hz z)).map (Hz z).subtype = (generalizedFitting ↥(Hz z)).map (Hz z).subtype
   rw [pCore_eq_gf hF2]
 
+omit [Finite G] in
 theorem Fz_conj_mem {z g x : G} (hg : g ∈ Hz z) (hx : x ∈ Fz z) : g * x * g⁻¹ ∈ Fz z := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
   have hN := (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥(Hz z))).2

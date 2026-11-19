@@ -30,6 +30,7 @@ private theorem qtwoDB20_coordBlockSU_le_erase {J : Finset (Fin m)}
   intro i j hij
   exact hA i j (hij.imp (fun h hiJ => h (hJ hiJ)) (fun h hjJ => h (hJ hjJ)))
 
+omit [Finite G] in
 private theorem qtwoDB20_map_conj_self {X : Subgroup G} {n : G} (hn : n ∈ X) :
     X.map (MulAut.conj n).toMonoidHom = X := by
   apply le_antisymm
@@ -176,7 +177,7 @@ theorem ggQTwoDUnit_X_rankOne (hL1 : GGQTwoL1Input) (hcfg : GGQTwoDCfg p B Bs x 
       rw [MulAut.apply_inv_self] at h'
       exact h'.symm
     rw [← h]
-    simpa using (LinearEquiv.symm_apply_apply w (βL (Additive.ofMul (a₀⁻¹ s)))).symm
+    simp
   let r₀ : MulAut ↥Bs := a₀ * r * a₀⁻¹
   have hr₀_act : ∀ s : ↥Bs, βL (Additive.ofMul (r₀ s)) =
       dTau m false u v (βL (Additive.ofMul s)) := by

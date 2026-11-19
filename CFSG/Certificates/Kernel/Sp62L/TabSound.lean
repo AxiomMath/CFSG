@@ -29,15 +29,15 @@ theorem stepOK_of {gens : List (List ℕ)} {E : Array (List ℕ)} {P : Array (�
   unfold stepB at h
   unfold StepOK
   by_cases hh : hd < C i
-  · rw [if_pos hh] at h
+  · rw [ite_eq_left hh] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
     obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := h
     refine ⟨fun _ => ⟨a, b, c, fun hp => ?_, fun hp => ?_⟩, fun hn => absurd hh hn⟩
-    · rw [if_pos hp] at d
+    · rw [ite_eq_left hp] at d
       simpa using d
-    · rw [if_pos hp] at e
+    · rw [ite_eq_left hp] at e
       simpa using e
-  · rw [if_neg hh] at h
+  · rw [ite_eq_right hh] at h
     exact ⟨fun h' => absurd h' hh, fun _ => by simpa using h⟩
 
 theorem steps_of {gens : List (List ℕ)} {E : Array (List ℕ)} {P : Array (ℕ × ℕ)}

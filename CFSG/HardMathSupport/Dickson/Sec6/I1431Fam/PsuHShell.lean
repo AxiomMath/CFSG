@@ -19,7 +19,7 @@ variable {ℓ f n : ℕ} {K : Type} [Field K]
 theorem t6psuh_noTorsion (h : UnitaryFieldData ℓ f K) (hdiv : ¬ 3 ∣ Nat.gcd n (ℓ ^ f + 1)) :
     ∀ c : Kˣ, h.norm (c : K) = 1 → c ^ n = 1 → c ^ 3 = 1 → c = 1 := by
   intro c hN hn h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : c ^ (ℓ ^ f + 1) = 1 := (pow_succ_eq_one_iff_norm h c).mpr hN
   by_contra hne
   have hord : orderOf c = 3 := orderOf_eq_prime h3 hne
@@ -53,11 +53,11 @@ theorem s1431_false_psu_of_key (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
       IsTypeL2 q ↥(psuBlock h n a i) → ∀ b ∈ Subgroup.centralizer ({a} : Set ↥(gramSU h (idGram K n))),
         b ^ 3 = 1 → ∃ s ∈ psuBlock h n a i, ∀ m ∈ psuBlock h n a i, b * m * b⁻¹ = s * m * s⁻¹) :
     False := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   refine s1431_false_of_lift_blocks (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))
     (QuotientGroup.mk'_surjective _) ?_ (t6psuh_hZ3 h (by omega) hdiv) ?_ c hA ?_
   · rw [QuotientGroup.ker_mk']

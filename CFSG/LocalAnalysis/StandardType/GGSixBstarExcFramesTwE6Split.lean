@@ -66,7 +66,7 @@ theorem ggSixBstarExcFrameOn_TwE6SplitGeSeven :
       rw [Nat.cast_add, Nat.cast_one] at h0
       exact eq_neg_of_add_eq_zero_left h0
     rw [hx]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime neg_one_sq (neg_one_ne_one_zmod hp hp2)
   have hdata := sylowData_twistedE6_two hp h7 he2
   have hSyl : SylowTorus ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))

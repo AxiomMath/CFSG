@@ -49,7 +49,7 @@ theorem muTree_eq (A : Array Flags) (v : Nat)
           (muOuter A (filterRange (fun x => (A[0]!)[x]! && (A[x]!)[v]!) 1408 []).toArray)
         pure (s.2.1, s.2.2, s.1)) := by
   unfold muTree
-  rw [if_pos hmu]
+  rw [ite_eq_left hmu]
   simp only []
   unfold muOuter muInner
   rfl
@@ -109,7 +109,7 @@ theorem muStep_base {A : Array Flags} {v : Nat} {st : MSt} (hB : MBase A v st) {
       ((A[st.2.1[h]!]!)[y]! = true → (muStep (A[st.2.1[h]!]!) h y st).1[y]! ≠ 1408) := by
   unfold muStep
   by_cases hc : ((A[st.2.1[h]!]!)[y]! && st.1[y]! == 1408) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     simp only [Bool.and_eq_true, beq_iff_eq] at hc
     obtain ⟨hax, hpy⟩ := hc
     have hynot : ∀ i < st.2.1.size, st.2.1[i]! ≠ y := by
@@ -128,16 +128,16 @@ theorem muStep_base {A : Array Flags} {v : Nat} {st : MSt} (hB : MBase A v st) {
       refine inj_card_le (fun i => if i < st.2.1.size then st.2.1[i]! else y) (fun i hi => ?_)
         (fun i hi j hj hij => ?_)
       · by_cases hlt : i < st.2.1.size
-        · simp only [if_pos hlt]
+        · simp only [ite_eq_left hlt]
           exact (hB.ptsC i hlt).1
-        · simp only [if_neg hlt]
+        · simp only [ite_eq_right hlt]
           exact hy
       · by_cases hi' : i < st.2.1.size <;> by_cases hj' : j < st.2.1.size
-        · simp only [if_pos hi', if_pos hj'] at hij
+        · simp only [ite_eq_left hi', ite_eq_left hj'] at hij
           exact hinj i hi' j hj' hij
-        · simp only [if_pos hi', if_neg hj'] at hij
+        · simp only [ite_eq_left hi', ite_eq_right hj'] at hij
           exact absurd hij (hynot i hi')
-        · simp only [if_neg hi', if_pos hj'] at hij
+        · simp only [ite_eq_right hi', ite_eq_left hj'] at hij
           exact absurd hij.symm (hynot j hj')
         · omega
     have hsize : st.2.1.size < 1408 := by omega
@@ -212,7 +212,7 @@ theorem muStep_base {A : Array Flags} {v : Nat} {st : MSt} (hB : MBase A v st) {
       change (st.1.set! y st.2.1.size)[y]! ≠ 1408
       rw [hposy]
       omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     exact ⟨hB, fun i _ => rfl, Nat.le_refl _, fun x _ hx => hx, fun hax => by
       have : st.1[y]! ≠ 1408 := by
         intro hp
@@ -270,9 +270,9 @@ theorem muOuterLoop {A : Array Flags} {v : Nat} {init : MSt} (hinit : MBase A v 
   · obtain ⟨hB, hP⟩ := hI
     unfold muOuter
     by_cases hlt : h < st.2.1.size
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       exact muInnerLoop hB hlt hP mu hmu hcomp
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       show MBase A v st ∧ MProc A v st.2.1.size st
       refine ⟨hB, fun h' hh' hh'2 y hy hy0 hyv hadj => ?_⟩
       exact hP h' (by omega) hh'2 y hy hy0 hyv hadj

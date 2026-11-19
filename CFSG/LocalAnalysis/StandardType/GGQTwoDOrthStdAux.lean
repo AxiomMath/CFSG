@@ -62,7 +62,7 @@ theorem qtwoOrthStd_mem_reflFixedCoordPos_iff {p r : ℕ} {i j : Fin r}
   rw [reflFixedCoordPos, MonoidHom.mem_ker, MonoidHom.mul_apply, Pi.evalMonoidHom_apply,
     Pi.evalMonoidHom_apply]
 
-theorem qtwoOrthStd_eqLocus_permAut_swap {p r : ℕ} {i j : Fin r} (hij : i < j) :
+theorem qtwoOrthStd_eqLocus_permAut_swap {p r : ℕ} {i j : Fin r} (_hij : i < j) :
     MonoidHom.eqLocus (SpCoord.permAut (Equiv.swap i j)).toMonoidHom (MonoidHom.id _) =
       reflFixedCoord p r i j := by
   ext f
@@ -269,9 +269,9 @@ theorem qtwoOrthStd_tauAt_conj_diagHom {F K : Type} [Field F] [Field K] [Algebra
   by_cases hj : j = i
   · rw [hj]
     simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply, Function.update_self,
-      if_true, if_pos rfl, map_mul, E.isUnitary.invol, qtwoOrthStd_sigma_eq_inv]
+      ite_true, map_mul, E.isUnitary.invol, qtwoOrthStd_sigma_eq_inv]
   · simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply, Function.update_of_ne hj,
-      if_false, if_neg hj]
+      ite_eq_right hj]
 
 end Aux
 

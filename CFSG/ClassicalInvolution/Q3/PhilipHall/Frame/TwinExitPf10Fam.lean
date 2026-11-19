@@ -56,7 +56,7 @@ theorem secImg_conj {Ω : Set (Subgroup G)} {c : G} (hΩ : HypOmegaGen Ω)
     (J : Subgroup G) :
     (secImg Ω c J).map (TwinExitPf6.secAut Ω c hΩ hc2 g).toMonoidHom =
       secImg Ω c (conjSub (g : G) J) := by
-  haveI hHn := TwinExitPf6.normal_coreHull hΩ hc2
+  have hHn := TwinExitPf6.normal_coreHull hΩ hc2
   have hgC : (g : G) ∈ Subgroup.centralizer ({c} : Set G) := g.2
   ext x
   constructor

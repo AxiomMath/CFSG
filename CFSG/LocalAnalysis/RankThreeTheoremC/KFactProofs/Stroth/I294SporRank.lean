@@ -54,7 +54,7 @@ theorem four_le_pRank_of_iso (s : SporadicName)
   obtain ⟨b⟩ := hbr
   obtain ⟨i⟩ := hiso
   let f : R ≃* (CFSGIndex.sporadic s).Group := i.trans b
-  haveI : Finite R := Finite.of_equiv _ f.symm.toEquiv
+  have : Finite R := Finite.of_equiv _ f.symm.toEquiv
   rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) f]
   exact hR
 
@@ -128,7 +128,7 @@ theorem monsterThreeRankFour_holds
     : MonsterThreeRankFour := by
   intro _
   have hiso : Nonempty (CFSG.Monster.Generated.Gmat ≃* NativeSporadic.Carrier .M) := by
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+    have : IsSimpleGroup (NativeSporadic.Carrier .M) :=
       CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
     obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
       (T := NativeSporadic.Carrier .M) (MulEquiv.refl _)

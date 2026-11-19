@@ -182,7 +182,7 @@ theorem exists_normalized_two_subgroup {A G : Type*} [Group A] [Group G] [Finite
     have hx1 : x = 1 := Subtype.ext this
     rw [hx1, orderOf_one] at hx
     omega
-  · exact (P.isPGroup').map Q.subtype
+  · exact (P.isPGroup).map Q.subtype
   ·
     have heQ : ∀ g ∈ E.comap φ, ∀ a : A, a ∈ Q ↔ g * a * g⁻¹ ∈ Q := by
       intro g hg a
@@ -193,7 +193,7 @@ theorem exists_normalized_two_subgroup {A G : Type*} [Group A] [Group G] [Finite
       intro g hg y hy
       obtain ⟨y', hy', rfl⟩ := hy
       have hgQ : g * (y' : A) * g⁻¹ ∈ Q := (heQ g hg _).mp y'.2
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨y', hy'⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨y', hy'⟩
       have hk' : y' ^ 2 ^ k = 1 := congrArg Subtype.val hk
       have hz : (⟨g * (y' : A) * g⁻¹, hgQ⟩ : Q) ^ 2 ^ k = 1 := by
         apply Subtype.ext

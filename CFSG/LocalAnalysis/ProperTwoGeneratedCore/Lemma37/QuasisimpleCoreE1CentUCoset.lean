@@ -156,7 +156,7 @@ theorem eq_of_kappa_inv_mul_mem {i j : Fin 4} (h : (d.kappa i)⁻¹ * d.kappa j 
     · exact ⟨e₀, d.centralElt_mem_sylow,
         (QuotientGroup.eq_one_iff _).mpr d.setting.centralElt_mem_center,
         by rw [d.quasiMk_centralElt, h1]⟩
-  have hX : d.kappaX j = d.kappaX i * ε := quasiMk_injOn_twoGroup u T.isPGroup' (d.kappaX_mem j)
+  have hX : d.kappaX j = d.kappaX i * ε := quasiMk_injOn_twoGroup u T.isPGroup (d.kappaX_mem j)
     (Subgroup.mul_mem _ (d.kappaX_mem i) hεT)
     (by rw [map_mul, hε, d.quasiMk_kappaX, d.quasiMk_kappaX, mul_inv_cancel_left])
   have hw : caseC3Word (Subgroup.center J) u m y x (kappaWord j) =

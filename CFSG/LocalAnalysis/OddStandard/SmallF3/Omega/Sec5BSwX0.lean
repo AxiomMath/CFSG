@@ -14,7 +14,7 @@ open CFSG.LieType.Multipliers.U43 CFSG.Quasithin.H13.U43
 
 theorem sw_x0_closure_odd : Subgroup.closure {x : X₀ | Odd (orderOf x)} = ⊤ := by
   classical
-  haveI := isSimpleGroup_X₀
+  have := isSimpleGroup_X₀
   set S : Set X₀ := {x : X₀ | Odd (orderOf x)} with hS
   have hconj : ∀ g : X₀, (MulAut.conj g) '' S = S := by
     intro g
@@ -22,13 +22,13 @@ theorem sw_x0_closure_odd : Subgroup.closure {x : X₀ | Odd (orderOf x)} = ⊤ 
     constructor
     · rintro ⟨y, hy, rfl⟩
       rw [hS] at hy ⊢
-      simp only [Set.mem_setOf_eq] at hy ⊢
+      simp only [Set.mem_ofPred_eq] at hy ⊢
       rw [(MulAut.conj g).orderOf_eq y]
       exact hy
     · intro hx
       refine ⟨(MulAut.conj g).symm x, ?_, (MulAut.conj g).apply_symm_apply x⟩
       rw [hS] at hx ⊢
-      simp only [Set.mem_setOf_eq] at hx ⊢
+      simp only [Set.mem_ofPred_eq] at hx ⊢
       rw [((MulAut.conj g).symm).orderOf_eq x]
       exact hx
   have hnormal : (Subgroup.closure S).Normal := by
@@ -38,8 +38,8 @@ theorem sw_x0_closure_odd : Subgroup.closure {x : X₀ | Odd (orderOf x)} = ⊤ 
     change Subgroup.closure ((MulAut.conj g) '' S) = Subgroup.closure S
     rw [hconj g]
   obtain ⟨x, hx⟩ : ∃ x : X₀, orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
     have hdvd : 3 ∣ Nat.card X₀ := by rw [card_X₀]; norm_num
     exact exists_prime_orderOf_dvd_card' 3 hdvd
   have hxS : x ∈ S := by
@@ -57,7 +57,7 @@ theorem sw_x0_closure_odd : Subgroup.closure {x : X₀ | Odd (orderOf x)} = ⊤ 
 
 theorem sw_x0_comm_sup_top {N₁ N₂ : Subgroup X₀} (hc : ∀ u ∈ N₁, ∀ v ∈ N₂, u * v = v * u)
     (h : N₁ ⊔ N₂ = ⊤) : N₁ = ⊥ ∨ N₂ = ⊥ := by
-  haveI := isSimpleGroup_X₀
+  have := isSimpleGroup_X₀
   have hN2 : N₂ ≤ Subgroup.normalizer (N₁ : Set X₀) := by
     rw [Subgroup.le_normalizer_iff]
     intro v hv u hu
@@ -79,7 +79,7 @@ theorem sw_x0_comm_sup_top {N₁ N₂ : Subgroup X₀} (hc : ∀ u ∈ N₁, ∀
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X₀) with hc2 | hc2
     · exact le_bot_iff.mp (hc2 ▸ hN2center)
     · exfalso
-      haveI : IsMulCommutative X₀ := Subgroup.center_eq_top_iff.mp hc2
+      have : IsMulCommutative X₀ := Subgroup.center_eq_top_iff.mp hc2
       have hprime := (Group.is_simple_iff_prime_card (α := X₀)).mp inferInstance
       rw [card_X₀] at hprime
       norm_num at hprime
@@ -107,7 +107,7 @@ theorem sw_no_big_two_group (hone : X0OneClass) (hx : orderOf xElt = 2) (hO : Sw
     {P : Subgroup X₀} (hP : IsPGroup 2 P) (hbig : 16 ≤ Nat.card P) {y : X₀}
     (hy : Odd (orderOf y)) (hy1 : y ≠ 1) (hc : ∀ p ∈ P, p * y = y * p) : False := by
   classical
-  haveI : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
+  have : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
   have hPnt : 1 < Nat.card P := by omega
   obtain ⟨u, hu, hu2, huc⟩ := sw_exists_central_invol (P := X₀) (Q := P) hP hPnt
   obtain ⟨g, hg⟩ := isConj_iff.mp (hone u xElt hu2 hx)

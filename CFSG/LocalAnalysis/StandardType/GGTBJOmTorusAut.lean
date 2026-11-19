@@ -38,6 +38,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   {E : Subgroup (V ≃ₗ[K] V)} {Δ : TBJOmData Q p E r} {hE : E ≤ orthDerived Q}
   {σ : (Fin r → Multiplicative (ZMod p)) →* L'}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sectionFrameAut_eq_torusAut (hker : ψ₀.ker ≤ Subgroup.center L')
     (hZ : ∀ z ∈ Subgroup.center L', z ^ p = 1 → z = 1)
     (hψσ : ∀ f, ψ₀ (σ f) = eR.symm (Δ.τΩ hE f)) (J : Subgroup L') :
@@ -111,6 +112,7 @@ theorem card_stabilizer_frame_eq_card_centralizer {V' : Type} [Group V'] {L'' : 
     simp only [toF, toG]
     rw [MulEquiv.symm_apply_eq]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjAut_component
     (hψsurj : Function.Surjective ψ₀) (hker : ψ₀.ker ≤ Subgroup.center L')
     {A : Subgroup (MulAut L')} {Θ : (Fin r → Multiplicative (ZMod p)) ≃* ↥A}
@@ -162,6 +164,7 @@ private theorem tbjAut_component
     MulEquiv.apply_symm_apply] at hm
   exact hm
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjAut_centralize_iff (hker : ψ₀.ker ≤ Subgroup.center L')
     (hψσ : ∀ f, ψ₀ (σ f) = eR.symm (Δ.τΩ hE f))
     {J : Subgroup L'} (hJperf : ⁅J, J⁆ = J) :
@@ -202,6 +205,7 @@ private theorem tbjAut_centralize_iff (hker : ψ₀.ker ≤ Subgroup.center L')
     rw [MulAut.conj_apply] at hfixj
     exact mul_inv_eq_iff_eq_mul.mp hfixj
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjAut_hcore_input {k : ℕ}
     (hψsurj : Function.Surjective ψ₀) (hker : ψ₀.ker ≤ Subgroup.center L')
     {A : Subgroup (MulAut L')} {Θ : (Fin r → Multiplicative (ZMod p)) ≃* ↥A}
@@ -242,6 +246,7 @@ private theorem tbjAut_hcore_input {k : ℕ}
   rw [hPQ]
   exact hcount'
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem tbjAut_map_top (hψsurj : Function.Surjective ψ₀) :
     (((⊤ : Subgroup L').map ψ₀).map eR.toMonoidHom) = ⊤ := by
   rw [← MonoidHom.range_eq_map, MonoidHom.range_eq_top_of_surjective _ hψsurj, Subgroup.map_top]
@@ -258,6 +263,7 @@ theorem sectionFrameAut_top_nf [Fact p.Prime] (hp2 : p ≠ 2)
   rw [sectionFrameAut_eq_torusAut hker hZ hψσ, tbjAut_map_top hψsurj]
   exact Δ.torusAut_top_nf hp2 hQ hT hE hnf
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sectionFrameAut_top_fixed [Fact p.Prime] (hp2 : p ≠ 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0)

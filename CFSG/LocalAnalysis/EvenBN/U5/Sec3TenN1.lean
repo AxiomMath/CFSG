@@ -25,10 +25,12 @@ theorem n1_factor_of_commute {A B : Subgroup G} (hc : ∀ x ∈ A, ∀ y ∈ B, 
   obtain ⟨a, ha, b, hb, hab⟩ := Set.mem_mul.1 hx'
   exact ⟨a, ha, b, hb, hab.symm⟩
 
+omit [Finite G] in
 theorem n1_solvable_of_le_comm {F X : Subgroup G} (hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x)
     (hX : X ≤ F) : Group.IsSolvable X :=
   Group.isSolvable_of_comm fun u w => Subtype.ext (hFc _ (hX u.2) _ (hX w.2))
 
+omit [Finite G] in
 theorem n1_inf_centralizer_eq_of_le {A P H : Subgroup G} (hAP : A ≤ P)
     (hPA : P ⊓ centralizer (H : Set G) ≤ A) :
     A ⊓ centralizer (H : Set G) = P ⊓ centralizer (H : Set G) := by
@@ -38,6 +40,7 @@ theorem n1_inf_centralizer_eq_of_le {A P H : Subgroup G} (hAP : A ≤ P)
   · obtain ⟨h1, h2⟩ := Subgroup.mem_inf.1 hx
     exact Subgroup.mem_inf.2 ⟨hPA hx, h2⟩
 
+omit [Finite G] in
 theorem n1_mem_centralizer_sup {H₁ H₂ : Subgroup G} {x : G} :
     x ∈ centralizer ((H₁ ⊔ H₂ : Subgroup G) : Set G) ↔
       x ∈ centralizer (H₁ : Set G) ∧ x ∈ centralizer (H₂ : Set G) := by
@@ -63,8 +66,10 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem n1_I₆_le_I (d : Data G h) : d.I₆ ≤ d.I := d.pull_mono (torusEq_le _)
 
+omit [Finite G] in
 theorem n1_coprime_I (d : Data G h) {H : Subgroup G} (hH : H ≤ d.I) (k : ℕ) :
     Nat.Coprime (Nat.card H) (2 ^ k) :=
   Nat.Coprime.pow_right k
@@ -130,6 +135,7 @@ theorem n1_Zp_inf_C6 (hp : d.CaseHyp) :
   rw [hZ₂6] at hb
   exact hb
 
+omit [Finite G] in
 theorem n1_A₁_inf_C_eq {H : Subgroup G} (hPH : d.P ⊓ centralizer (H : Set G) ≤ d.A₁) :
     d.A₁ ⊓ centralizer (H : Set G) = d.P ⊓ centralizer (H : Set G) :=
   n1_inf_centralizer_eq_of_le d.A₁_le_P hPH
@@ -263,7 +269,7 @@ theorem n1_F_inf_C_eq_bot (hp : d.CaseHyp) {J : Subgroup G} (hJ : J ≤ d.I)
     rw [n1_card_F hp hJ, hA, Subgroup.card_bot, mul_one]
   exact Subgroup.card_eq_one.1 hcard
 
-theorem n1_A₁_inf_C_join_eq_bot (hp : d.CaseHyp) {H : Subgroup G}
+theorem n1_A₁_inf_C_join_eq_bot (_hp : d.CaseHyp) {H : Subgroup G}
     (hPH : d.P ⊓ centralizer (H : Set G) ≤ d.A₁)
     (hbot : (d.P ⊓ centralizer (d.I₄ : Set G)) ⊓ (d.P ⊓ centralizer (H : Set G)) = ⊥) :
     d.A₁ ⊓ centralizer ((d.I₄ ⊔ H : Subgroup G) : Set G) = ⊥ := by

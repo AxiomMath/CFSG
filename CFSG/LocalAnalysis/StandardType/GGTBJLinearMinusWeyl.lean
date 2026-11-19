@@ -66,9 +66,9 @@ private theorem blockAct_comm_projN {S : Finset (Fin s)}
     · have hiS : i ∉ S := fun h => hi (hS i h)
       have hsum : (m *ᵥ x.1) i = x.1 i := by
         rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single i]
-        · rw [hrow i hiS i, if_pos rfl, one_mul]
+        · rw [hrow i hiS i, ite_eq_left rfl, one_mul]
         · intro j _ hji
-          rw [hrow i hiS j, if_neg (Ne.symm hji), zero_mul]
+          rw [hrow i hiS j, ite_eq_right (Ne.symm hji), zero_mul]
         · intro hi'
           exact absurd (Finset.mem_univ i) hi'
       simp [hi, hsum]
@@ -83,18 +83,18 @@ private theorem blockAct_comm_projN {S : Finset (Fin s)}
       by_cases hiS : i ∈ S
       · by_cases hjS : j ∈ S
         · simp [hy, hS j hjS]
-        · rw [hcol j hjS i, if_neg (by rintro rfl; exact hjS hiS), zero_mul]
+        · rw [hcol j hjS i, ite_eq_right (by rintro rfl; exact hjS hiS), zero_mul]
       · rw [hrow i hiS j]
         by_cases hji : i = j
         · subst hji
           simp [hy, hi]
-        · rw [if_neg hji, zero_mul]
+        · rw [ite_eq_right hji, zero_mul]
     · have hiS : i ∉ S := fun h => hi (hS i h)
       have hsum : (m *ᵥ y) i = y i := by
         rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single i]
-        · rw [hrow i hiS i, if_pos rfl, one_mul]
+        · rw [hrow i hiS i, ite_eq_left rfl, one_mul]
         · intro j _ hji
-          rw [hrow i hiS j, if_neg (Ne.symm hji), zero_mul]
+          rw [hrow i hiS j, ite_eq_right (Ne.symm hji), zero_mul]
         · intro hi'
           exact absurd (Finset.mem_univ i) hi'
       rw [hsum]
@@ -168,9 +168,9 @@ private theorem signedPerm_eq_of_rel {p : ℕ} [Fact p.Prime]
   change Multiplicative.toAdd (f' j) =
     Multiplicative.toAdd (f (π.symm j) ^ (if σ (π.symm j) = 1 then (1 : ℤ) else -1))
   by_cases hj : σ (π.symm j) = 1
-  · rw [if_pos hj, zpow_one, ← ht' j, ← ht (π.symm j), h, hj, one_mul]
+  · rw [ite_eq_left hj, zpow_one, ← ht' j, ← ht (π.symm j), h, hj, one_mul]
   · have hneg : σ (π.symm j) = -1 := (hσ _).resolve_left hj
-    rw [if_neg hj, _root_.zpow_neg_one, toAdd_inv, ← ht' j, ← ht (π.symm j), h, hneg]
+    rw [ite_eq_right hj, _root_.zpow_neg_one, toAdd_inv, ← ht' j, ← ht (π.symm j), h, hneg]
     exact neg_one_mul _
 
 private theorem frameSigned_ofAdd {K : Type} [Field K] {g : K[X]} [Fact (Irreducible g)]

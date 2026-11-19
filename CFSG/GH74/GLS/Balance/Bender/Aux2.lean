@@ -211,7 +211,7 @@ theorem coprime_card_oResOf_of_central_sylow {N P : Subgroup G} (hP : IsSylowIn 
     exact Subtype.ext ((mem_centralizer_iff.mp (hc x.2)) (s : G) hsP)
   obtain ⟨K, hKn, hKp, hKindex, -⟩ := CFSG.GroupTheory.burnside_normal_complement S hnorm
   have hq : IsPGroup p (↥N ⧸ K) := by
-    obtain ⟨m, hm⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := S.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := m) ?_
     rw [← Subgroup.index_eq_card, hKindex]
     exact hm

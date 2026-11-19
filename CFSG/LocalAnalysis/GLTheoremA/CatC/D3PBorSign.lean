@@ -50,8 +50,8 @@ theorem LayerAct.unique_eq {α α' : MulAut ↥(adjointGroup Tag.D4 K)} {σ σ' 
   have hx : rootElt (la.r k δ).1 1 ∈ unitN Tag.D4 K k := rootElt_mem_unitN' _ 1
   have h1 := la.coord k δ _ hx
   have h2 := la'.coord k δ _ hx
-  rw [rootCoord_rootElt, if_pos rfl, map_one, mul_one] at h1
-  rw [rootCoord_rootElt, if_pos (hr k δ), map_one, mul_one] at h2
+  rw [rootCoord_rootElt, ite_eq_left rfl, map_one, mul_one] at h1
+  rw [rootCoord_rootElt, ite_eq_left (hr k δ), map_one, mul_one] at h2
   exact h1.symm.trans h2
 
 end Basic
@@ -65,7 +65,7 @@ theorem eq_one_of_mul_self_cube {G : Type*} [Group G] {x : G} (h2 : x * x = 1) (
     _ = 1 := h3
 
 theorem commute_ringEquiv (a b : K ≃+* K) : a * b = b * a := by
-  haveI := isCyclic_ringEquiv' (K := K)
+  have := isCyclic_ringEquiv' (K := K)
   exact (IsCyclic.commGroup (α := K ≃+* K)).mul_comm a b
 
 theorem exists_layerAct_involution (α t : MulAut ↥(adjointGroup Tag.D4 K)) (hα3 : α ^ 3 = 1)
@@ -138,7 +138,7 @@ theorem layerScalar_eq {α : MulAut ↥(adjointGroup Tag.D4 K)} {σ : K ≃+* K}
   have hh : height δ.1 = ((k + 1 : ℕ) : ℤ) := δ.2.2
   have hk : (height δ.1).toNat - 1 = k := by rw [hh]; simp
   unfold layerScalar
-  rw [dif_pos (UnitRoots.pos Tag.D4 δ)]
+  rw [dite_eq_left (UnitRoots.pos Tag.D4 δ)]
   have key : ∀ (k' : ℕ) (hk' : k' = k) (δ' : UnitRoots Tag.D4 k'), δ'.1 = δ.1 →
       la.f k' δ' = la.f k δ := by
     intro k' hk' δ' h
@@ -177,9 +177,9 @@ theorem pc_layerAct_rootElt {t : MulAut ↥(adjointGroup Tag.D4 K)}
   have hs : layerScalar la γ = la.f k g₁ := layerScalar_eq la g₁
   by_cases hc : γ' = γ
   · have hg : g₁ = g₂ := Subtype.ext hc.symm
-    rw [if_pos hc, if_pos hg, hs, hg, mul_one]
+    rw [ite_eq_left hc, ite_eq_left hg, hs, hg, mul_one]
   · have hg : ¬ g₁ = g₂ := fun h => hc (congrArg Subtype.val h).symm
-    rw [if_neg hc, if_neg hg, mul_zero]
+    rw [ite_eq_right hc, ite_eq_right hg, mul_zero]
 
 open scoped commutatorElement
 
@@ -233,7 +233,7 @@ theorem layerScalar_add {t : MulAut ↥(adjointGroup Tag.D4 K)}
     have hYe : (Y : ModGL Tag.D4 K) = pinnedX Tag.D4 K δ 1 := rfl
     rw [hXe, hYe]
     have := rootCoord_commutator_pinnedX_d4 hγ hδ hβ' (by rw [d4_height_add]) (1 : K) 1
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     simpa using this
   have e1 := layerAct_coord_triv la hr kβ g₃ Z hZN
   change rootCoord hβ' ((t Z : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) = la.f kβ g₃ * rootCoord hβ' (Z : ModGL Tag.D4 K) at e1
@@ -255,13 +255,13 @@ theorem layerScalar_add {t : MulAut ↥(adjointGroup Tag.D4 K)}
   have hδm : δ ∈ d4RootsAt (height δ) := mem_d4RootsAt.2 ⟨hδ.1, rfl⟩
   rw [Finset.sum_eq_single γ (fun γ' hγ' hne' => by
       refine Finset.sum_eq_zero fun δ' _ => ?_
-      rw [pc_layerAct_rootElt la hr hγ hγ', if_neg hne']
+      rw [pc_layerAct_rootElt la hr hγ hγ', ite_eq_right hne']
       simp) (fun h => absurd hγm h),
     Finset.sum_eq_single δ (fun δ' hδ' hne' => by
-      rw [pc_layerAct_rootElt la hr hδ hδ', if_neg hne']
+      rw [pc_layerAct_rootElt la hr hδ hδ', ite_eq_right hne']
       simp) (fun h => absurd hδm h),
     pc_layerAct_rootElt la hr hγ hγm, pc_layerAct_rootElt la hr hδ hδm] at hpair
-  simp only [if_true] at hpair
+  simp only [ite_true] at hpair
   have hsγ : layerScalar la γ = layerScalar la γ := rfl
   have hsβ : la.f kβ g₃ = layerScalar la (γ + δ) := (layerScalar_eq la g₃).symm
   rw [hsβ] at hpair

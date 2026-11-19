@@ -22,7 +22,7 @@ theorem card_over
     {T : Subgroup P45} (hT0 : QT0.originalSubgroup ≤ T) (hTA : T ≤ QA45.originalSubgroup)
     (hT2 : IsPGroup 2 T) {w : P45} (hw : w ∈ T) (hwT0 : w ∉ QT0.originalSubgroup) :
     Nat.card T = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT2
   have h1 : Nat.card T ∣ Nat.card QA45.originalSubgroup := Subgroup.card_dvd_of_le hTA
   have h2 : Nat.card QT0.originalSubgroup ∣ Nat.card T := Subgroup.card_dvd_of_le hT0

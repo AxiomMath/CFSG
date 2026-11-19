@@ -87,10 +87,10 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Sub
 variable {k : ℕ}
 
 section
-private theorem relPPrimeCore_eq_map_self {p : ℕ} (hp : p.Prime) (C : Subgroup G) :
+private theorem relPPrimeCore_eq_map_self {p : ℕ} (_hp : p.Prime) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C =
       (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -112,6 +112,7 @@ private theorem relPPrimeCore_eq_map_self {p : ℕ} (hp : p.Prime) (C : Subgroup
     · rw [Subgroup.card_map_of_injective C.subtype_injective]
       exact CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_coprime p
 
+omit [Finite G] in
 private theorem relPPrimeCore_le_self (p : ℕ) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C ≤ C :=
   sSup_le fun _ hN => hN.1
@@ -125,7 +126,7 @@ private theorem relPPrimeCore_normal_self {p : ℕ} (hp : p.Prime) (C : Subgroup
   rw [Subgroup.comap_map_eq_self_of_injective C.subtype_injective]
   infer_instance
 
-private theorem kSub_generator_le (h : NineSettingGen G M p Q H E k) (hL : pLayerIn p H ≤ M) :
+private theorem kSub_generator_le (_h : NineSettingGen G M p Q H E k) (hL : pLayerIn p H ≤ M) :
     kSub p M H ≤ closure {x : G | x ∈ kSub p M H ∧ ∃ n : ℕ, x ^ p ^ n = 1} := by
   rw [kSub_of_le hL]
   refine sSup_le ?_
@@ -144,7 +145,7 @@ theorem kSub_le_closure_pElem_sup (h : NineSettingGen G M p Q H E k) (hL : pLaye
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 3 R (CFSG.Open.relPPrimeCore p H)) :
     kSub p M H ≤ closure {y : G | y ∈ kSub p M H ∧ y ∈ normalizer (R : Set G) ∧
         ∃ n : ℕ, y ^ p ^ n = 1} ⊔ (kSub p M H ⊓ CFSG.Open.relPPrimeCore p H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact le_closure_pElem_sup_inf (p := p) (q := 3) (H := H) h.prime (kSub_le p M H)
     (kSub_normal_of_le hL) (relPPrimeCore_le_self p H) (relPPrimeCore_normal_self h.prime H)
     hR (kSub_generator_le h hL)
@@ -155,7 +156,7 @@ theorem kSub_eq_of_forall_mem_centralizer (h : NineSettingGen G M p Q H E k) (hL
       y ∈ centralizer (R : Set G)) :
     kSub p M H = (kSub p M H ⊓ centralizer (R : Set G)) ⊔
       CFSG.Open.relPPrimeCore p (kSub p M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · have h1 := le_inf_centralizer_sup_inf (p := p) (q := 3) (H := H) h.prime (kSub_le p M H)
       (kSub_normal_of_le hL) (relPPrimeCore_le_self p H) (relPPrimeCore_normal_self h.prime H)
@@ -169,6 +170,7 @@ private theorem card_SL_three_zmod_three [Fact (Nat.Prime 3)] :
   rw [Matrix.card_SL_field (n := 3) (𝔽 := ZMod 3), ZMod.card, Fin.prod_univ_three]
   norm_num
 
+omit [Finite G] in
 private theorem starImg_mono' {A B : Subgroup G} (hAB : A ≤ B) :
     starImg p H A ≤ starImg p H B :=
   Subgroup.map_mono (Subgroup.comap_mono hAB)
@@ -275,9 +277,9 @@ theorem exists_index_thirteen_or_dvd (h67 : SixSeven) (h : NineSettingGen G M 13
     (hyD : ∃ d ∈ omegaOnePSub 3 R, y * d * y⁻¹ ≠ d) :
     (∃ N : Subgroup ↥(kStar 13 M H), N.Normal ∧ N.index = 13) ∨
       27 ∣ Nat.card (kStar 13 M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h13 : Nat.Prime 13 := by norm_num
-  haveI : Fact (Nat.Prime 13) := ⟨h13⟩
+  have : Fact (Nat.Prime 13) := ⟨h13⟩
   set S : Set G := {y : G | y ∈ kSub 13 M H ∧ y ∈ normalizer (R : Set G) ∧
     ∃ n : ℕ, y ^ 13 ^ n = 1}
   have hK1K : closure S ≤ kSub 13 M H := by
@@ -301,12 +303,12 @@ theorem exists_index_thirteen_or_dvd (h67 : SixSeven) (h : NineSettingGen G M 13
   rcases hW with hcard | hSL
   · exact Or.inl (exists_normal_index_of_card_range_eq_thirteen h13 hK1H hK hcard)
   · exact Or.inr (dvd_card_kStar_of_isSLType h13 hK1H hK1R hR hDR hφ hK hSL)
-private theorem not_dvd_card_kStar_thirteen (h : NineSettingGen G M 13 Q H E k)
-    (hH2 : H ∈ H2Fam M Q) (hp : 13 ∉ sigmaM G M) (hL0 : pLayerIn 13 H = ⊥)
+private theorem not_dvd_card_kStar_thirteen (_h : NineSettingGen G M 13 Q H E k)
+    (_hH2 : H ∈ H2Fam M Q) (_hp : 13 ∉ sigmaM G M) (hL0 : pLayerIn 13 H = ⊥)
     (hrkH : CFSG.Open.pRank 13 H ≤ 2) : ¬ 27 ∣ Nat.card (kStar 13 M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h13 : Nat.Prime 13 := by norm_num
-  haveI : Fact (Nat.Prime 13) := ⟨h13⟩
+  have : Fact (Nat.Prime 13) := ⟨h13⟩
   let X := StarGroup 13 H
   have hC : centralizer (CFSG.pCore 13 X : Set X) ≤ CFSG.pCore 13 X :=
     centralizer_pCore_le_of_layer_eq_bot h13 H ((pLayerIn_eq_bot_iff h13 H).mp hL0)
@@ -333,7 +335,7 @@ private theorem not_dvd_card_kStar_thirteen (h : NineSettingGen G M 13 Q H E k)
   norm_num [Fin.prod_univ_two] at hGL
 
 private theorem kStar_commutator_eq_thirteen (h : NineSettingGen G M 13 Q H E 2)
-    (hH2 : H ∈ H2Fam M Q) (hp : 13 ∉ sigmaM G M) (hL : pLayerIn 13 H = ⊥)
+    (_hH2 : H ∈ H2Fam M Q) (hp : 13 ∉ sigmaM G M) (hL : pLayerIn 13 H = ⊥)
     (hU : NineNineOne M 13) (hrkH : CFSG.Open.pRank 13 H ≤ 2) :
     ⁅kStar 13 M H, kStar 13 M H⁆ = kStar 13 M H := by
   have hLM : pLayerIn 13 H ≤ M := by
@@ -363,11 +365,11 @@ private theorem kStar_commutator_eq_thirteen (h : NineSettingGen G M 13 Q H E 2)
 
 private theorem prime_eq_three_or_five (h72 : KFactOmegaNotCentral)
     (h : NineSettingGen G M p Q H E k)
-    (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M)
+    (_hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M)
     (hrk : 5 < p → CFSG.Open.pRank p H ≤ 2)
     (hR : 2 ≤ CFSG.Open.pRank p (CFSG.pCore p (StarGroup p H)))
     {J : Subgroup (StarGroup p H)} (hJ : CFSG.IsComponent J) : p = 3 ∨ p = 5 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨A, hAle, hAab, hAcard⟩ :=
     CFSG.SectionRank.exists_pRank h.prime.one_lt (CFSG.pCore p (StarGroup p H))
   have hAcentJ : A ≤ centralizer (J : Set (StarGroup p H)) :=
@@ -425,11 +427,11 @@ private theorem false_of_p_eq_three {p : ℕ} {R : Subgroup G} (hp3 : p = 3)
     (hR3 : IsPGroup 3 ↥R) (hRO : R ≤ CFSG.Open.relPPrimeCore p H)
     {y : G} (hyC : y ∉ centralizer (R : Set G)) : False := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hR3
   rcases Nat.eq_zero_or_pos m with hm0 | hmpos
   · have hcardR : Nat.card ↥R = 1 := by rw [hm, hm0, pow_zero]
-    haveI : Subsingleton ↥R := (Nat.card_eq_one_iff_unique.mp hcardR).1
+    have : Subsingleton ↥R := (Nat.card_eq_one_iff_unique.mp hcardR).1
     exact hyC (Subgroup.mem_centralizer_iff.mpr fun r hr => by
       have h1 : (⟨r, hr⟩ : ↥R) = (1 : ↥R) := Subsingleton.elim _ _
       have hr1 : r = 1 := by simpa using congrArg Subtype.val h1
@@ -481,7 +483,7 @@ theorem false_of_thirteen_of_pRank_le_two (hI : NineTenInputs) (h67 : SixSeven)
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.nineNineOneInput_holds G M Q H E 13 h hp
   have hK := kStar_commutator_eq_thirteen h hH2 hp hL0 hU hrk
   obtain ⟨T, hT⟩ := id hR
-  have hR3 : IsPGroup 3 ↥R := hT ▸ T.isPGroup'.map (CFSG.Open.relPPrimeCore 13 H).subtype
+  have hR3 : IsPGroup 3 ↥R := hT ▸ T.isPGroup.map (CFSG.Open.relPPrimeCore 13 H).subtype
   have hRO : R ≤ CFSG.Open.relPPrimeCore 13 H := by
     intro x hx
     rw [← hT] at hx
@@ -514,7 +516,7 @@ theorem nineTwelveTwoKer (hI : NineTenInputs) (h67 : SixSeven)
   push Not at hc
   obtain ⟨y, hyK, hyN, hyp, hyC⟩ := hc
   obtain ⟨T, hT⟩ := id hR
-  have hR3 : IsPGroup 3 ↥R := hT ▸ T.isPGroup'.map (CFSG.Open.relPPrimeCore p H).subtype
+  have hR3 : IsPGroup 3 ↥R := hT ▸ T.isPGroup.map (CFSG.Open.relPPrimeCore p H).subtype
   have hRO : R ≤ CFSG.Open.relPPrimeCore p H := by
     intro x hx
     rw [← hT] at hx

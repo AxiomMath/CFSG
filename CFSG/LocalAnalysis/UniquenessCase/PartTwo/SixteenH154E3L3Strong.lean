@@ -20,8 +20,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_e3_not_isMulCommutative_of_isL3 {Y : Type} [Group Y] [Finite Y]
     (h : IsL3 Y 1) : ¬ IsMulCommutative Y := by
   intro hcomm
-  haveI : IsMulCommutative Y := hcomm
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have : IsMulCommutative Y := hcomm
+  have : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   have hp : (Nat.card Y).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   rw [card_eq_of_isL3 h] at hp
   norm_num at hp
@@ -56,7 +56,7 @@ private theorem s16h_e3_frame_components {W : Type} [CommGroup W] [Finite W]
       (X ⊓ Subgroup.centralizer
         ((L ⊔ L' : Subgroup (MulAut W)) : Set (MulAut W))) ≠ L' := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨t, htT, hL', -⟩ := F.swap
@@ -112,11 +112,11 @@ private theorem s16h_e3_frame_components {W : Type} [CommGroup W] [Finite W]
       have h := F.sup_eq
       rw [← hUeq, sup_idem, hUbot] at h
       exact h.symm
-    haveI : Subsingleton W := ⟨fun a b => by
+    have : Subsingleton W := ⟨fun a b => by
       have ha : a = 1 := Subgroup.mem_bot.1 (htop ▸ Subgroup.mem_top a)
       have hb : b = 1 := Subgroup.mem_bot.1 (htop ▸ Subgroup.mem_top b)
       rw [ha, hb]⟩
-    haveI : Subsingleton (MulAut W) :=
+    have : Subsingleton (MulAut W) :=
       ⟨fun a b => MulEquiv.ext (fun w => Subsingleton.elim (a w) (b w))⟩
     have hLbot : L = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
@@ -133,7 +133,7 @@ private theorem s16h_e3_frame_components {W : Type} [CommGroup W] [Finite W]
       have h1 : K ≤ Subgroup.centralizer (L : Set (MulAut W)) :=
         hKC.trans (Subgroup.centralizer_le (fun x hx => Subgroup.mem_sup_left hx))
       exact heq ▸ h1
-    haveI : IsMulCommutative ↥L :=
+    have : IsMulCommutative ↥L :=
       ⟨⟨fun a b => Subtype.ext (by
         exact ((Subgroup.mem_centralizer_iff.1 (hle a.2)) (b : MulAut W) b.2).symm)⟩⟩
     exact (s16h_e3_not_isMulCommutative_of_isL3 hL) inferInstance
@@ -145,7 +145,7 @@ private theorem s16h_e3_frame_components {W : Type} [CommGroup W] [Finite W]
       have h1 : K ≤ Subgroup.centralizer (L' : Set (MulAut W)) :=
         hKC.trans (Subgroup.centralizer_le (fun x hx => Subgroup.mem_sup_right hx))
       exact heq ▸ h1
-    haveI : IsMulCommutative ↥L' :=
+    have : IsMulCommutative ↥L' :=
       ⟨⟨fun a b => Subtype.ext (by
         exact ((Subgroup.mem_centralizer_iff.1 (hle a.2)) (b : MulAut W) b.2).symm)⟩⟩
     exact (s16h_e3_not_isMulCommutative_of_isL3 hL'3) inferInstance
@@ -167,8 +167,8 @@ theorem s16h_e3_l3_K_strong (D : Data G) (S : s16h_Std D) {V₀ V L : Subgroup G
           Set (MulAut (Vtil V₀ V h.hyp151.isElemAbelian)))) 1) :
     IsStronglyPEmbedded 3 D.M ∧ 3 ≤ CFSG.Open.pRank 3 D.M := by
   classical
-  haveI : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
-  haveI : Finite (MulAut (Vtil V₀ V h.hyp151.isElemAbelian)) := MulEquiv.finite_left
+  have : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
+  have : Finite (MulAut (Vtil V₀ V h.hyp151.isElemAbelian)) := MulEquiv.finite_left
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp16.hyp125.pairFacts.le_normalizer
       h.hyp16.hyp125.pairFacts.le_normalizer₀

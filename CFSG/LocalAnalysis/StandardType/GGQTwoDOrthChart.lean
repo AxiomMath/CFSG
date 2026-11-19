@@ -40,7 +40,7 @@ theorem qtwoOrthFrameCore_of_cfg {G : Type} [Group G] [Finite G] {p : ℕ}
   classical
   have hroute : GGSecFiveRouteCfg p B Bs x L D J 𝒦 := hcfg.1
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hroute
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconf : GGConfig p B Bs x L D J := hroute.1.1
   obtain ⟨-, hBs, -, -, -⟩ := hconf.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hconf.2.1.2.2.2

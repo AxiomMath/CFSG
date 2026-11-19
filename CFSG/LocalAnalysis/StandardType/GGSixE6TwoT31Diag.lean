@@ -140,7 +140,7 @@ private theorem e6TwoT31SL_ne_one : e6TwoT31SL ≠ 1 := by
   decide +kernel
 
 private theorem e6TwoT31SL_orderOf : orderOf e6TwoT31SL = 31 := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   exact orderOf_eq_prime e6TwoT31SL_pow_31 e6TwoT31SL_ne_one
 
 private theorem e6TwoT31SL_mulVec_pow
@@ -198,7 +198,7 @@ private theorem e6TwoT31SL_cent_mulVec_single_5
     intro hzero
     have h0 := Matrix.eq_zero_of_mulVec_eq_zero (Matrix.SpecialLinearGroup.det_ne_zero A.1) hzero
     have := congrFun h0 (5 : Fin 6)
-    simpa using this
+    simp at this
   have h5ne : (Matrix.mulVec (A.1 : Matrix (Fin 6) (Fin 6) (ZMod 2))
       (Pi.single (5 : Fin 6) 1)) 5 ≠ 0 := by
     intro h5
@@ -259,7 +259,7 @@ private theorem e6TwoT31SL_cent_mulVec_mem
   exact ⟨e6TwoT31SL_annihilate _ hann, fun hzero => by
     have h0 := Matrix.eq_zero_of_mulVec_eq_zero (Matrix.SpecialLinearGroup.det_ne_zero A.1) hzero
     have := congrFun h0 (0 : Fin 6)
-    simpa using this⟩
+    simp at this⟩
 
 private theorem e6TwoT31SL_cent_mulVec_injective :
     Function.Injective (fun A : ↥(Subgroup.centralizer ({e6TwoT31SL} :
@@ -368,7 +368,7 @@ theorem orderOf_e6TwoT31 :
   have hTne : (Matrix.SpecialLinearGroup.map (ZMod.castHom (dvd_refl 2) F2) e6TwoT31SL) ≠ 1 := by
     intro h
     exact e6TwoT31SL_ne_one (hmap_inj (by rw [h, map_one]))
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hord : orderOf (Matrix.SpecialLinearGroup.map (ZMod.castHom (dvd_refl 2) F2)
       e6TwoT31SL) = 31 :=
     orderOf_eq_prime hT31 hTne
@@ -381,7 +381,7 @@ theorem lE_inf_centralizer_e6TwoT31 :
   have hinj : Function.Injective (E6Pilot.slToAdjointE6 F2) :=
     E6Pilot.injective_slToAdjointE6_two e6TwoT31_card_F2
   have hrange : (E6Pilot.slToAdjointE6 F2).range = lE := E6Pilot.range_slToAdjointE6
-  letI : Fintype F2 := Fintype.ofFinite F2
+  let : Fintype F2 := Fintype.ofFinite F2
   have hcard : Fintype.card F2 = 2 := by
     rw [← Nat.card_eq_fintype_card]
     rw [GaloisField.card 2 1 (by omega), pow_one]

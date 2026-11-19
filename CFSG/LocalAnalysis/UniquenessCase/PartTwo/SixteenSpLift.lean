@@ -69,7 +69,7 @@ theorem centralizer_le_of_noncyclic_bar (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ
     (hE : E ≤ ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV x)) (hEp : IsPGroup p E)
     (hEc : ¬ IsCyclic E) : centralizer ({x.val} : Set G) ≤ D.M := by
   classical
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have h113 : ∃ n ≤ 2, (D.M ⊓ centralizer ({x.val} : Set G)).relIndex
       (F11.CElt D.M V₀ x.val) = 2 ^ n := by
     rcases hcase with rfl | h

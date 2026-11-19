@@ -26,7 +26,7 @@ theorem y7b_relIndex_eq_six {X K : Subgroup G} (ρ : ↥X →* Equiv.Perm (Fin 3
     Nat.card_eq_fintype_card, Fintype.card_fin]
   decide
 
-theorem y7b_perm3_surj_of_relIndex {X N K : Subgroup G} (hNX : N ≤ X) (hKN : K ≤ N)
+theorem y7b_perm3_surj_of_relIndex {X N K : Subgroup G} (hNX : N ≤ X) (_hKN : K ≤ N)
     (ρ : ↥X →* Equiv.Perm (Fin 3))
     (hker : ∀ n : ↥X, (n : G) ∈ N → (ρ n = 1 ↔ (n : G) ∈ K)) (h6 : K.relIndex N = 6) :
     ∀ σ : Equiv.Perm (Fin 3), ∃ n : ↥X, (n : G) ∈ N ∧ ρ n = σ := by

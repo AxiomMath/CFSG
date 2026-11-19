@@ -94,7 +94,7 @@ theorem goldschmidt_fstar [IsSimpleGroup (genFittingFStar G)]
     · exfalso
       have hL0 := hle L h
       obtain ⟨-, hsimp⟩ := hL.2.2
-      haveI : Subsingleton ↥L := ⟨fun a b => Subtype.ext (by
+      have : Subsingleton ↥L := ⟨fun a b => Subtype.ext (by
         have ha' : (a : ↥M ⧸ goldschmidtOddCore ↥M) ∈ (⊥ : Subgroup _) := by
           rw [← hL0]; exact a.2
         have hb' : (b : ↥M ⧸ goldschmidtOddCore ↥M) ∈ (⊥ : Subgroup _) := by
@@ -105,7 +105,7 @@ theorem goldschmidt_fstar [IsSimpleGroup (genFittingFStar G)]
         (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).subsingleton
       exact (not_nontrivial_iff_subsingleton.mpr hsub) hsimp.toNontrivial
   have hP : pCore 2 (↥M ⧸ goldschmidtOddCore ↥M) = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hPn := CFSG.RankThreeCoreUniqueness.Helpers.pCore_normal
       (G := ↥M ⧸ goldschmidtOddCore ↥M) 2
     have := (CFSG.RankThreeCoreUniqueness.Helpers.pCore_isPGroup

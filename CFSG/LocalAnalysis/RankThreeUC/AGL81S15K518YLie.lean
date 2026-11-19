@@ -44,7 +44,7 @@ theorem mem_sup_centralizer_of_classical (hG : KFactChevGenThree) (hO : KFact518
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.GNQuotient.isSylowTwoOf_gnImg_inf hX.sylow
       hLs.1.2.1
   have hNL : ∀ N : Subgroup (X ⧸ gnC T), N ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)) := by
-    haveI := hn
+    have := hn
     intro N
     rw [Subgroup.normalizer_eq_top]
     exact le_top

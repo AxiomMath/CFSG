@@ -18,11 +18,11 @@ theorem twE6TTFive_holds :
   have hfin : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have htor := isToralE6_of_le_ggFixGp_five hE hel hfin
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   obtain ⟨g, hg, hgn, hgt⟩ :=

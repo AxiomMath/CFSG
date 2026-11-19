@@ -15,6 +15,7 @@ section Pcore
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_pCoreOf_of_normal {C N : Subgroup X} (hNC : N ≤ C)
     (hn : ∀ c ∈ C, ∀ x ∈ N, c * x * c⁻¹ ∈ N) (hN : IsPGroup 2 N) : N ≤ pCoreOf 2 C := by
   have hN'n : (N.subgroupOf C).Normal := ⟨fun n hn' g => Subgroup.mem_subgroupOf.2 (by
@@ -26,6 +27,7 @@ theorem le_pCoreOf_of_normal {C N : Subgroup X} (hNC : N ≤ C)
   intro x hx
   exact ⟨⟨x, hNC hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite X] in
 theorem centralizer_conj_mem {B : Subgroup X} {g c : X} (hg : g ∈ Subgroup.normalizer (B : Set X))
     (hc : c ∈ Subgroup.centralizer (B : Set X)) :
     g * c * g⁻¹ ∈ Subgroup.centralizer (B : Set X) := by
@@ -87,7 +89,7 @@ theorem pgroup_normalizer_strict {p : ℕ} [hpF : Fact p.Prime] {Y B : Subgroup 
     (hY : IsPGroup p Y) (hBY : B ≤ Y)
     (h : ∀ y ∈ Y, y ∈ Subgroup.normalizer (B : Set X) → y ∈ B) : Y ≤ B := by
   by_contra hne
-  haveI : Group.IsNilpotent ↥Y := hY.isNilpotent
+  have : Group.IsNilpotent ↥Y := hY.isNilpotent
   have htop : B.subgroupOf Y ≠ ⊤ := by
     intro e
     apply hne
@@ -98,7 +100,7 @@ theorem pgroup_normalizer_strict {p : ℕ} [hpF : Fact p.Prime] {Y B : Subgroup 
     exact Subgroup.mem_subgroupOf.1 hmem
   have hlt := Group.normalizerCondition_of_isNilpotent (G := ↥Y) (B.subgroupOf Y)
     (lt_top_iff_ne_top.2 htop)
-  obtain ⟨y, hyN, hyB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hyN, hyB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hconj : ∀ b ∈ B, (y : X) * b * (y : X)⁻¹ ∈ B := by
     intro b hb
     have h1 := (Subgroup.mem_normalizer_iff.1 hyN ⟨b, hBY hb⟩).1 (Subgroup.mem_subgroupOf.2 hb)
@@ -133,7 +135,7 @@ theorem coprime_normal_criterion {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q D N
   classical
   have conjmem : ∀ (q : ↥Q) (d : ↥D), (q : X) * (d : X) * (q : X)⁻¹ ∈ D := fun q d =>
     (Subgroup.mem_normalizer_iff.1 (hQD q.2) (d : X)).1 d.2
-  letI act : MulDistribMulAction ↥Q ↥D :=
+  let act : MulDistribMulAction ↥Q ↥D :=
     { smul := fun q d => ⟨(q : X) * (d : X) * (q : X)⁻¹, conjmem q d⟩
       one_smul := fun d => Subtype.ext (by
         show (1 : X) * (d : X) * (1 : X)⁻¹ = (d : X)
@@ -193,9 +195,9 @@ theorem claim_card {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) (hO : GLAPPrim
   intro B hB hn K hK
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
+    ⟨le_top, Ts.isPGroup, fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
-    haveI := compE_normal (X := X)
+    have := compE_normal (X := X)
     infer_instance
   have hE_conj : ∀ g : X, ∀ e ∈ compE X, g * e * g⁻¹ ∈ compE X := fun g e he =>
     (compE_normal (X := X)).conj_mem e he g
@@ -210,7 +212,7 @@ theorem claim_card {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) (hO : GLAPPrim
   have hQT : ∀ q ∈ Q, q ∈ (Ts : Subgroup X) := fun q hq => hTT q (Subgroup.mem_inf.1 hq).1
   have hQE : ∀ q ∈ Q, q ∈ compE X := fun q hq => hTEE q (Subgroup.mem_inf.1 hq).1
   have hQN : ∀ q ∈ Q, q ∈ Subgroup.normalizer (B : Set X) := fun q hq => (Subgroup.mem_inf.1 hq).2
-  have hQp : IsPGroup p Q := Ts.isPGroup'.to_le (fun q hq => hQT q hq)
+  have hQp : IsPGroup p Q := Ts.isPGroup.to_le (fun q hq => hQT q hq)
   have hD2 : IsPGroup 2 (pCoreOf 2 (Subgroup.centralizer (B : Set X))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   by_cases hQB : Q ≤ B
@@ -228,7 +230,7 @@ theorem claim_card {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) (hO : GLAPPrim
     have hYT : Y ≤ (Ts : Subgroup X) := by
       rintro y ⟨b, hb, t, ht, rfl⟩
       exact (Ts : Subgroup X).mul_mem (hBT hb) (hTT t ht)
-    have hYp : IsPGroup p Y := Ts.isPGroup'.to_le hYT
+    have hYp : IsPGroup p Y := Ts.isPGroup.to_le hYT
     have hBY : B ≤ Y := fun b hb => ⟨b, hb, 1, TE.one_mem, by group⟩
     have hYB : Y ≤ B := pgroup_normalizer_strict hYp hBY (by
       rintro y ⟨b, hb, t, ht, rfl⟩ hyN
@@ -291,7 +293,7 @@ theorem claim_card {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) (hO : GLAPPrim
       rw [← heq] at h1
       exact h1
     have hRT : Q ⊔ B ≤ (Ts : Subgroup X) := sup_le (fun q hq => hQT q hq) hBT
-    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup'.to_le hRT
+    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup.to_le hRT
     have hc1 : Nat.card B < Nat.card ↥(Q ⊔ B) := Subgroup.card_lt_of_lt hBR
     have hc2 : Nat.card ↥(Q ⊔ B) ≤ Nat.card X := Subgroup.card_le_card_group _
     have hlt : Nat.card X - Nat.card ↥(Q ⊔ B) < n := by omega

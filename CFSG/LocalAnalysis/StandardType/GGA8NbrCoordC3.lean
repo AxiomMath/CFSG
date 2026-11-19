@@ -53,7 +53,6 @@ private theorem a8c3_hV {G : Type} [Group G] {Bs K : Subgroup G} {x y : G} (hxBs
   have hkK : (kb : G) ∈ K := (hK0 kb).mp hιk0
   have hkbG : (kb : G) = x * (y ^ m)⁻¹ := by
     rw [hkb]
-    change ((Additive.toMul (Additive.ofMul xb - m • Additive.ofMul yb) : ↥Bs) : G) = _
     rw [toMul_sub, toMul_nsmul]
     simp [div_eq_mul_inv, hxb, hyb]
   have hcomm : w * (kb : G) = (kb : G) * w := by
@@ -101,7 +100,7 @@ theorem ggForkA8CoordC3Input_of_mp
     (hMp : GGInnerDiagMpInput) (hLB : GGLBalanceInput) : GGForkA8CoordC3Input := by
   intro G _ _ p B Bs x L D J hcfg hinn hNT hp y K hnb hKm hlab
   subst hp
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hmodL : StatedClassicalModel (L ⧸ Subgroup.center L) .PSp 3 2 3 :=
     statedClassicalModel_of_hasLabel_C33 hlab
   have hxBs : x ∈ Bs := hcfg.tableB_facts.2.2.1

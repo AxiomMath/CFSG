@@ -38,8 +38,8 @@ theorem orbit_actWord [CharP K 2] (ω : List ℕ) : ∀ a : Fin e7Data.d,
       change e7Data_valid.endo K (e7Data_valid.nm K (letter i)) (Finsupp.single a 1) = _
       rw [e7Data_valid.endo_nm, e7Data_valid.nOp_single (R := K)]
       by_cases h : e7Data.wt a (letter i) = 1
-      · rw [if_pos h, ← Finsupp.single_neg, CharTwo.neg_eq]
-      · rw [if_neg h]
+      · rw [ite_eq_left h, ← Finsupp.single_neg, CharTwo.neg_eq]
+      · rw [ite_eq_right h]
     have hstep : ∃ g' ∈ EGrp K, (g' : Module.End K (V K)) (w0 : V K) =
         Finsupp.single (e7Data_valid.sRefl (letter i) a) 1 := by
       refine ⟨((e7Data_valid.nm K (letter i) : e7Data_valid.minGroup K) :
@@ -114,7 +114,7 @@ theorem single_mem_V0 {a : Fin e7Data.d} (ha : a ∈ idx0) :
     (Finsupp.single a (1 : K) : V K) ∈ V0 K := by
   rw [mem_V0]
   intro b hb
-  rw [Finsupp.single_apply, if_neg]
+  rw [Finsupp.single_apply, ite_eq_right]
   rintro rfl
   exact hb ha
 

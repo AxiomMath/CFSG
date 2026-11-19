@@ -100,8 +100,8 @@ theorem r847E3Dvd_dataOfSetup (hSE : StronglyEmbeddedFive) (hSEZ : StronglyEmbed
   intro Y hY hYN n hYn X hXY q hq hq2 hqn hXc p hp hp5 hpn
   have hSg := UC6S846.sigmaStd_dataOfSetup hS S
   obtain ⟨hpp, hp2⟩ := (dataOfSetup hS S).sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hsp := UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hp
   have hYM : Y ≤ S.M := hY.1.le
   have hMN : S.M ≤ normalizer (Y : Set G) :=

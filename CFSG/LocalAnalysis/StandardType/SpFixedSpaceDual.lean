@@ -19,7 +19,7 @@ theorem fromBlocks_neg_diag (A D : Matrix (Fin n) (Fin n) F) :
 theorem gram_transpose : (gram F n)ᵀ = -gram F n := by
   unfold gram
   rw [fromBlocks_transpose]
-  simp only [transpose_zero, transpose_one, transpose_neg, neg_zero]
+  simp only [transpose_zero, transpose_one, transpose_neg]
   rw [fromBlocks_neg]
   simp
 

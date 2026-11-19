@@ -148,7 +148,7 @@ theorem GGSecFiveE6QTwoCfg.false_of_endRow
     False := by
   classical
   obtain ⟨hRest, -, -, hBs, -, -, horderx, -, hstar, -, -⟩ := e6QTwo_config_facts hC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨lab, r, m, N, C, M, R, _instR, θ, I, hN, hperf, hlab, hrow, hP, hBsI, hlift, hT, -⟩ :=
     l05nPlQ_marking_with hW hLift (by norm_num : (3 : ℕ) ≠ 2)
       (fun _ _ N _ M => N ≤ 3 ∨ ¬ Nat.card M.Group ∣ 51840) hL

@@ -24,7 +24,7 @@ private theorem c23ne_exists_mem_normalizer_of_lt {H P : Subgroup G} (hP : IsPGr
   have hnc : NormalizerCondition P :=
     Group.normalizerCondition_of_isNilpotent (G := P) (h := hP.isNilpotent)
   have hlt : IP < Subgroup.normalizer (IP : Set P) := hnc IP hIPlt
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨x, x.2, fun hx => hxnot (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   have hxsub : x ∈ (Subgroup.normalizer (H : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hHP]
@@ -57,10 +57,10 @@ private theorem c23ne_conj_wClos_prop (D : Data G) (h63 : R16_63 D) {V₀ V L : 
 
 theorem c23ne_odd_relIndex_centralizer (D : Data G) (h63 : R16_63 D) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hsit : Sit1663 D V₀ V hV L)
-    {v : G} (hv : v ∈ V) (hv1 : v ≠ 1) :
+    {v : G} (hv : v ∈ V) (_hv1 : v ≠ 1) :
     Odd (D.M.relIndex (centralizer ({v} : Set G))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := centralizer ({v} : Set G) with hH
   obtain ⟨S, hSCM⟩ := CFSG.ABGLocalTools.exists_isSylowOf (p := 2) (H ⊓ D.M)
   have hSH : S ≤ H := hSCM.le.trans inf_le_left

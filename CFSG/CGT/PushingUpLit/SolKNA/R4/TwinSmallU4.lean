@@ -21,8 +21,8 @@ open scoped MatrixGroups
 theorem twin_false_u4Ne3 {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y}
     {S : Sylow 2 R} {t : Y} (hP : PerpHypR r n Y R S t)
     (hF : SmallU4Ne3 ↥(genFittingFStar Y)) : False := by
-  haveI := hP.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := hP.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot hP.core.nonab
   obtain ⟨p, f, hp, hp2, hf, h8, h3, hm⟩ := hF

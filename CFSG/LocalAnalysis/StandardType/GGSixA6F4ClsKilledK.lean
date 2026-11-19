@@ -46,9 +46,9 @@ theorem cntK_cons (e0 e1 e2 e3 c : ℕ) (r : ℕ × ℕ × ℕ × ℕ) (L : List
   change Nat.add (Bool.rec (motive := fun _ => ℕ) 0 1 (Nat.beq (valK e0 e1 e2 e3 r) c))
     (cntK e0 e1 e2 e3 c L) = _
   cases hb : Nat.beq (valK e0 e1 e2 e3 r) c
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
     rfl
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
     rfl
 
 theorem sum_rank4 {M : Type*} [AddCommMonoid M] (f : Fin Tag.F4.rank → M) :
@@ -91,14 +91,14 @@ theorem cnt_eq (e : Fin Tag.F4.rank → ZMod 7) (e0 e1 e2 e3 : ℕ) (h0 : e (idx
     by_cases h : valK e0 e1 e2 e3 (resK l) = c.val
     · have hd : decide (((valK e0 e1 e2 e3 (resK l) : ℕ) : ZMod 7) = c) = true := by
         rw [decide_eq_true_eq, h, ZMod.natCast_zmod_val]
-      rw [if_pos h, if_pos hd, List.length_cons]
+      rw [ite_eq_left h, ite_eq_left hd, List.length_cons]
       omega
     · have hd : ¬ decide (((valK e0 e1 e2 e3 (resK l) : ℕ) : ZMod 7) = c) = true := by
         rw [decide_eq_true_eq]
         intro h'
         apply h
         rw [← h', ZMod.val_natCast, Nat.mod_eq_of_lt hlt]
-      rw [if_neg h, if_neg hd]
+      rw [ite_eq_right h, ite_eq_right hd]
       omega
 
 theorem two_val (c : ℕ) : (2 * (c : ZMod 7)).val = 2 * (c % 7) % 7 := by

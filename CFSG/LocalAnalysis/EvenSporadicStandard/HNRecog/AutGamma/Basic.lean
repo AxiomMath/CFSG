@@ -18,7 +18,7 @@ open Classical in
 theorem act_of_isConj (τ : Gamma a ≃g Gamma a) {x : G} (hx : IsConj a x) :
     act τ x = ((τ ⟨x, hx⟩ : ConjVert a) : G) := by
   classical
-  simp only [act, dif_pos hx]
+  simp only [act, dite_eq_left hx]
 
 theorem act_vertex (τ : Gamma a ≃g Gamma a) (v : ConjVert a) : act τ (v : G) = (τ v : G) := by
   rw [act_of_isConj τ v.2]
@@ -33,7 +33,7 @@ theorem act_one (x : G) : act (1 : Gamma a ≃g Gamma a) x = x := by
   · rw [act_of_isConj _ hx]
     rfl
   · classical
-    simp only [act, dif_neg hx]
+    simp only [act, dite_eq_right hx]
 
 theorem act_mul (σ τ : Gamma a ≃g Gamma a) {x : G} (hx : IsConj a x) :
     act (σ * τ) x = act σ (act τ x) := by

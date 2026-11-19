@@ -30,10 +30,10 @@ private theorem flatMap_range_two_pow {α : Type*} (n j : ℕ) (hj : j < n)
       simp [h1]
     · subst heq
       rw [List.flatMap_eq_nil_iff.mpr ?_, List.nil_append, List.flatMap_singleton,
-        Nat.testBit_two_pow_self, if_pos rfl]
+        Nat.testBit_two_pow_self, ite_eq_left rfl]
       intro i hi
       rw [List.mem_range] at hi
-      rw [Nat.testBit_two_pow, if_neg]
+      rw [Nat.testBit_two_pow, ite_eq_right]
       simp [Ne.symm (Nat.ne_of_lt hi)]
 
 private theorem tWord_two_pow (j : ℕ) (hj : j < 9) :
@@ -72,7 +72,7 @@ private theorem uGenWords_fixed (k : ℕ) (hk : k < 10) :
     actWord (uGenWords.getD k []) 48 = 48 := by
   interval_cases k <;> decide
 
-@[expose] def lam0 : Submodule (ZMod 2) V8 :=
+def lam0 : Submodule (ZMod 2) V8 :=
   Submodule.span (ZMod 2) {bvec 8 1, bvec 8 2, bvec 8 12, bvec 8 48}
 
 private theorem b0_gen_zero :
@@ -131,11 +131,11 @@ theorem e0_mem_lam0 : e0 ∈ lam0 := by
 
 section
 
-@[expose] def lD (σ : ℕ) : Dfull := wordX (lWord σ)
+def lD (σ : ℕ) : Dfull := wordX (lWord σ)
 
-@[expose] def tD (τ : ℕ) : Dfull := wordX (tWord τ)
+def tD (τ : ℕ) : Dfull := wordX (tWord τ)
 
-@[expose] def uD (k : ℕ) : Dfull := wordX (uWord k)
+def uD (k : ℕ) : Dfull := wordX (uWord k)
 
 private theorem wordX_lWord (σ : ℕ) : wordX (lWord σ) = lD σ := rfl
 
@@ -169,8 +169,8 @@ theorem lD_eq_prod (σ : ℕ) :
   intro j hj
   rw [List.mem_range] at hj
   by_cases h : σ.testBit j
-  · rw [if_pos h, if_pos h, lD_two_pow j hj, wordX_map_lift]
-  · rw [if_neg h, if_neg h, wordX_nil]
+  · rw [ite_eq_left h, ite_eq_left h, lD_two_pow j hj, wordX_map_lift]
+  · rw [ite_eq_right h, ite_eq_right h, wordX_nil]
 
 private theorem uD_eq_wordD (k : ℕ) : uD k = wordD (uGenWords.getD k []) := by
   rw [uD, uWord, wordX_map_lift]
@@ -243,10 +243,10 @@ private theorem tD_eq_prod (τ : ℕ) :
   apply List.map_congr_left
   intro j _
   by_cases h : τ.testBit (j : ℕ)
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     rw [← tWord_two_pow (j : ℕ) (by omega)]
     exact tD_two_pow j
-  · rw [if_neg h, if_neg h, wordX_nil]
+  · rw [ite_eq_right h, ite_eq_right h, wordX_nil]
 
 theorem tD_eq (τ : ℕ) : tD τ = Psi9 (bvec 9 τ) := by
   rw [tD_eq_prod, Psi9_eq_prod]
@@ -271,9 +271,9 @@ theorem lD_mem_Lgrp (σ : ℕ) : lD σ ∈ Lgrp := by
   obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hx
   rw [List.mem_range] at hj
   by_cases h : σ.testBit j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact lD_two_pow_mem_Lgrp j hj
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Lgrp.one_mem
 
 end CFSG.Monster.B.TwoA.Sp8.WordRel

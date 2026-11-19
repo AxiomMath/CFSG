@@ -130,7 +130,7 @@ theorem Atom.extra5 (c : Ctx p A T) (hp5 : 5 ≤ p) (hWT : W ≤ T) (a : Atom p 
       exact a.mem_squares_of_comm huS (mem_centralizer_singleton_iff.1 huC).symm
     · intro f hf
       exact mem_inf.2 ⟨a.squares_le hf, mem_centralizer_singleton_iff.2 (a.squares_b hf).symm⟩
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hmod : Nat.card S ≡ Nat.card (squares S) [MOD p] := by
     have := card_modEq_card_inf_centralizer (c.pow_p a.hb) (a.inv a.hb)
     rwa [hCF] at this

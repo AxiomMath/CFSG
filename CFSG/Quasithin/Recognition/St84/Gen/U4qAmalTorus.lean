@@ -37,10 +37,10 @@ theorem U4qLocalData.borelOf_inf_borelOf (hH : Hyp111 L1 L2 S) (hD : U4qLocalDat
   classical
   obtain ⟨F, hFfield, hFfin, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
   obtain ⟨K, hKfield, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hFfield
-  letI := hKfield
-  letI := hFfin
-  haveI : CharP F 2 :=
+  let := hFfield
+  let := hKfield
+  let := hFfin
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   obtain ⟨ρ, κ, hκ, -, -, -, -, -, hC⟩ := hD.exists_ringHom_field hH hS c₁ c₂
   have hSL1 : S ≤ L1 := hD.le_left hH hS
@@ -99,7 +99,7 @@ theorem U4qLocalData.borelOf_inf_borelOf (hH : Hyp111 L1 L2 S) (hD : U4qLocalDat
   rw [hαv] at hC2
   rw [Subtype.coe_eta, hcα] at hC1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, map_one, mul_one] at hC1
+    Matrix.empty_val', Matrix.cons_val_fin_one, map_one, mul_one] at hC1
   have h11 : Multiplicative.toAdd (c₂.β ⟨d * c * d⁻¹, hv2⟩) 1 1 =
       A 1 1 * Multiplicative.toAdd (c₂.β ⟨c, hcQ2⟩) 1 1 * A 1 1 ^ 2 ^ f := by
     rw [c₂.equivariant ⟨d, hdL2⟩ ⟨c, hcQ2⟩ ⟨_, hv2⟩ rfl]
@@ -159,8 +159,8 @@ theorem U4qLocalData.commutator_mem_of_mem_bigB (hH : Hyp111 L1 L2 S)
   classical
   obtain ⟨F, hFfield, -, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
   obtain ⟨K, hKfield, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hFfield
-  letI := hKfield
+  let := hFfield
+  let := hKfield
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hSL2 : S ≤ L2 := hD.le_right hH hS
   have hmem₁ : ∀ x : ↥L1, (x : G) ∈ S ↔ c₁.α x ∈ utri F := fun x =>
@@ -194,7 +194,7 @@ theorem U4qLocalData.commutator_mem_of_mem_bigB (hH : Hyp111 L1 L2 S)
     have h := inv_mem (h12 y hy x hx)
     have e : (y * x * y⁻¹ * x⁻¹)⁻¹ = x * y * x⁻¹ * y⁻¹ := by group
     rwa [e] at h
-  haveI := hD.normal_subgroupOf_bigB hH hS
+  have := hD.normal_subgroupOf_bigB hH hS
   have hB1B : borelOf L1 S ≤ bigB L1 L2 S := le_sup_left.trans le_sup_left
   have hB2B : borelOf L2 S ≤ bigB L1 L2 S := le_sup_right.trans le_sup_left
   intro x hx y hy
@@ -215,7 +215,7 @@ theorem U4qLocalData.card_borelOf_left (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
     (hS : Nat.card S = 2 ^ (6 * f)) : Nat.card (borelOf L1 S) = 2 ^ (6 * f) * (2 ^ f - 1) := by
   classical
   obtain ⟨F, hFfield, -, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
-  letI := hFfield
+  let := hFfield
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hmem₁ : ∀ x : ↥L1, (x : G) ∈ S ↔ c₁.α x ∈ utri F := fun x =>
     (c₁.mem_iff x).trans mem_utri_iff_eq_unitri.symm
@@ -228,7 +228,7 @@ theorem U4qLocalData.card_borelOf_right (hH : Hyp111 L1 L2 S) (hD : U4qLocalData
     (hS : Nat.card S = 2 ^ (6 * f)) : Nat.card (borelOf L2 S) = 2 ^ (6 * f) * (4 ^ f - 1) := by
   classical
   obtain ⟨K, hKfield, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hKfield
+  let := hKfield
   have hSL2 : S ≤ L2 := hD.le_right hH hS
   have hmem₂ : ∀ x : ↥L2, (x : G) ∈ S ↔ c₂.α x ∈ utri K := fun x =>
     (c₂.mem_iff x).trans mem_utri_iff_eq_unitri.symm
@@ -265,7 +265,7 @@ theorem U4qLocalData.exists_hall_bigB (hH : Hyp111 L1 L2 S) (hD : U4qLocalData L
   have hSB : S ≤ bigB L1 L2 S := le_sup_right
   obtain ⟨H, hHB, hsup, hcard⟩ := exists_sup_eq_of_coprime hSB hBN ((2 ^ f - 1) * (4 ^ f - 1))
     (by rw [hD.card_bigB hH hS, hS]) (by rw [hS]; exact hcop)
-  have hinf : S ⊓ H = ⊥ := Subgroup.inf_eq_bot_of_coprime (by rw [hS, hcard]; exact hcop)
+  have hinf : S ⊓ H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hS, hcard]; exact hcop)))
   refine ⟨H, hHB, hsup, hinf, hcard, fun a ha b hb => ?_⟩
   have h1 : a * b * a⁻¹ * b⁻¹ ∈ S ⊓ H := Subgroup.mem_inf.mpr
     ⟨hD.commutator_mem_of_mem_bigB hH hS a (hHB ha) b (hHB hb),
@@ -278,7 +278,7 @@ private theorem U4qLocalData.borelOf_right_le_sup_trivOTwoQuot (hH : Hyp111 L1 L
     borelOf L2 S ≤ borelOf L1 S ⊔ (bigB L1 L2 S ⊓ trivOTwoQuot L1) := by
   classical
   obtain ⟨F, hFfield, -, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
-  letI := hFfield
+  let := hFfield
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hmem₁ : ∀ x : ↥L1, (x : G) ∈ S ↔ c₁.α x ∈ utri F := fun x =>
     (c₁.mem_iff x).trans mem_utri_iff_eq_unitri.symm
@@ -328,9 +328,9 @@ private theorem U4qLocalData.inf_trivOTwoQuot_inf_borelOf (hH : Hyp111 L1 L2 S)
     bigB L1 L2 S ⊓ trivOTwoQuot L1 ⊓ borelOf L1 S = pCoreOf 2 L1 := by
   classical
   obtain ⟨F, hFfield, hFfin, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
-  letI := hFfield
-  letI := hFfin
-  haveI : CharP F 2 :=
+  let := hFfield
+  let := hFfin
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   refine le_antisymm ?_ (le_inf (hD.pCoreOf_le_inf_trivOTwoQuot hH hS)
     (hH.pCoreOf_le_left.trans (hD.le_borelOf_left hH hS)))
@@ -377,9 +377,9 @@ theorem U4qLocalData.exists_torus_complement (hH : Hyp111 L1 L2 S)
     inf_le_left.trans ((hD.bigB_le_normalizer hH hS).trans
       (inf_le_left.trans (inf_le_left.trans (normalizer_le_normalizer_pCoreOf 2 L1))))
   obtain ⟨F, hFfield, hFfin, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
-  letI := hFfield
-  letI := hFfin
-  haveI : CharP F 2 :=
+  let := hFfield
+  let := hFfin
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   have hXL : ∀ x ∈ bigB L1 L2 S ⊓ trivOTwoQuot L1, x ∈ L1 → x ∈ pCoreOf 2 L1 :=
     fun x hx hxL =>
@@ -387,8 +387,7 @@ theorem U4qLocalData.exists_torus_complement (hH : Hyp111 L1 L2 S)
   obtain ⟨H₀, hH₀X, hsup, hcard⟩ := exists_sup_eq_of_coprime hQX hXN (4 ^ f - 1)
     (by rw [hD.card_inf_trivOTwoQuot hH hS, hD.card_left])
     (by rw [hD.card_left]; exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr hodd))
-  have hinf : H₀ ⊓ pCoreOf 2 L1 = ⊥ := Subgroup.inf_eq_bot_of_coprime
-    (by rw [hcard, hD.card_left]; exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.mpr hodd))
+  have hinf : H₀ ⊓ pCoreOf 2 L1 = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hcard, hD.card_left]; exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.mpr hodd))))
   have hH₀B : H₀ ≤ bigB L1 L2 S := hH₀X.trans inf_le_left
   have hH₀T : ∀ h ∈ H₀, ∀ x ∈ L1, h * x * h⁻¹ * x⁻¹ ∈ pCoreOf 2 L1 :=
     fun h hh => (mem_trivOTwoQuot.mp (hH₀X hh).2).2

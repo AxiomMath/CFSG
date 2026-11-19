@@ -31,7 +31,7 @@ public theorem CFSG.section13_sylowSubgroupIn_isPGroup
     IsPGroup p.val K := by
   rcases hK with ⟨S, rfl⟩
   change IsPGroup p.val ((S : Subgroup H).map H.subtype)
-  exact IsPGroup.map (p := p.val) (H := (S : Subgroup H)) S.isPGroup' H.subtype
+  exact IsPGroup.map (p := p.val) (H := (S : Subgroup H)) S.isPGroup H.subtype
 
 omit [IsMinCE G] in
 private theorem CFSG.section13_sylow_inf_comm
@@ -132,7 +132,7 @@ public theorem CFSG.section13_sylowSubgroupIn_of_overgroup_sylow_with_pgroups_le
   have hQp : IsPGroup q.val Q := by
     have hmap_p : IsPGroup q.val (section10AmbientSylowSubgroup C S) := by
       change IsPGroup q.val ((S : Subgroup C).map C.subtype)
-      exact IsPGroup.map (p := q.val) (H := (S : Subgroup C)) S.isPGroup' C.subtype
+      exact IsPGroup.map (p := q.val) (H := (S : Subgroup C)) S.isPGroup C.subtype
     rw [← hS]
     exact hmap_p
   have hRsub_p : IsPGroup q.val Rsub :=
@@ -308,7 +308,7 @@ public theorem CFSG.section13_E3_sylow_as_E_sylow
     exact congrArg (fun z : E => (z : G)) hxy
   have hKp : IsPGroup q.val K := by
     change IsPGroup q.val ((S : Subgroup E₃).map f)
-    exact IsPGroup.map (p := q.val) (H := (S : Subgroup E₃)) S.isPGroup' f
+    exact IsPGroup.map (p := q.val) (H := (S : Subgroup E₃)) S.isPGroup f
   have hK_not_index : ¬ q.val ∣ K.index := by
     intro hqKidx
     have hidx : K.index = (S : Subgroup E₃).index * f.range.index := by
@@ -365,7 +365,7 @@ public theorem CFSG.section13_E_sylowSubgroupIn_M_of_sigma_compl
     exact congrArg (fun z : M => (z : G)) hxy
   have hKp : IsPGroup q.val K := by
     change IsPGroup q.val ((T : Subgroup E).map f)
-    exact IsPGroup.map (p := q.val) (H := (T : Subgroup E)) T.isPGroup' f
+    exact IsPGroup.map (p := q.val) (H := (T : Subgroup E)) T.isPGroup f
   have hqπ : q ∈ (section10SigmaPrimes M)ᶜ := by
     simpa using hqσc
   have hK_not_index : ¬ q.val ∣ K.index := by
@@ -1240,7 +1240,7 @@ private theorem CFSG.section13_pSubgroup_le_pCore_of_nilpotent_for_hall
   obtain ⟨S, hB_le_S⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hBp
   have hS_normal : (S : Subgroup R).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) inferInstance S
-  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup'⟩)
+  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup⟩)
 
 omit [IsMinCE G] in
 private theorem CFSG.section13_pCore_ne_bot_of_dvd_card_nilpotent_for_hall
@@ -1250,7 +1250,7 @@ private theorem CFSG.section13_pCore_ne_bot_of_dvd_card_nilpotent_for_hall
   classical
   let S : Sylow q R := Classical.choice inferInstance
   have hS_le : (S : Subgroup R) ≤ pCore q R :=
-    section13_pSubgroup_le_pCore_of_nilpotent_for_hall (p := q) (R := R) S.isPGroup'
+    section13_pSubgroup_le_pCore_of_nilpotent_for_hall (p := q) (R := R) S.isPGroup
   have hqS : q ∣ Nat.card (S : Subgroup R) :=
     Sylow.dvd_card_of_dvd_card S hq
   intro hbot
@@ -2326,7 +2326,7 @@ private theorem CFSG.section13_pSubgroup_le_pCore_of_nilpotent
   obtain ⟨S, hB_le_S⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hBp
   have hS_normal : (S : Subgroup R).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) inferInstance S
-  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup'⟩)
+  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup⟩)
 
 private theorem CFSG.section13_lemma_13_8_commutator_malpha_inf_le_mstar_malpha
     {M Mstar Q : Subgroup G} {q : Nat.Primes}

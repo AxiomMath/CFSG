@@ -253,7 +253,7 @@ private theorem ggQ2xCNa_pos_bounds (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k < m := by
   refine ⟨?_, (e.symm k.1).isLt⟩
   by_contra h
-  push_neg at h
+  push Not at h
   have h0 : (e.symm k.1).val = 0 := by
     have : ggQ2xCNa_pos D e k = 0 := by omega
     simpa only [ggQ2xCNa_pos] using this
@@ -290,25 +290,25 @@ private theorem ggQ2xCNa_cartan (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
           ggQ2xCNa_pos D e j + 1 = ggQ2xCNa_pos D e k then -1 else 0) := by
   by_cases hkj : k = j
   · subst hkj
-    rw [if_pos rfl, D.isCartan.1]
+    rw [ite_eq_left rfl, D.isCartan.1]
   · have hne : k.1 ≠ j.1 := fun h => hkj (Subtype.ext h)
     have hpos : ¬ (ggQ2xCNa_pos D e k = ggQ2xCNa_pos D e j) :=
       fun h => hkj (ggQ2xCNa_pos_inj D e h)
-    rw [if_neg hpos]
+    rw [ite_eq_right hpos]
     have hlab := ggQ2xCNa_coxeter D e hA k j
     rcases D.isCartan.2 k.1 j.1 hne with ⟨hl, h1, -⟩ | ⟨hl, h1, -⟩ | ⟨hl, -, -⟩ | ⟨hl, -, -⟩
     · have hna : ¬ (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e j ∨
           ggQ2xCNa_pos D e j + 1 = ggQ2xCNa_pos D e k) := by
         intro hcon
-        rw [hlab, if_neg hpos, if_pos hcon] at hl
+        rw [hlab, ite_eq_right hpos, ite_eq_left hcon] at hl
         omega
-      rw [if_neg hna, h1]
+      rw [ite_eq_right hna, h1]
     · have hadj : (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e j ∨
           ggQ2xCNa_pos D e j + 1 = ggQ2xCNa_pos D e k) := by
         by_contra hcon
-        rw [hlab, if_neg hpos, if_neg hcon] at hl
+        rw [hlab, ite_eq_right hpos, ite_eq_right hcon] at hl
         omega
-      rw [if_pos hadj, h1]
+      rw [ite_eq_left hadj, h1]
     · exfalso
       rw [hlab] at hl
       split_ifs at hl <;> omega
@@ -322,12 +322,12 @@ private def ggQ2xCNa_ind (s : ZMod 3) (i j : ℕ) : ℕ → ZMod 3 :=
 private theorem ggQ2xCNa_ind_zero (s : ZMod 3) (i j : ℕ) (hi : 1 ≤ i) :
     ggQ2xCNa_ind s i j 0 = 0 := by
   simp only [ggQ2xCNa_ind]
-  rw [if_neg (by omega : ¬ (i ≤ 0 ∧ 0 ≤ j)), mul_zero]
+  rw [ite_eq_right (by omega : ¬ (i ≤ 0 ∧ 0 ≤ j)), mul_zero]
 
 private theorem ggQ2xCNa_ind_m (s : ZMod 3) (i j m : ℕ) (hj : j < m) :
     ggQ2xCNa_ind s i j m = 0 := by
   simp only [ggQ2xCNa_ind]
-  rw [if_neg (by omega : ¬ (i ≤ m ∧ m ≤ j)), mul_zero]
+  rw [ite_eq_right (by omega : ¬ (i ≤ m ∧ m ≤ j)), mul_zero]
 
 private theorem ggQ2xCNa_sum_cartan (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     (e : Fin m ≃ D.ι) (hA : D.coxeter = (CoxeterMatrix.A m).reindex e)
@@ -348,28 +348,28 @@ private theorem ggQ2xCNa_sum_cartan (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     intro j'
     rw [ggQ2xCNa_cartan D e hA k j']
     by_cases heq : ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k
-    · rw [if_pos heq.symm, heq, if_pos rfl,
-        if_neg (by omega : ¬ (ggQ2xCNa_pos D e k = ggQ2xCNa_pos D e k - 1)),
-        if_neg (by omega : ¬ (ggQ2xCNa_pos D e k = ggQ2xCNa_pos D e k + 1))]
+    · rw [ite_eq_left heq.symm, heq, ite_eq_left rfl,
+        ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k = ggQ2xCNa_pos D e k - 1)),
+        ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k = ggQ2xCNa_pos D e k + 1))]
       ring
-    · rw [if_neg (fun h => heq h.symm)]
+    · rw [ite_eq_right (fun h => heq h.symm)]
       by_cases hpre : ggQ2xCNa_pos D e j' + 1 = ggQ2xCNa_pos D e k
-      · rw [if_pos (Or.inr hpre),
+      · rw [ite_eq_left (Or.inr hpre),
           show ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k - 1 by omega,
-          if_pos rfl,
-          if_neg (by omega : ¬ (ggQ2xCNa_pos D e k - 1 = ggQ2xCNa_pos D e k)),
-          if_neg (by omega : ¬ (ggQ2xCNa_pos D e k - 1 = ggQ2xCNa_pos D e k + 1))]
+          ite_eq_left rfl,
+          ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k - 1 = ggQ2xCNa_pos D e k)),
+          ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k - 1 = ggQ2xCNa_pos D e k + 1))]
         ring
       · by_cases hsuc : ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e j'
-        · rw [if_pos (Or.inl hsuc),
+        · rw [ite_eq_left (Or.inl hsuc),
             show ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k + 1 by omega,
-            if_neg (by omega : ¬ (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e k)),
-            if_neg (by omega : ¬ (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e k - 1)),
-            if_pos rfl]
+            ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e k)),
+            ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e k + 1 = ggQ2xCNa_pos D e k - 1)),
+            ite_eq_left rfl]
           ring
-        · rw [if_neg (fun hc => hc.elim hsuc hpre), if_neg heq,
-            if_neg (by omega : ¬ (ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k - 1)),
-            if_neg (by omega : ¬ (ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k + 1))]
+        · rw [ite_eq_right (fun hc => hc.elim hsuc hpre), ite_eq_right heq,
+            ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k - 1)),
+            ite_eq_right (by omega : ¬ (ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k + 1))]
           ring
   have hSp : (∑ j' : ggQ2xCN_Lam D,
       (if ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k then g (ggQ2xCNa_pos D e k) else 0))
@@ -377,7 +377,7 @@ private theorem ggQ2xCNa_sum_cartan (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     rw [Fintype.sum_ite_eq_ite_exists
       (fun j' : ggQ2xCN_Lam D => ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k)
       (fun a b ha hb => ggQ2xCNa_pos_inj D e (ha.trans hb.symm)) (g (ggQ2xCNa_pos D e k))]
-    rw [if_pos ⟨k, rfl⟩]
+    rw [ite_eq_left ⟨k, rfl⟩]
   have hSpred : (∑ j' : ggQ2xCN_Lam D,
       (if ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k - 1
         then g (ggQ2xCNa_pos D e k - 1) else 0))
@@ -387,8 +387,8 @@ private theorem ggQ2xCNa_sum_cartan (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
       (fun a b ha hb => ggQ2xCNa_pos_inj D e (ha.trans hb.symm))
       (g (ggQ2xCNa_pos D e k - 1))]
     by_cases hex : ∃ j' : ggQ2xCN_Lam D, ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k - 1
-    · rw [if_pos hex]
-    · rw [if_neg hex]
+    · rw [ite_eq_left hex]
+    · rw [ite_eq_right hex]
       have hr : ggQ2xCNa_pos D e k - 1 = 0 := by
         by_contra hne
         obtain ⟨j', hj'⟩ := ggQ2xCNa_exists_pos D hm e ha (r := ggQ2xCNa_pos D e k - 1)
@@ -404,8 +404,8 @@ private theorem ggQ2xCNa_sum_cartan (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
       (fun a b ha hb => ggQ2xCNa_pos_inj D e (ha.trans hb.symm))
       (g (ggQ2xCNa_pos D e k + 1))]
     by_cases hex : ∃ j' : ggQ2xCN_Lam D, ggQ2xCNa_pos D e j' = ggQ2xCNa_pos D e k + 1
-    · rw [if_pos hex]
-    · rw [if_neg hex]
+    · rw [ite_eq_left hex]
+    · rw [ite_eq_right hex]
       have hr : ggQ2xCNa_pos D e k + 1 = m := by
         by_contra hne
         obtain ⟨j', hj'⟩ := ggQ2xCNa_exists_pos D hm e ha (r := ggQ2xCNa_pos D e k + 1)
@@ -444,11 +444,11 @@ private theorem ggQ2xCNa_coxeter_a (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
   by_cases hi : i = ⟨0, by omega⟩
   · rw [hi]
     simp
-  · rw [if_neg (fun hc => hi hc.symm), if_neg hi]
-    simp only [Fin.val_mk, zero_add]
+  · rw [ite_eq_right (fun hc => hi hc.symm), ite_eq_right hi]
+    simp only [zero_add]
     by_cases hi1 : (i : ℕ) = 1
-    · rw [if_pos (Or.inl (by omega)), if_pos hi1]
-    · rw [if_neg (fun hc => hc.elim (by omega) (by omega)), if_neg hi1]
+    · rw [ite_eq_left (Or.inl (by omega)), ite_eq_left hi1]
+    · rw [ite_eq_right (fun hc => hc.elim (by omega) (by omega)), ite_eq_right hi1]
 
 private theorem ggQ2xCNa_cartan_a (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     (e : Fin m ≃ D.ι) (hA : D.coxeter = (CoxeterMatrix.A m).reindex e)
@@ -459,12 +459,12 @@ private theorem ggQ2xCNa_cartan_a (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     have : b.1 = D.a := by rw [← Equiv.apply_symm_apply e b.1, hh, ha]
     exact b.2 this
   have hlab := ggQ2xCNa_coxeter_a D hm e hA ha (e.symm b.1)
-  rw [Equiv.apply_symm_apply, if_neg hb0] at hlab
+  rw [Equiv.apply_symm_apply, ite_eq_right hb0] at hlab
   have hneab : D.a ≠ b.1 := fun h => b.2 h.symm
   rcases D.isCartan.2 D.a b.1 hneab with ⟨hl, h1, -⟩ | ⟨hl, h1, -⟩ | ⟨hl, -, -⟩ | ⟨hl, -, -⟩
   · exact absurd h1 hb
   · by_contra hne1
-    rw [hlab, if_neg (by simpa only [ggQ2xCNa_pos] using hne1)] at hl
+    rw [hlab, ite_eq_right (by simpa only [ggQ2xCNa_pos] using hne1)] at hl
     omega
   · rw [hlab] at hl
     split_ifs at hl <;> omega
@@ -497,8 +497,8 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
         rw [hw j']
         simp only [ggQ2xCNa_ind]
         by_cases hmem : i ≤ ggQ2xCNa_pos D e j' ∧ ggQ2xCNa_pos D e j' ≤ j
-        · rw [if_pos hmem, if_pos hmem]; ring
-        · rw [if_neg hmem, if_neg hmem]; ring
+        · rw [ite_eq_left hmem, ite_eq_left hmem]; ring
+        · rw [ite_eq_right hmem, ite_eq_right hmem]; ring
       rw [hcongr, hT]
       simp only [ggQ2xCNa_ind, mul_ite, mul_one, mul_zero]
     have hcoord : ∀ k' : ggQ2xCN_Lam D,
@@ -508,21 +508,21 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
       rw [ggQ2xCN_refAct_apply, Pi.sub_apply, Pi.smul_apply]
       by_cases hk' : k' = k
       · subst hk'
-        rw [if_pos rfl, Pi.single_eq_same, smul_eq_mul, mul_one]
-      · rw [if_neg hk', Pi.single_eq_of_ne hk', smul_zero, sub_zero]
+        rw [ite_eq_left rfl, Pi.single_eq_same, smul_eq_mul, mul_one]
+      · rw [ite_eq_right hk', Pi.single_eq_of_ne hk', smul_zero, sub_zero]
     by_cases h1 : ggQ2xCNa_pos D e k < i
     · by_cases h1a : ggQ2xCNa_pos D e k + 1 = i
       · refine ⟨s, hs, i - 1, j, by omega, by omega, hj, ?_⟩
         intro k'
         rw [hcoord k']
         by_cases hk' : k' = k
-        · rw [if_pos hk', hk', hw k, hsum,
-            if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
-            if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
-            if_pos (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j),
-            if_pos (by omega : i - 1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)]
+        · rw [ite_eq_left hk', hk', hw k, hsum,
+            ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
+            ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
+            ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j),
+            ite_eq_left (by omega : i - 1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)]
           ring
-        · rw [if_neg hk', hw k']
+        · rw [ite_eq_right hk', hw k']
           have hne : ggQ2xCNa_pos D e k' ≠ ggQ2xCNa_pos D e k :=
             fun h => hk' (ggQ2xCNa_pos_inj D e h)
           have hiff : (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ j) ↔
@@ -535,12 +535,12 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
         intro k'
         rw [hcoord k']
         by_cases hk' : k' = k
-        · rw [if_pos hk', hk', hw k, hsum,
-            if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
-            if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
-            if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j))]
+        · rw [ite_eq_left hk', hk', hw k, hsum,
+            ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
+            ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
+            ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j))]
           ring
-        · rw [if_neg hk', hw k']
+        · rw [ite_eq_right hk', hw k']
     · by_cases h2 : ggQ2xCNa_pos D e k ≤ j
       · by_cases h2a : ggQ2xCNa_pos D e k = i
         · by_cases h2b : ggQ2xCNa_pos D e k = j
@@ -552,31 +552,31 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
             intro k'
             rw [hcoord k']
             by_cases hk' : k' = k
-            · rw [if_pos hk', hk', hw k, hsum,
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
-                if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
-                if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ i)]
+            · rw [ite_eq_left hk', hk', hw k, hsum,
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
+                ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
+                ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ i)]
               ring
-            · rw [if_neg hk', hw k']
+            · rw [ite_eq_right hk', hw k']
               have hne : ggQ2xCNa_pos D e k' ≠ ggQ2xCNa_pos D e k :=
                 fun h => hk' (ggQ2xCNa_pos_inj D e h)
               have hf1 : ¬ (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ j) := by
                 intro hc; exact hne (by omega)
               have hf2 : ¬ (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ i) := by
                 intro hc; exact hne (by omega)
-              rw [if_neg hf1, if_neg hf2]
+              rw [ite_eq_right hf1, ite_eq_right hf2]
           · refine ⟨s, hs, i + 1, j, by omega, by omega, hj, ?_⟩
             intro k'
             rw [hcoord k']
             by_cases hk' : k' = k
-            · rw [if_pos hk', hk', hw k, hsum,
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
-                if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j),
-                if_neg (by omega : ¬ (i + 1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j))]
+            · rw [ite_eq_left hk', hk', hw k, hsum,
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
+                ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j),
+                ite_eq_right (by omega : ¬ (i + 1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j))]
               ring
-            · rw [if_neg hk', hw k']
+            · rw [ite_eq_right hk', hw k']
               have hne : ggQ2xCNa_pos D e k' ≠ ggQ2xCNa_pos D e k :=
                 fun h => hk' (ggQ2xCNa_pos_inj D e h)
               have hiff : (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ j) ↔
@@ -590,13 +590,13 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
             intro k'
             rw [hcoord k']
             by_cases hk' : k' = k
-            · rw [if_pos hk', hk', hw k, hsum,
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
-                if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
-                if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j - 1))]
+            · rw [ite_eq_left hk', hk', hw k, hsum,
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
+                ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
+                ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j - 1))]
               ring
-            · rw [if_neg hk', hw k']
+            · rw [ite_eq_right hk', hw k']
               have hne : ggQ2xCNa_pos D e k' ≠ ggQ2xCNa_pos D e k :=
                 fun h => hk' (ggQ2xCNa_pos_inj D e h)
               have hiff : (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ j) ↔
@@ -609,24 +609,24 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
             intro k'
             rw [hcoord k']
             by_cases hk' : k' = k
-            · rw [if_pos hk', hk', hw k, hsum,
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
-                if_pos (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)]
+            · rw [ite_eq_left hk', hk', hw k, hsum,
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j),
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
+                ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)]
               ring
-            · rw [if_neg hk', hw k']
+            · rw [ite_eq_right hk', hw k']
       · by_cases h3 : ggQ2xCNa_pos D e k - 1 = j
         · refine ⟨s, hs, i, j + 1, hi, by omega, by omega, ?_⟩
           intro k'
           rw [hcoord k']
           by_cases hk' : k' = k
-          · rw [if_pos hk', hk', hw k, hsum,
-              if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
-              if_pos (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
-              if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
-              if_pos (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j + 1)]
+          · rw [ite_eq_left hk', hk', hw k, hsum,
+              ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
+              ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j),
+              ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j)),
+              ite_eq_left (by omega : i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j + 1)]
             ring
-          · rw [if_neg hk', hw k']
+          · rw [ite_eq_right hk', hw k']
             have hne : ggQ2xCNa_pos D e k' ≠ ggQ2xCNa_pos D e k :=
               fun h => hk' (ggQ2xCNa_pos_inj D e h)
             have hiff : (i ≤ ggQ2xCNa_pos D e k' ∧ ggQ2xCNa_pos D e k' ≤ j) ↔
@@ -639,21 +639,21 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
           intro k'
           rw [hcoord k']
           by_cases hk' : k' = k
-          · rw [if_pos hk', hk', hw k, hsum,
-              if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
-              if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
-              if_neg (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j))]
+          · rw [ite_eq_left hk', hk', hw k, hsum,
+              ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k ≤ j)),
+              ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k - 1 ∧ ggQ2xCNa_pos D e k - 1 ≤ j)),
+              ite_eq_right (by omega : ¬ (i ≤ ggQ2xCNa_pos D e k + 1 ∧ ggQ2xCNa_pos D e k + 1 ≤ j))]
             ring
-          · rw [if_neg hk', hw k']
+          · rw [ite_eq_right hk', hw k']
   · intro b hb
     have hpb : ggQ2xCNa_pos D e b = 1 := ggQ2xCNa_cartan_a D hm e hA ha b hb
     refine ⟨1, Or.inl rfl, 1, 1, le_rfl, le_rfl, by omega, ?_⟩
     intro k
     by_cases hk : k = b
     · subst hk
-      rw [Pi.single_eq_same, if_pos (by omega)]
+      rw [Pi.single_eq_same, ite_eq_left (by omega)]
     · rw [Pi.single_eq_of_ne hk,
-        if_neg (fun hc => hk (ggQ2xCNa_pos_inj D e ((le_antisymm hc.2 hc.1).trans hpb.symm)))]
+        ite_eq_right (fun hc => hk (ggQ2xCNa_pos_inj D e ((le_antisymm hc.2 hc.1).trans hpb.symm)))]
   · rintro ⟨s, hs, i, j, hi, hij, hj, hw⟩
     have hkey : ∀ k : ggQ2xCN_Lam D,
         ggQ2xCN_dvec D c k = -(((ggQ2xCNa_pos D e k + 1 : ℕ)) : ZMod 3) := by
@@ -677,17 +677,17 @@ private theorem ggQ2xCN_stable_A (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (e : F
       have h := hw k1
       rw [hk1v] at h
       by_cases hc1 : i ≤ ggQ2xCNa_pos D e k1 ∧ ggQ2xCNa_pos D e k1 ≤ j
-      · rw [if_pos hc1] at h
+      · rw [ite_eq_left hc1] at h
         exact h.symm
-      · rw [if_neg hc1] at h
+      · rw [ite_eq_right hc1] at h
         exact absurd h (by decide : ¬ ((1 : ZMod 3) = 0))
     have hs2 : s = 2 := by
       have h := hw k3
       rw [hk3v] at h
       by_cases hc3 : i ≤ ggQ2xCNa_pos D e k3 ∧ ggQ2xCNa_pos D e k3 ≤ j
-      · rw [if_pos hc3] at h
+      · rw [ite_eq_left hc3] at h
         exact h.symm
-      · rw [if_neg hc3] at h
+      · rw [ite_eq_right hc3] at h
         exact absurd h (by decide : ¬ ((2 : ZMod 3) = 0))
     rw [hs2] at hs1
     exact (by decide : ¬ ((2 : ZMod 3) = 1)) hs1
@@ -956,8 +956,8 @@ private theorem ggQ2xCNm_cartan_of_label3 (D : GGQ2Lin 3) {i j : D.ι} (hij : i 
 
 private theorem ggQ2xCNm_A_label_adj {m : ℕ} (i j : Fin m) (h : (i : ℕ) + 1 = (j : ℕ)) :
     (CoxeterMatrix.A m) i j = 3 := by
-  rw [ggQ2_A_label, if_neg (by intro hij; have := congrArg Fin.val hij; omega),
-    if_pos (Or.inl h)]
+  rw [ggQ2_A_label, ite_eq_right (by intro hij; have := congrArg Fin.val hij; omega),
+    ite_eq_left (Or.inl h)]
 
 private def ggQ2xCNm_E6swap : Fin 6 ≃ Fin 6 :=
   (Equiv.swap 0 5).trans (Equiv.swap 2 4)

@@ -33,7 +33,7 @@ theorem noL2Layer_three_D4_outer_two {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field 
     (hφ : φ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     NoL2Layer φ := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hG2 : NoL2Layer (fieldActor (t := TwistTag.D4) σ σ) :=
     noL2Layer_fieldActor_two_all hf hK σ hσ
   rcases Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv hf hK hσ hφ3

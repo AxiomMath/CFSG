@@ -29,7 +29,7 @@ theorem ggShadow_false_altSix (hyp : GGHypThreeSixteenFlat p H E)
     (hperf : ∀ P : Subgroup W, ⁅P, P⁆ = P → P ≤ CFSG.generalizedFitting W)
     (hKH : ¬ CFSG.generalizedFitting W ≤ H) (hp : p = 3)
     (he : Nonempty (↥(CFSG.generalizedFitting W) ≃* alternatingGroup (Fin 6))) : False := by
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
   have hKcard : Nat.card ↥(CFSG.generalizedFitting W) = 360 := by
     rw [Nat.card_congr he.some.toEquiv, nat_card_alternatingGroup,
       Nat.card_eq_fintype_card (α := Fin 6), Fintype.card_fin]
@@ -69,7 +69,7 @@ theorem ggShadow_false_lTwoEight (hyp : GGHypThreeSixteenFlat p H E)
     (hperf : ∀ P : Subgroup W, ⁅P, P⁆ = P → P ≤ CFSG.generalizedFitting W)
     (hKH : ¬ CFSG.generalizedFitting W ≤ H) (hp : p = 3)
     (hK : LieModel ↥(CFSG.generalizedFitting W) .PSL 2 2 3) : False := by
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
   have hcard : Nat.card ↥(CFSG.generalizedFitting W) = 504 := by
     have h := (CFSG.Timmesfeld.card_statedClassicalModel_two
       (hK.statedClassicalModel (by decide))).1 rfl

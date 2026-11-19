@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThreeUC.S15
 
-abbrev NineTwelveKerConclusion (G : Type) [Group G] [Finite G] (M Q H E : Subgroup G)
+abbrev NineTwelveKerConclusion (G : Type) [Group G] [Finite G] (M _Q H _E : Subgroup G)
     (p : ℕ) : Prop :=
   (¬ pLayerIn p H ≤ M → ∀ L : Subgroup G, IsPComponentIn p L (kSub p M H) →
     IsTwoPrimeComponentIn L H ∨

@@ -222,7 +222,6 @@ public theorem firstCase_normalizer_sylow3_inter_hhat_card
           (firstCase_sylow3_card_nine c d P)
       have hm := ((P : Subgroup G).subgroupOf c.Hhat).index_mul_card
       rw [hcardPsub, hhat_card c d] at hm
-      norm_num at hm
       exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 9) (by
         rw [mul_comm 9 ((P : Subgroup G).subgroupOf c.Hhat).index]
         rw [hm])

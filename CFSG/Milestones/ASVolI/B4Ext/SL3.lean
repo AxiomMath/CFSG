@@ -361,6 +361,7 @@ theorem burnsideB49x_sl3_card_RW_le (W : Submodule K (Fin 3 → K)) :
   have := Nat.card_le_card_of_injective φ hinj
   rwa [Nat.card_fun, Nat.card_fin] at this
 
+omit [Finite K] in
 theorem burnsideB49x_sl3_card_RW {H : Submodule K (Fin 3 → K)} :
     Module.finrank K H = 2 → Nat.card (burnsideB49x_RW H) = Nat.card K ^ 2 := by
   intro hH

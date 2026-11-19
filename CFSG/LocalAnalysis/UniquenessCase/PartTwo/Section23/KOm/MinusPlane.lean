@@ -218,7 +218,7 @@ theorem isoFix_isometry {b c : K} {A : GL ιM K}
   have h := ((mem_isoFix).mp hA).1 v
   rwa [← coe_quadMinus 2 K b c] at h
 
-theorem mulVec_apply_plane {b c : K} {A : GL ιM K} {lam : K}
+theorem mulVec_apply_plane {_b _c : K} {A : GL ιM K} {lam : K}
     (hcol : (A : Matrix ιM ιM K) *ᵥ KTabC.e1M K = lam • KTabC.e1M K)
     {x : ιM → K} (hx : x (Sum.inr (Sum.inl 0)) = 0) (i : Fin 2) :
     ((A : Matrix ιM ιM K) *ᵥ x) (Sum.inr (Sum.inr i)) =
@@ -236,7 +236,7 @@ private theorem mulVec_apply_planeCoord_of_block_one {b c : K} {A : GL ιM K} {l
     (hblk : planeBlock (A : Matrix ιM ιM K) = (1 : Matrix (Fin 2) (Fin 2) K))
     (i : Fin 2) :
     ((A : Matrix ιM ιM K) *ᵥ x) (Sum.inr (Sum.inr i)) = x (Sum.inr (Sum.inr i)) := by
-  rw [mulVec_apply_plane (b := b) (c := c) (A := A) (lam := lam) (x := x) hcol hx,
+  rw [mulVec_apply_plane (_b := b) (_c := c) (A := A) (lam := lam) (x := x) hcol hx,
     hblk]
   exact congrFun (Matrix.one_mulVec (fun j => x (Sum.inr (Sum.inr j)))) i
 
@@ -381,8 +381,8 @@ theorem card_le_two_mul_card_inf_rootGroupGL [Finite K] [CharP K 2] {b c : K}
     (hE : E ≤ isoFix (StatedQuadMinus 2 K b c) (KTabC.e1M K)) (hE2 : IsPGroup 2 ↥E) :
     Nat.card ↥E ≤ 2 * Nat.card ↥(E ⊓ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   set φ := planeBlockGHom b c hE with hφ
   have hker : φ.ker = (E ⊓ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K)).subgroupOf E := by
     ext g
@@ -430,7 +430,7 @@ theorem card_le_two_mul_card_inf_rootGroupGL [Finite K] [CharP K 2] {b c : K}
     rw [Nat.card_eq_fintype_card, hKcard, even_iff_two_dvd]
     exact dvd_pow_self 2 m.ne_zero
   have hqodd : Odd (Nat.card K + 1) := hqeven.add_one
-  haveI hRfin : Finite ↥R :=
+  have hRfin : Finite ↥R :=
     Finite.of_injective (fun f : ↥R => fun p : Fin 2 → K =>
         (f.1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) p)
       (fun f g h => Subtype.ext (LinearEquiv.ext fun p => congrFun h p))

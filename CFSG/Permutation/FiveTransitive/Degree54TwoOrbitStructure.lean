@@ -26,7 +26,7 @@ theorem regular_orbit_data
     (∀ x : X, Nat.card (orbit (sylowImage X P s S) x) = 16 →
       Nat.card (toPermHom (sylowImage X P s S) (orbit (sylowImage X P s S) x)).range = 16) := by
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hX : Nat.card X = 54 := by rwa [Nat.card_eq_fintype_card]
   have hQfixed : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]

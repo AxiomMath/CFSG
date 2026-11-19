@@ -30,8 +30,8 @@ namespace TwE6TB
 
 theorem largeEvenLabelAll_pow_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel}
     (hlab : LargeEvenInLambda2 lab) (ht : lab.tag = .twE6) (hpn : ¬ p ∣ lab.n) :
-    LargeEvenLabelAll lab fun R _ I _ => ∀ φ : MulAut R, φ ^ p = 1 → φ ∈ I :=
-  TwE6Delta.labelAll ht fun _ _ _ hK φ hφ =>
+    LargeEvenLabelAll lab fun R _ I _ => ∀ _φ : MulAut R, _φ ^ p = 1 → _φ ∈ I :=
+  TwE6Delta.labelAll ht fun _ _ _ hK _φ hφ =>
     TwE6Per.mem_recipeI_of_pow_eq_one hlab.1 hK hp hp2 hpn hφ
 
 theorem ggBstarInnerDiagLInputOn_coprimeN :

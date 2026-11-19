@@ -111,7 +111,7 @@ theorem ggCommutator_mem_zpowers_of_card_four [Finite G] {V : Subgroup G} {r a v
   have key : (⟨v, hv⟩ : V) * (⟨a * v * a⁻¹, hu⟩ : V)⁻¹ ∈
       (Subgroup.zpowers r).subgroupOf V := by
     rw [Subgroup.mul_mem_iff_of_index_two hH2]
-    simp only [Subgroup.mem_subgroupOf, InvMemClass.coe_inv, inv_mem_iff]
+    simp only [Subgroup.mem_subgroupOf, inv_mem_iff]
     exact hconj.symm
   have key' := Subgroup.mem_subgroupOf.mp key
   have e : v * a * v⁻¹ * a⁻¹ = v * (a * v * a⁻¹)⁻¹ := by group
@@ -120,7 +120,7 @@ theorem ggCommutator_mem_zpowers_of_card_four [Finite G] {V : Subgroup G} {r a v
 
 @[expose] def ggCommModR (V : Subgroup G) (r : G) : Subgroup G where
   carrier := {y | y * r = r * y ∧ ∀ v ∈ V, v * y * v⁻¹ * y⁻¹ ∈ Subgroup.zpowers r}
-  one_mem' := ⟨by simp, fun v _ => by simpa using Subgroup.one_mem _⟩
+  one_mem' := ⟨by simp, fun v _ => by simp⟩
   mul_mem' := by
     rintro y y' ⟨hy, hyV⟩ ⟨hy', hyV'⟩
     refine ⟨by rw [mul_assoc, hy', ← mul_assoc, hy, mul_assoc], fun v hv => ?_⟩
@@ -269,7 +269,7 @@ theorem ggOutTwoComm_apply (hK3 : GGOutTwoCommInner) {K : Subgroup G}
     ∃ k ∈ K, ∃ c ∈ Subgroup.centralizer (K : Set G), y⁻¹ * δ⁻¹ * y * δ = k * c := by
   classical
   have hperf : commutator ↥K = ⊤ := hmk.1
-  haveI : Finite (MulAut ↥K) :=
+  have : Finite (MulAut ↥K) :=
     Finite.of_injective (fun f : MulAut ↥K => (f : ↥K → ↥K)) DFunLike.coe_injective
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hN
   set ρ : ↥N →* MulAut ↥K := K.normalizerMonoidHom with hρ

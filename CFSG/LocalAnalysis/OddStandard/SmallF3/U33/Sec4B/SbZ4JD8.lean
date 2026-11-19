@@ -34,7 +34,7 @@ theorem Mc_fusion {σ : H} (hσ2 : σ * σ = 1) (hσρ : σ * ρ * σ⁻¹ = ρ�
     orderOf_eq_prime (p := 2) (by rwa [pow_two]) hσne
   have hVY : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
   have hQMc : Q ≤ Mc := h.Q_le_Mc hMh hMc
-  have hMcMh : Mc ≤ Mh := h.Mc_le_Mh hMh hMc
+  have hMcMh : Mc ≤ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc
   have hcom_McQ : ∀ x ∈ Mc, ∀ y ∈ Mc, x * y * x⁻¹ * y⁻¹ ∈ Q :=
     fun x hx y hy => h.Mh_comm_mem_Q hMh (hMcMh hx) (hMcMh hy)
   have hsq_McQ : ∀ x ∈ Mc, x ^ 2 ∈ Q :=

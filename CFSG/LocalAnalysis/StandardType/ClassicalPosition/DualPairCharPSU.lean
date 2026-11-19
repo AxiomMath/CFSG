@@ -24,9 +24,9 @@ private lemma dpcPSU_transpose_antidiag {F : Type} [Field F] (n : ℕ) :
   simp only [Matrix.transpose_apply, Unitary.antidiag, Matrix.of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 private lemma dpcPSU_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {S : Set (GL ι F)} (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') :
@@ -64,7 +64,7 @@ private lemma dpcPSU_blockDegree_eq_one {F : Type} [Field F] {n : ℕ}
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   change Module.finrank F M = 1
@@ -278,7 +278,7 @@ theorem dvd_two_pow_sub_one_of_dualPair_PSU {F : Type} [Field F] [Finite F] [Cha
   let σe : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 f
   let σ : F →+* F := σe.toRingHom
   let G : Matrix (Fin n) (Fin n) F := Unitary.antidiag n
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hG : IsUnit G.det := by
     rw [isUnit_iff_ne_zero]
     exact Unitary.det_antidiag_ne_zero n
@@ -292,7 +292,7 @@ theorem dvd_two_pow_sub_one_of_dualPair_PSU {F : Type} [Field F] [Finite F] [Cha
   have hn : n ≠ 0 := by
     rintro rfl
     exact he.2.2.1 (by ext i j; exact Fin.elim0 i)
-  haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero hn⟩⟩
   have hGne : G ≠ 0 := by
     intro h0
     have hdet0 : G.det = 0 := by rw [h0, Matrix.det_zero]

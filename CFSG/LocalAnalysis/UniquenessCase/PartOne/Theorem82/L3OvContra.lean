@@ -104,7 +104,7 @@ theorem pCoreOf_two_commute_of_lieModel_odd {X : Type} [Group X]
   ·
     obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-    haveI : Finite F := hFfin
+    have : Finite F := hFfin
     have hodd : Odd (Nat.card F) := by
       rw [hFcard]
       exact (hp.odd_of_ne_two hℓ).pow
@@ -118,7 +118,7 @@ theorem pCoreOf_two_commute_of_lieModel_odd {X : Type} [Group X]
   ·
     obtain ⟨hadmin, K₀, hK₀, hK₀fin, hK₀card, ⟨e⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-    haveI : Finite K₀ := hK₀fin
+    have : Finite K₀ := hK₀fin
     have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K₀ :=
       ⟨hp, hadmin.2.1, by rw [hK₀card, ← pow_mul, mul_comm]⟩
     have : Fact ℓ.Prime := ⟨hp⟩

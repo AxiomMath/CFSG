@@ -83,10 +83,10 @@ theorem ggCyclicSplit {p : ℕ} (hp : p.Prime) {G M : Type*} [Group G] [Group M]
   let e : φ.ker ≃ U₁ :=
     { toFun := fun u => ⟨(u : U), (hker_mem u).mp u.2⟩
       invFun := fun x => ⟨⟨(x : G), hU₁ x.2⟩, (hker_mem ⟨(x : G), hU₁ x.2⟩).mpr x.2⟩
-      left_inv := fun u => by ext <;> rfl
-      right_inv := fun x => by ext <;> rfl }
+      left_inv := fun u => by ext; rfl
+      right_inv := fun x => by ext; rfl }
   have hcardK : Nat.card φ.ker = Nat.card U₁ := Nat.card_congr e
-  haveI : IsCyclic φ.range := Subgroup.isCyclic φ.range
+  have : IsCyclic φ.range := Subgroup.isCyclic φ.range
   have hpow : ∀ y ∈ φ.range, y ^ p = 1 := by
     intro y hy
     obtain ⟨u, rfl⟩ := MonoidHom.mem_range.mp hy
@@ -110,7 +110,7 @@ theorem ggCyclicSplit {p : ℕ} (hp : p.Prime) {G M : Type*} [Group G] [Group M]
     rcases hp.eq_one_or_self_of_dvd (Nat.card φ.range) hdvd with h | h
     · rw [h]; exact one_ne_zero
     · rw [h]; exact hp.ne_zero
-  haveI : Finite φ.range := Nat.finite_of_card_ne_zero hcard_ne
+  have : Finite φ.range := Nat.finite_of_card_ne_zero hcard_ne
   have hcardU : Nat.card U = Nat.card U₁ * Nat.card φ.range := by
     rw [← Subgroup.card_mul_index (H := φ.ker), Subgroup.index_ker φ, hcardK]
   have hmain : Nat.card U ≤ p * Nat.card U₁ := by

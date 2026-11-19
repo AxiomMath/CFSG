@@ -142,7 +142,7 @@ theorem sporGF4_of_b3BNoGF4 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.
   by_cases hα1 : α = 1
   · subst hα1
     rw [Claims1116b.fixSubgroup_one_eq_top] at hI
-    haveI := hS
+    have := hS
     obtain ⟨f⟩ := CFSG.LocalAnalysis.GLTheoremA.chevQ_pSimple_top_equiv Nat.prime_three hnc hI
     intro hG
     exact not_isGF4Type_of_sporadic hs.some (hG.of_mulEquiv f.symm)
@@ -174,7 +174,7 @@ theorem dvd_card_center_of_isComponent_of_pCentral {X : Type*} [Group X] [Finite
     (hO : CFSG.pPrimeCore p X = ⊥) {K : Subgroup X} (hK : CFSG.IsComponent K) :
     p ∣ Nat.card (Subgroup.center K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hK3
   let S : Set (Subgroup X) := {L | CFSG.IsComponent L ∧ ¬ p ∣ Nat.card (Subgroup.center L)}
   let E : Subgroup X := sSup S
@@ -184,14 +184,14 @@ theorem dvd_card_center_of_isComponent_of_pCentral {X : Type*} [Group X] [Finite
     rw [← Nat.card_congr (Subgroup.centerCongr
       (L.equivMapOfInjective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective)).toEquiv]
     exact hL.2
-  haveI hEn : E.Normal := by
+  have hEn : E.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hle : E ≤ E.comap (MulAut.conj g).toMonoidHom :=
       sSup_le fun L hL => Subgroup.map_le_iff_le_comap.1 (le_sSup (hS g L hL))
     have h := hle hn
     rwa [Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h
   have hKE : K ≤ E := le_sSup ⟨hK, hK3⟩
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
   have hEne : E ≠ ⊥ := fun h =>
     (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance (le_bot_iff.1 (h ▸ hKE))
   have hpE : p ∣ Nat.card E := by
@@ -215,7 +215,7 @@ theorem dvd_card_center_of_isComponent_of_pCentral {X : Type*} [Group X] [Finite
     rw [h, orderOf_one] at hco
     exact hp.one_lt.ne hco
   have hPp : IsPGroup p P := IsPGroup.of_card hP
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPp
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPp
   have hHne : E.subgroupOf P ≠ ⊥ := by
     intro h
     have : (⟨c * (e : X) * c⁻¹, hcP⟩ : P) ∈ E.subgroupOf P := hcE
@@ -404,7 +404,7 @@ section BabyThreeB
 theorem b3BNoGF4_holds
     : B3BNoGF4 := by
   intro s hs hunv J hJ hG
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨z, hz3, hzrk, ⟨P, hPC, hPcard, hPZ⟩, -⟩ := CFSG.HardMathSupport.Dickson.I271.exists_z_sylow_aut
   have hzc : IsConj z (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BThreeFi23.phiB
       (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BThreeFi23.t3 1)) :=

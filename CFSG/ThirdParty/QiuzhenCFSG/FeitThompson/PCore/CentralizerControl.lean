@@ -1058,7 +1058,7 @@ public theorem CFSG.pPrimeCore_map_centralizer_le_pPrimeCore_of_solvable
                       have hPmap_p : IsPGroup p (↥Pmap) := by
                         exact
                           IsPGroup.map (p := p) (H := (PS : Subgroup S))
-                            PS.isPGroup' S.subtype
+                            PS.isPGroup S.subtype
                       have hPmap_not_dvd : ¬ p ∣ Pmap.index := by
                         have hPS_not_dvd : ¬ p ∣ (PS : Subgroup S).index := PS.not_dvd_index
                         rw [show Pmap = (PS : Subgroup S).map S.subtype by rfl]

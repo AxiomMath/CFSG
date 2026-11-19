@@ -97,7 +97,7 @@ theorem exists_conj_mem_of_isPGroup {N S₀ : Subgroup G} (hS₀N : S₀ ≤ N) 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS₀2.exists_le_sylow
   have hQS : (Q : Subgroup G) ≤ S₀ := by
-    have hnil : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup.isNilpotent
     have hcond := (normalizerCondition_iff_only_full_group_self_normalizing).mp
       (Group.normalizerCondition_of_isNilpotent (G := (Q : Subgroup G)))
     have hH : Subgroup.normalizer ((S₀.subgroupOf Q : Subgroup (Q : Subgroup G)) :
@@ -125,7 +125,7 @@ theorem exists_conj_mem_of_isPGroup {N S₀ : Subgroup G} (hS₀N : S₀ ≤ N) 
       have hS₁ : S₀ ⊔ Subgroup.zpowers (x : G) ≤ S₀ := by
         refine le_of_isPGroup_of_le hsyl le_sup_left
           (sup_le hS₀N (Subgroup.zpowers_le.mpr hxN)) ?_
-        exact Q.isPGroup'.to_le (sup_le hQ (Subgroup.zpowers_le.mpr x.2))
+        exact Q.isPGroup.to_le (sup_le hQ (Subgroup.zpowers_le.mpr x.2))
       exact Subgroup.mem_subgroupOf.mpr
         (hS₁ (Subgroup.mem_sup_right (Subgroup.mem_zpowers _)))
     have htop := hcond _ hH
@@ -246,7 +246,7 @@ theorem exists_conj (h : BadCase W N T z p₀ a k) {E : Subgroup G} (hEW : E ≤
   obtain ⟨P, hP⟩ := hU.exists_le_sylow
   set S₀ : Subgroup G := (P : Subgroup N).map N.subtype with hS₀
   have hS₀N : S₀ ≤ N := Subgroup.map_subtype_le _
-  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup'.map N.subtype
+  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup.map N.subtype
   have hsub : S₀.subgroupOf N = P :=
     Subgroup.comap_map_eq_self_of_injective N.subtype_injective _
   have hsyl : ¬ 2 ∣ S₀.relIndex N := by

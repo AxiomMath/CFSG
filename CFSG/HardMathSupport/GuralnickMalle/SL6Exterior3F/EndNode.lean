@@ -63,8 +63,8 @@ theorem ker_sub_one_le_span_compl {ι : Type*} [Fintype ι] [DecidableEq ι]
     intro i
     rw [LinearMap.sub_apply, Module.End.one_apply, hS i]
     by_cases hi : i ∈ M
-    · rw [if_pos hi, if_pos hi]; abel
-    · rw [if_neg hi, if_neg hi, sub_self]
+    · rw [ite_eq_left hi, ite_eq_left hi]; abel
+    · rw [ite_eq_right hi, ite_eq_right hi, sub_self]
   have hcalc : (S - 1) w = ∑ i : ↥M, B.repr w i.1 • B (rep i) := by
     conv_lhs => rw [(B.sum_repr w).symm]
     rw [map_sum]
@@ -73,7 +73,7 @@ theorem ker_sub_one_le_span_compl {ι : Type*} [Fintype ι] [DecidableEq ι]
       Finset.sum_congr rfl (fun i _ => by rw [map_smul, hstep i])]
     rw [← Finset.sum_subset (s₁ := M) (fun x _ => Finset.mem_univ x)
       (fun x _ hx => by simp [hx])]
-    rw [Finset.sum_congr rfl (fun i hi => by rw [if_pos hi])]
+    rw [Finset.sum_congr rfl (fun i hi => by rw [ite_eq_left hi])]
     exact (Finset.sum_coe_sort M (fun i => B.repr w i • B (rep i))).symm
   have hzero : ∑ i : ↥M, B.repr w i.1 • B (rep i) = 0 := by
     rw [← hcalc]
@@ -111,10 +111,10 @@ theorem replace_injOn {n k : ℕ} {a b : Fin n} (M : Finset (Set.powersetCard (F
   have hJ' := hM J (Finset.mem_coe.mp hJ)
   have h1 : (if h : b ∈ I.val ∧ a ∉ I.val then
       CFSG.LieType.Chevalley.ExteriorCube.replace I h.1 h.2 else I) =
-      CFSG.LieType.Chevalley.ExteriorCube.replace I hI'.1 hI'.2 := dif_pos hI'
+      CFSG.LieType.Chevalley.ExteriorCube.replace I hI'.1 hI'.2 := dite_eq_left hI'
   have h2 : (if h : b ∈ J.val ∧ a ∉ J.val then
       CFSG.LieType.Chevalley.ExteriorCube.replace J h.1 h.2 else J) =
-      CFSG.LieType.Chevalley.ExteriorCube.replace J hJ'.1 hJ'.2 := dif_pos hJ'
+      CFSG.LieType.Chevalley.ExteriorCube.replace J hJ'.1 hJ'.2 := dite_eq_left hJ'
   beta_reduce at hIJ
   rw [h1, h2] at hIJ
   exact replace_inj hI'.1 hI'.2 hJ'.1 hJ'.2 hIJ
@@ -172,17 +172,17 @@ theorem linearIndependent_adapted {W : Submodule K (Fin 6 → K)}
     simpa using h
   have h4 : g 4 = 0 := by
     have h1 : ∑ i, g i * φ (F i) = g 4 * φ (F 4) := by
-      refine Finset.sum_eq_single 4 (fun b _ hb => by rw [hφF b, if_neg hb, mul_zero]) ?_
+      refine Finset.sum_eq_single 4 (fun b _ hb => by rw [hφF b, ite_eq_right hb, mul_zero]) ?_
       intro h
       exact absurd (Finset.mem_univ 4) h
-    rw [hsumφ, hφF 4, if_pos rfl, mul_one] at h1
+    rw [hsumφ, hφF 4, ite_eq_left rfl, mul_one] at h1
     exact h1.symm
   have h5 : g 5 = 0 := by
     have h1 : ∑ i, g i * ψ (F i) = g 5 * ψ (F 5) := by
-      refine Finset.sum_eq_single 5 (fun b _ hb => by rw [hψF b, if_neg hb, mul_zero]) ?_
+      refine Finset.sum_eq_single 5 (fun b _ hb => by rw [hψF b, ite_eq_right hb, mul_zero]) ?_
       intro h
       exact absurd (Finset.mem_univ 5) h
-    rw [hsumψ, hψF 5, if_pos rfl, mul_one] at h1
+    rw [hsumψ, hψF 5, ite_eq_left rfl, mul_one] at h1
     exact h1.symm
   have hz : (g 0 • e + (g 1 • c 0 + g 2 • c 1 + g 3 • c 2) : W) = 0 := by
     have h' := hg
@@ -365,12 +365,12 @@ theorem exists_adapted_basis [CharP K 2] (e : Fin 6 → K) (he : e ≠ 0)
   have hb : ⇑b = (![e, c 0, c 1, c 2, u, v] : Fin 6 → (Fin 6 → K)) :=
     coe_basisOfLinearIndependentOfCardEqFinrank hli hcard
   have hb0 : b 0 = e := by rw [hb]; exact hF0
-  have hb4φ : φ (b 4) = 1 := by rw [hb]; rw [hφF 4]; exact if_pos rfl
+  have hb4φ : φ (b 4) = 1 := by rw [hb]; rw [hφF 4]; exact ite_eq_left rfl
   have hb4ψ : ψ (b 4) = 0 := by
-    rw [hb]; rw [hψF 4]; exact if_neg (by decide : (4 : Fin 6) ≠ 5)
+    rw [hb]; rw [hψF 4]; exact ite_eq_right (by decide : (4 : Fin 6) ≠ 5)
   have hb5φ : φ (b 5) = 0 := by
-    rw [hb]; rw [hφF 5]; exact if_neg (by decide : (5 : Fin 6) ≠ 4)
-  have hb5ψ : ψ (b 5) = 1 := by rw [hb]; rw [hψF 5]; exact if_pos rfl
+    rw [hb]; rw [hφF 5]; exact ite_eq_right (by decide : (5 : Fin 6) ≠ 4)
+  have hb5ψ : ψ (b 5) = 1 := by rw [hb]; rw [hψF 5]; exact ite_eq_left rfl
   have hother : ∀ i, i ≠ 4 → i ≠ 5 → φ (b i) = 0 ∧ ψ (b i) = 0 := by
     intro i hi4 hi5
     rw [hb]
@@ -450,11 +450,11 @@ theorem finrank_fix_le_eleven_of_independent_transvections [CharP K 2]
     rw [exteriorPower_map_basis_transvection (K := K) (n := 6) (k := 3) (b := bs)
       (a := (0 : Fin 6)) (c := (4 : Fin 6)) (by decide) (1 : K) (1 + φ.smulRight e) hT₁ I]
     by_cases hI : (4 : Fin 6) ∈ I.val ∧ (0 : Fin 6) ∉ I.val
-    · rw [dif_pos hI, if_pos (by simp only [M₁, Finset.mem_filter]; exact ⟨hAll I, hI⟩),
+    · rw [dite_eq_left hI, ite_eq_left (by simp only [M₁, Finset.mem_filter]; exact ⟨hAll I, hI⟩),
         one_smul]
       congr 1
-      simp only [rep₁, dif_pos hI]
-    · rw [dif_neg hI, if_neg (by simp only [M₁, Finset.mem_filter]; exact fun h => hI h.2)]
+      simp only [rep₁, dite_eq_left hI]
+    · rw [dite_eq_right hI, ite_eq_right (by simp only [M₁, Finset.mem_filter]; exact fun h => hI h.2)]
   have hS₂ : ∀ I, (glExterior3Rep K) b (bs.exteriorPower 3 I) =
       if I ∈ M₂ then bs.exteriorPower 3 I + bs.exteriorPower 3 (rep₂ I)
       else bs.exteriorPower 3 I := by
@@ -463,11 +463,11 @@ theorem finrank_fix_le_eleven_of_independent_transvections [CharP K 2]
     rw [exteriorPower_map_basis_transvection (K := K) (n := 6) (k := 3) (b := bs)
       (a := (0 : Fin 6)) (c := (5 : Fin 6)) (by decide) (1 : K) (1 + ψ.smulRight e) hT₂ I]
     by_cases hI : (5 : Fin 6) ∈ I.val ∧ (0 : Fin 6) ∉ I.val
-    · rw [dif_pos hI, if_pos (by simp only [M₂, Finset.mem_filter]; exact ⟨hAll I, hI⟩),
+    · rw [dite_eq_left hI, ite_eq_left (by simp only [M₂, Finset.mem_filter]; exact ⟨hAll I, hI⟩),
         one_smul]
       congr 1
-      simp only [rep₂, dif_pos hI]
-    · rw [dif_neg hI, if_neg (by simp only [M₂, Finset.mem_filter]; exact fun h => hI h.2)]
+      simp only [rep₂, dite_eq_left hI]
+    · rw [dite_eq_right hI, ite_eq_right (by simp only [M₂, Finset.mem_filter]; exact fun h => hI h.2)]
   have hle₁ : LinearMap.ker ((glExterior3Rep K) a - 1) ≤
       Submodule.span K ((bs.exteriorPower 3) '' (↑M₁ : Set _)ᶜ) :=
     ker_sub_one_le_span_compl (B := bs.exteriorPower 3) hinj₁ hS₁

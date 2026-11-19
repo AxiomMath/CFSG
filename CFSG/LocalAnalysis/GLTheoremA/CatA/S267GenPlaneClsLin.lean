@@ -51,7 +51,7 @@ theorem primaryComponent_le_of_specialFactor_eq [Finite K] {p : ℕ} (hpk : (p :
     primaryComponent (glA A : Module.End K (Fin n → K)) h ≤
       primaryComponent (glA B : Module.End K (Fin n → K)) h' := by
   intro w hw
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hsqA := squarefree_minpoly_glA hpk hA
   have hsqB := squarefree_minpoly_glA hpk hB
   have hm : 2 ≤ finrank (AdjoinRoot h) (primaryComponent (glA A : Module.End K (Fin n → K)) h) := by
@@ -133,7 +133,7 @@ theorem planeNoComp_projectiveSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : 
     (hpK : (p : K) ≠ 0) : PlaneNoComp p (LinearFlag.projectiveSL n K) := by
   classical
   intro P hP hcard J hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hscal : ∀ B : GL (Fin n) K, LinearFlag.conjAut n K B = 1 →
       ∃ c : Kˣ, Matrix.GeneralLinearGroup.scalar (Fin n) c = B := fun B hB =>
     (LinearFlag.eq_one_of_conjAut_mul_fieldAut_eq_one hn B 1 (by rw [map_one, mul_one, hB])).2
@@ -159,16 +159,16 @@ theorem planeNoComp_projectiveSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : 
     LinearFlag.mem_semilinearAutGroup_iff.2
       (CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.exists_conj_field_of_odd hn (hp.odd_of_ne_two hp2)
         (hP.2 α hα))
-  haveI hVe : IsElementaryAbelian p ↥P :=
+  have hVe : IsElementaryAbelian p ↥P :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p P).2 hP
   obtain ⟨x₀, hx₀P, hx₀1, A, rfl⟩ :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.exists_inner_diag_of_elem hn hVe hcard hVE
   obtain ⟨c, h, hc, hh, hgood, hJeq⟩ := hcompOf A hx₀P hx₀1
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hsqA := squarefree_minpoly_glA hpK hc
   set F := specialFactor A h with hFdef
   have hperfF : ⁅F, F⁆ = F := by
-    haveI := (isQuasisimple_specialFactor hsqA hh hgood).1
+    have := (isQuasisimple_specialFactor hsqA hh hgood).1
     exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
   set W := primaryComponent (glA A : Module.End K (Fin n → K)) h with hWdef
   have hm : 2 ≤ finrank (AdjoinRoot h) W := by
@@ -251,7 +251,7 @@ theorem planeNoComp_projectiveSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : 
     obtain ⟨d, h', hd, hh', hgood', hJeq'⟩ := hcompOf B' hB'P hB'1
     have hsqB := squarefree_minpoly_glA hpK hd
     have hperf' : ⁅specialFactor B' h', specialFactor B' h'⁆ = specialFactor B' h' := by
-      haveI := (isQuasisimple_specialFactor hsqB hh' hgood').1
+      have := (isQuasisimple_specialFactor hsqB hh' hgood').1
       exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
     have hFeq : specialFactor B' h' = F := le_antisymm
       (CFSG.ComponentClassification.SolMax.le_of_map_le_of_perfect _ hker hperf'
@@ -361,21 +361,21 @@ theorem planeNoComp_projectiveSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : 
     intro a ha u hu
     rw [hU, LinearMap.mem_ker] at hu ⊢
     rw [← Module.End.mul_apply, ← (hπcomm a ha).eq, Module.End.mul_apply, hu, map_zero]
-  letI : CommGroup ↥S1 :=
+  let : CommGroup ↥S1 :=
     { (inferInstance : Group ↥S1) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   let ρU : Representation K ↥S1 ↥U :=
     { toFun := fun a => (glA (a : GL (Fin n) K) : Module.End K (Fin n → K)).restrict
         (hUinv a a.2)
       map_one' := by
         refine LinearMap.ext fun u => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, glA_apply_eq_mulVec, OneMemClass.coe_one, Units.val_one,
+        rw [_root_.LinearMap.coe_restrict_apply, glA_apply_eq_mulVec, OneMemClass.coe_one, Units.val_one,
           Matrix.one_mulVec]
         rfl
       map_mul' := fun a b => by
         refine LinearMap.ext fun u => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, glA_apply_eq_mulVec, Subgroup.coe_mul, Units.val_mul,
-          ← Matrix.mulVec_mulVec, Module.End.mul_apply, LinearMap.restrict_coe_apply,
-          LinearMap.restrict_coe_apply, glA_apply_eq_mulVec, glA_apply_eq_mulVec] }
+        rw [_root_.LinearMap.coe_restrict_apply, glA_apply_eq_mulVec, Subgroup.coe_mul, Units.val_mul,
+          ← Matrix.mulVec_mulVec, Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply,
+          LinearMap.coe_restrict_apply, glA_apply_eq_mulVec, glA_apply_eq_mulVec] }
   have hUne : U ≠ ⊥ := by
     intro hbot
     apply hB1
@@ -390,7 +390,7 @@ theorem planeNoComp_projectiveSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : 
         exact primaryProjection_mem hsqB hhB v
       exact hBfix ⟨v, hvW⟩
     rw [eq_one_of_mulVec_eq_self hfixall, map_one]
-  haveI : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.2 hUne
+  have : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.2 hUne
   have hWU : ∀ u : Fin n → K, u ∈ U → u ∈ W → u = 0 := by
     intro u huU huW
     have h1 : π u = u := primaryProjection_of_mem hsqB hhB (by rw [hWB]; exact huW)

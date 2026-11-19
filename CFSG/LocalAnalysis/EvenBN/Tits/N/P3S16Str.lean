@@ -43,11 +43,11 @@ theorem exists_comm_of_fpf [Finite Γ] {U : Subgroup Γ} {x : Γ} (hcomm : ∀ a
 
 theorem exists_fusionIsSylowIn' [Finite Γ] {B Γ' : Subgroup Γ} (hB : IsPGroup 2 B) (hBΓ : B ≤ Γ') :
     ∃ T : Subgroup Γ, B ≤ T ∧ fusionIsSylowIn 2 T Γ' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := (hB.comap_subtype (K := Γ')).exists_le_sylow
   refine ⟨(P : Subgroup Γ').map Γ'.subtype,
     fun u hu => ⟨⟨u, hBΓ hu⟩, hP (show (⟨u, hBΓ hu⟩ : Γ') ∈ B.comap Γ'.subtype from hu), rfl⟩,
-    Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQX hQ hPQ => ?_⟩
+    Subgroup.map_subtype_le _, P.isPGroup.map _, fun Q hQX hQ hPQ => ?_⟩
   have h1 := P.maximal_isPGroup.eq_of_ge hQ.comap_subtype
     (fun x hx => hPQ ⟨x, hx, rfl⟩)
   refine le_antisymm (fun q hq => ⟨⟨q, hQX hq⟩, ?_, rfl⟩) hPQ
@@ -70,13 +70,13 @@ namespace Ctx
 
 variable {U : Subgroup Γ} {x y t : Γ} {Ξ Θ : Subgroup Γ}
 
-theorem x_mem_P (hC : Ctx U x y t Ξ Θ) : x ∈ IsF20.Pgrp U x y :=
+theorem x_mem_P (_hC : Ctx U x y t Ξ Θ) : x ∈ IsF20.Pgrp U x y :=
   mem_sup_right (mem_sup_left (mem_zpowers x))
 
-theorem y_mem_P (hC : Ctx U x y t Ξ Θ) : y ∈ IsF20.Pgrp U x y :=
+theorem y_mem_P (_hC : Ctx U x y t Ξ Θ) : y ∈ IsF20.Pgrp U x y :=
   mem_sup_right (mem_sup_right (mem_zpowers y))
 
-theorem U_le_P (hC : Ctx U x y t Ξ Θ) : U ≤ IsF20.Pgrp U x y := le_sup_left
+theorem U_le_P (_hC : Ctx U x y t Ξ Θ) : U ≤ IsF20.Pgrp U x y := le_sup_left
 
 theorem P_le_Ξ (hC : Ctx U x y t Ξ Θ) : IsF20.Pgrp U x y ≤ Ξ := by
   rw [hC.Ξ_eq]
@@ -109,7 +109,7 @@ theorem sq_mem (hC : Ctx U x y t Ξ Θ) {θ : Γ} (hθ : θ ∈ Θ) (hθΞ : θ 
   simpa using h
 
 theorem card_Ξ (hC : Ctx U x y t Ξ Θ) : Nat.card Ξ = 640 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := hC.F.card_Pgrp
   have htz : Nat.card (zpowers t) = 2 := by
     rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hC.t2) hC.t1]
@@ -120,7 +120,7 @@ theorem card_Ξ (hC : Ctx U x y t Ξ Θ) : Nat.card Ξ = 640 := by
   rw [hC.Ξ_eq, sup_comm, card_sup_of_inf_eq_bot' hN (by rw [inf_comm]; exact hC.tinf), hP, htz]
 
 theorem sylow5 [Finite Γ] (hC : Ctx U x y t Ξ Θ) : fusionIsSylowIn 5 (zpowers x) Ξ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxΞ : zpowers x ≤ Ξ := zpowers_le.2 (hC.P_le_Ξ hC.x_mem_P)
   refine ⟨hxΞ, IsPGroup.of_card (n := 1) (by rw [hC.F.card_zpowers_x]; norm_num), ?_⟩
   intro Q hQΞ hQ hxQ
@@ -142,7 +142,7 @@ theorem sylow5 [Finite Γ] (hC : Ctx U x y t Ξ Θ) : fusionIsSylowIn 5 (zpowers
 
 theorem exists_comm_x [Finite Γ] (hC : Ctx U x y t Ξ Θ) {θ : Γ} (hθ : θ ∈ Θ) :
     ∃ ξ ∈ Ξ, (ξ * θ) * x = x * (ξ * θ) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨ξ₁, hξ₁, hn⟩ := exists_conj_normalizes_sylow (p := 5) hC.ΞΘ hC.norm hC.sylow5 hθ
   have hx' : (ξ₁ * θ) * x * (ξ₁ * θ)⁻¹ ∈ zpowers x := (mem_normalizer_iff.1 hn x).1 (mem_zpowers x)
   obtain ⟨j, hj⟩ := mem_zpowers_iff.1 hx'
@@ -274,7 +274,7 @@ theorem normalizes_U [Finite Γ] (hC : Ctx U x y t Ξ Θ) {β : Γ} (hβ : β �
 
 theorem centralizes_U [Finite Γ] (hC : Ctx U x y t Ξ Θ) {β : Γ} (hβ : β ∈ Θ) (hβx : β * x = x * β)
     {k : ℕ} (hβ2 : β ^ (2 ^ k) = 1) : ∀ u ∈ U, β * u = u * β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPg : IsPGroup 2 (zpowers β) := by
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hβ2)
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])

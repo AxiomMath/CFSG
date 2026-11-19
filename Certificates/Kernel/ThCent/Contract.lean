@@ -24,7 +24,7 @@ theorem exists_cent7 :
   obtain ⟨-, hpow, h1, -, -, -⟩ := class_T (card_P_eq h) (hKc h).le C7A.misc C7A.diff.all
     C7A.sel.all C7A.comm.all C7A.or1.all C7A.or2.all C7A.or3.all C7A.or4.all C7A.or5.all
     C7A.or6.all C7A.or7.all C7A.or8.all C7A.or9.all C7A.or10.all
-  obtain ⟨c, hc⟩ := conj_wit h hx hA hB hBi hk W.w7A W.d7A _ mat_z7
+  obtain ⟨c, hc⟩ := conj_wit hx hA hB hBi hk W.w7A W.d7A _ mat_z7
   rw [SemiconjBy.orderOf_eq _ hc]
   have hy7 : ψ (wval gen C7A.word) ^ 7 = 1 := by
     have e : wval gen C7A.word ^ 7 = 1 := hpow

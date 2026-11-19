@@ -34,7 +34,7 @@ theorem lt_eq_of {w m X Y Xi Yi : ℕ} {x y : Equiv.Perm (Fin n)}
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) (by omega)
     unfold CFSG.KC.Enum.lt letV
-    rw [h0, h1, h2, if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [h0, h1, h2, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     exact hYi q hq
 
 theorem mwv_eq {w m X Y Xi Yi : ℕ} {L : ℕ → Equiv.Perm (Fin n)}

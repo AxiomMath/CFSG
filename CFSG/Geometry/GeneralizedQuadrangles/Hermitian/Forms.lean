@@ -236,9 +236,9 @@ theorem exists_reflForm_of_polarity {K : Type*} [Field K] [Finite K]
     ∃ F : ReflForm K (Fin 5 → K), ∀ x : ProjectiveGeometry.Point 5 K,
       (π x : Submodule K (Fin 5 → K)) = F.perp x := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (ProjectiveGeometry.Point 5 K) := Fintype.ofFinite _
-  letI : Fintype (ProjectiveGeometry.Hyperplane 5 K) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (ProjectiveGeometry.Point 5 K) := Fintype.ofFinite _
+  let : Fintype (ProjectiveGeometry.Hyperplane 5 K) := Fintype.ofFinite _
   have hinj : Function.Injective π := injective_of_forall_le_iff π hπ
   have hcard : Fintype.card (ProjectiveGeometry.Point 5 K) =
       Fintype.card (ProjectiveGeometry.Hyperplane 5 K) :=

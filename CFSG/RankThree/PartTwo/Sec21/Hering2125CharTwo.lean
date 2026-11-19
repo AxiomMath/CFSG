@@ -45,7 +45,7 @@ theorem exists_moved_of_charTwo (hX : IsCharTwoType X) {U : Subgroup X} (hU : Is
     (hg1 : g ≠ 1) :
     ∃ x ∈ pCoreOf 2 (Subgroup.centralizer (U : Set X)), g * x * g⁻¹ ≠ x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   set M := Subgroup.centralizer (U : Set X) with hM
@@ -64,7 +64,7 @@ theorem exists_moved_of_charTwo (hX : IsCharTwoType X) {U : Subgroup X} (hU : Is
     intro x
     have h1 := Subgroup.mem_normalizer_iff.mp (hNnormN' (hMN hm)) x
     have h2 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hm) x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+    simp only [Subgroup.mem_inf] at h1 h2 ⊢
     rw [h1, h2]
   have hcent : ∀ n ∈ N', g * n * g⁻¹ = n := by
     intro n hn
@@ -133,7 +133,7 @@ theorem exists_moved_of_charTwo (hX : IsCharTwoType X) {U : Subgroup X} (hU : Is
 
 theorem exists_two_pow_of_mem_center (hX : IsCharTwoType X) {U : Subgroup X} (hU : IsPGroup 2 U)
     (hU1 : U ≠ ⊥) {z : X} (hz : z ∈ Subgroup.center X) : ∃ k : ℕ, z ^ 2 ^ k = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzN : z ∈ Subgroup.normalizer (U : Set X) := by
     rw [Subgroup.mem_normalizer_iff]
     intro x

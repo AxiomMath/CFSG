@@ -24,9 +24,9 @@ variable {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
 theorem noNormalPPrime_centralizer_reeGamma_two_five (hK : Nat.card K = 2 ^ (2 * 2 + 1))
     {y : ReeTag.F4.reeGamma K 2} (hy5 : y ^ 5 = 1) (hy1 : y ≠ 1) :
     NoNormalPPrime 5 (Subgroup.centralizer ({y} : Set (ReeTag.F4.reeGamma K 2))) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hy : orderOf y = 5 := orderOf_eq_prime hy5 hy1
   have hEp : IsPGroup 5 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
@@ -42,7 +42,7 @@ theorem noNormalPPrime_centralizer_reeGamma_two_five (hK : Nat.card K = 2 ^ (2 *
     rw [← hsup]
     exact le_sup_right
   obtain ⟨hsimp, hnc⟩ := excRee_suzuki_simple hK
-  haveI : IsSimpleGroup ↥N := eN.isSimpleGroup
+  have : IsSimpleGroup ↥N := eN.isSimpleGroup
   have hncN : ∃ a b : ↥N, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eN.symm a, eN.symm b, fun h => hab (by simpa using congrArg eN h)⟩
@@ -55,7 +55,7 @@ theorem noNormalPPrime_centralizer_reeGamma_two_five (hK : Nat.card K = 2 ^ (2 *
       have hn' : (n : ReeTag.F4.reeGamma K 2) ∈ R ⊓ N := Subgroup.mem_subgroupOf.1 hn
       exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2
         ⟨hRn g (hNC g.2) n (Subgroup.mem_inf.1 hn').1, (g * n * g⁻¹).2⟩)
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((R ⊓ N).subgroupOf N) with h | h
     · rw [eq_bot_iff]
       intro x hx
@@ -135,8 +135,8 @@ theorem noNormalPPrime_centralizer_reeGamma_two_five (hK : Nat.card K = 2 ^ (2 *
 
 theorem isLocallyBalancedAbs_five_one_reeGamma_two (hK : Nat.card K = 2 ^ (2 * 2 + 1)) :
     IsLocallyBalancedAbs 5 1 (ReeTag.F4.reeGamma K 2) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have hinj := mulAut_conj_injective_of_center_eq_bot
     (ReeTag.large_Ree_fixed_group_center_trivial 2 K hK)
   obtain ⟨-, -, -, -, hOut, -⟩ := large_Ree_full_inner_field_automorphism_normal_form 2

@@ -64,8 +64,8 @@ theorem exists_subsets_eq_sum_sub_sum_of_norm_eq_card_add_card
       = if k = l then 1 else 0 := fun k l => by
     rw [classFunInner_eq_cfInner]
     by_cases h : k = l
-    · rw [if_pos h, h]; exact hON.cfInner_self l
-    · rw [if_neg h]; exact isOrthogonal_iff.1 (hON.isOrthogonal h)
+    · rw [ite_eq_left h, h]; exact hON.cfInner_self l
+    · rw [ite_eq_right h]; exact isOrthogonal_iff.1 (hON.isOrthogonal h)
   set c : {v // v ∈ E} → ℂ := fun k => ((A (k : G → ℂ) : ℤ) : ℂ) with hcdef
   have hc : ∀ k : {v // v ∈ E}, classFunInner f (k : G → ℂ) = c k := fun k => by
     rw [classFunInner_eq_cfInner, hA _ k.2]

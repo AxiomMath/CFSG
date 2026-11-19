@@ -19,7 +19,7 @@ open CFSG.Blueprint.Multiplier (genericOrders exceptionalOrders)
 open CFSG.ComponentClassification.TBLit (GriessMultipliersAllModels)
 open CFSG.ComponentClassification.PresentationLocal (sympFour antidiagGram omegaPerm)
 
-theorem generic_dvd (t : StatedLieTag) (n p f ℓ : ℕ) (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
+theorem generic_dvd (t : StatedLieTag) (n p f ℓ : ℕ) (_hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
     (h : ℓ ∣ (genericOrders t n p f).1 ∨ ℓ ∣ (genericOrders t n p f).2) :
     (t = .PSL ∨ t = .PSU) ∧ ℓ ∣ n := by
   have h1 : ¬ ℓ ∣ 1 := fun h => by have := Nat.le_of_dvd one_pos h; omega
@@ -33,7 +33,7 @@ theorem generic_dvd (t : StatedLieTag) (n p f ℓ : ℕ) (hℓ : ℓ.Prime) (h5 
     | exact ⟨Or.inr rfl, h.1⟩
     | (exfalso; simp_all)
 
-theorem exceptional_dvd (t : StatedLieTag) (n p f ℓ : ℕ) (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
+theorem exceptional_dvd (t : StatedLieTag) (n p f ℓ : ℕ) (_hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
     (h : ℓ ∣ (exceptionalOrders t n p f).1 ∨ ℓ ∣ (exceptionalOrders t n p f).2) : False := by
   have h1 : ¬ ℓ ∣ 1 := fun h => by have := Nat.le_of_dvd one_pos h; omega
   have h2 : ¬ ℓ ∣ 2 := fun h => by have := Nat.le_of_dvd two_pos h; omega

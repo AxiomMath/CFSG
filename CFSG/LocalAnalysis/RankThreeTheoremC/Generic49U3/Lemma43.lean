@@ -20,14 +20,14 @@ theorem u3_normal_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal
     M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore p M : Subgroup G) : Set G) :=
   u3_normal_core_proof hS hD1 hU0 hInn hWC h123 hc hfus
 
-theorem u3_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem u3_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hc : U3Config G p P M x J)
     (hnorm : M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore p M : Subgroup G) : Set G)) :
     ∀ Y : Subgroup G, IsPGroup 2 Y → Y ≤ M → u3U0 P x J ≤ Subgroup.normalizer (Y : Set G) →
       CFSG.ABGLocalTools.IsSylowOf 2 (Y ⊓ rankThreePrimeCore p M) (rankThreePrimeCore p M) →
       Subgroup.normalizer (Y : Set G) ≤ M := by
   intro Y hY2 hYM hUY hYB
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨hTcard, hTexp, -, hxJ⟩ := u3_T_structure hc
   obtain ⟨-, hUcard, hUS, hxU, hUc, -, -⟩ := u3U0_facts hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
@@ -60,7 +60,7 @@ theorem u3_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     have htS : t ∈ Subgroup.centralizer ({x} : Set G) := (hTS ht).2
     exact Subgroup.mem_centralizer_iff.1 htS x rfl
   have hVp : IsPGroup p (u3T P x J ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
   have hUV : u3U0 P x J ≤ u3T P x J ⊔ Subgroup.zpowers x :=
     sup_le_sup_right (inf_le_left : u3ZT P x J ≤ u3T P x J) _
   have hUcT : ∀ u ∈ u3U0 P x J, ∀ t ∈ u3T P x J, u * t = t * u :=

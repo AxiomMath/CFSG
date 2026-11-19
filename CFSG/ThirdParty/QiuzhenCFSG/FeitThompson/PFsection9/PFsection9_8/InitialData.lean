@@ -62,8 +62,8 @@ public theorem theorem_9_8_initial_degree_count_of_constituent_family_data_sec9
   intro h92 hSH0U hfamily
   classical
   rcases hfamily with ⟨ι, instFintype, instDecidableEq, θ, hθinj, hcard, hθdata⟩
-  letI : Fintype ι := instFintype
-  letI : DecidableEq ι := instDecidableEq
+  let : Fintype ι := instFintype
+  let : DecidableEq ι := instDecidableEq
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let μ : ι → Section1.ClassFunction M := fun i => Section1.inducedCF Dm (θ i)
   let image : Finset (Section1.ClassFunction M) := Finset.univ.image μ
@@ -270,7 +270,7 @@ public theorem orbitRel_compHom_mulEquiv_iff_sec9
     ∀ x y : κ,
       (MulAction.orbitRel A κ) x y ↔ (MulAction.orbitRel B κ) x y := by
   intro instAction
-  letI : MulAction A κ := instAction
+  let : MulAction A κ := instAction
   intro x y
   constructor
   · intro h
@@ -293,7 +293,7 @@ public theorem stabilizer_compHom_mulEquiv_eq_bot_sec9
     letI : MulAction A κ := instAction
     ∀ k : κ, MulAction.stabilizer A k = ⊥ := by
   intro instAction
-  letI : MulAction A κ := instAction
+  let : MulAction A κ := instAction
   intro k
   ext g
   constructor
@@ -361,10 +361,10 @@ public theorem theorem_9_8_initial_constituent_Mtheta_cyclic_action_data_of_abst
     ⟨Lam, instFintypeLam, instDecidableEqLam, hLamcard,
       A, instGroupA, instFintypeA, hcyclicA, hAcard, instActionA, hfreeA,
       θA, hθinjA, hθdataA⟩
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
-  letI : Group A := instGroupA
-  letI : Fintype A := instFintypeA
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
+  let : Group A := instGroupA
+  let : Fintype A := instFintypeA
   let κ : Type u := Fin (p - 1) × Lam
   let eZ : Multiplicative (ZMod a) ≃* A :=
     (AddEquiv.toMultiplicative
@@ -375,7 +375,7 @@ public theorem theorem_9_8_initial_constituent_Mtheta_cyclic_action_data_of_abst
   let instActionCanon :
       MulAction (ULift.{u,0} (Multiplicative (ZMod a))) κ :=
     MulAction.compHom κ eCanon.toMonoidHom
-  letI : MulAction (ULift.{u,0} (Multiplicative (ZMod a))) κ := instActionCanon
+  let : MulAction (ULift.{u,0} (Multiplicative (ZMod a))) κ := instActionCanon
   have hrel : ∀ x y : κ,
       (MulAction.orbitRel (ULift.{u,0} (Multiplicative (ZMod a))) κ) x y ↔
         (MulAction.orbitRel A κ) x y := by
@@ -428,11 +428,11 @@ public theorem theorem_9_8_initial_constituent_Mtheta_free_action_data_of_cyclic
   rcases hcyc with
     ⟨Lam, instFintypeLam, instDecidableEqLam, hLamcard, instAction, hfree,
       θ, hθinj, hθdata⟩
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
   let A : Type u := ULift.{u,0} (Multiplicative (ZMod a))
   let instGroupA : Group A := inferInstance
-  letI : Fintype (ZMod a) := ZMod.fintype a
+  let : Fintype (ZMod a) := ZMod.fintype a
   let instFintypeA : Fintype A :=
     Fintype.ofEquiv (Multiplicative (ZMod a)) Equiv.ulift.symm
   have hAcard : Nat.card A = a := by
@@ -460,12 +460,12 @@ public theorem theorem_9_8_initial_constituent_Mtheta_raw_product_data_of_free_a
     ⟨Lam, instFintypeLam, instDecidableEqLam, hLamcard,
       A, instGroupA, instFintypeA, hAcard, instAction, hfree, θ, hθinj,
       hθdata⟩
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
-  letI : Group A := instGroupA
-  letI : Fintype A := instFintypeA
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
+  let : Group A := instGroupA
+  let : Fintype A := instFintypeA
   let κ : Type u := Fin (p - 1) × Lam
-  letI : MulAction A κ := instAction
+  let : MulAction A κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel A κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
@@ -493,10 +493,10 @@ public theorem theorem_9_8_initial_constituent_Mtheta_data_of_raw_product_data_s
   rcases hraw with
     ⟨Lam, instFintypeLam, instDecidableEqLam, hLamcard,
       ι, instFintypeι, instDecidableEqι, orbit, hfiber, θ, hθinj, hθdata⟩
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let κ : Type u := Fin (p - 1) × Lam
   let instFintypeκ : Fintype κ := inferInstance
   let instDecidableEqκ : DecidableEq κ := inferInstance
@@ -521,10 +521,10 @@ public theorem theorem_9_8_initial_constituent_orbit_data_of_Mtheta_data_sec9
     ⟨κ, instFintypeκ, instDecidableEqκ,
       ι, instFintypeι, instDecidableEqι, orbit, hκcard, hfiber,
       θ, hθinj, hθdata⟩
-  letI : Fintype κ := instFintypeκ
-  letI : DecidableEq κ := instDecidableEqκ
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype κ := instFintypeκ
+  let : DecidableEq κ := instDecidableEqκ
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   refine ⟨κ, instFintypeκ, instDecidableEqκ,
     ι, instFintypeι, instDecidableEqι, orbit, ?_, hfiber, θ, hθinj, hθdata⟩
   let b : ℕ := Nat.card U / (a * Nat.card Uprime)
@@ -550,9 +550,9 @@ public theorem theorem_9_8_initial_constituent_family_data_of_orbit_data_sec9
     ⟨κ, instFintypeκ, _instDecidableEqκ,
       ι, instFintypeι, instDecidableEqι, orbit, hrawCard, hfiber,
       θ, hθinj, hθdata⟩
-  letI : Fintype κ := instFintypeκ
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype κ := instFintypeκ
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   refine ⟨ι, instFintypeι, instDecidableEqι, θ, hθinj, ?_, hθdata⟩
   have hκcard :
       Fintype.card κ = a * Fintype.card ι :=
@@ -646,8 +646,8 @@ public theorem theorem_9_8_initial_constituent_Mtheta_baseActionKernel_uprime_le
   rw [hUprimeEq] at hxG
   rcases hxG with ⟨y, hy, hy_eq⟩
   have hxy : x = y := Subtype.ext (by simpa using hy_eq.symm)
-  letI : IsCyclic ρBase.range := hρcycBase
-  letI : CommGroup ρBase.range := IsCyclic.commGroup
+  let : IsCyclic ρBase.range := hρcycBase
+  let : CommGroup ρBase.range := IsCyclic.commGroup
   have hyker : y ∈ f.ker := Abelianization.commutator_subset_ker f hy
   simpa [hxy]
 
@@ -667,10 +667,10 @@ public theorem theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_
     IsMulCommutative (K ⧸ Hsub) := by
   classical
   intro f K Hsub
-  letI : (Uprime.subgroupOf U).Normal :=
+  let : (Uprime.subgroupOf U).Normal :=
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
-  letI : Hsub.Normal :=
+  let : Hsub.Normal :=
     (theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq).subgroupOf K
   apply Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr
@@ -716,10 +716,10 @@ public theorem theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_card_
     Nat.card (K ⧸ Hsub) = Nat.card U / (a * Nat.card Uprime) := by
   classical
   intro f K Hsub
-  letI : (Uprime.subgroupOf U).Normal :=
+  let : (Uprime.subgroupOf U).Normal :=
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
-  letI : Hsub.Normal :=
+  let : Hsub.Normal :=
     (theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq).subgroupOf K
   have hf_range_top : f.range = ⊤ := by
@@ -1022,11 +1022,11 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
-  letI : Fintype Clam := Fintype.ofFinite Clam
-  letI : DecidableEq Clam := Classical.decEq Clam
+  let : Group Clam := inferInstance
+  let : Fintype Clam := Fintype.ofFinite Clam
+  let : DecidableEq Clam := Classical.decEq Clam
   rcases hkernel with
     ⟨Lam, instFintypeLam, instDecidableEqLam, lam, hlaminj, hLamClamcard,
       hlamdata, instLamAction, θraw, hθrawdata, hθraworbit⟩
@@ -1071,23 +1071,23 @@ public theorem
       hClamComm, hClamcard, Lam, instFintypeLam, instDecidableEqLam,
       lam, hlaminj, hLamClamcard, hlamdata, instLamAction, θraw,
       hθrawdata, hθraworbit⟩
-  letI : Group Clam := instGroupClam
-  letI : Fintype Clam := instFintypeClam
-  letI : DecidableEq Clam := instDecidableEqClam
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
+  let : Group Clam := instGroupClam
+  let : Fintype Clam := instFintypeClam
+  let : DecidableEq Clam := instDecidableEqClam
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
   let ρRange : ρBase.range →* MulAut (H ⟨0, hqpos⟩) :=
     Subgroup.subtype ρBase.range
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let instPairAction : MulAction ρBase.range (Fin (p - 1) × Lam) := inferInstance
   refine ⟨Clam, instGroupClam, instFintypeClam, instDecidableEqClam,
     hClamComm, hClamcard, Lam, instFintypeLam, instDecidableEqLam, lam,
     hlaminj, hLamClamcard, hlamdata, instPairAction, ?_, θraw, ?_, ?_⟩
-  · letI : MulAction ρBase.range (Fin (p - 1) × Lam) := instPairAction
+  · let : MulAction ρBase.range (Fin (p - 1) × Lam) := instPairAction
     intro k
     ext x
     constructor
@@ -1142,12 +1142,12 @@ public theorem
       hClamComm, hClamcard, Lam, instFintypeLam, instDecidableEqLam,
       lam, hlaminj, hLamClamcard, hlamdata, instAction, hfree, θraw,
       hθrawdata, hθraworbit⟩
-  letI : Group Clam := instGroupClam
-  letI : Fintype Clam := instFintypeClam
-  letI : DecidableEq Clam := instDecidableEqClam
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
-  letI : MulAction ρBase.range (Fin (p - 1) × Lam) := instAction
+  let : Group Clam := instGroupClam
+  let : Fintype Clam := instFintypeClam
+  let : DecidableEq Clam := instDecidableEqClam
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
+  let : MulAction ρBase.range (Fin (p - 1) × Lam) := instAction
   let κ : Type u := Fin (p - 1) × Lam
   let θ : Quotient (MulAction.orbitRel ρBase.range κ) →
       Section1.ClassFunction ((ambientDerivedSubgroup M).subgroupOf M) :=
@@ -1189,11 +1189,11 @@ public theorem
       _hClamComm, hClamcard, Lam, instFintypeLam, instDecidableEqLam,
       _lam, _hlaminj, hLamClamcard, _hlamdata, instAction, hfree, θ, hθinj,
       hθdata⟩
-  letI : Group Clam := instGroupClam
-  letI : Fintype Clam := instFintypeClam
-  letI : DecidableEq Clam := instDecidableEqClam
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
+  let : Group Clam := instGroupClam
+  let : Fintype Clam := instFintypeClam
+  let : DecidableEq Clam := instDecidableEqClam
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
   refine ⟨Lam, instFintypeLam, instDecidableEqLam, ?_, instAction, hfree, θ,
     hθinj, hθdata⟩
   exact hLamClamcard.trans hClamcard
@@ -1699,9 +1699,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
       U C Uprime ρBase hUprimeEq
@@ -1712,8 +1712,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  haveI : IsCyclic ρBase.range := hρcycBase
-  haveI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  have : IsCyclic ρBase.range := hρcycBase
+  have : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -1725,8 +1725,8 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
@@ -1734,11 +1734,11 @@ public theorem
     ⟨B, hBnormal, hAnormal, hA_le_B, hBindex, QH1c, QH1, QClam,
       QH1CH1, hsemi, hprod, eH1, eClam, hIeq, hθnotMF, hθfinalIrr,
       hθorbit⟩
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
-  letI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
+  let : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   let Q : Type u := B ⧸ A.subgroupOf B
-  letI : Group Q := inferInstance
+  let : Group Q := inferInstance
   let ψlin : Fin (p - 1) × Lam → Q →* ℂˣ := fun k =>
     semidirectProductOfInternalDirectProductLinearCharacter_sec9
       hsemi hprod
@@ -1782,9 +1782,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
       U C Uprime ρBase hUprimeEq
@@ -1795,8 +1795,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  haveI : IsCyclic ρBase.range := hρcycBase
-  haveI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  have : IsCyclic ρBase.range := hρcycBase
+  have : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -1808,17 +1808,17 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
   rcases hquotData with
     ⟨B, hBnormal, hAnormal, hA_le_B, hBindex, ψlin, hIeq,
       hθnotMF, hθfinalIrr, hθorbit⟩
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
-  letI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
+  let : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   refine
     ⟨B, hBnormal, hAnormal, hA_le_B, hBindex,
       (fun k => Section1.quotientCharacterInflation A B (ψlin k)), ?_, ?_, ?_, ?_⟩
@@ -1866,9 +1866,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
       U C Uprime ρBase hUprimeEq
@@ -1879,8 +1879,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  haveI : IsCyclic ρBase.range := hρcycBase
-  haveI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  have : IsCyclic ρBase.range := hρcycBase
+  have : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -1892,16 +1892,16 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
   rcases hsemiData with
     ⟨B, hBnormal, hAnormal, hA_le_B, hBindex, ψraw, hψdata,
       hθnotMF, hθfinalIrr, hθorbit⟩
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
   refine ⟨fun k => Section1.inducedCF B (ψraw k), ?_, ?_⟩
   · intro k
     rcases hψdata k with ⟨hψirr, hIeq, hψker, hψdegree⟩

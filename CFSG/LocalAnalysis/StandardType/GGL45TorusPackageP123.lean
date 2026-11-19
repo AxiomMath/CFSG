@@ -163,7 +163,7 @@ theorem ggL45TorusP3_of_H (hp : p.Prime) {s : ℕ} (hs : 2 ≤ s) {c : ℤ} {k :
       ∀ i j : ℕ, (a₁ * (ψ⁻¹ a₁)⁻¹) ^ i * (a₂ * (ψ⁻¹ a₂)⁻¹) ^ j = 1 → p ∣ i ∧ p ∣ j := by
   obtain ⟨-, hexp, -⟩ := H2
   obtain ⟨-, b₁, b₂, ⟨h₁, hh₁S, hb₁⟩, ⟨h₂, hh₂S, hb₂⟩, hb₁Z, hindep⟩ := H3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hh₁ps : h₁ ^ p ^ s = 1 := (hexp h₁ hh₁S).1
   have hh₂ps : h₂ ^ p ^ s = 1 := (hexp h₂ hh₂S).1
   have hψ₁ : ψ h₁ = h₁ ^ c := (hexp h₁ hh₁S).2

@@ -39,6 +39,7 @@ theorem centralizer_le_of_O98_aux2 {E Q M : Subgroup G} (hEQ : E ≤ Q)
   rintro N ⟨B, hBE, hk, rfl⟩
   exact ⟨B, hBE.trans hEQ, hk, rfl⟩
 
+omit [Finite G] in
 theorem centralizer_le_of_O98_aux3 {K M Y : Subgroup G} (hKY : K ≤ Y) :
     (((Y ⊓ M).subgroupOf Y).subgroupOf (K.subgroupOf Y)).map
         ((QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)).comp
@@ -122,7 +123,7 @@ theorem centralizer_le_of_O98_gen {M : Subgroup G}
     exact congrArg Subtype.val (hdQ y hy)
   obtain ⟨K, -, -, hKM, hKshape, hKnorm⟩ := hO98 h3 (Q.map M.subtype) hQM hQ3' hnc hΓ
     (d : G) d.2 hd3' hdQ' hCM hO2 hdO2
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(C ⊓ M)) 7 hd7'
   have hx7 : orderOf (x : G) = 7 := by rw [Subgroup.orderOf_coe]; exact hx
   have hxN : (x : G) ∈ Subgroup.normalizer (K : Set G) :=

@@ -27,7 +27,7 @@ section Part
 variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y} {L : Subgroup Y} {z : Y}
 
 theorem nf5_F_not_le (h9 : KFactNoM125Sylow') (hc : NF5Cfg F Γ B R₀ x L z) : ¬ F ≤ L := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro hFL
   have h : NF5 F Γ B R₀ x := hc.data
   obtain ⟨hsimple, hnon, hcat⟩ := szh1_simple_data h.catalog hc.comp hc.cen
@@ -51,7 +51,7 @@ theorem nf5_F_not_le (h9 : KFactNoM125Sylow') (hc : NF5Cfg F Γ B R₀ x L z) : 
     simpa using this
   have hs5 : ∃ s ∈ F, s ^ 5 ≠ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hBF : B = F := by
       ext b
       rw [h.hB b]

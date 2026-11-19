@@ -58,7 +58,7 @@ private theorem a11lr_step3 : ∀ c : Fin 4 → ZMod 7, (∀ i, c i ∈ a11lr_mu
   have h7 : (7 : ZMod 7) = 0 := by decide
   obtain ⟨k, hk⟩ : ∃ k, ∑ i, c i ^ 2 + c k ^ 2 ≠ 0 := by
     by_contra H
-    push_neg at H
+    push Not at H
     have h0 := H 0
     have h1 := H 1
     have h2 := H 2
@@ -77,9 +77,9 @@ private theorem a11lr_step3 : ∀ c : Fin 4 → ZMod 7, (∀ i, c i ∈ a11lr_mu
   · have hs : ∀ i, e i * c i ^ 2 * c i = 1 + if i = k then 3 else 0 := fun i => by
       have := a11lr_cube_of_mem_mu3 (hc i)
       by_cases h : i = k
-      · subst h; simp only [e, if_true]; linear_combination 4 * this
-      · simp only [e, h, if_false]; linear_combination this
-    simp only [hs, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+      · subst h; simp only [e, ite_true]; linear_combination 4 * this
+      · simp only [e, h, ite_false]; linear_combination this
+    simp only [hs, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
       Finset.sum_const, Finset.card_univ, Fintype.card_fin]
     linear_combination h7
   · have hs : ∀ i, (e i * c i ^ 2)⁻¹ * c i = c i ^ 2 + if i = k then 15 * c k ^ 2 else 0 :=
@@ -87,9 +87,9 @@ private theorem a11lr_step3 : ∀ c : Fin 4 → ZMod 7, (∀ i, c i ∈ a11lr_mu
       have := a11lr_cube_of_mem_mu3 (hc i)
       rw [a11lr_inv_eq_sq_of_mem_mu3 (hd i)]
       by_cases h : i = k
-      · subst h; simp only [e, if_true]; linear_combination (16 * c i ^ 2) * this
-      · simp only [e, h, if_false]; linear_combination c i ^ 2 * this
-    simp only [hs, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      · subst h; simp only [e, ite_true]; linear_combination (16 * c i ^ 2) * this
+      · simp only [e, h, ite_false]; linear_combination c i ^ 2 * this
+    simp only [hs, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     intro h
     exact hk (by linear_combination h - 2 * c k ^ 2 * h7)
 
@@ -167,19 +167,19 @@ private theorem a11lr_mon_mul (π τ : Equiv.Perm (Fin 4)) (k m : Fin 4 → ZMod
     a11lr_mon π k * a11lr_mon τ m = a11lr_mon (τ * π) (fun i => k i + m (π i)) := by
   ext i j
   rw [Matrix.mul_apply, Finset.sum_eq_single (π i)]
-  · simp only [a11lr_mon, Matrix.of_apply, if_true]
+  · simp only [a11lr_mon, Matrix.of_apply, ite_true]
     by_cases h : τ (π i) = j
-    · simp only [h, if_true, Equiv.Perm.mul_apply, a11lr_pow2_add]
-    · simp only [h, if_false, mul_zero, Equiv.Perm.mul_apply]
+    · simp only [h, ite_true, Equiv.Perm.mul_apply, a11lr_pow2_add]
+    · simp only [h, ite_false, mul_zero, Equiv.Perm.mul_apply]
   · intro l _ hl
     simp only [a11lr_mon, Matrix.of_apply]
-    rw [if_neg (fun h => hl h.symm), zero_mul]
+    rw [ite_eq_right (fun h => hl h.symm), zero_mul]
   · intro h; exact absurd (Finset.mem_univ (π i)) h
 
 private theorem a11lr_mon_one (k : Fin 4 → ZMod 3) :
     a11lr_mon 1 k = Matrix.diagonal (fun l => (2 : ZMod 7) ^ (k l).val) := by
   ext l j
-  by_cases h : l = j <;> simp [a11lr_mon, Matrix.diagonal_apply, h]
+  by_cases h : l = j <;> simp [a11lr_mon, h]
 
 private def a11lr_prodDiag (k : Fin 4 → ZMod 3) : M4 :=
   a11lr_diag 0 (k 0) * a11lr_diag 1 (k 1) * a11lr_diag 2 (k 2) * a11lr_diag 3 (k 3)
@@ -278,8 +278,8 @@ private theorem a11lr_mon_row (π : Equiv.Perm (Fin 4)) (k : Fin 4 → ZMod 3) (
     a11lr_mon π k i = (2 : ZMod 7) ^ (k i).val • ev (π i) := by
   ext l
   by_cases h : π i = l
-  · subst h; simp [a11lr_mon, ev, Pi.smul_apply, Pi.single_apply]
-  · simp [a11lr_mon, ev, Pi.smul_apply, Pi.single_apply, h]
+  · subst h; simp [a11lr_mon, ev, Pi.smul_apply]
+  · simp [a11lr_mon, ev, Pi.smul_apply, h]
 
 private theorem a11lr_minors_of_rank_one (M : M4) (hM : M.rank = 1) :
     ∀ i j k l : Fin 4, M i k * M j l = M i l * M j k := by
@@ -307,7 +307,7 @@ private theorem a11lr_rank_one_factor (M : M4) (hM : M.rank = 1) :
   have hmin := a11lr_minors_of_rank_one M hM
   obtain ⟨i0, j0, hij⟩ : ∃ i0 j0, M i0 j0 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hM0 (by ext i j; exact h i j)
   refine ⟨fun i => M i j0 * (M i0 j0)⁻¹, fun j => M i0 j, ?_, ?_, ?_⟩
   · intro hu
@@ -367,14 +367,14 @@ private theorem a11lr_t_uγ_ne (j : Fin 4) (hj : j ≠ (0 : Fin 4)) (a : ZMod 7)
     (ev 0 - a⁻¹ • ev j : Fin 4 → ZMod 7) ≠ 0 := by
   intro h
   have := congrFun h j
-  simp [ev, Pi.single_apply, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
+  simp [ev, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
   exact ha this
 
 private theorem a11lr_t_wγ_ne (j : Fin 4) (hj : j ≠ (0 : Fin 4)) (a : ZMod 7) (ha : a ≠ 0) :
     (a • ev j - ev 0 : Fin 4 → ZMod 7) ≠ 0 := by
   intro h
   have := congrFun h j
-  simp [ev, Pi.single_apply, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
+  simp [ev, Pi.sub_apply, Pi.smul_apply, Ne.symm hj] at this
   exact ha this
 
 private def a11lr_log (a : ZMod 7) : ZMod 3 :=
@@ -540,22 +540,22 @@ private theorem a11lr_rankOne_mon (A : Submonoid M4)
           rw [hrj, hpj]
         · have hri : r i = g i • ev (π i) := by rw [← a11lr_vecMul_ev r i]; exact hrows i hij
           have hm : -((2 : ZMod 7) ^ ((m i).val)) = g i := by
-            simp only [m, if_neg hij]
+            simp only [m, ite_eq_right hij]
             exact a11lr_neg_pow_log (g i) (hneg i hij)
           have hpi : a11lr_pX j π m false i = g i • ev (π i) := by
             ext l
             by_cases h : π i = l
             · subst h
               have hft : ¬ ((false : Bool) = true) := by decide
-              simp only [a11lr_pX, Matrix.of_apply, if_true, if_neg hij, if_neg hft,
+              simp only [a11lr_pX, Matrix.of_apply, ite_true, ite_eq_right hij, ite_eq_right hft,
                 Pi.smul_apply, ev, Pi.single_eq_same, mul_one, smul_eq_mul]
               exact hm
-            · simp [a11lr_pX, h, Ne.symm h, ev, Pi.single_apply]
+            · simp [a11lr_pX, h, Ne.symm h, ev]
           rw [hri, hpi]
       have hrk : a11lr_RankOneB r := a11lr_rankOneB_of_rank r hrank
       rw [heq] at hrk
       exact (a11lr_F1 j π (fun i i' h => π.injective h) hπj m hrk).elim
-  · push_neg at hcase
+  · push Not at hcase
     have hw0 : ∀ j, w j ≠ 0 := by
       intro j
       have hevj : (ev j : Fin 4 → ZMod 7) ≠ 0 := by
@@ -611,8 +611,8 @@ private theorem a11lr_rankOne_mon (A : Submonoid M4)
       rw [hδ, Matrix.diagonal_mul_diagonal]
       ext i j
       by_cases h : i = j
-      · subst h; simp [Matrix.diagonal_apply, mul_inv_cancel₀ (hd0 i)]
-      · simp [Matrix.diagonal_apply, h]
+      · subst h; simp [mul_inv_cancel₀ (hd0 i)]
+      · simp [h]
     let r' : M4 := δ⁻¹ * r * δ
     have hr'A : r' ∈ A := mul_mem (mul_mem (hinv δ hδA).2 hr) hδA
     let u₂ : Fin 4 → ZMod 7 := fun i => (d i)⁻¹ * u i

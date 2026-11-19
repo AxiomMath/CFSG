@@ -147,7 +147,7 @@ theorem ncard_fix_mul_le (D : Subgroup G) [Finite D] (p : X) (x : D) (T : Finset
         refine Finset.card_le_card_of_injOn f (fun _ _ => Finset.mem_univ _) ?_
         intro a ha b hb h
         have h' := congrArg Subtype.val h
-        simp only [f, dif_pos (hc a ha), dif_pos (hc b hb)] at h'
+        simp only [f, dite_eq_left (hc a ha), dite_eq_left (hc b hb)] at h'
         exact mul_right_cancel h'
     calc S.card = ∑ t ∈ T, (S.filter (fun d => d⁻¹ * x * d = t)).card :=
           Finset.card_eq_sum_card_fiberwise hmap

@@ -45,9 +45,9 @@ theorem getR_setR {R : List Nat} {k : Nat} (hk : k < R.length) (d v r : Nat) :
   rw [getR_eq, getR_eq, setR_eq]
   by_cases h : k = r
   · subst h
-    rw [if_pos rfl, List.getD_eq_getElem?_getD, List.getElem?_set_self hk]
+    rw [ite_eq_left rfl, List.getD_eq_getElem?_getD, List.getElem?_set_self hk]
     rfl
-  · rw [if_neg h, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_set_ne h]
+  · rw [ite_eq_right h, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_set_ne h]
 
 theorem runK_cons (n w m nw idn nr : Nat) (H : List Nat) (r : Nat) (prog : List Nat)
     (K : List Nat → Bool) (R : List Nat) :
@@ -144,7 +144,7 @@ theorem ps_update {R : List Nat} {R' : ℕ → Equiv.Perm (Fin n)} {k v : Nat}
   by_cases h : k = r
   · subst h
     simpa using hv
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
     exact hR r
 
 theorem ps_init (hsz : szOK n w = true) {x y c : Nat} {X Y : Equiv.Perm (Fin n)}
@@ -159,7 +159,7 @@ theorem ps_init (hsz : szOK n w = true) {x y c : Nat} {X Y : Equiv.Perm (Fin n)}
       List.getElem?_replicate]
     have e1 : initA X Y (r + 1 + 1) = 1 := by
       unfold initA
-      rw [if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     rw [e1]
     split_ifs <;> exact ps_one hsz
 
@@ -188,21 +188,21 @@ theorem runK_sim (hsz : szOK n w = true) (nr : Nat) (H : List Nat) (K : List Nat
           rw [Bool.and_eq_true] at h
           have hst : stepA R' r = Function.update R' (opK r) (R' (opA r))⁻¹ := by
             unfold stepA
-            rw [if_neg (Nat.ne_of_beq_eq_false h0), if_neg (Nat.ne_of_beq_eq_false h1)]
+            rw [ite_eq_right (Nat.ne_of_beq_eq_false h0), ite_eq_right (Nat.ne_of_beq_eq_false h1)]
           rw [hst]
           refine runK_sim hsz nr H K prog _ _ (by rw [setR_eq, List.length_set, hl])
             (ps_update _ hk' (ps_inv (hR (opA r)) h.1) hR) h.2
       · rw [h1] at h
         have hst : stepA R' r = Function.update R' (opK r) (R' (opA r) ^ opB r) := by
           unfold stepA
-          rw [if_neg (Nat.ne_of_beq_eq_false h0), if_pos (Nat.eq_of_beq_eq_true h1)]
+          rw [ite_eq_right (Nat.ne_of_beq_eq_false h0), ite_eq_left (Nat.eq_of_beq_eq_true h1)]
         rw [hst]
         exact runK_sim hsz nr H K prog _ _ (by rw [setR_eq, List.length_set, hl])
           (ps_update _ hk' (ps_pow hsz (hR (opA r)) _) hR) h
     · rw [h0] at h
       have hst : stepA R' r = Function.update R' (opK r) (R' (opA r) * R' (opB r)) := by
         unfold stepA
-        rw [if_pos (Nat.eq_of_beq_eq_true h0)]
+        rw [ite_eq_left (Nat.eq_of_beq_eq_true h0)]
       rw [hst]
       exact runK_sim hsz nr H K prog _ _ (by rw [setR_eq, List.length_set, hl])
         (ps_update _ hk' (ps_mul hsz (hR (opA r)) (hR (opB r))) hR) h
@@ -262,7 +262,7 @@ theorem cgK_spec {A B : Nat} {a b : Equiv.Perm (Fin n)} (hA : PRep n w A a) (hB 
     runA_mem _ D.prog1 hgen D.is2
   obtain ⟨R2, -, hR2, hfin2⟩ := runK_sim hsz _ D.hints _ D.prog2 _ (initA S1 S2)
     (hlen _ _ D.nx2) (ps_init hsz p1 p2) h2
-  simp only [bA, Bool.and_eq_true] at hfin2
+  simp only [Bool.and_eq_true] at hfin2
   obtain ⟨hra, hrb⟩ := hfin2
   have hgen2 : ∀ r, initA S1 S2 r ∈ Subgroup.closure ({S1, S2} : Set (Equiv.Perm (Fin n))) :=
     initA_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))

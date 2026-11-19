@@ -47,7 +47,7 @@ theorem prime_le_seven_of_isPGroup_commutator_ne_bot {D : Data G} {V₀ Y : Subg
     (hY : IsPGroup q Y) (hYM : Y ≤ D.M) (hq : q.Prime) (hodd : Odd (Nat.card Y))
     (hcomm : ⁅V₀, Y⁆ ≠ ⊥) (hrank : mSub V₀ ≤ 4) : q ≤ 7 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hVp : IsPGroup 2 V₀ := CFSG.Open.IsElemAbelian.isPGroup hV₀
   have hYV : Y ≤ normalizer (V₀ : Set G) := hYM.trans hVnorm
   let φ : ↥Y →* MulAut ↥V₀ := V₀.normalizerMonoidHom.comp (Subgroup.inclusion hYV)
@@ -84,7 +84,7 @@ theorem prime_le_seven_of_isPGroup_commutator_ne_bot {D : Data G} {V₀ Y : Subg
     hq_dvd_range.trans (Subgroup.card_subgroup_dvd_card φ.range)
   let m := mSub V₀
   have hcard : Nat.card V₀ = 2 ^ m := card_eq_two_pow_mSub hVp
-  haveI : IsMulCommutative ↥V₀ := hV₀.1
+  have : IsMulCommutative ↥V₀ := hV₀.1
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2)
     (fun a b => mul_comm' a b)
     (fun a => by
@@ -93,7 +93,7 @@ theorem prime_le_seven_of_isPGroup_commutator_ne_bot {D : Data G} {V₀ Y : Subg
   have hGL : Nat.card (MulAut ↥V₀) = Nat.card (GL (Fin m) (ZMod 2)) :=
     CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL (p := 2) e
   rw [hGL, CFSG.SectionRank.Ccomm.card_GL_zmod (p := 2)] at hdvd_mulAut
-  obtain ⟨i, -, hqi⟩ := (Prime.dvd_finset_prod_iff hq.prime _).1 hdvd_mulAut
+  obtain ⟨i, -, hqi⟩ := (Prime.dvd_finsetProd_iff hq.prime _).1 hdvd_mulAut
   have hi : (i : ℕ) ≤ m := le_of_lt i.2
   have hfac : (2 : ℕ) ^ m - 2 ^ (i : ℕ) = 2 ^ (i : ℕ) * (2 ^ (m - (i : ℕ)) - 1) := by
     rw [Nat.mul_sub_left_distrib, mul_one, pow_mul_pow_sub (2 : ℕ) hi]
@@ -137,16 +137,18 @@ theorem normalizer_le_of_isPGroup_five {D : Data G} (hSg : UC6S846.SigmaStd D)
     (hns : ¬ Group.IsSolvable ↥D.M) (h5 : 5 ∈ D.sig) {Q : Subgroup G}
     (hQ : IsPGroup 5 Q) (hQne : Q ≠ ⊥) (hQM : Q ≤ D.M) :
     normalizer (Q : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact (UC6S846.sp_of_mem_sig hSg hns h5).normalizer_le hQne hQ hQM
 
 
 
+omit [Finite G] in
 theorem card_mulAut_bar2_of_isAlt_five {J : Subgroup G} (h : IsAlt (Bar2 J) 5) :
     Nat.card (MulAut (Bar2 J)) = 120 := by
   obtain ⟨e⟩ := h
   exact CFSG.Quasithin.Vol2.Ch10.SecB.card_mulAut_of_equiv_A5 e
 
+omit [Finite G] in
 theorem card_mulAut_bar2_of_isL2_two {J : Subgroup G} (h : IsL2 (Bar2 J) 2) :
     Nat.card (MulAut (Bar2 J)) = 120 := by
   have hsc : CFSG.Assembly.LowTwoRank.StatedClassicalModel (Bar2 J) .PSL 2 2 2 :=
@@ -155,6 +157,7 @@ theorem card_mulAut_bar2_of_isL2_two {J : Subgroup G} (h : IsL2 (Bar2 J) 2) :
     CFSG.RankThree.PartTwo.Sec15.Liebeck155.nonempty_mulEquiv_alt5_of_statedClassicalModel hsc
   exact CFSG.Quasithin.Vol2.Ch10.SecB.card_mulAut_of_equiv_A5 e
 
+omit [Finite G] in
 theorem card_bar2_of_isU3_two {J : Subgroup G} (h : IsU3 (Bar2 J) 2) :
     Nat.card (Bar2 J) = 62400 := by
   have hsc : CFSG.Assembly.LowTwoRank.StatedClassicalModel (Bar2 J) .PSU 3 2 2 :=
@@ -163,15 +166,16 @@ theorem card_bar2_of_isU3_two {J : Subgroup G} (h : IsU3 (Bar2 J) 2) :
   rw [h1]
   decide
 
+omit [Finite G] in
 theorem center_bar2_of_isU3_two {J : Subgroup G} (h : IsU3 (Bar2 J) 2) :
     Subgroup.center (Bar2 J) = ⊥ := by
   have hsimple : IsSimpleGroup (Bar2 J) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
-  haveI := hsimple
+  have := hsimple
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center (Bar2 J)) with hc | hc
   · exact hc
   · exfalso
-    haveI : IsMulCommutative (Bar2 J) := ⟨⟨fun a b => by
+    have : IsMulCommutative (Bar2 J) := ⟨⟨fun a b => by
       have ha : a ∈ Subgroup.center (Bar2 J) := by rw [hc]; exact Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm⟩⟩
     have hprime : (Nat.card (Bar2 J)).Prime := Group.is_simple_iff_prime_card.mp hsimple
@@ -192,6 +196,7 @@ theorem not_seven_dvd_card_mulAut_of_shape {J : Subgroup G}
   · rw [card_mulAut_bar2_of_isL2_two h]; norm_num
   · rw [card_mulAut_bar2_of_isU3_two h]; norm_num
 
+omit [Finite G] in
 theorem not_seven_dvd_card_mulAut_of_isAlt_five {J : Subgroup G} (h : IsAlt (Bar2 J) 5) :
     ¬ 7 ∣ Nat.card (MulAut (Bar2 J)) := by
   rw [card_mulAut_bar2_of_isAlt_five h]; norm_num
@@ -225,7 +230,7 @@ theorem commutator_le_pCore_of_mem_calC_le_sup {D : Data G} {J L K : Subgroup G}
     (hJ : J ∈ calC D.M) (hL : L ∈ calC D.M) (hK : K ∈ calC D.M)
     (hJL : J ≠ L) (hJK : J ≠ K) (hLK : L ≠ K) :
     ⁅J, L ⊔ K⁆ ≤ pCoreOf 2 J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLJ : L ≤ normalizer (J : Set G) := calC_le_normalizer_of_ne hJ hL hJL
   have hKJ : K ≤ normalizer (J : Set G) := calC_le_normalizer_of_ne hJ hK hJK
   have hLO : L ≤ normalizer (pCoreOf 2 J : Set G) :=
@@ -251,7 +256,7 @@ theorem eq_left_or_right_of_mem_calC_le_sup {D : Data G} {J L K : Subgroup G}
     (hJ : J ∈ calC D.M) (hL : L ∈ calC D.M) (hK : K ∈ calC D.M)
     (hLK : L ≠ K) (hJle : J ≤ L ⊔ K) : J = L ∨ J = K := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hJL, hJK⟩ := h
   have hcomm := commutator_le_pCore_of_mem_calC_le_sup hJ hL hK hJL hJK hLK
   have hJJ : J ≤ pCoreOf 2 J := by
@@ -266,15 +271,15 @@ theorem eq_left_or_right_of_mem_calC_le_sup {D : Data G} {J L K : Subgroup G}
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hxO
     have hy' : y = x := Subtype.ext hyx
     rwa [hy'] at hy
-  haveI : Subsingleton (Bar2 J) := QuotientGroup.subsingleton_iff.mpr htop
-  haveI : Subsingleton (Bar2 J ⧸ Subgroup.center (Bar2 J)) := inferInstance
-  haveI : Nontrivial (Bar2 J ⧸ Subgroup.center (Bar2 J)) := hJ.2.2.2.toNontrivial
+  have : Subsingleton (Bar2 J) := QuotientGroup.subsingleton_iff.mpr htop
+  have : Subsingleton (Bar2 J ⧸ Subgroup.center (Bar2 J)) := inferInstance
+  have : Nontrivial (Bar2 J ⧸ Subgroup.center (Bar2 J)) := hJ.2.2.2.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (Bar2 J ⧸ Subgroup.center (Bar2 J))
   exact hab (Subsingleton.elim a b)
 
 theorem permutesPair_of_ctx19_one {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K) : PermutesPair D.M L K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : L ≠ K := h.hne.symm
   have hLp_le : L ⊔ K ≤ D.M := by
     rw [← h.hLK]
@@ -297,7 +302,7 @@ theorem permutesPair_of_ctx19_one {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
       exact Subgroup.map_mono hJle |>.trans (le_of_eq
         (UC6S846.mem_normalizer_iff_map_conj.mp (hMLp hm)))
     by_contra hcontra
-    push_neg at hcontra
+    push Not at hcontra
     exact (eq_left_or_right_of_mem_calC_le_sup hJ' h.hyp.hL.1 h.hK hne hJ'le) |>.elim
       hcontra.1 hcontra.2
   intro m hm
@@ -317,10 +322,10 @@ theorem normalizer_le_of_isPGroup_seven {D : Data G} {V₀ V : Subgroup G} {p : 
     {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K) (h869 : F08.R869 D) {Q : Subgroup G}
     (hQ : IsPGroup 7 Q) (hQM : Q ≤ D.M) (hcomm : ⁅V₀, Q⁆ ≠ ⊥) :
     normalizer (Q : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hne : L ≠ K := h.hne.symm
   have hperm : PermutesPair D.M L K := permutesPair_of_ctx19_one h
   have hQnorm : Q ≤ normalizer (L : Set G) ⊓ normalizer (K : Set G) :=
@@ -396,7 +401,7 @@ theorem normalizer_le_of_isPGroup_seven {D : Data G} {V₀ V : Subgroup G} {p : 
   let X : Subgroup G := (L ⊔ K) ⊓ centralizer (Q : Set G)
   have hX : calNOf X = {D.M} :=
     h869 (L ⊔ K) (Or.inr ⟨hLKle, hMn, hprod⟩) X inf_le_left hXeq.symm hthin
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hQne : Q ≠ ⊥ := by
     intro hbot
     rw [hbot] at hcomm
@@ -405,7 +410,7 @@ theorem normalizer_le_of_isPGroup_seven {D : Data G} {V₀ V : Subgroup G} {p : 
       CFSG.LocalAnalysis.RankThreeUC.ne_bot_of_isSylowOf_two D.maxLocal.1 D.sylowM
   have hNne : normalizer (Q : Set G) ≠ ⊤ := by
     intro htop
-    haveI : Q.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : Q.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Q with hbot | htopQ
     · exact hQne hbot
     · have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
@@ -429,7 +434,7 @@ theorem normalizer_le_of_isPGroup_odd {D : Data G} {V₀ V : Subgroup G} {p : �
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G}
     (hQ : IsPGroup q Q) (hQM : Q ≤ D.M) (hcomm : ⁅V₀, Q⁆ ≠ ⊥) :
     normalizer (Q : Set G) ≤ D.M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hodd : Odd (Nat.card Q) := by
     obtain ⟨k, hk⟩ := hQ.exists_card_eq
     rw [hk]
@@ -467,7 +472,7 @@ theorem nineteen_six {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L K : Subgrou
   obtain ⟨q, hq, Q, hQcomm⟩ := exists_sylow_commutator_ne_bot hcomm
   let Qg : Subgroup G := (Q : Subgroup ↥Y).map Y.subtype
   have hQcomm' : ⁅V₀, Qg⁆ ≠ ⊥ := hQcomm
-  have hQp : IsPGroup q Qg := (Q.isPGroup').map Y.subtype
+  have hQp : IsPGroup q Qg := (Q.isPGroup).map Y.subtype
   have hQm : Qg ≤ D.M := by
     rintro _ ⟨y, -, rfl⟩
     exact hYM y.2
@@ -486,7 +491,7 @@ theorem nineteen_six {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L K : Subgrou
     simp at hQcomm'
   have hNQ : normalizer (Qg : Set G) ≤ D.M :=
     normalizer_le_of_isPGroup_odd h h192 h193 h194 hSg h869 hq hq2 hQp hQm hQcomm'
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf q Qg Y := ⟨Q, rfl⟩
   intro g hg
   obtain ⟨k, hkY, hkQ⟩ :=

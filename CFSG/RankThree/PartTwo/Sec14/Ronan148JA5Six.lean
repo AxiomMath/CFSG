@@ -47,7 +47,7 @@ theorem exists_j2_factor_and_a5_elem {Γ : Type} [Group Γ]
       CFSG.RankThree.PartTwo.Sec14.Item148HJ.card_alternatingGroup_five hψ)
   have e := eV.trans eK
   have hs : IsSimpleGroup ↥V := isSimpleGroup_of_mulEquiv_j2 e
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hN := mem_normalizer_of_pow_seven hVZ hkey (closure_pow_eq_top (seven_dvd_card_of_mulEquiv_j2 e))
   set σ : alternatingGroup (Fin 5) :=
     ⟨Equiv.swap 0 1 * Equiv.swap 0 2, Equiv.Perm.mem_alternatingGroup.mpr (by decide)⟩ with hσ

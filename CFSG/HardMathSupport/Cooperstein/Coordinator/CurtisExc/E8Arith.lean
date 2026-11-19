@@ -23,7 +23,7 @@ theorem ordE8_lt {q : ℕ} (hq : 2 ≤ q) : ordE8 q < q ^ 248 := by
   rw [e]
   have hq0 : 0 < q := by omega
   gcongr
-  all_goals first | exact (h _ (by norm_num)).2 | exact (h _ (by norm_num)).1.le | positivity
+  all_goals first | exact (h _ (by norm_num)).2
 
 section Center
 

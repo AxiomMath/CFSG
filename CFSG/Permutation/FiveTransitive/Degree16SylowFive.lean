@@ -16,7 +16,7 @@ private theorem perm_order_ne_twenty_five_of_card_sixteen
     (hcard : Fintype.card X = 16)
     (g : Equiv.Perm X) :
     orderOf g ≠ 25 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro hgorder
   have hpow : g ^ 5 ≠ 1 := by
     intro h
@@ -166,7 +166,7 @@ theorem card_doubleFiveElements_eq_twelve
     (S : Sylow 5 P) (hScard : Nat.card S = 25) :
     Fintype.card (DoubleFiveElements X P S) = 12 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let Ω := MulAction.orbitRel.Quotient S X
   have horbitLe (x : X) :
       Fintype.card (MulAction.orbit S x) ≤ 5 := by
@@ -179,7 +179,7 @@ theorem card_doubleFiveElements_eq_twelve
             Subtype.val_injective
         _ = 16 := by
           rw [hcard]
-    obtain ⟨n, hn⟩ := S.isPGroup'.card_orbit x
+    obtain ⟨n, hn⟩ := S.isPGroup.card_orbit x
     rw [Nat.card_eq_fintype_card] at hn
     have hnle : n ≤ 1 := by
       by_contra hn'
@@ -194,7 +194,7 @@ theorem card_doubleFiveElements_eq_twelve
   have horbitCases (x : X) :
       Fintype.card (MulAction.orbit S x) = 1 ∨
         Fintype.card (MulAction.orbit S x) = 5 := by
-    obtain ⟨n, hn⟩ := S.isPGroup'.card_orbit x
+    obtain ⟨n, hn⟩ := S.isPGroup.card_orbit x
     rw [Nat.card_eq_fintype_card] at hn
     have hnle : n ≤ 1 := by
       have hle := horbitLe x
@@ -320,7 +320,7 @@ theorem card_doubleFiveElements_eq_twelve
       exact hScard
     have hSnontrivial : Nontrivial S :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
-    letI : Nontrivial S := hSnontrivial
+    let : Nontrivial S := hSnontrivial
     obtain ⟨u, hu⟩ := exists_ne (1 : S)
     intro hFuniv
     have hfixedU : MulAction.fixedBy X u = Set.univ := by
@@ -359,7 +359,7 @@ theorem card_doubleFiveElements_eq_twelve
   have hFcardLtSix : Fintype.card F < 6 := by
     omega
   have hFmod :=
-    S.isPGroup'.card_modEq_card_fixedPoints X
+    S.isPGroup.card_modEq_card_fixedPoints X
   have hFmod' : 16 % 5 = Fintype.card F % 5 := by
     change Nat.card X % 5 = Nat.card F % 5 at hFmod
     rw [Nat.card_eq_fintype_card, hcard,

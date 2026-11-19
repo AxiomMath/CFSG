@@ -186,7 +186,7 @@ theorem twoFi22RecognitionInputs_holds :
 
 theorem oddStandardL34HeChildren_holds :
     OddStandardL34HeChildren :=
-  ⟨fun hCIT hGH G _ _ hU =>
+  ⟨fun hCIT hGH _G _ _ hU =>
       CFSG.EvenSporadicStandard.Induction.childL34WAt_of_casesBal
         CFSG.OddStandard.rankTwoL3FourStandard_holds hCIT
         (CFSG.OddStandard.l34CyclicOddCenter_of_seitzSimple
@@ -195,7 +195,7 @@ theorem oddStandardL34HeChildren_holds :
           CFSG.OddStandard.ChengHeld.l34EvenSylowStepBal_holds
           (CFSG.OddStandard.ONanRec.sylowBal_ON_of_gh74 hGH))
         hU,
-    fun hCIT G _ _ hU =>
+    fun hCIT _G _ _ hU =>
       CFSG.EvenSporadicStandard.Induction.childHeWAt_of_casesO
         CFSG.Sporadic.Recognition.HeMultiplier.heldTrivialMultiplier_of_certificate
         (CFSG.OddStandard.rankTwoHeStandardO_of_rankTwoHeStandard

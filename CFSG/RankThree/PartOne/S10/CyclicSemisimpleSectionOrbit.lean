@@ -122,7 +122,7 @@ theorem exists_odd_kernel_section {G : Type} [Group G] [Finite G] {m : ℕ}
   set R : Subgroup ↥U := (R2 : Subgroup ↥N).map N.subtype with hR
   have hRn : R.Normal := hsyl 2 R2
   have hRN : R ≤ N := map_subtype_le _
-  have hRtwo : IsPGroup 2 R := R2.isPGroup'.map N.subtype
+  have hRtwo : IsPGroup 2 R := R2.isPGroup.map N.subtype
   let πJ : (↥U ⧸ R) →* Γ := QuotientGroup.lift R f fun x hx => hRN hx
   have hπJ : Function.Surjective πJ := by
     intro γ

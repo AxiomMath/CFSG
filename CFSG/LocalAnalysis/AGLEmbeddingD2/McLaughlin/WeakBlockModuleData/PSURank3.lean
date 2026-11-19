@@ -283,13 +283,13 @@ theorem three_le_pRank_of_psu_extension (hGA : CFSG.Open.GriessAllModelsStatemen
     (n := a) (by rw [hk, hka]; exact ⟨3, by ring⟩)
   set Z2 : Subgroup X := Z2'.map (Subgroup.center X).subtype with hZ2
   have hZ2c : Z2 ≤ Subgroup.center X := Subgroup.map_subtype_le Z2'
-  haveI hZ2n : Z2.Normal := ⟨fun n hn g => by
+  have hZ2n : Z2.Normal := ⟨fun n hn g => by
     have h := Subgroup.mem_center_iff.mp (hZ2c hn) g
     have : g * n * g⁻¹ = n := by rw [h]; group
     rw [this]; exact hn⟩
   have hZ2card : Nat.card Z2 = 2 ^ a := by
     rw [hZ2, Subgroup.card_map_of_injective (Subgroup.center X).subtype_injective, hZ2']
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   set E := X ⧸ Z2 with hE
   let p : E →* Y := QuotientGroup.map Z2 (Subgroup.center X) (MonoidHom.id X)
     (by simpa using hZ2c)

@@ -39,7 +39,7 @@ theorem Std139.u43_not_mem (hgen : U43TripleGen) (hw2 : ∀ w : W, w ^ 2 = 1)
     {d : MulAut W} (hd : d ∈ D) (hd1 : d ≠ 1) : d ∉ K := by
   intro hdK
   obtain ⟨S', hgrp, hLieS', hHat'⟩ := hHat
-  letI : Group S' := hgrp
+  let : Group S' := hgrp
   obtain ⟨φ⟩ := hHat'.2.2
   have hLieK : LieModel (↥K ⧸ Subgroup.center ↥K) .PSU 4 3 1 :=
     LieModel.of_mulEquiv φ.symm hLieS'
@@ -60,9 +60,9 @@ theorem Std139.u43_embed (hgen : U43TripleGen) (hw2 : ∀ w : W, w ^ 2 = 1)
       Nat.card D ≤ Nat.card E := by
   have hHat0 := hHat
   obtain ⟨S', hgrp, hLieS', hHat'⟩ := hHat0
-  letI : Group S' := hgrp
+  let : Group S' := hgrp
   obtain ⟨φ⟩ := hHat'.2.2
-  haveI : Finite S' :=
+  have : Finite S' :=
     Finite.of_injective (φ.symm : S' → ↥K ⧸ Subgroup.center ↥K) φ.symm.injective
   let N : Subgroup (MulAut W) := Subgroup.normalizer (K : Set (MulAut W))
   have hDN : D ≤ N := by
@@ -70,7 +70,7 @@ theorem Std139.u43_embed (hgen : U43TripleGen) (hw2 : ∀ w : W, w ^ 2 = 1)
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     exact hK.normal d (S.DG hd)
   let L : Subgroup ↥N := K.subgroupOf N
-  haveI : L.Normal := Subgroup.normal_in_normalizer
+  have : L.Normal := Subgroup.normal_in_normalizer
   let eL : L ≃* ↥K := Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := K))
   have hperfL : commutator L = ⊤ :=
     w1369_commutator_eq_top_of_mulEquiv eL hHat'.1.1.commutator_eq_top

@@ -23,7 +23,7 @@ theorem titsBorelMax (hX : TitsFacts) : TypeBorelMax IsTitsType 5 :=
 theorem tits_pdata (hX : TitsFacts) (hc : PointConfig IsTitsType G 5 P M x J)
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) :
     PGroupDataAb 5 (P : Subgroup G) (u3T P x J) ((P : Subgroup G) ⊓ u3K0 5 x J) x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hcard, hE, -⟩ := plane_T_structure hX.sylow hc
   have hSdec := plane_S_decomp hX.sylow hX.noOuter hc
   have hdec := u3_P_decomp_core hc hP (k := 2) hcard
@@ -35,7 +35,7 @@ theorem tits_centSeries (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     (hc : PointConfig IsTitsType G 5 P M x J)
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) :
     ∃ N : Subgroup G, CentSeries 5 (M ⊓ Subgroup.centralizer ({x} : Set G)) (P : Subgroup G) N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hcard, hE, -⟩ := plane_T_structure hX.sylow hc
   have hpd := tits_pdata hX hc hP
   exact u3_centSeries_core hS hD1 hU0 hc hP (tits_two_le_pRank hc.prime.one_lt hE hcard) hE.2 (titsBorelMax hX)

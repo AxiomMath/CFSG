@@ -23,7 +23,7 @@ variable {M : Subgroup X} {ρ : ↥(normalizer (M : Set X)) →* Perm (Fin 9)}
 
 theorem rhoX_of_mem {x : X} (hx : x ∈ normalizer (M : Set X)) : rhoX ρ x = ρ ⟨x, hx⟩ := by
   unfold rhoX
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 theorem rhoX_mul {x y : X} (hx : x ∈ normalizer (M : Set X)) (hy : y ∈ normalizer (M : Set X)) :
     rhoX ρ (x * y) = rhoX ρ x * rhoX ρ y := by
@@ -76,12 +76,13 @@ include Z
 theorem mem_normalizer_of_mem_C {x : X} (hx : x ∈ centralizer ({t} : Set X)) :
     x ∈ normalizer (M : Set X) := Z.hHN (Z.hCt hx)
 
+omit [Finite X] Z in
 theorem t_mem_C : t ∈ centralizer ({t} : Set X) := mem_centralizer_singleton_iff.mpr rfl
 
 theorem s_mem_C : s ∈ centralizer ({t} : Set X) :=
   mem_centralizer_singleton_iff.mpr Z.hst
 
-theorem t_mem_N : t ∈ normalizer (M : Set X) := Z.mem_normalizer_of_mem_C Z.t_mem_C
+theorem t_mem_N : t ∈ normalizer (M : Set X) := Z.mem_normalizer_of_mem_C Ctx.t_mem_C
 
 theorem s_mem_N : s ∈ normalizer (M : Set X) := Z.mem_normalizer_of_mem_C Z.s_mem_C
 
@@ -185,6 +186,7 @@ theorem mem_N0 {z : X} (hzM : z ∈ M) (hzC : z ∈ centralizer ({t} : Set X))
   exact ⟨hzC, hzM, Z.hρ.mem_coreActionKernel (le_normalizer hzM)
     ((rhoX_of_mem (le_normalizer hzM)).symm.trans h1)⟩
 
+omit [Finite X] Z in
 theorem rhoX_pow {x : X} (hx : x ∈ normalizer (M : Set X)) (n : ℕ) :
     rhoX ρ (x ^ n) = rhoX ρ x ^ n := by
   induction n with

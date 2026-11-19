@@ -328,8 +328,7 @@ theorem exists_equiv_V2 {B : Type} [Group B] (hB : ∀ x y : B, x * y = y * x) {
     obtain ⟨i, j, rfl⟩ := hgenB b
     refine ⟨Multiplicative.ofAdd ![(i : ZMod 3), (j : ZMod 3)], ?_⟩
     rw [he]
-    simp only [toAdd_ofAdd, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      ZMod.val_natCast]
+    simp only [toAdd_ofAdd, Matrix.cons_val_zero, Matrix.cons_val_one, ZMod.val_natCast]
     rw [pow_eq_pow_mod i hc3, pow_eq_pow_mod j hd3]
   have hv1 : ZMod.val (1 : ZMod 3) = 1 := rfl
   refine ⟨MulEquiv.ofBijective e ⟨hinj, hsurj⟩, ?_, ?_⟩
@@ -387,7 +386,7 @@ theorem core_false_abs {R B : Type} [Group R] [Finite R] [Group B]
     rw [← hE1, hτ'E]
   have hcolmat : ∀ (M : Mat2) (j : Fin 2) (i : Fin 2), (M.mulVec (Pi.single j 1)) i = M i j := by
     intro M j i
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   have hS0 : (P * P) 0 0 = 0 ∧ (P * P) 1 0 ≠ 0 := by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hτc
     have h1 : τ' (τ' (Multiplicative.ofAdd (Pi.single 0 1))) =

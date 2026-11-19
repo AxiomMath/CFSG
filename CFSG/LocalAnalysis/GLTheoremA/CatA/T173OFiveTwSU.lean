@@ -74,8 +74,8 @@ theorem exists_unitarySU_hom_su6Levi {f : ℕ} {F : Type} [Field F] [Finite F]
       ∀ a ∈ su6Levi σ.toRingHom ⊔ twistedE6DiagGL F σ,
         ∃ B ∈ primeFormUnitary h (idGram F 6), (a, B) ∈ SUTorus.suPairs ψ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := h.charP
   have hF : Nat.card F = (2 ^ f) ^ 2 := h.card_eq_sq
   have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := hσ
   set C₀ := graphFixedRootGroup TwistTag.E6 F σ.toRingHom with hC₀
@@ -122,10 +122,10 @@ theorem eq_one_of_mem_centralizer_thetaRankOneGroup_su6Levi {f : ℕ} (hf : 1 �
     (hx : x ∈ twistedE6InndiagGL F σ)
     (hxθ : x ∈ Subgroup.centralizer (thetaRankOneGroup (algebraMap k F) : Set (Γ₂ F)))
     (hxD : x ∈ Subgroup.centralizer (su6Levi σ.toRingHom : Set (Γ₂ F))) : x = 1 := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := hσ
   have hK2 : (2 : F) = 0 := two_eq_zero_of_card_sq hf hF
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (two_eq_zero_of_card hf hk)
   obtain ⟨A, hA⟩ := CFSG.SeitzReduction.F4Pilot.exists_orderOf_eq_natCard_add_one (K := k)
   have hm : A ^ 1 ≠ 1 := by
@@ -208,8 +208,8 @@ theorem exists_su_of_le_levi_A5_two {k F : Type} [Field k] [Field F] [Algebra k 
           ↥(stdLayerD (twistedE6RootGroup F σ) d),
         Function.Surjective ρ ∧ ρ.ker ≤ Subgroup.center _ := by
   classical
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Γ₂ F) := finite_modGL
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Γ₂ F) := finite_modGL
   have hU : UnitaryFieldData 2 1 F := ⟨Nat.prime_two, le_rfl, by simpa using hF⟩
   have hk' : Nat.card k = 2 ^ 1 := by simpa using hk
   have hF' : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF

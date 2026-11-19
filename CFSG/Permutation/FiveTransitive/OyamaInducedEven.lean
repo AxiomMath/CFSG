@@ -14,7 +14,7 @@ namespace FiveTransitive.OyamaInducedEven
 
 open MulAction FixedNormalizerAction FixedNormalizerImage OyamaMinimalOrbitDescent
 
-@[expose] abbrev InducedEven {G X:Type*} [Group G] [Finite G] [Fintype X] [MulAction G X]
+abbrev InducedEven {G X:Type*} [Group G] [Finite G] [Fintype X] [MulAction G X]
     (Q:Subgroup G) : Prop :=
   letI := Fintype.ofFinite (Fixed (X:=X) Q)
   EvenSixTupleLocal.Property (Image (X:=X) Q) (Fixed (X:=X) Q)

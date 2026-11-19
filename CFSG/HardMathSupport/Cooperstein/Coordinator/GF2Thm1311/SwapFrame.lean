@@ -23,6 +23,7 @@ section
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [CharP K 2]
   {σ : K ≃+* K} {Q : QuadraticForm K V} {T : V →ₛₗ[(σ : K →+* K)] V} {r : ℕ}
 
+omit [CharP K 2] in
 theorem HFrame.coeffs_T_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
     (hs : ∀ i, T (F.e i) = F.f i ∧ T (F.f i) = F.e i) (v : V) :
     F.coeffs (T v) = ((fun i => σ ((F.coeffs v).2 i)), (fun i => σ ((F.coeffs v).1 i))) := by
@@ -31,6 +32,7 @@ theorem HFrame.coeffs_T_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
   · rw [← (hs i).1, polar_semilinear T hTQ]
   · rw [← (hs i).2, polar_semilinear T hTQ]
 
+omit [CharP K 2] in
 theorem HFrame.T_expand_swap (F : HFrame Q r)
     (hs : ∀ i, T (F.e i) = F.f i ∧ T (F.f i) = F.e i) (a b : Fin r → K) :
     T (F.expand (a, b)) = F.expand ((fun i => σ (b i)), (fun i => σ (a i))) := by
@@ -38,6 +40,7 @@ theorem HFrame.T_expand_swap (F : HFrame Q r)
   simp only [map_smulₛₗ, RingHom.coe_coe, (hs _).1, (hs _).2]
   rw [add_comm]
 
+omit [CharP K 2] in
 theorem HFrame.T_levi_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
     (hs : ∀ i, T (F.e i) = F.f i ∧ T (F.f i) = F.e i)
     (M M' : Matrix (Fin r) (Fin r) K) (v : V) :
@@ -51,7 +54,7 @@ theorem HFrame.T_levi_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
   congr 1
   rw [blockDelta_apply]
   refine Prod.ext ?_ ?_ <;> funext i
-  · simp only [Pi.sub_apply, map_sub, Matrix.transpose_transpose]
+  · simp only [Pi.sub_apply, map_sub]
     have h := RingHom.map_mulVec (σ : K →+* K) M'ᵀ b i
     simp only [RingEquiv.coe_toRingHom, Function.comp_def, Matrix.transpose_map] at h
     rw [h]

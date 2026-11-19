@@ -17,6 +17,7 @@ open scoped commutatorElement
 variable {F : Type*} [Field F] [Finite F] [CharP F 2] {V : Type*} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V}
 
+omit [Finite F] in
 theorem exists_mem_orthogonalGroup_apply_eq_of_map_eq (hQ : (polarBilin Q).Nondegenerate) {x y : V}
     (hx : x ≠ 0) (hy : y ≠ 0) (hxy : Q y = Q x) :
     ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, g x = y := by

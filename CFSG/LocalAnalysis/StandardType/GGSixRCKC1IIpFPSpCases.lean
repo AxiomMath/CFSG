@@ -204,7 +204,7 @@ private lemma rckIIp_PSp_component_model_PSL_or_PSU {n f : ℕ} (hf : 1 ≤ f) {
         exact hcomm
       have hJbot : J' = ⊥ := le_bot_iff.mp (by rw [hbot] at hJε'; exact hJε'.1)
       have hsimple : IsSimpleGroup (J' ⧸ Subgroup.center J') := hJε'.2.2.2
-      haveI : Subsingleton (J' ⧸ Subgroup.center J') := by rw [hJbot]; infer_instance
+      have : Subsingleton (J' ⧸ Subgroup.center J') := by rw [hJbot]; infer_instance
       exact (not_subsingleton_iff_nontrivial.mpr hsimple.toNontrivial) inferInstance
     have hgl := fePSp_dualPair_glModel hc hSU hS hodd hε he heε hne hnab
     have hcomm := fePSp_dualPair_commutatorModel hc hSU hS hε he heε hne hd hgl

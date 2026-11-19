@@ -126,7 +126,7 @@ theorem word_conj_hVec (s : Fin τ.rank → ℤ) (hs : ∀ m, s m = 1 ∨ s m = 
     · have hW : (((w' ++ [a]).map fun i => weylElt τ K (τ.idx i) 1).reverse).prod =
           weylElt τ K (τ.idx a) 1 *
             ((w'.map fun i => weylElt τ K (τ.idx i) 1).reverse).prod := by
-        simp [List.map_append, List.reverse_append, List.prod_append]
+        simp [List.map_append, List.reverse_append]
       have e1 : weylElt τ K (τ.idx a) 1 *
           ((w'.map fun i => weylElt τ K (τ.idx i) 1).reverse).prod * xUnit τ K j c *
           (weylElt τ K (τ.idx a) 1 *

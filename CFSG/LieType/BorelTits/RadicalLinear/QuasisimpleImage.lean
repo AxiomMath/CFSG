@@ -13,7 +13,7 @@ variable {X : Type*} [Group X]
 theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Group (Y i)]
     (Ψ : ∀ i, X →* Y i) (J : ∀ i, Subgroup (Y i)) (good : I → Prop)
     (hcomm : ∀ x y : X, (∀ i, Ψ i x = 1) → (∀ i, Ψ i y = 1) → x * y = y * x)
-    (hbad : ∀ i, ¬ good i → IsSolvable (Ψ i).range)
+    (hbad : ∀ i, ¬ good i → Group.IsSolvable (Ψ i).range)
     (hsimple : ∀ i, good i → IsSimpleGroup (J i))
     (hle : ∀ i, good i → J i ≤ (Ψ i).range)
     (hcommJ : ∀ i, good i → commutator (Y i) ≤ J i)
@@ -26,13 +26,13 @@ theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Gro
     rw [← Subgroup.map_commutator, hperfS]
   have hbot : ∀ i, ¬ good i → S.map (Ψ i) = ⊥ := by
     intro i hi
-    haveI : Group.IsSolvable ↥((Ψ i).range) := hbad i hi
+    have : Group.IsSolvable ↥((Ψ i).range) := hbad i hi
     have key : ∀ H : Subgroup ↥((Ψ i).range), ⁅H, H⁆ = H → H = ⊥ := by
       intro H hH
-      haveI : Group.IsSolvable H := inferInstance
-      haveI : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hH
+      have : Group.IsSolvable H := inferInstance
+      have : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hH
       by_contra hne
-      haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
+      have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
       exact (Group.IsSolvable.commutator_lt_top_of_nontrivial H).ne
         (Group.IsPerfect.commutator_eq_top (G := H))
     set φ : X →* ↥((Ψ i).range) :=
@@ -46,7 +46,7 @@ theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Gro
     rwa [Subgroup.map_eq_bot_iff, hker, ← Subgroup.map_eq_bot_iff] at hbotφ
   have hgood : ∀ i, good i → S.map (Ψ i) = ⊥ ∨ S.map (Ψ i) = J i := by
     intro i hi
-    haveI : IsSimpleGroup ↥(J i) := hsimple i hi
+    have : IsSimpleGroup ↥(J i) := hsimple i hi
     have hleR : S.map (Ψ i) ≤ (Ψ i).range := Subgroup.map_le_range (Ψ i) S
     have hleJ : S.map (Ψ i) ≤ J i := by
       rw [← hperfMap i]
@@ -115,8 +115,8 @@ theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Gro
     exact hab (by rw [hsub.allEq a b])
   obtain ⟨i, hi, hJi⟩ := hex
   refine ⟨i, hi, hJi, ?_⟩
-  haveI : IsSimpleGroup ↥(J i) := hsimple i hi
-  haveI : Nontrivial ↥(J i) := inferInstance
+  have : IsSimpleGroup ↥(J i) := hsimple i hi
+  have : Nontrivial ↥(J i) := inferInstance
   set ψ : ↥S →* ↥(J i) :=
     ((Ψ i).domRestrict S).codRestrict (J i)
       (fun x => by rw [← hJi]; exact Subgroup.mem_map_of_mem (Ψ i) x.2) with hψ
@@ -126,7 +126,7 @@ theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Gro
     obtain ⟨s, hs, hsy⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨s, hs⟩, Subtype.ext hsy⟩
   have hkereq : ψ.ker = (Ψ i).ker.subgroupOf S := by
-    rw [hψ, MonoidHom.ker_codRestrict, MonoidHom.ker_restrict]
+    rw [hψ, MonoidHom.ker_codRestrict, MonoidHom.ker_domRestrict]
   obtain ⟨hperf, hsimp, -⟩ := hS
   have hNbar : (ψ.ker.map (QuotientGroup.mk' (Subgroup.center S))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
@@ -160,7 +160,7 @@ theorem exists_map_eq_of_isQuasisimple {I : Type*} {Y : I → Type*} [∀ i, Gro
 
 theorem nonempty_quotient_ker_subgroupOf_equiv {Y : Type*} [Group Y] (f : X →* Y)
     (S : Subgroup X) : Nonempty (S ⧸ f.ker.subgroupOf S ≃* S.map f) := by
-  have hker : (f.domRestrict S).ker = f.ker.subgroupOf S := MonoidHom.ker_restrict S f
+  have hker : (f.domRestrict S).ker = f.ker.subgroupOf S := MonoidHom.ker_domRestrict S f
   have hrange : (f.domRestrict S).range = S.map f := by
     ext y
     rw [MonoidHom.mem_range, Subgroup.mem_map]

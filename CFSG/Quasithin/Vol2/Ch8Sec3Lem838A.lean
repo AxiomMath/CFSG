@@ -87,7 +87,7 @@ theorem exists_lift_of_not_dvd_card_ker {H K : Type*} [Group H] [Group K] [Finit
       Nat.factorization_eq_zero_of_not_dvd hker, Nat.Prime.factorization_pow hp.out,
       Finsupp.single_eq_same, zero_add]
   · rintro _ ⟨s, hs, rfl⟩ h1
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hs⟩
     have hx : ((s : ↥N) : H) ^ p ^ n = 1 := by
       have := congrArg (fun y : ↥(S : Subgroup ↥N) => ((y : ↥N) : H)) hn
       simpa using this

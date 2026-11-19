@@ -240,13 +240,13 @@ noncomputable abbrev uj (j : Nat) : Equiv.Perm (Fin 275) :=
   if j = 0 then sa (r32 NoThrJ 0) else if j = 1 then sa (r32 NoThrJ 1)
     else sa (r32 NoThrJ 0) * sa (r32 NoThrJ 1)
 
-theorem uj_0 : uj 0 = sa (r32 NoThrJ 0) := if_pos rfl
+theorem uj_0 : uj 0 = sa (r32 NoThrJ 0) := ite_eq_left rfl
 
 theorem uj_1 : uj 1 = sa (r32 NoThrJ 1) :=
-  (if_neg (show (1 : Nat) ≠ 0 by decide)).trans (if_pos rfl)
+  (ite_eq_right (show (1 : Nat) ≠ 0 by decide)).trans (ite_eq_left rfl)
 
 theorem uj_2 : uj 2 = sa (r32 NoThrJ 0) * sa (r32 NoThrJ 1) :=
-  (if_neg (show (2 : Nat) ≠ 0 by decide)).trans (if_neg (show (2 : Nat) ≠ 1 by decide))
+  (ite_eq_right (show (2 : Nat) ≠ 0 by decide)).trans (ite_eq_right (show (2 : Nat) ≠ 1 by decide))
 
 theorem nIf_tt {c : Bool} (x y : Nat) (h : c = true) :
     Bool.rec (motive := fun _ => Nat) y x c = x := by

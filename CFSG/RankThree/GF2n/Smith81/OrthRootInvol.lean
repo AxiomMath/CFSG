@@ -242,6 +242,7 @@ theorem IsOrthA2.mem_omegaGroup [FiniteDimensional K V] {Q : QuadraticForm K V}
     t ∈ omegaGroup Q hQ :=
   ⟨h.mem, by rw [h.finrank_eq]; exact even_two⟩
 
+omit [CharP K 2] in
 private theorem linearIndependent_pair_symm {x y : V} (h : LinearIndependent K ![x, y]) :
     LinearIndependent K ![y, x] := by
   rw [LinearIndependent.pair_iff] at h ⊢
@@ -249,12 +250,14 @@ private theorem linearIndependent_pair_symm {x y : V} (h : LinearIndependent K !
   have := h t s (by rw [add_comm]; exact hst)
   exact ⟨this.2, this.1⟩
 
+omit [CharP K 2] in
 private theorem finrank_span_pair {x y : V} (h : LinearIndependent K ![x, y]) :
     finrank K (Submodule.span K {x, y}) = 2 := by
   have := finrank_span_eq_card h
   rwa [Matrix.range_cons, Matrix.range_cons, Matrix.range_empty, Set.union_empty,
     Set.singleton_union, Fintype.card_fin] at this
 
+omit [CharP K 2] in
 private theorem exists_pair_of_finrank_eq_two [FiniteDimensional K V] {U : Submodule K V}
     (hU2 : finrank K U = 2) :
     ∃ v w : V, LinearIndependent K ![v, w] ∧ Submodule.span K {v, w} = U := by
@@ -274,6 +277,7 @@ private theorem exists_pair_of_finrank_eq_two [FiniteDimensional K V] {U : Submo
     · exact (b 1).2
   exact Submodule.eq_of_le_of_finrank_eq hle (by rw [finrank_span_pair hli, hU2])
 
+omit [CharP K 2] in
 private theorem exists_polar_eq_one_polar_eq_zero [FiniteDimensional K V] {Q : QuadraticForm K V}
     (hQ : Q.polarBilin.Nondegenerate) {v w : V} (h : LinearIndependent K ![v, w]) :
     ∃ x, polar Q x v = 1 ∧ polar Q x w = 0 := by
@@ -439,18 +443,22 @@ section Pair
 variable {K : Type*} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [FiniteDimensional K V] in
 private theorem end_add_self (x : Module.End K V) : x + x = 0 := algebra_add_self K x
 
+omit [FiniteDimensional K V] in
 private theorem sub_one_mul_sub_one_of_mul_self {t : V ≃ₗ[K] V} (htt : t * t = 1) :
     ((t : V →ₗ[K] V) - 1) * ((t : V →ₗ[K] V) - 1) = 0 := by
   refine sub_one_mul_sub_one end_add_self ?_
   rw [← LinearEquiv.coe_toLinearMap_mul, htt]
   rfl
 
+omit [CharP K 2] [FiniteDimensional K V] in
 private theorem coe_eq_one_add_sub_one (t : V ≃ₗ[K] V) :
     (t : V →ₗ[K] V) = 1 + ((t : V →ₗ[K] V) - 1) := by
   abel
 
+omit [CharP K 2] [FiniteDimensional K V] in
 private theorem sub_one_apply (α : V ≃ₗ[K] V) (v : V) :
     ((α : V →ₗ[K] V) - 1) v = α v - v :=
   rfl
@@ -477,6 +485,7 @@ theorem exists_pair_scalar_of_isOrthA2 (hQ : Q.polarBilin.Nondegenerate) {α β 
       mul_comm (polar Q a2 b1)] at h
     exact h
 
+omit [FiniteDimensional K V] in
 private theorem coe_mul_sq_of_scalar_zero {α β : V ≃ₗ[K] V} (hαα : α * α = 1)
     (hββ : β * β = 1)
     (h1 : ((α : V →ₗ[K] V) - 1) * ((β : V →ₗ[K] V) - 1) * ((α : V →ₗ[K] V) - 1) = 0)
@@ -491,6 +500,7 @@ private theorem coe_mul_sq_of_scalar_zero {α β : V ≃ₗ[K] V} (hαα : α * 
   exact sq_of_pair end_add_self (sub_one_mul_sub_one_of_mul_self hαα)
     (sub_one_mul_sub_one_of_mul_self hββ) h1 h2
 
+omit [FiniteDimensional K V] in
 private theorem mul_pow_four_eq_one_of_scalar_zero {α β : V ≃ₗ[K] V} (hαα : α * α = 1)
     (hββ : β * β = 1)
     (h1 : ((α : V →ₗ[K] V) - 1) * ((β : V →ₗ[K] V) - 1) * ((α : V →ₗ[K] V) - 1) = 0)
@@ -503,6 +513,7 @@ private theorem mul_pow_four_eq_one_of_scalar_zero {α β : V ≃ₗ[K] V} (hα�
   exact sq_sq_of_pair end_add_self (sub_one_mul_sub_one_of_mul_self hαα)
     (sub_one_mul_sub_one_of_mul_self hββ) h1 h2
 
+omit [CharP K 2] [FiniteDimensional K V] in
 private theorem sub_one_apply_sub_one_apply_eq_zero (hQ : Q.polarBilin.Nondegenerate)
     {α β : V ≃ₗ[K] V} (hαO : α ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hαα : α * α = 1)
     (horth : ∀ a ∈ commSpace α, ∀ b ∈ commSpace β, polar Q a b = 0) (v : V) :
@@ -576,6 +587,7 @@ theorem isOrthA2_mul_sq_of_scalar_zero (hQ : Q.polarBilin.Nondegenerate) {α β 
   refine ⟨⟨hγO, hγγ, ?_, hzero⟩, hle⟩
   omega
 
+omit [FiniteDimensional K V] in
 theorem mul_pow_card_sq_eq_of_scalar_ne_zero [Fintype K] {α β : V ≃ₗ[K] V} (hαα : α * α = 1)
     (hββ : β * β = 1) {d : K} (hd : d ≠ 0)
     (h1 : ((α : V →ₗ[K] V) - 1) * ((β : V →ₗ[K] V) - 1) * ((α : V →ₗ[K] V) - 1) =
@@ -597,7 +609,7 @@ theorem orderOf_mul_isOrthA2 [Finite K] (hQ : Q.polarBilin.Nondegenerate) {α β
     (hα : IsOrthA2 Q α) (hβ : IsOrthA2 Q β) :
     (orderOf (α * β) ∣ 4 ∧ (orderOf (α * β) = 4 → IsOrthA2 Q ((α * β) ^ 2))) ∨
       Odd (orderOf (α * β)) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨d, h1, h2⟩ := exists_pair_scalar_of_isOrthA2 hQ hα hβ
   by_cases hd : d = 0
   · subst hd

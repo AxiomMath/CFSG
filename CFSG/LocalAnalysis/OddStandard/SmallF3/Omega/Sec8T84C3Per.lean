@@ -17,8 +17,8 @@ private theorem card_alt6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
 theorem alt6_not_comm : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  letI : CommGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  let : CommGroup (alternatingGroup (Fin 6)) :=
     { (inferInstance : Group (alternatingGroup (Fin 6))) with mul_comm := hcon }
   have hp := IsSimpleGroup.prime_card (α := alternatingGroup (Fin 6))
   rw [card_alt6] at hp
@@ -28,8 +28,8 @@ theorem alt6_not_comm : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := b
 theorem ker_dichotomy {K L : Type} [Group K] [Group L] (φ : K →* alternatingGroup (Fin 6))
     (hφ : Function.Surjective φ) (ρ : K →* L) :
     (∀ k : K, ∃ n ∈ φ.ker, ρ k = ρ n) ∨ ρ.ker ≤ φ.ker := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : (Subgroup.map φ ρ.ker).Normal :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (Subgroup.map φ ρ.ker).Normal :=
     Subgroup.Normal.map (inferInstance : ρ.ker.Normal) φ hφ
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.map φ ρ.ker) with h | h
   · right
@@ -54,8 +54,8 @@ theorem exists_eq_of_card_lt {K L : Type} [Group K] [Finite K] [Group L] [Finite
   rcases ker_dichotomy φ hφ ρ with h | h
   · exact h k
   · exfalso
-    haveI : Nonempty ↥φ.ker := ⟨1⟩
-    haveI : Finite ↥φ.ker := inferInstance
+    have : Nonempty ↥φ.ker := ⟨1⟩
+    have : Finite ↥φ.ker := inferInstance
     have hφcard := Subgroup.card_ker_mul_card_of_surjective (f := φ) hφ
     have hρcard := Subgroup.card_ker_mul_card_range (f := ρ)
     have hL' : Nat.card L < Nat.card (alternatingGroup (Fin 6)) := by
@@ -114,7 +114,7 @@ theorem exists_eq_of_quotEquivTo_card_lt {Γ : Type} [Group Γ] [Finite Γ] {M N
     (ρ : ↥M →* L) (hL : Nat.card L < 360) (m : ↥M) :
     ∃ n : ↥M, (n : Γ) ∈ N ∧ ρ m = ρ n := by
   obtain ⟨φ, hφ, hk⟩ := h
-  haveI : Finite ↥M := inferInstance
+  have : Finite ↥M := inferInstance
   obtain ⟨n, hn, heq⟩ := exists_eq_of_card_lt φ hφ ρ hL m
   refine ⟨n, ?_, heq⟩
   rw [← Subgroup.mem_subgroupOf, ← hk]

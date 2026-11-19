@@ -23,14 +23,14 @@ theorem card_le_nine_of_pow_three {S : Type*} [Group S] [Finite S] [IsCyclic S]
   set E₁ := E.map (MonoidHom.fst S S)
   set E₂ := E.map (MonoidHom.snd S S)
   have h₁ : Nat.card E₁ ≤ 3 := by
-    haveI : IsCyclic E₁ := Subgroup.isCyclic E₁
+    have : IsCyclic E₁ := Subgroup.isCyclic E₁
     refine card_le_three_of_isCyclic ?_
     rintro ⟨_, e, he, rfl⟩
     apply Subtype.ext
     have := congrArg Prod.fst (hE e he)
     simpa using this
   have h₂ : Nat.card E₂ ≤ 3 := by
-    haveI : IsCyclic E₂ := Subgroup.isCyclic E₂
+    have : IsCyclic E₂ := Subgroup.isCyclic E₂
     refine card_le_three_of_isCyclic ?_
     rintro ⟨_, e, he, rfl⟩
     apply Subtype.ext
@@ -48,10 +48,10 @@ theorem card_le_nine_of_pow_three {S : Type*} [Group S] [Finite S] [IsCyclic S]
 
 theorem card_le_three_mul_of_cube_mem {T : Type*} [Group T] [Finite T] [IsCyclic T]
     (N : Subgroup T) (hN : ∀ t : T, t ^ 3 ∈ N) : Nat.card T ≤ 3 * Nat.card N := by
-  letI : CommGroup T := IsCyclic.commGroup
+  let : CommGroup T := IsCyclic.commGroup
   set χ : T →* T := powMonoidHom 3
   have hker : Nat.card χ.ker ≤ 3 := by
-    haveI : IsCyclic χ.ker := Subgroup.isCyclic χ.ker
+    have : IsCyclic χ.ker := Subgroup.isCyclic χ.ker
     refine card_le_three_of_isCyclic ?_
     intro w
     exact Subtype.ext (w.2 : χ w = 1)
@@ -73,8 +73,8 @@ variable {K : Type} [Field K]
 
 theorem card_le_nine_of_elemAbelian_GL2 [Finite K] (hK3 : ¬ 3 ∣ Nat.card K)
     {E : Subgroup (GL (Fin 2) K)} (hE : CFSG.Open.IsElemAbelian 3 E) : Nat.card E ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
   have hK3' : ¬ 3 ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hno : NoE27 (GL (Fin 2) K) := by
     refine CFSG.LocalAnalysis.RankThreeTheoremC.A6.I1435Chev.Weir.noE27_of_sigma ?_ fun P =>
@@ -287,7 +287,7 @@ theorem card_le_nine_mul_of_heis (hK : PiField π p f K) (hq : ModThree π (p ^ 
     {u v : GL (Fin 3) K} (hu : u ∈ T) (hv : v ∈ T) (huv : u * v * u⁻¹ * v⁻¹ ≠ 1) :
     Nat.card T ≤ 9 * Nat.card ↥(T ⊓ StatedScalars (Fin 3) K) := by
   have := hK.finite
-  haveI := isCyclic_statedScalars (K := K)
+  have := isCyclic_statedScalars (K := K)
   set S := ↥(StatedScalars (Fin 3) K)
   have hcs : ∀ (z : GL (Fin 3) K), z ∈ StatedScalars (Fin 3) K → ∀ g : GL (Fin 3) K,
       g * z = z * g := fun z hz g => commute_of_mem_statedScalars hz g
@@ -474,11 +474,11 @@ theorem card_le_nine_mul_of_commute_mod (hK : PiField π p f K) (hq : ModThree �
           (d := ![(e : K), 1, 1]) (by rw [hD, coe_diagE]) hirr
     have hy : (a : Matrix (Fin 3) (Fin 3) K) ^ 3 = (ℓ : K) • 1 := by
       rw [← Units.val_pow_eq_pow_val, ← hℓ, coe_scalar_eq_smul]
-    haveI hcyc := (centralizer_cyclic_card hcube hy).1
+    have hcyc := (centralizer_cyclic_card hcube hy).1
     have hTC : T ≤ centralizer ({a} : Set (GL (Fin 3) K)) := fun t ht =>
       mem_centralizer_singleton_iff.2 (hab t ht a ha)
-    haveI : IsCyclic ↥T := by
-      haveI : IsCyclic ↥(T.subgroupOf (centralizer ({a} : Set (GL (Fin 3) K)))) :=
+    have : IsCyclic ↥T := by
+      have : IsCyclic ↥(T.subgroupOf (centralizer ({a} : Set (GL (Fin 3) K)))) :=
         Subgroup.isCyclic _
       exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hTC).toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hTC).surjective
@@ -503,11 +503,11 @@ theorem not_elemAbelian_27_slPi (hK : PiField π p f K) (hq : ModThree π (p ^ f
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq
   intro h27
   have hsc : Nat.card ↥(E ⊓ StatedScalars (Fin 3) K) ≤ 3 := by
-    haveI := isCyclic_statedScalars (K := K)
+    have := isCyclic_statedScalars (K := K)
     have hle : E ⊓ StatedScalars (Fin 3) K ≤ StatedScalars (Fin 3) K := inf_le_right
-    haveI : IsCyclic ↥((E ⊓ StatedScalars (Fin 3) K).subgroupOf (StatedScalars (Fin 3) K)) :=
+    have : IsCyclic ↥((E ⊓ StatedScalars (Fin 3) K).subgroupOf (StatedScalars (Fin 3) K)) :=
       Subgroup.isCyclic _
-    haveI : IsCyclic ↥(E ⊓ StatedScalars (Fin 3) K) :=
+    have : IsCyclic ↥(E ⊓ StatedScalars (Fin 3) K) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hle).toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hle).surjective
     refine card_le_three_of_isCyclic ?_

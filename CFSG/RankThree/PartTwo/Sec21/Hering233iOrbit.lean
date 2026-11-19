@@ -73,7 +73,7 @@ theorem commute_of_invSet [Finite G] {Y : Subgroup G} {b d w : G}
     (hq4 : 4 < q) (hdq : ∃ k : ℕ, d ^ q ^ k = 1) (hcard : (invSet Y b).ncard ≤ 4)
     (hw : w ∈ invSet Y b) : d * w = w * d := by
   set S : Set G := invSet Y b with hS
-  haveI : Finite S := Set.Finite.to_subtype (Set.toFinite S)
+  have : Finite S := Set.Finite.to_subtype (Set.toFinite S)
   let f : S → S := fun y => ⟨d * y * d⁻¹, conj_mem_invSet hdY hdb y.2⟩
   have hfinj : Function.Injective f := by
     intro y z h
@@ -97,7 +97,7 @@ theorem commute_of_invSet [Finite G] {Y : Subgroup G} {b d w : G}
     simp
   have hord : orderOf σ ∣ q ^ k := orderOf_dvd_of_pow_eq_one hσ1
   classical
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hcardS : Fintype.card S ≤ 4 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq]
     exact hcard

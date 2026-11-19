@@ -25,6 +25,7 @@ theorem exists_maxTwoLocal_ge {H : Subgroup G} (hH : IsTwoLocal H) :
   have hKS : K ∈ S := ⟨hK, hHM.trans hMK⟩
   exact (Subgroup.eq_of_le_of_card_ge hMK (hmax K hKS)).symm
 
+omit [Finite G] in
 theorem InCalU.mono {M X Y : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) (hX : InCalU M X)
     (hXY : X ≤ Y) (hYM : Y ≤ M) : InCalU M Y := by
   change UC22.calMOf Y = {M}
@@ -71,6 +72,7 @@ theorem centerOf_wClos_le_cClos {V : Subgroup G} (hV : IsElemAbelian 2 V) {i j :
   exact inf_le_right.trans
     (Subgroup.centralizer_le (SteinbergBS.wClos_le_wClos hV hd hij hjd S))
 
+omit [Finite G] in
 theorem centerOf_wClos_le_cClos_self {V : Subgroup G} (j : ℕ) (S : Subgroup G) :
     centerOf (E3.wClos V j S) ≤ E3.cClos V j S := by
   rw [E3.cClos]

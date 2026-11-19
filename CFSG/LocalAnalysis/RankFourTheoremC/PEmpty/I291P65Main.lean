@@ -51,7 +51,7 @@ theorem kFactP65Single_of_kdata (hCase2 : SCCaseTwo) (hLin : KD29LinUni)
     (h309 : KD309) : KFactP65Single := by
   intro A _ _ p P X x z T hpl hC2 hp5 hT hR hU W hWX hWcop hBW
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPX : (P : Subgroup A) ≤ X := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (Subgroup.mem_sup_left (mem_zpowers x)))

@@ -22,6 +22,7 @@ section Model
 variable {M Q Z : Subgroup G} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [Finite K] [DecidableEq ι] in
 theorem width_of_tensor (hD : GlobalModelData M Q Z γ M₀) (φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)) :
     Width Q Z (Fintype.card ι) := by
   unfold Width
@@ -179,6 +180,7 @@ theorem img_stable_eichler (hcB : Ctx M Q Z B) (hcA : Ctx M Q Z A)
     simp [orthTensor]
   rwa [e] at h
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_unipotent_act [Finite K] [CharP K 2] (hcA : Ctx M Q Z A)
     (hLA : LB M Q A ≤ Lgen M (LB M Q B)) (hD : GlobalModelData M Q Z γ M₀)
     (hAct : OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B))) {u : ι → K} (hu0 : u ≠ 0) {a : G}
@@ -188,7 +190,7 @@ theorem exists_unipotent_act [Finite K] [CharP K 2] (hcA : Ctx M Q Z A)
       ∀ e ∈ M₀.img (Q ⊓ QB A), ∃ c : K,
         orthTensor !![1, β; 0, 1] o (φ e) - φ e = c • ((u, 0) : (ι → K) × (ι → K)) := by
   classical
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     by_contra h
     exact hu0 (funext fun i => (h ⟨i⟩).elim)
   have htM : t ∈ M := hcA.LB_le_M ht
@@ -277,6 +279,7 @@ variable [Finite G] {M Q Z B A : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι]
   [DecidableEq ι] {qU : QuadraticForm K (ι → K)} {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [DecidableEq ι] in
 theorem exists_unipotent_pairs (hcA : Ctx M Q Z A) (hno : NoA2 Q Z (LB M Q A))
     (hLA : LB M Q A ≤ Lgen M (LB M Q B)) (hD : GlobalModelData M Q Z γ M₀)
     (hAct : OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B))) (hn : 1 ≤ Fintype.card ι) {u : ι → K}
@@ -296,7 +299,7 @@ theorem exists_unipotent_pairs (hcA : Ctx M Q Z A) (hno : NoA2 Q Z (LB M Q A))
     obtain ⟨β, o, h1, h2, h3, h4⟩ := exists_unipotent_act hcA hLA hD hAct hu0 haA ha1 hpa t.2
     exact ⟨(β, o), h1, h2, h3, h4⟩
   choose f hfiso hfu hfact hfD using hdata
-  haveI : Fintype (LB M Q A) := Fintype.ofFinite _
+  have : Fintype (LB M Q A) := Fintype.ofFinite _
   have hw := width_of_tensor hD φ
   have hcard33 : Nat.card (LB M Q A) = Nat.card Q * Nat.card K ^ (Fintype.card ι - 1) := by
     rcases stroth_3_3 hcA hw hn with h | ⟨a', ha', hA2⟩

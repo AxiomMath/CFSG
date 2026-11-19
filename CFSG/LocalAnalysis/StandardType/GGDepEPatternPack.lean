@@ -130,10 +130,10 @@ theorem clsB_sound {tab : Fin 6 → Fin 6 → ℕ} {P : Fin 5 → Fin 5 → ℕ}
   have hj' := Nat.eq_of_beq_eq_true hj
   cases hb : Nat.beq (i : ℕ) k
   · rw [hb] at hj'
-    rw [if_neg (fun e => Nat.ne_of_beq_eq_false hb (by rw [e]))]
+    rw [ite_eq_right (fun e => Nat.ne_of_beq_eq_false hb (by rw [e]))]
     exact hj'
   · rw [hb] at hj'
-    rw [if_pos (Fin.ext (Nat.eq_of_beq_eq_true hb))]
+    rw [ite_eq_left (Fin.ext (Nat.eq_of_beq_eq_true hb))]
     exact hj'
 
 end CFSG.StandardType.DepEPack

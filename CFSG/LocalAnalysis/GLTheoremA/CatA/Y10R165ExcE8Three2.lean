@@ -41,7 +41,7 @@ private lemma e8T3_diag_data {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
           {s | ∃ α ∈ rootCharKernel a, s = rootReflection α} : Set (WeylGroup Tag.E8))) ∧
       (∀ α ∈ rootCharKernel b, -α ∈ rootCharKernel b) ∧
       (∀ α ∈ rootCharKernel b, e8T3W • α ∈ rootCharKernel b) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj0 : Function.Injective (rootDiagUnitHom Tag.E8 L) := rootDiagUnit_injective
   set h : ModGL Tag.E8 L := g0⁻¹ * adjEmb Tag.E8 K L (c * x * c⁻¹) * g0 with hhdef
   have hbh : rootDiagUnit Tag.E8 b = h := hb
@@ -113,7 +113,7 @@ private lemma e8T3_family_data (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 �
           ε • (((u⁻¹)⁻¹ * e8T3We ε * u⁻¹) • y) + y = 0) ∧
       rootCharKernel b = (fun γ => u⁻¹ • γ) '' parabolicRoots Tag.E8 (e6Nodes Tag.E8) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hnC : n ∈ adjointGroup Tag.E8 L := monomialSubgroup_le_adjointGroup' hnm
   have hnWv : ∀ y : Fin Tag.E8.rank → ℤ,
       weylQuotientHom Tag.E8 L ⟨n, hnm⟩ • y = e8T3We ε • y := fun y => by rw [hnW]
@@ -258,7 +258,7 @@ private lemma e8T3_pullback_data {K : Type} [Field K] {L : Type} [Field L]
     {ψ : ↥(Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K))) →* ModGL Tag.E8 L}
     {P0 : Subgroup (ModGL Tag.E8 L)}
     (hψinj : Function.Injective ψ) (hPq : CFSG.IsQuasisimple P0)
-    (hPval : P0 = rootSpan Tag.E8 L (rootCharKernel b) ⊓
+    (_hPval : P0 = rootSpan Tag.E8 L (rootCharKernel b) ⊓
       twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))))
     (hrange : P0 ≤ ψ.range)
     (hψHQ : ∀ y, ψ y ∈ torusGroup Tag.E8 L ⊔ rootSpan Tag.E8 L (rootCharKernel b))
@@ -351,7 +351,7 @@ theorem e8T3_perx_layers (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 ∨ ε 
   classical
   have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   set Φ : ModGL Tag.E8 L →* ModGL Tag.E8 L := Units.map (entrywiseHom Fr) with hΦdef
   obtain ⟨ψ, u, P, hψinj, hψ, hψHQ, hψR, hψadj, hrange, hSu, hSeq, hmaps, hrelFull, hfam,
@@ -383,7 +383,7 @@ theorem det_cartanBlock_edge (a b : Fin Tag.E8.rank) (h : (a, b) ∈ e8Edges) :
     (cartanBlock Tag.E8 ({a, b} : Set (Fin Tag.E8.rank))).det = 3 := by
   simp only [e8Edges, List.mem_cons, List.not_mem_nil, or_false] at h
   rcases h with h | h | h | h | h | h | h <;>
-    (obtain ⟨rfl, rfl⟩ := h <;> decide)
+    (obtain ⟨rfl, rfl⟩ := h; decide)
 
 theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_a2 {ε : ℤ}
     (hε : ε = 1 ∨ ε = -1) (K : Type) [Field K] [Finite K]
@@ -403,7 +403,7 @@ theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_a2 {ε : ℤ}
       ({a, b} : Set (Fin Tag.E8.rank))) ⊓
       twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ Nat.card K := fun c => by
     rw [hK, iterateFrobenius_def]
@@ -424,7 +424,7 @@ theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_a2 {ε : ℤ}
   have hq0 : ((Nat.card K : ℕ) : L) = 0 := by
     rw [hK, Nat.cast_pow, CharP.cast_eq_zero L ℓ, zero_pow (by omega : f ≠ 0)]
   have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
-  haveI : Nonempty ↥({a, b} : Set (Fin Tag.E8.rank)) :=
+  have : Nonempty ↥({a, b} : Set (Fin Tag.E8.rank)) :=
     ⟨⟨a, by simp⟩⟩
   have hdet : (cartanBlock Tag.E8 ({a, b} : Set (Fin Tag.E8.rank))).det ≠ 0 := by
     rw [det_cartanBlock_edge a b hab]

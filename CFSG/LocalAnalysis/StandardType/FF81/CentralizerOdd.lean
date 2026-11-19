@@ -35,7 +35,7 @@ private theorem cOdd_sylow_central_complement {G : Type*} [Group G] [Finite G] {
       _ = (Subgroup.zpowers b).comap D.subtype := by rw [hEq]
       _ = (Subgroup.zpowers b).subgroupOf D := rfl
   obtain ⟨Q, hQle⟩ := hP0p.exists_le_sylow
-  have hQP0 : Q = (Subgroup.zpowers b).subgroupOf D := hsyl_max Q Q.isPGroup' hQle
+  have hQP0 : Q = (Subgroup.zpowers b).subgroupOf D := hsyl_max Q Q.isPGroup hQle
   have hP0index : ¬ 3 ∣ ((Subgroup.zpowers b).subgroupOf D).index := by
     rw [← hQP0]
     exact Q.not_dvd_index
@@ -66,7 +66,7 @@ private theorem cOdd_mem_iff_not_dvd_order {H : Type*} [Group H] [Finite H] {N :
     (hN : N.Normal) (P : Sylow 3 H) (hcomp : (P : Subgroup H).IsComplement' N)
     (hPcard : Nat.card (P : Subgroup H) = 3) (d : H) : d ∈ N ↔ ¬ 3 ∣ orderOf d := by
   classical
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hcard : Nat.card (H ⧸ N) = 3 := by
     rw [← Subgroup.index_eq_card (H := N), hcomp.index_eq_card, hPcard]
   have h3N : ¬ 3 ∣ Nat.card N := by

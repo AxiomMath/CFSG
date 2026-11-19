@@ -142,8 +142,8 @@ private theorem typeP_W_isMulCommutative
     · have hyCent : y ∈ elementCentralizerIn (ambientDerivedSubgroup M) x := by
         simpa [hcentW1 x hx hx1] using hy
       exact (Subgroup.mem_centralizer_singleton_iff.mp hyCent.2).symm
-  letI : IsCyclic W1 := hW1cyc
-  letI : IsCyclic W2 := hW2cyc
+  let : IsCyclic W1 := hW1cyc
+  let : IsCyclic W2 := hW2cyc
   let D : Subgroup G := W1 ⊔ W2
   let W1D : Subgroup D := W1.subgroupOf D
   let W2D : Subgroup D := W2.subgroupOf D
@@ -173,7 +173,7 @@ private theorem typeP_W_isMulCommutative
           y = a⁻¹ * y' * a := by simp [y', mul_assoc]
           _ = y' := hconj
       simpa [hy_eq] using hy'W2
-  haveI : W2D.Normal := by
+  have : W2D.Normal := by
     simpa [D, W2D] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -299,8 +299,8 @@ private theorem typeP_W1_characteristic_in_W
   let W : Subgroup G := W1 ⊔ W2
   have hWcomm : IsMulCommutative W := by
     simpa [W] using typeP_W_isMulCommutative (M := M) (MF := MF) (U := U) hP
-  letI : IsMulCommutative W := hWcomm
-  haveI : (W1.subgroupOf W).Normal := by infer_instance
+  let : IsMulCommutative W := hWcomm
+  have : (W1.subgroupOf W).Normal := by infer_instance
   have hW1leM : W1 ≤ M := typeP_W1_le_M (MF := MF) (U := U) (W2 := W2) hP
   have hW2leM : W2 ≤ M := typeP_W2_le_M (MF := MF) (U := U) (W1 := W1) hP
   have hWleM : W ≤ M := by
@@ -325,9 +325,9 @@ private theorem typeP_W2_characteristic_in_W
   let W : Subgroup G := W1 ⊔ W2
   have hWcomm : IsMulCommutative W := by
     simpa [W] using typeP_W_isMulCommutative (M := M) (MF := MF) (U := U) hP
-  letI : IsMulCommutative W := hWcomm
-  haveI : (W1.subgroupOf W).Normal := by infer_instance
-  haveI : (W2.subgroupOf W).Normal := by infer_instance
+  let : IsMulCommutative W := hWcomm
+  have : (W1.subgroupOf W).Normal := by infer_instance
+  have : (W2.subgroupOf W).Normal := by infer_instance
   have hW1leM : W1 ≤ M := typeP_W1_le_M (MF := MF) (U := U) (W2 := W2) hP
   have hW2leM : W2 ≤ M := typeP_W2_le_M (MF := MF) (U := U) (W1 := W1) hP
   have hWleM : W ≤ M := by

@@ -72,7 +72,7 @@ private theorem exists_smul_mem_of_orderOf_two [Finite X] {A : Sylow 2 X} {M : S
     ∃ m ∈ M, t ∈ (m • A : Sylow 2 X) := by
   have hA : IsSylowOf 2 (A : Subgroup X) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, A.isPGroup', A.not_dvd_index⟩
+    exact ⟨le_top, A.isPGroup, A.not_dvd_index⟩
   have hAM' : IsSylowOf 2 (A : Subgroup X) M := hA.of_le hAM le_top
   have hP2 : IsPGroup 2 (Subgroup.zpowers t) := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -127,7 +127,7 @@ theorem sylowConn_of_no_stronglyEmbedded [Finite X]
   have hMeven : Even (Nat.card M) := by
     have h1 : Nat.card (A : Subgroup X) ∣ Nat.card M := Subgroup.card_dvd_of_le hAM
     have h2 : 2 ∣ Nat.card (A : Subgroup X) := by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 A.isPGroup'
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 A.isPGroup
       have hk0 : k ≠ 0 := by
         rintro rfl
         exact hAbot ((Subgroup.eq_bot_iff_card _).2 (by simpa using hk))

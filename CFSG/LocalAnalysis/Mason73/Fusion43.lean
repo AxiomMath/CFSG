@@ -12,21 +12,25 @@ open CFSG.CGT.Stroth77.L4Sylow CFSG.GH74.GLS.Stage1.Thm3.Sec8 CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ}
 
+omit [Finite G] in
 theorem map_subtype_derivedSeries_zero (C : Subgroup G) :
     (derivedSeries C 0).map C.subtype = C := by
   rw [derivedSeries_zero, ← MonoidHom.range_eq_map, range_subtype]
 
+omit [Finite G] in
 theorem map_subtype_derivedSeries_succ (C : Subgroup G) (m : ℕ) :
     (derivedSeries C (m + 1)).map C.subtype =
       ⁅(derivedSeries C m).map C.subtype, (derivedSeries C m).map C.subtype⁆ := by
   rw [derivedSeries_succ, Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem conj_mem_map_subtype_derivedSeries {C : Subgroup G} (m : ℕ) {c k : G} (hc : c ∈ C)
     (hk : k ∈ (derivedSeries C m).map C.subtype) :
     c * k * c⁻¹ ∈ (derivedSeries C m).map C.subtype := by
   obtain ⟨k', hk', rfl⟩ := hk
   exact ⟨⟨c, hc⟩ * k' * ⟨c, hc⟩⁻¹, (derivedSeries_normal C m).conj_mem _ hk' _, rfl⟩
 
+omit [Finite G] in
 theorem le_normalizer_map_subtype_derivedSeries (C : Subgroup G) (m : ℕ) :
     C ≤ normalizer (((derivedSeries C m).map C.subtype : Subgroup G) : Set G) := by
   intro c hc

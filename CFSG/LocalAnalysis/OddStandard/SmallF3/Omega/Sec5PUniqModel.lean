@@ -23,8 +23,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 theorem sec5pu_pocket_map {φ : ↥L →* omegaGroup hQ} (hoc : OddCentralCover φ) {z : G}
     (hzL : z ∈ L) (hzz : z * z = 1) {K : Subgroup G} (hK : Sl23PocketIn L z K) :
     Sl23PocketIn (omegaGroup hQ) (sec5cdPhi φ ⟨z, hzL⟩) ((K.subgroupOf L).map (sec5cdPhi φ)) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (OGroup Q) := inferInstance
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (OGroup Q) := inferInstance
   have h1 := l34g_x_sl23PocketIn_subgroupOf (H := L) (V := L) le_rfl hzL hK
   rw [Subgroup.subgroupOf_self] at h1
   have hzz' : (⟨z, hzL⟩ : ↥L) * ⟨z, hzL⟩ = 1 := Subtype.ext hzz
@@ -63,6 +63,7 @@ theorem sec5pu_img_cases {φ : ↥L →* omegaGroup hQ} (hoc : OddCentralCover �
     (K.subgroupOf L).map (sec5cdPhi φ) = D.L ∨ (K.subgroupOf L).map (sec5cdPhi φ) = D.R :=
   D.pocket_cases (sec5pu_pocket_map hoc hzL hzz hK) (sec5pu_map_le_twoRes hzL hK)
 
+omit [Finite G] in
 theorem sec5pu_card_img {φ : ↥L →* omegaGroup hQ} {z : G} (hzL : z ∈ L)
     (D : Om6Par Q (sec5cdPhi φ ⟨z, hzL⟩)) {K : Subgroup G}
     (h : (K.subgroupOf L).map (sec5cdPhi φ) = D.L ∨ (K.subgroupOf L).map (sec5cdPhi φ) = D.R) :

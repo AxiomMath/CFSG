@@ -14,13 +14,13 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma exists_conjSub_inv_le_of_sylow {H T E : Subgroup G} (hT : IsSylowIn 2 H T)
     (hEH : E ≤ H) (hE : IsPGroup 2 E) : ∃ c : G, conjSub c⁻¹ E ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsub_pg : IsPGroup 2 (T.subgroupOf H) := hT.2.1.comap_subtype
   have hTsub_ne : ¬ 2 ∣ (T.subgroupOf H).index := by
     simpa only [Subgroup.relIndex] using hT.2.2
   let P : Sylow 2 ↥H := hTsub_pg.toSylow hTsub_ne
   have hPcoe : (P : Subgroup ↥H) = T.subgroupOf H := rfl
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
   have hEsub_pg : IsPGroup 2 (E.subgroupOf H) := hE.comap_subtype
   obtain ⟨Q, hQ⟩ := hEsub_pg.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (M := ↥H) P Q
@@ -47,7 +47,7 @@ theorem y7n_mH_le {s : Setting3 G L} {e : Setting3.Ext s} (hDef : e.FactDef)
     (hRT : s.R ≠ s.T) :
     ∀ E : Subgroup G, E ≤ centralizer ({s.t} : Set G) → IsElemAbelian 2 E →
       Nat.card E ≤ 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro E hEH hEab
   obtain ⟨c, hFT⟩ := exists_conjSub_inv_le_of_sylow s.sylow_T hEH hEab.isPGroup
   set F : Subgroup G := conjSub c⁻¹ E with hFdef
@@ -67,7 +67,7 @@ theorem y7n_mH_le {s : Setting3 G L} {e : Setting3.Ext s} (hDef : e.FactDef)
     IsPGroup.toSylow_coe _ _
   obtain ⟨hN, hPiso⟩ := (hDef.1 hRT).1
   let Nz : Subgroup ↥s.T := (zpowers s.t).subgroupOf s.T
-  haveI : Nz.Normal := hN
+  have : Nz.Normal := hN
   let π : ↥s.T →* ↥s.T ⧸ Nz := QuotientGroup.mk' Nz
   obtain ⟨φ⟩ := hPiso P
   set E'' : Subgroup ↥s.T := F.subgroupOf s.T with hE''def

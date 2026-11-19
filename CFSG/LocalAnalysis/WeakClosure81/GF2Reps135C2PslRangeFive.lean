@@ -24,7 +24,7 @@ private theorem c2slr5_eq_zero_of_shift_one {n f : ℕ} (hf : 0 < f)
         have hmod : (k % f + 1) % f = (k + 1) % f := by
           have h1 : (k + 1) % f = (k % f + 1 % f) % f := Nat.add_mod k 1 f
           have h2 : (k % f + 1) % f = (k % f + 1 % f) % f := by
-            simpa using Nat.add_mod (k % f) 1 f
+            simp
           rw [h2, h1]
         have heqfin : (⟨(k % f + 1) % f, Nat.mod_lt _ (⟨k % f, hk⟩ : Fin f).pos⟩ : Fin f) =
             ⟨(k + 1) % f, Nat.mod_lt (k + 1) hf⟩ := Fin.ext hmod
@@ -108,7 +108,7 @@ private theorem c2slr5_choose_small {n j : ℕ} (hn : 5 ≤ n) (hn7 : n ≤ 7)
       omega
     · decide
 
-private theorem c2slr5_s_eq_f_of_unique_active {n f s : ℕ} (hs : 1 ≤ s)
+private theorem c2slr5_s_eq_f_of_unique_active {n f s : ℕ} (_hs : 1 ≤ s)
     (ε : Fin f → Finset (Fin n))
     (hmin : ∀ p : ℕ, 0 < p → p < s → ∃ r : Fin f,
       ε ⟨(r + p) % f, Nat.mod_lt _ r.pos⟩ ≠ ε r)

@@ -70,7 +70,7 @@ theorem ext_sq (hC : ExtCtx P X₀ Y N) {u : G} (hu : u ∈ Y) (hu2 : u ^ 2 ∈ 
 theorem ext_comm_mem (hC : ExtCtx P X₀ Y N) (hsq : ∀ y ∈ Y, y ^ 2 ∈ P) :
     ∀ y ∈ Y, ∀ y' ∈ Y, ⁅y, y'⁆ ∈ P := by
   have hPY : P ≤ Y := hC.P_le.trans hC.X₀_le
-  haveI hnorm : (P.subgroupOf Y).Normal :=
+  have hnorm : (P.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff hPY).mpr fun h k hh hk => hC.P_Y k hk h hh
   have hexp : ∀ g : (↥Y ⧸ P.subgroupOf Y), g ^ 2 = 1 := by
     intro g
@@ -132,7 +132,7 @@ theorem ext_normal (hC : ExtCtx P X₀ Y N) :
   exact ⟨fun y hy c hc => ((Subgroup.mem_normalizer_iff.mp (hY hy)) c).mp hc,
     fun n hn c hc => ((Subgroup.mem_normalizer_iff.mp (hN hn)) c).mp hc⟩
 
-theorem fpf_surj [Finite G] {V : Subgroup G} (hV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {k : G}
+theorem fpf_surj [Finite G] {V : Subgroup G} (_hV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {k : G}
     (hk : ∀ v ∈ V, k * v * k⁻¹ ∈ V) (hfix : ∀ v ∈ V, k * v * k⁻¹ = v → v = 1) :
     ∀ v ∈ V, ∃ u ∈ V, v = u * (k * u * k⁻¹)⁻¹ := by
   let f : ↥V → ↥V := fun u =>

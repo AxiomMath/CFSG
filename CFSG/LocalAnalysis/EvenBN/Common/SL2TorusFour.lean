@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenBN.Common.SL2TorusThree
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

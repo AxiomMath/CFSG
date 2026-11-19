@@ -21,6 +21,7 @@ private noncomputable def psiT8 (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     ↥M →* MulAut (Vtil ⊥ V hV) :=
   (actTil ⊥ V hV).comp (Subgroup.inclusion (le_stabTil hM hM₀))
 
+omit [Finite G] in
 private theorem psiT8_range (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G)) :
     (psiT8 M V hV hM hM₀).range = Mbar M ⊥ V hV := by
@@ -30,10 +31,11 @@ private theorem psiT8_range (M V : Subgroup G) (hV : IsElemAbelian 2 V)
   rw [mem_barSub]
   constructor
   · rintro ⟨m, rfl⟩
-    exact ⟨Subgroup.inclusion (le_stabTil hM hM₀) m, by simpa using m.2, rfl⟩
+    exact ⟨Subgroup.inclusion (le_stabTil hM hM₀) m, by simp, rfl⟩
   · rintro ⟨g, hg, rfl⟩
     exact ⟨⟨(g : G), hg⟩, congrArg (actTil ⊥ V hV) (Subtype.ext rfl)⟩
 
+omit [Finite G] in
 private theorem psiT8_ker (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G)) :
     (psiT8 M V hV hM hM₀).ker = (F11.CTilde M ⊥ V).subgroupOf M := by
@@ -57,6 +59,7 @@ private noncomputable def psiBarT8 (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     rw [← psiT8_range M V hV hM hM₀]
     exact MonoidHom.mem_range.2 ⟨m, rfl⟩
 
+omit [Finite G] in
 private theorem psiBarT8_surjective (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G)) :
     Function.Surjective (psiBarT8 M V hV hM hM₀) := by
@@ -66,6 +69,7 @@ private theorem psiBarT8_surjective (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     exact y.2)
   exact ⟨m, Subtype.ext (by simpa [psiBarT8] using hm)⟩
 
+omit [Finite G] in
 private theorem psiBarT8_ker (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G)) :
     (F11.CTilde M ⊥ V).subgroupOf M = (psiBarT8 M V hV hM hM₀).ker := by
@@ -80,12 +84,14 @@ private noncomputable def phiT8 (M V : Subgroup G) (hV : IsElemAbelian 2 V)
   QuotientGroup.liftEquiv ((F11.CTilde M ⊥ V).subgroupOf M)
     (psiBarT8_surjective M V hV hM hM₀) (psiBarT8_ker M V hV hM hM₀)
 
+omit [Finite G] in
 private theorem phiT8_mk (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G))
     [hN : ((F11.CTilde M ⊥ V).subgroupOf M).Normal] (m : ↥M) :
     phiT8 M V hV hM hM₀ (QuotientGroup.mk m) = psiBarT8 M V hV hM hM₀ m :=
   QuotientGroup.liftEquiv_coe ((F11.CTilde M ⊥ V).subgroupOf M) _ _ m
 
+omit [Finite G] in
 private theorem phiT8_comp_mk' (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G))
     [hN : ((F11.CTilde M ⊥ V).subgroupOf M).Normal] :
@@ -104,6 +110,7 @@ private abbrev stabT8 (V : Subgroup G) (hV : IsElemAbelian 2 V) {v : G} (hv : v 
     Subgroup (MulAut (Vtil ⊥ V hV)) :=
   MulAction.stabilizer (MulAut (Vtil ⊥ V hV)) (tilT8 V hV hv)
 
+omit [Finite G] in
 private theorem psiBarT8_ceilt (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer ((⊥ : Subgroup G) : Set G))
     {v : G} (hv : v ∈ V) :
@@ -276,11 +283,11 @@ theorem s15_T8_one (D : Data G) (h153 : R15_3 D) (h1217 : R1217 D) (h127 : R127 
     s15_T8_blocks D h1217 h hL hV1 hs4 hγ hcase hu hu2 hsupp hfix hus ha hz
   have hcount := s15_T8_fix_count hB hA
   obtain ⟨N, hNle, hNn, hNab, ⟨n, hn1, hNcard⟩, hNc, hrk⟩ := s15_T8_xbar hB hcount
-  haveI : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := UC22.cTilde_bot_normal D.M V hMV
+  have : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := UC22.cTilde_bot_normal D.M V hMV
   obtain ⟨Xbar, hXn, hXab, hXcard, hXc, hXrk⟩ :=
     s15_T8_bridge D h.hyp151.isElemAbelian hMV hNle hNn hNab hNcard hNc hz hrk
   have hHyp11 : F11.Hyp11 D ⊥ V := Hyp125.hyp11 h127 h.hyp151.hyp125
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (F11.O2p 3 D.M)
   have hmax := ((h1110 V hHyp11 3 Nat.prime_three (by norm_num) P hP).2.2 n hn1 Xbar hXn hXab
     hXcard hXc).2 h1219 (a * u * a⁻¹ * u⁻¹) hz hc hXrk

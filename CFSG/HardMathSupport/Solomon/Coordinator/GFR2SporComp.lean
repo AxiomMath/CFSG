@@ -13,11 +13,11 @@ open scoped commutatorElement
 
 theorem false_of_perfect_of_central_mem_abelian {J : Type*} [Group J] [Finite J]
     (hperf : commutator J = ⊤) {P : Subgroup J} (hP : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) {z : J}
-    (hz : z ∈ Subgroup.center J) (hzP : z ∈ P) (hcop : Nat.Coprime P.index (orderOf z)) :
+    (hz : z ∈ Subgroup.center J) (_hzP : z ∈ P) (hcop : Nat.Coprime P.index (orderOf z)) :
     z = 1 := by
-  letI : CommGroup ↥P := { (inferInstance : Group ↥P) with
+  let : CommGroup ↥P := { (inferInstance : Group ↥P) with
     mul_comm := fun a b => Subtype.ext (hP a a.2 b b.2) }
-  haveI : P.FiniteIndex := Subgroup.finiteIndex_of_finite
+  have : P.FiniteIndex := Subgroup.finiteIndex_of_finite
   let ϕ : ↥P →* ↥P := MonoidHom.id ↥P
   have key : ∀ (k : ℕ) (g₀ : J), g₀⁻¹ * z ^ k * g₀ ∈ P → g₀⁻¹ * z ^ k * g₀ = z ^ k := by
     intro k g₀ _
@@ -102,7 +102,7 @@ private theorem image_isComponentOf (hSpM : SporadicMultipliers) (hOut : Sporadi
     ∃ t : (TauCeti.CFSGIndex.sporadic name).Group, orderOf t = 3 ∧
       IsComponentOf (J₁.map (projOf e)) (Subgroup.centralizer ({t} : Set _)) ∧
       GLAPPrimeCore 3 ↥J₁ = ⊥ := by
-  haveI : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
   obtain ⟨t, ht, hrel⟩ := exists_conj_projOf hOut hq e hxo
   refine ⟨t, ht, ?_⟩
   have hker : (projOf e).ker ≤ Subgroup.center Y := (ker_projOf e).le
@@ -249,7 +249,7 @@ private theorem nine_dvd_card_closure {S : Type*} [Group S] {a b : S} (hab : a *
     (ha3 : orderOf a = 3) (hb3 : orderOf b = 3) (hba : b ∉ Subgroup.zpowers a) [Finite S] :
     9 ∣ Nat.card ↥(Subgroup.closure ({a, b} : Set S)) := by
   set E : Subgroup S := Subgroup.closure ({a, b} : Set S) with hE
-  haveI : IsMulCommutative ↥E := by
+  have : IsMulCommutative ↥E := by
     refine Subgroup.isMulCommutative_closure ?_
     intro u hu v hv _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu hv
@@ -339,7 +339,7 @@ private theorem false_of_commuting_lifts {Y S : Type*} [Group Y] [Group S] [Fini
     calc c = c ^ 3 * (c * c)⁻¹ := by group
       _ = 1 := by rw [hc3, h2]; simp
   have hab1 : a₁ * b₁ = b₁ * a₁ := commutatorElement_eq_one_iff_mul_comm.1 (hcdef ▸ hc1)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨zz, hzzord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center Y)) 3
     (by rw [hZ])
   set z : Y := (zz : Y) with hzdef
@@ -347,7 +347,7 @@ private theorem false_of_commuting_lifts {Y S : Type*} [Group Y] [Group S] [Fini
   have hzord : orderOf z = 3 := by rw [hzdef, Subgroup.orderOf_coe]; exact hzzord
   have hzJ : z ∈ J := hZJ hzc
   set P₀ : Subgroup Y := Subgroup.closure ({a₁, b₁, z} : Set Y) with hP₀
-  haveI : IsMulCommutative ↥P₀ := by
+  have : IsMulCommutative ↥P₀ := by
     refine Subgroup.isMulCommutative_closure ?_
     intro u hu v hv _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu hv
@@ -389,7 +389,7 @@ private theorem false_of_commuting_lifts {Y S : Type*} [Group Y] [Group S] [Fini
       rcases hu with rfl | rfl
       · exact ⟨a₁, ha₁P, rfl⟩
       · exact ⟨b₁, hb₁P, rfl⟩
-    haveI : Finite S := Finite.of_surjective (projOf e) (projOf_surjective e)
+    have : Finite S := Finite.of_surjective (projOf e) (projOf_surjective e)
     exact (nine_dvd_card_closure hab ha3 hb3 hba).trans (Subgroup.card_dvd_of_le hE)
   have h27 : 27 ∣ Nat.card ↥P₀ := by
     have := card_map_projOf_mul e P₀
@@ -459,7 +459,7 @@ private theorem centralizer_ne_top {Y S : Type*} [Group Y] [Group S]
     (hq : CFSG.Open.IsQuasisimple Y) (e : (Y ⧸ Subgroup.center Y) ≃* S) {t : S} (ht : t ≠ 1) :
     Subgroup.centralizer ({t} : Set S) ≠ ⊤ := by
   intro htop
-  haveI := hq.2
+  have := hq.2
   have hnab : ∃ a b : Y ⧸ Subgroup.center Y, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hq
   have hcen : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := center_eq_bot_of_isSimpleGroup hnab
@@ -520,7 +520,7 @@ theorem sporNoPumpup_of_components_cover (hSpM : SporadicMultipliers)
         J₁ ⊓ Subgroup.center Y = ⊥) :
     SporNoPumpup name := by
   intro Y _ _ hq _ hcore ⟨e⟩ x hxo J₁ hJ₁ hty
-  haveI : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
   obtain ⟨t, ht, hIc, hN⟩ := image_isComponentOf hSpM hOut hO hq hcore e hxo hJ₁
   obtain ⟨ψ⟩ := nonempty_mulEquiv_barOf hN
   have hZ3 : Nat.card (Subgroup.center Y) ∣ 3 := card_center_le_three hSpM hq hcore e

@@ -20,7 +20,7 @@ theorem card_fixed_ge_eight {T : Type} [Group T] {n : ℕ}
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup T := CFSG.RankThree.PartTwo.Sec16.isSimpleGroup_of_suzukiModel hSz
+  have : IsSimpleGroup T := CFSG.RankThree.PartTwo.Sec16.isSimpleGroup_of_suzukiModel hSz
   have hρinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρ.ker with h | h
@@ -40,15 +40,15 @@ theorem card_fixed_ge_eight {T : Type} [Group T] {n : ℕ}
   obtain ⟨F, hFcyc, hFα, hFfpf, hFcard⟩ := exists_fpf_cyclic_of_order_three hSz α hαord
   have hγ' : ∀ t : T, ρ (α t) = γ * ρ t * γ⁻¹ := fun t => by
     rw [hγ t]; group
-  letI : CommGroup W := { ‹Group W› with mul_comm := hcomm }
-  haveI hmod : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule (n := 2) (by
+  let : CommGroup W := { ‹Group W› with mul_comm := hcomm }
+  have hmod : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule (n := 2) (by
     intro x
     rw [two_nsmul]
     show Additive.ofMul (Additive.toMul x * Additive.toMul x) = Additive.ofMul 1
     rw [hsq])
-  haveI : Finite (Additive W) := Finite.of_equiv W Additive.ofMul
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
-  haveI : Finite (MulAut W) :=
+  have : Finite (Additive W) := Finite.of_equiv W Additive.ofMul
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun σ : MulAut W => (σ : W → W)) (fun σ τ h => by ext w; exact congrFun h w)
   let ρH : Representation (ZMod 2) (MulAut W) (Additive W) :=
     { toFun := fun σ =>
@@ -60,7 +60,7 @@ theorem card_fixed_ge_eight {T : Type} [Group T] {n : ℕ}
     ext w
     exact congrArg Additive.toMul (LinearMap.congr_fun h (Additive.ofMul w))
   let F' : Subgroup (MulAut W) := F.map ρ
-  haveI := hFcyc
+  have := hFcyc
   have hF'cyc : IsCyclic F' :=
     isCyclic_of_surjective (Subgroup.equivMapOfInjective F ρ hρinj) (MulEquiv.surjective _)
   have hγF' : γ ∈ Subgroup.normalizer (F' : Set (MulAut W)) := by

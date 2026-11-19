@@ -144,7 +144,7 @@ theorem ru_ne_one : ru hC regX ≠ 1 := by
   simpa [wu_cons, wu_nil] using h
 
 theorem orderOf_ru_x : orderOf (ru hC regX) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_eq_prime (ru_pow7 hC) (ru_ne_one hC)
 
 theorem ker_four (f : Fin 3 → ZMod 4) (hf : f + f = 0) (h1 : fcBasisProd (aU hC) f = 1) :

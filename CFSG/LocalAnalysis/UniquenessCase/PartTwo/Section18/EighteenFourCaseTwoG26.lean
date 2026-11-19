@@ -40,6 +40,7 @@ theorem A5Data18.barImage_le_pElementSubgroup {D : Data G} {V₀ V L J : Subgrou
     _ = CFSG.RankThree.PartOne.pElementSubgroup 5 (⊤ : Subgroup (Bar2 D.M)) := by
         rw [s13_barImage_opp Nat.prime_five (le_refl D.M), s13_barImage_self]
 
+omit [Finite G] in
 theorem mem_normalizer_preTil_fixV_of_commute {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {g : G} (hg : g ∈ stabTil ⊥ V) {t : MulAut (Vtil ⊥ V hV)}
     (hcomm : actTil ⊥ V hV ⟨g, hg⟩ * t = t * actTil ⊥ V hV ⟨g, hg⟩) :

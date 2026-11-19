@@ -193,7 +193,7 @@ theorem itemO_psl2Even
       rintro rfl
       exact hrM h2M
     have : Fact r.Prime := ⟨hr⟩
-    obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
     refine isMulCommutative_of_odd_card hp hodd (R : Subgroup PSL(2, GaloisField 2 p)) ?_
     rw [hk]
     exact (hr.odd_of_ne_two hr2).pow

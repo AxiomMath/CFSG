@@ -114,6 +114,7 @@ namespace FrameData
 
 variable (F : FrameData Q)
 
+omit [FiniteDimensional K V] in
 theorem two_ne_zero (F : FrameData Q) : (2 : K) ≠ 0 := by
   intro h2
   have hp : polar Q (F.e 0) (F.e 0) = 0 := by
@@ -136,25 +137,31 @@ theorem two_ne_zero (F : FrameData Q) : (2 : K) ≠ 0 := by
 
 @[expose] def coord : V ≃ₗ[K] (Fin 5 → K) := F.e.equivFun
 
+omit [FiniteDimensional K V] in
 @[simp] theorem coord_e (i : Fin 5) : F.coord (F.e i) = Pi.single i 1 := by
   simp [coord, Module.Basis.equivFun_apply, Module.Basis.repr_self,
     Finsupp.single_eq_pi_single]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem coord_symm_single (i : Fin 5) : F.coord.symm (Pi.single i 1) = F.e i := by
   rw [← F.coord_e i, LinearEquiv.symm_apply_apply]
 
 @[expose] def coordForm : QuadraticForm K (Fin 5 → K) := Q.comp F.coord.symm
 
+omit [FiniteDimensional K V] in
 theorem coordForm_single (i : Fin 5) : F.coordForm (Pi.single i 1) = Q (F.e i) := by
   simp [coordForm, coord, Module.Basis.equivFun_symm_apply]
 
+omit [FiniteDimensional K V] in
 theorem coordForm_single_of_lt (i : Fin 5) (hi : (i : ℕ) < 4) :
     F.coordForm (Pi.single i 1) = 1 := by
   rw [F.coordForm_single, F.norm i hi]
 
+omit [FiniteDimensional K V] in
 theorem coordForm_single_four : F.coordForm (Pi.single 4 1) = Q (F.e 4) :=
   F.coordForm_single 4
 
+omit [FiniteDimensional K V] in
 theorem polar_coordForm_single_eq_zero {i j : Fin 5} (hij : i ≠ j) :
     polar F.coordForm (Pi.single i 1) (Pi.single j 1) = 0 := by
   have h : polar F.coordForm (Pi.single i 1) (Pi.single j 1) =
@@ -163,17 +170,19 @@ theorem polar_coordForm_single_eq_zero {i j : Fin 5} (hij : i ≠ j) :
   rw [h, F.coord_symm_single, F.coord_symm_single]
   exact F.orth i j hij
 
-@[expose] def tFun (F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
+@[expose] def tFun (_F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
   if (i : ℕ) < 2 then -Pi.single i 1 else Pi.single i 1
 
 @[expose] def tLin : (Fin 5 → K) →ₗ[K] (Fin 5 → K) :=
   (Pi.basisFun K (Fin 5)).constr K F.tFun
 
+omit [FiniteDimensional K V] in
 theorem tLin_single (i : Fin 5) :
     F.tLin (Pi.single i 1) = if (i : ℕ) < 2 then -Pi.single i 1 else Pi.single i 1 := by
   have h := Module.Basis.constr_basis (Pi.basisFun K (Fin 5)) K F.tFun i
   simpa only [tLin, tFun, Pi.basisFun_apply] using h
 
+omit [FiniteDimensional K V] in
 theorem tLin_comp_self : F.tLin.comp F.tLin = LinearMap.id := by
   apply (Pi.basisFun K (Fin 5)).ext
   intro i
@@ -184,17 +193,19 @@ theorem tLin_comp_self : F.tLin.comp F.tLin = LinearMap.id := by
 @[expose] def tCoord : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K) :=
   LinearEquiv.ofInvolutive F.tLin fun x => LinearMap.congr_fun F.tLin_comp_self x
 
-@[expose] def zFun (F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
+@[expose] def zFun (_F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
   if (i : ℕ) < 4 then -Pi.single i 1 else Pi.single i 1
 
 @[expose] def zLin : (Fin 5 → K) →ₗ[K] (Fin 5 → K) :=
   (Pi.basisFun K (Fin 5)).constr K F.zFun
 
+omit [FiniteDimensional K V] in
 theorem zLin_single (i : Fin 5) :
     F.zLin (Pi.single i 1) = if (i : ℕ) < 4 then -Pi.single i 1 else Pi.single i 1 := by
   have h := Module.Basis.constr_basis (Pi.basisFun K (Fin 5)) K F.zFun i
   simpa only [zLin, zFun, Pi.basisFun_apply] using h
 
+omit [FiniteDimensional K V] in
 theorem zLin_comp_self : F.zLin.comp F.zLin = LinearMap.id := by
   apply (Pi.basisFun K (Fin 5)).ext
   intro i
@@ -205,7 +216,7 @@ theorem zLin_comp_self : F.zLin.comp F.zLin = LinearMap.id := by
 @[expose] def zCoord : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K) :=
   LinearEquiv.ofInvolutive F.zLin fun x => LinearMap.congr_fun F.zLin_comp_self x
 
-@[expose] def sFun (F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
+@[expose] def sFun (_F : FrameData Q) (i : Fin 5) : Fin 5 → K :=
   if i = 0 then Pi.single 2 1 else
     if i = 1 then Pi.single 3 1 else
       if i = 2 then Pi.single 0 1 else
@@ -214,6 +225,7 @@ theorem zLin_comp_self : F.zLin.comp F.zLin = LinearMap.id := by
 @[expose] def sLin : (Fin 5 → K) →ₗ[K] (Fin 5 → K) :=
   (Pi.basisFun K (Fin 5)).constr K F.sFun
 
+omit [FiniteDimensional K V] in
 theorem sLin_single (i : Fin 5) :
     F.sLin (Pi.single i 1) = if i = 0 then Pi.single 2 1 else
       if i = 1 then Pi.single 3 1 else
@@ -222,6 +234,7 @@ theorem sLin_single (i : Fin 5) :
   have h := Module.Basis.constr_basis (Pi.basisFun K (Fin 5)) K F.sFun i
   simpa only [sLin, sFun, Pi.basisFun_apply] using h
 
+omit [FiniteDimensional K V] in
 theorem sLin_comp_self : F.sLin.comp F.sLin = LinearMap.id := by
   apply (Pi.basisFun K (Fin 5)).ext
   intro i
@@ -233,57 +246,63 @@ theorem sLin_comp_self : F.sLin.comp F.sLin = LinearMap.id := by
   LinearEquiv.ofInvolutive F.sLin fun x => LinearMap.congr_fun F.sLin_comp_self x
 
 
+omit [FiniteDimensional K V] in
 theorem tCoord_apply (x : Fin 5 → K) : F.tCoord x = F.tLin x := rfl
 
+omit [FiniteDimensional K V] in
 theorem zCoord_apply (x : Fin 5 → K) : F.zCoord x = F.zLin x := rfl
 
+omit [FiniteDimensional K V] in
 theorem sCoord_apply (x : Fin 5 → K) : F.sCoord x = F.sLin x := rfl
 
+omit [FiniteDimensional K V] in
 private theorem tCoord_mem : F.tCoord ∈ TauCeti.QuadraticMap.orthogonalGroup F.coordForm := by
   refine CFSG.ClassicalGroups.Orthogonal.mem_orthogonalGroup_of_basis F.coordForm F.tCoord ?_ ?_
   · intro i
     rw [F.tCoord_apply, F.tLin_single]
-    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm]
+    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single]
   · intro i j
     rw [F.tCoord_apply, F.tLin_single, F.tCoord_apply, F.tLin_single]
     fin_cases i <;> fin_cases j <;>
-      simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm,
-        F.polar_coordForm_single_eq_zero, QuadraticMap.polar_neg_left,
+      simp [F.coordForm_single_of_lt, F.coordForm_single, F.polar_coordForm_single_eq_zero, QuadraticMap.polar_neg_left,
         QuadraticMap.polar_neg_right]
 
+omit [FiniteDimensional K V] in
 private theorem zCoord_mem : F.zCoord ∈ TauCeti.QuadraticMap.orthogonalGroup F.coordForm := by
   refine CFSG.ClassicalGroups.Orthogonal.mem_orthogonalGroup_of_basis F.coordForm F.zCoord ?_ ?_
   · intro i
     rw [F.zCoord_apply, F.zLin_single]
-    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm]
+    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single]
   · intro i j
     rw [F.zCoord_apply, F.zLin_single, F.zCoord_apply, F.zLin_single]
     fin_cases i <;> fin_cases j <;>
-      simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm,
-        F.polar_coordForm_single_eq_zero, QuadraticMap.polar_neg_left,
+      simp [F.coordForm_single_of_lt, F.coordForm_single, F.polar_coordForm_single_eq_zero, QuadraticMap.polar_neg_left,
         QuadraticMap.polar_neg_right]
 
+omit [FiniteDimensional K V] in
 private theorem sCoord_mem : F.sCoord ∈ TauCeti.QuadraticMap.orthogonalGroup F.coordForm := by
   refine CFSG.ClassicalGroups.Orthogonal.mem_orthogonalGroup_of_basis F.coordForm F.sCoord ?_ ?_
   · intro i
     rw [F.sCoord_apply, F.sLin_single]
-    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm]
+    fin_cases i <;> simp [F.coordForm_single_of_lt, F.coordForm_single]
   · intro i j
     rw [F.sCoord_apply, F.sLin_single, F.sCoord_apply, F.sLin_single]
     fin_cases i <;> fin_cases j <;>
-      simp [F.coordForm_single_of_lt, F.coordForm_single, F.norm,
-        F.polar_coordForm_single_eq_zero]
+      simp [F.coordForm_single_of_lt, F.coordForm_single, F.polar_coordForm_single_eq_zero]
 
 @[expose] def conjCoord (g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)) : V ≃ₗ[K] V :=
   F.coord.trans (g.trans F.coord.symm)
 
+omit [FiniteDimensional K V] in
 theorem conjCoord_apply (g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)) (v : V) :
     F.conjCoord g v = F.coord.symm (g (F.coord v)) := rfl
 
+omit [FiniteDimensional K V] in
 @[simp] theorem conjCoord_e (g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)) (i : Fin 5) :
     F.conjCoord g (F.e i) = F.coord.symm (g (Pi.single i 1)) := by
   simp [conjCoord_apply]
 
+omit [FiniteDimensional K V] in
 theorem conjCoord_mem {g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup F.coordForm) :
     F.conjCoord g ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -294,6 +313,7 @@ theorem conjCoord_mem {g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)}
   have h2 : Q v = F.coordForm (F.coord v) := by simp [coordForm]
   rw [h1, h2, TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp hg]
 
+omit [FiniteDimensional K V] in
 theorem det_conjCoord_eq (g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)) :
     LinearEquiv.det (F.conjCoord g) = LinearEquiv.det g := by
   rw [conjCoord, ← LinearEquiv.trans_assoc]
@@ -305,33 +325,39 @@ theorem det_conjCoord_eq (g : (Fin 5 → K) ≃ₗ[K] (Fin 5 → K)) :
 
 @[expose] def s : V ≃ₗ[K] V := F.conjCoord F.sCoord
 
+omit [FiniteDimensional K V] in
 theorem t_mem : F.t ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   F.conjCoord_mem F.tCoord_mem
 
+omit [FiniteDimensional K V] in
 theorem z_mem : F.z ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   F.conjCoord_mem F.zCoord_mem
 
+omit [FiniteDimensional K V] in
 theorem s_mem : F.s ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   F.conjCoord_mem F.sCoord_mem
 
+omit [FiniteDimensional K V] in
 @[simp] theorem t_e (i : Fin 5) :
     F.t (F.e i) = if (i : ℕ) < 2 then -F.e i else F.e i := by
   rw [t, F.conjCoord_e, F.tCoord_apply, F.tLin_single]
   by_cases hi : (i : ℕ) < 2
-  · rw [if_pos hi, map_neg, F.coord_symm_single]
+  · rw [ite_eq_left hi, map_neg, F.coord_symm_single]
     simp [hi]
-  · rw [if_neg hi, F.coord_symm_single]
+  · rw [ite_eq_right hi, F.coord_symm_single]
     simp [hi]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem z_e (i : Fin 5) :
     F.z (F.e i) = if (i : ℕ) < 4 then -F.e i else F.e i := by
   rw [z, F.conjCoord_e, F.zCoord_apply, F.zLin_single]
   by_cases hi : (i : ℕ) < 4
-  · rw [if_pos hi, map_neg, F.coord_symm_single]
+  · rw [ite_eq_left hi, map_neg, F.coord_symm_single]
     simp [hi]
-  · rw [if_neg hi, F.coord_symm_single]
+  · rw [ite_eq_right hi, F.coord_symm_single]
     simp [hi]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem s_e (i : Fin 5) :
     F.s (F.e i) = if i = 0 then F.e 2 else
       if i = 1 then F.e 3 else
@@ -341,6 +367,7 @@ theorem s_mem : F.s ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   fin_cases i <;> simp
 
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_self (i : Fin 5) : reflect Q (F.e i) (F.e i) = -F.e i := by
   have hv : Q (F.e i) ≠ 0 := by
     by_cases hi : (i : ℕ) < 4
@@ -351,6 +378,7 @@ theorem reflect_e_self (i : Fin 5) : reflect Q (F.e i) (F.e i) = -F.e i := by
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection,
     TauCeti.QuadraticMap.reflection_apply_self]
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_of_ne {i j : Fin 5} (hij : i ≠ j) :
     reflect Q (F.e i) (F.e j) = F.e j := by
   have hv : Q (F.e i) ≠ 0 := by
@@ -362,6 +390,7 @@ theorem reflect_e_of_ne {i j : Fin 5} (hij : i ≠ j) :
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection,
     TauCeti.QuadraticMap.reflection_apply_of_polar_eq_zero Q (F.e i) (F.orth i j hij)]
 
+omit [FiniteDimensional K V] in
 theorem q_e0_sub_e2 : Q (F.e 0 - F.e 2) = 2 := by
   have h : Q (F.e 0 - F.e 2) = Q (F.e 0) + Q (F.e 2) - polar Q (F.e 0) (F.e 2) := by
     rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg Q, polar_neg_right]
@@ -369,6 +398,7 @@ theorem q_e0_sub_e2 : Q (F.e 0 - F.e 2) = 2 := by
   rw [h, F.norm 0 (by norm_num), F.norm 2 (by norm_num), F.orth 0 2 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem q_e1_sub_e3 : Q (F.e 1 - F.e 3) = 2 := by
   have h : Q (F.e 1 - F.e 3) = Q (F.e 1) + Q (F.e 3) - polar Q (F.e 1) (F.e 3) := by
     rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg Q, polar_neg_right]
@@ -376,26 +406,31 @@ theorem q_e1_sub_e3 : Q (F.e 1 - F.e 3) = 2 := by
   rw [h, F.norm 1 (by norm_num), F.norm 3 (by norm_num), F.orth 1 3 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_e0sub_e2_e0 : polar Q (F.e 0 - F.e 2) (F.e 0) = 2 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.norm 0 (by norm_num), F.orth 2 0 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_e0sub_e2_e2 : polar Q (F.e 0 - F.e 2) (F.e 2) = -2 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.orth 0 2 (by norm_num), F.norm 2 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_e1sub_e3_e1 : polar Q (F.e 1 - F.e 3) (F.e 1) = 2 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.norm 1 (by norm_num), F.orth 3 1 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_e1sub_e3_e3 : polar Q (F.e 1 - F.e 3) (F.e 3) = -2 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.orth 1 3 (by norm_num), F.norm 3 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_zero_two_zero : reflect Q (F.e 0 - F.e 2) (F.e 0) = F.e 2 := by
   let _ : Invertible (Q (F.e 0 - F.e 2)) :=
     invertibleOfNonzero (by rw [F.q_e0_sub_e2]; exact F.two_ne_zero)
@@ -403,6 +438,7 @@ theorem reflect_e_zero_two_zero : reflect Q (F.e 0 - F.e 2) (F.e 0) = F.e 2 := b
     TauCeti.QuadraticMap.reflection_sub_apply_eq_of_map_eq Q (F.e 0) (F.e 2)
       (by rw [F.norm 0 (by norm_num), F.norm 2 (by norm_num)])]
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_zero_two_two : reflect Q (F.e 0 - F.e 2) (F.e 2) = F.e 0 := by
   have h := congrArg (fun g : V ≃ₗ[K] V => g (F.e 0))
     (CFSG.ClassicalGroups.Orthogonal.reflect_mul_self Q (F.e 0 - F.e 2))
@@ -410,6 +446,7 @@ theorem reflect_e_zero_two_two : reflect Q (F.e 0 - F.e 2) (F.e 2) = F.e 0 := by
   rw [F.reflect_e_zero_two_zero] at h
   exact h
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_zero_two_of_ne {i : Fin 5} (hi0 : i ≠ 0) (hi2 : i ≠ 2) :
     reflect Q (F.e 0 - F.e 2) (F.e i) = F.e i := by
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_apply_of_polar_eq_zero]
@@ -417,6 +454,7 @@ theorem reflect_e_zero_two_of_ne {i : Fin 5} (hi0 : i ≠ 0) (hi2 : i ≠ 2) :
     F.orth 2 i (by intro h; exact hi2 h.symm)]
   simp
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_one_three_one : reflect Q (F.e 1 - F.e 3) (F.e 1) = F.e 3 := by
   let _ : Invertible (Q (F.e 1 - F.e 3)) :=
     invertibleOfNonzero (by rw [F.q_e1_sub_e3]; exact F.two_ne_zero)
@@ -424,6 +462,7 @@ theorem reflect_e_one_three_one : reflect Q (F.e 1 - F.e 3) (F.e 1) = F.e 3 := b
     TauCeti.QuadraticMap.reflection_sub_apply_eq_of_map_eq Q (F.e 1) (F.e 3)
       (by rw [F.norm 1 (by norm_num), F.norm 3 (by norm_num)])]
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_one_three_three : reflect Q (F.e 1 - F.e 3) (F.e 3) = F.e 1 := by
   have h := congrArg (fun g : V ≃ₗ[K] V => g (F.e 1))
     (CFSG.ClassicalGroups.Orthogonal.reflect_mul_self Q (F.e 1 - F.e 3))
@@ -431,6 +470,7 @@ theorem reflect_e_one_three_three : reflect Q (F.e 1 - F.e 3) (F.e 3) = F.e 1 :=
   rw [F.reflect_e_one_three_one] at h
   exact h
 
+omit [FiniteDimensional K V] in
 theorem reflect_e_one_three_of_ne {i : Fin 5} (hi1 : i ≠ 1) (hi3 : i ≠ 3) :
     reflect Q (F.e 1 - F.e 3) (F.e i) = F.e i := by
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_apply_of_polar_eq_zero]
@@ -438,6 +478,7 @@ theorem reflect_e_one_three_of_ne {i : Fin 5} (hi1 : i ≠ 1) (hi3 : i ≠ 3) :
     F.orth 3 i (by intro h; exact hi3 h.symm)]
   simp
 
+omit [FiniteDimensional K V] in
 theorem t_eq_reflect_mul : F.t = reflect Q (F.e 0) * reflect Q (F.e 1) := by
   refine LinearEquiv.ext fun x => ?_
   have h : (F.t : V →ₗ[K] V) =
@@ -447,9 +488,10 @@ theorem t_eq_reflect_mul : F.t = reflect Q (F.e 0) * reflect Q (F.e 1) := by
     change F.t (F.e i) = (reflect Q (F.e 0) * reflect Q (F.e 1)) (F.e i)
     rw [F.t_e, LinearEquiv.mul_apply]
     fin_cases i <;>
-      simp [F.reflect_e_self, F.reflect_e_of_ne, F.t_e]
+      simp [F.reflect_e_self, F.reflect_e_of_ne]
   exact LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem s_eq_reflect_mul :
     F.s = reflect Q (F.e 0 - F.e 2) * reflect Q (F.e 1 - F.e 3) := by
   refine LinearEquiv.ext fun x => ?_
@@ -464,11 +506,11 @@ theorem s_eq_reflect_mul :
     fin_cases i <;>
       simp [F.reflect_e_zero_two_zero, F.reflect_e_zero_two_two,
         F.reflect_e_zero_two_of_ne, F.reflect_e_one_three_one, F.reflect_e_one_three_three,
-        F.reflect_e_one_three_of_ne, F.s_e]
+        F.reflect_e_one_three_of_ne]
   exact LinearMap.congr_fun h x
 
 
-theorem det_reflect (F : FrameData Q) (v : V) (hv : Q v ≠ 0) : LinearEquiv.det (reflect Q v) = -1 := by
+theorem det_reflect (_F : FrameData Q) (v : V) (hv : Q v ≠ 0) : LinearEquiv.det (reflect Q v) = -1 := by
   let _ : Invertible (Q v) := invertibleOfNonzero hv
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection,
     TauCeti.QuadraticMap.det_reflection]
@@ -490,6 +532,7 @@ theorem s_det : LinearEquiv.det F.s = 1 := by
     F.det_reflect (F.e 1 - F.e 3) (by rw [F.q_e1_sub_e3]; exact F.two_ne_zero)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem z_eq_mul_conj : F.z = F.t * (F.s * F.t * F.s) := by
   refine LinearEquiv.ext fun x => ?_
   have h : (F.z : V →ₗ[K] V) = (F.t * (F.s * F.t * F.s) : V ≃ₗ[K] V) := by
@@ -530,6 +573,7 @@ theorem s_so : F.sO ∈ Q.specialOrthogonalWithin := by
 @[expose] def sSO : Q.specialOrthogonalWithin := ⟨F.sO, F.s_so⟩
 
 
+omit [FiniteDimensional K V] in
 theorem t_mul_self : F.t * F.t = 1 := by
   have h : ((F.t * F.t : V ≃ₗ[K] V) : V →ₗ[K] V) = ((1 : V ≃ₗ[K] V) : V →ₗ[K] V) := by
     apply F.e.ext
@@ -537,10 +581,11 @@ theorem t_mul_self : F.t * F.t = 1 := by
     change F.t (F.t (F.e i)) = F.e i
     rw [F.t_e]
     by_cases hi : (i : ℕ) < 2
-    · rw [if_pos hi, map_neg, F.t_e, if_pos hi, neg_neg]
-    · rw [if_neg hi, F.t_e, if_neg hi]
+    · rw [ite_eq_left hi, map_neg, F.t_e, ite_eq_left hi, neg_neg]
+    · rw [ite_eq_right hi, F.t_e, ite_eq_right hi]
   exact LinearEquiv.ext fun x => LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem z_mul_self : F.z * F.z = 1 := by
   have h : ((F.z * F.z : V ≃ₗ[K] V) : V →ₗ[K] V) = ((1 : V ≃ₗ[K] V) : V →ₗ[K] V) := by
     apply F.e.ext
@@ -548,10 +593,11 @@ theorem z_mul_self : F.z * F.z = 1 := by
     change F.z (F.z (F.e i)) = F.e i
     rw [F.z_e]
     by_cases hi : (i : ℕ) < 4
-    · rw [if_pos hi, map_neg, F.z_e, if_pos hi, neg_neg]
-    · rw [if_neg hi, F.z_e, if_neg hi]
+    · rw [ite_eq_left hi, map_neg, F.z_e, ite_eq_left hi, neg_neg]
+    · rw [ite_eq_right hi, F.z_e, ite_eq_right hi]
   exact LinearEquiv.ext fun x => LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem s_mul_self : F.s * F.s = 1 := by
   have h : ((F.s * F.s : V ≃ₗ[K] V) : V →ₗ[K] V) = ((1 : V ≃ₗ[K] V) : V →ₗ[K] V) := by
     apply F.e.ext
@@ -561,6 +607,7 @@ theorem s_mul_self : F.s * F.s = 1 := by
     fin_cases i <;> simp [F.s_e]
   exact LinearEquiv.ext fun x => LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem q_e0sub_e1 : Q (F.e 0 - F.e 1) = 2 := by
   have h : Q (F.e 0 - F.e 1) = Q (F.e 0) + Q (F.e 1) - polar Q (F.e 0) (F.e 1) := by
     rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg Q, polar_neg_right]
@@ -568,11 +615,13 @@ theorem q_e0sub_e1 : Q (F.e 0 - F.e 1) = 2 := by
   rw [h, F.norm 0 (by norm_num), F.norm 1 (by norm_num), F.orth 0 1 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_e0sub_e1_e0 : polar Q (F.e 0 - F.e 1) (F.e 0) = 2 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.norm 0 (by norm_num), F.orth 1 0 (by norm_num)]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem reflect_e0sub_e1_e0 : reflect Q (F.e 0 - F.e 1) (F.e 0) = F.e 1 := by
   let _ : Invertible (Q (F.e 0 - F.e 1)) :=
     invertibleOfNonzero (by rw [F.q_e0sub_e1]; exact F.two_ne_zero)
@@ -580,6 +629,7 @@ theorem reflect_e0sub_e1_e0 : reflect Q (F.e 0 - F.e 1) (F.e 0) = F.e 1 := by
     TauCeti.QuadraticMap.reflection_sub_apply_eq_of_map_eq Q (F.e 0) (F.e 1)
       (by rw [F.norm 0 (by norm_num), F.norm 1 (by norm_num)])]
 
+omit [FiniteDimensional K V] in
 theorem t_mem_commutator :
     F.t ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
   let a : V ≃ₗ[K] V := reflect Q (F.e 0)
@@ -601,12 +651,14 @@ theorem t_mem_commutator :
     (CFSG.ClassicalGroups.Orthogonal.reflect_mem_orthogonalGroup Q (F.e 0 - F.e 1))
 
 
+omit [FiniteDimensional K V] in
 theorem polar_vSub_wSub : polar Q (F.e 0 - F.e 2) (F.e 1 - F.e 3) = 0 := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_sub_right,
     QuadraticMap.polar_sub_right, F.orth 0 1 (by norm_num), F.orth 0 3 (by norm_num),
     F.orth 2 1 (by norm_num), F.orth 2 3 (by norm_num)]
   ring
 
+omit [FiniteDimensional K V] in
 theorem q_uSub : Q ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)) = 4 := by
   have h : Q ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)) =
       Q (F.e 0 - F.e 2) + Q (F.e 1 - F.e 3) -
@@ -616,12 +668,14 @@ theorem q_uSub : Q ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)) = 4 := by
   rw [h, F.q_e0_sub_e2, F.q_e1_sub_e3, F.polar_vSub_wSub]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem polar_uSub_vSub : polar Q ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)) (F.e 0 - F.e 2) = 4 := by
   rw [QuadraticMap.polar_sub_left, CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
     F.q_e0_sub_e2, show polar Q (F.e 1 - F.e 3) (F.e 0 - F.e 2) = 0 from by
       rw [polar_comm, F.polar_vSub_wSub]]
   norm_num
 
+omit [FiniteDimensional K V] in
 theorem reflect_uSub_vSub :
     reflect Q ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)) (F.e 0 - F.e 2) = F.e 1 - F.e 3 := by
   have h4 : (4 : K) ≠ 0 := by
@@ -634,6 +688,7 @@ theorem reflect_uSub_vSub :
   rw [h44, one_smul]
   abel
 
+omit [FiniteDimensional K V] in
 theorem s_mem_commutator :
     F.s ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
   let a : V ≃ₗ[K] V := reflect Q (F.e 0 - F.e 2)
@@ -656,6 +711,7 @@ theorem s_mem_commutator :
     (CFSG.ClassicalGroups.Orthogonal.reflect_mem_orthogonalGroup Q
       ((F.e 0 - F.e 2) - (F.e 1 - F.e 3)))
 
+omit [FiniteDimensional K V] in
 theorem z_mem_commutator :
     F.z ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
   let L := ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆
@@ -684,7 +740,7 @@ private theorem betaCoord_single_zero (d1 d2 : GL (Fin 2) K) :
   ext j
   rw [betaCoord, glToLinEquiv_apply]
   fin_cases j <;> simp [betaGL, betaMat5, betaMatIdx, Matrix.mulVec, Matrix.reindex_apply,
-    Matrix.fromBlocks, Pi.single_apply]
+    Matrix.fromBlocks]
 
 private theorem betaCoord_single_one (d1 d2 : GL (Fin 2) K) :
     betaCoord d1 d2 (Pi.single 1 1) =
@@ -693,7 +749,7 @@ private theorem betaCoord_single_one (d1 d2 : GL (Fin 2) K) :
   ext j
   rw [betaCoord, glToLinEquiv_apply]
   fin_cases j <;> simp [betaGL, betaMat5, betaMatIdx, Matrix.mulVec, Matrix.reindex_apply,
-    Matrix.fromBlocks, Pi.single_apply]
+    Matrix.fromBlocks]
 
 private theorem betaCoord_single_two (d1 d2 : GL (Fin 2) K) :
     betaCoord d1 d2 (Pi.single 2 1) =
@@ -702,7 +758,7 @@ private theorem betaCoord_single_two (d1 d2 : GL (Fin 2) K) :
   ext j
   rw [betaCoord, glToLinEquiv_apply]
   fin_cases j <;> simp [betaGL, betaMat5, betaMatIdx, Matrix.mulVec, Matrix.reindex_apply,
-    Matrix.fromBlocks, Pi.single_apply]
+    Matrix.fromBlocks]
 
 private theorem betaCoord_single_three (d1 d2 : GL (Fin 2) K) :
     betaCoord d1 d2 (Pi.single 3 1) =
@@ -711,7 +767,7 @@ private theorem betaCoord_single_three (d1 d2 : GL (Fin 2) K) :
   ext j
   rw [betaCoord, glToLinEquiv_apply]
   fin_cases j <;> simp [betaGL, betaMat5, betaMatIdx, Matrix.mulVec, Matrix.reindex_apply,
-    Matrix.fromBlocks, Pi.single_apply]
+    Matrix.fromBlocks]
 
 private theorem betaCoord_single_four (d1 d2 : GL (Fin 2) K) :
     betaCoord d1 d2 (Pi.single 4 1) =
@@ -720,7 +776,7 @@ private theorem betaCoord_single_four (d1 d2 : GL (Fin 2) K) :
   ext j
   rw [betaCoord, glToLinEquiv_apply]
   fin_cases j <;> simp [betaGL, betaMat5, betaMatIdx, Matrix.mulVec, Matrix.reindex_apply,
-    Matrix.fromBlocks, Pi.single_apply]
+    Matrix.fromBlocks]
 
 theorem O2_entry_00 (d : O2 K) :
     ((d : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 0 *
@@ -752,6 +808,7 @@ theorem O2_det_sq (d : O2 K) :
   have h := congrArg (fun M : Matrix (Fin 2) (Fin 2) K => M.det) d.property
   simpa [Matrix.det_mul, Matrix.det_transpose] using h
 
+omit [FiniteDimensional K V] in
 private theorem coordForm_plane01 (a b : K) :
     F.coordForm (a • Pi.single 0 1 + b • Pi.single 1 1) = a ^ 2 + b ^ 2 := by
   rw [QuadraticMap.map_add F.coordForm, QuadraticMap.map_smul F.coordForm,
@@ -761,6 +818,7 @@ private theorem coordForm_plane01 (a b : K) :
     F.polar_coordForm_single_eq_zero (i := 0) (j := 1) (by norm_num)]
   ring
 
+omit [FiniteDimensional K V] in
 private theorem coordForm_plane23 (a b : K) :
     F.coordForm (a • Pi.single 2 1 + b • Pi.single 3 1) = a ^ 2 + b ^ 2 := by
   rw [QuadraticMap.map_add F.coordForm, QuadraticMap.map_smul F.coordForm,
@@ -770,6 +828,7 @@ private theorem coordForm_plane23 (a b : K) :
     F.polar_coordForm_single_eq_zero (i := 2) (j := 3) (by norm_num)]
   ring
 
+omit [FiniteDimensional K V] in
 private theorem coordForm_line4 (c : K) :
     F.coordForm (c • Pi.single 4 1) = c ^ 2 * Q (F.e 4) := by
   rw [QuadraticMap.map_smul F.coordForm, F.coordForm_single_four]
@@ -803,6 +862,7 @@ theorem O2_entry_10 (d : O2 K) :
   rw [add_comm, ← O2_entry_01 d]
   ring
 
+omit [FiniteDimensional K V] in
 private theorem betaCoord_mem (d1 d2 : O2 K) :
     betaCoord (d1 : GL (Fin 2) K) (d2 : GL (Fin 2) K) ∈
       TauCeti.QuadraticMap.orthogonalGroup F.coordForm := by
@@ -812,8 +872,7 @@ private theorem betaCoord_mem (d1 d2 : O2 K) :
     fin_cases i <;>
       simp [F.coordForm_plane01, F.coordForm_plane23, F.coordForm_line4,
         F.coordForm_single_of_lt, F.coordForm_single_four, pow_two,
-        O2_entry_00 d1, O2_entry_11 d1, O2_entry_00 d2, O2_entry_11 d2,
-        O2_det_sq d1, O2_det_sq d2]
+        O2_entry_00 d1, O2_entry_11 d1, O2_entry_00 d2, O2_entry_11 d2]
     · have hc : (((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det *
           ((d2 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det) *
           (((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det *
@@ -828,14 +887,10 @@ private theorem betaCoord_mem (d1 d2 : O2 K) :
         F.coordForm_single_of_lt, F.coordForm_single_four,
         F.coordForm_plane01, F.coordForm_plane23, F.coordForm_line4, pow_two,
         F.polar_coordForm_single_eq_zero, QuadraticMap.polar_self,
-        CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul,
-        O2_entry_00 d1, O2_entry_01 d1, O2_entry_10 d1, O2_entry_11 d1,
-        O2_entry_00 d2, O2_entry_01 d2, O2_entry_10 d2, O2_entry_11 d2,
-        O2_det_sq d1, O2_det_sq d2]
+        O2_entry_00 d1, O2_entry_11 d1,
+        O2_entry_00 d2, O2_entry_11 d2]
     all_goals try linear_combination 2 * O2_entry_01 d1
-    all_goals try linear_combination 2 * O2_entry_10 d1
     all_goals try linear_combination 2 * O2_entry_01 d2
-    all_goals try linear_combination 2 * O2_entry_10 d2
     left
     have hc : (((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det *
         ((d2 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det) *
@@ -848,6 +903,7 @@ private theorem betaCoord_mem (d1 d2 : O2 K) :
 def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   F.conjCoord (betaCoord (d1 : GL (Fin 2) K) (d2 : GL (Fin 2) K))
 
+omit [FiniteDimensional K V] in
 @[simp] theorem beta_e_zero (d1 d2 : O2 K) :
     F.beta d1 d2 (F.e 0) =
       ((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 0 • F.e 0 +
@@ -855,6 +911,7 @@ def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   rw [beta, F.conjCoord_e, betaCoord_single_zero, map_add, map_smul, map_smul]
   simp [F.coord_symm_single]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem beta_e_one (d1 d2 : O2 K) :
     F.beta d1 d2 (F.e 1) =
       ((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 1 • F.e 0 +
@@ -862,6 +919,7 @@ def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   rw [beta, F.conjCoord_e, betaCoord_single_one, map_add, map_smul, map_smul]
   simp [F.coord_symm_single]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem beta_e_two (d1 d2 : O2 K) :
     F.beta d1 d2 (F.e 2) =
       ((d2 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 0 • F.e 2 +
@@ -869,6 +927,7 @@ def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   rw [beta, F.conjCoord_e, betaCoord_single_two, map_add, map_smul, map_smul]
   simp [F.coord_symm_single]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem beta_e_three (d1 d2 : O2 K) :
     F.beta d1 d2 (F.e 3) =
       ((d2 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 1 • F.e 2 +
@@ -876,6 +935,7 @@ def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   rw [beta, F.conjCoord_e, betaCoord_single_three, map_add, map_smul, map_smul]
   simp [F.coord_symm_single]
 
+omit [FiniteDimensional K V] in
 @[simp] theorem beta_e_four (d1 d2 : O2 K) :
     F.beta d1 d2 (F.e 4) =
       (((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det *
@@ -883,14 +943,14 @@ def beta (d1 d2 : O2 K) : V ≃ₗ[K] V :=
   rw [beta, F.conjCoord_e, betaCoord_single_four, map_smul]
   simp [F.coord_symm_single]
 
+omit [FiniteDimensional K V] in
 theorem beta_injective : Function.Injective (fun p : O2 K × O2 K => F.beta p.1 p.2) := by
   rintro ⟨d1, d2⟩ ⟨e1, e2⟩ h
   have h0 := congrArg (fun g => F.coord (g (F.e 0))) h
   have h1 := congrArg (fun g => F.coord (g (F.e 1))) h
   have h2 := congrArg (fun g => F.coord (g (F.e 2))) h
   have h3 := congrArg (fun g => F.coord (g (F.e 3))) h
-  simp [F.beta_e_zero, F.beta_e_one, F.beta_e_two, F.beta_e_three, map_add, map_smul,
-    Pi.smul_apply, Pi.add_apply] at h0 h1 h2 h3
+  simp [F.beta_e_zero, F.beta_e_one, F.beta_e_two, F.beta_e_three, map_add, map_smul] at h0 h1 h2 h3
   have hd00 : ((d1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 0 =
       ((e1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 0 := by
     have := congrArg (fun f : Fin 5 → K => f 0) h0
@@ -940,8 +1000,7 @@ private theorem det_betaCoord (d1 d2 : O2 K) :
       ((betaGL (d1 : GL (Fin 2) K) (d2 : GL (Fin 2) K) : GL (Fin 5) K) :
         Matrix (Fin 5) (Fin 5) K) := by
     ext i j
-    simp [LinearMap.toMatrix'_apply, betaCoord, glToLinEquiv_apply, Matrix.mulVec,
-      Pi.single_apply]
+    simp [LinearMap.toMatrix'_apply, betaCoord, glToLinEquiv_apply, Matrix.mulVec]
   apply Units.ext
   rw [LinearEquiv.coe_det, ← LinearMap.det_toMatrix'
     (betaCoord (d1 : GL (Fin 2) K) (d2 : GL (Fin 2) K)).toLinearMap, hmat]
@@ -957,6 +1016,7 @@ private theorem det_betaCoord (d1 d2 : O2 K) :
   norm_num
   rw [mul_mul_mul_comm, O2_det_sq d1, O2_det_sq d2, one_mul]
 
+omit [FiniteDimensional K V] in
 theorem beta_mem (d1 d2 : O2 K) :
     F.beta d1 d2 ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   F.conjCoord_mem (betaCoord_mem (F := F) d1 d2)
@@ -964,6 +1024,7 @@ theorem beta_mem (d1 d2 : O2 K) :
 abbrev betaO (F : FrameData Q) (d1 d2 : O2 K) : TauCeti.QuadraticMap.orthogonalGroup Q :=
   ⟨F.beta d1 d2, F.beta_mem d1 d2⟩
 
+omit [FiniteDimensional K V] in
 theorem beta_so (d1 d2 : O2 K) : F.betaO d1 d2 ∈ Q.specialOrthogonalWithin := by
   rw [QuadraticMap.mem_specialOrthogonalWithin_iff]
   have hdet : LinearEquiv.det (F.beta d1 d2) = 1 := by
@@ -975,6 +1036,7 @@ abbrev betaSO (F : FrameData Q) (d1 d2 : O2 K) : Q.specialOrthogonalWithin :=
 
 
 
+omit [FiniteDimensional K V] in
 theorem beta_mul (d1 d2 e1 e2 : O2 K) :
     F.beta d1 d2 * F.beta e1 e2 = F.beta (d1 * e1) (d2 * e2) := by
   apply LinearEquiv.ext
@@ -991,6 +1053,7 @@ theorem beta_mul (d1 d2 e1 e2 : O2 K) :
     all_goals module
   exact LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem beta_one : F.beta (1 : O2 K) (1 : O2 K) = 1 := by
   apply LinearEquiv.ext
   intro x
@@ -1003,15 +1066,18 @@ theorem beta_one : F.beta (1 : O2 K) (1 : O2 K) = 1 := by
       simp [F.beta_e_zero, F.beta_e_one, F.beta_e_two, F.beta_e_three, F.beta_e_four]
   exact LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem betaO_mul (d1 d2 e1 e2 : O2 K) :
     F.betaO d1 d2 * F.betaO e1 e2 = F.betaO (d1 * e1) (d2 * e2) := by
   apply Subtype.ext
   exact F.beta_mul d1 d2 e1 e2
 
+omit [FiniteDimensional K V] in
 theorem betaO_one : F.betaO (1 : O2 K) (1 : O2 K) = 1 := by
   apply Subtype.ext
   exact F.beta_one
 
+omit [FiniteDimensional K V] in
 theorem s_beta_s (d1 d2 : O2 K) :
     F.s * F.beta d1 d2 * F.s = F.beta d2 d1 := by
   apply LinearEquiv.ext
@@ -1027,10 +1093,12 @@ theorem s_beta_s (d1 d2 : O2 K) :
     all_goals module
   exact LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 theorem sO_mul_self : F.sO * F.sO = 1 := by
   apply Subtype.ext
   exact F.s_mul_self
 
+omit [FiniteDimensional K V] in
 theorem sO_betaO_conj (d1 d2 : O2 K) :
     F.sO * F.betaO d1 d2 * F.sO⁻¹ = F.betaO d2 d1 := by
   have hs : F.sO⁻¹ = F.sO := inv_eq_of_mul_eq_one_right F.sO_mul_self
@@ -1048,21 +1116,25 @@ theorem sigmaO2_mul_self : sigmaO2 (K := K) * sigmaO2 = 1 := by
   apply Subtype.ext
   exact Sp48.O2Plane.sig_mul_self
 
+omit [FiniteDimensional K V] in
 theorem betaO_inv_left (F : FrameData Q) (d : O2 K) :
     (F.betaO d (1 : O2 K))⁻¹ = F.betaO d⁻¹ 1 := by
   apply inv_eq_of_mul_eq_one_right
   simpa [F.betaO_one] using F.betaO_mul d 1 d⁻¹ 1
 
+omit [FiniteDimensional K V] in
 theorem betaO_inv_right (F : FrameData Q) (d : O2 K) :
     (F.betaO (1 : O2 K) d)⁻¹ = F.betaO 1 d⁻¹ := by
   apply inv_eq_of_mul_eq_one_right
   simpa [F.betaO_one] using F.betaO_mul 1 d 1 d⁻¹
 
+omit [FiniteDimensional K V] in
 theorem sO_betaO_conj' (F : FrameData Q) (d1 d2 : O2 K) :
     F.sO * F.betaO d1 d2 * F.sO = F.betaO d2 d1 := by
   have hs : F.sO⁻¹ = F.sO := inv_eq_of_mul_eq_one_right F.sO_mul_self
   simpa [hs] using F.sO_betaO_conj d1 d2
 
+omit [FiniteDimensional K V] in
 theorem commutator_betaO_left (F : FrameData Q) (d : O2 K) :
     ⁅F.betaO d (1 : O2 K), F.sO⁆ = F.betaO d d⁻¹ := by
   rw [commutatorElement_def, F.betaO_inv_left]
@@ -1091,6 +1163,7 @@ theorem conj_sigma_inv_eq (r : O2 K) (hr : (r : GL (Fin 2) K) ∈ Sp48.O2Plane.S
     _ = (sigmaO2 * sigmaO2) * r * (sigmaO2 * sigmaO2) := by group
     _ = r := by rw [sigmaO2_mul_self]; simp
 
+omit [FiniteDimensional K V] in
 theorem commutator_betaO_sigma (F : FrameData Q) (r : O2 K)
     (hr : (r : GL (Fin 2) K) ∈ Sp48.O2Plane.SO2 K) :
     ⁅F.betaO (1 : O2 K) r, F.betaO 1 (sigmaO2 (K := K))⁆ = F.betaO 1 (r * r) := by
@@ -1100,10 +1173,11 @@ theorem commutator_betaO_sigma (F : FrameData Q) (r : O2 K)
       _ = r * r := by rw [conj_sigma_inv_eq r hr]
   rw [commutatorElement_def, F.betaO_inv_right, F.betaO_inv_right]
   rw [F.betaO_mul, F.betaO_mul, F.betaO_mul]
-  simp only [one_mul, mul_one]
+  simp only [mul_one]
   rw [inv_eq_of_mul_eq_one_right sigmaO2_mul_self]
   rw [hcomm]
 
+omit [FiniteDimensional K V] in
 theorem betaO_diag_rotation (F : FrameData Q) (r : O2 K)
     (hr : (r : GL (Fin 2) K) ∈ Sp48.O2Plane.SO2 K) :
     (F.betaO r r : V ≃ₗ[K] V) ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
@@ -1123,6 +1197,7 @@ theorem betaO_diag_rotation (F : FrameData Q) (r : O2 K)
   rw [hmul]
   exact Subgroup.mul_mem _ hleft hright
 
+omit [FiniteDimensional K V] in
 theorem betaO_diag_sigma (F : FrameData Q) :
     (F.betaO (sigmaO2 (K := K)) sigmaO2 : V ≃ₗ[K] V) ∈
       ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
@@ -1134,6 +1209,7 @@ theorem betaO_diag_sigma (F : FrameData Q) :
   rw [hcomm]
   exact Subgroup.commutator_mem_commutator (F.betaO sigmaO2 1).property F.sO.property
 
+omit [FiniteDimensional K V] in
 theorem betaO_diag_mem_commutator (F : FrameData Q) (d : O2 K) :
     (F.betaO d d : V ≃ₗ[K] V) ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
       TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
@@ -1144,7 +1220,7 @@ theorem betaO_diag_mem_commutator (F : FrameData Q) (d : O2 K) :
     have hd_eq : d = sigmaO2 * r := by
       apply Subtype.ext
       dsimp only [sigmaO2, r]
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul]
       rw [← mul_assoc, Sp48.O2Plane.sig_mul_self, one_mul]
     rw [hd_eq, ← F.betaO_mul]
     exact Subgroup.mul_mem _ F.betaO_diag_sigma (F.betaO_diag_rotation r hd)
@@ -1157,8 +1233,10 @@ theorem betaO_diag_mem_commutator (F : FrameData Q) (d : O2 K) :
   map_mul' p q := by
     simpa using (F.betaO_mul p.1 p.2 q.1 q.2).symm
 
+omit [FiniteDimensional K V] in
 theorem betaHom_apply (p : O2 K × O2 K) : F.betaHom p = F.betaO p.1 p.2 := rfl
 
+omit [FiniteDimensional K V] in
 theorem betaHom_injective : Function.Injective F.betaHom := by
   intro p q h
   apply F.beta_injective

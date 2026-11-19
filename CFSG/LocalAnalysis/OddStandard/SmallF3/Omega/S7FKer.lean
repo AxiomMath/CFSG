@@ -75,7 +75,7 @@ theorem s7fU_ker (F : S7FFrame t B E H φ) {u : Fin 5 → G} (hu : ∀ i, u i �
         rfl }
   let N : Subgroup ↥E := B.subgroupOf E
   have hNmem : ∀ n : ↥E, n ∈ N ↔ (n : G) ∈ B := fun n => Subgroup.mem_subgroupOf
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hNmem] at hn ⊢
     have hconj : (g : G) * (n : G) * (g : G)⁻¹ = (n : G) := by

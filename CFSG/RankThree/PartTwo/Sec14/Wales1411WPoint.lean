@@ -190,7 +190,7 @@ theorem img_eq_sSup {Y : Subgroup G} (hYK : Y ≤ kA142 A (lB A) c)
     have hQ3 : ¬ 3 ∣ Nat.card Q :=
       (isPiSubgroup_piCompl_iff Nat.prime_three Q).mp hQ.1.1.2.1
     have hQ𝒮 : img142 A (lB A) c Q ∈ 𝒮 := by
-      rw [h𝒮, Set.mem_setOf_eq]
+      rw [h𝒮, Set.mem_ofPred_eq]
       exact ⟨Subgroup.map_mono (Subgroup.comap_mono hQY), img_le_normalizer_img hQ.1.1.2.2,
         not_three_dvd_card_img (hQY.trans hYK) hQ3⟩
     intro x hx
@@ -222,6 +222,7 @@ namespace Frame142
 variable {A : Subgroup G} {c : G} [(ker142 A (lB A) c).Normal] (f : Frame142 A c)
 include f
 
+omit [(ker142 A (lB A) c).Normal] in
 theorem mem_pCore_of_mem {k : G} (hk : k ∈ k142 A (lB A) c)
     (hker : k ∈ pPrimeCoreOf 3 (k142 A (lB A) c) ⊔ Subgroup.zpowers c) :
     k ∈ pPrimeCoreOf 3 (k142 A (lB A) c) := by
@@ -246,6 +247,7 @@ theorem mem_pCore_of_mem {k : G} (hk : k ∈ k142 A (lB A) c)
   rw [f.zpow_eq_one_of_mem _ hzK]
   simpa using ho
 
+omit [(ker142 A (lB A) c).Normal] in
 theorem mem_zpowers_of_mem_ker {k : ↥(kA142 A (lB A) c)} (hk : k ∈ ker142 A (lB A) c) {m : ℕ}
     (hkm : k ^ 3 ^ m = 1) : (k : G) ∈ Subgroup.zpowers c := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -322,7 +324,7 @@ theorem not_three_dvd_card_pb {U : Subgroup (↥(kA142 A (lB A) c) ⧸ ker142 A 
 
 theorem maximal_img
     {Y : Subgroup G} (hAY : A ≤ Subgroup.normalizer (Y : Set G))
-    (hYc : Y ≤ Subgroup.centralizer ({c} : Set G)) (hYK : Y ≤ k142 A (lB A) c)
+    (_hYc : Y ≤ Subgroup.centralizer ({c} : Set G)) (hYK : Y ≤ k142 A (lB A) c)
     {S : Subgroup G} (hS : S ∈ scriptQPiStar A (lB A) Y (piOf 2)) :
     Maximal (InvTwo (img142 A (lB A) c A) (img142 A (lB A) c Y)) (img142 A (lB A) c S) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -382,7 +384,7 @@ theorem maximal_img
     rfl⟩
 
 theorem exists_lift {Y : Subgroup G} (hAY : A ≤ Subgroup.normalizer (Y : Set G))
-    (hYc : Y ≤ Subgroup.centralizer ({c} : Set G)) (hYK : Y ≤ kA142 A (lB A) c)
+    (hYc : Y ≤ Subgroup.centralizer ({c} : Set G)) (_hYK : Y ≤ kA142 A (lB A) c)
     {ñ : ↥(kA142 A (lB A) c) ⧸ ker142 A (lB A) c}
     (hñ : ñ ∈ img142 A (lB A) c Y ⊓ Subgroup.normalizer
       (img142 A (lB A) c A : Set (↥(kA142 A (lB A) c) ⧸ ker142 A (lB A) c))) :
@@ -597,6 +599,7 @@ theorem etrans2_kα
     ETrans2 (↥(kA142 A (lB A) c) ⧸ ker142 A (lB A) c) (img142 A (lB A) c A) :=
   ETrans2.of_mulEquiv d.kαEquiv d.map_kαEquiv_img_A hET
 
+omit [(ker142 A (lB A) c).Normal] in
 theorem toFrame142
     (h142 : Item142 A (lB A) c L d.std.toSec13Data.isElemAbelian.1 d.std.toSec13Data.mem_A) :
     Frame142 A c where

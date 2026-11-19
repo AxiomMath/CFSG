@@ -43,15 +43,15 @@ end Check
 
 theorem bP_zero : bP 0 = dP := by
   unfold bP dP
-  rw [show bArr 0 = sD () from if_pos rfl]
+  rw [show bArr 0 = sD () from ite_eq_left rfl]
 
 theorem bP_one : bP 1 = b2P := by
   unfold bP b2P
-  rw [show bArr 1 = sB2 () by rw [bArr, if_neg one_ne_zero, if_pos rfl]]
+  rw [show bArr 1 = sB2 () by rw [bArr, ite_eq_right one_ne_zero, ite_eq_left rfl]]
 
 theorem bP_two : bP 2 = b3P := by
   unfold bP b3P
-  rw [show bArr 2 = sB3 () by rw [bArr, if_neg two_ne_zero, if_neg (by norm_num)]]
+  rw [show bArr 2 = sB3 () by rw [bArr, ite_eq_right two_ne_zero, ite_eq_right (by norm_num)]]
 
 section Perms
 

@@ -29,7 +29,7 @@ theorem not_le_of_sectionAct {ι : Type} [Fintype ι] [DecidableEq ι] [Nonempty
     (h : SectionAct F S V Z φ act) : ¬ V ≤ Z := by
   intro hle
   obtain ⟨-, hN, ψ, -⟩ := h
-  letI := hN
+  let := hN
   obtain ⟨i⟩ := ‹Nonempty ι›
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective
     (ψ.symm (Multiplicative.ofAdd (Pi.single i 1 : ι → F)))
@@ -70,16 +70,16 @@ variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal] {n : ℕ}
 theorem XbarCore.nonempty_of_caseVICore (h : CaseVICore M Q Z (XbarPre M Q Z B) n) :
     Nonempty (XbarCore M Q Z B n) := by
   obtain ⟨F, hF, hFfin, hcard, φ, hr, hk, V₁, V₂, h1, h2, h3, h4, h5, h6, hA1, hA2, -⟩ := h
-  letI := hF
-  letI := hFfin
+  let := hF
+  let := hFfin
   exact ⟨⟨F, hcard, φ, hr, hk, V₁, V₂, h1, h2, h3, h4, h5, h6, hA1, hA2⟩⟩
 
 theorem XbarCore.not_V₁_le_Z (hn : 1 ≤ n) (S : XbarCore M Q Z B n) : ¬ S.V₁ ≤ Z := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   exact not_le_of_sectionAct S.act₁
 
 theorem XbarCore.not_V₂_le_Z (hn : 1 ≤ n) (S : XbarCore M Q Z B n) : ¬ S.V₂ ≤ Z := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   exact not_le_of_sectionAct S.act₂
 
 theorem XbarCore.V₁_ne_V₂ (hn : 1 ≤ n) (S : XbarCore M Q Z B n) : S.V₁ ≠ S.V₂ := by

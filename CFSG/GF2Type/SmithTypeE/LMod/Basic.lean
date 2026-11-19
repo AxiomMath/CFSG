@@ -151,8 +151,7 @@ theorem pairs_parts {i j : Nat} (hi : i < 1395) (hj : j < 1395) :
       fB wtArr[i]! wtArr[j]! = decide (meetCard i j = 0) ∧
       adjM i j = decide (9 ≤ meetCard i j) := by
   have h := pairsCheck_holds
-  simp only [chkPairs, List.all_eq_true, List.mem_range, Bool.and_eq_true, beq_iff_eq,
-    Bool.or_eq_true] at h
+  simp only [chkPairs, List.all_eq_true, List.mem_range, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h i hi j hj
   refine ⟨fun hij => ?_, fun hij => ?_, ?_, h3⟩
   · simpa [hij] using h1

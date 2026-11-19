@@ -16,13 +16,13 @@ open CFSG.Open
 theorem isSimpleGroup_statedOmega_quadPlus_three_of_card_two {K : Type} [Field K] [Finite K]
     [CharP K 2] (hcard : Nat.card K = 2) :
     IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 K)) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard]
     norm_num
   let φ : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hcardF
   let eΩ := CFSG.SeitzReduction.OmegaPilot.statedOmegaPlusCongr φ 3
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 (ZMod 2))) :=
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 (ZMod 2))) :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.isSimpleGroup_statedOmega_quadPlus_three
   exact eΩ.isSimpleGroup
 
@@ -74,8 +74,8 @@ theorem exists_commuting_statedOmega_quadPlus_three_zmod_two {r : ℕ} (hr : r.P
   have ha8ne : a8 ≠ 1 := by decide
   have hb8pow : b8 ^ 3 = 1 := Subtype.ext (by decide)
   have hb8ne : b8 ≠ 1 := by decide
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have ha8 : orderOf a8 = 5 := orderOf_eq_prime ha8pow ha8ne
   have hb8 : orderOf b8 = 3 := orderOf_eq_prime hb8pow hb8ne
   refine ⟨e.symm a8, e.symm b8, ?_, ?_, ?_, ?_⟩
@@ -96,7 +96,7 @@ theorem exists_commuting_statedOmega_quadPlus_three_of_field_card_two {K : Type}
       b ^ (2 ^ f + 1) = 1 := by
   subst hf
   have hcard : Nat.card K = 2 := by simpa using hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard]
     norm_num
@@ -192,7 +192,7 @@ theorem exists_commuting_ppd_statedSL_four {K : Type} [Field K] [Finite K]
       rw [show (2 ^ f) ^ 2 = 2 ^ (2 * f) by rw [show 2 * f = f * 2 by ring, pow_mul]]]
     exact h
   obtain ⟨Z, hZcyc, hZcard⟩ := CFSG.SectionRank.OddCover.exists_isCyclic_card_GL K 4
-  haveI : IsCyclic Z := hZcyc
+  have : IsCyclic Z := hZcyc
   obtain ⟨gZ, hgZ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Z)
   let g : GL (Fin 4) K := (gZ : Z)
   have hg : orderOf g = q ^ 4 - 1 :=
@@ -221,7 +221,7 @@ theorem isSimpleGroup_statedOmega_quadPlus_three_of_charTwo {K : Type} [Field K]
   by_cases hK4 : 4 ≤ Nat.card K
   · exact sec7_isSimpleGroup_omegaPlusSix hK4
   · have hcard : Nat.card K = 2 := by
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨n, -, hn⟩ := FiniteField.card K 2
       have hn1 : (n : ℕ) = 1 := by
         have hle : 2 ^ (n : ℕ) ≤ 3 := by

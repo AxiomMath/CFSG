@@ -23,8 +23,8 @@ theorem card_of_binaryNaturalSU3 {V : Type} [CommGroup V] [Finite V]
     Nat.card V = (2 ^ k) ^ 6 := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨π, hπ⟩ := hreal
   obtain ⟨-, -, -, -, -, -, -, β, hβsurj, hβker, -⟩ := hπ
   have hβinj : Function.Injective β := by
@@ -54,6 +54,7 @@ theorem card_of_binaryNaturalSU3 {V : Type} [CommGroup V] [Finite V]
     _ = (2 ^ k) ^ 6 := by
         rw [hKcard, ← pow_mul]
 
+omit [Finite G] in
 theorem exists_chiefModEquiv {H L N Z X : Subgroup G}
     (hcomm : ∀ n ∈ N, ∀ z ∈ Z, n * z = z * n)
     (hNX : N ≤ X) (hZX : Z ≤ X) (hL : N ⊓ Z = L) (hX : N ⊔ Z = X)
@@ -69,7 +70,7 @@ theorem exists_chiefModEquiv {H L N Z X : Subgroup G}
       (CFSG.Quasithin.Vol2.Ch11.SecD.quotAct hHX hHZ).range.map
           (MulAut.congr j.symm).toMonoidHom = Ch3z.chiefAut H L N := by
   classical
-  haveI : (L.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNL
+  have : (L.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNL
   let gN : ↥N →* (X ⧸ Z.subgroupOf X) :=
     (QuotientGroup.mk' (Z.subgroupOf X)).comp (Subgroup.inclusion hNX)
   have hgN : ∀ n : ↥N, gN n = QuotientGroup.mk ⟨n, hNX n.2⟩ := fun n => rfl
@@ -220,7 +221,7 @@ theorem str86_X1Natural_holds
   obtain ⟨hE, hNat⟩ :=
     str86_X1_chiefFactor_natural hF hSB hk hFc hU3 hB2 h2 hZI hZQ hL2 hZ2 hZ1 hY hX1'
       hX1Q1 hstep hnc hZL
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   have hMcardChief : Nat.card (Ch3z.chiefMod L N) = (2 ^ k) ^ 6 :=
     card_of_binaryNaturalSU3 hNat
   have hLN : L ≤ N := hstep.2.2.1.le
@@ -250,9 +251,9 @@ theorem str86_X1Natural_holds
     · exact fun h => h.2
     · exact fun h => ⟨x.2, h⟩
   have hrelNZ : (N ⊓ Z1 L1 L2 S).relIndex N = (Z1 L1 L2 S).relIndex (N ⊔ Z1 L1 L2 S) := by
-    haveI : ((Z1 L1 L2 S).subgroupOf N).Normal :=
+    have : ((Z1 L1 L2 S).subgroupOf N).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hNZn
-    haveI : ((Z1 L1 L2 S).subgroupOf (N ⊔ Z1 L1 L2 S)).Normal :=
+    have : ((Z1 L1 L2 S).subgroupOf (N ⊔ Z1 L1 L2 S)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hNZn Subgroup.le_normalizer)
     have hiso := QuotientGroup.quotientInfEquivProdNormalizerQuotient N (Z1 L1 L2 S) hNZn
     have hcard := Nat.card_congr (MulEquiv.toEquiv hiso)
@@ -314,7 +315,7 @@ theorem str86_X1Natural_holds
   have hHZ' : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G) := hLS ▸ hZH
   have hHX' : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.normalizer (u3X1 L1 L2 S : Set G) :=
     hLS ▸ le_normalizer_u3X1_sup hF
-  haveI : ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S)).Normal := u3M_normal L1 L2 S
+  have : ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S)).Normal := u3M_normal L1 L2 S
   obtain ⟨j, hj, hrange, hrange'⟩ :=
     exists_chiefModEquiv (H := L1 ⊔ Q1 L1 L2 S) (L := L) (N := N)
       (Z := Z1 L1 L2 S) (X := u3X1 L1 L2 S) hcommNZ hNXle hZX hLeq hXeq
@@ -322,7 +323,7 @@ theorem str86_X1Natural_holds
   have hNat' : BinaryNaturalSU3 (Ch3z.chiefAut (L1 ⊔ Q1 L1 L2 S) L N) ⊤ ⊥ k := by
     rw [← hLS]
     exact hNat
-  letI : CommGroup (u3M L1 L2 S) := u3MCommGroup hX1'
+  let : CommGroup (u3M L1 L2 S) := u3MCommGroup hX1'
   have hbin : BinaryNaturalSU3
       (u3MAct (L1 := L1) (L2 := L2) (S := S) (hX := hHX') (hZ := hHZ')).range ⊤ ⊥ k := by
     obtain ⟨K, hKfield, hKfin, hKcard, hreal⟩ := hNat'

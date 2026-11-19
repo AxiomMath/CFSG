@@ -49,7 +49,7 @@ theorem ggNSDiag_torus_le (h : GGNSLocalHyp p B Bs K f n ψ) (hd : GGActsDiagona
     apply Units.ext
     rw [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hgd, Matrix.diagonal_pow]
     rw [show d ^ p = (1 : Fin n → K) by funext i; simpa using hdp i]
-    simp [Matrix.diagonal_one]
+    simp
   have hpow : (ψ g) ^ p = 1 := by
     rw [← map_pow, hgpow, map_one]
   exact h.bstar.2.2.2 (ψ g) hcent hpow

@@ -38,12 +38,12 @@ private theorem l6m6_E8_cartan_eq : Tag.cartan .E8 = CartanMatrix.E 8 := by
   exact cartanE_eq 8
 
 private theorem l6m6_E8_symm (i j : Fin Tag.E8.rank) :
-    CartanMatrix.E₈ i j = CartanMatrix.E₈ j i := by
+    (CartanMatrix.E 8) i j = (CartanMatrix.E 8) j i := by
   fin_cases i <;> fin_cases j <;> rfl
 
 private theorem l6m6_cartan_diag (i : Fin Tag.E8.rank) : Tag.cartan .E8 i i = 2 := by
   change Tag.cartanE 8 i i = 2
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 private theorem l6m6_corootPair_eq_iform
     (β : Fin Tag.E8.rank → ℤ) (hβ : IsRoot .E8 β)
@@ -158,12 +158,12 @@ private theorem l6m6_A_smul_right {p : ℕ} {V : Type*} [AddCommGroup V] [Module
 
 private theorem l6m6_A_h {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (x : Fin Tag.E8.rank → ℤ) (j : Fin Tag.E8.rank) :
     l6m6_A p α x (h j) = ((l6m6_label x j : ℤ) : ZMod p) := by
   rw [l6m6_A]
   have h1 : ∀ k, (x k : ZMod p) * α k (h j) =
-      ((CartanMatrix.E₈ j k * x k : ℤ) : ZMod p) := by
+      (((CartanMatrix.E 8) j k * x k : ℤ) : ZMod p) := by
     intro k
     rw [hpair k j, ← Int.cast_mul, l6m6_E8_symm k j, mul_comm]
   rw [Finset.sum_congr rfl (fun k _ => h1 k), ← Int.cast_sum]
@@ -180,13 +180,13 @@ private theorem l6m6_A_reflect_left {p : ℕ} {V : Type*} [AddCommGroup V] [Modu
 
 private theorem l6m6_alpha_H {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (x : Fin Tag.E8.rank → ℤ) (i : Fin Tag.E8.rank) :
     α i (l6m6_H p h x) = ((l6m6_label x i : ℤ) : ZMod p) := by
   rw [l6m6_H]
   simp only [map_sum, map_smul, smul_eq_mul]
   have h1 : ∀ k, (x k : ZMod p) * α i (h k) =
-      ((CartanMatrix.E₈ i k * x k : ℤ) : ZMod p) := by
+      (((CartanMatrix.E 8) i k * x k : ℤ) : ZMod p) := by
     intro k
     rw [hpair i k, ← Int.cast_mul, mul_comm]
   rw [Finset.sum_congr rfl (fun k _ => h1 k), ← Int.cast_sum]
@@ -205,7 +205,7 @@ theorem ggE8Equiv_simple (i : Fin 8) :
 
 private theorem l6m6_claim1 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i) :
     ∀ (w : WeylGroup .E8) (x : Fin Tag.E8.rank → ℤ),
@@ -222,7 +222,7 @@ private theorem l6m6_claim1 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod
 
 private theorem l6m6_A_simple {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i)
     (i : Fin Tag.E8.rank) (x : Fin Tag.E8.rank → ℤ) (v : V) :
@@ -234,7 +234,7 @@ private theorem l6m6_A_simple {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZM
 
 private theorem l6m6_claim2 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i) :
     ∀ (w : WeylGroup .E8) (x : Fin Tag.E8.rank → ℤ) (v : V),
@@ -250,7 +250,7 @@ private theorem l6m6_claim2 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod
 
 theorem ggMaxRank_weyl_coroot_smul {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i)
     (w : WeylGroup .E8) (x : Fin Tag.E8.rank → ℤ) :
@@ -259,7 +259,7 @@ theorem ggMaxRank_weyl_coroot_smul {p : ℕ} {V : Type*} [AddCommGroup V] [Modul
 
 theorem ggMaxRank_weyl_dual_smul {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i)
     (w : WeylGroup .E8) (x : Fin Tag.E8.rank → ℤ) (v : V) :
@@ -269,7 +269,7 @@ theorem ggMaxRank_weyl_dual_smul {p : ℕ} {V : Type*} [AddCommGroup V] [Module 
 theorem ggMaxRank_weyl_refl_form
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (h : Fin Tag.E8.rank → V) (α : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E8 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E8.rank) (v : V), ρ (simple .E8 i) v = v - α i v • h i)
     (β : Fin Tag.E8.rank → ℤ) (hβ : IsRoot .E8 β) (s : WeylGroup .E8)

@@ -21,6 +21,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_imgX {X Y : Subgroup G} (hXY : X ≤ Y) :
     Nat.card (imgX X Y) = (CFSG.Open.pCoreOf 2 Y).relIndex X := by
   have hcore : CFSG.pCore 2 ↥Y = (CFSG.Open.pCoreOf 2 Y).subgroupOf Y := by

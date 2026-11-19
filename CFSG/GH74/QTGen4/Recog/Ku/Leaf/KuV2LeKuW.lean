@@ -136,7 +136,7 @@ theorem kuV2_le_P [KuLeaf LeafEqKuAOfElemAbelian] (h : KuHyp G T M H P z) : kuV2
 
 theorem kuV2_le_kuW_core [KuLeaf LeafEqKuAOfElemAbelian] (h : KuHyp G T M H P z) :
     kuV2 T M ≤ kuW P H := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   have hV2P : kuV2 T M ≤ P := h.kuV2_le_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
@@ -169,7 +169,7 @@ theorem kuV2_le_kuW_core [KuLeaf LeafEqKuAOfElemAbelian] (h : KuHyp G T M H P z)
     exact kuDeltaLin_delta _ hγ v
   have hker : LinearMap.range (kuDeltaLin (actV hun)) = LinearMap.ker (kuDeltaLin (actV hun)) :=
     Submodule.eq_of_le_of_finrank_eq hle (by omega)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzord : orderOf z = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact h.zP_sq) h.z_ne_one
   have hzV2 : Subgroup.zpowers z ≤ kuV2 T M := Subgroup.zpowers_le.mpr h.z_mem_kuV2

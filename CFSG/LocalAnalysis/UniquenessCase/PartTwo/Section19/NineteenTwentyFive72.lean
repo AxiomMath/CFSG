@@ -19,11 +19,13 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem hasL2SzSection_of_le {n : ℕ} {X X' : Subgroup G} (h : HasL2SzSection n X)
     (hle : X ≤ X') : HasL2SzSection n X' := by
   obtain ⟨Y, hY, Z, hZ, hS⟩ := h
   exact ⟨Y, hY.trans hle, Z, hZ, hS⟩
 
+omit [Finite G] in
 theorem hasL2SzSection_of_surjective {n : ℕ} {X Y : Subgroup G} (hYX : Y ≤ X) {S : Type}
     [Group S] (hS : IsL2 S n ∨ IsSz S n) (f : ↥Y →* S) (hf : Function.Surjective f) :
     HasL2SzSection n X := by
@@ -50,6 +52,7 @@ theorem even_card_of_isL2_or_isSz {S : Type} [Group S] {n : ℕ} (hS : IsL2 S n 
     rw [h2]
     omega
 
+omit [Finite G] in
 theorem hasL2SzSection_map_of_odd {H : Subgroup G} {K : Subgroup ↥H} [K.Normal]
     (hK : Odd (Nat.card K)) {n : ℕ} {X : Subgroup G} (hXH : X ≤ H) (h : HasL2SzSection n X) :
     HasL2SzSection n ((X.subgroupOf H).map (QuotientGroup.mk' K)) := by
@@ -68,7 +71,7 @@ theorem hasL2SzSection_map_of_odd {H : Subgroup G} {K : Subgroup ↥H} [K.Normal
     refine ⟨⟨x, hx⟩, ?_⟩
     apply Subtype.ext
     rfl
-  haveI : IsSimpleGroup (↥Y ⧸ Z) := isSimpleGroup_of_isL2_or_isSz hS
+  have : IsSimpleGroup (↥Y ⧸ Z) := isSimpleGroup_of_isL2_or_isSz hS
   have hker : φ.ker ≤ (QuotientGroup.mk' Z).ker := by
     have hnorm : (φ.ker.map (QuotientGroup.mk' Z)).Normal :=
       (MonoidHom.normal_ker φ).map _ (QuotientGroup.mk'_surjective Z)
@@ -118,13 +121,13 @@ theorem gap19_25_72_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgr
   by_contra hNM
   have hp : p.Prime := (D.sig_prime p h.hyp.hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p h.hyp.hp).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := normalizer (A₁ : Set G) with hHdef
   have hr : r.Prime := h.hr.1
   have hA₁M : A₁ ≤ D.M := hA₁A.trans (A_le_M_of_ctx19_10 D h)
   have hHtop : H ≠ ⊤ := by
     intro htop
-    haveI : A₁.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : A₁.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases D.standing.simple.eq_bot_or_eq_top_of_normal A₁ with hbot | htop'
     · rw [hbot, Subgroup.card_bot] at hA₁card
       exact hr.one_lt.ne hA₁card

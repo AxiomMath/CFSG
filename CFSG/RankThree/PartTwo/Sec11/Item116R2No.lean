@@ -85,9 +85,9 @@ theorem false_of_R2 (h45 : Sec4.Item4_5) (h113 : Item113)
     have hc3 : orderOf c = 3 := orderOf_eq_prime (hA3 c h.mem_A) h.ne_one
     obtain ⟨j, ⟨k, hk⟩, hmove⟩ := exists_three_element_moving hc3 (hwB c hcB) hwa
     have hSyl : CFSG.ABGLocalTools.IsSylowOf 3 R (Subgroup.normalizer (A : Set G)) := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact h.isSylowOf_top.of_le hRW le_top
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨g, hgW, hgR⟩ := exists_conj_mem_of_isSylowOf hSyl
       (Subgroup.pow_mem _ hwW j) ⟨k, hk⟩
     by_contra hcon
@@ -130,7 +130,7 @@ theorem false_of_R2 (h45 : Sec4.Item4_5) (h113 : Item113)
     (Subgroup.mem_normalizer_iff.mp (h.normalizer_le hw) b).mp hb
   have hRK0 : R ≤ K0 A (Subgroup.closure ({c, d} : Set G)) := fun y hy =>
     ⟨hRW hy, hRcB y hy, fun t ht => h.conj_mem_of_mem_normalizer y (hRW hy) (hRH hy) t ht⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSylK : CFSG.ABGLocalTools.IsSylowOf 3 R (K0 A (Subgroup.closure ({c, d} : Set G))) :=
     h.isSylowOf_top.of_le hRK0 le_top
   obtain ⟨k, hkK, hkn⟩ := exists_mem_normalizer_of_isSylowOf hSylK

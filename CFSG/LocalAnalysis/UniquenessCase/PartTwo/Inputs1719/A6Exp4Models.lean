@@ -169,7 +169,7 @@ theorem relStab_blkX6_alt_not_le_normalizer :
   have hn := @h ⟨_, hgA⟩ (Subgroup.mem_subgroupOf.2 hgX)
   rw [Subgroup.mem_normalizer_iff] at hn
   have hc := (hn ⟨_, huA⟩).1 (Subgroup.mem_subgroupOf.2 huU)
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at hc
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at hc
   exact hbad hc
 
 theorem relStab_blkY6_alt_not_le_normalizer :
@@ -195,7 +195,7 @@ theorem relStab_blkY6_alt_not_le_normalizer :
   have hn := @h ⟨_, hgA⟩ (Subgroup.mem_subgroupOf.2 hgY)
   rw [Subgroup.mem_normalizer_iff] at hn
   have hc := (hn ⟨_, huA⟩).1 (Subgroup.mem_subgroupOf.2 huU)
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at hc
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at hc
   exact hbad hc
 
 theorem exists_sThree_pair_of_alt_six {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y}

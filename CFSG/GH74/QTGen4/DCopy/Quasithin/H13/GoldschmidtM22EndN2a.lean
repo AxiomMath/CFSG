@@ -60,7 +60,7 @@ theorem V_inf_X_eq_bot_F4 (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6212
 
 include h in
 
-theorem not_V_le_oTwoUpper_F4 (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10_F4)
+theorem not_V_le_oTwoUpper_F4 (_hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10_F4)
     {n : ℕ} (ψ : ↥(HH T) →* Equiv.Perm (Fin n))
     (hswap : ∀ a : ↥(HH T), (a : G) ∈ V → (a : G) ∉ CHU T L V → (ψ a).IsSwap) :
     ¬ V ≤ oTwoUpper (HH T ⊓ M) := by

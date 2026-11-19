@@ -42,7 +42,7 @@ theorem hyp711_hat (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) (hS : S
 theorem card_hatS (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) (hS : Std15 G)
     (c : Cfg1620 M V₀ V U S R H g B) (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     Nat.card (hatS Mo V) = 2 ^ E3.mQuot V (U ⊔ V₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVK : Mo.img V ≤ hatK Mo V := Mo.img_mono (le_conjClosure V H)
   have hpCore_le : pCoreOf 2 (hatK Mo V) ≤ pCoreOf 2 (Mo.img H) :=
     CFSG.GroupTheory.pCoreOf_le_pCoreOf_of_le_normalizer 2

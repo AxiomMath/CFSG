@@ -33,13 +33,13 @@ private lemma teCham_ht_pos_of_psi
   · obtain ⟨k, hk⟩ := teCham_exists hγ
     rw [← hk] at hlev ⊢
     exact teCham_pos_of_level k hlev
-  · simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff] at hlong
+  · simp only [twE6LongPos0] at hlong
     rcases hlong with rfl | rfl | rfl | rfl | rfl | rfl <;> decide +kernel
 
 private lemma teCham_reflect_last (v : Fin (Tag.rank .F4) → ℤ) :
     reflect .F4 (nf 2) v twE6Last = v twE6Last := by
   simp only [reflect, Pi.sub_apply, Pi.smul_apply, Pi.single_apply]
-  rw [if_neg (by decide : twE6Last ≠ nf 2)]
+  rw [ite_eq_right (by decide : twE6Last ≠ nf 2)]
   simp
 
 private lemma teCham_single0_psi :
@@ -48,7 +48,7 @@ private lemma teCham_single0_psi :
     funext j; fin_cases j <;> decide
   rw [he]
   right
-  simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [twE6LongPos0]
   exact Or.inr (Or.inr (Or.inl rfl))
 
 private lemma teCham_single1_psi :
@@ -57,7 +57,7 @@ private lemma teCham_single1_psi :
     funext j; fin_cases j <;> decide
   rw [he]
   right
-  simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [twE6LongPos0]
   exact Or.inl rfl
 
 private lemma teCham_single3_psi :
@@ -73,13 +73,13 @@ private lemma teCham_reflect_psi_of_pair_neg
   · left
     rw [teCham_reflect_last]
     exact hlev
-  · simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff] at hlong
+  · simp only [twE6LongPos0] at hlong
     rcases hlong with rfl | rfl | rfl | rfl | rfl | rfl
     · right
       have he : reflect .F4 (nf 2) (![0, 1, 0, 0] : Fin (Tag.rank .F4) → ℤ) = ![0, 1, 2, 0] := by
         funext j; fin_cases j <;> decide
       rw [he]
-      simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [twE6LongPos0]
       exact Or.inr (Or.inl rfl)
     · exfalso; exact absurd hpair (by decide)
     · exfalso; exact absurd hpair (by decide)
@@ -87,7 +87,7 @@ private lemma teCham_reflect_psi_of_pair_neg
       have he : reflect .F4 (nf 2) (![1, 1, 0, 0] : Fin (Tag.rank .F4) → ℤ) = ![1, 1, 2, 0] := by
         funext j; fin_cases j <;> decide
       rw [he]
-      simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [twE6LongPos0]
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
     · exfalso; exact absurd hpair (by decide)
     · exfalso; exact absurd hpair (by decide)
@@ -243,7 +243,7 @@ theorem twE6_mem_borel_or_panel_of_forall_le
   have hext := twistedDatum_steinbergExtras θ hθ
   have hBU := twistedDatum_bruhatExtras (k := k) (θ := θ)
   obtain ⟨⟨w, b, u⟩, ⟨⟨hb, hu⟩, hg⟩, -⟩ := existsUnique_bruhat_normalForm hct hext hBU g⁻¹
-  simp only [Prod.fst, Prod.snd] at hb hu hg
+  simp only at hb hu hg
   have hgoodD : ∀ γ ∈ (twistedDatum k θ).roots, γ ∈ twE6Psi →
       0 < ht (weylAction (twistedDatum k θ).isFiniteType w γ) := by
     intro γ hγ hψ

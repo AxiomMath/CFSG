@@ -240,6 +240,7 @@ section Orth
 
 variable {k U : Type} [Field k] [Finite k] [AddCommGroup U] [Module k U] [FiniteDimensional k U]
 
+omit [Finite k] in
 private theorem omega_regular_sub (P : QuadraticForm k U) (hQ : P.polarBilin.Nondegenerate)
     (h2 : (2 : k) ≠ 0) {r : ℕ} (hr : r ≤ Module.finrank k U) :
     ∃ W : Submodule k U, Module.finrank k W = r ∧
@@ -323,11 +324,11 @@ theorem omega_fixed_solvable_aux {X : Type} [Group X] (Z : Subgroup X) [Z.Normal
     Group.IsSolvable ↥(fixedSubgroup (onQuotient Z ψ hinv)) := by
   have hnorm := fixedImage_normal Z ψ hinv hc
   have h2 : Group.IsSolvable ↥(fixedImage Z ψ hinv) :=
-    solvable_of_surjective (fixedImageProjection_surjective Z ψ hinv)
+    Group.isSolvable_of_surjective (fixedImageProjection_surjective Z ψ hinv)
   have h3 : Group.IsSolvable (↥(fixedSubgroup (onQuotient Z ψ hinv)) ⧸ fixedImage Z ψ hinv) := by
     have hcomm := fixed_quotient_abelian Z ψ hinv hc
     exact Group.isSolvable_of_comm fun a b => hcomm.is_comm.comm a b
-  exact solvable_of_ker_le_range (fixedImage Z ψ hinv).subtype
+  exact Group.isSolvable_of_ker_le_range (fixedImage Z ψ hinv).subtype
     (QuotientGroup.mk' (fixedImage Z ψ hinv))
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
@@ -337,7 +338,7 @@ theorem omega_fixed_solvable {X : Type} [Group X] (N Z : Subgroup X) [Z.Normal]
     Group.IsSolvable ↥(fixedSubgroup (onNormalCentralQuotient N Z ψ hN hZ)) :=
   omega_fixed_solvable_aux (Z.subgroupOf N) (central_subgroupOf N Z hcentral)
     (restrictAutomorphism N ψ hN) (restricted_central_invariant N Z ψ hN hZ)
-    (solvable_of_solvable_injective (f := (fixedNormalEquiv N ψ hN).toMonoidHom)
+    (Group.isSolvable_of_isSolvable_injective (f := (fixedNormalEquiv N ψ hN).toMonoidHom)
       (fixedNormalEquiv N ψ hN).injective)
 
 end Solvable
@@ -356,7 +357,7 @@ theorem omega_not_solvable [Finite (projectiveDerived Q)]
     ¬ Group.IsSolvable ↥(orthogonalOperatorCentralizer Q A.toLinearMap) := by
   intro hF
   have h1 : Group.IsSolvable ↥(fixedSubgroup (similarityConjugation Q A μ hsim)) :=
-    solvable_of_solvable_injective (f := (fixedCentralizerEquiv Q A μ hsim).toMonoidHom)
+    Group.isSolvable_of_isSolvable_injective (f := (fixedCentralizerEquiv Q A μ hsim).toMonoidHom)
       (fixedCentralizerEquiv Q A μ hsim).injective
   exact h.not_solvable (omega_fixed_solvable (orthogonalDerived Q) (scalarSigns Q)
     (scalarSigns_central Q) (similarityConjugation Q A μ hsim)

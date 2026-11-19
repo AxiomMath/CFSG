@@ -28,7 +28,7 @@ private noncomputable def commutatorQuotientHom {G : Type*} [Group G]
         ⟨⁅v, ((1 : J) : G)⁆, hmem 1⟩ = 1
       refine (QuotientGroup.eq_one_iff (N := N.subgroupOf T) _).mpr ?_
       rw [Subgroup.mem_subgroupOf]
-      simpa using N.one_mem
+      simp
     map_mul' := by
       intro l l'
       change QuotientGroup.mk' (N.subgroupOf T)
@@ -59,9 +59,9 @@ theorem commutator_le_of_isPerfect_of_le {G : Type*} [Group G] {V J T N : Subgro
     (hNn : (N.subgroupOf T).Normal) (hTJ : ⁅T, J⁆ ≤ N) (hVJ : ⁅V, J⁆ ≤ T) :
     ⁅V, J⁆ ≤ N := by
   classical
-  haveI : Group.IsPerfect J := hJ
-  haveI : Group.IsSolvable T := hTs
-  haveI : (N.subgroupOf T).Normal := hNn
+  have : Group.IsPerfect J := hJ
+  have : Group.IsSolvable T := hTs
+  have : (N.subgroupOf T).Normal := hNn
   have hJT : J ≤ Subgroup.normalizer (T : Set G) :=
     Subgroup.le_normalizer_iff_commutator_le_left.mpr (hTJ.trans hNT)
   rw [Subgroup.commutator_le]
@@ -71,9 +71,9 @@ theorem commutator_le_of_isPerfect_of_le {G : Type*} [Group G] {V J T N : Subgro
   have hφ1 : φ = 1 := by
     have hrange : φ.range = ⊥ := by
       by_contra hne
-      haveI : Nontrivial φ.range :=
+      have : Nontrivial φ.range :=
         (Subgroup.nontrivial_iff_ne_bot φ.range).mpr hne
-      haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+      have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
       exact Group.IsPerfect.not_isSolvable φ.range inferInstance
     refine MonoidHom.ext fun x => ?_
     have hx : φ x ∈ φ.range := ⟨x, rfl⟩

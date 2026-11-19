@@ -101,25 +101,25 @@ theorem mat_longTorus_eq {i j : Fin (n - 1)} (hij : i ≠ j) (s t : Bool) (τ : 
     rw [h, Pi.smul_apply, Matrix.diagonal_apply]
     by_cases hae : a = .inl m
     · subst hae; simp [longTorusDiag]
-    · simp [hae, Ne.symm hae, Pi.single_apply]
+    · simp [hae]
   · have h := (minusFrame n b c).spinAction_longTorus_vec hij s t τ m false
     simp only [minusFrame_vec, minusVec_false, fVec] at h
     rw [h, Pi.smul_apply, Matrix.diagonal_apply]
     by_cases hae : a = .inr (.inl m)
     · subst hae; simp [longTorusDiag]
-    · simp [hae, Ne.symm hae, Pi.single_apply]
+    · simp [hae]
   · have hs : (Pi.single (.inr (.inr u)) 1 : Vm n K) = planeVec n (Pi.single u 1) := by
       funext x
       rcases x with k | k | t' <;> simp [planeVec, Pi.single_apply]
     rw [hs, spinAction_longTorus_planeVec, Matrix.diagonal_apply]
     by_cases hae : a = .inr (.inr u)
     · subst hae; simp [longTorusDiag, planeVec]
-    · rw [if_neg hae]
+    · rw [ite_eq_right hae]
       rcases a with k | k | t'
       · simp [planeVec]
       · simp [planeVec]
       · have : t' ≠ u := fun h => hae (by rw [h])
-        simp [planeVec, Pi.single_apply, this]
+        simp [planeVec, this]
 
 
 theorem single_inr_inr_eq_planeVec (u : Fin 2) :

@@ -64,7 +64,7 @@ theorem centQuasiAt_holds (G : Type) [Group G] [Finite G] : CentQuasiAt G := by
   · exact centCompQuasi_card168 hnc hcard hx1 r
   · by_cases hq3 : q = 3
     · subst hq3
-      haveI := hS
+      have := hS
       exact centCompQuasi_u33 hnc d hd e hcard hxq hx1 hr hr2
     · exact centCompQuasi_of_lie hS hnc d e hq hq2 (by rw [hd]; exact hq3) hxq hx1 r
 

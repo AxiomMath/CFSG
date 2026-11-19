@@ -65,7 +65,7 @@ theorem ggRC_scalars_pm1 (hJr : GGForkJr) (hPump : GGForkPumpOr)
     change Subgroup.closure (Set.range r) =
       (Subgroup.closure (Set.range φ)).map (ggLin (p := p) ι)
     rw [hr, ← MonoidHom.map_closure (ggLin (p := p) ι) (Set.range φ)]
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_basis f
+  have : Module.Finite (ZMod p) V := Module.Finite.of_basis f
   have hcard_le : Fintype.card (Option Λ) ≤ n := by
     have h1 := hind.fintype_card_le_finrank
     rwa [Module.finrank_eq_card_basis f, Fintype.card_fin] at h1

@@ -16,6 +16,7 @@ open CFSG.RankThree.Literature.FSmith
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma mem_orthogonalGroup_of_maps_to {g : V ≃ₗ[ZMod 2] V}
     (hS : ∀ s, s ≠ 0 → Q s = 0 → Q (g s) = 0)
     (hN : ∀ n, Q n = 1 → Q (g n) = 1) : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -26,6 +27,7 @@ private lemma mem_orthogonalGroup_of_maps_to {g : V ≃ₗ[ZMod 2] V}
     · rw [h]; exact hS v hv h
     · rw [h]; exact hN v h
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma false_of_const_on_nonzero {c : ZMod 2} (h : ∀ v, v ≠ 0 → Q v = c) {e e' : V}
     (he : Q e = 0) (he0 : e ≠ 0) (he' : Q e' = 1) (he'0 : e' ≠ 0) : False := by
   have h1 := h e he0
@@ -35,6 +37,7 @@ private lemma false_of_const_on_nonzero {c : ZMod 2} (h : ∀ v, v ≠ 0 → Q v
   rw [← h2] at h1
   exact zero_ne_one h1
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma false_of_map_add_eq_one (P P' : HypPair Q) (hPP' : P.Orth P')
     {g : V ≃ₗ[ZMod 2] V} (h : ∀ v, v ≠ 0 → Q (g v) + Q v = 1) : False := by
   let f : QuadraticForm (ZMod 2) V := Q.comp g.toLinearMap + Q

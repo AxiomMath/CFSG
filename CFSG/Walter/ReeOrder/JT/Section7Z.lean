@@ -270,7 +270,7 @@ theorem card_le_of_le_omegaZ_of_commute
   have htt : h.t * h.t = 1 := h.t_mul_t
   have htinv : h.t⁻¹ = h.t := inv_eq_of_mul_eq_one_right htt
   set B := W ⊓ Subgroup.centralizer ({h.t} : Set G) with hBdef
-  have hBp : IsPGroup p B := P₀.isPGroup'.to_le (inf_le_left.trans omegaZ_le)
+  have hBp : IsPGroup p B := P₀.isPGroup.to_le (inf_le_left.trans omegaZ_le)
   have hBcard : Nat.card B ≤ p := h.card_le_of_le_centralizer hp3 hpq hBp
     (fun x hx => pow_eq_one_of_mem_omegaZ hx.1) h.orderOf_t inf_le_right
   have hmem : ∀ x ∈ E₂, x * (h.t * x * h.t⁻¹) ∈ B := by
@@ -315,7 +315,7 @@ theorem card_le_of_le_omegaZ_of_commute
     have hzz := mul_self_eq_one_of_inv_of_commute c.isKleinFour_T₀ hsT hs3' hsC c.t_mem_T₀
       h.t_ne_one (hE₂s z hz) hzinv
     have hz1 : z = 1 := by
-      obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨z, (omegaZ_le (hE₂W hz))⟩
+      obtain ⟨k, hk⟩ := P₀.isPGroup ⟨z, (omegaZ_le (hE₂W hz))⟩
       have h1 : orderOf z ∣ p ^ k := orderOf_dvd_of_pow_eq_one (by
         simpa using congrArg Subtype.val hk)
       have h2 : orderOf z ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hzz)

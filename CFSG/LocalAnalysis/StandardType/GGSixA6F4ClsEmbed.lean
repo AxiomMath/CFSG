@@ -180,12 +180,12 @@ theorem ggA6F4_embed
       (ι : ↥(adjointGroup Tag.F4 K) →* ModGL Tag.F4 (AlgebraicClosure K)),
       Function.Injective ι ∧ ι.range ≤ ratPoints Φ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hcard
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_of_card_eq_prime_pow hcard
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hcomp : (iterateFrobenius (AlgebraicClosure K) 2 1).comp
         (algebraMap K (AlgebraicClosure K)) = algebraMap K (AlgebraicClosure K) := by
@@ -216,7 +216,7 @@ theorem ggA6F4_embed
         · rw [show z = yUnit Tag.F4 K i c from Units.ext h,
             baseChangeGL_yUnit (algebraMap K (AlgebraicClosure K))]
           exact yUnit_mem_adjointGroup i ((algebraMap K (AlgebraicClosure K)) c)
-    | one => simpa using one_mem _
+    | one => simp
     | mul x y _ _ hx hy => simpa using mul_mem hx hy
     | inv x _ hx => simpa using inv_mem hx
   let ι : ↥(adjointGroup Tag.F4 K) →* ModGL Tag.F4 (AlgebraicClosure K) :=

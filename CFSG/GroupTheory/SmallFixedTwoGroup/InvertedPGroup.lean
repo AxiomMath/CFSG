@@ -22,7 +22,7 @@ theorem inverted_of_card_inverted_ge [Finite G] {θ : MulAut G} (hθ : θ * θ =
     rw [hn]
     exact hpodd.pow
   have hcount := card_inverted_mul_card_fixed_of_odd hθ hRθ hoddR
-  haveI : Nonempty {r : R // θ r = (r : G)⁻¹} := ⟨⟨1, by simp⟩⟩
+  have : Nonempty {r : R // θ r = (r : G)⁻¹} := ⟨⟨1, by simp⟩⟩
   have hSpos : 0 < Nat.card {r : R // θ r = (r : G)⁻¹} := Nat.card_pos
   have hC4 : Nat.card {r : R // θ r = (r : G)} ≤ 4 := by
     have h2 : Nat.card {r : R // θ r = (r : G)⁻¹} * Nat.card {r : R // θ r = (r : G)}
@@ -34,15 +34,15 @@ theorem inverted_of_card_inverted_ge [Finite G] {θ : MulAut G} (hθ : θ * θ =
     { carrier := {r | θ (r : G) = (r : G)}
       mul_mem' := by
         intro a b ha hb
-        rw [Set.mem_setOf_eq] at ha hb
-        rw [Set.mem_setOf_eq]
+        rw [Set.mem_ofPred_eq] at ha hb
+        rw [Set.mem_ofPred_eq]
         simp only [Subgroup.coe_mul, map_mul, ha, hb]
       one_mem' := by
         simp
       inv_mem' := by
         intro a ha
-        rw [Set.mem_setOf_eq] at ha
-        rw [Set.mem_setOf_eq]
+        rw [Set.mem_ofPred_eq] at ha
+        rw [Set.mem_ofPred_eq]
         simp only [Subgroup.coe_inv, map_inv, ha] }
   have hKcard : Nat.card K ≤ 4 := by
     have hEq : Nat.card K = Nat.card {r : R // θ (r : G) = (r : G)} := rfl

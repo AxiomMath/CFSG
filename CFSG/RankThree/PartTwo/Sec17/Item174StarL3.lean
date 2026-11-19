@@ -31,6 +31,7 @@ section SL3
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem commute_or_inv_of_mem_Nt {X : GL (Fin 2) F}
     (hX : X ∈ (Nt : Subgroup (GL (Fin 2) F))) :
     X * cGL = cGL * X ∨ X * cGL * X⁻¹ = cGL⁻¹ := by
@@ -85,7 +86,7 @@ private theorem comm_of_le_P1 (hodd : Odd (Nat.card F)) (h4 : 4 ≤ Nat.card F)
       rcases commute_or_inv_of_mem_Nt hxN with h | h
       · exact h
       · exact (not_inv_of_mem hDb2 orderOf_cGL hcGLD hx h).elim
-    · haveI hN : (Db.comap
+    · have hN : (Db.comap
           (SpecialLinearGroup.toGL : SpecialLinearGroup (Fin 2) F →* GL (Fin 2) F)).Normal := by
         constructor
         intro n hn g
@@ -166,7 +167,7 @@ private theorem eq_bot_of_transitive (hq : Nat.card F % 3 = 2) {I D : Subgroup (
     exact this.add_one
   set A := (P1 : Subgroup (SL3 F)).subgroupOf I
   set Y := D.subgroupOf I
-  haveI : Y.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDI).mpr hID
+  have : Y.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDI).mpr hID
   have hY : IsPGroup 2 Y := hD.comap_of_injective _ (Subgroup.subtype_injective _)
   have h1 : A.relIndex (Y ⊔ A) ∣ A.index := by
     rw [← Subgroup.relIndex_top_right]

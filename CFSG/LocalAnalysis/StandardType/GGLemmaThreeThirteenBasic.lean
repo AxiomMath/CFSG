@@ -162,7 +162,7 @@ theorem exists_sylow_le [Fact p.Prime] (h : GGControlsStrongFusion H E) (hE : Is
   have he'p : e' ^ p = 1 := Subtype.ext (by simpa using hE.2 e he)
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow (ggIsPGroup_zpowers he'p)
   set R₀ : Subgroup G := (P : Subgroup N).map N.subtype
-  have hR₀p : IsPGroup p R₀ := P.isPGroup'.map _
+  have hR₀p : IsPGroup p R₀ := P.isPGroup.map _
   have heR₀ : e ∈ R₀ := ⟨e', hP (Subgroup.mem_zpowers e'), rfl⟩
   have hR₀H : R₀ ≤ H := h.le_of_isPGroup he he1 hR₀p heR₀
   have hR₀N : R₀ ≤ N := Subgroup.map_subtype_le _

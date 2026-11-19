@@ -35,7 +35,7 @@ theorem ffRA_exists_conj_le [Finite Γ] {S : Subgroup Γ} (hS : IsPGroup 2 S)
     (hidx : ¬ 2 ∣ S.index) {E : Subgroup Γ} (hE : IsPGroup 2 E) :
     ∃ g : Γ, ∀ y ∈ E, g * y * g⁻¹ ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ss : Sylow 2 Γ := hS.toSylow hidx
   obtain ⟨P, hEP⟩ := hE.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ P Ss

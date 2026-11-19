@@ -52,11 +52,11 @@ theorem le_twoCoreIn_of_normal {X P : Subgroup G} (hPX : P ≤ X) (hP2 : IsPGrou
 theorem twoCoreIn_eq_of_normal_sylow [Finite G] {X P : Subgroup G} (hPX : P ≤ X)
     (hP2 : IsPGroup 2 P) (hn : (P.subgroupOf X).Normal) (hidx : ¬ 2 ∣ (P.subgroupOf X).index) :
     twoCoreIn X = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (le_twoCoreIn_of_normal hPX hP2 hn)
   have hP2' : IsPGroup 2 (P.subgroupOf X) := hP2.comap_subtype
   have hR2 : IsPGroup 2 ((twoCoreIn X).subgroupOf X) := (isPGroup_twoCoreIn X).comap_subtype
-  haveI := normal_subgroupOf_twoCoreIn X
+  have := normal_subgroupOf_twoCoreIn X
   let S : Sylow 2 ↥X := hP2'.toSylow hidx
   have hScoe : (S : Subgroup ↥X) = P.subgroupOf X := IsPGroup.toSylow_coe hP2' hidx
   have hle : (twoCoreIn X).subgroupOf X ≤ (S : Subgroup ↥X) := hR2.le_sylow_of_normal S

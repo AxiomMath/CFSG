@@ -38,14 +38,14 @@ theorem solvable_zj_normalizer_factorization_sup {G : Type u}
     rw [Sylow.coe_mapSurjective]
     exact thompsonCenterOf_map_of_injective_restriction quotient (sylow : Subgroup G)
       (prime_complement_quotient_injective_on_pSubgroup prime hprime normal (sylow : Subgroup G)
-        hcomplement sylow.isPGroup')
+        hcomplement sylow.isPGroup)
   have himageNormal : ((thompsonCenterOf (sylow : Subgroup G)).map quotient).Normal := by
     rw [← htransport]
     have : (thompsonCenterOf (quotientSylow : Subgroup (G ⧸ normal))).Characteristic := hcenterCharacteristic
     infer_instance
   exact prime_complement_normal_image_normalizer_sup prime hprime normal
     (thompsonCenterOf (sylow : Subgroup G)) hcomplement
-    (sylow.isPGroup'.to_le (Subgroup.map_subtype_le _)) himageNormal
+    (sylow.isPGroup.to_le (Subgroup.map_subtype_le _)) himageNormal
 
 theorem solvable_zj_normalizer_factorization {G : Type u}
     [Group G] [Finite G] [Group.IsSolvable G]

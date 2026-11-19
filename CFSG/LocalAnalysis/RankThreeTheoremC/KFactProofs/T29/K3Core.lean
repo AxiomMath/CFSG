@@ -60,7 +60,7 @@ theorem pRank_centralizer_eq_two_of_sylow {X : Type} [Group X] [Finite X] {S : S
     intro h1
     rw [h1, orderOf_one] at hx
     norm_num at hx
-  have hPg : IsPGroup 3 ↥(S : Subgroup X) := S.isPGroup'
+  have hPg : IsPGroup 3 ↥(S : Subgroup X) := S.isPGroup
   obtain ⟨z, hzS, hzc, hz3⟩ := exists_central_order_three hPg hxS hxne
   have hzz : z ^ 3 = 1 := by
     rw [← hz3]
@@ -86,15 +86,15 @@ theorem pRank_centralizer_eq_two_of_sylow {X : Type} [Group X] [Finite X] {S : S
         exact (hzx.zpow_left k).eq
       have hcomm_x : ∀ e ∈ zpowers z, e * x = x * e := fun e he =>
         Subgroup.mem_centralizer_iff.1 hxZ e he
-      haveI hiz : CFSG.IsElementaryAbelian 3 ↥(zpowers z) :=
+      have hiz : CFSG.IsElementaryAbelian 3 ↥(zpowers z) :=
         CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hzz
-      haveI hix : CFSG.IsElementaryAbelian 3 ↥(zpowers x) :=
+      have hix : CFSG.IsElementaryAbelian 3 ↥(zpowers x) :=
         CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hx3
-      haveI hiA : CFSG.IsElementaryAbelian 3 ↥(zpowers z ⊔ zpowers x) :=
+      have hiA : CFSG.IsElementaryAbelian 3 ↥(zpowers z ⊔ zpowers x) :=
         CFSG.IsElementaryAbelian.sup_of_le_centralizer (Subgroup.zpowers_le.2 hxZ)
       have hA9 : Nat.card ↥(zpowers z ⊔ zpowers x) = 9 := by
         rw [CFSG.RankThree.PartOne.Planes.card_sup_zpowers Nat.prime_three (zpowers z) hx3 hxz
-          hcomm_x, Nat.card_zpowers, hz3] <;> norm_num
+          hcomm_x, Nat.card_zpowers, hz3]
       have hVprop : CFSG.Open.IsElemAbelian 3 (zpowers z ⊔ zpowers x) :=
         ⟨hiA.toIsMulCommutative, fun y hy => CFSG.elemPow_eq_one_of_isElementaryAbelian y hy⟩
       have hAC : zpowers z ≤ centralizer ({x} : Set X) := fun e he =>
@@ -103,7 +103,7 @@ theorem pRank_centralizer_eq_two_of_sylow {X : Type} [Group X] [Finite X] {S : S
         Subgroup.zpowers_le.2 (Subgroup.mem_centralizer_singleton_iff.2 rfl)
       have hVle : zpowers z ⊔ zpowers x ≤ centralizer ({x} : Set X) := sup_le hAC hxC
       have hk : 3 ^ 2 ≤ Nat.card ↥(zpowers z ⊔ zpowers x) := by
-        rw [hA9] <;> norm_num
+        rw [hA9]; norm_num
       exact le_pRank_of_isElemAbelian_card Nat.prime_three hVle hVprop hk
   omega
 
@@ -114,7 +114,7 @@ section K3Big
 theorem k3_mem_zpowers_nine {W : Type*} [Group W] [Finite W] [IsCyclic W] {a b : W}
     (ha : a ^ 9 = 1) (hb : orderOf b = 9) : a ∈ Subgroup.zpowers b := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   by_contra hna
   have hb9 : b ^ 9 = 1 := by
     rw [← hb]
@@ -163,7 +163,7 @@ theorem k3_mem_zpowers_of_mem {N : Subgroup K3.W3} [Finite K3.W3] [IsCyclic N] {
 theorem W3_no_normal_cyclic_big {N : Subgroup K3.W3} [N.Normal] (hc : IsCyclic N)
     (h9 : 9 ≤ Nat.card N) : False := by
   have hcard : Nat.card K3.W3 = 81 := CFSG.RankThree.PartTwo.Sec11.card_wreath
-  haveI : Finite K3.W3 := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K3.W3 := Nat.finite_of_card_ne_zero (by omega)
   have hdvd81 : Nat.card N ∣ 3 ^ 4 := by
     rw [show (3 : ℕ) ^ 4 = 81 by norm_num, ← hcard]
     exact Subgroup.card_subgroup_dvd_card N
@@ -221,7 +221,7 @@ theorem exists_normal_index_three_of_hom {G B : Type*} [Group G] [Finite G] [Gro
     (hB : ∀ a b : B, a * b = b * a) (f : G →* B) {y : G} (hy : IsPGroup 3 (zpowers y))
     (h1 : f y ≠ 1) : ∃ N : Subgroup G, N.Normal ∧ N.index = 3 := by
   classical
-  haveI : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
+  have : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := hy ⟨y, Subgroup.mem_zpowers y⟩
   have hyk : y ^ 3 ^ k = 1 := by
     have := congrArg Subtype.val hk
@@ -241,7 +241,7 @@ theorem exists_normal_index_three_of_hom {G B : Type*} [Group G] [Finite G] [Gro
     have h := orderOf_dvd_natCard (⟨f y, hmem⟩ : f.range)
     rw [Subgroup.orderOf_mk] at h
     exact h3.trans h
-  letI : CommGroup f.range :=
+  let : CommGroup f.range :=
     { (inferInstance : Group f.range) with
       mul_comm := fun a b => Subtype.ext (hB a.1 b.1) }
   obtain ⟨ι, hι, n, -, ⟨ψ⟩⟩ := CommGroup.equiv_prod_multiplicative_zmod_of_finite f.range
@@ -278,7 +278,7 @@ section ComponentCore
 theorem k3_eq_bot_of_coprime {K : Type} [Group K] [Finite K] (hK : CFSG.Open.IsQuasisimple K)
     (hZ : IsPGroup 3 ↥(center K)) (h3 : 3 ∣ Nat.card K)
     (N : Subgroup K) [N.Normal] (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hK N with hle | htop
   · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ
     have hdvd : Nat.card N ∣ 3 ^ k := by
@@ -305,7 +305,7 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 theorem exists_normal_index_three_of_field (h : T29Setup X L x)
     (hT : IsLThreeEps (↥L ⧸ center ↥L)) {y : X} (hy : IsPGroup 3 (zpowers y))
     (hfield : InducesNontrivialFieldAut L y) : ∃ N : Subgroup X, N.Normal ∧ N.index = 3 := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hq : CFSG.Open.IsQuasisimple ↥L := h.comp.2.2
   have hT3 := isThreeType_of_isLThreeEps hT
   obtain ⟨hn, hf, h1⟩ := hfield
@@ -365,9 +365,9 @@ theorem k3_center_eq_bot_of_psl227 {L : Type} [Group L] (hcomm : commutator L = 
   have h4 : 4 ≤ Nat.card (GaloisField 3 3) := by
     rw [GaloisField.card 3 3 (by norm_num)]
     norm_num
-  haveI : IsSimpleGroup PSL(2, GaloisField 3 3) :=
+  have : IsSimpleGroup PSL(2, GaloisField 3 3) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have : IsSimpleGroup L := e.isSimpleGroup
   rcases (inferInstance : (Subgroup.center L).Normal).eq_bot_or_eq_top with h | h
   · exact h
   · exfalso
@@ -378,13 +378,13 @@ theorem k3_center_eq_bot_of_psl227 {L : Type} [Group L] (hcomm : commutator L = 
 theorem k3_false_of_pCore_big {X : Type} [Group X] [Finite X] (S : Sylow 3 X)
     (e : (S : Subgroup X) ≃* K3.W3) (hc : IsCyclic ↥(CFSG.pCore 3 X))
     (h9 : 9 ≤ Nat.card ↥(CFSG.pCore 3 X)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hn : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal (p := 3) (G := X)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hn : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal (p := 3) (G := X)
   have hle : CFSG.pCore 3 X ≤ (S : Subgroup X) := pCore_le_sylow S
   let N₀ : Subgroup (S : Subgroup X) := (CFSG.pCore 3 X).subgroupOf (S : Subgroup X)
-  haveI hN₀ : N₀.Normal := hn.subgroupOf (S : Subgroup X)
+  have hN₀ : N₀.Normal := hn.subgroupOf (S : Subgroup X)
   let N : Subgroup K3.W3 := N₀.map e.toMonoidHom
-  haveI hN : N.Normal := hN₀.map e.toMonoidHom e.surjective
+  have hN : N.Normal := hN₀.map e.toMonoidHom e.surjective
   let φ : ↥(CFSG.pCore 3 X) ≃* ↥N :=
     (Subgroup.subgroupOfEquivOfLe hle).symm.trans
       (Subgroup.equivMapOfInjective N₀ e.toMonoidHom e.injective)
@@ -394,7 +394,7 @@ theorem k3_false_of_pCore_big {X : Type} [Group X] [Finite X] (S : Sylow 3 X)
 
 theorem kfactConstraintCore_of_T29 (hT : GL83I291Three) : K3.KFactConstraintCore := by
   intro X _ _ hcat hcore L hLc huniq S hSW hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hSW
   obtain ⟨x, hxS, hx1, hx3, hxr⟩ := hx
   have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -412,7 +412,7 @@ theorem kfactConstraintCore_of_T29 (hT : GL83I291Three) : K3.KFactConstraintCore
   · obtain ⟨e', -, -⟩ := id hb
     have hZ : center ↥L = ⊥ := k3_center_eq_bot_of_psl227 hLc.2.2.1 e'
     have hC : centralizer (L : Set X) = ⊥ := hsetup.centralizer_eq_bot hZ
-    haveI : L.Normal := hsetup.normal
+    have : L.Normal := hsetup.normal
     exact K2.exists_index_three_normal hsetup.normal ⟨e'⟩ hC (index_eq_of_fieldAut_L227 hC hb)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.T29

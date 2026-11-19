@@ -16,17 +16,20 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Timmesfeld CFSG.Timmesfeld.ARS
 
 variable {K : Type} [Group K] [Finite K] {X : Subgroup K} {Δ : Set (Subgroup K)} {f : ℕ}
 
+omit [Finite K] in
 theorem RootSetup.isPGroup (h : RootSetup X Δ f) {A : Subgroup K} (hA : A ∈ Δ) :
     IsPGroup 2 A :=
   IsPGroup.of_card (h.card A hA)
 
+omit [Finite K] in
 private theorem RootSetup.four_le_pow (h : RootSetup X Δ f) : 4 ≤ 2 ^ f :=
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := pow_le_pow_right' (by norm_num) h.two_le
 
+omit [Finite K] in
 theorem RootSetup.isPerfect (h : RootSetup X Δ f) : Group.IsPerfect ↥X := by
   rw [Subgroup.isPerfect_iff]
-  haveI : X.Normal := h.normal
+  have : X.Normal := h.normal
   refine le_antisymm (Subgroup.commutator_le_left X X) ?_
   conv_lhs => rw [h.gen]
   refine iSup₂_le fun A hA => ?_
@@ -35,10 +38,10 @@ theorem RootSetup.isPerfect (h : RootSetup X Δ f) : Group.IsPerfect ↥X := by
     rw [h.card A hA]
     exact h.four_le_pow
   have hABle : A ⊔ B ≤ X := sup_le (h.le A hA) (h.le B hB)
-  haveI : IsSimpleGroup ↥(A ⊔ B) := hAB.isSimpleGroup h4
+  have : IsSimpleGroup ↥(A ⊔ B) := hAB.isSimpleGroup h4
   have hnab : ¬ IsMulCommutative ↥(A ⊔ B) := by
     intro hc
-    haveI := hc
+    have := hc
     exact hAB.not_commuting fun a ha b hb =>
       congrArg Subtype.val (mul_comm' (⟨a, Subgroup.mem_sup_left ha⟩ : ↥(A ⊔ B))
         (⟨b, Subgroup.mem_sup_right hb⟩ : ↥(A ⊔ B)))
@@ -55,13 +58,13 @@ theorem RootSetup.odd_card_center (h : RootSetup X Δ f) :
     Odd (Nat.card (Subgroup.center ↥X)) := by
   by_contra hnot
   rw [Nat.not_odd_iff_even] at hnot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup ↥X := Subgroup.center ↥X
   let P : Sylow 2 ↥Z := Classical.arbitrary _
   have hPle : (P : Subgroup ↥Z).map Z.subtype ≤ pCore 2 ↥X := by
     refine le_sSup ⟨?_, ?_⟩
     · exact Subgroup.normal_of_le_center (Subgroup.map_subtype_le (P : Subgroup ↥Z))
-    · exact P.isPGroup'.map Z.subtype
+    · exact P.isPGroup.map Z.subtype
   rw [h.pCore_eq_bot] at hPle
   have hPbot : (P : Subgroup ↥Z) = ⊥ := by
     apply Subgroup.map_injective (f := Z.subtype) Z.subtype_injective
@@ -76,21 +79,21 @@ private theorem RootSetup.inf_center_eq_bot (h : RootSetup X Δ f) {A : Subgroup
   have hcop : Nat.Coprime (Nat.card (A.subgroupOf X)) (Nat.card (Subgroup.center ↥X)) := by
     rw [hAcard]
     exact Nat.Coprime.pow_left f h.odd_card_center.coprime_two_left
-  exact Subgroup.inf_eq_bot_of_coprime hcop
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
 
 theorem RootSetup.le_center_of_isNilpotent (h : RootSetup X Δ f) (N : Subgroup ↥X)
     (hN : N.Normal) (hnil : Group.IsNilpotent N) : N ≤ Subgroup.center ↥X := by
-  haveI := hnil
-  haveI : N.Normal := hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hnil
+  have : N.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card N) := by
     by_contra hnot
     rw [Nat.not_odd_iff_even] at hnot
     let P : Sylow 2 N := Classical.arbitrary _
     have hPchar : (P : Subgroup N).Characteristic := Sylow.characteristic_of_normal P inferInstance
-    haveI : (P : Subgroup N).Characteristic := hPchar
+    have : (P : Subgroup N).Characteristic := hPchar
     have hPle : (P : Subgroup N).map N.subtype ≤ pCore 2 ↥X :=
-      le_sSup ⟨inferInstance, P.isPGroup'.map N.subtype⟩
+      le_sSup ⟨inferInstance, P.isPGroup.map N.subtype⟩
     rw [h.pCore_eq_bot] at hPle
     have hPbot : (P : Subgroup N) = ⊥ := by
       apply Subgroup.map_injective (f := N.subtype) N.subtype_injective
@@ -100,8 +103,9 @@ theorem RootSetup.le_center_of_isNilpotent (h : RootSetup X Δ f) (N : Subgroup 
   have hcop : Nat.Coprime 2 (Nat.card N) := Nat.coprime_two_left.mpr hodd
   exact (le_sSup ⟨hN, hcop⟩ : N ≤ pPrimeCore 2 ↥X).trans h.oddCore_le
 
+omit [Finite K] in
 theorem RootSetup.center_quot (h : RootSetup X Δ f) : Subgroup.center (quotY X) = ⊥ := by
-  haveI : Group.IsPerfect ↥X := h.isPerfect
+  have : Group.IsPerfect ↥X := h.isPerfect
   exact Group.IsPerfect.center_quotient_center_eq_bot ↥X
 
 theorem RootSetup.no_nilpotent_quot (h : RootSetup X Δ f) :
@@ -177,6 +181,7 @@ theorem RootSetup.commutator_quotSub_eq_bot_iff (h : RootSetup X Δ f) {A B : Su
     change ⁅(A.subgroupOf X).map (quotMap X), (B.subgroupOf X).map (quotMap X)⁆ = ⊥
     rw [← Subgroup.map_commutator, hbotX, Subgroup.map_bot]
 
+omit [Finite K] in
 theorem RootSetup.conj_mem_quotDelta (h : RootSetup X Δ f) :
     ∀ A' ∈ quotDelta X Δ, ∀ y : quotY X, conjSubgroup y A' ∈ quotDelta X Δ := by
   rintro A' ⟨A, hA, rfl⟩ y

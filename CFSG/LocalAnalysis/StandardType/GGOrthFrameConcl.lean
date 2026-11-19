@@ -27,7 +27,6 @@ theorem ggLabel_n_eq_of_D (hRig : GGLabelRigidInput) {R : Type} [Group R] {b f :
     | (subst h; rfl)
     | (exfalso; simp at h; done)
     | (exfalso; simp at h; omega)
-    | (obtain ⟨-, h2⟩ := h; subst h2; rfl)
 
 theorem ggLabel_n_eq_of_twD (hRig : GGLabelRigidInput) {R : Type} [Group R] {b f : ℕ} (hb : 4 ≤ b)
     (hf : 1 ≤ f) (hl : GGHasLabel ⟨.twD, b, f⟩ R) {lab' : LargeEvenLabel}
@@ -38,7 +37,6 @@ theorem ggLabel_n_eq_of_twD (hRig : GGLabelRigidInput) {R : Type} [Group R] {b f
     | (subst h; rfl)
     | (exfalso; simp at h; done)
     | (exfalso; simp at h; omega)
-    | (obtain ⟨-, h2⟩ := h; subst h2; rfl)
 
 theorem ggRk1Concl_conj {p : ℕ} {G : Type} [Group G] [Finite G] {Bs X : Subgroup G}
     {r a : MulAut ↥Bs} (hr : GGRk1Concl p Bs X r) (ha : a ∈ ggAutomizer X Bs) :

@@ -344,7 +344,7 @@ theorem diagUnits_conj_rootGL (a b c : Kˣ) (t : K) :
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_diagUnits_eq, coe_diagUnits_eq, coe_rootGL, coe_rootGL]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]; ring
 
 theorem rootGL_mem_slPi (q : ℕ) (t : K) : rootGL t ∈ slPi true 3 q K := by
   rw [mem_slPi_true, coe_rootGL, det_fin_three]

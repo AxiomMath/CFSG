@@ -69,7 +69,7 @@ theorem cert_kernel_trivial [Finite G] (hc : CosetCert x v a b Ab Bb n par gen t
     have : Finite (closure ({a, b} : Set G) ⧸
         (fiveQ x v).subgroupOf (closure ({a, b} : Set G))) :=
       Nat.finite_of_card_ne_zero (by rw [hquot]; exact hc.pos.ne')
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd : 5 ^ k ∣ n := by
       have := card_subgroup_dvd_card P.toSubgroup
       rw [hk, hquot] at this

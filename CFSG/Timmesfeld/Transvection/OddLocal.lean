@@ -22,6 +22,7 @@ open CFSG.Timmesfeld.Transvection.Pres
 variable {H : Type} [Group H] {Δ : Set (Subgroup H)} {r : ℕ} {P Q : Fin r → Subgroup H}
   {k : Fin r} {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
 
+omit [Finite F] in
 theorem SURelations.HasFrameImages.map_su3Top_of_suLong {σ : F ≃+* F}
     {R : SURelations r σ H} (hR : R.HasFrameImages Δ P Q) (j : Fin r) {θ : SU σ 3 →* H}
     (hθ : ∀ c, σ c = c →
@@ -48,6 +49,7 @@ theorem SURelations.HasFrameImages.map_su3Top_of_suLong {σ : F ≃+* F}
       exact ⟨suLong σ (Sum.inr (0 : Fin (3 / 2))) c,
         (mem_su3Bot_iff (σ := σ)).2 ⟨c, hc, rfl⟩, (hθ c hc).2⟩
 
+omit [Finite F] [CharP F 2] in
 theorem commuting_map_heis_of_ne {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {θ : SU σ 3 →* H}
     (hθr : θ.range = residueGroup Δ P Q k) {i : Fin r} (hik : i ≠ k) :
     Commuting ((UC22.uc22pwsu3X hσ).map θ) (P i ⊔ Q i) :=
@@ -61,7 +63,7 @@ theorem map_heis_le_lineStab (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
     (hθb : (su3Bot (unitaryInvolution F 2 n)).map θ = E) {C : Subgroup H} (hC : C ∈ Δ)
     (hCA : C ≠ A) (hAC : Commuting A C) :
     (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ≤ lineStab Δ A C := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨s, hs, hsA, -, hK⟩ := exists_torus_map_heis hFn hn hθt hθb
   exact le_lineStab_of_forall_eq_commutatorElement h.cls h.points hML hA hE hEA hC hCA hAC hs
     hsA (fun y hy => conjSub_eq_of_mem_map_heis (unitaryInvolution_involutive hFn) hθt hy) hK
@@ -75,7 +77,7 @@ theorem IsFrame.sup_le_lineStab (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
     (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) ≤ lineStab Δ (P k) C := by
-  haveI := h.finite
+  have := h.finite
   refine sup_le ?_ (sup_le (sup_le ?_ ?_) ?_)
   · exact map_heis_le_lineStab h hML hFn (by
       by_contra hlt
@@ -101,7 +103,7 @@ theorem IsFrame.commuting_map_heis_shortRootGroup (h : TransvectionHyp H Δ)
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i)) ∧
       Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)
         (shortRootGroup Δ (P k) (Q k) (P i) (Q i)) := by
-  haveI := h.finite
+  have := h.finite
   have hn : 2 ≤ n := by
     by_contra hlt
     have h2 : 2 ^ n ≤ 2 := by
@@ -150,7 +152,7 @@ theorem IsFrame.map_heis_inf_sup_shortRootGroup (h : TransvectionHyp H Δ)
     (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊓
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) = P k := by
-  haveI := h.finite
+  have := h.finite
   refine le_antisymm ?_ ?_
   · intro w hw
     have hw' : w ∈ shortRootGroup Δ (Q i) (P i) (P k) (Q k) ⊔
@@ -176,7 +178,7 @@ theorem IsFrame.card_sup_shortRootGroup (h : TransvectionHyp H Δ)
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) =
       Nat.card ↥(shortRootGroup Δ (P k) (Q k) (Q i) (P i)) *
         Nat.card ↥(shortRootGroup Δ (P k) (Q k) (P i) (Q i)) * Nat.card (P k) := by
-  haveI := h.finite
+  have := h.finite
   have hcard := (hF.toPairFrame hik).card_sup_shortRootGroup h.cls h.points
     (hq (P i) (hF.memP i))
   simpa [shortRootGroup_swap_pairs (Q i) (P i) (P k) (Q k),
@@ -194,7 +196,7 @@ theorem IsFrame.card_map_heis_sup_mul (h : TransvectionHyp H Δ) (hML : MeetsLin
       Nat.card ↥((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ) *
         Nat.card ↥(shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) := by
-  haveI := h.finite
+  have := h.finite
   have hcomm := IsFrame.commuting_map_heis_sup h hML hq hF hFn hcard hθr hθt hθb hik
   have hprod := CFSG.CGT.PushingUpLit.SYMB.card_sup_mul_card_inf_of_commute
     (C := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)

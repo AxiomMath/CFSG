@@ -15,10 +15,12 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.ABGLocalTools (chiefAction chiefAction_mk chiefConj_apply_coe)
 
+omit [Finite G] in
 private theorem Lc_le_I49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hx : X = Subgroup.zpowers x) (j : ℕ) : Lc L x j ≤ I :=
   conjugate_le_I h (by rw [hx]; exact (Subgroup.zpowers x).pow_mem (Subgroup.mem_zpowers x) j)
 
+omit [Finite G] in
 private theorem chief_V_le49 {H X L Q I N M : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hx : X = Subgroup.zpowers x) (hch : HChief H N M) (V : ℕ → Subgroup G)
     (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) (j : ℕ) : V j ≤ N := by
@@ -49,6 +51,7 @@ private theorem chief_irr49 {H X L Q I N M : Subgroup G} (h : Setup49 H X L Q I)
     Subgroup.le_normalizer_iff_commutator_le_left.mpr hYQ
   exact (hchief i hi).2.2.2.2.2.2 Y hMY hYV (sup_le hNorm hQN)
 
+omit [Finite G] in
 private theorem comp_bar2_eq_one_iff49 {D : Subgroup G}
     (e : Bar2 D ≃* alternatingGroup (Fin 5)) (d : ↥D) :
     (e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥D))) d = 1 ↔
@@ -63,6 +66,7 @@ private theorem comp_bar2_eq_one_iff49 {D : Subgroup G}
     rw [show QuotientGroup.mk' (CFSG.pCore 2 ↥D) d = 1 from (QuotientGroup.eq_one_iff _).mpr hd,
       map_one]
 
+omit [Finite G] in
 private theorem comm_mem_of_V49 {N M : Subgroup G} (V : ℕ → Subgroup G)
     (hN : N = V 0 ⊔ V 1 ⊔ V 2) (hMV : ∀ j, M ≤ V j) (hVN : ∀ j, V j ≤ N)
     (hNM : N ≤ Subgroup.normalizer (M : Set G)) (hcomm : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ M) {d : G}
@@ -125,10 +129,10 @@ private def fixSub (ξ : MulAut W) : Subgroup W where
   carrier := {w | ξ w = w}
   one_mem' := map_one _
   mul_mem' := fun {u v} hu hv => by
-    simp only [Set.mem_setOf_eq] at hu hv ⊢
+    simp only [Set.mem_ofPred_eq] at hu hv ⊢
     rw [map_mul, hu, hv]
   inv_mem' := fun {u} hu => by
-    simp only [Set.mem_setOf_eq] at hu ⊢
+    simp only [Set.mem_ofPred_eq] at hu ⊢
     rw [map_inv, hu]
 
 private theorem mem_fixSub {ξ : MulAut W} {w : W} : w ∈ fixSub ξ ↔ ξ w = w := Iff.rfl
@@ -307,13 +311,13 @@ private noncomputable def Sec49.ofChief {H N M : Subgroup G} (hch : HChief H N M
     a := fun g => if hg : g ∈ H then chiefAction hch.2.1 hch.2.2.1 ⟨g, hg⟩ else 1
     a_mul := by
       intro g g' hg hg'
-      rw [dif_pos (H.mul_mem hg hg'), dif_pos hg, dif_pos hg']
+      rw [dite_eq_left (H.mul_mem hg hg'), dite_eq_left hg, dite_eq_left hg']
       have hmul : (⟨g * g', H.mul_mem hg hg'⟩ : ↥H) = ⟨g, hg⟩ * ⟨g', hg'⟩ := rfl
       rw [hmul]
       exact map_mul _ _ _
     a_proj := by
       intro g hg n
-      rw [dif_pos hg]
+      rw [dite_eq_left hg]
       exact (chiefAction_mk hch.2.1 hch.2.2.1 ⟨g, hg⟩ n).trans
         (congrArg _ (Subtype.ext (chiefConj_apply_coe hch.2.1 _ _))) }
 
@@ -324,25 +328,30 @@ variable {H N M : Subgroup G}
 private def Sec49.img (S : Sec49 H N M) (T : Subgroup G) : Subgroup S.W :=
   (T.subgroupOf N).map S.proj
 
+omit [Finite G] in
 private theorem Sec49.mem_img (S : Sec49 H N M) {T : Subgroup G} {w : S.W} :
     w ∈ S.img T ↔ ∃ n : ↥N, (n : G) ∈ T ∧ S.proj n = w := by
   simp only [Sec49.img, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem Sec49.proj_eq_one_iff (S : Sec49 H N M) {n : ↥N} :
     S.proj n = 1 ↔ (n : G) ∈ M := by
   rw [← MonoidHom.mem_ker, S.ker, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem Sec49.proj_eq_iff (S : Sec49 H N M) {n n' : ↥N} :
     S.proj n = S.proj n' ↔ (n : G)⁻¹ * n' ∈ M := by
   rw [← inv_mul_eq_one, ← map_inv, ← map_mul, S.proj_eq_one_iff]
   rfl
 
+omit [Finite G] in
 private theorem Sec49.img_mono (S : Sec49 H N M) {T T' : Subgroup G} (h : T ≤ T') :
     S.img T ≤ S.img T' := by
   intro w hw
   obtain ⟨n, hn, rfl⟩ := S.mem_img.mp hw
   exact S.mem_img.mpr ⟨n, h hn, rfl⟩
 
+omit [Finite G] in
 private theorem Sec49.img_eq_bot_iff (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤ N) :
     S.img T = ⊥ ↔ T ≤ M := by
   constructor
@@ -355,20 +364,24 @@ private theorem Sec49.img_eq_bot_iff (S : Sec49 H N M) {T : Subgroup G} (hT : T 
     obtain ⟨n, hn, rfl⟩ := S.mem_img.mp hw
     exact S.proj_eq_one_iff.mpr (h hn)
 
+omit [Finite G] in
 private theorem Sec49.img_M (S : Sec49 H N M) : S.img M = ⊥ :=
   (S.img_eq_bot_iff S.MN).mpr le_rfl
 
+omit [Finite G] in
 private theorem Sec49.img_N (S : Sec49 H N M) : S.img N = ⊤ := by
   rw [eq_top_iff]
   intro w _
   obtain ⟨n, rfl⟩ := S.surj w
   exact S.mem_img.mpr ⟨n, n.2, rfl⟩
 
+omit [Finite G] in
 private theorem Sec49.img_sup (S : Sec49 H N M) {T T' : Subgroup G} (hT : T ≤ N)
     (hT' : T' ≤ N) : S.img (T ⊔ T') = S.img T ⊔ S.img T' := by
   rw [Sec49.img, Sec49.img, Sec49.img, Subgroup.subgroupOf_sup hT hT', Subgroup.map_sup]
 
-private theorem Sec49.img_inf (S : Sec49 H N M) {T T' : Subgroup G} (hM : M ≤ T)
+omit [Finite G] in
+private theorem Sec49.img_inf (S : Sec49 H N M) {T T' : Subgroup G} (_hM : M ≤ T)
     (hM' : M ≤ T') : S.img (T ⊓ T') = S.img T ⊓ S.img T' := by
   refine le_antisymm (le_inf (S.img_mono inf_le_left) (S.img_mono inf_le_right)) ?_
   rintro w ⟨hw, hw'⟩
@@ -380,12 +393,14 @@ private theorem Sec49.img_inf (S : Sec49 H N M) {T T' : Subgroup G} (hM : M ≤ 
     simpa using this
   exact S.mem_img.mpr ⟨n, ⟨hn, hnT'⟩, rfl⟩
 
+omit [Finite G] in
 private theorem Sec49.card_img (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤ N) :
     Nat.card (S.img T) = M.relIndex T := by
   have h := Subgroup.relIndex_ker (T.subgroupOf N) S.proj
   rw [S.ker, Subgroup.relIndex_subgroupOf hT] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem Sec49.proj_mem_img_iff (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤ N)
     {n : ↥N} : S.proj n ∈ S.img T ↔ (n : G) ∈ T ⊔ M := by
   constructor
@@ -398,10 +413,12 @@ private theorem Sec49.proj_mem_img_iff (S : Sec49 H N M) {T : Subgroup G} (hT : 
     have h1 : S.proj n ∈ S.img (T ⊔ M) := S.mem_img.mpr ⟨n, h, rfl⟩
     rwa [S.img_sup hT S.MN, S.img_M, sup_bot_eq] at h1
 
+omit [Finite G] in
 private theorem Sec49.a_one (S : Sec49 H N M) : S.a 1 = 1 := by
   have h := S.a_mul 1 1 H.one_mem H.one_mem
   simpa using h
 
+omit [Finite G] in
 private theorem Sec49.a_inv (S : Sec49 H N M) {g : G} (hg : g ∈ H) :
     S.a g⁻¹ = (S.a g)⁻¹ := by
   have h := S.a_mul g⁻¹ g (H.inv_mem hg) hg
@@ -419,9 +436,11 @@ private def Sec49.stab (S : Sec49 H N M) (w : S.W) : Subgroup G where
 
 private def Sec49.fix (S : Sec49 H N M) (g : G) : Subgroup S.W := fixSub (S.a g)
 
+omit [Finite G] in
 private theorem Sec49.mem_fix (S : Sec49 H N M) {g : G} {w : S.W} :
     w ∈ S.fix g ↔ S.a g w = w := Iff.rfl
 
+omit [Finite G] in
 private theorem Sec49.a_eq_iff (S : Sec49 H N M) {g : G} (hg : g ∈ H) (n : ↥N) :
     S.a g (S.proj n) = S.proj n ↔ ⁅(n : G), g⁆ ∈ M := by
   rw [S.a_proj g hg n, S.proj_eq_iff]
@@ -438,6 +457,7 @@ private theorem Sec49.a_eq_iff (S : Sec49 H N M) {g : G} (hg : g ∈ H) (n : ↥
     have := S.HM n⁻¹ (H.inv_mem (S.NH n.2)) _ h
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem mem_normalizer_inf' {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -445,6 +465,7 @@ private theorem mem_normalizer_inf' {A B : Subgroup G} {g : G}
   intro x
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA x, hB x]
 
+omit [Finite G] in
 private theorem Sec49.mem_normalizer_M (S : Sec49 H N M) {g : G} (hg : g ∈ H) :
     g ∈ Subgroup.normalizer (M : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -452,6 +473,7 @@ private theorem Sec49.mem_normalizer_M (S : Sec49 H N M) {g : G} (hg : g ∈ H) 
   refine ⟨S.HM g hg m, fun h => ?_⟩
   simpa [mul_assoc] using S.HM g⁻¹ (H.inv_mem hg) _ h
 
+omit [Finite G] in
 private theorem Sec49.proj_mem_fix (S : Sec49 H N M) {g : G} (hg : g ∈ H) (n : ↥N)
     (hc : (n : G) ∈ Subgroup.centralizer ({g} : Set G)) : S.proj n ∈ S.fix g := by
   rw [S.mem_fix, S.a_proj g hg n]
@@ -461,7 +483,8 @@ private theorem Sec49.proj_mem_fix (S : Sec49 H N M) {g : G} (hg : g ∈ H) (n :
   show g * (n : G) * g⁻¹ = n
   rw [h1, mul_inv_cancel_right]
 
-private theorem Sec49.comm_mem_inf (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤ N) {g : G}
+omit [Finite G] in
+private theorem Sec49.comm_mem_inf (S : Sec49 H N M) {T : Subgroup G} (_hT : T ≤ N) {g : G}
     (hg : g ∈ H) (hgT : g ∈ Subgroup.normalizer (T : Set G)) {n : ↥N} (hn : (n : G) ∈ T)
     (hf : S.a g (S.proj n) = S.proj n) : g * (n : G) * g⁻¹ * (n : G)⁻¹ ∈ T ⊓ M := by
   refine ⟨T.mul_mem ((Subgroup.mem_normalizer_iff.mp hgT _).mp hn) (T.inv_mem hn), ?_⟩
@@ -474,8 +497,8 @@ private theorem Sec49.exists_centralizer_rep (S : Sec49 H N M) {T : Subgroup G} 
     (hgT : g ∈ Subgroup.normalizer (T : Set G)) {n : ↥N} (hn : (n : G) ∈ T)
     (hf : S.a g (S.proj n) = S.proj n) :
     ∃ c : ↥N, (c : G) ∈ T ⊓ Subgroup.centralizer ({g} : Set G) ∧ S.proj c = S.proj n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT2.isNilpotent
   have hgD : Subgroup.zpowers g ≤ Subgroup.normalizer (T : Set G) :=
     Subgroup.zpowers_le.mpr hgT
   have hgTM : g ∈ Subgroup.normalizer ((T ⊓ M : Subgroup G) : Set G) :=
@@ -519,6 +542,7 @@ private theorem Sec49.img_inf_fix (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤
     obtain ⟨n, hn, rfl⟩ := S.mem_img.mp hw
     exact ⟨S.mem_img.mpr ⟨n, hn.1, rfl⟩, S.proj_mem_fix hg n hn.2⟩
 
+omit [Finite G] in
 private theorem Sec49.a_mem_img (S : Sec49 H N M) {T : Subgroup G} {g : G} (hg : g ∈ H)
     (hgT : g ∈ Subgroup.normalizer (T : Set G)) {w : S.W} (hw : w ∈ S.img T) :
     S.a g w ∈ S.img T := by
@@ -529,6 +553,7 @@ private theorem Sec49.a_mem_img (S : Sec49 H N M) {T : Subgroup G} {g : G} (hg :
 private def Sec49.pre (S : Sec49 H N M) (Y : Subgroup S.W) : Subgroup G :=
   (Y.comap S.proj).map N.subtype
 
+omit [Finite G] in
 private theorem Sec49.mem_pre (S : Sec49 H N M) {Y : Subgroup S.W} {n : G} :
     n ∈ S.pre Y ↔ ∃ hn : n ∈ N, S.proj ⟨n, hn⟩ ∈ Y := by
   simp only [Sec49.pre, Subgroup.mem_map, Subgroup.mem_comap, Subgroup.coe_subtype]
@@ -538,9 +563,11 @@ private theorem Sec49.mem_pre (S : Sec49 H N M) {Y : Subgroup S.W} {n : G} :
   · rintro ⟨hn, h⟩
     exact ⟨⟨n, hn⟩, h, rfl⟩
 
+omit [Finite G] in
 private theorem Sec49.le_pre (S : Sec49 H N M) (Y : Subgroup S.W) : M ≤ S.pre Y := fun m hm =>
   S.mem_pre.mpr ⟨S.MN hm, by rw [(S.proj_eq_one_iff).mpr hm]; exact Y.one_mem⟩
 
+omit [Finite G] in
 private theorem Sec49.img_pre (S : Sec49 H N M) (Y : Subgroup S.W) : S.img (S.pre Y) = Y := by
   ext w
   constructor
@@ -552,6 +579,7 @@ private theorem Sec49.img_pre (S : Sec49 H N M) (Y : Subgroup S.W) : S.img (S.pr
     obtain ⟨n, rfl⟩ := S.surj w
     exact S.mem_img.mpr ⟨n, S.mem_pre.mpr ⟨n.2, hw⟩, rfl⟩
 
+omit [Finite G] in
 private theorem Sec49.irr_img (S : Sec49 H N M) {T D : Subgroup G} (hMT : M ≤ T) (hT : T ≤ N)
     (hD : D ≤ H)
     (hirr : ∀ Y : Subgroup G, M ≤ Y → Y ≤ T →
@@ -581,6 +609,7 @@ private theorem Sec49.irr_img (S : Sec49 H N M) {T D : Subgroup G} (hMT : M ≤ 
   · right
     rw [← S.img_pre Y, h]
 
+omit [Finite G] in
 private theorem Sec49.a_cube (S : Sec49 H N M) {g : G} (hg : g ∈ H) (hg3 : g ^ 3 = 1)
     (w : S.W) : S.a g (S.a g (S.a g w)) = w := by
   have h : S.a g * (S.a g * S.a g) = 1 := by
@@ -589,11 +618,13 @@ private theorem Sec49.a_cube (S : Sec49 H N M) {g : G} (hg : g ∈ H) (hg3 : g ^
   have := congrArg (fun φ : MulAut S.W => φ w) h
   simpa [MulAut.mul_apply] using this
 
+omit [Finite G] in
 private theorem Sec49.a_comm (S : Sec49 H N M) {g g' : G} (hg : g ∈ H) (hg' : g' ∈ H)
     (hcomm : g * g' = g' * g) (w : S.W) : S.a g (S.a g' w) = S.a g' (S.a g w) := by
   have h := congrArg (fun y => S.a y w) hcomm
   simpa [S.a_mul g g' hg hg', S.a_mul g' g hg' hg, MulAut.mul_apply] using h
 
+omit [Finite G] in
 private theorem Sec49.fixes_img_iff (S : Sec49 H N M) {T : Subgroup G} (hT : T ≤ N) {g : G}
     (hg : g ∈ H) : (∀ w ∈ S.img T, S.a g w = w) ↔ ∀ n ∈ T, ⁅n, g⁆ ∈ M := by
   constructor
@@ -613,9 +644,11 @@ private def Sec49.kerOn (S : Sec49 H N M) (D : Subgroup G) (hD : D ≤ H) (Y : S
     rw [S.a_inv (hD hg.1)]
     exact (MulEquiv.symm_apply_eq _).mpr (hg.2 w hw).symm⟩
 
+omit [Finite G] in
 private theorem Sec49.mem_kerOn (S : Sec49 H N M) {D : Subgroup G} {hD : D ≤ H}
     {Y : Subgroup S.W} {g : G} : g ∈ S.kerOn D hD Y ↔ g ∈ D ∧ ∀ w ∈ Y, S.a g w = w := Iff.rfl
 
+omit [Finite G] in
 private theorem Sec49.le_normalizer_kerOn (S : Sec49 H N M) {D : Subgroup G} (hD : D ≤ H)
     {Y : Subgroup S.W} (hY : ∀ g ∈ D, ∀ w ∈ Y, S.a g w ∈ Y) :
     D ≤ Subgroup.normalizer (S.kerOn D hD Y : Set G) := by
@@ -669,40 +702,50 @@ section Ctx49
 
 variable {H X L Q I N M : Subgroup G} {x : G} {V : ℕ → Subgroup G}
 
+omit [Finite G] in
 private theorem Ctx49.x_mem (c : Ctx49 H X L Q I N M x V) : x ∈ X :=
   c.gen ▸ Subgroup.mem_zpowers x
 
+omit [Finite G] in
 private theorem Ctx49.x_H (c : Ctx49 H X L Q I N M x V) : x ∈ H := c.setup.X_le c.x_mem
 
+omit [Finite G] in
 private theorem Ctx49.x_cube (c : Ctx49 H X L Q I N M x V) : x ^ 3 = 1 := by
   rw [← orderOf_eq_three_of_zpowers c.gen c.setup.card_X]
   exact pow_orderOf_eq_one x
 
+omit [Finite G] in
 private theorem Ctx49.Q_H (c : Ctx49 H X L Q I N M x V) : Q ≤ H := Q_le_H49 c.setup
 
+omit [Finite G] in
 private theorem Ctx49.N_H (c : Ctx49 H X L Q I N M x V) : N ≤ H := c.NQ.trans c.Q_H
 
 private theorem Ctx49.Q_two (c : Ctx49 H X L Q I N M x V) : IsPGroup 2 ↥Q := by
   rw [c.setup.Q_eq]
   exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
 
+omit [Finite G] in
 private theorem Ctx49.Lc_I (c : Ctx49 H X L Q I N M x V) (j : ℕ) : Lc L x j ≤ I :=
   Lc_le_I49 c.setup c.gen j
 
+omit [Finite G] in
 private theorem Ctx49.M_V (c : Ctx49 H X L Q I N M x V) (j : ℕ) : M ≤ V j := by
   rw [c.hV j]
   exact le_sup_right
 
+omit [Finite G] in
 private theorem Ctx49.V_N (c : Ctx49 H X L Q I N M x V) (j : ℕ) : V j ≤ N :=
   chief_V_le49 c.setup c.gen c.chief V c.hV j
 
 private theorem Ctx49.V_two (c : Ctx49 H X L Q I N M x V) (j : ℕ) : IsPGroup 2 ↥(V j) :=
   c.Q_two.to_le ((c.V_N j).trans c.NQ)
 
+omit [Finite G] in
 private theorem Ctx49.Lc_period (c : Ctx49 H X L Q I N M x V) (j : ℕ) :
     Lc L x (j + 3) = Lc L x j := by
   rw [Lc, Lc, pow_add, c.x_cube, mul_one]
 
+omit [Finite G] in
 private theorem Ctx49.V_period (c : Ctx49 H X L Q I N M x V) (j : ℕ) : V (j + 3) = V j := by
   rw [c.hV, c.hV, c.Lc_period]
 
@@ -711,6 +754,7 @@ private theorem Ctx49.I_eq (c : Ctx49 H X L Q I N M x V) :
   rw [I_eq_sup_conjugates49 c.setup c.x_mem c.gen]
   simp only [Lc, pow_zero, pow_one, conjugate_one]
 
+omit [Finite G] in
 private theorem Ctx49.Lc_norm_V (c : Ctx49 H X L Q I N M x V) {i j : ℕ} (hi : i < 3)
     (hj : j < 3) : Lc L x j ≤ Subgroup.normalizer (V i : Set G) := by
   by_cases hij : j = i
@@ -725,6 +769,7 @@ private theorem Ctx49.I_norm_V (c : Ctx49 H X L Q I N M x V) {i : ℕ} (hi : i <
   exact sup_le (sup_le (c.Lc_norm_V hi (by norm_num)) (c.Lc_norm_V hi (by norm_num)))
     (c.Lc_norm_V hi (by norm_num))
 
+omit [Finite G] in
 private theorem Ctx49.conj_mem_V (c : Ctx49 H X L Q I N M x V) (j : ℕ) {n : G}
     (hn : n ∈ V j) : x⁻¹ * n * x⁻¹⁻¹ ∈ V (j + 1) := by
   have hN : N.map (MulAut.conj x⁻¹).toMonoidHom = N :=
@@ -739,6 +784,7 @@ private theorem Ctx49.conj_mem_V (c : Ctx49 H X L Q I N M x V) (j : ℕ) {n : G}
   have : (MulAut.conj x⁻¹) n ∈ V (j + 1) := hmap ▸ Subgroup.mem_map_of_mem _ hn
   simpa [MulAut.conj_apply] using this
 
+omit [Finite G] in
 private theorem Ctx49.V_mod (c : Ctx49 H X L Q I N M x V) (j : ℕ) : V j = V (j % 3) := by
   induction j using Nat.strong_induction_on with
   | _ j ih =>
@@ -747,6 +793,7 @@ private theorem Ctx49.V_mod (c : Ctx49 H X L Q I N M x V) (j : ℕ) : V j = V (j
     · obtain ⟨k, rfl⟩ : ∃ k, j = k + 3 := ⟨j - 3, by omega⟩
       rw [c.V_period, ih k (by omega), Nat.add_mod_right]
 
+omit [Finite G] in
 private theorem Ctx49.V_top (c : Ctx49 H X L Q I N M x V) (j : ℕ) :
     V j ⊔ V (j + 1) ⊔ V (j + 2) = N := by
   rw [c.V_mod j, c.V_mod (j + 1), c.V_mod (j + 2)]
@@ -757,6 +804,7 @@ private theorem Ctx49.V_top (c : Ctx49 H X L Q I N M x V) (j : ℕ) :
   · rw [h, show (j + 1) % 3 = 0 by omega, show (j + 2) % 3 = 1 by omega, c.dec]
     ac_rfl
 
+omit [Finite G] in
 private theorem Ctx49.V_dir (c : Ctx49 H X L Q I N M x V) (j : ℕ) :
     V j ⊓ (V (j + 1) ⊔ V (j + 2)) = M := by
   rw [c.V_mod j, c.V_mod (j + 1), c.V_mod (j + 2)]
@@ -778,6 +826,7 @@ private structure Cyc49 {H N M : Subgroup G} (S : Sec49 H N M) (x : G)
   top : ∀ j, S.img (V j) ⊔ S.img (V (j + 1)) ⊔ S.img (V (j + 2)) = ⊤
   dir : ∀ j, S.img (V j) ⊓ (S.img (V (j + 1)) ⊔ S.img (V (j + 2))) = ⊥
 
+omit [Finite G] in
 private theorem Ctx49.cyc {H X L Q I N M : Subgroup G} {x : G} {V : ℕ → Subgroup G}
     (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M) : Cyc49 S x V where
   cube := S.a_cube (H.inv_mem c.x_H) (by rw [inv_pow, c.x_cube, inv_one])
@@ -807,11 +856,13 @@ private structure KData49 (X I Q K E : Subgroup G) : Prop where
   ord3 : ∀ z ∈ K, orderOf z = 3 → Nat.card ↥(E ⊓ Subgroup.centralizer ({z} : Set G)) = 8
   card_K : Nat.card K = 60 * Nat.card E
 
+omit [Finite G] in
 private theorem KI_le_centralizer_inf49 (X I : Subgroup G) :
     KI X I ≤ Subgroup.centralizer (X : Set G) ⊓ I := by
   rw [KI]
   exact CFSG.Quasithin.perfectCore_le _
 
+omit [Finite G] in
 private theorem card_KI49 {X I Q : Subgroup G} (halt : IsAlt (Bar2 (KI X I)) 5)
     (hpc : KI X I ⊓ Q = CFSG.Open.pCoreOf 2 (KI X I)) :
     Nat.card ↥(KI X I) = 60 * Nat.card ↥(KI X I ⊓ Q) := by
@@ -833,10 +884,11 @@ private theorem kdata49 (hI : Inputs49) {H X L Q I : Subgroup G} (h : Setup49 H 
   · exact Subgroup.commutator_le.mp hcomm m hm k hk
   · exact card_KI49 halt hpc
 
+omit [Finite G] in
 private theorem relIndex_sup_of_le_normalizer {K C : Subgroup G}
     (hK : K ≤ Subgroup.normalizer (C : Set G)) : C.relIndex (K ⊔ C) = C.relIndex K := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hK
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hK
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
   exact (Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient K C hK).toEquiv).symm
 
 private theorem sup_eq_of_relIndex_eq {K L C I : Subgroup G}
@@ -861,13 +913,16 @@ variable {H X L Q I N M K E : Subgroup G} {x : G} {V : ℕ → Subgroup G}
 private theorem Ctx49.N_two (c : Ctx49 H X L Q I N M x V) : IsPGroup 2 ↥N :=
   c.Q_two.to_le c.NQ
 
+omit [Finite G] in
 private theorem Ctx49.I_H (c : Ctx49 H X L Q I N M x V) : I ≤ H := I_le_H c.setup
 
+omit [Finite G] in
 private theorem mem_centralizer_zpowers_iff' {x g : G} :
     g ∈ Subgroup.centralizer (Subgroup.zpowers x : Set G) ↔ g * x = x * g := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure,
     Subgroup.mem_centralizer_singleton_iff]
 
+omit [Finite G] in
 private theorem Ctx49.mem_centralizer_X_iff (c : Ctx49 H X L Q I N M x V) {g : G} :
     g ∈ Subgroup.centralizer (X : Set G) ↔ g * x⁻¹ = x⁻¹ * g := by
   rw [c.gen, mem_centralizer_zpowers_iff']
@@ -879,6 +934,7 @@ private theorem Ctx49.a_mem_P (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M) {i
     S.a g w ∈ S.img (V i) :=
   S.a_mem_img (c.I_H hg) (c.I_norm_V hi hg) hw
 
+omit [Finite G] in
 private theorem Ctx49.a_triv_of_ne (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M) {i j : ℕ}
     (hi : i < 3) (hj : j < 3) (hij : i ≠ j) {g : G} (hg : g ∈ Lc L x j) {w : S.W}
     (hw : w ∈ S.img (V i)) : S.a g w = w := by
@@ -886,6 +942,7 @@ private theorem Ctx49.a_triv_of_ne (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N 
   exact (S.a_eq_iff (c.I_H (c.Lc_I j hg)) n).mpr
     (c.triv i j hi hj hij (Subgroup.commutator_mem_commutator hn hg))
 
+omit [Finite G] in
 private theorem Ctx49.a_nontrivial (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M) {i : ℕ}
     (hi : i < 3) : ∃ l ∈ Lc L x i, ∃ w ∈ S.img (V i), S.a l w ≠ w := by
   obtain ⟨φ, hφs, hφk⟩ := c.phi i hi
@@ -897,6 +954,7 @@ private theorem Ctx49.a_nontrivial (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N 
   refine ⟨d, d.2, S.proj ⟨n, c.V_N i hn⟩, S.mem_img.mpr ⟨_, hn, rfl⟩, fun h => hnM ?_⟩
   exact (S.a_eq_iff (c.I_H (c.Lc_I i d.2)) ⟨n, c.V_N i hn⟩).mp h
 
+omit [Finite G] in
 private theorem Ctx49.fixes_P_of_fixes_P (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M)
     {i j : ℕ} (hi : i < 3) (hj : j < 3) {k : G} (hkH : k ∈ H) (hkx : k * x⁻¹ = x⁻¹ * k)
     (hk : ∀ w ∈ S.img (V i), S.a k w = w) : ∀ w ∈ S.img (V j), S.a k w = w := by
@@ -921,6 +979,7 @@ private theorem Ctx49.I_eq_Lc_sup (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M
   refine le_antisymm (c.I_eq.le.trans (sup_le (sup_le (hle 0 (by norm_num))
     (hle 1 (by norm_num))) (hle 2 (by norm_num)))) (sup_le (c.Lc_I i) fun g hg => hg.1)
 
+omit [Finite G] in
 private theorem Ctx49.K_inf_kerOn (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K E)
     (S : Sec49 H N M) {i : ℕ} (hi : i < 3) : K ⊓ S.kerOn I c.I_H (S.img (V i)) = E := by
   refine le_antisymm ?_ fun e he => ?_
@@ -937,6 +996,7 @@ private theorem Ctx49.K_inf_kerOn (c : Ctx49 H X L Q I N M x V) (kd : KData49 X 
     refine ⟨he.1, kd.K_I he.1, (S.fixes_img_iff (c.V_N i) (c.I_H (kd.K_I he.1))).mpr fun n hn => ?_⟩
     exact c.NQM (Subgroup.commutator_mem_commutator (c.V_N i hn) he.2)
 
+omit [Finite G] in
 private theorem KData49.E_K (kd : KData49 X I Q K E) : E ≤ K := kd.E_eq ▸ inf_le_left
 
 private theorem Ctx49.relIndex_kerOn_K (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K E)
@@ -949,6 +1009,7 @@ private theorem Ctx49.relIndex_kerOn_K (c : Ctx49 H X L Q I N M x V) (kd : KData
   rw [h1]
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos h2
 
+omit [Finite G] in
 private theorem Ctx49.relIndex_kerOn_Lc (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M)
     {i : ℕ} (hi : i < 3) : (S.kerOn I c.I_H (S.img (V i))).relIndex (Lc L x i) = 60 := by
   obtain ⟨φ, hφs, hφk⟩ := c.phi i hi
@@ -978,10 +1039,12 @@ private theorem Ctx49.transfer (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q
   refine ⟨k, hk, fun w hw => ?_⟩
   rw [S.a_mul k y (c.I_H (kd.K_I hk)) (c.I_H hy.1), MulAut.mul_apply, hy.2 w hw]
 
+omit [Finite G] in
 private theorem Ctx49.K_norm_EN (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K E) {k : G}
     (hk : k ∈ K) : k ∈ Subgroup.normalizer ((E ⊓ N : Subgroup G) : Set G) :=
   mem_normalizer_inf' (kd.K_E hk) (c.chief.2.1 (c.I_H (kd.K_I hk)))
 
+omit [Finite G] in
 private theorem Ctx49.K_comm_xinv (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K E)
     {k : G} (hk : k ∈ K) : k * x⁻¹ = x⁻¹ * k :=
   c.mem_centralizer_X_iff.mp (kd.K_cent hk)
@@ -1004,6 +1067,7 @@ private theorem Ctx49.K_trivial_mod (c : Ctx49 H X L Q I N M x V) (kd : KData49 
     (S.HN k hkH n n.2) (N.inv_mem n.2)⟩, ?_⟩
   rw [map_mul, map_inv, S.a_proj k hkH n]
 
+omit [Finite G] in
 private theorem Ctx49.img_EN_le_fix (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K E)
     (S : Sec49 H N M) : S.img (E ⊓ N) ≤ S.fix x⁻¹ := by
   intro w hw
@@ -1124,11 +1188,13 @@ private theorem Ctx49.card_P (c : Ctx49 H X L Q I N M x V) (kd : KData49 X I Q K
     kd.q8d8.facts.1] at h
   omega
 
+omit [Finite G] in
 private theorem Sec49.a_mul₃ (S : Sec49 H N M) {g₀ g₁ g₂ : G} (h₀ : g₀ ∈ H) (h₁ : g₁ ∈ H)
     (h₂ : g₂ ∈ H) (w : S.W) : S.a (g₀ * g₁ * g₂) w = S.a g₀ (S.a g₁ (S.a g₂ w)) := by
   rw [S.a_mul (g₀ * g₁) g₂ (H.mul_mem h₀ h₁) h₂, S.a_mul g₀ g₁ h₀ h₁]
   rfl
 
+omit [Finite G] in
 private theorem Sec49.inf_fix_eq_of_act_eq (S : Sec49 H N M) {P : Subgroup S.W} {g g' : G}
     (h : ∀ w ∈ P, S.a g w = S.a g' w) : P ⊓ S.fix g = P ⊓ S.fix g' := by
   ext w
@@ -1154,6 +1220,7 @@ private theorem Sec49.relIndex_sup_centralizer (S : Sec49 H N M) {T : Subgroup G
   rw [S.img_inf_fix hT hT2 hg hg3 hgT, ← h2, S.card_img (hC.trans hT), mul_comm]
   exact h1
 
+omit [Finite G] in
 private theorem KData49.Z_le_centralizer (kd : KData49 X I Q K E) {z : G} (hz : z ∈ K) :
     E ⊓ Subgroup.centralizer (E : Set G) ≤ Subgroup.centralizer ({z} : Set G) := by
   intro u hu
@@ -1161,6 +1228,7 @@ private theorem KData49.Z_le_centralizer (kd : KData49 X I Q K E) {z : G} (hz : 
   rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h
   exact Subgroup.mem_centralizer_singleton_iff.mpr h.symm
 
+omit [Finite G] in
 private theorem KData49.relIndex_inf_cent (kd : KData49 X I Q K E)
     (hEM : E ⊓ M = E ⊓ Subgroup.centralizer (E : Set G)) {z : G} (hz : z ∈ K)
     (hz3 : orderOf z = 3) : M.relIndex (E ⊓ Subgroup.centralizer ({z} : Set G)) = 4 := by
@@ -1221,22 +1289,26 @@ private theorem Ctx49.act_z_eq_d (c : Ctx49 H X L Q I N M x V) (S : Sec49 H N M)
 
 end Action
 
+omit [Finite G] in
 private theorem orderOf_cj (g a : G) : orderOf (cj g a) = orderOf a := by
   have h := orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective a
   simpa [MulAut.conj_apply] using h
 
+omit [Finite G] in
 private theorem gen_mem_A {X L I A : Subgroup G} {x a n : G} (hd : XAData X L I x A a n) :
     a ∈ A ∧ cj x a ∈ A ∧ cj (x ^ 2) a ∈ A :=
   ⟨hd.gen ▸ Subgroup.subset_closure (by simp), hd.gen ▸ Subgroup.subset_closure (by simp),
     hd.gen ▸ Subgroup.subset_closure (by simp)⟩
 
+omit [Finite G] in
 private theorem z_mem_A {X L I A : Subgroup G} {x a n : G} (hd : XAData X L I x A a n) :
     a * cj x a * cj (x ^ 2) a ∈ A :=
   A.mul_mem (A.mul_mem (gen_mem_A hd).1 (gen_mem_A hd).2.1) (gen_mem_A hd).2.2
 
+omit [Finite G] in
 private theorem z_mem_Z49 {X L I A : Subgroup G} {x a n : G} (hx : X = Subgroup.zpowers x)
     (hx3 : x ^ 3 = 1) (hd : XAData X L I x A a n) : a * cj x a * cj (x ^ 2) a ∈ Z49 X A := by
-  haveI := hd.reg.2.1.1
+  have := hd.reg.2.1.1
   obtain ⟨haA, hbA, hcA⟩ := gen_mem_A hd
   refine ⟨z_mem_A hd, ?_⟩
   show a * cj x a * cj (x ^ 2) a ∈ Subgroup.centralizer (X : Set G)
@@ -1253,6 +1325,7 @@ private theorem z_mem_Z49 {X L I A : Subgroup G} {x a n : G} (hx : X = Subgroup.
   calc _ = x * (x⁻¹ * (a * cj x a * cj (x ^ 2) a) * x) := by group
     _ = _ := by rw [h1]
 
+omit [Finite G] in
 private theorem orderOf_z {X L I A : Subgroup G} {x a n : G} (hd : XAData X L I x A a n) :
     orderOf (a * cj x a * cj (x ^ 2) a) = 3 := by
   have h3 : (a * cj x a * cj (x ^ 2) a) ^ 3 = 1 := hd.reg.2.1.2 _ (z_mem_A hd)

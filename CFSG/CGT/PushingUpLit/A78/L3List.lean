@@ -89,7 +89,7 @@ theorem L3Local.endgame (h : L3Local G J V V₂ Z e) (hSCL : SimpleCaseListStmt)
     simpa using S.card_eq_multiplicity
   have center_card : ∀ S : Sylow 2 G, Nat.card (Subgroup.center (S : Subgroup G)) = 2 ^ e := by
     intro S
-    rw [card_center_eq_of_sylow S.isPGroup' S.not_dvd_index h.pgroup h.odd_index]
+    rw [card_center_eq_of_sylow S.isPGroup S.not_dvd_index h.pgroup h.odd_index]
     exact h.card_center_J
   have sylow_case : (∃ S : Sylow 2 G, (S : Subgroup G) = V) → False := by
     rintro ⟨S, hS⟩

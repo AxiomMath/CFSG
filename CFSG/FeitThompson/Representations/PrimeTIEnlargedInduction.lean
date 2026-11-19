@@ -113,10 +113,10 @@ theorem cfInner_self_prodCharDiff [Fintype ↥(W₁ ⊔ W₂)] {z : Irr ↥W₁ 
   have e3 := hW.cfInner_prodChar (principalIrr ↥W₁) z.1 z.2 z.2
   have e4 := hW.cfInner_prodChar (principalIrr ↥W₁) (principalIrr ↥W₁) z.2 z.2
   rw [coe_principalIrr] at e2 e3 e4
-  rw [if_pos rfl] at e1
-  rw [if_neg (by simp [Prod.ext_iff, hz])] at e2
-  rw [if_neg (by simp [Prod.ext_iff, Ne.symm hz])] at e3
-  rw [if_pos rfl] at e4
+  rw [ite_eq_left rfl] at e1
+  rw [ite_eq_right (by simp [Prod.ext_iff, hz])] at e2
+  rw [ite_eq_right (by simp [Prod.ext_iff, Ne.symm hz])] at e3
+  rw [ite_eq_left rfl] at e4
   rw [e1, e2, e3, e4]
   ring
 

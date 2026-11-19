@@ -15,12 +15,12 @@ theorem k331At_of_overgroups {L : Type} [Group L] [Finite L] (hs : IsSimpleGroup
   by_cases hKtop : K = ⊤
   · exact Or.inl hKtop
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨hle, hP, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT
     have hd : 20160 ∣ Nat.card K := dvd_card_of_isAlt_eight hK
     have hN : Subgroup.normalizer (K : Set L) ≠ ⊤ := by
       intro hN
-      haveI : K.Normal := Subgroup.normalizer_eq_top_iff.mp hN
+      have : K.Normal := Subgroup.normalizer_eq_top_iff.mp hN
       rcases hs.eq_bot_or_eq_top_of_normal K with hb | ht
       · rw [hb, Subgroup.card_bot] at hd
         omega

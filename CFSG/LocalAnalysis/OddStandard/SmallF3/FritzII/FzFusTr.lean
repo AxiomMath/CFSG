@@ -16,7 +16,7 @@ theorem fzfus_S_eq [Finite G] {t : G} {L S T₂ : Subgroup G}
     {x₁ x₂ lam rho tau a₁₂ a₂₂ a₃₂ : G}
     (h : FzSetting7 t L S T₂ x₁ x₂ lam rho tau a₁₂ a₂₂ a₃₂) :
     S = T₂ ⊓ invCent t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSU : S ≤ T₂ ⊓ invCent t := le_inf h.isT2.S_le h.ctx.le_invCent
   refine le_antisymm hSU ?_
   have hU : IsPGroup 2 (T₂ ⊓ invCent t : Subgroup G) := h.isT2.isPGroup.to_le inf_le_left
@@ -49,9 +49,9 @@ theorem fzfus_transfer [Finite G] [IsSimpleGroup G] {T₂ : Subgroup G} (hT : Fz
     (φ : Model →* Z2) (hker : ∀ m, π m = 1 → φ m = 1) (hsurj : Function.Surjective φ)
     {t : G} (htT : t ∈ T₂) (ht2 : t * t = 1) :
     ∃ m : Model, φ m = 1 ∧ ∃ a : G, a⁻¹ * t * a = π m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   let P : Sylow 2 G := hT.1.toSylow hT.2
   have hindex : ((φ.ker).map π).relIndex (P : Subgroup G) = 2 :=
     fzfus_relIndex_two π hrange φ hker hsurj
@@ -61,7 +61,7 @@ theorem fzfus_transfer [Finite G] [IsSimpleGroup G] {T₂ : Subgroup G} (hT : Fz
     exact hne m (MonoidHom.mem_ker.mp hm) a hmπ.symm
   obtain ⟨X₀, hnorm, hidx, htX, -⟩ :=
     CFSG.Quasithin.thompson_transfer_index_two P hindex ht2 htT hQu
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal X₀ with hX | hX
   · rw [hX, Subgroup.index_bot] at hidx
     omega

@@ -37,7 +37,7 @@ theorem fourier_mul_cyc :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [fourierMat, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination hτ | linear_combination (-1 : K) * hτ |
+    first | linear_combination hτ | linear_combination (-1 : K) * hτ |
       linear_combination τ * hτ | linear_combination (-τ) * hτ |
       linear_combination τ ^ 2 * hτ | linear_combination (-τ ^ 2) * hτ |
       linear_combination (τ ^ 3 + 1) * hτ | linear_combination (-(τ ^ 3 + 1)) * hτ

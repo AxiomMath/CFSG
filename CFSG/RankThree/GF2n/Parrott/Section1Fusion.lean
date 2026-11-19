@@ -10,6 +10,7 @@ open CFSG CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mem_conjugate_iff {P : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate P g ↔ g * x * g⁻¹ ∈ P := by
   rw [CFSG.conjugate, Subgroup.mem_map]
@@ -17,13 +18,14 @@ theorem mem_conjugate_iff {P : Subgroup G} {g x : G} :
   · rintro ⟨p, hp, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hp
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
-theorem prop4_fusion {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {P : Subgroup G} (hP : IsPGroup p P) (hPne : P ≠ ⊥) (hPH : P ≤ H z)
+omit [Finite G] in
+theorem prop4_fusion {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    {P : Subgroup G} (_hP : IsPGroup p P) (_hPne : P ≠ ⊥) (_hPH : P ≤ H z)
     (hstar : ∀ g : G, CFSG.conjugate P g ≤ H z →
       ∃ h ∈ H z, CFSG.conjugate P g = CFSG.conjugate P h)
-    {t : G} (ht2 : orderOf t = 2) (htH : t ∈ H z)
+    {t : G} (_ht2 : orderOf t = 2) (_htH : t ∈ H z)
     (htP : ∀ x ∈ P, t * x = x * t) :
     (∃ g : G, g⁻¹ * t * g = z) ↔
       ∃ n : G, n ∈ Subgroup.normalizer (P : Set G) ∧ n * t * n⁻¹ = z := by
@@ -70,6 +72,7 @@ theorem prop4_fusion {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 
 
 
+omit [Finite G] in
 theorem prop4_fusion_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {P : Subgroup G} (hP : IsPGroup p P) (hPne : P ≠ ⊥) (hPH : P ≤ H z)
     (hstar : ∀ g : G, CFSG.conjugate P g ≤ H z →

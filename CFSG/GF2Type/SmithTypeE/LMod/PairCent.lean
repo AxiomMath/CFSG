@@ -125,8 +125,7 @@ theorem exists_stab_partner {u : Fin 1953} (hu : isPartner u.val = true) :
     (fun v => ∀ hv : v < 1953, isPartner v = true → ∃ h ∈ stabGrp, h p31 = ⟨v, hv⟩) ?_ ?_
     u.val u.isLt
   · exact key u.isLt hu
-  · intro v _ hr
-    intro hv' hpv
+  · intro v _ hr hv' hpv
     simp only [Bool.or_eq_true, beq_iff_eq] at hr
     rcases hr with hr | hr
     · subst hr
@@ -135,8 +134,7 @@ theorem exists_stab_partner {u : Fin 1953} (hu : isPartner u.val = true) :
       refine Fin.ext ?_
       exact fin1953_val (by norm_num)
     · simp [hpv] at hr
-  · intro g hg a ha b _ he ihA
-    intro hb' hpb
+  · intro g hg a ha b _ he ihA hb' hpb
     simp only [Bool.and_eq_true, beq_iff_eq] at he
     obtain ⟨⟨hk0, he1⟩, he2⟩ := he
     have hpa : isPartner a = true := by simpa [hpb] using he2
@@ -194,7 +192,7 @@ theorem four_exists_conj {t : ℕ × ℕ × ℕ} (ht : Relation.ReflTransGen Fou
     obtain ⟨⟨hb1, hb2, hb3⟩, k, hk, e1, e2, e3⟩ := ih
     have hcomm : fin1953 g ∈ commSet 0 p31 := by
       have hp31 : p31.val = 31 := fin1953_val (k := 31) (by norm_num)
-      simp only [commSet, Set.mem_setOf_eq]
+      simp only [commSet, Set.mem_ofPred_eq]
       refine ⟨(commute_tvP_iff _ _).2 ?_, (commute_tvP_iff _ _).2 ?_⟩
       · rw [fin1953_val hg]
         exact hg0

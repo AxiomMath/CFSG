@@ -23,7 +23,7 @@ theorem fg_component_layer
       J = E.map H.subtype := by
   obtain ⟨E, hEn, hLie, h2⟩ := hLM
   obtain ⟨hs, hnc⟩ := hsh ↥E hLie
-  haveI := hEn
+  have := hEn
   let E' : Subgroup P := E.map H.subtype
   have hE'H : E' ≤ H := Subgroup.map_subtype_le E
   have hsub : E'.subgroupOf H = E := Subgroup.comap_map_eq_self_of_injective H.subtype_injective E
@@ -59,8 +59,8 @@ theorem fg_mem_component_of_perfect
     (hLM : LayerModel ↥H t n k) {J : Subgroup P} (hJ : IsComponentIn J H) {Γ : Type} [Group Γ]
     (hperf : Group.IsPerfect Γ) (ψ : Γ →* ↥H) (g : Γ) : ((ψ g : ↥H) : P) ∈ J := by
   obtain ⟨E, hEn, -, h2, hJeq⟩ := fg_component_layer hsh hLM hJ
-  haveI := hEn
-  haveI := hperf
+  have := hEn
+  have := hperf
   have hperfR : Group.IsPerfect ↥ψ.range :=
     Group.IsPerfect.ofSurjective (f := ψ.rangeRestrict) ψ.rangeRestrict_surjective
   have hle : ψ.range ≤ E := ff_perfect_le_of_quot_two E h2 ψ.range hperfR
@@ -73,7 +73,7 @@ theorem fg_mem_component_of_pow_three
     (hLM : LayerModel ↥H t n k) {J : Subgroup P} (hJ : IsComponentIn J H) (g : ↥H)
     (hg : g ^ 3 = 1) : (g : P) ∈ J := by
   obtain ⟨E, hEn, -, h2, hJeq⟩ := fg_component_layer hsh hLM hJ
-  haveI := hEn
+  have := hEn
   have hmem : g ∈ E := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp h2) (QuotientGroup.mk g : ↥H ⧸ E)
     have h3 : (QuotientGroup.mk g : ↥H ⧸ E) ^ 3 = 1 := by

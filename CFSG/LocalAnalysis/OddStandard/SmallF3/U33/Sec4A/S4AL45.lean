@@ -34,6 +34,7 @@ private theorem zpowers_t_commute_S (h : Ctx t L S x₁ x₂ lam rho tau) {p : G
   rw [← hk]
   exact hc.zpow_left k
 
+omit [Finite G] in
 private theorem commutator_mul_left_of_commute {p a b : G}
     (hpa : Commute p a) (hpb : Commute p b) : ⁅p * a, b⁆ = ⁅a, b⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul, hpb.commutator_eq, mul_one]
@@ -42,6 +43,7 @@ private theorem commutator_mul_left_of_commute {p a b : G}
     exact ((hpa.mul_right hpb).mul_right hpa.inv_right).mul_right hpb.inv_right
   rw [hpc.eq, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem commutator_mul_right_of_commute {p a b : G}
     (hpa : Commute p a) (hpb : Commute p b) : ⁅a, p * b⁆ = ⁅a, b⁆ := by
   rw [commutatorElement_mul_right_eq_mul_conj, hpa.symm.commutator_eq, one_mul]
@@ -135,7 +137,7 @@ theorem lemma4_5_of (h : Ctx t L S x₁ x₂ lam rho tau) (h42 : 2 ∣ S.index)
     rw [baseGrp, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
     congr 1
     ext g
-    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false]
+    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
     tauto
   have hB_le_S : closure ({x₁, x₂, tau} : Set G) ≤ S := by
     rw [← hB_sup]

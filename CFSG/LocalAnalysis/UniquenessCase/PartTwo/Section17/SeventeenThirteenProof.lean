@@ -36,12 +36,12 @@ theorem R17_13At_of_index_bounds (D : Data G)
       by_cases htop : fIndex H = ⊤
       · rw [htop]
         exact le_top
-      · rw [← ENat.coe_toNat htop]
-        refine ENat.coe_le_coe.mpr ?_
+      · rw [← ENat.natCast_toNat htop]
+        refine ENat.natCast_le_natCast.mpr ?_
         by_contra hlt
         have h0n : (fIndex H).toNat = 0 := by omega
         have hz : fIndex H ≤ (0 : ℕ∞) := by
-          rw [← ENat.coe_toNat htop, h0n]
+          rw [← ENat.natCast_toNat htop, h0n]
           rfl
         exact h0 H hH (fIndex_le_iff.mp hz)
     exact hH1.trans (le_fIndexMax hH)
@@ -56,15 +56,15 @@ theorem R17_13At_of_index_bounds (D : Data G)
       have hne_top : iL17_12 D (fundPred q) r q L ≠ ⊤ :=
         ne_top_of_le_ne_top (by norm_num) hle
       have hcoe : ((iL17_12 D (fundPred q) r q L).toNat : ℕ∞) =
-          iL17_12 D (fundPred q) r q L := ENat.coe_toNat hne_top
+          iL17_12 D (fundPred q) r q L := ENat.natCast_toNat hne_top
       have hnat_le : (iL17_12 D (fundPred q) r q L).toNat ≤ 3 := by
         have := hle
         rw [← hcoe] at this
-        exact ENat.coe_le_coe.mp this
+        exact ENat.natCast_le_natCast.mp this
       have hnat_ge : 1 ≤ (iL17_12 D (fundPred q) r q L).toNat := by
         have := hge
         rw [← hcoe] at this
-        exact ENat.coe_le_coe.mp this
+        exact ENat.natCast_le_natCast.mp this
       have hcases : (iL17_12 D (fundPred q) r q L).toNat = 1 ∨
           (iL17_12 D (fundPred q) r q L).toNat = 2 ∨
           (iL17_12 D (fundPred q) r q L).toNat = 3 := by omega
@@ -77,15 +77,15 @@ theorem R17_13At_of_index_bounds (D : Data G)
       have hne_top : iL17_12 D (fundPred q) r q L ≠ ⊤ :=
         ne_top_of_le_ne_top (by norm_num) hle
       have hcoe : ((iL17_12 D (fundPred q) r q L).toNat : ℕ∞) =
-          iL17_12 D (fundPred q) r q L := ENat.coe_toNat hne_top
+          iL17_12 D (fundPred q) r q L := ENat.natCast_toNat hne_top
       have hnat_le : (iL17_12 D (fundPred q) r q L).toNat ≤ 2 := by
         have := hle
         rw [← hcoe] at this
-        exact ENat.coe_le_coe.mp this
+        exact ENat.natCast_le_natCast.mp this
       have hnat_ge : 1 ≤ (iL17_12 D (fundPred q) r q L).toNat := by
         have := hge
         rw [← hcoe] at this
-        exact ENat.coe_le_coe.mp this
+        exact ENat.natCast_le_natCast.mp this
       have hcases : (iL17_12 D (fundPred q) r q L).toNat = 1 ∨
           (iL17_12 D (fundPred q) r q L).toNat = 2 := by omega
       rcases hcases with h1' | h2'
@@ -95,11 +95,11 @@ theorem R17_13At_of_index_bounds (D : Data G)
 theorem delta17_12_nonempty_case_one (D : Data G) (r q : ℕ) (L : Subgroup G)
     (h1 : P17_12_1 r q L) : (Delta17_12 D (fundPred q) r q L).Nonempty := by
   refine ⟨D.T ⊔ L, ?_⟩
-  rw [Delta17_12, dif_pos h1]
+  rw [Delta17_12, dite_eq_left h1]
   refine ⟨1, D.M.one_mem, ?_⟩
   congr 1
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem delta17_12_nonempty_case_two
     (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
@@ -231,7 +231,7 @@ theorem delta17_12_nonempty_case_two
       · change ((Subgroup.normalizerMonoidHom L
           ⟨s⁻¹, hS_le_N (S.inv_mem hs)⟩ l : ↥L) : G) = z
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
-        simp only [Subgroup.coe_inv, Subgroup.coe_mk, Subgroup.coe_subtype]
+        simp only
         have hzl' : (l : G) = s * z * s⁻¹ := hzl
         rw [hzl']
         group
@@ -241,7 +241,7 @@ theorem delta17_12_nonempty_case_two
     obtain ⟨e⟩ := bar2_barPreimage_mulEquiv L Kx hKxO2
     exact isL2Over17_of_mulEquiv (q := q) e hKxL2
   refine ⟨D.T ⊔ Xx, ?_⟩
-  rw [Delta17_12, dif_neg h1, dif_pos (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
+  rw [Delta17_12, dite_eq_right h1, dite_eq_left (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
   exact ⟨Xx, hXxL, hXx_perm, hXx_L2, rfl⟩
 
 theorem delta17_12_nonempty_case_three
@@ -306,6 +306,7 @@ theorem isQuasisimple_of_isFundamentalOver {X : Type} [Group X] {q : ℕ} {Kb : 
   have himg : CFSG.IsQuasisimple (R.map ψ) := CFSG.LocalCores.isQuasisimple_map hRn ψ hnot
   exact ⟨Group.isPerfect_def.mp himg.1, himg.2.1⟩
 
+omit [Finite G] in
 theorem isQuasisimple_bar2_of_isL2Over17
     {H : Subgroup G} {q : ℕ} (h : IsL2Over17 (Bar2 H) q) :
     CFSG.Open.IsQuasisimple (Bar2 H) := by
@@ -323,7 +324,7 @@ theorem not_inFSq_zero_of_delta
     ¬ InFSq 0 H := by
   classical
   by_cases h1 : P17_12_1 r q L
-  · rw [Delta17_12, dif_pos h1] at hH
+  · rw [Delta17_12, dite_eq_left h1] at hH
     obtain ⟨x, hxM, rfl⟩ := hH
     refine not_inFSq_zero_of_isQuasisimple_bar2 le_sup_right ?_
     have e : Bar2 L ≃* Bar2 (L.map (MulAut.conj x).toMonoidHom) :=
@@ -331,11 +332,11 @@ theorem not_inFSq_zero_of_delta
         (MulAut.conj x).injective)
     exact CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hC.memL.2.2
   · by_cases h2 : P17_12_2 q L
-    · rw [Delta17_12, dif_neg h1, dif_pos h2] at hH
+    · rw [Delta17_12, dite_eq_right h1, dite_eq_left h2] at hH
       obtain ⟨X, hXL, hperm, hL2, rfl⟩ := hH
       exact not_inFSq_zero_of_isQuasisimple_bar2 le_sup_right
         (isQuasisimple_bar2_of_isL2Over17 hL2)
-    · rw [Delta17_12, dif_neg h1, dif_neg h2] at hH
+    · rw [Delta17_12, dite_eq_right h1, dite_eq_right h2] at hH
       obtain ⟨x, hxM, X, hXLx, hpcle, rfl, hKb⟩ := hH
       set Lx : Subgroup G := L.map (MulAut.conj x).toMonoidHom with hLx
       set mk : ↥Lx →* Bar2 Lx := QuotientGroup.mk' (CFSG.pCore 2 ↥Lx) with hmk

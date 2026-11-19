@@ -177,9 +177,9 @@ theorem t200_inv1_h9 [Finite G] {j p : ℕ} (hm : 1 ≤ m) (hj : j = 0 ∨ j = 2
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t200 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k :=
     fun y hy => t200_eAction_mem_CSc₁ dD hE hc₁ hm (hX hy)
@@ -201,7 +201,7 @@ theorem t200_inv1_h9 [Finite G] {j p : ℕ} (hm : 1 ≤ m) (hj : j = 0 ∨ j = 2
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD
@@ -303,8 +303,8 @@ theorem StrothFrame.IsD.t200_inv1_conj_le_S {F : StrothFrame G} {D : Subgroup G}
     (hQz : Q ≤ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)}) :
     ∃ k ∈ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)},
       ∀ q ∈ Q, k⁻¹ * q * k ∈ (F.S : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := dD.isMulCommutative
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := dD.isMulCommutative
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hPS : P ≤ (F.S : Subgroup G) := by rw [hS]; exact le_sup_right.trans le_sup_left

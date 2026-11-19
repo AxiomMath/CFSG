@@ -15,6 +15,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem neighborSet_commonNeighbor_eq (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {a b : V} (ha : c a = 0) (hb : c b = 0)
     (hab : Γ.dist a b = 2) :
@@ -75,6 +76,7 @@ theorem neighborSet_commonNeighbor_eq (hP : IsGeneralizedPolygon Γ 4)
       · change w ∈ Γ.neighborSet K0
         exact h ▸ hK0b
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_traceSet_of_dist_le_two (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y z : V} (hx : c x = 0)
     (hxy : Γ.dist x y = 4) (hz0 : c z = 0)
@@ -125,10 +127,10 @@ theorem exists_mem_traceSet_of_adj_of_mem_span (hΓ : IsThasQuadrangle Γ c q)
   have hP : IsGeneralizedPolygon Γ 4 := hΓ.gp
   have hT : IsThick Γ := hΓ.thick
   have hTcard : (traceSet Γ y z).ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP hyz, hΓ.deg y, if_pos hy]
+    rw [ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy]
   have hu0 : c u = 0 := color_eq_zero_of_mem_span hP hT hy hyz hu
   have huCard : (Γ.neighborSet u).ncard = q ^ 3 + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg u, if_pos hu0]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg u, ite_eq_left hu0]
   let T' := {w : V // w ∈ traceSet Γ y z}
   let S' := {K : V // K ∈ Γ.neighborSet u}
   have hcardT : Nat.card T' = q ^ 3 + 1 := by
@@ -207,8 +209,8 @@ theorem conePlane_subset_iUnion (hP : IsGeneralizedPolygon Γ 4)
   exact hle
 
 theorem coneLines_ne (hP : IsGeneralizedPolygon Γ 4)
-    (hΓ : IsThasQuadrangle Γ c q) {a b z v₁ v₂ : V} (ha : c a = 0) (hab : Γ.dist a b = 4)
-    (hz : z ∈ traceSet Γ a b) (hv₁ : v₁ ∈ spanSet Γ a b) (hv₂ : v₂ ∈ spanSet Γ a b)
+    (hΓ : IsThasQuadrangle Γ c q) {a b z v₁ v₂ : V} (_ha : c a = 0) (hab : Γ.dist a b = 4)
+    (_hz : z ∈ traceSet Γ a b) (hv₁ : v₁ ∈ spanSet Γ a b) (hv₂ : v₂ ∈ spanSet Γ a b)
     (hne : v₁ ≠ v₂) (hzv₁ : Γ.dist z v₁ = 2) (hzv₂ : Γ.dist z v₂ = 2) :
     commonNeighbor hP hzv₁ ≠ commonNeighbor hP hzv₂ := by
   have hT : IsThick Γ := hΓ.thick
@@ -289,7 +291,7 @@ theorem ptPerp_conePlane_eq_singleton (hP : IsGeneralizedPolygon Γ 4)
     exact hx'
 
 theorem neighborSet_subset_of_isFullSubquadrangle_of_two_mem
-    (hΓ : IsThasQuadrangle Γ c q) {E : Set V} (hF : IsFullSubquadrangle c E q) {L a b : V}
+    (_hΓ : IsThasQuadrangle Γ c q) {E : Set V} (hF : IsFullSubquadrangle c E q) {L a b : V}
     (hL : c L = 1) (haE : a ∈ E) (hbE : b ∈ E) (hab : a ≠ b)
     (hLa : Γ.Adj L a) (hLb : Γ.Adj L b) : Γ.neighborSet L ⊆ E := by
   have hpair : ({a, b} : Set V) ⊆ Γ.neighborSet L ∩ E := by
@@ -314,7 +316,7 @@ theorem ncard_traceSet_le_fullLinesThrough (hΓ : IsThasQuadrangle Γ c q) {E : 
   let T' := {w : V // w ∈ traceSet Γ y z}
   let Ft := {L : V // L ∈ fullLinesThrough Γ E u}
   have hTcard : Nat.card T' = q ^ 3 + 1 := by
-    rw [Nat.card_coe_set_eq, ncard_trace hP hyz, hΓ.deg y, if_pos hy]
+    rw [Nat.card_coe_set_eq, ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy]
   have hFcard : Nat.card Ft = (fullLinesThrough Γ E u).ncard := by
     change Nat.card ↥(fullLinesThrough Γ E u) = (fullLinesThrough Γ E u).ncard
     rw [Nat.card_coe_set_eq]
@@ -453,7 +455,7 @@ theorem existsUnique_trace_of_not_mem_cl (hΓ : IsThasQuadrangle Γ c q) {y z x 
       (by rw [SimpleGraph.dist_comm]; exact hxy4)
       (by rw [SimpleGraph.dist_comm]; exact hxz4) hxcl hu₀C hu₁C hu₀₁
   have hTcard : (traceSet Γ y z).ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP hyz, hΓ.deg y, if_pos hy]
+    rw [ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy]
   have hClt : (centreSet Γ y z x).ncard < (traceSet Γ y z).ncard := by
     rw [hCcard, hTcard]
     have h1 : 1 < q := by have := hΓ.two_le; omega

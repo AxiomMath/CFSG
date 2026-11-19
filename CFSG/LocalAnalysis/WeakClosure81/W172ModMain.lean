@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 private theorem w172_comm_of_commutator_eq_bot {Y : Subgroup (LGL 2 W)}
     (h : (⁅Y, Y⁆ : Subgroup (LGL 2 W)) = ⊥) : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a := by
   intro a ha b hb
@@ -52,7 +53,7 @@ theorem w172_finrank_commSub_le_add {d y : LGL 2 W} {n : ℕ} (hd : d ^ 2 = 1) (
     Module.finrank (ZMod 2) ↥(commSub (zpowers y)) ≤
       Module.finrank (ZMod 2) ↥(commSub (zpowers d)) +
       Module.finrank (ZMod 2) ↥(commSub (zpowers (y⁻¹ * d * y))) := by
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   have hdd : d * d = 1 := by rw [← pow_two]; exact hd
   have hz : d * (y⁻¹ * d * y) = y ^ 2 := by
     calc d * (y⁻¹ * d * y) = d * ((d * y * d⁻¹) * d * y) := by rw [hdy]

@@ -30,7 +30,7 @@ private theorem ggE0_pquot_le_center {G : Type} [Group G] {L : Subgroup G} {p : 
     obtain ⟨-, lab, hlab, hraw⟩ := hmark
     obtain ⟨S, _, I, F, _hs, hna, θ, -⟩ :=
       CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
-    haveI : Subsingleton (PQuot p L) := by
+    have : Subsingleton (PQuot p L) := by
       change Subsingleton (↥L ⧸ CFSG.Open.GLAPPrimeCore p ↥L)
       rw [QuotientGroup.subsingleton_iff]
       exact htop
@@ -115,9 +115,9 @@ private theorem ggE0_rawDatum_legacy_of_canonical {lab : LargeEvenLabel} {Q : La
     | (dsimp only [LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4] at h ⊢
        obtain ⟨K, hf, hfin, hK, hQ⟩ := h
        by_cases ha : (n - 1) / 2 = 0
-       · rw [if_pos ha] at hQ
+       · rw [ite_eq_left ha] at hQ
          exact ⟨K, hf, hfin, hK, hTwF4 ha hK hQ⟩
-       · rw [if_neg ha] at hQ
+       · rw [ite_eq_right ha] at hQ
          exact ⟨K, hf, hfin, hK, hQ⟩)
 
 private theorem ggE0_induces_pow_eq_one {G : Type*} [Group G] {R : Type} [Group R]

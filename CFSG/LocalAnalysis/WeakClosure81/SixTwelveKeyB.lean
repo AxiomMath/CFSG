@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_le_LOf_of_mem {A V : Subgroup G} {g l : G}
     (hA : A ≤ LOf V g) (hl : l ∈ LOf V g) : conjSubgroup A l ≤ LOf V g := by
   intro y hy
@@ -25,6 +26,7 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem conjSubgroup_V_eq_of_conjSubgroup_UOf_eq (h : Hyp612Sym n M V g) {h' : G}
     (hU : conjSubgroup (UOf M V g) h' = UOf M V g) : conjSubgroup V h' = V := by
   have h1 : h' ∈ normalizer ((UOf M V g : Subgroup G) : Set G) :=

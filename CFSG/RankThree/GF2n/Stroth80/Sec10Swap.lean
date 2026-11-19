@@ -51,12 +51,14 @@ theorem Sec10Hyp.conjG {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) (g : G) 
       have h : g⁻¹ * (g * t * g⁻¹) * g ∈ Q := mem_conjSubgroup.mp hq
       rwa [show g⁻¹ * (g * t * g⁻¹) * g = t by group] at h
 
+omit [Finite G] in
 theorem Sec10Hyp.of_eq {M' Q' Z' B' : Subgroup G} {hc : Ctx M Q Z B} {n : ℕ}
     (H : Sec10Hyp hc n) (hc' : Ctx M' Q' Z' B') (hM : M = M') (hQ : Q = Q') (hZ : Z = Z')
     (hB : B = B') : Sec10Hyp hc' n := by
   subst hM hQ hZ hB
   exact H
 
+omit [Finite G] in
 theorem SLMNat.of_eq {M' Q' Z' B' : Subgroup G} {hc : Ctx M Q Z B} {t : G} {m : ℕ}
     (h : SLMNat hc t m) (hc' : Ctx M' Q' Z' B') (hM : M = M') (hQ : Q = Q') (hZ : Z = Z')
     (hB : B = B') : SLMNat hc' t m := by
@@ -225,7 +227,7 @@ private theorem swap_opposite_ctx {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t) 
       ne := hCYne }
 
 private theorem conj_le_Vt_swap (h34 : Stroth34Statement) (hspread : StrothNoA2SpreadStatement)
-    {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {t : G} (ht : Good103 M Q Z B t)
+    {hc : Ctx M Q Z B} {n : ℕ} (_H : Sec10Hyp hc n) {t : G} (_ht : Good103 M Q Z B t)
     {Y : Subgroup G} (hs : Sit M Q Z Y t) {g : G} (hgZ : conjSubgroup g Z = Y)
     (hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B) (H' : Sec10Hyp hcY n)
     {z : G} (hz : z ∈ Z) (hsz : Sit (conjSubgroup g M) (conjSubgroup g Q) Y Z z)

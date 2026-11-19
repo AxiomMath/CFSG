@@ -94,7 +94,7 @@ theorem Z_inf_N_eq_bot : t.Z ⊓ t.d.N = ⊥ := by
   exact Subgroup.eq_bot_of_card_eq _ hcard
 
 theorem not_three_dvd_card_On (N : Subgroup G) : ¬ 3 ∣ Nat.card (t.On N) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   change ¬ 3 ∣ Nat.card ((CFSG.pPrimeCore 3 ↥(t.Dn N)).map (t.Dn N).subtype)
   rw [Subgroup.card_map_of_injective (t.Dn N).subtype_injective]
   exact (Nat.prime_three.coprime_iff_not_dvd).1

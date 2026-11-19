@@ -14,12 +14,12 @@ open Subgroup Equiv Equiv.Perm CFSG.OddStandard.AltStdSec.SwapPattern
 variable {G : Type} [Group G] {z : G} {ι : Perm (Fin 10) →* G}
 
 private theorem tau0_apply_nine : τ₀ 9 = 8 := by
-  simpa [τ₀] using Equiv.swap_apply_right (8 : Fin 10) 9
+  simp [τ₀]
 
 private theorem tau0_comm_apply_eight {σ : Perm (Fin 10)} (hc : σ * τ₀ = τ₀ * σ) :
     σ 8 = 8 ∨ σ 8 = 9 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h8, h9⟩ := h
   have hkey : σ 9 = σ 8 := by
     have h := congrArg (fun f : Perm (Fin 10) => f 8) hc

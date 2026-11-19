@@ -246,7 +246,7 @@ theorem innerRecog_E6 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecog p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 6) hgram hframe
   have hadm : StatedLieAdmissible .E6 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨Ψ', hsurj, hker, hqs, hcent, hmodel⟩ := weakCT_e6_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -269,7 +269,7 @@ theorem innerRecog_E7 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecog p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨Ψ', hsurj, hker, hqs, hcent, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -310,7 +310,7 @@ theorem innerRecog_E8 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecog p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 8) hgram hframe
   have hadm : StatedLieAdmissible .E8 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨Ψ', hsurj, hker, hqs, hcent, hmodel⟩ := weakCT_e8_of_frame p f hadm hK U hgen hcomm hρ hψ

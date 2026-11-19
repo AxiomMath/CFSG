@@ -335,7 +335,7 @@ theorem isOrbitGood_tau [Finite K] {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [C
         F H = D₀.map (MulAut.conj (nLevi (Classical.choose hH.2))).toMonoidHom := by
       intro H hH
       show (if h : H ∈ 𝓗 then _ else ⊥) = _
-      exact dif_pos hH
+      exact dite_eq_left hH
     have hFmem : ∀ H ∈ 𝓗, F H ∈ T := by
       intro H hH
       rw [hF_def H hH]

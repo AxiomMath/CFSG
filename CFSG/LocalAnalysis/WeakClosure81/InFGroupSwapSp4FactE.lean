@@ -16,7 +16,7 @@ variable {Q : Type} [Group Q] [Finite Q] {L T P₀ P₁ : Subgroup Q} {n : ℕ}
 private theorem uT_mulVec_zero {K : Type} [Field K] (t : K) (x : Fin 2 → K) :
     (Matrix.mulVec (((CFSG.Quasithin.H13.Ch4.L436.uT K t : ↥(StatedSL 2 K)) :
       GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) x) 0 = x 0 + t * x 1 := by
-  simp [CFSG.Quasithin.H13.Ch4.L436.uT, Matrix.mulVec, Fin.sum_univ_two, Matrix.vecHead,
+  simp [CFSG.Quasithin.H13.Ch4.L436.uT, Matrix.mulVec, Matrix.vecHead,
     Matrix.vecTail]
 
 private theorem uT_zero {K : Type} [Field K] : CFSG.Quasithin.H13.Ch4.L436.uT K 0 = 1 := by
@@ -62,8 +62,8 @@ private theorem conj_eq_of_mul_self {G : Type*} [Group G] {v q : G} (hv : v * v 
 theorem mem_or_mem_of_mul_self (h : Setting L T P₀ P₁ n w) {u : Q} (hu : u ∈ T ⊓ L)
     (hu2 : u * u = 1) : u ∈ pCoreOf 2 (perfectCore P₀) ∨ u ∈ pCoreOf 2 (perfectCore P₁) := by
   obtain ⟨K, hKfld, hKfin, -, α, β, -, hαker, -, -, hequiv, hmemS, hCZ⟩ := h.concl₁.coord
-  letI := hKfld
-  letI := hKfin
+  let := hKfld
+  let := hKfin
   have hS : (T ⊓ L : Subgroup Q) =
       pCoreOf 2 (perfectCore P₁) ⊔ pCoreOf 2 (perfectCore P₀) := by
     rw [h.concl₁.S_eq, sp4Q₁_one h]

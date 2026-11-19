@@ -128,7 +128,7 @@ public theorem secondCase_a7_exists_kleinFour_centralizing_U_inter_E
   let T : Subgroup E := Subgroup.zpowers tE
   let A : Subgroup E := UE ⊔ T
   have hTmap : T.map q = Subgroup.zpowers (q tE) := by
-    simpa [T] using MonoidHom.map_zpowers q tE
+    simp [T]
   have hVbarcentTmap : Vbar ≤
       Subgroup.centralizer ((T.map q : Subgroup (E ⧸ Z)) : Set (E ⧸ Z)) := by
     rw [hTmap, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]

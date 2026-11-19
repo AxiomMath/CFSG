@@ -94,7 +94,7 @@ theorem contains {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     rw [Nat.card_zpowers, hyp]
   have heq : Subgroup.zpowers (y : G) = P ⊓ Subgroup.centralizer (B : Set G) :=
     Subgroup.eq_of_le_of_card_ge hZle (by
-      haveI : Finite ↥(P ⊓ Subgroup.centralizer (B : Set G)) := inferInstance
+      have : Finite ↥(P ⊓ Subgroup.centralizer (B : Set G)) := inferInstance
       rw [hZcard]; exact hcard)
   rw [← heq, Subgroup.zpowers_le]
   exact hyP0

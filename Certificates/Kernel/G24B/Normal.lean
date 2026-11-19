@@ -57,7 +57,7 @@ theorem psi_pcK_aux {y : Fin 10 → Y} {G : List ℕ}
         List.map_cons, List.map_nil, List.prod_append, List.prod_cons, List.prod_nil, mul_one,
         map_mul]
       change pkMat 28 (mulF2 28 _ _) = _
-      rw [pkMat_mulF2, ih, yAt, dif_pos (by omega), hG ⟨n, by omega⟩]
+      rw [pkMat_mulF2, ih, yAt, dite_eq_left (by omega), hG ⟨n, by omega⟩]
 
 theorem filter_range_finRange' (j : ℕ) :
     (List.range 10).filter (fun m => j.testBit m) =
@@ -319,15 +319,15 @@ theorem inCos_of_mem (hC : ChevFacts) {y : Y} (hy : y ∈ Subgroup.closure (Set.
   | mem g hg =>
     obtain ⟨k, rfl⟩ := hg
     exact fun x hx => inCos_mul_gB0 hC hx k
-  | one => simpa using fun x hx => hx
+  | one => simp
   | mul a b _ _ iha ihb =>
     intro x hx
     rw [← mul_assoc]
     exact ihb _ (iha x hx)
   | inv a _ iha =>
     intro x hx
-    have hfin : (setOf InCos).Finite := Set.toFinite _
-    have hinj : Set.InjOn (fun z => z * a) (setOf InCos) := fun z _ w _ h =>
+    have hfin : (_root_.Set.ofPred InCos).Finite := Set.toFinite _
+    have hinj : Set.InjOn (fun z => z * a) (_root_.Set.ofPred InCos) := fun z _ w _ h =>
       mul_right_cancel (h : z * a = w * a)
     obtain ⟨z, hz, hza⟩ :=
       ((hfin.injOn_iff_bijOn_of_mapsTo fun z hz => iha z hz).mp hinj).surjOn hx

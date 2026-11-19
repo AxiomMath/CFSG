@@ -108,12 +108,12 @@ private def W₁ : Subgroup U where
   carrier := {v | co Mm v 1 1 = 0}
   mul_mem' := by
     intro v w hv hw
-    simp only [Set.mem_setOf_eq, co_mul, Matrix.add_apply] at *
+    simp only [Set.mem_ofPred_eq, co_mul, Matrix.add_apply] at *
     rw [hv, hw, add_zero]
   one_mem' := by simp [co_one]
   inv_mem' := by
     intro v hv
-    simp only [Set.mem_setOf_eq, co_inv, Matrix.neg_apply] at *
+    simp only [Set.mem_ofPred_eq, co_inv, Matrix.neg_apply] at *
     rw [hv, neg_zero]
 
 private theorem exists_hasPar
@@ -157,6 +157,7 @@ end Model
 variable {U : Type} [CommGroup U] [Finite U] {L₁ L₂ : Subgroup (MulAut U)}
   {F : Type} [Field F] [Fintype F] [CharP F 2]
 
+omit [Finite U] in
 theorem exists_opt_two (Mm : MatModel L₁ L₂ F 2)
     (hR₁ : ∀ g : Matrix.GeneralLinearGroup (Fin 2) F, (g : Matrix (Fin 2) (Fin 2) F).det = 1 →
       ∃ l, Mm.R₁ l = g)

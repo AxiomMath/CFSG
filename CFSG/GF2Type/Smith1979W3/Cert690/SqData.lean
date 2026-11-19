@@ -78,9 +78,9 @@ private theorem witMap_insert_get? {m : Std.HashMap ℕ SqWit} {k a : ℕ} {v w 
     (h : (m.insert k v).get? a = some w) : (w = v ∧ a = k) ∨ m.get? a = some w := by
   rw [Std.HashMap.get?_insert] at h
   by_cases hk : (k == a) = true
-  · rw [if_pos hk] at h
+  · rw [ite_eq_left hk] at h
     exact Or.inl ⟨(Option.some.inj h).symm, (beq_iff_eq.mp hk).symm⟩
-  · rw [if_neg hk] at h
+  · rw [ite_eq_right hk] at h
     exact Or.inr h
 
 private theorem witMapOf_list_get? (data : List (Option SqWit)) (m : Std.HashMap ℕ SqWit)
@@ -379,12 +379,12 @@ theorem pglS4Of_spec {D : PGLSquareData} (h : pglS4Of D = true) :
           (sOf D.root b.1 b.2 w.repIdx))[f]! = pglCand D b w u f := by
       intro f hf
       rw [getElem!_eq_getElem_of_lt (by simp; exact hf)]
-      simp [pglCand, List.getElem_map, List.getElem_range, hf]
+      simp [pglCand, List.getElem_map, List.getElem_range]
     have htabs : ∀ f < 64,
         ((List.range 64).map fun f => liftTab u f).toArray[f]! = liftTab u f := by
       intro f hf
       rw [List.getElem!_toArray, getElem!_eq_getElem_of_lt (by simp; exact hf)]
-      simp [List.getElem_map, List.getElem_range, hf]
+      simp [List.getElem_map, List.getElem_range]
     have hexist' : ∀ f < 64, (pglCand D b w u f).isSome = true := by
       intro f hf
       have hmem : pglCand D b w u f ∈ List.map (fun f => candVal D.innTabs (liftTab u f)
@@ -420,7 +420,7 @@ theorem pglS4Of_spec {D : PGLSquareData} (h : pglS4Of D = true) :
       intro f hf v hv hvn
       have hs2 := List.all_eq_true.mp hsigma2 f (List.mem_range.mpr hf)
       simp only [hsv f hf, hv, htabs f hf] at hs2
-      rw [if_pos hvn] at hs2
+      rw [ite_eq_left hvn] at hs2
       simp only [Bool.and_eq_true, beq_iff_eq] at hs2
       obtain ⟨⟨hlen, hall⟩, hw0⟩ := hs2
       refine ⟨hlen, ?_, ?_⟩
@@ -513,9 +513,9 @@ private theorem foldl_push_filter (l : List ℕ) (p : ℕ → Bool) (F : ℕ →
   | cons a l ih =>
     rw [List.foldl_cons]
     by_cases h : p a = true
-    · rw [if_pos h, ih, List.filter_cons, if_pos h, Array.toList_push]
+    · rw [ite_eq_left h, ih, List.filter_cons, ite_eq_left h, Array.toList_push]
       simp [List.append_assoc]
-    · rw [if_neg h, ih, List.filter_cons, if_neg h]
+    · rw [ite_eq_right h, ih, List.filter_cons, ite_eq_right h]
 
 private theorem foldl_foldl_push (l : List ℕ) (F : ℕ → ℕ → Option ℕ)
     (acc : Array (Option ℕ)) :
@@ -535,7 +535,7 @@ private theorem foldl_foldl_push_array (gens : Array ℕ) (F : ℕ → ℕ → O
       ((a0Pairs gens).map fun p => F p.1 p.2).toArray := by
   apply Array.toList_inj.mp
   rw [← Array.foldl_toList, foldl_foldl_push, a0Pairs]
-  simp only [List.toList_toArray, List.map_flatMap, List.nil_append, List.map_map,
+  simp only [List.map_flatMap, List.nil_append, List.map_map,
     Function.comp_def]
 
 theorem a8S5Of_spec {D : A8Data} (h : a8S5Of D = true) :
@@ -575,7 +575,7 @@ theorem a8S5Of_spec {D : A8Data} (h : a8S5Of D = true) :
             fun p => a8Cand D b p).toArray.toList.filterMap
           fun o => o).filter (fun x => x == v)).length := by
     intro v
-    simp only [List.toList_toArray]
+    simp only
     rw [← length_filter_filterMap_some (a0Pairs (#[Code.one] ++ D.involutions))
       (fun p => a8Cand D b p) v, List.filterMap_map]
     rfl

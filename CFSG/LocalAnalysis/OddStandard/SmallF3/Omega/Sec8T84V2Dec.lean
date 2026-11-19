@@ -15,12 +15,12 @@ open scoped Pointwise
 theorem sec8t84v_exists_mul_of_sylow {G : Type} [Group G] [Finite G] {N S M : Subgroup G}
     (hS : IsSylow2Of S N) (hMN : M ≤ N) (hnorm : N ≤ normalizer (M : Set G))
     (h2 : ∀ x ∈ N, ∃ k : ℕ, x ^ (2 ^ k) ∈ M) : ∀ x ∈ N, ∃ s ∈ S, ∃ m ∈ M, x = s * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := IsSylow2Of.exists_sylow hS
   let P' : Subgroup ↥N := P
   have hP'map : P'.map N.subtype = S := hP
   obtain ⟨hSN, -, hndvdS⟩ := hS
-  haveI : (M.subgroupOf N).Normal :=
+  have : (M.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMN).mpr hnorm
   have hsub : S.subgroupOf N = P' := by
     rw [← hP'map]

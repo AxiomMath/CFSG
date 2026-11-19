@@ -48,7 +48,7 @@ theorem exists_w (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciproci
       exact this
     exact ⟨w, hw.1, hw.2, heq.symm, Or.inr ⟨hw1', hw2, h4⟩⟩
 
-theorem t_comm_w (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {t w : G}
+theorem t_comm_w (_hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {t w : G}
     (ht : t ∈ Nh S h) (hwD : w ∈ Nh S h) (hwW : w ∈ Wsub S U)
     (hD₀ : Nh S h ⊓ Wsub S U = zpowers w) (hw1 : w ≠ 1) (hw2 : w * w = 1) :
     t * w = w * t := by
@@ -82,7 +82,7 @@ theorem Nh_eq_sup (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ 
       exact mul_mem (Subgroup.mem_sup_left (Subgroup.mem_zpowers t)) (Subgroup.mem_sup_right h2)
   · exact sup_le (zpowers_le.2 ht) (zpowers_le.2 hwD)
 
-theorem Nh_inf_centralizer (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
+theorem Nh_inf_centralizer (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Nh S h ⊓ centralizer (U : Set G) = Nh S h ⊓ Wsub S U := by
   ext d
   constructor

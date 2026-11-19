@@ -69,7 +69,7 @@ open scoped commutatorElement Pointwise
 theorem isSubgroupOfAlt_eight_of_card {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) (U : Subgroup W) (hU : Nat.card ↥U = 16)
     (M : Subgroup (MulAut ↥U)) : IsSubgroupOfAlt ↥M 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE : CFSG.Open.IsElemAbelian 2 U := ⟨inferInstance, fun x _ => hW x⟩
   obtain ⟨e⟩ := CFSG.LocalAnalysis.UniquenessCase.UC6R77.nonempty_mulAut_mulEquiv_GL_pow hE
     (n := 4) (by rw [hU]; norm_num)
@@ -216,7 +216,7 @@ theorem sup_map_conj_le_closure {G : Type} [Group G] {X : Subgroup G}
     rcases hy with rfl | rfl
     · exact hnorm _ hy₁ hc1
     · exact hnorm _ hy₂ hc2
-  haveI hn : (K.subgroupOf X).Normal :=
+  have hn : (K.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).mpr hXN
   have hcX : y₁ * y₂ * y₁⁻¹ * y₂⁻¹ ∈ X :=
     X.mul_mem (X.mul_mem (X.mul_mem hy₁ hy₂) (X.inv_mem hy₁)) (X.inv_mem hy₂)
@@ -233,7 +233,7 @@ theorem sup_map_conj_le_closure {G : Type} [Group G] {X : Subgroup G}
               (y₂ * t * y₂⁻¹ * t⁻¹) := by group
     rw [e]
     exact D.mul_mem (D.mul_mem (D.inv_mem hc12) hc1) hc2
-  haveI := hX
+  have := hX
   have hXK : X ≤ K := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf X) with h | h
     · exfalso

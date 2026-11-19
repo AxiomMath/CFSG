@@ -45,7 +45,7 @@ theorem forall_two_le_pRank_centralizer_of_isLie811_l4
 
 theorem one_le_pRank_centralizer_plane_of_isLie811_l4
     {Y : Type} [Group Y] [Finite Y] {r f : ℕ} (hY : IsLie811 Y .l4 r f) (hr5 : 5 ≤ r)
-    (hf : f ≠ 1) {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
+    (_hf : f ≠ 1) {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     ∀ c, IsSumZeroCoords A c →
       1 ≤ pRank r (centralizer ({c (.ofAdd ![1, 1, -1, -1]), c (.ofAdd ![1, -1, 0, 0])} :
         Set Y)) := by
@@ -78,7 +78,7 @@ theorem two_le_pRank_centralizer_of_isLie811_l4
     exact K6L4.two_le_pRank_centralizer_of_equiv_statedSL (q := r ^ f) hK hmod hp (by omega)
       hpq' (center Y) hZ e hA h27
   · have hpq' : p ∣ r ^ f + 1 := by
-      rw [qMinusPi, if_neg (by omega)] at hpq
+      rw [qMinusPi, ite_eq_right (by omega)] at hpq
       exact hpq
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact K6L4.two_le_pRank_centralizer_of_equiv_statedSU (q := r ^ f) hK hmod hp (by omega)

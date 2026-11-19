@@ -19,19 +19,20 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.K3
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem isCyclic_subgroupOf_iff' {A C : Subgroup H} (hAC : A ≤ C) :
     IsCyclic ↥(A.subgroupOf C) ↔ IsCyclic ↥A :=
-  ⟨fun h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).toMonoidHom
+  ⟨fun _h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hAC).surjective,
-   fun h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).symm.toMonoidHom
+   fun _h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hAC).symm.surjective⟩
 
 theorem l62_false_of_two_fixed {S : Sylow 3 H} {x z : H} (hB : L62Bar H S x z)
     (hNC : T29.NoncyclicCentreRank) {C C' : Subgroup H} (hC : IsComponentOf C ⊤)
     (hC' : IsComponentOf C' ⊤) (hne : C ≠ C') (hfix : (S : Subgroup H) ≤ normalizer (C : Set H))
     (hfix' : (S : Subgroup H) ≤ normalizer (C' : Set H)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hT : IsPGroup 3 (S : Subgroup H) := S.isPGroup'
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hT : IsPGroup 3 (S : Subgroup H) := S.isPGroup
   have hzmem : ∀ D : Subgroup H, IsComponentOf D ⊤ → (S : Subgroup H) ≤ normalizer (D : Set H) →
       z ∈ D := by
     intro D hD hfixD
@@ -106,9 +107,9 @@ theorem l62_false_of_two_fixed {S : Sylow 3 H} {x z : H} (hB : L62Bar H S x z)
     l62_comm_mem_zpowers hT hB.z_mem hB.z_ne hB.z_pow hB.z_central hB.z_gen hVT'
       (fun g hg u hu => (mem_normalizer_iff.mp (hVn' hg) u).mp hu) hVc' x hB.x_mem e he
   have hEe : IsElemAbelian 3 (V ⊔ V') := by
-    haveI : CFSG.IsElementaryAbelian 3 V :=
+    have : CFSG.IsElementaryAbelian 3 V :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 V).2 hVe
-    haveI : CFSG.IsElementaryAbelian 3 V' :=
+    have : CFSG.IsElementaryAbelian 3 V' :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 V').2 hVe'
     have hle : V' ≤ centralizer (V : Set H) := fun b hb =>
       mem_centralizer_iff.mpr fun a ha => hVV' a ha b hb

@@ -51,7 +51,7 @@ theorem exists_maximal_two_subgroup {G : Type*} [Group G] [Finite G] (C : Subgro
   have hZ : IsPGroup 2 (zpowers (⟨z, hz⟩ : C)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz2']; norm_num)
   obtain ⟨P, hP⟩ := hZ.exists_le_sylow
-  refine ⟨(P : Subgroup C).map C.subtype, P.isPGroup'.map _, ?_, ?_, ?_⟩
+  refine ⟨(P : Subgroup C).map C.subtype, P.isPGroup.map _, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
   · intro R hR hRC hSR

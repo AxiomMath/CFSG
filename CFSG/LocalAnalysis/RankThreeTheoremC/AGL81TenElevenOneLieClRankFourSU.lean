@@ -79,7 +79,7 @@ theorem exists_rankFour_psu {X A : Type} [Group X] [Finite X] [CommGroup A] [Fin
         primeFormFieldHom h (isPrimeFormGram_one (n := m) (K := K)) τ) (g a) = g a) :
     ∃ F : Subgroup (MulAut X), F ≤ H ∧ IsElemAbelian 3 F ∧ Nat.card F = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := primeFormP h ((1 : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)
   have hC : IsPrimeFormGram (1 : GL (Fin m) K) := isPrimeFormGram_one
   set Ψ : MulAut X ≃* MulAut P := MulAut.congr e with hΨ
@@ -273,7 +273,7 @@ theorem P0_mul_Q0 {l l' : K} (hl : l + l' = 1) : P0 l l' * Q0 l l' = 1 := by
   have hl' : l' + l = 1 := by rw [add_comm]; exact hl
   rw [P0, Q0, fromBlocks_multiply, ← fromBlocks_one]
   congr 1 <;> simp only [Matrix.one_mul, Matrix.mul_one, diagonal_add, h2, diagonal_zero] <;>
-    ext i j <;> by_cases hij : i = j <;> simp [diagonal_apply, Matrix.one_apply, hij, hl, hl']
+    ext i j <;> by_cases hij : i = j <;> simp [Matrix.one_apply, hij, hl, hl']
 
 theorem Q0_mul_P0 {l l' : K} (hl : l + l' = 1) : Q0 l l' * P0 l l' = 1 :=
   mul_eq_one_comm.1 (P0_mul_Q0 hl)
@@ -287,47 +287,53 @@ theorem P0_gram (b : K →+* K) {l l' : K} (hl : l + l' = 1) (hb : b l = l') (hb
     diagonal_add, mul_comm l l', h2, diagonal_zero]
   congr 1
   · ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij, h2]
+    by_cases hij : i = j <;> simp [hij, h2]
   all_goals ext i j
   all_goals by_cases hij : i = j <;>
-    simp [diagonal_apply, Matrix.one_apply, hij, hl, add_comm l' l]
+    simp [Matrix.one_apply, hij, hl, add_comm l' l]
 
+omit [CharP K 2] in
 theorem chi_mul_neg {ω : K} (hω : ω ^ 3 = 1) (x : ZMod 3) : chi ω x * chi ω (-x) = 1 := by
   rw [← chi_add hω, add_neg_cancel, chi_zero]
 
+omit [CharP K 2] in
 theorem T0_gram {ω : K} (hω : ω ^ 3 = 1) (b : K →+* K) (hb : b ω = ω) (v : Fin 3 → ZMod 3) :
     ((T0 ω v).map b)ᵀ * J0 * T0 ω v = J0 := by
   have hc : ∀ x, b (chi ω x) = chi ω x := fun x => by rw [chi, map_pow, hb]
   rw [T0, J0, fromBlocks_map, fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
   simp only [diagonal_map (map_zero b), hc, Matrix.map_zero _ (map_zero b), transpose_zero,
-    diagonal_transpose, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul,
-    zero_add, add_zero, diagonal_mul_diagonal, chi_mul_neg hω]
+    diagonal_transpose, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero, diagonal_mul_diagonal, chi_mul_neg hω]
   rw [show (fun i : Fin 3 => chi ω (-v i) * chi ω (v i)) = fun _ => 1 from
     funext fun i => by rw [mul_comm, chi_mul_neg hω], diagonal_const_one]
 
+omit [CharP K 2] in
 theorem T0_mul {ω : K} (hω : ω ^ 3 = 1) (v w : Fin 3 → ZMod 3) :
     T0 ω v * T0 ω w = T0 ω (v + w) := by
   rw [T0, T0, T0, fromBlocks_multiply]
   simp only [diagonal_mul_diagonal, Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add,
     Pi.add_apply, neg_add, chi_add hω]
 
+omit [CharP K 2] in
 theorem T0_zero (ω : K) : T0 ω 0 = 1 := by
   rw [T0, ← fromBlocks_one]
   simp [chi_zero]
 
+omit [CharP K 2] in
 theorem T0_det {ω : K} (hω : ω ^ 3 = 1) (v : Fin 3 → ZMod 3) : (T0 ω v).det = 1 := by
   rw [T0, det_fromBlocks_zero₂₁, det_diagonal, det_diagonal, ← Finset.prod_mul_distrib]
   simp [chi_mul_neg hω]
 
+omit [CharP K 2] in
 theorem T0_map {ω : K} (σ : K ≃+* K) (hσ : σ ω = ω) (v : Fin 3 → ZMod 3) :
     (T0 ω v).map σ = T0 ω v := by
   have hc : ∀ x, σ (chi ω x) = chi ω x := fun x => by rw [chi, map_pow, hσ]
-  simp [T0, fromBlocks_map, diagonal_map, hc]
+  simp [T0, diagonal_map, hc]
 
 theorem eq_zero_of_eq_neg (x : ZMod 3) (h : x = -x) : x = 0 := by
   revert x h
   decide
 
+omit [CharP K 2] in
 theorem T0_eq_scalar {ω : K} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) {v : Fin 3 → ZMod 3} {c : K}
     (h : T0 ω v = scalar _ c) : v = 0 := by
   funext i
@@ -339,24 +345,31 @@ theorem T0_eq_scalar {ω : K} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) {v : Fin 3 �
 @[expose] def r6 (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) : Matrix (Fin 6) (Fin 6) K :=
   M.submatrix e6.symm e6.symm
 
+omit [CharP K 2] in
 theorem r6_mul (M N : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) : r6 M * r6 N = r6 (M * N) :=
   submatrix_mul_equiv _ _ _ _ _
 
+omit [CharP K 2] in
 theorem r6_one : r6 (1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) = 1 := submatrix_one_equiv _
 
+omit [Field K] [CharP K 2] in
 theorem r6_map (b : K → K) (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) :
     (r6 M).map b = r6 (M.map b) := rfl
 
+omit [Field K] [CharP K 2] in
 theorem r6_transpose (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) : (r6 M)ᵀ = r6 Mᵀ := rfl
 
+omit [CharP K 2] in
 theorem r6_det (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) : (r6 M).det = M.det :=
   det_submatrix_equiv_self _ _
 
+omit [Field K] [CharP K 2] in
 theorem r6_injective : Function.Injective (r6 (K := K)) := fun M N h => by
   ext i j
   have := congrArg (fun A : Matrix (Fin 6) (Fin 6) K => A (e6 i) (e6 j)) h
   simpa [r6] using this
 
+omit [CharP K 2] in
 theorem r6_scalar (c : K) : r6 (scalar (Fin 3 ⊕ Fin 3) c) = scalar (Fin 6) c := by
   rw [scalar_apply, scalar_apply, r6, submatrix_diagonal_equiv]
   rfl
@@ -607,9 +620,9 @@ theorem exists_twist_u7 [CharP K 2] {ω : K} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1
 
 theorem exists_cube_root (h : UnitaryFieldData 2 f K) : ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 := by
   classical
-  haveI := h.finite
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Fintype.card Kˣ := by
     rw [Fintype.card_units, ← Nat.card_eq_fintype_card, h.card]
     have : 2 ^ (2 * f) % 3 = 1 := CFSG.two_pow_mod_three_of_even (even_two_mul f)
@@ -627,7 +640,7 @@ theorem exists_rankFour_psu6 {X : Type} [Group X] [Finite X] (hp : p = 2) (hf : 
     (hαn : α ∉ (MulAut.conj : X →* MulAut X).range) :
     ∃ F : Subgroup (MulAut X), F ≤ H ∧ IsElemAbelian 3 F ∧ Nat.card F = 81 := by
   subst hp
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨ω, hω, hω1⟩ := exists_cube_root h
   have h2f := CFSG.two_pow_mod_three_of_even hf
   have hbω : h.bar ω = ω := by
@@ -648,7 +661,7 @@ theorem exists_rankFour_psu7 {X : Type} [Group X] [Finite X] (hp : p = 2) (hf : 
     (hαn : α ∉ (MulAut.conj : X →* MulAut X).range) :
     ∃ F : Subgroup (MulAut X), F ≤ H ∧ IsElemAbelian 3 F ∧ Nat.card F = 81 := by
   subst hp
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨ω, hω, hω1⟩ := exists_cube_root h
   have h2f := CFSG.two_pow_mod_three_of_even hf
   have hbω : h.bar ω = ω := by
@@ -719,7 +732,7 @@ theorem kFactOuterThreeRankFourRestSL7_of_su (h : KFactOuterThreeRankFourRestSU)
       simp only at hq
       subst hq
       obtain ⟨e⟩ := he
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       have hK := unitaryFieldData_galoisField q
       obtain ⟨e'⟩ := CFSG.Adapters.CatalogueFieldBridges.primeFormP_one_mulEquiv_twistedA hK
         (N := 7) (by norm_num) hv
@@ -730,7 +743,7 @@ theorem kFactOuterThreeRankFourRestSL7_of_su (h : KFactOuterThreeRankFourRestSU)
     simp only at hq
     subst hq
     obtain ⟨e⟩ := he
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK := unitaryFieldData_galoisField q
     obtain ⟨e'⟩ := CFSG.Adapters.CatalogueFieldBridges.primeFormP_one_mulEquiv_twistedA hK
       (N := 6) (by norm_num) hv
@@ -741,7 +754,7 @@ theorem kFactOuterThreeRankFourRestSL7_of_su (h : KFactOuterThreeRankFourRestSU)
   simp only at hq
   subst hq
   obtain ⟨e⟩ := he
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK := unitaryFieldData_galoisField q
   obtain ⟨e'⟩ := CFSG.Adapters.CatalogueFieldBridges.primeFormP_one_mulEquiv_twistedA hK
     (N := 4) (by norm_num) hv

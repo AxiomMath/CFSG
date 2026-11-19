@@ -38,8 +38,7 @@ theorem rowSEpsOf_three :
     (by norm_num) (by decide +kernel) (by decide +kernel)
 
 theorem rowSEpsOf_nine_SL3 : ∀ e : ℕ, 1 ≤ e → e ≤ 3 → RowSEpsOf (projSL 3 (GaloisField 3 e)) := by
-  intro e he1 he3
-  intro S _ _ _ _ ⟨φ⟩
+  intro e he1 he3 S _ _ _ _ ⟨φ⟩
   have hS := (Nat.card_congr φ.toEquiv).trans (RowV.card_projSL_three_char_three he1)
   obtain rfl | rfl | rfl : e = 1 ∨ e = 2 ∨ e = 3 := by omega
   · exact noCfgSEps_of_card (B := 3) hS.dvd (by norm_num) (by norm_num) (by decide +kernel)
@@ -50,8 +49,7 @@ theorem rowSEpsOf_nine_SL3 : ∀ e : ℕ, 1 ≤ e → e ≤ 3 → RowSEpsOf (pro
       (by decide +kernel)
 
 theorem rowSEpsOf_nine_SU3 : ∀ e : ℕ, 1 ≤ e → e ≤ 3 → RowSEpsOf (projSU 3 3 e) := by
-  intro e he1 he3
-  intro S _ _ _ _ ⟨φ⟩
+  intro e he1 he3 S _ _ _ _ ⟨φ⟩
   have hS := (Nat.card_congr φ.toEquiv).trans (RowV.card_projSU_three_char_three he1)
   obtain rfl | rfl | rfl : e = 1 ∨ e = 2 ∨ e = 3 := by omega
   · exact noCfgSEps_of_card (B := 3) hS.dvd (by norm_num) (by norm_num) (by decide +kernel)

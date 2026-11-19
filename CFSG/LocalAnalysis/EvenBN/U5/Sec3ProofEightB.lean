@@ -48,17 +48,17 @@ theorem sec38b_card_le_two {H : Type*} [Group H] [Finite H] {A : Subgroup H} {t 
   obtain ⟨S, hS⟩ := (hz2.of_equiv (subgroupOfEquivOfLe htC).symm).exists_le_sylow
   set Q : Subgroup H := (S : Subgroup C).map C.subtype with hQdef
   have hQC : Q ≤ C := map_subtype_le _
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.map _
   have htQ : zpowers t ≤ Q := fun x hx => ⟨⟨x, htC hx⟩, hS hx, rfl⟩
   have hQeq : Q = zpowers t := by
     refine le_antisymm ?_ htQ
     have htQ' : t ∈ Q := htQ (mem_zpowers t)
-    haveI : Nontrivial ↥Q := by
+    have : Nontrivial ↥Q := by
       refine ⟨⟨⟨t, htQ'⟩, 1, fun h1 => ?_⟩⟩
       have : t = 1 := congrArg Subtype.val h1
       rw [this, orderOf_one] at ht
       omega
-    haveI : Nontrivial (center ↥Q) := hQ2.center_nontrivial
+    have : Nontrivial (center ↥Q) := hQ2.center_nontrivial
     have hZ2 : IsPGroup 2 (center ↥Q) := hQ2.to_subgroup _
     obtain ⟨n, hn, hcard⟩ := (hZ2.nontrivial_iff_card).1 inferInstance
     have hdvd : 2 ∣ Nat.card (center ↥Q) := by
@@ -104,10 +104,10 @@ theorem sec38b_normal_two_group_eq_bot {X : Type*} [Group X] [Finite X]
     (hZ : ∀ z ∈ center X, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1)
     (Y : Subgroup X) [hYn : Y.Normal] (hY : IsPGroup 2 Y) : Y = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (X ⧸ center X) := hX.2
+  have : IsSimpleGroup (X ⧸ center X) := hX.2
   have hmapN : (Y.map (QuotientGroup.mk' (center X))).Normal :=
     hYn.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hmapN
+  have := hmapN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Y.map (QuotientGroup.mk' (center X))) with hb | ht
   · rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hb
     rw [eq_bot_iff]
@@ -138,12 +138,12 @@ theorem sec38b_normal_two_group_eq_bot {X : Type*} [Group X] [Finite X]
         rw [map_commutatorElement, e1, e2, ← map_commutatorElement, hz12, map_one]
       exact (QuotientGroup.eq_one_iff _).1 h1
     have hYtop : Y = ⊤ := top_le_iff.1 (hX.1 ▸ hcomm)
-    haveI : IsPGroup 2 X := by
+    have : IsPGroup 2 X := by
       subst hYtop
       exact hY.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent X := IsPGroup.isNilpotent this
-    haveI : Group.IsPerfect X := ⟨hX.1⟩
-    haveI : Nontrivial X := (QuotientGroup.mk'_surjective (center X)).nontrivial
+    have : Group.IsNilpotent X := IsPGroup.isNilpotent this
+    have : Group.IsPerfect X := ⟨hX.1⟩
+    have : Nontrivial X := (QuotientGroup.mk'_surjective (center X)).nontrivial
     exact Group.IsPerfect.not_isNilpotent X inferInstance
 
 theorem sec38b_mem_map_conj {G : Type*} [Group G] (g : G) (Y : Subgroup G) (x : G) :
@@ -221,7 +221,7 @@ theorem sec38b_odd_card_closure {H : Type*} [Group H] [Finite H] (S : Set H)
     rcases Nat.even_or_odd (Nat.card (Subgroup.closure S)) with he | ho
     · exact even_iff_two_dvd.1 he
     · exact absurd ho hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.closure S) 2 h2
   obtain ⟨m, hm, hxm⟩ := hall x x.2
   have hxm' : x ^ m = 1 := Subtype.ext (by simpa using hxm)
@@ -243,7 +243,7 @@ theorem sec38b_le_oddCore_of_commuting_conjugates {K : Type*} [Group K] [Finite 
     rintro _ ⟨g, q, hq, rfl⟩ _ ⟨g', q', hq', rfl⟩
     exact hcomm q hq q' hq' g g'
   have hRodd := sec38b_odd_card_closure S hScomm hSodd
-  haveI : (Subgroup.closure S).Normal := ⟨fun x hx g => by
+  have : (Subgroup.closure S).Normal := ⟨fun x hx g => by
     refine Subgroup.closure_induction (p := fun x _ => g * x * g⁻¹ ∈ Subgroup.closure S) ?_ ?_ ?_ ?_
       hx
     · rintro _ ⟨g', q, hq, rfl⟩
@@ -283,6 +283,7 @@ theorem sec38b_t_notMem_E (hp : d.CaseHyp) : d.t ∉ d.E := by
   rw [hp.hyp.E_inf_B₂ hp.gms] at this
   exact hp.hyp.t_not_mem_L (d.P_le_L (d.A₂_le_P this))
 
+omit [Finite G] in
 theorem sec38b_center_N₂ (d : Data G h) :
     ∀ z ∈ center ↥d.N₂, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1 := by
   intro z hz k hk
@@ -305,7 +306,7 @@ theorem sec38b_E_inf_N₂ (hp : d.CaseHyp) : d.E ⊓ d.N₂ = ⊥ := by
   have hq : CFSG.Open.IsQuasisimple ↥d.N₂ :=
     (hp.hyp.quasisimple_lieModel_N₂ (X := ↥d.N₂) ⟨MulEquiv.refl _⟩).1
   set Y : Subgroup ↥d.N₂ := (d.E ⊓ d.N₂).subgroupOf d.N₂ with hY
-  haveI hYn : Y.Normal := ⟨fun y hy n => by
+  have hYn : Y.Normal := ⟨fun y hy n => by
     rw [hY, mem_subgroupOf] at hy ⊢
     refine ⟨?_, ?_⟩
     · have := (mem_normalizer_iff.1 (d.N₂_le_normalizer_E n.2) y).1 hy.1
@@ -347,8 +348,8 @@ theorem sec38b_quasisimple_model (hp : d.CaseHyp) :
 
 theorem sec38b_normalizer_E_ne_top (hp : d.CaseHyp) : normalizer (d.E : Set G) ≠ ⊤ := by
   intro htop
-  haveI hE : d.E.Normal := normalizer_eq_top_iff.1 htop
-  haveI hsimple : IsSimpleGroup G := hp.hyp.setting.std.simple
+  have hE : d.E.Normal := normalizer_eq_top_iff.1 htop
+  have hsimple : IsSimpleGroup G := hp.hyp.setting.std.simple
   have hE2 := hp.hyp.isPGroup_E hp.gms
   have hcard := hp.hyp.card_E hp.gms
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal d.E with hb | ht
@@ -360,9 +361,9 @@ theorem sec38b_normalizer_E_ne_top (hp : d.CaseHyp) : normalizer (d.E : Set G) �
   · have hG2 : IsPGroup 2 G := by
       rw [ht] at hE2
       exact hE2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial G := hsimple.toNontrivial
-    haveI : Nontrivial (center G) := hG2.center_nontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial G := hsimple.toNontrivial
+    have : Nontrivial (center G) := hG2.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center G) with hc | hc
     · obtain ⟨z, hz⟩ := exists_ne (1 : center G)
       exact hz (Subtype.ext (Subgroup.mem_bot.1 (hc.le z.2)))
@@ -520,6 +521,7 @@ theorem sec38b_normal (hp : d.CaseHyp) (ha : d.Sec38a1)
   rw [← hγ, ← hxe, ← map_inv, ← map_mul, ← map_mul, key]
   exact proj_mem_bar hn'
 
+omit [Finite G] in
 theorem sec38b_proj_mem_zpowers (ht : d.t ∈ normalizer (d.E : Set G))
     {x : normalizer (d.E : Set G)} (hx : (x : G) ∈ d.E ⊔ zpowers d.t) :
     proj d.E x ∈ zpowers (proj d.E ⟨d.t, ht⟩) := by

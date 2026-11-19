@@ -104,12 +104,12 @@ theorem D2AlmostSimple.heisOver_of_simple [Fact p.Prime] (hK : D2AlmostSimple p 
       rw [hCU] at hwC
       exact hwC
     · exact Or.inr ((inf_le_left.trans hRU).trans (hWU ▸ inf_le_left))
-  have hZp : IsPGroup p Z := R.isPGroup'.to_le inf_le_left
+  have hZp : IsPGroup p Z := R.isPGroup.to_le inf_le_left
   have hZne : Z ≠ ⊥ := by
     intro h0
     rw [h0, Subgroup.card_bot] at hZ
     exact hp.one_lt.ne hZ
-  exact ⟨hcard, hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup' (by rw [hK.pRank_eq]), hC, hZ,
+  exact ⟨hcard, hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup (by rw [hK.pRank_eq]), hC, hZ,
     hcomm, hexp, hdich, primeComplementCore_eq_bot_of_dichotomy hdich hZp hZne, hlines⟩
 
 end Over
@@ -398,7 +398,7 @@ theorem false_of_hsFiveNonBorel {G : Type} [Group G] [Finite G] (hHS : KFactHSFi
   have hNX₀ : Subgroup.normalizer (((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 5))) :
       Set (H ⧸ primeComplementCore (G := H) 5)) ≤
       ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (primeComplementCore 5)) :=
-    hK.normalizer_le_of_rank _ hK.sylow_le Rbar.isPGroup' (by rw [hK.pRank_eq])
+    hK.normalizer_le_of_rank _ hK.sylow_le Rbar.isPGroup (by rw [hK.pRank_eq])
   obtain ⟨-, U, hUX₀, hX₀U, hUU, hRU, hUs, -, hCU, -, -⟩ :=
     hHS _ K hK.normal hK.centralizer_eq_bot he Rbar _ hNX₀ hK.ne_top hne
   obtain ⟨-, hcard, hC, hZ, hcomm, hexp, -, hlines⟩ :=

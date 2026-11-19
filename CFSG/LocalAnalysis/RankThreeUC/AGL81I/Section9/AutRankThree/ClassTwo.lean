@@ -68,7 +68,7 @@ private theorem step_of_mem [Finite D] (hr : r.Prime) (hexp : ∀ x : D, x ^ r =
     le_centralizer_sup (inf_le_left.trans hK) fun h hh => ?_, ?_⟩
   · exact mem_centralizer_singleton_iff.mp (mem_inf.mp hh).2
   · exact mul_card_le_of_lt hr hexp
-      (SetLike.lt_iff_le_and_exists.mpr ⟨le_sup_left, x, mem_sup_right (mem_zpowers x), hxA⟩)
+      (IsConcreteLE.lt_iff_le_and_exists.mpr ⟨le_sup_left, x, mem_sup_right (mem_zpowers x), hxA⟩)
 
 private theorem step [Finite D] (hr : r.Prime) (hexp : ∀ x : D, x ^ r = 1)
     (hrk : CFSG.Open.pRank r (⊤ : Subgroup D) ≤ 3) {A K : Subgroup D} (hA : A ≤ centralizer A)
@@ -163,7 +163,7 @@ private theorem center_le_commutator [Finite D] (hr : r.Prime) (hexp : ∀ x : D
     (h4 : r ^ 4 ≤ Nat.card (D ⧸ commutator D)) (hu : Nat.card (commutator D) = r) :
     center D ≤ commutator D := by
   by_contra hZ
-  obtain ⟨z, hz, hzN⟩ := SetLike.not_le_iff_exists.mp hZ
+  obtain ⟨z, hz, hzN⟩ := IsConcreteLE.not_le_iff_exists.mp hZ
   obtain ⟨hN, hT⟩ := commutator_start hcl
   obtain ⟨hA0, hK0, hc0⟩ := step_of_mem hr hexp hN hT (mem_top z) hzN
   rw [top_inf_eq, (centralizer_eq_top_iff_subset.mpr (Set.singleton_subset_iff.mpr hz))] at hK0

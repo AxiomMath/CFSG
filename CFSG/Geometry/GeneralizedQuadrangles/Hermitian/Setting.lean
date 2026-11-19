@@ -29,6 +29,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
     (Γ.induce (subquadrangleSet Γ c P')).Coloring (Fin 2) :=
   c.comp (SimpleGraph.Embedding.induce _).toHom
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem subquadrangleColoring_apply (c : Γ.Coloring (Fin 2)) (P' : Set V)
     (v : subquadrangleSet Γ c P') : subquadrangleColoring c P' v = c v := rfl
 

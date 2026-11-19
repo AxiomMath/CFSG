@@ -101,7 +101,7 @@ theorem pPrimeCore_eq_bot_of_l34 {J : Type} [Group J] [Finite J] (hJ : IsQuasisi
   let f : ↥(P : Subgroup J) →* J ⧸ pPrimeCore 2 J :=
     (QuotientGroup.mk' (pPrimeCore 2 J)).comp (P : Subgroup J).subtype
   have hpgr : IsPGroup r f.range :=
-    P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   have hcyc : IsCyclic f.range := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hpgr
     have hdvd : Nat.card f.range ∣ 20160 := hcard ▸ Subgroup.card_subgroup_dvd_card f.range

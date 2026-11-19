@@ -48,7 +48,7 @@ theorem chief_dichotomy (hF : Hyp111 L1 L2 S)
   classical
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨hpCore, -, -, e, he⟩ := sz_vertex (K := K) hK hF hB ha hSz
   have hQ1H : Q1 L1 L2 S ≤ L1 ⊔ S := hpCore ▸ CFSG.LieType.BorelTits.pCoreOf_le 2 (L1 ⊔ S)
   have hHL : L1 ⊔ S ≤ Subgroup.normalizer (L : Set G) :=
@@ -78,11 +78,11 @@ theorem chief_dichotomy (hF : Hyp111 L1 L2 S)
       (by rw [← hpCore]; exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (L1 ⊔ S))
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (P1 L1 L2 S)).to_le hstep.1.1)
       hstep.2.2.1 hHN hHL hNL hchief q hq n hn
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod L N)) :=
     sectionRep hHL hHN hNL hE hO e
-  haveI : Fact ρ.IsIrreducible :=
+  have : Fact ρ.IsIrreducible :=
     ⟨sectionRep_isIrreducible hstep hQ1H hHL hHN hNL hE hO e⟩
   by_cases htriv : ∀ g, ρ g = 1
   ·

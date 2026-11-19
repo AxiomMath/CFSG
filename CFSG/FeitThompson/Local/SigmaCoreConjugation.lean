@@ -7,7 +7,11 @@ import CFSG.FeitThompson.Local.FrattiniArgumentNormalSylow
 import CFSG.FeitThompson.Local.FittingOverlapPrimeCoreNoncyclic
 import CFSG.FeitThompson.Local.PowerCentralizerTiCriterion
 import CFSG.FeitThompson.OddOrder.SigmaPrimesWellDefined
-public import Mathlib.Data.Set.Lattice
+public import Mathlib.Data.Set.Lattice.Bounded
+public import Mathlib.Data.Set.Lattice.Disjoint
+public import Mathlib.Data.Set.Lattice.Image
+public import Mathlib.Data.Set.Lattice.Indexed
+public import Mathlib.Data.Set.Lattice.Order
 
 namespace CFSG.FeitThompson
 
@@ -72,7 +76,7 @@ theorem conj_image_coreFamilySupport_sigmaCore
 omit [Finite G] in
 theorem map_conj_mem_setOf_isCoatom (hM : M ∈ {M : Subgroup G | IsCoatom M}) (g : G) :
     M.map (MulAut.conj g : G →* G) ∈ {M : Subgroup G | IsCoatom M} := by
-  simp only [Set.mem_setOf_eq] at hM ⊢
+  simp only [Set.mem_ofPred_eq] at hM ⊢
   exact isCoatom_map_conj hM g
 
 theorem conj_image_coreFamilySupport_sigmaCore_isCoatom (g : G) :

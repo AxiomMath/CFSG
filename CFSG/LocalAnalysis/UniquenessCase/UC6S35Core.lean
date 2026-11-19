@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC6
 open Subgroup CFSG.ABGLocalTools
 
 theorem comm_of_isCyclic {α : Type*} [Group α] [IsCyclic α] (a b : α) : a * b = b * a := by
-  letI := IsCyclic.commGroup (α := α)
+  let := IsCyclic.commGroup (α := α)
   exact mul_comm a b
 
 theorem comm_of_mem_cyclic {G : Type*} [Group G] (H : Subgroup G) [IsCyclic H] {x y : G}
@@ -111,7 +111,7 @@ theorem no_pgroup_quotient_of_simple_nonabelian {G : Type} [Group G] [Finite G] 
         exact hk
       rw [QuotientGroup.eq_one_iff, Subgroup.mem_bot] at h2
       exact h2
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     have hc := hG.center_nontrivial
     rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hb | ht
     · exact (Subgroup.nontrivial_iff_ne_bot _).1 hc hb
@@ -127,8 +127,8 @@ theorem exists_inverting_normalizer {G : Type} [Group G] [Finite G] (hsimple : I
     (hS1 : (S : Subgroup G) ≠ ⊥) :
     ∃ n ∈ normalizer (S : Set G), ∀ s ∈ (S : Subgroup G), n * s * n⁻¹ = s⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hcyc
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hcyc
   have hW : ∀ (N : Subgroup (S : Subgroup G)) [N.Normal],
       IsEmpty ((↥(S : Subgroup G) ⧸ N) ≃* (Multiplicative (ZMod 3) ≀ᵣ Multiplicative (ZMod 3))) :=
     fun N _ => isEmpty_wreath_of_isCyclic Nat.prime_three N
@@ -149,7 +149,7 @@ theorem exists_inverting_normalizer {G : Type} [Group G] [Finite G] (hsimple : I
     apply hS1
     rw [eq_bot_iff, hY]
     exact hcomm
-  letI : MulDistribMulAction (normalizer (S : Set G)) (S : Subgroup G) :=
+  let : MulDistribMulAction (normalizer (S : Set G)) (S : Subgroup G) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer _ _ le_rfl
   obtain ⟨ρ, hρdef⟩ : ∃ ρ : normalizer (S : Set G) →* MulAut (S : Subgroup G),
       ρ = MulDistribMulAction.toMulAut _ _ := ⟨_, rfl⟩
@@ -230,7 +230,7 @@ theorem exists_inverting_core {Kg : Type} [Group Kg] [Finite Kg] (U : Subgroup K
     (hcyc : ∀ S : Sylow 3 Kg, IsCyclic S) :
     ∃ t : Kg, ∀ z ∈ Z, t * z * t⁻¹ = z⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZU : Z ⊓ U = ⊥ :=
     (Subgroup.disjoint_of_coprime_natCard (H := Z) (K := U) (by rw [hZ]; exact hU)).eq_bot
   have hinj : ∀ a ∈ Z, ∀ b ∈ Z, (a : Kg ⧸ U) = (b : Kg ⧸ U) → a = b := by
@@ -244,7 +244,7 @@ theorem exists_inverting_core {Kg : Type} [Group Kg] [Finite Kg] (U : Subgroup K
       (Sb : Subgroup (Kg ⧸ U)) = (P : Subgroup Kg).map (QuotientGroup.mk' U) :=
     ⟨Sylow.mapSurjective (QuotientGroup.mk'_surjective U) P, rfl⟩
   have hSbcyc : IsCyclic (Sb : Subgroup (Kg ⧸ U)) := by
-    haveI := hcyc P
+    have := hcyc P
     let f : (P : Subgroup Kg) →* (Sb : Subgroup (Kg ⧸ U)) :=
       { toFun := fun x => ⟨QuotientGroup.mk' U (x : Kg), by
           rw [hSbcoe]
@@ -263,7 +263,7 @@ theorem exists_inverting_core {Kg : Type} [Group Kg] [Finite Kg] (U : Subgroup K
   have hZbar' : ∀ z ∈ Z, (z : Kg ⧸ U) ∈ (Sb : Subgroup (Kg ⧸ U)) := fun z hz =>
     hZbar (Subgroup.mem_map_of_mem _ hz)
   have hSb1 : (Sb : Subgroup (Kg ⧸ U)) ≠ ⊥ := by
-    haveI : Nontrivial Z := (Finite.one_lt_card_iff_nontrivial).1 (by rw [hZ]; norm_num)
+    have : Nontrivial Z := (Finite.one_lt_card_iff_nontrivial).1 (by rw [hZ]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : Z)
     intro h
     have hmem := hZbar' x x.2
@@ -282,7 +282,7 @@ theorem exists_inverting_core {Kg : Type} [Group Kg] [Finite Kg] (U : Subgroup K
     rw [Subgroup.map_sup, hUbot, bot_sup_eq] at h1
     exact hZbar h1
   obtain ⟨nb, hnb, hnbS⟩ := exists_inverting_normalizer hsimple hnab Sb hSbcyc hSb1
-  haveI := hSbcyc
+  have := hSbcyc
   have hcommS : ∀ a ∈ (Sb : Subgroup (Kg ⧸ U)), ∀ b ∈ (Sb : Subgroup (Kg ⧸ U)), a * b = b * a :=
     fun a ha b hb => comm_of_mem_cyclic (Sb : Subgroup (Kg ⧸ U)) ha hb
   obtain ⟨n, hn⟩ := QuotientGroup.mk_surjective nb
@@ -342,8 +342,8 @@ theorem exists_inverting_of_cyclic_sylow {p : ℕ} (hp : p = 3) {Kg : Type} [Gro
     (hcyc : ∀ S : Sylow p Kg, IsCyclic S) :
     ∃ t : Kg, ∀ z ∈ Z, t * z * t⁻¹ = z⁻¹ := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 Kg).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 Kg).Normal := CFSG.pPrimeCore_normal
   exact exists_inverting_core (CFSG.pPrimeCore 3 Kg) CFSG.pPrimeCore_coprime_card hsimple hnab hZ
     hcyc
 

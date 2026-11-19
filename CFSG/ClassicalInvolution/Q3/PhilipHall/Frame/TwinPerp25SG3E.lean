@@ -285,7 +285,7 @@ theorem layer_lie_of_noExit (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {a : G}
     (ha1 : a ≠ 1) (hacA : a ∈ cA S R R') (hT : TwinThmE.T4Supply) (hbad : BadElt z a)
     (hno : SecNoExitAt Ω a) : LayerLie Ω a 5 ∨ LayerLie Ω a 6 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hΩ : HypOmegaGen Ω := hyp.std.1.stand.hyp
   have hc2 : IsPGroup 2 (Subgroup.zpowers a) :=
     CFSG.ClassicalInvolution.Asc77.ExactLayer.isPGroup_zpowers_of_sq_eq_one ha2
@@ -351,7 +351,7 @@ theorem layer_lie_of_noExit (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {a : G}
 theorem layerSq_of_layerLie (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {a : G} (ha2 : a * a = 1)
     (ha1 : a ≠ 1) (hacA : a ∈ cA S R R') (hno : SecNoExitAt Ω a)
     (hL : LayerLie Ω a 5 ∨ LayerLie Ω a 6) : LayerSq Ω a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := layer_q8Section hyp ha2
   have hcenter : a ∉ Subgroup.center G := by
     have hZ := CoreLike.center_eq_bot (G := G)

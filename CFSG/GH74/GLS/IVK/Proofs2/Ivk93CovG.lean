@@ -73,7 +73,7 @@ theorem ivk93cov_le_of_subnormal_surj {Y Q : Type} [Group Y] [Finite Y] [Group Q
   have hk : s⁻¹ * t ∈ ρ.ker := by
     rw [MonoidHom.mem_ker, map_mul, map_inv, hs, inv_mul_cancel]
   have hkT : s⁻¹ * t ∈ (T : Subgroup Y) := (T : Subgroup Y).mul_mem ((T : Subgroup Y).inv_mem hsT) ht
-  have h1' : s⁻¹ * t = 1 := ivk93cov_eq_one_of_two_group_odd T.isPGroup' hkT (hodd _ hk)
+  have h1' : s⁻¹ * t = 1 := ivk93cov_eq_one_of_two_group_odd T.isPGroup hkT (hodd _ hk)
   have : t = s := by
     have := congrArg (fun w => s * w) h1'
     simpa using this
@@ -186,7 +186,7 @@ theorem ivk93Kind_sporadic_of (hJ : Ivk93CovJ) (hOne : Ivk93CovOneClass) {k : Ki
   have hU : IsPGroup 2 ↥((barIn H S).subgroupOf C') := by
     have h1 : IsPGroup 2 ↥(barIn H S) := by
       rw [← hT]
-      exact T.isPGroup'
+      exact T.isPGroup
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe hSC).symm
   have hSB : (barIn H S).subgroupOf C' ≤ B.subgroupOf C' :=
     ivk93cov_le_of_subnormal_surj (cenToBar H hCH) hρ hodd hAsub hAρ hU

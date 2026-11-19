@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centModSubgroup_of_mk_mem_center {p : ℕ} {L : Subgroup G} {z : G} (hzL : z ∈ L)
     (hz : (QuotientGroup.mk (⟨z, hzL⟩ : L) : PQuot p L) ∈ Subgroup.center (PQuot p L)) :
     z ∈ centModSubgroup p L := by
@@ -33,6 +34,7 @@ theorem mem_centModSubgroup_of_mk_mem_center {p : ℕ} {L : Subgroup G} {z : G} 
   rw [QuotientGroup.eq_one_iff] at h1
   exact ⟨_, h1, rfl⟩
 
+omit [Finite G] in
 theorem not_centModEqZpowers_of_not_isCyclic {p : ℕ} {B L : Subgroup G} {x : G}
     (h : ¬ IsCyclic (B ⊓ centModSubgroup p L : Subgroup G)) : ¬ CentModEqZpowers p B L x := by
   intro hE
@@ -41,10 +43,12 @@ theorem not_centModEqZpowers_of_not_isCyclic {p : ℕ} {B L : Subgroup G} {x : G
     (hE b hb.1).1 (centMod_iff.2 hb.2)
   exact Subgroup.isCyclic_of_le hle
 
+omit [Finite G] in
 theorem isPGroup_pCoreOf (r : ℕ) (N : Subgroup G) : IsPGroup r (pCoreOf r N) := by
   unfold pCoreOf
   exact CFSG.pCore_isPGroup.map _
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (a : G) :
     Subgroup.centralizer (Subgroup.zpowers a : Set G) = Subgroup.centralizer ({a} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
@@ -54,7 +58,7 @@ theorem prop51 {p : ℕ} (hc : Sec5Ctx G p) {Exc Club : Subgroup G → Prop}
     Prop51At G p := by
   classical
   have hp := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h183 := hc.input18_3_4
   have hS4 := hc.stage4Order
   by_contra hfail

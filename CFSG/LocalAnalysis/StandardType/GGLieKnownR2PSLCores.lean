@@ -62,7 +62,7 @@ private theorem lr2c1_eq_maxHeight_PSL {m f : ℕ} (hm : 0 < m)
         simp [h0last, hm]
       · by_cases hl : a = Fin.last m
         · subst hl
-          simp [h0last, hm.ne']
+          simp [hm.ne']
         · have ha0 : 0 < a.val := by
             by_contra h
             have : a.val = 0 := by omega
@@ -131,7 +131,7 @@ private theorem lr2c1_eq_maxHeight_PSL {m f : ℕ} (hm : 0 < m)
     have := j₁.isLt
     omega
   apply SpecialLinear.toStd_injective m
-  simpa only [hstd₀, hstd₁, hi₀, hj₀, hi₁, hj₁]
+  simp only [hstd₀, hstd₁, hi₀, hj₀, hi₁, hj₁]
 
 theorem ggLongRoot_of_mem_roots {m : ℕ} (hm : 0 < m) {F : Type} [Field F]
     {β : Fin m → ℤ} (hβ : β ∈ (SpecialLinear.rootDatum m F).roots) :
@@ -198,7 +198,7 @@ private theorem lr2c2_unipElt_inv {k E X : Type} [Field k] [Field E] [Algebra k 
     (unipElt a b c)⁻¹ = unipElt (-a) (-b) (-c + a ∘ₗ b) := by
   apply inv_eq_of_mul_eq_one_right
   rw [unipElt_mul, ← unipElt_zero, unipElt_inj]
-  refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp <;> abel
+  refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp
 
 private theorem lr2c2_unipElt_commutator {k E X : Type} [Field k] [Field E] [Algebra k E]
     [AddCommGroup X] [Module k X] (φ φ' : X →ₗ[k] E) (χ χ' : E →ₗ[k] X)
@@ -208,7 +208,7 @@ private theorem lr2c2_unipElt_commutator {k E X : Type} [Field k] [Field E] [Alg
   rw [lr2c2_unipElt_inv, lr2c2_unipElt_inv]
   simp only [unipElt_mul]
   rw [unipElt_inj]
-  refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp <;> abel
+  refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp; abel
 
 theorem commutator_QK_le_rootSL {k X : Type} [Field k] [AddCommGroup X] [Module k X] :
     ⁅QK k k X, QK k k X⁆ ≤ rootSL k k X := by

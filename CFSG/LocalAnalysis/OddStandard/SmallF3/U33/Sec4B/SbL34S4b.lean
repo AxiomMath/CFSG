@@ -38,6 +38,7 @@ private def conjHom (P Q : Subgroup G)
     ext x
     simp [mul_assoc]
 
+omit [Finite G] in
 private lemma conjHom_apply (P Q : Subgroup G)
     (hPQ : ∀ p ∈ P, ∀ x ∈ Q, p * x * p⁻¹ ∈ Q) (p : ↥P) (x : ↥Q) :
     ((conjHom P Q hPQ p x : ↥Q) : G) = (p : G) * (x : G) * (p : G)⁻¹ := rfl

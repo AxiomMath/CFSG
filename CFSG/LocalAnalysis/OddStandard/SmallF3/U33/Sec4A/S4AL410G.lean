@@ -12,7 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
-theorem ncard_tF_cases (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 = 1) :
+theorem ncard_tF_cases (h : Ctx t L S x₁ x₂ lam rho tau) (_h44 : tau ^ 2 = 1) :
     (t • (fourGrp x₁ x₂ : Set G)).ncard = 4 ∧
     (t • (fourGrp x₁ x₂ : Set G) ∪ tau • (fourGrp x₁ x₂ : Set G)).ncard = 8 ∧
     (t • (fourGrp x₁ x₂ : Set G) ∪ (t * tau) • (fourGrp x₁ x₂ : Set G)).ncard = 8 := by

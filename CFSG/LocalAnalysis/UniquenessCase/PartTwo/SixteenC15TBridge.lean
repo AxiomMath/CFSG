@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c15t_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil ⊥ V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -26,6 +27,7 @@ private theorem s16c15t_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 private theorem s16c15t_fixV_barSub {W V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hW : W ≤ stabTil ⊥ V) :
     fixV (barSub ⊥ V hV W) = imgTil ⊥ V hV (V ⊓ centralizer (W : Set G)) := by

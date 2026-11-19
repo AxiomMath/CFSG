@@ -32,8 +32,8 @@ theorem contra_final [Finite Y] {B K P₀ : Subgroup Y} {x : Y}
     (hP₀K : P₀ ≤ K) (hP₀ne : P₀ ≠ ⊥) (hP₀p : IsPGroup 2 P₀)
     (hP₀n : ∀ b ∈ B, b ∈ Subgroup.normalizer (K : Set Y) → cj b P₀ = P₀) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHel := isElemAbelian_HK (K := K) hB
   have hcardB := card_B_eq hrel
   have hS'ne : P₀.subgroupOf K ≠ ⊥ := by

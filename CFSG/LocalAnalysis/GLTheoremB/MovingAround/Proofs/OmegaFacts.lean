@@ -55,21 +55,21 @@ theorem commutator_eq_top_of_simple_of_center_bot {G : Type*} [Group G] [IsSimpl
 
 theorem commutator_eq_top_of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)
     (h : commutator H = ⊤) : commutator G = ⊤ := by
-  haveI : Group.IsPerfect H := ⟨h⟩
-  haveI : Group.IsPerfect G := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
+  have : Group.IsPerfect H := ⟨h⟩
+  have : Group.IsPerfect G := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
     e.symm.surjective
   exact Group.IsPerfect.commutator_eq_top
 
 theorem commutator_statedOmega_plus_eq_top {n : ℕ} (hn : 2 ≤ n) :
     commutator ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))) = ⊤ := by
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))) :=
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))) :=
     CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadPlus_of_three_le
       (K := ZMod 2) (k := n + 1) (by omega)
   exact commutator_eq_top_of_simple_of_center_bot (Prop95Iv.omegaCentreTrivial_holds n hn).1
 
 theorem commutator_statedOmega_minus_eq_top {n : ℕ} (hn : 2 ≤ n) :
     commutator ↥(StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) = ⊤ := by
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) :=
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) :=
     CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
       (K := ZMod 2) (b := 1) (c := 1) (m := n + 1) (by omega) (by decide)
   exact commutator_eq_top_of_simple_of_center_bot (Prop95Iv.omegaCentreTrivial_holds n hn).2
@@ -360,7 +360,7 @@ theorem exists_elemAbelian_three_pow_of_rank2 {X : Type} [Group X] [Finite X]
     (h : Rank2 (⊤ : Subgroup X)) :
     ∃ (E : Subgroup X) (k : ℕ), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k ∧ 2 ≤ k := by
   obtain ⟨g₁, -, g₂, -, h1, h2, h12, h1ne, hnot⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : (3 : ℕ).Prime := Nat.prime_three
   set A : Subgroup X := Subgroup.zpowers g₁ with hA
   set B : Subgroup X := Subgroup.zpowers g₂ with hB
@@ -492,7 +492,7 @@ theorem card_statedOmega_quadMinus_of_two_le {k : ℕ} (hk : 2 ≤ k) :
   have h6 : 6 ≤ Module.finrank (ZMod 2) (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2 → ZMod 2) := by
     simp [Module.finrank_fintype_fun_eq_card]
     omega
-  haveI : Nonempty (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   rw [CFSG.ClassicalGroups.Orthogonal.statedOmega_eq_comap hQ, card_comap_mulEquiv,
     CFSG.RankThree.Literature.FSmith.commutator_orthogonalGroup_eq_omegaGroup hnd h6]
   have hidx := CFSG.RankThree.OrthogonalInvolutions.relIndex_omegaGroup
@@ -527,7 +527,7 @@ theorem card_statedOmega_quadPlus_of_two_le {k : ℕ} (hk : 2 ≤ k) :
   have h6 : 6 ≤ Module.finrank (ZMod 2) (Fin (k + 1) ⊕ Fin (k + 1) → ZMod 2) := by
     simp [Module.finrank_fintype_fun_eq_card]
     omega
-  haveI : Nonempty (Fin (k + 1) ⊕ Fin (k + 1)) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin (k + 1) ⊕ Fin (k + 1)) := ⟨Sum.inl 0⟩
   rw [CFSG.ClassicalGroups.Orthogonal.statedOmega_eq_comap hQ, card_comap_mulEquiv,
     CFSG.RankThree.Literature.FSmith.commutator_orthogonalGroup_eq_omegaGroup hnd h6]
   have hidx := CFSG.RankThree.OrthogonalInvolutions.relIndex_omegaGroup
@@ -649,7 +649,7 @@ theorem sixtyFour_dvd_omegaOrd {ε : Bool} {m : ℕ} (hm : 3 ≤ m) : 64 ∣ ome
 
 theorem not_isSolvable_of_perfect {X : Type*} [Group X] [Nontrivial X] (h : commutator X = ⊤) :
     ¬ Group.IsSolvable X := by
-  haveI : Group.IsPerfect X := ⟨h⟩
+  have : Group.IsPerfect X := ⟨h⟩
   exact Group.IsPerfect.not_isSolvable X
 
 theorem card_alternatingGroup_five : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
@@ -684,18 +684,18 @@ theorem omega_data {ε : Bool} {n : ℕ} {X : Type} [Group X] [Finite X]
         refine Or.inr (Or.inr (Or.inr (Or.inl ⟨rfl, rfl, ?_, ?_⟩)))
         · rw [Nat.card_congr e'.toEquiv]
           exact card_alternatingGroup_five
-        · haveI : Nontrivial ↥(alternatingGroup (Fin 5)) := by
+        · have : Nontrivial ↥(alternatingGroup (Fin 5)) := by
             rw [← Finite.one_lt_card_iff_nontrivial, card_alternatingGroup_five]
             norm_num
           have hperf : commutator ↥(alternatingGroup (Fin 5)) = ⊤ :=
             commutator_alternatingGroup_eq_top (by simp)
           intro hs
-          haveI : Group.IsSolvable ↥(alternatingGroup (Fin 5)) :=
+          have : Group.IsSolvable ↥(alternatingGroup (Fin 5)) :=
             Group.isSolvable_of_isSolvable_injective (f := e'.symm.toMonoidHom) e'.symm.injective
           exact not_isSolvable_of_perfect hperf this
       · obtain ⟨e⟩ := hX
         refine Or.inr (Or.inr (Or.inl ⟨rfl, rfl, ?_, ?_⟩))
-        · haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
+        · have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
             Prop95I1920.isSolvable_statedOmega_plus_two
           exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
         · exact nine_dvd_card_of_rank2 (Rank2.map e.symm.toMonoidHom e.symm.injective
@@ -714,7 +714,7 @@ theorem omega_data {ε : Bool} {n : ℕ} {X : Type} [Group X] [Finite X]
     have hcard : 1 < Nat.card X := by
       have := Nat.le_of_dvd hpos h64
       omega
-    haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.1 hcard
+    have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.1 hcard
     have hperf : commutator X = ⊤ := by
       cases ε
       · obtain ⟨e⟩ := hX
@@ -778,10 +778,9 @@ theorem input3_3OmegaUnique_holds : Lemma137b.Input3_3OmegaUnique := by
       ⟨h1, h2, h3, h4⟩ | ⟨h1, h3, h5, h4⟩ <;>
   rcases omega_data hX' with ⟨g1, g2, g3⟩ | ⟨g1, g2, g3, g4⟩ | ⟨g1, g2, g3, g4⟩ |
       ⟨g1, g2, g3, g4⟩ | ⟨g1, g3, g5, g4⟩
-  all_goals first
+  all_goals try first
     | (exfalso; first | omega | exact absurd ‹Group.IsSolvable X› ‹¬ Group.IsSolvable X›)
     | (exact ⟨by simp_all, by omega⟩)
-    | skip
   obtain ⟨hε, hm⟩ := omegaOrd_inj (ε := ε) (ε' := ε') (m := n + 1) (m' := n' + 1) (by omega)
     (by omega) (h3.symm.trans g3)
   exact ⟨hε, by omega⟩
@@ -825,8 +824,8 @@ theorem input3_3OmegaAlt_holds : Lemma137b.Input3_3OmegaAlt := by
     rcases omega_data hΩ with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩ |
         ⟨h1, h2, h3, h4⟩ | ⟨h1, h3, h5, h4⟩
     · subst h1
-      haveI := subsingleton_statedSp_zero
-      haveI : Subsingleton (Equiv.Perm (Fin (0 * p))) := by
+      have := subsingleton_statedSp_zero
+      have : Subsingleton (Equiv.Perm (Fin (0 * p))) := by
         rw [zero_mul]
         infer_instance
       exact nonempty_mulEquiv_of_subsingleton
@@ -840,14 +839,14 @@ theorem input3_3OmegaAlt_holds : Lemma137b.Input3_3OmegaAlt := by
       have h5 : Nat.factorial 5 = 120 := by decide
       omega
     have hns : ¬ Group.IsSolvable X := by
-      haveI : Nontrivial ↥(alternatingGroup (Fin (k * p + 2))) := by
+      have : Nontrivial ↥(alternatingGroup (Fin (k * p + 2))) := by
         rw [← Finite.one_lt_card_iff_nontrivial,
           ← CFSG.HardMathSupport.Curtis.Coordinator.PLType.two_mul_card_alt_fin _ hN5] at *
         omega
       have hperf : commutator ↥(alternatingGroup (Fin (k * p + 2))) = ⊤ :=
         commutator_alternatingGroup_eq_top (by simpa using hN5)
       intro hs
-      haveI : Group.IsSolvable ↥(alternatingGroup (Fin (k * p + 2))) :=
+      have : Group.IsSolvable ↥(alternatingGroup (Fin (k * p + 2))) :=
         Group.isSolvable_of_isSolvable_injective (f := eA.symm.toMonoidHom) eA.symm.injective
       exact not_isSolvable_of_perfect hperf this
     rcases omega_data hΩ with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩ |
@@ -966,8 +965,8 @@ theorem input3_3SpFacts_holds : Lemma137b.Input3_3SpFacts := by
     have hgd := Lemma137b.GoodDer.of_mulEquiv g.symm
       (Lemma137b.goodDer_perm (n := 6) (by norm_num))
     exact ⟨hgd.simple, hgd.nonab⟩
-  · haveI : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := isSimpleGroup_statedSp_zmod_two h3
-    haveI : IsSimpleGroup C := e.isSimpleGroup
+  · have : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := isSimpleGroup_statedSp_zmod_two h3
+    have : IsSimpleGroup C := e.isSimpleGroup
     have h4 : 4 ∣ Nat.card C := by
       rw [Nat.card_congr e.toEquiv, card_statedSp_zmod_two]
       refine Dvd.dvd.mul_right ?_ _
@@ -1306,7 +1305,7 @@ theorem relIndex_commutator_quadPlus {k : ℕ} (hk : 2 ≤ k) :
   have h6 : 6 ≤ Module.finrank (ZMod 2) (Fin (k + 1) ⊕ Fin (k + 1) → ZMod 2) := by
     simp [Module.finrank_fintype_fun_eq_card]
     omega
-  haveI : Nonempty (Fin (k + 1) ⊕ Fin (k + 1)) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin (k + 1) ⊕ Fin (k + 1)) := ⟨Sum.inl 0⟩
   rw [CFSG.RankThree.Literature.FSmith.commutator_orthogonalGroup_eq_omegaGroup hnd h6]
   exact CFSG.RankThree.OrthogonalInvolutions.relIndex_omegaGroup _ hnd
 
@@ -1320,7 +1319,7 @@ theorem relIndex_commutator_quadMinus {k : ℕ} (hk : 2 ≤ k) :
   have h6 : 6 ≤ Module.finrank (ZMod 2) (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2 → ZMod 2) := by
     simp [Module.finrank_fintype_fun_eq_card]
     omega
-  haveI : Nonempty (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (k + 1 - 1) ⊕ Fin (k + 1 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   rw [CFSG.RankThree.Literature.FSmith.commutator_orthogonalGroup_eq_omegaGroup hnd h6]
   exact CFSG.RankThree.OrthogonalInvolutions.relIndex_omegaGroup _ hnd
 
@@ -1521,7 +1520,7 @@ theorem eq_colsMat4 (M : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2)) :
     M = colsMat4 (M *ᵥ Pi.single (Sum.inl 0) 1) (M *ᵥ Pi.single (Sum.inl 1) 1)
       (M *ᵥ Pi.single (Sum.inr 0) 1) (M *ᵥ Pi.single (Sum.inr 1) 1) := by
   ext i j
-  rcases j with j | j <;> fin_cases j <;> simp [colsMat4, Matrix.mulVec_single_one]
+  rcases j with j | j <;> fin_cases j <;> simp [colsMat4]
 
 @[expose] def ColsOK (c0 c1 c2 c3 : Fin 2 ⊕ Fin 2 → ZMod 2) : Prop :=
   Qplus4 c0 = 0 ∧ Qplus4 c1 = 0 ∧ Qplus4 c2 = 0 ∧ Qplus4 c3 = 0 ∧
@@ -1711,7 +1710,6 @@ theorem reflMat_va1_apply : ∀ x : Fin 2 ⊕ Fin 2 → ZMod 2,
 
 theorem reflGL_va1_eq : reflGL Qplus4 va1 refl_va1 = reflM (quadPlus 2 (ZMod 2)) va1 := by
   have hw : (quadPlus 2 (ZMod 2)) va1 = 1 := by
-    change ⇑(quadPlus 2 (ZMod 2)) va1 = 1
     rw [coe_quadPlus]
     decide
   refine eq_reflM_of_transv hw (fun x => ?_)
@@ -1773,7 +1771,6 @@ theorem plusTwo_data {w : Fin 2 ⊕ Fin 2 → ZMod 2} (hw : Qplus4 w = 1) :
   have hQ : ⇑(quadPlus 2 (ZMod 2)) = Qplus4 := coe_quadPlus 2 (ZMod 2)
   have hgQ : g ∈ CFSG.MatrixModel.isometryCore ⇑(quadPlus 2 (ZMod 2)) := by rw [hQ]; exact hg
   have hva : (quadPlus 2 (ZMod 2)) va1 = 1 := by
-    change ⇑(quadPlus 2 (ZMod 2)) va1 = 1
     rw [hQ]
     decide
   have hconj := conj_reflM hgQ hva
@@ -1811,8 +1808,8 @@ theorem card_eq_six_of_data {G : Type*} [Group G] [Finite G] {H : Subgroup G}
     (hle : Nat.card H ≤ 6) {x y : G} (hx : x ∈ H) (hy : y ∈ H) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hy2 : y ^ 2 = 1) (hxy : x * y ≠ y * x) : Nat.card H = 6 := by
   have hy1 : y ≠ 1 := fun h => hxy (by rw [h, one_mul, mul_one])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have h2 : orderOf y = 2 := orderOf_eq_prime hy2 hy1
   have d3 : 3 ∣ Nat.card H := by

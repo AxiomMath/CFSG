@@ -46,7 +46,7 @@ theorem inf_core_eq :
     (T : Subgroup G) ⊓ tightCore R = (S : Subgroup R).map R.subtype := by
   have hsyl : IsSylow2In ((S : Subgroup R).map R.subtype) (tightCore R) := h.sylow_core
   rw [inf_comm]
-  exact hsyl.2.2 _ inf_le_left (T.isPGroup'.to_le inf_le_right) (le_inf hsyl.1 h.hST)
+  exact hsyl.2.2 _ inf_le_left (T.isPGroup.to_le inf_le_right) (le_inf hsyl.1 h.hST)
 
 theorem comm_of_mem_normalizer_inf_core {n : G}
     (hn : n ∈ Subgroup.normalizer (((T : Subgroup G) ⊓ tightCore R : Subgroup G) : Set G)) :

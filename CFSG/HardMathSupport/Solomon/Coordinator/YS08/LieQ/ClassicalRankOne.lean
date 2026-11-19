@@ -22,8 +22,8 @@ theorem fusionIsBenderGroup_of_statedPSL_two {S : Type} [Group S] {f : ℕ}
     exact hne (by simp)
   have hcard' : Nat.card K = Nat.card (GaloisField 2 f) := by
     rw [hcard, GaloisField.card 2 f (by omega)]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let θ : K ≃+* GaloisField 2 f := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card]
     exact hcard')

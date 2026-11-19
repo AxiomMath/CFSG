@@ -61,7 +61,7 @@ theorem emb_conj {S : Type} [Group S] (φ : S →* L) (hφ : Function.Injective 
   rintro _ ⟨s, rfl⟩
   have h1 : (MulAut.conj n⁻¹) y = x := by
     rw [← hy]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have h2 := centralizer_map_singleton (MulAut.conj n⁻¹) y
   rw [h1] at h2
   rw [← h2]
@@ -91,9 +91,9 @@ theorem caseA_of_emb {G : Type} [Group G] [Finite G]
     2 ≤ CFSG.Open.pRank 7 (Subgroup.centralizer ({x} : Set G)) +
         (3 - CFSG.Open.pRank 7 (⊤ : Subgroup G)) ∧
       ¬ CFSG.HallHigman.IsPSolvable 7 ↥(Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hn3 : 3 ≤ n := by omega
-  haveI := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two hn3
+  have := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two hn3
   have hdvd : 7 ∣ Nat.card (GL (Fin n) (ZMod 2)) := by
     rw [card_GL_two]
     exact seven_dvd_glc n hn

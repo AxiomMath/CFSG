@@ -34,20 +34,20 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
     show extendSixInv σ (extendSixFun σ x) = x
     unfold extendSixFun extendSixInv
     by_cases h : x.val < 6
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       have h' : (σ ⟨x.val, h⟩).val < 6 := (σ ⟨x.val, h⟩).isLt
-      rw [dif_pos h']
+      rw [dite_eq_left h']
       simp
-    · rw [dif_neg h, dif_neg h]
+    · rw [dite_eq_right h, dite_eq_right h]
   right_inv x := by
     show extendSixFun σ (extendSixInv σ x) = x
     unfold extendSixFun extendSixInv
     by_cases h : x.val < 6
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       have h' : (σ.symm ⟨x.val, h⟩).val < 6 := (σ.symm ⟨x.val, h⟩).isLt
-      rw [dif_pos h']
+      rw [dite_eq_left h']
       simp
-    · rw [dif_neg h, dif_neg h]
+    · rw [dite_eq_right h, dite_eq_right h]
 
 @[expose] def ofSix (σ : Perm (Fin 6)) (e : Bool) : Perm (Fin 8) :=
   extendSix σ * bif e then swap 6 7 else 1
@@ -134,7 +134,7 @@ private theorem maps_pair_of_commute_swap {t : Perm (Fin 8)}
   · exact Or.inr ⟨h6', by rw [h7, h6', Equiv.swap_apply_right]⟩
   · exfalso
     have hfix : swap 6 7 (t 6) = t 6 := by
-      rw [Equiv.swap_apply_def, if_neg h6, if_neg h6']
+      rw [Equiv.swap_apply_def, ite_eq_right h6, ite_eq_right h6']
     have hne : t 7 ≠ t 6 := fun he => absurd (t.injective he) (by decide)
     exact hne (by rw [h7, hfix])
 
@@ -374,31 +374,37 @@ theorem sign_p14_23 : sign (swap (1 : Fin 8) 4 * swap 2 3) = 1 := by
 noncomputable def thG (L : Subgroup G) (θ : ↥(Nor L) →* Perm (Fin 8)) (g : G) : Perm (Fin 8) := by
   classical exact if hg : g ∈ Nor L then θ ⟨g, hg⟩ else 1
 
+omit [Finite G] in
 theorem thG_of_mem {θ : ↥(Nor L) →* Perm (Fin 8)} {g : G} (hg : g ∈ Nor L) :
     thG L θ g = θ ⟨g, hg⟩ := by
   unfold thG
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
 
+omit [Finite G] in
 theorem thG_mul {θ : ↥(Nor L) →* Perm (Fin 8)} {g g' : G} (hg : g ∈ Nor L) (hg' : g' ∈ Nor L) :
     thG L θ (g * g') = thG L θ g * thG L θ g' := by
   rw [thG_of_mem hg, thG_of_mem hg', thG_of_mem (mul_mem hg hg')]
   exact map_mul θ ⟨g, hg⟩ ⟨g', hg'⟩
 
+omit [Finite G] in
 theorem thG_one {θ : ↥(Nor L) →* Perm (Fin 8)} : thG L θ 1 = 1 := by
   rw [thG_of_mem (one_mem _)]
   exact map_one θ
 
+omit [Finite G] in
 theorem thG_inv {θ : ↥(Nor L) →* Perm (Fin 8)} {g : G} (hg : g ∈ Nor L) :
     thG L θ g⁻¹ = (thG L θ g)⁻¹ := by
   rw [thG_of_mem hg, thG_of_mem (inv_mem hg)]
   exact map_inv θ ⟨g, hg⟩
 
+omit [Finite G] in
 theorem thG_pow {θ : ↥(Nor L) →* Perm (Fin 8)} {g : G} (hg : g ∈ Nor L) (n : ℕ) :
     thG L θ (g ^ n) = (thG L θ g) ^ n := by
   induction n with
   | zero => simpa using thG_one
   | succ n ih => rw [pow_succ, thG_mul (pow_mem hg n) hg, ih, pow_succ]
 
+omit [Finite G] in
 theorem thG_conj {θ : ↥(Nor L) →* Perm (Fin 8)} {x g : G} (hx : x ∈ Nor L) (hg : g ∈ Nor L) :
     thG L θ (x * g * x⁻¹) = thG L θ x * thG L θ g * (thG L θ x)⁻¹ := by
   rw [thG_mul (mul_mem hx hg) (inv_mem hx), thG_mul hx hg, thG_inv hx]
@@ -434,7 +440,7 @@ theorem Qθ (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥) (hX 
     g ∈ Subgroup.zpowers b :=
   Q_eq h hZ hX g (Subgroup.mem_inf.2 ⟨hgb, (hθ.ker g hgN).1 hg1⟩)
 
-theorem cen_thG (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥)
+theorem cen_thG (_h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥)
     (hθ : ThM L b₁ b₂ θ) {x σ : G} (hxL : x ∈ L) (hσN : σ ∈ Nor L)
     (hc : thG L θ x * thG L θ σ = thG L θ σ * thG L θ x) : x * σ = σ * x := by
   have hxN : x ∈ Nor L := Subgroup.le_normalizer hxL

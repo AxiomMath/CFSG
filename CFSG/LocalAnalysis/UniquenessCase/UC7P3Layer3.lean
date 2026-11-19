@@ -66,9 +66,9 @@ namespace Sec7Core4
 theorem isComponentOf_layerLift (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgroup G}
     (hH : Config k H) : CFSG.Open.IsComponentOf (layerLift k.p H) H := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hsimple, hnab, -, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hsimple
+  have := hsimple
   set K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H with hK₀
   set L : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀) with hL
   have hJH : layerLift k.p H ≤ H := layerLift_le k.p H
@@ -108,9 +108,9 @@ theorem le_layerLift_of_isPGroup (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgrou
       CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) :
     P ≤ layerLift k.p H := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hsimple, hnab, -, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hsimple
+  have := hsimple
   set K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H with hK₀
   set J : Subgroup G := layerLift k.p H with hJ
   have hmap : (J.subgroupOf H).map (QuotientGroup.mk' K₀) = CFSG.generalizedFitting (↥H ⧸ K₀) :=
@@ -168,9 +168,9 @@ theorem fstar_inf_normalizer_le_map (k : Sec7Core4 G) (h75 : Step75 k) {H : Subg
       ((layerLift k.p H ⊓ normalizer (P : Set G)).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hsimple, hnab, -, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hsimple
+  have := hsimple
   have hmap := map_layerLift_eq k.p H
     (isPerfect_iff.mp (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).1.1)
   have hPK := k.commutator_pPrimeCore_eq_bot_of_isPGroup h75 hH hPH hP hPL

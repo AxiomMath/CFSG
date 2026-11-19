@@ -229,7 +229,7 @@ private theorem exists_mem_normalizer_notMem {p : ℕ} [Fact p.Prime] [Finite G]
   have := (hG.to_subgroup (A ⊔ B)).isNilpotent
   have hlt : N.subgroupOf (A ⊔ B) < ⊤ :=
     lt_top_iff_ne_top.2 fun h ↦ hBN (le_sup_right.trans (subgroupOf_eq_top.1 h))
-  obtain ⟨x, hxN', hxN⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨x, hxN', hxN⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   rw [← subgroupOf_normalizer_eq hNAB, mem_subgroupOf] at hxN'
   rw [mem_subgroupOf] at hxN
   obtain ⟨a, ha, c, hc, hac⟩ := mem_sup_of_normal_right.1 x.2
@@ -252,7 +252,7 @@ theorem exists_replacement {p : ℕ} (hp : p.Prime) (hodd : Odd p) {S : Type*} [
   refine ⟨replacement A b, mem_maxOrderAbelianSubgroups.2
     ⟨isMulCommutative_replacement hodd (hS.to_subgroup B) hclass hBA' hb hAN hNA hbN,
       (card_replacement hB hb hBA' hAN hNA hbN).trans hA.2⟩,
-    fun h ↦ hbN' (replacement_le hAN hbN (h hb)), SetLike.lt_iff_le_and_exists.2 ⟨?_, b, ?_, ?_⟩⟩
+    fun h ↦ hbN' (replacement_le hAN hbN (h hb)), IsConcreteLE.lt_iff_le_and_exists.2 ⟨?_, b, ?_, ?_⟩⟩
   · exact le_inf inf_le_left
       (le_sup_right.trans (le_normalizer_replacement hB hb hBA' hAN hNA hbN))
   · exact ⟨hb, mem_normalizer_replacement hB hb hBA'⟩

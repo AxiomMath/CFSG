@@ -86,7 +86,7 @@ theorem odd_natCard_of_forall_sq {K : Type*} [Group K] [Finite K]
     (h : ∀ x : K, x ^ 2 = 1 → x = 1) : Odd (Nat.card K) := by
   by_contra hne
   have h2 : 2 ∣ Nat.card K := (Nat.not_odd_iff_even.1 hne).two_dvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 h2
   have hx2 : x ^ 2 = 1 := hx ▸ pow_orderOf_eq_one x
   have := h x hx2
@@ -133,7 +133,7 @@ theorem OddPCoreInClosure.of_mulEquiv (e : G ≃* H) (h : OddPCoreInClosure p G)
 
 theorem OddPCoreInClosure.of_normal [Finite G] (hp : p.Prime) (N : Subgroup G) [N.Normal]
     (h : OddPCoreInClosure p G) : OddPCoreInClosure p N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro K hK hKle hcop
   set KG : Subgroup G := K.map N.subtype with hKG
   set PN : Subgroup G := (pPrimeCore p ↥N).map N.subtype with hPN
@@ -171,12 +171,12 @@ theorem exists_normal_pPrime_map_eq_range {T : Type*} [Group T] [Finite T] (hp :
     (φ : T →* H) (hker : φ.ker ≤ Subgroup.center T) (hcop : Nat.Coprime p (Nat.card φ.range)) :
     ∃ T' : Subgroup T, T'.Normal ∧ Nat.Coprime p (Nat.card T') ∧ T'.map φ = φ.range ∧
       ∀ t : T, t ∈ T' ↔ Nat.Coprime p (orderOf t) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p T) := inferInstance
   have hPker : (P : Subgroup T) ≤ φ.ker := by
     intro x hx
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hk' : x ^ p ^ k = 1 := congrArg Subtype.val hk
     have h1 : orderOf (φ x) ∣ p ^ k :=
       orderOf_dvd_of_pow_eq_one (by rw [← map_pow, hk', map_one])
@@ -219,7 +219,7 @@ theorem exists_normal_pPrime_map_eq_range {T : Type*} [Group T] [Finite T] (hp :
         rw [this]
         exact T'.inv_mem (T'.pow_mem ha _)
       rw [hdisj, Subgroup.mem_bot] at hbm
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨b, hb⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨b, hb⟩
       have hk' : b ^ p ^ k = 1 := congrArg Subtype.val hk
       have h1 : orderOf b ∣ orderOf (a * b) := orderOf_dvd_of_pow_eq_one hbm
       have h2 : orderOf b ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk'
@@ -283,11 +283,11 @@ theorem OddPCoreInClosure.of_surjective_ker_le_center [Finite G] (hp : p.Prime) 
   exact hodd.of_dvd_nat hdvd
 
 theorem OddPCoreInClosure.pi {ι : Type*} [Finite ι] {G : ι → Type*} [∀ i, Group (G i)]
-    [∀ i, Finite (G i)] (hp : p.Prime) (h : ∀ i, OddPCoreInClosure p (G i)) :
+    [∀ i, Finite (G i)] (_hp : p.Prime) (h : ∀ i, OddPCoreInClosure p (G i)) :
     OddPCoreInClosure p (∀ i, G i) := by
   classical
   intro K hK hKle hcop
-  haveI : Finite (∀ i, G i) := inferInstance
+  have : Finite (∀ i, G i) := inferInstance
   have hKi : ∀ i, Odd (Nat.card (K.map (Pi.evalMonoidHom G i))) := by
     intro i
     have hsurj : Function.Surjective (Pi.evalMonoidHom G i) := fun y =>
@@ -304,7 +304,7 @@ theorem OddPCoreInClosure.pi {ι : Type*} [Finite ι] {G : ι → Type*} [∀ i,
     refine Subtype.ext ?_
     have := congrFun hx2' i
     simpa using this
-  haveI := Finite.of_injective (fun y : K.map (Pi.evalMonoidHom G i) => (y : G i))
+  have := Finite.of_injective (fun y : K.map (Pi.evalMonoidHom G i) => (y : G i))
     Subtype.val_injective
   have := eq_one_of_sq_eq_one_of_odd_natCard (hKi i) hsq
   exact congrArg Subtype.val this
@@ -317,7 +317,7 @@ variable {p : ℕ} {X : Type*} [Group X]
 
 theorem relPPrimeCore_eq_map [Finite X] (hp : p.Prime) (C : Subgroup X) :
     relPPrimeCore p C = (pPrimeCore p ↥C).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -348,7 +348,7 @@ theorem relPPrimeCore_normal [Finite X] (hp : p.Prime) (C : Subgroup X) :
 
 theorem coprime_card_relPPrimeCore [Finite X] (hp : p.Prime) (C : Subgroup X) :
     Nat.Coprime p (Nat.card (relPPrimeCore p C)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [relPPrimeCore_eq_map hp, Subgroup.card_map_of_injective C.subtype_injective]
   exact pPrimeCore_coprime_card
 
@@ -356,7 +356,7 @@ theorem commutator_eq_bot_of_oddPCore [Finite X] (hp : p.Prime) {C D S : Subgrou
     (hC : OddPCoreInClosure p ↥C) (hDC : D ≤ C) (hDp : ∀ x ∈ D, ∃ k : ℕ, x ^ p ^ k = 1)
     (hSR : S ≤ relPPrimeCore p C) (hS2 : IsPGroup 2 S)
     (hDS : D ≤ Subgroup.normalizer (S : Set X)) : ⁅S, D⁆ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup ↥C := pPrimeCore p ↥C ⊓ pElemClosure p ↥C with hK
   have hKcop : Nat.Coprime p (Nat.card K) :=
     Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_left) pPrimeCore_coprime_card

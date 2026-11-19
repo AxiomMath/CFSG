@@ -117,7 +117,7 @@ theorem factorization_card_le {B T I : Subgroup G} (h : Setup710 B T I) :
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 ↥I))
   have hQ := Sylow.card_eq_multiplicity Q
   have hle := h.ord3 (Q.map I.subtype) (by
-    rintro _ ⟨x, _, rfl⟩; exact x.2) (Q.isPGroup'.map I.subtype)
+    rintro _ ⟨x, _, rfl⟩; exact x.2) (Q.isPGroup.map I.subtype)
   rw [Subgroup.card_map_of_injective I.subtype_injective, hQ] at hle
   by_contra hlt
   replace hlt := not_le.mp hlt

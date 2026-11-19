@@ -39,7 +39,7 @@ theorem gL_bits : ∀ l < letterGB.size, HasBits K (gL K l) letterGB[l]! := by
   have : letterGB[l]! = (letterOfCode l).bits := by
     have h1 : l < letterGB.size := by rw [letterGB_size]; exact hl
     rw [getElem!_pos letterGB l h1]
-    simp [letterGB, hl]
+    simp [letterGB]
   rw [this]
   exact Letter.hasBits _
 

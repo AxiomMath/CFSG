@@ -284,7 +284,7 @@ theorem burnsideF4k_polyG2d : burnsideF4k_PolyG2d := by
   have hP : {u : c.Γ | u ∈ Set.range z ∧ CosetGeom.vtype u = false} =
       Set.range (fun k : Fin 6 => z (2 * k.val)) := by
     ext u
-    simp only [Set.mem_setOf_eq, Set.mem_range]
+    simp only [Set.mem_ofPred_eq, Set.mem_range]
     constructor
     · rintro ⟨⟨t, rfl⟩, ht⟩
       rw [hvt] at ht
@@ -325,7 +325,7 @@ theorem burnsideF4k_polyG2d : burnsideF4k_PolyG2d := by
         _ = w₂ * w₁⁻¹ := by rw [h3, mul_one]
   have hOl : {u : c.Γ | ∃ w ∈ setStab c (Set.range z), w • c.lv = u} = {z 1, z 5, z 9} := by
     ext u
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨w, hw, rfl⟩
       rw [hSW] at hw
@@ -351,7 +351,7 @@ theorem burnsideF4k_polyG2d : burnsideF4k_PolyG2d := by
         rfl
   have hOc : {u : c.Γ | ∃ w ∈ setStab c (Set.range z), w • z 11 = u} = {z 11, z 3, z 7} := by
     ext u
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨w, hw, rfl⟩
       rw [hSW] at hw
@@ -392,7 +392,7 @@ theorem burnsideF4k_polyG2d : burnsideF4k_PolyG2d := by
         {u | ∃ w ∈ setStab c (Set.range z), w • z 11 = u} := by
     rw [hOl, hOc]
     ext u
-    simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨⟨t, rfl⟩, ht⟩
       rw [hvt] at ht
@@ -414,7 +414,7 @@ theorem burnsideF4k_polyG2d : burnsideF4k_PolyG2d := by
   have hiso : Nonempty (↥(setStab c (Set.range z)) ≃* Equiv.Perm (Fin 3)) := by
     let K := setStab c (Set.range z)
     let T : Set c.Γ := {u | ∃ w ∈ K, w • c.lv = u}
-    letI : MulAction ↥K ↥T :=
+    let : MulAction ↥K ↥T :=
       { smul := fun g u => ⟨(g : c.G0) • (u : c.Γ), by
           obtain ⟨w, hw, hwu⟩ := u.2
           exact ⟨g * w, mul_mem g.2 hw, by rw [mul_smul, hwu]⟩⟩

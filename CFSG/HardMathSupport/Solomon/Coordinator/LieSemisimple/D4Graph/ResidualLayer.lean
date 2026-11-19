@@ -23,7 +23,7 @@ theorem perfectInLayer_of_perfectResidual (β : MulAut S) [Finite ↥(fixSubgrou
       exact x.2
     have hJR : J.subgroupOf C = R :=
       Subgroup.comap_map_eq_self_of_injective C.subtype_injective R
-    haveI : (J.subgroupOf C).Normal := by
+    have : (J.subgroupOf C).Normal := by
       rw [hJR]
       infer_instance
     let e : ↥R ≃* ↥J := R.equivMapOfInjective C.subtype C.subtype_injective

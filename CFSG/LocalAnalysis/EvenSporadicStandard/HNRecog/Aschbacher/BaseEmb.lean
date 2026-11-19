@@ -60,7 +60,7 @@ theorem A5WrTwo.range_baseEmb : A5WrTwo.baseEmb.range = commutator A5WrTwo := by
     · change (fun i => if i = 1 then g.left 1 else g.left (Multiplicative.ofAdd 1)) =
         g.left
       funext q
-      rcases coord_cases q with rfl | rfl <;> simp [ofAdd_one_ne_one]
+      rcases coord_cases q with rfl | rfl <;> simp
     · change (1 : Multiplicative (ZMod 2)) = g.right
       rw [hgright]
 
@@ -74,8 +74,7 @@ theorem A5WrTwo.swap_mul_baseEmb_mul_inv (x y : alternatingGroup (Fin 5)) :
   apply RegularWreathProduct.ext
   · funext q
     rcases coord_cases q with rfl | rfl <;>
-      simp [A5WrTwo.baseEmb, RegularWreathProduct.mul_def, hσ2, hσinv,
-        ofAdd_one_ne_one]
+      simp [A5WrTwo.baseEmb, RegularWreathProduct.mul_def, hσ2, hσinv]
   · simp [A5WrTwo.baseEmb, RegularWreathProduct.mul_def, hσ2, hσinv]
 
 end CFSG.EvenSporadicStandard.HNRecog

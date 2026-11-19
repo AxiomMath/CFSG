@@ -12,21 +12,25 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem cj_mem_iff {H : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   rw [CFSG.conjugate, Subgroup.mem_map_equiv, MulAut.conj_symm_apply, inv_inv]
 
+omit [Finite G] in
 private theorem cj_conj_conj (H : Subgroup G) (g k : G) :
     CFSG.conjugate (CFSG.conjugate H g) k = CFSG.conjugate H (g * k) := by
   ext x
   rw [cj_mem_iff, cj_mem_iff, cj_mem_iff]
-  simp only [mul_assoc, mul_inv_rev, inv_inv]
+  simp only [mul_assoc, mul_inv_rev]
 
+omit [Finite G] in
 private theorem cj_card (H : Subgroup G) (g : G) :
     Nat.card (CFSG.conjugate H g) = Nat.card H :=
   (Nat.card_congr (Subgroup.equivMapOfInjective H (MulAut.conj g⁻¹).toMonoidHom
     (MulEquiv.injective _)).toEquiv).symm
 
+omit [Finite G] in
 private theorem cj_centralizer (z g : G) :
     centralizer ({g⁻¹ * z * g} : Set G) = CFSG.conjugate (centralizer ({z} : Set G)) g := by
   ext x
@@ -41,12 +45,14 @@ private theorem cj_centralizer (z g : G) :
       _ = g⁻¹ * (z * (g * x * g⁻¹)) * g := by rw [h]
       _ = g⁻¹ * z * g * x := by group
 
+omit [Finite G] in
 private theorem cj_normalizer (H : Subgroup G) (g : G) :
     Subgroup.normalizer (CFSG.conjugate H g : Set G) =
       CFSG.conjugate (Subgroup.normalizer (H : Set G)) g :=
   (Subgroup.map_normalizer_eq_of_bijective H
     (f := (MulAut.conj g⁻¹).toMonoidHom) (MulEquiv.bijective _)).symm
 
+omit [Finite G] in
 private theorem cj_cyclic (H : Subgroup G) (g : G) [IsCyclic H] :
     IsCyclic (CFSG.conjugate H g) :=
   isCyclic_of_surjective
@@ -54,6 +60,7 @@ private theorem cj_cyclic (H : Subgroup G) (g : G) [IsCyclic H] :
       (MulEquiv.injective _)).toMonoidHom
     (MulEquiv.surjective _)
 
+omit [Finite G] in
 private theorem cj_le_iff (A B : Subgroup G) (g : G) :
     CFSG.conjugate A g ≤ CFSG.conjugate B g ↔ A ≤ B := by
   constructor
@@ -65,18 +72,22 @@ private theorem cj_le_iff (A B : Subgroup G) (g : G) :
   · intro h x hx
     exact cj_mem_iff.mpr (h (cj_mem_iff.mp hx))
 
+omit [Finite G] in
 private theorem cj_conj_eq (z g : G) : (MulAut.conj g⁻¹).toMonoidHom z = g⁻¹ * z * g := by
   show MulAut.conj g⁻¹ z = g⁻¹ * z * g
   rw [MulAut.conj_apply, inv_inv]
 
+omit [Finite G] in
 private theorem cj_orderOf (z g : G) : orderOf (g⁻¹ * z * g) = orderOf z := by
   rw [← cj_conj_eq z g]
   exact orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulEquiv.injective _) z
 
+omit [Finite G] in
 private theorem card_map_injective (H : Subgroup G) (f : G →* G) (hf : Function.Injective f) :
     Nat.card (H.map f) = Nat.card H :=
   (Nat.card_congr (Subgroup.equivMapOfInjective H f hf).toEquiv).symm
 
+omit [Finite G] in
 private theorem cj_center_le_iff {z : G} {n : ℕ} (hC : Config z n) (g k : G) :
     CFSG.conjugate (centerAt (g⁻¹ * z * g)) k ≤ centralizer ({g⁻¹ * z * g} : Set G) ↔
       k⁻¹ * (g⁻¹ * z * g) * k ∈ coreAt (g⁻¹ * z * g) := by
@@ -88,6 +99,7 @@ private theorem cj_center_le_iff {z : G} {n : ℕ} (hC : Config z n) (g k : G) :
   rw [e1, cj_centralizer, cj_le_iff, hm, coreAt_conj z g, cj_mem_iff]
   rw [show g * (k⁻¹ * (g⁻¹ * z * g) * k) * g⁻¹ = (g * k * g⁻¹)⁻¹ * z * (g * k * g⁻¹) by group]
 
+omit [Finite G] in
 private theorem cj_selfC {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ h ∈ centralizer ({g⁻¹ * z * g} : Set G),
       (∀ q ∈ coreAt (g⁻¹ * z * g), h * q = q * h) → h ∈ coreAt (g⁻¹ * z * g) := by
@@ -104,6 +116,7 @@ private theorem cj_selfC {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     _ = g * (g⁻¹ * q * g * h) * g⁻¹ := by rw [key]
     _ = q * (g * h * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem cj_sq {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ x ∈ coreAt (g⁻¹ * z * g), x ^ 2 = 1 ∨ x ^ 2 = g⁻¹ * z * g := by
   intro x hx
@@ -114,6 +127,7 @@ private theorem cj_sq {z : G} {n : ℕ} (hC : Config z n) (g : G) :
   · left; rw [key, h]; group
   · right; rw [key, h]
 
+omit [Finite G] in
 private theorem cj_comm {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ x ∈ coreAt (g⁻¹ * z * g), ∀ y ∈ coreAt (g⁻¹ * z * g),
       ⁅x, y⁆ = 1 ∨ ⁅x, y⁆ = g⁻¹ * z * g := by
@@ -126,7 +140,8 @@ private theorem cj_comm {z : G} {n : ℕ} (hC : Config z n) (g : G) :
   · left; rw [h]; group
   · right; rw [h]
 
-private theorem cj_pullback_le {z : G} {n : ℕ} (hC : Config z n) (g : G) (U : Subgroup G)
+omit [Finite G] in
+private theorem cj_pullback_le {z : G} {n : ℕ} (_hC : Config z n) (g : G) (U : Subgroup G)
     (hU : U ≤ coreAt (g⁻¹ * z * g)) : U.map (MulAut.conj g).toMonoidHom ≤ coreAt z := by
   intro y hy
   obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hy
@@ -134,6 +149,7 @@ private theorem cj_pullback_le {z : G} {n : ℕ} (hC : Config z n) (g : G) (U : 
   rw [coreAt_conj z g, cj_mem_iff] at hu'
   simpa [MulAut.conj_apply] using hu'
 
+omit [Finite G] in
 private theorem cj_centralizer_sub (H : Subgroup G) (g : G) :
     centralizer (CFSG.conjugate H g : Set G) = CFSG.conjugate (centralizer (H : Set G)) g := by
   ext x
@@ -156,10 +172,12 @@ private theorem cj_centralizer_sub (H : Subgroup G) (g : G) :
       _ = g⁻¹ * ((g * x * g⁻¹) * (g * h * g⁻¹)) * g := by rw [e]
       _ = x * h := by group
 
+omit [Finite G] in
 private theorem cj_elemAb_map {U : Subgroup G} (hU : CFSG.Open.IsElemAbelian 2 U) (f : G →* G) :
     CFSG.Open.IsElemAbelian 2 (U.map f) := by
   exact CFSG.Open.IsElemAbelian.map hU f
 
+omit [Finite G] in
 private theorem cj_elem {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ U : Subgroup G, U ≤ coreAt (g⁻¹ * z * g) → CFSG.Open.IsElemAbelian 2 U →
       Nat.card U ≤ 2 ^ (n + 1) := by
@@ -168,6 +186,7 @@ private theorem cj_elem {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     (cj_elemAb_map hE (MulAut.conj g).toMonoidHom)
   rwa [card_map_injective U (MulAut.conj g).toMonoidHom (MulEquiv.injective _)] at h
 
+omit [Finite G] in
 private theorem cj_disj {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ U : Subgroup G, U ≤ coreAt (g⁻¹ * z * g) → CFSG.Open.IsElemAbelian 2 U →
       U ⊓ centerAt (g⁻¹ * z * g) = ⊥ → Nat.card U ≤ 2 ^ n := by
@@ -187,6 +206,7 @@ private theorem cj_disj {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     (cj_elemAb_map hE (MulAut.conj g).toMonoidHom) hVd
   rwa [card_map_injective U (MulAut.conj g).toMonoidHom (MulEquiv.injective _)] at h
 
+omit [Finite G] in
 private theorem cj_pairwise {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∀ (s : ℕ) (f : Fin s → G), (∀ i, f i ∈ coreAt (g⁻¹ * z * g)) →
       (∀ i j, i ≠ j → ⁅f i, f j⁆ = g⁻¹ * z * g) → s ≤ 2 * n + 1 := by
@@ -202,6 +222,7 @@ private theorem cj_pairwise {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     show ⁅g * f i * g⁻¹, g * f j * g⁻¹⁆ = z
     rw [e, hcomm i j hij]; group
 
+omit [Finite G] in
 private theorem cj_mem_core {z : G} {n : ℕ} (hC : Config z n) (g k : G)
     (hk : k⁻¹ * (g⁻¹ * z * g) * k ∈ centralizer (centerAt (g⁻¹ * z * g) : Set G)) :
     k⁻¹ * (g⁻¹ * z * g) * k ∈ coreAt (g⁻¹ * z * g) := by
@@ -213,6 +234,7 @@ private theorem cj_mem_core {z : G} {n : ℕ} (hC : Config z n) (g k : G)
     show g * (k⁻¹ * (g⁻¹ * z * g) * k) * g⁻¹ = (g * k * g⁻¹)⁻¹ * z * (g * k * g⁻¹) by group]
   exact hC.mem_core_of_centralizes (g * k * g⁻¹) hm
 
+omit [Finite G] in
 private theorem cj_fused {z : G} {n : ℕ} (hC : Config z n) (g : G) :
     ∃ k : G, k⁻¹ * (g⁻¹ * z * g) * k ∈ coreAt (g⁻¹ * z * g) ∧
       k⁻¹ * (g⁻¹ * z * g) * k ≠ g⁻¹ * z * g := by
@@ -230,6 +252,7 @@ private theorem cj_fused {z : G} {n : ℕ} (hC : Config z n) (g : G) :
       _ = g * (g⁻¹ * z * g) * g⁻¹ := by rw [heq]
       _ = z := by group
 
+omit [Finite G] in
 theorem Config.conj {z : G} {n : ℕ} (hC : Config z n) (g : G) : Config (g⁻¹ * z * g) n where
   orderOf_eq := (cj_orderOf z g).trans hC.orderOf_eq
   three_le := hC.three_le
@@ -237,7 +260,7 @@ theorem Config.conj {z : G} {n : ℕ} (hC : Config z n) (g : G) : Config (g⁻¹
     rw [centerAt_conj z g, cj_mem_iff, show g * (g⁻¹ * z * g) * g⁻¹ = z by group]
     exact hC.mem_center
   center_cyclic := by
-    haveI := hC.center_cyclic
+    have := hC.center_cyclic
     rw [centerAt_conj z g]
     exact cj_cyclic _ g
   card_center := by

@@ -15,6 +15,7 @@ noncomputable def bar2Equiv {A B : Type*} [Group A] [Group B] (e : A ≃* B) :
     (A ⧸ CFSG.pCore 2 A) ≃* (B ⧸ CFSG.pCore 2 B) :=
   QuotientGroup.congr (CFSG.pCore 2 A) (CFSG.pCore 2 B) e (CFSG.pCore_map_iso 2 e)
 
+omit [Finite G] in
 theorem mem_normalizer_iff_map_conj {L : Subgroup G} {g : G} :
     g ∈ normalizer (L : Set G) ↔ L.map (MulAut.conj g).toMonoidHom = L := by
   constructor
@@ -44,6 +45,7 @@ theorem mem_normalizer_iff_map_conj {L : Subgroup G} {g : G} :
       rw [← this]
       exact hy
 
+omit [Finite G] in
 theorem calC_map (M : Subgroup G) (f : MulAut G) (hM : M.map f.toMonoidHom = M) {L : Subgroup G}
     (hL : L ∈ calC M) : L.map f.toMonoidHom ∈ calC M := by
   obtain ⟨hsn, hp, hq⟩ := hL
@@ -55,12 +57,14 @@ theorem calC_map (M : Subgroup G) (f : MulAut G) (hM : M.map f.toMonoidHom = M) 
       Subgroup.equivMapOfInjective L f.toMonoidHom f.injective
     exact hq.of_mulEquiv (bar2Equiv e).symm
 
+omit [Finite G] in
 theorem card_center_bar2_map (f : MulAut G) (L : Subgroup G) :
     Nat.card (center (Bar2 (L.map f.toMonoidHom))) = Nat.card (center (Bar2 L)) := by
   let e : ↥L ≃* ↥(L.map f.toMonoidHom) :=
     Subgroup.equivMapOfInjective L f.toMonoidHom f.injective
   exact (Nat.card_congr (Subgroup.centerCongr (bar2Equiv e)).toEquiv).symm
 
+omit [Finite G] in
 theorem calC_subgroupOf {M L : Subgroup G} (hL : L ∈ calC M) :
     CFSG.Open.IsSubnormal (L.subgroupOf M) ⊤ ∧ ⁅L.subgroupOf M, L.subgroupOf M⁆ = L.subgroupOf M ∧
       CFSG.Open.IsQuasisimple (↥(L.subgroupOf M) ⧸ CFSG.pCore 2 ↥(L.subgroupOf M)) ∧

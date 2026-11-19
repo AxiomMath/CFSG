@@ -9,13 +9,13 @@ namespace CFSG.StandardType.SporadicShape
 open Subgroup CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSevenLocal
 
 theorem gk7c_exists_not_dvd_nine_of_cover {Y R : Type*} [Group Y] [Finite Y] [Group R]
-    {Z Y' : Subgroup Y} [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (hZY' : Z ≤ Y')
+    {Z Y' : Subgroup Y} [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (_hZY' : Z ≤ Y')
     (hZ2 : Nat.card Z = 2) (φ : Y' ⧸ Z.subgroupOf Y' ≃* R)
     (hR : ∀ P : Subgroup R, Nat.card P = 49 →
       ∃ s ∈ P, s ≠ 1 ∧ ¬ 9 ∣ Nat.card (Subgroup.centralizer ({s} : Set R)))
     {E : Subgroup Y} (hE : Nat.card E = 49) :
     ∃ y ∈ E, y ≠ 1 ∧ ¬ 9 ∣ Nat.card (Subgroup.centralizer ({y} : Set Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let q : Y' →* R := φ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf Y'))
   have hker : ∀ g : Y', q g = 1 ↔ (g : Y) ∈ Z := by
     intro g

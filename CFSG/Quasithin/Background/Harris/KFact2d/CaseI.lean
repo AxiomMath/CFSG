@@ -12,16 +12,20 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin E2P
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_mono {p : ℕ} {E W : Subgroup G} (hW : IsElemAbelian p W) (hle : E ≤ W) :
     IsElemAbelian p E := CFSG.Open.IsElemAbelian.mono hW hle
 
+omit [Finite G] in
 theorem isElemAbelian_map_hom {p : ℕ} {W : Subgroup G} {Y : Type*} [Group Y] (f : G →* Y)
     (hW : IsElemAbelian p W) : IsElemAbelian p (W.map f) := CFSG.Open.IsElemAbelian.map hW _
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {W : Subgroup G} (K : Subgroup G)
     (hW : IsElemAbelian p W) : IsElemAbelian p (W.subgroupOf K) :=
   CFSG.Open.IsElemAbelian.subgroupOf hW K
 
+omit [Finite G] in
 theorem isElemAbelian_star {M H V : Subgroup G} (hV : IsElemAbelian 2 V) :
     IsElemAbelian 2 (E2.star M H V) := by
   have hc : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := fun v hv w hw =>

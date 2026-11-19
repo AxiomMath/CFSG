@@ -73,7 +73,7 @@ theorem inner_or_of_det (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {y y'
       IsInnerMat π (p ^ f) K (y' * y) := by
   have := hK.finite
   have hN : NeZero (qSubPi π (p ^ f)) := ⟨qSubPi_ne_zero hK hq⟩
-  haveI := rootsOfUnity.isCyclic K (qSubPi π (p ^ f))
+  have := rootsOfUnity.isCyclic K (qSubPi π (p ^ f))
   by_cases hc : ∃ μ, μ ^ 3 = detRoot hK hy'
   · obtain ⟨μ, hμ⟩ := hc
     exact Or.inl (isInnerMat_of_detRoot hK hy' hμ)

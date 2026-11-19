@@ -9,7 +9,7 @@ public section
 namespace CFSG.Quasithin
 
 theorem exists_odd_of_not_mem_centralizer {W : Type} [CommGroup W] [Finite W]
-    (hsq : ∀ w : W, w ^ 2 = 1) {X : Subgroup (MulAut W)}
+    (_hsq : ∀ w : W, w ^ 2 = 1) {X : Subgroup (MulAut W)}
     (hO2 : ∀ P : Subgroup (MulAut W), P ≤ X →
       (∀ x ∈ X, ∀ p ∈ P, x * p * x⁻¹ ∈ P) → IsPGroup 2 P → P = ⊥)
     {t : MulAut W} (ht : t ∈ Subgroup.normalizer (X : Set (MulAut W)))
@@ -149,7 +149,7 @@ theorem exists_odd_of_not_mem_centralizer {W : Type} [CommGroup W] [Finite W]
   have hcommz : (t * y) * z = z * t := by
     calc (t * y) * z = t * (y * z) := by rw [mul_assoc]
       _ = t * y ^ (m + 1) := by
-        rw [show y * z = y ^ (m + 1) by simpa [z, pow_succ']]
+        rw [show y * z = y ^ (m + 1) by simp [z, pow_succ']]
       _ = (y⁻¹) ^ (m + 1) * t := hpow
       _ = y ^ m * t := by rw [hpowinv]
       _ = z * t := rfl

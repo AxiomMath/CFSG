@@ -20,6 +20,7 @@ theorem snd_eq_one_of_mem_centralizer_a6Factor {x : Z2S6}
   have h := Subgroup.mem_centralizer_iff.1 hx _ hy
   exact (congrArg Prod.snd h).symm
 
+omit [Finite F] in
 private theorem eq_one_of_mem_odd_of_pow_two_pow_eq_one' {W : Subgroup F}
     (hW : Odd (Nat.card W)) {x : F} (hx : x ∈ W) {k : ℕ} (hk : x ^ 2 ^ k = 1) : x = 1 := by
   have hdiv1 : orderOf x ∣ Nat.card W := Subgroup.orderOf_dvd_natCard W hx
@@ -32,6 +33,7 @@ private theorem eq_one_of_mem_odd_of_pow_two_pow_eq_one' {W : Subgroup F}
       (even_iff_two_dvd.mpr (dvd_pow_self 2 hj))
   exact orderOf_eq_one_iff.mp (hjeq.trans (by rw [hj0, pow_zero]))
 
+omit [Finite F] in
 theorem natCard_le_two_of_le_centralizer (hodd : Odd (Nat.card Φ.ker)) {J : Subgroup F}
     (hJ : J.map Φ = a6Factor) {U : Subgroup F} (hU : IsPGroup 2 U)
     (hUJ : U ≤ centralizer (J : Set F)) : Nat.card U ≤ 2 := by

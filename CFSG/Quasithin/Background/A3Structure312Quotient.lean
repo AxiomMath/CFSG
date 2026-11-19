@@ -106,7 +106,7 @@ theorem isSylowTwoOf_top_map {H K : Type*} [Group H] [Finite H] [Group K] (f : H
   have hP' : (P' : Subgroup K) = S.map f := Sylow.coe_mapSurjective hf P
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hP']
-    exact P'.isPGroup'
+    exact P'.isPGroup
   · rw [show ((S.map f).subgroupOf ⊤).index = (S.map f).index from
       Subgroup.relIndex_top_right (S.map f), ← hP']
     exact P'.not_dvd_index

@@ -293,7 +293,7 @@ theorem radical_Sylow_normalizer_residual_is_common_simple_two_core_supplement
     bar_residual_facts hSQTb hO2b hLCb hqb hRadb (map_mono hKL) (map_mono hNL) hSylb hKbperf hKbS
       hNK
   have hSb2 : IsPGroup 2 ((R ⊓ L).map (QuotientGroup.mk' ((CFSG.pCore 2 L).map L.subtype))) :=
-    (T.isPGroup'.to_le (inf_le_left.trans hRT)).map _
+    (T.isPGroup.to_le (inf_le_left.trans hRT)).map _
   obtain ⟨hKNO, hKQO, hO2map⟩ := residual_two_core
     (QuotientGroup.mk' ((CFSG.pCore 2 L).map L.subtype)) (QuotientGroup.ker_mk' _) hQN hQ2 hO
     hKbN hSb2

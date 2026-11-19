@@ -179,7 +179,7 @@ theorem exists_sylow_subgroupOf_normal {H : Type*} [Group H] [Finite H] (Q : Syl
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQK2 : IsPGroup 2 ((Q : Subgroup H).subgroupOf K) := by
     rw [← comap_subtype]
-    exact Q.isPGroup'.comap_subtype
+    exact Q.isPGroup.comap_subtype
   have hidx : ¬ 2 ∣ ((Q : Subgroup H).subgroupOf K).index := by
     change ¬ 2 ∣ (Q : Subgroup H).relIndex K
     rw [← CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal K (Q : Subgroup H)]
@@ -203,7 +203,7 @@ theorem normalizer_centralizes_sylow_of_ree
   set A := (CFSG.pCore 2 X).map X.subtype with hA
   set P := ((P' : Subgroup X).map X.subtype : Subgroup H) with hPdef
   have hPX : P ≤ X := map_subtype_le _
-  have hPp : IsPGroup p P := P'.isPGroup'.map _
+  have hPp : IsPGroup p P := P'.isPGroup.map _
   have hDA : D ≤ normalizer (A : Set H) := fun g hg =>
     mem_normalizer_map_of_characteristic (CFSG.pCore 2 X) (hDX hg)
   set J := K ⧸ CFSG.pCore 2 K with hJ
@@ -315,7 +315,7 @@ theorem normalizer_centralizes_sylow_of_ree
     rw [hU₀set, hP₀set, ← Set.image_mul, hPUK, Set.image_mul]
   set Δ : Subgroup (MulAut (J ⧸ center J)) :=
     ((Q : Subgroup H) ⊓ normalizer (P : Set H)).map χ with hΔ
-  have hΔ2 : IsPGroup 2 Δ := (Q.isPGroup'.to_le inf_le_left).map χ
+  have hΔ2 : IsPGroup 2 Δ := (Q.isPGroup.to_le inf_le_left).map χ
   have hΔP : ∀ β ∈ Δ, P₀.map β.toMonoidHom = P₀ ∧
       (U₀ : Subgroup (J ⧸ center J)).map β.toMonoidHom = U₀ := by
     rintro _ ⟨n, hn, rfl⟩

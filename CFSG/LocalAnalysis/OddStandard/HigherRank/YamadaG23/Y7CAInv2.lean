@@ -12,7 +12,7 @@ open scoped commutatorElement
 variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →* MulAut M}
   {t : Γ} {J Q P M6 M7 K K₂ : Subgroup Γ}
 
-theorem y7c_K₂_comm_J (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
+theorem y7c_K₂_comm_J (_c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
     (hJK : J ≤ K ⊔ conjSub t K) (hKt : conjSub t K = K) (hK₂ : CFSG.IsComponent K₂)
     (hne : K₂ ≠ K) : ∀ x ∈ K₂, ∀ j ∈ J, x * j = j * x := by
   have hJK' : J ≤ K := by simpa [hKt] using hJK

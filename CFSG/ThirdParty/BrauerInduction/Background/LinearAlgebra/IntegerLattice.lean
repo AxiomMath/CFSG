@@ -76,7 +76,7 @@ theorem eq_zero_of_forall_primePow_smul
           ∃ y : M,
             (((p ^ N : ℕ) : ℤ) • y) = x) :
         x = 0 := by
-  letI : AddGroup.FG M :=
+  let : AddGroup.FG M :=
     (Module.Finite.iff_addGroup_fg).mp
       (inferInstance : Module.Finite ℤ M)
   obtain ⟨n, ι, instι, p, hp, e, ⟨E⟩⟩ :=
@@ -143,7 +143,7 @@ theorem mem_of_forall_primePow_congr
   have hcofg : A.CoFG :=
     Submodule.CoFG.of_finite
       (R := ℤ) (M := L) (S := A)
-  letI : AddGroup.FG (L ⧸ A) :=
+  let : AddGroup.FG (L ⧸ A) :=
     (Module.Finite.iff_addGroup_fg).mp hcofg
   have hquot :
       ∀ p : ℕ, p.Prime →

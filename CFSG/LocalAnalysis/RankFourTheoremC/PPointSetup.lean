@@ -105,7 +105,7 @@ theorem exists_isPPoint (hFC : FullCoreLocality G) {p : ℕ} {P : Sylow p G} {M 
   have hQ₁Cy : Q₁ ≤ centralizer ({y} : Set G) := hQ₁syl.le.trans inf_le_right
   have hQ₁M : Q₁ ≤ M := hQ₁syl.le.trans inf_le_left
   have hPCy : (P : Subgroup G) ⊓ centralizer ({y} : Set G) = Q₁ :=
-    hQ₁syl.eq_of_le (le_inf hm hQ₁Cy) (inf_le_inf_right _ hPM) (P.isPGroup'.to_inf_left)
+    hQ₁syl.eq_of_le (le_inf hm hQ₁Cy) (inf_le_inf_right _ hPM) (P.isPGroup.to_inf_left)
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p Q₁ (centralizer ({y} : Set G)) := by
     obtain ⟨T', hT'⟩ := (hQ₁p.comap_subtype :
       IsPGroup p (Q₁.subgroupOf (centralizer ({y} : Set G)))).exists_le_sylow

@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem kerIn_normal (M K : Subgroup G) :
     ((CFSG.LocalAnalysis.RankThreeUC.WeakClosure.kerIn M K).subgroupOf K).Normal :=
   (Subgroup.normal_subgroupOf_iff (H := CFSG.LocalAnalysis.RankThreeUC.WeakClosure.kerIn M K)
@@ -23,6 +24,7 @@ theorem kerIn_normal (M K : Subgroup G) :
     have := hhM (j * k) (K.mul_mem hj hk)
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem not_dvd_card_of_le_kerIn {d : ℕ} [Fact d.Prime] {M H J : Subgroup G} {p : ℕ}
     (hstr : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M) (hJM : ¬ J ≤ M)
     (hsub : (xSub p M H ⊓ M : Subgroup G) ≤ CFSG.LocalAnalysis.RankThreeUC.WeakClosure.kerIn M J) :

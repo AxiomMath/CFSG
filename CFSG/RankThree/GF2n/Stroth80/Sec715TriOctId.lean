@@ -11,22 +11,28 @@ open CFSG.Open
 
 variable {K : Type*} [CommRing K]
 
+omit [CommRing K] in
 @[simp] theorem octA_octMk (a : K) (u w : Fin 3 → K) (b : K) : octA (octMk a u w b) = a := rfl
 
+omit [CommRing K] in
 @[simp] theorem octB_octMk (a : K) (u w : Fin 3 → K) (b : K) : octB (octMk a u w b) = b := rfl
 
+omit [CommRing K] in
 @[simp] theorem octU_octMk (a : K) (u w : Fin 3 → K) (b : K) (i : Fin 3) :
     octU (octMk a u w b) i = u i := rfl
 
+omit [CommRing K] in
 @[simp] theorem octW_octMk (a : K) (u w : Fin 3 → K) (b : K) (i : Fin 3) :
     octW (octMk a u w b) i = w i := rfl
 
+omit [CommRing K] in
 @[simp] theorem octMk_octA (x : Oct K) : octMk (octA x) (octU x) (octW x) (octB x) = x := by
   funext i
   rcases i with i | i
   · induction i using Fin.cases <;> rfl
   · induction i using Fin.cases <;> rfl
 
+omit [CommRing K] in
 theorem oct_ext {x y : Oct K} (hA : octA x = octA y) (hU : octU x = octU y)
     (hW : octW x = octW y) (hB : octB x = octB y) : x = y := by
   funext i
@@ -38,6 +44,7 @@ theorem oct_ext {x y : Oct K} (hA : octA x = octA y) (hU : octU x = octU y)
     | zero => exact hB
     | succ j => exact congrFun hW j
 
+omit [CommRing K] in
 theorem oct_ext_coords {x y : Oct K} (hA : octA x = octA y) (hB : octB x = octB y)
     (hU₀ : octU x 0 = octU y 0) (hU₁ : octU x 1 = octU y 1) (hU₂ : octU x 2 = octU y 2)
     (hW₀ : octW x 0 = octW y 0) (hW₁ : octW x 1 = octW y 1) (hW₂ : octW x 2 = octW y 2) :
@@ -251,7 +258,7 @@ end CharTwo
 
 theorem octNorm_eq_statedQuadPlus {K : Type} [Field K] [CharP K 2] (x : Oct K) :
     octNorm x = StatedQuadPlus 4 K x := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore]
+  simp only [StatedQuadPlus]
   rw [Fin.sum_univ_succ]
   simp only [octNorm, Fin.sum_univ_three, dot3, octA, octB, octU, octW, CharTwo.sub_eq_add]
 

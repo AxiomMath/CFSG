@@ -49,15 +49,15 @@ theorem srtOut_suzukiGroup {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K]
       exact srtOut_of_isSolvable 2 _
         (Group.isSolvable_of_isSolvable_injective (f := efix.toMonoidHom) efix.injective)
     · obtain ⟨hfink, hsk, hnck⟩ := suzukiGroup_simple_nonab hb1 hk
-      haveI := hfink
-      haveI := hsk
-      haveI : IsSimpleGroup ↥(fixSubgroup (szFieldAut a K σ)) := efix.isSimpleGroup
+      have := hfink
+      have := hsk
+      have : IsSimpleGroup ↥(fixSubgroup (szFieldAut a K σ)) := efix.isSimpleGroup
       have hnc : ∃ x y : ↥(fixSubgroup (szFieldAut a K σ)), x * y ≠ y * x := by
         obtain ⟨x, y, hxy⟩ := hnck
         exact ⟨efix.symm x, efix.symm y, fun h => hxy (efix.symm.injective (by
           rw [map_mul, map_mul]
           exact h))⟩
-      haveI : Finite ↥(fixSubgroup (szFieldAut a K σ)) := Finite.of_equiv _ efix.symm.toEquiv
+      have : Finite ↥(fixSubgroup (szFieldAut a K σ)) := Finite.of_equiv _ efix.symm.toEquiv
       have hcat := nonempty_suzukiGroup_equiv_cat hb1 hk
       refine srtOut_of_derived (szFieldAut a K σ) (N := fixSubgroup (szFieldAut a K σ)) le_rfl
         (by rw [Subgroup.subgroupOf_self]; exact le_top) ?_ ?_ ?_

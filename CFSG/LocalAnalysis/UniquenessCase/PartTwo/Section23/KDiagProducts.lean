@@ -62,22 +62,22 @@ theorem normalizer_prod_eq' {C : Subgroup A} {D : Subgroup B} :
       constructor
       · intro ha
         have hmem : x * (a, 1) * x⁻¹ ∈ C.prod D :=
-          (hx (a, 1)).mp (Subgroup.mem_prod.mpr ⟨ha, by simpa using D.one_mem⟩)
+          (hx (a, 1)).mp (Subgroup.mem_prod.mpr ⟨ha, by simp⟩)
         exact (Subgroup.mem_prod.mp hmem).1
       · intro ha
         have hmem : x * (a, 1) * x⁻¹ ∈ C.prod D :=
-          Subgroup.mem_prod.mpr ⟨ha, by simpa using D.one_mem⟩
+          Subgroup.mem_prod.mpr ⟨ha, by simp⟩
         exact (Subgroup.mem_prod.mp ((hx (a, 1)).mpr hmem)).1
     · rw [Subgroup.mem_normalizer_iff]
       intro b
       constructor
       · intro hb
         have hmem : x * (1, b) * x⁻¹ ∈ C.prod D :=
-          (hx (1, b)).mp (Subgroup.mem_prod.mpr ⟨by simpa using C.one_mem, hb⟩)
+          (hx (1, b)).mp (Subgroup.mem_prod.mpr ⟨by simp, hb⟩)
         exact (Subgroup.mem_prod.mp hmem).2
       · intro hb
         have hmem : x * (1, b) * x⁻¹ ∈ C.prod D :=
-          Subgroup.mem_prod.mpr ⟨by simpa using C.one_mem, hb⟩
+          Subgroup.mem_prod.mpr ⟨by simp, hb⟩
         exact (Subgroup.mem_prod.mp ((hx (1, b)).mpr hmem)).2
   · rintro ⟨hx1, hx2⟩
     rw [Subgroup.mem_normalizer_iff] at hx1 hx2 ⊢
@@ -94,7 +94,7 @@ theorem not_normal_of_isCoatom_of_normalizer_sylow {G : Type} [Group G] [Finite 
     {C : Subgroup G} (hC : IsCoatom C) {S : Sylow 2 G}
     (hCS : C = Subgroup.normalizer (S : Set G)) : ¬ C.Normal := by
   intro hnorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSnormal : S.Normal := Sylow.normal_of_normalizer_normal S (hCS ▸ hnorm)
   exact hC.ne_top (hCS.trans (Subgroup.normalizer_eq_top_iff.mpr hSnormal))
 
@@ -368,7 +368,7 @@ theorem IsCoatom.of_map_of_surjective_of_ker_le {G H : Type} [Group G] [Group H]
 theorem coatom_normalizer_sylow_psl2 (K : Type) [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) :
     ∀ S : Sylow 2 (PSL2 K), IsCoatom (Subgroup.normalizer (S : Set (PSL2 K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S₀
   let U : Sylow 2 (PSL2 K) := psl2UpperUnipotentSylow K hK
   let Usub : Subgroup (PSL2 K) := (U : Subgroup (PSL2 K))
@@ -406,16 +406,16 @@ theorem coatom_normalizer_sylow_of_isL2 {n : ℕ} {X : Type} [Group X] [Finite X
     CFSG.Blueprint.LieModel.statedClassicalModel hX' ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact isCoatom_normalizer_sylow_of_mulEquiv
     (e₀.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm)
     (coatom_normalizer_sylow_psl2 K hcard)
@@ -426,8 +426,8 @@ theorem coatom_normalizer_sylow_of_isSz {n : ℕ} {X : Type} [Group X] [Finite X
   have hSuz : CFSG.Blueprint.SuzukiModel X 2 n :=
     (CFSG.Blueprint.LieModel.suzukiModel hX).2
   obtain ⟨-, a, ha, K, hfield, hfinite, rfl, hcard, ⟨e⟩⟩ := hSuz
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   exact isCoatom_normalizer_sylow_of_mulEquiv e
     (isCoatom_normalizer_sylow_suzukiGroup ha hcard)
 
@@ -561,7 +561,7 @@ theorem kDiag_prod_of_coatom_normalizer [Finite A] [Finite B]
       (S : Subgroup (A × B)) ≤ Subgroup.normalizer (P : Set (A × B)) →
       ∀ x ∈ P, θ x ∈ P := by
   intro θ hθ S hSθ P hP hSP x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSmap : (S : Subgroup (A × B)).map θ.toMonoidHom = S := by
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
     · rintro _ ⟨y, hy, rfl⟩
@@ -609,7 +609,7 @@ theorem kDiag_prod_of_coatom_normalizer [Finite A] [Finite B]
     rw [hSsplit]
     exact normalizer_prod_eq'
   have hSP' : (S : Subgroup (A × B)) ≤ P :=
-    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup' hSP
+    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup hSP
   have hNP : Subgroup.normalizer ((S : Subgroup (A × B)) : Set (A × B)) ≤ P :=
     hP.normalizer_le S hSP'
   have hNP' : (Subgroup.normalizer (SA : Set A)).prod (Subgroup.normalizer (SB : Set B)) ≤ P := by
@@ -638,12 +638,12 @@ theorem kDiag_of_isSzL2Product {n : ℕ} {X : Type} [Group X] [Finite X]
       (S : Subgroup X) ≤ Subgroup.normalizer (P : Set X) →
       ∀ x ∈ P, θ x ∈ P := by
   obtain ⟨A, B, hAgrp, hBgrp, ⟨e⟩, hAb, hBb⟩ := hX
-  letI : Group A := hAgrp
-  letI : Group B := hBgrp
-  haveI : Finite (A × B) := Finite.of_injective (e.symm : A × B → X) e.symm.injective
-  haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
+  let : Group A := hAgrp
+  let : Group B := hBgrp
+  have : Finite (A × B) := Finite.of_injective (e.symm : A × B → X) e.symm.injective
+  have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
     (by intro a₁ a₂ h; exact (Prod.ext_iff.mp h).1)
-  haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+  have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
     (by intro b₁ b₂ h; exact (Prod.ext_iff.mp h).2)
   have hcoatA : ∀ S : Sylow 2 A, IsCoatom (Subgroup.normalizer (S : Set A)) := by
     rcases hAb with h | h
@@ -674,7 +674,7 @@ theorem kDiag_of_centralQuotient_of_map {X : Type} [Group X] [Finite X]
   intro θ hθ hθI S hSθ P hP hSP x hx
   let π : X →* X ⧸ I := QuotientGroup.mk' I
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective I
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let θbar : MulAut (X ⧸ I) := QuotientGroup.congr I I θ hθI
   have hθbar_mk : ∀ y : X, θbar (π y) = π (θ y) := fun y =>
     QuotientGroup.congr_mk' I I θ hθI y
@@ -724,10 +724,10 @@ theorem coatom_normalizer_sylow_of_isSU3 {n : ℕ} {X : Type} [Group X] [Finite 
     ∀ S : Sylow 2 X, IsCoatom (Subgroup.normalizer (S : Set X)) := by
   obtain ⟨hQ, hU3⟩ := hX
   let Z : Subgroup X := Subgroup.center X
-  haveI : Z.Normal := inferInstance
+  have : Z.Normal := inferInstance
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective Z
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
   let Sbar : Sylow 2 (X ⧸ Z) := S.mapSurjective (f := π) hπsurj
   have hSbarcoe : (Sbar : Subgroup (X ⧸ Z)) = (S : Subgroup X).map π :=
@@ -787,8 +787,8 @@ theorem kDiag_of_isSU3CentralSquare {X : Type} [Group X] [Finite X]
       change b * a * b⁻¹ = a
       rw [← hcomm a ha b hb]
       group
-  haveI : K₁.Normal := hK₁n
-  haveI : K₂.Normal := hK₂n
+  have : K₁.Normal := hK₁n
+  have : K₂.Normal := hK₂n
   have hIcenter : K₁ ⊓ K₂ ≤ Subgroup.center X := by
     intro z hz
     rw [Subgroup.mem_center_iff]
@@ -845,7 +845,7 @@ theorem kDiag_of_isSU3CentralSquare {X : Type} [Group X] [Finite X]
   have hθI : (K₁ ⊓ K₂).map θ.toMonoidHom = K₁ ⊓ K₂ := by
     rw [Subgroup.map_inf _ _ _ θ.injective, hθK₁, hθK₂]
   let I : Subgroup X := K₁ ⊓ K₂
-  haveI : I.Normal := Subgroup.normal_inf_normal K₁ K₂
+  have : I.Normal := Subgroup.normal_inf_normal K₁ K₂
   let π : X →* X ⧸ I := QuotientGroup.mk' I
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective I
   let A : Subgroup (X ⧸ I) := K₁.map π
@@ -898,7 +898,7 @@ theorem kDiag_of_isSU3CentralSquare {X : Type} [Group X] [Finite X]
       change a * b * a⁻¹ = b
       rw [hAcomm a ha b hb]
       group
-  haveI : B.Normal := hBnormal
+  have : B.Normal := hBnormal
   have hdecomp : ∀ {q : X ⧸ I}, q ∈ (⊤ : Subgroup (X ⧸ I)) →
       ∃ a ∈ A, ∃ b ∈ B, a * b = q := by
     intro q _

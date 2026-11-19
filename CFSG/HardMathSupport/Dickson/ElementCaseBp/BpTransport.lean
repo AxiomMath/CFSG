@@ -60,7 +60,7 @@ private theorem map_layer_core_eq {Q A : Type} [Group Q] [Group A] [Finite Q] (�
   have hcomp : ι.comp F.subtype = D.subtype.comp ψ.toMonoidHom := by
     ext x
     rfl
-  haveI : Finite ↥D := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥D := Finite.of_equiv _ ψ.toEquiv
   constructor
   · rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, pLayer_map_mulEquiv p hp ψ]
   · rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, CFSG.pPrimeCore_map_iso p ψ]

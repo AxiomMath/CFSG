@@ -50,7 +50,7 @@ theorem exists_fixed_in_coset {G : Type*} [Group G] [Finite G] (τ x : G) (hττ
   obtain ⟨p₀, hp₀, hxp₀⟩ := hx
   have hτinv : τ⁻¹ = τ := (eq_inv_of_mul_eq_one_left hττ).symm
   let C : Type _ := {y : G // ∃ p ∈ P, y = x * p}
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   have hmem : ∀ c : C, τ * c.1 * τ⁻¹ ∈ {y : G | ∃ p ∈ P, y = x * p} := by
     rintro ⟨c, p, hp, rfl⟩
     refine ⟨p₀ * (τ * p * τ⁻¹), P.mul_mem hp₀ (hτP p hp), ?_⟩
@@ -85,7 +85,7 @@ theorem exists_fixed_in_coset {G : Type*} [Group G] [Finite G] (τ x : G) (hττ
   have hodd : Nat.card P % 2 = 1 := Nat.odd_iff.mp hPodd
   obtain ⟨c, hcF⟩ : ∃ c : C, F c = c := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have h0 : Fintype.card (Function.fixedPoints f) = 0 := by
       rw [Fintype.card_eq_zero_iff]
       exact ⟨fun ⟨c, hc⟩ => hno c hc⟩
@@ -171,7 +171,7 @@ theorem jordan_card_le {W : Type*} [AddCommGroup W] [Finite W] (σ : W ≃+ W)
   have hcube : ∀ w, δ (δ (δ w)) = 0 := by
     intro w
     have e : δ (δ (δ w)) = (3 : ℕ) • σ w - (3 : ℕ) • σ (σ w) := by
-      simp only [hδ, map_sub, AddEquiv.coe_toAddMonoidHom, map_sub, hσ]
+      simp only [hδ, map_sub, map_sub, hσ]
       abel_nf
     rw [e, h3 (σ w), h3 (σ (σ w)), sub_zero]
   let I := δ.range
@@ -210,12 +210,12 @@ theorem jordan_card_le {W : Type*} [AddCommGroup W] [Finite W] (σ : W ≃+ W)
   carrier := {g : L | ρ g v = v}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, MulAut.mul_apply, hb, ha]
-  one_mem' := by simp [Set.mem_setOf_eq]
+  one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     calc ρ a⁻¹ v = ρ a⁻¹ (ρ a v) := by rw [ha]
       _ = ρ (a⁻¹ * a) v := by rw [map_mul, MulAut.mul_apply]
       _ = v := by simp
@@ -227,7 +227,7 @@ theorem stab_card_dvd_three {L V : Type*} [Group L] [Finite L] [Group V]
   have hdvd : Nat.card ↥(stabSub ρ v) ∣ 24 := hL ▸ Subgroup.card_subgroup_dvd_card _
   have hodd : ¬ 2 ∣ Nat.card ↥(stabSub ρ v) := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hu2 : (u : L) ^ 2 = 1 := by
       have h := pow_orderOf_eq_one u
@@ -287,13 +287,13 @@ theorem fix_card_conj {L V : Type*} [Group L] [Group V] [Fintype V] [DecidableEq
     rw [act_mul_apply, act_mul_apply]
   apply Finset.card_nbij' (fun v => ρ g⁻¹ v) (fun v => ρ g v)
   · intro v hv
-    simp only [Finset.coe_filter, Finset.mem_coe, Finset.mem_filter, Set.mem_setOf_eq,
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq,
       Finset.mem_univ, true_and] at hv ⊢
     rw [hexp] at hv
     calc ρ σ (ρ g⁻¹ v) = ρ g⁻¹ (ρ g (ρ σ (ρ g⁻¹ v))) := (act_inv_cancel ρ g _).symm
       _ = ρ g⁻¹ v := by rw [hv]
   · intro v hv
-    simp only [Finset.coe_filter, Finset.mem_coe, Finset.mem_filter, Set.mem_setOf_eq,
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq,
       Finset.mem_univ, true_and] at hv ⊢
     rw [hexp, act_inv_cancel, hv]
   · intro v _
@@ -381,7 +381,7 @@ variable {G : Type*} [Group G]
     simp
   map_mul' m n := by
     ext
-    simp only [Subgroup.coe_mul, MulMemClass.coe_mul]
+    simp only [MulMemClass.coe_mul]
     group
 
 theorem conjM_coe (M : Subgroup G) (g : G) (hg : ∀ m ∈ M, g * m * g⁻¹ ∈ M) (m : ↥M) :
@@ -608,7 +608,7 @@ theorem pow_three_eq_one_of_mem_zpowers {τ c : G} (hτ3 : orderOf τ = 3)
 theorem cmt_eq_one_of_mem_zpowers {M : Subgroup G} {τ z σ : G}
     (hcentM : ∀ m ∈ M, m * τ = τ * m) (hτ3 : orderOf τ = 3)
     (hστ : σ * τ = τ * σ) (hσz : σ * z = z * σ) (hzτ : z * τ = τ * z)
-    (hzM : ∀ m ∈ M, z * m * z⁻¹ ∈ M)
+    (_hzM : ∀ m ∈ M, z * m * z⁻¹ ∈ M)
     (hQ2 : ∀ x ∈ M, x * (z * x * z⁻¹) ∈ Subgroup.zpowers τ)
     (x : G) (hx : x ∈ M) (hc : cmt σ x ∈ Subgroup.zpowers τ) : cmt σ x = 1 := by
   set c := cmt σ x with hcdef
@@ -771,12 +771,12 @@ variable {V : Type*} [Group V]
   carrier := {v | α v = v}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem fix_card_dvd [Finite V] (α : MulAut V) :
@@ -786,7 +786,7 @@ theorem fix_card_dvd [Finite V] (α : MulAut V) :
 theorem fix_card_modEq_three [Finite V] (α : MulAut V) (h3 : ∀ v, α (α (α v)) = v) :
     Nat.card V ≡ Nat.card {v // α v = v} [MOD 3] := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   let F : V → V := fun v => α v
   let f : Function.End V := F
   have hf : f ^ 3 ^ 1 = 1 := by
@@ -888,16 +888,16 @@ theorem card_T8_L {G : Type*} [Group G] (L : Subgroup G) (φ : L ≃* SL23) [Fin
     rw [← hM2]
     apply Finset.card_nbij (fun A : SL23 => (A : M2))
     · intro A hA
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hA ⊢
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hA ⊢
       refine ⟨det_of_sl A, ?_, fun e => hA.2 (Subtype.ext e)⟩
       have := congrArg Subtype.val hA.1
       exact this
     · intro A _ B _ hAB
       exact Subtype.ext hAB
     · intro M hM
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hM
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hM
       refine ⟨⟨M, hM.1⟩, ?_, rfl⟩
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and]
       refine ⟨?_, fun e => hM.2.2 (congrArg Subtype.val e)⟩
       apply Subtype.ext
       exact hM.2.1
@@ -1107,7 +1107,7 @@ theorem exp3_of_fixed [Finite G] {M P : Subgroup G} [(P.subgroupOf M).Normal]
 
 theorem exp3_quot [Finite G] {M P : Subgroup G} [(P.subgroupOf M).Normal]
     (hPodd : Odd (Nat.card P)) (hPM : P ≤ M)
-    (t z : G) (htt : t * t = 1) (htz : t * z = z * t) (htz2 : (t * z) * (t * z) = 1)
+    (t z : G) (htt : t * t = 1) (_htz : t * z = z * t) (htz2 : (t * z) * (t * z) = 1)
     (ht : NormH M P t) (hz : NormH M P z) (htz' : NormH M P (t * z))
     (hinvz : ∀ v : ↥M ⧸ P.subgroupOf M, actV M P z hz v = v⁻¹)
     (hexpt : ∀ x : ↥M, t * (x : G) * t⁻¹ = (x : G) → x ^ 3 = 1)
@@ -1164,7 +1164,7 @@ theorem exp3_quot [Finite G] {M P : Subgroup G} [(P.subgroupOf M).Normal]
 theorem card_le_fix_cube {V : Type*} [Group V] [Finite V] (hcomm : ∀ a b : V, a * b = b * a)
     (α : MulAut V) (h3 : ∀ v : V, v ^ 3 = 1) (hα3 : ∀ v, α (α (α v)) = v) :
     Nat.card V ≤ (Nat.card {v // α v = v}) ^ 3 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   let σ' : Additive V ≃+ Additive V := MulEquiv.toAdditive α
   have h3' : ∀ w : Additive V, (3 : ℕ) • w = 0 := by
     intro w
@@ -1199,8 +1199,8 @@ theorem orbit_app [Finite G] {M P : Subgroup G} [(P.subgroupOf M).Normal] {L : S
     4 * (Nat.card {v : ↥M ⧸ P.subgroupOf M // actV M P σ (hLn σ hσL) v = v} - 1) ≤
       Nat.card (↥M ⧸ P.subgroupOf M) - 1 := by
   classical
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : Fintype (↥M ⧸ P.subgroupOf M) := Fintype.ofFinite _
+  have : Fintype L := Fintype.ofFinite L
+  have : Fintype (↥M ⧸ P.subgroupOf M) := Fintype.ofFinite _
   let ρ : L →* MulAut (↥M ⧸ P.subgroupOf M) := actHomK M P L hLn
   let z' : L := ⟨z, hzL⟩
   let σ' : L := ⟨σ, hσL⟩

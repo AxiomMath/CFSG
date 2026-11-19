@@ -22,7 +22,7 @@ theorem pCoreOf_two_le_pCoreOf_two_of_noPerfectTwoCoreSection {X K : Subgroup G}
     (hsimple : IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X))
     (hS : NoPerfectTwoCoreSection (↥K ⧸ CFSG.pCore 2 ↥K) (↥X ⧸ CFSG.pCore 2 ↥X)) :
     CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 K := by
-  haveI := hperf
+  have := hperf
   let Q : Subgroup ↥X := CFSG.pCore 2 ↥X
   let f : ↥X →* (↥K ⧸ CFSG.pCore 2 ↥K) :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp (Subgroup.inclusion hXK)
@@ -117,7 +117,7 @@ theorem pCoreOf_two_le_pCoreOf_two_of_noPerfectTwoCoreSection {X K : Subgroup G}
     have hHnt : Nontrivial ↥H := by
       by_contra hnt
       rw [not_nontrivial_iff_subsingleton] at hnt
-      haveI := hnt
+      have := hnt
       exact hMne (Subgroup.ext fun x => by
         rw [Subgroup.mem_bot]
         exact ⟨fun _ => Subsingleton.elim (x : ↥H) 1, fun h => h ▸ (Q.map f.rangeRestrict).one_mem⟩)
@@ -132,8 +132,8 @@ theorem pCoreOf_two_le_pCoreOf_two_of_noPerfectTwoCoreSection {X K : Subgroup G}
         simpa using this
       refine H.subtype_injective ?_
       rw [map_pow, map_one, show H.subtype y = H.subtype z from hzy.symm, ← map_pow, h1, map_one]
-    haveI hnil : Group.IsNilpotent ↥H := hHp.isNilpotent
-    haveI := hHperf
+    have hnil : Group.IsNilpotent ↥H := hHp.isNilpotent
+    have := hHperf
     have hsol : Group.IsSolvable ↥H := inferInstance
     exact absurd hsol (Group.IsPerfect.not_isSolvable ↥H)
 

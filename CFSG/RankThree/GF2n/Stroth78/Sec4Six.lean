@@ -36,7 +36,7 @@ theorem exists_mulEquiv_statedSp_of_fischerLinearModel
 
 theorem stroth78_46_of_structure (S : Setting z E F) {a : G} {w : ℕ}
     (h : Sec3Hyp S a w)
-    (h217 : ∀ Y : Subgroup (Hbar z), CFSG.GroupTheory.oddOrderClosure Y = Y →
+    (_h217 : ∀ Y : Subgroup (Hbar z), CFSG.GroupTheory.oddOrderClosure Y = Y →
       (∀ P : Subgroup (Hbar z), P ≤ Y → IsPGroup 2 P →
         Y ≤ Subgroup.normalizer (P : Set (Hbar z)) → P = ⊥) →
       (∀ y ∈ Y, ∀ r ∈ Rbar S a, y * r = r * y) →
@@ -44,7 +44,7 @@ theorem stroth78_46_of_structure (S : Setting z E F) {a : G} {w : ℕ}
       aVec S h.mem_Q ∉ (⨆ y ∈ Y, commSpace (rhoLin S y)) →
       Lbar S a ≤ Subgroup.normalizer (Y : Set (Hbar z)) →
       Rbar S a = ⊥ ∨ Y = ⊥)
-    (h3 : ∀ α ∈ Eset S a, ∀ α' ∈ Eset S a, orderOf (α * α') ≤ 3)
+    (_h3 : ∀ α ∈ Eset S a, ∀ α' ∈ Eset S a, orderOf (α * α') ≤ 3)
     {α : Hbar z} (hα : α ∈ Tset S a) {m : ℕ} (hm : 3 ≤ m)
     {b : LinearMap.BilinForm (ZMod 2) (Fin (2 * m) → ZMod 2)}
     (halt : ∀ x, b x x = 0) (hnd : ∀ x, (∀ y, b x y = 0) → x = 0)

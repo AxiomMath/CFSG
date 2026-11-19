@@ -35,7 +35,7 @@ theorem compIn5_of_isComponent_sl2_five {Q : Type} [Group Q] [IsSimpleGroup Q]
     rw [ht1, orderOf_one] at ht
     exact (by norm_num : (1 : ℕ) ≠ 2) ht
   have hα : orderOf (MulAut.conj t : MulAut Q) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
     exact orderOf_eq_prime hconj2 hconj1
   have hw : t ∈ fixedSubgroup (MulAut.conj t) := by
     rw [CFSG.HardMathSupport.Foote.FamilyReduction.mem_fixedSubgroup_iff, MulAut.conj_apply]
@@ -43,7 +43,7 @@ theorem compIn5_of_isComponent_sl2_five {Q : Type} [Group Q] [IsSimpleGroup Q]
   have hmem : φ (selfCent t) ∈ K := Subgroup.mem_map_of_mem φ.toMonoidHom htB
   have hφ : (⟨t, hw⟩ : ↥(fixedSubgroup (MulAut.conj t))) = φ (selfCent t) := by
     apply Subtype.ext
-    simp only [MulEquiv.subgroupCongr_apply]
+    simp only
     rfl
   refine ⟨MulAut.conj t, t, rfl, hα, K, hK, hKe, hw, ?_⟩
   rwa [hφ]

@@ -163,7 +163,7 @@ theorem exists_normal_index_two_of_projective_eight {U V : Subgroup D} {t : D}
         rw [htop]
         trivial
       exact mem_subgroupOf.mp this
-    have : Group.IsNilpotent (T : Subgroup D) := T.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (T : Subgroup D) := T.isPGroup.isNilpotent
     have hlt := Group.normalizerCondition_of_isNilpotent (G := (T : Subgroup D)) I hIlt
     obtain ⟨x, hxN, hxI⟩ := IsConcreteLE.exists_of_lt hlt
     have hzN : (x : D) ∈ normalizer (S₁ : Set D) := by
@@ -214,7 +214,7 @@ theorem exists_normal_index_two_of_projective_eight {U V : Subgroup D} {t : D}
       rw [heq, map_mul, map_mul, map_inv] at hzyd
       exact hzyd
     have hz2 : ∃ k : ℕ, π ⟨z, hzV⟩ ^ 2 ^ k = 1 := by
-      obtain ⟨k, hk⟩ := T.isPGroup' x
+      obtain ⟨k, hk⟩ := T.isPGroup x
       refine ⟨k, ?_⟩
       have hk' : z ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       rw [← map_pow]

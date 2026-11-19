@@ -27,7 +27,7 @@ variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G} {X : Subgr
 theorem MinCex.isSylowOf_S (h186 : Item186H) (hX : MinCex A M H c X) :
     IsSylowOf 2 (CFSG.Open.pCoreOf 2 (H ⊓ M)) X :=
   isSylowOf_of_mem_scriptX h186 hX.sec18H hX.hyp187 hX.mem
-theorem MinCex.inf_centralizer_pCoreOf_M_le (h186 : Item186H) (hX : MinCex A M H c X)
+theorem MinCex.inf_centralizer_pCoreOf_M_le (_h186 : Item186H) (hX : MinCex A M H c X)
     {Kt : Subgroup G} (hKt : Kt ≤ X) :
     Kt ⊓ Subgroup.centralizer (CFSG.Open.pCoreOf 2 M : Set G) ≤ CFSG.Open.pCoreOf 2 M :=
   (inf_le_inf_right _ (hKt.trans hX.le_M)).trans
@@ -85,8 +85,8 @@ theorem MinCex.layer_sup_sylowImage_eq_top (h186 : Item186H) (hX : MinCex A M H 
     (hl : layer (NSolY X) ≠ ⊥) :
     layer (NSolY X) ⊔ sylowImage X (CFSG.Open.pCoreOf 2 (H ⊓ M)) = ⊤ := by
   have hS : IsSylowOf 2 (CFSG.Open.pCoreOf 2 (H ⊓ M)) X := hX.isSylowOf_S h186
-  haveI := CFSG.LocalCores.layer_characteristic (G := NSolY X)
-  haveI : (layer (NSolY X)).Normal := inferInstance
+  have := CFSG.LocalCores.layer_characteristic (G := NSolY X)
+  have : (layer (NSolY X)).Normal := inferInstance
   have hVX : nsolPre X (layer (NSolY X)) ≤ X := nsolPre_le X (layer (NSolY X))
   have hXV : X ≤ Subgroup.normalizer (nsolPre X (layer (NSolY X)) : Set G) :=
     le_normalizer_nsolPre X (layer (NSolY X))

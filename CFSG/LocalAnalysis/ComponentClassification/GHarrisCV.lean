@@ -66,7 +66,7 @@ theorem eq_one_of_odd_comm_Y (hC : GorensteinHaradaThmCInput) (hO : pPrimeCore 2
     · have hEn : D.Et.Normal := hA ▸ pCore_normal
       have hwE := D.centralizes_Et hwodd hZ fun e he => hEn.conj_mem e he w
       have hwmem : w ∈ D.Et := hCE (mem_centralizer_iff.mpr fun e he => (hwE e he).symm)
-      obtain ⟨k, hk⟩ := ((D.sylowXt hO hz).isPGroup'.to_le (D.Et_le hO hz)) ⟨w, hwmem⟩
+      obtain ⟨k, hk⟩ := ((D.sylowXt hO hz).isPGroup.to_le (D.Et_le hO hz)) ⟨w, hwmem⟩
       exact eq_one_of_odd_of_pow_two_pow hwodd (k := k) (congrArg Subtype.val hk)
   have hcl : (⟨c, hcY⟩ : D.Y1) ∈ zpowers D.lY := by
     rw [← QuotientGroup.ker_mk' (zpowers D.lY)]

@@ -92,7 +92,7 @@ theorem auxGraph_adj_smul {K : Subgroup H} {g : H}
 noncomputable instance auxPerm.graphAction (K : Subgroup H) (u₀ : V) :
     GraphAction ↥(auxPerm Γ K u₀) (auxGraphOn Γ K u₀) where
   adj_smul g a b := by
-    letI := auxAction Γ K u₀
+    let := auxAction Γ K u₀
     obtain ⟨m, hm⟩ := MonoidHom.mem_range.mp g.2
     have hga : ((g • a : ↥(auxComp Γ K u₀)) : V) = (m : H) • (a : V) := by
       rw [Subgroup.smul_def, Equiv.Perm.smul_def, ← hm, MulAction.toPermHom_apply,

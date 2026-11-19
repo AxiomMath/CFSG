@@ -257,6 +257,7 @@ theorem pRank_le (h : Cfg A c L R S J)
   rw [h.pt.std.toTheoremFourHyp.localRank_three] at h4
   exact h1.trans (h2.trans (h3.trans (h3'.trans h4)))
 
+omit [(ker148 A (Subgroup.normalizer ↑S)).Normal] in
 theorem c_ne_one (h : Cfg A c L R S J) : c ≠ 1 := fun hc => h.pt.not_mem (hc ▸ L.one_mem)
 
 theorem K_le_centralizer (h : Cfg A c L R S J) :

@@ -237,7 +237,7 @@ theorem s15k_mcl_sym_odd {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R :
     rfl
 
 theorem s15k_mcl_sym_even {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R : Subgroup W}
-    (D : McRep J R) (hev : Even (Module.finrank (ZMod 2) D.V))
+    (D : McRep J R) (_hev : Even (Module.finrank (ZMod 2) D.V))
     (h2 : 2 ≤ Module.finrank (ZMod 2) D.V)
     (β : D.V ≃ₗ[ZMod 2] sumZero (Module.finrank (ZMod 2) D.V + 2) ⧸
       onesLine (Module.finrank (ZMod 2) D.V + 2))

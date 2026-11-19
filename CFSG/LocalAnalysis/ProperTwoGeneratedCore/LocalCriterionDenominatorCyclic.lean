@@ -45,12 +45,12 @@ theorem odd_commutative_subgroup_cyclic (W : Subgroup G)
           have hPodd : Odd (Nat.card P) :=
             hodd.of_dvd_nat (P : Subgroup W).card_subgroup_dvd_card
           have hcard : Nat.card P = 1 :=
-            P.isPGroup'.card_eq_or_dvd.resolve_right hPodd.not_two_dvd_nat
+            P.isPGroup.card_eq_or_dvd.resolve_right hPodd.not_two_dvd_nat
           let : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard).1
           exact isCyclic_of_subsingleton
         · let i : W →* G := W.subtype
           let Q : Subgroup G := (P : Subgroup W).map i
-          have hQp : IsPGroup p Q := P.isPGroup'.map i
+          have hQp : IsPGroup p Q := P.isPGroup.map i
           obtain ⟨R, hQR⟩ := hQp.exists_le_sylow
           let : IsCyclic R := hSylow p hp2 R
           let : IsCyclic Q := Subgroup.isCyclic_of_le hQR

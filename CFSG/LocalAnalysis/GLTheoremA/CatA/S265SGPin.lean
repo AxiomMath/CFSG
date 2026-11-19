@@ -146,7 +146,7 @@ theorem exists_innLabel_of_qsnl_big {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
       ¬ (lab.tag = .G2 ∨ lab.tag = .triD4 ∨ lab.tag = .twB2 ∨ lab.tag = .twF4 ∨
         lab.tag = .B2der ∨ lab.tag = .G2der ∨ lab.tag = .twF4der) := by
   have hc := h.cfg
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hcent : Nat.card ↥(B ⊓ centModSubgroup p S) ≤ p := by
     calc Nat.card ↥(B ⊓ centModSubgroup p S) ≤ Nat.card ↥(Subgroup.zpowers x) :=
           Subgroup.card_le_of_le fun b hb => (hc.centB b hb.1).1 (centMod_iff.2 hb.2)

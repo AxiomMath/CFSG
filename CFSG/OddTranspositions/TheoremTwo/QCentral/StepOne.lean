@@ -11,6 +11,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem pCore_thirdK_le_center_of_commute (hS : Setup G D) (hL : LocalSecond D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n)
@@ -35,6 +36,7 @@ theorem pCore_thirdK_le_center_of_commute (hS : Setup G D) (hL : LocalSecond D)
   refine Subgroup.mem_center_iff.mpr fun g => Subtype.ext ?_
   exact Subgroup.mem_centralizer_singleton_iff.mp (hKc g.2)
 
+omit [Finite G] in
 theorem exists_pCore_conj_ne (hS : Setup G D) (hL : LocalSecond D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n)

@@ -12,7 +12,7 @@ namespace CFSG.StandardType.FrameRoute
 open CFSG.Open CFSG.Assembly CFSG.ComponentClassification.OuterAutomorphisms
 
 theorem fs81Sp_inf_eq_bot {G : Type} [Group G] [Finite G] {b₀ : G} {K : Subgroup G}
-    (hKC : K ≤ Subgroup.centralizer ({b₀} : Set G))
+    (_hKC : K ≤ Subgroup.centralizer ({b₀} : Set G))
     (hKz : Subgroup.center K = ⊥) :
     K ⊓ (Subgroup.centralizer ({b₀} : Set G) ⊓ Subgroup.centralizer (K : Set G)) = ⊥ := by
   apply le_antisymm _ bot_le
@@ -134,7 +134,7 @@ theorem fs81Sp_no_three_index {G : Type} [Group G] [Finite G] {b₀ : G} {K : Su
         rw [← hker_phi]
         exact hmem_ker
       have hikK : (Subgroup.inclusion hKC k : G) ∈ K := by
-        simpa using k.2
+        simp
       have hikK_C : Subgroup.inclusion hKC k ∈ K.subgroupOf C := by
         rw [Subgroup.mem_subgroupOf]
         exact hikK
@@ -189,7 +189,7 @@ theorem fs81Sp_exists_sylow_le_of_not_dvd_index {G : Type} [Group G] [Finite G]
   let PS : Sylow p S := Classical.choice Sylow.nonempty
   let Pmap : Subgroup G := (PS : Subgroup S).map S.subtype
   have hPmap_p : IsPGroup p (↥Pmap) := by
-    exact IsPGroup.map (p := p) (H := (PS : Subgroup S)) PS.isPGroup' S.subtype
+    exact IsPGroup.map (p := p) (H := (PS : Subgroup S)) PS.isPGroup S.subtype
   have hPmap_not_dvd : ¬ p ∣ Pmap.index := by
     have hPS_not_dvd : ¬ p ∣ (PS : Subgroup S).index := PS.not_dvd_index
     rw [show Pmap = (PS : Subgroup S).map S.subtype by rfl]

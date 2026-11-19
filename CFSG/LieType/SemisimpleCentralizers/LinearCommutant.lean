@@ -34,13 +34,13 @@ theorem centralizer_mulEquiv_pi_generalLinearGroup_overField {K : Type} [Field K
     exists_piMat_commutant A' hcard
   refine ⟨r, D, hField, hFinite, hAlg, d, ?_, ?_, ?_, ?_⟩
   · intro i
-    letI : Field (D i) := hField i
-    letI : Finite (D i) := hFinite i
-    letI : Algebra K (D i) := hAlg i
+    let : Field (D i) := hField i
+    let : Finite (D i) := hFinite i
+    let : Algebra K (D i) := hAlg i
     exact ⟨Module.finrank_pos, Module.natCard_eq_pow_finrank⟩
   · intro i
-    letI : Algebra K (D i) := hAlg i
-    letI : Field (D i) := hField i
+    let : Algebra K (D i) := hAlg i
+    let : Field (D i) := hField i
     rw [ringChar.eq_iff]
     exact charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective K (D i)) (ringChar K)
   · intro i

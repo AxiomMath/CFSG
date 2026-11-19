@@ -67,8 +67,8 @@ theorem perfect_centralizes {G : Type*} [Group G] {K : Subgroup G} (hKp : Group.
   have hmul : ∀ m m' s, act (m * m') s = act m (act m' s) := fun m m' s =>
     Subtype.ext (by simp [act, mul_assoc])
   have hK : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ := by
-    haveI := hKp
-    haveI : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.mpr hKp
+    have := hKp
+    have : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.mpr hKp
     exact Subgroup.commutator_eq_self
   intro k hk
   have := CFSG.RankThree.PartTwo.KFacts.NDC.perfect_act_trivial hS4 act h1 hmul hK
@@ -173,15 +173,15 @@ theorem eq_top_of_lat {H : Subgroup GJ}
     norm_num at h3
   have hKN : K ≤ normalizer (K : Set GJ) := Subgroup.le_normalizer
   rcases hlat _ hN with hZ | hdvd | ⟨S, hzS, hS4, hS⟩
-  · haveI : K.Normal := normalizer_eq_top_iff.mp hZ
-    haveI : IsSimpleGroup GJ := isSimpleGroup_P
+  · have : K.Normal := normalizer_eq_top_iff.mp hZ
+    have : IsSimpleGroup GJ := isSimpleGroup_P
     exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal K).resolve_left hK1
   · exfalso
-    haveI : Group.IsSolvable (normalizer (K : Set GJ)) := isSolvable_of_card_dvd_2_3 hdvd
+    have : Group.IsSolvable (normalizer (K : Set GJ)) := isSolvable_of_card_dvd_2_3 hdvd
     have hKs : Group.IsSolvable K :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKN)
-    haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
-    haveI := hKp
+    have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
+    have := hKp
     exact Group.IsPerfect.not_isSolvable K hKs
   · exfalso
     have hcomm := perfect_centralizes hKp (Set.toFinite _) hS4 (fun k hk => hS k (hKN hk)) hzS

@@ -19,12 +19,12 @@ open scoped commutatorElement
   carrier := {t | α t = t}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_inv, ha]
 
 theorem mem_fixSub {T : Type} [Group T] {α : MulAut T} {t : T} : t ∈ fixSub α ↔ α t = t :=
@@ -93,7 +93,7 @@ theorem eq_of_central_valued {H : Type} [Group H] {J : Subgroup H} (hJq : CFSG.O
 
 theorem comp_fix {H : Type} [Group H] {J : Subgroup H} {d : H} {Q : TauCeti.CFSGIndex → Prop}
     {T : Type} [Group T] [Nontrivial T]
-    (hJq : CFSG.Open.IsQuasisimple ↥J) (hdN : d ∈ Subgroup.normalizer (J : Set H)) (hd3 : d ^ 3 = 1)
+    (hJq : CFSG.Open.IsQuasisimple ↥J) (_hdN : d ∈ Subgroup.normalizer (J : Set H)) (hd3 : d ^ 3 = 1)
     (hdJ : d ∉ Subgroup.centralizer (J : Set H)) (e0 : PSimple 3 J ≃* T)
     (c : ↥J ≃* ↥J) (hc : ∀ x : ↥J, (c x : H) = d * x * d⁻¹)
     (hfix : ∀ α : MulAut T, (∀ x : ↥J, e0 (piJ J (c x)) = α (e0 (piJ J x))) → α ^ 3 = 1 → α ≠ 1 →
@@ -101,7 +101,7 @@ theorem comp_fix {H : Type} [Group H] {J : Subgroup H} {d : H} {Q : TauCeti.CFSG
         catalogIs (↥L ⧸ Subgroup.center ↥L) Q)
     (K : Subgroup H) (hK : CFSG.Open.IsComponentOf K (J ⊓ Subgroup.centralizer ({d} : Set H))) :
     catalogIs (↥K ⧸ Subgroup.center ↥K) Q := by
-  haveI : Nontrivial (PSimple 3 J) := e0.symm.injective.nontrivial
+  have : Nontrivial (PSimple 3 J) := e0.symm.injective.nontrivial
   have hπs : Function.Surjective (piJ J) :=
     (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
   have hNtop : GLAPPrimeCore 3 ↥J ≠ ⊤ := by

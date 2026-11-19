@@ -10,6 +10,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_pComponentIn_not_le_of_not_pLayerIn_le {p : ℕ} [Fact p.Prime]
     {M H : Subgroup G} (hJ : ¬ pLayerIn p H ≤ M) :
     ∃ Y : Subgroup G, IsPComponentIn p Y H ∧ ¬ Y ≤ M := by
@@ -23,12 +24,13 @@ theorem exists_pComponentIn_not_le_of_not_pLayerIn_le {p : ℕ} [Fact p.Prime]
     refine ⟨Subgroup.map_subtype_le L, ?_⟩
     have hsub : (L.map H.subtype).subgroupOf H = L := by
       ext x
-      simp [Subgroup.mem_subgroupOf, Subgroup.mem_map]
+      simp
     rw [hsub]
     exact hL
   have hLM : L.map H.subtype ≤ M := h _ hcomp
   exact Subgroup.map_le_iff_le_comap.mp hLM
 
+omit [Finite G] in
 theorem not_kSub_le_M_of_not_pLayerIn_le {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     (hJ : ¬ pLayerIn p H ≤ M) : ¬ kSub p M H ≤ M := by
   intro hKM
@@ -39,11 +41,13 @@ theorem not_kSub_le_M_of_not_pLayerIn_le {p : ℕ} [Fact p.Prime] {M H : Subgrou
   have hYM' : Y ≤ M := fun y hy => hKM (hYk hy)
   exact hYM hYM'
 
+omit [Finite G] in
 theorem not_kSub_le_M_of_le {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     (hgen : H ≤ kSub p M H ⊔ (H ⊓ M)) (hH : ¬ H ≤ M) : ¬ kSub p M H ≤ M := by
   intro hKM
   exact hH (hgen.trans (sup_le hKM inf_le_right))
 
+omit [Finite G] in
 theorem not_kSub_le_M_of_pLayerIn_le {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     (hH : ¬ H ≤ M) (hgen : pLayerIn p H ≤ M → H ≤ kSub p M H ⊔ (H ⊓ M)) :
     ¬ kSub p M H ≤ M := by

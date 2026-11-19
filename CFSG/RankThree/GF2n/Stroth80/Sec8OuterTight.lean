@@ -23,7 +23,7 @@ theorem sec8_card_inf_le_of_comm_section {R P I U T : Subgroup G} {Mo : Type} [A
     (hκ : IsSecMod R P I Mo κ) (hIU : I ≤ U) (hUP : U ≤ P) (hTP : T ≤ P)
     (hUT : ∀ y ∈ U, ∃ w ∈ T, y * w⁻¹ ∈ I) :
     Nat.card ↥U * Nat.card ↥(T ⊓ I) ≤ Nat.card ↥T * Nat.card ↥I := by
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   have hle : secSub κ U ≤ secSub κ T := by
     intro a ha
     obtain ⟨y, hyU, hya⟩ := mem_secSub.mp ha
@@ -93,8 +93,8 @@ theorem sec8_outer_tight (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hxM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, -⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hm2 : 2 ≤ m := hpts.two_le
   have hVV₁ : Vt M (LB M Q B) B Z t ≤ Sec8V1 M Q Z B t r := le_inf le_sup_right le_sup_right
   have hZV₁ : Z ≤ Sec8V1 M Q Z B t r := sec8_Z_le_V1 hc t r

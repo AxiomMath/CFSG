@@ -113,10 +113,10 @@ theorem mem_coordBlockSU_of_smul_single {n : ℕ} {I : Finset (Fin n)}
       simpa [Matrix.mulVec_single_one, CFSG.LieType.Universal.Unitary.conjTr] using (congrFun h j).symm
     by_cases hij : i = j
     · subst j
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       apply (unitaryInvolution F p f).injective
       simpa using hrow
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       apply (map_eq_zero_iff _ (unitaryInvolution F p f).injective).mp
       simpa [Pi.single_apply, Ne.symm hij] using hrow
   · simpa [Matrix.one_apply] using hcol j hj i

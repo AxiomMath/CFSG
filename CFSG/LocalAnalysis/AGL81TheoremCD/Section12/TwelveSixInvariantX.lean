@@ -17,6 +17,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} {d : ℕ}
   {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem isPComponentIn_conj_mem {p : ℕ} {M H : Subgroup G} {g : G}
     (hg : g ∈ H ⊓ M) {Y : Subgroup G} (hY : IsPComponentIn p Y H) (hYM : ¬ Y ≤ M) :
     IsPComponentIn p (Y.map (MulAut.conj g).toMonoidHom) H ∧
@@ -27,6 +28,7 @@ private theorem isPComponentIn_conj_mem {p : ℕ} {M H : Subgroup G} {g : G}
     M.mul_mem (M.mul_mem (M.inv_mem hg.2) hmem) hg.2
   simpa [mul_assoc] using hconj
 
+omit [Finite G] in
 theorem inf_le_normalizer_kSub (p : ℕ) (M H : Subgroup G) :
     H ⊓ M ≤ normalizer (kSub p M H : Set G) := by
   by_cases hL : pLayerIn p H ≤ M
@@ -37,12 +39,13 @@ theorem inf_le_normalizer_kSub (p : ℕ) (M H : Subgroup G) :
   · intro g hg
     have hkSub : kSub p M H =
         sSup {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
-      rw [kSub, if_neg hL]
+      rw [kSub, ite_eq_right hL]
     rw [hkSub]
     exact CFSG.Walter.mem_normalizer_sSup_of_map_mem
       (fun Y hY => isPComponentIn_conj_mem hg hY.1 hY.2)
       (fun Y hY => isPComponentIn_conj_mem (inv_mem hg) hY.1 hY.2)
 
+omit [Finite G] in
 private theorem mem_xSub_iff {p : ℕ} {M H : Subgroup G} {z : G} (hz : z ∈ H) :
     z ∈ xSub p M H ↔
       QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨z, hz⟩ ∈
@@ -61,6 +64,7 @@ private theorem mem_xSub_iff {p : ℕ} {M H : Subgroup G} {z : G} (hz : z ∈ H)
   rw [Subgroup.mem_comap] at h2
   exact h2.symm
 
+omit [Finite G] in
 private theorem conj_mem_kStar {p : ℕ} {M H : Subgroup G} {g : G} (hg : g ∈ H ⊓ M)
     {k : StarGroup p H} (hk : k ∈ kStar p M H) :
     QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨g, hg.1⟩ * k *
@@ -77,6 +81,7 @@ private theorem conj_mem_kStar {p : ℕ} {M H : Subgroup G} {g : G} (hg : g ∈ 
     Subgroup.mem_subgroupOf.mpr hconjG
   exact Subgroup.mem_map.mpr ⟨gH * kH * gH⁻¹, hconjH, by simp [π, map_mul, map_inv]⟩
 
+omit [Finite G] in
 private theorem conj_mem_xSub {p : ℕ} {M H : Subgroup G} {g x : G} (hg : g ∈ H ⊓ M)
     (hx : x ∈ xSub p M H) : g * x * g⁻¹ ∈ xSub p M H := by
   have hxH : x ∈ H := by
@@ -113,6 +118,7 @@ theorem inf_le_normalizer_xSub (p : ℕ) (M H : Subgroup G) :
     H ⊓ M ≤ normalizer (xSub p M H : Set G) := fun _ hg =>
   CFSG.GroupTheory.mem_normalizer_of_conj_mem fun _ hx => conj_mem_xSub hg hx
 
+omit [Finite G] in
 private theorem map_conj_le_of {W V : Subgroup G} {t : G} (hWV : W ≤ V)
     (h : ∀ w ∈ W, t * w * t⁻¹ ∈ W) :
     W.map (MulAut.conj t).toMonoidHom ≤ V := by
@@ -121,6 +127,7 @@ private theorem map_conj_le_of {W V : Subgroup G} {t : G} (hWV : W ≤ V)
 
 namespace IsE27InvConfig
 
+omit [Finite G] in
 private theorem conj_mem {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (h : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) {t : G}
     (ht : t ∈ ({t₁, t₂, t₃} : Set G)) {x : G} (hx : x ∈ V) : t * x * t⁻¹ ∈ V := by

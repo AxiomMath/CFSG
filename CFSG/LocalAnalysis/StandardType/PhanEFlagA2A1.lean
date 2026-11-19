@@ -62,14 +62,14 @@ private theorem q2cFA2_psi_mem (hK : Nat.card K = (2 ^ f) ^ 2)
     {c : FlagK K 3 × FlagK K 2} (hc : c.1 ∈ refSet K 3 [0, 1, 3]) :
     (psiA2A1 hK c).1 ∈ refSet K 3 [0, 1, 3] := by
   unfold psiA2A1
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (exists_psiA2A1 hK hc)).1
 
 private theorem q2cFA2_psi_fst_E_two (hK : Nat.card K = (2 ^ f) ^ 2)
     {c : FlagK K 3 × FlagK K 2} (hc : c.1 ∈ refSet K 3 [0, 1, 3]) :
     (psiA2A1 hK c).1.E 2 = Exch.dirZ K f (c.2.E 1) := by
   unfold psiA2A1
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (exists_psiA2A1 hK hc)).2.1
 
 private theorem q2cFA2_psi_snd_E_one (hK : Nat.card K = (2 ^ f) ^ 2)
@@ -77,7 +77,7 @@ private theorem q2cFA2_psi_snd_E_one (hK : Nat.card K = (2 ^ f) ^ 2)
     (psiA2A1 hK c).2.E 1 =
       Submodule.span K (jShift21Inv K f '' (c.1.E 2 : Set (Fin 3 → K))) := by
   unfold psiA2A1
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (exists_psiA2A1 hK hc)).2.2
 
 private theorem q2cFA2_opp_psi (hK : Nat.card K = (2 ^ f) ^ 2) {E : FlagK K 3}
@@ -102,7 +102,7 @@ private theorem q2cFA2_mem_setA2A1_of_mem_intrSet (hK : Nat.card K = (2 ^ f) ^ 2
     (hy : (E, z) ∈ IntrSet ((flagSys K 2).prod (flagSys K 1))
       {c | c.1 ∈ refSet K 3 [0, 1, 3]} (psiA2A1 hK) 4) :
     (E, z) ∈ setA2A1 K f := by
-  simp only [IntrSet, Set.mem_setOf_eq] at hy
+  simp only [IntrSet, Set.mem_ofPred_eq] at hy
   obtain ⟨g, hgR, hgate, hdist⟩ := hy
   have hg1 : g.1 ∈ refSet K 3 [0, 1, 3] := hgR
   obtain ⟨hE3, hz1⟩ := q2cFA2_cdist_prod_eq_four hdist

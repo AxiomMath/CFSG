@@ -79,8 +79,8 @@ theorem map_mem_rootsOfUnity (σ : K ≃+* K) {x : Kˣ} (hx : x ∈ rootsOfUnity
 theorem exists_cube_eq_map_mul_inv_mu [Finite K] {σ : K ≃+* K} {k : ℕ} (hσ : σ ^ 3 ^ k = 1)
     {b : Kˣ} (hb : b ∈ rootsOfUnity (p ^ f + 1) K) :
     ∃ c ∈ rootsOfUnity (p ^ f + 1) K, c ^ 3 = Units.map (σ : K →* K) b * b⁻¹ := by
-  haveI : NeZero (p ^ f + 1) := ⟨by omega⟩
-  haveI : IsCyclic (rootsOfUnity (p ^ f + 1) K) := rootsOfUnity.isCyclic K _
+  have : NeZero (p ^ f + 1) := ⟨by omega⟩
+  have : IsCyclic (rootsOfUnity (p ^ f + 1) K) := rootsOfUnity.isCyclic K _
   set μ := rootsOfUnity (p ^ f + 1) K
   let F : μ →* μ :=
     { toFun := fun x => ⟨Units.map (σ : K →* K) x, map_mem_rootsOfUnity σ x.2⟩

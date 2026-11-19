@@ -22,7 +22,7 @@ variable {J H : Type*} [Group J] [Group H] [MulDistribMulAction J H]
 
 theorem mem_fixedPoints_subgroup_iff_le_stabilizer (Y : Subgroup J) (h : H) :
     h ∈ FixedPoints.subgroup Y H ↔ Y ≤ MulAction.stabilizer J h := by
-  simp only [FixedPoints.mem_subgroup, Subtype.forall, SetLike.le_def,
+  simp only [FixedPoints.mem_subgroup, Subtype.forall, _root_.IsConcreteLE.le_iff,
     MulAction.mem_stabilizer_iff]
   rfl
 

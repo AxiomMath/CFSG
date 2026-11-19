@@ -100,7 +100,7 @@ private theorem f4fr_sum_single (n : ℕ) {p : ℕ} (c : Fin n → ZMod p) :
   · simp
   · intro b _ hbi
     have h0 : (Pi.single b (1 : ZMod p) : Fin n → ZMod p) i = 0 := by
-      rw [Pi.single_apply, if_neg (Ne.symm hbi)]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm hbi)]
     rw [Pi.smul_apply, h0, smul_zero]
   · intro h
     exact absurd (Finset.mem_univ i) h

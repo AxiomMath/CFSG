@@ -97,6 +97,7 @@ section Perp
 
 variable {K : Type} [Field K] [CharP K 2] {ι : Type} [Fintype ι] {qU : QuadraticForm K (ι → K)}
 
+omit [CharP K 2] in
 theorem natCard_perp_eq_pow (hnd : ∀ v, (∀ w, polar qU v w = 0) → v = 0)
     (W : Submodule K (ι → K)) :
     Nat.card {s : ι → K // ∀ x ∈ W, polar qU x s = 0} =
@@ -109,6 +110,7 @@ theorem natCard_perp_eq_pow (hnd : ∀ v, (∀ w, polar qU v w = 0) → v = 0)
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
     exact Iff.rfl)
 
+omit [CharP K 2] in
 theorem natCard_perp_one (hnd : ∀ v, (∀ w, polar qU v w = 0) → v = 0) {u : ι → K} (hu0 : u ≠ 0) :
     Nat.card {s : ι → K // polar qU s u = 0} = Nat.card K ^ (Fintype.card ι - 1) := by
   have h := natCard_perp_eq_pow hnd (K ∙ u)
@@ -123,6 +125,7 @@ theorem natCard_perp_one (hnd : ∀ v, (∀ w, polar qU v w = 0) → v = 0) {u :
     rw [polar_comm qU s u]
     exact h' u (Submodule.mem_span_singleton_self u)
 
+omit [CharP K 2] in
 theorem natCard_perp_two (hnd : ∀ v, (∀ w, polar qU v w = 0) → v = 0) {u w : ι → K}
     (hind : ∀ a b : K, a • u + b • w = 0 → a = 0 ∧ b = 0) :
     Nat.card {s : ι → K // polar qU s u = 0 ∧ polar qU s w = 0} =

@@ -118,8 +118,8 @@ theorem three_le_pRank_mulAut_pSimple {Ω : Type} [Group Ω] [Finite Ω] {B : Su
     (hO : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (PSimple 3 L))) := by
   have hperf : commutator (PQuot 3 L) = ⊤ := by
-    haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hcfg.qs.1
-    haveI : Group.IsPerfect (PQuot 3 L) := inferInstance
+    have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hcfg.qs.1
+    have : Group.IsPerfect (PQuot 3 L) := inferInstance
     exact Group.IsPerfect.commutator_eq_top (G := PQuot 3 L)
   have h := (three_le_pRank_mulAut_pquot hcfg hO).trans
     (CFSG.HardMathSupport.Solomon.Coordinator.i112f_pRank_mulAut_le_quot hperf)
@@ -151,18 +151,18 @@ theorem three_le_of_typeB_two {r : ℕ} {q : TauCeti.PrimePower}
 
 theorem four_le_of_typeD_two {r : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.D r q).Valid)
-    (hfs : KD264Lie.fieldSize (TauCeti.LieTypeIndex.D r q) = 2) : 4 ≤ r := by
+    (_hfs : KD264Lie.fieldSize (TauCeti.LieTypeIndex.D r q) = 2) : 4 ≤ r := by
   have h4 := (TauCeti.LieTypeIndex.valid_iff _).1 hv
   simp only [TauCeti.LieTypeIndex.inStandardRange_iff,
-    TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, KD264Lie.fieldSize] at h4 hfs
+    TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, KD264Lie.fieldSize] at h4 _hfs
   omega
 
 theorem four_le_of_twistedD_two {r : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedD r q).Valid)
-    (hfs : KD264Lie.fieldSize (TauCeti.LieTypeIndex.twistedD r q) = 2) : 4 ≤ r := by
+    (_hfs : KD264Lie.fieldSize (TauCeti.LieTypeIndex.twistedD r q) = 2) : 4 ≤ r := by
   have h4 := (TauCeti.LieTypeIndex.valid_iff _).1 hv
   simp only [TauCeti.LieTypeIndex.inStandardRange_iff,
-    TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, KD264Lie.fieldSize] at h4 hfs
+    TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, KD264Lie.fieldSize] at h4 _hfs
   omega
 
 theorem pRank_mulAut_alt_five_le_one :

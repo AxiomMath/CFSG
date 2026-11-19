@@ -128,7 +128,7 @@ theorem exp_six_of_sup {N : Subgroup C} [N.Normal] (P : Sylow 3 C) {L : Subgroup
   intro y hy
   obtain ⟨x, hx, rfl⟩ := mem_sylImg.mp hy
   obtain ⟨p, hp, n, hn, hpn⟩ := Subgroup.mem_sup_of_normal_right.mp hx
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
   have hk' : p ^ (3 ^ k) = 1 := by simpa using congrArg Subtype.val hk
   have hmem : ((x ^ (3 ^ k) : L) : C) ∈ N := by
     rw [Subgroup.coe_pow, ← hpn]

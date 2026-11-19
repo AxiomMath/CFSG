@@ -14,11 +14,11 @@ theorem exists_complement_of_sylow_complement {G : Type} [Group G] [Finite G]
     (hK0T : K0 ≤ T) (hK0V : V ⊓ K0 = ⊥)
     (hdec : ∀ t ∈ T, ∃ v ∈ V, ∃ k ∈ K0, v * k = t) :
     ∃ A : Subgroup G, A ≤ H ∧ A ⊓ V = ⊥ ∧ V ⊔ A = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup H := V.subgroupOf H with hN
-  haveI hNn : N.Normal := ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr
+  have hNn : N.Normal := ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr
     (by simpa using hVn g g.2 n (Subgroup.mem_subgroupOf.mp hn))⟩
-  haveI hNc : IsMulCommutative N := ⟨⟨fun a b => by
+  have hNc : IsMulCommutative N := ⟨⟨fun a b => by
     have h := hVc _ (Subgroup.mem_subgroupOf.mp a.2) _ (Subgroup.mem_subgroupOf.mp b.2)
     exact Subtype.ext (Subtype.ext h)⟩⟩
   have hNp : IsPGroup 2 N := hVp.of_equiv (Subgroup.subgroupOfEquivOfLe hVH).symm

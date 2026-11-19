@@ -167,8 +167,7 @@ private theorem ggNSPosPF3C_induces_inv {G : Type} [Group G] {K : Type} [Field K
     change g * (g⁻¹ * (x : GL (Fin n) K) * g) * g⁻¹ = (x : GL (Fin n) K)
     group
   refine ⟨x', ?_, ?_⟩
-  · change (x' : GL (Fin n) K) = g⁻¹ * (x : GL (Fin n) K) * (g⁻¹)⁻¹
-    rw [inv_inv]
+  · rw [inv_inv]
   · rw [hyx] at hby
     rw [show (b⁻¹)⁻¹ = b from inv_inv b]
     rw [← hby]
@@ -193,6 +192,7 @@ section Retained
 variable {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {f : ℕ} {ψ : Su K 2 f 6 →* G}
 
+omit [Finite K] [CharP K 2] in
 private theorem ggNSPosPF3C_cube_roots {z ζ : K} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) (hζ : ζ ^ 3 = 1) :
     ∃ k : ℕ, k < 3 ∧ ζ = z ^ k := by
   have hs : 1 + z + z ^ 2 = 0 := by
@@ -215,7 +215,7 @@ private theorem ggNSPosPF3C_x_facts (h : GGNSLocalHyp 3 B Bs K f 6 ψ) {z : K} (
   have hxS : x = ggNSPosPF3C_scalarSU z hz3 hz6 hz0 hdvd :=
     Subtype.ext (by rw [hx, ggNSPosPF3C_scalarSU_coe])
   refine ⟨?_, ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ hxne
     have hx3 : x ^ 3 = 1 :=
       Subtype.ext (by rw [Subgroup.coe_pow, hx, ggNSPosPF3C_scalarGL_pow_three hz0 hz3, Subgroup.coe_one])

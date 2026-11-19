@@ -271,7 +271,7 @@ theorem exists_isPerfect_card_sixty_of_quotient_six {C : Type*} [Group C] [Finit
     have hw3' : (w : ↥D) ^ 3 = 1 := by rw [← hw3, pow_orderOf_eq_one]
     obtain ⟨S⟩ : Nonempty (Sylow 3 ↥D) := inferInstance
     have hD180 : Nat.card D = 180 := by rw [← hcardD, h3]
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     have hSidx := Subgroup.card_mul_index (S : Subgroup ↥D)
     have hnd : ¬ 3 ∣ (S : Subgroup ↥D).index := Sylow.not_dvd_index S
     rw [hk, hD180] at hSidx

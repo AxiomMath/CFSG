@@ -24,10 +24,10 @@ theorem isSolvable_normalizer_sylow_of_component
   classical
   obtain ⟨F, hFld, hFfin, hFchar, π, hFcard, hπsurj, hker⟩ :=
     exists_central_cover_specialLinear_of_ne_two_four hL m hm Q hQ hv e hne
-  letI : Field F := hFld
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFld
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let SL := Matrix.SpecialLinearGroup (Fin (m + 1)) F
   let Z : Subgroup SL := π.ker
   let W : Subgroup SL := U.comap π
@@ -121,7 +121,7 @@ theorem isSolvable_normalizer_sylow_of_component
       CFSG.Quasithin.conjSub g (Subgroup.normalizer (Uhat : Set SL)) := by
     rw [hg, CFSG.Quasithin.conjSub_normalizer]
   have hNUhatsolv : Group.IsSolvable ↥(Subgroup.normalizer (Uhat : Set SL)) := by
-    haveI : Group.IsSolvable ↥(Subgroup.normalizer (U0 : Set SL)) := hNU0solv
+    have : Group.IsSolvable ↥(Subgroup.normalizer (U0 : Set SL)) := hNU0solv
     let en : ↥(Subgroup.normalizer (Uhat : Set SL)) ≃*
         ↥(Subgroup.normalizer (U0 : Set SL)) :=
       (Subgroup.equivMapOfInjective (Subgroup.normalizer (Uhat : Set SL))
@@ -161,7 +161,7 @@ theorem isSolvable_normalizer_sylow_of_component
     exact CFSG.Quasithin.F7.mem_normalizer_of_conj_le
       (le_of_eq hconjEq) (le_of_eq hconjEqInv)
   have hWsolv : Group.IsSolvable ↥(Subgroup.normalizer (W : Set SL)) := by
-    haveI : Group.IsSolvable ↥(Subgroup.normalizer (Uhat : Set SL)) := hNUhatsolv
+    have : Group.IsSolvable ↥(Subgroup.normalizer (Uhat : Set SL)) := hNUhatsolv
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hNWle) (Subgroup.inclusion_injective hNWle)
   have hNmap : Subgroup.normalizer (U : Set L) =
@@ -173,7 +173,7 @@ theorem isSolvable_normalizer_sylow_of_component
     exact (Subgroup.map_comap_eq_self_of_surjective hπsurj
       (Subgroup.normalizer (U : Set L))).symm
   have hmapSolv : Group.IsSolvable ↥((Subgroup.normalizer (W : Set SL)).map π) := by
-    haveI : Group.IsSolvable ↥(Subgroup.normalizer (W : Set SL)) := hWsolv
+    have : Group.IsSolvable ↥(Subgroup.normalizer (W : Set SL)) := hWsolv
     exact Group.isSolvable_of_surjective
       (π.subgroupMap_surjective (Subgroup.normalizer (W : Set SL)))
   rw [hNmap]

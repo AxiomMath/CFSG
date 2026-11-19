@@ -31,8 +31,8 @@ theorem perm_eq_one_of_augmentation_eq_one
   change (MonoidAlgebra.single (g x) 1 - MonoidAlgebra.single (g (g x)) 1 : MonoidAlgebra k X).coeff
       (g x) = (MonoidAlgebra.single x 1 - MonoidAlgebra.single (g x) 1 : MonoidAlgebra k X).coeff
         (g x) at hval
-  simp only [MonoidAlgebra.coeff_sub, Finsupp.sub_apply, MonoidAlgebra.single_apply,
-    if_true, if_neg (Ne.symm hx), if_neg hgg, sub_zero, zero_sub] at hval
+  simp only [MonoidAlgebra.coeff_sub, Finsupp.sub_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply,
+    ite_true, ite_eq_right (Ne.symm hx), ite_eq_right hgg, sub_zero, zero_sub] at hval
   have htwo : (2 : k) = 0 := by
     calc
       (2 : k) = 1 + 1 := one_add_one_eq_two.symm

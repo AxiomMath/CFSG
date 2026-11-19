@@ -170,10 +170,10 @@ theorem exists_beta_d_generator (hp : p.Prime) (hS : GGQTwoSetting p B Bs x L D 
         (ggBeta L θ (d_le_normalizer hS hN)).range ∧
       (⨅ e : D, ggFix (ggBeta L θ (d_le_normalizer hS hN) e)) =
         ggFix (ggBeta L θ (d_le_normalizer hS hN) d) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let f := ggBeta L θ (d_le_normalizer hS hN)
   have hcard : Nat.card f.range = p := beta_d_card θ hp hS hN
-  letI : Finite f.range := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+  let : Finite f.range := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := f.range) p
     (by rw [hcard])
   have ha1 : a ≠ 1 := by

@@ -63,9 +63,9 @@ theorem uc22r899_exists_elemAbelian_of_ncard_three
   rw [hcj] at f
   have hZ : center (Bar2 L) = ⊥ := by
     rcases hLS with ⟨hX, -⟩ | ⟨hX, -⟩
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
       exact uc22p21k_center_eq_bot hL.2.2
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
       exact uc22p21k_center_eq_bot hL.2.2
   have hint : barImage M L ⊓ barImage M L' = ⊥ := by
     refine eq_bot_iff.2 fun q hq => ?_
@@ -117,12 +117,12 @@ theorem uc22r899_cong_of_ncard_three {D : Data G}
   have hA₀M : A₀ ≤ D.M := hA₀P.trans hPM
   obtain ⟨E, hEM, hEel, hEcard, hA₀E, hEZ⟩ := uc22r899_exists_elemAbelian_of_ncard_three hL hc3
     hLS' hpp hr hp2 hr2 hr3 hpr hrn hA₀M hA₀el.isPGroup hA₀N
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨R', hR'⟩ :=
     (hEel.isPGroup.comap_subtype : IsPGroup r (E.subgroupOf D.M)).exists_le_sylow
   let R : Subgroup G := (R' : Subgroup ↥D.M).map D.M.subtype
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf r R D.M := ⟨R', rfl⟩
-  have hRr : IsPGroup r R := R'.isPGroup'.map _
+  have hRr : IsPGroup r R := R'.isPGroup.map _
   have hER : E ≤ R := fun x hx => ⟨⟨x, hEM hx⟩, hR' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hEZ' : E ≤ R ⊓ centralizer (R : Set G) :=
     le_inf hER (hEZ R (Subgroup.map_subtype_le _) hRr hER)

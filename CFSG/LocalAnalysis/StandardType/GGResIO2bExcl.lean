@@ -37,8 +37,7 @@ theorem ggO2bσ_injective {Λ : Type} {b : Λ} {j₀ j₁ j₂ : {i : Λ // i �
   intro k l hkl
   fin_cases k <;> fin_cases l <;> simp [ggO2bσ] at hkl ⊢
   all_goals first
-    | exact h01 hkl | exact h01 hkl.symm | exact h12 hkl | exact h12 hkl.symm
-    | exact h02 hkl | exact h02 hkl.symm | exact e01 hkl | exact e01 hkl.symm
+    | exact e01 hkl | exact e01 hkl.symm
     | exact e12 hkl | exact e12 hkl.symm | exact e02 hkl | exact e02 hkl.symm
     | exact j₀.2 hkl | exact j₁.2 hkl | exact j₂.2 hkl
     | exact j₀.2 hkl.symm | exact j₁.2 hkl.symm | exact j₂.2 hkl.symm

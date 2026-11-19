@@ -44,7 +44,7 @@ private theorem hmbSP_tv_mem_closure_upper (T : Subgroup (SpecialLinearGroup (Fi
       · have hm : i.val < m := by omega
         have hk : (⟨i.val, hm⟩ : Fin m).castSucc = i := by ext; simp
         have hk' : (⟨i.val, hm⟩ : Fin m).succ = j := by
-          ext; simp [Fin.val_succ]; omega
+          ext; simp; omega
         rw [← hk, ← hk']
         exact (hgen ⟨i.val, hm⟩ c).1
       · have hlt : (i.val + 1) < m + 1 := by omega
@@ -54,7 +54,7 @@ private theorem hmbSP_tv_mem_closure_upper (T : Subgroup (SpecialLinearGroup (Fi
         have hpm : i.val < m := by omega
         have hkp : (⟨i.val, hpm⟩ : Fin m).castSucc = i := by ext; simp
         have hkp' : (⟨i.val, hpm⟩ : Fin m).succ = p := by
-          ext; simp [Fin.val_succ, p]
+          ext; simp [p]
         have h1 : tv F i p c ∈ T := by
           rw [← hkp, ← hkp']; exact (hgen ⟨i.val, hpm⟩ c).1
         have h2 : tv F p j 1 ∈ T :=
@@ -81,7 +81,7 @@ private theorem hmbSP_tv_mem_closure_lower (T : Subgroup (SpecialLinearGroup (Fi
       · have hm : j.val < m := by omega
         have hk : (⟨j.val, hm⟩ : Fin m).castSucc = j := by ext; simp
         have hk' : (⟨j.val, hm⟩ : Fin m).succ = i := by
-          ext; simp [Fin.val_succ]; omega
+          ext; simp; omega
         rw [← hk, ← hk']
         exact (hgen ⟨j.val, hm⟩ c).2
       · have hlt : (j.val + 1) < m + 1 := by omega
@@ -91,7 +91,7 @@ private theorem hmbSP_tv_mem_closure_lower (T : Subgroup (SpecialLinearGroup (Fi
         have hpm : j.val < m := by omega
         have hkp : (⟨j.val, hpm⟩ : Fin m).castSucc = j := by ext; simp
         have hkp' : (⟨j.val, hpm⟩ : Fin m).succ = p := by
-          ext; simp [Fin.val_succ, p]
+          ext; simp [p]
         have h1 : tv F p j 1 ∈ T := by
           rw [← hkp, ← hkp']; exact (hgen ⟨j.val, hpm⟩ 1).2
         have h2 : tv F i p c ∈ T :=
@@ -130,7 +130,7 @@ theorem hmbSP_closure_simple_eq_top :
   intro A _
   by_cases hm : m = 0
   · subst hm
-    haveI : Subsingleton (SpecialLinearGroup (Fin (0 + 1)) F) := by
+    have : Subsingleton (SpecialLinearGroup (Fin (0 + 1)) F) := by
       refine ⟨fun a b => Subtype.ext ?_⟩
       have ha : (a : Matrix (Fin (0 + 1)) (Fin (0 + 1)) F) = 1 := by
         ext i j
@@ -147,7 +147,7 @@ theorem hmbSP_closure_simple_eq_top :
       rw [ha, hb]
     rw [Subsingleton.elim A 1]
     exact T.one_mem
-  · haveI : Nontrivial (Fin (m + 1)) := by
+  · have : Nontrivial (Fin (m + 1)) := by
       rw [Fin.nontrivial_iff_two_le]; omega
     refine SpecialLinearGroup.diagonal_transvection_induction' (fun x => x ∈ T) A ?_ ?_ ?_
     · intro i j hij c hc

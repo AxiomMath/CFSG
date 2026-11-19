@@ -117,10 +117,10 @@ theorem kFactSpTwoPerfectThree_holds : KFactSpTwoPerfectThree := by
   have hm := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even k q hv hp hk3 e
   rw [hp, he] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm
-  haveI : IsSimpleGroup (StatedProj (StatedSp k K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp k K)) :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_statedProj_statedSp_of_two_le (by omega)
       (fun h => by omega)
-  haveI : IsSimpleGroup X := e'.isSimpleGroup
+  have : IsSimpleGroup X := e'.isSimpleGroup
   rcases CZeroThreePerfect.eq_bot_or_eq_top_of_isSubnormal hsub with h | h
   · exact absurd h hD
   · rw [h, Subgroup.card_top]

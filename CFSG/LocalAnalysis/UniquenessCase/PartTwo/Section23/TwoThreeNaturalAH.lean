@@ -26,7 +26,7 @@ private theorem quasisimple_or_isOmegaPlus_of_natural {W : Type} [CommGroup W] [
     (hcase : IsNaturalClassicalModule H n ∨
       (Even n ∧ IsOmegaMinus ↥H 4 (n / 2) ∧ NatOmegaMinus H ⊤ ⊥ 4 (n / 2))) :
     CFSG.Open.IsQuasisimple ↥H ∨ IsOmegaPlus ↥H 4 n := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   rcases hcase with hnat | ⟨heven, hom, hnatom⟩
   · by_cases hOP : IsOmegaPlus ↥H 4 n
     · exact Or.inr hOP
@@ -45,13 +45,13 @@ private theorem exists_two_components_of_isOmegaPlus {W : Type} [CommGroup W] [F
     {H : Subgroup (MulAut W)} {n : ℕ} (hn : 2 ≤ n) (hOP : IsOmegaPlus ↥H 4 n) :
     ∃ F₁ F₂ : Subgroup (MulAut W), IsComponentOf F₁ H ∧ IsComponentOf F₂ H ∧
       F₁ ⊔ F₂ = H ∧ Disjoint F₁ F₂ ∧ F₁ ≠ ⊥ ∧ F₂ ≠ ⊥ := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   obtain ⟨A, B, hAg, hBg, ⟨e⟩, hLA, hLB⟩ := isL2Square_of_isOmegaPlus hn hOP
-  letI : Group A := hAg
-  letI : Group B := hBg
-  haveI : Finite (A × B) := Finite.of_injective (e.symm : A × B → ↥H) e.symm.injective
-  haveI : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
-  haveI : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
+  let : Group A := hAg
+  let : Group B := hBg
+  have : Finite (A × B) := Finite.of_injective (e.symm : A × B → ↥H) e.symm.injective
+  have : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
+  have : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
   have h₁ := NatParMax.isComponentOf_map_prodFirstFactor e (NatParMax.isQuasisimple_of_isL2 hLA)
   have h₂ := NatParMax.isComponentOf_map_prodSecondFactor e (NatParMax.isQuasisimple_of_isL2 hLB)
   exact ⟨_, _, h₁, h₂, NatParMax.map_prodFirstFactor_sup_map_prodSecondFactor e,
@@ -69,7 +69,7 @@ private theorem le_and_component_of_eq_iSup {W : Type} [CommGroup W] [Finite W]
     calc K = K.map (MulAut.conj (1 : MulAut W)).toMonoidHom := by
           rw [show (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) by
             ext x
-            simp [MulAut.conj_apply], Subgroup.map_id]
+            simp, Subgroup.map_id]
       _ ≤ ⨆ g ∈ Y, K.map (MulAut.conj g).toMonoidHom :=
           le_iSup₂ (f := fun g (_ : g ∈ Y) => K.map (MulAut.conj g).toMonoidHom)
             (1 : MulAut W) Y.one_mem
@@ -112,7 +112,7 @@ private theorem two_le_ncard_conjSet_of_isOmegaPlus {W : Type} [CommGroup W] [Fi
     refine ⟨1, Y.one_mem, ?_⟩
     rw [show (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) by
       ext x
-      simp [MulAut.conj_apply], Subgroup.map_id]
+      simp, Subgroup.map_id]
   have hex : ∃ X ∈ {B : Subgroup (MulAut W) | ∃ y ∈ Y,
       K.map (MulAut.conj y).toMonoidHom = B}, X ≠ K := by
     by_contra h
@@ -249,7 +249,7 @@ theorem Ctx23L.not_first_case_of_product {D : Data G} {Ch : Choice2011 G}
       (fun _ _ hy => MulEquiv.ext fun _ => hy _) h1.2.1 hKAtmem hXmem hXne1 hXne2
 
 private theorem false_of_isOmegaPlus_of_single {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
+    (c : Ctx23L D Ch) {A K : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
     (hsingle : K = c.L) {H : Subgroup (MulAut (Vtil (⊥ : Subgroup G) A hA))}
     (hH : H = ⨆ g ∈ Mbar c.N (⊥ : Subgroup G) A hA,
@@ -296,13 +296,13 @@ private theorem false_of_isOmegaPlus_of_single {D : Data G} {Ch : Choice2011 G}
   omega
 
 theorem Ctx23L.LA_eq_H_of_natural_single {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h208 : S20_8 D) (h1930 : H1930 D)
-    {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
+    (c : Ctx23L D Ch) (_h208 : S20_8 D) (_h1930 : H1930 D)
+    {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A)
-    (hK : K ∈ calC c.L)
-    (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
+    (_hK : K ∈ calC c.L)
+    (_hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
     (hsingle : K = c.L) (hn2 : 2 < c.n)
     {H : Subgroup (MulAut (Vtil (⊥ : Subgroup G) A hA))}
     (hH : H = ⨆ g ∈ Mbar c.N (⊥ : Subgroup G) A hA,

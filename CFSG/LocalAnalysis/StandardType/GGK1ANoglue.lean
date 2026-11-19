@@ -15,9 +15,9 @@ open CFSG.LieType.SemisimpleCentralizers.Held CFSG.LieType.SemisimpleCentralizer
 
 private theorem ggK1An_card_subgroup_units_dvd {K : Type} [Field K] [Finite K]
     (C : Subgroup Kˣ) (n : ℕ) (h : ∀ c ∈ C, c ^ n = 1) : Nat.card C ∣ n := by
-  haveI : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
-  haveI : Finite ↥C := Finite.of_injective (fun c : ↥C => (c : Kˣ)) Subtype.val_injective
-  haveI : IsCyclic ↥C := isCyclic_subgroup_units C
+  have : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
+  have : Finite ↥C := Finite.of_injective (fun c : ↥C => (c : Kˣ)) Subtype.val_injective
+  have : IsCyclic ↥C := isCyclic_subgroup_units C
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥C)
   have hgn : g ^ n = 1 := by
     apply Subtype.ext
@@ -32,7 +32,7 @@ private theorem ggK1An_card_scalars_subgroupOf_dvd_dim {N : ℕ} {K : Type} [Fie
   rcases Nat.eq_zero_or_pos N with hN0 | hN
   · subst hN0
     exact dvd_zero _
-  · haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+  · have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
     set f : Kˣ →* GL (Fin N) K := Matrix.GeneralLinearGroup.scalar (Fin N) with hf
     have hfinj : Function.Injective f := by
       intro c c' hcc
@@ -105,7 +105,7 @@ private theorem ggK1An_noglue_abstract {G R : Type} [Group G] [Finite G] [Group 
     rw [← map_mul, ← map_mul, hz']
 
 theorem ggK1A_noglue {p nf N : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (hnotRA : ¬ (p ∣ N ∧ p ∣ 2 ^ nf - 1))
     {xhat : ↥(LargeEvenSLGroup (Fin N) K)} (hxp : xhat ^ p = 1) :
     Subgroup.centralizer
@@ -145,7 +145,7 @@ theorem ggK1A_noglue {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     (QuotientGroup.mk'_surjective Z0) hker_center hxp hcop'
 
 theorem ggK1A_uni_noglue {p nf N : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
     (hnotRAu : ¬ (p ∣ N ∧ p ∣ 2 ^ nf + 1))
     {xhat : ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf))} (hxp : xhat ^ p = 1) :
     Subgroup.centralizer

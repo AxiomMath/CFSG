@@ -145,7 +145,7 @@ theorem proj_tTorus_ne_one : proj 4 F (tTorus (F := F)) ≠ 1 := by
   rw [tTorus, coe_torusHom] at hcv
   have e0 := congrFun (congrFun hcv 0) 0
   have e2 := congrFun (congrFun hcv 2) 2
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply, torusDiag] at e0 e2
+  simp [Matrix.scalar_apply, torusDiag] at e0 e2
   apply h2
   linear_combination e2 - e0
 
@@ -164,7 +164,7 @@ theorem three_le_twoLocalRank [Finite F] : 3 ≤ GLATwoLocalRank 3 (projectiveSL
     rw [← hT, h, Subgroup.mem_bot] at this
     exact this)
   have hT2 : IsPGroup 2 T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := 1) ?_
     rw [hT, Nat.card_zpowers, pow_one]
     exact orderOf_eq_prime ht2 (proj_tTorus_ne_one h2)
@@ -198,7 +198,7 @@ theorem map_scalars_le (n : ℕ) (L : Subfield K) :
   · change (A : Matrix (Fin n) (Fin n) ↥L).map L.subtype = _
     rw [hcA]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.scalar_apply, hij]
 
 @[expose] noncomputable def incl (n : ℕ) (L : Subfield K) : projectiveSL n ↥L →* projectiveSL n K :=
   QuotientGroup.map (scalars n ↥L) (scalars n K) (SpecialLinearGroup.map L.subtype)
@@ -224,7 +224,7 @@ theorem incl_injective (n : ℕ) [NeZero n] (L : Subfield K) : Function.Injectiv
   have hA : (A : Matrix (Fin n) (Fin n) ↥L) = Matrix.scalar (Fin n) a := by
     ext i j
     rw [hentry]
-    by_cases hij : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij, hac]
+    by_cases hij : i = j <;> simp [Matrix.scalar_apply, hij, hac]
   have hpow : (Units.mk0 a ha0) ^ n = 1 := Units.ext (by
     apply Subtype.ext
     have := congrArg Units.val hc
@@ -283,7 +283,7 @@ theorem concC_of_A3
     (hv : (TauCeti.LieTypeIndex.A 3 Q).Valid)
     (e : PSimple 3 S ≃* (TauCeti.CFSGIndex.lie ⟨.A 3 Q, hv⟩).Group) (h3 : 3 ∣ Q.card - 1) :
     S267ConcBCDE 3 q S B := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set K := GaloisField Q.p Q.exponent with hKdef
   have hKcard : Nat.card K = Q.card := by
     rw [hKdef, GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -313,7 +313,7 @@ theorem concC_of_A3
     have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hKcard]
     exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 3 h3K
   have hω3 : (u : K) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, ← hu, pow_orderOf_eq_one,
     Units.val_one]

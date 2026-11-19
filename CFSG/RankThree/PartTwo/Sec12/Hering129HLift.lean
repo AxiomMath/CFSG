@@ -15,7 +15,7 @@ namespace Hering129HLift
 theorem exists_centralizer_rep {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.Normal]
     (hN : ¬ 3 ∣ Nat.card N) {t g : Y} (ht : t ^ 3 = 1) (hgt : g⁻¹ * t * g * t⁻¹ ∈ N) :
     ∃ c : Y, g⁻¹ * c ∈ N ∧ c * t = t * c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A : Subgroup Y := Subgroup.zpowers t
   have hA : IsPGroup 3 A := by
     have : Nat.card A ∣ 3 := by
@@ -78,8 +78,6 @@ theorem map_centralizer_eq {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.N
     · rintro ⟨y, hy, hyz⟩
       rw [Subgroup.mem_centralizer_singleton_iff] at hy ⊢
       rw [← hyz]
-      change (QuotientGroup.mk' N y) * (QuotientGroup.mk' N t) =
-        (QuotientGroup.mk' N t) * (QuotientGroup.mk' N y)
       rw [← map_mul, ← map_mul, hy]
     · intro hz
       rw [Subgroup.mem_centralizer_singleton_iff] at hz
@@ -96,7 +94,6 @@ theorem map_centralizer_eq {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.N
           _ = 1 := by group
       obtain ⟨c, hc, hct⟩ := exists_centralizer_rep N hN ht h1
       refine ⟨c, Subgroup.mem_centralizer_singleton_iff.mpr hct, ?_⟩
-      change QuotientGroup.mk' N c = QuotientGroup.mk z
       exact (QuotientGroup.eq.mpr hc).symm
 
 theorem mem_of_mul_mem_of_pow_three {H : Type} [Group H] (X : Subgroup H) [X.Normal]
@@ -122,10 +119,10 @@ theorem mem_of_mul_mem_of_pow_three {H : Type} [Group H] (X : Subgroup H) [X.Nor
 
 theorem solvable_normal_le_center {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q)
     (M : Subgroup Q) [M.Normal] (hM : Group.IsSolvable M) : M ≤ Subgroup.center Q := by
-  haveI := hM
+  have := hM
   obtain ⟨hperf, hsimple, hnonab⟩ := hQ
   set π := QuotientGroup.mk' (Subgroup.center Q) with hπ
-  haveI : (M.map π).Normal :=
+  have : (M.map π).Normal :=
     Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (M.map π) with h | h
   · intro m hm
@@ -139,11 +136,11 @@ theorem solvable_normal_le_center {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple 
       have : w ∈ M.map π := by rw [h]; trivial
       obtain ⟨m, hm, rfl⟩ := this
       exact ⟨⟨m, hm⟩, rfl⟩
-    haveI : Group.IsSolvable (Q ⧸ Subgroup.center Q) := solvable_of_surjective hf
-    haveI : Group.IsPerfect Q := hperf
-    haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
+    have : Group.IsSolvable (Q ⧸ Subgroup.center Q) := Group.isSolvable_of_surjective hf
+    have : Group.IsPerfect Q := hperf
+    have : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
-    haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
+    have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
     exact Group.IsPerfect.not_isSolvable _ ‹_›
 
 
@@ -151,15 +148,15 @@ theorem isQuasisimple_quot_theta {X Q : Type} [Group X] [Finite X] [Group Q]
     (hX : Group.IsPerfect X) (φ : X →* Q) (hφ : Function.Surjective φ)
     (hQ : CFSG.IsQuasisimple Q) (hker : φ.ker ≤ aschbacherSolvableCore 3 X) :
     CFSG.IsQuasisimple (X ⧸ aschbacherSolvableCore 3 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθsol, hθchar, -, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   set θ := aschbacherSolvableCore 3 X with hθ
-  haveI : θ.Characteristic := hθchar
-  haveI : θ.Normal := inferInstance
-  haveI := hθsol
-  haveI : (θ.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  have hsolv : Group.IsSolvable (θ.map φ) := solvable_of_surjective (φ.subgroupMap_surjective θ)
+  have : θ.Characteristic := hθchar
+  have : θ.Normal := inferInstance
+  have := hθsol
+  have : (θ.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have hsolv : Group.IsSolvable (θ.map φ) := Group.isSolvable_of_surjective (φ.subgroupMap_surjective θ)
   have hZ : θ.map φ ≤ Subgroup.center Q := solvable_normal_le_center hQ _ hsolv
   have hθle : θ ≤ (Subgroup.center Q).comap φ := fun x hx => hZ (Subgroup.mem_map_of_mem φ hx)
   let ρ : X ⧸ θ →* Q ⧸ Subgroup.center Q := QuotientGroup.map θ (Subgroup.center Q) φ hθle
@@ -168,8 +165,8 @@ theorem isQuasisimple_quot_theta {X Q : Type} [Group X] [Finite X] [Group Q]
     obtain ⟨q, rfl⟩ := QuotientGroup.mk_surjective w
     obtain ⟨x, rfl⟩ := hφ q
     exact ⟨QuotientGroup.mk x, rfl⟩
-  haveI : Group.IsPerfect X := hX
-  haveI : Group.IsPerfect (X ⧸ θ) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective θ)
+  have : Group.IsPerfect X := hX
+  have : Group.IsPerfect (X ⧸ θ) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective θ)
   have hcen : ρ.ker ≤ Subgroup.center (X ⧸ θ) := by
     intro w hw
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective w
@@ -200,15 +197,15 @@ theorem center_sq_quot_theta {X Q : Type} [Group X] [Finite X] [Group Q]
     (φ : X →* Q) (hφ : Function.Surjective φ) (hQ : CFSG.IsQuasisimple Q)
     (hker : φ.ker ≤ aschbacherSolvableCore 3 X) (hQ2 : ∀ z ∈ Subgroup.center Q, z ^ 2 = 1) :
     ∀ w ∈ Subgroup.center (X ⧸ aschbacherSolvableCore 3 X), w ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθsol, hθchar, -, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   set θ := aschbacherSolvableCore 3 X with hθ
-  haveI : θ.Characteristic := hθchar
-  haveI : θ.Normal := inferInstance
-  haveI := hθsol
-  haveI : (θ.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  have hsolv : Group.IsSolvable (θ.map φ) := solvable_of_surjective (φ.subgroupMap_surjective θ)
+  have : θ.Characteristic := hθchar
+  have : θ.Normal := inferInstance
+  have := hθsol
+  have : (θ.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have hsolv : Group.IsSolvable (θ.map φ) := Group.isSolvable_of_surjective (φ.subgroupMap_surjective θ)
   have hZ : θ.map φ ≤ Subgroup.center Q := solvable_normal_le_center hQ _ hsolv
   have hθle : θ ≤ (Subgroup.center Q).comap φ := fun x hx => hZ (Subgroup.mem_map_of_mem φ hx)
   let ρ : X ⧸ θ →* Q ⧸ Subgroup.center Q := QuotientGroup.map θ (Subgroup.center Q) φ hθle

@@ -11,11 +11,11 @@ open CFSG.Assembly (IsComponentOf)
 @[expose] def ggFixSubgroup {C : Type} [Group C] (α : MulAut C) : Subgroup C where
   carrier := {g | α g = g}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def GGOutTwoPartLeTwo (C : Type) [Group C] : Prop :=

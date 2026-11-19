@@ -214,7 +214,7 @@ theorem card_iso_fix_le :
           (CFSG.Quasithin.H.Parab.maskOf 6 (g.1 (toW 6 16)))) m) := by rw [h₀, h₂, h₄]
       _ = g.1 (toW 6 m) := (hcg m).symm
   let T : Finset (ℕ × ℕ × ℕ) := isoTriples.toFinset
-  haveI : Fintype ↥T := Finset.fintypeCoeSort T
+  have : Fintype ↥T := Finset.fintypeCoeSort T
   let G : {f : MulAut (Wn 6) // P f} → ↥T := fun f =>
     ⟨F f, by
       change F f ∈ isoTriples.toFinset

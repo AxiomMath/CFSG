@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.GLTheoremA.T173
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω} {x : Ω}
   {Γ : Type} [Group Γ] {G₀ Ghat : Subgroup Γ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem scalars_inf_su_two_eq_bot (hF : Nat.card F = 2 ^ 2) {n : ℕ} (hn : 1 ≤ n)
     (hn3 : Nat.Coprime n 3) :
     (LargeEvenScalars (Fin n) F).subgroupOf (LargeEvenSUGroup (Fin n) F 2) = ⊥ := by
@@ -62,7 +63,7 @@ private theorem card_griessHopfMultiplier_su5_proj (hF : Nat.card F = 2 ^ 2) :
     rw [QuotientGroup.ker_mk']
     exact Subgroup.card_eq_one.mpr (scalars_inf_su_two_eq_bot hF (by norm_num) (by norm_num))
   have h2 : 2 ^ (if (5 : ℕ) = 6 ∧ (1 : ℕ) = 1 then 2 else 0) = 1 := by
-    rw [if_neg (by norm_num : ¬ ((5 : ℕ) = 6 ∧ (1 : ℕ) = 1))]
+    rw [ite_eq_right (by norm_num : ¬ ((5 : ℕ) = 6 ∧ (1 : ℕ) = 1))]
     exact pow_zero 2
   rw [hker, h2, mul_one] at hdvd
   exact Nat.dvd_one.mp hdvd
@@ -105,6 +106,7 @@ private def piRestrict (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S) :
         Subgroup.mem_map.mpr ⟨Subgroup.inclusion hKS k, Subgroup.mem_subgroupOf.mpr k.2, rfl⟩,
         rfl⟩)
 
+omit [Finite Ω] in
 private theorem piRestrict_surjective (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S) :
     Function.Surjective (piRestrict M hKS) := by
   rintro ⟨y, hy⟩
@@ -114,6 +116,7 @@ private theorem piRestrict_surjective (M : S172DModel S B G₀ Ghat) (hKS : K �
   rw [show Subgroup.inclusion hKS ⟨(s : Ω), hs⟩ = s from Subtype.ext rfl]
   exact hval
 
+omit [Finite Ω] in
 private theorem piRestrict_ker_le_center (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S) :
     (piRestrict M hKS).ker ≤ Subgroup.center ↥K := by
   intro k hk
@@ -127,6 +130,7 @@ private theorem piRestrict_ker_le_center (M : S172DModel S B G₀ Ghat) (hKS : K
   have hc := Subgroup.mem_center_iff.1 hz (Subgroup.inclusion hKS y)
   simpa using congrArg Subtype.val hc
 
+omit [Finite Ω] in
 private theorem mem_ker_piRestrict (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S) {k : Ω}
     (hkK : k ∈ K) (hkC : k ∈ Subgroup.centralizer (S : Set Ω)) :
     (⟨k, hkK⟩ : ↥K) ∈ (piRestrict M hKS).ker := by
@@ -150,8 +154,8 @@ private theorem card_ker_piRestrict_dvd (hcfg : Cfg173 3 S B N D K x)
     (hρ : Function.Surjective ρ) (hρk : ρ.ker ≤ Subgroup.center _) :
     Nat.card ↥(piRestrict M hKS).ker ∣
       Nat.card ↥(hopfMultiplier (LargeEvenSUGroup (Fin n) F 2)) := by
-  haveI hKperfect : Group.IsPerfect ↥K := ⟨hcfg.std.2.2.2.2.2.1.2.2.1⟩
-  haveI hRfinite : Finite ↥(M.piImg K) := Finite.of_surjective ρ hρ
+  have hKperfect : Group.IsPerfect ↥K := ⟨hcfg.std.2.2.2.2.2.1.2.2.1⟩
+  have hRfinite : Finite ↥(M.piImg K) := Finite.of_surjective ρ hρ
   have hρker : ρ.ker = ⊥ :=
     le_bot_iff.mp (hρk.trans (le_of_eq (center_su_two_eq_bot hF hn hn3)))
   let eρ : ↥(LargeEvenSUGroup (Fin n) F 2) ≃* ↥(M.piImg K) :=

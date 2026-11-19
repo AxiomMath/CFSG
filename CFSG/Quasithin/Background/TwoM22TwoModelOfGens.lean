@@ -317,7 +317,7 @@ theorem isTwoM22TwoModel_of_gens
     · intro x hx
       rcases hx with ⟨i, rfl⟩
       exact hTconj i
-    · simpa using (Subgroup.one_mem (Subgroup.closure (Set.range g)))
+    · simp
     · intro x y _ _ ihx ihy
       have h : T * (x * y) * T⁻¹ = (T * x * T⁻¹) * (T * y * T⁻¹) := by group
       rw [h]

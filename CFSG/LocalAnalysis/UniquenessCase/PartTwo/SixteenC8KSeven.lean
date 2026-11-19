@@ -16,8 +16,8 @@ theorem c8k_sylow7_le_c0 {Γ : Type} [Group Γ] [Finite Γ] {B C₀ O : Subgroup
     {R : Subgroup Γ} (hRO : R ≤ O) (hR : IsPGroup 7 R) : R ≤ C₀ := by
   obtain ⟨P, _, φ, hφs, hφk, hE64, _⟩ := hP
   obtain ⟨N, hNn, hN64, hL3⟩ := hE64
-  haveI := hNn
-  haveI : Finite P := Finite.of_surjective φ hφs
+  have := hNn
+  have : Finite P := Finite.of_surjective φ hφs
   let O' : Subgroup ↥B := O.subgroupOf B
   have hO'n : O'.Normal := hO.subgroupOf B
   let M : Subgroup P := O'.map φ
@@ -27,7 +27,7 @@ theorem c8k_sylow7_le_c0 {Γ : Type} [Group Γ] [Finite Γ] {B C₀ O : Subgroup
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.mp hm
     have hbO : (b : Γ) ∈ O := Subgroup.mem_subgroupOf.mp hb
     obtain ⟨n, hn⟩ := h7 (b : Γ) hbO
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQp : IsPGroup 2 (CFSG.pCore 2 Γ) := CFSG.pCore_isPGroup (p := 2) (G := Γ)
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQp
     have hord : orderOf ((b : Γ) ^ 7 ^ n) ∣ 2 ^ k := by
@@ -97,10 +97,10 @@ theorem c8k_exists_inv_sylow7 {Γ : Type} [Group Γ] [Finite Γ] {O : Subgroup �
     (h7 : ∀ x ∈ O, ∃ n : ℕ, x ^ 7 ^ n ∈ CFSG.pCore 2 Γ) :
     ∃ R : Subgroup Γ, R ≤ O ∧ IsPGroup 7 R ∧ R ⊔ CFSG.pCore 2 Γ = O ∧
       ∀ x ∈ R, d * x * d⁻¹ ∈ R := by
-  haveI := hO
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hO
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : ¬ 3 ∣ Nat.card ↥O := by
     intro hdiv
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hdiv
@@ -123,7 +123,7 @@ theorem c8k_exists_inv_sylow7 {Γ : Type} [Group Γ] [Finite Γ] {O : Subgroup �
     ((MulAut.conjNormal (H := O)).comp (Subgroup.zpowers d).subtype)
   let R : Subgroup Γ := (S : Subgroup ↥O).map O.subtype
   have hRle : R ≤ O := Subgroup.map_subtype_le (S : Subgroup ↥O)
-  have hR7 : IsPGroup 7 R := S.isPGroup'.map O.subtype
+  have hR7 : IsPGroup 7 R := S.isPGroup.map O.subtype
   have hRQ : R ⊔ CFSG.pCore 2 Γ = O := by
     apply le_antisymm (sup_le hRle hQO)
     rw [← Subgroup.relIndex_eq_one]
@@ -145,7 +145,7 @@ theorem c8k_exists_inv_sylow7 {Γ : Type} [Group Γ] [Finite Γ] {O : Subgroup �
       rw [hcomap] at hstep
       exact hstep.symm.trans (Subgroup.relIndex_top_right (H := (S : Subgroup ↥O)))
     have hQpow : ∃ k, (CFSG.pCore 2 Γ).relIndex O = 7 ^ k := by
-      haveI : ((CFSG.pCore 2 Γ).subgroupOf O).Normal :=
+      have : ((CFSG.pCore 2 Γ).subgroupOf O).Normal :=
         (CFSG.pCore_normal (p := 2) (G := Γ)).subgroupOf O
       have hquot : IsPGroup 7 (↥O ⧸ (CFSG.pCore 2 Γ).subgroupOf O) := by
         intro q
@@ -177,7 +177,7 @@ theorem c8k_not_o_le_b {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup �
     {ρ : Γ →* ↥(StatedSL 2 (ZMod 7))} {O Z : Subgroup Γ} (conf : C8KConf Γ B S C₀ d)
     (nat : C8KNat Γ d ρ O Z) : ¬ O ≤ B := by
   intro hOB
-  haveI : Z.Normal := nat.z_normal
+  have : Z.Normal := nat.z_normal
   obtain ⟨R, hRO, hR7, hRQ, hRinv⟩ :=
     c8k_exists_inv_sylow7 nat.normal conf.ctx.d_order (nat.q_le.trans nat.z_le) nat.seven
   have hRC : R ≤ C₀ := c8k_sylow7_le_c0 conf.p0 nat.normal hOB nat.seven hRO hR7
@@ -200,7 +200,6 @@ theorem c8k_not_o_le_b {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup �
     rw [Subgroup.mem_comap, Subgroup.mem_centralizer_iff] at hx'
     have h1 := hx' (d : Γ ⧸ Z) rfl
     rw [← QuotientGroup.eq_one_iff]
-    change ((d * x * d⁻¹ * x⁻¹ : Γ) : Γ ⧸ Z) = 1
     simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
     have h2 : (d : Γ ⧸ Z) * (x : Γ ⧸ Z) = (x : Γ ⧸ Z) * (d : Γ ⧸ Z) := h1
     rw [h2]

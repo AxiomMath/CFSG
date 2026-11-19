@@ -163,7 +163,7 @@ private theorem eq2_sum_1 (x : ℕ × ℕ) {z : ℕ × ℕ} (hz : z ∈ allLines
           simp [eq2B, eq2_star_star z hz]
         · have h0 : eq2B y z = 0 := by
             unfold eq2B
-            rw [if_neg]
+            rw [ite_eq_right]
             intro hc
             apply h
             rw [hc, eq2_star_star y hy']
@@ -197,7 +197,7 @@ private theorem eq2_sum_3 {x : ℕ × ℕ} (hx : x ∈ allLines) (z : ℕ × ℕ
 private theorem eq2_mem_fst {q : (ℕ × ℕ) × Bool} (h : q ∈ pts) : q.1 ∈ allLines := by
   unfold pts at h
   obtain ⟨l, hl, hq⟩ := List.mem_flatMap.1 h
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hq
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hq
   rcases hq with rfl | rfl <;> exact hl
 
 private theorem eq2_cast_countP (P : (ℕ × ℕ) × Bool → Bool) :

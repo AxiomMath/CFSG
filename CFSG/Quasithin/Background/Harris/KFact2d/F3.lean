@@ -42,7 +42,7 @@ theorem fix_of_normalizes {X : Type} [Group X] {S : Subgroup X} (hZ : Nat.card �
 theorem f3_holds :
     F3Stmt := by
   intro X _ _ K S p hp hp2 hK hKn hC hS u huu huK huN b hb hodd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have huz := fix_of_normalizes (f0_holds X K S p hp hp2 hK hS) huN
   rcases hK with ⟨hp4, hL⟩ | ⟨hp4, hL⟩
   · exact f3_psu hp4 hL hS hKn hC huu huK huz b hb hodd

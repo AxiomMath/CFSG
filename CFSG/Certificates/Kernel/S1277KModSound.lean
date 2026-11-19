@@ -176,9 +176,9 @@ theorem getD_range_map (f : ℕ → ℕ) (m k : ℕ) :
     ((List.range m).map f).toArray.getD k 0 = if k < m then f k else 0 := by
   rw [Array.getD_eq_getD_getElem?, List.getElem?_toArray, List.getElem?_map]
   by_cases h : k < m
-  · rw [List.getElem?_range h, if_pos h]
+  · rw [List.getElem?_range h, ite_eq_left h]
     rfl
-  · rw [if_neg h, List.getElem?_eq_none (by simpa using h)]
+  · rw [ite_eq_right h, List.getElem?_eq_none (by simpa using h)]
     rfl
 
 theorem getD_eq_get {α : Type} {l : List α} {i : ℕ} (d : α) (hi : i < l.length) :

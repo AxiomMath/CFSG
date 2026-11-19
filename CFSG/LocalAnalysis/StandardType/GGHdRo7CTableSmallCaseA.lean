@@ -9,12 +9,12 @@ namespace CFSG.StandardType.HdRo7C
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem hdRo7CSmallAux_case_c1_k1
-    (hT : C2ReflTrickLeaf) (hSp : C2SuppTwoLeaf) {n : ℕ} (hn : 5 ≤ n)
+    (_hT : C2ReflTrickLeaf) (_hSp : C2SuppTwoLeaf) {n : ℕ} (_hn : 5 ≤ n)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     (A : Subgroup (V ≃ₗ[ZMod 3] V))
-    (hPA : ∀ a, C2SP 3 b a → a ∈ A)
-    (hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
+    (_hPA : ∀ a, C2SP 3 b a → a ∈ A)
+    (_hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
     (r : V ≃ₗ[ZMod 3] V) (u : V) (φ : V →ₗ[ZMod 3] ZMod 3)
     (hnf : C2ReflNF 3 b A r u φ)
     (hcoef : ∀ i, i ≠ 0 → φ (b i) = 1 * b.coord i u)
@@ -54,34 +54,34 @@ theorem hdRo7CSmallAux_case_c1_k1
     simp
 
 theorem hdRo7CSmallAux_case_c1_k2
-    (hT : C2ReflTrickLeaf) (hSp : C2SuppTwoLeaf) {n : ℕ} (hn : 5 ≤ n)
+    (_hT : C2ReflTrickLeaf) (_hSp : C2SuppTwoLeaf) {n : ℕ} (_hn : 5 ≤ n)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     (A : Subgroup (V ≃ₗ[ZMod 3] V))
-    (hPA : ∀ a, C2SP 3 b a → a ∈ A)
-    (hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
+    (_hPA : ∀ a, C2SP 3 b a → a ∈ A)
+    (_hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
     (r : V ≃ₗ[ZMod 3] V) (u : V) (φ : V →ₗ[ZMod 3] ZMod 3)
     (hnf : C2ReflNF 3 b A r u φ)
-    (hcoef : ∀ i, i ≠ 0 → φ (b i) = 1 * b.coord i u)
+    (_hcoef : ∀ i, i ≠ 0 → φ (b i) = 1 * b.coord i u)
     (S : Finset (Fin (n + 1)))
-    (hS_mem : ∀ i, i ∈ S ↔ i ≠ 0 ∧ b.coord i u ≠ 0)
-    (hScard : S.card = 2) (hu0val : b.coord 0 u = 0) :
+    (_hS_mem : ∀ i, i ∈ S ↔ i ≠ 0 ∧ b.coord i u ≠ 0)
+    (_hScard : S.card = 2) (hu0val : b.coord 0 u = 0) :
     False := by
   exfalso
   exact hnf.hu0 hu0val
 
 theorem hdRo7CSmallAux_case_cm1_k1
-    (hT : C2ReflTrickLeaf) (hSp : C2SuppTwoLeaf) {n : ℕ} (hn : 5 ≤ n)
+    (_hT : C2ReflTrickLeaf) (_hSp : C2SuppTwoLeaf) {n : ℕ} (_hn : 5 ≤ n)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     (A : Subgroup (V ≃ₗ[ZMod 3] V))
-    (hPA : ∀ a, C2SP 3 b a → a ∈ A)
-    (hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
+    (_hPA : ∀ a, C2SP 3 b a → a ∈ A)
+    (_hStab : ∀ a ∈ A, a (b 0) = b 0 → C2SP 3 b a)
     (r : V ≃ₗ[ZMod 3] V) (u : V) (φ : V →ₗ[ZMod 3] ZMod 3)
     (hnf : C2ReflNF 3 b A r u φ)
-    (hcoef : ∀ i, i ≠ 0 → φ (b i) = -1 * b.coord i u)
+    (_hcoef : ∀ i, i ≠ 0 → φ (b i) = -1 * b.coord i u)
     (S : Finset (Fin (n + 1)))
-    (hS_mem : ∀ i, i ∈ S ↔ i ≠ 0 ∧ b.coord i u ≠ 0)
+    (_hS_mem : ∀ i, i ∈ S ↔ i ≠ 0 ∧ b.coord i u ≠ 0)
     (hu0val : b.coord 0 u = 0) :
     False := by
   exfalso

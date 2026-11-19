@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem card_le_of_glaIsBmax {p : ℕ} (hp : p.Prime) {B F U : Subgroup G} (hBmax : GLAIsBmax p B)
     (hF : IsElemAbelian p F) (hFU : F ≤ Subgroup.normalizer (U : Set G)) (hU : U ≠ ⊥)
     (hUp : IsPGroup 2 U) : Nat.card F ≤ Nat.card B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := exists_card_eq_pow_of_isElemAbelian hp hF
   have hk : m ≤ CFSG.Open.pRank p (Subgroup.normalizer (U : Set G)) :=
     CFSG.SectionRank.le_pRank hp.one_lt hFU hF hm
@@ -28,7 +28,7 @@ theorem card_le_of_glaIsBmax {p : ℕ} (hp : p.Prime) {B F U : Subgroup G} (hBma
 
 theorem twoLocalRank_le_of_glaIsBmax {p : ℕ} (hp : p.Prime) {X B : Subgroup G}
     (hBmax : GLAIsBmax p B) : GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB : IsElemAbelian p B := hBmax.1
   obtain ⟨m, hm⟩ := exists_card_eq_pow_of_isElemAbelian hp hB
   have hBm : m ≤ CFSG.Open.pRank p B := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB hm

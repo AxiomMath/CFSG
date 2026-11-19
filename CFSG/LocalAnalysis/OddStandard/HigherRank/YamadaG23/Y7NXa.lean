@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G] {t : G} {Q V : Subgroup G}
 
+omit [Finite G] in
 private lemma card_range_of_injective {H : Type*} [Group H] {E : Subgroup G}
     (φ : ↥E →* H) (hφ : Function.Injective φ) : Nat.card φ.range = Nat.card ↥E := by
   have h := Subgroup.card_ker_mul_card_range φ
@@ -99,6 +100,7 @@ theorem y7n_card_le_two_mul {N E : Subgroup G} {y : G} (hy2 : y ^ 2 = 1)
     calc Nat.card E ≤ Nat.card ↥(E ⊓ N) * 2 := hle
       _ = 2 * Nat.card ↥(E ⊓ N) := Nat.mul_comm _ _
 
+omit [Finite G] in
 theorem y7n_Q_normalizes_V (h : Wr7 t Q V) {q v : G} (hq : q ∈ Q) (hv : v ∈ V) :
     q * v * q⁻¹ ∈ V := by
   obtain ⟨u, hu, v', hv', rfl⟩ := h.decomp hq
@@ -112,6 +114,7 @@ theorem y7n_Q_normalizes_V (h : Wr7 t Q V) {q v : G} (hq : q ∈ Q) (hv : v ∈ 
   rw [hconj]
   exact V.mul_mem (V.mul_mem hu hv) (V.inv_mem hu)
 
+omit [Finite G] in
 private lemma ker_proj1_eq (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     ((h.proj1.comp (Subgroup.inclusion hEQ)).ker.map E.subtype) = E ⊓ conjSub t V := by
   ext y
@@ -142,6 +145,7 @@ private lemma ker_proj1_eq (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     rw [hEq]
     exact hprojof.1
 
+omit [Finite G] in
 private lemma ker_proj2_eq (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     ((h.proj2.comp (Subgroup.inclusion hEQ)).ker.map E.subtype) = E ⊓ V := by
   ext y
@@ -172,12 +176,14 @@ private lemma ker_proj2_eq (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     rw [hEq]
     exact hprojof.2
 
+omit [Finite G] in
 private lemma isElemAbelian_range_proj1 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q)
     (hE : IsElemAbelian 2 E) :
     IsElemAbelian 2 (((h.proj1.comp (Subgroup.inclusion hEQ)).range).map V.subtype) := by
   rw [MonoidHom.range_comp, Subgroup.inclusion_range]
   exact ((hE.subgroupOf Q).map h.proj1).map V.subtype
 
+omit [Finite G] in
 private lemma isElemAbelian_conj_range_proj2 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q)
     (hE : IsElemAbelian 2 E) :
     IsElemAbelian 2 (conjSub t
@@ -186,11 +192,13 @@ private lemma isElemAbelian_conj_range_proj2 (h : Wr7 t Q V) {E : Subgroup G} (h
   exact (((hE.subgroupOf Q).map h.proj2).map (conjSub t V).subtype).map
     (MulAut.conj t).toMonoidHom
 
+omit [Finite G] in
 private lemma card_range_proj1 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     Nat.card (((h.proj1.comp (Subgroup.inclusion hEQ)).range).map V.subtype)
       = Nat.card ((h.proj1.comp (Subgroup.inclusion hEQ)).range) :=
   Subgroup.card_subtype V _
 
+omit [Finite G] in
 private lemma card_range_proj2 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     Nat.card (conjSub t
       (((h.proj2.comp (Subgroup.inclusion hEQ)).range).map (conjSub t V).subtype))
@@ -198,6 +206,7 @@ private lemma card_range_proj2 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) 
   rw [conjSub, Subgroup.card_map_of_injective (MulAut.conj t).injective,
     Subgroup.card_subtype]
 
+omit [Finite G] in
 private lemma card_ker_proj1 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     Nat.card ((h.proj1.comp (Subgroup.inclusion hEQ)).ker)
       = Nat.card ↥(E ⊓ conjSub t V) := by
@@ -207,6 +216,7 @@ private lemma card_ker_proj1 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     _ = Nat.card ↥(E ⊓ conjSub t V) :=
         congrArg (fun X : Subgroup G => Nat.card ↥X) (ker_proj1_eq h hEQ)
 
+omit [Finite G] in
 private lemma card_ker_proj2 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     Nat.card ((h.proj2.comp (Subgroup.inclusion hEQ)).ker)
       = Nat.card ↥(E ⊓ V) := by
@@ -216,6 +226,7 @@ private lemma card_ker_proj2 (h : Wr7 t Q V) {E : Subgroup G} (hEQ : E ≤ Q) :
     _ = Nat.card ↥(E ⊓ V) :=
         congrArg (fun X : Subgroup G => Nat.card ↥X) (ker_proj2_eq h hEQ)
 
+omit [Finite G] in
 theorem y7n_card_cent_le (h : Wr7 t Q V) {m : ℕ}
     (hm : ∀ E : Subgroup G, E ≤ V → IsElemAbelian 2 E → Nat.card E ≤ m) {x : G}
     (hx : ∀ v ∈ conjSub t V, x * v * x⁻¹ ∈ V) {E : Subgroup G} (hEQ : E ≤ Q)

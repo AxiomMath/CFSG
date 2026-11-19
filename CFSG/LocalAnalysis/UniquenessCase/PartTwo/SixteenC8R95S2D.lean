@@ -25,7 +25,7 @@ theorem r95_I_odd_index (hK461 : UCK.K461)
     (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) {D : Data G} {Y H D₃ : Subgroup G}
     (hyp : Hyp91 D Y H D₃) (hH : H ≠ ⊤) (hX : LieModel (BarO3 (Opp 3 Y)) .PSL 3 2 1) :
     ¬ 2 ∣ (I9 H ⊓ D.M).relIndex (I9 H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hXH : Opp 3 Y ≤ H := hXY.trans hyp.2.1.1
   have hHK : CFSG.Open.IsKGroup ↥H := CFSG.Open.IsKProper.isKGroup D.standing.kProper H hH
@@ -62,7 +62,7 @@ theorem r95_I_odd_index (hK461 : UCK.K461)
     (fun h => hI3 (h.trans (Subgroup.card_dvd_of_le hUO))) hUK hWU hUW hWK hWne hWmax hcomm hev
   obtain ⟨N, hNn, hN3, F, hF, hFin, n, hFc, hφ⟩ :=
     r95s_chief_quot_two hK461 hXK hE9 hKperf hyp.2.2.1 hyp.2.2.2 hKgen hch hfix
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   exact r95s_false_of_quot_sl2 hS hnab hX hN3 hFc hφ
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.F09

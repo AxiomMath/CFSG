@@ -29,7 +29,7 @@ private lemma sum_zmod_eq_sum_range {M : Type*} [AddCommMonoid M] {p : ℕ} [NeZ
 private lemma sum_zmod_pow_mul_eq {R : Type*} [Ring R] {p : ℕ} [Fact p.Prime] {τ : R}
     (hτ : τ ^ p = 1) {c : ℕ} (h0 : 0 < c) (hc : c < p) :
     ∑ b : ZMod p, τ ^ (b.val * c) = ∑ j ∈ Finset.range p, τ ^ j := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hc' : (c : ZMod p) ≠ 0 := by
     intro h
     have hpdc : p ∣ c := (ZMod.natCast_eq_zero_iff c p).mp h
@@ -52,14 +52,14 @@ private lemma sum_zmod_pow_mul_eq {R : Type*} [Ring R] {p : ℕ} [Fact p.Prime] 
 private lemma sum_range_pow_mul_eq {R : Type*} [Ring R] {p : ℕ} [Fact p.Prime] {τ : R}
     (hτ : τ ^ p = 1) {c : ℕ} (h0 : 0 < c) (hc : c < p) :
     ∑ j ∈ Finset.range p, τ ^ (c * j) = ∑ j ∈ Finset.range p, τ ^ j := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [← sum_zmod_eq_sum_range (fun j => τ ^ (c * j))]
   rw [Finset.sum_congr rfl (fun b _ => by rw [mul_comm])]
   exact sum_zmod_pow_mul_eq hτ h0 hc
 
 private lemma pred_mul_mod_eq {p j : ℕ} (hp : 0 < p) (hj : j ≤ p) :
     ((p - 1) * j) % p = (p - j) % p := by
-  haveI : NeZero p := ⟨hp.ne'⟩
+  have : NeZero p := ⟨hp.ne'⟩
   have hpc : ((p : ℕ) : ZMod p) = 0 := ZMod.natCast_self p
   have hp1 : ((p - 1 : ℕ) : ZMod p) = -1 := by
     rw [Nat.cast_sub (show 1 ≤ p from hp), hpc]
@@ -74,7 +74,7 @@ private lemma pred_mul_mod_eq {p j : ℕ} (hp : 0 < p) (hj : j ≤ p) :
 
 private lemma pow_pred_mul_eq {R : Type*} [Monoid R] {p j : ℕ} (hp : 0 < p) {σ : R}
     (hσ : σ ^ p = 1) (hj : j ≤ p) : σ ^ ((p - 1) * j) = σ ^ (p - j) := by
-  haveI : NeZero p := ⟨hp.ne'⟩
+  have : NeZero p := ⟨hp.ne'⟩
   rw [pow_eq_pow_mod ((p - 1) * j) hσ, pow_eq_pow_mod (p - j) hσ]
   rw [pred_mul_mod_eq hp hj]
 
@@ -83,7 +83,7 @@ theorem sum_geom_sum_mul_pow_add_geom_sum {R : Type*} [Ring R] {p : ℕ} [Fact p
     ∑ b : ZMod p, ∑ j ∈ Finset.range p, (σ * τ ^ b.val) ^ j + ∑ j ∈ Finset.range p, τ ^ j =
       (p : R) + (∑ i ∈ Finset.range p, σ ^ i) * ∑ j ∈ Finset.range p, τ ^ j := by
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hterm : ∀ b : ZMod p, ∑ j ∈ Finset.range p, (σ * τ ^ b.val) ^ j =
       ∑ j ∈ Finset.range p, σ ^ j * τ ^ (b.val * j) := by
     intro b
@@ -124,7 +124,7 @@ theorem sum_geom_sum_mul_pow_add_geom_sum {R : Type*} [Ring R] {p : ℕ} [Fact p
   rw [hmain, hNσ, add_mul, one_mul]
   abel
 
-theorem mul_geom_sum_eq_geom_sum {R : Type*} [Ring R] {p : ℕ} (hp : 0 < p) {φ : R}
+theorem mul_geom_sum_eq_geom_sum {R : Type*} [Ring R] {p : ℕ} (_hp : 0 < p) {φ : R}
     (hφ : φ ^ p = 1) : φ * ∑ j ∈ Finset.range p, φ ^ j = ∑ j ∈ Finset.range p, φ ^ j := by
   have hcomm : Commute φ (∑ j ∈ Finset.range p, φ ^ j) :=
     Commute.sum_right _ _ _ fun j _ => (Commute.refl φ).pow_right j
@@ -271,7 +271,7 @@ theorem finrank_eq_mul_finrank_ker [Finite M] {p : ℕ} [Fact p.Prime] (hp : p �
     (hγσ : γ * σ = σ * τ * γ) (hγτ : γ * τ = τ * γ) :
     Module.finrank (ZMod 2) M = p * Module.finrank (ZMod 2) (LinearMap.ker (σ - 1)) := by
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp
   have hpsmul : ∀ a : M, p • a = a := fun a => by
     rw [← Nat.cast_smul_eq_nsmul (ZMod 2) p a, natCast_zmod_two_of_odd hpodd, one_smul]
@@ -379,7 +379,7 @@ theorem finrank_eq_mul_finrank_ker [Finite M] {p : ℕ} [Fact p.Prime] (hp : p �
   have hγpow : ∀ b : ZMod p, γ * (σ * τ ^ b.val) = (σ * τ ^ (b + 1).val) * γ := by
     intro b
     have hval : τ ^ (b + 1).val = τ ^ (b.val + 1) := by
-      haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+      have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
       have hb1 : (b + 1).val = (b.val + 1) % p := by rw [ZMod.val_add, ZMod.val_one]
       rw [hb1]
       exact (pow_eq_pow_mod (b.val + 1) hτ).symm
@@ -447,7 +447,7 @@ theorem finrank_eq_add_two_mul_finrank_range [Finite M] {p : ℕ} [Fact p.Prime]
     Module.finrank (ZMod 2) M = Module.finrank (ZMod 2) (LinearMap.ker (σ - 1)) +
       2 * Module.finrank (ZMod 2) (LinearMap.range (ν - 1)) := by
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp
   have hpsmul : ∀ a : M, p • a = a := fun a => by
     rw [← Nat.cast_smul_eq_nsmul (ZMod 2) p a, natCast_zmod_two_of_odd hpodd, one_smul]

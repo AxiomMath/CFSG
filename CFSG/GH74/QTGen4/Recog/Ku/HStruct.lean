@@ -97,7 +97,7 @@ theorem le_normalizer_inf_of {K L N : Subgroup G}
   intro x
   have h1 := Subgroup.mem_normalizer_iff.mp (hK hg) x
   have h2 := Subgroup.mem_normalizer_iff.mp (hL hg) x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr h1 h2
 
 namespace KuHyp
@@ -107,6 +107,7 @@ variable [Finite G] {T M H P : Subgroup G} {z : G}
 theorem card_pCore_H (h : KuHyp G T M H P z) : Nat.card (pCoreOf 2 H) = 64 :=
   h.card_pCore_H_aux
 
+omit [Finite G] in
 theorem P_le_pCore_H (h : KuHyp G T M H P z) : P ≤ pCoreOf 2 H :=
   CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 h.pH h.hNormP h.isPGroup_P
 
@@ -123,6 +124,7 @@ theorem pCore_H_le_T (h : KuHyp G T M H P z) : pCoreOf 2 H ≤ T := by
   rw [hS] at hEq
   exact le_sup_left.trans hEq.le
 
+omit [Finite G] in
 theorem H_le_normalizer_pCore_H (_h : KuHyp G T M H P z) :
     H ≤ Subgroup.normalizer (pCoreOf 2 H : Set G) :=
   le_normalizer_pCoreOf_self H
@@ -191,6 +193,7 @@ theorem exists_u_coset (h : KuHyp G T M H P z) :
   have := hxor b hb
   by_cases hbP : b ∈ P <;> by_cases hbu : b * u ∈ P <;> simp_all [Xor]
 
+omit [Finite G] in
 theorem kuW_le_P (h : KuHyp G T M H P z) : kuW P H ≤ P := by
   show ⁅P, pCoreOf 2 H⁆ ≤ P
   rw [Subgroup.commutator_le]
@@ -203,6 +206,7 @@ theorem kuW_le_P (h : KuHyp G T M H P z) : kuW P H ≤ P := by
   rw [e]
   exact P.mul_mem ha (P.inv_mem hconj)
 
+omit [Finite G] in
 theorem kuW_le_pCore_H (h : KuHyp G T M H P z) : kuW P H ≤ pCoreOf 2 H := by
   show ⁅P, pCoreOf 2 H⁆ ≤ pCoreOf 2 H
   rw [Subgroup.commutator_le]
@@ -328,6 +332,7 @@ theorem exists_ne_actV (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P
     _ = p * (p⁻¹ * (u * p * u⁻¹)) * p⁻¹ := by rw [← e1]
     _ = u * p * u⁻¹ * p⁻¹ := by group
 
+omit [Finite G] in
 theorem fix_of_conj_zpow {x z p : G} {m : ℤ} (hxz : Commute x z) (hz : z * z = 1) (hx3 : x ^ 3 = 1)
     (hpx : x * p * x⁻¹ = p * z ^ m) : x * p * x⁻¹ = p := by
   have hzm : z ^ m * z ^ m = 1 := by
@@ -349,6 +354,7 @@ theorem fix_of_conj_zpow {x z p : G} {m : ℤ} (hxz : Commute x z) (hz : z * z =
     simp
   exact h5.trans h6
 
+omit [Finite G] in
 theorem actV_fixed_zero (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {x : G} (hxN : x ∈ Subgroup.normalizer (P : Set G)) (hx3 : x ^ 3 = 1) (hxz : Commute x z)
     (hfixx : ∀ p ∈ P, x * p * x⁻¹ = p → p ∈ Subgroup.zpowers z)
@@ -378,6 +384,7 @@ theorem actV_fixed_zero (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, Subtype.ext (by simpa using hk)⟩
   exact (psi_eq_zero_iff q).mpr hcen
 
+omit [Finite G] in
 theorem actV_congr_elt [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)] {g g' : G}
     (hN : g ∈ Subgroup.normalizer (P : Set G)) (hN' : g' ∈ Subgroup.normalizer (P : Set G))
     (e : g = g') : actV hN = actV hN' := by
@@ -414,6 +421,7 @@ theorem sgn_sq_mul_gen {Q : Type*} [Group Q] {z : Q} (C : KuZCore Q z) (a b : Q)
     C.sgn_mul (KuZCore.mem_zpowers_cases C.z_sq ha2) (KuZCore.mem_zpowers_cases C.z_sq hb2), hsym]
   abel
 
+omit [Finite G] in
 theorem sgn_conjP {P : Subgroup G} {g : G} (hN : g ∈ Subgroup.normalizer (P : Set G))
     (c : ↥P) : sgn (conjP hN c) = sgn c := by
   by_cases hc : c = 1
@@ -425,6 +433,7 @@ theorem sgn_conjP {P : Subgroup G} {g : G} (hN : g ∈ Subgroup.normalizer (P : 
         _ = 1 := by rw [e']; group))
     simp [sgn, hc, hc']
 
+omit [Finite G] in
 theorem commForm_actV (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {g : G} (hN : g ∈ Subgroup.normalizer (P : Set G))
     (v w : Additive (↥P ⧸ Subgroup.center ↥P)) :
@@ -444,6 +453,7 @@ theorem commForm_actV (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P 
   rw [← map_commutatorElement (conjP hN) q r]
   exact sgn_conjP hN _
 
+omit [Finite G] in
 theorem pairQ_eq_zero_of_range (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {u : G} (hun : u ∈ Subgroup.normalizer (P : Set G))
     (hγ : ∀ v, actV hun (actV hun v) = v) {a b : ↥P}
@@ -458,7 +468,7 @@ theorem pairQ_eq_zero_of_range (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian
   exact B_delta_delta (actV hun) hγ h.kuZCore_P.commForm (fun x y => commForm_actV h hun x y) s t
 
 theorem card_kuW (h : KuHyp G T M H P z) : Nat.card (kuW P H) = 8 := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
     (hcos 1 (pCoreOf 2 H).one_mem).mp (by rwa [one_mul]) P.one_mem
@@ -508,8 +518,8 @@ theorem card_kuW (h : KuHyp G T M H P z) : Nat.card (kuW P H) = 8 := by
   have hrank := finrank_range_kuDeltaLin (actV hun) hγ (exists_ne_actV h hu hnu) (actV hxN) hX3 hxγ
     (fun v hv => actV_fixed_zero h hxN hx3 hxz hfixx v hv) h.finrank_quotP
   have hR : Nat.card (LinearMap.range (kuDeltaLin (actV hun))) = 4 := by
-    rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hrank] <;> simp [ZMod.card]
-  rw [kuW_eq_psiPre h hu hcos, card_psiPre, h.card_center_P, hR] <;> norm_num
+    rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hrank]; simp [ZMod.card]
+  rw [kuW_eq_psiPre h hu hcos, card_psiPre, h.card_center_P, hR]
 
 theorem B_self_kuW (h : KuHyp G T M H P z) {u : G} (hu : u ∈ pCoreOf 2 H)
     (hcos : ∀ b ∈ pCoreOf 2 H, (b * u ∈ P ↔ b ∉ P))
@@ -576,6 +586,7 @@ theorem sgn_inv' {Q : Type*} [Group Q] (c : Q) : sgn c⁻¹ = sgn c := by
   · have hi : c⁻¹ ≠ 1 := inv_ne_one.mpr hc
     simp [sgn, hc, hi]
 
+omit [Finite G] in
 theorem sq_comm_eq_one (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {u : G} (hun : u ∈ Subgroup.normalizer (P : Set G))
     (hB : ∀ s, h.kuZCore_P.commForm s (actV hun s) = 0) (a : ↥P) :
@@ -598,7 +609,7 @@ theorem sq_comm_eq_one (h : KuHyp G T M H P z) [CFSG.IsElementaryAbelian 2 (↥P
   exact sgn_eq_zero_iff_gen.mp hz
 
 theorem kuW_sq_eq_one (h : KuHyp G T M H P z) {x : G} (hx : x ∈ kuW P H) : x ^ 2 = 1 := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
     (hcos 1 (pCoreOf 2 H).one_mem).mp (by rwa [one_mul]) P.one_mem
@@ -645,7 +656,7 @@ theorem kuW_sq_eq_one (h : KuHyp G T M H P z) {x : G} (hx : x ∈ kuW P H) : x ^
 
 theorem kuW_comm_mem (h : KuHyp G T M H P z) {a b : G} (ha : a ∈ kuW P H) (hb : b ∈ kuW P H) :
     a * b = b * a := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
     (hcos 1 (pCoreOf 2 H).one_mem).mp (by rwa [one_mul]) P.one_mem
@@ -664,10 +675,12 @@ theorem kuW_comm_mem (h : KuHyp G T M H P z) {a b : G} (ha : a ∈ kuW P H) (hb 
 theorem isElemAbelian_kuW (h : KuHyp G T M H P z) : IsElemAbelian 2 (kuW P H) :=
   ⟨⟨⟨fun a b => Subtype.ext (h.kuW_comm_mem a.2 b.2)⟩⟩, fun _ hx => h.kuW_sq_eq_one hx⟩
 
+omit [Finite G] in
 theorem H_le_normalizer_kuW (h : KuHyp G T M H P z) :
     H ≤ Subgroup.normalizer (kuW P H : Set G) :=
   le_normalizer_commutator_of h.hNormP (le_normalizer_pCoreOf_self H)
 
+omit [Finite G] in
 theorem psi_eq_zero_iff_mem_zpowers (h : KuHyp G T M H P z) {v : G} (hv : v ∈ P) :
     psi (⟨v, hv⟩ : ↥P) = 0 ↔ v ∈ Subgroup.zpowers z := by
   rw [psi_eq_zero_iff, h.center_P_eq]
@@ -679,9 +692,10 @@ theorem psi_eq_zero_iff_mem_zpowers (h : KuHyp G T M H P z) {v : G} (hv : v ∈ 
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hm
     exact Subgroup.mem_zpowers_iff.mpr ⟨n, Subtype.ext (by simpa using hn)⟩
 
+omit [Finite G] in
 theorem eq_or_z_mul_of_psi_eq (h : KuHyp G T M H P z) {a b : G} (ha : a ∈ P) (hb : b ∈ P)
     (hab : psi (⟨b, hb⟩ : ↥P) = psi (⟨a, ha⟩ : ↥P)) : b = a ∨ b = z * a := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   have h0 : psi ((⟨b, hb⟩ : ↥P) * (⟨a, ha⟩ : ↥P)⁻¹) = 0 := by
     rw [psi_mul, psi_inv (⟨a, ha⟩ : ↥P), hab, add_neg_cancel]
   have hc : ((⟨b, hb⟩ : ↥P) * (⟨a, ha⟩ : ↥P)⁻¹) ∈ Subgroup.zpowers (⟨z, h.zP_mem⟩ : ↥P) := by
@@ -699,6 +713,7 @@ theorem eq_or_z_mul_of_psi_eq (h : KuHyp G T M H P z) {a b : G} (ha : a ∈ P) (
   · exact Or.inl (mul_inv_eq_one.mp h1)
   · exact Or.inr (mul_inv_eq_iff_eq_mul.mp h1)
 
+omit [Finite G] in
 theorem exists_shear (h : KuHyp G T M H P z) {v : G} (hv : v ∈ P) (hvz : v ∉ Subgroup.zpowers z) :
     ∃ p ∈ P, p * v * p⁻¹ = z * v := by
   obtain ⟨p, hp, hc⟩ := h.exists_comm_eq_z hv hvz
@@ -706,11 +721,13 @@ theorem exists_shear (h : KuHyp G T M H P z) {v : G} (hv : v ∈ P) (hvz : v ∉
   rw [commutatorElement_def] at hc
   exact mul_inv_eq_iff_eq_mul.mp hc
 
+omit [Finite G] in
 theorem psi_conj_eq {P : Subgroup G} [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {g : G} (hg : g ∈ Subgroup.normalizer (P : Set G)) (q : ↥P) (hgq : g * (q : G) * g⁻¹ ∈ P) :
     psi (⟨g * (q : G) * g⁻¹, hgq⟩ : ↥P) = actV hg (psi q) :=
   (actV_mk hg q).symm
 
+omit [Finite G] in
 theorem actV_cube {P : Subgroup G} [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P)]
     {x : G} (hxN : x ∈ Subgroup.normalizer (P : Set G)) (hxxx : x * (x * x) = 1)
     (v : Additive (↥P ⧸ Subgroup.center ↥P)) :
@@ -722,6 +739,7 @@ theorem actV_cube {P : Subgroup G} [CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgrou
     _ = actV (mul_mem hxN (mul_mem hxN hxN)) v := by rw [e]
     _ = v := by rw [hid3, LinearMap.id_apply]
 
+omit [Finite G] in
 theorem exists_H_conj_of_psi_eq (h : KuHyp G T M H P z) {v w' : G} (hv : v ∈ P) (hw' : w' ∈ P)
     (hw'z : w' ∉ Subgroup.zpowers z) (hpsi : psi (⟨w', hw'⟩ : ↥P) = psi (⟨v, hv⟩ : ↥P)) :
     ∃ p ∈ H, p * v * p⁻¹ = w' := by
@@ -736,7 +754,7 @@ theorem exists_H_conj_of_psi_eq (h : KuHyp G T M H P z) {v w' : G} (hv : v ∈ P
 theorem H_transitive_kuW (h : KuHyp G T M H P z) {w w' : G} (hw : w ∈ kuW P H)
     (hwz : w ∉ Subgroup.zpowers z) (hw' : w' ∈ kuW P H) (hw'z : w' ∉ Subgroup.zpowers z) :
     ∃ g ∈ H, g * w * g⁻¹ = w' := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hun := h.hNormP (CFSG.LieType.BorelTits.pCoreOf_le 2 H hu)
   have hWR : kuW P H = psiPre (LinearMap.range (kuDeltaLin (actV hun))) :=
@@ -762,7 +780,7 @@ theorem H_transitive_kuW (h : KuHyp G T M H P z) {w w' : G} (hw : w ∈ kuW P H)
     rw [hWR, card_psiPre, h.card_center_P] at hc
     have h4 : Nat.card R = 4 := by omega
     have hpow : Nat.card R = 2 ^ Module.finrank (ZMod 2) R := by
-      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)] <;> simp [ZMod.card]
+      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)]; simp [ZMod.card]
     have h16 : 2 ^ Module.finrank (ZMod 2) R = 2 ^ 2 :=
       (hpow.symm.trans h4).trans (by norm_num)
     exact Nat.pow_right_injective (le_refl 2) h16
@@ -812,6 +830,7 @@ theorem H_transitive_kuW (h : KuHyp G T M H P z) {w w' : G} (hw : w ∈ kuW P H)
     rw [← hpc]
     group
 
+omit [Finite G] in
 theorem H_le_normalizer_kuA (h : KuHyp G T M H P z) :
     H ≤ Subgroup.normalizer (kuA P H : Set G) :=
   le_normalizer_inf_of (le_normalizer_pCoreOf_self H)
@@ -828,7 +847,7 @@ theorem le_centralizer_kuW (h : KuHyp G T M H P z) :
 
 theorem P_inf_centralizer_kuW (h : KuHyp G T M H P z) :
     P ⊓ Subgroup.centralizer (kuW P H : Set G) = kuW P H := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨u, hu, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
     (hcos 1 (pCoreOf 2 H).one_mem).mp (by rwa [one_mul]) P.one_mem
@@ -858,7 +877,7 @@ theorem P_inf_centralizer_kuW (h : KuHyp G T M H P z) :
     rw [hWR, card_psiPre, h.card_center_P] at hc
     have h4 : Nat.card R = 4 := by omega
     have hpow : Nat.card R = 2 ^ Module.finrank (ZMod 2) R := by
-      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)] <;> simp [ZMod.card]
+      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)]; simp [ZMod.card]
     have h16 : 2 ^ Module.finrank (ZMod 2) R = 2 ^ 2 :=
       (hpow.symm.trans h4).trans (by norm_num)
     exact Nat.pow_right_injective (le_refl 2) h16

@@ -89,7 +89,7 @@ theorem sq_mem_szA (h34 : NoStronglyClosedAbelianTwo G) {r : G} (hr : r ∈ R) :
       obtain ⟨S, hRS, z, hzS, hzN, hzR⟩ :=
         GMS28.exists_mem_normalizer_of_not_isSylowOf h.isPGroup hnot
       have hP : IsPGroup 2 (R ⊔ zpowers z : Subgroup G) :=
-        S.isPGroup'.to_le (sup_le hRS (zpowers_le.mpr hzS))
+        S.isPGroup.to_le (sup_le hRS (zpowers_le.mpr hzS))
       exact hzR (h.mem_of_isPGroup z (hNR hzN) hP)
     obtain ⟨-, hR2, hRidx⟩ := isSylowOf_iff.mp hRG
     rw [relIndex_top_right] at hRidx

@@ -17,8 +17,8 @@ variable {W : Type*} [CommGroup W] [Finite W]
 
 private theorem s16b_padicValNat_card_eq_finrank {M : Type*} [AddCommGroup M]
     [Module (ZMod 2) M] [Finite M] : padicValNat 2 (Nat.card M) = Module.finrank (ZMod 2) M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := M), Nat.card_zmod,
     padicValNat.prime_pow]
 
@@ -30,8 +30,8 @@ theorem two_mul_rk_le_of_totallySingular (hW : ∀ x : W, x * x = 1) {Q : W → 
     intro x
     rw [two_nsmul]
     exact congrArg Additive.ofMul (hW (Additive.toMul x))
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   have hadd_l : ∀ x y z : W, polarQ Q (x * y) z = polarQ Q x z + polarQ Q y z := hQ.1.1
   have hadd_r : ∀ x y z : W, polarQ Q x (y * z) = polarQ Q x y + polarQ Q x z := hQ.1.2
   have hone_l : ∀ z : W, polarQ Q 1 z = 0 := by
@@ -129,7 +129,7 @@ theorem rk_top_vtil_add_mSub (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hV�
 
 theorem mSub_eq_mQuot_add (V U : Subgroup G) (hV : IsElemAbelian 2 V) (hUV : U ≤ V) :
     mSub V = E3.mQuot V U + mSub U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 V := hV.isPGroup
   have hU2 : IsPGroup 2 U := hV2.to_le hUV
   have h := E3.card_eq_two_pow_mul hV2 hUV

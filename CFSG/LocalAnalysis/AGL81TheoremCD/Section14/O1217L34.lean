@@ -13,7 +13,7 @@ open CFSG.Open
 
 private theorem isPSL_of_isLinThreeFour {K : Type} [Group K]
     (hL : CFSG.AGLEmbedding.IsLinThreeFour K) : CFSG.Quasithin.IsPSL 3 2 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.AGLEmbedding.KFactProofs.UPrimeExcL34.nonempty_equiv_projSL hL
   exact CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL
     ⟨Nat.prime_two, by norm_num, by norm_num, by decide, by decide⟩ e
@@ -39,9 +39,9 @@ private theorem isElemAbelian_sylow_three_of_isLinThreeFour {K : Type} [Group K]
 theorem kFactL34InvTwo_holds : KFactL34InvTwo := by
   intro X _ _ K hKnorm hL T S hS2 hnorm
   classical
-  letI : K.Normal := hKnorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : K.Normal := hKnorm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let c : X →* MulAut ↥K := MulAut.conjNormal (H := K)
   let B : Subgroup (MulAut ↥K) := S.map c
   have hker : c.ker = Subgroup.centralizer (K : Set X) := by

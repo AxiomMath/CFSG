@@ -51,7 +51,7 @@ private lemma modMat_one {τ : Tag} {p : ℕ} :
 
 private lemma modMat_weylMatrix_eq_neg_one
     {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hbar : BigElemAbelianToralBar τ p) (K : Type) [Field K] [Finite K] [CharP K 2]
+    (_hbar : BigElemAbelianToralBar τ p) (K : Type) [Field K] [Finite K] [CharP K 2]
     (hpq : p ∣ Nat.card K + 1) (E : Subgroup (adjointGroup τ K)) (hE : IsElemAbelian p E)
     (hcard : p ^ (τ.rank - 1) ≤ Nat.card E)
     (hSC : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup τ K)), x ^ p = 1 → x ∈ E)
@@ -66,7 +66,7 @@ private lemma modMat_weylMatrix_eq_neg_one
         (MulAut.conj g0).toMonoidHom) :
     modMat p (weylMatrix w) = -1 := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcount := natCard_eq_torsion hτ hp hp2 E hE hSC w Fr hFr g0 hg0C hg0 hEin
   have hCharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
@@ -110,8 +110,8 @@ private lemma modMat_weylMatrix_eq_neg_one
   rw [Pi.smul_apply, Pi.single_apply] at h
   rw [h, Matrix.neg_apply, Matrix.one_apply]
   by_cases hij : i = j
-  · rw [if_pos hij.symm, if_pos hij]; ring
-  · rw [if_neg (fun hji => hij hji.symm), if_neg hij]; ring
+  · rw [ite_eq_left hij.symm, ite_eq_left hij]; ring
+  · rw [ite_eq_right (fun hji => hij hji.symm), ite_eq_right hij]; ring
 
 theorem langFrameData_of_langTorus
     {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
@@ -311,7 +311,7 @@ theorem langFrameData_of_langTorus
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
         (((1 : E) : adjointGroup τ K) : ModGL τ K) * g0
     rw [frameDiag_zero]
-    simp only [Subgroup.coe_one, map_one, inv_one, mul_one]
+    simp only [Subgroup.coe_one, map_one, mul_one]
     group
   have e0_mul : ∀ a b : Multiplicative (Fin τ.rank → ZMod p), e0 (a * b) = e0 a * e0 b := by
     intro a b

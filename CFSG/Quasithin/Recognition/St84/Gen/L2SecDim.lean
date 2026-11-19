@@ -78,6 +78,7 @@ theorem pCore_le_secRep_ker {V Z L : Subgroup G} {W : Type} [AddCommGroup W]
   exact SecRep.ρ_eq_one_of_normal_pgroup hChief hsecHyp s hPle hPgrp hPn p
     ((CFSG.mem_openPCoreOf_iff p).mpr hp)
 
+omit [Finite G] in
 theorem exists_irreducible_SL2_rep {V Z L : Subgroup G} {m : ℕ}
     (hquot : IsL2Quot m (oTwoQuot ↥L)) (hsecHyp : SecHyp L Z V)
     (hChief : IsChiefPair L Z V) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
@@ -103,13 +104,13 @@ theorem exists_irreducible_SL2_rep {V Z L : Subgroup G} {m : ℕ}
       map_mul' := fun g h => by rw [map_mul]; rfl }
   have hΦ_mk : ∀ l : ↥L, Φ (eSL (e (q l))) = s.ρ l := by
     intro l
-    simp [Φ, bar, q, QuotientGroup.lift_mk']
+    simp [Φ, bar, q]
   have hρSL_mk : ∀ l : ↥L, ρSL (eSL (e (q l))) = (s.ρ l).toLinearMap := by
     intro l
     rw [show ρSL (eSL (e (q l))) = (Φ (eSL (e (q l)))).toLinearMap from rfl, hΦ_mk l]
-  haveI : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
+  have : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
   have hirrSL : ρSL.IsIrreducible := by
-    haveI : Nontrivial (Subrepresentation ρSL) := by
+    have : Nontrivial (Subrepresentation ρSL) := by
       refine ⟨⊥, ⊤, ?_⟩
       intro h
       exact bot_ne_top (α := Submodule (ZMod 2) W)
@@ -137,6 +138,7 @@ theorem exists_irreducible_SL2_rep {V Z L : Subgroup G} {m : ℕ}
     eSL.toMonoidHom.comp (e.toMonoidHom.comp q), ?_, hρSL_mk⟩
   exact eSL.surjective.comp (e.surjective.comp (QuotientGroup.mk'_surjective _))
 
+omit [Finite G] in
 private theorem exists_relIndex_eq_of_secRep {V Z L : Subgroup G} {m : ℕ} {W : Type}
     [AddCommGroup W] [Module (ZMod 2) W] [Finite W] (hm : 1 ≤ m) (hVZ : Z ≤ V)
     (hnormalZV : V ≤ Subgroup.normalizer (Z : Set G)) (s : SecRep L Z V W)
@@ -159,7 +161,7 @@ private theorem exists_relIndex_eq_of_secRep {V Z L : Subgroup G} {m : ℕ} {W :
   have hker : s.cls.ker = Z.subgroupOf V := by
     ext n
     rw [MonoidHom.mem_ker, s.ker n, Subgroup.mem_subgroupOf]
-  haveI hNZV : (Z.subgroupOf V).Normal :=
+  have hNZV : (Z.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVZ).mpr hnormalZV
   have hquotW : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card W := by
     have eW : (↥V ⧸ Z.subgroupOf V) ≃* Multiplicative W :=
@@ -207,16 +209,16 @@ theorem exists_relIndex_eq_of_irreducible {V Z L : Subgroup G} {m : ℕ} (hm : 1
       normal := hnormalZV
       min := fun N hZN hNV hLN => hirr N hZN hNV hLN }
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hsecHyp
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hfix : s.ρ l₀' (s.cl v₀') ≠ s.cl v₀' := by
     intro h
     exact hne₀ ((SecRep.fix_iff hsecHyp s l₀' v₀').mp h)
   have hkerP : CFSG.pCore 2 ↥L ≤ s.ρ.ker := pCore_le_secRep_ker s hsecHyp hChief
   obtain ⟨ρSL, hirrSL, hntSL, -⟩ :=
     exists_irreducible_SL2_rep hquot hsecHyp hChief s hkerP l₀' v₀' hfix
-  letI : Fact ρSL.IsIrreducible := ⟨hirrSL⟩
+  let : Fact ρSL.IsIrreducible := ⟨hirrSL⟩
   exact exists_relIndex_eq_of_secRep hm hVZ hnormalZV s ρSL hntSL
 
 theorem two_pow_le_relIndex_of_irreducible {V Z L : Subgroup G} {m : ℕ} (hm : 1 ≤ m)

@@ -36,7 +36,7 @@ public theorem natCard_dvd_of_free_action
     · intro hg
       exact hfree ω.out g hg
     · intro hg
-      simpa [Subgroup.mem_bot.mp hg]
+      simp [Subgroup.mem_bot.mp hg]
   have hcard (ω : Ω) : Nat.card (G ⧸ MulAction.stabilizer G ω.out) = Nat.card G := by
     rw [hstab ω]
     exact Nat.card_congr (QuotientGroup.quotientBot).toEquiv

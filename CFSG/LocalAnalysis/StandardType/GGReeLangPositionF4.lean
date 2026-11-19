@@ -130,7 +130,7 @@ private theorem ggReeLangAux_famSub_coset
     (u : adjointGroup ReeTag.F4.tag L)
     (hu : ∀ i, u * (C.Φ * C.Fr ^ b') (d i) * u⁻¹ = d i) :
     ∃ (σ₀ : (realizedCoord ReeTag.F4.tag L) →ₐc[L] (realizedCoord ReeTag.F4.tag L))
-      (v : WeylGroup ReeTag.F4.tag),
+      (_v : WeylGroup ReeTag.F4.tag),
       (∀ φ, realizedPointEquiv ReeTag.F4.tag L (pointMap σ₀ φ) =
         (C.Φ * C.Fr ^ b') (realizedPointEquiv ReeTag.F4.tag L φ)) ∧
       (∀ D ∈ tangentSpace L (realizedCoord ReeTag.F4.tag L)

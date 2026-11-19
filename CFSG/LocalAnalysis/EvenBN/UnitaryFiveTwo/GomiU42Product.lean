@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 theorem odd_of_forall_sq_eq_one {H : Type*} [Group H] [Finite H]
     (h : ∀ x : H, x * x = 1 → x = 1) : Odd (Nat.card H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have hev : 2 ∣ Nat.card H := by
     rcases Nat.even_or_odd (Nat.card H) with h' | h'
@@ -46,6 +46,7 @@ structure ProdData (e t : B) (J₀ : Subgroup B) [(zpowers e).Normal]
 noncomputable abbrev fK (e : B) (J₀ : Subgroup B) [(zpowers e).Normal] : ↥(Kt J₀) →* Xq e :=
   (π₂q e).comp (Kt J₀).subtype
 
+omit [Finite B] in
 theorem fK_range (hL : LayerOut e t J₀) : (fK e J₀).range = Dq e J₀ := by
   ext y
   constructor
@@ -87,8 +88,8 @@ theorem prod_factors (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
       Pf e J₀ D₁ ⊔ Pf e J₀ D₂ = ⊤ ∧ (Pf e J₀ D₁).map (fK e J₀) = D₁ ∧
       (Pf e J₀ D₂).map (fK e J₀) = D₂ ∧ Group.IsPerfect ↥(Pf e J₀ D₁) ∧
       Group.IsPerfect ↥(Pf e J₀ D₂) := by
-  haveI := hp.simple₁
-  haveI := hp.simple₂
+  have := hp.simple₁
+  have := hp.simple₂
   exact exists_perfect_factors (P := ↥(Kt J₀)) (X := Xq e)
     (Subgroup.isPerfect_iff.2 h.perfect_Kt) (fK e J₀) (fK_ker_le_center h hL) D₁ D₂
     (hp.sup.trans (fK_range hL).symm) hp.comm (perfect_of_simple_nonab hp.nonab₁)
@@ -101,6 +102,7 @@ noncomputable def fP (hmap : (Pf e J₀ D₁).map (fK e J₀) = D₁) :
     rw [hmap] at hx
     exact hx)
 
+omit [Finite B] in
 theorem fP_surjective (hmap : (Pf e J₀ D₁).map (fK e J₀) = D₁) :
     Function.Surjective (fP hmap) := by
   intro y
@@ -172,7 +174,7 @@ theorem center_Kt_eq_bot_of_prod (h : GomiU42Setup B e t J₀ E₂) (hL : LayerO
     have : x ∈ (gKt hL).ker := by rw [ker_gKt h hL]; exact hx
     exact congrArg Subtype.val (MonoidHom.mem_ker.1 this)
   have hxs : x ∈ Pf e J₀ D₁ ⊔ Pf e J₀ D₂ := by rw [hsup]; exact mem_top x
-  haveI := hN₂
+  have := hN₂
   obtain ⟨p₁, hp₁, p₂, hp₂, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 hxs
   have hfK₁ : fK e J₀ p₁ ∈ D₁ := by
     have hm : fK e J₀ p₁ ∈ (Pf e J₀ D₁).map (fK e J₀) := ⟨p₁, hp₁, rfl⟩
@@ -269,7 +271,7 @@ theorem swap_Pf (h : GomiU42Setup B e t J₀ E₂) (hp : ProdData e t J₀ D₁ 
 
 theorem isQuasisimple_of_equiv_simple {A D : Type} [Group A] [Group D] [IsSimpleGroup D]
     (e : A ≃* D) (hnab : ∃ x y : D, x * y ≠ y * x) : CFSG.IsQuasisimple A := by
-  haveI : IsSimpleGroup A := e.isSimpleGroup
+  have : IsSimpleGroup A := e.isSimpleGroup
   have hnabA : ∃ x y : A, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnab
     refine ⟨e.symm x, e.symm y, fun h' => hxy ?_⟩
@@ -294,6 +296,7 @@ theorem layer_eq_of_factors (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e 
   rw [hK]
   exact sup_le h1 h2
 
+omit [Finite B] in
 theorem fK_mem_of_mem_Pf {D' : Subgroup (Xq e)} (hmap : (Pf e J₀ D').map (fK e J₀) = D')
     {p : ↥(Kt J₀)} (hp : p ∈ Pf e J₀ D') : fK e J₀ p ∈ D' := by
   have hm : fK e J₀ p ∈ (Pf e J₀ D').map (fK e J₀) := ⟨p, hp, rfl⟩
@@ -312,8 +315,8 @@ theorem GomiU42Setup.product_branch (hGA : CFSG.Open.GriessAllModelsStatement)
         CFSG.layer B = K₀ ⊔ K₀.map (MulAut.conj t).toMonoidHom ∧
         ⁅K₀, K₀.map (MulAut.conj t).toMonoidHom⁆ = ⊥ ∧
         K₀ ⊓ K₀.map (MulAut.conj t).toMonoidHom = ⊥ := by
-  haveI := hp.simple₁
-  haveI := hp.simple₂
+  have := hp.simple₁
+  have := hp.simple₂
   obtain ⟨hN₁, hN₂, hcomm, hsup, hmap₁, hmap₂, hperf₁, hperf₂⟩ := prod_factors h hL hp
   have hlie₁ : CFSG.Blueprint.LieModel ↥D₁ .PSU 4 2 1 :=
     lieModel_of_mulEquiv_classical eD (by decide) (lieModel_Jx h hL)

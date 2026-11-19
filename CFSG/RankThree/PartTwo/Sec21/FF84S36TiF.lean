@@ -13,6 +13,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79 (IsElemAb)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_op2_map_eq (c : G ≃* G) (H : Subgroup G) :
     Op 2 (H.map c.toMonoidHom) = (Op 2 H).map c.toMonoidHom := by
   apply le_antisymm (S36_op2_map_le c H)
@@ -143,6 +144,7 @@ theorem S36_Ti_gen {b t b₁ b₂ : G} {L B : Subgroup G} (hA9 : A9CentralizerSt
   · have h := Subgroup.mem_map_of_mem c.toMonoidHom hQ₀E.mem
     rwa [show c.toMonoidHom (n * t * n⁻¹) = t from hcs] at h
 
+omit [Finite G] in
 theorem S36_conj_swap_pair {b b₁ b₂ s c : G} (hs1 : s * b * s⁻¹ = b₁)
     (hs2 : s * b₁ * s⁻¹ = b) (hs3 : s * b₂ * s⁻¹ = b₂) (hc1 : c * b * c⁻¹ = b₁)
     (hc2 : c * b₁ * c⁻¹ = b₂) (hc3 : c * b₂ * c⁻¹ = b) :

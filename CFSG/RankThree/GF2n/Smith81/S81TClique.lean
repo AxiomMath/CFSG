@@ -39,7 +39,7 @@ private theorem aux_clq_rootOp_sum (d : Fin e7Data.d → K) {γ : Rt} (hγ : IsR
     intro h
     have hb : pr b γ ≠ -1 := h b (List.mem_cons_self ..)
     have h' : ∀ c ∈ L, pr c γ ≠ -1 := fun c hc => h c (List.mem_cons_of_mem _ hc)
-    rw [List.map_cons, List.sum_cons, map_add, map_smul, rootOp_single (K := K) hγ b, if_neg hb,
+    rw [List.map_cons, List.sum_cons, map_add, map_smul, rootOp_single (K := K) hγ b, ite_eq_right hb,
       smul_zero, zero_add]
     exact ih h'
 
@@ -63,7 +63,7 @@ private theorem aux_clq_prod (μ : Fin e7Data.d) (α : Fin e7Data.d → Rt) (d :
     obtain ⟨hαroot, hwt⟩ := hroot a (List.mem_cons_self ..)
     obtain ⟨hpr, hsh⟩ := pr_eq_neg_one_of_wt_eq hαroot hwt
     have hE1 : e7Data.rootOp K (α a) (Finsupp.single μ 1) = Finsupp.single a 1 := by
-      rw [rootOp_single (K := K) hαroot μ, if_pos hpr, hsh]
+      rw [rootOp_single (K := K) hαroot μ, ite_eq_left hpr, hsh]
     have hEL : e7Data.rootOp K (α a) ((L.map fun b => d b • (Finsupp.single b 1 : V K)).sum) = 0 :=
       aux_clq_rootOp_sum (K := K) d hαroot L fun b hb =>
         horth a (List.mem_cons_self ..) b (List.mem_cons_of_mem _ hb) fun e => haL (e ▸ hb)
@@ -77,7 +77,7 @@ theorem isHWLine_of_clique {inL : Fin e7Data.d → Prop} {A2 S : List Rt} (hCl :
     IsHWLine K (Submodule.span K {s}) := by
   obtain ⟨μ, hμ⟩ : ∃ μ, s μ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hs0 (Finsupp.ext fun b => by simpa using hcon b)
   have hμM : inMtop inL A2 S μ := hsupp μ hμ
   have hex : ∀ a : Fin e7Data.d, ∃ k : Fin 126, (inMtop inL A2 S a ∧ a ≠ μ) →

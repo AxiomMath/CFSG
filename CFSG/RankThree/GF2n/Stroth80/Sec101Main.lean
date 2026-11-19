@@ -19,7 +19,7 @@ theorem stroth101_of (h34 : Stroth34Statement) (hB2 : Stroth101EndStatement) :
   intro G _ _ M Q Z B hc n H
   by_contra hne
   have hno : ∀ t : G, ¬ Good101 M Q Z B t := fun t ht => hne ⟨t, ht⟩
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨X, hX, hBX⟩ := hc.exists_maxClique
   have hsat := hX.isSaturated hc H hno
   obtain ⟨S, hS, hSX, t, ht, ht1, htS, htc, htO⟩ :=

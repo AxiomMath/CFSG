@@ -16,6 +16,7 @@ private lemma exists_ne_pair (i m : Fin 6) : ∃ k : Fin 6, k ≠ i ∧ k ≠ m 
   revert i m
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_eigen_frame (fr : NFrame Q (Fin 6) 1) {v : V} (hv : v ≠ 0)
     (h : ∀ K : Finset (Fin 6), Even K.card →
       ((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) v = v ∨
@@ -38,13 +39,13 @@ theorem ffMono_eigen_frame (fr : NFrame Q (Fin 6) 1) {v : V} (hv : v ≠ 0)
       exact even_two
     rcases h {j, k} hcard with hvv | hvv
     · have hc := congrArg (fun w : V => fr.b.repr w j) hvv
-      rw [fr.repr_signChange ({j, k}) v j, if_pos hjK] at hc
+      rw [fr.repr_signChange ({j, k}) v j, ite_eq_left hjK] at hc
       have h2 : (2 : ZMod 3) * fr.b.repr v j = 0 := by
         rw [two_mul]
         exact eq_neg_iff_add_eq_zero.mp hc.symm
       exact hj ((mul_eq_zero.mp h2).resolve_left (by decide))
     · have hc := congrArg (fun w : V => fr.b.repr w m) hvv
-      rw [fr.repr_signChange ({j, k}) v m, if_neg hmK, map_neg, Finsupp.neg_apply] at hc
+      rw [fr.repr_signChange ({j, k}) v m, ite_eq_right hmK, map_neg, Finsupp.neg_apply] at hc
       have h2 : (2 : ZMod 3) * fr.b.repr v m = 0 := by
         rw [two_mul]
         exact eq_neg_iff_add_eq_zero.mp hc
@@ -58,6 +59,7 @@ theorem ffMono_eigen_frame (fr : NFrame Q (Fin 6) 1) {v : V} (hv : v ≠ 0)
   · rw [Finsupp.single_eq_of_ne hij, mul_zero]
     exact hother i hij
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_of_normalizes (fr : NFrame Q (Fin 6) 1) (γ : simGroup Q)
     (h : ∀ b ∈ ffB0 fr, simAct Q γ⁻¹ b ∈ ffB0 fr) :
     ∃ (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6)),
@@ -88,8 +90,8 @@ theorem ffMono_of_normalizes (fr : NFrame Q (Fin 6) 1) (γ : simGroup Q)
         LinearEquiv.apply_symm_apply] using hh
     rw [hbJ, fr.signChange_basis J i]
     by_cases hi : i ∈ J
-    · right; rw [if_pos hi, map_neg]
-    · left; rw [if_neg hi]
+    · right; rw [ite_eq_left hi, map_neg]
+    · left; rw [ite_eq_right hi]
   have hb : ∀ i : Fin 6, X (fr.b i) ≠ 0 := by
     intro i h0
     exact fr.b.ne_zero i (X.injective (by simpa using h0))
@@ -108,9 +110,9 @@ theorem ffMono_of_normalizes (fr : NFrame Q (Fin 6) 1) (γ : simGroup Q)
   have ha_eq : ∀ i : Fin 6, a i = (if i ∈ K then (-1 : ZMod 3) else 1) := by
     intro i
     by_cases hi : i ∈ K
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact (Finset.mem_filter.mp hi).2
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       rcases (by decide : ∀ e : ZMod 3, e ≠ 0 → e = 1 ∨ e = -1) (a i) (ha i) with h1 | h1
       · exact h1
       · exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ i, h1⟩) hi

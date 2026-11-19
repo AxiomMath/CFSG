@@ -28,7 +28,7 @@ theorem fr_weakly_closed [Fact p.Prime] (hl : FrobLocal p P M x) (Q : Sylow p G)
     (hg : (zpowers x).map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup G)) :
     (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers x := by
   have hsylG : ∀ S : Sylow p G, IsSylowOf p (S : Subgroup G) ⊤ := fun S =>
-    isSylowOf_iff.2 ⟨le_top, S.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, S.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact S.not_dvd_index⟩
   have hQC : (Q : Subgroup G) ≤ centralizer ({x} : Set G) := fun q hq => by

@@ -42,7 +42,6 @@ theorem diagMat_mul (g h : Matrix (Fin 2) (Fin 2) k) :
   fin_cases i <;> fin_cases j <;>
     simp [diagMat, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_four] <;>
     first
-    | ring1
     | linear_combination (g 0 1 * h 1 0) * h2
     | linear_combination (-(g 0 1 * h 1 0)) * h2
     | linear_combination (g 1 0 * h 0 1) * h2
@@ -65,7 +64,6 @@ theorem diagMat_mem (g : SL(2, k)) :
   rw [transpose_mul_minorJ_mul_apply, minorJ_apply]
   fin_cases i <;> fin_cases j <;> simp [diagMat] <;>
     first
-    | ring1
     | linear_combination ((g : Matrix (Fin 2) (Fin 2) k) 0 0 *
         (g : Matrix (Fin 2) (Fin 2) k) 1 0) * h2
     | linear_combination (-((g : Matrix (Fin 2) (Fin 2) k) 0 0 *

@@ -12,8 +12,8 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 variable {G : Type} [Group G] {D : Set G}
 
 theorem rotation_not_commute_uv (hD : IsOddTransp D) (hN : IsNormalSet D)
-    {u w v a : G} (htri : IsTriangle D u w v) (h4 : orderOf (u * v * w) = 4)
-    (hno : ∀ x ∈ D, x ∈ Subgroup.closure {u, w} → IsTriangle D u x v →
+    {u w v a : G} (htri : IsTriangle D u w v) (_h4 : orderOf (u * v * w) = 4)
+    (_hno : ∀ x ∈ D, x ∈ Subgroup.closure {u, w} → IsTriangle D u x v →
       ¬ IsThirdKind u x v)
     (ha : a ∈ Subgroup.zpowers (u * w)) (ha1 : a ≠ 1) :
     ¬ Commute a (u * v) := by

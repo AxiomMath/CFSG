@@ -469,17 +469,17 @@ theorem mem_T_of_central_of_D_le (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) {S
     exact σ.x_mem_T
 
 private theorem isPGroup_two_T (hσ : σ.IsValid) : IsPGroup 2 σ.T :=
-  σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 private theorem familyMstar_exists_sylow (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) {r : ℕ}
     {K : Subgroup G} (hK : K ∈ σ.familyMstar r) :
     ∃ S : Sylow 2 K, σ.T.subgroupOf K ≤ S ∧
       ∀ z ∈ Subgroup.center S, (z : S) ^ 2 = 1 → ((z : S) : K) ∈ σ.T.subgroupOf K := by
   have hDK : σ.D ≤ K := hK.2.1
-  have hD2 : IsPGroup 2 (σ.D.subgroupOf K) := (σ.S.isPGroup'.to_le σ.D_le_S).comap_subtype
+  have hD2 : IsPGroup 2 (σ.D.subgroupOf K) := (σ.S.isPGroup.to_le σ.D_le_S).comap_subtype
   obtain ⟨S, hS⟩ := hD2.exists_le_sylow
   refine ⟨S, (Subgroup.comap_mono (σ.T_le_D hσ)).trans hS, fun z hz hz2 => ?_⟩
-  have hS₁ : IsPGroup 2 ((S : Subgroup K).map K.subtype) := S.isPGroup'.map K.subtype
+  have hS₁ : IsPGroup 2 ((S : Subgroup K).map K.subtype) := S.isPGroup.map K.subtype
   have hDS₁ : σ.D ≤ (S : Subgroup K).map K.subtype := fun d hd =>
     ⟨⟨d, hDK hd⟩, hS (show (⟨d, hDK hd⟩ : K) ∈ σ.D.subgroupOf K from hd), rfl⟩
   have hw : (((z : S) : K) : G) ∈ (S : Subgroup K).map K.subtype := ⟨(z : S), (z : S).2, rfl⟩
@@ -939,7 +939,7 @@ theorem normalizer_Q_constrained_of_not_constrained (hσ : σ.IsValid) (hII : σ
   have hNRL : Subgroup.normalizer (d.R : Set G) ∈ σ.familyL r :=
     ⟨⟨d.R, hRne, hRp, rfl⟩, hcov, d.R_D, d.R, hR, Subgroup.le_normalizer⟩
   obtain ⟨U, hU, hRU, hDU, hPU⟩ := exists_isSylowOf_normalized_by_two hrp hr2
-    (σ.S.isPGroup'.to_le σ.D_le_S) (odd_card_oddCoreIn _)
+    (σ.S.isPGroup.to_le σ.D_le_S) (odd_card_oddCoreIn _)
     (d.R_D.trans (le_normalizer_oddCoreIn _)) (d.R_P.trans (le_normalizer_oddCoreIn _))
     d.P_sylow.isPGroup d.P_D hRO hRp d.R_D d.R_P
   have hRU' : d.R < U := lt_of_le_of_ne hRU fun h => hRns (h ▸ hU)

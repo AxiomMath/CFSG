@@ -102,7 +102,7 @@ theorem push_inner {G : Type} [Group G] {p : ℕ} (L : Subgroup G) {R₁ : Type}
   intro l l' hll'
   have h1 := hind₁ l l' hll'
   simp only [σ, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply,
-    MulEquiv.symm_symm, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply, h1]
+    MulEquiv.symm_symm, MulEquiv.symm_apply_apply, h1]
 
 theorem pullback_inner {G : Type} [Group G] {p : ℕ} (L : Subgroup G) {R₁ : Type} [Group R₁]
     {I₁ F₁ : Set (MulAut R₁)} (hCMI : FP.CMIiff R₁ I₁ F₁) (a : G)
@@ -123,7 +123,7 @@ theorem pullback_inner {G : Type} [Group G] {p : ℕ} (L : Subgroup G) {R₁ : T
   · intro l l' hll'
     have h1 := hind₃ l l' hll'
     simp only [σ, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply,
-      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply, h1]
+      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, h1]
 
 theorem outCyc_of_source {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 0 < p)
     (L A : Subgroup G) (hAN : A ≤ Subgroup.normalizer (L : Set G)) (hexp : ∀ a ∈ A, a ^ p = 1)
@@ -181,7 +181,7 @@ theorem psiHom_pow_eq_one {G : Type} [Group G] {p : ℕ} (L A : Subgroup G)
     Subtype.ext (by simpa using hexp a ha)
   rw [h, map_one]
 
-theorem d4_group_data {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 0 < p) (L A : Subgroup G)
+theorem d4_group_data {G : Type} [Group G] [Finite G] {p : ℕ} (_hp : 0 < p) (L A : Subgroup G)
     (hAN : A ≤ Subgroup.normalizer (L : Set G)) (hexp : ∀ a ∈ A, a ^ p = 1)
     {R : Type} [Group R] [Finite R] {I F : Set (MulAut R)}
     (θ : PQuot p L ⧸ Subgroup.center (PQuot p L) ≃* R)
@@ -248,7 +248,7 @@ theorem d4_group_data {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 0 < p) (L 
 
 theorem caTrue (lab : LargeEvenLabel) (P : LargeEvenRawCont)
     (h : ∀ (R : Type) [Group R] (I F : Set (MulAut R)), P R I F) : MI.CAll lab P :=
-  fun Q hQ => CFSG.StandardType.Canonical.largeEvenRawDatum_mono
+  fun _Q hQ => CFSG.StandardType.Canonical.largeEvenRawDatum_mono
     (fun R _ I F hq => ⟨hq, h R I F⟩) hQ
 
 

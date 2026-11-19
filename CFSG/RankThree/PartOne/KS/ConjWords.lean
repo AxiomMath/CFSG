@@ -57,7 +57,7 @@ theorem isSimpleGroup_of_conjWordsOK {gs : Array (Array ℕ)} {ps : List ℕ} {c
       intro h hh
       have e : (conjSel n c k (sel k))[h]! = conjA n c.pts[(sel k).getD h 0]! c.pts[k]! := by
         rw [getElem!_pos _ h (by simpa [conjSel] using hh)]
-        simp [conjSel, hget h hh, List.getElem?_eq_getElem hh]
+        simp [conjSel, List.getElem?_eq_getElem hh]
       rw [e]
       exact rep_conjA (hval _ (hj h hh)) (rep_of_validA (hval k hk))
     have hSinv : ∀ h < m, Rep n (conjSelInv n c k (sel k))[h]! (f h)⁻¹ := by
@@ -65,7 +65,7 @@ theorem isSimpleGroup_of_conjWordsOK {gs : Array (Array ℕ)} {ps : List ℕ} {c
       have e : (conjSelInv n c k (sel k))[h]! =
           conjA n c.pts[(sel k).getD h 0]! (invCand n c.pts[k]!) := by
         rw [getElem!_pos _ h (by simpa [conjSelInv] using hh)]
-        simp [conjSelInv, hget h hh, List.getElem?_eq_getElem hh]
+        simp [conjSelInv, List.getElem?_eq_getElem hh]
       rw [e]
       have hr := rep_conjA (hval _ (hj h hh)) (rep_inv_of_validA (hval k hk))
       have e2 : (f h)⁻¹ = permOfArr n c.pts[(sel k).getD h 0]! * (permOfArr n c.pts[k]!)⁻¹ *

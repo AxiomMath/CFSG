@@ -21,10 +21,10 @@ namespace RD
 theorem testBit_maskOf : ∀ (l : List Bool) (k : ℕ), (maskOf l).testBit k = l.getD k false
   | [], k => by simp [maskOf]
   | b :: l, 0 => by
-    cases b <;> simp [maskOf, Nat.testBit_zero] <;> omega
+    cases b <;> simp [maskOf, Nat.testBit_zero]
   | b :: l, k + 1 => by
     rw [Nat.testBit_succ]
-    have : ((if b then 1 else 0) + 2 * maskOf l) / 2 = maskOf l := by cases b <;> simp <;> omega
+    have : ((if b then 1 else 0) + 2 * maskOf l) / 2 = maskOf l := by cases b <;> simp; omega
     simp only [maskOf, this]
     rw [testBit_maskOf l k]
     simp
@@ -170,7 +170,7 @@ theorem compLoop_sound (row : ℕ → ℕ) (K : ℕ) (bf : ℕ) (okC : ℕ → �
     have hrem : rem ≠ 0 := by
       rintro rfl
       simp at hx
-    simp only [beq_iff_eq, hrem, if_false] at h
+    simp only [beq_iff_eq, hrem, ite_false] at h
     have hb : rem.testBit rem.log2 = true := Nat.testBit_log2 hrem
     cases hbfs : bfs row K bf (2 ^ rem.log2) (2 ^ rem.log2) with
     | none => simp [hbfs] at h
@@ -236,7 +236,7 @@ theorem exists_exps {n : ℕ} (a : Fin n → Lˣ) (ha : ∀ j, a j ^ 3 = 1) :
         · simp [h2]
         · by_cases h3 : a j = a j₀
           · simp [h3]
-          · rw [if_neg h2, if_neg h3]
+          · rw [ite_eq_right h2, ite_eq_right h3]
             exact h1
     · intro h1 j
       exact absurd h1 hj₀
@@ -264,7 +264,7 @@ theorem mem_kernelRoots_iff {τ : Tag} (a : Fin τ.rank → Lˣ) (ω₀ : Lˣ) (
   rw [rootChar_eq_zpow_sum a ω₀ e hae]
   refine and_congr_right fun _ => ?_
   rcases hprim with h | h
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have ho : orderOf ω₀ = 3 := orderOf_eq_prime hω₀ h
     rw [← orderOf_dvd_iff_zpow_eq_one, ho]
     norm_num
@@ -396,18 +396,18 @@ theorem bitsSet_finite (V : ℕ) : (bitsSet V).Finite := by
 theorem bitsSet_clear {V : ℕ} (hV : V ≠ 0) :
     bitsSet (V ^^^ 2 ^ V.log2) = bitsSet V \ {V.log2} := by
   ext x
-  simp only [bitsSet, Set.mem_setOf_eq, Nat.testBit_xor, Nat.testBit_two_pow, Set.mem_diff,
+  simp only [bitsSet, Set.mem_ofPred_eq, Nat.testBit_xor, Nat.testBit_two_pow, Set.mem_sdiff,
     Set.mem_singleton_iff]
   have hx := Nat.testBit_log2 hV
   by_cases hxe : V.log2 = x
   · subst hxe
     simp [hx]
-  · cases h : V.testBit x <;> simp [hxe, h, Ne.symm hxe]
+  · cases h : V.testBit x <;> simp [hxe, Ne.symm hxe]
 
 theorem ncard_bitsSet_clear {V : ℕ} (hV : V ≠ 0) :
     (bitsSet V).ncard = (bitsSet (V ^^^ 2 ^ V.log2)).ncard + 1 := by
   rw [bitsSet_clear hV]
-  exact (Set.ncard_diff_singleton_add_one (show V.log2 ∈ bitsSet V from Nat.testBit_log2 hV)
+  exact (Set.ncard_sdiff_singleton_add_one (show V.log2 ∈ bitsSet V from Nat.testBit_log2 hV)
     (bitsSet_finite V)).symm
 
 @[expose] def cnt : ℕ → ℕ → ℕ
@@ -504,9 +504,9 @@ theorem iform_rt_single {k : ℕ} (hk : k < τ.artifactRoots.length) (j : Fin τ
     iform_toVec_eq_dotR τ hu (length_rl hk),
     dotR_eq_sum τ.rank _ _ hu (by rw [length_mulVecR]; simp [gramList, lofFn])]
   rw [Finset.sum_eq_single j]
-  · simp [vget, Pi.single_apply, List.getD_eq_getElem?_getD]
+  · simp [vget, List.getD_eq_getElem?_getD]
   · intro i _ hij
-    simp [vget, Pi.single_apply, hij]
+    simp [vget, hij]
   · simp
 
 end RootGram

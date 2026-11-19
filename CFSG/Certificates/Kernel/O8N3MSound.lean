@@ -12,7 +12,7 @@ open CFSG.EvenSmallLie.OmegaEight.Stage2 CFSG.EvenSmallLie.OmegaEight.N3Split
 theorem fixBoth_eqM {SW : List ℕ} (hSW : SW = swarK) (s c : ℕ) :
     ((fixVecs s).filter fun v => mulVecK c v == v).length =
       popcM SW (fixMaskW SW s &&& fixMaskW SW c) := by
-  apply fixBoth_eqM_proved <;> assumption
+  apply fixBoth_eqM_proved; assumption
 
 theorem burnCountL_eqM {SW : List ℕ} (hSW : SW = swarK) (E : Enum) (s : ℕ) :
     burnCountL E s = ((List.range E.keys.size).map fun i =>

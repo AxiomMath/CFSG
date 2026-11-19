@@ -210,7 +210,7 @@ theorem tabRep_abG {j : ℕ} (hj : j < 2) : TabRep (abG j) (abF j) := by
   interval_cases j
   · simp only [abG, abF]
     exact ⟨h.1.1.1.2, rep_b0⟩
-  · simp only [abG, abF, one_ne_zero, if_false]
+  · simp only [abG, abF, one_ne_zero, ite_false]
     exact ⟨h.1.1.2, rep_b1⟩
 
 theorem tabRep_abI {j : ℕ} (hj : j < 2) : TabRep (abI j) (abF j)⁻¹ := by
@@ -366,9 +366,9 @@ theorem tabRep_cgG {j : ℕ} (hj : j < 3) : TabRep (cgG j) (cgF gPerm j) := by
   interval_cases j
   · simp only [cgG, cgF]
     exact tabRep_cPerm (by norm_num)
-  · simp only [cgG, cgF, one_ne_zero, if_false]
+  · simp only [cgG, cgF, one_ne_zero, ite_false]
     exact tabRep_cPerm (by norm_num)
-  · simp only [cgG, cgF, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, if_false]
+  · simp only [cgG, cgF, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, ite_false]
     exact tabRep_gTab
 
 theorem tabRep_cgI {j : ℕ} (hj : j < 3) : TabRep (cgI j) (cgF gPerm j)⁻¹ := by
@@ -389,7 +389,7 @@ theorem suzB_eq_wordP : suzB0 = wordP (cgF gPerm) b0Word ∧ suzB1 = wordP (cgF 
   rw [h.2] at h1
   have e0 := tabRep_abG (j := 0) (by norm_num)
   have e1 := tabRep_abG (j := 1) (by norm_num)
-  simp only [abG, abF, one_ne_zero, if_false] at e0 e1
+  simp only [abG, abF, one_ne_zero, ite_false] at e0 e1
   exact ⟨e0.perm_eq h0, e1.perm_eq h1⟩
 
 end CG

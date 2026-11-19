@@ -50,7 +50,7 @@ private theorem DalphaStar_subset_commSet :
   rw [hC.DalphaStar_alpha]
   exact OddLocal.subset_commSet hC.setup.normal hC.hE
 
-private theorem commute_d_frameT (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+private theorem commute_d_frameT (_h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     Commute hC.d (frameT hC r) := by
   have hri : ∀ i : Fin 3, Commute hC.d ((r i : Halpha D hC.alpha) : G) := by
     intro i
@@ -64,6 +64,7 @@ private theorem commute_d_frameT (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S
   rw [frameT]
   exact ((hri 0).mul_right (hri 1)).mul_right (hri 2)
 
+omit [Finite G] in
 private theorem Halpha_le_normalizer_zpowers_d (hC : HypothesisC D) :
     Halpha D hC.alpha ≤ Subgroup.normalizer
       (((Subgroup.zpowers hC.d : Subgroup G)) : Set G) := by
@@ -93,7 +94,7 @@ private theorem Halpha_le_normalizer_zpowers_d (hC : HypothesisC D) :
     rw [h1] at h2
     rwa [h2]
 
-private theorem image_mem_centSet (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
+private theorem image_mem_centSet (_h : ElevenTwoHyp hC) (_hF : ElevenTwoFrame hC S T r)
     {y : Halpha D hC.alpha} (hy : y ∈ centSet (DstarH hC) (r 0 * r 1 * r 2)) :
     (y : G) ∈ centSet D (frameE hC r) := by
   have hyE : (y : G) ∈ DalphaStar D hC.alpha := (mem_DstarH_iff hC).mp hy.1
@@ -104,7 +105,8 @@ private theorem image_mem_centSet (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC 
   rw [frameE]
   exact hyc.2.mul_right hyct
 
-private theorem orbit_commute (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
+omit [Finite G] in
+private theorem orbit_commute (_h : ElevenTwoHyp hC) (_hF : ElevenTwoFrame hC S T r)
     {O₁ O₂ : Set G} (hO₁ : O₁ ⊆ centSet D (frameE hC r))
     (hO₂ : O₂ ⊆ centSet D (frameE hC r))
     (hinv₁ : ∀ k ∈ localGroup D (frameE hC r), ∀ y ∈ O₁, k * y * k⁻¹ ∈ O₁)
@@ -269,7 +271,7 @@ theorem transitive (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     change k ∈ Subgroup.closure Γ at hk'
     refine Subgroup.closure_induction (p := fun a _ => c * a * c⁻¹ ∈ K)
       (fun y hy => Subgroup.subset_closure ((hΓ y).mp hy)) ?_ ?_ ?_ hk'
-    · simpa using Subgroup.one_mem K
+    · simp
     · intro a b _ _ iha ihb
       have h1 : c * (a * b) * c⁻¹ = (c * a * c⁻¹) * (c * b * c⁻¹) := by group
       rw [h1]; exact Subgroup.mul_mem K iha ihb
@@ -282,7 +284,7 @@ theorem transitive (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     change k ∈ Subgroup.closure Γ at hk'
     refine Subgroup.closure_induction (p := fun a _ => c⁻¹ * a * c ∈ K)
       (fun y hy => Subgroup.subset_closure ((hΓinv y).mp hy)) ?_ ?_ ?_ hk'
-    · simpa using Subgroup.one_mem K
+    · simp
     · intro a b _ _ iha ihb
       have h1 : c⁻¹ * (a * b) * c = (c⁻¹ * a * c) * (c⁻¹ * b * c) := by group
       rw [h1]; exact Subgroup.mul_mem K iha ihb

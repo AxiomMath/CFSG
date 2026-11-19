@@ -15,13 +15,14 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private lemma l62_orderOf_z {z : H} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime hz3 hz1
 
 private lemma l62_zpowers_eq {y c : H} (hy : y ^ 3 = 1) (hc : c ^ 3 = 1)
     (hy1 : y ≠ 1) (hc1 : c ≠ 1) (h : y ∈ zpowers c) : zpowers y = zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact Subgroup.eq_of_le_of_card_ge (zpowers_le.2 h) (by
     rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime hy hy1, orderOf_eq_prime hc hc1])
 
@@ -30,8 +31,8 @@ theorem l62_z_mem_of_normal {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hz1 : 
     (hgen : ∀ w ∈ S, (∀ g ∈ S, g * w = w * g) → w ^ 3 = 1 → w ∈ zpowers z)
     {N : Subgroup H} (hNS : N ≤ S) (hN : ∀ g ∈ S, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hne : N ≠ ⊥) :
     z ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hnorm : (N.subgroupOf S).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -48,7 +49,7 @@ theorem l62_z_mem_of_normal {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hz1 : 
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   set W : Subgroup ↥S := N.subgroupOf S ⊓ Subgroup.center ↥S
   have hWp : IsPGroup 3 W := hS.to_subgroup W
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
   obtain ⟨m, hm, hmcard⟩ := hWp.nontrivial_iff_card.mp inferInstance
   have hdvdW : 3 ∣ Nat.card W := hmcard ▸ dvd_pow_self 3 hm.ne'
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := W) 3 hdvdW
@@ -71,13 +72,13 @@ theorem l62_z_mem_of_normal {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hz1 : 
   have huN : u ∈ N := w.2.1
   exact zpowers_le.mpr huN hzu
 
-theorem l62_comm_mem_zpowers {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hzS : z ∈ S)
+theorem l62_comm_mem_zpowers {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (_hzS : z ∈ S)
     (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) (hzc : ∀ g ∈ S, g * z = z * g)
     (hgen : ∀ w ∈ S, (∀ g ∈ S, g * w = w * g) → w ^ 3 = 1 → w ∈ zpowers z)
     {U : Subgroup H} (hUS : U ≤ S) (hUn : ∀ g ∈ S, ∀ u ∈ U, g * u * g⁻¹ ∈ U)
     (hUc : Nat.card U = 3 ^ 2) :
     ∀ g ∈ S, ∀ u ∈ U, g * u * g⁻¹ * u⁻¹ ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU1 : U ≠ ⊥ := by
     intro hb
     rw [hb, Subgroup.card_bot] at hUc
@@ -87,7 +88,7 @@ theorem l62_comm_mem_zpowers {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hzS :
   have hzcard : Nat.card (zpowers z) = 3 := by
     rw [Nat.card_zpowers, l62_orderOf_z hz3 hz1]
   have hAU : zpowers z ≤ U := zpowers_le.mpr hzU
-  haveI hAn : ((zpowers z).subgroupOf S).Normal := by
+  have hAn : ((zpowers z).subgroupOf S).Normal := by
     refine Subgroup.normal_of_le_center ?_
     intro a ha
     rw [Subgroup.mem_subgroupOf, mem_zpowers_iff] at ha
@@ -98,7 +99,7 @@ theorem l62_comm_mem_zpowers {S : Subgroup H} (hS : IsPGroup 3 S) {z : H} (hzS :
     show (t : H) * (a : H) = (a : H) * t
     rw [← hn]
     exact (Commute.zpow_right (show Commute (t : H) z from hzc t t.2) n).eq
-  haveI hCn : (U.subgroupOf S).Normal := ⟨fun n hn g => by
+  have hCn : (U.subgroupOf S).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hUn g g.2 n hn⟩
   have hAC : (zpowers z).subgroupOf S < U.subgroupOf S := by

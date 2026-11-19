@@ -18,13 +18,13 @@ theorem decLetter_encLetterK (j : Int) : decLetter (encLetterK j) = j := by
     have e : encLetterK (Int.ofNat n) = n + n := rfl
     rw [e]
     unfold decLetter
-    rw [if_pos (by omega), Int.ofNat_eq_natCast]
+    rw [ite_eq_left (by omega), Int.ofNat_eq_natCast]
     omega
   | negSucc n =>
     have e : encLetterK (Int.negSucc n) = (n + 1) + (n + 1) + 1 := rfl
     rw [e]
     unfold decLetter
-    rw [if_neg (by omega), Int.negSucc_eq]
+    rw [ite_eq_right (by omega), Int.negSucc_eq]
     omega
 
 theorem decWord_encWordK (w : List Int) : decWord (encWordK w) = w := by

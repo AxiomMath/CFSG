@@ -55,7 +55,7 @@ theorem normalizer_wClos_le (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p �
     normalizer (E3.wClos U₁ 0 D.T : Set G) ≤ D.M ∧
       ∃ X : Subgroup G, X ≤ D.M ∧ IsPGroup p X ∧ ¬ IsCyclic X ∧
         X ≤ normalizer (E3.wClos U₁ 0 D.T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpP : p.Prime := (D.sig_prime p hp).1
   have hKM : D.M ⊓ centralizer (U₀ : Set G) ≤ D.M := inf_le_left
   have hMK := uc22p22nc_le_normalizer_inf_centralizer hU₀.2.2.1
@@ -81,7 +81,7 @@ theorem normalizersInM (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈ D.s
     (hNW : normalizer (W : Set G) ≤ D.M) (hX₀M : X₀ ≤ D.M) (hX₀p : IsPGroup p X₀)
     (hX₀c : ¬ IsCyclic X₀) (hX₀W : X₀ ≤ normalizer (W : Set G)) (H : Subgroup G) :
     NormalizersInM U H W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro X hX hXle hle
   have hNU : normalizer (U : Set G) = D.M := normalizer_eq_of_inCalV D hU
   have hNinf : normalizer (U : Set G) ⊓ normalizer (W : Set G) = normalizer (W : Set G) := by
@@ -138,7 +138,7 @@ theorem false_of_isTI (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h611 : U
     (hU₂ : InCalV D.M U₂) (hU : U₀ = U₁ ⊔ U₂) {p : ℕ} (hp : p ∈ D.sig)
     (hmp : 1 < F12.pRankMod p D.M (centralizer (U₀ : Set G)))
     (hcard : Nat.card U₂ ≤ Nat.card U₁) (hTI₁ : IsTI U₁) (hTI₂ : IsTI U₂) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpP : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
   obtain ⟨E, hEM, hEp, hEc, hEU₂⟩ :=
@@ -202,7 +202,7 @@ theorem false_of_isTI (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h611 : U
     intro hs
     have : D.k = 1 := by
       unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-      rw [if_pos hs]
+      rw [ite_eq_left hs]
     omega
   have hp' := hp
   rw [D.sig_sub] at hp'

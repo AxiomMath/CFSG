@@ -495,7 +495,7 @@ theorem normal_of_components
       have h1 : x ∈ A ⊓ K := hxAK
       rw [h, mem_bot] at h1
       exact hxf (h1 ▸ one_mem _)
-    have h1 := GoldExcl.inf_center_ne_bot S.isPGroup' hle hnorm hne
+    have h1 := GoldExcl.inf_center_ne_bot S.isPGroup hle hnorm hne
     rw [hZS] at h1
     obtain ⟨⟨z, hz⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp h1
     obtain ⟨hzAK, hzf'⟩ := mem_inf.mp hz

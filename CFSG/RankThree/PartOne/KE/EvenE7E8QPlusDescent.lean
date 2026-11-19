@@ -36,7 +36,7 @@ theorem qplus_exists_zeta (L : Type) [Field L] [CharP L 2] [IsAlgClosed L] {p : 
     intro h
     have := (CharP.cast_eq_zero_iff L 2 p).1 h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 this).symm⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   refine ⟨(hζ.isUnit hp.ne_zero).unit, ?_⟩
   rw [← orderOf_units, IsUnit.unit_spec, ← hζ.eq_orderOf]
 

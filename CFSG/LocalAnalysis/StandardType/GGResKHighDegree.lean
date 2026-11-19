@@ -42,7 +42,7 @@ theorem three_le_card_survivor_of_automizer_order
   have hle : Fintype.card {j : Λ // j ∉ S} ≤ 2 := by omega
   have hne : Nonempty {j : Λ // j ∉ S} := by
     by_contra hne
-    haveI : IsEmpty {j : Λ // j ∉ S} := not_nonempty_iff.mp hne
+    have : IsEmpty {j : Λ // j ∉ S} := not_nonempty_iff.mp hne
     have hbot : ggAutomizer J Bs = ⊥ := by
       rw [hclosJ]
       simp
@@ -120,7 +120,7 @@ theorem ggSideDatum_of_exact3
     have hcardT : Fintype.card {j : Λ // j ∉ S} = Fintype.card Λ - S.card := by
       rw [Fintype.card_subtype_compl]
       congr 1
-      simpa using Fintype.card_coe S
+      simp
     have hcardTb : Fintype.card {j : Λ // j ≠ b} = Fintype.card Λ - 1 := by
       rw [Fintype.card_subtype_compl]
       congr 1
@@ -161,9 +161,9 @@ theorem ggExactThreeAtK_false_of_dep
     {r : ℕ} (hAJ : Nat.card (ggAutomizer J Bs) = (r - 2).factorial) (hr : 10 ≤ r) : False := by
   classical
   have hN5 : 5 ≤ N := by omega
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hfixK : ∀ b : ↥Bs, (∀ ψ ∈ ggAutomizer K Bs, ψ b = b) →
       (b : G) ∈ Subgroup.zpowers y :=
     ggXDatumA_fix_K_of_card hp2 hH hy hN5 hpN hcardBs e hMK hCK hφ hpair hAK
@@ -201,7 +201,7 @@ theorem ggExactThreeAtK_false_of_dep
     exact ⟨c, hc⟩
 
 theorem ggExactThreeAtK_false_of_yNotMem
-    (hLB : GGLBalanceInput) (hKG : GGReflClassLargeInput')
+    (_hLB : GGLBalanceInput) (hKG : GGReflClassLargeInput')
     (hOrbK : GGResCentBoundNbrInput) (hFix : GGTBFixInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
@@ -306,8 +306,8 @@ theorem ggResExactThree_K_highDegree_externalAxis
   subst tag
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   obtain ⟨hSimple, hNonAb, θ, hP⟩ := hQ
   obtain ⟨hlabel, hN', hact⟩ := hP
   have h63 : ¬ (rank + 1 = 6 ∧ p = 3) := by omega

@@ -21,9 +21,9 @@ variable {K : Type} [Group K] [Finite K] {X : Subgroup K} {Δ : Set (Subgroup K)
 
 theorem RootSetup.inf_cenOf_eq_bot (h : RootSetup X Δ f) {T L : Subgroup K} (hT : T ∈ Δ)
     (hL : IsPGroup 2 L) (hZ : L ⊓ cenOf L ≤ T) : L ⊓ cenOf X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hXn : X.Normal := h.normal
-  haveI : (cenOf X : Subgroup K).Normal := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hXn : X.Normal := h.normal
+  have : (cenOf X : Subgroup K).Normal := inferInstance
   set NL : Subgroup K := L ⊓ cenOf X with hNLdef
   have hNLle : NL ≤ L := inf_le_left
   have hNLnormal : (NL.subgroupOf L).Normal := by
@@ -44,7 +44,7 @@ theorem RootSetup.inf_cenOf_eq_bot (h : RootSetup X Δ f) {T L : Subgroup K} (hT
     intro hbot
     apply hne
     rw [← Subgroup.map_subgroupOf_eq_of_le hNLle, hbot, Subgroup.map_bot]
-  haveI : Group.IsNilpotent ↥L := hL.isNilpotent
+  have : Group.IsNilpotent ↥L := hL.isNilpotent
   have hinfne : (NL.subgroupOf L) ⊓ Subgroup.center ↥L ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hsubne
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hinfne
@@ -75,6 +75,7 @@ theorem RootSetup.inf_cenOf_eq_bot (h : RootSetup X Δ f) {T L : Subgroup K} (hT
   apply Subtype.ext
   exact Subtype.ext (congrArg (fun w : ↥X => (w : K)) hz1)
 
+omit [Finite K] in
 private theorem normalizer_inf_le_normalizer_centralizer
     {T : Subgroup K} : X ⊓ Subgroup.normalizer (T : Set K) ≤
       Subgroup.normalizer ((X ⊓ cenOf T : Subgroup K) : Set K) := by
@@ -106,7 +107,7 @@ private theorem normalizer_inf_le_normalizer_centralizer
 private theorem RootSetup.pCore_normalizer_le (h : RootSetup X Δ f) {T : Subgroup K}
     (hT : T ∈ Δ) : inSubgroup (pCore 2) (X ⊓ Subgroup.normalizer (T : Set K)) ≤
       inSubgroup (pCore 2) (X ⊓ cenOf T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup K := X ⊓ Subgroup.normalizer (T : Set K) with hNdef
   set R : Subgroup K := X ⊓ cenOf T with hRdef
   set S : Subgroup K := inSubgroup (pCore 2) N with hSdef
@@ -118,7 +119,7 @@ private theorem RootSetup.pCore_normalizer_le (h : RootSetup X Δ f) {T : Subgro
     · exact inf_le_right
   have hSnormalN : N ≤ Subgroup.normalizer (S : Set K) :=
     CFSG.RankThree.GroupTheory.SteinbergBY.le_normalizer_inSubgroup_pCore 2 N
-  haveI : (T.subgroupOf S).Normal :=
+  have : (T.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTleS).mpr (hSN.trans inf_le_right)
   have hTne : T ≠ ⊥ := by
     intro hbot
@@ -132,7 +133,7 @@ private theorem RootSetup.pCore_normalizer_le (h : RootSetup X Δ f) {T : Subgro
     intro hbot
     apply hTne
     rw [← Subgroup.map_subgroupOf_eq_of_le hTleS, hbot, Subgroup.map_bot]
-  haveI : Group.IsNilpotent ↥S :=
+  have : Group.IsNilpotent ↥S :=
     (CFSG.RankThree.GroupTheory.SteinbergBY.isPGroup_inSubgroup_pCore 2 N).isNilpotent
   have hinfne : (T.subgroupOf S) ⊓ Subgroup.center ↥S ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
@@ -175,6 +176,7 @@ theorem RootSetup.pCore_normalizer_eq (h : RootSetup X Δ f) {T : Subgroup K} (h
     (inf_le_inf_left X (Subgroup.centralizer_le_normalizer (T : Set K)))
     normalizer_inf_le_normalizer_centralizer
 
+omit [Finite K] in
 theorem RootSetup.inf_le_radical (h : RootSetup X Δ f) {T L : Subgroup K}
     (hL : IsPGroup 2 L) (hLT : L ≤ cenOf T)
     (hNL : X ⊓ Subgroup.normalizer (T : Set K) ≤ Subgroup.normalizer (L : Set K)) :
@@ -184,7 +186,7 @@ theorem RootSetup.inf_le_radical (h : RootSetup X Δ f) {T L : Subgroup K}
   have hNRC : X ⊓ cenOf T ≤ Subgroup.normalizer ((L ⊓ X : Subgroup K) : Set K) := by
     refine (le_inf ?_ ?_).trans Subgroup.inf_normalizer_le_normalizer_inf
     · exact (inf_le_inf_left X hCN).trans hNL
-    · haveI : X.Normal := h.normal
+    · have : X.Normal := h.normal
       exact Subgroup.le_normalizer_of_normal
   constructor
   · refine CFSG.RankThree.GroupTheory.SteinbergBY.le_inSubgroup_pCore hL.to_inf_left ?_ hNRC
@@ -192,7 +194,7 @@ theorem RootSetup.inf_le_radical (h : RootSetup X Δ f) {T L : Subgroup K}
   · refine le_inf ?_ ?_
     · exact Subgroup.le_normalizer_iff_commutator_le_right.mp
         ((inf_le_inf_left X hCN).trans hNL)
-    · haveI : X.Normal := h.normal
+    · have : X.Normal := h.normal
       exact (Subgroup.commutator_mono inf_le_left le_rfl).trans
         (Subgroup.commutator_le_left (H₁ := X) (H₂ := L))
 
@@ -201,8 +203,8 @@ private theorem RootSetup.eq_of_inf_eq_of_su (h : RootSetup X Δ f) (hf : 1 ≤ 
     (hL : IsPGroup 2 L) (hTL : T ≤ L) (hLT : L ≤ cenOf T)
     (hNL : X ⊓ Subgroup.normalizer (T : Set K) ≤ Subgroup.normalizer (L : Set K))
     (hLX : L ⊓ cenOf X = ⊥) (hLXT : L ⊓ X = T) : L = T := by
-  haveI hXn : X.Normal := h.normal
-  haveI hCn : (cenOf X : Subgroup K).Normal := by infer_instance
+  have hXn : X.Normal := h.normal
+  have hCn : (cenOf X : Subgroup K).Normal := by infer_instance
   have hIL := h.inf_le_radical hL hLT hNL
   have hLRC := hX.le_pCore_sup_cenOf hm hT hL hLT hNL
   refine le_antisymm (fun l hl => ?_) hTL
@@ -235,7 +237,7 @@ theorem RootSetup.rigid_su (h : RootSetup X Δ f) (hf : 1 ≤ f) {m : ℕ} (hm :
     L = T ∨ (L = inSubgroup (pCore 2) (X ⊓ Subgroup.normalizer (T : Set K)) ∧
       Nat.card L = (2 ^ f) ^ (2 * m - 3)) := by
   set R : Subgroup K := inSubgroup (pCore 2) (X ⊓ cenOf T) with hRdef
-  haveI hXn : X.Normal := h.normal
+  have hXn : X.Normal := h.normal
   have hcardR := hX.natCard_pCore_cenOf hm hT
   have hIL := h.inf_le_radical hL hLT hNL
   have hLRC : L ≤ R ⊔ cenOf X := hX.le_pCore_sup_cenOf hm hT hL hLT hNL
@@ -280,8 +282,8 @@ theorem RootSetup.rigid_sp (h : RootSetup X Δ f) (hf : 1 ≤ f) {m : ℕ} (hm :
     (hLX : L ⊓ cenOf X = ⊥) (hZ : L ⊓ cenOf L ≤ T) : L = T := by
   set R : Subgroup K := inSubgroup (pCore 2) (X ⊓ cenOf T) with hRdef
   set C : Subgroup K := cenOf X with hCdef
-  haveI hXn : X.Normal := h.normal
-  haveI hCn : C.Normal := by rw [hCdef]; infer_instance
+  have hXn : X.Normal := h.normal
+  have hCn : C.Normal := by rw [hCdef]; infer_instance
   have hLRC : L ≤ R ⊔ C := by
     have hCR := hX.classicalRoot hf hm hT
     show L ≤ inSubgroup (pCore 2) (X ⊓ cenOf T) ⊔ cenOf X

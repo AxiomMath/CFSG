@@ -29,6 +29,7 @@ variable {K Q : Type*} [Group K] [Group Q] (π : K →* Q) (hker : π.ker ≤ Su
   {ι : Type*} (α : ι → MulAut K) (β : ι → MulAut Q) (hαβ : ∀ i k, π (α i k) = β i (π k))
 include hker hαβ
 
+omit hker in
 theorem map_inf_fixFam_le (I : Subgroup K) : (I ⊓ fixFam α).map π ≤ I.map π ⊓ fixFam β := by
   rintro _ ⟨k, ⟨hkI, hk⟩, rfl⟩
   refine ⟨⟨k, hkI, rfl⟩, mem_fixFam.2 fun i => ?_⟩
@@ -78,6 +79,7 @@ theorem le_map_inf_fixFam_of_perfect (I : Subgroup K) {A : Subgroup Q}
   exact ⟨⁅k₁, k₂⁆, comm_mem_inf_fixFam π hker α β hαβ hk₁I hk₂I (hA ha₁).2 (hA ha₂).2,
     map_commutatorElement _ _ _⟩
 
+omit hαβ in
 theorem kerCentral_inf_fixFam (I : Subgroup K) :
     ∀ y ∈ (I ⊓ fixFam α) ⊓ π.ker, ∀ x ∈ I ⊓ fixFam α, x * y = y * x := fun _ hy x _ =>
   Subgroup.mem_center_iff.1 (hker hy.2) x
@@ -95,9 +97,9 @@ theorem glaPComponent_map_inf_fixFam {p : ℕ} (hp : p.Prime) (I : Subgroup K) {
     (hJ : GLAPComponent p (I ⊓ fixFam α) J) :
     GLAPComponent p (I.map π ⊓ fixFam β) (J.map π) :=
   CFSG.HardMathSupport.Solomon.Proving.glaPComponent_of_normal_overgroup hp
-    (map_inf_fixFam_le π hker α β hαβ I) (normal_map_inf_fixFam π hker α β hαβ I)
+    (map_inf_fixFam_le π α β hαβ I) (normal_map_inf_fixFam π hker α β hαβ I)
     (CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_map_central hp π
-      (kerCentral_inf_fixFam π hker α β hαβ I) hJ)
+      (kerCentral_inf_fixFam π hker α I) hJ)
 
 theorem exists_glaPComponent_map_inf_fixFam {p : ℕ} (hp : p.Prime) (I : Subgroup K)
     {A : Subgroup Q} (hA : GLAPComponent p (I.map π ⊓ fixFam β) A) :
@@ -105,8 +107,8 @@ theorem exists_glaPComponent_map_inf_fixFam {p : ℕ} (hp : p.Prime) (I : Subgro
   have hAH : A ≤ (I ⊓ fixFam α).map π :=
     le_map_inf_fixFam_of_perfect π hker α β hαβ I hA.1 (glaPComponent_perfect hA)
   exact CFSG.HardMathSupport.Solomon.Coordinator.exists_glaPComponent_map_central hp π
-    (kerCentral_inf_fixFam π hker α β hαβ I)
-    (glaPComponent_of_le hp hA hAH (map_inf_fixFam_le π hker α β hαβ I))
+    (kerCentral_inf_fixFam π hker α I)
+    (glaPComponent_of_le hp hA hAH (map_inf_fixFam_le π α β hαβ I))
 
 theorem map_glaPLayer_inf_fixFam_eq {p : ℕ} (hp : p.Prime) (I : Subgroup K) :
     (GLAPLayer p (I ⊓ fixFam α)).map π = GLAPLayer p (I.map π ⊓ fixFam β) := by

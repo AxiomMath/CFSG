@@ -29,7 +29,7 @@ theorem inf_W_of_mem_DSet (hp : p ≠ 2) (hΩ : HypOmegaMod p f Ω) (h611 : EtaM
       le_rfl : V ≤ W).trans (le_sup_right.trans hS₁)) J hJ hJS₁
     rwa [← hWη] at this
   have hJS : J ⊓ (S₁ : Subgroup G) = R :=
-    hRsyl.eq_of_le (S₁.isPGroup'.to_le inf_le_right) inf_le_left
+    hRsyl.eq_of_le (S₁.isPGroup.to_le inf_le_right) inf_le_left
       (le_inf hRJ (le_sup_left.trans hS₁))
   have hJWR : J ⊓ W ≤ R := hJS ▸ inf_le_inf_left J (le_sup_right.trans hS₁)
   have heq : J ⊓ W = R ⊓ W := le_antisymm (le_inf hJWR inf_le_right) (inf_le_inf_right W hRJ)

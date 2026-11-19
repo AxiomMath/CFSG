@@ -182,7 +182,7 @@ theorem ovB_spec :
     simp only [Bool.or_eq_true, Std.HashSet.contains_ofList, List.contains_iff_mem] at this
     exact this
   · have := h5 i hi
-    simp only [beq_iff_eq, Bool.and_eq_true, List.any_eq_true, Std.HashSet.contains_ofList,
+    simp only [beq_iff_eq, List.any_eq_true, Std.HashSet.contains_ofList,
       List.contains_iff_mem] at this
     obtain ⟨⟨⟨⟨⟨hn, hl⟩, hc⟩, hv⟩, ho⟩, hg⟩ := this
     exact ⟨nodup_of_nodupB hn, hl, hc, fun c hc' => ⟨validB_iff.mp (hv c hc').1, (hv c hc').2⟩,
@@ -517,7 +517,6 @@ theorem eq_Mi_of {M : Subgroup (GL (Fin 12) (ZMod 2))}
       have hcinj : ∀ i j, c i = c j → i = j := by
         intro i j h
         fin_cases i <;> fin_cases j <;> simp only [c] at h ⊢ <;> first
-          | rfl
           | exact absurd h huv0 | exact absurd h.symm huv0
           | exact absurd h hne₁.symm | exact absurd h.symm hne₁.symm
           | exact absurd h hne₂.symm | exact absurd h.symm hne₂.symm

@@ -30,7 +30,7 @@ theorem gauss_fixed {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimen
   classical
   obtain ⟨m, hm⟩ := hg.even_finrank_fixed
   refine ⟨m, by omega, ?_⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   set P : Submodule (ZMod 2) V := fixedSpace g with hP
   set Q' : QuadraticForm (ZMod 2) ↥P := Q.comp P.subtype with hQ'
   have hnd : ∀ x : ↥P, (∀ y : ↥P, QuadraticMap.polar Q' x y = 0) → x = 0 := fun x hx =>
@@ -42,7 +42,7 @@ theorem gauss_fixed {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimen
   have hsplit : {x : ↥P | Q' x = 0}.ncard + {x : ↥P | Q' x = 1}.ncard = 4 ^ m := by
     have hc : {x : ↥P | Q' x = 0} = {x : ↥P | Q' x = 1}ᶜ := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_compl_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_compl_iff]
       have hz2 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
       rcases hz2 (Q' x) with h | h <;> simp [h]
     rw [hc, add_comm, Set.ncard_add_ncard_compl]
@@ -51,7 +51,7 @@ theorem gauss_fixed {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimen
     rw [← Set.ncard_image_of_injective {x : ↥P | Q' x = 0} P.subtype_injective]
     congr 1
     ext v
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨hv, hgv⟩
       exact ⟨⟨v, mem_fixedSpace.2 hgv⟩, by simpa [hQ'] using hv, rfl⟩
@@ -63,7 +63,7 @@ theorem gauss_fixed {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimen
 
 theorem z15_arith (ma mb mc zE zY zC : ℕ)
     (hma : ma ≤ 3) (hmb : mb ≤ 3) (hmc : mc ≤ 3) (hca : mc ≤ ma) (hcb : mc ≤ mb)
-    (hzE1 : 1 ≤ zE) (hzY1 : 1 ≤ zY) (hzC1 : 1 ≤ zC)
+    (_hzE1 : 1 ≤ zE) (_hzY1 : 1 ≤ zY) (hzC1 : 1 ≤ zC)
     (hY : (2 ^ (2 * mb)) % 5 = 1)
     (hC5 : (2 ^ (2 * ma)) % 5 = (2 ^ (2 * mc)) % 5)
     (hzE3 : zE % 3 = 1) (hzY5 : zY % 5 = 1) (hzC3 : zC % 3 = zY % 3) (hzC5 : zC % 5 = zE % 5)
@@ -84,7 +84,7 @@ theorem finrank_fixed_zero_or_six
   have hK : Nat.card (ZMod 2) = 2 := by simp
   set V := Fin 4 ⊕ Fin 4 → ZMod 2 with hVdef
   set Q : QuadraticForm (ZMod 2) V := quadPlus 4 (ZMod 2) with hQdef
-  haveI : Finite V := inferInstance
+  have : Finite V := inferInstance
   have hQnd : (QuadraticMap.polarBilin Q).Nondegenerate :=
     nondegenerate_polarBilin_quadPlus 4 (ZMod 2)
   have hreg : ∀ v, (∀ w, QuadraticMap.polar Q v w = 0) → v = 0 := fun v hv =>
@@ -103,8 +103,8 @@ theorem finrank_fixed_zero_or_six
   have hoey : OddOrderIsometry Q 15 (e * y) :=
     ⟨Subgroup.mul_mem _ he hy, by rw [hcomm.mul_pow, he15, hy15, one_mul], hcast 15 (by norm_num),
       hreg⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hdimV : finrank (ZMod 2) V = 8 := by
     show finrank (ZMod 2) (Fin 4 ⊕ Fin 4 → ZMod 2) = 8
     simp
@@ -257,12 +257,12 @@ theorem no_E9_commuting_five
   classical
   have hK : Nat.card (ZMod 2) = 2 := by simp
   set V := Fin 4 ⊕ Fin 4 → ZMod 2 with hVdef
-  haveI : Finite V := inferInstance
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
-  haveI : Fintype ↥E := Fintype.ofFinite _
-  haveI : ∀ g : ↥E, Fintype (MulAction.fixedBy V g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient ↥E V) := Fintype.ofFinite _
+  have : Finite V := inferInstance
+  have : Fintype V := Fintype.ofFinite V
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Fintype ↥E := Fintype.ofFinite _
+  have : ∀ g : ↥E, Fintype (MulAction.fixedBy V g) := fun g => Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient ↥E V) := Fintype.ofFinite _
   have hburn := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group ↥E V
   have hEc : Fintype.card ↥E = 9 := by rw [← Nat.card_eq_fintype_card]; exact hEcard
   have hVc : Fintype.card V = 256 := by

@@ -14,6 +14,7 @@ section Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem order_three_not_mem_two_group {H : Subgroup G} (hH : IsPGroup 2 H) {y : G}
     (hy : y ∈ H) (hy3 : orderOf y = 3) : False := by
   obtain ⟨n, hn⟩ := hH ⟨y, hy⟩
@@ -45,7 +46,7 @@ theorem step6_main (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemma12_
     (hTΩ : ∀ t ∈ T, ∀ htU : t ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨t, htU⟩ ∈ D.img K₁)
     {a : G} (haV₂ : a ∈ V₂) (haV₁ : a ∉ V₁)
-    (hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+    (hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Finite M]
     (hM : Module.finrank (ZMod 2) M = 4)
@@ -60,7 +61,7 @@ theorem step6_main (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemma12_
         pCoreOf 2 (kmapOf (D.img K₁) kap (stabS S)) ⊓ pCoreOf 2 (stabS ℓ) ∧
       Nat.card ↥(D.img (CFSG.conjugate (zU128 V V₁) g)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := hcx.hyp.hyp.irrPlus.2.2.1
   set Dg := CFSG.conjugate (zU128 V V₁) g with hDg
   set Y₂ := kmapOf (D.img K₁) kap (stabS S) with hY₂def
@@ -182,7 +183,7 @@ theorem step6_main (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemma12_
     have := hkap0
     rw [hbot] at this
     exact Subgroup.mem_bot.1 this
-  haveI : Finite (M ≃ₗ[ZMod 2] M) :=
+  have : Finite (M ≃ₗ[ZMod 2] M) :=
     Finite.of_injective (fun f : M ≃ₗ[ZMod 2] M => (f : M → M)) DFunLike.coe_injective
   have hfpf := fpf_D0 F3 hM p ℓ Pl hp hℓ hPl hpℓ hℓPl Y₂ hY₂ hg₀ord hg₀ℓ hg₀Y₂
   have hcard0 := card_D0 F2 hM p ℓ Pl hp hℓ hPl hpℓ hℓPl Y₂ hY₂

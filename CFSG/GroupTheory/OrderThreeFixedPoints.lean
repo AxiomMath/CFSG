@@ -97,9 +97,9 @@ theorem fixV_zpowers_eq_top_of_commute_of_pow_three
   have h3unit : IsUnit (3 : ZMod q) :=
     (ZMod.isUnit_iff_coprime 3 q).mpr
       ((Nat.coprime_primes Nat.prime_three hq).mpr (fun h => hq3 h.symm))
-  haveI : Nontrivial (ZMod q) := ZMod.nontrivial_iff.mpr hq.ne_one
+  have : Nontrivial (ZMod q) := ZMod.nontrivial_iff.mpr hq.ne_one
   have h3ne : (3 : ZMod q) ≠ 0 := h3unit.ne_zero
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hmain : ∀ v : V, ρ y v = v := by
     intro v
     have hx0 : sumOp ρ x v = 0 := sumOp_eq_zero ρ x hx3 hx v

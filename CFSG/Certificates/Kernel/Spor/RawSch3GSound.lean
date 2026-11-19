@@ -106,9 +106,9 @@ theorem prep_lp {n w kS l : Nat} {S SI : Nat → Nat}
   unfold letterK lp
   simp only [nIf_eq, Nat.blt_eq]
   by_cases h : l < kS
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact (prep_pp (allN_iff.1 hp l h)).1
-  · rw [if_neg h, if_neg h, Nat.sub_eq]
+  · rw [ite_eq_right h, ite_eq_right h, Nat.sub_eq]
     exact (prep_pp (allN_iff.1 hp (l - kS) (by omega))).2
 
 def LT (n w : Nat) (S : Nat → Nat) (kS T : Nat) : Set (Equiv.Perm (Fin n)) :=
@@ -125,7 +125,7 @@ theorem invTab_facts {kS T : Nat} (h : invTabK kS T = true) :
   unfold invTabK at h
   simp only [strictB_eq] at h
   generalize Nat.shiftRight (stCnt T) (nat_lit 1) = q at h
-  simp only [bAnd_iff, Nat.beq_eq, allN_iff, Nat.blt_eq, Nat.add_eq, strictB_eq] at h
+  simp only [bAnd_iff, Nat.beq_eq, allN_iff, Nat.blt_eq, Nat.add_eq] at h
   exact ⟨q, h⟩
 
 theorem letter_lt {kS T : Nat} (h : invTabK kS T = true) : ∀ j < stCnt T, stAt T j < kS + kS := by
@@ -393,7 +393,7 @@ theorem schK_of_sch3GLM {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI
       have e : lp n w S kS (stAt (stepsAt n w S kS BP i) j) =
           pp n w (S (stAt (stepsAt n w S kS BP i) j)) := by
         unfold lp
-        exact if_pos hl
+        exact ite_eq_left hl
       rw [e]
       exact hWm _ (Nat.zero_le _) hl
     · obtain ⟨j', rfl⟩ : ∃ j', j = q + j' := ⟨j - q, by omega⟩
@@ -401,7 +401,7 @@ theorem schK_of_sch3GLM {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI
       have e : lp n w S kS (stAt (stepsAt n w S kS BP i) (q + j')) =
           (pp n w (S (stAt (stepsAt n w S kS BP i) j')))⁻¹ := by
         unfold lp
-        rw [if_neg (by omega), e1, Nat.add_sub_cancel_left]
+        rw [ite_eq_right (by omega), e1, Nat.add_sub_cancel_left]
       rw [e]
       exact inv_mem_closure (hWm _ (Nat.zero_le _) hl)
   have e2 : Nat.sub (i + 3) (Nat.succ i) = 0 + 1 + 1 := by
@@ -435,7 +435,7 @@ theorem schK_of_sch3GLM {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI
       (letterK S SI kS (stAt (stepsAt n w S kS BP i) j)) (rpt w (mask w) (LR i) (h₀ + dh))) = k' := by
     rw [ept]
     exact (hR0.pt k' hk').2
-  rw [ek, if_pos hk']
+  rw [ek, ite_eq_left hk']
   have hPG : PRep n w _ ((tp n w TR (LR i) k')⁻¹ *
       (lp n w S kS (stAt (stepsAt n w S kS BP i) j) * tp n w TR (LR i) (h₀ + dh))) :=
     prep_pcomp hn (prep_pp (hp0 _ hk')).2 (prep_pcomp hn hσ (prep_pp (hp0 _ hc')).1)

@@ -43,7 +43,6 @@ theorem lsGen_maps_bB :
     obtain ⟨i, hi, hpi⟩ := List.getElem_of_mem hp
     have hi6 : i < 6 := hi
     have h1 := allN_ct h i hi6
-    unfold permBK at h1
     rw [strictB_eq'] at h1
     obtain ⟨r, hr, hb⟩ := BB_cols j hj i hi6
     have h2 := allN_ct h1 r hr

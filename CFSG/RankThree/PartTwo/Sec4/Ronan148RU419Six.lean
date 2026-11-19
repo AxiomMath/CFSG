@@ -27,12 +27,12 @@ variable {X : Type} [Group X] [Finite X]
 theorem rowU419_D4 (hq : IsQuasisimple X) {f : ℕ}
     (hm : ChevalleyExceptionalModel X .trialityD4 2 f) : RowU419 X := by
   intro α Y m hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨π, hπ, hker⟩ := hc.cover
   obtain ⟨K, _, _, _, σ, hK, hσ, -, hf, hsimp, ⟨e⟩⟩ :=
     Res417Seven.exists_graphFixedRootGroup_of_trialityD4 hm
   have hs : IsSimpleGroup X := by
-    haveI := hsimp
+    have := hsimp
     exact e.isSimpleGroup
   obtain ⟨hfm, hout⟩ := Ronan148L.rowU3_D4 hs (Census.exists_ne_of_isQuasisimple hq) hm
     hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd hc.one_lt π hπ hker
@@ -65,27 +65,27 @@ theorem rowsU419Six : RowsU419Six := by
     · refine noCfgU419_of_two_pow_nine (M := 720) ?_ (by decide)
       rw [Nat.card_congr φ.toEquiv, Sec8.Item812Res2.card_projSp_two_one]
     · have hs : IsSimpleGroup X := by
-        haveI := Sec21.isSimpleGroup_projSp_two hn2
+        have := Sec21.isSimpleGroup_projSp_two hn2
         exact φ.isSimpleGroup
       intro α Y m hc
-      haveI := hc.isPerfect
+      have := hc.isPerfect
       obtain ⟨π, hπ, hker⟩ := hc.cover
       exact Ronan148L.rowU3_Sp4 hs hna hn φ hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal
         hc.odd hc.one_lt π hπ hker
   ·
     apply NoCfgU419.rowU419
     have hs : IsSimpleGroup X := by
-      haveI := Sec21.isSimpleGroup_projSU (m := 4) le_rfl hn
+      have := Sec21.isSimpleGroup_projSU (m := 4) le_rfl hn
       exact φ.isSimpleGroup
     intro α Y m hc
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     obtain ⟨π, hπ, hker⟩ := hc.cover
     exact Ronan148L.rowU3_U4 hs hna hn φ hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal
       hc.odd hc.one_lt π hπ hker
   ·
     apply NoCfgU419.rowU419
     intro α Y m hc
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     obtain ⟨π, hπ, hker⟩ := hc.cover
     exact Ronan148L.rowU3_G2 hm hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd
       hc.one_lt π hπ hker
@@ -94,21 +94,21 @@ theorem rowsU419Six : RowsU419Six := by
   ·
     apply NoCfgU419.rowU419
     intro α Y m hc
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     obtain ⟨π, hπ, hker⟩ := hc.cover
     exact Ronan148L.rowU3_Sz hm hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd
       hc.one_lt π hπ hker
   ·
     apply NoCfgU419.rowU419
     intro α Y m hc
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     obtain ⟨π, hπ, hker⟩ := hc.cover
     exact Ronan148L.rowU3_F4 hm hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd
       hc.one_lt π hπ hker
   ·
     apply NoCfgU419.rowU419
     intro α Y m hc
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     obtain ⟨π, hπ, hker⟩ := hc.cover
     exact Ronan148L.rowU3_Tits hm hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd
       hc.one_lt π hπ hker

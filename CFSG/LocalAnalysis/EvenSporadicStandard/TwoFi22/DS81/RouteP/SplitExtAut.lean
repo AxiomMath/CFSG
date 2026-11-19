@@ -255,7 +255,7 @@ theorem forall_eq_conj_of_eq_conj_on [E.Normal] (hsup : E ⊔ K = ⊤) (hEnd : E
   let γ : B ≃* B := α.trans (MulAut.conj ((e : B)⁻¹))
   have hγb : ∀ b : B, γ b = (e : B)⁻¹ * α b * (e : B) := by
     intro b
-    simp [γ, MulAut.conj_apply]
+    simp [γ]
   have hγ : ∀ b : B, γ b * b⁻¹ ∈ E := by
     intro b
     have hconj : b * (e : B) * b⁻¹ ∈ E := (inferInstance : E.Normal).conj_mem (e : B) e.2 b

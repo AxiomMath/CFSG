@@ -27,6 +27,7 @@ theorem s16c7_isSylowOf_barSub {p : ℕ} [Fact p.Prime] (V₀ V : Subgroup G)
     exact h
   exact s16c7_isSylowOf_map h1 (actTil V₀ V hV)
 
+omit [Finite G] in
 theorem s16c7_eq_map_conj {A B : Subgroup G} {a : G} (h : ∀ x : G, x ∈ B ↔ a⁻¹ * x * a ∈ A) :
     B = A.map (MulAut.conj a).toMonoidHom := by
   ext x
@@ -61,6 +62,7 @@ end SylowBar
 
 section Kernel
 
+omit [Finite G] in
 theorem s16c7_card_eq_inf_centralizer_mul (V : Subgroup G) (hV : IsElemAbelian 2 V)
     {E : Subgroup G} (hE : E ≤ stabTil ⊥ V) :
     Nat.card E = Nat.card ↥(E ⊓ centralizer (V : Set G)) * Nat.card (barSub ⊥ V hV E) := by
@@ -80,6 +82,7 @@ theorem s16c7_card_eq_inf_centralizer_mul (V : Subgroup G) (hV : IsElemAbelian 2
   rw [hpre, Subgroup.card_bot, mul_one] at h
   exact h
 
+omit [Finite G] in
 theorem s16c7_isPGroup_two_inf_centralizer (V : Subgroup G) (hV : IsElemAbelian 2 V)
     {K₁ K₂ : Subgroup G} (h₁₂ : K₁ ≤ normalizer (K₂ : Set G)) (hs : K₁ ⊔ K₂ ≤ stabTil ⊥ V)
     (hA : Nat.card (barSub ⊥ V hV (K₁ ⊔ K₂)) = 168 * 168) {a b : ℕ}

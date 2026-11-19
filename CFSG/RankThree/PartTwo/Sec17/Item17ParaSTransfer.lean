@@ -302,7 +302,7 @@ theorem exists_conj_eq_inv_of_weaklyClosed (hsimple : IsSimpleGroup G)
     have heq : T = (T' : Subgroup G) := by
       by_contra hne
       obtain ⟨x, hxT', hxT, hxN⟩ :=
-        Late.exists_mem_normalizer_not_mem_of_lt T'.isPGroup' (lt_of_le_of_ne hTT' hne)
+        Late.exists_mem_normalizer_not_mem_of_lt T'.isPGroup (lt_of_le_of_ne hTT' hne)
       have hle : (Subgroup.zpowers c).map (MulAut.conj x).toMonoidHom ≤ T := by
         rw [MonoidHom.map_zpowers]
         exact Subgroup.zpowers_le.mpr ((Subgroup.mem_normalizer_iff.mp hxN c).mp hcT)
@@ -310,7 +310,7 @@ theorem exists_conj_eq_inv_of_weaklyClosed (hsimple : IsSimpleGroup G)
       have hxC : x ∈ Subgroup.centralizer ({c} : Set G) :=
         hCc x (mem_normalizer_of_map_conj_eq' hxH)
       have hsup3 : IsPGroup 3 (T ⊔ Subgroup.zpowers x : Subgroup G) :=
-        T'.isPGroup'.to_le (sup_le hTT' (Subgroup.zpowers_le.mpr hxT'))
+        T'.isPGroup.to_le (sup_le hTT' (Subgroup.zpowers_le.mpr hxT'))
       have h := hT.eq_of_le le_sup_left (sup_le hT.le (Subgroup.zpowers_le.mpr hxC)) hsup3
       exact hxT (h ▸ (le_sup_right : Subgroup.zpowers x ≤ T ⊔ Subgroup.zpowers x)
         (Subgroup.mem_zpowers x))

@@ -94,7 +94,7 @@ theorem perfect_eq_bot_of_coreFree {X : Type} [Group X] [Finite X]
     LBalance.SchreierSections.of_isKGroup (fun S _ _ _ hnc hcat => hSch S hnc hcat) hX
   have hout := hSec.outer_solvable K hKnc (MonoidHom.id ↥K) Function.surjective_id
   have hYK : Y ≤ K := perfect_le_of_outer hKc hout hY
-  have hsolv := gamma_isSolvable (P.isPGroup'.to_inf_left) hconc
+  have hsolv := gamma_isSolvable (P.isPGroup.to_inf_left) hconc
   have hYΓ : Y ≤ gammaCore 3 1 K ((P : Subgroup X) ⊓ K) := heq ▸ le_inf hYM hYK
   exact eq_bot_of_perfect_of_le hYΓ hY
 

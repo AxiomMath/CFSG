@@ -24,10 +24,10 @@ theorem e9Move_of_sylow (h3 : (Nat.card S).factorization 3 = 2) {E₀ : Subgroup
     (hmv : ∀ s ∈ E₀, s ≠ 1 → ∃ n ∈ Subgroup.normalizer (E₀ : Set S),
       n ∉ Subgroup.normalizer (Subgroup.zpowers s : Set S)) : E9Move S := by
   intro E _ hE9 s hs hs1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Sylow 3 S := Sylow.ofCard E₀ (by rw [hE₀, h3]; norm_num)
   let P : Sylow 3 S := Sylow.ofCard E (by rw [hE9, h3]; norm_num)
-  haveI : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S Q P
   have hPg : E = MulAut.conj g • E₀ := by
     have h := congrArg (fun R : Sylow 3 S => (R : Subgroup S)) hg
@@ -172,7 +172,7 @@ theorem e9Move_alt8 : E9Move (alternatingGroup (Fin 8)) := by
 theorem rankTwo_alt8 : RankTwoData (alternatingGroup (Fin 8)) := by
   refine ⟨cubeInner_of_not_three_dvd_card_outer (not_three_dvd_outer_alternatingGroup
     (by norm_num)), fun E hE => ?_, ⟨a8E, a8_e9⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hd : 3 ^ k ∣ 20160 := hk ▸ card_alt8 ▸ Subgroup.card_subgroup_dvd_card E

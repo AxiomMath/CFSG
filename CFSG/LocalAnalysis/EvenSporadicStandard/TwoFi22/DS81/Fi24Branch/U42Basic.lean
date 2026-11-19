@@ -43,7 +43,7 @@ theorem exists_conj_eq_of_mulEquiv [IsSimpleGroup U] (hna : ∃ a b : U, a * b �
 theorem normal_eq_bot_or_index_two_or_top_of_mulEquiv [IsSimpleGroup U]
     (hna : ∃ a b : U, a * b ≠ b * a) (h2 : (inn U).index = 2) (e : A ≃* MulAut U)
     (N : Subgroup A) (hN : N.Normal) : N = ⊥ ∨ N.index = 2 ∨ N = ⊤ := by
-  haveI : (N.map (e : A →* MulAut U)).Normal := hN.map (e : A →* MulAut U) e.surjective
+  have : (N.map (e : A →* MulAut U)).Normal := hN.map (e : A →* MulAut U) e.surjective
   rcases normal_eq_bot_or_index_two_or_top hna h2 (N.map (e : A →* MulAut U)) with h | h | h
   · exact Or.inl ((Subgroup.map_eq_bot_iff_of_injective N e.injective).1 h)
   · refine Or.inr (Or.inl ?_)
@@ -83,8 +83,8 @@ theorem card_mulAut_of_statedPSU42 {U : Type} [Group U]
 
 theorem index_inn_eq_two_of_statedPSU42 {U : Type} [Group U]
     (hU : StatedClassicalModel U .PSU 4 2 1) : (MulAutSimple.inn U).index = 2 := by
-  haveI := isSimpleGroup_of_statedPSU42 hU
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [card_of_statedPSU42 hU]; norm_num)
+  have := isSimpleGroup_of_statedPSU42 hU
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [card_of_statedPSU42 hU]; norm_num)
   refine MulAutSimple.index_inn_eq_two (exists_mul_ne_of_statedPSU42 hU) ?_
   have h1 := card_mulAut_of_statedPSU42 hU
   have h2 := card_of_statedPSU42 hU
@@ -93,7 +93,7 @@ theorem index_inn_eq_two_of_statedPSU42 {U : Type} [Group U]
 theorem commutator_eq_comap_inn_of_statedPSU42 {A U : Type}
     [Group A] [Group U] (hU : StatedClassicalModel U .PSU 4 2 1) (e : A ≃* MulAut U) :
     commutator A = (MulAutSimple.inn U).comap (e : A →* MulAut U) := by
-  haveI := isSimpleGroup_of_statedPSU42 hU
+  have := isSimpleGroup_of_statedPSU42 hU
   exact MulAutSimple.commutator_eq_comap_inn_of_mulEquiv (exists_mul_ne_of_statedPSU42 hU)
     (index_inn_eq_two_of_statedPSU42 hU) e
 
@@ -101,13 +101,13 @@ namespace IsU42Two
 
 theorem center_eq_bot {A : Type} [Group A] (h : IsU42Two A) : Subgroup.center A = ⊥ := by
   obtain ⟨U, _, -, hs, hna, ⟨e⟩⟩ := h.exists_simple
-  haveI := hs
+  have := hs
   exact MulAutSimple.center_eq_bot_of_mulEquiv hna e
 
 theorem complete {A : Type} [Group A] (h : IsU42Two A) (φ : MulAut A) :
     ∃ a : A, φ = MulAut.conj a := by
   obtain ⟨U, _, -, hs, hna, ⟨e⟩⟩ := h.exists_simple
-  haveI := hs
+  have := hs
   exact MulAutSimple.exists_conj_eq_of_mulEquiv hna e φ
 
 theorem card_eq {A : Type} [Group A] (h : IsU42Two A) :
@@ -119,7 +119,7 @@ theorem card_eq {A : Type} [Group A] (h : IsU42Two A) :
 theorem normal_eq {A : Type} [Group A] (h : IsU42Two A)
     (N : Subgroup A) (hN : N.Normal) : N = ⊥ ∨ N.index = 2 ∨ N = ⊤ := by
   obtain ⟨U, _, hU, hs, hna, ⟨e⟩⟩ := h.exists_simple
-  haveI := hs
+  have := hs
   exact MulAutSimple.normal_eq_bot_or_index_two_or_top_of_mulEquiv hna
     (index_inn_eq_two_of_statedPSU42 hU) e N hN
 

@@ -31,7 +31,7 @@ theorem agr_iff {g : Array Nat} {x : Nat × Nat × Nat}
 
 theorem rep_prod3 {x : Nat × Nat × Nat}
     (hx : CS3.InR fi22TLevels x) : Rep 3510 (prod3 3510 fi22TLevels x.1 x.2.1 x.2.2) (fi22TProd (toF x)) :=
-  (agr_iff hx).1 fun p hp => CS3.prod3_get hp
+  (agr_iff hx).1 fun _p hp => CS3.prod3_get hp
 
 theorem rep_gT {k : Nat} (hk : k < 9) :
     Rep 3510 ((fi22OuterStrong3510 4).extract 0 9)[k]! (gT k) := by

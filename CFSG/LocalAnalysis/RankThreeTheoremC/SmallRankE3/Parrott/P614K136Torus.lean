@@ -86,7 +86,7 @@ theorem bijective_toGL_three_two :
     apply Subtype.ext
     rw [coe_mkSL, coe_SL_one]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   map_mul' a b := by
     apply Subtype.ext
     rw [coe_SL_mul, coe_mkSL, coe_mkSL, coe_mkSL, Matrix.diagonal_mul_diagonal]
@@ -99,12 +99,12 @@ theorem torusDiag_injective : Function.Injective (torusDiag (F := F)) := by
   have h0 := congrArg (fun A : SL(3, F) => (A : Matrix (Fin 3) (Fin 3) F) 0 0) h
   have h1 := congrArg (fun A : SL(3, F) => (A : Matrix (Fin 3) (Fin 3) F) 1 1) h
   simp only [torusDiag, MonoidHom.coe_mk, OneHom.coe_mk, coe_mkSL, Matrix.diagonal_apply_eq,
-    cons_val_zero, cons_val_one, head_cons] at h0 h1
+    cons_val_zero, cons_val_one] at h0 h1
   exact Prod.ext (Units.ext h0) (Units.ext h1)
 
 theorem two_le_pRank [Finite F] {K : Type*} [Group K] [Finite K] (σ : K ≃* SL(3, F)) {f : ℕ}
     (hf : f.Prime) (hfd : f ∣ Nat.card F - 1) : 2 ≤ CFSG.Open.pRank f (⊤ : Subgroup K) := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) f (by rwa [Nat.card_units])
   set Z : Subgroup Fˣ := zpowers ζ with hZ
   let θ : Z × Z →* K :=
@@ -112,8 +112,7 @@ theorem two_le_pRank [Finite F] {K : Type*} [Group K] [Finite K] (σ : K ≃* SL
   have hθ : Function.Injective θ := by
     intro a b h
     have h1 := torusDiag_injective (σ.symm.injective h)
-    simp only [MonoidHom.prodMap, MonoidHom.coe_prodMap, Prod.map, MonoidHom.coe_comp,
-      Function.comp_apply, Subgroup.coe_subtype] at h1
+    simp only [MonoidHom.prodMap] at h1
     exact Prod.ext (Subtype.ext (congrArg Prod.fst h1)) (Subtype.ext (congrArg Prod.snd h1))
   have hZcard : Nat.card Z = f := by rw [hZ, Nat.card_zpowers, hζ]
   have hpow : ∀ a : Z × Z, a ^ f = 1 := fun a => by

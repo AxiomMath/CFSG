@@ -16,7 +16,7 @@ section Counting
 theorem card_le_three_mul_inf {G : Type*} [Group G] {Y N : Subgroup G} [Finite Y] {y₂ : G}
     (hy₂ : y₂ ∈ Y) (h3 : y₂ ^ 3 ∈ N) (hcyc : ∀ y ∈ Y, ∃ k : ℕ, y * (y₂ ^ k)⁻¹ ∈ N) :
     Nat.card Y ≤ 3 * Nat.card (Y ⊓ N : Subgroup G) := by
-  haveI : Finite (Y ⊓ N : Subgroup G) :=
+  have : Finite (Y ⊓ N : Subgroup G) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : (Y ⊓ N : Subgroup G) ≤ Y))
       (Subgroup.inclusion_injective _)
   let g : (Y ⊓ N : Subgroup G) × Fin 3 → Y := fun p =>
@@ -141,12 +141,12 @@ theorem recipe_inn_index [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 
     Nat.card Y ≤ 3 * Nat.card (Y ⊓
       (MulAut.conj : TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n)).range :
       Subgroup (MulAut (TwE6Delta.RecipeR K n))) := by
-  haveI := TwE6Delta.finite_mulAut_recipeR hK
+  have := TwE6Delta.finite_mulAut_recipeR hK
   by_cases hYN : Y ≤
       (MulAut.conj : TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n)).range
   · rw [inf_eq_left.2 hYN]
     omega
-  · obtain ⟨y₂, hy₂, hy₂n⟩ := SetLike.not_le_iff_exists.1 hYN
+  · obtain ⟨y₂, hy₂, hy₂n⟩ := IsConcreteLE.not_le_iff_exists.1 hYN
     exact card_le_three_mul_inf hy₂ (TwE6Delta.pow_three_mem_inn hn hK (hYI hy₂))
       (fun y hy => recipe_cyc hn hK (hYI hy) (hYI hy₂) hy₂n)
 

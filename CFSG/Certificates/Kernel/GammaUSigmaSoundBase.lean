@@ -118,7 +118,7 @@ theorem linP_single (m : Nat) (j : Fin 12) : linP m (Pi.single j 1) = vecOf (fld
   rw [linP_apply, Finset.sum_eq_single j]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · simp
 
 theorem mulP_eq_of_linP {g h g' h' : Nat} (H : ∀ v, linP (mulP g h) v = linP (mulP g' h') v) :

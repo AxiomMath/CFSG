@@ -124,7 +124,7 @@ theorem exists_noncyclic_three_subgroup {ω : F} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 
     fin_cases i
     · simp
     · simpa using h3
-    · simp only [Fin.reduceFinMk, Matrix.cons_val, Pi.pow_apply, Pi.one_apply]
+    · simp only [Fin.reduceFinMk, Matrix.cons_val, Pi.pow_apply]
       rw [← pow_mul, mul_comm, pow_mul, h3, one_pow]
   have hcH3 : cH ^ 3 = 1 := by
     apply Subtype.ext
@@ -143,7 +143,7 @@ theorem exists_noncyclic_three_subgroup {ω : F} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 
     intro g hg hgc
     obtain ⟨u, hu⟩ := scalar_of_mk_eq hgc
     have := congrArg (fun A : GL (Fin 3) F => ((A : Matrix (Fin 3) (Fin 3) F)) 0 1) hu
-    simp [coe_cG, cM, Matrix.GeneralLinearGroup.coe_scalar, Matrix.mul_apply, Fin.sum_univ_three,
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.mul_apply, Fin.sum_univ_three,
       hg] at this
     have h01 : ((cH : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 0 1 = 1 := by
       show (cM : Matrix (Fin 3) (Fin 3) F) 0 1 = 1
@@ -168,7 +168,7 @@ theorem exists_noncyclic_three_subgroup {ω : F} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 
     have hdd : ((dH : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = dM ω := rfl
     simp only [Subgroup.coe_one, Units.val_one, Units.val_mul, hdd,
       Matrix.GeneralLinearGroup.coe_scalar] at e00 e11
-    simp [dM, Matrix.smul_eq_diagonal_mul] at e00 e11
+    simp [dM] at e00 e11
     apply h1
     rw [← e00] at e11
     simpa using e11.symm
@@ -217,7 +217,7 @@ theorem exists_noncyclic_three_subgroup {ω : F} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 
     simpa using hcube g.1 g.2
   · intro hcyc
     classical
-    haveI : Fintype (Subgroup.closure ({d, c} : Set (StatedProj (StatedSL 3 F)))) :=
+    have : Fintype (Subgroup.closure ({d, c} : Set (StatedProj (StatedSL 3 F)))) :=
       Fintype.ofFinite _
     have hmem_d : d ∈ Subgroup.closure ({d, c} : Set (StatedProj (StatedSL 3 F))) :=
       Subgroup.subset_closure (by simp)

@@ -60,7 +60,7 @@ private lemma indSummand_mul_right
         H.mul_mem
           (H.mul_mem (H.inv_mem h.property) hx)
           h.property
-    simp only [dif_pos hx, dif_pos hxh]
+    simp only [dite_eq_left hx, dite_eq_left hxh]
     have hconj :
         IsConj
           (⟨(x * (h : G))⁻¹ * g * (x * (h : G)), hxh⟩ : H)
@@ -88,7 +88,7 @@ private lemma indSummand_mul_right
         H.mul_mem
           (H.mul_mem h.property hmem)
           (H.inv_mem h.property)
-    simp only [dif_neg hx, dif_neg hxh]
+    simp only [dite_eq_right hx, dite_eq_right hxh]
 
 open Classical in
 private lemma indSummand_conj_mul_left
@@ -352,7 +352,7 @@ Induction commutes with integer scalar multiplication.
 theorem ind_zsmul
     {H : Subgroup G} (n : ℤ) (φ : ClassFun k H) :
     ind H (n • φ) = n • ind H φ := by
-  letI: Fintype G := Fintype.ofFinite G
+  let: Fintype G := Fintype.ofFinite G
   exact ind_smul n φ
 
 end AdditiveGroup
@@ -467,14 +467,14 @@ private lemma sum_indSummand_ind_eq_sigma
   intro qK
   unfold iteratedIndSummand indSummand
   by_cases hK : qK.out⁻¹ * g * qK.out ∈ K
-  · simp only [dif_pos hK]
+  · simp only [dite_eq_left hK]
     simpa only [indSummand] using
       (ind_apply_of_fintype
         (G := K)
         (H := H)
         (φ := φ)
         (g := ⟨qK.out⁻¹ * g * qK.out, hK⟩))
-  · simp only [dif_neg hK, Finset.sum_const_zero]
+  · simp only [dite_eq_right hK, Finset.sum_const_zero]
 
 open Classical in
 private lemma iteratedIndSummand_eq_product
@@ -498,7 +498,7 @@ private lemma iteratedIndSummand_eq_product
       =
     indSummand (H.map K.subtype) ψ g xGH
   by_cases hK : gK ∈ K
-  · rw [dif_pos hK]
+  · rw [dite_eq_left hK]
     let gH : K := qH.out⁻¹ * ⟨gK, hK⟩ * qH.out
     have harg : xGH⁻¹ * g * xGH = (gH : G) := by dsimp [xGH, gH, gK]; group
     have hmem_iff :
@@ -519,7 +519,7 @@ private lemma iteratedIndSummand_eq_product
         ψ ⟨xGH⁻¹ * g * xGH, hmap⟩ else 0
     by_cases hH : gH ∈ H
     · have hmap : xGH⁻¹ * g * xGH ∈ H.map K.subtype := hmem_iff.mpr hH
-      rw [dif_pos hH, dif_pos hmap]
+      rw [dite_eq_left hH, dite_eq_left hmap]
       have hpreimage :
           eH.symm ⟨xGH⁻¹ * g * xGH, hmap⟩ =⟨gH, hH⟩ := by
         apply eH.injective
@@ -530,8 +530,8 @@ private lemma iteratedIndSummand_eq_product
       rw [ClassFun.equivOfMulEquiv_symm_apply]
       exact congrArg (fun z : H => φ z) hpreimage.symm
     · have hmap : xGH⁻¹ * g * xGH ∉ H.map K.subtype := fun h => hH (hmem_iff.mp h)
-      rw [dif_neg hH, dif_neg hmap]
-  · rw [dif_neg hK]
+      rw [dite_eq_right hH, dite_eq_right hmap]
+  · rw [dite_eq_right hK]
     have hmap : xGH⁻¹ * g * xGH ∉ H.map K.subtype := by
       intro hm
       apply hK
@@ -546,7 +546,7 @@ private lemma iteratedIndSummand_eq_product
         (K.mul_mem qH.out.property hambient_mem_K)
         (K.inv_mem qH.out.property)
     unfold indSummand
-    rw [dif_neg hmap]
+    rw [dite_eq_right hmap]
 
 open Classical in
 private lemma iteratedIndSummand_eq_sigmaEquiv
@@ -650,7 +650,7 @@ lemma ind_trans
             K.subtype Subtype.coe_injective)).symm φ) := by
   ext g
   rw [ind_apply, ind_apply]
-  letI: Fintype G := Fintype.ofFinite G
+  let: Fintype G := Fintype.ofFinite G
   change
     (∑ qK : G ⧸ K,
         indSummand K (ind H φ) g qK.out)
@@ -697,9 +697,9 @@ lemma projection_formula
   apply Finset.sum_congr rfl
   intro q _
   by_cases hq : q.out⁻¹ * g * q.out ∈ H
-  · simp only [dif_pos hq, res_apply]
+  · simp only [dite_eq_left hq, res_apply]
     rw [map_conj_eq]
-  · simp only [dif_neg hq, mul_zero]
+  · simp only [dite_eq_right hq, mul_zero]
 
 end ProjectionFormula
 

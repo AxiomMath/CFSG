@@ -88,7 +88,7 @@ theorem V_sylow {K V : Subgroup G} {d : G} (hK : K ∈ thetaComponentsAt 3 d)
     (hZ : Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) = ⊥)
     (hodd : ¬ 2 ∣ Nat.card (Sec4.thetaQuotCentralizer K ⊓ Subgroup.centralizer ({d} : Set G) :
       Subgroup G))
-    (hVK : V ≤ K) (hV2 : IsPGroup 2 V) (hV1 : imageSub K V ≠ ⊥)
+    (hVK : V ≤ K) (_hV2 : IsPGroup 2 V) (hV1 : imageSub K V ≠ ⊥)
     (hJ5 : ∀ σ : MulAut (K ⧸ aschbacherSolvableCore 3 K), (∀ v ∈ imageSub K V, σ v = v) →
       ∃ v ∈ imageSub K V, σ = MulAut.conj v) :
     ∀ T : Subgroup G, IsPGroup 2 T → T ≤ Subgroup.centralizer (V : Set G) ⊓

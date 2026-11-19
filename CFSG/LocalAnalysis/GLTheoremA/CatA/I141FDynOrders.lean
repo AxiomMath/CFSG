@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.GLTheoremA.CanonTriL
 open CFSG.LocalAnalysis.GLTheoremA.CanonSubcomp
 open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
 
-theorem mul_half_mul_succ_eq_five {n f : ℕ} (hn : 2 ≤ n) (hf : 1 ≤ f)
+theorem mul_half_mul_succ_eq_five {n f : ℕ} (hn : 2 ≤ n) (_hf : 1 ≤ f)
     (h : f * ((n - 1) * ((n - 1) + 1) / 2) = 5) : n = 2 ∧ f = 5 := by
   rw [Nat.sub_add_cancel (by omega : 1 ≤ n)] at h
   set m : ℕ := (n - 1) * n / 2 with hm

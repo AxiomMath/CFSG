@@ -48,8 +48,8 @@ open Subgroup
 theorem card_modEq_five_fixed {α : Type*} [Finite α] (f : α → α) (hf : ∀ a, f^[5] a = a) :
     Nat.card α ≡ (Function.fixedPoints f).ncard [MOD 5] := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let F : Function.End α := f
   have hF : F ^ 5 ^ 1 = 1 := by
     funext a
@@ -73,7 +73,7 @@ theorem aut_trivial_of_fpf [Finite Λ] (hcard : Nat.card Λ = 16) {P : Subgroup 
     (hP : IsPGroup 2 P) {x : MulAut Λ} (hx5 : x ^ 5 = 1) (hxP : ∀ p ∈ P, x * p * x⁻¹ ∈ P)
     (hfpf : ∀ l : Λ, x l = l → l = 1) : P = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxpow : ∀ n : ℕ, ∀ p ∈ P, x ^ n * p * (x ^ n)⁻¹ ∈ P := by
     intro n
     induction n with
@@ -203,7 +203,7 @@ theorem layer_trivial [Finite Λ] (hcomm : ∀ a b : Λ, a * b = b * a) {N : Sub
     (hxN : ∀ n, n ∈ N ↔ x n ∈ N) (hfpf : ∀ l : Λ, x l * l⁻¹ ∈ N → l ∈ N) :
     ∀ p ∈ P, ∀ l : Λ, p l * l⁻¹ ∈ N := by
   classical
-  haveI hN : N.Normal := ⟨fun n hn g => by rw [hcomm g n, mul_assoc, mul_inv_cancel, mul_one]; exact hn⟩
+  have hN : N.Normal := ⟨fun n hn g => by rw [hcomm g n, mul_assoc, mul_inv_cancel, mul_one]; exact hn⟩
   have hPS : P ≤ stabSub N := fun p hp => hPN p hp
   have hxS : x ∈ stabSub N := hxN
   have hcardL : Nat.card (Λ ⧸ N) = 16 := by rw [← Subgroup.index_eq_card]; exact hidx

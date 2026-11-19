@@ -15,12 +15,14 @@ section CoreB
 variable {F : Type} [Field F] [Finite F] {S : Subgroup (GL (Fin 3) F)}
   {Bl : Subgroup (GL (Fin 2) F)} {p : ℕ} {G : Type*} [Group G] {ψ : ↥S →* G}
 
+omit [Finite F] in
 private theorem blk_entry22_L3coreB (X : GL (Fin 2) F) :
     ((blk X : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 2 =
       ((X : Matrix (Fin 2) (Fin 2) F).det)⁻¹ := by
   rw [coe_blk]
   simp [blkMat]
 
+omit [Finite F] in
 private theorem eq_one_of_conj_scalar_L3coreB {X : GL (Fin 2) F}
     (hX : Matrix.GeneralLinearGroup.det X = 1) (q : GL (Fin 3) F) {c : Fˣ}
     (h : q * blk X * q⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin 3) c) : X = 1 := by
@@ -38,7 +40,7 @@ private theorem eq_one_of_conj_scalar_L3coreB {X : GL (Fin 2) F}
   rw [hbX, hc, map_one, map_one]
 
 private theorem five_ne_zero_L3coreB (hS : L3Shape F S Bl p) (hp : 5 < p) : (5 : F) ≠ 0 := by
-  haveI : CharP F p := hS.charP
+  have : CharP F p := hS.charP
   intro h
   have h' : ((5 : ℕ) : F) = 0 := by exact_mod_cast h
   have hd : p ∣ 5 := (CharP.cast_eq_zero_iff F p 5).mp h'
@@ -46,16 +48,17 @@ private theorem five_ne_zero_L3coreB (hS : L3Shape F S Bl p) (hp : 5 < p) : (5 :
   omega
 
 private theorem two_ne_zero_L3coreB (hS : L3Shape F S Bl p) (hp : 5 < p) : (2 : F) ≠ 0 := by
-  haveI : CharP F p := hS.charP
+  have : CharP F p := hS.charP
   intro h
   have h' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h
   have hd : p ∣ 2 := (CharP.cast_eq_zero_iff F p 2).mp h'
   have hle := Nat.le_of_dvd (by norm_num) hd
   omega
 
+omit [Finite F] in
 private theorem ker_central_L3coreB (hker : ψ.ker ≤ (StatedScalars (Fin 3) F).subgroupOf S) :
     ψ.ker ≤ Subgroup.center S :=
-  fun z hz => CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center S (hker hz)
+  fun _z hz => CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center S (hker hz)
 
 private theorem ker_cube_L3coreB (hS : L3Shape F S Bl p)
     (hker : ψ.ker ≤ (StatedScalars (Fin 3) F).subgroupOf S) : ∀ z ∈ ψ.ker, z ^ 3 = 1 := by
@@ -70,6 +73,7 @@ private theorem ker_cube_L3coreB (hS : L3Shape F S Bl p)
   show (z : GL (Fin 3) F) ^ 3 = 1
   rw [← hc, ← map_pow, hdet, map_one]
 
+omit [Finite F] in
 private theorem det_sl2_L3coreB {b : GL (Fin 2) F} (hb : b ∈ sl2Of Bl) :
     Matrix.GeneralLinearGroup.det b = 1 :=
   MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp hb).2
@@ -78,6 +82,7 @@ private theorem sq_one_of_orderOf_two_L3coreB {H : Type*} [Group H] {x : H}
     (hx : orderOf x = 2) : x * x = 1 := by
   rw [← pow_two, ← hx, pow_orderOf_eq_one]
 
+omit [Finite F] in
 private theorem coe_ne_one_of_orderOf_L3coreB {x : ↥S} (hx : orderOf (ψ x) = 2) :
     (x : GL (Fin 3) F) ≠ 1 := by
   intro h
@@ -85,25 +90,27 @@ private theorem coe_ne_one_of_orderOf_L3coreB {x : ↥S} (hx : orderOf (ψ x) = 
   rw [h1, map_one, orderOf_one] at hx
   norm_num at hx
 
+omit [Finite F] in
 private theorem coe_sq_one_L3coreB {x : ↥S} (hx : x * x = 1) :
     (x : GL (Fin 3) F) * x = 1 := by
   have := congrArg Subtype.val hx
   simpa using this
 
+omit [Finite F] in
 private theorem poly5_L3coreB {M : Matrix (Fin 2) (Fin 2) F} (h5 : (5 : F) ≠ 0)
     (hdet : M.det = 1) (hM5 : M ^ 5 = 1) (hM1 : M ≠ 1) :
     ∑ k ∈ Finset.range 5, M ^ k = 0 := by
   have hCH : M * M = (M 0 0 + M 1 1) • M - M.det • (1 : Matrix (Fin 2) (Fin 2) F) := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two, Matrix.one_apply] <;> ring
+      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two] <;> ring
   have hgeom : (M - 1) * ∑ k ∈ Finset.range 5, M ^ k = 0 := by
     rw [mul_geom_sum, hM5, sub_self]
   by_cases hd : (M - 1).det = 0
   · exfalso
     have htr : M 0 0 + M 1 1 = 2 := by
       have e : (M - 1).det = (M 0 0 - 1) * (M 1 1 - 1) - M 0 1 * M 1 0 := by
-        simp [Matrix.det_fin_two] <;> ring
+        simp [Matrix.det_fin_two]
       have hd' : M 0 0 * M 1 1 - M 0 1 * M 1 0 = 1 := (Matrix.det_fin_two M).symm.trans hdet
       rw [e] at hd
       linear_combination (-1 : F) * hd + hd'
@@ -138,6 +145,7 @@ private theorem poly5_L3coreB {M : Matrix (Fin 2) (Fin 2) F} (h5 : (5 : F) ≠ 0
       (Matrix.isUnit_iff_isUnit_det _).mpr (isUnit_iff_ne_zero.mpr hd)
     exact (IsUnit.mul_right_eq_zero hunit).mp hgeom
 
+omit [Finite F] in
 private theorem pow_blk_L3coreB (X : GL (Fin 2) F)
     (hdet : (X : Matrix (Fin 2) (Fin 2) F).det = 1) (k : ℕ) :
     ((blk X : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) ^ k =
@@ -151,6 +159,7 @@ private theorem pow_blk_L3coreB (X : GL (Fin 2) F)
     rw [pow_succ ((blk X : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) k,
       pow_succ (X : Matrix (Fin 2) (Fin 2) F) k, ih, hb, blkMat_mul, mul_one]
 
+omit [Finite F] in
 private theorem sum_pow_blk_L3coreB (X : GL (Fin 2) F)
     (hdet : (X : Matrix (Fin 2) (Fin 2) F).det = 1) :
     ∑ k ∈ Finset.range 5, ((blk X : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) ^ k =
@@ -159,6 +168,7 @@ private theorem sum_pow_blk_L3coreB (X : GL (Fin 2) F)
   ext i j
   fin_cases i <;> fin_cases j <;> simp [blkMat, Matrix.sum_apply]
 
+omit [Finite F] in
 private theorem key_L3coreB {g yl wt : ↥S} {X : GL (Fin 2) F} (h5 : (5 : F) ≠ 0)
     (hX : X ∈ sl2Of Bl) (hX5 : X ^ 5 = 1) (hX1 : X ≠ 1)
     (hw : (wt : GL (Fin 3) F) = (g : GL (Fin 3) F) * negDiag3 F * (g : GL (Fin 3) F)⁻¹)
@@ -197,7 +207,7 @@ private theorem key_L3coreB {g yl wt : ↥S} {X : GL (Fin 2) F} (h5 : (5 : F) �
     rw [coe_negDiag3]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blkMat, Matrix.diagonal_apply, Matrix.one_apply] <;> norm_num
+      simp [blkMat]; norm_num
   rw [hw, Units.val_mul, Units.val_mul, hsumY, sum_pow_blk_L3coreB X hdet, hsum0]
   calc (5 : F) • (((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *
           ((negDiag3 F : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *
@@ -219,7 +229,7 @@ private theorem key_L3coreB {g yl wt : ↥S} {X : GL (Fin 2) F} (h5 : (5 : F) �
           Matrix.mul_one]
         rw [hGG]
 
-private theorem levi_data_L3coreB (hS : L3Shape F S Bl p)
+private theorem levi_data_L3coreB (_hS : L3Shape F S Bl p)
     (hker : ψ.ker ≤ (StatedScalars (Fin 3) F).subgroupOf S) {g a : ↥S} {X : GL (Fin 2) F}
     (hX : X ∈ sl2Of Bl)
     (ha : (a : GL (Fin 3) F) = (g : GL (Fin 3) F) * blk X * (g : GL (Fin 3) F)⁻¹)

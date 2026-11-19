@@ -67,23 +67,23 @@ theorem good_ev : ∀ σ : Perm (Fin 6), σ * σ = 1 → ∀ i, Good σ (ev i + 
     by_cases hki : k = i
     · subst hki
       rw [hk]
-      simp only [eq_self_iff_true, ↓reduceIte]
+      simp only [↓reduceIte]
       decide
     · have hks : k ≠ σ i := fun h => hki (by rw [← hk, h, hσk])
-      rw [if_neg hki, if_neg hks, add_zero]
+      rw [ite_eq_right hki, ite_eq_right hks, add_zero]
 
 theorem not_good_ev : ∀ σ : Perm (Fin 6), ∀ i t, t ≠ i → σ i ≠ t → ¬ Good σ (ev i + ev t) := by
   intro σ i t hti hσi hg
   have hv : (ev i + ev t) i = 1 := by
-    simp only [ev, Pi.add_apply, Pi.single_apply, eq_self_iff_true, ↓reduceIte,
-      if_neg (Ne.symm hti), add_zero]
+    simp only [ev, Pi.add_apply, Pi.single_apply, ↓reduceIte,
+      ite_eq_right (Ne.symm hti), add_zero]
   by_cases hfix : σ i = i
   · have h0 := hg.2 i hfix
     rw [hv] at h0
     exact absurd h0 (by decide)
   · have h0 := hg.1 i
     rw [hv] at h0
-    simp only [ev, Pi.add_apply, Pi.single_apply, if_neg hfix, if_neg hσi, add_zero] at h0
+    simp only [ev, Pi.add_apply, Pi.single_apply, ite_eq_right hfix, ite_eq_right hσi, add_zero] at h0
     exact absurd h0 (by decide)
 
 theorem sum_ev_add : ∀ i k : Fin 6, k ≠ i → ∑ l, (ev i + ev k) l = 0 := by
@@ -94,8 +94,7 @@ theorem pv_ev_ne : ∀ σ : Perm (Fin 6), ∀ i k, σ i ≠ i → k ≠ i → σ
   intro σ i k h1 h2 h3 h
   have h0 := congrFun h (σ i)
   have h5 : σ⁻¹ (σ i) = i := by simp
-  simp only [pv, ev, Pi.add_apply, Pi.single_apply, h5, eq_self_iff_true,
-    ↓reduceIte, if_neg (Ne.symm h2), if_neg h1, if_neg h3, add_zero] at h0
+  simp only [pv, ev, Pi.add_apply, Pi.single_apply, h5, ↓reduceIte, ite_eq_right (Ne.symm h2), ite_eq_right h1, ite_eq_right h3, add_zero] at h0
   exact absurd h0 (by decide)
 
 theorem distinct_four : ∀ i p k q : Fin 6, p ≠ i → q ≠ k → k ≠ i → k ≠ p →

@@ -27,12 +27,12 @@ theorem t320_u_a_half (m : ℕ) (hm : 3 ≤ m) :
       Torus.ofInt (Type320.k m) ![0, (2 : ℤ) ^ (m - 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, gen]
   have hvb : (2 ^ (m - 1) : ℕ) • Torus.b (k := Type320.k m) =
       Torus.ofInt (Type320.k m) ![0, 0, (2 : ℤ) ^ (m - 1)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.b, gen]
   rw [hva, hvb]
   change matAct (Type320.k m) (Type320.uM (Type120.FV m))
       (Type320.compat_u m (Type120.iV m) (Type120.FV m) (Type120.GV m))
@@ -44,7 +44,7 @@ theorem t320_u_a_half (m : ℕ) (hm : 3 ≤ m) :
     rw [show Type320.uM (Type120.FV m) = uMat ![-1, 0, 0] (-8 * Type120.FV m) from rfl,
       uMat, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp <;> ring
+    fin_cases j <;> simp
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -72,7 +72,7 @@ theorem t320_uv_fixes_a_half (m : ℕ) (hm : 3 ≤ m) :
       Torus.ofInt (Type320.k m) ![0, (2 : ℤ) ^ (m - 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, gen]
   rw [hva]
   change matAct (Type320.k m) (Type320.uvM (Type120.iV m) (Type120.FV m) (Type120.GV m))
       (Type320.compat_uv m (Type120.iV m) (Type120.FV m) (Type120.GV m))
@@ -89,7 +89,7 @@ theorem t320_uv_fixes_a_half (m : ℕ) (hm : 3 ≤ m) :
           (Type320.ρM *ᵥ (Type320.tM (Type120.iV m) (Type120.FV m) (Type120.GV m) *ᵥ
             Type320.uvA (Type120.iV m) (Type120.FV m))) from rfl, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp [Type320.uvA] <;> ring
+    fin_cases j <;> simp [Type320.uvA]
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -147,6 +147,7 @@ theorem t320_uv_fixes_b_half (m : ℕ) (hm : 3 ≤ m) :
     _ = (2 ^ (m - 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t320 m hm).k) :=
           t320_u_a_half m hm
 
+omit [Finite G] in
 theorem t320_u_swaps_a_half {D : Subgroup G} {m : ℕ} (hm : 3 ≤ m)
     (dD : StrothWeakTypeData D (StrothTypeIndex.t320 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (m - 1)) * dD.u = (dD.b : G) ^ 2 ^ (m - 1) := by
@@ -173,7 +174,7 @@ theorem t320_φu_ab_half (m : ℕ) (hm : 3 ≤ m) :
       Torus.ofInt (Type320.k m) ![0, (2 : ℤ) ^ (m - 2), (2 : ℤ) ^ (m - 2)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen, zsmul_eq_mul]
   rw [hvc]
   change matAct (Type320.k m) (Type320.uM (Type120.FV m))
       (Type320.compat_u m (Type120.iV m) (Type120.FV m) (Type120.GV m))
@@ -187,7 +188,7 @@ theorem t320_φu_ab_half (m : ℕ) (hm : 3 ≤ m) :
     rw [show Type320.uM (Type120.FV m) = uMat ![-1, 0, 0] (-8 * Type120.FV m) from rfl,
       uMat, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp <;> ring
+    fin_cases j <;> simp; ring
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -225,7 +226,7 @@ theorem t320_φuv_a_add_b (m : ℕ) (hm : 3 ≤ m) :
   rw [map_add, Type320.uv_a hD, Type320.uv_b hD]
   funext j
   fin_cases j <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul,
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul,
       hD.hi, hD.hF]
   all_goals ring
 
@@ -264,7 +265,7 @@ theorem t320_uv_preimage (m : ℕ) (hm : 3 ≤ m) :
         ![0, (2 : ℤ) ^ (m - 2), (2 : ℤ) ^ (m - 2)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen, zsmul_eq_mul]
   rw [hφv, hw]
   dsimp only [v, N]
   rw [← Torus.ofInt_sub, Torus.ofInt_eq_ofInt_iff]
@@ -343,8 +344,8 @@ theorem t320_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (m - 1) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 2) * ab ^ 2 ^ (m - 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ m := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a, hn]
   have hbord : orderOf (dD.b : G) = 2 ^ m := by
@@ -503,7 +504,7 @@ theorem t320_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
       (2 ^ (m - 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t320 m hm).k) := by
     intro htor
     have h1 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h1
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h1
     exact two_pow_pred_ne_zero (n := m) (by omega) h1
   have hahb_ne : ah ≠ bh := by
     intro heq
@@ -551,6 +552,7 @@ theorem t320_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t320_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t320 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t320 m hm).n - 2) =
@@ -570,8 +572,8 @@ theorem t320_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

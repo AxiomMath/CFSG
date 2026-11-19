@@ -12,7 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
-theorem q13d_I_om_cent_A (h : Q13Om t L S x₁ x₂ lam rho tau om)
+theorem q13d_I_om_cent_A (_h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hI : closure ({t, om} : Set G) ⊓
       centralizer ((q13A t tau x₁ x₂ rho : Subgroup G) : Set G) = closure ({tau, om} : Set G)) :
     ∀ a ∈ q13A t tau x₁ x₂ rho, om * a = a * om := by
@@ -71,7 +71,7 @@ private lemma q13d_I_K_le_CO (h : Q13Om t L S x₁ x₂ lam rho tau om) :
 
 private lemma q13d_I_card_closure_tau_om (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     Nat.card ↥(closure ({tau, om} : Set G)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hom2 : om ^ 2 = 1 := by rw [pow_two]; exact h.om_sq
   have htau2 : tau ^ 2 = 1 := by rw [pow_two]; exact q13a_tau_mul_self h
   have hom1 : om ≠ 1 := by

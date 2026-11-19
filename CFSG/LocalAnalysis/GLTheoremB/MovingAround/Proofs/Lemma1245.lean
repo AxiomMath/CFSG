@@ -134,7 +134,7 @@ theorem pRank_le_four_of_inputs (h123 : Lemma123Statement) (h104ii : Lemma104_ii
   have hk : CFSG.Open.pRank 3 (E ⊓ A) = 2 := Lemma124.pRank_inter_eq_two_of_inputs h123 h
   obtain ⟨hp3, -⟩ := h123 h
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hlt
   push Not at hlt
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -219,7 +219,7 @@ theorem exists_barOf_equiv_of_cover {p : ℕ} (hp : p.Prime) {X J : Subgroup G} 
     (hcov : barX p X J = ⊤) :
     ∃ e : barOf p J ≃* barOf p X, ∀ x : ↥J,
       e (QuotientGroup.mk x) = QuotientGroup.mk (Subgroup.inclusion hJX x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmemS : ∀ z : ↥X ⧸ GLAPPrimeCore p ↥X, z ∈ barX p X J := fun z => by
     rw [hcov]
     exact Subgroup.mem_top z
@@ -277,6 +277,7 @@ theorem exists_barOf_equiv_of_cover {p : ℕ} (hp : p.Prime) {X J : Subgroup G} 
   simp only [MulEquiv.trans_apply, QuotientGroup.quotientMulEquivOfEq_mk]
   rfl
 
+omit [Finite G] in
 theorem congr_barAut_of_cover {p : ℕ} {X J : Subgroup G} (hJX : J ≤ X)
     (e : barOf p J ≃* barOf p X)
     (he : ∀ x : ↥J, e (QuotientGroup.mk x) = QuotientGroup.mk (Subgroup.inclusion hJX x))
@@ -314,6 +315,7 @@ section Decomp
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_top_of {p : ℕ} {S : Subgroup G} (hS : IsElemAbelian p S) :
     IsElemAbelian p (⊤ : Subgroup ↥S) := by
   have hcomm : ∀ a b : ↥S, a * b = b * a := fun a b => hS.1.is_comm.comm a b
@@ -332,7 +334,7 @@ theorem decomp_of_normalizes (hI7 : Input7_L34) {A K A0 : Subgroup G}
     (hA0A : A0 ≤ A) (h9 : Nat.card A0 = 9) (hdisj : A0 ⊓ centBar 3 A K = ⊥) :
     A = A0 ⊔ centBar 3 A K ∧ Nat.card (centBar 3 A K : Subgroup G) = 9 ∧
       Nat.card ((barAut 3 K).comp (Subgroup.inclusion hAN)).range = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set F := centBar 3 A K with hFdef
   have hFA : F ≤ A := inf_le_right
   let φ : ↥A →* MulAut (barOf 3 K) := (barAut 3 K).comp (Subgroup.inclusion hAN)
@@ -398,7 +400,7 @@ theorem barX_JJ_covers {A K : Subgroup G} (hAel : IsElemAbelian 3 A)
     (hq : CFSG.Open.IsQuasisimple (barOf 3 K)) :
     barX 3 (K ⊓ Subgroup.centralizer ((FF A K : Subgroup G) : Set G)) (JJ A K) = ⊤ ∧
       barX 3 K (JJ A K) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   set F := FF A K with hFdef
   have hFA : F ≤ A := inf_le_right
@@ -514,6 +516,7 @@ theorem center_eq_bot_of_equiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
   rw [h, Subgroup.mem_bot] at hz'
   exact Subgroup.mem_bot.2 (e.injective (by simpa using hz'))
 
+omit [Finite G] in
 theorem mem_normalizer_glaPLayer' {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLAPLayer p X : Set G) := by
@@ -531,6 +534,7 @@ theorem mem_normalizer_glaPLayer' {p : ℕ} {X : Subgroup G} {g : G}
     rwa [gLBConj_gLBConj_inv] at h2
   rw [mem_normalizer_iff_gLBConj_eq, ← heq, gLBConj_eq_of_mem_normalizer hg]
 
+omit [Finite G] in
 theorem mem_normalizer_JJ {A K : Subgroup G} {u : G} (huK : u ∈ Subgroup.normalizer (K : Set G))
     (huF : u ∈ Subgroup.centralizer ((FF A K : Subgroup G) : Set G)) :
     u ∈ Subgroup.normalizer ((JJ A K : Subgroup G) : Set G) := by
@@ -580,6 +584,7 @@ theorem isLThreeFour_modCenter_congr {X Y : Type} [Group X] [Group Y] (e : X ≃
     (h : IsLThreeFour (X ⧸ Subgroup.center X)) : IsLThreeFour (Y ⧸ Subgroup.center Y) :=
   isLThreeFour_congr (QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)) h
 
+omit [Finite G] in
 theorem cent_le_normalizer_of_unique {x : G} {Y : Subgroup G} (hY : GLAPComponent 3 (Cg x) Y)
     (hYt : IsLThreeFour (barOf 3 Y ⧸ Subgroup.center (barOf 3 Y)))
     (hYc : Subgroup.center (barOf 3 Y) = ⊥)
@@ -605,7 +610,7 @@ theorem cent_le_normalizer_of_unique {x : G} {Y : Subgroup G} (hY : GLAPComponen
 theorem eq_one_of_mem_F_J {A K : Subgroup G} (hAel : IsElemAbelian 3 A)
     (hJcenter : Subgroup.center (barOf 3 (JJ A K)) = ⊥) {f : G} (hfF : f ∈ FF A K)
     (hfJ : f ∈ JJ A K) : f = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfA : f ∈ A := (inf_le_right : FF A K ≤ A) hfF
   have hf3 : f ^ 3 = 1 := hAel.2 f hfA
   have hJC : JJ A K ≤ Subgroup.centralizer ((FF A K : Subgroup G) : Set G) :=
@@ -683,6 +688,7 @@ theorem exists_unitary_J {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup 
     isUnitaryAut_of_congr e (by rw [hcongr]; exact hu₁U)
   exact ⟨o, ⟨⟨ho.2, ho.1.1⟩, ho.1.2⟩, hoN, by rw [← hbar]; exact hUJ⟩
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer_of_comm {F : Subgroup G} {u : G} (hu : ∀ f ∈ F, f * u = u * f) :
     u ∈ Subgroup.normalizer ((Subgroup.centralizer (F : Set G) : Subgroup G) : Set G) := by
   have key : ∀ (v g : G), (∀ f ∈ F, f * v = v * f) →
@@ -717,6 +723,7 @@ theorem mem_normalizer_centralizer_of_comm {F : Subgroup G} {u : G} (hu : ∀ f 
     have := key u⁻¹ (u * g * u⁻¹) hu' hg
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem centBar_barAut_eq_one {A K : Subgroup G} {f : G} (hf : f ∈ centBar 3 A K) :
     ∃ hfN : f ∈ Subgroup.normalizer (K : Set G), barAut 3 K ⟨f, hfN⟩ = 1 := by
   obtain ⟨γ, hγ, hγf⟩ := Subgroup.mem_map.1 (Subgroup.mem_inf.1 hf).1
@@ -733,8 +740,8 @@ theorem exists_unitary_cent_A {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subg
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩)) :
     ∃ u ∈ Tof 3 M a ⊓ Subgroup.centralizer (A : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   obtain ⟨u₀, hu₀, hu₀N, hu₀U⟩ := hu
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -812,6 +819,7 @@ theorem exists_unitary_cent_A {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subg
     rw [hbar]
     exact hu₀U
 
+omit [Finite G] in
 theorem mem_centBar_of_component {A K : Subgroup G} {a : G} (haA : a ∈ A) (hKC : K ≤ Cg a) :
     a ∈ centBar 3 A K := by
   have hcomm : ∀ k ∈ K, a * k = k * a := fun k hk =>
@@ -861,7 +869,7 @@ theorem exists_inner_complement {A K : Subgroup G} (hAel : IsElemAbelian 3 A) (h
     (hinn : ∀ a (ha : a ∈ A), ∃ z : barOf 3 K, barAut 3 K ⟨a, hAN ha⟩ = MulAut.conj z)
     (hR9 : Nat.card ((barAut 3 K).comp (Subgroup.inclusion hAN)).range = 9) :
     ∃ S : Subgroup G, S ≤ A ∧ S ≤ K ∧ Nat.card S = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   set φ : ↥A →* MulAut (barOf 3 K) := (barAut 3 K).comp (Subgroup.inclusion hAN) with hφ
   have hφapp : ∀ a (ha : a ∈ A), φ ⟨a, ha⟩ = barAut 3 K ⟨a, hAN ha⟩ := fun a ha => rfl
@@ -1021,6 +1029,7 @@ theorem exists_inner_complement {A K : Subgroup G} (hAel : IsElemAbelian 3 A) (h
   · rw [Subgroup.card_map_of_injective D.subtype_injective]
     exact hHcard
 
+omit [Finite G] in
 theorem exists_conj_of_inducesInner {K : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) (hx : InducesInner 3 K x) :
     ∃ z : barOf 3 K, barAut 3 K ⟨x, hxN⟩ = MulAut.conj z := by
@@ -1041,7 +1050,7 @@ theorem mem_JJ_of_pow_three {A K : Subgroup G}
     (hcovH : barX 3 (K ⊓ Subgroup.centralizer ((FF A K : Subgroup G) : Set G)) (JJ A K) = ⊤)
     {s : G} (hsH : s ∈ K ⊓ Subgroup.centralizer ((FF A K : Subgroup G) : Set G)) (hs3 : s ^ 3 = 1) :
     s ∈ JJ A K := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   set H := K ⊓ Subgroup.centralizer ((FF A K : Subgroup G) : Set G) with hH
   have hJH : JJ A K ≤ H := Sec12b.layer_le 3 H
@@ -1090,7 +1099,7 @@ theorem lemma124_print_i_of_inputs
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) (hcenter : Subgroup.center (barOf 3 K) = ⊥) :
     A = (A ⊓ JJ A K) ⊔ FF A K ∧ (A ⊓ JJ A K) ⊓ FF A K = ⊥ ∧ Nat.card (A ⊓ JJ A K : Subgroup G) = 9 ∧
       Nat.card (FF A K : Subgroup G) = 9 := by
-  haveI hp : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hp : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hA4 : CFSG.Open.pRank 3 A = 4 :=
     pRank_eq_four_of_inputs h122 h123 h117 h104ii h104iii h104iv h hK hK3 hKM
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -1178,7 +1187,7 @@ theorem lemma124_core_of_inputs
         ∃ hu : u ∈ Subgroup.normalizer (JJ A K : Set G),
           IsUnitaryAut (barAut 3 (JJ A K) ⟨u, hu⟩)) ∧
       K = Kx 3 (JJ A K) a := by
-  haveI hp : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hp : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hA4 : CFSG.Open.pRank 3 A = 4 :=
     pRank_eq_four_of_inputs h122 h123 h117 h104ii h104iii h104iv h hK hK3 hKM
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -1248,6 +1257,7 @@ section Core125
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_sup_decomp_of_perm {J W : Subgroup G}
     (hPW : ∀ g ∈ J, ∀ v ∈ W, ∃ v' ∈ W, ∃ g' ∈ J, g * v = v' * g') :
     ∀ x ∈ J ⊔ W, ∃ w ∈ W, ∃ j ∈ J, x = w * j := by
@@ -1348,7 +1358,7 @@ theorem glaPPrimeCoreOf_JW_le {m : ℕ} {B M E A : Subgroup G} {K : Subgroup G}
       barX 3 (Kx 3 (JJ A K) x) (JJ A K) = ⊤)
     (hrank2 : 2 ≤ CFSG.Open.pRank 3 (E ⊓ A)) :
     GLAPPrimeCoreOf 3 (JJ A K ⊔ WW M A K) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   have ha1 : a ≠ 1 := h.ha.2
   have haA : a ∈ A := h.ha.1
@@ -1490,8 +1500,8 @@ theorem pCoreOf_JW_le {M F J W : Subgroup G} (hFM : F ≤ M) (hFel : IsElemAbeli
     (hJW : W ≤ J ⊔ W) (hO3 : GLAPPrimeCoreOf 3 (J ⊔ W) ≤ M)
     (hS : pCoreOf 2 (M ⊓ (J ⊔ W)) ≤ GLAPPrimeCoreOf 3 M) :
     pCoreOf 2 (J ⊔ W) ≤ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   have hgen := CFSG.RankThreeEvenClassification.Helpers.coprime_centralizer_generation_of_plane 3 hp3
     F (GLAPPrimeCoreOf 3 M) (fun member => Subtype.ext (by simpa using hFel.2 member.1 member.2))
@@ -1532,8 +1542,8 @@ theorem pCoreOf_JW_le {M F J W : Subgroup G} (hFM : F ≤ M) (hFel : IsElemAbeli
 theorem twoPrimeComp_of_glaPComponent {X Js : Subgroup G} (hJs : GLAPComponent 3 X Js)
     (hcore : GLAPPrimeCoreOf 3 Js ≤ pCoreOf 2 Js) :
     IsTwoPrimeComp X Js ∧ CFSG.pCore 2 ↥Js = GLAPPrimeCore 3 ↥Js := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   have hJX : Js ≤ X := hJs.1
   have hsn : IsSubnormal Js X := hJs.2.1

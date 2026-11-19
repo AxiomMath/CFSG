@@ -64,16 +64,16 @@ private lemma ggLieSU3Fixed_diag_cube {K : Type} [Field K] {z : GL (Fin 4) K}
     rw [Matrix.diagonal_pow]
   calc (z : Matrix (Fin 4) (Fin 4) K) i i ^ 3
       = (dd ^ 3) i := rfl
-    _ = (Matrix.diagonal (dd ^ 3)) i i := by rw [Matrix.diagonal_apply, if_pos rfl]
+    _ = (Matrix.diagonal (dd ^ 3)) i i := by rw [Matrix.diagonal_apply, ite_eq_left rfl]
     _ = ((z : Matrix (Fin 4) (Fin 4) K) ^ 3) i i := by rw [hpow]
     _ = (1 : Matrix (Fin 4) (Fin 4) K) i i := by rw [hZ3]
-    _ = 1 := by rw [Matrix.one_apply, if_pos rfl]
+    _ = 1 := by rw [Matrix.one_apply, ite_eq_left rfl]
 
 private lemma ggLieSU3Fixed_rho_eq_one {K : Type} [Field K] {H : Subgroup (GL (Fin 4) K)}
     (hH : ⁅H, H⁆ = H) {ρ : GL (Fin 4) K → K} (hρ1 : ρ 1 = 1)
     (hρmul : ∀ a b, a ∈ H → b ∈ H → ρ (a * b) = ρ a * ρ b)
     {x : GL (Fin 4) K} (hx : x ∈ ⁅H, H⁆) : ρ x = 1 := by
-  letI : Bracket (GL (Fin 4) K) (GL (Fin 4) K) := commutatorElement
+  let : Bracket (GL (Fin 4) K) (GL (Fin 4) K) := commutatorElement
   have hcl : Subgroup.closure {g : GL (Fin 4) K | ∃ g₁ ∈ H, ∃ g₂ ∈ H, ⁅g₁, g₂⁆ = g} = H := by
     rw [show Subgroup.closure {g : GL (Fin 4) K | ∃ g₁ ∈ H, ∃ g₂ ∈ H, ⁅g₁, g₂⁆ = g} = ⁅H, H⁆ from
       (Subgroup.commutator_def H H).symm]
@@ -149,7 +149,7 @@ private lemma ggLieSU3Fixed_class_pow {K : Type} [Field K] [DecidableEq K] {z d 
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     by_cases hiU : i ∈ U
     · by_cases hjU : j ∈ U
-      · simp only [hiU, hjU, if_true]
+      · simp only [hiU, hjU, ite_true]
         exact mul_comm _ _
       · have hp : ¬ (((z : Matrix (Fin 4) (Fin 4) K) i i, (d : Matrix (Fin 4) (Fin 4) K) i i) =
             ((z : Matrix (Fin 4) (Fin 4) K) j j, (d : Matrix (Fin 4) (Fin 4) K) j j)) := by

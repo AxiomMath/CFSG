@@ -27,8 +27,8 @@ section Assembly
 
 theorem i1017BabyTwist_of_threeB
     (h : BabyTwistThreeB) : I1017BabyTwist := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b⟩ : Nonempty (NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group) :=
     CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   refine noTwistRank_of_model (s := .B) (r := 5) (X := NativeSporadic.B) ?_ ?_

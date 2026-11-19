@@ -27,7 +27,7 @@ private lemma comm_mul_central_right_L828N {Q : Type} [Group Q] {z : Q}
 theorem quasisimple_proper_normal_le_center {Q : Type} [Group Q] (hq : CFSG.IsQuasisimple Q)
     (N : Subgroup Q) [N.Normal] (hN : N ≠ ⊤) : N ≤ Subgroup.center Q := by
   obtain ⟨hperf, hsimp, -⟩ := hq
-  haveI : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     Subgroup.Normal.map (inferInstance : N.Normal) _
       (QuotientGroup.mk'_surjective (Subgroup.center Q))
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map (QuotientGroup.mk' (Subgroup.center Q))) with
@@ -79,10 +79,10 @@ theorem quasisimple_quot_equiv {Y X : Type} [Group Y] [Finite Y] [Group X] (π :
     (hπ : Function.Surjective π) (hX : IsSimpleGroup X) (hXn : ∃ a b : X, a * b ≠ b * a)
     (hq : CFSG.IsQuasisimple (Y ⧸ CFSG.pCore 2 Y)) :
     Nonempty ((Y ⧸ CFSG.pCore 2 Y) ⧸ Subgroup.center (Y ⧸ CFSG.pCore 2 Y) ≃* X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_surjective π hπ
   have hOker : CFSG.pCore 2 Y ≤ π.ker := by
-    haveI : ((CFSG.pCore 2 Y).map π).Normal :=
+    have : ((CFSG.pCore 2 Y).map π).Normal :=
       Subgroup.Normal.map (inferInstance : (CFSG.pCore 2 Y).Normal) π hπ
     rcases Subgroup.Normal.eq_bot_or_eq_top ((CFSG.pCore 2 Y).map π) with hbot | htop
     · intro o ho
@@ -145,12 +145,12 @@ theorem three_dvd_center_of_solvable_normal {Y : Type} [Group Y] [Finite Y]
     (hq : CFSG.IsQuasisimple (Y ⧸ CFSG.pCore 2 Y)) (Z : Subgroup Y) [Z.Normal]
     [Group.IsSolvable Z] {e : Y} (he : e ∈ Z) (he3 : orderOf e = 3) :
     3 ∣ Nat.card (Subgroup.center (Y ⧸ CFSG.pCore 2 Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 Y) : Y →* Y ⧸ CFSG.pCore 2 Y) :=
     QuotientGroup.mk'_surjective (CFSG.pCore 2 Y)
-  haveI : (Z.map (QuotientGroup.mk' (CFSG.pCore 2 Y))).Normal :=
+  have : (Z.map (QuotientGroup.mk' (CFSG.pCore 2 Y))).Normal :=
     Subgroup.Normal.map (inferInstance : Z.Normal) _ hsurj
-  haveI : Group.IsSolvable (Z.map (QuotientGroup.mk' (CFSG.pCore 2 Y))) :=
+  have : Group.IsSolvable (Z.map (QuotientGroup.mk' (CFSG.pCore 2 Y))) :=
     Group.isSolvable_of_surjective ((QuotientGroup.mk' (CFSG.pCore 2 Y)).subgroupMap_surjective Z)
   have hZc := quasisimple_solvable_normal_le_center hq
     (Z.map (QuotientGroup.mk' (CFSG.pCore 2 Y)))

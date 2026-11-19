@@ -271,7 +271,7 @@ theorem isReflection_of_inner {M G : Type} [Group M] [Finite M] [Group G] [Finit
     {Ω : Subgroup M} (ψ : ↥Ω →* G) (β : ↥Bs →* ↥Ω) (hinj : Function.Injective ψ)
     (hcompat : ∀ (b : ↥Bs) (y : ↥Ω), ψ (β b * y * (β b)⁻¹) = (b : G) * ψ y * (b : G)⁻¹)
     {A : Subgroup M} (hβA : ∀ b : ↥Bs, (β b : M) ∈ A) (hβsurj : ∀ t ∈ A, ∃ b : ↥Bs, (β b : M) = t)
-    {p : ℕ} (hp : 1 < p) {w : ↥Ω} {a : MulAut ↥Bs}
+    {p : ℕ} (_hp : 1 < p) {w : ↥Ω} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = ψ w * b * (ψ w)⁻¹)
     (hw2 : ∀ t ∈ A, (w : M) * (w : M) * t = t * ((w : M) * (w : M))) {H : Subgroup M}
     (hH : ∀ t : M, t ∈ H ↔ t ∈ A ∧ (w : M) * t = t * (w : M))

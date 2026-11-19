@@ -32,7 +32,7 @@ theorem qtwoDB3_bmax_le (hp : p.Prime) (hB : LargeEvenIsBmax p B) {E : Subgroup 
     (hE : CFSG.Open.IsElemAbelian p E)
     (hU : ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ E ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card ↥E ≤ Nat.card ↥B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, hU1, hU2, hEU⟩ := hU
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   have hle : k ≤ CFSG.Open.twoLocalPrimeRank p G := by
@@ -90,7 +90,7 @@ theorem qtwoDB3_L_normal (hbase : QTwoUnitBase p B Bs x L ψ ε) (hm : 5 ≤ m)
           have h := hbase.hyp.bstar.2.1.2 (s : G) s.2.1
           rwa [hbase.p_eq] at h
         simpa using hs3
-      haveI : IsCyclic ↥(Bs ⊓ L) := hcycS
+      have : IsCyclic ↥(Bs ⊓ L) := hcycS
       rw [IsCyclic.exponent_eq_card] at hexp
       have hle3 : Nat.card ↥(Bs ⊓ L) ≤ 3 := Nat.le_of_dvd (by norm_num) hexp
       have h9 := qtwoDB3_card_inf hbase hm

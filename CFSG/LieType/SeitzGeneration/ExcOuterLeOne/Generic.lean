@@ -35,11 +35,11 @@ theorem subfield_eq_or_top {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {p :
   have hcard : Nat.card K = Nat.card k ^ p := by
     have := CFSG.RankThree.PartOne.SEITZ6.card_eq_card_fixSubfield_pow σ
     rwa [hσ] at this
-  haveI : Finite k := inferInstance
+  have : Finite k := inferInstance
   let F' : IntermediateField k K :=
     F.toIntermediateField (fun x => hF x.2)
   have hrank : Module.finrank k K = p := by
-    haveI : Module.Finite k K := inferInstance
+    have : Module.Finite k K := inferInstance
     have h1 := Module.natCard_eq_pow_finrank (K := k) (V := K)
     have hk2 : 2 ≤ Nat.card k := by
       have : Nontrivial k := inferInstance
@@ -75,11 +75,11 @@ theorem subfield_eq_or_top {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {p :
 theorem card_fixSubfield_eq_two_or_four_dvd {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
     (h2 : ringChar K = 2) : Nat.card (fixSubfield σ) = 2 ∨ 4 ∣ Nat.card (fixSubfield σ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by rw [← h2]; exact ringChar.charP K
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by rw [← h2]; exact ringChar.charP K
+  have : CharP (fixSubfield σ) 2 :=
     ((fixSubfield σ).subtype.charP_iff Subtype.val_injective 2).2 inferInstance
-  haveI : Fintype (fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype (fixSubfield σ) := Fintype.ofFinite _
   obtain ⟨n, -, hn⟩ := FiniteField.card (fixSubfield σ) 2
   rw [Nat.card_eq_fintype_card, hn]
   rcases Nat.lt_or_ge (n : ℕ) 2 with h | h

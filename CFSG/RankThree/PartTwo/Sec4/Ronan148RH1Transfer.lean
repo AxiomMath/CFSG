@@ -16,7 +16,7 @@ open CFSG.RankThree.PartTwo.Sec4.Ronan148S
 
 theorem noONS427_of_card {S : Type} [Group S] [Finite S] (h : ¬ (19 * 31 * 343) ∣ Nat.card S) :
     NoONS427 S :=
-  fun σ _ _ hd => h (hd.trans (Subgroup.card_subgroup_dvd_card _))
+  fun _σ _ _ hd => h (hd.trans (Subgroup.card_subgroup_dvd_card _))
 
 theorem card_eq_card_map_mk_mul {L : Type} [Group L] [Finite L] (H : Subgroup L) :
     Nat.card H = Nat.card (H.map (QuotientGroup.mk' (Subgroup.center L))) *
@@ -77,8 +77,8 @@ theorem row427_of_noCfg'
     have hK₁q : IsQuasisimple (K'.subgroupOf L) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv eKL.symm hK'q
     have hZK : Subgroup.center (K'.subgroupOf L ⧸ CFSG.pCore 2 (K'.subgroupOf L)) = ⊥ := by
-      haveI := (isA5Type_quot_congr eKL hT).isSimpleGroup
-      haveI : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
+      have := (isA5Type_quot_congr eKL hT).isSimpleGroup
+      have : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
       exact center_eq_bot_of_isSimpleGroup_of_isPerfect
     have hinf : K'.subgroupOf L ⊓ Subgroup.center L = ⊥ :=
       inf_eq_bot_of_center_eq_bot hK₁q hZK le_rfl hZ3

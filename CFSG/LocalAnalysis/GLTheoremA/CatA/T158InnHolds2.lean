@@ -119,10 +119,10 @@ theorem t158Inn_field_label {Ω : Type} [Group Ω] [Finite Ω] {S L : Subgroup �
     GLAMarking (PQuot 3 S) (fun lab _ _ I F θ => lab = ⟨.twA, 2, 9⟩ ∧
       GLAPrimeField 3 lab I F (GLAInduces θ (indRel 3 S x))) := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hSc
-  haveI := hsimple
+  have := hsimple
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 S) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hSc
   have hcen : Subgroup.center (PSimple 3 S) = ⊥ := Y10F.center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot 3 S) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 S) := ⟨hq.1⟩
   have hTperf : commutator (PSimple 3 S) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot 3 S)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

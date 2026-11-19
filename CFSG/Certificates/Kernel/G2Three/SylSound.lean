@@ -48,14 +48,14 @@ theorem pow14_pk {c : List ℕ} {E : ℕ} (h : canon14 c = true ∧ pk c = E) (k
   rcases Nat.lt_trichotomy k 1 with hk | rfl | hk
   · have : k = 0 := by omega
     subst this
-    rw [if_pos rfl, Nat.beq_refl, cond_true]
+    rw [ite_eq_left rfl, Nat.beq_refl, _root_.Bool.cond_true]
     exact ⟨canon14_one14, hone⟩
   · have h0 : Nat.beq 1 0 = false := rfl
-    rw [if_neg (by omega), if_pos rfl, h0, cond_false, Nat.beq_refl, cond_true]
+    rw [ite_eq_right (by omega), ite_eq_left rfl, h0, Bool.cond_false, Nat.beq_refl, _root_.Bool.cond_true]
     exact h
   · have h0 : Nat.beq k 0 = false := beq_false (by omega)
     have h1 : Nat.beq k 1 = false := beq_false (by omega)
-    rw [if_neg (by omega), if_neg (by omega), h0, h1, cond_false, cond_false]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), h0, h1, Bool.cond_false, Bool.cond_false]
     exact mulE hc h h
 
 theorem blt_false {a b : ℕ} (h : ¬ a < b) : Nat.blt a b = false := by
@@ -70,24 +70,24 @@ theorem letterCode_pk {A : ℕ → ℕ}
     canon14 (letterCode l) = true ∧ pk (letterCode l) = letK A l := by
   unfold letterCode letK
   by_cases h4 : l < 4
-  · rw [if_pos h4, Nat.blt_eq.mpr h4, cond_true]
+  · rw [ite_eq_left h4, Nat.blt_eq.mpr h4, _root_.Bool.cond_true]
     exact hA l h4
-  · rw [if_neg h4, blt_false h4, cond_false]
+  · rw [ite_eq_right h4, blt_false h4, Bool.cond_false]
     by_cases h8 : l < 8
-    · rw [Nat.blt_eq.mpr h8, cond_true]
+    · rw [Nat.blt_eq.mpr h8, _root_.Bool.cond_true]
       have h' := hA (l - 4) (by omega)
       exact mulE hc h' h'
-    · rw [blt_false h8, cond_false, List.getD_eq_default _ _ (by simp; omega)]
+    · rw [blt_false h8, Bool.cond_false, List.getD_eq_default _ _ (by simp; omega)]
       exact mulE hc ⟨canon14_one14, hone⟩ ⟨canon14_one14, hone⟩
 
 include hc in
 theorem foldl_pk {α : Type} (f : α → List ℕ) (F : α → ℕ)
     (hf : ∀ a, canon14 (f a) = true ∧ pk (f a) = F a) :
-    ∀ (w : List α) (acc : List ℕ) (A : ℕ), canon14 acc = true ∧ pk acc = A →
-      canon14 (w.foldl (fun c a => mul14 c (f a)) acc) = true ∧
-        pk (w.foldl (fun c a => mul14 c (f a)) acc) = w.foldl (fun c a => MUL c (F a)) A
+    ∀ (w : List α) (_acc : List ℕ) (_A : ℕ), canon14 _acc = true ∧ pk _acc = _A →
+      canon14 (w.foldl (fun c a => mul14 c (f a)) _acc) = true ∧
+        pk (w.foldl (fun c a => mul14 c (f a)) _acc) = w.foldl (fun c a => MUL c (F a)) _A
   | [], _, _, h => h
-  | a :: w, acc, A, h => foldl_pk f F hf w _ _ (mulE hc h (hf a))
+  | a :: w, _acc, _A, h => foldl_pk f F hf w _ _ (mulE hc h (hf a))
 
 include hc hone in
 theorem wordCode_pk {A : ℕ → ℕ}

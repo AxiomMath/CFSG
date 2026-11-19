@@ -25,7 +25,7 @@ theorem ObstructionSetting.isRelPairCandidate {p : ℕ} (hS : ObstructionSetting
   have hDM : D ≤ M := hDP.trans (hS.sylow_le hp hM)
   refine ⟨hd.twoLocal, sup_le inf_le_right hd.le_normalizer, ?_⟩
   exact prime_dvd_card_invariantTwoJoinIn_normalizer_inf p hprime D M R T
-    (P.isPGroup'.to_le hDP) hDM hd.maxR hd.maxT hd.not_le_R hd.le_T hd.inf_eq hCD hd.maximal
+    (P.isPGroup.to_le hDP) hDM hd.maxR hd.maxT hd.not_le_R hd.le_T hd.inf_eq hCD hd.maximal
     (fun T₁ hT₁ => (hglob T₁ hT₁).1)
 
 theorem ObstructionSetting.exists_optimal {p : ℕ} (hS : ObstructionSetting G)
@@ -65,7 +65,7 @@ theorem ObstructionSetting.pRank_eq_two (hS : ObstructionSetting G) (hD1 : Theor
     exact le_csSup (pRank_set_bddAbove p hprime.one_lt _)
       ⟨E, le_inf hEH (hEP'.trans hP'M'), hE, hEc⟩
   obtain ⟨m, hm⟩ := pGroup_conjugate_into_sylow_within_overgroup p hprime P' M' hP'M' D
-    (P.isPGroup'.to_le hDP) (hDH.trans hHM')
+    (P.isPGroup.to_le hDP) (hDH.trans hHM')
   set P'' : Sylow p G := ((m : G)⁻¹) • P' with hP''
   have hDP'' : D ≤ (P'' : Subgroup G) := by
     rw [hP'', sylow_coe_smul_eq_map]
@@ -90,7 +90,7 @@ theorem ObstructionSetting.pRank_eq_two (hS : ObstructionSetting G) (hD1 : Theor
     rw [← hDc]
     exact card_le_of_le hE'D
   obtain ⟨A, hAP'', hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P''
-  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup' hiso
+  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup hiso
     hAP'' ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   obtain ⟨g, hgN, hgz⟩ := hS.exists_mem_normalizer_zpowers_eq hD1 hp hext hPD hDab hCD hzD hz1
     hzc hN₀M hz''D hz''1
@@ -143,7 +143,7 @@ theorem ObstructionSetting.not_hasPrimeConstraint (hS : ObstructionSetting G)
       rw [hn]
       exact ((Nat.coprime_primes hprime Nat.prime_two).mpr hodd).pow_right n
     exact ambient_prime_constraint_signalizer_le_core p hprime hodd H D A hcon
-      (P.isPGroup'.to_le hDP) hDH hcop hAH hDA hcontains
+      (P.isPGroup.to_le hDP) hDH hcop hAH hDA hcontains
   have hjoin := invariantTwoJoinIn_le_of_forall hall
   have hdvd : p ∣ Nat.card ((primeComplementCore (G := H) p).map H.subtype) :=
     hH.not_coprime.trans (Subgroup.card_dvd_of_le hjoin)

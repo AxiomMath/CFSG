@@ -123,9 +123,9 @@ theorem letter_ok {l : Nat} (hl : l < 8) :
       canonK 315 9 (mask 9) (315 * 9) (lt l) = true := by
   rw [cg_size]
   rcases Nat.lt_or_ge l 4 with h | h
-  · rw [if_pos h, cg_get h, lt_lo h, tabF (by omega)]
+  · rw [ite_eq_left h, cg_get h, lt_lo h, tabF (by omega)]
     exact ⟨rfl, Fc (by omega)⟩
-  · rw [if_neg (by omega), cg_get (by omega), lt_hi h, invF (by omega),
+  · rw [ite_eq_right (by omega), cg_get (by omega), lt_hi h, invF (by omega),
       show 32 + (l - 4) = 28 + l by omega]
     exact ⟨rfl, Ic (by omega)⟩
 

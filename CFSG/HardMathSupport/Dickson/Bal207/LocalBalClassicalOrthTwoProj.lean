@@ -128,6 +128,7 @@ section Matrix
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem exists_isometry_of_mem_matrixProjectiveImage (hK : Nat.card K = 2) {d : ℕ} (hd : 0 < d)
     {Q : QuadraticForm K (Fin d → K)} (α : MulAut (ProjOrthDerived Q))
     (hα : MulAut.congr (coordBridge Q hd).symm α ∈ matrixProjectiveImage Q) :

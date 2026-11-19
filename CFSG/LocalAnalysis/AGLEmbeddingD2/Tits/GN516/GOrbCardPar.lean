@@ -21,23 +21,28 @@ variable {K : Type*} [Group K] [Finite K] {D : UniversalRootDatum K} {n : Fin D.
 set_option hygiene false in
 local notation "cs" => (coxeterMatrix D.isFiniteType).toCoxeterSystem
 
+omit [Finite K] in
 private theorem cpSingleMem (i : Fin D.rank) : (Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=
   (RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i
 
+omit [Finite K] in
 private theorem cpNegSingleMem (i : Fin D.rank) :
     (-Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=
   (RootSystem.ofCartan D.isFiniteType D.divisible).neg_mem _ (cpSingleMem i)
 
+omit [Finite K] in
 private theorem cpSimpleSingle (i : Fin D.rank) :
     weylAction D.isFiniteType ((cs).simple i) (Pi.single i 1 : Fin D.rank → ℤ) =
       -Pi.single i 1 :=
   weylAction_simple_single D.isFiniteType i
 
+omit [Finite K] in
 private theorem cpSimpleNeg (i : Fin D.rank) :
     weylAction D.isFiniteType ((cs).simple i) (-Pi.single i 1 : Fin D.rank → ℤ) =
       Pi.single i 1 := by
   rw [map_neg, cpSimpleSingle, neg_neg]
 
+omit [Finite K] in
 private theorem cpBorelMulCell (i : Fin D.rank) {b g : K} (hb : b ∈ borel D H)
     (hg : g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)) :
     b * g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i) := by
@@ -46,6 +51,7 @@ private theorem cpBorelMulCell (i : Fin D.rank) {b g : K} (hb : b ∈ borel D H)
   · exact Or.inr (mul_mem_bruhatCell hct hb hg)
 
 include hct hext in
+omit [Finite K] in
 private theorem cpNMulCell (i : Fin D.rank) {g : K}
     (hg : g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)) :
     n i * g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i) := by
@@ -58,6 +64,7 @@ private theorem cpNMulCell (i : Fin D.rank) {g : K}
     exact h
 
 include hct hext in
+omit [Finite K] in
 private theorem cpMulCell (i : Fin D.rank) {g g' : K}
     (hg : g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i))
     (hg' : g' ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)) :
@@ -71,6 +78,7 @@ private theorem cpMulCell (i : Fin D.rank) {g g' : K}
     rw [e]
     exact cpBorelMulCell hct i hb₁ (cpNMulCell hct hext i (cpBorelMulCell hct i hb₂ hg'))
 
+omit [Finite K] in
 private theorem cpInvCell (i : Fin D.rank) {g : K}
     (hg : g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)) :
     g⁻¹ ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i) := by
@@ -90,6 +98,7 @@ private def cpCell (i : Fin D.rank) : Subgroup K where
   inv_mem' := fun ha => cpInvCell hct i ha
 
 include hct hext in
+omit [Finite K] in
 private theorem cpRankOneLe (i : Fin D.rank) : rankOne D.rootGroup i ≤ cpCell hct hext i := by
   intro g hg
   show g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)
@@ -106,6 +115,7 @@ private theorem cpRankOneLe (i : Fin D.rank) : rankOne D.rootGroup i ≤ cpCell 
     simp only [mul_assoc]
 
 include hct hext in
+omit [Finite K] in
 private theorem cpParJLe (i : Fin D.rank) : parJ D H {i} ≤ cpCell hct hext i := by
   unfold parJ
   refine sup_le ?_ (iSup₂_le fun j hj => ?_)
@@ -116,6 +126,7 @@ private theorem cpParJLe (i : Fin D.rank) : parJ D H {i} ≤ cpCell hct hext i :
     exact cpRankOneLe hct hext i
 
 include hct hext in
+omit [Finite K] in
 private theorem cpNotMemBorel (i : Fin D.rank) : n i ∉ borel D H := by
   intro hn
   apply not_map_conj_n_borel_le hct hext i
@@ -123,6 +134,7 @@ private theorem cpNotMemBorel (i : Fin D.rank) : n i ∉ borel D H := by
   exact mul_mem (mul_mem hn hb) (inv_mem hn)
 
 include hct hext in
+omit [Finite K] in
 private theorem cpNegInfBorel (i : Fin D.rank) {y : K}
     (hy : y ∈ D.rootGroup (-Pi.single i 1)) (hyB : y ∈ borel D H) : y = 1 := by
   have hyL : y ∈ rankOne D.rootGroup i := Subgroup.mem_sup_right hy
@@ -161,6 +173,7 @@ private theorem cpNegInfBorel (i : Fin D.rank) {y : K}
     exact mul_mem (mul_mem (mul_mem (inv_mem hu') hyB) (inv_mem hv')) (inv_mem hh')
 
 include hct hext in
+omit [Finite K] in
 private theorem cpInj (i : Fin D.rank) {b b' x x' : K} (hb : b ∈ borel D H)
     (hb' : b' ∈ borel D H) (hx : x ∈ D.rootGroup (Pi.single i 1))
     (hx' : x' ∈ D.rootGroup (Pi.single i 1)) (he : b * n i * x = b' * n i * x') :
@@ -179,6 +192,7 @@ private theorem cpInj (i : Fin D.rank) {b b' x x' : K} (hb : b ∈ borel D H)
   exact ⟨hbb, mul_left_cancel (mul_left_cancel he)⟩
 
 include hct hext in
+omit [Finite K] in
 private theorem cpNMulBorel (i : Fin D.rank) {c : K} (hc : c ∈ borel D H) :
     ∃ b' ∈ borel D H, ∃ x ∈ D.rootGroup (Pi.single i 1), n i * c = b' * n i * x := by
   obtain ⟨b', hb', x, hx, he⟩ := exists_n_mul_mul_nrep hct hext ((cs).not_isLeftDescent_one i) hc
@@ -187,6 +201,7 @@ private theorem cpNMulBorel (i : Fin D.rank) {c : K} (hc : c ∈ borel D H) :
   · simpa only [nrep_one hct, mul_one, nrep_simple hct i] using he
 
 include hct hext in
+omit [Finite K] in
 private theorem cpParJForm (i : Fin D.rank) {g : K} (hg : g ∈ parJ D H {i}) :
     g ∈ borel D H ∨ ∃ b ∈ borel D H, ∃ x ∈ D.rootGroup (Pi.single i 1),
       g = b * n i * x := by

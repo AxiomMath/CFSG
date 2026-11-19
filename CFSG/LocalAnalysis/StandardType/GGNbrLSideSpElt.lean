@@ -29,7 +29,7 @@ theorem ggNbrLSideSp_elt {ℓ n : ℕ} {K : Type} [Field K] [Finite K] (hDet : G
     (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasInput)
     (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) (hℓ : 1 ≤ ℓ) (lab : LargeEvenLabel) :
     GGNbrLSideDichElt lab (LargeEvenProj (LargeEvenSpGroup K ℓ)) := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hinj : Function.Injective (LargeEvenProjMk (LargeEvenSpGroup K ℓ)) :=
     CFSG.LocalAnalysis.GLTheoremA.K155XSp.l154s_proj_injective (CharP.cast_eq_zero K 2)
   intro a b ha1 ha3 _ hab J hJ Q hQ4 _ hF α hα

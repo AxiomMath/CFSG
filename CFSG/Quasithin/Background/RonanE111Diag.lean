@@ -17,7 +17,7 @@ section Semi
 variable {Q : Type} [Group Q] [Finite Q]
 
 theorem card_barRad_le' {n : ℕ} {B D₀ : Subgroup Q} (hBN : B ≤ Subgroup.normalizer (D₀ : Set Q))
-    (hB : IsElemAbelian 2 B)
+    (_hB : IsElemAbelian 2 B)
     (hBC : B ⊓ Subgroup.centralizer (D₀ : Set Q) ≤ CFSG.solvableRadical Q)
     (hrank : Nat.card ↥(conjAut hBN).range ≤ 2 ^ n) :
     Nat.card ↥(E1.barRad Q B) ≤ 2 ^ n := by
@@ -135,7 +135,7 @@ theorem card_barRad_le_diagK' {n : ℕ} (hA : C ⊔ (A ⊓ Subgroup.normalizer (
     unfold actOn
     refine MonoidHom.mem_range.mpr ⟨⟨u, hu⟩, MulEquiv.ext fun s => Subtype.ext ?_⟩
     exact (congrArg (fun z : ↥S => (z : G)) (hfin s)).symm
-  haveI : Finite (MulAut ↥S) := MulEquiv.finite_left
+  have : Finite (MulAut ↥S) := MulEquiv.finite_left
   have hinj : Function.Injective (MulAut.congr e).toMonoidHom := (MulAut.congr e).injective
   have hmapcard : Nat.card ↥(Subgroup.map (MulAut.congr e).toMonoidHom (conjAut hBN).range) =
       Nat.card ↥(conjAut hBN).range := Subgroup.card_map_of_injective hinj

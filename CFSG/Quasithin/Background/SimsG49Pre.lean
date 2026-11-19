@@ -49,7 +49,7 @@ omit [Group Γ] in
 theorem conj_mem_of_index_two {O S : Subgroup M} (hSO : S ≤ O)
     (hidx : (S.subgroupOf O).index = 2) : ∀ y ∈ O, ∀ s ∈ S, y * s * y⁻¹ ∈ S := by
   intro y hy s hs
-  haveI := Subgroup.normal_of_index_eq_two hidx
+  have := Subgroup.normal_of_index_eq_two hidx
   exact (inferInstance : (S.subgroupOf O).Normal).conj_mem ⟨s, hSO hs⟩ hs ⟨y, hy⟩
 
 theorem commute_pre (hf : Function.Injective f) {S₁ S₂ : Subgroup M}
@@ -91,7 +91,7 @@ theorem eq_one_of_commute_pre (hf : Function.Injective f) {S : Subgroup M} (hS :
     exact congrArg f (Subtype.ext h)
   exact congrArg Subtype.val (hf (h1.trans (map_one f).symm))
 
-theorem mem_pre_or_mul_mem_pre {S : Subgroup M} (hS : S ≤ f.range)
+theorem mem_pre_or_mul_mem_pre {S : Subgroup M} (_hS : S ≤ f.range)
     (hidx : (S.subgroupOf f.range).index = 2) {t : Γ} (ht : t ∈ H) (htS : f ⟨t, ht⟩ ∉ S) :
     ∀ h ∈ H, h ∈ pre f S ∨ h * t ∈ pre f S := by
   intro h hh
@@ -125,7 +125,7 @@ theorem exists_sl2_ne_comm (K : Type*) [Field K] :
     (A : Matrix (Fin 2) (Fin 2) K) 0 0) h
   change (!![1, 1; 0, 1] * !![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) K) 0 0 =
     (!![1, 0; 1, 1] * !![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) K) 0 0 at h00
-  simp [Matrix.mul_fin_two] at h00
+  simp at h00
 
 theorem nonempty_sl2_mulEquiv {R S : Type*} [CommRing R] [CommRing S] (σ : R ≃+* S) :
     Nonempty (Matrix.SpecialLinearGroup (Fin 2) R ≃* Matrix.SpecialLinearGroup (Fin 2) S) :=

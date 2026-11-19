@@ -68,7 +68,7 @@ theorem conjSub_conjSub (A : Subgroup G) (g h : G) : (Aᵍ[g])ᵍ[h] = Aᵍ[g * 
 
 theorem conjSub_one (A : Subgroup G) : Aᵍ[(1 : G)] = A := by
   ext x
-  simp [mem_conjSub_iff]
+  simp
 
 theorem conjSub_le_of_mem {K A : Subgroup G} {g : G} (hg : g ∈ K) (hA : A ≤ K) : Aᵍ[g] ≤ K := by
   intro x hx
@@ -112,6 +112,7 @@ section I1
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {q : ℕ} (d : TrialityD4Data L q)
 
+omit [Finite G] in
 theorem map_conjSub_subtype (A : Subgroup L) (g : L) :
     (A.map L.subtype)ᵍ[(g : G)] = (Aᵍ[g]).map L.subtype := by
   rw [Subgroup.map_map, Subgroup.map_map]
@@ -142,10 +143,12 @@ theorem swap_conj {X A : Type*} [Group X] {x y : A → X} {w : X} (hw : w * w = 
   calc w * (w * x a * w) * w = (w * w) * x a * (w * w) := by group
     _ = x a := by rw [hw]; simp
 
+omit [Finite G] in
 theorem uv_pow_three_eq : (d.u * d.v) ^ 3 = (d.v * d.u) ^ 3 := by
   have h := d.uvuvuv_eq
   simpa only [pow_succ, pow_zero, one_mul, mul_assoc] using h
 
+omit [Finite G] in
 theorem conj_facts :
     ((d.U₁.map L.subtype)ᵍ[vG d] = d.U₃.map L.subtype ∧
       (d.U₃.map L.subtype)ᵍ[vG d] = d.U₁.map L.subtype ∧
@@ -180,6 +183,7 @@ theorem conj_facts :
     (map_conjSub_subtype d.U₄ d.u).trans (congrArg _ e9),
     (map_conjSub_subtype d.U₆ d.u).trans (congrArg _ e10)⟩
 
+omit [Finite G] in
 theorem normal_subgroupOf_map {H K : Subgroup L} (hKH : K ≤ normalizer (H : Set L)) :
     ((H.map L.subtype).subgroupOf (K.map L.subtype)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -191,29 +195,36 @@ theorem normal_subgroupOf_map {H K : Subgroup L} (hKH : K ≤ normalizer (H : Se
   change _ = (g : G) * (n : G) * (g : G)⁻¹
   rw [hkg, hhn]
 
+omit [Finite G] in
 theorem D_normal : ((d.D.map L.subtype).subgroupOf (cLV d)).Normal := by
   refine normal_subgroupOf_map ?_
   rw [d.centralizer_V_eq]
   exact sup_le le_normalizer d.leviShort_le_normalizer_D
 
+omit [Finite G] in
 theorem M_normal : ((d.M.map L.subtype).subgroupOf (lvM d)).Normal := by
   refine normal_subgroupOf_map (K := d.leviLong ⊔ d.M) ?_
   exact sup_le d.leviLong_le_normalizer_M le_normalizer
 
+omit [Finite G] in
 theorem D_conj_u : (d.D.map L.subtype)ᵍ[uG d] = d.D.map L.subtype :=
   (map_conjSub_subtype d.D d.u).trans
     (congrArg _ (conjSub_eq_of_mem_normalizer d.u_mem_normalizer_D))
 
+omit [Finite G] in
 theorem M_conj_v : (d.M.map L.subtype)ᵍ[vG d] = d.M.map L.subtype :=
   (map_conjSub_subtype d.M d.v).trans
     (congrArg _ (conjSub_eq_of_mem_normalizer d.v_mem_normalizer_M))
 
+omit [Finite G] in
 theorem S_eq_U₁_D : d.S.map L.subtype = d.U₁.map L.subtype ⊔ d.D.map L.subtype := by
   rw [d.S_eq_sup, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem S_eq_U₂_M : d.S.map L.subtype = d.U₂.map L.subtype ⊔ d.M.map L.subtype := by
   rw [d.S_eq_U₂_sup_M, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem v_eq_x₂_conj : d.x₂ 1 * (d.v * d.x₂ 1 * d.v) * d.x₂ 1 = d.v := by
   set a : d.leviLong := ⟨d.x₂ 1, d.x₂_mem_leviLong 1⟩ with ha
   set w : d.leviLong := ⟨d.v, d.v_mem_leviLong⟩ with hw
@@ -227,6 +238,7 @@ theorem v_eq_x₂_conj : d.x₂ 1 * (d.v * d.x₂ 1 * d.v) * d.x₂ 1 = d.v := b
     rfl
   exact congrArg Subtype.val (d.leviLongRep_bijective.1 hrep)
 
+omit [Finite G] in
 theorem v_mem_S_sup_conj : d.v ∈ d.S ⊔ d.Sᵍ[d.v] := by
   have h1 : d.x₂ 1 ∈ d.S := d.U₂_le_S (d.x₂_mem_U₂ 1)
   have h2 : d.v * d.x₂ 1 * d.v ∈ d.Sᵍ[d.v] := by
@@ -240,6 +252,7 @@ theorem v_mem_S_sup_conj : d.v ∈ d.S ⊔ d.Sᵍ[d.v] := by
     mul_mem (mul_mem (mem_sup_left h1) (mem_sup_right h2)) (mem_sup_left h1)
   rwa [v_eq_x₂_conj d] at hv
 
+omit [Finite G] in
 theorem centralizer_V_eq_S_sup : centralizer (d.V : Set L) = d.S ⊔ d.Sᵍ[d.u] := by
   apply le_antisymm
   · rw [d.centralizer_V_eq]
@@ -256,6 +269,7 @@ theorem centralizer_V_eq_S_sup : centralizer (d.V : Set L) = d.S ⊔ d.Sᵍ[d.u]
   · exact sup_le d.S_le_centralizer_V
       (conjSub_le_of_mem d.u_mem_centralizer_V d.S_le_centralizer_V)
 
+omit [Finite G] in
 theorem leviLong_sup_M_eq : d.leviLong ⊔ d.M = d.S ⊔ d.Sᵍ[d.v] := by
   have hS : d.S ≤ d.leviLong ⊔ d.M := by
     rw [d.S_eq_U₂_sup_M]
@@ -270,14 +284,17 @@ theorem leviLong_sup_M_eq : d.leviLong ⊔ d.M = d.S ⊔ d.Sᵍ[d.v] := by
       exact v_mem_S_sup_conj d
   · exact sup_le hS (conjSub_le_of_mem (mem_sup_left d.v_mem_leviLong) hS)
 
+omit [Finite G] in
 theorem cLV_eq : cLV d = d.S.map L.subtype ⊔ (d.S.map L.subtype)ᵍ[uG d] := by
   rw [map_conjSub_subtype, ← Subgroup.map_sup, ← centralizer_V_eq_S_sup d]
   rfl
 
+omit [Finite G] in
 theorem lvM_eq : lvM d = d.S.map L.subtype ⊔ (d.S.map L.subtype)ᵍ[vG d] := by
   rw [map_conjSub_subtype, ← Subgroup.map_sup, ← leviLong_sup_M_eq d]
   rfl
 
+omit [Finite G] in
 theorem cLV_sup_lvM : cLV d ⊔ lvM d = L := by
   have h : centralizer (d.V : Set L) ⊔ (d.leviLong ⊔ d.M) = ⊤ := by
     refine top_le_iff.1 ?_
@@ -293,11 +310,13 @@ theorem cLV_sup_lvM : cLV d ⊔ lvM d = L := by
   change (centralizer (d.V : Set L)).map L.subtype ⊔ (d.leviLong ⊔ d.M).map L.subtype = L
   rw [← Subgroup.map_sup, h, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem cLV_perfect : ⁅cLV d, cLV d⁆ = cLV d := by
   change ⁅(centralizer (d.V : Set L)).map L.subtype, (centralizer (d.V : Set L)).map L.subtype⁆ =
     (centralizer (d.V : Set L)).map L.subtype
   rw [← Subgroup.map_commutator, d.centralizer_V_eq, d.commutator_D_sup_leviShort]
 
+omit [Finite G] in
 theorem leviLong_sup_M_perfect (hq : 4 ≤ q) :
     ⁅d.leviLong ⊔ d.M, d.leviLong ⊔ d.M⁆ = d.leviLong ⊔ d.M := by
   have := d.finite
@@ -361,6 +380,7 @@ theorem leviLong_sup_M_perfect (hq : 4 ≤ q) :
       rwa [v_eq_x₂_conj d] at h3
   exact le_antisymm (Subgroup.commutator_le_self K) (sup_le hL hM)
 
+omit [Finite G] in
 theorem lvM_perfect (hq : 4 ≤ q) : ⁅lvM d, lvM d⁆ = lvM d := by
   change ⁅(d.leviLong ⊔ d.M).map L.subtype, (d.leviLong ⊔ d.M).map L.subtype⁆ =
     (d.leviLong ⊔ d.M).map L.subtype
@@ -497,12 +517,15 @@ section DP
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {q : ℕ} {d : TrialityD4Data L q} {t : G}
   (X : DiagonalPair d t)
 
+omit [Finite G] in
 theorem u_mem_cLV (d : TrialityD4Data L q) : uG d ∈ cLV d :=
   ⟨d.u, d.u_mem_centralizer_V, rfl⟩
 
+omit [Finite G] in
 theorem v_mem_lvM (d : TrialityD4Data L q) : vG d ∈ lvM d :=
   ⟨d.v, mem_sup_left d.v_mem_leviLong, rfl⟩
 
+omit [Finite G] in
 theorem mem_hat_iff {T : Subgroup G} {y : G} :
     y ∈ X.hat T ↔ y ∈ X.P₀ ∧ y * (t⁻¹ * y * t) ∈ T := by
   constructor
@@ -511,14 +534,18 @@ theorem mem_hat_iff {T : Subgroup G} {y : G} :
   · rintro ⟨hy, hyT⟩
     exact ⟨⟨y, X.le₁ hy⟩, ⟨hyT, hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem hat_le (T : Subgroup G) : X.hat T ≤ X.P₀ := fun _ hy => ((mem_hat_iff X).1 hy).1
 
+omit [Finite G] in
 theorem dg₁_P₀ : dg X.A₁ X.comm₁ X.P₀ = d.S.map L.subtype := X.rangeP
 
+omit [Finite G] in
 theorem dg₂_P₀ : dg X.A₂ X.comm₂ X.P₀ = d.S.map L.subtype := by
   rw [← dg₁_P₀ X]
   exact dg_eq_of_le X.le₂ X.le₁
 
+omit [Finite G] in
 theorem diag₁_hat {T : Subgroup G} (hT : T ≤ d.S.map L.subtype) : X.diag₁ (X.hat T) = T := by
   ext y
   change y ∈ dg X.A₁ X.comm₁ (X.hat T) ↔ y ∈ T
@@ -531,6 +558,7 @@ theorem diag₁_hat {T : Subgroup G} (hT : T ≤ d.S.map L.subtype) : X.diag₁ 
     obtain ⟨x, hxA, hxP, rfl⟩ := mem_dg_iff.1 hy'
     exact ⟨x, hxA, (mem_hat_iff X).2 ⟨hxP, hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem diag₂_hat {T : Subgroup G} (hT : T ≤ d.S.map L.subtype) : X.diag₂ (X.hat T) = T := by
   ext y
   change y ∈ dg X.A₂ X.comm₂ (X.hat T) ↔ y ∈ T
@@ -543,16 +571,19 @@ theorem diag₂_hat {T : Subgroup G} (hT : T ≤ d.S.map L.subtype) : X.diag₂ 
     obtain ⟨x, hxA, hxP, rfl⟩ := mem_dg_iff.1 hy'
     exact ⟨x, hxA, (mem_hat_iff X).2 ⟨hxP, hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem exists_a₁ : ∃ a : X.A₁, X.Δ₁ a = uG d := by
   have hu : uG d ∈ (diagonalHom X.A₁ t X.comm₁).range := X.range₁ ▸ u_mem_cLV d
   obtain ⟨a, ha⟩ := hu
   exact ⟨a, ha⟩
 
+omit [Finite G] in
 theorem exists_a₂ : ∃ a : X.A₂, X.Δ₂ a = vG d := by
   have hv : vG d ∈ (diagonalHom X.A₂ t X.comm₂).range := X.range₂ ▸ v_mem_lvM d
   obtain ⟨a, ha⟩ := hv
   exact ⟨a, ha⟩
 
+omit [Finite G] in
 theorem hat_conj_u_eq {T T' : Subgroup G} (hT : T ≤ d.S.map L.subtype)
     (hT' : T' ≤ d.S.map L.subtype) (h : Tᵍ[uG d] = T') : (X.hat T)ᵍ[uG d] = X.hat T' := by
   subst h
@@ -563,6 +594,7 @@ theorem hat_conj_u_eq {T T' : Subgroup G} (hT : T ≤ d.S.map L.subtype)
   ext y
   rw [hiff y, mem_hat_iff]
 
+omit [Finite G] in
 theorem hat_conj_v_eq {T T' : Subgroup G} (hT : T ≤ d.S.map L.subtype)
     (hT' : T' ≤ d.S.map L.subtype) (h : Tᵍ[vG d] = T') : (X.hat T)ᵍ[vG d] = X.hat T' := by
   subst h
@@ -604,6 +636,7 @@ section Statements
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {q f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem I1_facts (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     (uG d * uG d = (1 : G) ∧ vG d * vG d = (1 : G) ∧
       (uG d * vG d) ^ 3 = (vG d * uG d) ^ 3) ∧
@@ -637,8 +670,9 @@ theorem I1_facts (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     ⟨ProductCommuteAux.cLV_eq d, ProductCommuteAux.lvM_eq d⟩, ProductCommuteAux.cLV_sup_lvM d,
     ⟨ProductCommuteAux.cLV_perfect d, ProductCommuteAux.lvM_perfect d h4⟩⟩
 
-theorem I2_transport {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * t = 1)
-    (htL : t ∈ centralizer (L : Set G)) :
+omit [Finite G] in
+theorem I2_transport {d : TrialityD4Data L q} (X : DiagonalPair d t) (_htt : t * t = 1)
+    (_htL : t ∈ centralizer (L : Set G)) :
     (∃ a₁ : X.A₁, X.Δ₁ a₁ = uG d ∧ ∀ T : Subgroup G, T ≤ X.P₀ →
       (Tᵍ[uG d] = Tᵍ[(a₁ : G)] ∧ Tᵍ[uG d] ≤ X.A₁ ∧ X.diag₁ (Tᵍ[uG d]) = (X.diag₁ T)ᵍ[uG d])) ∧
     (∃ a₂ : X.A₂, X.Δ₂ a₂ = vG d ∧ ∀ T : Subgroup G, T ≤ X.P₀ →
@@ -660,8 +694,9 @@ theorem I2_transport {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * 
       (ProductCommuteAux.dg₂_P₀ X) a₂ ha₂ hT).2 hle
     exact ⟨h1, Subgroup.ext fun y => (h2 y).trans (ProductCommuteAux.mem_hat_iff X).symm⟩
 
-theorem I3_paths {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * t = 1)
-    (htL : t ∈ centralizer (L : Set G)) :
+omit [Finite G] in
+theorem I3_paths {d : TrialityD4Data L q} (X : DiagonalPair d t) (_htt : t * t = 1)
+    (_htL : t ∈ centralizer (L : Set G)) :
     ((X.hat (d.U₁.map L.subtype))ᵍ[vG d] = X.hat (d.U₃.map L.subtype) ∧
       ((X.hat (d.U₁.map L.subtype))ᵍ[vG d])ᵍ[uG d] = X.hat (d.U₄.map L.subtype) ∧
       (((X.hat (d.U₁.map L.subtype))ᵍ[vG d])ᵍ[uG d])ᵍ[vG d] = X.hat (d.U₄.map L.subtype) ∧
@@ -734,6 +769,7 @@ theorem I3_paths {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * t = 
     rw [e] at h3
     simpa only [ProductCommuteAux.conjSub_conjSub] using h3
 
+omit [Finite G] in
 theorem I4_factorizations {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * t = 1)
     (htL : t ∈ centralizer (L : Set G)) :
     (X.P₀ᵍ[uG d] = (X.hat (d.U₁.map L.subtype))ᵍ[uG d] ⊔ X.hat (d.D.map L.subtype) ∧
@@ -779,6 +815,7 @@ theorem I4_factorizations {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt :
         from ProductCommuteAux.diag₂_hat X hM, ProductCommuteAux.S_eq_U₂_M d,
       ProductCommuteAux.conjSub_sup, ProductCommuteAux.M_conj_v d, sup_comm]
 
+omit [Finite G] in
 theorem I5_commute {d : TrialityD4Data L q} (X : DiagonalPair d t) (htt : t * t = 1)
     (htL : t ∈ centralizer (L : Set G)) :
     ⁅X.A₁, X.A₂ᵍ[t]⁆ = ⊥ ∧ ⁅X.A₁ᵍ[t], X.A₂⁆ = ⊥ := by

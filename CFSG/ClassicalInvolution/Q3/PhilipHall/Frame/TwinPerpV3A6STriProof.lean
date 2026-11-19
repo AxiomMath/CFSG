@@ -28,7 +28,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin CFSG.ClassicalInvolution.Q3.AE
 
 theorem ae6Amb_of_mem {H : Subgroup AE6Om} (α : MulAut H) {g : AE6Om} (hg : g ∈ H) :
     ae6Amb α g = α ⟨g, hg⟩ := by
-  unfold ae6Amb; exact dif_pos hg
+  unfold ae6Amb; exact dite_eq_left hg
 
 theorem ae6Amb_coe {H : Subgroup AE6Om} (α : MulAut H) (x : H) : ae6Amb α (x : AE6Om) = α x :=
   ae6Amb_of_mem α x.2
@@ -147,7 +147,7 @@ theorem ae6Word_vertex {k : Fin 3} {w : List (Fin 8)} (hw : ∀ i ∈ w, i ∈ a
 
 theorem ae6TriK_eq_words :
     ae6ModelK = Subgroup.closure {ae6Word (ae6KWord 0), ae6Word (ae6KWord 1)} := by
-  simp only [ae6ModelK, ae6KWord, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [ae6ModelK, ae6KWord, Matrix.cons_val_zero, Matrix.cons_val_one]
 
 theorem ae6Word_singleton (i : Fin 8) : ae6Word [i] = A6.curtisGen i := by
   simp [ae6Word]
@@ -429,7 +429,7 @@ theorem ae6TriAut.member_surj (hf : ae6TriAut E f) (hKE : ae6ModelK ≤ E) {J' :
   have hfin : (ae6ConjIn E ae6ModelK).Finite :=
     ((Set.toFinite (E : Set AE6Om)).image fun g => conjSub g ae6ModelK).subset
       (by rintro _ ⟨g, hg, rfl⟩; exact ⟨g, hg, rfl⟩)
-  haveI := hfin.to_subtype
+  have := hfin.to_subtype
   let Φ : ↥(ae6ConjIn E ae6ModelK) → ↥(ae6ConjIn E ae6ModelK) := fun J =>
     ⟨(hf.2.2.2.2 J J.2).choose, (hf.2.2.2.2 J J.2).choose_spec.1⟩
   have hΦ : Function.Injective Φ := by
@@ -691,7 +691,7 @@ theorem R_sig (e : Fin 3) (j : Fin 6) : ae6TriSig (ae6TriR h e j) (ae6TriRQ e j)
     (hK.comp hL mK).comp hK fun g hg => mL _ (mK g hg)]
 
 theorem sig_conj {f : AE6Om → AE6Om} {σ : Fin 4 → Fin 4} (hf : ae6TriSig f σ)
-    (hM : ∀ g ∈ ae6ModelM, f g ∈ ae6ModelM) {m : AE6Om} (hm : m ∈ ae6ModelM) :
+    (_hM : ∀ g ∈ ae6ModelM, f g ∈ ae6ModelM) {m : AE6Om} (hm : m ∈ ae6ModelM) :
     ae6TriSig (fun g => m * f g * m⁻¹) σ :=
   fun g hg x => (hf g hg x).trans (h.Q_normal (σ x) hm _)
 

@@ -684,7 +684,7 @@ theorem T₁_exists (hs : SPLSetup D.toSPLNot0) : ∃ T₁ : Subgroup G, T₁ �
       exact Subgroup.mul_mem _ hqK (t_normalizes_K hs _ hqK)
   have hp : IsPGroup 2 ↥T₁ := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have hQp : IsPGroup 2 ↥Q := IsPGroup.to_le D.S.isPGroup' inf_le_left
+    have hQp : IsPGroup 2 ↥Q := IsPGroup.to_le D.S.isPGroup inf_le_left
     exact (IsPGroup.comap_subtype hQp (K := D.K₁)).map g
   have hindex : R'.index = Q'.index := by
     refine Subgroup.index_map_eq Q' (MonoidHom.rangeRestrict_surjective g) ?_

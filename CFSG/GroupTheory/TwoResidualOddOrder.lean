@@ -11,7 +11,7 @@ open CFSG.Quasithin
 variable {G : Type*} [Group G] [Finite G]
 
 theorem le_twoResidual_of_odd_card {H X : Subgroup G} (hXH : X ≤ H)
-    (hodd : Odd (Nat.card X)) : X ≤ twoResidual H := fun x hx =>
+    (hodd : Odd (Nat.card X)) : X ≤ twoResidual H := fun _x hx =>
   CFSG.Quasithin.F6.mem_twoResidual_of_odd (hXH hx)
     (hodd.of_dvd_nat (Subgroup.orderOf_dvd_natCard X hx))
 

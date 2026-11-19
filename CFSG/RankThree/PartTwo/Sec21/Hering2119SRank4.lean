@@ -11,11 +11,13 @@ section Rank4
 
 variable {V : Type*} [AddCommGroup V] [Module F3 V] [Module.Finite F3 V]
 
+omit [Module.Finite F3 V] in
 theorem add_add_add_eq_zero_F3 (x : V) : x + x + x = 0 := by
   have h : (1 : F3) + 1 + 1 = 0 := by decide
   calc x + x + x = ((1 : F3) + 1 + 1) • x := by simp only [add_smul, one_smul]
     _ = 0 := by rw [h, zero_smul]
 
+omit [Module.Finite F3 V] in
 theorem eq_zero_of_eq_neg_F3 (x : V) (h : x = -x) : x = 0 := by
   have h2 : (2 : F3) • x = 0 := by
     rw [two_smul F3 x]
@@ -25,6 +27,7 @@ theorem eq_zero_of_eq_neg_F3 (x : V) (h : x = -x) : x = 0 := by
   · exact absurd h' (by decide)
   · exact h'
 
+omit [Module.Finite F3 V] in
 theorem isCompl_ker_sub_one_ker_add_one (T : Module.End F3 V) (hT : T * T = 1) :
     IsCompl (LinearMap.ker (T - 1)) (LinearMap.ker (T + 1)) := by
   have hT' : ∀ x : V, T (T x) = x := fun x => by
@@ -77,6 +80,7 @@ theorem finrank_le_of_injective_mapsTo {U W : Submodule F3 V} (f : Module.End F3
         (Submodule.equivMapOfInjective f hf U).finrank_eq
     _ ≤ Module.finrank F3 W := Submodule.finrank_mono hle
 
+omit [Module.Finite F3 V] in
 theorem tau_mul_self_eq_one (A C : Module.End F3 V) (hA : A * A = -1) (hC : C * C = -1)
     (hAC : A * C = C * A) : (A * C) * (A * C) = 1 := by
   calc (A * C) * (A * C) = A * ((C * A) * C) := by simp only [mul_assoc]
@@ -84,6 +88,7 @@ theorem tau_mul_self_eq_one (A C : Module.End F3 V) (hA : A * A = -1) (hC : C * 
     _ = (A * A) * (C * C) := by simp only [mul_assoc]
     _ = 1 := by rw [hA, hC, neg_one_mul, neg_neg]
 
+omit [Module.Finite F3 V] in
 theorem B_mul_tau_eq (A B C : Module.End F3 V) (hAB : A * B = -(B * A))
     (hBC : B * C = C * B) : B * (A * C) = -((A * C) * B) := by
   have hBA : B * A = -(A * B) := by rw [hAB, neg_neg]
@@ -93,6 +98,7 @@ theorem B_mul_tau_eq (A B C : Module.End F3 V) (hAB : A * B = -(B * A))
     _ = -(A * (C * B)) := by rw [hBC]
     _ = -((A * C) * B) := by rw [mul_assoc]
 
+omit [Module.Finite F3 V] in
 theorem tau_mul_A_eq (A C : Module.End F3 V) (hA : A * A = -1) (hAC : A * C = C * A) :
     (A * C) * A = A * (A * C) := by
   calc (A * C) * A = C * (A * A) := by rw [hAC, mul_assoc]
@@ -100,6 +106,7 @@ theorem tau_mul_A_eq (A C : Module.End F3 V) (hA : A * A = -1) (hAC : A * C = C 
     _ = (A * A) * C := by rw [hA, neg_one_mul]
     _ = A * (A * C) := mul_assoc A A C
 
+omit [Module.Finite F3 V] in
 theorem B_injective_of_mul_self (B : Module.End F3 V) (hB : B * B = -1) :
     Function.Injective B := by
   have hBB : ∀ z : V, B (B z) = -z := fun z => by

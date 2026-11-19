@@ -24,7 +24,7 @@ theorem card_ker_comp_subtype_dvd {H M : Type*} [Group H] [Finite H] [Group M] (
 theorem injective_comp_subtype {H M : Type*} [Group H] [Finite H] [Group M] {p : ℕ}
     (hp : p.Prime) (π : H →* M) (hker : ¬ p ∣ Nat.card π.ker) {W : Subgroup H}
     (hW : IsPGroup p W) : Function.Injective (π.comp W.subtype) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← MonoidHom.ker_eq_bot_iff]
   set K := (π.comp W.subtype).ker with hK
   have hKp : IsPGroup p K := hW.to_subgroup K
@@ -45,14 +45,14 @@ theorem exists_pSubgroup_lift {H M : Type*} [Group H] [Finite H] [Group M] {p : 
     (hp : p.Prime) (π : H →* M) (hker : ¬ p ∣ Nat.card π.ker) {E : Subgroup M}
     (hE : IsPGroup p E) (hEπ : E ≤ π.range) :
     ∃ W : Subgroup H, IsPGroup p W ∧ W.map π = E ∧ Function.Injective (π.comp W.subtype) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Subgroup H := E.comap π
   let f : ↥P →* ↥E := π.subgroupComap E
   have hf : Function.Surjective f := by
     intro e
     obtain ⟨h, hh⟩ := hEπ e.2
     exact ⟨⟨h, by simp [P, Subgroup.mem_comap, hh]⟩, Subtype.ext hh⟩
-  haveI : Finite E := Finite.of_surjective f hf
+  have : Finite E := Finite.of_surjective f hf
   have htop : IsPGroup p (⊤ : Subgroup ↥E) := hE.of_equiv Subgroup.topEquiv.symm
   obtain ⟨R⟩ : Nonempty (Sylow p ↥E) := inferInstance
   have hR : (R : Subgroup ↥E) = ⊤ := (R.maximal_isPGroup.eq_of_ge htop le_top).symm
@@ -156,7 +156,7 @@ theorem exists_mem_centralizer_lift {H M : Type*} [Group H] [Finite H] [Group M]
     (hq : q.Prime) (π : H →* M) (hker : ¬ q ∣ Nat.card π.ker) {z : H} (hz : z ^ q = 1) {m : M}
     (hm : m ∈ π.range) (hc : m * π z = π z * m) :
     ∃ h : H, h * z = z * h ∧ π h = m := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨h₀, hh₀⟩ := hm
   let P : Subgroup H := Subgroup.zpowers z
   have hP : IsPGroup q P := isPGroup_zpowers_of_pow_eq_one hz
@@ -169,7 +169,7 @@ theorem exists_mem_centralizer_lift {H M : Type*} [Group H] [Finite H] [Group M]
   have hmem : ∀ (g : H), g ∈ P → ∀ x : α, π (g * x.1 * g⁻¹) = m := by
     intro g hg x
     rw [map_mul, map_mul, map_inv, x.2, hcomm g hg, mul_assoc, mul_inv_cancel, mul_one]
-  letI act : MulAction P α :=
+  let act : MulAction P α :=
     { smul := fun g x => ⟨(g : H) * x.1 * (g : H)⁻¹, hmem g g.2 x⟩
       one_smul := fun x => Subtype.ext (show ((1 : P) : H) * x.1 * ((1 : P) : H)⁻¹ = x.1 by simp)
       mul_smul := fun g h x => Subtype.ext (show ((g * h : P) : H) * x.1 * ((g * h : P) : H)⁻¹ =
@@ -459,9 +459,11 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def toSimple (p : ℕ) (J : Subgroup G) : ↥J →* PSimple p J :=
   (QuotientGroup.mk' (Subgroup.center (PQuot p J))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥J))
 
+omit [Finite G] in
 theorem toSimple_surjective (p : ℕ) (J : Subgroup G) : Function.Surjective (toSimple p J) :=
   (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem card_ker_toSimple (p : ℕ) (J : Subgroup G) :
     Nat.card (toSimple p J).ker =
       Nat.card (GLAPPrimeCore p ↥J) * Nat.card (Subgroup.center (PQuot p J)) := by
@@ -477,6 +479,7 @@ theorem card_ker_toSimple (p : ℕ) (J : Subgroup G) :
   rw [h1, QuotientGroup.card_preimage_mk]
   rfl
 
+omit [Finite G] in
 theorem exists_hom_of_simple_equiv {p : ℕ} {J : Subgroup G} {M : Type*} [Group M]
     (e : PSimple p J ≃* M) :
     ∃ π : ↥J →* M, Function.Surjective π ∧
@@ -489,6 +492,7 @@ theorem exists_hom_of_simple_equiv {p : ℕ} {J : Subgroup G} {M : Type*} [Group
   unfold GLAPPrimeCoreOf
   rw [Subgroup.card_map_of_injective J.subtype_injective]
 
+omit [Finite G] in
 theorem exists_hom_ker_eq_of_center_bot {p : ℕ} {J : Subgroup G} {M : Type*} [Group M]
     (e : PSimple p J ≃* M) (hZ : Subgroup.center (PQuot p J) = ⊥) :
     ∃ π : ↥J →* M, Function.Surjective π ∧ π.ker = GLAPPrimeCore p ↥J := by

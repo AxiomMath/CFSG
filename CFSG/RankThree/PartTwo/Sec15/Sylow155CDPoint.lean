@@ -41,6 +41,7 @@ private theorem orbitIn_subset_omegaA {A : Subgroup G} {b : G}
   have hπA : π ∈ Subgroup.normalizer (A : Set G) := Subgroup.map_subtype_le _ hπ
   exact (map_conj_mem_omegaA_iff hπA).mpr hbΩ
 
+omit [Finite G] in
 private theorem apply_eq_of_normalizer_le {A : Subgroup G} (hA : Late.IsE27 A) {e : G}
     (heA : e ∈ A)
     (hWe : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers e : Set G))

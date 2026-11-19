@@ -77,7 +77,7 @@ theorem lift_ofFn_prod (d : Data G) {n : ℕ} (f : Fin n → Equiv.Perm (Fin 175
       ih (fun i => f i.succ) fun i => hf _]
 
 theorem conj_pb_of_acts (hd : d.Hyp) {x : G} (hx : x ∈ centralizer ({d.t} : Set G)) {M : Mat5}
-    (hρ : (d.ρ ⟨x, hx⟩ : Equiv.Perm (Fin 1755)) ∈ titsD)
+    (_hρ : (d.ρ ⟨x, hx⟩ : Equiv.Perm (Fin 1755)) ∈ titsD)
     (hM : Acts (d.ρ ⟨x, hx⟩ : Equiv.Perm (Fin 1755)) M) (i : Fin 5) :
     x * pb d i.castSucc * x⁻¹ = mono d (Fin.snoc (M i) 0 : Fin 6 → ZMod 2) := by
   have hpow : ∀ (j : Fin 5) (k : ℕ), pbasis j ^ k ∈ titsD := fun j k => pow_mem (pbasis_mem j) k
@@ -134,7 +134,7 @@ theorem gActs_prod (hd : d.Hyp) {g : Letter → G} {Mℓ : Letter → Mat6}
     have ih := gActs_prod hd hg hN ws
     exact ⟨gActs_mul hd (hg ℓ) ih.1, mul_mem (hN ℓ) ih.2⟩
 
-theorem noBadX (h49 : d.Thm49Statement) (hd : d.Hyp) (hD : d.ρ.range = titsD.subgroupOf titsA)
+theorem noBadX (_h49 : d.Thm49Statement) (hd : d.Hyp) (hD : d.ρ.range = titsD.subgroupOf titsA)
     (τ : Fin 4 → Equiv.Perm (Fin 1755)) (hτ : ∀ j, τ j ∈ titsN)
     (T : Fin 4 → Mat5) (hT : ∀ j, Acts (τ j) (T j))
     (SL : Set Mat5) (hSL : ∀ π ∈ titsN, ∃ M ∈ SL, Acts π M)

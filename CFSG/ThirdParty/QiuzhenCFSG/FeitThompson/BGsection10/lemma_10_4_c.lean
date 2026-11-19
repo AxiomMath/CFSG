@@ -34,13 +34,13 @@ private theorem CFSG.section10_rank_two_elementary_le_maximal_of_not_sigma
     A ∈ maximalElementaryAbelianSubgroups p.val G := by
   classical
   by_contra hA_not_max
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hA with ⟨hAcard, hAelem⟩
   have hAunique : A ∈ section9UniqueSubgroups G :=
     theorem_9_6_in_particular (G := G)
       ⟨p.val, p.property, ⟨hAcard, hAelem⟩, hA_not_max⟩
   have hAp : IsPGroup p.val A := by
-    letI : IsElementaryAbelian p.val A := hAelem
+    let : IsElementaryAbelian p.val A := hAelem
     exact IsElementaryAbelian.isPGroup p.val A
   let A_M : Subgroup M := A.subgroupOf M
   have hA_M_p : IsPGroup p.val A_M :=
@@ -132,7 +132,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_le_of_primeRank_eq_two
     {M : Subgroup G} {p : Nat.Primes} (hprank : primeRank p.val M = 2) :
     ∃ A : Subgroup G, A ≤ M ∧ A ∈ elementaryAbelianSubgroupsOfRank p.val 2 G := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have htwo : 2 ≤ primeRank p.val M := by omega
   obtain ⟨B, hBp, hBcomm, hBgen⟩ :=
     section10_exists_pSubgroup_two_le_generatorRank_of_two_le_primeRank_pre
@@ -143,14 +143,14 @@ private theorem CFSG.section10_exists_rank_two_elementary_le_of_primeRank_eq_two
     omega
   have hp_dvd_B : p.val ∣ Nat.card B := by
     rcases hBp.card_eq_or_dvd with hBcard | hdiv
-    · haveI : Subsingleton B := (Nat.card_eq_one_iff_unique.mp hBcard).1
+    · have : Subsingleton B := (Nat.card_eq_one_iff_unique.mp hBcard).1
       exact False.elim (hBnoncyc (isCyclic_of_subsingleton (α := B)))
     · exact hdiv
   have hp_dvd_G : p.val ∣ Nat.card G :=
     (hp_dvd_B.trans (Subgroup.card_subgroup_dvd_card B)).trans
       (Subgroup.card_subgroup_dvd_card M)
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
-  haveI : Fact (IsPGroup p.val B) := ⟨hBp⟩
+  have : Fact (IsPGroup p.val B) := ⟨hBp⟩
   obtain ⟨E, _hEnorm, hEcard, hEelem⟩ :=
     lemma_4_5_a (R := B) (p := p.val) hpodd hBnoncyc
   let EM : Subgroup M := E.map B.subtype
@@ -164,11 +164,11 @@ private theorem CFSG.section10_exists_rank_two_elementary_le_of_primeRank_eq_two
   have hAcard : Nat.card A = p.val ^ 2 := by
     rw [hAcard_map, hEMcard, hEcard]
   have hEMelem : IsElementaryAbelian p.val EM := by
-    letI : IsElementaryAbelian p.val E := hEelem
+    let : IsElementaryAbelian p.val E := hEelem
     simpa [EM] using
       section10_isElementaryAbelian_map_pre (G := B) (A := E) (G' := M) B.subtype
   have hAelem : IsElementaryAbelian p.val A := by
-    letI : IsElementaryAbelian p.val EM := hEMelem
+    let : IsElementaryAbelian p.val EM := hEMelem
     simpa [A] using
       section10_isElementaryAbelian_map_pre (G := M) (A := EM) (G' := G) M.subtype
   have hA_le_M : A ≤ M := by
@@ -183,10 +183,10 @@ public theorem CFSG.section10_rankTwoMaximal_subgroupOf_of_le_pre
     (hArankTwo : A ∈ elementaryAbelianSubgroupsOfRank p.val 2 G)
     (hAmax : A ∈ maximalElementaryAbelianSubgroups p.val G) :
     A.subgroupOf S ∈ section10RankTwoMaximalElementaryAbelianSubgroups p S := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hArankTwo with ⟨hAcard, hAelem⟩
   rcases hAmax with ⟨_hAelem', hAmax'⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAsub_card : Nat.card (A.subgroupOf S) = p.val ^ 2 := by
     simpa [hAcard] using
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := A) (K := S) hAS).toEquiv
@@ -201,7 +201,7 @@ public theorem CFSG.section10_rankTwoMaximal_subgroupOf_of_le_pre
       let aS : A.subgroupOf S := ⟨⟨a, hAS ha⟩, ha⟩
       exact Subgroup.mem_map.mpr ⟨aS, hAB aS.2, rfl⟩
     have hBmap_elem : IsElementaryAbelian p.val Bmap := by
-      letI : IsElementaryAbelian p.val B := hBelem
+      let : IsElementaryAbelian p.val B := hBelem
       simpa [Bmap] using
         section10_isElementaryAbelian_map_pre (G := S) (p := p.val) (A := B) (G' := G)
           S.subtype
@@ -227,11 +227,11 @@ private theorem CFSG.section10_not_rank_two_maximal_of_ideal
     (hAmax : A ∈ maximalElementaryAbelianSubgroups p.val G) :
     False := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hpβG with ⟨hprankG, hnotNarrow⟩
   rcases hArankTwo with ⟨_hAcard, hAelem⟩
   have hprimeRank_le : 3 ≤ primeRank p.val G := Nat.succ_le_of_lt hprankG
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   obtain ⟨S, hAS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hAp
   have hAS_rank :
@@ -247,7 +247,7 @@ private theorem CFSG.section10_not_rank_two_maximal_of_ideal
   have hSrank : 3 ≤ groupRank (S : Subgroup G) :=
     hprimeRank_le.trans (section10_primeRank_le_groupRank_sylow_pre (G := G) S)
   have hNarrowS : IsNarrowPGroup p.val S :=
-    (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup' hSrank).2
+    (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup hSrank).2
       ⟨A.subgroupOf (S : Subgroup G), hAS_rank.1, hAS_rank.2⟩
   exact (hnotNarrow S) hNarrowS
 

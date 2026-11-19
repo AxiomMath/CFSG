@@ -85,7 +85,7 @@ theorem exists_setup {Y : Type} [Group Y] [Finite Y] (K : Subgroup Y) [K.Normal]
     push Not at h
     exact hnot fun x hx => h x hx
   obtain ⟨m, hm⟩ : ∃ m : ℕ, y₀ ^ (3 ^ m) = 1 := by
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨y₀, hy₀T⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨y₀, hy₀T⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨φ, hφ, hφ3, hφK⟩ := exists_frob hC (eK := eK) hy₀K hm
   have hact : ∀ k : Sp8, φ * emb eK k * φ⁻¹ = emb eK (fr k) := by
@@ -99,7 +99,7 @@ theorem exists_setup {Y : Type} [Group Y] [Finite Y] (K : Subgroup Y) [K.Normal]
   have hTle : Nat.card (T : Subgroup Y) ≤ 3 ^ 5 := by
     have hidx := index_le_six (eK := eK) hC
     have hidx0 : K.index ≠ 0 := Subgroup.index_ne_zero_of_finite
-    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 T.isPGroup'
+    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 T.isPGroup
     have hdvd : 3 ^ a ∣ 3 ^ 4 * 13045760 * K.index := by
       rw [← ha]
       have := Subgroup.card_subgroup_dvd_card (T : Subgroup Y)

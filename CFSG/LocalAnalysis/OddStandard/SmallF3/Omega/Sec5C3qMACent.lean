@@ -36,7 +36,7 @@ theorem sec5c3qma_cent_of_const (hS : Asc82SchurU43) {G : Type} [Group G] [Finit
       exact (Subgroup.map_eq_bot_iff_of_injective (CFSG.oddCore ↥L) L.subtype_injective).mp h
     rw [← MonoidHom.ker_eq_bot_iff, hφ.ker_eq, hker]
   have hsurj : Function.Surjective φc := hφ.surjective
-  haveI : Finite (OGroup Q) := sec5c_finite_ogroup
+  have : Finite (OGroup Q) := sec5c_finite_ogroup
   have hzL : z ∈ L := sec5c_mem_of_isI4PlusIn c.pocket
   obtain ⟨ζ, hζ4, hζz⟩ := hm.z_mem
   have hζL : φ ζ ∈ L := hζz ▸ hzL
@@ -65,7 +65,7 @@ theorem sec5c3qma_cent_of_const (hS : Asc82SchurU43) {G : Type} [Group G] [Finit
       ((sec5cdPhi φc ⟨x, hxL⟩ : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b j) = fr.b j := by
     intro j hj
     refine sec5c3qma_fix_of_mem_sup D hD ?_
-    rw [mem_fixSp_iff, hφz, fr.signChange_basis, if_neg hj]
+    rw [mem_fixSp_iff, hφz, fr.signChange_basis, ite_eq_right hj]
   have hJ : ∀ i ∈ sec5c_supp ζ, ∀ j ∈ sec5c_supp ζ, (i ∈ sec5c_supp w ↔ j ∈ sec5c_supp w) := by
     intro i hi j hj
     have h1 : ζ i = 1 := by

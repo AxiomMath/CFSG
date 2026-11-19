@@ -17,7 +17,7 @@ namespace OR107
 
 theorem card_le_of_triality {A G : Type*} [Group A] [Group G] [IsCyclic G]
     {Inn : Subgroup A} [Inn.Normal] {θ ρ : A} (φ : G →* A)
-    (hθ3 : θ ^ 3 = 1) (hρρ : ρ * ρ = 1) (hρθ : ρ * θ * ρ = θ⁻¹)
+    (_hθ3 : θ ^ 3 = 1) (hρρ : ρ * ρ = 1) (hρθ : ρ * θ * ρ = θ⁻¹)
     (hφθ : ∀ σ, θ * φ σ = φ σ * θ) (hρφ : ∀ σ, ρ * φ σ = φ σ * ρ)
     (hgen : ∀ α : A, ∃ ι ∈ Inn, ∃ k : ℕ, ∃ σ : G,
       α = ι * (θ ^ k * φ σ) ∨ α = ι * (θ ^ k * (ρ * φ σ)))
@@ -55,7 +55,7 @@ theorem card_le_of_triality {A G : Type*} [Group A] [Group G] [IsCyclic G]
       have e2 : θ ^ k * θ⁻¹ * (θ ^ k)⁻¹ = θ⁻¹ := by group
       rw [e1, hφ, hρ', e2, QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv Inn ι,
         (QuotientGroup.eq_one_iff ι).2 hι, one_mul, inv_one, mul_one]
-  haveI hNq : (Subgroup.zpowers (θ : A ⧸ Inn)).Normal := by
+  have hNq : (Subgroup.zpowers (θ : A ⧸ Inn)).Normal := by
     constructor
     intro n hn y
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
@@ -71,7 +71,7 @@ theorem card_le_of_triality {A G : Type*} [Group A] [Group G] [IsCyclic G]
         exact Subgroup.inv_mem _ (Subgroup.mem_zpowers _)
   obtain ⟨N, hNdef⟩ : ∃ N : Subgroup A,
       N = (Subgroup.zpowers (θ : A ⧸ Inn)).comap (QuotientGroup.mk' Inn) := ⟨_, rfl⟩
-  haveI hN : N.Normal := by
+  have hN : N.Normal := by
     rw [hNdef]
     exact hNq.comap _
   have hInnN : Inn ≤ N := fun x hx => by
@@ -123,8 +123,8 @@ theorem card_le_omegaPlusFour {n : ℕ} (hK : Nat.card K = 2 ^ n)
       3 ^ ((if 3 ∣ n then 1 else 0) + 1) := by
   have h14 : 1 ≤ 4 := by norm_num
   obtain ⟨θ, hθ3, hρθ, hφθ, hgen, huniq, -⟩ := plusFourTrialityInput_holds K
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : (inner (matrixDerived (coordinateQuadPlus 4 K))).Normal := inner_normal _
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : (inner (matrixDerived (coordinateQuadPlus 4 K))).Normal := inner_normal _
   have h := OR107.card_le_of_triality (Inn := inner _) (AutOm.fieldAutP 4) hθ3
     (AutOm.plusRefl_mul_self h14) hρθ hφθ (AutOm.plusRefl_mul_fieldAutP h14) ?_ ?_ hE
   · rwa [FP.natCard_ringEquiv_of_card hK] at h
@@ -189,9 +189,9 @@ theorem outRankP_D4 {n : ℕ} :
     Rk2LabelAll ⟨LargeEvenLieTag.D, 4, n⟩ (OutRankP ⟨LargeEvenLieTag.D, 4, n⟩ 3) := by
   intro Q h
   have h4 : ¬ ((4 : ℕ) = 3) := by norm_num
-  simp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, if_neg h4] at h ⊢
+  simp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, ite_eq_right h4] at h ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   exact ⟨K, hF, hfin, hK, hQ, outRankP_omegaPlusFour hK⟩
 
 theorem outRankP_holds

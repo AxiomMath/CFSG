@@ -24,7 +24,7 @@ theorem z2s6_mod_setup {K : Type} [Group K] [Finite K] (S : Subgroup K) [S.Norma
   have hodd := odd_ker_fixedPhi (S := S) (z := z) hψ.odd
   have hA := a6Factor_le_range_fixedPhi hC hsolv hψ.surj hψ.odd
   obtain ⟨J, hJn, -, hJmap, hperf, hP, hiso⟩ := exists_twoComponent _ hodd hA
-  haveI := hJn
+  have := hJn
   exact ⟨J, ⟨orderOf_conjNormal_eq_two S hC hz, hJn, hP, hiso, hperf,
     ⟨(fixedPhi S z ψ).ker, inferInstance, hodd, natCard_quotient_ker_dvd _⟩,
     dvd_natCard_of_a6Factor_le_range _ hA, not_two_pow_six_dvd_natCard _ hodd,

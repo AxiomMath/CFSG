@@ -22,6 +22,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isL2_or_isSz_bar2_conjSubgroup {L : Subgroup G} {x : G} {n : ℕ}
     (h : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) :
     IsL2 (Bar2 (CFSG.Quasithin.conjSubgroup L x)) n ∨

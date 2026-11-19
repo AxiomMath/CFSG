@@ -42,7 +42,7 @@ structure burnsideF4nC_ModelData {α : RankTwoAmalgam.{0}} {Z : Type} [Group Z]
 
 theorem burnsideF4nC_model {E : Type} [Group E] {M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) : Nonempty (burnsideF4nC_ModelData (incl M₁ M₂)) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨θ, hθ1, hθ2⟩ := burnsideF45_tits_theta hyp
   obtain ⟨-, -, -, -, -, hPt, -, hLn, hpoly⟩ := tits_geometry Certificates.certificate4190
   have hsup : M₁ ⊔ M₂ = (⊤ : Subgroup E) := hyp.gen
@@ -246,7 +246,7 @@ theorem burnsideF4nC_md_N1_iff (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {Gp : Sub
     rw [h1, one_smul] at h
     exact hccl h.symm
   unfold N1set
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   constructor
   · rintro ⟨hsx, ⟨hss, -, h1, h2⟩, hq⟩
     have hgeo := (burnsideF4nC_geod_iff h45 h46 hyp c hc hs hsx hss (hne h1)).1 hq
@@ -269,7 +269,7 @@ theorem burnsideF4nC_md_N2_iff {α : RankTwoAmalgam.{0}} {c : α.Completion Z}
   have h2 : Md.Φ y • yy = c.xv ↔ (y : Equiv.Perm (Fin 1755)) q = 0 := by
     rw [burnsideF4nC_md_smul_eq_iff, Md.exv, hyq, dsmul_inl, Sum.inl.injEq]
   unfold N2set
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   show (Md.Φ y ∈ stv c c.lv ∧ HasCycle c (Md.Φ y) c.xv yy) ↔ _
   unfold HasCycle
   rw [burnsideF4nC_md_stv_lv, burnsideF4nC_md_sq, h1, h2]

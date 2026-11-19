@@ -41,7 +41,7 @@ theorem t1PK_parts {j : Nat} (h : t1PK 1401 1 nS S T1 P1 j = true) :
     exact Bool.false_ne_true h'
   · have e0 : Nat.beq j 0 = false := Bool.eq_false_iff.2 fun h'' => h0 (Nat.eq_of_beq_eq_true h'')
     rw [e0] at h
-    simp only [strictB_app] at h
+    simp only at h
     obtain ⟨c, h⟩ := mkA h
     obtain ⟨d, f⟩ := mkA h
     exact ⟨_, _, Nat.blt_eq.mp c, Nat.blt_eq.mp d, Nat.eq_of_beq_eq_true f⟩
@@ -70,7 +70,7 @@ theorem t0Q_spec {i : Nat} (hi : i < 672) :
 
 theorem t1Q_spec {j : Nat} (hj : j < 120) :
     t1Q j ∈ genC classb.centGens ∧ RepC (T1 j) (t1Q j) := by
-  rw [t1Q, dif_pos hj]
+  rw [t1Q, dite_eq_left hj]
   exact (t1Q_mem j hj).choose_spec
 
 theorem t1Q_zero {j : Nat} (hj : j < 120) : t1Q j ⟨0, by norm_num⟩ = ⟨0, by norm_num⟩ :=
@@ -205,14 +205,14 @@ theorem ncard_eq_cnt2 (hP : Nat.card ↥P1408 = 177408000) {F : Nat → Nat → 
   rw [cnt2_eq]
   have hinj : Set.InjOn (fun p : Nat × Nat => t0Q p.1 * t1Q p.2) ↑(cbSet F 672) := by
     rintro ⟨i, j⟩ hp ⟨i', j'⟩ hp' e
-    simp only [cbSet, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_setOf_eq]
+    simp only [cbSet, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_ofPred_eq]
       at hp hp'
     obtain ⟨h1, h2⟩ := el_inj hp.1.1 hp'.1.1 hp.1.2 hp'.1.2 e
     rw [h1, h2]
   have himg : {g | g ∈ P1408 ⊓ centralizer ({elemW wordB} : Set (Equiv.Perm (Fin 1408))) ∧ Q g} =
       ↑((cbSet F 672).image fun p => t0Q p.1 * t1Q p.2) := by
     ext g
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, cbSet, Finset.coe_filter,
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, cbSet, Finset.coe_filter,
       Finset.mem_product, Finset.mem_range, Prod.exists]
     constructor
     · rintro ⟨hg, hq⟩

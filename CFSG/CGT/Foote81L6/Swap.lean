@@ -47,7 +47,7 @@ theorem exists_comm_t_not_mem_B₀B₁ :
     ∃ c ∈ D.B, c ∉ D.B₀ ⊔ D.B₁ ∧ c * D.t = D.t * c := by
   by_contra hcon
   push Not at hcon
-  haveI := D.finite_B₀
+  have := D.finite_B₀
   set C : Subgroup G := (D.B₀ ⊔ D.B₁) ⊓ centralizer ({D.t} : Set G)
   have hle : D.B ⊓ centralizer ({D.t} : Set G) ≤ C := by
     intro c hc
@@ -90,7 +90,7 @@ theorem exists_comm_t_not_mem_B₀B₁ :
   have hcard : Nat.card ↥C ≤ 2 ^ n := by
     rw [← D.card_B₀]
     exact Nat.card_le_card_of_surjective f hf
-  haveI : Finite ↥C := Finite.of_surjective f hf
+  have : Finite ↥C := Finite.of_surjective f hf
   have hle' := Subgroup.card_le_of_le hle
   rw [D.card_CBt] at hle'
   have hlt : 2 ^ n < 2 ^ (n + 1) := Nat.pow_lt_pow_right (by norm_num) (by omega)

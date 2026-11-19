@@ -35,7 +35,7 @@ theorem exists_ne_zero_orth_four (h2 : (2 : K) ≠ 0) {v₁ v₂ v₃ v₄ : Mat
   have hO : finrank K ((cliffBil K).orthogonal S) = 5 - finrank K S := by
     rw [LinearMap.BilinForm.finrank_orthogonal hnd, finrank_cliffSpace h2]
   have hpos : 0 < finrank K ((cliffBil K).orthogonal S) := by omega
-  haveI : Nontrivial ((cliffBil K).orthogonal S) := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial ((cliffBil K).orthogonal S) := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨w, hw⟩ := exists_ne (0 : (cliffBil K).orthogonal S)
   have hw0 : ((w : M) : Matrix V₄ V₄ K) ≠ 0 := by
     intro h
@@ -56,7 +56,7 @@ theorem exists_ne_zero_orth_four (h2 : (2 : K) ≠ 0) {v₁ v₂ v₃ v₄ : Mat
 variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
 theorem commute_of_isotropic_orth (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)}
-    (hGS : G ≤ StatedSp 2 K) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) {u r : Matrix V₄ V₄ K}
+    (_hGS : G ≤ StatedSp 2 K) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) {u r : Matrix V₄ V₄ K}
     (huM : u ∈ (cliffSpace : Submodule K _)) (hQu : cliffB u u ≠ 0)
     (hrM : r ∈ (cliffSpace : Submodule K _)) (hur : cliffB u r = 0) (hrr : cliffB r r = 0)
     (hr0 : r ≠ 0) {x y : GL V₄ K} (hxG : x ∈ G) (hyG : y ∈ G)

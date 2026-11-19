@@ -224,13 +224,13 @@ theorem exists_mem_Lbar_inv (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : 
     calc ψ l * ψ m = ψ (l * m) := (map_mul ψ l m).symm
       _ = ψ (m * l) := by rw [hlm]
       _ = ψ m * ψ l := map_mul ψ m l
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPcomm : ∀ a b : P, a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (G := P) (p := 3) (by rw [hP9]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := P) (p := 3) (by rw [hP9]; norm_num)).is_comm.comm
   have hPexp : ∀ v : P, v ^ 3 = 1 := fun v => Subtype.ext (hP3 v.1 v.2)
   have hPcard : Nat.card P = 3 ^ 2 := by rw [hP9]; norm_num
   have hcardA : Nat.card ↥ψ.range = 4 := hcard_range
-  letI : Fintype ↥ψ.range := Fintype.ofFinite _
+  let : Fintype ↥ψ.range := Fintype.ofFinite _
   have hAle : 1 < Fintype.card ↥ψ.range := by
     rw [← Nat.card_eq_fintype_card, hcardA]
     norm_num

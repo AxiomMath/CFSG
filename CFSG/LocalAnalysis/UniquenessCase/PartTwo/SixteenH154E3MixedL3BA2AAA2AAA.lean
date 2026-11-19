@@ -19,7 +19,8 @@ private theorem s16h_zpow_eq_one_or_self_of_sq {M : Type*} [Group M] {x : M} (hx
   · right
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
-private theorem s16h_commSub_zpowers_eq_map_of_sq_one (hW : ∀ w : W, w ^ 2 = 1)
+omit [Finite W] in
+private theorem s16h_commSub_zpowers_eq_map_of_sq_one (_hW : ∀ w : W, w ^ 2 = 1)
     {I : Subgroup W} {y : MulAut W} (hy : y * y = 1) :
     commSub I (Subgroup.zpowers y) = I.map (commHom y) := by
   apply le_antisymm

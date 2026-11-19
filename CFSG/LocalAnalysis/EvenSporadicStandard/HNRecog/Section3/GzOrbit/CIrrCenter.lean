@@ -18,7 +18,7 @@ theorem commutatorElement_mem_centerOf {C : Type*} [Group C] {Q : Subgroup C}
   have hExt : CFSG.IsExtraspecial 2 ↥Q := hQ.1
   have hcomm : _root_.commutator ↥Q ≤ Subgroup.center ↥Q := by
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
-    haveI := hExt.quotient_elementary_abelian
+    have := hExt.quotient_elementary_abelian
     infer_instance
   have hc : ⁅(⟨y, hy⟩ : ↥Q), (⟨w, hw⟩ : ↥Q)⁆ ∈ Subgroup.center ↥Q :=
     hcomm (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))

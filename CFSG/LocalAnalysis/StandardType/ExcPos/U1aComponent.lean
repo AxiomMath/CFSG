@@ -55,7 +55,7 @@ theorem attach_J {t : StatedLieTag} {X : Type} [Group X] [Finite X] {n f p : ℕ
     exact F.closure_eq.symm
   have hA : A = (⊤ : Subgroup ↥D).map φ := by
     rw [htop, MonoidHom.map_closure]
-    simp only [Set.image_pair, Subgroup.coe_subtype, hφx, hφd]
+    simp only [Set.image_pair, hφx, hφd]
     rfl
   have h₁ : ∀ d ∈ D, ∃ a ∈ A, LieCore.GGLiePartner G₀ F.η d a := by
     intro d hd

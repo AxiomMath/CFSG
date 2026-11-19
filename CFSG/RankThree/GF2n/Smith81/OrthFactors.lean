@@ -31,7 +31,7 @@ theorem exists_noncomm_of_simple_of_sixteen_dvd {X : Type*} [Group X] [IsSimpleG
     (h16 : 16 ∣ Nat.card X) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
   have hp : (Nat.card X).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   have h1 := (Nat.dvd_prime hp).mp h16
   rcases h1 with h1 | h1
@@ -56,11 +56,13 @@ variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem actsAsTensor_id_mul {s s' : G} {g g' : Matrix (Fin 2) (Fin 2) K}
     (hs' : ∀ x ∈ Q, s' * x * s'⁻¹ ∈ Q) (h : ActsAsTensor Q Z M₀ φ s g id)
     (h' : ActsAsTensor Q Z M₀ φ s' g' id) : ActsAsTensor Q Z M₀ φ (s * s') (g * g') id :=
   ActsAsTensor.mul (o := LinearMap.id) (o' := LinearMap.id) hs' h h'
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem actsAsTensor_id_inv {s : G} {g g' : Matrix (Fin 2) (Fin 2) K}
     (hs' : ∀ x ∈ Q, s⁻¹ * x * s ∈ Q) (h : ActsAsTensor Q Z M₀ φ s g id) (hg : g * g' = 1) :
     ActsAsTensor Q Z M₀ φ s⁻¹ g' id :=
@@ -68,11 +70,13 @@ theorem actsAsTensor_id_inv {s : G} {g g' : Matrix (Fin 2) (Fin 2) K}
 
 variable [Finite G] {M : Subgroup G}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_Q_of_actsAsTensor_one (H : StrothHyp M Q Z) {s : G} (hs : s ∈ M)
     (h : ActsAsTensor Q Z M₀ φ s 1 id) : s ∈ Q := by
   refine mem_Q_of_pi_conj_eq (M₀ := M₀) H hs fun x hx => φ.injective ?_
   rw [h x hx, orthTensor_one_id]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem inv_mul_mem_Q_of_actsAsTensor (H : StrothHyp M Q Z) {s₁ s₂ : G} (h₁ : s₁ ∈ M)
     (h₂ : s₂ ∈ M) {g g' : Matrix (Fin 2) (Fin 2) K} (hgg : g * g' = 1)
     (hs₁ : ActsAsTensor Q Z M₀ φ s₁ g id) (hs₂ : ActsAsTensor Q Z M₀ φ s₂ g id) :
@@ -93,6 +97,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {ι : Type} [Fintype ι] [DecidableEq ι] {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem conj_mem_slPart_of_quotient (hH : StrothHyp M Q Z) {L : Subgroup G} (hLM : L ≤ M)
     (hnorm : ∀ x ∈ M, ∀ l ∈ L, x * l * x⁻¹ ∈ L) [Nonempty ι] {qU : QuadraticForm K (ι → K)}
     (hAct : OrthAct Q Z M₀ qU φ L) [hN : (Q.subgroupOf L).Normal]
@@ -104,9 +109,9 @@ theorem conj_mem_slPart_of_quotient (hH : StrothHyp M Q Z) {L : Subgroup G} (hLM
     {x : G} (hx : x ∈ M) :
     ∃ g' : Matrix (Fin 2) (Fin 2) K, g'.det = 1 ∧ ActsAsTensor Q Z M₀ φ (x * s * x⁻¹) g' id := by
   classical
-  haveI : Finite (A × B) := Finite.of_equiv _ e.toEquiv
-  haveI : Finite A := Finite.prod_left B
-  haveI : Finite B := Finite.prod_right A
+  have : Finite (A × B) := Finite.of_equiv _ e.toEquiv
+  have : Finite A := Finite.prod_left B
+  have : Finite B := Finite.prod_right A
   have hQM : ∀ y ∈ M, ∀ q ∈ Q, y * q * y⁻¹ ∈ Q := fun y hy q hq =>
     (Subgroup.mem_normalizer_iff.mp (hH.Q_normal.2 hy) q).mp hq
   choose sel hselL hsel using fun δ : Matrix.SpecialLinearGroup (Fin 2) K =>
@@ -305,7 +310,7 @@ theorem slPart_normal_of_split {M Q Z B : Subgroup G} (hcB : Ctx M Q Z B) {m : �
     ∀ s ∈ Lgen M (LB M Q B), ∀ g : Matrix (Fin 2) (Fin 2) K, g.det = 1 →
       ActsAsTensor Q Z M₀ φ s g id → ∀ x ∈ M, ∃ g' : Matrix (Fin 2) (Fin 2) K, g'.det = 1 ∧
         ActsAsTensor Q Z M₀ φ (x * s * x⁻¹) g' id := by
-  haveI : Nonempty ι := nonempty_index_of_card_Q hcB.hyp hm hQcard (M₀ := M₀) (φ := φ)
+  have : Nonempty ι := nonempty_index_of_card_Q hcB.hyp hm hQcard (M₀ := M₀) (φ := φ)
   have hLM : Lgen M (LB M Q B) ≤ M := (Lgen_le_H0 hcB).trans inf_le_left
   have hnorm : ∀ x ∈ M, ∀ l ∈ Lgen M (LB M Q B), x * l * x⁻¹ ∈ Lgen M (LB M Q B) :=
     fun x hx l hl => (Subgroup.mem_normalizer_iff.mp (Lgen_normalizes M (LB M Q B) hx) l).mp hl
@@ -325,18 +330,18 @@ theorem slPart_normal_plus {M Q Z B : Subgroup G} (hcB : Ctx M Q Z B) {t : G} {m
   have hKZ : Nat.card K = Nat.card Z := hD.card
   obtain ⟨-, hQcard, -, -, hNn, A, B', _, _, ⟨K', _, _, hK', ⟨eA⟩⟩, ⟨K'', _, _, hK'', ⟨eB⟩⟩,
     ⟨e⟩⟩ := hE
-  haveI := hNn
-  haveI : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''.trans hZ2)
+  have := hNn
+  have : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''.trans hZ2)
   have hq4'' : 4 ≤ Nat.card K'' := by rw [hK'']; exact hq4
   obtain ⟨hsimp, h16, -⟩ := endg_omegaPlus_facts hq4'' hm
-  haveI := hsimp
+  have := hsimp
   have hAcard : Nat.card A = Nat.card K * (Nat.card K ^ 2 - 1) := by
     rw [Nat.card_congr eA.toEquiv, StatedAPI.card_statedSL_two, hK', hKZ]
   have hlt' : Nat.card A < Nat.card ↥(StatedOmega (StatedQuadPlus m K'')) := by
     rw [hAcard, hKZ, ← hK'']
     exact card_statedSL_two_lt_omega_plus hm hq4''
   obtain ⟨hsB, hB, hlt⟩ := factor_facts_of_equiv h16 hlt' eB
-  haveI := hsB
+  have := hsB
   exact slPart_normal_of_split hcB (by omega) hQcard hAct hB hlt hAcard e
 
 theorem slPart_normal_minus {M Q Z B : Subgroup G} (hcB : Ctx M Q Z B) {t : G} {m : ℕ}
@@ -352,18 +357,18 @@ theorem slPart_normal_minus {M Q Z B : Subgroup G} (hcB : Ctx M Q Z B) {t : G} {
   have hKZ : Nat.card K = Nat.card Z := hD.card
   obtain ⟨hm, hQcard, -, -, hNn, A, B', _, _, ⟨K', _, _, hK', ⟨eA⟩⟩,
     ⟨K'', _, _, hK'', b, c, hirr, ⟨eB⟩⟩, ⟨e⟩⟩ := hE
-  haveI := hNn
-  haveI : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''.trans hZ2)
+  have := hNn
+  have : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''.trans hZ2)
   have hq4'' : 4 ≤ Nat.card K'' := by rw [hK'']; exact hq4
   obtain ⟨hsimp, h16, -⟩ := endg_omegaMinus_facts hq4'' hm hirr
-  haveI := hsimp
+  have := hsimp
   have hAcard : Nat.card A = Nat.card K * (Nat.card K ^ 2 - 1) := by
     rw [Nat.card_congr eA.toEquiv, StatedAPI.card_statedSL_two, hK', hKZ]
   have hlt' : Nat.card A < Nat.card ↥(StatedOmega (StatedQuadMinus m K'' b c)) := by
     rw [hAcard, hKZ, ← hK'']
     exact card_statedSL_two_lt_omega_minus_of_two_le hm hirr hq4''
   obtain ⟨hsB, hB, hlt⟩ := factor_facts_of_equiv h16 hlt' eB
-  haveI := hsB
+  have := hsB
   exact slPart_normal_of_split hcB (by omega) hQcard hAct hB hlt hAcard e
 
 theorem slPart_normal {M Q Z B : Subgroup G} (hcB : Ctx M Q Z B) {t : G} {m : ℕ} (hm : 3 ≤ m)

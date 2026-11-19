@@ -200,7 +200,7 @@ theorem exists_two_prime_group (hG : Group.IsSolvable G) (S : Sylow 2 G) {X : Su
     have hSπ : CFSG.IsPiSubgroup π (S : Subgroup G) := by
       intro p hp
       left
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup
       rw [hk] at hp
       exact (Nat.prime_dvd_prime_iff_eq p.prop Nat.prime_two).1 (p.prop.dvd_of_dvd_pow hp)
     obtain ⟨K, hK, hSK⟩ := CFSG.SolvableHall.solvable_hall_containment hG π S hSπ
@@ -300,7 +300,7 @@ theorem sup_eq_top_of_two_prime (hG : Group.IsSolvable G) (S : Sylow 2 G)
       refine CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer (K := ⊤) ?_ le_top
         (by rw [normalizer_eq_top_iff.2 hKn])
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
-      refine ⟨le_top, S.isPGroup', ?_⟩
+      refine ⟨le_top, S.isPGroup, ?_⟩
       rw [relIndex_top_right]
       exact S.not_dvd_index
     obtain ⟨Q, hQ⟩ := hSyl
@@ -309,7 +309,7 @@ theorem sup_eq_top_of_two_prime (hG : Group.IsSolvable G) (S : Sylow 2 G)
     have hSN := le_normalizer_inf_normal (S : Subgroup G) hKn
     by_cases hNtop : normalizer (((S : Subgroup G) ⊓ K : Subgroup G) : Set G) = ⊤
     · have hSK1 : (S : Subgroup G) ⊓ K = ⊥ :=
-        hO2 _ (normalizer_eq_top_iff.1 hNtop) (S.isPGroup'.to_le inf_le_left)
+        hO2 _ (normalizer_eq_top_iff.1 hNtop) (S.isPGroup.to_le inf_le_left)
       refine hNbbot K le_rfl fun k hk => ?_
       obtain ⟨p, hp, s, hs, rfl⟩ : k ∈ (P : Set G) * ((S : Subgroup G) : Set G) := by
         rw [← normal_mul]
@@ -447,7 +447,7 @@ theorem solvable_unique_overgroup_core (hG : Group.IsSolvable G) (S : Sylow 2 G)
     sup_eq_top_of_two_prime hG S hO2 hXtop hmax hr hrq hPr hleP
   have hPSbot : P ⊓ (S : Subgroup G) = ⊥ := by
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hPr
-    obtain ⟨b, hb⟩ := IsPGroup.iff_card.1 S.isPGroup'
+    obtain ⟨b, hb⟩ := IsPGroup.iff_card.1 S.isPGroup
     have h1 : Nat.card (P ⊓ (S : Subgroup G) : Subgroup G) ∣ r ^ a :=
       ha ▸ card_dvd_of_le inf_le_left
     have h2 : Nat.card (P ⊓ (S : Subgroup G) : Subgroup G) ∣ 2 ^ b :=
@@ -479,10 +479,10 @@ theorem solvable_unique_overgroup_core (hG : Group.IsSolvable G) (S : Sylow 2 G)
     exact le_sup_left.trans (hmax _ le_sup_right hWS)
   have hΦX : Φ ≤ X := hsec Φ hΦP (fun s _ => normalizer_eq_top_iff.2 hΦn ▸ mem_top s) hΦneP
   have hXP : X ⊓ P = Φ :=
-    inf_eq_frattini_of_unique hPr S.isPGroup' hr2 hPS hPSbot hSX hXtop hmax hΦX
+    inf_eq_frattini_of_unique hPr S.isPGroup hr2 hPS hPSbot hSX hXtop hmax hΦX
   have hfaith : ∀ s ∈ (S : Subgroup G), (∀ x ∈ P, s * x * s⁻¹ * x⁻¹ ∈ Φ) → s = 1 := by
     intro s hs htriv
-    have hs2 : IsPGroup 2 (zpowers s) := S.isPGroup'.to_le (zpowers_le.2 hs)
+    have hs2 : IsPGroup 2 (zpowers s) := S.isPGroup.to_le (zpowers_le.2 hs)
     have hcent := centralizes_of_trivial_on_frattini_quotient hPr hr2 hs2 htriv
     set D := (S : Subgroup G) ⊓ centralizer (P : Set G) with hD
     have hCn : (centralizer (P : Set G)).Normal := inferInstance
@@ -504,7 +504,7 @@ theorem solvable_unique_overgroup_core (hG : Group.IsSolvable G) (S : Sylow 2 G)
             _ = p * d * p⁻¹ := by group
         rw [this]
         exact hd
-    have hD1 : D = ⊥ := hO2 D hDn (S.isPGroup'.to_le inf_le_left)
+    have hD1 : D = ⊥ := hO2 D hDn (S.isPGroup.to_le inf_le_left)
     have hsD : s ∈ D := Subgroup.mem_inf.2 ⟨hs, mem_centralizer_iff.2 fun x hx => by
       have := hcent x hx
       calc x * s = s * x * s⁻¹ * s := by rw [this]

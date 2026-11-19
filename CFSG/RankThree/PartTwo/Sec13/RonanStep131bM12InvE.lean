@@ -28,7 +28,7 @@ theorem exists_inverting_of_card_autIn {X : Type} [Group X] (B : Subgroup X)
   have hcomm : ∀ x y : B, x * y = y * x := fun x y =>
     (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hB9).is_comm.comm x y
   have hpow : ∀ x : B, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using hexp x x.2)
-  haveI : Finite B := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite B := Nat.finite_of_card_ne_zero (by omega)
   have hMulAut : Nat.card (MulAut B) = 48 := by
     rw [CFSG.Sporadic.RuSchreier.ru_card_mulAut_elementary hcomm hpow (n := 2)
       (by rw [hB9]; norm_num)]
@@ -44,12 +44,12 @@ theorem exists_two_normalized_of_perm_alt {X : Type} [Group X] {N : Subgroup X}
     (e : N ≃* Equiv.Perm (Fin 3) × alternatingGroup (Fin 4)) :
     ∃ V : Subgroup X, V ≠ ⊥ ∧ IsPGroup 2 V ∧ N ≤ Subgroup.normalizer (V : Set X) := by
   have h4 : Nat.card (Fin 4) = 4 := by simp
-  haveI : (alternatingGroup.kleinFour (Fin 4)).Normal := alternatingGroup.normal_kleinFour h4
+  have : (alternatingGroup.kleinFour (Fin 4)).Normal := alternatingGroup.normal_kleinFour h4
   set V0 : Subgroup (Equiv.Perm (Fin 3) × alternatingGroup (Fin 4)) :=
     (⊥ : Subgroup (Equiv.Perm (Fin 3))).prod (alternatingGroup.kleinFour (Fin 4)) with hV0
-  haveI : V0.Normal := Subgroup.prod_normal _ _
+  have : V0.Normal := Subgroup.prod_normal _ _
   set V1 : Subgroup N := V0.map e.symm.toMonoidHom with hV1
-  haveI : V1.Normal := Subgroup.Normal.map inferInstance _ e.symm.surjective
+  have : V1.Normal := Subgroup.Normal.map inferInstance _ e.symm.surjective
   have hV1mem : ∀ n : N, n ∈ V1 ↔ (e n).1 = 1 ∧ (e n).2 ∈ alternatingGroup.kleinFour (Fin 4) := by
     intro n
     constructor
@@ -129,7 +129,7 @@ open M12Inv in
 theorem invPartE_of (h414 : Sec4.Item4_14_local) : InvPartE := by
   intro X _ hX B hB9
   obtain ⟨e⟩ := hX
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : IsPGroup 3 B := IsPGroup.of_card (n := 2) (by rw [hB9]; norm_num)
   obtain ⟨P, hBP⟩ := hB3.exists_le_sylow

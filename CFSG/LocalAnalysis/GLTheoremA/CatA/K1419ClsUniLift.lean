@@ -37,12 +37,12 @@ theorem k1419ClsUniLift {K : Type} [Field K] [Finite K] {k d : ℕ} {τ : K ≃+
       (∀ z : GL (Fin d) K, z ∈ M → (∀ y ∈ M, z * y = y * z) → z ^ 3 = 1 →
         z ∉ StatedScalars (Fin d) K →
           ∃ j ∈ J, (∀ j' ∈ J, j * j' = j' * j) ∧ j ^ 3 = 1 ∧ j ≠ 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : (2 : K) = 0 := by
     have hcard : Fintype.card K = 2 ^ (2 * k) := by
       rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, Nat.mul_comm]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) hcard
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) hcard
     exact CharP.cast_eq_zero K 2
   have hH : heldSU d K τ hτ = StatedSU d (2 ^ k) K :=
     hct_heldSU_eq_statedSU (a := d) hτQ
@@ -153,7 +153,7 @@ theorem k1419ClsUniLift {K : Type} [Field K] [Finite K] {k d : ℕ} {τ : K ≃+
         intro htop
         have htriv : ∀ x : ↥M, f x = 1 := fun x =>
           MonoidHom.mem_ker.mp (by rw [htop]; exact Subgroup.mem_top x)
-        haveI hnt : Nontrivial (PQuot 3 J) :=
+        have hnt : Nontrivial (PQuot 3 J) :=
           isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ)
         obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
         obtain ⟨x, hx⟩ := hf a

@@ -48,12 +48,12 @@ theorem fields_codeE (x : E) :
       fB2 (codeE x) = x.b2.val ∧ fB3 (codeE x) = x.b3.val ∧ fS (codeE x) = bv x.s := by
   obtain ⟨⟨a0, h0⟩, ⟨a1, h1⟩, ⟨a2, h2⟩, ⟨a3, h3⟩, ⟨b0, h4⟩, ⟨b1, h5⟩, ⟨b2, h6⟩, ⟨b3, h7⟩, s⟩ := x
   simp only [codeE, fA0, fA1, fA2, fA3, fB0, fB1, fB2, fB3, fS, bv, nat_div, nat_mod]
-  cases s <;> simp only [Bool.false_eq_true, if_false, if_true] <;> omega
+  cases s <;> simp only [Bool.false_eq_true, ite_false, ite_true] <;> omega
 
 theorem codeE_lt (x : E) : codeE x < 781250 := by
   obtain ⟨⟨a0, h0⟩, ⟨a1, h1⟩, ⟨a2, h2⟩, ⟨a3, h3⟩, ⟨b0, h4⟩, ⟨b1, h5⟩, ⟨b2, h6⟩, ⟨b3, h7⟩, s⟩ := x
   simp only [codeE]
-  cases s <;> simp only [Bool.false_eq_true, if_false, if_true] <;> omega
+  cases s <;> simp only [Bool.false_eq_true, ite_false, ite_true] <;> omega
 
 theorem codeE_injective : Function.Injective codeE := by
   intro x y h
@@ -107,15 +107,15 @@ theorem nrm_eq (z : E) (r0 r1 r2 r3 r4 r5 r6 r7 s : Nat) (h0 : r0 % 5 = z.a0.val
     rw [val_inv5, nat_mod, ifN_eq]
     by_cases hz : a0 = 0
     · have : r0 % 5 = 0 := by rw [h0, hz]; rfl
-      rw [if_pos this, if_neg (not_not.2 hz), ← cinv_mod r1, h1]
+      rw [ite_eq_left this, ite_eq_right (not_not.2 hz), ← cinv_mod r1, h1]
     · have : r0 % 5 ≠ 0 := by rw [h0]; exact fun h => hz (Fin.ext h)
-      rw [if_neg this, if_pos hz, ← cinv_mod r0, h0]
+      rw [ite_eq_right this, ite_eq_left hz, ← cinv_mod r0, h0]
   unfold nrm
   rw [letB_eq, hc]
   simp only [normE, codeE, Fin.val_mul, nat_add, nat_mul, nat_mod]
   rw [mul_mod_of _ _ _ h0, mul_mod_of _ _ _ h1, mul_mod_of _ _ _ h2, mul_mod_of _ _ _ h3,
     mul_mod_of _ _ _ h4, mul_mod_of _ _ _ h5, mul_mod_of _ _ _ h6, mul_mod_of _ _ _ h7, hs]
-  cases zs <;> simp only [bv, Bool.false_eq_true, if_false, if_true] <;> ring
+  cases zs <;> simp only [bv, Bool.false_eq_true, ite_false, ite_true] <;> ring
 
 theorem mulK_eq (p q : Nat) : mulK p q =
     ifN (fS p)
@@ -184,11 +184,11 @@ theorem codeE_invE (x : E) : codeE (invE x) = invK (codeE x) := by
   have hB : invB x = (inv5 (detB x) * x.b3, -(inv5 (detB x) * x.b1), -(inv5 (detB x) * x.b2),
       inv5 (detB x) * x.b0) := rfl
   cases hx : x.s
-  · simp only [bv, Bool.false_eq_true, if_false, ifN_zero, nat_mul]
+  · simp only [bv, Bool.false_eq_true, ite_false, ifN_zero, nat_mul]
     rw [invE, hx, hA, hB]
     exact (nrm_eq _ _ _ _ _ _ _ _ _ _ (mod_dmul _ _) (mod_ndmul _ _) (mod_ndmul _ _) (mod_dmul _ _)
       (mod_dmul _ _) (mod_ndmul _ _) (mod_ndmul _ _) (mod_dmul _ _) rfl).symm
-  · simp only [bv, if_true, ifN_one, nat_mul]
+  · simp only [bv, ite_true, ifN_one, nat_mul]
     rw [invE, hx, hA, hB]
     exact (nrm_eq _ _ _ _ _ _ _ _ _ _ (mod_dmul _ _) (mod_ndmul _ _) (mod_ndmul _ _) (mod_dmul _ _)
       (mod_dmul _ _) (mod_ndmul _ _) (mod_ndmul _ _) (mod_dmul _ _) rfl).symm

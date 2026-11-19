@@ -33,6 +33,7 @@ private theorem two_le_finrank_of_ne {U : Submodule (ZMod 2) V} {a b : V} (ha : 
   · exact hb0 (by simpa using (congrArg Subtype.val h₂).symm)
   exact hab (by simpa using (congrArg Subtype.val h₁).symm.trans (congrArg Subtype.val h₂))
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem finrank_map_of_injOn {A : Submodule (ZMod 2) V} (f : V →ₗ[ZMod 2] V)
     (hf : ∀ u ∈ A, f u = 0 → u = 0) : finrank (ZMod 2) (A.map f) = finrank (ZMod 2) A := by
   have hinj : Function.Injective (f.domRestrict A) := by

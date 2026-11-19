@@ -32,12 +32,13 @@ theorem ker_chevQuotHom_le_center {X L : Subgroup G} (hL : GLAPComponent 3 X L)
   refine le_center_of_normal_of_isQuasisimple hLq inferInstance ?_
   intro htop
   have hsimple := (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).2
-  haveI := hsimple.toNontrivial
+  have := hsimple.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : PSimple 3 L)
   obtain ⟨y, rfl⟩ := chevQuotHom_surjective 3 L x
   have hy : y ∈ (chevQuotHom 3 L).ker := htop ▸ Subgroup.mem_top y
   exact hx (MonoidHom.mem_ker.1 hy)
 
+omit [Finite G] in
 theorem center_le_ker_chevQuotHom (L : Subgroup G) :
     Subgroup.center ↥L ≤ (chevQuotHom 3 L).ker := by
   intro z hz
@@ -64,6 +65,7 @@ theorem chevQuotHom_injective_of_center {X L : Subgroup G} (hL : GLAPComponent 3
     Function.Injective (chevQuotHom 3 L) := by
   rw [← MonoidHom.ker_eq_bot_iff, ker_chevQuotHom_eq_center hL hLq, hc]
 
+omit [Finite G] in
 theorem glaPrimeCoreOf_eq_bot_of_injective {L : Subgroup G}
     (hinj : Function.Injective (chevQuotHom 3 L)) : GLAPPrimeCoreOf 3 L = ⊥ := by
   have hO : GLAPPrimeCore 3 ↥L = ⊥ := by
@@ -115,11 +117,13 @@ theorem center_eq_bot_of_G2_six (hGA : CFSG.Open.GriessAllModelsStatement) {X L 
   have hd := (card_center_dvd_G2 hGA hLq hq2 hq6 ((chevIso hL hLq).trans e)).2 (by norm_num)
   exact Subgroup.eq_bot_of_card_eq _ (Nat.dvd_one.1 hd)
 
+omit [Finite G] in
 theorem indAut_chevQuotHom {L : Subgroup G} {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G)) (k : ↥L) :
     indAut 3 L b hb (chevQuotHom 3 L k) =
       chevQuotHom 3 L (L.normalizerMonoidHom ⟨b⁻¹, Subgroup.inv_mem _ hb⟩ k) :=
   chevAut_chevQuotHom 3 L ⟨b⁻¹, Subgroup.inv_mem _ hb⟩ k
 
+omit [Finite G] in
 theorem fixSub_indAut_eq {L : Subgroup G} {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G))
     (hinj : Function.Injective (chevQuotHom 3 L)) :
     FP.fixSub (indAut 3 L b hb) = ((L ⊓ cx b).subgroupOf L).map (chevQuotHom 3 L) := by

@@ -24,8 +24,8 @@ theorem mem_uniqueSet_of_centralizer {M B : Subgroup G} {p r : ℕ}
       p ∣ Nat.card (M ⊓ Subgroup.centralizer (E : Set G) : Subgroup G)) :
     B ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine ⟨hBM, ?_⟩
   intro g hBg
   set B' : Subgroup G := B.map (MulAut.conj g⁻¹).toMonoidHom
@@ -74,7 +74,7 @@ theorem mem_uniqueSet_of_centralizer {M B : Subgroup G} {p r : ℕ}
     intro b hb
     have hb' : g⁻¹ * b * g ∈ B' := by
       rw [show B' = B.map (MulAut.conj g⁻¹).toMonoidHom from rfl]
-      exact Subgroup.mem_map.mpr ⟨b, hb, by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨b, hb, by simp⟩
     have hcomm := Subgroup.mem_centralizer_iff.mp hxCb (g⁻¹ * b * g) hb'
     show b * y = y * b
     calc b * y = g * ((g⁻¹ * b * g) * (x : G)) * g⁻¹ := by

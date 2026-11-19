@@ -145,7 +145,7 @@ theorem centralizer_sylow_le_normalizer {X : Type*} [Group X] [Finite X]
       apply Subtype.ext
       have hkC := Subgroup.commutator_eq_bot_iff_le_centralizer.mp h k.2
       exact ((Subgroup.mem_centralizer_iff.mp hkC) x hxE').symm
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hxT⟩
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hxT⟩
     have hj0 : j ≠ 0 := by
       rintro rfl
       rw [pow_zero, orderOf_eq_one_iff] at hj
@@ -222,11 +222,11 @@ theorem oddFitting_le_sup_commutator (hX : IsAStar X) {t : X} (T : Sylow 2 X)
   have hUodd : Odd (Nat.card U) := odd_card_oddCoreOf FC
   have hUsolv : Group.IsSolvable U := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hUodd
   have hcop : Nat.Coprime (Nat.card (T : Subgroup X)) (Nat.card U) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hUodd)
   refine ⟨hTU, le_sup_commutator_of_coprime hTU hUsolv hcop, ?_⟩
-  have hTO : (T : Subgroup X) ≤ oStar X := le_oStar_of_isPGroup hX T.isPGroup'
+  have hTO : (T : Subgroup X) ≤ oStar X := le_oStar_of_isPGroup hX T.isPGroup
   have : (oStar X).Normal := oStar_normal
   calc ⁅U, (T : Subgroup X)⁆ ≤ ⁅⊤, oStar X⁆ := Subgroup.commutator_mono le_top hTO
     _ ≤ oStar X := Subgroup.commutator_le_right _ _

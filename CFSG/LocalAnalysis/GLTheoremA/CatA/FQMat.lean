@@ -147,8 +147,8 @@ theorem one_le_of_card_fixed [Finite K] {σ : K ≃+* K} {e : ℕ} (he : Nat.car
   rw [this] at h1
   simp at h1
 
-theorem card_fixF {σ : K ≃+* K} : Nat.card (fixF σ) = Nat.card {x : K // σ x = x} :=
-  Nat.card_congr (Equiv.subtypeEquivRight fun x => mem_fixF)
+theorem card_fixF {σ : K ≃+* K} : Nat.card (fixF σ) = Nat.card {_x : K // σ _x = _x} :=
+  Nat.card_congr (Equiv.subtypeEquivRight fun _x => mem_fixF)
 
 end Fixed
 

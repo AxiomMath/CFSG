@@ -44,7 +44,7 @@ private theorem exists3_omega7_of_gates {K : Type} [Field K] [Finite K] {d : ℕ
     have hker : (⟨φ, hφE⟩ : matrixProjectiveImage Q) ∈ ψ.ker := by
       rw [MonoidHom.mem_ker]; exact h1
     rw [hψker, Subgroup.mem_subgroupOf] at hker
-    haveI : (innAut (matrixProjectiveDerived Q)).Normal :=
+    have : (innAut (matrixProjectiveDerived Q)).Normal :=
       show (CFSG.ComponentClassification.OuterAutomorphisms.inner _).Normal from
         CFSG.ComponentClassification.OuterAutomorphisms.innerNormal _
     exact mem_of_pow_three_pow_mem_of_relIndex_two_pow hj hker (hφpow ▸ one_mem _)
@@ -62,8 +62,8 @@ private theorem exists3_omega7_of_gates {K : Type} [Field K] [Finite K] {d : ℕ
   rw [hψ₀]
   exact (fieldAutT_pow_eq_one_iff Q σ (hfield σ) hnd hS3 hAP 3).mpr hσpow
 
-theorem exists3_omega7 {X : Type} [Group X] [Finite X] {r f : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
-    (hr3 : r ≠ 3) (h : LieModel X .POmegaOdd 3 r f) : Exists3 X := by
+theorem exists3_omega7 {X : Type} [Group X] [Finite X] {r f : ℕ} (_hr : r.Prime) (hr2 : r ≠ 2)
+    (_hr3 : r ≠ 3) (h : LieModel X .POmegaOdd 3 r f) : Exists3 X := by
   have hG : StatedClassicalModel X .POmegaOdd 3 r f :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hG.2

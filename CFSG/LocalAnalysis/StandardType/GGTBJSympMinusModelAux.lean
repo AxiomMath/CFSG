@@ -64,8 +64,8 @@ theorem sympMinus_map_centralizer_singleton_mulEquiv {M M' : Type*} [Group M] [G
 theorem sympMinus_injective_of_surjective_natCard {α β : Type*} [Finite α] [Finite β]
     (f : α → β) (hf : Function.Surjective f) (hcard : Nat.card α ≤ Nat.card β) :
     Function.Injective f := by
-  haveI : Fintype α := Fintype.ofFinite α
-  haveI : Fintype β := Fintype.ofFinite β
+  have : Fintype α := Fintype.ofFinite α
+  have : Fintype β := Fintype.ofFinite β
   have hle : Nat.card β ≤ Nat.card α := Nat.card_le_card_of_surjective f hf
   have heq : Nat.card α = Nat.card β := le_antisymm hcard hle
   let e : α ≃ β := Fintype.equivOfCardEq (by

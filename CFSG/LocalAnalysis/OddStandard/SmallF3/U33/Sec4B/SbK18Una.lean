@@ -56,7 +56,7 @@ private lemma sq_centralizes [Finite G] {Q Y V B : Subgroup G} {m : G}
     (hQab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) (hBQ : B ≤ Q) (hYQ : Y ≤ Q) (hVY : V ≤ Y)
     (hQBY : ∀ q ∈ Q, ∃ b ∈ B, ∃ y ∈ Y, q = b * y) (hBY : ∀ x ∈ B, x ∈ Y → x ∈ V)
     (hV2 : ∀ v ∈ V, v * v = 1)
-    (hmQ : ∀ q ∈ Q, m * q * m⁻¹ ∈ Q) (hmB : ∀ b ∈ B, m * b * m⁻¹ ∈ B)
+    (_hmQ : ∀ q ∈ Q, m * q * m⁻¹ ∈ Q) (hmB : ∀ b ∈ B, m * b * m⁻¹ ∈ B)
     (hmQY : ∀ q ∈ Q, m * q * m⁻¹ * q⁻¹ ∈ Y)
     (hmYV : ∀ y ∈ Y, m * y * m⁻¹ * y⁻¹ ∈ V)
     (hmV : ∀ v ∈ V, m * v * m⁻¹ = v) :

@@ -179,7 +179,7 @@ theorem heis_finrank_ker_mul {F M : Type*} [Field F] [AddCommGroup M] [Module F 
   simp only [hconst, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul] at hfin
   have hker : LinearMap.ker (A - 1) = Module.End.eigenspace A 1 := by
     ext x
-    simp [Module.End.mem_eigenspace_iff, sub_eq_zero]
+    simp [sub_eq_zero]
   rw [hker]
   exact hfin
 

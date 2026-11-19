@@ -16,9 +16,11 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def str83X1 (L1 L2 S : Subgroup G) : Subgroup G :=
   centralizerMod (Z1 L1 L2 S) (str83X L1 L2 S) (L1 ⊔ S)
 
+omit [Finite G] in
 theorem str83X1_def (L1 L2 S : Subgroup G) :
     str83X1 L1 L2 S = centralizerMod (Z1 L1 L2 S) (str83X L1 L2 S) (L1 ⊔ S) := rfl
 
+omit [Finite G] in
 theorem mem_str83X1 {L1 L2 S : Subgroup G} {x : G} :
     x ∈ str83X1 L1 L2 S ↔ x ∈ str83X L1 L2 S ∧
       x ∈ Subgroup.normalizer (Z1 L1 L2 S : Set G) ∧
@@ -48,17 +50,20 @@ theorem str83G4_x_le_sup
     str83X L1 L2 S ≤ L1 ⊔ S :=
   (str83X_le_q1 hfr).trans ((str83G4_q1_le_s hfr).trans le_sup_right)
 
+omit [Finite G] in
 theorem str83G4_sup_le_normalizer_x
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     L1 ⊔ S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G) :=
   (sup_left_le_p1 L1 L2 S).trans (le_normalizer_str83X L1 L2 S)
 
+omit [Finite G] in
 theorem str83G4_sup_le_normalizer_z1
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     L1 ⊔ S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G) :=
   (sup_left_le_p1 L1 L2 S).trans (SmithC27.le_normalizer_omegaOneCenterOf_pCoreOf
     (P1 L1 L2 S))
 
+omit [Finite G] in
 private theorem le_normalizer_centralizerMod_of_le {Z X U Y : Subgroup G}
     (hZ : Y ≤ Subgroup.normalizer (Z : Set G)) (hX : Y ≤ Subgroup.normalizer (X : Set G))
     (hU : Y ≤ Subgroup.normalizer (U : Set G)) :
@@ -93,10 +98,12 @@ theorem str83G4_z1_le_x1
     rw [hc]; group]
   exact (Z1 L1 L2 S).one_mem
 
+omit [Finite G] in
 theorem str83G4_x1_le_x (L1 L2 S : Subgroup G) :
     str83X1 L1 L2 S ≤ str83X L1 L2 S :=
   centralizerMod_le_left _ _ _
 
+omit [Finite G] in
 theorem str83G4_x1_normal
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (str83X L1 L2 S)
@@ -107,6 +114,7 @@ theorem str83G4_x1_normal
     (str83G4_sup_le_normalizer_x hfr) Subgroup.le_normalizer
   exact (Subgroup.mem_normalizer_iff.mp (hN hg) x).mp hx
 
+omit [Finite G] in
 theorem str83G4_x_normal
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (str83X L1 L2 S) (str83X L1 L2 S) := by
@@ -165,7 +173,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem str83G4_centralizerMod_sup_eq_oTwoUpper
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) {L N : Subgroup G}
-    (hLN : L ≤ N) (hNX : N ≤ str83X L1 L2 S) (hZ1L : Z1 L1 L2 S ≤ L)
+    (_hLN : L ≤ N) (hNX : N ≤ str83X L1 L2 S) (hZ1L : Z1 L1 L2 S ≤ L)
     (hHL : L1 ⊔ S ≤ Subgroup.normalizer (L : Set G)) :
     centralizerMod L N (L1 ⊔ S) = centralizerMod L N (oTwoUpper (L1 ⊔ S)) := by
   have hH : L1 ⊔ S = oTwoUpper (L1 ⊔ S) ⊔ Q1 L1 L2 S :=
@@ -217,6 +225,7 @@ theorem str83N_le_x
       ((oTwoUpper_le (L1 ⊔ S)).trans (str83G4_sup_le_normalizer_x hfr)))
     (str83G4_z1_le_x hfr)
 
+omit [Finite G] in
 theorem str83Z1_le_n (L1 L2 S : Subgroup G) : Z1 L1 L2 S ≤ str83N L1 L2 S := le_sup_right
 
 theorem str83Z1_le_n1
@@ -224,8 +233,10 @@ theorem str83Z1_le_n1
     Z1 L1 L2 S ≤ str83N1 L1 L2 S :=
   le_inf (str83Z1_le_n L1 L2 S) (str83G4_z1_le_x1 hfr)
 
+omit [Finite G] in
 theorem str83N1_le_n (L1 L2 S : Subgroup G) : str83N1 L1 L2 S ≤ str83N L1 L2 S := inf_le_left
 
+omit [Finite G] in
 theorem str83N1_le_x1 (L1 L2 S : Subgroup G) : str83N1 L1 L2 S ≤ str83X1 L1 L2 S := inf_le_right
 
 theorem str83N_normal
@@ -253,6 +264,7 @@ theorem str83N1_normal
     IsNormalIn (L1 ⊔ S) (str83X L1 L2 S) (str83N1 L1 L2 S) :=
   F112W.isNormalIn_inf (str83N_normal hfr) (str83G4_x1_normal hfr)
 
+omit [Finite G] in
 private theorem isChiefStep_of_isNormalIn_le {H U N' L M : Subgroup G}
     (hM : M ≤ N') (hN' : N' ≤ U) (h : IsChiefStep H N' L M) : IsChiefStep H U L M := by
   obtain ⟨hMn, hLn, hlt, hmax⟩ := h
@@ -298,6 +310,7 @@ theorem str83N1_lt_n
   rw [hinv, hmem, inv_one]
   exact L.one_mem
 
+omit [Finite G] in
 theorem str83G4_commutator_x_oTwo_le_n (L1 L2 S : Subgroup G) :
     ⁅str83X L1 L2 S, oTwoUpper (L1 ⊔ S)⁆ ≤ str83N L1 L2 S :=
   le_sup_left

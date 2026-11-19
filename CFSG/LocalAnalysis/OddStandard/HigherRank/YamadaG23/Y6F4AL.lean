@@ -34,7 +34,7 @@ private lemma commutatorElement_mul_central {G : Type*} [Group G] {k k' z z' : G
 
 private lemma commutator_sup_central_le {G : Type*} [Group G] {K Z : Subgroup G}
     (hZ : Z ≤ Subgroup.center G) : ⁅K ⊔ Z, K ⊔ Z⁆ ≤ ⁅K, K⁆ := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [Subgroup.commutator_le]
   intro x hx y hy
   obtain ⟨k, hk, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
@@ -165,14 +165,14 @@ theorem y6f4a_lift_quasisimple (hπ : Function.Surjective π) (hker : π.ker ≤
     (hE : IsSimpleGroup ↥E) (hna : ¬ IsMulCommutative ↥E) :
     CFSG.Open.IsQuasisimple ↥⁅E.comap π, E.comap π⁆ := by
   have hperfect := y6f4a_isPerfect_commutator_comap hπ hker hE hna
-  haveI : Group.IsPerfect ↥(⁅E.comap π, E.comap π⁆ : Subgroup C) :=
+  have : Group.IsPerfect ↥(⁅E.comap π, E.comap π⁆ : Subgroup C) :=
     Subgroup.isPerfect_iff.mpr hperfect
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
   exact (MulEquiv.isSimpleGroup_congr (y6f4a_lift_equiv_aux hπ hker hE hna)).mpr hE
 
-theorem y6f4a_lift_normal (hπ : Function.Surjective π) (hE : E.Normal) :
+theorem y6f4a_lift_normal (_hπ : Function.Surjective π) (hE : E.Normal) :
     (⁅E.comap π, E.comap π⁆ : Subgroup C).Normal := by
-  haveI : (E.comap π).Normal := hE.comap π
+  have : (E.comap π).Normal := hE.comap π
   infer_instance
 
 theorem y6f4a_lift_equiv (hπ : Function.Surjective π) (hker : π.ker ≤ center C)
@@ -207,7 +207,7 @@ theorem y6f4a_lift_centralizer (hπ : Function.Surjective π) (hker : π.ker ≤
 
 theorem y6f4a_lift_perfect (hperf : ∀ B : Subgroup Y, Group.IsPerfect ↥B → B ≤ E)
     {B : Subgroup C} (hB : Group.IsPerfect ↥B) : B ≤ ⁅E.comap π, E.comap π⁆ := by
-  haveI : Group.IsPerfect ↥B := hB
+  have : Group.IsPerfect ↥B := hB
   have hBmap : B.map π ≤ E := hperf (B.map π) (Group.IsPerfect.map (H := B) π)
   have hBR : B ≤ E.comap π := Subgroup.map_le_iff_le_comap.mp hBmap
   calc B = ⁅B, B⁆ := (Subgroup.isPerfect_iff.mp hB).symm

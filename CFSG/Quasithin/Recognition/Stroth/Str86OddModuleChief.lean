@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem p7_inf_centralizer_le_centralizerMod {A : Subgroup G} {t : G} :
     A ⊓ Subgroup.centralizer ({t} : Set G) ≤
       centralizerMod (⊥ : Subgroup G) A (Subgroup.zpowers t) := by
@@ -54,8 +55,8 @@ private theorem p7s_disp_le_relIndex {L1 L2 S D : Subgroup G}
     (hm : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥L2))
     {W : Subgroup G} (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
     (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W)
-    (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
-    (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 m))
+    (_hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
+    (_e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 m))
     (hDS : D ≤ S) (hDQ : ¬ D ≤ Q2 L1 L2 S) :
     2 ^ m ≤ (W ⊓ Subgroup.centralizer (D : Set G)).relIndex W := by
   classical
@@ -175,8 +176,8 @@ private theorem p7s_hoff {L1 L2 S D : Subgroup G} {m : ℕ}
           ∀ a ∈ (imageOTwoQuot (u3H L1 L2 S) D).map e.toMonoidHom,
             l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e a w = w} := by
   classical
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let Dbar : Subgroup (SL(2, GaloisField 2 m)) :=
     (imageOTwoQuot (u3H L1 L2 S) D).map e.toMonoidHom
   let rho := l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e
@@ -229,12 +230,12 @@ theorem str86_chief_natural_or_orth {L1 L2 S : Subgroup G}
     exact GaloisField.card 2 m (by omega)
   let Dbar : Subgroup (SL(2, GaloisField 2 m)) :=
     (imageOTwoQuot (u3H L1 L2 S) D).map e.toMonoidHom
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let rho := l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e
   have hρirr : rho.IsIrreducible :=
     l2ChiefSectionRep_irreducible hstepW (q2_le_u3H L1 L2 S) hE e
-  haveI : Fact rho.IsIrreducible := ⟨hρirr⟩
+  have : Fact rho.IsIrreducible := ⟨hρirr⟩
   have hnt : ∃ g, rho g ≠ 1 :=
     l2ChiefSectionRep_nontrivial hstepW (q2_le_u3H L1 L2 S) hE e hncW
   have hbounds :=
@@ -257,6 +258,7 @@ theorem str86_chief_natural_or_orth {L1 L2 S : Subgroup G}
       rw [hFcard, hml]
     exact Or.inr ⟨l, hl, hml, orth_iso (s := l) (by omega) hl rho hnt hEnd hdim⟩
 
+omit [Finite G] in
 private theorem p8_commutator_le_z2 (L1 L2 S : Subgroup G) :
     ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ ≤ Z2 L1 L2 S := by
   rw [Subgroup.commutator_le]
@@ -380,9 +382,9 @@ theorem str86_card_z1_of_natural {L1 L2 S : Subgroup G} {m : ℕ}
     (hWS : W ⊓ Subgroup.centralizer (S : Set G) = Z1 L1 L2 S) :
     Nat.card (Z1 L1 L2 S) = 2 ^ m := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   have hSleH : S ≤ u3H L1 L2 S := str86_s_le_u3H hF.toW hSB hm hL2
   obtain ⟨hA2, hAcard⟩ := str86_imageS_props hF hSB hm hL2 e
   have h2 := str86_card_fixedSub_image (L1 := L1) (L2 := L2) (S := S) (W := W) (D := S)
@@ -411,8 +413,8 @@ theorem str86_card_z1_of_orth {L1 L2 S : Subgroup G} {m : ℕ}
     (hWS : W ⊓ Subgroup.centralizer (S : Set G) = Z1 L1 L2 S) :
     Nat.card (Z1 L1 L2 S) = 2 ^ l := by
   classical
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let A : Subgroup (SL(2, GaloisField 2 m)) :=
     (imageOTwoQuot (u3H L1 L2 S) S).map e.toMonoidHom
   have hSleH : S ≤ u3H L1 L2 S := str86_s_le_u3H hF.toW hSB hm hL2

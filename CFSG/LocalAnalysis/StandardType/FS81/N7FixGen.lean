@@ -11,7 +11,7 @@ namespace CFSG.StandardType.FrameRoute.FS81
 theorem q2nN7_le_sylow_of_normal {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {H F : Subgroup G} (hFH : F ≤ H) (hFn : (F.subgroupOf H).Normal) (hFp : IsPGroup p F)
     (P : Sylow p G) (hPH : (P : Subgroup G) ≤ H) : F ≤ P := by
-  haveI : (F.subgroupOf H).Normal := hFn
+  have : (F.subgroupOf H).Normal := hFn
   have hFp' : IsPGroup p (F.subgroupOf H) := by
     intro x
     obtain ⟨k, hk⟩ := hFp ⟨x.1.1, x.2⟩
@@ -30,10 +30,10 @@ theorem q2nN7_exists_sylow_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
   classical
   let Q : Sylow p H := Classical.arbitrary _
   let P₀ : Subgroup G := (Q : Subgroup H).map H.subtype
-  have hP₀p : IsPGroup p P₀ := Q.isPGroup'.map H.subtype
+  have hP₀p : IsPGroup p P₀ := Q.isPGroup.map H.subtype
   have hP₀H : P₀ ≤ H := Subgroup.map_subtype_le _
   have hFQ : F.subgroupOf H ≤ (Q : Subgroup H) := by
-    haveI : (F.subgroupOf H).Normal := hFn
+    have : (F.subgroupOf H).Normal := hFn
     have hFp' : IsPGroup p (F.subgroupOf H) := by
       intro x
       obtain ⟨k, hk⟩ := hFp ⟨x.1.1, x.2⟩
@@ -50,7 +50,7 @@ theorem q2nN7_exists_sylow_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
       exact hnot (Subgroup.subgroupOf_eq_top.mp htop)
     let R : Subgroup T := P₀.subgroupOf (T : Subgroup G)
     have hRlt : R < ⊤ := lt_of_le_of_ne le_top hRne
-    haveI : Group.IsNilpotent T := IsPGroup.isNilpotent (p := p) T.isPGroup'
+    have : Group.IsNilpotent T := IsPGroup.isNilpotent (p := p) T.isPGroup
     have hlt : R < Subgroup.normalizer (R : Set T) :=
       Group.normalizerCondition_of_isNilpotent R hRlt
     obtain ⟨y, hyN, hyR⟩ := IsConcreteLE.exists_of_lt hlt
@@ -88,7 +88,7 @@ theorem q2nN7_exists_sylow_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
         Subgroup.comap_map_eq_self_of_injective H.subtype_injective (Q : Subgroup H)
       rw [Subgroup.subgroupOf_normalizer_eq hP₀H, hQeq] at hmem
       exact hmem
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_pow_pow_eq_one y
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_pow_pow_eq_one y
     have hkH : (⟨(y : G), hyH⟩ : H) ^ p ^ k = 1 := by
       apply Subtype.ext
       simpa using congrArg Subtype.val hk
@@ -106,7 +106,7 @@ theorem q2nN7_exists_sylow_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
   exact ⟨T, hTP₀.trans hP₀H⟩
 
 theorem q2nN7_exists_central {X : Type*} [Group X] {p : ℕ} [Fact p.Prime] (P : Subgroup X)
-    (hP : IsPGroup p P) (E : Set X) (hE : E.Finite) (hcard : ¬ p ∣ E.ncard)
+    (hP : IsPGroup p P) (E : Set X) (_hE : E.Finite) (hcard : ¬ p ∣ E.ncard)
     (hconj : ∀ y ∈ P, ∀ τ ∈ E, y * τ * y⁻¹ ∈ E) :
     ∃ τ ∈ E, ∀ y ∈ P, y * τ = τ * y := by
   classical
@@ -115,7 +115,7 @@ theorem q2nN7_exists_central {X : Type*} [Group X] {p : ℕ} [Fact p.Prime] (P :
   have hone : ∀ τ : E, act 1 τ = τ := fun τ => Subtype.ext (by simp [act])
   have hmul : ∀ y z : P, ∀ τ : E, act (y * z) τ = act y (act z τ) :=
     fun y z τ => Subtype.ext (by simp [act, mul_assoc])
-  letI : MulAction P E :=
+  let : MulAction P E :=
     { smul := act
       one_smul := hone
       mul_smul := hmul }

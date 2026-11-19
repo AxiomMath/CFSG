@@ -19,7 +19,7 @@ open CFSG.RankThree.PartOne.KCPrimary
 
 private theorem eq_one_of_ne_zero_of_card_two {k : Type} [Field k] [Finite k]
     (hk : Nat.card k = 2) {r : k} (hr : r ≠ 0) : r = 1 := by
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have h := FiniteField.pow_card_sub_one_eq_one r hr
   rw [Fintype.card_eq_nat_card, hk] at h
   simpa using h
@@ -109,9 +109,9 @@ private theorem even_of_component_alt_eight {k : Type} [Field k] [Finite k] (hk 
   have hsq := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.squarefree_minpoly_glA hpk hA
   obtain ⟨⟨⟨h, hh⟩, hgood⟩, rfl⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.linear_inner_components (p := 3) hpk hA K hK
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite k
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite k
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hcardE : Nat.card (AdjoinRoot h) = 2 ^ h.natDegree := by
     rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h, hk]
   have hdvd_h : h ∣ X ^ 3 - C 1 := by
@@ -129,7 +129,7 @@ private theorem even_of_component_alt_eight {k : Type} [Field k] [Finite k] (hk 
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_specialFactor hsq hh
         hgood)
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) (AdjoinRoot h)) := hQS.1
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) (AdjoinRoot h)) := hQS.1
   have hperf : commutator (Matrix.SpecialLinearGroup (Fin m) (AdjoinRoot h)) = ⊤ :=
     Group.isPerfect_def.mp hQS.1
   obtain ⟨f, hfs, hker⟩ :=
@@ -217,7 +217,7 @@ theorem linTwoA8_holds : LinTwoA8 := by
   have hn1 : 1 ≤ n := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
   have hn2 : 2 ≤ n + 1 := Nat.succ_le_succ hn1
-  haveI : Fact gfTwoPP.p.Prime := ⟨gfTwoPP.prime_p⟩
+  have : Fact gfTwoPP.p.Prime := ⟨gfTwoPP.prime_p⟩
   let k := GaloisField gfTwoPP.p gfTwoPP.exponent
   have hcardk : Nat.card k = 2 := by
     dsimp only [k]

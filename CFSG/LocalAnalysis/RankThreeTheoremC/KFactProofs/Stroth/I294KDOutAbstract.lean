@@ -26,7 +26,7 @@ theorem eq_one_of_pElement_mem_commutator {p : ℕ} (hp : p.Prime)
   obtain ⟨P, -⟩ := hpg.exists_le_sylow
   have hPc : ∀ g ∈ (P : Subgroup G), g ∈ Subgroup.center G := by
     intro g hg
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨g, hg⟩
     exact hcent g ⟨m, congrArg Subtype.val hm⟩
   have hN : Subgroup.normalizer (P : Set G) ≤ Subgroup.centralizer (P : Set G) :=
     fun n _ g hg => ((Subgroup.mem_center_iff.1 (hPc g hg)) n).symm
@@ -49,7 +49,7 @@ theorem pElement_mem_inner_of_pGoodOut {p : ℕ} (hp : p.Prime) {X : Type*} [Gro
     α ∈ (MulAut.conj : X →* MulAut X).range := by
   obtain ⟨D, hDn, hID, hD2, hD3⟩ := h
   obtain ⟨k, hk⟩ := hα
-  haveI : Finite (MulAut X) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' X
+  have : Finite (MulAut X) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' X
   let π : MulAut X →* MulAut X ⧸ D := QuotientGroup.mk' D
   have hcent : ∀ g : MulAut X ⧸ D, (∃ k : ℕ, g ^ p ^ k = 1) → g ∈ Subgroup.center _ := by
     intro g ⟨m, hm⟩

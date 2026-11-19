@@ -115,7 +115,7 @@ theorem census_of_iso {X : Type} [Group X] {p e : ℕ} [Fact p.Prime] (he : 1 �
 
 theorem exists_charP_card (K : Type) [Field K] [Finite K] :
     ∃ l f : ℕ, l.Prime ∧ CharP K l ∧ 1 ≤ f ∧ Nat.card K = l ^ f := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨l, hchar, n, hl, hcard⟩ := FiniteField.card' K
   refine ⟨l, (n : ℕ), hl, hchar, n.pos, ?_⟩
   rw [Nat.card_eq_fintype_card, hcard]
@@ -166,7 +166,7 @@ theorem kill_psl2 {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {K : 
   rw [hN] at hX
   obtain ⟨c, hc, hX'⟩ := hX
   obtain ⟨l, f, hl, hchar, -, hK⟩ := exists_charP_card K
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   obtain ⟨h1, h2⟩ := A2_psl2 hK
   have hp : p.Prime := Fact.out
   have hY : padicValNat l (Nat.card (CFSG.GorensteinWalter.PSL2 K)) = f * 1 ∧
@@ -195,7 +195,7 @@ theorem kill_psl_field {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} 
     (hX : CensusOrder p e (Nat.card (L ⧸ aschbacherSolvableCore 3 L)))
     (h : KFacts.InducesKindPSL n K L x .field) : False := by
   obtain ⟨l, f, hl, -, hf1, hK⟩ := exists_charP_card K
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hp : p.Prime := Fact.out
   have h3 : 3 ∣ f := three_dvd_of_inducesKindPSL_field h hx hl hf1 hK
   obtain ⟨φ, -⟩ := h
@@ -212,7 +212,7 @@ theorem kill_sl_field {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {
     (hX : CensusOrder p e (Nat.card (L ⧸ aschbacherSolvableCore 3 L)))
     (h : KFacts.InducesKindSL n K L x .field) : False := by
   obtain ⟨l, f, hl, -, hf1, hK⟩ := exists_charP_card K
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hp : p.Prime := Fact.out
   have h3 : 3 ∣ f := three_dvd_of_inducesKindSL_field h hx hl hf1 hK
   obtain ⟨φ, -⟩ := h
@@ -259,7 +259,7 @@ theorem kill_psp_field {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} 
     (h5 : 5 ≤ p) (he : 1 ≤ e) (he2 : e ≤ 2)
     (hX : CensusOrder p e (Nat.card (L ⧸ aschbacherSolvableCore 3 L))) : False := by
   obtain ⟨l, f, hl, hchar, hf1, hK⟩ := exists_charP_card K
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hp : p.Prime := Fact.out
   have h3 : 3 ∣ f := three_dvd_of_inducesKindPSp_field h hx hl hf1 hK
   obtain ⟨φ, -⟩ := h
@@ -281,7 +281,7 @@ theorem kill_psp4even {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {
   obtain ⟨φ, -⟩ := h
   rw [Nat.card_congr φ.toEquiv] at hX
   obtain ⟨l, f, hl, hchar, -, hK⟩ := exists_charP_card F
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hp : p.Prime := Fact.out
   have hF2 : ringChar F = 2 := @ringChar.eq F _ 2 ‹CharP F 2›
   have hl2 : l = 2 := (ringChar.eq F l).symm.trans hF2
@@ -385,7 +385,7 @@ theorem kill_g2_field {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {
     [Fact p.Prime] (h5 : 5 ≤ p) (he : 1 ≤ e) (he2 : e ≤ 2)
     (hX : CensusOrder p e (Nat.card (L ⧸ aschbacherSolvableCore 3 L))) : False := by
   obtain ⟨l, f, hl, -, hf1, hK⟩ := exists_charP_card K
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hp : p.Prime := Fact.out
   have h3 : 3 ∣ f := three_dvd_of_inducesKindG2_field h hx hl hf1 hK
   obtain ⟨φ, -⟩ := h
@@ -394,10 +394,10 @@ theorem kill_g2_field {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {
   exact model_contra_field hp h5 he he2 hX hl (And.intro h1 h2) h3 (by norm_num)
 
 theorem kill_sz {G : Type} [Group G] [Finite G] {L : Subgroup G} {x : G} {a : ℕ} {K : Type}
-    [Field K] {k : AutKind} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
+    [Field K] {k : AutKind} (_ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (h : KFacts.InducesKindSz a K L x k) {p e : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) (he : 1 ≤ e)
     (hX : CensusOrder p e (Nat.card (L ⧸ aschbacherSolvableCore 3 L))) : False := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ two_ne_zero)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ two_ne_zero)
   obtain ⟨φ, -⟩ := h
   rw [Nat.card_congr φ.toEquiv] at hX
   obtain ⟨h1, h2⟩ := A2_sz hK

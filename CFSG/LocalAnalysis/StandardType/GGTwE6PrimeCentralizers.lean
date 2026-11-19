@@ -26,7 +26,7 @@ theorem twE6q2_not_dvd_centralizer_of_no_order_mul {G : Type*} [Group G] [Finite
     (hb : b.Prime) (hab : Nat.Coprime a b) (hno : ∀ x : G, orderOf x ≠ a * b) {g : G}
     (hg : orderOf g = a) : ¬ b ∣ Nat.card (Subgroup.centralizer ({g} : Set G)) := by
   intro hbdvd
-  haveI : Fact b.Prime := ⟨hb⟩
+  have : Fact b.Prime := ⟨hb⟩
   obtain ⟨y, hy⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({g} : Set G))) b hbdvd
   have hmem : (y : G) ∈ Subgroup.centralizer ({g} : Set G) := y.2
@@ -43,20 +43,20 @@ theorem exists_langSetup_of_lieModel_twistedE6
       (S : LangSetup TwistTag.E6.tag L 5), S.IsAlgebraic ∧ S.D.q = 2 ∧ (∀ c, Fr c = c ^ 2) ∧
         S.D.Φ = twistHom TwistTag.E6 L Fr ∧ Nonempty (G ≃* S.Γ) := by
   obtain ⟨hf, K, hKf, hKfin, σ0, hK, hσ0, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_of_lieModel h
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hbij : Function.Bijective σ0 :=
     ⟨σ0.injective, Finite.injective_iff_surjective.1 σ0.injective⟩
   let σ : K ≃+* K := RingEquiv.ofBijective σ0 hbij
   have hσ : ∀ c, σ c = c ^ (2 ^ 1) := hσ0
   have hσσ : σ.toRingHom = σ0 := RingHom.ext fun _ => rfl
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := hK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
     (by rw [← Nat.card_eq_fintype_card, hK']; norm_num)
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI hL : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have hL : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨Fr, hFr, D, hΦ, hDq, -⟩ :=
     exists_langDatum_twistedE6 Nat.prime_two hf K hK' (1 : WeylGroup TwistTag.E6.tag)
   obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved TwistTag.E6.tag L D

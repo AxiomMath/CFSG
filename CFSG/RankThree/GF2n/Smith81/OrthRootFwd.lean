@@ -35,12 +35,14 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B A : Subgroup G}
   {ι : Type} [Fintype ι] [DecidableEq ι] {qU : QuadraticForm K (ι → K)}
   {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Finite G] in
 theorem LB_le_Lgen_of_eq_conj (hcB : Ctx M Q Z B) {C : Subgroup G} {m : G} (hm : m ∈ M)
     (hC : C = conjSubgroup m B) : LB M Q C ≤ Lgen M (LB M Q B) := by
   subst hC
   rw [hcB.LB_conj hm]
   exact le_iSup₂_of_le m hm le_rfl
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 theorem exists_pure_of_mem_conj (hcB : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hAct : OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B)))
     (hN : ∀ s ∈ Lgen M (LB M Q B), ∀ g : Matrix (Fin 2) (Fin 2) K, g.det = 1 →
@@ -138,7 +140,7 @@ theorem pairTypeA_of_isConj (hcB : Ctx M Q Z B)
       hx1 hc hv hcv
   have hc' : c 0 ≠ 0 ∨ c 1 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (funext fun i => by fin_cases i <;> simp [h.1, h.2])
   exact ⟨c 0, c 1, v, hc', hv, hqv, hcv⟩
 

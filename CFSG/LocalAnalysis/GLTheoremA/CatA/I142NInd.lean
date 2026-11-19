@@ -13,11 +13,11 @@ open scoped commutatorElement
 
 theorem eq_bot_of_le_solvable {S : Type} [Group S] {C P : Subgroup S} [Group.IsSolvable ↥C]
     (hPC : P ≤ C) (hPp : ⁅P, P⁆ = P) : P = ⊥ := by
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPC)
   by_contra hne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
-  haveI : Group.IsPerfect ↥P := ⟨commutator_top_of_comm_self_eq hPp⟩
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
+  have : Group.IsPerfect ↥P := ⟨commutator_top_of_comm_self_eq hPp⟩
   exact (Group.IsPerfect.not_isSolvable (G := ↥P)) inferInstance
 
 theorem fixSubgroup_map_conj {S : Type} [Group S] {z : MulAut S} {g : S} (hg : z g = g) :
@@ -71,9 +71,9 @@ theorem good_orbit {S : Type} [Group S] [Finite S] {p : ℕ} (E : Subgroup (MulA
     {K₀ : Subgroup S} (hK₀ : CFSG.Open.IsComponentOf K₀ X) :
     GoodA E.subtype (sSup (orbitOf E.subtype K₀)) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
-  haveI : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
+  have : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
   have hcE : ∀ a b : ↥E, a * b = b * a := fun a b => (hE.1.is_comm).comm a b
   have hXE : ∀ a : ↥E, X.map (E.subtype a).toMonoidHom = X := by
     intro a
@@ -185,7 +185,7 @@ theorem good_layer {S : Type} [Group S] [Finite S] {p : ℕ} (E : Subgroup (MulA
     (hK : ∀ K : Subgroup S, CFSG.Open.IsComponentOf K X → CPlus (↥K ⧸ Subgroup.center ↥K)) :
     GoodA E.subtype (GLALayer X) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
   have hcE : ∀ a b : ↥E, a * b = b * a := fun a b => (hE.1.is_comm).comm a b
   have hXE : ∀ a : ↥E, X.map (E.subtype a).toMonoidHom = X := by
@@ -195,8 +195,8 @@ theorem good_layer {S : Type} [Group S] [Finite S] {p : ℕ} (E : Subgroup (MulA
     have := congrArg Subtype.val (hcE a ⟨z, hzE⟩)
     exact this
   let ι := {O : Set (Subgroup S) // ∃ K, CFSG.Open.IsComponentOf K X ∧ O = orbitOf E.subtype K}
-  haveI : Finite ι := Subtype.finite
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := Subtype.finite
+  have : Fintype ι := Fintype.ofFinite ι
   have hmemO : ∀ O : ι, ∀ K ∈ O.1, CFSG.Open.IsComponentOf K X := by
     rintro ⟨O, K₁, hK₁, rfl⟩ K hK
     exact isComponentOf_orbit hXE hK₁ hK
@@ -293,7 +293,7 @@ theorem goodA_all (hK : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp : p.Prim
       intro P _ _
       exact I142.perfect_le_layer_top hsimp hnc P
     · intro P hP hPp
-      haveI := hT S hTits p hp hp2 E hE hbot
+      have := hT S hTits p hp hp2 E hE hbot
       have hPb := eq_bot_of_le_solvable (C := I142.centFix E) hP hPp
       rw [hPb]
       exact bot_le
@@ -304,7 +304,7 @@ theorem goodA_all (hK : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp : p.Prim
       exact cyclic_good hsimp hnc hchev hp hp2 β (hE.2 β (Subgroup.mem_zpowers β))
     · have hz : ∃ z ∈ E, z ≠ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         apply hcyc
         refine ⟨1, ?_⟩
         rw [Subgroup.zpowers_one_eq_bot]

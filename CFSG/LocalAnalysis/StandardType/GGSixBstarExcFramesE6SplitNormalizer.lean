@@ -62,7 +62,7 @@ private theorem familyKernel_splitGenE6_eq_empty {L : Type}
     [Field L] {p : ℕ}
     (hp5 : 5 ≤ p) {ζ : Lˣ} (hζ : orderOf ζ = p) : familyKernel (splitGenE6 ζ) = ∅ := by
   ext α
-  simp only [familyKernel, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and,
+  simp only [familyKernel, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and,
     not_forall]
   intro hα
   obtain ⟨k, hk0, hkl, hku⟩ := foldE6L_check _ (isRoot_iff_mem_artifactRoots.1 hα)
@@ -113,8 +113,8 @@ private theorem rootDiagUnit_splitGenE6_mem {L : Type} [Field L] {p : ℕ} {ζ :
   · have hg : splitGenE6 ζ k ^ p = 1 := by
       fin_cases k <;> simp [splitGenE6, mul_pow, ← Pi.mulSingle_pow, hζp]
     simpa using congrFun hg i
-  · fin_cases k <;> simp [splitGenE6, Pi.mulSingle_apply]
-  · fin_cases k <;> simp [splitGenE6, Pi.mulSingle_apply]
+  · fin_cases k <;> simp [splitGenE6]
+  · fin_cases k <;> simp [splitGenE6]
 
 theorem mem_torusGroup_of_commute_e6SplitTorsion
     {L : Type} [Field L] {p : ℕ} (hp5 : 5 ≤ p) {ζ : Lˣ} (hζ : orderOf ζ = p) {z : ModGL .E6 L}

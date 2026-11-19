@@ -84,7 +84,7 @@ theorem GGResHyp.exists_twD_inverter
     rcases htag with rfl | rfl
     ·
       dsimp only [LargeEvenRawDatum] at hQ ⊢
-      rw [if_neg (by omega : l ≠ 3)] at hQ ⊢
+      rw [ite_eq_right (by omega : l ≠ 3)] at hQ ⊢
       obtain ⟨E, _, _, hE, hQ⟩ := hQ
       have : CharP E 2 := charP_two_of_card hE
       obtain ⟨hZ, hcp⟩ := OrthNs.center_data_omegaPlus (K := E) hp hp2 (by omega : 3 ≤ l)
@@ -102,7 +102,7 @@ theorem GGResHyp.exists_twD_inverter
       exact ⟨E, inferInstance, inferInstance, hE, hQ, hZ, hcp, (fun _ h => h), hT⟩
     ·
       dsimp only [LargeEvenRawDatum] at hQ ⊢
-      rw [if_neg (by omega : l ≠ 2), if_neg (by omega : l ≠ 3)] at hQ ⊢
+      rw [ite_eq_right (by omega : l ≠ 2), ite_eq_right (by omega : l ≠ 3)] at hQ ⊢
       obtain ⟨E, _, _, hE, b, c, hbc, hQ⟩ := hQ
       have : CharP E 2 := charP_two_of_card hE
       obtain ⟨hZ, hcp⟩ := OrthExc.center_data_omegaMinus (K := E) hp hp2

@@ -28,7 +28,7 @@ private theorem s16k_charP_two_of_card_two {K : Type} [Field K] [Finite K]
 
 private theorem s16k_center_statedSp_eq_bot_two {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) (n : ℕ) : Subgroup.center (StatedSp n K) = ⊥ := by
-  haveI : CharP K 2 := s16k_charP_two_of_card_two hK
+  have : CharP K 2 := s16k_charP_two_of_card_two hK
   rw [CFSG.LieType.Universal.Symplectic.center_eq,
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot]
 
@@ -48,7 +48,7 @@ private theorem s16k_card_generic_exceptional_psp_three_one :
 private theorem s16k_statedClassicalModel_statedSp_three {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) :
     StatedClassicalModel (StatedSp 3 K) .PSp 3 2 1 := by
-  haveI : CharP K 2 := s16k_charP_two_of_card_two hK
+  have : CharP K 2 := s16k_charP_two_of_card_two hK
   have hbot := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (K := K) (n := 3)
   have hproj : StatedProj (StatedSp 3 K) ≃* StatedSp 3 K :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
@@ -67,7 +67,7 @@ private theorem s16k_div_le_one_of_three_le {e : ℕ} (he : 3 ≤ e) :
 
 private theorem s16k_three_le_orderOf_two_zmod {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hp3 : p ≠ 3) : 3 ≤ orderOf (2 : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   change 3 ≤ orderOf ((2 : ℕ) : ZMod p)
   rw [← CFSG.GroupTheory.WeirSylow.ordMod_natCast p 2]
   refine CFSG.GroupTheory.WeirSylow.three_le_ordMod_of_not_dvd_sq_sub_one ?_ ?_
@@ -87,9 +87,9 @@ theorem s16k_sp6_center_mult (hGA : CFSG.Open.GriessAllModelsStatement) {X : Typ
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 2 := by
   simp only [IsSpn, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by rw [hcard]; norm_num
   have hbot : Subgroup.center (StatedSp 3 K) = ⊥ := s16k_center_statedSp_eq_bot_two hK2 3
   have hclass : StatedClassicalModel X .PSp 3 2 1 :=
@@ -108,11 +108,11 @@ theorem s16k_pRank_aut_sp6 {X : Type} [Group X] [Finite X] (h : IsSpn X 6 1) {p 
   have hSpn : IsSpn X 6 1 := h
   simp only [IsSpn, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by rw [hcard]; norm_num
-  haveI : CharP K 2 := s16k_charP_two_of_card_two hK2
+  have : CharP K 2 := s16k_charP_two_of_card_two hK2
   have hbot : Subgroup.center (StatedSp 3 K) = ⊥ := s16k_center_statedSp_eq_bot_two hK2 3
   have hcentX : Subgroup.center X = ⊥ := s16k_center_eq_bot_of_mulEquiv e hbot
   have hconj_bij : Function.Bijective (MulAut.conj : X →* MulAut X) := by
@@ -141,7 +141,7 @@ theorem s16k_pRank_aut_sp6 {X : Type} [Group X] [Finite X] (h : IsSpn X 6 1) {p 
   rw [hpr]
   by_cases hp3 : p = 3
   ·
-    rw [if_pos hp3]
+    rw [ite_eq_left hp3]
     have hpK3 : (p : K) ≠ 0 := by
       intro h0
       rw [CharP.cast_eq_zero_iff K 2] at h0
@@ -152,7 +152,7 @@ theorem s16k_pRank_aut_sp6 {X : Type} [Group X] [Finite X] (h : IsSpn X 6 1) {p 
       CFSG.SectionRank.isElemAbelian_map hEel _
     have hcomm : ∀ g ∈ E.map (StatedSp 3 K).subtype,
         ∀ h ∈ E.map (StatedSp 3 K).subtype, g * h = h * g := by
-      haveI : IsMulCommutative (E.map (StatedSp 3 K).subtype) := hmap.1
+      have : IsMulCommutative (E.map (StatedSp 3 K).subtype) := hmap.1
       intro g hg h hh
       exact congrArg Subtype.val
         (mul_comm' (⟨g, hg⟩ : ↥(E.map (StatedSp 3 K).subtype)) ⟨h, hh⟩)
@@ -170,7 +170,7 @@ theorem s16k_pRank_aut_sp6 {X : Type} [Group X] [Finite X] (h : IsSpn X 6 1) {p 
     rw [Subgroup.card_map_of_injective (StatedSp 3 K).subtype_injective] at hbound
     simpa using hbound
   ·
-    rw [if_neg hp3]
+    rw [ite_eq_right hp3]
     have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
     have hpK : ¬ p ∣ Nat.card K := by
       rw [hK2]
@@ -191,7 +191,7 @@ theorem s16k_sp6_fix_ord (hF : RSp6SpinForm) (hSt : RSp6SpinStab) {W : Type} [Co
   obtain ⟨Q, hQplus, hQinv⟩ := hF W hW H hH hrk hirr
   obtain ⟨hSing, hNon⟩ := hSt W hW H hH hrk hirr Q hQplus hQinv
   intro w hw
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∃ g : ↥(ptCent H w), orderOf g = 3 := by
     by_cases hQw : Q w = 0
     ·

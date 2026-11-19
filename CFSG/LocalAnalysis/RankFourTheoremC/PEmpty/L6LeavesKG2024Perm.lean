@@ -44,8 +44,8 @@ theorem omegaOneCenter_le : omegaOneCenter S ≤ S := fun _ hx => hx.1
 
 theorem omegaOneCenter_ne_bot [Finite G] (hS2 : IsPGroup 2 S) (hS : S ≠ ⊥) :
     omegaOneCenter S ≠ ⊥ := by
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
-  haveI : Nontrivial ↥(Subgroup.center ↥S) := hS2.center_nontrivial
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
+  have : Nontrivial ↥(Subgroup.center ↥S) := hS2.center_nontrivial
   have hC2 : IsPGroup 2 ↥(Subgroup.center ↥S) := hS2.to_subgroup _
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hC2
   have hn0 : n ≠ 0 := by
@@ -55,7 +55,7 @@ theorem omegaOneCenter_ne_bot [Finite G] (hS2 : IsPGroup 2 S) (hS : S ≠ ⊥) :
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥S) := by
     rw [hn]
     exact dvd_pow_self 2 hn0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥S)) 2 hdvd
   intro hbot
   have hcS : ((c : ↥S) : G) ∈ omegaOneCenter S := by
@@ -179,7 +179,7 @@ theorem perm_level {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {z : Perm Ω} (hz : 
     obtain ⟨o, hzo, hfree, hsub, hout⟩ := hset.orbit_structure hfix
     have hcard : 5 ≤ Nat.card ↥T := by
       classical
-      haveI : Fintype ↥T := Fintype.ofFinite ↥T
+      have : Fintype ↥T := Fintype.ofFinite ↥T
       have hsubset : z.support ⊆
           (Finset.univ : Finset ↥T).image (fun s : ↥T => (s : Perm Ω) o) := by
         intro x hx

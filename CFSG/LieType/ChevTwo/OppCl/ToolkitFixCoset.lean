@@ -60,8 +60,8 @@ theorem act_mem_fixCosetSub {V : Type} {N Rh : Subgroup (Equiv.Perm V)} (g : Equ
 
 theorem exists_fixed_coset {V : Type} [Finite V] (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     (Rh : Subgroup (Equiv.Perm V)) (hR : IsPGroup p Rh)
-    (G : Subgroup (Equiv.Perm V)) (hG : ∀ r ∈ Rh, ∀ g ∈ G, r * g * r⁻¹ ∈ G)
-    (N : Subgroup (Equiv.Perm V)) (hNG : N ≤ G) (hNn : (N.subgroupOf G).Normal)
+    (G : Subgroup (Equiv.Perm V)) (_hG : ∀ r ∈ Rh, ∀ g ∈ G, r * g * r⁻¹ ∈ G)
+    (N : Subgroup (Equiv.Perm V)) (hNG : N ≤ G) (_hNn : (N.subgroupOf G).Normal)
     (hN2 : IsPGroup 2 N) (g : Equiv.Perm V) (hgG : g ∈ G)
     (hg : ∀ r ∈ Rh, g⁻¹ * (r * g * r⁻¹) ∈ N) :
     ∃ c ∈ G, (∀ r ∈ Rh, r * c = c * r) ∧ c⁻¹ * g ∈ N := by
@@ -73,7 +73,7 @@ theorem exists_fixed_coset {V : Type} [Finite V] (p : ℕ) [Fact p.Prime] (hp2 :
     rw [hk]
     intro hdvd
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hpp Nat.prime_two).mp (hpp.dvd_of_dvd_pow hdvd))
-  letI act : MulAction Rh (fixCosetSub N Rh) :=
+  let act : MulAction Rh (fixCosetSub N Rh) :=
     { smul := fun r m =>
         ⟨g⁻¹ * ((r : Equiv.Perm V) * (g * (m : Equiv.Perm V)) * (r : Equiv.Perm V)⁻¹),
           act_mem_fixCosetSub g hg r.2 m.2⟩

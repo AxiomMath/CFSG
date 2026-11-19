@@ -39,7 +39,7 @@ private theorem mulVec_spIncl_of_not_mem (v : Fin m ⊕ Fin m → F) {a : Fin n 
   rw [Matrix.mulVec, dotProduct]
   refine Finset.sum_eq_zero fun y _ => ?_
   rw [CFSG.ClassicalInvolution.Models.SymplecticPairs.spIncl_apply,
-    if_neg (fun h => ha ⟨y, h.symm⟩), zero_mul]
+    ite_eq_right (fun h => ha ⟨y, h.symm⟩), zero_mul]
 
 private theorem spForm_spIncl_mulVec (y : Fin n ⊕ Fin n → F) (w : Fin m ⊕ Fin m → F) :
     spForm n F y (spIncl (K := F) σ *ᵥ w) = spForm m F ((spIncl (K := F) σ)ᵀ *ᵥ y) w := by

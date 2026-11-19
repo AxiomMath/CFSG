@@ -36,6 +36,7 @@ private def y7b_stab (K : Subgroup G) (t : G) : Subgroup G where
     simpa using (Subgroup.mem_set_normalizer_iff.mp (Subgroup.inv_mem _ hxN) ⁅x, t⁆⁻¹
       |>.mp (K.inv_mem hxC))
 
+omit [Finite G] in
 theorem y7b_stab_sup {K C M : Subgroup G} {t : G}
     (hC : ∀ x ∈ C, x ∈ normalizer (K : Set G) ∧ ⁅x, t⁆ ∈ K)
     (hM : ∀ x ∈ M, x ∈ normalizer (K : Set G) ∧ ⁅x, t⁆ ∈ K) :

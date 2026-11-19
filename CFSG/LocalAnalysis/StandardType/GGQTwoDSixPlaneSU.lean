@@ -167,12 +167,12 @@ theorem sixPlaneK_rot (hω : ω ^ 2 + ω + 1 = 0) (hc : ∀ i, c i = 1 ∨ c i =
   rw [sixPlaneK_apply, sixPlaneK_apply]
   by_cases hj : j = i
   · subst hj
-    rw [if_pos rfl, rot_apply_inl, rot_apply_inr, map_add]
+    rw [ite_eq_left rfl, rot_apply_inl, rot_apply_inr, map_add]
     have hw := sixW_sq_add hω (hc j)
     have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
     linear_combination (-algebraMap (ZMod 2) K (v (Sum.inr j))) * hw +
       (algebraMap (ZMod 2) K (v (Sum.inr j)) * (1 + ω ^ (c j).val)) * h2
-  · rw [if_neg hj, one_mul, rot_apply_of_ne i v (show planeOf (Sum.inl j) ≠ i from hj),
+  · rw [ite_eq_right hj, one_mul, rot_apply_of_ne i v (show planeOf (Sum.inl j) ≠ i from hj),
       rot_apply_of_ne i v (show planeOf (Sum.inr j) ≠ i from hj)]
 
 omit [Finite K] in

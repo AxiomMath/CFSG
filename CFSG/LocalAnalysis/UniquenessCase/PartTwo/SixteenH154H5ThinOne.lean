@@ -15,7 +15,7 @@ variable {W : Type} [CommGroup W]
 theorem s16h_H5_thin_one
     [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) {m : ℕ}
-    (h : Conc4_135 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) m) :
+    (_h : Conc4_135 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) m) :
     s16h_H5RowL3 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) ∨
       s16h_H5RowA5 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) ∨
       s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2 ∨

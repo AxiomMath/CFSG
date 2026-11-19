@@ -8,6 +8,7 @@ namespace CFSG.KS.U43Swap
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_zpowers {K : Subgroup G} {o : K} (h9 : o ^ 9 = 1) :
     IsPGroup 3 (Subgroup.zpowers o) := by
   have hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -77,6 +78,7 @@ theorem closure_induction_fin {S : Set G} {p : G → Prop} (h1 : p 1) (hS : ∀ 
     rw [e]
     exact hpow x hx _
 
+omit [Finite G] in
 theorem conj_pow9 (c o : G) : (c * o * c⁻¹) ^ 9 = 1 ↔ o ^ 9 = 1 := by
   rw [show c * o * c⁻¹ = MulAut.conj c o from rfl, ← map_pow,
     map_eq_one_iff _ (MulAut.conj c).injective]
@@ -84,6 +86,7 @@ theorem conj_pow9 (c o : G) : (c * o * c⁻¹) ^ 9 = 1 ↔ o ^ 9 = 1 := by
 @[expose] def PCen (H : Subgroup G) (g : G) : Set G :=
   {h | h ∈ H ∧ ∀ o ∈ H, o ^ 9 = 1 → h * (o * g * o⁻¹) = o * g * o⁻¹ * h}
 
+omit [Finite G] in
 theorem mem_pCen_conj {H : Subgroup G} {c g h : G} (hc : c ∈ H) :
     h ∈ PCen H (c * g * c⁻¹) ↔ c⁻¹ * h * c ∈ PCen H g := by
   constructor
@@ -109,6 +112,7 @@ theorem mem_pCen_conj {H : Subgroup G} {c g h : G} (hc : c ∈ H) :
       _ = c * (c⁻¹ * (o * (c * g * c⁻¹) * o⁻¹) * c * (c⁻¹ * h * c)) * c⁻¹ := by rw [this]
       _ = o * (c * g * c⁻¹) * o⁻¹ * h := by group
 
+omit [Finite G] in
 theorem pCen_sq {H : Subgroup G} {g : G} (hg : g ^ 3 = 1) : PCen H (g ^ 2) = PCen H g := by
   have key : ∀ h x : G, h * x = x * h → h * x ^ 2 = x ^ 2 * h := fun h x hx => by
     rw [pow_two, ← mul_assoc, hx, mul_assoc, hx, mul_assoc]
@@ -128,6 +132,7 @@ theorem pCen_sq {H : Subgroup G} {g : G} (hg : g ^ 3 = 1) : PCen H (g ^ 2) = PCe
 
 @[expose] def yE (s t : G) (e : ℕ) : G := s ^ (e % 3) * t ^ (e / 3)
 
+omit [Finite G] in
 theorem pow_mod3 {s : G} (hs : s ^ 3 = 1) (n : ℕ) : s ^ n = s ^ (n % 3) := by
   conv_lhs => rw [← Nat.mod_add_div n 3, pow_add, pow_mul, hs, one_pow, mul_one]
 
@@ -136,6 +141,7 @@ section S0
 variable {s t : G} (hs : s ^ 3 = 1) (ht : t ^ 3 = 1) (hst : s * t = t * s)
 include hs ht hst
 
+omit [Finite G] in
 theorem yE_mul (e f : ℕ) : yE s t e * yE s t f =
     yE s t ((e % 3 + f % 3) % 3 + 3 * ((e / 3 + f / 3) % 3)) := by
   have hc : Commute s t := hst
@@ -150,9 +156,11 @@ theorem yE_mul (e f : ℕ) : yE s t e * yE s t f =
     _ = s ^ (e % 3) * (s ^ (f % 3) * t ^ (e / 3)) * t ^ (f / 3) := by rw [this]
     _ = _ := by group
 
+omit [Finite G] in
 theorem yE_comm (e f : ℕ) : yE s t e * yE s t f = yE s t f * yE s t e := by
   rw [yE_mul hs ht hst, yE_mul hs ht hst, Nat.add_comm (e % 3), Nat.add_comm (e / 3)]
 
+omit [Finite G] in
 theorem yE_pow9 (e : ℕ) : yE s t e ^ 9 = 1 := by
   have hc : Commute (s ^ (e % 3)) (t ^ (e / 3)) := (Commute.pow_pow hst _ _)
   unfold yE
@@ -169,6 +177,7 @@ theorem mem_S0 {x : G} (hx : x ∈ Subgroup.closure {s, t}) : ∃ e < 9, x = yE 
   · rintro x y ⟨e, -, rfl⟩ ⟨f, -, rfl⟩
     exact ⟨_, by omega, yE_mul hs ht hst e f⟩
 
+omit [Finite G] hs ht hst in
 theorem yE_mem (e : ℕ) : yE s t e ∈ Subgroup.closure {s, t} :=
   Subgroup.mul_mem _ (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
     (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
@@ -241,13 +250,15 @@ variable (F : SwFacts G)
 theorem card_S0 : Nat.card (Subgroup.closure {F.s, F.t}) = 9 :=
   CFSG.KS.U43Swap.card_S0 F.hs3 F.ht3 F.hst F.hS9
 
+omit [Finite G] in
 theorem S0_le : Subgroup.closure {F.s, F.t} ≤ F.H := by
   rw [Subgroup.closure_le]
   rintro x (rfl | rfl)
   · exact F.hs
   · exact F.ht
 
-theorem yE_memH (e : ℕ) : yE F.s F.t e ∈ F.H := F.S0_le (yE_mem F.hs3 F.ht3 F.hst e)
+omit [Finite G] in
+theorem yE_memH (e : ℕ) : yE F.s F.t e ∈ F.H := F.S0_le (yE_mem e)
 
 theorem odd_conj {o : G} (ho : o ∈ F.H) (h9 : o ^ 9 = 1) :
     ∃ c ∈ F.H, ∃ e < 9, o = c * yE F.s F.t e * c⁻¹ := by
@@ -286,6 +297,7 @@ theorem odd_mem {o : G} (ho : o ∈ F.H) (h9 : o ^ 9 = 1) : ∃ i < 81, o = F.X 
   obtain ⟨i, hi, hie⟩ := hall c hc (F.X z) ⟨z, hz, rfl⟩
   exact ⟨i, hi, by rw [hie, hze]⟩
 
+omit [Finite G] in
 theorem Y_mem {k : ℕ} (hk : k < 8) : F.Y k ∈ F.H := by
   obtain ⟨o, ho, he⟩ := F.hYr k hk
   rw [he]
@@ -299,7 +311,7 @@ theorem memS_iff {h : G} : h ∈ PCen F.H F.s ↔ h ∈ F.H ∧ ∀ k < 4, h * F
   · rintro ⟨hh, hc⟩
     refine ⟨hh, fun k hk => ?_⟩
     obtain ⟨o, ho, he⟩ := F.hYr k (by omega)
-    rw [if_pos hk] at he
+    rw [ite_eq_left hk] at he
     rw [he]
     exact hc _ (F.hXH o ho) (F.hX9 o ho)
   · rintro ⟨hh, hc⟩
@@ -315,7 +327,7 @@ theorem memT_iff {h : G} :
   · rintro ⟨hh, hc⟩
     refine ⟨hh, fun k hk => ?_⟩
     obtain ⟨o, ho, he⟩ := F.hYr (4 + k) (by omega)
-    rw [if_neg (by omega)] at he
+    rw [ite_eq_right (by omega)] at he
     rw [he]
     exact hc _ (F.hXH o ho) (F.hX9 o ho)
   · rintro ⟨hh, hc⟩
@@ -443,16 +455,22 @@ theorem t1 {h : G} (hS : h ∈ PCen F.H F.s) (hT : h ∈ PCen F.H F.t) : h = 1 �
     rw [inv_mul_eq_one] at this
     exact this.symm
 
+omit [Finite G] in
 theorem yE_one : yE F.s F.t 1 = F.s := by simp [yE]
 
+omit [Finite G] in
 theorem yE_two : yE F.s F.t 2 = F.s ^ 2 := by simp [yE]
 
+omit [Finite G] in
 theorem yE_three : yE F.s F.t 3 = F.t := by simp [yE]
 
+omit [Finite G] in
 theorem yE_six : yE F.s F.t 6 = F.t ^ 2 := by simp [yE]
 
+omit [Finite G] in
 theorem yE_zero : yE F.s F.t 0 = 1 := by simp [yE]
 
+omit [Finite G] in
 theorem mut_cases {e f : ℕ} (he1 : 1 ≤ e) (he : e < 9) (hf1 : 1 ≤ f) (hf : f < 9)
     (h1 : yE F.s F.t e ∈ PCen F.H (yE F.s F.t f)) (h2 : yE F.s F.t f ∈ PCen F.H (yE F.s F.t e)) :
     (PCen F.H (yE F.s F.t e) = PCen F.H F.s ∧ PCen F.H (yE F.s F.t f) = PCen F.H F.t) ∨

@@ -49,7 +49,7 @@ theorem two_core_free_order_two_torus (f : ℕ) (hf : 2 ≤ f) (hcard : Nat.card
     intro hK
     rw [hK, bot_sup_eq] at hKsup
     have hSn : (S : Subgroup A).Normal := by rw [hKsup]; infer_instance
-    have hSle : (S : Subgroup A) ≤ CFSG.pCore 2 A := le_sSup ⟨hSn, S.isPGroup'⟩
+    have hSle : (S : Subgroup A) ≤ CFSG.pCore 2 A := le_sSup ⟨hSn, S.isPGroup⟩
     rw [hcore, le_bot_iff] at hSle
     have h := congrArg (fun H : Subgroup A => Nat.card H) hSle
     simp only [hS, Subgroup.card_bot] at h
@@ -146,7 +146,7 @@ theorem linear_two_core_free_subgroup_torus_and_involutions (f : ℕ) (hf : 2 �
   intro u hu
   let S₀ : Sylow 2 A := default
   have hS₀ : (S₀ : Subgroup A) ≠ ⊥ := S₀.ne_bot_of_dvd_card (even_iff_two_dvd.mp hAeven)
-  obtain ⟨k, hk⟩ := S₀.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S₀.isPGroup.exists_card_eq
   have hcardS : ∀ S : Sylow 2 A, Nat.card S = 2 ^ k := fun S => by
     rw [Sylow.card_eq_multiplicity, ← hk, Sylow.card_eq_multiplicity]
   have hk0 : k ≠ 0 := by

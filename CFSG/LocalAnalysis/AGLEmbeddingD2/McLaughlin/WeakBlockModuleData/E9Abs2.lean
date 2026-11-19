@@ -144,7 +144,7 @@ theorem not_hasInvolMod_c_two {x₁ y₁ x₂ y₂ : H}
     (hx₂ : x₂ * x₂ = 1) (hy₂ : y₂ * y₂ = 1) (h₂3 : (x₂ * y₂) ^ 3 = 1) (h₂1 : x₂ * y₂ ≠ 1) :
     ¬ HasInvolMod H ((x₁ * y₁) * (x₂ * y₂)) := by
   rintro ⟨u, huO, hu2, hcomm⟩
-  haveI : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
   set O : Subgroup H := CFSG.pCore 2 H with hO
   set cl₁ : Subgroup H := Subgroup.closure {x₁, y₁} with hcl₁
   set cl₂ : Subgroup H := Subgroup.closure {x₂, y₂} with hcl₂

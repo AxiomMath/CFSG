@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fk3_polar_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (x y : V) :
     QuadraticMap.polar Q x y = ∑ i, 2 * c i * (fr.b.repr x i * fr.b.repr y i) := by
@@ -21,18 +22,20 @@ private theorem fk3_polar_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι �
   rw [map_add, Finsupp.add_apply]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_polar_basis {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (i : ι) (x : V) :
     QuadraticMap.polar Q (fr.b i) x = 2 * c i * fr.b.repr x i := by
   rw [fk3_polar_eq fr, Finset.sum_eq_single i]
-  · rw [Module.Basis.repr_self_apply, if_pos rfl]
+  · rw [Module.Basis.repr_self_apply, ite_eq_left rfl]
     ring
   · intro j _ hj
-    rw [Module.Basis.repr_self_apply, if_neg (Ne.symm hj)]
+    rw [Module.Basis.repr_self_apply, ite_eq_right (Ne.symm hj)]
     ring
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_Q_single {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (v : V) (j : ι) (h : ∀ i, i ≠ j → fr.b.repr v i = 0) :
     Q v = c j * fr.b.repr v j ^ 2 := by
@@ -43,6 +46,7 @@ theorem ffOutFFE8Cent_Q_single {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_eigen_sign {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (J : Finset ι) {v : V} {s : ZMod 3}
     (h : ((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) v = s • v) {i : ι}
@@ -50,17 +54,18 @@ theorem ffOutFFE8Cent_eigen_sign {ι : Type} [Fintype ι] [DecidableEq ι] {c : 
   have h' := congrArg (fun x => fr.b.repr x i) h
   rw [map_smul, Finsupp.smul_apply, smul_eq_mul, fr.repr_signChange] at h'
   by_cases hiJ : i ∈ J
-  · rw [if_pos hiJ] at h'
-    rw [if_pos hiJ]
+  · rw [ite_eq_left hiJ] at h'
+    rw [ite_eq_left hiJ]
     refine mul_right_cancel₀ hi ?_
     rw [neg_one_mul]
     exact h'.symm
-  · rw [if_neg hiJ] at h'
-    rw [if_neg hiJ]
+  · rw [ite_eq_right hiJ] at h'
+    rw [ite_eq_right hiJ]
     refine mul_right_cancel₀ hi ?_
     rw [one_mul]
     exact h'.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_group_inl {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {e : OGroup Q}
     (he : e ∈ ffE8Group fr) (i : Fin 2) :
     (e : V ≃ₗ[ZMod 3] V) (fr.b (Sum.inl i)) = fr.b (Sum.inl i) := by
@@ -69,6 +74,7 @@ theorem ffOutFFE8Cent_group_inl {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm �
   rw [fr.signChange_basis]
   simp [ffE8Hat]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_group_inr {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {e : OGroup Q}
     (he : e ∈ ffE8Group fr) (k : Fin 4) :
     (e : V ≃ₗ[ZMod 3] V) (fr.b (Sum.inr k)) = fr.b (Sum.inr k) ∨
@@ -78,9 +84,9 @@ theorem ffOutFFE8Cent_group_inr {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm �
   rw [fr.signChange_basis]
   by_cases hk : k ∈ J
   · right
-    rw [if_pos (by simpa [ffE8Hat] using hk)]
+    rw [ite_eq_left (by simpa [ffE8Hat] using hk)]
   · left
-    rw [if_neg (by simpa [ffE8Hat] using hk)]
+    rw [ite_eq_right (by simpa [ffE8Hat] using hk)]
 
 private theorem fk3_exists_ne (k : Fin 4) : ∃ m : Fin 4, k ≠ m := by
   have h : ∀ k : Fin 4, ∃ m : Fin 4, k ≠ m := by decide
@@ -90,6 +96,7 @@ private theorem fk3_exists_ne_ne (k l : Fin 4) : ∃ m : Fin 4, k ≠ m ∧ l �
   have h : ∀ k l : Fin 4, ∃ m : Fin 4, k ≠ m ∧ l ≠ m := by decide
   exact h k l
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fk3_supp_of_mem {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u w : V}
     (hs : ∀ J : Finset (Fin 4), Even J.card → ∃ s : ZMod 3,
       ((fr.signChange (ffE8Hat J) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = s • u ∧
@@ -103,13 +110,13 @@ private theorem fk3_supp_of_mem {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm �
     exact (Finset.mem_map' Function.Embedding.inr).2 hkJ
   have hsneg : s = -1 := by
     have h := ffOutFFE8Cent_eigen_sign fr (ffE8Hat J) hsu (i := Sum.inr k) hk
-    rw [if_pos hkJ'] at h
+    rw [ite_eq_left hkJ'] at h
     exact h
   have hcoord : ∀ {x : V}, ((fr.signChange (ffE8Hat J) : OGroup Q) : V ≃ₗ[ZMod 3] V) x = s • x →
       fr.b.repr x i = -fr.b.repr x i := by
     intro x hx
     have h := congrArg (fun y => fr.b.repr y i) hx
-    rw [fr.repr_signChange, if_neg hi, map_smul, Finsupp.smul_apply, smul_eq_mul, hsneg,
+    rw [fr.repr_signChange, ite_eq_right hi, map_smul, Finsupp.smul_apply, smul_eq_mul, hsneg,
       neg_one_mul] at h
     exact h
   have vanish : ∀ {x : V}, ((fr.signChange (ffE8Hat J) : OGroup Q) : V ≃ₗ[ZMod 3] V) x = s • x →
@@ -122,6 +129,7 @@ private theorem fk3_supp_of_mem {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm �
     exact (mul_eq_zero.mp h2).resolve_left (by decide)
   exact ⟨vanish hsu, vanish hsw⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_supp {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u w : V}
     (hs : ∀ J : Finset (Fin 4), Even J.card → ∃ s : ZMod 3,
       ((fr.signChange (ffE8Hat J) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = s • u ∧
@@ -148,6 +156,7 @@ theorem ffOutFFE8Cent_supp {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {
       simpa [ffE8Hat] using hlm'
     exact fk3_supp_of_mem fr hs hk (J := {k, m}) hJ (by simp) hi'
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fk3_inW_pair {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {δ : V ≃ₗ[ZMod 3] V}
     (hδ : ∀ e ∈ ffE8Group fr, ∃ e'' ∈ ffE8Group fr, ∃ s : ZMod 3, (s = 1 ∨ s = -1) ∧
@@ -201,8 +210,8 @@ private theorem fk3_inW_pair {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
           beta * fr.b.repr (fr.b (Sum.inl i)) (Sum.inl i) -
             alpha * fr.b.repr (fr.b (Sum.inl i')) (Sum.inl i) := by
         simp only [x, map_sub, Finsupp.sub_apply, map_smul, Finsupp.smul_apply, smul_eq_mul]
-      rw [hx', Module.Basis.repr_self_apply, Module.Basis.repr_self_apply, if_pos rfl,
-        if_neg (fun h => hii (Sum.inl.inj h).symm)]
+      rw [hx', Module.Basis.repr_self_apply, Module.Basis.repr_self_apply, ite_eq_left rfl,
+        ite_eq_right (fun h => hii (Sum.inl.inj h).symm)]
       ring
     have h2 : fr.b.repr x (Sum.inl i) = 0 := by rw [hx, map_zero, Finsupp.zero_apply]
     exact h1.symm.trans h2
@@ -213,13 +222,14 @@ private theorem fk3_inW_pair {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
             alpha * fr.b.repr (fr.b (Sum.inl i')) (Sum.inl i') := by
         simp only [x, map_sub, Finsupp.sub_apply, map_smul, Finsupp.smul_apply, smul_eq_mul]
       rw [hx', Module.Basis.repr_self_apply, Module.Basis.repr_self_apply,
-        if_neg (fun h => hii (Sum.inl.inj h)), if_pos rfl]
+        ite_eq_right (fun h => hii (Sum.inl.inj h)), ite_eq_left rfl]
       ring
     have h2 : fr.b.repr x (Sum.inl i') = 0 := by rw [hx, map_zero, Finsupp.zero_apply]
     have h3 : -alpha = 0 := h1.symm.trans h2
     exact neg_eq_zero.mp h3
   exact hne halpha0
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_inW {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {δ : V ≃ₗ[ZMod 3] V}
     (hδ : ∀ e ∈ ffE8Group fr, ∃ e'' ∈ ffE8Group fr, ∃ s : ZMod 3, (s = 1 ∨ s = -1) ∧

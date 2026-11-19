@@ -148,14 +148,14 @@ private lemma k0excBounds {lab : LargeEvenLabel} {p : ℕ}
     lab.rank = 0 ∧ 2 ≤ lab.n := by
   obtain ⟨tag, rk, n⟩ := lab
   obtain ⟨hn1, hmat⟩ := hlab
-  simp only [LargeEvenLabel.n] at hn1
+  simp only at hn1
   obtain ⟨hp, hp2, hbranch, htag, hF4, hE6, hE7⟩ := hgen
-  simp only [LargeEvenLabel.n] at hbranch
+  simp only at hbranch
   have hrank : rk = 0 := by
     rcases htag with h | h | h | h | h <;> rw [h] at hmat <;> simpa using hmat
   refine ⟨hrank, ?_⟩
   by_contra hlt
-  simp only [LargeEvenLabel.n] at hlt
+  simp only at hlt
   have hn : n = 1 := by omega
   subst hn
   rw [show 2 ^ 1 - 1 = 1 by norm_num, show 2 ^ 1 + 1 = 3 by norm_num] at hbranch
@@ -200,7 +200,7 @@ private lemma k0excPatExists {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDatum}
   obtain ⟨T, tw, hty, D', hmem, horb, hz⟩ :=
     exists_mem_ggKacPatternTable_of_ggKacValid hgen hD
   obtain ⟨hp, hp2, hbranch, htag, hF4, hE6, hE7⟩ := hgen
-  simp only [LargeEvenLabel.n] at hbranch hF4 hE6 hE7
+  simp only at hbranch hF4 hE6 hE7
   let d : ℕ := if p ∣ 2 ^ n - 1 then 1 else 2
   have hd12 : d = 1 ∨ d = 2 := by
     by_cases h : p ∣ 2 ^ n - 1 <;> simp [d, h]
@@ -233,11 +233,11 @@ private lemma k0excPatExists {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDatum}
   obtain ⟨s, hs, rho, ⟨a, ha, rfl⟩, hif⟩ := hmem
   by_cases hc : k0pAct (k0pMul a (k0Rho0 (k0DiagOf T) tw d)) s = s ∧
       ggKacSupportGcd T (k0pMul a (k0Rho0 (k0DiagOf T) tw d)) s = 1
-  · rw [if_pos hc] at hif
+  · rw [ite_eq_left hc] at hif
     injection hif with hEq
     exact ⟨⟨T, tw, d, hty, hpair, hd12, hd1, hd2, s, a, hs, ha, hc.1, hc.2,
       by rw [hEq]; exact horb, by rw [hEq]; exact hz⟩⟩
-  · rw [if_neg hc] at hif
+  · rw [ite_eq_right hc] at hif
     exact absurd hif (by simp)
 
 private lemma k0excShapeExists {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDatum}
@@ -280,19 +280,19 @@ private lemma k0excRow_E6_false_one {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -306,19 +306,19 @@ private lemma k0excRow_E6_false_two {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -332,19 +332,19 @@ private lemma k0excRow_E6_true_one {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -358,19 +358,19 @@ private lemma k0excRow_E6_true_two {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -384,24 +384,24 @@ private lemma k0excRow_E7_one {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -415,24 +415,24 @@ private lemma k0excRow_E7_two {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -446,24 +446,24 @@ private lemma k0excRow_E8_one {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb, hp3]
+      simp [hb, hp3]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -477,24 +477,24 @@ private lemma k0excRow_E8_two {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb, hp3]
+      simp [hb, hp3]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -508,14 +508,14 @@ private lemma k0excRow_F4_one {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -529,14 +529,14 @@ private lemma k0excRow_F4_two {lab : LargeEvenLabel} {p : ℕ}
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hb
-  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false, false_or] at hx
+  simp only at hn hb
+  simp only [k0excAllowed, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl
   · simp only [k0LabelOf, Nat.one_mul]
     constructor
     · simp [LargeEvenInLambda2]; omega
     · unfold GGTablePRow
-      simp [Nat.one_mul, hb]
+      simp [hb]
   · exfalso
     apply hX
     simp [k0LabelOf]
@@ -554,7 +554,7 @@ private lemma k0excFinalE6 {lab : LargeEvenLabel} {p : ℕ} {T : GGKacType} {tw 
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hd1 hd2
+  simp only at hn hd1 hd2
   simp only [ggKacTypeOfLabel, Option.some.injEq] at hty
   injection hty with hT htw
   subst hT; subst htw
@@ -583,7 +583,7 @@ private lemma k0excFinalTwE6 {lab : LargeEvenLabel} {p : ℕ} {T : GGKacType} {t
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hd1 hd2
+  simp only at hn hd1 hd2
   simp only [ggKacTypeOfLabel, Option.some.injEq] at hty
   injection hty with hT htw
   subst hT; subst htw
@@ -612,7 +612,7 @@ private lemma k0excFinalE7 {lab : LargeEvenLabel} {p : ℕ} {T : GGKacType} {tw 
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hd1 hd2
+  simp only at hn hd1 hd2
   simp only [ggKacTypeOfLabel, Option.some.injEq] at hty
   injection hty with hT htw
   subst hT; subst htw
@@ -642,7 +642,7 @@ private lemma k0excFinalE8 {lab : LargeEvenLabel} {p : ℕ} {T : GGKacType} {tw 
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hd1 hd2
+  simp only at hn hd1 hd2
   simp only [ggKacTypeOfLabel, Option.some.injEq] at hty
   injection hty with hT htw
   subst hT; subst htw
@@ -671,7 +671,7 @@ private lemma k0excFinalF4 {lab : LargeEvenLabel} {p : ℕ} {T : GGKacType} {tw 
   obtain ⟨tag, rk, n⟩ := lab
   simp only at htag hrank
   subst htag; subst hrank
-  simp only [LargeEvenLabel.n] at hn hd1 hd2
+  simp only at hn hd1 hd2
   simp only [ggKacTypeOfLabel, Option.some.injEq] at hty
   injection hty with hT htw
   subst hT; subst htw

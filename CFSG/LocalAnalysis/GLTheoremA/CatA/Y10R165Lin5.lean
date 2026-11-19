@@ -27,8 +27,8 @@ variable {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
 theorem det_glue [FiniteDimensional F V] {U W : Submodule F V} (hc : IsCompl U W)
     (a : U ≃ₗ[F] U) (b : W ≃ₗ[F] W) :
     LinearEquiv.det (glue hc a b) = LinearEquiv.det a * LinearEquiv.det b := by
-  haveI : Module.Free F U := Module.Free.of_divisionRing F U
-  haveI : Module.Free F W := Module.Free.of_divisionRing F W
+  have : Module.Free F U := Module.Free.of_divisionRing F U
+  have : Module.Free F W := Module.Free.of_divisionRing F W
   rw [glue, ← LinearEquiv.trans_assoc, LinearEquiv.det_conj]
   apply Units.ext
   rw [Units.val_mul, LinearEquiv.coe_det, LinearEquiv.coe_det, LinearEquiv.coe_det,
@@ -226,12 +226,14 @@ noncomputable def restrictStabEquiv {U W : Submodule F V} (hc : IsCompl U W)
       have h := glue_apply hc 1 (s : W ≃ₗ[F] W) ⟨0, Submodule.zero_mem (p := U)⟩ w
       simpa using h
 
+omit [FiniteDimensional F V] in
 theorem isQuasisimple_specialLinearGroup_of_three_le {W : Submodule F V} {k : ℕ}
     (b : Module.Basis (Fin k) F W) (hk : 3 ≤ k) :
     CFSG.IsQuasisimple (SpecialLinearGroup F W) :=
   CFSG.LocalCores.isQuasisimple_of_mulEquiv (Matrix.SpecialLinearGroup.toLin_equiv b)
     (CFSG.RankThree.Classical2.isQuasisimple_specialLinearGroup hk)
 
+omit [FiniteDimensional F V] in
 theorem isQuasisimple_specialLinearGroup_of_two {W : Submodule F V} [Finite F]
     (b : Module.Basis (Fin 2) F W) (h4 : 4 ≤ Nat.card F) :
     CFSG.IsQuasisimple (SpecialLinearGroup F W) :=
@@ -241,9 +243,9 @@ theorem isQuasisimple_specialLinearGroup_of_two {W : Submodule F V} [Finite F]
 theorem card_center_specialLinearGroup_dvd {W : Submodule F V} [Finite F] :
     Nat.card (Subgroup.center (SpecialLinearGroup F W)) ∣ Nat.card F - 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Module.Free F W := Module.Free.of_divisionRing F W
-  haveI : Module.Finite F W :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Module.Free F W := Module.Free.of_divisionRing F W
+  have : Module.Finite F W :=
     Module.Finite.of_injective (Submodule.subtype W) Subtype.val_injective
   have hcard : Nat.card (Subgroup.center (SpecialLinearGroup F W)) =
       Nat.card (rootsOfUnity (max (Module.finrank F W) 1) F) :=

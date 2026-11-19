@@ -29,7 +29,7 @@ theorem TwelveSixKCtx.p_eq_three_of_starImg_le_cStarL
       starImg p H D.I₃ ≤ cStarL p H) : p = 3 := by
   classical
   by_contra hp3
-  haveI : Fact p.Prime := ⟨hc.ctx.p_prime⟩
+  have : Fact p.Prime := ⟨hc.ctx.p_prime⟩
   have hI₁H : D.I₁ ≤ H := D.le_inf₁.trans inf_le_left
   have hI₂H : D.I₂ ≤ H := D.le_inf₂.trans inf_le_left
   have hI₃H : D.I₃ ≤ H := D.le_inf₃.trans inf_le_left
@@ -152,7 +152,7 @@ theorem TwelveCtx.false_of_starImg_le_cStarL_of_three_le (h : TwelveCtx G M p Q 
     (hIt : IsPSLType 2 (GaloisField 2 n) (modTwoCore I))
     (hIY : starImg p H I ≤ cStarL p H) : False := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn2 : 2 ≤ n := by omega
   have hOle : relPPrimeCore 3 H ≤ H := relPPrimeCore_le H
   have hOnorm : ((relPPrimeCore 3 H).subgroupOf H).Normal :=
@@ -215,7 +215,7 @@ theorem TwelveCtx.false_of_starImg_le_cStarL_of_three_le (h : TwelveCtx G M p Q 
   have hdvdY : r ∣ Nat.card ↥(cStarL 3 H) :=
     hdvdStar.trans (Subgroup.card_dvd_of_le hIY)
   obtain ⟨W, hWac, hWmod, hWfin, φY, hkerY, hdim⟩ := h.exists_cStarL_model
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' r hdvdY
   have hyker : y ∉ φY.ker := by
     intro hyk

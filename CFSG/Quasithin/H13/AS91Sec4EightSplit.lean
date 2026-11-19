@@ -436,7 +436,7 @@ theorem nrm_mul {u v : G} (hu : u ∈ D.U1) (hv : v ∈ D.U1) : D.nrm (u * v) = 
   one_mem' := ⟨one_mem _, by simp [nrm]⟩
   inv_mem' {u} hu := by
     have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right (D.U1_sq hu.1)
-    rw [Set.mem_setOf_eq, hui]
+    rw [Set.mem_ofPred_eq, hui]
     exact hu
 
 theorem Ugrp_le_U1 : D.Ugrp ≤ D.U1 := fun _ hu => hu.1
@@ -476,6 +476,9 @@ theorem eq_one_of_mem_Ugrp_E {u : G} (hu : u ∈ D.Ugrp)
     exact D.z_not_mem_Ugrp (h1 ▸ hu)
 
 include D in
+omit D in
+include h in
+variable (h) in
 theorem eq_one_or_z_of_mem_zpowers {x : G} (hx : x ∈ zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hx
   have h2 : z ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact h.z_mul_z
@@ -534,7 +537,7 @@ theorem card_Ugrp : Nat.card D.Ugrp = 2 ^ 6 := by
   have hinf : zpowers z ⊓ D.Ugrp = ⊥ := by
     rw [eq_bot_iff]
     rintro x ⟨hx1, hx2⟩
-    rcases D.eq_one_or_z_of_mem_zpowers hx1 with e | e
+    rcases (CFSG.Quasithin.H13.AS91.Data41.eq_one_or_z_of_mem_zpowers h) hx1 with e | e
     · rw [e]
       exact one_mem _
     · rw [e] at hx2
@@ -543,7 +546,7 @@ theorem card_Ugrp : Nat.card D.Ugrp = 2 ^ 6 := by
     apply le_antisymm
     · exact sup_le (zpowers_le.mpr hzU) D.Ugrp_le_U1
     · intro u hu
-      rcases D.eq_one_or_z_of_mem_zpowers (D.nrm_mem_zpowers hHat hu) with h0 | h0
+      rcases (CFSG.Quasithin.H13.AS91.Data41.eq_one_or_z_of_mem_zpowers h) (D.nrm_mem_zpowers hHat hu) with h0 | h0
       · exact mem_sup_right ⟨hu, h0⟩
       · have huz : u * z ∈ D.Ugrp :=
           ⟨mul_mem hu hzU, by rw [D.nrm_mul hu hzU, h0, D.nrm_z]; exact h.z_mul_z⟩
@@ -568,6 +571,7 @@ theorem zpow_c_cases (k : ℤ) :
     rw [zpow_two]
 
 include hHat in
+omit hHat in
 theorem conj_mem_Ugrp {y : h.setting.M} (hyN : (y : G) ∈ normalizer (Xc : Set G))
     (hyU : ∀ v ∈ Two.U48, D.Φo (h.setting.ρ y) v ∈ Two.U48) {u : G} (hu : u ∈ D.Ugrp) :
     (y : G) * u * (y : G)⁻¹ ∈ D.Ugrp := by
@@ -639,7 +643,7 @@ theorem exists_compl_T : ∃ K : Subgroup G, K ≤ D.T ∧ K ⊓ D.E = ⊥ ∧ N
     congr 1
     ext l
     simp only [Set.image_insert_eq, Set.image_singleton, Set.mem_insert_iff,
-      Set.mem_singleton_iff, GenSet, Set.mem_setOf_eq, Two.sGens48, List.mem_cons,
+      Set.mem_singleton_iff, GenSet, Set.mem_ofPred_eq, Two.sGens48, List.mem_cons,
       List.not_mem_nil, or_false]
     constructor
     · rintro (rfl | rfl | rfl)
@@ -684,7 +688,7 @@ theorem exists_compl_T : ∃ K : Subgroup G, K ≤ D.T ∧ K ⊓ D.E = ⊥ ∧ N
     rw [hS1, MonoidHom.map_closure, closure_le]
     rintro _ ⟨y, hy, rfl⟩
     obtain ⟨hyN, -, hyU⟩ := hgen y hy
-    exact mem_normalizer_fintype fun n hn => D.conj_mem_Ugrp hHat hyN hyU hn
+    exact mem_normalizer_fintype fun n hn => D.conj_mem_Ugrp hyN hyU hn
   have hS1T : S1 ≤ D.T := by
     rw [hS1, MonoidHom.map_closure, closure_le]
     rintro _ ⟨y, hy, rfl⟩
@@ -739,7 +743,7 @@ theorem exists_compl_T : ∃ K : Subgroup G, K ≤ D.T ∧ K ⊓ D.E = ⊥ ∧ N
 
 theorem exists_split : ∃ C : Subgroup G, C ≤ normalizer (D.E : Set G) ∧ C ⊓ D.E = ⊥ ∧
     C ⊔ D.E = normalizer (D.E : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKT, hKE, hKc⟩ := D.exists_compl_T hOut hTw hHat
   set M : Subgroup G := normalizer (D.E : Set G) with hMdef
   have hTM : D.T ≤ M := fun t ht =>
@@ -753,8 +757,8 @@ theorem exists_split : ∃ C : Subgroup G, C ≤ normalizer (D.E : Set G) ∧ C 
     rw [D.card_T hOut hTw, h1]
     norm_num
   set V : Subgroup ↥M := D.E.subgroupOf M with hV
-  haveI : V.Normal := Subgroup.normal_in_normalizer
-  haveI : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (Subtype.ext
+  have : V.Normal := Subgroup.normal_in_normalizer
+  have : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (Subtype.ext
     (D.E_comm hOut hTw hHat (mem_subgroupOf.mp a.2) (mem_subgroupOf.mp b.2)))⟩⟩
   have hVp : IsPGroup 2 V := IsPGroup.of_card (n := 11) (by
     rw [hV, Nat.card_congr (subgroupOfEquivOfLe hEM).toEquiv, D.card_E hOut hTw])

@@ -120,7 +120,7 @@ theorem le_pCoreOf_of_inv {X Q : Subgroup G} (hQX : Q ≤ X)
     simpa [mul_assoc] using this
   exact CFSG.RankThreeEvenClassification.Helpers.normal_pSubgroup_le_pCoreOf 2 Q X hQX hQnorm hQ2
 
-theorem comm_mem_pCore_of_perm_one (hm : 5 ≤ m) (I : AEIdent P m) (hk : IsPGroup 2 I.φ.ker) {u : G}
+theorem comm_mem_pCore_of_perm_one (_hm : 5 ≤ m) (I : AEIdent P m) (hk : IsPGroup 2 I.φ.ker) {u : G}
     (hu : u ∈ Subgroup.normalizer (pSpan P : Set G)) {w : Wr m} (hw : InducedBy I u w)
     (hσ : w.perm = 1) : ∀ x ∈ pSpan P, u * x * u⁻¹ * x⁻¹ ∈ pCoreOf 2 (pSpan P) := by
   set V : Subgroup (AEQ m) := (vecSub m).map (mkQ m) with hV

@@ -45,7 +45,7 @@ theorem noOrder65_of_cases [Finite G] (hE : MonsterExistenceStatement G)
       rw [hemp, Set.ncard_empty] at hmod
       exact hI ((Nat.modEq_zero_iff_dvd).1 hmod)
     obtain ⟨t, ⟨ht2, ht1, htx⟩, htz⟩ := hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine ⟨t, orderOf_eq_prime (by rw [pow_two]; exact ht2) ht1, ?_⟩
     have hg_eq : g = (g ^ 5) ^ 8 * ((g ^ 13) ^ 3)⁻¹ := by group
     have hc1 : Commute t (g ^ 5) := htx

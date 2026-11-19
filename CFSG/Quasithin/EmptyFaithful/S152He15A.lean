@@ -55,7 +55,7 @@ theorem exists_central_order_three [Finite G] {X L E : Subgroup G} (hLX : L ≤ 
       rw [← Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hX0, pow_succ]
       exact h1
     omega
-  have hPp : IsPGroup 3 ↥(P : Subgroup ↥X) := P.isPGroup'
+  have hPp : IsPGroup 3 ↥(P : Subgroup ↥X) := P.isPGroup
   have hPnil : Group.IsNilpotent ↥(P : Subgroup ↥X) := hPp.isNilpotent
   have hL'n : L'.Normal := hn
   set N : Subgroup ↥(P : Subgroup ↥X) := L'.subgroupOf (P : Subgroup ↥X) with hN

@@ -37,7 +37,7 @@ private theorem w135c2_psu_selfdual_bounds {n : ℕ} (hn : 3 ≤ n) {S : Finset 
     have h2j : 2 * (j : ℕ) = n := by
       have h1 := congrArg Fin.val hfix
       rw [labelStar_eq_of_ne_zero hj0] at h1
-      simp only [Fin.val_mk] at h1
+      simp only at h1
       have := j.isLt
       omega
     have hj2 : 2 ≤ (j : ℕ) := by omega
@@ -59,7 +59,7 @@ theorem w135c2_psu_outer_multi {n f s u : ℕ} (hn : 3 ≤ n) (hs : 1 ≤ s) (hu
     (hsu : s * u ≤ 3) (ε : Fin f → Finset (Fin n))
     (h0 : ∀ r, (⟨0, by omega⟩ : Fin n) ∉ ε r) (r₁ r₂ : Fin f) (hr : r₁ ≠ r₂)
     (h₁ : ε r₁ ≠ ∅) (h₂ : ε r₂ ≠ ∅)
-    (hper : f ≤ s * (univ.filter fun r => ε r ≠ ∅).card)
+    (_hper : f ≤ s * (univ.filter fun r => ε r ≠ ∅).card)
     (hns : (univ.filter fun r => ε r ≠ ∅).card ≤ 2 →
       (∃ r, (ε r).image labelStar ≠ ε r) → 2 * f ≤ s)
     (hmv : movedTop (by omega : 2 ≤ n) ε ≤ 4 * u) : False := by

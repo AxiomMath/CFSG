@@ -33,7 +33,7 @@ theorem l515S_noncomm_of_u33 (h : LieModel X .PSU 3 3 1) : ∃ a b : X, a * b �
   have hfin : Finite X := Nat.finite_of_card_ne_zero (by rw [l515S_card_u33 h]; norm_num)
   by_contra hne
   push Not at hne
-  letI : CommGroup X := { (inferInstance : Group X) with mul_comm := fun a b => hne a b }
+  let : CommGroup X := { (inferInstance : Group X) with mul_comm := fun a b => hne a b }
   have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card (α := X)
   rw [l515S_card_u33 h] at hp
   exact absurd hp (by norm_num)
@@ -66,7 +66,7 @@ theorem l515S_isQuasisimple_of_u33 (h : LieModel X .PSU 3 3 1) : IsQuasisimple X
 
 private theorem l515S_odd_card_oddCore (Y : Type) [Group Y] [Finite Y] :
     Odd (Nat.card (CFSG.oddCore Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := Y)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := Y))
 
@@ -91,12 +91,14 @@ section Sub
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G}
 
+omit [Finite G] in
 theorem l515S_isL3Eps3_of_u33 (h : LieModel ↥E .PSU 3 3 1) : IsL3Eps3 E :=
   Or.inr (l515S_lieModel_quot_u33 h)
 
 theorem l515S_ctrQ_of_u33 (h : LieModel ↥E .PSU 3 3 1) : ctrQ E = 6048 :=
   ctrQ_of_u33 (l515S_isQuasisimple_of_u33 h) (l515S_lieModel_quot_u33 h)
 
+omit [Finite G] in
 theorem l515S_inFStar_of_u33 {H : Subgroup G} (hE : IsComponentIn E H)
     (h : LieModel ↥E .PSU 3 3 1) : InFStar E :=
   inFStar_of_isL3Eps3 hE (l515S_isL3Eps3_of_u33 h)

@@ -15,7 +15,7 @@ open Subgroup
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -32,9 +32,9 @@ theorem false_of_central_quaternion (hS : Asc82SchurU43) {J : Type} [Group J] [F
   have hcover : IsOmegaCover (J ⧸ oddCore J) 6 (-1) :=
     isOmegaCover_oddCore_quotient hS hJ hJt
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := hcover
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   let g : QuaternionGroup 2 →* OGroup Q :=
     (omegaGroup hQ).subtype.comp (e.toMonoidHom.comp fbar)
   let q : OGroup Q := g (QuaternionGroup.a 1)

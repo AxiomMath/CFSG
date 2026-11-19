@@ -106,7 +106,7 @@ theorem k_L2SzPairOuterRank_of
   exact le_pRank_of_bar2 hr hr2 hE₃ hE₃card
 
 theorem k_L2SzPairOuterRank_holds : K_L2SzPairOuterRank :=
-  k_L2SzPairOuterRank_of fun X _ _ n r h hr _ hrn =>
+  k_L2SzPairOuterRank_of fun _X _ _ _n _r h hr _ hrn =>
     h.elim (fun h => outerRSplit_one_of_isL2 h hr hrn) (fun h => outerRSplit_one_of_isSz h hr hrn)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

@@ -28,7 +28,7 @@ theorem transitive_of_sl23 {E : Type} [Group E] [Finite E] (Γ : Subgroup (MulAu
   have hcard : Nat.card Γ = 24 := by
     rw [Nat.card_congr e.toEquiv]
     exact KFacts.KS14.card_SL_two_three
-  haveI : Finite Γ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Γ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨g₀, hg₀2, hg₀1⟩ := sl23_exists_involution
   set z : Γ := e.symm g₀ with hz
   have hez : e z = g₀ := by rw [hz]; exact e.apply_symm_apply g₀
@@ -47,7 +47,7 @@ theorem transitive_of_sl23 {E : Type} [Group E] [Finite E] (Γ : Subgroup (MulAu
   set S := MulAction.stabilizer Γ w with hS
   have hSodd : ¬ 2 ∣ Nat.card S := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := S) 2 h2
     have hs2 : (s : Γ) ^ 2 = 1 := by
       have : s ^ 2 = 1 := by rw [← hs]; exact pow_orderOf_eq_one s
@@ -65,7 +65,7 @@ theorem transitive_of_sl23 {E : Type} [Group E] [Finite E] (Γ : Subgroup (MulAu
   have hS13 : Nat.card S = 1 ∨ Nat.card S = 3 := by
     have hle : Nat.card S ≤ 24 := Nat.le_of_dvd (by norm_num) hSdvd
     interval_cases h : Nat.card S <;>
-      first | omega | (exfalso; revert hSdvd hSodd; decide) | simp_all
+      first | omega
   have hidx : S.index = Nat.card (MulAction.orbit Γ w) := by
     rw [hS, MulAction.index_stabilizer, Nat.card_coe_set_eq]
   have horb := Subgroup.index_mul_card S

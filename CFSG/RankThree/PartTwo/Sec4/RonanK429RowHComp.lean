@@ -20,9 +20,9 @@ variable {S G' : Type} [Group S] [Group G']
 theorem Good429.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective f)
     (h : Good429 (C.map f)) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   have eK : K ≃* K.map f := K.equivMapOfInjective f hf
-  haveI : Group.IsPerfect (K.map f) := Group.IsPerfect.map f
+  have : Group.IsPerfect (K.map f) := Group.IsPerfect.map f
   refine h (K.map f) (Subgroup.map_mono hKC) inferInstance ?_ (isType429_quot_congr eK hT)
   let eC : C ≃* C.map f := C.equivMapOfInjective f hf
   have heC : ∀ x : C, ((eC x : C.map f) : G') = f x := fun x =>
@@ -31,7 +31,7 @@ theorem Good429.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective
   have hmap := hKs.map hsurj
   have heq : (K.subgroupOf C).map (eC : C →* C.map f) = (K.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩
@@ -144,7 +144,7 @@ theorem not_three_dvd_outer_of_mulEquiv (e : S ≃* G')
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer) in
 theorem not_three_dvd_outer_of_le_two [Finite G'] (h : Nat.card (Outer G') ≤ 2) :
     ¬ 3 ∣ Nat.card (Outer G') := by
-  haveI : Finite (MulAut G') := Finite.of_injective (fun φ : MulAut G' => (φ : G' → G'))
+  have : Finite (MulAut G') := Finite.of_injective (fun φ : MulAut G' => (φ : G' → G'))
     (fun φ ψ h => MulEquiv.ext (congrFun h))
   have hpos : 0 < Nat.card (Outer G') := Nat.card_pos
   omega
@@ -168,14 +168,14 @@ end Transport
 section CriteriaFree
 
 theorem isQuasisimple_of_isSimpleGroup' {X : Type*} [Group X] [IsSimpleGroup X]
-    [Group.IsPerfect X] [Nontrivial X] : IsQuasisimple X := by
+    [Group.IsPerfect X] : IsQuasisimple X := by
   have hZ : Subgroup.center X = ⊥ := center_eq_bot_of_isSimpleGroup_of_isPerfect
   have e : X ⧸ Subgroup.center X ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   refine ⟨inferInstance, e.isSimpleGroup, ?_⟩
   have hnc := Group.IsPerfect.not_isMulCommutative X
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply hnc
   refine ⟨⟨fun a b => ?_⟩⟩
   apply e.symm.injective
@@ -188,6 +188,7 @@ theorem not_isPGroup_of_isPerfect {X : Type*} [Group X] [Finite X] [Group.IsPerf
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem isPGroup_three_of_pow_three {K : Subgroup S} (h : ∀ k ∈ K, k ^ 3 = 1) :
     IsPGroup 3 K := by
   intro k
@@ -201,10 +202,10 @@ theorem pCore_two_le_center' {Q : Type} [Group Q] [Finite Q] (hQ : IsQuasisimple
     have h2 : IsPGroup 2 (CFSG.pCore 2 Q) := CFSG.pCore_isPGroup
     rw [h] at h2
     have hp : IsPGroup 2 Q := h2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hQ.1
-    haveI : Nontrivial Q := by
-      haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hQ.2.1.toNontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hQ.1
+    have : Nontrivial Q := by
+      have : Nontrivial (Q ⧸ Subgroup.center Q) := hQ.2.1.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
     exact Group.IsPerfect.not_isNilpotent Q hp.isNilpotent
   · exact h
@@ -213,15 +214,15 @@ theorem good429_of_isQuasisimple {C : Subgroup S} (hC : IsQuasisimple C)
     (hZ : IsPGroup 3 (Subgroup.center C)) {B : ℕ} (hB : Nat.card C < B ^ 3)
     (hCt : Nat.card C ∉ typeOrders (Nat.card C) B) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI := nontrivial_of_isType429 hT
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
+  have := hKp
+  have := nontrivial_of_isType429 hT
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
   rcases Res429.eq_top_or_le_center_of_isSubnormal hC hKs with htop | hcen
   · have hKeq : K = C := le_antisymm hKC (Subgroup.subgroupOf_eq_top.mp htop)
     subst hKeq
     have hO : CFSG.pCore 2 K = ⊥ := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hle := pCore_two_le_center' hC
       have h2 : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
       rw [eq_bot_iff]
@@ -236,7 +237,7 @@ theorem good429_of_isQuasisimple {C : Subgroup S} (hC : IsQuasisimple C)
       exact Subgroup.mem_bot.mpr (orderOf_eq_one_iff.mp (Nat.dvd_one.mp hord))
     have eQ : K ⧸ CFSG.pCore 2 K ≃* K :=
       (QuotientGroup.quotientMulEquivOfEq hO).trans QuotientGroup.quotientBot
-    haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+    have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
     have hmem := card_mem_typeOrders (M := Nat.card K) (B := B) Nat.card_pos hB hT
       (by rw [Nat.card_congr eQ.toEquiv])
     rw [Nat.card_congr eQ.toEquiv] at hmem
@@ -254,17 +255,17 @@ theorem good429_of_simple_small_index {C E : Subgroup S} (hEC : E ≤ C) [hEs : 
     {B : ℕ} (hB : Nat.card E < B ^ 3) (hfree : typeOrders (Nat.card E) B = []) :
     Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   set E' : Subgroup C := E.subgroupOf C
   have eE : E' ≃* E := Subgroup.subgroupOfEquivOfLe hEC
-  haveI : IsSimpleGroup E' := eE.isSimpleGroup
+  have : IsSimpleGroup E' := eE.isSimpleGroup
   have hE'card : Nat.card E' = Nat.card E := Nat.card_congr eE.toEquiv
   have hidx : E'.index ≤ m := by
     have hmul := Subgroup.card_mul_index E'
     rw [hE'card] at hmul
     have hE0 : 0 < Nat.card E := Nat.card_pos
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card E * (m + 1) ≤ Nat.card E * E'.index := Nat.mul_le_mul_left _ hlt
     nlinarith
   set N := E'.normalCore
@@ -286,12 +287,12 @@ theorem good429_of_simple_small_index {C E : Subgroup S} (hEC : E ≤ C) [hEs : 
         _ ∣ E'.index.factorial := hdiv
         _ ∣ m.factorial := Nat.factorial_dvd_factorial hidx
     · exact le_antisymm hNE (Subgroup.subgroupOf_eq_top.mp h)
-  haveI hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
+  have hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
   set K' : Subgroup C := K.subgroupOf C
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKC).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
+  have : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
   have hpf : (Nat.card (K'.map (QuotientGroup.mk' E'))).primeFactors.card ≤ 2 := by
     have hd : Nat.card (K'.map (QuotientGroup.mk' E')) ∣ E'.index :=
       Subgroup.card_subgroup_dvd_card _
@@ -300,12 +301,12 @@ theorem good429_of_simple_small_index {C E : Subgroup S} (hEC : E ≤ C) [hEs : 
     have h1 : E'.index.primeFactors.card ≤ 2 := by
       interval_cases h : E'.index <;> exact primeFactors_card_le_two_of_twoPrimeOK (by decide)
     exact (Finset.card_le_card (Nat.primeFactors_mono hd (by omega))).trans h1
-  haveI := subsingleton_of_isPerfect_of_card_primeFactors hpf
+  have := subsingleton_of_isPerfect_of_card_primeFactors hpf
   have hbot : K'.map (QuotientGroup.mk' E') = ⊥ := Subgroup.eq_bot_of_subsingleton _
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
   have hKE : K ≤ E := fun k hk =>
     hbot (show (⟨k, hKC hk⟩ : C) ∈ K.subgroupOf C from hk)
-  haveI := nontrivial_of_isType429 hT
+  have := nontrivial_of_isType429 hT
   have hE0 : 0 < Nat.card E := Nat.card_pos
   refine not_isType429_of_dvd hE0 hB hfree ?_ hT
   obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow K
@@ -318,9 +319,9 @@ section Simple
 
 theorem isSimpleGroup_of_isType429 {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
     (h : IsType429 X) : IsSimpleGroup X := by
-  haveI := nontrivial_of_isType429 h
+  have := nontrivial_of_isType429 h
   rcases h with ⟨p, e, hp, he, (⟨h1, ⟨φ⟩⟩ | ⟨h2, ⟨φ⟩⟩)⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
+  · have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact φ.isSimpleGroup
   · have hpp : p.Prime := hp.out
@@ -335,18 +336,18 @@ theorem isSimpleGroup_of_isType429 {X : Type} [Group X] [Finite X] [Group.IsPerf
       have he1 : e = 1 := Nat.pow_right_injective (le_refl 2) (by simpa using hq)
       subst he1
       exact not_subsingleton X (subsingleton_of_mulEquiv_projSU_three_two φ)
-    · haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
+    · have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
         ⟨Fact.out, he, le_rfl, fun h => hq (Prod.mk.inj h).2⟩
       exact φ.isSimpleGroup
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  · have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
     exact φ.isSimpleGroup
-  · haveI : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
+  · have : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
       CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
     exact φ.isSimpleGroup
-  · haveI : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
+  · have : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
       CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
     exact φ.isSimpleGroup
-  · haveI : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  · have : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
     exact φ.isSimpleGroup
 
 variable {S : Type} [Group S] [Finite S]
@@ -364,15 +365,15 @@ theorem isComponent_subgroupOf_of_isType429 {C K : Subgroup S} (hKC : K ≤ C)
   refine ⟨⟨?_, hKs⟩, hK2⟩
   have eQ : K ⧸ CFSG.pCore 2 K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hK2).trans QuotientGroup.quotientBot
-  haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
-  haveI := isSimpleGroup_of_isType429 hT
-  haveI : IsSimpleGroup K := eQ.symm.isSimpleGroup
-  haveI : IsSimpleGroup K' := eK.isSimpleGroup
-  haveI : Group.IsPerfect K' := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom)
+  have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+  have := isSimpleGroup_of_isType429 hT
+  have : IsSimpleGroup K := eQ.symm.isSimpleGroup
+  have : IsSimpleGroup K' := eK.isSimpleGroup
+  have : Group.IsPerfect K' := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom)
     eK.symm.surjective
-  haveI : Nontrivial K' := by
-    haveI := nontrivial_of_isType429 hT
-    haveI : Nontrivial K := eQ.symm.toEquiv.nontrivial
+  have : Nontrivial K' := by
+    have := nontrivial_of_isType429 hT
+    have : Nontrivial K := eQ.symm.toEquiv.nontrivial
     exact eK.toEquiv.nontrivial
   exact isQuasisimple_of_isSimpleGroup'
 
@@ -384,9 +385,9 @@ variable {S : Type} [Group S] [Finite S]
 
 theorem not_isPGroup_three_of_isType429 {K : Subgroup S} [Group.IsPerfect K]
     (hT : IsType429 (K ⧸ CFSG.pCore 2 K)) (h : IsPGroup 3 K) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := nontrivial_of_isType429 hT
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := nontrivial_of_isType429 hT
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
   exact not_isPGroup_of_isPerfect h
 
 end Criteria

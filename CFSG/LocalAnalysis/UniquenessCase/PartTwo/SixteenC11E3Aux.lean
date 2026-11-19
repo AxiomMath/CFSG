@@ -20,7 +20,7 @@ private theorem s1611e3_gen_of_normal_seven {D : Data G} (h : S1611e3Std D) {V�
     (hXnorm : ∀ m ∈ Mbar D.M V₀ V h125.isElemAbelian, ∀ x ∈ X, m * x * m⁻¹ ∈ X) :
     ∃ z : MulAut (Vtil V₀ V h125.isElemAbelian),
       orderOf z = 7 ∧ (∀ v, z v = v → v = 1) ∧ X = Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hXne : X ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hXcard
@@ -31,7 +31,7 @@ private theorem s1611e3_gen_of_normal_seven {D : Data G} (h : S1611e3Std D) {V�
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hXnorm g g.2 n hn⟩
   have hfixX := s16c1610_fixV_eq_bot D h.hx h.h61 h.h127 h.h1214 h125 hXM hXn hXne hodd
-  haveI : IsCyclic X := isCyclic_of_prime_card hXcard
+  have : IsCyclic X := isCyclic_of_prime_card hXcard
   obtain ⟨z, hzgen⟩ := IsCyclic.exists_generator (α := X)
   have hzSub : orderOf z = Nat.card X := orderOf_eq_card_of_forall_mem_zpowers hzgen
   have hz : orderOf (z : MulAut (Vtil V₀ V h125.isElemAbelian)) = 7 := by
@@ -58,11 +58,11 @@ theorem s1611e3_three_le_mBar_of_normal_seven {D : Data G} (h : S1611e3Std D) {V
   obtain ⟨z, hz, hzfix, hXeq⟩ := s1611e3_gen_of_normal_seven h h125 hXM hXcard hXnorm
   unfold mBar E3.mParam
   by_cases hEven : Even (Nat.card (Mbar D.M V₀ V h125.isElemAbelian))
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     have hne : ({n : ℕ | ∃ t ∈ Mbar D.M V₀ V h125.isElemAbelian, orderOf t = 2 ∧
         n = rkIdx (fixV (Subgroup.zpowers t))} : Set ℕ).Nonempty := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Finite (MulAut (Vtil V₀ V h125.isElemAbelian)) := s1611e3_finite_mulAut
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Finite (MulAut (Vtil V₀ V h125.isElemAbelian)) := s1611e3_finite_mulAut
       have hdvd : 2 ∣ Nat.card (Mbar D.M V₀ V h125.isElemAbelian) :=
         even_iff_two_dvd.mp hEven
       obtain ⟨t, ht⟩ :=
@@ -77,7 +77,7 @@ theorem s1611e3_three_le_mBar_of_normal_seven {D : Data G} (h : S1611e3Std D) {V
       rwa [hXeq] at h1
     exact s1611e3_three_le_rkIdx_of_normalizes (s15_Infra_vtil_sq_eq_one V₀ V h125.isElemAbelian)
       hrk hz hzfix ht2 hn
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     omega
 
 theorem s1611e3_cent_of_normal_seven {D : Data G} (h : S1611e3Std D) {V₀ V : Subgroup G}

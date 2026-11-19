@@ -23,6 +23,7 @@ section MinPeriod
 variable {F : Type*} [Field F] [Fintype F] [CharP F 2] {W : Type*} [AddCommGroup W]
   [Module (ZMod 2) W] [Finite W] {ρ : Representation (ZMod 2) SL(2, F) W} [Fact ρ.IsIrreducible]
 
+omit [CharP F 2] in
 theorem pow_shift_endRing {n : ℕ} (hF : Fintype.card F = 2 ^ n) {m : ℕ}
     (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type*} [Field E] [CharP E 2] [Algebra F E]
     (ιD : EndRing ρ →+* E) {J : Finset ℕ} (hJn : ∀ i ∈ J, i < n)
@@ -126,6 +127,7 @@ theorem pow_shift_endRing {n : ℕ} (hF : Fintype.card F = 2 ^ n) {m : ℕ}
   rw [← hfr]
   exact h6
 
+omit [CharP F 2] in
 theorem card_endRing_le_of_shift {n : ℕ} (hF : Fintype.card F = 2 ^ n) {m : ℕ}
     (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type*} [Field E] [CharP E 2] [Algebra F E]
     (ιD : EndRing ρ →+* E) {J : Finset ℕ} (hJn : ∀ i ∈ J, i < n)
@@ -162,7 +164,7 @@ theorem two_mul_le_two_pow {k : ℕ} (hk : 1 ≤ k) : 2 * k ≤ 2 ^ k := by
     omega
   omega
 
-theorem num_outer_lin {n s d m w c : ℕ} (hns : n = 2 * s) (hd : 1 ≤ d) (hm : 1 ≤ m)
+theorem num_outer_lin {n s d m w c : ℕ} (hns : n = 2 * s) (_hd : 1 ≤ d) (hm : 1 ≤ m)
     (hds : d ≤ s) (horb : n ≤ 2 * m * d) (hw : w = d * 2 ^ (2 * m))
     (hc : c = d * (2 ^ m * (2 ^ m + 1) / 2)) :
     (m = 1 ∧ d = s ∧ w - c = s ∧ w = 4 * s) ∨ 3 * s ≤ w - c := by
@@ -240,7 +242,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] {W : Type} [AddCommGroup W
 theorem two_mul_le_finrank {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F = 2 ^ n)
     (ρ : Representation (ZMod 2) SL(2, F) W) (hirr : ρ.IsIrreducible) (hnt : ∃ g, ρ g ≠ 1) :
     2 * n ≤ Module.finrank (ZMod 2) W := by
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   obtain ⟨d, hd1, hDcard, hdesc⟩ := binary_SL2_irreducible_Frobenius_descent hn hF ρ hnt
   have : Module.Finite (EndRing ρ) W := Module.Finite.of_finite
   obtain ⟨_, _, _, _, ιF, ιD, J, hJne, hJn, -, hshift, hdim⟩ :=
@@ -278,7 +280,7 @@ theorem finrank_le_or_orth_or {n : ℕ} (hn : 3 ≤ n) (hF : Fintype.card F = 2 
       (∃ s, n = 2 * s ∧
         3 * s ≤ Module.finrank (ZMod 2) W - Module.finrank (ZMod 2) (LinearMap.ker (a - 1))) := by
   classical
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρU := ρ.toHomUnits with hρU_def
   have hρU_val : ∀ g, (ρU g).val = ρ g := fun g => by rw [hρU_def]; rfl
@@ -350,7 +352,7 @@ theorem finrank_le_or_orth_or {n : ℕ} (hn : 3 ≤ n) (hF : Fintype.card F = 2 
   by_cases hlin : ∀ δ : EndRing ρ, a * epsHom ρ δ = epsHom ρ δ * a
   ·
     right
-    haveI hE : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers aU) :=
+    have hE : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers aU) :=
       CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (by rw [pow_two, haU2])
     have hAN : Subgroup.zpowers aU ≤
         Subgroup.normalizer (ρU.range : Set (Module.End (ZMod 2) W)ˣ) := by
@@ -485,9 +487,9 @@ theorem finrank_le_or_orth_or {n : ℕ} (hn : 3 ≤ n) (hF : Fintype.card F = 2 
 
 @[expose] def rootSub (F : Type) [Field F] : Subgroup SL(2, F) :=
   MonoidHom.range
-    { toFun := fun t : Multiplicative F => uElt (Multiplicative.toAdd t)
+    { toFun := fun _t : Multiplicative F => uElt (Multiplicative.toAdd _t)
       map_one' := uElt_zero
-      map_mul' := fun s t => uElt_add _ _ }
+      map_mul' := fun _s _t => uElt_add _ _ }
 
 omit [Fintype F] in
 theorem mul_self_of_mem_rootSub {u : SL(2, F)} (hu : u ∈ rootSub F) : u * u = 1 := by
@@ -495,6 +497,7 @@ theorem mul_self_of_mem_rootSub {u : SL(2, F)} (hu : u ∈ rootSub F) : u * u = 
   show uElt (Multiplicative.toAdd t) * uElt (Multiplicative.toAdd t) = 1
   rw [← uElt_add, CharTwo.add_self_eq_zero, uElt_zero]
 
+omit [CharP F 2] in
 theorem natCard_rootSub : Nat.card (rootSub F) = Fintype.card F := by
   rw [rootSub, ← Nat.card_eq_fintype_card]
   refine (Nat.card_congr (MonoidHom.ofInjective (f :=
@@ -512,7 +515,7 @@ theorem nat_or_orth_or_eight {n : ℕ} (hn : 3 ≤ n) (hF : Fintype.card F = 2 ^
       (∃ l, ∃ hl : Fintype.card F = 2 ^ (2 * l), n = 2 * l ∧
         CFSG.RankThree.GF2n.Tim81.Sec2.IsOrthModule hl ρ) ∨
       (n = 3 ∧ Module.finrank (ZMod 2) W = 8) := by
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hlt : Nat.card W < 2 ^ (4 * n) := by
     rw [natCard_eq_two_pow]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)

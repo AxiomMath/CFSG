@@ -30,8 +30,8 @@ theorem mem_normalizer_of_map_mem_normalizer (ψ : G →* X) (hker : ψ.ker ≤ 
   have hz : x * t * x⁻¹ = s * k := by rw [hkdef]; group
   have hkc : ∀ g : G, g * k = k * g := Subgroup.mem_center_iff.1 (hker hk)
   have hcomm : Commute s k := hkc s
-  obtain ⟨a, ha⟩ := T.isPGroup' ⟨s, hs⟩
-  obtain ⟨b, hb⟩ := T.isPGroup' ⟨t, ht⟩
+  obtain ⟨a, ha⟩ := T.isPGroup ⟨s, hs⟩
+  obtain ⟨b, hb⟩ := T.isPGroup ⟨t, ht⟩
   have ha' : s ^ 2 ^ a = 1 := congrArg Subtype.val ha
   have hb' : t ^ 2 ^ b = 1 := congrArg Subtype.val hb
   have hz2 : (x * t * x⁻¹) ^ 2 ^ b = 1 := by rw [conj_pow, hb', mul_one, mul_inv_cancel]

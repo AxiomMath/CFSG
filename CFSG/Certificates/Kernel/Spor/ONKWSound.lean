@@ -80,12 +80,12 @@ theorem split_sel {M j : Nat} (hM : M < 2 ^ (512 - j)) {a : Nat} (ha : a < 2 ^ 5
   rw [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_mul_add _ ha,
     Nat.testBit_two_pow_mul_add _ hM', Nat.testBit_two_pow_mul_add _ (Nat.and_lt_two_pow _ hM')]
   by_cases hk : k < 512
-  · rw [if_pos hk, if_pos hk, Nat.testBit_and, Nat.testBit_shiftRight]
+  · rw [ite_eq_left hk, ite_eq_left hk, Nat.testBit_and, Nat.testBit_shiftRight]
     by_cases hjk : j + k < 512
-    · rw [if_pos hjk]
-    · rw [if_neg hjk, Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hM
+    · rw [ite_eq_left hjk]
+    · rw [ite_eq_right hjk, Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hM
         (Nat.pow_le_pow_right (by omega) (by omega))), Bool.and_false, Bool.and_false]
-  · rw [if_neg hk, if_neg hk, if_neg (by omega), Nat.testBit_and, Nat.testBit_shiftRight,
+  · rw [ite_eq_right hk, ite_eq_right hk, ite_eq_right (by omega), Nat.testBit_and, Nat.testBit_shiftRight,
       show j + k - 512 = j + (k - 512) by omega]
 
 theorem enc_sel {M j : Nat} (hM : M < 2 ^ (512 - j)) :
@@ -256,14 +256,14 @@ theorem step_field {L : List Nat} {xp xm j c ap am : Nat} (hd : xp &&& xm = 0) :
   have e1 : ∀ a b : Nat, Nat.lor a 0 = a := fun a b => Nat.or_zero a
   by_cases h1 : (xp >>> j).testBit 0 = true
   · have h2 : (xm >>> j).testBit 0 = false := by simpa [h1] using hdj
-    simp only [h1, h2, if_true, Bool.false_eq_true, if_false, Nat.one_mul, Nat.zero_mul]
+    simp only [h1, h2, ite_true, Bool.false_eq_true, ite_false, Nat.one_mul, Nat.zero_mul]
     change _ = mvL L _ _ (addP ap am (vP c ||| 0) (vM c ||| 0)) (addM ap am (vP c ||| 0) (vM c ||| 0))
     simp only [Nat.or_zero]
   · by_cases h2 : (xm >>> j).testBit 0 = true
-    · simp only [h1, h2, if_true, Bool.false_eq_true, if_false, Nat.one_mul, Nat.zero_mul]
+    · simp only [h1, h2, ite_true, Bool.false_eq_true, ite_false, Nat.one_mul, Nat.zero_mul]
       change _ = mvL L _ _ (addP ap am (0 ||| vM c) (0 ||| vP c)) (addM ap am (0 ||| vM c) (0 ||| vP c))
       simp only [Nat.zero_or]
-    · simp only [h1, h2, Bool.false_eq_true, if_false, Nat.zero_mul]
+    · simp only [h1, h2, Bool.false_eq_true, ite_false, Nat.zero_mul]
       change _ = mvL L _ _ (addP ap am (0 ||| 0) (0 ||| 0)) (addM ap am (0 ||| 0) (0 ||| 0))
       simp only [Nat.zero_or, addP_zero, addM_zero]
 
@@ -460,7 +460,7 @@ theorem mvRangeW_imp {K : Nat → Nat} {LA LB : List Nat} {A B : Nat → Nat} {n
   obtain ⟨hc, ha, hb⟩ := h1 l hl
   obtain ⟨eA, eB⟩ := hf l hl
   unfold mvAt
-  simp only [PackFld.strictB_eqP, Nat.add_eq]
+  simp only [PackFld.strictB_eqP]
   rw [hc, Nat.blt_eq.mpr ha, Nat.blt_eq.mpr hb, eA, eB]
   simp [Nat.beq_refl]
 

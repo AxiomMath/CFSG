@@ -90,7 +90,7 @@ theorem rckPairFixedConj
       conjSub h (conjSub z (rootSubgroup τ GGL γ)) = conjSub z' (rootSubgroup τ GGL γ') ∧
       conjSub h (conjSub z (rootSubgroup τ GGL (-γ))) = conjSub z' (rootSubgroup τ GGL (-γ')) := by
   obtain ⟨e, Q, he, hstep, hA⟩ := rckStep_eq_frobTwist S
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [hstep] at h1 h2 h1' h2'
   have hFA : ∀ g ∈ adjointGroup τ GGL, frobTwistGL τ GGL 2 e Q g ∈ adjointGroup τ GGL := by
     intro g hg; rw [← hstep]; exact hA g hg
@@ -125,7 +125,7 @@ theorem rckFrameIncidence_of_pairCore
     have hP : P = Q.map (MulAut.conj h⁻¹).toMonoidHom := by
       rw [← hPQ, Subgroup.map_map]
       ext x
-      simp only [Subgroup.mem_map, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_comp, MonoidHom.coe_coe,
+      simp only [Subgroup.mem_map, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_comp, _root_.MonoidHom.coe_ofClass,
         Function.comp_apply, MulAut.conj_apply]
       constructor
       · intro hx

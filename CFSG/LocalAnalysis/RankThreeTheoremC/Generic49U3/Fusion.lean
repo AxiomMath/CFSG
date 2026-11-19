@@ -79,6 +79,7 @@ theorem fus_mem_zpowers_of_isCyclic_of_pow_prime {p : ℕ} [Fact p.Prime] {Z : S
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hz'
   exact Subgroup.mem_zpowers_iff.mpr ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite G] in
 private theorem commutator_mem_inf_centralizer {p : ℕ} [Fact p.Prime] {T : Subgroup G}
     (hcard : Nat.card T = p ^ 3) (hnc : ¬ IsMulCommutative T) {a b : G} (ha : a ∈ T)
     (hb : b ∈ T) :
@@ -107,6 +108,7 @@ private theorem commutator_mem_inf_centralizer {p : ℕ} [Fact p.Prime] {T : Sub
   have := Subgroup.mem_center_iff.mp hmem ⟨h, hh⟩
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem fus_exists_mul_of_sup_eq {T Z S : Subgroup G}
     (hcomm : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) (hsup : T ⊔ Z = S) :
     ∀ s ∈ S, ∃ t ∈ T, ∃ z ∈ Z, s = t * z := by
@@ -118,6 +120,7 @@ theorem fus_exists_mul_of_sup_eq {T Z S : Subgroup G}
   obtain ⟨⟨a, b⟩, rfl⟩ := hs
   exact ⟨a, a.2, b, b.2, rfl⟩
 
+omit [Finite G] in
 theorem u3_isSimple_quot {J O : Subgroup G} (hOJ : O ≤ J) (hlt : O < J)
     (hmin : ∀ N : Subgroup G, N ≤ J → (N.subgroupOf J).Normal → O ≤ N → N = O ∨ N = J)
     {Q : Type} [Group Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
@@ -190,7 +193,7 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   have hTexp := hdat.exp
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hsup⟩ := hdat.decomp
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   have hp2 : p ≠ 2 := by omega
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
@@ -260,7 +263,7 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   have hE₂le : Nat.card E₂ ≤ p ^ 2 := hdat.rank E₂ hE₂T hE₂el
   have hE₂card : Nat.card E₂ = p ^ 2 := le_antisymm hE₂le hE₂ge
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hJC : J ≤ C := hc.le_cent
   have hCJ : C ≤ Subgroup.normalizer (J : Set G) := hc.cent_le
   set O : Subgroup G := rankThreePrimeCore p J with hO
@@ -276,12 +279,12 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     rw [hgJ] at h1
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1
   let O' : Subgroup C := O.subgroupOf C
-  haveI hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
+  have hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
   let π : C →* C ⧸ O' := QuotientGroup.mk' O'
   let J' : Subgroup C := J.subgroupOf C
-  haveI hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJC).mpr hCJ
+  have hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJC).mpr hCJ
   let L : Subgroup (C ⧸ O') := J'.map π
-  haveI hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
+  have hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
   let eJ : J' ≃* J := Subgroup.subgroupOfEquivOfLe hJC
   let ψ' : J' →* Q := ψ.comp eJ.toMonoidHom
   have hψ' : Function.Surjective ψ' := hψ.comp eJ.surjective
@@ -312,7 +315,7 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   have hLSE : IsRankTwoSEGroup p ↥L := IsRankTwoSEGroup.of_mulEquiv eL.symm hQSE.1
   have hQZ : Subgroup.center Q = ⊥ :=
     u3main_center_bot hOJ hc.perfect hc.lt hc.minimal ψ hψ hker
-  haveI hQsimple : IsSimpleGroup Q := u3_isSimple_quot hOJ hc.lt hc.minimal ψ hψ hker
+  have hQsimple : IsSimpleGroup Q := u3_isSimple_quot hOJ hc.lt hc.minimal ψ hψ hker
   have hLZ : ∀ l : L, (∀ m : L, m * l = l * m) → l = 1 := by
     intro l hl
     have : eL l ∈ Subgroup.center Q := by
@@ -322,7 +325,7 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
       rw [← map_mul, ← map_mul, hl m]
     rw [hQZ, Subgroup.mem_bot] at this
     exact eL.injective (this.trans (map_one eL).symm)
-  haveI hLsimple : IsSimpleGroup L := eL.isSimpleGroup
+  have hLsimple : IsSimpleGroup L := eL.isSimpleGroup
   have hLnonab : ∃ a b : L, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -332,7 +335,7 @@ theorem centralizes_two_group_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     obtain ⟨i, ⟨f⟩⟩ := hQSE.2
     exact ⟨i, ⟨eL.trans f⟩⟩
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := by
-    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup'.to_inf_left
+    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup.to_inf_left
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
     have hdvd : Nat.card ((P : Subgroup G) ⊓ O : Subgroup G) ∣ Nat.card O :=
       Subgroup.card_dvd_of_le inf_le_right
@@ -570,7 +573,7 @@ private theorem u3_false_of_bad_conj_line {Typ : ℕ → ∀ (Q : Type) [Group Q
     (hL₀bad : ⁅pCoreOf 2 M ⊓ Subgroup.centralizer (L₀ : Set G), D⁆ ≠ ⊥) {g : G}
     (hg : L₀ = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom) : False := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core
@@ -677,7 +680,7 @@ private theorem u3_lemma33_S {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS 
   by_contra hcard
   push Not at hcard
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core
@@ -735,7 +738,7 @@ theorem lemma33_of_cent {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS : Set
   intro D hDC hD hDcard s hs
   classical
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, -, hcD⟩ := exists_conj_le_of_isSylowOf hc.generic.2.2.1 hDC
     (CFSG.RankThreeCoreUniqueness.Helpers.elementary_isPGroup p D hD)
   have hκinj : Function.Injective (MulAut.conj c).toMonoidHom := (MulAut.conj c).injective
@@ -793,9 +796,9 @@ theorem lemma33Data_of_fusionStruct {p : ℕ} [Fact p.Prime] {P : Sylow p G} {x 
   exact ⟨hxJ, hTexp, rank_le_of_nonabelian_card_p_cube hTcard hTnab,
     ⟨Z, hZcyc, hxZ, hZS, hZT, hsup⟩, ⟨u3U0 P x J, hU0el, hU0card, hU0S, hU0cent⟩⟩
 
-theorem u3_lemma33 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem u3_lemma33 (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hSig : SignalizerTwoGroupKFact) (hc : U3Config G p P M x J) : U3Lemma33 p x := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   exact lemma33_gen hS hD1 hSig (pointConfig_of_u3 hc) (typeSE_u3 p)
     (lemma33Data_of_fusionStruct ⟨u3_T_structure hc, u3_S_decomp hc, u3U0_facts hc⟩)
 
@@ -888,8 +891,8 @@ private theorem u3f_commutator_S {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := hA.Z
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := hA.U0
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative Z := IsCyclic.isMulCommutative
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative Z := IsCyclic.isMulCommutative
   have hZZ : ∀ z ∈ Z, ∀ z' ∈ Z, z * z' = z' * z := fun z hz z' hz' =>
     congrArg Subtype.val (mul_comm' (⟨z, hz⟩ : Z) ⟨z', hz'⟩)
   have key1 : ∀ t z b : G, z * b = b * z →
@@ -942,7 +945,7 @@ private theorem u3f_not_conj_ZT {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   obtain ⟨hTcard, hTexp, hTnab, hxJ⟩ := hA.T
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := hA.U0
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZTU0 : u3ZT P x J ≤ u3U0 P x J := le_sup_left
   have hSC : u3S P x ≤ Subgroup.centralizer ({x} : Set G) := inf_le_right
   obtain ⟨y, hy⟩ : ∃ y : G, y = g * x * g⁻¹ := ⟨_, rfl⟩
@@ -1018,7 +1021,7 @@ private theorem u3f_shear {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := hA.Z
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := hA.U0
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   have hZTU0 : u3ZT P x J ≤ u3U0 P x J := le_sup_left
@@ -1113,7 +1116,7 @@ private theorem u3f_wc_S {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   obtain ⟨hTcard, hTexp, hTnab, hxJ⟩ := hA.T
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := hA.U0
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
@@ -1208,7 +1211,7 @@ theorem fusion_P_le_C_of_fix {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) := by
   by_contra hPC
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
@@ -1224,10 +1227,10 @@ theorem fusion_P_le_C_of_fix {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
       trivial
     exact (Subgroup.mem_subgroupOf.mp hyIP).2
   have hIPlt : IP < ⊤ := lt_of_le_of_ne le_top hIPne
-  have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hnc : NormalizerCondition P := Group.normalizerCondition_of_isNilpotent (G := P)
   have hlt : IP < Subgroup.normalizer (IP : Set P) := hnc IP hIPlt
-  obtain ⟨y, hyN, hynotIP⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hyN, hynotIP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hyNorm : (y : G) ∈ Subgroup.normalizer ((u3S P x : Subgroup G) : Set G) := by
     have hysub : y ∈ (Subgroup.normalizer ((u3S P x : Subgroup G) : Set G)).subgroupOf
         (P : Subgroup G) := by
@@ -1250,7 +1253,7 @@ theorem fusion_P_le_C_of_fix {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
         _ = ((y : G) * x * (y : G)⁻¹) ^ (k ^ n) := conj_zpow.symm
         _ = (x ^ k) ^ (k ^ n) := by rw [hk]
         _ = x ^ (k ^ (n + 1)) := by rw [← zpow_mul, pow_succ']
-  obtain ⟨m, hm⟩ := P.isPGroup' y
+  obtain ⟨m, hm⟩ := P.isPGroup y
   have hym : (y : G) ^ (p ^ m) = 1 := by
     have := congrArg Subtype.val hm
     simpa using this
@@ -1316,14 +1319,14 @@ theorem fusion_core_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS : Set
     (hSig : SignalizerTwoGroupKFact) (hc : PointConfig Typ G p P M x J) (hSE : TypeSE Typ p)
     (hA : FusionStruct p P x J) (hTor : TypeTorusLift p P x J) :
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   exact fusion_of_lemma33_gen hc hA hTor
     (lemma33_gen hS hD1 hSig hc hSE (lemma33Data_of_fusionStruct hA))
 
-theorem u3_fusion_of_lemma33 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem u3_fusion_of_lemma33 (_hS : Setting G) (_hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hc : U3Config G p P M x J) (hL33 : U3Lemma33 p x) :
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   exact fusion_of_lemma33_gen (pointConfig_of_u3 hc)
     ⟨u3_T_structure hc, u3_S_decomp hc, u3U0_facts hc⟩
     (fun c hcT hcZ hc1 k hk => by

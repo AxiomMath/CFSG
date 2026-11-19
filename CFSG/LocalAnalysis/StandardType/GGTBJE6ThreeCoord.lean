@@ -28,13 +28,13 @@ private theorem e6Three_noncomm_aux
       ExcSplitRootGen.excRefl (p := 3) γ₁ (ExcSplitRootGen.excRefl (p := 3) γ₂ w) ≠
         ExcSplitRootGen.excRefl (p := 3) γ₂ (ExcSplitRootGen.excRefl (p := 3) γ₁ w) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp : (3 : ℕ).Prime := by norm_num
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   let W : Submodule (ZMod 3) (Fin Tag.E6.rank → ZMod 3) :=
     AddSubgroup.toZModSubmodule (M := Fin Tag.E6.rank → ZMod 3) 3 H'
   let ι := {β : Fin Tag.E6.rank → ℤ // β ∈ componentRoots χ i}
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     obtain ⟨a, ha⟩ := Quotient.exists_rep i
     exact ⟨⟨a.1, ⟨a.2, ha⟩⟩⟩
   have hroot : ∀ a : ι, IsRoot Tag.E6 a.1 := fun a => isRoot_of_mem_componentRoots a.2
@@ -124,7 +124,7 @@ private theorem e6Three_noncomm_aux
       _ = Nat.card ↥W := by
           rw [← hH]
           exact Nat.card_congr
-            (Equiv.Set.congr (AddSubgroup.coe_toZModSubmodule
+            (Set.equivOfEq (AddSubgroup.coe_toZModSubmodule
               (M := Fin Tag.E6.rank → ZMod 3) (n := 3) H').symm)
   obtain ⟨a₁, a₂, w, hw⟩ :=
     exists_not_commute_reflection_plain (p := 3) hp2 f v hadd hsmul hfv hconn hcardW

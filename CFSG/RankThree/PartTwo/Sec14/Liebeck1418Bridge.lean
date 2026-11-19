@@ -67,11 +67,11 @@ theorem exists_mem_thetaComponents_map_eq {X : Type} [Group X]
     {K : Subgroup (X ⧸ CFSG.pPrimeCore 3 X)} (hK : IsComponent K) :
     ∃ J ∈ thetaComponents 3 X, J.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) = K :=
   exists_mem_thetaComponents_map_eq_of_four hX hSz
-    (fun D S _ Y hY hinj hs h5 h2 => false_of_four_components hX h41 Y hY hinj hs h5 h2) hK
+    (fun _D _S _ Y hY hinj hs h5 h2 => false_of_four_components hX h41 Y hY hinj hs h5 h2) hK
 
 theorem step1418OffBridgeR_of (h45 : Sec4.Item4_5)
     (hSz : KFacts.KPSz) (h41 : Sec4.Item4_1PRankLargePrime) : Step1418OffBridgeR :=
-  step1418OffBridgeR_of_lift h45 fun X _ _ hX _ hK =>
+  step1418OffBridgeR_of_lift h45 fun _X _ _ hX _ hK =>
     exists_mem_thetaComponents_map_eq hX hSz h41 hK
 
 end CFSG.RankThree.PartTwo.Sec14.Liebeck1418Bridge

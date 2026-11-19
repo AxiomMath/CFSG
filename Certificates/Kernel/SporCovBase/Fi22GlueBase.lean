@@ -64,7 +64,7 @@ theorem model : Model letP E (wE (fP a b)) ∧
     ∀ u, chW letP u = true → wE (fP a b) u = 1 → E u [] = true :=
   eqB_model hA hAi hB hBi bs_lt sep_bs
 
-@[expose] noncomputable def rT (k : ℕ) : J := wE (fP a b) (nthW D.T k)
+noncomputable def rT (k : ℕ) : J := wE (fP a b) (nthW D.T k)
 
 theorem rT_order {k : ℕ} (hk : k < 4) : orderOf (rT k) = 3 := by
   obtain ⟨hM, hc⟩ := model
@@ -73,7 +73,7 @@ theorem rT_order {k : ℕ} (hk : k < 4) : orderOf (rT k) = 3 := by
   simp only [Bool.and_eq_true] at h
   obtain ⟨⟨⟨ot, h3⟩, hne⟩, -⟩ := h
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  exact orderOf_eq_prime (hM.pow ot h3) (hM.ne_one hc ot hne)
+  exact orderOf_eq_prime (hM.pow ot h3) (CFSG.KD.SporCov.Model.ne_one hc ot hne)
 
 theorem rT_fix {k : ℕ} (hk : k < 4) : fixN (n := 3510) (rT k) = nthN D.F k := by
   have h := okF_parts.2 k hk

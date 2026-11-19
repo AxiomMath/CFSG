@@ -36,8 +36,8 @@ private lemma exists_scalar_of_mem_centralizer {x : MulAut W12}
     (hx : x ∈ Subgroup.centralizer (hjL0 : Set (MulAut W12))) :
     ∃ α : F4, α ≠ 0 ∧ ∀ v : V12, hjLinOfAut x v = α • v := by
   classical
-  letI : AddCommGroup V12 := CFSG.Sporadic.J2.Module12.instAddCommGroupV12
-  letI : Module F4 V12 := CFSG.Sporadic.J2.Module12.instModuleF4
+  let : AddCommGroup V12 := CFSG.Sporadic.J2.Module12.instAddCommGroupV12
+  let : Module F4 V12 := CFSG.Sporadic.J2.Module12.instModuleF4
   let F : V12 →ₗ[ZMod 2] V12 := hjLinOfAut x
   let X : Matrix (Fin 12) (Fin 12) (ZMod 2) := LinearMap.toMatrix' F
   have hxcomm : ∀ y ∈ hjL0, y * x = x * y := fun y hy =>

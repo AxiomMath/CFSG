@@ -22,11 +22,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   g ∈ Γ ∧ (fun a : G => ψ (M₀.π a)) '' (X : Set G) = (Submodule.span K {g p₀} : Set V) ∧
     ∀ u ∈ conjSub g U₀, ∃ t : Lgen M (LB M Q B), (t : G) ∈ QB X ∧ φ t = u
 
+omit [Finite G] [Finite K] in
 theorem EGeom.EUniData.exists_isPt (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {X : Subgroup G}
     (hX : Ctx M Q Z X) : ∃ g, d.IsPt X g := by
   obtain ⟨g, hg, h1, h2⟩ := d.point X hX.conj hX.le hX.ne
   exact ⟨g, hg, h1, h2⟩
 
+omit [Finite G] [Finite K] in
 theorem eq_of_psi_image_eq (ψ : M₀.E ≃ₗ[K] V) {X Y : Subgroup G} (hXQ : X ≤ Q) (hYQ : Y ≤ Q)
     (hXZ : Z ≤ X) (hYZ : Z ≤ Y)
     (h : (fun a : G => ψ (M₀.π a)) '' (X : Set G) = (fun a : G => ψ (M₀.π a)) '' (Y : Set G)) :
@@ -51,6 +53,7 @@ theorem eq_of_psi_image_eq (ψ : M₀.E ≃ₗ[K] V) {X Y : Subgroup G} (hXQ : X
     simpa using hxy
   exact le_antisymm (key hXQ hYQ hYZ h) (key hYQ hXQ hXZ h.symm)
 
+omit [Finite G] [Finite K] in
 theorem psi_image_sup_Z (ψ : M₀.E ≃ₗ[K] V) {X : Subgroup G} (hXQ : X ≤ Q) (hZQ : Z ≤ Q) :
     (fun a : G => ψ (M₀.π a)) '' ((X ⊔ Z : Subgroup G) : Set G) =
       (fun a : G => ψ (M₀.π a)) '' (X : Set G) := by
@@ -77,6 +80,8 @@ theorem psi_image_sup_Z (ψ : M₀.E ≃ₗ[K] V) {X : Subgroup G} (hXQ : X ≤ 
     exact ⟨y, hy, hay.symm⟩
   · exact Set.image_mono (SetLike.coe_subset_coe.mpr le_sup_left)
 
+omit [Finite K] in
+omit [Finite G] in
 theorem EGeom.EUniData.epos_eq_iff (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {B' C' : Subgroup G}
     (hB' : Ctx M Q Z B') (hC' : Ctx M Q Z C') {gB gC : V ≃ₗ[K] V} (hgB : d.IsPt B' gB)
     (hgC : d.IsPt C' gC) :
@@ -171,6 +176,7 @@ theorem Ctx.le_normalizer_iff_comm {B' C' : Subgroup G} (hB' : Ctx M Q Z B') (hC
   · intro h
     exact CFSG.RankThree.GF2n.le_normalizer_of_comm h
 
+omit [Finite G] [Finite K] in
 theorem EGeom.EUniData.comm_iff_beta (hg : GlobalModelData M Q Z γ M₀)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {B' C' : Subgroup G} (hB' : Ctx M Q Z B')
     (hC' : Ctx M Q Z C') {gB gC : V ≃ₗ[K] V} (hgB : d.IsPt B' gB) (hgC : d.IsPt C' gC)

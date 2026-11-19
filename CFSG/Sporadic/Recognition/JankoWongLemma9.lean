@@ -267,7 +267,7 @@ theorem exists_three_group_centralizing_P (h : 27 ∣ Nat.card G) :
       exact this
     calc 27 = 3 ^ 3 := by norm_num
       _ ≤ 3 ^ (Nat.card G).factorization 3 := Nat.pow_le_pow_right (by norm_num) h3
-  have hQ3 : IsPGroup 3 ↥(Q : Subgroup G) := Q.isPGroup'
+  have hQ3 : IsPGroup 3 ↥(Q : Subgroup G) := Q.isPGroup
   have : Group.IsNilpotent ↥(Q : Subgroup G) := hQ3.isNilpotent
   have hNC : NormalizerCondition ↥(Q : Subgroup G) := Group.normalizerCondition_of_isNilpotent
   set H₀ : Subgroup ↥(Q : Subgroup G) := PG.subgroupOf Q with hH₀

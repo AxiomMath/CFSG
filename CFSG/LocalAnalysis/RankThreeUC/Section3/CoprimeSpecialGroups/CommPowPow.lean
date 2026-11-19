@@ -67,7 +67,7 @@ theorem class_two [Finite G] [Group.IsNilpotent G]
     · exact commutator_top_right_eq_bot_iff_le_center.mpr hZ2c
   have hM1 : (⊤ : Subgroup G).lowerCentralSeries m ≤ commutator G :=
     Subgroup.lowerCentralSeries_antitone _ hm1
-  haveI : IsMulCommutative ((⊤ : Subgroup G).lowerCentralSeries m) := by
+  have : IsMulCommutative ((⊤ : Subgroup G).lowerCentralSeries m) := by
     refine ⟨⟨fun a b => ?_⟩⟩
     have h1 : (a : G) ∈ (⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ : Subgroup G) := hM1 a.2
     have h2 := hMZ2 b.2
@@ -85,7 +85,7 @@ theorem comm_pow_pow {x y : G} (h : ⁅x, y⁆ ∈ center G) (a b : ℕ) :
   have h2 : Commute y ⁅x ^ a, y⁆ := by rw [h1]; exact (hc y).pow_right a
   rw [← (h2.commutatorElement_pow_right b), h1, pow_mul]
 
-theorem exp_p [Finite G] {p : ℕ} (hp : p.Prime) (hG : IsPGroup p G)
+theorem exp_p [Finite G] {p : ℕ} (_hp : p.Prime) (hG : IsPGroup p G)
     (hcc : commutator G ≤ center G)
     (hchar : ∀ V : Subgroup G, V.Characteristic → IsMulCommutative V → V ≤ center G) :
     ∀ x : G, x ^ p ∈ center G := by
@@ -95,13 +95,13 @@ theorem exp_p [Finite G] {p : ℕ} (hp : p.Prime) (hG : IsPGroup p G)
       ∀ x : G, x ^ (p ^ n) ∈ center G := by
     intro n hn hP
     set W : Subgroup G := closure (Set.range fun x : G => x ^ (p ^ n)) with hW
-    haveI : W.Characteristic := by
+    have : W.Characteristic := by
       rw [characteristic_iff_map_le]
       intro φ
       rw [hW, MonoidHom.map_closure, closure_le]
       rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩
       exact subset_closure ⟨φ x, by simp⟩
-    haveI : IsMulCommutative W := by
+    have : IsMulCommutative W := by
       apply isMulCommutative_closure
       rintro _ ⟨x, rfl⟩ _ ⟨y, rfl⟩ _
       show _ * _ = _ * _
@@ -138,13 +138,13 @@ theorem exp_p [Finite G] {p : ℕ} (hp : p.Prime) (hG : IsPGroup p G)
 
 theorem commutator_le_frattini [Finite G] {p : ℕ} [Fact p.Prime] (hG : IsPGroup p G) :
     commutator G ≤ frattini G := by
-  haveI : Group.IsNilpotent G := hG.isNilpotent
+  have : Group.IsNilpotent G := hG.isNilpotent
   unfold frattini Order.radical
   refine le_iInf₂ fun M hM => ?_
-  haveI : M.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom M hM
+  have : M.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom M hM
   have hpr := (Subgroup.isCoatom_iff_index_prime M).mp hM
-  haveI : Fact (Nat.card (G ⧸ M)).Prime := ⟨by rwa [← Subgroup.index]⟩
-  haveI : IsCyclic (G ⧸ M) := isCyclic_of_prime_card rfl
+  have : Fact (Nat.card (G ⧸ M)).Prime := ⟨by rwa [← Subgroup.index]⟩
+  have : IsCyclic (G ⧸ M) := isCyclic_of_prime_card rfl
   rw [commutator_def, commutator_le]
   intro a _ b _
   rw [← QuotientGroup.eq_one_iff]
@@ -158,12 +158,12 @@ theorem frattini_elem_abelian {Q : Type*} [CommGroup Q] [Finite Q] {p : ℕ} [hp
   intro g hg
   by_contra hg1
   rw [mem_bot] at hg1
-  haveI : Module (ZMod p) (Additive Q) :=
+  have : Module (ZMod p) (Additive Q) :=
     AddCommGroup.zmodModule (n := p) (fun x => by
       apply Additive.toMul.injective
       simpa using h (Additive.toMul x))
-  haveI : Module.Free (ZMod p) (Additive Q) := Module.Free.of_divisionRing _ _
-  haveI : Module.Projective (ZMod p) (Additive Q) := inferInstance
+  have : Module.Free (ZMod p) (Additive Q) := Module.Free.of_divisionRing _ _
+  have : Module.Projective (ZMod p) (Additive Q) := inferInstance
   obtain ⟨f, hf⟩ := Module.Projective.exists_dual_ne_zero (ZMod p) (V := Additive Q)
     (x := Additive.ofMul g) (by simpa using hg1)
   let φ : Q →* Multiplicative (ZMod p) := AddMonoidHom.toMultiplicativeRight f.toAddMonoidHom
@@ -214,11 +214,11 @@ theorem fixed_mem_commutator [Finite X] {p : ℕ} (S B : Subgroup X) (hS : IsPGr
     (hB : Nat.Coprime p (Nat.card B)) (hBS : B ≤ normalizer (S : Set X)) (hSB : ⁅S, B⁆ = S)
     (c : S) (hc : ∀ b ∈ B, b * c * b⁻¹ = c) : c ∈ commutator S := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   let g : B → (S →* Abelianization S) := fun b => (Abelianization.of).comp (cj S b.1 (hBS b.2))
   let φ : S →* Abelianization S := ∏ b : B, g b
   have hφ : ∀ s, φ s = ∏ b : B, Abelianization.of (cj S b.1 (hBS b.2) s) := by
-    intro s; simp [φ, g, MonoidHom.finset_prod_apply]
+    intro s; simp [φ, g]
   have h1 : ∀ b' : B, ∀ s, φ (cj S b'.1 (hBS b'.2) s) = φ s := by
     intro b' s
     rw [hφ, hφ]
@@ -266,23 +266,23 @@ def IsSpecialPGroup (S : Subgroup X) : Prop :=
     (center S).map S.subtype = (frattini S).map S.subtype
 
 theorem exists_characteristic_abelian_not_centralized_or_special_center_eq_centralizer [Finite X] (p : ℕ) (hp : p.Prime) (S B : Subgroup X)
-    (hS : IsPGroup p S) (hSne : S ≠ ⊥) (hB : Nat.Coprime p (Nat.card B))
+    (hS : IsPGroup p S) (_hSne : S ≠ ⊥) (hB : Nat.Coprime p (Nat.card B))
     (hBS : B ≤ normalizer (S : Set X)) (hSB : ⁅S, B⁆ = S) :
     (∃ U : Subgroup X, U ≤ S ∧ (U.subgroupOf S).Characteristic ∧ IsMulCommutative U ∧
         ¬ B ≤ centralizer (U : Set X)) ∨
       (IsSpecialPGroup S ∧ (center S).map S.subtype = S ⊓ centralizer (B : Set X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases h1 : ∃ U : Subgroup X, U ≤ S ∧ (U.subgroupOf S).Characteristic ∧ IsMulCommutative U ∧
       ¬ B ≤ centralizer (U : Set X)
   · exact Or.inl h1
   right
   push Not at h1
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsNilpotent S := hS.isNilpotent
   have hnorm : ∀ U : Subgroup X, U ≤ S → (U.subgroupOf S).Characteristic → ⁅U, S⁆ ≤ U := by
     intro U hUS hUc
-    haveI := hUc
-    haveI : (U.subgroupOf S).Normal := inferInstance
+    have := hUc
+    have : (U.subgroupOf S).Normal := inferInstance
     rw [commutator_le]
     intro u hu s hs
     have h := (inferInstance : (U.subgroupOf S).Normal).conj_mem ⟨u, hUS hu⟩⁻¹
@@ -315,7 +315,7 @@ theorem exists_characteristic_abelian_not_centralized_or_special_center_eq_centr
       rw [← comap_subtype]; exact comap_map_eq_self_of_injective S.subtype_injective _
     have hUc : ((center S).map S.subtype).subgroupOf S |>.Characteristic := by
       rw [hsub]; infer_instance
-    haveI : IsMulCommutative ((center S).map S.subtype) := inferInstance
+    have : IsMulCommutative ((center S).map S.subtype) := inferInstance
     have hBU := h1 _ hUS hUc inferInstance
     have := mem_centralizer_iff.mp (hBU hb) z ⟨z, hz, rfl⟩
     rw [mul_inv_eq_iff_eq_mul]

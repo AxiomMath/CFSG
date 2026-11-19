@@ -23,6 +23,7 @@ private theorem y7c_orderOf_eq_two {G : Type} [Group G] {x : G} (hx2 : x ^ 2 = 1
   · exact absurd (orderOf_eq_one_iff.mp h) hx1
   · exact h
 
+omit [Finite Γ] in
 private theorem y7c_conjugate_one (L : Subgroup Γ) : CFSG.conjugate L (1 : Γ) = L := by
   ext x
   simp [CFSG.conjugate]

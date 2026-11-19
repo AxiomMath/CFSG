@@ -24,16 +24,16 @@ private lemma teNC_list_prod_single {M : Type*} [Group M] {α : Type*} [Decidabl
     obtain ⟨hbL, hL⟩ := hL
     rw [List.map_cons, List.prod_cons]
     by_cases hba : b = a
-    · rw [if_pos hba]
+    · rw [ite_eq_left hba]
       have hzero : ∀ c ∈ L, (if c = a then x else 1) = 1 := by
         intro c hc
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hbL (by rw [hba, ← h]; exact hc)
       rw [List.prod_eq_one (fun y hy => by
         obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hy
         exact hzero c hc), mul_one]
-    · rw [if_neg hba]
+    · rw [ite_eq_right hba]
       have haL : a ∈ L := by
         rcases List.mem_cons.1 ha with h | h
         · exact absurd h.symm hba
@@ -83,15 +83,15 @@ private lemma teNC_list_prod_insert {M : Type*} [Group M] {α : Type*} [Decidabl
     rw [List.map_cons, List.prod_cons]
     by_cases hba : b = a
     · subst hba
-      rw [if_pos rfl, List.map_cons, List.prod_cons]
+      rw [ite_eq_left rfl, List.map_cons, List.prod_cons]
       have hzero : ∀ d ∈ L, (if d = b then c * f d else f d) = f d := by
         intro d hd
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hbL (h ▸ hd)
       rw [List.map_congr_left hzero]
       group
-    · rw [if_neg hba, List.map_cons, List.prod_cons,
+    · rw [ite_eq_right hba, List.map_cons, List.prod_cons,
         ih hL (by
           rcases List.mem_cons.1 ha with h | h
           · exact absurd h.symm hba
@@ -197,7 +197,7 @@ private lemma teNC_V_decomp
     · intro γ' hγ'
       by_cases h : γ' = (γ : Fin (Tag.rank .F4) → ℤ)
       · subst h; simpa using hx
-      · simpa only [if_neg h] using (one_mem (twistedRootGroup k θ γ') : (1 : fixedGroup k θ) ∈
+      · simpa only [ite_eq_right h] using (one_mem (twistedRootGroup k θ γ') : (1 : fixedGroup k θ) ∈
           twistedRootGroup k θ γ')
     · exact (teNC_list_prod_single teNC_AList_nodup γ.2 x).symm
   · exact ⟨fun _ => 1, fun _ _ => one_mem _, by simp⟩
@@ -222,16 +222,16 @@ private lemma teNC_extend
   refine ⟨fun γ => if γ ∈ teNC_AList then f γ else 1, ?_, ?_, ?_⟩
   · intro γ hγ
     by_cases h : γ ∈ teNC_AList
-    · simpa only [if_pos h] using hf γ h
-    · simpa only [if_neg h] using (one_mem (twistedRootGroup k θ γ) : (1 : fixedGroup k θ) ∈
+    · simpa only [ite_eq_left h] using hf γ h
+    · simpa only [ite_eq_right h] using (one_mem (twistedRootGroup k θ γ) : (1 : fixedGroup k θ) ∈
         twistedRootGroup k θ γ)
-  · intro γ hγ; simp only [if_neg hγ]
+  · intro γ hγ; simp only [ite_eq_right hγ]
   · have hprod :=
       CFSG.LieType.TitsSimplicity.Levi.SE.list_prod_map_eq_of_sublist teNC_AList_sublist
         (fun γ : Fin (Tag.rank .F4) → ℤ => if γ ∈ teNC_AList then f γ else 1)
-        teNC_posRoots_nodup (fun γ _ hγ => if_neg hγ)
+        teNC_posRoots_nodup (fun γ _ hγ => ite_eq_right hγ)
     rw [hv, hprod]
-    exact congrArg List.prod (List.map_congr_left fun γ hγ => (if_pos hγ).symm)
+    exact congrArg List.prod (List.map_congr_left fun γ hγ => (ite_eq_left hγ).symm)
 
 private lemma teNC_prod_eq_mul_prod_erase {M : Type*} [Monoid M] [DecidableEq M]
     {a : M} {l : List M} (ha : a ∈ l)
@@ -321,7 +321,7 @@ private theorem teNC_ggLongRoot_of_mem_A
   have hmem := teNC_h3_mem_roots θ
   have hmax := teNC_h3_max θ
   have hh' : h ∈ teNC_AList := by
-    simpa only [teNC_twE6A_eq, Set.mem_setOf_eq] using hh
+    simpa only [teNC_twE6A_eq, Set.mem_ofPred_eq] using hh
   rw [teNC_AList] at hh'
   rcases List.mem_cons.mp hh' with heq | hh'
   · have hh1 : h = (teNC_h1 : Fin (twistedDatum k θ).rank → ℤ) := heq
@@ -353,7 +353,7 @@ private theorem teNC_A_pos
     {γ : Fin (Tag.rank .F4) → ℤ} (hγ : γ ∈ twE6A) :
     IsRoot .F4 γ ∧ 0 < ht γ := by
   have hmem : γ ∈ teNC_AList := by
-    simpa only [teNC_twE6A_eq, Set.mem_setOf_eq] using hγ
+    simpa only [teNC_twE6A_eq, Set.mem_ofPred_eq] using hγ
   rw [teNC_AList] at hmem
   rcases List.mem_cons.mp hmem with h | h
   · subst h; change IsRoot .F4 teNC_h1 ∧ 0 < ht teNC_h1
@@ -636,9 +636,9 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
         have ha_mem : ∀ γ ∈ teNC_posRoots, a γ ∈ twistedRootGroup k θ γ := by
           intro γ hγ
           by_cases hγw : γ = Wα
-          · rw [show a γ = z' by simp only [a, if_pos hγw], hγw]; exact hz'mem
+          · rw [show a γ = z' by simp only [a, ite_eq_left hγw], hγw]; exact hz'mem
           · rw [show a γ = n * FA (Winv γ) * n⁻¹ by
-              simp only [a, if_neg hγw]]
+              simp only [a, ite_eq_right hγw]]
             by_cases hg : Winv γ ∈ teNC_AList
             · have hgroot : Winv γ ∈
                   (twistedDatum k θ).roots := by
@@ -655,26 +655,26 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
         have hb_mem : ∀ γ ∈ teNC_posRoots, b γ ∈ twistedRootGroup k θ γ := by
           intro γ hγ
           by_cases hγa : γ = twE6Alpha
-          · rw [show b γ = z₂ * F₂ γ by simp only [b, if_pos hγa], hγa]
+          · rw [show b γ = z₂ * F₂ γ by simp only [b, ite_eq_left hγa], hγa]
             exact mul_mem hz₂ (hF₂mem twE6Alpha teNC_alpha_mem_posRoots)
-          · rw [show b γ = F₂ γ by simp only [b, if_neg hγa]]
+          · rw [show b γ = F₂ γ by simp only [b, ite_eq_right hγa]]
             exact hF₂mem γ hγ
         have ha_comm : ∀ γ ∈ teNC_posRoots, ∀ δ ∈ teNC_posRoots, γ ≠ δ → Commute (a γ) (a δ) := by
           intro γ _ δ _ _
           by_cases hγw : γ = Wα
-          · rw [show a γ = z' by simp only [a, if_pos hγw]]
+          · rw [show a γ = z' by simp only [a, ite_eq_left hγw]]
             by_cases hδw : δ = Wα
-            · rw [show a δ = z' by simp only [a, if_pos hδw]]
+            · rw [show a δ = z' by simp only [a, ite_eq_left hδw]]
             · rw [show a δ = n * FA (Winv δ) * n⁻¹ by
-                simp only [a, if_neg hδw]]
+                simp only [a, ite_eq_right hδw]]
               exact (teNC_alpha_conj_commute θ hθ hz (hFA_all _)).symm
           · rw [show a γ = n * FA (Winv γ) * n⁻¹ by
-              simp only [a, if_neg hγw]]
+              simp only [a, ite_eq_right hγw]]
             by_cases hδw : δ = Wα
-            · rw [show a δ = z' by simp only [a, if_pos hδw]]
+            · rw [show a δ = z' by simp only [a, ite_eq_left hδw]]
               exact teNC_alpha_conj_commute θ hθ hz (hFA_all _)
             · rw [show a δ = n * FA (Winv δ) * n⁻¹ by
-                simp only [a, if_neg hδw]]
+                simp only [a, ite_eq_right hδw]]
               exact teNC_conj_V_commute θ hθ (hFA_all _) (hFA_all _)
         let S : List (Fin (Tag.rank .F4) → ℤ) :=
           Wα ::
@@ -704,7 +704,7 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
           have hγne : γ ≠ Wα :=
             fun h => hγS (by rw [h]; exact List.mem_cons_self)
           rw [show a γ = n * FA (Winv γ) * n⁻¹ by
-            simp only [a, if_neg hγne]]
+            simp only [a, ite_eq_right hγne]]
           by_cases hg : Winv γ ∈ teNC_AList
           · exfalso
             have hgpos : 0 < ht (weylAction (twistedDatum k θ).isFiniteType w
@@ -730,7 +730,7 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
               rw [List.map_cons]
               congr 1
               · dsimp only [a]
-                exact if_pos rfl
+                exact ite_eq_left rfl
               · rw [List.map_map]
                 refine List.map_congr_left fun g hg => ?_
                 have hgne : Ww g ≠ Wα := fun h => teNC_alpha_not_mem_AList
@@ -739,7 +739,7 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
                 change a (Ww g) = ŵ g
                 rw [show a (Ww g) = n * FA (Winv (Ww g)) * n⁻¹ by
                   dsimp only [a]
-                  exact if_neg hgne]
+                  exact ite_eq_right hgne]
                 dsimp only [Winv]
                 rw [weylAction_inv_apply_apply (twistedDatum k θ).isFiniteType w g]
             rw [hSm, List.prod_cons]
@@ -758,7 +758,7 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
           (Wα) hwaP
         have haW : a (Wα) = z' := by
           dsimp only [a]
-          exact if_pos rfl
+          exact ite_eq_left rfl
         have hWnot : Wα ∉ teNC_AList := by
           intro hh
           exact hA (by rw [teNC_twE6A_eq]; exact hh)
@@ -768,7 +768,7 @@ theorem twE6_weyl_fix_alpha_of_conj_mem
           have h1 : b (Wα) =
               F₂ (Wα) := by
             dsimp only [b]
-            exact if_neg hmem
+            exact ite_eq_right hmem
           exact h1.trans hF₂one'
         exact hz'ne (haW.symm.trans (hcoord.trans hbW))
   · exfalso

@@ -23,7 +23,7 @@ private noncomputable def ggRKN_w0 (τ : Tag) : WeylGroup τ :=
 private theorem ggRKN_w0_single {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8 ∨ τ = .F4) (i : Fin τ.rank) :
     ggRKN_w0 τ • (Pi.single i 1 : Fin τ.rank → ℤ) = -Pi.single i 1 := by
   rcases hτ with rfl | rfl | rfl <;>
-    fin_cases i <;> (rw [ggRKN_w0, wordProd_smul] <;> decide +kernel)
+    fin_cases i <;> (rw [ggRKN_w0, wordProd_smul]; decide +kernel)
 
 private theorem ggRKN_w0_reversesSigns {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8 ∨ τ = .F4) :
     ReversesSigns (ggRKN_w0 τ) := by
@@ -52,7 +52,7 @@ private theorem ggRKN_sum_single {τ : Tag} (β : Fin τ.rank → ℤ) :
   · simp
   · intro i _ hi
     rw [Pi.smul_apply]
-    simp [Pi.single_apply, Ne.symm hi]
+    simp [Ne.symm hi]
   · intro hj
     simp at hj
 
@@ -93,7 +93,7 @@ theorem ggRealKGNeg_step_rootSL2 {τ : Tag} {K : Type} [Field K] [Finite K] [Cha
     (hneg : F.w • γ = -δ) (M : SL2 (AlgebraicClosure K)) :
     F.D.step (rootSL2 τ (AlgebraicClosure K) γ M) =
       rootSL2 τ (AlgebraicClosure K) δ (WSL * Matrix.SpecialLinearGroup.map Fr M * WSL) := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h2L : (2 : AlgebraicClosure K) = 0 := CharP.cast_eq_zero (AlgebraicClosure K) 2
   have hδ : IsRoot τ δ := by
@@ -150,8 +150,8 @@ theorem ggRealKGNeg_step_Y {τ : Tag} {K : Type} [Field K] [Finite K] {p : ℕ}
 theorem ggRealKGNeg_exists_P {K : Type} [Field K] [Finite K] [CharP K 2]
     {Fr : AlgebraicClosure K →+* AlgebraicClosure K} (hFr : ∀ c, Fr c = c ^ Nat.card K) :
     ∃ P : SL2 (AlgebraicClosure K), Matrix.SpecialLinearGroup.map Fr P = WSL * P := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
@@ -212,7 +212,7 @@ private theorem ggRKN_phi_fixed {K : Type} [Field K] [Finite K] [CharP K 2]
     {P : SL2 (AlgebraicClosure K)} (hPq : Matrix.SpecialLinearGroup.map Fr P = WSL * P)
     (N : SL2 K) :
     WSL * Matrix.SpecialLinearGroup.map Fr (ggRKN_phi P N) * WSL = ggRKN_phi P N := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   rw [ggRKN_phi_apply, map_mul, map_mul, map_inv, hPq, ggRKN_map_algebraMap_fixed hFr N,
     mul_inv_rev, ggKGTj_WSL_inv_eq]
@@ -259,7 +259,7 @@ private theorem ggRKN_range {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 
     {P : SL2 (AlgebraicClosure K)}
     (hPq : Matrix.SpecialLinearGroup.map Fr P = WSL * P) :
     ((rootSL2 τ (AlgebraicClosure K) γ).comp (ggRKN_phi P)).range = ggRealKGNegLhat F γ := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   refine le_antisymm ?_ ?_
   · rintro x ⟨N, rfl⟩
@@ -309,7 +309,7 @@ theorem ggRealKGNeg_Lhat_le_range {τ : Tag} {K : Type} [Field K] [Finite K] [Ch
     (MulAut.conj F.D.g0).injective.comp
       ((CFSG.RankThree.Chevalley.rootSL2_injective_of_field (K := AlgebraicClosure K)
         (β := γ)).comp (ggRKN_phi_injective P))
-  haveI : Finite ψ.range := by
+  have : Finite ψ.range := by
     rw [MonoidHom.range_eq_map]
     exact Finite.of_surjective (fun x : (⊤ : Subgroup (SL2 K)) =>
       (⟨ψ x, Subgroup.mem_map_of_mem ψ x.2⟩ : (⊤ : Subgroup (SL2 K)).map ψ))
@@ -454,7 +454,7 @@ theorem ggRealKGNegJ_weyl {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : 4 ≤ Nat.card K) :
     ∃ r ∈ ggRealKGNegJ F γ, ggKGExcY F r =
       canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection γ) := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
   have hwsl : rootWeylSL2 τ (AlgebraicClosure K) γ 1 = rootSL2 τ (AlgebraicClosure K) γ WSL := by

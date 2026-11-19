@@ -21,7 +21,7 @@ section Lift
 variable {G : Type*} [Group G] [Finite G]
 
 theorem barX_pCoreOf_centralizer_normal {p : ℕ} (hp : p.Prime) {M : Subgroup G} {d : G}
-    (hdM : d ∈ M) (hdp : d ^ p = 1) (hHM : pCoreOf 2 (Subgroup.centralizer ({d} : Set G)) ≤ M) :
+    (hdM : d ∈ M) (hdp : d ^ p = 1) (_hHM : pCoreOf 2 (Subgroup.centralizer ({d} : Set G)) ≤ M) :
     ∀ c ∈ Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨d, hdM⟩} : Set (↥M ⧸ GLAPPrimeCore p ↥M)),
       ∀ y ∈ barX p M (pCoreOf 2 (Subgroup.centralizer ({d} : Set G))),

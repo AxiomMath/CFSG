@@ -73,7 +73,7 @@ private theorem k90uo3_nine_dvd
       exact haC haZ.2
   have hKp : IsPGroup 3 K := by
     rw [hKdef]
-    exact S.isPGroup'.to_le inf_le_left
+    exact S.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hKp
   have h3lt : 3 < Nat.card K := by
     rw [← hZcard]
@@ -270,7 +270,7 @@ private theorem k90ufp_sum_eq {X V : Type} [Group X] [DecidableEq X] [AddCommGro
         List.count_eq_zero_of_not_mem h
       have h1 := hl 1
       rw [hc] at h1
-      rw [if_pos rfl, Nat.zero_mod] at h1
+      rw [ite_eq_left rfl, Nat.zero_mod] at h1
       exact Nat.zero_ne_one h1
     simp [hmem]
 
@@ -429,12 +429,12 @@ theorem r890u_threeB_fix_model
       have hif : (if eqA 315 ((C89090.prods89090 ()).get ⟨i, hnT⟩) (idA 315) then 1 else 0) =
           (if g = 1 then 1 else 0) := by
         by_cases hg1 : g = 1
-        · rw [if_pos (hiff.2 hg1), if_pos hg1]
+        · rw [ite_eq_left (hiff.2 hg1), ite_eq_left hg1]
         · have hfalse : eqA 315 ((C89090.prods89090 ()).get ⟨i, hnT⟩) (idA 315) = false := by
             rw [Bool.eq_false_iff]
             intro hc
             exact hg1 (hiff.1 hc)
-          rw [if_neg (Bool.eq_false_iff.1 hfalse), if_neg hg1]
+          rw [ite_eq_right (Bool.eq_false_iff.1 hfalse), ite_eq_right hg1]
       calc k90utb_flat.countP (fun x => decide (x = g)) % 2
           = (C89090.prods89090 ()).countP
               (fun t => eqA 315 t ((C89090.prods89090 ()).get ⟨i, hnT⟩)) % 2 := by rw [hcnt]
@@ -456,7 +456,7 @@ theorem r890u_threeB_fix_model
         have hL1 : k90utb_flat.get ⟨i, hiL⟩ = 1 := eq_of_rep hrep rep_one ht1
         exact hL1 ▸ List.get_mem _ _
       have hg1 : g ≠ 1 := fun h => hg (h ▸ h1L)
-      rw [if_neg hg1]
+      rw [ite_eq_right hg1]
   obtain ⟨v, hv0, hv⟩ := r890u_exists_fixed_of_parity ρ hy0 k90utb_L (by
     intro g
     change k90utb_flat.countP (fun x => decide (x = g)) % 2 = if g = 1 then 1 else 0

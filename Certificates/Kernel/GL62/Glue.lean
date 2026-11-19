@@ -37,7 +37,7 @@ theorem ncard_union_list {G : Type*} [Finite G] (T : ℕ → Set G) (L : List �
   | cons a L ih =>
     have hset : {x | ∃ p ∈ a :: L, x ∈ T p} = T a ∪ {x | ∃ p ∈ L, x ∈ T p} := by
       ext x
-      simp only [List.mem_cons, Set.mem_setOf_eq, Set.mem_union]
+      simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_union]
       constructor
       · rintro ⟨p, rfl | hp, hx⟩
         · exact Or.inl hx
@@ -62,7 +62,7 @@ theorem testBit_foldl_mask (P : ℕ → Prop) [DecidablePred P] (L : List ℕ) (
   | cons p L ih =>
     rw [List.foldl_cons, ih]
     by_cases hp : P p
-    · rw [if_pos hp, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft, Nat.testBit_two_pow,
+    · rw [ite_eq_left hp, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft, Nat.testBit_two_pow,
         decide_eq_true_eq]
       constructor
       · rintro ((h | rfl) | ⟨h1, h2⟩)
@@ -74,7 +74,7 @@ theorem testBit_foldl_mask (P : ℕ → Prop) [DecidablePred P] (L : List ℕ) (
         · rcases List.mem_cons.1 h1 with rfl | h1
           · exact Or.inl (Or.inr rfl)
           · exact Or.inr ⟨h1, h2⟩
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       constructor
       · rintro (h | ⟨h1, h2⟩)
         · exact Or.inl h
@@ -149,7 +149,7 @@ theorem card_eq_mul_ncard (hB : B₀ ≤ X) (hC : ∀ x ∈ X, x * z₀ = z₀ *
   have h := ncard_conj_mul X z₀
   have hs : {c | c ∈ X ∧ c * z₀ = z₀ * c} = (B₀ : Set (GL (Fin 6) (ZMod 2))) := by
     ext c
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     exact ⟨fun h => hC c h.1 h.2, fun h => ⟨hB h, comm_z0_of_mem_B₀ h⟩⟩
   have h3 : (B₀ : Set (GL (Fin 6) (ZMod 2))).ncard = 336 :=
     (Nat.card_coe_set_eq _).symm.trans card_B₀
@@ -226,7 +226,7 @@ theorem ncard_cls_comm (hB : B₀ ≤ X) (hC : ∀ x ∈ X, x * z₀ = z₀ * x 
   have hset : {d | d ∈ cls X ∧ d * rep a = rep a * d} =
       {d | ∃ p ∈ memL (maskOf rep X), d ∈ {x | x ∈ orb (rep p) ∧ x * rep a = rep a * x}} := by
     ext d
-    simp only [Set.mem_setOf_eq, mem_cls_iff F hB hC]
+    simp only [Set.mem_ofPred_eq, mem_cls_iff F hB hC]
     constructor
     · rintro ⟨⟨p, hp, hd⟩, hc⟩
       exact ⟨p, hp, hd, hc⟩

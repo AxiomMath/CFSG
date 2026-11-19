@@ -94,10 +94,10 @@ theorem typeQ_step (hp : p.Prime) {P : ∀ (T : Type) [Group T], Prop} (hD : Dow
 
 theorem exists_hyperplane' (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B) (hB1 : B ≠ ⊥) :
     ∃ B₁ : Subgroup G, B₁ ≤ B ∧ (B₁.subgroupOf B).index = p ∧ ∃ d ∈ B, d ∉ B₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : IsPGroup p B := isPGroup_of_isElemAbelian hB
-  haveI : Group.IsNilpotent B := hBp.isNilpotent
-  haveI : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).2 hB1
+  have : Group.IsNilpotent B := hBp.isNilpotent
+  have : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).2 hB1
   have hnt : (⊥ : Subgroup ↥B) ≠ ⊤ := bot_ne_top
   obtain ⟨H, hH, -⟩ := (IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Subgroup ↥B)).resolve_left hnt
   have hidx : H.index = p := hBp.isCoatom_iff_index_eq_prime.1 hH
@@ -114,6 +114,7 @@ theorem exists_hyperplane' (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p
   have : y = x := Subtype.ext hyx
   exact this ▸ hy
 
+omit [Finite G] in
 theorem eq_sup_zpowers' (hp : p.Prime) {B₁ B : Subgroup G} (hB₁B : B₁ ≤ B)
     (hidx : (B₁.subgroupOf B).index = p) {d : G} (hdB : d ∈ B) (hdB₁ : d ∉ B₁) :
     B₁ ⊔ Subgroup.zpowers d = B := by
@@ -131,10 +132,12 @@ theorem eq_sup_zpowers' (hp : p.Prime) {B₁ B : Subgroup G} (hB₁B : B₁ ≤ 
       Nat.eq_of_mul_eq_mul_left hp.pos (hmul.trans (mul_one p).symm)
     exact le_antisymm hMD (Subgroup.relIndex_eq_one.1 h2)
 
+omit [Finite G] in
 theorem le_centralizer_of_elem {A B : Subgroup G} (hA : IsElemAbelian p A) (hBA : B ≤ A) :
-    A ≤ Subgroup.centralizer (B : Set G) := fun a ha =>
-  Subgroup.mem_centralizer_iff.2 fun b hb => isElemAbelian_commute hA (hBA hb) ha
+    A ≤ Subgroup.centralizer (B : Set G) := fun _a ha =>
+  Subgroup.mem_centralizer_iff.2 fun _b hb => isElemAbelian_commute hA (hBA hb) ha
 
+omit [Finite G] in
 theorem mem_sup_mul' {A N : Subgroup G} (h : A ≤ Subgroup.normalizer (N : Set G))
     {x : G} (hx : x ∈ A ⊔ N) : ∃ a ∈ A, ∃ n ∈ N, x = a * n := by
   have hx' : x ∈ ((A ⊔ N : Subgroup G) : Set G) := hx
@@ -142,6 +145,7 @@ theorem mem_sup_mul' {A N : Subgroup G} (h : A ≤ Subgroup.normalizer (N : Set 
   obtain ⟨a, ha, n, hn, rfl⟩ := Set.mem_mul.1 hx'
   exact ⟨a, ha, n, hn, rfl⟩
 
+omit [Finite G] in
 theorem centralizer_facts' {K A B : Subgroup G} (hA : IsElemAbelian p A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) (hKA : K ⊔ A = ⊤) (hBA : B ≤ A) :
     A ≤ Subgroup.normalizer ((K ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) ∧
@@ -272,6 +276,7 @@ theorem typeQ_core (hp : p.Prime) (hp2 : p ≠ 2) {P : ∀ (T : Type) [Group T],
         rwa [hCeq] at h1
       exact typeQ_step hp hD hinv (hcomp C hC) (hCP C hC) hdN (hBel.2 d hdB) hJd
 
+omit [Finite G] in
 theorem pSimple_equiv_subgroupOf' (p : ℕ) {H L : Subgroup G} (hLH : L ≤ H) :
     Nonempty (PSimple p L ≃* PSimple p (L.subgroupOf H)) := by
   obtain ⟨g⟩ := nonempty_pQuot_equiv_subgroupOf p hLH
@@ -360,14 +365,14 @@ theorem card_altType {m : ℕ} {Y : Type} [Group Y] (h : IsAltType m Y) :
   rw [Nat.card_congr e.toEquiv]
   rcases Nat.lt_or_ge m 2 with hm | hm
   · left
-    haveI : Subsingleton (Fin m) := by
+    have : Subsingleton (Fin m) := by
       rcases (by omega : m = 0 ∨ m = 1) with rfl | rfl <;> infer_instance
-    haveI : Subsingleton (alternatingGroup (Fin m)) := by
+    have : Subsingleton (alternatingGroup (Fin m)) := by
       refine ⟨fun a b => Subtype.ext ?_⟩
       exact Subsingleton.elim _ _
     exact Nat.card_unique
   · right
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
     exact ⟨hm, by rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]⟩
 
 theorem commutator_self_eq_of_perfect {G : Type*} [Group G] {H : Subgroup G}
@@ -532,11 +537,12 @@ theorem glaPPrimeCore_eq_bot_of_simple {T : Type} [Group T] [Finite T] [IsSimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p T) with h | h
   · exact h
   · exfalso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p T)) := CFSG.pPrimeCore_coprime_card
     rw [h, Subgroup.card_top] at hcop
     exact (hp.coprime_iff_not_dvd).1 hcop hpT
 
+omit [Finite X] in
 theorem card_pSimple_dvd (p : ℕ) (J : Subgroup X) : Nat.card (PSimple p J) ∣ Nat.card J :=
   (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
 
@@ -569,7 +575,7 @@ theorem false_of_sieve (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
     glaPComponent_of_isSubnormal' hp hsn hJ
   have hLK' : CFSG.Open.IsKGroup ↥L := CFSG.KCore.KGroupAllSimple.kGroupNonab hLK
   obtain ⟨eS⟩ := hname
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
   have hcardS : Nat.card (↥L ⧸ Subgroup.center ↥L) = sporOrd name :=
     (Nat.card_congr eS.toEquiv).trans (hOrd name)
   have hpLZ : p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := hcardS ▸ hpS
@@ -637,7 +643,7 @@ theorem pSimple_of_sporShape {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOut : Sp
     rw [map_one, fixSubgroup_one_eq_top'] at hI
     obtain ⟨f⟩ := chevQ_pSimple_top_equiv hp hnab hI
     exact hinv _ _ (f.trans e).symm hPS
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
     rw [fixSubgroup_conj_eq'] at hI
     let φ : T ≃* Q := e.trans b.symm
@@ -670,7 +676,7 @@ theorem pSimple_of_sporShape' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOut : S
     rw [map_one, fixSubgroup_one_eq_top'] at hI
     obtain ⟨f⟩ := chevQ_pSimple_top_equiv hp hnab hI
     exact hinv _ _ (f.trans e).symm hPS
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     rw [fixSubgroup_conj_eq'] at hI
     let φ : T ≃* Q := e.trans b.symm
     have hφ1 : φ x ≠ 1 := fun h => hx1 (φ.injective (h.trans (map_one φ).symm))
@@ -701,7 +707,7 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal (Input18_3_4)
 theorem lyShape_three :
     CentShapeRk 3 (fun T _ => Nonempty (T ≃* NativeSporadic.McL)) (fun _ _ => True)
       (NativeSporadic.Carrier .Ly) := by
-  haveI : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)
@@ -794,12 +800,12 @@ theorem downClosed_PLy
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   rcases hP with hT | hT
   · obtain ⟨bL⟩ := hBr .Ly
-    haveI : Finite (NativeSporadic.Carrier .Ly) := Finite.of_equiv _ (hT.some.trans bL.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .Ly) := Finite.of_equiv _ (hT.some.trans bL.symm).toEquiv
     exact pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bL
       (fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩) hRk lyShape_three isoInv_PLy
       (Or.inl ⟨MulEquiv.refl _⟩) (fun _ _ ⟨f⟩ => Or.inr ⟨f.trans (hBr .McL).some⟩) hnab hT α hα I hI
   · obtain ⟨bM⟩ := hBr .McL
-    haveI : Finite (NativeSporadic.Carrier .McL) := Finite.of_equiv _ (hT.some.trans bM.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .McL) := Finite.of_equiv _ (hT.some.trans bM.symm).toEquiv
     exact pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bM (fun _ _ _ _ _ h => h) hRk
       (centShapeRk_of_constrained hMcL) isoInv_PLy (Or.inr ⟨MulEquiv.refl _⟩) (fun _ _ h => h.elim)
       hnab hT α hα I hI
@@ -840,7 +846,7 @@ theorem mem_inner_of_card {T : Type} [Group T] [Finite T] (hz : Subgroup.center 
     have h := (inner T).card_mul_index
     rw [hinner, hcard, mul_comm m] at h
     exact Nat.eq_of_mul_eq_mul_left hpos h
-  haveI : Finite (MulAut T) := inferInstance
+  have : Finite (MulAut T) := inferInstance
   let π : MulAut T →* Outer T := QuotientGroup.mk' (inner T)
   have hp' : π α ^ p = 1 := by rw [← map_pow, hα, map_one]
   have hord : orderOf (π α) ∣ p := orderOf_dvd_of_pow_eq_one hp'
@@ -904,7 +910,7 @@ open CFSG.Sporadic.Fi22 CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 theorem fi22ShapeRkAt_xRep_three :
     ShapeRkAt 3 (fun T _ => Nonempty (T ≃* X₀)) (fun _ _ => True) (xRep 3) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hOP : OPrimeCoreTrivialAt 3 ↥fi22P :=
     @OPrimeCoreTrivialAt.of_mulEquiv 3 ↥fi22P _ ↥CFSG.Sporadic.Fi22.J inferInstance eJP.symm oPrimeCoreTrivialAt_Fi22J
   have hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥ :=
@@ -937,8 +943,8 @@ theorem fi22ShapeRkAt_xRep_three :
   exact h2
 
 theorem fi22CentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* X₀)) (fun _ _ => True) CFSG.Sporadic.Fi22.J := by
-  haveI := finite_J_tab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J_tab
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Nonempty (T ≃* X₀) →
       Nonempty (T' ≃* X₀) := fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -963,8 +969,8 @@ theorem fi22CentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* X₀)) (fun
 theorem fi22CentShapeRk_native :
     CentShapeRk 3 (fun T _ => Nonempty (T ≃* X₀)) (fun _ _ => True)
       (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) := by
-  haveI := finite_J_tab
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
+  have := finite_J_tab
+  have : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
     Finite.of_equiv CFSG.Sporadic.Fi22.J (CFSG.Sporadic.Fi22.fi22EquivJ.symm.toEquiv)
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Nonempty (T ≃* X₀) →
       Nonempty (T' ≃* X₀) := fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩
@@ -1050,7 +1056,7 @@ theorem downClosed_PFi22 (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   rcases hP with hT | ⟨⟨e⟩⟩
   · obtain ⟨bF⟩ := hBr .Fi22
-    haveI : Finite (NativeSporadic.Carrier .Fi22) := Finite.of_equiv _ (hT.some.trans bF.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .Fi22) := Finite.of_equiv _ (hT.some.trans bF.symm).toEquiv
     exact pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bF
       (fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩) hRk fi22CentShapeRk_native isoInv_PFi22
       (Or.inl ⟨MulEquiv.refl _⟩) (fun _ _ h => Or.inr h) hnab hT α hα I hI
@@ -1080,7 +1086,7 @@ theorem dvd_of_outer_statedPSU {S : Type} [Group S] [Finite S] {n p f : ℕ}
     (hg : ¬ p ∣ Nat.gcd n (p ^ f + 1)) {ψ : MulAut S} (hψp : ψ ^ p = 1)
     (hψo : ψ ∉ (MulAut.conj : S →* MulAut S).range) : p ∣ f := by
   obtain ⟨⟨hℓ, hf, -, hq⟩, K, _, _, hK, ⟨eT⟩⟩ := hM
-  haveI : Fact p.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hℓ⟩
   have h : UnitaryFieldData p f K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   obtain ⟨eP⟩ := nonempty_primeFormP_mulEquiv h (isPrimeFormGram_idGram (n := n) (K := K))
   let e' : S ≃* primeFormP h (idGram K n) :=
@@ -1129,7 +1135,7 @@ open CFSG.Sporadic.HNOddCore CFSG.RankThree.PartOne.HNB
 
 theorem hnShape_f : ShapeRkAt 5 IsU35 (fun _ _ => True) fJ := by
   obtain ⟨hcomm, -, -, -, hC, hcardI, -, hder, -⟩ := ctuc_hn_five_centralizer_perfect_factor
-  haveI hsimple : IsSimpleGroup ↥IJ :=
+  have hsimple : IsSimpleGroup ↥IJ :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity IJ 3 5 1 model_IJ).2
   have hLC : IJ ≤ Subgroup.centralizer ({fJ} : Set ↥JH) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcomm fJ (Subgroup.mem_zpowers _) x hx).symm
@@ -1162,7 +1168,7 @@ section Table
 
 theorem hnCentShapeRk' : CentShapeRk' 5 IsU35 (fun _ _ => True) ↥JH := by
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   intro k hk1 hkp
@@ -1331,7 +1337,7 @@ theorem fi23ShapeRkAt_of_om {G : Type} [Group G] [Finite G] (x : G)
 
 
 theorem fi23ShapeRkAt_t3_zero : ShapeRkAt 3 (fun T _ => Nonempty (T ≃* ↥Om)) (fun _ _ => True) (t3 0) := by
-  haveI := finite_J23
+  have := finite_J23
   have hcl := t3_classData.1
   have hz : orderOf (t3 0) = 3 := hcl.1
   have hcardC := card_cent_t3_zero
@@ -1401,8 +1407,8 @@ theorem fi23ShapeRkAt_t3_zero : ShapeRkAt 3 (fun T _ => Nonempty (T ≃* ↥Om))
 
 
 theorem fi23CentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* ↥Om)) (fun _ _ => True) CFSG.Sporadic.Fi23.J := by
-  haveI := finite_J23
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J23
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Nonempty (T ≃* ↥Om) →
       Nonempty (T' ≃* ↥Om) := fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -1429,8 +1435,8 @@ theorem fi23CentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* ↥Om)) (fu
 theorem fi23CentShapeRk_native :
     CentShapeRk 3 (fun T _ => Nonempty (T ≃* ↥Om)) (fun _ _ => True)
       (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) := by
-  haveI := finite_J23
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Fi23 := Finite.of_equiv J (fi23EquivJ.symm.toEquiv)
+  have := finite_J23
+  have : Finite CFSG.Blueprint.NativeSporadic.Fi23 := Finite.of_equiv J (fi23EquivJ.symm.toEquiv)
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Nonempty (T ≃* ↥Om) →
       Nonempty (T' ≃* ↥Om) := fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -1513,7 +1519,7 @@ theorem downClosed_PFi23 (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   rcases hP with hT | ⟨⟨e⟩⟩
   · obtain ⟨bF⟩ := hBr .Fi23
-    haveI : Finite (NativeSporadic.Carrier .Fi23) := Finite.of_equiv _ (hT.some.trans bF.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .Fi23) := Finite.of_equiv _ (hT.some.trans bF.symm).toEquiv
     exact pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bF
       (fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩) hRk fi23CentShapeRk_native isoInv_PFi23
       (Or.inl ⟨MulEquiv.refl _⟩) (fun _ _ h => Or.inr h) hnab hT α hα I hI
@@ -1551,7 +1557,7 @@ open CFSG.GH74.QTGen4.Recog.G23 (g23Words SatisfiesG23Words Ghat)
 
 
 theorem thShape_S : ShapeRkAt 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _ _ => True) thS := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr => (lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨-, hsimp, hnab, hcard⟩ := Chev2Th.leaf_closure_of_six thEps hε hne
@@ -1579,7 +1585,7 @@ theorem thShape_Z : ShapeRkAt 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _ _ => 
   have hz : orderOf thZ = 3 := th_orderOf.2.1
   have hO : GLAPPrimeCoreOf 3 (Subgroup.centralizer ({thZ} : Set ↥CFSG.Sporadic.Th.J)) = ⊥ :=
     oPrimeCoreTrivialAt_Th_three_of_residual thThreeResidual_holds thZ hz
-  haveI : Finite ↥CFSG.Sporadic.Th.J := finite_J
+  have : Finite ↥CFSG.Sporadic.Th.J := finite_J
   exact pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three card_centralizer_zJ_dvd) hO
 
@@ -1589,12 +1595,12 @@ theorem thShape_U : ShapeRkAt 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _ _ => 
   refine pConstrainedShape_of_map_injective J.subtype J.subtype_injective ?_
   rw [map_centralizer_subtype']
   obtain ⟨R, hle, hnorm, hcard, hcent⟩ := th_caseU_spec
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact pConstrainedShape_of_normal_pgroup hle (normal_subgroupOf_of_conj hnorm)
     (IsPGroup.of_card (n := 5) hcard) hcent
 
 theorem thCentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _ _ => True) ↥J := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Nonempty (T ≃* Ghat) →
       Nonempty (T' ≃* Ghat) := fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -1620,9 +1626,9 @@ theorem thCentShapeRk : CentShapeRk 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _
 theorem thCentShapeRk_native :
     CentShapeRk 3 (fun T _ => Nonempty (T ≃* Ghat)) (fun _ _ => True)
       (NativeSporadic.Carrier .Th) := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have e : NativeSporadic.Th ≃* ↥J := thEquivJ
-  haveI : Finite NativeSporadic.Th := Finite.of_equiv ↥J e.symm.toEquiv
+  have : Finite NativeSporadic.Th := Finite.of_equiv ↥J e.symm.toEquiv
   exact CentShapeRk.of_equiv (Q := ↥J) (Q' := NativeSporadic.Th) Nat.prime_three
     (fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩) (fun _ _ _ _ _ h => h) e.symm thCentShapeRk
 
@@ -1697,7 +1703,7 @@ theorem downClosed_PTh (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   rcases hP with hT | ⟨⟨e⟩⟩
   · obtain ⟨bT⟩ := hBr .Th
-    haveI : Finite (NativeSporadic.Carrier .Th) := Finite.of_equiv _ (hT.some.trans bT.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .Th) := Finite.of_equiv _ (hT.some.trans bT.symm).toEquiv
     exact pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bT
       (fun _ _ _ _ e ⟨f⟩ => ⟨e.symm.trans f⟩) hRk thCentShapeRk_native isoInv_PTh
       (Or.inl ⟨MulEquiv.refl _⟩) (fun _ _ h => Or.inr h) hnab hT α hα I hI
@@ -1769,7 +1775,7 @@ theorem j0_trichotomy {p : ℕ} (hp3 : 3 ≤ p) {Y : Type} [Group Y] [Finite Y]
     intro m hm5 ⟨e⟩
     rcases hm5 with hm | hm
     · exfalso
-      haveI : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
+      have : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
       have hnt : Nontrivial Y := (QuotientGroup.mk'_surjective (Subgroup.center Y)).nontrivial
       have h1 : 1 < Nat.card Y := Finite.one_lt_card_iff_nontrivial.2 hnt
       rcases card_altType ⟨e⟩ with h | ⟨h2, h⟩
@@ -1799,7 +1805,7 @@ theorem j0_trichotomy {p : ℕ} (hp3 : 3 ≤ p) {Y : Type} [Group Y] [Finite Y]
       have hM : StatedClassicalModel Y .PSp n 2 1 :=
         ⟨⟨Nat.prime_two, le_rfl, by omega, fun h => by simp at h; omega⟩, ZMod 2, inferInstance,
           inferInstance, by rw [Nat.card_zmod]; norm_num, ⟨e1⟩⟩
-      haveI := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp Y n 2 1 hM
+      have := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp Y n 2 1 hM
       have hnab : ∃ a b : Y, a * b ≠ b * a :=
         CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq |>.elim
           fun a ha => by
@@ -1836,7 +1842,7 @@ theorem j0_trichotomy {p : ℕ} (hp3 : 3 ≤ p) {Y : Type} [Group Y] [Finite Y]
           have hM : StatedClassicalModel Y .POmegaMinus (n + 1) 2 1 :=
             ⟨⟨Nat.prime_two, le_rfl, by omega⟩, ZMod 2, inferInstance, inferInstance,
               by rw [Nat.card_zmod]; norm_num, 1, 1, hirr, ⟨e.trans (projEquivTwo _)⟩⟩
-          haveI := (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaMinus
+          have := (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaMinus
             Y (n + 1) 2 1 hM).2
           exact ⟨CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab,
             Or.inr (CFSG.LocalAnalysis.GLTheoremA.chev2Minus_holds Y (n + 1) 1 (by omega) le_rfl
@@ -1845,7 +1851,7 @@ theorem j0_trichotomy {p : ℕ} (hp3 : 3 ≤ p) {Y : Type} [Group Y] [Finite Y]
           have hM : StatedClassicalModel Y .POmegaPlus (n + 1) 2 1 :=
             ⟨⟨Nat.prime_two, le_rfl, by omega⟩, ZMod 2, inferInstance, inferInstance,
               by rw [Nat.card_zmod]; norm_num, ⟨e.trans (projEquivTwo _)⟩⟩
-          haveI := (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus
+          have := (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus
             Y (n + 1) 2 1 hM).2
           exact ⟨CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab,
             Or.inr (CFSG.LocalAnalysis.GLTheoremA.conv_Dp (r := n + 1) (n := 1) (by omega) le_rfl
@@ -1876,7 +1882,7 @@ theorem not_dvd_card_pSimple_of_centralizer {L E J : Subgroup X} (hLq : CFSG.Ope
     (hJ : GLAPComponent p (L ⊓ Subgroup.centralizer (E : Set X)) J) :
     ¬ Nat.card (↥L ⧸ Subgroup.center ↥L) ∣ Nat.card (PSimple p J) := by
   intro hd
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
   set C : Subgroup X := L ⊓ Subgroup.centralizer (E : Set X) with hCdef
   have hCL : C ≤ L := inf_le_left
   have hdC : Nat.card (↥L ⧸ Subgroup.center ↥L) ∣ Nat.card C :=
@@ -1932,7 +1938,7 @@ theorem not_dvd_card_pSimple_of_centralizer {L E J : Subgroup X} (hLq : CFSG.Ope
     exact (Subgroup.mem_centralizer_iff.1 hlE e he).symm
   ·
     have hcore : H.normalCore = ⊥ := by
-      haveI := Subgroup.normalCore_normal H
+      have := Subgroup.normalCore_normal H
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore with h | h
       · exact h
       · exact absurd (top_le_iff.1 (h ▸ Subgroup.normalCore_le H)) hHt
@@ -2013,7 +2019,7 @@ theorem le_normalizer_of_component (hp : p.Prime) {L B J0 E J : Subgroup X} (hB 
 
 theorem dvd_card_pSimple (hp : p.Prime) {Y J : Subgroup X} (hJ : GLAPComponent p Y J) :
     p ∣ Nat.card (PSimple p J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hs, hnab⟩ := chev_pSimple_simple_nonabelian hp hJ
   by_contra hnd
   have hbot := glaPPrimeCore_pSimple_eq_bot hp hJ
@@ -2064,7 +2070,7 @@ theorem false_of_sieve2 (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
     glaPComponent_of_isSubnormal' hp hsn hJ
   have hLK' : CFSG.Open.IsKGroup ↥L := CFSG.KCore.KGroupAllSimple.kGroupNonab hLK
   obtain ⟨eS⟩ := hname
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
   have hcardS : Nat.card (↥L ⧸ Subgroup.center ↥L) = sporOrd name :=
     (Nat.card_congr eS.toEquiv).trans (hOrd name)
   have hpLZ : p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := hcardS ▸ hpS
@@ -2093,7 +2099,7 @@ theorem false_of_sieve2 (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
     have hEN : E ≤ Subgroup.normalizer (J0 : Set X) := le_normalizer_of_component hp hB hBN hJ0 hEB hJ
     have eZ : (↥J0 ⧸ Subgroup.center ↥J0) ≃* ↥J0 :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-    haveI hs0 : IsSimpleGroup ↥J0 := eZ.isSimpleGroup_congr.1 hq0.2
+    have hs0 : IsSimpleGroup ↥J0 := eZ.isSimpleGroup_congr.1 hq0.2
     have hnab0 : ∃ a b : ↥J0, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq0
       exact ⟨eZ a, eZ b, fun h => hab (eZ.injective (by rw [map_mul, map_mul, h]))⟩
@@ -2135,7 +2141,7 @@ theorem not_alt_of_card {T : Type} [Group T] {N m₀ : ℕ} (hT : Nat.card T = N
   rintro ⟨m, hm, ⟨e⟩⟩
   rcases card_altType ⟨e⟩ with h | ⟨h2, h⟩
   · have : m.factorial / 2 = 1 := by
-      haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
       rw [← h, Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
         Fintype.card_fin]
     have h5 : (5 : ℕ).factorial / 2 ≤ m.factorial / 2 :=
@@ -2202,7 +2208,7 @@ theorem pSimple_of_sporCensus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOut : S
     rw [map_one, fixSubgroup_one_eq_top'] at hI
     obtain ⟨f⟩ := chevQ_pSimple_top_equiv hp hnab hI
     exact hinv _ _ (f.trans e).symm hPS
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     rw [fixSubgroup_conj_eq'] at hI
     let φ : T ≃* Q := e.trans b.symm
     have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
@@ -2306,7 +2312,7 @@ theorem downClosed_PM5 (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   intro T _ _ hs hnab hP α hα I hI
   rcases hP with hT | hH
   · obtain ⟨bM⟩ := hBr .M
-    haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hT.some.trans bM.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hT.some.trans bM.symm).toEquiv
     exact pSimple_of_sporCensus Nat.prime_five (by norm_num) hOut bM
       (Good := fun T _ => CFSG.Yardstones.Md0ec50421ce4.catalogIs T (· = .sporadic .HN))
       (fun _ _ _ _ e ⟨i, hi, ⟨f⟩⟩ => ⟨i, hi, ⟨e.symm.trans f⟩⟩) hcen isoInv_PM5
@@ -2348,7 +2354,7 @@ theorem downClosed_PB3 (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   intro T _ _ hs hnab hP α hα I hI
   rcases hP with hT | hF
   · obtain ⟨bB⟩ := hBr .B
-    haveI : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (hT.some.trans bB.symm).toEquiv
+    have : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (hT.some.trans bB.symm).toEquiv
     exact pSimple_of_sporCensus Nat.prime_three (by norm_num) hOut bB
       (Good := fun T _ => CFSG.Yardstones.Md0ec50421ce4.catalogIs T (· = .sporadic .Fi22))
       (fun _ _ _ _ e ⟨i, hi, ⟨f⟩⟩ => ⟨i, hi, ⟨e.symm.trans f⟩⟩) hcen isoInv_PB3

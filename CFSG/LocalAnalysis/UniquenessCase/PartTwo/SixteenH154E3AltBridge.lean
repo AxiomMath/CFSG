@@ -20,7 +20,7 @@ variable {W : Type} [CommGroup W]
 
 private theorem s16h_e3_field_two {K : Type} [Field K] [Finite K] (hcard : Nat.card K = 2) :
     Nonempty (K ≃+* ZMod 2) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   exact ⟨(ZMod.ringEquivOfPrime K Nat.prime_two hK').symm⟩
 

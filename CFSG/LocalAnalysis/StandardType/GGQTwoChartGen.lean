@@ -11,6 +11,7 @@ open scoped Pointwise Matrix
 variable {G : Type} [Group G] [Finite G]
 variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {m n : ℕ}
 
+omit [Finite G] in
 theorem qTwoChartGen_conj_le {g : G} (hg : g ∈ QTwoH L 𝒦) :
     L.map (MulAut.conj g).toMonoidHom ≤ QTwoH L 𝒦 := by
   rintro _ ⟨l, hl, rfl⟩

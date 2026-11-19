@@ -58,6 +58,7 @@ private theorem d6nrm_UL_normalizer {a : Fin e7Data.d}
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem conj_UA_ULG {u : Gp K} (hu : u ∈ ULG K) : ∀ x ∈ UA K b0, u * x * u⁻¹ ∈ UA K b0 := by
   obtain ⟨_, hN⟩ := d6nrm_UL_normalizer (a := b0) dom0 (mem_ULG.1 hu)
   intro x hx
@@ -75,7 +76,7 @@ private theorem d6nrm_UL_fix {a : Fin e7Data.d}
   · rintro x ⟨β, hβ, hzero, hpos, c, rfl⟩
     show ((e7Data_valid.xu K β c : (Module.End K (V K))ˣ) : Module.End K (V K)) (Finsupp.single a 1) =
       Finsupp.single a 1
-    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ a, if_neg (hdom β hβ hzero hpos), smul_zero,
+    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ a, ite_eq_right (hdom β hβ hzero hpos), smul_zero,
       add_zero]
   · show ((1 : (Module.End K (V K))ˣ) : Module.End K (V K)) (Finsupp.single a 1) = Finsupp.single a 1
     rw [Units.val_one, Module.End.one_apply]

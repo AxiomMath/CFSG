@@ -327,7 +327,7 @@ theorem three_le_commSub_of_isSpor_M22
     rw [h1, show e (α γ₁) = β (e γ₁) from (hβeq γ₁).symm,
       show e (α (γ₂⁻¹ * γ₃)) = β (e (γ₂⁻¹ * γ₃)) from (hβeq _).symm]
     rw [hγ₁, hγ₂, hγ₃]
-    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    simp only [map_mul, map_inv, MulEquiv.apply_symm_apply]
   have hy11 : orderOf ((yM : ↥M) : MulAut V) = 11 := by
     rw [Subgroup.orderOf_coe]
     have h := orderOf_injective e.toMonoidHom e.injective yM
@@ -521,7 +521,7 @@ theorem six_le_mParam_of_M22
           exact (mem_stabSub.mp hsstab u).mpr hu
         · intro hw'
           exact ⟨s⁻¹ w, (mem_stabSub.mp ((stabSub I).inv_mem hsstab) w).mpr hw', by
-            simpa using MulAut.apply_inv_self W s w⟩
+            simp⟩
       have hnotstab : s ∉ stabSub I := fun hsstab => hImap (hmap_of_stab hsstab)
       have hLI : StableUnder L (I.map s.toMonoidHom) := by
         intro l hl w hw'

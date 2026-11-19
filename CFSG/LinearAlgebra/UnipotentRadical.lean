@@ -21,7 +21,7 @@ theorem inv_mulVec_mulVec (g : GL ι K) (x : ι → K) :
 
 @[expose] def unipotentRadical (W : Submodule K (ι → K)) : Subgroup (GL ι K) where
   carrier := {g | (∀ x, (g : Matrix ι ι K) *ᵥ x - x ∈ W) ∧ ∀ x ∈ W, (g : Matrix ι ι K) *ᵥ x = x}
-  one_mem' := ⟨by simpa using W.zero_mem, by simp⟩
+  one_mem' := ⟨by simp, by simp⟩
   mul_mem' := by
     rintro a b ⟨ha1, ha2⟩ ⟨hb1, hb2⟩
     refine ⟨fun x => ?_, fun x hx => ?_⟩

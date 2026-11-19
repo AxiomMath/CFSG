@@ -59,7 +59,7 @@ theorem mem_commutator_sylow_of_mem_center (hX : commutator X = ⊤) {p : ℕ} [
     rw [← Subgroup.map_subtype_commutator]
     exact ⟨_, hmem, rfl⟩
   refine mem_of_pow_mem_of_coprime ?_ hmem'
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨z, hzP⟩
   have hord : orderOf z ∣ p ^ k := by
     apply orderOf_dvd_of_pow_eq_one
     have := congrArg Subtype.val hk
@@ -143,7 +143,7 @@ theorem isPGroup_two_ker (hX : commutator X = ⊤) {n : ℕ} (hn : 2 ≤ n)
     let f := (π.comp (R : Subgroup X).subtype).rangeRestrict
     have : IsCyclic (π.comp (R : Subgroup X).subtype).range :=
       isCyclic_of_isPGroup_odd hn hF hr2
-        (R.isPGroup'.of_surjective f (MonoidHom.rangeRestrict_surjective _))
+        (R.isPGroup.of_surjective f (MonoidHom.rangeRestrict_surjective _))
     have hf : f.ker ≤ Subgroup.center (R : Subgroup X) := by
       intro x hx
       rw [MonoidHom.ker_rangeRestrict, MonoidHom.mem_ker] at hx

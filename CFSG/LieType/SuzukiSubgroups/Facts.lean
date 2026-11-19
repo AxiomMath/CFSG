@@ -84,7 +84,7 @@ theorem fusionBenderBorel_of_isSz [Finite H]
 theorem isPGroup_centralizer_of_isSz (hH : CFSG.Quasithin.IsSz n H) {x : H}
     (hx : orderOf x = 2) : IsPGroup 2 (centralizer ({x} : Set H)) := by
   obtain ⟨a, ha, rfl, ⟨e⟩⟩ := exists_mulEquiv_sz hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx' : orderOf (e x) = 2 := by
     rw [MulEquiv.orderOf_eq]
     exact hx

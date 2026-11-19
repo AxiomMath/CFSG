@@ -21,7 +21,7 @@ theorem tail24_holds {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G} (h4
   intro hV s y hsH hs2 hZs hyH _hys hy3 hyz hZ4 hcard
   have hx5H : d.x₅ ∈ Hg d := hd.s56_M_le_normalizer_V h49 hd.s56_x5_mem_M
   obtain ⟨hN, hq⟩ := h23a.2.2.2.2.1
-  haveI := hN
+  have := hN
   exact P6.tail_core d z₀ hx5H hd.s56_orderOf_x5 hV h10.2.2.1 h23a.2.1.1 h23a.2.1.2 h23a.2.2.1.1 hN
     (P6.relIndex_eq_two_or_six hq) h19.2.2.2.2.1 h19.2.2.2.2.2.2.1 h20.2.2.2.2.1
     (h21.1.imp (fun h => h.1) id) h21.2.2.1 h23b.1 h23c.1

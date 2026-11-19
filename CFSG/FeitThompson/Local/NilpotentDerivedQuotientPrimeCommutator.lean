@@ -43,7 +43,7 @@ theorem exists_normal_isPGroup_forall_le [Finite L] [Fact q.Prime] (C : Subgroup
   have : (T : Subgroup C).Characteristic := sylow_characteristic_of_isNilpotent T
   have : Unique (Sylow q C) := T.unique_of_normal hTn
   refine ⟨(T : Subgroup C).map C.subtype, map_subtype_le _,
-    ConjAct.normal_of_characteristic_of_normal, T.isPGroup'.map _, ?_⟩
+    ConjAct.normal_of_characteristic_of_normal, T.isPGroup.map _, ?_⟩
   intro P hPC hP
   obtain ⟨S, hS⟩ := (hP.comap_subtype (K := C)).exists_le_sylow
   have hST : S = T := Subsingleton.elim _ _

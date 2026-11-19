@@ -118,7 +118,7 @@ theorem peel_shape1 [CharP F 2] (hS : Shape1 G p) {r : Fin n ⊕ Fin n} (hr1 : r
       · simp [hx]
   · rw [hrow y h3, hcol y h3, hS.symm y h1 h3]
     by_cases h : y = bar r
-    · simp only [if_pos h]
+    · simp only [ite_eq_left h]
       linear_combination (-G p (bar r)) * h2
     · simp [h]
   · refine Finset.card_lt_card ?_
@@ -192,13 +192,13 @@ theorem lift1_mem [CharP F 2] (hn : 3 ≤ n) (R : Subgroup (spinGroup (quadPlus 
           rw [e1, Pi.add_apply]
           by_cases hz1 : z = p
           · subst hz1
-            simp [Pi.single_apply, hpb]
+            simp [hpb]
           · by_cases hz2 : z = bar p
             · subst hz2
               rw [hS.delta _ _ (by simp [hpb.symm])]
-              simp [Pi.single_apply, hz1]
+              simp [hz1]
             · rw [hz' z hz1 hz2]
-              simp [Pi.single_apply, hz1, hz2]
+              simp [hz1, hz2]
         rw [hc, Qf_add, Qf_single, Qf_single', Bf_single_left, bar_bar] at hQ
         simpa [Pi.single_apply] using hQ
       have h1 : spinMat (quadPlus n F) k = 1 := by
@@ -208,15 +208,15 @@ theorem lift1_mem [CharP F 2] (hn : 3 ≤ n) (R : Subgroup (spinGroup (quadPlus 
           · rw [hx]
             by_cases hy' : y = bar p
             · rw [hy', hX0]
-              simp [Matrix.one_apply, hpb]
+              simp [hpb]
             · rw [hz y hy hy']
-              simp [Matrix.one_apply, Ne.symm hy]
+              simp [Ne.symm hy]
           · rw [hy]
             by_cases hx' : x = p
             · rw [hx', hX0]
-              simp [Matrix.one_apply, hpb]
+              simp [hpb]
             · rw [hz' x hx' hx]
-              simp [Matrix.one_apply, hx]
+              simp [hx]
         · rw [hS.delta x y hB]
           simp [Matrix.one_apply]
       have h2 := spinAction_eq_one_of_spinMat_eq_one h1

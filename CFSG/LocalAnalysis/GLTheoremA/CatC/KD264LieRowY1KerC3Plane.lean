@@ -103,7 +103,7 @@ theorem l0_apply (v : V) : l0 S v = B (P v) S.f := rfl
 theorem l1_apply (v : V) : l1 S v = -B (P v) S.e := by
   simp [l1]
 
-theorem l0_e (halt : ∀ v : V, B v v = 0) : l0 S S.e = 1 := by
+theorem l0_e (_halt : ∀ v : V, B v v = 0) : l0 S S.e = 1 := by
   rw [l0_apply, S.he, S.hef]
 
 theorem l1_e (halt : ∀ v : V, B v v = 0) : l1 S S.e = 0 := by
@@ -162,7 +162,7 @@ theorem exists_sympPair [FiniteDimensional K V] (halt : ∀ v : V, B v v = 0) (h
     have h1 := congrArg (fun w => B w f) hst
     have h2 := congrArg (fun w => B e w) hst
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, halt,
-      hef, hfe, map_zero, LinearMap.zero_apply] at h1 h2
+      hef, map_zero, LinearMap.zero_apply] at h1 h2
     constructor
     · linear_combination h1
     · linear_combination h2
@@ -181,7 +181,7 @@ theorem exists_sympPair [FiniteDimensional K V] (halt : ∀ v : V, B v v = 0) (h
     rw [hspan]
     exact LinearMap.mem_range.2 ⟨w, hw⟩
   obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun K).1 hwmem
-  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hc
+  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one] at hc
   rw [← hc]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, halt,
     hef, hfe]
@@ -217,13 +217,13 @@ theorem l0_Phi (halt : ∀ v : V, B v v = 0) (hP : P * P = P) (A : Matrix (Fin 2
     (v : V) : l0 S (Phi S A v) = A 0 0 * l0 S v + A 0 1 * l1 S v := by
   rw [l0_apply, P_Phi S hP A v]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, halt,
-    S.hef, S.hf, mul_one, mul_zero, add_zero, zero_add]
+    S.hef, mul_one, mul_zero, add_zero]
 
 theorem l1_Phi (halt : ∀ v : V, B v v = 0) (hP : P * P = P) (A : Matrix (Fin 2) (Fin 2) K)
     (v : V) : l1 S (Phi S A v) = A 1 0 * l0 S v + A 1 1 * l1 S v := by
   rw [l1_apply, P_Phi S hP A v]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, halt,
-    B_fe S halt, S.hef, S.he, mul_one, mul_zero, add_zero, zero_add, neg_mul, one_mul]
+    B_fe S halt, mul_zero, zero_add]
   ring
 
 theorem Phi_mul (halt : ∀ v : V, B v v = 0) (hP : P * P = P) (A A' : Matrix (Fin 2) (Fin 2) K)
@@ -252,12 +252,12 @@ theorem Phi_one (hP : P * P = P) : Phi S 1 = 1 := by
   rw [h01, h10, h11, h22, zero_mul, zero_mul, one_mul, one_mul, add_zero, zero_add]
   rw [add_assoc, ← coord_P S hP v, sub_add_cancel]
 
-theorem Phi_e (halt : ∀ v : V, B v v = 0) (hP : P * P = P) (A : Matrix (Fin 2) (Fin 2) K) :
+theorem Phi_e (halt : ∀ v : V, B v v = 0) (_hP : P * P = P) (A : Matrix (Fin 2) (Fin 2) K) :
     Phi S A S.e = A 0 0 • S.e + A 1 0 • S.f := by
   rw [Phi_apply, S.he, sub_self, zero_add, l0_e S halt, l1_e S halt]
   simp
 
-theorem Phi_f (halt : ∀ v : V, B v v = 0) (hP : P * P = P) (A : Matrix (Fin 2) (Fin 2) K) :
+theorem Phi_f (halt : ∀ v : V, B v v = 0) (_hP : P * P = P) (A : Matrix (Fin 2) (Fin 2) K) :
     Phi S A S.f = A 0 1 • S.e + A 1 1 • S.f := by
   rw [Phi_apply, S.hf, sub_self, zero_add, l0_f S halt, l1_f S halt]
   simp
@@ -358,12 +358,12 @@ theorem Phi_conj (halt : ∀ v : V, B v v = 0) (hP : P * P = P)
     intro v
     rw [l0_apply, hPxv v]
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      S.hef, halt, S.hf, mul_one, mul_zero, add_zero, zero_add]
+      S.hef, halt, mul_one, mul_zero, add_zero]
   have hl1x : ∀ v : V, l1 S (x v) = M 1 0 * l0 S v + M 1 1 * l1 S v := by
     intro v
     rw [l1_apply, hPxv v]
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      B_fe S halt, halt, mul_one, mul_zero, add_zero, zero_add]
+      B_fe S halt, halt, mul_zero, zero_add]
     ring
   have h00 := congrFun (congrFun hA'M 0) 0
   have h01 := congrFun (congrFun hA'M 0) 1
@@ -383,7 +383,7 @@ theorem Phi_conj (halt : ∀ v : V, B v v = 0) (hP : P * P = P)
   rw [← hxPw v, hxe, hxf, Phi_apply' S A' (x v), hl0x v, hl1x v]
   linear_combination (norm := module) hc0 • S.e + hc1 • S.f
 
-theorem Phi_comm (S : SympPair B P) (hP : P * P = P) (ρf : Module.End K V)
+theorem Phi_comm (S : SympPair B P) (_hP : P * P = P) (ρf : Module.End K V)
     (hcommP : ρf * P = P * ρf) (hfix : ∀ w ∈ LinearMap.range P, ρf w = w)
     (A : Matrix (Fin 2) (Fin 2) K) : Phi S A * ρf = ρf * Phi S A := by
   refine LinearMap.ext fun v => ?_

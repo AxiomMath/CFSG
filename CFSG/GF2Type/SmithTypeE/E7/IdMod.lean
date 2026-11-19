@@ -50,8 +50,8 @@ theorem rhoMod_psi_apply (hΦ : ∀ m : S.M, Phi S φ m = rhoMod (ψ (rhoM S m))
   rw [← hΦ, Phi_apply, LinearEquiv.symm_apply_apply]
   rfl
 
-theorem applyCols_tvCols_lt32 (k c : ℕ) : applyCols (tvCols k) c < 2 ^ 32 :=
-  applyCols_lt (size_tvCols k) (fun c hc => tvCols_lt k hc) c
+theorem applyCols_tvCols_lt32 (k _c : ℕ) : applyCols (tvCols k) _c < 2 ^ 32 :=
+  applyCols_lt (size_tvCols k) (fun _c hc => tvCols_lt k hc) _c
 
 theorem acts_iff {x : G} (hx : x ∈ S.M) {k : ℕ} (hk : k < 365211) :
     (∀ y ∈ S.QG, code32 (φ (S.cl (x * y * x⁻¹))) =
@@ -98,10 +98,10 @@ theorem exists_weight_of_conj [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 1
     (hΦ : ∀ m : S.M, Phi S φ m = rhoMod (ψ (rhoM S m))) {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG)
     (hne : g * S.z * g⁻¹ ≠ S.z) :
     ∃ i : Fin 75735, φ (S.cl (g * S.z * g⁻¹)) = wtV i.val := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hEP⟩ := (S.isPGroup_Lbar_subgroupOf haQ).exists_le_sylow
   have hno := noA2_of_insp5 I hw hO haQ hne
-  have hPN := S.le_normalizer_Lbar_of_isPGroup (by omega) haQ hne hno P.isPGroup' hEP
+  have hPN := S.le_normalizer_Lbar_of_isPGroup (by omega) haQ hne hno P.isPGroup hEP
   have hfixP : ∀ m ∈ (P : Subgroup S.Mbar),
       ((m : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) (S.cl (g * S.z * g⁻¹)) = S.cl (g * S.z * g⁻¹) := by
     intro m hm
@@ -109,7 +109,7 @@ theorem exists_weight_of_conj [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 1
       ⟨m.2, (mem_normalizer_subgroupOf_iff (S.Lbar_le_Mbar g) m).mp (hPN hm)⟩
     rw [← cMbar_eq_normalizer I hw hO haQ hne, SMK.mem_cMbar] at h1
     exact h1.2
-  have hP'2 : IsPGroup 2 ((P : Subgroup S.Mbar).map ψ.toMonoidHom) := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 ((P : Subgroup S.Mbar).map ψ.toMonoidHom) := P.isPGroup.map _
   have hmax : ∀ Q : Subgroup S.Mbar, (P : Subgroup S.Mbar) ≤ Q → IsPGroup 2 Q → Q = P :=
     fun Q hPQ hQ => P.maximal_isPGroup.eq_of_ge hQ hPQ
   have hP'max := isMax_map ψ hmax
@@ -123,6 +123,7 @@ theorem exists_weight_of_conj [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 1
     exact S.cl_conj_z_ne_zero haQ hne (φ.injective (by rw [h, map_zero]))
   · exact h
 
+omit [Finite G] in
 theorem mul_conj_mem (m : S.M) {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG)
     (hne : g * S.z * g⁻¹ ≠ S.z) :
     ((m : G) * g) * S.z * ((m : G) * g)⁻¹ ∈ S.QG ∧
@@ -264,7 +265,7 @@ theorem map_Lbar_eq_K0 [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 16)
     (hΦ : ∀ m : S.M, Phi S φ m = rhoMod (ψ (rhoM S m))) {h : G} (haQ : h * S.z * h⁻¹ ∈ S.QG)
     (hne : h * S.z * h⁻¹ ≠ S.z) (h0 : φ (S.cl (h * S.z * h⁻¹)) = wtV 0) :
     ((S.Lbar h).subgroupOf S.Mbar).map ψ.toMonoidHom = K0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcM := cMbar_eq_normalizer I hw hO haQ hne
   have hle : ((S.Lbar h).subgroupOf S.Mbar).map ψ.toMonoidHom ≤ Stab0 := by
     rintro _ ⟨ℓ, hℓ, rfl⟩

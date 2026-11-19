@@ -24,7 +24,7 @@ theorem tv_e0_mem_ua1 {ψ : Fin 3 → k} (hψ : ψ 0 = 0) :
   apply Subtype.ext
   rw [CFSG.LargeExtraspecial.A2Mod.coe_tv h, coe_uu]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, Pi.single_apply, hψ]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, hψ]
 
 theorem exists_sl2_le_of_orbit {Y : Subgroup (projectiveSL 3 k)} (hY : pa1 k ≤ Y)
     {y : Matrix.SpecialLinearGroup (Fin 3) k} (hy : proj 3 k y ∈ Y)
@@ -35,7 +35,7 @@ theorem exists_sl2_le_of_orbit {Y : Subgroup (projectiveSL 3 k)} (hY : pa1 k ≤
   have hw2 : w 2 ≠ 0 := by rw [hw 2]; exact h20
   have hyw : (y : Matrix (Fin 3) (Fin 3) k) *ᵥ (Pi.single 0 1 : Fin 3 → k) = w := by
     funext i
-    simp [Matrix.mulVec_single_one, hw]
+    simp [hw]
   obtain ⟨g, hg⟩ : ∃ g : Matrix.SpecialLinearGroup (Fin 3) k,
       (g : Matrix (Fin 3) (Fin 3) k) = !![1, 0, w 0; 0, (w 2)⁻¹, w 1; 0, 0, w 2] :=
     ⟨⟨!![1, 0, w 0; 0, (w 2)⁻¹, w 1; 0, 0, w 2], by
@@ -47,8 +47,7 @@ theorem exists_sl2_le_of_orbit {Y : Subgroup (projectiveSL 3 k)} (hY : pa1 k ≤
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_uu, coe_uu, hg]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, hw2] <;>
-      (try field_simp) <;> (try ring)
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, hw2]; (try ring)
   have hψw : (![1, 0, -(w 0) / (w 2)] : Fin 3 → k) ⬝ᵥ w = 0 := by
     have h2 : -(w 0) / (w 2) * w 2 = -(w 0) := div_mul_cancel₀ (-(w 0)) hw2
     simp [dotProduct, Fin.sum_univ_three, h2]
@@ -64,8 +63,7 @@ theorem exists_sl2_le_of_orbit {Y : Subgroup (projectiveSL 3 k)} (hY : pa1 k ≤
       CFSG.LocalAnalysis.ComponentInitial.coe_sl2Lower, hg]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [cornerMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_apply, Matrix.one_apply,
-        Matrix.vecMulVec_apply, hw2] <;> field_simp <;> ring
+      simp [cornerMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_apply, Matrix.one_apply] <;> field_simp <;> ring
   have key : ∀ φ' : Fin 3 → k, φ' ⬝ᵥ w = 0 →
       proj 3 k (CFSG.LargeExtraspecial.A2Mod.tv w φ') ∈ Y := by
     intro φ' hφ'

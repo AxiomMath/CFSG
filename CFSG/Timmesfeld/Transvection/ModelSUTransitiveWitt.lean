@@ -11,6 +11,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.Timmesfeld.LieEmbed CFSG.LieType
 
 variable {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime] [CharP F p]
 
+omit [Finite F] in
 theorem exists_suMat_mulVec_eq_of_witt {n : ℕ} {σ : F ≃+* F} {P : GL (Fin n) F}
     (hP : conjTr σ (P : Matrix (Fin n) (Fin n) F) * (P : Matrix (Fin n) (Fin n) F) = antidiag n)
     {x y : Fin n → F} {t : SUid σ n}

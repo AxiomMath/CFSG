@@ -19,6 +19,7 @@ theorem e6_hsl_aux :
 
 variable (k : Type) [Field k] [Finite k] [CharP k 2]
 
+omit [Finite k] [CharP k 2] in
 theorem e6_hsl : ∀ i j : Fin (e6Datum k).rank, i ≠ j →
     coxeterMatrix (e6Datum k).isFiniteType i j = 2 ∨
       coxeterMatrix (e6Datum k).isFiniteType i j = 3 := by

@@ -30,7 +30,7 @@ theorem Q (v : Fin 2 ⊕ Fin 2 → K) :
 
 theorem pol (v w : Fin 2 ⊕ Fin 2 → K) :
     (stdOmegaModel h4).pol (Multiplicative.ofAdd v) (Multiplicative.ofAdd w) = polQ v w := by
-  simp only [OmegaModel.pol, Q, vec, polQ, ← ofAdd_add]
+  simp only [OmegaModel.pol, Q, polQ, ← ofAdd_add]
 
 theorem smul (c : K) (v : Fin 2 ⊕ Fin 2 → K) :
     (stdOmegaModel h4).smul c (Multiplicative.ofAdd v) = Multiplicative.ofAdd (c • v) := rfl
@@ -118,14 +118,14 @@ private theorem sl2_transitive {K : Type} [Field K] {x : Fin 2 → K} (hx : x �
       ring
     · funext i
       fin_cases i <;>
-        simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0, h1] <;> field_simp
+        simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0, h1]
   · refine ⟨⟨!![(x 0)⁻¹, 0; -(x 1), x 0], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two_of]
       field_simp
       ring
     · funext i
       fin_cases i <;>
-        simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0] <;> field_simp <;> ring
+        simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0]; field_simp; ring
 
 private theorem exists_sl2_mul_transpose_single {K : Type} [Field K]
     {R : Matrix (Fin 2) (Fin 2) K} (hR : R ≠ 0) (h10 : R 1 0 = 0) (h11 : R 1 1 = 0) :
@@ -154,8 +154,7 @@ private theorem exists_sl2_mul_transpose_single {K : Type} [Field K]
     ext i j
     by_cases hi : i = 0
     · subst hi
-      simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.single, Fin.sum_univ_two,
-        if_true, eq_self_iff_true, and_true]
+      simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.single, Fin.sum_univ_two]
       rw [mul_comm (R 0 0) ((b : Matrix (Fin 2) (Fin 2) K) j 0),
         mul_comm (R 0 1) ((b : Matrix (Fin 2) (Fin 2) K) j 1), ← hbj j]
       rfl
@@ -249,7 +248,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
         rw [hLval, Matrix.SpecialLinearGroup.coe_one, Matrix.transpose_one, Matrix.mul_one]
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Matrix.sub_apply, Fin.sum_univ_two]
+          simp [Matrix.vecMul, dotProduct, Matrix.sub_apply, Fin.sum_univ_two]
       refine ⟨(L : Matrix (Fin 2) (Fin 2) K) * OmegaModel.toMat u₀ *
         (1 : SL(2, K))ᵀ - OmegaModel.toMat u₀, ?_, ?_, ?_, ?_⟩
       · rw [hRmat]
@@ -276,7 +275,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
     have h00 : Matrix.single 0 0 c ∈ U' := by
       by_cases hc : c = 0
       · subst hc
-        simpa using U'.zero_mem
+        simp
       · let D : SL(2, K) := ⟨!![c, 0; 0, c⁻¹],
           by rw [Matrix.det_fin_two_of]; field_simp; ring⟩
         have hDval : (D : Matrix (Fin 2) (Fin 2) K) = !![c, 0; 0, c⁻¹] := rfl
@@ -289,8 +288,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
           rw [hDval, Matrix.SpecialLinearGroup.coe_one, Matrix.transpose_one, Matrix.mul_one]
           ext i j
           fin_cases i <;> fin_cases j <;>
-            simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single]
-          all_goals field_simp
+            simp [Matrix.mul_apply, Matrix.single]
         rw [hDm] at hD
         exact (hmemU' _).mpr hD
     have h10 : Matrix.single 1 0 c ∈ U' := by
@@ -306,7 +304,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
         rw [hLval, Matrix.SpecialLinearGroup.coe_one, Matrix.transpose_one, Matrix.mul_one]
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, add_apply, Fin.sum_univ_two, Matrix.single]
+          simp [Matrix.mul_apply, Matrix.single]
       rw [hLm, ofMat_add] at hL
       exact (hmemU' _).mpr (by simpa using U.sub_mem hL ((hmemU' _).mp h00))
     have h01 : Matrix.single 0 1 c ∈ U' := by
@@ -322,7 +320,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
         rw [hLval]
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, add_apply, Fin.sum_univ_two, Matrix.single]
+          simp [Matrix.mul_apply, Matrix.single]
       rw [hRm, ofMat_add] at hR'
       exact (hmemU' _).mpr (by simpa using U.sub_mem hR' ((hmemU' _).mp h00))
     have h11 : Matrix.single 1 1 c ∈ U' := by
@@ -338,7 +336,7 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
         rw [hWval]
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single]
+          simp [Matrix.mul_apply, Matrix.single]
       rw [hWm] at hW
       exact (hmemU' _).mpr hW
     intro i j
@@ -361,13 +359,13 @@ theorem isNatIrr_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem polQ_comm {K : Type} [Field K] [CharP K 2] (v w : Fin 2 ⊕ Fin 2 → K) :
     polQ v w = polQ w v := by
-  simp only [polQ, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two,
+  simp only [polQ, StatedQuadPlus, Fin.sum_univ_two,
     Pi.add_apply]
   ring
 
 theorem polQ_self {K : Type} [Field K] [CharP K 2] (v : Fin 2 ⊕ Fin 2 → K) :
     polQ v v = 0 := by
-  simp only [polQ, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two,
+  simp only [polQ, StatedQuadPlus, Fin.sum_univ_two,
     Pi.add_apply]
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   linear_combination (v (Sum.inl 0) * v (Sum.inr 0) +
@@ -375,7 +373,7 @@ theorem polQ_self {K : Type} [Field K] [CharP K 2] (v : Fin 2 ⊕ Fin 2 → K) :
 
 theorem polQ_add_right {K : Type} [Field K] [CharP K 2] (v w w' : Fin 2 ⊕ Fin 2 → K) :
     polQ v (w + w') = polQ v w + polQ v w' := by
-  simp only [polQ, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two,
+  simp only [polQ, StatedQuadPlus, Fin.sum_univ_two,
     Pi.add_apply]
   ring
 
@@ -397,7 +395,7 @@ theorem polQ_sub_left {K : Type} [Field K] [CharP K 2] (v v' w : Fin 2 ⊕ Fin 2
 
 theorem polQ_smul_right {K : Type} [Field K] [CharP K 2] (c : K) (v w : Fin 2 ⊕ Fin 2 → K) :
     polQ v (c • w) = c * polQ v w := by
-  simp only [polQ, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two,
+  simp only [polQ, StatedQuadPlus, Fin.sum_univ_two,
     Pi.smul_apply, smul_eq_mul, Pi.add_apply]
   ring
 
@@ -531,7 +529,7 @@ theorem exists_reflection_of_rkIdx_two {K : Type} [Field K] [Finite K] [CharP K 
 theorem quadPlus_add {K : Type} [Field K] [CharP K 2] (v w : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K (v + w) =
       StatedQuadPlus 2 K v + StatedQuadPlus 2 K w + polQ v w := by
-  simp only [polQ, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two,
+  simp only [polQ, StatedQuadPlus, Fin.sum_univ_two,
     Pi.add_apply]
   ring
 
@@ -555,7 +553,7 @@ theorem eq_one_or_reflection_of_fix {K : Type} [Field K] [Finite K] [CharP K 2]
     rwa [hSω]
   have he0 : e ≠ 0 := by
     intro h
-    exact he (by rw [h]; simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore])
+    exact he (by rw [h]; simp [StatedQuadPlus])
   have hge : toAddMap g e = e := hfix e (polQ_self e)
   obtain ⟨σ, hσ⟩ := H.exists_semilinear (hasScalarCommutant_statedOmegaPlus h4) hg
   have hσ1 : σ = RingEquiv.refl K := by
@@ -727,49 +725,42 @@ theorem exists_orderOf_five_fix {K : Type} [Field K] [Finite K] [CharP K 2]
       !![(0 : K), 1; 1, ω] = !![(1 : K), ω; ω, ω] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, h2, hadd]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq]
     all_goals try linear_combination h2
-    all_goals try linear_combination ω * h2
   have hm2b : (!![(1 : K), ω; ω, ω] : Matrix (Fin 2) (Fin 2) K) *
       !![(0 : K), 1; 1, ω] = !![ω, ω; ω, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, h2, hadd]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq]
     all_goals try linear_combination h2
     all_goals try linear_combination ω * h2
   have ha2b : (!![ω, ω; ω, (1 : K)] : Matrix (Fin 2) (Fin 2) K) *
       !![(0 : K), 1; 1, ω] = !![ω, 1; 1, (0 : K)] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, h2, hadd]
-    all_goals try linear_combination h2
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, hadd]
     all_goals try linear_combination ω * h2
   have hhab : (!![ω, 1; 1, (0 : K)] : Matrix (Fin 2) (Fin 2) K) *
       !![(0 : K), 1; 1, ω] = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, hadd]
-    all_goals try linear_combination h2
-    all_goals try linear_combination ω * h2
   have hhba : (!![(0 : K), 1; 1, ω] : Matrix (Fin 2) (Fin 2) K) *
       !![ω, 1; 1, (0 : K)] = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, hadd]
-    all_goals try linear_combination h2
-    all_goals try linear_combination ω * h2
   have haa : (!![ω, 1; 1, (0 : K)] : Matrix (Fin 2) (Fin 2) K) *
       !![ω, 1; 1, (0 : K)] = !![ω, ω; ω, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, h2, hadd]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq]
     all_goals try linear_combination h2
-    all_goals try linear_combination ω * h2
   have ha2a2 : (!![ω, ω; ω, (1 : K)] : Matrix (Fin 2) (Fin 2) K) *
       !![ω, ω; ω, 1] = !![(0 : K), 1; 1, ω] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, h2, hadd]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hωsq, hadd]
     all_goals try linear_combination h2
     all_goals try linear_combination ω * h2
   have haT : (!![ω, 1; 1, (0 : K)] : Matrix (Fin 2) (Fin 2) K)ᵀ =
@@ -778,11 +769,11 @@ theorem exists_orderOf_five_fix {K : Type} [Field K] [Finite K] [CharP K 2]
     fin_cases i <;> fin_cases j <;> simp [Matrix.transpose_apply]
   have hbdet : (!![(0 : K), 1; 1, ω] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
     rw [Matrix.det_fin_two_of]
-    simp only [mul_zero, zero_mul, sub_zero]
+    simp only [zero_mul]
     linear_combination -h2
   have hadet : (!![ω, 1; 1, (0 : K)] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
     rw [Matrix.det_fin_two_of]
-    simp only [mul_zero, zero_mul, sub_zero]
+    simp only [mul_zero]
     linear_combination -h2
   let bMat : Matrix (Fin 2) (Fin 2) K := !![(0 : K), 1; 1, ω]
   let aMat : Matrix (Fin 2) (Fin 2) K := !![ω, 1; 1, (0 : K)]

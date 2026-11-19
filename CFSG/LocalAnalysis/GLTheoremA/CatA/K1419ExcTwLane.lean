@@ -38,7 +38,7 @@ theorem bad27_lane_outer [E6Sub τ] (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     Bad27 (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := 2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Ψ := componentRoots (rootCharHom a) i with hΨdef
   have hfin : Ψ.Finite := (finite_setOf_isRoot τ).subset fun γ hγ => hγ.1.1
   rw [componentOrbitLength_eq_one hfin hρ, Function.iterate_one] at h1
@@ -127,7 +127,7 @@ theorem bad27_lane_twE6 (hE6 : E6FixDNAll) (S : LangSetup .E6 L p)
   | D4 => exact absurd ht (by decide)
   | E6 =>
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := 2)
   have hΦ' : ∀ g, S.D.Φ g = e6Diagram L * Units.map (entrywiseHom Fr) g * (e6Diagram L)⁻¹ := hΦ
   obtain ⟨w, hn⟩ := S.D.n_weyl
@@ -344,7 +344,7 @@ theorem not_l3u3_d4class (hF : L3U3Facts) {τ : Tag} {L : Type} [Field L] [IsAlg
         (componentRoots (rootCharHom a) i)])) :
     ¬ L3U3 (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := fun h => by
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   exact not_l3u3_of_bad27 hF (bad27_d4class S hT hTp ha1 i hr hc hnin) h
 
 end Class

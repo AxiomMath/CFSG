@@ -163,8 +163,8 @@ theorem e7T3XTuple_mem_sigmaFactor (F : E7ThreeFrame K L ℓ f p ε) (hf : 1 ≤
       rootDiagUnit Tag.E7 (fun i => ζ ^
         (e7T3XColumn ε (Nat.card K : ZMod p) i).val) ∈ P := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hℓ : ℓ.Prime := Fact.out
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ ℓ ^ f := fun c => iterateFrobenius_def ℓ f c
   have hq : ((Nat.card K : ℕ) : ZMod p) ^ 2 + (ε : ZMod p) * (Nat.card K : ℕ) + 1 = 0 := by

@@ -26,7 +26,7 @@ private lemma map_map_congr (β : V' ≃* V) (a : MulAut V') (P : Subgroup V') :
   have h : (MulAut.congr β a).toMonoidHom.comp β.toMonoidHom =
       β.toMonoidHom.comp a.toMonoidHom := by
     ext x
-    simpa using congr_apply_mulAut β a x
+    simp
   rw [h, ← Subgroup.map_map]
 
 private lemma fixV_map_congr (β : V' ≃* V) (Y : Subgroup (MulAut V')) :
@@ -145,7 +145,7 @@ theorem commV_toG {X : Subgroup Γ} (hX : X ≤ L') :
   rw [map_toG_rho τ hX, commV_map_congr τ.β]
   rfl
 
-theorem ptStab_toG {X : Subgroup Γ} (hX : X ≤ L') (P : Subgroup V') :
+theorem ptStab_toG {X : Subgroup Γ} (_hX : X ≤ L') (P : Subgroup V') :
     ptStab ρ (τ.toG X) (τ.toV P) = τ.toG (ptStab ρ' X P) := by
   ext g
   constructor
@@ -179,7 +179,7 @@ theorem ptStab_toG {X : Subgroup Γ} (hX : X ≤ L') (P : Subgroup V') :
       rw [h2, MulEquiv.symm_apply_apply]
       exact hhstab (τ.β.symm w)
 
-theorem cenIn_toG {X : Subgroup Γ} (hX : X ≤ L') (W : Subgroup V') :
+theorem cenIn_toG {X : Subgroup Γ} (_hX : X ≤ L') (W : Subgroup V') :
     cenIn ρ (τ.toG X) (τ.toV W) = τ.toG (cenIn ρ' X W) := by
   ext g
   constructor

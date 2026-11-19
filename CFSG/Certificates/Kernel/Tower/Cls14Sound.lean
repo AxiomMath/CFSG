@@ -154,7 +154,7 @@ theorem cls16_cntB_le (f : Nat → Bool) : ∀ m, cntB m f ≤ m := by
   | succ m ih =>
     have e : cntB (m + 1) f = cond (f m) 1 0 + cntB m f := rfl
     rw [e]
-    cases f m <;> simp only [cond_true, cond_false] <;> omega
+    cases f m <;> simp only [_root_.Bool.cond_true, Bool.cond_false] <;> omega
 
 theorem cls16_lane (T i : Nat) : lane T 15 32767 i = T / 2 ^ (15 * i) % 32768 := lane_eq T 15 i
 
@@ -163,16 +163,16 @@ theorem cls16_lane_add (T m l : Nat) (h : T / 2 ^ (15 * m) % 32768 + 1 < 32768) 
       T / 2 ^ (15 * l) % 32768 + if l = m then 1 else 0 := by
   have h32 : (32768 : Nat) = 2 ^ 15 := by norm_num
   rcases Nat.lt_trichotomy l m with hl | rfl | hl
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     have e : 2 ^ (15 * m) = 2 ^ (15 * l) * (32768 * 2 ^ (15 * (m - l - 1))) := by
       rw [h32, ← pow_add, ← pow_add]
       congr 1
       omega
     rw [e, Nat.add_mul_div_left _ _ (by positivity), Nat.add_mul_mod_self_left, Nat.add_zero]
-  · rw [if_pos rfl, Nat.add_div_right _ (by positivity)]
+  · rw [ite_eq_left rfl, Nat.add_div_right _ (by positivity)]
     generalize T / 2 ^ (15 * l) = a at h ⊢
     omega
-  · rw [if_neg (by omega), Nat.add_zero]
+  · rw [ite_eq_right (by omega), Nat.add_zero]
     have e : 2 ^ (15 * l) = 2 ^ (15 * m) * (32768 * 2 ^ (15 * (l - m - 1))) := by
       rw [h32, ← pow_add, ← pow_add]
       congr 1
@@ -200,13 +200,13 @@ theorem cls16_hist (LB : Nat) : ∀ m, m < 32768 → ∀ l,
     rw [e1, cls16_lane_add _ _ _ (by rw [ih (by omega)]; omega), ih (by omega), e2]
     by_cases h : l = lbL LB m
     · subst h
-      rw [if_pos rfl, Nat.beq_refl]
-      simp only [cond_true]
+      rw [ite_eq_left rfl, Nat.beq_refl]
+      simp only [_root_.Bool.cond_true]
       omega
     · have hb : Nat.beq (lbL LB m) l = false :=
         Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h').symm
-      rw [if_neg h, hb]
-      simp only [cond_false]
+      rw [ite_eq_right h, hb]
+      simp only [Bool.cond_false]
       omega
 
 theorem cls16_cz (hn : n < 32768) {CZ : Nat} (hcz : czOK16 n LB CZ = true) (l : Nat) :
@@ -379,7 +379,7 @@ theorem bitQ_index (M : IsModel (⊤ : Subgroup X) n mul dec) {PT : Nat}
   rw [mem_bitQ, mem_bitQ]
   have e : b * dec t = dec (M.code b) * dec t := by rw [M.dec_code (Subgroup.mem_top b)]
   rw [e, chiB_mul M hT h _ (M.code_lt (Subgroup.mem_top b)), M.code_dec ht, (chiB_parts h).2.1]
-  rcases bit_cases XT (M.code b) with hb | hb <;> rw [hb] <;> first | decide | simp [Xor]
+  rcases bit_cases XT (M.code b) with hb | hb <;> rw [hb] <;> first | decide
 
 theorem bit_mul (M : IsModel (⊤ : Subgroup X) n mul dec) {PT : Nat}
     (hT : treeB n 4 mul GS PT = true) (h : chiB n mul GS XT t x0 = true) (a b : X) :

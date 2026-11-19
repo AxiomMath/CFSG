@@ -60,6 +60,7 @@ section SL2
 
 variable {k : Type} [Field k] [Finite k] [CharP k 2]
 
+omit [Finite k] in
 theorem coe_not_mem_range_scalar {B : SL2 k} (hB : B ≠ 1) :
     (B : Matrix (Fin 2) (Fin 2) k) ∉ Set.range (Matrix.scalar (Fin 2)) := by
   rintro ⟨c, hc⟩

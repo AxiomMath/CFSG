@@ -54,9 +54,9 @@ theorem suz_central_quot_gen (P : GroupPresentation) (hP : P = Sporadic.suzPrese
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
   obtain ⟨β⟩ := hb
-  haveI hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
+  have hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
     CFSG.Sporadic.Suz.isSimpleGroup_Suz
-  haveI hSimple : IsSimpleGroup Sporadic.suzPresentation.Group :=
+  have hSimple : IsSimpleGroup Sporadic.suzPresentation.Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ hNat β.symm
   have hcardS : Nat.card Sporadic.suzPresentation.Group = 448345497600 := by
     rw [← Nat.card_congr β.toEquiv]
@@ -140,7 +140,7 @@ theorem suz_central_ext_gen (P : GroupPresentation) (hP : P = Sporadic.suzPresen
     (hcard : Nat.card T ≤ Nat.card Z * 448345497600) :
     CFSG.Open.IsQuasisimple T ∧ Subgroup.center T = Z ∧
       Nonempty ((T ⧸ Subgroup.center T) ≃* P.Group) := by
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZ
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZ
   obtain ⟨hcen, -, hcomm, hsimple, he⟩ :=
     suz_central_quot_gen P hP hb Z g hZ hrel hnc hcard
   have hperf : commutator T = ⊤ := commutator_eq_top_of_quot_aux Z hZK hcomm

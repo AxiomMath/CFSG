@@ -37,6 +37,7 @@ private theorem plo_block_unique (hd : IsCut (m + 1) d) {b b' i : ℕ}
   · have := q2cFPt_getD_le hd (show b' + 1 ≤ b by omega) (by omega)
     omega
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_blockDiag_single (hd : IsCut (m + 1) d) {b : ℕ} (hb : b + 1 < d.length)
     {a bpos : Fin (m + 1)} (ha : d.getD b 0 ≤ a.val) (ha' : a.val < d.getD (b + 1) 0)
     (hb1 : d.getD b 0 ≤ bpos.val) (hb2 : bpos.val < d.getD (b + 1) 0) (c : K) :
@@ -48,14 +49,15 @@ private theorem plo_blockDiag_single (hd : IsCut (m + 1) d) {b : ℕ} (hb : b + 
       rintro ⟨rfl, rfl⟩
       have hblk : b' = b := plo_block_unique hd hb' hb hij.1 hij.2 ha ha'
       exact hnj ⟨by rw [hblk]; omega, by rw [hblk]; omega⟩
-    rw [Matrix.add_apply, Matrix.one_apply_ne hne, Matrix.single_apply, if_neg hna, add_zero]
+    rw [Matrix.add_apply, Matrix.one_apply_ne hne, Matrix.single_apply, ite_eq_right hna, add_zero]
   · have hne' : j ≠ i := hne.symm
     have hna' : ¬ (a = j ∧ bpos = i) := by
       rintro ⟨rfl, rfl⟩
       have hblk : b' = b := plo_block_unique hd hb' hb hij.1 hij.2 hb1 hb2
       exact hnj ⟨by rw [hblk]; omega, by rw [hblk]; omega⟩
-    rw [Matrix.add_apply, Matrix.one_apply_ne hne', Matrix.single_apply, if_neg hna', add_zero]
+    rw [Matrix.add_apply, Matrix.one_apply_ne hne', Matrix.single_apply, ite_eq_right hna', add_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_blockDiag_tv (hd : IsCut (m + 1) d) {k : Fin m} (hk : k ∈ cutTypes m d)
     (c : K) :
     BlockDiag d ((tv K k.castSucc k.succ c : SpecialLinearGroup (Fin (m + 1)) K) :
@@ -72,6 +74,7 @@ private theorem plo_blockDiag_tv (hd : IsCut (m + 1) d) {k : Fin m} (hk : k ∈ 
     (by simp only [Fin.val_succ]; omega)
     (by simp only [Fin.val_succ]; omega) c
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_blockDiag_tv_inv (hd : IsCut (m + 1) d) {k : Fin m} (hk : k ∈ cutTypes m d)
     (c : K) :
     BlockDiag d ((tv K k.succ k.castSucc c : SpecialLinearGroup (Fin (m + 1)) K) :
@@ -89,6 +92,7 @@ private theorem plo_blockDiag_tv_inv (hd : IsCut (m + 1) d) {k : Fin m} (hk : k 
     h1
     (by simp only [Fin.val_castSucc]; omega) c
 
+omit [Finite K] [CharP K 2] in
 theorem blockSL_blockDiag (hd : IsCut (m + 1) d) {A : SpecialLinearGroup (Fin (m + 1)) K}
     (hA : A ∈ blockSL K m d) : BlockDiag d (A : Matrix (Fin (m + 1)) (Fin (m + 1)) K) := by
   refine Subgroup.closure_induction
@@ -105,7 +109,7 @@ theorem blockSL_blockDiag (hd : IsCut (m + 1) d) {A : SpecialLinearGroup (Fin (m
     have hval : (((SpecialLinearGroup.toGL x)⁻¹ : GL (Fin (m + 1)) K) :
         Matrix (Fin (m + 1)) (Fin (m + 1)) K) =
         (x : Matrix (Fin (m + 1)) (Fin (m + 1)) K)⁻¹ :=
-      by simpa using Units.val_inv_eq_inv_val (SpecialLinearGroup.toGL x)
+      by simp
     rw [hval] at h1
     have hxinv : (x : Matrix (Fin (m + 1)) (Fin (m + 1)) K)⁻¹ =
         ((x⁻¹ : SpecialLinearGroup (Fin (m + 1)) K) :

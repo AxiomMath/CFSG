@@ -89,10 +89,10 @@ theorem glTwoSol_centralizes {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : 
     (hq3 : 3 < p ^ f) (N : Subgroup (glPi π 2 (p ^ f) K)) [N.Normal] (hN : Group.IsSolvable N)
     {x : GL (Fin 2) K} (hx : x ∈ N.map (glPi π 2 (p ^ f) K).subtype) :
     x ∈ Subgroup.centralizer (slPi π 2 (p ^ f) K : Set (GL (Fin 2) K)) := by
-  haveI := hN
+  have := hN
   have hqs : CFSG.IsQuasisimple (slPi π 2 (p ^ f) K) := isQuasisimple_slPi_two hK hq3
-  haveI : Group.IsPerfect ↥(slPi π 2 (p ^ f) K) := hqs.1
-  haveI : Nontrivial ↥(slPi π 2 (p ^ f) K) := CFSG.LocalCores.isQuasisimple_nontrivial hqs
+  have : Group.IsPerfect ↥(slPi π 2 (p ^ f) K) := hqs.1
+  have : Nontrivial ↥(slPi π 2 (p ^ f) K) := CFSG.LocalCores.isQuasisimple_nontrivial hqs
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     fun h => by subst h; exact hK.unitary
   have hLG : ∀ a : GL (Fin 2) K, a ∈ slPi π 2 (p ^ f) K → a ∈ glPi π 2 (p ^ f) K :=
@@ -154,12 +154,12 @@ theorem glTwoSol_centralizes {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : 
 theorem glPi_two_solvable_normal_cyclic {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (hK : PiField π p f K) (hq3 : 3 < p ^ f) (N : Subgroup (glPi π 2 (p ^ f) K)) [N.Normal]
     (hN : Group.IsSolvable N) : IsCyclic N := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hS : IsCyclic (CFSG.Assembly.LowTwoRank.StatedScalars (Fin 2) K) :=
     isCyclic_of_surjective
       (Matrix.GeneralLinearGroup.scalar (Fin 2) : Kˣ →* GL (Fin 2) K).rangeRestrict
       (MonoidHom.rangeRestrict_surjective _)
-  haveI := hS
+  have := hS
   have hsub : ∀ n : N, ((n : glPi π 2 (p ^ f) K) : GL (Fin 2) K) ∈
       CFSG.Assembly.LowTwoRank.StatedScalars (Fin 2) K := by
     intro n

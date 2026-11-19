@@ -10,7 +10,7 @@ namespace CFSG.HardMathSupport.Cooperstein.Coordinator.F4Exc
 
 open CFSG.Blueprint.Chevalley
 
-theorem exists_gh {n g : ℕ} (hg : 1 ≤ g) (hgn : g ∣ n) : ∃ gh : ℕ, 2 ^ n - 1 = (2 ^ g - 1) * gh := by
+theorem exists_gh {n g : ℕ} (_hg : 1 ≤ g) (hgn : g ∣ n) : ∃ gh : ℕ, 2 ^ n - 1 = (2 ^ g - 1) * gh := by
   obtain ⟨t, rfl⟩ := hgn
   have hdvd : 2 ^ g - 1 ∣ 2 ^ (g * t) - 1 := by
     have := Nat.sub_dvd_pow_sub_pow (2 ^ g) 1 t

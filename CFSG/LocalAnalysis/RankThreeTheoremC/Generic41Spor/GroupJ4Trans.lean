@@ -27,7 +27,7 @@ private theorem zin_Q11 : Zin Q11 = Subgroup.zpowers qz := center_Q11
 
 private theorem j4_centerTransAt : CenterTransAt (Q11Sylow : Subgroup J) := by
   rw [Q11Sylow_coe]
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   refine centerTransAt_of_generator (p := 11) Q11 (z := qz) (n := nrm₂) (δ := 2) zin_Q11
     orderOf_qz nrm₂_mem_normalizer ?_ zmod11_two_generates
   simpa using nrm₂_qz
@@ -39,7 +39,7 @@ theorem j4_transCenter :
   have eKJ : K ≃* J :=
     e.trans ((CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv.some).symm.trans
       (seedEquiv j4Facts.mat))
-  haveI : Finite J := Finite.of_equiv K eKJ.toEquiv
+  have : Finite J := Finite.of_equiv K eKJ.toEquiv
   exact @normalizerTransitiveCenter_of_equiv K J _ (Subgroup.toGroup J) _ _ 11 (by norm_num) eKJ
     Q11Sylow j4_centerTransAt
 

@@ -47,7 +47,7 @@ theorem exists_isUniqueMaximalOvergroup_of_three_le_maxElementaryAbelianPRank [F
     hEea.le_elementaryAbelianPRank hp hcard hEP
   obtain ⟨A, hAnormal, hAcomm, hArank, hAself⟩ :=
     exists_abelian_normal_centralizer_eq_of_three_le_elementaryAbelianPRank_of_isPGroup hp hpodd
-      P.isPGroup' hPrank
+      P.isPGroup hPrank
   set A' : Subgroup G := A.map (P : Subgroup G).subtype with hA'def
   have hA'P : A' ≤ (P : Subgroup G) := Subgroup.map_subtype_le A
   have hA'sub : A'.subgroupOf (P : Subgroup G) = A :=
@@ -62,7 +62,7 @@ theorem exists_isUniqueMaximalOvergroup_of_three_le_maxElementaryAbelianPRank [F
     have := hAcomm
     rw [hA'def]
     infer_instance
-  have hA'pg : IsPGroup p ↥A' := P.isPGroup'.to_le hA'P
+  have hA'pg : IsPGroup p ↥A' := P.isPGroup.to_le hA'P
   have hAM : ∃ M : Subgroup G, IsUniqueMaximalOvergroup A' M :=
     exists_isUniqueMaximalOvergroup_of_scn_three_le_elementaryAbelianPRank hna hodd hsolv hp P
       (hA'sub ▸ hAnormal) hA'self hA'rank

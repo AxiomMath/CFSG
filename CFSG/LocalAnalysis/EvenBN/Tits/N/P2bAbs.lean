@@ -125,6 +125,7 @@ theorem sqSub_props {R : Subgroup G} {t : G} (ht : t * t = 1) (htR : t ∉ R)
           change Nat.card R + Nat.card R = 2 * Nat.card R
           ring
 
+omit [Finite G] in
 theorem eq_one_of_mem {D : Subgroup G} (hD : IsElemAbelian 2 D) {t e₀ k : G}
     (hte : t * e₀ ∈ D) (hk : k ∈ D) (hkt : k * t * k⁻¹ = t * e₀) : e₀ = 1 := by
   have hc := elemAb_comm hD hk hte
@@ -211,7 +212,7 @@ theorem card_le_two_mul {D D₀ : Subgroup G}
   by_cases hle : D ≤ D₀
   · have := Subgroup.card_le_of_le hle
     omega
-  · obtain ⟨a, haD, haD₀⟩ := SetLike.not_le_iff_exists.1 hle
+  · obtain ⟨a, haD, haD₀⟩ := IsConcreteLE.not_le_iff_exists.1 hle
     have hsub : (D : Set G) ⊆ (D₀ : Set G) ∪ (fun x => a⁻¹ * x) '' (D₀ : Set G) := by
       intro b hb
       by_cases hbD₀ : b ∈ D₀
@@ -248,6 +249,7 @@ theorem card_le_of_inv {V Q₂ Es D : Subgroup G} {W : Set G} {x : G} (hx : x �
     · exact absurd (elemAb_mul_self hD (mul_mem ha hb)) h)
   omega
 
+omit [Finite G] in
 theorem pRank_eq_of_bounds [Finite G] {K E₀ : Subgroup G} {k₀ : ℕ} (hE₀ : E₀ ≤ K)
     (hE₀a : IsElemAbelian 2 E₀) (hE₀c : Nat.card E₀ = 2 ^ k₀)
     (hbd : ∀ E' : Subgroup G, E' ≤ K → IsElemAbelian 2 E' → Nat.card E' ≤ 2 ^ k₀) :
@@ -262,6 +264,7 @@ theorem pRank_eq_of_bounds [Finite G] {K E₀ : Subgroup G} {k₀ : ℕ} (hE₀ 
   unfold CFSG.Open.pRank
   exact le_antisymm (csSup_le ⟨k₀, hmem⟩ hbd') (le_csSup ⟨k₀, hbd'⟩ hmem)
 
+omit [Finite G] in
 theorem mem_sup_zpowers_cases {H : Subgroup G} {y : G} (hy : y ∈ normalizer (H : Set G))
     (hy2 : y * y ∈ H) {c : G} (hc : c ∈ H ⊔ zpowers y) : c ∈ H ∨ ∃ h ∈ H, c = y * h := by
   have hy' : ∀ h ∈ H, y⁻¹ * h * y ∈ H := fun h hh => ((mem_normalizer_iff''.1 hy) h).1 hh

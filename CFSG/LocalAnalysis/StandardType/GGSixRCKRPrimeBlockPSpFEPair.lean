@@ -106,14 +106,14 @@ theorem rckRP_flaggedModel_PSp_fieldExtPair
   have hc : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨K, hKf, hKa, hKfin, W, hWac, hWF, hWK, hTower, hWfd, eW, φ, hcard, hact, hcomm⟩ :=
     exists_blockAction_dualPair_PSp (F := GaloisField 2 f) hc hSU hS hodd he hpair
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 f) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 f) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 f) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 f) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e * f := by
     nlinarith
   have horth := rckRPfe_dualPair_orth hSU hS he hpair
@@ -147,14 +147,14 @@ theorem rckRP_modelBig_PSp_fieldExtPair
   have hc : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨K, hKf, hKa, hKfin, W, hWac, hWF, hWK, hTower, hWfd, eW, φ, hcard, hact, hcomm⟩ :=
     exists_blockAction_dualPair_PSp (F := GaloisField 2 f) hc hSU hS hodd he hpair
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 f) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 f) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 f) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 f) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e * f := by
     nlinarith
   have horth := rckRPfe_dualPair_orth hSU hS he hpair

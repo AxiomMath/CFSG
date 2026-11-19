@@ -36,7 +36,7 @@ lemma factorization_of_mul_eq {M q A B e : ℕ} (hq : q.Prime)
     Finsupp.single_eq_same, add_zero] at hfac
   exact hfac
 
-lemma gcd_two_pow_sub_one {q n : ℕ} (hq : Odd q) (hn : 0 < n) : Nat.gcd 2 (q ^ n - 1) = 2 := by
+lemma gcd_two_pow_sub_one {q n : ℕ} (hq : Odd q) (_hn : 0 < n) : Nat.gcd 2 (q ^ n - 1) = 2 := by
   have hqodd : Odd (q ^ n) := hq.pow
   have h2 : 2 ∣ q ^ n - 1 := by
     obtain ⟨k, hk⟩ := hqodd

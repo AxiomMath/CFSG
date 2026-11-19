@@ -209,7 +209,7 @@ theorem Ctx.sp_points_core (h34 : Stroth34Statement) (hRoot : Stroth310RootState
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   let D := hc.natCommData ht hchi.1 hchi.2
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ, M₀, h, θ, hθ⟩ :=
     hc.exists_globalRingEquiv ht hK addCommutantScalar_statedSp φ hφ ψ hψ
   obtain ⟨b₀, hb₀B, hu0, hBiff⟩ := hc.exists_point_of_le hBV ψ h θ hθ
@@ -326,7 +326,7 @@ theorem Ctx.sp_points (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
         ((conjSubgroup (r : G) (LB M Q B)).subgroupOf (Rt M (LB M Q B) t)).map φ =
           LspGL m K ((φ r : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ u) := by
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   obtain ⟨u, hu0, -, hL, hr⟩ := hc.sp_points_core h34 hRoot hs hK hm φ hφ hker ψ hψ
   exact ⟨u, hu0, hL, hr⟩
 

@@ -206,7 +206,7 @@ theorem isSolvable_normalizer_sl2 {n : ℕ} (hF : Nat.card F = 2 ^ n)
   have ht1' : t ≠ 1 := fun h1 => ht1 (Subtype.ext h1)
   have hVp : IsPGroup 2 V := fun x => ⟨1, Subtype.ext (by rw [pow_one]; exact hV.2 x x.2)⟩
   obtain ⟨S, hVS⟩ := hVp.exists_le_sylow
-  have hSp : IsPGroup 2 (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) := S.isPGroup
   have hSexp : ∀ s ∈ (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)), s * s = 1 := by
     have : Nontrivial ↥(S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) :=
       ⟨⟨⟨t, hVS htV⟩, 1, fun h1 => ht1' (congrArg Subtype.val h1)⟩⟩

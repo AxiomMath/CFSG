@@ -176,7 +176,7 @@ theorem exists_mem_e6Weyl_apply_eq (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6
       {w : V | w ≠ 0 ∧ B w w = (1 : ZMod 3)} ∪
       {w : V | w ≠ 0 ∧ B w w = (2 : ZMod 3)} = {w : V | w ≠ 0} := by
     ext w
-    simp only [Set.mem_union, Set.mem_setOf_eq]
+    simp only [Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · rintro ((⟨hw, -⟩ | ⟨hw, -⟩) | ⟨hw, -⟩) <;> exact hw
     · intro hw

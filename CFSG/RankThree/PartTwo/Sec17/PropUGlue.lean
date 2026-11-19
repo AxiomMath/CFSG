@@ -137,7 +137,7 @@ theorem claim1724DeltaUp_of_inputs
     have hfit : ∀ q : ℕ, q.Prime →
         X ≤ Subgroup.centralizer ((CFSG.Open.pCoreOf q N₀ : Subgroup G) : Set G) := by
       intro q hq
-      haveI : Fact q.Prime := ⟨hq⟩
+      have : Fact q.Prime := ⟨hq⟩
       by_cases hq5 : 5 ≤ q
       · exact pf hFT hCover hq hq5 (hG.localRank_lt q hq (by omega))
           (CFSG.LieType.BorelTits.pCoreOf_isPGroup q N₀)

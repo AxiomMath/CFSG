@@ -147,10 +147,10 @@ public theorem CFSG.section10OmegaOneCenter_isElementaryAbelian
     {p : Nat.Primes} (P : Subgroup G) :
     IsElementaryAbelian p.val (section10OmegaOneCenter p P) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Ωc : Subgroup (Subgroup.center P) := omega₁ (G := Subgroup.center P) (p := p.val)
   have hΩcelem : IsElementaryAbelian p.val Ωc := by
-    letI : IsMulCommutative (Subgroup.center P) := inferInstance
+    let : IsMulCommutative (Subgroup.center P) := inferInstance
     simpa [Ωc] using
       IsElementaryAbelian.omega₁_of_isMulCommutative
         (p := p.val) (Subgroup.center P)
@@ -158,10 +158,10 @@ public theorem CFSG.section10OmegaOneCenter_isElementaryAbelian
     change IsElementaryAbelian p.val
       ((omega₁ (G := Subgroup.center P) (p := p.val)).map
         (Subgroup.center P).subtype)
-    letI : IsElementaryAbelian p.val Ωc := hΩcelem
+    let : IsElementaryAbelian p.val Ωc := hΩcelem
     simpa [Ωc] using
       IsElementaryAbelian.map (p := p.val) (A := Ωc) (Subgroup.center P).subtype
-  letI : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩZelem
+  let : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩZelem
   change IsElementaryAbelian p.val ((Ω₁Z p.val P).map P.subtype)
   simpa using
     IsElementaryAbelian.map (p := p.val) (A := Ω₁Z p.val P) P.subtype
@@ -172,7 +172,7 @@ public theorem CFSG.section10OmegaOneCenter_isPGroup
     IsPGroup p.val (section10OmegaOneCenter p P) := by
   have hZelem : IsElementaryAbelian p.val (section10OmegaOneCenter p P) :=
     section10OmegaOneCenter_isElementaryAbelian (G := G) (p := p) P
-  letI : IsElementaryAbelian p.val (section10OmegaOneCenter p P) := hZelem
+  let : IsElementaryAbelian p.val (section10OmegaOneCenter p P) := hZelem
   exact IsElementaryAbelian.isPGroup p.val (section10OmegaOneCenter p P)
 
 /-- `V` is a complement to the Sylow subgroup `P` in `N_G(P)`. -/

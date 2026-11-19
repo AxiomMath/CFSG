@@ -295,6 +295,7 @@ theorem t200k_card_centralizer_le (hm : 1 ≤ m) (heN : e ∈ Subgroup.normalize
   calc D.relIndex C * Nat.card ↥(D ⊓ C) ≤ 8 * 2 ^ (m + 4) := Nat.mul_le_mul h1 h2
     _ = 2 ^ (m + 7) := by ring
 
+omit [Finite G] in
 theorem t200k_card_sup_e (hm : 1 ≤ m) (heN : e ∈ Subgroup.normalizer (D : Set G))
     (hrel_e : Rel34i dD e (2 ^ (m + 1))) :
     Nat.card ↥(D ⊔ Subgroup.zpowers e) = 2 ^ (3 * m + 5) := by
@@ -307,9 +308,10 @@ theorem t200k_card_sup_e (hm : 1 ≤ m) (heN : e ∈ Subgroup.normalizer (D : Se
   show 2 * 2 ^ (m + (m + 2) + (m + 2)) = 2 ^ (3 * m + 5)
   ring
 
+omit [Finite G] in
 theorem t200k_sup_e_le_centralizer (hrel_e : Rel34i dD e (2 ^ (m + 1))) {k : ℕ} (hk : 1 ≤ k) :
     D ⊔ Subgroup.zpowers e ≤ Subgroup.centralizer {e ^ 2 ^ k} := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   have hmem : e ^ 2 ^ k ∈ D := by
     obtain ⟨k', rfl⟩ : ∃ k', k = k' + 1 := ⟨k - 1, by omega⟩
     rw [pow_succ', pow_mul, sq, hrel_e.e_sq]

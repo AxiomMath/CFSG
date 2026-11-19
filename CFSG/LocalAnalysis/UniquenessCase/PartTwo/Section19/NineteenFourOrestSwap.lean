@@ -40,7 +40,7 @@ theorem mQuot_le_two_of_swap_normalizes_19 (D : Data G)
   have hLalt : IsAlt (Bar2 L) 5 := isAlt_bar2_left_19 h hLn
   have hAK : A ≤ normalizer (K : Set G) := fun a ha =>
     mem_normalizer_right_19 h (hAM ha) (hAL ha) h.hne.symm
-  obtain ⟨t, htτ, htNL⟩ := SetLike.not_le_iff_exists.mp hτ
+  obtain ⟨t, htτ, htNL⟩ := IsConcreteLE.not_le_iff_exists.mp hτ
   have htT : t ∈ D.T := E1.tauOf_le X D.T A htτ
   have htsd : ∀ a ∈ A, ⁅t, a⁆ ∈ Q := (E1.mem_tauOf.mp htτ).2.2
   have hker : ∀ a (ha : a ∈ A), UC6S846.rhoL L ⟨a, hAL ha⟩ = 1 ↔ a ∈ Q := by
@@ -621,6 +621,7 @@ theorem inf_centerOf_wClos_two_ne_bot_of_swap_19 (D : Data G)
   exact ⟨inf_centerOf_wClos_two_ne_bot_19 h.hyp.hyp125 hm hsp hN2 hHM hQH hHQ hQT hAH
     hAgamma hAM hAQ (le_of_eq hq2) hC2 hP5, hQH, hHQ, hAH⟩
 
+omit [Finite G] in
 theorem exists_rhoL_conj_normalizer_trivial_19 {F A : Subgroup G} (hFalt : IsAlt (Bar2 F) 5)
     (hAel : IsElemAbelian 2 A) :
     ∃ (E : Subgroup (MulAut (Bar2 F))) (x : ↥F),
@@ -678,6 +679,7 @@ theorem exists_rhoL_conj_normalizer_trivial_19 {F A : Subgroup G} (hFalt : IsAlt
       (map_one ee).symm)
   exact ⟨E, x, rfl, key d c hd hcgood, key d⁻¹ c⁻¹ (by rw [map_inv, hd]) hcgoodinv⟩
 
+omit [Finite G] in
 theorem rhoL_eq_one_of_conj_eq_19 {L A : Subgroup G} {E : Subgroup (MulAut (Bar2 L))}
     (hEeq : E = ((A ⊓ normalizer (L : Set G)).subgroupOf (normalizer (L : Set G))).map
       (UC6S846.rhoL L))
@@ -751,7 +753,7 @@ theorem orest_LK_swap_19 (D : Data G)
   by_cases hAL : A ≤ normalizer (L : Set G)
   · have h2 := mQuot_le_two_of_swap_normalizes_19 D h hA hLn hAL hτ
     omega
-  obtain ⟨s, hsA, hsL⟩ := SetLike.not_le_iff_exists.mp hAL
+  obtain ⟨s, hsA, hsL⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   let X : Subgroup G := L ⊔ K ⊔ D.T
   let Q : Subgroup G := pCoreOf 2 X
   let N : Subgroup G := normalizer (L : Set G)

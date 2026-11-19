@@ -13,12 +13,14 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_le_right_of_le_normalizer {A E : Subgroup G}
     (h : A ≤ normalizer (E : Set G)) : ⁅A, E⁆ ≤ E := by
   refine Subgroup.commutator_le.2 fun a ha e he => ?_
   rw [commutatorElement_def]
   exact E.mul_mem ((Subgroup.mem_normalizer_iff.1 (h ha) e).1 he) (E.inv_mem he)
 
+omit [Finite G] in
 theorem isElemAbelian_mul_comm {E : Subgroup G} (hE : IsElemAbelian 2 E) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a :=
   congrArg Subtype.val (hE.1.is_comm.comm (⟨a, ha⟩ : E) (⟨b, hb⟩ : E))
@@ -122,7 +124,7 @@ theorem false_of_eB_eq (c : MinCex193 D V₀ V p X) (h162 : W3Thm162Gt2 G)
   obtain ⟨K, hK, hXJ⟩ := c.exists_conf196_le_J h.le_T hA2' (h.not_comm_le_pCoreOf c)
   have hcard := h4 g K hK
   rw [inf_eq_left.2 hXJ] at hcard
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   exact c.hyp.noncyclic (isCyclic_of_prime_card hcard)
 
 end MinCex193

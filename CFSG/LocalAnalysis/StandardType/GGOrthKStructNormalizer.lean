@@ -13,7 +13,7 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly CFSG.Open CFSG.StandardType.GGHalf CFSG.StandardType.SpJoin
   CFSG.LieType.Universal.SpecialLinear Matrix
 
-theorem ggOrthKStruct_normalizer {n : ℕ} (hn : 7 ≤ n)
+theorem ggOrthKStruct_normalizer {n : ℕ} (_hn : 7 ≤ n)
     (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (hΦ : IsTorusCoord n Φ)
     {s : SpecialLinearGroup (Fin (n + 1)) F2}
     (hs : s ∈ Subgroup.normalizer ((halfTorus n : Subgroup (SpecialLinearGroup (Fin (n + 1)) F2)) :
@@ -37,8 +37,8 @@ theorem ggOrthKStruct_normalizer {n : ℕ} (hn : 7 ≤ n)
       invFun := fun t =>
         (⟨s⁻¹ * (t : SpecialLinearGroup (Fin (n + 1)) F2) * s, hconj_inv t t.2⟩ :
           halfTorus n)
-      left_inv := fun t => Subtype.ext (by simp only [Subgroup.coe_mul]; group)
-      right_inv := fun t => Subtype.ext (by simp only [Subgroup.coe_mul]; group)
+      left_inv := fun t => Subtype.ext (by simp only; group)
+      right_inv := fun t => Subtype.ext (by simp only; group)
       map_mul' := fun t u => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   let α : MulAut (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) :=
     Φ.trans (conjAut.trans Φ.symm)
@@ -94,11 +94,11 @@ theorem ggOrthKStruct_normalizer {n : ℕ} (hn : 7 ≤ n)
     have h2 : (Matrix.toLin' S').comp (Matrix.toLin' S) = LinearMap.id := by
       rw [← Matrix.toLin'_mul, hS'S, Matrix.toLin'_one]
     let e : (Fin (n + 1) → F2) ≃ₗ[F2] (Fin (n + 1) → F2) :=
-      LinearEquiv.ofLinear (Matrix.toLin' S) (Matrix.toLin' S') h1 h2
+      LinearEquiv.ofLinearMap (Matrix.toLin' S) (Matrix.toLin' S') h1 h2
     have hconj_toLin : Matrix.toLin' (t'M ^ 2 + t'M + 1) =
         e.conj (Matrix.toLin' (tM ^ 2 + tM + 1)) := by
       rw [hpoly, Matrix.toLin'_mul, Matrix.toLin'_mul, LinearEquiv.conj_apply,
-        LinearEquiv.ofLinear_toLinearMap, LinearEquiv.ofLinear_symm_toLinearMap]
+        LinearEquiv.toLinearMap_ofLinearMap, _root_.LinearEquiv.symm_ofLinearMap, _root_.LinearEquiv.toLinearMap_ofLinearMap]
     have hfin : Module.finrank F2 (LinearMap.ker (Matrix.toLin'
         ((((Φ (α a) : SpecialLinearGroup (Fin (n + 1)) F2) :
             Matrix (Fin (n + 1)) (Fin (n + 1)) F2)) ^ 2 +

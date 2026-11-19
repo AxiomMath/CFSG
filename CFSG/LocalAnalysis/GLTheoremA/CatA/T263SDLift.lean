@@ -29,7 +29,7 @@ theorem sd_perfect_cover {J D : Type*} [Group J] [Group D] (hJ : commutator J = 
     (hD : CFSG.Open.IsQuasisimple D) (π : J →* D) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center J) :
     CFSG.Open.IsQuasisimple J ∧ Nonempty (J ⧸ Subgroup.center J ≃* D ⧸ Subgroup.center D) := by
-  haveI : Group.IsPerfect J := ⟨hJ⟩
+  have : Group.IsPerfect J := ⟨hJ⟩
   have hcomap := CFSG.ComponentClassification.Quasisimple.center_comap_of_central_kernel π hπ hker
   let ψ : J →* D ⧸ Subgroup.center D := (QuotientGroup.mk' (Subgroup.center D)).comp π
   have hψsurj : Function.Surjective ψ := (QuotientGroup.mk'_surjective _).comp hπ
@@ -40,7 +40,7 @@ theorem sd_perfect_cover {J D : Type*} [Group J] [Group D] (hJ : commutator J = 
   have he : J ⧸ Subgroup.center J ≃* D ⧸ Subgroup.center D :=
     (QuotientGroup.quotientMulEquivOfEq hψker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψsurj)
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
   exact ⟨⟨hJ, he.isSimpleGroup⟩, ⟨he⟩⟩
 
 end CentralCover
@@ -71,7 +71,7 @@ theorem sd_lift_component (σ : G →* T) (hσ : Function.Surjective σ)
       ∀ d : G, σ d ∈ Subgroup.centralizer (JT : Set T) → d ∈ Subgroup.centralizer (J₀ : Set G) := by
   set H : Subgroup G := JT.comap σ with hH
   have hHmap : H.map σ = JT := Subgroup.map_comap_eq_self_of_surjective hσ JT
-  haveI hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
+  have hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
   have hJTcomm : ⁅JT, JT⁆ = JT := Subgroup.commutator_eq_self
   have hJ₀map : (⁅H, H⁆ : Subgroup G).map σ = JT := by
     rw [Subgroup.map_commutator, hHmap, hJTcomm]
@@ -116,7 +116,7 @@ theorem sd_lift_component (σ : G →* T) (hσ : Function.Surjective σ)
         _ = a * h * a⁻¹ := by group
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ ha hh) (Subgroup.inv_mem _ ha)
-  haveI hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
+  have hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
   let φ : ↥(⁅H, H⁆ : Subgroup G) →* ↥JT :=
     (σ.comp (⁅H, H⁆ : Subgroup G).subtype).codRestrict JT (fun j => hJ₀H j.2)
   have hφsurj : Function.Surjective φ := by

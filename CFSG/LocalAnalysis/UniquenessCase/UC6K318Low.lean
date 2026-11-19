@@ -49,17 +49,17 @@ theorem eq_of_normal_not_isSolvable {P H : Subgroup G} [Finite P] [Group.IsPerfe
     (hHP : H ≤ P) (hnorm : ∀ g ∈ P, ∀ x ∈ H, g * x * g⁻¹ ∈ H) (R : Subgroup P) [R.Normal]
     (hRs : Group.IsSolvable R) (hs : IsSimpleGroup (P ⧸ R)) (hH : ¬ Group.IsSolvable H) :
     H = P := by
-  haveI : (H.subgroupOf P).Normal := ⟨fun n hn g => by
+  have : (H.subgroupOf P).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hnorm g g.2 n hn⟩
   rcases le_or_eq_top_of_normal hRs hs (H.subgroupOf P) with h | h
   · exfalso
     apply hH
-    haveI := hRs
+    have := hRs
     have h1 : Group.IsSolvable (H.subgroupOf P) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion h)
         (Subgroup.inclusion_injective h)
-    haveI := h1
+    have := h1
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hHP).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hHP).symm.injective
@@ -97,7 +97,7 @@ theorem list318_of_dim_two {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2)
     exact not_comm_of_simple hs fun a b => Subsingleton.elim _ _
   obtain ⟨-, -, hqs, ⟨s, hsp, hs5, -, ⟨e⟩⟩, -, -⟩ :=
     CFSG.SectionRank.Ccomm.perfect_prime_linear_recognition hq2 P hP
-  haveI : Fact s.Prime := ⟨hsp⟩
+  have : Fact s.Prime := ⟨hsp⟩
   have hR : R = center P := eq_of_simple_quotients hRs hs hqs.2
   have hn : Nat.card (P ⧸ R) = ordA 1 s := by
     rw [Nat.card_congr (QuotientGroup.quotientMulEquivOfEq hR).toEquiv]

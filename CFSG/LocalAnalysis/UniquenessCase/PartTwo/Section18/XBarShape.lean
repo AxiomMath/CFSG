@@ -46,7 +46,7 @@ theorem isSimpleGroup_bar2_of_hyp18 {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     · exact LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hu3
   · rw [S17.mem_calL5Star] at hXc
     obtain ⟨e⟩ := hXc.2
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       alternatingGroup.isSimpleGroup (by norm_num)
     exact MulEquiv.isSimpleGroup e
   · exact absurd hXc (by simp)

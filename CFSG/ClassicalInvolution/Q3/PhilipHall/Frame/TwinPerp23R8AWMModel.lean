@@ -193,8 +193,8 @@ theorem exists_three_elt_moving (α : Finset (Fin 7)) (hα : α.card = 4) {ε : 
           exact Finset.mem_coe
         rw [zOf_vec_apply]
         by_cases hx : x ∈ α
-        · rw [if_pos (hmem.mpr hx), hconst x hx x₀ hx₀, h1]
-        · rw [if_neg (fun h => hx (hmem.mp h)), hvec0 x hx]
+        · rw [ite_eq_left (hmem.mpr hx), hconst x hx x₀ hx₀, h1]
+        · rw [ite_eq_right (fun h => hx (hmem.mp h)), hvec0 x hx]
       rw [this]
       rfl
   set ρ : Equiv.Perm (Fin 7) := threeCycle r₁ r₂ r₃ with hρ
@@ -320,7 +320,7 @@ theorem eq_of_supported_eq_zBar {a : Wr 7} (ha : a ∈ aeSub 7) {α β : Finset 
     intro x hx
     by_contra hxα
     have h2 := (hs x (by exact_mod_cast hxα)).1
-    rw [h1, zOf_vec_apply, if_pos (by rw [range_emb]; exact_mod_cast hx)] at h2
+    rw [h1, zOf_vec_apply, ite_eq_left (by rw [range_emb]; exact_mod_cast hx)] at h2
     exact absurd h2 (by decide)
   exact Finset.eq_of_subset_of_card_le hsub (by rw [hα, hβ])
 
@@ -340,7 +340,7 @@ theorem eq_of_supported_eq_zBar_mul {a : Wr 7} (ha : a ∈ aeSub 7) {α β : Fin
     have hxα' : x ∉ Set.range (emb α hα) := by rw [range_emb]; exact_mod_cast hxα
     have hxβ : x ∈ Set.range (emb β hβ) := by rw [range_emb]; exact_mod_cast hx
     have e1 : (zOf (emb α hα)).perm.symm x = x := by rw [zOf_perm]; rfl
-    rw [h1, mul_vec, e1, zOf_vec_apply, zOf_vec_apply, if_neg hxα', if_pos hxβ] at h2
+    rw [h1, mul_vec, e1, zOf_vec_apply, zOf_vec_apply, ite_eq_right hxα', ite_eq_left hxβ] at h2
     exact absurd h2 (by decide)
   exact Finset.eq_of_subset_of_card_le hsub (by rw [hα, hβ])
 

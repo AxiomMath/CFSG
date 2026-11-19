@@ -17,7 +17,7 @@ private theorem ggKGF4s_exists_conj_map_le_of_not_dvd_index {G : Type*} [Group G
     (hP : IsPGroup p P) : ∃ g : G, P.map (MulAut.conj g).toMonoidHom ≤ H := by
   obtain ⟨S⟩ : Nonempty (Sylow p H) := inferInstance
   set S' := (S : Subgroup H).map H.subtype with hS'
-  have hS'p : IsPGroup p S' := S.isPGroup'.map H.subtype
+  have hS'p : IsPGroup p S' := S.isPGroup.map H.subtype
   have hS'idx : ¬ p ∣ S'.index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S.not_dvd_index hH
@@ -61,7 +61,7 @@ private theorem ggKGF4s_not_dvd_three {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
 private theorem ggKGF4s_val_pow_sub_one {p q e : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 2 ≤ q)
     (hpq : p ∣ q + 1) (he : ¬ p ∣ e) (he0 : e ≠ 0) :
     padicValNat p (q ^ (2 * e) - 1) = padicValNat p (q + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := by
     rcases hp.eq_two_or_odd with h | h
     · omega
@@ -95,7 +95,7 @@ private theorem ggKGF4s_val_pow_sub_one {p q e : ℕ} (hp : p.Prime) (hp5 : 5 �
 private theorem ggKGF4s_padicValNat_ordF4 {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hq : 2 ≤ q) (hpq : p ∣ q + 1) :
     padicValNat p (CFSG.Open.ordF4 q) = 4 * padicValNat p (q + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h12 : padicValNat p (q ^ 12 - 1) = padicValNat p (q + 1) := by
     have h := ggKGF4s_val_pow_sub_one (e := 6) hp hp5 hq hpq
       (ggKGF4s_not_dvd_six hp hp5) (by norm_num)
@@ -143,7 +143,7 @@ private theorem ggKGF4s_padicValNat_ordF4 {p q : ℕ} (hp : p.Prime) (hp5 : 5 �
 private theorem ggKGF4s_padicValNat_ordF4_split {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hq : 2 ≤ q) (hpq : p ∣ q - 1) :
     padicValNat p (CFSG.Open.ordF4 q) = 4 * padicValNat p (q - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ q := by omega
   have hnot := TableBF4.not_dvd_mul_geomSums hp hp5 hq1 hpq
   have hR : (q ^ 24 * ((∑ i ∈ Finset.range 12, q ^ i) *
@@ -160,8 +160,8 @@ theorem ggF4Nons_selfCentralizing_rank
     (hsc : ∀ g : adjointGroup .F4 K, (∀ e ∈ E, g * e = e * g) → g ^ p = 1 → g ∈ E) :
     p ^ 4 ≤ Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (adjointGroup .F4 K) := CFSG.LieType.Chevalley.generated_group_finite .F4 K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (adjointGroup .F4 K) := CFSG.LieType.Chevalley.generated_group_finite .F4 K
   have hq2 : 2 ≤ Nat.card K := by
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
@@ -180,7 +180,7 @@ theorem ggF4Nons_selfCentralizing_rank
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
   have hPcard : Nat.card (P : Subgroup (adjointGroup .F4 K)) = p ^ (4 * a) := by
     rw [P.card_eq_multiplicity, Nat.factorization_def (Nat.card (adjointGroup .F4 K)) hp, hvalC]
-  haveI : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) :=
+  have : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) :=
     CFSG.LieType.Chevalley.generated_group_finite .F4 _
   have hcardK₂ : Nat.card (FiniteField.Extension K 2 2) = Nat.card K ^ 2 := by
     rw [FiniteField.natCard_extension]
@@ -210,7 +210,7 @@ theorem ggF4Nons_selfCentralizing_rank
     rw [hP'def, Subgroup.card_map_of_injective hφinj, hPcard]
   have hP'p : IsPGroup p P' := by
     rw [hP'def]
-    exact P.isPGroup'.map φ
+    exact P.isPGroup.map φ
   let P₂ : Sylow p (adjointGroup .F4 (FiniteField.Extension K 2 2)) :=
     Sylow.ofCard P' (by
       rw [Nat.factorization_def (Nat.card (adjointGroup .F4 (FiniteField.Extension K 2 2))) hp,
@@ -269,7 +269,7 @@ theorem ggF4Nons_selfCentralizing_rank
   have htp : IsPGroup p (TableBF4.torusPow (FiniteField.Extension K 2 2) p) := by
     rw [isPGroup_iff_card_dvd_pow]
     exact ⟨4, by rw [TableBF4.card_torusPow hp hpq₂]⟩
-  haveI hNnormal : ((TableBF4.torusPow (FiniteField.Extension K 2 2) p).comap H.subtype).Normal :=
+  have hNnormal : ((TableBF4.torusPow (FiniteField.Extension K 2 2) p).comap H.subtype).Normal :=
     Subgroup.Normal.mk (fun n hn g => by
       have h1 : g * n * g⁻¹ = n := by
         calc g * n * g⁻¹ = n * g * g⁻¹ := by rw [hcommH g n]

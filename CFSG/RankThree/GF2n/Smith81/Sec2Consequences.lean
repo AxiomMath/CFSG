@@ -68,7 +68,7 @@ theorem smith25_of_117 (h117 : Smith117Statement) {M Q Z B : Subgroup G} (hc : C
   have hZN : ∀ m ∈ M, conjSubgroup m Z = Z := fun m hm =>
     conjSubgroup_eq_self_iff.mpr (H.Z_normal.2 hm)
   ext V
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨A, hA, hAQ, hAZ, rfl⟩
     obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (hZ1 hA)
@@ -82,7 +82,7 @@ theorem smith25_of_117 (h117 : Smith117Statement) {M Q Z B : Subgroup G} (hc : C
       (hnot hBc hc.ne b hbB' hb1') g hg
     have hmem : (b : G) ∈ conjSubgroup m A := by
       rw [mem_conjSubgroup, ← hmab]
-      simpa [mul_assoc] using haA'
+      simp [mul_assoc]
     have heq : conjSubgroup m A = B := (hA.conj m).eq_of_mem H hBc hb1' hmem hbB'
     refine ⟨m⁻¹, Subgroup.inv_mem _ hm, ?_⟩
     have : A = conjSubgroup m⁻¹ B := by

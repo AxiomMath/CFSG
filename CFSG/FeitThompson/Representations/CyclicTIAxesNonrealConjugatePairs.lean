@@ -138,8 +138,8 @@ theorem conj_prodCharEta_row_ne (hW : IsCyclicTIPair W W1 W2)
   intro he
   rw [hW.conj_prodCharEta_row hσ (k := starIrr i) (coe_starIrr_eq i)] at he
   have h1 := hW.cfInner_prodCharEta_row hσ (starIrr i) i
-  rw [he, if_neg (starIrr_ne_self hW.odd_natCard_left hi), hW.cfInner_prodCharEta_row hσ,
-    if_pos rfl] at h1
+  rw [he, ite_eq_right (starIrr_ne_self hW.odd_natCard_left hi), hW.cfInner_prodCharEta_row hσ,
+    ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 theorem conj_prodCharEta_col_ne (hW : IsCyclicTIPair W W1 W2)
@@ -150,8 +150,8 @@ theorem conj_prodCharEta_col_ne (hW : IsCyclicTIPair W W1 W2)
   intro he
   rw [hW.conj_prodCharEta_col hσ (l := starIrr j) (coe_starIrr_eq j)] at he
   have h1 := hW.cfInner_prodCharEta_col hσ (starIrr j) j
-  rw [he, if_neg (starIrr_ne_self hW.odd_natCard_right hj), hW.cfInner_prodCharEta_col hσ,
-    if_pos rfl] at h1
+  rw [he, ite_eq_right (starIrr_ne_self hW.odd_natCard_right hj), hW.cfInner_prodCharEta_col hσ,
+    ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 end IsCyclicTIPair

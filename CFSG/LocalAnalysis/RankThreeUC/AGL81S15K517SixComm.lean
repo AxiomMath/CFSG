@@ -35,8 +35,8 @@ theorem not_mem_roots_add_of_cartan_zero {i j : Fin D.rank} (hij : i ≠ j) (h0 
   rw [reflection_apply_coroot, map_add, map_zsmul, map_zsmul, coroot_single, coroot_single,
     D.isFiniteType.apply_self, h0] at h'
   refine false_of_root_mixed D h' (i := j) (j := i) ?_ ?_
-  · simp [Pi.single_apply, hij.symm, hb]
-  · simp [Pi.single_apply, hij, hij.symm]
+  · simp [hij.symm, hb]
+  · simp [hij]
     omega
 
 end Roots
@@ -104,7 +104,7 @@ theorem linIndepPair_single {i j : Fin D.rank} (hij : i ≠ j) {s t : ℤ} (hs :
   intro a b h
   have h1 := congrFun h i
   have h2 := congrFun h j
-  simp [Pi.single_apply, hij, hij.symm] at h1 h2
+  simp [hij, hij.symm] at h1 h2
   tauto
 
 theorem not_mem_roots_nsmul_add_of_cartan_zero {i j : Fin D.rank} (hij : i ≠ j)
@@ -133,12 +133,12 @@ theorem rootGroup_commute_of_cartan_zero (hext : SteinbergExtras D n H) {i j : F
   · simpa using not_mem_roots_nsmul_add_of_cartan_zero (D := D) hij h0 ha hb
   · intro h
     refine false_of_root_mixed D h (i := i) (j := j) ?_ ?_
-    · simp [Pi.single_apply, hij.symm, ha]
-    · simp [Pi.single_apply, hij, hb]
+    · simp [hij.symm, ha]
+    · simp [hij, hb]
   · intro h
     refine false_of_root_mixed D h (i := j) (j := i) ?_ ?_
-    · simp [Pi.single_apply, hij.symm, hb]
-    · simp [Pi.single_apply, hij, ha]
+    · simp [hij.symm, hb]
+    · simp [hij, ha]
   · intro h
     have h' := neg_mem_roots (D := D) h
     refine not_mem_roots_nsmul_add_of_cartan_zero (D := D) hij h0 ha hb ?_
@@ -168,10 +168,10 @@ variable {K : Type*} [Group K] (D : UniversalRootDatum K)
 variable {D} {i j : Fin D.rank}
 
 theorem vec2_apply_left (hij : i ≠ j) (c₁ c₂ : ℤ) : vec2 D i j c₁ c₂ i = c₁ := by
-  simp [vec2, Pi.single_apply, hij.symm]
+  simp [vec2, hij.symm]
 
 theorem vec2_apply_right (hij : i ≠ j) (c₁ c₂ : ℤ) : vec2 D i j c₁ c₂ j = c₂ := by
-  simp [vec2, Pi.single_apply, hij]
+  simp [vec2, hij]
 
 theorem reflection_vec2_left (hij : i ≠ j) (hAij : D.cartan i j = -1) (c₁ c₂ : ℤ) :
     reflection D.cartan i (vec2 D i j c₁ c₂) = vec2 D i j (c₂ - c₁) c₂ := by
@@ -181,12 +181,12 @@ theorem reflection_vec2_left (hij : i ≠ j) (hAij : D.cartan i j = -1) (c₁ c�
   ext k
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_apply, hij.symm]
+    simp [hij.symm]
     ring
   · by_cases hkj : k = j
     · subst hkj
-      simp [Pi.single_apply, hij]
-    · simp [Pi.single_apply, hki, hkj]
+      simp [hij]
+    · simp [hki, hkj]
 
 theorem reflection_vec2_right (hij : i ≠ j) (hAji : D.cartan j i = -2) (c₁ c₂ : ℤ) :
     reflection D.cartan j (vec2 D i j c₁ c₂) = vec2 D i j c₁ (2 * c₁ - c₂) := by
@@ -196,12 +196,12 @@ theorem reflection_vec2_right (hij : i ≠ j) (hAji : D.cartan j i = -2) (c₁ c
   ext k
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_apply, hij]
+    simp [hij]
   · by_cases hkj : k = j
     · subst hkj
-      simp [Pi.single_apply, hij.symm]
+      simp [hij.symm]
       ring
-    · simp [Pi.single_apply, hki, hkj]
+    · simp [hki, hkj]
 
 theorem vec2_left_mem_roots (hij : i ≠ j) (hAij : D.cartan i j = -1) {c₁ c₂ : ℤ}
     (h : vec2 D i j c₁ c₂ ∈ D.roots) : vec2 D i j (c₂ - c₁) c₂ ∈ D.roots := by
@@ -276,7 +276,6 @@ theorem not_mem_roots_B2_cone {a b : ℤ} (ha : 0 < a) (hb : 0 < b) {s t : ℤ}
     | exact hnp ⟨0, 1, by omega, by omega⟩
     | exact hnp ⟨0, -1, by omega, by omega⟩
     | exact hnp ⟨-1, -1, by omega, by omega⟩
-    | exact hnp ⟨1, -1, by omega, by omega⟩
 
 end B2
 
@@ -301,6 +300,7 @@ variable (hdiv : D.divisible = ∅) (hij : i ≠ j) (hAij : D.cartan i j = -1)
   (hAji : D.cartan j i = -2)
 
 include hdiv hij hAij hAji in
+omit hdiv hAij in
 theorem vec2_mem_roots_B2 {t : ℤ} (ht : t = 1 ∨ t = -1) : vec2 D i j t (2 * t) ∈ D.roots := by
   have h1 : vec2 D i j 1 (2 * 1 - 0) ∈ D.roots := by
     refine vec2_right_mem_roots hij hAji ?_
@@ -325,7 +325,7 @@ theorem rootGroup_conj_commute_B2 (hext : SteinbergExtras D n H) {s t : ℤ}
     rcases hs with rfl | rfl
     · rw [vec2_one_zero]; exact single_mem_roots i
     · rw [vec2_neg_one_zero]; exact neg_single_mem_roots i
-  refine commute_of_open_cone_empty hext hγ (vec2_mem_roots_B2 hdiv hij hAij hAji ht) ?_ ?_
+  refine commute_of_open_cone_empty hext hγ (vec2_mem_roots_B2 hij hAji ht) ?_ ?_
   · intro a b h
     have h1 := congrFun h i
     have h2 := congrFun h j
@@ -353,6 +353,7 @@ variable {K : Type*} [Group K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
   (hdiv : D.divisible = ∅) (hij : i ≠ j) (hAij : D.cartan i j = -1) (hAji : D.cartan j i = -2)
 
 include hct hdiv hij hAij hAji in
+omit hdiv hAij in
 theorem conj_rootGroup_B2 {s : ℤ} (hs : s = 1 ∨ s = -1) {y : K}
     (hy : y ∈ D.rootGroup (vec2 D i j s 0)) :
     n j * y * (n j)⁻¹ ∈ D.rootGroup (vec2 D i j s (2 * s)) := by
@@ -383,8 +384,8 @@ theorem rankOne_conj_commute_of_cartan_B2 :
         (MulAut.conj (n j)).toMonoidHom := by
     rw [hP]
     refine sup_le (fun y hy => ?_) (fun y hy => ?_)
-    · exact Subgroup.mem_sup_left (conj_rootGroup_B2 hct hdiv hij hAij hAji (Or.inl rfl) hy)
-    · exact Subgroup.mem_sup_right (conj_rootGroup_B2 hct hdiv hij hAij hAji (Or.inr rfl) hy)
+    · exact Subgroup.mem_sup_left (conj_rootGroup_B2 hct hij hAji (Or.inl rfl) hy)
+    · exact Subgroup.mem_sup_right (conj_rootGroup_B2 hct hij hAji (Or.inr rfl) hy)
   intro x hx y hy
   rw [hP] at hx
   exact hcomm x hx _ (hle hy)
@@ -453,11 +454,11 @@ theorem two_le_pRank_of_conj_nodes (hq : q.ker ≤ Subgroup.center ↥L)
 
 theorem two_le_pRank_of_images_q {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hπ : π.ker ≤ Subgroup.center K) {Hs : Subgroup ↥L} {a b m : K}
-    (ha : π a ∈ Hs.map q) (hb : π b ∈ Hs.map q) (hm : π m ∈ Hs.map q) (har : a ^ r = 1)
+    (ha : π a ∈ Hs.map q) (hb : π b ∈ Hs.map q) (_hm : π m ∈ Hs.map q) (har : a ^ r = 1)
     (ha1 : a ∉ Subgroup.center K) (hbr : b ^ r = 1) (hb1 : b ∉ Subgroup.center K)
     (hma : m * a * m⁻¹ = a⁻¹) (hab : a * b = b * a) (hmb : m * b = b * m) :
     2 ≤ CFSG.Open.pRank r Hs := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hx1 : π a ≠ 1 := fun h => ha1 (hπ (MonoidHom.mem_ker.2 h))
   have hy1 : π b ≠ 1 := fun h => hb1 (hπ (MonoidHom.mem_ker.2 h))
   have hxr : (π a) ^ r = 1 := by rw [← map_pow, har, map_one]

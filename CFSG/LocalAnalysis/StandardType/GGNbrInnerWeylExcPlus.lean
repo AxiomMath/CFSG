@@ -53,7 +53,7 @@ theorem largeEvenLabelAll_torusLift_noLine_excPlus_largePrime {p : ℕ} (hp : p.
       fun _ _ _ _ ⟨hl, hn⟩ hs hna => ⟨_, Or.inl hl, hn hs hna⟩
 
 theorem ggNbrInnerWeylOn_excPlusLarge : GGNbrInnerWeylOn GGNbrWeylExcPlusLargePrimeLabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨⟨hpow, ht, hE⟩, hns⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨⟨hpow, ht, hE⟩, hns⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine_or
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_torusLift_noLine_excPlus_largePrime hp hp2 ⟨ht, hE⟩

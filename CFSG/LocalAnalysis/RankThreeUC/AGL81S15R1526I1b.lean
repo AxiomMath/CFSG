@@ -22,13 +22,13 @@ theorem exists_sylow_central_pair_of_pElem {L I Q A : Subgroup X} (hLn : L.Norma
       CFSG.ABGLocalTools.IsSylowOf 3 Q₁ I ∧ (∃ i ∈ I, Q₁ = conjSub i Q) ∧ B ≤ Q₁ ∧ Nat.card B = 3 ∧
       Q₁ ≤ P ∧ P ≤ Subgroup.normalizer (Q₁ : Set X) ∧ (∀ d ∈ A ⊔ B, ∀ y ∈ P, d * y = y * d) ∧
       IsElemAbelian 3 (A ⊔ B) ∧ Nat.card ↥(A ⊔ B) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP3, hPtop, hAP⟩ : ∃ P : Subgroup X, IsPGroup 3 P ∧
       CFSG.ABGLocalTools.IsSylowOf 3 P ⊤ ∧ A ≤ P := by
     obtain ⟨P₀, hAP₀⟩ := hA.isPGroup.exists_le_sylow
-    refine ⟨(P₀ : Subgroup X), P₀.isPGroup', ?_, hAP₀⟩
+    refine ⟨(P₀ : Subgroup X), P₀.isPGroup, ?_, hAP₀⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, P₀.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P₀.not_dvd_index⟩
+    exact ⟨le_top, P₀.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P₀.not_dvd_index⟩
   have hPnI : P ≤ Subgroup.normalizer (I : Set X) := by
     intro y hy
     exact hIn y (exists_sylow_central_pair_aux1 hP3 hy)

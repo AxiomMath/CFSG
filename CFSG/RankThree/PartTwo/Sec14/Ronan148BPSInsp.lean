@@ -39,6 +39,7 @@ namespace PS
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem conj_injective (hZ : Subgroup.center X = ⊥) :
     Function.Injective (MulAut.conj : X →* MulAut X) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -56,6 +57,7 @@ noncomputable def innEquiv (hZ : Subgroup.center X = ⊥) {V : Subgroup (MulAut 
   (V.comap (MulAut.conj : X →* MulAut X)).equivMapOfInjective _ (conj_injective hZ) |>.trans
     (MulEquiv.subgroupCongr (Subgroup.map_comap_eq_self hV))
 
+omit [Finite X] in
 theorem rankTwo_inn (hZ : Subgroup.center X = ⊥) (hb : RankTwo148 X)
     {E : Subgroup (MulAut X)} (hE : E ≤ (MulAut.conj : X →* MulAut X).range)
     (hEa : CFSG.Assembly.IsElemAbelian 3 E) : Nat.card E ≠ 27 := by
@@ -82,6 +84,7 @@ theorem inSubgroup_theta_map_injective {G G' : Type*} [Group G] [Group G'] [Fini
     rfl
   rw [inSubgroup, inSubgroup, ← hθ, Subgroup.map_map, hcomp, ← Subgroup.map_map]
 
+omit [Finite X] in
 theorem conj_apply_eq (α : MulAut X) (x : X) :
     MulAut.conj (α x) = α * MulAut.conj x * α⁻¹ := by
   ext y
@@ -94,8 +97,8 @@ theorem pPrimeCore_thetaQuot_eq_bot_of_inv (hZ : Subgroup.center X = ⊥)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hchar, h3θ, hmax, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥W) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥W).Normal := by haveI := hchar; infer_instance
-  haveI := theta_characteristic ↥W
+  have : (aschbacherSolvableCore 3 ↥W).Normal := by have := hchar; infer_instance
+  have := theta_characteristic ↥W
   set θ := aschbacherSolvableCore 3 ↥W with hθ
   set mk := QuotientGroup.mk' θ with hmk
   set O := CFSG.pPrimeCore 3 (↥W ⧸ θ) with hO
@@ -166,7 +169,7 @@ theorem sigImg148_of_insp (hZ : Subgroup.center X = ⊥) {P : Subgroup (MulAut X
   classical
   intro W Q D hWinn hPW hD hQWD hQinv hQP hsig hQO
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := theta_characteristic ↥W
+  have := theta_characteristic ↥W
   set Ws := ↥W ⧸ aschbacherSolvableCore 3 ↥W
   set mk := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥W) with hmk
   have hPp : IsPGroup 3 P := fun g => ⟨1, Subtype.ext (by simpa using hP.2 g g.2)⟩

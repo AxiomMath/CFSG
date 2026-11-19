@@ -16,8 +16,8 @@ theorem asc80ThmBCase_th : Asc80ThmBCase fun X _ => CFSG.Models.IsSporadic X .Th
   have hOut' : ∀ (X : Type) [Group X] [Finite X], CFSG.Models.IsSporadic X .Th →
       Nat.card (Outer X) = 1 := by
     intro X _ _ hX
-    letI : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
-    letI : Group (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    let : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
+    let : Group (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Blueprint.NativeSporadic.carrierGroup .Th
     obtain ⟨e₁⟩ := hX
     obtain ⟨e₂⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
@@ -36,7 +36,7 @@ theorem asc80ThmBCase_th : Asc80ThmBCase fun X _ => CFSG.Models.IsSporadic X .Th
       ∀ t₁ t₂ : X, orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ ≠ t₂ →
         Subgroup.centralizer ({t₁} : Set X) ⊔ Subgroup.centralizer {t₂} = ⊤ := by
     intro X _ _ hX t₁ t₂ h₁ h₂ hne
-    letI : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
+    let : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
     obtain ⟨e₁⟩ := hX
     obtain ⟨e₂⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
     let e : X ≃* Blueprint.NativeSporadic.Th := e₁.trans e₂.symm
@@ -66,7 +66,7 @@ theorem asc80ThmBCase_th : Asc80ThmBCase fun X _ => CFSG.Models.IsSporadic X .Th
       ∀ t : X, orderOf t = 2 →
         ∃ t' : X, orderOf t' = 2 ∧ t' ≠ t ∧ t * t' = t' * t := by
     intro X _ _ hX t ht
-    letI : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
+    let : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
     obtain ⟨e₁⟩ := hX
     obtain ⟨e₂⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
     let e : X ≃* Blueprint.NativeSporadic.Th := e₁.trans e₂.symm

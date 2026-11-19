@@ -46,7 +46,7 @@ theorem s16sm_exists_invariant_functional {S : Type} [AddCommGroup S] [Module (Z
     [Finite S] (ρ : Representation (ZMod 2) G6 S) (T : Submodule (ZMod 2) S)
     (hT : ∀ g, T ≤ T.comap (ρ g)) (hfin : Module.finrank (ZMod 2) (S ⧸ T) ≤ 5) (hne : T ≠ ⊤) :
     ∃ φ : S →ₗ[ZMod 2] ZMod 2, φ ≠ 0 ∧ ∀ g s, φ (ρ g s) = φ s := by
-  haveI : Finite (S ⧸ T) :=
+  have : Finite (S ⧸ T) :=
     Finite.of_surjective (Submodule.mkQ T) (Submodule.mkQ_surjective T)
   let ρQ : Representation (ZMod 2) G6 (S ⧸ T) := ρ.quotient T hT
   have htriv : ∀ (g : G6) (v : S ⧸ T), ρQ g v = v :=
@@ -55,7 +55,7 @@ theorem s16sm_exists_invariant_functional {S : Type} [AddCommGroup S] [Module (Z
     intro g x
     change (Submodule.mapQ T T (ρ g) (hT g)) (T.mkQ x) = T.mkQ (ρ g x)
     rw [Submodule.mkQ_apply, Submodule.mapQ_apply, Submodule.mkQ_apply]
-  haveI : Nontrivial (S ⧸ T) := Submodule.Quotient.nontrivial_iff.mpr hne
+  have : Nontrivial (S ⧸ T) := Submodule.Quotient.nontrivial_iff.mpr hne
   obtain ⟨v, hv⟩ := exists_ne (0 : S ⧸ T)
   obtain ⟨l, hl⟩ := Module.Projective.exists_dual_eq_one (ZMod 2) hv
   refine ⟨l.comp (Submodule.mkQ T), ?_, ?_⟩

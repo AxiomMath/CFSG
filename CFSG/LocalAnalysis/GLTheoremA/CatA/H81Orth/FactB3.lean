@@ -34,11 +34,11 @@ theorem h81Choice_odd_model {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Pr
   refine h81Choice_of_lift hQnd hT hK hK3 hp hp2 hpK hP (fun Pt hPt hPtc => ?_)
     (fun yy hy hR hW hpJ => ?_) (fun yy hy hR hW α hα hαJ => ?_)
   ·
-    haveI := hPt.1
-    letI : CommGroup ↥Pt :=
+    have := hPt.1
+    let : CommGroup ↥Pt :=
       { (inferInstance : Group ↥Pt) with mul_comm := fun a b => mul_comm' a b }
-    haveI : Finite (Fin 3 ⊕ Fin 3 ⊕ Unit → F) := Module.finite_of_finite F
-    haveI : Finite ((Fin 3 ⊕ Fin 3 ⊕ Unit → F) ≃ₗ[F] (Fin 3 ⊕ Fin 3 ⊕ Unit → F)) :=
+    have : Finite (Fin 3 ⊕ Fin 3 ⊕ Unit → F) := Module.finite_of_finite F
+    have : Finite ((Fin 3 ⊕ Fin 3 ⊕ Unit → F) ≃ₗ[F] (Fin 3 ⊕ Fin 3 ⊕ Unit → F)) :=
       Finite.of_injective (fun e : (Fin 3 ⊕ Fin 3 ⊕ Unit → F) ≃ₗ[F] _ => (e : _ → _))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
     let ρ : Representation F ↥Pt (Fin 3 ⊕ Fin 3 ⊕ Unit → F) :=
@@ -88,7 +88,7 @@ theorem h81FactB3_holds : H81FactB3 := by
   · exact absurd hi id
   change d = .B 3 Q at hi
   subst hi
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) = Q.p ^ Q.exponent :=
     CFSG.Models.card_fixedField_of (TauCeti.LieTypeIndex.characteristic_B 3 Q)
@@ -96,7 +96,7 @@ theorem h81FactB3_holds : H81FactB3 := by
   let e : H ≃* ProjOrthDerived (quadOdd 3 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩)) :=
     e₀.trans ((CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj_odd 3 Q hv
       hQ2 le_rfl).trans (CFSG.RankThree.PartOne.statedProjOrthEquiv (coe_quadOdd 3 _)))
-  haveI : Finite (ProjOrthDerived (quadOdd 3 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩))) :=
+  have : Finite (ProjOrthDerived (quadOdd 3 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩))) :=
     Finite.of_equiv H e.toEquiv
   have hch := h81Choice_odd_model hp hp2 Q hQ2 hFcard hdiv
     ((CFSG.LocalAnalysis.GLTheoremA.T123C.isElemAbelian_map_iff (f := e.toMonoidHom) e.injective p

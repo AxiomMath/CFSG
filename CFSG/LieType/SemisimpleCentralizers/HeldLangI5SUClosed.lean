@@ -21,8 +21,8 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LieType.Steinberg.CentralExt
 theorem i5SUClosed_of_certificates :
     I5SUClosed := by
   intro K _ _ p f N hdat hN hq8 E _ _ π hπ hc
-  haveI : Fact p.Prime := ⟨hdat.prime⟩
-  haveI : CharP K p := hdat.charP
+  have : Fact p.Prime := ⟨hdat.prime⟩
+  have : CharP K p := hdat.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
   by_cases he : Even N
   · obtain ⟨r, hr⟩ := he

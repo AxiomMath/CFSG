@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Finite F]
 open CFSG.Open
 
 open CFSG.ComponentClassification.CatalogueBHigherLinearField in
+omit [Finite F] in
 theorem card_fixedField_eq {n p : ℕ} (hp : p.Prime) (hn : 1 ≤ n) (hF : Nat.card F = p ^ n)
     (σ : F ≃+* F) (hσ : orderOf σ = 3) :
     Nat.card (fixedField F σ) = p ^ (n / 3) := by
@@ -48,7 +49,7 @@ theorem bound_twentySeven (hF : Nat.card F = 27) :
   have hpg : IsPGroup 3 A₀ := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by simpa using hA₀.2 x x.2)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hpg
   rw [hk] at hdvd ⊢
   by_contra hcon
@@ -63,6 +64,7 @@ theorem bound_twentySeven (hF : Nat.card F = 27) :
   have := h9.trans hdvd
   omega
 
+omit [Finite F] in
 theorem exists_psl_lift {g : PGL2 F} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
     ∃ g' : PSL2 F, Matrix.ProjectiveSpecialLinearGroup.toPGL g' = g ∧ g' ≠ 1 ∧ g' ^ 3 = 1 := by
   have hodd : Odd (orderOf g) := by
@@ -75,6 +77,7 @@ theorem exists_psl_lift {g : PGL2 F} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
   · apply Matrix.ProjectiveSpecialLinearGroup.toPGL_injective
     rw [map_pow, hg', hg3, map_one]
 
+omit [Finite F] in
 theorem mem_cSL_inl_toPGL (g' x : PSL2 F) :
     x ∈ cSL (SemidirectProduct.inl (Matrix.ProjectiveSpecialLinearGroup.toPGL g') : PGammaL2 F) ↔
       g' * x * g'⁻¹ = x := by
@@ -82,7 +85,7 @@ theorem mem_cSL_inl_toPGL (g' x : PSL2 F) :
 
 theorem top_of_dickson_twentySeven (hF : Nat.card F = 27)
     (K : Subgroup (PSL2 F)) (h27 : 27 ∣ Nat.card K) (hw : ∃ w ∈ K, orderOf w = 2) : K = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF3 : Nat.card F = 3 ^ 3 := by rw [hF]; norm_num
   have hS : Nat.card (PSL2 F) = 9828 := by
     have := CFSG.GorensteinWalter.psl2_card_formula F
@@ -166,9 +169,9 @@ theorem gen_twentySeven (hF : Nat.card F = 27) :
         ⊤ := by
   intro σ hσ g hg1 hg3 hfix
   obtain ⟨g', hg', hg'1, hg'3⟩ := exists_psl_lift hg3 hg1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 3 := charP_of_card_eq_prime_pow (p := 3) (f := 3)
+  have : CharP F 3 := charP_of_card_eq_prime_pow (p := 3) (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hS : Nat.card (PSL2 F) = 9828 := by
     have := CFSG.GorensteinWalter.psl2_card_formula F
@@ -180,7 +183,7 @@ theorem gen_twentySeven (hF : Nat.card F = 27) :
       IsPGroup.iff_card.2 ⟨1, by rw [Nat.card_zpowers, orderOf_eq_prime hg'3 hg'1]; norm_num⟩
     obtain ⟨P, hP⟩ := hpg.exists_le_sylow
     have hPel := (CFSG.RankThree.PartTwo.KFacts.isElemAbelian_of_isPGroup_three_psl2 (K := F) (n := 3)
-      (by rw [hF]; norm_num) P.isPGroup').1
+      (by rw [hF]; norm_num) P.isPGroup).1
     have hPle : (P : Subgroup (PSL2 F)) ≤
         cSL (SemidirectProduct.inl g : PGammaL2 F) := by
       intro x hx
@@ -215,7 +218,7 @@ theorem gen_twentySeven (hF : Nat.card F = 27) :
       ext i j
       rw [Matrix.SpecialLinearGroup.map_apply_coe]
       fin_cases i <;> fin_cases j <;> simp [A]
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       apply orderOf_eq_prime
       · rw [← map_pow]
         apply (QuotientGroup.eq_one_iff _).2
@@ -229,7 +232,7 @@ theorem gen_twentySeven (hF : Nat.card F = 27) :
         rw [Matrix.SpecialLinearGroup.mem_center_iff] at h1
         obtain ⟨r, -, hr⟩ := h1
         have := congrFun (congrFun hr 0) 1
-        simp [A, Matrix.scalar_apply, Matrix.diagonal_apply] at this
+        simp [A, Matrix.scalar_apply] at this
 
 theorem arith_even_contra {m e : ℕ} (hmodd : m % 2 = 1)
     (hS : ¬ 3 ^ (e + 1) ∣ (2 ^ (3 * m)) * ((2 ^ (3 * m)) ^ 2 - 1))
@@ -290,10 +293,10 @@ theorem top_of_dickson_even {n m : ℕ} (hF : Nat.card F = 2 ^ n)
     (hn : n = 3 * m) (hm : 3 ≤ m) (hmodd : m % 2 = 1) (K : Subgroup (PSL2 F))
     (h3 : ∀ k, 3 ^ k ∣ Nat.card (PSL2 F) → 3 ^ k ∣ Nat.card K) (h2 : 2 ^ m ∣ Nat.card K) :
     K = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
     (by rw [← Nat.card_eq_fintype_card, hF])
   have hnodd : n % 2 = 1 := by omega
   have hS : Nat.card (PSL2 F) = 2 ^ n * ((2 ^ n) ^ 2 - 1) := card_psl2_of_charTwo hF
@@ -391,7 +394,7 @@ theorem top_of_dickson_even {n m : ℕ} (hF : Nat.card F = 2 ^ n)
     omega
   · have hcardK : Nat.card K = 2 ^ m' * ((2 ^ m') ^ 2 - 1) := by
       rw [Nat.card_congr e.toEquiv]
-      haveI : CharP (GaloisField 2 m') 2 := inferInstance
+      have : CharP (GaloisField 2 m') 2 := inferInstance
       exact card_psl2_of_charTwo (GaloisField.card 2 m' hm0)
     by_cases hmn : m' = n
     · subst hmn
@@ -435,8 +438,8 @@ theorem bound_even {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2 ^ n) :
     ∀ σ : F ≃+* F, orderOf σ = 3 → ∀ A₀ : Subgroup (PGL2 F), IsElemAbelian 3 A₀ →
       (∀ g ∈ A₀, pgl2FieldAut F σ g = g) → Nat.card A₀ ≤ 3 := by
   intro σ _ A₀ hA₀ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : PSL2 F →* PGL2 F := Matrix.ProjectiveSpecialLinearGroup.toPGL
   have hinj : Function.Injective f := Matrix.ProjectiveSpecialLinearGroup.toPGL_injective
   have hle : A₀ ≤ f.range := by
@@ -470,7 +473,7 @@ theorem bound_even {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2 ^ n) :
   have hcyc : IsCyclic (R : Subgroup (PSL2 F)) :=
     psl2_sylow_isCyclic_of_coprime_field_card F hF h7 3 (by norm_num) hcop R
   classical
-  haveI := Fintype.ofFinite (R : Subgroup (PSL2 F))
+  have := Fintype.ofFinite (R : Subgroup (PSL2 F))
   have hbound : Nat.card {x : (R : Subgroup (PSL2 F)) // x ^ 3 = 1} ≤ 3 := by
     have := IsCyclic.card_pow_eq_one_le (α := (R : Subgroup (PSL2 F))) (n := 3) (by norm_num)
     simpa [Nat.card_eq_fintype_card, Fintype.card_subtype] using this
@@ -499,6 +502,7 @@ theorem psl2UpperUnipotentHom_inj (K : Type) [Field K] :
   apply sub_eq_zero.mp
   simpa [sl2UpperUnipotent] using h01.symm
 
+omit [Finite F] in
 theorem fixedRoot_card_dvd (σ : F ≃+* F) :
     Nat.card {t : F // σ t = t} ∣ Nat.card (cSL (SemidirectProduct.inr σ : PGammaL2 F)) := by
   let ψ := psl2UpperUnipotentHom F
@@ -532,6 +536,7 @@ theorem fixedRoot_card_dvd (σ : F ≃+* F) :
     _ ∣ _ := Subgroup.card_dvd_of_le hle
 
 open CFSG.ComponentClassification.CatalogueBHigherLinearField in
+omit [Finite F] in
 theorem card_fixed_points_eq {n : ℕ} (hF : Nat.card F = 2 ^ n) (σ : F ≃+* F) (hσ : orderOf σ = 3)
     (hn : 1 ≤ n) {m : ℕ} (hm : n = 3 * m) : Nat.card {t : F // σ t = t} = 2 ^ m := by
   have h := (CFSG.SignalizerFunctorTheorem.CatalogBridge.card_fixedField_of_orderOf
@@ -546,8 +551,8 @@ theorem gen_even {n : ℕ} (hn : 3 < n) (hnodd : n % 2 = 1)
       cSL (SemidirectProduct.inr σ : PGammaL2 F) ⊔ cSL (SemidirectProduct.inl g : PGammaL2 F) =
         ⊤ := by
   intro σ hσ g hg1 hg3 hfix
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g', hg', hg'1, hg'3⟩ := exists_psl_lift hg3 hg1
   obtain ⟨m, hm⟩ := (CFSG.SignalizerFunctorTheorem.CatalogBridge.card_fixedField_of_orderOf
     Nat.prime_two (by omega) hF σ hσ).1

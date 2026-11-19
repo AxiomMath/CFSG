@@ -65,7 +65,7 @@ end GGXInLE6Assembly
 private theorem twE6_literal_data
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G}
-    (hS : GGQTwoSetting p B Bs x L D J) (hxL : x ∈ L) (hp : p = 3)
+    (_hS : GGQTwoSetting p B Bs x L D J) (_hxL : x ∈ L) (_hp : p = 3)
     (hE6 : GGInnerDiagOnLabel
       (fun p lab => GGLabQTwo p lab ∧ lab.tag = CFSG.Assembly.LargeEvenLieTag.twE6) p Bs L) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (σ : K ≃+* K)
@@ -80,7 +80,7 @@ private theorem twE6_literal_data
   classical
   obtain ⟨hperf, lab, hlab, hraw⟩ := hE6
   obtain ⟨Rg, instRg, Ig, Fg, hQg⟩ := largeEvenRawDatum_exists hraw
-  letI : Group Rg := instRg
+  let : Group Rg := instRg
   obtain ⟨-, -, θg, hP⟩ := hQg
   obtain ⟨⟨hQ2, htag⟩, hBsN, hact⟩ := hP
   have hlab_eq : lab = (⟨CFSG.Assembly.LargeEvenLieTag.twE6, 0, 1⟩ : LargeEvenLabel) := by
@@ -99,12 +99,12 @@ private theorem twE6_literal_data
   subst hlab_eq
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeTwisted] at hraw
   obtain ⟨K, instF, instFin, hK, hQ⟩ := hraw
-  letI : Field K := instF
-  letI : Finite K := instFin
+  let : Field K := instF
+  let : Finite K := instFin
   obtain ⟨-, -, θr, hP'⟩ := hQ
   obtain ⟨⟨-, -⟩, hBsN', hact'⟩ := hP' 
   have hK4 : Nat.card K = 4 := by simpa using hK
-  haveI : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
+  have : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
   let σ : K ≃+* K := frobeniusEquiv K 2
   have hσ : ∀ c, σ c = c ^ 2 := by
     intro c
@@ -154,11 +154,11 @@ private theorem twE6_canonical_frame
           ¬ 3 ^ 10 ∣ Nat.card ↥(twistedE6RootGroup K σ) := by
   classical
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hK4
-  haveI : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K :=
     iterateFrobenius (AlgebraicClosure K) 2 1
   have hFr : ∀ c, Fr c = c ^ 2 ^ 1 := fun c => iterateFrobenius_def 2 1 c
@@ -259,7 +259,7 @@ private theorem twE6_two_kernel_data
       Odd (Nat.card (U63TB.psi1 hker).ker) := by
   classical
   dsimp only
-  haveI : (U63TB.twoSub ψ.ker hker).Normal := U63TB.twoSub_normal hker
+  have : (U63TB.twoSub ψ.ker hker).Normal := U63TB.twoSub_normal hker
   refine ⟨inferInstance, U63TB.twoSub_le_center hker, U63TB.isPGroup_twoSub hker, ?_,
     U63TB.commutator_quot hker hperf, U63TB.psi1_surjective hker hψ,
     U63TB.psi1_ker_central hker, U63TB.odd_card_ker_psi1 hker⟩
@@ -329,7 +329,7 @@ private theorem twE6_twisted_arm
     x ∈ ⁅Bs, L ⊓ Subgroup.normalizer (Bs : Set G)⁆ := by
   classical
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg : GGConfig 3 B Bs x L D J := hS.1.1
   obtain ⟨-, hBsAb, hxBs, hLx, -⟩ := hcfg.tableB_facts
   have hSStar : LargeEvenSStar 3 B x L := hcfg.1.2.2.2.2.2.2.1
@@ -339,10 +339,10 @@ private theorem twE6_twisted_arm
   have hperf : commutator ↥L = ⊤ := GGXInL.lup8f_L_perfect hS
   obtain ⟨K, instF, instFin, σ, θ, θr, hK4, hσ, hBsN, hact, hactr⟩ :=
     twE6_literal_data hS hxL rfl hE6
-  letI := instF
-  letI := instFin
+  let := instF
+  let := instFin
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hK4
-  haveI : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
+  have : CharP K 2 := charP_two_of_card (m := 2) (by simpa using hK4)
   have hψs : Function.Surjective (ggQuotHom θ) := ggQuotHom_surjective θ
   have hkerψ : (ggQuotHom θ).ker = Subgroup.center ↥L := ker_ggQuotHom θ
   have hker : (ggQuotHom θ).ker ≤ Subgroup.center ↥L := hkerψ.le
@@ -388,7 +388,7 @@ private theorem twE6_twisted_arm
   obtain ⟨T₁, N₁, hn₁, hTN₁, hkerT₁, -, hTexp₁, hfix₁, hN₁, hcox₁, hidx₁⟩ :=
     twE6_transfer_frame_data hK4 σ hσ hψ₁s hker₁ hperf₁ hcard₁ hA₁ab hA₁sc h5₁ hAH₁
   let C := GGXInL.lup8f_central_cover_of_normalizes hBsN
-  haveI hCN : C.N.Normal := C.normal
+  have hCN : C.N.Normal := C.normal
   let ι₀ : ↥L →* (↥(L ⊔ Bs) ⧸ C.N) :=
     (QuotientGroup.mk' C.N).comp (Subgroup.inclusion (le_sup_left : L ≤ L ⊔ Bs))
   have hN₂ker : U63TB.twoSub (ggQuotHom θ).ker hker ≤ ι₀.ker := by

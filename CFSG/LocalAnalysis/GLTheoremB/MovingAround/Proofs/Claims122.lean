@@ -16,11 +16,11 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem eq_bot_of_perfect_of_two {B : Subgroup G} (hB : ⁅B, B⁆ = B) (hB2 : IsPGroup 2 ↥B) :
     B = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
-  haveI : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).2 hne
-  haveI : Group.IsPerfect ↥B := Subgroup.isPerfect_iff.2 hB
-  haveI : Group.IsNilpotent ↥B := hB2.isNilpotent
+  have : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).2 hne
+  have : Group.IsPerfect ↥B := Subgroup.isPerfect_iff.2 hB
+  have : Group.IsNilpotent ↥B := hB2.isNilpotent
   exact Group.IsPerfect.not_isSolvable ↥B inferInstance
 
 omit [Finite G] in
@@ -40,7 +40,7 @@ theorem mul_pow_mul_inv_mem {J : Subgroup G} {u p : G} (hu : u ∈ J)
 theorem perfect_le_of_two_quot {X J Y : Subgroup G} (hXY : X ≤ Y) (hJY : J ≤ Y)
     (hYJ : Y ≤ Subgroup.normalizer (J : Set G)) (hX : ⁅X, X⁆ = X)
     (h2 : ∀ y ∈ Y, ∃ n : ℕ, y ^ 2 ^ n ∈ J) : X ≤ J := by
-  haveI hN : (J.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJY).2 hYJ
+  have hN : (J.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJY).2 hYJ
   set φ := QuotientGroup.mk' (J.subgroupOf Y) with hφ
   set B : Subgroup (↥Y ⧸ J.subgroupOf Y) := (X.subgroupOf Y).map φ with hB
   have hXc : ⁅X.subgroupOf Y, X.subgroupOf Y⁆ = X.subgroupOf Y := by
@@ -127,14 +127,14 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem core_le_normalizer {M J : Subgroup G} (hJ : Sec12a3.CompSet M J) :
     pCoreOf 2 M ≤ Subgroup.normalizer (J : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact le_normalizer_of_isSubnormal_perfect _ M rfl J (pCoreOf 2 M) hJ.2.1 hJ.2.2.1
     (CFSG.LieType.BorelTits.pCoreOf_le 2 M) (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M)
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M)
 
 theorem le_of_le_sup_core {M J K : Subgroup G} (hK : Sec12a3.CompSet M K) (hJ : ⁅J, J⁆ = J)
     (hJK : J ≤ K ⊔ pCoreOf 2 M) : J ≤ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO := core_le_normalizer hK
   refine perfect_le_of_two_quot hJK le_sup_left (sup_le Subgroup.le_normalizer hO) hJ ?_
   intro w hw
@@ -211,6 +211,7 @@ theorem alpha_le_normalizer {M J : Subgroup G} (hJ : Sec12a3.CompSet M J) :
   have h1 := key k⁻¹ (K.inv_mem hk) _ hg
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem compSet_conj {M J : Subgroup G} (hJ : Sec12a3.CompSet M J) {g : G} (hg : g ∈ M) :
     Sec12a3.CompSet M (GLBConj g J) := by
   have hM : GLBConj g M = M := mem_normalizer_iff_gLBConj_eq.1 (Subgroup.le_normalizer hg)
@@ -236,10 +237,12 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def ActTriv (g : G) (J : Subgroup G) : Prop :=
   ∀ y ∈ J, g * y * g⁻¹ * y⁻¹ ∈ pCoreOf 2 J
 
+omit [Finite G] in
 theorem actTriv_one (J : Subgroup G) : ActTriv 1 J := fun y _ => by
   simp only [one_mul, inv_one, mul_one, mul_inv_cancel]
   exact (pCoreOf 2 J).one_mem
 
+omit [Finite G] in
 theorem actTriv_mul {J : Subgroup G} {g h : G} (hg : g ∈ Subgroup.normalizer (J : Set G))
     (h1 : ActTriv g J) (h2 : ActTriv h J) : ActTriv (g * h) J := by
   intro y hy
@@ -251,6 +254,7 @@ theorem actTriv_mul {J : Subgroup G} {g h : G} (hg : g ∈ Subgroup.normalizer (
   rw [e]
   exact (pCoreOf 2 J).mul_mem hc (h1 y hy)
 
+omit [Finite G] in
 theorem actTriv_inv {J : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G))
     (h1 : ActTriv g J) : ActTriv g⁻¹ J := by
   intro y hy
@@ -261,6 +265,7 @@ theorem actTriv_inv {J : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (J 
   rw [e]
   exact inv_mem h2
 
+omit [Finite G] in
 theorem actTriv_conj {J : Subgroup G} {g r : G} (hgr : g * r = r * g) (h1 : ActTriv g J) :
     ActTriv g (GLBConj r J) := by
   intro y hy
@@ -289,7 +294,7 @@ theorem a_pow_two_pow_ne_one (k : ℕ) : S7.a ^ 2 ^ k ≠ 1 := by
 
 theorem eq_bot_of_two_subgroup_normalized {P : Subgroup (Perm (Fin 7))} (hP : IsPGroup 2 ↥P)
     (hn : ∀ σ ∈ alternatingGroup (Fin 7), ∀ p ∈ P, σ * p * σ⁻¹ ∈ P) : P = ⊥ := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
   have hN : ((P ⊓ alternatingGroup (Fin 7)).subgroupOf (alternatingGroup (Fin 7))).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -347,9 +352,9 @@ theorem mk_mem_center_of_psiOf {J : Subgroup G} (hX : IsHatSeven (Sec12a3.JbarQ 
   set π₁ := QuotientGroup.mk' (CFSG.pCore 2 ↥J) with hπ₁
   set Z := Subgroup.center (Sec12a3.JbarQ J) with hZ
   set N : Subgroup (Sec12a3.JbarQ J) := (Sec12a3.psiOf J ι).ker.map π₁ with hN
-  haveI hNn : N.Normal := (MonoidHom.normal_ker _).map π₁ (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (Sec12a3.JbarQ J ⧸ Z) := by
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
+  have hNn : N.Normal := (MonoidHom.normal_ker _).map π₁ (QuotientGroup.mk'_surjective _)
+  have : IsSimpleGroup (Sec12a3.JbarQ J ⧸ Z) := by
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
     exact ι.isSimpleGroup
   have hNm : (N.map (QuotientGroup.mk' Z)).Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
   have hkN : (QuotientGroup.mk k : Sec12a3.JbarQ J) ∈ N := ⟨k, hk, rfl⟩
@@ -387,6 +392,7 @@ theorem mk_mem_center_of_psiOf {J : Subgroup G} (hX : IsHatSeven (Sec12a3.JbarQ 
     (g : G) (π : Perm (Fin 7)) : Prop :=
   ∀ x y : ↥J, (y : G) = g * x * g⁻¹ → Sec12a3.psiOf J ι y = π * Sec12a3.psiOf J ι x * π⁻¹
 
+omit [Finite G] in
 theorem isConj_of_conjsBy {J : Subgroup G}
     {ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7))}
     {g : G} {π : Perm (Fin 7)} (hg : g ∈ Subgroup.normalizer (J : Set G))
@@ -398,6 +404,7 @@ theorem isConj_of_conjsBy {J : Subgroup G}
   rw [e, hψ]
   simp
 
+omit [Finite G] in
 theorem isConj_unique {J : Subgroup G}
     {ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7))}
     {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) {π σ : Perm (Fin 7)}
@@ -417,6 +424,7 @@ theorem isConj_unique {J : Subgroup G}
   rw [inv_mul_eq_one] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem conjsBy_of_isConj {J : Subgroup G}
     {ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7))}
     {g : G} {π : Perm (Fin 7)} (hg : g ∈ Subgroup.normalizer (J : Set G))
@@ -425,12 +433,14 @@ theorem conjsBy_of_isConj {J : Subgroup G}
   have e := isConj_unique hg (isConj_of_conjsBy hg h₀) h
   rwa [e] at h₀
 
+omit [Finite G] in
 theorem exists_isConj {J : Subgroup G}
     (ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7)))
     {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) : ∃ π, IsConj J ι g π := by
   obtain ⟨π₀, h₀⟩ := Sec12a3.exists_perm_conjsBy J ι g hg
   exact ⟨π₀, isConj_of_conjsBy hg h₀⟩
 
+omit [Finite G] in
 theorem isConj_mul {J : Subgroup G}
     {ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7))}
     {g h : G} {π σ : Perm (Fin 7)} (hh : h ∈ Subgroup.normalizer (J : Set G))
@@ -442,6 +452,7 @@ theorem isConj_mul {J : Subgroup G}
   rw [h2, h1]
   group
 
+omit [Finite G] in
 theorem isConj_of_mem {J : Subgroup G}
     (ι : (Sec12a3.JbarQ J ⧸ Subgroup.center (Sec12a3.JbarQ J)) ≃* ↥(alternatingGroup (Fin 7)))
     (y : ↥J) : IsConj J ι y (Sec12a3.psiOf J ι y) := by
@@ -479,11 +490,11 @@ theorem actTriv_of_isConj_one {J : Subgroup G} (hX : IsHatSeven (Sec12a3.JbarQ J
   let S : Subgroup (Sec12a3.JbarQ J) :=
     { carrier := {x | Φ x = x}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul] at ha hb ⊢
         rw [ha, hb]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, map_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, map_inv] at ha ⊢
         rw [ha] }
   have hS : ⁅(⊤ : Subgroup (Sec12a3.JbarQ J)), ⊤⁆ ≤ S := by
     rw [Subgroup.commutator_le]
@@ -551,6 +562,7 @@ section TofBasic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpowers_isPGroup_three {a : G} (ha3 : a ^ 3 = 1) : IsPGroup 3 ↥(Subgroup.zpowers a) := by
   rintro ⟨g, hg⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
@@ -559,7 +571,7 @@ theorem zpowers_isPGroup_three {a : G} (ha3 : a ^ 3 = 1) : IsPGroup 3 ↥(Subgro
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ha3, one_zpow]
 
 theorem not_three_dvd_of_two {V : Subgroup G} (hV : IsPGroup 2 ↥V) : ¬ 3 ∣ Nat.card ↥V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hV
   rw [hn]
   intro h
@@ -569,7 +581,7 @@ theorem not_three_dvd_of_two {V : Subgroup G} (hV : IsPGroup 2 ↥V) : ¬ 3 ∣ 
 
 theorem actTriv_of_mem_core {M J : Subgroup G} (hJ : Sec12a3.CompSet M J) {o : G}
     (ho : o ∈ pCoreOf 2 M) : ActTriv o J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hy
   have h1 : o * y * o⁻¹ ∈ J := (Subgroup.mem_normalizer_iff.1 (core_le_normalizer hJ ho) y).1 hy
   have h2 : o * y * o⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
@@ -582,7 +594,7 @@ theorem actTriv_of_mem_core {M J : Subgroup G} (hJ : Sec12a3.CompSet M J) {o : G
 
 theorem actTriv_of_mem_other {M J K : Subgroup G} (hJ : Sec12a3.CompSet M J)
     (hK : Sec12a3.CompSet M K) (hne : K ≠ J) {k : G} (hk : k ∈ K) : ActTriv k J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hy
   have h1 : k * y * k⁻¹ ∈ J := (Subgroup.mem_normalizer_iff.1
     (alpha_le_normalizer hJ (Sec12a3.compSet_le_alpha hK hk)) y).1 hy
@@ -633,6 +645,7 @@ theorem permHom_mem_alt {M J : Subgroup G} (hJ : Sec12a3.CompSet M J)
   obtain ⟨_, h⟩ := hαS hg
   exact h
 
+omit [Finite G] in
 theorem inv_eq_mul_self {a : G} (ha3 : a ^ 3 = 1) : a⁻¹ = a * a :=
   inv_eq_of_mul_eq_one_right (by rw [← mul_assoc, ← pow_three', ha3])
 
@@ -690,23 +703,26 @@ def modCent (M : Subgroup G) (w : G) : Subgroup G where
 
 def actTrivSub (J : Subgroup G) : Subgroup G where
   carrier := {g | g ∈ Subgroup.normalizer (J : Set G) ∧ ActTriv g J}
-  mul_mem' := fun {x y} hx hy => ⟨Subgroup.mul_mem _ hx.1 hy.1, actTriv_mul hx.1 hx.2 hy.2⟩
+  mul_mem' := fun {_x _y} hx hy => ⟨Subgroup.mul_mem _ hx.1 hy.1, actTriv_mul hx.1 hx.2 hy.2⟩
   one_mem' := ⟨Subgroup.one_mem _, actTriv_one J⟩
-  inv_mem' := fun {x} hx => ⟨Subgroup.inv_mem _ hx.1, actTriv_inv hx.1 hx.2⟩
+  inv_mem' := fun {_x} hx => ⟨Subgroup.inv_mem _ hx.1, actTriv_inv hx.1 hx.2⟩
 
 @[expose] def orbitProd (M J₀ : Subgroup G) (X : Set G) : Subgroup G :=
   (⨆ (x : G) (_ : x ∈ X), GLBConj x J₀) ⊔ pCoreOf 2 M
 
+omit [Finite G] in
 theorem le_orbitProd {M J₀ : Subgroup G} {X : Set G} {x : G} (hx : x ∈ X) :
     GLBConj x J₀ ≤ orbitProd M J₀ X :=
   (le_iSup₂_of_le (f := fun (x : G) (_ : x ∈ X) => GLBConj x J₀) x hx le_rfl).trans le_sup_left
 
+omit [Finite G] in
 theorem core_le_orbitProd (M J₀ : Subgroup G) (X : Set G) : pCoreOf 2 M ≤ orbitProd M J₀ X :=
   le_sup_right
 
+omit [Finite G] in
 theorem orbitProd_le_alpha {M J₀ : Subgroup G} (hJ₀ : Sec12a3.CompSet M J₀) {X : Set G}
     (hXM : X ⊆ M) : orbitProd M J₀ X ≤ alphaOf 3 M :=
-  sup_le (iSup₂_le fun x hx => Sec12a3.compSet_le_alpha (compSet_conj hJ₀ (hXM hx)))
+  sup_le (iSup₂_le fun _x hx => Sec12a3.compSet_le_alpha (compSet_conj hJ₀ (hXM hx)))
     (Sec12a.le_alphaOf_two M)
 
 theorem actTriv_of_mem_orbitProd {M J₀ Y : Subgroup G} (hJ₀ : Sec12a3.CompSet M J₀)
@@ -725,7 +741,7 @@ theorem actTriv_of_mem_orbitProd {M J₀ Y : Subgroup G} (hJ₀ : Sec12a3.CompSe
 theorem comm_core_of_mem_orbitProd {M J₀ : Subgroup G} (hJ₀ : Sec12a3.CompSet M J₀)
     {X : Set G} (hXM : X ⊆ M) {w : G} (hwM : w ∈ M) (h : ∀ x ∈ X, ActTriv w (GLBConj x J₀))
     {g : G} (hg : g ∈ orbitProd M J₀ X) : w * g * w⁻¹ * g⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : orbitProd M J₀ X ≤ modCent M w := by
     refine sup_le (iSup₂_le fun x hx => ?_) ?_
     · intro k hk
@@ -751,6 +767,7 @@ structure DiagData (M J₀ R : Subgroup G) : Prop where
   comm : ∀ r ∈ R, ∀ s ∈ R, r * s = s * r
   triv : ∀ r ∈ R, r ∈ Subgroup.normalizer (J₀ : Set G) → ActTriv r J₀
 
+omit [Finite G] in
 theorem isPGroup_three_of_pow3 {S : Subgroup G} (h : ∀ r ∈ S, r ^ 3 = 1) : IsPGroup 3 ↥S :=
   fun g => ⟨1, Subtype.ext (by simpa using h g g.2)⟩
 
@@ -769,11 +786,13 @@ theorem gLBConj_eq_imp {J₀ : Subgroup G} {u v : G} (h : GLBConj u J₀ = GLBCo
   rw [gLBConj_gLBConj, gLBConj_gLBConj, mul_inv_cancel, gLBConj_one] at h1
   exact h1
 
+omit [Finite G] in
 theorem orbitProd_mono {M J₀ : Subgroup G} {X X' : Set G} (h : X ⊆ X') :
     orbitProd M J₀ X ≤ orbitProd M J₀ X' :=
   sup_le_sup_right (iSup₂_le fun x hx => le_iSup₂_of_le (f := fun (x : G) (_ : x ∈ X') =>
     GLBConj x J₀) x (h hx) le_rfl) _
 
+omit [Finite G] in
 theorem gLBConj_orbitProd_le {M J₀ : Subgroup G} {b : G} (hbM : b ∈ M) (X : Set G) :
     GLBConj b (orbitProd M J₀ X) ≤ orbitProd M J₀ ((fun x => x * b) '' X) := by
   unfold orbitProd GLBConj
@@ -791,8 +810,8 @@ theorem gLBConj_orbitProd_le {M J₀ : Subgroup G} {b : G} (hbM : b ∈ M) (X : 
 theorem diagSurj_base {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     (ι : (Sec12a3.JbarQ J₀ ⧸ Subgroup.center (Sec12a3.JbarQ J₀)) ≃* ↥(alternatingGroup (Fin 7))) :
     DiagSurj M J₀ ι (R ⊓ Subgroup.normalizer (J₀ : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro σ hσ
   obtain ⟨y, rfl⟩ := Sec12a3.psiOf_surj J₀ ι σ hσ
   obtain ⟨v, hv, hfix⟩ := exists_fixed_in_coset' (p := 3)
@@ -823,8 +842,8 @@ theorem diagSurj_step {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     {S : Subgroup G} (hSR : S ≤ R) (hR₀ : R ⊓ Subgroup.normalizer (J₀ : Set G) ≤ S) {b : G}
     (hbR : b ∈ R) (hbS : b ∉ S) (hQ : DiagSurj M J₀ ι S) :
     DiagSurj M J₀ ι (S ⊔ Subgroup.zpowers b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJ₀ := hD.comp
   have hbM : b ∈ M := hD.le hbR
   have hb3 : b ^ 3 = 1 := hD.pow3 b hbR
@@ -976,7 +995,7 @@ theorem diagSurj {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     (ι : (Sec12a3.JbarQ J₀ ⧸ Subgroup.center (Sec12a3.JbarQ J₀)) ≃* ↥(alternatingGroup (Fin 7))) :
     DiagSurj M J₀ ι R := by
   classical
-  haveI := Fintype.ofFinite ↥R
+  have := Fintype.ofFinite ↥R
   set R₀ := R ⊓ Subgroup.normalizer (J₀ : Set G) with hR₀
   have key : ∀ F : Finset ↥R, DiagSurj M J₀ ι (R₀ ⊔ ⨆ b ∈ F, Subgroup.zpowers (b : G)) := by
     intro F
@@ -1008,11 +1027,13 @@ section ZPowers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem wpc_le_orbitProd {M J : Subgroup G} {e a : G} :
     Sec12a3.Wpc e a J ≤ orbitProd M J (Subgroup.zpowers e : Set G) :=
-  iSup_le fun k => (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans
+  iSup_le fun _k => (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans
     (inf_le_left.trans (le_orbitProd (Subgroup.pow_mem _ (Subgroup.mem_zpowers e) _)))
 
+omit [Finite G] in
 theorem mem_centralizer_zpowers_iff {e x : G} :
     x ∈ Subgroup.centralizer ((Subgroup.zpowers e : Subgroup G) : Set G) ↔ x ∈ Cg e := by
   constructor
@@ -1029,7 +1050,7 @@ theorem diagData_zpowers {M J : Subgroup G} {e : G} (hJ : Sec12a3.CompSet M J) (
     (he3 : e ^ 3 = 1)
     (hcase : GLBConj e J ≠ J ∨ (e ∈ Subgroup.normalizer (J : Set G) ∧ ActTriv e J)) :
     DiagData M J (Subgroup.zpowers e) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hJ, (Subgroup.zpowers_le).2 heM, ?_, ?_, ?_⟩
   · intro r hr
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hr
@@ -1073,7 +1094,7 @@ theorem tof_actTriv_of_cover {M J : Subgroup G} {a : G} (hJ : Sec12a3.CompSet M 
     (hcov : ∀ σ ∈ alternatingGroup (Fin 7), ∃ z, ∃ hz : z ∈ alphaOf 3 M, z ∈ Cg a ∧
       permHom J ι ⟨z, alpha_le_normalizer hJ hz⟩ = σ) :
     ∀ t ∈ Tof 3 M a, ActTriv t J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTN : Tof 3 M a ≤ Subgroup.normalizer (J : Set G) :=
     (Sec12a.tof_le_alphaOf M a).trans (alpha_le_normalizer hJ)
   set P : Subgroup (Perm (Fin 7)) :=
@@ -1101,8 +1122,8 @@ theorem tof_actTriv_of_cover {M J : Subgroup G} {a : G} (hJ : Sec12a3.CompSet M 
 
 theorem tof_actTriv {M J : Subgroup G} {a : G} (hJ : Sec12a3.CompSet M J) (haM : a ∈ M)
     (ha3 : a ^ 3 = 1) (hnot : ¬ Sec12a3.ThreeCycComp a J) : ∀ t ∈ Tof 3 M a, ActTriv t J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ι⟩ := hJ.2.2.2.2.2
   have hTN : Tof 3 M a ≤ Subgroup.normalizer (J : Set G) :=
     (Sec12a.tof_le_alphaOf M a).trans (alpha_le_normalizer hJ)
@@ -1198,16 +1219,16 @@ theorem two_elems_comm {π : Perm (Fin 7)} (hπ : π.cycleType = {3}) {u v : Per
 
 theorem two_elem_mem_pCoreOf {Y : Subgroup G} (ρ : ↥Y →* Perm (Fin 7)) {π : Perm (Fin 7)}
     (hπ : π.cycleType = {3}) (hρA : ∀ y, ρ y ∈ alternatingGroup (Fin 7))
-    (hρC : ∀ y, ρ y * π = π * ρ y) {L : Subgroup G} (hLY : L ≤ Y) (hL2 : IsPGroup 2 ↥L)
+    (hρC : ∀ y, ρ y * π = π * ρ y) {L : Subgroup G} (_hLY : L ≤ Y) (hL2 : IsPGroup 2 ↥L)
     (hLρ : ∀ y : ↥Y, (y : G) ∈ L → ρ y = 1)
     (hK : ∀ k y : ↥Y, ρ k = 1 → ((k * y * k⁻¹ * y⁻¹ : ↥Y) : G) ∈ L) {g : G} (hgY : g ∈ Y)
     (hg2 : ∃ n : ℕ, g ^ 2 ^ n = 1) : g ∈ pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, -, -, hV3, -, hV5, -⟩ := Sec12a3.three_cycle_klein hπ
   set W : Subgroup ↥Y := V.comap ρ with hW
   set K : Subgroup ↥W := ρ.ker.subgroupOf W with hKdef
   set L' : Subgroup ↥W := (L.subgroupOf Y).subgroupOf W with hL'
-  haveI : K.Normal := (MonoidHom.normal_ker ρ).subgroupOf W
+  have : K.Normal := (MonoidHom.normal_ker ρ).subgroupOf W
   have hLK : L' ≤ K := by
     intro x hx
     rw [hL', Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf] at hx
@@ -1274,7 +1295,7 @@ theorem two_elem_mem_vpc {J : Subgroup G} (hX : IsHatSeven (Sec12a3.JbarQ J))
     (hC : ∀ y : ↥J, (y : G) ∈ Cg e → Sec12a3.psiOf J ι y * πa = πa * Sec12a3.psiOf J ι y)
     {g : G} (hgJ : g ∈ J) (hge : g ∈ Cg e) (hg2 : ∃ n : ℕ, g ^ 2 ^ n = 1) :
     g ∈ pCoreOf 2 (J ⊓ Cg e) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine two_elem_mem_pCoreOf ((Sec12a3.psiOf J ι).comp (Subgroup.inclusion inf_le_left)) hπa
     (fun y => Sec12a3.psiOf_mem_alt J ι _) (fun y => hC _ y.2.2) (L := pCoreOf 2 J ⊓ Cg e)
     (inf_le_inf_right _ (CFSG.LieType.BorelTits.pCoreOf_le 2 J))
@@ -1320,8 +1341,8 @@ theorem exists_vpc_lift {J : Subgroup G} (hX : IsHatSeven (Sec12a3.JbarQ J))
     (hπa : πa.cycleType = {3}) (hA : IsConj J ι a πa) {v : Perm (Fin 7)}
     (hvA : v ∈ alternatingGroup (Fin 7)) (hvc : v * πa = πa * v) {k : ℕ} (hvk : v ^ 2 ^ k = 1) :
     ∃ u : ↥J, (u : G) ∈ Sec12a3.Vpc a J ∧ Sec12a3.psiOf J ι u = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := Sec12a3.psiOf_surj J ι v hvA
   obtain ⟨y₂, ⟨n, hn⟩, hy₂⟩ := exists_two_elem_lift (Sec12a3.psiOf J ι) y (k := k)
     (by rw [hy]; exact hvk)
@@ -1400,7 +1421,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem comm_core_of_actTriv {M : Subgroup G} {w : G} (hwM : w ∈ M)
     (htriv : ∀ J, Sec12a3.CompSet M J → ActTriv w J) {g : G} (hg : g ∈ alphaOf 3 M) :
     w * g * w⁻¹ * g⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hαC : alphaOf 3 M ≤ modCent M w := by
     unfold alphaOf
     refine sup_le ?_ (iSup₂_le fun K hK => ?_)
@@ -1417,7 +1438,7 @@ theorem comm_core_of_actTriv {M : Subgroup G} {w : G} (hwM : w ∈ M)
 theorem mem_core_of_actTriv {M : Subgroup G} {w : G} (hw : w ∈ alphaOf 3 M)
     (htriv : ∀ J, Sec12a3.CompSet M J → ActTriv w J) {n : ℕ} (hn : w ^ 2 ^ n ∈ pCoreOf 2 M) :
     w ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hwM : w ∈ M := Sec12a.alphaOf_le_self M hw
   have hOM := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M
   set N : Subgroup G := pCoreOf 2 M ⊔ Subgroup.zpowers w with hN
@@ -1479,7 +1500,7 @@ theorem mem_core_of_actTriv {M : Subgroup G} {w : G} (hw : w ∈ alphaOf 3 M)
 theorem mul_inv_mem_core {M : Subgroup G} {x y : G} (hx : x ∈ alphaOf 3 M)
     (hy : y ∈ alphaOf 3 M) (hx2 : ∃ n : ℕ, x ^ 2 ^ n = 1) (hy2 : ∃ n : ℕ, y ^ 2 ^ n = 1)
     (htriv : ∀ J, Sec12a3.CompSet M J → ActTriv (x * y⁻¹) J) : x * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxM := Sec12a.alphaOf_le_self M hx
   have hyM := Sec12a.alphaOf_le_self M hy
   have hwM : x * y⁻¹ ∈ M := M.mul_mem hxM (M.inv_mem hyM)
@@ -1521,6 +1542,7 @@ theorem mul_inv_mem_core {M : Subgroup G} {x y : G} (hx : x ∈ alphaOf 3 M)
   rw [← map_pow, hq, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hwq
   exact ⟨_, hwq, by simp⟩
 
+omit [Finite G] in
 theorem normalizer_of_conj_mem {J : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
     (h : ∀ x ∈ J, a * x * a⁻¹ ∈ J) : a ∈ Subgroup.normalizer (J : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1536,7 +1558,7 @@ theorem normalizer_of_conj_mem {J : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
 
 theorem vpc_le_tof {M J : Subgroup G} {a : G} (hJ : Sec12a3.CompSet M J) :
     Sec12a3.Vpc a J ≤ Tof 3 M a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : J ⊓ Cg a ≤ alphaOf 3 M ⊓ Cg a := inf_le_inf_right _ (Sec12a3.compSet_le_alpha hJ)
   refine pCoreOf_le_of_normal 2 hle ((Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 ?_)
   intro g hg
@@ -1551,7 +1573,7 @@ theorem tof_perm_props {M J : Subgroup G} {a : G} (hJ : Sec12a3.CompSet M J)
       permHom J ι ⟨t, alpha_le_normalizer hJ (Sec12a.tof_le_alphaOf M a ht)⟩ * πa =
         πa * permHom J ι ⟨t, alpha_le_normalizer hJ (Sec12a.tof_le_alphaOf M a ht)⟩ ∧
       ∃ k : ℕ, (permHom J ι ⟨t, alpha_le_normalizer hJ (Sec12a.tof_le_alphaOf M a ht)⟩) ^ 2 ^ k = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨permHom_mem_alt hJ ι (Sec12a.tof_le_alphaOf M a ht), ?_, ?_⟩
   · rw [← permHom_eq ⟨a, haN⟩ hA, ← map_mul, ← map_mul]
     congr 1
@@ -1567,14 +1589,14 @@ theorem tof_le_sup_vpc {M : Subgroup G} {a : G} (haM : a ∈ M) (ha3 : a ^ 3 = 1
     Tof 3 M a ≤ (pCoreOf 2 M ⊓ Tof 3 M a) ⊔
       ⨆ (J : Subgroup G) (_ : Sec12a3.CompSet M J ∧ Sec12a3.ThreeCycComp a J), Sec12a3.Vpc a J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := (pCoreOf 2 M ⊓ Tof 3 M a) ⊔
     ⨆ (J : Subgroup G) (_ : Sec12a3.CompSet M J ∧ Sec12a3.ThreeCycComp a J), Sec12a3.Vpc a J
     with hR
   suffices key : ∀ F : Finset (Subgroup G), ∀ t ∈ Tof 3 M a,
       (∀ J, Sec12a3.CompSet M J → J ∉ F → ActTriv t J) → t ∈ R by
     intro t ht
-    haveI := Fintype.ofFinite (Subgroup G)
+    have := Fintype.ofFinite (Subgroup G)
     exact key Finset.univ t ht (fun J _ hJ => absurd (Finset.mem_univ J) hJ)
   intro F
   induction F using Finset.induction_on with
@@ -1625,7 +1647,7 @@ theorem tof_le_sup_vpc {M : Subgroup G} {a : G} (haM : a ∈ M) (ha3 : a ^ 3 = 1
 
 theorem tof_comm_mem_core {M : Subgroup G} {a : G} (haM : a ∈ M) (ha3 : a ^ 3 = 1) {x y : G}
     (hx : x ∈ Tof 3 M a) (hy : y ∈ Tof 3 M a) : x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hw : x * y * x⁻¹ * y⁻¹ ∈ Tof 3 M a :=
     (Tof 3 M a).mul_mem ((Tof 3 M a).mul_mem ((Tof 3 M a).mul_mem hx hy) ((Tof 3 M a).inv_mem hx))
       ((Tof 3 M a).inv_mem hy)
@@ -1660,6 +1682,7 @@ section BlockDecomp
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_mod_three {e : G} (he3 : e ^ 3 = 1) (n : ℕ) : e ^ n = e ^ (n % 3) := by
   conv_lhs => rw [← Nat.div_add_mod n 3, pow_add, pow_mul, he3, one_pow, one_mul]
 
@@ -1710,6 +1733,7 @@ theorem mem_normalizer_iSup {g : G} {ι : Sort*} {f : ι → Subgroup G}
   rw [GLBConj, Subgroup.map_iSup]
   exact iSup_congr fun i => mem_normalizer_iff_gLBConj_eq.1 (h i)
 
+omit [Finite G] in
 theorem gLBConj_wpc_le {e a : G} (he3 : e ^ 3 = 1) (hae : a * e = e * a) (J : Subgroup G) :
     GLBConj e (Sec12a3.Wpc e a J) ≤ Sec12a3.Wpc e a J := by
   unfold Sec12a3.Wpc
@@ -1725,8 +1749,9 @@ theorem gLBConj_wpc_le {e a : G} (he3 : e ^ 3 = 1) (hae : a * e = e * a) (J : Su
 
 theorem wpc_le_tof {M J : Subgroup G} {a e : G} (hJ : Sec12a3.CompSet M J) (heM : e ∈ M) :
     Sec12a3.Wpc e a J ≤ Tof 3 M a :=
-  iSup_le fun k => vpc_le_tof (compSet_conj hJ (M.pow_mem heM _))
+  iSup_le fun _k => vpc_le_tof (compSet_conj hJ (M.pow_mem heM _))
 
+omit [Finite G] in
 theorem vpc_le_wpc (e a : G) (J : Subgroup G) : Sec12a3.Vpc a J ≤ Sec12a3.Wpc e a J := by
   refine le_iSup_of_le (0 : Fin 3) ?_
   show pCoreOf 2 (J ⊓ Cg a) ≤ pCoreOf 2 (GLBConj (e ^ ((0 : Fin 3) : ℕ)) J ⊓ Cg a)
@@ -1736,7 +1761,7 @@ theorem sup_inf_cg_le {X W : Subgroup G} {e : G} (he3 : e ^ 3 = 1)
     (heX : e ∈ Subgroup.normalizer (X : Set G)) (heW : e ∈ Subgroup.normalizer (W : Set G))
     (hWX : W ≤ Subgroup.normalizer (X : Set G)) (h2 : IsPGroup 2 ↥(X ⊓ W)) :
     (X ⊔ W) ⊓ Cg e ≤ (X ⊓ Cg e) ⊔ (W ⊓ Cg e) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro x ⟨hxXW, hxe⟩
   obtain ⟨u, hu, w, hw, rfl⟩ := Sec12a2.mem_sup_of_le_normalizer le_rfl hWX hxXW
   have heV : e ∈ Subgroup.normalizer ((X ⊓ W : Subgroup G) : Set G) := mem_normalizer_inf heX heW
@@ -1787,7 +1812,7 @@ theorem tof_inf_cg_le {M : Subgroup G} {a e : G} (haM : a ∈ M) (ha3 : a ^ 3 = 
       ⨆ (J : Subgroup G) (_ : Sec12a3.CompSet M J ∧ Sec12a3.ThreeCycComp a J),
         Sec12a3.Wpc e a J ⊓ Cg e := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := Tof 3 M a with hTdef
   set N := pCoreOf 2 M ⊓ T with hNdef
   have heCa : e ∈ Cg a := Subgroup.mem_centralizer_singleton_iff.2 hae.symm
@@ -1861,7 +1886,7 @@ theorem tof_inf_cg_le {M : Subgroup G} {a e : G} (haM : a ∈ M) (ha3 : a ^ 3 = 
               le_sup_right
         intro x hx
         exact hRmono (ih ⟨hle hx.1, hx.2⟩)
-  haveI := Fintype.ofFinite (Subgroup G)
+  have := Fintype.ofFinite (Subgroup G)
   have hTX : T ≤ X Finset.univ := by
     refine (tof_le_sup_vpc haM ha3).trans (sup_le le_sup_left (iSup₂_le fun J hJ => ?_))
     exact (vpc_le_wpc e a J).trans ((le_iSup₂_of_le (f := fun J (_ : J ∈ Finset.univ ∧
@@ -1958,7 +1983,7 @@ theorem quotient_alt7 {D : Type} [Group D] [Finite D] (hperf : commutator D = �
       ↥(alternatingGroup (Fin 7)) :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ρ' hsurj)
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := S7.isSimple_Alt7
   refine ⟨⟨?_, e.isSimpleGroup⟩, ⟨e⟩, hcen⟩
   have h1 : (commutator D).map (QuotientGroup.mk' (CFSG.pCore 2 D)) =
       commutator (D ⧸ CFSG.pCore 2 D) := by
@@ -1968,6 +1993,7 @@ theorem quotient_alt7 {D : Type} [Group D] [Finite D] (hperf : commutator D = �
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isTwoPrimeComp_self_of_quasisimple (J : Subgroup G) (hp : ⁅J, J⁆ = J)
     (hq : CFSG.Open.IsQuasisimple (↥J ⧸ CFSG.pCore 2 ↥J)) : IsTwoPrimeComp J J := by
   refine ⟨le_rfl, IsSubnormal.refl J, hp, ?_⟩
@@ -1994,9 +2020,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem diagΔ_le_Y (M J₀ R : Subgroup G) : diagΔ M J₀ R ≤ diagY M J₀ R :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem diagY_le_alpha {M J₀ R : Subgroup G} (hD : DiagData M J₀ R) :
     diagY M J₀ R ≤ alphaOf 3 M :=
-  inf_le_left.trans (orbitProd_le_alpha hD.comp (fun x hx => hD.le hx))
+  inf_le_left.trans (orbitProd_le_alpha hD.comp (fun _x hx => hD.le hx))
 
 theorem diagΔ_perfect (M J₀ R : Subgroup G) : ⁅diagΔ M J₀ R, diagΔ M J₀ R⁆ = diagΔ M J₀ R := by
   unfold diagΔ
@@ -2008,6 +2035,7 @@ theorem normalizer_diagΔ {M J₀ R : Subgroup G} {g : G}
     g ∈ Subgroup.normalizer ((diagΔ M J₀ R : Subgroup G) : Set G) :=
   CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _ hg
 
+omit [Finite G] in
 theorem mem_normalizer_orbitProd {M J₀ : Subgroup G} {X : Set G} {g : G} (hgM : g ∈ M)
     (h : ∀ x ∈ X, g ∈ Subgroup.normalizer ((GLBConj x J₀ : Subgroup G) : Set G)) :
     g ∈ Subgroup.normalizer ((orbitProd M J₀ X : Subgroup G) : Set G) :=
@@ -2065,7 +2093,7 @@ theorem diagY_actTriv {M J₀ R : Subgroup G} (hD : DiagData M J₀ R) {z : G}
 
 theorem mem_pCore_of_mem_core {M X : Subgroup G} (hXM : X ≤ M) {x : ↥X}
     (hx : (x : G) ∈ pCoreOf 2 M) : x ∈ CFSG.pCore 2 ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ((pCoreOf 2 M).subgroupOf X).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -2084,7 +2112,7 @@ theorem diagΔ_kernel {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
       ∀ y : ↥(diagΔ M J₀ R), k * y * k⁻¹ * y⁻¹ ∈ CFSG.pCore 2 ↥(diagΔ M J₀ R)) ∧
     (∀ k : ↥(diagΔ M J₀ R), ((permHom J₀ ι).comp (Subgroup.inclusion hΔN)) k = 1 →
       ∀ K, Sec12a3.CompSet M K → ActTriv (k : G) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hΔα := (diagΔ_le_Y M J₀ R).trans (diagY_le_alpha hD)
   have hΔM : diagΔ M J₀ R ≤ M := hΔα.trans (Sec12a.alphaOf_le_self M)
   have htriv : ∀ k : ↥(diagΔ M J₀ R), ((permHom J₀ ι).comp (Subgroup.inclusion hΔN)) k = 1 →
@@ -2101,12 +2129,12 @@ theorem diagΔ_quot {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     CFSG.Open.IsQuasisimple (↥(diagΔ M J₀ R) ⧸ CFSG.pCore 2 ↥(diagΔ M J₀ R)) ∧
       Sec12a4.IsOddCenterAltSeven (↥(diagΔ M J₀ R) ⧸ CFSG.pCore 2 ↥(diagΔ M J₀ R)) ∧
       pCoreOf 2 (diagΔ M J₀ R) ≤ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hΔα := (diagΔ_le_Y M J₀ R).trans (diagY_le_alpha hD)
   have hΔN : diagΔ M J₀ R ≤ Subgroup.normalizer (J₀ : Set G) :=
     hΔα.trans (alpha_le_normalizer hD.comp)
   set ρ := (permHom J₀ ι).comp (Subgroup.inclusion hΔN) with hρ
-  haveI : Group.IsPerfect ↥(diagΔ M J₀ R) := Subgroup.isPerfect_iff.2 (diagΔ_perfect M J₀ R)
+  have : Group.IsPerfect ↥(diagΔ M J₀ R) := Subgroup.isPerfect_iff.2 (diagΔ_perfect M J₀ R)
   have hperf : commutator ↥(diagΔ M J₀ R) = ⊤ := Group.isPerfect_def.1 inferInstance
   have hρA : ∀ d, ρ d ∈ alternatingGroup (Fin 7) := fun d => permHom_mem_alt hD.comp ι (hΔα d.2)
   have hρS : ∀ σ ∈ alternatingGroup (Fin 7), ∃ d, ρ d = σ := by
@@ -2153,7 +2181,8 @@ section DiagLift
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem mem_normalizer_diagY_of {M J₀ R : Subgroup G} (hD : DiagData M J₀ R) {g : G}
+omit [Finite G] in
+theorem mem_normalizer_diagY_of {M J₀ R : Subgroup G} (_hD : DiagData M J₀ R) {g : G}
     (hgM : g ∈ M) (hgN : g ∈ Subgroup.normalizer (J₀ : Set G)) (hgR : ∀ r ∈ R, g * r = r * g) :
     g ∈ Subgroup.normalizer ((diagY M J₀ R : Subgroup G) : Set G) := by
   refine mem_normalizer_inf (mem_normalizer_orbitProd hgM fun x hx => ?_)
@@ -2164,7 +2193,7 @@ theorem mem_normalizer_diagY_of {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
 theorem mem_normalizer_diagY_of_alpha {M J₀ R : Subgroup G} (hD : DiagData M J₀ R) {g : G}
     (hg : g ∈ alphaOf 3 M) (hgR : ∀ r ∈ R, g * r = r * g) :
     g ∈ Subgroup.normalizer ((diagY M J₀ R : Subgroup G) : Set G) :=
-  mem_normalizer_inf (mem_normalizer_orbitProd (Sec12a.alphaOf_le_self M hg) fun x hx =>
+  mem_normalizer_inf (mem_normalizer_orbitProd (Sec12a.alphaOf_le_self M hg) fun _x hx =>
     alpha_le_normalizer (compSet_conj hD.comp (hD.le hx)) hg) (mem_normalizer_centralizer hgR)
 
 theorem exists_diagΔ_lift {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
@@ -2175,8 +2204,8 @@ theorem exists_diagΔ_lift {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     (hvA : v ∈ alternatingGroup (Fin 7)) (hvc : v * πa = πa * v) {k : ℕ} (hvk : v ^ 2 ^ k = 1) :
     ∃ y ∈ pCoreOf 2 (diagΔ M J₀ R ⊓ Cg a), ∃ hy : y ∈ Subgroup.normalizer (J₀ : Set G),
       permHom J₀ ι ⟨y, hy⟩ = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJ₀ := hD.comp
   set Δ := diagΔ M J₀ R with hΔ
   have hΔY := diagΔ_le_Y M J₀ R
@@ -2263,7 +2292,7 @@ end DiagLift
 
 theorem diagPiece_holds : Sec12a3.DiagPiece := by
   intro G _ _ m B M E A a h e he he1 J hJ hJT hcase
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE : IsUniquenessTwoLocal 3 E M := h.pair.1.1.2
   obtain ⟨hAM, hAel, -⟩ : IsSCp 3 M A := h.pair.1.2.1.1.1
   have haM : a ∈ M := hAM h.ha.1
@@ -2342,7 +2371,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem mem_zpowers_of_pow3 {b c : G} (hb3 : b ^ 3 = 1) (hc : c ∈ Subgroup.zpowers b)
     (hc1 : c ≠ 1) : b ∈ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hc
   have hc3 : (b ^ k) ^ 3 = 1 := by
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hb3, one_zpow]
@@ -2352,6 +2381,7 @@ theorem mem_zpowers_of_pow3 {b c : G} (hb3 : b ^ 3 = 1) (hc : c ∈ Subgroup.zpo
   rw [Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 hc) hcard]
   exact Subgroup.mem_zpowers b
 
+omit [Finite G] in
 theorem le_normalizer_of_elemAbelian {A S : Subgroup G} (hAel : CFSG.Open.IsElemAbelian 3 A)
     (hSA : S ≤ A) : A ≤ Subgroup.normalizer (S : Set G) := by
   intro x hx
@@ -2377,7 +2407,7 @@ theorem exists_D₁ {A J₀ : Subgroup G} {a : G} (hAel : CFSG.Open.IsElemAbelia
     ∃ D₁ : Subgroup G, D₁ ≤ A ∧ A ≤ D₁ ⊔ Subgroup.zpowers a ∧
       ∀ r ∈ D₁, r ∈ Subgroup.normalizer (J₀ : Set G) → ActTriv r J₀ := by
   classical
-  haveI := Fintype.ofFinite (Subgroup G)
+  have := Fintype.ofFinite (Subgroup G)
   set P : Subgroup G → Prop := fun S =>
     S ≤ A ∧ ∀ r ∈ S, r ∈ Subgroup.normalizer (J₀ : Set G) → ActTriv r J₀ with hP
   have hne : (Finset.univ.filter P).Nonempty := ⟨⊥, Finset.mem_filter.2 ⟨Finset.mem_univ _,
@@ -2449,6 +2479,7 @@ theorem card_le_three_mul {A D : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
     _ ≤ Nat.card ↥D * 3 := h1
     _ = 3 * Nat.card D := mul_comm _ _
 
+omit [Finite G] in
 theorem actTriv_conj_both {J : Subgroup G} {g : G} (r : G) (h : ActTriv g J) :
     ActTriv (r⁻¹ * g * r) (GLBConj r J) := by
   intro y hy
@@ -2459,6 +2490,7 @@ theorem actTriv_conj_both {J : Subgroup G} {g : G} (r : G) (h : ActTriv g J) :
   rw [e]
   exact h _ hy
 
+omit [Finite G] in
 theorem actTriv_conj_mem {J : Subgroup G} {t u : G} (h : ActTriv t J)
     (hu : u ∈ Subgroup.normalizer (J : Set G)) : ActTriv (u * t * u⁻¹) J := by
   intro y hy
@@ -2470,6 +2502,7 @@ theorem actTriv_conj_mem {J : Subgroup G} {t u : G} (h : ActTriv t J)
   rw [e]
   exact h3
 
+omit [Finite G] in
 theorem mem_vpc_conj {J : Subgroup G} {a r u : G} (har : a * r = r * a)
     (hu : u ∈ Sec12a3.Vpc a J) : r⁻¹ * u * r ∈ Sec12a3.Vpc a (GLBConj r J) := by
   show r⁻¹ * u * r ∈ pCoreOf 2 (GLBConj r J ⊓ Cg a)
@@ -2479,12 +2512,12 @@ theorem mem_vpc_conj {J : Subgroup G} {a r u : G} (har : a * r = r * a)
 
 theorem diag_pcore_le_tof {M J₀ R : Subgroup G} (hD : DiagData M J₀ R)
     (ι : (Sec12a3.JbarQ J₀ ⧸ Subgroup.center (Sec12a3.JbarQ J₀)) ≃* ↥(alternatingGroup (Fin 7)))
-    {a : G} {πa : Perm (Fin 7)} (haM : a ∈ M) (ha3 : a ^ 3 = 1)
+    {a : G} {πa : Perm (Fin 7)} (_haM : a ∈ M) (ha3 : a ^ 3 = 1)
     (haN : a ∈ Subgroup.normalizer (J₀ : Set G)) (haR : ∀ r ∈ R, a * r = r * a)
     (hπa : πa.cycleType = {3}) (hA : IsConj J₀ ι a πa) :
     pCoreOf 2 (diagΔ M J₀ R ⊓ Cg a) ≤ Tof 3 M a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hy
   have hJ₀ := hD.comp
   have hyΔa := CFSG.LieType.BorelTits.pCoreOf_le 2 _ hy
@@ -2625,7 +2658,7 @@ theorem blockCoverIII_holds : Sec12a4.BlockCoverIII := by
   intro G _ _ m p B M E A a h F _hF hT
   classical
   obtain ⟨rfl, -⟩ := Sec12a.caseB_p3_hatSeven hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hAM, hAel, -⟩ : IsSCp 3 M A := h.pair.1.2.1.1.1
   have haA : a ∈ A := h.ha.1
   have haM : a ∈ M := hAM haA
@@ -2684,7 +2717,7 @@ theorem blockCoverIII_holds : Sec12a4.BlockCoverIII := by
     suffices key : ∀ F : Finset (Subgroup G), ∀ x ∈ Tof 3 M a ⊓ Subgroup.centralizer (A : Set G),
         (∀ K, Sec12a3.CompSet M K → K ∉ F → ActTriv x K) → x ∈ RHS by
       intro x hx
-      haveI := Fintype.ofFinite (Subgroup G)
+      have := Fintype.ofFinite (Subgroup G)
       exact key Finset.univ x hx (fun K _ hK => absurd (Finset.mem_univ K) hK)
     intro F
     induction F using Finset.induction_on with

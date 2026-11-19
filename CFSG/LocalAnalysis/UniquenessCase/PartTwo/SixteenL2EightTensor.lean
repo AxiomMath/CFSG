@@ -23,7 +23,7 @@ theorem case163_2_of_l2_eight_tensor
     (hne : K ≠ K.map (MulAut.conj g).toMonoidHom)
     (hL : lBar V₀ V hV L = K ⊔ K.map (MulAut.conj g).toMonoidHom)
     (hK8 : UC22.IsL2 ↥K 3)
-    (hT : NatTensor (lBar V₀ V hV L)
+    (_hT : NatTensor (lBar V₀ V hV L)
       (commSub (⊤ : Subgroup (Vtil V₀ V hV)) (lBar V₀ V hV L)) ⊥ 2 3) :
     Case163_2 D V₀ V hV L := by
   have hsimple : IsSimpleGroup ↥K :=

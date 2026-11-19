@@ -68,14 +68,14 @@ theorem ggTPRowData_D {r n : ℕ} (hr : r = 6 ∨ r = 7) {Y : Type} [Group Y]
   have hr3 : r ≠ 3 := by rintro rfl; omega
   rw [GGHasLabel] at hY
   simp only [CFSG.StandardType.LargeEvenRawDatum] at hY
-  rw [if_neg hr3] at hY
+  rw [ite_eq_right hr3] at hY
   obtain ⟨K, hKf, hKfin, hKcard, he⟩ := hY
   obtain ⟨e⟩ := he
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero r := ⟨by omega⟩
-  haveI hchar2 : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero r := ⟨by omega⟩
+  have hchar2 : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [Fintype.card_eq_nat_card, hKcard])
   refine ⟨Fin r ⊕ Fin r, inferInstance, inferInstance, K, hKf, hKfin,
     LargeEvenOmega (LargeEvenQPlus K r), ⟨e⟩, ?_, ?_, ?_⟩

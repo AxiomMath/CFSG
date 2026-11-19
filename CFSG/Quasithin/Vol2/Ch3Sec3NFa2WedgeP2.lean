@@ -89,7 +89,7 @@ theorem wedge_U2_comm_Hz (g : L3321.SL4) (hg : g ∈ L3321.P2) (hA : L3321.blkA 
 
 theorem uBmat_det (B : Matrix (Fin 2) (Fin 2) (ZMod 2)) : (uBmat B).det = 1 := by
   simp only [uBmat]
-  simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ] <;> ring
+  simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ]
 
 @[expose] def uB (B : Matrix (Fin 2) (Fin 2) (ZMod 2)) : L3321.SL4 :=
   ⟨uBmat B, uBmat_det B⟩
@@ -244,8 +244,8 @@ theorem uB_surjective_U2 : Function.Surjective (fun B : Matrix (Fin 2) (Fin 2) (
   exact ⟨uBlock g, Subtype.ext (uB_uBlock g hgP hA hC)⟩
 
 @[expose] noncomputable def U2Equiv : Matrix (Fin 2) (Fin 2) (ZMod 2) ≃ U2 :=
-  Equiv.ofBijective (fun B => (⟨uB B, uB_mem_U2 B⟩ : U2))
-    ⟨fun B B' h => uB_injective (congrArg Subtype.val h), uB_surjective_U2⟩
+  Equiv.ofBijective (fun _B => (⟨uB _B, uB_mem_U2 _B⟩ : U2))
+    ⟨fun _B _B' h => uB_injective (congrArg Subtype.val h), uB_surjective_U2⟩
 
 theorem card_U2 : Nat.card U2 = 16 := by
   rw [← Nat.card_congr U2Equiv, Nat.card_eq_fintype_card]

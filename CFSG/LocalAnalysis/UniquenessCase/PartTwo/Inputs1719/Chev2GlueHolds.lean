@@ -24,11 +24,11 @@ theorem le_normalizer_or_fermat_of_splitBN {K : Type} [Group K] [Finite K] {B N 
   · exact Or.inl (le_sup_left.trans hY)
   · right
     obtain ⟨k, hk1, hdvd⟩ := uc22p20k_div_of_splitBN hBN U (E ⊔ U) le_sup_right hY
-    obtain ⟨a, ha⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := U.isPGroup.exists_card_eq
     have hcop : Nat.Coprime r (2 ^ a) :=
       ((Nat.coprime_primes hr Nat.prime_two).2 hr2).pow_right a
     have hEU : E ⊓ (U : Subgroup K) = ⊥ :=
-      Subgroup.inf_eq_bot_of_coprime (by rw [hcard, ha]; exact hcop)
+      (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hcard, ha]; exact hcop)))
     rw [CFSG.Quasithin.H.Tri.card_sup_eq_mul hperm hEU, hcard, ha] at hdvd
     have hodd : Nat.Coprime (2 ^ k + 1) (2 ^ a) := by
       refine Nat.Coprime.pow_right a (Nat.Coprime.symm ?_)

@@ -72,7 +72,7 @@ theorem card_le_of_thetaJ
     exact Subtype.ext (Subtype.mk.inj h')
   exact Nat.card_le_card_of_injective _ hinj
 
-@[expose] def c1G (j : ℕ) : JH := hWordJ InvData.c1Words[j]!
+def c1G (j : ℕ) : JH := hWordJ InvData.c1Words[j]!
 
 theorem c1G_mem_HJ (j : ℕ) : c1G j ∈ HJ := hWordJ_mem _
 

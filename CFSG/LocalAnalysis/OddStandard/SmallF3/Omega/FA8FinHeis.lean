@@ -11,6 +11,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {W : Type} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMod 3) W]
   {R : Type} [Group R]
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem fa8fin_trace_eq_zero (ρ : R →* Module.End (ZMod 3) W) {s g h : R}
     (hs : ρ s = -1) (hh : h * g * h⁻¹ = s * g) :
     LinearMap.trace (ZMod 3) W (ρ g) = 0 := by
@@ -33,11 +34,11 @@ theorem fa8fin_trace_eq_zero (ρ : R →* Module.End (ZMod 3) W) {s g h : R}
   exact (mul_eq_zero.mp h2t).resolve_left (by decide)
 
 theorem fa8fin_linearIndependent [Finite R] (hW : Module.finrank (ZMod 3) W = 4)
-    (ρ : R →* Module.End (ZMod 3) W) (s : R) (hs : s * s = 1) (hρs : ρ s = -1)
+    (ρ : R →* Module.End (ZMod 3) W) (s : R) (_hs : s * s = 1) (hρs : ρ s = -1)
     (hpartner : ∀ g : R, g ≠ 1 → g ≠ s → ∃ h : R, h * g * h⁻¹ = s * g) :
     LinearIndependent (ZMod 3) (fun t : R ⧸ Subgroup.zpowers s => ρ (Quotient.out t)) := by
   classical
-  haveI : Fintype (R ⧸ Subgroup.zpowers s) := Fintype.ofFinite _
+  have : Fintype (R ⧸ Subgroup.zpowers s) := Fintype.ofFinite _
   rw [Fintype.linearIndependent_iff]
   intro c hc j
   have hnotmem : ∀ i : R ⧸ Subgroup.zpowers s, i ≠ j →
@@ -52,17 +53,17 @@ theorem fa8fin_linearIndependent [Finite R] (hW : Module.finrank (ZMod 3) W = 4)
         if i = j then 1 else 0 := by
     intro i
     by_cases hij : i = j
-    · rw [hij, if_pos rfl, inv_mul_cancel, map_one, LinearMap.trace_one, hW]
+    · rw [hij, ite_eq_left rfl, inv_mul_cancel, map_one, LinearMap.trace_one, hW]
       decide
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       have hg1 : (Quotient.out j)⁻¹ * Quotient.out i ≠ 1 := by
         intro h
         have h1 : (1 : R) ∈ Subgroup.zpowers s := Subgroup.one_mem _
-        exact hnotmem i hij (by simpa [h] using h1)
+        exact hnotmem i hij (by simp [h])
       have hgs : (Quotient.out j)⁻¹ * Quotient.out i ≠ s := by
         intro h
         have hs' : s ∈ Subgroup.zpowers s := Subgroup.mem_zpowers s
-        exact hnotmem i hij (by simpa [h] using hs')
+        exact hnotmem i hij (by simp [h])
       obtain ⟨h, hh⟩ := hpartner _ hg1 hgs
       exact fa8fin_trace_eq_zero ρ hρs hh
   have hsum : ∑ i, c i * (if i = j then (1 : ZMod 3) else 0) = 0 := by
@@ -89,7 +90,7 @@ theorem fa8fin_span_top [Finite R] (hW : Module.finrank (ZMod 3) W = 4) (hcard :
     (hpartner : ∀ g : R, g ≠ 1 → g ≠ s → ∃ h : R, h * g * h⁻¹ = s * g) :
     Submodule.span (ZMod 3) (Set.range (fun g : R => ρ g)) = ⊤ := by
   classical
-  haveI : Fintype (R ⧸ Subgroup.zpowers s) := Fintype.ofFinite _
+  have : Fintype (R ⧸ Subgroup.zpowers s) := Fintype.ofFinite _
   have hpow : s ^ 2 = 1 := by
     rw [pow_two]
     exact hs

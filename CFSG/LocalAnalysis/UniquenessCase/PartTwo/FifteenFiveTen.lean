@@ -63,6 +63,7 @@ theorem fifteen_five (D : Data G) (h129 : R129_1 D) (h1217 : R1217 D) {V₀ V L 
   exact h129 V₀ V h151.hyp125
     (s15_FiveTen_isTI_of_uniqueMax D hV h151.hyp125.pairFacts.le_normalizer hU)
 
+omit [Finite G] in
 theorem s15_FiveTen_mQuot_bot_eq_rk (X : Subgroup G) : E3.mQuot X ⊥ = rk ↥X := by
   unfold E3.mQuot rk
   rw [Subgroup.relIndex_bot_left]

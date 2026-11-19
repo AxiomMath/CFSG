@@ -57,7 +57,7 @@ private theorem sz_factorization_two (a : ℕ) :
   rw [h1, h2, hq2, Nat.Prime.factorization_pow Nat.prime_two]
   simp
 
-private theorem card_sylow_sz {a : ℕ} (ha : 1 ≤ a)
+private theorem card_sylow_sz {a : ℕ} (_ha : 1 ≤ a)
     (P : Sylow 2 (Sz a)) :
     Nat.card (P : Subgroup (Sz a)) = (2 ^ (2 * a + 1)) ^ 2 := by
   rw [Sylow.card_eq_multiplicity P, sz_factorization_two a, ← pow_mul]
@@ -205,7 +205,7 @@ private lemma y9_standard_position
       (M1.map ε.toMonoidHom = H13.F431.TwoF4.Pg K a ⟨1, by decide⟩ ∧
         M2.map ε.toMonoidHom = H13.F431.TwoF4.Pg K a ⟨0, by decide⟩) := by
   obtain ⟨Y, hGroupY, hY, _, M1, M2, hpair, ⟨iso0⟩⟩ := hA
-  letI := hGroupY
+  let := hGroupY
   have hD : CFSG.Blueprint.LieModel Y .twistedF4 0 2 (2 * a + 1) := by
     rcases hY with ⟨h1, -⟩ | h
     · exact absurd h1 (by omega)
@@ -214,10 +214,10 @@ private lemma y9_standard_position
     H13.F431.TwoF4.f4_model_data hD
   have haa : a0 = a := by omega
   subst a0
-  letI := hFieldK
-  letI := hFinK
-  letI := hCharK
-  haveI : Finite (H13.F431.TwoF4.Gm K a) := H13.F431.TwoF4.finite_gm K a
+  let := hFieldK
+  let := hFinK
+  let := hCharK
+  have : Finite (H13.F431.TwoF4.Gm K a) := H13.F431.TwoF4.finite_gm K a
   obtain ⟨c, _, hP⟩ := (CFSG.Quasithin.H13.Sec53F.ReeF4.f4_yamStd ha hK0).pair e hpair
   let ε : Y ≃* H13.F431.TwoF4.Gm K a := e.trans (MulAut.conj c⁻¹)
   have hε : ∀ S : Subgroup Y, S.map ε.toMonoidHom =
@@ -636,7 +636,7 @@ private lemma y9_perfectCore_one
     exact CFSG.Quasithin.perfectCore_le_of_sup_solvable le_sup_left hn rfl hBsolv
   have hperfL1quot : Group.IsPerfect (oTwoQuot ↥L1) := by
     obtain ⟨eSz⟩ := hSz
-    haveI : Group.IsPerfect ↥(Sz a) := isPerfect_sz ha
+    have : Group.IsPerfect ↥(Sz a) := isPerfect_sz ha
     exact Group.IsPerfect.ofSurjective (f := eSz.symm.toMonoidHom) eSz.symm.surjective
   have hO1 : pCoreOf 2 L1 ≤ ⁅L1, L1⁆ := by
     calc pCoreOf 2 L1 ≤ S ⊓ L1 :=
@@ -937,10 +937,10 @@ theorem y9TwistedF4 : Y9TwistedF4 := by
   classical
   obtain ⟨K, hFieldK, hFinK, hCharK, hK, _, hGroupY, M1, M2, ε, iso0, hM⟩ :=
     y9_standard_position hA ha
-  letI := hFieldK
-  letI := hFinK
-  letI := hCharK
-  letI := hGroupY
+  let := hFieldK
+  let := hFinK
+  let := hCharK
+  let := hGroupY
   obtain ⟨hR, hB1, hB2, hM1ε, hM2ε, hP1P2, hinf⟩ :=
     y9_index_orientation hK hF ha hSz iso0 hM
   obtain ⟨ψ1, hBimg1⟩ := y9_vertex_one_iso hP1P2 hM1ε hM2ε iso0

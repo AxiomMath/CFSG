@@ -51,7 +51,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
   rcases ggTWPat2_path_embed hL g hg_inj hpath with ⟨c0, hc0⟩ | ⟨c1, hc1⟩
   · have hc0le : c0 ≤ 2 := by
       have h := hc0 ⟨N - 4, by omega⟩
-      simp only [Fin.val_mk] at h
+      simp only at h
       have hlt := (g ⟨N - 4, by omega⟩).isLt
       omega
     rcases (by omega : c0 = 0 ∨ c0 = 1 ∨ c0 = 2) with rfl | rfl | rfl
@@ -61,7 +61,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨N - 3, by omega⟩
       let v : Fin (N - 1) := ⟨N - 2, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt
@@ -122,7 +122,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨0, by omega⟩
       let v : Fin (N - 1) := ⟨N - 2, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt
@@ -168,7 +168,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       have hpat : GGTWPat2 N GGTWPos.ends c.val (c₂.map Fin.val) := by
         have hcv : c.val = 1 := by dsimp [c, k₁, ggTWPat2_xiE]
         have hc₂v : ((ggTWPat2_xiE N k₂).val).val = N - 3 := by dsimp [k₂, ggTWPat2_xiE]; omega
-        simp only [GGTWPat2, ggTWInJ, ggTWPlace, Option.map_some]
+        simp only [GGTWPat2, ggTWInJ, ggTWPlace]
         refine ⟨⟨by omega, by omega⟩, Or.inl (by omega),
           ⟨⟨by omega, by omega⟩, Or.inl ⟨by omega, by omega⟩⟩⟩
       have hp₁ := ggTWPat2_cross hCK e he (ggTWPat2_xiE N) a₁ k₁ c hc hadj₁
@@ -192,7 +192,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨1, by omega⟩
       let v : Fin (N - 1) := ⟨0, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt
@@ -249,12 +249,12 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
         exact (hp₂ j).2
   · have hc1le : c1 ≤ N - 2 := by
       have h := hc1 ⟨0, by omega⟩
-      simp only [Fin.val_mk] at h
+      simp only at h
       have hlt := (g ⟨0, by omega⟩).isLt
       omega
     have hc1ge : N - 4 ≤ c1 := by
       have h := hc1 ⟨N - 4, by omega⟩
-      simp only [Fin.val_mk] at h
+      simp only at h
       omega
     rcases (by omega : c1 = N - 4 ∨ c1 = N - 3 ∨ c1 = N - 2) with rfl | rfl | rfl
     ·
@@ -263,7 +263,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨N - 3, by omega⟩
       let v : Fin (N - 1) := ⟨N - 2, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt
@@ -324,7 +324,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨0, by omega⟩
       let v : Fin (N - 1) := ⟨N - 2, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt
@@ -370,7 +370,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       have hpat : GGTWPat2 N GGTWPos.ends c.val (c₂.map Fin.val) := by
         have hcv : c.val = N - 3 := by dsimp [c, k₁, ggTWPat2_xiE]; omega
         have hc₂v : ((ggTWPat2_xiE N k₂).val).val = 1 := by dsimp [k₂, ggTWPat2_xiE]
-        simp only [GGTWPat2, ggTWInJ, ggTWPlace, Option.map_some]
+        simp only [GGTWPat2, ggTWInJ, ggTWPlace]
         refine ⟨⟨by omega, by omega⟩, Or.inr (by omega),
           ⟨⟨by omega, by omega⟩, Or.inr ⟨by omega, by omega⟩⟩⟩
       have hp₁ := ggTWPat2_cross hCK e he (ggTWPat2_xiE N) a₁ k₁ c hc hadj₁
@@ -394,7 +394,7 @@ theorem ggTWPat2_ends {N : ℕ} (hN : 5 ≤ N)
       let u : Fin (N - 1) := ⟨1, by omega⟩
       let v : Fin (N - 1) := ⟨0, by omega⟩
       have huv : u ≠ v := by
-        intro h; have := congrArg Fin.val h; simp only [u, v, Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only [u, v] at this; omega
       have hp_mem : ∀ a : Λa, p a = u ∨ p a = v := by
         intro a
         have hlt : (p a).val < N - 1 := (p a).isLt

@@ -59,7 +59,7 @@ theorem inf_normalizer_le_Cov (H₁ J : Subgroup G) :
     H₁ ⊓ Subgroup.normalizer (J : Set G) ≤ Cov H₁ J := fun _ hg => mem_Cov_of_mem hg.1 hg.2
 
 theorem le_of_le_Cov {X T J H₁ : Subgroup G} (hR : E111Reduced G X T) [Finite G] (hJ : IsComp X J)
-    (hinv : ∃ x ∈ J, x ≠ 1 ∧ x ^ 2 = 1) (hTH : T ≤ H₁) (hcov : J ≤ Cov H₁ J) : J ≤ H₁ :=
-  le_of_diag hJ.simple (inf_ne_bot hR hJ hinv) hTH fun x hx => (hcov hx).2
+    (hinv : ∃ _x ∈ J, _x ≠ 1 ∧ _x ^ 2 = 1) (hTH : T ≤ H₁) (hcov : J ≤ Cov H₁ J) : J ≤ H₁ :=
+  le_of_diag hJ.simple (inf_ne_bot hR hJ hinv) hTH fun _x hx => (hcov hx).2
 
 end CFSG.Quasithin.RonanE111

@@ -47,8 +47,8 @@ theorem comparable_of_outPChain (h : OutPChain p X) {E : Subgroup (MulAut X)} (h
 
 theorem outPCyc_of_outPChain [Finite X] (h : OutPChain p X) : OutPCyc p X := by
   intro E hE
-  haveI : Finite (MulAut X) := inferInstance
-  haveI : Finite E := inferInstance
+  have : Finite (MulAut X) := inferInstance
+  have : Finite E := inferInstance
   let f : E → ℕ := fun g => Nat.card (Subgroup.zpowers (g : MulAut X) ⊔ Inn X : Subgroup _)
   obtain ⟨g, hg⟩ := Finite.exists_max f
   refine ⟨g, g.2, fun α hα => ?_⟩
@@ -112,7 +112,7 @@ theorem exists_invariant_sylow [Fact p.Prime] (E : Subgroup (MulAut X)) (hE : Is
   toFun s := ⟨α s, (h s).1 s.2⟩
   invFun s := ⟨α.symm s, by
     rw [h]
-    simpa using s.2⟩
+    simp⟩
   left_inv s := by
     apply Subtype.ext
     simp
@@ -123,6 +123,7 @@ theorem exists_invariant_sylow [Fact p.Prime] (E : Subgroup (MulAut X)) (hE : Is
     apply Subtype.ext
     simp
 
+omit [Finite X] in
 theorem heisAutRestrict_pow (S : Subgroup X) (α : MulAut X) (h : ∀ x, x ∈ S ↔ α x ∈ S)
     (k : ℕ) (s : S) : (((heisAutRestrict S α h) ^ k) s : X) = (α ^ k) (s : X) := by
   induction k generalizing s with
@@ -134,7 +135,7 @@ theorem heisAutRestrict_pow (S : Subgroup X) (α : MulAut X) (h : ∀ x, x ∈ S
 theorem heis_fixes_torsion_of_card_le (hp : p.Prime) (S : Subgroup X)
     (hcard : Nat.card {x : S // x ^ p = 1} ≤ p) (σ : MulAut X) (hσp : σ ^ p = 1)
     (hσ : ∀ x, x ∈ S ↔ σ x ∈ S) (x : X) (hxS : x ∈ S) (hx : x ^ p = 1) : σ x = x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hx1 : x = 1
   · subst hx1
     simp
@@ -223,7 +224,7 @@ theorem noHeisAut_of_sylow (hp : p.Prime) (hp5 : 5 ≤ p)
         Nat.card {x : S // x ^ p = 1} ≤ p ∨
           ∀ x ∈ (S : Subgroup X), x ^ p = 1 → ∃ y ∈ (S : Subgroup X), y ^ p = x)) :
     NoHeisAut p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hEcard hEexp
   have hEp : IsPGroup p E := IsPGroup.of_card (n := 3) hEcard
   obtain ⟨S, hSinv⟩ := exists_invariant_sylow E hEp
@@ -262,10 +263,10 @@ theorem noHeisAut_of_sylow (hp : p.Prime) (hp5 : 5 ≤ p)
       · have hgx : g x = x := heis_fixes_torsion_of_card_le hp S hcle g hgp (hSinv g hgE) x hxS hxp
         ext y
         simp [MulAut.conj_apply, hgx]
-      letI : CommGroup S :=
+      let : CommGroup S :=
         { (inferInstance : Group S) with
           mul_comm := fun a b => Subtype.ext (hab a a.2 b b.2) }
-      obtain ⟨n, hn⟩ := (S.isPGroup').exists_card_eq
+      obtain ⟨n, hn⟩ := (S.isPGroup).exists_card_eq
       have hfix := heis_mul_fixes_torsion (G := S) hp hp5
         ⟨n, fun a => by rw [← hn]; exact pow_card_eq_one'⟩ hrk
         (by

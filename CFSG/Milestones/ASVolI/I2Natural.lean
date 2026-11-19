@@ -1181,7 +1181,7 @@ theorem burnsideI23x_commV_root_le {V : Type} [CommGroup V] (L : Subgroup (MulAu
       intro v
       have h1 := V1.inv_mem (iha (a⁻¹ v))
       have e : a⁻¹ v * v⁻¹ = (a (a⁻¹ v) * (a⁻¹ v)⁻¹)⁻¹ := by
-        simp [MulAut.apply_inv_self]
+        simp
       rw [e]
       exact h1
   unfold commV
@@ -1353,8 +1353,10 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
 theorem lf_sq (M : N ≃ₗ[F] N) (x : N) : (S.lf M x) ^ 2 = S.Q0 x + S.Q0 (M x) :=
   burnsideI23x_sqrt_sq _
 
+omit [Finite F] in
 theorem two_eq_zero_F : (2 : F) = 0 := CharP.cast_eq_zero F 2
 
+omit [Finite F] in
 theorem add_self_F (a : F) : a + a = 0 := by
   rw [← two_mul, two_eq_zero_F, zero_mul]
 
@@ -1373,6 +1375,7 @@ theorem lf_smul (M : N ≃ₗ[F] N) (c : F) (x : N) : S.lf M (c • x) = c * S.l
   conv_lhs => rw [show c ^ 2 * (S.Q0 x + S.Q0 (M x)) = c ^ 2 * (S.Q0 x + S.Q0 (M x)) from rfl]
   rw [map_mul, burnsideI23x_sqrt_of_sq]
 
+omit [Finite F] [CharP F 2] in
 theorem symp_symm {M : N ≃ₗ[F] N} (hM : S.Symp M) : S.Symp M.symm := fun x y => by
   have := hM (M.symm x) (M.symm y)
   simp only [LinearEquiv.apply_symm_apply] at this
@@ -1441,11 +1444,13 @@ theorem lift_unique {M : N ≃ₗ[F] N} (hM : S.Symp M) (g : N × F → N × F)
   rw [hg1 w] at h4
   linear_combination h4 - h2 - (S.Q0 (M w.1) + w.2 * S.lf M w.1) * h3
 
+omit [Finite F] [CharP F 2] in
 theorem symp_one : S.Symp (1 : N ≃ₗ[F] N) := fun _ _ => rfl
 
 theorem lift_one_apply (w : N × F) : S.lift S.symp_one w = w :=
   (S.lift_unique S.symp_one (fun w => w) (fun _ => rfl) (fun _ => rfl) w).symm
 
+omit [Finite F] [CharP F 2] in
 theorem symp_mul {M M' : N ≃ₗ[F] N} (hM : S.Symp M) (hM' : S.Symp M') : S.Symp (M * M') :=
   fun x y => by
     show S.B (M (M' x)) (M (M' y)) = S.B x y
@@ -1510,7 +1515,7 @@ theorem lf_zero (M : N ≃ₗ[F] N) : S.lf M 0 = 0 := by
   rw [map_zero, h0, add_zero] at h
   exact pow_eq_zero_iff (two_ne_zero) |>.1 h
 
-@[expose] def radSub (S : burnsideI23x_SD F N) : Subgroup (Multiplicative (N × F)) where
+@[expose] def radSub (_S : burnsideI23x_SD F N) : Subgroup (Multiplicative (N × F)) where
   carrier := {w | (Multiplicative.toAdd w).1 = 0}
   one_mem' := rfl
   mul_mem' := fun {a b} ha hb => by
@@ -1524,6 +1529,7 @@ theorem lf_zero (M : N ≃ₗ[F] N) : S.lf M 0 = 0 := by
     show -(Multiplicative.toAdd a).1 = 0
     rw [ha, neg_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_radSub {w : Multiplicative (N × F)} : w ∈ S.radSub ↔ (Multiplicative.toAdd w).1 = 0 :=
   Iff.rfl
 
@@ -1532,14 +1538,17 @@ theorem mem_radSub {w : Multiplicative (N × F)} : w ∈ S.radSub ↔ (Multiplic
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem projHom_surjective : Function.Surjective (projHom (F := F) (N := N)) := fun x =>
   ⟨Multiplicative.ofAdd (Multiplicative.toAdd x, 0), rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem projHom_ker : (projHom (F := F) (N := N)).ker = S.radSub := by
   ext w
   rw [MonoidHom.mem_ker, mem_radSub]
   exact ⟨fun h => congrArg Multiplicative.toAdd h, fun h => congrArg Multiplicative.ofAdd h⟩
 
+omit [Finite F] in
 theorem sq_eq_one_W (w : Multiplicative (N × F)) : w ^ 2 = 1 := by
   apply Multiplicative.toAdd.injective
   rw [toAdd_pow, toAdd_one, ← Nat.cast_smul_eq_nsmul F, Nat.cast_ofNat, two_eq_zero_F, zero_smul]
@@ -1550,7 +1559,7 @@ open CFSG.Quasithin CFSG.ASVolI.ChIJK in
 theorem burnsideI23x_univ_iso {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type}
     [AddCommGroup N] [Module F N] [Finite N] (S : burnsideI23x_SD F N)
     {Γ : Type} [Group Γ] (A : Γ →* (N ≃ₗ[F] N)) (hA : ∀ γ, S.Symp (A γ))
-    {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1)
+    {V : Type} [CommGroup V] [Finite V] (_hV : ∀ v : V, v ^ 2 = 1)
     {L : Subgroup (MulAut V)} {W0 : Subgroup V} (huniv : IsUniversalCovering L W0)
     (π : Γ →* ↥L) (hπ : Function.Bijective π) (f : V →* Multiplicative N)
     (hfs : Function.Surjective f) (hfk : f.ker = W0)
@@ -1678,6 +1687,7 @@ variable {F : Type} [Field F] [CharP F 2] (ι : Type) [Fintype ι] [DecidableEq 
       simp only [Pi.smul_apply, smul_eq_mul]
       ring)
 
+omit [CharP F 2] [DecidableEq ι] in
 theorem burnsideI23x_hypB_apply (x y : ι ⊕ ι → F) :
     burnsideI23x_hypB ι x y =
       ∑ i, (x (Sum.inl i) * y (Sum.inr i) + x (Sum.inr i) * y (Sum.inl i)) := by
@@ -1732,12 +1742,13 @@ theorem vanish_of_gen (hgen : S.GenW A hA) {M : Type} [AddCommGroup M] (h : (N �
   exact hle (hgen w)
 
 include hA in
+omit [Finite F] [CharP F 2] in
 theorem B_symp_apply (γ : Γ) (x y : N) : S.B x (A γ y) = S.B (A γ⁻¹ x) y := by
   have h := hA γ (A γ⁻¹ x) y
   have e : A γ (A γ⁻¹ x) = x := by
     have := congrArg (fun f : N ≃ₗ[F] N => f x)
       (show A γ * A γ⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-    simpa using this
+    simp
   rw [e] at h
   exact h
 
@@ -1842,12 +1853,14 @@ structure NormW (g : (N × F) ≃+ (N × F)) : Prop where
   fwd : ∀ γ, ∃ γ', ∀ w, g (S.lift (hA γ) w) = S.lift (hA γ') (g w)
   bwd : ∀ γ, ∃ γ', ∀ w, g (S.lift (hA γ') w) = S.lift (hA γ) (g w)
 
+omit [Finite F] in
 theorem Qw_add (w w' : N × F) : S.Qw (w + w') = S.Qw w + S.Qw w' + S.Bw w w' := by
   show S.Q0 (w + w').1 + (w + w').2 ^ 2 = S.Q0 w.1 + w.2 ^ 2 + (S.Q0 w'.1 + w'.2 ^ 2) + S.B w.1 w'.1
   rw [Prod.fst_add, Prod.snd_add, S.Q0_add]
   have h := two_eq_zero_F (F := F)
   linear_combination (w.2 * w'.2) * h
 
+omit [Finite F] [CharP F 2] in
 theorem Qw_smul (c : F) (w : N × F) : S.Qw (c • w) = c ^ 2 * S.Qw w := by
   show S.Q0 (c • w).1 + (c • w).2 ^ 2 = c ^ 2 * (S.Q0 w.1 + w.2 ^ 2)
   rw [Prod.smul_fst, Prod.smul_snd, S.Q0_smul, smul_eq_mul]
@@ -1877,6 +1890,7 @@ variable (S A hA)
 
 variable {S A hA}
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem tauOf_apply (g : (N × F) ≃+ (N × F)) (x : N) : tauOf g x = (g (x, 0)).1 := rfl
 
 theorem NormW.fst_g {g : (N × F) ≃+ (N × F)} (hn : NormW S A hA g) (hgen : S.GenW A hA)
@@ -1903,6 +1917,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)}
 
+omit [Finite F] [CharP F 2] in
 theorem scalar_faithful {c d : F} (h : ∀ w : N × F, c • w = d • w) : c = d := by
   have := congrArg Prod.snd (h (0, 1))
   simpa using this
@@ -1984,6 +1999,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)}
 
+omit [Finite F] in
 theorem nondegenerate (S : burnsideI23x_SD F N) : S.B.Nondegenerate := by
   have hsymm : ∀ x y, S.B x y = S.B y x := fun x y => by
     have h := S.alt (x + y)
@@ -1994,6 +2010,7 @@ theorem nondegenerate (S : burnsideI23x_SD F N) : S.B.Nondegenerate := by
   rw [hsymm]
   exact hy x
 
+omit [Finite F] [CharP F 2] in
 theorem tauOf_smul {g : (N × F) ≃+ (N × F)} {σ : F ≃+* F}
     (hσ : ∀ (a : F) (w : N × F), g (a • w) = σ a • g w) (a : F) (x : N) :
     tauOf g (a • x) = σ a • tauOf g x := by
@@ -2018,12 +2035,13 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {hA : ∀ γ, S.Symp (A γ)}
 
 include hA in
+omit [Finite F] [CharP F 2] in
 theorem B_symp_left (γ : Γ) (a y : N) : S.B (A γ a) y = S.B a (A γ⁻¹ y) := by
   have h := hA γ a (A γ⁻¹ y)
   have e : A γ (A γ⁻¹ y) = y := by
     have := congrArg (fun f : N ≃ₗ[F] N => f y)
       (show A γ * A γ⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-    simpa using this
+    simp
   rw [e] at h
   exact h
 
@@ -2044,7 +2062,7 @@ theorem NormW.exists_form_scalar [Nontrivial N] [Finite N] {g : (N × F) ≃+ (N
     intro γ x y
     obtain ⟨γ', h⟩ := hn.fwd γ
     rw [hBp, hBp, hn.tau_lift hgen γ h, hn.tau_lift hgen γ h, hA γ']
-  haveI : FiniteDimensional F N := Module.Finite.of_finite
+  have : FiniteDimensional F N := Module.Finite.of_finite
   have hnd := S.nondegenerate
   let Bf : LinearMap.BilinForm F N := S.B
   let φ : N →ₗ[F] N :=
@@ -2057,7 +2075,7 @@ theorem NormW.exists_form_scalar [Nontrivial N] [Finite N] {g : (N × F) ≃+ (N
     have e : ∀ y, A γ (A γ⁻¹ y) = y := fun y => by
       have := congrArg (fun f : N ≃ₗ[F] N => f y)
         (show A γ * A γ⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-      simpa using this
+      simp
     have h0 : φ (A γ x) - A γ (φ x) = 0 := by
       apply S.nondeg
       intro y
@@ -2098,10 +2116,12 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)}
 
+omit [Finite F] [CharP F 2] in
 theorem Q0_zero (S : burnsideI23x_SD F N) : S.Q0 0 = 0 := by
   have := S.Q0_smul (0 : F) 0
   simpa using this
 
+omit [Finite F] [CharP F 2] in
 theorem Qw_zero (S : burnsideI23x_SD F N) : S.Qw 0 = 0 := by
   show S.Q0 (0 : N × F).1 + (0 : N × F).2 ^ 2 = 0
   simp [S.Q0_zero]
@@ -2171,21 +2191,26 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
 @[expose] def gW (ψ : U ≃* Multiplicative (N × F)) (g : MulAut U) : (N × F) ≃+ (N × F) :=
   AddEquiv.toMultiplicative.symm (ψ.symm.trans (g.trans ψ))
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem gW_apply (ψ : U ≃* Multiplicative (N × F)) (g : MulAut U) (w : N × F) :
     gW ψ g w = Multiplicative.toAdd (ψ (g (ψ.symm (Multiplicative.ofAdd w)))) := rfl
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem gW_mul (ψ : U ≃* Multiplicative (N × F)) (g h : MulAut U) (w : N × F) :
     gW ψ (g * h) w = gW ψ g (gW ψ h w) := by
   rw [gW_apply, gW_apply, gW_apply, ofAdd_toAdd, MulEquiv.symm_apply_apply, MulAut.mul_apply]
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem gW_one (ψ : U ≃* Multiplicative (N × F)) (w : N × F) : gW ψ 1 w = w := by
   rw [gW_apply]
   simp
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem gW_inv (ψ : U ≃* Multiplicative (N × F)) (g : MulAut U) (w : N × F) :
     gW ψ g⁻¹ (gW ψ g w) = w := by
   rw [← gW_mul, inv_mul_cancel, gW_one]
 
+omit [Finite F] [CharP F 2] [Module F N] in
 theorem gW_pow (ψ : U ≃* Multiplicative (N × F)) (g : MulAut U) (k : ℕ) (w : N × F) :
     gW ψ (g ^ k) w = (gW ψ g)^[k] w := by
   induction k generalizing w with
@@ -2257,14 +2282,17 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   [Finite N] [Nontrivial N] {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ]
   {A : Γ →* (N ≃ₗ[F] N)} {hA : ∀ γ, S.Symp (A γ)} {U : Type} [CommGroup U]
 
+omit [Finite N] [Nontrivial N] in
 theorem tauOf_gW_mul (ψ : U ≃* Multiplicative (N × F)) (hgen : S.GenW A hA) {a : MulAut U}
     (hn : NormW S A hA (gW ψ a)) (b : MulAut U) (x : N) :
     tauOf (gW ψ (a * b)) x = tauOf (gW ψ a) (tauOf (gW ψ b) x) := by
   rw [tauOf_apply, gW_mul, hn.fst_g hgen, ← tauOf_apply]
 
+omit [Finite N] [Nontrivial N] [Finite F] [CharP F 2] [Module F N] in
 theorem tauOf_gW_one (ψ : U ≃* Multiplicative (N × F)) (x : N) : tauOf (gW ψ 1) x = x := by
   rw [tauOf_apply, gW_one]
 
+omit [Finite N] [Nontrivial N] in
 theorem tauOf_gW_lift (ψ : U ≃* Multiplicative (N × F)) {L : Subgroup (MulAut U)}
     (π : Γ →* ↥L)
     (hψ : ∀ (γ : Γ) (u : U), ψ ((π γ : MulAut U) u) = S.liftHom A hA γ (ψ u)) (γ : Γ) (x : N) :
@@ -2358,6 +2386,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {A : Γ →* (N ≃ₗ[F] N)} {hA : ∀ γ, S.Symp (A γ)} {U : Type} [CommGroup U]
 
 open CFSG.Quasithin in
+omit [Nontrivial N] in
 theorem tau_trivial_of_pCore (ψ : U ≃* Multiplicative (N × F)) {L : Subgroup (MulAut U)}
     (π : Γ →* ↥L) (hπs : Function.Surjective π)
     (hψ : ∀ (γ : Γ) (u : U), ψ ((π γ : MulAut U) u) = S.liftHom A hA γ (ψ u))
@@ -2630,14 +2659,17 @@ section Tv
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   (S : burnsideI23x_SD F N)
 
+omit [Finite F] in
 theorem B_comm (x y : N) : S.B x y = S.B y x := by
   have h := S.alt (x + y)
   simp only [map_add, LinearMap.add_apply, S.alt, zero_add, add_zero] at h
   have h2 := add_self_F (S.B y x)
   linear_combination h - h2
 
+omit [Finite F] [CharP F 2] in
 theorem B_zero_left (y : N) : S.B 0 y = 0 := by simp
 
+omit [Finite F] [CharP F 2] in
 theorem Q0_add_smul (x e : N) (a : F) :
     S.Q0 (x + a • e) = S.Q0 x + a ^ 2 * S.Q0 e + a * S.B x e := by
   rw [S.Q0_add, S.Q0_smul]
@@ -2652,12 +2684,14 @@ theorem Q0_add_smul (x e : N) (a : F) :
     simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply, smul_add, smul_smul]
     rw [mul_left_comm]
 
+omit [Finite F] [CharP F 2] in
 theorem tvLin_apply (e : N) (c : F) (x : N) : S.tvLin e c x = x + (c * S.B x e) • e := rfl
 
+omit [Finite F] in
 theorem tvLin_invol (e : N) (c : F) (x : N) : S.tvLin e c (S.tvLin e c x) = x := by
   rw [tvLin_apply, tvLin_apply]
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul, S.alt,
-    mul_zero, add_zero, zero_smul]
+    mul_zero, add_zero]
   have h := add_self_F (c * S.B x e)
   have : x + (c * S.B x e) • e + (c * S.B x e) • e = x := by
     rw [add_assoc, ← add_smul, h, zero_smul, add_zero]
@@ -2666,8 +2700,10 @@ theorem tvLin_invol (e : N) (c : F) (x : N) : S.tvLin e c (S.tvLin e c x) = x :=
 @[expose] def tvEquiv (e : N) (c : F) : N ≃ₗ[F] N :=
   LinearEquiv.ofInvolutive (S.tvLin e c) (fun x => S.tvLin_invol e c x)
 
+omit [Finite F] in
 theorem tvEquiv_apply (e : N) (c : F) (x : N) : S.tvEquiv e c x = x + (c * S.B x e) • e := rfl
 
+omit [Finite F] in
 theorem tvEquiv_symp (e : N) (c : F) : S.Symp (S.tvEquiv e c) := by
   intro x y
   rw [tvEquiv_apply, tvEquiv_apply]
@@ -2709,6 +2745,7 @@ theorem lift_tv_apply (e : N) (c : F) (w : N × F) :
       (w.1 + (c * S.B w.1 e) • e, w.2 + S.B w.1 e * S.tvκ e c) := by
   rw [lift_apply, tvEquiv_apply, lf_tv]
 
+omit [Finite F] in
 theorem exists_B_eq_one {e : N} (he : e ≠ 0) : ∃ x : N, S.B x e = 1 := by
   have h : ∃ y, S.B e y ≠ 0 := by
     by_contra hcon
@@ -2825,6 +2862,7 @@ section TvEnd
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   [Nontrivial N] (S : burnsideI23x_SD F N) {Γ : Type} (lin : Γ → N →ₗ[F] N)
 
+omit [Finite F] in
 theorem hEnd_of_tv (htv : ∀ (e : N) (c : F), e ≠ 0 → ∃ γ, ∀ x, lin γ x = S.tvEquiv e c x) :
     ∀ φ : N →+ N, (∀ γ x, φ (lin γ x) = lin γ (φ x)) → ∃ c : F, ∀ x, φ x = c • x := by
   classical
@@ -2844,7 +2882,7 @@ theorem hEnd_of_tv (htv : ∀ (e : N) (c : F), e ≠ 0 → ∃ γ, ∀ x, lin γ
   let lam : N → F := fun e => if h : e = 0 then 0 else Classical.choose (heig e h)
   have hlam : ∀ e : N, e ≠ 0 → φ e = lam e • e := by
     intro e he
-    simp only [lam, dif_neg he]
+    simp only [lam, dite_eq_right he]
     exact Classical.choose_spec (heig e he)
   have hadj : ∀ e e' : N, e ≠ 0 → e' ≠ 0 → S.B e e' ≠ 0 → lam e = lam e' := by
     intro e e' he he' hB
@@ -2932,7 +2970,7 @@ theorem burnsideI23x_lin_one (hf : IsCoord LM H Z π f) (x : M) : LM.lin 1 x = x
 open CFSG.Quasithin CFSG.ASVolI.ChIJK CFSG.Quasithin.Vol2.KGNat in
 @[expose] noncomputable def burnsideI23x_linHom (hf : IsCoord LM H Z π f) :
     D.Gam →* (M ≃ₗ[K] M) where
-  toFun γ := LinearEquiv.ofLinear (LM.lin γ) (LM.lin γ⁻¹)
+  toFun γ := LinearEquiv.ofLinearMap (LM.lin γ) (LM.lin γ⁻¹)
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, LinearMap.id_apply]
       rw [← burnsideI23x_lin_mul LM hf, mul_inv_cancel, burnsideI23x_lin_one LM hf])
@@ -3087,18 +3125,22 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
       smul_smul]
     rw [mul_left_comm (b - 1), mul_left_comm (b⁻¹ - 1)]
 
+omit [Finite F] [CharP F 2] in
 theorem torusLin_apply (e e' : N) (b : F) (x : N) :
     S.torusLin e e' b x = x + ((b - 1) * S.B x e') • e + ((b⁻¹ - 1) * S.B x e) • e' := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem torusLin_e {e e' : N} (hee : S.B e e' = 1) (b : F) : S.torusLin e e' b e = b • e := by
   rw [torusLin_apply, S.alt, hee]
   module
 
+omit [Finite F] in
 theorem torusLin_e' {e e' : N} (hee : S.B e e' = 1) (b : F) :
     S.torusLin e e' b e' = b⁻¹ • e' := by
   rw [torusLin_apply, S.alt, S.B_comm e' e, hee]
   module
 
+omit [Finite F] in
 theorem torusLin_symp {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) (x y : N) :
     S.B (S.torusLin e e' b x) (S.torusLin e e' b y) = S.B x y := by
   rw [torusLin_apply, torusLin_apply]
@@ -3106,7 +3148,7 @@ theorem torusLin_symp {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) (x 
   have h6 := S.B_comm e y
   have h7 := S.B_comm e' y
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul, S.alt,
-    mul_zero, add_zero, zero_add, hee, h1, h6, h7, mul_one]
+    mul_zero, add_zero, hee, h1, h6, h7, mul_one]
   have hbb : b * b⁻¹ = 1 := mul_inv_cancel₀ hb
   linear_combination (S.B x e * S.B y e' + S.B x e' * S.B y e) * hbb
 
@@ -3121,12 +3163,13 @@ section Torus2
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   (S : burnsideI23x_SD F N)
 
+omit [Finite F] in
 theorem torusLin_comp_inv {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) (x : N) :
     S.torusLin e e' b (S.torusLin e e' b⁻¹ x) = x := by
   have h1 : S.B e' e = 1 := by rw [S.B_comm]; exact hee
   rw [torusLin_apply S e e' b (S.torusLin e e' b⁻¹ x), torusLin_apply S e e' b⁻¹ x]
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul, S.alt,
-    hee, h1, mul_zero, add_zero, zero_add, mul_one, inv_inv]
+    hee, h1, mul_zero, add_zero, mul_one, inv_inv]
   have hbb : b * b⁻¹ = 1 := mul_inv_cancel₀ hb
   have c1 : (b⁻¹ - 1) * S.B x e' + (b - 1) * (S.B x e' + (b⁻¹ - 1) * S.B x e') = 0 := by
     linear_combination (S.B x e') * hbb
@@ -3142,15 +3185,17 @@ theorem torusLin_comp_inv {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0)
   simp
 
 @[expose] def torusEquiv {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) : N ≃ₗ[F] N :=
-  LinearEquiv.ofLinear (S.torusLin e e' b) (S.torusLin e e' b⁻¹)
+  LinearEquiv.ofLinearMap (S.torusLin e e' b) (S.torusLin e e' b⁻¹)
     (LinearMap.ext fun x => S.torusLin_comp_inv hee hb x)
     (LinearMap.ext fun x => by
       have := S.torusLin_comp_inv hee (inv_ne_zero hb) x
       rwa [inv_inv] at this)
 
+omit [Finite F] in
 theorem torusEquiv_apply {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) (x : N) :
     S.torusEquiv hee hb x = S.torusLin e e' b x := rfl
 
+omit [Finite F] in
 theorem torusEquiv_symp {e e' : N} (hee : S.B e e' = 1) {b : F} (hb : b ≠ 0) :
     S.Symp (S.torusEquiv hee hb) := fun x y => S.torusLin_symp hee hb x y
 
@@ -3164,10 +3209,12 @@ section Irred
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   (S : burnsideI23x_SD F N) {Γ : Type} (lin : Γ → N →ₗ[F] N)
 
+omit [Finite F] in
 theorem exists_partner {e : N} (he : e ≠ 0) : ∃ e' : N, S.B e e' = 1 := by
   obtain ⟨x, hx⟩ := S.exists_B_eq_one he
   exact ⟨x, by rw [S.B_comm]; exact hx⟩
 
+omit [Finite F] in
 theorem irred_line (hsurj : ∀ M : N ≃ₗ[F] N, S.Symp M → ∃ γ, ∀ x, lin γ x = M x) {e : N}
     (he : e ≠ 0) {ℓ : AddSubgroup N} (hℓ : ∀ x, x ∈ ℓ ↔ ∃ a : F, x = a • e)
     (C : AddSubgroup N) (hC : C ≠ ⊥) (hCℓ : C ≤ ℓ)
@@ -3206,6 +3253,7 @@ theorem irred_line (hsurj : ∀ M : N ≃ₗ[F] N, S.Symp M → ∃ γ, ∀ x, l
     rw [hb]
     field_simp
 
+omit [Finite F] in
 theorem irred_top (hsurj : ∀ M : N ≃ₗ[F] N, S.Symp M → ∃ γ, ∀ x, lin γ x = M x)
     {ℓ : AddSubgroup N} (hℓ : ∀ x, x ∈ ℓ)
     (C : AddSubgroup N) (hC : C ≠ ⊥) (hCinv : ∀ γ, (∀ x, lin γ x ∈ ℓ ↔ x ∈ ℓ) →
@@ -3307,7 +3355,7 @@ theorem burnsideI23x_hfaith1 (F : Type) [Field F] (γ : ↥(StatedSL 2 F))
     have h2 : ((A : Matrix (Fin 2) (Fin 2) F) *ᵥ (Pi.single j 1 : Fin 2 → F)) i =
         (Pi.single j 1 : Fin 2 → F) i := this
     simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at h2
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h2
     rw [Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
     rw [h2]
   rw [hA, map_one]
@@ -3582,7 +3630,7 @@ theorem burnsideI23x_line_of_card {F : Type} [Field F] [Finite F] {M : Type} [Ad
   have hlt : 1 < Nat.card ℓ := by
     rw [hcard]
     exact Finite.one_lt_card
-  haveI : Nontrivial ℓ := Finite.one_lt_card_iff_nontrivial.1 hlt
+  have : Nontrivial ℓ := Finite.one_lt_card_iff_nontrivial.1 hlt
   obtain ⟨⟨e₀, he₀⟩, hne⟩ := exists_ne (0 : ℓ)
   have hne' : e₀ ≠ 0 := fun h => hne (Subtype.ext h)
   refine ⟨e₀, hne', fun x => ⟨fun hx => ?_, fun ⟨a, ha⟩ => ha ▸ hF a e₀ he₀⟩⟩
@@ -3664,7 +3712,7 @@ theorem burnsideI23x_marked_ell {m n i : ℕ} {F : Type} [Field F] {M : Type} [A
 open CFSG.Quasithin CFSG.ASVolI.ChIJK CFSG.Quasithin.Vol2.KGNat CFSG.Assembly.LowTwoRank in
 theorem burnsideI23x_UCg_one {n : ℕ} (hn : 2 ≤ n) : burnsideI23x_UCg 1 n := by
   intro F _ _ hF U _ _ hU G L T K hLG hnorm hGT hT hGK huniv marking β hsec U1 U2 h1 h2
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   have hS := burnsideI23x_scalarAgree1 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have htv' : ∀ (e : Fin 2 → F) (c : F), e ≠ 0 → ∃ γ, ∀ x,
@@ -3737,6 +3785,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {S : burnsideI23x_SD F N} {U : Type} [CommGroup U]
 
 open CFSG.Quasithin CFSG.ASVolI.ChIJK in
+omit [Finite F] in
 theorem polar_Qw (w w' : N × F) : polarOf S.Qw w w' = S.B w.1 w'.1 := by
   unfold polarOf
   rw [S.Qw_add]
@@ -3744,6 +3793,7 @@ theorem polar_Qw (w w' : N × F) : polarOf S.Qw w w' = S.B w.1 w'.1 := by
   ring
 
 open CFSG.Quasithin CFSG.ASVolI.ChIJK in
+omit [Finite F] in
 theorem orth_radical (ψ : U ≃* Multiplicative (N × F)) {L : Subgroup (MulAut U)}
     {K : Subgroup U} (hψK : ∀ u, u ∈ K ↔ (Multiplicative.toAdd (ψ u)).1 = 0)
     (hfixV : fixV L = K) :
@@ -4009,7 +4059,7 @@ theorem burnsideI23x_fixV_P_le {m n : ℕ} {F : Type} [Field F] [Finite F] [Char
     {marking : (i23NaturalModel m F).Gam →* ↥L}
     {β : U →* ↥(i23NaturalModel m F).sec ⧸
       (i23NaturalModel m F).ker.subgroupOf (i23NaturalModel m F).sec}
-    (hsec : I23SectionMap (i23NaturalModel m F) L K marking β) (hKfix : K ≤ fixV L)
+    (hsec : I23SectionMap (i23NaturalModel m F) L K marking β) (_hKfix : K ≤ fixV L)
     {U1 : Subgroup U} (hKU1 : K ≤ U1)
     (hflag1 : ∀ U', IsFlagW L (T ⊓ L) K (2 ^ n) 1 U' → U' = U1) :
     fixV (T ⊓ L) ≤ U1 := by
@@ -4066,9 +4116,11 @@ section RootClassify
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   (S : burnsideI23x_SD F N)
 
+omit [Finite F] in
 theorem tvEquiv_zero (e : N) (x : N) : S.tvEquiv e 0 x = x := by
   rw [tvEquiv_apply]; simp
 
+omit [Finite F] in
 theorem tvEquiv_add (e : N) (c c' : F) (x : N) :
     S.tvEquiv e (c + c') x = S.tvEquiv e c (S.tvEquiv e c' x) := by
   rw [tvEquiv_apply, tvEquiv_apply, tvEquiv_apply]
@@ -4078,6 +4130,7 @@ theorem tvEquiv_add (e : N) (c c' : F) (x : N) :
   congr 2
   ring
 
+omit [Finite F] in
 theorem tv_char {e₀ : N} (he₀ : e₀ ≠ 0) {M : N ≃ₗ[F] N} (hM : S.Symp M)
     (hMx : ∀ x, ∃ a : F, M x = x + a • e₀) : ∃ c : F, ∀ x, M x = S.tvEquiv e₀ c x := by
   obtain ⟨x₁, hx₁⟩ := S.exists_B_eq_one he₀
@@ -4145,7 +4198,7 @@ theorem root_classify (ψ : U ≃* Multiplicative (N × F)) {L : Subgroup (MulAu
         rw [← hc]
         have := congrArg (fun f : N ≃ₗ[F] N => f x)
           (show A γ * A γ⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-        simpa using this
+        simp
       have h2 : S.tvEquiv e₀ c (S.tvEquiv e₀ c (A γ⁻¹ x)) = A γ⁻¹ x := by
         rw [← S.tvEquiv_add, ← two_mul, two_eq_zero_F, zero_mul, S.tvEquiv_zero]
       rw [← h2, h1]
@@ -4290,7 +4343,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)} {U : Type} [CommGroup U]
 
-theorem lines_inf_bot {e₀ : N} (he₀ : e₀ ≠ 0) {c c' : F} (hc : c ≠ 0) (hc' : c' ≠ 0)
+theorem lines_inf_bot {e₀ : N} (he₀ : e₀ ≠ 0) {c c' : F} (hc : c ≠ 0) (_hc' : c' ≠ 0)
     (hcc : c ≠ c') {a a' : F}
     (h : a • ((c • e₀, S.tvκ e₀ c) : N × F) = a' • ((c' • e₀, S.tvκ e₀ c') : N × F)) : a = 0 := by
   by_contra ha0
@@ -4421,6 +4474,7 @@ section ExistsLift
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N] [Module F N]
   [Finite N] (S : burnsideI23x_SD F N)
 
+omit [Finite N] [Finite F] in
 theorem isometry_Bw {g : (N × F) ≃ₗ[F] (N × F)} (hg : ∀ w, S.Qw (g w) = S.Qw w) (w w' : N × F) :
     S.Bw (g w) (g w') = S.Bw w w' := by
   have h1 := S.Qw_add w w'
@@ -4429,6 +4483,7 @@ theorem isometry_Bw {g : (N × F) ≃ₗ[F] (N × F)} (hg : ∀ w, S.Qw (g w) = 
   have : S.Bw (g w) (g w') = S.Bw w w' := by linear_combination h1 - h2
   exact this
 
+omit [Finite N] [Finite F] in
 theorem isometry_rad {g : (N × F) ≃ₗ[F] (N × F)} (hg : ∀ w, S.Qw (g w) = S.Qw w) {w : N × F}
     (hw : w.1 = 0) : (g w).1 = 0 := by
   apply S.nondeg
@@ -4462,7 +4517,7 @@ theorem exists_lift_of_isometry {g : (N × F) ≃ₗ[F] (N × F)} (hg : ∀ w, S
     have h2 := S.isometry_rad hgi (w := g (x, 0)) h1
     rw [g.symm_apply_apply] at h2
     exact h2
-  haveI : FiniteDimensional F N := Module.Finite.of_finite
+  have : FiniteDimensional F N := Module.Finite.of_finite
   let M : N ≃ₗ[F] N := LinearEquiv.ofInjectiveEndo Ml hinj
   have hMapp : ∀ x, M x = Ml x := fun x => by
     rw [show M x = (LinearEquiv.ofInjectiveEndo Ml hinj) x from rfl, LinearEquiv.coe_ofInjectiveEndo]
@@ -4485,11 +4540,13 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   [Finite N] {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)} {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [Finite N] in
 theorem lift_one_eq (w : N × F) : S.lift (hA 1) w = w := by
   have := lift_eq_self_of_fix (S := S) (A := A) (hA := hA) 1 (x := w.1)
     (by rw [map_one]; rfl) w.2
   simpa using this
 
+omit [Finite N] in
 theorem lift_mul_eq (γ δ : Γ) (w : N × F) :
     S.lift (hA (γ * δ)) w = S.lift (hA γ) (S.lift (hA δ) w) := by
   have h := congrArg Multiplicative.toAdd
@@ -4519,6 +4576,7 @@ variable (S A hA)
 variable {S A hA}
 
 open scoped Matrix in
+omit [Finite N] in
 theorem phiHom_mulVec (κ : (N × F) ≃ₗ[F] (ι → F)) (γ : Γ) (w : N × F) :
     ((phiHom S A hA κ γ : Matrix.GeneralLinearGroup ι F) : Matrix ι ι F) *ᵥ (κ w) =
       κ (S.lift (hA γ) w) := by
@@ -4528,6 +4586,7 @@ theorem phiHom_mulVec (κ : (N × F) ≃ₗ[F] (ι → F)) (γ : Γ) (w : N × F
   show κ (S.lift (hA γ) (κ.symm (κ w))) = _
   rw [LinearEquiv.symm_apply_apply]
 
+omit [Finite N] in
 theorem phiHom_injective (κ : (N × F) ≃ₗ[F] (ι → F))
     (hfaith : ∀ γ, (∀ x, A γ x = x) → γ = 1) : Function.Injective (phiHom S A hA κ) := by
   rw [injective_iff_map_eq_one]
@@ -4638,6 +4697,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   [Finite N] {S : burnsideI23x_SD F N} {Γ : Type} [Group Γ] {A : Γ →* (N ≃ₗ[F] N)}
   {hA : ∀ γ, S.Symp (A γ)} {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [Finite N] in
 theorem exists_piOmega (κ : (N × F) ≃ₗ[F] (ι → F)) (Ωg : Subgroup (Matrix.GeneralLinearGroup ι F))
     (hrange : (phiHom S A hA κ).range = Ωg) (hfaith : ∀ γ, (∀ x, A γ x = x) → γ = 1)
     {U : Type} [CommGroup U] {L : Subgroup (MulAut U)} (marking : Γ →* ↥L)
@@ -4875,7 +4935,7 @@ theorem burnsideI23x_part1_m1 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fin
             (Multiplicative.toAdd (ψ v)))) ∧
       I23ScalarCompatibility 1 F ψ β ∧
       OrthConclMarked (StatedQuadOdd 1 F) 1 n ψ L T (i23TransvectionRoot L W0 V1) S' V1 V2 := by
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   have hS := burnsideI23x_scalarAgree1 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have htv' : ∀ (e : Fin 2 → F) (c : F), e ≠ 0 → ∃ γ, ∀ x,
@@ -4930,7 +4990,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique in
 theorem burnsideI23x_sylow_inf_normal {Y : Type*} [Group Y] [Finite Y] {G L T : Subgroup Y}
     (hLG : L ≤ G) (hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L) (hT : IsSylowTwoOf T G) :
     IsSylowTwoOf (T ⊓ L) L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (L.subgroupOf G).Normal := ⟨fun n hn g => by
     have := hnorm g.1 g.2 n.1 hn
     exact this⟩
@@ -5055,7 +5115,7 @@ theorem burnsideI23x_case_m1 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fini
       (i23NaturalModel 1 F).ker.subgroupOf (i23NaturalModel 1 F).sec)
     (hsec : I23SectionMap (i23NaturalModel 1 F) L W0 marking β) :
     burnsideI23x_Concl 1 n F V G L T W0 marking β := by
-  haveI : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hLG : L ≤ G := by rw [hL]; exact CFSG.Quasithin.quasithinGenFitting_le G
   have hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
     intro g hg l hl
@@ -5174,7 +5234,7 @@ theorem burnsideI23x_hfaith2 (F : Type) [Field F] (γ : ↥⁅StatedSp 2 F, Stat
   have h2 : (((γ : GL (Fin 2 ⊕ Fin 2) F) : Matrix _ _ F) *ᵥ (Pi.single j 1 : Fin 2 ⊕ Fin 2 → F)) i =
       (Pi.single j 1 : Fin 2 ⊕ Fin 2 → F) i := this
   simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at h2
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h2
   show (((γ : GL (Fin 2 ⊕ Fin 2) F) : Matrix _ _ F)) i j = (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) i j
   rw [Matrix.one_apply, h2]
 
@@ -5217,8 +5277,10 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   map_smul' c x := by
     simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply, smul_add, smul_smul]
 
+omit [Finite F] [CharP F 2] in
 theorem sieLin_apply (u v z : N) : S.sieLin u v z = z + S.B z u • v + S.B z v • u := rfl
 
+omit [Finite F] in
 theorem sieLin_invol {u v : N} (huv : S.B u v = 0) (z : N) :
     S.sieLin u v (S.sieLin u v z) = z := by
   have hvu : S.B v u = 0 := by rw [S.B_comm]; exact huv
@@ -5234,9 +5296,11 @@ theorem sieLin_invol {u v : N} (huv : S.B u v = 0) (z : N) :
 @[expose] def sieEquiv {u v : N} (huv : S.B u v = 0) : N ≃ₗ[F] N :=
   LinearEquiv.ofInvolutive (S.sieLin u v) (fun z => S.sieLin_invol huv z)
 
+omit [Finite F] in
 theorem sieEquiv_apply {u v : N} (huv : S.B u v = 0) (z : N) :
     S.sieEquiv huv z = z + S.B z u • v + S.B z v • u := rfl
 
+omit [Finite F] in
 theorem sieEquiv_symp {u v : N} (huv : S.B u v = 0) : S.Symp (S.sieEquiv huv) := by
   intro x y
   have hvu : S.B v u = 0 := by rw [S.B_comm]; exact huv
@@ -5249,6 +5313,7 @@ theorem sieEquiv_symp {u v : N} (huv : S.B u v = 0) : S.Symp (S.sieEquiv huv) :=
     huv, hvu, mul_zero, add_zero, h1, h2]
   linear_combination h3 + h4
 
+omit [Finite F] in
 theorem exists_dual_pair {x u : N} (hu : u ≠ 0) (hx : ∀ a : F, x ≠ a • u) :
     ∃ v : N, S.B x v = 1 ∧ S.B u v = 0 := by
   obtain ⟨v₀, hv₀⟩ := S.exists_partner hu
@@ -5372,7 +5437,7 @@ theorem burnsideI23x_plane_isotropic {m n : ℕ} {F : Type} [Field F] [Finite F]
       add_mem' := ℓ.add_mem
       zero_mem' := ℓ.zero_mem
       smul_mem' := fun c x hx => hU2F c x hx }
-  haveI : FiniteDimensional F M := Module.Finite.of_finite
+  have : FiniteDimensional F M := Module.Finite.of_finite
   have hnd := S.nondegenerate
   have hF2 : 2 ≤ Nat.card F := Finite.one_lt_card
   have hfrM : Module.finrank F M = 4 := by
@@ -5520,8 +5585,8 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.JonesParshall CFSG.Quasi
   CFSG.Assembly.LowTwoRank in
 theorem burnsideI23x_UCg_two {n : ℕ} (hn : 2 ≤ n) : burnsideI23x_UCg 2 n := by
   intro F _ _ hF U _ _ hU G L T K hLG hnorm hGT hT hGK huniv marking β hsec U1 U2 h1 h2
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
-  haveI : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hS := burnsideI23x_scalarAgree2 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hsurjLin : ∀ M : (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F),
@@ -5588,7 +5653,7 @@ theorem burnsideI23x_UCg_two {n : ℕ} (hn : 2 ≤ n) : burnsideI23x_UCg 2 n := 
       rw [hcardF2]
       have : 1 < Nat.card F := Finite.one_lt_card
       nlinarith
-    haveI : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
+    have : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
     obtain ⟨⟨e₂, he₂⟩, hne⟩ := exists_ne (0 : hf.img U2)
     exact ⟨e₂, he₂, fun h => hne (Subtype.ext h)⟩
   obtain ⟨e₂, he₂ℓ, he₂0⟩ := he₂
@@ -5664,7 +5729,7 @@ theorem burnsideI23x_part1_m2 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fin
             (Multiplicative.toAdd (ψ v)))) ∧
       I23ScalarCompatibility 2 F ψ β ∧
       OrthConclMarked (StatedQuadOdd 2 F) 2 n ψ L T (i23TransvectionRoot L W0 V1) S' V1 V2 := by
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   have hS := burnsideI23x_scalarAgree2 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hsurjLin : ∀ M : (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F),
@@ -5735,8 +5800,8 @@ theorem burnsideI23x_case_m2 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fini
       (i23NaturalModel 2 F).ker.subgroupOf (i23NaturalModel 2 F).sec)
     (hsec : I23SectionMap (i23NaturalModel 2 F) L W0 marking β) :
     burnsideI23x_Concl 2 n F V G L T W0 marking β := by
-  haveI : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   obtain ⟨c₀, hc0, hc1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hLG : L ≤ G := by rw [hL]; exact CFSG.Quasithin.quasithinGenFitting_le G
   have hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
@@ -6194,8 +6259,8 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.JonesParshall CFSG.Quasi
   CFSG.Quasithin.Vol2.Ch11.G2Q8 in
 theorem burnsideI23x_UCg_three {n : ℕ} (hn : 2 ≤ n) : burnsideI23x_UCg 3 n := by
   intro F _ _ hF U _ _ hU G L T K hLG hnorm hGT hT hGK huniv marking β hsec U1 U2 h1 h2
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
-  haveI : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hS := burnsideI23x_scalarAgree3 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hEndLin : ∀ φ : (Ix3 → F) →+ (Ix3 → F),
@@ -6253,7 +6318,7 @@ theorem burnsideI23x_UCg_three {n : ℕ} (hn : 2 ≤ n) : burnsideI23x_UCg 3 n :
       rw [hcardF2]
       have : 1 < Nat.card F := Finite.one_lt_card
       nlinarith
-    haveI : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
+    have : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
     obtain ⟨⟨e₂, he₂⟩, hne⟩ := exists_ne (0 : hf.img U2)
     exact ⟨e₂, he₂, fun h => hne (Subtype.ext h)⟩
   obtain ⟨e₂, he₂ℓ, he₂0⟩ := he₂
@@ -6389,7 +6454,7 @@ theorem burnsideI23x_tL_eq {F : Type} [Field F] [CharP F 2] (s : F) :
   apply cayley_ext
   intro w
   rw [q6_eta w, g2Act_tL, g2Act_g2A_uSL]
-  refine q6_congr ?_ ?_ ?_ ?_ ?_ ?_ <;> (try simp [q6]) <;> try ring
+  refine q6_congr ?_ ?_ ?_ ?_ ?_ ?_ <;> (try simp [q6])
 
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
   CFSG.ClassicalInvolution.ModelFacts.OddCover CFSG.QuasithinUnique.Bridge.Alt57Model
@@ -6512,7 +6577,7 @@ theorem burnsideI23x_g2A_E12_apply {F : Type} [Field F] [CharP F 2] (c : F) (x :
   · funext i
     rw [adjugate_uSL]
     fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.transpose_apply,
-      CharTwo.neg_eq, CharTwo.sub_eq_add] <;> try ring
+      CharTwo.neg_eq, CharTwo.sub_eq_add]; try ring
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
   CFSG.ClassicalInvolution.ModelFacts.OddCover CFSG.QuasithinUnique.Bridge.Alt57Model
   CFSG.Quasithin.Vol2.KGNat CFSG.ASVolI.ChIJK in
@@ -6692,7 +6757,7 @@ theorem burnsideI23x_commV_S3 {F : Type} [Field F] [Finite F] [CharP F 2] {n : �
     have hinv : ((marking γg⁻¹ : ↥L) : MulAut U) ((marking γg : MulAut U) u') = u' := by
       have h1 : marking γg⁻¹ * marking γg = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
       have h2 := congrArg (fun x : ↥L => ((x : MulAut U) : U ≃* U) u') h1
-      simpa using h2
+      simp
     have e1 : ((marking (γg * burnsideI23x_ofCayley hc0 hc1 (tL s) * γg⁻¹) : ↥L) : MulAut U)
         ((marking γg : MulAut U) u') =
         (marking γg : MulAut U) ((marking (burnsideI23x_ofCayley hc0 hc1 (tL s)) : MulAut U) u') := by
@@ -6767,6 +6832,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {N : Type} [AddCommGroup N]
   (S : burnsideI23x_SD F N) {U : Type} [CommGroup U]
 
 open CFSG.Quasithin CFSG.ASVolI.ChIJK in
+omit [Finite F] [CharP F 2] in
 theorem sclause (ψ : U ≃* Multiplicative (N × F)) (Lg : (N × F) ≃ₗ[F] (N × F))
     (Ag : N ≃ₗ[F] N) (hLg1 : ∀ w, (Lg w).1 = Ag w.1) (hLgQ : ∀ w, S.Qw (Lg w) = S.Qw w)
     (Sp : Submodule F N) (hSp0 : ∀ p ∈ Sp, S.Q0 p = 0) (hSpdim : Module.finrank F Sp = 2)
@@ -6898,7 +6964,7 @@ theorem burnsideI23x_part1_m3 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fin
       OrthConclMarked (fun x : ↥(zornO0F F) =>
         CFSG.ASVolI.ChIJK.zornNorm F (x : quasithinZorn F)) 3 n ψ L T
         (i23TransvectionRoot L W0 V1) (CFSG.ASVolI.ChIJK.centerOf (T ⊓ L)) V1 V2 := by
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   have hS := burnsideI23x_scalarAgree3 F
   obtain ⟨a, ha0, ha1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hEndLin : ∀ φ : (Ix3 → F) →+ (Ix3 → F),
@@ -6999,8 +7065,8 @@ theorem burnsideI23x_case_m3 {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Fini
       (i23NaturalModel 3 F).ker.subgroupOf (i23NaturalModel 3 F).sec)
     (hsec : I23SectionMap (i23NaturalModel 3 F) L W0 marking β) :
     burnsideI23x_Concl 3 n F V G L T W0 marking β := by
-  haveI : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
+  have : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hF
   obtain ⟨c₀, hc0, hc1⟩ := burnsideI23x_exists_ne_zero_one hF hn
   have hLG : L ≤ G := by rw [hL]; exact CFSG.Quasithin.quasithinGenFitting_le G
   have hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
@@ -7087,7 +7153,7 @@ open scoped Pointwise in
 theorem burnsideI23x_sylow_conj {Y : Type*} [Group Y] [Finite Y] {H A B : Subgroup Y}
     (hA : IsSylowTwoOf A H) (hB : IsSylowTwoOf B H) :
     ∃ g ∈ H, ∀ y : Y, y ∈ B ↔ g⁻¹ * y * g ∈ A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA' : IsSylowIn 2 A H := hA
   have hB' : IsSylowIn 2 B H := hB
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq H hA'.toSylow hB'.toSylow
@@ -7306,7 +7372,7 @@ theorem burnsideI23x_sylow_desc {Y : Type*} [Group Y] [Finite Y] {G Γ U : Subgr
     (hρ : Function.Bijective ρ) {P : Subgroup (MulAut V)} (hP : IsSylowTwoOf P H) :
     ∃ g : ↥Γ, ∀ x : MulAut V, x ∈ P ↔
       ∃ u : ↥Γ, (u : Y) ∈ U ∧ x = ((ρ (g * u * g⁻¹) : ↥H) : MulAut V) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : IsSylowTwoOf (U ⊓ Γ) Γ := burnsideI23x_sylow_inf_normal hΓG hnorm hU
   obtain ⟨hPH, hP2, hPi⟩ := hP
   set P' : Subgroup Y := ((P.subgroupOf H).comap ρ).map Γ.subtype with hP'
@@ -7589,7 +7655,7 @@ theorem burnsideI23x_card_four {N : Type*} [AddCommGroup N] (h2 : ∀ x : N, x +
     ∃ a b : N, a ∈ X ∧ b ∈ X ∧ a ≠ 0 ∧ b ≠ 0 ∧ a ≠ b ∧
       ∀ x : N, x ∈ X ↔ (x = 0 ∨ x = a ∨ x = b ∨ x = a + b) := by
   classical
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite ↥X := Nat.finite_of_card_ne_zero (by omega)
   have hXfin : (X : Set N).Finite := Set.toFinite _
   have hcard : (X : Set N).ncard = 4 := by
     rw [← hX]; exact (Nat.card_coe_set_eq _).symm
@@ -7659,8 +7725,7 @@ open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Qu
 theorem burnsideI23x_emb_eu0 {F : Type} [Field F] (c : ZMod 2 ≃+* F) :
     burnsideI23x_emb c burnsideI23x_eu0 = eu 0 1 := by
   funext i
-  rcases i with i | i <;> fin_cases i <;> simp [burnsideI23x_emb, burnsideI23x_eu0, q6, eu,
-    Pi.single_apply]
+  rcases i with i | i <;> fin_cases i <;> simp [burnsideI23x_emb, burnsideI23x_eu0, q6, eu]
 
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
   CFSG.ASVolI.ChIJK in
@@ -8028,9 +8093,8 @@ theorem burnsideI23x_swap01_eq {F : Type} [Field F] [CharP F 2] :
   rw [h1]
   simp only [hA]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply, Matrix.one_apply,
-      CharTwo.two_eq_zero] <;>
-    first | exact CharTwo.two_eq_zero | exact CharTwo.two_eq_zero.symm |
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply, Matrix.one_apply] <;>
+    first |
       exact CharTwo.add_self_eq_zero (1 : F) | exact (CharTwo.add_self_eq_zero (1 : F)).symm
 
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
@@ -8284,7 +8348,7 @@ theorem burnsideI23x_E01_mem_U0 {F : Type} [Field F] [CharP F 2] :
         1 + Matrix.single 0 1 1 := rfl
     rw [hA]
     show _ = !![1, 1, 0; 0, 1, 0; 0, 0, 1] i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
   unfold burnsideI23x_eE
   rw [this]
   exact g2A_mem_U0 1 0 0
@@ -8300,7 +8364,7 @@ theorem burnsideI23x_E12_mem_U0 {F : Type} [Field F] [CharP F 2] :
         1 + Matrix.single 1 2 1 := rfl
     rw [hA]
     show _ = !![1, 0, 0; 0, 1, 1; 0, 0, 1] i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
   unfold burnsideI23x_eE
   rw [this]
   exact g2A_mem_U0 0 0 1
@@ -8435,10 +8499,10 @@ theorem burnsideI23x_sylow_desc1 {F : Type} [Field F] [Finite F] [CharP F 2]
     ∃ g : ↥⁅quasithinG2 F, quasithinG2 F⁆, ∀ x : MulAut V, x ∈ P ↔
       ∃ u : ↥⁅quasithinG2 F, quasithinG2 F⁆, burnsideI23x_toCayley u ∈ U0 F ∧
         x = ((marking (g * u * g⁻¹) : ↥L) : MulAut V) := by
-  haveI : Finite (quasithinZorn F) := by
+  have : Finite (quasithinZorn F) := by
     unfold quasithinZorn
     infer_instance
-  haveI : Finite (quasithinZorn F ≃ₗ[F] quasithinZorn F) :=
+  have : Finite (quasithinZorn F ≃ₗ[F] quasithinZorn F) :=
     Finite.of_injective (fun e : quasithinZorn F ≃ₗ[F] quasithinZorn F =>
       (e : quasithinZorn F → quasithinZorn F)) (fun a b h => LinearEquiv.ext fun x => congrFun h x)
   obtain ⟨g, hg⟩ := burnsideI23x_sylow_desc (G := cayleyGroup F) (Γ := ⁅quasithinG2 F, quasithinG2 F⁆)
@@ -8719,7 +8783,7 @@ theorem burnsideI23x_x1y1_plane {F : Type} [Field F] [CharP F 2] (r s : F) :
     burnsideI23x_rx1 (burnsideI23x_ry1 (q6 r 0 0 0 0 s)) = q6 (r + s) 0 0 0 0 r := by
   funext k
   rcases k with k | k <;> fin_cases k <;>
-    simp [burnsideI23x_rx1, burnsideI23x_ry1, q6] <;>
+    simp [burnsideI23x_rx1, burnsideI23x_ry1, q6];
     linear_combination s * (CharTwo.two_eq_zero (R := F))
 
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
@@ -8817,8 +8881,8 @@ theorem burnsideI23x_UCg_three_one :
     burnsideI23x_UCg 3 1 := by
   intro F _ _ hF U _ _ hU G L T K hLG hnorm hGT hT hGK huniv marking β hsec U1 U2 h1 h2
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
-  haveI : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hS := burnsideI23x_scalarAgree3 F
   have hEndLin : ∀ φ : (Ix3 → F) →+ (Ix3 → F),
       (∀ γ x, φ ((burnsideI23x_LM3 F).lin γ x) = (burnsideI23x_LM3 F).lin γ (φ x)) →
@@ -8871,7 +8935,7 @@ theorem burnsideI23x_UCg_three_one :
       rw [hcardF2]
       have : 1 < Nat.card F := Finite.one_lt_card
       nlinarith
-    haveI : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
+    have : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
     obtain ⟨⟨e₂, he₂⟩, hne⟩ := exists_ne (0 : hf.img U2)
     exact ⟨e₂, he₂, fun h => hne (Subtype.ext h)⟩
   obtain ⟨e₂, he₂ℓ, he₂0⟩ := he₂
@@ -9123,7 +9187,7 @@ theorem burnsideI23x_tv12_eq {F : Type} [Field F] [CharP F 2] :
       1 + Matrix.single 1 2 1 := rfl
   rw [hA]
   show _ = !![1, 0, 0; 0, 1, 1; 0, 0, 1] i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 open CFSG.Quasithin CFSG.Quasithin.Explicit CFSG.Quasithin.JonesParshall CFSG.Quasithin.Vol2.Ch11.G2Q8
   CFSG.ASVolI.ChIJK CFSG.ClassicalInvolution.ModelFacts.OddCover in
@@ -9292,7 +9356,7 @@ theorem burnsideI23x_commV_S3_one {F : Type} [Field F] [Finite F] [CharP F 2]
     intro u'
     have h1 : marking g⁻¹ * marking g = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
     have h2 := congrArg (fun x : ↥L => ((x : MulAut U) : U ≃* U) u') h1
-    simpa using h2
+    simp
   have hgen : ∀ u' : U,
       ((marking (g * burnsideI23x_tLG hF * g⁻¹) : ↥L) : MulAut U) ((marking g : MulAut U) u') *
         ((marking g : MulAut U) u')⁻¹ =
@@ -9396,7 +9460,7 @@ theorem burnsideI23x_part1_m3_one
         (i23TransvectionRoot L W0 V1)
         (CFSG.ASVolI.ChIJK.omegaOne (CFSG.ASVolI.ChIJK.centerOf (T ⊓ L))) V1 V2 := by
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
   have hS := burnsideI23x_scalarAgree3 F
   have hmb := burnsideI23x_marking_bij3 hsec
   have hEndLin : ∀ φ : (Ix3 → F) →+ (Ix3 → F),
@@ -9504,8 +9568,8 @@ theorem burnsideI23x_case_m3_one
     (hsec : I23SectionMap (i23NaturalModel 3 F) L W0 marking β) :
     burnsideI23x_Concl 3 1 F V G L T W0 marking β := by
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
   have hLG : L ≤ G := by rw [hL]; exact CFSG.Quasithin.quasithinGenFitting_le G
   have hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
     intro g hg l hl
@@ -10042,7 +10106,7 @@ theorem burnsideI23x_card_P1 : Nat.card burnsideI23x_P1 = 8 := by
   have hset : ((burnsideI23x_P1 : Subgroup (Equiv.Perm (Fin 6))) : Set (Equiv.Perm (Fin 6))) =
       ↑(burnsideI23x_P1list.toFinset) := by
     ext σ
-    simp only [SetLike.mem_coe, burnsideI23x_mem_P1, Finset.mem_coe, List.mem_toFinset]
+    simp only [SetLike.mem_coe, burnsideI23x_mem_P1, List.mem_toFinset]
   calc Nat.card burnsideI23x_P1 = Nat.card ↥((burnsideI23x_P1 : Subgroup (Equiv.Perm (Fin 6))) :
         Set (Equiv.Perm (Fin 6))) := rfl
     _ = Nat.card ↥(↑(burnsideI23x_P1list.toFinset) : Set (Equiv.Perm (Fin 6))) := by rw [hset]
@@ -10721,8 +10785,8 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.JonesParshall CFSG.Quasi
 theorem burnsideI23x_UCg_two_one : burnsideI23x_UCg 2 1 := by
   intro F _ _ hF U _ _ hU G L T K hLG hnorm hGT hT hGK huniv marking β hsec U1 U2 h1 h2
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
-  haveI : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : Finite (MulAut U) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hS := burnsideI23x_scalarAgree2 F
   have hEndLin : ∀ φ : (Fin 2 ⊕ Fin 2 → F) →+ (Fin 2 ⊕ Fin 2 → F),
       (∀ γ x, φ ((burnsideI23x_LM2 F).lin γ x) = (burnsideI23x_LM2 F).lin γ (φ x)) →
@@ -10771,7 +10835,7 @@ theorem burnsideI23x_UCg_two_one : burnsideI23x_UCg 2 1 := by
       rw [hcardF2]
       have : 1 < Nat.card F := Finite.one_lt_card
       nlinarith
-    haveI : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
+    have : Nontrivial (hf.img U2) := Finite.one_lt_card_iff_nontrivial.1 hlt
     obtain ⟨⟨e₂, he₂⟩, hne⟩ := exists_ne (0 : hf.img U2)
     exact ⟨e₂, he₂, fun h => hne (Subtype.ext h)⟩
   obtain ⟨e₂, he₂ℓ, he₂0⟩ := he₂
@@ -10794,7 +10858,7 @@ open CFSG.Quasithin CFSG.Quasithin.B5FinSp CFSG.ASVolI.ChIJK CFSG.Assembly.LowTw
 theorem burnsideI23x_root_bot_a6 {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 2)
     {V : Type} [CommGroup V] {L : Subgroup (MulAut V)} {W0 : Subgroup V}
     {marking : (i23NaturalModel 2 F).Gam →* ↥L} {f : V → (Fin 2 ⊕ Fin 2 → F)}
-    (hf : IsCoord (burnsideI23x_LM2 F) L W0 marking f) {V1 : Subgroup V} (hWV1 : W0 ≤ V1)
+    (hf : IsCoord (burnsideI23x_LM2 F) L W0 marking f) {V1 : Subgroup V} (_hWV1 : W0 ≤ V1)
     (hsc : ∀ (a : F) (x : Fin 2 ⊕ Fin 2 → F), x ∈ hf.img V1 → a • x ∈ hf.img V1)
     (hcard : Nat.card (hf.img V1) = Nat.card F) :
     i23TransvectionRoot L W0 V1 = ⊥ := by
@@ -10805,7 +10869,7 @@ theorem burnsideI23x_root_bot_a6 {F : Type} [Field F] [Finite F] [CharP F 2] (hF
       (∀ vector ∈ V1, root vector * vector⁻¹ ∈ W0) ∧ ∃ vector : V, root vector * vector⁻¹ ∉ W0} =
       (∅ : Set (MulAut V)) := by
     ext root
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨hrL, hV1', hW0', v, hv⟩
     obtain ⟨γ, hγ⟩ := hf.onto ⟨root, hrL⟩
     have hγr : ((marking γ : ↥L) : MulAut V) = root := congrArg Subtype.val hγ
@@ -11071,7 +11135,7 @@ theorem burnsideI23x_card_D1sub {F : Type} [Field F] [Finite F] (hF : Nat.card F
 theorem burnsideI23x_finrank_of_card {F : Type} [Field F] [Finite F] {M : Type} [AddCommGroup M]
     [Module F M] [Finite M] (S : Submodule F M) (k : ℕ) (hcard : Nat.card S = Nat.card F ^ k) :
     Module.finrank F S = k := by
-  haveI : Module.Finite F M := Module.Finite.of_finite
+  have : Module.Finite F M := Module.Finite.of_finite
   have hc2 := Module.natCard_eq_pow_finrank (K := F) (V := ↥S)
   have hq : 2 ≤ Nat.card F := Finite.one_lt_card
   exact (Nat.pow_right_injective hq (hc2.symm.trans hcard))
@@ -11538,7 +11602,7 @@ theorem burnsideI23x_part1_m2_one {F : Type} [Field F] [Finite F] (hF : Nat.card
       I23ScalarCompatibility 2 F ψ β ∧
       OrthConclMarked (StatedQuadOdd 2 F) 2 1 ψ L T (i23TransvectionRoot L W0 V1) S' V1 V2 := by
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
   have hS := burnsideI23x_scalarAgree2 F
   set c := burnsideI23x_cF F hF1 with hc
   have hEndLin : ∀ φ : (Fin 2 ⊕ Fin 2 → F) →+ (Fin 2 ⊕ Fin 2 → F),
@@ -11681,8 +11745,8 @@ theorem burnsideI23x_case_m2_one {F : Type} [Field F] [Finite F] (hF : Nat.card 
     (hsec : I23SectionMap (i23NaturalModel 2 F) L W0 marking β) :
     burnsideI23x_Concl 2 1 F V G L T W0 marking β := by
   have hF1 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : CharP F 2 := burnsideI23x_charP2_of_card hF1
+  have : Finite (MulAut V) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : CharP F 2 := burnsideI23x_charP2_of_card hF1
   have hLG : L ≤ G := by rw [hL]; exact CFSG.Quasithin.quasithinGenFitting_le G
   have hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
     intro g hg l hl
@@ -12039,8 +12103,8 @@ theorem burnsideI23x_hasSec_m2 {V : Type} [CommGroup V] {L : Subgroup (MulAut V)
         (i23NaturalModel 2 F).ker.subgroupOf (i23NaturalModel 2 F).sec),
       I23SectionMap (i23NaturalModel 2 F) L W0 marking β := by
   obtain ⟨K, _, _, hK, π, hπ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hK; omega) hK
-  haveI : CharP F 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hF; omega) hF
+  have : CharP K 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hK; omega) hK
+  have : CharP F 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hF; omega) hF
   obtain ⟨f, hf⟩ := exists_isCoord (burnsideI23x_LM2 K) hπ
   let e : K ≃+* F := burnsideI23x_fieldEquiv (hK.trans hF.symm)
   have hf' := burnsideI23x_isCoord_map (LM' := burnsideI23x_LM2 F) hf
@@ -12061,8 +12125,8 @@ theorem burnsideI23x_hasSec_m3 {V : Type} [CommGroup V] {L : Subgroup (MulAut V)
         (i23NaturalModel 3 F).ker.subgroupOf (i23NaturalModel 3 F).sec),
       I23SectionMap (i23NaturalModel 3 F) L W0 marking β := by
   obtain ⟨K, _, _, hK, π, hπ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hK; omega) hK
-  haveI : CharP F 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hF; omega) hF
+  have : CharP K 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hK; omega) hK
+  have : CharP F 2 := charP_two_of_card (by have := burnsideI23x_one_le_of_card hF; omega) hF
   obtain ⟨f, hf⟩ := exists_isCoord (burnsideI23x_LM3 K) hπ
   let e : K ≃+* F := burnsideI23x_fieldEquiv (hK.trans hF.symm)
   have hf' := burnsideI23x_isCoord_map (LM' := burnsideI23x_LM3 F) hf
@@ -12201,7 +12265,7 @@ theorem burnsideI23x_legacy_key (h123 : burnsideI23x_MarkedStmt) {V : Type} [Com
         pCoreOf 2 (G ⊓ stabSub V1) ≤ centSub V1 ∧ pCoreOf 2 (G ⊓ stabSub V2) ≤ centSub V2) ∧
       (1 < n → fixV L ≤ V1 ∧ (m ≠ 3 → V1 = commV R ∧ commV R ≤ fixV R)) := by
   have hn1 : 1 ≤ n := burnsideI23x_one_le_of_card hF
-  haveI : CharP F 2 := charP_two_of_card (by omega) hF
+  have : CharP F 2 := charP_two_of_card (by omega) hF
   rcases hcase with ⟨rfl, hn, hnat⟩ | ⟨rfl, hnat⟩ | ⟨rfl, hnat⟩
   · obtain ⟨marking, β, hsec⟩ := burnsideI23x_hasSec_m1 hnat F hF
     exact burnsideI23x_legacy_core hV

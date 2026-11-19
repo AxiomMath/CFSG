@@ -58,7 +58,7 @@ theorem i61L62At_holds : I61L62At := by
     swap
     · exact absurd h0 (by norm_num)
     obtain ⟨-, F, hFf, hFfin, hFcard, ⟨eF⟩⟩ := hcl
-    haveI := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL (K := F) (n := 5 + 1)
+    have := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL (K := F) (n := 5 + 1)
       (by norm_num)
     have hsimp : IsSimpleGroup (Q ⧸ Subgroup.center Q) :=
       (eF.trans (CFSG.QuasithinUnique.Id2519.projectiveSLEquivStatedProj (5 + 1) F).symm).isSimpleGroup
@@ -106,7 +106,7 @@ theorem i71L62At_holds (G : Type) [Group G] [Finite G] : I71L62At G := by
         (k := F) Nat.prime_two le_rfl (by norm_num : 3 ≤ 5 + 1) hFcard
       rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence ePQ').toEquiv]
       simpa using h
-    haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 K)) :=
+    have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 K)) :=
       Nat.finite_of_card_ne_zero (fun h0 => by rw [h0] at hOut; norm_num at hOut)
     obtain ⟨k, hk⟩ := hbp ⟨b, Subgroup.mem_zpowers b⟩
     have hbk : b ^ 3 ^ k = 1 := by
@@ -137,14 +137,14 @@ section Dickson
 
 theorem i7_false_of_three {S : Type} [Group S] [Nontrivial S] [Group.IsPerfect S]
     (ψ : Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) →* S) (hψ : Function.Surjective ψ) : False := by
-  haveI := CFSG.GH74.GLS.Stage1.Main.isSolvable_sl2_zmod_three
+  have := CFSG.GH74.GLS.Stage1.Main.isSolvable_sl2_zmod_three
   exact Group.IsPerfect.not_isSolvable S (Group.isSolvable_of_surjective hψ)
 
 theorem i7_psl_iso_of_surjective (r : ℕ) [Fact r.Prime] (h5 : 5 ≤ r) {S : Type} [Group S]
     [IsSimpleGroup S] [Group.IsPerfect S] (ψ : Matrix.SpecialLinearGroup (Fin 2) (ZMod r) →* S)
     (hψ : Function.Surjective ψ) :
     Nonempty (S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod r)) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hnotTop : Subgroup.center S ≠ ⊤ := by
     intro htop
     have hmc : IsMulCommutative S := Subgroup.center_eq_top_iff.mp htop
@@ -215,8 +215,8 @@ theorem i7_catalog_of_psl (r : ℕ) [hr : Fact r.Prime] (h5 : 5 ≤ r)
         norm_num at this
       omega
     have hv := i7_valid_A1 r hr.out h7
-    haveI : NeZero r := ⟨by omega⟩
-    haveI : Fact (Nat.Prime (⟨r, 1, hr.out, Nat.one_pos⟩ : TauCeti.PrimePower).p) := ⟨hr.out⟩
+    have : NeZero r := ⟨by omega⟩
+    have : Fact (Nat.Prime (⟨r, 1, hr.out, Nat.one_pos⟩ : TauCeti.PrimePower).p) := ⟨hr.out⟩
     have hcard : Nat.card (ZMod r) = r ^ 1 := by rw [Nat.card_zmod, pow_one]
     let T : ZMod r ≃+* GaloisField r 1 :=
       CFSG.ClassicalModels.finiteFieldEquivGaloisField (ZMod r) r 1 Nat.one_pos hcard
@@ -297,17 +297,17 @@ theorem involvedSL2At_holds (G : Type) [Group G] [Finite G] :
     InvolvedSL2At G := by
   intro p q X J hp hq hq2 _hX hJ hinv
   obtain ⟨H, φ, hφ⟩ := hinv
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 2) (ZMod q)) := inferInstance
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Finite (Matrix.GeneralLinearGroup (Fin 2) (ZMod q)) := inferInstance
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI : Group.IsPerfect (CFSG.Yardstones.Md0ec50421ce4.PQuot p J) := ⟨hQ.1⟩
-  haveI : IsSimpleGroup (CFSG.Yardstones.Md0ec50421ce4.PSimple p J) := hQ.2
-  haveI : Group.IsPerfect (CFSG.Yardstones.Md0ec50421ce4.PSimple p J) := inferInstance
+  have : Group.IsPerfect (CFSG.Yardstones.Md0ec50421ce4.PQuot p J) := ⟨hQ.1⟩
+  have : IsSimpleGroup (CFSG.Yardstones.Md0ec50421ce4.PSimple p J) := hQ.2
+  have : Group.IsPerfect (CFSG.Yardstones.Md0ec50421ce4.PSimple p J) := inferInstance
   obtain ⟨K, hKtop, hKperf, hK0⟩ := i7_exists_perfect_cover φ hφ
-  haveI := hKperf
+  have := hKperf
   have hεK := Subgroup.equivMapOfInjective K H.subtype H.subtype_injective
-  haveI : Group.IsPerfect ↥(K.map H.subtype) :=
+  have : Group.IsPerfect ↥(K.map H.subtype) :=
     Group.IsPerfect.ofSurjective (f := hεK.toMonoidHom) hεK.surjective
   have hJne : K.map H.subtype ≠ ⊥ := by
     intro h
@@ -317,7 +317,7 @@ theorem involvedSL2At_holds (G : Type) [Group G] [Finite G] :
   rcases CFSG.RankThree.SubgroupLists.perfect_gl2_mulEquiv hq2 (K.map H.subtype) hJne with
     ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exact i7_catalog_of_cover K φ hKtop q hq2 (e.symm.trans hεK.symm)
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact i7_catalog_of_cover K φ hKtop 5 (by norm_num) (e.symm.trans hεK.symm)
 
 end Dickson
@@ -390,8 +390,8 @@ theorem i4_ringEquiv_eq_id_of_card_four {K : Type} [Field K] [Finite K]
   have hchar : CharP K 2 := by
     rw [← hp2]
     exact ringChar.charP K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hcomm : ∀ r : ZMod 2, σ (algebraMap (ZMod 2) K r) = algebraMap (ZMod 2) K r := by
     intro r
     exact congrArg (fun f : ZMod 2 →+* K => f r)
@@ -559,7 +559,7 @@ theorem i4_psu3_false {K : Type} [Field K] [Finite K] (q : ℕ) (hK : Nat.card K
     have hq1 : q ≤ 1 := by omega
     have : q ^ 2 ≤ 1 := by interval_cases q <;> norm_num
     omega
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]

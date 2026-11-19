@@ -71,8 +71,8 @@ theorem exists_component_of_three_component
     isRankTwoLayerType_of_equiv eq1.symm hty
   have h2 : ¬ 2 ∣ Nat.card (Subgroup.center ↥R) := by
     intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype ↥(Subgroup.center ↥R) := Fintype.ofFinite _
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype ↥(Subgroup.center ↥R) := Fintype.ofFinite _
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥(Subgroup.center ↥R)) 2
       (by rwa [Fintype.card_eq_nat_card])
     have hxm : ((x : ↥R) : Y) ∈ Coordinator.centerInvolutions R := by
@@ -103,9 +103,9 @@ theorem exists_component_of_three_component
   let e : ↥R ≃* ↥(L.map f) := MulEquiv.ofBijective φ ⟨hφi, hφs⟩
   refine ⟨R, hRn, hRJ, ⟨le_top, ?_, hRperf.commutator_eq_top, ?_⟩,
     isRankTwoLayerType_of_equiv e.symm hty, e, fun r => rfl⟩
-  · haveI := hRn
+  · have := hRn
     exact IsSubnormal.step le_top Subgroup.normal_subgroupOf (IsSubnormal.refl _)
-  · haveI := hS
+  · have := hS
     exact MulEquiv.isSimpleGroup eq1
 
 
@@ -135,8 +135,8 @@ theorem agl81I542Three
       rw [h1]; exact E.mul_mem hx' (hCE this)
   set E' : Subgroup (X ⧸ C) := E.map π with hE'
   set L' : Subgroup (X ⧸ C) := L.map π with hL'
-  haveI hE'n : E'.Normal := Subgroup.Normal.map ‹E.Normal› π (QuotientGroup.mk'_surjective C)
-  haveI hL'n : L'.Normal := Subgroup.Normal.map ‹L.Normal› π (QuotientGroup.mk'_surjective C)
+  have hE'n : E'.Normal := Subgroup.Normal.map ‹E.Normal› π (QuotientGroup.mk'_surjective C)
+  have hL'n : L'.Normal := Subgroup.Normal.map ‹L.Normal› π (QuotientGroup.mk'_surjective C)
   have hEL' : E' ≤ L' := Subgroup.map_mono hEL
   have hEJ : ∀ j ∈ gnImg T (thompsonJ T), ∀ e ∈ E', j * e = e * j := fun j hj e he =>
     (Subgroup.mem_centralizer_iff.mp (thompsonJ_star_le_centralizer hGN E' h3 hj) e he).symm
@@ -151,8 +151,8 @@ theorem agl81I542Three
   obtain ⟨R, hRn, hRJ, hRc, hRty, e, he⟩ := exists_component_of_three_component
     (Y := X ⧸ C) (FF531.pCore_two_gnQuot hGN) hEL' hEJ hLJ h3 q hker hS' hnc' hty'
   have hAut : AutInOK R := HardMathSupport.Meierfrankenfeld.AGL81.I542.agl81I542 X T hGN R hRc hRJ hRty
-  haveI : R.Normal := hRn
-  haveI : (L.map (QuotientGroup.mk' E)).Normal :=
+  have : R.Normal := hRn
+  have : (L.map (QuotientGroup.mk' E)).Normal :=
     Subgroup.Normal.map ‹L.Normal› _ (QuotientGroup.mk'_surjective E)
   let φ : ↥R ≃* ↥(L.map (QuotientGroup.mk' E)) := e.trans (MulEquiv.subgroupCongr hmapL)
   exact autInOK_of_surj_equiv R (L.map (QuotientGroup.mk' E)) q hqs φ (fun n => he n) hAut

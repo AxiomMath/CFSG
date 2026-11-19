@@ -140,10 +140,10 @@ theorem ggTorusWNormSC_of_reference {p : ℕ} (hp : p.Prime) {R : Type} [Group R
   intro L' _ _ ψ hψ hker hperf A hA hAI _ hsc _ Λ _ _ M C V _ _ ι φ h α _ hC hpair hlin hgen
     _ _
   exfalso
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  have hw0 : diagWeight p Q 0 = (Q : ZMod p) := if_pos rfl
-  have hw1 : diagWeight p Q 1 = 1 := if_neg (by decide)
-  have hw2 : diagWeight p Q 2 = 1 := if_neg (by decide)
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have hw0 : diagWeight p Q 0 = (Q : ZMod p) := ite_eq_left rfl
+  have hw1 : diagWeight p Q 1 = 1 := ite_eq_right (by decide)
+  have hw2 : diagWeight p Q 2 = 1 := ite_eq_right (by decide)
   have hwne : ∀ i, diagWeight p Q i ≠ 0 := by
     intro i
     fin_cases i
@@ -184,7 +184,7 @@ theorem ggTorusWNormSC_of_reference {p : ℕ} (hp : p.Prime) {R : Type} [Group R
   have hV0card : Nat.card t.range = p ^ 3 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective htinj).toEquiv,
       Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 3 → ZMod p) ≃ (Fin 3 → ZMod p))]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   obtain ⟨c, hcV, hcE⟩ := hS.exists_conj_eq_of_selfCent hp hV0 hV0card hEg hEgs
   let Φ : G →* MulAut L' := Λ₀.comp ε.symm.toMonoidHom
   let f0 : Multiplicative (Fin 3 → ZMod p) →* MulAut L' :=
@@ -402,8 +402,8 @@ theorem exists_reference {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} [
           diagWeight p (Nat.card K) i * Multiplicative.toAdd v i) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq2 : 1 < Nat.card K := Finite.one_lt_card
   have hdiv : (Nat.card K ^ 3 - 1) / (Nat.card K - 1) = Nat.card K ^ 2 + Nat.card K + 1 := by
     apply Nat.div_eq_of_eq_mul_left (by omega)
@@ -491,9 +491,9 @@ theorem exists_reference {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} [
   apply Subtype.ext
   change ρ0 σ * tL v * (ρ0 σ)⁻¹ = tL _
   rw [htL, htL]
-  have hw1 : diagWeight p (Nat.card K) 1 = 1 := if_neg (by decide)
-  have hw2 : diagWeight p (Nat.card K) 2 = 1 := if_neg (by decide)
-  have hw0 : diagWeight p (Nat.card K) 0 = (Nat.card K : ZMod p) := if_pos rfl
+  have hw1 : diagWeight p (Nat.card K) 1 = 1 := ite_eq_right (by decide)
+  have hw2 : diagWeight p (Nat.card K) 2 = 1 := ite_eq_right (by decide)
+  have hw0 : diagWeight p (Nat.card K) 0 = (Nat.card K : ZMod p) := ite_eq_left rfl
   simp only [toAdd_ofAdd, hw0, hw1, hw2, one_mul]
   have hσu : ∀ a : ZMod p, σ * u (Multiplicative.ofAdd a) * σ⁻¹ =
       u (Multiplicative.ofAdd ((Nat.card K : ZMod p) * a)) := by
@@ -530,7 +530,7 @@ theorem ggTorusWNormSC_recipe_E6_phi3 {K : Type} [Field K] [Finite K] [CharP K 2
     GGTorusWNormSC p (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
   have hp3 : p ≠ 3 := by omega
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h0 : ((Nat.card K ^ 2 + Nat.card K + 1 : ℕ) : ZMod p) = 0 :=
     (CharP.cast_eq_zero_iff (ZMod p) p _).mpr hpq
   push_cast at h0
@@ -549,7 +549,7 @@ theorem ggTorusWNormSC_recipe_E6_phi3 {K : Type} [Field K] [Finite K] [CharP K 2
     rw [CharP.cast_eq_zero_iff (ZMod p) p] at h3
     exact hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h3)
   have he : orderOf ((Nat.card K : ℕ) : ZMod p) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hq3 hq1
   have hQ0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := by
     intro hz

@@ -44,7 +44,7 @@ open CFSG.StandardType (markTag markRank markChar markDeg)
 
 theorem t158g_eq_bot_of_perfect_of_solvable {H : Type*} [Group H] [Group.IsSolvable H] (P : Subgroup H)
     (hP : ⁅P, P⁆ = P) : P = ⊥ := by
-  obtain ⟨n, hn⟩ := (isSolvable_def H).1 inferInstance
+  obtain ⟨n, hn⟩ := (Group.isSolvable_def H).1 inferInstance
   have key : ∀ k : ℕ, P ≤ derivedSeries H k := by
     intro k
     induction k with
@@ -56,9 +56,9 @@ theorem t158g_eq_bot_of_perfect_of_solvable {H : Type*} [Group H] [Group.IsSolva
 
 theorem t158g_eq_bot_of_perfect_of_le_solvable {H : Type*} [Group H] {P Q : Subgroup H}
     [Group.IsSolvable ↥Q] (hPQ : P ≤ Q) (hP : ⁅P, P⁆ = P) : P = ⊥ := by
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hPQ) (Subgroup.inclusion_injective hPQ)
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
   have htop := t158g_eq_bot_of_perfect_of_solvable (⊤ : Subgroup ↥P) (by
     have := Group.IsPerfect.commutator_eq_top (G := ↥P)
     rwa [commutator_def] at this)
@@ -129,8 +129,8 @@ theorem t158gU38Core_holds : T158GU38Core := by
   subst hlab3
   dsimp only [CFSG.Assembly.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
   obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, f, hf, u, hu, hord, hind⟩ := hraw
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have e1 : u * f * u⁻¹ = MulAut.congr θ (MI.indAut 3 S b (hN b)) := (MI.induces_indRel_iff (hN b) θ).1 hind
   have hKcard' : Nat.card K = 2 ^ (2 * 3) := by rw [hKcard]; norm_num
   let h : UnitaryFieldData 2 3 K := ⟨Nat.prime_two, by norm_num, hKcard'⟩
@@ -170,17 +170,17 @@ theorem t158gU38Core_holds : T158GU38Core := by
   have h72 : Nat.card (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
       Matrix (Fin 3) (Fin 3) (fixSubfield σ))) = 72 :=
     card_primeFormP_three_two h₀ (by norm_num)
-  haveI : Finite (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
+  have : Finite (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
       Matrix (Fin 3) (Fin 3) (fixSubfield σ))) :=
     Nat.finite_of_card_ne_zero (by rw [h72]; norm_num)
-  haveI hsolv₀ : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
+  have hsolv₀ : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
       Matrix (Fin 3) (Fin 3) (fixSubfield σ))) := isSolvable_of_card_primeFactors_le_two (by
     rw [h72, show (72 : ℕ) = 2 ^ 3 * 3 ^ 2 by norm_num,
       Nat.primeFactors_mul (by norm_num) (by norm_num),
       Nat.primeFactors_prime_pow (by norm_num) Nat.prime_two,
       Nat.primeFactors_prime_pow (by norm_num) Nat.prime_three]
     decide)
-  haveI hsolvJ : Group.IsSolvable ↥j.range :=
+  have hsolvJ : Group.IsSolvable ↥j.range :=
     Group.isSolvable_of_surjective (f := j.rangeRestrict) j.rangeRestrict_surjective
   have hap : IsPGroup 3 (Subgroup.zpowers b) := isPGroup_zpowers_of_pow_eq_one hb3
   have hJc := glaPComponent_chevTransfer Nat.prime_three (hN b) hap hL
@@ -217,7 +217,7 @@ theorem t158g_twA_of_markTag {lab : LargeEvenLabel}
   case twA => rfl
   case D | twD =>
     simp only [markTag, markRank] at h1 h2
-    split_ifs at h1 h2 <;> first | omega | exact absurd h1 (by decide)
+    split_ifs at h1 h2; try first | omega
   all_goals simp [markTag, markRank, markChar] at h1 h2 h3 ⊢
 
 theorem t158g_A2_of_markTag {lab : LargeEvenLabel}
@@ -232,8 +232,8 @@ theorem t158g_A2_of_markTag {lab : LargeEvenLabel}
     omega
   case D | twD =>
     simp only [markTag, markRank] at h1 h2
-    split_ifs at h1 h2 <;> first | omega | exact absurd h1 (by decide)
-  all_goals simp [markTag, markRank, markChar] at h1 h2 h3 ⊢
+    split_ifs at h1 h2; first | omega
+  all_goals simp [markTag, markRank] at h1 h2 h3 ⊢
 
 theorem t158g_mem_of_mem_ggInndiag {R : Type} [Group R] {I : Set (MulAut R)}
     (hmul : ∀ φ ∈ I, ∀ ψ ∈ I, φ * ψ ∈ I) (hinv : ∀ φ ∈ I, φ⁻¹ ∈ I)
@@ -294,7 +294,7 @@ theorem t158g_innDiagOn_of_innAutDerived_A2 {Γ : Type} [Group Γ] {J : Subgroup
     unfold MI.indAut
     rw [← map_zpow]
     congr 1
-    exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+    exact Subtype.ext (by simp [zpow_neg])
   rw [e']
   exact Subgroup.zpow_mem _ h k
 
@@ -352,9 +352,9 @@ theorem t158g_twoPart_ordG2 {n : ℕ} (hn : 1 ≤ n) : twoPart (CFSG.Open.ordG2 
 theorem t158g_isQuasisimple_of_mulEquiv {G P : Type} [Group G] [Group P] (e : G ≃* P)
     (hs : IsSimpleGroup P) (hperf : Group.IsPerfect P) :
     CFSG.Open.IsQuasisimple G ∧ Subgroup.center G = ⊥ := by
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr e).2 hs
-  haveI : Group.IsPerfect G := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Nontrivial P := hs.toNontrivial
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr e).2 hs
+  have : Group.IsPerfect G := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
+  have : Nontrivial P := hs.toNontrivial
   obtain ⟨a, b, hab⟩ := Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperf
   have hna : ∃ a b : G, a * b ≠ b * a :=
     ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -398,7 +398,7 @@ theorem t158g_exists_mulEquiv_projImage_slPi {Y : Type} [Group Y] {β : MulAut Y
           Matrix.ProjGenLinGroup (Fin 3) F) =
         (φ ⟨(y : Y), hJC y.2⟩ : Matrix.ProjGenLinGroup (Fin 3) F) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f F :=
     fun h => by subst h; exact hK.unitary
   have hSP : CFSG.PGLModel.projImage (Sec4.slPi π 3 (2 ^ f) F) ≤
@@ -648,8 +648,8 @@ theorem t158gTD4Core_holds : T158GTD4Core := by
   have hq2 : q.p = 2 := td4g2_p_two hv eS hchev
   obtain ⟨K, hKf, hKfin, σ, hK, hσ, ⟨Θ, hker⟩, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hn : 1 ≤ q.exponent := q.exponent_pos
   rw [hq2] at hK hσ
   let e : PSimple 3 S ≃* ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := eS.trans eC
@@ -661,8 +661,8 @@ theorem t158gTD4Core_holds : T158GTD4Core := by
     change Θ (MulAut.congr e α) = 1 ↔ _
     rw [← MonoidHom.mem_ker, hker]
     rfl
-  haveI : IsCyclic (K ≃+* K) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : Finite (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun f : K ≃+* K => (f : K → K)) (fun f g h => RingEquiv.ext (congrFun h))
   have hΘβ1 : Θ' β ≠ 1 := fun h => hβout ((hker' β).1 h)
   obtain ⟨j, -, hj⟩ := T158Core.t158Core_pow_of_cyclic (a := Θ' β) (b := Θ' x)
@@ -684,8 +684,8 @@ theorem t158gTD4Core_holds : T158GTD4Core := by
   ·
     exfalso
     apply hG2
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := q.exponent * 3)
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := q.exponent * 3)
       (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
     obtain ⟨eG⟩ := KFacts.nonempty_fixedPoints_fieldActor_mulEquiv_g2 σ (ringChar.eq K 2)
     obtain ⟨γ, hγ, hφγ⟩ : ∃ γ : MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom),
@@ -728,9 +728,9 @@ theorem t158gTD4Core_holds : T158GTD4Core := by
       by_cases h1 : q.exponent = 1
       ·
         exfalso
-        haveI : Group.IsSolvable ↥(CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ q.exponent) F)) :=
+        have : Group.IsSolvable ↥(CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ q.exponent) F)) :=
           Sec13.isSolvable_projImage_glPi_two hPi (by simp [h1])
-        haveI : Group.IsSolvable ↥(fixSubgroup β) :=
+        have : Group.IsSolvable ↥(fixSubgroup β) :=
           Group.isSolvable_of_isSolvable_injective (f := (eA.trans e₃).toMonoidHom) (eA.trans e₃).injective
         have hJc := glaPComponent_chevTransfer hp (hN b) (isPGroup_zpowers_of_pow_eq_one hb3) hL
         rw [hfixβ] at hJc
@@ -811,7 +811,7 @@ theorem t158g_twoPart_inf_of_odd_index {P : Type} [Group P] [Finite P] {C J D : 
     (hodd : twoPart (Nat.card C) = twoPart (Nat.card J)) (hDC : D ≤ C) :
     twoPart (Nat.card ↥(J ⊓ D)) = twoPart (Nat.card D) := by
   classical
-  haveI hJn' : (J.subgroupOf C).Normal :=
+  have hJn' : (J.subgroupOf C).Normal :=
     ⟨fun t ht f => Subgroup.mem_subgroupOf.2 (hJn f f.2 t (Subgroup.mem_subgroupOf.1 ht))⟩
   have h1 : (J.subgroupOf C).relIndex (D.subgroupOf C) ∣ (J.subgroupOf C).index :=
     Subgroup.relIndex_dvd_index_of_normal _ _
@@ -877,7 +877,7 @@ theorem t158g_pow_three_of_conj_mul_pow {R : Type*} [Group R] (hZ : Subgroup.cen
 
 theorem t158g_isQuasisimple_of_simple {G : Type*} [Group G] (hs : IsSimpleGroup G)
     (hna : ∃ a b : G, a * b ≠ b * a) : CFSG.Open.IsQuasisimple G ∧ Subgroup.center G = ⊥ := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center G = ⊥ := T156.center_eq_bot_of_simple_noncomm hna
   have hperf : commutator G = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator G) with h | h
@@ -972,7 +972,7 @@ theorem t158g_d4_model {X : Type} [Group X] (h : catalogIs X isD4any) :
       Nonempty (X ≃* adjointGroup Tag.D4 F) := by
   obtain ⟨q, hv, hq2, ⟨eS⟩⟩ := t158g_d4_index h
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card F = 2 ^ q.exponent := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 2 ^ q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
@@ -1009,8 +1009,8 @@ theorem t158g_d4_field_fix {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤
     ∃ (d : ℕ) (k : Type) (_ : Field k) (_ : Finite k), 1 ≤ d ∧ d * 3 = n ∧ Nat.card k = 2 ^ d ∧
       Nonempty (↥(fixSubgroup α) ≃* adjointGroup Tag.D4 k) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hF
   have hr2 : ringChar F = 2 := ringChar.eq F 2
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ :=
@@ -1022,7 +1022,7 @@ theorem t158g_d4_field_fix {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤
   have hKd : Nat.card F = (2 ^ d) ^ 3 := by rw [hF, ← pow_mul, hdf]
   have hfix : Nat.card (fixSubfield T) = 2 ^ d :=
     CFSG.RankThree.PartOne.card_fixSubfield_cube_row Nat.prime_two hd0 hKd T hT
-  haveI : Finite (fixSubfield T) := Subtype.finite
+  have : Finite (fixSubfield T) := Subtype.finite
   obtain ⟨eT⟩ := t158g_d4_fix_entrywise_equiv hr2 T
   have key : ∀ (β : MulAut (adjointGroup Tag.D4 F)) (g' : adjointGroup Tag.D4 F)
       (a' : Fin Tag.D4.rank → Fˣ), β = MulAut.conj g' * exactNormalAut Tag.D4 F a' T 0 → β ^ 3 = 1 →
@@ -1054,8 +1054,8 @@ theorem t158g_d4_graphField_fix {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 
       Nonempty (↥(fixSubgroup α) ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q₀, hv⟩) ∧
         IsSimpleGroup ↥(fixSubgroup α) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hF
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, T, he, hef, hT, hσT⟩ :=
@@ -1108,8 +1108,8 @@ theorem t158g_td4_outer_cases {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fin
         cond π (Even n) (Odd n) ∧
         Nonempty (↥(fixSubgroup φ) ≃* CFSG.PGLModel.projImage (Sec4.glPi π 3 (2 ^ n) F'))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hfixφ : fixSubgroup φ = Sec4.autFix φ := Subgroup.ext fun _ => Iff.rfl
   rcases Sec8.Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv hn hK hσ hφ3 hφout with
@@ -1126,7 +1126,7 @@ theorem t158g_td4_outer_cases {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fin
         rw [MulAut.inv_apply, MulEquiv.symm_apply_eq]
         exact eq_comm
     have hk := CFSG.RankThree.PartOne.card_fixSubfield_cube_row Nat.prime_two hn hK σ hσ
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (fixSubfield σ) := Subtype.finite
     refine ⟨fixSubfield σ, inferInstance, inferInstance, hk, ⟨?_⟩⟩
     have h1 : fixSubgroup φ = fixSubgroup (MulAut.congr ψ γ) := by rw [hφγ]
     exact (MulEquiv.subgroupCongr h1).trans
@@ -1151,7 +1151,7 @@ theorem t158g_d4_graph_fix {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤
       (∃ (π : Bool) (F' : Type) (_ : Field F') (_ : Finite F'), Sec4.PiField π 2 n F' ∧
         cond π (Even n) (Odd n) ∧
         Nonempty (↥(fixSubgroup α) ≃* CFSG.PGLModel.projImage (Sec4.glPi π 3 (2 ^ n) F'))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨eφ⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv hn F hF α hα3 g a hε hα
   rcases t158g_td4_outer_cases hn hK₃ hFr hφ3 hφout with ⟨k, _, _, hk, ⟨eG⟩⟩ | ⟨π, F', _, _, hPi, hc, ⟨eP⟩⟩
@@ -1199,7 +1199,7 @@ theorem t158g_card_projImage {π : Bool} {n : ℕ} {F : Type} [Field F] [Finite 
     rw [← h2n] at key
     rw [h1, mul_assoc, key, h2n]
   have hS0 : Nat.card ↥(CFSG.PGLModel.projImage (Sec4.slPi π 3 (2 ^ n) F)) ≠ 0 := by
-    haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
+    have : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
       Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _) (QuotientGroup.mk'_surjective _)
     exact Nat.card_pos.ne'
   rw [heq, mul_comm, FP.twoPart_mul_odd (by decide) hS0] at hG
@@ -1270,8 +1270,8 @@ theorem t158g_g2_component {P : Type} [Group P] [Finite P] {β : MulAut P} {J : 
     IsSimpleGroup ↥J ∧ (∃ a b : ↥J, a * b ≠ b * a) ∧ (∀ s ∈ fixSubgroup β, s ^ 3 = 1 → s ∈ J) ∧
       (2 ≤ m → J = fixSubgroup β) := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := m)
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := m)
     (by rw [← Nat.card_eq_fintype_card, hk])
   have hJne : J ≠ ⊥ := glaPComponent_ne_bot' hJc
   have hsub : CFSG.Assembly.IsSubnormal J (fixSubgroup β) := CFSG.Assembly.isSubnormal_iff_open.2 hJc.2.1
@@ -1307,18 +1307,18 @@ theorem t158g_g2_component {P : Type} [Group P] [Finite P] {β : MulAut P} {J : 
       · exact h
       all_goals exact absurd h0 (by norm_num)
     obtain ⟨-, K₃, _, _, hK₃, ⟨eU⟩⟩ := hC
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsSimpleGroup (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsSimpleGroup (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K₃ 3 1 hK₃ 3 le_rfl (by decide)
-    haveI : Group.IsPerfect ↥(StatedSU 3 (3 ^ 1) K₃) :=
+    have : Group.IsPerfect ↥(StatedSU 3 (3 ^ 1) K₃) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 3) (f := 1) hK₃ le_rfl (by decide)
-    haveI : Group.IsPerfect (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
+    have : Group.IsPerfect (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     let eCC : ↥(⁅fixSubgroup β, fixSubgroup β⁆ : Subgroup P) ≃* StatedProj (StatedSU 3 (3 ^ 1) K₃) :=
       (CFSG.StandardType.ggCommutatorEquiv (fixSubgroup β)).trans
         ((CFSG.StandardType.ggCommutatorCongr φ).trans
           ((CFSG.StandardType.ggCommutatorEquiv (adjointGroup Tag.G2 k)).symm.trans eU))
-    haveI hsCC : IsSimpleGroup ↥(⁅fixSubgroup β, fixSubgroup β⁆ : Subgroup P) := eCC.isSimpleGroup
+    have hsCC : IsSimpleGroup ↥(⁅fixSubgroup β, fixSubgroup β⁆ : Subgroup P) := eCC.isSimpleGroup
     have hJH : J = ⁅fixSubgroup β, fixSubgroup β⁆ :=
       T158Core.t158Core_eq_commutator_of_glaPComponent hJc hsCC hJne
     obtain ⟨a, b, hab⟩ := Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect
@@ -1340,10 +1340,10 @@ theorem t158g_g2_component {P : Type} [Group P] [Finite P] {β : MulAut P} {J : 
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card k h3
     have hsG : IsSimpleGroup ↥(adjointGroup Tag.G2 k) :=
       CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple hq
-    haveI hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr φ).2 hsG
+    have hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr φ).2 hsG
     have hJC : J = fixSubgroup β := CFSG.StandardType.ggEq_of_isSubnormal_of_isSimpleGroup hsub hsC hJne
-    haveI : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
-    haveI : Nontrivial ↥(adjointGroup Tag.G2 k) := hsG.toNontrivial
+    have : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
+    have : Nontrivial ↥(adjointGroup Tag.G2 k) := hsG.toNontrivial
     obtain ⟨a, b, hab⟩ := Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect
       (inferInstance : Group.IsPerfect ↥(adjointGroup Tag.G2 k))
     refine ⟨hJC ▸ hsC, ?_, fun s hs _ => hJC ▸ hs, fun _ => hJC⟩
@@ -1431,7 +1431,7 @@ theorem t158g_d4_side {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {y y'
     obtain ⟨d, k, _, _, hd, hdn, hk, ⟨eD⟩⟩ := t158g_d4_field_fix hn hF hα3 g a hσ3 hσ1 hαeq
     obtain ⟨hsD, u, v, huv⟩ := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.isSimple_adjointD4 k
     let eC : ↥(fixSubgroup β) ≃* ↥(adjointGroup Tag.D4 k) := eF.trans eD
-    haveI hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr eC).2 hsD
+    have hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr eC).2 hsD
     have hJC : chevTransfer 3 S L = fixSubgroup β :=
       CFSG.StandardType.ggEq_of_isSubnormal_of_isSimpleGroup hsub hsC hJne
     refine ⟨fun s j hxeq => hnotInn (t158g_innDiagOn_of_conj_mem_transfer hcore hSc hyN hy'N hL hCL hy'L
@@ -1445,7 +1445,7 @@ theorem t158g_d4_side {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {y y'
   ·
     exfalso
     obtain ⟨q₀, hv, ⟨eT⟩, hsT⟩ := t158g_d4_graphField_fix hn hF hα3 g a hσ3 hσ1 (by omega) hαeq
-    haveI hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr eF).2 hsT
+    have hsC : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr eF).2 hsT
     have hJC : chevTransfer 3 S L = fixSubgroup β :=
       CFSG.StandardType.ggEq_of_isSubnormal_of_isSimpleGroup hsub hsC hJne
     have hsJ : IsSimpleGroup ↥(chevTransfer 3 S L) := by rw [hJC]; exact hsC
@@ -1488,9 +1488,9 @@ theorem t158g_d4_side {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {y y'
           · rfl
           · exact absurd hc (by decide)
         subst hπ
-        haveI : Group.IsSolvable ↥(CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ 1) F')) :=
+        have : Group.IsSolvable ↥(CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ 1) F')) :=
           Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
-        haveI : Group.IsSolvable ↥(fixSubgroup β) :=
+        have : Group.IsSolvable ↥(fixSubgroup β) :=
           Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
         exact hJne (t158g_eq_bot_of_perfect_of_le_solvable hJc.1 (glaPComponent_perfect hJc))
       · have hn2 : 2 ≤ n := by omega
@@ -1507,7 +1507,7 @@ theorem t158g_d4_side {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {y y'
         have hJH : chevTransfer 3 S L = ⁅fixSubgroup β, fixSubgroup β⁆ :=
           T158Core.t158Core_eq_commutator_of_glaPComponent hJc hsCC hJne
         obtain ⟨eJ, -⟩ := t158g_exists_mulEquiv_projImage_slPi hPi hq2 eC hJc.1 hJH
-        haveI : Nontrivial ↥(CFSG.PGLModel.projImage (Sec4.slPi π 3 (2 ^ n) F')) := hsP.toNontrivial
+        have : Nontrivial ↥(CFSG.PGLModel.projImage (Sec4.slPi π 3 (2 ^ n) F')) := hsP.toNontrivial
         obtain ⟨u, v, huv⟩ := Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect hpP
         obtain ⟨hcardG, h2S⟩ := t158g_card_projImage hPi hc
         refine ⟨fun s j hxeq => hnotInn (t158g_td4_pgl_finish hyN hy'N hy3 hL hy'L (hsfix s j hxeq) hxeq hPi
@@ -1543,8 +1543,8 @@ theorem t158g_d4_false_of_fgOn : ∀ (Ω : Type) [Group Ω] [Finite Ω] (S : Sub
     exact Subgroup.mem_top y
   have hcen : Subgroup.center (PSimple 3 S) = ⊥ := Y10F.center_centerQuot_eq_bot hqP
   obtain ⟨n, F, _, _, hn, hF, ⟨e⟩⟩ := t158g_d4_model hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hF
   have hr2 : ringChar F = 2 := ringChar.eq F 2
   set β₁ := MI.indAut 3 S x₁ (hN x₁) with hβ₁
@@ -1579,8 +1579,8 @@ theorem t158g_d4_false_of_fgOn : ∀ (Ω : Type) [Group Ω] [Finite Ω] (S : Sub
     have hf2 := t158g_fieldPart_of_hasNF hNF2
     have hσ₁3 : σ₁ ^ 3 = 1 := by rw [← hf1, ← map_pow, hα₁3, map_one]
     have hσ₂3 : σ₂ ^ 3 = 1 := by rw [← hf2, ← map_pow, hα₂3, map_one]
-    haveI : IsCyclic (F ≃+* F) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic F
-    haveI : Finite (F ≃+* F) :=
+    have : IsCyclic (F ≃+* F) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic F
+    have : Finite (F ≃+* F) :=
       Finite.of_injective (fun f : F ≃+* F => (f : F → F)) (fun f g h => RingEquiv.ext (congrFun h))
     obtain ⟨j, hj3, hj⟩ := T158Core.t158Core_pow_of_cyclic hσ₁3 hσ₁ hσ₂3
     have hNF := hNF2.mul (t158g_hasNF_pow hNF1 (3 - j))

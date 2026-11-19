@@ -35,6 +35,7 @@ theorem commutator_le_of_le_normalizer {W X N : Subgroup G} (hWN : W ≤ N)
   rw [h2]
   exact N.mul_mem (hWN hw) h1
 
+omit [Finite G] in
 theorem not_mem_of_coprime {N : Subgroup G} (hN : Nat.Coprime 3 (Nat.card N)) {b : G}
     (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) : b ∉ N := by
   intro hbN
@@ -47,6 +48,7 @@ theorem not_mem_of_coprime {N : Subgroup G} (hN : Nat.Coprime 3 (Nat.card N)) {b
   rw [orderOf_eq_one_iff] at h3
   exact hb1 (congrArg Subtype.val h3)
 
+omit [Finite G] in
 theorem coprime_card_sup_of_le_normalizer {N R : Subgroup G} (hN : Nat.Coprime 3 (Nat.card N))
     (hR : Nat.Coprime 3 (Nat.card R)) (hRN : R ≤ Subgroup.normalizer (N : Set G)) :
     Nat.Coprime 3 (Nat.card (N ⊔ R : Subgroup G)) := by

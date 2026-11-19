@@ -37,6 +37,7 @@ private theorem fin3OfFin_injective {n : ℕ} (hn : 3 ≤ n) :
   apply Fin.ext
   simpa [fin3OfFin] using congrArg Fin.val h
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 private theorem pairSpan_le_perp_of_tail {P : HypPair Q} {u v : W}
     (hu : u ∈ P.perp) (hv : v ∈ P.perp) :
     Submodule.span F {u, v} ≤ perp Q (Submodule.span F {P.e, P.f}) := by

@@ -33,7 +33,7 @@ private lemma c8k_inf_ker_le_pCore {Γ : Type} [Group Γ] [Finite Γ] {d : Γ}
 private lemma c8k_card_map_rho_le_two {Γ : Type} [Group Γ]
     {ρ : Γ →* ↥(StatedSL 2 (ZMod 7))} {A : Subgroup Γ} (hA2 : ∀ x ∈ A, x ^ 2 = 1) :
     Nat.card (A.map ρ) ≤ 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let e : Matrix.SpecialLinearGroup (Fin 2) (ZMod 7) ≃* ↥(StatedSL 2 (ZMod 7)) :=
     CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 (ZMod 7)
   set c : ↥(StatedSL 2 (ZMod 7)) := e (CFSG.Quasithin.A1c.sl2NegOne 7) with hc_def
@@ -69,12 +69,12 @@ private lemma c8k_card_map_rho_le_two {Γ : Type} [Group Γ]
     · exfalso
       change (if (y : ↥(StatedSL 2 (ZMod 7))) = 1 then (0 : Fin 2) else 1) =
         (if (z : ↥(StatedSL 2 (ZMod 7))) = 1 then (0 : Fin 2) else 1) at hyz
-      rw [if_pos hy1, if_neg (by rw [hz1]; exact hc1)] at hyz
+      rw [ite_eq_left hy1, ite_eq_right (by rw [hz1]; exact hc1)] at hyz
       exact Fin.zero_ne_one hyz
     · exfalso
       change (if (y : ↥(StatedSL 2 (ZMod 7))) = 1 then (0 : Fin 2) else 1) =
         (if (z : ↥(StatedSL 2 (ZMod 7))) = 1 then (0 : Fin 2) else 1) at hyz
-      rw [if_neg (by rw [hy1]; exact hc1), if_pos hz1] at hyz
+      rw [ite_eq_right (by rw [hy1]; exact hc1), ite_eq_left hz1] at hyz
       exact Fin.zero_ne_one hyz.symm
     · exact Subtype.ext (hy1.trans hz1.symm)
   have := Nat.card_le_card_of_injective _ hinj
@@ -82,7 +82,7 @@ private lemma c8k_card_map_rho_le_two {Γ : Type} [Group Γ]
 
 private lemma c8k_relIndex_ne_zero {Γ : Type} [Group Γ] [Finite Γ] (H K : Subgroup Γ) :
     H.relIndex K ≠ 0 := by
-  haveI : H.IsFiniteRelIndex K :=
+  have : H.IsFiniteRelIndex K :=
     Subgroup.isFiniteRelIndex_iff_finiteIndex.2 (by infer_instance)
   exact Subgroup.relIndex_ne_zero
 
@@ -195,7 +195,7 @@ theorem c8k_x12_not_mem_z {Γ : Type} [Group Γ] [Finite Γ] {d : Γ}
     (ha : a ^ 2 = 1) (haρ : ρ a ≠ 1) (he : e ∈ O) (hez : e ∉ Z) :
     (a * (e⁻¹ * a * e)) ^ 12 ∉ Z := by
   intro hx
-  haveI : Z.Normal := nat.z_normal
+  have : Z.Normal := nat.z_normal
   let π : Γ →* Γ ⧸ Z := QuotientGroup.mk' Z
   have ha_inv : a⁻¹ = a :=
     inv_eq_of_mul_eq_one_right (b := a) (by rw [← pow_two]; exact ha)

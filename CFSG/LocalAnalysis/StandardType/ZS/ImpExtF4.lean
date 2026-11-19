@@ -76,7 +76,7 @@ theorem isIsom_phiForm_of_mem_oPhiOne (hp : p = 3) (f : Module.Basis (Fin 4) (ZM
   subst hp
   induction hg using Subgroup.closure_induction with
   | mem x hx =>
-    simp only [Set.mem_setOf_eq] at hx
+    simp only [Set.mem_ofPred_eq] at hx
     simp only [oPhiOneMats, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with hM | hM | hM | hM
     · exact isIsom_of_toMatrix_eq (f := f) (hg := hM) FormPreserving.diagSignMat_zero
@@ -220,8 +220,8 @@ private lemma injective_of_repr_single {f : Module.Basis (Fin 4) (ZMod 3) U}
         (if s i' then (-1 : ZMod 3) else 1) := by
     rw [phiForm_polarBilin_apply, hrepr i, hrepr i']
     simp only [Pi.smul_apply, smul_eq_mul, Pi.single_apply]
-    rw [sum_weighted_single_single, if_pos hkk]
-    simp only [if_neg (hk3 i), one_mul]
+    rw [sum_weighted_single_single, ite_eq_left hkk]
+    simp only [ite_eq_right (hk3 i), one_mul]
     ring
   rw [hL, hR] at hpol
   have ha : (if s i then (-1 : ZMod 3) else 1) ≠ 0 := by split <;> decide +kernel
@@ -242,7 +242,7 @@ private lemma toMatrix_eq_oPhiColsMat {f : Module.Basis (Fin 4) (ZMod 3) U}
     simp only [oPhiColsMat, Fin.lastCases_last, Pi.single_apply]
     by_cases hi : i = 3
     · subst hi; simp
-    · rw [Finsupp.single_eq_of_ne hi, if_neg hi]
+    · rw [Finsupp.single_eq_of_ne hi, ite_eq_right hi]
   · intro j'
     change (f.repr (h (f j'.castSucc)) : Fin 4 → ZMod 3) i = oPhiColsMat k s i j'.castSucc
     rw [hrepr j']
@@ -407,13 +407,13 @@ private lemma entry_eq {n : ℕ} (w : Fin n → (ZMod 3)ˣ) (u κ : Fin n → ZM
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply, if_true]
+    simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply, ite_true]
     have h : ((w i : ZMod 3))⁻¹ * u i * ((w i : ZMod 3) * κ i) = u i * κ i := by
       rw [show ((w i : ZMod 3))⁻¹ * u i * ((w i : ZMod 3) * κ i) =
           (((w i : ZMod 3))⁻¹ * (w i : ZMod 3)) * (u i * κ i) by ring,
         inv_mul_cancel₀ (Units.ne_zero (w i)), one_mul]
     rw [inv_mul_cancel₀ (Units.ne_zero (w i)), one_mul, h]
-  · simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply, if_neg hij]
+  · simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply, ite_eq_right hij]
     ring
 
 private lemma oPhiMat_eq_scaled (c : ZMod 3) (hc : c ≠ 0) :

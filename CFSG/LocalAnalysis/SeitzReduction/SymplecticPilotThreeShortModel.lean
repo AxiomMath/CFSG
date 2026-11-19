@@ -133,8 +133,8 @@ theorem diagSpEntry_short_ne_of_shortWt_ne {κ : Kˣ} (hκ : κ ≠ 1) {a b : Fi
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [shortWt] at h ⊢ <;>
     first
-    | exact hκ | exact Ne.symm hκ | exact hκu | exact Ne.symm hκu | exact hκκu
-    | exact Ne.symm hκκu | exact hκ1 | exact Ne.symm hκ1 | exact hκinv | exact Ne.symm hκinv
+    | exact hκ
+    | exact Ne.symm hκ1
     | exact hκκ | exact Ne.symm hκκ
 
 theorem mat_eq_shortCentMat {κ : Kˣ} (hκ : κ ≠ 1) {u : StatedSp 3 K}
@@ -169,7 +169,7 @@ theorem mat_eq_shortCentMat {κ : Kˣ} (hκ : κ ≠ 1) {u : StatedSp 3 K}
     first
     | exact hzero _ _ (by decide)
     | exact h00 | exact h01 | exact h10 | exact h11
-    | exact e1 | exact e1.symm | exact e2 | exact e2.symm | exact e3 | exact e4
+    | exact e1.symm | exact e2.symm | exact e3 | exact e4
 
 theorem commute_of_mem_shortCent {κ : Kˣ} (hκ : κ ≠ 1) {u v : StatedSp 3 K}
     (hu : u ∈ complSp K (0 : Fin 3)) (hud : Commute u (diagSp K 3 ![1, κ, κ⁻¹]))

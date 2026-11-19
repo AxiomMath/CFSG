@@ -42,7 +42,7 @@ theorem pomegaOdd_two_pow_six (hO : LieOrderFormulasInput) {S : Type} [Group S] 
       4 * Nat.card (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := by
     rw [card_orthogonalGroup_eq_card_matrixIsometries, hiso, ← Nat.card_congr e'.toEquiv]
     omega
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := Finite.of_equiv S e'
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := Finite.of_equiv S e'
   have h := omega_X_core_two hK3 (d := 2 * 3 + 1) (Or.inl rfl) _ hQ hrep hcard hO
     (MulAut.congr e' σ) ((orderOf_congr e' σ).trans hσ) (a6Hyp_congr e' σ D hD)
   rwa [← Nat.card_congr (fixedEquiv e' σ).toEquiv] at h
@@ -75,7 +75,7 @@ theorem pomegaMinus_two_pow_six (hO : LieOrderFormulasInput) {S : Type} [Group S
       4 * Nat.card (matrixProjectiveDerived (coordinateQuadMinus 4 K hn b c)) := by
     rw [card_orthogonalGroup_eq_card_matrixIsometries, hiso, ← Nat.card_congr e'.toEquiv]
     omega
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus 4 K hn b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus 4 K hn b c)) :=
     Finite.of_equiv S e'
   have h := omega_X_core_two hK3 (d := 2 * 4) (Or.inr rfl) _ hQ hrep hcard hO
     (MulAut.congr e' σ) ((orderOf_congr e' σ).trans hσ) (a6Hyp_congr e' σ D hD)

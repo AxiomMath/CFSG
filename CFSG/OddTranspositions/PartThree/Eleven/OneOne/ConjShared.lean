@@ -23,6 +23,7 @@ noncomputable def conjEquiv (hC : HypothesisC D) (g : G) :
     (MulEquiv.subgroupCongr hH.symm)).trans
     (MulEquiv.subgroupCongr (congrArg (Halpha D) (hC.conj_alpha g)).symm)
 
+omit [Finite G] in
 lemma conjEquiv_coe (hC : HypothesisC D) (g : G) (x : Halpha D hC.alpha) :
     ((conjEquiv hC g x : Halpha D (hC.conj g).alpha) : G) = g * (x : G) * g⁻¹ := by
   dsimp only [conjEquiv]
@@ -31,12 +32,14 @@ lemma conjEquiv_coe (hC : HypothesisC D) (g : G) (x : Halpha D hC.alpha) :
     MulEquiv.coe_subgroupMap_apply]
   rfl
 
+omit [Finite G] in
 lemma conjRadical_map (hC : HypothesisC D) (g : G) :
     (CFSG.solvableRadical (Halpha D hC.alpha)).map (↑(conjEquiv hC g)) =
       CFSG.solvableRadical (Halpha D (hC.conj g).alpha) := by
   simpa only [MulEquiv.toMonoidHom_eq_coe] using
     CFSG.LieType.SteinbergBR.solvableRadical_map_equiv (conjEquiv hC g)
 
+omit [Finite G] in
 lemma conjEquiv_DstarH (hC : HypothesisC D) (g : G)
     (x : Halpha D hC.alpha) :
     x ∈ DstarH hC ↔ conjEquiv hC g x ∈ DstarH (hC.conj g) := by
@@ -45,6 +48,7 @@ lemma conjEquiv_DstarH (hC : HypothesisC D) (g : G)
   have h : g⁻¹ * (g * (x : G) * g⁻¹) * g = (x : G) := by group
   rw [h]
 
+omit [Finite G] in
 lemma imageClass_conj (hC : HypothesisC D) (g : G) :
     (QuotientGroup.congr (CFSG.solvableRadical (Halpha D hC.alpha))
       (CFSG.solvableRadical (Halpha D (hC.conj g).alpha)) (conjEquiv hC g)

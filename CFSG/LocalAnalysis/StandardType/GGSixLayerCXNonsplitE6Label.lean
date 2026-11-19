@@ -65,7 +65,7 @@ theorem not_halfSplit_of_isComponentOf_top_sc {K : Type} [Field K] [Finite K] [C
     (hlab : LargeEvenInLambda2 lab) (hc : markChar lab = 2)
     (hM : MarkedModel lab (↥X ⧸ Subgroup.center ↥X)) {c : Prop} :
     ¬ LargeEvenHalfSplit p lab c := by
-  haveI : Finite ↥(e6Data_valid.minGroup K) :=
+  have : Finite ↥(e6Data_valid.minGroup K) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
   refine not_halfSplit_of_isComponentOf_top_of_quotient (K := K)
     (CFSG.LieType.CurtisTits.isQuasisimple_e6 K) ?_ hp3 hq1 h7 hX hlab hc hM

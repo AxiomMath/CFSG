@@ -206,7 +206,7 @@ theorem exists_pGroup_lift {M Q : Type} [Group M] [Finite M] [Group Q] (f : M �
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 ↥U) := inferInstance
   have h1 := (S₀.mapSurjective hfUs).maximal_isPGroup.eq_of_ge (hT.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at h1
-  refine ⟨(S₀ : Subgroup ↥U).map U.subtype, S₀.isPGroup'.map _, ?_⟩
+  refine ⟨(S₀ : Subgroup ↥U).map U.subtype, S₀.isPGroup.map _, ?_⟩
   have h2 : ((S₀ : Subgroup ↥U).map fU).map T.subtype = T := by
     rw [← h1, Subgroup.map_top, Subgroup.range_subtype] 
   rw [← h2, Subgroup.map_map, Subgroup.map_map]

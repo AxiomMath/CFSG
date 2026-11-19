@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] (D : SplitData G)
 
+omit [Finite G] in
 theorem normalized_y_equations {s : G} (hs2 : s ^ 2 = D.u) (hst : D.t⁻¹ * s * D.t = s⁻¹)
     (hψ : ∀ x x' : SL5, psiM * (x' : Matrix (Fin 2) (Fin 2) (ZMod 5)) =
       (x : Matrix (Fin 2) (Fin 2) (ZMod 5)) * psiM → s⁻¹ * D.d x * s = D.d x') :
@@ -68,17 +69,16 @@ theorem normalized_y_equations {s : G} (hs2 : s ^ 2 = D.u) (hst : D.t⁻¹ * s *
       rw [hxp]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [psiM, thetaM, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+        simp [psiM, thetaM, Matrix.mul_apply, Fin.sum_univ_two]; ring
     have h := hψ (thetaM q) xp hmat
     have hcx : cM⁻¹ * xp * cM = thetaM (3 * q) := by
       apply Subtype.ext
       rw [hcminv]
-      simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_neg, hxp,
-        Matrix.SpecialLinearGroup.coe_mk]
+      simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_neg, hxp]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [cM, thetaM, Matrix.mul_apply, Fin.sum_univ_two] <;>
-        first | rfl | exact hchar q
+        simp [cM, thetaM, Matrix.mul_apply, Fin.sum_univ_two];
+        exact hchar q
     calc (s * D.w)⁻¹ * D.d (thetaM q) * (s * D.w)
         = D.w⁻¹ * (s⁻¹ * D.d (thetaM q) * s) * D.w := by group
       _ = D.w⁻¹ * D.d xp * D.w := by rw [h]

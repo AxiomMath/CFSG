@@ -85,6 +85,7 @@ private theorem q2nPE_panel_cell_mem (g : K) (i : Fin D.rank) {v : W}
   exact Set.mul_mem_mul hleft hni'
 
 include hext hw₀ hsq in
+omit hsq hw₀ in
 theorem q2nPE_panel_of_descent (g : K) (i : Fin D.rank)
     (hd : (cs).IsLeftDescent (stdδ hct (g : K ⧸ borel D H)
       (stdFlip F n₀ (g : K ⧸ borel D H))) i) :
@@ -108,7 +109,7 @@ theorem q2nPE_panel_of_descent (g : K) (i : Fin D.rank)
   have hcell : bruhatCell hct v = bruhatCell hct ((cs).simple i) * bruhatCell hct v' := by
     rw [← hsv, q2nPE_simple_cell_mul_add hct hext hni]
   have hz : g⁻¹ * (n₀ * F.φ g) ∈ bruhatCell hct v :=
-    (stdδ_flip_mk_eq_iff hct F hext hw₀ n₀ g v).mp rfl
+    (stdδ_flip_mk_eq_iff hct F hext n₀ g v).mp rfl
   obtain ⟨p, hp, d, hdcell, hpd⟩ := Set.mem_mul.mp (hcell ▸ hz)
   obtain ⟨P, hP, hres⟩ := std_residue_mk hct hext ({i} : Set (Fin D.rank))
   have hpP : p ∈ P := by
@@ -134,6 +135,7 @@ theorem q2nPE_panel_of_descent (g : K) (i : Fin D.rank)
     exact hlt
 
 include hext hw₀ hsq in
+omit hw₀ in
 theorem q2nPE_panel_dichotomy (g : K) (i : Fin D.rank) :
     (cs).IsLeftDescent (stdδ hct (g : K ⧸ borel D H)
         (stdFlip F n₀ (g : K ⧸ borel D H))) i ∨
@@ -166,7 +168,7 @@ theorem q2nPE_panel_dichotomy (g : K) (i : Fin D.rank) :
         intro x hx hcon
         exact hB ⟨x, hx, hcon⟩
       have hz : g⁻¹ * (n₀ * F.φ g) ∈ bruhatCell hct v :=
-        (stdδ_flip_mk_eq_iff hct F hext hw₀ n₀ g v).mp rfl
+        (stdδ_flip_mk_eq_iff hct F hext n₀ g v).mp rfl
       have hlen_a : (cs).length a = (cs).length v + 1 := by
         rw [ha]
         exact (cs).not_isLeftDescent_iff.mp hA
@@ -189,7 +191,7 @@ theorem q2nPE_panel_dichotomy (g : K) (i : Fin D.rank) :
           rw [show (n i)⁻¹ * x⁻¹ * (g⁻¹ * (n₀ * F.φ g)) * F.φ x * n (F.op i) =
               (g * x * n i)⁻¹ * (n₀ * F.φ (g * x * n i)) by
             rw [map_mul, map_mul, F.n_map i]; group]
-          exact (stdδ_flip_mk_eq_iff hct F hext hw₀ n₀ (g * x * n i)
+          exact (stdδ_flip_mk_eq_iff hct F hext n₀ (g * x * n i)
             (stdδ hct ((g * x * n i : K) : K ⧸ borel D H)
               (stdFlip F n₀ ((g * x * n i : K) : K ⧸ borel D H)))).mp rfl
         rcases (cs).length_mul_simple a (F.op i) with hup | hdown
@@ -239,7 +241,7 @@ theorem q2nPE_panel_dichotomy (g : K) (i : Fin D.rank) :
           rw [show (n i)⁻¹ * x⁻¹ * (g⁻¹ * (n₀ * F.φ g)) * F.φ x * n (F.op i) =
               (g * x * n i)⁻¹ * (n₀ * F.φ (g * x * n i)) by
             rw [map_mul, map_mul, F.n_map i]; group]
-          exact (stdδ_flip_mk_eq_iff hct F hext hw₀ n₀ (g * x * n i)
+          exact (stdδ_flip_mk_eq_iff hct F hext n₀ (g * x * n i)
             (stdδ hct ((g * x * n i : K) : K ⧸ borel D H)
               (stdFlip F n₀ ((g * x * n i : K) : K ⧸ borel D H)))).mp rfl
         rw [key x hx, ha_eq] at hzx

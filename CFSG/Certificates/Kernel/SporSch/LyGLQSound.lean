@@ -176,8 +176,8 @@ private theorem ksGWlBody_eq (T : Array (Array Nat)) (k x : Nat) (wx : List Nat)
   unfold ksGWlBody ksGWlPair
   by_cases hc : (decide (tm T (pickY glqGens k) x < 256) &&
       (s.1[tm T (pickY glqGens k) x]!).isNone) = true
-  · rw [if_pos hc, if_pos hc]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
 
 private theorem ksGWl_forIn3 (T : Array (Array Nat)) (x : Nat) (wx : List Nat)
     (s : Array (Option (List Nat)) × Array Nat) :
@@ -195,10 +195,10 @@ private theorem ksGWlOuter_eq (T : Array (Array Nat)) (h : Nat)
     ksGWlOuter T h s = pure (ForInStep.yield (ksGWlStep T h s)) := by
   unfold ksGWlOuter ksGWlStep
   by_cases hh : h < s.2.size
-  · rw [if_pos hh, if_pos hh]
+  · rw [ite_eq_left hh, ite_eq_left hh]
     dsimp only
     rw [ksGWl_forIn3]
-  · rw [if_neg hh, if_neg hh]
+  · rw [ite_eq_right hh, ite_eq_right hh]
 
 private def ksGWMatch (W : List (List Nat)) (M : Nat)
     (A : Array (Option (List Nat))) : Prop :=
@@ -275,14 +275,14 @@ private theorem ksGWlPair_step {MT : Nat → Nat} {W : List (List Nat)} {k x : N
       rw [hnone]; simp
     have hp : ksGWlPair (TBL MT 256) k x wx (A, q) = (A, q) := by
       unfold ksGWlPair
-      rw [hzt, if_neg hcond]
+      rw [hzt, ite_eq_right hcond]
     rw [hp]
     refine ⟨?_, ?_⟩
     · unfold ksGWwPair
-      rw [if_pos hb]
+      rw [ite_eq_left hb]
       exact hA
     · unfold ksGWwPair
-      rw [if_pos hb, hq]
+      rw [ite_eq_left hb, hq]
   · have hbf : hasBit M z = false := by
       cases h : hasBit M z <;> simp_all
     have hnone : (A[z]!).isNone = true := by
@@ -292,13 +292,13 @@ private theorem ksGWlPair_step {MT : Nat → Nat} {W : List (List Nat)} {k x : N
     have hp : ksGWlPair (TBL MT 256) k x wx (A, q) =
         (A.set! z (some (k :: wx)), q.push z) := by
       unfold ksGWlPair
-      rw [hzt, if_pos hcond]
+      rw [hzt, ite_eq_left hcond]
     rw [hp]
     have hv : k :: wx = getW W z := by
       rw [hwx]
       exact (ksGWeqL (hcheck hbf)).symm
     unfold ksGWwPair
-    rw [if_neg (by rw [hbf]; simp)]
+    rw [ite_eq_right (by rw [hbf]; simp)]
     refine ⟨ksGWMatch_set hA hz hv, ?_⟩
     rw [Array.toList_push, hq]
 
@@ -309,7 +309,7 @@ private theorem ksGWQ_bits {Q : List Nat} {M z : Nat}
   intro w
   by_cases hb : hasBit M z = true
   · simp [hb, hQ w]
-  · rw [if_neg hb, if_neg hb, List.mem_append, List.mem_singleton, ksGWhasBit_or,
+  · rw [ite_eq_right hb, ite_eq_right hb, List.mem_append, List.mem_singleton, ksGWhasBit_or,
       Bool.or_eq_true]
     constructor
     · rintro (h | h)
@@ -325,9 +325,9 @@ private theorem ksGWwPair_bits {MT : Nat → Nat} {k x : Nat} {Q : List Nat} {M 
       hasBit (ksGWwPair MT k x (Q, M)).2 w = true := by
   unfold ksGWwPair
   by_cases hb : hasBit M (tmK MT (b8 gK k) x) = true
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     simpa [hb] using ksGWQ_bits (Q := Q) (M := M) (z := tmK MT (b8 gK k) x) hQ
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     simpa [hb] using ksGWQ_bits (Q := Q) (M := M) (z := tmK MT (b8 gK k) x) hQ
 
 private theorem ksGWw3_bits {MT : Nat → Nat} {x : Nat} {Q : List Nat} {M : Nat}
@@ -350,7 +350,7 @@ private theorem ksGWwPair_check {MT : Nat → Nat} {W : List (List Nat)} {x k M 
   unfold wStep at hw
   rw [LyLoop.strictB_eqB, LyLoop.bIf_eqP] at hw
   have hbn : ¬ (hasBit M (tmK MT (b8 gK k) x) = true) := by rw [hb]; simp
-  rw [if_neg hbn] at hw
+  rw [ite_eq_right hbn] at hw
   exact (bAnd_iff _ _).1 hw |>.1
 
 private theorem ksGWwPair_cont {MT : Nat → Nat} {W : List (List Nat)} {x k M : Nat}
@@ -361,11 +361,11 @@ private theorem ksGWwPair_cont {MT : Nat → Nat} {W : List (List Nat)} {x k M :
   rw [LyLoop.strictB_eqB, LyLoop.bIf_eqP] at hw
   unfold ksGWwPair
   by_cases hb : hasBit M (tmK MT (b8 gK k) x) = true
-  · rw [if_pos hb] at hw
-    rw [if_pos hb]
+  · rw [ite_eq_left hb] at hw
+    rw [ite_eq_left hb]
     exact hw
-  · rw [if_neg hb] at hw
-    rw [if_neg hb]
+  · rw [ite_eq_right hb] at hw
+    rw [ite_eq_right hb]
     exact (bAnd_iff _ _).1 hw |>.2
 
 private theorem ksGWwPair_fst_lt {MT : Nat → Nat} {k x : Nat} {Q : List Nat} {M : Nat}
@@ -374,9 +374,9 @@ private theorem ksGWwPair_fst_lt {MT : Nat → Nat} {k x : Nat} {Q : List Nat} {
   intro y hy
   unfold ksGWwPair at hy
   by_cases hb : hasBit M (tmK MT (b8 gK k) x) = true
-  · rw [if_pos hb] at hy
+  · rw [ite_eq_left hb] at hy
     exact hQ y hy
-  · rw [if_neg hb] at hy
+  · rw [ite_eq_right hb] at hy
     simp only [List.mem_append, List.mem_singleton] at hy
     rcases hy with hy | rfl
     · exact hQ y hy
@@ -398,9 +398,9 @@ private theorem ksGWwNext_fst_lt {MT : Nat → Nat} {h : Nat} {Q : List Nat} {M 
     ∀ y ∈ (ksGWwNext MT h (Q, M)).1, y < 256 := by
   unfold ksGWwNext
   by_cases hh : h < lenL Q
-  · rw [if_pos hh]
+  · rw [ite_eq_left hh]
     exact ksGWw3_fst_lt hQ
-  · rw [if_neg hh]
+  · rw [ite_eq_right hh]
     exact hQ
 
 private theorem ksGWwRec_fst_lt (MT : Nat → Nat) (h : Nat) :
@@ -417,9 +417,9 @@ private theorem ksGWwPair_zero_mem {MT : Nat → Nat} {k x : Nat} {Q : List Nat}
     (h0 : 0 ∈ Q) : 0 ∈ (ksGWwPair MT k x (Q, M)).1 := by
   unfold ksGWwPair
   by_cases hb : hasBit M (tmK MT (b8 gK k) x) = true
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     exact h0
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     exact List.mem_append_left _ h0
 
 private theorem ksGWw3_zero_mem {MT : Nat → Nat} {x : Nat} {Q : List Nat} {M : Nat}
@@ -436,9 +436,9 @@ private theorem ksGWwNext_zero_mem {MT : Nat → Nat} {h : Nat} {Q : List Nat} {
     (h0 : 0 ∈ Q) : 0 ∈ (ksGWwNext MT h (Q, M)).1 := by
   unfold ksGWwNext
   by_cases hh : h < lenL Q
-  · rw [if_pos hh]
+  · rw [ite_eq_left hh]
     exact ksGWw3_zero_mem h0
-  · rw [if_neg hh]
+  · rw [ite_eq_right hh]
     exact h0
 
 private theorem ksGWwRec_zero_mem (MT : Nat → Nat) (h : Nat) :
@@ -514,7 +514,7 @@ private theorem ksGWwRun_cont {MT : Nat → Nat} {W : List (List Nat)} {n h : Na
         wStep MT W x 2 Q'' M'' (wRun MT W n (h + 1)))) = true := by
   subst hx
   rw [ksGWwRun_succ] at hw
-  rw [LyLoop.bIf_eqP, if_pos (Nat.blt_eq.mpr hh), LyLoop.strictB_eqB] at hw
+  rw [LyLoop.bIf_eqP, ite_eq_left (Nat.blt_eq.mpr hh), LyLoop.strictB_eqB] at hw
   simpa using hw
 
 private theorem ksGWwRun_step {MT : Nat → Nat} {W : List (List Nat)} {h : Nat}
@@ -530,11 +530,11 @@ private theorem ksGWwRun_step {MT : Nat → Nat} {W : List (List Nat)} {h : Nat}
     have h1 := ksGWwPair_cont h0
     have h2 := ksGWwPair_cont h1
     have h3 := ksGWwPair_cont h2
-    simpa [ksGWwNext, ksGWw3, if_pos hs] using h3
+    simpa [ksGWwNext, ksGWw3, ite_eq_left hs] using h3
   · have hw' : wRun MT W ((256 - (h + 1)) + 1) h Q M = true := by rwa [← hn]
     rw [ksGWwRun_succ] at hw'
-    rw [LyLoop.bIf_eqP, if_neg (by rw [Nat.blt_eq]; exact hs)] at hw'
-    simpa [ksGWwNext, if_neg hs] using hw'
+    rw [LyLoop.bIf_eqP, ite_eq_right (by rw [Nat.blt_eq]; exact hs)] at hw'
+    simpa [ksGWwNext, ite_eq_right hs] using hw'
 
 private theorem ksGWq_get {Q : List Nat} {q : Array Nat} (hq : q.toList = Q)
     {h : Nat} (hh : h < q.size) : q[h]! = getQ Q h := by
@@ -581,12 +581,12 @@ private theorem ksGWlStep_sound {MT : Nat → Nat} {W : List (List Nat)} {h : Na
   have hep : ksGWlStep (TBL MT 256) h (A, q) =
       ksGWl3 (TBL MT 256) (getQ Q h) (A[getQ Q h]!.getD []) (A, q) := by
     unfold ksGWlStep
-    rw [if_pos hqs]
+    rw [ite_eq_left hqs]
     dsimp only
     rw [hqget]
   have hnext : ksGWwNext MT h (Q, M) = ksGWw3 MT (getQ Q h) (Q, M) := by
     unfold ksGWwNext
-    rw [if_pos hsmall]
+    rw [ite_eq_left hsmall]
   refine ⟨?_, ?_, ?_⟩
   · rw [hep, hnext]
     exact hstep.1
@@ -642,11 +642,11 @@ private theorem ksGWgood_succ {MT : Nat → Nat} {W : List (List Nat)} {h : Nat}
       exact hs
     have hstepeq : ksGWlStep (TBL MT 256) h s = s := by
       unfold ksGWlStep
-      rw [if_neg hqlen]
+      rw [ite_eq_right hqlen]
     have hrec : ksGWwRec MT (h + 1) = ksGWwRec MT h := by
       change ksGWwNext MT h (ksGWwRec MT h) = ksGWwRec MT h
       unfold ksGWwNext
-      rw [if_neg hs]
+      rw [ite_eq_right hs]
     rw [hstepeq]
     exact { queue := by rw [hrec]; exact hQ
             matchA := by rw [hrec]; exact hA
@@ -683,7 +683,7 @@ private theorem ksGWl_final {MT : Nat → Nat} {W : List (List Nat)} {M : Nat}
         change allN 256 (fun x => bIf(hasBit M x, true, eqL (getW W x) [])) = true at hf
         exact hf
       have htest := allN_spec hf' z hz
-      rw [LyLoop.bIf_eqP, if_neg (by rw [hbf]; simp)] at htest
+      rw [LyLoop.bIf_eqP, ite_eq_right (by rw [hbf]; simp)] at htest
       have hzempty : getW W z = [] := ksGWeqL htest
       have hz0 : z = 0 := by
         have hev := hEval z hz
@@ -834,8 +834,8 @@ theorem fm_filter {α β : Type} (p : α → Bool) (f : α → List β) :
   | x :: l => by
     rw [List.filter_cons, List.flatMap_cons]
     by_cases hp : p x = true
-    · rw [if_pos hp, if_pos hp, List.flatMap_cons, fm_filter p f l]
-    · rw [if_neg hp, if_neg hp, List.nil_append, fm_filter p f l]
+    · rw [ite_eq_left hp, ite_eq_left hp, List.flatMap_cons, fm_filter p f l]
+    · rw [ite_eq_right hp, ite_eq_right hp, List.nil_append, fm_filter p f l]
 
 theorem fm_map_eq {α β : Type} {p q : α → Bool} {f g : α → β} :
     ∀ {l : List α}, (∀ x ∈ l, p x = q x) → (∀ x ∈ l, f x = g x) →
@@ -845,8 +845,8 @@ theorem fm_map_eq {α β : Type} {p q : α → Bool} {f g : α → β} :
     rw [List.filter_cons, List.filter_cons, hp x (by simp)]
     have ih := fm_map_eq (l := l) (fun y hy => hp y (by simp [hy])) (fun y hy => hf y (by simp [hy]))
     by_cases hq : q x = true
-    · rw [if_pos hq, if_pos hq, List.map_cons, List.map_cons, hf x (by simp), ih]
-    · rw [if_neg hq, if_neg hq, ih]
+    · rw [ite_eq_left hq, ite_eq_left hq, List.map_cons, List.map_cons, hf x (by simp), ih]
+    · rw [ite_eq_right hq, ite_eq_right hq, ih]
 
 theorem tests_eq {MT : Nat → Nat} {SG : Nat} (h : allN 256 (sigQ MT SG) = true) {a b c : Nat}
     (ha : a < 256) (hb : b < 256) (hc : c < 256) :
@@ -891,7 +891,7 @@ theorem cands_sound {MT : Nat → Nat} {SG : Nat} (h : allN 256 (sigQ MT SG) = t
   refine fm_congr fun a ha => ?_
   have ha' := lv_lt ha
   by_cases h0 : grp0 MT SG a = true
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     unfold stage2
     simp only [List.map_flatMap, List.filter_map, List.flatMap_map, List.filter_filter,
       List.map_map, Function.comp_def]
@@ -899,17 +899,17 @@ theorem cands_sound {MT : Nat → Nat} {SG : Nat} (h : allN 256 (sigQ MT SG) = t
     refine fm_congr fun b hb => ?_
     have hb' := lv_lt hb
     by_cases h1 : grp1 MT SG (Nat.add a (Nat.mul 256 b)) = true
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       refine fm_map_eq (fun c hc => ?_) (fun c hc => ?_)
       · rw [Q ha' hb' (lv_lt hc), h0, h1, Bool.true_and, Bool.true_and, Bool.and_comm]
       · obtain ⟨e0, e1, e2, -⟩ := b8_three ha' hb' (lv_lt hc)
         simp only [unpk, e0, e1, e2]
-    · rw [if_neg h1, List.map_eq_nil_iff, List.filter_eq_nil_iff]
+    · rw [ite_eq_right h1, List.map_eq_nil_iff, List.filter_eq_nil_iff]
       intro c hc
       have h1' : grp1 MT SG (Nat.add a (Nat.mul 256 b)) = false := by simpa using h1
       rw [Q ha' hb' (lv_lt hc), h0, h1']
       simp
-  · rw [if_neg h0, List.flatMap_eq_nil_iff]
+  · rw [ite_eq_right h0, List.flatMap_eq_nil_iff]
     intro b' hb2
     rw [List.map_eq_nil_iff, List.filter_eq_nil_iff]
     intro c hc
@@ -945,7 +945,7 @@ theorem auts_split {MT : Nat → Nat} {W : List (List Nat)} {p : Nat → Bool} :
       · rw [e] at h'
         obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h'
         rw [List.filter_cons, hc y (by simp) h1, Nat.eq_of_beq_eq_true e]
-        simp only [if_true]
+        simp only [ite_true]
         exact congrArg _ (auts_split h2 hc' hf')
 
 theorem invoCnt_cons (MT : Nat → Nat) (W : List (List Nat)) (P : List Nat) (y : Nat)
@@ -966,26 +966,26 @@ theorem invoCnt_big (MT : Nat → Nat) (W : List (List Nat)) (P : List Nat) :
   | y :: A, h => by
     rw [invoCnt_cons] at h ⊢
     by_cases h1 : invoF (fK MT W y) = true
-    · rw [if_pos h1] at h ⊢
+    · rw [ite_eq_left h1] at h ⊢
       by_cases h2 : fixF P (fK MT W y) = true
-      · rw [if_pos h2] at h ⊢
+      · rw [ite_eq_left h2] at h ⊢
         obtain ⟨r1, r2⟩ := invoCnt_big MT W P A (by omega)
         refine ⟨?_, ?_⟩
         · intro z hz hzi
           rcases List.mem_cons.mp hz with rfl | hz
           · exact h2
           · exact r1 z hz hzi
-        · rw [List.filter_cons, if_pos h1, List.length_cons, r2]
-      · rw [if_neg h2] at h
+        · rw [List.filter_cons, ite_eq_left h1, List.length_cons, r2]
+      · rw [ite_eq_right h2] at h
         omega
-    · rw [if_neg h1] at h ⊢
+    · rw [ite_eq_right h1] at h ⊢
       obtain ⟨r1, r2⟩ := invoCnt_big MT W P A h
       refine ⟨?_, ?_⟩
       · intro z hz hzi
         rcases List.mem_cons.mp hz with rfl | hz
         · exact absurd hzi h1
         · exact r1 z hz hzi
-      · rw [List.filter_cons, if_neg h1, r2]
+      · rw [List.filter_cons, ite_eq_right h1, r2]
 
 theorem invo_sound {MT : Nat → Nat} {W : List (List Nat)} {P A : List Nat}
     (h : Nat.beq (invoCnt MT W P A) 176 = true) :

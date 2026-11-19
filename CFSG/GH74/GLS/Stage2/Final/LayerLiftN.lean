@@ -206,7 +206,7 @@ theorem layerTimesSylow_eq_of_two_components {z : G} {S K₁ K₂ : Subgroup G} 
     {M₁ M₂ : Subgroup (CentralizerBar z)} (hcomps : {K | IsComponent K} = {M₁, M₂})
     (hEC : (layer ↥(Cen z)).map (Cen z).subtype ⊓ OddCore z = ⊥) :
     layerTimesSylow z S = K₁ ⊔ K₂ ⊔ S ∧ (K₁ ⊔ K₂ ⊔ S) ⊓ OddCore z = ⊥ := by
-  haveI := hcyc
+  have := hcyc
   have hne' : K₁.subgroupOf (Cen z) ≠ K₂.subgroupOf (Cen z) := by
     intro h
     apply hne

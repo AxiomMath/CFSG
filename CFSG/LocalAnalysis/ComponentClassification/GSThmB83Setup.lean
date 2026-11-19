@@ -30,7 +30,7 @@ theorem sec8_Q_sylow (hJn : (h.J.subgroupOf (centralizer ({h.a} : Set X))).Norma
   have hS2 : IsPGroup 2 h.S := by
     obtain ⟨R, hR⟩ := h.S_sylow
     have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set X) ⊓
-        normalizer (h.J : Set X))) := hR ▸ R.isPGroup'
+        normalizer (h.J : Set X))) := hR ▸ R.isPGroup
     have h2 := h1.map (centralizer ({h.a} : Set X) ⊓ normalizer (h.J : Set X)).subtype
     rwa [map_subgroupOf_eq_of_le h.S_le] at h2
   have hQY : h.Q ≤ Y := le_inf (inf_le_left.trans hSC) inf_le_right
@@ -40,7 +40,7 @@ theorem sec8_Q_sylow (hJn : (h.J.subgroupOf (centralizer ({h.a} : Set X))).Norma
   set R₀ := (R : Subgroup Y).map Y.subtype with hR₀
   have hR₀Y : R₀ ≤ Y := map_subtype_le _
   have hQR₀ : h.Q ≤ R₀ := fun g hg => ⟨⟨g, hQY hg⟩, hR (mem_subgroupOf.mpr hg), rfl⟩
-  have hR₀2 : IsPGroup 2 R₀ := R.isPGroup'.map _
+  have hR₀2 : IsPGroup 2 R₀ := R.isPGroup.map _
   have hR₀CN : R₀ ≤ centralizer ({h.a} : Set X) ⊓ normalizer (h.J : Set X) :=
     le_inf (hR₀Y.trans inf_le_left) ((hR₀Y.trans inf_le_left).trans hCN)
   obtain ⟨c, hc, hcS⟩ := exists_conjugate_le_of_sylow h.S_sylow hR₀CN hR₀2
@@ -161,7 +161,7 @@ theorem sec8_P4_setup (hT : h.T = h.B ⊔ zpowers h.a)
   have hB2 : IsPGroup 2 h.B := by
     obtain ⟨R, hR⟩ := h.S_sylow
     have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set X) ⊓
-        normalizer (h.J : Set X))) := hR ▸ R.isPGroup'
+        normalizer (h.J : Set X))) := hR ▸ R.isPGroup
     have h2 := h1.map (centralizer ({h.a} : Set X) ⊓ normalizer (h.J : Set X)).subtype
     rw [map_subgroupOf_eq_of_le h.S_le] at h2
     exact h2.to_le (h.B_le.trans inf_le_left)

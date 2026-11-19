@@ -45,7 +45,7 @@ private lemma l05nS2_cartanA_eq_two {n : ℕ} {i j : Fin n}
     (h : CartanMatrix.A n i j = 2) : i = j := by
   by_contra hij
   simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false] at h
-  split_ifs at h <;> omega
+  split_ifs at h; omega
 
 private lemma l05nS2_reindex_trans {Γ Γ' Γ'' : Type*} (M : CoxeterMatrix Γ) (e : Γ ≃ Γ')
     (e' : Γ' ≃ Γ'') : (M.reindex e).reindex e' = M.reindex (e.trans e') := by
@@ -98,9 +98,9 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
       ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) ℤ}
     {e : Fin (N - 1) ≃ Λ} {r : Λ ⊕ Λa → V ≃ₗ[ZMod p] V} {h : Λ ⊕ Λa → V}
     {α : Λ ⊕ Λa → Module.Dual (ZMod p) V} {xV yV : V}
-    (hb12 : b₁ ≠ b₂) (hcard : Nat.card Λa = 2)
+    (_hb12 : b₁ ≠ b₂) (hcard : Nat.card Λa = 2)
     (hJiff : ∀ i : Fin (N - 1), ggTWInJ N pos i.val ↔ (e i ≠ b₁ ∧ e i ≠ b₂))
-    (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hA2 : ∃ eK : Fin (N - 1) ≃ ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa),
       MK = (CoxeterMatrix.A (N - 1)).reindex eK)
     (hr : ∀ o w, r o w = w - α o w • h o)
@@ -181,7 +181,7 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
         ((CartanMatrix.A (N - 1) i.1 j.1 : ℤ) : ZMod p) := by
     intro i j
     have h1 := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at h1
+    simp only [Sum.map_inl] at h1
     have h2 := hF.pair i.1 j.1
     have hval : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
       simp [CK', ee, Matrix.submatrix_apply]
@@ -294,7 +294,6 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
     · have h : ggTWdot αa1 ha2 = (CK' (Sum.inr a₁) (Sum.inr a₂) : ZMod p) := by
         change ggTWdot αa1 (θ (h (Sum.inr a₂))) = _
         rw [hαa1 (θ (h (Sum.inr a₂)))]
-        change α (Sum.inr a₁) (θ.symm (θ (h (Sum.inr a₂)))) = _
         rw [LinearEquiv.symm_apply_apply]
         rw [show CK' (Sum.inr a₁) (Sum.inr a₂) = CK (Sum.inr a₁) (Sum.inr a₂) by
           simp [CK', ee, Matrix.submatrix_apply]]
@@ -303,7 +302,6 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
     · have h : ggTWdot αa2 ha1 = (CK' (Sum.inr a₂) (Sum.inr a₁) : ZMod p) := by
         change ggTWdot αa2 (θ (h (Sum.inr a₁))) = _
         rw [hαa2 (θ (h (Sum.inr a₁)))]
-        change α (Sum.inr a₂) (θ.symm (θ (h (Sum.inr a₁)))) = _
         rw [LinearEquiv.symm_apply_apply]
         rw [show CK' (Sum.inr a₂) (Sum.inr a₁) = CK (Sum.inr a₂) (Sum.inr a₁) by
           simp [CK', ee, Matrix.submatrix_apply]]
@@ -312,7 +310,6 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
     · have h : ggTWdot αa1 ha1 = (CK' (Sum.inr a₁) (Sum.inr a₁) : ZMod p) := by
         change ggTWdot αa1 (θ (h (Sum.inr a₁))) = _
         rw [hαa1 (θ (h (Sum.inr a₁)))]
-        change α (Sum.inr a₁) (θ.symm (θ (h (Sum.inr a₁)))) = _
         rw [LinearEquiv.symm_apply_apply]
         rw [show CK' (Sum.inr a₁) (Sum.inr a₁) = CK (Sum.inr a₁) (Sum.inr a₁) by
           simp [CK', ee, Matrix.submatrix_apply]]
@@ -321,7 +318,6 @@ theorem ggTWSurv2_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
     · have h : ggTWdot αa2 ha2 = (CK' (Sum.inr a₂) (Sum.inr a₂) : ZMod p) := by
         change ggTWdot αa2 (θ (h (Sum.inr a₂))) = _
         rw [hαa2 (θ (h (Sum.inr a₂)))]
-        change α (Sum.inr a₂) (θ.symm (θ (h (Sum.inr a₂)))) = _
         rw [LinearEquiv.symm_apply_apply]
         rw [show CK' (Sum.inr a₂) (Sum.inr a₂) = CK (Sum.inr a₂) (Sum.inr a₂) by
           simp [CK', ee, Matrix.submatrix_apply]]
@@ -598,12 +594,12 @@ theorem ggTWSurv2_of_vcfg {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣
   obtain ⟨pos, V, instV, instMV, Λ, instΛ, instΛd, b₁, b₂, Λa, instΛa, instΛad, MK, CK, e, r, h,
     α, xV, yV, hb12, hcard, hJiff, hWK, hCK, hA2, hr, hF, hdim, hpairK, hnt, hHL, hax, hyV,
     hfixJ, hfixa⟩ := hv
-  letI : AddCommGroup V := instV
-  letI : Module (ZMod p) V := instMV
-  letI : Fintype Λ := instΛ
-  letI : DecidableEq Λ := instΛd
-  letI : Fintype Λa := instΛa
-  letI : DecidableEq Λa := instΛad
+  let : AddCommGroup V := instV
+  let : Module (ZMod p) V := instMV
+  let : Fintype Λ := instΛ
+  let : DecidableEq Λ := instΛd
+  let : Fintype Λa := instΛa
+  let : DecidableEq Λa := instΛad
   obtain ⟨eK, heK⟩ := hA2 rfl
   obtain ⟨θ, a₁, a₂, c, c₂, ha1, αa1, ha2, αa2, lam, mu, news, rN, _hθx, _ha1, _ha2, _ha12,
     hpat2, hpair, hxne, hlam, hfixa1, hfixa2, _hy, hnews, _hrF, _hrN, _hrefl1, _hrefl2, _hsub,

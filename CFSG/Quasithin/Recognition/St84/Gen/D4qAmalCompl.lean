@@ -27,6 +27,7 @@ private theorem specialPow_commutator_eq_centerOf (hD : D4qLocalData L1 L2 S f) 
   exact CFSG.Quasithin.H13.commutator_eq_centerOf_of_isSpecialPow (p := 2) (q := 2 ^ f)
     (w := 4) (by norm_num) h2 hD.special_left
 
+omit [Finite G] in
 private theorem centerOf_sq_eq_one (hD : D4qLocalData L1 L2 S f) :
     ∀ z ∈ centerOf (pCoreOf 2 L1), z * z = 1 := by
   obtain ⟨hsp, hcard, hZcard⟩ := hD.special_left
@@ -61,6 +62,7 @@ private theorem centerOf_ne_bot (hD : D4qLocalData L1 L2 S f) :
   have h2 : 1 < 2 ^ f := Nat.one_lt_two_pow (n := f) (by have := hD.one_le; omega)
   omega
 
+omit [Finite G] in
 private theorem conj_mem_centerOf_of_mem_normalizer {Q : Subgroup G} {h : G}
     (hh : h ∈ Subgroup.normalizer (Q : Set G)) {z : G} (hz : z ∈ centerOf Q) :
     h * z * h⁻¹ ∈ centerOf Q := by
@@ -109,6 +111,7 @@ private def commFixing (Q : Subgroup G) (h : G) : Subgroup G where
     rw [heq]
     exact (centerOf Q).inv_mem hcu
 
+omit [Finite G] in
 private theorem centerOf_le_commFixing {Q : Subgroup G} {h : G}
     (hh : h ∈ Subgroup.normalizer (Q : Set G)) :
     centerOf Q ≤ commFixing Q h := by
@@ -118,6 +121,7 @@ private theorem centerOf_le_commFixing {Q : Subgroup G} {h : G}
   rw [commutatorElement_def]
   exact (centerOf Q).mul_mem hconj ((centerOf Q).inv_mem hz)
 
+omit [Finite G] in
 private theorem commutatorElement_mul_centerOf_left {Q : Subgroup G} {c x y : G}
     (hc : c ∈ centerOf Q) (hx : x ∈ Q) (hy : y ∈ Q) : ⁅c * x, y⁆ = ⁅x, y⁆ := by
   have hcxy : c * (x * y * x⁻¹) = (x * y * x⁻¹) * c :=
@@ -128,6 +132,7 @@ private theorem commutatorElement_mul_centerOf_left {Q : Subgroup G} {c x y : G}
   rw [hcxy]
   group
 
+omit [Finite G] in
 private theorem commutatorElement_mul_centerOf_right {Q : Subgroup G} {c x y : G}
     (hc : c ∈ centerOf Q) (hx : x ∈ Q) (hy : y ∈ Q) : ⁅x, y * c⁆ = ⁅x, y⁆ := by
   have hcy : c * y = y * c :=
@@ -137,6 +142,7 @@ private theorem commutatorElement_mul_centerOf_right {Q : Subgroup G} {c x y : G
     _ = ⁅y, x⁆⁻¹ := by rw [commutatorElement_mul_centerOf_left hc hy hx]
     _ = ⁅x, y⁆ := commutatorElement_inv _ _
 
+omit [Finite G] in
 private theorem conj_commutator_eq_self {Q Z : Subgroup G} (hZ : Z ≤ centerOf Q) {h u v : G}
     (hu : u ∈ Q) (hv : v ∈ Q) (hcu : ⁅h, u⁆ ∈ Z) (hcv : ⁅h, v⁆ ∈ Z) :
     h * ⁅u, v⁆ * h⁻¹ = ⁅u, v⁆ := by
@@ -156,6 +162,7 @@ private theorem conj_commutator_eq_self {Q Z : Subgroup G} (hZ : Z ≤ centerOf 
           Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hcvZ).2 v hv]
     _ = ⁅u, v⁆ := commutatorElement_mul_centerOf_right hcvZ hu hv
 
+omit [Finite G] in
 private theorem conj_eq_self_of_mem_commutator {Q Z : Subgroup G} (hZ : Z ≤ centerOf Q) {h : G}
     (hh : ∀ v ∈ Q, ⁅h, v⁆ ∈ Z) {z : G} (hz : z ∈ ⁅Q, Q⁆) :
     h * z * h⁻¹ = z := by
@@ -172,7 +179,8 @@ private theorem conj_eq_self_of_mem_commutator {Q Z : Subgroup G} (hZ : Z ≤ ce
       calc h * x⁻¹ * h⁻¹ = (h * x * h⁻¹)⁻¹ := by group
         _ = x⁻¹ := by rw [ih]
 
-private theorem commutatorElement_eq_one_of_odd {Q Z : Subgroup G} (hZ : Z ≤ centerOf Q)
+omit [Finite G] in
+private theorem commutatorElement_eq_one_of_odd {Q Z : Subgroup G} (_hZ : Z ≤ centerOf Q)
     {h : G} (hh : ∀ v ∈ Q, ⁅h, v⁆ ∈ Z) (hZh : ∀ z ∈ Z, h * z * h⁻¹ = z)
     (hZ2 : ∀ z ∈ Z, z * z = 1) (hodd : Odd (orderOf h)) :
     ∀ v ∈ Q, ⁅h, v⁆ = 1 := by
@@ -394,10 +402,10 @@ private theorem levi_mulEquiv_left (hH : Hyp111 L1 L2 S) (hD : D4qLocalData L1 L
     (hsupQK : pCoreOf 2 L1 ⊔ K = L1) (hinfQK : pCoreOf 2 L1 ⊓ K = ⊥) :
     Nonempty (↥K ≃* SL(2, GaloisField 2 (3 * f))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
+  let := c1.field
+  let := c1.fintype
   let φ : ↥K →* SL(2, c1.F) := c1.α.comp (Subgroup.inclusion hKL)
   have hφinj : Function.Injective φ := by
     intro a b hab
@@ -430,7 +438,7 @@ private theorem levi_mulEquiv_left (hH : Hyp111 L1 L2 S) (hD : D4qLocalData L1 L
       _ = c1.α x := by rw [hxeq]
       _ = y := hx
   let e1 : ↥K ≃* SL(2, c1.F) := MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩
-  haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
   have hFcard : Fintype.card c1.F = Fintype.card (GaloisField 2 (3 * f)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, c1.card,
       GaloisField.card 2 (3 * f) (by have := hD.one_le; omega)]
@@ -447,6 +455,7 @@ private theorem levi_mulEquiv_left (hH : Hyp111 L1 L2 S) (hD : D4qLocalData L1 L
     simp [ψ, ψ']
   exact ⟨e1.trans (MonoidHom.toMulEquiv ψ ψ' hψ' hψ)⟩
 
+omit [Finite G] in
 private theorem coprime_card_torus (hD : D4qLocalData L1 L2 S f) {H : Subgroup G}
     (hcardH0 : Nat.card ↥(H ⊓ trivOTwoQuot L1) = 2 ^ f - 1) :
     Nat.Coprime (Nat.card ↥(H ⊓ trivOTwoQuot L1)) (Nat.card ↥(pCoreOf 2 L1)) := by
@@ -485,6 +494,7 @@ private theorem inf_pCoreOf_inf_centralizer (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
   have h := inf_centralizer_inf_eq_bot_of_fixed (L := L1) (Q := Q) (H := H₀) hcore
   rwa [inf_comm]
 
+omit [Finite G] in
 private theorem inf_le_inf_centralizer {H : Subgroup G}
     (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) :
     H ⊓ L1 ≤ L1 ⊓ centralizer ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G) := by
@@ -520,12 +530,12 @@ private theorem inf_pCoreOf_sup_eq_bot (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
       (H ⊓ trivOTwoQuot L1)) = ⊥ :=
   inf_inf_centralizer_sup_eq_bot (Q := pCoreOf 2 L1) (L := L1)
     (H := H ⊓ trivOTwoQuot L1) (pCoreOf_le 2 L1)
-    (fun x hx hxfix =>
+    (fun _x hx hxfix =>
       hD.eq_one_of_mem_pCoreOf_left_of_commute hf hH h1 hHB hSH hSinfH hHcard hHcomm hx hxfix)
     (hD.torus_left_of_hall hH h1 hHB hSH hSinfH hHcard hHcomm).2.2.2.1
 
-private theorem irreducible_pCoreOf (hH : Hyp111 L1 L2 S) (hD : D4qLocalData L1 L2 S f)
-    (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1)) {H : Subgroup G}
+private theorem irreducible_pCoreOf (_hH : Hyp111 L1 L2 S) (hD : D4qLocalData L1 L2 S f)
+    (_h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1)) {H : Subgroup G}
     (hsupQK : pCoreOf 2 L1 ⊔ (L1 ⊓ centralizer ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G)) =
       L1) :
     ∀ W : Subgroup G, centerOf (pCoreOf 2 L1) ≤ W → W ≤ pCoreOf 2 L1 →

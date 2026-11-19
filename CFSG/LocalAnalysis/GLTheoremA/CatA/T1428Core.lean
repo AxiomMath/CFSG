@@ -36,7 +36,7 @@ private theorem k_normalizer_inf {Ω : Type} [Group Ω] {K : Subgroup Ω} {y b :
 private theorem k_three_conj {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {B M : Subgroup Ω} {k : ℕ} (hB : Nat.card B = p ^ k) (hnot : ¬ B ≤ Subgroup.normalizer (M : Set Ω)) :
     ∃ b₁ ∈ B, ∃ b₂ ∈ B, GLBConj b₁ M ≠ M ∧ GLBConj b₂ M ≠ M ∧ GLBConj b₂ M ≠ GLBConj b₁ M := by
-  obtain ⟨b₁, hb₁B, hb₁⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b₁, hb₁B, hb₁⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hb₁' : GLBConj b₁ M ≠ M := fun h => hb₁ (mem_normalizer_iff_gLBConj_eq.2 h)
   refine ⟨b₁, hb₁B, ?_⟩
   by_contra hcon

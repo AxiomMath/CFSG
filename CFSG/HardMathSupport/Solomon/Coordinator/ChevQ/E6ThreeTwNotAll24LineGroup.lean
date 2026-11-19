@@ -26,7 +26,7 @@ theorem eq_of_relIndex_prime {G : Type*} [Group G] {X₀ N X : Subgroup G} {p : 
 
 theorem lineGen_of_index_prime {X : Type} [Group X] {E : Subgroup (MulAut X)} {f : MulAut X}
     {X₀ : Subgroup X} {p : ℕ} (hp : p.Prime)
-    (hX₀ : X₀ ≤ fixedPoints (Subgroup.zpowers f))
+    (_hX₀ : X₀ ≤ fixedPoints (Subgroup.zpowers f))
     (hidx : X₀.relIndex (fixedPoints (Subgroup.zpowers f)) = p)
     (hN₀ : X₀ ≤ sSup {J | CFSG.Open.IsComponentOf J (fixedPoints (Subgroup.zpowers f))} ⊔
       ⨆ (F : Subgroup (MulAut X)) (_ : F ≤ E ∧ F.relIndex E = 3 ∧ f ∈ F), fixedPoints F)

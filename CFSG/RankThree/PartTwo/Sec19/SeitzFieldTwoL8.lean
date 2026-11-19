@@ -44,7 +44,7 @@ theorem rankLE1_projectiveSL_three_eight {F : Type} [Field F] [Finite F] (h8 : N
   exact RankLE1.of_mulEquiv (projectiveSL3FieldEquiv e).symm rankLE1_projectiveSL_three_gf8
 
 theorem narrowScope_projectiveSL_eight {F : Type} [Field F] [Finite F] (h8 : Nat.card F = 8)
-    (E : Subgroup (MulAut (projectiveSL 3 F))) (hE : CFSG.Assembly.IsElemAbelian 3 E) :
+    (E : Subgroup (MulAut (projectiveSL 3 F))) (_hE : CFSG.Assembly.IsElemAbelian 3 E) :
     NarrowScope 3 E := by
   have h1 : RankLE1 3 (projectiveSL 3 F) := rankLE1_projectiveSL_three_eight h8
   unfold NarrowScope

@@ -53,7 +53,7 @@ theorem vecA_get (x : Nat) : vecA[x]! = vecG x := by
   split_ifs with h
   · rfl
   · unfold vecG
-    rw [if_neg fun h' => h h'.1]
+    rw [ite_eq_right fun h' => h h'.1]
 
 theorem mem_gIdx {k : Nat} : k ∈ gIdx () ↔ gOK k = true := by
   rw [gOK_iff]
@@ -127,7 +127,7 @@ theorem sig_facts : (∀ i < 255, tb L 7 i < 31671 ∧ labP (tb L 7 i) = 0) ∧
     rw [bAnd_eq, Bool.and_eq_true, bAnd_eq, Bool.and_eq_true, bIf_eq] at hi'
     obtain ⟨h1, h2, h3⟩ := hi'
     refine ⟨by simpa [Nat.blt_eq] using h1, Nat.eq_of_beq_eq_true h2, fun hlt => ?_⟩
-    rw [if_pos (by simpa [Nat.blt_eq] using hlt)] at h3
+    rw [ite_eq_left (by simpa [Nat.blt_eq] using hlt)] at h3
     simpa [Nat.blt_eq] using h3
   exact ⟨fun i hi => ⟨(hp i hi).1, (hp i hi).2.1⟩, fun i hi => (hp i (by omega)).2.2 hi⟩
 
@@ -210,10 +210,10 @@ theorem vecs_eq : (Array.ofFn (n := 31671) fun p =>
   refine congrArg (Array.ofFn (n := 31671)) (funext fun p => ?_)
   rw [labA_get]
   unfold labG vecG
-  rw [if_pos p.isLt]
+  rw [ite_eq_left p.isLt]
   by_cases h : labP p.val = 0
-  · rw [if_pos (by simp [h]), if_pos ⟨p.isLt, h⟩, vec_pt (mem_sigL.2 ⟨p.isLt, h⟩)]
-  · rw [if_neg (by simp [h]), if_neg fun h' => h h'.2]
+  · rw [ite_eq_left (by simp [h]), ite_eq_left ⟨p.isLt, h⟩, vec_pt (mem_sigL.2 ⟨p.isLt, h⟩)]
+  · rw [ite_eq_right (by simp [h]), ite_eq_right fun h' => h h'.2]
 
 noncomputable abbrev ptF : Array Nat := Id.run do
   let mut r : Array Nat := Array.replicate 256 0

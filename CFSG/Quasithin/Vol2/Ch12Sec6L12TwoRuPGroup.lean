@@ -33,8 +33,8 @@ theorem le_or_le_of_cover_two {Y V0 V1 : Subgroup Γ} (h : ∀ g ∈ Y, g ∈ V0
     Y ≤ V0 ∨ Y ≤ V1 := by
   by_contra hn
   rw [not_or] at hn
-  obtain ⟨a, haY, haV0⟩ := SetLike.not_le_iff_exists.mp hn.1
-  obtain ⟨b, hbY, hbV1⟩ := SetLike.not_le_iff_exists.mp hn.2
+  obtain ⟨a, haY, haV0⟩ := IsConcreteLE.not_le_iff_exists.mp hn.1
+  obtain ⟨b, hbY, hbV1⟩ := IsConcreteLE.not_le_iff_exists.mp hn.2
   have haV1 : a ∈ V1 := (h a haY).resolve_left haV0
   have hbV0 : b ∈ V0 := (h b hbY).resolve_right hbV1
   rcases h (a * b) (Y.mul_mem haY hbY) with h0 | h1
@@ -65,14 +65,14 @@ theorem mul_mem_of_not_mem [Finite Γ] {T S : Subgroup Γ} (hST : S ≤ T)
 
 theorem exists_sub_of_dvd [Finite Γ] (H : Subgroup Γ) (h : 2 ^ 13 ∣ Nat.card H) :
     ∃ K : Subgroup Γ, K ≤ H ∧ Nat.card K = 2 ^ 13 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥H) 2 h
   exact ⟨K.map H.subtype, Subgroup.map_subtype_le K, by
     rw [Subgroup.card_map_of_injective H.subtype_injective]; exact hK⟩
 
 theorem exists_conj_le [Finite Γ] {T K : Subgroup Γ} (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index)
     (hK : IsPGroup 2 K) : ∃ g : Γ, K.map (MulAut.conj g⁻¹).toMonoidHom ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hKP⟩ := hK.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ (hT.toSylow hTi) P
   have h := congrArg (fun Q : Sylow 2 Γ => (Q : Subgroup Γ)) hg
@@ -121,7 +121,7 @@ theorem noBig_of_sub [Finite Γ] {t1 t2 t3 : Γ} (hC : Covers t1 t2 t3) {T S H :
     have hle : T ≤ S := by
       rw [hT, Subgroup.closure_le]
       intro x hx
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with h | h | h <;> rw [h] <;> assumption
     have := Subgroup.card_le_of_le hle
     omega

@@ -31,7 +31,7 @@ theorem eInvK_spec {p : ℕ} (h : eInvK p = true) : (∀ a < 32, eG p (eG p a) =
   obtain ⟨⟨-, hsq⟩, hne⟩ := h
   have e1 : eC p p = eId := beq_t.1 hsq
   refine ⟨fun a ha => by rw [← eG_eC p p ha, e1, eG_eId ha], fun e => ?_⟩
-  rw [e, bIf_eq, if_pos (beq_t.2 rfl)] at hne
+  rw [e, bIf_eq, ite_eq_left (beq_t.2 rfl)] at hne
   exact Bool.false_ne_true hne
 
 theorem eInvK_of {p : ℕ} (hc : canonK 32 6 63 192 p = true) (hsq : ∀ a < 32, eG p (eG p a) = a)
@@ -39,7 +39,7 @@ theorem eInvK_of {p : ℕ} (hc : canonK 32 6 63 192 p = true) (hsq : ∀ a < 32,
   unfold eInvK sqIdK
   simp only [bAnd_eq, Bool.and_eq_true]
   refine ⟨⟨hc, beq_t.2 (eC_eq_eId hsq)⟩, ?_⟩
-  rw [bIf_eq, if_neg fun e => hne (beq_t.1 e)]
+  rw [bIf_eq, ite_eq_right fun e => hne (beq_t.1 e)]
 
 theorem eClsK_spec {cnt nr nv : ℕ} {T REP IV ICL ICJ : ℕ → ℕ}
     (h : eClsK cnt T nr REP nv IV ICL ICJ = true) :
@@ -57,7 +57,7 @@ theorem eClsK_spec {cnt nr nv : ℕ} {T REP IV ICL ICJ : ℕ → ℕ}
   refine ⟨Nat.le_of_ble_eq_true h1, Nat.le_of_ble_eq_true h2, Nat.le_of_ble_eq_true h3, h4,
     fun hq1 => ?_, beq_t.1 h6⟩
   have hq1' : Nat.blt (Nat.succ q) nv = true := Nat.blt_eq.mpr hq1
-  rw [bIf_eq, if_pos hq1'] at h5
+  rw [bIf_eq, ite_eq_left hq1'] at h5
   exact Nat.blt_eq.mp h5
 
 theorem e614K_spec {GN k cnt nr : ℕ} {T REP : ℕ → ℕ} (h : e614K GN k cnt T nr REP = true) :
@@ -182,7 +182,7 @@ theorem cent_dvd_of_checks {GN kg f c nr nv : ℕ} {REP IV ICL ICJ : ℕ → ℕ
     have hset : ((Subgroup.centralizer ({Φ j} : Set (MulAut H)) : Set (MulAut H))) =
         ↑(S.image Φ) := by
       ext φ
-      simp only [SetLike.mem_coe, Finset.coe_image, Set.mem_image, Finset.mem_coe]
+      simp only [SetLike.mem_coe, Finset.coe_image, Set.mem_image]
       constructor
       · intro hφ
         obtain ⟨i, hi, h⟩ := hall φ

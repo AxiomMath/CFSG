@@ -60,6 +60,7 @@ def restrictAut (σ : MulAut X) {K₀ : Subgroup X} (h : ∀ k ∈ K₀, σ k �
   right_inv z := Subtype.ext (MulAut.apply_inv_self _ σ (z : X))
   map_mul' x y := Subtype.ext (map_mul σ (x : X) (y : X))
 
+omit [Finite X] in
 theorem le_sSup_of_restrict {P : Subgroup (MulAut X)} {K₀ : Subgroup X}
     (hPK : ∀ σ ∈ P, ∀ k ∈ K₀, σ k ∈ K₀)
     (hgen : sSup {Y : Subgroup ↥K₀ | ¬ 3 ∣ Nat.card Y ∧
@@ -81,6 +82,7 @@ theorem le_sSup_of_restrict {P : Subgroup (MulAut X)} {K₀ : Subgroup X}
       exact ⟨_, hY.2 _ hτ ⟨y, hy, rfl⟩, rfl⟩
   exact hle ⟨⟨k, hk⟩, hk', rfl⟩
 
+omit [Finite X] in
 theorem le_sSup_of_inner {P : Subgroup (MulAut X)} {K₀ E : Subgroup X} (hEK : E ≤ K₀)
     (hPE : ∀ σ ∈ P, ∃ e ∈ E, ∀ k ∈ K₀, σ k = e * k * e⁻¹)
     (hgen : sSup {Y : Subgroup ↥K₀ | ¬ 3 ∣ Nat.card Y ∧
@@ -121,6 +123,7 @@ def innOn (K₀ : Subgroup X) : Subgroup (MulAut X) where
       _ = k⁻¹ * z * k := MulAut.inv_apply_self _ τ _
       _ = k⁻¹ * z * k⁻¹⁻¹ := by rw [inv_inv]
 
+omit [Finite X] in
 theorem mem_of_normalizer_map_conj (hZ : Subgroup.center X = ⊥) {K₀ : Subgroup X}
     {σ : MulAut X} (hσ : σ ∈ Subgroup.normalizer
       ((K₀.map (MulAut.conj : X →* MulAut X) : Subgroup (MulAut X)) : Set (MulAut X)))
@@ -131,11 +134,13 @@ theorem mem_of_normalizer_map_conj (hZ : Subgroup.center X = ⊥) {K₀ : Subgro
   obtain ⟨k', hk', hkk⟩ := h1
   rwa [← PS.conj_injective hZ hkk]
 
+omit [Finite X] in
 theorem inv_of_hyp (hZ : Subgroup.center X = ⊥) {P K₀ Q D : Subgroup _}
     (hh : SigGenHyp P (K₀.map (MulAut.conj : X →* MulAut X)) Q D) :
     ∀ σ ∈ P, ∀ k ∈ K₀, σ k ∈ K₀ :=
   fun _ hσ _ hk => mem_of_normalizer_map_conj hZ (hh.normK hσ) hk
 
+omit [Finite X] in
 theorem fix_of_mem_centralizer (hZ : Subgroup.center X = ⊥) {D : Subgroup (MulAut X)} {x : X}
     (hx : MulAut.conj x ∈ Subgroup.centralizer (D : Set (MulAut X))) {σ : MulAut X}
     (hσ : σ ∈ D) : σ x = x := by
@@ -143,6 +148,7 @@ theorem fix_of_mem_centralizer (hZ : Subgroup.center X = ⊥) {D : Subgroup (Mul
   apply PS.conj_injective hZ
   rw [← mulAut_mul_conj', h1, mul_inv_cancel_right]
 
+omit [Finite X] in
 theorem eq_one_of_trivial {P K₀ Q D : Subgroup _}
     (hh : SigGenHyp P (K₀.map (MulAut.conj : X →* MulAut X)) Q D) {σ : MulAut X} (hσ : σ ∈ P)
     (htriv : ∀ k ∈ K₀, σ k = k) : σ = 1 := by
@@ -151,12 +157,13 @@ theorem eq_one_of_trivial {P K₀ Q D : Subgroup _}
   rw [mulAut_mul_conj', htriv k hk, mul_inv_cancel]
   exact Subgroup.one_mem _
 
+omit [Finite X] in
 theorem exists_not_comm {P K₀ Q D : Subgroup _}
     (hQ : Q ≤ (MulAut.conj : X →* MulAut X).range)
     (hh : SigGenHyp P (K₀.map (MulAut.conj : X →* MulAut X)) Q D) :
     ∃ x : X, MulAut.conj x ∈ Q ∧ ∃ k ∈ K₀, x * k * x⁻¹ ≠ k := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hh.nontriv
   rw [Subgroup.commutator_le]
   rintro _ ⟨k, hk, rfl⟩ q hq
@@ -171,6 +178,7 @@ theorem exists_not_comm {P K₀ Q D : Subgroup _}
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite X] in
 theorem exists_inv_of_hyp (hZ : Subgroup.center X = ⊥) {P K Q D : Subgroup (MulAut X)}
     (hQ : Q ≤ (MulAut.conj : X →* MulAut X).range) (hh : SigGenHyp P K Q D) :
     ∃ Y : Subgroup X, Y ≠ ⊥ ∧ ¬ 3 ∣ Nat.card Y ∧ ∀ σ ∈ P, Y.map σ.toMonoidHom ≤ Y := by
@@ -189,6 +197,7 @@ theorem exists_inv_of_hyp (hZ : Subgroup.center X = ⊥) {P K Q D : Subgroup (Mu
     rw [← mulAut_mul_conj']
     exact (Subgroup.mem_normalizer_iff.mp (hQi.2.2 hσ) _).mp hx
 
+omit [Finite X] in
 theorem commutator_le_innOn (hZ : Subgroup.center X = ⊥) {P K₀ Q : Subgroup _}
     (hQ : Q ≤ (MulAut.conj : X →* MulAut X).range)
     (hQK : Q ≤ Subgroup.normalizer
@@ -219,6 +228,7 @@ theorem commutator_le_innOn (hZ : Subgroup.center X = ⊥) {P K₀ Q : Subgroup 
     MulAut.conj_inv_apply, hσe _ hw, MulAut.conj_apply]
   group
 
+omit [Finite X] in
 theorem false_of_inner_cent (hZ : Subgroup.center X = ⊥) {P K₀ Q D : Subgroup _}
     (hP9 : Nat.card P = 9) (hQ : Q ≤ (MulAut.conj : X →* MulAut X).range)
     (hh : SigGenHyp P (K₀.map (MulAut.conj : X →* MulAut X)) Q D)
@@ -412,7 +422,7 @@ theorem kf148SigGenL3_of_ident
   ·
     set eK := K₀.equivMapOfInjective _ hinj with heK
     have hK₀p : Group.IsPerfect ↥K₀ := by
-      haveI := hh.perf
+      have := hh.perf
       exact Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom) eK.symm.surjective
     have hθ := CFSG.RankThree.aschbacherSolvableCore_map_mulEquiv Nat.prime_three eK
     have hK₀q : IsQuasisimple (↥K₀ ⧸ aschbacherSolvableCore 3 ↥K₀) :=

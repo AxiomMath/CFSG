@@ -111,7 +111,7 @@ private theorem exists_mem_normGi_one_normalizer_K {U : Subgroup G} (hU : X.IsSK
   have hP : X.skP U = pCoreOf 2 A := skP_eq_pCoreOf X hU
   have hPinf : X.skP U = A ⊓ X.edgeSylow 0 := hP.trans hpc.1
   have hPleA : X.skP U ≤ A := hP.le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 A)
-  haveI : Finite ↥A := finite_of_le_stabilizer X.hyp (hAGi.trans inf_le_left)
+  have : Finite ↥A := finite_of_le_stabilizer X.hyp (hAGi.trans inf_le_left)
   have hSylow : IsSylowTwoOf (X.skP U) A := by
     rw [hPinf]
     exact X.isSylowTwoOf_inf_edgeSylow 0 hKA hAGi
@@ -187,7 +187,7 @@ theorem IsSK.exists_t {U : Subgroup G} (hU : X.IsSK U) :
     have := X.vert_injective h
     norm_num at this
   have hyfin : IsOfFinOrder y := by
-    haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+    have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
     obtain ⟨k, hkpos, hk⟩ := (isOfFinOrder_of_finite
       (⟨y, X.normGi_le_Gi U 1 hyM1⟩ : ↥(X.Gi 1))).exists_pow_eq_one
     exact isOfFinOrder_iff_pow_eq_one.mpr ⟨k, hkpos, by simpa using congrArg Subtype.val hk⟩
@@ -275,7 +275,7 @@ theorem IsSK.conjSub_skP {U : Subgroup G} {t : G}
 
 theorem not_skP_le_Q_zero_of_isSKMax {U : Subgroup G} (hU : X.IsSKMax U)
     (hP : X.skP U ≠ ⊥) : ¬ X.skP U ≤ X.Q 0 := by
-  haveI : Finite ↥(X.normGi U 0) :=
+  have : Finite ↥(X.normGi U 0) :=
     finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
   intro hle
   have hP_M : IsSylowTwoOf (X.skP U) (X.normGi U 0) := isSylowTwoOf_skP_zero X hU.1
@@ -310,7 +310,7 @@ theorem not_skP_le_Q_zero_or_of_isSKMax {U : Subgroup G} (hU : X.IsSKMax U)
 private theorem mem_map_Lst_of_involution {H : Type*} [Group H] {U : Subgroup G}
     (ρ : ↥(X.Gi 0) →* H) {σ : H} (hσ : σ ∈ ((X.normGi U 0).subgroupOf (X.Gi 0)).map ρ)
     (hσ2 : σ * σ = 1) : σ ∈ ((X.Lst U 0).subgroupOf (X.Gi 0)).map ρ := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   obtain ⟨m, hmM, hm_eq⟩ := Subgroup.mem_map.mp hσ
   obtain ⟨m', hm'M, ⟨c, hc⟩, hm'eq⟩ :=
     CFSG.GroupTheory.exists_twoElem_mem_map ρ hmM (by rw [hm_eq]; exact hσ2)
@@ -337,8 +337,8 @@ private theorem two_dvd_card_map_normGi {U : Subgroup G} (hn0 : X.n 0 = 1)
     (hP : ¬ X.skP U ≤ X.Q 0) :
     2 ∣ Nat.card ↥(((X.normGi U 0).subgroupOf (X.Gi 0)).map
       (MulAction.toPermHom (↥(X.Gi 0)) ↥(X.nbrAction 0))) := by
-  haveI : Finite ↥(Γ.neighborSet (X.vert 0)) := X.hyp.finite_neighborSet (X.vert 0)
-  haveI : Finite ↥(X.nbrAction 0) :=
+  have : Finite ↥(Γ.neighborSet (X.vert 0)) := X.hyp.finite_neighborSet (X.vert 0)
+  have : Finite ↥(X.nbrAction 0) :=
     Finite.of_injective (fun x : ↥(X.nbrAction 0) =>
       (⟨x.1, X.mem_nbrAction.mp x.2⟩ : Γ.neighborSet (X.vert 0)))
       (fun a b h => Subtype.ext
@@ -348,7 +348,7 @@ private theorem two_dvd_card_map_normGi {U : Subgroup G} (hn0 : X.n 0 = 1)
   let M0 : Subgroup ↥(X.Gi 0) := (X.normGi U 0).subgroupOf (X.Gi 0)
   let H : Subgroup (Equiv.Perm ↥(X.nbrAction 0)) := M0.map ρ
   have hΔcard := card_nbrAction_of_n_eq_one X hn0
-  obtain ⟨x, hxP, hxQ⟩ := SetLike.not_le_iff_exists.mp hP
+  obtain ⟨x, hxP, hxQ⟩ := IsConcreteLE.not_le_iff_exists.mp hP
   have hxM0 : x ∈ X.normGi U 0 := (Subgroup.mem_inf.mp hxP).2
   have hxG0 : x ∈ X.Gi 0 := (Subgroup.mem_inf.mp hxM0).2
   have hP2 : IsPGroup 2 (X.skP U) := (pCoreOf_isPGroup' (X.Gi 1)).to_le inf_le_left
@@ -404,9 +404,9 @@ private theorem Lst_covers_one {U : Subgroup G} (hU : X.IsSK U) (hn0 : X.n 0 = 1
     (hP : ¬ X.skP U ≤ X.Q 0) :
     ∀ l ∈ X.L 0, ∃ l' ∈ X.Lst U 0,
       ∀ w : V, Γ.Adj (X.vert 0) w → l' • w = l • w := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(Γ.neighborSet (X.vert 0)) := X.hyp.finite_neighborSet (X.vert 0)
-  haveI : Finite ↥(X.nbrAction 0) :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(Γ.neighborSet (X.vert 0)) := X.hyp.finite_neighborSet (X.vert 0)
+  have : Finite ↥(X.nbrAction 0) :=
     Finite.of_injective (fun x : ↥(X.nbrAction 0) =>
       (⟨x.1, X.mem_nbrAction.mp x.2⟩ : Γ.neighborSet (X.vert 0)))
       (fun a b h => Subtype.ext
@@ -425,7 +425,7 @@ private theorem Lst_covers_one {U : Subgroup G} (hU : X.IsSK U) (hn0 : X.n 0 = 1
     · exact Subtype.ext hmab
   have h3 : 3 ∣ Nat.card ↥H := by
     let a0 : ↥(X.nbrAction 0) := ⟨X.vert 1, X.mem_nbrAction.mpr (X.adj 0)⟩
-    haveI : MulAction.IsPretransitive ↥H ↥(X.nbrAction 0) := ⟨fun a b => by
+    have : MulAction.IsPretransitive ↥H ↥(X.nbrAction 0) := ⟨fun a b => by
       obtain ⟨h, hh, e⟩ := htrans a b
       exact ⟨⟨h, hh⟩, e⟩⟩
     have h := (MulAction.stabilizer ↥H a0).index_dvd_card
@@ -462,7 +462,7 @@ private theorem Lst_covers_one {U : Subgroup G} (hU : X.IsSK U) (hn0 : X.n 0 = 1
 theorem L_eq_Lst_sup_Q {U : Subgroup G} (hU : X.IsSK U)
     (hP : ¬ X.skP U ≤ X.Q 0 ∨ 2 ≤ X.n 0) :
     X.L 0 = X.Lst U 0 ⊔ X.Q 0 := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   have hN : IsLocL2 Γ G (X.vert 0) (X.n 0) (X.L 0) := X.hyp.isLocL2_oTwoPrime (X.vert 0)
   have hLst_le_L : X.Lst U 0 ≤ X.L 0 := oTwoPrime_mono (X.normGi_le_Gi U 0)
   have hQ_le_L : X.Q 0 ≤ X.L 0 := hN.oTwo_le
@@ -524,7 +524,7 @@ private theorem pCoreOf_normGi_fixes_neighbors {U : Subgroup G} (hU : X.IsSK U) 
     ∀ a : V, Γ.Adj (X.vert 0) a → ∀ q ∈ pCoreOf 2 (X.normGi U 0), q • a = a := by
   classical
   let M₀ : Subgroup G := X.normGi U 0
-  haveI : Finite ↥M₀ := finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
+  have : Finite ↥M₀ := finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
   let Δ : SubMulAction ↥M₀ V :=
     { carrier := Γ.neighborSet (X.vert 0)
       smul_mem' := by
@@ -538,17 +538,17 @@ private theorem pCoreOf_normGi_fixes_neighbors {U : Subgroup G} (hU : X.IsSK U) 
     refine ⟨fun x y => ?_⟩
     obtain ⟨g, hg, hgxy⟩ := hU.trans0 x.1 y.1 x.2 y.2
     exact ⟨⟨g, hg⟩, Subtype.ext hgxy⟩
-  haveI := htrans
+  have := htrans
   let QN : Subgroup ↥M₀ := (pCoreOf 2 M₀).subgroupOf M₀
   have hQNnormal : QN.Normal := by
     rw [show QN = CFSG.pCore 2 ↥M₀ from CFSG.openPCoreOf_subgroupOf 2 M₀]
     infer_instance
-  haveI : QN.Normal := hQNnormal
+  have : QN.Normal := hQNnormal
   have hQNp : IsPGroup 2 QN := by
     rw [show QN = CFSG.pCore 2 ↥M₀ from CFSG.openPCoreOf_subgroupOf 2 M₀]
     exact CFSG.pCore_isPGroup (G := ↥M₀) (p := 2)
-  haveI : Finite ↥(Γ.neighborSet (X.vert 0)) := (X.hyp.finite_neighborSet _).to_subtype
-  haveI : Finite Δ := inferInstance
+  have : Finite ↥(Γ.neighborSet (X.vert 0)) := (X.hyp.finite_neighborSet _).to_subtype
+  have : Finite Δ := inferInstance
   have hΔcard : Nat.card Δ = 2 ^ X.n 0 + 1 := by
     have h1 : Nat.card Δ = Nat.card (Γ.neighborSet (X.vert 0)) :=
       Nat.card_congr
@@ -577,7 +577,7 @@ private theorem pCoreOf_normGi_fixes_neighbors {U : Subgroup G} (hU : X.IsSK U) 
 private theorem normGi_pCoreOf_le_Q {U : Subgroup G} (hU : X.IsSK U) :
     pCoreOf 2 (X.normGi U 0) ≤ X.Q 0 := by
   let M₀ : Subgroup G := X.normGi U 0
-  haveI : Finite ↥M₀ := finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
+  have : Finite ↥M₀ := finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
   have hfix := pCoreOf_normGi_fixes_neighbors X hU
   have hT0 : X.vert (-1 : ℤ) ≠ X.vert 1 := by
     intro h
@@ -610,7 +610,7 @@ theorem E_eq_pCoreOf {U : Subgroup G} (hU : X.IsSK U) :
 
 theorem E_eq_inf_skP {U : Subgroup G} (hU : X.IsSK U) :
     X.E U 0 = X.Q 0 ⊓ X.skP U := by
-  haveI : Finite ↥(X.normGi U 0) :=
+  have : Finite ↥(X.normGi U 0) :=
     finite_of_le_stabilizer X.hyp (X.normGi_le_Gi U 0)
   have hEeq : X.E U 0 = pCoreOf 2 (X.normGi U 0) := E_eq_pCoreOf X hU
   have hQ2 : IsPGroup 2 (X.Q 0) := pCoreOf_isPGroup' (X.Gi 0)
@@ -710,10 +710,10 @@ private theorem nonempty_Lst_quot_mulEquiv_L_quot {U : Subgroup G} (hU : X.IsSK 
   have hpCore := pCore_Lst_eq_E X hU
   let Ndom : Subgroup ↥(X.Lst U 0) := (X.E U 0).subgroupOf (X.Lst U 0)
   let Ncod : Subgroup ↥(X.L 0) := (X.Q 0).subgroupOf (X.L 0)
-  haveI hNdom : Ndom.Normal :=
+  have hNdom : Ndom.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((oTwoPrime_le (X.normGi U 0)).trans hE_normal)
-  haveI hNcod : Ncod.Normal :=
+  have hNcod : Ncod.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((oTwoPrime_le (X.Gi 0)).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0)))
   let f : ↥(X.Lst U 0) →* ↥(X.L 0) := Subgroup.inclusion hLst_le_L
@@ -738,13 +738,13 @@ private theorem nonempty_Lst_quot_mulEquiv_L_quot {U : Subgroup G} (hU : X.IsSK 
     intro q
     induction q using QuotientGroup.induction_on with
     | H y =>
-      haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+      have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
       have hLs' : X.Lst U 0 ≤ X.Gi 0 :=
         (oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0)
       have hQnormal : ((X.Q 0).subgroupOf (X.Gi 0)).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer
           (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0))
-      haveI := hQnormal
+      have := hQnormal
       have hsup' : (X.Lst U 0).subgroupOf (X.Gi 0) ⊔ (X.Q 0).subgroupOf (X.Gi 0) =
           (X.L 0).subgroupOf (X.Gi 0) := by
         rw [← Subgroup.subgroupOf_sup hLs' (X.Q_le_Gi 0), hL]
@@ -775,10 +775,10 @@ theorem isL2Quot_Lst {U : Subgroup G} (hU : X.IsSK U)
   have hE_eq_pCore : X.E U 0 = pCoreOf 2 (X.normGi U 0) := E_eq_pCoreOf X hU
   have hE_normal : X.normGi U 0 ≤ Subgroup.normalizer (X.E U 0 : Set G) := by
     rw [hE_eq_pCore]; exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _
-  haveI hNdomA : ((X.E U 0).subgroupOf (X.Lst U 0)).Normal :=
+  have hNdomA : ((X.E U 0).subgroupOf (X.Lst U 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((oTwoPrime_le (X.normGi U 0)).trans hE_normal)
-  haveI hNcodA : ((X.Q 0).subgroupOf (X.L 0)).Normal :=
+  have hNcodA : ((X.Q 0).subgroupOf (X.L 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((oTwoPrime_le (X.Gi 0)).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0)))
   have hpCore := pCore_Lst_eq_E X hU
@@ -851,7 +851,7 @@ theorem isSylowTwoOf_skP_Lst {U : Subgroup G} (hU : X.IsSK U) :
 
 theorem Lst_eq_Yst_sup_skP {U : Subgroup G} (hU : X.IsSK U) :
     X.Lst U 0 = X.Yst U 0 ⊔ X.skP U := by
-  haveI : Finite ↥(X.Lst U 0) :=
+  have : Finite ↥(X.Lst U 0) :=
     finite_of_le_stabilizer X.hyp
       ((oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0))
   have hSyl : IsSylowTwoOf (X.skP U) (X.Lst U 0) := isSylowTwoOf_skP_Lst X hU
@@ -884,7 +884,7 @@ private theorem sylow_two_psl_sq_eq_one {f : ℕ} (hf : 1 ≤ f)
     have h2 : (Multiplicative.ofAdd x) ^ 2 = Multiplicative.ofAdd (x + x) := by
       rw [pow_two]; rfl
     rw [h2]
-    haveI : CharP (GaloisField 2 f) 2 := inferInstance
+    have : CharP (GaloisField 2 f) 2 := inferInstance
     rw [CharTwo.add_self_eq_zero, ofAdd_zero]
   have h3 : eadd ((eadd.symm ⟨u, hu⟩) ^ 2) = 1 := by rw [h1, map_one]
   rw [map_pow, MulEquiv.apply_symm_apply] at h3
@@ -931,7 +931,7 @@ theorem sqClosure_skP_le_E {U : Subgroup G} (hU : X.IsSK U)
 theorem relIndex_E_skP {U : Subgroup G} (hU : X.IsSK U)
     (hP : ¬ X.skP U ≤ X.Q 0 ∨ 2 ≤ X.n 0) :
     (X.E U 0).relIndex (X.skP U) = 2 ^ X.n 0 := by
-  haveI : Finite ↥(X.Lst U 0) :=
+  have : Finite ↥(X.Lst U 0) :=
     finite_of_le_stabilizer X.hyp
       ((oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0))
   have hSyl : IsSylowTwoOf (X.skP U) (X.Lst U 0) := isSylowTwoOf_skP_Lst X hU
@@ -964,7 +964,7 @@ theorem relIndex_E_skP {U : Subgroup G} (hU : X.IsSK U)
           (GaloisField 2 (X.n 0)))) := by
       rw [twoPart, twoPart, Subgroup.card_top, Subgroup.card_top, Nat.card_congr e.toEquiv]
     rw [htwo]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hf : 1 ≤ X.n 0 := (X.hyp.valency (X.vert 0)).1
     obtain ⟨S⟩ := Sylow.nonempty (p := 2)
       (G := Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 (X.n 0)))
@@ -1061,7 +1061,7 @@ private theorem sq_mem_inf_centralizer_sup_E {U : Subgroup G} (hU : X.IsSK U)
   let L := X.Lst U 0
   let E := X.E U 0
   let C : Subgroup G := L ⊓ Subgroup.centralizer (E : Set G)
-  haveI hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
+  have hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
     ((oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0))
   have hEeq : pCoreOf 2 L = E := pCoreOf_Lst_eq_E X hU
   have hEpc : CFSG.pCore 2 ↥L = E.subgroupOf L := by
@@ -1134,7 +1134,7 @@ private theorem sq_mem_inf_centralizer_sup_E {U : Subgroup G} (hU : X.IsSK U)
         have hmem : e3 k ∈ K' := Subgroup.mem_map.mpr ⟨k, hk, rfl⟩
         rw [hbot] at hmem
         exact e3.injective (by simpa using hmem)
-      haveI := hK'normal
+      have := hK'normal
       have hsqK' : ∀ y : Equiv.Perm (Fin 3), y ^ 2 ∈ K' := fun y =>
         F53.normal_ge_alt3 K' hK'ne
           (Subgroup.sq_mem_of_index_two alternatingGroup.index_eq_two y)
@@ -1201,7 +1201,7 @@ theorem charTwo_Lst {U : Subgroup G} (hU : X.IsSK U)
   let E := X.E U 0
   let Y := X.Yst U 0
   let C : Subgroup G := L ⊓ Subgroup.centralizer (E : Set G)
-  haveI hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
+  have hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
     ((oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0))
   have hEeq : pCoreOf 2 L = E := pCoreOf_Lst_eq_E X hU
   have hE2 : IsPGroup 2 E := hEeq ▸ pCoreOf_isPGroup' L
@@ -1319,7 +1319,7 @@ theorem exists_t' {U : Subgroup G} (hU : X.IsSK U)
   have hPleQ1 : P ≤ X.Q 1 := inf_le_left
   have hPleN : P ≤ N := le_inf Subgroup.le_normalizer hPleQ1
   have hPN : P < N := by
-    haveI : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 1)
+    have : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 1)
     have hlt' : P < X.Q 1 := lt_of_le_of_ne hPleQ1 hlt
     have h := CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup (p := 2) (P := X.Q 1) (S := P)
       hQ1_2 hlt'
@@ -1365,19 +1365,19 @@ theorem exists_t' {U : Subgroup G} (hU : X.IsSK U)
   have hN2 : IsPGroup 2 N := hQ1_2.to_le inf_le_right
   have hQ2 : IsPGroup 2 Q :=
     hN2.of_surjective (QuotientGroup.mk' (P.subgroupOf N)) (QuotientGroup.mk'_surjective _)
-  haveI hNfin : Finite ↥N :=
+  have hNfin : Finite ↥N :=
     finite_of_le_stabilizer X.hyp (H := N) (inf_le_right.trans (X.Q_le_Gi 1))
-  haveI hQfin : Finite Q :=
+  have hQfin : Finite Q :=
     Finite.of_surjective (QuotientGroup.mk' (P.subgroupOf N)) (QuotientGroup.mk'_surjective _)
   have hQne : Nontrivial Q := by
-    obtain ⟨x, hxN, hxP⟩ := SetLike.exists_of_lt hPN
+    obtain ⟨x, hxN, hxP⟩ := _root_.IsConcreteLE.exists_of_lt hPN
     refine ⟨⟨QuotientGroup.mk (s := P.subgroupOf N) ⟨x, hxN⟩, 1, ?_⟩⟩
     intro h
     apply hxP
     have hx1 : QuotientGroup.mk (s := P.subgroupOf N) ⟨x, hxN⟩ = 1 := h
     rw [QuotientGroup.eq_one_iff] at hx1
     exact Subgroup.mem_subgroupOf.mp hx1
-  haveI : Nontrivial Q := hQne
+  have : Nontrivial Q := hQne
   obtain ⟨w, hworder, hwfix⟩ :=
     CFSG.GroupTheory.exists_orderOf_eq_forall_smul_eq (A := A) (p := 2) hA2 hQ2
   have hwfixβ : ∀ a : Subgroup.zpowers t, β a w = w := fun a => hwfix a

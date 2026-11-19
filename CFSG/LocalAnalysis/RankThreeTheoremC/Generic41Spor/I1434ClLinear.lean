@@ -24,15 +24,15 @@ section Arith
 theorem five_ne_zero_of_card {F : Type} [Field F] [Finite F] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hcard : Nat.card F = ℓ ^ f) (h5 : ℓ ≠ 5) : (5 : F) ≠ 0 := by
   intro h0
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
   exact h5 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_five).1
     ((CharP.cast_eq_zero_iff F ℓ 5).1 (by exact_mod_cast h0)))
 
 theorem five_eq_zero_of_card_five {F E : Type} [Field F] [Field E] [Algebra F E] [Finite E]
     (h : Nat.card E = 5) : (5 : F) = 0 := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have h5 : ((5 : ℕ) : E) = 0 := by
     have := FiniteField.cast_card_eq_zero E
     rwa [← Nat.card_eq_fintype_card, h] at this
@@ -43,9 +43,9 @@ theorem five_eq_zero_of_card_five {F E : Type} [Field F] [Field E] [Algebra F E]
 theorem eq_X_sub_C_of_card_four {F : Type} [Field F] {h : F[X]} (hirr : Irreducible h)
     (hm : h.Monic) {c : F} (hdvd : h ∣ X ^ 5 - C c) (hc : c ≠ 0)
     (hE : Nat.card (AdjoinRoot h) = 4) : h = X - C (c ^ 2) := by
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
-  haveI : Finite (AdjoinRoot h) := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Fact (Irreducible h) := ⟨hirr⟩
+  have : Finite (AdjoinRoot h) := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   set r : AdjoinRoot h := AdjoinRoot.root h with hr
   have h5 : r ^ 5 = algebraMap F (AdjoinRoot h) c := by
     have := AdjoinRoot.mk_eq_zero.2 hdvd
@@ -75,6 +75,7 @@ section Linear
 
 variable {F : Type} [Field F] [Finite F] {n : ℕ}
 
+omit [Finite F] in
 theorem aeval_glA_eq_zero {A : GL (Fin n) F} {c : Fˣ}
     (hA : A ^ 5 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     Polynomial.aeval (glA A : Module.End F (Fin n → F)) (X ^ 5 - C (c : F)) = 0 := by
@@ -84,6 +85,7 @@ theorem aeval_glA_eq_zero {A : GL (Fin n) F} {c : Fˣ}
   ext v i
   by_cases hi : i = v <;> simp [hi]
 
+omit [Finite F] in
 theorem exists_central_surjection {G : Type*} [Group G]
     {S : Subgroup (Matrix.SpecialLinearGroup (Fin n) F)} (e : G ≃* S) :
     ∃ f : G →* ↥(S.map (LinearFlag.proj n F)), Function.Surjective f ∧
@@ -111,8 +113,8 @@ theorem factor_eq_of_component (hF5 : (5 : F) ≠ 0) {A : GL (Fin n) F} {c : Fˣ
   obtain ⟨h, hJ⟩ := linear_inner_components hpk hA J' hJ'
   have hsq := squarefree_minpoly_glA hpk hA
   have hmem : h.1.1 ∈ primaryFactors (glA A : Module.End F (Fin n → F)) := h.1.2
-  haveI : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors hmem⟩
-  haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite F
+  have : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite F
   obtain ⟨e⟩ := nonempty_mulEquiv_specialFactor hsq hmem
   obtain ⟨ψ, hψ, hψk⟩ := exists_central_surjection e
   have hgood := h.2

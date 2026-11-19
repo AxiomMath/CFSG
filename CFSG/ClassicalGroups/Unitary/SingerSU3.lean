@@ -19,8 +19,8 @@ theorem exists_singer_SUid {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K �
       ρ ∈ CFSG.LieType.Universal.Unitary.SUid σ 3 ∧ orderOf τ = p ∧
         ρ * τ * ρ⁻¹ = τ ^ (q ^ 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hqpos : 0 < q := by
     have h : 0 < q ^ 2 := by rw [← hq]; exact Nat.card_pos
     exact Nat.pos_of_ne_zero (by rintro rfl; norm_num at h)
@@ -40,9 +40,9 @@ theorem exists_singer_SUid {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K �
     rw [hσeq]
     exact isUnitaryInvolution_unitaryInvolution (p := 2) (f := f) hK
   let E := FiniteField.Extension K 2 3
-  haveI hCE : CharP E 2 := charP_of_injective_algebraMap (algebraMap K E).injective 2
-  haveI hEE : ExpChar E 2 := expChar_prime (R := E) 2
-  letI : Fintype E := Fintype.ofFinite E
+  have hCE : CharP E 2 := charP_of_injective_algebraMap (algebraMap K E).injective 2
+  have hEE : ExpChar E 2 := expChar_prime (R := E) 2
+  let : Fintype E := Fintype.ofFinite E
   have hfin : Module.finrank K E = 3 := FiniteField.finrank_extension K 2 3
   have hcardE : Nat.card E = q ^ 6 := by
     rw [FiniteField.natCard_extension K 2 3, hq]
@@ -105,8 +105,8 @@ theorem exists_singer_SUid {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K �
     ext i j
     rw [CFSG.LocalAnalysis.UniquenessCase.UCK.Insp.gram_apply, he3]
     by_cases h : i = j
-    · rw [if_pos h, Matrix.one_apply, if_pos h]
-    · rw [if_neg h, Matrix.one_apply, if_neg h]
+    · rw [ite_eq_left h, Matrix.one_apply, ite_eq_left h]
+    · rw [ite_eq_right h, Matrix.one_apply, ite_eq_right h]
   have hqle : q ≤ q ^ 2 := by nlinarith
   have hq3fac : q ^ 3 + 1 = (q + 1) * (q ^ 2 - q + 1) := by
     zify [hq1, hqle]
@@ -146,8 +146,7 @@ theorem exists_singer_SUid {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K �
     rw [hfin]
     rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_succ,
       Finset.sum_range_zero]
-    simp only [pow_zero, pow_one, pow_two, pow_three, zero_add, add_zero, one_mul,
-      mul_one]
+    simp only [pow_zero, pow_one, pow_two, zero_add]
     rw [hq]
     have hexp : q ^ 2 * q ^ 2 = q ^ 4 := by ring
     rw [hexp]

@@ -52,8 +52,8 @@ private theorem card_Qg_full : Nat.card Co1T.Qg = 3 ^ (Nat.card ↥GA).factoriza
 
 private theorem exists_conj_le_Qg {F : Subgroup ↥GA} (hF : IsElemAbelian 3 F) :
     ∃ g : ↥GA, F.map (MulAut.conj g⁻¹).toMonoidHom ≤ Co1T.Qg := by
-  haveI : Finite ↥GA := Co1T.finite_GA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥GA := Co1T.finite_GA
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_conj_le_full card_Qg_full hF.isPGroup
   refine ⟨g, ?_⟩
   rintro _ ⟨r, hr, rfl⟩

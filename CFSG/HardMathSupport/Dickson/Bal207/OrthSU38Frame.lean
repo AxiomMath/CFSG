@@ -105,7 +105,7 @@ theorem su38Toral_of_projOrth (hTor : OrthSU38ToralInput) (hFix : OrthUniAutFixI
       exact hc
     have hs1 : s ≠ 1 := fun h => hβ1 (by rw [← hs, h, map_one])
     have hso : orderOf s = 3 := orderOf_eq_prime hs3 hs1
-    haveI : Nontrivial (Fin d → F) := by
+    have : Nontrivial (Fin d → F) := by
       obtain ⟨U, hU3, -⟩ := hT
       exact Module.nontrivial_of_finrank_pos (R := F)
         (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))
@@ -152,12 +152,12 @@ theorem su38FrameOrth_of_torus (hTor : OrthSU38ToralInput) (hFix : OrthUniAutFix
     hf.imp (fun h => by rw [hF, h]; norm_num) (fun h => by rw [hF, h]; norm_num)
   have hchar : ∀ {F : Type} [Field F] [Finite F], Nat.card F = 2 ^ f → CharP F 2 := by
     intro F _ _ hF
-    haveI := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
   rcases hcase with ⟨rfl, -, h6 | ⟨rfl, rfl⟩⟩ | ⟨rfl, -, h5⟩
   · obtain ⟨F, _, _, hF, ⟨e₀⟩⟩ := hM.2
-    haveI := hchar hF
+    have := hchar hF
     have hd : 0 < 2 * n := by omega
     have hreg := regular_coordinateQuadPlus n F (by omega : 3 ≤ n)
     let e := (coordinatePlusWitnessEquiv F e₀).trans (coordBridge (coordinateQuadPlus n F) hd)
@@ -172,7 +172,7 @@ theorem su38FrameOrth_of_torus (hTor : OrthSU38ToralInput) (hFix : OrthUniAutFix
     rw [uni_card_su38 hJU, (CFSG.Timmesfeld.card_statedClassicalModel_two hM).2.2.2.1 rfl] at hdvd
     exact (by unfold ordD; decide : ¬ 5515776 ∣ ordD 4 (2 ^ 1)) hdvd
   · obtain ⟨F, _, _, hF, b, c, hirr, ⟨e₀⟩⟩ := hM.2
-    haveI := hchar hF
+    have := hchar hF
     have hn1 : 1 ≤ n := by omega
     have hd : 0 < 2 * n := by omega
     have hreg := regular_coordinateQuadMinus n F b c (by omega : 4 ≤ n) hirr

@@ -167,7 +167,7 @@ theorem oddTranspFactors_f3ReflectionGroup (hn : 5 ≤ n) (hsym : ∀ x y, b x y
   have hO := oddTranspFactors_commutator_orthogonalGroup_three (K := ZMod 3)
     (by rw [Nat.card_eq_fintype_card, ZMod.card]) _ hQ hdim
   have hle := f3ReflectionGroup_le_orthogonalGroup hsym
-  haveI : (((Subgroup.closure (CFSG.Open.fischerTransvections (fun x y => b x y)
+  have : (((Subgroup.closure (CFSG.Open.fischerTransvections (fun x y => b x y)
       fun v => b v v = 1)).map (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin n)
         (ZMod 3)).toMonoidHom).subgroupOf
       (TauCeti.QuadraticMap.orthogonalGroup (LinearMap.BilinMap.toQuadraticMap b))).Normal :=

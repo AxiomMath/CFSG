@@ -377,7 +377,7 @@ private theorem theorem_12_16_projection_energy_lower
         ((e : ℝ) - 1) ^ 2 ≤
       Section7.weightedProjectionEnergy (Section8.a1Set K) M RM psi := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   let D : Finset M := Finset.univ.filter
     (fun m : M => (m : G) ∈ K ∧ (m : G) ∉ K')
   have hDcard : D.card = Nat.card K - Nat.card K' := by
@@ -406,7 +406,7 @@ private theorem theorem_12_16_projection_energy_lower
     have hvalue :
         Section7.dadeProjectionOn (Section8.a1Set K) M RM psi m =
           psi (m : G) := by
-      rw [Section7.dadeProjectionOn, if_pos hmA1, ← hprojection]
+      rw [Section7.dadeProjectionOn, ite_eq_left hmA1, ← hprojection]
       exact hagrees m hm.1 hmne
     rw [hvalue, Complex.normSq_eq_norm_sq]
     have hmBound := hbound (m : G) hm.1 hm.2
@@ -459,7 +459,7 @@ private theorem theorem_12_16_projection_energy_sum_lt_one
     Section7.weightedProjectionEnergy A M RM psi +
         Section7.weightedProjectionEnergy B L RL psi < 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let X : Set G := Section2.dadeSupport A RM
   let Y : Set G := Section2.dadeSupport B RL
   have hnotX : (1 : G) ∉ X := by
@@ -666,7 +666,7 @@ private theorem theorem_12_16_quotient_card_lt_four
     section12ComplementIn_left_normal_isComplement' hcompM hKnormal
   have hcardM :
       Nat.card M = Nat.card K * Nat.card (M ⊓ L : Subgroup G) := by
-    have hmul := hcompLocal.card_mul
+    have hmul := hcompLocal.card_mul_card
     rw [natCard_subgroupOf_eq K M hcompM.1,
       natCard_subgroupOf_eq (M ⊓ L) M hcompM.2.1] at hmul
     exact hmul.symm
@@ -680,7 +680,7 @@ private theorem theorem_12_16_quotient_card_lt_four
     theorem_12_16_quotient_card_lt_four_arithmetic
       Nat.card_pos Nat.card_pos Nat.card_pos Nat.card_pos
       hK'cardLe hegt hcardMle hlowerM hlowerL hupper
-  letI : (K'.subgroupOf K).Normal := by
+  let : (K'.subgroupOf K).Normal := by
     rw [hK', section12_ambientDerivedSubgroup_subgroupOf_eq]
     infer_instance
   have hK'subCard : Nat.card (K'.subgroupOf K) = Nat.card K' :=
@@ -711,7 +711,7 @@ private theorem theorem_12_16_prime_dvd_frobenius_kernel_quotient_card_sub_one
     (hpR : p ∣ Nat.card R) :
     p ∣ Nat.card (K ⧸ N.subgroupOf K) - 1 := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let q : Q →* Q ⧸ N := QuotientGroup.mk' N
   have hfrobQuot :
       IsFrobeniusGroupWithKernelComplement (K.map q) (R.map q) :=
@@ -756,7 +756,7 @@ private theorem theorem_12_16_prime_dvd_frobenius_kernel_quotient_card_sub_one
       change (z : Q ⧸ N) = 1
       exact congrArg Subtype.val hzR
     simpa [zR] using hcentR zR hzR
-  letI : (K.map q).Normal := hfrobQuot.normal
+  let : (K.map q).Normal := hfrobQuot.normal
   have hdivZ : Nat.card Z ∣ Nat.card (K.map q) - 1 :=
     Section6.frobeniusComplement_card_dvd_normal_subgroup_card_sub_one
       (K := K.map q) (R := Z) (N := K.map q) le_rfl hcentZ
@@ -777,7 +777,7 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
   rcases h129 with
     ⟨hP0comm, hP0rank, _hL, _hHMF, _hLs, _hP0Ls, _hxL,
       ⟨_hp', hxOmega, hxne⟩, _hcentK, _hnorm, _hcentL⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP0M : P0 ≤ M := by
     rcases hP0Sylow with ⟨PM, hP0eq⟩
     rw [← hP0eq]
@@ -786,12 +786,12 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
     rcases hP0Sylow with ⟨PM, hP0eq⟩
     rw [← hP0eq]
     dsimp [section10AmbientSylowSubgroup]
-    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup M.subtype
   have hxP0 : x ∈ P0 := by
     rcases hxOmega with ⟨y, _hy, rfl⟩
     exact y.property
   let P1 : Subgroup G := section12OmegaOneSubgroup ⟨p, hp⟩ P0
-  letI : IsElementaryAbelian p P1 := by
+  let : IsElementaryAbelian p P1 := by
     simpa [P1] using
       (theorem_12_9_omega_one_noncyclic P0 p hp hP0p hP0comm hP0rank).1
   have hxpowP1 : (⟨x, by simpa [P1] using hxOmega⟩ : P1) ^ p = 1 :=
@@ -841,7 +841,7 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
       hfrob0
   have hSNormK : S ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKleS).1 hfrobS.normal
-  letI : (derivedSubgroup K).Characteristic := by infer_instance
+  let : (derivedSubgroup K).Characteristic := by infer_instance
   have hNormKDer :
       Subgroup.normalizer (K : Set G) ≤
         Subgroup.normalizer ((derivedSubgroup K).map K.subtype : Set G) :=
@@ -853,12 +853,12 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
     exact hSNormK.trans hNormKDer
   have hNnormal : N.Normal := by
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hK'leS).2 hSNormK'
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   have hNleKsub : N ≤ Ksub := by
     intro z hz
     exact hK'K hz
   have hKsolv : Group.IsSolvable K := by
-    letI : Group.IsNilpotent K := hKMF.1.2.2.1
+    let : Group.IsNilpotent K := hKMF.1.2.2.1
     exact IsNilpotent.to_isSolvable
   have hKne : K ≠ ⊥ := ne_of_gt hKpos
   have hKnN : ¬ Ksub ≤ N := by
@@ -871,7 +871,7 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
       simpa [yS, N] using (Subgroup.mem_subgroupOf.mp hyN)
     have hDlt : ambientDerivedSubgroup K < K := by
       let _ : Group.IsSolvable K := hKsolv
-      letI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
+      let : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
       have hcommLt : derivedSubgroup K < (⊤ : Subgroup K) := by
         simpa [derivedSubgroup, derivedSeries_one, commutator] using
           Group.IsSolvable.commutator_lt_top_of_nontrivial (G := K)
@@ -910,7 +910,7 @@ private theorem theorem_12_16_prime_dvd_quotient_card_sub_one
       (α := Ksub) (s := N.subgroupOf Ksub)).symm
     rw [hcardNsub, hcardKsub] at hmul
     exact hmul
-  letI : (K'.subgroupOf K).Normal := by
+  let : (K'.subgroupOf K).Normal := by
     rw [hK', section12_ambientDerivedSubgroup_subgroupOf_eq]
     infer_instance
   have hambientMul :
@@ -993,7 +993,7 @@ private theorem theorem_12_16_exists_notation_12_13_data
     ⟨tau1, hExt⟩
   have hHL : H ≤ L := section16MFSubgroup_le hHMF
   rcases hHMF.1 with ⟨_hHL', _hHnormal, hHnil, _hHall⟩
-  letI : Group.IsNilpotent H := hHnil
+  let : Group.IsNilpotent H := hHnil
   have _ : Group.IsSolvable H := IsNilpotent.to_isSolvable
   let hEquiv : H.subgroupOf L ≃* H := Subgroup.subgroupOfEquivOfLe hHL
   have hHsubSolv : Group.IsSolvable (H.subgroupOf L) :=
@@ -1114,7 +1114,7 @@ private theorem theorem_12_16_not_frobenius_of_quotient_noncyclic
     (hquot : quotientHasNoncyclicSylow p K M) :
     ¬ Section7.frobeniusWithKernel M K := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   intro hfrob
   rcases hquot with ⟨_hKM, _hN, P, hPnoncyclic⟩
   rcases hfrob with
@@ -1382,13 +1382,13 @@ private theorem theorem_12_16_contradiction_of_projection_packages
     RM psi psiRho psiRhoM x p h15src h128copy h129copy h13copy hRhoM
   have hP0p : IsPGroup p P0 := by
     rcases h128copy.2.2.2.2.2.2.2.2.2 with ⟨PM, hP0eq⟩
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     rw [← hP0eq]
     dsimp [section10AmbientSylowSubgroup]
-    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup M.subtype
   let P1 : Subgroup G := section12OmegaOneSubgroup ⟨p, hp⟩ P0
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsElementaryAbelian p P1 := by
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsElementaryAbelian p P1 := by
     simpa [P1] using
       (theorem_12_9_omega_one_noncyclic P0 p hp hP0p hP0comm hP0rank).1
   have hxpowP1 : (⟨x, by simpa [P1] using hxOmega⟩ : P1) ^ p = 1 :=
@@ -1461,7 +1461,7 @@ private theorem theorem_12_16_contradiction_of_projection_packages
   have hpDvdQuot : p ∣ Nat.card (K ⧸ K'.subgroupOf K) - 1 :=
     theorem_12_16_prime_dvd_quotient_card_sub_one h128copy h129copy
   have hKsolv : Group.IsSolvable K := by
-    letI : Group.IsNilpotent K := hKMF.1.2.2.1
+    let : Group.IsNilpotent K := hKMF.1.2.2.1
     exact IsNilpotent.to_isSolvable
   have hKne : K ≠ ⊥ := by
     rcases hTypeIM with ⟨_U, _U1, _U0, hF, _hAlt⟩
@@ -1469,7 +1469,7 @@ private theorem theorem_12_16_contradiction_of_projection_packages
   have hK'lt : K' < K := by
     rw [hK']
     have _ : Group.IsSolvable K := hKsolv
-    haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
+    have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
     have hcommLt : derivedSubgroup K < (⊤ : Subgroup K) := by
       simpa [derivedSubgroup, derivedSeries_one, commutator] using
         Group.IsSolvable.commutator_lt_top_of_nontrivial (G := K)
@@ -1481,7 +1481,7 @@ private theorem theorem_12_16_contradiction_of_projection_packages
         exact Subgroup.subgroupOf_eq_top.2 le_rfl
       simpa [section12_ambientDerivedSubgroup_subgroupOf_eq] using hsubtop
     exact hcommLt.ne hDtop
-  letI : (K'.subgroupOf K).Normal := by
+  let : (K'.subgroupOf K).Normal := by
     rw [hK', section12_ambientDerivedSubgroup_subgroupOf_eq]
     infer_instance
   have hquotMul :

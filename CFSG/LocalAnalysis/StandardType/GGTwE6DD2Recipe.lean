@@ -113,6 +113,7 @@ theorem compatHat_le_twInndiag (σ : K ≃+* K) :
   exact mul_mem (RecipeExcLang.graphFixedRootGroup_le_twInndiag σ hh)
     (RecipeExcLang.rootDiagUnit_mem_twInndiag hb)
 
+omit [Finite K] in
 theorem twInndiag_le_compatHat (σ : K ≃+* K) :
     RecipeExcLang.twInndiagGroup K σ ≤ SmallKG.compatHat K σ.toRingHom := by
   refine (Subgroup.closure_le _).2 ?_

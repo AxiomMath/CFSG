@@ -189,7 +189,7 @@ end Balance
 open Balance in
 theorem N36 : S_N36 := by
   intro G _ _ _ hnab hIH S U hUS hUel hcl hK1
-  have hU2 : IsPGroup 2 U := S.isPGroup'.to_le hUS
+  have hU2 : IsPGroup 2 U := S.isPGroup.to_le hUS
   have hUC : ∀ w ∈ U, U ≤ Subgroup.centralizer ({w} : Set G) := fun w hw v hv =>
     Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (hUel.1.is_comm.comm ⟨v, hv⟩ ⟨w, hw⟩))

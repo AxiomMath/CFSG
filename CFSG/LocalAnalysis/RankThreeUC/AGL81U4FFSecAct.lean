@@ -67,7 +67,7 @@ theorem secAct_eq_one_iff (X : Subgroup (MulAut V)) {Z' Z : Subgroup V} (hZ : X 
       rw [secAct_mk, MulAut.one_apply, mk_eq_mk_iff, Subgroup.mem_subgroupOf]
       exact h z z.2
 
-theorem ker_secAct (X : Subgroup (MulAut V)) {Z' Z : Subgroup V} (hZ'Z : Z' ≤ Z)
+theorem ker_secAct (X : Subgroup (MulAut V)) {Z' Z : Subgroup V} (_hZ'Z : Z' ≤ Z)
     (hZ : X ≤ stabSub Z) (hZ' : X ≤ stabSub Z') :
     (secAct X hZ hZ').ker = (X ⊓ centSec Z Z').subgroupOf X := by
   ext x

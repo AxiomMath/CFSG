@@ -195,7 +195,7 @@ theorem prod_ite_le_eq_one_of_mem_qTwoStdFamily_levi (hK : Nat.card K = 4) {m : 
           (Pi.single c 1) =
         (((if c.val ≤ k.val then t c else 1 : normOne σ) : Kˣ) : K) •
           Pi.single c 1
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
       exact hae
     · have hkc : k.val < c.val := Nat.lt_of_not_ge hc
       have hafix : (a : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
@@ -204,7 +204,7 @@ theorem prod_ite_le_eq_one_of_mem_qTwoStdFamily_levi (hK : Nat.card K = 4) {m : 
           (C := C₁) (fun i hi => hi.2) hkc ha
       have hτ : τ c = 1 := by
         simp only [τ]
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
       rw [← hs, hafix, hτ]
       simp
   have hprod := prod_eq_one_of_suEndN_apply_single (F := F) s τ haction

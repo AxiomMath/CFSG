@@ -11,6 +11,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 6 → F}
 
+omit [CharP F 2] in
 private theorem gu1a_herm_ba (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (i j : Fin 3) :
     herm σ (b i) (a j) = if i = j then 1 else 0 := by
   rw [herm_conj σ hσ (a j) (b i), hf.ab j i]
@@ -19,6 +20,7 @@ private theorem gu1a_herm_ba (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (i
     simp
   · simp [h, Ne.symm h]
 
+omit [CharP F 2] in
 private theorem gu1a_expand (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (v : Fin 6 → F) :
     v = herm σ (b 0) v • a 0 + herm σ (b 1) v • a 1 + herm σ (b 2) v • a 2 +
       (herm σ (a 0) v • b 0 + herm σ (a 1) v • b 1 + herm σ (a 2) v • b 2) := by
@@ -28,11 +30,13 @@ private theorem gu1a_expand (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (v 
   rw [Fintype.sum_sum_type]
   simp only [fam, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_three, repr_inl hσ hf, repr_inr hσ hf]
 
+omit [CharP F 2] in
 private theorem gu1a_herm_w (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (t : F) :
     herm σ (b 0 + t • a 0) (b 0 + t • a 0) = σ t + t := by
   simp [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hf.bb, hf.aa,
     gu1a_herm_ba hσ hf, hf.ab]
 
+omit [CharP F 2] in
 private theorem gu1a_span_iso {X : Set (Fin 6 → F)} (hX : ∀ x ∈ X, ∀ y ∈ X, herm σ x y = 0) :
     IsTotIso σ (Submodule.span F X) := by
   have h1 : ∀ x ∈ Submodule.span F X, ∀ y ∈ X, herm σ x y = 0 := by
@@ -58,6 +62,7 @@ private theorem gu1a_iso {t : F} (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b
     simp [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hf.aa, hf.bb, hf.ab,
       gu1a_herm_ba hσ hf, ht, CharTwo.add_self_eq_zero]
 
+omit [CharP F 2] in
 private theorem gu1a_alg {v : Fin 6 → F} {α₀ α₁ α₂ β : F}
     (hv : v = α₀ • a 0 + α₁ • a 1 + α₂ • a 2 + β • b 0) (hβ : β ≠ 0) :
     ∃ t : F, β • (b 0 + t • a 0) = v - α₁ • a 1 - α₂ • a 2 := by
@@ -98,6 +103,7 @@ private theorem gu1a_pt (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) {t : F}
   unfold IsPt
   exact ⟨gu1a_span_iso (gu1a_iso hσ hf ht), hfin⟩
 
+omit [CharP F 2] in
 private theorem gu1a_inter (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) {t : F} :
     Wa a ⊓ Submodule.span F {b 0 + t • a 0, a 1, a 2} = Submodule.span F {a 1, a 2} := by
   apply le_antisymm
@@ -136,7 +142,7 @@ theorem line_through_H₀ (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) {z : 
       rw [finrank_span_eq_card hli, Fintype.card_fin]
     exact Submodule.eq_of_le_of_finrank_eq hzW (hz.2.trans hWa3.symm)
   · right
-    obtain ⟨v, hvz, hvW⟩ := SetLike.not_le_iff_exists.1 hzW
+    obtain ⟨v, hvz, hvW⟩ := IsConcreteLE.not_le_iff_exists.1 hzW
     have hv1 : herm σ (a 1) v = 0 := hz.1 _ ha1 _ hvz
     have hv2 : herm σ (a 2) v = 0 := hz.1 _ ha2 _ hvz
     have hβ : herm σ (a 0) v ≠ 0 := by

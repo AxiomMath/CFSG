@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 theorem sec11d2_eq_of_orderOf_eq_two {K : Subgroup G} [Finite K] (hK : IsCyclic K) {x y : G}
     (hx : x ∈ K) (hy : y ∈ K) (hx2 : orderOf x = 2) (hy2 : orderOf y = 2) : x = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : 2 ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← hx2]
     exact Subgroup.orderOf_dvd_natCard K hx
@@ -32,7 +32,7 @@ theorem sec11d2_eq_of_orderOf_eq_two {K : Subgroup G} [Finite K] (hK : IsCyclic 
 
 theorem sec11d2_eq_one_or_eq_of_sq [Finite G] {K : Subgroup G} (hK : IsCyclic K) {t x : G}
     (ht : t ∈ K) (ht2 : orderOf t = 2) (hx : x ∈ K) (hx2 : x * x = 1) : x = 1 ∨ x = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h1 : x = 1
   · exact Or.inl h1
   · exact Or.inr
@@ -41,14 +41,14 @@ theorem sec11d2_eq_one_or_eq_of_sq [Finite G] {K : Subgroup G} (hK : IsCyclic K)
 
 theorem sec11d2_mul_comm_of_isCyclic {K : Subgroup G} (hK : IsCyclic K) {x y : G} (hx : x ∈ K)
     (hy : y ∈ K) : x * y = y * x := by
-  haveI := hK
+  have := hK
   have h := (IsCyclic.isMulCommutative (α := K)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   simpa using congrArg Subtype.val h
 
 theorem sec11d2_exists_orderOf_eq_four [Finite G] {K : Subgroup G} (hK : IsCyclic K)
     (hK2 : IsPGroup 2 K) (hcard : 2 < Nat.card K) : ∃ a ∈ K, orderOf a = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hK
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hK2
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := K)
   have h4 : 4 ∣ Nat.card K := by
@@ -66,7 +66,7 @@ theorem sec11d2_eq_or_eq_inv_of_orderOf_eq_four [Finite G] {K : Subgroup G} (hK 
     {a x : G} (ha : a ∈ K) (hx : x ∈ K) (ha4 : orderOf a = 4) (hx4 : orderOf x = 4) :
     x = a ∨ x = a⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4 : 4 ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← ha4]
     exact Subgroup.orderOf_dvd_natCard K ha
@@ -101,7 +101,7 @@ theorem sec11d2_cyc_conj [Finite G] {Y : Subgroup G} (hY : IsCyclic Y) (hY2 : Is
     {a c : G} (haa : a * a = 1) (haY : ∀ y ∈ Y, a * y * a⁻¹ ∈ Y) (hcY : c ∈ Y)
     (hc4 : orderOf c = 4) (hac : a * c = c * a) {y : G} (hy : y ∈ Y) :
     a * y * a⁻¹ * y⁻¹ = 1 ∨ a * y * a⁻¹ * y⁻¹ = c * c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right haa
   have hwY : a * y * a⁻¹ * y⁻¹ ∈ Y := Y.mul_mem (haY y hy) (Y.inv_mem hy)
   generalize hw : a * y * a⁻¹ * y⁻¹ = w at hwY
@@ -170,7 +170,7 @@ theorem sec11d2_mul_mem_of_nmem {D Y : Subgroup G} (hYi : Y.relIndex D = 2) {x y
 theorem sec11d2_conj_mem {D Y : Subgroup G} (hYD : Y ≤ D) (hYi : Y.relIndex D = 2) {x y : G}
     (hxD : x ∈ D) (hy : y ∈ Y) : x * y * x⁻¹ ∈ Y := by
   have hi : (Y.subgroupOf D).index = 2 := hYi
-  haveI := Subgroup.normal_of_index_eq_two hi
+  have := Subgroup.normal_of_index_eq_two hi
   have h := (inferInstance : (Y.subgroupOf D).Normal).conj_mem ⟨y, hYD hy⟩
     (Subgroup.mem_subgroupOf.mpr hy) ⟨x, hxD⟩
   exact Subgroup.mem_subgroupOf.mp h

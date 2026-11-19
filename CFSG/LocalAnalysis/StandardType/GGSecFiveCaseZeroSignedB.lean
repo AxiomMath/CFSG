@@ -27,7 +27,7 @@ private lemma ggCZ_coord_sum {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod
     rw [Finset.sum_eq_single k]
     · simp
     · intro j _ hjk
-      rw [if_neg (Ne.symm hjk), mul_zero]
+      rw [ite_eq_right (Ne.symm hjk), mul_zero]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   simpa only [hd k] using hsum
@@ -93,7 +93,7 @@ private lemma ggCZdualE_root {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod
     (hij : i ≠ j) : ggCZdualE (φ := φ) i j ε (e i - ε • e j) = 2 := by
   have hε2 : ε * ε = 1 := by rcases hε with rfl | rfl <;> norm_num
   have h : φ i (e i - ε • e j) - ε * φ j (e i - ε • e j) = 1 + ε * ε := by
-    simp only [map_sub, map_smul, hd i i, hd i j, hd j i, hd j j, if_true, if_false, hij,
+    simp only [map_sub, map_smul, hd i i, hd i j, hd j i, hd j j, ite_true, ite_false, hij,
       Ne.symm hij, smul_eq_mul]
     ring
   rw [ggCZdualE_apply, h, hε2]
@@ -174,15 +174,15 @@ private lemma ggCZreflDE_conj_succ {e : Fin m → V} {φ : Fin m → Module.Dual
   have h1 : (ggCZdualE (φ := φ) i j 1) (ggCZreflDE (φ := φ) j l 1 hσ v) =
       φ i v - 1 * φ l v := by
     rw [ggCZreflDE_apply, ggCZdualE_apply]
-    simp only [map_sub, map_smul, hd i j, hd i l, hd j j, hd j l, if_true, if_false,
+    simp only [map_sub, map_smul, hd i j, hd i l, hd j j, hd j l, ite_true, ite_false,
       ne_of_lt hij, hjl', hil', one_mul,
          ]
     ring
   have h2 : ggCZreflDE (φ := φ) j l 1 hσ (e i - (1 : ZMod p) • e j) = e i - (1 : ZMod p) • e l := by
     rw [ggCZreflDE_apply]
     have hc : φ j (e i - (1 : ZMod p) • e j) - 1 * φ l (e i - (1 : ZMod p) • e j) = -1 := by
-      simp only [map_sub, map_smul, hd j i, hd j j, hd l i, hd l j, if_true,
-        if_false, Ne.symm (ne_of_lt hij), Ne.symm hjl', Ne.symm hil',
+      simp only [map_sub, map_smul, hd j i, hd j j, hd l i, hd l j, ite_true,
+        ite_false, Ne.symm (ne_of_lt hij), Ne.symm hjl', Ne.symm hil',
         one_mul]
       ring
     rw [hc]
@@ -214,13 +214,13 @@ private lemma ggCZreflS_conj_succ {e : Fin m → V} {φ : Fin m → Module.Dual 
   have h1 : (ggCZdualS (φ := φ) l) (ggCZreflDE (φ := φ) i l 1 hσ v) =
       2 * φ i v := by
     rw [ggCZreflDE_apply, ggCZdualS_apply]
-    simp only [map_sub, map_smul, hd l i, hd l l, if_true, if_false,
+    simp only [map_sub, map_smul, hd l i, hd l l, ite_true, ite_false,
       Ne.symm hil', one_mul]
     ring
   have h2 : ggCZreflDE (φ := φ) i l 1 hσ (e l) = e i := by
     rw [ggCZreflDE_apply]
     have hc : φ i (e l) - 1 * φ l (e l) = -1 := by
-      simp only [hd i l, hd l l, if_true, if_false, hil', mul_one
+      simp only [hd i l, hd l l, ite_true, ite_false, hil', mul_one
         ]
       ring
     rw [hc]
@@ -250,14 +250,14 @@ private lemma ggCZreflS_conj_plus {e : Fin m → V} {φ : Fin m → Module.Dual 
   have h1 : (ggCZdualE (φ := φ) i j 1) (ggCZreflS (φ := φ) j hσ v) =
       φ i v - (-1) * φ j v := by
     rw [ggCZreflS_apply, ggCZdualE_apply]
-    simp only [map_sub, map_smul, hd i j, hd j j, if_true, if_false, hij,
+    simp only [map_sub, map_smul, hd i j, hd j j, ite_true, ite_false, hij,
       one_mul]
     ring
   have h2 : ggCZreflS (φ := φ) j hσ (e i - (1 : ZMod p) • e j) =
       e i - (-1 : ZMod p) • e j := by
     rw [ggCZreflS_apply]
     have hc : 2 * φ j (e i - (1 : ZMod p) • e j) = -2 := by
-      simp only [map_sub, map_smul, hd j i, hd j j, if_true, if_false, Ne.symm hij
+      simp only [map_sub, map_smul, hd j i, hd j j, ite_true, ite_false, Ne.symm hij
             ]
       ring
     rw [hc]
@@ -450,18 +450,18 @@ private lemma ggCZSP_gen {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) 
     simp only [ one_smul]
     by_cases hki : k = i
     · rw [hki]
-      rw [hd i i, hd j i, if_pos rfl, if_neg (Ne.symm hijne), sub_zero, one_smul]
+      rw [hd i i, hd j i, ite_eq_left rfl, ite_eq_right (Ne.symm hijne), sub_zero, one_smul]
       rw [Equiv.swap_apply_left]
       abel
     · by_cases hkj : k = j
       · rw [hkj]
-        rw [hd i j, hd j j, if_neg hijne, if_pos rfl, zero_sub, neg_smul, one_smul]
+        rw [hd i j, hd j j, ite_eq_right hijne, ite_eq_left rfl, zero_sub, neg_smul, one_smul]
         rw [Equiv.swap_apply_right]
         abel
       · have hswap : Equiv.swap i j k = k := by
           rw [Equiv.swap_apply_def]
           simp [hki, hkj]
-        rw [hswap, hd i k, hd j k, if_neg (Ne.symm hki), if_neg (Ne.symm hkj), sub_self,
+        rw [hswap, hd i k, hd j k, ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj), sub_self,
           zero_smul, sub_zero]
   · refine ⟨1, fun k => if k = i then -1 else 1, ?_, fun k => ?_⟩
     · intro k
@@ -470,9 +470,9 @@ private lemma ggCZSP_gen {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) 
       simp only [  Equiv.Perm.one_apply]
       by_cases hki : k = i
       · rw [hki]
-        rw [hd i i, if_pos rfl, mul_one, two_smul, if_pos rfl, neg_one_smul]
+        rw [hd i i, ite_eq_left rfl, mul_one, two_smul, ite_eq_left rfl, neg_one_smul]
         abel
-      · rw [hd i k, if_neg (Ne.symm hki), mul_zero, zero_smul, sub_zero]
+      · rw [hd i k, ite_eq_right (Ne.symm hki), mul_zero, zero_smul, sub_zero]
         simp [hki]
 
 private theorem ggCZWB_SP {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
@@ -501,13 +501,13 @@ private lemma ggCZSP_sq {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V
     intro k
     by_contra hne
     have h := congrArg (φ k) (hkey k)
-    rw [map_smul, hd k k, hd k (σ (σ k)), if_neg (Ne.symm hne)] at h
+    rw [map_smul, hd k k, hd k (σ (σ k)), ite_eq_right (Ne.symm hne)] at h
     simp only [smul_eq_mul, mul_zero] at h
     exact one_ne_zero h
   refine ⟨Equiv.ext hfix, fun k => ?_⟩
   have h := congrArg (φ k) (hkey k)
-  rw [map_smul, hd k k, hd k (σ (σ k)), if_pos (hfix k).symm] at h
-  simpa only [if_true, smul_eq_mul, mul_one] using h.symm
+  rw [map_smul, hd k k, hd k (σ (σ k)), ite_eq_left (hfix k).symm] at h
+  simpa only [ite_true, smul_eq_mul, mul_one] using h.symm
 
 private lemma ggCZSP_sign_eq {s : Fin m → ZMod p} {σ : Equiv.Perm (Fin m)}
     (hs : ∀ k, s k = 1 ∨ s k = -1) (hss : ∀ k, s k * s (σ k) = 1) (k : Fin m) :
@@ -556,9 +556,9 @@ private lemma ggCZeq_reflS {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p
   refine ggCZ_linearEquiv_eq_of_on_e_fix hd (fun k => ?_) (fun v hv => ?_)
   · rw [hact k, ggCZreflS_apply]
     by_cases hki : k = i
-    · rw [hki, hsi, hd i i, if_pos rfl, mul_one, neg_one_smul, two_smul]
+    · rw [hki, hsi, hd i i, ite_eq_left rfl, mul_one, neg_one_smul, two_smul]
       abel
-    · rw [hne k hki, hd i k, if_neg (Ne.symm hki), mul_zero, zero_smul, sub_zero, one_smul]
+    · rw [hne k hki, hd i k, ite_eq_right (Ne.symm hki), mul_zero, zero_smul, sub_zero, one_smul]
   · rw [hfix v hv, ggCZreflS_apply, hv i, mul_zero, zero_smul, sub_zero]
 
 private lemma ggCZeq_reflDE {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
@@ -578,15 +578,15 @@ private lemma ggCZeq_reflDE {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod 
   refine ggCZ_linearEquiv_eq_of_on_e_fix hd (fun k => ?_) (fun v hv => ?_)
   · rw [hact k, ggCZreflDE_apply]
     by_cases hki : k = i
-    · rw [hki, hσi, hd i i, hd j i, if_pos rfl, if_neg (Ne.symm hij)]
+    · rw [hki, hσi, hd i i, hd j i, ite_eq_left rfl, ite_eq_right (Ne.symm hij)]
       simp only [mul_zero, sub_zero, one_smul]
       abel
     · by_cases hkj : k = j
-      · rw [hkj, hσj, hsj, hd i j, hd j j, if_neg hij, if_pos rfl]
+      · rw [hkj, hσj, hsj, hd i j, hd j j, ite_eq_right hij, ite_eq_left rfl]
         rw [mul_one, zero_sub, neg_smul, sub_neg_eq_add, smul_sub, smul_smul, hs2, one_smul]
         abel
-      · rw [hfixσ k hki hkj, hfixs k hki hkj, hd i k, hd j k, if_neg (Ne.symm hki),
-          if_neg (Ne.symm hkj)]
+      · rw [hfixσ k hki hkj, hfixs k hki hkj, hd i k, hd j k, ite_eq_right (Ne.symm hki),
+          ite_eq_right (Ne.symm hkj)]
         simp only [mul_zero, sub_self, zero_smul, sub_zero, one_smul]
   · rw [hfix v hv, ggCZreflDE_apply, hv i, hv j, mul_zero, sub_zero, zero_smul, sub_zero]
 
@@ -614,17 +614,17 @@ theorem ggCZWB_refl (hp2 : p ≠ 2) {e : Fin m → V} {φ : Fin m → Module.Dua
         have hv : v ∈ ggLinMove g := ggCZ_move_apply g (e i)
         have hw : w ∈ ggLinMove g := ggCZ_move_apply g (e j)
         have hv_eq : φ i v = -2 := by
-          simp only [v, hact' i, hsi, map_sub, map_smul, hd i i, if_true, smul_eq_mul]
+          simp only [v, hact' i, hsi, map_sub, map_smul, hd i i, ite_true, smul_eq_mul]
           ring
         have hvi : φ i v ≠ 0 := by
           rw [hv_eq]
           exact neg_ne_zero.mpr (ggCZ_two_ne_zero hp2)
         have hwi : φ i w = 0 := by
           simp only [w, hact' j, hsj, map_sub, map_smul, hd i j,
-            if_neg (Ne.symm hji), smul_eq_mul]
+            ite_eq_right (Ne.symm hji), smul_eq_mul]
           ring
         have hwj_eq : φ j w = -2 := by
-          simp only [w, hact' j, hsj, map_sub, map_smul, hd j j, if_true, smul_eq_mul]
+          simp only [w, hact' j, hsj, map_sub, map_smul, hd j j, ite_true, smul_eq_mul]
           ring
         have hwj : φ j w ≠ 0 := by
           rw [hwj_eq]
@@ -686,8 +686,8 @@ theorem ggCZWB_refl (hp2 : p ≠ 2) {e : Fin m → V} {φ : Fin m → Module.Dua
       have hv : v ∈ ggLinMove g := ggCZ_move_apply g (e i)
       have hw : w ∈ ggLinMove g := ggCZ_move_apply g (e k)
       have hv_eq : φ i v = -1 := by
-        simp only [v, hact i, hσi, map_sub, map_smul, hd i j, hd i i, if_neg hij,
-           if_true, smul_eq_mul]
+        simp only [v, hact i, hσi, map_sub, map_smul, hd i j, hd i i, ite_eq_right hij,
+           ite_true, smul_eq_mul]
         ring
       have hvi : φ i v ≠ 0 := by
         rw [hv_eq]
@@ -695,13 +695,13 @@ theorem ggCZWB_refl (hp2 : p ≠ 2) {e : Fin m → V} {φ : Fin m → Module.Dua
       have hwi : φ i w = 0 := by
         change φ i (g (e k) - e k) = 0
         rw [hact k, hσk_eq]
-        simp only [map_sub, map_smul, hd i l, hd i k, if_neg (Ne.symm hli),
-          if_neg (Ne.symm hki), smul_eq_mul]
+        simp only [map_sub, map_smul, hd i l, hd i k, ite_eq_right (Ne.symm hli),
+          ite_eq_right (Ne.symm hki), smul_eq_mul]
         ring
       have hwk_eq : φ k w = -1 := by
         change φ k (g (e k) - e k) = -1
         rw [hact k, hσk_eq]
-        simp only [map_sub, map_smul, hd k l, hd k k, if_neg (Ne.symm hlk), if_true,
+        simp only [map_sub, map_smul, hd k l, hd k k, ite_eq_right (Ne.symm hlk), ite_true,
           smul_eq_mul]
         ring
       have hwk : φ k w ≠ 0 := by
@@ -718,19 +718,19 @@ theorem ggCZWB_refl (hp2 : p ≠ 2) {e : Fin m → V} {φ : Fin m → Module.Dua
         have hv : v ∈ ggLinMove g := ggCZ_move_apply g (e i)
         have hw : w ∈ ggLinMove g := ggCZ_move_apply g (e k)
         have hv_eq : φ i v = -1 := by
-          simp only [v, hact i, hσi, map_sub, map_smul, hd i j, hd i i, if_neg hij,
-             if_true, smul_eq_mul]
+          simp only [v, hact i, hσi, map_sub, map_smul, hd i j, hd i i, ite_eq_right hij,
+             ite_true, smul_eq_mul]
           ring
         have hvi : φ i v ≠ 0 := by
           rw [hv_eq]
           exact neg_ne_zero.mpr one_ne_zero
         have hwi : φ i w = 0 := by
           simp only [w, hact k, hextra k hki hkj, hsk, map_sub, map_smul, hd i k,
-            if_neg (Ne.symm hki), smul_eq_mul]
+            ite_eq_right (Ne.symm hki), smul_eq_mul]
           ring
         have hwk_eq : φ k w = -2 := by
           simp only [w, hact k, hextra k hki hkj, hsk, map_sub, map_smul, hd k k,
-             if_true, smul_eq_mul]
+             ite_true, smul_eq_mul]
           ring
         have hwk : φ k w ≠ 0 := by
           rw [hwk_eq]
@@ -761,18 +761,18 @@ private lemma ggCZreflDE_apply_e {e : Fin m → V} {φ : Fin m → Module.Dual (
     ggCZreflDE (φ := φ) a b 1 h (e c) = e (Equiv.swap a b c) := by
   rw [ggCZreflDE_apply]
   by_cases hca : c = a
-  · rw [hca, hd a a, hd b a, if_pos rfl, if_neg (Ne.symm hab)]
+  · rw [hca, hd a a, hd b a, ite_eq_left rfl, ite_eq_right (Ne.symm hab)]
     rw [Equiv.swap_apply_left]
     simp only [mul_zero, sub_zero, one_smul]
     abel
   · by_cases hcb : c = b
-    · rw [hcb, hd a b, hd b b, if_neg hab, if_pos rfl]
+    · rw [hcb, hd a b, hd b b, ite_eq_right hab, ite_eq_left rfl]
       rw [Equiv.swap_apply_right]
       module
     · have hswap : Equiv.swap a b c = c := by
         rw [Equiv.swap_apply_def]
         simp [hca, hcb]
-      rw [hswap, hd a c, hd b c, if_neg (Ne.symm hca), if_neg (Ne.symm hcb)]
+      rw [hswap, hd a c, hd b c, ite_eq_right (Ne.symm hca), ite_eq_right (Ne.symm hcb)]
       simp only [mul_zero, sub_self, zero_smul, sub_zero]
 
 private lemma ggCZreflDE_conj_swap {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
@@ -940,9 +940,9 @@ private lemma ggCZreflS_apply_e {e : Fin m → V} {φ : Fin m → Module.Dual (Z
       if c = i then -e c else e c := by
   rw [ggCZreflS_apply]
   by_cases hci : c = i
-  · rw [hci, hd i i, if_pos rfl, if_pos rfl, mul_one, two_smul]
+  · rw [hci, hd i i, ite_eq_left rfl, ite_eq_left rfl, mul_one, two_smul]
     abel
-  · rw [hd i c, if_neg (Ne.symm hci), if_neg hci, mul_zero, zero_smul, sub_zero]
+  · rw [hd i c, ite_eq_right (Ne.symm hci), ite_eq_right hci, mul_zero, zero_smul, sub_zero]
 
 private lemma ggCZreflS_fix {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
     (hd : GGCZDual e φ) {i : Fin m} {v : V} (hv : ∀ k, φ k v = 0) :
@@ -972,8 +972,8 @@ private lemma ggCZreflS_conj_D {e : Fin m → V} {φ : Fin m → Module.Dual (ZM
       (ggCZreflDE_involutive hσ) v]
   rw [ggCZreflS_apply (ggCZdualS_root hd k), ggCZreflDE_apply, ggCZreflDE_apply,
     ggCZdualS_apply, map_sub, map_smul, map_sub]
-  simp only [hd i i, hd i k, hd k i, if_neg hik,
-    if_neg (Ne.symm hik), if_true, one_mul, mul_one, mul_zero, sub_zero,
+  simp only [hd i i, hd i k, hd k i, ite_eq_right hik,
+    ite_eq_right (Ne.symm hik), ite_true, one_mul, mul_one, mul_zero, sub_zero,
     smul_eq_mul, one_smul]
   module
 
@@ -1119,7 +1119,7 @@ private lemma ggCZ_phi_sum_e {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod
     rw [Finset.sum_eq_single i]
     · simp
     · intro k _ hki
-      rw [if_neg (Ne.symm hki), mul_zero]
+      rw [ite_eq_right (Ne.symm hki), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   simpa only [hd i] using hsum
@@ -1131,7 +1131,7 @@ private lemma ggCZ_sum_coord {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod
     rw [Finset.sum_eq_single i]
     · simp
     · intro k _ hki
-      rw [if_neg hki, mul_zero]
+      rw [ite_eq_right hki, mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hsum' : (∑ k, w k * φ k (e i)) =
@@ -1163,24 +1163,24 @@ theorem ggCZWB_not_mem_H (hp2 : p ≠ 2) (hm : 2 ≤ m) {e : Fin m → V}
     · rcases hw1 with h | h <;> rw [h] <;> simp
   have hcoord0 : φ i0 (g (e i0)) = (2 : ZMod p)⁻¹ := by
     rw [hformula, map_sub, map_smul, ggCZ_sum_coord hd w i0, ggCZ_phi_sum_e hd w i0]
-    simp only [hd i0 i0, if_true, smul_eq_mul]
+    simp only [hd i0 i0, ite_true, smul_eq_mul]
     field_simp
     rw [pow_two, hw0sq]
     norm_num
   have hcoord1 : φ i1 (g (e i0)) = -((2 : ZMod p)⁻¹ * w i0 * w i1) := by
     rw [hformula, map_sub, map_smul, ggCZ_sum_coord hd w i0, ggCZ_phi_sum_e hd w i1]
-    simp only [  hd i1 i0, if_neg (Ne.symm hi01), smul_eq_mul]
+    simp only [  hd i1 i0, ite_eq_right (Ne.symm hi01), smul_eq_mul]
     ring
   have hif0 : i0 = σ i0 := by
     by_contra h
     have hz : φ i0 (g (e i0)) = 0 := by
-      rw [hact i0, map_smul, hd i0 (σ i0), if_neg h, smul_eq_mul, mul_zero]
+      rw [hact i0, map_smul, hd i0 (σ i0), ite_eq_right h, smul_eq_mul, mul_zero]
     rw [hcoord0] at hz
     exact h2inv hz
   have hif1 : i1 = σ i0 := by
     by_contra h
     have hz : φ i1 (g (e i0)) = 0 := by
-      rw [hact i0, map_smul, hd i1 (σ i0), if_neg h, smul_eq_mul, mul_zero]
+      rw [hact i0, map_smul, hd i1 (σ i0), ite_eq_right h, smul_eq_mul, mul_zero]
     rw [hcoord1] at hz
     have hprod : (2 : ZMod p)⁻¹ * w i0 * w i1 = 0 := by
       have := neg_eq_zero.mp hz

@@ -95,7 +95,7 @@ theorem exists_central_involution (T : Sylow 2 G) {S : Subgroup G} (hST : S ≤ 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z₀, hz₀S, hz₀1, hz₀c⟩ := exists_mem_center T hST hS hS1
   set Z := S ⊓ centralizer ((T : Subgroup G) : Set G)
-  have hZp : IsPGroup 2 Z := T.isPGroup'.to_le (inf_le_left.trans hST)
+  have hZp : IsPGroup 2 Z := T.isPGroup.to_le (inf_le_left.trans hST)
   have hZ1 : Nontrivial Z := ⟨⟨⟨z₀, hz₀S, hz₀c⟩, 1, fun h => hz₀1 (congrArg Subtype.val h)⟩⟩
   obtain ⟨k, hk, hcard⟩ := hZp.nontrivial_iff_card.mp hZ1
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Z) 2
@@ -123,7 +123,7 @@ theorem centralizers_eq_top_or_stronglyEmbedded
   have hconjM : ∀ u ∈ invClass S, u ∈ M → ∃ m ∈ M, m⁻¹ * u * m ∈ S := by
     intro u hu huM
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    obtain ⟨TM, hTM⟩ := ((T.isPGroup'.to_le hST).comap_subtype (K := M)).exists_le_sylow
+    obtain ⟨TM, hTM⟩ := ((T.isPGroup.to_le hST).comap_subtype (K := M)).exists_le_sylow
     have hu2 : orderOf u = 2 := invClass_involution S u hu
     have hpu : IsPGroup 2 (zpowers (⟨u, huM⟩ : M)) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hu2]; norm_num)

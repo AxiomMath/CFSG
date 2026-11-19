@@ -18,7 +18,7 @@ theorem simpleDichotomy_holds :
     refine ⟨fun v hv g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hv ⊢
     exact Subgroup.mem_inf.2 ⟨hD g.1 g.2 v.1 (Subgroup.mem_inf.1 hv).1, (g * v * g⁻¹).2⟩
-  haveI : (((D ⊓ R).subgroupOf R).map π).Normal := hYRn.map π hsurj
+  have : (((D ⊓ R).subgroupOf R).map π).Normal := hYRn.map π hsurj
   have hdich := IsSimpleGroup.eq_bot_or_eq_top_of_normal (((D ⊓ R).subgroupOf R).map π)
   by_cases hbot : ((D ⊓ R).subgroupOf R).map π = ⊥
   · left

@@ -19,7 +19,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreOf_map_of_surjective_of_isPGroup_ker {A B : Type*} [Group A] [Group B] {p : ℕ}
-    (f : A →* B) (hf : Function.Surjective f) (hker : IsPGroup p f.ker) (X : Subgroup A) :
+    (f : A →* B) (_hf : Function.Surjective f) (hker : IsPGroup p f.ker) (X : Subgroup A) :
     pCoreOf p (X.map f) = (pCoreOf p X).map f := by
   let g : X →* X.map f := (f.comp X.subtype).codRestrict (X.map f) fun x => ⟨x, x.2, rfl⟩
   have hgsurj : Function.Surjective g := by
@@ -41,10 +41,11 @@ theorem pCoreOf_map_of_surjective_of_isPGroup_ker {A B : Type*} [Group A] [Group
   rw [← hmain, Subgroup.map_map, Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 theorem pCoreOf_barM_eq (M X : Subgroup G) (hXM : X ≤ M) :
     pCoreOf 2 (barM M X) =
       ((pCoreOf 2 X).subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : IsPGroup 2 (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.RankThreeCoreUniqueness.Helpers.pCore_isPGroup (G := ↥M) 2
@@ -53,11 +54,12 @@ theorem pCoreOf_barM_eq (M X : Subgroup G) (hXM : X ≤ M) :
   rw [barM, h, show pCoreOf 2 (X.subgroupOf M) = (pCoreOf 2 X).subgroupOf M from
     (CFSG.HardMathSupport.Cooperstein.Proving.subgroupOf_pCoreOf (p := 2) hXM).symm]
 
+omit [Finite G] in
 theorem barM_mem_cZero {M X I : Subgroup G} (hXM : X ≤ M) (hI : I ∈ cZero X)
     (hI3 : Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* Equiv.Perm (Fin 3))) :
     barM M I ∈ cZero (barM M X) ∧
       Nonempty (↥(barM M I) ⧸ CFSG.pCore 2 ↥(barM M I) ≃* Equiv.Perm (Fin 3)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set πM := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπM
   have hIM : I ≤ M := hI.le.trans hXM
   have hnot : ¬ IsTwoPrimeComponent I I := by
@@ -122,7 +124,7 @@ theorem mk_mem_normalizer_of_barM {M H I₀ : Subgroup G} (hI₀H : I₀ ≤ H) 
         (QuotientGroup.mk' (primeComplementCore (G := H) 3)) : Subgroup _) :
           Set (H ⧸ primeComplementCore (G := H) 3)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := primeComplementCore (G := H) 3 with hO
   set πH := QuotientGroup.mk' O with hπH
   set πM := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπM
@@ -264,7 +266,7 @@ theorem twentySeven_dvd_card_barM {M H X : Subgroup G} (hXH : X ≤ H) (hXM : X 
     (h27 : 27 ∣ Nat.card ((X.subgroupOf H).map
       (QuotientGroup.mk' (primeComplementCore (G := H) 3)))) :
     27 ∣ Nat.card (barM M X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set πH := QuotientGroup.mk' (primeComplementCore (G := H) 3) with hπH
   set πM := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπM
   let fH : ↥X →* ↥H ⧸ primeComplementCore (G := H) 3 := πH.comp (Subgroup.inclusion hXH)

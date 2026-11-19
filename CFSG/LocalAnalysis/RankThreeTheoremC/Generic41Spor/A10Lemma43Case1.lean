@@ -22,7 +22,7 @@ theorem a10_case1 (hS : Setting G) (hD1 : TheoremD1 G) (hX : A10Facts)
     (hYB : IsSylowOf 2 (Y ⊓ rankThreePrimeCore 5 M) (rankThreePrimeCore 5 M))
     (hYn : Y ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore 5 M : Subgroup G) : Set G)) :
     Subgroup.normalizer (Y : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨hc.prime⟩
   obtain ⟨hTcard, hTel, hxJ⟩ := plane_T_structure hX.sylow hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   obtain ⟨hRM, hRn, hRcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 5 M
@@ -54,7 +54,7 @@ theorem a10_case1 (hS : Setting G) (hD1 : TheoremD1 G) (hX : A10Facts)
     have htS : t ∈ Subgroup.centralizer ({x} : Set G) := (hTS ht).2
     exact Subgroup.mem_centralizer_iff.1 htS x rfl
   have hVp : IsPGroup 5 (u3T P x J ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
   have hUV : U ≤ u3T P x J ⊔ Subgroup.zpowers x :=
     mcl_le_sup_of_card hc.prime hU.elem.1 hU.card hU.card_inf hU.mem hxp hx1 hxT
   have hVc : u3T P x J ⊔ Subgroup.zpowers x ≤

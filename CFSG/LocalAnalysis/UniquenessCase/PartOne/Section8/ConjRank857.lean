@@ -20,7 +20,7 @@ theorem four_le_pRank_three_of_three_commuting_of_center {H : Type*} [Group H] [
     (hcomm₀₂ : ∀ x ∈ A₀, ∀ y ∈ A₂, x * y = y * x)
     (hcomm₁₂ : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x)
     (hc₀ : Nat.card (Subgroup.center ↥A₀) ≤ 3)
-    (hc₁ : Nat.card (Subgroup.center ↥A₁) ≤ 3)
+    (_hc₁ : Nat.card (Subgroup.center ↥A₁) ≤ 3)
     (hc₂ : Nat.card (Subgroup.center ↥A₂) ≤ 3)
     (hr₀ : 2 ≤ CFSG.Open.pRank 3 A₀)
     (hr₁ : 2 ≤ CFSG.Open.pRank 3 A₁)
@@ -236,7 +236,7 @@ theorem four_le_pRank_three_of_three_conj_list857_of_center {G : Type} [Group G]
     (h1 : L1 ∈ conjSetOf M L) (h2 : L2 ∈ conjSetOf M L) (h3 : L3 ∈ conjSetOf M L)
     (h12 : L1 ≠ L2) (h13 : L1 ≠ L3) (h23 : L2 ≠ L3)
     (hr : CFSG.Open.pRank 3 L = 2)
-    (hlist : List857 (Bar2 L))
+    (_hlist : List857 (Bar2 L))
     (hcenter : Nat.card (Subgroup.center (Bar2 L)) ≤ 3) :
     4 ≤ CFSG.Open.pRank 3 M :=
   four_le_pRank_three_of_three_conj_of_center hL h1 h2 h3 h12 h13 h23 hr hcenter
@@ -263,7 +263,7 @@ theorem ncard_conjSetOf_le_two_of_cover {G : Type} [Group G] [Finite G]
     (hm3 : CFSG.Open.pRank 3 M ≤ 3) :
     (conjSetOf M L).ncard ≤ 2 :=
   ncard_conjSetOf_le_two_of_three_conj_rank
-    (fun L₁ h1 L₂ h2 L₃ h3 h12 h13 h23 =>
+    (fun _L₁ h1 _L₂ h2 _L₃ h3 h12 h13 h23 =>
       four_le_pRank_three_of_three_conj_list857_of_cover hL h1 h2 h3 h12 h13 h23 hcover)
     hm3
 
@@ -274,7 +274,7 @@ theorem ncard_conjSetOf_le_two_of_list857_of_center {G : Type} [Group G] [Finite
     (hm3 : CFSG.Open.pRank 3 M ≤ 3) :
     (conjSetOf M L).ncard ≤ 2 :=
   ncard_conjSetOf_le_two_of_three_conj_rank
-    (fun L₁ h1 L₂ h2 L₃ h3 h12 h13 h23 =>
+    (fun _L₁ h1 _L₂ h2 _L₃ h3 h12 h13 h23 =>
       four_le_pRank_three_of_three_conj_list857_of_center hL h1 h2 h3 h12 h13 h23 hr hlist
         hcenter)
     hm3

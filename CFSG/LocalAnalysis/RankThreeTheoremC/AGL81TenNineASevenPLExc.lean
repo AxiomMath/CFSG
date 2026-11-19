@@ -31,6 +31,7 @@ theorem relIndex_eq_315_of_card_eight {V : Type*} [Group V]
   rw [inf_eq_left.2 hSs, h8, hcardL] at hmul
   omega
 
+omit [Finite G] in
 theorem card_commV_range_eq_sixteen (h16 : Nat.card ↥⁅blockV S L, L⁆ = 2 ^ 4)
     (ε : ↥(autOn L (blockV S L)) ≃* alternatingGroup (Fin 7)) :
     Nat.card (commV ((autOn L (blockV S L)).subtype.comp ε.symm.toMonoidHom).range) = 16 := by
@@ -160,7 +161,7 @@ theorem exists_elemAbelian_three_of_a7Exceptional
       CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   classical
   let V := blockV S L
-  letI := Coordinator.blockVCommGroup S L
+  let := Coordinator.blockVCommGroup S L
   have hV2 : ∀ v : ↥V, v ^ 2 = 1 := fun v =>
     Subtype.ext ((CFSG.AGLEmbedding.isElemAbelian_omegaOneCenterOf
       (pCoreOf 2 (L ⊔ S))).2 (v : G) v.2)

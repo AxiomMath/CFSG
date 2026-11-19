@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Quasithin.H.Om4 Matrix
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem s16c11_case5_rhoU_injective [CharP K 2] {a b a' b' : K}
     (h : s16c11_case5_rhoU a b = s16c11_case5_rhoU a' b') : a = a' ∧ b = b' := by
   have h' : (s16c11_case5_u a, s16c11_case5_u b) =
@@ -19,6 +20,7 @@ theorem s16c11_case5_rhoU_injective [CharP K 2] {a b a' b' : K}
   rw [Prod.mk.injEq] at h'
   exact ⟨s16c11_case5_u_injective h'.1, s16c11_case5_u_injective h'.2⟩
 
+omit [Finite K] in
 theorem s16c11_case5_sigma_conj_rhoU (a b : K) :
     s16c11_case5_sigma * s16c11_case5_rhoU a b * s16c11_case5_sigma =
       s16c11_case5_rhoU b a := by
@@ -27,6 +29,7 @@ theorem s16c11_case5_sigma_conj_rhoU (a b : K) :
   rw [s16c11_case5_rhoU, s16c11_case5_rhoU, rho_apply, rho_apply, trM_lr, mul_assoc,
     trM_mul_self, mul_one]
 
+omit [Finite K] in
 private theorem s16c11_case5_sa_eq [CharP K 2] (a : K) :
     s16c11_case5_sa a = s16c11_case5_rhoU a a * s16c11_case5_sigma := by
   refine MulEquiv.ext fun X => Multiplicative.toAdd.injective ?_
@@ -37,6 +40,7 @@ private theorem s16c11_case5_sa_eq [CharP K 2] (a : K) :
   rw [MulAut.mul_apply, s16c11_case5_sigma_ofAdd, s16c11_case5_rhoU_toAdd,
     s16c11_case5_sa_toAdd]
 
+omit [Finite K] in
 theorem s16c11_case5_sa_sq [CharP K 2] (a : K) :
     s16c11_case5_sa a * s16c11_case5_sa a = 1 := by
   rw [s16c11_case5_sa_eq]
@@ -52,7 +56,7 @@ theorem s16c11_case5_sa_sq [CharP K 2] (a : K) :
 
 theorem s16c11_case5_card_V (hK : Nat.card K = 4) :
     Nat.card ↥(s16c11_case5_V (K := K)) = 16 := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   have hinj : Function.Injective (fun p : K × K => s16c11_case5_rhoU p.1 p.2) := by
     rintro ⟨a, b⟩ ⟨a', b'⟩ h
     obtain ⟨h1, h2⟩ := s16c11_case5_rhoU_injective h
@@ -60,6 +64,7 @@ theorem s16c11_case5_card_V (hK : Nat.card K = 4) :
   change Nat.card (Set.range (fun p : K × K => s16c11_case5_rhoU p.1 p.2)) = 16
   rw [Nat.card_range_of_injective hinj, Nat.card_prod, hK]
 
+omit [Finite K] in
 theorem s16c11_case5_mem_S0 {x : MulAut (VM K)} :
     x ∈ s16c11_case5_S0 (K := K) ↔
       ∃ a b : K, x = s16c11_case5_rhoU a b ∨
@@ -92,6 +97,7 @@ theorem s16c11_case5_mem_S0 {x : MulAut (VM K)} :
       refine ⟨(a, b), ?_⟩
       rw [h, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite K] in
 theorem s16c11_case5_mem_fixV_rhoU_iff' (a b : K) (X : Matrix (Fin 2) (Fin 2) K) :
     Multiplicative.ofAdd X ∈ fixV (Subgroup.zpowers (s16c11_case5_rhoU a b)) ↔
       a * X 1 1 = 0 ∧ b * X 1 1 = 0 ∧ a * X 1 0 + b * X 0 1 = 0 := by
@@ -107,6 +113,7 @@ theorem s16c11_case5_mem_fixV_rhoU_iff' (a b : K) (X : Matrix (Fin 2) (Fin 2) K)
     rw [hzero, add_zero]
     exact h3
 
+omit [Finite K] in
 theorem s16c11_case5_mem_fixV_iff_of_le_V {A : Subgroup (MulAut (VM K))}
     (hAV : A ≤ s16c11_case5_V) (X : Matrix (Fin 2) (Fin 2) K) :
     Multiplicative.ofAdd X ∈ fixV A ↔
@@ -125,6 +132,7 @@ theorem s16c11_case5_mem_fixV_iff_of_le_V {A : Subgroup (MulAut (VM K))}
       s16c11_case5_mem_fixV_rhoU_iff']
     exact hX a b hx
 
+omit [Finite K] in
 private theorem s16c11_case5_D0Hom_toAdd (μ : Kˣ) (X : Matrix (Fin 2) (Fin 2) K) :
     Multiplicative.toAdd (s16c11_case5_D0Hom μ (Multiplicative.ofAdd X)) =
       (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) * X *
@@ -133,45 +141,53 @@ private theorem s16c11_case5_D0Hom_toAdd (μ : Kˣ) (X : Matrix (Fin 2) (Fin 2) 
   rw [hD, rho_apply, toAdd_lr]
   rfl
 
+omit [Finite K] in
 private theorem s16c11_case5_t_apply_00 (μ : Kˣ) :
     (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) 0 0 = (μ : K) := by
   rw [s16c11_case5_t, SpecialLinearGroup.diag2_coe']
   simp
 
+omit [Finite K] in
 private theorem s16c11_case5_t_apply_01 (μ : Kˣ) :
     (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) 0 1 = 0 := by
   rw [s16c11_case5_t, SpecialLinearGroup.diag2_coe']
   simp
 
+omit [Finite K] in
 private theorem s16c11_case5_t_apply_10 (μ : Kˣ) :
     (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
   rw [s16c11_case5_t, SpecialLinearGroup.diag2_coe']
   simp
 
+omit [Finite K] in
 private theorem s16c11_case5_t_apply_11 (μ : Kˣ) :
     (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) 1 1 = (μ : K)⁻¹ := by
   rw [s16c11_case5_t, SpecialLinearGroup.diag2_coe']
   simp
 
+omit [Finite K] in
 private theorem s16c11_case5_t_mul_transpose_00 (μ : Kˣ) :
     ((s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) *
       (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K)ᵀ) 0 0 =
       (μ : K) * (μ : K) := by
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply,
-    s16c11_case5_t_apply_00, s16c11_case5_t_apply_01, mul_zero, zero_mul, add_zero, zero_add]
+    s16c11_case5_t_apply_00, s16c11_case5_t_apply_01, mul_zero, add_zero]
 
+omit [Finite K] in
 private theorem s16c11_case5_t_mul_transpose_11 (μ : Kˣ) :
     ((s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K) *
       (s16c11_case5_t μ : Matrix (Fin 2) (Fin 2) K)ᵀ) 1 1 =
       (μ : K)⁻¹ * (μ : K)⁻¹ := by
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply,
-    s16c11_case5_t_apply_10, s16c11_case5_t_apply_11, mul_zero, zero_mul, add_zero, zero_add]
+    s16c11_case5_t_apply_10, s16c11_case5_t_apply_11, mul_zero, zero_add]
 
+omit [Finite K] in
 private theorem s16c11_case5_scalar_apply_00 (c : Kˣ) :
     ((Matrix.scalar (Fin 2) (α := K)).toMonoidHom (c : K)) 0 0 = (c : K) := by
   change (Matrix.scalar (Fin 2) (c : K)) 0 0 = (c : K)
   rw [Matrix.scalar_apply, Matrix.diagonal_apply_eq]
 
+omit [Finite K] in
 private theorem s16c11_case5_scalar_apply_11 (c : Kˣ) :
     ((Matrix.scalar (Fin 2) (α := K)).toMonoidHom (c : K)) 1 1 = (c : K) := by
   change (Matrix.scalar (Fin 2) (c : K)) 1 1 = (c : K)
@@ -179,7 +195,7 @@ private theorem s16c11_case5_scalar_apply_11 (c : Kˣ) :
 
 theorem s16c11_case5_D0Hom_injective (hK : Nat.card K = 4) :
     Function.Injective (s16c11_case5_D0Hom (K := K)) := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   intro μ ν h
   have ht : s16c11_case5_t μ = s16c11_case5_t ν := by
     have hp : (s16c11_case5_t μ, s16c11_case5_t μ) =
@@ -210,13 +226,13 @@ private theorem s16c11_case5_scalMul_eq_range_coord (K : Type) [Field K] :
       x = lr (Units.map (Matrix.scalar (Fin 2) (α := K)).toMonoidHom c) 1} =
       Set.range (s16c11_case5_scalMulCoord K) := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_range, s16c11_case5_scalMulCoord]
+    simp only [Set.mem_ofPred_eq, Set.mem_range, s16c11_case5_scalMulCoord]
     exact ⟨fun ⟨c, hc⟩ => ⟨c, hc.symm⟩, fun ⟨c, hc⟩ => ⟨c, hc.symm⟩⟩
   rw [h, ← MonoidHom.coe_range, Subgroup.closure_eq]
 
 theorem s16c11_case5_D0_inf_Scal (hK : Nat.card K = 4) :
     s16c11_case5_D0 (K := K) ⊓ s16c11C5Scal K = ⊥ := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   rw [Subgroup.eq_bot_iff_forall]
   intro x hx
   rw [Subgroup.mem_inf] at hx
@@ -233,7 +249,7 @@ theorem s16c11_case5_D0_inf_Scal (hK : Nat.card K = 4) :
   have h1 := congrArg (fun f : MulAut (VM K) =>
     Multiplicative.toAdd (f (Multiplicative.ofAdd (1 : Matrix (Fin 2) (Fin 2) K)))) hc'
   simp only [s16c11_case5_D0Hom_toAdd, toAdd_lr, toAdd_ofAdd, Units.val_one, Matrix.mul_one,
-    Matrix.transpose_one, Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Units.coe_map] at h1
+    Matrix.transpose_one, Units.coe_map] at h1
   have h00 : (μ : K) * (μ : K) = (c : K) := by
     have h := congrFun (congrFun h1 0) 0
     rw [s16c11_case5_t_mul_transpose_00, s16c11_case5_scalar_apply_00] at h

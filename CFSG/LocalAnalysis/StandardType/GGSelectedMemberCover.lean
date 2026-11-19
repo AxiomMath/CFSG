@@ -37,7 +37,7 @@ theorem exists_ordinary_source_cover
     rw [show piM.ker = pi.ker.subgroupOf M from Subgroup.ker_subgroupMap M pi]
     exact Odd.of_dvd_nat hpiodd
       (Subgroup.card_comap_dvd_of_injective pi.ker M.subtype M.subtype_injective)
-  letI : Finite (ggU t n f).K := LieKnownR2.OddCenter.finite_ggU ht hadm
+  let : Finite (ggU t n f).K := LieKnownR2.OddCenter.finite_ggU ht hadm
   obtain ⟨PhiM, hcomm, hsurj, -⟩ :=
     CFSG.SeitzReduction.SeitzQ2.exists_surjective_of_oddCentralSplit
       (β := rho) (η := piM) (LieOddCover.oddCentralSplit_ggU_pos ht hadm)

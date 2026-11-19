@@ -44,11 +44,11 @@ theorem perfectCoreGeneration_holds'
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
-    (hZA : zSub P c.L ≤ A) (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A)
+    (_hZA : zSub P c.L ≤ A) (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A)
     (haZ : a ∉ zSub P c.L) :
     PerfectCoreGeneration c A a := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haPL : a ∈ P ⊓ c.L := hAPL ha
   have haP : a ∈ P := haPL.1
   have haL : a ∈ c.L := haPL.2
@@ -108,12 +108,12 @@ theorem perfectCoreGeneration_holds'
     rwa [Subgroup.map_subgroupOf_eq_of_le hJleC] at hmap
   have hJeq : (CFSG.perfectResidual ↥C).map C.subtype = J := by
     refine le_antisymm ?_ ?_
-    · haveI : (J.subgroupOf C).Normal :=
+    · have : (J.subgroupOf C).Normal :=
         CFSG.GroupTheory.normal_subgroupOf_of_commutator_le (le_refl J)
       have hiscomm : IsMulCommutative (↥C ⧸ J.subgroupOf C) :=
         CFSG.GroupTheory.isMulCommutative_quotient_subgroupOf_of_commutator_le
           (V := J) (W := C) (le_refl J)
-      letI : IsMulCommutative (↥C ⧸ J.subgroupOf C) := hiscomm
+      let : IsMulCommutative (↥C ⧸ J.subgroupOf C) := hiscomm
       have hsolv : Group.IsSolvable (↥C ⧸ J.subgroupOf C) :=
         Group.isSolvable_of_comm (fun p q => (IsMulCommutative.is_comm).comm p q)
       have hle :=
@@ -127,7 +127,7 @@ theorem perfectCoreGeneration_holds'
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, haL_order]
     norm_num
-  letI : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
+  let : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
   have hcopO : Nat.Coprime 3 (Nat.card O) :=
     (Nat.prime_three.coprime_iff_not_dvd).mpr
       (CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3)
@@ -136,12 +136,11 @@ theorem perfectCoreGeneration_holds'
     CFSG.centralizer_map_quotient_eq_map_centralizer (p := 3)
       (T := Subgroup.zpowers aL) (M := O) (by infer_instance) hcopO
   have hzp_map : Subgroup.map π (Subgroup.zpowers aL) = Subgroup.zpowers x := by
-    simpa [x, π] using MonoidHom.map_zpowers π aL
+    simp [x, π]
   have hcent_zp : Subgroup.centralizer (Subgroup.zpowers aL : Set ↥c.L) = H := by
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
     ext y
-    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
-      Subgroup.mem_centralizer_iff, Subgroup.mem_centralizer_singleton_iff]
+    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
     constructor
     · intro h
       exact congrArg Subtype.val h
@@ -234,10 +233,10 @@ theorem perfectCoreGeneration_holds'
     have hcent : ((h : ↥c.L) : G) ∈ Subgroup.centralizer ({a} : Set G) := hK.2
     exact Subgroup.mem_centralizer_singleton_iff.mp hcent
   have hBHnormal : B_H.Normal := by
-    haveI hIPchar : IP.Characteristic :=
+    have hIPchar : IP.Characteristic :=
       CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := ↥H)
-    haveI hIPnormal : IP.Normal := inferInstance
-    haveI hzp_normal : (Subgroup.zpowers aH).Normal :=
+    have hIPnormal : IP.Normal := inferInstance
+    have hzp_normal : (Subgroup.zpowers aH).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr haH_center)
     change (Subgroup.zpowers aH ⊔ IP).Normal
     infer_instance
@@ -341,7 +340,7 @@ theorem normalizer_suzukiComp''
     (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J) :
     A ≤ Subgroup.normalizer (J : Set G) := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haPL : a ∈ P ⊓ c.L := hAPL ha
   have ha3 : orderOf a = 3 := by
     have ha1 : a ≠ 1 := by
@@ -383,12 +382,12 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
 theorem zSub_le_normalizer_thetaComponent'
     (hK3 : K3) (hK8 : K8Cat)
     (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
-    (hSzB : Sz.SzBorel) (hSzO : Sz.SzOutOdd) (hSzF : Sz.SzFix) (c : Ctx82E3 D)
+    (_hSzB : Sz.SzBorel) (_hSzO : Sz.SzOutOdd) (_hSzF : Sz.SzFix) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    {e : G} (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
-    (hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
+    {e : G} (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
+    (_hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
       Nat.card (autThetaQuot (zSub P c.L) J) = 1)
     (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L)
     {L : Subgroup G} (hL : L ∈ thetaComponentsAt 3 e) :
@@ -513,7 +512,7 @@ theorem component_le_normalizer_componentsImage_wPL9
     have hz1 : z ∈ P ⊓ c.L := (inf_le_left : Z ≤ P ⊓ c.L) hz
     exact (inf_le_left : P ⊓ c.L ≤ P) hz1
   have hZ3grp : IsPGroup 3 Z := hP.isPGroup.to_le hZP
-  haveI : Fact (IsPGroup 3 ↥(Z.subgroupOf K)) :=
+  have : Fact (IsPGroup 3 ↥(Z.subgroupOf K)) :=
     ⟨hZ3grp.comap_subtype⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥(thetaCore_wPL9 e)) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr

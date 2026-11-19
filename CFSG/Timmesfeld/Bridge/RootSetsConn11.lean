@@ -46,7 +46,7 @@ theorem exists_conj_mem_isPGroup (hC : ConnCex D) (h : Step6 D a b c x z P) {B :
     rw [← hg']
     exact Subgroup.smul_mem_pointwise_smul _ (MulAut.conj g') _
       (hS₂ (Subgroup.mem_zpowers _))
-  refine ⟨g', fun β hβ => ?_, (S₁ : Subgroup R).map R.subtype, S₁.isPGroup'.map _,
+  refine ⟨g', fun β hβ => ?_, (S₁ : Subgroup R).map R.subtype, S₁.isPGroup.map _,
     fun p hp => ⟨⟨p, hPR hp⟩, hS₁ hp, rfl⟩, ⟨_, hmem, rfl⟩⟩
   have := Subgroup.mem_centralizer_iff.1 g'.2 β hβ
   exact this.symm

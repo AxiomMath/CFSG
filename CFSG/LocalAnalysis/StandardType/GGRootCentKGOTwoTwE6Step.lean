@@ -143,8 +143,7 @@ private theorem exists_mulAut_conj_of_mem_normalizer {U G : Type*} [Group U] [Gr
     rwa [h2] at h
   refine ⟨α, fun k => ?_, horder⟩
   have e : Θ (α k) = ψ.range.normalizerMonoidHom ⟨a, ha⟩ (Θ k) := by
-    simp only [α, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-      MulEquiv.symm_symm, MulEquiv.apply_symm_apply]
+    simp only [α, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_symm, MulEquiv.apply_symm_apply]
   have h1 : ((Θ (α k) : ψ.range) : G) = a * ψ k * a⁻¹ := by
     rw [e, GGRootNorm.coe_normalizerMonoidHom, hΘ k]
   exact h1.symm.trans (hΘ (α k))
@@ -165,7 +164,7 @@ theorem exists_conj_normalActor_pinnedX_fixed (hf : 1 ≤ f) (hk : Nat.card k = 
           MulAut (twistedE6RootGroup K σ)))
         (stdRepC (apply_apply_eq hK hσ) 0) = stdRepC (apply_apply_eq hK hσ) 0 := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   set C₀ := twistedE6RootGroup K σ with hC₀
   set t : C₀ := stdRepC (apply_apply_eq hK hσ) 0 with ht
@@ -233,6 +232,7 @@ theorem exists_conj_normalActor_pinnedX_fixed (hf : 1 ≤ f) (hk : Nat.card k = 
     show e6HighestRoot (highNode TwistTag.E6.tag) = 2 from by decide]
   exact congrArg (pinnedX TwistTag.E6.tag K e6HighestRoot) hparam
 
+omit [Finite k] [CharP K 2] in
 theorem normalActor_mapsTo_su6Levi (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f)
     (u : (a : Fin TwistTag.E6.foldedTag.rank) →
@@ -260,6 +260,7 @@ theorem normalActor_mapsTo_su6Levi (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f)
   · exact graphFixedRootGroup_le _ _ _ ((compatDiagAutHom TwistTag.E6 K σ.toRingHom u *
       fieldActor (t := TwistTag.E6) σ δ) x).2
 
+omit [Finite k] [CharP K 2] in
 theorem delta_eq_one_of_fix_su6Levi_two_le {f : ℕ} (hf2 : 2 ≤ f) (hk : Nat.card k = 2 ^ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f)
     (u : (a : Fin TwistTag.E6.foldedTag.rank) →
@@ -312,6 +313,7 @@ variable {f : ℕ} {k K : Type} [Field k] [Field K] [Algebra k K] [Finite k] [Fi
   [CharP K 2]
 
 
+omit [Finite k] [CharP K 2] in
 theorem delta_eq_one_of_fix_su6Levi_one {f : ℕ} (hf : f = 1) (hk : Nat.card k = 2 ^ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f)
     (u : (a : Fin TwistTag.E6.foldedTag.rank) →
@@ -340,7 +342,7 @@ theorem delta_eq_one_of_fix_su6Levi_one {f : ℕ} (hf : f = 1) (hk : Nat.card k 
     group
   have hΘβ : Θ β = δ := hΘ β (h * s) u δ hβform
   have hδ2 : δ ^ 2 = 1 := by
-    haveI : Fintype (RingAut K) := Fintype.ofFinite _
+    have : Fintype (RingAut K) := Fintype.ofFinite _
     have hdvd : orderOf δ ∣ Fintype.card (RingAut K) := orderOf_dvd_card
     rw [← Nat.card_eq_fintype_card,
       (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK4).1]
@@ -471,26 +473,28 @@ variable {f : ℕ} {k K : Type} [Field k] [Field K] [Algebra k K] [Finite k] [Fi
   [CharP K 2]
 
 
+omit [Finite k] [Finite K] [CharP K 2] in
 private theorem isPGroup_tRadical_subgroupOf (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f) :
     IsPGroup 2 ((tRadical σ.toRingHom).subgroupOf
       (graphFixedRootGroup TwistTag.E6 K σ.toRingHom)) := by
   obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ.toRingHom hσ
   obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-  refine S.isPGroup'.to_le ?_
+  refine S.isPGroup.to_le ?_
   rw [hS]
   intro x hx
   rw [Subgroup.mem_subgroupOf] at hx ⊢
   exact Subgroup.mem_inf.2 ⟨parabolicRadical_le_posUnipotent _ (Subgroup.mem_inf.1 hx).1,
     graphFixedRootGroup_le _ _ _ x.2⟩
 
+omit [Finite k] in
 private theorem pCoreOf_centralizer_stdRepC (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f) :
     pCoreOf 2 (Subgroup.centralizer ({stdRepC (apply_apply_eq hK hσ) 0} :
       Set (graphFixedRootGroup TwistTag.E6 K σ.toRingHom))) =
       (tRadical σ.toRingHom).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
   set C₀ := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC₀
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hCx : Subgroup.centralizer ({stdRepC (apply_apply_eq hK hσ) 0} : Set C₀) =
       (tRadical σ.toRingHom).subgroupOf C₀ ⊔ (su6Levi σ.toRingHom).subgroupOf C₀ :=
     centralizer_stdRepC_zero_eq (k := k) (σ := σ.toRingHom) hf hk hK hσ
@@ -506,7 +510,7 @@ private theorem pCoreOf_centralizer_stdRepC (hf : 1 ≤ f) (hk : Nat.card k = 2 
   have hQ2 : IsPGroup 2 ((tRadical σ.toRingHom).subgroupOf C₀) :=
     isPGroup_tRadical_subgroupOf hf hk hK hσ
   have hZ : Subgroup.center ↥((su6Levi σ.toRingHom).subgroupOf C₀) = ⊥ := by
-    haveI : IsSimpleGroup (su6Levi σ.toRingHom) :=
+    have : IsSimpleGroup (su6Levi σ.toRingHom) :=
       isSimpleGroup_su6Levi (σ := σ.toRingHom) hf hk hK hσ
     have hnc : ∃ a b : su6Levi σ.toRingHom, a * b ≠ b * a := by
       by_contra hc
@@ -551,10 +555,10 @@ theorem pCoreOf_le_range_of_highRoot_twE6 (hf : 1 ≤ f)
       ψ.range := by
   have hk : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-  letI : Algebra (GaloisField 2 f) K := ι.toAlgebra
+  let : Algebra (GaloisField 2 f) K := ι.toAlgebra
   intro a ha
   let C₀ := graphFixedRootGroup TwistTag.E6 K σ.toRingHom
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have haM : a ∈ Subgroup.normalizer (ψ.range : Set G) ⊓ Subgroup.centralizer {ψ t} :=
     GGRootNorm.pCoreOf_le _ ha
   have ha_norm : a ∈ Subgroup.normalizer (ψ.range : Set G) := haM.1

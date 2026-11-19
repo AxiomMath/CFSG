@@ -19,7 +19,7 @@ theorem i2018_spor_absurd {X K J : Subgroup G} {x : G} {s : TauCeti.SporadicName
     (hCover : I2018U38Cover) (hSpor : SporL3Down s)
     (eS : PSimple 3 K ≃* (TauCeti.CFSGIndex.sporadic s).Group) : False := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   have hxp : IsPGroup 3 (Subgroup.zpowers x) := isPGroup_zpowers_of_pow_eq_one hx3
   have hα3 : (chevAut 3 K ⟨x, hxN⟩) ^ 3 = 1 := chevAut_pow_eq_one 3 K hxN hx3
   have hJ' := glaPComponent_chevTransfer Nat.prime_three hxN hxp hJ

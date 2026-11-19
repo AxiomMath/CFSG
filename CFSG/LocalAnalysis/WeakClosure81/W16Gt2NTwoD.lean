@@ -105,12 +105,12 @@ theorem false_of_transvection_config (hK : KFacts1234) {Y : Type} [Group Y] {m :
     (hVb : ∀ y : Y, y ∈ Vb ↔ e y ∈ transvectionCenterSet m F a) (hnt : Vb ≠ ⊥) (γ : Y)
     (hWb : Wb = conjSubgroup Vb γ)
     (hinf : ∀ x ∈ Vb, x ∈ Subgroup.normalizer (Wb : Set Y) → x = 1) : False := by
-  haveI : Finite Y := Finite.of_injective (e : Y → StatedProj (StatedSL m F)) e.injective
+  have : Finite Y := Finite.of_injective (e : Y → StatedProj (StatedSL m F)) e.injective
   obtain ⟨a', ha', hT⟩ := hK.transvection_conj m F a ((e γ)⁻¹) hm ha
   have hWiff : ∀ w : Y, w ∈ Wb ↔ e w ∈ transvectionCenterSet m F a' := by
     intro w
     rw [hWb, mem_conjSubgroup_iff, hVb (γ * w * γ⁻¹), ← hT]
-    simp only [map_mul, map_inv, Set.mem_setOf_eq]
+    simp only [map_mul, map_inv, Set.mem_ofPred_eq]
     constructor
     · intro h
       exact ⟨e γ * e w * (e γ)⁻¹, h, by group⟩

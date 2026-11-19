@@ -181,7 +181,7 @@ theorem twenty_le_ncard_orbit_mul_ncard_rangeRho {s : A45} (hs : s ∈ sQA45) (h
       have h1 : ({x : A45 | x ∈ sQA45 ∧ x ≠ 1} : Set A45) = (sQA45 : Set A45) \ {1} := by
         ext x
         simp
-      rw [h1, Set.ncard_diff_singleton_of_mem (one_mem sQA45),
+      rw [h1, Set.ncard_sdiff_singleton_of_mem (one_mem sQA45),
         ← Nat.card_coe_set_eq]
       have := card_sQA45
       have h2 : Nat.card ↥(sQA45 : Set A45) = 16 := by

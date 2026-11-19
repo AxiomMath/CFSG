@@ -166,7 +166,7 @@ theorem Std20.w_modular (d : Std20 p f K K' J S R R' W V z t) (c7 : Concl20_7 S 
   have huR : Subgroup.zpowers u ≤ R := by
     rw [hu, d.late_R_eq]
     exact fun x hx => ⟨hx.1, d.hWS hx.2⟩
-  have hU2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup'.to_le (huR.trans d.hRS)
+  have hU2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup.to_le (huR.trans d.hRS)
   obtain ⟨n, hn⟩ := hU2.exists_card_eq
   have hn3 : 3 ≤ n := by
     by_contra h
@@ -213,7 +213,7 @@ theorem Std20.w_modular (d : Std20 p f K K' J S R R' W V z t) (c7 : Concl20_7 S 
         · exact Subgroup.mem_centralizer_singleton_iff.mpr hra.symm
       exact Subgroup.mem_centralizer_singleton_iff.mp (hle hx)
     have hV2 : IsPGroup 2 ↥(Subgroup.zpowers b) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hbS)
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr hbS)
     have hVK : ∀ y ∈ Subgroup.zpowers b, conjSub y K = K := fun y hy =>
       mem_normalizer_iff_conjSub_eq.mp (Subgroup.zpowers_le.mpr hbN hy)
     have hcomm : ∀ x ∈ R, ∀ v ∈ Subgroup.zpowers b, x * v = v * x := by

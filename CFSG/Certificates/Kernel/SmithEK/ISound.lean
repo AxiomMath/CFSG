@@ -20,7 +20,7 @@ theorem reduceBy_xor : ∀ (E : List (Nat × Nat)) (a b : Nat),
     rw [reduceBy_cons, reduceBy_cons, reduceBy_cons, ← reduceBy_xor E]
     congr 1
     rw [Nat.testBit_xor]
-    cases ha : a.testBit be.1 <;> cases hb : b.testBit be.1 <;> simp <;> ac_nf <;>
+    cases ha : a.testBit be.1 <;> cases hb : b.testBit be.1 <;> simp <;> ac_nf;
       (try simp only [Nat.xor_self, Nat.xor_zero])
 
 theorem eq_of_xor_eq_zero {v y : Nat} (h : v ^^^ y = 0) : v = y := by
@@ -45,7 +45,7 @@ theorem reduceBy_span : ∀ (E : List (Nat × Nat)) (v : Nat),
       rw [e]
       have h0 : ((if v.testBit be.1 then 1 else 0) + 2 * c).testBit 0 = v.testBit be.1 := by
         rw [Nat.testBit_zero]
-        split_ifs with hv <;> simp [hv] <;> omega
+        split_ifs with hv <;> simp [hv]
       have h1 : ((if v.testBit be.1 then 1 else 0) + 2 * c) / 2 = c := by split_ifs <;> omega
       rw [h0, h1]
       split_ifs <;> simp [Nat.xor_assoc]
@@ -65,7 +65,7 @@ theorem xor_bit_double (b x : Nat) (hb : b < 2) : b ^^^ 2 * x = b + 2 * x := by
   rw [Nat.testBit_xor]
   rcases i with _ | i
   · rw [Nat.testBit_zero, Nat.testBit_zero, Nat.testBit_zero]
-    rcases (by omega : b = 0 ∨ b = 1) with rfl | rfl <;> simp <;> omega
+    rcases (by omega : b = 0 ∨ b = 1) with rfl | rfl <;> simp
   · rw [← Nat.testBit_div_two, ← Nat.testBit_div_two (b + 2 * x), ← Nat.testBit_div_two (2 * x)]
     rw [show b / 2 = 0 by omega, show (b + 2 * x) / 2 = x by omega,
       show 2 * x / 2 = x by omega, Nat.zero_testBit, Bool.false_xor]
@@ -288,9 +288,9 @@ theorem lastIdx_spec {f : Nat → Nat} {x d : Nat} :
   | N + 1, ⟨j, hj, hf⟩ => by
     unfold lastIdx
     by_cases hN : f N = x
-    · rw [if_pos hN]
+    · rw [ite_eq_left hN]
       exact ⟨Nat.lt_succ_self N, hN⟩
-    · rw [if_neg hN]
+    · rw [ite_eq_right hN]
       have hj' : j < N := by
         rcases Nat.lt_or_ge j N with h | h
         · exact h

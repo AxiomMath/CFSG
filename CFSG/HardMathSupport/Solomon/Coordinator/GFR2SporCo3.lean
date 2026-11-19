@@ -90,7 +90,7 @@ end Fuse
 private theorem permsA_two {n : ℕ} {gs : Array (Array ℕ)} (h : gs.size = 2) :
     permsA n gs = {permOfArr n gs[0]!, permOfArr n gs[1]!} := by
   ext x
-  simp only [permsA, h, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, h, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
@@ -213,7 +213,7 @@ private theorem no_order25_centralized {s : Equiv.Perm (Fin 276)} (hs : s ∈ co
   have hx25 : co3FiveLine 25 ∈ E' := by
     have hAcard : Nat.card co3FiveQ = 125 := card_co3FiveQ
     have hApg : IsPGroup 5 co3FiveQ := IsPGroup.of_card (n := 3) (by rw [hAcard]; norm_num)
-    haveI : Group.IsNilpotent co3FiveQ := hApg.isNilpotent
+    have : Group.IsNilpotent co3FiveQ := hApg.isNilpotent
     set B : Subgroup co3FiveQ := E'.subgroupOf co3FiveQ with hB
     have hBcard : Nat.card B = 25 := by
       rw [hB, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE'Q).toEquiv, hE'card]
@@ -491,7 +491,7 @@ theorem sporNoPumpup_Co3
     (hSpM : SporadicMultipliers)
     (hOG : UniquenessMaximal.InputONGroup) (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     SporNoPumpup .Co3 := by
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Co3).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Co3).Group :=
     Finite.of_equiv ↥co3P ((hbr .Co3).some.symm.trans co3PermEquiv).symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [← Nat.card_congr (hbr .Co3).some.toEquiv]

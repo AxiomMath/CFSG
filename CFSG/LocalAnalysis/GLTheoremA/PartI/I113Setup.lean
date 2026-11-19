@@ -43,6 +43,7 @@ theorem isSUThreeTwoPow_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mk_eq_one_iff {p : ℕ} {X : Subgroup G} {x : G} (hx : x ∈ X) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hx⟩ = 1 ↔ x ∈ GLAPPrimeCoreOf p X := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
@@ -53,7 +54,7 @@ theorem mk_eq_one_iff {p : ℕ} {X : Subgroup G} {x : G} (hx : x ∈ X) :
     have : y = ⟨x, hx⟩ := Subtype.ext hyx
     exact this ▸ hy
 
-theorem barX_B0_eq {X B K : Subgroup G} (hBX : B ≤ X) (hBel : IsElemAbelian 3 B)
+theorem barX_B0_eq {X B K : Subgroup G} (_hBX : B ≤ X) (hBel : IsElemAbelian 3 B)
     (hK : GLAPComponent 3 X K) :
     barX 3 X (B ⊓ centModSubgroup 3 K) = t113B0 (barX 3 X B) (barX 3 X K) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three

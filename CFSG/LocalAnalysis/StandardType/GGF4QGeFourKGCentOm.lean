@@ -278,7 +278,7 @@ theorem ggF4QGeFourKGCent_S2_omegaMinusTarget (ha₀ : GGLNoncyclicInput) (hTBF 
       have hc2' : c.val < 2 := by
         by_contra hcl
         rw [hc1, hc2, hσO c, hσO d] at hFF
-        simp only [hd2, hcl, if_true, if_false] at hFF
+        simp only [hd2, hcl, ite_true, ite_false] at hFF
         have := Nat.pow_right_injective (le_refl 2) hFF
         omega
       obtain ⟨g1, hg1⟩ := R.exists_conj_zero_of_lt_two hXR hX01 hc2'
@@ -417,7 +417,7 @@ theorem ggF4QGeFourKGCent_S2_omegaMinusTarget (ha₀ : GGLNoncyclicInput) (hTBF 
       have hcl : ¬ c.val < 2 := by
         intro hcl
         rw [hc1, hc2, hσX d, hσO c] at hFF
-        simp only [hd2, hcl, if_true] at hFF
+        simp only [hd2, hcl, ite_true] at hFF
         have := Nat.pow_right_injective (le_refl 2) hFF
         omega
       have h3 := c.isLt

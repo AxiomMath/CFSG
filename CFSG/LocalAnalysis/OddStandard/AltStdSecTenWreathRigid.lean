@@ -28,7 +28,7 @@ theorem odd_card_of_fixedPointFree_involution {N : Type*} [Group N] [Finite N] (
     simp only [f, map_mul, map_inv, hφ n, mul_inv_rev, inv_inv]
   rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]
   intro hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
   have hg2 : g * g = 1 := by
     have := pow_orderOf_eq_one g
@@ -47,10 +47,10 @@ theorem WreathK.centralizer_layer_eq_bot (hE : ExactShape t A 8) (hK : WreathK t
   classical
   let N : Subgroup X := centralizer ((CFSG.layer X : Subgroup X) : Set X)
   have hNnormal : N.Normal := by
-    haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
     change (centralizer ((CFSG.layer X : Subgroup X) : Set X)).Normal
     infer_instance
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have ht2 : t * t = 1 := by
     have := pow_orderOf_eq_one t
     rw [hE.order] at this
@@ -63,7 +63,7 @@ theorem WreathK.centralizer_layer_eq_bot (hE : ExactShape t A 8) (hK : WreathK t
     obtain ⟨k, hk, rfl⟩ := hmem
     have hk' : t * k * t⁻¹ ∈ conjSub t K := by
       rw [conjSub, Subgroup.mem_map]
-      exact ⟨k, hk, by simpa using MulAut.conj_apply t k⟩
+      exact ⟨k, hk, by simp⟩
     exact (CFSG.layer X).mul_mem (hK.le_layer hk) (hK.conjSub_le_layer hk')
   have htnotN : (t : X) ∉ N := by
     intro htN

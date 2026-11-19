@@ -17,6 +17,7 @@ section Central
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem central_odd_eq_one (hO : classicalInvolutionOddCore X = ⊥) {w : X}
     (hw : w ∈ Subgroup.center X) (hodd : Odd (orderOf w)) : w = 1 := by
   have hN : (Subgroup.zpowers w).Normal := by

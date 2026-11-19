@@ -59,6 +59,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orderOf_conjAct_dvd_m22f {V : Subgroup G} {g : G} (hgN : g ∈ Subgroup.normalizer (V : Set G)) :
     orderOf (conjAct V ⟨g, hgN⟩) ∣ orderOf g := by
   have h := orderOf_map_dvd (conjAct V) (⟨g, hgN⟩ : Subgroup.normalizer (V : Set G))

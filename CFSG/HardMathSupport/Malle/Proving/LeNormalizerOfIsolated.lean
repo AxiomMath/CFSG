@@ -87,7 +87,7 @@ theorem odd_normal_le_of_isolated {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     (hPab : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) (hZP : Z ≤ P) (hZel : CFSG.Open.IsElemAbelian p Z)
     (hZcard : Nat.card Z = p ^ 2)
     (hC : ∀ z ∈ Z, z ≠ 1 → M ⊓ centralizer ({z} : Set G) ≤ normalizer (P : Set G))
-    (hK0M : K0 ≤ M) (hPK0 : P ≤ K0) (hK0norm : ∀ g ∈ M, ∀ k ∈ K0, g * k * g⁻¹ ∈ K0)
+    (hK0M : K0 ≤ M) (hPK0 : P ≤ K0) (_hK0norm : ∀ g ∈ M, ∀ k ∈ K0, g * k * g⁻¹ ∈ K0)
     (hK0N : K0 ⊓ normalizer (P : Set G) = P) : K0 ≤ P := by
   have : Fact p.Prime := ⟨hp⟩
   have hpK0 : ¬ p ∣ P.relIndex K0 := fun h => by

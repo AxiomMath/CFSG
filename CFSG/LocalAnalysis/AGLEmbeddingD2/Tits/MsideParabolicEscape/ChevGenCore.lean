@@ -211,6 +211,7 @@ section Main
 variable {W : Type} [Group W] [Finite W] {K : Type} [Group K] [Finite K]
   {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {M : ℕ}
 
+omit [Finite K] in
 theorem exists_two_lift {L : Subgroup W} {π : K →* ↥L ⧸ Subgroup.center ↥L} (P : Subgroup K)
     {x : K} (hx : ∃ k : ℕ, x ^ 2 ^ k = 1) (hxP : x ∈ P) :
     ∃ a : ↥L, QuotientGroup.mk' (Subgroup.center ↥L) a = π x ∧
@@ -220,7 +221,6 @@ theorem exists_two_lift {L : Subgroup W} {π : K →* ↥L ⧸ Subgroup.center �
   obtain ⟨xt, hxt⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥L) (π x)
   have hxtP : xt ∈ (P.map π).comap q := by
     rw [Subgroup.mem_comap]
-    change q xt ∈ P.map π
     rw [hxt]
     exact ⟨x, hxP, rfl⟩
   have hx2 : ∃ k : ℕ, orderOf (q xt) = 2 ^ k := by

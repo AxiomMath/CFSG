@@ -15,12 +15,12 @@ theorem s16c1_G47_crit {Hs : Type} [Group Hs] [Finite Hs] {q : ℕ} (hq : q.Prim
     (hu : ∃ n ∈ P, u * n * u⁻¹ ≠ n) :
     ∃ D : Subgroup Hs, D ≤ P ∧ D.Normal ∧ (∀ d ∈ D, d ^ q = 1) ∧
       (∀ a ∈ D, ∀ b ∈ D, ∀ c ∈ D, ⁅⁅a, b⁆, c⁆ = 1) ∧ ∃ d ∈ D, u * d * u⁻¹ ≠ d := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : P.Normal := hPn
+  have : Fact q.Prime := ⟨hq⟩
+  have : P.Normal := hPn
   obtain ⟨C, -, -, -, -, hD₀char, -, hD₀comm, hD₀exp, -, hstar⟩ :=
     CFSG.RankThree.PartTwo.Sec13.CritProof.exists_isThompsonCritical_omega (p := q) hq2 hP
   set D₀ := CFSG.RankThree.PartTwo.Sec13.CritProof.omegaOneIn q C
-  haveI : D₀.Characteristic := hD₀char
+  have : D₀.Characteristic := hD₀char
   refine ⟨D₀.map P.subtype, Subgroup.map_subtype_le D₀, ?_, ?_, ?_, ?_⟩
   · exact inferInstance
   · rintro d ⟨y, hy, rfl⟩

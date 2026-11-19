@@ -360,7 +360,7 @@ theorem exists_traceFrame_of_cfg_orth {K : Type} [Field K] [Finite K] [CharP K 2
     rw [framePsi_apply, framePsi_apply]
     by_cases h : a i = c
     · simp [h]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       rw [hτ, ← trace_tau (K := K) (M := M) (hK := hK) (τ := τ) (τ (d i) * d' i),
         map_mul τ, hτ]
   have hnorm' : ∀ d w, algebraMap K M (Q (Φ' (d, w))) =
@@ -373,7 +373,7 @@ theorem exists_traceFrame_of_cfg_orth {K : Type} [Field K] [Finite K] [CharP K 2
     rw [framePsi_apply]
     by_cases h : a i = c
     · simp [h]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       rw [hτ, mul_comm]
   have hEact' : ∀ e ∈ E, ∃ a' : Fin n → M, (∀ i, a' i ^ 3 = 1) ∧
       ∀ d w, (e : V ≃ₗ[K] V) (Φ' (d, w)) = Φ' (fun i => a' i * d i, w) := by

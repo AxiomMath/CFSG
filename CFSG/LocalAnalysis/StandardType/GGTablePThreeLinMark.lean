@@ -85,8 +85,7 @@ theorem linMark_holds :
     ∀ (X : Type) [Group X] [Finite X] (ℓ n : ℕ), 5 ≤ ℓ → 2 ≤ n →
       LargeEvenMarking X (fun lab _ _ _ _ _ => lab = ⟨.A, ℓ, n⟩) →
         GGMarkingAll (K := X) fun lab _ _ _ _ _ => lab = ⟨.A, ℓ, n⟩ := by
-  intro X _ _ ℓ n hℓ hn hmark
-  intro P hP
+  intro X _ _ ℓ n hℓ hn hmark P hP
   obtain ⟨lab₁, hlab₁_eq, hlab₁⟩ :=
     CFSG.StandardType.FrameRoute.exists_glaLabel (X := X) hmark
   subst hlab₁_eq

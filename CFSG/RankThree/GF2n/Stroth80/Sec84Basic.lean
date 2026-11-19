@@ -15,13 +15,13 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem sec8_Q_le_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ hc.CN t := fun x hx =>
-  Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx, fun v hv => hc.hyp.toHyp79.comm_mem_V hx (hc.Vt_le_Q t hv)⟩
+theorem sec8_Q_le_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ hc.CN t := fun _x hx =>
+  Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx, fun _v hv => hc.hyp.toHyp79.comm_mem_V hx (hc.Vt_le_Q t hv)⟩
 
 theorem sec8_Z0_le_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Z0 ≤ hc.CN t := by
   obtain ⟨m, -, K, fK, finK, hK, φ, hrange, hker, -⟩ := hs.sp
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hQN : Q ≤ hc.CN t := sec8_Q_le_CN hc hs.toSec5.mem

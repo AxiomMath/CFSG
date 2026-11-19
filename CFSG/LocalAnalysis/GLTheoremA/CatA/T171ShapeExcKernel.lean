@@ -32,8 +32,8 @@ open scoped Pointwise commutatorElement
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 360 →
     S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) < 4 →
     ∀ {y : ModGL τ L}
-      (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
-      (hyF : S.D.step y = y)
+      (_hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
+      (_hyF : S.D.step y = y)
       (hyStab : MulAut.conj y ∈ subgroupStabAut
         (rationalComponent S.ρ S.Γ (rootCharHom a) i)),
       centerQuotientHom ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)
@@ -66,8 +66,8 @@ open scoped Pointwise commutatorElement
     Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 360 →
     ∀ {y : ModGL τ L}
-      (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
-      (hyF : S.D.step y = y)
+      (_hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
+      (_hyF : S.D.step y = y)
       (hyStab : MulAut.conj y ∈ subgroupStabAut
         (rationalComponent S.ρ S.Γ (rootCharHom a) i)),
       centerQuotientHom ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)
@@ -97,14 +97,14 @@ theorem excKernelCompAction_of (hP : TwoDExcFixedPointsPerfectAll)
         hnot hyZ hyF hyStab
   | twoD =>
       obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-      haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+      have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
         ⟨hs0.ne'⟩
       exact centerQuotientHom_mem_innAutDerived_twoDExcRankFour S i hT (Or.inl hk) hs hmin
         (hP S hT i (Or.inl hk)) hyZ hyF hyStab
   | exc =>
       by_cases hr : compRank (componentRoots (rootCharHom a) i) = 4
       · obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-        haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+        have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
           ⟨hs0.ne'⟩
         exact centerQuotientHom_mem_innAutDerived_twoDExcRankFour S i hT (Or.inr ⟨hk, hr⟩) hs hmin
           (hP S hT i (Or.inr ⟨hk, hr⟩)) hyZ hyF hyStab

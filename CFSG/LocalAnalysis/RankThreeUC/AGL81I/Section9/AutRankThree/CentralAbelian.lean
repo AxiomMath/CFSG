@@ -113,7 +113,7 @@ theorem card_maximalSpectrum_le (S : Subalgebra K (Matrix ι ι K)) [IsMulCommut
       Matrix.mulVec_zero] at h
     have hite : ∀ x, c x • (if I = x then e I else 0) *ᵥ v x =
         if I = x then c x • e I *ᵥ v x else 0 := fun x => by split_ifs <;> simp
-    simp only [hite, Finset.sum_ite_eq, if_pos hI] at h
+    simp only [hite, Finset.sum_ite_eq, ite_eq_left hI] at h
     exact (smul_eq_zero.mp h).resolve_right (hv I)
   simpa [Nat.card_eq_fintype_card] using hli.fintype_card_le_finrank
 

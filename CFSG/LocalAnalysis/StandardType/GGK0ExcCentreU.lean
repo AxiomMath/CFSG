@@ -26,7 +26,7 @@ theorem ggK0ExcRealizedCentre_centred :
   rintro R _ I F ⟨hq, hcop, hinner⟩
   refine ⟨hq, ?_⟩
   intro L' _ _ ψ hψ hker hperf e hord phi hphiI hphi ρ _ hrz
-  haveI : Fact p.Prime := ⟨hpair.1⟩
+  have : Fact p.Prime := ⟨hpair.1⟩
   obtain ⟨ER, hER, hcard, hfix, hcent, hIfix⟩ := PB3_assembly hpair hcen ρ hrz hinner
   obtain ⟨E, hEab, hEcard, hEfix, hEcent, hElift⟩ :=
     lift_elemAbelian_central hpair.1 ψ hψ hker (hcop L' ψ hψ hker hperf) e phi hphi ER hER hfix

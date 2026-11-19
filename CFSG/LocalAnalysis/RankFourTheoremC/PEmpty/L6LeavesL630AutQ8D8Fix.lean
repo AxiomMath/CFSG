@@ -40,7 +40,7 @@ theorem mem_center_of_fixed [Finite R] {Q : Subgroup (MulAut R)} (hQ : IsPGroup 
     (hQne : ∃ q ∈ Q, q ≠ 1) (hR : Nat.card R = 32) (hcen : Nat.card (Subgroup.center R) = 2)
     (hfix : ∀ q : MulAut R, ∀ z ∈ Subgroup.center R, q z = z) {r : R}
     (hr : ∀ q ∈ Q, q r = r) : r ∈ Subgroup.center R := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hmod : Nat.card R ≡ Nat.card (fixSub Q) [MOD 5] := by
     have h := hQ.card_modEq_card_fixedPoints R
     rw [fixedPoints_eq] at h

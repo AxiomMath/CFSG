@@ -32,6 +32,7 @@ theorem mem_of_odd_orderOf_of_index_two {G : Type*} [Group G] {H : Subgroup G} (
 
 variable {k : ℕ} {X : Fin k → Type} [∀ i, Group (X i)] [∀ i, Finite (X i)]
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem mem_spTwoProduct_of_odd {x : ∀ i, X i} (hx : Odd (orderOf x)) :
     x ∈ ParabCensus.spTwoProduct (X := X) := by
   classical
@@ -50,11 +51,12 @@ theorem mem_spTwoProduct_of_odd {x : ∀ i, X i} (hx : Odd (orderOf x)) :
 
 variable {R : Type} [Group R] [Finite R]
 
+omit [Finite R] in
 theorem mem_wSup_of_odd_of_spTwo (h : IsSpTwoLeviProduct R) {x : R ⧸ CFSG.pCore 2 R}
     (hx : Odd (orderOf x)) : x ∈ wSup (R ⧸ CFSG.pCore 2 R) := by
   obtain ⟨k, X, hgrp, hfin, ⟨e⟩, hX⟩ := h
-  letI := hgrp
-  letI := hfin
+  let := hgrp
+  let := hfin
   have h1 : e x ∈ wSup (∀ i, X i) := ParabCensus.spTwoProduct_le_wSup hX
     (mem_spTwoProduct_of_odd (by rw [MulEquiv.orderOf_eq]; exact hx))
   rw [← map_wSup_eq e] at h1
@@ -94,7 +96,7 @@ variable {r : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] {I : Set ℕ}
 theorem commutator_statedSp_eq_top_big (hK4 : 4 ≤ Nat.card K) (m : ℕ) :
     commutator (StatedSp m K) = ⊤ := by
   rcases Nat.eq_zero_or_pos m with hm | hm
-  · haveI : Subsingleton (StatedSp m K) := by rw [hm]; infer_instance
+  · have : Subsingleton (StatedSp m K) := by rw [hm]; infer_instance
     refine eq_top_iff.mpr fun x _ => ?_
     rw [Subsingleton.elim x 1]
     exact one_mem _
@@ -220,7 +222,7 @@ end Big
 theorem leviInnOnPW_symp (p : ℕ) [OddPrime p]
     (hGA : GriessAllModelsStatement) : LeviInnOnPW p (IsLieOf IdxB) := by
   intro Y _ _ L P hCP hB hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   rcases ParabCensus.isLieOf_idxB_cases hB with h2 | hbig
   · exact leviInnAtPW_of_spTwo
       (ParabCensus.isSpTwoLeviProduct_idxBTwo (oddCenterRest_of_griess hGA) hCP h2)

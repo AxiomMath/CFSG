@@ -190,7 +190,7 @@ private noncomputable def orbitRep (G : Subgroup (GeneralLinearGroup n K)) [Fint
 private lemma orbitRep_spec {G : Subgroup (GeneralLinearGroup n K)} [Fintype G]
     {ℓ : Submodule K (n → K)} {L : Submodule K (n → K)} (hL : L ∈ lineOrbit G ℓ) :
     lineMap ((orbitRep G ℓ L : G) : GeneralLinearGroup n K) ℓ = L := by
-  rw [orbitRep, dif_pos hL]
+  rw [orbitRep, dite_eq_left hL]
   exact (Classical.choose_spec (Finset.mem_image.mp hL)).2
 
 private noncomputable def lineVector (G : Subgroup (GeneralLinearGroup n K)) [Fintype G]
@@ -274,7 +274,7 @@ private lemma lineCoeff_spec {G : Subgroup (GeneralLinearGroup n K)} [Fintype G]
         (lineVector G ℓ a L) =
       lineCoeff G ℓ a ha0 ha g L •
         lineVector G ℓ a (lineMap (g : GeneralLinearGroup n K) L) := by
-  rw [lineCoeff, dif_pos hL]
+  rw [lineCoeff, dite_eq_left hL]
   exact Classical.choose_spec (exists_lineCoeff (G := G) (ℓ := ℓ) (a := a) ha g hL)
 
 private lemma lineCoeff_unique {G : Subgroup (GeneralLinearGroup n K)} [Fintype G]
@@ -549,14 +549,14 @@ private lemma orbitChar_reflection {G : Subgroup (GeneralLinearGroup n K)} [Fint
     orbitChar G ℓ a ha0 ha x =
       if rootLine (x : GeneralLinearGroup n K) ∈ lineOrbit G ℓ then -1 else 1 := by
   by_cases hR : rootLine (x : GeneralLinearGroup n K) ∈ lineOrbit G ℓ
-  · rw [if_pos hR, orbitChar,
+  · rw [ite_eq_left hR, orbitChar,
       ← Finset.mul_prod_erase (lineOrbit G ℓ)
         (fun L => lineCoeff G ℓ a ha0 ha x L) hR,
       orbitChar_product_erase_eq_one (G := G) (ℓ := ℓ) (a := a) (ha0 := ha0)
         (ha := ha) hx2 hxr h2, mul_one]
     exact lineCoeff_rootLine_eq_neg (G := G) (ℓ := ℓ) (a := a) (ha0 := ha0)
       (ha := ha) hx2 hR
-  · rw [if_neg hR, orbitChar]
+  · rw [ite_eq_right hR, orbitChar]
     exact orbitChar_product_eq_one_of_not_mem (G := G) (ℓ := ℓ) (a := a) (ha0 := ha0)
       (ha := ha) hx2 hxr h2 hR
 
@@ -769,7 +769,7 @@ private lemma orbitChar_conj_eq_one {G : Subgroup (GeneralLinearGroup n K)} [Fin
       rootLine_conj (g : GeneralLinearGroup n K) c, lineMap_finrank, rootLine_finrank, hcr]
   have hchar := orbitChar_reflection (G := G) (ℓ := ℓ) (a := a) (ha0 := ha0)
     (ha := ha) (x := x) hx2 hxr h2
-  rwa [if_neg hnot] at hchar
+  rwa [ite_eq_right hnot] at hchar
 
 private lemma orbitChar_eq_one_on_closure {G : Subgroup (GeneralLinearGroup n K)} [Fintype G]
     {ℓ : Submodule K (n → K)} {a : n → K} {ha0 : a ≠ 0}
@@ -852,7 +852,7 @@ private lemma exists_conj_aux {n K : Type*} [Fintype n] [DecidableEq n] [Field K
   have hχs : orbitChar G ℓ a ha_ne hℓ ⟨s, hs⟩ = -1 := by
     have h := orbitChar_reflection (G := G) (ℓ := ℓ) (a := a) (ha0 := ha_ne) (ha := hℓ)
       (x := ⟨s, hs⟩) hs2 hsr h2
-    rwa [if_pos hsO] at h
+    rwa [ite_eq_left hsO] at h
   by_contra hno
   have hno_gen : ∀ g : G, rootLine ((g : GeneralLinearGroup n K) * c *
       (g : GeneralLinearGroup n K)⁻¹) ∉ lineOrbit G ℓ := by

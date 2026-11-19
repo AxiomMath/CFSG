@@ -25,8 +25,8 @@ private lemma l6km_monomial_involution {p N : ℕ} [Fact p.Prime] {V : Type} [Ad
       ∃ c : ZMod p, c ≠ 0 ∧
         (a : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) (f i) = c • f j := by
   classical
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   let T : Submodule (ZMod p) V := ggFixLineT r s
   let Q : Subgroup (↥T ≃ₗ[ZMod p] ↥T) := ggFixLineQ S
   by_cases h1 : π a = 1
@@ -129,8 +129,8 @@ private lemma l6km_fixed_bound {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
     (hTtop : ggFixLineT r s = ⊤) :
     Module.finrank (ZMod p) ↥(ggLinFix (Set.range r)) ≤ 1 := by
   classical
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   let T : Submodule (ZMod p) V := ggFixLineT r s
   let F : Submodule (ZMod p) V := ggLinFix (Set.range r)
   let σfun : Fin (N - 1) → Equiv.Perm (Fin n) := fun i => π (Afun i)
@@ -301,8 +301,8 @@ theorem ggFixLine_not_monomial {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
   classical
   let T : Submodule (ZMod p) V := ggFixLineT r s
   let P : Subgroup (V ≃ₗ[ZMod p] V) := Subgroup.closure (Set.range r)
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   obtain ⟨π, η, hπ, hπker, hψinj, hPcard, hcoordη, hn⟩ := l6km_monomial_setup S f hmon
   have hfinT : Module.finrank (ZMod p) ↥T = n := by
     simpa using Module.finrank_eq_card_basis f
@@ -361,7 +361,6 @@ theorem ggFixLine_not_monomial {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
     obtain ⟨c, hc, hc'⟩ := hπ (Afun i) p
     refine ⟨c, hc, ?_⟩
     rw [hc']
-    change c • f (π (Afun i) p) = c • f q
     rw [hswap, Equiv.swap_apply_left]
   let pp : Fin (N - 1) → Fin n := fun i => (htrans2 i).choose
   let qq : Fin (N - 1) → Fin n := fun i => (htrans2 i).choose_spec.choose

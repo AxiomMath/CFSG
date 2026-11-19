@@ -19,9 +19,9 @@ theorem perfect_le_socle_of_perfect {K : Type} [Group K] [Finite K] (S : Subgrou
   let ψ : ↥P →* CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥S := φ.comp P.subtype
   have hψ : ψ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ψ.range := (Subgroup.nontrivial_iff_ne_bot ψ.range).2 hne
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hP
-    haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+    have : Nontrivial ψ.range := (Subgroup.nontrivial_iff_ne_bot ψ.range).2 hne
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hP
+    have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
     exact Group.IsPerfect.not_isSolvable ψ.range inferInstance
   intro d hd
   have h1 : QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥S)

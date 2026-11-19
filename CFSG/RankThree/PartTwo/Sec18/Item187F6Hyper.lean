@@ -16,8 +16,8 @@ theorem abelian_case_sixtyfour (hV : ∀ v : V, v * v = 1) {K D : Subgroup (MulA
     (hDK : D ≤ Subgroup.normalizer (K : Set (MulAut V))) (heD : e ∈ ⁅D, D⁆)
     (hD : ∀ D₀ : Subgroup (MulAut V), D₀ ≤ D → D₀.relIndex D ≤ 2 → D₀ = D) :
     2 ^ 12 ≤ (Fix (Subgroup.zpowers e)).index ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (MulAut V) :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V ≃ V))
       (fun f g h => MulEquiv.ext fun v => congrArg (fun e : V ≃ V => e v) h)
   let Ω : Subgroup (MulAut V) :=

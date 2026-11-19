@@ -38,6 +38,7 @@ theorem exists_stab_data {q : ℕ} [Fact q.Prime] (hVc : Nat.card V = q + 1)
     exact hs
   · rw [Subgroup.card_map_of_injective Subtype.coe_injective, ← Subgroup.index_mul_card S, hidx]
 
+omit [Finite V] in
 theorem le_stab_span {Yv : Subgroup (V ≃ₗ[ZMod 2] V)} {v : V} (h : ∀ g ∈ Yv, g v = v) :
     Yv ≤ stab (Submodule.span (ZMod 2) {v}) := by
   intro g hg w
@@ -58,6 +59,7 @@ theorem le_stab_span {Yv : Subgroup (V ≃ₗ[ZMod 2] V)} {v : V} (h : ∀ g ∈
     rw [map_smul, hgv]
     exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self v)
 
+omit [Finite V] in
 theorem sq_eq_one_of_kernel {v : V} {k : V ≃ₗ[ZMod 2] V}
     (hk1 : ∀ u, k u - u ∈ Submodule.span (ZMod 2) {v}) (hkv : k v = v) : k ^ 2 = 1 := by
   apply LinearEquiv.ext

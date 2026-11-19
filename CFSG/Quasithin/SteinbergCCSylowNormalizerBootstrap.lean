@@ -227,7 +227,7 @@ theorem prime_residual_sylow_normalizer_core_bootstrap {p : ℕ} (hp : p.Prime)
       change x * (y' : G) * x⁻¹ ∈ _
       rw [show x * (y' : G) * x⁻¹ = ⁅x, (y' : G)⁆ * y' by rw [commutatorElement_def]; group]
       exact mul_mem (hRS (hQR hc)) ⟨y', hy', rfl⟩
-    have h1 := hmax _ (S.isPGroup'.map _) hXS hRS
+    have h1 := hmax _ (S.isPGroup.map _) hXS hRS
     rw [← h1]
     exact ⟨S, rfl⟩
   have hJ : IsSylowOf p R (⨆ m ∈ M, CFSG.conjugate R m) := by

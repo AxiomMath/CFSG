@@ -150,7 +150,7 @@ theorem eq_statedSL_of_full_centre {K : Type} [Field K] [Finite K] {m : ℕ} (hm
           Matrix.SpecialLinearGroup (Fin m) K →* GL (Fin m) K) := by
     intro i j hij c
     have hdot : Pi.single j (1 : K) ⬝ᵥ (Pi.single i c : Fin m → K) = 0 := by
-      rw [single_dotProduct, one_mul, Pi.single_apply, if_neg (Ne.symm hij)]
+      rw [single_dotProduct, one_mul, Pi.single_apply, ite_eq_right (Ne.symm hij)]
     obtain ⟨g, hgX, hg⟩ := hall (Pi.single i c) _ hdot
     have hmat : Matrix.single i j c =
         Matrix.vecMulVec (Pi.single i c) (Pi.single j (1 : K)) := by
@@ -166,7 +166,7 @@ theorem eq_statedSL_of_full_centre {K : Type} [Field K] [Finite K] {m : ℕ} (hm
     rw [heq]
     exact hgX
   have hSX : StatedSL m K ≤ X := by
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
     have htop' := CFSG.ClassicalGroups.SpecialLinear.eq_top_of_forall_transvection_mem
       (X.comap (Matrix.SpecialLinearGroup.toGL :
         Matrix.SpecialLinearGroup (Fin m) K →* GL (Fin m) K)) htrans

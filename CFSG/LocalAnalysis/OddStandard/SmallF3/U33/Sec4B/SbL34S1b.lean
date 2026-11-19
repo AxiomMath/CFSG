@@ -12,7 +12,7 @@ theorem lemmaR_abs {A : Type*} [Group A] [Finite A] (hcomm : ∀ a b : A, a * b 
     (hsq : ∀ a : A, a * a = 1) (σ : A →* A) (hσ : ∀ a, σ (σ a) = a)
     (hA : Nat.card A = 16) (hfix : Nat.card {a : A // σ a = a} ≤ 4) :
     ∀ c : A, σ c = c → ∃ b : A, b * σ b = c := by
-  letI : CommGroup A := { ‹Group A› with mul_comm := hcomm }
+  let : CommGroup A := { ‹Group A› with mul_comm := hcomm }
   let φ : A →* A := MonoidHom.mk' (fun a => a * σ a) (by
     intro a b
     rw [map_mul, mul_mul_mul_comm])
@@ -38,7 +38,7 @@ theorem lemmaR_abs {A : Type*} [Group A] [Finite A] (hcomm : ∀ a b : A, a * b 
     · intro x y hxy
       exact Subtype.ext (congrArg (fun z : {a : A // σ a = a} => (z : A)) hxy)
   have hf_pos : 0 < Nat.card {a : A // σ a = a} := by
-    haveI : Nonempty {a : A // σ a = a} := ⟨⟨1, map_one σ⟩⟩
+    have : Nonempty {a : A // σ a = a} := ⟨⟨1, map_one σ⟩⟩
     exact Nat.card_pos
   have hprod : Nat.card {a : A // σ a = a} * Nat.card φ.range = 16 := by
     rw [← hker, Subgroup.card_ker_mul_card_range φ, hA]
@@ -75,7 +75,7 @@ theorem lemmaR_grp {E : Type*} [Group E] [Finite E] (N : Subgroup E) [N.Normal] 
     (hfix : Nat.card {a : E // σ a * a⁻¹ ∈ N} ≤ 4 * Nat.card N) :
     ∀ w : E, σ w * w = 1 → ∃ b : E, (σ b)⁻¹ * w * b ∈ N := by
   let A := E ⧸ N
-  haveI : Finite A := Quotient.finite (QuotientGroup.leftRel N)
+  have : Finite A := Quotient.finite (QuotientGroup.leftRel N)
   let π : E →* A := QuotientGroup.mk' N
   have hle : N ≤ N.comap σ := by
     intro x hx
@@ -100,7 +100,7 @@ theorem lemmaR_grp {E : Type*} [Group E] [Finite E] (N : Subgroup E) [N.Normal] 
     rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff]
     exact hsq x
   have hNpos : 0 < Nat.card N := by
-    haveI : Nonempty N := ⟨⟨1, N.one_mem⟩⟩
+    have : Nonempty N := ⟨⟨1, N.one_mem⟩⟩
     exact Nat.card_pos
   have hA : Nat.card A = 16 := by
     have h1 : Nat.card A * Nat.card N = 16 * Nat.card N := by
@@ -110,7 +110,6 @@ theorem lemmaR_grp {E : Type*} [Group E] [Finite E] (N : Subgroup E) [N.Normal] 
     intro a
     refine QuotientGroup.induction_on a ?_
     intro x
-    change σ' (σ' (x : A)) = (x : A)
     rw [QuotientGroup.map_mk, QuotientGroup.map_mk, hσσ x]
   let F : Subgroup A := MonoidHom.eqLocus σ' (MonoidHom.id A)
   let C : Subgroup E := F.comap π

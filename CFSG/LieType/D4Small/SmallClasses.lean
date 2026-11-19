@@ -20,11 +20,11 @@ private theorem isUnit_two_zmod {N : ℕ} (hN : Odd N) : IsUnit (2 : ZMod N) := 
   exact Nat.coprime_two_left.mpr hN
 private theorem two_mul_ne_zero {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb : IsUnit b) : (2
     : ZMod N) * b ≠ 0 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   exact ((isUnit_two_zmod hN).mul hb).ne_zero
 private theorem four_mul_ne_zero {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb : IsUnit b) :
     (4 : ZMod N) * b ≠ 0 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have h : (4 : ZMod N) * b = ((2 : ZMod N) * 2) * b := by norm_num
   rw [h]
   exact ((isUnit_two_zmod hN).mul (isUnit_two_zmod hN)).mul hb |>.ne_zero
@@ -112,14 +112,14 @@ private theorem sWt_sub_two_coord {N : ℕ} (b : ZMod N) (a : Fin 4 → ZMod N) 
     := by
   rw [castW_add, castW_single, castW_single]
   simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul, Pi.sub_apply]
-  split_ifs <;> simp_all <;> ring
+  split_ifs <;> simp_all
 private theorem sWt_add_two_coord {N : ℕ} (b : ZMod N) (a : Fin 4 → ZMod N) {p q : Fin 4} (hpq : p ≠
     q) (r : Fin 4) (u v : ℤ) : (a + (2 * b) • castW N (Pi.single p u + Pi.single q v)) r = (if r = p
     then a p + (2 * b) * (u : ZMod N) else if r = q then a q + (2 * b) * (v : ZMod N) else a r)
     := by
   rw [castW_add, castW_single, castW_single]
   simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
-  split_ifs <;> simp_all <;> ring
+  split_ifs <;> simp_all
 private theorem root_apply_left {r t : Fin 4} (hrt : r ≠ t) (s w : ℤ) : (Pi.single r s + Pi.single t
     w : Fin 4 → ℤ) r = s := by
   simp [hrt]
@@ -146,9 +146,7 @@ private theorem eq_neg_of_ne_of_sign {N : ℕ} (hN : Odd N) {b x y : ZMod N} (hb
 private theorem sWt_flip_self_ne {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠ 0) {u : ℤ} (hu : u = 1
     ∨ u = -1) : ((-u : ℤ) : ZMod N) * b ≠ ((-u : ℤ) : ZMod N) * b + (2 * b) * (u : ZMod N) := by
   rcases hu with rfl | rfl
-  · change ((-1 : ℤ) : ZMod N) * b ≠
-      ((-1 : ℤ) : ZMod N) * b + (2 * b) * ((1 : ℤ) : ZMod N)
-    rw [show ((-1 : ℤ) : ZMod N) * b + (2 * b) * ((1 : ℤ) : ZMod N) = b by
+  · rw [show ((-1 : ℤ) : ZMod N) * b + (2 * b) * ((1 : ℤ) : ZMod N) = b by
       norm_num
       ring]
     simpa using (ZMod.ne_neg_self hN hb).symm
@@ -200,15 +198,15 @@ private theorem vWt_add_eq_single {N : ℕ} {b : ZMod N} {i k : Fin 4} (hki : k 
   rw [vWt_add_coord]
   by_cases hri : r = i
   · subst r
-    rw [if_pos rfl, if_pos rfl, if_neg (Ne.symm hki), Pi.single_apply]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_right (Ne.symm hki), Pi.single_apply]
     simp [Ne.symm hki]
     ring
   · by_cases hrk : r = k
     · subst r
-      rw [if_neg hri, if_neg hri, if_pos rfl, Pi.single_eq_same]
+      rw [ite_eq_right hri, ite_eq_right hri, ite_eq_left rfl, Pi.single_eq_same]
       ring
-    · rw [if_neg hri, if_neg hri, if_neg hrk, Pi.single_apply]
-      simp [hri, hrk]
+    · rw [ite_eq_right hri, ite_eq_right hri, ite_eq_right hrk, Pi.single_apply]
+      simp [hrk]
 
 private noncomputable def vClass (N : ℕ) [NeZero N] (b : ZMod N) : Finset (Fin 4 → ZMod N) :=
   Finset.univ.filter fun a => IsVWt b a
@@ -230,7 +228,7 @@ private theorem isVWt_vWt_add_p {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
     (hv : v = 1 ∨ v = -1) (hw : IsVWt b (vWt N b i s + b • castW N (Pi.single i u + Pi.single q v)))
     : ∃ k : Fin 4, k ≠ i ∧ ∃ t : ℤ, (t = 1 ∨ t = -1) ∧ Pi.single i u + Pi.single q v = Pi.single i
     (-s) + (Pi.single k t : Fin 4 → ℤ) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hb0 : b ≠ 0 := hb.ne_zero
   by_cases hsu : s + u = 0
   · exact ⟨q, Ne.symm hiq, v, hv, by rw [eq_neg_of_sign_add_eq_zero hs hu hsu]⟩
@@ -239,12 +237,11 @@ private theorem isVWt_vWt_add_p {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
         ((s + u : ℤ) : ZMod N) * b := by
       rw [vWt_add_coord]
       simp [hiq]
-      push_cast
       ring
     have hwq : (vWt N b i s + b • castW N (Pi.single i u + Pi.single q v)) q =
         (v : ZMod N) * b := by
       rw [vWt_add_coord]
-      simp [hiq, Ne.symm hiq]
+      simp [Ne.symm hiq]
       ring
     have hwi_ne :
         (vWt N b i s + b • castW N (Pi.single i u + Pi.single q v)) i ≠ 0 := by
@@ -260,7 +257,7 @@ private theorem isVWt_vWt_add_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
     (hv : v = 1 ∨ v = -1) (hw : IsVWt b (vWt N b i s + b • castW N (Pi.single p u + Pi.single i v)))
     : ∃ k : Fin 4, k ≠ i ∧ ∃ t : ℤ, (t = 1 ∨ t = -1) ∧ Pi.single p u + Pi.single i v = Pi.single i
     (-s) + (Pi.single k t : Fin 4 → ℤ) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hb0 : b ≠ 0 := hb.ne_zero
   by_cases hsv : s + v = 0
   · exact ⟨p, hpi, u, hu, by rw [eq_neg_of_sign_add_eq_zero hs hv hsv, add_comm]⟩
@@ -269,7 +266,6 @@ private theorem isVWt_vWt_add_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
         ((s + v : ℤ) : ZMod N) * b := by
       rw [vWt_add_coord]
       simp [Ne.symm hpi]
-      push_cast
       ring
     have hwp : (vWt N b i s + b • castW N (Pi.single p u + Pi.single i v)) p =
         (u : ZMod N) * b := by
@@ -285,11 +281,11 @@ private theorem isVWt_vWt_add_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
       rw [hwp]
       exact sign_mul_ne_zero hb0 hu
     exact hpi (isVWt_apply_ne_zero hb0 hw hwp_ne hwi_ne)
-private theorem isVWt_vWt_add_ne {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
+private theorem isVWt_vWt_add_ne {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (_hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {p q i : Fin 4} (hip : i ≠ p) (hiq : i ≠ q) (hpq : p ≠ q) {s u v : ℤ} (hs : s = 1 ∨ s
     = -1) (hu : u = 1 ∨ u = -1) (hw : IsVWt b (vWt N b i s + b • castW N (Pi.single p u + Pi.single
     q v))) : False := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hb0 : b ≠ 0 := hb.ne_zero
   have hwi : (vWt N b i s + b • castW N (Pi.single p u + Pi.single q v)) i =
       (s : ZMod N) * b := by
@@ -312,7 +308,7 @@ private theorem isVWt_vWt_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) 
     IsUnit b) {i : Fin 4} {s : ℤ} (hs : s = 1 ∨ s = -1) {γ : Fin 4 → ℤ} (hγ : IsD4Root γ) : IsVWt b
     (vWt N b i s + b • castW N γ) ↔ ∃ k : Fin 4, k ≠ i ∧ ∃ t : ℤ, (t = 1 ∨ t = -1) ∧ γ = Pi.single i
     (-s) + Pi.single k t := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   constructor
   · intro hw
     obtain ⟨p, q, hpq, hup, hvp, hγeq⟩ := isD4Root_iff.mp hγ
@@ -337,7 +333,7 @@ private theorem isVWt_vWt_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) 
     · exact ⟨k, Or.inr (by simp)⟩
 private theorem vClass_card_eq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) : (vClass N b).card = 8 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   exact card_filter_isVWt hN hb.ne_zero
 private theorem vClass_neg_mem {N : ℕ} [NeZero N] {b : ZMod N} {a : Fin 4 → ZMod N} (ha : a ∈ vClass
     N b) : -a ∈ vClass N b := by
@@ -356,7 +352,7 @@ private theorem vClass_reflW_mem {N : ℕ} [NeZero N] {b : ZMod N} {β : Fin 4 �
 private theorem vClass_step {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb : IsUnit b) {a : Fin 4
     → ZMod N} (ha : a ∈ vClass N b) {α : Fin 4 → ℤ} (hα : IsD4Root α) {k : ZMod N} (hk : k ≠ 0) (hC
     : a + k • castW N α ∈ vClass N b) : k = b ∨ k = -b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass] at ha hC
   exact step_eq_of_isVWt hα hk hb.ne_zero ha rfl hC
 private theorem vClass_sub_not_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
@@ -413,7 +409,7 @@ private theorem vClass_adj {N : ℕ} [NeZero N] {b : ZMod N} {a a' : Fin 4 → Z
 private theorem vClass_ne_neg {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb : IsUnit b) {a : Fin
     4 → ZMod N} (ha : a ∈ vClass N b) {γ : Fin 4 → ℤ} (hγ : IsD4Root γ) : a + b • castW N γ ≠ -a
     := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨i, s, hs, rfl⟩ := mem_vClass_iff.mp ha
   obtain ⟨p, q, hpq, hp, hq, hγeq⟩ := isD4Root_iff.mp hγ
   have hb0 : b ≠ 0 := hb.ne_zero
@@ -450,7 +446,7 @@ private theorem vClass_triangle_l_ne {N : ℕ} {b : ZMod N} {i k l : Fin 4} {s t
     simp only [Pi.add_apply, Pi.single_apply]
     by_cases hri : r = i
     · subst r
-      simp [hki, Ne.symm hki]
+      simp [Ne.symm hki]
       ring
     · by_cases hrk : r = k
       · subst r
@@ -471,8 +467,8 @@ private theorem vClass_triangle_dot {i k l : Fin 4} (hki : k ≠ i) (hlk : l ≠
     γ = Pi.single i (-s) + Pi.single k t) (hβeq : β = Pi.single k (-t) + Pi.single l u) : γ ⬝ᵥ β =
     -1 := by
   rw [hγeq, hβeq]
-  simp only [dotProduct_add, add_dotProduct, single_dotProduct, dotProduct_single]
-  simp [Pi.single_apply, Ne.symm hki, hlk, Ne.symm hli]
+  simp only [dotProduct_add, dotProduct_single]
+  simp [Ne.symm hki, hlk, Ne.symm hli]
   rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> rcases hu with rfl | rfl <;>
     norm_num
 private theorem vClass_triangle_two_gamma_add {i k l : Fin 4} {s t u : ℤ} {γ β : Fin 4 → ℤ} (hγeq :
@@ -480,13 +476,13 @@ private theorem vClass_triangle_two_gamma_add {i k l : Fin 4} {s t u : ℤ} {γ 
     = Pi.single i (-2 * s) + Pi.single k t + Pi.single l u := by
   rw [hγeq, hβeq]
   funext r
-  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
+  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply]
   split_ifs <;> ring
 private theorem vClass_triangle_not_mem_beta {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb :
     IsUnit b) {i k l : Fin 4} (hki : k ≠ i) (hlk : l ≠ k) (hli : l ≠ i) {s t u : ℤ} (hs : s = 1 ∨ s
     = -1) (ht : t = 1 ∨ t = -1) {β : Fin 4 → ℤ} (hβeq : β = Pi.single k (-t) + Pi.single l u) : vWt
     N b i s + b • castW N β ∉ vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero (Ne.symm hki)
   · have hcoi : (vWt N b i s + b • castW N β) i = (s : ZMod N) * b := by
@@ -504,7 +500,7 @@ private theorem vClass_triangle_not_mem_gamma_beta {N : ℕ} [NeZero N] (hN3 : 3
     s = -1) (ht : t = 1 ∨ t = -1) {γ β : Fin 4 → ℤ} (hγeq : γ = Pi.single i (-s) + Pi.single k t)
     (hβeq : β = Pi.single k (-t) + Pi.single l u) : vWt N b i s + b • castW N (2 • γ + β) ∉ vClass N
     b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero (Ne.symm hki)
   · have hcoi : (vWt N b i s + b • castW N (2 • γ + β)) i = -((s : ZMod N) * b) := by
@@ -525,7 +521,7 @@ private theorem vClass_triangle {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
     IsD4Root β) (h1 : a + b • castW N γ ∈ vClass N b) (h2 : a + b • castW N (γ + β) ∈ vClass N b)
     (h3 : a + b • castW N (γ + β) ≠ a) (h4 : a + b • castW N (γ + β) ≠ -a) : γ ⬝ᵥ β = -1 ∧ a + b •
     castW N β ∉ vClass N b ∧ a + b • castW N (2 • γ + β) ∉ vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨i, s, hs, rfl⟩ := mem_vClass_iff.mp ha
   rw [mem_vClass] at h1 h2
   obtain ⟨k, hki, t, ht, hγeq⟩ := (isVWt_vWt_add hN3 hN hb hs hγ).mp h1
@@ -630,7 +626,7 @@ private theorem vClass_two_mem_bwd {N : ℕ} [NeZero N] {b : ZMod N} {p q : Fin 
 private theorem vClass_two_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {α : Fin 4 → ℤ} (hα : IsD4Root α) : ∃ a₁ ∈ vClass N b, ∃ a₂ ∈ vClass N b, a₁ ≠ a₂ ∧ ∀
     a ∈ vClass N b, (a + b • castW N α ∈ vClass N b ↔ a = a₁ ∨ a = a₂) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨p, q, hpq, hup, hvp, hαeq⟩ := isD4Root_iff.mp hα
   let u : ℤ := α p
   let v : ℤ := α q
@@ -657,7 +653,7 @@ private theorem vClass_raise_adj {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd 
     IsD4Root γ') (h1 : a + b • castW N γ ∈ vClass N b) (h2 : a + b • castW N γ' ∈ vClass N b) (hne :
     γ ≠ γ') : γ ⬝ᵥ γ' = 1 ∨ ∃ γ'', IsD4Root γ'' ∧ a + b • castW N γ'' ∈ vClass N b ∧ γ ⬝ᵥ γ'' = 1 ∧
     γ' ⬝ᵥ γ'' = 1 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨i, s, hs, rfl⟩ := mem_vClass_iff.mp ha
   rw [mem_vClass] at h1 h2
   obtain ⟨k, hki, t, ht, hγeq⟩ := (isVWt_vWt_add hN3 hN hb hs hγ).mp h1
@@ -678,17 +674,17 @@ private theorem vClass_raise_adj {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd 
       refine ⟨l, 1, Or.inl rfl, ?_⟩
       exact vWt_add_eq_single (N := N) (b := b) (i := i) (k := l) (s := s) (t := 1) hli
     · rw [hγeq]
-      simp only [dotProduct_add, add_dotProduct, single_dotProduct, dotProduct_single]
-      simp [Pi.single_apply, Ne.symm hki, Ne.symm hli, Ne.symm hlk]
+      simp only [dotProduct_add, dotProduct_single]
+      simp [Ne.symm hki, Ne.symm hli, Ne.symm hlk]
       rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> norm_num
     · rw [hγ'eq]
-      simp only [dotProduct_add, add_dotProduct, single_dotProduct, dotProduct_single]
-      simp [Pi.single_apply, Ne.symm hki, Ne.symm hli, Ne.symm hlk]
+      simp only [dotProduct_add, dotProduct_single]
+      simp [Ne.symm hki, Ne.symm hli, Ne.symm hlk]
       rcases hs with rfl | rfl <;> rcases ht' with rfl | rfl <;> norm_num
   · left
     rw [hγeq, hγ'eq]
-    simp only [dotProduct_add, add_dotProduct, single_dotProduct, dotProduct_single]
-    simp [Pi.single_apply, Ne.symm hki, Ne.symm hk'i, hkk']
+    simp only [dotProduct_add, dotProduct_single]
+    simp [Ne.symm hki, Ne.symm hk'i, hkk']
     rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> rcases ht' with rfl | rfl <;>
       norm_num
 private theorem vClass_raise_edge_ne {i k k' : Fin 4} (hki : k ≠ i) {s t t' : ℤ} (hs : s = 1 ∨ s =
@@ -696,8 +692,8 @@ private theorem vClass_raise_edge_ne {i k k' : Fin 4} (hki : k ≠ i) {s t t' : 
     Fin 4 → ℤ) ⬝ᵥ (Pi.single i (-s) + Pi.single k' t') = 1) : k ≠ k' := by
   intro h
   subst k'
-  simp only [dotProduct_add, add_dotProduct, single_dotProduct, dotProduct_single] at hdot
-  simp [Pi.single_apply, Ne.symm hki] at hdot
+  simp only [dotProduct_add, dotProduct_single] at hdot
+  simp [Ne.symm hki] at hdot
   rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> rcases ht' with rfl | rfl <;>
     norm_num at hdot
 private theorem vClass_raise_edge_delta {i k k' : Fin 4} (hki : k ≠ i) (hk'i : k' ≠ i) (hkk' : k ≠
@@ -709,28 +705,28 @@ private theorem vClass_raise_edge_delta {i k k' : Fin 4} (hki : k ≠ i) (hk'i :
     rw [hγeq, hγ'eq]
     funext r
     simp only [Pi.sub_apply, Pi.add_apply, Pi.single_apply]
-    split_ifs <;> simp_all <;> ring
+    split_ifs <;> simp_all
   have hδneg : -(γ' - γ) = Pi.single k t + Pi.single k' (-t') := by
     rw [hδ]
     funext r
     simp only [Pi.add_apply, Pi.neg_apply, Pi.single_apply]
-    split_ifs <;> simp_all <;> ring
+    split_ifs <;> simp_all
   have hγδ : γ - (γ' - γ) = Pi.single i (-s) + Pi.single k (2 * t) + Pi.single k' (-t') := by
     rw [hγeq, hγ'eq]
     funext r
     simp only [Pi.sub_apply, Pi.add_apply, Pi.single_apply]
-    split_ifs <;> simp_all <;> ring
+    split_ifs <;> simp_all; ring
   have hγγ' : γ + γ' = Pi.single i (-2 * s) + Pi.single k t + Pi.single k' t' := by
     rw [hγeq, hγ'eq]
     funext r
     simp only [Pi.add_apply, Pi.single_apply]
-    split_ifs <;> simp_all <;> ring
+    split_ifs <;> simp_all; ring
   exact ⟨hδ, hδneg, hγδ, hγγ'⟩
 private theorem vClass_raise_edge_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb : IsUnit b)
     {i k k' : Fin 4} (hki : k ≠ i) (hk'i : k' ≠ i) (hkk' : k ≠ k') {s t t' : ℤ} (hs : s = 1 ∨ s =
     -1) (ht : t = 1 ∨ t = -1) {δ : Fin 4 → ℤ} (hδ : δ = Pi.single k' t' + (Pi.single k (-t) : Fin 4
     → ℤ)) : vWt N b i s + b • castW N δ ∉ vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero (Ne.symm hki)
   · have hcoi : (vWt N b i s + b • castW N δ) i = (s : ZMod N) * b := by
@@ -740,14 +736,14 @@ private theorem vClass_raise_edge_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : 
     exact sign_mul_ne_zero hb.ne_zero hs
   · have hcok : (vWt N b i s + b • castW N δ) k = b * ((-t : ℤ) : ZMod N) := by
       rw [hδ, vWt_add_coord]
-      simp [hki, hkk', Ne.symm hkk']
+      simp [hki, hkk']
     rw [hcok]
     exact mul_sign_ne_zero hb.ne_zero (neg_sign ht)
 private theorem vClass_raise_edge_sub {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb : IsUnit b)
     {i k k' : Fin 4} (hki : k ≠ i) (hk'i : k' ≠ i) (hkk' : k ≠ k') {s t t' : ℤ} (hs : s = 1 ∨ s =
     -1) (ht : t = 1 ∨ t = -1) {δ : Fin 4 → ℤ} (hδ : δ = Pi.single k t + (Pi.single k' (-t') : Fin 4
     → ℤ)) : vWt N b i s + b • castW N δ ∉ vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero (Ne.symm hki)
   · have hcoi : (vWt N b i s + b • castW N δ) i = (s : ZMod N) * b := by
@@ -757,7 +753,7 @@ private theorem vClass_raise_edge_sub {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : 
     exact sign_mul_ne_zero hb.ne_zero hs
   · have hcok : (vWt N b i s + b • castW N δ) k = b * (t : ZMod N) := by
       rw [hδ, vWt_add_coord]
-      simp [hki, hkk', Ne.symm hkk']
+      simp [hki, hkk']
     rw [hcok]
     exact mul_sign_ne_zero hb.ne_zero ht
 private theorem vClass_raise_edge_gamma_sub {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod
@@ -765,24 +761,24 @@ private theorem vClass_raise_edge_gamma_sub {N : ℕ} [NeZero N] (hN3 : 3 ≤ N)
     (ht : t = 1 ∨ t = -1) (ht' : t' = 1 ∨ t' = -1) {δ : Fin 4 → ℤ} (hδ : δ = Pi.single i (-s) +
     Pi.single k (2 * t) + (Pi.single k' (-t') : Fin 4 → ℤ)) : vWt N b i s + b • castW N δ ∉ vClass N
     b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero hkk'
   · have hcok : (vWt N b i s + b • castW N δ) k = b * ((2 * t : ℤ) : ZMod N) := by
       rw [hδ, vWt_add_coord3]
-      simp [hki, hkk', Ne.symm hkk']
+      simp [hki, hkk']
     rw [hcok]
     exact mul_two_sign_ne_zero hN3 hN hb ht
   · have hcok' : (vWt N b i s + b • castW N δ) k' = b * ((-t' : ℤ) : ZMod N) := by
       rw [hδ, vWt_add_coord3]
-      simp [hk'i, hkk', Ne.symm hkk']
+      simp [hk'i, Ne.symm hkk']
     rw [hcok']
     exact mul_sign_ne_zero hb.ne_zero (neg_sign ht')
 private theorem vClass_raise_edge_gamma_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) {b : ZMod N} (hb :
     IsUnit b) {i k k' : Fin 4} (hki : k ≠ i) (hk'i : k' ≠ i) (hkk' : k ≠ k') {s t t' : ℤ} (hs : s =
     1 ∨ s = -1) (ht : t = 1 ∨ t = -1) {δ : Fin 4 → ℤ} (hδ : δ = Pi.single i (-2 * s) + Pi.single k t
     + (Pi.single k' t' : Fin 4 → ℤ)) : vWt N b i s + b • castW N δ ∉ vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_vClass]
   apply not_isVWt_of_two hb.ne_zero (Ne.symm hki)
   · have hcoi : (vWt N b i s + b • castW N δ) i = -((s : ZMod N) * b) := by
@@ -794,7 +790,7 @@ private theorem vClass_raise_edge_gamma_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N)
     exact sign_mul_ne_zero hb.ne_zero hs (neg_eq_zero.mp hzero)
   · have hcok : (vWt N b i s + b • castW N δ) k = b * (t : ZMod N) := by
       rw [hδ, vWt_add_coord3]
-      simp [hki, hkk', Ne.symm hkk']
+      simp [hki, hkk']
     rw [hcok]
     exact mul_sign_ne_zero hb.ne_zero ht
 private theorem vClass_raise_edge {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
@@ -803,7 +799,7 @@ private theorem vClass_raise_edge {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd
     : γ ⬝ᵥ γ' = 1) : a + b • castW N (γ' - γ) ∉ vClass N b ∧ a - b • castW N (γ' - γ) ∉ vClass N b ∧
     a + b • castW N γ - b • castW N (γ' - γ) ∉ vClass N b ∧ a + b • castW N γ' + b • castW N γ ∉
     vClass N b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨i, s, hs, rfl⟩ := mem_vClass_iff.mp ha
   rw [mem_vClass] at h1 h2
   obtain ⟨k, hki, t, ht, hγeq⟩ := (isVWt_vWt_add hN3 hN hb hs hγ).mp h1
@@ -831,7 +827,7 @@ private theorem vClass_raise_edge {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd
     exact vClass_raise_edge_gamma_add hN3 hb hki hk'i hkk' hs ht hγγ'
 private theorem vWt_isSmallClass {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) : IsSmallClass N b (vClass N b) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   refine ⟨hN3, hN, hb, vClass_card_eq hN3 hN hb, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro a ha
     exact vClass_neg_mem ha
@@ -864,7 +860,7 @@ theorem isSmallClass_vWt {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b σ
   · exact (vWt_isSmallClass hN3 hN hb).neg
 private theorem sClass_card_eq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} (he : e < 2) : (sClass N b e).card = 8 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have he' : e % 2 = e := Nat.mod_eq_of_lt he
   rw [show sClass N b e = Finset.univ.filter
       (fun a => IsSWt b a ∧ negCount b a % 2 = e % 2) by
@@ -875,7 +871,7 @@ private theorem sClass_card_eq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
   exact card_filter_isSWt hN hb.ne_zero e
 private theorem sClass_neg_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) : -a ∈ sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha ⊢
   have haSWt : IsSWt b a := ha.1
   have hnegSWt : IsSWt b (-a) := by
@@ -895,7 +891,7 @@ private theorem sClass_neg_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
 private theorem sClass_reflW_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {β : Fin 4 → ℤ} (hβ : IsD4Root β) {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e)
     : reflW β a ∈ sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha ⊢
   obtain ⟨hSWt, hpar⟩ := isSWt_reflW hN hb.ne_zero hβ ha.1
   exact ⟨hSWt, hpar.trans ha.2⟩
@@ -908,23 +904,23 @@ private theorem isSWt_add_two_iff {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZM
     : Fin 4 → ZMod N} (ha : IsSWt b a) {p q : Fin 4} (hpq : p ≠ q) {u v : ℤ} (hu : u = 1 ∨ u = -1)
     (hv : v = 1 ∨ v = -1) : IsSWt b (a + (2 * b) • castW N (Pi.single p u + Pi.single q v)) ↔ a p =
     ((-u : ℤ) : ZMod N) * b ∧ a q = ((-v : ℤ) : ZMod N) * b := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   constructor
   · intro hw
     constructor
     · have hwp : (a + (2 * b) • castW N (Pi.single p u + Pi.single q v)) p =
           a p + (2 * b) * (u : ZMod N) := by
-        rw [sWt_add_two_coord b a hpq p u v, if_pos rfl]
+        rw [sWt_add_two_coord b a hpq p u v, ite_eq_left rfl]
       exact sWt_key_coord hN3 hN hb (ha p) hu (by simpa [hwp] using hw p)
     · have hwq : (a + (2 * b) • castW N (Pi.single p u + Pi.single q v)) q =
           a q + (2 * b) * (v : ZMod N) := by
-        rw [sWt_add_two_coord b a hpq q u v, if_neg (Ne.symm hpq), if_pos rfl]
+        rw [sWt_add_two_coord b a hpq q u v, ite_eq_right (Ne.symm hpq), ite_eq_left rfl]
       exact sWt_key_coord hN3 hN hb (ha q) hv (by simpa [hwq] using hw q)
   · rintro ⟨hp, hq⟩ r
     rw [sWt_add_two_coord b a hpq r u v]
     by_cases hrp : r = p
     · subst r
-      rw [if_pos rfl, hp]
+      rw [ite_eq_left rfl, hp]
       rcases hu with rfl | rfl
       · left
         push_cast
@@ -934,7 +930,7 @@ private theorem isSWt_add_two_iff {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZM
         ring
     · by_cases hrq : r = q
       · subst r
-        rw [if_neg hrp, if_pos rfl, hq]
+        rw [ite_eq_right hrp, ite_eq_left rfl, hq]
         rcases hv with rfl | rfl
         · left
           push_cast
@@ -942,14 +938,14 @@ private theorem isSWt_add_two_iff {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZM
         · right
           push_cast
           ring
-      · rw [if_neg hrp, if_neg hrq]
+      · rw [ite_eq_right hrp, ite_eq_right hrq]
         exact ha r
 private theorem isSWt_add_two_parity {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb : IsUnit b)
     {a : Fin 4 → ZMod N} (ha : IsSWt b a) {p q : Fin 4} (hpq : p ≠ q) {u v : ℤ} (hu : u = 1 ∨ u =
     -1) (hv : v = 1 ∨ v = -1) (hp : a p = ((-u : ℤ) : ZMod N) * b) (hq : a q = ((-v : ℤ) : ZMod N) *
     b) : negCount b (a + (2 * b) • castW N (Pi.single p u + Pi.single q v)) % 2 = negCount b a % 2
     := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hb0 : b ≠ 0 := hb.ne_zero
   set w := a + (2 * b) • castW N (Pi.single p u + Pi.single q v) with hwdef
   have hw : IsSWt b w := (isSWt_add_two_iff hN3 hN hb ha hpq hu hv).mpr ⟨hp, hq⟩
@@ -961,13 +957,13 @@ private theorem isSWt_add_two_parity {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b :
     · intro hne
       by_contra h
       rw [not_or] at h
-      exact hne (by rw [hwdef, sWt_add_two_coord b a hpq r u v, if_neg h.1, if_neg h.2])
+      exact hne (by rw [hwdef, sWt_add_two_coord b a hpq r u v, ite_eq_right h.1, ite_eq_right h.2])
     · rintro (hr | hr)
       · subst r
-        rw [hwdef, sWt_add_two_coord b a hpq p u v, if_pos rfl, hp]
+        rw [hwdef, sWt_add_two_coord b a hpq p u v, ite_eq_left rfl, hp]
         exact sWt_flip_self_ne hN hb0 hu
       · subst r
-        rw [hwdef, sWt_add_two_coord b a hpq q u v, if_neg (Ne.symm hpq), if_pos rfl, hq]
+        rw [hwdef, sWt_add_two_coord b a hpq q u v, ite_eq_right (Ne.symm hpq), ite_eq_left rfl, hq]
         exact sWt_flip_self_ne hN hb0 hv
   have hpar := diff_card_parity hN hb0 ha hw
   rw [hdiff, Finset.card_pair hpq] at hpar
@@ -975,7 +971,7 @@ private theorem isSWt_add_two_parity {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b :
 private theorem sClass_sub_not_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     (hC : a + (2 * b) • castW N α ∈ sClass N b e) : a - (2 * b) • castW N α ∉ sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha hC
   obtain ⟨p, q, hpq, hup, hvp, hαeq⟩ := isD4Root_iff.mp hα
   let u : ℤ := α p
@@ -987,7 +983,7 @@ private theorem sClass_sub_not_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     ((isSWt_add_two_iff hN3 hN hb ha.1 hpq hu hv).mp
       (by simpa [hαeq'] using hC.1)).1
   have hcoord : (a - (2 * b) • castW N α) p = (((-3 : ℤ) * u) : ZMod N) * b := by
-    rw [hαeq', sWt_sub_two_coord b a hpq p u v, if_pos rfl, hp]
+    rw [hαeq', sWt_sub_two_coord b a hpq p u v, ite_eq_left rfl, hp]
     push_cast
     ring
   rw [mem_sClass]
@@ -1003,7 +999,7 @@ private theorem sClass_sub_not_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
 private theorem sClass_reflW_eq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     (hC : a + (2 * b) • castW N α ∈ sClass N b e) : reflW α a = a + (2 * b) • castW N α := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha hC
   obtain ⟨p, q, hpq, hup, hvp, hαeq⟩ := isD4Root_iff.mp hα
   let u : ℤ := α p
@@ -1022,7 +1018,7 @@ private theorem sClass_reflW_eq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
 private theorem sClass_ne_neg {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) {γ : Fin 4 → ℤ} (hγ : IsD4Root γ)
     : a + (2 * b) • castW N γ ≠ -a := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha
   obtain ⟨p, q, hpq, hup, hvp, hγeq⟩ := isD4Root_iff.mp hγ
   let u : ℤ := γ p
@@ -1032,7 +1028,7 @@ private theorem sClass_ne_neg {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) 
   have hγeq' : γ = Pi.single p u + Pi.single q v := by rw [hγeq]
   obtain ⟨r, hrp, hrq⟩ := Fin.exists_ne_and_ne_of_two_lt p q (by norm_num : 2 < 4)
   have hr : (a + (2 * b) • castW N γ) r = a r := by
-    rw [hγeq', sWt_add_two_coord b a hpq r u v, if_neg hrp, if_neg hrq]
+    rw [hγeq', sWt_add_two_coord b a hpq r u v, ite_eq_right hrp, ite_eq_right hrq]
   intro heq
   have har_ne : a r ≠ 0 := by
     rcases ha.1 r with h | h <;> simp [h, hb.ne_zero]
@@ -1043,7 +1039,7 @@ private theorem sClass_ne_neg {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) 
 private theorem sClass_adj_even {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a a' : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) (ha' : a' ∈ sClass N b e) :
     (Finset.univ.filter fun r => a r ≠ a' r).card % 2 = 0 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha ha'
   have h := diff_card_parity hN hb.ne_zero ha.1 ha'.1
   rw [Nat.add_mod, ha.2, ha'.2] at h
@@ -1053,7 +1049,7 @@ private theorem sClass_adj_two {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
     IsUnit b) {a a' : Fin 4 → ZMod N} (ha : IsSWt b a) (ha' : IsSWt b a') {p q : Fin 4} (hpq : p ≠
     q) (hD : (Finset.univ.filter fun r => a r ≠ a' r) = {p, q}) : ∃ γ, IsD4Root γ ∧ a' = a + (2 * b)
     • castW N γ := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨sp, hsp⟩ := exists_sign_eq (ha p)
   obtain ⟨sq, hsq⟩ := exists_sign_eq (ha q)
   have hpD : p ∈ Finset.univ.filter fun r => a r ≠ a' r := by rw [hD]; simp
@@ -1068,13 +1064,13 @@ private theorem sClass_adj_two {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
     rw [sWt_add_two_coord b a hpq r (-sp) (-sq)]
     by_cases hrp : r = p
     · subst r
-      rw [if_pos rfl, hsp.2, ha'p, hsp.2]
+      rw [ite_eq_left rfl, hsp.2, ha'p, hsp.2]
       rcases hsp.1 with h | h <;> rw [h] <;> ring
     · by_cases hrq : r = q
       · subst r
-        rw [if_neg hrp, if_pos rfl, hsq.2, ha'q, hsq.2]
+        rw [ite_eq_right hrp, ite_eq_left rfl, hsq.2, ha'q, hsq.2]
         rcases hsq.1 with h | h <;> rw [h] <;> ring
-      · rw [if_neg hrp, if_neg hrq]
+      · rw [ite_eq_right hrp, ite_eq_right hrq]
         have hrD : r ∉ Finset.univ.filter fun r => a r ≠ a' r := by rw [hD]; simp [hrp, hrq]
         have heq : a r = a' r := by
           by_contra h
@@ -1083,7 +1079,7 @@ private theorem sClass_adj_two {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
 private theorem sClass_adj {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb : IsUnit
     b) {e : ℕ} {a a' : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) (ha' : a' ∈ sClass N b e) (hne : a' ≠
     a) (hneg : a' ≠ -a) : ∃ γ, IsD4Root γ ∧ a' = a + (2 * b) • castW N γ := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   let D := Finset.univ.filter fun r => a r ≠ a' r
   have hDcard : D.card % 2 = 0 := sClass_adj_even hN3 hN hb ha ha'
   have hDle : D.card ≤ 4 := by simpa [D] using Finset.card_le_univ D
@@ -1118,7 +1114,7 @@ private theorem add_two_eq_neg_of_coord {N : ℕ} (b : ZMod N) (a : Fin 4 → ZM
   ring
 private theorem sign_eq_of_cast_eq {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {s u : ℤ} (hs : s = 1 ∨ s =
     -1) (hu : u = 1 ∨ u = -1) (h : (s : ZMod N) = (u : ZMod N)) : s = u := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have h1 : (1 : ZMod N) ≠ -1 := by
     simpa using ZMod.ne_neg_self hN (one_ne_zero : (1 : ZMod N) ≠ 0)
   rcases hs with rfl | rfl <;> rcases hu with rfl | rfl <;> simp_all
@@ -1195,7 +1191,7 @@ private theorem root_eq_zero_imp_ne {r t k : Fin 4} (hrt : r ≠ t) {s w : ℤ} 
     apply hw0
     rw [hkt, root_apply_right hrt] at h
     exact h
-private theorem root_mem_of_ne_zero {r t k : Fin 4} (hrt : r ≠ t) {s w : ℤ} (hs0 : s ≠ 0) (hw0 : w ≠
+private theorem root_mem_of_ne_zero {r t k : Fin 4} (_hrt : r ≠ t) {s w : ℤ} (_hs0 : s ≠ 0) (_hw0 : w ≠
     0) (h : (Pi.single r s + Pi.single t w : Fin 4 → ℤ) k ≠ 0) : k = r ∨ k = t := by
   by_cases hkr : k = r
   · exact Or.inl hkr
@@ -1210,7 +1206,7 @@ private theorem sClass_tri_disjoint {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : O
     p u + Pi.single q v) (hβeq : β = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N)
     * b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (hβp : β p = 0) (hβq : β q = 0) (h2 : IsSWt b (a + (2
     * b) • castW N (γ + β))) : a + (2 * b) • castW N (γ + β) = -a := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hs0 : s ≠ 0 := by rcases hs with h | h <;> rw [h] <;> norm_num
   have hw0 : w ≠ 0 := by rcases hw with h | h <;> rw [h] <;> norm_num
   have hβp' : (Pi.single r s + Pi.single t w : Fin 4 → ℤ) p = 0 := by
@@ -1233,19 +1229,19 @@ private theorem sClass_tri_disjoint {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : O
   rcases fin4_cover hpq hpr hpt hqr hqt hrt k with hk | hk | hk | hk
   · subst k
     have hsum : (γ + β) p = u := by
-      simp [Pi.add_apply, hγeq, hβp, Pi.single_apply, hpq]
+      simp [Pi.add_apply, hγeq, hβp, hpq]
     exact add_two_eq_neg_of_coord b a (γ + β) hsum hp
   · subst k
     have hsum : (γ + β) q = v := by
-      simp [Pi.add_apply, hγeq, hβq, Pi.single_apply, Ne.symm hpq]
+      simp [Pi.add_apply, hγeq, hβq, Ne.symm hpq]
     exact add_two_eq_neg_of_coord b a (γ + β) hsum hq
   · subst k
     have hsum : (γ + β) r = s := by
-      simp [Pi.add_apply, hγeq, hβeq, Pi.single_apply, hpr, hqr, hrt]
+      simp [Pi.add_apply, hγeq, hβeq, hpr, hqr, hrt]
     exact add_two_eq_neg_of_coord b a (γ + β) hsum hr
   · subst k
     have hsum : (γ + β) t = w := by
-      simp [Pi.add_apply, hγeq, hβeq, Pi.single_apply, hpt, hqt, hrt]
+      simp [Pi.add_apply, hγeq, hβeq, hpt, hqt, hrt]
     exact add_two_eq_neg_of_coord b a (γ + β) hsum ht
 private theorem sClass_tri_share_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} {γ β : Fin 4 → ℤ} {p q : Fin 4} {u v : ℤ} (hpq : p ≠ q)
@@ -1253,11 +1249,11 @@ private theorem sClass_tri_share_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     = ((-u : ℤ) : ZMod N) * b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (hβp : β p = 0) (hβq : β q = -v)
     : γ ⬝ᵥ β = -1 ∧ a + (2 * b) • castW N β ∉ sClass N b e ∧ a + (2 * b) • castW N (2 • γ + β) ∉
     sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hdot : γ ⬝ᵥ β = -1 := by
     rw [hγeq, add_dotProduct, single_dotProduct, single_dotProduct, hβp, hβq]
     rcases hv with h | h <;> rw [h] <;> norm_num
-  have hγp : γ p = u := by rw [hγeq]; simp [Pi.single_apply, hpq]
+  have hγp : γ p = u := by rw [hγeq]; simp [hpq]
   refine ⟨hdot, ?_, ?_⟩
   · rw [mem_sClass]
     rintro ⟨hSWt, -⟩
@@ -1275,7 +1271,7 @@ private theorem sClass_tri_share_q {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     have hcoord := hSWt p
     rw [add_two_smul_castW_apply, hp] at hcoord
     have hcoef : ((2 • γ + β) p : ℤ) = 2 * u := by
-      simp [Pi.add_apply, Pi.smul_apply, hγp, hβp]
+      simp [Pi.add_apply, hγp, hβp]
     rw [hcoef] at hcoord
     rcases hcoord with h | h
     · exact (three_sign_mul_ne_pm hN3 hN hb hu).1 (by
@@ -1290,11 +1286,11 @@ private theorem sClass_tri_share_p {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     = ((-u : ℤ) : ZMod N) * b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (hβp : β p = -u) (hβq : β q = 0)
     : γ ⬝ᵥ β = -1 ∧ a + (2 * b) • castW N β ∉ sClass N b e ∧ a + (2 * b) • castW N (2 • γ + β) ∉
     sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hdot : γ ⬝ᵥ β = -1 := by
     rw [hγeq, add_dotProduct, single_dotProduct, single_dotProduct, hβp, hβq]
     rcases hu with h | h <;> rw [h] <;> norm_num
-  have hγq : γ q = v := by rw [hγeq]; simp [Pi.single_apply, Ne.symm hpq]
+  have hγq : γ q = v := by rw [hγeq]; simp [Ne.symm hpq]
   refine ⟨hdot, ?_, ?_⟩
   · rw [mem_sClass]
     rintro ⟨hSWt, -⟩
@@ -1312,7 +1308,7 @@ private theorem sClass_tri_share_p {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     have hcoord := hSWt q
     rw [add_two_smul_castW_apply, hq] at hcoord
     have hcoef : ((2 • γ + β) q : ℤ) = 2 * v := by
-      simp [Pi.add_apply, Pi.smul_apply, hγq, hβq]
+      simp [Pi.add_apply, hγq, hβq]
     rw [hcoef] at hcoord
     rcases hcoord with h | h
     · exact (three_sign_mul_ne_pm hN3 hN hb hv).1 (by
@@ -1373,7 +1369,7 @@ private theorem sClass_triangle {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
     (γ + β) ∈ sClass N b e) (h3 : a + (2 * b) • castW N (γ + β) ≠ a) (h4 : a + (2 * b) • castW N (γ
     + β) ≠ -a) : γ ⬝ᵥ β = -1 ∧ a + (2 * b) • castW N β ∉ sClass N b e ∧ a + (2 * b) • castW N (2 • γ
     + β) ∉ sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha h1 h2
   obtain ⟨p, q, hpq, hup, hvp, hγeq⟩ := isD4Root_iff.mp hγ
   let u : ℤ := γ p
@@ -1393,8 +1389,8 @@ private theorem sClass_triangle {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N
   have hs : s = 1 ∨ s = -1 := by simpa [s] using hsr
   have hw : w = 1 ∨ w = -1 := by simpa [w] using hwt
   have hβeq' : β = Pi.single r s + Pi.single t w := by rw [hβeq]
-  have hγp : γ p = u := by rw [hγeq']; simp [Pi.single_apply, hpq]
-  have hγq : γ q = v := by rw [hγeq']; simp [Pi.single_apply, Ne.symm hpq]
+  have hγp : γ p = u := by rw [hγeq']; simp [hpq]
+  have hγq : γ q = v := by rw [hγeq']; simp [Ne.symm hpq]
   have hp2 := sClass_tri_coord_sign hp hγp h2.1
   have hq2 := sClass_tri_coord_sign hq hγq h2.1
   have hβp : β p = 0 ∨ β p = -u :=
@@ -1496,12 +1492,12 @@ private theorem sClass_two_mem_eq_pair {N : ℕ} [NeZero N] (hN : Odd N) {b : ZM
       sPair_t (Ne.symm hpt) (Ne.symm hqt) (Ne.symm hrt) x y (-b) w₂, hw₂]
 private theorem sClass_two_mem_diff {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} (he : e < 2) {p q r t : Fin 4} (hpq : p ≠ q) (hpr : p ≠ r) (hpt : p ≠ t) (hqr
-    : q ≠ r) (hqt : q ≠ t) (hrt : r ≠ t) {u v : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨ v = -1) {a a₁
+    : q ≠ r) (hqt : q ≠ t) (hrt : r ≠ t) {u v : ℤ} (_hu : u = 1 ∨ u = -1) (_hv : v = 1 ∨ v = -1) {a a₁
     : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) (ha₁_swt : IsSWt b a₁) (ha₁_p : a₁ p = ((-u : ℤ) :
     ZMod N) * b) (ha₁_q : a₁ q = ((-v : ℤ) : ZMod N) * b) (hpar₁ : negCount b a₁ % 2 = e % 2) (hap :
     a p = ((-u : ℤ) : ZMod N) * b) (haq : a q = ((-v : ℤ) : ZMod N) * b) : (Finset.univ.filter fun k
     => a k ≠ a₁ k) = ∅ ∨ (Finset.univ.filter fun k => a k ≠ a₁ k) = {r, t} := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha
   let D := Finset.univ.filter fun k => a k ≠ a₁ k
   have hDsub : D ⊆ {r, t} := by
@@ -1539,35 +1535,33 @@ private theorem sClass_two_mem_par {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     then 1 else 0)) {w₁ w₂ : ZMod N} (hw₁def : w₁ = if c % 2 = e % 2 then b else -b) (hw₂def : w₂ =
     if c % 2 = e % 2 then -b else b) : negCount b (sPair p q r x y b w₁) % 2 = e % 2 ∧ negCount b
     (sPair p q r x y (-b) w₂) % 2 = e % 2 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hbne : b ≠ -b := ZMod.ne_neg_self hN hb.ne_zero
   have hbterm : (if b = -b then 1 else 0) = 0 := by simp [hbne]
   have hlast₁ : (if w₁ = -b then 1 else 0) = (if c % 2 = e % 2 then 0 else 1) := by
     rw [hw₁def]
     by_cases hc' : c % 2 = e % 2
-    · rw [if_pos hc', if_pos hc']
+    · rw [ite_eq_left hc', ite_eq_left hc']
       simp [hbne]
-    · rw [if_neg hc', if_neg hc']
+    · rw [ite_eq_right hc', ite_eq_right hc']
       simp
   have hbb : (if (-b) = -b then 1 else 0) = 1 := by simp
   have hlast₂ : (if w₂ = -b then 1 else 0) = (if c % 2 = e % 2 then 1 else 0) := by
     rw [hw₂def]
     by_cases hc' : c % 2 = e % 2
-    · rw [if_pos hc', if_pos hc']
+    · rw [ite_eq_left hc', ite_eq_left hc']
       simp
-    · rw [if_neg hc', if_neg hc']
+    · rw [ite_eq_right hc', ite_eq_right hc']
       simp [hbne]
   constructor
   · rw [negCount_four hpq hpr hpt hqr hqt hrt, sPair_p, sPair_q hpq,
       sPair_r hpr hqr, sPair_t (Ne.symm hpt) (Ne.symm hqt) (Ne.symm hrt),
       hbterm, hlast₁, ← hc]
     simp only [Nat.add_zero]
-    change (c + (if c % 2 = e % 2 then 0 else 1)) % 2 = e % 2
     exact parity_add_ite c e
   · rw [negCount_four hpq hpr hpt hqr hqt hrt, sPair_p, sPair_q hpq,
       sPair_r hpr hqr, sPair_t (Ne.symm hpt) (Ne.symm hqt) (Ne.symm hrt),
       hbb, hlast₂, ← hc]
-    change (c + 1 + (if c % 2 = e % 2 then 1 else 0)) % 2 = e % 2
     exact parity_add_ite_succ c e
 private theorem sClass_two_mem_wit {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
     IsUnit b) {e : ℕ} (he : e < 2) {p q r t : Fin 4} (hpq : p ≠ q) (hpr : p ≠ r) (hpt : p ≠ t) (hqr
@@ -1578,7 +1572,7 @@ private theorem sClass_two_mem_wit {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     b w₁ ≠ sPair p q r x y (-b) w₂ ∧ IsSWt b (sPair p q r x y b w₁) ∧ negCount b (sPair p q r x y b
     w₁) % 2 = e % 2 ∧ IsSWt b (sPair p q r x y (-b) w₂) ∧ negCount b (sPair p q r x y (-b) w₂) % 2 =
     e % 2 ∧ (w₁ = b ∨ w₁ = -b) ∧ (w₂ = b ∨ w₂ = -b) ∧ w₂ = -w₁ := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   have hbne : b ≠ -b := ZMod.ne_neg_self hN hb.ne_zero
   have hw₁ : w₁ = b ∨ w₁ = -b := by rw [hw₁def]; split_ifs <;> simp
   have hw₂ : w₂ = b ∨ w₂ = -b := by rw [hw₂def]; split_ifs <;> simp
@@ -1605,12 +1599,12 @@ private theorem sClass_two_mem_wit {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     rw [sPair_r hpr hqr x y b w₁, sPair_r hpr hqr x y (-b) w₂] at hr
     exact hbne hr
   exact ⟨ha₁_mem, ha₂_mem, ha₁_ne, ha₁_swt, ha₁_par, ha₂_swt, ha₂_par, hw₁, hw₂, hw₂neg⟩
-private theorem sClass_two_mem_root {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} {α :
+private theorem sClass_two_mem_root {N : ℕ} [NeZero N] (_hN3 : 3 ≤ N) (_hN : Odd N) {b : ZMod N} {α :
     Fin 4 → ℤ} (hα : IsD4Root α) : ∃ (p q r t : Fin 4) (u v : ℤ) (x y : ZMod N), p ≠ q ∧ p ≠ r ∧ p ≠
     t ∧ q ≠ r ∧ q ≠ t ∧ r ≠ t ∧ (u = 1 ∨ u = -1) ∧ (v = 1 ∨ v = -1) ∧ α = Pi.single p u + Pi.single
     q v ∧ x = ((-u : ℤ) : ZMod N) * b ∧ y = ((-v : ℤ) : ZMod N) * b ∧ (x = b ∨ x = -b) ∧ (y = b ∨ y
     = -b) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   obtain ⟨p, q, hpq, hup, hvp, hαeq⟩ := isD4Root_iff.mp hα
   let u : ℤ := α p
   let v : ℤ := α q
@@ -1633,20 +1627,16 @@ private theorem sClass_two_mem_root {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : O
     ?_, ?_⟩
   · rcases hu with h | h
     · right
-      change ((-u : ℤ) : ZMod N) * b = -b
       rw [h]
       simp
     · left
-      change ((-u : ℤ) : ZMod N) * b = b
       rw [h]
       simp
   · rcases hv with h | h
     · right
-      change ((-v : ℤ) : ZMod N) * b = -b
       rw [h]
       simp
     · left
-      change ((-v : ℤ) : ZMod N) * b = b
       rw [h]
       simp
 private theorem sClass_two_mem_fwd {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
@@ -1657,7 +1647,7 @@ private theorem sClass_two_mem_fwd {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     b (sPair p q r x y b w₁) % 2 = e % 2) {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) (hC : a + (2
     * b) • castW N (Pi.single p u + Pi.single q v) ∈ sClass N b e) : a = sPair p q r x y b w₁ ∨ a =
     sPair p q r x y (-b) w₂ := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha hC
   obtain ⟨hap, haq⟩ := (isSWt_add_two_iff hN3 hN hb ha.1 hpq hu hv).mp hC.1
   have hcases := sClass_two_mem_diff hN3 hN hb he hpq hpr hpt hqr hqt hrt hu hv
@@ -1672,7 +1662,7 @@ private theorem sClass_two_mem_fwd {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Od
     exact sClass_two_mem_eq_pair hN hb.ne_zero hpq hpr hpt hqr hqt hrt hx' hy' hw₁ hw₂
       ha.1 hap haq h2
 private theorem sClass_two_mem_bwd {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb :
-    IsUnit b) {e : ℕ} {p q r t : Fin 4} (hpq : p ≠ q) {u v : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨
+    IsUnit b) {e : ℕ} {p q r _t : Fin 4} (hpq : p ≠ q) {u v : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨
     v = -1) {x y w₁ w₂ : ZMod N} (hx' : x = ((-u : ℤ) : ZMod N) * b) (hy' : y = ((-v : ℤ) : ZMod N)
     * b) {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) (h : a = sPair p q r x y b w₁ ∨ a = sPair p q
     r x y (-b) w₂) : a + (2 * b) • castW N (Pi.single p u + Pi.single q v) ∈ sClass N b e := by
@@ -1710,13 +1700,13 @@ private theorem sClass_two_mem {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N)
       hw₁ hw₂neg ha₁_par ha (by simpa [hαeq'] using hC)
   · intro h
     exact by
-      simpa [hαeq'] using sClass_two_mem_bwd (p := p) (q := q) (r := r) (t := t)
+      simpa [hαeq'] using sClass_two_mem_bwd (p := p) (q := q) (r := r) (_t := t)
         (x := x) (y := y) (w₁ := w₁) (w₂ := w₂) hN3 hN hb hpq hu hv hx' hy' ha h
 private theorem dot_single_pair {p q r t : Fin 4} (u v s w : ℤ) : (Pi.single p u + Pi.single q v :
     Fin 4 → ℤ) ⬝ᵥ (Pi.single r s + Pi.single t w : Fin 4 → ℤ) = (if p = r then u * s else 0) + (if p
     = t then u * w else 0) + (if q = r then v * s else 0) + (if q = t then v * w else 0) := by
   rw [add_dotProduct, dotProduct_add, dotProduct_add]
-  simp only [single_dotProduct, Pi.single_apply, mul_ite, mul_zero, mul_one]
+  simp only [single_dotProduct, Pi.single_apply, mul_ite, mul_zero]
   ring
 private theorem coeff_eq_of_coord_eq {N : ℕ} (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb : IsUnit b)
     {x y : ℤ} (hx : x = 1 ∨ x = -1) (hy : y = 1 ∨ y = -1) (h : ((-x : ℤ) : ZMod N) * b = ((-y : ℤ) :
@@ -1738,25 +1728,25 @@ private theorem sClass_raise_adj_same_pt {p q r t : Fin 4} (hpt : p = t) (hqr : 
 private theorem sClass_raise_adj_share_p {p q r t : Fin 4} (hpr : p = r) (hpt : p ≠ t) (hqr : q ≠ r)
     (hqt : q ≠ t) {u v s w : ℤ} (hs : s = 1 ∨ s = -1) (hus : u = s) {γ γ' : Fin 4 → ℤ} (hγeq : γ =
     Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) : γ ⬝ᵥ γ' = 1 := by
-  rw [hγeq, hγ'eq, dot_single_pair, if_pos hpr, if_neg hpt, if_neg hqr, if_neg hqt, hus]
+  rw [hγeq, hγ'eq, dot_single_pair, ite_eq_left hpr, ite_eq_right hpt, ite_eq_right hqr, ite_eq_right hqt, hus]
   rcases hs with h | h <;> rw [h] <;> norm_num
 private theorem sClass_raise_adj_share_pt {p q r t : Fin 4} (hpt : p = t) (hpr : p ≠ r) (hqr : q ≠
     r) (hqt : q ≠ t) {u v s w : ℤ} (hw : w = 1 ∨ w = -1) (huw : u = w) {γ γ' : Fin 4 → ℤ} (hγeq : γ
     = Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) : γ ⬝ᵥ γ' = 1
     := by
-  rw [hγeq, hγ'eq, dot_single_pair, if_neg hpr, if_pos hpt, if_neg hqr, if_neg hqt, huw]
+  rw [hγeq, hγ'eq, dot_single_pair, ite_eq_right hpr, ite_eq_left hpt, ite_eq_right hqr, ite_eq_right hqt, huw]
   rcases hw with h | h <;> rw [h] <;> norm_num
 private theorem sClass_raise_adj_share_qr {p q r t : Fin 4} (hpr : p ≠ r) (hpt : p ≠ t) (hqr : q =
     r) (hqt : q ≠ t) {u v s w : ℤ} (hs : s = 1 ∨ s = -1) (hvs : v = s) {γ γ' : Fin 4 → ℤ} (hγeq : γ
     = Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) : γ ⬝ᵥ γ' = 1
     := by
-  rw [hγeq, hγ'eq, dot_single_pair, if_neg hpr, if_neg hpt, if_pos hqr, if_neg hqt, hvs]
+  rw [hγeq, hγ'eq, dot_single_pair, ite_eq_right hpr, ite_eq_right hpt, ite_eq_left hqr, ite_eq_right hqt, hvs]
   rcases hs with h | h <;> rw [h] <;> norm_num
 private theorem sClass_raise_adj_share_qt {p q r t : Fin 4} (hpr : p ≠ r) (hpt : p ≠ t) (hqr : q ≠
     r) (hqt : q = t) {u v s w : ℤ} (hw : w = 1 ∨ w = -1) (hvw : v = w) {γ γ' : Fin 4 → ℤ} (hγeq : γ
     = Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) : γ ⬝ᵥ γ' = 1
     := by
-  rw [hγeq, hγ'eq, dot_single_pair, if_neg hpr, if_neg hpt, if_neg hqr, if_pos hqt, hvw]
+  rw [hγeq, hγ'eq, dot_single_pair, ite_eq_right hpr, ite_eq_right hpt, ite_eq_right hqr, ite_eq_left hqt, hvw]
   rcases hw with h | h <;> rw [h] <;> norm_num
 private theorem sClass_raise_adj_disjoint {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N}
     (hb : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) {p q r t : Fin 4} (hpq : p
@@ -1772,13 +1762,13 @@ private theorem sClass_raise_adj_disjoint {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (
     exact ⟨(isSWt_add_two_iff hN3 hN hb ha.1 hpr hu hs).mpr ⟨hp, hr⟩, by
       have hpar := isSWt_add_two_parity hN3 hN hb ha.1 hpr hu hs hp hr
       rw [hpar, ha.2]⟩
-  · rw [hγeq, dot_single_pair, if_pos rfl, if_neg hpr, if_neg (Ne.symm hpq), if_neg hqr]
+  · rw [hγeq, dot_single_pair, ite_eq_left rfl, ite_eq_right hpr, ite_eq_right (Ne.symm hpq), ite_eq_right hqr]
     rcases hu with h | h <;> rw [h] <;> norm_num
-  · rw [hγ'eq, dot_single_pair, if_neg (Ne.symm hpr), if_pos rfl,
-      if_neg (Ne.symm hpt), if_neg (Ne.symm hrt)]
+  · rw [hγ'eq, dot_single_pair, ite_eq_right (Ne.symm hpr), ite_eq_left rfl,
+      ite_eq_right (Ne.symm hpt), ite_eq_right (Ne.symm hrt)]
     rcases hs with h | h <;> rw [h] <;> norm_num
 private theorem sClass_raise_adj_p_eq_r {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N}
-    (hb : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (ha : a ∈ sClass N b e) {γ γ' : Fin 4 → ℤ} {p q r t
+    (hb : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} (_ha : a ∈ sClass N b e) {γ γ' : Fin 4 → ℤ} {p q r t
     : Fin 4} (hpq : p ≠ q) (hpr : p = r) (hrt : r ≠ t) {u v s w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v =
     1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hγeq : γ = Pi.single p u + Pi.single q
     v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N) * b) (hq : a q =
@@ -1832,7 +1822,7 @@ private theorem sClass_raise_adj {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd 
     γ) (hγ' : IsD4Root γ') (h1 : a + (2 * b) • castW N γ ∈ sClass N b e) (h2 : a + (2 * b) • castW N
     γ' ∈ sClass N b e) (hne : γ ≠ γ') : γ ⬝ᵥ γ' = 1 ∨ ∃ γ'', IsD4Root γ'' ∧ a + (2 * b) • castW N
     γ'' ∈ sClass N b e ∧ γ ⬝ᵥ γ'' = 1 ∧ γ' ⬝ᵥ γ'' = 1 := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha h1 h2
   obtain ⟨p, q, hpq, hup, hvp, hγeq⟩ := isD4Root_iff.mp hγ
   let u : ℤ := γ p
@@ -1924,28 +1914,28 @@ private theorem not_mem_add_two_gamma'_add {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) 
     rw [add_two_add_two_apply, hkγ, hkγ', hak]
     push_cast
     ring) hSWt
-private theorem sClass_raise_edge_same_pq {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N}
-    (hb : IsUnit b) {p q r t : Fin 4} (hpq : p ≠ q) (hpr : p = r) (hqt : q = t) (hrt : r ≠ t) {u v s
+private theorem sClass_raise_edge_same_pq {N : ℕ} [NeZero N] (_hN3 : 3 ≤ N) (_hN : Odd N) {b : ZMod N}
+    (_hb : IsUnit b) {p q r t : Fin 4} (hpq : p ≠ q) (hpr : p = r) (hqt : q = t) (hrt : r ≠ t) {u v s
     w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨ v = -1) (hus : u = s) (hvw : v = w) {γ γ' : Fin 4 →
     ℤ} (hγeq : γ = Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hdot
     : γ ⬝ᵥ γ' = 1) : False := by
   have hpt : p ≠ t := by rw [hpr]; exact hrt
   have hqr : q ≠ r := by rw [← hpr]; exact Ne.symm hpq
   have h2 : γ ⬝ᵥ γ' = 2 := by
-    rw [hγeq, hγ'eq, dot_single_pair, if_pos hpr, if_neg hpt, if_neg hqr, if_pos hqt,
+    rw [hγeq, hγ'eq, dot_single_pair, ite_eq_left hpr, ite_eq_right hpt, ite_eq_right hqr, ite_eq_left hqt,
       ← hus, ← hvw]
     rcases hu with h | h <;> rcases hv with h' | h' <;> rw [h, h'] <;> norm_num
   rw [hdot] at h2
   omega
-private theorem sClass_raise_edge_same_pt {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N}
-    (hb : IsUnit b) {p q r t : Fin 4} (hpq : p ≠ q) (hpt : p = t) (hqr : q = r) (hrt : r ≠ t) {u v s
+private theorem sClass_raise_edge_same_pt {N : ℕ} [NeZero N] (_hN3 : 3 ≤ N) (_hN : Odd N) {b : ZMod N}
+    (_hb : IsUnit b) {p q r t : Fin 4} (hpq : p ≠ q) (hpt : p = t) (hqr : q = r) (hrt : r ≠ t) {u v s
     w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨ v = -1) (huw : u = w) (hvs : v = s) {γ γ' : Fin 4 →
     ℤ} (hγeq : γ = Pi.single p u + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hdot
     : γ ⬝ᵥ γ' = 1) : False := by
   have hpr' : p ≠ r := by rw [hpt]; exact Ne.symm hrt
   have hqt' : q ≠ t := by rw [← hpt]; exact Ne.symm hpq
   have h2 : γ ⬝ᵥ γ' = 2 := by
-    rw [hγeq, hγ'eq, dot_single_pair, if_neg hpr', if_pos hpt, if_pos hqr, if_neg hqt',
+    rw [hγeq, hγ'eq, dot_single_pair, ite_eq_right hpr', ite_eq_left hpt, ite_eq_left hqr, ite_eq_right hqt',
       ← huw, ← hvs]
     rcases hu with h | h <;> rcases hv with h' | h' <;> rw [h, h'] <;> norm_num
   rw [hdot] at h2
@@ -1954,14 +1944,14 @@ private theorem sClass_raise_edge_disjoint {p q r t : Fin 4} (hpr : p ≠ r) (hp
     r) (hqt : q ≠ t) {u v s w : ℤ} {γ γ' : Fin 4 → ℤ} (hγeq : γ = Pi.single p u + Pi.single q v)
     (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hdot : γ ⬝ᵥ γ' = 1) : False := by
   have h0 : γ ⬝ᵥ γ' = 0 := by
-    rw [hγeq, hγ'eq, dot_single_pair, if_neg hpr, if_neg hpt, if_neg hqr, if_neg hqt]
+    rw [hγeq, hγ'eq, dot_single_pair, ite_eq_right hpr, ite_eq_right hpt, ite_eq_right hqr, ite_eq_right hqt]
     ring
   rw [hdot] at h0
   omega
 private theorem sClass_raise_edge_pp {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb
     : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} {γ γ' : Fin 4 → ℤ} {p q r t : Fin 4} (hpq : p ≠ q) (hpr
     : p = r) (hqt : q ≠ t) (hrt : r ≠ t) {u v s w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨ v = -1)
-    (hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hus : u = s) (hγeq : γ = Pi.single p u + Pi.single
+    (_hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hus : u = s) (hγeq : γ = Pi.single p u + Pi.single
     q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N) * b) (hq : a q
     = ((-v : ℤ) : ZMod N) * b) (ht : a t = ((-w : ℤ) : ZMod N) * b) : a + (2 * b) • castW N (γ' - γ)
     ∉ sClass N b e ∧ a - (2 * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a + (2 * b) • castW N γ - (2 *
@@ -1982,7 +1972,7 @@ private theorem sClass_raise_edge_pp {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : 
 private theorem sClass_raise_edge_pt {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb
     : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} {γ γ' : Fin 4 → ℤ} {p q r t : Fin 4} (hpq : p ≠ q) (hpt
     : p = t) (hqr : q ≠ r) (hqt : q ≠ t) (hrt : r ≠ t) {u v s w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v =
-    1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (huw : u = w) (hγeq : γ = Pi.single p u
+    1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (_hw : w = 1 ∨ w = -1) (huw : u = w) (hγeq : γ = Pi.single p u
     + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N) *
     b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (hr : a r = ((-s : ℤ) : ZMod N) * b) : a + (2 * b) •
     castW N (γ' - γ) ∉ sClass N b e ∧ a - (2 * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a + (2 * b) •
@@ -2002,7 +1992,7 @@ private theorem sClass_raise_edge_pt {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : 
 private theorem sClass_raise_edge_qr {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb
     : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} {γ γ' : Fin 4 → ℤ} {p q r t : Fin 4} (hpq : p ≠ q) (hpr
     : p ≠ r) (hpt : p ≠ t) (hqr : q = r) (hrt : r ≠ t) {u v s w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v =
-    1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hvs : v = s) (hγeq : γ = Pi.single p u
+    1 ∨ v = -1) (_hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hvs : v = s) (hγeq : γ = Pi.single p u
     + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N) *
     b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (ht : a t = ((-w : ℤ) : ZMod N) * b) : a + (2 * b) •
     castW N (γ' - γ) ∉ sClass N b e ∧ a - (2 * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a + (2 * b) •
@@ -2022,7 +2012,7 @@ private theorem sClass_raise_edge_qr {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : 
 private theorem sClass_raise_edge_qt {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd N) {b : ZMod N} (hb
     : IsUnit b) {e : ℕ} {a : Fin 4 → ZMod N} {γ γ' : Fin 4 → ℤ} {p q r t : Fin 4} (hpq : p ≠ q) (hpr
     : p ≠ r) (hpt : p ≠ t) (hqt : q = t) (hrt : r ≠ t) {u v s w : ℤ} (hu : u = 1 ∨ u = -1) (hv : v =
-    1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (hw : w = 1 ∨ w = -1) (hvw : v = w) (hγeq : γ = Pi.single p u
+    1 ∨ v = -1) (hs : s = 1 ∨ s = -1) (_hw : w = 1 ∨ w = -1) (hvw : v = w) (hγeq : γ = Pi.single p u
     + Pi.single q v) (hγ'eq : γ' = Pi.single r s + Pi.single t w) (hp : a p = ((-u : ℤ) : ZMod N) *
     b) (hq : a q = ((-v : ℤ) : ZMod N) * b) (hr : a r = ((-s : ℤ) : ZMod N) * b) : a + (2 * b) •
     castW N (γ' - γ) ∉ sClass N b e ∧ a - (2 * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a + (2 * b) •
@@ -2091,7 +2081,7 @@ private theorem sClass_raise_edge {N : ℕ} [NeZero N] (hN3 : 3 ≤ N) (hN : Odd
     γ' ∈ sClass N b e) (hdot : γ ⬝ᵥ γ' = 1) : a + (2 * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a - (2
     * b) • castW N (γ' - γ) ∉ sClass N b e ∧ a + (2 * b) • castW N γ - (2 * b) • castW N (γ' - γ) ∉
     sClass N b e ∧ a + (2 * b) • castW N γ' + (2 * b) • castW N γ ∉ sClass N b e := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   rw [mem_sClass] at ha h1 h2
   obtain ⟨p, q, hpq, hup, hvp, hγeq⟩ := isD4Root_iff.mp hγ
   let u : ℤ := γ p

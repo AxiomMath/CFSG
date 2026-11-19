@@ -53,7 +53,7 @@ private theorem false_of_commute_of_coprime_six {σ τ : MulAut (alternatingGrou
 
 theorem res3NoDatumA6_holds : Res3NoDatumA6 := by
   rintro J _ _ _ hq ⟨e⟩ c g V U hd
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   let Φ : MulAut J →* MulAut (alternatingGroup (Fin 6)) :=
     (MulAut.congr e).toMonoidHom.comp (PerfectAutomorphisms.centerQuotientHom J)
   have hΦ : Function.Injective Φ :=

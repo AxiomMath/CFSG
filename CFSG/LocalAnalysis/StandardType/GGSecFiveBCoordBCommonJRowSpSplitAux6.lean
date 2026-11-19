@@ -16,7 +16,7 @@ theorem ggCommonJSpSplit_label_sp {K : Type} [Field K] [Finite K] [CharP K 2] {f
     GGHasLabel ⟨.C, r - 1, f⟩ (↥J ⧸ Subgroup.center ↥J) := by
   obtain ⟨e⟩ := hiso
   have hn : 1 ≤ r - 1 := by omega
-  haveI : NeZero (r - 1) := ⟨by omega⟩
+  have : NeZero (r - 1) := ⟨by omega⟩
   have hZsp : Subgroup.center (StatedSp (r - 1) K) = ⊥ :=
     CFSG.Timmesfeld.Transvection.center_statedSp_eq_bot (K := K) (n := r - 1) hn
   have hZ : Subgroup.center ↥J = ⊥ := by

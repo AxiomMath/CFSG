@@ -28,7 +28,7 @@ variable {K : Type} [Field K] [Algebra (ZMod 2) K] {V0 : Type} [AddCommGroup V0]
   map_add' x y := by
     ext <;> simp [mul_add]
   map_smul' c x := by
-    ext <;> simp [mul_smul_comm]
+    ext <;> simp
   left_inv v := by
     ext <;> simp
   right_inv v := by
@@ -122,11 +122,12 @@ section Four
 
 variable [Finite K] (hK : Nat.card K = 4)
 
+omit [Algebra (ZMod 2) K] in
 private lemma P9C_four_cover (hK : Nat.card K = 4) {ω : K} (hω3 : ω ^ 3 = 1) (hωne1 : ω ≠ 1)
     (hωne0 : ω ≠ 0) :
     ∀ c : K, c = 0 ∨ c = 1 ∨ c = ω ∨ c = ω ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
   have hω2ne1 : ω ^ 2 ≠ 1 := by
     intro h
@@ -158,9 +159,10 @@ private lemma P9C_four_cover (hK : Nat.card K = 4) {ω : K} (hω3 : ω ^ 3 = 1) 
   simpa only [s, Finset.mem_insert, Finset.mem_singleton] using hc
 
 include hK in
+omit [Algebra (ZMod 2) K] in
 theorem P9_card_units : Nat.card Kˣ = 3 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
 
 include hK in
@@ -179,7 +181,7 @@ theorem P9_centralizer_rot (g : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin
     ∃ (g0 : V0 ≃ₗ[ZMod 2] V0) (u : Fin t → Kˣ),
       ∀ v : V0 × (Fin t → K), g v = (g0 v.1, fun k => (u k : K) * v.2 k) := by
   have hcard_units : Nat.card Kˣ = 3 := P9_card_units hK
-  haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have : Fintype Kˣ := Fintype.ofFinite Kˣ
   obtain ⟨ω, hωne1⟩ : ∃ ω : Kˣ, ω ≠ 1 := by
     refine Fintype.exists_ne_of_one_lt_card ?_ (1 : Kˣ)
     rw [← Nat.card_eq_fintype_card, hcard_units]
@@ -277,7 +279,7 @@ theorem P9_centralizer_rot (g : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin
       g.injective (h0.trans (map_zero g).symm)
     have hcontra : (1 : K) = 0 := by
       have := congrArg (fun w : V0 × (Fin t → K) => w.2 k) hz
-      simpa using this
+      simp at this
     exact one_ne_zero hcontra
   have fixed_part : ∀ (e : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin t → K))),
       (∀ a : Fin t → Kˣ, e * P9rot a = P9rot a * e) →
@@ -356,7 +358,7 @@ theorem P9_centralizer_rot (g : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin
   intro v
   have hv : (v.1, 0) + ∑ k, ((0 : V0), (Pi.single k (v.2 k) : Fin t → K)) = v := by
     rw [P9C_sum_pi v.2]
-    ext <;> simp [P9C_add_self]
+    ext <;> simp
   calc g v
       = g ((v.1, 0) + ∑ k, ((0 : V0), (Pi.single k (v.2 k) : Fin t → K))) :=
           congrArg g hv.symm

@@ -243,14 +243,14 @@ theorem isBlk1_inv {g : M5} (h : IsBlk1 g) : IsBlk1 g⁻¹ := by
     simp only [Matrix.mul_apply, Fin.sum_univ_five, c0, c1, c2, c3, h44, mul_zero, mul_one,
       zero_add, add_zero] at this
     rw [this]
-    simp [Matrix.one_apply, hi]
+    simp [hi]
   have row : ∀ j : Fin 5, j ≠ 4 → mt g⁻¹ 4 j = 0 := by
     intro j hj
     have := congrFun (congrFun hgg' 4) j
     simp only [Matrix.mul_apply, Fin.sum_univ_five, r0, r1, r2, r3, h44, zero_mul, one_mul,
       zero_add, add_zero] at this
     rw [this]
-    simp [Matrix.one_apply, Ne.symm hj]
+    simp [Ne.symm hj]
   refine ⟨⟨col, row⟩, ?_⟩
   have := congrFun (congrFun hgg 4) 4
   simp only [Matrix.mul_apply, Fin.sum_univ_five, c0, c1, c2, c3, h44, mul_zero, mul_one,
@@ -411,8 +411,8 @@ noncomputable def equivM4 : StatedProj (StatedSU 4 (2 ^ 1) F4) ≃* StatedSU 4 (
   (QuotientGroup.quotientMulEquivOfEq statedScalars4_eq_bot).trans QuotientGroup.quotientBot
 
 theorem isSimple_M4 : IsSimpleGroup (StatedSU 4 (2 ^ 1) F4) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 hF4card 4
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 hF4card 4
     (by norm_num) (by norm_num)
   exact equivM4.symm.isSimpleGroup
 
@@ -420,7 +420,7 @@ noncomputable def PhiEquiv : StatedSU 4 (2 ^ 1) F4 ≃* ↥(Phi.range) :=
   MonoidHom.ofInjective Phi_injective
 
 theorem isSimple_range : IsSimpleGroup ↥(Phi.range) := by
-  haveI := isSimple_M4
+  have := isSimple_M4
   exact PhiEquiv.symm.isSimpleGroup
 
 theorem catalogIs_range : catalogIs ↥(Phi.range) S9.isU4two :=

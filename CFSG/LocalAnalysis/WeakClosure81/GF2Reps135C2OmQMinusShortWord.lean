@@ -50,7 +50,7 @@ private theorem c2slomqi5_coord {a : Fin l} (ha : a.val + 1 < l) {v : Fin l → 
     (toStdB_eq_iff l v _).mp hv
   have hne : a ≠ (⟨a.val + 1, ha⟩ : Fin l) := Fin.ne_of_val_ne (by simp)
   rw [h1, ofStdB, Finset.sum_eq_single a]
-  · simp [Pi.single_apply, hne]
+  · simp [hne]
   · intro b _ hb
     by_cases hba : b.val ≤ a.val
     · have hb' : b ≠ (⟨a.val + 1, ha⟩ : Fin l) := by
@@ -58,7 +58,7 @@ private theorem c2slomqi5_coord {a : Fin l} (ha : a.val + 1 < l) {v : Fin l → 
         have := congrArg Fin.val h
         simp at this
         omega
-      simp [hba, Pi.single_apply, hb, hb']
+      simp [hba, hb, hb']
     · simp [hba]
   · simp
 
@@ -76,8 +76,8 @@ private theorem c2slomqi5_toStd {a : Fin l} (ha : a.val + 1 < l) {w : (coxeterMa
     simp [e1, spSgn, hne]
   · by_cases hb' : b = (⟨a.val + 1, ha⟩ : Fin l)
     · subst hb'
-      simp [e1, spSgn, hne.symm, Pi.single_apply]
-    · simp [e1, spSgn, hb, hb', Pi.single_apply]
+      simp [e1, spSgn, hne.symm]
+    · simp [e1, spSgn, hb, hb']
 
 private theorem c2slomqi5_key (hl : 0 < l) :
     ∀ d : ℕ, d < l →

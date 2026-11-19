@@ -146,6 +146,7 @@ theorem spEnd_eq_self_on_quad_of_mem_fixed [CharP F 2]
     simp only [Set.mem_singleton_iff]
     exact CFSG.HardMathSupport.Dickson.Bal207.X_sq_add_X_add_one_ne)
 
+omit [Finite F] in
 theorem commute_spSupported_of_disjoint [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {O O' : Set F[X]} (hd : Disjoint O O') {g g' : ↥(StatedSp ℓ F)}
     (hg : g ∈ spSupported d O) (hg' : g' ∈ spSupported d O') : g * g' = g' * g := by
@@ -155,6 +156,7 @@ theorem commute_spSupported_of_disjoint [CharP F 2] {d : ↥(StatedSp ℓ F)}
     CFSG.RankThree.Classical.AltPrimaryData.commute_of_disjoint (H := H) hd hg hg'
   exact spLin_injective (by rw [map_mul, map_mul]; exact hc.eq)
 
+omit [Finite F] in
 theorem spSupported_fixed_le_centralizer_quad [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) :
     spSupported d {X - 1} ≤
       Subgroup.centralizer (spSupported d {X ^ 2 + X + 1} : Set ↥(StatedSp ℓ F)) := by
@@ -166,6 +168,7 @@ theorem spSupported_fixed_le_centralizer_quad [CharP F 2] {d : ↥(StatedSp ℓ 
     exact fun h => CFSG.HardMathSupport.Dickson.Bal207.X_sq_add_X_add_one_ne h.symm
   exact (commute_spSupported_of_disjoint hd3 hO hg hh).symm
 
+omit [Finite F] in
 theorem spSupported_fixed_le_centralizer_layer [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) :
     spSupported d {X - 1} ≤ Subgroup.centralizer
@@ -174,16 +177,19 @@ theorem spSupported_fixed_le_centralizer_layer [CharP F 2] {d : ↥(StatedSp ℓ
   (spSupported_fixed_le_centralizer_quad hd3).trans
     (Subgroup.centralizer_le (Subgroup.commutator_le_self _))
 
+omit [Finite F] in
 theorem spEnd_eq_self_of_mem_fixed {d : ↥(StatedSp ℓ F)} {v : V}
     (hv : v ∈ primaryComponent (spEnd d) (X - 1)) : spEnd d v = v := by
   have h := (mem_primaryComponent (x := spEnd d) (a := X - 1)).mp hv
   simpa [map_sub, map_one, aeval_X, LinearMap.sub_apply, sub_eq_zero] using h
 
+omit [Finite F] in
 theorem nondegenerate_primaryComponent_fixed [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) :
     ((spForm ℓ F).restrict (primaryComponent (spEnd d) (X - 1))).Nondegenerate := by
   rw [primaryComponent_sub_one_eq_fixSub]
   exact nondegenerate_fixSub (K := F) three_ne_zero_of_charP_two hd3
 
+omit [Finite F] in
 theorem finrank_primaryComponent_fixed_add_quad [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) :
     Module.finrank F (primaryComponent (spEnd d) (X - 1)) +
@@ -219,7 +225,7 @@ theorem finrank_primaryComponent_fixed_add_quad [CharP F 2] {d : ↥(StatedSp �
 theorem finrank_quad_eq_two_mul [CharP F 2] (hF : Nat.card F = 2)
     {d : ↥(StatedSp ℓ F)} :
     ∃ m : ℕ, Module.finrank F (primaryComponent (spEnd d) (X ^ 2 + X + 1)) = 2 * m := by
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
     ⟨CFSG.HardMathSupport.Curtis.Coordinator.irreducible_X_sq_add_X_add_one_of_card_eq_two hF⟩
   refine ⟨Module.finrank (AdjoinRoot (X ^ 2 + X + 1 : F[X]))
     (primaryComponent (spEnd d) (X ^ 2 + X + 1)), ?_⟩
@@ -228,6 +234,7 @@ theorem finrank_quad_eq_two_mul [CharP F 2] (hF : Nat.card F = 2)
   rw [hdeg] at h
   exact h
 
+omit [Finite F] in
 theorem mem_span_of_perp_of_mem_fixed [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {r : V} (hr1 : r ∈ primaryComponent (spEnd d) (X - 1)) (hr0 : r ≠ 0)
     (hdim2 : Module.finrank F (primaryComponent (spEnd d) (X - 1)) = 2) :
@@ -251,6 +258,7 @@ theorem mem_span_of_perp_of_mem_fixed [CharP F 2] {d : ↥(StatedSp ℓ F)}
     rw [finrank_span_singleton hr0, hdim2]
   exact mem_of_perp_of_lagrangian hR hY hRiso hdim
 
+omit [Finite F] in
 theorem eq_span_of_le_fixed_isotropic [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {W : Submodule F V} (hW0 : W ≠ ⊥)
     (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
@@ -270,6 +278,7 @@ theorem eq_span_of_le_fixed_isotropic [CharP F 2] {d : ↥(StatedSp ℓ F)}
   have hW : W = Submodule.span F {r} := le_antisymm hWle hRle
   exact ⟨r, hr, hr0, hW, by rw [hW, finrank_span_singleton hr0]⟩
 
+omit [Finite F] in
 theorem isQuasisimple_layer_of_stdElt {A : Subgroup ↥(StatedSp ℓ F)}
     {d : ↥(StatedSp ℓ F)} (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d {X ^ 2 + X + 1}, spSupported d {X ^ 2 + X + 1}⁆) :

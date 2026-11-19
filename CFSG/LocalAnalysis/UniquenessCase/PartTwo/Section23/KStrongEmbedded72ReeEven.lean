@@ -15,15 +15,15 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem reeEven_case {X : Type} [Group X] [Finite X] {L K : Subgroup X}
     (hKL : K ≤ L) (hKn : K.Normal) [hKs : IsSimpleGroup ↥K]
-    (hKnab : ∃ a b : ↥K, a * b ≠ b * a)
+    (_hKnab : ∃ a b : ↥K, a * b ≠ b * a)
     (hKC : Subgroup.centralizer (K : Set X) = ⊥)
     (hLab : ∀ S : Sylow 2 ↥L, IsMulCommutative (S : Subgroup ↥L))
     (hL8 : ∀ S : Sylow 2 ↥L, Nat.card (S : Subgroup ↥L) = 8)
     {f : ℕ} (hf : 2 ≤ f) (e : ↥K ≃* PSL(2, GaloisField 2 f)) :
     Nonempty (↥K ≃* CFSG.Quasithin.F6.L28Res.G8) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : K.Normal := hKn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : K.Normal := hKn
   have hfpos : 1 ≤ f := by omega
   let SK : Sylow 2 ↥K := Sylow.nonempty.some
   have hSKcard : Nat.card (SK : Subgroup ↥K) = 2 ^ f := by
@@ -37,7 +37,7 @@ theorem reeEven_case {X : Type} [Group X] [Finite X] {L K : Subgroup X}
   have hSKLcard : Nat.card SKL = 2 ^ f := by
     rw [Subgroup.card_map_of_injective (K := (SK : Subgroup ↥K))
       (Subgroup.inclusion_injective hKL), hSKcard]
-  have hSKLpg : IsPGroup 2 SKL := SK.isPGroup'.map (Subgroup.inclusion hKL)
+  have hSKLpg : IsPGroup 2 SKL := SK.isPGroup.map (Subgroup.inclusion hKL)
   obtain ⟨SL, hSKLle⟩ := hSKLpg.exists_le_sylow
   have hSL8 : Nat.card (SL : Subgroup ↥L) = 8 := hL8 SL
   have hpow8 : 2 ^ f ≤ 8 := by

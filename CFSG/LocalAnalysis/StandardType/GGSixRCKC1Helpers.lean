@@ -73,14 +73,14 @@ private theorem rckGH_rootPairVia_map {M : LieUniversal} {X : Type} [Group X]
 
 theorem rck_K2_self {X : Type} [Group X] [Finite X] {J V : Subgroup X} {r : X}
     (hZ : Odd (Nat.card (Subgroup.center ↥J))) (hrV : r ∈ V) (hVJ : V ≤ J)
-    (hV : IsElemAbelian 2 V) (hV4 : Nat.card V = 4)
+    (hV : IsElemAbelian 2 V) (_hV4 : Nat.card V = 4)
     (hK1 : ∀ Y : Subgroup X, IsPGroup 2 Y → Y ≤ Subgroup.normalizer (J : Set X) →
       Y ≤ Subgroup.centralizer {r} →
       (∀ c ∈ J, c * r = r * c → c ∈ Subgroup.normalizer (Y : Set X)) →
       ∀ v ∈ V, ∀ y ∈ Y, ∃ k : ℤ, ∃ z ∈ Subgroup.centralizer (J : Set X),
         v * y * v⁻¹ * y⁻¹ = r ^ k * z) :
     pCoreOf 2 (J ⊓ Subgroup.centralizer ({r} : Set X)) ≤ Subgroup.normalizer (V : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup X := J ⊓ Subgroup.centralizer ({r} : Set X) with hHdef
   set Y : Subgroup X := pCoreOf 2 H with hYdef
   have hYleH : Y ≤ H := rckGH_pCoreOf_le 2 H
@@ -175,12 +175,12 @@ private theorem rckGH_isPGroup_E8
 
 theorem rckGH_ggU_ggRootSub_isPGroup
     (t : StatedLieTag) (m g : ℕ) (ht : GGPosTag t)
-    (hg : 1 ≤ g) :
+    (_hg : 1 ≤ g) :
     ∀ (β : Fin (ggU t m g).D.rank → ℤ), β ∈ (ggU t m g).D.roots →
       ∀ u : (ggU t m g).K,
         IsPGroup 2 (ggRootSub (ggU t m g).D (MonoidHom.id (ggU t m g).K) β u) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 g) 2 := inferInstance
+  have : CharP (GaloisField 2 g) 2 := inferInstance
   unfold GGPosTag at ht
   rcases ht with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·
@@ -202,7 +202,7 @@ theorem rckGH_ggU_ggRootSub_isPGroup
     · have e : ggU .POmegaPlus m g =
           ⟨↥(spinGroup (Spin.quadPlus m (GaloisField 2 g))),
             Spin.plusDatum m (GaloisField 2 g) hm⟩ := by
-        simp only [ggU, lieUniversal, dif_pos hm]
+        simp only [ggU, lieUniversal, dite_eq_left hm]
       rw [e]
       intro β hβ u
       have hpar := CFSG.LieType.Steinberg.SpinPlus.isParametrization
@@ -214,7 +214,7 @@ theorem rckGH_ggU_ggRootSub_isPGroup
         CFSG.LieType.Steinberg.isPGroup_of_isParametrization hpar hβ'
       exact (h.map (MulAut.conj u).toMonoidHom).map (MonoidHom.id _)
     · have e : ggU .POmegaPlus m g = trivialUniversal := by
-        simp only [ggU, lieUniversal, dif_neg hm]
+        simp only [ggU, lieUniversal, dite_eq_right hm]
       intro β hβ u
       exact (rckGH_false_of_mem_roots_trivialUniversal _ e hβ).elim
   ·
@@ -254,10 +254,10 @@ theorem rckGH_triD4_rootGroup_isPGroup
     (hβ : β ∈ (triD4Universal F σ).D.roots) :
     IsPGroup 2 ((triD4Universal F σ).D.rootGroup β) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ (3 * g) := by
     rw [← Nat.card_eq_fintype_card, htri.2.1, ← pow_mul, mul_comm g 3]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3 * g) hcard
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3 * g) hcard
   have hσ := CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card (σ := σ) (q := 2 ^ g)
     htri.2.1 htri.2.2
   exact CFSG.LieType.HighestRoot.isPGroup_twistedD4_rootGroup σ hσ
@@ -281,8 +281,8 @@ theorem rck_rootPosJ_isPGroup
     exact hP.map φ
   · unfold GGRootPairVia at hpair
     obtain ⟨φ, -, -, u, hR, -⟩ := hpair
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     have hP := rckGH_triD4_rootGroup_isPGroup F σ g htri
       (rckGH_GGLongRoot_mem_roots hlong)
     rw [hR]
@@ -304,7 +304,7 @@ theorem rck_V_le_R_of_image {X : Type} [Group X] [Finite X] {J V : Subgroup X}
     (himg : (V.subgroupOf J).map (QuotientGroup.mk' (Subgroup.center ↥J)) ≤
       R.map (QuotientGroup.mk' (Subgroup.center ↥J))) :
     V ≤ R.map J.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVsub : IsPGroup 2 (V.subgroupOf J) :=
     IsPGroup.comap_of_injective hV J.subtype Subtype.val_injective
   have hle : V.subgroupOf J ≤ R := by
@@ -347,7 +347,7 @@ theorem rck_r_mem_R {X : Type} [Group X] [Finite X] {J : Subgroup X} {R : Subgro
     (himg : QuotientGroup.mk' (Subgroup.center ↥J) r ∈
       R.map (QuotientGroup.mk' (Subgroup.center ↥J))) :
     r ∈ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Subgroup.mem_map] at himg
   obtain ⟨s, hsR, hsr⟩ := himg
   set w : ↥J := r * s⁻¹ with hwdef

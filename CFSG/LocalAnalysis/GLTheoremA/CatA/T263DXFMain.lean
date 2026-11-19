@@ -60,9 +60,8 @@ theorem t263SelWP_e6THard4_of
     cases i with
     | lie d =>
       obtain ⟨d, hv⟩ := d
-      cases d <;> simp only [t263GE6THard4, t263GE6Inner, onLie] at hi ⊢ <;>
+      cases d <;> simp only [t263GE6THard4, t263GE6Inner, onLie] at hi ⊢;
         first
-          | exact hi.elim
           | exact ⟨hi.1, fun h3 => hi.2.2 (h3.1 ▸ three_dvd_card_sq_sub_one hi.1)⟩
     | cyclic r hr => exact hi.elim
     | alternating n hn => exact hi.elim

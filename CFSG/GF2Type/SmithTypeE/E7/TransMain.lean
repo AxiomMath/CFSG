@@ -21,6 +21,7 @@ section Main
 variable
   [IsSimpleGroup G]
 
+omit [IsSimpleGroup G] in
 theorem smithE7E33_of_model (hrank : ∀ E : Subgroup S.O, E ≤ S.Mbar →
       CFSG.IsElementaryAbelian 2 E → Nat.card E ≤ 2 ^ 15)
     (hw : S.width = 16) {φ : S.Qt ≃ₗ[ZMod 2] V} (ψ : S.Mbar ≃* TD6)
@@ -104,7 +105,7 @@ theorem smithE7E33_of_model (hrank : ∀ E : Subgroup S.O, E ≤ S.Mbar →
         have hPm : Phi S φ m = tvEquiv k := by
           rw [hψ m, hψm]
           unfold tvElt
-          rw [dif_pos hk]
+          rw [dite_eq_left hk]
           exact rhoMod_tvP ⟨k, hk⟩
         rw [← hPm, Phi_apply]
         rw [← hm] at hr

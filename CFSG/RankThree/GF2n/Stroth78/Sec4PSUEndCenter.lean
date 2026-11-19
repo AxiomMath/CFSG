@@ -29,7 +29,7 @@ private theorem rhoLin_one_aux (S : Setting z E F) : rhoLin S 1 = 1 := by simp [
 @[expose] noncomputable def rhoLinRestrict (S : Setting z E F) (K : Subgroup (Hbar z))
     (U : Submodule (ZMod 2) (Additive (QbarOf S)))
     (hU : ∀ x ∈ K, ∀ u ∈ U, rhoLin S x u ∈ U) : ↥K →* (↥U ≃ₗ[ZMod 2] ↥U) where
-  toFun x := LinearEquiv.ofLinear
+  toFun x := LinearEquiv.ofLinearMap
     ((rhoLin S x : _ →ₗ[ZMod 2] _).restrict (hU x x.2))
     ((rhoLin S (x : Hbar z)⁻¹ : _ →ₗ[ZMod 2] _).restrict (hU _ (inv_mem x.2)))
     (LinearMap.ext fun u => Subtype.ext <| by

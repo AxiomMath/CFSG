@@ -123,11 +123,10 @@ theorem pl_b : b1P ≠ 1 ∧ qP 2 ≠ 1 ∧ b1P ^ 7 = 1 ∧ qP 2 ^ 7 = 1 ∧ b1P
   · simpa using p0
   · simpa using p1
   all_goals
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow, pow_one, pow_zero, one_mul,
-      mul_one, hb] at p2 p3 p4 p5 p6 ⊢
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, hb] at p2 p3 p4 p5 p6 ⊢
   · simpa [mul_assoc] using p2
   · simpa [mul_assoc] using p3
-  · simpa [mul_assoc] using p4
+  · simp [mul_assoc]
   · simpa [mul_assoc] using p5
   · simpa [mul_assoc] using p6
 
@@ -206,10 +205,10 @@ theorem coe_alpha_pvS : ∀ k < 2, ((α (pvS k) : Pv) : Equiv.Perm (Fin N)) = aG
     have h := items_hi items_ok 79
     rw [items_main.2.2.1] at h
     change evalS alphaWordA = aG sgen OPV.D 0
-    rw [aG, if_pos rfl, gI, items_main.2.2.1, evalS, evalWord_eq_wv sgen h]
+    rw [aG, ite_eq_left rfl, gI, items_main.2.2.1, evalS, evalWord_eq_wv sgen h]
   · rw [pvS_one, hα1]
     change a1 = aG sgen OPV.D 1
-    rw [aG, if_neg one_ne_zero]
+    rw [aG, ite_eq_right one_ne_zero]
     exact (cert_on_schreier_action_data.2.2.2.2.2.2.1).symm
 
 include hα0 hα1 in
@@ -253,10 +252,10 @@ theorem pl_lines : ∀ j < 28,
     rw [hR.1, wv_rW_q] at s1
     rw [hR.2, wv_rW_q] at s2
     refine ⟨Subtype.ext ?_, Subtype.ext ?_⟩
-    · rw [planeYA, if_pos h, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, coe_planeC hj,
+    · rw [planeYA, ite_eq_left h, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, coe_planeC hj,
         coe_onLine (by norm_num)]
       exact s1
-    · rw [planeYA, if_pos h, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, coe_planeC hj,
+    · rw [planeYA, ite_eq_left h, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, coe_planeC hj,
         coe_onLine (by omega), show 92 + (j + 1) = 93 + j by omega]
       exact s2
   · obtain ⟨s1, s2⟩ := plAl_sound rp_on items_ok itemsE_ok sgen_mem7 hA2 sep_pv h hj (al_at h hj)
@@ -270,10 +269,10 @@ theorem pl_lines : ∀ j < 28,
       rwa [show 57 + (j - 14) = 56 + (j - 13) by omega,
         show 107 + (j - 14) = 92 + (j + 1) by omega] at this
     refine ⟨Subtype.ext ?_, Subtype.ext ?_⟩
-    · rw [planeYA, if_neg (by omega), Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
+    · rw [planeYA, ite_eq_right (by omega), Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
         coe_planeC hj, o0, coe_alpha_hval α hα0 hα1 (itemsE_h itemsE_ok (by omega))]
       exact s1
-    · rw [planeYA, if_neg (by omega), Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
+    · rw [planeYA, ite_eq_right (by omega), Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
         coe_planeC hj, oj, coe_alpha_hval α hα0 hα1 (itemsE_h itemsE_ok (by omega)),
         show 56 + (j - 13) = 43 + j by omega]
       exact s2

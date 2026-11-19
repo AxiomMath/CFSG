@@ -54,7 +54,7 @@ theorem natural_hom_injective {Γ : Type*} [Group Γ] {m n : ℕ}
     rw [LinearMap.mem_ker, hΦl] at hmem
     simpa using hmem
 
-theorem natural_hom_zero_or_eq {Γ : Type*} [Group Γ] {m n : ℕ} (hm : 2 ≤ m) (hn : n < 2 * m)
+theorem natural_hom_zero_or_eq {Γ : Type*} [Group Γ] {m n : ℕ} (_hm : 2 ≤ m) (hn : n < 2 * m)
     (ρ : Γ →* GL (Fin m) (ZMod 2)) (hρ : Function.Surjective ρ)
     (σ : Γ →* GL (Fin n) (ZMod 2))
     (Φ Φ' : (Fin m → ZMod 2) →+ (Fin n → ZMod 2))

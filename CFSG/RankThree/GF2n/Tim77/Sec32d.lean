@@ -173,11 +173,13 @@ section Config
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
 
+omit [Finite G] in
 theorem sec32d_mem_D_iff {t : G} :
     t ∈ Section4.D A Abar s ↔
       ∃ z ∈ Section3.Y A Abar s, ∃ a ∈ A, a ∉ Section3.A0 A Abar ∧ t = z * a * z⁻¹ :=
   Iff.rfl
 
+omit [Finite G] in
 theorem sec32d_mem_centralizer (hC : Sec3Ctx A Abar S₀ B)
     (hs : Section3.IsSChoice A Abar S₀ B s) : s ∈ centralizer (A : Set G) := by
   obtain ⟨b, hb, -, hcase⟩ := hs
@@ -185,16 +187,21 @@ theorem sec32d_mem_centralizer (hC : Sec3Ctx A Abar S₀ B)
   · exact hC.b_le_centralizer hb
   · exact hsC
 
+omit [Finite G] in
 theorem sec32d_mem_normalizer_of_centralizer {T : Subgroup G} {x : G}
     (h : x ∈ centralizer (T : Set G)) : x ∈ normalizer (T : Set G) :=
   Subgroup.centralizer_le_normalizer _ h
 
+omit [Finite G] in
 theorem sec32d_A_le_Y : A ≤ Section3.Y A Abar s := le_sup_left.trans le_sup_left
 
+omit [Finite G] in
 theorem sec32d_Abar_le_Y : Abar ≤ Section3.Y A Abar s := le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 theorem sec32d_conj_le_Y : conjSubgroup s Abar ≤ Section3.Y A Abar s := le_sup_right
 
+omit [Finite G] in
 theorem sec32d_N_le_normalizer (hC : Sec3Ctx A Abar S₀ B) (hsC : s ∈ centralizer (A : Set G)) :
     Section3.N A Abar s ≤ normalizer (A : Set G) := by
   have hs' : s ∈ normalizer (A : Set G) := sec32d_mem_normalizer_of_centralizer hsC
@@ -233,6 +240,7 @@ theorem sec32d_D_not_mem_N (hC : Sec3Ctx A Abar S₀ B)
     (Subgroup.mem_normalizer_iff.mp (hNnorm y hy) a).mpr hN
   exact ha0 (sec32d_inf_N_le hC hNab ⟨ha, haN⟩)
 
+omit [Finite G] in
 theorem sec32d_inf_normalizer_conj (hsC : s ∈ centralizer (A : Set G)) :
     A ⊓ normalizer (conjSubgroup s Abar : Set G) = A ⊓ normalizer (Abar : Set G) := by
   ext x
@@ -265,11 +273,13 @@ theorem sec32d_exists_conj_s (hC : Sec3Ctx A Abar S₀ B) (hsC : s ∈ centraliz
       ne := hC.a0_ne }
   exact S.exists_conj_eq
 
+omit [Finite G] in
 theorem sec32d_D_conj {y t : G} (hy : y ∈ Section3.Y A Abar s)
     (ht : t ∈ Section4.D A Abar s) : y * t * y⁻¹ ∈ Section4.D A Abar s := by
   obtain ⟨z, hz, a, ha, ha0, rfl⟩ := sec32d_mem_D_iff.mp ht
   exact sec32d_mem_D_iff.mpr ⟨y * z, mul_mem hy hz, a, ha, ha0, by group⟩
 
+omit [Finite G] in
 theorem sec32d_D_subset_Y : Section4.D A Abar s ⊆ Section3.Y A Abar s := by
   intro t ht
   obtain ⟨z, hz, a, ha, -, rfl⟩ := sec32d_mem_D_iff.mp ht
@@ -333,7 +343,7 @@ theorem sec32d_exists_outside (hC : Sec3Ctx A Abar S₀ B) (hs : Section3.IsSCho
     (hNnorm : ∀ y ∈ Section3.Y A Abar s, y ∈ normalizer (Section3.N A Abar s : Set G)) :
     ∃ b ∈ Section4.D A Abar s, b ∉ normalizer (A : Set G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsC := sec32d_mem_centralizer hC hs
   have hK : Subgroup.closure (Section4.D A Abar s ∪ (Section3.N A Abar s : Set G)) ≤
       normalizer (A : Set G) := by
@@ -354,7 +364,7 @@ theorem sec32d_exists_noncomm (hC : Sec3Ctx A Abar S₀ B) {b : G}
     (hb : b ∉ normalizer (A : Set G)) :
     ∃ a ∈ A, a ∉ Section3.A0 A Abar ∧ ¬ Commute a b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hb
   have hA0le : Section3.A0 A Abar ≤ A := by
     rw [hC.a0_eq]
@@ -362,7 +372,7 @@ theorem sec32d_exists_noncomm (hC : Sec3Ctx A Abar S₀ B) {b : G}
   have hcA : ∀ x ∈ A, x * b = b * x := by
     intro x hx
     by_cases hx0 : x ∈ Section3.A0 A Abar
-    · obtain ⟨a₀, ha₀A, ha₀⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hA0le hC.a0_ne)
+    · obtain ⟨a₀, ha₀A, ha₀⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hA0le hC.a0_ne)
       have hxa : x * a₀ ∉ Section3.A0 A Abar := fun h =>
         ha₀ (by simpa using mul_mem (inv_mem hx0) h)
       have h1 : Commute (x * a₀) b := hcon (x * a₀) (mul_mem hx ha₀A) hxa
@@ -378,12 +388,13 @@ theorem sec32d_exists_noncomm (hC : Sec3Ctx A Abar S₀ B) {b : G}
   exact sec32d_mem_normalizer_of_centralizer (Subgroup.mem_centralizer_iff.mpr
     (fun x hx => hcA x hx))
 
+omit [Finite G] in
 theorem sec32d_exists_third (_hC : Sec3Ctx A Abar S₀ B) (hA : IsElemAbelian 2 A)
     (hq : 2 < (Section3.A0 A Abar).relIndex A) {a : G} (ha : a ∈ A)
     (ha0 : a ∉ Section3.A0 A Abar) :
     ∃ a' ∈ A, a' ∉ Section3.A0 A Abar ∧ a⁻¹ * a' ∉ Section3.A0 A Abar := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right (by rw [← pow_two]; exact hA.2 a ha)
   have h2 : (Section3.A0 A Abar).relIndex A = 2 := by
     rw [Subgroup.relIndex_eq_two_iff]

@@ -69,7 +69,7 @@ theorem s16c4v1_scalar_cube (S : s16c4v1_Sit D V L hV) {z : G} {ω : S.F.K}
         (fun a b hab =>
           Subtype.ext (congrArg (fun x : ↥(v1Sub D.M ⊥ V hV L) => (x : G)) hab))
     have hcard : Nat.card V = 2 ^ 8 * Nat.card (v1Sub D.M ⊥ V hV L) := s16c4v1_card_V S
-    haveI : Nonempty ↥(v1Sub D.M ⊥ V hV L) := ⟨⟨1, (v1Sub D.M ⊥ V hV L).one_mem⟩⟩
+    have : Nonempty ↥(v1Sub D.M ⊥ V hV L) := ⟨⟨1, (v1Sub D.M ⊥ V hV L).one_mem⟩⟩
     have hpos : 0 < Nat.card (v1Sub D.M ⊥ V hV L) := Nat.card_pos
     have h256 : Nat.card V = 256 * Nat.card (v1Sub D.M ⊥ V hV L) := by
       rw [hcard]; norm_num
@@ -98,7 +98,7 @@ theorem s16c4v1_scalar_pow_three (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z
   have hvmem : (z ^ 3 * v * (z ^ 3)⁻¹) * v⁻¹ ∈ V := V.mul_mem hv' (V.inv_mem hv)
   have hzero : s16c4v1_vec S ((z ^ 3 * v * (z ^ 3)⁻¹) * v⁻¹) = 0 := by
     rw [s16c4v1_vec_mul S hv' (V.inv_mem hv), hvec, hvinv]
-    haveI : CharP S.F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero S.F.two_eq_zero
+    have : CharP S.F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero S.F.two_eq_zero
     exact CharTwo.add_self_eq_zero _
   exact (s16c4v1_vec_eq_zero_iff S hvmem).1 hzero
 
@@ -205,8 +205,8 @@ theorem s16c4v1_commute_of_lin (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z :
 theorem s16c4v1_scalar_fpf (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z : G}
     {ω : S.F.K} (hz : s16c4v1_ScalarOf S z ω) {v : G} (hv : v ∈ V)
     (hfix : z * v * z⁻¹ = v) : v = 1 := by
-  haveI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   let tfunG : G → G := fun w => w * (z * w * z⁻¹) * ((z * z) * w * (z * z)⁻¹)
   let c1 : ↥V → ↥V := fun w => ⟨z * (w : G) * z⁻¹, s16c4v1_conj_mem S hz.1 w.2⟩
   let c2 : ↥V → ↥V := fun w => ⟨z * (c1 w : G) * z⁻¹, s16c4v1_conj_mem S hz.1 (c1 w).2⟩
@@ -403,7 +403,7 @@ theorem s16c4v1_lin_of_cent_V1 (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z :
         have hwinv : w⁻¹ = w := inv_eq_of_mul_eq_one_right hw2
         have hzero : s16c4v1_vec S ((a * z) * w * (a * z)⁻¹ * w⁻¹) = 0 := by
           rw [s16c4v1_vec_mul S hw' (V.inv_mem hw), hvec_az w hw, hwinv]
-          haveI : CharP S.F.K 2 :=
+          have : CharP S.F.K 2 :=
             CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero S.F.two_eq_zero
           exact CharTwo.add_self_eq_zero _
         exact (s16c4v1_vec_eq_zero_iff S (V.mul_mem hw' (V.inv_mem hw))).1 hzero
@@ -569,7 +569,7 @@ theorem s16c4v1_two_form (S : s16c4v1_Sit D V L hV) {m : G} (hm : m ∈ D.M)
       rw [Matrix.det_smul, hdetM, mul_one, Fintype.card_fin]
     rw [h2] at h
     exact h
-  haveI : Fintype S.F.K := Fintype.ofFinite S.F.K
+  have : Fintype S.F.K := Fintype.ofFinite S.F.K
   have hc4 : c ^ 4 = c := by
     have := FiniteField.pow_card c
     rwa [Fintype.card_eq_nat_card, S.F.card_K] at this
@@ -611,7 +611,7 @@ theorem s16c4v1_two_hom (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z : G}
   have hφ : ∀ a : ↥A, s16c4v1_Induces S (a : G) (φ a) := fun a => Classical.choose_spec (hchoice a)
   have hone : s16c4v1_Induces S (1 : G) (1 : ↥(SUid S.F.σ 4)) := by
     intro v hv
-    simp [s16c4v1_Induces]
+    simp
   have hker : ∀ a : ↥A, φ a = 1 ↔ ∀ v ∈ V, (a : G) * v * (a : G)⁻¹ = v := by
     intro a
     constructor
@@ -627,7 +627,7 @@ theorem s16c4v1_two_hom (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z : G}
         have hmem : (a : G) * w * (a : G)⁻¹ * w⁻¹ ∈ V := V.mul_mem hw' (V.inv_mem hw)
         exact (s16c4v1_vec_eq_zero_iff S hmem).1 (by
           rw [s16c4v1_vec_mul S hw' (V.inv_mem hw), hvec, hwinv]
-          haveI : CharP S.F.K 2 :=
+          have : CharP S.F.K 2 :=
             CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero S.F.two_eq_zero
           exact CharTwo.add_self_eq_zero _)
       exact (s16c4v1_centralizes_iff S h1217 (hAM a.2)).1 hcent v hv
@@ -635,7 +635,7 @@ theorem s16c4v1_two_hom (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z : G}
       apply s16c4v1_induces_unique S (hφ a)
       intro v hv
       rw [hc v hv]
-      simp [s16c4v1_Induces]
+      simp
   let ψ : ↥A →* ↥(SUid S.F.σ 4) :=
     { toFun := φ
       map_one' := s16c4v1_induces_unique S (hφ 1) hone
@@ -681,8 +681,8 @@ private theorem s16c4v1_scl_zAut_fpf (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D
 theorem s16c4v1_card_v1 (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {z : G}
     {ω : S.F.K} (hz : s16c4v1_ScalarOf S z ω) :
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card ↥(v1Sub D.M ⊥ V hV L) = 4 ^ k := by
-  haveI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   let zAut : MulAut ↥V := s16c4v1_scl_zAut S hz.1
   let X : Subgroup ↥V := (v1Sub D.M ⊥ V hV L).subgroupOf V
   have hXz : ∀ x ∈ X, zAut x ∈ X := by
@@ -707,8 +707,8 @@ theorem s16c4v1_card_cent_four_pow (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) 
     {ω : S.F.K} (hz : s16c4v1_ScalarOf S z ω) {Y : Subgroup G}
     (hcomm : ∀ y ∈ Y, ∀ v ∈ V, y * (z * v * z⁻¹) * y⁻¹ = z * (y * v * y⁻¹) * z⁻¹) :
     ∃ j : ℕ, Nat.card ↥(V ⊓ Subgroup.centralizer (Y : Set G)) = 4 ^ j := by
-  haveI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   let zAut : MulAut ↥V := s16c4v1_scl_zAut S hz.1
   let X : Subgroup ↥V := (V ⊓ Subgroup.centralizer (Y : Set G)).subgroupOf V
   have hXz : ∀ x ∈ X, zAut x ∈ X := by

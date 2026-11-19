@@ -13,7 +13,7 @@ theorem pRank_eq_zero_of_not_dvd_card {G : Type*} [Group G] [Finite G] {p : ℕ}
   refine le_antisymm ?_ (Nat.zero_le _)
   refine CFSG.SectionRank.pRank_le hp.one_lt (fun E hEH hE => ?_)
   rw [pow_zero]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p ↥E := hE.isPGroup
   have hdvd : Nat.card E ∣ Nat.card H := Subgroup.card_dvd_of_le hEH
   rcases hEp.card_eq_or_dvd with h | h
@@ -23,7 +23,7 @@ theorem pRank_eq_zero_of_not_dvd_card {G : Type*} [Group G] [Finite G] {p : ℕ}
 theorem pRank_le_one_of_card_dvd_prime {G : Type*} [Group G] [Finite G] {p q : ℕ}
     (hp : p.Prime) (hq : q.Prime) {H : Subgroup G} (h : Nat.card H ∣ q) :
     CFSG.Open.pRank p H ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt (k := 1) fun E hEH hE => ?_
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   have hdvd2 : p ^ k ∣ q := by rw [← hk]; exact (Subgroup.card_dvd_of_le hEH).trans h

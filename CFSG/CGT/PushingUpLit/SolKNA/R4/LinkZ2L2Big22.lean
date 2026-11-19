@@ -143,8 +143,8 @@ theorem isSylow2In_stdSylow [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p �
   have hξ' : ξ ^ 2 ^ r = 1 := by rw [← hξ]; exact pow_orderOf_eq_one ξ
   have hψ' : ψ ^ 2 ^ padicValNat 2 f = 1 := by rw [← hψ]; exact pow_orderOf_eq_one ψ
   obtain ⟨hK, -⟩ := field_facts (Fact.out : p.Prime) hp2 hF h4
-  haveI : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
-  haveI : Finite (F ≃+* F) :=
+  have : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun τ : F ≃+* F => (τ : F → F)) DFunLike.coe_injective
   refine ⟨stdSylow_le_mon ξ ψ, isPGroup_stdSylow (r := r) (e := padicValNat 2 f) hξ' hψ',
     fun V hVM hV2 hle => le_antisymm ?_ hle⟩

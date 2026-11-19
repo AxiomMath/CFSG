@@ -18,7 +18,7 @@ theorem exists_invariant_complement {p : ℕ} (hp : p.Prime) {X A Y : Subgroup G
     (hΦY : nineFrattini X ≤ Y) (hYX : Y ≤ X) (hAY : A ≤ normalizer (Y : Set G)) :
     ∃ Y' : Subgroup G, nineFrattini X ≤ Y' ∧ Y' ≤ X ∧ A ≤ normalizer (Y' : Set G) ∧
       Y ⊔ Y' = X ∧ Y ⊓ Y' = nineFrattini X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hcommQ, hpowQ, -, -⟩ :=
     CFSG.GroupTheory.frattini_elementary_quotient (p := p) hX
   have hΦX : nineFrattini X ≤ X := Subgroup.map_subtype_le (frattini ↥X)
@@ -78,7 +78,7 @@ theorem irredOnFrattiniQuot_of_sup_ne {p : ℕ} (hp : p.Prime) {S X : Subgroup G
       (∀ s ∈ S ⊓ normalizer (X : Set G), ∀ y ∈ Y₂, s * y * s⁻¹ ∈ Y₂) →
       Y₁ ⊔ Y₂ ≠ X) :
     IrredOnFrattiniQuot S X := by
-  haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hX1
+  have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hX1
   have hΦlt : nineFrattini X < X := by
     have hΦne : frattini ↥X ≠ ⊤ := by
       obtain h | ⟨M, hM, -⟩ := IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Subgroup ↥X)

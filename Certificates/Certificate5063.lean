@@ -84,8 +84,7 @@ private theorem sh1_L_chk_6 : ((List.finRange 16).all (fun v => decide (tr1 v âˆ
     rfl
   have hP := CFSG.Certificates.Kernel.L5Seal.sh1L_perm
   simp only [CFSG.Certificates.Kernel.L5Seal.all_perm hP, hP.mem_iff]
-  simp only [e1, e2, List.all_map, Function.comp_def, PkCV.mem_map_ev, PkCV.ev_mul',
-    PkCV.decide_ev_eq]
+  simp only [e1, e2, List.all_map, Function.comp_def]
   decide +kernel
 
 private theorem tr1_xor_chk_7 : (List.finRange 16).all (fun u => (List.finRange 16).all fun v =>

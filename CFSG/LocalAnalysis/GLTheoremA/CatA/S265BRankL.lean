@@ -56,7 +56,7 @@ private theorem le_twoLocalRank_of_simple {L : Type} [Group L] [Finite L] {n : �
     n - 3 ≤ GLATwoLocalRank 3 L ∧ (¬ 3 ∣ n → n - 2 ≤ GLATwoLocalRank 3 L) := by
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K₀ :=
     ⟨Nat.prime_two, le_rfl, by rw [hK₀]; norm_num⟩
-  haveI : CharP K₀ 2 := hU.charP
+  have : CharP K₀ 2 := hU.charP
   have key : ∀ k, k + 2 < n → (k + 3 < n ∨ ¬ 3 ∣ n) → k + 1 ≤ GLATwoLocalRank 3 L := by
     intro k hk hc
     have hloc := CFSG.RankThree.PartTwo.Census.le_localRank_statedSU_torus hU (k := k) (n := n)
@@ -70,11 +70,11 @@ private theorem le_twoLocalRank_of_injective {L : Type} [Group L] [Finite L] {n 
     (hn5 : 5 ≤ n) {K₀ : Type} [Field K₀] [Finite K₀] (hK₀ : Nat.card K₀ = (2 ^ 1) ^ 2)
     {α : StatedSU n (2 ^ 1) K₀ →* L} (hα : Function.Injective α) :
     n - 2 ≤ GLATwoLocalRank 3 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K₀ :=
     ⟨Nat.prime_two, le_rfl, by rw [hK₀]; norm_num⟩
-  haveI : CharP K₀ 2 := hU.charP
+  have : CharP K₀ 2 := hU.charP
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := K₀ˣ) 3
     (by norm_num [Nat.card_units, hK₀])
   have h33 : 3 ∣ 2 ^ 1 + 1 := by norm_num
@@ -106,8 +106,8 @@ private theorem center_of_cover {L : Type} [Group L] [Finite L] (hL : CFSG.Open.
     (e : L ⧸ Subgroup.center L ≃* StatedProj (StatedSU n (2 ^ 1) K₀)) :
     Nat.card (Subgroup.center L) ∣ Nat.gcd n 3 ∧ (Nat.card (Subgroup.center L) = 3 →
       ∃ α : StatedSU n (2 ^ 1) K₀ →* L, Function.Injective α) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect L := Group.isPerfect_def.2 hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect L := Group.isPerfect_def.2 hL.1
   have hker := CFSG.LieType.Steinberg.ker_comp_mk' (Subgroup.center L) e
   have hmq : (n, 2 ^ 1) ≠ (3, 2) := fun h => by
     have h1 := congrArg Prod.fst h
@@ -165,7 +165,7 @@ theorem exists_elem_of_cover {L : Type} [Group L] [Finite L]
   obtain ⟨-, K₀, _, _, hK₀, ⟨e⟩⟩ := (lieModel_of_tyUnTwo hcat).statedClassicalModel (by decide)
   obtain ⟨hd, hinj⟩ := center_of_cover hL hZ hn5 hK₀ e
   rcases (Nat.dvd_prime Nat.prime_three).1 (hd.trans (Nat.gcd_dvd_right n 3)) with h1 | h3
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hr := CFSG.SectionRank.OddCover.scalar_quotient_diagonal_torus_rank (K := K₀) (p := 2)
       (f := 1) (n := n) (r := 3) Nat.prime_two (by omega) (by norm_num)
       (H := StatedSU n (2 ^ 1) K₀) (Or.inr ⟨hK₀, rfl, by norm_num⟩)

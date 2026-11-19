@@ -167,7 +167,7 @@ private theorem sevenD_p_dvd_commutator_card
     (Tbar : Subgroup (H ⧸ K)) ⊔ pCore p (H ⧸ K)
   have hsupP : IsPGroup p U := by
     dsimp [U]
-    exact IsPGroup.to_sup_of_normal_right Tbar.isPGroup'
+    exact IsPGroup.to_sup_of_normal_right Tbar.isPGroup
       (pCore_isPGroup (G := H ⧸ K) (p := p))
   have hsupEq : U = (Tbar : Subgroup (H ⧸ K)) :=
     Tbar.maximal_isPGroup.eq_of_ge hsupP (by

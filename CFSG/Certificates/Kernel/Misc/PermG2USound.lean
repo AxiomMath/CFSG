@@ -153,7 +153,7 @@ theorem xr_eq (b : ℕ → Bool) (g : ℕ → ℕ) (n : ℕ) :
     rw [List.range_succ, List.foldr_append, foldr_xor, ← ih, List.foldr_cons, List.foldr_nil]
     cases b n
     · simp
-    · simp only [if_true, Nat.xor_zero]
+    · simp only [ite_true, Nat.xor_zero]
       rfl
 
 theorem canon2_iff {m : List ℕ} : canon2 m = true ↔ m.length = 14 ∧ ∀ x ∈ m, x < 2 ^ 14 := by

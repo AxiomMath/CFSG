@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizes_of_coprime_of_centralizes_center {p : ℕ} [Fact p.Prime] {D : Subgroup G}
     (hDp : IsPGroup p ↥D) {y : G} (hnotdvd : ¬ p ∣ orderOf y)
     (hZ : ∀ z ∈ D ⊓ centralizer (D : Set G), ⁅z, y⁆ = 1)
@@ -43,6 +44,7 @@ private def conjAct {R Y : Subgroup G} (hYR : Y ≤ normalizer (R : Set G)) :
     ↥Y →* MulAut ↥R :=
   R.normalizerMonoidHom.comp (Subgroup.inclusion hYR)
 
+omit [Finite G] in
 private theorem conjAct_apply {R Y : Subgroup G} (hYR : Y ≤ normalizer (R : Set G))
     (y : ↥Y) (x : ↥R) :
     ((conjAct hYR y) x : G) = (y : G) * (x : G) * (y : G)⁻¹ := rfl
@@ -82,6 +84,7 @@ private theorem isPGroup_range_conjAct {p : ℕ} [Fact p.Prime] {R Y : Subgroup 
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Fact.out).mp hdvd
   exact ⟨k, (Subgroup.orderOf_mk ((conjAct hYR) y) hz).trans hk⟩
 
+omit [Finite G] in
 private theorem commutator_mem_inf_centralizer_of_map {R : Subgroup G} {Ω : Subgroup ↥R}
     (hcomm : ⁅Ω, ⊤⁆ ≤ Ω ⊓ centralizer (Ω : Set ↥R)) :
     ∀ x ∈ Ω.map R.subtype, ∀ y ∈ Ω.map R.subtype,
@@ -98,12 +101,13 @@ private theorem commutator_mem_inf_centralizer_of_map {R : Subgroup G} {Ω : Sub
     (show R.subtype ⁅a, b⁆ ∈ Ω.map R.subtype ⊓
       centralizer (Ω.map R.subtype : Set G) from ⟨hkD, hkC⟩)
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_inf_centralizer {R : Subgroup G} {Ω : Subgroup ↥R}
     (hchar : Ω.Characteristic) :
     normalizer (R : Set G) ≤
       normalizer ((Ω.map R.subtype ⊓ centralizer (Ω.map R.subtype : Set G) : Subgroup G) :
         Set G) := by
-  haveI : Ω.Characteristic := hchar
+  have : Ω.Characteristic := hchar
   have hZeq := map_center_subtype_eq_inf_centralizer (Ω.map R.subtype)
   rw [← hZeq]
   exact (CFSG.normalizer_le_normalizer_image_of_characteristic R Ω).trans
@@ -116,14 +120,14 @@ theorem le_centralizer_of_commutator_eq_of_coprime {p : ℕ} [Fact p.Prime] {R Y
     Y ≤ centralizer (R : Set G) := by
   classical
   let φ : ↥Y →* MulAut ↥R := conjAct hYR
-  haveI hperf : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
-  haveI hperf' : Group.IsPerfect ↥φ.range := by
+  have hperf : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  have hperf' : Group.IsPerfect ↥φ.range := by
     have h := Group.IsPerfect.map (H := (⊤ : Subgroup ↥Y)) φ
     rwa [Subgroup.map_top] at h
   have hPp : IsPGroup p φ.range := isPGroup_range_conjAct hYR hcop
   have hbot : φ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥φ.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Nontrivial ↥φ.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     exact Group.IsPerfect.not_isNilpotent ↥φ.range hPp.isNilpotent
   have hbot' : Subgroup.map φ (⊤ : Subgroup ↥Y) = ⊥ := by
     simpa [Subgroup.map_top] using hbot
@@ -158,7 +162,7 @@ theorem exists_critical_reduction {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {R : 
   let Ω : Subgroup ↥R := CFSG.RankThree.PartTwo.Sec13.CritProof.omegaOneIn p C
   let D : Subgroup G := Ω.map R.subtype
   have hDR : D ≤ R := Subgroup.map_subtype_le Ω
-  haveI : Ω.Characteristic := hchar
+  have : Ω.Characteristic := hchar
   have hND : normalizer (R : Set G) ≤ normalizer (D : Set G) :=
     CFSG.normalizer_le_normalizer_image_of_characteristic R Ω
   have hNZ : normalizer (R : Set G) ≤

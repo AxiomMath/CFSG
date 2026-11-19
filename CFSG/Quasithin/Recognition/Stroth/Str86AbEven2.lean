@@ -120,7 +120,7 @@ theorem str86_V2_le_pCoreOf_even {L1 L2 S : Subgroup G}
   have hl1 : lam' 1 = γ := by simp [hlam']
   have hl : ∀ i, 2 ≤ i → lam' i = lam (i - 2) := fun i hi => by
     simp only [hlam']
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   have hP' : Str86CritPath L1 L2 S lam' := by
     refine str86_critPath_of_walk hI (by rw [hl0]; exact hνt) (fun i hi => ?_) ?_
     · rcases Nat.lt_or_ge i 2 with h2 | h2

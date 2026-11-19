@@ -94,6 +94,7 @@ theorem tenThreeThreeAt_of_parabolic (hKF : KFactParabolicW) :
   · right
     exact commutator_mem_pCoreOf_of_centralizes hLM hb.2 hcen
 
+omit [Finite G] in
 theorem concl_of_forall {M H L B : Subgroup G}
     (h : ∀ b ∈ B, ¬ 2 ∣ (jZero H L ⊔ pCoreOf 2 (H ⊓ L)).relIndex L ∨
       ∀ l ∈ L, b * l * b⁻¹ * l⁻¹ ∈ pCoreOf 2 M) :

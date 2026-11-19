@@ -26,7 +26,7 @@ private theorem exists_of_mulEquiv {Y G : Type} [Group Y] [Group G] (e : Y ≃* 
 private theorem exists_noncentral_diag {F : Type} [Field F] (H : Subgroup (GL (Fin 3) F))
     (hcyc : (cyc3GL : GL (Fin 3) F) ∈ H) {ω : Fˣ} (hω : orderOf ω = 3)
     (hd : diagGL ω ∈ H) : ∃ g : H, orderOf g = 3 ∧ g ∉ Subgroup.center H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hω3 : ω ^ 3 = 1 := by rw [← hω]; exact pow_orderOf_eq_one ω
   have hω1 : ω ≠ 1 := by
     intro h
@@ -78,7 +78,7 @@ theorem IsSL3EpsOver.exists_noncentral_order_three {Y : Type} [Group Y] {q : ℕ
       exact CFSG.OrderReductions.LinearOrders.card_specialLinear_center F 3 (by norm_num)
     rw [hcard] at h3
     have hdvd : 3 ∣ Nat.card F - 1 := (Nat.dvd_gcd_iff.1 h3).2
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (by rwa [Nat.card_units])
     have hcyc : (cyc3GL : GL (Fin 3) F) ∈ StatedSL 3 F := by
       apply Subgroup.subset_closure
@@ -91,7 +91,7 @@ theorem IsSL3EpsOver.exists_noncentral_order_three {Y : Type} [Group Y] {q : ℕ
   ·
     obtain ⟨p, f, hp, rfl⟩ : ∃ p f : ℕ, p.Prime ∧ q = p ^ f := by
       obtain ⟨p, hp⟩ := CharP.exists F
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       obtain ⟨n, hpp, hn0⟩ := FiniteField.card F p
       have hn : Nat.card F = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn0
       have hqd : q ∣ p ^ (n : ℕ) := by
@@ -99,7 +99,7 @@ theorem IsSL3EpsOver.exists_noncentral_order_three {Y : Type} [Group Y] {q : ℕ
         exact Dvd.intro_left q (sq q).symm
       obtain ⟨f, -, hf⟩ := (Nat.dvd_prime_pow hpp).1 hqd
       exact ⟨p, f, hpp, hf⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hq : p ^ f ≠ 0 := pow_ne_zero _ hp.ne_zero
     have hq1 : 1 ≤ p ^ f := Nat.one_le_pow _ _ hp.pos
     have h4 : 3 ∣ p ^ f + 1 := by
@@ -118,7 +118,7 @@ theorem IsSL3EpsOver.exists_noncentral_order_three {Y : Type} [Group Y] {q : ℕ
     have hdvd : 3 ∣ Nat.card F - 1 := by
       rw [hc, CFSG.Open.StatedCenterThree.sq_sub_one_eq hq1]
       exact Dvd.dvd.mul_left h4 _
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (by rwa [Nat.card_units])
     have hωq : ω ^ (p ^ f + 1) = 1 := by
       apply orderOf_dvd_iff_pow_eq_one.mp

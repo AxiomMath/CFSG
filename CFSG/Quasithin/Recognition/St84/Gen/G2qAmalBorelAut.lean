@@ -178,7 +178,7 @@ private def tr (h : Hyp ι τ) (g : ModGL Tag.G2 K) : ModGL Tag.G2 K :=
 private theorem tr_iota (h : Hyp ι τ) (b : Γ) : h.tr (ι b) = ι (τ b) := by
   have hb := h.mem_borel b
   unfold tr
-  rw [dif_pos hb, h.inj ((h.range (ι b)).1 hb).choose_spec]
+  rw [dite_eq_left hb, h.inj ((h.range (ι b)).1 hb).choose_spec]
 
 private theorem tr_one (h : Hyp ι τ) : h.tr 1 = 1 := by
   rw [← map_one ι, h.tr_iota, map_one, map_one]

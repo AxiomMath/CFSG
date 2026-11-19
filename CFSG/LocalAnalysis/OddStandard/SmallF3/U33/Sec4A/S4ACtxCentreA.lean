@@ -15,7 +15,7 @@ section Centre
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
-theorem z_mem_wreath (h : Ctx0 t L S x₁ x₂ lam rho) :
+theorem z_mem_wreath (_h : Ctx0 t L S x₁ x₂ lam rho) :
     (x₁ * x₂) ^ 2 ∈ wreathGrp x₁ x₂ lam := by
   have hx₁ : x₁ ∈ wreathGrp x₁ x₂ lam := Subgroup.subset_closure (by simp)
   have hx₂ : x₂ ∈ wreathGrp x₁ x₂ lam := Subgroup.subset_closure (by simp)

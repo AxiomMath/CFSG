@@ -73,7 +73,7 @@ public theorem normal_pSubgroup_eq_bot_of_psl2_odd
       have hS'p : IsPGroup p S' := hPp.to_subgroup S'
       have hSp : IsPGroup p (S : Subgroup (PSL2 K)) :=
         hS'p.of_equiv (Subgroup.subgroupOfEquivOfLe hSleP)
-      have hS2 : IsPGroup 2 (S : Subgroup (PSL2 K)) := S.isPGroup'
+      have hS2 : IsPGroup 2 (S : Subgroup (PSL2 K)) := S.isPGroup
       let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hp_ne_two : 2 ≠ p := by
         intro h

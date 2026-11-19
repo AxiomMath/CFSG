@@ -93,7 +93,7 @@ theorem rec_ncard {n k : ℕ} {e g : ℕ → G}
   have hs : {x | x ∈ closure (g '' Set.Iio k) ∧ Q x} =
       e '' ↑((Finset.range n).filter fun r => F r = true) := by
     ext x
-    simp only [Set.mem_setOf_eq, hmem, Set.mem_image, Finset.coe_filter, Finset.mem_range]
+    simp only [Set.mem_ofPred_eq, hmem, Set.mem_image, Finset.coe_filter, Finset.mem_range]
     constructor
     · rintro ⟨⟨r, hr, rfl⟩, hq⟩
       exact ⟨r, ⟨hr, (hQ r hr).2 hq⟩, rfl⟩
@@ -101,7 +101,7 @@ theorem rec_ncard {n k : ℕ} {e g : ℕ → G}
       exact ⟨⟨r, hr, rfl⟩, (hQ r hr).1 hF⟩
   have hi : Set.InjOn e ↑((Finset.range n).filter fun r => F r = true) := by
     intro r hr s hs' h
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hr hs'
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hr hs'
     exact hinj r s hr.1 hs'.1 h
   rw [hs, hi.ncard_image, Set.ncard_coe_finset]
 
@@ -387,7 +387,7 @@ theorem rK_eq (hP : Nat.card ↥P1408 = 177408000) :
     rintro _ ⟨l, hl, rfl⟩
     have hl' : l < nWords1.length := by rw [hlen]; exact hl
     refine subset_closure ⟨nWords1.getD l [], ?_, (elC_rGen hP hl).symm⟩
-    rw [Set.mem_setOf_eq, List.getD_eq_getElem _ _ hl']
+    rw [Set.mem_ofPred_eq, List.getD_eq_getElem _ _ hl']
     exact List.getElem_mem hl'
   · rw [closure_le]
     rintro _ ⟨w, hw, rfl⟩

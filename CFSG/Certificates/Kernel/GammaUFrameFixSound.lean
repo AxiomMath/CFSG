@@ -42,7 +42,7 @@ theorem single_eq_smul (j : Fin 12) (c : ZMod 2) :
   by_cases hk : k = j
   · subst hk
     simp
-  · simp [Pi.single_apply, hk]
+  · simp [hk]
 
 theorem mem_of_perp (φ : V12 →ₗ[ZMod 2] V12) (D : Submodule (ZMod 2) V12)
     (h1 : ∀ j : Fin 12, j ≠ 4 → j ≠ 5 → φ (Pi.single j 1) ∈ D)
@@ -163,7 +163,7 @@ theorem frameFixAt_of {i : ℕ} (hrg : rowsG i = true) (hrc : rowsC i = true) (h
     cases hfx : f0b x a0
     · have := comm_of_perpB (hrc' r hr) (List.all_eq_true.1 (List.all_eq_true.1 hc r hr))
         (List.mem_range.1 hx) hfx
-      simp [List.contains_iff_mem, this]
+      simp [this]
     · rfl
   · simp only [wit, Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true'] at hw
     obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hlen, f1⟩, f2⟩, f3⟩, f4⟩, f5⟩, w1⟩, w2⟩, w3⟩, w4⟩, w5⟩ := hw

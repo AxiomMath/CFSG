@@ -19,7 +19,7 @@ theorem invL_lt {l s : ℕ} (hs : s % 2 = 0) (hl : l < s) : invL l < s := by
 
 theorem pairG_invL (gs : ℕ → G) (l : ℕ) : pairG gs (invL l) = (pairG gs l)⁻¹ := by
   unfold pairG invL
-  split_ifs with h1 h2 h3 <;> first | omega | skip
+  split_ifs with h1 h2 h3 <;> try omega
   · have : (l + 1) / 2 = l / 2 := by omega
     rw [this]
   · have : (l - 1) / 2 = l / 2 := by omega

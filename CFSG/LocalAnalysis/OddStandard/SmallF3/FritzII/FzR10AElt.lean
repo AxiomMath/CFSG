@@ -26,10 +26,10 @@ private theorem fzrAux_addP_lt (p q : ℕ) : addP p q < 64 := by
 private theorem fzrAux_subP_lt (p q : ℕ) : subP p q < 64 := by
   simp only [subP]; omega
 
-private theorem fzrAux_addP_subP_zero (n : ℕ) (hn : n < 64) : addP n (subP 0 n) = 0 := by
+private theorem fzrAux_addP_subP_zero (n : ℕ) (_hn : n < 64) : addP n (subP 0 n) = 0 := by
   simp only [addP, subP]; omega
 
-private theorem fzrAux_addP_subP_eq_subP (n m : ℕ) (hn : n < 64) (hm : m < 64) :
+private theorem fzrAux_addP_subP_eq_subP (n m : ℕ) (_hn : n < 64) (hm : m < 64) :
     addP n (subP 0 m) = subP n m := by
   simp only [addP, subP]; omega
 
@@ -67,7 +67,7 @@ theorem fzr_a_elt_mem (hB : FzR10ABasis P a b) (n : ℕ) : fzrAElt a b n ∈ P :
   simp only [fzrAElt]
   exact P.mul_mem (P.pow_mem hB.a_mem _) (P.pow_mem hB.b_mem _)
 
-theorem fzr_a_elt_mul (hB : FzR10ABasis P a b) {n m : ℕ} (hn : n < 64) (hm : m < 64) :
+theorem fzr_a_elt_mul (hB : FzR10ABasis P a b) {n m : ℕ} (_hn : n < 64) (_hm : m < 64) :
     fzrAElt a b n * fzrAElt a b m = fzrAElt a b (addP n m) := by
   simp only [fzrAElt]
   rw [fzrAux_elt_mul' hB.comm hB.a8 hB.b8, fzrAux_addP_lo, fzrAux_addP_hi]

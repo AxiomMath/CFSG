@@ -178,7 +178,7 @@ theorem regularity_eliminates_confined_normal_inverted_odd_factor
     have : Fact ℓ.Prime := ⟨hℓ⟩
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow ℓ U))
     have hPp : IsPGroup ℓ (((P : Subgroup U).map U.subtype).comap (C t).subtype) :=
-      (P.isPGroup'.map U.subtype).comap_of_injective (C t).subtype Subtype.val_injective
+      (P.isPGroup.map U.subtype).comap_of_injective (C t).subtype Subtype.val_injective
     obtain ⟨Q, hQ⟩ := hPp.exists_le_sylow
     have hPQ : (P : Subgroup U).map U.subtype ≤ (Q : Subgroup (C t)).map (C t).subtype := by
       intro x hx

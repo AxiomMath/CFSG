@@ -56,6 +56,7 @@ theorem mem_Q_of_theta_eq_one (C : Cfg G M X 6) (hR : Nat.card ↥(Rc X) ≤ 2) 
       _ = ((b : G) * t * (b : G)⁻¹ * t⁻¹) * ((a : G) * t * (a : G)⁻¹ * t⁻¹) := by group
       _ = ((a : G) * t * (a : G)⁻¹ * t⁻¹) * ((b : G) * t * (b : G)⁻¹ * t⁻¹) := h2)
 
+omit [Finite G] in
 theorem mem_ker_commHom (A : Subgroup G) (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (t : G)
     (ht : ∀ a ∈ A, t * a * t⁻¹ ∈ A) (a : ↥A) :
     a ∈ (commHom A hA t ht).ker ↔ (a : G) * t = t * (a : G) := by
@@ -122,6 +123,7 @@ theorem exists_W_comm {t : G} (htM : t ∈ M) {i j : Fin 6} (hij : i ≠ j)
   rw [neg_uvec_add_uvec i j k]
   exact H4b.uvec_eq_barInd hij
 
+omit [Finite G] in
 theorem card_le_two_mul_cent (A : Subgroup G) (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (t : G)
     (ht : ∀ a ∈ A, t * a * t⁻¹ ∈ A) (y : ↥A)
     (hy : ∀ a : ↥A, commHom A hA t ht a = 1 ∨ commHom A hA t ht a = y) :
@@ -146,7 +148,7 @@ theorem card_le_four_of_wt_four {A : Type} [Group A] [Finite A]
     (g : A →* Multiplicative (Fin 6 → ZMod 2))
     (hwt : ∀ a : A, a ≠ 1 → vecWt (Multiplicative.toAdd (g a)) = 4) : Nat.card A ≤ 4 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hcoord : ∀ k : Fin 6, 2 * (Finset.univ.filter fun a : A =>
       Multiplicative.toAdd (g a) k = 1).card ≤ Fintype.card A := by
     intro k
@@ -156,7 +158,7 @@ theorem card_le_four_of_wt_four {A : Type} [Group A] [Finite A]
           (Finset.univ.filter fun a : A => Multiplicative.toAdd (g a) k = 0).card := by
         refine Finset.card_le_card_of_injOn (fun a => s⁻¹ * a) ?_ ?_
         · intro a ha
-          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at ha ⊢
+          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at ha ⊢
           rw [map_mul, map_inv, toAdd_mul, toAdd_inv, Pi.add_apply, Pi.neg_apply, hs, ha]
           exact neg_add_cancel _
         · intro a _ b _ hab
@@ -220,6 +222,7 @@ variable (hR2 : Nat.card ↥(Rc X) = 2) (hsurj : Function.Surjective C.θ)
   (h : CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M = C.T2 i j)
 include hR2 hsurj hQ16 hij hπ hK h
 
+omit hsurj hQ16 hij hπ hK in
 theorem sixTwo_theta_eq_swap {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
     (htQ : t ∉ CFSG.Open.pCoreOf 2 M) : ∃ htM : t ∈ M, C.θ ⟨t, htM⟩ = swap i j := by
   have hR := hR2.le
@@ -232,11 +235,12 @@ theorem sixTwo_theta_eq_swap {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
   · exact absurd (SixTwoAux.mem_Q_of_theta_eq_one C hR htM h1) htQ
   · exact h1
 
+omit hsurj hQ16 hij hπ hK in
 theorem sixTwo_mem_Q_or_mul_inv_mem_Q {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
     (htQ : t ∉ CFSG.Open.pCoreOf 2 M) {p : G} (hpP : p ∈ CFSG.Open.pCoreOf 2 (CGOf x)) :
     p ∈ CFSG.Open.pCoreOf 2 M ∨ p * t⁻¹ ∈ CFSG.Open.pCoreOf 2 M := by
   have hR := hR2.le
-  obtain ⟨htM, hθt⟩ := D.sixTwo_theta_eq_swap hR2 hsurj hQ16 hx hij hπ hK h htP htQ
+  obtain ⟨htM, hθt⟩ := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_theta_eq_swap hR2 h htP htQ
   have hT : p ∈ C.T2 i j := by
     rw [← h]
     exact Subgroup.mem_sup_left hpP
@@ -249,6 +253,7 @@ theorem sixTwo_mem_Q_or_mul_inv_mem_Q {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (
     have e : (⟨p * t⁻¹, hM'⟩ : ↥M) = ⟨p, hpM⟩ * ⟨t, htM⟩⁻¹ := rfl
     rw [e, map_mul, map_inv, h1, hθt, mul_inv_cancel]
 
+omit hQ16 in
 theorem sixTwo_exists_inv :
     ∃ r ∈ Rc X, r ≠ 1 ∧ ∃ t ∈ CFSG.Open.pCoreOf 2 (CGOf x), t ∉ CFSG.Open.pCoreOf 2 M ∧
       t * t = 1 ∧ ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), t * p = p * t := by
@@ -258,7 +263,7 @@ theorem sixTwo_exists_inv :
   have hPT2 : CFSG.Open.pCoreOf 2 (CGOf x) ≤ C.T2 i j := h ▸ le_sup_left
   have hPM : CFSG.Open.pCoreOf 2 (CGOf x) ≤ M := hPT2.trans (C.thetaPre_le_M _)
   have hQK : CFSG.Open.pCoreOf 2 M ≤ CGOf x := H4b.Q_le_CGOf C hR hx
-  have hcons := H4b.twoConstrained_P C hR hx hx1
+  have hcons := H4b.twoConstrained_P C hx hx1
   have hRb : Rc X ≠ ⊥ := by
     intro hb
     rw [hb, Subgroup.card_bot] at hR2
@@ -291,6 +296,7 @@ theorem sixTwo_exists_inv :
       _ = 1 := by rw [this]; group
   · exact (Subgroup.mem_centralizer_iff.1 hktc p hp).symm
 
+omit hsurj hQ16 hK in
 theorem sixTwo_comm_values {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
     (htQ : t ∉ CFSG.Open.pCoreOf 2 M) (htc : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), t * p = p * t)
     {r : G} (hrR : r ∈ Rc X) (hr1 : r ≠ 1) :
@@ -302,9 +308,9 @@ theorem sixTwo_comm_values {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
   have hR := hR2.le
   have hQab := C.Q_comm hR
   have hx1 : x ≠ 1 := D.ne_one_of_len_two hx (Finset.card_pair hij) hπ
-  have hcons := H4b.twoConstrained_P C hR hx hx1
+  have hcons := H4b.twoConstrained_P C hx hx1
   have hQK : CFSG.Open.pCoreOf 2 M ≤ CGOf x := H4b.Q_le_CGOf C hR hx
-  obtain ⟨htM, hθ⟩ := D.sixTwo_theta_eq_swap hR2 hsurj hQ16 hx hij hπ hK h htP htQ
+  obtain ⟨htM, hθ⟩ := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_theta_eq_swap hR2 h htP htQ
   have hQn : ∀ a ∈ CFSG.Open.pCoreOf 2 M, t * a * t⁻¹ ∈ CFSG.Open.pCoreOf 2 M :=
     fun a ha => pCoreOf_normalized M htM ha
   have hrQ : r ∈ CFSG.Open.pCoreOf 2 M := by
@@ -322,7 +328,7 @@ theorem sixTwo_comm_values {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
     have ha : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x),
         y * p * y⁻¹ * p⁻¹ ∈ Subgroup.zpowers x := by
       intro p hp
-      rcases D.sixTwo_mem_Q_or_mul_inv_mem_Q hR2 hsurj hQ16 hx hij hπ hK h htP htQ hp with h1 | h1
+      rcases CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_mem_Q_or_mul_inv_mem_Q hR2 h htP htQ hp with h1 | h1
       · have e : y * p * y⁻¹ * p⁻¹ = 1 := by rw [hQab y hy p h1]; group
         rw [e]
         exact Subgroup.one_mem _
@@ -386,7 +392,7 @@ theorem sixTwo_comm_values {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
       refine ⟨?_, hq.1⟩
       have hqt : q * t = t * q := Subgroup.mem_centralizer_singleton_iff.1 hq.2
       refine hcons (Subgroup.mem_inf.2 ⟨hQK hq.1, Subgroup.mem_centralizer_iff.2 fun p hp => ?_⟩)
-      rcases D.sixTwo_mem_Q_or_mul_inv_mem_Q hR2 hsurj hQ16 hx hij hπ hK h htP htQ hp with h1 | h1
+      rcases CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_mem_Q_or_mul_inv_mem_Q hR2 h htP htQ hp with h1 | h1
       · exact hQab p h1 q hq.1
       · have h2 : (p * t⁻¹) * q = q * (p * t⁻¹) := hQab _ h1 q hq.1
         calc p * q = (p * t⁻¹) * (t * q) := by group
@@ -395,6 +401,7 @@ theorem sixTwo_comm_values {t : G} (htP : t ∈ CFSG.Open.pCoreOf 2 (CGOf x))
           _ = (q * (p * t⁻¹)) * t := by rw [h2]
           _ = q * p := by group
 
+omit hQ16 in
 theorem exists_inv_of_sup_eq_T2 :
     ∃ t ∈ CFSG.Open.pCoreOf 2 (CGOf x), t ∉ CFSG.Open.pCoreOf 2 M ∧ t * t = 1 ∧
       (∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), t * p = p * t) ∧
@@ -404,17 +411,18 @@ theorem exists_inv_of_sup_eq_T2 :
         CFSG.Open.pCoreOf 2 (CGOf x) ⊓ CFSG.Open.pCoreOf 2 M =
           CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer ({t} : Set G) := by
   obtain ⟨r, hrR, hr1, t, htP, htQ, htt, htc⟩ :=
-    D.sixTwo_exists_inv hR2 hsurj hQ16 hx hij hπ hK h
+    D.sixTwo_exists_inv hR2 hsurj hx hij hπ hK h
   obtain ⟨h1, h2, h3⟩ :=
-    D.sixTwo_comm_values hR2 hsurj hQ16 hx hij hπ hK h htP htQ htc hrR hr1
+    D.sixTwo_comm_values hR2 hx hij hπ h htP htQ htc hrR hr1
   exact ⟨t, htP, htQ, htt, htc, r, hrR, hr1, h1, h2, h3⟩
 
+omit hQ16 in
 theorem notMem_W_of_sup_eq_T2 (hZ1 : Nat.card ↥(blockZ X) = 1) : x ∉ blockU X := by
   classical
   have hR := hR2.le
   obtain ⟨t, htP, htQ, -, -, r, hrR, hr1, hcomm, -, -⟩ :=
-    D.exists_inv_of_sup_eq_T2 hR2 hsurj hQ16 hx hij hπ hK h
-  obtain ⟨htM, hθ⟩ := D.sixTwo_theta_eq_swap hR2 hsurj hQ16 hx hij hπ hK h htP htQ
+    D.exists_inv_of_sup_eq_T2 hR2 hsurj hx hij hπ hK h
+  obtain ⟨htM, hθ⟩ := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_theta_eq_swap hR2 h htP htQ
   obtain ⟨w, hwW, hwc, hπw⟩ := SixTwoAux.exists_W_comm D htM hij hθ
   have hcw : (w : G) * t * (w : G)⁻¹ * t⁻¹ = x * r := by
     rcases hcomm w w.2 with h1 | h1
@@ -445,14 +453,15 @@ theorem notMem_W_of_sup_eq_T2 (hZ1 : Nat.card ↥(blockZ X) = 1) : x ∉ blockU 
   rw [hbot, Subgroup.mem_bot] at hrZ
   exact hr1 hrZ
 
+omit hQ16 in
 theorem wt_four_of_sup_eq_T2 (Ψ : C.UIso) :
     ∃ hxW : x ∈ blockU X,
       vecWt ((Multiplicative.toAdd (Ψ.ψ.symm ⟨x, hxW⟩) : evenWeight 6) : Fin 6 → ZMod 2) = 4 := by
   classical
   have hR := hR2.le
   obtain ⟨t, htP, htQ, -, -, r, hrR, hr1, hcomm, -, -⟩ :=
-    D.exists_inv_of_sup_eq_T2 hR2 hsurj hQ16 hx hij hπ hK h
-  obtain ⟨htM, hθ⟩ := D.sixTwo_theta_eq_swap hR2 hsurj hQ16 hx hij hπ hK h htP htQ
+    D.exists_inv_of_sup_eq_T2 hR2 hsurj hx hij hπ hK h
+  obtain ⟨htM, hθ⟩ := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_theta_eq_swap hR2 h htP htQ
   obtain ⟨k, hki, hkj⟩ : ∃ k : Fin 6, k ≠ i ∧ k ≠ j := by
     have : ∀ i j : Fin 6, ∃ k : Fin 6, k ≠ i ∧ k ≠ j := by decide
     exact this i j
@@ -550,13 +559,14 @@ theorem wt_four_of_sup_eq_T2 (Ψ : C.UIso) :
     simp only [AddSubgroup.coe_sub, Pi.sub_apply, Pi.add_apply, pairEW_apply, hv₁]
     by_cases hpi : p = i
     · subst hpi
-      simp [indVec, allOnes, hij] <;> decide
+      simp [indVec, allOnes, hij]; decide
     · by_cases hpj : p = j
       · subst hpj
-        simp [indVec, allOnes, hpi] <;> decide
-      · simp [indVec, allOnes, hpi, hpj] <;> decide
+        simp [indVec, allOnes, hpi]; decide
+      · simp [indVec, allOnes, hpi, hpj]
   rw [h2, vecWt_add_allOnes, vecWt_indVec, Finset.card_pair hij]
 
+omit hQ16 in
 theorem exists_E0_of_sup_eq_T2 :
     ∃ E : Subgroup G, E ≤ CFSG.Open.pCoreOf 2 M ∧
       Nat.card ↥(CFSG.Open.pCoreOf 2 M) ≤ 4 * Nat.card ↥E ∧
@@ -565,9 +575,9 @@ theorem exists_E0_of_sup_eq_T2 :
   classical
   have hR := hR2.le
   obtain ⟨t, htP, htQ, -, htc, r, hrR, hr1, hcomm, -, hPQ⟩ :=
-    D.exists_inv_of_sup_eq_T2 hR2 hsurj hQ16 hx hij hπ hK h
-  obtain ⟨htM, hθ⟩ := D.sixTwo_theta_eq_swap hR2 hsurj hQ16 hx hij hπ hK h htP htQ
-  obtain ⟨g, hgK, hgM⟩ := SetLike.not_le_iff_exists.1 hK
+    D.exists_inv_of_sup_eq_T2 hR2 hsurj hx hij hπ hK h
+  obtain ⟨htM, hθ⟩ := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixTwo_theta_eq_swap hR2 h htP htQ
+  obtain ⟨g, hgK, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hK
   set P : Subgroup G := CFSG.Open.pCoreOf 2 (CGOf x) with hP
   set Qs : Subgroup G := CFSG.Open.pCoreOf 2 M with hQs
   set B : Subgroup G := P ⊓ Qs with hB
@@ -657,7 +667,7 @@ theorem exists_E0_of_sup_eq_T2 :
 end Branch
 
 theorem false_of_forall_sup_eq_T2 (hR2 : Nat.card ↥(Rc X) = 2)
-    (hsurj : Function.Surjective C.θ) (hQ16 : Nat.card ↥(CFSG.Open.pCoreOf 2 M) ≠ 16)
+    (hsurj : Function.Surjective C.θ)
     (hall : ∀ (y : G) (hy : y ∈ CFSG.Open.pCoreOf 2 M) (a b : Fin 6), a ≠ b →
       Multiplicative.toAdd (D.piQ ⟨y, hy⟩) = barInd {a, b} → ¬ CGOf y ≤ M →
       CFSG.Open.pCoreOf 2 (CGOf y) ⊔ CFSG.Open.pCoreOf 2 M = C.T2 a b)
@@ -665,7 +675,7 @@ theorem false_of_forall_sup_eq_T2 (hR2 : Nat.card ↥(Rc X) = 2)
     (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd {i, j}) (hK : ¬ CGOf x ≤ M) : False := by
   classical
   have hR := hR2.le
-  obtain ⟨E, hEQ, hQE, hE⟩ := D.exists_E0_of_sup_eq_T2 hR2 hsurj hQ16 hx hij hπ hK
+  obtain ⟨E, hEQ, hQE, hE⟩ := D.exists_E0_of_sup_eq_T2 hR2 hsurj hx hij hπ hK
     (hall x hx i j hij hπ hK)
   have hEfacts : ∀ e ∈ E, e ≠ 1 → ∃ he : e ∈ CFSG.Open.pCoreOf 2 M, ∃ a b : Fin 6, ∃ hab : a ≠ b,
       ∃ hπe : Multiplicative.toAdd (D.piQ ⟨e, he⟩) = barInd {a, b}, ∃ hKe : ¬ CGOf e ≤ M,
@@ -686,7 +696,7 @@ theorem false_of_forall_sup_eq_T2 (hR2 : Nat.card ↥(Rc X) = 2)
       intro e he heW
       by_contra he1
       obtain ⟨heQ, a, b, hab, hI, hKe, hPe⟩ := hEfacts e he he1
-      exact D.notMem_W_of_sup_eq_T2 hR2 hsurj hQ16 heQ hab hI hKe hPe hZ1 heW
+      exact D.notMem_W_of_sup_eq_T2 hR2 hsurj heQ hab hI hKe hPe hZ1 heW
     have h16 := C.S.sixteen_le_card_blockU
     have hcard : Nat.card ↥E * Nat.card ↥(blockU X) ≤ Nat.card ↥(CFSG.Open.pCoreOf 2 M) := by
       rw [← Nat.card_prod]
@@ -722,7 +732,7 @@ theorem false_of_forall_sup_eq_T2 (hR2 : Nat.card ↥(Rc X) = 2)
         vecWt ((Multiplicative.toAdd (Ψ.ψ.symm ⟨e, hW⟩) : evenWeight 6) : Fin 6 → ZMod 2) = 4 := by
       intro e he he1
       obtain ⟨heQ, a, b, hab, hI, hKe, hPe⟩ := hEfacts e he he1
-      exact D.wt_four_of_sup_eq_T2 hR2 hsurj hQ16 heQ hab hI hKe hPe Ψ
+      exact D.wt_four_of_sup_eq_T2 hR2 hsurj heQ hab hI hKe hPe Ψ
     have hEW : E ≤ blockU X := by
       intro e he
       by_cases he1 : e = 1

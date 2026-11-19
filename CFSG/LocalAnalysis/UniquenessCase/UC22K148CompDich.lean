@@ -46,7 +46,7 @@ theorem component_dichotomy [Finite G] [Finite V] (hρ : Function.Injective ρ)
   obtain ⟨A, hA, hLA⟩ := exists_mem_calP_commutator_ne_bot hH hL
   have hmem : ∀ g : G, g ∈ hP ρ := fun g => by rw [hH]; exact Subgroup.mem_top g
   rcases hshape with ⟨n, hn, hX⟩ | ⟨hX, -⟩
-  · haveI : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  · have : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
     obtain ⟨B, hinv, hBA, -, -, -, -, hT, F, _, _, _, _, hF, α, hout⟩ :=
       exists_componentOffenderOutput hρ hL hn hX hA hLA
     rcases dichotomy_of_componentOffenderOutput hρ hL hX hA hLA hBA hinv hT hF hout with

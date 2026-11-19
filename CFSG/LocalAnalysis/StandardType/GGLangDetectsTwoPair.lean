@@ -17,7 +17,7 @@ theorem langRatCentralizerDetects_two_pair
     (π : Equiv.Perm (Fin τ.rank)) (hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
     {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
     {a b : Fin τ.rank → Lˣ} (ha : rootDiagUnit τ a ∈ S.D.torus)
-    (hb : rootDiagUnit τ b ∈ S.D.torus) (hAlg : S.IsAlgebraic) (i : KernelComponent (rootCharHom a))
+    (_hb : rootDiagUnit τ b ∈ S.D.torus) (hAlg : S.IsAlgebraic) (i : KernelComponent (rootCharHom a))
     (hne : rationalRoots S.ρ (rootCharHom a) i ≠ componentRoots (rootCharHom a) i)
     (hle : rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ Subgroup.centralizer {rootDiagUnit τ b}) :
     ∀ γ ∈ rationalRoots S.ρ (rootCharHom a) i, rootChar b γ = 1 := by

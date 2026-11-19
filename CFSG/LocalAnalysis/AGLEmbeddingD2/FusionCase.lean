@@ -53,7 +53,7 @@ theorem D2AlmostSimple.mem_of_fusion (hK : D2AlmostSimple p X R A X₀ K)
   have hYne : Subgroup.zpowers (g * e * g⁻¹) ≠ ⊥ := by rwa [Ne, Subgroup.zpowers_eq_bot]
   have hNY := hK.normalizer_le_of_le_A _ hY hYne
   have hAX : A ≤ X₀ := hRA ▸ hK.sylow_le
-  have hAp : IsPGroup p A := hRA ▸ R.isPGroup'
+  have hAp : IsPGroup p A := hRA ▸ R.isPGroup
   have hA' : A.map (MulAut.conj g).toMonoidHom ≤ X₀ := by
     rintro _ ⟨a, ha, rfl⟩
     refine hNY (mem_normalizer_zpowers_of_commute ?_)
@@ -96,7 +96,7 @@ theorem D2AlmostSimple.false_of_fusion (hK : D2AlmostSimple p X R A X₀ K)
   obtain ⟨E, Γ, hEp, -, hΓ, hfus⟩ := hgen
   obtain ⟨S, hES⟩ := (hEp.map K.subtype).exists_le_sylow
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq
-    (L := ⊤) (le_top : (R : Subgroup X) ≤ ⊤) le_top R.isPGroup' S.isPGroup'
+    (L := ⊤) (le_top : (R : Subgroup X) ≤ ⊤) le_top R.isPGroup S.isPGroup
     (by
       change ¬ p ∣ (R : Subgroup X).relIndex ⊤
       rw [Subgroup.relIndex_top_right]
@@ -145,7 +145,7 @@ theorem D2AlmostSimple.sylow_eq_A_of_card (hK : D2AlmostSimple p X R A X₀ K)
     (hout : ¬ p ∣ Nat.card (Outer K)) (h3 : ¬ p ^ 3 ∣ Nat.card K) : (R : Subgroup X) = A := by
   have : Fact p.Prime := ⟨hK.prime⟩
   have hRK := hK.sylow_le_of_not_dvd_card_outer hout
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hdvd : Nat.card R ∣ Nat.card K := Subgroup.card_dvd_of_le hRK
   have hn2 : n ≤ 2 := by
     by_contra hlt
@@ -172,7 +172,7 @@ theorem D2AlmostSimple.false_of_core (hK : D2AlmostSimple p X R A X₀ K)
       have := hQ hq
       rw [Sylow.coe_subtype, Subgroup.mem_subgroupOf] at this
       exact this
-    have hQp : IsPGroup p (Q.map K.subtype) := R.isPGroup'.to_le hQX
+    have hQp : IsPGroup p (Q.map K.subtype) := R.isPGroup.to_le hQX
     have hrank' : 2 ≤ Open.pRank p (Q.map K.subtype) := by
       rwa [CFSG.PreuniquenessRankFour.Helpers.pRank_map_of_injective p hK.prime K.subtype
         K.subtype_injective Q]
@@ -216,7 +216,7 @@ theorem glbCore_two_eq_top_of_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} [
     (S : Sylow p G) (h : GLBCore p 2 (S : Subgroup G) = ⊤) (S' : Sylow p G) :
     GLBCore p 2 (S' : Subgroup G) = ⊤ := by
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq
-    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup' S'.isPGroup'
+    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup S'.isPGroup
     (by
       change ¬ p ∣ (S : Subgroup G).relIndex ⊤
       rw [Subgroup.relIndex_top_right]

@@ -87,7 +87,7 @@ theorem mem_Aset3_of_coeff_ne_zero (q : ℕ) (a b d : ℕ → A) (ks : List ℕ)
   | cons k ks ih =>
     rw [prodList3_cons, coeff_fac3_mul] at h
     by_contra hn
-    simp only [Aset3, Set.mem_setOf_eq, not_or, not_and] at hn
+    simp only [Aset3, Set.mem_ofPred_eq, not_or, not_and] at hn
     obtain ⟨h0, h1, h2, h3⟩ := hn
     refine h ?_
     have e0 : (prodList3 q a b d ks).coeff n = 0 := by

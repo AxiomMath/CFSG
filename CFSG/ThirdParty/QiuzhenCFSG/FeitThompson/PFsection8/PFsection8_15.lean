@@ -368,7 +368,7 @@ public theorem theorem_8_15_support_of_mem_D
     ∃ L LF : Subgroup G,
       supportConclusionDataSource M MF M A0 x L LF ∧ R x = elementCentralizerIn LF x := by
   classical
-  letI : IsMinCE G := hG
+  let : IsMinCE G := hG
   rcases h14 with ⟨_hA1subA, _hAsubA0, hD, _hRbot, hUnique, hReq,
     _htildeA, _htildeA0, _htildeA1⟩
   have hxD0 : x ∈ section8DSet M A0 := by
@@ -742,7 +742,7 @@ private theorem theorem_8_15_normalizer_proper
     Subgroup.normalizer Achoice ≠ ⊤ := by
   classical
   intro hnormTop
-  letI : IsSimpleGroup G := IsMinCE.simple
+  let : IsSimpleGroup G := IsMinCE.simple
   rcases hne with ⟨a, haA, hane⟩
   let N : Subgroup G := Subgroup.normalClosure ({a} : Set G)
   have hNleM : N ≤ M := by
@@ -790,7 +790,7 @@ private theorem theorem_8_15_normalizer_eq
     (hData : theorem_8_15_source_data M MF Ms A A0 A1 Achoice D tildeA tildeA0 tildeA1 R) :
     Subgroup.normalizer Achoice = M := by
   classical
-  letI : IsMinCE G := hG
+  let : IsMinCE G := hG
   rcases hData with ⟨hNotation, h14, hChoice⟩
   have hData' :
       theorem_8_15_source_data M MF Ms A A0 A1 Achoice D tildeA tildeA0 tildeA1 R :=
@@ -1172,7 +1172,7 @@ private theorem theorem_8_15_typeP_semidirect_derived_W1
   have hDnorm : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa [section12_ambientDerivedSubgroup_subgroupOf_eq] using
       (inferInstance : (derivedSubgroup M).Normal)
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnorm
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnorm
   have hsup_local :
       (ambientDerivedSubgroup M).subgroupOf M ⊔ W1.subgroupOf M = ⊤ := by
     calc
@@ -1328,7 +1328,7 @@ public theorem theorem_8_15_typeP_W_internalDirectProduct
   let W : Subgroup G := W1 ⊔ W2
   let W1W : Subgroup W := W1.subgroupOf W
   let W2W : Subgroup W := W2.subgroupOf W
-  haveI : W2W.Normal := by
+  have : W2W.Normal := by
     simpa [W, W2W] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -1450,7 +1450,7 @@ private theorem theorem_8_15_hypothesis42_core
       ((le_sup_right : W2 ≤ W1 ⊔ W2) hxW2)
   · exact theorem_8_15_typeP_W_internalDirectProduct
       (G := G) (M := M) (MF := MF) (U := U) (W1 := W1) (W2 := W2) hP0
-  · letI : IsMinCE G := hG
+  · let : IsMinCE G := hG
     have hWleM : W1 ⊔ W2 ≤ M := sup_le hW1M hW2M
     have hWodd : Odd (Nat.card (W1 ⊔ W2 : Subgroup G)) :=
       odd_of_card_dvd IsMinCE.odd_order
@@ -1726,10 +1726,10 @@ public theorem theorem_8_15_hypothesis_5_2_of_fullData
           Section5.hypothesis_5_2_statement S d.tau := by
   intro hG d hS
   classical
-  letI : Fintype d.I := d.instFintypeI
-  letI : Fintype d.J := d.instFintypeJ
-  letI : DecidableEq d.I := d.instDecidableEqI
-  letI : DecidableEq d.J := d.instDecidableEqJ
+  let : Fintype d.I := d.instFintypeI
+  let : Fintype d.J := d.instFintypeJ
+  let : DecidableEq d.I := d.instDecidableEqI
+  let : DecidableEq d.J := d.instDecidableEqJ
   have h52a : Section5.hypothesis_5_2_a_statement S :=
     theorem_8_15_hypothesis52_a (G := G) (M := M) (Ms := Ms) hG hS
   have hInd :
@@ -1807,10 +1807,10 @@ public theorem theorem_8_15_hypothesis_5_2_extra_of_fullData
                             d.sigma (d.omega p.1 p.2)) := by
   intro hG d hS
   classical
-  letI : Fintype d.I := d.instFintypeI
-  letI : Fintype d.J := d.instFintypeJ
-  letI : DecidableEq d.I := d.instDecidableEqI
-  letI : DecidableEq d.J := d.instDecidableEqJ
+  let : Fintype d.I := d.instFintypeI
+  let : Fintype d.J := d.instFintypeJ
+  let : DecidableEq d.I := d.instDecidableEqI
+  let : DecidableEq d.J := d.instDecidableEqJ
   have h52a : Section5.hypothesis_5_2_a_statement S :=
     theorem_8_15_hypothesis52_a (G := G) (M := M) (Ms := Ms) hG hS
   have hInd :
@@ -1872,10 +1872,10 @@ private theorem theorem_8_15_hypothesis52
   intro hG h52Source hWitness hS
   rcases hWitness with ⟨U, W1, W2, hWitness⟩
   rcases h52Source U W1 W2 hWitness with ⟨d⟩
-  letI : Fintype d.I := d.instFintypeI
-  letI : Fintype d.J := d.instFintypeJ
-  letI : DecidableEq d.I := d.instDecidableEqI
-  letI : DecidableEq d.J := d.instDecidableEqJ
+  let : Fintype d.I := d.instFintypeI
+  let : Fintype d.J := d.instFintypeJ
+  let : DecidableEq d.I := d.instDecidableEqI
+  let : DecidableEq d.J := d.instDecidableEqJ
   have h52a : Section5.hypothesis_5_2_a_statement S :=
     theorem_8_15_hypothesis52_a (G := G) (M := M) (Ms := Ms) hG hS
   have hInd :

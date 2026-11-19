@@ -178,7 +178,7 @@ theorem projUpperTriangular_sylow (n : ℕ) (hn : 1 ≤ n) :
     IsPGroup 2 (projUpperTriangular n K2) ∧ ¬ 2 ∣ (projUpperTriangular n K2).index := by
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K2) 2 hn
   rw [projUpperTriangular_eq_projUnitriangular, ← hP]
-  exact ⟨P.isPGroup', P.not_dvd_index⟩
+  exact ⟨P.isPGroup, P.not_dvd_index⟩
 
 theorem projUpperTriangular_ne_bot (n : ℕ) (hn : 2 ≤ n) : projUpperTriangular n K2 ≠ ⊥ := by
   intro h

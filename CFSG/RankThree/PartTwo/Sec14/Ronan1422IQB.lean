@@ -37,6 +37,7 @@ theorem card_center_thetaQuot_le_three
     QuotientGroup.congr _ _ e (aschbacherSolvableCore_map_mulEquiv Nat.prime_three e)
   rwa [Nat.card_congr (Subgroup.centerCongr φ).toEquiv]
 
+omit [Finite G] in
 theorem map_subgroupOf_eq_of_mem_autIn {A B J L' : Subgroup G}
     (hJN : Subgroup.normalizer (B : Set G) ≤ Subgroup.normalizer (J : Set G))
     {σ : MulAut ↥B} (hσ : σ ∈ Sec4.autIn (L' ⊓ Subgroup.normalizer (A : Set G)) B) :

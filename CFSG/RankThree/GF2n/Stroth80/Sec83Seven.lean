@@ -25,7 +25,7 @@ theorem sec83seven_main (h34 : Stroth34Statement)
     False := by
   have hTrans := sp4ModTransStatement_holds
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, 2, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
@@ -65,7 +65,7 @@ theorem sec83seven_main (h34 : Stroth34Statement)
   have hSecX : SecHyp (Rt M (LB M Q B) t) (Sec8W1 M Q Z B t r) (Sec8V1 M Q Z B t r) :=
     ⟨hV₁W₁, hcomm, hsq, hnormW1, hnormV1⟩
   obtain ⟨X, _, _, κ, hκ⟩ := exists_sectionModule hSecX
-  haveI : Finite X := hκ.finite
+  have : Finite X := hκ.finite
   have hXcard : Nat.card X = Nat.card Z ^ 4 := by
     have h1 := natCard_eq_of_isSecMod hV₁W₁ hκ
     rw [hcardW1, hcardV1] at h1

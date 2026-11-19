@@ -51,7 +51,7 @@ theorem exists_mulEquiv_SL2_of_isTI {Y : Type} [Group Y] [Finite Y]
     fun a ha m hm => CFSG.Timmesfeld.Bridge.commute_of_le_normalizer hMH hPM ha hm
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hMinv : ∀ y : Y, y * y = 1 → ∀ m ∈ M, y * m = m * y := by
@@ -80,7 +80,7 @@ theorem exists_mulEquiv_SL2_of_isTI {Y : Type} [Group Y] [Finite Y]
     exact (Subgroup.mem_centralizer_iff.1 hg m hm).symm
   set π : Y →* Y ⧸ M := QuotientGroup.mk' M with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective M
-  have hQp : IsPGroup 2 ((P : Subgroup Y).map π) := P.isPGroup'.map π
+  have hQp : IsPGroup 2 ((P : Subgroup Y).map π) := P.isPGroup.map π
   have hQi : ¬ 2 ∣ ((P : Subgroup Y).map π).index := by
     intro h
     exact P.not_dvd_index (h.trans (Subgroup.index_map_dvd _ hπsurj))
@@ -221,7 +221,7 @@ theorem exists_normal_mulEquiv_SL2_of_isTI {X : Type} [Group X]
   have hBgY : ∀ g : X, (B : Subgroup X).map (MulAut.conj g).toMonoidHom ≤ Y := by
     rintro g _ ⟨b, hb, rfl⟩
     exact hconjY g b (hBY hb)
-  have hBp : IsPGroup 2 ((B : Subgroup X).subgroupOf Y) := B.isPGroup'.comap_subtype
+  have hBp : IsPGroup 2 ((B : Subgroup X).subgroupOf Y) := B.isPGroup.comap_subtype
   have hBi : ¬ 2 ∣ ((B : Subgroup X).subgroupOf Y).index := fun h =>
     B.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hBY))
   let PY : Sylow 2 ↥Y := hBp.toSylow hBi
@@ -263,7 +263,7 @@ theorem exists_normal_mulEquiv_SL2_of_isTI {X : Type} [Group X]
     rwa [hyy'] at hy'
   have hgp : ∀ g : X,
       IsPGroup 2 (((B : Subgroup X).map (MulAut.conj g).toMonoidHom).subgroupOf Y) :=
-    fun g => (B.isPGroup'.map _).comap_subtype
+    fun g => (B.isPGroup.map _).comap_subtype
   have hgi : ∀ g : X,
       ¬ 2 ∣ (((B : Subgroup X).map (MulAut.conj g).toMonoidHom).subgroupOf Y).index := by
     intro g h

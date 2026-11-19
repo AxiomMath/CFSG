@@ -43,7 +43,7 @@ theorem eq_or_subset_of_zBar_mem {β γ : Finset (Fin 6)} (hβ : β.card = 4) (h
       intro x hx
       by_contra hxβ
       have h3 := (hs x (hβr x hxβ)).1
-      rw [h2, zOf_vec_apply, if_pos (hγr x hx)] at h3
+      rw [h2, zOf_vec_apply, ite_eq_left (hγr x hx)] at h3
       exact absurd h3 (by decide)
     exact Finset.eq_of_subset_of_card_le hsub (by rw [hβ, hγ])
   · right
@@ -54,7 +54,7 @@ theorem eq_or_subset_of_zBar_mem {β γ : Finset (Fin 6)} (hβ : β.card = 4) (h
       exact hxγ
     have h3 := congrFun (congrArg Wr.vec h1) x
     rw [mul_vec, (hs' x (hβr x hxβ)).1, hs'.perm_symm (hβr x hxβ), zOf_vec_apply, zero_add,
-      if_neg hx'] at h3
+      ite_eq_right hx'] at h3
     have h5 : (allOnes 6).vec x = 1 := rfl
     rw [h5] at h3
     exact absurd h3 (by decide)
@@ -159,7 +159,7 @@ theorem map_conj_memBar_of_odd {β γ : Finset (Fin 6)} (hβ : β.card = 4) (hγ
     rcases he with rfl | rfl
     · exact ⟨0, fun x hx => by rw [hwvec x hx]; rfl⟩
     · exact ⟨1, fun x hx => by
-        rw [hwvec x hx, zOf_vec_apply, if_pos (by rw [range_emb]; exact hx)]⟩
+        rw [hwvec x hx, zOf_vec_apply, ite_eq_left (by rw [range_emb]; exact hx)]⟩
   have hww : w * w = 1 := by
     have hmem : w * w ∈ piSub 6 := (QuotientGroup.eq_one_iff _).mp hsq
     rcases hmem with h1 | h1
@@ -190,11 +190,11 @@ theorem map_conj_memBar_of_odd {β γ : Finset (Fin 6)} (hβ : β.card = 4) (hγ
   have hu : (fun i => w.vec (emb γ hγ i)) = fun i => if i = p ∨ i = q then κ else ε := by
     funext i
     by_cases hi : i = p ∨ i = q
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       rcases hi with h | h
       · rw [h, hp, hκ₁]
       · rw [h, hq, hκ₂]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       apply hε
       by_contra hiβ
       rcases hout _ hiβ with h | h

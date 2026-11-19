@@ -199,7 +199,7 @@ theorem rootChar_e6Shift_of_mem_kernelReflectionGroup {L : Type} [Field L]
     exact hc.symm
 
 private theorem map_step_torusGroup_le {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
-    (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ S.D.q)
+    (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L} (_hFr : ∀ c, Fr c = c ^ S.D.q)
     (hΦ : S.D.Φ = Units.map (entrywiseHom Fr)) :
     (torusGroup Tag.E6 L).map S.D.step ≤ torusGroup Tag.E6 L := by
   rw [Subgroup.map_le_iff_le_comap]
@@ -245,7 +245,7 @@ private theorem map_step_toralRootGroup_le {L : Type} [Field L] [IsAlgClosed L] 
   · exact (map_step_rootSpan_le S hT).trans le_sup_right
 
 private theorem step_canonicalRep {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
-    (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ S.D.q)
+    (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L} (_hFr : ∀ c, Fr c = c ^ S.D.q)
     (hΦ : S.D.Φ = Units.map (entrywiseHom Fr)) {wρ : WeylGroup Tag.E6}
     (hwρ : S.D.n = canonicalRep (coxeterSystem Tag.E6) L wρ) (w : WeylGroup Tag.E6) :
     ∃ t ∈ torusGroup Tag.E6 L,
@@ -384,7 +384,7 @@ theorem e6CentralizerConnOdd_untw_holds :
   rw [e6Shift_mul, rootChar_add, hw_invW, hv_c, hwinv_c] at hone
   have hc2 : c ^ 2 = 1 := by
     have h := congrArg Inv.inv hone
-    simp only [inv_one, mul_inv_rev, inv_inv, ← pow_two] at h
+    simp only [inv_one, ← pow_two] at h
     exact h
   have hc3 : c ^ 3 = 1 := by
     rw [hc]
@@ -397,7 +397,7 @@ theorem e6CentralizerConnOdd_untw_holds :
     refine mem_kernelReflectionGroup_of_e6Shift a hap hw ?_
     simpa [hc] using hc1
   obtain ⟨-, hMnormal, -⟩ := Chevalley_toral_centralizer_root_generated_quotient Tag.E6 L a
-  haveI : ((toralRootGroup Tag.E6 L a).subgroupOf (toralCentralizer Tag.E6 L a)).Normal := hMnormal
+  have : ((toralRootGroup Tag.E6 L a).subgroupOf (toralCentralizer Tag.E6 L a)).Normal := hMnormal
   have hnwM : canonicalRep (coxeterSystem Tag.E6) L w ∈ toralRootGroup Tag.E6 L a := by
     have hker := kernelReflectionGroup_le_ker (K := L) a
     have hmem : (⟨w, hw⟩ : rootCharStabilizerSubgroup a) ∈

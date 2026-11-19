@@ -150,14 +150,14 @@ theorem exists_bar_config (h414 : Sec4.Item4_14_local)
   have hBmem : B.map π ∈ {Y : Subgroup (Λ ⧸ aschbacherSolvableCore 3 Λ) |
       Y ≤ (S : Subgroup Λ).map π ∧ Nat.card Y = 9} := by
     refine ⟨Subgroup.map_mono hBS, ?_⟩
-    rw [card_map_eq_of_injOn _ ((injOn_mk_of_isPGroup Nat.prime_three S.isPGroup').mono hBS), hB9]
+    rw [card_map_eq_of_injOn _ ((injOn_mk_of_isPGroup Nat.prime_three S.isPGroup).mono hBS), hB9]
   have hEc : Nat.card (Sec4.autIn ⊤ E) = 48 := by
     rw [Nat.card_congr eE.toEquiv]
     exact CFSG.RankThree.Asc83Table.card_GL23
   have hFc : Nat.card (Sec4.autIn ⊤ F) = 48 := by
     rw [Nat.card_congr eF.toEquiv]
     exact CFSG.RankThree.Asc83Table.card_GL23
-  have hN := normalizer_map_mk_eq S.isPGroup'
+  have hN := normalizer_map_mk_eq S.isPGroup
   rw [← hπ] at hN
   have hΔ' := hΔ
   rw [hΔ] at hBmem
@@ -471,7 +471,7 @@ theorem item137Delta_of (h131 : Item131) (hspor : SporadicModels131) (h414 : Sec
   have hB'3 : IsPGroup 3 ((A ⊓ L).subgroupOf L) :=
     IsPGroup.of_card (n := 2) (by rw [hB'9]; norm_num)
   obtain ⟨S, hBS⟩ := hB'3.exists_le_sylow
-  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup'
+  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup
   have hBaut : Nat.card (Sec4.autIn ⊤
       (((A ⊓ L).subgroupOf L).map (QuotientGroup.mk' (aschbacherSolvableCore 3 L)))) = 6 := by
     obtain ⟨e⟩ := nonempty_autIn_zpowers_sup_equiv hc3 hcL hLc hBL hBp

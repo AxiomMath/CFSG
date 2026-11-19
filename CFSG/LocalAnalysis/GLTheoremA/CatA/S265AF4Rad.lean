@@ -13,8 +13,8 @@ private theorem parabolicRadicalRoots_coe (s : Finset (Fin Tag.F4.rank)) :
     parabolicRadicalRoots Tag.F4 (s : Set (Fin Tag.F4.rank)) =
       {α | IsRoot Tag.F4 α ∧ (0 < height α ∧ ∃ j, j ∉ s ∧ α j ≠ 0)} := by
   ext α
-  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_diff,
-    Set.mem_inter_iff, Set.mem_setOf_eq, Finset.mem_coe]
+  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_sdiff,
+    Set.mem_inter_iff, Set.mem_ofPred_eq, Finset.mem_coe]
   constructor
   · rintro ⟨⟨hr, hh⟩, hn⟩
     refine ⟨hr, hh, ?_⟩
@@ -49,9 +49,9 @@ theorem exists_radical_of_normalizes_F4two {K : Type} [Field K] [Finite K]
     (h27 : 27 ∣ Nat.card A) :
     ∃ R : Subgroup (adjointGroup Tag.F4 K), Nat.card R = 2 ^ 15 ∧
       A ≤ Subgroup.normalizer (R : Set (adjointGroup Tag.F4 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨J, g, hJ, hmem⟩ := exists_conj_mem_parabolic_of_normalizes hV hV2 hAV
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
   obtain ⟨M, hM⟩ : ∃ M : Set (Fin Tag.F4.rank),

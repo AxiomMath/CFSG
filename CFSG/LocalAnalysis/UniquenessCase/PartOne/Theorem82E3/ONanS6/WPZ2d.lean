@@ -104,6 +104,7 @@ theorem conj_injective_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃*
   rw [← CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj e a,
     ← CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj e a', h]
 
+omit [Finite G] in
 theorem conj_injective_J0 {J : Subgroup G} (e : J0 J ≃* CFSG.Blueprint.NativeSporadic.J2)
     (hconjJ2 : Function.Injective
       (MulAut.conj : CFSG.Blueprint.NativeSporadic.J2 →* MulAut _)) :
@@ -139,6 +140,7 @@ theorem order21_of_commuting {A : Type*} [Group A] {u v : A}
     rw [hord_u, hord_v]; norm_num
   rw [Commute.orderOf_mul_eq_mul_orderOf_of_coprime hcomm_uv hcop, hord_u, hord_v]
 
+omit [Finite G] in
 theorem j2_order21_J0 {J : Subgroup G}
     (e : J0 J ≃* CFSG.Blueprint.NativeSporadic.J2) {u v : J0 J}
     (hord_u : orderOf u = 7) (hord_v : orderOf v = 3) (hcomm_uv : u * v = v * u)
@@ -167,7 +169,7 @@ theorem exists_noncentral_three_of_thetaComponent {C : Type} [Group C] [Finite C
     ∃ x ∈ L, x ^ 3 = 1 ∧ ∃ k ∈ L,
       ⁅x, k⁆ ∉ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 C := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let θC : Subgroup C := CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 C
   let θL : Subgroup ↥L := CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 ↥L
   have hθL : ¬ 3 ∣ Nat.card θL :=
@@ -217,6 +219,7 @@ theorem exists_noncentral_three_of_thetaComponent {C : Type} [Group C] [Finite C
     have hmemL : ⁅x, k⁆ ∈ θC.subgroupOf L := hmem'
     rwa [hsub] at hmemL
 
+omit [Finite G] in
 theorem four_conj_ne_of_not_mem_normalizer {J : Subgroup G} {y : G} (hy7 : orderOf y = 7)
     (hyN : y ∉ Subgroup.normalizer (J : Set G)) :
     ∀ i j : Fin 4, i ≠ j →
@@ -273,12 +276,12 @@ theorem four_conj_ne_of_not_mem_normalizer {J : Subgroup G} {y : G} (hy7 : order
   · exact main hlt heq.symm
 
 theorem seven_normalizes_thetaComp
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
+    (haL : a ∈ P ⊓ c.L) (_ha3 : orderOf a = 3) (_haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
-    {y : G} (hyM : y ∈ D.M) (hy7 : orderOf y = 7)
+    {y : G} (_hyM : y ∈ D.M) (hy7 : orderOf y = 7)
     (hycent : ∀ q ∈ P ⊓ c.L, y * q = q * y) :
     y ∈ Subgroup.normalizer (J : Set G) := by
   classical
@@ -330,10 +333,10 @@ theorem seven_normalizes_thetaComp
   omega
 
 theorem three_normalizes_thetaComp
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
+    (_haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (_haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
     {u : G} (huC : u ∈ Subgroup.centralizer ({a} : Set G))
     (hu3 : ∃ k : ℕ, orderOf u = 3 ^ k) :

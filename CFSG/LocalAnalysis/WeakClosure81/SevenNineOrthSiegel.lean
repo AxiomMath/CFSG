@@ -103,7 +103,7 @@ variable [Fact p.Prime]
 
 private theorem siegel_coe_toMatrix' {w : Fin m → ZMod p} (hw : f w F.s = 0) :
     (F.siegel w : Matrix (Fin m) (Fin m) (ZMod p)) = LinearMap.toMatrix' (F.siegelLin w) := by
-  rw [siegel, dif_pos hw]
+  rw [siegel, dite_eq_left hw]
 
 theorem siegel_mulVec {w : Fin m → ZMod p} (hw : f w F.s = 0) (x : Fin m → ZMod p) :
     (F.siegel w : Matrix (Fin m) (Fin m) (ZMod p)) *ᵥ x =
@@ -240,7 +240,7 @@ theorem siegel_conj {g : GL (Fin m) (ZMod p)} (hg : IsOrthIsometry f g)
       have hh := hg w F.s
       rw [hgs, h] at hh
       exact hw hh.symm
-    simp [siegel, dif_neg hw, dif_neg hgw]
+    simp [siegel, dite_eq_right hw, dite_eq_right hgw]
 
 @[expose] def siegelHom : Multiplicative F.U →* GL (Fin m) (ZMod p) where
   toFun w := F.siegel ((Multiplicative.toAdd w : F.U) : Fin m → ZMod p)

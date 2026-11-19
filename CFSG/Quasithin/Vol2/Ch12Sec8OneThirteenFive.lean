@@ -269,7 +269,7 @@ theorem commutator_zU_K₁_ne_bot {G : Type} [Group G] [Finite G] {T L V : Subgr
     {V₁ V₂ K₁ : Subgroup G} (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
     (hs : Setting1282One G T L V 4 V₁ V₂)
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
-    (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))
+    (_hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))
     (D : HatModelU (u128 V V₁)) (h5 : G112Concl5 D.B (D.img (Subgroup.normalizer (V₁ : Set G))))
     (himg : (D.img K₁).relIndex (D.img (Subgroup.normalizer (V₁ : Set G))) ≤ 2)
     (hker : ∀ k : G, ∀ hk : k ∈ K₁,
@@ -307,18 +307,18 @@ theorem commutator_zU_K₁_ne_bot {G : Type} [Group G] [Finite G] {T L V : Subgr
     hxC hyC hx3 hy3 hxy hx1 hy1 hxy1 hxy2
 
 theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
-    {V₁ V₂ K₁ : Subgroup G} {g : G} (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
+    {V₁ V₂ K₁ : Subgroup G} {g : G} (_h1222 : Stmt12_2_2) (_h12213 : Stmt12_2_13)
     (h12813 : Lemma12_8_13) (hs : Setting1282One G T L V 4 V₁ V₂)
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))
     (hgP : g ∈ p128 T L V) (hgN : g ∉ Subgroup.normalizer (V₁ : Set G))
     (D : HatModelU (u128 V V₁)) (h5 : G112Concl5 D.B (D.img (Subgroup.normalizer (V₁ : Set G))))
-    (himg : (D.img K₁).relIndex (D.img (Subgroup.normalizer (V₁ : Set G))) ≤ 2)
+    (_himg : (D.img K₁).relIndex (D.img (Subgroup.normalizer (V₁ : Set G))) ≤ 2)
     (hker : ∀ k : G, ∀ hk : k ∈ K₁,
       D.ρ ⟨k, C1294.K₁_le_normalizer_u128 (V := V) hK hk⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     (hcardK : Nat.card (D.img K₁) = 20160)
     (hKn : Subgroup.normalizer (V₁ : Set G) ≤ Subgroup.normalizer (K₁ : Set G))
-    (hKcomm : ⁅zU128 V V₁, K₁⁆ ≠ ⊥)
+    (_hKcomm : ⁅zU128 V V₁, K₁⁆ ≠ ⊥)
     (hDgcomm : ¬ CFSG.conjugate (zU128 V V₁) g ≤
       centralizerMod (zU128 V V₁) (Subgroup.normalizer (V₁ : Set G)) (u128 V V₁)) :
     K₁ = ⁅K₁, CFSG.conjugate (zU128 V V₁) g⁆ := by
@@ -346,7 +346,7 @@ theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgrou
   set q := QuotientGroup.mk' (CFSG.pCore 2 ↥K₁) with hqdef
   have hmapNormal : ((N.subgroupOf K₁).map q).Normal :=
     Subgroup.Normal.map hNnormal q (QuotientGroup.mk'_surjective _)
-  haveI := C1294.isSimpleGroup_quot hK4
+  have := C1294.isSimpleGroup_quot hK4
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf K₁).map q) with hbot | htop
   ·
     have hNP : N ≤ pCoreOf 2 K₁ := by
@@ -391,7 +391,7 @@ theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgrou
       calc k * (γ * n * γ⁻¹) = γ * ((γ⁻¹ * k * γ) * n) * γ⁻¹ := by group
         _ = γ * (n * (γ⁻¹ * k * γ)) * γ⁻¹ := by rw [hcomm]
         _ = (γ * n * γ⁻¹) * k := by group
-    haveI hKdotSimple : IsSimpleGroup ↥(D.img K₁) := by
+    have hKdotSimple : IsSimpleGroup ↥(D.img K₁) := by
       let ρK : ↥K₁ →* (D.V ≃ₗ[ZMod 2] D.V) :=
         D.ρ.comp (Subgroup.inclusion (C1294.K₁_le_normalizer_u128 (V := V) hK))
       have hker_eq : ρK.ker = CFSG.pCore 2 ↥K₁ := by
@@ -420,7 +420,7 @@ theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgrou
       have hna : ∃ a b : ↥(D.img K₁), a * b ≠ b * a := by
         by_contra hnab
         push Not at hnab
-        letI : CommGroup ↥(D.img K₁) :=
+        let : CommGroup ↥(D.img K₁) :=
           { toGroup := inferInstance, mul_comm := fun a b => hnab a b }
         have hp := IsSimpleGroup.prime_card (α := ↥(D.img K₁))
         rw [hcardK] at hp
@@ -474,7 +474,7 @@ theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgrou
               (⟨d, hdU⟩ : Subgroup.normalizer (u128 V V₁ : Set G)) *
               (⟨k, hkU'⟩ : Subgroup.normalizer (u128 V V₁ : Set G))⁻¹ *
               (⟨d, hdU⟩ : Subgroup.normalizer (u128 V V₁ : Set G))⁻¹ :=
-          Subtype.ext (by simp [commutatorElement_def])
+          Subtype.ext (by simp)
         rw [hsub, map_mul, map_mul, map_mul, map_inv, map_inv] at hρ1
         rw [commutatorElement_def]
         exact hρ1
@@ -514,7 +514,7 @@ theorem K₁_eq_commutator_zU_g {G : Type} [Group G] [Finite G] {T L V : Subgrou
     exact hNK.symm
 
 theorem zD_ne {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
-    {V₁ V₂ K₁ : Subgroup G} {g : G} (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
+    {V₁ V₂ K₁ : Subgroup G} {g : G} (_h1222 : Stmt12_2_2) (_h12213 : Stmt12_2_13)
     (h12810 : Lemma12_8_10) (h12813 : Lemma12_8_13) (hs : Setting1282One G T L V 4 V₁ V₂)
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hgP : g ∈ p128 T L V) (hgN : g ∉ Subgroup.normalizer (V₁ : Set G))
@@ -577,7 +577,7 @@ theorem zD_ne {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
       rw [C1294.mem_conj']
       have hd'Z : g * d' * g⁻¹ ∈ zU128 V V₁ := C1294.mem_conj'.1 hd'
       have h1 := (Subgroup.mem_normalizer_iff.mp hzgZ (g * d' * g⁻¹)).1 hd'Z
-      convert h1 using 1 <;> group
+      convert h1 using 1; group
   set c : G := z * d * z⁻¹ * d⁻¹ with hcdef
   have hcZ : c ∈ zU128 V V₁ := by
     change z * d * z⁻¹ * d⁻¹ ∈ zU128 V V₁
@@ -643,7 +643,7 @@ theorem commutator_zD_K₁_ne_bot {G : Type} [Group G] [Finite G] {T L V : Subgr
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))
     (hLK : lOne L V₁ ≤ K₁)
-    (hKn : Subgroup.normalizer (V₁ : Set G) ≤ Subgroup.normalizer (K₁ : Set G))
+    (_hKn : Subgroup.normalizer (V₁ : Set G) ≤ Subgroup.normalizer (K₁ : Set G))
     (hZD : quasithinOmegaOneCenter T ⊓ centerOf (i128 T L V V₁) ≠ ⊥) :
     ⁅quasithinOmegaOneCenter T ⊓ centerOf (i128 T L V V₁), K₁⁆ ≠ ⊥ := by
   classical
@@ -738,8 +738,8 @@ theorem commutator_zD_K₁_ne_bot {G : Type} [Group G] [Finite G] {T L V : Subgr
   omega
 
 theorem normalizer_le_normalizer_of_cComponent {G : Type} [Group G] [Finite G]
-    {T L V : Subgroup G} {V₁ V₂ K₁ : Subgroup G} (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
-    (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
+    {T L V : Subgroup G} {V₁ V₂ K₁ : Subgroup G} (_h1222 : Stmt12_2_2) (_h12213 : Stmt12_2_13)
+    (_h37 : A37ForSQTK) (h38 : A38ForSQTK) (_h39 : A39ForSQTK)
     (hs : Setting1282One G T L V 4 V₁ V₂)
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2))) :

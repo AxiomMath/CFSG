@@ -31,7 +31,7 @@ theorem conjBfs_ball (gs : List (Perm (Fin n))) (g0 g1 g2 g3 : Perm (Fin n))
     refine ball_image RN.enc (fun σ => ?_) ?_ r
     · simp only [conjP, conjF, List.map_cons, List.map_nil, RN.enc_mul]
     · ext y
-      rw [Set.mem_image, Set.mem_setOf_eq, mem_invSeeds_iff]
+      rw [Set.mem_image, Set.mem_ofPred_eq, mem_invSeeds_iff]
       constructor
       · rintro ⟨σ, hσ, rfl⟩
         exact ⟨σ, rfl, hσ.1, hσ.2.1, hσ.2.2⟩

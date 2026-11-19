@@ -658,7 +658,7 @@ theorem escaping_maximal_elementary_rank_two_sylow_has_characteristic_rank_two
     sylow hsylow hcore hsylowRank helementary hcard hcontained hescape
   obtain ⟨characteristic, hcharacteristic, hcharacteristicElementary, hcharacteristicCard, _⟩ :=
     odd_pGroup_nonnormal_maximal_elementary_rank_two_has_characteristic_rank_two
-      prime hodd sylow.isPGroup' localElementary hlocalElementary hlocalCard hlocalMaximal hnonnormal
+      prime hodd sylow.isPGroup localElementary hlocalElementary hlocalCard hlocalMaximal hnonnormal
   let : characteristic.Characteristic := hcharacteristic
   let mapped := characteristic.map (sylow : Subgroup ambient).subtype
   have hmapped : IsElemAbelian prime mapped :=

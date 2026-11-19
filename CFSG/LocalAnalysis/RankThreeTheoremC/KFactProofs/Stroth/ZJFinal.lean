@@ -62,11 +62,11 @@ theorem zj_commutator_le_gnC_of_offender {X : Type} [Group X] [Finite X]
     (h3 : ¬ 3 ∣ Nat.card ↥(⁅K, R⁆ : Subgroup X)) : ⁅K, R⁆ ≤ gnC S := by
   have hVT : gnV S ≤ S := gnV_le_of_le hC hQS
   have hV : IsElemAbelian 2 (gnV S) := isElemAbelian_gnV_of_le hC hQS
-  letI : Module (ZMod 2) (Additive (IntMod (gnV S) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV S) hV)) :=
     binModule (fun v : IntMod (gnV S) hV => IntMod.sq_eq_one v)
-  haveI : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
+  have : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
-  haveI : (R.map (QuotientGroup.mk' (gnC S))).Normal :=
+  have : (R.map (QuotientGroup.mk' (gnC S))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have key := zj_bestOffender_kills_oddCommutator (gnRep hV) (gnRep_injective hV)
     (K := K.map (QuotientGroup.mk' (gnC S))) (O := R.map (QuotientGroup.mk' (gnC S)))
@@ -95,7 +95,7 @@ theorem zj_chev_of_component (hFF : FFChevModuleTheorem) {X : Type} [Group X] [F
       Subgroup.center ↥(K.map (QuotientGroup.mk' (gnC S)))) := by
   have hVT : gnV S ≤ S := gnV_le_of_le hC hQS
   have hV : IsElemAbelian 2 (gnV S) := isElemAbelian_gnV_of_le hC hQS
-  letI : Module (ZMod 2) (Additive (IntMod (gnV S) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV S) hV)) :=
     binModule (fun v : IntMod (gnV S) hV => IntMod.sq_eq_one v)
   have hK : CFSG.Open.IsKGroup (X ⧸ gnC S) :=
     CFSG.AGLEmbedding.catalogSimpleSections_iff_isKGroup.mp (hsec.quotient (gnC S))
@@ -107,10 +107,10 @@ theorem kFactZJFactorization_of_ffChev
     (hFF : CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531.FFChevModuleTheorem) :
     KFactZJFactorization := by
   intro p hp hp2 X _ _ hsec hcent _ _ K hKn hK hT h3 h2cl S hS2 hcore hchar
-  haveI : K.Normal := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : K.Normal := hKn
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hKT⟩ := hT
-  haveI : Nontrivial X := zj_nontrivial_of_pComponent hK
+  have : Nontrivial X := zj_nontrivial_of_pComponent hK
   have hCh : CharTwo (⊤ : Subgroup X) := by
     unfold CharTwo
     rw [pCoreOf_top]
@@ -118,7 +118,7 @@ theorem kFactZJFactorization_of_ffChev
   have hQS : pCoreOf 2 (⊤ : Subgroup X) ≤ S := by
     rw [pCoreOf_top]
     exact hcore
-  haveI : (gnC S).Normal := gnC_normal S
+  have : (gnC S).Normal := gnC_normal S
   have hKC : ¬ K ≤ gnC S := zj_not_le_centralizer hS2 hcore hcent hchar
   have hcoreC : CFSG.pCore 2 X ≤ gnC S := zj_pCore_le_gnC hcore hcent
   have hO2 := zj_pCore_quotient_eq_bot hp hp2 hK T hKT h2cl hcoreC hKC
@@ -138,7 +138,7 @@ theorem kFactZJFactorization_of_ffChev
     exact hcentC
   obtain ⟨hq, ⟨e⟩⟩ := zj_component_image hK hKC
     (fun r hr y hy => hcentC' (Subgroup.commutator_mem_commutator hr hy))
-  haveI : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
+  have : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hKc : IsComponentOf (K.map (QuotientGroup.mk' (gnC S))) ⊤ :=
     (CFSG.isComponent_iff_open _).mp ⟨hq, Subgroup.Normal.isSubnormal inferInstance⟩

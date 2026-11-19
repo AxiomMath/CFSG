@@ -14,7 +14,7 @@ theorem factorization_eq_of_maximal_pGroup {p : ℕ} [hp : Fact p.Prime] [Finite
     {V : Subgroup G} (hV : IsPGroup p V) (hmax : ∀ Q : Subgroup G, IsPGroup p Q → V ≤ Q → Q = V)
     {k : ℕ} (hk : Nat.card V = p ^ k) : (Nat.card G).factorization p = k := by
   obtain ⟨P, hVP⟩ := hV.exists_le_sylow
-  have hPV : (P : Subgroup G) = V := hmax P P.isPGroup' hVP
+  have hPV : (P : Subgroup G) = V := hmax P P.isPGroup hVP
   have hcard := P.card_eq_multiplicity
   rw [hPV, hk] at hcard
   exact (Nat.pow_right_injective hp.out.two_le hcard).symm

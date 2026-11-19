@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_mem {K Y : Subgroup G} (hYn : ∀ h ∈ K, ∀ y ∈ Y, h * y * h⁻¹ ∈ Y)
     {k : G} (hk : k ∈ K) : k ∈ Subgroup.normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -63,6 +64,7 @@ theorem mQuot_le_pRank_fStarMod {K A : Subgroup G} (hAX : A ≤ fStarPre K)
   unfold CFSG.Open.pRank
   exact le_csSup hbdd ⟨E, hEF, hEl, hcard⟩
 
+omit [Finite G] in
 theorem Om_le_mQuot_bot {V : Type} [CommGroup V] {ρ : G →* MulAut V} (hρ : Function.Injective ρ)
     {n : ℕ} {A : Subgroup G} (hA : Om ρ n A) : n ≤ mQuot A ⊥ := by
   by_contra h

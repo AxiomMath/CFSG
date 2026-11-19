@@ -99,7 +99,7 @@ theorem chev_card_le_inner_stable [CharP K 3] (α : MulAut ↥(adjointGroup Tag.
       rw [this] at h'
       linear_combination -h'
     exact (mul_eq_zero.1 h2).resolve_left (two_ne_zero_of_charThree (K := K))
-  haveI : ∀ k, Fintype (UnitRoots Tag.D4 k) := fun k => Fintype.ofFinite _
+  have : ∀ k, Fintype (UnitRoots Tag.D4 k) := fun k => Fintype.ofFinite _
   let Sset : ∀ k, Finset (UnitRoots Tag.D4 k) :=
     fun k => Finset.univ.filter fun δ => sgnB b δ.1 = false
   have hSmem : ∀ k (δ : UnitRoots Tag.D4 k), δ ∈ Sset k ↔ sgnB b δ.1 = false := fun k δ => by
@@ -134,7 +134,7 @@ theorem chev_card_le_inner_stable [CharP K 3] (α : MulAut ↥(adjointGroup Tag.
       change (1 : K ≃+* K) (hs.s (rA ((d4Rho ^ (2 * ε)) i))) = hs.s (rA i) at h1
       have h3 : hs.s (rA ((d4Rho ^ (2 * ε)) i)) = hs.s (rA i) := h1
       have hr1 : ∀ j : D4Idx, rA j ∈ d4RootsFrom 1 := fun j => by
-        refine mem_d4RootsFrom.2 ⟨rA_isRoot j, ?_, ?_⟩ <;> rw [height_rA] <;> norm_num
+        refine mem_d4RootsFrom.2 ⟨rA_isRoot j, ?_, ?_⟩ <;> rw [height_rA]; norm_num
       rw [hb _ (hr1 _), hb _ (hr1 _), sgnB_rA, sgnB_rA] at h3
       cases h4 : b ((d4Rho ^ (2 * ε)) i) <;> cases h5 : b i <;> simp [h4, h5] at h3 ⊢
       · exact neg_one_ne_one_of_charThree (K := K) h3.symm
@@ -176,7 +176,7 @@ theorem chev_card_le_inner_stable [CharP K 3] (α : MulAut ↥(adjointGroup Tag.
       exact ⟨(by simpa [Rset] using (Finset.mem_filter.1 hδ).1), (hSmem k δ).1 hS0⟩
     calc Nat.card A ≤ ∏ k ∈ Finset.range d, Nat.card (layerImage A k) := hprod
       _ ≤ ∏ k ∈ Finset.range d, Nat.card K ^ (Tset k).card :=
-          Finset.prod_le_prod' fun k _ => hlay k
+          Finset.prod_le_prod fun k _ => hlay k
       _ = Nat.card K ^ ∑ k ∈ Finset.range d, (Tset k).card := Finset.prod_pow_eq_pow_sum _ _ _
       _ ≤ Nat.card K ^ 2 := Nat.pow_le_pow_right hqpos hsum
   ·
@@ -199,7 +199,7 @@ theorem chev_card_le_inner_stable [CharP K 3] (α : MulAut ↥(adjointGroup Tag.
             Nat.pow_le_pow_left hprod 3
         _ = ∏ k ∈ Finset.range d, Nat.card (layerImage A k) ^ 3 := (Finset.prod_pow _ _ _).symm
         _ ≤ ∏ k ∈ Finset.range d, Nat.card K ^ (Sset k).card :=
-            Finset.prod_le_prod' fun k _ => hlay k
+            Finset.prod_le_prod fun k _ => hlay k
         _ = Nat.card K ^ ∑ k ∈ Finset.range d, (Sset k).card := Finset.prod_pow_eq_pow_sum _ _ _
         _ ≤ Nat.card K ^ 6 := Nat.pow_le_pow_right hqpos hsum
         _ = (Nat.card K ^ 2) ^ 3 := by rw [← pow_mul]

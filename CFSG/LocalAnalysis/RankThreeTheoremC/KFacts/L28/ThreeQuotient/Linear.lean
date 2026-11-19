@@ -22,7 +22,7 @@ theorem ringAut_comm {F : Type} [Field F] [Finite F] (σ τ : F ≃+* F) : σ * 
 
 theorem commutatorElement_mem_linearAutGroup {n : ℕ} {F : Type} [Field F] [Finite F]
     (hn : 3 ≤ n) (α β : MulAut (projectiveSL n F)) : ⁅α, β⁆ ∈ linearAutGroup n F := by
-  haveI := linearAutGroup_normal_of_three_le (K := F) hn
+  have := linearAutGroup_normal_of_three_le (K := F) hn
   obtain ⟨-, hgen⟩ := automorphism_generation (K := F) hn
   obtain ⟨A, σ, ε, -, rfl⟩ := hgen α
   obtain ⟨B, τ, η, -, rfl⟩ := hgen β
@@ -48,8 +48,8 @@ theorem commutatorElement_mem_linearAutGroup {n : ℕ} {F : Type} [Field F] [Fin
 theorem commutatorElement_mem_psuConj_range {p f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData p f K) (hq : 2 < p ^ f) (α β : MulAut (unitaryPSU h 3)) :
     ⁅α, β⁆ ∈ (psuConj h).range := by
-  haveI : (psuConj h).range.Normal := (stdPinnedPSU3_stable hq).normal
-  haveI := h.finite
+  have : (psuConj h).range.Normal := (stdPinnedPSU3_stable hq).normal
+  have := h.finite
   obtain ⟨A, σ, rfl⟩ := exists_psuConj_mul_psuField hq α
   obtain ⟨B, τ, rfl⟩ := exists_psuConj_mul_psuField hq β
   have hff : Commute (psuField h σ) (psuField h τ) := by
@@ -104,7 +104,7 @@ theorem card_le_nine_of_le_psuConj_range {p f : ℕ} {K : Type} [Field K]
 theorem three_ne_zero_of_dvd_card_sub_one {F : Type} [Field F] [Finite F]
     (h3F : 3 ∣ Nat.card F - 1) : (3 : F) ≠ 0 := by
   obtain ⟨r, f, hr, hchar, hf, hF⟩ := CFSG.LocalAnalysis.RankFourTheoremC.exists_char_pow_card F
-  haveI := hchar
+  have := hchar
   refine od_three_ne_zero_of_charP hr ?_
   rintro rfl
   rw [hF] at h3F
@@ -112,11 +112,13 @@ theorem three_ne_zero_of_dvd_card_sub_one {F : Type} [Field F] [Finite F]
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_commutator_le {L : Type*} [Group L] (ρ : X →* MulAut L) (D : Subgroup (MulAut L))
     (hD : ∀ α β : MulAut L, ⁅α, β⁆ ∈ D) : Subgroup.map ρ ⁅(⊤ : Subgroup X), ⊤⁆ ≤ D := by
   rw [Subgroup.map_commutator]
   exact (Subgroup.commutator_le.2 fun α _ β _ => hD α β)
 
+omit [Finite X] in
 theorem false_of_commutator_le {L : Type*} [Group L] (ρ : X →* MulAut L)
     (hρ : Function.Injective ρ) (D : Subgroup (MulAut L)) (hD : ∀ α β : MulAut L, ⁅α, β⁆ ∈ D)
     (hD9 : ∀ B : Subgroup (MulAut L), IsElemAbelian 3 B → B ≤ D → Nat.card B ≤ 9)
@@ -141,7 +143,7 @@ theorem false_of_linearOrUnitary (K : Subgroup X) [K.Normal]
   ·
     have hn0 : n ≠ 0 := by
       rintro rfl
-      haveI : Subsingleton (StatedProj (StatedSL 0 F)) := inferInstance
+      have : Subsingleton (StatedProj (StatedSL 0 F)) := inferInstance
       exact od_false_of_zero_dim hnab e
     by_cases hn3 : n = 3
     · subst hn3
@@ -164,11 +166,11 @@ theorem false_of_linearOrUnitary (K : Subgroup X) [K.Normal]
   ·
     have hn0 : n ≠ 0 := by
       rintro rfl
-      haveI : Subsingleton (StatedProj (StatedSU 0 q F)) := inferInstance
+      have : Subsingleton (StatedProj (StatedSU 0 q F)) := inferInstance
       exact od_false_of_zero_dim hnab e
     obtain ⟨r, m, hr, hchar, -, hFr⟩ := CFSG.LocalAnalysis.RankFourTheoremC.exists_char_pow_card F
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have := hchar
     obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hFr, hFq]

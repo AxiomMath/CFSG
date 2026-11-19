@@ -64,7 +64,7 @@ theorem stepC_eq (c : Nat) : stepC c = stepR (32 * c) 32 := rfl
 theorem stepR_add (lo a b : Nat) : stepR lo (a + b) = (stepR lo a && stepR (lo + a) b) := by
   unfold stepR
   have e : (subs.zipIdx.drop lo).drop a = subs.zipIdx.drop (lo + a) := by
-    simp [List.drop_drop, Nat.add_comm]
+    simp [List.drop_drop]
   rw [List.take_add, List.all_append, e]
 
 theorem stepR_chunks (lo m : Nat) : ∀ k : Nat, (∀ q < k, stepR (lo + q * m) m = true) →

@@ -41,11 +41,11 @@ theorem exists_a_gamma (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgrou
     ∃ a ∈ Dgrp b x, a ∉ Subgroup.zpowers x ∧
       ¬ catalogIs (PSimple p (Jpart p (Ipart p L b) a)) (fun i => S9.isU4two i ∨ S9.isU4eight i) := by
   classical
-  push_neg at hγ
+  push Not at hγ
   obtain ⟨a, haD, ha1, hna⟩ := hγ
   refine ⟨a, haD, fun hax => hna ?_, hna⟩
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := sstar_triple h.star
   have hBel : IsElemAbelian p B := B_el h
   obtain ⟨hDB, -, -⟩ := dgrp_facts hc h
@@ -71,6 +71,7 @@ theorem exists_a_gamma (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgrou
   rw [hJ]
   exact catalogIs_imp (fun i hi => Or.inr hi) (psimple_L_isU48 hc h hU)
 
+omit [Finite G] in
 private theorem gamma_cs_zpowers_sup (u v : G) :
     cs (Subgroup.zpowers u ⊔ Subgroup.zpowers v) = cx u ⊓ cx v := by
   ext g
@@ -88,6 +89,7 @@ private theorem gamma_cs_zpowers_sup (u v : G) :
         (Subgroup.zpowers_le.2 (Subgroup.mem_centralizer_singleton_iff.2 hv.symm))
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle hk)
 
+omit [Finite G] in
 private theorem casegamma_eq_of_barX_top {p : ℕ} {K J : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K)
     (hOZ : GLAPPrimeCore p ↥K ≤ Subgroup.center ↥K) (hJK : J ≤ K) (hbar : barX p K J = ⊤) : J = K := by
   classical
@@ -122,7 +124,7 @@ theorem glaPComponent_of_quasisimple {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hdvd : p ∣ Nat.card (↥K ⧸ Subgroup.center ↥K)) :
     GLAPComponent p X K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : p ∣ Nat.card ↥K := hdvd.trans (Subgroup.card_quotient_dvd_card _)
   have hOp : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥K) := by
     have h := not_dvd_card_glaPPrimeCoreOf hp K
@@ -147,7 +149,7 @@ theorem gamma_single (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} 
     (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1) : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a) := by
   classical
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hS := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := B_el h
   obtain ⟨hDB, -, -⟩ := dgrp_facts hc h
@@ -193,13 +195,13 @@ theorem split_of_ys09 {lab : GLALabel} (h : Ys09Label lab) : GLASplit 3 lab := b
   exact Or.inr (Or.inr (Or.inr ⟨hn, rfl⟩))
 
 theorem gamma_cent_B (hc : S10Ctx G 3) (hin : Lemma105Inputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+    {b : G} (h : Cfg 3 B x L b) (_hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a))
     (hlt : ¬ (Ipart 3 L b ⊔ GLAPPrimeCoreOf 3 (Jpart 3 (Ipart 3 L b) a) = Jpart 3 (Ipart 3 L b) a)) :
     ∀ c ∈ B, CentMod 3 (Jpart 3 (Ipart 3 L b) a) c ↔ c ∈ Subgroup.zpowers a := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   intro c hcB
   constructor
   · intro hCM
@@ -242,7 +244,7 @@ theorem gamma_cent_S (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} 
   by_contra hncyc
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨E, hES, hEel, hEc⟩ :=
     GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 hS3 hncyc
   have hEJ : ∀ e ∈ E, e ∈ Subgroup.centralizer ((Jpart 3 (Ipart 3 L b) a : Subgroup G) : Set G) :=
@@ -310,7 +312,7 @@ theorem gamma_inndiag (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G}
   · exact not_isTD4_of_isYs09Type hin.dist hy09 htd
 
 theorem claimK_not_A6 (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (_ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
     (hTa : ∃ T : Subgroup G, T ≤ Jpart 3 (Ipart 3 L b) a ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       (⁅T, B⁆ : Subgroup G) ≠ ⊥)
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a))
@@ -346,6 +348,7 @@ theorem claimK_not_A6 (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G}
     ⟨D₀, K, hstd.1⟩ hall
   exact hin.dist.u42_a6 ↥K (hi171.2 D₀ K hstd.1) hKA6
 
+omit [Finite G] in
 private theorem casegamma_yS_normalizer_inf {A C : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
@@ -353,6 +356,7 @@ private theorem casegamma_yS_normalizer_inf {A C : Subgroup G} {g : G}
   intro k
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA k, hC k]
 
+omit [Finite G] in
 private theorem casegamma_isComponentOf_gLBConj {H K : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) (hK : IsComponentOf K H) :
     IsComponentOf (GLBConj g K) H := by
@@ -366,6 +370,7 @@ private theorem casegamma_isComponentOf_gLBConj {H K : Subgroup G} {g : G}
       (Subgroup.equivMapOfInjective K (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective)
       hK.2.2
 
+omit [Finite G] in
 private theorem casegamma_layer_gLBConj_le {H : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) : GLBConj g (GLALayer H) ≤ GLALayer H := by
   show (sSup {K | IsComponentOf K H}).map (MulAut.conj g⁻¹).toMonoidHom ≤ sSup {K | IsComponentOf K H}
@@ -385,7 +390,7 @@ private theorem casegamma_three_dvd_quot (hin : StdSubFAt G) {K : Subgroup G}
     exact (dvd_pow_self 3 (by norm_num : (3 : ℕ) ≠ 0)).trans h
   have hZn : ¬ 3 ∣ Nat.card (Subgroup.center ↥K) := by
     intro hd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 hd
     have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
     have hzK : ((z : ↥K) : G) ^ 3 = 1 := by
@@ -410,8 +415,8 @@ private theorem casegamma_three_dvd_quot (hin : StdSubFAt G) {K : Subgroup G}
   · exact absurd h hZn
 
 theorem std_single (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
-    (hSStar : GLASStar 3 B a (Jpart 3 (Ipart 3 L b) a))
+    {b : G} (h : Cfg 3 B x L b) (_hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+    (_hSStar : GLASStar 3 B a (Jpart 3 (Ipart 3 L b) a))
     (hclaim : ∀ D₀ K : Subgroup G, GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K →
       catalogIs (↥K ⧸ Subgroup.center ↥K) (fun i => S9.isU4two i ∨ S9.isU5two i ∨ S9.isSp6two i))
     {D₀ K : Subgroup G} (hstd : GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K) {y : G} (hy : y ∈ D₀)
@@ -421,7 +426,7 @@ theorem std_single (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x
       GLAPComponent 3 (closureIn K (GLAPLayer 3 (cx y)) ⊓ cx a) K := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hD₀B, hD₀el, hD₀c, haD₀, hKdef, hKcomp, hDeq⟩ := hstd.1
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
   have hBel : IsElemAbelian 3 B := B_el h
@@ -481,6 +486,7 @@ theorem std_single (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x
   refine ⟨hK'c, hBK', ?_⟩
   exact glaPComponent_of_le hp hKa (le_inf hKK' hKa_le) (inf_le_inf_right _ hK'c.1)
 
+omit [Finite G] in
 private theorem casegamma_centralizes_of_perfect {K : Subgroup G} (hperf : commutator ↥K = ⊤) {t : G}
     (htN : t ∈ Subgroup.normalizer (K : Set G))
     (hcen : ∀ k ∈ K, ∀ k' ∈ K, (t * k * t⁻¹ * k⁻¹) * k' = k' * (t * k * t⁻¹ * k⁻¹)) :
@@ -554,6 +560,7 @@ private theorem casegamma_centMod_centralizes {X J : Subgroup G} (hJ : GLAPCompo
   intro k hk k' hk'
   exact (hcen _ (hcomm k hk) k' hk').symm
 
+omit [Finite G] in
 private theorem casegamma_card_le_three_of_cyclic {C : Subgroup G} (hC : IsCyclic C)
     (hel : ∀ x ∈ C, x ^ 3 = 1) : Nat.card C ≤ 3 := by
   have hexp : Monoid.exponent C ∣ 3 := by
@@ -574,7 +581,7 @@ theorem claimK_not_L28 (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
   classical
   intro D₀ K hstd hL2
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hD₀B, hD₀el, hD₀c, -, hKdef, -, -⟩ := hstd.1
   have hsingle := gamma_single hc hin h hU ha ha1
   have hq : CFSG.Open.IsQuasisimple ↥(Jpart 3 (Ipart 3 L b) a) := hSStar.2.2.2.1.2.2
@@ -639,6 +646,7 @@ theorem gamma_claimK (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} 
   · exact absurd ⟨i, h4, e⟩ (claimK_not_A6 hc hin h hU ha ha1 hTa hsingle hq hSStar hy09 hchev hcentEq hInn D₀ K hstd)
   · exact absurd ⟨i, h5, e⟩ (claimK_not_L28 hc hin h hU ha ha1 hSStar hy09 hInn D₀ K hstd)
 
+omit [Finite G] in
 private theorem casegamma_yS_not_isCyclic {p : ℕ} {D : Subgroup G} (hp : p.Prime) (hDel : IsElemAbelian p D)
     (hDc : Nat.card D = p ^ 2) : ¬ IsCyclic D := by
   intro hcyc
@@ -658,7 +666,7 @@ theorem gamma_yS (hc : S10Ctx G 3) {B : Subgroup G} {a : G} (hB : GLAIsBmax 3 B)
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hBel, -, U, hU1, hU2, hUN⟩ := hB
   have hD₀ne : D₀ ≠ ⊥ := fun e => by
     rw [e, Subgroup.card_bot] at hD₀c
@@ -732,7 +740,7 @@ theorem gamma_S_norm (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} 
     S ≤ Subgroup.normalizer ((closureIn K (GLAPLayer 3 (cx y)) : Subgroup G) : Set G) := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hD₀B, hD₀el, hD₀c, haD₀, hKdef, hKcomp, hDeq⟩ := hstd.1
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
   have hy1 : y ≠ 1 := fun h1 => hya (h1 ▸ Subgroup.one_mem _)
@@ -781,6 +789,7 @@ theorem gamma_S_norm (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} 
       exact mul_mem (hkey g hg k (hD₀B hk)) (inv_mem (hBM (hD₀B hk)))
 
 
+omit [Finite G] in
 private theorem y9x_normal_central {K N : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K)
     (hNK : N ≤ K) (hN : ∀ n ∈ N, ∀ k ∈ K, k * n * k⁻¹ ∈ N)
     (hpK : p ∣ Nat.card ↥K) (hpN : ¬ p ∣ Nat.card ↥N) :
@@ -809,6 +818,7 @@ private theorem y9x_normal_central {K N : Subgroup G} (hq : CFSG.Open.IsQuasisim
     rw [← hcardN, hcardK]
     exact hpK
 
+omit [Finite G] in
 private theorem y9x_centralizes_of_comm {K : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K) {c : G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G))
     (hz : ∀ k ∈ K, ∀ k' ∈ K, ⁅k, c⁆ * k' = k' * ⁅k, c⁆) :
@@ -869,6 +879,7 @@ private theorem y9x_centralizes_of_comm {K : Subgroup G} (hq : CFSG.Open.IsQuasi
   rw [hScdef, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_singleton_iff] at hkS
   exact hkS
 
+omit [Finite G] in
 private theorem y9x_eq_of_subnormal_cover {X J : Subgroup G} (hperf : ⁅X, X⁆ = X)
     (hJX : IsSubnormal J X)
     (hcov : ∀ x ∈ X, ∃ j ∈ J, ∃ z ∈ X, (∀ w ∈ X, z * w = w * z) ∧ x = j * z) : J = X := by
@@ -925,7 +936,7 @@ private theorem y9x_glaPComponent {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hKX : IsSubnormal K X) (hq : CFSG.Open.IsQuasisimple ↥K) (hpK : p ∣ Nat.card ↥K) :
     GLAPComponent p X K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKle : K ≤ X := isSubnormal_le' hKX
   have h0 : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ := hq.1
   have htopK : (⊤ : Subgroup ↥K).map K.subtype = K := by
@@ -978,7 +989,7 @@ private theorem y9x_glaPComponent {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
       rw [Subgroup.map_commutator, Subgroup.map_top_of_surjective _ hsurj] at h1
       exact h1
     refine ⟨hcomm_top, ?_⟩
-    haveI := hq.2
+    have := hq.2
     have hnotc : ∃ x : ↥g.range, x ∉ Subgroup.center ↥g.range := by
       by_contra hcon
       push Not at hcon
@@ -1000,7 +1011,7 @@ private theorem y9x_glaPComponent {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
       have hmem0 : (⟨k, hKle hkK⟩ : ↥X) ∈ GLAPPrimeCore p ↥X := (QuotientGroup.eq_one_iff _).1 hk2
       exact Subgroup.mem_map.2 ⟨⟨k, hKle hkK⟩, hmem0, rfl⟩
     obtain ⟨x, hx⟩ := hnotc
-    haveI : Nontrivial (↥g.range ⧸ Subgroup.center ↥g.range) :=
+    have : Nontrivial (↥g.range ⧸ Subgroup.center ↥g.range) :=
       ⟨⟨(1 : ↥g.range ⧸ Subgroup.center ↥g.range), QuotientGroup.mk x, fun h => hx (by
         have := QuotientGroup.eq.1 h
         simpa using this)⟩⟩
@@ -1034,6 +1045,7 @@ private theorem y9x_glaPComponent {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     exact hJK.ne (y9x_eq_of_subnormal_cover hperf hJK' hcov)
 
 
+omit [Finite G] in
 private theorem y9x_isComponentOf_gLBConj {L H : Subgroup G} (h : IsComponentOf L H) (g : G) :
     IsComponentOf (GLBConj g L) (GLBConj g H) := by
   obtain ⟨hLH, hsn, hq⟩ := h
@@ -1042,6 +1054,7 @@ private theorem y9x_isComponentOf_gLBConj {L H : Subgroup G} (h : IsComponentOf 
     Subgroup.equivMapOfInjective L (MulAut.conj g⁻¹).toMonoidHom (MulEquiv.injective _)
   exact CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv e hq
 
+omit [Finite G] in
 private theorem y9x_normalizer_layer {H : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer ((GLALayer H : Subgroup G) : Set G) := by
@@ -1074,6 +1087,7 @@ private theorem y9x_three_dvd_of_stdf (hin : StdSubFAt G) {K : Subgroup G}
   exact (Dvd.intro_left _ rfl).trans h27
 
 
+omit [Finite G] in
 private theorem y9x_cs_pair (a y : G) :
     Subgroup.centralizer ((Dgrp a y : Subgroup G) : Set G) = cx a ⊓ cx y := by
   ext g
@@ -1104,7 +1118,7 @@ private theorem y9x_glaPComponent_eq_of_le {p : ℕ} {X J K' : Subgroup G}
 
 private theorem y9x_std_core {B Ja D K : Subgroup G} {a y : G} (hc : S10Ctx G 3)
     (hin : GammaInputs G 3) (hBmax : GLAIsBmax 3 B) (hJa : IsComponentOf Ja (cx a))
-    (hBJ : B ≤ Subgroup.normalizer (Ja : Set G)) (haB : a ∈ B) (ha1 : a ≠ 1) (hyB : y ∈ B)
+    (hBJ : B ≤ Subgroup.normalizer (Ja : Set G)) (haB : a ∈ B) (_ha1 : a ≠ 1) (hyB : y ∈ B)
     (hy1 : y ≠ 1) (hDB : D ≤ B) (hD : D = Dgrp a y)
     (hKdef : K = GLALayer (Ja ⊓ Subgroup.centralizer (D : Set G)))
     (hKcomp : IsComponentOf K (Ja ⊓ Subgroup.centralizer (D : Set G)))
@@ -1115,7 +1129,7 @@ private theorem y9x_std_core {B Ja D K : Subgroup G} {a y : G} (hc : S10Ctx G 3)
       B ≤ Subgroup.normalizer ((closureIn K (GLAPLayer 3 (cx y)) : Subgroup G) : Set G) ∧
       GLAPComponent 3 (closureIn K (GLAPLayer 3 (cx y)) ⊓ cx a) K := by
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hBel : IsElemAbelian 3 B := hBmax.1
   have hcsD : Subgroup.centralizer (D : Set G) = cx a ⊓ cx y := by
     rw [hD]; exact y9x_cs_pair a y
@@ -1186,6 +1200,7 @@ private theorem y9x_std_core {B Ja D K : Subgroup G} {a y : G} (hc : S10Ctx G 3)
     exact glaPComponent_of_le hp hKc (le_inf hKK' hKa) (inf_le_inf_right _ hK'le)
 
 
+omit [Finite G] in
 private theorem y9x_comm_le_of_le_sup {p : ℕ} {J K : Subgroup G} {a : G}
     (haN : a ∈ Subgroup.normalizer (J : Set G)) (hKa : K ≤ cx a) (hKJ : K ≤ J)
     (hJ : J ≤ K ⊔ GLAPPrimeCoreOf p J) :
@@ -1246,7 +1261,7 @@ private theorem y9x_comm_le_of_le_sup {p : ℕ} {J K : Subgroup G} {a : G}
 private theorem y9x_not_dvd_card_core {p : ℕ} (hp : p.Prime) (H : Subgroup G) {N : Subgroup G}
     (hN : N ≤ GLAPPrimeCoreOf p H) : ¬ p ∣ Nat.card ↥N := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcopO : Nat.Coprime p (Nat.card ↥(GLAPPrimeCoreOf p H)) := by
     have e : Nat.card ↥(GLAPPrimeCoreOf p H) = Nat.card ↥(GLAPPrimeCore p ↥H) :=
       Nat.card_congr (Subgroup.equivMapOfInjective (GLAPPrimeCore p ↥H) H.subtype
@@ -1257,6 +1272,7 @@ private theorem y9x_not_dvd_card_core {p : ℕ} (hp : p.Prime) (H : Subgroup G) 
   have hd : Nat.card ↥N ∣ Nat.card ↥(GLAPPrimeCoreOf p H) := Subgroup.card_dvd_of_le hN
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 hcopO (hdvd.trans hd)
 
+omit [Finite G] in
 private theorem y9x_B_le_normalizer_K {B Ja D K : Subgroup G} (hBel : IsElemAbelian 3 B)
     (hDB : D ≤ B) (hBJ : B ≤ Subgroup.normalizer (Ja : Set G))
     (hKdef : K = GLALayer (Ja ⊓ Subgroup.centralizer (D : Set G))) :
@@ -1292,6 +1308,7 @@ private theorem y9x_B_le_normalizer_K {B Ja D K : Subgroup G} (hBel : IsElemAbel
   exact y9x_normalizer_layer hgN
 
 
+omit [Finite G] in
 private theorem y9x_mem_sup_of_comm {A C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) :
     ∀ x ∈ A ⊔ C, ∃ a ∈ A, ∃ c ∈ C, x = a * c := by
   let S : Subgroup G :=
@@ -1317,6 +1334,7 @@ private theorem y9x_mem_sup_of_comm {A C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c
   intro x hx
   exact hle hx
 
+omit [Finite G] in
 private theorem y9x_normalizes_of_comm {D K : Subgroup G}
     (h : ∀ d ∈ D, ∀ k ∈ K, k * d = d * k) : D ≤ Subgroup.normalizer (K : Set G) := by
   intro d hd
@@ -1341,7 +1359,7 @@ private theorem y9x_centralizes_of_cover {p : ℕ} (hp : p.Prime) {K J : Subgrou
     (hcc : (⁅J, Subgroup.zpowers c⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p J) :
     ∀ k ∈ K, k * c = c * k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm_mem : ∀ k ∈ K, ⁅k, c⁆ ∈ K ⊓ GLAPPrimeCoreOf p J := by
     intro k hk
     refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
@@ -1382,10 +1400,10 @@ private def y9x_basic_sylowOf {p : ℕ} {H R : Subgroup G} (hR : IsPGroup p R) (
     exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩
 
 private theorem y9x_basic_maximal_of_card {p : ℕ} (hp : p.Prime) {H P : Subgroup G}
-    (hP : IsPGroup p P) (hPH : P ≤ H) {m : ℕ} (hm : Nat.card H = Nat.card P * m)
+    (hP : IsPGroup p P) (_hPH : P ≤ H) {m : ℕ} (hm : Nat.card H = Nat.card P * m)
     (hpm : Nat.Coprime p m) : ∀ Y : Subgroup G, Y ≤ H → IsPGroup p Y → P ≤ Y → Y = P := by
   intro Y hYH hY hPY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hY.exists_card_eq
   obtain ⟨b, hb⟩ := hP.exists_card_eq
   have h1 : p ^ a ∣ p ^ b * m := by
@@ -1405,7 +1423,7 @@ private theorem y9x_basic_exists_conj_le {p : ℕ} (hp : p.Prime) {H P Q : Subgr
     (hm : Nat.card H = Nat.card P * m) (hQc : Nat.card Q = Nat.card P) (hpm : Nat.Coprime p m) :
     ∃ h ∈ H, ∀ x ∈ P, h * x * h⁻¹ ∈ Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmP := y9x_basic_maximal_of_card hp hP hPH hm hpm
   have hmQ := y9x_basic_maximal_of_card hp hQ hQH (by rw [hQc]; exact hm) hpm
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥H (y9x_basic_sylowOf hP hPH hmP) (y9x_basic_sylowOf hQ hQH hmQ)
@@ -1476,6 +1494,7 @@ private theorem y9x_basic_covers_of_sylow {C O T : Subgroup G} (hOC : O ≤ C)
 
 end SylowPointwise
 
+omit [Finite G] in
 private theorem y9x_mem_sup_of_normalizes {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) :
     ∀ x ∈ H ⊔ K, ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
@@ -1500,6 +1519,7 @@ private theorem y9x_mem_sup_of_normalizes {H K : Subgroup G}
   intro x hx
   exact hle hx
 
+omit [Finite G] in
 private theorem y9x_inf_eq_bot_of_pow {H O : Subgroup G} {p n : ℕ} (hp : p.Prime)
     (hH : Nat.card ↥H = p ^ n) (hO : ¬ p ∣ Nat.card ↥O) : H ⊓ O = ⊥ := by
   have hd : Nat.card ↥(H ⊓ O) ∣ Nat.card ↥H := Subgroup.card_dvd_of_le inf_le_left
@@ -1548,7 +1568,7 @@ theorem gamma_not_cent (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
   have hyB : y ∈ B := hD₀B hy
   have hy1 : y ≠ 1 := fun h1 => hya (h1 ▸ Subgroup.one_mem _)
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
   have hclK := hclaim D₀ K hstd'
   have hK3 : 3 ∣ Nat.card ↥K := y9x_three_dvd_of_stdf hin.stdf hq hclK
@@ -1825,13 +1845,13 @@ theorem gamma_not_cent (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
   norm_num at hbound
 
 theorem gamma_cent_Kstar (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+    {b : G} (h : Cfg 3 B x L b) (_hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (_ha1 : a ≠ 1)
     (hSStar : GLASStar 3 B a (Jpart 3 (Ipart 3 L b) a))
     (hclaim : ∀ D₀ K : Subgroup G, GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K →
       catalogIs (↥K ⧸ Subgroup.center ↥K) (fun i => S9.isU4two i ∨ S9.isU5two i ∨ S9.isSp6two i))
-    {D₀ K : Subgroup G} (hstd : GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K) {y : G} (hy : y ∈ D₀)
-    (hya : y ∉ Subgroup.zpowers a) {c : G} (hcB : c ∈ B)
-    (hcN : c ∈ Subgroup.normalizer ((closureIn K (GLAPLayer 3 (cx y)) : Subgroup G) : Set G))
+    {D₀ K : Subgroup G} (hstd : GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K) {y : G} (_hy : y ∈ D₀)
+    (_hya : y ∉ Subgroup.zpowers a) {c : G} (hcB : c ∈ B)
+    (_hcN : c ∈ Subgroup.normalizer ((closureIn K (GLAPLayer 3 (cx y)) : Subgroup G) : Set G))
     (hcc : (⁅closureIn K (GLAPLayer 3 (cx y)), Subgroup.zpowers c⁆ : Subgroup G) ≤
       GLAPPrimeCoreOf 3 (closureIn K (GLAPLayer 3 (cx y)))) : c ∈ D₀ := by
   have hstd' := hstd
@@ -1839,7 +1859,7 @@ theorem gamma_cent_Kstar (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup
   have hq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
   have hBel : IsElemAbelian 3 B := hSStar.1.1
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hK3 : 3 ∣ Nat.card ↥K := y9x_three_dvd_of_stdf hin.stdf hq (hclaim D₀ K hstd')
   have hBJ : B ≤ Subgroup.normalizer ((Jpart 3 (Ipart 3 L b) a : Subgroup G) : Set G) :=
     (B_le_N_J hc h ha).2
@@ -1881,7 +1901,7 @@ theorem gamma_neighbor_exists (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Sub
       ∃ (y : G) (J : Subgroup G), GLASHat 3 B y J ∧ GLANeighbor 3 a y J D₀ K := by
   intro D₀ K hstd
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hD₀B, hD₀el, hD₀c, haD₀, -, -, -⟩ := hstd.1
   obtain ⟨y, hyD₀, hya, S, hS2, hSne, hSD, hSy, hSB⟩ := gamma_yS hc hSStar.1 hD₀B hD₀el hD₀c haD₀ ha1
   obtain ⟨hKs, hKB, hKcomp⟩ := std_single hc hin h hU ha ha1 hSStar hclaim hstd hyD₀ hya
@@ -1930,7 +1950,7 @@ theorem gamma_neighbor_exists (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Sub
   · exact le_of_eq (closureIn_eq_iSup_gLBConj K (GLAPLayer 3 (cx y)))
 
 theorem neighbor_data (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+    {b : G} (h : Cfg 3 B x L b) (_hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
     (hSStar : GLASStar 3 B a (Jpart 3 (Ipart 3 L b) a))
     (hclaim : ∀ D₀ K : Subgroup G, GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K →
       catalogIs (↥K ⧸ Subgroup.center ↥K) (fun i => S9.isU4two i ∨ S9.isU5two i ∨ S9.isSp6two i))
@@ -1966,7 +1986,7 @@ theorem neighbor_data (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G}
         (Set.insert_subset_iff.2 ⟨Subgroup.mem_zpowers a, Set.singleton_subset_iff.2 hm⟩)
     have hcard := Subgroup.card_le_of_le hle
     have ha3 : a ^ 3 = 1 := hBel.2 a haB
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     rw [hDc, Nat.card_zpowers, orderOf_eq_prime ha3 ha1] at hcard
     norm_num at hcard
   have hyD : y ∈ D := by
@@ -2015,7 +2035,7 @@ theorem neighbor_chev2 (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
   have hnotle : ¬ J ≤ K₀ ⊔ GLAPPrimeCoreOf 3 J := fun hle =>
     hnot (y9x_comm_le_of_le_sup haN hKC hKJ hle)
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hcaty : a ∈ Subgroup.centralizer ({y} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.2 (isElemAbelian_commute hBel haB hyB)
   have ha3 : a ^ 3 = 1 := hBel.2 a haB
@@ -2033,7 +2053,7 @@ theorem neighbor_Bstar (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
     (hclaim : ∀ D₀ K : Subgroup G, GLAStdSub 3 B a (Jpart 3 (Ipart 3 L b) a) D₀ K →
       catalogIs (↥K ⧸ Subgroup.center ↥K) (fun i => S9.isU4two i ∨ S9.isU5two i ∨ S9.isSp6two i))
     {y : G} {J : Subgroup G} (hnb : GLAIsNeighborOf 3 B a (Jpart 3 (Ipart 3 L b) a) y J)
-    (hchev : IsChevSimple 2 (PSimple 3 J)) :
+    (_hchev : IsChevSimple 2 (PSimple 3 J)) :
     ∃ B' : Subgroup G, GLAIsBmax 3 B' ∧ y ∈ B' ∧ B' ≤ Subgroup.normalizer (J : Set G) ∧
       CentModEqZpowers 3 B' J y ∧ ¬ IsSC 3 B' ∧ IsEssential 3 B' y := by
   obtain ⟨D₀, K₀, hstd₀, hyD₀, -, hJeq, hKJ, hKa, hBJ⟩ :=
@@ -2044,7 +2064,7 @@ theorem neighbor_Bstar (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup G
   obtain ⟨⟨hD₀B, hD₀el, hD₀c, haD₀, hKdef₀, hKcomp₀, hDeq₀⟩, -⟩ := hstd₀
   have hqK : CFSG.Open.IsQuasisimple ↥K₀ := hKcomp₀.2.2
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hK3 : 3 ∣ Nat.card ↥K₀ := y9x_three_dvd_of_stdf hin.stdf hqK hcatK
   obtain ⟨F, T, E, hFK, hFel, hFc, hTK, hTp, hFN, hTF, hTQ8, -, hgex, -, -, -, hZ⟩ :=
     hin.stdf K₀ hqK hcatK
@@ -2186,7 +2206,7 @@ theorem neighbor_marking (hc : S10Ctx G 3) (hin : GammaInputs G 3) {B : Subgroup
   have hnotle : ¬ J ≤ K₀ ⊔ GLAPPrimeCoreOf 3 J := fun hle =>
     hnot (y9x_comm_le_of_le_sup haN hKC hKJ hle)
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hcaty : a ∈ Subgroup.centralizer ({y} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.2 (isElemAbelian_commute hBel haB hyB)
   have ha3 : a ^ 3 = 1 := hBel.2 a haB
@@ -2279,7 +2299,7 @@ theorem caseGamma (hc : S10Ctx G p) (hin : GammaInputs G p) {B : Subgroup G} {x 
       by_cases hg1 : g = 1
       · rw [hg1]
         exact B.one_mem
-      · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact hsc.2 g (hAB hg) (orderOf_eq_prime (hAel.2 g hg) hg1)
     have h1 := Subgroup.card_le_of_le hAle
     have h2 : Nat.card B = 3 ^ 4 := by rw [hS.1.2.1, hU.rank]

@@ -113,7 +113,7 @@ theorem Phi6JData.simple_perfect_range_comp_mulEquiv {F : Type} [Field F] (θ : 
   rw [MonoidHom.range_comp]
   refine ⟨?_, ?_⟩
   · rw [← Subgroup.map_commutator, h.1]
-  · haveI := h.2
+  · have := h.2
     exact (Subgroup.equivMapOfInjective θ.range e.toMonoidHom e.injective).symm.isSimpleGroup
 
 noncomputable def Phi6JData.transport {J : Subgroup G} {J' : Subgroup H}

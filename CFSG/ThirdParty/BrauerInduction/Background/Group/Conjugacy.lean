@@ -287,9 +287,9 @@ lemma MulAction.card_conjClass_mul_card_centralizer [Fintype G] (g : G) :
     (MulAction.orbit (ConjAct G) g).ncard *
         Nat.card ↥(MulAction.stabilizer (ConjAct G) g)
       = Fintype.card G
-  haveI : Fintype ↥(MulAction.orbit (ConjAct G) g) :=
+  have : Fintype ↥(MulAction.orbit (ConjAct G) g) :=
     Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer (ConjAct G) g) :=
+  have : Fintype ↥(MulAction.stabilizer (ConjAct G) g) :=
     Fintype.ofFinite _
   have horbit :
       (MulAction.orbit (ConjAct G) g).ncard =

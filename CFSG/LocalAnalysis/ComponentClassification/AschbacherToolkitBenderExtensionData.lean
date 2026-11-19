@@ -161,7 +161,7 @@ theorem extData_of_benderData [Finite Y] (K : Subgroup Y) [K.Normal] (hK : Bende
       intro c
       have hcY : (c : Y) ∈ K ⊔ (P : Subgroup Y) := by rw [hKP]; exact Subgroup.mem_top _
       obtain ⟨x, hx, p, hp, hxp⟩ := Subgroup.mem_sup_of_normal_left.mp hcY
-      obtain ⟨n, hn⟩ := P.isPGroup' ⟨p, hp⟩
+      obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hp⟩
       refine ⟨n, ?_⟩
       have hpn : p ^ (2 ^ n) = 1 := by
         have := congrArg Subtype.val hn
@@ -295,7 +295,7 @@ theorem extData_of_benderData [Finite Y] (K : Subgroup Y) [K.Normal] (hK : Bende
       apply Subtype.ext
       rw [hαapp, hyZ _ ((hZ z).mp hz), mul_inv_cancel_right]
     have hαpow : ∃ n : ℕ, α ^ (2 ^ n) = 1 := by
-      obtain ⟨n, hn⟩ := P.isPGroup' ⟨y, hy⟩
+      obtain ⟨n, hn⟩ := P.isPGroup ⟨y, hy⟩
       refine ⟨n, ?_⟩
       have hyn : y ^ (2 ^ n) = 1 := by
         have := congrArg Subtype.val hn

@@ -41,7 +41,7 @@ theorem fa8_ffSimOmegaAct_surjective_std (hQ : fa8Q0.Nondegenerate)
   have hα : α (Ψ x) = Ψ ((MulAut.congr Ψ).symm α x) := by
     have h := congrArg (fun f : MulAut (omegaProj hQ) => f (Ψ x))
       ((MulAut.congr Ψ).apply_symm_apply α).symm
-    simpa using h
+    simp
   rw [hα, ← hg]
   change _ = fa8ProjDerivedEquiv hQ h2 (projectiveEquiv fa8Q0 hne
     (matrixProjectiveConjugation fa8Q0 g x))

@@ -13,15 +13,17 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
 private def plh_v2 (s : K) : Fin 2 → K := ![1, s]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_ne_zero (s : K) : plh_v2 s ≠ 0 := by
   intro h
   have h0 := congrFun h 0
-  simpa [plh_v2] using h0
+  simp [plh_v2] at h0
 
 private theorem plh_sgv_v2 (s : K) : sgv K f 2 (plh_v2 s) = plh_v2 (sg K f s) := by
   funext i
   fin_cases i <;> simp [plh_v2, sgv_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t = s := by
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp h
   have ha1 : a = 1 := by
@@ -32,6 +34,7 @@ private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t =
     simpa [plh_v2] using h
   rw [← has, ha1, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_finrank (s : K) : finrank K (K ∙ plh_v2 s) = 1 :=
   finrank_span_singleton (plh_v2_ne_zero s)
 
@@ -56,6 +59,7 @@ private theorem plh_v2_inf_sgS (hK : Nat.card K = (2 ^ f) ^ 2) {s : K}
     exact (mul_eq_zero.mp hzero).resolve_right hsne
   rw [← ha, ha0, zero_smul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_injective : Function.Injective (fun s : K => K ∙ plh_v2 s) := by
   intro s t hst
   change K ∙ plh_v2 s = K ∙ plh_v2 t at hst
@@ -70,7 +74,7 @@ theorem clsHyp_a3_22p (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · intro S hS
     by_contra h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     set F : Finset K := Finset.univ.filter (fun s => sg K f s ≠ s) with hF
     have hFcard : Nat.card {s : K // sg K f s ≠ s} = F.card := by
       rw [hF, Nat.card_eq_fintype_card, Fintype.card_subtype]

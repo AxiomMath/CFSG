@@ -124,9 +124,9 @@ theorem lhOrbitBFS_eq_of {alpha beta : Table} {S0 : Bits} {limit N : Nat} {sets 
         rw [bfsStep_eq] at hCs
         have hqn : q < cnt fa fb fp fl q := by
           by_contra hqn
-          rw [if_neg hqn] at hCs
+          rw [ite_eq_right hqn] at hCs
           exact hn0 hCs
-        rw [if_pos hqn] at hCs
+        rw [ite_eq_left hqn] at hCs
         have hn1z : bfsHit fp fl q 1 (fa q) (cnt fa fb fp fl q) ≠ 0 := by
           intro e
           rw [e, bfsHit_zero] at hCs

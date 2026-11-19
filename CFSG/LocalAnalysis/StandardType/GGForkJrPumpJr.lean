@@ -23,7 +23,7 @@ theorem ggForkJr_of_known (hKG : GGForkRootSL2KGInput) (hRig : GGLabelRigidInput
     GGForkJr := by
   intro G _ _ p B Bs x L D J hcfg hInn hNT hp5 r hrL hrr
   obtain ⟨hp, hBs, hxBs, hLx, -⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1

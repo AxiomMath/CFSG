@@ -101,6 +101,7 @@ private theorem conj_mem_bstar_of_conj_mem_normalizer_range {p : ℕ} (hp : p.Pr
   rw [hres]
   exact Bs.mul_mem hl'Bs (hxpow k).1
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_mem_normalizer_range {p : ℕ} (hp : p.Prime) {Bs L : Subgroup G}
     {x : G} (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (hBs : IsElemAbelian p Bs)
     (hker : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)

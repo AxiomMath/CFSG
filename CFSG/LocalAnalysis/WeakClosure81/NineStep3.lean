@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem isE_self {i : ℕ} {S A H K : Subgroup G} (h : E1.IsE i K S A H) :
     E1.IsE i H (S ⊓ H) A H := by
   obtain ⟨-, -, hSyl, hrest⟩ := h
@@ -24,6 +25,7 @@ theorem isE_self {i : ℕ} {S A H K : Subgroup G} (h : E1.IsE i K S A H) :
   · rwa [inf_assoc, inf_idem]
   · rwa [inf_assoc, inf_idem]
 
+omit [Finite G] in
 theorem not_le_pCoreOf_of_eOne {H A : Subgroup G} (h : E1.EOne ↥H (A.subgroupOf H)) :
     ¬ A ≤ pCoreOf 2 H := by
   intro hA
@@ -129,7 +131,7 @@ theorem exists_isE_not_le_frattiniR (h : TwoPTwoIrred K S X p) {A : Subgroup G} 
     have hR' : K.subtype ⁅qa, qx⁆ ∈ nineFrattiniR K X := hR
     rw [map_commutatorElement] at hR'
     simpa [qa, qx] using hR'
-  haveI : Xb.Normal := hXbNorm
+  have : Xb.Normal := hXbNorm
   have hcomm_le : ⁅Xb, Ab⁆ ≤ ⨆ I ∈ {I : Subgroup (Q ⧸ CFSG.pCore 2 Q) |
       E1.IsE 1 ⊤ Tb Ab I ∧ E1.EOne ↥I (Ab.subgroupOf I) ∧
         Nat.card (E1.barO2 ↥I (Ab.subgroupOf I)) ≤ 2 ^ 1}, twoResidual I :=
@@ -153,8 +155,8 @@ theorem exists_isE_not_le_frattiniR (h : TwoPTwoIrred K S X p) {A : Subgroup G} 
     have h1 := (E1.isE_map_subtype K).mpr hJ
     rwa [Subgroup.map_subgroupOf_eq_of_le hSK,
       Subgroup.map_subgroupOf_eq_of_le (hAS.trans hSK)] at h1
-  haveI : Group.IsSolvable ↥K := h.toTwoPTwo.isSolvable
-  haveI : Group.IsSolvable ↥(J.map K.subtype) :=
+  have : Group.IsSolvable ↥K := h.toTwoPTwo.isSolvable
+  have : Group.IsSolvable ↥(J.map K.subtype) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hHK')
   have hEOneH := E1.isE_eOne_of_isSolvable hHIsE
     (inferInstance : Group.IsSolvable ↥(J.map K.subtype))
@@ -301,6 +303,7 @@ theorem cClos_le_cClos_inf_of_isE (hV : IsElemAbelian 2 V) (hm : 2 < rk ↥V) {A
   rw [E3.cClos]
   exact le_inf hle1 hle2
 
+omit [Finite G] in
 private theorem nineStep3_conjSubgroup_iSup {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, A i) g = ⨆ i, conjSubgroup (A i) g :=
   Subgroup.map_iSup _ _

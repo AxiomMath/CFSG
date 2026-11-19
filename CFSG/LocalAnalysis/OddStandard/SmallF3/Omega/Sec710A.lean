@@ -25,7 +25,7 @@ theorem asc82Lemma710a_of (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (h79a : Asc82Le
     have hsN : g⁻¹ * t * g ∈ normalizer (L : Set G) :=
       hc.ctx.cent_le_normalizer h36 _ hsC
     have hs2 : orderOf (g⁻¹ * t * g) = 2 := by
-      have h_eq : g⁻¹ * t * g = (MulAut.conj g⁻¹) t := by simp [MulAut.conj_apply]
+      have h_eq : g⁻¹ * t * g = (MulAut.conj g⁻¹) t := by simp
       rw [h_eq, MulEquiv.orderOf_eq, hc.ctx.involution]
     exact sec79_hyp62_no_i1 hP hc.ctx.isOm6P (h79a G t L S z g B hc) hs2 hsN ⟨α, hα⟩
 

@@ -111,7 +111,7 @@ theorem noInvariantLineSCr_unitary63 {n : ℕ} {K : Type} [Field K] [Finite K]
     exists_diagModel hK hn (by norm_num) Nat.prime_three hpq (by norm_num) hcov hψ hker hperf
       hA hAI hcard
   have h := TableBU.unitaryFieldData_of_card hK hn
-  haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
     DFunLike.coe_injective
   refine ⟨{x | ∃ σ : Equiv.Perm (Fin 6), x = φ (permSU h σ)},
     weyl_W_prop h (by norm_num) hφker hA.2 hdiag, fun Λ hΛA hΛp => ?_⟩

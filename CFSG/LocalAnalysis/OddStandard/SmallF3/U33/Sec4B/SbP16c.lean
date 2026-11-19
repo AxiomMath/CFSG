@@ -13,6 +13,7 @@ namespace Setting16
 
 variable {G : Type} [Group G] [Finite G] {Q Y : Subgroup G} {τ ω : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_tau_iff (h : Setting16 Q Y τ ω) {x : G} :
     x ∈ zpowers τ ↔ x = 1 ∨ x = τ := by
   have h2 : τ ^ (2 : ℤ) = 1 := by rw [zpow_ofNat, h.tau_sq]
@@ -29,6 +30,7 @@ private lemma mem_zpowers_tau_iff (h : Setting16 Q Y τ ω) {x : G} :
     · rw [h1]; exact Subgroup.one_mem _
     · rw [hτ]; exact Subgroup.mem_zpowers τ
 
+omit [Finite G] in
 private lemma closure_pair_comm (h : Setting16 Q Y τ ω) {a b : G}
     (ha : a ∈ closure ({τ, ω} : Set G)) (hb : b ∈ closure ({τ, ω} : Set G)) :
     a * b = b * a := by
@@ -40,9 +42,10 @@ private lemma closure_pair_comm (h : Setting16 Q Y τ ω) {a b : G}
     · exact h.tau_om
     · exact h.tau_om.symm
     · exact absurd rfl hne
-  haveI := Subgroup.isMulCommutative_closure hcomm
+  have := Subgroup.isMulCommutative_closure hcomm
   exact setLike_mul_comm ha hb
 
+omit [Finite G] in
 private lemma mul_comm_of_center (h : Setting16 Q Y τ ω) {α β y₁ y₂ : G}
     (hα : α ∈ closure ({τ, ω} : Set G)) (hβ : β ∈ closure ({τ, ω} : Set G))
     (hy₁ : y₁ ∈ Y) (hy₂ : y₂ ∈ Y) :
@@ -57,10 +60,11 @@ private lemma mul_comm_of_center (h : Setting16 Q Y τ ω) {α β y₁ y₂ : G}
     Commute.mul_left (hc₂ α).symm (hc₂ y₁).symm
   exact (Commute.mul_right h1 h2).eq
 
+omit [Finite G] in
 theorem mem_E6_iff (h : Setting16 Q Y τ ω) {x : G} :
     x ∈ closure ({τ, ω} : Set G) ⊔ Y ↔
       ∃ y ∈ Y, x = y ∨ x = τ * y ∨ x = ω * y ∨ x = (τ * ω) * y := by
-  haveI : Y.Normal := Y.normal_of_le_center h.Y_le_center
+  have : Y.Normal := Y.normal_of_le_center h.Y_le_center
   rw [Subgroup.mem_sup_of_normal_right]
   constructor
   · rintro ⟨a, ha, y, hy, rfl⟩
@@ -83,6 +87,7 @@ theorem mem_E6_iff (h : Setting16 Q Y τ ω) {x : G} :
           (Subgroup.subset_closure (by simp))
       exact ⟨τ * ω, hmem, y, hy, rfl⟩
 
+omit [Finite G] in
 theorem E6_comm (h : Setting16 Q Y τ ω) {a b : G} (ha : a ∈ closure ({τ, ω} : Set G) ⊔ Y)
     (hb : b ∈ closure ({τ, ω} : Set G) ⊔ Y) : a * b = b * a := by
   rw [mem_E6_iff h] at ha hb
@@ -113,6 +118,7 @@ theorem E6_comm (h : Setting16 Q Y τ ω) {a b : G} (ha : a ∈ closure ({τ, ω
   rw [haα, hbβ]
   exact mul_comm_of_center h hα hβ hy₁ hy₂
 
+omit [Finite G] in
 theorem E6_sq (h : Setting16 Q Y τ ω) {a : G} (ha : a ∈ closure ({τ, ω} : Set G) ⊔ Y) :
     a ^ 2 = 1 := by
   rw [mem_E6_iff h] at ha
@@ -162,6 +168,7 @@ theorem card_E6 (h : Setting16 Q Y τ ω) : Nat.card ↥(closure ({τ, ω} : Set
   norm_num at hcard_eq
   exact hcard_eq
 
+omit [Finite G] in
 theorem inf_Q_le_Y (h : Setting16 Q Y τ ω) {E : Subgroup G} (hE2 : ∀ a ∈ E, a ^ 2 = 1) :
     E ⊓ Q ≤ Y := by
   intro x hx
@@ -182,16 +189,17 @@ theorem E6_inf_sup (h : Setting16 Q Y τ ω) {E : Subgroup G}
   rw [h.card_Y]
   omega
 
+omit [Finite G] in
 theorem exists_mul_of_sup_eq_top (h : Setting16 Q Y τ ω) {E : Subgroup G} (hE : E ⊔ Q = ⊤)
     (x : G) : ∃ e ∈ E, ∃ q ∈ Q, x = e * q := by
-  haveI := h.normal
+  have := h.normal
   have hx : x ∈ E ⊔ Q := by rw [hE]; exact Subgroup.mem_top x
   rw [Subgroup.mem_sup_of_normal_right] at hx
   obtain ⟨e, he, q, hq, heq⟩ := hx
   exact ⟨e, he, q, hq, heq.symm⟩
 
 theorem E6_unique (h : Setting16 Q Y τ ω) {E : Subgroup G}
-    (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE2 : ∀ a ∈ E, a ^ 2 = 1)
+    (_hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE2 : ∀ a ∈ E, a ^ 2 = 1)
     (hcard : Nat.card E = 64) : E = closure ({τ, ω} : Set G) ⊔ Y := by
   obtain ⟨hEQ, hEsup⟩ := E6_inf_sup h hE2 hcard
   have hmem_inf : ∀ y ∈ Y, y ∈ E := by

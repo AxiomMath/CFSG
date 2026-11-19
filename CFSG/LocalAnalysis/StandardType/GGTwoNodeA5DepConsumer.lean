@@ -30,7 +30,7 @@ theorem ggTwoNodeA5DepL_of_moving_K (hA5 : LR6A5DepAll) (hOrb : GGResCentBoundIn
     (hrefl : ∀ i, GGIsReflection p (φ i))
     (hpair : ∀ i j, α i (h j) = (CL i j : ZMod p))
     (f : ML.Group ≃* ↥(ggAutomizer L Bs))
-    (hf : ∀ i, (f (ML.simple i) : MulAut ↥Bs) = φ i)
+    (_hf : ∀ i, (f (ML.simple i) : MulAut ↥Bs) = φ i)
     (hclos : ggAutomizer L Bs = Subgroup.closure (Set.range φ))
     (hdep : ¬ LinearIndependent (ZMod p) h)
     {ΛK : Type} [Fintype ΛK] [DecidableEq ΛK] {MK : CoxeterMatrix ΛK}
@@ -42,10 +42,10 @@ theorem ggTwoNodeA5DepL_of_moving_K (hA5 : LR6A5DepAll) (hOrb : GGResCentBoundIn
     GGWeylReflectionGroup p (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
   subst hp3
-  haveI : Nontrivial ΛK := Fintype.one_lt_card_iff_nontrivial.mp hNontrivK
+  have : Nontrivial ΛK := Fintype.one_lt_card_iff_nontrivial.mp hNontrivK
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let xv : V := ι (Additive.ofMul ⟨x, hx⟩)
   have Fdep : GGDepAFrame 3 6 (fun i : Fin 5 => h (e i)) (fun i => α (e i)) xv :=
     ggXDatumA_frame hFix hp2 hH hx (N := 6) (by norm_num) (by norm_num) e hML hCL hlin hpair hclos hdep
@@ -157,13 +157,13 @@ theorem ggTwoNodeA5DepL_core (hA5 : LR6A5DepAll) (hOrb : GGResCentBoundInput) (h
   classical
   obtain ⟨Λ, i1, i2, ML, CL, V, i3, i4, ι, φ, h, α, e, hML, hWML, hCL, hlin,
     hrefl, hpair, ⟨f, hf⟩, hclos⟩ := hXd
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   have hdep : ¬ LinearIndependent (ZMod p) h :=
     ggXDatumA_dep hFix (by omega) hH hx hxL (N := 6) (by norm_num)
       (by rw [hp3]; norm_num) e hML hCL hlin hpair hclos
   obtain ⟨Λ', j1, j2, S', M', C', MJ', V', j3, j4, ι', φ', h', α', hS2', hS3', hW',
     hC', hWJ', hMJ', hlin', hrefl', hpair', ⟨f', hf'⟩, hcl', hfJ', hclJ', hconj'⟩ := hKs
-  letI := j1; letI := j2
+  let := j1; let := j2
   have hNontriv : 1 < Fintype.card Λ' := by
     have hs : 2 ≤ Fintype.card Λ' := le_trans hS2' (Finset.card_le_univ S')
     omega
@@ -184,9 +184,9 @@ theorem ggTwoNodeA5DepK_core (hA5 : LR6A5DepAll) (hOrbK : GGResCentBoundNbrInput
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨Λ, i1, i2, MK, CK, V, i3, i4, ι, φ, h, α, e, hMK, hWMK, hCK, hlin, hrefl, hpair, ⟨f, hf⟩,
     hclos⟩ := hXd
-  letI := i1; letI := i2; letI := i3; letI := i4
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1; let := i2; let := i3; let := i4
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hN5 : 5 ≤ 6 := by norm_num
   have hpN : 3 ∣ 6 := by norm_num
   let yv : V := ι (Additive.ofMul ⟨y, hy⟩)
@@ -296,8 +296,8 @@ theorem ggTwoNodeA5DepK_core (hA5 : LR6A5DepAll) (hOrbK : GGResCentBoundNbrInput
   · exfalso
     obtain ⟨Λ', j1, j2, S', M', C', MJ', V', j3, j4, ι', φ', h', α', hS2', hS3', hW', hC', hWJ',
       hMJ', hlin', hrefl', hpair', ⟨f', hf'⟩, hcl', hfJ', hclJ', hconj'⟩ := hLs
-    letI := j1; letI := j2
-    haveI : Nontrivial Λ' := by
+    let := j1; let := j2
+    have : Nontrivial Λ' := by
       obtain ⟨a, ha, b, hb, hab⟩ :=
         Finset.one_lt_card.mp (lt_of_lt_of_le (by norm_num : 1 < 2) hS2')
       exact ⟨a, b, hab⟩

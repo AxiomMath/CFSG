@@ -38,7 +38,7 @@ theorem false_of_s23_43 (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D) (c : 
     obtain ⟨r, hr⟩ := hηne
     have : r ∈ piSet c.B := by rw [hpiB]; exact hr
     rw [hbot] at this
-    simp only [piSet, Set.mem_setOf_eq, Subgroup.card_bot] at this
+    simp only [piSet, Set.mem_ofPred_eq, Subgroup.card_bot] at this
     exact hr.1.not_dvd_one this.2
   have hBZ : ⁅c.B, D.Z⁆ ≠ ⊥ := by
     intro hbot
@@ -72,14 +72,14 @@ theorem false_of_s23_43 (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D) (c : 
       exact hrp.ne_one (Nat.eq_one_of_dvd_coprimes hcop hrd hrplus)
   obtain ⟨p, hpσ, P, hPsyl, hnotcent⟩ := h10 h1930 c hcyc hBZ
   have hpprime : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   obtain ⟨Q, hQP⟩ := hPsyl
   have hPle : P ≤ CFSG.fittingSubgroup (Bar2 D.M) := by
     rw [← hQP]
     exact Subgroup.map_subtype_le (Q : Subgroup ↥(CFSG.fittingSubgroup (Bar2 D.M)))
   have hPp : IsPGroup p ↥P := by
     rw [← hQP]
-    exact Q.isPGroup'.map (CFSG.fittingSubgroup (Bar2 D.M)).subtype
+    exact Q.isPGroup.map (CFSG.fittingSubgroup (Bar2 D.M)).subtype
   have hPne : P ≠ ⊥ := by
     intro hPbot
     apply hnotcent

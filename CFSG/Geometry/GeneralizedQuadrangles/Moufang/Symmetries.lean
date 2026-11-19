@@ -276,6 +276,7 @@ theorem rootGroup_le_symmetryGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
     rw [Set.ncard_le_one] at huniq
     exact (huniq z ⟨hz_span, hzu.symm⟩ (g • z) ⟨hgz_span, hgzu⟩).symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] [GraphAction H Γ] in
 theorem symmetryGroup_le_rootGroup {x L y : V} (hx : Γ.Adj L x) (hy : Γ.Adj L y) :
     symmetryGroup H Γ L ≤ rootGroup H Γ x L y := by
   intro g hg
@@ -436,6 +437,7 @@ variable [Fintype V] [DecidableRel Γ.Adj]
     · rw [hv, hw]; simp
     · exact absurd (hv.trans hw.symm) hne)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem dualColoring_apply (c : Γ.Coloring (Fin 2)) (v : V) :
     dualColoring c v = 1 - c v := rfl
 
@@ -445,10 +447,10 @@ theorem degree_eq_of_dualColoring {c : Γ.Coloring (Fin 2)} {s t : ℕ}
   have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
   rw [dualColoring_apply]
   rcases hfin (c v) with hv | hv
-  · rw [hdeg, if_pos hv]
-    rw [if_neg (by rw [hv]; decide)]
-  · rw [hdeg, if_neg (by rw [hv]; decide)]
-    rw [if_pos (by rw [hv]; decide)]
+  · rw [hdeg, ite_eq_left hv]
+    rw [ite_eq_right (by rw [hv]; decide)]
+  · rw [hdeg, ite_eq_right (by rw [hv]; decide)]
+    rw [ite_eq_left (by rw [hv]; decide)]
 
 theorem t_le_s_of_isRegularVertex (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
@@ -466,7 +468,7 @@ theorem t_le_s_of_isRegularVertex (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
   have hXcard : X.card = t + 1 := by
     have h1 : X.card = (spanSet Γ x y).ncard :=
       (Set.ncard_eq_toFinset_card' (spanSet Γ x y)).symm
-    rw [h1, hreg y hxy, hdeg x, if_pos hx]
+    rw [h1, hreg y hxy, hdeg x, ite_eq_left hx]
   have hXsub : (X : Set V) ⊆ spanSet Γ x y := by
     intro z hz
     simpa [X] using hz
@@ -534,7 +536,7 @@ theorem card_symmetryGroup_eq_s {V₀ : Type} {Γ₀ : SimpleGraph V₀} {H₀ :
     (hxy : x ≠ y) : Nat.card (symmetryGroup H₀ Γ₀ L) = s := by
   rw [card_symmetryGroup hP hT hM hL hx hy hxy]
   have h := hdeg L
-  rw [if_neg (by rw [hc]; decide)] at h
+  rw [ite_eq_right (by rw [hc]; decide)] at h
   omega
 
 end RegularLineOrder

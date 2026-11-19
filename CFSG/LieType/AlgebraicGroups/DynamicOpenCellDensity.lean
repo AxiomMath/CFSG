@@ -190,12 +190,12 @@ theorem nonnegPart_coeff_conjugationAlgHom (M : TauCeti.FiniteTypeCommHopfAlgCat
       if 0 ≤ j then D ((CFSG.ThirdParty.TauCeti.Cocharacter.conjugationAlgHom l h).coeff j)
       else 0 := by
   rw [nonnegPart_apply_of_support_subset M l D _ (s := {j}), Finset.sum_singleton,
-    CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugationAlgHom_coeff, if_pos rfl]
+    CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugationAlgHom_coeff, ite_eq_left rfl]
   intro m hm
   rw [Finset.mem_singleton]
   by_contra hne
   exact (Finsupp.mem_support_iff.mp hm)
-    (by rw [CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugationAlgHom_coeff, if_neg hne])
+    (by rw [CFSG.ThirdParty.TauCeti.Cocharacter.coeff_conjugationAlgHom_coeff, ite_eq_right hne])
 
 theorem nonnegPart_mul (M : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)
     (l : M →ₐc[k] LaurentPolynomial k) (D : M →ₗ[k] k)
@@ -256,7 +256,7 @@ theorem exists_add_mem_lieSubalgebra_parabolic
     rintro _ ⟨h, n, hn, rfl⟩
     apply (TauCeti.Bialgebra.CounitAlgebra.algEquivSelf k M k).injective
     rw [algEquivSelf_nonnegDerivation_apply, nonnegPart_coeff_conjugationAlgHom,
-      if_neg (not_le.mpr hn), map_zero]
+      ite_eq_right (not_le.mpr hn), map_zero]
   · rw [TauCeti.HopfIdeal.mem_lieSubalgebra_iff_of_toIdeal_eq_span _
       (CFSG.ThirdParty.TauCeti.Cocharacter.parabolicDefiningHopfIdeal_toIdeal
         (CFSG.ThirdParty.TauCeti.BialgHom.oppositeCocharacter l))]
@@ -264,7 +264,7 @@ theorem exists_add_mem_lieSubalgebra_parabolic
     rw [coeff_conjugationAlgHom_oppositeCocharacter, Derivation.sub_apply]
     apply (TauCeti.Bialgebra.CounitAlgebra.algEquivSelf k M k).injective
     rw [map_sub, algEquivSelf_nonnegDerivation_apply, nonnegPart_coeff_conjugationAlgHom,
-      if_pos (by omega), map_zero, sub_eq_zero]
+      ite_eq_left (by omega), map_zero, sub_eq_zero]
     rfl
 
 theorem vanishingIdeal_eq_bot_of_parabolic_le [IsAlgClosed k]

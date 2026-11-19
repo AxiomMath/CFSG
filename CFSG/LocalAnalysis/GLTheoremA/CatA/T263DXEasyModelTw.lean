@@ -79,7 +79,7 @@ private theorem exists_modelSel_E6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X :
   obtain ⟨K, _, _, hK, hKchar, ⟨φ⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
   have hK2 : ringChar K = 2 := by
-    haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+    have : CharP K 2 := by rw [← hq2]; exact hKchar
     exact ringChar.eq K 2
   exact ⟨↥(adjointGroup Tag.E6 K), inferInstance, inferInstance, ⟨e.trans φ⟩,
     modelSel_adjointGroup (Or.inr (Or.inr (Or.inl rfl))) hK2 (by rw [hK]; exact hq4) hp hp2

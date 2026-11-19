@@ -15,8 +15,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16c1_G47_fixed_nontrivial {S V₀ : Subgroup G} (hS : IsPGroup 2 S)
     (hSN : S ≤ normalizer (V₀ : Set G)) (hV₀ : IsPGroup 2 V₀) (hne : V₀ ≠ ⊥) :
     ∃ a ∈ V₀, a ≠ 1 ∧ ∀ s ∈ S, s * a = a * s := by
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
-  haveI : Subgroup.Normalizes S V₀ := ⟨hSN⟩
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Subgroup.Normalizes S V₀ := ⟨hSN⟩
   have hsmul : ∀ (s : ↥S) (v : ↥V₀),
       ((s • v : ↥V₀) : G) = (s : G) * (v : G) * (s : G)⁻¹ :=
     fun s v => Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe S V₀ s v

@@ -167,7 +167,7 @@ private theorem map_eq_zpowers_a_one {n : ℕ} [NeZero n] (hn : 4 ≤ n) {T : Ty
     (e : T ≃* QuaternionGroup n) (K : Subgroup T) [IsCyclic K] (hK : Nat.card K = 2 * n) :
     K.map e.toMonoidHom = Subgroup.zpowers (QuaternionGroup.a 1) := by
   have hiso := Subgroup.equivMapOfInjective K e.toMonoidHom e.injective
-  haveI : IsCyclic (K.map e.toMonoidHom) := (MulEquiv.isCyclic hiso).mp inferInstance
+  have : IsCyclic (K.map e.toMonoidHom) := (MulEquiv.isCyclic hiso).mp inferInstance
   refine eq_zpowers_a_one_of_isCyclic hn (K.map e.toMonoidHom) ?_
   rw [← Nat.card_congr hiso.toEquiv]
   exact hK
@@ -213,7 +213,7 @@ theorem eq_of_isCyclic_of_relIndex_eq_two {r : ℕ} (hr : 4 ≤ r) {S₀ : Subgr
     (e : ↥S₀ ≃* QuaternionGroup (2 ^ (r - 2))) {C D : Subgroup G} (hC : C ≤ S₀)
     (hCc : IsCyclic ↥C) (hCi : C.relIndex S₀ = 2) (hD : D ≤ S₀) (hDc : IsCyclic ↥D)
     (hDi : D.relIndex S₀ = 2) : C = D := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hn := four_le_two_pow hr
   have hS := card_quat e
   have hKC : Nat.card ↥(C.subgroupOf S₀) = 2 * 2 ^ (r - 2) :=
@@ -222,9 +222,9 @@ theorem eq_of_isCyclic_of_relIndex_eq_two {r : ℕ} (hr : 4 ≤ r) {S₀ : Subgr
   have hKD : Nat.card ↥(D.subgroupOf S₀) = 2 * 2 ^ (r - 2) :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD).toEquiv).trans
       (card_of_relIndex_two hD hDi hS)
-  haveI : IsCyclic ↥(C.subgroupOf S₀) :=
+  have : IsCyclic ↥(C.subgroupOf S₀) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hC)).mpr hCc
-  haveI : IsCyclic ↥(D.subgroupOf S₀) :=
+  have : IsCyclic ↥(D.subgroupOf S₀) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hD)).mpr hDc
   have hmC := map_eq_zpowers_a_one hn e (C.subgroupOf S₀) hKC
   have hmD := map_eq_zpowers_a_one hn e (D.subgroupOf S₀) hKD
@@ -240,7 +240,7 @@ theorem le_normalizer_of_isCyclic_of_relIndex_eq_two {r : ℕ} (hr : 4 ≤ r) {S
     (hCc : IsCyclic ↥C) (hCi : C.relIndex S₀ = 2) :
     Subgroup.normalizer (S₀ : Set G) ≤ Subgroup.normalizer (C : Set G) := by
   intro g hg
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hgS : ∀ x ∈ S₀, g * x * g⁻¹ ∈ S₀ := fun x hx =>
     (Subgroup.mem_normalizer_iff.mp hg x).mp hx
   have hinj : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
@@ -280,13 +280,13 @@ theorem le_normalizer_of_isCyclic_of_relIndex_eq_two {r : ℕ} (hr : 4 ≤ r) {S
 theorem le_pmSubgroup_of_quat {r : ℕ} (hr : 4 ≤ r) {S₀ : Subgroup G}
     (e : ↥S₀ ≃* QuaternionGroup (2 ^ (r - 2))) {C : Subgroup G} (hC : C ≤ S₀)
     (hCc : IsCyclic ↥C) (hCi : C.relIndex S₀ = 2) : S₀ ≤ pmSubgroup C := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hn := four_le_two_pow hr
   have hS := card_quat e
   have hKC : Nat.card ↥(C.subgroupOf S₀) = 2 * 2 ^ (r - 2) :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hC).toEquiv).trans
       (card_of_relIndex_two hC hCi hS)
-  haveI : IsCyclic ↥(C.subgroupOf S₀) :=
+  have : IsCyclic ↥(C.subgroupOf S₀) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hC)).mpr hCc
   have hmC := map_eq_zpowers_a_one hn e (C.subgroupOf S₀) hKC
   have hcoset : ∀ x : G, ∀ hx : x ∈ C, ∃ k : ZMod (2 * 2 ^ (r - 2)),

@@ -30,13 +30,13 @@ theorem ggPD_section {K : Type} [Field K] {d : ℕ}
   classical
   let π := QuotientGroup.mk' (Subgroup.center (Matrix.GeneralLinearGroup (Fin d) K))
   let E : Subgroup (Matrix.GeneralLinearGroup (Fin d) K) := A.comap π
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (hcomm a.1 a.2 b.1 b.2) }
   let q : ↥E →* ↥A :=
     { toFun := fun y => ⟨π y.1, y.2⟩
-      map_one' := by ext; simpa using map_one π
-      map_mul' := fun y₁ y₂ => by ext; simpa using map_mul π y₁.1 y₂.1 }
+      map_one' := by ext; simp
+      map_mul' := fun y₁ y₂ => by ext; simp }
   have hq : Function.Surjective q := by
     intro a
     obtain ⟨g, hg⟩ := QuotientGroup.mk'_surjective

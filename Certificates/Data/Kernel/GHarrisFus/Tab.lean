@@ -9,7 +9,7 @@ namespace CFSG.KC.GHFus
 open CFSG.KC.Enum
 
 @[expose] noncomputable def allBelow (n : Nat) (p : Nat → Bool) : Bool :=
-  Nat.rec (motive := fun _ => Bool) true (fun i ih => Bool.and' (p i) ih) n
+  Nat.rec (motive := fun _ => Bool) true (fun i ih => _root_.Bool.and (p i) ih) n
 
 @[expose] noncomputable def dmP : Nat :=
   nat_lit 7299427748293135508666912717695448455147873746853017753162171213942703272464
@@ -42,7 +42,7 @@ open CFSG.KC.Enum
 
 @[expose] noncomputable def ctFrom (CT : Nat) (l : List Nat) (j : Nat) : Bool :=
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun x _ ih j => Bool.and' (Nat.beq (clsK CT j) x) (strictB (Nat.succ j) ih)) l j
+    (fun x _ ih j => _root_.Bool.and (Nat.beq (clsK CT j) x) (strictB (Nat.succ j) ih)) l j
 
 @[expose] noncomputable def ctOK (CT : Nat) (l : List Nat) : Bool := ctFrom CT l (nat_lit 0)
 

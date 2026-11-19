@@ -51,7 +51,7 @@ theorem mem_normalizer_closure {G : Type*} [Group G] [Finite G] {s : Set G} {g :
 theorem one_le_pRank_of_mem {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {Q : Subgroup G} {b : G} (hb : b ∈ Q) (hb1 : b ≠ 1) (hbp : b ^ p = 1) :
     1 ≤ CFSG.Open.pRank p Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.le_pRank hp.one_lt (Subgroup.zpowers_le.2 hb)
     (isElemAbelian_zpowers hbp) ?_
   rw [Nat.card_zpowers, orderOf_eq_prime hbp hb1, pow_one]

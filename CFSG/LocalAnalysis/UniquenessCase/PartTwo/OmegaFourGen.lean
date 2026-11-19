@@ -323,6 +323,7 @@ theorem OmegaFourSetting.barSub_mem_calABar_of_gammaSet (D : Data G)
   exact barSub_mem_calABar_of_gammaSet_bot_gen D hSg h1219 h.hyp125 (p := 5) h.five_mem
     hcent hr hδ hA hA1
 
+omit [Finite G] in
 theorem cTilde_bot_le_centralizer {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) :
     F11.CTilde M ⊥ V ≤ Subgroup.centralizer (V : Set G) := by

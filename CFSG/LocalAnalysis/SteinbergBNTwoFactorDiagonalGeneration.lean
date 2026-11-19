@@ -96,7 +96,7 @@ theorem odd_center_two_factor_diagonal_normalizer_generation {H : Type*} [Group 
       Nat.card_pos.ne' hAeven).ne'
   have eU : U.subgroupOf A ≃* U := subgroupOfEquivOfLe hUA
   have hU2 : IsPGroup 2 U := by
-    have h1 : IsPGroup 2 (U.subgroupOf A) := hT ▸ T.isPGroup'
+    have h1 : IsPGroup 2 (U.subgroupOf A) := hT ▸ T.isPGroup
     exact h1.of_equiv eU
   have hUcard : 2 ∣ Nat.card U := by
     rw [← Nat.card_congr eU.toEquiv, ← hT]

@@ -112,11 +112,11 @@ theorem cA_ok {k : Nat} (hk : k < 3) : okK (cAK k) = true := allN_spec kCA k hk
 theorem cA_eq {k : Nat} (hk : k < 3) : cA k = unpack 480 9 (cAK k) := by
   have hn := CertificateChecks.KernelLC.E8.neg_eq
   interval_cases k
-  · rw [cA, if_pos rfl, hn, idA2_eq, pairA_eq kNEG cn_pid2]
+  · rw [cA, ite_eq_left rfl, hn, idA2_eq, pairA_eq kNEG cn_pid2]
     rfl
-  · rw [cA, if_neg (by decide), if_pos rfl, hn, idA2_eq, pairA_eq cn_pid2 kNEG]
+  · rw [cA, ite_eq_right (by decide), ite_eq_left rfl, hn, idA2_eq, pairA_eq cn_pid2 kNEG]
     rfl
-  · rw [cA, if_neg (by decide), if_neg (by decide), hn, pairA_eq kNEG kNEG]
+  · rw [cA, ite_eq_right (by decide), ite_eq_right (by decide), hn, pairA_eq kNEG kNEG]
     rfl
 
 theorem cA_cn {k : Nat} (hk : k < 3) : Cn (cAK k) := (okK_iff (cA_ok hk)).1

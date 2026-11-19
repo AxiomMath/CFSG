@@ -32,13 +32,13 @@ theorem prod_torusFiveGen (ζ : Kˣ) (j : Fin 5) : ∏ i, torusFiveGen ζ j i = 
 
 theorem torusFiveGen_self (ζ : Kˣ) (j : Fin 5) : torusFiveGen ζ j (Fin.castSucc j) = ζ := by
   have h : Fin.castSucc j ≠ Fin.last 5 := (Fin.castSucc_lt_last j).ne
-  rw [torusFiveGen_apply, if_pos rfl, if_neg h, mul_one]
+  rw [torusFiveGen_apply, ite_eq_left rfl, ite_eq_right h, mul_one]
 
 theorem torusFiveGen_other (ζ : Kˣ) {j j' : Fin 5} (hj : j' ≠ j) :
     torusFiveGen ζ j' (Fin.castSucc j) = 1 := by
   have h : Fin.castSucc j ≠ Fin.last 5 := (Fin.castSucc_lt_last j).ne
   have h' : Fin.castSucc j ≠ Fin.castSucc j' := fun e => hj (Fin.castSucc_injective _ e).symm
-  rw [torusFiveGen_apply, if_neg h', if_neg h, mul_one]
+  rw [torusFiveGen_apply, ite_eq_right h', ite_eq_right h, mul_one]
 
 theorem exists_torusFive [Finite K] (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n + 1) :
     ∃ T : Subgroup ↥(unitarySU 2 n K 6), CFSG.Open.IsElemAbelian 3 T ∧ Nat.card T = 3 ^ 5 ∧

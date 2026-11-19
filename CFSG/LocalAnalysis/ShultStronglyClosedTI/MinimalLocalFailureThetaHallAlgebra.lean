@@ -129,7 +129,7 @@ theorem sylow_of_theta_normalizer_capture
   let U := (Q : Subgroup D).map D.subtype
   let Y := Subgroup.normalizer (U : Set G)
   have hUC : U ≤ C := (Subgroup.map_subtype_le _).trans inf_le_left
-  have hUp : IsPGroup q U := Q.isPGroup'.map D.subtype
+  have hUp : IsPGroup q U := Q.isPGroup.map D.subtype
   have hconfined : C ⊓ Y ≤ E := (theta_inf_normalizer_le p hp B U).trans hcapture
   obtain ⟨R, hR⟩ := sylow_of_normalizer_control q (U.subgroupOf C) hUp.comap_subtype (by
     intro A hAp hUA

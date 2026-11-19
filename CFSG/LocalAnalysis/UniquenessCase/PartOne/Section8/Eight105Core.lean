@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem exists_ne_one_of_card_prime {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     (hcard : Nat.card X = p) : ∃ d ∈ X, d ≠ 1 := by
-  haveI : Nontrivial ↥X :=
+  have : Nontrivial ↥X :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; exact hp.one_lt)
   obtain ⟨d, hd⟩ := exists_ne (1 : ↥X)
   exact ⟨d, d.2, fun h => hd (Subtype.ext h)⟩
@@ -44,13 +44,15 @@ private theorem coprime_three_card_relPPrimeCore (N : Subgroup G) :
   CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.coprime_card_relPPrimeCore
     Nat.prime_three N
 
+omit [Finite G] in
 private theorem ncl_le_of_le {N X : Subgroup G} (hX : X ≤ N) : ncl N X ≤ N := by
   rw [ncl]
   refine (Subgroup.closure_le N).mpr ?_
   rintro y ⟨g, hg, x, hx, rfl⟩
   exact N.mul_mem (N.mul_mem hg (hX hx)) (N.inv_mem hg)
 
-private theorem le_normalizer_ncl_of_le {N X : Subgroup G} (hX : X ≤ N) :
+omit [Finite G] in
+private theorem le_normalizer_ncl_of_le {N X : Subgroup G} (_hX : X ≤ N) :
     N ≤ Subgroup.normalizer (ncl N X : Set G) := by
   have hmap_le : ∀ {g : G}, g ∈ N →
       Subgroup.map (MulAut.conj g).toMonoidHom (ncl N X) ≤ ncl N X := by
@@ -60,7 +62,7 @@ private theorem le_normalizer_ncl_of_le {N X : Subgroup G} (hX : X ≤ N) :
     rintro y ⟨z, hz, rfl⟩
     obtain ⟨n, hn, x, hx, rfl⟩ := hz
     refine Subgroup.subset_closure ⟨g * n, N.mul_mem hg hn, x, hx, ?_⟩
-    simp only [MulAut.conj_apply, MonoidHom.coe_mk, MulEquiv.coe_toMonoidHom]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
     group
   intro g hg
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -76,12 +78,12 @@ private theorem le_normalizer_ncl_of_le {N X : Subgroup G} (hX : X ≤ N) :
   rwa [Subgroup.map_map, hcomp, Subgroup.map_id] at h2
 
 private theorem le_centralizer_inf_sup_of_trivial_action {p : ℕ} (hp : p.Prime)
-    {I Q D : Subgroup G} (hDp : IsPGroup p D) (hDcard : Nat.card D = p)
+    {I Q D : Subgroup G} (_hDp : IsPGroup p D) (hDcard : Nat.card D = p)
     (hDQ : D ≤ Subgroup.normalizer (Q : Set G)) (hQI : Q ≤ I)
     (hcop : Nat.Coprime p (Nat.card Q))
     (hact : ∀ d ∈ D, ∀ x ∈ I, x⁻¹ * (d * x * d⁻¹) ∈ Q) :
     I ≤ (Subgroup.centralizer (D : Set G) ⊓ I) ⊔ Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hdD, hdne⟩ := exists_ne_one_of_card_prime hp hDcard
   have hgen : Subgroup.zpowers d = D := zpowers_eq_of_card_prime hp hDcard hdD hdne
   have hord : orderOf d = p := by
@@ -112,11 +114,11 @@ private theorem le_centralizer_inf_sup_of_trivial_action {p : ℕ} (hp : p.Prime
   simpa [mul_assoc] using hmem
 
 private theorem exists_mul_mem_normalizer_of_isSylow {p : ℕ} (hp : p.Prime)
-    {N N₂ S : Subgroup G} (hN₂N : N₂ ≤ N) (hNnormal : N ≤ Subgroup.normalizer (N₂ : Set G))
+    {N N₂ S : Subgroup G} (_hN₂N : N₂ ≤ N) (hNnormal : N ≤ Subgroup.normalizer (N₂ : Set G))
     (hS_N₂ : S ≤ N₂) (hSyl : Nat.card S = p ^ (Nat.card N₂).factorization p)
     {n : G} (hn : n ∈ N) :
     ∃ ℓ ∈ N₂, ∃ m ∈ Subgroup.normalizer (S : Set G), ℓ * m = n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn_norm : n ∈ Subgroup.normalizer (N₂ : Set G) := hNnormal hn
   let Q : Subgroup G := S.map (MulAut.conj n).toMonoidHom
   have hQ_N₂ : Q ≤ N₂ := by
@@ -153,16 +155,16 @@ private theorem exists_mul_mem_normalizer_of_isSylow {p : ℕ} (hp : p.Prime)
             simp [MulAut.conj_apply, mul_assoc]
           rw [hcomp, Subgroup.map_id]
 
-private theorem exists_subgroupOf_conj_eq_of_commutator_mem {p : ℕ} (hp : p.Prime)
+private theorem exists_subgroupOf_conj_eq_of_commutator_mem {p : ℕ} (_hp : p.Prime)
     {I D : Subgroup G} {x : G} (hDcard : Nat.card D = p)
     (hDI : D ≤ Subgroup.normalizer (I : Set G))
-    (hxI : x ∈ Subgroup.normalizer (I : Set G))
+    (_hxI : x ∈ Subgroup.normalizer (I : Set G))
     (hcopI : Nat.Coprime p (Nat.card I))
     (hcomm : ∀ d ∈ D, x * d * x⁻¹ * d⁻¹ ∈ I) :
     ∃ n : ↥(I.subgroupOf (I ⊔ D)),
       (Subgroup.map (MulAut.conj x).toMonoidHom D).subgroupOf (I ⊔ D) =
         (D.subgroupOf (I ⊔ D)).map (MulAut.conj (n : ↥(I ⊔ D))).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   let L : Subgroup G := I ⊔ D
   let NN : Subgroup L := I.subgroupOf L
   let HH : Subgroup L := D.subgroupOf L
@@ -199,7 +201,7 @@ private theorem exists_subgroupOf_conj_eq_of_commutator_mem {p : ℕ} (hp : p.Pr
     · rw [hcardNN, hcardKK, hcardL]
     · rw [hcardNN, hcardKK, hDcard]
       exact hcopI.symm
-  haveI : NN.Normal :=
+  have : NN.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIL).mpr hLnorm
   have hcopIndex : Nat.Coprime (Nat.card NN) NN.index := by
     rw [hcompH.symm.index_eq_card, hcardNN, hcardHH, hDcard]
@@ -257,7 +259,7 @@ theorem commutator_relPPrimeCore_le (hS : KSuzukiL2) {D : Data G}
     ⁅relPPrimeCore 3 N, F08.KOf8103 L B⁆ ≤ pCoreOf 2 N := by
   let I : Subgroup G := relPPrimeCore 3 N
   let K : Subgroup G := F08.KOf8103 L B
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hI_le_N : I ≤ N :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le N
   have hN_ne_top : N ≠ ⊤ :=
@@ -294,7 +296,7 @@ theorem commutator_relPPrimeCore_le (hS : KSuzukiL2) {D : Data G}
 theorem relPPrimeCore_le (hS : KSuzukiL2) {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) (hQ : pCoreOf 2 N ≤ D.M) :
     relPPrimeCore 3 N ≤ D.M := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hI_le_N : relPPrimeCore 3 N ≤ N :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le N
   have hQN : pCoreOf 2 N ≤ N := CFSG.LieType.BorelTits.pCoreOf_le 2 N
@@ -340,7 +342,7 @@ theorem relPPrimeCore_le (hS : KSuzukiL2) {D : Data G} {L P B B' D₀ H N : Subg
 
 theorem not_ncl_le {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) : ¬ ncl N B' ≤ D.M := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   intro hN2M
   have hB'_N : B' ≤ N := c.le.trans (c.memH.2.2.1.trans c.memN.2)
   have hN2_le_N : ncl N B' ≤ N := ncl_le_of_le hB'_N
@@ -353,7 +355,7 @@ theorem not_ncl_le {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
   let S : Subgroup G := Subgroup.map (ncl N B').subtype (S' : Subgroup ↥(ncl N B'))
   have hS_N2 : S ≤ ncl N B' := Subgroup.map_subtype_le _
   have hS_N : S ≤ N := hS_N2.trans hN2_le_N
-  have hSp : IsPGroup p S := S'.isPGroup'.map (ncl N B').subtype
+  have hSp : IsPGroup p S := S'.isPGroup.map (ncl N B').subtype
   have hD0S : D₀ ≤ S := by
     intro d hd
     have hd' : (⟨d, hD0_N2 hd⟩ : ↥(ncl N B')) ∈ D₀.subgroupOf (ncl N B') :=
@@ -383,7 +385,7 @@ theorem not_ncl_le {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
 theorem mem_of_commutator_mem (hS : KSuzukiL2) {D : Data G} {L P B B' D₀ H N : Subgroup G}
     {p n : ℕ} {x : G} (c : Ctx8105 D L P B B' D₀ H N p n) (hQ : pCoreOf 2 N ≤ D.M)
     (hx : x ∈ N) (hxD : ∀ d ∈ D₀, x * d * x⁻¹ * d⁻¹ ∈ relPPrimeCore 3 N) : x ∈ D.M := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hI_le_M : relPPrimeCore 3 N ≤ D.M := relPPrimeCore_le hS c hQ
   have hI_le_N : relPPrimeCore 3 N ≤ N :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le N

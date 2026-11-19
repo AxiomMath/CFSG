@@ -21,7 +21,7 @@ theorem t321_u_a :
   dsimp only [Type321.action, SigmaFourAction.ofMatEq, SigmaFourAction.φu]
   rw [matAct_gen_eq]
   funext i
-  fin_cases i <;> simp [Type321.uM, uMat, ofCols_apply, gen, Pi.single_apply]
+  fin_cases i <;> simp [Type321.uM, uMat, ofCols_apply, gen]
 
 theorem t321_u_b :
     (StrothTypeIndex.t321).action.φu (Torus.b (k := (StrothTypeIndex.t321).k)) =
@@ -30,7 +30,7 @@ theorem t321_u_b :
   dsimp only [Type321.action, SigmaFourAction.ofMatEq, SigmaFourAction.φu]
   rw [matAct_gen_eq]
   funext i
-  fin_cases i <;> simp [Type321.uM, uMat, ofCols_apply, gen, Pi.single_apply]
+  fin_cases i <;> simp [Type321.uM, uMat, ofCols_apply, gen]
 
 theorem t321_uv_a :
     (StrothTypeIndex.t321).action.φuv (Torus.a (k := (StrothTypeIndex.t321).k)) =
@@ -40,7 +40,7 @@ theorem t321_uv_a :
   rw [matAct_gen_eq]
   rw [Torus.ofInt_eq_zsmul_gens]
   funext i
-  fin_cases i <;> simp [Type321.uvM, Type321.uvA, ofCols_apply, gen, Pi.single_apply]
+  fin_cases i <;> simp [Type321.uvM, Type321.uvA, ofCols_apply, gen]
 
 theorem t321_uv_b :
     (StrothTypeIndex.t321).action.φuv (Torus.b (k := (StrothTypeIndex.t321).k)) =
@@ -51,7 +51,6 @@ theorem t321_uv_b :
   rw [Torus.ofInt_eq_zsmul_gens]
   funext i
   fin_cases i <;> simp [Type321.uvM, Type321.uvA, Type321.tM, Type321.ρM, ofCols_apply]
-  all_goals decide
 
 theorem t321_u_a_half :
     (StrothTypeIndex.t321).action.φu
@@ -72,7 +71,7 @@ theorem t321_uv_fixes_a_half :
   rw [h4, map_nsmul, t321_uv_a]
   funext i
   fin_cases i <;>
-    simp [Torus.ofInt, Torus.a, gen, Pi.single_apply, nsmul_eq_mul]
+    simp [Torus.a, gen, nsmul_eq_mul]
   all_goals decide
 
 theorem t321_uv_fixes_b_half :
@@ -85,7 +84,7 @@ theorem t321_uv_fixes_b_half :
   rw [h4, map_nsmul, t321_uv_b]
   funext i
   fin_cases i <;>
-    simp [Torus.ofInt, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    simp [Torus.b, gen, nsmul_eq_mul]
   all_goals decide
 
 theorem t321_φuv_a_add_b :
@@ -95,7 +94,7 @@ theorem t321_φuv_a_add_b :
       Torus.ofInt (StrothTypeIndex.t321).k ![88, 23, -1] := by
   rw [map_add, t321_uv_a, t321_uv_b]
   funext i
-  fin_cases i <;> simp [Torus.ofInt, Torus.a, Torus.b, gen, Pi.single_apply]
+  fin_cases i <;> simp [Torus.ofInt]
   all_goals decide
 
 theorem t321_φuv_ab_half :
@@ -110,7 +109,7 @@ theorem t321_φuv_ab_half :
   rw [h2, map_nsmul, t321_φuv_a_add_b]
   funext i
   fin_cases i <;>
-    simp [Torus.ofInt, Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    simp [Torus.ofInt, Torus.a, Torus.b, gen, nsmul_eq_mul]
   all_goals decide
 
 theorem t321_u_fixes_ab_half :
@@ -136,9 +135,10 @@ theorem t321_uv_preimage :
   rw [h2, map_zsmul, map_add, t321_uv_a, t321_uv_b]
   funext i
   fin_cases i <;>
-    simp [Torus.ofInt, Torus.a, Torus.b, gen, Pi.single_apply, zsmul_eq_mul, nsmul_eq_mul]
+    simp [Torus.a, Torus.b, gen, zsmul_eq_mul, nsmul_eq_mul]
   all_goals decide
 
+omit [Finite G] in
 theorem t321_u_swaps_a_half {dD : StrothWeakTypeData D (StrothTypeIndex.t321)} :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ ((StrothTypeIndex.t321).n - 1)) * dD.u =
       (dD.b : G) ^ 2 ^ ((StrothTypeIndex.t321).n - 1) := by
@@ -164,8 +164,8 @@ theorem t321_d2_sq_eq {dD : StrothWeakTypeData D (StrothTypeIndex.t321)}
   set bh : G := (dD.b : G) ^ 4 with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 * ab ^ 2 = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 8 := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     decide
@@ -327,7 +327,7 @@ theorem t321_d2_sq_eq {dD : StrothWeakTypeData D (StrothTypeIndex.t321)}
     rw [h4]
     intro htor
     have h2 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h2
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h2
     exact (by decide : ¬ ((4 : ZMod 8) = 0)) h2
   have hahb_ne : ah ≠ bh := by
     intro heq
@@ -374,6 +374,7 @@ theorem t321_d2_sq_eq {dD : StrothWeakTypeData D (StrothTypeIndex.t321)}
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t321_d2_ofTorus {dD : StrothWeakTypeData D (StrothTypeIndex.t321)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t321).n - 2) =
       dD.ofTorus ((2 ^ ((StrothTypeIndex.t321).n - 2) : ℕ) •
@@ -392,8 +393,8 @@ theorem t321_d2_mem_A {dD : StrothWeakTypeData D (StrothTypeIndex.t321)}
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

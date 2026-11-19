@@ -196,7 +196,7 @@ theorem exists_setting_isSylowOf {H : Subgroup G} (hAH : A ≤ H) : ∃ 𝔗 : S
   have hAT : A ≤ 𝔗.S := hAR.trans hRT
   have hAT' : A ≤ (𝔖.S : Subgroup G).map (MulAut.conj g⁻¹).toMonoidHom := hT ▸ hAT
   have hTH : (𝔗.S : Subgroup G) ⊓ H = R :=
-    hR.eq_of_le (le_inf hRT hR.le) inf_le_right (𝔗.S.isPGroup'.to_le inf_le_left)
+    hR.eq_of_le (le_inf hRT hR.le) inf_le_right (𝔗.S.isPGroup.to_le inf_le_left)
   obtain ⟨hX, hY⟩ := (𝔖.remark_4_6 hAS hA).1 g⁻¹ hAT'
   refine ⟨𝔗, hAT, hTH ▸ hR, ?_, ?_⟩
   · change A ⊓ 𝔗.S₁ = _

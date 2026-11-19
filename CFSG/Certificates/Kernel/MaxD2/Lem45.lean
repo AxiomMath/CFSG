@@ -136,13 +136,13 @@ theorem orbitStep_u (H : HypsH D K ZP ZX CZ) {IX : Nat → Nat} {A : Array Tab} 
     · obtain ⟨e1, e2⟩ := gSel_lt (NG := K.NG) (NGI := K.NGI) hgl
       have c1 : Cn K.n K.w (K.NG g) := (H.hNG g hgl).2
       have c2 : Cn K.n K.w (K.NGI g) := (perm_canon (H.hNI g hgl) H.hn).2
-      rw [if_pos hgl, if_pos hgl, c_ng_get HC hgl, c_ngi_get HC hgl, e1, e2, comp_u c1 hx,
+      rw [ite_eq_left hgl, ite_eq_left hgl, c_ng_get HC hgl, c_ngi_get HC hgl, e1, e2, comp_u c1 hx,
         comp_u (cc c1 hx) c2]
     · have hj : g - K.kN < K.kN := by omega
       obtain ⟨e1, e2⟩ := gSel_ge (NG := K.NG) (NGI := K.NGI) hgl
       have c1 : Cn K.n K.w (K.NGI (g - K.kN)) := (perm_canon (H.hNI _ hj) H.hn).2
       have c2 : Cn K.n K.w (K.NG (g - K.kN)) := (H.hNG _ hj).2
-      rw [if_neg hgl, if_neg hgl, c_ngi_get HC hj, c_ng_get HC hj, e1, e2, comp_u c1 hx,
+      rw [ite_eq_right hgl, ite_eq_right hgl, c_ngi_get HC hj, c_ng_get HC hj, e1, e2, comp_u c1 hx,
         comp_u (cc c1 hx) c2]
   have e : McLLem45.orbitStep D A (p, g) = A.push (conjTab D.n
       (if g < (nGens D).size then (nGens D)[g]! else (nGensI D)[g - (nGens D).size]!)
@@ -152,9 +152,9 @@ theorem orbitStep_u (H : HypsH D K ZP ZX CZ) {IX : Nat → Nat} {A : Array Tab} 
   refine ⟨by simp [hs], fun k hk => ?_⟩
   rw [push_get! (by omega), hs]
   by_cases hkm : k < m + 1
-  · rw [if_pos hkm]
+  · rw [ite_eq_left hkm]
     exact hA k hkm
-  · rw [if_neg hkm]
+  · rw [ite_eq_right hkm]
     have ek : k = m + 1 := by omega
     subst ek
     exact ⟨hix, rfl⟩

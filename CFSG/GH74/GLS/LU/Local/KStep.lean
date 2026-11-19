@@ -434,7 +434,7 @@ theorem KComp.cyclic_sylow_J (h : KComp Y s K)
     apply Subtype.ext; apply Subtype.ext
     have h1 := congrArg Subtype.val hab
     exact h1
-  have hS : IsPGroup 2 ↥(S : Subgroup ↥CJ) := S.isPGroup'
+  have hS : IsPGroup 2 ↥(S : Subgroup ↥CJ) := S.isPGroup
   have := isCyclic_of_injective_of_cyclic_sylow hS (g.comp (S : Subgroup ↥CJ).subtype)
     (hginj.comp (S : Subgroup ↥CJ).subtype_injective) (h.cyclic_sylow_bar hcyc)
   exact this

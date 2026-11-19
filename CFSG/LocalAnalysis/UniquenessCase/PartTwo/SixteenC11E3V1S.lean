@@ -152,7 +152,7 @@ theorem s1611e3_s15_eq_one_of_commStar {D : Data G} (h1217 : R1217 D) {V L : Sub
   exact Set.ncard_singleton _
 
 theorem s1611e3_commStar_of_case1 {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hc : Counterex16 D ⊥ V L hV) (h1 : Case168_1 D ⊥ V hV L) :
+    (_hc : Counterex16 D ⊥ V L hV) (h1 : Case168_1 D ⊥ V hV L) :
     commSub (⊤ : Subgroup (vStar D.M ⊥ V hV L)) (lStar D.M ⊥ V hV L) = ⊤ := by
   obtain ⟨-, -, hsum, -⟩ := h1
   obtain ⟨I₁, I₂, -, -, -, -, hsup, hN₁, hN₂, -⟩ := hsum
@@ -169,7 +169,7 @@ theorem s1611e3_commStar_of_case1 {D : Data G} {V L : Subgroup G} {hV : IsElemAb
   exact le_antisymm le_top (hsup' ▸ hsub)
 
 theorem s1611e3_commStar_of_case2Star {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hc : Counterex16 D ⊥ V L hV) (h2 : Case168_2Star D ⊥ V hV L) :
+    (_hc : Counterex16 D ⊥ V L hV) (h2 : Case168_2Star D ⊥ V hV L) :
     commSub (⊤ : Subgroup (vStar D.M ⊥ V hV L)) (lStar D.M ⊥ V hV L) = ⊤ := by
   obtain ⟨-, ⟨L₀, hdir, hfam⟩, -⟩ := h2
   rcases hfam with ⟨n, hn5, -, -, -, hsum⟩ | ⟨m, hm3, -, -, -, hsum⟩ |
@@ -186,7 +186,7 @@ theorem s1611e3_commStar_of_case2Star {D : Data G} {V L : Subgroup G} {hV : IsEl
       (fun I hI => s16c167_mem_irrSet_omegaMinus (n := 8) (Or.inr rfl) hI)
 
 theorem s1611e3_commStar_of_case5Star {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hc : Counterex16 D ⊥ V L hV) (h5 : Case168_5Star D ⊥ V hV L) :
+    (_hc : Counterex16 D ⊥ V L hV) (h5 : Case168_5Star D ⊥ V hV L) :
     commSub (⊤ : Subgroup (vStar D.M ⊥ V hV L)) (lStar D.M ⊥ V hV L) = ⊤ := by
   obtain ⟨-, -, hnat, -⟩ := h5
   obtain ⟨t₁, ht₁, -, -, -, -, -, hfix, -, -⟩ := s16c11_v1_natOmegaPlus_two_fpf_in hnat
@@ -316,8 +316,8 @@ theorem s1611e3_exists_noncyclic_three_of_sym {A : Type} [Group A] {K L₀ M : S
       have h := Subgroup.card_dvd_of_le hle
       rwa [hzcard] at h
     have hcardP : Nat.card ↥P = 3 := (Nat.dvd_antisymm h3dvd hdvd).symm
-    haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcardP]; norm_num)
-    haveI : Finite ↥(Subgroup.zpowers zA) :=
+    have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcardP]; norm_num)
+    have : Finite ↥(Subgroup.zpowers zA) :=
       Nat.finite_of_card_ne_zero (by rw [hzcard]; norm_num)
     have hzP : Subgroup.zpowers zA = P :=
       Subgroup.eq_of_le_of_card_ge

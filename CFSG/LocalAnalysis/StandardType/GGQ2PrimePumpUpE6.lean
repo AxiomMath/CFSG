@@ -23,7 +23,7 @@ private theorem false_of_pumpUpAut_E6
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.W_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
+  have : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
   have hWc : Nat.card W = 13685760 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hWcl
   have hWnp : ¬ (Nat.card W).Prime := by

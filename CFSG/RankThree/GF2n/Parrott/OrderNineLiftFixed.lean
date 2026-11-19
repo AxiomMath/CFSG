@@ -15,11 +15,12 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
-noncomputable def lift9 (x : QA45.originalSubgroup) (hx : orderOf x = 9) : ↥(H z) :=
+noncomputable def lift9 (x : QA45.originalSubgroup) (_hx : orderOf x = 9) : ↥(H z) :=
   let y := lift D x
   let k := orderOf ((y : ↥(H z)) ^ 9)
   y ^ k
 
+omit [Finite G] in
 theorem qH_lift9 (x : QA45.originalSubgroup) (hx : orderOf x = 9) :
     qH D (lift9 D x hx) = x ^ orderOf ((lift D x : ↥(H z)) ^ 9) := by
   unfold lift9

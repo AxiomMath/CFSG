@@ -22,7 +22,7 @@ theorem goodL3_of_mulEquiv (J J' : Type) [Group J] [Group J'] (e : J ≃* J') (h
     GoodL3 J' := by
   obtain ⟨hfin, h3, h9, h7, ⟨K, hK, hKf, hq, ⟨f⟩⟩⟩ := h
   have hcard : Nat.card J' = Nat.card J := (Nat.card_congr e.toEquiv).symm
-  haveI : Finite J := hfin
+  have : Finite J := hfin
   refine ⟨Finite.of_equiv J e.toEquiv, ?_, ?_, ?_,
     ⟨K, hK, hKf, hq, ⟨e.symm.trans f⟩⟩⟩
   · rw [hcard]; exact h3
@@ -58,18 +58,18 @@ theorem l3_stepConcl_zpowers {K : Type} [Field K] [Finite K]
   have hperf_of (L : Type) [Field L] : Group.IsPerfect (projectiveSL 3 L) := by
     have hSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) L) :=
       CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (by norm_num : 3 ≤ 3)
-    haveI := hSL
+    have := hSL
     exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (scalars 3 L))
       (QuotientGroup.mk'_surjective (scalars 3 L))
   have hFperf_range : Group.IsPerfect ↥j.range := by
-    haveI : Group.IsPerfect (projectiveSL 3 ↥k) := hperf_of ↥k
+    have : Group.IsPerfect (projectiveSL 3 ↥k) := hperf_of ↥k
     exact Group.IsPerfect.ofSurjective (f := (MonoidHom.ofInjective hinj).toMonoidHom)
       (MonoidHom.ofInjective hinj).surjective
   have hFperf : Group.IsPerfect ↥F :=
     Group.IsPerfect.ofSurjective (f := (MulEquiv.subgroupCongr hFrange).symm.toMonoidHom)
       (MulEquiv.subgroupCongr hFrange).symm.surjective
   have hcomm : ⁅F, F⁆ = F := by
-    haveI : Group.IsPerfect ↥F := hFperf
+    have : Group.IsPerfect ↥F := hFperf
     exact Subgroup.commutator_eq_self (H := F)
   have hkmod : Nat.card ↥k % 3 = 2 := by
     have h := hq
@@ -87,7 +87,7 @@ theorem l3_stepConcl_zpowers {K : Type} [Field K] [Finite K]
     exact ⟨(MulEquiv.subgroupCongr hFrange).trans (MonoidHom.ofInjective hinj).symm⟩
   have hGoodStep : GoodL3 ↥⁅F, F⁆ :=
     goodL3_of_mulEquiv ↥F ↥⁅F, F⁆ (MulEquiv.subgroupCongr hcomm.symm) hGoodF
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨fn, hp, hcardK'⟩ := FiniteField.card K (ringChar K)
   let p := ringChar K
   let f : ℕ := (fn : ℕ)

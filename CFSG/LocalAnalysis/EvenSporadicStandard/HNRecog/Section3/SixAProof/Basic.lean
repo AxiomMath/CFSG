@@ -56,7 +56,7 @@ theorem sixA_mul_eq (h : IsF5Type a z) (hx : x ∈ orb6A a a) (t : G) :
     x * t = x * (a * x) ^ 3 * ((a * x) ^ 3 * t) := by
   rw [mul_assoc, ← mul_assoc ((a * x) ^ 3), sixA_b_mul_b h hx, one_mul]
 
-theorem sixA_orderOf_ay (h : IsF5Type a z) (hx : x ∈ orb6A a a) :
+theorem sixA_orderOf_ay (_h : IsF5Type a z) (hx : x ∈ orb6A a a) :
     orderOf (a * (x * (a * x) ^ 3)) = 3 := by
   have h4 : a * (x * (a * x) ^ 3) = (a * x) ^ 4 := by
     rw [← mul_assoc, pow_succ' (a * x) 3]

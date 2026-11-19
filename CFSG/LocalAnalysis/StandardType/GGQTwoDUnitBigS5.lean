@@ -31,6 +31,7 @@ private theorem qtwoDB44_s5_conj_injective {H : Type} [Group H]
   rw [hZ, Subgroup.mem_bot] at hc
   exact (inv_mul_eq_one.mp hc).symm
 
+omit [Finite G] in
 theorem qtwoDB44_torus_of {N : Subgroup G} (hBsN : Bs ≤ Subgroup.normalizer (N : Set G))
     (hZ : Subgroup.center ↥N = ⊥)
     (hker_char : ∀ s : ↥Bs, ggGamma N hBsN s = 1 ↔
@@ -157,7 +158,6 @@ theorem qtwoDB44_torus_of {N : Subgroup G} (hBsN : Bs ≤ Subgroup.normalizer (N
     have hγ : ggGamma N hBsN s n = n := by
       apply Subtype.ext
       rw [ggGamma_coe]
-      change (s : G) * (n : G) * (s : G)⁻¹ = (n : G)
       rw [hsn]
       group
     have h2 : τ (Multiplicative.ofAdd (βL (Additive.ofMul s))) * n *

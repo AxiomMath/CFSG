@@ -20,7 +20,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_E6Seven
     (hE : IsElemAbelian 7 E) (hcard : 7 ^ 3 ≤ Nat.card E) :
     Group.IsSolvable ↥(ggFixedSubgroup E) := by
   classical
-  haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp (by
+  have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp (by
     rw [Nat.card_units, hK])).1
   have hT : TableB.torusSubgroup Tag.E6.cartan K = ⊤ := by
     rw [eq_top_iff]
@@ -60,7 +60,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_E6Seven
     rw [hfix]
     exact CFSG.LieType.AlgebraicGroups.E6TwoSeven.e6_two_seven_full_centralizer_solvable
       K hK A hA hAcard
-  haveI : Group.IsSolvable ↥((ggFixedSubgroup E).map eR.toMonoidHom) := by
+  have : Group.IsSolvable ↥((ggFixedSubgroup E).map eR.toMonoidHom) := by
     have hmapFix : ggFixedSubgroup E' = (ggFixedSubgroup E).map eR.toMonoidHom :=
       ggFixedSubgroup_map_congr eR E
     rw [← hmapFix]

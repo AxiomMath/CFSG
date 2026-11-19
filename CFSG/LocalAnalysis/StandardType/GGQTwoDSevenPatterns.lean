@@ -13,6 +13,7 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_conj_of_mem_ggAutomizerJoin {L Bs : Subgroup G} {𝒦 : Finset (Subgroup G)}
     {a : MulAut ↥Bs} (ha : a ∈ ggAutomizerJoin L Bs 𝒦) :
     ∃ g : G, (∀ r : MulAut ↥Bs, (ggRankOne Bs r).map (MulAut.conj g).toMonoidHom =
@@ -22,6 +23,7 @@ theorem exists_conj_of_mem_ggAutomizerJoin {L Bs : Subgroup G} {𝒦 : Finset (S
   obtain ⟨g, -, -, hg⟩ := exists_lift_of_mem_ggAutomizerJoin ha
   exact ⟨g, fun r => ggRankOne_map_conj hg r, fun r r' => ggRankTwo_map_conj hg r r'⟩
 
+omit [Finite G] in
 theorem map_conj_map_conj_inv (S : Subgroup G) (g : G) :
     (S.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = S := by
   rw [Subgroup.map_map]
@@ -33,6 +35,7 @@ theorem map_conj_map_conj_inv (S : Subgroup G) (g : G) :
     group
   rw [hid, Subgroup.map_id]
 
+omit [Finite G] in
 theorem exists_su_four_hom_of_map_conj {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ}
     {S T : Subgroup G} (g : G)
     (h : ∃ θ : Su K 2 f 4 →* G, θ.range =
@@ -81,7 +84,7 @@ theorem qtwo_pair_of_orb (hfacts : QTwoMemberFacts Bs X M (ggAutomizerJoin L Bs 
     (hij : ggCoxeterMatrixD m i j = 3) (horb : GGOrbAt X Bs e e' {i, j}) :
     UnitaryBlockStandardPair (GaloisField 2 2) 2 1 (qtwoW Bs (qtwoRefl e e') i j)
       (qtwoNode Bs (qtwoRefl e e') i) (qtwoNode Bs (qtwoRefl e e') j) := by
-  haveI : Finite ι := Finite.of_equiv (Fin m) e'
+  have : Finite ι := Finite.of_equiv (Fin m) e'
   obtain ⟨w, hw⟩ := horb
   have hwi : qtwoConjRefl e e' w i ∈ ggAutomizer X Bs := hw i (by simp)
   have hwj : qtwoConjRefl e e' w j ∈ ggAutomizer X Bs := hw j (by simp)
@@ -105,7 +108,7 @@ theorem qtwo_adjA3_of_orb (hfacts : QTwoMemberFacts Bs X M (ggAutomizerJoin L Bs
     (hik : ggCoxeterMatrixD m i k = 2) (horb : GGOrbAt X Bs e e' {i, j, k}) :
     ∃ θ : Su (GaloisField 2 2) 2 1 4 →* G,
       θ.range = qtwoW Bs (qtwoRefl e e') i j ⊔ qtwoW Bs (qtwoRefl e e') j k := by
-  haveI : Finite ι := Finite.of_equiv (Fin m) e'
+  have : Finite ι := Finite.of_equiv (Fin m) e'
   obtain ⟨w, hw⟩ := horb
   have hwi : qtwoConjRefl e e' w i ∈ ggAutomizer X Bs := hw i (by simp)
   have hwj : qtwoConjRefl e e' w j ∈ ggAutomizer X Bs := hw j (by simp)
@@ -137,7 +140,7 @@ theorem qtwo_far2_of_orb (hfacts : QTwoMemberFacts Bs X M (ggAutomizerJoin L Bs 
     (hkj : ggCoxeterMatrixD m k j = 2) (hkl : ggCoxeterMatrixD m k l = 2)
     (horb : GGOrbAt X Bs e e' {i, k, j, l}) :
     ∀ x ∈ qtwoW Bs (qtwoRefl e e') i k, ∀ y ∈ qtwoW Bs (qtwoRefl e e') j l, x * y = y * x := by
-  haveI : Finite ι := Finite.of_equiv (Fin m) e'
+  have : Finite ι := Finite.of_equiv (Fin m) e'
   obtain ⟨w, hw⟩ := horb
   have hwi : qtwoConjRefl e e' w i ∈ ggAutomizer X Bs := hw i (by simp)
   have hwk : qtwoConjRefl e e' w k ∈ ggAutomizer X Bs := hw k (by simp)

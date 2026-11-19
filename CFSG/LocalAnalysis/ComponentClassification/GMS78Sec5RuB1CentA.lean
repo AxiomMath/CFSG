@@ -100,7 +100,7 @@ theorem exists_odd_le_normalizer_centralizer_gmsA
     have hzN' : (z : G) ∈ normalizer (R : Set G) :=
       mem_normalizer_of_conj_mem_of_finite fun x hx =>
         (mem_normalizer_iff.mp hzN ⟨x, hRC hx⟩).mp hx
-    have hPm : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map C.subtype
+    have hPm : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map C.subtype
     have hQP : R ⊔ zpowers (z : G) ≤ (P : Subgroup C).map C.subtype := by
       refine sup_le (fun x hx => ⟨⟨x, hRC hx⟩, hRP (show (⟨x, hRC hx⟩ : C) ∈ R' from hx),
         rfl⟩) ?_

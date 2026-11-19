@@ -83,7 +83,6 @@ theorem red_facts (h : uRedOK D U = true) {c : ℕ} (hc : c < 256) (hm : memA D 
   rw [hb] at h1
   change strictU _ _ = true at h1
   rw [strictU_eq] at h1
-  beta_reduce at h1
   refine ⟨fld(D.RW, Nat.mul (nat_lit 8) c, nat_lit 255), fld_lt256 _ _, ?_⟩
   generalize conjS D (fld(D.RW, Nat.mul (nat_lit 8) c, nat_lit 255)) c = k at h1 ⊢
   rw [← bitU_eq]
@@ -180,7 +179,7 @@ theorem conj_eq {G : Type*} [Group G] {a b a' b' K : G} (hb : K * b = b * K)
       a' * (b' * b⁻¹ * K * (b' * b⁻¹)⁻¹) * a'⁻¹ := by group
     _ = a' * K * a'⁻¹ := by rw [hc]
 
-theorem coset_bound (ht : tabOK D = true) {n k : ℕ} (s : ℕ → ℕ) (hs : ∀ i, s i < 256)
+theorem coset_bound (ht : tabOK D = true) {n k : ℕ} (s : ℕ → ℕ) (_hs : ∀ i, s i < 256)
     (hinj : ∀ i < n, ∀ j < n, conjS D (s i) k = conjS D (s j) k → i = j) :
     n * ((Finset.range 256).filter fun x => commS D k x = true).card ≤ 256 := by
   have hinjOn : Set.InjOn (fun x : ℕ × ℕ => mulS D (s x.1) x.2)

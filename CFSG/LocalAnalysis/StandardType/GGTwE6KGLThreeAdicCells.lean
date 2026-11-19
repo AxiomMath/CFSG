@@ -26,7 +26,7 @@ theorem card_quotient_center_of_D4_marking {X : Type*} [Group X] {n : ℕ}
     (largeEvenLabelAll_markedModel_classical hl (Or.inr (Or.inr (Or.inr rfl))) _ hraw)
   have hM' : LieModel R .POmegaPlus 4 2 n := by
     have h43 : ¬ ((4 : ℕ) = 3) := by decide
-    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, if_false] using hM
+    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, ite_false] using hM
   rw [Nat.card_congr θ.toEquiv]
   exact CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags (by decide) hM'
 
@@ -47,7 +47,7 @@ private theorem ggInndiagOnCompAt_of_bound_3k {lab : LargeEvenLabel} (ℓ : ℕ 
   unfold GGInndiagOnCompAt
   refine (largeEvenLabelAll_and (largeEvenLabelAll_and hinn hdvd) hbound).mono
     fun R _ I _ ⟨⟨hI, hpl⟩, hb⟩ hR hna hfin s t n hs3 hs1 ht3 hst hsI htI hn J₁ hJ₁ hmark => ?_
-  haveI := hfin
+  have := hfin
   have hdn := hpl hR hna hfin 3 Nat.prime_three (by norm_num) s hsI hs3 hs1 J₁ hJ₁ (ℓ n)
     (fun h => absurd h (hℓ n)) hmark
   refine not_ggOutsideInndiag_of_threeAdic (hI hR hna) hR hna hs3 hs1 ht3 hst hsI htI hJ₁ hmark ?_

@@ -30,7 +30,7 @@ theorem bc_of_irred {F : Type} [Field F] (σ : F ≃+* ZMod 2) {b c : F}
     intro hb
     apply h1
     apply σ.injective
-    simp [hb, hc, map_add, map_mul, map_pow]
+    simp [hb, hc, map_add]
     decide
   revert this
   generalize σ b = x

@@ -53,6 +53,7 @@ def resHom {P : Subgroup (MulAut X)} {K₀ : Subgroup X} (hPK : ∀ σ ∈ P, �
   map_one' := MulEquiv.ext fun _ => Subtype.ext rfl
   map_mul' _ _ := MulEquiv.ext fun _ => Subtype.ext rfl
 
+omit [Finite X] in
 theorem exists_inner_of_inn3 {P : Subgroup (MulAut X)} (hP3 : ∀ σ ∈ P, σ ^ 3 = 1)
     {K₀ : Subgroup X} (hPK : ∀ σ ∈ P, ∀ k ∈ K₀, σ k ∈ K₀)
     (hfaith : ∀ σ ∈ P, (∀ k ∈ K₀, σ k = k) → σ = 1) (hZ₀ : Subgroup.center ↥K₀ = ⊥)
@@ -97,6 +98,7 @@ theorem l3Ident148_of_alt7 (hZ : Subgroup.center X = ⊥) {P : Subgroup (MulAut 
     (fun σ hσ h => eq_one_of_trivial hh hσ h) hI.1 hI.2.1
   exact Or.inr (Or.inr (Or.inl ⟨⟨φ⟩, E, hEK, hE9.trans hP9, hPE⟩))
 
+omit [Finite X] in
 theorem isPGroup_inf_centralizer_of_alt6 {K₀ : Subgroup X} (φ : ↥K₀ ≃* alternatingGroup (Fin 6))
     {E : Subgroup X} (hEK : E ≤ K₀) (hE9 : Nat.card E = 9) {e : X} (he : e ∈ E) (he1 : e ≠ 1) :
     IsPGroup 3 ↥(K₀ ⊓ Subgroup.centralizer ({e} : Set X)) := by
@@ -147,6 +149,7 @@ theorem isPGroup_inf_centralizer_of_alt6 {K₀ : Subgroup X} (φ : ↥K₀ ≃* 
   exact hF3.of_injective (ψ₁.codRestrict _ hmem) fun a b hab =>
     hψ₁inj (congrArg Subtype.val hab)
 
+omit [Finite X] in
 theorem l3Ident148_of_alt6 (hZ : Subgroup.center X = ⊥) {P : Subgroup (MulAut X)}
     (hPe : CFSG.Assembly.IsElemAbelian 3 P) (hP9 : Nat.card P = 9) {K₀ : Subgroup X}
     {Q D : Subgroup (MulAut X)}

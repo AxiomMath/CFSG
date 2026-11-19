@@ -12,6 +12,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_conj_centralizer {c s e : G} (hsc : s * c * s⁻¹ = e) (hce : e = c ∨ e = c⁻¹) :
     (Subgroup.centralizer ({c} : Set G)).map (MulAut.conj s).toMonoidHom =
       Subgroup.centralizer ({c} : Set G) := by

@@ -94,7 +94,7 @@ theorem odd_card_gLAPPrimeCoreOf_of_large_pGroup [Finite G] {p : ℕ} (hp : p.Pr
   set T' : Subgroup G := (T : Subgroup ↥Q).map Q.subtype with hT'
   have hT'card : Nat.card T' = Nat.card (T : Subgroup ↥Q) :=
     Subgroup.card_map_of_injective Q.subtype_injective
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 T.isPGroup'
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 T.isPGroup
   have hT'n : ∀ g ∈ P, ∀ x ∈ T', g * x * g⁻¹ ∈ T' := by
     rintro g hg _ ⟨x, hx, rfl⟩
     exact ⟨_, hT g hg x hx, rfl⟩

@@ -17,10 +17,10 @@ theorem exists_fixed_of_card_eq_168 {Γ X : Type*} [Group Γ] [Finite Γ] [IsSim
     [MulAction Γ X] (hΓ : Nat.card Γ = 168) (hX : Nat.card X = 8) (x₀ : X)
     (h2 : 2 ∣ Nat.card (MulAction.stabilizer Γ x₀)) : ∃ x : X, ∀ g : Γ, g • x = x := by
   classical
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   set O := MulAction.orbit Γ x₀ with hO
   set k := Nat.card O with hk
-  haveI : Nonempty O := ⟨⟨x₀, MulAction.mem_orbit_self x₀⟩⟩
+  have : Nonempty O := ⟨⟨x₀, MulAction.mem_orbit_self x₀⟩⟩
   have hOpos : 0 < Nat.card O := Nat.card_pos
   have hkpos : 0 < k := hOpos
   have hindex : (MulAction.stabilizer Γ x₀).index = k := by
@@ -57,7 +57,7 @@ theorem exists_fixed_of_card_eq_168 {Γ X : Type*} [Group Γ] [Finite Γ] [IsSim
     rw [hΓ] at hdvd
     interval_cases k <;> exact absurd hdvd (by decide)
   have hk17 : k = 1 ∨ k = 7 := by
-    interval_cases k <;> (first | omega | norm_num at hk_dvd)
+    interval_cases k <;> (first | omega)
   rcases hk17 with hk1 | hk7
   · refine ⟨x₀, fun g => ?_⟩
     have hsub : Subsingleton O := (Nat.card_eq_one_iff_unique.mp (by rw [← hk]; exact hk1)).1
@@ -88,7 +88,7 @@ theorem exists_fixed_of_card_eq_168 {Γ X : Type*} [Group Γ] [Finite Γ] [IsSim
     have h1 : Nat.card (MulAction.orbit Γ y) ≤ 1 := by
       rw [Nat.card_coe_set_eq]
       exact (Set.ncard_le_ncard hsub (Set.toFinite _)).trans (le_of_eq hcomp)
-    haveI : Nonempty (MulAction.orbit Γ y) := ⟨⟨y, MulAction.mem_orbit_self y⟩⟩
+    have : Nonempty (MulAction.orbit Γ y) := ⟨⟨y, MulAction.mem_orbit_self y⟩⟩
     have h1' : Nat.card (MulAction.orbit Γ y) = 1 := by
       have hp : 0 < Nat.card (MulAction.orbit Γ y) := Nat.card_pos
       omega

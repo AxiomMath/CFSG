@@ -288,14 +288,14 @@ theorem up_eq : bigM LySv.UP = lyU * E7 := by
   simp only [CFSG.KS.SporSch.LySev.padU, Matrix.mul_apply, E7]
   rw [CFSG.KS.SporSch.LyM.ofFn_get! _ i.2, CFSG.KS.SporSch.LyM.ofFn_get! _ j.2]
   by_cases hj : j.val < 7
-  · rw [if_pos hj, uArr_get i.val i.2 j.val hj]
+  · rw [ite_eq_left hj, uArr_get i.val i.2 j.val hj]
     rw [Finset.sum_eq_single ⟨j.val, hj⟩]
     · simp
     · intro c _ hc
       have : j.val ≠ c.val := fun e => hc (Fin.ext e.symm)
       simp [this]
     · simp
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     symm
     apply Finset.sum_eq_zero
     intro c _
@@ -305,7 +305,7 @@ theorem up_eq : bigM LySv.UP = lyU * E7 := by
 theorem E7_U : E7 * lyU = 1 := by
   ext a c
   rw [Matrix.mul_apply, Finset.sum_eq_single ⟨a.val, by omega⟩]
-  · simp only [E7, if_true, one_mul, Matrix.one_apply]
+  · simp only [E7, ite_true, one_mul, Matrix.one_apply]
     rw [lyU_pivot a c]
   · intro j _ hj
     have : j.val ≠ a.val := fun e => hj (Fin.ext e)
@@ -354,7 +354,7 @@ theorem fl_eq : bigM CFSG.KD.LyOm.FL = lyF := by
     have := Nat.mod_lt (CFSG.KD.LyOm.FL / 2 ^ (1332 * ((111 * i.val + j.val) / 111) +
       12 * ((111 * i.val + j.val) % 111))) (show 0 < 2 ^ 12 by norm_num)
     omega
-  rw [if_pos hv]
+  rw [ite_eq_left hv]
   have e1 : (111 * i.val + j.val) / 111 = i.val := by omega
   have e2 : (111 * i.val + j.val) % 111 = j.val := by omega
   rw [e1, e2]
@@ -617,7 +617,7 @@ theorem rowU_rinv [LySeed] (g : J) :
 theorem vecMulLinear_transpose (M : Matrix (Fin 111) (Fin 111) (ZMod 5)) :
     Matrix.vecMulLinear Mᵀ = Matrix.mulVecLin M := by
   ext v
-  simp [Matrix.vecMul_transpose]
+  simp
 
 end CertificateChecks.KernelLy.Omega
 

@@ -33,7 +33,7 @@ private theorem exists_sylow_comap_inl (P : Sylow r (N ⋊[φ] Q)) :
     infer_instance
   have hPsyl : IsSylowOf r (P : Subgroup (N ⋊[φ] Q)) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, P.isPGroup', P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, P.not_dvd_index⟩
   have hPW := hPsyl.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top_iff.mpr hW').ge
   have hcardW : Nat.card W' = Nat.card N := by
     change Nat.card (SemidirectProduct.inl : N →* N ⋊[φ] Q).range = _
@@ -68,7 +68,7 @@ private theorem semidirect_sylow_dichotomy (hN : ∀ a b : N, a * b = b * a)
       SemidirectProduct.right_inl, map_one, MulAut.one_apply] at hl
     rw [hN n x.left] at hl
     exact mul_left_cancel hl
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨x, hxP⟩
   rw [Subgroup.orderOf_mk] at hk
   have hdvd : orderOf x.right ∣ r ^ k := by
     rw [← hk]
@@ -523,7 +523,7 @@ private theorem frontier_mem_layer_of_odd {n : ℕ} (hn : 4 ≤ n) (S : Sylow 2 
     rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, bot_sup_eq]
   have hπc : π c ∈ ((S : Subgroup G).subgroupOf (C t)).map π := hmap ▸ ⟨c, hcL, rfl⟩
   have h2 : IsPGroup 2 (((S : Subgroup G).subgroupOf (C t)).map π) :=
-    (S.isPGroup'.comap_subtype (K := C t)).map π
+    (S.isPGroup.comap_subtype (K := C t)).map π
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp h2 ⟨π c, hπc⟩
   rw [Subgroup.orderOf_mk] at hk
   have hdvd : orderOf (π c) ∣ orderOf c := orderOf_map_dvd π c

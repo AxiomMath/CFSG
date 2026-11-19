@@ -50,7 +50,7 @@ theorem P3Hyp.exists_outer_mem (H : P3Hyp q S B) {X : Type} [Group X] [Finite X]
     (hX : ∀ F : Subgroup X, IsElemAbelian 3 F → Nat.card F ≤ 3 ^ 2) :
     ∃ b ∈ B, ∃ β : MulAut X, β ∉ (MulAut.conj : X →* MulAut X).range ∧
       ∀ x, φ (β x) = b * φ x * b⁻¹ := by
-  haveI : S.Normal := H.normal
+  have : S.Normal := H.normal
   set ι : X ≃* ↥S := (MonoidHom.ofInjective hφ).trans (MulEquiv.subgroupCongr hφS) with hι
   have hιφ : ∀ x, (ι x : Ω) = φ x := fun x => rfl
   set Γ : Ω →* MulAut X := (MulAut.congr ι.symm).toMonoidHom.comp MulAut.conjNormal with hΓ

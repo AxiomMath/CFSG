@@ -110,7 +110,7 @@ theorem d1Sp48NCentRankResidue_of_comp (hSch : KFactCatalogSchreier)
   set C := Subgroup.centralizer ({d} : Set G)
   intro T hYT hT3
   have hd3 : orderOf d = 3 := orderOf_eq_prime (hd.elem_X.2 d (hd.center_le hdZ)) hd1
-  have hT3' : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup'.map _
+  have hT3' : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup.map _
   have hR3 : 3 ≤ CFSG.Open.pRank 3 R := hext.three_le_pRank
   have hYr : 3 ≤ CFSG.Open.pRank 3 Y := hR3.trans (pRank_mono 3 hp hRY.le)
   have hPM : (P : Subgroup G) ≤ M := hext.sylow_le

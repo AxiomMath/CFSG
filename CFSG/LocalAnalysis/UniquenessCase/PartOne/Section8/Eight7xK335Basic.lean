@@ -156,7 +156,7 @@ theorem k335_inf_normal {G : Type} [Group G] [Finite G] {L P : Subgroup G}
 private theorem k335exs_isSylowOf_top {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (S : Sylow p G) : CFSG.ABGLocalTools.IsSylowOf p (S : Subgroup G) ⊤ :=
   CFSG.ABGLocalTools.isSylowOf_iff.mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
 
 private theorem k335exs_mem_normalizer_of_conj_mem {G : Type} [Group G] [Finite G]
     {V : Subgroup G} {b : G} (h : ∀ v ∈ V, b * v * b⁻¹ ∈ V) :
@@ -187,7 +187,7 @@ theorem k335_exists_sylow {G : Type} [Group G] [Finite G] {P : Subgroup G} (hP :
     intro htop
     exact hnot (le_trans (Subgroup.subgroupOf_eq_top.mp htop) hTN)
   have hTsub_lt : T.subgroupOf S < ⊤ := lt_top_iff_ne_top.mpr hTsub_ne_top
-  obtain ⟨s, hsN, hsT⟩ := (SetLike.lt_iff_le_and_exists.mp (hnc _ hTsub_lt)).2
+  obtain ⟨s, hsN, hsT⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp (hnc _ hTsub_lt)).2
   have key : ∀ t ∈ T, (s : G) * t * (s : G)⁻¹ ∈ T := by
     intro t ht
     have htS : t ∈ S := hTS ht

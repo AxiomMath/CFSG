@@ -18,9 +18,9 @@ open CFSG.GH74.GLS.Stage2.Signalizer.L53
 variable {K : Type*} [Group K]
 
 theorem eq_top_of_sup_eq_top_of_isSolvable [Group.IsPerfect K] {C N : Subgroup K} [C.Normal]
-    (hN : IsSolvable N) (h : N ⊔ C = ⊤) : C = ⊤ := by
+    (hN : Group.IsSolvable N) (h : N ⊔ C = ⊤) : C = ⊤ := by
   classical
-  letI : Group.IsSolvable ↥N := hN
+  let : Group.IsSolvable ↥N := hN
   let π : K →* K ⧸ C := QuotientGroup.mk' C
   have hmap : N.map π = ⊤ := by
     have hsup : (N ⊔ C).map π = ⊤ := by
@@ -34,7 +34,7 @@ theorem eq_top_of_sup_eq_top_of_isSolvable [Group.IsPerfect K] {C N : Subgroup K
     have hq : q ∈ N.map π := by rw [hmap]; exact Subgroup.mem_top q
     obtain ⟨n, hn, rfl⟩ := Subgroup.mem_map.mp hq
     exact ⟨⟨n, hn⟩, rfl⟩
-  haveI : Group.IsSolvable (K ⧸ C) := Group.isSolvable_of_surjective hsurj
+  have : Group.IsSolvable (K ⧸ C) := Group.isSolvable_of_surjective hsurj
   have hperf : ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ = ⊤ :=
     Subgroup.isPerfect_iff.mp (inferInstance : Group.IsPerfect ↥(⊤ : Subgroup K))
   exact top_le_iff.mp
@@ -76,6 +76,7 @@ private theorem le_stabSec_of_le_centralizer {S M M₀ Y : Subgroup K} (hM₀ : 
 
 variable [Finite K]
 
+omit [Finite K] in
 private theorem isMinimalNormal_map_mk {X Y : Subgroup K} [Y.Normal]
     (hXY : IsChiefPair X Y) [Hn : (X.map (QuotientGroup.mk' Y)).Normal] :
     CFSG.IsMinimalNormal (X.map (QuotientGroup.mk' Y)) := by
@@ -112,15 +113,15 @@ private theorem sup_eq_of_map_eq_map_of_ker_eq {G N : Type*} [Group G] [Group N]
   exact h'
 
 theorem exists_isPGroup_sup_eq_of_isChiefPair {X Y : Subgroup K}
-    (hXY : CFSG.GH74.GLS.Stage2.Signalizer.L53.IsChiefPair X Y) (hX : IsSolvable X) :
+    (hXY : CFSG.GH74.GLS.Stage2.Signalizer.L53.IsChiefPair X Y) (hX : Group.IsSolvable X) :
     ∃ r : ℕ, r.Prime ∧ ∃ S : Subgroup K, S ≤ X ∧ IsPGroup r S ∧ S ⊔ Y = X := by
   classical
-  letI : Y.Normal := hXY.2.1
+  let : Y.Normal := hXY.2.1
   let π : K →* K ⧸ Y := QuotientGroup.mk' Y
   let H : Subgroup (K ⧸ Y) := X.map π
-  letI : H.Normal := hXY.1.map π (QuotientGroup.mk'_surjective Y)
+  let : H.Normal := hXY.1.map π (QuotientGroup.mk'_surjective Y)
   have hHmin : CFSG.IsMinimalNormal H := isMinimalNormal_map_mk hXY
-  letI : CFSG.IsMinimalNormal H := hHmin
+  let : CFSG.IsMinimalNormal H := hHmin
   have hYX : Y ≤ X := hXY.2.2.1.le
   let f : ↥X →* ↥H :=
     { toFun := fun x => ⟨π x, Subgroup.mem_map_of_mem π x.2⟩
@@ -130,11 +131,11 @@ theorem exists_isPGroup_sup_eq_of_isChiefPair {X Y : Subgroup K}
     intro h
     obtain ⟨x, hxX, hx⟩ := Subgroup.mem_map.mp h.2
     exact ⟨⟨x, hxX⟩, Subtype.ext hx⟩
-  letI : Group.IsSolvable ↥X := hX
-  haveI : Group.IsSolvable ↥H := Group.isSolvable_of_surjective hf
+  let : Group.IsSolvable ↥X := hX
+  have : Group.IsSolvable ↥H := Group.isSolvable_of_surjective hf
   obtain ⟨r, hr, hElem⟩ := CFSG.minimalNormal_solvable_exists_isElementaryAbelian H
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : CFSG.IsElementaryAbelian r ↥H := hElem
+  let : Fact r.Prime := ⟨hr⟩
+  let : CFSG.IsElementaryAbelian r ↥H := hElem
   have hHp : IsPGroup r ↥H := CFSG.IsElementaryAbelian.isPGroup r ↥H
   obtain ⟨P⟩ := Sylow.nonempty (p := r) (G := ↥X)
   have hPtop : (P : Subgroup ↥X).map f = ⊤ :=
@@ -144,12 +145,13 @@ theorem exists_isPGroup_sup_eq_of_isChiefPair {X Y : Subgroup K}
     have h1 : Subgroup.map π S = ((P : Subgroup ↥X).map f).map H.subtype := by
       simp only [S, Subgroup.map_map, f]; rfl
     rw [h1, hPtop, ← MonoidHom.range_eq_map]
-    simpa [H] using H.range_subtype
-  refine ⟨r, hr, S, Subgroup.map_subtype_le _, P.isPGroup'.map X.subtype, ?_⟩
+    simp [H]
+  refine ⟨r, hr, S, Subgroup.map_subtype_le _, P.isPGroup.map X.subtype, ?_⟩
   exact sup_eq_of_map_eq_map_of_ker_eq (QuotientGroup.ker_mk' Y) hYX hSπ
 
 variable [Group.IsPerfect K] {N : Subgroup K} [N.Normal]
 
+omit [Finite K] in
 private theorem le_center_of_commutator_le_of_le_center {M M₀ : Subgroup K}
     (hcomm : ⁅M, (⊤ : Subgroup K)⁆ ≤ M₀) (hM₀ : M₀ ≤ center K) : M ≤ center K := by
   have hcommZ : ⁅(⊤ : Subgroup K), M⁆ ≤ center K :=
@@ -161,12 +163,12 @@ private theorem le_center_of_commutator_le_of_le_center {M M₀ : Subgroup K}
     CFSG.GroupTheory.PerfectCover.commute_of_commutator_le_center hcommZ
       (by rw [hperf]; exact Subgroup.mem_top g) hz)
 
-theorem le_center_of_forall_exists_le_centralizer (hN : IsSolvable N)
+theorem le_center_of_forall_exists_le_centralizer (hN : Group.IsSolvable N)
     (h : ∀ r : ℕ, r.Prime → ∀ R : Subgroup K, R ≤ N → IsPGroup r R →
       ∃ Y : Subgroup K, Y ≤ centralizer (R : Set K) ∧ N ⊔ Y = ⊤) :
     N ≤ center K := by
   classical
-  letI : Group.IsSolvable ↥N := hN
+  let : Group.IsSolvable ↥N := hN
   have key : ∀ M : Subgroup K, M.Normal → M ≤ N → M ≤ center K := by
     intro M
     refine WellFoundedLT.induction (motive := fun M => M.Normal → M ≤ N → M ≤ center K) M ?_
@@ -174,10 +176,10 @@ theorem le_center_of_forall_exists_le_centralizer (hN : IsSolvable N)
     by_cases hMbot : M = ⊥
     · rw [hMbot]; exact bot_le
     obtain ⟨M₀, hchief⟩ := exists_chief_below hMn hMbot
-    letI hM₀n : M₀.Normal := hchief.2.1
+    let hM₀n : M₀.Normal := hchief.2.1
     have hM₀lt : M₀ < M := hchief.2.2.1
     have hM₀center : M₀ ≤ center K := ih M₀ hM₀lt hM₀n (hM₀lt.le.trans hMN)
-    have hMsolv : IsSolvable M :=
+    have hMsolv : Group.IsSolvable M :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMN)
         (Subgroup.inclusion_injective hMN)
     obtain ⟨r, hr, S, hSM, hSp, hSM₀⟩ :=
@@ -186,7 +188,7 @@ theorem le_center_of_forall_exists_le_centralizer (hN : IsSolvable N)
     have hYstab : Y ≤ stabSec M M₀ hM₀n :=
       le_stabSec_of_le_centralizer hM₀n hYcent hSM₀
     have htop : stabSec M M₀ hM₀n = ⊤ := by
-      haveI : (stabSec M M₀ hM₀n).Normal := stabSec_normal hMn hM₀n
+      have : (stabSec M M₀ hM₀n).Normal := stabSec_normal hMn hM₀n
       refine eq_top_of_sup_eq_top_of_isSolvable (C := stabSec M M₀ hM₀n) (N := N) hN ?_
       exact top_le_iff.mp (hNY ▸ sup_le_sup le_rfl hYstab)
     have hcomm : ⁅M, (⊤ : Subgroup K)⁆ ≤ M₀ := by

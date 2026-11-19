@@ -15,7 +15,7 @@ theorem exists_minimal_invariant {H V₀ R : Subgroup G} (hVR : V₀ < R)
     (hH : H ≤ normalizer (R : Set G)) :
     ∃ E₀ : Subgroup G, V₀ < E₀ ∧ E₀ ≤ R ∧ H ≤ normalizer (E₀ : Set G) ∧
       ∀ U : Subgroup G, V₀ ≤ U → U ≤ E₀ → H ≤ normalizer (U : Set G) → U = V₀ ∨ U = E₀ := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (SetLike.coe : Subgroup G → Set G) SetLike.coe_injective
   let S : Set (Subgroup G) := {U | V₀ < U ∧ U ≤ R ∧ H ≤ normalizer (U : Set G)}
   have hS : S.Nonempty := ⟨R, hVR, le_rfl, hH⟩

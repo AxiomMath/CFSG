@@ -38,7 +38,7 @@ theorem lemma52_module {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [Finite 
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card E = 2 ^ (m.natDegree * k) ∧
       Nat.card {x : E // ∀ g ∈ 𝒢, g x = x} = 2 ^ m.natDegree ∧
       Nat.card 𝒢 ≤ 2 ^ (m.natDegree * (k - 1)) := by
-  haveI : Fact (Irreducible m) := ⟨hm⟩
+  have : Fact (Irreducible m) := ⟨hm⟩
   obtain ⟨hKfin, hKchar, hKcard⟩ := natCard_adjoinRoot hm
   obtain ⟨hmod, -, -, hlin⟩ := exists_adjoinRoot_module φ m hm hφ
   have hKlin : ∀ g ∈ 𝒢, ∀ (c : AdjoinRoot m) (x : E), g (c • x) = c • g x := fun g hg =>
@@ -63,7 +63,7 @@ theorem lemma52_module {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [Finite 
     exact hx
   have hcard𝒢 : Nat.card 𝒢 = Nat.card ι.range :=
     Nat.card_congr (MonoidHom.ofInjective hιinj).toEquiv
-  haveI : Module.Finite (AdjoinRoot m) E := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (AdjoinRoot m) E := Module.finite_iff_finite.mpr inferInstance
   have hEcard : Nat.card E = Nat.card (AdjoinRoot m) ^ Module.finrank (AdjoinRoot m) E :=
     Module.natCard_eq_pow_finrank
   have hkpos : 0 < Module.finrank (AdjoinRoot m) E := Module.finrank_pos
@@ -71,7 +71,7 @@ theorem lemma52_module {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [Finite 
   have h2E : 2 ∣ Nat.card E := by
     rw [hEcard, hKcard]
     exact dvd_pow (dvd_pow_self 2 hdeg) hkpos.ne'
-  letI : MulAction 𝒢 E :=
+  let : MulAction 𝒢 E :=
     { smul := fun g x => (g : E ≃ₗ[ZMod 2] E) x
       one_smul := fun x => rfl
       mul_smul := fun g h x => rfl }
@@ -142,9 +142,9 @@ theorem lemma52_transfer [IsF2Space V] {D : Subgroup (MulAut V)}
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card R = 2 ^ (m.natDegree * k) ∧
       Nat.card ↥(R ⊓ fixV D) = 2 ^ m.natDegree ∧
       Nat.card (autSub D R) ≤ 2 ^ (m.natDegree * (k - 1)) := by
-  haveI hRF2 : IsF2Space R :=
+  have hRF2 : IsF2Space R :=
     ⟨fun v => Subtype.ext (by simpa using IsF2Space.sq_eq_one (v : V))⟩
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hR
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hR
   obtain ⟨Ψ, hΨ⟩ : ∃ Ψ : MulAut R →* (Additive R ≃ₗ[ZMod 2] Additive R),
       ∀ (α : MulAut R) (x : Additive R), Ψ α x = Additive.ofMul (α (Additive.toMul x)) :=
     ⟨{ toFun := fun α =>

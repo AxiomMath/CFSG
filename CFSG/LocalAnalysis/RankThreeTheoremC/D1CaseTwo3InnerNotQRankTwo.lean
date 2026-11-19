@@ -19,7 +19,7 @@ theorem card_le_sq_of_le_sup_cyclic [hp : Fact p.Prime] {Y E F : Subgroup G} (hY
     (hF : IsElemAbelian p F) (hFA : F ≤ Y ⊔ E) : Nat.card F ≤ p ^ 2 := by
   have hFY : Nat.card (Y ⊓ F : Subgroup G) ≤ p := by
     have hle : (Y ⊓ F : Subgroup G) ≤ Y := inf_le_left
-    haveI : IsCyclic (Y ⊓ F : Subgroup G) := Subgroup.isCyclic_of_le hle
+    have : IsCyclic (Y ⊓ F : Subgroup G) := Subgroup.isCyclic_of_le hle
     have hexp : Monoid.exponent (Y ⊓ F : Subgroup G) ∣ p :=
       Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hF.2 g ((inf_le_right : Y ⊓ F ≤ F) g.2))
@@ -31,7 +31,7 @@ theorem card_le_sq_of_le_sup_cyclic [hp : Fact p.Prime] {Y E F : Subgroup G} (hY
   set Y' := Y.subgroupOf A
   set E' := E.subgroupOf A
   have hAN : A ≤ Subgroup.normalizer (Y : Set G) := sup_le Subgroup.le_normalizer hEN
-  haveI hY'n : Y'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYA).mpr hAN
+  have hY'n : Y'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYA).mpr hAN
   have htop : E' ⊔ Y' = ⊤ := by
     apply Subgroup.map_injective A.subtype_injective
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hEA,
@@ -59,7 +59,7 @@ theorem card_le_sq_of_le_sup_cyclic [hp : Fact p.Prime] {Y E F : Subgroup G} (hY
       Nat.mul_lt_mul_of_lt_of_le hlt hEYc Nat.card_pos
     rw [h] at this
     nlinarith
-  haveI : Y.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : Y.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrF : Y.relIndex F ≤ p :=
     (Subgroup.relIndex_le_of_le_right hFA (Subgroup.relIndex_ne_zero)).trans (hidxA ▸ hrE)
   have h := Subgroup.relIndex_mul_card (H := Y) (K := F)
@@ -74,8 +74,8 @@ theorem InnerNotQConfig.pRank_baseA_le_two (hOut : KFactOutCyclic)
     (hC : InnerNotQConfig p P M H R Rbar z L E) :
     Open.pRank p (innerNotQBaseA p H R L E) ≤ 2 := by
   have hp := hC.cfg.ext.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hLn : L.Normal := (hC.nineThree hOut).normal
+  have : Fact p.Prime := ⟨hp⟩
+  have hLn : L.Normal := (hC.nineThree hOut).normal
   have he := hC.cfg.ext.toD1Escape
   have hRH : R ≤ H := he.le_H
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p)
@@ -93,9 +93,9 @@ theorem InnerNotQConfig.pRank_baseA_le_two (hOut : KFactOutCyclic)
     have himg : (Y.subgroupOf H).map π ≤
         (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ L := by
       rw [map_d1LiftX, hC.cfg.rbar]
-    haveI := hC.cyclic L hC.isComponent
-    haveI : IsCyclic ((Y.subgroupOf H).map π) := Subgroup.isCyclic_of_le himg
-    haveI : IsCyclic (Y.subgroupOf H) := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
+    have := hC.cyclic L hC.isComponent
+    have : IsCyclic ((Y.subgroupOf H).map π) := Subgroup.isCyclic_of_le himg
+    have : IsCyclic (Y.subgroupOf H) := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hYH).toMonoidHom
       (MulEquiv.surjective _)
   have hconj : ∀ g ∈ R, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y := by
@@ -152,7 +152,7 @@ variable (G) in
 theorem innerNotQRankTwoA_of_nineThree (hk : D1CaseTwoKFacts3 G)
     (h : InnerNotQRankTwoNineThree G) : InnerNotQRankTwoA G := by
   intro p P M H R Rbar z L E hC _ _
-  haveI : Fact p.Prime := ⟨hC.cfg.ext.prime⟩
+  have : Fact p.Prime := ⟨hC.cfg.ext.prime⟩
   obtain ⟨hKs, hKnab, hKp, -, -⟩ := hC.component_facts hk
   have hB2 := hC.pRank_baseA_le_two hk.out
   have hat := h p P M H R Rbar z L E hC

@@ -11,11 +11,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_conj_sup (P Q : Subgroup G) (g : G) :
     conjSubgroup (P ⊔ Q) g = conjSubgroup P g ⊔ conjSubgroup Q g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem nineThree_conj_iSup' {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
@@ -23,6 +25,7 @@ private theorem nineThree_conj_iSup' {ι : Sort*} (B : ι → Subgroup G) (g : G
 
 namespace Nine3Choice
 
+omit [Finite G] in
 theorem nineH_le_K : nineH V K ≤ K := iSup₂_le fun _ hU => hU.2
 
 theorem inf_pCoreOf_le_nineI (hc : Nine3Choice V T A K S X p g x) {B : Subgroup G}
@@ -125,6 +128,7 @@ private theorem nineThree_A_mem_omegaIn (hc : Nine3Choice V T A K S X p g x) :
     A ∈ omegaIn V K (nineE V K) :=
   ⟨hc.core.A_mem_nineOmegaIn.1, hc.core.A_mem_nineOmegaIn.2.trans hc.core.S_le_K⟩
 
+omit [Finite G] in
 private theorem nineThree_le_normalizer_nineH {k : G} (hk : k ∈ K) :
     k ∈ Subgroup.normalizer (nineH V K : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer]
@@ -262,7 +266,7 @@ theorem nine_not_exists (hc : Nine3Choice V T A K S X p g x) :
     ¬ ∃ h : G, h ∉ normalizer (V : Set G) ∧ ⁅X, conjSubgroup V h⁆ = ⊥ := by
   rintro ⟨h, hhM, hcomm⟩
   obtain ⟨q, hq, -, hXq, -, hΓ, hcond⟩ := hc.core.hyp.mem
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hp : p.Prime := hc.core.hyp.base.prime
   have hXcard : Nat.card ↥X = p := hc.core.card
   obtain ⟨n, hn⟩ := hXq.exists_card_eq

@@ -51,20 +51,20 @@ theorem z2a5_ne_one (h : Z2A5Hyp Y τ) : τ ≠ 1 := by
   rw [h1, orderOf_one] at h2
   omega
 
-theorem z2a5_mem_cent (h : Z2A5Hyp Y τ) :
+theorem z2a5_mem_cent (_h : Z2A5Hyp Y τ) :
     τ ∈ centralizer (oTwoRes (centralizer ({τ} : Set Y)) : Set Y) := by
   rw [mem_centralizer_iff]
   intro x hx
   exact mem_centralizer_singleton_iff.1 (z2a5_oTwoRes_le _ hx)
 
-theorem z2a5_cent_le_norm (h : Z2A5Hyp Y τ) :
+theorem z2a5_cent_le_norm (_h : Z2A5Hyp Y τ) :
     centralizer ({τ} : Set Y) ≤ normalizer (oTwoRes (centralizer ({τ} : Set Y)) : Set Y) :=
   z2a5_le_normalizer_oTwoRes _
 
 private theorem z2a5_tau_not_mem_range (h : Z2A5Hyp Y τ)
     (e : ↥(centralizer ({τ} : Set Y)) ≃* Multiplicative (ZMod 2) × ↥(alternatingGroup (Fin 5))) :
     τ ∉ (embA e).range := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rintro ⟨a, ha⟩
   apply zz_fst_ne sec128_A5_noncomm (z2a5_ne_one h) e
   have h1 : e.symm (1, a) = zz τ := Subtype.ext ha
@@ -74,7 +74,7 @@ private theorem z2a5_cases_range (h : Z2A5Hyp Y τ)
     (e : ↥(centralizer ({τ} : Set Y)) ≃* Multiplicative (ZMod 2) × ↥(alternatingGroup (Fin 5)))
     {d : Y} (hd : d ∈ centralizer ({τ} : Set Y)) :
     d ∈ (embA e).range ∨ ∃ x ∈ (embA e).range, d = τ * x := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases mem_range_or_mul sec128_A5_noncomm (z2a5_ne_one h) e hd with h1 | h1
   · exact Or.inl h1
   · refine Or.inr ⟨d * τ, h1, ?_⟩
@@ -104,7 +104,7 @@ theorem z2a5_tau_not_mem (h : Z2A5Hyp Y τ) : τ ∉ oTwoRes (centralizer ({τ} 
 theorem z2a5_cent_cent (h : Z2A5Hyp Y τ) {d : Y} (hd : d ∈ centralizer ({τ} : Set Y))
     (hdX : ∀ x ∈ oTwoRes (centralizer ({τ} : Set Y)), d * x = x * d) : d = 1 ∨ d = τ := by
   obtain ⟨e⟩ := h.2.1
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rw [z2a5_oTwoRes_eq h e] at hdX
   have hz1 := zz_snd sec128_A5_noncomm e
   have hz2 := zz_fst_ne sec128_A5_noncomm (z2a5_ne_one h) e
@@ -128,7 +128,7 @@ theorem z2a5_cent_cent (h : Z2A5Hyp Y τ) {d : Y} (hd : d ∈ centralizer ({τ} 
 theorem z2a5_exists_inv (h : Z2A5Hyp Y τ) :
     ∃ x ∈ oTwoRes (centralizer ({τ} : Set Y)), orderOf x = 2 := by
   obtain ⟨φ⟩ := z2a5_X_equiv h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h60 : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup]
     simp [Nat.factorial]

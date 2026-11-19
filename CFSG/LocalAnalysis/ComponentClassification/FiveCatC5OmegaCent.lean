@@ -26,7 +26,7 @@ theorem notOnlyA5_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {K : Ty
     rw [hK]
     exact (Nat.prime_five.odd_of_ne_two (by norm_num)).pow
   have h2 : (2 : K) ≠ 0 := CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
-  letI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  let : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨hsign, -, hsq, hnsq⟩ :=
     CatalogueBOrthogonalScalarSquareStructure.scalar_square_centralizer_structure 5 f
       Nat.prime_five (by norm_num) hf hK (by omega) Q hQ A d μ hsquare hsim hnonscalar
@@ -35,7 +35,7 @@ theorem notOnlyA5_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {K : Ty
     obtain ⟨r, hr⟩ := hsqd
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact d.ne_zero (by simpa using hr)
+      exact d.ne_zero (by simp at hr)
     obtain ⟨b, hb⟩ : ∃ b : Kˣ, (d : K) = (b : K) ^ 2 :=
       ⟨Units.mk0 r hr0, by rw [hr, sq]; rfl⟩
     obtain ⟨hcompl, -, -, hpos, hneg⟩ := hsq b hb
@@ -62,10 +62,10 @@ theorem notOnlyA5_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {K : Ty
       omega
   ·
     have hs := CatalogueBOrthogonalScalarSquareStructure.original_endomorphism_square A d hsquare
-    letI := scalarField A.toLinearMap d hsqd hs
-    letI := evaluationModule A.toLinearMap
-    haveI := scalarAlgebra_finite_type A.toLinearMap d hsqd hs
-    haveI := evaluationModule_finite A.toLinearMap
+    let := scalarField A.toLinearMap d hsqd hs
+    let := evaluationModule A.toLinearMap
+    have := scalarAlgebra_finite_type A.toLinearMap d hsqd hs
+    have := evaluationModule_finite A.toLinearMap
     have hE : Nat.card (scalarAlgebra A.toLinearMap) = (5 ^ f) ^ 2 := by
       rw [scalarAlgebra_card A.toLinearMap d hsqd hs, hK]
     have hdimE := evaluationModule_finrank A.toLinearMap d hsqd hs

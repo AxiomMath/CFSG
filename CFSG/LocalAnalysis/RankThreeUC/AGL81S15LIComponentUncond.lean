@@ -38,9 +38,9 @@ theorem odd_centralizer_centralizes_of_component_A_uncond
     ∀ l : L, x * l = l * x := by
   refine odd_centralizer_centralizes_of_component_A hL m hm Q hQ hv e hU2 hUmax hxodd hxc ?_
   intro F hFfield hFfinite hFchar hFcard V hV y hyodd hyc
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   exact odd_centralizer_sylow_le_center_of_isSylowTwoOf (m := m) (by omega) hV hyodd hyc
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

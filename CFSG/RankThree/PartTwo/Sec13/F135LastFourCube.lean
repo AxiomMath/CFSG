@@ -48,7 +48,7 @@ theorem l10b_finrank_biSup {K V ι : Type*} [Field K] [AddCommGroup V] [Module K
 
 theorem l10b_card_dual {G : Type*} [CommGroup G] [Finite G] [Module (ZMod 2) (Additive G)]
     (hG : Nat.card G = 8) : Nat.card (Module.Dual (ZMod 2) (Additive G)) = 8 := by
-  haveI : Module.Finite (ZMod 2) (Additive G) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive G) := Module.Finite.of_finite
   have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive G)
   rw [Nat.card_zmod, Nat.card_congr Additive.toMul, hG] at h1
   have h3 : Module.finrank (ZMod 2) (Additive G) = 3 := by
@@ -93,7 +93,7 @@ theorem l10b_orbit {D : Type*} [AddCommGroup D] [Module (ZMod 2) D] [Fintype D]
     (ψ : D) (hfix : f ψ ≠ ψ) (ξ : D) (hξ : ξ ≠ 0) : ∃ m, m < 7 ∧ f^[m] ψ = ξ := by
   classical
   have hper : Function.IsPeriodicPt f 7 ψ := hf7 ψ
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hmin : Function.minimalPeriod f ψ = 7 :=
     Function.minimalPeriod_eq_prime hper (fun h => hfix h)
   have hψ0 : ψ ≠ 0 := by
@@ -238,9 +238,9 @@ theorem l10b_nonfixed {G W : Type*} [CommGroup G] [Finite G] [AddCommGroup W]
     (τT : T →* T) (hnofix : ∀ t : T, τT t = t → t = 1) (hTnt : ∃ t : T, t ≠ 1) :
     ∃ ψ : Module.Dual (ZMod 2) (Additive T), signWeightSpace (ρA.comp T.subtype) ψ ≠ ⊥ ∧
       Module.Dual.transpose (l10bLin τT) ψ ≠ ψ := by
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : Finite (Module.Dual (ZMod 2) (Additive T)) := l10b_fin_dual
-  haveI : Fintype (Module.Dual (ZMod 2) (Additive T)) := Fintype.ofFinite _
+  have : Fintype T := Fintype.ofFinite T
+  have : Finite (Module.Dual (ZMod 2) (Additive T)) := l10b_fin_dual
+  have : Fintype (Module.Dual (ZMod 2) (Additive T)) := Fintype.ofFinite _
   have hK : (2 : ZMod 3) ≠ 0 := by decide
   have hspan := (injective_iff_span_signWeightSpace (ρA.comp T.subtype) hK).mp hinj
   by_contra hcon
@@ -362,7 +362,7 @@ theorem L10b_lin {W : Type*} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensi
   have hx7' : x ^ 7 = 1 := by
     rw [← hx7]
     exact pow_orderOf_eq_one x
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with
       mul_comm := fun a b => Subtype.ext (hcomm a.1 a.2 b.1 b.2) }
   set T : Subgroup A := (powMonoidHom 2 : A →* A).ker with hTdef
@@ -384,10 +384,10 @@ theorem L10b_lin {W : Type*} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensi
     have ht : t ^ 2 = 1 := Subtype.ext (by simpa using (hmemT (t : A)).mp t.2)
     show Additive.ofMul (t ^ 2) = Additive.ofMul 1
     rw [ht]
-  letI : Module (ZMod 2) (Additive T) := AddCommGroup.zmodModule h2T
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : Finite (Module.Dual (ZMod 2) (Additive T)) := l10b_fin_dual
-  haveI : Fintype (Module.Dual (ZMod 2) (Additive T)) := Fintype.ofFinite _
+  let : Module (ZMod 2) (Additive T) := AddCommGroup.zmodModule h2T
+  have : Fintype T := Fintype.ofFinite T
+  have : Finite (Module.Dual (ZMod 2) (Additive T)) := l10b_fin_dual
+  have : Fintype (Module.Dual (ZMod 2) (Additive T)) := Fintype.ofFinite _
   have hDcard : Fintype.card (Module.Dual (ZMod 2) (Additive T)) = 8 := by
     rw [← Nat.card_eq_fintype_card]
     exact l10b_card_dual hTcard

@@ -45,7 +45,7 @@ theorem not_forall_inv_of_not_mem [IsSimpleGroup G] (hDT : Sec19DataT p f K z S 
         _ = y := by rw [hinv y hyU, inv_inv]
     calc s * k * y = (s * k) * y * (s * k)⁻¹ * (s * k) := by group
       _ = y * (s * k) := by rw [h1]
-  obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨s * k, haS⟩
+  obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨s * k, haS⟩
   have h2 : orderOf (s * k) = 2 ^ n := by rw [← hn, Subgroup.orderOf_mk]
   have hcard : Nat.card ↥((S : Subgroup G) ⊓ K) ≤ 2 * Nat.card ↥((S : Subgroup G) ⊓ K ⊓ W) := by
     have e1 : (S : Subgroup G) ⊓ K ⊓ W = K ⊓ W := by
@@ -136,8 +136,8 @@ theorem exists_involution_of_not_le [IsSimpleGroup G] (h11b : C19_11bTmp p f)
       (fun r hr => (sd_commute_R_Q hd r hr x hx).symm) hxt
   have hCP : W ⊓ sec19Y K z ≤ (S : Subgroup G) ⊓ sec19Y K z := inf_le_inf_right _ hd.hWS
   have hC4 : 4 ≤ Nat.card ↥(W ⊓ sec19Y K z) := ef.card ▸ ef.four
-  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd.hWS)
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hd.hWS)
+  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hd.hWS)
   obtain ⟨q, hqP, hqC, zc, -, -, -, hzcu, hqt, hqinv, -, hq2, -, -, -⟩ :=
     Hall196.exists_swap_of_not_le ef.comm hDT.leW inf_le_left ef.cyclic hVcyc ef.card.symm hC4
       hC2 hV2 hDT.memT hDT.invL.ne_one hDT.invL.sq hCP ef.normalizes hcomm hstar hPC
@@ -201,7 +201,7 @@ theorem exists_involution_of_not_le [IsSimpleGroup G] (h11b : C19_11bTmp p f)
   have hsU : ∀ u ∈ K ⊓ W, s * u * s⁻¹ ∈ K ⊓ W := fun u hu =>
     ⟨(Subgroup.mem_normalizer_iff.mp (hSN hsS) u).mp hu.1, hinv s hsS ▸ conj_mem_conjSub hu.2⟩
   obtain ⟨u, huU, hu⟩ := exists_conj_mul_eq_of_not_inv
-    (S.isPGroup'.to_le (inf_le_right.trans hd.hWS)) hzU (fun x hx y hy => ef.comm x hx.2 y hy.2)
+    (S.isPGroup.to_le (inf_le_right.trans hd.hWS)) hzU (fun x hx y hy => ef.comm x hx.2 y hy.2)
     hsU (not_forall_inv_of_not_mem hDT hsS hsX)
   rcases hcnorm with h1 | h1
   · refine ⟨s * c, (S : Subgroup G).mul_mem hsS hcSY.1, ?_, fun hmem => hsX ?_⟩

@@ -25,7 +25,7 @@ theorem g2_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A}
   have hiso : CFSG.RankThree.PartOne.Census3.IsoLie ↥K (.G2 q) := ⟨hv, e⟩
   have hmodel := CFSG.RankThree.PartOne.K133X.chevalleyExceptionalModel_G2_of_isoLie hq2 hiso
   obtain ⟨F, _, _, hF, ⟨θ⟩⟩ := nonempty_mulEquiv_adjointGroup .G2 hmodel.2
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF
   have hm2 : 2 ≤ q.exponent := by
     by_contra hlt

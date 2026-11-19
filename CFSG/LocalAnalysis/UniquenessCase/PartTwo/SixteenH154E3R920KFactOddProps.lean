@@ -36,7 +36,7 @@ private theorem r920kop_exists_abelian_relIndex_two_of_le_range_toPGL {K : Type}
       Matrix.SpecialLinearGroup (Fin 3) K →* Matrix.ProjGenLinGroup (Fin 3) K).range) :
     ∃ B : Subgroup (Matrix.ProjGenLinGroup (Fin 3) K),
       B ≤ R ∧ (∀ a ∈ B, ∀ b ∈ B, a * b = b * a) ∧ B.relIndex R ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, hSm⟩ :=
     CFSG.RankThree.PartTwo.Sec4.L34Odd.exists_isPGroup_map_eq 2
       (Matrix.SpecialLinearGroup.toPGL :

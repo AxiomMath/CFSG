@@ -22,10 +22,11 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_of_isStronglyPEmbedded {M X : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hM : IsStronglyPEmbedded p M) (hXM : X ≤ M) (hX : IsPGroup p X) (hX1 : X ≠ ⊥) :
     normalizer (X : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact IsStronglyPEmbedded.normalizer_le hM hX1 hX hXM
 
 private theorem exists_sylow_inf_of_isStronglyPEmbedded {D : Data G}
@@ -33,7 +34,7 @@ private theorem exists_sylow_inf_of_isStronglyPEmbedded {D : Data G}
     ∃ T : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p T (D.M ⊓ N) ∧ D₀ ≤ T ∧
       normalizer (T : Set G) ≤ D.M := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hHN : H ≤ N := c.memN.2
   have hKN : F08.KOf8103 L B ≤ N := c.memH.2.2.1.trans hHN
   have hD0N : D₀ ≤ N := c.le_D₀.trans hKN
@@ -59,7 +60,7 @@ private theorem exists_sylow_inf_of_isStronglyPEmbedded {D : Data G}
 theorem isCyclic_of_le {D : Data G} {L P B B' D₀ H N X : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) (hXN : X ≤ N) (hX : IsPGroup p X) : IsCyclic X := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   by_cases hXbot : X = ⊥
   · rw [hXbot]
     exact isCyclic_of_subsingleton
@@ -83,7 +84,7 @@ theorem isCyclic_of_le {D : Data G} {L P B B' D₀ H N X : Subgroup G} {p n : �
     exact hXnc (isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
   have hTnc : ¬ IsCyclic T := by
     intro hTcyc
-    haveI : IsCyclic T := hTcyc
+    have : IsCyclic T := hTcyc
     exact hXmap_nc (Subgroup.isCyclic_of_le hle)
   have hpSig : p ∈ D.sig := c.hyp.2.2.2.1
   have huniq := c.r61 p hpSig T hTM hTp hTnc
@@ -95,7 +96,7 @@ private theorem le_relPPrimeCore_of_dvd_card {D : Data G} {L P B B' D₀ H N : S
     {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n)
     (hdiv : p ∣ Nat.card (relPPrimeCore 3 N)) : D₀ ≤ relPPrimeCore 3 N := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   let I := relPPrimeCore 3 N
   have hHN : H ≤ N := c.memN.2
   have hKN : F08.KOf8103 L B ≤ N := c.memH.2.2.1.trans hHN
@@ -123,7 +124,7 @@ private theorem le_relPPrimeCore_of_dvd_card {D : Data G} {L P B B' D₀ H N : S
   have hpPow : p ∣ p ^ (Nat.card I).factorization p := dvd_pow_self p hpos.ne'
   have hpInf : p ∣ Nat.card ↥(Q ⊓ I) := hpPow.trans hQdvd
   have hleSub : D₀.subgroupOf Q ≤ (Q ⊓ I).subgroupOf Q := by
-    haveI : IsCyclic Q := hQcyc
+    have : IsCyclic Q := hQcyc
     rw [IsCyclic.subgroup_le_iff_card_dvd]
     have hcard0 : Nat.card (D₀.subgroupOf Q) = p := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD0Q).toEquiv, c.card_D₀]
@@ -165,7 +166,7 @@ private theorem inf_relPPrimeCore_KOf8103_le_pCoreOf_two {D : Data G}
     {L P B B' D₀ H N : Subgroup G} {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n) :
     relPPrimeCore 3 N ⊓ F08.KOf8103 L B ≤ pCoreOf 2 (F08.KOf8103 L B) := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   let I := relPPrimeCore 3 N
   let K := F08.KOf8103 L B
   have hKN : K ≤ N := c.memH.2.2.1.trans c.memN.2
@@ -175,7 +176,7 @@ private theorem inf_relPPrimeCore_KOf8103_le_pCoreOf_two {D : Data G}
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_normal
       Nat.prime_three N
   have hJnorm : ((I ⊓ K).subgroupOf K).Normal := by
-    haveI : (I.subgroupOf N).Normal := hInorm
+    have : (I.subgroupOf N).Normal := hInorm
     have h := Subgroup.inf_subgroupOf_inf_normal_of_left (A := N) (A' := I) (B := K)
     rwa [inf_eq_right.mpr hKN] at h
   let J : Subgroup ↥K := (I ⊓ K).subgroupOf K
@@ -195,7 +196,7 @@ private theorem inf_relPPrimeCore_KOf8103_le_pCoreOf_two {D : Data G}
     exact hIKcop
   have hJmapCop : Nat.Coprime 3 (Nat.card (J.map q)) :=
     Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd J q) hJcop
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_psl_two c.notB.2.2
   have hJbot := eq_bot_of_normal_of_coprime_card hJmapNormal Nat.prime_three hJmapCop
     (three_dvd_card_bar2 c.le c.notB'.1)
@@ -214,7 +215,7 @@ private theorem le_pCoreOf_two_of_le_relPPrimeCore {D : Data G}
 theorem not_dvd_card_relPPrimeCore {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) : ¬ p ∣ Nat.card (relPPrimeCore 3 N) := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   intro hdiv
   have hpSig : p ∈ D.sig := c.hyp.2.2.2.1
   have hp2 : p ≠ 2 := (D.sig_prime p hpSig).2
@@ -246,7 +247,7 @@ private theorem KOf8103_map_conj {L Z : Subgroup G} {w : G}
   have himg : MulAut.conj w '' (Z : Set G) =
       (Z.map (MulAut.conj w).toMonoidHom : Set G) := by
     ext x
-    simp [Subgroup.mem_map]
+    simp
   have hL : L.map (MulAut.conj w).toMonoidHom = L :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hw
   have hcent : Subgroup.centralizer (Z.map (MulAut.conj w).toMonoidHom : Set G) =
@@ -262,6 +263,7 @@ private theorem KOf8103_map_conj {L Z : Subgroup G} {w : G}
   rw [hInf]
   exact derInf8_map_conj _ w
 
+omit [Finite G] in
 private theorem nonempty_bar2_map_conj {K : Subgroup G} {w : G} :
     Nonempty (Bar2 K ≃* Bar2 (K.map (MulAut.conj w).toMonoidHom)) := by
   let e : ↥K ≃* ↥(K.map (MulAut.conj w).toMonoidHom) :=
@@ -284,6 +286,7 @@ private theorem notationB_map_conj {L P : Subgroup G} {n : ℕ} {Z : Subgroup G}
       (KOf8103_map_conj (L := L) (Z := Z) (w := w) hwL) ▸ eBar
     exact CFSG.Blueprint.LieModel.of_mulEquiv eBar' hZ.2.2
 
+omit [Finite G] in
 private theorem centralizer_inf_normalizer_normal (P N : Subgroup G) :
     ((Subgroup.centralizer (P : Set G) ⊓ N).subgroupOf
       (Subgroup.normalizer (P : Set G) ⊓ N)).Normal := by
@@ -306,7 +309,7 @@ private theorem centralizer_inf_normalizer_normal (P N : Subgroup G) :
   · exact N.mul_mem (N.mul_mem g.2.2 hx.2) (N.inv_mem g.2.2)
 
 private theorem normalizer_le_normalizer_of_cyclic_of_card_prime {D₀ T : Subgroup G} {p : ℕ}
-    (hT : IsCyclic T) (hD : D₀ ≤ T) (hDcard : Nat.card D₀ = p) :
+    (hT : IsCyclic T) (hD : D₀ ≤ T) (_hDcard : Nat.card D₀ = p) :
     normalizer (T : Set G) ≤ normalizer (D₀ : Set G) := by
   intro w hw
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -314,7 +317,7 @@ private theorem normalizer_le_normalizer_of_cyclic_of_card_prime {D₀ T : Subgr
     rintro _ ⟨d, hd, rfl⟩
     simpa [MulAut.conj_apply] using (Subgroup.mem_normalizer_iff.mp hw d).mp (hD hd)
   have hleSub : D₀.subgroupOf T ≤ (D₀.map (MulAut.conj w).toMonoidHom).subgroupOf T := by
-    haveI : IsCyclic T := hT
+    have : IsCyclic T := hT
     rw [IsCyclic.subgroup_le_iff_card_dvd]
     have h0 : Nat.card ↥(D₀.subgroupOf T) = Nat.card D₀ :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD).toEquiv
@@ -336,7 +339,7 @@ private theorem exists_sylow_cyclic {D : Data G} {L P B B' D₀ H N : Subgroup G
         T ≤ N ∧ IsPGroup p T ∧ D₀ ≤ T ∧ IsCyclic T ∧
         normalizer (T : Set G) ≤ D.M := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hHN : H ≤ N := c.memN.2
   have hKN : F08.KOf8103 L B ≤ N := c.memH.2.2.1.trans hHN
   have hD0N : D₀ ≤ N := c.le_D₀.trans hKN
@@ -374,7 +377,7 @@ private theorem exists_split_of_sylow {D : Data G} {L P B B' D₀ H N : Subgroup
         ∃ w ∈ Subgroup.normalizer (T : Set G) ⊓ (Subgroup.normalizer (P : Set G) ⊓ N),
           y * w = x := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   let CN : Subgroup G := Subgroup.centralizer (P : Set G) ⊓ N
   let A : Subgroup G := Subgroup.normalizer (P : Set G) ⊓ N
   have hCN_A : CN ≤ A :=
@@ -412,7 +415,7 @@ private theorem exists_burnside_conj {D : Data G} {L P B B' D₀ H N Z : Subgrou
     ∃ n ∈ N, n ∈ Subgroup.normalizer (P : Set G) ∧
       Z.map (MulAut.conj y).toMonoidHom = Z.map (MulAut.conj n).toMonoidHom := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hPH : P ≤ H := by
     intro x hx
     have hxH : x ∈ (H : Set G) := by
@@ -426,7 +429,7 @@ private theorem exists_burnside_conj {D : Data G} {L P B B' D₀ H N Z : Subgrou
     rcases hZ with rfl | rfl
     · exact ⟨c.notB.1, c.notB.2.1⟩
     · exact ⟨c.notB'.1, c.notB'.2.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hZcard.1])
   let a : G := (z : G)
   have haz : a ∈ Z := z.2
@@ -459,6 +462,7 @@ private theorem exists_burnside_conj {D : Data G} {L P B B' D₀ H N Z : Subgrou
     rw [hmapY, hmapN, hnconj]
   exact ⟨n, hnN, hnNor, hmapYN⟩
 
+omit [Finite G] in
 private theorem map_conj_eq_of_le_centralizer {P X : Subgroup G} {c : G}
     (hc : c ∈ Subgroup.centralizer (P : Set G)) (hX : X ≤ P) :
     X.map (MulAut.conj c).toMonoidHom = X := by
@@ -509,7 +513,7 @@ private theorem false_of_two_le_pRank {D : Data G} {L P B B' D₀ H N : Subgroup
     (c : Ctx8105 D L P B B' D₀ H N p n) {K K' : Subgroup G} (hKN : K ≤ N) (hK'N : K' ≤ N)
     (hrank : 2 ≤ Open.pRank p (K ⊔ K')) : False := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   obtain ⟨E, hE, hEelem, hEcard⟩ :=
     CFSG.SectionRank.exists_pRank c.prime.one_lt (K ⊔ K')
   have hEN : E ≤ N := hE.trans (sup_le hKN hK'N)
@@ -531,7 +535,7 @@ theorem weaklyClosed {D : Data G} {L P B B' D₀ H N Z : Subgroup G} {p n : ℕ}
     (hZy : Z.map (MulAut.conj y).toMonoidHom ≤ P) :
     Z.map (MulAut.conj y).toMonoidHom = Z := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hHN : H ≤ N := c.memN.2
   have hKN : F08.KOf8103 L B ≤ N := c.memH.2.2.1.trans hHN
   rcases hZ with hZB | hZB'

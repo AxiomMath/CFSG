@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag CFSG.LocalAnalysis.Component
 
 theorem cube_eq_one_of_card_four {F : Type} [Field F] [Finite F] (hq : Nat.card F = 4) {x : F}
     (hx : x ≠ 0) : x ^ 3 = 1 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hc : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hq
   have h := FiniteField.pow_card_sub_one_eq_one x hx
   rw [hc] at h
@@ -77,25 +77,30 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def levMat (M : Matrix (Fin 3) (Fin 3) F) : Matrix (Fin 2) (Fin 2) F :=
   (tlBlock M).det • tlBlock M
 
+omit [CharP F 2] in
 theorem det_eq_tlBlock (G : Matrix (Fin 3) (Fin 3) F) (h20 : G 2 0 = 0) (h21 : G 2 1 = 0) :
     G.det = (tlBlock G).det * G 2 2 := by
-  simp [tlBlock, Matrix.det_fin_two, Matrix.det_fin_three, h20, h21] <;> ring
+  simp [tlBlock, Matrix.det_fin_two, Matrix.det_fin_three, h20, h21]; ring
 
+omit [CharP F 2] in
 theorem tlBlock_mul {G H : Matrix (Fin 3) (Fin 3) F} (h20 : H 2 0 = 0) (h21 : H 2 1 = 0) :
     tlBlock (G * H) = tlBlock G * tlBlock H := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [tlBlock, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, h20, h21]
 
+omit [CharP F 2] in
 theorem levMat_mul {G H : Matrix (Fin 3) (Fin 3) F} (h20 : H 2 0 = 0) (h21 : H 2 1 = 0) :
     levMat (G * H) = levMat G * levMat H := by
   unfold levMat
   rw [tlBlock_mul h20 h21, Matrix.det_mul, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
 
+omit [CharP F 2] in
 theorem levMat_one : levMat (1 : Matrix (Fin 3) (Fin 3) F) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [levMat, tlBlock, Matrix.det_fin_two]
 
+omit [CharP F 2] in
 theorem det_levMat {G : Matrix (Fin 3) (Fin 3) F} (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     (hG : G.det = 1) (h20 : G 2 0 = 0) (h21 : G 2 1 = 0) : (levMat G).det = 1 := by
   have hb := det_eq_tlBlock G h20 h21
@@ -113,15 +118,17 @@ theorem det_levMat {G : Matrix (Fin 3) (Fin 3) F} (hq3 : ∀ x : F, x ≠ 0 → 
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff.mp g.2).1
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff.mp g.2).2⟩
   map_one' := Subtype.ext levMat_one
-  map_mul' g h := Subtype.ext (levMat_mul (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff.mp h.2).1
+  map_mul' _g h := Subtype.ext (levMat_mul (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff.mp h.2).1
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff.mp h.2).2)
 
+omit [CharP F 2] in
 theorem levMat_scalar {c : F} (hc : c ^ 3 = 1) : levMat (Matrix.scalar (Fin 3) c) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [levMat, tlBlock, Matrix.det_fin_two, Matrix.scalar_apply, Matrix.diagonal_apply] <;>
+    simp [levMat, tlBlock, Matrix.det_fin_two, Matrix.scalar_apply] <;>
     linear_combination hc
 
+omit [CharP F 2] in
 theorem levHom_eq_one_of_scalar (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     {g : ↥(CFSG.QuasithinUnique.Setup.X7a.Q3 F 1)}
     (hg : ((g : Matrix.SpecialLinearGroup (Fin 3) F)) ∈ scalars 3 F) : levHom hq3 g = 1 := by
@@ -132,6 +139,7 @@ theorem levHom_eq_one_of_scalar (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
   apply levMat_scalar
   rw [← Units.val_pow_eq_pow_val, hc, Units.val_one]
 
+omit [CharP F 2] in
 theorem levHom_eq_one_of_block (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     {g : ↥(CFSG.QuasithinUnique.Setup.X7a.Q3 F 1)}
     (hb : tlBlock ((g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = 1) :
@@ -141,6 +149,7 @@ theorem levHom_eq_one_of_block (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
   unfold levMat
   rw [hb, Matrix.det_one, one_smul]
 
+omit [CharP F 2] in
 theorem levHom_surjective (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1) :
     Function.Surjective (levHom hq3) := by
   intro B
@@ -264,25 +273,30 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def levMatR (M : Matrix (Fin 3) (Fin 3) F) : Matrix (Fin 2) (Fin 2) F :=
   (brBlock M).det • brBlock M
 
+omit [CharP F 2] in
 theorem det_eq_brBlock (G : Matrix (Fin 3) (Fin 3) F) (h10 : G 1 0 = 0) (h20 : G 2 0 = 0) :
     G.det = G 0 0 * (brBlock G).det := by
-  simp [brBlock, Matrix.det_fin_two, Matrix.det_fin_three, h10, h20] <;> ring
+  simp [brBlock, Matrix.det_fin_two, Matrix.det_fin_three, h10, h20]; ring
 
+omit [CharP F 2] in
 theorem brBlock_mul {G H : Matrix (Fin 3) (Fin 3) F} (h10 : G 1 0 = 0) (h20 : G 2 0 = 0) :
     brBlock (G * H) = brBlock G * brBlock H := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [brBlock, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, h10, h20]
 
+omit [CharP F 2] in
 theorem levMatR_mul {G H : Matrix (Fin 3) (Fin 3) F} (h10 : G 1 0 = 0) (h20 : G 2 0 = 0) :
     levMatR (G * H) = levMatR G * levMatR H := by
   unfold levMatR
   rw [brBlock_mul h10 h20, Matrix.det_mul, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
 
+omit [CharP F 2] in
 theorem levMatR_one : levMatR (1 : Matrix (Fin 3) (Fin 3) F) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [levMatR, brBlock, Matrix.det_fin_two]
 
+omit [CharP F 2] in
 theorem det_levMatR {G : Matrix (Fin 3) (Fin 3) F} (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     (hG : G.det = 1) (h10 : G 1 0 = 0) (h20 : G 2 0 = 0) : (levMatR G).det = 1 := by
   have hb := det_eq_brBlock G h10 h20
@@ -300,16 +314,18 @@ theorem det_levMatR {G : Matrix (Fin 3) (Fin 3) F} (hq3 : ∀ x : F, x ≠ 0 →
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff.mp g.2).1
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff.mp g.2).2⟩
   map_one' := Subtype.ext levMatR_one
-  map_mul' g h := Subtype.ext (levMatR_mul (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff.mp g.2).1
+  map_mul' g _h := Subtype.ext (levMatR_mul (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff.mp g.2).1
     (CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff.mp g.2).2)
 
+omit [CharP F 2] in
 theorem levMatR_scalar {c : F} (hc : c ^ 3 = 1) :
     levMatR (Matrix.scalar (Fin 3) c) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [levMatR, brBlock, Matrix.det_fin_two, Matrix.scalar_apply, Matrix.diagonal_apply] <;>
+    simp [levMatR, brBlock, Matrix.det_fin_two, Matrix.scalar_apply] <;>
     linear_combination hc
 
+omit [CharP F 2] in
 theorem levHomR_eq_one_of_scalar (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     {g : ↥(CFSG.QuasithinUnique.Setup.X7a.Q3 F 0)}
     (hg : ((g : Matrix.SpecialLinearGroup (Fin 3) F)) ∈ scalars 3 F) : levHomR hq3 g = 1 := by
@@ -320,6 +336,7 @@ theorem levHomR_eq_one_of_scalar (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
   apply levMatR_scalar
   rw [← Units.val_pow_eq_pow_val, hc, Units.val_one]
 
+omit [CharP F 2] in
 theorem levHomR_eq_one_of_block (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
     {g : ↥(CFSG.QuasithinUnique.Setup.X7a.Q3 F 0)}
     (hb : brBlock ((g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = 1) :
@@ -329,6 +346,7 @@ theorem levHomR_eq_one_of_block (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1)
   unfold levMatR
   rw [hb, Matrix.det_one, one_smul]
 
+omit [CharP F 2] in
 theorem levHomR_surjective (hq3 : ∀ x : F, x ≠ 0 → x ^ 3 = 1) :
     Function.Surjective (levHomR hq3) := by
   intro B

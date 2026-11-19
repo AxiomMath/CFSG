@@ -238,11 +238,11 @@ theorem not_typ129IIIcMinus_of_mem_L (h45 : Sec4.Item4_5) (h125 : Item125BarC9)
     (fun h => hH (inf_le_right.trans h))
 
 theorem gap129NotIiiLcMinus_of (h45 : Sec4.Item4_5) (h125 : Item125BarC9) :
-    ∀ (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G) (L : Subgroup G) (b a : G)
-      (K S : Subgroup G), Cfg129 G A c L b a K S → GTwoType129 L K →
-      ∀ x ∈ D129 a b, x ∉ Subgroup.zpowers b → x ∈ L →
-        ∀ Y : Subgroup G, Core129 A c x Y → ¬ Typ129IIIcMinus A c L Y x :=
-  fun G _ _ A c L b a K S cfg hty x hxD hxb hxL Y hY =>
+    ∀ (_G : Type) [Group _G] [Finite _G] (_A : Subgroup _G) (_c : _G) (_L : Subgroup _G) (_b _a : _G)
+      (_K _S : Subgroup _G), Cfg129 _G _A _c _L _b _a _K _S → GTwoType129 _L _K →
+      ∀ _x ∈ D129 _a _b, _x ∉ Subgroup.zpowers _b → _x ∈ _L →
+        ∀ _Y : Subgroup _G, Core129 _A _c _x _Y → ¬ Typ129IIIcMinus _A _c _L _Y _x :=
+  fun _G _ _ _A _c _L _b _a _K _S cfg hty _x hxD hxb hxL _Y hY =>
     not_typ129IIIcMinus_of_mem_L h45 h125 cfg hty hxD hxb hxL hY
 
 end Step

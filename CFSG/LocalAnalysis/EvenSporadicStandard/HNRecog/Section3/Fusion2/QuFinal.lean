@@ -149,7 +149,7 @@ theorem qu_facts {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2 = 1
   have hau_not_mem_N : a * u ∉ N := by
     rw [hNdef]
     exact not_mem_pCore_derived_of_central hT hau_central hau2 hau_ne_one
-  haveI hNcomm : IsMulCommutative N := hT.elem_two.1.1
+  have hNcomm : IsMulCommutative N := hT.elem_two.1.1
   have hpair : ((Subgroup.zpowers u : Set G) ∪ (N : Set G)).Pairwise Commute := by
     intro p hp q hq _
     simp only [Set.mem_union] at hp hq

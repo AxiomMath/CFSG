@@ -56,7 +56,7 @@ theorem a6_false
   have hPT : (P : Subgroup ↥K) = T.subgroupOf K := by
     rw [hP]
     rfl
-  have hQ : IsPGroup 2 (T.subgroupOf K) := hPT ▸ P.isPGroup'
+  have hQ : IsPGroup 2 (T.subgroupOf K) := hPT ▸ P.isPGroup
   have hQi : ¬ 2 ∣ (T.subgroupOf K).index := hPT ▸ P.not_dvd_index
   obtain ⟨P₁, hSP₁, hP₁card, hNS, htab, hnoodd⟩ := a6_table ⟨e⟩ (T.subgroupOf K) hQ hQi
   have hα2 : (MulAut.conjNormal v : MulAut ↥K) ^ 2 = 1 := by

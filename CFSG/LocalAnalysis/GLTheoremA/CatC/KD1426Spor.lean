@@ -42,7 +42,7 @@ theorem kd1426Spor_of_S (h : KD1426SporS) : KD1426Spor := by
   | alternating n h' => exact False.elim hi
   | lie d => exact False.elim hi
   | sporadic s =>
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let π : K →* (TauCeti.CFSGIndex.sporadic s).Group :=
       eK.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
     have hπ : Function.Surjective π := eK.surjective.comp (QuotientGroup.mk'_surjective _)

@@ -14,6 +14,7 @@ namespace OutLin
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] in
 theorem PEl.radHyp {g : GL6 F} (hg : PEl b c g) (ht : tc g = 0) (hr : rho g = 1) :
     RadHyp b c g := by
   have hi : ∀ i : Fin (3 - 1), i = idx0 ∨ i = idx1 := by decide
@@ -37,7 +38,7 @@ theorem ell_formula (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (t : F) :
   have hu : quadMinus 3 F b c (eV F idx0) = 0 := quad_eV idx0
   have hw : polar (quadMinus 3 F b c) (eV F idx0) (t • fV F idx1) = 0 := by
     rw [polar_smul_right_eq, polar_f_right]
-    simp [eV_ne (i := idx0) (k := idx1) (by decide)]
+    simp
   show (A : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ x = _
   rw [hAx, eichler_apply hu hw, polar_e_right, polar_smul_right_eq, polar_f_right,
     map_smul_eq_sq, quadMinus_single_inr idx1, mul_zero, zero_mul, add_zero, smul_smul,
@@ -51,17 +52,17 @@ theorem ell_pel (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (t : F) :
   have hne10 : idx1 ≠ idx0 := by decide
   have h0 : gv A (eV F idx0) = eV F idx0 := by
     rw [hAx]
-    simp [eV_inr, eV_ne (i := idx0) (k := idx1) hne10]
+    simp
   have h1 : gv A (eV F idx1) = eV F idx1 + t • eV F idx0 := by
     rw [hAx]
-    simp [eV_inr, eV_self, eV_ne (i := idx1) (k := idx0) hne01]
+    simp
   have hel : PEl b c A := PEl.mk' (fun v => quadMinus_mulVec_of_mem_statedOmega hA v) h0 h1
   refine ⟨A, hA, hel, ?_, ?_⟩
   · have := congrFun h1 (Sum.inl idx0)
     simpa [tc, eV_ne (i := idx1) (k := idx0) hne01, eV_self] using this
   · ext k j
     rw [rho_apply, hAx]
-    simp [nVec, Pi.single_apply, Matrix.one_apply, eq_comm]
+    simp [nVec, Pi.single_apply, Matrix.one_apply]
 
 theorem PEl.mem_omega_of_rho (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {g : GL6 F}
     (hg : PEl b c g) (hr : rho g = 1) : g ∈ StatedOmega (StatedQuadMinus 3 F b c) := by
@@ -77,6 +78,7 @@ theorem PEl.mem_omega_of_rho (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {g : GL
   rw [this]
   exact mul_mem (inv_mem hA) hrad
 
+omit [Finite F] in
 theorem PEl.comm_aux {g a : GL6 F} (hg : PEl b c g) (ha : PEl b c a) (hcomm : g * a = a * g)
     (j : Fin (3 - 1)) (k : Fin 2) :
     rho g k 0 * mcol a j 0 + rho g k 1 * mcol a j 1 +
@@ -103,6 +105,7 @@ theorem PEl.comm_aux {g a : GL6 F} (hg : PEl b c g) (ha : PEl b c a) (hcomm : g 
   rw [hL, hR] at key
   exact key
 
+omit [Finite F] in
 theorem PEl.comm_constraint {g a : GL6 F} (hg : PEl b c g) (ha : PEl b c a) (hg0 : tc g = 0)
     (hg1 : rho g = 1) (hcomm : g * a = a * g) (k : Fin 2) :
     rho a k 0 * mcol g idx0 0 + rho a k 1 * mcol g idx0 1 = mcol g idx0 k + tc a * mcol g idx1 k ∧

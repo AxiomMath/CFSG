@@ -54,8 +54,8 @@ private theorem ggWeylIrred_two {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {K : Ty
 
 theorem ggTorusGenR_adjoint_two {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 2) : GGTorusGenR 3 (τ.rank - 1) (adjointGroup τ K) := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpq : 3 ∣ Nat.card K + 1 := by rw [hK]
   intro E hE hr hsc x hx hx1 J hJ c hc _
   have hSC : ∀ y ∈ Subgroup.centralizer (E : Set (adjointGroup τ K)), y ^ 3 = 1 → y ∈ E :=

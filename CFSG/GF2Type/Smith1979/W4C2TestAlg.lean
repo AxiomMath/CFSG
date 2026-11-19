@@ -155,7 +155,7 @@ theorem coset_mem {G : Type*} [Group G] (C : Finset G) (hC16 : C.card ≤ 16) (L
   have hLFcard : LF.card = Nat.card L := by
     have h1 : (L : Set G) = ↑LF := by
       ext x
-      simp only [SetLike.mem_coe, hLF, Finset.coe_filter, Set.mem_setOf_eq]
+      simp only [SetLike.mem_coe, hLF, Finset.coe_filter, Set.mem_ofPred_eq]
       exact ⟨fun hx => ⟨hLC x hx, hx⟩, fun hx => hx.2⟩
     rw [← Set.ncard_coe_finset, ← h1]
     rfl

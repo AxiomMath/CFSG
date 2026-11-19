@@ -18,9 +18,9 @@ theorem sec128_quot_solvable {Y : Type} [Group Y] [Finite Y] (Z O : Subgroup Y) 
   have hle : Z ≤ Z ⊔ O := le_sup_left
   let f : ↥O →* Y ⧸ Z := (QuotientGroup.mk' Z).comp O.subtype
   let g : Y ⧸ Z →* Y ⧸ (Z ⊔ O) := QuotientGroup.map Z (Z ⊔ O) (MonoidHom.id Y) hle
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (Y ⧸ (Z ⊔ O)) := isCyclic_of_prime_card (p := 2) hidx
-  haveI : Group.IsSolvable (Y ⧸ (Z ⊔ O)) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (Y ⧸ (Z ⊔ O)) := isCyclic_of_prime_card (p := 2) hidx
+  have : Group.IsSolvable (Y ⧸ (Z ⊔ O)) := inferInstance
   refine Group.isSolvable_of_ker_le_range f g ?_
   intro x hx
   induction x using QuotientGroup.induction_on with
@@ -61,7 +61,7 @@ theorem sec128_alt2 {G : Type} [Group G] [Finite G] {V : Subgroup G}
         Nat.card ↥Y = 6 * Nat.card ↥((CFSG.layer ↥Y).map Y.subtype)) := by
   set O : Subgroup ↥Y := oddCore ↥Y with hOdef
   set Zy : Subgroup ↥Y := Z.subgroupOf Y with hZydef
-  haveI : Zy.Normal := hZn
+  have : Zy.Normal := hZn
   have hZyO : Zy ⊓ O = ⊥ := by
     refine (Subgroup.eq_bot_iff_forall _).mpr fun y hy => ?_
     have h1 : (y : MulAut ↥V) ∈ Z ⊓ O.map Y.subtype :=
@@ -81,12 +81,12 @@ theorem sec128_alt2 {G : Type} [Group G] [Finite G] {V : Subgroup G}
   have hOodd : Odd (Nat.card ↥O) := CFSG.ComponentClassification.OddCore.odd_card ↥Y
   have hOcard := sec128_odd_dvd_six hOodd hOdvd
   have hOsol : Group.IsSolvable ↥O := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hpg : IsPGroup 3 ↥O := by
       rcases hOcard with h | h
       · exact IsPGroup.of_card (n := 0) (by simpa using h)
       · exact IsPGroup.of_card (n := 1) (by simpa using h)
-    haveI : Group.IsNilpotent ↥O := hpg.isNilpotent
+    have : Group.IsNilpotent ↥O := hpg.isNilpotent
     infer_instance
   have hsol : Group.IsSolvable (↥Y ⧸ Zy) := sec128_quot_solvable Zy O hOsol hidx
   have hZy : Nonempty (↥Zy ≃* (↥(alternatingGroup (Fin 5)) × ↥(alternatingGroup (Fin 5)))) :=

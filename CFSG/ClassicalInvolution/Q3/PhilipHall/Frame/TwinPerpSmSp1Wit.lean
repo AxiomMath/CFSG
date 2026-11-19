@@ -165,7 +165,7 @@ theorem q8Wit_sound (D : Q8WitData) (h : q8WitCheck D = true) {ξ η : Equiv.Per
     (hη : η ∈ Subgroup.closure (permsA D.syl.n (qGens D.syl))) (hq : IsQ8Pair ξ η) :
     ∃ k < D.cW.size, IsQ8Witness (q8Hom hq).range (ξ ^ 2) (wordPerm D.syl.n D.xg D.cW[k]!) := by
   unfold q8WitCheck q8WitCheck' at h
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   obtain ⟨-, hkeys, -, hQenum, -, hxg, hcW, hcs, hfree⟩ := h
   have hqk : ∀ p ∈ D.syl.qKeys, p < D.syl.n := fun p hp => by
     simpa using List.all_eq_true.1 hkeys p hp
@@ -225,19 +225,19 @@ theorem q8Wit_sound (D : Q8WitData) (h : q8WitCheck D = true) {ξ η : Equiv.Per
 theorem pg_valid_of_q8WitCheck (D : Q8WitData) (h : q8WitCheck D = true) :
     ∀ l < D.syl.pg.size, validA D.syl.n D.syl.pg[l]! = true := by
   unfold q8WitCheck q8WitCheck' at h
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   exact fun l hl => allLt_spec h.1 hl
 
 theorem xg_valid_of_q8WitCheck (D : Q8WitData) (h : q8WitCheck D = true) :
     ∀ l < D.xg.size, validA D.syl.n D.xg[l]! = true := by
   unfold q8WitCheck q8WitCheck' at h
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   exact fun l hl => allLt_spec h.2.2.2.2.2.1 hl
 
 theorem card_syl_of_q8WitCheck (D : Q8WitData) (h : q8WitCheck D = true) :
     Nat.card ↥(Subgroup.closure (permsA D.syl.n (qGens D.syl))) = D.syl.qOrd := by
   unfold q8WitCheck q8WitCheck' at h
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   obtain ⟨-, hkeys, -, hQenum, hQcard, -⟩ := h
   have hqk : ∀ p ∈ D.syl.qKeys, p < D.syl.n := fun p hp => by
     simpa using List.all_eq_true.1 hkeys p hp
@@ -248,7 +248,7 @@ theorem syl_le_of_q8WitCheck (D : Q8WitData) (h : q8WitCheck D = true)
     (hW : ∀ l < D.syl.pg.size, permOfArr D.syl.n D.syl.pg[l]! ∈ W) :
     Subgroup.closure (permsA D.syl.n (qGens D.syl)) ≤ W := by
   unfold q8WitCheck q8WitCheck' at h
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   obtain ⟨hpg, -, hqW, -⟩ := h
   have hpgv : ∀ l < D.syl.pg.size, validA D.syl.n D.syl.pg[l]! = true :=
     fun l hl => allLt_spec hpg hl
@@ -270,7 +270,7 @@ theorem hwit_of_q8WitCheck {d : ℕ} (D : Q8WitData) (hd : D.syl.n = d) (h : q8W
   have hcW : D.cW.all (fun w => w.all fun l => decide (l < D.xg.size)) = true := by
     have h' := h
     unfold q8WitCheck q8WitCheck' at h'
-    simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at h'
+    simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h'
     exact h'.2.2.2.2.2.2.1
   have hcWl := letters_of_all hcW
   obtain ⟨k, hk, hw⟩ := q8Wit_sound D h hx hy hq
@@ -283,7 +283,7 @@ theorem smallAutModel_of_rankTwo {X₀ W : Type*} [Group X₀] [Group W] {X : Su
   le := Subgroup.map_le_range ι X
   conj_mem := by
     rintro _ ⟨w, rfl⟩ _ ⟨p, hp, rfl⟩
-    haveI := hW.normal
+    have := hW.normal
     exact ⟨w * p * w⁻¹, hW.normal.conj_mem p hp w, by simp only [map_mul, map_inv]⟩
   surj α := by
     obtain ⟨e, he⟩ : ∃ e : ↥X ≃* ↥(X.map ι), ∀ r : ↥X,
@@ -314,7 +314,7 @@ theorem exists_conj_le_of_card {G : Type*} [Group G] [Finite G] {R S₀ T : Subg
     (hS₀R : S₀ ≤ R) (hTR : T ≤ R) (hT : IsPGroup 2 ↥T) {k m : ℕ} (hk : Nat.card S₀ = 2 ^ k)
     (hm : ¬ 2 ∣ m) (hcard : 2 ^ k * m = Nat.card R) :
     ∃ w ∈ R, ∀ x ∈ T, w * x * w⁻¹ ∈ S₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eS := Subgroup.subgroupOfEquivOfLe hS₀R
   let eT := Subgroup.subgroupOfEquivOfLe hTR
   have hS'2 : IsPGroup 2 ↥(S₀.subgroupOf R) := (IsPGroup.of_card hk).of_equiv eS.symm
@@ -384,8 +384,8 @@ theorem noTwinS_of_q8Wit {n d : ℕ} {P R : Subgroup (Equiv.Perm (Fin d))}
     NoTwinS n Pr := by
   intro Y _ _ R' S t h _ hF
   obtain ⟨⟨θ⟩, hK2⟩ := hPr Y R' S t h hF
-  haveI := h.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   have hιinj : Function.Injective (hM.embed (genFittingFStar Y) θ) :=

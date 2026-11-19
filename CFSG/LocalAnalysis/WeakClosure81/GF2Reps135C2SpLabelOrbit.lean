@@ -177,10 +177,10 @@ theorem weylAction_simple_spLabelVec {n : ℕ} (a : Fin n → ℕ) {k : Fin n} (
     · subst hb
       rw [spLO_spLabelVec_last_eq_zero hk hlast]
       unfold spSgn
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       ring
     · unfold spSgn
-      rw [if_neg hb]
+      rw [ite_eq_right hb]
       ring
 
 private def spLO_v2 {n : ℕ} (hn : 3 ≤ n) (a : Fin n → ℕ) : Fin 2 → Fin n → ℤ :=

@@ -12,7 +12,7 @@ namespace D4Inner
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
-theorem eq_centDer_of_isComponentOf {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : Odd n) (hn3 : 3 ≤ n)
+theorem eq_centDer_of_isComponentOf {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : Odd n) (_hn3 : 3 ≤ n)
     {s : Om8 K} (hs3 : s ^ 3 = 1) (hd : D4Rank.omFixDim s = 2) {J : Subgroup (Om8 K)}
     (hJ : IsComponentOf J (ggAutFixedSubgroup (MulAut.conj s))) : J = centDer s := by
   have hJC : J ≤ Subgroup.centralizer ({s} : Set (Om8 K)) :=

@@ -267,9 +267,9 @@ theorem indexTwoHom_comp_beta {W : Subgroup Q1M} (hW : W.index = 2)
   rw [indexTwoHom_apply, indexTwoHom_apply]
   by_cases h : q ∈ W
   · have hb : βM q ∈ W := (mem_map_beta_iff hβ q).mpr h
-    rw [if_pos h, if_pos hb]
+    rw [ite_eq_left h, ite_eq_left hb]
   · have hb : βM q ∉ W := fun h' => h ((mem_map_beta_iff hβ q).mp h')
-    rw [if_neg h, if_neg hb]
+    rw [ite_eq_right h, ite_eq_right hb]
 
 theorem indexTwoHom_eq_one {W : Subgroup Q1M} (hW : W.index = 2)
     (hβ : W.map βM.toMonoidHom = W) : indexTwoHom hW = 1 := by
@@ -278,7 +278,7 @@ theorem indexTwoHom_eq_one {W : Subgroup Q1M} (hW : W.index = 2)
   have h2 := DFunLike.congr_fun hcomp e2
   have h3 := DFunLike.congr_fun hcomp f1
   have h4 := DFunLike.congr_fun hcomp f2
-  simp only [MonoidHom.comp_apply, MonoidHom.one_apply] at h1 h2 h3 h4
+  simp only [MonoidHom.comp_apply] at h1 h2 h3 h4
   change indexTwoHom hW (βM e1) = indexTwoHom hW e1 at h1
   change indexTwoHom hW (βM e2) = indexTwoHom hW e2 at h2
   change indexTwoHom hW (βM f1) = indexTwoHom hW f1 at h3
@@ -320,7 +320,7 @@ theorem not_index_two {W : Subgroup Q1M} (hW : W.index = 2)
     have hval : indexTwoHom hW q = 1 := by
       simpa using DFunLike.congr_fun hf q
     have hfun : indexTwoHom hW q = Multiplicative.ofAdd (1 : ZMod 2) := by
-      rw [indexTwoHom_apply, if_neg hq]
+      rw [indexTwoHom_apply, ite_eq_right hq]
     have h1 : Multiplicative.ofAdd (1 : ZMod 2) = (1 : Multiplicative (ZMod 2)) := by
       rw [← hfun, hval]
     exact absurd h1 (by rw [ofAdd_eq_one]; norm_num)

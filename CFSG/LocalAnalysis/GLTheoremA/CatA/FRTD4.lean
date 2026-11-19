@@ -155,7 +155,7 @@ theorem graph_orientation_equiv (k : Type) [Field k] (σ' : k ≃+* k) (hσ3 : �
 
 theorem subBody_td4 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 3) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
-    (I F : Set (MulAut (LargeEvenCenterQuot
+    (_I F : Set (MulAut (LargeEvenCenterQuot
       (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)))) (hF : FQ.InnFree p F) :
     ∀ f ∈ F, orderOf f = p → p ∣ n ∧
       ∃ D : Subgroup (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)),

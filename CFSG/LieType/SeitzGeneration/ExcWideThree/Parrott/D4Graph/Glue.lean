@@ -23,7 +23,7 @@ theorem closure_fixUnion_of_pairGenAt {K : Type} [Field K] [Finite K]
     (hP : ∀ β ∈ E, β ∉ innerAut (adjointGroup Tag.D4 K) → PairGenAt β) :
     Subgroup.closure (fixUnion E) = ⊤ := by
   classical
-  haveI : CFSG.IsElementaryAbelian 3 ↥E := hE
+  have : CFSG.IsElementaryAbelian 3 ↥E := hE
   have hZ : Subgroup.center ↥(adjointGroup Tag.D4 K) = ⊥ := center_adjointGroup_eq_bot
   have hinj : Function.Injective (MulAut.conj : ↥(adjointGroup Tag.D4 K) →*
       MulAut ↥(adjointGroup Tag.D4 K)) := by

@@ -39,8 +39,8 @@ theorem cSide_orbit_partition [Finite Q] (hE : IsExtraspecialPGroup 2 Q)
     show extraspecialQuadForm hE (Additive.ofMul (Abelianization.of u)) = 0 ↔ u ^ 2 = 1
     rw [h]
     by_cases h2 : u ^ 2 = 1
-    · rw [if_pos h2]; simp [h2]
-    · rw [if_neg h2]; simp [h2]
+    · rw [ite_eq_left h2]; simp [h2]
+    · rw [ite_eq_right h2]; simp [h2]
   have h_conj : ∀ (g : C) (u : Q), conjLinEquiv hQn g (abOf u) = abOf (conjAut hQn g u) :=
     fun g u => conjLinEquiv_apply hQn g u
   have fib : ∀ u v : Q, abOf u = abOf v ↔ u * v⁻¹ ∈ Subgroup.center Q := by

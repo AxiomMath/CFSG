@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p22a_not_two_dvd_ncard {M T K : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M)
     (hTK : T ≤ normalizer (K : Set G)) : ¬ 2 ∣ (conjSetOf M K).ncard := by
-  letI : MulAction ↥M (Subgroup G) :=
+  let : MulAction ↥M (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp M.subtype)
   have hsmul : ∀ g : ↥M, g • K = K.map (MulAut.conj (g : G)).toMonoidHom := fun g => rfl
   have horb : MulAction.orbit ↥M K = conjSetOf M K := by
@@ -34,7 +34,7 @@ theorem uc22p22a_not_two_dvd_ncard {M T K : Subgroup G} (hT : CFSG.ABGLocalTools
   rw [horb] at hidx
   rw [← hidx]
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd := ((CFSG.ABGLocalTools.isSylowOf_iff (p := 2)).1 hT).2.2
   exact hodd (h2.trans hdvd)
 
@@ -61,19 +61,19 @@ theorem uc22p22a_not_isPowTwo_of_odd {n : ℕ} (hodd : Odd n) (hn : n ≠ 1) : �
     exact (Nat.not_even_iff_odd.2 hodd) this
 
 theorem uc22p22a_qs_nontrivial {X : Type} [Group X] (h : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := h.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := h.2
   exact (QuotientGroup.mk_surjective :
     Function.Surjective (QuotientGroup.mk : X → X ⧸ Subgroup.center X)).nontrivial
 
 theorem uc22p22a_qs_not_solvable {X : Type} [Group X] (h : CFSG.Open.IsQuasisimple X) :
     ¬ Group.IsSolvable X := by
   intro hs
-  haveI := uc22p22a_qs_nontrivial h
+  have := uc22p22a_qs_nontrivial h
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := X)).ne h.1
 
 theorem uc22p22a_qs_normal {X : Type} [Group X] (h : CFSG.Open.IsQuasisimple X) {W : Subgroup X}
     (hW : W.Normal) : W ≤ Subgroup.center X ∨ W ⊔ Subgroup.center X = ⊤ := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := h.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := h.2
   have hn : (W.map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
     hW.map _ (QuotientGroup.mk'_surjective _)
   rcases hn.eq_bot_or_eq_top with hb | ht
@@ -94,8 +94,8 @@ theorem uc22p22a_qs_solvable_normal_le_center {X : Type} [Group X] (h : CFSG.Ope
   · exact h1
   · exfalso
     apply uc22p22a_qs_not_solvable h
-    haveI := hW
-    haveI := hs
+    have := hW
+    have := hs
     have hf : Function.Surjective ((QuotientGroup.mk' W).comp (Subgroup.center X).subtype) := by
       intro y
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective W y
@@ -103,12 +103,12 @@ theorem uc22p22a_qs_solvable_normal_le_center {X : Type} [Group X] (h : CFSG.Ope
       obtain ⟨w, hw, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hx
       refine ⟨⟨z, hz⟩, ?_⟩
       simp [map_mul, (QuotientGroup.eq_one_iff w).2 hw]
-    haveI : Group.IsSolvable (X ⧸ W) := Group.isSolvable_of_surjective hf
+    have : Group.IsSolvable (X ⧸ W) := Group.isSolvable_of_surjective hf
     exact Group.isSolvable_of_subgroup_quotient W
 
 theorem uc22p22a_isSolvable_preimage_center {A Q : Type} [Group A] [Group Q] (g : A →* Q)
     (hker : Group.IsSolvable g.ker) : Group.IsSolvable ↥((Subgroup.center Q).comap g) := by
-  haveI := hker
+  have := hker
   have hle : g.ker ≤ (Subgroup.center Q).comap g := fun x hx => by
     rw [Subgroup.mem_comap, MonoidHom.mem_ker.1 hx]
     exact Subgroup.one_mem _
@@ -123,7 +123,7 @@ theorem uc22p22a_ker_solvable {A Q B : Type} [Group A] [Group Q] [Group B] (g : 
     (hg : Function.Surjective g) (hgker : Group.IsSolvable g.ker)
     (hQ : CFSG.Open.IsQuasisimple Q) (f : A →* B) (hf : Function.Surjective f)
     (hB : CFSG.Open.IsQuasisimple B) : Group.IsSolvable f.ker := by
-  haveI : Group.IsSolvable ↥((Subgroup.center Q).comap g) :=
+  have : Group.IsSolvable ↥((Subgroup.center Q).comap g) :=
     uc22p22a_isSolvable_preimage_center g hgker
   have hNn : (f.ker.map g).Normal := (inferInstance : f.ker.Normal).map _ hg
   rcases uc22p22a_qs_normal hQ hNn with h1 | h2
@@ -151,14 +151,14 @@ theorem uc22p22a_sol_eq {A Q : Type} [Group A] [Group Q] [Finite A] (g : A →* 
     (hg : Function.Surjective g) (hgker : Group.IsSolvable g.ker)
     (hQ : CFSG.Open.IsQuasisimple Q) :
     CFSG.solvableRadical A = (Subgroup.center Q).comap g := by
-  haveI : Group.IsSolvable ↥((Subgroup.center Q).comap g) :=
+  have : Group.IsSolvable ↥((Subgroup.center Q).comap g) :=
     uc22p22a_isSolvable_preimage_center g hgker
-  haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := A)
+  have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := A)
   apply le_antisymm
   · intro x hx
     have hnorm : ((CFSG.solvableRadical A).map g).Normal :=
       (inferInstance : (CFSG.solvableRadical A).Normal).map _ hg
-    haveI : Group.IsSolvable ↥((CFSG.solvableRadical A).map g) :=
+    have : Group.IsSolvable ↥((CFSG.solvableRadical A).map g) :=
       Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective g (CFSG.solvableRadical A))
     exact uc22p22a_qs_solvable_normal_le_center hQ hnorm inferInstance
       (Subgroup.mem_map_of_mem _ hx)
@@ -187,11 +187,13 @@ theorem uc22p22a_key {A Q B : Type} [Group A] [Group Q] [Group B] [Finite A] (g 
   obtain ⟨e₂⟩ := uc22p22a_equiv_of_sol_eq f hf (uc22p22a_sol_eq f hf hfker hB)
   exact ⟨⟨e₁.symm.trans e₂⟩, ⟨e₂⟩⟩
 
+omit [Finite G] in
 theorem uc22p22a_le_of_isSubnormal {A B : Subgroup G} (h : CFSG.Open.IsSubnormal A B) : A ≤ B := by
   induction h with
   | refl => exact le_rfl
   | step hHM _ _ ih => exact hHM.trans ih
 
+omit [Finite G] in
 theorem uc22p22a_exists_surj (M V K : Subgroup G) (hKM : K ≤ M) :
     ∃ f : ↥K →* ↥(mbarImage M V K), Function.Surjective f := by
   let φ : ↥K →* MBar M V :=
@@ -209,8 +211,8 @@ theorem uc22p22a_data (D : Data G) {Ch : Choice2011 G} (c : Ctx22b D Ch) {K : Su
       (↥(mbarImage D.M c.V K) ⧸ Subgroup.center ↥(mbarImage D.M c.V K))) := by
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hKC.1
   obtain ⟨f, hf⟩ := uc22p22a_exists_surj D.M c.V K hKM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).isNilpotent
   have hgker : Group.IsSolvable (QuotientGroup.mk' (CFSG.pCore 2 ↥K)).ker := by
     rw [QuotientGroup.ker_mk']
@@ -259,12 +261,12 @@ theorem uc22p22a_sp4_simple (X : Type) [Group X] (n : ℕ) (hsp : IsSp4 X n) :
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp F 2 (by omega)
       (Or.inl (Or.inr hF4))
   have hperfP : Group.IsPerfect (StatedProj (StatedSp 2 F)) := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset F)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hF4)
     exact CFSG.ClassicalGroups.Symplectic.symplectic_projective_perfect 2 F (Or.inl ⟨t, ht⟩)
-  haveI hsimple : IsSimpleGroup X := e.isSimpleGroup
-  haveI : Group.IsPerfect X := by
+  have hsimple : IsSimpleGroup X := e.isSimpleGroup
+  have : Group.IsPerfect X := by
     have := hperfP
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   refine ⟨hsimple, ?_⟩
@@ -276,7 +278,7 @@ theorem uc22p22a_shape_sp4 (D : Data G) {Ch : Choice2011 G} (c : Ctx22b D Ch) {K
     (hKC : K ∈ calC D.M) {n : ℕ} (hsp : IsSp4 ↥(mbarImage D.M c.V K) n) :
     IsSp4 (BarInf K) n := by
   obtain ⟨hsimple, hnab⟩ := uc22p22a_sp4_simple _ n hsp
-  haveI := hsimple
+  have := hsimple
   obtain ⟨-, ⟨e⟩⟩ := uc22p22a_data D c hKC (uc22p22a_isQuasisimple_of_simple hnab)
   have hc : Subgroup.center ↥(mbarImage D.M c.V K) = ⊥ := uc22p22a_center_eq_bot hnab
   exact CFSG.Blueprint.LieModel.of_mulEquiv

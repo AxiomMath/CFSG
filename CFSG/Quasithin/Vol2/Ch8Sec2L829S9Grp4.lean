@@ -28,13 +28,13 @@ theorem s9g4_unique {Y : Type} [Group Y] {Ks : Subgroup Y}
   exact inv_mul_eq_one.mp hu1
 
 theorem s9g4_c2 {G : Type} [Group G] [Finite G] {M H K T : Subgroup G}
-    (hKH : K ≤ H) (hTsyl : CFSG.QuasithinUnique.IsSylowTwoOf T H)
+    (_hKH : K ≤ H) (hTsyl : CFSG.QuasithinUnique.IsSylowTwoOf T H)
     (hPSL : IsPSL 3 2 1 ↥(E2.star M H K))
     (hauto : 8 < E2.autCard (E2.star M H T) (E2.star M H K)) :
     ∃ x ∈ E2.star M H T, ¬ s9gInner (E2.star M H K) x := by
   by_contra hall
   push Not at hall
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥(T.subgroupOf H) :=
     hTsyl.2.1.comap_of_injective H.subtype Subtype.val_injective
   have hTs2 : IsPGroup 2 ↥(E2.star M H T) := hT2.map (s9gPi M H)

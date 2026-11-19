@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
 theorem y7a_triv_of_sing (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {x : G}
-    (hxA : x ∈ normalizer (A : Set G)) (hxz : x * z * x⁻¹ = z)
+    (_hxA : x ∈ normalizer (A : Set G)) (_hxz : x * z * x⁻¹ = z)
     (hsing : ∀ a ∈ A, a * a = 1 → a⁻¹ * (x * a * x⁻¹) ∈ zpowers z) :
     ∀ a ∈ A, a⁻¹ * (x * a * x⁻¹) ∈ zpowers z := by
   have hzA : ∀ y ∈ A, y * z = z * y := by
@@ -26,7 +26,7 @@ theorem y7a_triv_of_sing (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {x : G}
     exact (Commute.zpow_left (show Commute z y from (hzA y hy).symm) k).eq
   let S : Subgroup G :=
     { carrier := {a : G | a ∈ A ∧ a⁻¹ * (x * a * x⁻¹) ∈ zpowers z}
-      one_mem' := ⟨A.one_mem, by simpa using Subgroup.one_mem (zpowers z)⟩
+      one_mem' := ⟨A.one_mem, by simp⟩
       mul_mem' := by
         rintro a b ⟨ha, hza⟩ ⟨hb, hzb⟩
         refine ⟨A.mul_mem ha hb, ?_⟩

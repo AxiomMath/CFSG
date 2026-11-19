@@ -12,7 +12,7 @@ theorem burnsideA315s_Config.nilpotent {X : Type} [Group X] [Finite X] {S B : Su
     (hc : burnsideA315x_Config X S B) : Group.IsNilpotent ↥B := by
   rcases hc.cases with hab | ⟨r, hr, hBr⟩
   · infer_instance
-  · haveI : Fact r.Prime := ⟨hr⟩
+  · have : Fact r.Prime := ⟨hr⟩
     exact hBr.isNilpotent
 
 theorem burnsideA315s_Config.exists_prime {X : Type} [Group X] [Finite X] {S B : Subgroup X}
@@ -78,7 +78,7 @@ theorem burnsideA315s_hall_index {X : Type} [Group X] [Finite X] {S B : Subgroup
       ∃ m : ℕ, Nat.card ↥(K.map (MulAut.conj g).toMonoidHom) = m * Nat.card ↥S₀ ∧ r ∣ m ∧
         ∀ p : ℕ, p.Prime → p ∣ m → p = r := by
   obtain ⟨K, hSK, hKH, hKs, hrK, hK⟩ := burnsideA315s_hall_of_prime hc hr hrB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h1, h2⟩ := CFSG.Quasithin.H13.FiveNorm.isSylowTwoOf_top_index hc.sylow
   obtain ⟨h3, h4⟩ := CFSG.Quasithin.H13.FiveNorm.isSylowTwoOf_top_index hS₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X (h1.toSylow h2) (h3.toSylow h4)

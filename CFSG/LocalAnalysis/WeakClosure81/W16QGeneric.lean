@@ -23,9 +23,9 @@ theorem le_elemCenterIn_of_le_centralizer {T Z : Subgroup G} (hZT : Z ≤ T)
   refine ⟨hZT hz, ?_⟩
   intro A hA
   obtain ⟨hAT, hAe, hAcard⟩ := mem_elemFamilyIn.1 hA
-  haveI : IsElementaryAbelian 2 ↥A := hAe
+  have : IsElementaryAbelian 2 ↥A := hAe
   have hz2 : z ^ 2 = 1 := by rw [pow_two]; exact hZ2 z hz
-  haveI : IsElementaryAbelian 2 ↥(Subgroup.zpowers z) :=
+  have : IsElementaryAbelian 2 ↥(Subgroup.zpowers z) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one hz2
   have hzcent : Subgroup.zpowers z ≤ Subgroup.centralizer (A : Set G) := by
     rw [Subgroup.zpowers_le]
@@ -41,6 +41,7 @@ theorem le_elemCenterIn_of_le_centralizer {T Z : Subgroup G} (hZT : Z ≤ T)
     (Subgroup.eq_of_le_of_card_ge (H := A) le_sup_left hcard).symm
   exact hEq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
 
+omit [Finite G] in
 theorem fam16Q_normalizer {M V₀ U R K E : Subgroup G} (hE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hUE : U ⊔ V₀ ≤ E) (hR : R ≤ normalizer (E : Set G)) (hK : K ≤ normalizer (E : Set G))
     (hKU : K ≤ centralizer (U : Set G)) (hKM : ¬ K ≤ M) :

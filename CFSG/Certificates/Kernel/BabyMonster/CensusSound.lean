@@ -5,7 +5,7 @@ public import Certificates.Data.Kernel.BabyMonster.CTIB.OrbitList
 public import Certificates.Data.CFSGNative.MonsterB.Max2Tower
 import CFSG.Certificates.Kernel.BabyMonster.VStripSound
 import CFSG.Certificates.Kernel.BabyMonster.Q23Sound
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 
 public section
 

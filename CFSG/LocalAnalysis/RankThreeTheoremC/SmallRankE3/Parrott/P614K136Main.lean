@@ -31,7 +31,7 @@ theorem lthree_case {K : Type} [Group K] [Finite K] {n : ℕ} (hn : Odd n) (hn3 
     (hfd : f ∣ 2 ^ n - 1) :
     f ∣ Nat.card (CFSG.pLayer ↥(normalizer (R : Set K)) 3) ∧
       2 ≤ CFSG.Open.pRank f (⊤ : Subgroup K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hF3 : ∀ a : GaloisField 2 n, a ^ 3 = 1 → a = 1 := fun a ha =>
     eq_one_of_pow_three hn hcardF ha
@@ -50,10 +50,10 @@ theorem lthree_case {K : Type} [Group K] [Finite K] {n : ℕ} (hn : Odd n) (hn3 
 
 theorem kFactBenderTI_holds : KFactBenderTI := by
   intro K _ _ hB T T' hTT'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl : ∀ S : Sylow 2 K, CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup K) ⊤ := fun S =>
     CFSG.ABGLocalTools.isSylowOf_iff.2
-      ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+      ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   by_contra hne
   exact hTT' (CFSG.CGT.PushingUpLit.C2L.StrongTI.bender_sylow_inf_eq_bot hB (hsyl T) (hsyl T')
     fun h => hne (Sylow.ext h))

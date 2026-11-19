@@ -23,9 +23,9 @@ theorem kMinDegLow_of
     KMinDegLow := by
   intro G _ _ L K P n hL hK hP hN hn
   obtain ⟨T, _, _, hTL, hT⟩ := exists_leviData_sec hSz hP.2.1 hN hn
-  haveI := hT.simple
+  have := hT.simple
   have hKq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
-  haveI := nontrivial_of_isQuasisimple hKq
+  have := nontrivial_of_isQuasisimple hKq
   suffices h : n + 2 ≤ CFSG.LocalAnalysis.UniquenessCase.PartTwo.dMinDeg (Bar2 K) by omega
   apply le_dMinDeg
   intro d f hf

@@ -17,7 +17,7 @@ theorem exists_ne_one_mem_ker_of_cyclic {G H : Type*} [Group G] [Group H] [Finit
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let g : E → {h : H // h ^ p = 1} := fun x =>
     ⟨f x, by rw [← map_pow]; simp [hE x x.2]⟩
   have hg : Function.Injective g := by

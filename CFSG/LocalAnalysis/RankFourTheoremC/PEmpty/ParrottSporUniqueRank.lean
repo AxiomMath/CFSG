@@ -12,7 +12,7 @@ theorem uniqueRank_exists_conj {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) {N Hg : Subgroup G} {z : G} (hz : orderOf z = p)
     (hzN : z ∈ N) (hHN : Hg ≤ N) (hpH : p ∣ Nat.card Hg) :
     ∃ c ∈ N, c * z * c⁻¹ ∈ Hg := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' p hpH
   have hsylN : ¬ p ^ 2 ∣ Nat.card N := fun h =>
     hsyl (h.trans (Subgroup.card_subgroup_dvd_card N))

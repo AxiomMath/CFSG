@@ -45,7 +45,7 @@ theorem l34_omega (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 : KFactL34TwoSig
   have hnP : (n : G) ∈ (P : Subgroup G) := (P : Subgroup G).mul_mem (P.inv_mem haA'.1) hy.1
   have han : a * n = n * a := by
     have hPC : IsPGroup 3 ((P : Subgroup G).subgroupOf (centralizer ({x} : Set G))) :=
-      P.isPGroup'.comap_subtype
+      P.isPGroup.comap_subtype
     have haP : a ∈ (P : Subgroup G).subgroupOf (centralizer ({x} : Set G)) :=
       mem_subgroupOf.mpr haA'.1
     have hnP' : n ∈ (P : Subgroup G).subgroupOf (centralizer ({x} : Set G)) :=

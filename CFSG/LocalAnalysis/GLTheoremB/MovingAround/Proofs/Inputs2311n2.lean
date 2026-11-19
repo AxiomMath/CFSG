@@ -137,7 +137,7 @@ theorem uniPlaneGen_of_sylowTorus_rgen_n {d : TauCeti.ValidLieTypeIndex} {p m : 
       rw [hx, Subgroup.map_map]
       convert Subgroup.map_id Ec
       ext y
-      simp [MulAut.conj_apply, mul_assoc]
+      simp
     rw [hVEc]
     exact hgen
   rw [Inputs2311c.UniPlaneGen, eq_top_iff]
@@ -166,7 +166,7 @@ theorem ringChar_dvd_card_of_rootSL2_mem_n {τ : Tag} {K L : Type} [Field K] [Fi
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hr, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hr⟩
+  have : Fact (ringChar K).Prime := ⟨hr⟩
   obtain ⟨Y, hY1, hYr⟩ := exists_sl2_rElement_ne_one_n K
   have hzP := hroot Y
   have hzr : (h₀ * simpleRootSL2 τ L i (Matrix.SpecialLinearGroup.map (algebraMap K L) Y) * h₀⁻¹) ^
@@ -502,7 +502,7 @@ theorem mem_closure_hyperRSet_of_kind01_n (K : Type) [Field K] [Finite K] {ℓ f
     have hdvd : ℓ ∣ Nat.card P₀ := by
       have h := ringChar_dvd_card_of_rootSL2_mem_n (K := K) (e7Index 0) hc₀ hhc₀
       rwa [ringChar.eq K ℓ] at h
-    haveI : Finite P₀ := hfac₀.finite ()
+    have : Finite P₀ := hfac₀.finite ()
     have hP₀q : CFSG.IsQuasisimple P₀ := hfac₀.quasi ()
     have hk₀P : psiC F.g0 c (k₀' : adjointGroup .E7 K) ∈ P₀ := by
       rw [hψk₀]
@@ -729,11 +729,11 @@ theorem exists_cube_top_le_closure_hyperRSet_E7Six_n (K : Type) [Field K] [Finit
       exact dvd_pow_self r n.ne_zero
     rw [h0, orderOf_zero] at hord
     omega
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.E7 K) :=
+  have : IsSimpleGroup ↥(adjointGroup Tag.E7 K) :=
     isSimpleGroup_adjointGroup_of_isQuasisimple (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e7 K)
   have hgenR : RootInvariantHyperGenerationR (adjointGroup Tag.E7 K) r p := by
     intro A R' hAC hA hA1 hRC hRr hR' hAR
-    haveI := hA
+    have := hA
     exact ordinary_root_invariant_prime_subgroup_hyperplane_generation_r Tag.E7 K r p hrp A hAC hA1 R' hRC
       hRr hR' hAR
   have h1 := closure_hyperRSet_of_native (MulEquiv.refl _) hgenR hE₁el hE₁ne ⟨R, hR1, hRp, hRn⟩
@@ -762,8 +762,8 @@ theorem uniSeitzPlanes_E7Six_inner_n :
       ∃ q : PrimePower, d.1 = .E7 q ∧ orderOf ((q.card : ℕ) : ZMod p) = 6 := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, q, hq, hord⟩
   obtain rfl : d = .E7 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : (LieTypeIndex.E7 q).characteristic = q.p := LieTypeIndex.characteristic_E7 q
   have hpq : p ≠ q.p := fun h => hpd (by rw [hchar]; exact h)
   have h7 := CFSG.LieType.SeitzGeneration.ExcHigh.seven_le_of_orderOf_six hp hord

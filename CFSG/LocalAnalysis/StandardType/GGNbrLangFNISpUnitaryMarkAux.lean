@@ -58,7 +58,7 @@ theorem kgfniSpUMark_symm_primeFormFieldHom_graph {K : Type} [Field K] {d n : �
 theorem kgfniSpUMark_not_induced_high {m f : ℕ} {E : Type} [Field E] [Finite E] [CharP E 2]
     (hK : Nat.card E = (2 ^ f) ^ 2) (hm : 3 ≤ m) (h32 : (m, 2 ^ f) ≠ (3, 2))
     (B : GL (Fin m) E) (hB : B ∈ GUFull m (2 ^ f) E)
-    (τ : E ≃+* E) (hτ : τ ≠ 1) (hτodd : Odd (orderOf τ))
+    (τ : E ≃+* E) (hτ : τ ≠ 1) (_hτodd : Odd (orderOf τ))
     (g : MulAut ↥(LargeEvenSUGroup (Fin m) E (2 ^ f)))
     (hg : ∀ x : ↥(LargeEvenSUGroup (Fin m) E (2 ^ f)),
       ((g x : ↥(LargeEvenSUGroup (Fin m) E (2 ^ f))) : GL (Fin m) E) =
@@ -193,7 +193,7 @@ theorem kgfniSpUMark_marking_high {m f : ℕ} {E : Type} [Field E] [Finite E] [C
     LargeEvenMatConjImage (LargeEvenProjMk SU)
       (LargeEvenGUSet (Fin m) E (2 ^ f))
   let θ : SU ⧸ Subgroup.center SU ≃* R := QuotientGroup.quotientMulEquivOfEq hqs.2
-  letI : IsSimpleGroup (SU ⧸ Subgroup.center SU) := hsimp
+  let : IsSimpleGroup (SU ⧸ Subgroup.center SU) := hsimp
   have hna : ∃ a b : R, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     refine ⟨θ a, θ b, ?_⟩

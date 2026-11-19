@@ -27,7 +27,7 @@ private theorem w183NonemptyOfGenM {K : Type} [Field K] {ι : Type}
   obtain ⟨v, hv⟩ := hex
   have hmem : v ∈ (∅ : Set (ι → K)) :=
     hgen ∅ (by simp [h]) (by intro a ha; exact absurd ha (by simp)) hv
-  simpa using hmem
+  simp at hmem
 
 private theorem w183S16ntPolar_quadMinusPolar {n : ℕ} {K : Type} [Field K] [Finite K]
     (hirr : ∀ s : K, s ^ 2 + 1 * s + 1 ≠ 0)
@@ -78,7 +78,7 @@ theorem s16nt_gen_minus_main {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 2 �
     · exfalso
       have h := hirr 1
       rw [hb0, hc] at h
-      simp only [one_pow, zero_mul, mul_one, add_zero] at h
+      simp only [one_pow, mul_one, add_zero] at h
       exact h h11
     · exact hb1
   subst hc

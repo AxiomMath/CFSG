@@ -169,7 +169,7 @@ private theorem card_le_eight_of_not_le_base {D : Subgroup A5WrTwo}
     Nat.card D ≤ 8 := by
   obtain ⟨u, huD, hubase⟩ : ∃ u ∈ D, u ∉ commutator A5WrTwo := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hDnot fun x hx => h x hx
   have hu2 : u ^ 2 = 1 := hD.2 u huD
   obtain ⟨b, _hbbase, hbconj⟩ :=
@@ -216,7 +216,7 @@ private theorem card_le_eight_of_not_le_base {D : Subgroup A5WrTwo}
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
     have hxD : x ∈ D := (Subgroup.mem_inf.mp hx).1
-    haveI : IsMulCommutative D := hD.1
+    have : IsMulCommutative D := hD.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hxD⟩ : D) (⟨u, huD⟩ : D))
   have hle_Zu : D ⊓ commutator A5WrTwo ≤
       centralizer ({u} : Set A5WrTwo) ⊓ commutator A5WrTwo := by
@@ -224,7 +224,7 @@ private theorem card_le_eight_of_not_le_base {D : Subgroup A5WrTwo}
     exact ⟨hDbase_le_Zu hx, (Subgroup.mem_inf.mp hx).2⟩
   have hcard_conj : Nat.card ↥(centralizer ({u} : Set A5WrTwo) ⊓ commutator A5WrTwo) =
       Nat.card ↥(centralizer ({sW} : Set A5WrTwo) ⊓ commutator A5WrTwo) := by
-    haveI : (commutator A5WrTwo).Normal := by
+    have : (commutator A5WrTwo).Normal := by
       rw [A5WrTwo.commutator_eq_ker]
       infer_instance
     have hB : (commutator A5WrTwo).map (MulAut.conj b).toMonoidHom =

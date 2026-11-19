@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 private abbrev OrderThreeSubgroups (A : Subgroup G) : Type _ :=
   {P : Subgroup G // P ≤ A ∧ Nat.card P = 3}
 
+omit [Finite G] in
 private lemma map_conj_mem_orderThreeSubgroups {A : Subgroup G}
     (n : Subgroup.normalizer (A : Set G)) (P : OrderThreeSubgroups A) :
     P.1.map (MulAut.conj (n : G)).toMonoidHom ≤ A ∧
@@ -31,7 +32,7 @@ private instance (A : Subgroup G) :
     change P.1.map (MulAut.conj (1 : G)).toMonoidHom = P.1
     rw [show (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G by
       ext x
-      simp [MulAut.conj_apply]]
+      simp]
     exact Subgroup.map_id P.1
   mul_smul n m P := by
     apply Subtype.ext
@@ -43,6 +44,7 @@ private instance (A : Subgroup G) :
     simp [MulAut.conj_apply, mul_assoc]
 
 
+omit [Finite G] in
 private lemma coe_smul_orderThreeSubgroups {A : Subgroup G}
     (n : Subgroup.normalizer (A : Set G)) (P : OrderThreeSubgroups A) :
     ((n • P : OrderThreeSubgroups A) : Subgroup G) =
@@ -52,10 +54,10 @@ private theorem natCard_orderThreeSubgroups {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hAcard : Nat.card A = 27) :
     Nat.card (OrderThreeSubgroups A) = 13 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype A := Fintype.ofFinite A
   let S := {x : A // x ≠ 1}
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hS : Nat.card S = 26 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun x : A => x = 1)]
     rw [Fintype.card_eq_nat_card, hAcard]
@@ -124,13 +126,13 @@ private theorem natCard_orderThreeSubgroups {A : Subgroup G}
               (show (z.1 : G) = 1 from congrArg (fun w : A => (w : G)) h))⟩
           left_inv := fun y => by apply Subtype.ext; rfl
           right_inv := fun z => by apply Subtype.ext; rfl }
-    haveI : Fintype P.1 := Fintype.ofFinite P.1
+    have : Fintype P.1 := Fintype.ofFinite P.1
     have hcard_nontriv : Nat.card {y : P.1 // y ≠ 1} = 2 := by
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun y : P.1 => y = 1),
         Fintype.card_eq_nat_card, P.2.2]
       simp
     rw [hcard_fiber, hcard_P, hcard_nontriv]
-  haveI : Fintype (OrderThreeSubgroups A) := Fintype.ofFinite _
+  have : Fintype (OrderThreeSubgroups A) := Fintype.ofFinite _
   have hsum : Nat.card S = ∑ P : OrderThreeSubgroups A, Nat.card {x : S // f x = P} := by
     rw [← Nat.card_sigma]
     exact Nat.card_congr (Equiv.sigmaFiberEquiv f).symm
@@ -161,7 +163,7 @@ private theorem exists_fixed_orderThreeSubgroup
   let K := Subgroup.zpowers g
   let Ω := OrderThreeSubgroups A
   have hKle : K ≤ N := Subgroup.zpowers_le.mpr hgA
-  letI : MulAction K Ω := MulAction.compHom Ω (Subgroup.inclusion hKle)
+  let : MulAction K Ω := MulAction.compHom Ω (Subgroup.inclusion hKle)
   have hΩcard : Nat.card Ω = 13 := natCard_orderThreeSubgroups hA hAcard
   let XΩ : Ω := ⟨X, hXA, hX⟩
   have hKp : IsPGroup p K := hg
@@ -224,7 +226,7 @@ private theorem exists_fixed_orderThreeSubgroup
     exact ⟨k, hk⟩
   let L := H ⊔ K
   have hLle : L ≤ N := sup_le hHA hKle
-  letI : MulAction L Ω := MulAction.compHom Ω (Subgroup.inclusion hLle)
+  let : MulAction L Ω := MulAction.compHom Ω (Subgroup.inclusion hLle)
   have hLtrans : MulAction.IsPretransitive L Ω := by
     refine MulAction.IsPretransitive.mk fun P Q => ?_
     obtain ⟨k, hk⟩ := htrans.exists_smul_eq P Q
@@ -234,7 +236,7 @@ private theorem exists_fixed_orderThreeSubgroup
     have hLnormH : L ≤ Subgroup.normalizer (H : Set G) :=
       sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hgH)
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hLnormH
-  letI : H'.Normal := hH'normal
+  let : H'.Normal := hH'normal
   have hcoe_H' : ∀ h' : H', ((h' • XΩ : Ω) : Subgroup G) =
       X.map (MulAut.conj
         ((Subgroup.subgroupOfEquivOfLe le_sup_left h' : H) : G)).toMonoidHom := by
@@ -295,7 +297,7 @@ private theorem exists_fixed_orderThreeSubgroup
 
 
 private theorem mem_centralizer_of_fixed_orderThreeSubgroup
-    {A : Subgroup G} (hA : CFSG.Open.IsElemAbelian 3 A) (hAcard : Nat.card A = 27)
+    {A : Subgroup G} (_hA : CFSG.Open.IsElemAbelian 3 A) (hAcard : Nat.card A = 27)
     {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     {g : G} (hgA : g ∈ Subgroup.normalizer (A : Set G))
     (hg : IsPGroup p (Subgroup.zpowers g))

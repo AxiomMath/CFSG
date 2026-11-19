@@ -23,11 +23,13 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private lemma conj_mem_of_mem_normalizer {Q : Subgroup G} {b x : G}
     (hb : b ∈ Subgroup.normalizer (Q : Set G)) (hx : x ∈ Q) :
     b * x * b⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp hb x).mp hx
 
+omit [Finite G] in
 private lemma conj_eq_of_mem_mul {Q : Subgroup G}
     (hQ : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)
     {q x u w : G} (hq : q ∈ Q) (hu : u = q * x)
@@ -133,6 +135,7 @@ private lemma exists_inner_borelOf (hH : Hyp111 L1 L2 S)
     exists_kappa_unipotent hH hD c₁ c₂ ρ e₂ h₂ hbL2 hbL1 hbQ2 hbmat
   exact exists_inner_of_unitriangular c₁.α c₁.surjective c₁.eq_one_iff hbL1 hbQ1 hκ hU
 
+omit [Finite G] in
 private lemma addAction_commutes (hD : Sp4qLocalData L1 L2 S f)
     (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     {b g : G} (hgL1 : g ∈ L1)
@@ -204,6 +207,7 @@ private lemma addAction_commutes (hD : Sp4qLocalData L1 L2 S f)
     _ = Multiplicative.toAdd (c₁.γ yw) := by rw [hψwx]
     _ = (sp4RadMat M).mulVec (A v) := hyw
 
+omit [Finite G] in
 private lemma exists_addAction_of_inner (hD : Sp4qLocalData L1 L2 S f)
     (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     {b g : G} (hgL1 : g ∈ L1)
@@ -245,19 +249,20 @@ private lemma exists_addAction_of_inner (hD : Sp4qLocalData L1 L2 S f)
   have hA_ne : A (![1, 0, 0] : Fin 3 → F) ≠ 0 := by
     intro hzero
     have hγ : c₁.γ (ψ (c₁.γ.symm (Multiplicative.ofAdd ![1, 0, 0]))) = 1 :=
-      Multiplicative.toAdd.injective (by simpa [A] using hzero)
+      Multiplicative.toAdd.injective (by simp [A] at hzero)
     have hψ : ψ (c₁.γ.symm (Multiplicative.ofAdd ![1, 0, 0])) = 1 :=
-      c₁.γ.injective (by simpa using hγ)
+      c₁.γ.injective (by simp at hγ)
     have hq : c₁.γ.symm (Multiplicative.ofAdd ![1, 0, 0]) = 1 :=
-      ψ.injective (by simpa using hψ)
+      ψ.injective (by simp at hψ)
     have hof : Multiplicative.ofAdd (![1, 0, 0] : Fin 3 → F) = 1 := by
       have h := congrArg c₁.γ hq
-      simpa using h
+      simp at h
     have hvec : (![1, 0, 0] : Fin 3 → F) = 0 :=
-      Multiplicative.ofAdd.injective (by simpa using hof)
+      Multiplicative.ofAdd.injective (by simp at hof)
     exact one_ne_zero (congrFun hvec 0)
   exact ⟨A, ψ, hψ_apply, hA_apply, hA_comm, hA_ne⟩
 
+omit [Finite G] in
 private lemma exists_scalar_of_inner (hf : 2 ≤ f) (hD : Sp4qLocalData L1 L2 S f)
     (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     {b g : G} (hgL1 : g ∈ L1)
@@ -413,7 +418,7 @@ private theorem exists_actsByMatrix_borelOf (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
   let cU : Fˣ := Units.mk0 c hc_ne
   let B : GL (Fin 3) F := sp4RadHom F (c₁.α ⟨g, hgL1⟩) * sp4ScalarHom F cU
   have hBcoe : (B : Matrix (Fin 3) (Fin 3) F) = c • sp4RadMat (c₁.α ⟨g, hgL1⟩) := by
-    simp [B, cU, Matrix.mul_smul]
+    simp [B, cU]
   have hBmem : B ∈ sp4Gamma F := by
     rw [mem_sp4Gamma_iff]
     exact ⟨c₁.α ⟨g, hgL1⟩, cU, by simpa [cU] using hBcoe⟩

@@ -52,8 +52,8 @@ private theorem mem_of_mem_normalizer {K : Type} [Field K] [Finite K] [CharP K 2
     {g : Matrix.SpecialLinearGroup (Fin 2) K} (hg2 : g ^ 2 = 1)
     (hgN : g ∈ Subgroup.normalizer (P : Set (Matrix.SpecialLinearGroup (Fin 2) K))) :
     g ∈ P := by
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_finite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_finite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Sylow.ofCard P (hP.trans (SL2Grp.sl2_card_factorization K))
   have hp : IsPGroup 2 (Subgroup.zpowers g) := by
@@ -126,6 +126,7 @@ private theorem comm_mem_Q_of_mem_inf {hc : Ctx M Q Z B} {t r : G} (hr : Sec7A h
     exact sup_le hBS hAS
   exact (hRS hg).2
 
+omit [Finite G] in
 private theorem Rt_le_normalizer_Y {t : G} {X Y : Subgroup G}
     (hsplit : HS9.Split95 M Q Z B t X Y) :
     Rt M (LB M Q B) t ≤ Subgroup.normalizer (Y : Set G) := by
@@ -210,10 +211,10 @@ private theorem inf_le_of_normal (h34 : Stroth34Statement) (h311a : Stroth311aSt
   classical
   obtain ⟨K, fK, finK, chK, h4, -, η, -, -, hηs, hηk, -, -, -⟩ :=
     sec4_model h34 h311a hs hsplit
-  haveI : (C.subgroupOf Y).Normal := ⟨fun c hc g =>
+  have : (C.subgroupOf Y).Normal := ⟨fun c hc g =>
     Subgroup.mem_subgroupOf.mpr (hCn g g.2 c (Subgroup.mem_subgroupOf.mp hc))⟩
-  haveI := HS9.isSimpleGroup_sl2 h4
-  haveI : ((C.subgroupOf Y).map η).Normal := Subgroup.Normal.map inferInstance η hηs
+  have := HS9.isSimpleGroup_sl2 h4
+  have : ((C.subgroupOf Y).map η).Normal := Subgroup.Normal.map inferInstance η hηs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((C.subgroupOf Y).map η) with hbot | htop
   · intro c hc
     have hmem : η ⟨c, hc.2⟩ ∈ (C.subgroupOf Y).map η :=
@@ -432,12 +433,12 @@ theorem step94DimQ_holds (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hfilt := card_Q1_mul_le_filtration hc huM hZV hVW hWQ huV huW hVC hCW
     (fun y hy => ⟨fun h => ((hC y).mp h).2, fun h => (hC y).mpr ⟨hy, h⟩⟩) hWC₃ hC₃Q hC₃iff
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, w, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have h3 : Nat.card ↥(V ⊓ Q1 hc u) = Nat.card Z ^ 3 :=
     HS9.card_Vt_inf_Q1_plus4_91 P ht huL huN
   have hCle := card_C_mul_le h34 h311a (h91b_of h34 h311a h311bComm) hs hsplit hr hu huQ hC
   obtain ⟨hA, hVA⟩ := card_QA h34 hs hr
-  haveI : (Z.subgroupOf (Ut Q Z u)).Normal :=
+  have : (Z.subgroupOf (Ut Q Z u)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q huM hv)))
   have hQ1U : Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc u) * Nat.card ↥(Ut Q Z u) :=

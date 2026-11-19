@@ -85,7 +85,7 @@ theorem ncard_codeRoots (c : Finset (ExcRaw.Root m)) :
       d.γ '' (c : Set (ExcRaw.Root m)) ∪
         (fun i => -d.γ i) '' (c : Set (ExcRaw.Root m)) := by
     ext δ
-    simp only [codeRoots, Set.mem_setOf_eq, Set.mem_union, Set.mem_image]
+    simp only [codeRoots, Set.mem_ofPred_eq, Set.mem_union, Set.mem_image]
     constructor
     · rintro ⟨i, hi, h | h⟩
       · exact Or.inl ⟨i, hi, h.symm⟩

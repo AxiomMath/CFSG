@@ -26,6 +26,7 @@ open Subgroup
 variable {G X : Type} [Group G] [Group X] [Finite G] [Finite X]
   {L1 L2 S H : Subgroup G} {f : ℕ}
 
+omit [Finite X] in
 theorem B_inf_centralizer_J₂_le (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
     d.B ⊓ Subgroup.centralizer (d.J₂ : Set X) ≤ d.leviLong ⊔ d.J₂ := by
   intro b hb
@@ -154,6 +155,7 @@ private theorem exists_partner_of_mem_inf_B (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     _ = (ψ tP : X) * (ψ ⟨x, hxP⟩ : X) * (ψ tP : X)⁻¹ := rfl
     _ = (ψ tP : X) * (Θ x : X) * (ψ tP : X)⁻¹ := by rw [hΘ x]
 
+omit [Finite X] in
 private theorem exists_weyl_lift_data (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (hD : D4qLocalData L1 L2 S f) (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1))
     (hHB : H ≤ bigB L1 L2 S) (hSH : S ⊔ H = bigB L1 L2 S)
@@ -162,7 +164,7 @@ private theorem exists_weyl_lift_data (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
     (d : TrialityD4Data X (2 ^ f))
     (ψ : ↥(L1 ⊔ bigB L1 L2 S) ≃* ↥(Subgroup.normalizer (d.V : Set X)))
-    (hψS : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔ (ψ x : X) ∈ d.S)
+    (_hψS : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔ (ψ x : X) ∈ d.S)
     (hψH : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ H ↔ (ψ x : X) ∈ d.J)
     {w : G} (hwInv : ∀ t ∈ H ⊓ L2, w * t * w⁻¹ = t⁻¹)
     (hwCent : ∀ t ∈ H ⊓ trivOTwoQuot L2, w * t * w⁻¹ = t)
@@ -229,10 +231,10 @@ private theorem exists_weyl_lift_vconj (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (ψ : ↥(L1 ⊔ bigB L1 L2 S) ≃* ↥(Subgroup.normalizer (d.V : Set X)))
     (hψS : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔ (ψ x : X) ∈ d.S)
     (hψH : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ H ↔ (ψ x : X) ∈ d.J)
-    {h : X} (hhJ : h ∈ d.J)
+    {h : X} (_hhJ : h ∈ d.J)
     {hP : ↥(L1 ⊔ bigB L1 L2 S)} {t1 h0 : G}
     {t1P : ↥(L1 ⊔ bigB L1 L2 S)} {h0P : ↥(L1 ⊔ bigB L1 L2 S)}
-    (hψhP : (ψ hP : X) = h)
+    (_hψhP : (ψ hP : X) = h)
     (ht1P : (t1P : G) = t1) (hh0P : (h0P : G) = h0)
     (ht1 : t1 ∈ H ⊓ L2) (hh0 : h0 ∈ H ⊓ trivOTwoQuot L2)
     (hψhP' : (ψ t1P : X) * (ψ h0P : X) = h) :
@@ -323,7 +325,7 @@ private theorem weylAut_conj_eq (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (hh1'R : h1' ∈ (L2 ⊓ Subgroup.centralizer
       ((H ⊓ trivOTwoQuot L2 : Subgroup G) : Set G)) ⊔ (H ⊓ trivOTwoQuot L2))
     (hh1'B : h1' ∈ bigB L1 L2 S)
-    (hv_h1' : d.v * (ψ h1'P : X) * d.v = h)
+    (_hv_h1' : d.v * (ψ h1'P : X) * d.v = h)
     {x y : ↥d.M} (hxy : (y : X) = h * (x : X) * h⁻¹) :
     (Θ (cw (Θ.symm y)) : X) =
       (ψ h1'P : X) * (Θ (cw (Θ.symm x)) : X) * (ψ h1'P : X)⁻¹ := by
@@ -390,7 +392,7 @@ private theorem weylAut_commutes_J (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (huval : ∀ m : ↥d.M,
       (u m : X) = d.v * (Θ (cw (Θ.symm m)) : X) * d.v)
     (hconj_val : ∀ z : X, d.v * z * d.v = MulAut.conj d.v z)
-    (hconj2 : ∀ z : X, d.v * (d.v * z * d.v) * d.v = z) :
+    (_hconj2 : ∀ z : X, d.v * (d.v * z * d.v) * d.v = z) :
     ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * (x : X) * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹ := by
   intro h hhJ x y hxy
@@ -587,9 +589,9 @@ private theorem exists_weyl_element (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
           ((H ⊓ trivOTwoQuot L2 : Subgroup G) : Set G)) := by
   classical
   obtain ⟨c2⟩ := hD.exists_coordRight hH
-  letI := c2.field
-  letI := c2.fintype
-  haveI : CharP c2.F 2 :=
+  let := c2.field
+  let := c2.fintype
+  have : CharP c2.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c2.card])
   have hTR := hD.torus_right_of_hall hf hH h1 hHB hSH hSinfH hHcard hHcomm
   have hHnormS : H ≤ Subgroup.normalizer (S : Set G) :=
@@ -759,8 +761,7 @@ private theorem extension_agrees_on_B (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     exact (bigB L1 L2 S).mul_mem ((bigB L1 L2 S).inv_mem hxB) hb
   obtain ⟨r', hr'R', hr'eq, hr'part⟩ :=
     exists_partner_of_mem_inf_B hf hH hD h1 hHB hSH hSinfH hHcard hHcomm d ψ hψS hψH
-      QleP Θ hΘ (t := r) (by change r ∈ (L2 ⊓ Subgroup.centralizer
-        ((H ⊓ trivOTwoQuot L2 : Subgroup G) : Set G)) ⊔ (H ⊓ trivOTwoQuot L2); exact hrR)
+      QleP Θ hΘ (t := r) (by exact hrR)
       hrB
   have hψ'r : (ψ' ⟨r, Subgroup.mem_sup_right hrR⟩ : X) =
       (ψ ⟨r, Subgroup.mem_sup_right hrB⟩ : X) := by

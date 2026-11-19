@@ -127,8 +127,8 @@ theorem ggPhanNSAPairAux_stdPair_of_card {K K' : Type} [Field K] [Field K']
     (ggPhanNSAPairAux_card_fun_eq hq hq' hcard)
   subst f'
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype K' := Fintype.ofFinite K'
   let e : K' ≃+* K := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK', hK])
   exact ggPhanNSAPairAux_stdPair_congr_field e h

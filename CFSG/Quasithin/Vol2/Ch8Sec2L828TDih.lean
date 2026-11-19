@@ -69,7 +69,7 @@ theorem exists_five_elt {I P : Subgroup G} [(P.subgroupOf I).Normal] (hP : IsPGr
 theorem dihedral_conj {I P : Subgroup G} [(P.subgroupOf I).Normal]
     (e : ↥I ⧸ P.subgroupOf I ≃* DihedralGroup 5) {t : G}
     (htI : t ∈ Subgroup.normalizer (I : Set G)) (htP : t ∈ Subgroup.normalizer (P : Set G))
-    (ht2 : t ^ 2 = 1) {y : ↥I} {j : ZMod 5} (hj : j ≠ 0)
+    (ht2 : t ^ 2 = 1) {y : ↥I} {j : ZMod 5} (_hj : j ≠ 0)
     (hy : e (QuotientGroup.mk y) = DihedralGroup.r j) :
     t * (y : G) * t⁻¹ * (y : G)⁻¹ ∈ P ∨ t * (y : G) * t⁻¹ * (y : G) ∈ P := by
   have ht_mul : t * t = 1 := by rw [← pow_two]; exact ht2

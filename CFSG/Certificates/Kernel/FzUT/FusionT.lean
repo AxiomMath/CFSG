@@ -18,18 +18,18 @@ theorem card_filter_bij {φ ψ : ℕ → ℕ} (hφ : ∀ x < 512, φ x < 512) (h
     ((Finset.range 512).filter p).card = ((Finset.range 512).filter q).card := by
   refine Finset.card_nbij' φ ψ ?_ ?_ ?_ ?_
   · intro a ha
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha ⊢
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha ⊢
     exact ⟨hφ a ha.1, (hpq a ha.1).mp ha.2⟩
   · intro a ha
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha ⊢
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha ⊢
     refine ⟨hψ a ha.1, (hpq _ (hψ a ha.1)).mpr ?_⟩
     rw [hφψ a ha.1]
     exact ha.2
   · intro a ha
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha
     exact hψφ a ha.1
   · intro a ha
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha
     exact hφψ a ha.1
 
 section Map
@@ -41,6 +41,7 @@ variable {P P' : Par} {φ ψ : ℕ → ℕ} (hφ : ∀ x < 512, φ x < 512) (hψ
 
 include hφ hψφ he hlt
 
+omit hφ he hlt in
 theorem map_eq_iff {x y : ℕ} (hx : x < 512) (hy : y < 512) : φ x = φ y ↔ x = y := by
   constructor
   · intro h
@@ -48,17 +49,18 @@ theorem map_eq_iff {x y : ℕ} (hx : x < 512) (hy : y < 512) : φ x = φ y ↔ x
   · rintro rfl
     rfl
 
+omit hφ in
 theorem kord_map (h0 : φ 0 = 0) {x : ℕ} (hx : x < 512) : kord P'.e x = kord P.e (φ x) := by
   have hxx := hlt x x hx hx
   have h4 := hlt _ _ hxx hxx
   have h8 := hlt _ _ h4 h4
   have e0 : ∀ {y}, y < 512 → (P'.e y y = 0 ↔ P.e (φ y) (φ y) = 0) := by
     intro y hy
-    have := map_eq_iff hφ hψφ he hlt (hlt y y hy hy) (show (0 : ℕ) < 512 by norm_num)
+    have := map_eq_iff hψφ (hlt y y hy hy) (show (0 : ℕ) < 512 by norm_num)
     rw [h0, he y y hy hy] at this
     exact this.symm
   have ex : x = 0 ↔ φ x = 0 := by
-    have := map_eq_iff hφ hψφ he hlt hx (show (0 : ℕ) < 512 by norm_num)
+    have := map_eq_iff hψφ hx (show (0 : ℕ) < 512 by norm_num)
     rw [h0] at this
     exact this.symm
   unfold kord
@@ -68,17 +70,17 @@ theorem kord_map (h0 : φ 0 = 0) {x : ℕ} (hx : x < 512) : kord P'.e x = kord P
   rw [he x x hx hx] at r2
   rw [he _ _ hxx hxx, he x x hx hx] at r3
   by_cases a : x = 0
-  · rw [if_pos a, if_pos (ex.mp a)]
-  rw [if_neg a, if_neg (fun h => a (ex.mpr h))]
+  · rw [ite_eq_left a, ite_eq_left (ex.mp a)]
+  rw [ite_eq_right a, ite_eq_right (fun h => a (ex.mpr h))]
   by_cases b : P'.e x x = 0
-  · rw [if_pos b, if_pos (r1.mp b)]
-  rw [if_neg b, if_neg (fun h => b (r1.mpr h))]
+  · rw [ite_eq_left b, ite_eq_left (r1.mp b)]
+  rw [ite_eq_right b, ite_eq_right (fun h => b (r1.mpr h))]
   by_cases c : P'.e (P'.e x x) (P'.e x x) = 0
-  · rw [if_pos c, if_pos (r2.mp c)]
-  rw [if_neg c, if_neg (fun h => c (r2.mpr h))]
+  · rw [ite_eq_left c, ite_eq_left (r2.mp c)]
+  rw [ite_eq_right c, ite_eq_right (fun h => c (r2.mpr h))]
   by_cases d : P'.e (P'.e (P'.e x x) (P'.e x x)) (P'.e (P'.e x x) (P'.e x x)) = 0
-  · rw [if_pos d, if_pos (r3.mp d)]
-  rw [if_neg d, if_neg (fun h => d (r3.mpr h))]
+  · rw [ite_eq_left d, ite_eq_left (r3.mp d)]
+  rw [ite_eq_right d, ite_eq_right (fun h => d (r3.mpr h))]
 
 include hψ hφψ in
 theorem rules_map (h0 : φ 0 = 0) (htI : P'.tI < 512) (hsI : P'.sI < 512)
@@ -88,7 +90,7 @@ theorem rules_map (h0 : φ 0 = 0) (htI : P'.tI < 512) (hsI : P'.sI < 512)
     (hTZ : ∀ x < 512, P'.inTZ x = P.inTZ (φ x)) {θ : ℕ → Prop} (hθ : FzRules P θ) :
     FzRules P' (fun x => x < 512 ∧ θ (φ x)) := by
   have inj : ∀ {x y : ℕ}, x < 512 → y < 512 → (φ x = φ y ↔ x = y) :=
-    fun hx hy => map_eq_iff hφ hψφ he hlt hx hy
+    fun hx hy => map_eq_iff hψφ hx hy
   have hψe : ∀ x y, x < 512 → y < 512 → ψ (P.e x y) = P'.e (ψ x) (ψ y) := by
     intro x y hx hy
     rw [← hφψ x hx, ← hφψ y hy, ← he _ _ (hψ x hx) (hψ y hy), hψφ _ (hlt _ _ (hψ x hx) (hψ y hy)),
@@ -182,10 +184,10 @@ theorem rules_map (h0 : φ 0 = 0) (htI : P'.tI < 512) (hsI : P'.sI < 512)
     have hkeyx : ∀ x < 512, fzrKey P' (fun x => x < 512 ∧ θ (φ x)) x = fzrKey P θ (φ x) := by
       intro x hx
       unfold fzrKey
-      rw [kord_map hφ hψφ he hlt h0 hx]
+      rw [kord_map hψφ he hlt h0 hx]
       by_cases h : θ (φ x)
-      · rw [if_pos ⟨hx, h⟩, if_pos h]
-      · rw [if_neg (fun h' => h h'.2), if_neg h]
+      · rw [ite_eq_left ⟨hx, h⟩, ite_eq_left h]
+      · rw [ite_eq_right (fun h' => h h'.2), ite_eq_right h]
     have hH : ∀ x < 512, (fzrS P' x ∧ (f₀ ∘ φ) x = false ∧ (f₁ ∘ φ) x = false) ↔
         (fzrS P (φ x) ∧ f₀ (φ x) = false ∧ f₁ (φ x) = false) := by
       intro x hx

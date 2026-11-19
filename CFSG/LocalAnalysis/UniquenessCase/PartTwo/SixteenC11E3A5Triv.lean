@@ -15,7 +15,7 @@ theorem s1611e3_a5_triv {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^
     (hZ : Nat.card ↥Z = 3) (hZL : ∀ z ∈ Z, ∀ l ∈ L, z * l = l * z)
     (hZU : ∀ z ∈ Z, ∀ w ∈ U, z w ∈ U) (hZf : ∀ z ∈ Z, z ≠ 1 → ∃ w ∈ U, z w ≠ w)
     {J : Subgroup W} (hJU : J ≤ U) (hJ : AlternatingNatural L J ⊥ 5) {e : MulAut W}
-    (heL : L.map (MulAut.conj e).toMonoidHom = L) (heU : U.map e.toMonoidHom = U)
+    (_heL : L.map (MulAut.conj e).toMonoidHom = L) (_heU : U.map e.toMonoidHom = U)
     (hJe : ∀ j ∈ J, e j = j) :
     ((∀ z ∈ Z, e * z = z * e) → ∀ u ∈ U, e u = u) ∧
       ((∀ z ∈ Z, e * z * e⁻¹ ∈ Z) → ∀ u ∈ U, e u * u⁻¹ ∈ J) := by

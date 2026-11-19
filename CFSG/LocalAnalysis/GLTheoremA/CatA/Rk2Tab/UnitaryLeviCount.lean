@@ -118,7 +118,7 @@ theorem card_le_pow_sub_two_of_factor_bounds {r d k m A B C : ℕ} (hr : r.Prime
   · calc A * B ≤ (r ^ (k - 1) * r ^ (m - 1)) * r :=
         Nat.mul_le_mul hA (hB1 (Or.inl hm0))
       _ = r ^ k := by
-          simp only [hm0, Nat.sub_zero, Nat.zero_sub, pow_zero, mul_one]
+          simp only [hm0, Nat.zero_sub, pow_zero, mul_one]
           rw [← pow_succ]
           congr 1
           omega
@@ -200,7 +200,7 @@ theorem card_quotient_le_prime_of_pair_det {N : Type*} [CommGroup N] [Finite N]
     {F : Type} [Field F] [Finite F] [CharP F 2] {r m : ℕ} [Fact r.Prime] (Cr : Subgroup N)
     (hNr : ∀ x : N, x ^ r ∈ Cr) (f g : N → F)
     (hpair : Function.Injective fun x => (f x, g x))
-    (hf : ∀ x : N, x ^ r = 1 → f x ^ r = 1)
+    (_hf : ∀ x : N, x ^ r = 1 → f x ^ r = 1)
     (hg : ∀ x : N, x ^ r = 1 → g x ^ r = 1)
     (hdet : ∀ x : N, x ^ r = 1 → f x ^ 2 * g x ^ m = 1) :
     Nat.card (N ⧸ Cr) ≤ r := by

@@ -23,14 +23,17 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   CFSG.RankThree.OrthogonalInvolutions.toQuadForm (coordinateQuadPlus 4 K)
     (regular_coordinateQuadPlus 4 K (by norm_num)).1
 
+omit [Finite K] [CharP K 2] in
 theorem omForm_Q (v : Fin (2 * 4) → K) : (omForm (K := K)).Q v = coordinateQuadPlus 4 K v := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem omRep_Q (x : Om8 K) (v : Fin (2 * 4) → K) :
     (omForm (K := K)).Q (omRep x v) = (omForm (K := K)).Q v := by
   rw [omForm_Q, omForm_Q, omRep_apply]
   exact (CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear.mem_matrixIsometries_iff _ _).1
     (matrixDerived_le_isometries _ x.2) v
 
+omit [Finite K] [CharP K 2] in
 theorem omRep_injective : Function.Injective (omRep (K := K)) := by
   intro x y hxy
   apply Subtype.ext
@@ -41,6 +44,7 @@ theorem omRep_injective : Function.Injective (omRep (K := K)) := by
     congrArg (fun f : Module.End K (Fin (2 * 4) → K) => f (Pi.single j 1) i) hxy
   simpa [Matrix.mulVec_single_one] using h
 
+omit [Finite K] [CharP K 2] in
 theorem noQuotientReflection_omRep : NoQuotientReflection (omForm (K := K)) (omRep (K := K)) := by
   intro h Z hZ a ha hQa hrefl
   have hmem : (h : GL (Fin (2 * 4)) K) ∈ CFSG.Open.StatedOmega (omForm (K := K)).Q := by
@@ -53,7 +57,7 @@ theorem noQuotientReflection_omRep : NoQuotientReflection (omForm (K := K)) (omR
 theorem exists_totallySingular (R : Subgroup (Om8 K)) (hR2 : IsPGroup 2 R) (hR : R ≠ ⊥) :
     ∃ Z : Submodule K (Fin (2 * 4) → K), Z ≠ ⊥ ∧ (∀ v ∈ Z, coordinateQuadPlus 4 K v = 0) ∧
       ∀ n ∈ Subgroup.normalizer (R : Set (Om8 K)), ∀ v ∈ Z, omRep n v ∈ Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ := omRep_Q (K := K)
   have hker := le_flagKernel_singFlag 2 hQ noQuotientReflection_omRep R hR2
   refine ⟨singSeq (omForm (K := K)) (omRep (K := K)) R (Module.finrank K (Fin (2 * 4) → K)), ?_,

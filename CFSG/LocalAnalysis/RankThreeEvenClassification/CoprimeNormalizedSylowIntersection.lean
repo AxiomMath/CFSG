@@ -30,7 +30,7 @@ theorem coprime_normalized_sylow_intersection {G : Type u} [Group G] [Finite G]
   have hintersectionNormalized : actor ≤ Subgroup.normalizer (intersection : Set G) :=
     normalizes_inf_of_normalizes_both actor sylowImage subgroup hsylowNormalized hsubgroupNormalized
   have hintersectionGroup : IsPGroup subgroupPrime intersection :=
-    (sylow.isPGroup'.map overgroup.subtype).to_le inf_le_left
+    (sylow.isPGroup.map overgroup.subtype).to_le inf_le_left
   have hsubgroupComplement : ¬prime ∣ Nat.card subgroup := fun hdiv =>
     hcomplement (hdiv.trans (Subgroup.card_dvd_of_le hle))
   obtain ⟨firstSylow, hintersectionLe, hfirstNormalized⟩ :=
@@ -41,11 +41,11 @@ theorem coprime_normalized_sylow_intersection {G : Type u} [Group G] [Finite G]
   obtain ⟨secondSylow, hfirstSecondLe, hsecondNormalized⟩ :=
     exists_normalized_sylow_containing_normalized_pSubgroup prime hprime subgroupPrime hsubgroupPrime
       actor overgroup firstImage hpgroup hcomplement hovergroupNormalized
-        ((Subgroup.map_subtype_le _).trans hle) (firstSylow.isPGroup'.map subgroup.subtype) hfirstNormalized
+        ((Subgroup.map_subtype_le _).trans hle) (firstSylow.isPGroup.map subgroup.subtype) hfirstNormalized
   let secondImage := (secondSylow : Subgroup overgroup).map overgroup.subtype
   have hsecondIntersection : secondImage ⊓ subgroup = firstImage := by
     have hinternalGroup : IsPGroup subgroupPrime ((secondImage ⊓ subgroup).subgroupOf subgroup) :=
-      ((secondSylow.isPGroup'.map overgroup.subtype).to_le inf_le_left).comap_subtype
+      ((secondSylow.isPGroup.map overgroup.subtype).to_le inf_le_left).comap_subtype
     have hfirstInternal : (firstSylow : Subgroup subgroup) ≤ (secondImage ⊓ subgroup).subgroupOf subgroup := by
       intro member hmember
       exact ⟨hfirstSecondLe (Subgroup.mem_map_of_mem subgroup.subtype hmember), member.property⟩

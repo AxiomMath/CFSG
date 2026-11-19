@@ -220,7 +220,7 @@ theorem fourB_orderOf_mul_of_comm {u t : G} (hu : orderOf u = 2) (ht : orderOf t
       _ = u * u * t := (mul_assoc u u t).symm
       _ = 1 * t := by rw [hu1]
       _ = t := one_mul t
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime h2 hne1
 
 theorem fourB_shape_K (H : FourBHyps a z) (P : FourBPair a p q) :

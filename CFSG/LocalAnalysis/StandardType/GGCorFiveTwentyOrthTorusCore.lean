@@ -322,7 +322,7 @@ theorem exists_torus_frame {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   exact ⟨r, τ, F, hτF, hpiece, hdimV, hperm, hdinv⟩
 
 theorem three_dvd_card_sub_or_add : 3 ∣ Nat.card K - 1 ∨ 3 ∣ Nat.card K + 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hK' : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hK]

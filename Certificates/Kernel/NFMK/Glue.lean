@@ -510,7 +510,7 @@ theorem orderOf_unit (g h : owEm_GL 4) (hg : (g : Mat 4) = piMat 0 1 1) (hh : (h
     dsimp [D]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_four] <;> decide
+      simp [Matrix.mul_apply, Fin.sum_univ_four]
   let Du : owEm_GL 4 := owEm_unit D hDsq
   have hsqMat : (((g * h : owEm_GL 4) : Mat 4) ^ 2) = D := by
     rw [pow_two, Units.val_mul, hg, hh]

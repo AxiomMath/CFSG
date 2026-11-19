@@ -32,7 +32,7 @@ theorem exists_mem_normalizer_not_mem_centralizer_of_isConj {G : Type*} [Group G
     have ht' : (⟨t, hTCj ht⟩ : Cj) ∈ T.subgroupOf Cj :=
       Subgroup.mem_subgroupOf.mpr ht
     exact Subgroup.mem_map_of_mem Cj.subtype (hTS ht')
-  have hP₂P : IsPGroup p P₂ := S.isPGroup'.map Cj.subtype
+  have hP₂P : IsPGroup p P₂ := S.isPGroup.map Cj.subtype
   have hcardP₂ : Nat.card P₂ = p ^ (Nat.card Cj).factorization p := by
     rw [show Nat.card P₂ = Nat.card (S : Subgroup Cj) from
       Subgroup.card_map_of_injective Cj.subtype_injective]
@@ -58,7 +58,7 @@ theorem exists_mem_normalizer_not_mem_centralizer_of_isConj {G : Type*} [Group G
     intro heq
     rw [heq] at hcardTP₂
     exact lt_irrefl _ hcardTP₂
-  obtain ⟨y, hy, hyT⟩ := SetLike.exists_of_lt (lt_inf_normalizer_of_isPGroup hP₂P hltTP₂)
+  obtain ⟨y, hy, hyT⟩ := _root_.IsConcreteLE.exists_of_lt (lt_inf_normalizer_of_isPGroup hP₂P hltTP₂)
   have hyP₂ : y ∈ P₂ := hy.1
   have hyNorm : y ∈ Subgroup.normalizer (T : Set G) := hy.2
   have hyCj : y ∈ Cj := hP₂le hyP₂

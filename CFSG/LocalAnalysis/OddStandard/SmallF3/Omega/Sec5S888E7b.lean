@@ -13,7 +13,7 @@ variable {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 → Subgroup X}
 private theorem s888_exists_mem_normalizer_not_mem [Finite X] {p : ℕ} [Fact p.Prime]
     {P Q : Subgroup X} (hQ : IsPGroup p Q) (hlt : P < Q) :
     ∃ x ∈ Q, x ∉ P ∧ x ∈ normalizer (P : Set X) := by
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hlt' : P.subgroupOf Q < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hlt.not_ge fun x hx => ?_
     have hx' : (⟨x, hx⟩ : Q) ∈ P.subgroupOf Q := by rw [htop]; trivial
@@ -55,14 +55,14 @@ theorem isSylow2Of_top [Finite X] (hS : PlaneSys V W) (hpar : PlaneParity V W)
     {T : Subgroup X} (hVT : V ≤ T) (hT : IsSylow2Of T (normalizer (V : Set X))) :
     IsSylow2Of T (⊤ : Subgroup X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hTN, hTp, hTodd⟩ := hT
   obtain ⟨S₀, hTS₀⟩ := hTp.exists_le_sylow
-  have hS₀p : IsPGroup 2 ↥(S₀ : Subgroup X) := S₀.isPGroup'
+  have hS₀p : IsPGroup 2 ↥(S₀ : Subgroup X) := S₀.isPGroup
   have hT_eq : T = S₀ := by
     by_contra hne
     have hlt : T < S₀ := lt_of_le_of_ne hTS₀ hne
-    obtain ⟨g, hgS₀, hgT, hgNormT⟩ := s888_exists_mem_normalizer_not_mem S₀.isPGroup' hlt
+    obtain ⟨g, hgS₀, hgT, hgNormT⟩ := s888_exists_mem_normalizer_not_mem S₀.isPGroup hlt
     have hE_le_T : V.map (MulAut.conj g).toMonoidHom ≤ T := by
       calc V.map (MulAut.conj g).toMonoidHom ≤ T.map (MulAut.conj g).toMonoidHom :=
             Subgroup.map_mono (f := (MulAut.conj g).toMonoidHom) hVT

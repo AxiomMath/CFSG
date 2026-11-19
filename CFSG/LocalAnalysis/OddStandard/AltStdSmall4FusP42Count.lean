@@ -319,7 +319,7 @@ theorem not_smul_eq_O6 {N : Type*} [Group N] (act : N → Om → Om) (act_one : 
     (hz : ∀ g : N, (act g (0, true)).2 = true)
     (hzw : ∃ g : N, act g (0, true) = (5, true))
     (g : N) (i : Fin 16) (hi : isO6 i = true) : act g (5, false) ≠ (i, false) := by
-  letI : MulAction N Om := { smul := act, one_smul := act_one, mul_smul := act_mul }
+  let : MulAction N Om := { smul := act, one_smul := act_one, mul_smul := act_mul }
   have hS' : S = stabilizer N ((0, true) : Om) := by
     ext g'
     exact hS g'

@@ -420,8 +420,8 @@ theorem le_pointGroup_or_le_hyperplaneGroup (hn : 5 ≤ n) {v₀ φ₀ : Fin n �
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hna, hnb⟩ := hcon
-  obtain ⟨a, ha, ha'⟩ := SetLike.not_le_iff_exists.mp hna
-  obtain ⟨b, hb, hb'⟩ := SetLike.not_le_iff_exists.mp hnb
+  obtain ⟨a, ha, ha'⟩ := IsConcreteLE.not_le_iff_exists.mp hna
+  obtain ⟨b, hb, hb'⟩ := IsConcreteLE.not_le_iff_exists.mp hnb
   obtain ⟨u, hu0, huv, hφu, hτu⟩ :=
     exists_tv_mem_of_not_mem_pointGroup hn hv₀ hφ₀ h₀ hA hτ hY ha ha'
   obtain ⟨χ, hχ0, hχφ, hχv, hτχ⟩ :=

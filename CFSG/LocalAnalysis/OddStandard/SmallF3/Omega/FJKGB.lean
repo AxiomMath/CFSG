@@ -33,7 +33,7 @@ private theorem fj_isOm6M_top {Y : Type} [Group Y] [Finite Y] (h : LieModel Y .P
     IsOm6M (⊤ : Subgroup Y) := by
   have hSF : SimpleFStarQuotient Y := Or.inl (Or.inr (Or.inr (Or.inl h)))
   obtain ⟨hsimp, hcent⟩ := l34g_simple_of_simpleFStar hSF
-  haveI : IsSimpleGroup Y := hsimp
+  have : IsSimpleGroup Y := hsimp
   have hnab : ∃ a b : Y, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon

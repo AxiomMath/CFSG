@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly
 theorem ggQTwoXInLDatum_of_comm (h : GGQ2XInLComm) : GGQTwoXInLDatum := by
   refine ggQTwoXInLDatum_of_span ?_
   intro G _ _ p B Bs x L D J hS hxL hpFact y K hnb M
-  haveI : Fact p.Prime := hpFact
+  have : Fact p.Prime := hpFact
   have hp2 : p ≠ 2 := hS.1.1.1.2.2.2.2.2.1.2.1
   exact (M.xV_mem_span_iff_mem_commutator hp2).mpr (h G p B Bs x L D J hS hxL)
 

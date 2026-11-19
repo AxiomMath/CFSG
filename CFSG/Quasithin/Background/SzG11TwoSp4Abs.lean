@@ -150,7 +150,7 @@ theorem sp4_abstract [Finite V] (hyp : G111Hyp B Γ v₁ W X X₀) {H : Subgroup
     pow_le_card_map_sylow ρ Q (k := 2) (by simpa using hdvd4)
   have hQcoe : (Q : Subgroup ↥(H ⊓ MulAction.stabilizer (GLV V) v₁)) =
       P.subgroupOf (H ⊓ MulAction.stabilizer (GLV V) v₁) := A4.toSylow_coe hP
-  have hpg : IsPGroup 2 ↥(Subgroup.map ρ (Q : Subgroup _)) := Q.isPGroup'.map ρ
+  have hpg : IsPGroup 2 ↥(Subgroup.map ρ (Q : Subgroup _)) := Q.isPGroup.map ρ
   have : Finite ↥(Subgroup.map ρ (Q : Subgroup ↥(H ⊓ MulAction.stabilizer (GLV V) v₁))) := by
     have hQfin : Finite ↥(Q : Subgroup ↥(H ⊓ MulAction.stabilizer (GLV V) v₁)) := inferInstance
     exact Finite.of_surjective

@@ -144,7 +144,7 @@ private theorem inf_normalizer_isCyclic_of_mulEquiv (e : X ≃* Y) {q : ℕ}
   intro U U' hne
   have hne' : sylowEquiv e U ≠ sylowEquiv e U' := fun hh =>
     hne ((sylowEquiv e).injective hh)
-  haveI : IsCyclic ↥(Subgroup.normalizer ((sylowEquiv e U : Subgroup Y) : Set Y) ⊓
+  have : IsCyclic ↥(Subgroup.normalizer ((sylowEquiv e U : Subgroup Y) : Set Y) ⊓
       Subgroup.normalizer ((sylowEquiv e U' : Subgroup Y) : Set Y)) :=
     h.inf_normalizer_isCyclic _ _ hne'
   let eN : ↥(Subgroup.normalizer ((U : Subgroup X) : Set X) ⊓

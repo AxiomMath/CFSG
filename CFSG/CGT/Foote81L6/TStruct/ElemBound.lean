@@ -141,9 +141,9 @@ theorem ElemBound.sup {H₁ H₂ : Subgroup G} {k₁ k₂ : ℕ}
   by_cases hfin : Finite E
   · let E₁ := E.map (MonoidHom.fst H₁ H₂)
     let E₂ := E.map (MonoidHom.snd H₁ H₂)
-    haveI : Finite E₁ := Finite.of_surjective (fun x : E => (⟨x.1.1, x.1, x.2, rfl⟩ : E₁))
+    have : Finite E₁ := Finite.of_surjective (fun x : E => (⟨x.1.1, x.1, x.2, rfl⟩ : E₁))
       (by rintro ⟨_, x, hx, rfl⟩; exact ⟨⟨x, hx⟩, rfl⟩)
-    haveI : Finite E₂ := Finite.of_surjective (fun x : E => (⟨x.1.2, x.1, x.2, rfl⟩ : E₂))
+    have : Finite E₂ := Finite.of_surjective (fun x : E => (⟨x.1.2, x.1, x.2, rfl⟩ : E₂))
       (by rintro ⟨_, x, hx, rfl⟩; exact ⟨⟨x, hx⟩, rfl⟩)
     have hE₁ : Nat.card E₁ ≤ k₁ := by
       have h := h₁ (E₁.map H₁.subtype) (map_subtype_le _) (by
@@ -240,7 +240,7 @@ theorem elemBound_of_dihedral {H : Subgroup G} {k : ℕ} [NeZero k] (e : H ≃* 
 theorem elemBound_of_semidihedral {H : Subgroup G} {n : ℕ} (hn : 4 ≤ n)
     (e : H ≃* CFSG.Open.SemidihedralGroup n) : ElemBound H 4 := by
   refine ElemBound.of_mulEquiv e fun E hE => ?_
-  haveI : NeZero (CFSG.Semidihedral.half n) :=
+  have : NeZero (CFSG.Semidihedral.half n) :=
     ⟨by unfold CFSG.Semidihedral.half; positivity⟩
   have hED : E ≤ (CFSG.Semidihedral.dihedralHom n hn).range := by
     rw [CFSG.Semidihedral.dihedralHom_range]

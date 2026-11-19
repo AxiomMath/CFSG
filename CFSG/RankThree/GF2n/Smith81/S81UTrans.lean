@@ -15,15 +15,18 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 @[expose] def hermMat (σ : F ≃+* F) (a v : Fin 3 → Fin 6 → F) : Matrix (Fin 3) (Fin 3) F :=
   Matrix.of fun i j => ∑ k, a i k * σ (v j k)
 
+omit [CharP F 2] in
 private theorem h44_det_map (P : Matrix (Fin 3) (Fin 3) F) : (P.map σ).det = σ P.det := by
   rw [RingEquiv.map_det, RingEquiv.mapMatrix_apply]
 
+omit [CharP F 2] in
 private theorem h44_det_entries (v : Fin 3 → Fin 6 → F) (I : Set.powersetCard (Fin 6) 3) :
     (Matrix.of fun i j : Fin 3 => σ (v j (enum I i))).det = σ (coord F (ιMulti F 3 v) I) := by
   rw [coord_ιMulti, ← Matrix.det_transpose (Matrix.of fun i j : Fin 3 => v i (enum I j)),
     ← h44_det_map]
   congr 1
 
+omit [CharP F 2] in
 theorem sum_coord_mul_sigma_coord (a v : Fin 3 → Fin 6 → F) :
     ∑ I, coord F (ιMulti F 3 a) I * σ (coord F (ιMulti F 3 v) I) = (hermMat σ a v).det := by
   have key : (cubeBasis F).constr F (fun I => σ (coord F (ιMulti F 3 v) I)) =
@@ -36,7 +39,7 @@ theorem sum_coord_mul_sigma_coord (a v : Fin 3 → Fin 6 → F) :
     show Matrix.detRowAlternating _ = Matrix.detRowAlternating _
     congr 1
     funext i j
-    simp [Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct, e, Pi.single_apply]
+    simp [Matrix.mulVec, dotProduct, e, Pi.single_apply]
   have hR : exteriorPower.alternatingMapLinearEquiv (Matrix.detRowAlternating.compLinearMap
       (Matrix.mulVecLin (Matrix.of fun (j : Fin 3) (k : Fin 6) => σ (v j k)))) (ιMulti F 3 a) =
       (hermMat σ a v).det := by
@@ -44,7 +47,7 @@ theorem sum_coord_mul_sigma_coord (a v : Fin 3 → Fin 6 → F) :
     show Matrix.detRowAlternating _ = Matrix.detRowAlternating _
     congr 1
     funext i j
-    simp [hermMat, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct, mul_comm]
+    simp [hermMat, Matrix.mulVec, dotProduct, mul_comm]
   have hL : ∑ I, coord F (ιMulti F 3 a) I * σ (coord F (ιMulti F 3 v) I) =
       (cubeBasis F).constr F (fun I => σ (coord F (ιMulti F 3 v) I)) (ιMulti F 3 a) := by
     simp [Module.Basis.constr_apply_fintype, coord]
@@ -61,7 +64,7 @@ theorem exists_beta_formula : ∃ t : F, t ≠ 0 ∧ ∀ η ξ : Cube F,
   rw [beta_expand, Finset.mul_sum]
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [Finset.sum_eq_single (cmpl a)]
-  · rw [hPm, if_pos rfl]
+  · rw [hPm, ite_eq_left rfl]
     ring
   · intro b _ hb'
     simp [hPm, hb']
@@ -77,6 +80,7 @@ theorem exists_beta_formula : ∃ t : F, t ≠ 0 ∧ ∀ η ξ : Cube F,
     funext j
     simp [Finset.mul_sum, mul_left_comm]
 
+omit [CharP F 2] in
 theorem hermL_surjective {v : Fin 3 → Fin 6 → F} (hv : ιMulti F 3 v ≠ 0) :
     Function.Surjective (hermL σ v) := by
   obtain ⟨I, hI⟩ : ∃ I, coord F (ιMulti F 3 v) I ≠ 0 := by
@@ -118,6 +122,7 @@ theorem hermL_surjective {v : Fin 3 → Fin 6 → F} (hv : ιMulti F 3 v ≠ 0) 
   refine Finset.sum_congr rfl fun l _ => ?_
   simp [mul_ite]
 
+omit [CharP F 2] in
 private theorem h45_hermMat_apply (a v : Fin 3 → Fin 6 → F) (i j : Fin 3) :
     hermMat σ a v i j = hermL σ v (a i) j := by
   show ∑ k, a i k * σ (v j k) = ∑ k, σ (v j k) * a i k
@@ -144,7 +149,7 @@ theorem hermF_eq_zero_of_theta_fixed_pure (hσ : ∀ c, σ (σ c) = c) {v : Fin 
         (j := Fin.natAdd 3 p)
       · intro h
         have h' := congrArg Fin.val h
-        simp only [Fin.coe_castAdd, Fin.val_zero, Fin.coe_natAdd] at h'
+        simp only [Fin.val_castAdd, Fin.val_zero, Fin.val_natAdd] at h'
         omega
       · funext k
         simp only [Matrix.of_apply, Fin.append_left, Fin.append_right, Matrix.cons_val_zero]
@@ -162,7 +167,7 @@ theorem hermF_eq_zero_of_theta_fixed_pure (hσ : ∀ c, σ (σ c) = c) {v : Fin 
     have hd02 := hdet0 p y0 y2
     have hd12 := hdet0 p y0 y1
     rw [Matrix.det_fin_three] at hd01 hd02 hd12
-    simp [h45_hermMat_apply, hy0, hy1, hy2, Pi.single_apply, Matrix.cons_val_two,
+    simp [h45_hermMat_apply, hy0, hy1, hy2, Matrix.cons_val_two,
       Matrix.tail_cons] at hd01 hd02 hd12
     have hu : ∀ u : Fin 3, hermL σ v (v p) u = 0 := by
       intro u
@@ -181,16 +186,19 @@ theorem hermF_eq_zero_of_theta_fixed_pure (hσ : ∀ c, σ (σ c) = c) {v : Fin 
     rw [map_mul, hσ]
   rw [hfin, hrow i j, map_zero]
 
+omit [CharP F 2] in
 private theorem h46_right_sum (x : Fin 6 → F) (a : Fin 3 → F) (u : Fin 3 → Fin 6 → F) :
     ∑ k, σ (x k) * ∑ l, a l * u l k = ∑ l, a l * ∑ k, σ (x k) * u l k := by
   simp only [Finset.mul_sum]
   rw [Finset.sum_comm]
   exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
 
+omit [CharP F 2] in
 private theorem h46_right_add (x y z : Fin 6 → F) :
     ∑ k, σ (x k) * (y k + z k) = ∑ k, σ (x k) * y k + ∑ k, σ (x k) * z k := by
   simp only [mul_add, Finset.sum_add_distrib]
 
+omit [CharP F 2] in
 private theorem h46_left_sum (x : Fin 6 → F) (a : Fin 3 → F) (u : Fin 3 → Fin 6 → F)
     (y : Fin 6 → F) :
     ∑ k, σ (x k + ∑ l, a l * u l k) * y k =
@@ -201,6 +209,7 @@ private theorem h46_left_sum (x : Fin 6 → F) (a : Fin 3 → F) (u : Fin 3 → 
   rw [Finset.sum_comm]
   exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
 
+omit [CharP F 2] in
 private theorem h46_sigma_herm (hinv : ∀ c, σ (σ c) = c) (x y : Fin 6 → F) :
     σ (∑ k, σ (x k) * y k) = ∑ k, σ (y k) * x k := by
   simp only [map_sum, map_mul, hinv]
@@ -250,11 +259,11 @@ theorem exists_hyperbolic_partners (hσ : IsUnitaryInvolution σ) {v : Fin 3 →
   · simp only [hw]
     rw [h46_left_sum, hB i j, hC i j]
     rcases lt_trichotomy i j with h | h | h
-    · rw [hc j i, if_pos h, hc i j, if_neg (lt_asymm h), if_neg h.ne', map_zero, add_zero]
+    · rw [hc j i, ite_eq_left h, hc i j, ite_eq_right (lt_asymm h), ite_eq_right h.ne', map_zero, add_zero]
       exact CharTwo.add_self_eq_zero _
-    · rw [← h, hc i i, if_neg (lt_irrefl i), if_pos rfl, add_assoc, hτ i]
+    · rw [← h, hc i i, ite_eq_right (lt_irrefl i), ite_eq_left rfl, add_assoc, hτ i]
       exact CharTwo.add_self_eq_zero _
-    · rw [hc j i, if_neg (lt_asymm h), if_neg h.ne', hc i j, if_pos h,
+    · rw [hc j i, ite_eq_right (lt_asymm h), ite_eq_right h.ne', hc i j, ite_eq_left h,
         h46_sigma_herm hσ.invol (w0 j) (w0 i), add_zero]
       exact CharTwo.add_self_eq_zero _
 
@@ -262,12 +271,14 @@ theorem exists_hyperbolic_partners (hσ : IsUnitaryInvolution σ) {v : Fin 3 →
   Matrix.of fun k i =>
     if i.val % 2 = 0 then v ⟨i.val / 2, by omega⟩ k else w ⟨i.val / 2, by omega⟩ k
 
+omit [CharP F 2] in
 theorem hypGram_mul_self : hypGram F * hypGram F = 1 := by
   ext i j
   rw [Matrix.mul_apply]
   fin_cases i <;> fin_cases j <;>
-    simp [hypGram, Fin.sum_univ_six, Matrix.one_apply]
+    simp [hypGram, Fin.sum_univ_six]
 
+omit [CharP F 2] in
 private theorem h47_wv (hσ : ∀ c, σ (σ c) = c) {v w : Fin 3 → Fin 6 → F}
     (hvw : ∀ i j, ∑ k, σ (v i k) * w j k = if i = j then 1 else 0) (i j : Fin 3) :
     ∑ k, σ (w i k) * v j k = if i = j then 1 else 0 := by
@@ -279,8 +290,9 @@ private theorem h47_wv (hσ : ∀ c, σ (σ c) = c) {v w : Fin 3 → Fin 6 → F
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg h, if_neg (Ne.symm h), map_zero]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), map_zero]
 
+omit [CharP F 2] in
 theorem conjTr_hypMat_mul (hσ : ∀ c, σ (σ c) = c) {v w : Fin 3 → Fin 6 → F}
     (hvv : ∀ i j, ∑ k, σ (v i k) * v j k = 0)
     (hvw : ∀ i j, ∑ k, σ (v i k) * w j k = if i = j then 1 else 0)
@@ -292,6 +304,7 @@ theorem conjTr_hypMat_mul (hσ : ∀ c, σ (σ c) = c) {v w : Fin 3 → Fin 6 �
   fin_cases i <;> fin_cases j <;>
     simp [hypMat, hypGram, conjTr_apply, hvv, hvw, hww, hwv]
 
+omit [CharP F 2] in
 private theorem h47_hypMat_even_col (v w : Fin 3 → Fin 6 → F) (j : Fin 3) :
     (hypMat v w).mulVec (Pi.single (⟨2 * j.val, by omega⟩ : Fin 6) (1 : F)) = v j := by
   funext k
@@ -334,6 +347,7 @@ theorem exists_unitary_of_hyp (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω 
     show (hypMat v w * frameInv σ ω).mulVec (e3uT0Vec j) = v j
     rw [← Matrix.mulVec_mulVec, hp, h47_hypMat_even_col]
 
+omit [CharP F 2] in
 theorem cmat_inv_unitary {g : GL (Fin 6) F}
     (hg : conjTr σ (g : Matrix (Fin 6) (Fin 6) F) * (g : Matrix (Fin 6) (Fin 6) F) = 1) (I J : Idx) :
     cmat g⁻¹ I J = σ (cmat g J I) := by

@@ -18,12 +18,12 @@ open scoped commutatorElement
 
 theorem exists_centralizer_lift {G : Type} [Group G] [Finite G] {C N₂ : Subgroup G} {c : G}
     (hc3 : c ^ 3 = 1) (hN₂ : IsPGroup 2 N₂) (hCN₂ : C ≤ Subgroup.normalizer (N₂ : Set G))
-    (hcC : c ∈ Subgroup.normalizer (C : Set G)) (hcN₂ : c ∈ Subgroup.normalizer (N₂ : Set G))
+    (hcC : c ∈ Subgroup.normalizer (C : Set G)) (_hcN₂ : c ∈ Subgroup.normalizer (N₂ : Set G))
     (htriv : ∀ x ∈ C, c * x * c⁻¹ * x⁻¹ ∈ N₂) {x₀ : G} (hx₀ : x₀ ∈ C) :
     ∃ x ∈ C ⊓ Subgroup.centralizer ({c} : Set G), x₀⁻¹ * x ∈ N₂ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : ¬ 3 ∣ Nat.card ↥(C ⊓ N₂) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hN₂
     intro h
@@ -182,7 +182,7 @@ theorem pu_isQuasisimple_of_mulEquiv {Q J : Type} [Group Q] [Group J] [IsSimpleG
     rcases hQs.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with h1 | h1
     · exact h1
     · exfalso
-      haveI : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp h1
+      have : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp h1
       exact not_subsingleton Q inferInstance
   let φ : Q ⧸ Subgroup.center Q ≃* Q :=
     (QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot
@@ -200,8 +200,8 @@ theorem pu_isQuasisimple_of_mulEquiv {Q J : Type} [Group Q] [Group J] [IsSimpleG
 theorem isQuasisimple_of_equiv_J2 {Q : Type} [Group Q]
     (h : Nonempty (Q ≃* J2)) : CFSG.IsQuasisimple Q := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
-  haveI : Group.IsPerfect J2 := isPerfect_J2
+  have : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
+  have : Group.IsPerfect J2 := isPerfect_J2
   exact pu_isQuasisimple_of_mulEquiv e
 
 theorem pu_oPrimeResidual_conj {H : Type} [Group H] (p : ℕ) (u : H) {r : H}
@@ -224,7 +224,7 @@ theorem pu_core {Y : Type} [Group Y] [Finite Y] (V : Subgroup Y) [V.Normal]
     (hA3 : ∀ x ∈ X', ∀ a : ℕ, x ^ (3 ^ a) = 1 → x ∈ A)
     (hAnorm : ∀ x ∈ X', ∀ a ∈ A, x * a * x⁻¹ ∈ A) :
     A ⊔ V = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXsurj : ∀ q : Y ⧸ V, ∃ x ∈ X', (QuotientGroup.mk' V x : Y ⧸ V) = q := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective V q
@@ -235,7 +235,7 @@ theorem pu_core {Y : Type} [Group Y] [Finite Y] (V : Subgroup Y) [V.Normal]
     refine ⟨x, hx, ?_⟩
     have hv1 : (QuotientGroup.mk' V v : Y ⧸ V) = 1 := (QuotientGroup.eq_one_iff v).2 hv
     rw [map_mul, hv1, mul_one]
-  haveI hN : (A.map (QuotientGroup.mk' V)).Normal := by
+  have hN : (A.map (QuotientGroup.mk' V)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.1 hn
     obtain ⟨x, hx, rfl⟩ := hXsurj g
@@ -280,8 +280,8 @@ theorem oPrimeResidualOf_covers {G : Type} [Group G] [Finite G]
     (hYJ : Nonempty (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀ ≃* J2)) :
     Y₀ = oPrimeResidualOf 3 X ⊔ CFSG.Open.pCoreOf 2 Y₀ := by
   obtain ⟨e⟩ := hYJ
-  haveI : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀) := e.isSimpleGroup
+  have : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀) := e.isSimpleGroup
   have hcard : Nat.card J2 = 604800 := CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2
   have h3 : 3 ∣ Nat.card (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀) := by
     rw [Nat.card_congr e.toEquiv, hcard]
@@ -432,8 +432,8 @@ theorem delta_covers
     (hcov : Y₀ = C ⊔ CFSG.Open.pCoreOf 2 Y₀) :
     Y₀ = delta A (lB A) C ⊔ CFSG.Open.pCoreOf 2 Y₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJ2L, h9, hAc, -, -, -⟩ := hs.j2_local hJ
   have hcA : c ∈ A := hs.c_mem
   have hΩ : Subgroup.zpowers c ∈ omegaA A := hs.zpowers_mem_omegaA

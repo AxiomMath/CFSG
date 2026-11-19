@@ -16,7 +16,7 @@ open CFSG Subgroup
 theorem exists_sub_two_six {G : Type*} [Group G] (E : Subgroup G) {k : ℕ} (hk : 6 ≤ k)
     (hsq : ∀ x ∈ E, x * x = 1) (hcard : Nat.card E = 2 ^ k) :
     ∃ T : Subgroup G, T ≤ E ∧ (∀ t ∈ T, t * t = 1) ∧ Nat.card T = 2 ^ 6 := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := E) 2 (n := 6)
     (by rw [hcard]; exact pow_dvd_pow 2 hk)
   refine ⟨K.map E.subtype, ?_, ?_, ?_⟩

@@ -155,7 +155,7 @@ theorem sw_oddCent_of_check
     exact (hPcen p hp).symm
   have hdvd : Nat.card P ∣ Nat.card ↥(SwC ⊓ Subgroup.centralizer ({y} : Set X₀)) :=
     Subgroup.card_dvd_of_le hPle
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hP2
   have hk4 : 4 ≤ k := by
     have h2 : 2 ^ 4 ≤ 2 ^ k := by rw [← hk]; simpa using hge

@@ -94,7 +94,7 @@ theorem GGConfig.lt_bstar_of_spTwo_coordB {B Bs : Subgroup G} {x : G} {L D J : S
     (hM : GGInnerDiagOnLabel (fun _ lab => (lab.tag = .B ∨ lab.tag = .C) ∧ lab.rank = n - 1 ∧
       lab.n = 1) 3 Bs L) :
     B < Bs := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBsE, hxBs, hLx, h81⟩ := hcfg.tableB_facts
   have hx1 : x ≠ 1 := hcfg.1.2.2.2.2.2.2.1.2.2.1
   have hxL : x ∈ Subgroup.centralizer (L : Set G) := by
@@ -103,7 +103,7 @@ theorem GGConfig.lt_bstar_of_spTwo_coordB {B Bs : Subgroup G} {x : G} {L D J : S
     exact ((Subgroup.mem_centralizer_iff.mp (hLx hl)) x (Set.mem_singleton x)).symm
   have hcardBs : Nat.card Bs = 3 ^ n := by
     rw [Nat.card_congr eta.toEquiv]
-    simp [Nat.card_fun]
+    simp
   have hn : 4 ≤ n := by
     rw [hcardBs] at h81
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).mp h81
@@ -122,11 +122,11 @@ theorem GGConfig.lt_bstar_of_spTwo_coordB {B Bs : Subgroup G} {x : G} {L D J : S
     · obtain ⟨K, _, _, hK, -, -, θ, -, hBsN, -⟩ := hraw
       exact key K hK θ hBsN
   intro K _ _ hK θ hBsN
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : NeZero (n - 1) := ⟨by omega⟩
+  have : NeZero (n - 1) := ⟨by omega⟩
   have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
   have hEL : ggBsCoordZero Bs eta i0 ≤ L := ggBsCoordZero_le_of_bCoordinateBlock hBsE hBsN eta hb
   have hax : ∀ b : ↥Bs, (b : G) ∈ Subgroup.centralizer (L : Set G) →
@@ -206,7 +206,7 @@ theorem GGConfig.lt_bstar_of_spTwo_coordB {B Bs : Subgroup G} {x : G} {L D J : S
       subst hl1
       rfl
     have hcardEt : Nat.card Et = 3 ^ (n - 1) := by
-      rw [hEt, ← MonoidHom.restrict_range,
+      rw [hEt, ← MonoidHom.domRestrict_range,
         ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEL).toEquiv, card_ggBsCoordZero_three]
     have hEtU : ∀ a ∈ Et, ∀ u ∈ Ut, a * u * a⁻¹ ∈ Ut := by

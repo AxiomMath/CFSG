@@ -15,7 +15,7 @@ open CFSG.AGLEmbedding.KFactProofs.SmallIdent
 theorem false_of_sylowCube_of_omega {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)
     (hcube : SylowCube p Y) {S B : Subgroup Y} (hS : CFSG.ABGLocalTools.IsSylowOf p S ⊤)
     (hBcard : Nat.card B = p ^ 2) (hΩ : ∀ x ∈ S, x ^ p = 1 → x ∈ B) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hSp, hSi⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hS
   let T : Sylow p Y := hSp.toSylow (by simpa [Subgroup.relIndex_top_right] using hSi)
   have hTS : (T : Subgroup Y) = S := IsPGroup.toSylow_coe _ _

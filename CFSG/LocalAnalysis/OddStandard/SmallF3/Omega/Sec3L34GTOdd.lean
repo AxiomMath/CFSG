@@ -8,7 +8,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 private theorem l34g_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -34,7 +34,7 @@ theorem l34g_isSL23Mod_of_odd_ker {A C : Type} [Group A] [Group C] [Finite A] (�
     (hψ : Function.Surjective ψ) (hodd : Odd (Nat.card ψ.ker)) (h : IsSL23Mod C) :
     IsSL23Mod A := by
   classical
-  haveI : Finite C := Finite.of_surjective ψ hψ
+  have : Finite C := Finite.of_surjective ψ hψ
   let θ : A →* C ⧸ oddCore C := (QuotientGroup.mk' (oddCore C)).comp ψ
   have hθ : Function.Surjective θ := by
     intro y

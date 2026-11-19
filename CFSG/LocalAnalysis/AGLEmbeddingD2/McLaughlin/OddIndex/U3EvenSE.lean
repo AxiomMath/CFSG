@@ -32,7 +32,7 @@ theorem le_sylow_of_isPGroup_normalizer {K : Type} [Group K] [Finite K] (Q : Syl
     {T : Subgroup K} (hT : T ≤ Subgroup.normalizer ((Q : Subgroup K) : Set K))
     (hT2 : IsPGroup 2 T) : T ≤ Q := by
   have hsup : IsPGroup 2 (T ⊔ (Q : Subgroup K) : Subgroup K) :=
-    hT2.to_sup_of_normal_right' Q.isPGroup' hT
+    hT2.to_sup_of_normal_right' Q.isPGroup hT
   exact le_sup_left.trans (Q.maximal_isPGroup.2 hsup le_sup_right)
 
 theorem mem_sylow_of_pow_eq_one_normalizer {K : Type} [Group K] [Finite K] (Q : Sylow 2 K)
@@ -139,7 +139,7 @@ theorem not_isLThreeTwo_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
       rw [ho, pow_two]; simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group
     rw [this]
     exact mul_mem (inv_mem hcQ) hoQ
-  obtain ⟨m, hm⟩ := Q.isPGroup' ⟨(g' : K) ^ 2, hg2⟩
+  obtain ⟨m, hm⟩ := Q.isPGroup ⟨(g' : K) ^ 2, hg2⟩
   have hm' : (g' : K) ^ (2 ^ (m + 1)) = 1 := by
     rw [pow_succ', pow_mul]
     exact congrArg Subtype.val hm

@@ -26,6 +26,7 @@ theorem cube_root_cases {ω lam : F} (hω : ω ^ 2 + ω + 1 = 0) (h3 : lam ^ 3 =
 
 variable [CharP F 2] {G : Type} [Group G] {g : F → G}
 
+omit [CharP F 2] in
 theorem rootFam_zero (hmul : ∀ s t, g (s + t) = g s * g t) : g 0 = 1 := by
   have h : g 0 * g 0 = g 0 * 1 := by rw [mul_one, ← hmul, add_zero]
   exact mul_left_cancel h
@@ -33,6 +34,7 @@ theorem rootFam_zero (hmul : ∀ s t, g (s + t) = g s * g t) : g 0 = 1 := by
 theorem rootFam_self (hmul : ∀ s t, g (s + t) = g s * g t) (t : F) : g t * g t = 1 := by
   rw [← hmul, CharTwo.add_self_eq_zero, rootFam_zero hmul]
 
+omit [CharP F 2] in
 theorem rootFam_comm (hmul : ∀ s t, g (s + t) = g s * g t) (s t : F) :
     g s * g t = g t * g s := by
   rw [← hmul, ← hmul, add_comm]
@@ -58,9 +60,11 @@ theorem rootFourOf_spec (hmul : ∀ s t, g (s + t) = g s * g t)
     card_closure_pair (rootFam_self hmul 1) (rootFam_self hmul ω) (rootFam_comm hmul 1 ω)
       h1 h2 h3⟩
 
+omit [CharP F 2] in
 theorem mem_rootFourOf_one (ω : F) : g 1 ∈ rootFourOf g ω :=
   Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [CharP F 2] in
 theorem mem_rootFourOf_omega (ω : F) : g ω ∈ rootFourOf g ω :=
   Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
@@ -102,6 +106,7 @@ theorem rootFourOf_normalized (hmul : ∀ s t, g (s + t) = g s * g t) {ω : F}
   intro w hw
   exact hle ⟨w, hw, by simp [MulAut.conj_apply]⟩
 
+omit [CharP F 2] in
 theorem rootFourOf_moved (hinj : ∀ s t, g s = g t → s = t) {z : G} {l : F} (hl1 : l ≠ 1)
     (hz : ∀ t, z * g t * z⁻¹ = g (l * t)) : z * g 1 * z⁻¹ ≠ g 1 := by
   intro h

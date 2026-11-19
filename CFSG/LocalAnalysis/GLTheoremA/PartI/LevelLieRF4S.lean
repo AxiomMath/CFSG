@@ -56,7 +56,7 @@ theorem rf4_five_component_level
     (hI : GLAPComponent 5 (fixSubgroup (MulAut.conj x)) I) :
     kLevel 5 (PSimple 5 I) ≤ 2 := by
   classical
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have hsimp : IsSimpleGroup (ReeTag.F4.reeGamma K 2) :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 (b := 2) (by norm_num) hK
   have hΓ := (CFSG.RankThree.LargeReeOrder.large_Ree_exact_native_order_and_prime_factor_exhaustion
@@ -148,7 +148,7 @@ theorem rf4_five_component_level
       (b := 2) (by norm_num) hK
     let f : ↥I ≃* (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hszV⟩).Group := eSz.symm.trans g
     obtain ⟨hszS, hszNc⟩ := rf4_suzuki_simple hszV
-    haveI hIs : IsSimpleGroup ↥I := (MulEquiv.isSimpleGroup_congr f).mpr hszS
+    have hIs : IsSimpleGroup ↥I := (MulEquiv.isSimpleGroup_congr f).mpr hszS
     have hncI : ∃ a b : ↥I, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hszNc
       exact ⟨f.symm a, f.symm b, fun h => hab (by simpa using congrArg f h)⟩
@@ -165,10 +165,10 @@ theorem rf4_downLe_five_typed (K : Type) [Field K] [Finite K] [CharP K ReeTag.F4
     (e : (TauCeti.CFSGIndex.lie ⟨.reeF4 2, hv⟩).Group ≃* ReeTag.F4.reeGamma K 2)
     (hk : kLevel 5 (ReeTag.F4.reeGamma K 2) ≤ 2) :
     DownLe 5 2 (ReeTag.F4.reeGamma K 2) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hsimp : IsSimpleGroup (ReeTag.F4.reeGamma K 2) :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 (b := 2) (by norm_num) hK
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have hΓ := (CFSG.RankThree.LargeReeOrder.large_Ree_exact_native_order_and_prime_factor_exhaustion
     2 K hK).1
   have hdvd : 5 ∣ Nat.card (ReeTag.F4.reeGamma K 2) := by

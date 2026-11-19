@@ -20,7 +20,7 @@ private theorem exists_char_prime {B : Subgroup G} [IsCyclic B] {r : ℕ} (hr : 
     (hd : r ∣ Nat.card B) :
     ∃ A : Subgroup G, A ≤ B ∧ Nat.card A = r ∧
       ∀ φ : ↥B ≃* ↥B, Subgroup.map φ.toMonoidHom (A.subgroupOf B) = A.subgroupOf B := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := B) r hd
   refine ⟨(Subgroup.zpowers x).map B.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, _, rfl⟩; exact y.2
@@ -42,7 +42,7 @@ theorem exists_prime_subgroup {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         (⁅(A.subgroupOf B).map (bToJoint h.oddPrimeClassTwoAction), (Sstar P T B).subgroupOf (joint P T B)⁆ :
           Subgroup (joint P T B)) := by
   classical
-  haveI : IsCyclic B := (centralizer_eq_center_and_actor_cyclic_and_primeCore_cyclic h).2.1
+  have : IsCyclic B := (centralizer_eq_center_and_actor_cyclic_and_primeCore_cyclic h).2.1
   obtain ⟨hrp, hrd⟩ := hr
   obtain ⟨A, hAB, hcard, hchar⟩ := exists_char_prime hrp hrd
   have h51 := h.oddPrimeClassTwoAction

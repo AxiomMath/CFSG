@@ -15,7 +15,7 @@ variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem zSub_card'
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    (h7 : D.sig = {7}) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
+    (_h7 : D.sig = {7}) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card (zSub P c.L) = 3 :=
   card_zSub_of_onan' c hON hP
 

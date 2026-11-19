@@ -216,7 +216,7 @@ theorem factorization_103680_three : (103680 : ℕ).factorization 3 = 4 := by
 
 theorem genProp_of_sp_le {X : Subgroup (GL V₄ (ZMod 3))} (hX : StatedSp 2 (ZMod 3) ≤ X)
     (hXg : X ≤ gsp 2 (ZMod 3)) : ClassicalGL.GenProp X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU0X : U0 ≤ X := U0_le_statedSp.trans hX
   have hXc : Nat.card X = 51840 ∨ Nat.card X = 103680 := by
     have h1 : Nat.card X ∣ 103680 := (Subgroup.card_dvd_of_le hXg).trans card_gsp_dvd
@@ -320,21 +320,21 @@ theorem exists_hom_gsp [Finite Y] (hWn : W.Normal) (hext : Lemma1211.IsExtraspec
     ∃ ρ : Y →* GL V₄ (ZMod 3), (∀ y, ρ y ∈ gsp 2 (ZMod 3)) ∧
       ∀ y, ρ y = 1 → ∀ w ∈ W, ⁅y, w⁆ ∈ ⁅W, W⁆ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hWn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hWn
   have hZ := center_eq_commutator_of_ext hext
   have hc : Nat.card (Subgroup.center ↥W) = 3 := by
     have := hext.2.2.2
     rwa [centerOf, Subgroup.card_map_of_injective W.subtype_injective] at this
   have hD : ∀ x : W, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using hext.2.1 x x.2)
-  letI : Module (ZMod 3) (Additive (Abelianization W)) :=
+  let : Module (ZMod 3) (Additive (Abelianization W)) :=
     AddCommGroup.zmodModule (nsmul_abelianization_eq_zero hD)
   obtain ⟨ε⟩ := nonempty_center_mulEquiv hc
   obtain ⟨B, hBa, hBn, hB⟩ := exists_commForm hZ ε
-  haveI : Finite (Additive (Abelianization W)) :=
+  have : Finite (Additive (Abelianization W)) :=
     Finite.of_surjective (fun x : W => Additive.ofMul (Abelianization.of x))
       fun v => QuotientGroup.mk_surjective (Additive.toMul v)
-  haveI : Module.Finite (ZMod 3) (Additive (Abelianization W)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) (Additive (Abelianization W)) := Module.Finite.of_finite
   obtain ⟨m, bs, hbs⟩ := LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J (K := ZMod 3) hBa hBn
   have hm : m = 2 := by
     have h1 : Nat.card (Additive (Abelianization W)) = 3 ^ (2 * m) := by
@@ -468,7 +468,7 @@ theorem isElemAbelian_mono' {G : Type*} [Group G] {E F : Subgroup G}
 theorem eq_bot_of_normal_pGroup {X : Type} [Group X] [Finite X]
     (e : ↥(oPrimeResidual 3 X) ≃* CA0) {N : Subgroup X} (hN : N.Normal) (hp : IsPGroup 3 N) :
     N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNO : N ≤ oPrimeResidual 3 X := fun x hx => by
     obtain ⟨k, hk⟩ := hp ⟨x, hx⟩
     exact Subgroup.subset_closure ⟨k, by simpa using congrArg Subtype.val hk⟩
@@ -506,7 +506,7 @@ theorem eq_bot_of_normal_pGroup {X : Type} [Group X] [Finite X]
 theorem input30_14_Out_holds : Claims1211b.Input30_14_Out := by
   intro Y _ _ W hWn hext hker hE hns
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hE, hE9⟩ := hE
   obtain ⟨ρ, hρg, hρk⟩ := exists_hom_gsp hWn hext
   have hkerp : IsPGroup 3 ρ.ker := fun k => by
@@ -518,7 +518,7 @@ theorem input30_14_Out_holds : Claims1211b.Input30_14_Out := by
   have hRns : ¬ Group.IsSolvable ρ.range := by
     intro h
     apply hns
-    haveI := hkerp.isNilpotent
+    have := hkerp.isNilpotent
     exact isPSolvable_of_normal ρ.ker (isPSolvable_of_isSolvable Nat.prime_three inferInstance)
       (isPSolvable_of_mulEquiv (QuotientGroup.quotientKerEquivRange ρ).symm
         (isPSolvable_of_isSolvable Nat.prime_three h))
@@ -563,7 +563,7 @@ theorem input30_14_Out_holds : Claims1211b.Input30_14_Out := by
   rcases sp_le_or_equiv_CA0 hRg hRns hE'le hE'a hE'9 with hsp | heC
   · left
     have hgen := genProp_of_sp_le hsp hRg
-    haveI : Nontrivial ρ.range := by
+    have : Nontrivial ρ.range := by
       by_contra h
       rw [not_nontrivial_iff_subsingleton] at h
       exact hRns inferInstance
@@ -632,9 +632,9 @@ theorem false_of_alt {X : Type} [Group X] [Finite X] {L : Subgroup X} (hLn : L.N
     (hrk : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) {x : X} (hx : orderOf x = 3)
     (hrk3 : CFSG.Open.pRank 3 (Subgroup.centralizer ({x} : Set X)) = 3) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
   have hn5 : 5 ≤ n := CFSG.HardMathSupport.Timmesfeld.Tables.Alt.five_le_of_centerQuotient hq.1 e
   have hZ : Subgroup.center ↥L = ⊥ := by
     rw [eq_bot_iff]
@@ -667,8 +667,8 @@ theorem false_of_alt {X : Type} [Group X] [Finite X] {L : Subgroup X} (hLn : L.N
     exact l.2
   have hOut : Nat.card (Outer ↥L) = Nat.card (Outer (alternatingGroup (Fin n))) :=
     Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eL).toEquiv
-  haveI : Finite (Outer ↥L) := by
-    haveI : Finite (MulAut ↥L) := MulEquiv.finite_left
+  have : Finite (Outer ↥L) := by
+    have : Finite (MulAut ↥L) := MulEquiv.finite_left
     infer_instance
   obtain ⟨E₁, -, hE₁, hE₁c⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) (⊤ : Subgroup X)
   have hE₁p : IsPGroup 3 E₁ := fun y => ⟨1, Subtype.ext (by simpa using hE₁.2 y y.2)⟩

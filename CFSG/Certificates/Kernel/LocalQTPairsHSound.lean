@@ -546,15 +546,14 @@ theorem colFrom_perm (n : ℕ) (f : ℕ → ℕ) (s : ℕ → Bool) : ∀ (C : L
             rw [bne_iff_ne]
             exact Nat.ne_of_beq_eq_false hb
           rw [CFSG.KC.LQT.T2.letL_eq]
-          simp only [List.filter_singleton, hne, cond_true, List.flatMap_singleton]
+          simp only [List.filter_singleton, hne, _root_.Bool.cond_true, List.flatMap_singleton]
           refine (colFrom_perm n f s C _ _).trans ((ih.append_left _).trans ?_)
           rw [← List.append_assoc, ← List.append_assoc]
           exact List.perm_append_comm.append_right acc
         · have heq : (CFSG.KC.LQT.S.getK lv.2.1 m != 0) = false := by
             rw [bne_eq_false_iff_eq]
             exact Nat.eq_of_beq_eq_true hb
-          simp only [List.filter_singleton, heq, List.flatMap_nil, List.map_nil, List.filter_nil,
-            List.nil_append]
+          simp only [List.filter_singleton, heq]
           exact ih
     have e : colFrom n (lv :: C) f s p acc = colLv n C f s lv p acc n := rfl
     rw [e]
@@ -1025,7 +1024,7 @@ private theorem cntFrom_eq (n : ℕ) (f : ℕ → Bool) : ∀ (C : List Lvl) (p 
             rw [hb]
             exact letN_eq _ _
           rw [e1, cntFrom_eq n f C]
-          simp only [List.filter_singleton, hne, cond_true, List.flatMap_singleton]
+          simp only [List.filter_singleton, hne, _root_.Bool.cond_true, List.flatMap_singleton]
         · have heq : (CFSG.KC.LQT.S.getK lv.2.1 m != 0) = false := by
             rw [bne_eq_false_iff_eq]
             exact Nat.eq_of_beq_eq_true hb
@@ -1033,7 +1032,7 @@ private theorem cntFrom_eq (n : ℕ) (f : ℕ → Bool) : ∀ (C : List Lvl) (p 
             unfold cntS
             rw [hb]
           rw [e1]
-          simp only [List.filter_singleton, heq, cond_false, List.flatMap_nil, List.filter_nil,
+          simp only [List.filter_singleton, heq, Bool.cond_false, List.flatMap_nil, List.filter_nil,
             List.length_nil]
     change cntLv n C f lv p n = _
     rw [prodsK]
@@ -1528,8 +1527,8 @@ private theorem dedupR_some (x y : ℕ) (t : List ℕ) :
   change Bool.rec (motive := fun _ => List ℕ) (x :: dedupR t (some x)) (dedupR t (some x))
     (Nat.beq x y) = _
   cases hb : Nat.beq x y
-  · exact (if_neg (Nat.ne_of_beq_eq_false hb)).symm
-  · exact (if_pos (Nat.eq_of_beq_eq_true hb)).symm
+  · exact (ite_eq_right (Nat.ne_of_beq_eq_false hb)).symm
+  · exact (ite_eq_left (Nat.eq_of_beq_eq_true hb)).symm
 
 private theorem dedupR_lt : ∀ (l : List ℕ) (o : Option ℕ), l.Pairwise (· ≤ ·) →
     (∀ y, o = some y → ∀ z ∈ l, y ≤ z) →

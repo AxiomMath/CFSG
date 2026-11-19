@@ -91,7 +91,7 @@ theorem kFactOneLieBorelSolvable_of_torus (hTor : KFactOneLieTorus) :
     rw [h]
     infer_instance
   have hdvd : p ∣ Nat.card (T : Subgroup K) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hT (Subgroup.eq_bot_of_card_eq _ (by simpa using hk))

@@ -58,7 +58,7 @@ theorem orderOf_card_eq_four {F : Type} [Field F] [Finite F] {n p : ℕ}
 theorem dvd_card_sq_add_one_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : ℕ}
     (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 4) :
     p ∣ Nat.card F ^ 2 + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he := orderOf_card_eq_four hcard hrk
   have h4 : ((Nat.card F : ℕ) : ZMod p) ^ 4 = 1 := by
     have h := pow_orderOf_eq_one ((Nat.card F : ℕ) : ZMod p)
@@ -84,7 +84,7 @@ theorem dvd_card_sq_add_one_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p 
 theorem sq_eq_neg_one_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : ℕ}
     (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 4) :
     ((Nat.card F : ℕ) : ZMod p) ^ 2 = -1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he := orderOf_card_eq_four hcard hrk
   have h4 : ((Nat.card F : ℕ) : ZMod p) ^ 4 = 1 := by
     have h := pow_orderOf_eq_one ((Nat.card F : ℕ) : ZMod p)
@@ -109,7 +109,7 @@ theorem sq_eq_neg_one_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : ℕ}
 theorem card_ne_zero_zmod_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : ℕ}
     (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 4) :
     ((Nat.card F : ℕ) : ZMod p) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h0
   have h4 : ((Nat.card F : ℕ) : ZMod p) ^ 4 = 1 := by
     have h := pow_orderOf_eq_one ((Nat.card F : ℕ) : ZMod p)
@@ -120,7 +120,7 @@ theorem card_ne_zero_zmod_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : 
 theorem exists_lam_of_rk2Ord_four {F : Type} [Field F] [Finite F] {n p : ℕ}
     (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 4) :
     ∃ lam : ZMod p, ((Nat.card F : ℕ) : ZMod p) * lam = 1 ∧ lam * lam = -1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqne := card_ne_zero_zmod_of_rk2Ord_four hcard hp hrk
   refine ⟨((Nat.card F : ℕ) : ZMod p)⁻¹, mul_inv_cancel₀ hqne, ?_⟩
   show ((Nat.card F : ℕ) : ZMod p)⁻¹ * ((Nat.card F : ℕ) : ZMod p)⁻¹ = -1
@@ -142,7 +142,7 @@ theorem five_le_of_rk2Ord_four {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   refine hp.five_le_of_ne_two_of_ne_three hp2 ?_
   intro h3
   subst h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2ne : (2 : ZMod 3) ≠ 0 := by
     intro h
     have h' := (ZMod.natCast_eq_zero_iff 2 3).mp h
@@ -164,7 +164,7 @@ theorem pRank_adjoint_e8_four
     (h7 : 7 ≤ p) (hpq : ¬ p ∣ Nat.card F)
     (he : orderOf ((Nat.card F : ℕ) : ZMod p) = 4) :
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E8 F)) = 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : CFSG.LieType.SeitzGeneration.SylowTorus (adjointGroup Tag.E8 F) p 4 :=
     CFSG.StandardType.ExcFrames.sylowTorus_adjoint_E8_four F hp h7 hpq (Or.inr (Or.inl he))
   have hle : CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E8 F)) ≤ 4 :=

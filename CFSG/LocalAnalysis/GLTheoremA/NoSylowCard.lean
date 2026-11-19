@@ -11,7 +11,7 @@ theorem NoSylowNormalizesTwo.card_le_pow_factorization_sub_one {X : Type*} [Grou
     (hE : IsPGroup p E) (hU : U ≠ ⊥) (hU2 : IsPGroup 2 U)
     (hEU : E ≤ Subgroup.normalizer (U : Set X)) :
     Nat.card E ≤ p ^ ((Nat.card X).factorization p - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hE.exists_card_eq
   have hlt : k < (Nat.card X).factorization p := by
     by_contra hle

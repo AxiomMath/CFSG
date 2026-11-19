@@ -58,12 +58,12 @@ theorem exists_central_orderOf {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact 
     (R : Sylow p X) {N : Subgroup X} [N.Normal] (hne : (R : Subgroup X) ⊓ N ≠ ⊥) :
     ∃ z ∈ (R : Subgroup X) ⊓ N, orderOf z = p ∧ ∀ g ∈ (R : Subgroup X), g * z = z * g := by
   have hp : p.Prime := Fact.out
-  obtain ⟨z, hzU, hz1, hzc⟩ := GH74.Uniqueness.SU.SU1.exists_central_of_normal hp R.isPGroup'
+  obtain ⟨z, hzU, hz1, hzc⟩ := GH74.Uniqueness.SU.SU1.exists_central_of_normal hp R.isPGroup
     (inf_le_left : (R : Subgroup X) ⊓ N ≤ R)
     (fun g hg u hu => ⟨R.mul_mem (R.mul_mem hg hu.1) (R.inv_mem hg),
       Subgroup.Normal.conj_mem inferInstance u hu.2 g⟩) hne
   have hzle : zpowers z ≤ (R : Subgroup X) ⊓ N := Subgroup.zpowers_le.2 hzU
-  have hAp : IsPGroup p (zpowers z) := R.isPGroup'.to_le (hzle.trans inf_le_left)
+  have hAp : IsPGroup p (zpowers z) := R.isPGroup.to_le (hzle.trans inf_le_left)
   have hA1 : zpowers z ≠ ⊥ := fun h => hz1 (by simpa [h] using Subgroup.mem_zpowers z)
   obtain ⟨a, ha, hao⟩ := exists_mem_orderOf_eq_of_isPGroup_ne_bot hAp hA1
   refine ⟨a, hzle ha, hao, fun g hg => ?_⟩
@@ -138,8 +138,8 @@ theorem not_isCyclic_sylow_of_two_le_pRank {K : Type*} [Group K] [Finite K] {p :
   have hp : p.Prime := Fact.out
   rw [← CFSG.PreuniquenessRankFour.Helpers.pRank_sylow_eq_globalRank p hp T] at h
   obtain ⟨E, hET, hEel, hEcard⟩ := GH74.Uniqueness.SU.SU1.exists_pRank hp.one_lt (T : Subgroup K)
-  haveI : IsCyclic (T : Subgroup K) := hcyc
-  haveI : IsCyclic E := Subgroup.isCyclic_of_le hET
+  have : IsCyclic (T : Subgroup K) := hcyc
+  have : IsCyclic E := Subgroup.isCyclic_of_le hET
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
   have hord : orderOf g ∣ p := orderOf_dvd_of_pow_eq_one (Subtype.ext (hEel.2 g g.2))
   have hcard : Nat.card E = orderOf g := (orderOf_eq_card_of_forall_mem_zpowers hg).symm
@@ -194,8 +194,8 @@ theorem gl83NongenerationList_of_kfacts (h243 : GL83ComponentPCoreTrivial) (h241
     (h7131 : GL83.I_7_13_1) (h7132 : KFactSeitzCyc) (h2316 : GL83I2316) :
     GL83NongenerationList := by
   intro X _ _ hcat p R K hp hp2 hrk hKc hKn hC hnot
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   have hperf : commutator ↥K = ⊤ := hKc.2.2.1
   have hsimple : IsSimpleGroup (↥K ⧸ center ↥K) := hKc.2.2.2
   have hnonab : ∃ a b : ↥K ⧸ center ↥K, a * b ≠ b * a := exists_noncomm_center_quotient hperf
@@ -212,7 +212,7 @@ theorem gl83NongenerationList_of_kfacts (h243 : GL83ComponentPCoreTrivial) (h241
       GLBCore p 1 (T : Subgroup (↥K ⧸ center ↥K)) ≠ ⊤ := by
     by_contra hcon
     push Not at hcon
-    haveI : Nontrivial (↥K ⧸ center ↥K) := hsimple.toNontrivial
+    have : Nontrivial (↥K ⧸ center ↥K) := hsimple.toNontrivial
     exact hnot (le_glbCore_two_of_central_cover R (QuotientGroup.mk' (center ↥K))
       (QuotientGroup.mk'_surjective _) (QuotientGroup.ker_mk' _) hZ hC hcon)
   by_cases hcase : 2 ≤ Open.pRank p (⊤ : Subgroup (↥K ⧸ center ↥K))

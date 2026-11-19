@@ -28,6 +28,7 @@ theorem map_fixSubgroup_eq_top {K : Subgroup G} {c : G} (hc : c ∈ Subgroup.nor
   rw [map_fixSubgroup_pQuotHom Nat.prime_three hc hc3,
     (chev_barAut_eq_one_iff_centMod (p := 3) hc).2 hcK, fixSubgroup_one_eq_top]
 
+omit [Finite G] in
 theorem mk_conj_eq {K : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (K : Set G))
     (hcK : CentMod 3 K c) (x : ↥K) :
     (QuotientGroup.mk (K.normalizerMonoidHom ⟨c, hc⟩ x) : PQuot 3 K) = QuotientGroup.mk x := by
@@ -35,6 +36,7 @@ theorem mk_conj_eq {K : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (K :
   rw [(chev_barAut_eq_one_iff_centMod (p := 3) hc).2 hcK, MulAut.one_apply] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem subgroupOf_map_subtype_eq {K : Subgroup G} (S₁ : Subgroup ↥K) :
     (S₁.map K.subtype).subgroupOf K = S₁ := by
   ext x
@@ -51,7 +53,7 @@ theorem exists_lift_centralized {K : Subgroup G} {c : G} (hc : c ∈ Subgroup.no
     (hcK : CentMod 3 K c) (hc3 : c ^ 3 = 1) {E : Subgroup (PQuot 3 K)} (hE : IsElemAbelian 3 E) :
     ∃ S : Subgroup G, S ≤ K ∧ S ≤ Subgroup.centralizer ({c} : Set G) ∧ IsElemAbelian 3 S ∧
       Nat.card S = Nat.card E ∧ (S.subgroupOf K).map (pQuotHom 3 K) = E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc3' : IsPGroup 3 (Subgroup.zpowers c) :=
     c25_isPGroup_of_elemAbelian (i1431_isElemAbelian_zpowers hc3)
   set F : Subgroup K := fixSubgroup (K.normalizerMonoidHom ⟨c, hc⟩) with hF

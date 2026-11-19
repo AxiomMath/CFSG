@@ -174,7 +174,7 @@ private theorem isUnit_colMat {a b : GL (Fin 3) F} {ω : Fˣ} (hω : ω ≠ 1) (
     (hab : a * b * a⁻¹ * b⁻¹ = sc ω) {v : Fin 3 → F} (hv0 : v ≠ 0)
     (hav : (a : Matrix (Fin 3) (Fin 3) F) *ᵥ v = v) :
     IsUnit (colMat (b : Matrix (Fin 3) (Fin 3) F) v) := by
-  rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  rw [← Matrix.linearIndependent_col_iff_isUnit]
   refine Module.End.eigenvectors_linearIndependent' (Matrix.toLin' (a : Matrix (Fin 3) (Fin 3) F))
     _ (omega_pow_injective hω hω3) _ fun j => ⟨?_, ?_⟩
   · rw [Module.End.mem_eigenspace_iff, Matrix.toLin'_apply]

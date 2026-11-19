@@ -77,7 +77,7 @@ theorem cube_dvd_mulAut_of_centMod {G : Type} [Group G] [Finite G] {p : ℕ} {X 
     (hBN : B ≤ Subgroup.normalizer (L : Set G))
     (hcard : p ^ 3 * Nat.card ↥(B ⊓ centModSubgroup p L) ≤ Nat.card B) :
     p ^ 3 ∣ Nat.card (MulAut (PSimple p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Subgroup G := Subgroup.normalizer (L : Set G)
   let H : Subgroup N := B.subgroupOf N
   let ψ : H →* MulAut (PSimple p L) := (chevAut p L).comp H.subtype
@@ -208,7 +208,7 @@ theorem cube_f4two {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {S : Type} [Group S] 
   cases d with
   | F4 q =>
     have hq2 : q.card = 2 := hP
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     obtain ⟨eC⟩ :=
       nonempty_mulEquiv_adjoint_of_bridge CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv e0
     obtain ⟨h2, hexp⟩ :=
@@ -246,7 +246,7 @@ theorem cube_e6two {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {S : Type} [Group S] 
   cases d with
   | twistedE6 q =>
     have hq2 : q.card = 2 := hP
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let K := GaloisField q.p (2 * q.exponent)
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hKc : Nat.card K = (q.p ^ q.exponent) ^ TwistTag.E6.order := by
@@ -337,7 +337,7 @@ theorem p_eq_three_of_list67 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type}
   by_contra hne
   have h5 : 5 ≤ p := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases p <;> first | omega | norm_num at hp
   obtain ⟨j, hj, ⟨f⟩⟩ := hS
   rcases hj with hj | hj | hj | hj | hj | hj

@@ -220,7 +220,6 @@ termination_by (2 * f + 1, 0, w)
 decreasing_by
   all_goals first
     | exact Prod.Lex.left _ _ (by omega)
-    | exact Prod.Lex.right _ (Prod.Lex.left _ _ (by omega))
     | exact Prod.Lex.right _ (Prod.Lex.right _ (dropLow_lt _h))
 end
 

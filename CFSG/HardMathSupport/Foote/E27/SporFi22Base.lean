@@ -21,16 +21,16 @@ theorem matJ_mul (g h : J) : matJ (g * h) = matJ g * matJ h := rfl
 
 theorem matJ_one : matJ (1 : J) = 1 := rfl
 
-theorem matJ_injective : Function.Injective (matJ : J → _) := fun g h e =>
+theorem matJ_injective : Function.Injective (matJ : J → _) := fun _g _h e =>
   Subtype.ext (Units.ext e)
 
 noncomputable def regJ (k : ℕ) : J :=
-  if h : 3 ≤ k ∧ (ops[k - 3]!).1 < k ∧ (ops[k - 3]!).2 < k then
+  if _h : 3 ≤ k ∧ (ops[k - 3]!).1 < k ∧ (ops[k - 3]!).2 < k then
     regJ (ops[k - 3]!).1 * regJ (ops[k - 3]!).2
   else if k = 0 then a else if k = 1 then b else if k = 2 then b⁻¹ else 1
 termination_by k
 decreasing_by
-  all_goals first | exact h.2.1 | exact h.2.2
+  all_goals first | exact _h.2.1 | exact _h.2.2
 
 noncomputable def gJ (j : ℕ) : J := regJ (gens[j]!)
 

@@ -106,7 +106,7 @@ theorem S₁_le_Q : d.S₁ ≤ (d.Q : Subgroup G) :=
 
 theorem card_S₁ : Nat.card d.S₁ = 25 := by
   have h5 : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  have hp : IsPGroup 5 d.S₁ := d.Q.isPGroup'.to_le d.S₁_le_Q
+  have hp : IsPGroup 5 d.S₁ := d.Q.isPGroup.to_le d.S₁_le_Q
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp
   have hdvd : Nat.card d.S₁ ∣ 300 :=
     d.card_C₁ ▸ Subgroup.card_dvd_of_le d.S₁_le_centralizer

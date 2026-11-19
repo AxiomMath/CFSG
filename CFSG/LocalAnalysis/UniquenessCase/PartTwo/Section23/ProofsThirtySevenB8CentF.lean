@@ -35,7 +35,7 @@ private theorem centralizer_le_M_of_odd (D : Data G) (Ch : Choice2011 G) (h4 : S
   have hr2 : r ≠ 2 := by
     rintro rfl
     norm_num at hrodd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers (a : G)) r
     (by rwa [Nat.card_zpowers])
   let y : G := (x : G)

@@ -113,6 +113,7 @@ theorem weaklyClosed_bar_of_weaklyClosed [(Q.subgroupOf M).Normal] {L : Subgroup
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) x
   rw [mk_mem_conj_bar_iff hQL, mk_mem_bar_iff hQL, hL]
 
+omit [Finite G] in
 theorem Ctx.normal_isPGroup_two_Mbar_eq_bot [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     (N : Subgroup (Mbar M Q)) (hN : N.Normal) (hP : IsPGroup 2 N) : N = ⊥ := by
   rw [eq_bot_iff, ← hc.pCore_two_Mbar]
@@ -124,7 +125,7 @@ theorem Ctx.exists_conj_LB_of_transitivityTI (hc : Ctx M Q Z B)
       conjSubgroup m (LB M Q B) = LB M Q B)
     {t t' : G} (ht : t ∈ LB M Q B) (htQ : t ∉ Q) (ht' : t' ∈ LB M Q B) (ht'Q : t' ∉ Q) :
     ∃ m ∈ M, m ∈ Subgroup.normalizer (LB M Q B : Set G) ∧ (m * t * m⁻¹)⁻¹ * t' ∈ Q := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hQL : Q ≤ LB M Q B := le_sup_left
   have htM : t ∈ M := hc.LB_le_M ht
   have ht'M : t' ∈ M := hc.LB_le_M ht'
@@ -148,7 +149,7 @@ theorem stroth34_caseA_n3 (hT75 : TimmesfeldTransitivityTI) (hc : Ctx M Q Z B) {
       conjSubgroup m (LB M Q B) = LB M Q B)
     (hSQ : ¬ hc.Spure ≤ Q) :
     n = 3 ∧ hc.Spure = LB M Q B := by
-  obtain ⟨t, htS, htQ⟩ := SetLike.not_le_iff_exists.mp hSQ
+  obtain ⟨t, htS, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hSQ
   have hSL : hc.Spure = LB M Q B := by
     refine le_antisymm (fun s hs => hs.1) fun t' ht' => ?_
     by_cases ht'Q : t' ∈ Q

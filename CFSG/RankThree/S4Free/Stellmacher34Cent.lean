@@ -19,10 +19,11 @@ namespace SzCfg
 variable {Λ : Type*} [Group Λ] [Finite Λ] {T W R : Subgroup Λ} {a : ℕ} {K : Type} [Field K]
   [Finite K] {φ : Λ →* suzukiGroup a K}
 
+omit [Finite Λ] in
 theorem le_oTwo_of_commutator_le (h : SzCfg T W R φ) (hR : R = oTwo Λ) {Q : Subgroup Λ}
     [Q.Normal] (hQ : ⁅Q, Q⁆ ≤ oTwo Λ) : Q ≤ oTwo Λ := by
   obtain ⟨-, hnt, hs⟩ := CFSG.LieType.Ree.suzuki_simple h.one_le h.card_K
-  haveI := hs
+  have := hs
   have hQn : (Q.map φ).Normal := (inferInstance : Q.Normal).map φ h.surjective
   rcases hQn.eq_bot_or_eq_top with h1 | h1
   · rw [← hR, ← h.ker_eq]
@@ -45,6 +46,7 @@ section Host
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_map_conj {L Q : Subgroup G} (hQL : Q ≤ L) (x : L) :
     (Q.map (MulAut.conj (x : G)).toMonoidHom).subgroupOf L =
       (Q.subgroupOf L).map (MulAut.conj x).toMonoidHom := by
@@ -57,6 +59,7 @@ theorem subgroupOf_map_conj {L Q : Subgroup G} (hQL : Q ≤ L) (x : L) :
   · rintro ⟨q, hq, rfl⟩
     exact ⟨q, hq, by simp⟩
 
+omit [Finite G] in
 theorem szCfg_of_isL24Sz {T W L : Subgroup G} (hT : IsPGroup 2 T)
     (hW : CFSG.Open.IsElemAbelian 2 W) (hWT : W ≤ T) (hTW : T ≤ normalizer (W : Set G))
     (hL : Stell.IsL24Sz T (normalizer (W : Set G)) W L) :
@@ -111,6 +114,7 @@ section Centralizer
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_map_conj {W : Subgroup G} {p x : G}
     (hp : x⁻¹ * p * x ∈ normalizer (W : Set G)) :
     p ∈ normalizer ((W.map (MulAut.conj x).toMonoidHom : Subgroup G) : Set G) := by
@@ -122,7 +126,7 @@ theorem mem_normalizer_map_conj {W : Subgroup G} {p x : G}
   exact mem_normalizer_iff.mp hp _
 
 theorem comm_mem_oTwoSub {T W L : Subgroup G} (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index)
-    (hTW : T ≤ normalizer (W : Set G)) (hWL : W ≤ L) {x : G} (hxL : x ∈ L)
+    (hTW : T ≤ normalizer (W : Set G)) (hWL : W ≤ L) {x : G} (_hxL : x ∈ L)
     (hsup : W ⊔ W.map (MulAut.conj x).toMonoidHom = L) {p : G} (hp : p ∈ oTwo G) {l : G}
     (hl : l ∈ L) : ⁅p, l⁆ ∈ oTwoSub L := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

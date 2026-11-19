@@ -31,6 +31,7 @@ private theorem mem_normalizer_omega1_of_mem_S (H : ThCyc G L R t) (W : ThLocalI
     s ∈ normalizer (omega1 D hD.comm : Set G) :=
   normalizer_D_le_normalizer_omega1 hD (mem_normalizer_D_of_mem_S H W W2 hD hs)
 
+omit [Finite G] in
 private theorem conj_mul_inv_centralizes_A {c : G → (Fin 4 → ZMod 2)} (hc : IsCoord A c)
     {y s : G} (hy : y ∈ normalizer (A : Set G)) (hs : s ∈ normalizer (A : Set G))
     {M : Matrix (Fin 4) (Fin 4) (ZMod 2)} (hys : IsRep A c y M) (hss : IsRep A c s M) :
@@ -45,6 +46,7 @@ private theorem conj_mul_inv_centralizes_A {c : G → (Fin 4 → ZMod 2)} (hc : 
         (fun b hb => (mem_normalizer_iff.1 hs b).1 hb) hss hsa
     _ = a := by group
 
+omit [Finite G] in
 private theorem vConj_eq_of_conj_eq (hD : DHyp A Aa t D) {n m : G}
     (hn : n ∈ normalizer (omega1 D hD.comm : Set G))
     (hm : m ∈ normalizer (omega1 D hD.comm : Set G))
@@ -82,6 +84,7 @@ private theorem vConj_t_commute_of_mem_S (H : ThCyc G L R t) (W : ThLocalIn L S 
     _ = vConj hD (n * t) := by rw [hnt]
     _ = vConj hD n * vConj hD t := vConj_mul hD hnV htV
 
+omit [Finite G] in
 private theorem vConj_inv_mul_commute (hD : DHyp A Aa t D) {g : G}
     (hg : g ∈ normalizer (omega1 D hD.comm : Set G)) {w : AddMonoid.End (VSub hD)}
     (hgw : vConj hD g * w = w * vConj hD g) :
@@ -101,6 +104,7 @@ private theorem vConj_inv_mul_commute (hD : DHyp A Aa t D) {g : G}
   rw [h2, h3] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem vConj_conj_t_mul_w (hD : DHyp A Aa t D) {g : G}
     (hg : g ∈ normalizer (omega1 D hD.comm : Set G))
     (ht : t ∈ normalizer (omega1 D hD.comm : Set G)) {w : AddMonoid.End (VSub hD)}
@@ -128,6 +132,7 @@ private theorem vConj_conj_t_mul_w (hD : DHyp A Aa t D) {g : G}
           (w + 1) * vConj hD g⁻¹ by rw [add_mul, one_mul]]
     _ = (w + 1) * (vConj hD g⁻¹ * vConj hD t * vConj hD g) := by noncomm_ring
 
+omit [Finite G] in
 private theorem vConj_t_mul_w (hD : DHyp A Aa t D) {n : G}
     (ht : t ∈ normalizer (omega1 D hD.comm : Set G))
     (hn : n ∈ normalizer (omega1 D hD.comm : Set G)) {w : AddMonoid.End (VSub hD)}
@@ -167,6 +172,7 @@ private theorem eq_of_mem_UT (g : GL (Fin 4) (ZMod 2))
   fin_cases i <;> fin_cases j <;>
     simp [CFSG.Quasithin.FFC.mem_UT.1 hg, CFSG.Quasithin.FFC.UT_diag hg]
 
+omit [Finite G] in
 private theorem isRep_conj_comm {c : G → (Fin 4 → ZMod 2)} (hc : IsCoord A c) {s₀ s : G}
     {M N : Matrix (Fin 4) (Fin 4) (ZMod 2)} (hs₀ : IsRep A c s₀ M) (hs : IsRep A c s N)
     (hcomm : ∀ a ∈ A, s₀ * (s * a * s⁻¹) * s₀⁻¹ = s * (s₀ * a * s₀⁻¹) * s⁻¹)
@@ -320,6 +326,7 @@ theorem ThCyc.exists_mem_S_conj_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
       _ = t * (s * v * s⁻¹) * t⁻¹ := hkV' _ hsv
       _ = (t * s) * v * (t * s)⁻¹ := by group
 
+omit [Finite G] in
 theorem ThLocalIn.isRep_of_central (W : ThLocalIn L S A B z) {c : G → (Fin 4 → ZMod 2)}
     (hc : IsCoord A c)
     (hS : ∀ s ∈ S, ∃ g ∈ CFSG.Quasithin.FFC.UT 4,
@@ -442,7 +449,7 @@ theorem ThCyc.exists_conj_t_eq_t_mul (H : ThCyc G L R t) (W : ThLocalIn L S A B 
   have hcommS : ∀ s ∈ S, ∀ v ∈ omega1 D hD.comm,
       s₀ * (s * v * s⁻¹) * s₀⁻¹ = s * (s₀ * v * s₀⁻¹) * s⁻¹ := by
     intro s hsS v hv
-    letI : Fintype S := Fintype.ofFinite S
+    let : Fintype S := Fintype.ofFinite S
     let Ffun : AddMonoid.End (VSub hD) → AddMonoid.End (VSub hD) :=
       fun X => vConj hD g⁻¹ * X * vConj hD g
     let R : Finset (AddMonoid.End (VSub hD)) :=

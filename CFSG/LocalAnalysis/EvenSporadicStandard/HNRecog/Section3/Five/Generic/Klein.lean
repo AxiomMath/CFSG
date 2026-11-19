@@ -112,10 +112,10 @@ theorem card_closure_pair_of_involutions {x y : G} (hx : x * x = 1) (hy : y * y 
 theorem nonempty_mulEquiv_elem_two_of_involutions {x y : G} (hx : x * x = 1) (hy : y * y = 1)
     (hxy : x * y = y * x) (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hne : x ≠ y) :
     Nonempty (↥(Subgroup.closure ({x, y} : Set G)) ≃* Multiplicative (Fin 2 → ZMod 2)) := by
-  haveI : IsKleinFour ↥(Subgroup.closure ({x, y} : Set G)) :=
+  have : IsKleinFour ↥(Subgroup.closure ({x, y} : Set G)) :=
     { card_four := card_closure_pair_of_involutions hx hy hxy hx1 hy1 hne
       exponent_two := by
-        haveI : Nontrivial ↥(Subgroup.closure ({x, y} : Set G)) :=
+        have : Nontrivial ↥(Subgroup.closure ({x, y} : Set G)) :=
           ⟨⟨x, Subgroup.subset_closure (by simp)⟩, ⟨1, Subgroup.one_mem _⟩,
             fun h => hx1 (congrArg Subtype.val h)⟩
         rw [Monoid.exponent_eq_prime_iff Nat.prime_two]

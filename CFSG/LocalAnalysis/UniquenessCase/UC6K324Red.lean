@@ -93,10 +93,10 @@ theorem le_of_dvd_card {p : ℕ} [Fact p.Prime] {X P N : Subgroup G} (hX : IsSim
     (hPX : P ≤ X) (hP : CFSG.Open.IsElemAbelian p P)
     (hPc : Nat.card P = p ^ CFSG.Open.pRank p (⊤ : Subgroup G))
     (hXN : X ≤ normalizer (N : Set G)) (hpN : p ∣ Nat.card N) : X ≤ N := by
-  haveI hn : (N.subgroupOf X).Normal := ⟨fun n hn g => by
+  have hn : (N.subgroupOf X).Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     exact (mem_normalizer_iff.1 (hXN g.2) n).1 hn⟩
-  haveI := hX
+  have := hX
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf X) with h | h
   · exfalso
     refine inf_ne_bot_of_dvd_card hP hPc (hPX.trans hXN) hpN (eq_bot_iff.2 fun x hx => ?_)
@@ -115,6 +115,7 @@ section Section
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_map_pPrimeCore (p : ℕ) (M : Subgroup G) [M.Normal] :
     ((CFSG.pPrimeCore p ↥M).map M.subtype).Normal := by
   refine ⟨fun x hx g => ?_⟩
@@ -125,6 +126,7 @@ theorem normal_map_pPrimeCore (p : ℕ) (M : Subgroup G) [M.Normal] :
   rw [← hfix]
   exact ⟨k, hk, rfl⟩
 
+omit [Finite G] in
 theorem conj_mem_map_conj {M : Subgroup G} [M.Normal] {K : Subgroup ↥M} (hK : K.Normal) (g : G)
     {m : G} (hm : m ∈ M) {h : G} (hh : h ∈ (K.map M.subtype).map (MulAut.conj g).toMonoidHom) :
     m * h * m⁻¹ ∈ (K.map M.subtype).map (MulAut.conj g).toMonoidHom := by
@@ -135,7 +137,7 @@ theorem conj_mem_map_conj {M : Subgroup G} [M.Normal] {K : Subgroup ↥M} (hK : 
   have hconj : (⟨g⁻¹ * m * g, hm'⟩ : ↥M) * k * (⟨g⁻¹ * m * g, hm'⟩ : ↥M)⁻¹ ∈ K :=
     hK.conj_mem k hk _
   refine ⟨_, ⟨_, hconj, rfl⟩, ?_⟩
-  simp only [MonoidHom.coe_coe, MulEquiv.toMonoidHom_eq_coe, MulAut.conj_apply, coe_subtype,
+  simp only [_root_.MonoidHom.coe_ofClass, MulEquiv.toMonoidHom_eq_coe, MulAut.conj_apply, coe_subtype,
     Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
@@ -171,7 +173,7 @@ theorem isSimpleGroup_normalClosure_quot {p : ℕ} [hp : Fact p.Prime] {X P : Su
       have hxKG := le_of_dvd_card hX hPX hP hPc hXN (hcard ▸ hpK) hx
       obtain ⟨_, ⟨k, hk, rfl⟩, hkx⟩ := hxKG
       have hkx' : (k : G) = g⁻¹ * x * g := by
-        simp only [MonoidHom.coe_coe, MulEquiv.toMonoidHom_eq_coe, MulAut.conj_apply,
+        simp only [_root_.MonoidHom.coe_ofClass, MulEquiv.toMonoidHom_eq_coe, MulAut.conj_apply,
           coe_subtype] at hkx
         rw [← hkx]
         group
@@ -229,10 +231,10 @@ theorem eq_one_of_mem_pPrimeCore {p : ℕ} [hp : Fact p.Prime] {X : Subgroup G}
   classical
   set M := normalClosure (X : Set G) with hMdef
   set RG := (CFSG.pPrimeCore p ↥M).map M.subtype with hRG
-  haveI : RG.Normal := normal_map_pPrimeCore p M
-  haveI hn : (RG.subgroupOf X).Normal := inferInstance
+  have : RG.Normal := normal_map_pPrimeCore p M
+  have hn : (RG.subgroupOf X).Normal := inferInstance
   have hxRG : x ∈ RG := ⟨_, hxR, rfl⟩
-  haveI := hX
+  have := hX
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (RG.subgroupOf X) with h | h
   · have h1 : (⟨x, hx⟩ : X) ∈ RG.subgroupOf X := hxRG
     rw [h, mem_bot] at h1

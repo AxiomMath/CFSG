@@ -34,13 +34,17 @@ theorem one_add_one_eq_zero_of_card_two (hK : Nat.card K = 2) : (1 : K) + 1 = 0 
         _ = 0 := by rw [h, sub_self]
     exact one_ne_zero this
 
+omit [Finite K] in
 theorem coe_uSL (c : K) : ((uSL c : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![1, c; 0, 1] := rfl
 
+omit [Finite K] in
 theorem coe_vSL (c : K) : ((vSL c : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![1, 0; c, 1] := rfl
 
+omit [Finite K] in
 theorem coe_uv : ((uSL (1 : K) * vSL 1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) =
     !![1, 1; 0, 1] * !![1, 0; 1, 1] := rfl
 
+omit [Finite K] in
 theorem coe_vu : ((vSL (1 : K) * uSL 1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) =
     !![1, 0; 1, 1] * !![1, 1; 0, 1] := rfl
 
@@ -80,14 +84,12 @@ theorem sl2_eq_uv_or_vu (hK : Nat.card K = 2) (B : SL2 K) (h3 : B ^ 3 = 1) (h1 :
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 0 1) with hb | hb <;>
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 1 0) with hc | hc <;>
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 1 1) with hd | hd <;>
-  simp only [ha, hb, hc, hd, mul_zero, zero_mul, mul_one, one_mul, add_zero, zero_add, sub_zero,
+  simp only [ha, hb, hc, hd, mul_zero, mul_one, add_zero, zero_add, sub_zero,
     zero_sub, sub_self, h2] at hdet e00 e01 e10
-  all_goals first
+  all_goals try first
     | exact absurd hdet.symm h10
     | exact absurd e01 h10
     | exact absurd e10 h10
-    | exact absurd e00.symm h10
-    | skip
   all_goals first
     | exact Or.inl (hB _ (by rw [huv, ha]; rfl) (by rw [huv, hb]; rfl) (by rw [huv, hc]; rfl)
         (by rw [huv, hd]; rfl))
@@ -152,7 +154,7 @@ theorem sl2_sq_eq_one_or (hK : Nat.card K = 2) (B : SL2 K) :
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 0 1) with hb | hb <;>
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 1 0) with hc | hc <;>
   rcases eq_zero_or_eq_one_of_card_two hK ((B : Matrix (Fin 2) (Fin 2) K) 1 1) with hd | hd <;>
-  simp only [ha, hb, hc, hd, mul_zero, zero_mul, mul_one, one_mul, add_zero, zero_add, sub_zero,
+  simp only [ha, hb, hc, hd, mul_zero, mul_one, add_zero, zero_add, sub_zero,
     zero_sub, sub_self, h2] at hdet hsq1
   all_goals first
     | exact absurd hdet.symm h10
@@ -161,8 +163,6 @@ theorem sl2_sq_eq_one_or (hK : Nat.card K = 2) (B : SL2 K) :
         (by rw [huv, hc]; rfl) (by rw [huv, hd]; rfl)))
     | exact Or.inr (Or.inr (hB _ (by rw [hvu, ha]; rfl) (by rw [hvu, hb]; rfl)
         (by rw [hvu, hc]; rfl) (by rw [hvu, hd]; rfl)))
-    | exact absurd (hB 1 (by rw [ha]; rfl) (by rw [hb]; rfl) (by rw [hc]; rfl) (by rw [hd]; rfl))
-        h1
 
 theorem vu_inv (hK : Nat.card K = 2) : (vSL (1 : K) * uSL 1)⁻¹ = uSL 1 * vSL 1 := by
   have h2 := one_add_one_eq_zero_of_card_two hK
@@ -179,7 +179,7 @@ theorem conj_w_uv (hK : Nat.card K = 2) :
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_vSL]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, h2, ← add_assoc]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, h2]
 
 end Field
 

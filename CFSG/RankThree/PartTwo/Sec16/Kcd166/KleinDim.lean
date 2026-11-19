@@ -268,7 +268,7 @@ private theorem exists_pow_involution {Γ : Type*} [Group Γ] [Finite Γ] (S : S
     ∃ n : ℕ, 2 ≤ n ∧ (w ^ 2 ^ (n - 1)) ^ 2 = 1 ∧ w ^ 2 ^ (n - 1) ≠ 1 := by
   classical
   let W : ↥S := ⟨w, hwS⟩
-  have h_exists : ∃ k : ℕ, W ^ 2 ^ k = 1 := S.isPGroup'.exists_pow_pow_eq_one W
+  have h_exists : ∃ k : ℕ, W ^ 2 ^ k = 1 := S.isPGroup.exists_pow_pow_eq_one W
   set n : ℕ := Nat.find h_exists with hn_def
   have hn : W ^ 2 ^ n = 1 := by
     rw [hn_def]

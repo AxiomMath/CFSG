@@ -512,7 +512,7 @@ theorem kGroup_centralizer {F : Subgroup X} (hF1 : F ≠ ⊥) (hF2 : IsPGroup 2 
   B₀_le_centralizer := (c.s.h.secB0_le_secC0 c.s.y).trans inf_le_left
   J₀_le := c.secJ0_le_Lay
   equiv_L := c.nonempty_Lay_equiv
-  kGroup := fun F hFB hF1 => c.kGroup_normalizer hF1 ((c.s.h.isPGroup_secB0 c.s.y).to_le hFB)
+  kGroup := fun _F hFB hF1 => c.kGroup_normalizer hF1 ((c.s.h.isPGroup_secB0 c.s.y).to_le hFB)
 
 end Ctx
 

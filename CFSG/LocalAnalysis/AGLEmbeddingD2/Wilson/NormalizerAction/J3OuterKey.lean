@@ -24,7 +24,7 @@ theorem R_key {W E' : Subgroup (Equiv.Perm (Fin 6156))} (hW : W ≤ j3R) (hW2 : 
   by_contra hne
   obtain ⟨w₀, hw₀W, hw₀1⟩ : ∃ w ∈ W, w ≠ 1 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hne (Subgroup.eq_bot_iff_forall W |>.2 hno)
   have h1 : ∀ w ∈ W, w ≠ 1 → w ∉ j3P := by
     intro w hwW hw1 hwP
@@ -32,8 +32,8 @@ theorem R_key {W E' : Subgroup (Equiv.Perm (Fin 6156))} (hW : W ≤ j3R) (hW2 : 
     let f : E' → W := fun b => ⟨(b : Equiv.Perm (Fin 6156)) * w * (b : Equiv.Perm (Fin 6156))⁻¹,
       hN b b.2 w hwW⟩
     classical
-    haveI : Fintype E' := Fintype.ofFinite _
-    haveI : Fintype W := Fintype.ofFinite _
+    have : Fintype E' := Fintype.ofFinite _
+    have : Fintype W := Fintype.ofFinite _
     have hlt : Fintype.card W < Fintype.card E' := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; omega
     obtain ⟨b1, b2, hb12, hfb⟩ := Fintype.exists_ne_map_eq_of_card_lt f hlt

@@ -20,7 +20,7 @@ theorem fzc_sy2_rank (hs : FzCSy2Str t rho Z E W Q) (hP : t ∈ ⁅Q, zpowers rh
   have hcard : Nat.card Q = 4 * Nat.card W := by rw [hs.card_Q, hs.card_W]
   by_cases hXW : X ≤ W
   · exact hs.W_rank X hXW
-  obtain ⟨x, hxX, hxW⟩ := SetLike.not_le_iff_exists.mp hXW
+  obtain ⟨x, hxX, hxW⟩ := IsConcreteLE.not_le_iff_exists.mp hXW
   have hxQ : x ∈ Q := hXQ hxX
   by_cases h2 : ∃ y ∈ X, y ∉ W ∧ y * x⁻¹ ∉ W
   · obtain ⟨y, hyX, hyW, hyx⟩ := h2
@@ -35,7 +35,7 @@ theorem fzc_sy2_rank (hs : FzCSy2Str t rho Z E W Q) (hP : t ∈ ⁅Q, zpowers rh
     refine ⟨{x, y}, Finset.card_le_two.trans (by norm_num), ?_⟩
     have hcoe : (((({x, y} : Finset G)) : Set G)) = {x, y} := by simp
     rw [hcoe, hC, hX]
-  · push_neg at h2
+  · push Not at h2
     obtain ⟨s₀, hs₀, hs₀B⟩ := hs.W_rank (X ⊓ W) inf_le_right
     obtain ⟨b₁, b₂, b₃, hb⟩ := fzc_sy2_three_gen hs₀
     have hx2B : x ^ 2 ∈ X ⊓ W := ⟨X.pow_mem hxX 2, hs.Q_sq x hxQ⟩

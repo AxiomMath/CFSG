@@ -40,7 +40,7 @@ theorem levTwoS3e6_mem_patSet_iff (m : ℕ) (β : Fin (Tag.rank Tag.E6) → ℤ)
     β ∈ levTwoS3e6_patSet m ↔
       ∃ i : Fin levTwoS3e6_rootVecs.length,
         levTwoS3e6_rootVecs.get i = β ∧ (levTwoS3e6_patMask m).testBit i.val := by
-  simp only [levTwoS3e6_patSet, Set.mem_setOf_eq]
+  simp only [levTwoS3e6_patSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, hi, hvec, hbit⟩
     refine ⟨⟨i, by rw [levTwoS3e6_rootVecs_len]; exact hi⟩, ?_, hbit⟩

@@ -115,7 +115,7 @@ variable {τ : Tag} {L : Type} [Field L] {p₀ : ℕ}
 
 abbrev famCharHom {ι : Type} (a : ι → Fin τ.rank → Lˣ) :
     Multiplicative (Fin τ.rank → ℤ) →* (ι → Lˣ) :=
-  Pi.monoidHom fun u => rootCharHom (a u)
+  _root_.MonoidHom.pi fun u => rootCharHom (a u)
 
 abbrev famOrbit (ρ : Equiv.Perm (Fin τ.rank → ℤ)) {ι : Type} (a : ι → Fin τ.rank → Lˣ)
     (i : KernelComponent (famCharHom a)) : Set (Fin τ.rank → ℤ) :=

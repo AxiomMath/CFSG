@@ -157,7 +157,7 @@ theorem exists_transfer_D4 (Y : Subgroup (ModGL Tag.D4 K)) (hYle : Y ≤ adjoint
           rho K ((1 : GL (Fin 8) K) : Matrix (Fin 8) (Fin 8) K) ∘ₗ phi K := h1
       show phi K ∘ₗ (g : Module.End K (RootModule Tag.D4 K)) = phi K
       rw [h1', Units.val_one, rho_one, Module.End.one_eq_id, LinearMap.id_comp]
-    haveI := isSolvable_stabilizerOf (phi K)
+    have := isSolvable_stabilizerOf (phi K)
       (hVec Tag.D4 K (1 : Fin 4) + hVec Tag.D4 K (3 : Fin 4)) (fun v hv => phi_ker_le_span K hv)
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   obtain ⟨Y₂, hY₂, hq, he⟩ := exists_quasisimple_of_relation R hK1 hK2 Y hY hYR

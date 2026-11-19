@@ -11,6 +11,7 @@ open CFSG.LieType.Universal.Unitary (SUid)
 
 variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
 
+omit [Finite F] in
 theorem s16c4v1e3_exists_dual_pair (hσ : IsUnitaryInvolution σ) {u₁ u₂ : Fin 4 → F}
     (hli : ∀ a b : F, a • u₁ + b • u₂ = 0 → a = 0 ∧ b = 0)
     (h11 : herm σ u₁ u₁ = 0) (h12 : herm σ u₁ u₂ = 0) (h22 : herm σ u₂ u₂ = 0) :
@@ -82,25 +83,26 @@ theorem s16c4v1e3_exists_dual_pair (hσ : IsUnitaryInvolution σ) {u₁ u₂ : F
   · have h : herm σ (z₁ + c₁₁ • u₁) (z₁ + c₁₁ • u₁)
         = herm σ z₁ z₁ + (c₁₁ + σ c₁₁) := by
       simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, h11, hz11,
-        hz₁u₁, mul_one, mul_zero, add_zero, zero_add]
+        hz₁u₁, mul_one, mul_zero, add_zero]
       ring
     rw [h, hc₁₁, add_neg_cancel]
   · have h : herm σ (z₂ + (-(herm σ z₁ z₂)) • u₁ + c₂₂ • u₂)
         (z₂ + (-(herm σ z₁ z₂)) • u₁ + c₂₂ • u₂) = herm σ z₂ z₂ + (c₂₂ + σ c₂₂) := by
       simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, h11, h12, h22,
-        hu21, hz12, hz22, hz₂u₁, hz₂u₂, mul_one, mul_zero, add_zero, zero_add]
+        hu21, hz12, hz22, hz₂u₁, hz₂u₂, mul_one, mul_zero, add_zero]
       ring
     rw [h, hc₂₂, add_neg_cancel]
   · have h : herm σ (z₁ + c₁₁ • u₁) (z₂ + (-(herm σ z₁ z₂)) • u₁ + c₂₂ • u₂)
         = herm σ z₁ z₂ + -(herm σ z₁ z₂) := by
       simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, h11, h12,
-        hz11, hz12, hz₁u₁, hz₁u₂, mul_one, mul_zero, add_zero, zero_add]
+        hz12, hz₁u₁, hz₁u₂, mul_one, mul_zero, add_zero]
     rw [h, add_neg_cancel]
   · simp only [herm_add_right, herm_smul_right, h11, hz11, mul_zero, add_zero]
-  · simp only [herm_add_right, herm_smul_right, h11, h12, hz12, mul_zero, add_zero, zero_add]
+  · simp only [herm_add_right, herm_smul_right, h11, h12, hz12, mul_zero, add_zero]
   · simp only [herm_add_right, herm_smul_right, hu21, hz21, mul_zero, add_zero]
-  · simp only [herm_add_right, herm_smul_right, hu21, h22, hz22, mul_zero, add_zero, zero_add]
+  · simp only [herm_add_right, herm_smul_right, hu21, h22, hz22, mul_zero, add_zero]
 
+omit [Finite F] in
 theorem s16c4v1e3_opposite_of_dual_pair (hσ : IsUnitaryInvolution σ) {u₁ u₂ y₁ y₂ : Fin 4 → F}
     (h11 : herm σ u₁ u₁ = 0) (h12 : herm σ u₁ u₂ = 0) (h22 : herm σ u₂ u₂ = 0)
     (hy₁ : herm σ y₁ y₁ = 0) (hy₂ : herm σ y₂ y₂ = 0) (hy₁₂ : herm σ y₁ y₂ = 0)
@@ -140,7 +142,7 @@ theorem s16c4v1e3_opposite_of_dual_pair (hσ : IsUnitaryInvolution σ) {u₁ u�
     rw [hw, zero_smul, one_smul, zero_add, hgy2]
     have hval : herm σ (b • u₂) (u₂ + τ • y₂) = σ b * τ := by
       simp only [herm_smul_left, herm_add_right, herm_smul_right, h22, hd₂₂, mul_one, mul_zero,
-        add_zero, zero_add]
+        zero_add]
       ring
     rw [hval]
     exact mul_ne_zero (fun h => hb (σ.injective (by rw [h, map_zero]))) hτ0
@@ -153,10 +155,11 @@ theorem s16c4v1e3_opposite_of_dual_pair (hσ : IsUnitaryInvolution σ) {u₁ u�
     rw [hval]
     exact mul_ne_zero (fun h => ha (σ.injective (by rw [h, map_zero]))) hτ0
 
+omit [Finite F] in
 theorem s16c4v1e3_exists_opposite (hσ : IsUnitaryInvolution σ) {W : Submodule F (Fin 4 → F)}
     (hW : Module.finrank F ↥W = 2) (hti : ∀ u ∈ W, ∀ u' ∈ W, herm σ u u' = 0) :
     ∃ g : ↥(SUid σ 4), ∀ w ∈ W, w ≠ 0 → ∃ w' ∈ W, herm σ w (g • w') ≠ 0 := by
-  haveI : Module.Finite F ↥W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
+  have : Module.Finite F ↥W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   let b : Module.Basis (Fin 2) F ↥W := Module.finBasisOfFinrankEq F ↥W hW
   have hb_li : LinearIndependent F ![b 0, b 1] := by
     have hb : ![b 0, b 1] = b := by funext i; fin_cases i <;> rfl

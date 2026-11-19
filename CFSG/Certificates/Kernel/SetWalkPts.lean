@@ -62,10 +62,10 @@ theorem keyS_eq_sum {k w wr R d : Nat} (hk : k ≤ 2 ^ d) (S : Nat) :
   rw [hr, Finset.sum_range_add]
   have h2 : ∑ x ∈ Finset.range r, (if 0 + (k + x) < k then fd wr R (fd w S (0 + (k + x)))
       else 0) = 0 :=
-    Finset.sum_eq_zero fun x _ => if_neg (by omega)
+    Finset.sum_eq_zero fun x _ => ite_eq_right (by omega)
   rw [h2, Nat.add_zero]
   refine Finset.sum_congr rfl fun i hi => ?_
-  rw [if_pos (by simpa using hi), Nat.zero_add]
+  rw [ite_eq_left (by simpa using hi), Nat.zero_add]
 
 theorem sum_fields {n w k S : Nat} (hS : Valid n w k S) (f : Nat → Nat) :
     ∑ i ∈ Finset.range k, f (fd w S i) = ∑ p ∈ fields w k S, f p := by
@@ -141,9 +141,9 @@ theorem act_pts {n w k G0 G1 S : Nat} {σ₀ σ₁ : Equiv.Perm (Fin n)} (hk : k
       Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
     cases b
     · obtain ⟨hv', e'⟩ := pcomp_pts hk h0 hv
-      exact ⟨hv', σ₀ * g, Subgroup.mul_mem _ mem0 hg, by rw [act, cond_false, e', e, mul_smul]⟩
+      exact ⟨hv', σ₀ * g, Subgroup.mul_mem _ mem0 hg, by rw [act, Bool.cond_false, e', e, mul_smul]⟩
     · obtain ⟨hv', e'⟩ := pcomp_pts hk h1 hv
-      exact ⟨hv', σ₁ * g, Subgroup.mul_mem _ mem1 hg, by rw [act, cond_true, e', e, mul_smul]⟩
+      exact ⟨hv', σ₁ * g, Subgroup.mul_mem _ mem1 hg, by rw [act, _root_.Bool.cond_true, e', e, mul_smul]⟩
 
 theorem listK_pts {n w : Nat} {l : List Nat} {S : Nat} (h : listK w (mask w) l S = true)
     (hlt : ∀ q ∈ l, q < n) (hnd : l.Nodup) :
@@ -159,7 +159,7 @@ theorem listK_pts {n w : Nat} {l : List Nat} {S : Nat} (h : listK w (mask w) l S
     exact (hnd.getElem_inj_iff).1 e
   · ext p
     rw [mem_pts]
-    simp only [Set.mem_setOf_eq, List.mem_iff_getElem]
+    simp only [Set.mem_ofPred_eq, List.mem_iff_getElem]
     constructor
     · rintro ⟨i, hi, e⟩
       exact ⟨i, hi, by rw [← hf i hi, e]⟩

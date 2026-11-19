@@ -16,10 +16,10 @@ theorem exists_monomial_basis {K V : Type*} [Field K] [AddCommGroup V] [Module K
     {T : Module.End K V} (hT : T ^ p = algebraMap K (Module.End K V) ζ) :
     ∃ (m : ℕ) (b : Basis (Fin p × Fin m) K V) (u : Fin p × Fin m → K),
       ∀ x : Fin p × Fin m, T (b x) = u x • b (x.1 + 1, x.2) := by
-  haveI : Fact (Irreducible (X ^ p - C ζ)) := ⟨X_pow_sub_C_irreducible_of_prime hp hζ⟩
+  have : Fact (Irreducible (X ^ p - C ζ)) := ⟨X_pow_sub_C_irreducible_of_prime hp hζ⟩
   have hf0 : (X ^ p - C ζ : K[X]) ≠ 0 := (monic_X_pow_sub_C ζ hp.ne_zero).ne_zero
   let pb := AdjoinRoot.powerBasis hf0
-  have hdim : pb.dim = p := by simp [pb, natDegree_X_pow_sub_C]
+  have hdim : pb.dim = p := by simp [pb]
   have hroot : aeval T (X ^ p - C ζ : K[X]) = 0 := by
     simp only [map_sub, map_pow, aeval_X, aeval_C, hT, sub_self]
   let φ : AdjoinRoot (X ^ p - C ζ : K[X]) →+* Module.End K V :=
@@ -29,13 +29,13 @@ theorem exists_monomial_basis {K V : Type*} [Field K] [AddCommGroup V] [Module K
         change aeval T ((X ^ p - C ζ) * g) = 0
         rw [map_mul, hroot, zero_mul])
   have hφmk : ∀ g : K[X], φ (AdjoinRoot.mk (X ^ p - C ζ : K[X]) g) = aeval T g := fun g => rfl
-  letI : Module (AdjoinRoot (X ^ p - C ζ : K[X])) V := Module.compHom V φ
+  let : Module (AdjoinRoot (X ^ p - C ζ : K[X])) V := Module.compHom V φ
   have hsmul : ∀ (e : AdjoinRoot (X ^ p - C ζ : K[X])) (v : V), e • v = φ e v := fun e v => rfl
-  haveI : IsScalarTower K (AdjoinRoot (X ^ p - C ζ : K[X])) V := by
+  have : IsScalarTower K (AdjoinRoot (X ^ p - C ζ : K[X])) V := by
     refine IsScalarTower.of_algebraMap_smul fun r v => ?_
     rw [hsmul, AdjoinRoot.algebraMap_eq, ← AdjoinRoot.mk_C, hφmk, aeval_C]
     rfl
-  haveI : Module.Finite (AdjoinRoot (X ^ p - C ζ : K[X])) V :=
+  have : Module.Finite (AdjoinRoot (X ^ p - C ζ : K[X])) V :=
     Module.Finite.of_restrictScalars_finite K _ V
   let c := Module.Free.chooseBasis (AdjoinRoot (X ^ p - C ζ : K[X])) V
   let ι := Module.Free.ChooseBasisIndex (AdjoinRoot (X ^ p - C ζ : K[X])) V

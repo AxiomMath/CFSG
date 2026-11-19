@@ -38,7 +38,7 @@ theorem w1T_mul_self (hn : 3 ≤ n) : w1T (n := n) hn * w1T hn = 1 := by
   refine isConst_of_eq_four (-(ss n + ss n)) ?_ ?_ ?_ ?_ <;>
     simp only [Pi.sub_apply, Pi.add_apply, Pi.zero_apply, OneMemClass.coe_one, pv_one, wv, hv,
       Matrix.cons_val, Nat.cast_one, Nat.cast_zero, mul_one, mul_zero] <;>
-    first | ring1 | linear_combination -h2 | linear_combination h2
+    first | ring1 | linear_combination -h2
 
 theorem w1T_ne_one (hn : 3 ≤ n) : w1T (n := n) hn ≠ 1 := fun h =>
   pow_ne_w1T hn (one_mem (A n)) (by rw [one_pow, h])
@@ -52,7 +52,7 @@ theorem w1T_mul_omegaEl_odd (hn : 3 ≤ n) (p : Fin 2 × Fin 2 × Fin 2)
         (χ j + (![1, 0, 0, 0] + pat p : Fin 4 → ℕ) i) % 2) →
       w1T hn * omegaEl hn p = el (hv n χ) 1 h := by
     intro χ h hχ
-    rw [w1T, omegaEl, dif_neg (by omega), el_mul, el_eq_el_iff (by omega)]
+    rw [w1T, omegaEl, dite_eq_right (by omega), el_mul, el_eq_el_iff (by omega)]
     refine ⟨mul_one 1, ?_⟩
     have hc := (hv_sub_hv_isConst_iff (n := n) (by omega) χ
       (![1, 0, 0, 0] + pat p : Fin 4 → ℕ)).2 hχ
@@ -223,7 +223,7 @@ theorem pv_s23_single_two : pv (s23 : Perm (Fin 4)) (Pi.single 2 1 : Fin 4 → Z
     Pi.single 3 1 := by
   rw [pv_s23]
   funext i
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 theorem isConj_diagAut_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n} (h2 : μ * μ = 1)
     (hμ : piT μ = s23) : IsConj (diagAut n μ) μ := by
@@ -242,7 +242,7 @@ theorem isConj_diagAut_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n} (h2 : μ * μ 
     rw [pv_s23_single_two]
     simp only [Pi.add_apply, Pi.sub_apply, Pi.single_apply]
     simp only [show (1 : Fin 4) ≠ 2 by decide, show (1 : Fin 4) ≠ 3 by decide,
-      show (0 : Fin 4) ≠ 2 by decide, show (0 : Fin 4) ≠ 3 by decide, if_false]
+      show (0 : Fin 4) ≠ 2 by decide, show (0 : Fin 4) ≠ 3 by decide, ite_false]
     linear_combination hb'
   · simp only [Nat.cast_one, mul_one] at hb'
     refine (isConj_el_s23_uT hn _ h2' ?_).trans
@@ -250,7 +250,7 @@ theorem isConj_diagAut_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n} (h2 : μ * μ 
     rw [pv_s23_single_two]
     simp only [Pi.add_apply, Pi.sub_apply, Pi.single_apply]
     simp only [show (1 : Fin 4) ≠ 2 by decide, show (1 : Fin 4) ≠ 3 by decide,
-      show (0 : Fin 4) ≠ 2 by decide, show (0 : Fin 4) ≠ 3 by decide, if_false]
+      show (0 : Fin 4) ≠ 2 by decide, show (0 : Fin 4) ≠ 3 by decide, ite_false]
     linear_combination hb'
 
 theorem isConj_diagAut_of_piT_zP (hn : 3 ≤ n) {μ : L4Model n} (h2 : μ * μ = 1)
@@ -271,7 +271,7 @@ theorem isConj_diagAut_of_piT_zP (hn : 3 ≤ n) {μ : L4Model n} (h2 : μ * μ =
     rw [pv_zP_single_two]
     simp only [Pi.add_apply, Pi.sub_apply, Pi.single_apply]
     simp only [show (0 : Fin 4) ≠ 2 by decide, show (0 : Fin 4) ≠ 3 by decide,
-      show (2 : Fin 4) ≠ 3 by decide, if_false, if_true]
+      show (2 : Fin 4) ≠ 3 by decide, ite_false, ite_true]
     ring
   obtain ⟨k, hk | hk⟩ := exists_eq_two_mul_or (d 0 - d 2)
   · left

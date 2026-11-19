@@ -135,7 +135,7 @@ theorem Hyp.card_le_eight [Finite A] (h : Hyp T v₀ Z₁ Z₂) : Nat.card A ≤
 theorem Hyp.card_eq_four_or_eight [Finite A] (h : Hyp T v₀ Z₁ Z₂) :
     Nat.card A = 4 ∨ Nat.card A = 8 := by
   have hpA : IsPGroup 2 A := fun a => ⟨1, by show a ^ 2 = 1; rw [pow_two]; exact h.exp a⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpA
   obtain ⟨n, hn⟩ := h.move
   have hn1 : n • v₀ ≠ 1 := by
@@ -296,7 +296,7 @@ theorem exists_involutive_move {I : Subgroup A} (hI : Nat.card I = 4)
     (hinv : ∀ n : N, ∀ x ∈ I, n • x ∈ I) {v : A} (hv : v ∈ I) (hv1 : v ≠ 1)
     {t : N} (htv : t • v = v) (htx : ∃ x ∈ I, t • x ≠ x) {s : N} (hs : s • v ≠ v) :
     ∃ g : N, g • v ≠ v ∧ g • (g • v) = v := by
-  haveI : Finite I := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite I := Nat.finite_of_card_ne_zero (by omega)
   have hI4 : ((I : Set A)).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]
     exact hI

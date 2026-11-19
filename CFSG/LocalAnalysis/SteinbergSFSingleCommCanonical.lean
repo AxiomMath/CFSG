@@ -17,10 +17,12 @@ section Canon
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {n : ℕ} {φ : L ≃* antiSp K} {t : G}
 
+omit [Finite G] in
 theorem canon_conj_of_normalizer {R : Subgroup G} {c x : G} (hc : c ∈ normalizer (R : Set G))
     (hx : x ∈ R) : c * x * c⁻¹ ∈ R :=
   (mem_normalizer_iff.mp hc x).mp hx
 
+omit [Finite G] in
 theorem canon_conj_mem_normalizer {R : Subgroup G} {c x : G} (hc : c ∈ normalizer (R : Set G))
     (hx : x ∈ normalizer (R : Set G)) : c * x * c⁻¹ ∈ normalizer (R : Set G) := by
   rw [mem_normalizer_iff]
@@ -45,6 +47,7 @@ theorem canon_N5_2 (h : FullCenter.FCHyp L K n φ t) (i : Axis) {c : G}
     c ∈ normalizer (U φ i : Set G) :=
   h.N_le_normalizer_U i hc
 
+omit [Finite K] in
 theorem canon_N5_3 (h : FullCenter.FCHyp L K n φ t) (i : Axis) {c : G}
     (hcC : c ∈ centralizer ({t} : Set G)) (hcU : c ∈ normalizer (U φ i : Set G)) :
     c ∈ normalizer ((zpowers t ⊔ U φ i : Subgroup G) : Set G) :=
@@ -55,7 +58,7 @@ theorem canon_N5_4 (h : FullCenter.FCHyp L K n φ t) (i : Axis)
     {c : G} (hcC : c ∈ centralizer ({t} : Set G))
     (hcN : c ∈ normalizer ((Q φ t : Subgroup G) : Set G)) :
     c ∈ normalizer ((D φ t i : Subgroup G) : Set G) :=
-  RootAxisTwoCore.mem_normalizer_of_conj_le fun x hx =>
+  RootAxisTwoCore.mem_normalizer_of_conj_le fun _x hx =>
     FullCenter.conj_mem_pCore_map
       (canon_N5_3 h i hcC (canon_N5_2 h i (canon_N5_1 h i hne hbot i hcN))) hx
 
@@ -76,7 +79,7 @@ theorem canon_N5_7 (h : FullCenter.FCHyp L K n φ t) (i : Axis)
     (hne : ⁅A φ i, F φ t ⊓ D φ t i.swap⁆ ≠ ⊥) (hbot : ⁅A φ i.swap, F φ t ⊓ D φ t i⁆ = ⊥)
     {c : G} (hcN : c ∈ normalizer ((Q φ t : Subgroup G) : Set G)) :
     c ∈ En φ t i.swap :=
-  mem_inf.mpr ⟨RootAxisTwoCore.mem_normalizer_of_conj_le fun e he =>
+  mem_inf.mpr ⟨RootAxisTwoCore.mem_normalizer_of_conj_le fun _e he =>
       SingleComm.conj_normalizer_Q_mem_E h i hne hbot i.swap hcN he,
     canon_N5_6 h i hne hbot hcN⟩
 

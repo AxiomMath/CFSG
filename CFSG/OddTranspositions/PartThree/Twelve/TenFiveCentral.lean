@@ -98,7 +98,7 @@ theorem mem_closure_commSet_of_frame {G : Type} [Group G] [Finite G] {D : Set G}
   rw [hnf] at hconj
   have hΔcomm : ((S : Set G) ∩ D) \ {u} ⊆ commSet D u := by
     intro x hx
-    exact ⟨hx.1.2, hS.oddT.commute_of_isPGroup S.isPGroup' hx.1.2 hu hx.1.1 huS, hx.2⟩
+    exact ⟨hx.1.2, hS.oddT.commute_of_isPGroup S.isPGroup hx.1.2 hu hx.1.1 huS, hx.2⟩
   exact Subgroup.closure_mono hΔcomm hconj
 
 end CFSG.OddTranspositions.PartThree

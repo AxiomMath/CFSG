@@ -18,8 +18,8 @@ private theorem card_sup_mul_card_inf_of_le_normalizer {G : Type*} [Group G]
   have h2 : A.relIndex B * Nat.card ↥(A ⊓ B) = Nat.card B :=
     Subgroup.relIndex_mul_card (H := A) (K := B)
   have h3 : A.relIndex (B ⊔ A) = A.relIndex B := by
-    letI : (A.subgroupOf B).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hB
-    letI : (A.subgroupOf (B ⊔ A)).Normal :=
+    let : (A.subgroupOf B).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hB
+    let : (A.subgroupOf (B ⊔ A)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hB
     exact (Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient B A hB).toEquiv).symm
@@ -47,7 +47,7 @@ private theorem fixedPointSubgroup_map_subtype_eq_inf_centralizer
       _ = (y : G) * d := by rw [hfix]
   · rintro ⟨hxN, hxc⟩
     refine ⟨⟨x, hxN⟩, ?_, rfl⟩
-    simp only [fixedPointSubgroup, FixedPoints.mem_subgroup]
+    simp only [fixedPointSubgroup]
     intro a
     apply Subtype.ext
     rw [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
@@ -88,19 +88,19 @@ theorem mem_centralizer_sup_iff
     (∀ d ∈ D, d * n * d⁻¹ * n⁻¹ ∈ M) ↔
       n ∈ (N ⊓ Subgroup.centralizer (D : Set G)) ⊔ M := by
   classical
-  haveI : Subgroup.Normalizes D N := ⟨hDN⟩
+  have : Subgroup.Normalizes D N := ⟨hDN⟩
   let MD : Subgroup ↥N := M.subgroupOf N
   have hMDnormal : MD.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMN).2 hMN_norm
-  letI : MD.Normal := hMDnormal
+  let : MD.Normal := hMDnormal
   have hMDinv : IsInvariant ↥D ↥N MD := by
     refine ⟨fun a g => ?_⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf,
       Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
     exact (Subgroup.mem_normalizer_iff.mp (hDM a.property) (g : G))
-  haveI : MulAction.QuotientAction (↥D) MD :=
+  have : MulAction.QuotientAction (↥D) MD :=
     quotientAction_of_isInvariant (A := ↥D) (G := ↥N) MD hMDinv
-  letI : MulDistribMulAction ↥D (↥N ⧸ MD) :=
+  let : MulDistribMulAction ↥D (↥N ⧸ MD) :=
     quotientMulDistribMulAction (A := ↥D) (G := ↥N) MD hMDinv
   have hquot : fixedPointSubgroup ↥D (↥N ⧸ MD) =
       (fixedPointSubgroup ↥D ↥N).map (QuotientGroup.mk' MD) :=
@@ -139,7 +139,7 @@ theorem mem_centralizer_sup_iff
       rcases hnmem' with ⟨c, hc, m, hm, hcm⟩
       have hc' : c ∈ N ⊓ Subgroup.centralizer (D : Set G) := hc
       refine ⟨⟨c, hc'.1⟩, ?_, ?_⟩
-      · simp only [fixedPointSubgroup, FixedPoints.mem_subgroup]
+      · simp only [fixedPointSubgroup]
         intro a
         apply Subtype.ext
         rw [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
@@ -218,8 +218,8 @@ theorem index_centralizer_mul
     (Subgroup.relIndex_mul_relIndex (H := CM) (K := M) (L := C ⊔ M)
       hCMle le_sup_right).symm
   have hMC : M.relIndex (C ⊔ M) = M.relIndex C := by
-    letI : (M.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hCnorm
-    letI : (M.subgroupOf (C ⊔ M)).Normal :=
+    let : (M.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hCnorm
+    let : (M.subgroupOf (C ⊔ M)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hCnorm
     exact (Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient C M hCnorm).toEquiv).symm

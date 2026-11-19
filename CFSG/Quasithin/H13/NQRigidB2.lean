@@ -199,7 +199,7 @@ theorem irreducible_component_normalizer_outer_rank_forces_containment {p : ℕ}
   obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow p X))
   set P : Subgroup H := (P₀ : Subgroup X).map X.subtype with hP
   have hPX : P ≤ X := map_subtype_le _
-  have hPp : IsPGroup p (P.map π) := (P₀.isPGroup'.map X.subtype).map π
+  have hPp : IsPGroup p (P.map π) := (P₀.isPGroup.map X.subtype).map π
   have hPJ : P.map π ≤ J := by
     refine hinc (P.map π) hPp ?_ ?_
     · rw [normalizer_eq_top_iff.mpr hJn]

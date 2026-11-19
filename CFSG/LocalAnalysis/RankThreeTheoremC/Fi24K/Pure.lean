@@ -22,7 +22,7 @@ theorem nonempty_mulEquiv_closure_he_of_relators
     obtain ⟨e⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
     exact @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.He.isSimpleGroup_He e.symm
   set P := TauCeti.Sporadic.hePresentation with hP
-  haveI : IsSimpleGroup P.Group := hsimple
+  have : IsSimpleGroup P.Group := hsimple
   set φ : P.Group →* G := presHom P (img2 x y) hrel with hφ
   have hker : φ.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
@@ -45,7 +45,7 @@ theorem nonempty_mulEquiv_closure_he_of_relators
   have hof : ∀ i : Fin P.generatorCount, φ (PresentedGroup.of i) = img2 x y i.val := by
     intro i
     have h := presHom_presGen P (img2 x y) hrel i.isLt
-    rw [presGen, dif_pos i.isLt] at h
+    rw [presGen, dite_eq_left i.isLt] at h
     exact h
   have hrange : φ.range ≤ Subgroup.closure ({x, y} : Set G) := by
     rw [MonoidHom.range_eq_map, ← hgen, MonoidHom.map_closure]

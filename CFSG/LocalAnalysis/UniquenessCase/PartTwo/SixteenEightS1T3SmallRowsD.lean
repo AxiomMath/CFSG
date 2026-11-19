@@ -57,8 +57,8 @@ theorem S16gRowCtx.false_of_not_three_mem_sig (h : S16gRowCtx D V₀ V L hV)
     (h7 : 7 ∉ D.sig ∨ ¬ (IsSLn ↥(lBar V₀ V hV L) 6 1 ∨ IsSLn ↥(lBar V₀ V hV L) 7 1)) :
     False := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
   have hp3 : p ≠ 3 := fun hpe => h3 (hpe ▸ hpσ)

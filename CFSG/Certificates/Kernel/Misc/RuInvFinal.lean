@@ -414,9 +414,9 @@ theorem checkW_ok {a0 a1 : Array ℕ} {S : Array (Array ℕ)} {base : Array ℕ}
     intro l hl
     rw [cG_size] at hl
     rcases (by omega : l = 0 ∨ l = 1) with rfl | rfl
-    · rw [cG_get0, cGI_get0, show gam x0 x1 0 = x0 from if_pos rfl]
+    · rw [cG_get0, cGI_get0, show gam x0 x1 0 = x0 from ite_eq_left rfl]
       exact ⟨rep_tblOfArr (by norm_num) rc0, rep_tblOfArr (by norm_num) (rep_invCand rc0)⟩
-    · rw [cG_get1, cGI_get1, show gam x0 x1 1 = x1 from if_neg (by norm_num)]
+    · rw [cG_get1, cGI_get1, show gam x0 x1 1 = x1 from ite_eq_right (by norm_num)]
       exact ⟨rep_tblOfArr (by norm_num) rc1, rep_tblOfArr (by norm_num) (rep_invCand rc1)⟩
   have hL : ∀ w : List ℤ, Letters2 w → CFSG.Sporadic.Th.Rep 4060 (repW a0 a1 w)
       (CFSG.Sporadic.Th.wordG (letG fun l => if l = 0 then x0 else x1) w) := fun w hw =>

@@ -38,13 +38,13 @@ theorem rckRet_SK_tw
       pinnedX TwistTag.E6.tag GGL γ' c = pinnedX Tag.E6 GGL γ' c := by
     intro γ' c
     rfl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP GGL 2 := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP GGL 2 := inferInstance
   let K := GaloisField 2 (2 * h)
-  letI : Algebra K GGL := (ggRatEmb (2 * h)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * h)).toAlgebra
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hK : Nat.card K = (2 ^ h) ^ 2 := by
@@ -107,7 +107,7 @@ theorem rckRet_SK_tw
       have hΦpin : D.Φ (pinnedX Tag.E6 GGL γ' 1) =
           pinnedX Tag.E6 GGL (permLattice (τ := Tag.E6) TwistTag.E6.perm γ') 1 := by
         rw [hΦ]
-        convert htw using 2 <;> exact Iff.rfl
+        convert htw using 2; exact Iff.rfl
       rw [hΦpin]
       rw [canonicalRep_conj_pinnedX_two w' hγπ]
     have h3 : pinnedX Tag.E6 GGL (w' • permLattice (τ := Tag.E6) TwistTag.E6.perm γ') 1 ∈

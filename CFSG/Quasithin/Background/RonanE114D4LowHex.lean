@@ -79,7 +79,7 @@ theorem point_three {z : V D} (hz : (Γ D).dist (v D false) z = 3)
     fix_of_geodesic D (by norm_num) p hpd (by rw [hp0]; exact root_three_fix_v hU false a ha)
       (by rw [hp3]; exact hfix a ha) hi
   have h01 : (Γ D).Adj (v D false) (p 1) := hp0 ▸ p.adj 0 (by norm_num)
-  obtain ⟨g, hgP, hgv, hgX⟩ := exists_normalizing_of_adj hU hψ h01
+  obtain ⟨g, hgP, hgv, hgX⟩ := exists_normalizing_of_adj hψ h01
   have hgX1 : ∀ a ∈ D.root 3, g * a * g⁻¹ ∈ D.root 3 := fun a ha => (hgX a ha).1
   have hgX2 : ∀ a ∈ D.root 3, g⁻¹ * a * g ∈ D.root 3 := fun a ha => (hgX a ha).2
   have h12 : (Γ D).Adj (p 1) (p 2) := p.adj 1 (by norm_num)
@@ -127,7 +127,7 @@ theorem point_three {z : V D} (hz : (Γ D).dist (v D false) z = 3)
     · have := (adj_smul_iff' D g).2 h2z
       rw [smul_inv_smul] at this
       exact this.symm
-    · exact fix_smul D hgX2 (fun a ha => pCoreOf_le 2 _ (root_three_le_rad_arm hU hψ ha))
+    · exact fix_smul D hgX2 (fun a ha => pCoreOf_le 2 _ (root_three_le_rad_arm hU ha))
     · intro w w' hw hw' hwu hw'u
       have hw1 : (Γ D).Adj (g⁻¹ • z) (g⁻¹ • w) := (adj_smul_iff' D g⁻¹).2 hw
       have hw1' : (Γ D).Adj (g⁻¹ • z) (g⁻¹ • w') := (adj_smul_iff' D g⁻¹).2 hw'
@@ -217,7 +217,7 @@ theorem line_class {e : V D} (he : ∃ h : X, e = h • v D false)
     have hpd : (Γ D).dist (p 0) (p 2) = 2 := by rw [hp0, hp2, hd]
     have h01 : (Γ D).Adj (v D false) (p 1) := hp0 ▸ p.adj 0 (by norm_num)
     have h12 : (Γ D).Adj (p 1) (p 2) := p.adj 1 (by norm_num)
-    obtain ⟨g, hgP, hgv, hgX⟩ := exists_normalizing_of_adj hU hψ h01
+    obtain ⟨g, hgP, hgv, hgX⟩ := exists_normalizing_of_adj hψ h01
     have hgX1 : ∀ a ∈ D.root 3, g * a * g⁻¹ ∈ D.root 3 := fun a ha => (hgX a ha).1
     have hgX2 : ∀ a ∈ D.root 3, g⁻¹ * a * g ∈ D.root 3 := fun a ha => (hgX a ha).2
     have h12' : (Γ D).Adj (v D true) (g⁻¹ • p 2) := by
@@ -237,7 +237,7 @@ theorem line_class {e : V D} (he : ∃ h : X, e = h • v D false)
       left
       intro a ha
       rw [hep, one_mul, mem_rad_smul_iff]
-      exact root_three_le_rad_arm hU hψ (hgX2 a ha)
+      exact root_three_le_rad_arm hU (hgX2 a ha)
     · right
       obtain ⟨-, htr, hnot⟩ := active_line hU hψ hσ1 hx hx1
       set e' := (x * mi D true) • v D false with he'
@@ -374,7 +374,7 @@ theorem exists_symmetry (h : Nat.card (D.root 1) ≠ Nat.card (D.root n)) (α : 
     ∃ β : V D ≃ V D, (∀ (g : X) (y : V D), β (g • y) = α g • β y) ∧
       (∀ y w : V D, (Γ D).Adj (β y) (β w) ↔ (Γ D).Adj y w) ∧
       ∀ (i : Bool) (g : X), ∃ g' : X, β (g • v D i) = g' • v D i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ D.U.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hU.2.2
@@ -397,11 +397,11 @@ theorem exists_symmetry (h : Nat.card (D.root 1) ≠ Nat.card (D.root n)) (α : 
       rfl
     rw [e, hUc, Subgroup.map_map]
     ext x
-    simp [MulAut.conj_apply, MulAut.inv_apply, mul_assoc]
+    simp [MulAut.conj_apply, mul_assoc]
   obtain ⟨β', hβ'g, hβ'a, hβ'v⟩ := exists_vertex_equiv D hU h α' hα'U
   have hαc : ∀ g : X, α g = c * α' g * c⁻¹ := by
     intro g
-    simp [hα', MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply, mul_assoc]
+    simp [hα', MulAut.mul_apply, MulAut.inv_apply, mul_assoc]
   refine ⟨β'.trans (MulAction.toPerm c), fun g y => ?_, fun y w => ?_, fun i g => ?_⟩
   · show c • β' (g • y) = α g • (c • β' y)
     rw [hβ'g, hαc, mul_smul, mul_smul, inv_smul_smul]
@@ -413,6 +413,7 @@ theorem exists_symmetry (h : Nat.card (D.root 1) ≠ Nat.card (D.root n)) (α : 
 
 variable {D}
 
+omit [Finite X] in
 theorem stab_symm {α : MulAut X} {β : V D ≃ V D} (hβ : ∀ (g : X) (y : V D), β (g • y) = α g • β y)
     (z : V D) : stab D (β z) = (stab D z).map α.toMonoidHom := by
   ext x
@@ -425,6 +426,7 @@ theorem stab_symm {α : MulAut X} {β : V D ≃ V D} (hβ : ∀ (g : X) (y : V D
     have := congrArg β hx
     rwa [hβ, MulEquiv.apply_symm_apply] at this
 
+omit [Finite X] in
 theorem rad_symm {α : MulAut X} {β : V D ≃ V D} (hβ : ∀ (g : X) (y : V D), β (g • y) = α g • β y)
     (z : V D) : rad D (β z) = (rad D z).map α.toMonoidHom := by
   rw [rad, stab_symm hβ]
@@ -439,6 +441,7 @@ variable {X : Type} [Group X] [Finite X] {K : Type} [Field K] [CharP K 2] {σ : 
   (hU : CFSG.QuasithinUnique.IsSylowTwoOf D.U ⊤) (hψ : D4Coords D hσ ψ) (hσ1 : ∃ c : K, σ c ≠ c)
 
 include hψ hσ1 in
+omit [CharP K 2] in
 theorem card_root_one_ne_six : Nat.card (D.root 1) ≠ Nat.card (D.root ((6 : ℕ) : ℤ)) := by
   have hb0 : Nat.card (D.root 1) = Nat.card K := by
     refine (Nat.card_congr (Equiv.ofBijective (fun s : K => (⟨ψ 0 s, hψ.mem 0 s⟩ : D.root 1))
@@ -451,7 +454,7 @@ theorem card_root_one_ne_six : Nat.card (D.root 1) ≠ Nat.card (D.root ((6 : �
       ⟨fun a b hab => hψ.inj 5 (congrArg Subtype.val hab), fun y => ?_⟩)).symm
     obtain ⟨s, hs⟩ := hψ.surj 5 y y.2
     exact ⟨s, Subtype.ext hs⟩
-  haveI : Finite K := Finite.of_injective (ψ 0) (hψ.inj 0)
+  have : Finite K := Finite.of_injective (ψ 0) (hψ.inj 0)
   rw [hb0, hb5]
   obtain ⟨c, hc⟩ := hσ1
   intro heq

@@ -69,7 +69,7 @@ theorem exists_orthTheta {G : Type} [Group G] {K M : Subgroup G} {ρ : ↥K →*
       (∀ x ∈ M, ∀ y ∈ M, θ x = θ y → x = y) ∧ (∀ e : Fv5, Fv5Even e → ∃ x ∈ M, θ x = e) ∧
       ∀ (l : ↥K) (x : G), x ∈ M → θ ((l : G) * x * (l : G)⁻¹) = fv5Act (ρ l) (θ x) := by
   classical
-  haveI : Nonempty Fv5 := ⟨(0 : Fv5)⟩
+  have : Nonempty Fv5 := ⟨(0 : Fv5)⟩
   let θ : G → Fv5 := Function.invFunOn π {f | Fv5Even f}
   have hex : ∀ x ∈ M, ∃ f, f ∈ {f | Fv5Even f} ∧ π f = x := by
     intro x hx

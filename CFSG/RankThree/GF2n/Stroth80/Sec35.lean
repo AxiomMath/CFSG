@@ -67,6 +67,7 @@ theorem exists_mul_of_mem_sup_of_le_normalizer {H K : Subgroup G}
   obtain ⟨y, hy, z, hz, hyz⟩ := Subgroup.mem_sup_of_normal_right.mp hx'
   exact ⟨y, hy, z, hz, congrArg Subtype.val hyz⟩
 
+omit [Finite G] in
 theorem Ctx.exists_mul_of_mem_LB (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q B) :
     ∃ s ∈ QB B ⊓ M, ∃ y ∈ Q, a = s * y := by
   have hnorm : QB B ⊓ M ≤ Subgroup.normalizer (Q : Set G) := fun x hx => hc.hyp.Q_normal.2 hx.2
@@ -248,6 +249,7 @@ theorem Ctx.card_of_3_3 (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 1 
     exact Nat.eq_of_mul_eq_mul_left (pow_pos Nat.card_pos _) h1
   · exact absurd hA (hno a ha)
 
+omit [Finite G] in
 theorem Ctx.noA2_conj (hc : Ctx M Q Z B) (hno : NoA2 Q Z (LB M Q B)) {m : G} (hm : m ∈ M) :
     NoA2 Q Z (LB M Q (conjSubgroup m B)) := by
   intro a' ha' hA
@@ -268,6 +270,7 @@ theorem Ctx.card_sup_Z (hc : Ctx M Q Z B) :
   rw [inf_comm, hc.inf_eq_bot, Subgroup.card_bot, mul_one] at h
   exact h
 
+omit [Finite G] in
 theorem Ctx.conj_mem_CQt (hc : Ctx M Q Z B) {a : G} (haM : a ∈ M)
     (haL : a ∈ Subgroup.normalizer (LB M Q B : Set G)) {u : G}
     (hu : u ∈ CQt Q Z (LB M Q B)) : a * u * a⁻¹ ∈ CQt Q Z (LB M Q B) := by
@@ -399,7 +402,7 @@ theorem Ctx.conc34_of_star (hc : Ctx M Q Z B) (h : Conc34' M Q Z B) : Conc34 M Q
   have hstar := h _ htM (fun y' hy' => by
     have hy : n⁻¹ * y' * n ∈ QB B ⊓ Subgroup.centralizer (Z : Set G) := by
       rw [← hZ', ← hQ', ← conjSubgroup_centralizer, ← conjSubgroup_inf]
-      exact ⟨y', hy', by simp [MulAut.conj_apply]⟩
+      exact ⟨y', hy', by simp⟩
     have hyL : n⁻¹ * y' * n ∈ LB M Q B := hc.L0_le_LB hy
     have h5 : ⁅n⁻¹ * y' * n, x⁆ ∈ (B ⊔ Z : Subgroup G) := hXL x hx _ hyL
     have h6 : ⁅y', n * x * n⁻¹⁆ = n * ⁅n⁻¹ * y' * n, x⁆ * n⁻¹ := by

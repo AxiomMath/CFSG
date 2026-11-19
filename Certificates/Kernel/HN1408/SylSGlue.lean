@@ -77,7 +77,7 @@ theorem image_getD (ws : List (List ℕ)) :
   constructor
   · rintro ⟨j, hj, rfl⟩
     refine ⟨ws.getD j [], ?_, rfl⟩
-    rw [Set.mem_setOf_eq, List.getD_eq_getElem _ _ hj]
+    rw [Set.mem_ofPred_eq, List.getD_eq_getElem _ _ hj]
     exact List.getElem_mem hj
   · rintro ⟨w, hw, rfl⟩
     obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hw
@@ -410,14 +410,16 @@ theorem ext_fam : ∀ B ∈ fam x, ∀ s ∈ wordSubgroupP sWords, s ^ 2 = 1 →
     have e7 : famCnt (6 + 1) = 0 := rfl
     omega
 
+omit R in
 theorem mem_V : memP x SylS.FM 0 2 ∈ fam x := ⟨2, le_rfl, by norm_num, 0, by decide, rfl⟩
 
+omit R in
 theorem member_V : memberK 11 (mask 11) 2 0 2048 SylS.T SylS.FM 0 2 = true :=
   (layer_spec (k := 2) (h := 0) le_rfl (by norm_num) (by decide)).1
 
 theorem V_cent {v : Equiv.Perm (Fin 1408)} (hv : v ∈ memG x SylS.FM 0 2) {t : Equiv.Perm (Fin 1408)}
     (ht : t ∈ wordSubgroup sWords) : t * v = v * t := by
-  obtain ⟨-, -, -, hlt⟩ := R.member (by norm_num) R.member_V
+  obtain ⟨-, -, -, hlt⟩ := R.member (by norm_num) CFSG.KD.HN1408.SylSG.RecS.member_V
   have hle : memG x SylS.FM 0 2 ≤ centralizer (wordSubgroup sWords : Set (Equiv.Perm (Fin 1408))) := by
     unfold memG
     rw [closure_le]
@@ -439,7 +441,6 @@ theorem A_eq : memG x SylS.FA 0 6 = wordSubgroup uWords := by
   have hfg : (fun j => x (r32 SylS.FA (0 + 2 ^ j))) '' {j | j < 6} = elemW '' {w | w ∈ uWords} := by
     rw [← image_getD uWords, uWords_length]
     refine Set.image_congr fun j hj => ?_
-    beta_reduce
     have hj' : j < 6 := hj
     have hb : r32 SylS.FA (0 + 2 ^ j) < 2048 :=
       hlt _ (Nat.pow_lt_pow_right (by norm_num) hj')
@@ -480,6 +481,7 @@ theorem memP_6188 : memP x SylS.FM 6188 6 = wordSubgroupP uWords := by
     rw [Nat.zero_add] at h'
     exact ⟨e, lt_of_lt_of_eq he (by norm_num), by rw [h', hze]⟩
 
+omit R in
 theorem member_6252 : memberK 11 (mask 11) 2 0 2048 SylS.T SylS.FM 6252 6 = true :=
   (layer_spec (k := 6) (h := 1) (by norm_num) le_rfl (by decide)).1
 
@@ -493,7 +495,7 @@ theorem fc_eq {e : ℕ} (he : e < 64) :
     have h1 := hltA e (lt_of_lt_of_eq he (by norm_num))
     rwa [Nat.zero_add] at h1
   obtain ⟨hC, hmask⟩ := sylS_conj_parts
-  obtain ⟨-, -, -, hlt61⟩ := R.member le_rfl R.member_6252
+  obtain ⟨-, -, -, hlt61⟩ := R.member le_rfl RecS.member_6252
   obtain ⟨e', he', he'e⟩ := (idx_iff_of_maskK_eq hmask (r32 SylS.FC (0 + e))).1 ⟨e, he, rfl⟩
   rw [Nat.zero_add] at he'e
   have hFC : r32 SylS.FC e < 2048 := by
@@ -516,7 +518,7 @@ theorem fc_eq {e : ℕ} (he : e < 64) :
 theorem memP_6252 : memP x SylS.FM 6252 6 = (wordSubgroupP uWords).map
     (MulAut.conj (⟨elemW (sWords.getD 4 []), elemW_mem _⟩ : ↥P1408)).toMonoidHom := by
   obtain ⟨-, hmask⟩ := sylS_conj_parts
-  obtain ⟨hmem, -, -, -⟩ := R.member le_rfl R.member_6252
+  obtain ⟨hmem, -, -, -⟩ := R.member le_rfl RecS.member_6252
   ext z
   rw [mem_memP, hmem, Subgroup.mem_map]
   constructor
@@ -539,13 +541,13 @@ theorem memP_6252 : memP x SylS.FM 6252 6 = (wordSubgroupP uWords).map
 theorem conj_of_le {B : Subgroup ↥P1408} (hBS : B ≤ wordSubgroupP sWords)
     (he : CFSG.Open.IsElemAbelian 2 B) (h64 : Nat.card B = 64) :
     ∃ y : ↥P1408, B = (wordSubgroupP uWords).map (MulAut.conj y).toMonoidHom := by
-  obtain ⟨hmemV, -, hVS', -⟩ := R.member (by norm_num) R.member_V
+  obtain ⟨hmemV, -, hVS', -⟩ := R.member (by norm_num) CFSG.KD.HN1408.SylSG.RecS.member_V
   have hVS : memP x SylS.FM 0 2 ≤ wordSubgroupP sWords := fun v hv => hVS' (mem_memP.1 hv)
   have hcomm : ∀ a ∈ B, ∀ b ∈ memP x SylS.FM 0 2, a * b = b * a := fun a ha b hb =>
     Subtype.ext (R.V_cent (mem_memP.1 hb) (hBS ha))
-  have hWel := CFSG.Open.IsElemAbelian.sup_of_commute he (R.memP_ea R.member_V) hcomm
+  have hWel := CFSG.Open.IsElemAbelian.sup_of_commute he (R.memP_ea CFSG.KD.HN1408.SylSG.RecS.member_V) hcomm
   have hWmem : (B ⊔ memP x SylS.FM 0 2) ∈ fam x :=
-    mem_family_of_isElemAbelian R.mem_V R.ext_fam (sup_le hBS hVS) hWel le_sup_right
+    mem_family_of_isElemAbelian RecS.mem_V R.ext_fam (sup_le hBS hVS) hWel le_sup_right
   obtain ⟨k, hk2, hk6, h, hh, hW⟩ := hWmem
   obtain ⟨hm, -⟩ := layer_spec hk2 hk6 hh
   obtain ⟨-, hcard, hS, -⟩ := R.member hk6 hm

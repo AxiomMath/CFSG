@@ -83,7 +83,7 @@ theorem d6EigenCoeff_eq_mulVec (p : ℕ) (lam : ZMod p) :
 
 theorem d6EigenCoeff_apply (p : ℕ) (lam : ZMod p) (i : Fin Tag.E8.rank) :
     d6EigenCoeff p lam i = d6BaseCoeff i + (lam.val : ℤ) * d6DirCoeff i := by
-  simp [d6EigenCoeff, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
+  simp [d6EigenCoeff, Pi.add_apply]
 
 @[expose] def d6TorsionChar {K : Type} [Field K] (p : ℕ) (ζ : Kˣ) (lam : ZMod p) :
     Fin Tag.E8.rank → Kˣ :=
@@ -157,8 +157,8 @@ theorem rootCharKernel_d6TorsionChar {K : Type} [Field K]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Kˣ} (hζo : orderOf ζ = p) {lam : ZMod p}
     (hlam : lam * lam = -1) :
     rootCharKernel (d6TorsionChar p ζ lam) = d6Roots := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h5 : 5 ≤ p := by
     refine hp.five_le_of_ne_two_of_ne_three hp2 ?_
     intro h3
@@ -253,7 +253,7 @@ theorem toralCentralizer_d6TorsionChar_le_sup_rootSpan {K : Type} [Field K] {p :
     exact sup_le_sup_left (rootSpan_mono hker) _
   · have h13 : 13 ≤ p := by
       have hne3 : p % 4 ≠ 3 := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         exact ZMod.mod_four_ne_three_of_sq_eq_neg_one (y := lam) (by rw [pow_two]; exact hlam)
       have hodd : p % 2 = 1 := hp.eq_two_or_odd.resolve_left hp2
       have hpmod : p % 4 = 1 := by omega

@@ -34,13 +34,12 @@ private lemma card_weightSet (W : Set ℕ) [Decidable (2 ∈ W)] [Decidable (4 �
       {v : Fin 7 → ZMod 2 | IsEvenVec v ∧ ((vecWeight v = 2 ∧ 2 ∈ W) ∨
         (vecWeight v = 4 ∧ 4 ∈ W) ∨ (vecWeight v = 6 ∧ 6 ∈ W))} := by
     ext v
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [hchar v]
   rw [hset]
   by_cases h2 : 2 ∈ W <;> by_cases h4 : 4 ∈ W <;> by_cases h6 : 6 ∈ W <;>
-    (simp only [h2, h4, h6, and_true, and_false, true_and, false_and, or_true, or_false, true_or,
-      false_or, if_true, if_false] <;>
-      rw [Nat.card_eq_fintype_card] <;> decide +kernel)
+    (simp only [h2, h4, h6, and_true, and_false, or_false, false_or, ite_true, ite_false];
+      rw [Nat.card_eq_fintype_card]; decide +kernel)
 
 theorem card_weightClosed_of_four {S : Set (Fin 7 → ZMod 2)}
     (hS : ∀ v ∈ S, IsEvenVec v ∧ v ≠ 0)
@@ -72,16 +71,16 @@ theorem card_weightClosed_of_four {S : Set (Fin 7 → ZMod 2)}
     · exact Or.inr (Or.inl (hwv ▸ h4'))
     · exact Or.inr (Or.inr (hwv ▸ h6))
   have h4W : 4 ∈ W := (hmem 4).mpr h4
-  rw [hS_eq, card_weightSet W hW, if_pos h4W]
+  rw [hS_eq, card_weightSet W hW, ite_eq_left h4W]
   by_cases h2 : 2 ∈ W
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     by_cases h6 : 6 ∈ W
-    · rw [if_pos h6]; decide
-    · rw [if_neg h6]; decide
-  · rw [if_neg h2]
+    · rw [ite_eq_left h6]; decide
+    · rw [ite_eq_right h6]; decide
+  · rw [ite_eq_right h2]
     by_cases h6 : 6 ∈ W
-    · rw [if_pos h6]; decide
-    · rw [if_neg h6]; decide
+    · rw [ite_eq_left h6]; decide
+    · rw [ite_eq_right h6]; decide
 
 theorem card_weightClosed_of_six {S : Set (Fin 7 → ZMod 2)}
     (hS : ∀ v ∈ S, IsEvenVec v ∧ v ≠ 0)
@@ -117,9 +116,9 @@ theorem card_weightClosed_of_six {S : Set (Fin 7 → ZMod 2)}
     rintro hmem4
     obtain ⟨v, hv, hwv⟩ := (hmem 4).mp hmem4
     exact h4 v hv hwv
-  rw [hS_eq, card_weightSet W hW, if_pos h6W, if_neg h4W]
+  rw [hS_eq, card_weightSet W hW, ite_eq_left h6W, ite_eq_right h4W]
   by_cases h2 : 2 ∈ W
-  · rw [if_pos h2]; decide
-  · rw [if_neg h2]; decide
+  · rw [ite_eq_left h2]; decide
+  · rw [ite_eq_right h2]; decide
 
 end CFSG.OddStandard.SmallF3.Omega

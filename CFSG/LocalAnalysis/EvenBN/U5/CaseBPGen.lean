@@ -42,7 +42,7 @@ theorem sec52_gen_δ_conj (hB : d.CaseBHyp) (c : d.CaseBData) {g : G}
   rw [key]
   group
 
-theorem sec52_gen (hB : d.CaseBHyp) (c : d.CaseBData) (h11 : CaseBData.Sec52Sylow hB c)
+theorem sec52_gen (hB : d.CaseBHyp) (c : d.CaseBData) (_h11 : CaseBData.Sec52Sylow hB c)
     (h12 : CaseBData.Sec52Factors hB c) (h13 : c.W₂.map (MulAut.conj d.s).toMonoidHom = c.W₂) :
     c.Kc = c.W₂ ⊔ (c.W₂ ⊓ c.W₂.map (MulAut.conj d.r).toMonoidHom).map
       (MulAut.conj (d.r * d.s)).toMonoidHom := by

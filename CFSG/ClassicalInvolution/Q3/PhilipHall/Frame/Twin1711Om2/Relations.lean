@@ -93,14 +93,14 @@ private theorem rel_fst {a : Array ℕ} {u : HY} (h : Rep 480 a (phi u)) :
   refine fun i => ?_
   have hi : a[(i : ℕ)]! = ((phi u) (Fin.castAdd 240 i) : ℕ) := by
     have h' := h (Fin.castAdd 240 i)
-    rwa [Fin.coe_castAdd] at h'
+    rwa [Fin.val_castAdd] at h'
   have hval : ((phi u) (Fin.castAdd 240 i) : ℕ) =
       (((u : WP × WP).1 : Equiv.Perm (Fin 240)) i : ℕ) := by
     have e1 : (finSumFinEquiv (m := 240) (n := 240)).symm (Fin.castAdd 240 i) = Sum.inl i :=
       finSumFinEquiv_symm_apply_castAdd i
     show ((phiP _ _) (Fin.castAdd 240 i) : ℕ) = _
     rw [phiP, Equiv.permCongr_apply, e1, Equiv.sumCongr_apply, Sum.map_inl,
-      finSumFinEquiv_apply_left, Fin.coe_castAdd]
+      finSumFinEquiv_apply_left, Fin.val_castAdd]
   have hext : (fstA a)[(i : ℕ)]! = a[(i : ℕ)]! := by
     have hlt := i.isLt
     unfold fstA
@@ -322,7 +322,7 @@ theorem mul_cK_mem {k k' : ℕ} (hk : k < 3) (hk' : k' < 3) (h : k ≠ k') :
   apply Subtype.ext
   rw [Subgroup.coe_mul]
   interval_cases k <;> interval_cases k' <;>
-    simp_all [rel_coe_cK, Prod.ext_iff, rel_zz, zPlus_ne_one, Ne.symm zPlus_ne_one]
+    simp_all [rel_coe_cK, rel_zz]
 
 theorem fst_t0Y : ((t0Y : WP × WP).1 : WP) = Om1.t0 := by
   obtain ⟨h1, -⟩ := rel_split

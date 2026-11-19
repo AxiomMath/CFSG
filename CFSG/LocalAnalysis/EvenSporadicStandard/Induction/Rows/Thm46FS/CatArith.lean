@@ -125,7 +125,7 @@ theorem g2_outer_row {n : ℕ} (hn : 2 ≤ n) {s : TauCeti.SporadicName}
       (Nat.pow_dvd_pow 2 h42).trans (two_pow_six_mul_dvd_ordG2 (by omega))
     by_cases hsM : s = .M
     · rw [hsM] at hrow
-      simpa only [SporadicOuterRow] using hrow
+      simp only [SporadicOuterRow] at hrow
     · exact not_two_pow_42_dvd_sporOrd s hsM (hpow.trans hdvd)
   have hn6 : n ≤ 6 := by omega
   interval_cases n <;>

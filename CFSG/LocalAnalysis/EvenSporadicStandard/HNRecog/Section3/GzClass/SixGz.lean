@@ -16,9 +16,9 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 open scoped commutatorElement
 
-theorem gzClass_centQ_card (hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G]
-    [Finite G] {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z)
-    (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z)
+theorem gzClass_centQ_card (_hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G]
+    [Finite G] {a z : G} (h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z)
+    (_hF2 : Vert Fusion2Facts a z) (_hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z)
     (x : ↥(Gx z)) (hx : (barOf z x) ^ 2 = 1) (hcard : Nat.card ↥(CbarCent z x) = 240) :
     Nat.card (centQtilde z (x : G)) = 2 ^ 5 ∧
       ((x : G) ^ 2 = 1 → Nat.card {q : G // q ∈ Qz z ∧ q * (x : G) = (x : G) * q} = 2 ^ 5) := by

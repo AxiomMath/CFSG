@@ -16,25 +16,28 @@ section Glue
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem i141f_isPerfect_pQuot {p : ℕ} {A L : Subgroup Γ} (h : S10.InnDiagOn p A L) :
     Group.IsPerfect (PQuot p L) :=
   ⟨h.2.1⟩
 
+omit [Finite Γ] in
 theorem i141f_chevAut_eq_one_iff {p : ℕ} {L : Subgroup Γ} (hP : Group.IsPerfect (PQuot p L))
     {a : Γ} (ha : a ∈ Subgroup.normalizer (L : Set Γ)) :
     chevAut p L ⟨a, ha⟩ = 1 ↔ CentMod p L a := by
-  haveI := hP
+  have := hP
   rw [← chev_barAut_eq_one_iff_centMod ha]
   show centerQuotientHom (PQuot p L) (barAut p L ⟨a, ha⟩) = 1 ↔ _
   rw [← map_one (centerQuotientHom (PQuot p L))]
   exact (centerQuotientHom_injective (PQuot p L)).eq_iff
 
+omit [Finite Γ] in
 theorem i141f_center_pSimple {p : ℕ} {L : Subgroup Γ} (hP : Group.IsPerfect (PQuot p L)) :
     Subgroup.center (PSimple p L) = ⊥ := by
-  haveI := hP
+  have := hP
   exact Group.IsPerfect.center_quotient_center_eq_bot (PQuot p L)
 
-theorem i141f_exists_elemAb {p : ℕ} (hp : p.Prime) {L A : Subgroup Γ} (hA : IsElemAbelian p A)
+theorem i141f_exists_elemAb {p : ℕ} (_hp : p.Prime) {L A : Subgroup Γ} (hA : IsElemAbelian p A)
     (hInn : S10.InnDiagOn p A L)
     (hcard : p ^ 3 * Nat.card ↥(A ⊓ centModSubgroup p L) ≤ Nat.card A) :
     ∃ E : Subgroup (MulAut (PSimple p L)), IsElemAbelian p E ∧ p ^ 3 ≤ Nat.card E ∧

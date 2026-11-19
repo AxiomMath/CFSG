@@ -28,7 +28,7 @@ private theorem nine3_isUnitaryTransvectionIn_conj {m n : ℕ} {F : Type} [Field
         ((h : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) *
           ((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) *
           (((h⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, Units.val_inv]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul]
     rw [hcoe]
     have hdet : IsUnit (((h : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)).det :=
       (Matrix.isUnit_iff_isUnit_det _).mp (h : GL (Fin m) F).isUnit
@@ -89,7 +89,7 @@ private theorem nine3_sq_one {m n : ℕ} {F : Type} [Field F] [Finite F]
     {b : F} {N : StatedSU m (2 ^ n) F}
     (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u)) : N * N = 1 := by
   apply mul_self_eq_one_of_val hN
-  haveI := h.charP
+  have := h.charP
   have hW2 : vecMulVec u (h.bar ∘ u) * vecMulVec u (h.bar ∘ u) = 0 :=
     vecMulVec_mul_self h huu
   have hbW2 : (b • vecMulVec u (h.bar ∘ u)) * (b • vecMulVec u (h.bar ∘ u)) = 0 := by
@@ -170,7 +170,7 @@ private theorem nine3_exists_iso_orth {m n : ℕ} {F : Type} [Field F] [Finite F
 
 private theorem nine3_three_le_of_centres {m n : ℕ} {F : Type} [Field F] [Finite F]
     (h : UnitaryFieldData 2 n F) {p q s : Fin m → F}
-    (hp : hform h.bar p p = 0) (hq : hform h.bar q q = 0) (hs : hform h.bar s s = 0)
+    (hp : hform h.bar p p = 0) (hq : hform h.bar q q = 0) (_hs : hform h.bar s s = 0)
     (hpq : hform h.bar p q ≠ 0) (hsp : hform h.bar s p = 0) (hsq : hform h.bar s q = 0)
     (hs0 : s ≠ 0) : 3 ≤ m := by
   have hqp : hform h.bar q p ≠ 0 := by
@@ -207,7 +207,7 @@ theorem nine3_prop710_unitary_geom {m n : ℕ} {F : Type} [Field F] [Finite F]
     {c a e a' v : StatedProj (StatedSU m (2 ^ n) F)} (hc : IsUnitaryTransvectionIn m n c)
     (hcfg : Nine3Config c a e a' v) :
     ∃ d, IsConj c d ∧ d ≠ v ∧ d * a = a * d ∧ d * e = e * d := by
-  haveI := hU.charP
+  have := hU.charP
   obtain ⟨a₀, c₀, N₀, ha₀0, ha₀iso, hc₀0, hc₀bar, hN₀, hmk₀⟩ :=
     borel86_un_exists_eq_mk hU hc
   obtain ⟨p, bp, Na, hp0, hpiso, hbp0, _hbpbar, hNa, hmka⟩ :=

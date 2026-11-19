@@ -11,7 +11,7 @@ open CFSG.Open CFSG.LieType.BorelTits
 variable {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] {H : Type} [Group H]
 
 theorem fixFlag_inv (ρ : H →* Module.End F V) (r : Equiv.Perm V) (hr : r ∈ semilinGroup F V)
-    (Q : Subgroup H) (h1 : NormQ ρ r Q) (h2 : NormQ ρ r⁻¹ Q) :
+    (Q : Subgroup H) (_h1 : NormQ ρ r Q) (h2 : NormQ ρ r⁻¹ Q) :
     ∀ k, ∀ v ∈ fixFlag ρ Q k, r v ∈ fixFlag ρ Q k := by
   intro k
   induction k with

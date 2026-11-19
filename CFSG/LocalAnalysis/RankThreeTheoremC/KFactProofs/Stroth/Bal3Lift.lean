@@ -13,6 +13,7 @@ section Lift
 
 variable {H : Type*} [Group H] [Finite H] {p : ℕ}
 
+omit [Finite H] in
 theorem isPlaneDiagonal_map (O : Subgroup H) [O.Normal] {D : Subgroup H} {z g : H}
     (h : IsPlaneDiagonal p D z g) :
     IsPlaneDiagonal p (D.map (QuotientGroup.mk' O)) (QuotientGroup.mk' O z)

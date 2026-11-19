@@ -135,7 +135,7 @@ theorem mul_planeMat_coord {n : ℕ} (G : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fi
   rw [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two]
   simp only [WitSpNs.planeMat_apply, WitSpNs.plane_inl, WitSpNs.plane_inr, WitSpNs.plane_coord,
     WitSpNs.side_inl, WitSpNs.side_inr, WitSpNs.side_coord, mul_ite, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp [WitSpNs.coord]
 
 theorem planeMat_mul_coord {n : ℕ} (M : Fin n → Matrix (Fin 2) (Fin 2) F)
@@ -147,7 +147,7 @@ theorem planeMat_mul_coord {n : ℕ} (M : Fin n → Matrix (Fin 2) (Fin 2) F)
   rw [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two]
   simp only [WitSpNs.planeMat_apply, WitSpNs.plane_inl, WitSpNs.plane_inr, WitSpNs.plane_coord,
     WitSpNs.side_inl, WitSpNs.side_inr, WitSpNs.side_coord, ite_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   simp [WitSpNs.coord]
 
 theorem blk_mul_eq {n : ℕ} {G : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F}
@@ -276,8 +276,8 @@ theorem exists_signedPerm_of_normalizes_gl [CharP F 2] {p : ℕ} (hp : p.Prime) 
   let π : Equiv.Perm (Fin n) := Equiv.ofBijective j (Finite.injective_iff_bijective.mp hjinj)
   refine ⟨π, fun x => if ∀ f, σ f (j x) = f x then (1 : ZMod p) else -1, fun x => ?_, ?_⟩
   · by_cases h : ∀ f, σ f (j x) = f x
-    · exact Or.inl (if_pos h)
-    · exact Or.inr (if_neg h)
+    · exact Or.inl (ite_eq_left h)
+    · exact Or.inr (ite_eq_right h)
   · intro f f' hff' x
     rw [hσuniq f f' hff']
     change toAdd (σ f (j x)) =

@@ -87,9 +87,9 @@ public theorem section14_characterValueOrder_natCard_of_irreducible_cyclic
   · exact Nat.card_pos
   · intro g
     rcases hχ with ⟨n, ρ, hirr, hχeq⟩
-    letI : CommGroup H := IsCyclic.commGroup
-    haveI : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
-    haveI : Representation.IsIrreducible ρ := hirr
+    let : CommGroup H := IsCyclic.commGroup
+    have : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
+    have : Representation.IsIrreducible ρ := hirr
     have hdim : Module.finrank ℂ (Fin n → ℂ) = 1 :=
       Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρ)
     obtain ⟨c, hc, _hcuniq⟩ :=
@@ -413,7 +413,7 @@ public theorem section14_pf39_cyclotomic_model_of_mem_cyclotomicOrder
         x = Polynomial.eval₂ (Int.castRingHom (Section1.CyclotomicABField c b))
           (Section1.cyclotomicABRoot c b hn) P ∧
         ι (Section1.cyclotomicABRoot c b hn) = η := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   let K := Section1.CyclotomicABField c b
   let ζ : K := Section1.cyclotomicABRoot c b hn
   have hζ : IsPrimitiveRoot ζ (c * b) := by
@@ -490,7 +490,7 @@ public theorem section14_pf39_complex_image_aut_root_eq_pow
     ∃ e : ℕ, e.Coprime (c * b) ∧
       ι (v (Section1.cyclotomicABRoot c b hn)) =
         ι (Section1.cyclotomicABRoot c b hn) ^ e := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   let K := Section1.CyclotomicABField c b
   let ζ : K := Section1.cyclotomicABRoot c b hn
   let u : (ZMod (c * b))ˣ :=
@@ -694,7 +694,7 @@ public theorem section14_pf39_rationality_of_fixed_cyclotomic_model
     (hvalue : Section3.sigmaOfPF35 ωFin χ ω' g = ι x)
     (hfixed : ∀ v : Gal((Section1.CyclotomicABField c b)/ℚ), v x = x) :
     ∃ r : ℚ, Section3.sigmaOfPF35 ωFin χ ω' g = (r : ℂ) := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   exact Section1.cyclotomicABField_complex_rat_of_fixed_gal ι x
     (Section3.sigmaOfPF35 ωFin χ ω' g) hvalue hfixed
 
@@ -786,7 +786,7 @@ public theorem section14_pf39_package_of_etaData
       hqpos hppos ωFin σ h31 hω hσ hsource
   have hexact :
       ∀ i j, ∃ a : ℕ, Section3.exactCharacterValueOrder (ωFin i j) a := by
-    haveI : IsCyclic W := h31.2.2.2.1
+    have : IsCyclic W := h31.2.2.2.1
     intro i j
     exact section14_exists_exactCharacterValueOrder_of_irreducible_cyclic
       (hω.irreducible i j)
@@ -805,7 +805,7 @@ public theorem section14_eta_integer_values_of_pf39_package
   rcases section14_pf39_package_of_etaData heta with
     ⟨_hqpos, _hppos, ωFin, σ, h31, hω, _hσ, h39, hexact, hη⟩
   rcases h39 with ⟨_huniq, _h39a, _h39b, h39c⟩
-  haveI : IsCyclic W := h31.2.2.2.1
+  have : IsCyclic W := h31.2.2.2.1
   have hvalue : ∀ ij : Fin q × Fin p,
       ∃ n : ℤ, η ij.1 ij.2 g = (n : ℂ) := by
     intro ij
@@ -1753,7 +1753,7 @@ public theorem section14_typeP_MF_natCard_eq_prime_pow_of_case_9_7_b_source
   rcases Section9.case_9_7_b_quotient_card_sec9 hcase' with
     ⟨hnormal, hcardQuot⟩
   let H0sub : Subgroup MF := (⊥ : Subgroup G).subgroupOf MF
-  haveI : H0sub.Normal := by
+  have : H0sub.Normal := by
     simp [H0sub]
   have hH0sub_bot : H0sub = ⊥ := by
     dsimp [H0sub]
@@ -1806,7 +1806,7 @@ public theorem section14_typeP_MF_sylow_of_case_9_7_b_source
     exact (hMFHall.p_in_pi_of_p_dvd_index ⟨p, hp⟩ hpidx) hp_mem
   have hMFp : IsPGroup p MF :=
     section14_typeP_MF_isPGroup_of_case_9_7_b_source hcase
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Sylow p G := IsPGroup.toSylow (p := p) hMFp hnot_index
   exact ⟨P, by simp [P, IsPGroup.toSylow_coe]⟩
 
@@ -1820,7 +1820,7 @@ public theorem section14_exists_conj_prime_order_mem_sylow_centralized_of_not_co
       a ∈ (P : Subgroup G) ∧ a ≠ 1 ∧
         y * g * y⁻¹ ∈ elementCentralizerIn ⊤ a := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnot' : ¬ p.Coprime (orderOf g) := by
     intro h
     exact hnot (by simpa [Nat.Coprime, Nat.gcd_comm] using h)
@@ -2032,7 +2032,7 @@ public theorem section14_frobeniusJoin_centralizer_le_kernel
   let Rsub : Subgroup S := R.subgroupOf S
   have hfrobS : IsFrobeniusGroupWithKernelComplement Ksub Rsub := by
     simpa [section12FrobeniusJoinWithKernel, S, Ksub, Rsub] using hfrob
-  haveI : Ksub.Normal := hfrobS.normal
+  have : Ksub.Normal := hfrobS.normal
   have hcentR :
       ∀ r : Rsub, r ≠ 1 → Section2.centralizerIn Ksub (r : S) = ⊥ := by
     intro r hr
@@ -2076,7 +2076,7 @@ public theorem section14_section12FrobeniusJoinWithKernel_of_quotientFrobenius_b
   rcases hfrob with ⟨_hbotMF, hnormal, hfrobQuot⟩
   let S : Subgroup G := MF ⊔ U
   let N : Subgroup S := (⊥ : Subgroup G).subgroupOf S
-  letI : N.Normal := by
+  let : N.Normal := by
     simp [N, S]
   have hNbot : N = ⊥ :=
     section14_subgroupOf_eq_bot_of_eq_bot (C := (⊥ : Subgroup G)) (U := S) rfl
@@ -2347,7 +2347,7 @@ public theorem section14_theorem_14_11_3_order_coprime_W_source_bridge
         _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
         _hnotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
         _hchoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases hcase with
     ⟨hprod, _hWcyc, _hW1ne, _hW2ne, _hnorm, _hSmax, _hTmax, _hSF, _hTF,
       _hSeq, _hTeq, _hSdisj, _hTdisj, _hST, _hTypeII, _hSType, _hTType,

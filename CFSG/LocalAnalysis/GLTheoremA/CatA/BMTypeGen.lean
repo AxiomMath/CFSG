@@ -47,7 +47,7 @@ theorem comp_data_of_type {P : TauCeti.CFSGIndex → Prop} {n : ℕ} (hP : TypeH
   have hZ : IsPGroup 3 ↥(Subgroup.center ↥J) :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
       Nat.prime_three hcore
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card.1 hZ)
   refine ⟨CFSG.HardMathSupport.Solomon.Coordinator.YS08.isComponentOf_of_glaPComponent' hO hJ,
     hcat, hidx, ⟨a, ha⟩, ?_⟩

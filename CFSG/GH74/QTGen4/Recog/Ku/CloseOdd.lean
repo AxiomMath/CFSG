@@ -19,8 +19,8 @@ theorem orderOf_ne_nine_of_exponent_three {K : Type*} [Group K] [Finite K]
     rw [IsPGroup.iff_card]; exact ⟨2, by rw [hP]; norm_num⟩
   obtain ⟨SQ, hSQ⟩ := hQ3.exists_le_sylow
   obtain ⟨SP, hSP⟩ := hP3.exists_le_sylow
-  have hSQcard : Nat.card (SQ : Subgroup K) ≤ 9 := hmax _ SQ.isPGroup'
-  have hSPcard : Nat.card (SP : Subgroup K) ≤ 9 := hmax _ SP.isPGroup'
+  have hSQcard : Nat.card (SQ : Subgroup K) ≤ 9 := hmax _ SQ.isPGroup
+  have hSPcard : Nat.card (SP : Subgroup K) ≤ 9 := hmax _ SP.isPGroup
   have hQS : Subgroup.zpowers c = (SQ : Subgroup K) :=
     Subgroup.eq_of_le_of_card_ge hSQ (by rw [hcard]; exact hSQcard)
   have hPS : P = (SP : Subgroup K) :=

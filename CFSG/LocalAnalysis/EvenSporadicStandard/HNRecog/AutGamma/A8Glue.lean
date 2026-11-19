@@ -47,8 +47,8 @@ theorem A8Emb.mem_orb5A (E : A8Emb a z) (hL : F5Local G a z) {β ξ s : alternat
     (hβ : TT β) (hξ : TT ξ) (hne : ξ ≠ β) (h5 : (β * ξ) ^ 5 = 1) (h1 : β * ξ ≠ 1)
     (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) (hsβ : s * β = β * s) (hsξ : s * ξ = ξ * s) :
     E.φ ξ ∈ orb5A a (E.φ β) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho5 : orderOf (β * ξ) = 5 := orderOf_eq_prime h5 h1
   have hodd : Odd (orderOf (β * ξ)) := by rw [ho5]; decide
   refine mem_orb5A_of_exists_order_three hL (E.isConj_a hβ) (E.mem_oddSet hξ hne hodd)

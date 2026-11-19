@@ -19,7 +19,6 @@ theorem pow_self_sub_one_eq {p : ℕ} (hp : 1 ≤ p) :
   have h := geom_sum_mul (p : ℤ) p
   have h1 : (1 : ℤ) ≤ (p : ℤ) ^ p := by exact_mod_cast Nat.one_le_pow _ _ hp
   zify [Nat.one_le_pow p p hp, hp]
-  push_cast
   linarith [h]
 
 variable {F : Type*} [Field F] [Fintype F]

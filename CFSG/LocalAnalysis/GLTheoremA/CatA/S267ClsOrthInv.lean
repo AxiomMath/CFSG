@@ -59,8 +59,8 @@ theorem invol_mem_matrixDerived_of_three [Finite K] (h2 : (2 : K) ≠ 0) (hp : p
       glEquiv.symm (invol (glRep Aε) hp hA hpK {H₁, H₃}) ∈ matrixDerived Q ∨
       glEquiv.symm (invol (glRep Aε) hp hA hpK {H₂, H₃}) ∈ matrixDerived Q := by
   classical
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Invertible (2 : K) := invertibleOfNonzero h2
+  have : Fintype K := Fintype.ofFinite K
   set ρ := glRep Aε with hρdef
   have hρQ : ∀ (a : ↥Aε) (v : Fin d → K), Q (ρ a v) = Q v := quad_glRep_apply h2 Q hAεβ
   have hbasis : ∀ H : Hyperplane ↥Aε p, ∃ b : Module.Basis

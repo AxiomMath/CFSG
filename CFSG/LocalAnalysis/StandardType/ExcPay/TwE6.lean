@@ -129,7 +129,7 @@ private theorem excPayT_of_model {G : Type} [Group G] [Finite G] {p f : ℕ} {Bs
     GGExcPhanPayloadOf 6 CoxeterMatrix.E₆ .twistedE6 p Bs X := by
   have hne : NeZero f := ⟨by omega⟩
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite ↥M.D.Γ := Finite.of_surjective η hηs
+  have : Finite ↥M.D.Γ := Finite.of_surjective η hηs
   obtain ⟨S, hS⟩ := exists_excPaySquareY_TwE6 hp hp5 (by omega) hplus M hZΓ fun a ha => by
     obtain ⟨x, -, hx⟩ := (hη (rootDiagUnit (langTag .twistedE6) a)).2 ⟨a, ha, rfl⟩
     rw [← hx]

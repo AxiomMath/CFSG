@@ -200,12 +200,12 @@ theorem indClassFun_dadePullback_apply (hD : IsDadeData L A H) (hBA : B ⊆ A) (
         rw [← hx]; simpa using hh
       rw [Finset.sum_eq_single_of_mem u (Finset.mem_univ u) ?_]
       · rw [hF]
-        simp only [if_pos hu, if_pos hxT]
+        simp only [ite_eq_left hu, ite_eq_left hxT]
         exact hD.extendByZero_dadePullback_of_mem_dadeTransporter hBA hB f hu hxT
       · intro b _ hbu
         rw [hF]
         by_cases hb : b ∈ dadeStab L B
-        · simp only [if_pos hb, ite_eq_right_iff]
+        · simp only [ite_eq_left hb, ite_eq_right_iff]
           intro hxb
           exact absurd (hD.eq_of_mem_dadeTransporter hBA hB hb hu hxb hxT) hbu
         · simp [hb]
@@ -213,7 +213,7 @@ theorem indClassFun_dadePullback_apply (hD : IsDadeData L A H) (hBA : B ⊆ A) (
       refine (Finset.sum_eq_zero fun b _ => ?_).symm
       rw [hF]
       by_cases hb : b ∈ dadeStab L B
-      · simp only [if_pos hb, ite_eq_right_iff]
+      · simp only [ite_eq_left hb, ite_eq_right_iff]
         intro hxb
         exact absurd (hD.conj_mem_dadeSubsetGroup_of_mem_dadeTransporter hBA hb hxb) hmem
       · simp [hb]
@@ -222,9 +222,9 @@ theorem indClassFun_dadePullback_apply (hD : IsDadeData L A H) (hBA : B ⊆ A) (
           ((dadeTransporter H B g b).ncard : ℂ) * extendByZero L f b else 0 := by
     intro b
     by_cases hb : b ∈ dadeStab L B
-    · simp only [hF, SetLike.mem_coe, if_pos hb]
+    · simp only [hF, SetLike.mem_coe, ite_eq_left hb]
       exact sum_ite_mem_const _ _
-    · simp only [hF, SetLike.mem_coe, if_neg hb, Finset.sum_const_zero]
+    · simp only [hF, SetLike.mem_coe, ite_eq_right hb, Finset.sum_const_zero]
   rw [indClassFun_eq_sum_extendByZero, finsum_mem_eq_sum_ite]
   congr 1
   rw [Finset.sum_congr rfl fun x _ => hrow x, Finset.sum_comm]

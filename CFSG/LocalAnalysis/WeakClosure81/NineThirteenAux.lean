@@ -18,9 +18,9 @@ variable {G : Type} [Group G] [Finite G] {V T X : Subgroup G}
 private theorem nineThirteenAux_inf_center_ne_bot {T U : Subgroup G} (hT : IsPGroup 2 T)
     (hUT : U ≤ T) (hUn : T ≤ Subgroup.normalizer (U : Set G)) (hU : U ≠ ⊥) :
     U ⊓ (T ⊓ Subgroup.centralizer (T : Set G)) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent T := hT.isNilpotent
-  haveI : (U.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent T := hT.isNilpotent
+  have : (U.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUn
   have hne : U.subgroupOf T ≠ ⊥ := by
     intro h
     apply hU
@@ -36,6 +36,7 @@ private theorem nineThirteenAux_inf_center_ne_bot {T U : Subgroup G} (hT : IsPGr
   rw [h, Subgroup.mem_bot] at hmem
   exact hy1 (Subtype.ext (Subtype.ext hmem))
 
+omit [Finite G] in
 private theorem nineThirteenAux_mem_sup_iff {X T : Subgroup G}
     (hXT : (X : Set G) * T = T * X) (z : G) :
     z ∈ X ⊔ T ↔ ∃ t ∈ T, ∃ x ∈ X, t * x = z := by
@@ -83,7 +84,7 @@ theorem exists_conj_sylow_centralizer (h9 : Hyp9 V T) :
     ∃ A : Subgroup G, IsGConj V A ∧ A ≤ T ∧ A ≠ V ∧
       IsSylowIn 2 (T ⊓ centralizer (A : Set G))
         (normalizer (V : Set G) ⊓ centralizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVnorm : (V.subgroupOf (normalizer (V : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).2 le_rfl
   have hVp : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian h9.hyp7.1
@@ -161,7 +162,7 @@ theorem exists_conj_sylow_centralizer (h9 : Hyp9 V T) :
 theorem commutator_cClos_ne_bot_of_not_normalizer_le (h9 : Hyp9 V T) (hX : X ∈ calP V)
     (hX1 : X ≠ ⊥) (h1 : ¬ normalizer (E3.wClos V 1 T : Set G) ≤ normalizer (V : Set G)) :
     ⁅twoResidual (X ⊔ T), E3.cClos V 1 T⁆ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hcomm
   rcases hX with ⟨p, hp, hp2, hXp, hXM, hXG, hXtriv⟩
   have hleC : twoResidual (X ⊔ T) ≤ centralizer (E3.cClos V 1 T : Set G) :=
@@ -189,7 +190,7 @@ theorem commutator_cClos_ne_bot_of_not_normalizer_le (h9 : Hyp9 V T) (hX : X ∈
   have hVT : V ≤ T := h9.sylow.le_of_normal Subgroup.le_normalizer hVnorm hVp
   have hVW : V ≤ E3.wClos V 1 T := E3.le_wClos_of_mQuot_le_self h9.hyp7.1 hVT le_rfl
     (k := 1) (by rw [E3.mQuot_self]; norm_num) (by have := h9.rk_gt; omega)
-  obtain ⟨h, hhN, hhM⟩ := SetLike.not_le_iff_exists.1 h1
+  obtain ⟨h, hhN, hhM⟩ := IsConcreteLE.not_le_iff_exists.1 h1
   have hW1h : conjSubgroup (E3.wClos V 1 T) h = E3.wClos V 1 T :=
     (conjSubgroup_eq_iff_mem_normalizer).2 hhN
   have hVhW1 : conjSubgroup V h ≤ E3.wClos V 1 T := by
@@ -254,6 +255,7 @@ theorem commutator_cClos_ne_bot_of_not_normalizer_le (h9 : Hyp9 V T) (hX : X ∈
     exact htriv
   exact hX1 hXbot
 
+omit [Finite G] in
 theorem exists_inf_sup_of_le_sup {K₀ : Subgroup G} (hXT : (X : Set G) * T = T * X)
     (hTK : T ≤ K₀) (hK : K₀ ≤ X ⊔ T) :
     (K₀ ⊓ X : Subgroup G) ⊔ T = K₀ ∧

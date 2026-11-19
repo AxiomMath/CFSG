@@ -128,7 +128,7 @@ theorem exists_invariant_two_subgroup {f : ℕ} (hf : 2 ≤ f)
       rw [Sylow.pointwise_smul_def]
       exact Subgroup.smul_mem_pointwise_smul x (quotAut γ) _ hx
     rwa [hsm] at this
-  obtain ⟨U, hU2, hUmap, hUinv⟩ := exists_lift_two_subgroup (Q : Subgroup (J ⧸ Z)) Q.isPGroup'
+  obtain ⟨U, hU2, hUmap, hUinv⟩ := exists_lift_two_subgroup (Q : Subgroup (J ⧸ Z)) Q.isPGroup
   have hRinv : ∀ γ ∈ Γ, ((Q : Subgroup (J ⧸ Z)).comap π).map γ.toMonoidHom =
       (Q : Subgroup (J ⧸ Z)).comap π := by
     intro γ hγ
@@ -173,7 +173,7 @@ theorem exists_invariant_two_subgroup {f : ℕ} (hf : 2 ≤ f)
           have := congrArg (fun y : ↥(Q : Subgroup (J ⧸ Z)) => (y : J ⧸ Z)) hk
           exact this
         exact Subtype.ext (hKZ k k.2 ((QuotientGroup.eq_one_iff _).mp h1))
-      have hK2 : IsPGroup 2 ↥K := (Q.isPGroup').of_injective fK hfK
+      have hK2 : IsPGroup 2 ↥K := (Q.isPGroup).of_injective fK hfK
       have : Group.IsNilpotent ↥K := hK2.isNilpotent
       have hnt : Nontrivial ↥K := ⟨⟨⟨z, hzK⟩, 1, fun h' => hz1 (congrArg Subtype.val h')⟩⟩
       exact Group.IsPerfect.not_isSolvable ↥K inferInstance

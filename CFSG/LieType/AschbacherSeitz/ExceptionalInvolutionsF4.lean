@@ -47,7 +47,7 @@ private lemma f4Rep_eq_xPar (K : Type) [Field K] [CharP K 2] (p : ℕ) (hp : 24 
   refine Subtype.ext ?_
   calc ((f4Rep K [p] : adjointGroup Tag.F4 K) : ModGL Tag.F4 K)
       = pinnedX Tag.F4 K (orbitCertRoot Tag.F4 p) 1 := by
-        simp [f4Rep, coe_f4Rep_singleton, f4x]
+        simp [f4Rep, f4x]
     _ = pinnedX Tag.F4 K (orbitCertRoot Tag.F4 p)
           (((rootOperatorFamily Tag.F4).pinnedFamilySign (orbitCertRoot Tag.F4 p) : ℤ) * (1 : K)) := by
         rw [pinnedFamilySign_cast_eq_one, one_mul]
@@ -87,17 +87,17 @@ theorem f4_universal_model (f : ℕ) (s : adjointGroup Tag.F4 (GaloisField 2 f))
   have h41 : List.ofFn (orbitCertRoot Tag.F4 41) = [1, 2, 2, 1] := by decide +kernel
   have h45 : List.ofFn (orbitCertRoot Tag.F4 45) = [1, 2, 4, 2] := by decide +kernel
   have hmem47 : orbitCertRoot Tag.F4 47 ∈ Z1 := by
-    simp only [Z1, Set.mem_setOf_eq]; rw [h47]; simp
+    simp only [Z1, Set.mem_ofPred_eq]; rw [h47]; simp
   have hmem44 : orbitCertRoot Tag.F4 44 ∈ Z2 := by
-    simp only [Z2, Set.mem_setOf_eq]; rw [h44]; simp
+    simp only [Z2, Set.mem_ofPred_eq]; rw [h44]; simp
   have hmem44' : orbitCertRoot Tag.F4 44 ∈ Z3 := by
-    simp only [Z3, Set.mem_setOf_eq]; rw [h44]; simp
+    simp only [Z3, Set.mem_ofPred_eq]; rw [h44]; simp
   have hmem47' : orbitCertRoot Tag.F4 47 ∈ Z3 := by
-    simp only [Z3, Set.mem_setOf_eq]; rw [h47]; simp
+    simp only [Z3, Set.mem_ofPred_eq]; rw [h47]; simp
   have hmem41 : orbitCertRoot Tag.F4 41 ∈ Z4 := by
-    simp only [Z4, Set.mem_setOf_eq]; rw [h41]; simp
+    simp only [Z4, Set.mem_ofPred_eq]; rw [h41]; simp
   have hmem45 : orbitCertRoot Tag.F4 45 ∈ Z4 := by
-    simp only [Z4, Set.mem_setOf_eq]; rw [h45]; simp
+    simp only [Z4, Set.mem_ofPred_eq]; rw [h45]; simp
   have hM47 : f4Rep (GaloisField 2 f) [47] ∈
       (f4Datum (GaloisField 2 f)).rootGroup (orbitCertRoot Tag.F4 47) :=
     f4Rep_mem_rootGroup (GaloisField 2 f) 47 ⟨by norm_num, by norm_num⟩

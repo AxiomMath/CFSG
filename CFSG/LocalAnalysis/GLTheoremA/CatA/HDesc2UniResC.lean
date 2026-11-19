@@ -137,7 +137,7 @@ theorem exists_eq_weight_of_isPGroup (h : UnitaryFieldData ℓ f K) [CharP K 2] 
     ∃ i j, i ≠ j ∧ d₁ i = d₁ j ∧ d₂ i = d₂ j := by
   classical
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   set Fx : Set (Fin n → K) :=
     {w | ∀ t ∈ T, ((t : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ w = w} with hFx
@@ -157,7 +157,7 @@ theorem exists_eq_weight_of_isPGroup (h : UnitaryFieldData ℓ f K) [CharP K 2] 
   obtain ⟨v₀, hv₀0, hv₀F, hv₀W⟩ : ∃ v : Fin n → K, v ≠ 0 ∧ v ∈ Fx ∧ v ∈ Wp := by
     by_contra hcon
     push Not at hcon
-    letI act : MulAction T Wp :=
+    let act : MulAction T Wp :=
       { smul := fun t v => ⟨((t : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ (v : Fin n → K),
           hTWp t t.2 v v.2⟩
         one_smul := fun v => Subtype.ext (show (((1 : T) : GL (Fin n) K) :
@@ -304,12 +304,12 @@ theorem exists_eq_weight_of_isPGroup (h : UnitaryFieldData ℓ f K) [CharP K 2] 
       · rw [(hfac hd₁ j).2 h1, zero_mul, mul_zero]
   have hiso : idForm h n v₂ v₂ = 0 := (hmemWp v₂).1 v₂W v₂ v₂F
   rw [idForm_eq_dotProduct, dotProduct, Finset.sum_eq_single j₀] at hiso
-  · rw [hv₂j j₀, if_pos rfl] at hiso
+  · rw [hv₂j j₀, ite_eq_left rfl] at hiso
     rcases mul_eq_zero.1 hiso with h0 | h0
     · exact hj₀ ((map_eq_zero h.bar).1 h0)
     · exact hj₀ h0
   · intro j _ hj
-    rw [hv₂j j, if_neg hj, mul_zero]
+    rw [hv₂j j, ite_eq_right hj, mul_zero]
   · intro h0
     exact absurd (Finset.mem_univ _) h0
 
@@ -493,7 +493,7 @@ theorem exists_pow_of_eq_off {ι : Type*} {a b : ι → k} {j l : ι}
     (hoff : ∀ x, x ≠ l → a x = a j ∧ b x = b j) (hal : a l ≠ a j) (ha3 : ∀ t, a t ^ 3 = 1)
     (hb3 : ∀ t, b t ^ 3 = 1) : ∃ (m : ℕ) (s : k), s ≠ 0 ∧ ∀ t, b t = s * a t ^ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne0 : ∀ {x : k}, x ^ 3 = 1 → x ≠ 0 := fun hx h => by
     rw [h] at hx
     norm_num at hx
@@ -545,7 +545,7 @@ theorem card_le_three_mul_card_inf_primeFormD_of_le (h : UnitaryFieldData ℓ f 
       rfl
     rw [h1, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
-  haveI : IsCyclic (K ≃+* K) := by
+  have : IsCyclic (K ≃+* K) := by
     obtain ⟨σ₀, -, -, htop, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality h.prime
         (by have := h.one_le; omega) h.card
@@ -856,12 +856,12 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_four {f : ℕ} (h : UnitaryFieldDat
       (Y₁ : GL (Fin 4) K) * suTwoBlkGLFour hω F₀ g * (Y₁ : GL (Fin 4) K)⁻¹
     apply Units.ext
     rw [coe_suTwoBlkGLFour, hg'', ← hZm, hZ, hu, hB]
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F₀) :=
+  have : Fintype F₀ := Fintype.ofFinite F₀
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F₀) :=
     CFSG.Quasithin.R3c21.isSimpleGroup_sl2_of_card_two_pow hf
       (by rw [← Nat.card_eq_fintype_card, hF₀])
   let eJ : Matrix.SpecialLinearGroup (Fin 2) F₀ ≃* φ.range := MonoidHom.ofInjective hφinj
-  haveI : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
   have hnc : ∃ a b : φ.range, a * b ≠ b * a := by
     let t1 : Matrix.SpecialLinearGroup (Fin 2) F₀ := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
     let t2 : Matrix.SpecialLinearGroup (Fin 2) F₀ := ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
@@ -885,13 +885,13 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_four {f : ℕ} (h : UnitaryFieldDat
       rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
       show (!![0, 1; 1, 1] : Matrix (Fin 2) (Fin 2) F₀) ^ 3 = 1
       rw [pow_succ, pow_two, Matrix.mul_fin_two, Matrix.mul_fin_two, Matrix.one_fin_two]
-      simp only [mul_zero, zero_mul, mul_one, one_mul, zero_add, add_zero, h11]
+      simp only [mul_zero, mul_one, zero_add, add_zero, h11]
     have ht31 : t3 ≠ 1 := by
       intro h1
       have h1' := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) F₀ =>
         (A : Matrix (Fin 2) (Fin 2) F₀) 0 0) h1
       simp [t3] at h1'
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← orderOf_eq_prime ht3 ht31]
     exact orderOf_dvd_natCard t3
   have hle := le_glaPLayer_of_normal_simple Nat.prime_three hJY hJn hnc h3J

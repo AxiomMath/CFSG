@@ -101,12 +101,12 @@ lemma frobFirst_isometry_B (hEdata : UnitaryFieldData 2 (3 * f) E)
   intro i _
   by_cases hi : i = 0
   · subst hi
-    rw [frobFirst_apply, if_pos rfl, frobFirst_apply, if_pos rfl]
+    rw [frobFirst_apply, ite_eq_left rfl, frobFirst_apply, ite_eq_left rfl]
     rw [← frob_apply (K := K) (E := E), ← frob_apply (K := K) (E := E)]
     rw [bar_frob hEdata]
     rw [← frob_mul]
     exact trace_frob _
-  · rw [frobFirst_apply, if_neg hi, frobFirst_apply, if_neg hi]
+  · rw [frobFirst_apply, ite_eq_right hi, frobFirst_apply, ite_eq_right hi]
 
 omit [Fintype K] in
 lemma bar_zeta_mul (hKdata : UnitaryFieldData 2 f K) (h3q : 3 ∣ 2 ^ f + 1)
@@ -136,7 +136,7 @@ lemma zetaLin_isometry_B (hKdata : UnitaryFieldData 2 f K)
   intro i _
   by_cases hi : i = 0
   · subst hi
-    rw [zetaLin_apply, if_pos rfl, zetaLin_apply, if_pos rfl]
+    rw [zetaLin_apply, ite_eq_left rfl, zetaLin_apply, ite_eq_left rfl]
     have hbζ : hKdata.bar ζ * ζ = 1 := bar_zeta_mul hKdata h3q hζ3
     have hbE : hEdata.bar (algebraMap K E ζ) = algebraMap K E (hKdata.bar ζ) :=
       bar_on_K hKdata hEdata ζ
@@ -148,7 +148,7 @@ lemma zetaLin_isometry_B (hKdata : UnitaryFieldData 2 f K)
             (hEdata.bar (u 0) * v 0) := by ring
       _ = algebraMap K E (hKdata.bar ζ * ζ) * (hEdata.bar (u 0) * v 0) := by rw [map_mul]
       _ = hEdata.bar (u 0) * v 0 := by rw [hbζ, map_one, one_mul]
-  · rw [zetaLin_apply, if_neg hi, zetaLin_apply, if_neg hi]
+  · rw [zetaLin_apply, ite_eq_right hi, zetaLin_apply, ite_eq_right hi]
 
 
 @[expose] noncomputable def unitarySUV (B : (Fin s → E) → (Fin s → E) → K) : Subgroup (SLV K E s) where
@@ -456,8 +456,8 @@ theorem GGResHyp.exists_lineJLabel_A3_of_compatible_unitary_marking_coprime
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨_hS', hN', hBsI'⟩ := hP
   let d : ℕ := rank + 1
@@ -575,8 +575,8 @@ theorem GGResHyp.actual_J_not_unitary_highDiv_for_A3
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨_hS', hN', hBsI'⟩ := hP
   let d : ℕ := rank + 1
@@ -638,7 +638,7 @@ theorem GGResHyp.actual_J_not_unitary_highDiv_for_A3
     LineU.unitaryUniversalCover_holds n d F hFcard hd5 hd6
   obtain ⟨φ, hφs, hφker, hdiagA⟩ :=
     LineU.exists_diagModel (L' := ↥J) (K := F) (n := n) (d := d) (p := 3)
-      (hK := hFcard) (hn := hf1) (hd := hd5) (hp := hp) (hpq := hpq) (hpd := h3d)
+      (hK := hFcard) (hn := hf1) (hd := hd5) (hp := hp) (hpq := hpq) (_hpd := h3d)
       (hcov := hcov) (ψ := ggQuotHom θ) (hψ := ggQuotHom_surjective θ)
       (hker := le_of_eq (ker_ggQuotHom θ)) (hperf := hperfJ)
       (hA := hAe) (hAI := hAI) (hcard := hcard)
@@ -753,8 +753,8 @@ theorem GGInnerDiagOnLabel.exists_general_unitary_cover_actors
   subst htag
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨hSlab', hN', hBsI'⟩ := hP
   have hf1 : 1 ≤ n := hΛ.1
@@ -1062,9 +1062,9 @@ theorem GGResHyp.actual_J_not_unitary_six_for_rank3_qplus_large
   obtain ⟨F, hFfield, hFfinite, n, hn2, h3n, hFcard, θ, φ, hU, A, ρ, hN,
     hAGU, hAiso, hφs, hφker, hφcomp, hAprime, hAproj, hYact, hmk⟩ :=
     CFSG.StandardType.GGInnerDiagOnLabel.exists_SU6_cover_actors hMark
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hE : IsElemAbelian 3 Bs := hH.1.2.1.2.1
   have hAnorm : ∀ b : ↥Bs,
       A b ∈ Subgroup.normalizer
@@ -1083,7 +1083,7 @@ theorem GGResHyp.actual_J_not_unitary_six_for_rank3_qplus_large
       rw [Nat.sq_sub_sq]
     rw [hsq]
     exact dvd_mul_of_dvd_left h3n _
-  haveI : Finite Etilde := Subtype.finite
+  have : Finite Etilde := Subtype.finite
   have hToral : CFSG.StandardType.TypeA.PGLTor.IsToral
       (CFSG.StandardType.ResJSU6Scalar.Actor.actorFull ρ) :=
     CFSG.StandardType.TypeA.PGLTor.isToral_of_E27_central
@@ -1091,7 +1091,7 @@ theorem GGResHyp.actual_J_not_unitary_six_for_rank3_qplus_large
       (E := Etilde) hpK
       (CFSG.StandardType.ResJSU6Scalar.Actor.actorFull_isProjElem ρ hE)
       hEtilde_le hEtilde_elem hEtilde_cent hEtilde_card (by norm_num)
-  haveI : NeZero (6 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (6 : ℕ) := ⟨by norm_num⟩
   obtain ⟨Q, hQunitary, hQdiag⟩ :=
     CFSG.StandardType.SUTorus.exists_unitary_frame
       (h := hU) (p := 3) (by norm_num) (by norm_num) h3n
@@ -1318,10 +1318,10 @@ theorem GGResHyp.lineJDatum_red
   have hD' : GGResLineJDatum 3 B' J' T :=
     GGResLineJDatum.transport T e0.symm haut hD
   let Z : Subgroup ↥N := (twoCenter J).subgroupOf N
-  haveI : Z.Normal := twoCenter_normal (L := J)
+  have : Z.Normal := twoCenter_normal (L := J)
   have hZ2 : IsPGroup 2 Z := (isPGroup_twoCenter J).comap_subtype
   have hodd : ¬ 3 ∣ Nat.card Z := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ2
     rw [hk]
     intro h
@@ -1372,27 +1372,27 @@ theorem GGResHyp.card_automizer_red_A3
 theorem GGResHyp.exists_redUnitarySixTwoActors
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {Ksub : Subgroup G}
-    (hH : GGResHyp 3 B Bs x L D J y Ksub)
+    (_hH : GGResHyp 3 B Bs x L D J y Ksub)
     (hMark : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.twA, 5, 1⟩) 3 Bs J)
     (hN : Bs ≤ Subgroup.normalizer (J : Set G)) :
-    ∃ (F : Type) (_ : Field F) (_ : Finite F) (hF4 : Nat.card F = 4)
+    ∃ (F : Type) (_ : Field F) (_ : Finite F) (_hF4 : Nat.card F = 4)
       (hU : UnitaryFieldData 2 1 F)
       (θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) F (2 ^ 1)))
       (φ : ↥(unitarySU 2 1 F 6) →* RedGrp J)
-      (hφ1 : ∀ s, φ s ∈ (redMkL J).range)
-      (hrange : φ.range = (redMkL J).range)
-      (hφk : ∀ s, φ s = 1 → ∃ c : Fˣ,
+      (_hφ1 : ∀ s, φ s ∈ (redMkL J).range)
+      (_hrange : φ.range = (redMkL J).range)
+      (_hφk : ∀ s, φ s = 1 → ∃ c : Fˣ,
         (s : GL (Fin 6) F) = GeneralLinearGroup.scalar (Fin 6) c)
       (A : ↥Bs → GL (Fin 6) F)
-      (hAGU : ∀ b, A b ∈ LargeEvenGUSet (Fin 6) F (2 ^ 1))
+      (_hAGU : ∀ b, A b ∈ LargeEvenGUSet (Fin 6) F (2 ^ 1))
       (hAN : ∀ b, A b ∈ Subgroup.normalizer
         (LargeEvenSUGroup (Fin 6) F (2 ^ 1) : Set (GL (Fin 6) F)))
-      (hAprime : ∀ b, A b ∈ primeFormUnitary hU (1 : Matrix (Fin 6) (Fin 6) F))
-      (hAproj : ∀ b, TableB.projConj (LargeEvenSUGroup (Fin 6) F (2 ^ 1))
+      (_hAprime : ∀ b, A b ∈ primeFormUnitary hU (1 : Matrix (Fin 6) (Fin 6) F))
+      (_hAproj : ∀ b, TableB.projConj (LargeEvenSUGroup (Fin 6) F (2 ^ 1))
         ⟨A b, hAN b⟩ = ggBeta J θ hN b)
       (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F)
-      (hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b)
-      (hActs : ∀ b, ActsAs φ (redMkB hN b) (A b)),
+      (_hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b)
+      (_hActs : ∀ b, ActsAs φ (redMkB hN b) (A b)),
     True := by
   classical
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
@@ -1408,25 +1408,25 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
   subst hn
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hS, hNmark, hBI⟩ := hQ
-  have hF4 : Nat.card F = 4 := by simpa using hFcard
+  have _hF4 : Nat.card F = 4 := by simpa using hFcard
   have hU : UnitaryFieldData 2 1 F := TableBU.unitaryFieldData_of_card hFcard le_rfl
   have hcov : CFSG.StandardType.Line63.UnitaryCoverOddAt 1 6 F :=
-    CFSG.StandardType.LineU.unitaryCoverOddAt_six_two F hF4
-  obtain ⟨φ, hφ1, hφ2, hφ3⟩ := exists_redCover hcov hperfJ θ
-  have hrange : φ.range = (redMkL J).range := by
+    CFSG.StandardType.LineU.unitaryCoverOddAt_six_two F _hF4
+  obtain ⟨φ, _hφ1, hφ2, hφ3⟩ := exists_redCover hcov hperfJ θ
+  have _hrange : φ.range = (redMkL J).range := by
     apply le_antisymm
     · intro z hz
       obtain ⟨s, hs⟩ := MonoidHom.mem_range.mp hz
       rw [← hs]
-      exact hφ1 s
+      exact _hφ1 s
     · intro z hz
       obtain ⟨l, hl⟩ := MonoidHom.mem_range.mp hz
       obtain ⟨s, hs⟩ := hφ2 l
       exact ⟨s, hs.trans hl⟩
-  have hφk : ∀ s : ↥(unitarySU 2 1 F 6), φ s = 1 → ∃ c : Fˣ,
+  have _hφk : ∀ s : ↥(unitarySU 2 1 F 6), φ s = 1 → ∃ c : Fˣ,
       (s : GL (Fin 6) F) = GeneralLinearGroup.scalar (Fin 6) c := by
     intro s hs
     have h1 : LargeEvenProjMk (unitarySU 2 1 F 6) s = 1 := by
@@ -1480,10 +1480,10 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
   have hAconj : ∀ b (g : GL (Fin 6) F),
       A b * g * (A b)⁻¹ = Y b * g * (Y b)⁻¹ :=
     fun b => (Classical.choose_spec (hAexists b)).2
-  have hAprime : ∀ b, A b ∈ primeFormUnitary hU (1 : Matrix (Fin 6) (Fin 6) F) :=
+  have _hAprime : ∀ b, A b ∈ primeFormUnitary hU (1 : Matrix (Fin 6) (Fin 6) F) :=
     fun b => CFSG.LocalAnalysis.GLTheoremA.S265F3.mem_primeFormUnitary_of_heldGU
       hU hτq (hAheld b)
-  have hAGU : ∀ b, A b ∈ LargeEvenGUSet (Fin 6) F (2 ^ 1) :=
+  have _hAGU : ∀ b, A b ∈ LargeEvenGUSet (Fin 6) F (2 ^ 1) :=
     fun b => CFSG.StandardType.q1CentUni_heldGU_subset_guSet τ hτ hτq (hAheld b)
   have hAiso : ∀ b (x y : Fin 6 → F),
       stdHermForm hU 6 (((A b : Matrix (Fin 6) (Fin 6) F)) *ᵥ x)
@@ -1491,11 +1491,11 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
     intro b x y
     rw [stdHermForm_eq_gramForm hU 6]
     exact (gramForm_isometry_iff hU (1 : Matrix (Fin 6) (Fin 6) F) (A b)).mpr (by
-      simpa using (mem_primeFormUnitary.mp (hAprime b))) x y
-  have hAproj : ∀ b, TableB.projConj H
-      ⟨A b, hSgu (hAGU b)⟩ = ggBeta J θ hN b := by
+      simpa using (mem_primeFormUnitary.mp (_hAprime b))) x y
+  have _hAproj : ∀ b, TableB.projConj H
+      ⟨A b, hSgu (_hAGU b)⟩ = ggBeta J θ hN b := by
     intro b
-    rw [show TableB.projConj H ⟨A b, hSgu (hAGU b)⟩ =
+    rw [show TableB.projConj H ⟨A b, hSgu (_hAGU b)⟩ =
         TableB.projConj H ⟨Y b, hSgu (hYGU b)⟩ from ?_]
     · exact hYproj b
     · ext r
@@ -1511,32 +1511,32 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
         ProjGenLinGroup.mk (A b) * ProjGenLinGroup.mk (A c) := by
     intro b c
     have hprodeq : TableB.projConj H
-        ⟨A (b * c), hSgu (hAGU (b * c))⟩ =
+        ⟨A (b * c), hSgu (_hAGU (b * c))⟩ =
         TableB.projConj H
-          ⟨A b * A c, mul_mem (hSgu (hAGU b)) (hSgu (hAGU c))⟩ := by
+          ⟨A b * A c, mul_mem (hSgu (_hAGU b)) (hSgu (_hAGU c))⟩ := by
       have hprod : (⟨A b * A c,
-          mul_mem (hSgu (hAGU b)) (hSgu (hAGU c))⟩ :
+          mul_mem (hSgu (_hAGU b)) (hSgu (_hAGU c))⟩ :
             Subgroup.normalizer (H : Set (GL (Fin 6) F))) =
-          ⟨A b, hSgu (hAGU b)⟩ * ⟨A c, hSgu (hAGU c)⟩ := Subtype.ext rfl
-      rw [hAproj (b * c), hprod, map_mul (ggBeta J θ hN),
-        map_mul (TableB.projConj H), hAproj b, hAproj c]
+          ⟨A b, hSgu (_hAGU b)⟩ * ⟨A c, hSgu (_hAGU c)⟩ := Subtype.ext rfl
+      rw [_hAproj (b * c), hprod, map_mul (ggBeta J θ hN),
+        map_mul (TableB.projConj H), _hAproj b, _hAproj c]
     have hker : TableB.projConj H
         ⟨A (b * c) * (A b * A c)⁻¹,
-          mul_mem (hSgu (hAGU (b * c)))
-            (inv_mem (mul_mem (hSgu (hAGU b)) (hSgu (hAGU c))))⟩ = 1 := by
+          mul_mem (hSgu (_hAGU (b * c)))
+            (inv_mem (mul_mem (hSgu (_hAGU b)) (hSgu (_hAGU c))))⟩ = 1 := by
       change TableB.projConj H
-        ((⟨A (b * c), hSgu (hAGU (b * c))⟩ :
+        ((⟨A (b * c), hSgu (_hAGU (b * c))⟩ :
             Subgroup.normalizer (H : Set (GL (Fin 6) F))) *
           (⟨A b * A c,
-            mul_mem (hSgu (hAGU b)) (hSgu (hAGU c))⟩ :
+            mul_mem (hSgu (_hAGU b)) (hSgu (_hAGU c))⟩ :
               Subgroup.normalizer (H : Set (GL (Fin 6) F)))⁻¹) = 1
       rw [map_mul (TableB.projConj H), map_inv (TableB.projConj H), hprodeq, mul_inv_cancel]
     have hscal : (A (b * c) * (A b * A c)⁻¹ : GL (Fin 6) F) ∈
         LargeEvenScalars (Fin 6) F :=
       TableBUE.mem_scalars_of_projConj_eq_one
         (M := ⟨A (b * c) * (A b * A c)⁻¹,
-          mul_mem (hSgu (hAGU (b * c)))
-            (inv_mem (mul_mem (hSgu (hAGU b)) (hSgu (hAGU c))))⟩)
+          mul_mem (hSgu (_hAGU (b * c)))
+            (inv_mem (mul_mem (hSgu (_hAGU b)) (hSgu (_hAGU c))))⟩)
         hU hFcard (by norm_num) hdq (p := 3) (by norm_num) h3n hker
     rw [largeEvenScalars_def] at hscal
     obtain ⟨z, hz⟩ := hscal
@@ -1544,21 +1544,21 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
         Subgroup.center (GL (Fin 6) F) := by
       rw [GeneralLinearGroup.center_eq_range_scalar]
       exact ⟨z, hz⟩
-    have hmk : ProjGenLinGroup.mk (A (b * c) * (A b * A c)⁻¹) = 1 := by
+    have _hmk : ProjGenLinGroup.mk (A (b * c) * (A b * A c)⁻¹) = 1 := by
       rw [ProjGenLinGroup.mk_eq_one]
       exact hcenter
     calc ProjGenLinGroup.mk (A (b * c))
         = ProjGenLinGroup.mk (A (b * c) * (A b * A c)⁻¹ * (A b * A c)) := by group
       _ = ProjGenLinGroup.mk (A (b * c) * (A b * A c)⁻¹) *
             ProjGenLinGroup.mk (A b * A c) := map_mul _ _ _
-      _ = ProjGenLinGroup.mk (A b * A c) := by rw [hmk, one_mul]
+      _ = ProjGenLinGroup.mk (A b * A c) := by rw [_hmk, one_mul]
       _ = ProjGenLinGroup.mk (A b) * ProjGenLinGroup.mk (A c) := map_mul _ _ _
   have hmk_one : ProjGenLinGroup.mk (A 1) = 1 := by
-    have hproj1 : TableB.projConj H ⟨A 1, hSgu (hAGU 1)⟩ = 1 := by
-      rw [hAproj 1, map_one]
+    have hproj1 : TableB.projConj H ⟨A 1, hSgu (_hAGU 1)⟩ = 1 := by
+      rw [_hAproj 1, map_one]
     have hscal : (A 1 : GL (Fin 6) F) ∈ LargeEvenScalars (Fin 6) F :=
       TableBUE.mem_scalars_of_projConj_eq_one
-        (M := ⟨A 1, hSgu (hAGU 1)⟩) hU hFcard (by norm_num) hdq
+        (M := ⟨A 1, hSgu (_hAGU 1)⟩) hU hFcard (by norm_num) hdq
         (p := 3) (by norm_num) h3n hproj1
     rw [largeEvenScalars_def] at hscal
     obtain ⟨z, hz⟩ := hscal
@@ -1571,24 +1571,24 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
     { toFun := fun b => ProjGenLinGroup.mk (A b)
       map_one' := hmk_one
       map_mul' := hmk_mul }
-  have hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b := fun b => rfl
-  have hActs : ∀ b : ↥Bs, ActsAs φ (redMkB hN b) (A b) := by
+  have _hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b := fun b => rfl
+  have _hActs : ∀ b : ↥Bs, ActsAs φ (redMkB hN b) (A b) := by
     intro b
     have hAN : A b ∈ Subgroup.normalizer (unitarySU 2 1 F 6 : Set (GL (Fin 6) F)) :=
-      hSgu (hAGU b)
+      hSgu (_hAGU b)
     refine ⟨hAN, fun s => ?_⟩
     set nb : ↥(Subgroup.normalizer (J : Set G)) := ⟨(b : G), hN b.2⟩ with hnb
     have hnb' : redMkB hN b = redMk J nb := rfl
     rw [hnb']
-    set φ₀ : ↥(unitarySU 2 1 F 6) →* ↥(redMkL J).range := φ.codRestrict _ hφ1 with hφ₀
+    set φ₀ : ↥(unitarySU 2 1 F 6) →* ↥(redMkL J).range := φ.codRestrict _ _hφ1 with hφ₀
     set f₁ : ↥(unitarySU 2 1 F 6) →* ↥(redMkL J).range :=
       (MulAut.conjNormal (redMk J nb)).toMonoidHom.comp φ₀ with hf₁
     set f₂ : ↥(unitarySU 2 1 F 6) →* ↥(redMkL J).range :=
       φ₀.comp (conjNHom (A b) hAN) with hf₂
     have hf : f₁ = f₂ := by
       refine TypeA.eq_of_inv_mul_mem_center hcov.1 f₁ f₂ fun s' => ?_
-      obtain ⟨l₁, hl₁⟩ := MonoidHom.mem_range.mp (hφ1 s')
-      obtain ⟨l₂, hl₂⟩ := MonoidHom.mem_range.mp (hφ1 (conjN (A b) hAN s'))
+      obtain ⟨l₁, hl₁⟩ := MonoidHom.mem_range.mp (_hφ1 s')
+      obtain ⟨l₂, hl₂⟩ := MonoidHom.mem_range.mp (_hφ1 (conjN (A b) hAN s'))
       have hψ₁ : ggQuotHom θ l₁ = LargeEvenProjMk H s' :=
         hφ3 s' l₁ hl₁.symm
       have hψ₂ : ggQuotHom θ l₂ = LargeEvenProjMk H (conjN (A b) hAN s') :=
@@ -1600,7 +1600,7 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
           rw [ggQuotHom_apply, ggQuotHom_apply, ggLAut_apply]
         have h2 : ggLAut J θ nb (LargeEvenProjMk H s') =
             LargeEvenProjMk H (conjN (A b) hAN s') := by
-          have hAproj' : TableB.projConj H ⟨A b, hAN⟩ = ggBeta J θ hN b := hAproj b
+          have hAproj' : TableB.projConj H ⟨A b, hAN⟩ = ggBeta J θ hN b := _hAproj b
           have hgl : ggLAut J θ nb = TableB.projConj H ⟨A b, hAN⟩ := by
             rw [hAproj']
             rfl
@@ -1636,9 +1636,9 @@ theorem GGResHyp.exists_redUnitarySixTwoActors
     simpa [hf₁, hf₂, hφ₀, coe_conjNHom] using h
   have hAN : ∀ b, A b ∈ Subgroup.normalizer
       (LargeEvenSUGroup (Fin 6) F (2 ^ 1) : Set (GL (Fin 6) F)) :=
-    fun b => hSgu (hAGU b)
-  exact ⟨F, hFfield, hFfinite, hF4, hU, θ, φ, hφ1, hrange, hφk, A, hAGU, hAN,
-    hAprime, hAproj, ρ, hmk, hActs, trivial⟩
+    fun b => hSgu (_hAGU b)
+  exact ⟨F, hFfield, hFfinite, _hF4, hU, θ, φ, _hφ1, _hrange, _hφk, A, _hAGU, hAN,
+    _hAprime, _hAproj, ρ, _hmk, _hActs, trivial⟩
 
 theorem GGResHyp.actual_J_not_unitary_six_two_for_rank3
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
@@ -1653,8 +1653,8 @@ theorem GGResHyp.actual_J_not_unitary_six_two_for_rank3
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   obtain ⟨F, hFfield, hFfinite, hF4, hU, θ, φ, hφ1, hrange, hφk, A, hAGU, hAN,
     hAprime, hAproj, ρ, hmk, hActs, _hTrue⟩ := exists_redUnitarySixTwoActors hH hMark hN
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   have hActsEq : ∀ b s,
       redMkB hN b * φ s * (redMkB hN b)⁻¹ = φ (LineU.conjN (A b) (hAN b) s) := by
     intro b s
@@ -1670,7 +1670,7 @@ theorem GGResHyp.actual_J_not_unitary_six_two_for_rank3
   let Bsbar : Subgroup (RedGrp J) := (redMkB hN).range
   have hXnormal : X.Normal := redL_normal (L := J)
   have hNbar : Bsbar ≤ Subgroup.normalizer (X : Set (RedGrp J)) := by
-    haveI : X.Normal := hXnormal
+    have : X.Normal := hXnormal
     have htop : Subgroup.normalizer (X : Set (RedGrp J)) = ⊤ :=
           Subgroup.normalizer_eq_top X
     intro z _
@@ -1679,15 +1679,15 @@ theorem GGResHyp.actual_J_not_unitary_six_two_for_rank3
   have hBsbar : CFSG.Open.IsElemAbelian 3 Bsbar := isElemAbelian_redB hN hBs
   have hSCbar : ∀ g ∈ Subgroup.centralizer (Bsbar : Set (RedGrp J)), g ^ 3 = 1 → g ∈ Bsbar :=
     redSC hN hBs hSC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Bsbar := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Bsbar := Subtype.finite
   obtain ⟨Etilde, hEtilde_le, hEtilde_elem, hEtilde_cent, hEtilde_card⟩ :=
     CFSG.StandardType.ResJSU6Scalar.exists_E27_lifts_actual_of_rank3
       (F := F) (n := 1) (θ := θ) (hN := hN) (ρ := ρ) (A := A) (T := T)
       (hAnorm := fun b => hAN b)
       (hmk := hmk) hH hD hT hFcard (by norm_num) h3n
       (fun b => hAproj b)
-  haveI : Finite ↥Etilde := Subtype.finite
+  have : Finite ↥Etilde := Subtype.finite
   have hToral : TypeA.PGLTor.IsToral (CFSG.StandardType.ResJSU6Scalar.Actor.actorFull ρ) :=
     CFSG.StandardType.TypeA.PGLTor.isToral_of_E27_central
       (K := F) (n := 6)

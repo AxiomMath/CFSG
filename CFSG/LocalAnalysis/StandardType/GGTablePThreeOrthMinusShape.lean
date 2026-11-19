@@ -38,7 +38,7 @@ private lemma orthMinusShape_ggInducedAut_map_mem_of_GGInducedInn
     exact hmem y hy
   have hAne : Nat.card A ≠ 0 :=
     Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
-  haveI : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
+  have : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
   have hEq : A.map (ggInducedAut θ) = Ā :=
     Subgroup.eq_of_le_of_card_ge hle (hcardĀ.trans hcardMap.symm).le
   rw [← hEq] at ha
@@ -97,7 +97,7 @@ theorem orthMinusShape_holds :
           GGInducedInn A θ (LargeEvenInnSet (POmMinusG (r - 1) K b c)) →
           OrthMinusShapeConcl n r A J := by
   intro K _ _ hchar n r hK hr b c hbc _hsimple X _ _ hperf θ A δ J hKloc huniq hcard hinn
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   obtain ⟨Ā, δ', J', hR, hcardĀ, _hδ', hmem, hJ', hcen⟩ :=
     leafR_holds X hperf (POmMinusG (r - 1) K b c) θ A δ J hKloc huniq hcard
   have hĀI : ∀ a ∈ Ā, a ∈ LargeEvenInnSet (POmMinusG (r - 1) K b c) :=

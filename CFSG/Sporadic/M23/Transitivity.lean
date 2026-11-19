@@ -81,7 +81,7 @@ private lemma exists_maps_base_four
   have hx1 : x1 ≠ 0 := by
     intro h
     have h' := congrArg (fun z : X ↦ q0 • z) h
-    have heq : e 1 = e 0 := by simpa [x1, q0, ht0] using h'
+    have heq : e 1 = e 0 := by simp [x1, q0, ht0] at h'
     exact (by omega : (1 : Fin 4) ≠ 0) (e.injective heq)
   let q1 : K1 G := t1 x1
   let r1 : G := q0 * lift1 q1
@@ -96,12 +96,12 @@ private lemma exists_maps_base_four
   have hx20 : x2 ≠ 0 := by
     intro h
     have h' := congrArg (fun z : X ↦ r1 • z) h
-    have heq : e 2 = e 0 := by simpa [x2, hr10] using h'
+    have heq : e 2 = e 0 := by simp [x2, hr10] at h'
     exact (by omega : (2 : Fin 4) ≠ 0) (e.injective heq)
   have hx21 : x2 ≠ 1 := by
     intro h
     have h' := congrArg (fun z : X ↦ r1 • z) h
-    have heq : e 2 = e 1 := by simpa [x2, hr11] using h'
+    have heq : e 2 = e 1 := by simp [x2, hr11] at h'
     exact (by omega : (2 : Fin 4) ≠ 1) (e.injective heq)
   let q2 : K2 G := t2 x2
   let r2 : G := r1 * lift2 q2
@@ -119,17 +119,17 @@ private lemma exists_maps_base_four
   have hx30 : x3 ≠ 0 := by
     intro h
     have h' := congrArg (fun z : X ↦ r2 • z) h
-    have heq : e 3 = e 0 := by simpa [x3, hr20] using h'
+    have heq : e 3 = e 0 := by simp [x3, hr20] at h'
     exact (by omega : (3 : Fin 4) ≠ 0) (e.injective heq)
   have hx31 : x3 ≠ 1 := by
     intro h
     have h' := congrArg (fun z : X ↦ r2 • z) h
-    have heq : e 3 = e 1 := by simpa [x3, hr21] using h'
+    have heq : e 3 = e 1 := by simp [x3, hr21] at h'
     exact (by omega : (3 : Fin 4) ≠ 1) (e.injective heq)
   have hx32 : x3 ≠ 2 := by
     intro h
     have h' := congrArg (fun z : X ↦ r2 • z) h
-    have heq : e 3 = e 2 := by simpa [x3, hr22] using h'
+    have heq : e 3 = e 2 := by simp [x3, hr22] at h'
     exact (by omega : (3 : Fin 4) ≠ 2) (e.injective heq)
   let q3 : K3 G := t3 x3
   let r3 : G := r2 * lift3 q3

@@ -131,17 +131,17 @@ namespace O1pTriple
 
 theorem ω3_ne_one {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) : ω3 ≠ 1 := by decide
+    (_h : O1pTriple B Bs z Lc T χ X Xk) : ω3 ≠ 1 := by decide
 
 theorem chi_mul {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {a b : G} (ha : a ∈ B) (hb : b ∈ B) (j : Fin 3) :
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {a b : G} (ha : a ∈ B) (hb : b ∈ B) (j : Fin 3) :
     χ j ⟨a * b, mul_mem ha hb⟩ = χ j ⟨a, ha⟩ * χ j ⟨b, hb⟩ := by
   rw [← map_mul]; rfl
 
 theorem chi_inv {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {a : G} (ha : a ∈ B) (j : Fin 3) :
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {a : G} (ha : a ∈ B) (j : Fin 3) :
     χ j ⟨a⁻¹, inv_mem ha⟩ = (χ j ⟨a, ha⟩)⁻¹ := by
   rw [← map_inv]; rfl
 
@@ -164,7 +164,7 @@ theorem B_le_cent {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3
 theorem T_two {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) (i : Fin 3) : IsPGroup 2 (T i) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.of_card (n := 2) (by rw [h.T_card i]; norm_num)
 
 theorem T_ne_bot {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
@@ -181,14 +181,14 @@ theorem B_norm_T {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 
 
 theorem mem_cent_comm {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {S : Subgroup G} {g : G} (hg : g ∈ centralizer (S : Set G)) :
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {S : Subgroup G} {g : G} (hg : g ∈ centralizer (S : Set G)) :
     S ≤ centralizer ({g} : Set G) := fun s hs => by
   rw [mem_centralizer_singleton_iff]
   exact ((mem_centralizer_iff.1 hg) s hs)
 
 theorem le_cent_symm {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {S U : Subgroup G} (hSU : S ≤ centralizer (U : Set G)) :
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {S U : Subgroup G} (hSU : S ≤ centralizer (U : Set G)) :
     U ≤ centralizer (S : Set G) := fun u hu => by
   rw [mem_centralizer_iff]
   intro s hs
@@ -222,7 +222,7 @@ theorem chi_d {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 →
 
 theorem cent_mul_inv {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {g a b : G} (ha : g ∈ centralizer ({a} : Set G))
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {g a b : G} (ha : g ∈ centralizer ({a} : Set G))
     (hb : g ∈ centralizer ({b} : Set G)) : g ∈ centralizer ({a * b⁻¹} : Set G) := by
   rw [mem_centralizer_singleton_iff] at ha hb ⊢
   have hb' : g * b⁻¹ = b⁻¹ * g := by
@@ -288,7 +288,7 @@ theorem Tk_cent_Xk {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 
 
 theorem X_le_H {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) : X ≤ centralizer ({z 0 * (z 1)⁻¹} : Set G) := fun y hy =>
+    (h : O1pTriple B Bs z Lc T χ X Xk) : X ≤ centralizer ({z 0 * (z 1)⁻¹} : Set G) := fun _y hy =>
   cent_mul_inv h (h.L0_le (h.X_le hy).1) (h.X_le hy).2
 
 theorem X_simple {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
@@ -301,21 +301,21 @@ theorem X_card {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 �
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) : Nat.card X = 13685760 := by
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := lieModel_PSU_five h.X_model
-  haveI := hfin
+  have := hfin
   rw [Nat.card_congr e.toEquiv,
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two (model_SU K 5 (by norm_num) hK)]
 
 theorem X_noncomm {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) : ∃ a b : X, a * b ≠ b * a := by
-  haveI := h.X_simple
+  have := h.X_simple
   exact exists_noncomm_of_simple Nat.prime_two (by rw [h.X_card]; norm_num)
     (by rw [h.X_card]; norm_num)
 
 theorem X_quasi {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) : CFSG.Open.IsQuasisimple X := by
-  haveI := h.X_simple
+  have := h.X_simple
   exact CFSG.GH74.GLS.PU3.Thm5.isQuasisimple_of_simple h.X_noncomm
 
 theorem X_perfect {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
@@ -394,7 +394,7 @@ theorem layer_H {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 �
 
 theorem cent_symm1 {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk)
+    (_h : O1pTriple B Bs z Lc T χ X Xk)
     {g a : G} : g ∈ centralizer ({a} : Set G) ↔ a ∈ centralizer ({g} : Set G) := by
   rw [mem_centralizer_singleton_iff, mem_centralizer_singleton_iff]
   exact eq_comm
@@ -442,12 +442,12 @@ theorem B_le_C_d {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 
 
 theorem B_le_NX {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) : B ≤ normalizer (X : Set G) := fun b hb =>
+    (h : O1pTriple B Bs z Lc T χ X Xk) : B ≤ normalizer (X : Set G) := fun _b hb =>
   h.X_normal (mem_inf.2 ⟨h.B_le_cent 0 hb, h.B_le_C_d hb⟩)
 
 theorem le_normalizer_of_le_cent {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) {S U : Subgroup G} (hSU : S ≤ centralizer (U : Set G)) :
+    (_h : O1pTriple B Bs z Lc T χ X Xk) {S U : Subgroup G} (hSU : S ≤ centralizer (U : Set G)) :
     S ≤ normalizer (U : Set G) := fun s hs => by
   have hc : ∀ u ∈ U, u * s = s * u := mem_centralizer_iff.1 (hSU hs)
   rw [mem_normalizer_iff]
@@ -467,7 +467,7 @@ theorem le_normalizer_of_le_cent {G : Type} [Group G] [Finite G] {B Bs : Subgrou
 theorem X_le_NT0 {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) : X ≤ normalizer (T 0 : Set G) :=
-  le_normalizer_of_le_cent h (fun y hy => h.T_cent 0 (h.X_le hy).1)
+  le_normalizer_of_le_cent h (fun _y hy => h.T_cent 0 (h.X_le hy).1)
 
 theorem hZX {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
@@ -558,7 +558,7 @@ theorem z_ne_one {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 
 
 theorem cl_eq {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
-    (h : O1pTriple B Bs z Lc T χ X Xk) : closure {z 0, z 1} = closure {z 0, z 0 * (z 1)⁻¹} := by
+    (_h : O1pTriple B Bs z Lc T χ X Xk) : closure {z 0, z 1} = closure {z 0, z 0 * (z 1)⁻¹} := by
   apply le_antisymm
   · rw [closure_le]
     rintro _ (rfl | rfl)
@@ -593,7 +593,7 @@ theorem LD_eq {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 →
 theorem D_card {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {z : Fin 3 → G}
     {Lc T : Fin 3 → Subgroup G} {χ : Fin 3 → (B →* Multiplicative (ZMod 3))} {X Xk : Subgroup G}
     (h : O1pTriple B Bs z Lc T χ X Xk) : Nat.card (closure {z 0, z 1} : Subgroup G) = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : ∀ i, orderOf (z i) = 3 := fun i => orderOf_eq_prime (h.elemAb.2 _ (h.z_mem i))
     (h.z_ne_one i)
   have hc : ∀ i, Nat.card (zpowers (z i)) = 3 := fun i => by rw [Nat.card_zpowers, ho]

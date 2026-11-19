@@ -12,8 +12,8 @@ open CFSG.Open
 theorem s15k_pord_sp {X : Type} [Group X] {n : ℕ} (hn : 6 ≤ n) (h : IsSpn X n 1) :
     2 ^ 7 ∣ Nat.card X := by
   rcases h with ⟨_, K, hF, hFin, hK, ⟨e⟩⟩
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hcardX : Nat.card X = Nat.card (StatedSp (n / 2) K) := Nat.card_congr e.toEquiv
   rw [hcardX, CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp, hK2]

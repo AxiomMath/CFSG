@@ -28,7 +28,7 @@ private theorem card_dvd_21_of_le_normalizer_order_seven {E : Type*} [Group E] [
     (hE : Nat.card E = 8) (hcomm : ∀ a b : E, a * b = b * a) (hsq : ∀ e : E, e * e = 1)
     {A Z : Subgroup (MulAut E)} (hZ : Nat.card Z = 7)
     (hAZ : A ≤ normalizer (Z : Set (MulAut E))) : Nat.card A ∣ 21 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e₀⟩ := CFSG.Sporadic.RuSchreier.ru_nonempty_mulEquiv_of_elementary (p := 2) hcomm
     (fun a => by rw [pow_two]; exact hsq a) (n := 3) (by rw [hE]; norm_num)
   let e : MulAut E ≃* GL (Fin 3) (ZMod 2) :=
@@ -63,7 +63,7 @@ theorem s16c1614_card_dvd_882_of_case168_11 (D : Data G) {V L : Subgroup G}
     rw [hWtrk] at h1
     simpa using h1
   have hs15 : s15 D.M ⊥ V hV L = 2 := h.2.2.1
-  letI : MulAction Mb (Subgroup (MulAut (Vtil ⊥ V hV))) :=
+  let : MulAction Mb (Subgroup (MulAut (Vtil ⊥ V hV))) :=
     { smul := fun φ Y => Y.map (MulAut.conj (φ : MulAut (Vtil ⊥ V hV))).toMonoidHom
       one_smul := fun Y => by
         show Y.map (MulAut.conj (((1 : Mb) : MulAut (Vtil ⊥ V hV)))).toMonoidHom = Y
@@ -220,7 +220,7 @@ theorem s16c1614_card_dvd_882_of_case168_11 (D : Data G) {V L : Subgroup G}
             Z.map ((a : MulAut (Vtil ⊥ V hV))⁻¹).toMonoidHom) h2
         have hcomp : (((a : MulAut (Vtil ⊥ V hV))⁻¹).toMonoidHom).comp
             (a : MulAut (Vtil ⊥ V hV)).toMonoidHom = MonoidHom.id (Vtil ⊥ V hV) := by
-          ext x; simp [MulAut.mul_apply]
+          ext x; simp
         rw [Subgroup.map_map, hcomp, Subgroup.map_id] at h5
         exact h5
       rw [h4, hWt', hψ]

@@ -61,7 +61,7 @@ theorem isSylowOf_top_of_psl2
       (hR.rightConjugate_eq_of_psl2 h hF hf e hX hinv hle)
     simpa using inv_mem h1
   have hp : IsPGroup 2 (R ⊔ T ⊔ zpowers z : Subgroup G) :=
-    S.isPGroup'.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
+    S.isPGroup.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
   have heq := hS₀.eq_of_le le_sup_left (sup_le hS₀.le (zpowers_le.mpr hzV)) hp
   exact hzS₀ (heq ▸ mem_sup_right (mem_zpowers z))
 

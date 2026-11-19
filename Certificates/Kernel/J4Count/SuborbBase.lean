@@ -48,6 +48,7 @@ theorem dvd_orbit_left (N : Subgroup G) [N.Normal] (x : X) :
     _ = Nat.card (S ⊔ N : Subgroup G) * k * Nat.card (N ⊓ S : Subgroup G) := by rw [hk]
     _ = Nat.card S * (Nat.card N * k) := by rw [← h2, ← h1]; ring
 
+omit [Finite G] in
 theorem dvd_orbit_right (N : Subgroup G) (x : X) :
     (orbit G x).ncard * Nat.card (N ⊓ stabilizer G x : Subgroup G) ∣ Nat.card G := by
   have h4 : Nat.card (stabilizer G x) * (stabilizer G x).index = Nat.card G :=
@@ -56,6 +57,7 @@ theorem dvd_orbit_right (N : Subgroup G) (x : X) :
   rw [← h4, mul_comm (Nat.card (stabilizer G x))]
   exact Nat.mul_dvd_mul_left _ (Subgroup.card_dvd_of_le inf_le_right)
 
+omit [Finite G] in
 theorem dvd_orbit_of_le (K : Subgroup G) (x : X) (hK : K ≤ stabilizer G x) :
     (orbit G x).ncard * Nat.card K ∣ Nat.card G := by
   have h4 : Nat.card (stabilizer G x) * (stabilizer G x).index = Nat.card G :=
@@ -66,7 +68,7 @@ theorem dvd_orbit_of_le (K : Subgroup G) (x : X) (hK : K ≤ stabilizer G x) :
 
 end Dvd
 
-@[expose] def L7 : List ℕ := [1, 15180, 3400320, 32643072, 28336, 54405120, 82575360]
+def L7 : List ℕ := [1, 15180, 3400320, 32643072, 28336, 54405120, 82575360]
 
 theorem nO_mem : ∀ o : Option (Fin 6), nO KernelJ4Hub.nD o ∈ L7 := by decide
 

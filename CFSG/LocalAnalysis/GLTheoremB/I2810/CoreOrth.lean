@@ -19,6 +19,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.CoreAux
 section Orth
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] [W.Normal] in
 theorem omega_model_of_coords_proof {ι : Type} [Fintype ι] [DecidableEq ι]
     (Q₀ : (ι → ZMod 2) → ZMod 2) {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P]
     [Module (ZMod 2) P] [Finite P]
@@ -175,7 +176,7 @@ theorem orth_coords_of_perfect {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [
           ∀ v, StatedQuadPlus (n + 1) (ZMod 2) (φ v) = Q v) ∨
         (∃ φ : P ≃ₗ[ZMod 2] (Fin (n + 1 - 1) ⊕ Fin (n + 1 - 1) ⊕ Fin 2 → ZMod 2),
           ∀ v, StatedQuadMinus (n + 1) (ZMod 2) 1 1 (φ v) = Q v)) := by
-  haveI : FiniteDimensional (ZMod 2) P := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) P := Module.Finite.of_finite
   have h3 : 3 ≤ Module.finrank (ZMod 2) P := by
     by_contra hlt
     exact hnt (eq_bot_of_isPerfect_of_finrank_le_two (by omega) _ hperf)
@@ -186,11 +187,11 @@ theorem orth_coords_of_perfect {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [
     have hφ' : ∀ v, StatedQuadMinus (k + 1) (ZMod 2) 1 1 (φ v) = Q v := fun v => by
       rw [← CFSG.LieType.Universal.Spin.coe_quadMinus]; exact hφ v
     have hdim : Module.finrank (ZMod 2) P = k + k + 2 := by
-      rw [LinearEquiv.finrank_eq φ, Module.finrank_fintype_fun_eq_card]; simp <;> omega
+      rw [LinearEquiv.finrank_eq φ, Module.finrank_fintype_fun_eq_card]; simp; omega
     exact ⟨k, by omega, Or.inr ⟨φ, hφ'⟩⟩
   · obtain ⟨φ, hφ⟩ := (hstd : IsPlusSpace Q m)
     have hdim : Module.finrank (ZMod 2) P = m + m := by
-      rw [LinearEquiv.finrank_eq φ, Module.finrank_fintype_fun_eq_card]; simp <;> omega
+      rw [LinearEquiv.finrank_eq φ, Module.finrank_fintype_fun_eq_card]; simp
     obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
     have hφ' : ∀ v, StatedQuadPlus (n + 1) (ZMod 2) (φ v) = Q v := fun v => by
       rw [← CFSG.LieType.Universal.Spin.coe_quadPlus]; exact hφ v

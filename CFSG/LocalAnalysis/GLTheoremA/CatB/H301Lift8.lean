@@ -20,7 +20,7 @@ theorem barAut_mem_inner_of_pPrimePerfect {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 
     {L Q : Subgroup G} (hout : Nat.card (Outer (PQuot p L)) ≤ 2) (hQ : S10.PPrimePerfect p Q)
     (hQN : Q ≤ Subgroup.normalizer (L : Set G)) {q : G} (hq : q ∈ Q) :
     barAut p L ⟨q, hQN hq⟩ ∈ inner (PQuot p L) := by
-  haveI : Finite (MulAut (PQuot p L)) := finite_mulAut
+  have : Finite (MulAut (PQuot p L)) := finite_mulAut
   set f : ↥Q →* Outer (PQuot p L) :=
     (QuotientGroup.mk' (inner (PQuot p L))).comp ((barAut p L).comp (Subgroup.inclusion hQN))
     with hf
@@ -60,7 +60,7 @@ private theorem eq_bot_of_perfect_of_isPGroup' {p : ℕ} [Fact p.Prime] {Q : Typ
     | succ k ih => rw [Subgroup.lowerCentralSeries_succ, ih, hperf]
   rw [← h n, hn]
 
-private theorem le_of_perfect_of_pow_mem {p : ℕ} [Fact p.Prime] {X N A Q : Subgroup G} (hNX : N ≤ X)
+private theorem le_of_perfect_of_pow_mem {p : ℕ} [Fact p.Prime] {X N A Q : Subgroup G} (_hNX : N ≤ X)
     (hn : (N.subgroupOf X).Normal) (hAX : A ≤ X) (hQA : Q ≤ A) (hQ : ⁅Q, Q⁆ = Q)
     (hA : ∀ a ∈ A, ∃ k : ℕ, a ^ (p ^ k) ∈ N) : Q ≤ N := by
   set mk : ↥X →* ↥X ⧸ N.subgroupOf X := QuotientGroup.mk' (N.subgroupOf X) with hmk
@@ -84,6 +84,7 @@ private theorem le_of_perfect_of_pow_mem {p : ℕ} [Fact p.Prime] {X N A Q : Sub
   rw [hRbot, Subgroup.mem_bot, hmk, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
   exact h1
 
+omit [Finite G] in
 private theorem exists_pow_eq_mul {L : Subgroup G} {c l : G}
     (hcL : c ∈ Subgroup.normalizer (L : Set G)) (hl : l ∈ L) (n : ℕ) :
     ∃ l' ∈ L, (c * l) ^ n = c ^ n * l' := by
@@ -105,7 +106,7 @@ theorem le_of_glaPComponent_of_le_cx {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x
       Nat.card A ≤ p)
     (hLn : cx x ≤ Subgroup.normalizer (L : Set G)) {W Q : Subgroup G} (hW : W ≤ cx x)
     (hQ : GLAPComponent p W Q) : Q ≤ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQX : Q ≤ cx x := hQ.1.trans hW
   have hQN : Q ≤ Subgroup.normalizer (L : Set G) := hQX.trans hLn
   have hpp : S10.PPrimePerfect p Q := S10.pPrimePerfect_of_glaPComponent hQ
@@ -172,7 +173,7 @@ theorem card_outer_le_two
   obtain ⟨i, hi, ⟨f⟩⟩ := hcat
   have hi' : i = .sporadic row.name := hi
   subst hi'
-  haveI : IsSimpleGroup (PQuot p L) := eK.isSimpleGroup_congr.mpr hsimple
+  have : IsSimpleGroup (PQuot p L) := eK.isSimpleGroup_congr.mpr hsimple
   refine hOut (PQuot p L) inferInstance ⟨eK.symm a, eK.symm b, fun h => hab ?_⟩ row.name
     ⟨eK.trans f⟩
   have := congrArg eK h
@@ -195,7 +196,7 @@ theorem SporCfgCore.hK6_sandwich
   right
   have hp : p.Prime := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
   have hp2 : p ≠ 2 := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hout := card_outer_le_two hOut hp hL hrow hc
   set W : Subgroup G := Subgroup.centralizer (c.D : Set G) ⊓
     Subgroup.centralizer (centerOf (cfgR0 c.R c.D) : Set G) with hWdef
@@ -252,7 +253,7 @@ theorem SporCfgCore.hK6_layer
   right
   refine ⟨hKΛ, ?_⟩
   have hp : p.Prime := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Λ : Subgroup G := GLAPLayer p (Subgroup.centralizer (c.D : Set G) ⊓
     Subgroup.centralizer (centerOf (cfgR0 c.R c.D) : Set G)) with hΛdef
   set O : Subgroup G := GLAPPrimeCoreOf p (cx x) with hO

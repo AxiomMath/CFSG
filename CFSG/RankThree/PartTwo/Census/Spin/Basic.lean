@@ -407,8 +407,8 @@ theorem IntRootData.ofRat (hS : TauCeti.IsSerreSystem ℚ CM H E F) (hdiag : ∀
     rw [h, ofNat_zsmul]
   -- Torsion-freeness of `V` and of its endomorphism ring is not an instance any more, so it
   -- is supplied locally from the `ℚ`-module structures.
-  haveI : HasUniqueDiv V := HasUniqueDiv.of_module_rat V
-  haveI : HasUniqueDiv (Module.End ℚ V) :=
+  have : HasUniqueDiv V := HasUniqueDiv.of_module_rat V
+  have : HasUniqueDiv (Module.End ℚ V) :=
     HasUniqueDiv.of_module_rat (Module.End ℚ V)
   have hEFE : ∀ i, E i * F i * E i = E i := fun i =>
     TauCeti.Sl2.e_mul_f_mul_e_of_mul_self_eq_zero (hE2 i) (hEF i) (hHE i)

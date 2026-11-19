@@ -15,10 +15,10 @@ theorem isPerfect_center_of_isLThreePi {X : Type} [Group X] (hL : IsLThreePi X)
   have hperf : Group.IsPerfect X := by
     obtain ⟨p, e, hp, he, hcase⟩ := hL
     rcases hcase with ⟨hq, ⟨φ⟩⟩ | ⟨hq, ⟨φ⟩⟩
-    · haveI := (isPerfect_center_projSL p e he hq).1
+    · have := (isPerfect_center_projSL p e he hq).1
       exact Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
     · by_cases hq2 : 2 < p ^ e
-      · haveI := (isPerfect_center_projSU p e he hq hq2).1
+      · have := (isPerfect_center_projSU p e he hq hq2).1
         exact Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       · exfalso
         have hp2 : 2 ≤ p := hp.out.two_le
@@ -32,9 +32,9 @@ theorem isPerfect_center_of_isLThreePi {X : Type} [Group X] (hL : IsLThreePi X)
         have hp2' : p = 2 := by rw [pow_one] at hq2; omega
         subst hp2'
         apply hns
-        haveI := isSolvable_projSU_two
+        have := isSolvable_projSU_two
         exact Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
-  haveI : Nontrivial X := by
+  have : Nontrivial X := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     exact hns (Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _)

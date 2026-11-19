@@ -34,7 +34,7 @@ theorem card_SL_inf_centralizer_thirteen {P : Subgroup G33} (hP : Nat.card P = 1
 
 theorem sl33_centralizer_zpowers {D : G33} (hDS : D ∈ SL33) (hD : orderOf D = 13) {c : G33}
     (hcS : c ∈ SL33) (hc : c * D = D * c) : c ∈ Subgroup.zpowers D := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   set P : Subgroup G33 := Subgroup.zpowers D with hPdef
   have hP : Nat.card P = 13 := by rw [hPdef, Nat.card_zpowers, hD]
   have hPS : P ≤ SL33 ⊓ Subgroup.centralizer (P : Set G33) := by

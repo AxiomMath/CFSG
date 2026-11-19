@@ -50,10 +50,10 @@ theorem ggKGRootDatum_projectiveSL {K : Type} [Field K] [Finite K] [CharP K 2] {
         J ≤ LargeEvenLayer (Subgroup.centralizer ({a} : Set (projectiveSL d K))))
     (r : ℕ) : GGKGRootDatum p r (projectiveSL d K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Nonempty K := ⟨0⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
+  have : Fintype K := Fintype.ofFinite K
   intro E hE h3 _ hsc
   have hZ : Subgroup.center (projectiveSL d K) = ⊥ := center_projectiveSL_eq_bot_charTwo
   have hcinj : Function.Injective
@@ -72,7 +72,7 @@ theorem ggKGRootDatum_projectiveSL {K : Type} [Field K] [Finite K] [CharP K 2] {
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpK
   have hpK0 : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ p = 1 := (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : rootMat g ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -222,12 +222,12 @@ private theorem card_le_psl_small_lin {d p : ℕ} {K : Type} [Field K] [Finite K
     (hd : 1 ≤ d) (hd5 : d ≤ 5) (E : Subgroup (projectiveSL d K)) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ 2 := by
   classical
-  haveI : Nonempty K := ⟨0⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpq
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) (p := p) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζo := CoordSL.root_isPrimitiveRoot (g := g) hp hpK0 hgd
   have hCdet : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : (CoordSL.rootMat g) ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -238,7 +238,7 @@ private theorem card_le_psl_small_lin {d p : ℕ} {K : Type} [Field K] [Finite K
   have hcp : ¬ p ∣ Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin d) K)) := by
     intro h
     exact hpK' (h.trans (card_center_specialLinear_dvd (by omega)))
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (TableB.IsElemAbelian.comm hE a.2 b.2) }
   have hV : ∀ v : ↥E, v ^ p = 1 := fun v => Subtype.ext (hE.2 v v.2)

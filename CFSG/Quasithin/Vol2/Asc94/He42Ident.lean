@@ -25,21 +25,21 @@ open CFSG.ComponentClassification.WittDesign CFSG.Quasithin.A94.He42Plane
 
 theorem he42id_isSolvable_of_card_six (K : Type) [Group K] (h : Nat.card K = 6) :
     Group.IsSolvable K := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (G := K) (by rw [h]; norm_num)
   have hAcard : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, hx]
   have hidx : (Subgroup.zpowers x).index = 2 := by
     have := Subgroup.card_mul_index (Subgroup.zpowers x)
     rw [hAcard, h] at this
     omega
-  haveI : (Subgroup.zpowers x).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (Subgroup.zpowers x).Normal := Subgroup.normal_of_index_eq_two hidx
   have hq : Nat.card (K ⧸ Subgroup.zpowers x) = 2 := by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.zpowers x)
     rw [h, hAcard] at this
     omega
-  haveI : IsCyclic (K ⧸ Subgroup.zpowers x) := isCyclic_of_prime_card hq
+  have : IsCyclic (K ⧸ Subgroup.zpowers x) := isCyclic_of_prime_card hq
   exact Group.isSolvable_of_subgroup_quotient (Subgroup.zpowers x)
 
 theorem he42id_eq_one_of_perfect_of_solvable {L K : Type} [Group L] [Group K]
@@ -171,7 +171,7 @@ theorem typeL34_of_plane
     have h2 : g * n * g⁻¹ = n := by rw [← h1, mul_inv_cancel_right]
     rw [h2]
     exact hn⟩
-  haveI := hBnormal
+  have := hBnormal
   set α : L →* Equiv.Perm (L ⧸ L₁) := MulAction.toPermHom L (L ⧸ L₁) with hα
   have hαapply : ∀ (g : L) (p : L ⧸ L₁), α g p = g • p := fun g p => rfl
   have hker_eq : α.ker = B := by
@@ -215,13 +215,13 @@ theorem typeL34_of_plane
     rw [hψapply, he42id_map_permCongr, ← he]
     rw [mem_blockAut.1 (he42id_perm_mem_blockAut L₁ L₂ g) (B'.map e.symm.toEmbedding), he,
       he42id_map_symm_map]
-  haveI := hnorm
+  have := hnorm
   set ψ' : L →* ↥(blockAut PG24Lines) := ψ.codRestrict (blockAut PG24Lines) hψmem with hψ'
   set S := (rhoGL.comp slHom).range with hS
   have hNcard : Nat.card (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) = 6 := by
     rw [← Subgroup.index_eq_card]
     exact hrel
-  haveI : Group.IsSolvable (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) :=
+  have : Group.IsSolvable (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) :=
     he42id_isSolvable_of_card_six _ hNcard
   have hf := he42id_eq_one_of_perfect_of_solvable hperf
     ((QuotientGroup.mk' (S.subgroupOf (blockAut PG24Lines))).comp ψ')
@@ -243,7 +243,7 @@ theorem typeL34_of_plane
       exact h'
     · intro h
       exact Subtype.ext h
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
   have hrange : ψS.range = ⊤ := by
     apply Subgroup.eq_top_of_card_eq
     rw [← Nat.card_congr (QuotientGroup.quotientKerEquivRange ψS).toEquiv, hψSker, hcardQB,

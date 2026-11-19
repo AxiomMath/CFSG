@@ -152,7 +152,7 @@ theorem lift_comp_substW {K H : Type*} [Group K] [Group H] (φ : K →* H)
       map_mul, map_mul]
     congr 1
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [lift_mk_invW, map_inv]
       simp
     · simp

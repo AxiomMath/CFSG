@@ -3,7 +3,7 @@ module
 public import CFSG.LinearAlgebra.LinearGroups.Generation
 public import CFSG.RankThree.PartOne.CTP.SeitzDiag
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar
@@ -47,7 +47,7 @@ theorem transvection_mul_comm_of_diag {X : SL(3, F)}
   fin_cases a <;> fin_cases b <;> (try exact absurd rfl hab) <;>
     (fin_cases i <;> fin_cases j <;>
       simp_all [Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.single_apply] <;> (try ring))
+        Matrix.single_apply]; (try ring))
 
 def diagEntry (P : Subgroup SL(3, F))
     (hdiag : ∀ x ∈ P, ∀ i j : Fin 3, i ≠ j → (x : Matrix (Fin 3) (Fin 3) F) i j = 0)

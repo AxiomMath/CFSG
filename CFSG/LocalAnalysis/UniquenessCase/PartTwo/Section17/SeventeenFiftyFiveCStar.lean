@@ -73,7 +73,7 @@ private theorem pCoreOf_le_cStar1755 (D : Data G) (L : Subgroup G) (hLM : L ≤ 
 
 private theorem pCoreOf_1755_le_T (D : Data G) (L : Subgroup G) (hLM : L ≤ D.M)
     (hNL : D.M ≤ normalizer (L : Set G)) : pCoreOf 2 L ≤ D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2M : pCoreOf 2 L ≤ D.M :=
     (Subgroup.map_subtype_le (K := CFSG.pCore 2 ↥L)).trans hLM
   have hO2n : D.M ≤ normalizer (pCoreOf 2 L : Set G) :=
@@ -102,7 +102,7 @@ private theorem T0_le_Q0 (D : Data G) (L : Subgroup G)
   intro t ht
   exact Subgroup.mem_inf.mpr ⟨ht.2, Subgroup.le_normalizer ht⟩
 
-private theorem T_le_normalizer_Q0 (D : Data G) (L : Subgroup G) (hLM : L ≤ D.M)
+private theorem T_le_normalizer_Q0 (D : Data G) (L : Subgroup G) (_hLM : L ≤ D.M)
     (hNL : D.M ≤ normalizer (L : Set G)) :
     D.T ≤ normalizer (Q0_1755 D L hNL : Set G) := by
   have hMc : D.M ≤ normalizer (cStar1755 D L hNL : Set G) := le_normalizer_cStar1755 D L hNL
@@ -124,7 +124,7 @@ private theorem q0_1755_le_M (D : Data G) (L : Subgroup G) (hLM : L ≤ D.M)
 private theorem odd_relIndex_T0_Q0 (D : Data G) (L : Subgroup G) (hLM : L ≤ D.M)
     (hNL : D.M ≤ normalizer (L : Set G)) :
     Odd ((T0_1755 D L hNL).relIndex (Q0_1755 D L hNL)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcM : cStar1755 D L hNL ≤ D.M := cStar1755_le_M D L hNL
   have hMc : D.M ≤ normalizer (cStar1755 D L hNL : Set G) := le_normalizer_cStar1755 D L hNL
   have hMsup : D.M ≤ normalizer ((L ⊔ cStar1755 D L hNL : Subgroup G) : Set G) := fun m hm =>
@@ -192,7 +192,7 @@ theorem ker_phi_le_T0_1755 (D : Data G) {L : Subgroup G} (hLM : L ≤ D.M)
 theorem T0_eq_sup_1755 (D : Data G) {L : Subgroup G} (hLM : L ≤ D.M)
     (hNL : D.M ≤ normalizer (L : Set G)) :
     T0_1755 D L hNL = (D.T ⊓ L) ⊔ (D.T ⊓ cStar1755 D L hNL) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcM, hMc, -⟩ := cStar_T0_Q0_facts_1755 D hLM hNL
   exact inf_sup_eq_sup_inf_of_isSylowOf D.sylowM hLM hcM hNL hMc
 
@@ -228,8 +228,8 @@ theorem exists_torus_mem_Q0_1755 (D : Data G) {L : Subgroup G} (hLM : L ≤ D.M)
     (hp : p.Prime) (hpn : p ∣ 2 ^ n - 1) :
     ∃ h ∈ L ⊓ Q0_1755 D L hNL, orderOf h = p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hO2, -, -, -, -, -, -, -⟩ := cStar_T0_Q0_facts_1755 D hLM hNL
   obtain ⟨hO2C, hO2T⟩ := le_inf_iff.1 hO2
   have hSyl : CFSG.QuasithinUnique.IsSylowTwoOf (L ⊓ D.T) L := by

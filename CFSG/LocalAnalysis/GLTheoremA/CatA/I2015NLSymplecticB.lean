@@ -31,9 +31,7 @@ private theorem sympCommAct {u v : Fin r ⊕ Fin r → K} (huv : spForm r K u v 
   have h3 : spForm r K v u = -1 := by rw [← spForm_isAlt.neg_eq u v, huv]
   rw [commutatorElement_def, spEnd_mul, spEnd_mul, spEnd_mul, spTransvection_inv,
     spTransvection_inv]
-  simp only [Module.End.mul_apply, spEnd_spTransvection, map_add, map_smul, map_sub, map_neg,
-    LinearMap.add_apply, LinearMap.smul_apply, LinearMap.sub_apply, LinearMap.neg_apply,
-    huv, h1, h2, h3, smul_eq_mul]
+  simp only [Module.End.mul_apply, spEnd_spTransvection, map_add, map_smul, huv, h1, h2, h3]
   module
 
 private theorem sympInvN (k : Subfield K) (W : Submodule K (Fin r ⊕ Fin r → K))
@@ -194,7 +192,7 @@ theorem sympNonLocalizedCommutator [Finite K] (k : Subfield K) (hk : Nat.card k 
     NonLocalized ((proj 2 K).comp
       ((subfieldSpHom 2 k).comp (commutator (StatedSp 2 k)).subtype)).range := by
   classical
-  haveI : CharP K 2 := (RingHom.charP_iff k.subtype k.subtype.injective 2).mp (sympCharP_two hk)
+  have : CharP K 2 := (RingHom.charP_iff k.subtype k.subtype.injective 2).mp (sympCharP_two hk)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   let P := spProjData 2 K

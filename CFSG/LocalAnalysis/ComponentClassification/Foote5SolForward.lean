@@ -216,7 +216,7 @@ theorem anchor_at {J K : Subgroup G} (hML : GSMirrorMaximal J) (hK : MirrorGood 
   obtain ⟨P₂, hvP₂⟩ := (hv2.comap_subtype (K := N)).exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq ↥N P₁ P₂
   set P := (P₂ : Subgroup ↥N).map N.subtype with hP
-  have hP2 : IsPGroup 2 P := P₂.isPGroup'.map N.subtype
+  have hP2 : IsPGroup 2 P := P₂.isPGroup.map N.subtype
   have hPN : P ≤ N := map_subtype_le _
   have hvP : v ∈ P := ⟨⟨v, hvK⟩, hvP₂ (mem_subgroupOf.mpr (mem_zpowers v)), rfl⟩
   have hw'P : (MulAut.conj (y : G)) w ∈ P := by

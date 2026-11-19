@@ -42,16 +42,16 @@ theorem r2b_le_centralizer_of_hyperplanes {G : Type*} [Group G] [Finite G] {p : 
       W ≤ Subgroup.centralizer ((R ⊓ Subgroup.centralizer (Y : Set G) : Subgroup G) : Set G)) :
     W ≤ Subgroup.centralizer (R : Set G) := by
   classical
-  haveI : Nontrivial A := by
+  have : Nontrivial A := by
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     have hp2 : 2 ≤ p := hp.out.two_le
     rw [hAcard]
     nlinarith
-  haveI : IsElementaryAbelian p A :=
+  have : IsElementaryAbelian p A :=
     { is_comm := hA.1.is_comm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (hA.2 x x.2) }
-  letI : Subgroup.Normalizes A R := ⟨hAR⟩
+  let : Subgroup.Normalizes A R := ⟨hAR⟩
   have hgen : ⨆ (B : Subgroup A) (_ : B.index = p), fixedPointSubgroup B R = ⊤ :=
     CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := A) (H := R) hRp
   have hle : (⨆ (B : Subgroup A) (_ : B.index = p), fixedPointSubgroup B R) ≤

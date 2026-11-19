@@ -51,7 +51,7 @@ theorem irreducible_cyclotomic_eleven : Irreducible (cyclotomic 11 (ZMod 2)) := 
     decide
   · intro m hm hm0
     interval_cases m <;>
-      (intro h; have := congrArg Units.val h; simp at this <;> (revert this; decide))
+      (intro h; have := congrArg Units.val h; simp at this; (revert this; decide))
 
 theorem ten_dvd_finrank_of_sum_eq_zero [FiniteDimensional (ZMod 2) M]
     {T : Module.End (ZMod 2) M} (hS : ∑ i ∈ Finset.range 11, T ^ i = 0) :

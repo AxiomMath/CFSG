@@ -30,13 +30,13 @@ theorem actionCommutator_eq_bot_of_fixed_points_eq (V : Type*) [CommGroup V] (hV
   have hTT : ∀ v, T (T v) = v⁻¹ * x (x v) := by
     intro v
     rw [hT (T v), hT v]
-    simp only [map_mul, map_inv, hinv, mul_inv, inv_inv]
+    simp only [map_mul, hinv]
     rw [show v * x v * (x v * x (x v)) = v * x (x v) * (x v * x v) by ac_rfl, hsq, mul_one]
 
   have hfix : ∀ w, T w = 1 ↔ T (T w) = 1 := by
     intro w
     have h := Set.ext_iff.1 hC w
-    simp only [Set.mem_setOf_eq] at h
+    simp only [Set.mem_ofPred_eq] at h
     have h2 : (x ^ 2) w = x (x w) := by rw [sq, MulAut.mul_apply]
     rw [h2] at h
     rw [hTT w, hT w, inv_mul_eq_one, inv_mul_eq_one]
@@ -55,7 +55,7 @@ theorem actionCommutator_eq_bot_of_fixed_points_eq (V : Type*) [CommGroup V] (hV
       rw [e, Function.iterate_add_apply, pow_add, MulAut.mul_apply]
       simp only [ih]
       generalize x ^ 2 ^ j = y
-      simp only [map_mul, map_inv, hinv]
+      simp only [map_mul, hinv]
       rw [show y (y v) * y v * (y v * v) = y (y v) * v * (y v * y v) by ac_rfl, hsq, mul_one]
 
   have hall : ∀ n v, T^[1 + n] v = 1 → T v = 1 := by

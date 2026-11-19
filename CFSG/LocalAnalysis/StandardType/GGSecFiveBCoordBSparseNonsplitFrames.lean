@@ -84,23 +84,23 @@ theorem GGConfig.exists_omKFrame_of_twDNonsplit {G : Type} [Group G] [Finite G] 
             GGSecFiveBPermOmKFrame E Bs L eta π κ χ := by
   classical
   have hp : p.Prime := hcfg.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hcfg.1.2.2.2.2.2.1.2.1
   obtain ⟨f, hf, hpq, hev, hL'⟩ := GGInnerDiagOnLabel.exists_twD_field_of_nonsplit hp hp2 hn hL
   obtain ⟨F, fieldF, finiteF, -, b, c, hF, hbc, -, hN, -, -, -, σ, -, Θ,
     -, -, hΘ, -, -, -, -, hZL, χL, -⟩ :=
     ggTBJOrthLeft_nativeModel_of_twD hcfg hB.symm hn hf hLB hL'
-  letI : Field F := fieldF
-  letI : Finite F := finiteF
-  letI := Fintype.ofFinite F
-  letI := Fintype.ofFinite (GaloisField 2 f)
+  let : Field F := fieldF
+  let : Finite F := finiteF
+  let := Fintype.ofFinite F
+  let := Fintype.ofFinite (GaloisField 2 f)
   let φ : F ≃+* GaloisField 2 f :=
     FiniteField.ringEquivOfCardEq (K := F) (K' := GaloisField 2 f) (by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF,
         GaloisField.card 2 f (by omega)])
   have hUF : UnitaryFieldData 2 f (GaloisField 2 (2 * f)) :=
     ⟨Nat.prime_two, by omega, GaloisField.card 2 (2 * f) (by omega)⟩
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := galoisAlgebra hUF
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := galoisAlgebra hUF
   have E : QuadExt (GaloisField 2 f) (GaloisField 2 (2 * f))
       (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) := galoisQuadExt hUF
   have hodd : Odd (n - 1) := by

@@ -139,12 +139,12 @@ theorem j4d_pair_detects_same
       Subgroup.centralizer {rootDiagUnit τ b})
     {γ β : Fin τ.rank → ℤ}
     (hγcomp : γ ∈ componentRoots (rootCharHom a) i)
-    (hβcomp : β ∈ componentRoots (rootCharHom a) i)
+    (_hβcomp : β ∈ componentRoots (rootCharHom a) i)
     (hγr : IsRoot τ γ) (hβr : IsRoot τ β)
     (hργ : S.ρ γ = β) (hρβ : S.ρ β = γ) (horth : iform γ β = 0) (hne : γ ≠ β) :
     rootChar b γ = 1 ∧ rootChar b β = 1 := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
   have h2L : (2 : L) = 0 := CharP.cast_eq_zero L 2
   obtain ⟨w, hw⟩ := j4e_exists_cubeRoot h2L
   have hw0 : w ≠ 0 := by

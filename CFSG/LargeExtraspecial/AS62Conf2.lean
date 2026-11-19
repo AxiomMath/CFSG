@@ -84,14 +84,14 @@ theorem exists_σ_eq_klein₁ (hc : ConfHyp S H) :
   obtain ⟨q, hq, h1⟩ := L.exists_QG_σ_one_eq hc (j := 2) (by decide)
   refine ⟨q, hq, ?_⟩
   rcases L.σ_mem_klein hc hq with h | h | h | h <;> rw [h] at h1 ⊢ <;>
-    first | rfl | exact absurd h1 (by decide)
+    exact absurd h1 (by decide)
 
 theorem exists_σ_eq_klein₂ (hc : ConfHyp S H) :
     ∃ q : H, (q : G) ∈ S.QG ∧ L.σ q = Equiv.swap 1 3 * Equiv.swap 2 4 := by
   obtain ⟨q, hq, h1⟩ := L.exists_QG_σ_one_eq hc (j := 3) (by decide)
   refine ⟨q, hq, ?_⟩
   rcases L.σ_mem_klein hc hq with h | h | h | h <;> rw [h] at h1 ⊢ <;>
-    first | rfl | exact absurd h1 (by decide)
+    exact absurd h1 (by decide)
 
 end Label
 

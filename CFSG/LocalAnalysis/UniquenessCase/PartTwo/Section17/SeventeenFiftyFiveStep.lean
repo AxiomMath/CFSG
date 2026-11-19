@@ -128,12 +128,12 @@ theorem relIndex_inf_normalizer_of_isSz_bar2
   have hM : CFSG.Blueprint.SuzukiModel (borelQuotL L) 2 n :=
     (CFSG.Blueprint.LieModel.suzukiModel hSzbar).2
   obtain ⟨-, a, ha, K, hfield, hfin, hf, hKcard, ⟨e0⟩⟩ := hM
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hKa : Nat.card K = 2 ^ (2 * a + 1) := by rw [hKcard, hf]
   let e : borelQuotL L ≃* CFSG.Open.Sz a :=
     e0.trans (CFSG.Quasithin.Stroth.suzukiGroupEquivSz a K hKa)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUbar : CFSG.QuasithinUnique.IsSylowTwoOf (borelQuotU L U) (borelQuotL L) :=
     isSylowTwoOf_map_borelQuotPi hSyl
   have hUK : borelQuotU L U ≤ borelQuotL L := hUbar.1
@@ -225,7 +225,7 @@ theorem exists_conj_le_normalizer_inf_of_isL2_bar2 {L U X : Subgroup G} {n r : �
     (hL2 : IsL2 (Bar2 L) n) (hSyl : CFSG.QuasithinUnique.IsSylowTwoOf U L)
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ n - 1) (hXL : X ≤ L) (hXcard : Nat.card X = r) :
     ∃ g ∈ L, X.map (MulAut.conj g).toMonoidHom ≤ L ⊓ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hX : IsPGroup r X :=
     IsPGroup.of_card (n := 1) (by rw [hXcard, pow_one])
   exact CFSG.LieType.Chevalley.exists_conj_le_of_not_dvd_index hXL hX
@@ -236,7 +236,7 @@ theorem exists_conj_le_normalizer_inf_of_isSz_bar2
     (hSz : IsSz (Bar2 L) n) (hSyl : CFSG.QuasithinUnique.IsSylowTwoOf U L)
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ n - 1) (hXL : X ≤ L) (hXcard : Nat.card X = r) :
     ∃ g ∈ L, X.map (MulAut.conj g).toMonoidHom ≤ L ⊓ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hX : IsPGroup r X :=
     IsPGroup.of_card (n := 1) (by rw [hXcard, pow_one])
   exact CFSG.LieType.Chevalley.exists_conj_le_of_not_dvd_index hXL hX
@@ -315,7 +315,7 @@ theorem powerMap_of_isSz_bar2
       isSimpleGroup_bar2_of_isL2_or_isSz (Or.inr hSz)
     have hperf : Group.IsPerfect (Bar2 L) :=
       isPerfect_bar2_of_isL2_or_isSz (Or.inr hSz)
-    haveI : Nontrivial (Bar2 L) :=
+    have : Nontrivial (Bar2 L) :=
       CFSG.ComponentClassification.Quasisimple.nontrivial
         (CFSG.ComponentClassification.Quasisimple.simple_of_perfect (Bar2 L))
     have hnc : ∃ a b : Bar2 L, a * b ≠ b * a := by
@@ -527,8 +527,8 @@ theorem exists_conj_eq_of_card_prime {U V P : Subgroup G} {r : ℕ}
     (hP : IsPGroup 2 P) (hUP : U ≤ Subgroup.normalizer (P : Set G))
     (hVY : V ≤ U ⊔ P) :
     ∃ p ∈ P, V = U.map (MulAut.conj p).toMonoidHom := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := U ⊔ P with hY
   have hU2 : IsPGroup r U := IsPGroup.of_card (n := 1) (by rw [hU, pow_one])
   have hV2 : IsPGroup r V := IsPGroup.of_card (n := 1) (by rw [hV, pow_one])
@@ -645,14 +645,15 @@ theorem exists_inverted_of_inverts_mod_pCore {L X : Subgroup G} {r : ℕ}
     _ = y := hyval.symm
     _ = x⁻¹ := hy
 
+omit [Finite G] in
 theorem exists_involution_inverts_of_isL2
     {L : Subgroup G} {n r : ℕ} (hL2 : IsL2 (Bar2 L) n)
     {x : Bar2 L} (hr : r.Prime) (hr2 : r ≠ 2) (hxr : orderOf x = r) :
     ∃ s : Bar2 L, orderOf s = 2 ∧ s * x * s⁻¹ = x⁻¹ := by
   obtain ⟨-, K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hL2 (by decide)
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hf : 2 ≤ n := s13_two_le_of_isL2 hL2
   let e' : Bar2 L ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
@@ -661,6 +662,7 @@ theorem exists_involution_inverts_of_isL2
   obtain ⟨s, hs2, hsinv⟩ := hstruct.exists_involution_inverts x (by rwa [hxr]) (by rwa [hxr])
   exact ⟨s, hs2, hsinv⟩
 
+omit [Finite G] in
 theorem exists_involution_inverts_of_isSz
     {L : Subgroup G} {n r : ℕ} (hSz : IsSz (Bar2 L) n)
     {x : Bar2 L} (hr : r.Prime) (hr2 : r ≠ 2) (hxr : orderOf x = r) :
@@ -668,8 +670,8 @@ theorem exists_involution_inverts_of_isSz
   have hM : CFSG.Blueprint.SuzukiModel (Bar2 L) 2 n :=
     (CFSG.Blueprint.LieModel.suzukiModel hSz).2
   obtain ⟨-, a, ha, K, hfield, hfin, hf, hKcard, ⟨e0⟩⟩ := hM
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hKa : Nat.card K = 2 ^ (2 * a + 1) := by rw [hKcard, hf]
   let e : Bar2 L ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a :=
     e0.trans (CFSG.ShultStronglyClosedTI.SuzukiModel.suzukiGroupEquivSuzukiMatrixGroup
@@ -679,6 +681,7 @@ theorem exists_involution_inverts_of_isSz
   obtain ⟨s, hs2, hsinv⟩ := hstruct.exists_involution_inverts x (by rwa [hxr]) (by rwa [hxr])
   exact ⟨s, hs2, hsinv⟩
 
+omit [Finite G] in
 theorem exists_involution_inverts_of_shape
     {L : Subgroup G} {n r : ℕ}
     (hshape : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n)

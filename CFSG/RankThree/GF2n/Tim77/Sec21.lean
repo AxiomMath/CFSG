@@ -133,11 +133,11 @@ theorem oddCore_centralizes_pair {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d�
   have hcard : 2 ^ 2 ≤ Nat.card V := by
     rw [hV.card_four]
     norm_num
-  haveI := hV
-  haveI : CFSG.IsElementaryAbelian 2 V :=
+  have := hV
+  have : CFSG.IsElementaryAbelian 2 V :=
     { toIsMulCommutative := IsKleinFour.isMulCommutative
       exponent_dvd_p := by rw [IsKleinFour.exponent_two] }
-  letI : MulDistribMulAction V (CFSG.oddCore Y) :=
+  let : MulDistribMulAction V (CFSG.oddCore Y) :=
     MulDistribMulAction.compHom (CFSG.oddCore Y)
       ((MulAut.conjNormal (H := CFSG.oddCore Y)).comp V.subtype)
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := 2) (A := V)
@@ -240,7 +240,7 @@ theorem fittingSubgroupOf_no_involution {Y : Type} [Group Y] [Finite Y] {Q : Sub
 theorem eq_of_commute_mem {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
     (h : Hyp Y D d₀) (h2 : CFSG.pCore 2 Y = ⊥) {d e : Y} (hd : d ∈ D) (he : e ∈ D)
     (hde : d * e = e * d) : d = e := by
-  haveI : Group.IsSolvable Y := h.solv
+  have : Group.IsSolvable Y := h.solv
   by_contra hne
   have hd2 : d * d = 1 := mul_self_eq_one_of_orderOf_two (h.root.1 d hd)
   have he2 : e * e = 1 := mul_self_eq_one_of_orderOf_two (h.root.1 e he)
@@ -286,7 +286,7 @@ theorem eq_of_commute_mem {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
   have h2Q : 2 ∣ Nat.card (Subgroup.closure S) := by
     have := orderOf_dvd_natCard (⟨d * e, ht_mem⟩ : Subgroup.closure S)
     rwa [Subgroup.orderOf_mk, htord] at this
-  haveI hFn : (CFSG.fittingSubgroupOf (Subgroup.closure S)).Normal :=
+  have hFn : (CFSG.fittingSubgroupOf (Subgroup.closure S)).Normal :=
     CFSG.fittingSubgroupOf_normal _ hQn
   have hFodd : Odd (Nat.card (CFSG.fittingSubgroupOf (Subgroup.closure S))) :=
     odd_card_of_no_involution _
@@ -306,7 +306,7 @@ theorem eq_of_commute_mem {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
 theorem sylow_centralizes {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
     (h : Hyp Y D d₀) (h2 : CFSG.pCore 2 Y = ⊥) {d : Y} (hd : d ∈ D) {S : Subgroup Y}
     (hS : IsPGroup 2 S) (hdS : d ∈ S) {s : Y} (hs : s ∈ S) : s * d = d * s := by
-  haveI : Group.IsSolvable Y := h.solv
+  have : Group.IsSolvable Y := h.solv
   have hyD : s⁻¹ * d * s ∈ D := conj_inv_mem_D h hd s
   have hyS : s⁻¹ * d * s ∈ S := S.mul_mem (S.mul_mem (S.inv_mem hs) hdS) hs
   have hyd : s⁻¹ * d * s = d := by
@@ -379,7 +379,7 @@ theorem sylow_centralizes {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
 theorem mem_center_mk {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
     (h : Hyp Y D d₀) (h2 : CFSG.pCore 2 Y = ⊥) {d : Y} (hd : d ∈ D) :
     (QuotientGroup.mk d : Y ⧸ CFSG.oddCore Y) ∈ Subgroup.center (Y ⧸ CFSG.oddCore Y) := by
-  haveI : Group.IsSolvable Y := h.solv
+  have : Group.IsSolvable Y := h.solv
   have hdP : IsPGroup 2 (Subgroup.zpowers d) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h.root.1 d hd, pow_one])
   obtain ⟨S, hS⟩ := hdP.exists_le_sylow
@@ -388,7 +388,7 @@ theorem mem_center_mk {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y}
     rw [Subgroup.mem_center_iff]
     intro g
     apply Subtype.ext
-    exact sylow_centralizes h h2 hd S.isPGroup' hdS g.2
+    exact sylow_centralizes h h2 hd S.isPGroup hdS g.2
   have hz : orderOf (⟨d, hdS⟩ : (S : Subgroup Y)) = 2 := by
     rw [Subgroup.orderOf_mk]
     exact h.root.1 d hd
@@ -412,7 +412,7 @@ theorem zStarCase_of_pCore_eq_bot {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d
 
 theorem d0_mem {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp Y D d₀)
     {g : Y} (hg : g ∈ D) (hgN : g ∈ CFSG.pCore 2 Y) : d₀ ∈ CFSG.pCore 2 Y := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   have hg' : IsConj d₀ g := by
     rw [h.cls] at hg
     exact hg
@@ -426,7 +426,7 @@ theorem d0_mem {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp Y
 
 theorem pCore_quot_bot (Y : Type) [Group Y] [Finite Y] :
     CFSG.pCore 2 (Y ⧸ CFSG.pCore 2 Y) = ⊥ := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   obtain ⟨K, hK⟩ : ∃ K : Subgroup Y,
       K = (CFSG.pCore 2 (Y ⧸ CFSG.pCore 2 Y)).comap (QuotientGroup.mk' (CFSG.pCore 2 Y)) :=
     ⟨_, rfl⟩
@@ -478,7 +478,7 @@ theorem lift_commute {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h :
     (hcomm : QuotientGroup.mk' (CFSG.pCore 2 Y) e * QuotientGroup.mk' (CFSG.pCore 2 Y) d =
       QuotientGroup.mk' (CFSG.pCore 2 Y) d * QuotientGroup.mk' (CFSG.pCore 2 Y) e) :
     e * d = d * e := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   have hd2 : d * d = 1 := mul_self_eq_one_of_orderOf_two (h.root.1 d hd)
   have he2 : e * e = 1 := mul_self_eq_one_of_orderOf_two (h.root.1 e he)
   have hπd : QuotientGroup.mk' (CFSG.pCore 2 Y) d * QuotientGroup.mk' (CFSG.pCore 2 Y) d = 1 := by
@@ -538,7 +538,7 @@ theorem lift_commute {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h :
 theorem quot_root {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp Y D d₀)
     (hd0 : d₀ ∉ CFSG.pCore 2 Y) :
     CFSG.Timmesfeld.IsRootInvolutionSet (QuotientGroup.mk' (CFSG.pCore 2 Y) '' D) := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   refine ⟨?_, ?_, ?_⟩
   · rintro _ ⟨d, hd, rfl⟩
     have hdvd : orderOf (QuotientGroup.mk' (CFSG.pCore 2 Y) d) ∣ orderOf d :=
@@ -570,7 +570,7 @@ theorem quot_root {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hy
 theorem quot_cls {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp Y D d₀) :
     QuotientGroup.mk' (CFSG.pCore 2 Y) '' D =
       {g | IsConj (QuotientGroup.mk' (CFSG.pCore 2 Y) d₀) g} := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   ext g
   constructor
   · rintro ⟨d, hd, rfl⟩
@@ -595,7 +595,7 @@ theorem quot_cls {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp
 
 theorem quot_gen {Y : Type} [Group Y] [Finite Y] {D : Set Y} (hgen : Subgroup.closure D = ⊤) :
     Subgroup.closure (QuotientGroup.mk' (CFSG.pCore 2 Y) '' D) = ⊤ := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   rw [← MonoidHom.map_closure, hgen]
   exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
 
@@ -610,7 +610,7 @@ theorem quot_ab {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp 
     ∀ db ∈ QuotientGroup.mk' (CFSG.pCore 2 Y) '' D,
       IsMulCommutative (Subgroup.closure
         {eb | eb ∈ QuotientGroup.mk' (CFSG.pCore 2 Y) '' D ∧ eb * db = db * eb}) := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   rintro _ ⟨d, hd, rfl⟩
   have hHc : ∀ a ∈ Subgroup.closure {e | e ∈ D ∧ e * d = d * e},
       ∀ b ∈ Subgroup.closure {e | e ∈ D ∧ e * d = d * e}, a * b = b * a :=
@@ -628,8 +628,8 @@ theorem quot_hyp {Y : Type} [Group Y] [Finite Y] {D : Set Y} {d₀ : Y} (h : Hyp
     (hd0 : d₀ ∉ CFSG.pCore 2 Y) :
     Hyp (Y ⧸ CFSG.pCore 2 Y) (QuotientGroup.mk' (CFSG.pCore 2 Y) '' D)
       (QuotientGroup.mk' (CFSG.pCore 2 Y) d₀) := by
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
-  haveI : Group.IsSolvable Y := h.solv
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : Group.IsSolvable Y := h.solv
   exact ⟨quot_root h hd0, quot_cls h, Group.isSolvable_of_surjective
     (QuotientGroup.mk'_surjective (CFSG.pCore 2 Y)), quot_ab h hd0⟩
 
@@ -639,7 +639,7 @@ open Tim77Lemma21 in
 theorem tim77Lemma21_holds : Tim77Lemma21Statement := by
   intro Y _ _ D hD hcls hgen hsolv hab
   obtain ⟨d₀, hD₀⟩ := hcls
-  haveI : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Y).Normal := CFSG.pCore_normal
   have h : Hyp Y D d₀ := ⟨hD, hD₀, hsolv, hab⟩
   by_cases hd0 : d₀ ∈ CFSG.pCore 2 Y
   ·
@@ -652,7 +652,7 @@ theorem tim77Lemma21_holds : Tim77Lemma21Statement := by
       exact Subgroup.Normal.conj_mem inferInstance d₀ hd0 c
     rw [hgen] at hDle
     have htop : CFSG.pCore 2 Y = ⊤ := eq_top_iff.mpr hDle
-    haveI : Subsingleton (Y ⧸ CFSG.pCore 2 Y) := ⟨fun a b => by
+    have : Subsingleton (Y ⧸ CFSG.pCore 2 Y) := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 Y) a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 Y) b
       exact (QuotientGroup.eq).mpr (by rw [htop]; exact Subgroup.mem_top _)⟩

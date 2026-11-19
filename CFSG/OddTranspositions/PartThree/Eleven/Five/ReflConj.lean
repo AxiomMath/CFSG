@@ -143,7 +143,7 @@ private lemma fiveForm_single_left (w : V5) (k : Fin 4) :
   have hlast : (Pi.single k.castSucc (1 : ZMod 5) : Fin 5 → ZMod 5) (Fin.last 4) = 0 :=
     Pi.single_eq_of_ne (M := fun _ : Fin 5 => ZMod 5)
       (Fin.castSucc_ne_last k).symm (1 : ZMod 5)
-  simp only [if_true, one_mul, hlast, mul_zero, sub_zero]
+  simp only [ite_true, hlast, mul_zero, sub_zero]
   simp_rw [Pi.single_apply]
   rw [show (∑ i : Fin 4,
         w i.castSucc * (if i.castSucc = k.castSucc then (1 : ZMod 5) else 0))
@@ -159,8 +159,7 @@ private lemma fiveForm_single_left (w : V5) (k : Fin 4) :
 
 private lemma fiveForm_single_left_last (w : V5) :
     fiveForm 4 true w (Pi.single (Fin.last 4) (1 : ZMod 5)) = -w (Fin.last 4) := by
-  simp [fiveForm, Fin.sum_univ_four, Pi.single_eq_same, Pi.single_eq_of_ne,
-    Fin.castSucc_ne_last]
+  simp [fiveForm, Fin.sum_univ_four, Pi.single_eq_same, Pi.single_eq_of_ne]
 
 private lemma fiveForm_three_single_right (w : V5) (i j : Fin 4)
     (h4 : w (Fin.last 4) = 0) :
@@ -240,7 +239,7 @@ private lemma exists_smul_eq_pm_v0_of_eq_zero (w : V5)
   have hx4 : x (Fin.last 4) = 1 := by
     dsimp only [x]
     simp only [Pi.add_apply, Pi.single_apply]
-    rw [if_neg (Fin.castSucc_ne_last i).symm, if_neg (Fin.castSucc_ne_last j).symm]
+    rw [ite_eq_right (Fin.castSucc_ne_last i).symm, ite_eq_right (Fin.castSucc_ne_last j).symm]
     simp
   have hw'4 : ((g : Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ w) (Fin.last 4) ≠ 0 := by
     have hval : ((g : Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ w) (Fin.last 4)

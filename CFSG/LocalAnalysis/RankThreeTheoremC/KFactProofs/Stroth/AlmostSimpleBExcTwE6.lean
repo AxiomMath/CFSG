@@ -27,7 +27,7 @@ theorem noSylowNormalizesTwo_twE6 {K : Type} [Field K] [Finite K] [CharP K 2] (�
     (h34 : e = 3 ∨ e = 4) :
     NoSylowNormalizesTwo p (twistedE6RootGroup K σ) := by
   classical
-  haveI : Fintype (WeylGroup TwistTag.E6.tag) := Fintype.ofFinite _
+  have : Fintype (WeylGroup TwistTag.E6.tag) := Fintype.ofFinite _
   refine noSylowNormalizesTwo_graphFixed_of_parabolic TwistTag.E6 σ hH fun J hJ hdvd => ?_
   have hfin : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨a, ha⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
@@ -117,10 +117,10 @@ theorem chevTwoPClosureOddTwistedE6_holds : ChevTwoPClosureOddTwistedE6 := by
         rw [hK]
         exact pow_ne_zero 2 (pow_ne_zero _ two_ne_zero))
       have hK2 : Nat.card K = 2 ^ (2 * q.exponent) := by rw [hK, ← pow_mul, mul_comm]
-      haveI : CharP K 2 :=
+      have : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (by omega) hK2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hTCM : TwistedChevalleyModel (ValidLieTypeIndex.Group ⟨.twistedE6 q, hv⟩) TwistTag.E6
           (q.p ^ q.exponent) :=
         CFSG.TauCetiBridge.Even.twistedModel_of_bridgeEven

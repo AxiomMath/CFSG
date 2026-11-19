@@ -203,17 +203,20 @@ section Two
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem subsingleton_units_of_natCard_eq_two (hK : Nat.card K = 2) : Subsingleton Kˣ :=
   (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hK])).1
 
+omit [Finite K] in
 theorem eq_zero_or_eq_one_of_natCard_eq_two (hK : Nat.card K = 2) (x : K) : x = 0 ∨ x = 1 := by
-  haveI := subsingleton_units_of_natCard_eq_two hK
+  have := subsingleton_units_of_natCard_eq_two hK
   by_cases hx : x = 0
   · exact Or.inl hx
   · right
     have h : Units.mk0 x hx = 1 := Subsingleton.elim _ _
     simpa using congrArg Units.val h
 
+omit [Finite K] in
 theorem ringEquiv_eq_one_of_natCard_eq_two (hK : Nat.card K = 2) (σ : K ≃+* K) : σ = 1 := by
   ext x
   rcases eq_zero_or_eq_one_of_natCard_eq_two hK x with rfl | rfl
@@ -221,13 +224,14 @@ theorem ringEquiv_eq_one_of_natCard_eq_two (hK : Nat.card K = 2) (σ : K ≃+* K
   · simp
 
 theorem charP_two_of_natCard_eq_two (hK : Nat.card K = 2) : CharP K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
+omit [Finite K] in
 theorem det_eq_one_of_natCard_eq_two (hK : Nat.card K = 2) {n : ℕ} (A : GL (Fin n) K) :
     Matrix.GeneralLinearGroup.det A = 1 := by
-  haveI := subsingleton_units_of_natCard_eq_two hK
+  have := subsingleton_units_of_natCard_eq_two hK
   exact Subsingleton.elim _ _
 
 theorem scalars_eq_bot_of_natCard_eq_two (hK : Nat.card K = 2) {n : ℕ} (hn : 1 ≤ n) :
@@ -282,11 +286,13 @@ section Orders
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_specialLinearGroup_four (hK : Nat.card K = 2) :
     Nat.card (SpecialLinearGroup (Fin 4) K) = 20160 := by
   rw [Nat.card_congr (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 4 K).toEquiv]
   exact CFSG.Open.StatedAPI.card_statedSL_four_of_card_eq_two hK
 
+omit [Finite K] in
 theorem card_specialLinearGroup_five (hK : Nat.card K = 2) :
     Nat.card (SpecialLinearGroup (Fin 5) K) = 9999360 := by
   rw [Nat.card_congr (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 5 K).toEquiv]
@@ -294,7 +300,7 @@ theorem card_specialLinearGroup_five (hK : Nat.card K = 2) :
 
 theorem card_sylow_three_four (hK : Nat.card K = 2) (P : Sylow 3 (projectiveSL 4 K)) :
     Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (projectiveSL 4 K) = 20160 := by
     rw [card_projectiveSL, scalars_eq_bot_of_natCard_eq_two hK (by norm_num), Subgroup.card_bot,
       Nat.div_one]
@@ -306,7 +312,7 @@ theorem card_sylow_three_four (hK : Nat.card K = 2) (P : Sylow 3 (projectiveSL 4
 
 theorem card_sylow_three_five (hK : Nat.card K = 2) (P : Sylow 3 (projectiveSL 5 K)) :
     Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (projectiveSL 5 K) = 9999360 := by
     rw [card_projectiveSL, scalars_eq_bot_of_natCard_eq_two hK (by norm_num), Subgroup.card_bot,
       Nat.div_one]
@@ -335,7 +341,7 @@ theorem eInvFourFact_projectiveSL_two (hK : Nat.card K = 2) {n : ℕ} (hn : 3 �
     (hvb₂ : Four4 u₁ u₂ vb₂) (ha₁ : a * u₁ = va₁ * a) (ha₂ : a * u₂ = va₂ * a)
     (hb₁ : b * u₁ = vb₁ * b) (hb₂ : b * u₂ = vb₂ * b) (hmove : a * u₁ ≠ u₁ * a) :
     EInvFourFact (projectiveSL n K) := by
-  haveI := charP_two_of_natCard_eq_two hK
+  have := charP_two_of_natCard_eq_two hK
   exact eInvFourFact_of_explicit (embedTwo K n) (embedTwo_injective hK (by omega))
     (center_projectiveSL_eq_bot hK (by omega)) (fun α hα => inner_of_pow_three_eq_one hK hn hα)
     hsyl ha3 hb3 hab hdist hu₁ hu₂ hu hu₁1 hu₂1 hu₁₂ hva₁ hva₂ hvb₁ hvb₂ ha₁ ha₂ hb₁ hb₂ hmove

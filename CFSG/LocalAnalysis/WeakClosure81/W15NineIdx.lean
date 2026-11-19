@@ -33,7 +33,7 @@ theorem card_le_two_mul_centMod {V₀ V W' Δ : Subgroup G} {y : G}
         = (y * (a : G) * y⁻¹) * ((y * (b : G) * y⁻¹ * (b : G)⁻¹) * (a : G)⁻¹) := by group
       _ = (y * (a : G) * y⁻¹) * ((a : G)⁻¹ * (y * (b : G) * y⁻¹ * (b : G)⁻¹)) := by rw [hc]
       _ = _ := by group)
-  haveI hN : (V₀.subgroupOf V).Normal := ⟨fun n hn g => by
+  have hN : (V₀.subgroupOf V).Normal := ⟨fun n hn g => by
     have h1 : g * n * g⁻¹ = n := by
       apply Subtype.ext
       show (g : G) * n * (g : G)⁻¹ = n
@@ -62,7 +62,7 @@ theorem card_le_two_mul_centMod {V₀ V W' Δ : Subgroup G} {y : G}
           rw [Subgroup.mem_comap, this]
           exact Subgroup.one_mem _
       exact htop (Subgroup.mem_top v)
-    haveI : Finite (Δ.subgroupOf V) := inferInstance
+    have : Finite (Δ.subgroupOf V) := inferInstance
     calc Nat.card θ.range ≤ Nat.card ((Δ.subgroupOf V).map (QuotientGroup.mk' (V₀.subgroupOf V))) :=
           Subgroup.card_le_of_le hle
       _ ≤ Nat.card (Δ.subgroupOf V) :=

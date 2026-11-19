@@ -105,6 +105,7 @@ theorem lab_conj (hcJ : JComm) (g : YGroup 4 3 2) (x : Fin 31671) :
 variable (hL : LabFacts)
 include hL
 
+omit hL in
 theorem lab_mem (x : Fin 31671) : ∃ g, lab x = rho432F g :=
   ⟨eOf x * dT * (eOf x)⁻¹, by rw [lab, d0, map_mul, map_mul, map_inv]⟩
 
@@ -130,7 +131,7 @@ theorem lab_inj {x y : Fin 31671} (h : lab x = lab y) : x = y := by
   rw [h0, eOf_spec]
 
 theorem lab_lab (x y : Fin 31671) : lab (lab x y) = lab x * lab y * (lab x)⁻¹ := by
-  obtain ⟨g, hg⟩ := lab_mem hL x
+  obtain ⟨g, hg⟩ := lab_mem x
   rw [hg, lab_conj hL.comm]
 
 theorem lab_symm {ω p : Fin 31671} (h : lab ω p ≠ p) : lab ω p = lab p ω := by

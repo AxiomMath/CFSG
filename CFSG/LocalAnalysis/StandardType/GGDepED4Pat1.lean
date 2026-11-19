@@ -195,13 +195,13 @@ private lemma l05nD4P_MJ_E6 {M : CoxeterMatrix (Option (Fin 4))}
     have hcase := hC.2 (some i) (some j) hne
     rw [l05nD4P_coxeterE6_off (l05nD4P_emb i) (l05nD4P_emb j) hkl]
     rcases l05nD4P_cartanE6_off (l05nD4P_emb i) (l05nD4P_emb j) hkl with he | he
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       rcases hcase with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exact hm
       · exfalso; rw [h1, he] at hJij; norm_num at hJij
       · exfalso; exact l05nD4P_mod3_zero_two hJij hJji h1 he
       · exfalso; exact l05nD4P_mod3_zero_three hJij hJji h1 h2 h3 (Or.inl he)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       rcases hcase with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exfalso; rw [h1, he] at hJij; norm_num at hJij
       · exact hm
@@ -227,7 +227,7 @@ private lemma l05nD4P_row {tab : Fin 5 → Fin 5 → ℕ} {T : CoxeterMatrix (Fi
   let t : Fin 5 := eT.symm none
   have ht : ∀ i : Fin 4, t ≠ f i := by
     intro i h
-    have h' : (none : Option (Fin 4)) = some i := eT.symm.injective (by simpa [t, f] using h)
+    have h' : (none : Option (Fin 4)) = some i := eT.symm.injective (by simp [t, f] at h)
     simp at h'
   let g : Fin 4 → Fin 5 := l05nD4P_g (f 0) (f 1) (f 2) (f 3)
   have hg : ∀ i : Fin 4, g i = f i := l05nD4P_g_apply f
@@ -367,9 +367,9 @@ theorem ggDepED4_pattern1 {MK : CoxeterMatrix (Option {c : Fin 6 // GGDepED4In c
     intro i
     by_cases hik : i = k
     · subst hik
-      have h3 : M none (some i) = 3 := by rw [hrowk i, if_pos rfl]
+      have h3 : M none (some i) = 3 := by rw [hrowk i, ite_eq_left rfl]
       simpa using l05nD4P_cartan_of_three hC (by simp) h3
-    · have h2 : M none (some i) = 2 := by rw [hrowk i, if_neg hik]
+    · have h2 : M none (some i) = 2 := by rw [hrowk i, ite_eq_right hik]
       simpa [hik] using l05nD4P_cartan_of_two hC (by simp) h2
   refine ⟨l05nD4P_emb k, ?_, fun i => ?_⟩
   · have hk' : k.val = 0 ∨ k.val = 1 ∨ k.val = 3 := hk
@@ -394,12 +394,12 @@ theorem ggDepED4_pattern1 {MK : CoxeterMatrix (Option {c : Fin 6 // GGDepED4In c
     refine ⟨?_, ?_⟩
     · rw [h1]
       by_cases hjk : j = k
-      · rw [if_pos hjk, if_pos (hiff.mpr hjk)]
-      · rw [if_neg hjk, if_neg (fun h => hjk (hiff.mp h))]
+      · rw [ite_eq_left hjk, ite_eq_left (hiff.mpr hjk)]
+      · rw [ite_eq_right hjk, ite_eq_right (fun h => hjk (hiff.mp h))]
     · rw [h2]
       by_cases hjk : j = k
-      · rw [if_pos hjk, if_pos (hiff.mpr hjk)]
-      · rw [if_neg hjk, if_neg (fun h => hjk (hiff.mp h))]
+      · rw [ite_eq_left hjk, ite_eq_left (hiff.mpr hjk)]
+      · rw [ite_eq_right hjk, ite_eq_right (fun h => hjk (hiff.mp h))]
 
 end CFSG.StandardType
 

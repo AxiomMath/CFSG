@@ -253,7 +253,7 @@ theorem Hyp.sup_eq_X (H : Hyp z s) :
       rw [ea, xg_hi (l := a + 8) (by omega), Nat.add_sub_cancel]
   · rw [XSub, Subgroup.closure_le]
     intro g hg
-    simp only [xgens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+    simp only [xgens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
     obtain ⟨l, hl, rfl⟩ := hg
     have eg := enc_eltOf (H.xg_ex l hl)
     rw [SetLike.mem_coe]
@@ -340,7 +340,7 @@ theorem Hyp.x_facts (H : Hyp z s) : Nat.card XSub = 32 ∧
       (fun a ha => ?_) a4, ?_⟩
     · rw [Subgroup.closure_le]
       intro g hg
-      simp only [hag, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+      simp only [hag, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
       obtain ⟨l, hl', rfl⟩ := hg
       obtain ⟨g, hg, eg⟩ := hex l hl'
       rw [SetLike.mem_coe, eltOf_eq eg]

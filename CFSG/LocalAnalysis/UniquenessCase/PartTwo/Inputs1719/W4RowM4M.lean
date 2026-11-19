@@ -92,7 +92,7 @@ theorem w4Thm11_1RowM4_M_holds :
   obtain ⟨-, hz, -⟩ := gmat_twoA
   obtain ⟨π, hπs, hker⟩ := gmat_twoA_hom
   obtain ⟨x1, y1, z1, hcfg1, -⟩ := heis_in_centralizer_of_hom hc2 hz π hπs hker hcfg0 hy0
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.B := CFSG.Sporadic.B.fam_b_simplicity
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.B := CFSG.Sporadic.B.fam_b_simplicity
   have key := two_pow_four_le_index_of_two_classes hW' ι hι hc2 hcx hord gmat_twoA hΩ
     gmat_gen ⟨x1, y1, z1, hcfg1⟩ exists_noncentral_isConj_centre_B
   have hY2 : ∃ t ∈ Y, orderOf t = 2 := by

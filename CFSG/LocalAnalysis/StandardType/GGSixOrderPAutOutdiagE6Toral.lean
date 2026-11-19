@@ -20,6 +20,7 @@ section Toral
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem diag_conj_eq {δ v : MulAut (adjointGroup .E6 K)}
     (hδ : δ ∈ (rootDiagAutHom .E6 K).range) (hv : v ∈ (rootDiagAutHom .E6 K).range) :
     δ * v * δ⁻¹ = v := by
@@ -27,20 +28,23 @@ theorem diag_conj_eq {δ v : MulAut (adjointGroup .E6 K)}
   obtain ⟨b, rfl⟩ := hv
   rw [← map_inv, ← map_mul, ← map_mul, mul_comm a b, mul_inv_cancel_right]
 
+omit [Finite K] in
 theorem vAd_le_diag (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     vAd (K := K) ζ hζ ≤ (rootDiagAutHom .E6 K).range := by
   rintro _ ⟨x, rfl⟩
   exact ⟨zetaHom ζ hζ x, rfl⟩
 
+omit [Finite K] in
 theorem vHyp_le_diag (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     vHyp (K := K) ζ hζ ≤ (rootDiagAutHom .E6 K).range :=
   (vHyp_le_vAd ζ hζ).trans (vAd_le_diag ζ hζ)
 
+omit [Finite K] in
 theorem exists_inner_conj_map_le {X Y : Subgroup (MulAut (adjointGroup .E6 K))}
     (hY : Y ≤ (rootDiagAutHom .E6 K).range) {γ : MulAut (adjointGroup .E6 K)}
     (hγ : γ ∈ (hatAut .E6 K).range) (h : X.map (MulAut.conj γ).toMonoidHom ≤ Y) :
     ∃ g : adjointGroup .E6 K, X.map (MulAut.conj (MulAut.conj g)).toMonoidHom ≤ Y := by
-  haveI : (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .E6 K)).Normal :=
+  have : (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .E6 K)).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   rw [hatAut_range_eq_sup, sup_comm] at hγ
   have hγ' : γ ∈ (((rootDiagAutHom .E6 K).range ⊔
@@ -65,6 +69,7 @@ theorem exists_inner_conj_map_le {X Y : Subgroup (MulAut (adjointGroup .E6 K))}
   rw [this, e]
   exact hv
 
+omit [Finite K] in
 theorem exists_diag3_of_mem_diag {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
     {φ : MulAut (adjointGroup .E6 K)} (hφ : φ ∈ (rootDiagAutHom .E6 K).range) (h3 : φ ^ 3 = 1) :
     ∃ x : Fin Tag.E6.rank → ZMod 3, φ = diag3 ζ hζ (Multiplicative.ofAdd x) := by
@@ -127,7 +132,7 @@ theorem ggInndiagToral_of_frame_E6 (h3 : 3 ∣ Nat.card K - 1)
     (hM2 : ∀ X : Subgroup (MulAut (adjointGroup .E6 K)), X ≤ M' → IsElemAbelian 3 X →
       Nat.card X ≤ Nat.card S) :
     LayerSixE.GGInndiagToral .E6 K S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) h3
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]
@@ -151,7 +156,7 @@ theorem exists_inner_conj_mem_E6 (h3 : 3 ∣ Nat.card K - 1)
     {α : MulAut (adjointGroup .E6 K)} (hαM : α ∈ M') (hαI : α ∈ (hatAut .E6 K).range)
     (hα3 : α ^ 3 = 1) (hT : LayerSixE.GGInndiagToral .E6 K (Subgroup.zpowers α)) :
     ∃ g : adjointGroup .E6 K, MulAut.conj g * α * (MulAut.conj g)⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) h3
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]

@@ -108,7 +108,7 @@ theorem nbrRep_ker_inf_L (i : ℤ) (hn : X.n i = 2) :
 theorem nbrRep_map_L (i : ℤ) (hn : X.n i = 2) :
     ((X.L i).subgroupOf (X.Gi i)).map (X.nbrRep i hn) = alternatingGroup (Fin 5) := by
   classical
-  letI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  let : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   let H : Subgroup ↥(X.Gi i) := (X.L i).subgroupOf (X.Gi i)
   let QG : Subgroup ↥(X.Gi i) := (X.Q i).subgroupOf (X.Gi i)
   have hN : IsLocL2 Γ G (X.vert i) (X.n i) (X.L i) := X.hyp.isLocL2_oTwoPrime (X.vert i)
@@ -192,7 +192,7 @@ theorem commutator_mem_Q_of_fixes_neighbors (j : ℤ) {k : G}
     (hfix : ∀ w : V, Γ.Adj (X.vert j) w → k • w = w) :
     ∀ l ∈ X.L j, ⁅k, l⁆ ∈ X.Q j := by
   classical
-  haveI : Finite ↥(X.Gi j) := X.hyp.finite_stab (X.vert j)
+  have : Finite ↥(X.Gi j) := X.hyp.finite_stab (X.vert j)
   have hkNorm : k ∈ Subgroup.normalizer (X.L j : Set G) :=
     le_normalizer_oTwoPrime (X.Gi j) hk2
   have hkfixinv : ∀ w : V, Γ.Adj (X.vert j) w → k⁻¹ • w = w := by
@@ -234,29 +234,29 @@ theorem commutator_mem_Q_of_fixes_neighbors (j : ℤ) {k : G}
   simpa [Setup.Q, Setup.Gi, commutatorElement_def] using this
 
 theorem L_eq_centralizer_sup_Q (j : ℤ) {k : G}
-    (hk1 : k ∈ X.Gi (j - 1)) (hk2 : k ∈ X.Gi j) (hodd : Odd (orderOf k))
+    (_hk1 : k ∈ X.Gi (j - 1)) (hk2 : k ∈ X.Gi j) (hodd : Odd (orderOf k))
     (hfix : ∀ w : V, Γ.Adj (X.vert j) w → k • w = w) :
     X.L j = (X.L j ⊓ Subgroup.centralizer ({k} : Set G)) ⊔ X.Q j := by
   classical
-  haveI : Finite ↥(X.Gi j) := X.hyp.finite_stab (X.vert j)
+  have : Finite ↥(X.Gi j) := X.hyp.finite_stab (X.vert j)
   have hL2 : IsLocL2 Γ G (X.vert j) (X.n j) (X.L j) := X.hyp.isLocL2_oTwoPrime (X.vert j)
   let A : Subgroup G := Subgroup.zpowers k
-  haveI : Finite ↥(X.L j) := Finite.of_injective
+  have : Finite ↥(X.L j) := Finite.of_injective
     (fun x : ↥(X.L j) => (⟨(x : G), oTwoPrime_le (X.Gi j) x.2⟩ : ↥(X.Gi j)))
     (fun a b h => Subtype.ext (congrArg (fun z : ↥(X.Gi j) => (z : G)) h))
   have hAGi : A ≤ X.Gi j := Subgroup.zpowers_le.mpr hk2
-  haveI : Finite ↥A := Finite.of_injective
+  have : Finite ↥A := Finite.of_injective
     (fun a : ↥A => (⟨(a : G), hAGi a.2⟩ : ↥(X.Gi j)))
     (fun a b h => Subtype.ext (congrArg (fun z : ↥(X.Gi j) => (z : G)) h))
   have hAL : A ≤ Subgroup.normalizer (X.L j : Set G) :=
     hAGi.trans (le_normalizer_oTwoPrime (X.Gi j))
-  letI : Subgroup.Normalizes A (X.L j) := ⟨hAL⟩
+  let : Subgroup.Normalizes A (X.L j) := ⟨hAL⟩
   let N : Subgroup ↥(X.L j) := (X.Q j).subgroupOf (X.L j)
   have hN_eq : N = CFSG.pCore 2 ↥(X.L j) := by
     rw [show N = (pCoreOf 2 (X.L j)).subgroupOf (X.L j) from by
       simp [N, hL2.pCoreOf_eq]]
     exact CFSG.openPCoreOf_subgroupOf 2 (X.L j)
-  haveI : N.Normal := by
+  have : N.Normal := by
     rw [hN_eq]
     infer_instance
   have hNinv : IsInvariant ↥A ↥(X.L j) N := by
@@ -282,16 +282,16 @@ theorem L_eq_centralizer_sup_Q (j : ℤ) {k : G}
     rw [hN_eq]
     exact CFSG.pCore_isPGroup (G := ↥(X.L j)) (p := 2)
   have hNsolv : Group.IsSolvable N := by
-    haveI : Group.IsNilpotent N := hNp.isNilpotent
+    have : Group.IsNilpotent N := hNp.isNilpotent
     infer_instance
-  letI : Group.IsSolvable N := hNsolv
+  let : Group.IsSolvable N := hNsolv
   have hcop : Nat.Coprime (Nat.card ↥A) (Nat.card N) := by
     have hAcard : Nat.card ↥A = orderOf k := by rw [Nat.card_zpowers]
     obtain ⟨n, hnN⟩ := IsPGroup.iff_card.mp hNp
     rw [hAcard, hnN]
     exact Nat.Coprime.pow_right n
       ((Nat.prime_two.coprime_iff_not_dvd).mpr hodd.not_two_dvd_nat).symm
-  letI : MulDistribMulAction ↥A (↥(X.L j) ⧸ N) :=
+  let : MulDistribMulAction ↥A (↥(X.L j) ⧸ N) :=
     CFSG.quotientMulDistribMulAction (A := ↥A) (G := ↥(X.L j)) (H := N) hNinv
   let gA : ↥A := ⟨k, Subgroup.mem_zpowers k⟩
   have htop_zpowers : Subgroup.zpowers gA = (⊤ : Subgroup ↥A) := by
@@ -336,8 +336,7 @@ theorem L_eq_centralizer_sup_Q (j : ℤ) {k : G}
       _ = ((l : ↥(X.L j)) : ↥(X.L j) ⧸ N) := one_mul _
   have htop : fixedPointSubgroup ↥A (↥(X.L j) ⧸ N) = ⊤ := by
     rw [eq_top_iff]
-    intro q _
-    intro a
+    intro q _ a
     exact hstabQ q (hgAfix q) a
   let C : Subgroup ↥(X.L j) := fixedPointSubgroup ↥A ↥(X.L j)
   have hlift := CFSG.SolvableHall.coprime_solvable_kernel_fixed_point_lifting
@@ -406,7 +405,7 @@ theorem centralizer_transitive (j : ℤ) {k : G}
   have hL2 : IsLocL2 Γ G (X.vert j) (X.n j) (X.L j) := X.hyp.isLocL2_oTwoPrime (X.vert j)
   have hLeq := X.L_eq_centralizer_sup_Q j hk1 hk2 hodd hfix
   have hQleL : X.Q j ≤ X.L j := hL2.oTwo_le
-  haveI : ((X.Q j).subgroupOf (X.L j)).Normal := by
+  have : ((X.Q j).subgroupOf (X.L j)).Normal := by
     rw [show (X.Q j).subgroupOf (X.L j) = CFSG.pCore 2 ↥(X.L j) from by
       rw [← CFSG.openPCoreOf_subgroupOf 2 (X.L j), hL2.pCoreOf_eq]]
     infer_instance

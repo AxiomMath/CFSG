@@ -26,7 +26,7 @@ theorem centralizer_le_of_isComponent {q : ℕ} [Fact q.Prime] {H K : Subgroup G
     exact hR1 ((Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective).1 hb)
   have hle : centralizer (K : Set G) ≤ centralizer ((P : Subgroup G) ⊓ K : Subgroup G) :=
     Subgroup.centralizer_le inf_le_right
-  exact hle.trans (hH.centralizer_le_of_isPGroup hPK P.isPGroup'.to_inf_left (inf_le_left.trans hPH))
+  exact hle.trans (hH.centralizer_le_of_isPGroup hPK P.isPGroup.to_inf_left (inf_le_left.trans hPH))
 
 theorem eq_of_isComponent_of_isStronglyPEmbedded {q : ℕ} [Fact q.Prime] {H K₀ K₁ : Subgroup G}
     (hH : IsStronglyPEmbedded q H) {P : Sylow q G} (hPH : (P : Subgroup G) ≤ H) (h₀ : CFSG.IsComponent K₀)
@@ -49,10 +49,10 @@ include h
 
 theorem exists_stronglyThree (hp3 : p = 3) (hS : Star36 G) (h4 : 3 < twoLocalPrimeRank 3 G) :
     ∃ (P : Sylow 3 G) (H : Subgroup G), IsStronglyPEmbedded 3 H ∧ E ≤ P ∧ (P : Subgroup G) ≤ H ∧ M ≤ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hEP, hPM⟩ := h.exists_sylow_three hp3
   have hP : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup G) ⊤ :=
-    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, P.isPGroup', by
+    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩
   have hP1 : (P : Subgroup G) ≠ ⊥ :=
@@ -71,14 +71,14 @@ theorem exists_stronglyThree (hp3 : p = 3) (hS : Star36 G) (h4 : 3 < twoLocalPri
 theorem eq_singleton_of_stronglyThree (hp3 : p = 3) {P : Sylow 3 G} {H : Subgroup G}
     (hH : IsStronglyPEmbedded 3 H) (hPH : (P : Subgroup G) ≤ H) {K₀ : Subgroup G} (hK₀ : K₀ ∈ comps36 M) :
     comps36 M = {K₀} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine Set.eq_singleton_iff_unique_mem.2 ⟨hK₀, fun K hK => ?_⟩
   exact (eq_of_isComponent_of_isStronglyPEmbedded hH hPH hK₀.1 hK.1 (hp3 ▸ h.dvd_card_component hK₀.1 hK₀.2)
     (hp3 ▸ h.dvd_card_component hK.1 hK.2)).symm
 
 theorem normalizer_lam36_eq_top_of_stronglyThree (hp3 : p = 3) {H : Subgroup G} (hH : IsStronglyPEmbedded 3 H)
     (hMH : M ≤ H) : normalizer (lam36 M : Set G) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine h.normalizer_lam36_eq_top fun g K hK => ?_
   by_contra hEN
   have hK' : CFSG.IsComponent (K.map (MulAut.conj g).toMonoidHom) :=
@@ -91,12 +91,12 @@ theorem normalizer_lam36_eq_top_of_stronglyThree (hp3 : p = 3) {H : Subgroup G} 
 theorem centralizer_lam36_le_of_stronglyThree (hp3 : p = 3) [(lam36 M).Normal] {P : Sylow 3 G} {H : Subgroup G}
     (hH : IsStronglyPEmbedded 3 H) (hPH : (P : Subgroup G) ≤ H) {K₀ : Subgroup G} (hK₀ : K₀ ∈ comps36 M) :
     centralizer (lam36 M : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hCn : (centralizer (lam36 M : Set G)).Normal := Subgroup.normal_centralizer (H := lam36 M)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hCn : (centralizer (lam36 M : Set G)).Normal := Subgroup.normal_centralizer (H := lam36 M)
   have hC3 : ¬ 3 ∣ Nat.card (centralizer (lam36 M : Set G)) :=
     not_dvd_card_of_le_centralizer hH hPH hK₀.1 (hp3 ▸ h.dvd_card_component hK₀.1 hK₀.2)
       (Subgroup.centralizer_le (le_sSup hK₀))
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hle : centralizer (lam36 M : Set G) ≤ relPPrimeCore p (⊤ : Subgroup G) :=
     le_sSup ⟨le_top, hCn.subgroupOf ⊤, (Nat.Prime.coprime_iff_not_dvd h.prime).2 (hp3 ▸ hC3)⟩
   exact hle.trans h.pPrimeCore_le
@@ -114,7 +114,7 @@ theorem concl_of_forall_ne_top_three (O : Oracle36 M E p) (hS : Star36 G) (h4 : 
   obtain ⟨P, H, hH, -, hPH, hMH⟩ := h.exists_stronglyThree hp3 hS h4
   have hs : comps36 M = {K₀} := h.eq_singleton_of_stronglyThree hp3 hH hPH hK₀
   have hΛn : normalizer (lam36 M : Set G) = ⊤ := h.normalizer_lam36_eq_top_of_stronglyThree hp3 hH hMH
-  haveI hΛ : (lam36 M).Normal := Subgroup.normalizer_eq_top_iff.1 hΛn
+  have hΛ : (lam36 M).Normal := Subgroup.normalizer_eq_top_iff.1 hΛn
   have hCM : centralizer (lam36 M : Set G) ≤ M := h.centralizer_lam36_le_of_stronglyThree hp3 hH hPH hK₀
   have hED : E ≤ lam36 M ⊔ centralizer (lam36 M : Set G) := fun e he' =>
     h.mem_lam36_sup_centralizer_of_singleton hp3 hOF ht hQt hshape hs he'

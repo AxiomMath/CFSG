@@ -65,6 +65,7 @@ theorem exists_mul_mem_normalizer [Fact (Nat.Prime 2)] {X N : Subgroup G}
   rw [e]
   exact h
 
+omit [Finite G] in
 theorem centralizes_of_cyclic_two {g b : G} {k : ℕ} (hg : g ^ (2 ^ k) = 1) (hb : b ^ 3 = 1)
     (hbg : b * g * b⁻¹ ∈ Subgroup.zpowers g) : b * g * b⁻¹ = g := by
   obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 hbg
@@ -127,7 +128,7 @@ theorem centralized_of_embed_quaternion {T : Subgroup G}
     interval_cases m
     · have hsub : Subsingleton T := (Nat.card_eq_one_iff_unique.1 (by simpa using hmc)).1
       infer_instance
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact isCyclic_of_prime_card (by simpa using hmc)
     ·
       have h4 : Nat.card T = 4 := by simpa using hmc

@@ -19,7 +19,7 @@ theorem ggSixLieKnownStarFour_holds :
   have hf : 1 ≤ f := hadm.2.1
   have hn : 2 ≤ n := hadm.2.2.1
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hcop' : Nat.Coprime (m + 1) (Nat.card (GaloisField 2 f) - 1) := by
     rw [hcardF]; exact hcop

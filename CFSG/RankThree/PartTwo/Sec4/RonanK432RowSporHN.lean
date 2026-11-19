@@ -163,7 +163,7 @@ theorem hnK432ListJ
 
 theorem listRow_hn :
     ListRow NativeSporadic.HN := by
-  haveI : Finite ↥JH := Finite.of_equiv _ hnEquivJ.toEquiv
+  have : Finite ↥JH := Finite.of_equiv _ hnEquivJ.toEquiv
   exact @ListRow.of_mulEquiv ↥JH NativeSporadic.HN _ _ Units.instGroup _ hnEquivJ.symm hnK432ListJ
 
 theorem outerRow_hn :

@@ -17,6 +17,7 @@ namespace AmbientH
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 theorem normalizer_eq {A : Subgroup G} (hAH : A ≤ H) :
     Subgroup.normalizer ((A.subgroupOf H : Subgroup ↥H) : Set ↥H) =
       (Subgroup.normalizer (A : Set G)).subgroupOf H := by
@@ -40,6 +41,7 @@ theorem normalizer_eq {A : Subgroup G} (hAH : A ≤ H) :
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
     exact h g
 
+omit [Finite G] in
 theorem two_lt_card (hVH : V ≤ H) (h : 2 < Nat.card V) : 2 < Nat.card ↥(V.subgroupOf H) := by
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVH).toEquiv]
   exact h
@@ -85,6 +87,7 @@ theorem not_isCalH0 (h : IsCalH V H) (h0 : ¬ IsCalH0 V H) :
   rw [pCoreOf_top_eq_subgroupOf] at hmem
   exact Subgroup.mem_subgroupOf.mp hmem
 
+omit [Finite G] in
 theorem isSylowIn (hVH : V ≤ H) (hT : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G))) :
     IsSylowIn 2 (T.subgroupOf H)
       ((⊤ : Subgroup ↥H) ⊓ Subgroup.normalizer ((V.subgroupOf H : Subgroup ↥H) : Set ↥H)) := by

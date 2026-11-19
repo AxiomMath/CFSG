@@ -120,23 +120,23 @@ private theorem c3_pow (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3) (hω3 :
     (if j = 0 then genA ω else genB ω) (Fin.cast hS k)) (fun k => ?_) i
   by_cases hj : j = 0
   · subst hj; simpa using genA_pow ω hω3 (Fin.cast hS k)
-  · rw [if_neg hj]; exact genB_pow ω hω3 (Fin.cast hS k)
+  · rw [ite_eq_right hj]; exact genB_pow ω hω3 (Fin.cast hS k)
 
-private theorem c3_prod (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3) (hω3 : ω ^ 3 = 1) :
+private theorem c3_prod (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3) (_hω3 : ω ^ 3 = 1) :
     ∀ j, ∏ i, c3 ω S hS j i = 1 := by
   intro j
   rw [show c3 ω S hS j = suppVec S (fun k : Fin S.card =>
     (if j = 0 then genA ω else genB ω) (Fin.cast hS k)) from rfl, suppVec_prod]
   by_cases hj : j = 0
   · subst hj
-    rw [if_pos rfl, Fintype.prod_equiv (Fin.castOrderIso hS).toEquiv
+    rw [ite_eq_left rfl, Fintype.prod_equiv (Fin.castOrderIso hS).toEquiv
         (fun k : Fin S.card => genA ω (Fin.cast hS k)) (genA ω) (fun k => rfl),
       Fin.prod_univ_three]
-    simp [genA, hω3]
-  · rw [if_neg hj, Fintype.prod_equiv (Fin.castOrderIso hS).toEquiv
+    simp [genA]
+  · rw [ite_eq_right hj, Fintype.prod_equiv (Fin.castOrderIso hS).toEquiv
         (fun k : Fin S.card => genB ω (Fin.cast hS k)) (genB ω) (fun k => rfl),
       Fin.prod_univ_three]
-    simp [genB, hω3]
+    simp [genB]
 
 private theorem c3_norm (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3)
     (hωq : ω ^ (2 ^ n + 1) = 1) : ∀ j i, c3 ω S hS j i ^ (2 ^ n + 1) = 1 := by
@@ -145,7 +145,7 @@ private theorem c3_norm (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3)
     (if j = 0 then genA ω else genB ω) (Fin.cast hS k)) (fun k => ?_) i
   by_cases hj : j = 0
   · subst hj; simpa using genA_norm ω hωq (Fin.cast hS k)
-  · rw [if_neg hj]; exact genB_norm ω hωq (Fin.cast hS k)
+  · rw [ite_eq_right hj]; exact genB_norm ω hωq (Fin.cast hS k)
 
 private theorem c3_priv (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3)
     (hωo : orderOf ω = 3) :
@@ -197,7 +197,7 @@ private theorem c3_supp (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 3) (hω3 
   have h1 : c3 ω S hS j i = 1 := suppVec_apply_not_mem S _ hi
   rw [h1, one_pow]
 
-private theorem exists_pgroup_le_blockSU (hKd : UnitaryFieldData 2 n K)
+private theorem exists_pgroup_le_blockSU (_hKd : UnitaryFieldData 2 n K)
     {B : Subgroup ↥(unitarySU 2 n K 6)} {T : Finset (Fin 6)} (hT : T ≠ Finset.univ)
     (hBle : B ≤ blockSU (n := n) (K := K) T)
     {θ : Multiplicative (Fin 2 → ZMod 3) →* (Fin 6 → Kˣ)}
@@ -322,9 +322,9 @@ private theorem gen2_norm (ω : Kˣ) (hωq : ω ^ (2 ^ n + 1) = 1) (k : Fin 2) :
     gen2 ω k ^ (2 ^ n + 1) = 1 := by
   fin_cases k <;> simp [gen2, hωq]
 
-private theorem gen2_prod (ω : Kˣ) (hω3 : ω ^ 3 = 1) : ∏ k : Fin 2, gen2 ω k = 1 := by
+private theorem gen2_prod (ω : Kˣ) (_hω3 : ω ^ 3 = 1) : ∏ k : Fin 2, gen2 ω k = 1 := by
   rw [Fin.prod_univ_two]
-  simp [gen2, hω3]
+  simp [gen2]
 
 private noncomputable def c2 (ω : Kˣ) (S : Finset (Fin 6)) (hS : S.card = 2) : Fin 6 → Kˣ :=
   suppVec S (fun k : Fin S.card => gen2 ω (Fin.cast hS k))
@@ -569,7 +569,7 @@ private theorem not_isComponentOf_one (hKd : UnitaryFieldData 2 1 K) {τ : Fin 6
     ∀ Jb : Subgroup (LargeEvenProj (unitarySU 2 1 K 6)),
       ¬ IsComponentOf Jb (ggFix (TableB.projConj (unitarySU 2 1 K 6) ⟨diagHom 6 τ, hD⟩)) := by
   classical
-  haveI : Finite K := hKd.finite
+  have : Finite K := hKd.finite
   intro Jb hE
   set ē : GL (Fin 6) K ⧸ LargeEvenScalars (Fin 6) K := QuotientGroup.mk (diagHom 6 τ) with hē
   have hJ := isComponentOf_map_of_injective (Line63.H5.reducedToPGL K 1 6)
@@ -590,11 +590,11 @@ private theorem not_isComponentOf_one (hKd : UnitaryFieldData 2 1 K) {τ : Fin 6
     hb i _ fun j => by simp [LinTorus.mem_diagClass]
   have hcls1 : 1 ≤ (LinTorus.diagClass {ē} (fun _ => τ) i).card :=
     Finset.card_pos.mpr ⟨i, LinTorus.self_mem_diagClass _ _ i⟩
-  haveI hBs : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1)
+  have hBs : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1)
       (LinTorus.diagClass {ē} (fun _ => τ) i)).map (Line63.H5.suToPGL K 1 6)) :=
     WitSU.isSolvable_map_blockSU_two_one hKd (Line63.H5.suToPGL K 1 6) hcls1 hcls
   exact Line63.H5.isQuasisimple_not_isSolvable hJ.2.2
-    (solvable_of_solvable_injective (Subgroup.inclusion_injective hi))
+    (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hi))
 
 private theorem three_dvd_card_map_blockSU_two (hKd : UnitaryFieldData 2 n K)
     (hpq : 3 ∣ 2 ^ n + 1) {S : Finset (Fin 6)} (hS : S.card = 2) :

@@ -19,7 +19,7 @@ theorem card_outer_SL2_dvd_two_of_ne_three {p : ℕ} (hp : p.Prime) (hp3 : p ≠
   classical
   rcases hp.eq_two_or_odd' with rfl | hpodd
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcenter : Subgroup.center (SL(2, ZMod 2)) = ⊥ := by
       rw [eq_bot_iff]
       intro A hA
@@ -41,7 +41,7 @@ theorem card_outer_SL2_dvd_two_of_ne_three {p : ℕ} (hp : p.Prime) (hp3 : p ≠
       simpa using h
     exact h1.trans (by norm_num)
   ·
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hp5 : 5 ≤ p := by
       have hp2 : p ≠ 2 := by
         rintro rfl
@@ -52,13 +52,13 @@ theorem card_outer_SL2_dvd_two_of_ne_three {p : ℕ} (hp : p.Prime) (hp3 : p ≠
       have hp2le : 2 ≤ p := hp.two_le
       omega
     have h4 : ∃ s : Finset (ZMod p), s.card = 4 := by
-      haveI : NeZero p := ⟨hp.ne_zero⟩
+      have : NeZero p := ⟨hp.ne_zero⟩
       obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset (ZMod p)))
         (n := 4) (by
           rw [Finset.card_univ, ← Nat.card_eq_fintype_card, Nat.card_zmod]
           omega)
       exact ⟨s, hs⟩
-    haveI : Group.IsPerfect (SL(2, ZMod p)) :=
+    have : Group.IsPerfect (SL(2, ZMod p)) :=
       CFSG.LinearGroups.special_linear_isPerfect (K := ZMod p) (n := 2) le_rfl (Or.inr h4)
     have houtPSL : Nat.card (Outer (PSL(2, ZMod p))) ∣ 2 := by
       have hcard : Nat.card (ZMod p) = p ^ 1 := by rw [Nat.card_zmod, pow_one]

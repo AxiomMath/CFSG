@@ -27,14 +27,17 @@ abbrev commSp (t : OGroup Q) : Submodule (ZMod 3) V :=
 abbrev fixSp (t : OGroup Q) : Submodule (ZMod 3) V :=
   fixSpace (t : V ≃ₗ[ZMod 3] V)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem aux_coe_mul_self {t : OGroup Q} (htt : t * t = 1) :
     (t : V ≃ₗ[ZMod 3] V) * (t : V ≃ₗ[ZMod 3] V) = 1 := by
   simpa using congrArg (fun e : OGroup Q => (e : V ≃ₗ[ZMod 3] V)) htt
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem aux_apply_apply {t : OGroup Q} (htt : t * t = 1) (v : V) :
     (t : V ≃ₗ[ZMod 3] V) ((t : V ≃ₗ[ZMod 3] V) v) = v := by
   rw [← LinearEquiv.mul_apply, aux_coe_mul_self htt, LinearEquiv.coe_one, id]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem aux_radical_restrict_polar {W : Submodule (ZMod 3) V} {x : W}
     (hx : x ∈ (Q.restrict W).radical) (y : W) :
     QuadraticMap.polar Q (x : V) (y : V) = 0 := by
@@ -45,6 +48,7 @@ private theorem aux_radical_restrict_polar {W : Submodule (ZMod 3) V} {x : W}
     rw [hkey, add_zero]
   exact add_left_cancel h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_commSp_iff {t : OGroup Q} (htt : t * t = 1) {v : V} :
     v ∈ commSp t ↔ (t : V ≃ₗ[ZMod 3] V) v = -v := by
   rw [commSp, mem_commSpace]
@@ -60,11 +64,13 @@ theorem mem_commSp_iff {t : OGroup Q} (htt : t * t = 1) {v : V} :
       _ = (1 : ZMod 3) • v := by rw [h2]
       _ = v := one_smul _ _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_fixSp_iff {t : OGroup Q} {v : V} :
     v ∈ fixSp t ↔ (t : V ≃ₗ[ZMod 3] V) v = v := by
   rw [fixSp]
   exact mem_fixSpace
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem isCompl_fixSp_commSp {t : OGroup Q} (htt : t * t = 1) : IsCompl (fixSp t) (commSp t) := by
   refine ⟨disjoint_iff.mpr ?_, codisjoint_iff.mpr ?_⟩
   · rw [eq_bot_iff]
@@ -93,6 +99,7 @@ theorem isCompl_fixSp_commSp {t : OGroup Q} (htt : t * t = 1) : IsCompl (fixSp t
       have h4 : (2 : ZMod 3) * 2 = 1 := by decide
       rw [h4, one_smul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem polar_fixSp_commSp {t : OGroup Q} (htt : t * t = 1) {v w : V} (hv : v ∈ fixSp t)
     (hw : w ∈ commSp t) : QuadraticMap.polar Q v w = 0 := by
   have hv' : (t : V ≃ₗ[ZMod 3] V) v = v := (mem_fixSp_iff).mp hv
@@ -108,10 +115,12 @@ theorem polar_fixSp_commSp {t : OGroup Q} (htt : t * t = 1) {v w : V} (hv : v �
     exact eq_neg_iff_add_eq_zero.mp hp
   exact (mul_eq_zero.mp h2).resolve_left (by decide : (2 : ZMod 3) ≠ 0)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem map_add_of_fixSp_commSp {t : OGroup Q} (htt : t * t = 1) {v w : V} (hv : v ∈ fixSp t)
     (hw : w ∈ commSp t) : Q (v + w) = Q v + Q w := by
   rw [map_add_eq Q v w, polar_fixSp_commSp htt hv hw, add_zero]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_eq_orthogonal_fixSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1) :
     commSp t = LinearMap.BilinForm.orthogonal Q.polarBilin (fixSp t) := by
   have hB : Q.polarBilin.Nondegenerate := (QuadraticMap.nondegenerate_polar_iff).mpr hQ
@@ -148,6 +157,7 @@ theorem commSp_eq_orthogonal_fixSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : 
     rw [ha_zero, zero_add]
     exact hb
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem nondegenerate_restrict_fixSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1) :
     (Q.restrict (fixSp t)).Nondegenerate := by
   rw [QuadraticMap.nondegenerate_iff_radical_eq_bot]
@@ -172,6 +182,7 @@ theorem nondegenerate_restrict_fixSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt 
   rw [hQ.radical_eq_bot, Submodule.mem_bot] at hrad
   exact hrad
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem nondegenerate_restrict_commSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1) :
     (Q.restrict (commSp t)).Nondegenerate := by
   rw [QuadraticMap.nondegenerate_iff_radical_eq_bot]
@@ -220,11 +231,13 @@ theorem quadSign_eq_fixSp_commSp (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t 
           (-1) ^ (Module.finrank (ZMod 3) (fixSp t) * Module.finrank (ZMod 3) (commSp t)) :=
         quadSign_prod (nondegenerate_restrict_fixSp hQ htt) (nondegenerate_restrict_commSp hQ htt)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_conj (g t : OGroup Q) :
     commSp (g * t * g⁻¹) = (commSp t).map (g : V →ₗ[ZMod 3] V) := by
   simpa [commSp] using
     CFSG.RankThree.OrthogonalInvolutions.commSpace_conj (g : V ≃ₗ[ZMod 3] V) (t : V ≃ₗ[ZMod 3] V)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem equivalent_restrict_commSp_conj (g t : OGroup Q) :
     (Q.restrict (commSp t)).Equivalent (Q.restrict (commSp (g * t * g⁻¹))) := by
   refine ⟨(g : V ≃ₗ[ZMod 3] V).ofSubmodules (commSp t) (commSp (g * t * g⁻¹))
@@ -233,7 +246,7 @@ theorem equivalent_restrict_commSp_conj (g t : OGroup Q) :
   change Q ((g : V ≃ₗ[ZMod 3] V) (x : V)) = Q (x : V)
   exact TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup g.2 (x : V)
 
-theorem exists_involution_of_commSp (hQ : Q.Nondegenerate) {N : Submodule (ZMod 3) V}
+theorem exists_involution_of_commSp (_hQ : Q.Nondegenerate) {N : Submodule (ZMod 3) V}
     (hN : (Q.restrict N).Nondegenerate) : ∃ t : OGroup Q, t * t = 1 ∧ commSp t = N := by
   let P : Submodule (ZMod 3) V := LinearMap.BilinForm.orthogonal Q.polarBilin N
   have hcompl : IsCompl N P := hN.isCompl_orthogonal
@@ -351,7 +364,8 @@ theorem eq_of_commSp_eq (hQ : Q.Nondegenerate) {s t : OGroup Q} (hs : s * s = 1)
   have htb : (t : V ≃ₗ[ZMod 3] V) b = -b := (mem_commSp_iff ht).mp hb'
   rw [map_add, map_add, hsa, hta, hsb, htb]
 
-theorem commSp_eq_bot_iff {t : OGroup Q} (htt : t * t = 1) : commSp t = ⊥ ↔ t = 1 := by
+omit [FiniteDimensional (ZMod 3) V] in
+theorem commSp_eq_bot_iff {t : OGroup Q} (_htt : t * t = 1) : commSp t = ⊥ ↔ t = 1 := by
   constructor
   · intro h
     apply Subtype.ext

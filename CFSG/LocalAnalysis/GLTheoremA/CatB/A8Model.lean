@@ -52,12 +52,12 @@ theorem a8w4_sign : Equiv.Perm.sign a8w4 = 1 :=
 
 @[expose] def a8V0 : Subgroup A8 := closure {a8v1, a8v2, a8v3, a8v4}
 
-theorem a8c8_mem_P0 : a8c8 ∈ a8P0 := subset_closure (by simp [a8P0])
-theorem a8d8_mem_P0 : a8d8 ∈ a8P0 := subset_closure (by simp [a8P0])
-theorem a8v1_mem_V0 : a8v1 ∈ a8V0 := subset_closure (by simp [a8V0])
-theorem a8v2_mem_V0 : a8v2 ∈ a8V0 := subset_closure (by simp [a8V0])
-theorem a8v3_mem_V0 : a8v3 ∈ a8V0 := subset_closure (by simp [a8V0])
-theorem a8v4_mem_V0 : a8v4 ∈ a8V0 := subset_closure (by simp [a8V0])
+theorem a8c8_mem_P0 : a8c8 ∈ a8P0 := subset_closure (by simp)
+theorem a8d8_mem_P0 : a8d8 ∈ a8P0 := subset_closure (by simp)
+theorem a8v1_mem_V0 : a8v1 ∈ a8V0 := subset_closure (by simp)
+theorem a8v2_mem_V0 : a8v2 ∈ a8V0 := subset_closure (by simp)
+theorem a8v3_mem_V0 : a8v3 ∈ a8V0 := subset_closure (by simp)
+theorem a8v4_mem_V0 : a8v4 ∈ a8V0 := subset_closure (by simp)
 
 theorem a8c_apply0 : a8c 0 = 1 := by decide
 theorem a8c_apply1 : a8c 1 = 2 := by decide
@@ -80,7 +80,7 @@ theorem a8v1_ne_one : a8v1 ≠ 1 := fun h =>
 theorem a8c8_val : ((a8c8 : A8) : Perm (Fin 8)) = a8c := rfl
 
 theorem a8c8_orderOf : orderOf a8c8 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime a8c8_cube a8c8_ne_one
 
 theorem a8_nontriv : a8c8 * a8v1 * a8c8⁻¹ ≠ a8v1 := fun h =>
@@ -318,7 +318,7 @@ theorem a8ι_injective : Function.Injective a8ι := by
   MonoidHom.ofInjective a8ι_injective
 
 theorem a8Kb_simple : IsSimpleGroup a8Kb := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := inferInstance
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := inferInstance
   exact MulEquiv.isSimpleGroup a8KbEquiv.symm
 
 theorem a8Kb_card : Nat.card a8Kb = 60 := by
@@ -362,13 +362,13 @@ theorem mem_a8Kb_iff (x : A8) :
       constructor
       · intro hz
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have h1' := (x : Perm (Fin 8)).injective (hfix _ hlt)
         rw [h1'] at hlt
         omega
       · intro hz
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         rw [hfix z hlt] at hz
         omega
     let sub := (x : Perm (Fin 8)).subtypePerm (p := fun z : Fin 8 => 3 ≤ z.val) (fun z => (hp z).symm)
@@ -402,7 +402,7 @@ theorem perm_comm_of_fix (k : Perm (Fin 8)) (h0 : k 0 = 0) (h1 : k 1 = 1) (h2 : 
   have hge : ∀ y : Fin 8, 3 ≤ y.val → 3 ≤ (k y).val := by
     intro y hy
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hk : k (k y) = k y := hfix _ hlt
     have hyk : y = k y := k.injective hk.symm
     rw [← hyk] at hlt
@@ -438,10 +438,10 @@ theorem a8_centralizer : Subgroup.centralizer ({a8c8} : Set A8) = a8Kb ⊔ Subgr
     exact this.symm
   have hx0 : (x : Perm (Fin 8)) 0 = 0 ∨ (x : Perm (Fin 8)) 0 = 1 ∨ (x : Perm (Fin 8)) 0 = 2 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h3 : 3 ≤ ((x : Perm (Fin 8)) 0).val := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       rcases (fin8_lt3 _).1 hlt with e | e | e
       · exact hne.1 e
       · exact hne.2.1 e

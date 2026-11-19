@@ -68,8 +68,8 @@ theorem I9_le_M (S : Slice D L D₃ Y H q)
     S.exists_sl2_rep_of_not_le hN hyp hK461 hK462 hSch hIM
   have hq := S.gt
   have hqF : (Fintype.card F).Prime := by rw [hcard]; exact S.prime
-  haveI : Fact (Fintype.card F).Prime := ⟨hqF⟩
-  haveI : CharP F (Fintype.card F) := charP_of_card_eq_prime rfl
+  have : Fact (Fintype.card F).Prime := ⟨hqF⟩
+  have : CharP F (Fintype.card F) := charP_of_card_eq_prime rfl
   have hcast : ∀ n : ℕ, 0 < n → n ≤ 5 → (n : F) ≠ 0 := fun n hn h5 h =>
     absurd (Nat.le_of_dvd hn ((CharP.cast_eq_zero_iff F _ n).mp h)) (by omega)
   have h2 : (2 : F) ≠ 0 := by exact_mod_cast hcast 2 (by norm_num) (by norm_num)
@@ -79,7 +79,7 @@ theorem I9_le_M (S : Slice D L D₃ Y H q)
   have hchar : ringChar F ≠ 2 := by
     rw [ringChar.eq F (Fintype.card F)]
     omega
-  haveI : Nontrivial SL(2, F) := nontrivial_of_ne _ _ (CFSG.PSL2Table.neg_one_ne_one_SL h2)
+  have : Nontrivial SL(2, F) := nontrivial_of_ne _ _ (CFSG.PSL2Table.neg_one_ne_one_SL h2)
   obtain ⟨e⟩ := hZ p SL(2, F) (Matrix.SL2.commutator_eq_top h2 h4) V σ hσ
     (fun g hg v hv => eq_zero_of_fixed_of_ne_one σ hchar hp2 hneg hfpf hg v hv)
     Finite.one_lt_card.ne'

@@ -322,18 +322,18 @@ theorem collInvs_eq : collInvs collS2 (collMeet collS2) =
     have hlt := nList_lt h0 h1 h2 h3 h4
     rw [← hl] at hlt
     have hlen : (ivList pn.LI pn.MP y0 y1 y2 y3 y4).length = 21 := rfl
-    rw [if_pos c1, if_pos c2, if_pos c3, if_pos c4, if_pos hfr, Option.bind_some]
+    rw [ite_eq_left c1, ite_eq_left c2, ite_eq_left c3, ite_eq_left c4, ite_eq_left hfr, Option.bind_some]
     simp only [collCon_eq_ivList h0 h1 h2 h3 h4]
     rw [← test_eq hlen hlt]
     by_cases hb : (ivBack (ivList pn.LI pn.MP y0 y1 y2 y3 y4) &&
         ivInv pn.CP (ivPack (ivList pn.LI pn.MP y0 y1 y2 y3 y4))) = true
-    · rw [if_pos hb, if_pos hb, List.map_cons, List.map_nil,
+    · rw [ite_eq_left hb, ite_eq_left hb, List.map_cons, List.map_nil,
         ivUnpack_ivPack hlen fun x hx => by have := hlt x hx; omega]
       rfl
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       rfl
   · have hn := fun h => hfr (hf.1 h)
-    rw [if_neg hfr]
+    rw [ite_eq_right hfr]
     change [] = _
     split_ifs with c1 c2 c3 c4 <;> first | rfl | exact absurd ⟨c1, c2, c3, c4⟩ hn
 

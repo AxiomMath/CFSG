@@ -12,6 +12,7 @@ open scoped TensorProduct
 
 variable {K : Type*} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem mapsTo_iterFixed {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     (T : Fin r → V ≃ₗ[K] V) (hc : ∀ a b, T a * T b = T b * T a)
     (j : Fin r) {i : ℕ} : ∀ v ∈ iterFixed T i, (T j : V →ₗ[K] V) v ∈ iterFixed T i := by

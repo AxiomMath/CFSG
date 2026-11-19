@@ -15,9 +15,9 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.Assembly CFSG.LocalAnalysis.GL
 open CFSG.LocalAnalysis.GLTheoremA.T173
 open scoped commutatorElement MatrixGroups
 
-private theorem charP_two_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+private theorem charP_two_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p', hp'⟩ := CharP.exists F
   have hp'prime : p'.Prime := CharP.char_is_prime F p'
   obtain ⟨m, -, hcard⟩ := FiniteField.card F p'
@@ -190,7 +190,7 @@ theorem lin_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     ∃ I : Finset (Fin d), 2 ≤ I.card ∧
       ∀ k : Ω, k ∈ K ↔ ∃ u : ↥(LargeEvenSLGroup (Fin d) F),
         (P * (u : GL (Fin d) F) * P⁻¹) ∈ LinBlockSet d F I ∧ (ψ u : Ω) = k := by
-  haveI : CharP F 2 := charP_two_of_card (by omega) hF
+  have : CharP F 2 := charP_two_of_card (by omega) hF
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
   let ψ' : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* Ω :=
     (S.subtype.comp ψ).comp (CFSG.StandardType.InnerDiagA.slEquiv m F).toMonoidHom

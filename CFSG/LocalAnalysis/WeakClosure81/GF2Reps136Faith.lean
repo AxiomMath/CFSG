@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_wd_stable (L : Subgroup (MulAut W)) : StableUnder L (Wd L) := by
   intro l hl u hu
   change l u ∈ commSub ⊤ L
@@ -26,6 +27,7 @@ private theorem w1369_wd_stable (L : Subgroup (MulAut W)) : StableUnder L (Wd L)
   rw [h]
   exact Subgroup.mem_map_of_mem l.toMonoidHom hu
 
+omit [Finite W] in
 private theorem w1369_cd_stable (L : Subgroup (MulAut W)) : StableUnder L (Cd L) := by
   intro l hl u hu
   obtain ⟨huWd, huFix⟩ := Subgroup.mem_inf.mp hu
@@ -40,6 +42,7 @@ private theorem w1369_cd_stable (L : Subgroup (MulAut W)) : StableUnder L (Cd L)
   rw [← h1]
   exact congrArg l hfix
 
+omit [Finite W] in
 private theorem w1369_le_stabSub_of_stable {A : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder A U) : A ≤ stabSub U := by
   intro a ha
@@ -49,10 +52,12 @@ private theorem w1369_le_stabSub_of_stable {A : Subgroup (MulAut W)} {U : Subgro
     have := h a⁻¹ (A.inv_mem ha) (a u) hau
     simpa using this, h a ha u⟩
 
+omit [Finite W] in
 private theorem w1369_perfect {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)}
     (c : Ctx136 Y t L) : ⁅L, L⁆ = L :=
   Subgroup.isPerfect_iff.mp (Group.isPerfect_def.mpr c.comp.2.2.1)
 
+omit [Finite W] in
 private theorem w1369_wd_idem {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)}
     (c : Ctx136 Y t L) : commSub (Wd L) L = Wd L := by
   refine le_antisymm (commSub_mono le_top le_rfl) ?_
@@ -210,10 +215,10 @@ theorem faithful_on_wstar (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)}
       intro l hl
       exact MulEquiv.ext fun w => (mem_fixV.mp (hfix (Subgroup.mem_top w))) l hl
     have hLne : L ≠ ⊥ := by
-      haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial c.comp.2.2
+      have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial c.comp.2.2
       exact (Subgroup.nontrivial_iff_ne_bot L).mp inferInstance
     exact hLne hLbot
-  haveI hK0n : K0.Normal := inferInstance
+  have hK0n : K0.Normal := inferInstance
   have hK0c : K0 ≤ Subgroup.center ↥L := by
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top c.comp.2.2 K0
       with h | h

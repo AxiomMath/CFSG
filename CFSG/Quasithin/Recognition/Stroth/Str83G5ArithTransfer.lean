@@ -59,7 +59,7 @@ theorem map_eq_map_of_factor {α β γ : Type*} {s t : Multiset α} {f : α → 
   have hg : ∀ a ∈ s + t, g (f a) = k a := by
     intro a ha
     have hy : ∃ b ∈ s + t, f b = f a := ⟨a, ha, rfl⟩
-    simp only [g, dif_pos hy]
+    simp only [g, dite_eq_left hy]
     exact h _ hy.choose_spec.1 _ ha hy.choose_spec.2
   have hs : s.map k = (s.map f).map g := by
     rw [Multiset.map_map]
@@ -159,7 +159,7 @@ private theorem le_sum_drops (p : Pattern) {m : ℕ} (hm : m ≤ p.s1 ∨ m ≤ 
     intro j hj
     rw [Finset.mem_Ico] at hj
     unfold dS dL
-    split_ifs <;> push_cast <;> omega
+    split_ifs <;> push_cast; omega
   calc (m : ℤ) = ∑ _j ∈ Finset.Ico 1 (m + 1), (1 : ℤ) := by simp
     _ ≤ _ := Finset.sum_le_sum h
 

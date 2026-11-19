@@ -19,9 +19,11 @@ variable {G : Type} [Group G] [Finite G] {z : G} (D : LocalData G z)
 noncomputable abbrev AG : Subgroup G :=
   CFSG.GroupTheory.oddOrderClosure (centralizer ({D.t0} : Set G))
 
+omit [Finite G] in
 theorem AG_le_centralizer : D.AG ≤ centralizer ({D.t0} : Set G) :=
   CFSG.GroupTheory.oddOrderClosure_le _
 
+omit [Finite G] in
 private theorem centralizer_t0_le_normalizer_AG :
     centralizer ({D.t0} : Set G) ≤ normalizer (D.AG : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer D.AG_le_centralizer).mp
@@ -29,7 +31,7 @@ private theorem centralizer_t0_le_normalizer_AG :
 
 private theorem isSylow_TG_centralizer (hF3 : F3Prop) :
     IsSylowOf 2 D.TG (centralizer ({D.t0} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isSylowOf_iff]
   exact ⟨D.TG_le_centralizer, D.isPGroup_TG hF3, D.not_two_dvd_relIndex_TG hF3⟩
 
@@ -41,7 +43,7 @@ theorem AG_inf_TG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (hF3 : F3Prop)
 private theorem isSylow_T0G_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) :
     IsSylowOf 2 D.T0G D.AG := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (isSylow_TG_centralizer D hF3).inf_of_le_normalizer
     D.AG_le_centralizer (centralizer_t0_le_normalizer_AG D)
   rw [inf_comm, AG_inf_TG D hF1 hF1M hF2 hF3 hF4 hF5 hF8] at h
@@ -64,6 +66,7 @@ theorem M2G_le_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (hF3 : F3Prop)
     (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) : D.M2G ≤ D.AG :=
   (M2G_le_T0G D hF5).trans (T0G_le_AG D hF1 hF1M hF2 hF3 hF4 hF5 hF8)
 
+omit [Finite G] in
 theorem tauG_mem_normalizer_AG (hF5 : F5Prop) : D.tauG ∈ normalizer (D.AG : Set G) :=
   CFSG.GroupTheory.normalizer_le_normalizer_oddOrderClosure _
     ((Subgroup.le_normalizer (H := centralizer ({D.t0} : Set G)))
@@ -72,9 +75,10 @@ theorem tauG_mem_normalizer_AG (hF5 : F5Prop) : D.tauG ∈ normalizer (D.AG : Se
 theorem not_two_dvd_relIndex_T0G (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) :
     ¬ 2 ∣ D.T0G.relIndex D.AG := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (isSylowOf_iff.mp (isSylow_T0G_AG D hF1 hF1M hF2 hF3 hF4 hF5 hF8)).2.2
 
+omit [Finite G] in
 private theorem commutator_mem_inf_M2G (hF5 : F5Prop) {t l : G}
     (ht : t ∈ D.T0G) (hl : l ∈ D.T0G) :
     t * l * t⁻¹ * l⁻¹ ∈ D.pull (decSubgroup l1Decs) ⊓ D.M2G := by
@@ -103,6 +107,7 @@ private theorem commutator_mem_inf_M2G (hF5 : F5Prop) {t l : G}
   rw [harg, map_mul, map_mul, map_mul, map_inv, map_inv]
   simpa using hz
 
+omit [Finite G] in
 private theorem conj_mem_L_of_mem_T0G (hF5 : F5Prop) {t l : G} (ht : t ∈ D.T0G)
     (hl : l ∈ D.L) : t * l * t⁻¹ ∈ D.L := by
   have hz := commutator_mem_inf_M2G D hF5 ht (L_le_T0G D hF5 hl)
@@ -110,7 +115,7 @@ private theorem conj_mem_L_of_mem_T0G (hF5 : F5Prop) {t l : G} (ht : t ∈ D.T0G
     D.L.mul_mem (Subgroup.mem_inf.mp hz).1 hl
   rwa [show t * l * t⁻¹ = (t * l * t⁻¹ * l⁻¹) * l from by group]
 
-theorem T0G_le_normalizer_L (hF1 : F1Prop) (hF5 : F5Prop) :
+theorem T0G_le_normalizer_L (_hF1 : F1Prop) (hF5 : F5Prop) :
     D.T0G ≤ normalizer (D.L : Set G) := by
   intro t ht
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -122,7 +127,7 @@ theorem T0G_le_normalizer_L (hF1 : F1Prop) (hF5 : F5Prop) :
 theorem centralizer_L_inf_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF6 : F6Prop) (hF8 : F8Prop) :
     centralizer (D.L : Set G) ⊓ D.AG = D.L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K1 : Subgroup G := normalizer (D.L : Set G) ⊓ D.AG
   let C : Subgroup G := centralizer (D.L : Set G) ⊓ D.AG
   change C = D.L
@@ -131,7 +136,7 @@ theorem centralizer_L_inf_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
-    haveI : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
+    have : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
     exact (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥D.L) ⟨y, hy⟩)).symm
   have hC_le_inter : C ≤ centralizer (D.L : Set G) ⊓ centralizer ({D.t0} : Set G) :=
     le_inf inf_le_left (inf_le_right.trans D.AG_le_centralizer)
@@ -161,7 +166,7 @@ theorem centralizer_L_inf_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (isSylow_T0G_AG D hF1 hF1M hF2 hF3 hF4 hF5 hF8).of_le hT0K1 inf_le_right
   have hC_le_T0 : C ≤ D.T0G := by
     obtain ⟨Q, hQ⟩ := hT0_sylow.exists_sylow_eq_subgroupOf
-    haveI : (Subgroup.comap K1.subtype C).Normal := by
+    have : (Subgroup.comap K1.subtype C).Normal := by
       simpa [Subgroup.comap_subtype] using hCnormal
     have hCsub_le : C.subgroupOf K1 ≤ Q :=
       IsPGroup.le_sylow_of_normal hC2.comap_subtype Q
@@ -174,7 +179,7 @@ theorem centralizer_L_inf_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     have hcard := Subgroup.card_le_of_le hle
     rw [card_inf_M2G D hF5, card_L D hF1] at hcard
     norm_num at hcard
-  obtain ⟨x, hxL, hxZ⟩ := SetLike.not_le_iff_exists.mp hnot_le
+  obtain ⟨x, hxL, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot_le
   have hxsub : ({x} : Set G) ⊆ (D.L : Set G) := by
     intro y hy
     rw [Set.mem_singleton_iff] at hy
@@ -238,10 +243,10 @@ private theorem X16_zero_fixed {i : ℕ} (hi : i < 4) {g : Equiv.Perm (Fin 16)}
 private theorem X16_exists_smul_of_ne_zero (hF9 : F9Prop) {i : ℕ} (hi : i < 4)
     {j k : Fin 16} (hj : j ≠ 0) (hk : k ≠ 0) : ∃ g ∈ X16 i, g j = k := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let X : Subgroup (Equiv.Perm (Fin 16)) := X16 i
-  letI : MulAction ↥X (Fin 16) := MulAction.compHom (Fin 16) (Subgroup.subtype X)
+  let : MulAction ↥X (Fin 16) := MulAction.compHom (Fin 16) (Subgroup.subtype X)
   let O : Set (Fin 16) := MulAction.orbit ↥X j
   have hXcard : Nat.card ↥X = 60 := (hF9.1 i hi).1
   have hO_subset : O ⊆ {x : Fin 16 | x ≠ 0} := by
@@ -250,12 +255,12 @@ private theorem X16_exists_smul_of_ne_zero (hF9 : F9Prop) {i : ℕ} (hi : i < 4)
     have hmem : ((g : ↥X) : Equiv.Perm (Fin 16)) j = 0 := hx
     have h1 : j = ((g⁻¹ : ↥X) : Equiv.Perm (Fin 16)) 0 := by
       rw [← hmem]
-      simp [Subgroup.coe_inv]
+      simp
     rw [hg0'] at h1
     exact hj h1
-  letI : Fintype ↥X := Fintype.ofFinite ↥X
-  letI : Fintype O := Fintype.ofFinite O
-  letI : Fintype (MulAction.stabilizer ↥X j) := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite ↥X
+  let : Fintype O := Fintype.ofFinite O
+  let : Fintype (MulAction.stabilizer ↥X j) := Fintype.ofFinite _
   have hmain : Nat.card O * Nat.card (MulAction.stabilizer ↥X j) = Nat.card ↥X := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     exact MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥X) (b := j)
@@ -363,7 +368,7 @@ private theorem inf_T0G_centralizer_L (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2P
   · intro x hx
     refine ⟨L_le_T0G D hF5 hx, ?_⟩
     exact Subgroup.mem_centralizer_iff.mpr fun y hy => by
-      haveI : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
+      have : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
       exact (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥D.L) ⟨y, hy⟩)).symm
 
 private theorem exists_X16_map_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
@@ -373,8 +378,8 @@ private theorem exists_X16_map_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
       (((normalizer (D.L : Set G) ⊓ D.AG).subgroupOf (normalizer (D.L : Set G))).map
         (bitAction (D.lEquiv hF1))) = X16 i := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let N : Subgroup G := normalizer (D.L : Set G)
   let K1 : Subgroup G := N ⊓ D.AG
   let ρ : ↥N →* Equiv.Perm (Fin 16) := bitAction (D.lEquiv hF1)
@@ -509,7 +514,7 @@ theorem exists_conj_mem_T0G (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) {e : G}
     (he : e ∈ D.AG) (he2 : e * e = 1) :
     ∃ a ∈ D.AG, a * e * a⁻¹ ∈ D.T0G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eA : ↥D.AG := ⟨e, he⟩
   let P : Subgroup ↥D.AG := Subgroup.zpowers eA
   have hP2 : IsPGroup 2 ↥P := by
@@ -613,6 +618,7 @@ private theorem card_Msub (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (M2G_le_AG D hF1 hF1M hF2 hF3 hF4 hF5 hF8)).toEquiv]
   exact card_M2G D hF1 hF5
 
+omit [Finite G] in
 private theorem Lsub_inf_Msub :
     D.L.subgroupOf D.AG ⊓ D.M2G.subgroupOf D.AG =
       (D.L ⊓ D.M2G).subgroupOf D.AG := by
@@ -734,7 +740,7 @@ private theorem map_subtype_centralizer_singleton (hF1 : F1Prop) (hF1M : F1MProp
       (Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp hycent))
 
 private theorem config_centralizer_L (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
-    (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF6 : F6Prop) (hF8 : F8Prop) :
+    (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (_hF6 : F6Prop) (hF8 : F8Prop) :
     ∀ x ∈ D.L.subgroupOf D.AG, x ∉ D.L.subgroupOf D.AG ⊓ D.M2G.subgroupOf D.AG →
       Subgroup.centralizer ({x} : Set ↥D.AG) ⊓
         (configT D hF1 hF1M hF2 hF3 hF4 hF5 hF8 : Subgroup ↥D.AG) =
@@ -769,7 +775,7 @@ private theorem config_centralizer_L (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Pr
     rwa [show z = y from Subtype.ext hzy] at hz
 
 private theorem config_centralizer_M (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
-    (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF6 : F6Prop) (hF8 : F8Prop) :
+    (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (_hF6 : F6Prop) (hF8 : F8Prop) :
     ∀ x ∈ D.M2G.subgroupOf D.AG, x ∉ D.L.subgroupOf D.AG ⊓ D.M2G.subgroupOf D.AG →
       Subgroup.centralizer ({x} : Set ↥D.AG) ⊓
         (configT D hF1 hF1M hF2 hF3 hF4 hF5 hF8 : Subgroup ↥D.AG) =
@@ -896,8 +902,6 @@ private noncomputable def normalizerEquivOfLe (H : Subgroup G) (hH : H ≤ D.AG)
     · rw [Subgroup.card_map_of_injective (MulAut.conj (n.1 : G)).injective]
   invFun m := by
     refine ⟨⟨(m.1 : G), m.2.2⟩, ?_⟩
-    change (⟨(m.1 : G), m.2.2⟩ : ↥D.AG) ∈
-      Subgroup.normalizer (H.subgroupOf D.AG : Set ↥D.AG)
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
     · rintro _ ⟨l, hl, rfl⟩
@@ -1056,8 +1060,8 @@ private noncomputable def configEL (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop
       ↥(configK1 D) :=
   normalizerEquivOfLe D D.L (L_le_AG D hF1 hF1M hF2 hF3 hF4 hF5 hF8)
 
-private noncomputable def configKMap (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
-    (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) {i : ℕ}
+private noncomputable def configKMap (hF1 : F1Prop) (_hF1M : F1MProp) (_hF2 : F2Prop)
+    (_hF3 : F3Prop) (_hF4 : F4Prop) (_hF5 : F5Prop) (_hF8 : F8Prop) {i : ℕ}
     (hX16 : ((configK1 D).subgroupOf (configN D)).map (bitAction (D.lEquiv hF1)) =
       X16 i) :
     ↥(configK1 D) →* ↥(X16 i) :=
@@ -1074,8 +1078,8 @@ private noncomputable def configKMap (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Pr
 
 private noncomputable def configQuotL
     (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (hF3 : F3Prop) (hF4 : F4Prop)
-    (hF5 : F5Prop) (hF6 : F6Prop) (hF6b : F6bProp) (hF8 : F8Prop) (hF9 : F9Prop)
-    (hF11 : F11Prop) {i : ℕ} (hi : i < 4)
+    (hF5 : F5Prop) (_hF6 : F6Prop) (_hF6b : F6bProp) (hF8 : F8Prop) (hF9 : F9Prop)
+    (_hF11 : F11Prop) {i : ℕ} (hi : i < 4)
     (hX16 : ((configK1 D).subgroupOf (configN D)).map (bitAction (D.lEquiv hF1)) =
       X16 i) :
     ↥(Subgroup.normalizer (D.L.subgroupOf D.AG : Set ↥D.AG)) →*
@@ -1084,6 +1088,7 @@ private noncomputable def configQuotL
     ((configKMap D hF1 hF1M hF2 hF3 hF4 hF5 hF8 hX16).comp
       (configEL D hF1 hF1M hF2 hF3 hF4 hF5 hF8).toMonoidHom)
 
+omit [Finite G] in
 private theorem configKMap_surjective (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     (hF3 : F3Prop) (hF4 : F4Prop) (hF5 : F5Prop) (hF8 : F8Prop) {i : ℕ}
     (hX16 : ((configK1 D).subgroupOf (configN D)).map (bitAction (D.lEquiv hF1)) =
@@ -1175,7 +1180,7 @@ private theorem configQuotL_ker
       rw [Subgroup.mem_centralizer_iff]
       intro l hl
       change l * ((n.1 : ↥D.AG) : G) = ((n.1 : ↥D.AG) : G) * l
-      haveI : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
+      have : IsMulCommutative ↥D.L := (D.isElemAbelian_L hF1).1
       simpa only [Subgroup.coe_mul] using
         (congrArg Subtype.val (mul_comm' (⟨((n.1 : ↥D.AG) : G), hnL⟩ : ↥D.L)
           ⟨l, hl⟩)).symm
@@ -1197,12 +1202,14 @@ private noncomputable abbrev configNM (D : LocalData G z) : Subgroup G :=
 private noncomputable abbrev configK1M (D : LocalData G z) : Subgroup G :=
   configNM D ⊓ D.AG
 
+omit [Finite G] in
 private theorem map_conj_tau_normalizer_L (hF1 : F1Prop) (hF5 : F5Prop) :
     (Subgroup.normalizer (D.L : Set G)).map (MulAut.conj D.tauG).toMonoidHom =
       Subgroup.normalizer (D.M2G : Set G) := by
   rw [M2G_eq_map D hF1 hF5]
   exact Subgroup.map_equiv_normalizer_eq (D.L : Subgroup G) (MulAut.conj D.tauG)
 
+omit [Finite G] in
 private theorem map_conj_tau_inv_normalizer_M (hF1 : F1Prop) (hF5 : F5Prop) :
     (Subgroup.normalizer (D.M2G : Set G)).map (MulAut.conj D.tauG⁻¹).toMonoidHom =
       Subgroup.normalizer (D.L : Set G) := by
@@ -1247,7 +1254,7 @@ private noncomputable def configConjMtoL (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : 
     have hyNormL : D.tauG⁻¹ * (m.1 : G) * D.tauG ∈
         Subgroup.normalizer (D.L : Set G) := by
       rw [← map_conj_tau_inv_normalizer_M D hF1 hF5]
-      exact Subgroup.mem_map.mpr ⟨(m.1 : G), hmN, by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨(m.1 : G), hmN, by simp⟩
     exact (configEL D hF1 hF1M hF2 hF3 hF4 hF5 hF8).symm
       ⟨D.tauG⁻¹ * (m.1 : G) * D.tauG, ⟨hyNormL, hyAG⟩⟩
   map_one' := by

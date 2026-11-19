@@ -78,7 +78,7 @@ theorem exists_conj_le_of_not_dvd {G : Type*} [Group G] [Finite G] {A N P : Subg
 theorem charP_two_of_card_four (K' : Type) [Field K'] [Finite K'] (h : Nat.card K' = 4) :
     CharP K' 2 := by
   classical
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K'
   rw [Fintype.card_eq_nat_card, h] at hcard
   have hdvd : p ∣ 4 := by
@@ -183,7 +183,7 @@ theorem relIndex_stabilizer_le_three {B : Subgroup (WeylGroup Tag.E6)} (hB3 : �
     have h1 : (MulAction.stabilizer (WeylGroup Tag.E6) γ).subgroupOf B =
         MulAction.stabilizer ↥B γ := by
       ext x
-      simp [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
+      simp [MulAction.mem_stabilizer_iff]
     rw [Subgroup.relIndex, h1, MulAction.index_stabilizer]
     calc (MulAction.orbit ↥B γ).ncard ≤ (T : Set (Fin Tag.E6.rank → ℤ)).ncard := by
           refine Set.ncard_le_ncard ?_ T.finite_toSet
@@ -251,7 +251,7 @@ theorem Chat_le_normalizer :
 
 theorem not_three_dvd_relIndex_Nhat [Finite K] (h3 : 3 ∣ Nat.card K - 1) :
     ¬ 3 ∣ (Nhat K).relIndex (Chat K) := by
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
   by_cases hDC : Dgrp K ≤ adjointGroup Tag.E6 K
   · have hC : Chat K = adjointGroup Tag.E6 K := sup_eq_right.2 hDC
     have hle : Nhat K ≤ adjointGroup Tag.E6 K := hC ▸ Nhat_le_Chat
@@ -387,7 +387,7 @@ theorem core [Finite K] {P₁ : Subgroup (ModGL Tag.E6 K)} (hP₁ : P₁ ≤ Nha
       Nat.card P₁ ≤ 3 * Nat.card E₁ ∧
       ∀ x ∈ E₁, ∀ y ∈ rootSubgroup Tag.E6 K γ, x * y * x⁻¹ ∈ rootSubgroup Tag.E6 K γ := by
   classical
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
   let f : ↥P₁ →* WeylGroup Tag.E6 := (rhoHat K).comp (Subgroup.inclusion hP₁)
   have hf3 : ∀ b ∈ f.range, b ^ 3 = 1 := by
     rintro _ ⟨x, rfl⟩
@@ -411,7 +411,7 @@ theorem core [Finite K] {P₁ : Subgroup (ModGL Tag.E6 K)} (hP₁ : P₁ ≤ Nha
   have hT' : (T.image (fun t => v • t)).card ≤ 8 := Finset.card_image_le.trans hT
   have hBT' : ∀ b ∈ f.range, b • γ ∈ T.image (fun t => v • t) := by
     intro b hb
-    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp [MulAut.conj_apply]⟩
+    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp⟩
     refine Finset.mem_image.2 ⟨(v⁻¹ * b * v) • β, hBT _ h1, ?_⟩
     rw [hγdef, smul_smul, smul_smul]
     congr 1
@@ -454,7 +454,7 @@ theorem exists_Phi_eq [Finite K] (hK : Nat.card K = 4) (α : MulAut ↥(adjointG
       simp [exactE]
     have hcard : Nat.card (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) = 4 := by
       rw [Nat.card_prod, hcardR, hcardE]
-    haveI : Finite (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) :=
+    have : Finite (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     have h4 : orderOf (Θ α) ∣ 4 := hcard ▸ orderOf_dvd_natCard _
     have h3' : orderOf (Θ α) ∣ 3 := orderOf_dvd_of_pow_eq_one h3
@@ -480,9 +480,9 @@ theorem model_main [Finite K] (hK : Nat.card K = 4)
       ∃ U : Subgroup ↥(adjointGroup Tag.E6 K), U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧
         ∀ φ ∈ E, ∀ u ∈ U, φ u ∈ U := by
   classical
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := charP_two_of_card_four K hK
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := charP_two_of_card_four K hK
   have h3 : 3 ∣ Nat.card K - 1 := by rw [hK]
   set X : Subgroup ↥(Chat K) := A'.comap (Phi K) with hX
   let f : ↥X →* ↥A' := ((Phi K).comp X.subtype).codRestrict A' (fun x => x.2)
@@ -722,7 +722,7 @@ theorem gen2318E64Core_holds : Gen2318E64Core := by
         eS.symm.injective).1 h)
     · rintro _ ⟨φ', hφ', rfl⟩ _ ⟨u', hu', rfl⟩
       refine ⟨φ' u', hU' φ' hφ' u' hu', ?_⟩
-      simp [he, MulAut.congr_apply]
+      simp [he]
   | _ => exact absurd hd (by simp [IsE6FourIndex])
 
 end Main

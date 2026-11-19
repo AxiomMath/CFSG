@@ -97,6 +97,7 @@ section PrimeForm
 
 variable {p f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFieldData p f K) {N : ℕ}
 
+omit [Finite K] in
 theorem mem_inner_of_mem_primeFormD {C : GL (Fin N) K} (h3 : ¬ 3 ∣ p ^ f + 1)
     {α : MulAut (primeFormP h (C : Matrix (Fin N) (Fin N) K))}
     (hα : α ∈ primeFormD h (C : Matrix (Fin N) (Fin N) K)) (hα3 : α ^ 3 = 1) :
@@ -132,7 +133,7 @@ theorem exists_modelB_primeFormP (hN : N = 4 ∨ N = 5) (hp3 : p ≠ 3) (h3 : ¬
         ModelB (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)) ψ := by
   have hN3 : 3 ≤ N := by omega
   have hq : ¬(N = 3 ∧ p ^ f = 2) := fun h' => by omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ := primeFormFieldFactor h isPrimeFormGram_one hN3 hq β with hφ
   have hφ3 : φ ^ 3 = 1 := by rw [hφ, ← map_pow, hβ3, map_one]
   have hφ1 : φ ≠ 1 := fun h1 => hβ (mem_inner_of_mem_primeFormD h h3
@@ -149,6 +150,7 @@ theorem exists_modelB_primeFormP (hN : N = 4 ∨ N = 5) (hp3 : p ≠ 3) (h3 : ¬
         (primeFormConjHom h _ M)⁻¹ := by rw [← hM]; group
     _ = _ := MulEquiv.ext fun _ => rfl
 
+omit [Finite K] in
 private theorem nonempty_statedProj_equiv_primeFormP (hN : 1 ≤ N) :
     Nonempty (StatedProj (StatedSU N (p ^ f) K) ≃*
       primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)) :=
@@ -158,7 +160,7 @@ private theorem nonempty_statedProj_equiv_primeFormP (hN : 1 ≤ N) :
 theorem card_le_nine_primeFormP (hN : N = 4 ∨ N = 5) (h3 : 3 ∣ p ^ f - 1)
     (F : Subgroup (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)))
     (hF : IsElemAbelian 3 F) : Nat.card F ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_statedProj_equiv_primeFormP h (N := N) (by omega)
   have hr : CFSG.Open.pRank 3
       (⊤ : Subgroup (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K))) ≤ 2 := by
@@ -173,7 +175,7 @@ theorem card_le_nine_primeFormP (hN : N = 4 ∨ N = 5) (h3 : 3 ∣ p ^ f - 1)
 
 theorem center_primeFormP_eq_bot (hN : N = 4 ∨ N = 5) :
     Subgroup.center (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨e⟩ := nonempty_statedProj_equiv_primeFormP h (N := N) (by omega)
   rw [← Subgroup.map_center_eq e, CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.ka_center_bot_pu
     (by rw [h.card, ← pow_mul, mul_comm]) (by omega) (fun h' => by
@@ -217,8 +219,8 @@ theorem p3At_twistedA_of_field
     rwa [TauCeti.LieTypeIndex.characteristic_twistedA] at hchar
   obtain ⟨⟨hp, hf, -, -⟩, K, _, _, hK, ⟨e₁⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA n Q hv e
-  haveI : Fact Q.p.Prime := ⟨hp⟩
-  haveI : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
+  have : Fact Q.p.Prime := ⟨hp⟩
+  have : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
   have h : UnitaryFieldData Q.p Q.exponent K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hp2 : Q.p ≠ 2 := hQq ▸ H.two
   have hp3 : Q.p ≠ 3 := hQq ▸ H.three
@@ -234,9 +236,9 @@ theorem p3At_twistedA_of_field
     (card_le_nine_primeFormP h hN h31)
     (exists_modelB_primeFormP h hN hp3 h31' (hfield K Q.p Q.exponent h hp2 hp3 (n + 1) hN)))
 
-theorem p3At_twistedA_of_dvd_sub_one {n : ℕ} (hn3 : 3 ≤ n) (hn4 : n ≤ 4) {Q : TauCeti.PrimePower}
-    (hv : (TauCeti.LieTypeIndex.twistedA n Q).Valid) (h3 : 3 ∣ Q.card - 1) : P3At ⟨_, hv⟩ :=
-  p3At_twistedA_of_field (fun K _ _ p f h hp2 hp3 n hn σ hσ =>
+theorem p3At_twistedA_of_dvd_sub_one {_n : ℕ} (hn3 : 3 ≤ _n) (hn4 : _n ≤ 4) {Q : TauCeti.PrimePower}
+    (hv : (TauCeti.LieTypeIndex.twistedA _n Q).Valid) (h3 : 3 ∣ Q.card - 1) : P3At ⟨_, hv⟩ :=
+  p3At_twistedA_of_field (fun _K _ _ _p _f h hp2 hp3 _n hn _σ hσ =>
     Field.modelB_primeFormP h hp2 hp3 hn hσ) hn3 hn4 hv h3
 
 end Main

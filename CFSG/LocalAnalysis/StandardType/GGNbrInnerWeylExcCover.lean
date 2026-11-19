@@ -14,7 +14,7 @@ theorem largeEven_prime_not_dvd_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : 
   have h2 : p ∣ 2 := hp.dvd_of_dvd_pow (show p ∣ 2 ^ 2 from hd)
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)
 
-theorem largeEven_not_dvd_sq_sub_one {p q : ℕ} (hp : p.Prime) (hq : 1 ≤ q)
+theorem largeEven_not_dvd_sq_sub_one {p q : ℕ} (hp : p.Prime) (_hq : 1 ≤ q)
     (h1 : ¬ p ∣ q - 1) (h2 : ¬ p ∣ q + 1) : ¬ p ∣ q ^ 2 - 1 := by
   intro h
   have hfac : q ^ 2 - 1 = (q - 1) * (q + 1) := by
@@ -292,7 +292,7 @@ theorem ggNbrWeylInnerExcLabel_false_twA {p l n : ℕ} (hp : p.Prime) (hp2 : p �
         exact h.2.2.2.1 (ggNbrWeylInnerExcLabel_unitFive_of h.1.2.1 hq1)
 
 theorem ggNbrWeylInnerExcLabel_false_B {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.B, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.B, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.B, l, n⟩ : LargeEvenLabel)) : False := by
   have hns : ¬ GGNbrNsSpLabel p (⟨.B, l, n⟩ : LargeEvenLabel) :=
     fun hx => h.1.2.2.1 (ggNbrWeylInnerExcLabel_nsVac_of_nsSp hx)
@@ -305,7 +305,7 @@ theorem ggNbrWeylInnerExcLabel_false_B {p l n : ℕ} (_hp : p.Prime) (_hp2 : p �
   · exact h.1.2.2.2.1 (ggNbrWeylInnerExcLabel_irred_of_spNonsplit h.1.2.1 ⟨Or.inl rfl, hq2⟩)
 
 theorem ggNbrWeylInnerExcLabel_false_C {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.C, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.C, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.C, l, n⟩ : LargeEvenLabel)) : False := by
   have hns : ¬ GGNbrNsSpLabel p (⟨.C, l, n⟩ : LargeEvenLabel) :=
     fun hx => h.1.2.2.1 (ggNbrWeylInnerExcLabel_nsVac_of_nsSp hx)
@@ -396,7 +396,7 @@ theorem ggNbrWeylInnerExcLabel_false_twD {p l n : ℕ} (hp : p.Prime) (_hp2 : p 
           ⟨Or.inr rfl, hl4, hq2⟩)
 
 theorem ggNbrWeylInnerExcLabel_false_triD4 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.triD4, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.triD4, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.triD4, l, n⟩ : LargeEvenLabel)) : False := by
   by_cases hp3 : p = 3
   · exact h.1.1.2.1 (ggNbrWeylInnerExcLabel_weylVac_of_nineSmall h.1.2.1
@@ -411,36 +411,36 @@ theorem ggNbrWeylInnerExcLabel_false_triD4 {p l n : ℕ} (_hp : p.Prime) (_hp2 :
       (ggNbrWeylInnerExcLabel_split_of_triD4 hq1))
 
 theorem ggNbrWeylInnerExcLabel_false_G2 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.G2, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.G2, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.G2, l, n⟩ : LargeEvenLabel)) : False :=
   h.1.1.2.1 (ggNbrWeylInnerExcLabel_weylVac_of_nineSmall h.1.2.1
     (ggNbrWeylInnerExcLabel_nineSmall_of_G2))
 
 theorem ggNbrWeylInnerExcLabel_false_twB2 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.twB2, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.twB2, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.twB2, l, n⟩ : LargeEvenLabel)) : False :=
   h.1.1.2.1 (Or.inl rfl)
 
 theorem ggNbrWeylInnerExcLabel_false_B2der {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.B2der, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.B2der, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.B2der, l, n⟩ : LargeEvenLabel)) : False :=
   h.1.1.2.1 (ggNbrWeylInnerExcLabel_weylVac_of_nineSmall h.1.2.1
     (ggNbrWeylInnerExcLabel_nineSmall_of_B2der))
 
 theorem ggNbrWeylInnerExcLabel_false_G2der {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.G2der, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.G2der, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.G2der, l, n⟩ : LargeEvenLabel)) : False :=
   h.1.1.2.1 (ggNbrWeylInnerExcLabel_weylVac_of_nineSmall h.1.2.1
     (ggNbrWeylInnerExcLabel_nineSmall_of_G2der))
 
 theorem ggNbrWeylInnerExcLabel_false_twF4der {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.twF4der, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.twF4der, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.twF4der, l, n⟩ : LargeEvenLabel)) : False :=
   h.1.1.2.1 (ggNbrWeylInnerExcLabel_weylVac_of_nineSmall h.1.2.1
     (ggNbrWeylInnerExcLabel_nineSmall_of_twF4der))
 
 theorem ggNbrWeylInnerExcLabel_E6 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.E6, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.E6, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.E6, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylE6Label p (⟨.E6, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsE6Label p (⟨.E6, l, n⟩ : LargeEvenLabel) :=
@@ -460,7 +460,7 @@ theorem ggNbrWeylInnerExcLabel_E6 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
   · exact Or.inr ⟨hn1, Or.inr hp7⟩
 
 theorem ggNbrWeylInnerExcLabel_twE6 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.twE6, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.twE6, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.twE6, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylTwE6Label p (⟨.twE6, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsTwE6Label p (⟨.twE6, l, n⟩ : LargeEvenLabel) :=
@@ -472,7 +472,7 @@ theorem ggNbrWeylInnerExcLabel_twE6 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 
   exact ⟨h.1.2.1, rfl, hcases⟩
 
 theorem ggNbrWeylInnerExcLabel_E7 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.E7, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.E7, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.E7, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylExcPlusLabel p (⟨.E7, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsE7Label p (⟨.E7, l, n⟩ : LargeEvenLabel) :=
@@ -489,7 +489,7 @@ theorem ggNbrWeylInnerExcLabel_E7 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
   exact ⟨h.1.2.1, Or.inl rfl, hq2⟩
 
 theorem ggNbrWeylInnerExcLabel_E8 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.E8, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.E8, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.E8, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylExcPlusLabel p (⟨.E8, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsE8Label p (⟨.E8, l, n⟩ : LargeEvenLabel) :=
@@ -506,7 +506,7 @@ theorem ggNbrWeylInnerExcLabel_E8 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
   exact ⟨h.1.2.1, Or.inr (Or.inl rfl), hq2⟩
 
 theorem ggNbrWeylInnerExcLabel_F4 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.F4, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.F4, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.F4, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylExcPlusLabel p (⟨.F4, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsF4Label p (⟨.F4, l, n⟩ : LargeEvenLabel) :=
@@ -522,7 +522,7 @@ theorem ggNbrWeylInnerExcLabel_F4 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
   exact ⟨h.1.2.1, Or.inr (Or.inr rfl), hq2⟩
 
 theorem ggNbrWeylInnerExcLabel_twF4 {p l n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
-    (hlab : LargeEvenInLambda2 (⟨.twF4, l, n⟩ : LargeEvenLabel))
+    (_hlab : LargeEvenInLambda2 (⟨.twF4, l, n⟩ : LargeEvenLabel))
     (h : GGNbrWeylInnerExcLabel p (⟨.twF4, l, n⟩ : LargeEvenLabel)) :
     GGNbrWeylTwF4Label p (⟨.twF4, l, n⟩ : LargeEvenLabel) := by
   have hns : ¬ GGNbrNsTwF4Label p (⟨.twF4, l, n⟩ : LargeEvenLabel) :=

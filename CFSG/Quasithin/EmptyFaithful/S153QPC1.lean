@@ -21,7 +21,7 @@ theorem forall_isCyclic_of_surjective [Finite H] [Finite K] (f : H →* K) (hf :
   intro E hE
   obtain ⟨P', hEP'⟩ := hE.exists_le_sylow
   obtain ⟨P, rfl⟩ := Sylow.mapSurjective_surjective (p := p) hf P'
-  have hP : IsCyclic (P : Subgroup H) := hH _ P.isPGroup'
+  have hP : IsCyclic (P : Subgroup H) := hH _ P.isPGroup
   have hPf : IsCyclic ((P : Subgroup H).map f) :=
     isCyclic_of_surjective (f.subgroupMap (P : Subgroup H))
       (MonoidHom.subgroupMap_surjective f (P : Subgroup H))

@@ -70,7 +70,7 @@ theorem hyp12Lie_simple_of_uhered {G : Type} [Group G] [Finite G] [IsSimpleGroup
   · have hc : Nat.card (↥L ⧸ center ↥L) = 76532479683774853939200 :=
       card_twistedE6_two hO hE62
     have hcyc := hcyc_of (Or.inr hE62) (by omega)
-    haveI : Group.IsPerfect ↥L := hq.1
+    have : Group.IsPerfect ↥L := hq.1
     have hle : Nat.card ↥(center ↥L) ≤ 2 :=
       card_center_le_two_of_twistedE6 hrow hE62 hZ2 (isCyclic_center_of_sylow hcyc hZ2)
     have h2 : Nat.card ↥(center ↥L) = 2 := by
@@ -88,7 +88,7 @@ theorem sol78Hyp12LieUseAt_of_uhered {Y : Type} [Group Y] [Finite Y] (hY : Balan
   have hNtop : N' = ⊤ := Balance.eq_top_of_index_ne_two hidx hN2
   subst hNtop
   have := hN.isSimpleGroup
-  haveI : IsSimpleGroup Y := (Subgroup.topEquiv.symm : Y ≃* ↥(⊤ : Subgroup Y)).isSimpleGroup
+  have : IsSimpleGroup Y := (Subgroup.topEquiv.symm : Y ≃* ↥(⊤ : Subgroup Y)).isSimpleGroup
   obtain ⟨a, b, hab⟩ := hN.nonabelian
   have hnonab : ∃ a b : Y, a * b ≠ b * a := ⟨a.1, b.1, fun h => hab (Subtype.ext h)⟩
   have key :=

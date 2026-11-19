@@ -18,10 +18,12 @@ section Four
 
 variable [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_pow_inv {x u : G} (hxu : x * u * x⁻¹ = u⁻¹) (n : ℕ) :
     x * u ^ n * x⁻¹ = (u ^ n)⁻¹ := by
   rw [← conj_pow, hxu, inv_pow]
 
+omit [Finite G] in
 private theorem pow_mul_inv_of_inv {x u : G} (hxx : x * x = 1) (hxu : x * u * x⁻¹ = u⁻¹) (n : ℕ) :
     u ^ n * x = x * (u ^ n)⁻¹ := by
   have h := conj_pow_inv hxu n

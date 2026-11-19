@@ -93,7 +93,7 @@ theorem zcore_le_mcore (hB : OddTranspBender) (hC : ConnCex D) (h : Step6 D a b 
         (mcore D x P).comap (lsub D x P).subtype := by
     refine iSup₂_le fun v hv => ?_
     have hvD : (v : G) ∈ D := classIn_subset_of_normal hC.setting.normal _ h.hx hv.1
-    exact h.commutator_le_mcore hC hvD (h.mem_of_mem_isPGroup hC SK.isPGroup' hmemS hvD hv.2)
+    exact h.commutator_le_mcore hC hvD (h.mem_of_mem_isPGroup hC SK.isPGroup hmemS hvD hv.2)
   exact hle (OddTransp.oddTranspCenterSup _ _ _ _ _ _ _ hK (h.commutator_eq_top hC)
     ⟨hw.2, hw.1⟩)
 
@@ -141,7 +141,7 @@ theorem exists_eq_mul_of_mem (hB : OddTranspBender) (h3 : Step6ThreeProductHyp)
   obtain ⟨d, ⟨hdE, hdS⟩, w, hw, hsdw⟩ := hK.exists_mul_of_involution (h.isBenderGroup_zStar hB hC)
     (h.commute_of_mem_commutator_top hB h3 hC) (hmemS s hp) hs2 hsQ
   have hdD : (d : G) ∈ D := classIn_subset_of_normal hC.setting.normal _ h.hx hdE
-  exact ⟨d, hdD, h.mem_of_mem_isPGroup hC SK.isPGroup' hmemS hdD hdS, w, ⟨w, ⟨hw.2, hw.1⟩, rfl⟩,
+  exact ⟨d, hdD, h.mem_of_mem_isPGroup hC SK.isPGroup hmemS hdD hdS, w, ⟨w, ⟨hw.2, hw.1⟩, rfl⟩,
     congrArg Subtype.val hsdw⟩
 
 theorem center_le_sup (hB : OddTranspBender) (h3 : Step6ThreeProductHyp) (hC : ConnCex D)

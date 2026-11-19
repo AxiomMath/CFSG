@@ -179,6 +179,7 @@ private theorem s1b_eq_one_of_mul_self {M : Type} [Group M] {g : M} (hg : g * g 
       exact absurd hodd (by decide)
   exact orderOf_eq_one_iff.mp h1
 
+omit [Finite G] in
 private theorem s1b_eq_one_of_mem_pCoreOf {H : Subgroup G} {b : G} (hb : b ∈ pCoreOf 2 H)
     (hodd : Odd (orderOf b)) : b = 1 := by
   have hp2 : IsPGroup 2 (pCoreOf 2 H) :=
@@ -291,11 +292,11 @@ theorem l2_chiefStep_eq_one_of_conj_equivariant {H Y S : Subgroup G} {n : ℕ}
   classical
   have hn0 : n ≠ 0 := hn.pos.ne'
   let F := GaloisField 2 n
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hFcard : Nat.card F = 2 ^ n := GaloisField.card 2 n hn0
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hYH hV.isPGroup
-  letI : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
   intro hE₀ e ρ φ hcompat hφnat b c hbH hbN hodd hcS hker hequiv
   have hρeq : ρ = l2ChiefSectionRep hstep hYH hE e := by
     refine MonoidHom.ext fun g' => LinearMap.ext fun w => ?_
@@ -431,7 +432,7 @@ theorem l2_chiefStep_eq_one_of_conj_equivariant {H Y S : Subgroup G} {n : ℕ}
       have h1 : orderOf (ψ bH) = orderOf g := rfl
       rw [h1] at h
       have h2 : orderOf bH = orderOf b := by
-        simpa [bH] using (Subgroup.orderOf_coe bH).symm
+        simp [bH]
       rwa [h2] at h
     exact Odd.of_dvd_nat hodd hdvd
   have hg1 : g = 1 := s1b_eq_one_of_mul_self hgg hoddg

@@ -118,8 +118,8 @@ theorem sec97_line_data_of (h34 : Stroth34Statement) (h311a : Stroth311aStatemen
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hW, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   let φ'' : ↥(Rt M (LB M Q B) t) →*
       (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) := (Ψ K).toMonoidHom.comp φ
   have hfac := sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
@@ -167,8 +167,8 @@ theorem ulineX_data (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
       Uline Z B X ≤ Vt M (LB M Q B) B Z t := by
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, H, Φ, w₀, hK, hψ, hnorm, hBiff, hH, hA, hw₀, hu, -, -⟩ :=
     sec97_line_data_of h34 h311a hc hs hsplit (Or.inl rfl)
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨⟨hQX, hXR, hQY, hYR, hXY, hXYQ, hcomm⟩, -, -⟩ := hsplit
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
@@ -254,7 +254,7 @@ theorem exists_vecMulVec_one_sub_of_vecMul_eq_self [CharP K 2]
     have hAA : A * A = 1 := by rw [← pow_two]; exact hA2
     rw [sub_mul, one_mul, mul_sub, mul_one, hAA]
     rw [CharTwo.sub_eq_add, CharTwo.sub_eq_add]
-    simp [CharTwo.add_self_eq_zero, add_assoc, add_comm, add_left_comm]
+    simp [CharTwo.add_self_eq_zero, add_assoc, add_comm]
   have hD : 1 - C = (1 - A)ᵀ := by
     dsimp [A]
     rw [Matrix.transpose_sub, Matrix.transpose_one, Matrix.transpose_transpose]
@@ -289,6 +289,7 @@ theorem exists_vecMulVec_one_sub_of_vecMul_eq_self [CharP K 2]
 
 end MatrixAlgebra
 
+omit [Finite G] in
 theorem cmat_comm_eq {V Z R : Subgroup G} [(Z.subgroupOf V).Normal]
     {K : Type} [Field K]
     (φ : ↥R →* GL (Fin 2 ⊕ Fin 2) K)
@@ -739,8 +740,8 @@ theorem mem_ulineX_of_fix (h34 : Stroth34Statement) (h311a : Stroth311aStatement
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hW, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨a, b, ha, hb, hu⟩ := exists_vecMulVec_of_det_eq_zero hdet hu0
   have hfac := sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   rcases hfac with ⟨hYeq, hXeq⟩ | ⟨hYeq, hXeq⟩

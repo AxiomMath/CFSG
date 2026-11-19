@@ -35,7 +35,7 @@ theorem exists_conj_eq_threeFrame_lift_of_maximal_rank {f : ℕ} (hf : 1 ≤ f)
       CFSG.Open.pRank 3 A)
     (hSC : ∀ c ∈ Subgroup.centralizer
         (A : Set ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f))), c ^ 3 = 1 → c ∈ A) :
-    ∃ (ζ : (GaloisField 2 (2 * f))ˣ) (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
+    ∃ (ζ : (GaloisField 2 (2 * f))ˣ) (hζ : ζ ^ 3 = 1) (_hζo : orderOf ζ = 3)
       (g : ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f))),
       IsElemAbelian 3 (CFSG.Quasithin.A1b.conjSub g A) ∧
       (CFSG.Quasithin.A1b.conjSub g A).map
@@ -43,7 +43,7 @@ theorem exists_conj_eq_threeFrame_lift_of_maximal_rank {f : ℕ} (hf : 1 ≤ f)
           (fun c => frobQ_apply 2 f c)) =
         (ExcFrames.twE6ThreeFrameHom hf h3 ζ hζ).range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hK : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 :=
     TwE6Toral.card_galoisField_two_mul f hf
   obtain ⟨ζ, hζ, ι, hζo, hinj, happly, hmem, hlast⟩ := ExcFrames.exists_threeFrame hf h3

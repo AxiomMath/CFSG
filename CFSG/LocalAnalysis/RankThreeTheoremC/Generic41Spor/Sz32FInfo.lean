@@ -25,6 +25,7 @@ structure Sz32FInfo (x : G) (U F : Subgroup G) : Prop where
 
 section Helpers
 
+omit [Finite G] in
 private theorem sfi_mem_map_conj {A : Subgroup G} {g y : G} :
     y ∈ A.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ A := by
   constructor
@@ -33,11 +34,13 @@ private theorem sfi_mem_map_conj {A : Subgroup G} {g y : G} :
   · intro h
     exact ⟨g⁻¹ * y * g, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 private theorem sfi_conj_mem_map_iff (w f : G) (A : Subgroup G) :
     w * f * w⁻¹ ∈ A.map (MulAut.conj w).toMonoidHom ↔ f ∈ A := by
   rw [sfi_mem_map_conj]
   simp [mul_assoc]
 
+omit [Finite G] in
 private theorem sfi_map_conj_map_conj (g h : G) (A : Subgroup G) :
     (A.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       A.map (MulAut.conj (g * h)).toMonoidHom := by
@@ -46,12 +49,14 @@ private theorem sfi_map_conj_map_conj (g h : G) (A : Subgroup G) :
   ext y
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem sfi_map_conj_cancel (g : G) (A : Subgroup G) :
     (A.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = A := by
   rw [sfi_map_conj_map_conj]
   ext y
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
+omit [Finite G] in
 private theorem sfi_conj_pow_eq_one_iff (w f : G) (n : ℕ) : (w * f * w⁻¹) ^ n = 1 ↔ f ^ n = 1 := by
   rw [conj_pow]
   constructor
@@ -63,6 +68,7 @@ private theorem sfi_conj_pow_eq_one_iff (w f : G) (n : ℕ) : (w * f * w⁻¹) ^
     rw [h]
     group
 
+omit [Finite G] in
 private theorem sfi_map_zpowers_conj {w x : G} (hwx : w * x = x * w) :
     (Subgroup.zpowers x).map (MulAut.conj w).toMonoidHom = Subgroup.zpowers x := by
   rw [MonoidHom.map_zpowers]
@@ -75,9 +81,10 @@ end Helpers
 
 section Helpers2
 
+omit [Finite G] in
 private theorem sfi_pelt_centralizes {n x : G} {m : ℕ} (hn : n ^ (5 ^ m) = 1)
     (hxo : orderOf x = 5) (hnx : n * x * n⁻¹ ∈ Subgroup.zpowers x) : n * x = x * n := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ : ∃ k : ℤ, x ^ k = n * x * n⁻¹ := Subgroup.mem_zpowers_iff.mp hnx
   have hpow : ∀ i : ℕ, n ^ i * x * (n ^ i)⁻¹ = x ^ (k ^ i) := by
     intro i
@@ -121,7 +128,7 @@ private theorem sfi_pelt_centralizes {n x : G} {m : ℕ} (hn : n ^ (5 ^ m) = 1)
 
 private theorem sfi_card_le_of_pRank {F E : Subgroup G} (hrank : CFSG.Open.pRank 5 F ≤ 2)
     (hEF : E ≤ F) (hE : IsElemAbelian 5 E) : Nat.card E ≤ 5 ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ := hE.isPGroup.exists_card_eq
   have hkle : k ≤ CFSG.Open.pRank 5 F := by
     refine le_csSup ⟨Nat.card G, ?_⟩ ⟨E, hEF, hE, hk⟩
@@ -134,8 +141,8 @@ private theorem sfi_card_le_of_pRank {F E : Subgroup G} (hrank : CFSG.Open.pRank
 
 private theorem sfi_eq_of_normalizer {F N : Subgroup G} (hF5 : IsPGroup 5 F) (hNF : N ≤ F)
     (hN : ∀ n ∈ F, n ∈ Subgroup.normalizer (N : Set G) → n ∈ N) : N = F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Group.IsNilpotent F := hF5.isNilpotent
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Group.IsNilpotent F := hF5.isNilpotent
   have hnc : NormalizerCondition F := Group.normalizerCondition_of_isNilpotent (G := F)
   by_contra hne
   have hIPne : N.subgroupOf F ≠ ⊤ := by
@@ -143,7 +150,7 @@ private theorem sfi_eq_of_normalizer {F N : Subgroup G} (hF5 : IsPGroup 5 F) (hN
     exact hne (le_antisymm hNF (Subgroup.subgroupOf_eq_top.1 htop))
   have hlt : N.subgroupOf F < Subgroup.normalizer ((N.subgroupOf F : Subgroup F) : Set F) :=
     hnc _ (lt_top_iff_ne_top.2 hIPne)
-  obtain ⟨y, hyN, hyIP⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hyN, hyIP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hyNorm : (y : G) ∈ Subgroup.normalizer (N : Set G) := by
     have hysub : y ∈ (Subgroup.normalizer (N : Set G)).subgroupOf F := by
       rw [Subgroup.subgroupOf_normalizer_eq hNF]
@@ -231,7 +238,7 @@ private theorem sfi_core (hc : PointConfig IsSz32Type G 5 P M x J)
       (F₁ = U ∨ (Nat.card F₁ = 5 ^ 3 ∧ ¬ IsMulCommutative F₁ ∧ (∀ f ∈ F₁, f ^ 25 = 1) ∧
         (∀ z ∈ F₁, (∀ f ∈ F₁, f * z = z * f) ↔ z ∈ Subgroup.zpowers x) ∧
         (∀ f ∈ F₁, f ^ 5 = 1 → f ∈ U))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQ : Sz32QFacts (P : Subgroup G) a c y x := hP.facts
   have hPS : IsSylowOf 5 (P : Subgroup G) (Subgroup.centralizer ({x} : Set G)) := by
     have h := hc.generic.2.2.1
@@ -265,7 +272,7 @@ private theorem sfi_core (hc : PointConfig IsSz32Type G 5 P M x J)
     · rwa [Subgroup.card_map_of_injective (MulAut.conj w).injective] at hcard
     · intro hF
       apply hnc
-      haveI := hF
+      have := hF
       infer_instance
     · intro f hf
       exact (sfi_conj_pow_eq_one_iff w f 25).1 (hexp _ ((sfi_conj_mem_map_iff w f F₁).2 hf))
@@ -292,7 +299,7 @@ theorem sz32_F_info (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hP : Sz32Struct P x J a c y) (hL : Sz32Lines P x (a ^ 5)) (hZ : Sz32ZFacts P M x (a ^ 5))
     {U : Subgroup G} (hU : Sz32Plane P x a c y U) {F : Subgroup G} (hF5 : IsPGroup 5 F)
     (hUF : U ≤ F) (hrank : CFSG.Open.pRank 5 F ≤ 2) : Sz32FInfo x U F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxo : orderOf x = 5 := hP.decomp.pres.x_ord
   have hxU : x ∈ U := hU.abs.mem
   obtain ⟨F₁, hF₁def⟩ : ∃ F₁ : Subgroup G, F₁ = F ⊓ Subgroup.normalizer (U : Set G) := ⟨_, rfl⟩

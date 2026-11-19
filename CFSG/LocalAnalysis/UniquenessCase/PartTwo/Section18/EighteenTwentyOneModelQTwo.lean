@@ -13,7 +13,7 @@ open Matrix CFSG.Open CFSG.LocalAnalysis.RankThreeUC
 
 variable {F : Type} [Field F] [Finite F] {n : ℕ}
 
-private def linSubgroup_T3J1 {H : Type} [Group H] (hH2 : ∀ h : H, h * h = 1)
+private def linSubgroup_T3J1 {H : Type} [Group H] (_hH2 : ∀ h : H, h * h = 1)
     (ρ : H →* Equiv.Perm (Fin 4 → F)) : Subgroup H where
   carrier := {h | ∀ (c : F) (x : Fin 4 → F), ρ h (c • x) = c • ρ h x}
   mul_mem' := fun {a b} ha hb c x => by

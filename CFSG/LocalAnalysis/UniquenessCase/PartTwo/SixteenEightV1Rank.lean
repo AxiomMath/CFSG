@@ -22,7 +22,7 @@ private noncomputable def s16e_quadPlusTwoProjEquiv (K : Type) [Field K] [Finite
       refine ⟨Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr 0) 1, ?_⟩
       rw [← CFSG.LieType.Universal.Spin.coe_quadPlus 2 K]
       rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
-      simp [Pi.single_apply, Fin.sum_univ_two, add_comm])
+      simp [Pi.single_apply, add_comm])
 
 private theorem s16e_sl2_orderOf_three (k : Type*) [Field k] [CharP k 2] :
     ∃ t : Matrix.SpecialLinearGroup (Fin 2) k, orderOf t = 3 := by
@@ -43,16 +43,16 @@ private theorem s16e_sl2_orderOf_three (k : Type*) [Field k] [CharP k 2] :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, ht,
       Matrix.SpecialLinearGroup.coe_one]
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | rfl | linear_combination h2
+      linear_combination h2
   exact ⟨t, orderOf_eq_prime (p := 3) (hp := ⟨Nat.prime_three⟩) ht3 ht1⟩
 
 theorem s16e_exists_noncyclic_three_of_isOmegaPlus_four {X : Type} [Group X]
     (h : IsOmegaPlus X 4 2) : ∃ E : Subgroup X, IsPGroup 3 E ∧ ¬ IsCyclic E := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := uc22p22d_charP_two (n := 2) (by norm_num) hKcard
+  have : CharP K 2 := uc22p22d_charP_two (n := 2) (by norm_num) hKcard
   obtain ⟨eΩ⟩ := uc22p22d_omegaPlus4_equiv (F := K) h4
   let SL := Matrix.SpecialLinearGroup (Fin 2) K
   let ψ : X ≃* SL × SL := (e.trans (s16e_quadPlusTwoProjEquiv K)).trans eΩ.symm
@@ -72,7 +72,7 @@ theorem s16e_exists_noncyclic_three_of_isOmegaPlus_four {X : Type} [Group X]
     exact (orderOf_dvd_iff_pow_eq_one).mp hdvd
   have hE'nc : ¬ IsCyclic E' := by
     intro hcyc
-    haveI : IsCyclic E' := hcyc
+    have : IsCyclic E' := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E')
     have hord : orderOf g = Nat.card E' := orderOf_eq_card_of_forall_mem_zpowers hg
     have hg3 : g ^ 3 = 1 := by
@@ -98,7 +98,7 @@ theorem s16e_exists_noncyclic_cent_of_case168_5Star (D : Data G) {V₀ V L : Sub
     ∃ B : Subgroup G, B ≤ D.M ∧ IsPGroup 3 B ∧ ¬ IsCyclic B ∧
       ∀ b ∈ B, ∀ u ∈ v1Sub D.M V₀ V hV L, b * u = u * b := by
   obtain ⟨E, hEp, hEc⟩ := s16e_exists_noncyclic_three_of_isOmegaPlus_four hc.2.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective (lBar V₀ V hV L).subtype := (lBar V₀ V hV L).subtype_injective
   have hEc' : ¬ IsCyclic (E.map (lBar V₀ V hV L).subtype) := fun hcyc =>
     hEc ((Subgroup.equivMapOfInjective E (lBar V₀ V hV L).subtype hinj).isCyclic.mpr hcyc)

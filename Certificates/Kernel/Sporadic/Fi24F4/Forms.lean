@@ -19,21 +19,21 @@ theorem altMat_add (c d : Fin 10 → ZMod 3) : altMat (c + d) = altMat c + altMa
   ext i j
   simp only [altMat, Pi.add_apply, Matrix.add_apply]
   by_cases h1 : i < j
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
   · by_cases h2 : j < i
-    · simp only [h1, h2, if_true, if_false]
+    · simp only [h1, h2, ite_true, ite_false]
       ring
-    · simp only [h1, h2, if_false, add_zero]
+    · simp only [h1, h2, ite_false, add_zero]
 
 theorem altMat_smul (a : ZMod 3) (c : Fin 10 → ZMod 3) : altMat (a • c) = a • altMat c := by
   ext i j
   simp only [altMat, Pi.smul_apply, Matrix.smul_apply, smul_eq_mul]
   by_cases h1 : i < j
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
   · by_cases h2 : j < i
-    · simp only [h1, h2, if_true, if_false]
+    · simp only [h1, h2, ite_true, ite_false]
       ring
-    · simp only [h1, h2, if_false, mul_zero]
+    · simp only [h1, h2, ite_false, mul_zero]
 
 noncomputable def altL : (Fin 10 → ZMod 3) →ₗ[ZMod 3] Matrix (Fin 5) (Fin 5) (ZMod 3) where
   toFun := altMat

@@ -20,7 +20,7 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (hc : BinaryActionRankCounterexample G p P T B e ρ)
     (E : Subgroup G) (hE : E ∈ Delta p P ρ)
     (hBN : B ≤ Subgroup.normalizer (E : Set G))
-    (R : Subgroup G) (hRP : R ≤ P) (hRE : R ⊓ E = ⊥) (hRsup : R ⊔ E = P)
+    (R : Subgroup G) (hRP : R ≤ P) (_hRE : R ⊓ E = ⊥) (hRsup : R ⊔ E = P)
     (hRcard : Nat.card R = p)
     (hUR : twoCoreCommutator T B ⊓ Subgroup.normalizer (E : Set G) ≤ Subgroup.normalizer (R : Set G))
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
@@ -28,10 +28,10 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   classical
   have hS := hc.oddPrimeClassTwoAction.setting
   have hP : P.Normal := hc.faithfulBinaryIrreducibleAction.normal
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     CFSG.LinearAlgebra.CoprimeActions.IrreducibleFiniteGroupFiniteDimensional.finiteDimensional_of_irreducible
       ρ hc.faithfulBinaryIrreducibleAction.irreducible
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   set N : Subgroup G := Subgroup.normalizer (E : Set G) with hN
   set U : Subgroup G := twoCoreCommutator T B ⊓ N with hU
   set W : Submodule (ZMod 2) V := CFSG.LocalAnalysis.RankThreeUC.fixedSubmodule ρ E with hW
@@ -69,7 +69,7 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
           congr 2; group
       _ = ρ n w := by rw [h1]
   let σ : N →* (W ≃ₗ[ZMod 2] W) :=
-    { toFun := fun n => LinearEquiv.ofLinear
+    { toFun := fun n => LinearEquiv.ofLinearMap
         ((ρ n.1).restrict (fun w hw => hinv n.1 n.2 w hw))
         ((ρ n.1⁻¹).restrict (fun w hw => hinv n.1⁻¹ (N.inv_mem n.2) w hw))
         (by
@@ -144,8 +144,8 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     hB'U' hfix1
   have hcomm_le : ⁅U', B'⁆ ≤ U' := Subgroup.le_normalizer_iff_commutator_le_left.1 hB'U'
   have hS2 : IsPGroup 2 ↥(⁅U', B'⁆ : Subgroup N) := hU'2.to_le hcomm_le
-  haveI : Fact p.Prime := ⟨hS.prime⟩
-  haveI : IsCyclic R := isCyclic_of_prime_card hRcard
+  have : Fact p.Prime := ⟨hS.prime⟩
+  have : IsCyclic R := isCyclic_of_prime_card hRcard
   have hcyc := CFSG.GroupTheory.CyclicSubgroup.commutator_le_centralizer R U B
     (fun u hu => hUR hu) hBR
   have hmapc : Subgroup.map N.subtype ⁅U', B'⁆ = ⁅U, B⁆ := by
@@ -164,7 +164,7 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     have := hE.2.1
     rw [h1] at this
     exact (hS.prime.one_lt).ne this
-  haveI := hP
+  have := hP
   have hfaith := CFSG.LinearAlgebra.CoprimeActions.PrimeOrderComplementFixedSpaceFaithfulness.faithful ρ
     hc.faithfulBinaryIrreducibleAction.faithful hc.faithfulBinaryIrreducibleAction.irreducible P hPne E R hEP hRP
     (by rw [sup_comm]; exact hRsup) hS.prime hRcard hE.2.2

@@ -183,7 +183,7 @@ theorem centralizer_unitary_eq_range_scalar [Finite k] {q : ℕ} (hq : Nat.card 
     rw [← hq, Nat.card_eq_fintype_card, ← map_natCast (algebraMap k Ω),
       FiniteField.cast_card_eq_zero, map_zero]
   have : NeZero ((q + 1 : ℕ) : Ω) := ⟨by rw [Nat.cast_add, hq0, zero_add, Nat.cast_one]; simp⟩
-  obtain ⟨a, ha⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω (q + 1)
+  obtain ⟨a, ha⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω (q + 1)
   have ha1 : a ≠ 1 := ha.ne_one (by omega)
   have haq : a ^ (q + 1) = 1 := ha.pow_eq_one
   have ha0 : a ≠ 0 := fun h => by

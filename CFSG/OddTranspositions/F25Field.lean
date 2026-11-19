@@ -46,7 +46,7 @@ instance : Field F25t := Field.ofMinimalAxioms F25t
     · change (1 : ZMod 5) * a.b + 0 * a.a = a.b; ring)
   (by
     intro x hx
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hn := norm_ne_zero hx
     apply F25t.ext
     · change x.a * (x.a / (x.a ^ 2 - 3 * x.b ^ 2)) +
@@ -58,7 +58,7 @@ instance : Field F25t := Field.ofMinimalAxioms F25t
       field_simp [hn]
       ring)
   (by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     apply F25t.ext
     · change (0 : ZMod 5) / (0 ^ 2 - 3 * 0 ^ 2) = 0; simp
     · change -(0 : ZMod 5) / (0 ^ 2 - 3 * 0 ^ 2) = 0; simp)

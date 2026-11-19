@@ -13,8 +13,8 @@ theorem s16c6_u4_overgroup {U : Type} [Group U] [Finite U] {n : ℕ} (hn : 1 < n
     (hU : IsU4 U n) {P X R : Subgroup U} (hP : IsParabolicTwo U P) (hX : X = F07.DerInf P)
     (hL2 : IsL2 (Bar2 X) (2 * n)) (hXR : X ≤ R) : R = ⊤ ∨ R ≤ P := by
   obtain ⟨K, hK, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hU
-  letI : Field K := hK
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  let : Field K := hK
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   let P' : Subgroup (hypSU h 2 0) := P.map e.symm.toMonoidHom
   let X' : Subgroup (hypSU h 2 0) := X.map e.symm.toMonoidHom
   let R' : Subgroup (hypSU h 2 0) := R.map e.symm.toMonoidHom

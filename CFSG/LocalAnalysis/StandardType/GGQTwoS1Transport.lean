@@ -60,7 +60,7 @@ private theorem ggQ2xS1_form_eq (D : GGQ2Lin 3) (hbas : D.Basis)
     (hβh : ∀ γ v, β γ.1.2 v = d γ * γ.1.1 v) :
     ∃ lam : ZMod 3, lam ≠ 0 ∧ ∀ u v, β u v = lam * B' (τ u) (τ v) := by
   classical
-  haveI : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
   let pair : D.ι → ↥D.rootPairs := fun i =>
     ⟨(D.root i, D.coroot i), ggQ2xS1_simplePair_mem D i⟩
   let di : D.ι → ZMod 3 := fun i => d (pair i)

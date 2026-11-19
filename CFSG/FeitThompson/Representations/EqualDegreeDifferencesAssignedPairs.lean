@@ -26,7 +26,7 @@ theorem eq_or_star_eq_of_cfInner_sub_sub_star_eq_one [Fintype G] {ρ σ η : G �
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right,
     cfInner_eq_ite_of_mem_Irr hρ hη, cfInner_eq_ite_of_mem_Irr hρ (star_mem_Irr hη),
     cfInner_eq_ite_of_mem_Irr hσ hη, cfInner_eq_ite_of_mem_Irr hσ (star_mem_Irr hη),
-    if_neg h1, if_neg h2] at h
+    ite_eq_right h1, ite_eq_right h2] at h
   split_ifs at h <;> norm_num at h
 
 theorem star_eq_or_eq_of_cfInner_sub_sub_star_eq_neg_one [Fintype G] {ρ σ η : G → ℂ}

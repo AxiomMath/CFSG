@@ -99,12 +99,12 @@ private theorem dvd_pow_sub_one_iff_of_cast_eq {p q q₀ d : ℕ} (hq : 0 < q) (
     exact hh
 
 private theorem dvd_card_adjointGroup_fixSubfield_of_dvd {K : Type} [Field K] [Finite K]
-    [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : ¬ p ∣ Nat.card K)
+    [CharP K 2] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hq : ¬ p ∣ Nat.card K)
     (hnd : ¬ p ∣ Nat.card K ^ 2 - 1) (σ : K ≃+* K)
     (hcast : (Nat.card K : ZMod p) = (Nat.card (fixSubfield σ) : ZMod p))
     (hdvd : p ∣ Nat.card (adjointGroup .F4 K)) :
     p ∣ Nat.card (adjointGroup .F4 ↥(fixSubfield σ)) := by
-  haveI : Finite ↥(fixSubfield σ) :=
+  have : Finite ↥(fixSubfield σ) :=
     Finite.of_injective (Subtype.val : ↥(fixSubfield σ) → K) Subtype.val_injective
   rw [CFSG.RankThree.PartOne.KE.exactF4FiniteOrder K] at hdvd
   have hD : p ∣ Nat.card K ^ 6 - 1 ∨ p ∣ Nat.card K ^ 8 - 1 ∨
@@ -136,11 +136,11 @@ theorem exists_elemAbelian_fixSubfield {K : Type} [Field K] [Finite K] [CharP K 
     ∃ E : Subgroup (adjointGroup .F4 (fixSubfield σ)), IsElemAbelian p E ∧
       Nat.card B ≤ p * Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite ↥(fixSubfield σ) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite ↥(fixSubfield σ) :=
     Finite.of_injective (Subtype.val : ↥(fixSubfield σ) → K) Subtype.val_injective
-  haveI : CharP ↥(fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
+  have : CharP ↥(fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
   have hord : orderOf σ = p := orderOf_eq_prime hσp hσ
   let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hcardK : Nat.card K = 2 ^ Module.finrank (ZMod 2) K := by
@@ -181,7 +181,7 @@ theorem exists_elemAbelian_fixSubfield {K : Type} [Field K] [Finite K] [CharP K 
       CFSG.LieType.SeitzGeneration.rankLE2_adjointGroup_F4 K hp hp2 hqnd hd B hB
     by_cases hpdvd : p ∣ Nat.card (adjointGroup .F4 ↥(fixSubfield σ))
     ·
-      haveI : Finite (adjointGroup .F4 ↥(fixSubfield σ)) := generated_group_finite .F4 _
+      have : Finite (adjointGroup .F4 ↥(fixSubfield σ)) := generated_group_finite .F4 _
       obtain ⟨x, hx⟩ :=
         exists_prime_orderOf_dvd_card' (G := adjointGroup .F4 ↥(fixSubfield σ)) p hpdvd
       refine ⟨Subgroup.zpowers x,
@@ -192,7 +192,7 @@ theorem exists_elemAbelian_fixSubfield {K : Type} [Field K] [Finite K] [CharP K 
     ·
       have hnotdvd : ¬ p ∣ Nat.card (adjointGroup .F4 K) := fun hdvd =>
         hpdvd (dvd_card_adjointGroup_fixSubfield_of_dvd hp hp2 hqnd hd σ hcast hdvd)
-      haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+      have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
       have hBp : IsPGroup p B := CFSG.Open.IsElemAbelian.isPGroup hB
       obtain ⟨m, hm⟩ := hBp.exists_card_eq
       have hm0 : m = 0 := by

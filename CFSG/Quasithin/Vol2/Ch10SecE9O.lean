@@ -63,7 +63,7 @@ theorem exists_elemAbelian_of_centralizes {X R : Subgroup G} {y : G} (hR2 : IsPG
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥H) := inferInstance
   have h27 : 3 ^ 3 ∣ Nat.card ↥H := ⟨Nat.card R, by rw [hcardH, hcardX]; ring⟩
   have hS27 := S.pow_dvd_card_of_pow_dvd_card h27
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   set Em := (S : Subgroup ↥H).map H.subtype with hEm
   have hcardE : Nat.card Em = 3 ^ k := by
     rw [hEm, Subgroup.card_map_of_injective H.subtype_injective, hk]

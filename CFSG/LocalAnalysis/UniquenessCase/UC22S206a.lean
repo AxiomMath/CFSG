@@ -145,7 +145,7 @@ theorem uc22s206a_not_listB_alt8 (hO : LieOrderFormulasInput) {Λ : Type} [Group
 theorem uc22s206a_isCoatom_stabilizer (i : Fin 9) :
     IsCoatom (MulAction.stabilizer (alternatingGroup (Fin 9)) i) := by
   have h3 : 3 ≤ Nat.card (Fin 9) := by rw [Nat.card_fin]; norm_num
-  haveI := alternatingGroup.isPreprimitive_of_three_le_card (Fin 9) h3
+  have := alternatingGroup.isPreprimitive_of_three_le_card (Fin 9) h3
   exact MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive (alternatingGroup (Fin 9)) i
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

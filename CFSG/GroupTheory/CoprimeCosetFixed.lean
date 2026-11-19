@@ -28,7 +28,7 @@ private theorem conj_pow_coset_mem {G : Type*} [Group G] {N : Subgroup G} {f g :
     (hg : g⁻¹ * (f * g * f⁻¹) ∈ N) (k : ℕ) :
     g⁻¹ * (f ^ k * g * (f ^ k)⁻¹) ∈ N := by
   induction k with
-  | zero => simpa using N.one_mem
+  | zero => simp
   | succ k ih =>
     rw [pow_succ]
     have h := conj_pow_mem hN k (g⁻¹ * (f * g * f⁻¹)) hg
@@ -184,7 +184,7 @@ private theorem exists_prime_power_fixed_point
       f₁ * (g * n₀) * f₁⁻¹ = g * n₀ ∧
       (∀ n ∈ N, f₂ * n * f₂⁻¹ ∈ N) ∧
       g⁻¹ * (f₂ * g * f₂⁻¹) ∈ N ∧ Commute f₂ f₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ orderOf f := by
     rw [hnm]
     exact dvd_mul_of_dvd_left (dvd_pow_self p hk0) m
@@ -205,7 +205,7 @@ private theorem exists_prime_power_fixed_point
   have hg₂ : g⁻¹ * (f₂ * g * f₂⁻¹) ∈ N := by
     simpa [f₂] using conj_pow_coset_mem hN hg (p ^ k)
   have hcomm : Commute f₂ f₁ := by
-    simpa [f₂, f₁] using Commute.pow_pow_self f (p ^ k) m
+    simp [f₂, f₁]
   exact ⟨f₁, f₂, n₀, hn₀N, rfl, rfl, hfix₁, hN₂, hg₂, hcomm⟩
 
 private theorem exists_fixed_mem_coset_of_coprime_step

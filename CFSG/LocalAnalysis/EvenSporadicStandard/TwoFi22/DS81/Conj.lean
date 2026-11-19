@@ -18,7 +18,7 @@ theorem exists_conj_le_of_odd_index [Finite G] {L N B : Subgroup G} (hBL : B ≤
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup L := N.subgroupOf L with hK
   obtain ⟨Q⟩ : Nonempty (Sylow 2 K) := inferInstance
-  have hP : IsPGroup 2 ((Q : Subgroup K).map K.subtype) := Q.isPGroup'.map K.subtype
+  have hP : IsPGroup 2 ((Q : Subgroup K).map K.subtype) := Q.isPGroup.map K.subtype
   have hidx : ¬ 2 ∣ ((Q : Subgroup K).map K.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

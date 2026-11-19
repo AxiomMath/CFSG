@@ -18,7 +18,7 @@ theorem three_dvd_card_map_of_isPGroup_ker {G H : Type*} [Group G] [Finite G] [G
   have hker' : IsPGroup 2 (f.domRestrict D).ker := by
     have h : (f.domRestrict D).ker = f.ker.comap D.subtype := by
       ext x
-      simp [MonoidHom.mem_ker]
+      simp
     rw [h]
     exact hker.comap_of_injective D.subtype D.subtype_injective
   obtain ⟨m, hm⟩ := hker'.exists_card_eq
@@ -31,13 +31,13 @@ theorem mk_mem_wSup_of_perfect {A : Type} [Group A] [Finite A] {P J : Subgroup A
     (hodd : ¬ 2 ∣ (wSup (↥P ⧸ CFSG.pCore 2 ↥P)).index) (hJP : J ≤ P) (hJ : ⁅J, J⁆ = J) {j : A}
     (hj : j ∈ J) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥P) ⟨j, hJP hj⟩ ∈ wSup (↥P ⧸ CFSG.pCore 2 ↥P) := by
-  haveI hWn : (wSup (↥P ⧸ CFSG.pCore 2 ↥P)).Normal := ⟨fun n hn c => by
+  have hWn : (wSup (↥P ⧸ CFSG.pCore 2 ↥P)).Normal := ⟨fun n hn c => by
     rw [← map_wSup_eq (MulAut.conj c)]
     exact ⟨n, hn, rfl⟩⟩
   have hcard : Odd (Nat.card ((↥P ⧸ CFSG.pCore 2 ↥P) ⧸ wSup (↥P ⧸ CFSG.pCore 2 ↥P))) := by
     rw [← Subgroup.index_eq_card, ← Nat.not_even_iff_odd, even_iff_two_dvd]
     exact hodd
-  haveI : Group.IsSolvable ((↥P ⧸ CFSG.pCore 2 ↥P) ⧸ wSup (↥P ⧸ CFSG.pCore 2 ↥P)) :=
+  have : Group.IsSolvable ((↥P ⧸ CFSG.pCore 2 ↥P) ⧸ wSup (↥P ⧸ CFSG.pCore 2 ↥P)) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hcard
   have h := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.map_eq_one_of_perfect hJP hJ
     ((QuotientGroup.mk' (wSup (↥P ⧸ CFSG.pCore 2 ↥P))).comp

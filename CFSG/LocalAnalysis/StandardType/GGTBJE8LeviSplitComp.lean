@@ -47,8 +47,8 @@ theorem e8Split_class
     exact bot_le
   have hψ : ((adjointGroup τ K).subtype).range = adjointGroup τ K := by
     rw [Subgroup.range_subtype]
-  haveI : Finite (ModGL τ K) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ K) := Subtype.finite
+  have : Finite (ModGL τ K) := finite_modGL
+  have : Finite ↥(adjointGroup τ K) := Subtype.finite
   have hJ : CFSG.Open.IsComponentOf Y
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj g)) := by
     rw [ggTBJ_fixSubgroup_conj]

@@ -371,7 +371,7 @@ theorem top_le_glbCore_three_of_family_core
   · have hNo : NoCompIn W := fun J hJW hJ hq => hcomp ⟨J, hJW, hJ, hq⟩
     by_cases h3 : 3 ≤ CFSG.Open.pRank 3 (oThreeIn W)
     ·
-      haveI := i227um_oThreeIn_normal W
+      have := i227um_oThreeIn_normal W
       have hle : oThreeIn W ≤ P := i227um_le_of_normal (i227um_oThreeIn_isPGroup W) hPc
       have htop : Subgroup.normalizer ((oThreeIn W : Subgroup K) : Set K) = ⊤ :=
         Subgroup.normalizer_eq_top_iff.2 inferInstance
@@ -495,7 +495,7 @@ theorem eq_top_of_normal_of_coprime_index {Y : Subgroup G} {𝒞 : Set (Subgroup
     (h𝒞 : ∀ L ∈ 𝒞, Claims1110i.IsD4Comp Y L) {J : Subgroup G} (hJdef : J = ⨆ L ∈ 𝒞, L) (C : Subgroup ↥J)
     (hC : C.Normal) (hCi : Nat.Coprime 5 C.index) : C = ⊤ := by
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI := hC
+  have := hC
   set C' : Subgroup G := C.map J.subtype with hC'def
   have hLJ : ∀ L ∈ 𝒞, L ≤ J := fun L hL => hJdef ▸ le_iSup₂_of_le L hL le_rfl
   have key : ∀ L ∈ 𝒞, L ≤ C' := by
@@ -699,6 +699,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barOf barAut)
     ∀ R : Subgroup (MulAut K), IsPGroup 5 R → x ∈ R → 4 ≤ CFSG.Open.pRank 5 R →
       ∃ T : Subgroup K, T ≤ Lemma1314.fixSub x ∧ IsElemAbelian 5 T ∧ 5 ^ 4 ≤ Nat.card T
 
+omit [Finite G] in
 theorem centMod_of_barAut_eq_one {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G))
     (h1 : barAut 5 L ⟨g, hg⟩ = 1) : CFSG.Yardstones.Md0ec50421ce4.CentMod 5 L g := by
   refine ⟨hg, ?_⟩
@@ -731,7 +732,7 @@ theorem pRank_le_pRank_map_of_injOn {K K' : Type} [Group K] [Finite K] [Group K'
 theorem inputD4UpRank_of_bar (hres : InputD4UpRankBar) : Claims1110i.InputD4UpRank := by
   intro G _ _ Y hY L hL x hxY hxN hx5 hnc K₁ hK₁ hs hlie R hRY hRN hRp hxR hfaith hrank
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (barOf 5 L) := Lemma1313.isQuasisimple_barOf_of_pComp hL
   have hKG : CFSG.Open.IsKGroup (barOf 5 L) := (hY.of_le hL.1).quotient _
   have hKH : CFSG.LocalAnalysis.GLTheoremA.IsKHat (barOf 5 L) :=

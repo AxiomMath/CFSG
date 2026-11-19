@@ -70,7 +70,7 @@ theorem isSylow_Uhat [Finite K] [CharP K 2] :
     IsSylowOf 2 (Uhat K) (InnL (SpecialLinearGroup (Fin 4) K)) := by
   obtain ⟨Sy, hSy⟩ := LinearFlag.exists_sylow_unitriangular (K := K) 2 (n := 4) (by norm_num)
   have hp : IsPGroup 2 (Uge K) := by
-    have := Sy.isPGroup'
+    have := Sy.isPGroup
     rwa [hSy] at this
   refine ⟨Uhat_le_inn, hp.map _, ?_⟩
   have h1 : (InnL (SpecialLinearGroup (Fin 4) K)) =

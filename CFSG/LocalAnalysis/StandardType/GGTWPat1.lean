@@ -185,21 +185,21 @@ private theorem l05nT1_transport {p N : ℕ} (hp : 3 ≤ p)
     refine ⟨?_, ?_⟩
     · by_cases hik : i.1 = (φ k).1
       · have h2 : φ.symm i = k := (hiff i).mpr (Subtype.ext hik)
-        rw [if_pos h2] at hr1
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr1
+        rw [ite_eq_left hik]
         exact hr1
       · have h2 : φ.symm i ≠ k := fun hh => hik (congrArg Subtype.val ((hiff i).mp hh))
-        rw [if_neg h2] at hr1
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr1
+        rw [ite_eq_right hik]
         exact hr1
     · by_cases hik : i.1 = (φ k).1
       · have h2 : φ.symm i = k := (hiff i).mpr (Subtype.ext hik)
-        rw [if_pos h2] at hr2
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr2
+        rw [ite_eq_left hik]
         exact hr2
       · have h2 : φ.symm i ≠ k := fun hh => hik (congrArg Subtype.val ((hiff i).mp hh))
-        rw [if_neg h2] at hr2
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr2
+        rw [ite_eq_right hik]
         exact hr2
   refine ⟨(φ k).1, m, n, ?_, hrow'⟩
   unfold GGTWPat1
@@ -286,7 +286,6 @@ theorem ggTW_pattern1_rows {p N : ℕ} (hp : 3 ≤ p)
       change CartanMatrix.A (N - 1) (⟨k.val, by omega⟩ : Fin (N - 1))
         (⟨l.val, by omega⟩ : Fin (N - 1)) = CartanMatrix.A (N - 3) k l
       simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
-      try (split_ifs <;> omega)
     have hplace : ∀ k : Fin (N - 3), ggTWPlace GGTWPos.adj (φ k).1.val = k.val := by
       intro k
       change k.val = k.val

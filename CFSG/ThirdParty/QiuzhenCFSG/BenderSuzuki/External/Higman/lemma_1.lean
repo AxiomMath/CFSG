@@ -24,7 +24,7 @@ universe u
 private theorem lemma1_finite_A
     {P : Type u} [Group P] (hP : IsSuzukiTwoGroup P) (A : Subgroup P) :
     Finite A := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
   infer_instance
 
 private theorem lemma1_involutions_of_A_transitive
@@ -45,12 +45,12 @@ private theorem lemma1_abelian_two_group_decomposition
     ∃ (ι : Type) (_ : Fintype ι) (e : ι → ℕ),
       (∀ i, 0 < e i) ∧
         Nonempty (A ≃* ((i : ι) → Multiplicative (ZMod (2 ^ e i)))) := by
-  letI : Finite A := inferInstance
-  letI : IsMulCommutative A := hA_abelian
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : Finite A := inferInstance
+  let : IsMulCommutative A := hA_abelian
+  let : CommGroup A := IsMulCommutative.instCommGroup
   obtain ⟨ι, hι, n, hn, ⟨f⟩⟩ :=
     CommGroup.equiv_prod_multiplicative_zmod_of_finite A
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨m, hm⟩ := hP.to_subgroup A |>.exists_card_eq
   have hcard : Nat.card A = ∏ i, n i := by
     rw [Nat.card_congr f.toEquiv, Nat.card_pi]
@@ -237,7 +237,7 @@ private theorem lemma1_homocyclic_decomposition
       Nonempty (A ≃* Multiplicative (Fin r → ZMod (2 ^ e))) := by
   obtain ⟨ι, hι, e, he, ⟨f⟩⟩ :=
     lemma1_abelian_two_group_decomposition hP A hA_abelian
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨e0, he0, heq⟩ :=
     lemma1_equal_cyclic_orders hXtrans hA_X e he f
   have he_fun : e = fun _ => e0 := funext heq
@@ -262,8 +262,8 @@ public theorem homocyclic_of_abelian_twoGroup_of_involutions_transitive
       ∀ y : P, y ∈ involutions P → ∃ k : X, y = k • x) :
     ∃ e r : ℕ, 0 < e ∧
       Nonempty (P ≃* Multiplicative (Fin r → ZMod (2 ^ e))) := by
-  letI : IsMulCommutative P := hP_abelian
-  letI : IsMulCommutative (⊤ : Subgroup P) := inferInstance
+  let : IsMulCommutative P := hP_abelian
+  let : IsMulCommutative (⊤ : Subgroup P) := inferInstance
   obtain ⟨e, r, he, ⟨f⟩⟩ :=
     lemma1_homocyclic_decomposition hP hXtrans
       (A := (⊤ : Subgroup P)) inferInstance (by intro x a; simp)
@@ -276,9 +276,9 @@ public theorem lemma1_involutions_mem_of_nontrivial_invariant
       ∀ y : P, y ∈ involutions P → ∃ k : X, y = k • x)
     {B : Subgroup P} (hB_X : IsXInvariantSubgroup X B) (hB_ne : B ≠ ⊥) :
     ∀ a : P, IsInvolution a → a ∈ B := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : Finite B := inferInstance
-  haveI : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB_ne
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite B := inferInstance
+  have : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB_ne
   obtain ⟨m, hm⟩ :=
     (isPGroup_of_isSuzukiTwoGroup hP).to_subgroup B |>.exists_card_eq
   have hm_ne : m ≠ 0 := by
@@ -613,8 +613,8 @@ public theorem lemma1_power_closure_card
     (hA : A ≃* Multiplicative (Fin r → ZMod (2 ^ e))) :
     Nat.card (Subgroup.closure
       {x : P | ∃ a : A, (a : P) ^ (2 ^ (e - f)) = x}) = (2 ^ f) ^ r := by
-  letI : IsMulCommutative A := hA_abelian
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : IsMulCommutative A := hA_abelian
+  let : CommGroup A := IsMulCommutative.instCommGroup
   let power : A →* A := powMonoidHom (2 ^ (e - f))
   have hclosure : Subgroup.closure
       {x : P | ∃ a : A, (a : P) ^ (2 ^ (e - f)) = x} =
@@ -644,7 +644,7 @@ private theorem lemma1_invariant_subgroup_eq_power
     (B : Subgroup P) (hBA : B ≤ A) (hB_X : IsXInvariantSubgroup X B) :
     ∃ s : ℕ, s ≤ e ∧
       B = Subgroup.closure {x : P | ∃ a : A, (a : P) ^ (2 ^ s) = x} := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
   by_cases hB_bot : B = ⊥
   · subst B
     refine ⟨e, le_rfl, ?_⟩
@@ -654,7 +654,7 @@ private theorem lemma1_invariant_subgroup_eq_power
     exact Subgroup.mem_bot.mpr (by
       simpa using congrArg Subtype.val (lemma1_pow_eq_one_of_homocyclic hA a))
   · have hB_abelian : IsMulCommutative B := by
-      letI : IsMulCommutative A := hA_abelian
+      let : IsMulCommutative A := hA_abelian
       refine ⟨⟨fun x y => ?_⟩⟩
       apply Subtype.ext
       simpa using congrArg Subtype.val
@@ -665,7 +665,7 @@ private theorem lemma1_invariant_subgroup_eq_power
     have hq : q = r :=
       lemma1_homocyclic_rank_eq hP hXtrans hBA hB_X hB_bot he hf hA hB
     subst q
-    haveI : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB_bot
+    have : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB_bot
     have hr : 0 < r := lemma1_rank_pos_of_nontrivial_homocyclic hB
     have hfe : f ≤ e := lemma1_homocyclic_exponent_le hBA hr hA hB
     let C : Subgroup P := Subgroup.closure
@@ -703,7 +703,7 @@ public theorem lemma1_abelian_invariant_homocyclic
       ∀ B : Subgroup P, B ≤ A → IsXInvariantSubgroup X B →
         ∃ s : ℕ, s ≤ e ∧
           B = Subgroup.closure {x : P | ∃ a : A, (a : P) ^ (2 ^ s) = x} := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
   obtain ⟨e, r, he, ⟨hA⟩⟩ :=
     lemma1_homocyclic_decomposition
       (isPGroup_of_isSuzukiTwoGroup hP) hXtrans hA_abelian hA_X

@@ -162,9 +162,9 @@ theorem centFiveBNoComp_M_of_cls (hGA : GriessAllModelsStatement) (hSpM : Sporad
   obtain ⟨e₀⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_griess_y443Derived
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
-  haveI : Finite MGriess :=
+  have : Finite MGriess :=
     (twoA_data_of_existence CFSG.Milestones.cl_lit_monster_existence_griess_conway).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   let eG : NativeSporadic.Carrier .M ≃* Gmat := e.symm.trans φ
   have hKG : CFSG.Open.IsKGroup Gmat := hK.of_surjective eG.toMonoidHom eG.surjective
   have h65G : ∀ g : Gmat, orderOf g ≠ 65 := fun g hg =>

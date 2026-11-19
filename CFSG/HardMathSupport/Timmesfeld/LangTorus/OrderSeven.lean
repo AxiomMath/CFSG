@@ -178,7 +178,7 @@ theorem prodOp_ord_pow (hd : DataChecks τ) (j k : Fin τ.rank) (h2 : (2 : R) = 
     entriesOp_eq_zero_of_zeroE2 h2 h, add_zero]
 
 theorem entriesOp_coord (L : List Entry) (hv : ValidEntries τ L) {a b : ℕ} (ha : a < dim τ)
-    (hb : b < dim τ) :
+    (_hb : b < dim τ) :
     posCoord τ R b (entriesOp τ R L (posVec τ R a)) =
       (((L.filter fun e => e.1 == a && e.2.1 == b).map fun e => e.2.2).sum : ℤ) := by
   induction L with
@@ -196,7 +196,7 @@ theorem entriesOp_coord (L : List Entry) (hv : ValidEntries τ L) {a b : ℕ} (h
       · have : ¬ b = e.2.1 := fun h => h2 h.symm
         simp [h1, h2, this]
     · have : ¬ a = e.1 := fun h => h1 h.symm
-      simp [h1, this]
+      simp [h1]
 
 theorem entriesOp_ne_zero_of_odd [Nontrivial R] (h2 : (2 : R) = 0) {L : List Entry}
     (hv : ValidEntries τ L) {e : Entry} (he : e ∈ L) (hodd : oddAt L e.1 e.2.1 = true) :

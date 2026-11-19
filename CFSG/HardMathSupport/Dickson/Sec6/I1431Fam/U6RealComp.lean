@@ -119,8 +119,8 @@ theorem u6r_comp_sub {H : Subgroup (primeFormP h (idGram K n))}
     (hH : GLAPComponent 3 (Lemma510Ns.fixSub (primeFormConjHom h (idGram K n) B)) H) :
     GLAPComponent 3 ((fixSubgroup (t6psub_actSU h n B)).map
       (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))) H := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   exact CFSG.LocalAnalysis.GLTheoremB.glaPComponent_of_le Nat.prime_three hH (u6r_comp_le B hH)
     (u6r_map_fix_le B)
@@ -147,8 +147,8 @@ theorem u6r_block_quasisimple (H : UnitaryPrimaryData h.bar (idForm h n) (t6psub
     (i : t6psub_Idx h n B) :
     CFSG.IsQuasisimple ↥((t6psub_block B i).map
       (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   have hq := t6psub_isQuasisimple_block B H i
   refine CFSG.LocalCores.isQuasisimple_map hq _ fun hle => ?_
@@ -189,8 +189,8 @@ theorem u6r_exists_block (H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_toLi
           (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)))
           ((t6psub_block B i).map
             (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   exact exists_barX_eq_of_blocks (u6r_comp_sub B hJ) _ (u6r_block_le B) (u6r_block_normal B)
     (u6r_block_quasisimple B H) (u6r_block_derived B H)
@@ -202,8 +202,8 @@ theorem u6r_block_comp (H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_toLin 
     GLAPComponent 3 (Lemma510Ns.fixSub (primeFormConjHom h (idGram K n) B))
       ((t6psub_block B i).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   have hq := isQuasisimple_open (u6r_block_quasisimple B H i)
   have hn : (((t6psub_block B i).map
@@ -234,8 +234,8 @@ theorem u6r_eq_block (H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_toLin B)
       (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)))) :
     J = (t6psub_block B i).map
       (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   have hN := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_of_le Nat.prime_three
     (u6r_block_comp B H i hT) (u6r_block_le B i) (u6r_map_fix_le B)
@@ -257,7 +257,7 @@ theorem u6r_isTypeL2_block (H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_to
       (selfDualPrimaryBlock H i.1 hself)
   obtain ⟨e2⟩ :=
     CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hm2
-  haveI := hE.finite
+  have := hE.finite
   have hT0 := u6r_isTypeL2_SL2 (F := hE.fixedField)
   rw [UnitaryFieldData.card_fixedField hE] at hT0
   have e0 : ↥(t6psub_block B i) ≃* ↥(specialBlock (idForm h n) (t6psub_toLin B) (i.1 : K[X])) :=

@@ -42,7 +42,7 @@ theorem rckp7_elem_zero_or_one (c : GaloisField 2 1) : c = 0 ∨ c = 1 := by
   have hcard : Nat.card (GaloisField 2 1) = 2 := GaloisField.card 2 1 (by decide)
   have hunits : Nat.card (GaloisField 2 1)ˣ = 1 := by
     rw [Nat.card_units, hcard]
-  haveI : Subsingleton (GaloisField 2 1)ˣ :=
+  have : Subsingleton (GaloisField 2 1)ˣ :=
     Finite.card_le_one_iff_subsingleton.mp (by rw [hunits])
   by_cases hc : c = 0
   · exact Or.inl hc
@@ -115,7 +115,7 @@ theorem rckp7_T_card {G : Type*} [Group G] {x y : G}
     change z ∈ s ↔ z ∈ ({1, x, y, x * y} : Set G)
     simp only [s, Finset.mem_insert, Finset.mem_singleton, Set.mem_insert_iff,
       Set.mem_singleton_iff]
-  letI : Fintype ↑(rckp7_T x y hx2 hy2 hxy : Set G) := Fintype.ofFinset s H
+  let : Fintype ↑(rckp7_T x y hx2 hy2 hxy : Set G) := Fintype.ofFinset s H
   rw [show Nat.card ↥(rckp7_T x y hx2 hy2 hxy) =
       Nat.card ↑(rckp7_T x y hx2 hy2 hxy : Set G) from rfl, Nat.card_eq_fintype_card,
     Fintype.card_ofFinset s H]

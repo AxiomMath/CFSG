@@ -543,9 +543,9 @@ theorem card_le_mul_of_minusFour {ι F : Type} [Fintype ι] [DecidableEq ι] [Fi
   obtain ⟨E', hField, hFinite, hCharP, -, he3⟩ :=
     CFSG.RankThree.PartOne.K159.exists_orthDerived_four_sl2 (Q.comp W.subtype)
       (a1_regular Q hQ hee hadj) (a1_finrank hrk) (a1_hns Q hminus)
-  letI : Field E' := hField
-  letI : Finite E' := hFinite
-  letI : CharP E' 2 := hCharP
+  let : Field E' := hField
+  let : Finite E' := hFinite
+  let : CharP E' 2 := hCharP
   obtain ⟨e3⟩ := he3
   let Ψ : E →* Matrix.SpecialLinearGroup (Fin 2) E' := e3.toMonoidHom.comp ρd
   have hA : IsElemAbelian p Ψ.range := by
@@ -656,14 +656,14 @@ private lemma a2_preserve {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     _ = (1 - (1 - e)) * A := by rw [sub_mul, one_mul, h1eA]
     _ = e * A := by rw [sub_sub_cancel]
 
-private noncomputable def a2_hcomm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
+private theorem a2_hcomm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     [CharP F 2] (Q : QuadraticForm F (ι → F)) (hQ : (polarBilin Q).Nondegenerate)
     (S : Set (GL ι F)) {e : Matrix ι ι F}
     (hadj : formAdj (RingHom.id F) (LinearMap.toMatrix₂' F (polarBilin Q)) e = e) :
-    ∀ x ∈ glBlockCentralizer (Spin.spinMatrix Q) S e,
-      ((Spin.spinMatrix Q x : GL ι F) : Matrix ι ι F) * e =
-        e * ((Spin.spinMatrix Q x : GL ι F) : Matrix ι ι F) :=
-  fun x hx => a2_preserve Q hQ hadj (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp hx)).2
+    ∀ _x ∈ glBlockCentralizer (Spin.spinMatrix Q) S e,
+      ((Spin.spinMatrix Q _x : GL ι F) : Matrix ι ι F) * e =
+        e * ((Spin.spinMatrix Q _x : GL ι F) : Matrix ι ι F) :=
+  fun _x hx => a2_preserve Q hQ hadj (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp hx)).2
 
 private noncomputable def a2_restrict {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     [CharP F 2] (Q : QuadraticForm F (ι → F)) (hQ : (polarBilin Q).Nondegenerate)
@@ -959,7 +959,7 @@ theorem minus_of_fieldExt_four
       CFSG.LocalAnalysis.ComponentInitial.orthogonal_split_four_derived
         hK2 hK3 R hR hRdim ⟨U', hU'dim, hU'q⟩
     have hperf : Group.IsPerfect ↥(orthDerived R) := by
-      haveI : Group.IsPerfect ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) :=
+      have : Group.IsPerfect ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) :=
         hperf0
       rw [orthDerived,
         ← Subgroup.map_subtype_commutator (TauCeti.QuadraticMap.orthogonalGroup R)]
@@ -975,7 +975,7 @@ theorem minus_of_fieldExt_four
         · rintro _ ⟨x, -, rfl⟩
           exact a2_restrict_mem Q hQ S hadj x
       · have hle : orthDerived R ≤ r.range := a2_ext_mem Q hQ hrange S hee hadj hse hcomm
-        haveI : Group.IsPerfect ↥(orthDerived R) := hperf
+        have : Group.IsPerfect ↥(orthDerived R) := hperf
         calc orthDerived R = ⁅orthDerived R, orthDerived R⁆ :=
               (Subgroup.commutator_eq_self (H := orthDerived R)).symm
           _ ≤ ⁅r.range, r.range⁆ := Subgroup.commutator_mono hle hle
@@ -1253,7 +1253,7 @@ private lemma a4_card_kernel_le {ι F : Type} [Fintype ι] [DecidableEq ι] [Fie
               rw [hb]
         _ = x'.1 := Classical.choose_spec (MonoidHom.mem_range.mp (Subgroup.mem_inf.mp x'.2).1)
     exact Subtype.ext hx
-  haveI : Finite ↥D := Finite.of_injective (fun d : ↥D => (d : X)) Subtype.val_injective
+  have : Finite ↥D := Finite.of_injective (fun d : ↥D => (d : X)) Subtype.val_injective
   exact Nat.card_le_card_of_injective φ hinj
 
 theorem ggSixTCCaseAPOmega_false

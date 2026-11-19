@@ -128,7 +128,7 @@ public theorem CFSG.section14_sigma_mem_conjBy
     {L : Subgroup G} {p : Nat.Primes}
     (hpσ : p ∈ section10SigmaPrimes L) (a : G) :
     p ∈ section10SigmaPrimes (L.conjBy a) := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hpσ with ⟨hpL, P, hN⟩
   let PG : Subgroup G := section10AmbientSylowSubgroup L P
   let PGa : Subgroup G := PG.conjBy a
@@ -223,7 +223,7 @@ public theorem CFSG.section14_sigmaSupport_eq_singleton_of_length_one
         p ∈ section10SigmaPrimes L → ∀ a : G,
           p ∈ section10SigmaPrimes (L.conjBy a) := by
     intro L p hpσ a
-    haveI : Fact p.val.Prime := ⟨p.property⟩
+    have : Fact p.val.Prime := ⟨p.property⟩
     rcases hpσ with ⟨hpL, P, hN⟩
     let PG : Subgroup G := section10AmbientSylowSubgroup L P
     let PGa : Subgroup G := PG.conjBy a
@@ -436,7 +436,7 @@ public theorem CFSG.section14_mem_zpowers_right_of_support_subset
       rw [hcardA, hcardB]
       exact hcopAB
     exact Subgroup.disjoint_of_coprime_natCard hcopAB'
-  haveI : A.Normal := inferInstance
+  have : A.Normal := inferInstance
   have hyTop : (⟨y, hy⟩ : C) ∈ A ⊔ B := by
     simp [hABtop]
   rcases (Subgroup.mem_sup_of_normal_left (s := A) (t := B) (x := (⟨y, hy⟩ : C))).1 hyTop with
@@ -1417,7 +1417,7 @@ public theorem CFSG.section14_maximal_normalizer_eq_self_of_msigma_member
   · have hnorm_proper : Subgroup.normalizer (M : Set G) ≠ ⊤ := by
       intro hnorm_top
       have hMnormal : M.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-      letI : IsSimpleGroup G := IsMinCE.simple
+      let : IsSimpleGroup G := IsMinCE.simple
       rcases (haveI := hMnormal; IsSimpleGroup.eq_bot_or_eq_top_of_normal M) with hMbot | hMtop
       · rw [subgroupPrimeSet] at hqM
         have hq_one : q.val ∣ 1 := by simpa [hMbot] using hqM
@@ -1802,7 +1802,7 @@ public theorem CFSG.lemma_14_5_c
         Nat.card Conjs = Nat.card (G ⧸ M) := Nat.card_congr e.symm
         _ = M.index := by simpa using (M.index_eq_card).symm
     have hX0Card : Nat.card X0 = Nat.card (section10Msigma M) - 1 := by
-      letI : Fintype (section10Msigma M) := Fintype.ofFinite (section10Msigma M)
+      let : Fintype (section10Msigma M) := Fintype.ofFinite (section10Msigma M)
       let e : X0 ≃ {x : section10Msigma M // x ≠ 1} :=
         { toFun := fun x => ⟨⟨x.1, x.2.1⟩, by
               intro hx1

@@ -27,6 +27,7 @@ variable {G : Type} [Group G] [Finite G]
   map_one' := by ext; simp
   map_mul' := fun a b => by ext; simp [mul_assoc]
 
+omit [Finite G] in
 theorem conjAction_ker (M V : Subgroup G) (hn : M ≤ Subgroup.normalizer (V : Set G)) :
     (conjAction M V hn).ker = centralizerInSubgroup M V := by
   ext m
@@ -51,7 +52,7 @@ theorem quotient_rank_le_of_small {M V : Subgroup G} (hV : V ∈ normalElemAbeli
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.pRank p (M ⧸ centralizerInSubgroup M V) ≤ 1 := by
   obtain ⟨-, hab, -, hn⟩ := CFSG.LocalAnalysis.RankThreeUC.mem_normalElemAbelian2.mp hV
-  haveI : CFSG.IsElementaryAbelian 2 V :=
+  have : CFSG.IsElementaryAbelian 2 V :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 2 V).2 hab
   have h3 : CFSG.pRank 2 V ≤ 3 := by
     rw [SectionRank.pRank_coe_eq_openPRank]; exact hV3

@@ -180,9 +180,9 @@ theorem tripleOrbit_sound {G0 G1 : Nat} {T : Nat → Nat} {a b : Perm (Fin 22)}
         simp only [Perm.mul_apply, fget0, fget1, fget2]
         omega
       by_cases hgen : Nat.beq (fget (rec T i) 29 1) 0 = true
-      · rw [if_pos hgen] at himg
+      · rw [ite_eq_left hgen] at himg
         exact step a G0 (Subgroup.subset_closure (Set.mem_insert a {b})) ha himg
-      · rw [if_neg hgen] at himg
+      · rw [ite_eq_right hgen] at himg
         exact step b G1 (Subgroup.subset_closure (Set.mem_insert_of_mem a rfl)) hb himg
   have hcard : ((Finset.range 9240).image fun i => code (rec T i)).card = 9240 := by
     rw [Finset.card_image_of_injOn, Finset.card_range]

@@ -94,12 +94,12 @@ private theorem uc22s2112r34q35_diagonal_of_commute
         simpa [Finset.mem_insert, Finset.mem_singleton] using hiff
       by_cases hk : k ∈ ({i, j} : Finset (Fin 4 ⊕ κ))
       · have hl : l ∉ ({i, j} : Finset (Fin 4 ⊕ κ)) := hkiff.mp hk
-        simp only [hk, hl, if_true, if_false]
+        simp only [hk, hl, ite_true, ite_false]
         exact fun h => uc22s2112r34q35_one_ne_neg_one h2 h.symm
       · have hl : l ∈ ({i, j} : Finset (Fin 4 ⊕ κ)) := by
           by_contra hl
           exact hk (hkiff.mpr hl)
-        simp only [hk, hl, if_true, if_false]
+        simp only [hk, hl, ite_true, ite_false]
         exact fun h => uc22s2112r34q35_one_ne_neg_one h2 h
     exact TauCeti.apply_eq_zero_of_commute_diagonal hcomm hne
 

@@ -84,7 +84,7 @@ theorem idxCoreAt_entrywise {τ : Tag} {K : Type} [Field K] [Finite K] {p : ℕ}
     hNδ hnormal hpdvd htype hsub
 
 theorem card_fixSubfield_eq_pow_div {K : Type} [Field K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
-    (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) {σ : K ≃+* K} (hσp : orderOf σ = p) :
+    (hK : Nat.card K = ℓ ^ f) (_hp : p.Prime) {σ : K ≃+* K} (hσp : orderOf σ = p) :
     Nat.card (fixSubfield σ) = ℓ ^ (f / p) := by
   obtain ⟨-, hcard⟩ := card_fixSubfield hℓ hf hK σ
   rw [hσp] at hcard
@@ -139,7 +139,7 @@ theorem idxCoreAt_entrywise_cat_of_simple {τ : Tag}
 private theorem idxCoreAt_G2_two_entrywise {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) {q : TauCeti.PrimePower} (hqcard : q.card = 2 ^ p)
     {σ : K ≃+* K} (hk2 : Nat.card (fixSubfield σ) = 2)
-    (hJC : fixedFieldImage Tag.G2 σ ≤ adjointGroup Tag.G2 K)
+    (_hJC : fixedFieldImage Tag.G2 σ ≤ adjointGroup Tag.G2 K)
     (hNδ : ((fixedFieldImage Tag.G2 σ).subgroupOf (adjointGroup Tag.G2 K)).map
         (MulAut.conj : ↥(adjointGroup Tag.G2 K) →* MulAut ↥(adjointGroup Tag.G2 K)) ≤
       Subgroup.centralizer ({entrywiseAdjointAut Tag.G2 σ} :
@@ -159,7 +159,7 @@ private theorem idxCoreAt_G2_two_entrywise {K : Type} [Field K] [Finite K] {p : 
     have hle : p ≤ 63 := Nat.le_of_dvd (by norm_num) h63
     have key : ∀ m ∈ Finset.Icc 2 63, m.Prime → m ∣ 63 → m = 3 ∨ m = 7 := by decide
     exact key p (Finset.mem_Icc.2 ⟨hp.two_le, hle⟩) hp h63
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hinj : Function.Injective
       (MulAut.conj : ↥(adjointGroup Tag.G2 K) →* MulAut ↥(adjointGroup Tag.G2 K)) :=
     mulAut_conj_injective_of_center_eq_bot (center_adjointGroup_eq_bot (τ := Tag.G2) (K := K))
@@ -291,7 +291,7 @@ private theorem idxCoreAt_G2_three_entrywise {K : Type} [Field K] [Finite K] {p 
   have hq0card : q₀.card = q.p ^ (q.exponent / p) := TauCeti.PrimePower.card_def q₀
   have hcardk : Nat.card (fixSubfield σ) = 3 ^ (q.exponent / p) := by
     rw [card_fixSubfield_eq_pow_div q.prime_p q.exponent_pos hK' hp hσp, h3]
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have h3k : 3 ≤ Nat.card (fixSubfield σ) := by
     rw [hcardk]
     calc 3 = 3 ^ 1 := by norm_num
@@ -363,7 +363,7 @@ private theorem idxCoreAt_adjointG2 {q : TauCeti.PrimePower} {K : Type} [Field K
       MulAut ↥(adjointGroup Tag.G2 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h2 : q.p = 2
   · have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK', h2]
@@ -421,7 +421,7 @@ private theorem idxCoreAt_adjointG2 {q : TauCeti.PrimePower} {K : Type} [Field K
         (MulAut.conj h) hh
   · by_cases h3 : q.p = 3
     · have hK3 : Nat.card K = 3 ^ q.exponent := by rw [hK', h3]
-      haveI hchar3 : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
+      have hchar3 : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
         rw [show CFSG.LieType.Ree.ReeTag.G2.prime = 3 from rfl]
         exact h3 ▸ hKchar
       have hNF := (G2_three_exact_automorphism_normal_form q.exponent_pos K hK3).2.1
@@ -553,7 +553,7 @@ private theorem idxCoreAt_adjointF4 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hdvd : ∀ σ : K ≃+* K, orderOf σ = p →
       ¬ Nat.Coprime p (Nat.card (adjointGroup Tag.F4 (fixSubfield σ))) := by
     intro σ hσp
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (fixSubfield σ) := Subtype.finite
     rw [← Nat.Prime.dvd_iff_not_coprime hp,
       CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_F4]
     refine dvd_ordF4_of_degCount_pos Nat.card_pos ?_
@@ -563,11 +563,11 @@ private theorem idxCoreAt_adjointF4 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hxinner : x ∉ (MulAut.conj : ↥(adjointGroup Tag.F4 K) →*
       MulAut ↥(adjointGroup Tag.F4 K)).range := fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h2 : q.p = 2
   · have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK', h2]
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
       rw [show CFSG.LieType.Ree.ReeTag.F4.prime = 2 from rfl]
       exact CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two q.exponent_pos hK2
@@ -589,8 +589,8 @@ private theorem idxCoreAt_adjointF4 {q : TauCeti.PrimePower} {K : Type} [Field K
     exact idxCoreAt_of_conj
       (idxCoreAt_exc_entrywise Even.chevalleyBridgesAll.f4 (fun _ => rfl) (fun _ => by simp)
         (fun _ _ => trivial) hp hpf hK' hσp hJC hsimple hnc hNδ hnormal (hdvd σ hσp)) ψ hψ
-  · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI hchar : CharP K q.p :=
+  · have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have hchar : CharP K q.p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK'
     have hNF := conj_normalForm_of_pointwise
@@ -640,7 +640,7 @@ private theorem idxCoreAt_adjointE7 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hdvd : ∀ σ : K ≃+* K, orderOf σ = p →
       ¬ Nat.Coprime p (Nat.card (adjointGroup Tag.E7 (fixSubfield σ))) := by
     intro σ hσp
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (fixSubfield σ) := Subtype.finite
     rw [← Nat.Prime.dvd_iff_not_coprime hp,
       CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_E7]
     refine dvd_ordE7_of_degCount_pos hp hp2 Nat.card_pos ?_
@@ -650,7 +650,7 @@ private theorem idxCoreAt_adjointE7 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hxinner : x ∉ (MulAut.conj : ↥(adjointGroup Tag.E7 K) →*
       MulAut ↥(adjointGroup Tag.E7 K)).range := fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h2 : q.p = 2
   · have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK', h2]
@@ -672,11 +672,11 @@ private theorem idxCoreAt_adjointE7 {q : TauCeti.PrimePower} {K : Type} [Field K
     exact idxCoreAt_of_conj
       (idxCoreAt_exc_entrywise Even.chevalleyBridgesAll.e7 (fun _ => rfl) (fun _ => by simp)
         (fun _ _ => trivial) hp hpf hK' hσp hJC hsimple hnc hNδ hnormal (hdvd σ hσp)) ψ hψ
-  · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI hchar : CharP K q.p :=
+  · have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have hchar : CharP K q.p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK'
-    haveI hcharA : CharP (AlgebraicClosure K) q.p :=
+    have hcharA : CharP (AlgebraicClosure K) q.p :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective q.p
     have hαp : orderOf (⟨x, Subgroup.mem_top x⟩ :
         (⊤ : Subgroup (MulAut ↥(adjointGroup Tag.E7 K)))) = p := by
@@ -722,7 +722,7 @@ private theorem idxCoreAt_adjointE8 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hdvd : ∀ σ : K ≃+* K, orderOf σ = p →
       ¬ Nat.Coprime p (Nat.card (adjointGroup Tag.E8 (fixSubfield σ))) := by
     intro σ hσp
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (fixSubfield σ) := Subtype.finite
     rw [← Nat.Prime.dvd_iff_not_coprime hp,
       CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_E8]
     refine dvd_ordE8_of_degCount_pos Nat.card_pos ?_
@@ -732,7 +732,7 @@ private theorem idxCoreAt_adjointE8 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hxinner : x ∉ (MulAut.conj : ↥(adjointGroup Tag.E8 K) →*
       MulAut ↥(adjointGroup Tag.E8 K)).range := fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h2 : q.p = 2
   · have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK', h2]
@@ -754,8 +754,8 @@ private theorem idxCoreAt_adjointE8 {q : TauCeti.PrimePower} {K : Type} [Field K
     exact idxCoreAt_of_conj
       (idxCoreAt_exc_entrywise Even.chevalleyBridgesAll.e8 (fun _ => rfl) (fun _ => by simp)
         (fun _ _ => trivial) hp hpf hK' hσp hJC hsimple hnc hNδ hnormal (hdvd σ hσp)) ψ hψ
-  · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI hchar : CharP K q.p :=
+  · have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have hchar : CharP K q.p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK'
     have hNF := (odd_E8_inner_field_automorphisms_and_noninner_prime_core q.prime_p h2
@@ -788,8 +788,8 @@ private theorem idxCoreAt_adjointE6 {q : TauCeti.PrimePower} {K : Type} [Field K
     ∀ x : MulAut ↥(adjointGroup Tag.E6 K), x ^ p = 1 →
       x ∉ innAutDerived ↥(adjointGroup Tag.E6 K) → IdxCoreAt p (.E6 q) x := by
   have hf : 1 ≤ q.exponent := q.exponent_pos
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI hchar : CharP K q.p :=
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have hchar : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       q.prime_p q.exponent_pos hK'
   have hpK : ¬ p ∣ Nat.card K := by
@@ -805,7 +805,7 @@ private theorem idxCoreAt_adjointE6 {q : TauCeti.PrimePower} {K : Type} [Field K
         have hp3 : 3 ≤ p := by have := hp.two_le; omega
         have hp4 : p ≠ 4 := by rintro rfl; norm_num at hp
         omega
-      haveI : Finite (fixSubfield σ) := Subtype.finite
+      have : Finite (fixSubfield σ) := Subtype.finite
       rw [← Nat.Prime.dvd_iff_not_coprime hp,
         CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_E6]
       refine dvd_ordE6_of_degCount_pos hp (by omega) Nat.card_pos ?_
@@ -815,7 +815,7 @@ private theorem idxCoreAt_adjointE6 {q : TauCeti.PrimePower} {K : Type} [Field K
   have hxinner : x ∉ (MulAut.conj : ↥(adjointGroup Tag.E6 K) →*
       MulAut ↥(adjointGroup Tag.E6 K)).range := fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   have hαp : orderOf (⟨x, Subgroup.mem_top x⟩ :
       (⊤ : Subgroup (MulAut ↥(adjointGroup Tag.E6 K)))) = p := by
@@ -862,11 +862,11 @@ private theorem idxCoreAt_adjointE6 {q : TauCeti.PrimePower} {K : Type} [Field K
       exact idxCoreAt_of_conj
         (idxCoreAt_of_fixSubgroup_eq (fixSub_eq_of_zpowers_eq hz.symm) hcore) ψ hψ
     ·
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-      haveI hchar : CharP K q.p :=
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
+      have hchar : CharP K q.p :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           q.prime_p q.exponent_pos hK'
-      haveI hcharA : CharP (AlgebraicClosure K) q.p :=
+      have hcharA : CharP (AlgebraicClosure K) q.p :=
         charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective q.p
       obtain ⟨σ, hσp, hpf, ψ, hψ⟩ := exists_conj_entrywise_of_not_mem_e6Inndiag q.prime_p hf
         K hK' Nat.prime_three (by norm_num) hx3 hxI
@@ -920,11 +920,11 @@ private theorem idxCoreAt_adjointE6 {q : TauCeti.PrimePower} {K : Type} [Field K
       exact idxCoreAt_of_conj
         (idxCoreAt_of_fixSubgroup_eq (fixSub_eq_of_zpowers_eq hz.symm) hcore) ψ hψ
     ·
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-      haveI hchar : CharP K q.p :=
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
+      have hchar : CharP K q.p :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           q.prime_p q.exponent_pos hK'
-      haveI hcharA : CharP (AlgebraicClosure K) q.p :=
+      have hcharA : CharP (AlgebraicClosure K) q.p :=
         charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective q.p
       obtain ⟨-, ⟨σ, δ, hσp, hδ⟩, -⟩ :=
         CFSG.RankThree.PartOne.KE.odd_E6_noninner_large_prime_field_descent_and_local_core_trivial
@@ -951,8 +951,8 @@ theorem lieOuterIdx_excUntwisted : LieOuterIdx isExcUntwistedIdx := by
     rw [TauCeti.LieTypeIndex.characteristic_G2] at hpc
     obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.g2 q hv
-    haveI : Finite (ModGL Tag.G2 K) := finite_modGL
-    haveI : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
+    have : Finite (ModGL Tag.G2 K) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
     have hK' : Nat.card K = q.p ^ q.exponent := hKcard.trans (TauCeti.PrimePower.card_def q)
     have hpdvd' : p ∣ Nat.card ↥(adjointGroup Tag.G2 K) := by
       rw [← Nat.card_congr eK.toEquiv]
@@ -965,8 +965,8 @@ theorem lieOuterIdx_excUntwisted : LieOuterIdx isExcUntwistedIdx := by
     rw [TauCeti.LieTypeIndex.characteristic_F4] at hpc
     obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q hv
-    haveI : Finite (ModGL Tag.F4 K) := finite_modGL
-    haveI : Finite ↥(adjointGroup Tag.F4 K) := Subtype.finite
+    have : Finite (ModGL Tag.F4 K) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.F4 K) := Subtype.finite
     have hK' : Nat.card K = q.p ^ q.exponent := hKcard.trans (TauCeti.PrimePower.card_def q)
     have hpdvd' : p ∣ Nat.card ↥(adjointGroup Tag.F4 K) := by
       rw [← Nat.card_congr eK.toEquiv]
@@ -977,8 +977,8 @@ theorem lieOuterIdx_excUntwisted : LieOuterIdx isExcUntwistedIdx := by
     rw [TauCeti.LieTypeIndex.characteristic_E6] at hpc
     obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
-    haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-    haveI : Finite ↥(adjointGroup Tag.E6 K) := Subtype.finite
+    have : Finite (ModGL Tag.E6 K) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.E6 K) := Subtype.finite
     have hK' : Nat.card K = q.p ^ q.exponent := hKcard.trans (TauCeti.PrimePower.card_def q)
     have hpdvd' : p ∣ Nat.card ↥(adjointGroup Tag.E6 K) := by
       rw [← Nat.card_congr eK.toEquiv]
@@ -989,8 +989,8 @@ theorem lieOuterIdx_excUntwisted : LieOuterIdx isExcUntwistedIdx := by
     rw [TauCeti.LieTypeIndex.characteristic_E7] at hpc
     obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 q hv
-    haveI : Finite (ModGL Tag.E7 K) := finite_modGL
-    haveI : Finite ↥(adjointGroup Tag.E7 K) := Subtype.finite
+    have : Finite (ModGL Tag.E7 K) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.E7 K) := Subtype.finite
     have hK' : Nat.card K = q.p ^ q.exponent := hKcard.trans (TauCeti.PrimePower.card_def q)
     have hpdvd' : p ∣ Nat.card ↥(adjointGroup Tag.E7 K) := by
       rw [← Nat.card_congr eK.toEquiv]
@@ -1001,8 +1001,8 @@ theorem lieOuterIdx_excUntwisted : LieOuterIdx isExcUntwistedIdx := by
     rw [TauCeti.LieTypeIndex.characteristic_E8] at hpc
     obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 q hv
-    haveI : Finite (ModGL Tag.E8 K) := finite_modGL
-    haveI : Finite ↥(adjointGroup Tag.E8 K) := Subtype.finite
+    have : Finite (ModGL Tag.E8 K) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.E8 K) := Subtype.finite
     have hK' : Nat.card K = q.p ^ q.exponent := hKcard.trans (TauCeti.PrimePower.card_def q)
     have hpdvd' : p ∣ Nat.card ↥(adjointGroup Tag.E8 K) := by
       rw [← Nat.card_congr eK.toEquiv]

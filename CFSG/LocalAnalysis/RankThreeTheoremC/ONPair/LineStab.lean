@@ -175,8 +175,8 @@ end Order
 section Fix
 
 theorem isCoatom_lineStab (ℓ : Fin nL) : IsCoatom (lineStab ℓ) := by
-  haveI := pl_preprimitive
-  haveI : Nontrivial (Fin nL) := Fin.nontrivial_iff_two_le.2 (by norm_num)
+  have := pl_preprimitive
+  have : Nontrivial (Fin nL) := Fin.nontrivial_iff_two_le.2 (by norm_num)
   rw [lineStab, Subgroup.isCoatom_comap]
   exact MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive Pl ℓ
 

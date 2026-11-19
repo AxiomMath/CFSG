@@ -330,7 +330,7 @@ private theorem secondCase_fixedSylow_of_reflected_torus
   have hPnotT : ¬ (P : Subgroup (PSL2 K)) ≤ T := by
     intro hPleT
     exact hPnotcyc (Subgroup.isCyclic_of_le hPleT)
-  obtain ⟨s', hs'P, hs'T⟩ := SetLike.not_le_iff_exists.mp hPnotT
+  obtain ⟨s', hs'P, hs'T⟩ := IsConcreteLE.not_le_iff_exists.mp hPnotT
   have hs'sup : s' ∈ T ⊔ Subgroup.zpowers s := by
     rw [← hNt]
     exact hPleNt hs'P

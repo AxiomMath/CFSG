@@ -30,7 +30,7 @@ theorem conjAut_mem_inner_of_det_eq_pow {n : ℕ} (A : GL (Fin n) K) {μ : Kˣ}
   exact ⟨proj n K g, rfl⟩
 
 theorem units_pow_card_sub_one [Finite K] (x : Kˣ) : x ^ (Nat.card K - 1) = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, Units.val_one, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card_sub_one_eq_one _ x.ne_zero

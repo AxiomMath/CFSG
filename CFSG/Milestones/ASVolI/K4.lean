@@ -292,7 +292,7 @@ private theorem burnsideKF_center_eq_bot {X S : Type} [Group X] [Group S] [IsSim
     (hperf : Group.IsPerfect X) (θ : X ≃* S) : Subgroup.center X = ⊥ := by
   have hmap : ((Subgroup.center X).map θ.toMonoidHom).Normal :=
     Subgroup.Normal.map inferInstance θ.toMonoidHom θ.surjective
-  haveI := hmap
+  have := hmap
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Subgroup.center X).map θ.toMonoidHom) with h | h
   · exact (Subgroup.map_eq_bot_iff_of_injective _ θ.injective).mp h
   · exfalso
@@ -830,7 +830,7 @@ theorem as_K_4
   have hV := hK.elem2
   have hHyp := hK.hyp
   have h2 := hK.qhat
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hHyp.2.2.1.2.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hHyp.2.2.1.2.1
   have hnFF : ¬ IsFFModule G := by
     rintro ⟨A, hAG, hAne, hAel, hAV⟩
     have hA2 : IsA2 G A := ⟨hAG, hAne, hAel⟩
@@ -983,10 +983,10 @@ private theorem burnsideKG_two_le_rk {V : Type} [CommGroup V] [Finite V] {D : Su
     CFSG.Quasithin.card_eq_two_pow_of_isPGroup hDe.isPGroup
   interval_cases h : CFSG.Quasithin.rk ↥D
   · have h1 : Nat.card ↥D = 1 := by simpa using hc
-    haveI : Subsingleton ↥D := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton ↥D := (Nat.card_eq_one_iff_unique.1 h1).1
     infer_instance
   · have h2 : Nat.card ↥D = 2 := by simpa using hc
-    haveI : Fact (Nat.Prime (Nat.card ↥D)) := ⟨by rw [h2]; exact Nat.prime_two⟩
+    have : Fact (Nat.Prime (Nat.card ↥D)) := ⟨by rw [h2]; exact Nat.prime_two⟩
     exact isCyclic_of_prime_card h2
 
 end BurnsideKG
@@ -1212,13 +1212,13 @@ section ElemAbelian
 private theorem burnsideK42_isE2 {X : Type} [Group X] (hc : ∀ a b : X, a * b = b * a)
     (hsq : ∀ a : X, a ^ 2 = 1) {n : ℕ} (hcard : Nat.card X = 2 ^ n) :
     Nonempty (X ≃* Multiplicative (Fin n → ZMod 2)) := by
-  letI : CommGroup X := { ‹Group X› with mul_comm := hc }
+  let : CommGroup X := { ‹Group X› with mul_comm := hc }
   have h2 : ∀ x : Additive X, (2 : ℕ) • x = 0 := fun x => by
     have := hsq (Additive.toMul x)
     apply Additive.toMul.injective
     simpa using this
-  letI : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule h2
-  haveI : Finite (Additive X) := by
+  let : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule h2
+  have : Finite (Additive X) := by
     have : 0 < Nat.card X := by rw [hcard]; positivity
     exact Nat.finite_of_card_ne_zero this.ne'
   have hfr : Module.finrank (ZMod 2) (Additive X) = n := by
@@ -1724,7 +1724,7 @@ private theorem burnsideK42_vecL_cards :
 
 private theorem burnsideK42_vecStab_card_le :
     Nat.card ↥(burnsideK42_centK vBase) ≤ 16 := by
-  letI : MulAction burnsideK42_K W11 := MulAction.compHom W11 burnsideK42_rho
+  let : MulAction burnsideK42_K W11 := MulAction.compHom W11 burnsideK42_rho
   have hsm : ∀ (σ : burnsideK42_K) (w : W11), σ • w = burnsideK42_rho σ w := fun _ _ => rfl
   obtain ⟨hbl, hgl, hlt, hlev⟩ := burnsideK42_vecChain_parts
   have hyp : burnsideK42_ChainHyp (⊤ : Subgroup burnsideK42_K) burnsideK42_vecL := by
@@ -1925,12 +1925,12 @@ private theorem burnsideK42_octad_trans (e : G6.PermMod 24)
     have hle : treeSumN (fun a => F (bvec 24 a)) Bmask 12 0 ≤ octMiss (octTab ()) := by
       refine burnsideK42_treeSumN_mono (fun a => ?_) Bmask 12 0
       by_cases hG : (popc 24 a == 8 && !((octTab ()).any (·.1 == a))) = true
-      · rw [if_pos hG]
+      · rw [ite_eq_left hG]
         simp only [F]
         split_ifs <;> omega
-      · rw [if_neg hG]
+      · rw [ite_eq_right hG]
         simp only [F]
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨hw8, hall⟩
         rw [hammingNorm_bvec] at hw8
         apply hG
@@ -1950,7 +1950,7 @@ private theorem burnsideK42_octad_trans (e : G6.PermMod 24)
       omega
     have hF := Finset.sum_eq_zero_iff.1 h0 _ hmem
     simp only [F] at hF
-    rw [if_pos ⟨hw, fun i hi => hno i hi⟩] at hF
+    rw [ite_eq_left ⟨hw, fun i hi => hno i hi⟩] at hF
     exact absurd hF (by simp)
   obtain ⟨i, hi, hie⟩ := hcov
   obtain ⟨τ, hτ⟩ := hP i hi
@@ -1961,7 +1961,7 @@ private theorem burnsideK42_f3_parts :
       arrConj kg.2 z0Arr = kg.1) ∧
     (∀ p ∈ kIdx (), tArr p = idArr ∨ ∃ kg ∈ f3Wit, kg.1 = tArr p) := by
   have h := (Certificates.certificate7277).2.1
-  simp only [f3OK, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true,
+  simp only [f3OK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
     Bool.or_eq_true, List.any_eq_true] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨fun kg hkg => ?_, fun p hp => ?_⟩
@@ -2143,7 +2143,7 @@ private theorem burnsideK42_f4_parts :
     ∀ m < 2048, m ∈ w5Masks () ∨
       indep6 ((wordPool moGens.length 2).map fun w => applyWord moGens w m) = true := by
   have h := (Certificates.certificate7277).2.2
-  simp only [f4OK, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true,
+  simp only [f4OK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
     List.mem_range] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨fun g hg => ?_, fun m hm => ?_⟩
@@ -2277,6 +2277,7 @@ private theorem burnsideK42_vm_eq_iff {n : ℕ} (c : MaskCoords V n) {a b : ℕ}
 
 variable [Finite V]
 
+omit [Finite V] in
 private theorem burnsideK42_Vz_mask
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) (m : ℕ) (hm : m < 2048) :
@@ -2287,6 +2288,7 @@ private theorem burnsideK42_Vz_mask
   unfold vzMasks
   simp only [List.mem_filter, beq_iff_eq]
 
+omit [Finite V] in
 private theorem burnsideK42_rk_Vz
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) :
@@ -2355,6 +2357,7 @@ private theorem burnsideK42_z0K_mem_DZ : z0K ∈ burnsideK42_centK (vzMasks ()) 
 
 end Z0
 
+omit [Finite V] in
 private theorem burnsideK42_theta_inj
     (hε : ∀ (γ : burnsideK42_K) (v : V), ε (θ γ v) = burnsideK42_rho γ (ε v)) :
     Function.Injective θ := by
@@ -2373,6 +2376,7 @@ variable
   (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr)
 include hS hz0
 
+omit [Finite V] in
 private theorem burnsideK42_mem_Dz_iff (m : MulAut V) :
     m ∈ CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K) ↔
       ∃ γ ∈ burnsideK42_centK (vzMasks ()), θ γ = m := by
@@ -2396,6 +2400,7 @@ private theorem burnsideK42_mem_Dz_iff (m : MulAut V) :
       (burnsideK42_hasArr_permArr _)).1 hγ m hmv
     rw [burnsideK42_theta_vm hS.hε (burnsideK42_hasArr_permArr _), this]
 
+omit [Finite V] in
 private theorem burnsideK42_Dz_eq : CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K) =
     (burnsideK42_centK (vzMasks ())).map θ := by
   ext m
@@ -2484,6 +2489,7 @@ private theorem burnsideK42_dmasks_lt (a : Array ℕ) : ∀ b ∈ dmasks a, b < 
   have hj' : j < 11 := List.mem_range.1 hj
   exact Nat.xor_lt_two_pow (actC11_lt _ _) (Nat.pow_lt_pow_right (by norm_num) hj')
 
+omit [Finite V] in
 private theorem burnsideK42_commV_mono {X Y : Subgroup (MulAut V)} (h : X ≤ Y) : commV X ≤
     commV Y := by
   unfold commV
@@ -2495,18 +2501,21 @@ section SCb
 variable (hS : burnsideK42_Std θ ε V5)
 include hS
 
+omit [Finite V] in
 private theorem burnsideK42_comm_gen (γ : burnsideK42_K) (m : ℕ) :
     θ γ ((MaskCoords.ofEquiv ε).vm m) * ((MaskCoords.ofEquiv ε).vm m)⁻¹ =
       (MaskCoords.ofEquiv ε).vm (actC11 (burnsideK42_permArr (γ : Equiv.Perm (Fin 24))) m ^^^ m) := by
   rw [burnsideK42_theta_vm hS.hε (burnsideK42_hasArr_permArr _), (MaskCoords.ofEquiv ε).vm_xor,
     burnsideK42_vm_inv]
 
+omit [Finite V] in
 private theorem burnsideK42_comm_gen' {γ : burnsideK42_K} {a : Array ℕ}
     (ha : HasArr (γ : Equiv.Perm (Fin 24)) a) (m : ℕ) :
     θ γ ((MaskCoords.ofEquiv ε).vm m) * ((MaskCoords.ofEquiv ε).vm m)⁻¹ =
       (MaskCoords.ofEquiv ε).vm (actC11 a m ^^^ m) := by
   rw [burnsideK42_theta_vm hS.hε ha, (MaskCoords.ofEquiv ε).vm_xor, burnsideK42_vm_inv]
 
+omit [Finite V] in
 private theorem burnsideK42_cent_commV_of {γ : burnsideK42_K} {a : Array ℕ}
     (ha : HasArr (γ : Equiv.Perm (Fin 24)) a) (hd2 : θ γ * θ γ = 1) {g : MulAut V}
     {a' : Array ℕ} {γ' : burnsideK42_K} (hg : g = θ γ') (ha' : HasArr (γ' : Equiv.Perm (Fin 24)) a')
@@ -2526,6 +2535,7 @@ private theorem burnsideK42_cent_commV_of {γ : burnsideK42_K} {a : Array ℕ}
         burnsideK42_theta_vm hS.hε ha', hfix m hm]
   exact mem_fixV_zpowers_iff_apply.1 (hle hu)
 
+omit [Finite V] in
 private theorem burnsideK42_fix_of_cent_commV {γ : burnsideK42_K} {a : Array ℕ}
     (ha : HasArr (γ : Equiv.Perm (Fin 24)) a) {γ' : burnsideK42_K} {a' : Array ℕ}
     (ha' : HasArr (γ' : Equiv.Perm (Fin 24)) a')
@@ -2540,6 +2550,7 @@ private theorem burnsideK42_fix_of_cent_commV {γ : burnsideK42_K} {a : Array �
     burnsideK42_vm_eq_iff _ (actC11_lt _ _) (Nat.xor_lt_two_pow (actC11_lt _ _) hm)] at h
   exact h
 
+omit [Finite V] in
 private theorem burnsideK42_dmask_mem_commV {γ : burnsideK42_K} {a : Array ℕ}
     (ha : HasArr (γ : Equiv.Perm (Fin 24)) a) {X : Subgroup (MulAut V)} (hX : θ γ ∈ X) :
     ∀ b ∈ dmasks a, (MaskCoords.ofEquiv ε).vm b ∈ commV X := by
@@ -2556,6 +2567,7 @@ variable
   (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr)
 include hS hz0
 
+omit [Finite V] in
 private theorem burnsideK42_Dz_inf_KO :
     CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K) ⊓ burnsideK42_KO0.map θ =
       Subgroup.zpowers (θ z0K) := by
@@ -2584,6 +2596,7 @@ private theorem burnsideK42_Dz_inf_KO :
     exact ⟨Subgroup.mem_map_of_mem θ (burnsideK42_z0K_mem_DZ hz0),
       Subgroup.mem_map_of_mem θ (burnsideK42_z0K_mem_KO0 hz0)⟩
 
+omit [Finite V] in
 private theorem burnsideK42_isE2_Dz : IsE2 4 ↥(CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K)) := by
   rw [burnsideK42_Dz_eq hS hz0]
   have hcard : Nat.card ↥((burnsideK42_centK (vzMasks ())).map θ) = 2 ^ 4 := by
@@ -2599,6 +2612,7 @@ private theorem burnsideK42_isE2_Dz : IsE2 4 ↥(CFSG.ASVolI.ChIJK.Dz θ.range V
     show (θ γ) ^ 2 = 1
     rw [sq, ← map_mul, burnsideK42_DZ_sq h, map_one]
 
+omit [Finite V] in
 private theorem burnsideK42_commV_z :
     commV (Subgroup.zpowers (θ z0K)) = CFSG.ASVolI.ChIJK.Vz V5 (θ z0K) := by
   set c := MaskCoords.ofEquiv ε with hc
@@ -2633,6 +2647,7 @@ private theorem burnsideK42_commV_z :
     rw [← this]
     exact Subgroup.subset_closure ⟨θ z0K, Subgroup.mem_zpowers _, _, rfl⟩
 
+omit [Finite V] in
 private theorem burnsideK42_d_data {d : MulAut V}
     (hd : d ∈ CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K))
     (hdz : d ∉ Subgroup.zpowers (θ z0K)) :
@@ -2655,6 +2670,7 @@ private theorem burnsideK42_d_data {d : MulAut V}
     exact Subgroup.mem_zpowers _
   · exact h
 
+omit [Finite V] in
 private theorem burnsideK42_conj3 {d : MulAut V}
     (hd : d ∈ CFSG.ASVolI.ChIJK.Dz θ.range V5 (θ z0K))
     (hdz : d ∉ Subgroup.zpowers (θ z0K)) :
@@ -3067,7 +3083,7 @@ private theorem burnsideK42_syl_parts :
       ∃ k ∈ (kIdx ()).map tArr, ∃ d ∈ (dzIdx ()).map tArr, arrMul k d = tArr p := by
   have h := (Certificates.certificate7278).1
   simp only [sylOK, Bool.and_eq_true, List.all_eq_true, List.mem_range, Bool.or_eq_true,
-    Bool.not_eq_true', List.any_eq_true, beq_iff_eq, decide_eq_true_eq] at h
+    Bool.not_eq_true', List.any_eq_true, beq_iff_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨h1, fun p hp hall => ?_⟩
   rcases h2 p hp with h | h
@@ -3090,7 +3106,7 @@ private theorem burnsideK42_class_parts :
     (∀ p ∈ dzIdx (), tArr p ≠ idArr → tArr p ≠ z0Arr → ∃ xg ∈ classWit, xg.1 = tArr p) := by
   have h := (Certificates.certificate7278).2.1
   simp only [classOK, Bool.and_eq_true, List.all_eq_true, List.mem_range, Bool.or_eq_true,
-    Bool.not_eq_true', List.any_eq_true, beq_iff_eq, decide_eq_true_eq, List.mem_filter,
+    Bool.not_eq_true', List.any_eq_true, beq_iff_eq, List.mem_filter,
     bne_iff_ne, ne_eq] at h
   obtain ⟨⟨⟨-, h1⟩, h2⟩, h3⟩ := h
   refine ⟨fun p hp haa h1' h2' hq => ?_, fun xg hxg => ?_, fun p hp hp1 hp2 => h3 p ⟨hp, hp1, hp2⟩⟩
@@ -3218,6 +3234,7 @@ open CFSG.Quasithin CFSG.Quasithin.H.Mathieu CFSG.Monster.Code CFSG.ASVolI.K43Da
 variable {V : Type} [CommGroup V] [Finite V] {θ : burnsideK42_K →* MulAut V} {ε : V ≃* W11}
   {V5 : Subgroup V}
 
+omit [Finite V] in
 private theorem burnsideK42_Vz_inv
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) {c : burnsideK42_K}
@@ -3231,6 +3248,7 @@ private theorem burnsideK42_Vz_inv
     _ = θ c (θ z0K v) := by rw [map_mul]; rfl
     _ = θ c v := by rw [hv.2]
 
+omit [Finite V] in
 private theorem burnsideK42_mem_centK_iff_V
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) {γ : burnsideK42_K} :
@@ -3252,6 +3270,7 @@ private theorem burnsideK42_mem_centK_iff_V
       burnsideK42_vm_eq_iff _ (actC11_lt _ _) hm'] at this
     exact this
 
+omit [Finite V] in
 private theorem burnsideK42_DZ_conj_mem
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) {c : burnsideK42_K}
@@ -3268,6 +3287,7 @@ private theorem burnsideK42_DZ_conj_mem
       rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel, map_one]
       rfl
 
+omit [Finite V] in
 private theorem burnsideK42_conj1a
     (hS : burnsideK42_Std θ ε V5) {z0K : burnsideK42_K}
     (hz0 : HasArr (z0K : Equiv.Perm (Fin 24)) z0Arr) :
@@ -3656,16 +3676,16 @@ private theorem burnsideK42_conj4
     have hnd : [1, θ z0K, θ x, θ x * θ z0K].Nodup := by
       refine List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_,
         List.nodup_singleton _⟩⟩⟩
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+      · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
         exact ⟨hz1.symm, hx1'.symm, hxzz.symm⟩
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+      · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
         exact ⟨hxz'.symm, hxzz2.symm⟩
       · simp only [List.mem_singleton]
         exact hxzz3.symm
     have hl : ∀ w ∈ [1, θ z0K, θ x, θ x * θ z0K],
         w ∈ Subgroup.zpowers (θ x) ⊔ Subgroup.zpowers (θ z0K) := by
       intro w hw
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hw
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hw
       rcases hw with rfl | rfl | rfl | rfl
       · exact Subgroup.one_mem _
       · exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
@@ -4075,7 +4095,7 @@ theorem as_K_4_5 : K_4_5 := by
   have hHyp := hK.hyp
   have h2 := hK.qhat
   obtain ⟨θ⟩ := hJ
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   have hZ := burnsideKF_center_eq_bot hHyp.2.2.1.1 θ
   have hT : B45TypeSpor .J2 ↥L := ⟨hZ, ⟨θ⟩⟩

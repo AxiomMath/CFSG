@@ -47,7 +47,7 @@ theorem spUFixRootSp_smul {c : F} (hc : c ≠ 0) (v : Fin k ⊕ Fin k → F) :
     rw [CFSG.RankThree.PartOne.CTP.spTransvection_smul,
       mul_div_cancel₀ t (mul_ne_zero hc hc)]
 
-theorem exists_smul_of_spUFixRootSp_eq {v w : Fin k ⊕ Fin k → F} (hv : v ≠ 0) (hw : w ≠ 0)
+theorem exists_smul_of_spUFixRootSp_eq {v w : Fin k ⊕ Fin k → F} (_hv : v ≠ 0) (hw : w ≠ 0)
     (h : spUFixRootSp v = spUFixRootSp w) : ∃ c : F, w = c • v := by
   have hwmem : spTransvection w 1 ∈ spUFixRootSp v := by
     rw [h]

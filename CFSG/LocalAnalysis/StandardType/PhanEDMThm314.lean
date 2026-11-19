@@ -112,7 +112,7 @@ theorem connectedIn_levelSet_zero (hres : IsResidual X lev) (hlco : Lco X lev)
   rcases isEmpty_or_nonempty I with hI | hI
   · obtain ⟨γ, hγ, hend⟩ := hX a b
     exact ⟨γ, ⟨ha, hγ, fun p hp => (hI.false p.1).elim⟩, hend⟩
-  · haveI : Nonempty I := hI
+  · have : Nonempty I := hI
     obtain ⟨γ, hγ, hend⟩ := hX a b
     refine q2cDMt_connectedIn_levelSet_of_gallery hres hlco hX (q2cDMt_bound lev a γ)
       a b γ ha hb ?_ hend
@@ -158,7 +158,7 @@ theorem homIn_levelSet_zero (hres : IsResidual X lev) (hlco : Lco X lev) (hlsco 
     subst h1
     subst h2
     exact Relation.EqvGen.refl []
-  · haveI : Nonempty I := hI
+  · have : Nonempty I := hI
     exact q2cDMt_homIn_levelSet_zero hres hlco hlsco hX N x γ γ' hγ hγ' h
 
 theorem DM07_thm314 (hres : IsResidual X lev) (hlco : Lco X lev) (hlsco : Lsco X lev)

@@ -110,7 +110,7 @@ section Tags
 
 theorem ggRootCentOTwoTag_E8 : GGRootCentOTwoTag .E8 := by
   intro G _ _ n f ψ hadm _ hker _ _ hC _ r hr _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by
@@ -132,7 +132,7 @@ theorem ggRootCentOTwoTag_E8 : GGRootCentOTwoTag .E8 := by
 
 theorem ggRootCentOTwoTag_E7 : GGRootCentOTwoTag .E7 := by
   intro G _ _ n f ψ hadm _ hker _ _ hC _ r hr _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by

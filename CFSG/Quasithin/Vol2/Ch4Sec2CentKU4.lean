@@ -29,16 +29,19 @@ private theorem psl2_card_injective_centKU4 {a b : ℕ}
   · rfl
   · exact absurd h (psl2_card_strictMono_centKU4 hab).ne'
 
+omit [Finite G] in
 private theorem conjClosure_eq_self_centKU4 {X Y : Subgroup G}
     (hY : Y ≤ Subgroup.normalizer (X : Set G)) : conjClosure X Y = X :=
   le_antisymm (conjClosure_le fun _ hk z hz => (Subgroup.mem_normalizer_iff.mp (hY hk) z).mp hz)
     (le_conjClosure X Y)
 
+omit [Finite G] in
 private theorem isPSL_modO2_of_eq_centKU4 {X Y : Subgroup G} {m : ℕ} (h : X = Y)
     (hP : IsPSL 2 2 m (ModO2 X)) : IsPSL 2 2 m (ModO2 Y) := by
   subst h
   exact hP
 
+omit [Finite G] in
 private theorem pCoreOf_subgroupOf_centKU4 (L : Subgroup G) :
     (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
   unfold pCoreOf
@@ -48,6 +51,7 @@ private theorem relIndex_ne_zero_centKU4 (A B : Subgroup G) : A.relIndex B ≠ 0
   unfold Subgroup.relIndex
   exact Subgroup.index_ne_zero_of_finite
 
+omit [Finite G] in
 private theorem card_modO2_eq_relIndex_centKU4 (L : Subgroup G) :
     Nat.card (ModO2 L) = (pCoreOf 2 L).relIndex L := by
   rw [Subgroup.relIndex, pCoreOf_subgroupOf_centKU4, Subgroup.index_eq_card]
@@ -146,7 +150,7 @@ theorem K₁_le_K (s : Setting28 T M L Mm I H K n) (h37 : A37ForSQTK) (h38 : A38
     rw [h1, h2, h3]
     exact Nat.le_mul_of_pos_left _ (Nat.pos_of_ne_zero (relIndex_ne_zero_centKU4 _ _))
   have hsup : Uu.relIndex (Ku ⊔ Uu) = Uu.relIndex Ku := by
-    haveI := hUuN
+    have := hUuN
     exact Subgroup.relIndex_sup_right Ku Uu
   have hmul : Uu.relIndex (Ku ⊔ Uu) * (Ku ⊔ Uu).index = Uu.index :=
     Subgroup.relIndex_mul_index le_sup_right

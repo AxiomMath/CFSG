@@ -38,7 +38,7 @@ theorem even_inner_false (h : Cfg G S t)
     exact CFSG.SeitzReduction.SporadicRefine.fixedSubgroup_conj_eq_centralizerOf z
   obtain ⟨e⟩ := commutator_fixed_equiv h ζ
   obtain ⟨c⟩ := commutator_equiv_of_mulEquiv (MulEquiv.subgroupCongr hfix)
-  haveI : (commutator ↥(centralizer ({z} : Set ↥S))).Normal := Subgroup.commutator_normal ⊤ ⊤
+  have : (commutator ↥(centralizer ({z} : Set ↥S))).Normal := Subgroup.commutator_normal ⊤ ⊤
   exact CFSG.ComponentClassification.CatLeaf.involutionCentralizersComponentFree_of_evenLieType
     heven z hz _ (isComponent_of_alt6 _ (c.symm.trans e))
 

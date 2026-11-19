@@ -13,11 +13,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s168e3_seven_card_eq_seven {Z K : Subgroup G} (hcyc : IsCyclic ↥K) (hZK : Z ≤ K)
     (hexp : ∀ z ∈ Z, z ^ 7 = 1) (hne : Z ≠ ⊥) : Nat.card Z = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI hKc : IsCyclic ↥K := hcyc
-  haveI hZc : IsCyclic ↥Z := Subgroup.isCyclic_of_le hZK
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have hKc : IsCyclic ↥K := hcyc
+  have hZc : IsCyclic ↥Z := Subgroup.isCyclic_of_le hZK
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Z)
   have hg7 : g ^ 7 = 1 := Subtype.ext (by simpa using hexp (g : G) g.2)
   have hg1 : g ≠ 1 := by
@@ -45,7 +46,7 @@ theorem s168e3_seven_false_of_cent {D : Data G} {V₀ V L : Subgroup G} {hV : Is
     (Subgroup.closure_le _).2 fun x hx => hx.1
   have hYP : F11.Omega1p 7 (P ⊓ ⁅D.M, D.M⁆ ⊓ X) ≤ P := hYle.trans (inf_le_left.trans inf_le_left)
   have hYX : F11.Omega1p 7 (P ⊓ ⁅D.M, D.M⁆ ⊓ X) ≤ X := hYle.trans inf_le_right
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hPM : P ≤ D.M := (uc22p22u_sylow_O2p (by norm_num) (by norm_num) hP).1
   have hYM : F11.Omega1p 7 (P ⊓ ⁅D.M, D.M⁆ ⊓ X) ≤ D.M := hYP.trans hPM
   have hMs : D.M ≤ stabTil V₀ V := c.m_le_stabTil

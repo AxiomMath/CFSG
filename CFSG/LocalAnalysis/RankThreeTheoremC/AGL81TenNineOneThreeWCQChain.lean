@@ -50,9 +50,11 @@ variable {H : Subgroup G} {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} 
   (MulAut.conjNormal (H := K)).rangeRestrict.comp
     (QuotientGroup.mk' (primeComplementCore (G := H) 3))
 
+omit [Finite G] in
 theorem agl81PiHat_surjective : Function.Surjective (agl81PiHat H K) :=
   (MonoidHom.rangeRestrict_surjective _).comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem subgroupOf_map_map_eq (X : Subgroup H) :
     ((X.map (QuotientGroup.mk' (primeComplementCore (G := H) 3))).map
       (MulAut.conjNormal (H := K))).subgroupOf (MulAut.conjNormal (H := K)).range =
@@ -65,10 +67,12 @@ theorem subgroupOf_map_map_eq (X : Subgroup H) :
   · rintro ⟨x, hx, rfl⟩
     exact ⟨_, ⟨x, hx, rfl⟩, rfl⟩
 
+omit [Finite G] in
 theorem agl81QHat_eq (Q' : Subgroup G) :
     agl81QHat G H Q' K = (Q'.subgroupOf H).map (agl81PiHat H K) :=
   subgroupOf_map_map_eq _
 
+omit [Finite G] in
 theorem agl81YHat_eq (M : Subgroup G) :
     agl81YHat G M H K = (M.subgroupOf H).map (agl81PiHat H K) :=
   subgroupOf_map_map_eq _
@@ -86,7 +90,7 @@ theorem agl81GammaZeroIn_of_cfg_of_sylow (hNX3 : D1NoXBlock3 G) (h98 : AGL81Nine
     [K.Normal] {Q' : Subgroup G} (hQ'Y : IsSylowIn 3 Q' (H ⊓ M)) (hQQ' : Q ≤ Q')
     (hQ'H : IsSylowIn 3 Q' H) :
     GammaZeroIn (agl81QHat G H Q' K) (agl81YHat G M H K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNX := noXBlockFor_of_setting hNX3 hS
   have hT := hd.toTwoLocalPhaseThree' hS h98
   have hK : Open.IsKGroup ↥M := (hT.toTwoLocalPair.isKGroup_of_isKProper hS.kProper).1
@@ -152,8 +156,8 @@ theorem agl81TenNineOneThreeListCfg_of_wcQ_core
   intro hS P M H Q K hd L hL he hYL
   have hKn : K.Normal := agl81NineThreeNormalCfg_holds hS 3 P M H Q K hd
   refine ⟨hKn, ?_⟩
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlist : NineThreeListGroup 3 K := nineThreeListGroup_of_cfg h9 hS hd
   obtain ⟨Q', hQ'Y, hQQ', A, hA3, hAwc, hdist⟩ := hWC hS P M H Q K hd L hL he hYL hKn
   obtain ⟨e⟩ := he

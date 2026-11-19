@@ -17,6 +17,7 @@ open W183K3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183K3Img2_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃* ↥L')
     (hK : ∀ l : ↥L, (l : G) ∈ K ↔ (e l : G) ∈ K) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape L' K P := by
@@ -28,6 +29,7 @@ theorem w183K3Img2_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃*
   have h := hK (e.symm k)
   rwa [show e (e.symm k) = k from e.apply_symm_apply k] at h
 
+omit [Finite G] in
 theorem w183K3Img2_isComponentModN_map {K H L : Subgroup G} (e : G ≃* G)
     (hK : K.map e.toMonoidHom = K) (hH : H.map e.toMonoidHom = H)
     (h : IsComponentModN K H L) : IsComponentModN K H (L.map e.toMonoidHom) := by
@@ -61,8 +63,9 @@ theorem w183K3Img2_isComponentModN_map {K H L : Subgroup G} (e : G ≃* G)
       have hkl : k = l := e.injective hkeq
       rwa [hkl] at hkK
 
+omit [Finite G] in
 theorem w183K3Img2_quot_of_shape {J E : Subgroup G} (M : ModDataE J E) {K A : Subgroup G}
-    {Z : Subgroup (LGL 2 M.W)} (hAJ : A ≤ J) (hKA : K ≤ A)
+    {Z : Subgroup (LGL 2 M.W)} (hAJ : A ≤ J) (_hKA : K ≤ A)
     (hρker : ∀ j : ↥J, M.ρ j = 1 → (j : G) ∈ K)
     (hZ : ∀ j : ↥J, (M.ρ j : LGL 2 M.W) ∈ Z ↔ (j : G) ∈ K)
     {X : Type} [Group X] (φ : ↥A →* X) (hφs : Function.Surjective φ)
@@ -140,13 +143,13 @@ theorem w183K3Img2_quasi_of_quot {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     A = ⁅A, A⁆ ⊔ Z' ∧ CFSG.Open.IsQuasisimple ↥⁅A, A⁆ ∧
       quasiCentre ⁅A, A⁆ = ⁅A, A⁆ ⊓ Z' := by
   classical
-  haveI hXperf : Group.IsPerfect X :=
+  have hXperf : Group.IsPerfect X :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => by
       obtain ⟨a, b, hab⟩ := hXnab
       exact hab (hc.is_comm.comm a b)
   set A' : Subgroup (LGL 2 W) := ⁅A, A⁆ with hA'def
   have hA'A : A' ≤ A := Subgroup.commutator_le_self A
-  haveI hZn : (Z'.subgroupOf A).Normal :=
+  have hZn : (Z'.subgroupOf A).Normal :=
     Subgroup.normal_of_le_center fun z hz => by
       rw [Subgroup.mem_center_iff]
       intro w
@@ -161,7 +164,7 @@ theorem w183K3Img2_quasi_of_quot {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
   let e : (↥A ⧸ Z'.subgroupOf A) ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hkerθ.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective θ hθs)
-  haveI hperfQ : Group.IsPerfect (↥A ⧸ Z'.subgroupOf A) :=
+  have hperfQ : Group.IsPerfect (↥A ⧸ Z'.subgroupOf A) :=
     Group.IsPerfect.ofSurjective
       (f := (e.symm : X →* (↥A ⧸ Z'.subgroupOf A))) e.symm.surjective
   have hmapq : ((⁅(⊤ : Subgroup ↥A), (⊤ : Subgroup ↥A)⁆).map q) = ⊤ := by
@@ -188,7 +191,7 @@ theorem w183K3Img2_quasi_of_quot {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
   have hZ₁A' : A' ⊓ Z' ≤ A' := inf_le_left
   have hZ₁c : ∀ z ∈ A' ⊓ Z', ∀ a ∈ A', z * a = a * z := fun z hz a ha =>
     hZc z hz.2 a (hA'A ha)
-  haveI hZ₁n : ((A' ⊓ Z').subgroupOf A').Normal :=
+  have hZ₁n : ((A' ⊓ Z').subgroupOf A').Normal :=
     Subgroup.normal_of_le_center fun z hz => by
       rw [Subgroup.mem_center_iff]
       intro w
@@ -241,13 +244,13 @@ private theorem w183K3Img2_le_normalizer_of_comm {W : Type} [Group W] {A B : Sub
   rwa [h1]
 
 theorem w183K3Img2_map_subgroupOf_eq_bot_or_le {W : Type} [Group W] {A B Z : Subgroup W}
-    {X : Type} [Group X] (hBA : B ≤ A) (hZB : Z ≤ B)
+    {X : Type} [Group X] (_hBA : B ≤ A) (hZB : Z ≤ B)
     (θ : ↥A →* X) (hθs : Function.Surjective θ)
     (hθk : ∀ a : ↥A, θ a = 1 ↔ (a : W) ∈ Z)
     (hXs : IsSimpleGroup X) (hBn : (B.subgroupOf A).Normal) :
     (B.subgroupOf A).map θ = ⊥ ∨ A ≤ B := by
-  haveI := hBn
-  haveI : ((B.subgroupOf A).map θ).Normal := hBn.map θ hθs
+  have := hBn
+  have : ((B.subgroupOf A).map θ).Normal := hBn.map θ hθs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((B.subgroupOf A).map θ) with hbot | htop
   · exact Or.inl hbot
   · right
@@ -348,13 +351,13 @@ theorem w183K3Img2_commutator_sup_sup_le {W : Type} [Group W] {A B Z : Subgroup 
       (w183K3Img2_le_normalizer_of_comm fun z hz a ha => (hAZ a ha z hz).symm)
       (w183K3Img2_le_normalizer_of_comm fun z hz b hb => (hBZ b hb z hz).symm))
       Subgroup.le_normalizer
-  haveI hAn : (A.subgroupOf T).Normal :=
+  have hAn : (A.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAT).mpr hT_A
-  haveI hBn : (B.subgroupOf T).Normal :=
+  have hBn : (B.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBT).mpr hT_B
-  haveI hZn : (Z.subgroupOf T).Normal :=
+  have hZn : (Z.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZT).mpr hT_Z
-  haveI hABn : ((A.subgroupOf T) ⊔ (B.subgroupOf T)).Normal := inferInstance
+  have hABn : ((A.subgroupOf T) ⊔ (B.subgroupOf T)).Normal := inferInstance
   have hTcentZ : T ≤ Subgroup.centralizer (Z : Set W) := by
     rw [show T = A ⊔ B ⊔ Z from rfl]
     refine sup_le (sup_le ?_ ?_) ?_

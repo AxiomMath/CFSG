@@ -13,9 +13,9 @@ theorem exists_pCore_not_comm {R : Subgroup G} [hRn : R.Normal] (hRodd : Odd (Na
     {d : Fin 3 → G} (hd : ∀ i, d i * d i = 1) (hRT : ∃ y ∈ R, ∃ i, d i * y ≠ y * d i) :
     ∃ q : ℕ, q.Prime ∧ ∃ i, ∃ f ∈ (CFSG.pCore q R).map R.subtype, d i * f ≠ f * d i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨y, hy, i, hne⟩ := hRT
-  have hsol : IsSolvable R := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hRodd
+  have hsol : Group.IsSolvable R := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hRodd
   have hT : IsPGroup 2 (zpowers (d i)) := by
     rintro ⟨g, hg⟩
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hg
@@ -49,6 +49,7 @@ theorem exists_min_moved {P : Subgroup G} [hPn : P.Normal] {d : Fin 3 → G}
   by_contra hne
   exact hmin N ⟨hN, hNQ.le.trans hQP, i, x, hx, hne⟩ (Subgroup.card_lt_of_lt hNQ)
 
+omit [Finite G] in
 theorem quot_comm_iff {Q Q₀ : Subgroup G} [hQ₀n : Q₀.Normal] (a b : Q) :
     (QuotientGroup.mk a * QuotientGroup.mk b : Q ⧸ Q₀.subgroupOf Q) =
       QuotientGroup.mk b * QuotientGroup.mk a ↔ (a : G) * b * (a : G)⁻¹ * (b : G)⁻¹ ∈ Q₀ := by
@@ -64,6 +65,7 @@ theorem quot_comm_iff {Q Q₀ : Subgroup G} [hQ₀n : Q₀.Normal] (a b : Q) :
     convert this using 1
     group
 
+omit [Finite G] in
 theorem quot_pow_eq_one_iff {Q Q₀ : Subgroup G} [Q₀.Normal] (a : Q) (n : ℕ) :
     (QuotientGroup.mk a : Q ⧸ Q₀.subgroupOf Q) ^ n = 1 ↔ (a : G) ^ n ∈ Q₀ := by
   rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, mem_subgroupOf, Subgroup.coe_pow]
@@ -81,8 +83,8 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       ∃ x ∈ Q, d 0 * x * (d 0)⁻¹ * x⁻¹ ∉ Q₀ := by
   classical
   obtain ⟨q, hq, hP⟩ := exists_pCore_not_comm hRodd hd hRT
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI hPn : ((CFSG.pCore q R).map R.subtype).Normal :=
+  have : Fact q.Prime := ⟨hq⟩
+  have hPn : ((CFSG.pCore q R).map R.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
   have hPp : IsPGroup q ((CFSG.pCore q R).map R.subtype) := (CFSG.pCore_isPGroup).map R.subtype
   have hPR : (CFSG.pCore q R).map R.subtype ≤ R := map_subtype_le _
@@ -92,7 +94,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
   have hQodd : Odd (Nat.card Q) := Odd.of_dvd_nat hRodd (card_dvd_of_le hQR)
   have hcentral : ∀ N : Subgroup G, N.Normal → N < Q → N ≤ center G := by
     intro N hN hNQ
-    haveI := hN
+    have := hN
     have hle : normalClosure ({d 0} : Set G) ≤ centralizer (N : Set G) :=
       normalClosure_le_normal (by
         rw [Set.singleton_subset_iff]
@@ -105,7 +107,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
   let Q₀ : Subgroup G := sSup {N | N.Normal ∧ N < Q}
   have hQ₀Q : Q₀ ≤ Q := sSup_le fun N hN => hN.2.le
   have hQ₀Z : Q₀ ≤ center G := sSup_le fun N hN => hcentral N hN.1 hN.2
-  haveI hQ₀n : Q₀.Normal := ⟨fun n hn g => by
+  have hQ₀n : Q₀.Normal := ⟨fun n hn g => by
     rw [mem_center_iff.mp (hQ₀Z hn) g, mul_inv_cancel_right]; exact hn⟩
   have hQ₀c : ∀ x ∈ Q₀, ∀ g : G, g * x * g⁻¹ = x := fun x hx g => by
     rw [mem_center_iff.mp (hQ₀Z hx) g, mul_inv_cancel_right]
@@ -124,10 +126,10 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
     simpa using hQn.conj_mem x hx g⁻¹
   have hQb : IsPGroup q (Q ⧸ Q₀.subgroupOf Q) := hQp.to_quotient _
   obtain ⟨x₀, hx₀Q, hx₀⟩ : ∃ x ∈ Q, x ∉ Q₀ := by
-    by_contra h; push_neg at h; exact hQ₀ne (le_antisymm hQ₀Q h)
+    by_contra h; push Not at h; exact hQ₀ne (le_antisymm hQ₀Q h)
   have hmk1 : ∀ (a : Q), (QuotientGroup.mk a : Q ⧸ Q₀.subgroupOf Q) = 1 ↔ (a : G) ∈ Q₀ :=
     fun a => by rw [QuotientGroup.eq_one_iff, mem_subgroupOf]
-  haveI hQbnt : Nontrivial (Q ⧸ Q₀.subgroupOf Q) :=
+  have hQbnt : Nontrivial (Q ⧸ Q₀.subgroupOf Q) :=
     ⟨⟨QuotientGroup.mk ⟨x₀, hx₀Q⟩, 1, fun h => hx₀ ((hmk1 _).mp h)⟩⟩
   have hQ' : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ Q₀ := by
     let K : Subgroup G :=
@@ -151,7 +153,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       rw [← mem_center_iff.mp (hQ₀Z hy) x, mul_inv_cancel_right, mul_inv_cancel]
       exact Q₀.one_mem⟩
     have hKQ : K ≤ Q := fun y hy => hy.1
-    haveI := hQb.center_nontrivial
+    have := hQb.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : center (Q ⧸ Q₀.subgroupOf Q))
     obtain ⟨⟨x, hxQ⟩, hxz⟩ := QuotientGroup.mk_surjective (z : Q ⧸ Q₀.subgroupOf Q)
     have hxK : x ∈ K := ⟨hxQ, fun y hy => by
@@ -184,7 +186,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       rw [conj_pow]; exact hQ₀n.conj_mem _ hy.2 g⟩⟩
     have hQ₀N : Q₀ ≤ N := fun y hy => ⟨hQ₀Q hy, pow_mem hy q⟩
     have hNQ : N ≤ Q := fun y hy => hy.1
-    haveI : Fintype (Q ⧸ Q₀.subgroupOf Q) := Fintype.ofFinite _
+    have : Fintype (Q ⧸ Q₀.subgroupOf Q) := Fintype.ofFinite _
     have hdvd : q ∣ Fintype.card (Q ⧸ Q₀.subgroupOf Q) := by
       obtain ⟨n, hn⟩ := hQb.exists_card_eq
       rw [← Nat.card_eq_fintype_card, hn]
@@ -216,7 +218,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       Nat.card_pos_iff.mpr ⟨⟨⟨0, fun g => smul_zero (g : G)⟩⟩, inferInstance⟩
     have h1 : 1 < Nat.card (MulAction.fixedPoints Q M) :=
       lt_of_lt_of_le hq.one_lt (Nat.le_of_dvd hpos hfix)
-    haveI := Finite.one_lt_card_iff_nontrivial.mp h1
+    have := Finite.one_lt_card_iff_nontrivial.mp h1
     obtain ⟨⟨m, hm⟩, hm0⟩ := exists_ne (⟨0, fun g => smul_zero (g : G)⟩ : MulAction.fixedPoints Q M)
     have hm0' : m ≠ 0 := fun h => hm0 (Subtype.ext h)
     let C : AddSubgroup M :=
@@ -242,7 +244,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       group
   have hmove : ∃ i, ∃ x ∈ Q, d i * x * (d i)⁻¹ * x⁻¹ ∉ Q₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨i, x, hx, hne⟩ := hQm
     have hk := hcon i x hx
     have hkk : (d i * x * (d i)⁻¹ * x⁻¹) * (d i * x * (d i)⁻¹ * x⁻¹) = 1 := by

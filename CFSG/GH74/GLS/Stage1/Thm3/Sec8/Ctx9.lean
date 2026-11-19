@@ -15,7 +15,7 @@ namespace Setup8
 
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
 
-theorem U_le_A (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
+theorem U_le_A (hII : II4_4_4_center) (hq : II4_4_quat) (_hrec : Bg.B_reciprocity)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {k : ℕ} (hk2 : 2 ≤ k)
     (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ k) : U ≤ Aof S K₁ W₂ h := by
   have hz1 : z ∈ Vof S K₁ W₂ := hs.z_mem_V₁ hII hq hk2 hk

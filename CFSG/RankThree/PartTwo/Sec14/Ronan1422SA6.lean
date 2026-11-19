@@ -267,7 +267,7 @@ theorem le_pPrimeCoreOf_of_two (hA6 : KF1422AutA6) (h : Cfg A c L R S J)
     intro x hx
     exact mem_normalizer_inf (le_normalizer_pPrimeCoreOf 3 CB hx.2)
       (Subgroup.le_normalizer hx.1)
-  haveI : J'.Normal := h.normal_J
+  have : J'.Normal := h.normal_J
   have hYc : Y' ≤ pPrimeCoreOf 3 Z := by
     have hn : (Y'.subgroupOf Z).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hYZ).mpr hZN

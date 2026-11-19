@@ -261,7 +261,7 @@ theorem mem_trF {k : Nat} (hm : 0 < m) (h : rowO o m n X k = true) (p : Fin 3510
   · rintro ⟨i, -, rfl⟩
     exact ⟨i, i.2, by simp [Nat.mod_eq_of_lt (hlt i i.2)]⟩
   · rintro ⟨i, hi, e⟩
-    exact ⟨⟨i, hi⟩, Finset.mem_univ _, Fin.ext (by simp [Nat.mod_eq_of_lt (hlt i hi), e])⟩
+    exact ⟨⟨i, hi⟩, Finset.mem_univ _, Fin.ext (by simp [e])⟩
 
 theorem card_trF {k : Nat} (hm : 0 < m) (h : rowO o m n X k = true) : (trF o m k).card = m := by
   obtain ⟨hlt, hmono⟩ := pts_facts hm h

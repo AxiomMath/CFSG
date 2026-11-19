@@ -162,7 +162,7 @@ private theorem exists_fixed_neighbor_of_twoElem (i : ℤ) (hn : 2 ≤ X.n i) {x
     rw [Subgroup.zpowers_le]
     exact hxG
   let D : SubMulAction P V := neighborActionOf X.hyp P hPG
-  haveI : Finite D := (X.hyp.finite_neighborSet (X.vert i)).to_subtype
+  have : Finite D := (X.hyp.finite_neighborSet (X.vert i)).to_subtype
   have hP2 : IsPGroup 2 P := isPGroup_zpowers_of_pow_two hxpow
   have hcard : Nat.card D = 2 ^ X.n i + 1 := by
     have h1 : Nat.card D = (Γ.neighborSet (X.vert i)).ncard := by
@@ -196,7 +196,7 @@ private theorem mem_edgeSylow_of_twoElem (i : ℤ) {y : G} (hyG : y ∈ X.Gi i)
     y ∈ X.edgeSylow i := by
   classical
   obtain ⟨n, hn⟩ := hy2
-  haveI : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
+  have : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi i ⊓ X.Gi (i + 1)) inf_le_left
   let P : Subgroup G := Subgroup.zpowers y
   have hPedge : P ≤ X.Gi i ⊓ X.Gi (i + 1) := by
@@ -389,7 +389,7 @@ private theorem case_two_contradiction (i : ℤ) (hn : 2 ≤ X.n i) {H : Subgrou
   classical
   let Δ := ↥(Γ.neighborSet (X.vert i))
   have hfin : Finite Δ := (X.hyp.finite_neighborSet (X.vert i)).to_subtype
-  letI : Fintype Δ := Fintype.ofFinite Δ
+  let : Fintype Δ := Fintype.ofFinite Δ
   have hex (a : Δ) : ∃ j ∈ H ⊓ X.L i, j • X.vert (i + 1) = (a : V) :=
     X.exists_mem_J_smul i hH hK htr (by
       have := a.2

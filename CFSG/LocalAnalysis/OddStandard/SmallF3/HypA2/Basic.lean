@@ -59,10 +59,10 @@ theorem catalog_quotient_center_of_isComponentIn {G : Type} [Group G] [Finite G]
     (hK : Omega.IsComponentIn K H) : Catalog (↥K ⧸ center ↥K) := by
   have hKtop : K ≠ ⊤ := fun h => hH (top_unique (h ▸ hK.1))
   have hsimple : IsSimpleGroup (↥K ⧸ center ↥K) := by
-    haveI : IsSimpleGroup (↥(K.subgroupOf H) ⧸ center ↥(K.subgroupOf H)) := hK.2.1.2.1
+    have : IsSimpleGroup (↥(K.subgroupOf H) ⧸ center ↥(K.subgroupOf H)) := hK.2.1.2.1
     exact (CFSG.ComponentClassification.Sol78.centerQuotCongr
       (Subgroup.subgroupOfEquivOfLe hK.1)).symm.isSimpleGroup
-  haveI : IsSimpleGroup (↥K ⧸ center ↥K) := hsimple
+  have : IsSimpleGroup (↥K ⧸ center ↥K) := hsimple
   have hnonab : ∃ a b : ↥K ⧸ center ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hK.2.1.2.2
     refine ⟨CFSG.ComponentClassification.Sol78.centerQuotCongr

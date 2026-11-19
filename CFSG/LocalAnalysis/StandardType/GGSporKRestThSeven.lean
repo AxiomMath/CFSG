@@ -32,7 +32,7 @@ theorem sporKRest_generating_of_fusionGeneration {K : Type} [Group K] [Finite K]
     (hp : p.Prime) (hfus : FusionGenerationOf K p)
     (hone : ∀ s t : K, orderOf s = p → orderOf t = p → IsConj s t) {x : K} (hx : orderOf x = p) :
     SporKRestGenerating p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, Γ, hE, -, hΓ, hΓE⟩ := hfus
   rintro Y ⟨Q, hQY⟩ hctl
   obtain ⟨Q', hEQ'⟩ := hE.exists_le_sylow
@@ -151,8 +151,8 @@ local notation "z7" => x7 * y7 ^ 6
 theorem thSeven_oneClass_J :
     ∃ z : J, orderOf z = 7 ∧ ∀ s : J, orderOf s = 7 → IsConj z s := by
   obtain ⟨h7x, h7y, hcomm, hx1, hpow⟩ := thSeven_pair
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   refine ⟨z7, sporKRest_isConj_orderOf_of_pair (z := z7) (matJ_injective ?_) h7x h7y hx1 hpow ?_
     (fun i j hi hj hij => ?_)⟩
   · simp only [matJ_mul]
@@ -169,11 +169,11 @@ end Th
 
 theorem sporKRest_cover_Th_7_carrier :
     SporKRestCover 7 Blueprint.NativeSporadic.Th := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨z, hz7, hzone⟩ := thSeven_oneClass_J
-  haveI : Finite CFSG.Sporadic.Th.J :=
+  have : Finite CFSG.Sporadic.Th.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
-  haveI : Finite Blueprint.NativeSporadic.Th :=
+  have : Finite Blueprint.NativeSporadic.Th :=
     Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
   have hone : ∀ s t : Blueprint.NativeSporadic.Th, orderOf s = 7 → orderOf t = 7 → IsConj s t := by
     intro s t hs ht

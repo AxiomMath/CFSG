@@ -73,6 +73,7 @@ theorem SemiFrame.idx0_ne_idx1 (fr : SemiFrame F ρ) (i : Fin fr.r) (hm : 2 ≤ 
 
 variable [Module.Finite F V]
 
+omit [Module.Finite F V] in
 private lemma blockDatum_proj_single (fr : SemiFrame F ρ) (i : Fin fr.r)
     {a b : Fin (fr.m i)} (hab : a ≠ b) :
     ∀ s : fr.E i, (LinearMap.proj b : (Fin (fr.m i) → fr.E i) →ₗ[fr.E i] fr.E i)
@@ -81,12 +82,14 @@ private lemma blockDatum_proj_single (fr : SemiFrame F ρ) (i : Fin fr.r)
   show (Pi.single a s : Fin (fr.m i) → fr.E i) b = 0
   rw [Pi.single_eq_of_ne hab.symm]
 
+omit [Module.Finite F V] in
 private lemma blockDatum_iotaPi_zero (fr : SemiFrame F ρ) (i : Fin fr.r)
     {a b : Fin (fr.m i)} (hab : a ≠ b) :
     ∀ t, fr.blockPi i b (fr.blockIota i a t) = 0 := by
   intro t
   exact SemiFrame.blockPi_blockIota_ne fr i hab t
 
+omit [Module.Finite F V] in
 private lemma datumElt_single_proj_apply (fr : SemiFrame F ρ) (i : Fin fr.r)
     {a b : Fin (fr.m i)} (hab : a ≠ b) (t : fr.E i) (x : Fin (fr.m i) → fr.E i) :
     (datumElt (LinearMap.single (fr.E i) (fun _ : Fin (fr.m i) => fr.E i) a)
@@ -94,6 +97,7 @@ private lemma datumElt_single_proj_apply (fr : SemiFrame F ρ) (i : Fin fr.r)
       x + Pi.single a (t * x b) := by
   simp only [datumElt_apply, LinearMap.single_apply, LinearMap.proj_apply]
 
+omit [Module.Finite F V] in
 private lemma phi_update_add_single (fr : SemiFrame F ρ) (i : Fin fr.r)
     (w : ∀ j, Fin (fr.m j) → fr.E j) (y : Fin (fr.m i) → fr.E i) :
     Function.update w i (w i + y) = w + Pi.single i y := by

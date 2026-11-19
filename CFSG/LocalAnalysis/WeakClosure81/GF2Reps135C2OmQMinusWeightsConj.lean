@@ -12,7 +12,7 @@ open CFSG.StandardType
 open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5
 
 private theorem c2slomqmw5_inv_pow_val {k : Type*} [Field k] {M : ℕ} [NeZero M] {u : k}
-    (hu : u ^ M = 1) (hne : u ≠ 0) (x : ZMod M) : (u⁻¹) ^ x.val = u ^ (-x).val := by
+    (hu : u ^ M = 1) (_hne : u ≠ 0) (x : ZMod M) : (u⁻¹) ^ x.val = u ^ (-x).val := by
   have h1 : u ^ ((-x).val + x.val) = 1 := by
     have h2 : (((-x).val + x.val : ℕ) : ZMod M) = 0 := by
       rw [Nat.cast_add, ZMod.natCast_zmod_val, ZMod.natCast_zmod_val, neg_add_cancel]
@@ -45,12 +45,12 @@ private theorem c2slomqmw5_toral_conj {n : ℕ} {K : Type*} [Field K] {b c : K}
     rw [spMonoPerm_inl] at h1
     rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     rcases hs a with ha | ha
-    · rw [if_pos ha] at h1
+    · rw [ite_eq_left ha] at h1
       change spinAction (quadMinus n K b c) T (eVec n a) = eVec n (π a) at h1
       rw [h1, hg.1, map_smul, ha, zpow_one]
       rw [spinAction_inv_apply_of_apply _ T h1]
     · have hne : ¬ s a = 1 := by rw [ha]; norm_num
-      rw [if_neg hne] at h1
+      rw [ite_eq_right hne] at h1
       change spinAction (quadMinus n K b c) T (eVec n a) = fVec n (π a) at h1
       rw [h1, hg.2.1, map_smul, ha, zpow_neg_one]
       rw [spinAction_inv_apply_of_apply _ T h1]
@@ -61,12 +61,12 @@ private theorem c2slomqmw5_toral_conj {n : ℕ} {K : Type*} [Field K] {b c : K}
     rw [spMonoPerm_inr] at h1
     rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     rcases hs a with ha | ha
-    · rw [if_pos ha] at h1
+    · rw [ite_eq_left ha] at h1
       change spinAction (quadMinus n K b c) T (fVec n a) = fVec n (π a) at h1
       rw [h1, hg.2.1, map_smul, ha, zpow_one]
       rw [spinAction_inv_apply_of_apply _ T h1]
     · have hne : ¬ s a = 1 := by rw [ha]; norm_num
-      rw [if_neg hne] at h1
+      rw [ite_eq_right hne] at h1
       change spinAction (quadMinus n K b c) T (fVec n a) = eVec n (π a) at h1
       rw [h1, hg.1, map_smul, ha, zpow_neg_one, inv_inv]
       rw [spinAction_inv_apply_of_apply _ T h1]
@@ -75,26 +75,26 @@ private theorem c2slomqmw5_toral_conj {n : ℕ} {K : Type*} [Field K] {b c : K}
     intro w
     ext k
     fin_cases k <;>
-      simp [planeRefl, planeOne, fieldCoord, polarPlane, planeNorm] <;> ring
+      simp [planeRefl, planeOne, fieldCoord, polarPlane, planeNorm]; ring
   have hP : ∀ u : ShortField b c, spinAction (quadMinus n K b c) (T⁻¹ * g * T)
       (planeVec n (fieldCoord u)) =
       planeVec n (fieldCoord ((if ∏ a, s a = 1 then z else star z) * u)) := by
     intro u
     rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     by_cases hp : ∏ a, s a = 1
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       have h2 : spinAction (quadMinus n K b c) T (planeVec n (fieldCoord u)) =
           planeVec n (fieldCoord u) := by
-        rw [hT.2, if_pos hp]
+        rw [hT.2, ite_eq_left hp]
       have h3 : spinAction (quadMinus n K b c) T (planeVec n (fieldCoord (z * u))) =
           planeVec n (fieldCoord (z * u)) := by
-        rw [hT.2, if_pos hp]
+        rw [hT.2, ite_eq_left hp]
       rw [h2, hg.2.2.2 u, spinAction_inv_apply_of_apply _ T h3]
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       have h2 : ∀ w : ShortField b c, spinAction (quadMinus n K b c) T
           (planeVec n (fieldCoord w)) = planeVec n (fieldCoord (-(star w))) := by
         intro w
-        rw [hT.2, if_neg hp, hrefl]
+        rw [hT.2, ite_eq_right hp, hrefl]
       have h3 : spinAction (quadMinus n K b c) T
           (planeVec n (fieldCoord (-(star (z * -(star u)))))) =
           planeVec n (fieldCoord (z * -(star u))) := by
@@ -121,9 +121,9 @@ theorem omq_omMinus_wt_conj {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finit
       omqMinusWt n ι ι' ν (((SmallO8mCurtis.curtisDatum n hn hirr).nW x)⁻¹ * g *
           (SmallO8mCurtis.curtisDatum n hn hirr).nW x) =
         omqMinusWt n ι ι' (omqMinusAct π s ν) g := by
-  haveI := fact_shortField hirr
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
-  haveI : NeZero h := ⟨by omega⟩
+  have := fact_shortField hirr
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero h := ⟨by omega⟩
   obtain ⟨t, z, ht⟩ := omq_omMinus_H_toral hn hirr hg
   have hact := omqnf_spinAction_nW hn hirr hxr hs
   have hconj := c2slomqmw5_toral_conj hs hact ht
@@ -150,7 +150,7 @@ theorem omq_omMinus_wt_conj {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finit
   · have e : (omqMinusAct π s ν).2 = ((∏ a, s a : ℤ) : ZMod h) * ν.2 := rfl
     rw [e]
     by_cases hp : ∏ a, s a = 1
-    · rw [if_pos hp, hp]
+    · rw [ite_eq_left hp, hp]
       simp
     · have hp' : ∏ a, s a = -1 := by
         have hprod : ∏ a, s a = 1 ∨ ∏ a, s a = -1 := by
@@ -160,7 +160,7 @@ theorem omq_omMinus_wt_conj {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finit
         rcases hprod with h1 | h1
         · exact absurd h1 hp
         · exact h1
-      rw [if_neg hp, hp']
+      rw [ite_eq_right hp, hp']
       have hzz : z * star z = 1 := by
         have h := QuadraticAlgebra.algebraMap_norm_eq_mul_star z
         rw [ht.2.2.1, map_one] at h

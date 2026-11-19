@@ -51,8 +51,8 @@ private theorem exists_three_six_Co1 :
 private theorem exists_five_three_Co1
     [Finite CFSG.Blueprint.NativeSporadic.Co1] :
     ∃ Q : Subgroup CFSG.Blueprint.NativeSporadic.Co1, IsElemAbelian 5 Q ∧ Nat.card Q = 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1) :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1) :=
     ‹Finite CFSG.Blueprint.NativeSporadic.Co1›
   have h3 := CFSG.AGLEmbeddingD2.three_le_pRank_Co1_five
   obtain ⟨E₀, -, hE₀, hc₀⟩ := CFSG.SectionRank.exists_pRank (p := 5) (by norm_num)
@@ -75,10 +75,10 @@ private theorem attained_M {p r : ℕ} [Fact p.Prime] (hp : ¬ p ∣ 2 ^ 25)
   obtain ⟨b⟩ : Nonempty (↥CFSG.Monster.Generated.Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   let φ : ↥CFSG.Monster.Generated.Gmat ≃* K := b.trans e.symm
-  haveI : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.symm.toEquiv
+  have : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.symm.toEquiv
   have hZ := isTwoBCentralizer_Gmat xGmat (IsConj.refl _)
   obtain ⟨c⟩ := hZ.2.2.2.1
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co1 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Co1 :=
     Finite.of_surjective _ (c.surjective.comp (QuotientGroup.mk'_surjective _))
   exact attained_of_mulEquiv (by exact φ)
     (attained_of_quot (X := CFSG.Blueprint.NativeSporadic.Co1) (by exact c) hZ.2.1 orderOf_xGmat

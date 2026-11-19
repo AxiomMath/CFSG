@@ -29,6 +29,7 @@ theorem one_le_pRank_three_of_dvd {K : Type*} [Group K] [Finite K] {T : Subgroup
   exact CFSG.SectionRank.le_pRank Nat.prime_three.one_lt (Subgroup.zpowers_le.2 x.2) hel
     (by rw [Nat.card_zpowers, hxo, pow_one])
 
+omit [Finite G] in
 theorem barM_inf_centralizer_eq_bot_of_alt {M L : Subgroup G} {N : ℕ} (hN : 5 ≤ N)
     (e : ↥(barM M L) ≃* alternatingGroup (Fin N)) :
     barM M L ⊓ Subgroup.centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) = ⊥ := by
@@ -192,6 +193,7 @@ theorem blockRankClauses_nineThreeFive {M S L : Subgroup G} (hL : IsWeakSBlock M
   rw [barM_inf_centralizer_eq_bot_of_alt (by norm_num) e, Subgroup.card_bot]
   norm_num
 
+omit [Finite G] in
 theorem exists_order_three_noncentral_of_cover {M S L : Subgroup G} (hLM : L ≤ M)
     (h3L : BlockHasThree M S L)
     (hZ : Nat.card (barM M L ⊓

@@ -80,14 +80,14 @@ private lemma m4outgen_image_gen_set_aut {Y U : Type*} [Group Y] [CommGroup U]
     exact ⟨g * t * g⁻¹, ⟨g, hg, rfl⟩, by rw [← hgh]; simp [map_mul, map_inv]⟩
 
 theorem outer_index_ge_of_generation {U : Type} [CommGroup U] [Finite U]
-    (hU : ∀ w : U, w * w = 1) {Y S : Type} [Group Y] [Group S] (L : Subgroup Y)
+    (_hU : ∀ w : U, w * w = 1) {Y S : Type} [Group Y] [Group S] (L : Subgroup Y)
     (hperf : Group.IsPerfect ↥L) (F : Y →* S) (P : Subgroup S)
     (hFP : ∀ y ∈ L, F y ∈ P) (hsurj : ∀ p ∈ P, ∃ l ∈ L, F l = p)
     (hback : ∀ y : Y, F y ∈ P → y ∈ L)
     (hker : ∀ l : ↥L, F (l : Y) = 1 → l ∈ Subgroup.center ↥L)
-    (ρ : Y →* MulAut U) {ζ : ↥L} (hζ : ζ ∈ Subgroup.center ↥L)
+    (ρ : Y →* MulAut U) {ζ : ↥L} (_hζ : ζ ∈ Subgroup.center ↥L)
     (hfix : ∀ u : U, ρ (ζ : Y) u = u → u = 1) (h54 : 2 ^ 54 ≤ Nat.card U)
-    {t : Y} (ht2 : t * t = 1) (cs : List S) (hlen : cs.length = 4) (hcs : ∀ c ∈ cs, c ∈ P)
+    {t : Y} (_ht2 : t * t = 1) (cs : List S) (hlen : cs.length = 4) (hcs : ∀ c ∈ cs, c ∈ P)
     (hgen : P ≤ Subgroup.closure {x | ∃ c ∈ cs, x = c * F t * c⁻¹}) :
     2 ^ 4 ≤ (fixV (Subgroup.zpowers (ρ t))).index := by
   obtain ⟨gs, hgsL, hgsF⟩ := m4outgen_exists_lift hsurj cs hcs

@@ -54,7 +54,7 @@ private theorem commutator_sq_mem_of_sup_normal {U N V : Subgroup G}
   have hN'norm : N'.Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hNU]
     exact Subgroup.le_normalizer_iff.mpr hNnorm
-  haveI : N'.Normal := hN'norm
+  have : N'.Normal := hN'norm
   let q : ↥U →* ↥U ⧸ N' := QuotientGroup.mk' N'
   have hmem_iff : ∀ x : ↥U, x ∈ N' ↔ (x : G) ∈ N := by
     intro x
@@ -167,7 +167,7 @@ theorem sec10J_key [Finite G] (h102 : Asc82Lemma102) (hP5 : Asc82FactPockets5)
   have hzSL : z ∈ S ⊓ L := ⟨hctx.mem_S, hzL⟩
   have hzC : z ∈ centerIn (S ⊓ L) :=
     (mem_centerIn_iff z).mpr ⟨hzSL, fun k hk => (hctx.central k hk.1).symm⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUp : IsPGroup 2 ↥(V ⊔ secW t K1 K2) := hctx.sylow.2.1.to_le hUS
   obtain ⟨k0, hcardU⟩ := (IsPGroup.iff_card).mp hUp
   have hdvd : (secW t K1 K2).relIndex (V ⊔ secW t K1 K2) ∣ Nat.card ↥(V ⊔ secW t K1 K2) :=
@@ -178,7 +178,7 @@ theorem sec10J_key [Finite G] (h102 : Asc82Lemma102) (hP5 : Asc82FactPockets5)
   have hrelV : (V ⊓ secW t K1 K2).relIndex V = 2 ^ m := by
     have hsup : (V.subgroupOf S) ⊔ ((secW t K1 K2).subgroupOf S) =
         (V ⊔ secW t K1 K2).subgroupOf S := (Subgroup.subgroupOf_sup hVS hWS).symm
-    haveI : ((secW t K1 K2).subgroupOf S).Normal :=
+    have : ((secW t K1 K2).subgroupOf S).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hWS).mpr hSnormW
     have h3 : (secW t K1 K2).relIndex (V ⊔ secW t K1 K2) = (secW t K1 K2).relIndex V := by
       have h := Subgroup.relIndex_sup_right (H := V.subgroupOf S) (K := (secW t K1 K2).subgroupOf S)

@@ -58,7 +58,7 @@ theorem inv_conj_mem_zPi (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {τ 
 theorem conj_cube_eq_scalar (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {τ : K}
     (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {B : Subgroup (GL (Fin 3) K)}
     (hB : ∀ b ∈ B, b ^ 3 ∈ zPi π 3 (p ^ f) K) {g b : GL (Fin 3) K}
-    (hg : g ∈ glPi π 3 (p ^ f) K) (hb : b ∈ B) :
+    (_hg : g ∈ glPi π 3 (p ^ f) K) (hb : b ∈ B) :
     ∃ ξ : Kˣ, (g⁻¹ * b * g) ^ 3 = GeneralLinearGroup.scalar (Fin 3) ξ := by
   have hmem : (g⁻¹ * b * g) ^ 3 ∈ zPi π 3 (p ^ f) K := by
     have h : (g⁻¹ * b * g) ^ 3 = g⁻¹ * b ^ 3 * g := by
@@ -85,7 +85,7 @@ theorem diag_pow_three_eq_of_pow_three_scalar {c : GL (Fin 3) K} {d : Fin 3 → 
 theorem isMonomial_conj (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {B : Subgroup (GL (Fin 3) K)}
     (hBc : ∀ b ∈ B, ∀ c ∈ B, ⁅b, c⁆ ∈ zPi π 3 (p ^ f) K)
-    {g b₀ b : GL (Fin 3) K} (hg : g ∈ glPi π 3 (p ^ f) K)
+    {g b₀ b : GL (Fin 3) K} (_hg : g ∈ glPi π 3 (p ^ f) K)
     (hb₀ : b₀ ∈ B) (hb : b ∈ B)
     (hD : g⁻¹ * b₀ * g = diagTau hτ) :
     ∃ σ : Equiv.Perm (Fin 3),
@@ -279,7 +279,7 @@ private theorem conjRatio_card_range (hK : PiField π p f K) (hq : ModThree π (
     (hd : ∀ (b : B) (i : Fin 3), conjDiag g b i ≠ 0)
     (hB9 : (zPi π 3 (p ^ f) K).relIndex B = 9) :
     Nat.card (conjRatio g hdiag hd).range = 9 := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hker := conjRatio_ker hK hq hτ hτ1 hBH hZB hdiag hd
   have hker_card : Nat.card (conjRatio g hdiag hd).ker = Nat.card (zPi π 3 (p ^ f) K) := by
     rw [hker]
@@ -341,7 +341,7 @@ private theorem conjRatio_range_eq (hK : PiField π p f K) (hq : ModThree π (p 
       Matrix (Fin 3) (Fin 3) K) = diagonal (conjDiag g b))
     (hd : ∀ (b : B) (i : Fin 3), conjDiag g b i ≠ 0) :
     (conjRatio g hdiag hd).range = (rootsOfUnity 3 K).prod (rootsOfUnity 3 K) := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hle := conjRatio_range_le hK hq hτ hτ1 hB hg hdiag hd
   have hcard := conjRatio_card_range hK hq hτ hτ1 hBH hZB hdiag hd hB9
   have hMle : Nat.card ((rootsOfUnity 3 K).prod (rootsOfUnity 3 K)) ≤ 9 := by
@@ -505,7 +505,7 @@ theorem exists_threeCycle_support (hK : PiField π p f K)
       (∀ b' ∈ B, ∃ σ' : Equiv.Perm (Fin 3), IsMonomialFor
         ((g⁻¹ * b' * g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) σ') := by
   classical
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   obtain ⟨b₀, hb₀, g, hg, hD⟩ :=
     exists_conj_diagTau' hK hq hτ hτ1 hBH hZB hB hBc hB9 hno
   have hmono : ∀ b ∈ B, ∃ σ : Equiv.Perm (Fin 3),

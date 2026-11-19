@@ -11,6 +11,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434Kit (vecElt)
 
 variable {G : Type} [Group G] [Finite G] {y : Fin 3 → G}
 
+omit [Finite G] in
 private theorem cafSyl_y_ne_one (hinj : ∀ v, vecElt y v = 1 → v = 0) (i : Fin 3) :
     y i ≠ 1 := by
   intro h
@@ -20,10 +21,12 @@ private theorem cafSyl_y_ne_one (hinj : ∀ v, vecElt y v = 1 → v = 0) (i : Fi
   rw [Pi.single_eq_same] at h2
   exact one_ne_zero h2
 
+omit [Finite G] in
 private theorem cafSyl_orderOf_y (hp : ∀ i, y i ^ 3 = 1)
     (hinj : ∀ v, vecElt y v = 1 → v = 0) (i : Fin 3) : orderOf (y i) = 3 :=
   orderOf_eq_prime (hp i) (cafSyl_y_ne_one hinj i)
 
+omit [Finite G] in
 private theorem cafSyl_y_ne (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y j = y j * y i)
     (hinj : ∀ v, vecElt y v = 1 → v = 0) {i j : Fin 3} (hij : i ≠ j) : y i ≠ y j := by
   intro h
@@ -33,8 +36,9 @@ private theorem cafSyl_y_ne (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y j =
   have h1 := GGFF.vecElt_injective hp hc hinj hv
   have h2 := congrFun h1 i
   rw [Pi.single_eq_same] at h2
-  simpa [Pi.single_eq_of_ne hij] using h2
+  simp [Pi.single_eq_of_ne hij] at h2
 
+omit [Finite G] in
 private theorem cafSyl_w_notMem_tor (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y j = y j * y i)
     (hinj : ∀ v, vecElt y v = 1 → v = 0) {w : G}
     (hw : ∀ i, w * y i * w⁻¹ = y (finRotate 3 i)) : w ∉ GGFF.tor y := by
@@ -48,6 +52,7 @@ private theorem cafSyl_w_notMem_tor (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i
   have h1 : y 0 = y 1 := by rw [← h0, hcomm, mul_inv_cancel_right]
   exact cafSyl_y_ne hp hc hinj (by decide : (0 : Fin 3) ≠ 1) h1
 
+omit [Finite G] in
 private theorem cafSyl_conj_vecElt (hc : ∀ i j, y i * y j = y j * y i) {w : G}
     (hw : ∀ i, w * y i * w⁻¹ = y (finRotate 3 i)) (v : Fin 3 → ZMod 3) :
     w * vecElt y v * w⁻¹ = vecElt y (fun j => v ((finRotate 3).symm j)) := by
@@ -74,6 +79,7 @@ private theorem cafSyl_conj_vecElt (hc : ∀ i j, y i * y j = y j * y i) {w : G}
 
 
 open CFSG.RankThree.PartTwo.Sec4.Item434Kit in
+omit [Finite G] in
 private theorem cafSyl_tor_eq_baseA : GGFF.tor y = baseA y := by
   have hrange : Set.range y = ({y 0, y 1, y 2} : Set G) := by
     ext x
@@ -92,6 +98,7 @@ private theorem cafSyl_tor_eq_baseA : GGFF.tor y = baseA y := by
     Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure]
 
 open CFSG.RankThree.PartTwo.Sec4.Item434Kit in
+omit [Finite G] in
 private theorem cafSyl_comm_y_of_mem_tor (hp : ∀ i, y i ^ 3 = 1)
     (hc : ∀ i j, y i * y j = y j * y i) {β : G} (hβ : β ∈ GGFF.tor y) (i : Fin 3) :
     β * y i = y i * β := by
@@ -99,6 +106,7 @@ private theorem cafSyl_comm_y_of_mem_tor (hp : ∀ i, y i ^ 3 = 1)
     ((IsMulCommutative.is_comm (self := (GGFF.isElemAbelian_tor hp hc).1)).comm
       (⟨β, hβ⟩ : ↥(GGFF.tor y)) ⟨y i, Subgroup.subset_closure ⟨i, rfl⟩⟩)
 
+omit [Finite G] in
 private theorem cafSyl_w3_eq_const (hp : ∀ i, y i ^ 3 = 1)
     (hc : ∀ i j, y i * y j = y j * y i) (hinj : ∀ v, vecElt y v = 1 → v = 0) {w : G}
     (hw : ∀ i, w * y i * w⁻¹ = y (finRotate 3 i)) (hw3 : w ^ 3 ∈ GGFF.tor y) :
@@ -124,6 +132,7 @@ private theorem cafSyl_w3_eq_const (hp : ∀ i, y i ^ 3 = 1)
   fin_cases j <;> simp [h01, h12]
 
 
+omit [Finite G] in
 private theorem cafSyl_zpowers_inj (hp : ∀ i, y i ^ 3 = 1)
     (hc : ∀ i j, y i * y j = y j * y i) (hinj : ∀ v, vecElt y v = 1 → v = 0) :
     Function.Injective (fun i : Fin 3 => Subgroup.zpowers (y i)) := by
@@ -149,6 +158,7 @@ private theorem cafSyl_zpowers_inj (hp : ∀ i, y i ^ 3 = 1)
   · rw [Pi.single_eq_of_ne (Ne.symm hji)] at hcoord
     exact absurd hcoord one_ne_zero
 
+omit [Finite G] in
 private theorem cafSyl_w_pow_conj {w : G}
     (hw : ∀ i, w * y i * w⁻¹ = y (finRotate 3 i)) (j : ℕ) (i : Fin 3) :
     w ^ j * y i * (w ^ j)⁻¹ = y ((finRotate 3 ^ j) i) := by
@@ -163,6 +173,7 @@ private theorem cafSyl_w_pow_conj {w : G}
       _ = y ((finRotate 3 ^ (j + 1)) i) := by
             rw [pow_succ, Equiv.Perm.mul_apply]
 
+omit [Finite G] in
 private theorem cafSyl_inv_w_pow_conj {w : G}
     (hw : ∀ i, w * y i * w⁻¹ = y (finRotate 3 i)) (j : ℕ) (i : Fin 3) :
     (w ^ j)⁻¹ * y i * w ^ j = y ((finRotate 3 ^ j).symm i) := by
@@ -417,7 +428,7 @@ theorem exists_pow_inv_mul_comm (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y
       by_cases hii' : i = i'
       · exact hii'
       · rw [Pi.single_eq_of_ne hii'] at hcoord
-        simpa using hcoord
+        simp at hcoord
   let σ : Equiv.Perm (Fin 3) := Equiv.ofBijective π (Finite.injective_iff_bijective.mp hπinj)
   have hσ : ∀ i, σ i = π i := fun i => rfl
   have hσn : σ ^ 3 ^ k = 1 := cafSyl_perm_pow_eq_one hp hc hinj hxkG hσ hπ
@@ -492,7 +503,7 @@ theorem exists_pow_inv_mul_comm (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y
       _ = c * y i ^ e i * c⁻¹ := by rw [hcy i]
       _ = (c * y i * c⁻¹) ^ e i := by
           have hconj := conj_pow (a := c) (b := y i) (i := e i)
-          simpa using hconj.symm
+          simp
       _ = (y i ^ e i) ^ e i := by rw [hcy i]
       _ = y i ^ (e i * e i) := by rw [pow_mul]
       _ = y i := by
@@ -634,7 +645,7 @@ theorem exists_conj_mem_sup (hp : ∀ i, y i ^ 3 = 1) (hc : ∀ i j, y i * y j =
   obtain ⟨S, hPS⟩ := hPHgroup.exists_le_sylow
   let Q : Subgroup G := (S : Subgroup ↥H).map H.subtype
   have hQH : Q ≤ H := Subgroup.map_subtype_le _
-  have hQgroup : IsPGroup 3 Q := S.isPGroup'.map H.subtype
+  have hQgroup : IsPGroup 3 Q := S.isPGroup.map H.subtype
   have hPQ : P ≤ Q := by
     have hmap : Subgroup.map H.subtype (P.subgroupOf H) ≤
         Subgroup.map H.subtype (S : Subgroup ↥H) := Subgroup.map_mono hPS

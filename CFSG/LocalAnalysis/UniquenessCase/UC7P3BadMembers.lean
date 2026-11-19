@@ -18,7 +18,7 @@ variable {L : Type} [Group L] [Finite L]
 theorem false_of_isLinTwoIndex {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hn : 1 ≤ n)
     {d : TauCeti.ValidLieTypeIndex} (hd : IsLinTwoIndex p n d) (e : L ≃* CatGroup d)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e₂⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hd
   have hF3 : ringChar (GaloisField p n) ≠ 3 := by
     rw [ringChar.eq (GaloisField p n) p]
@@ -62,6 +62,7 @@ theorem false_of_isAltTwoP {p : ℕ} (hp5 : 5 ≤ p) (hA : IsAltTwoP p L) (hs : 
   (∀ (K : Type) [Group K], IsTitsGroup K → Nat.card K = 17971200) ∧
   (∀ (K : Type) [Group K], IsoLie K (.suzuki 2) → Nat.card K = 32537600)
 
+omit [Finite L] in
 theorem false_of_suzuki (hOrd : BadListOrders) (hiso : IsoLie L (.suzuki 2))
     (hH : ThreeHeavy (Nat.card L)) : False := by
   rw [hOrd.2.2.2.2 L hiso] at hH

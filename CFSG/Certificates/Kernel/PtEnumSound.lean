@@ -54,7 +54,7 @@ variable {P : List ℕ} {gens : List Γ} {G : List (ℕ → ℕ)} {Ts : Array (L
   {par lab cl : Array ℕ}
 
 theorem row_mul (hG : ∀ j < gens.length, ∀ p < n, getF G j p = act n (gens.getD j 1) p)
-    {T : List ℕ} (hT : ∀ p ∈ T, p < n) {x : Γ} (hx : rt n P x = T) {j : ℕ}
+    {T : List ℕ} (_hT : ∀ p ∈ T, p < n) {x : Γ} (hx : rt n P x = T) {j : ℕ}
     (hj : j < gens.length) (hPx : ∀ p ∈ P, p < n) :
     rt n P (gens.getD j 1 * x) = T.map (getF G j) := by
   rw [← hx]
@@ -79,7 +79,7 @@ theorem rows_reach (hlen : G.length = gens.length)
       have hj : lab[i]! < gens.length := by rw [← hlen]; exact hp2
       refine ⟨gens.getD (lab[i]!) 1 * y,
         mul_mem (Subgroup.subset_closure (by
-          rw [Set.mem_setOf_eq, List.getD_eq_getElem _ _ hj]; exact List.getElem_mem hj)) hy, ?_⟩
+          rw [Set.mem_ofPred_eq, List.getD_eq_getElem _ _ hj]; exact List.getElem_mem hj)) hy, ?_⟩
       rw [row_mul hG (h.lt _ (by omega)) hty hj hP]
       have := (h.clos (par[i]!) (by omega) _ hp2).2
       rw [hp3] at this

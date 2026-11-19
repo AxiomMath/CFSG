@@ -56,7 +56,7 @@ theorem blkZ_sum {ι : Type*} (s : Finset ι) (z : ι → F4) (a b : ℕ) :
 
 theorem mget_fin (M : Matrix (Fin 14) (Fin 14) F4) (i j : Fin 14) : mget M i.val j.val = M i j := by
   unfold mget
-  rw [dif_pos ⟨i.isLt, j.isLt⟩]
+  rw [dite_eq_left ⟨i.isLt, j.isLt⟩]
 
 @[expose] def blowMat (M : Matrix (Fin 14) (Fin 14) F4) : Matrix (Fin 28) (Fin 28) (ZMod 2) :=
   Matrix.of fun R C => blkZ (mget M (R.val / 2) (C.val / 2)) (R.val % 2) (C.val % 2)
@@ -121,11 +121,11 @@ theorem blowMat_one : blowMat 1 = 1 := by
   by_cases h : R.val / 2 = C.val / 2
   · by_cases h2 : R.val % 2 = C.val % 2
     · have hRC : R = C := Fin.ext (by omega)
-      rw [if_pos h, blkZ_one ha hb, if_pos h2, if_pos hRC]
+      rw [ite_eq_left h, blkZ_one ha hb, ite_eq_left h2, ite_eq_left hRC]
     · have hRC : R ≠ C := fun e => h2 (by rw [e])
-      rw [if_pos h, blkZ_one ha hb, if_neg h2, if_neg hRC]
+      rw [ite_eq_left h, blkZ_one ha hb, ite_eq_right h2, ite_eq_right hRC]
   · have hRC : R ≠ C := fun e => h (by rw [e])
-    rw [if_neg h, blkZ_zero, if_neg hRC]
+    rw [ite_eq_right h, blkZ_zero, ite_eq_right hRC]
 
 theorem blowMat_injective : Function.Injective blowMat := by
   intro M N h
@@ -142,7 +142,7 @@ theorem blowMat_injective : Function.Injective blowMat := by
   rw [e0, e1, e2, e3, mget_fin, mget_fin] at h1
   rw [e0, e1, e4, e5, mget_fin, mget_fin] at h2
   unfold blkZ blk at h1 h2
-  simp only [if_true, one_ne_zero, if_false] at h1 h2
+  simp only [ite_true, one_ne_zero, ite_false] at h1 h2
   rw [ZMod.natCast_eq_natCast_iff'] at h1 h2
   have hx := (M i j).code.isLt
   have hy := (N i j).code.isLt
@@ -327,18 +327,18 @@ theorem pkMat_blow14 {ds : List (List ℕ)} (h : CFSG.KC.Misc.G24.shape4 ds = tr
   have hd : (mget (digMat ds) (R.val / 2) (C.val / 2)).code.val =
       (ds.getD (R.val / 2) []).getD (C.val / 2) 0 % 4 := by
     unfold mget
-    rw [dif_pos ⟨hi, hk⟩]
+    rw [dite_eq_left ⟨hi, hk⟩]
     rfl
   simp only [pkMat, blowMat, blkZ, Matrix.of_apply, hd, blk_mod]
   have hlt := blk_lt ((ds.getD (R.val / 2) []).getD (C.val / 2) 0) (R.val % 2) (C.val % 2)
   by_cases hb : (CFSG.KC.Misc.G24.blow14 ds).testBit (28 * R.val + C.val) = true
-  · rw [if_pos hb, hbit.1 hb]
+  · rw [ite_eq_left hb, hbit.1 hb]
     simp
   · have hb1 : ¬ blk ((ds.getD (R.val / 2) []).getD (C.val / 2) 0) (R.val % 2) (C.val % 2) = 1 :=
       fun e => hb (hbit.2 e)
     have hb0 : blk ((ds.getD (R.val / 2) []).getD (C.val / 2) 0) (R.val % 2) (C.val % 2) = 0 := by
       omega
-    rw [if_neg hb, hb0]
+    rw [ite_eq_right hb, hb0]
     simp
 
 theorem pkMat_wordF4 {Gb : List ℕ} {G : ℕ → Matrix (Fin 14) (Fin 14) F4}

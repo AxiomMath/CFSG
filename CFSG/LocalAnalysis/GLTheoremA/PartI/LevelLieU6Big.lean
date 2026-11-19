@@ -31,7 +31,7 @@ theorem extMat_apply (A : Matrix (Blk d c) (Blk d c) F4) (i j : Fin 6) :
   · have hij : i ≠ j := fun h => hi (h ▸ hj)
     simp [extMat, hi, hj, Equiv.sumCompl_symm_apply_of_pos, Equiv.sumCompl_symm_apply_of_neg,
       Matrix.one_apply_ne hij]
-  · simp [extMat, hi, hj, Equiv.sumCompl_symm_apply_of_pos, Equiv.sumCompl_symm_apply_of_neg,
+  · simp [extMat, hi, hj, Equiv.sumCompl_symm_apply_of_neg,
       Matrix.one_apply, Subtype.ext_iff]
 
 theorem extMat_one : extMat d c 1 = 1 := by
@@ -47,7 +47,7 @@ theorem extMat_mul (A B : Matrix (Blk d c) (Blk d c) F4) :
     simp
   have := map_mul (Matrix.reindexAlgEquiv F4 F4 (Equiv.sumCompl (fun i => d i = c)))
     (Matrix.fromBlocks A 0 0 1) (Matrix.fromBlocks B 0 0 1)
-  simp only [Matrix.reindexAlgEquiv_apply] at this
+  simp only [Matrix.coe_reindexAlgEquiv] at this
   unfold extMat
   rw [h]
   exact this
@@ -62,7 +62,7 @@ theorem extMat_map (A : Matrix (Blk d c) (Blk d c) F4) :
   rw [Matrix.map_apply, extMat_apply, extMat_apply]
   by_cases h : d i = c ∧ d j = c
   · simp [h]
-  · simp only [h, dif_neg, not_false_eq_true]
+  · simp only [h, dite_eq_right, not_false_eq_true]
     by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
 
 theorem extMat_transpose (A : Matrix (Blk d c) (Blk d c) F4) :
@@ -70,9 +70,9 @@ theorem extMat_transpose (A : Matrix (Blk d c) (Blk d c) F4) :
   ext i j
   rw [Matrix.transpose_apply, extMat_apply, extMat_apply]
   by_cases h : d j = c ∧ d i = c
-  · simp [h, and_comm]
+  · simp [h]
   · have h' : ¬ (d i = c ∧ d j = c) := fun h2 => h ⟨h2.2, h2.1⟩
-    simp only [h, h', dif_neg, not_false_eq_true]
+    simp only [h, h', dite_eq_right, not_false_eq_true]
     by_cases hij : i = j <;> simp [Matrix.one_apply, hij, eq_comm]
 
 theorem extMat_unitary (A : Matrix (Blk d c) (Blk d c) F4) (hA : (A.map bar)ᵀ * A = 1) :
@@ -158,10 +158,10 @@ theorem embSU_mem_CenD {D : GL (Fin 6) F4}
   ext i j
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, mM6_embSU, extMat_apply]
   by_cases h : d i = c ∧ d j = c
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have e : d j = d i := h.2.trans h.1.symm
     exact (congrArg (fun t => _ * t) e).trans (mul_comm _ _)
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     by_cases hij : i = j
     · subst hij
       rw [mul_comm]
@@ -235,7 +235,7 @@ theorem catalogIs_k2_of_statedSU5 {X : Type} [Group X] (e : X ≃* StatedSU 5 (2
       TauCeti.ValidLieTypeIndex.fieldExponent
       ⟨.twistedA 4 ppTwo, hvalid⟩ = 2 ^ 1 := by
     rw [hc2, hf2]
-  haveI : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
+  have : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
     ⟨.twistedA 4 ppTwo, hvalid⟩)
       (2 * TauCeti.ValidLieTypeIndex.fieldExponent
         ⟨.twistedA 4 ppTwo, hvalid⟩)) := Fintype.ofFinite _
@@ -267,31 +267,31 @@ theorem kLevel_statedSU_le_two (a : ℕ) (ha : a = 4 ∨ a = 5) :
 
 theorem nonempty_pSimple_equiv_of_simple {G : Type} [Group G] [Finite G] {X K : Subgroup G}
     [IsSimpleGroup K] (hK : GLAPComponent 3 X K) : Nonempty (PSimple 3 K ≃* K) := by
-  haveI : IsSimpleGroup (PSimple 3 K) := (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK).2
+  have : IsSimpleGroup (PSimple 3 K) := (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK).2
   have hsub : ∀ (N : Subgroup (PQuot 3 K)), N = ⊤ → Subsingleton (PQuot 3 K ⧸ N) := fun N h =>
     h ▸ QuotientGroup.subsingleton_quotient_top
   have hO : GLAPPrimeCore 3 ↥K = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥K) with h | h
     · exact h
     · exfalso
-      haveI : Subsingleton (PQuot 3 K) := by
+      have : Subsingleton (PQuot 3 K) := by
         show Subsingleton (↥K ⧸ GLAPPrimeCore 3 ↥K)
         rw [h]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton (PSimple 3 K) := ⟨fun a b => by
+      have : Subsingleton (PSimple 3 K) := ⟨fun a b => by
         obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
         obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b
         exact congrArg _ (Subsingleton.elim a' b')⟩
       exact not_subsingleton_iff_nontrivial.2 (inferInstance : Nontrivial (PSimple 3 K)) ‹_›
   let pq0 : PQuot 3 K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hO).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (PQuot 3 K) := pq0.isSimpleGroup
+  have : IsSimpleGroup (PQuot 3 K) := pq0.isSimpleGroup
   have hZP : Subgroup.center (PQuot 3 K) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PQuot 3 K)) with h | h
     · exact h
     · exfalso
-      haveI := hsub _ h
-      haveI : Subsingleton (PSimple 3 K) := inferInstance
+      have := hsub _ h
+      have : Subsingleton (PSimple 3 K) := inferInstance
       exact not_subsingleton_iff_nontrivial.2 (inferInstance : Nontrivial (PSimple 3 K)) ‹_›
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hZP).trans (QuotientGroup.quotientBot.trans pq0)⟩
 
@@ -308,8 +308,8 @@ theorem level_of_big {D : GL (Fin 6) F4}
     exact embSU_mem_CenD d c hD A
   have ha : Fintype.card (Blk d c) = 4 ∨ Fintype.card (Blk d c) = 5 := by omega
   let eK := MonoidHom.ofInjective (embSU_injective d c)
-  haveI := isSimple_statedSU _ ha
-  haveI hs : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
+  have := isSimple_statedSU _ ha
+  have hs : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
   have hsub : CFSG.Open.IsSubnormal J (embSU d c).range := by
     have h := hJ.2.1.inf_of_le hKC
     rwa [inf_eq_left.2 hJK] at h

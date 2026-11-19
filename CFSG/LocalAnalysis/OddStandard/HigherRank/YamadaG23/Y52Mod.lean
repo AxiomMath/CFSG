@@ -127,7 +127,7 @@ theorem y52_t_not_mem_M2 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s 
   have hBX : s.fr.B ≤ s.X := (le_sup_left : s.fr.B ≤ f3P s).trans hPX
   have htX : s.t ∈ s.X := hPX (Subgroup.mem_sup_right (Subgroup.mem_zpowers s.t))
   have htC₂ : s.t ∈ s.C₂ := f3_P_le_C₂ hH (Subgroup.mem_sup_right (Subgroup.mem_zpowers s.t))
-  haveI hnorm : ((s.fr.B).subgroupOf s.X).Normal :=
+  have hnorm : ((s.fr.B).subgroupOf s.X).Normal :=
     (Subgroup.normal_subgroupOf_iff hBX).mpr fun h k' hh hk' =>
       (Subgroup.mem_set_normalizer_iff.mp (f3_X_le_normB hH hk') h).mp hh
   let π : ↥s.X →* (↥s.X ⧸ (s.fr.B).subgroupOf s.X) :=

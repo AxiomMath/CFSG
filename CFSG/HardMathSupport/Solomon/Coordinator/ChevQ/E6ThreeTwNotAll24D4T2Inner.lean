@@ -149,7 +149,7 @@ theorem d4t2in_dModel_center {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σ, hfin, hcard, hrest⟩ := exists_inner_cover S hT i hinner
-  haveI : Finite ↥(fixSubfield σ) := hfin
+  have : Finite ↥(fixSubfield σ) := hfin
   have hcard' : Nat.card ↥(fixSubfield σ) = r ^ (e * s) := by rw [hcard, hq, ← pow_mul]
   have hcomp : componentRootSpan (fixSubfield σ) (rootCharHom ta) i =
       rootSpan τ (fixSubfield σ) (rootsOfFam β (Set.range l)) := by
@@ -193,8 +193,8 @@ theorem twE6ComponentType_rational_of_inner_d4
     (h3 : ((3 : ℕ) : L) ≠ 0)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit .E6 a ∈ S.D.torus) (hap : ∀ i, a i ^ 3 = 1)
     (i : KernelComponent (rootCharHom a))
-    (hall : (kernelRoots (rootCharHom a)).ncard = 24)
-    (hr : compRank (componentRoots (rootCharHom a) i) = 4)
+    (_hall : (kernelRoots (rootCharHom a)).ncard = 24)
+    (_hr : compRank (componentRoots (rootCharHom a) i) = 4)
     (hc : (componentRoots (rootCharHom a) i).ncard = 24)
     (hρ : ∀ γ ∈ componentRoots (rootCharHom a) i, S.ρ γ ∈ componentRoots (rootCharHom a) i)
     (hin : twistInner (componentRoots (rootCharHom a) i)

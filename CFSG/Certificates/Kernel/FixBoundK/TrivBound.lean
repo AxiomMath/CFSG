@@ -41,7 +41,7 @@ theorem synK_and_iff (a b : Nat) :
 theorem natCard_sub' (V : Submodule (ZMod 2) C) : Nat.card V = 2 ^ Module.finrank (ZMod 2) V := by
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V), Nat.card_zmod]
 
-theorem finrank_le_three (ht : TrivCond) {Y : Submodule (ZMod 2) C} (hΩ : ΩC ∈ Y)
+theorem finrank_le_three (ht : TrivCond) {Y : Submodule (ZMod 2) C} (_hΩ : ΩC ∈ Y)
     (hY : ∀ y ∈ Y, ∀ y' ∈ Y, (y : Fin 24 → ZMod 2) * (y' : Fin 24 → ZMod 2) ∈ C) :
     Module.finrank (ZMod 2) Y ≤ 3 := by
   classical

@@ -18,15 +18,18 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs X : Subgro
   ⨆ (x : OmPlusIdx Φ.r) (y : OmPlusIdx Φ.r)
     (_ : omPlusRefl p x * omPlusRefl p y ≠ omPlusRefl p y * omPlusRefl p x), Φ.rank2 x y
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem OrthFrameCore.rank2_le_orth (Φ : OrthFrameCore p Bs X) (x y : OmPlusIdx Φ.r) :
     Φ.rank2 x y ≤ TauCeti.QuadraticMap.orthogonalGroup Φ.Q :=
   (((ggOTwoPrime_le _).trans inf_le_left).trans
     (CFSG.RankThree.Classical.orthDerived_le_orthogonalGroup Φ.Q))
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem OrthFrameCore.rank2_le_orthDerived' (Φ : OrthFrameCore p Bs X)
     (x y : OmPlusIdx Φ.r) : Φ.rank2 x y ≤ orthDerived Φ.Q :=
   (ggOTwoPrime_le _).trans inf_le_left
 
+omit [Finite G] [Fact p.Prime] in
 theorem OrthFrameCore.rank2Join_le_orth (Φ : OrthFrameCore p Bs X) :
     Φ.rank2Join ≤ TauCeti.QuadraticMap.orthogonalGroup Φ.Q := by
   unfold OrthFrameCore.rank2Join
@@ -44,6 +47,7 @@ local notation "𝔽₄" => GaloisField 2 2
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
 
+omit [Fact (Nat.Prime p)] in
 theorem noncomm_omTog {r : ℕ} (hp : p.Prime) (i : Fin r) {x y : OmPlusIdx r}
     (h : omPlusRefl p x * omPlusRefl p y ≠ omPlusRefl p y * omPlusRefl p x) :
     omPlusRefl p (omTog i x) * omPlusRefl p (omTog i y) ≠
@@ -55,6 +59,7 @@ section Gen
 
 variable {Φ : OrthFrameCore p Bs X} [Algebra Φ.F 𝔽₄] (N : OrthNormData Φ)
 
+omit [Finite G] in
 theorem OrthNormData.tauV_conj_mem_rank2Join (i : Fin Φ.r) {h : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hh : h ∈ Φ.rank2Join) : N.tauV i * h * (N.tauV i)⁻¹ ∈ Φ.rank2Join := by
   have hle : Φ.rank2Join.map (MulAut.conj (N.tauV i)).toMonoidHom ≤ Φ.rank2Join := by
@@ -87,11 +92,12 @@ local notation "𝔽₄" => GaloisField 2 2
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
 
+omit [Finite G] in
 theorem OrthFrameCore.orthDerived_le_rank2Join (Φ : OrthFrameCore p Bs X)
     (hF : Nat.card Φ.F = 2) : orthDerived Φ.Q ≤ Φ.rank2Join := by
   classical
   obtain ⟨alg, ⟨N⟩⟩ := qTwoD_exists_normData Φ hF
-  letI := alg
+  let := alg
   have hr4 : 4 ≤ Φ.r := Φ.hr
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by rw [qTwoD_card_gf4]; norm_num
   have hSU : N.rep.range ≤ Φ.rank2Join := by
@@ -105,7 +111,7 @@ theorem OrthFrameCore.orthDerived_le_rank2Join (Φ : OrthFrameCore p Bs X)
   have hH'O : H' ≤ TauCeti.QuadraticMap.orthogonalGroup (Qn N.E Φ.r) := by
     rintro _ ⟨h, hh, rfl⟩
     exact (N.cχ_mem_iff h).mpr (Φ.rank2Join_le_orth hh)
-  haveI : FiniteDimensional Φ.F 𝔽₄ := Module.Finite.of_finite
+  have : FiniteDimensional Φ.F 𝔽₄ := Module.Finite.of_finite
   have hQ := Qn_polarBilin_nondegenerate N.E Φ.r
   have h6 : 6 ≤ Module.finrank Φ.F (Fin Φ.r → 𝔽₄) := by
     rw [Module.finrank_pi_fintype]
@@ -150,6 +156,7 @@ theorem OrthFrameCore.orthDerived_le_rank2Join (Φ : OrthFrameCore p Bs X)
   have hhz' : h = z := N.cχ.injective hhz
   exact hhz' ▸ hh
 
+omit [Finite G] in
 theorem OrthFrameCore.le_iSup_img_rank2 (Φ : OrthFrameCore p Bs X)
     (hF : Nat.card Φ.F = 2) :
     X ≤ ⨆ (x : OmPlusIdx Φ.r) (y : OmPlusIdx Φ.r)

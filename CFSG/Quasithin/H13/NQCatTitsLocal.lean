@@ -23,7 +23,7 @@ theorem eq_top_or_isSolvable_of_sylow_le
     have := isSylowTwoOf_flagStab.2.2
     rwa [show (titsFlagStab.subgroupOf ⊤).index = titsFlagStab.index from
       Subgroup.relIndex_top_right titsFlagStab] at this
-  have hU' : IsPGroup 2 ((P : Subgroup Y).map e.toMonoidHom) := P.isPGroup'.map _
+  have hU' : IsPGroup 2 ((P : Subgroup Y).map e.toMonoidHom) := P.isPGroup.map _
   have hU'i : ¬ 2 ∣ ((P : Subgroup Y).map e.toMonoidHom).index := by
     have h3 : ((P : Subgroup Y).map e.toMonoidHom).index = (P : Subgroup Y).index :=
       Subgroup.index_map_equiv _ e
@@ -41,7 +41,7 @@ theorem eq_top_or_isSolvable_of_sylow_le
   rcases lattice_comap ψ tits_overgroups M (hUψ ▸ hPM) with h | h | h | h
   · right
     rw [h, hUψ]
-    have := P.isPGroup'.isNilpotent
+    have := P.isPGroup.isNilpotent
     infer_instance
   · exact Or.inr (h ▸ solvable_comap_equiv ψ _ solvable_titsPointStab)
   · exact Or.inr (h ▸ solvable_comap_equiv ψ _ solvable_titsLineStab)

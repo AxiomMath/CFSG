@@ -66,12 +66,12 @@ theorem commute_of_perfect_normalizes_three_cv {X G : Type} [Group X] [Group G]
       rcases hdich b with hR | hR
       · simp only [hab, hR]
         simp
-      · simp only [hab, hR, if_neg hg2]
+      · simp only [hab, hR, ite_eq_right hg2]
         have hinvconj : χ a * g⁻¹ * (χ a)⁻¹ = (χ a * g * (χ a)⁻¹)⁻¹ := by group
         rw [hinvconj]
         rcases hdich a with hP | hP
-        · rw [hP, if_neg hg2]
-          simp [hP]
+        · rw [hP, ite_eq_right hg2]
+          simp
         · rw [hP, inv_inv]
           simp [hg2])
   intro x
@@ -88,7 +88,7 @@ theorem commute_of_perfect_normalizes_three_cv {X G : Type} [Group X] [Group G]
   change (if χ x * g * (χ x)⁻¹ = g then (1 : ℤˣ) else -1) = 1 at h1
   have hconj : χ x * g * (χ x)⁻¹ = g := by
     by_contra hne
-    rw [if_neg hne] at h1
+    rw [ite_eq_right hne] at h1
     exact absurd h1 (by decide)
   calc χ x * g = χ x * g * (χ x)⁻¹ * χ x := by group
     _ = g * χ x := by rw [hconj]
@@ -106,7 +106,7 @@ theorem false_of_centrality_trap_cv {D : Type} [Group D] (K : Subgroup D)
   have hcomm : ∀ x : K, ρK x * ρ y = ρ y * ρK x :=
     fun x => commute_of_perfect_normalizes_three_cv hperf ρK (ρ y) hg3 (fun x => hnorm x x.2) x
   set N₀ : Subgroup (alternatingGroup (Fin 5)) := ρK.ker.map φ with hN₀
-  haveI hN₀n : N₀.Normal := Subgroup.Normal.map inferInstance φ hφ
+  have hN₀n : N₀.Normal := Subgroup.Normal.map inferInstance φ hφ
   have hN₀2 : ∀ a ∈ N₀, ∃ n : ℕ, a ^ (2 ^ n) = 1 := by
     intro a ha
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 ha

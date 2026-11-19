@@ -84,10 +84,10 @@ private theorem l10sw1_level_torus
   let k := GaloisField 2 (2 * f)
   let θ : k →+* k := frobQ 2 f
   have hθ : ∀ c, θ (θ c) = c := fun c => frobQ_frobQ 2 f (by omega) c
-  haveI : Finite ↥(e6Data_valid.minGroup k) :=
+  have : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
-  haveI : Finite (twistedE6Group 2 f) := Subtype.finite
-  haveI : Fintype ((fixedSubfield θ)ˣ) := Fintype.ofFinite _
+  have : Finite (twistedE6Group 2 f) := Subtype.finite
+  have : Fintype ((fixedSubfield θ)ˣ) := Fintype.ofFinite _
   have hkcard : Nat.card k = (2 ^ f) ^ 2 := by
     change Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2
     rw [GaloisField.card 2 (2 * f) (by omega), show 2 * f = f * 2 by ring, ← pow_mul]
@@ -362,9 +362,9 @@ theorem ggRootNoCentral_twistedE6_shortHighest
     {f : ℕ} (hf : 2 ≤ f) :
     GGRootNoCentralAt (⊤ : Subgroup (twistedE6Group 2 f))
       ((twistedE6Datum 2 f).rootGroup twE6Alpha) := by
-  haveI : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
+  have : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid _
-  haveI : Finite (twistedE6Group 2 f) := Subtype.finite
+  have : Finite (twistedE6Group 2 f) := Subtype.finite
   obtain ⟨h, hnorm, hodd, hfpf⟩ := l10sw1_level_torus (f := f) hf
   refine noCentral_of_fixedPoint_odd hodd ?_ ?_
   · exact ⟨trivial, hnorm twE6Alpha (twE6_alpha_mem_roots (frobQ 2 f))⟩

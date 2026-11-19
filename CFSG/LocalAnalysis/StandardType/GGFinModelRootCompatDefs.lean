@@ -29,7 +29,7 @@ section Defs
 
 private theorem ggRatEmb_pow_f_aux {f : ℕ} (hf : 1 ≤ f) (c : GaloisField 2 f) :
     c ^ 2 ^ f = c := by
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f :=
     GaloisField.card 2 f (Nat.pos_iff_ne_zero.mp hf)
   calc c ^ 2 ^ f = c ^ Fintype.card (GaloisField 2 f) := by
@@ -45,7 +45,7 @@ theorem ggRatEmb_range {f : ℕ} (hf : 1 ≤ f) :
     Set.range (ggRatEmb f) = {c : GGL | c ^ 2 ^ f = c} := by
   classical
   let K := GaloisField 2 f
-  letI : Algebra K GGL := (ggRatEmb f).toAlgebra
+  let : Algebra K GGL := (ggRatEmb f).toAlgebra
   ext c
   constructor
   · rintro ⟨a, rfl⟩
@@ -96,7 +96,7 @@ theorem ggPhi_pinnedX_twistedE6
     (hγ : IsRoot (langTag .twistedE6) γ) (c : GGL) :
     ggPhi .twistedE6 f (pinnedX (langTag .twistedE6) GGL γ c) =
       pinnedX (langTag .twistedE6) GGL (permLattice (TwistTag.perm .E6) γ) (c ^ 2 ^ f) := by
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   have h2 : (2 : GGL) = 0 := by exact_mod_cast CharP.cast_eq_zero GGL 2
   have h := CFSG.LieType.Chevalley.E6GraphRadical.twistHom_pinnedX_of_two
     (E := GGL) h2 (ggFrobT f) hγ c

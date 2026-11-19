@@ -55,7 +55,7 @@ public theorem theorem_12_2_a
   intro hhyp
   rcases hhyp with ⟨_hmax, hMF, hTypeI, hS, hτ⟩
   rcases hTypeI with ⟨U, U1, U0, hTypeF, _hTypeI_extra⟩
-  haveI : (H.subgroupOf L).Normal := by
+  have : (H.subgroupOf L).Normal := by
     simpa using section16MFSubgroup_subgroupOf_normal hMF
   have hchoice : ∀ χ : S,
       ∃ SX : Finset (Section1.ClassFunction L),

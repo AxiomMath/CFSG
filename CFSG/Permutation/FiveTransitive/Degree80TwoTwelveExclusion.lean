@@ -53,7 +53,7 @@ theorem fixed_card_ne_twelve
   rw [← Nat.card_eq_fintype_card,← Nat.card_eq_fintype_card,hF] at hm
   have hlocal : Nat.card (Function.fixedPoints (rho g)) = 2 := by omega
   have hglobal : Nat.card (Function.fixedPoints g.val.val) = 5 := by omega
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hsmall := Degree80TwoTwelveOrbitAlternatives.orbit_card_le_four P hcard h5 hnotAlt s hs S hF
   have hparity := SmallOrbitFiveFixed.fixed_congruence Q hQ hsmall g.val g.property
     (congrArg Subtype.val hg5)

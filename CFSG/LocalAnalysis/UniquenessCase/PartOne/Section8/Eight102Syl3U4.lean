@@ -29,7 +29,7 @@ theorem sylow_three_hypSU_two_zero (h : UnitaryFieldData 2 n K) (hn : Even n) :
   have h3 : 3 ∣ 3 ^ (Nat.card Kˣ).factorization 3 :=
     dvd_pow_self 3 (Nat.one_le_iff_ne_zero.mp (one_le_factorization_card_units h))
   have hle := torusPow_le_of_dvd h 2 0 h3
-  refine ⟨(Sylow.ofCard _ hcard).isPGroup', (Sylow.ofCard _ hcard).not_dvd_index,
+  refine ⟨(Sylow.ofCard _ hcard).isPGroup, (Sylow.ofCard _ hcard).not_dvd_index,
     ⟨torusPow h 2 0 3, hle, isElemAbelian_torusPow h 2 0 3, ?_,
       fun s hs hs3 => mem_torusPow_of_pow_eq_one hs hs3⟩, ?_⟩
   · rw [card_torusPow h 2 0 (three_dvd_two_pow_sub_one hn)]

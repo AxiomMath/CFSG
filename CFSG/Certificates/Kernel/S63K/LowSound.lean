@@ -32,13 +32,13 @@ theorem hexVal_low {c : Nat} (hc : c < 128) (hv : lowV c < 16) :
   unfold lowV at hv ⊢
   by_cases a : c < 48
   · simp [Nat.blt_eq.mpr a] at hv
-  · simp only [Bool.cond_eq_ite, Nat.blt_eq, a, if_false] at hv ⊢
+  · simp only [Bool.cond_eq_ite, Nat.blt_eq, a, ite_false] at hv ⊢
     by_cases b : c < 58
     · simp [b]
-    · simp only [b, if_false] at hv ⊢
+    · simp only [b, ite_false] at hv ⊢
       by_cases d : c < 97
       · simp [d] at hv
-      · simp only [d, if_false] at hv ⊢
+      · simp only [d, ite_false] at hv ⊢
         by_cases f : c < 103
         · simp [f]
         · simp [f] at hv

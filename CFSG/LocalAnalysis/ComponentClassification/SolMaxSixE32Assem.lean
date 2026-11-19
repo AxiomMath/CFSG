@@ -50,7 +50,7 @@ theorem aF_prod {s t w₀ w₁ x : X} (hg : IsE5 ![s, t, w₀, w₁, x]) :
     s * aF s w₀ w₁ x 3 = x := by
   have e : ∀ v : Fin 5 → ZMod 2, ∀ i : Fin 5, v = Pi.single i 1 →
       mono ![s, t, w₀, w₁, x] v = ![s, t, w₀, w₁, x] i := fun v i h => by
-    rw [h, hg.mono_single]
+    rw [h, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
   simp only [aF_eq_mono (t := t)]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · rw [← hg.mono_add, ← hg.mono_add]
@@ -61,11 +61,11 @@ theorem aF_prod {s t w₀ w₁ x : X} (hg : IsE5 ![s, t, w₀, w₁, x]) :
     exact e _ 3 (by decide)
   · rw [← hg.mono_add]
     have : avec 0 + avec 1 = Pi.single 2 1 + Pi.single 3 1 := by decide
-    rw [this, hg.mono_add, hg.mono_single, hg.mono_single]
+    rw [this, hg.mono_add, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
     rfl
   · have : s * mono ![s, t, w₀, w₁, x] (avec 3) =
         mono ![s, t, w₀, w₁, x] (Pi.single 0 1) * mono ![s, t, w₀, w₁, x] (avec 3) := by
-      rw [hg.mono_single]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
       rfl
     rw [this, ← hg.mono_add]
     exact e _ 4 (by decide)
@@ -82,10 +82,10 @@ theorem aF_prod {s t w₀ w₁ x : X} (hg : IsE5 ![s, t, w₀, w₁, x]) :
 theorem Wf_eq_mono {s t w₀ w₁ x : X} (hg : IsE5 ![s, t, w₀, w₁, x]) (i : Fin 3) :
     Wf w₀ w₁ i = mono ![s, t, w₀, w₁, x] (wvec i) := by
   fin_cases i
-  · exact (hg.mono_single 2).symm
-  · exact (hg.mono_single 3).symm
+  · exact (CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single (g := ![s, t, w₀, w₁, x]) 2).symm
+  · exact (CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single (g := ![s, t, w₀, w₁, x]) 3).symm
   · show w₀ * w₁ = mono ![s, t, w₀, w₁, x] (Pi.single 2 1 + Pi.single 3 1)
-    rw [hg.mono_add, hg.mono_single, hg.mono_single]
+    rw [hg.mono_add, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
     rfl
 
 theorem Wf_eq_prod {s t w₀ w₁ x : X} (hg : IsE5 ![s, t, w₀, w₁, x]) (i : Fin 3) :
@@ -255,12 +255,15 @@ theorem aF_mem (k : Fin 4) :
     aF s w₀ w₁ x k ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x]) :=
   (F.E5.mem_closure_iff _).mpr ⟨avec k, aF_eq_mono k⟩
 
+omit [Finite X] F in
 theorem s_mem : s ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x]) :=
   Subgroup.subset_closure ⟨0, rfl⟩
 
+omit [Finite X] F in
 theorem t_mem : t ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x]) :=
   Subgroup.subset_closure ⟨1, rfl⟩
 
+omit [Finite X] F in
 theorem x_mem : x ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x]) :=
   Subgroup.subset_closure ⟨4, rfl⟩
 
@@ -282,7 +285,7 @@ theorem symm_gamma (α : Perm (Fin 4)) (hα : α 3 = 3) :
           rw [hca 0, hca 1, hca 2]
       _ = s := by
           simp only [aF_eq_mono (t := t)]
-          rw [← F.E5.mono_add, ← F.E5.mono_add, key α hα, F.E5.mono_single]
+          rw [← F.E5.mono_add, ← F.E5.mono_add, key α hα, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
           rfl
   have hcx : c * x * c⁻¹ = x := by
     calc c * x * c⁻¹ = (c * s * c⁻¹) * (c * aF s w₀ w₁ x 3 * c⁻¹) := by
@@ -318,15 +321,15 @@ theorem symm_gamma (α : Perm (Fin 4)) (hα : α 3 = 3) :
       show c * ![s, t, w₀, w₁, x] i * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
       fin_cases i
       · show c * s * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
-        rw [hcs]; exact F.s_mem
+        rw [hcs]; exact IsFrame.s_mem
       · show c * t * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
-        rw [hct]; exact F.t_mem
+        rw [hct]; exact IsFrame.t_mem
       · show c * w₀ * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
         rw [hcw₀]; exact mul_mem (F.aF_mem _) (F.aF_mem _)
       · show c * w₁ * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
         rw [hcw₁]; exact mul_mem (F.aF_mem _) (F.aF_mem _)
       · show c * x * c⁻¹ ∈ Subgroup.closure (Set.range ![s, t, w₀, w₁, x])
-        rw [hcx]; exact F.x_mem
+        rw [hcx]; exact IsFrame.x_mem
     exact hle ha
 
 theorem symm_W (σ : Perm (Fin 3)) :
@@ -390,10 +393,10 @@ theorem nu_W {ν : X}
   have hW1 : Wf w₀ w₁ i ≠ 1 := by
     rw [Wf_eq_mono F.E5 i]
     intro h
-    exact wvec_ne_zero i (F.mono_injective (h.trans F.E5.mono_zero.symm))
+    exact wvec_ne_zero i (F.mono_injective (h.trans CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero.symm))
   have hune : u ≠ 0 := by
     intro h0
-    rw [h0, F.E5.mono_zero] at hconj
+    rw [h0, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero] at hconj
     apply hW1
     have : Wf w₀ w₁ i = ν⁻¹ * 1 * ν := by
       rw [← hconj]; group
@@ -514,7 +517,7 @@ theorem exists_omega {m r : X} (hmt : m * t * m⁻¹ = s) (hms : m * s * m⁻¹ 
   obtain ⟨ω, hodd, hωt, hωs, hω0, hω1, hωA⟩ :=
     odd_power Z.hst Z.hs2 hν't hν's hc0 hc1 hν'A
   obtain ⟨v, hv2, hv3, hv4, hvx⟩ := omega_fix F.E5 F.mono_injective hodd
-    ⟨hωt, hωs, hω0, hω1⟩ (hωA x F.x_mem)
+    ⟨hωt, hωs, hω0, hω1⟩ (hωA x IsFrame.x_mem)
   exact ⟨ω, hωt, hωs, hω0, hω1, v, hv2, hv3, hv4, hvx⟩
 
 end IsFrame

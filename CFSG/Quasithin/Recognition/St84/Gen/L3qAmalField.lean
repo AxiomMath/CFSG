@@ -30,6 +30,7 @@ theorem ActsByMatrix.mul {G : Type*} [Group G] {F : Type*} [Field F] {n : ℕ}
     group
   rw [hA z y hy', hB x z hz, Matrix.mulVec_mulVec]
 
+omit [Finite G] in
 private lemma actsByMatrix_alpha {L S : Subgroup G} {F : Type*} [Field F]
     (c : VertexCoord L S F) (x : ↥L) :
     ActsByMatrix c.β (x : G) (c.α x : Matrix (Fin 2) (Fin 2) F) := by
@@ -44,8 +45,9 @@ private lemma upperTri_mulVec_zero {F : Type*} [Field F] (ν : Fˣ) (r w : F) :
     (!![(ν : F), r; 0, ((ν⁻¹ : Fˣ) : F)] : Matrix (Fin 2) (Fin 2) F) *ᵥ ![w, 0] =
       ![(ν : F) * w, 0] := by
   funext i
-  fin_cases i <;> simp [Matrix.mulVec, Fin.sum_univ_two]
+  fin_cases i <;> simp [Matrix.mulVec]
 
+omit [Finite G] in
 private lemma conj_mem_of_mem_normalizer {Q : Subgroup G} {b x : G}
     (hb : b ∈ Subgroup.normalizer (Q : Set G)) (hx : x ∈ Q) :
     b * x * b⁻¹ ∈ Q :=
@@ -136,8 +138,8 @@ private theorem exists_gl_of_mem_borel {F : Type*} [Field F] [Finite F]
       ∃ A : Matrix.SpecialLinearGroup (Fin 2) F,
         ∀ v : Fin 2 → F, T ((A : Matrix (Fin 2) (Fin 2) F) *ᵥ v) =
           (A' : Matrix (Fin 2) (Fin 2) F) *ᵥ (T v) := by
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) F) := inferInstance
+    have : Fintype F := Fintype.ofFinite F
+    have : Finite (Matrix.SpecialLinearGroup (Fin 2) F) := inferInstance
     let α : Matrix.SpecialLinearGroup (Fin 2) F → Matrix.SpecialLinearGroup (Fin 2) F :=
       fun A => Classical.choose (hTnorm A)
     have hα : ∀ (A : Matrix.SpecialLinearGroup (Fin 2) F) (v : Fin 2 → F),
@@ -231,7 +233,7 @@ private theorem exists_gl_of_mem_borel {F : Type*} [Field F] [Finite F]
     intro h0
     apply ν.ne_zero
     apply ρ.injective
-    simpa using h0
+    simp at h0
   have hscale : ∀ a : F, T ![a, 0] = ![(ρ (ν : F)) * a, 0] := by
     intro a
     obtain ⟨z, hz⟩ := hℓ_bij.2 a
@@ -274,9 +276,9 @@ private theorem exists_gl_of_mem_borel {F : Type*} [Field F] [Finite F]
     rw [hv, map_add, hTlin, hTlin, hTe0, hTe1]
     funext i
     fin_cases i
-    · simp [e0, e1, Matrix.mulVec, Fin.sum_univ_two]
+    · simp [e0, e1, Matrix.mulVec]
       ring
-    · simp [e0, e1, Matrix.mulVec, Fin.sum_univ_two]
+    · simp [e0, e1, Matrix.mulVec]
       ring
   have hQ1_not_le : ¬ pCoreOf 2 L1 ≤ pCoreOf 2 L2 := by
     intro hle

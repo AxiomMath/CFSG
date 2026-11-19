@@ -20,7 +20,7 @@ theorem uniTw_iterate {d : ℕ} {K : Type} [Field K] (σ : K ≃+* K) (A : GL (F
     (x : GL (Fin d) K) :
     (uniTw σ A)^[k] x = normProd σ A k * glMap (σ ^ k) x * (normProd σ A k)⁻¹ := by
   induction k generalizing x with
-  | zero => simp [normProd, glMap_pow_zero, glMap_one]
+  | zero => simp [normProd, glMap_one]
   | succ k ih =>
     rw [Function.iterate_succ_apply', ih]
     have hN : normProd σ A (k + 1) = A * glMap σ (normProd σ A k) := rfl
@@ -100,7 +100,7 @@ theorem normProd_scalar_of_sigma_pow {d n : ℕ} {K : Type} [Field K] [Finite K]
 @[expose] def UniSigmaPowOne : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (n d : ℕ) (τ : K ≃+* K) (hτ : ∀ x, τ (τ x) = x),
     (∀ x, τ x = x ^ 2 ^ n) → Nat.card K = (2 ^ n) ^ 2 → 3 ≤ d → (d, 2 ^ n) ≠ (3, 2) →
-    ∀ (A : GL (Fin d) K) (hA : A ∈ heldGU d K τ hτ) (σ : K ≃+* K) (p : ℕ), p.Prime → p ≠ 2 →
+    ∀ (A : GL (Fin d) K) (_hA : A ∈ heldGU d K τ hτ) (σ : K ≃+* K) (p : ℕ), p.Prime → p ≠ 2 →
       ∀ u : MulAut (LargeEvenProj (StatedSU d (2 ^ n) K)),
         (∀ h h' : ↥(StatedSU d (2 ^ n) K), (h' : GL (Fin d) K) = A * glMap σ (h : GL (Fin d) K) * A⁻¹ →
           u (LargeEvenProjMk (StatedSU d (2 ^ n) K) h) = LargeEvenProjMk (StatedSU d (2 ^ n) K) h') →

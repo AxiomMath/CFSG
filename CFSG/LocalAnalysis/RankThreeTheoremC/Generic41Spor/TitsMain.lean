@@ -22,7 +22,7 @@ theorem tits_false (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) 
     (hJ4 : ExtraFacts IsJ4Type 11 J4Shape) (hSz : Sz32Facts) (hSz' : Sz32OpenFacts)
     (hdata : Sz32DataFacts) {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
     (hX : TitsFacts) (hc : PointConfig IsTitsType G 5 P M x J) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨U, hU⟩ := plane_exists_iiplane hX.sylow hX.noOuter hc
   have hfus := tits_fusion_core hS hD1 hU0 hK.sig hX hc
   have hL42 := tits_lemma42 hS hD1 hU0 hClass hX hA10 hMcL hJ4 hSz hSz' hdata hc hfus hU

@@ -112,6 +112,7 @@ theorem cov_parts {c : Nat} (hc : c < 16384) :
   exact Bool.false_ne_true h2
 
 include hT0 hT1 hgen in
+omit hT0 hT1 in
 theorem exists_code {g : G} (hg : g ∈ H) : ∃ c < 16384, g = sig T0 T1 c := by
   obtain ⟨a, ha, b, hb, rfl⟩ := hgen g hg
   obtain ⟨e1, e2⟩ := code_mk (a := a) hb
@@ -120,8 +121,8 @@ theorem exists_code {g : G} (hg : g ∈ H) : ∃ c < 16384, g = sig T0 T1 c := b
 include hT0 hT1 hgen hcov in
 theorem eq_of_base01 {g h : G} (hg : g ∈ H) (hh : h ∈ H) (e0 : g p0 = h p0) (e1 : g p1 = h p1) :
     g = h := by
-  obtain ⟨c, hc, rfl⟩ := exists_code hT0 hT1 hgen hg
-  obtain ⟨c', hc', rfl⟩ := exists_code hT0 hT1 hgen hh
+  obtain ⟨c, hc, rfl⟩ := exists_code hgen hg
+  obtain ⟨c', hc', rfl⟩ := exists_code hgen hh
   have d := (cov_parts hcov hc).1
   have d' := (cov_parts hcov hc').1
   rw [img_eq hT0 hT1 hc (by norm_num), img_eq hT0 hT1 hc (by norm_num)] at d
@@ -220,7 +221,7 @@ variable {H : Subgroup G} {TR TRI CD IX K0 K1 CM PR : Nat → Nat} {R0 R1 o0 o1 
 include hT0 hT1 hinv in
 theorem x_val {i y : Nat} (hi : i < 495) (hy : y < 4060) :
     (X T0 T1 CD i ⟨y, hy⟩ : Nat) = imgC TR o0 o1 (CD i) y := by
-  rw [X, if_pos hi, img_eq hT0 hT1 (inv_parts (hinv i hi)).1 hy]
+  rw [X, ite_eq_left hi, img_eq hT0 hT1 (inv_parts (hinv i hi)).1 hy]
 
 include hT0 hT1 hinv hk in
 theorem x_key {i : Nat} (hi : i ≤ 495) :
@@ -230,7 +231,7 @@ theorem x_key {i : Nat} (hi : i ≤ 495) :
     exact ⟨(x_val hT0 hT1 hinv h _).trans h3, (x_val hT0 hT1 hinv h _).trans h4⟩
   · have : i = 495 := by omega
     subst this
-    rw [X, if_neg (lt_irrefl _)]
+    rw [X, ite_eq_right (lt_irrefl _)]
     exact ⟨hk.1.symm, hk.2.symm⟩
 
 include hin hinv in
@@ -241,7 +242,7 @@ theorem x_mem (i : Nat) : X T0 T1 CD i ∈ H := by
   · exact H.one_mem
 
 theorem x_one {i : Nat} (hi : 495 ≤ i) : X T0 T1 CD i = 1 := by
-  rw [X, if_neg (by omega)]
+  rw [X, ite_eq_right (by omega)]
 
 theorem app_of_val {g : G} {x : Fin 4060} {v : Nat} (hv : (x : Nat) = v) (hv' : v < 4060) :
     g x = g ⟨v, hv'⟩ := by
@@ -289,6 +290,7 @@ theorem x_inj {i j : Nat} (hi : i ≤ 495) (hj : j ≤ 495) (h : X T0 T1 CD i = 
   · omega
 
 include hT0 hT1 hinv hrow in
+omit hT0 hT1 hinv in
 theorem row_pair {i j : Nat} (hi : i < 495) (hj : j < 495) :
     pairC TR CD K0 K1 CM PR o0 o1 i (CD i) j = true := by
   have h := hrow i hi
@@ -312,11 +314,11 @@ include hT0 hT1 hgen hin hcov hinv hrow hk in
 theorem x_comm (i j : Nat) :
     cK CM i j = true ↔ X T0 T1 CD i * X T0 T1 CD j = X T0 T1 CD j * X T0 T1 CD i := by
   by_cases hij : i < 495 ∧ j < 495
-  · rw [cK, if_pos hij]
+  · rw [cK, ite_eq_left hij]
     obtain ⟨hi, hj⟩ := hij
     obtain ⟨a0, a1⟩ := xx_val hT0 hT1 hinv hk hi hj
     obtain ⟨b0, b1⟩ := xx_val hT0 hT1 hinv hk hj hi
-    obtain ⟨hyes, hno⟩ := pair_parts (row_pair hT0 hT1 hinv hrow hi hj)
+    obtain ⟨hyes, hno⟩ := pair_parts (row_pair hrow hi hj)
     constructor
     · intro hb
       have he : imgC TR o0 o1 (CD i) (K0 j) = imgC TR o0 o1 (CD j) (K0 i) ∧
@@ -331,7 +333,7 @@ theorem x_comm (i j : Nat) :
       refine (hyes ⟨?_, ?_⟩).1
       · rw [← a0, ← b0, hc]
       · rw [← a1, ← b1, hc]
-  · rw [cK, if_neg hij]
+  · rw [cK, ite_eq_right hij]
     refine ⟨fun _ => ?_, fun _ => rfl⟩
     rcases not_and_or.1 hij with h | h
     · rw [x_one (not_lt.1 h), one_mul, mul_one]
@@ -342,10 +344,10 @@ theorem x_prod {i j : Nat} (hi : i ≤ 495) (hj : j ≤ 495) (hc : cK CM i j = t
     pK PR i j ≤ 495 ∧ X T0 T1 CD i * X T0 T1 CD j = X T0 T1 CD (pK PR i j) := by
   rcases Nat.lt_or_ge i 495 with hi' | hi'
   · rcases Nat.lt_or_ge j 495 with hj' | hj'
-    · rw [cK, if_pos ⟨hi', hj'⟩] at hc
-      rw [pK, if_pos hi', if_pos hj']
+    · rw [cK, ite_eq_left ⟨hi', hj'⟩] at hc
+      rw [pK, ite_eq_left hi', ite_eq_left hj']
       obtain ⟨a0, a1⟩ := xx_val hT0 hT1 hinv hk hi' hj'
-      obtain ⟨hyes, hno⟩ := pair_parts (row_pair hT0 hT1 hinv hrow hi' hj')
+      obtain ⟨hyes, hno⟩ := pair_parts (row_pair hrow hi' hj')
       have he : imgC TR o0 o1 (CD i) (K0 j) = imgC TR o0 o1 (CD j) (K0 i) ∧
           imgC TR o0 o1 (CD i) (K1 j) = imgC TR o0 o1 (CD j) (K1 i) := by
         by_contra hne
@@ -358,24 +360,25 @@ theorem x_prod {i j : Nat} (hi : i ≤ 495) (hj : j ≤ 495) (hc : cK CM i j = t
         (Fin.ext (by rw [a0, k0, e0])) (Fin.ext (by rw [a1, k1, e1]))⟩
     · have : j = 495 := by omega
       subst this
-      rw [pK, if_pos hi', if_neg (lt_irrefl _), x_one le_rfl, mul_one]
+      rw [pK, ite_eq_left hi', ite_eq_right (lt_irrefl _), x_one le_rfl, mul_one]
       exact ⟨hi, rfl⟩
   · have : i = 495 := by omega
     subst this
-    rw [pK, if_neg (lt_irrefl _), x_one le_rfl, one_mul]
+    rw [pK, ite_eq_right (lt_irrefl _), x_one le_rfl, one_mul]
     exact ⟨hj, rfl⟩
 
 include hT0 hT1 hgen hin hcov hinv hk in
+omit hin hinv hk in
 theorem x_cover {x : G} (hx : x ∈ H) (h2 : x * x = 1) (h92 : (fixFinset x).card = 92) :
     ∃ i < 495, x = X T0 T1 CD i := by
-  obtain ⟨c, hc, rfl⟩ := exists_code hT0 hT1 hgen hx
+  obtain ⟨c, hc, rfl⟩ := exists_code hgen hx
   have v0 := img_eq hT0 hT1 hc (p := 0) (by norm_num)
   have v1 := img_eq hT0 hT1 hc (p := 1) (by norm_num)
   have l0 := img_lt hT0 hT1 hc (p := 0) (by norm_num)
   have l1 := img_lt hT0 hT1 hc (p := 1) (by norm_num)
   rcases (cov_parts hcov hc).2 with ⟨hl, hcd⟩ | hs | hf | hn
   · refine ⟨IX c, hl, ?_⟩
-    rw [X, if_pos hl, hcd]
+    rw [X, ite_eq_left hl, hcd]
   · exfalso
     apply hs
     refine ⟨?_, ?_⟩

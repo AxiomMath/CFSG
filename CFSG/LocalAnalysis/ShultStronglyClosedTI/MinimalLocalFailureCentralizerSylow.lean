@@ -64,7 +64,7 @@ theorem minimalLocalFailure_centralizer_sylow_involution_normalizer
   have hXne : X ≠ ⊥ := by
     intro hh
     exact hnoncentral (hh ▸ bot_le)
-  have hQp : IsPGroup p QG := Q.isPGroup'.map C.subtype
+  have hQp : IsPGroup p QG := Q.isPGroup.map C.subtype
   have hUodd : Odd (Nat.card U) := by
     obtain ⟨n, hn⟩ := hQp.comap_subtype.exists_card_eq (G := U)
     rw [hn]

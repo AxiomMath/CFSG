@@ -51,8 +51,8 @@ theorem eq_bot_of_quotient_mulEquiv_alternatingGroup_five {T : Type*} [Group T] 
     [N.Normal] (hN : IsPGroup 2 N) (hKN : Nonempty (K ⧸ N ≃* alternatingGroup (Fin 5))) :
     N = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZcard, ⟨e6⟩⟩ := hT
   let σ : T →* alternatingGroup (Fin 6) :=
     e6.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center T))
@@ -173,15 +173,15 @@ private theorem finite_of_isTripleCover {T : Type*} [Group T]
     Nat.finite_of_card_ne_zero (by rw [hT.1]; norm_num)
   have hQfin : Finite (T ⧸ Subgroup.center T) :=
     Finite.of_equiv (alternatingGroup (Fin 6)) hT.2.some.symm.toEquiv
-  haveI : Finite ↥(Subgroup.center T) := hZfin
-  haveI : Finite (T ⧸ Subgroup.center T) := hQfin
+  have : Finite ↥(Subgroup.center T) := hZfin
+  have : Finite (T ⧸ Subgroup.center T) := hQfin
   exact Finite.of_subgroup_quotient (Subgroup.center T)
 
 private theorem isPerfect_inSubgroup_perfectResidual {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) :
     Group.IsPerfect ↥(CFSG.inSubgroup CFSG.perfectResidual H) := by
   have h := (CFSG.perfect_residual_characterization (G := H)).2.2.1
-  haveI : Group.IsPerfect (CFSG.perfectResidual H) := h
+  have : Group.IsPerfect (CFSG.perfectResidual H) := h
   exact Group.IsPerfect.map H.subtype
 
 private def restrictMap {Γ T : Type*} [Group Γ] [Group T] (π : Γ →* T)
@@ -221,7 +221,7 @@ private theorem map_inSubgroup_perfectResidual_eq_of_perfect_map
     (π : Γ →* T) {H : Subgroup Γ}
     (hperf : Group.IsPerfect ↥(H.map π)) :
     (CFSG.inSubgroup CFSG.perfectResidual H).map π = H.map π := by
-  haveI : Group.IsPerfect ↥(H.map π) := hperf
+  have : Group.IsPerfect ↥(H.map π) := hperf
   let g := restrictMap π H
   have hcomp : (H.map π).subtype.comp g = π.comp H.subtype := by
     ext x
@@ -258,7 +258,7 @@ private theorem isSolvable_subgroupOf_inf_ker {Γ T : Type*} [Group Γ] [Group T
     apply Subtype.ext
     apply Subtype.ext
     exact congrArg (fun z : ↥(π.ker) => (z : Γ)) hxy
-  haveI : Group.IsSolvable ↥(π.ker) := hkerS
+  have : Group.IsSolvable ↥(π.ker) := hkerS
   exact Group.isSolvable_of_isSolvable_injective (f := f) hf
 
 private theorem subgroupOf_inf_ker_le_pCore {Γ T : Type*} [Group Γ] [Finite Γ] [Group T]
@@ -272,7 +272,7 @@ private theorem subgroupOf_inf_ker_le_pCore {Γ T : Type*} [Group Γ] [Finite Γ
     rw [show Nsub = (restrictMap π I).ker from (restrictMap_ker π I).symm]
     exact MonoidHom.normal_ker _
   have hNsolv : Group.IsSolvable ↥Nsub := isSolvable_subgroupOf_inf_ker π hkerS I
-  haveI : Group.IsSolvable ↥Nsub := hNsolv
+  have : Group.IsSolvable ↥Nsub := hNsolv
   let q : ↥I →* ↥I ⧸ O := QuotientGroup.mk' O
   have hQnormal : (Nsub.map q).Normal :=
     hNnormal.map q (QuotientGroup.mk'_surjective O)
@@ -297,13 +297,13 @@ private theorem subgroupOf_inf_ker_le_pCore {Γ T : Type*} [Group Γ] [Finite Γ
     have hsolv : Group.IsSolvable (alternatingGroup (Fin 5)) :=
       Group.isSolvable_of_surjective
         (f := e5.toMonoidHom.comp (q.comp Nsub.subtype)) hsurj
-    haveI : Nontrivial (alternatingGroup (Fin 5)) :=
+    have : Nontrivial (alternatingGroup (Fin 5)) :=
       alternatingGroup.nontrivial_of_three_le_card (by simp)
-    haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
     exact (Group.IsPerfect.not_isSolvable (G := alternatingGroup (Fin 5))) hsolv
   have hQbot : Nsub.map q = ⊥ := by
-    haveI : IsSimpleGroup (↥I ⧸ O) := e5.isSimpleGroup
+    have : IsSimpleGroup (↥I ⧸ O) := e5.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Nsub.map q) with h | h
     · exact h
     · exact absurd h hQne
@@ -393,7 +393,7 @@ private theorem isPerfect_map_of_quotient_pCore {Γ T : Type*} [Group Γ] [Finit
     (hIA5 : Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* alternatingGroup (Fin 5)))
     (hker : I ⊓ π.ker = (CFSG.pCore 2 ↥I).map I.subtype) :
     Group.IsPerfect ↥(I.map π) := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
   obtain ⟨eI⟩ := quotient_pCore_equiv_map π hker
   obtain ⟨e5⟩ := hIA5
@@ -497,8 +497,8 @@ private theorem exists_iOne_I0 {Γ T : Type*} [Group Γ] [Finite Γ] [Group T]
       d ∈ Subgroup.normalizer (I₀ : Set Γ) ∧
       I₀.map π = I.map π ∧ IsPGroup 2 ↥(I₀ ⊓ π.ker) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite T := finite_of_isTripleCover hT
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite T := finite_of_isTripleCover hT
   let O : Subgroup ↥I := CFSG.pCore 2 ↥I
   have hker_eq : I ⊓ π.ker = O.map I.subtype :=
     inf_ker_eq_pCore_map π hT hIA5 hkerS
@@ -539,7 +539,7 @@ private theorem exists_iOne_from_I0 {Γ T : Type*} [Group Γ] [Finite Γ] [Group
     (hIA5 : Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* alternatingGroup (Fin 5)))
     (hperfI : Group.IsPerfect ↥(I.map π))
     {U : Subgroup Γ} {I₀ : Subgroup Γ}
-    (hI₀leI : I₀ ≤ I) (hI₀perf : Group.IsPerfect ↥I₀)
+    (hI₀leI : I₀ ≤ I) (_hI₀perf : Group.IsPerfect ↥I₀)
     (hI₀CU : I₀ ≤ Subgroup.centralizer (U : Set Γ))
     (hdI₀ : d ∈ Subgroup.normalizer (I₀ : Set Γ))
     (hI₀map : I₀.map π = I.map π) (hI₀N2 : IsPGroup 2 ↥(I₀ ⊓ π.ker)) :
@@ -587,8 +587,8 @@ private theorem exists_iOne_core {Γ T : Type*} [Group Γ] [Finite Γ] [Group T]
     ∃ I₁ : Subgroup Γ, I₁ ≤ I ∧ Group.IsPerfect ↥I₁ ∧
       I₁ ≤ Subgroup.centralizer ({d} : Set Γ) ∧ I₁ ≤ Subgroup.centralizer (U : Set Γ) ∧
       IsPGroup 2 ↥(I₁ ⊓ π.ker) ∧ Nonempty (↥(I₁.map π) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite T := finite_of_isTripleCover hT
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite T := finite_of_isTripleCover hT
   have hker_eq : I ⊓ π.ker = (CFSG.pCore 2 ↥I).map I.subtype :=
     inf_ker_eq_pCore_map π hT hIA5 hkerS
   have hperfI : Group.IsPerfect ↥(I.map π) :=

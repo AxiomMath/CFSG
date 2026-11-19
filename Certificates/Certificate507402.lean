@@ -17,7 +17,7 @@ open CertificateChecks
 private theorem twinPerf_eq507402 : twinPerfCheck () = twinPerfC := by
   rw [twinPerfCheck.eq_1, L0_ev, L1_ev, ws_ev, enum_ev, map_tab, twinPerfC.eq_1, layC.eq_1]
   simp only [List.filter_map, List.all_map, List.any_map, List.length_map, List.isEmpty_map,
-    Function.comp_def, getD_ev, memberElems_ev, commAll_ev, ordThree_ev, ev_mul', ev_inv',
+    Function.comp_def, getD_ev, memberElems_ev, commAll_ev, ev_mul', ev_inv',
     one_eq_ev, decide_ev_eq]
 
 theorem certificate507402 : CFSG.ClassicalInvolution.Q3.TL4.E4Sp6.twinPerfCheck () = true := by

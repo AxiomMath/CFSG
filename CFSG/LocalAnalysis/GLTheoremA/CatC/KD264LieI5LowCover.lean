@@ -54,7 +54,7 @@ theorem pRank_ge_PSL (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [Grou
   have hga : (genericOrders .PSL N r f).1 = Nat.gcd N (r ^ f - 1) := rfl
   obtain ⟨hfin, hcard⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf
     hGA hmm
-  haveI := hfin
+  have := hfin
   have hdv : (genericOrders .PSL N r f).1 ∣
       Nat.card ((StatedScalars (Fin N) F).subgroupOf (StatedSL N F)) :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.dvd_card_scalars (q := r ^ f) (by omega)
@@ -88,7 +88,7 @@ theorem pRank_ge_PSU (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [Grou
   have hga : (genericOrders .PSU N r f).1 = Nat.gcd N (r ^ f + 1) := rfl
   obtain ⟨hfin, hcard⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf
     hGA hmm
-  haveI := hfin
+  have := hfin
   have hdv : (genericOrders .PSU N r f).1 ∣
       Nat.card ((StatedScalars (Fin N) F).subgroupOf (StatedSU N (r ^ f) F)) :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.dvd_card_scalars (q := r ^ f) (by omega)

@@ -12,7 +12,7 @@ theorem sec8t84_sylow_growth {G : Type} [Group G] [Finite G] {t : G} {T : Subgro
     (hT : IsPGroup 2 T) (htT : t ∈ T)
     (hR : IsSylow2Of (T ⊓ centralizer ({t} : Set G)) (centralizer ({t} : Set G)))
     (hfus : ∀ u ∈ T, IsConj t u → ∃ a ∈ T, u = a * t * a⁻¹) : IsSylow2Of T ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hTQ⟩ := hT.exists_le_sylow
   have hTQeq : T = Q := by
     by_contra hne
@@ -23,7 +23,7 @@ theorem sec8t84_sylow_growth {G : Type} [Group G] [Finite G] {t : G} {T : Subgro
       refine le_antisymm hTQ fun x hx => ?_
       have hx' : (⟨x, hx⟩ : Q) ∈ T.subgroupOf Q := by rw [htop]; trivial
       exact Subgroup.mem_subgroupOf.mp hx'
-    haveI : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
     have hnc : NormalizerCondition Q := Group.normalizerCondition_of_isNilpotent
     obtain ⟨g, hgN, hgH⟩ := IsConcreteLE.exists_of_lt (hnc _ hHlt)
     have hg_norm : (g : G) ∈ Subgroup.normalizer T := by
@@ -59,7 +59,7 @@ theorem sec8t84_sylow_growth {G : Type} [Group G] [Finite G] {t : G} {T : Subgro
     set R' : Subgroup G := (T ⊓ C) ⊔ Subgroup.zpowers b
     have hR'C : R' ≤ C := sup_le inf_le_right (Subgroup.zpowers_le.mpr hbC)
     have hR'Q : R' ≤ Q := sup_le (inf_le_left.trans hTQ) (Subgroup.zpowers_le.mpr hbQ)
-    have hR'pg : IsPGroup 2 R' := Q.isPGroup'.to_le hR'Q
+    have hR'pg : IsPGroup 2 R' := Q.isPGroup.to_le hR'Q
     obtain ⟨P, hP⟩ := hR.exists_sylow
     have hR'pg_sub : IsPGroup 2 ↥(R'.subgroupOf C) :=
       hR'pg.of_equiv (Subgroup.subgroupOfEquivOfLe hR'C).symm

@@ -46,7 +46,7 @@ theorem u45KeyConcl_of_card_le {X : Type*} [Group X] [Finite X] {p : ℕ}
     U45KeyConcl X p := by
   intro R hR
   obtain ⟨S⟩ := Sylow.nonempty (p := 3) (G := X)
-  refine ⟨(S : Subgroup X), S.isPGroup', S.not_dvd_index, ⊥, bot_le, ?_, ?_⟩
+  refine ⟨(S : Subgroup X), S.isPGroup, S.not_dvd_index, ⊥, bot_le, ?_, ?_⟩
   · intro α hα s hs
     rw [Subgroup.mem_bot] at hα
     rw [hα]
@@ -69,7 +69,7 @@ theorem u45KeyConcl_of_torus {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.
   obtain ⟨Q, hRQ⟩ := CFSG.exists_sylow_forall_apply_mem hR.isPGroup
   obtain ⟨β, -, hβconj⟩ :=
     CFSG.exists_mulAut_map_eq_and_conj_mem hP₀ hP₀i ⟨a, hφp⟩ hΦP hφi
-      Q.isPGroup' Q.not_dvd_index hR.isPGroup hRQ
+      Q.isPGroup Q.not_dvd_index hR.isPGroup hRQ
   have hφfix : Φ ^ m ∈ fixingSubgroup (MulAut X) (S₀ : Set X) :=
     (mem_fixingSubgroup_iff _).2 hΦS
   refine ⟨S₀.map β.symm.toMonoidHom, hS₀.map _, ?_, R, le_rfl, ?_,
@@ -111,7 +111,7 @@ theorem u45KeyConcl_of_cyclic {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p
     by_contra hnc
     obtain ⟨B, hB, hBcard⟩ :=
       CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
-        ((Fact.out : p.Prime).odd_of_ne_two hp2) P₀.isPGroup' hnc
+        ((Fact.out : p.Prime).odd_of_ne_two hp2) P₀.isPGroup hnc
     have h2 := CFSG.SectionRank.le_pRank (Fact.out : p.Prime).one_lt
       (le_top : B ≤ ⊤) (CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr hB) hBcard
     have hrankP := (CFSG.SectionRank.pRank_top_le_of_injective (Fact.out : p.Prime).one_lt
@@ -119,10 +119,10 @@ theorem u45KeyConcl_of_cyclic {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p
     omega
   obtain ⟨Q, hRQ⟩ := CFSG.exists_sylow_forall_apply_mem hR.isPGroup
   obtain ⟨β, -, hβconj⟩ :=
-    CFSG.exists_mulAut_map_eq_and_conj_mem P₀.isPGroup' P₀.not_dvd_index ⟨a, hφp⟩ hΦP hφi
-      Q.isPGroup' Q.not_dvd_index hR.isPGroup hRQ
+    CFSG.exists_mulAut_map_eq_and_conj_mem P₀.isPGroup P₀.not_dvd_index ⟨a, hφp⟩ hΦP hφi
+      Q.isPGroup Q.not_dvd_index hR.isPGroup hRQ
   let R' : Subgroup (MulAut X) := R.map (MulAut.conj β).toMonoidHom
-  have hcardle := CFSG.card_le_mul_card_inf_zpowers (R := R') hp2 hZ P₀.isPGroup' hP₀cyc hΦP
+  have hcardle := CFSG.card_le_mul_card_inf_zpowers (R := R') hp2 hZ P₀.isPGroup hP₀cyc hΦP
     hφinn (hR.map _) (by
       intro α hα
       obtain ⟨α₀, hα₀, rfl⟩ := Subgroup.mem_map.mp hα

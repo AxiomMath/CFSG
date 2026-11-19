@@ -120,6 +120,7 @@ theorem R_class_of_e {E A : Subgroup G} {e : G} {K Q R : Subgroup G}
     _ = q * e := by rw [h3]
     _ = e * q := (c.hKe q hq.2).symm
 
+omit [Finite G] in
 private theorem isPGroup_of_isElemAbelian {p : ℕ} {F : Subgroup G} (hF : IsElemAbelian p F) :
     IsPGroup p ↥F :=
   fun y => ⟨1, Subtype.ext (by simpa using hF.2 y y.2)⟩
@@ -128,7 +129,7 @@ theorem exists_normalizer_of_conj_mem {e : G} {Q E' : Subgroup G}
     (hQS : IsSylowIn 3 (Subgroup.centralizer ({e} : Set G)) Q) (hE' : IsElemAbelian 3 E')
     (hWC : ∀ g : G, GLBConj g E' ≤ Q → GLBConj g E' = E') {x : G} (hx : x⁻¹ * e * x ∈ E') :
     ∃ n ∈ Subgroup.normalizer (E' : Set G), n⁻¹ * e * n = x⁻¹ * e * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSC : E'.map (MulAut.conj x).toMonoidHom ≤ Subgroup.centralizer ({e} : Set G) := by
     rintro _ ⟨s, hs, rfl⟩
     rw [Subgroup.mem_centralizer_iff]

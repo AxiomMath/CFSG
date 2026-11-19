@@ -34,7 +34,7 @@ theorem isPlusExtraspecial_subgroupOf {Γ : Type*} [Group Γ] {M D : Subgroup Γ
     exact hEcard
 
 theorem nonempty_quotient_equiv_of_eq {Γ B : Type*} [Group Γ] [Group B] {M N R : Subgroup Γ}
-    (hNM : N = M) (hR : R ≤ N) [(R.subgroupOf M).Normal] {φ : ↥N →* B}
+    (hNM : N = M) (_hR : R ≤ N) [(R.subgroupOf M).Normal] {φ : ↥N →* B}
     (hφ : Function.Surjective φ) (hker : φ.ker = R.subgroupOf N) :
     Nonempty (↥M ⧸ R.subgroupOf M ≃* B) := by
   subst hNM
@@ -53,7 +53,7 @@ theorem isExtraspecialPlusByA5WrTwo_of_lemma_2_10 (hGold : GoldschmidtTheoremA)
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using
         Rgrp_conj_Mgrp h hGold hzt htz hs hF m.2 hn⟩
-  haveI := hQnormal
+  have := hQnormal
   refine ⟨(Rgrp h).subgroupOf (Mgrp z), hQnormal, ?_⟩
   refine ⟨?_, ?_, ?_⟩
   · exact isPlusExtraspecial_subgroupOf (Rgrp_le_Mgrp h) (isPlusExtraspecial_Rgrp h)

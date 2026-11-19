@@ -50,7 +50,7 @@ theorem minimal_normal_elementary_of_solvable {Y : Type*} [Group Y] [Finite Y]
     (N : Subgroup Y) [N.Normal] (hne : N ≠ ⊥)
     (hmin : ∀ R : Subgroup Y, R.Normal → R ≤ N → R = ⊥ ∨ R = N) [Group.IsSolvable N] :
     ∃ p : ℕ, p.Prime ∧ (∀ a ∈ N, ∀ b ∈ N, a * b = b * a) ∧ ∀ a ∈ N, a ^ p = 1 := by
-  haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
+  have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
   have hcommutator : ⁅N, N⁆ = ⊥ := by
     rcases hmin ⁅N, N⁆ inferInstance (Subgroup.commutator_le_self N) with h | h
     · exact h
@@ -59,7 +59,7 @@ theorem minimal_normal_elementary_of_solvable {Y : Type*} [Group Y] [Finite Y]
         rw [Group.isPerfect_def]
         apply Subgroup.map_injective (f := N.subtype) N.subtype_injective
         rw [Subgroup.map_subtype_commutator, h, Subgroup.map_top, Subgroup.range_subtype]
-      haveI : Group.IsPerfect ↥N := hperf
+      have : Group.IsPerfect ↥N := hperf
       exact Group.IsPerfect.not_isSolvable ↥N inferInstance
   have hcommN : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
     intro a ha b hb
@@ -68,7 +68,7 @@ theorem minimal_normal_elementary_of_solvable {Y : Type*} [Group Y] [Finite Y]
     exact ((Subgroup.mem_centralizer_iff.mp hle) b hb).symm
   have hNgt1 : 1 < Nat.card ↥N := (Finite.one_lt_card_iff_nontrivial).mpr inferInstance
   obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd (show Nat.card ↥N ≠ 1 by omega)
-  haveI hpFact : Fact p.Prime := ⟨hp⟩
+  have hpFact : Fact p.Prime := ⟨hp⟩
   let P : Subgroup Y :=
     { carrier := {a | a ∈ N ∧ a ^ p = 1}
       one_mem' := ⟨N.one_mem, one_pow p⟩
@@ -111,7 +111,7 @@ theorem minimal_normal_elementary_of_solvable {Y : Type*} [Group Y] [Finite Y]
 theorem card_mem_of_elementary_odd_dvd {N : Type*} [Group N] [Finite N] [Nontrivial N] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpow : ∀ a : N, a ^ p = 1) (hdvd : Nat.card N ∣ 20160) :
     Nat.card N = 3 ∨ Nat.card N = 5 ∨ Nat.card N = 7 ∨ Nat.card N = 9 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpgroup : IsPGroup p N := by
     rw [isPGroup_iff_orderOf_dvd_pow]
     intro a
@@ -136,7 +136,7 @@ theorem card_mem_of_elementary_odd_dvd {N : Type*} [Group N] [Finite N] [Nontriv
   have hpowdvd : p ^ n ∣ 20160 := by rw [← hn]; exact hdvd
   have hnle2 : n ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h3 : p ^ 3 ∣ 20160 := (pow_dvd_pow p (by omega : 3 ≤ n)).trans hpowdvd
     rcases hp_mem' with rfl | rfl | rfl <;> norm_num at h3
   rw [hn]
@@ -157,7 +157,7 @@ theorem card_mulAut_lt_sixty_of_elementary {N : Type*} [Group N] [Finite N] {p :
     (hp : p.Prime) (hab : ∀ a b : N, a * b = b * a) (hpow : ∀ a : N, a ^ p = 1)
     (hcard : Nat.card N = 3 ∨ Nat.card N = 5 ∨ Nat.card N = 7 ∨ Nat.card N = 9) :
     Nat.card (MulAut N) < 60 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpgroup : IsPGroup p N := by
     rw [isPGroup_iff_orderOf_dvd_pow]
     intro a
@@ -201,10 +201,10 @@ theorem le_center_of_perfect_of_card_mulAut_lt {Y : Type*} [Group Y] [Finite Y]
   have hsub : Subsingleton φ.range := by
     rw [← not_nontrivial_iff_subsingleton]
     intro hnt
-    haveI : Nontrivial φ.range := hnt
-    haveI : Group.IsPerfect φ.range := hperf
+    have : Nontrivial φ.range := hnt
+    have : Group.IsPerfect φ.range := hperf
     exact Group.IsPerfect.not_isSolvable φ.range hsolv
-  haveI : Subsingleton φ.range := hsub
+  have : Subsingleton φ.range := hsub
   have hφ : ∀ y : Y, φ y = 1 := by
     intro y
     have heq : (⟨φ y, ⟨y, rfl⟩⟩ : φ.range) = ⟨1, Subgroup.one_mem φ.range⟩ :=

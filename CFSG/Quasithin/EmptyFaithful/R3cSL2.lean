@@ -113,7 +113,7 @@ theorem noElemNine_statedProj_statedSL_two [Finite K] {n : ℕ} (hK : Nat.card K
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.Quasithin.F134.noElemNine_of_isCyclic fun Q hQ => ?_
   exact CFSG.Quasithin.F134.isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
-    (fun S => isCyclic_isPGroup_three_statedSL_two hK S.isPGroup') Q hQ
+    (fun S => isCyclic_isPGroup_three_statedSL_two hK S.isPGroup) Q hQ
 
 end SLTwo
 

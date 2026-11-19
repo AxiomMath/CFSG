@@ -18,9 +18,9 @@ theorem natOmegaPlus_of_natTensor {W : Type} [CommGroup W] {H : Subgroup (MulAut
     {U Z : Subgroup W} {a : ℕ} (ha : 2 ≤ a) (h : NatTensor H U Z 2 a) :
     NatOmegaPlus H U Z 4 a := by
   obtain ⟨K, _, _, hK, π, hπ⟩ := h
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have h4 : 4 ≤ Nat.card K := by
     rw [hK]

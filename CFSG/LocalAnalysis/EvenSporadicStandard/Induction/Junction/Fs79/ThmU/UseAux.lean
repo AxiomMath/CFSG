@@ -26,7 +26,7 @@ theorem glaubermanSylowFixedSolvable_proved : GlaubermanSylowFixedSolvable := by
       exact (Nat.not_even_iff_odd.mpr hodd) heven
   have hAle : A ≤ CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X) :=
     fun α hα => CFSG.ClassicalInvolution.mem_sylowFixingAut.2 (hA α hα)
-  haveI : Group.IsSolvable (CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X)) :=
+  have : Group.IsSolvable (CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X)) :=
     CFSG.ClassicalInvolution.glaubermanSylowFixingSolvable X hcore S
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAle)
 
@@ -37,15 +37,15 @@ theorem two_le_pRank_of_ne_one {H : Type} [Group H] [Finite H] {K : Subgroup H} 
     (h : CFSG.pRank 2 ↥K ≠ 1) : 2 ≤ CFSG.Open.pRank 2 K := by
   have hq := hK.isQuasisimple
   have heven : Even (Nat.card (↥K ⧸ Subgroup.center ↥K)) := by
-    haveI : Group.IsPerfect ↥K := hq.1
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2.1
+    have : Group.IsPerfect ↥K := hq.1
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2.1
     by_contra hodd
     exact Group.IsPerfect.not_isSolvable (↥K ⧸ Subgroup.center ↥K)
       (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.not_even_iff_odd.mp hodd))
   have h2dvd : 2 ∣ Nat.card ↥K := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥K)]
     exact dvd_mul_of_dvd_left (even_iff_two_dvd.mp heven) _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v, hv2⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 h2dvd
   have hv2' : v ^ 2 = 1 := by simpa [hv2] using pow_orderOf_eq_one v
   have hE : CFSG.Open.IsElemAbelian 2 (Subgroup.zpowers v) := by

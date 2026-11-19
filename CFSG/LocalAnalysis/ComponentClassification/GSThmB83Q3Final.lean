@@ -107,7 +107,7 @@ theorem nonempty_conf (hq : h.IsQ3) (hF : Cat8.Q3Facts) : Nonempty (Eight.E32Con
     have h2 := (L.πN_eq_one_iff _).mp h1
     show (n : X) ∈ Eight.Eof (L.base hq hF).c
     exact hBE.symm.le
-      (d.mem_E_of_comm_of_mem hCF1 hCF2 U.isPGroup' hn fun e he => (h2 e he).symm)
+      (d.mem_E_of_comm_of_mem hCF1 hCF2 U.isPGroup hn fun e he => (h2 e he).symm)
   · show (U : Subgroup X) ⊓ normalizer ((Eight.Eof (L.base hq hF).c : Subgroup X) : Set X) ≠ U
     rw [hBN]
     exact L.W_ne hq hF hRU hW

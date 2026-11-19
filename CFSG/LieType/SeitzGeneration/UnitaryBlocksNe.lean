@@ -11,6 +11,7 @@ open Matrix
 
 variable {ι R : Type*} [Fintype ι] [DecidableEq ι] [CommRing R]
 
+omit [Fintype ι] in
 theorem weylMatrix_apply (a b : ι) (i j : ι) :
     weylMatrix (R := R) a b i j =
       if i = Equiv.swap a b j then weylSign (R := R) a j else 0 := by
@@ -64,10 +65,8 @@ private theorem weylMatrix_isCoordBlockOn {n : ℕ} {b c : Fin n} (hbc : b ≠ c
   rw [← weylElement_one_eq_weylMatrix hbc, CFSG.LinearGroups.weylElement_eq hbc one_ne_zero]
   intro i j hij
   rcases hij with ⟨hi1, hi2⟩ | ⟨hj1, hj2⟩
-  · simp [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.single_apply,
-      hi1, hi1.symm, hi2, hi2.symm]
-  · simp [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.single_apply,
-      hj1, hj1.symm, hj2, hj2.symm]
+  · simp [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, hi1.symm, hi2.symm]
+  · simp [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, hj1.symm, hj2.symm]
 
 private theorem weylMatrix_adj_mul (h : UnitaryFieldData ℓ f K) {n : ℕ} {b c : Fin n}
     (hbc : b ≠ c) :

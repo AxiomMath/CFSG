@@ -58,7 +58,7 @@ public theorem
   let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXNp : IsPGroup 3 XN := by
     apply IsPGroup.of_card (n := 1)
-    simpa [hXNcard]
+    simp [hXNcard]
   have hthreeNotIndex : ¬ 3 ∣ XN.index := by
     rw [hXNindex]
     norm_num

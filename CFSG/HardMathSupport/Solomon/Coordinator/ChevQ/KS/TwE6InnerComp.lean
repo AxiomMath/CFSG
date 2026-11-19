@@ -134,7 +134,7 @@ theorem bal209TwoInnerCompType_of_model (hM : TwE6InnerCompModel) : Bal209TwoInn
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hcard4 : Nat.card K' = 4 := by
       rw [hcard, hq2.1, hq2.2]; norm_num
-    haveI : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
+    have : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
     have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by
       have := hσ c
       rwa [hq2.1, hq2.2, pow_one] at this

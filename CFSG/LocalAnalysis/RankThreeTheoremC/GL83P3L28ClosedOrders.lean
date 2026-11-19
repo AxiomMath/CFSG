@@ -27,10 +27,11 @@ structure QData (P K₁ K₂ Q : Subgroup Y) (a b : Y) : Prop where
   S₁_eq : P ⊓ K₁ = zpowers a
   S₂_eq : P ⊓ K₂ = zpowers b
 
+omit [Finite Y] in
 theorem abelian_of_card_nine {S : Subgroup Y} (h : Nat.card S = 3 ^ 2) :
     ∀ u ∈ S, ∀ v ∈ S, u * v = v * u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := IsPGroup.isMulCommutative_of_card_eq_prime_sq h
   intro u hu v hv
   exact setLike_mul_comm (s := S) hu hv
 
@@ -41,7 +42,7 @@ variable (htw : TwoData P K₁ K₂)
 include htw
 
 theorem sylow_inf : IsSylowOf 3 (P ⊓ K₁) K₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPD : P ≤ normalizer (K₁ : Set Y) := htw.hs.normalizes htw.c₁
   exact (htw.hs.sylow.of_le hPD le_top).inf_of_le_normalizer Subgroup.le_normalizer le_rfl
 
@@ -70,6 +71,7 @@ theorem card_pow (hz : Nat.card (L28Z P) = 3 ^ 2) :
   rw [hbot, mem_bot] at hz₁
   exact hz₁1 hz₁
 
+omit [Finite Y] in
 theorem layer_eq : CFSG.layer Y = K₁ ⊔ K₂ := by
   refine le_antisymm (sSup_le fun L hL => ?_) (sup_le
     (le_sSup ((CFSG.isComponent_iff_open K₁).mpr htw.c₁))
@@ -125,7 +127,7 @@ theorem le_sup_of_cent (h1 : ∀ p ∈ P, p ∈ K₁ ⊔ centralizer (K₁ : Set
 theorem le_sup_of_card_three (hd : ClosedData P x k) (hC : KFactOutThreeCoprime)
     (h1 : Nat.card (P ⊓ K₁ : Subgroup Y) = 3) (h2 : Nat.card (P ⊓ K₂ : Subgroup Y) = 3) :
     P ≤ K₁ ⊔ K₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : ∀ {A B : Subgroup Y}, TwoData P A B → Nat.card (P ⊓ A : Subgroup Y) = 3 →
       ∀ p ∈ P, p ∈ A ⊔ centralizer (A : Set Y) := by
     intro A B hAB hc p hp
@@ -142,7 +144,7 @@ theorem le_sup_of_card_three (hd : ClosedData P x k) (hC : KFactOutThreeCoprime)
 
 theorem factorization_eq (h : Nat.card (P ⊓ K₁ : Subgroup Y) = 3) :
     (Nat.card K₁).factorization 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := htw.sylow_inf.card_eq
   rw [h] at this
   have h3 : 3 ^ 1 = 3 ^ (Nat.card K₁).factorization 3 := by rw [pow_one]; exact this
@@ -190,7 +192,7 @@ include htw
 theorem exists_QData (hd : ClosedData P x k) (hC : KFactOutThreeCoprime) {t : Y}
     (ht : t ∈ normalizer (P : Set Y)) (hts : K₁.map (MulAut.conj t).toMonoidHom = K₂) :
     ∃ (Q : Subgroup Y) (a b : Y), QData P K₁ K₂ Q a b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQP, hQmax, hPQ, hQab, hQ9, hQc, hZ⟩ := GL83P3L28Aux.l28shape_K hd.shape
   have hPc : Nat.card P = 3 ^ 5 := hd.shape.1
   have hS12 : Nat.card (P ⊓ K₂ : Subgroup Y) = Nat.card (P ⊓ K₁ : Subgroup Y) := by

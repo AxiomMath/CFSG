@@ -16,7 +16,7 @@ section Order
 theorem pcaLieDef_PSL : PCALieDefAt .PSL := by
   intro K _ _ hs hnab n ℓ f hadm hmodel p hp h5 hpℓ hpK
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hrank⟩ := CFSG.SectionRank.classical_model_rank (by omega)
     (hmodel.statedClassicalModel (by decide))
   have hord := (CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput K .PSL n p f
@@ -38,7 +38,7 @@ theorem pcaLieDef_PSL : PCALieDefAt .PSL := by
 theorem pcaLieDef_PSU : PCALieDefAt .PSU := by
   intro K _ _ hs hnab n ℓ f hadm hmodel p hp h5 hpℓ hpK
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hrank⟩ := CFSG.SectionRank.classical_model_rank (by omega)
     (hmodel.statedClassicalModel (by decide))
   have hord := (CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput K .PSU n p f
@@ -84,10 +84,10 @@ section Psp4
 theorem pcaPsp4_holds (K : Type) [Group K] [Finite K] (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p)
     (hmodel : LieModel K .PSp 2 p 1) : PCentralAbelianAt K p := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hmodel.statedClassicalModel_of_ne_zero (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
-  haveI : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
+  have : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
   exact PCentralAbelianAt.of_mulEquiv e (PCentralAbelianAt.of_hasNoncommPair
     (CFSG.RankThree.PartOne.StrongP.noncentralPair_sp4 (K := F) (by omega)).hasNoncommPair)
 
@@ -136,7 +136,7 @@ open CFSG.SectionRank
 theorem pcaLieDef_F4 : PCALieDefAt .F4 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inl rfl) hm
   exact PCentralAbelianAt.of_four_le_pRank hp (H := ⊤) (by omega)
@@ -144,7 +144,7 @@ theorem pcaLieDef_F4 : PCALieDefAt .F4 := by
 theorem pcaLieDef_E6 : PCALieDefAt .E6 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inl rfl)) hm
   exact PCentralAbelianAt.of_four_le_pRank hp (H := ⊤) (by omega)
@@ -152,7 +152,7 @@ theorem pcaLieDef_E6 : PCALieDefAt .E6 := by
 theorem pcaLieDef_E7 : PCALieDefAt .E7 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inr (Or.inl rfl))) hm
   exact PCentralAbelianAt.of_four_le_pRank hp (H := ⊤) (by omega)
@@ -160,7 +160,7 @@ theorem pcaLieDef_E7 : PCALieDefAt .E7 := by
 theorem pcaLieDef_E8 : PCALieDefAt .E8 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inr (Or.inr rfl))) hm
   exact PCentralAbelianAt.of_four_le_pRank hp (H := ⊤) (by omega)
@@ -168,14 +168,14 @@ theorem pcaLieDef_E8 : PCALieDefAt .E8 := by
 theorem pcaLieDef_twistedE6 : PCALieDefAt .twistedE6 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact PCentralAbelianAt.of_four_le_pRank hp (four_le_pRank_of_twistedE6Model hf hm)
 
 theorem pcaLieDef_trialityD4 : PCALieDefAt .trialityD4 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp _ hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact PCentralAbelianAt.of_four_le_pRank hp (four_le_pRank_of_trialityD4Model hf hm)
 
@@ -198,19 +198,19 @@ theorem qsG2_pca_adjoint (F : Type) [Field F] [Finite F] {p : ℕ} [Fact p.Prime
 
 theorem pcaG2p_holds (K : Type) [Group K] [Finite K] (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p)
     (hmodel : LieModel K .G2 0 p 1) : PCentralAbelianAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := hmodel.chevalleyExceptionalModel (by decide)
   have hZ : Subgroup.center ↥(adjointGroup .G2 F) = ⊥ := center_adjointGroup_eq_bot
   let e2 : AdjointQuotient .G2 F ≃* ↥(adjointGroup .G2 F) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let e3 : K ≃* ↥(adjointGroup .G2 F) := e.trans e2
-  haveI : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
+  have : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
   exact PCentralAbelianAt.of_mulEquiv e3 (qsG2_pca_adjoint F h5 (by simpa using hF))
 
 theorem pcaLieDef_G2 : PCALieDefAt .G2 := by
   intro K _ _ _ _ n ℓ f hadm hmodel p hp h5 hpℓ _
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h3 := CFSG.SectionRank.three_mul_le_pRank_of_G2Model hm
   by_cases hf1 : f = 1

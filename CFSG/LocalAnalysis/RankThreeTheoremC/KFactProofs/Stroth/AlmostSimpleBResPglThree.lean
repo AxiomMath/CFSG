@@ -43,9 +43,9 @@ theorem hasIndepPair_pglDiag3 {u : Fˣ} (hu : orderOf u = 3) :
   let w₂ : Fin 3 → Fˣ := ![1, u, 1]
   have hu3 : u ^ 3 = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
   have hw₁ : ∀ i, w₁ i ∈ Subgroup.zpowers u := fun i => by
-    fin_cases i <;> simp [w₁, Subgroup.one_mem, Subgroup.mem_zpowers]
+    fin_cases i <;> simp [w₁, Subgroup.mem_zpowers]
   have hw₂ : ∀ i, w₂ i ∈ Subgroup.zpowers u := fun i => by
-    fin_cases i <;> simp [w₂, Subgroup.one_mem, Subgroup.mem_zpowers]
+    fin_cases i <;> simp [w₂, Subgroup.mem_zpowers]
   refine ⟨w₁, w₂, (Commute.all w₁ w₂).map pglDiag3, ?_, ?_, ?_, fun i => ⟨hw₁ i, hw₂ i⟩⟩
   · rw [← map_pow]
     have : w₁ ^ 3 = 1 := by
@@ -78,7 +78,7 @@ theorem hasIndepPair_pglDiag3 {u : Fˣ} (hu : orderOf u = 3) :
 
 theorem exists_unit_orderOf_three [Finite F] (h : 3 ∣ Nat.card F - 1) :
     ∃ u : Fˣ, orderOf u = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h' : 3 ∣ Nat.card Fˣ := by rw [Nat.card_units]; exact h
   exact exists_prime_orderOf_dvd_card' 3 h'
 

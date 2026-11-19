@@ -59,8 +59,8 @@ theorem hasFactors148_of_isComponentOf
     rw [Subgroup.normalizer_eq_top_iff.2 hLn]
     exact Subgroup.mem_top g
   have hL1 : L ≠ ⊥ := by
-    haveI := hL.2.2.2
-    haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+    have := hL.2.2.2
+    have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   have hact : ∀ g : G, ∃ h ∈ L ⊔ Subgroup.zpowers a, ∀ u ∈ commOn ρ L ⊤, ρ g u = ρ h u :=
     fun g => exists_eq_apply_of_secNatS5 ha2 haN haL hS5 (hN g)

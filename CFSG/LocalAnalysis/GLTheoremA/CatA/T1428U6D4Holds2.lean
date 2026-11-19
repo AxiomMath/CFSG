@@ -108,18 +108,18 @@ theorem t1428_projOrth_map_eq (hpq : 3 ∣ Nat.card F + 1) (hd : 0 < d)
     (hL : CFSG.Open.IsComponentOf L (Subgroup.centralizer ({t} : Set (ProjOrthDerived Q)))) :
     L.map ω.toMonoidHom = L := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
-  haveI : Nontrivial (Fin d → F) := by
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nontrivial (Fin d → F) := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := F)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))
   have hpl : (3 : ℕ) ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num
-  haveI : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) :=
+  have : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) :=
     Finite.of_injective (fun e : (Fin d → F) ≃ₗ[F] (Fin d → F) => (e : (Fin d → F) → Fin d → F))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_surjective (piOrth Q) piOrth_surjective
+  have : Finite (ProjOrthDerived Q) := Finite.of_surjective (piOrth Q) piOrth_surjective
   obtain ⟨x, rfl, hx3⟩ := exists_lift_orderOf_three hQ ht
   have hx := oddOrderIsometry_of_orthDerived Nat.prime_three hpl hQ x hx3
   have hωt : ω (piOrth Q x) = piOrth Q x := by
@@ -265,7 +265,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem t1428_mem_sup_of_central {α : MulAut (Om8 K)} (hα3 : α ^ 3 = 1)
     (hc : ∀ γ : MulAut (Om8 K), γ * α * γ⁻¹ * α⁻¹ ∈ Inn (Om8 K)) :
     α ∈ Inn (Om8 K) ⊔ (AutOm.fieldAutP (K := K) 4).range := by
-  haveI : (Inn (Om8 K)).Normal := inner_normal _
+  have : (Inn (Om8 K)).Normal := inner_normal _
   obtain ⟨ι, hι, k, c, hc', hαeq⟩ := exists_inner_mul_theta_pow_mul α
   have hρρ : AutOm.plusRefl (K := K) one_le_four * AutOm.plusRefl one_le_four = 1 :=
     AutOm.plusRefl_mul_self one_le_four
@@ -356,7 +356,7 @@ private theorem t1428_map_centralizer {A B : Type} [Group A] [Group B] (e : A �
     (Subgroup.centralizer ({s} : Set A)).map (e : A →* B) =
       Subgroup.centralizer ({e s} : Set B) := by
   ext b
-  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨a, ha, rfl⟩
     rw [← map_mul, ← map_mul, ha]

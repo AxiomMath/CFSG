@@ -26,7 +26,7 @@ theorem frame_centralizer_inf_ne_A
     (hAnn1 : ¬ IsConj F.dA.toConfig.w ((F.dA.toConfig.x * F.dA.toConfig.y) ^ 2)) :
     Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) ≠ F.A := by
   intro hCA
-  haveI := F.simple
+  have := F.simple
   obtain ⟨hfusE, huw, hwu, -, -, -⟩ := frame_fusion F
   set K := F.dA.toConfig with hK
   have hx : K.x = (F.dA.a : G)⁻¹ := rfl
@@ -67,7 +67,7 @@ theorem frame_arch76Lemma7_index_two
           c * F.dA.toConfig.x * F.dA.toConfig.y ^ 2 ∧
         F.dA.toConfig.u⁻¹ * c * F.dA.toConfig.u = c⁻¹)) :
     False := by
-  haveI := F.simple
+  have := F.simple
   obtain ⟨hfusE, huw, hwu, -, -, -⟩ := frame_fusion F
   exact arch76Lemma7_index_two F.dA.toConfig (frame_nonab F) hfusE huw hwu hAnn1 F.S hS hcx hcy
     hc2 hcase

@@ -92,12 +92,12 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
   obtain ⟨KP, hKP⟩ : ∃ KP : Subgroup (∀ j, GL (Fin (d j)) (D j)),
       KP = (StatedSL n F).comap θ := ⟨_, rfl⟩
   have memKP : ∀ x, x ∈ KP ↔ θ x ∈ StatedSL n F := fun x => by rw [hKP]; rfl
-  haveI hKPn : KP.Normal := by rw [hKP]; infer_instance
+  have hKPn : KP.Normal := by rw [hKP]; infer_instance
   obtain ⟨T, hT⟩ : ∃ T : Fin r → Subgroup (∀ j, GL (Fin (d j)) (D j)),
       ∀ i, T i = factorSL D d i ⊓ KP := ⟨fun i => factorSL D d i ⊓ KP, fun i => rfl⟩
-  haveI hTn : ∀ i, (T i).Normal := fun i => by rw [hT i]; infer_instance
+  have hTn : ∀ i, (T i).Normal := fun i => by rw [hT i]; infer_instance
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup (∀ j, GL (Fin (d j)) (D j)), Q = ⨆ i, T i := ⟨_, rfl⟩
-  haveI hQn : Q.Normal := by rw [hQ]; infer_instance
+  have hQn : Q.Normal := by rw [hQ]; infer_instance
   have hQKP : Q ≤ KP := by
     rw [hQ]
     exact iSup_le fun i => by rw [hT i]; exact inf_le_right
@@ -135,7 +135,7 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
     obtain ⟨q, hq, hqe⟩ := Subgroup.mem_map.mp he
     refine Subgroup.mem_map.mpr ⟨k * q * k⁻¹, hQn.conj_mem q hq k, ?_⟩
     simp [map_mul, map_inv, hkg, hqe]
-  haveI hEn' : (E.subgroupOf X).Normal := hEn
+  have hEn' : (E.subgroupOf X).Normal := hEn
   have hsolv : Group.IsSolvable (X ⧸ E.subgroupOf X) := by
     apply Group.isSolvable_of_comm
     intro a b
@@ -148,7 +148,7 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
     have hc : ((x : GL (Fin n) F) * (y : GL (Fin n) F))⁻¹ *
         ((y : GL (Fin n) F) * (x : GL (Fin n) F)) = θ ⁅l⁻¹, k⁻¹⁆ := by
       rw [← hkx, ← hly]
-      simp only [map_commutatorElement, map_inv, map_mul, commutatorElement_def]
+      simp only [map_inv, map_mul, commutatorElement_def]
       group
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hc, hE]
@@ -214,14 +214,14 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
     · right
       have hsolvS : Group.IsSolvable ↥(StatedSL (d i) (D i)) := by
         rcases Nat.lt_or_ge (d i) 2 with hlt | hge
-        · haveI := hct_subsingleton_statedSL_of_le_one (K := D i) (by omega : d i ≤ 1)
+        · have := hct_subsingleton_statedSL_of_le_one (K := D i) (by omega : d i ≤ 1)
           infer_instance
         · have hd2 : d i = 2 := by
             by_contra hne
             exact hperf ⟨hge, Or.inl hne, Or.inl hne⟩
           have hcard : Nat.card (D i) = 2 ∨ Nat.card (D i) = 3 := by
             by_contra hne
-            push_neg at hne
+            push Not at hne
             exact hperf ⟨hge, Or.inr hne.1, Or.inr hne.2⟩
           rw [hd2]
           have hcs := card_statedSL_two (D i)
@@ -242,7 +242,7 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
       have hLle : L i ≤ (factorSL D d i).map θ := by
         rw [hL i]
         exact Subgroup.map_mono hTle
-      haveI hFmap : Group.IsSolvable ↥((factorSL D d i).map θ) :=
+      have hFmap : Group.IsSolvable ↥((factorSL D d i).map θ) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.equivMapOfInjective (factorSL D d i) θ hθ).symm.toMonoidHom)
           (Subgroup.equivMapOfInjective (factorSL D d i) θ hθ).symm.injective
@@ -279,8 +279,8 @@ theorem LinPCompIsComp_holds : LinPCompIsComp := by
     exact hs
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, _hNZ, _hΦinj, _hΦrange, hθinj, hθrange,
     _hθapply⟩ := exists_piMat_commutant (Subgroup.zpowers s) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hcent : Subgroup.centralizer ((Subgroup.zpowers s : Subgroup (GL (Fin n) F)) :
       Set (GL (Fin n) F)) = Subgroup.centralizer ({s} : Set (GL (Fin n) F)) := by
     ext g

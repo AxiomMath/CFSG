@@ -51,7 +51,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
 lemma orbit_ncard_eq_index (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (s : W) :
     (Set.range fun g : Alt5 => ρ g s).ncard = (stab ρ s).index := by
-  letI : MulAction Alt5 W := MulAction.compHom W ρ
+  let : MulAction Alt5 W := MulAction.compHom W ρ
   have hstab : stab ρ s = MulAction.stabilizer Alt5 s := by
     ext g
     rw [mem_stab]
@@ -92,7 +92,7 @@ lemma five_le_index_of_not_fixed (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) {s : W}
 
 lemma index_le_six_of_not_fixed_of_card_seven (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (S : Finset W)
     (hInv : ∀ g, ∀ s ∈ S, ρ g s ∈ S) (hcard : S.card = 7) {s : W} (hs : s ∈ S)
-    (hfix : ¬ ∀ g, ρ g s = s) : (stab ρ s).index ≤ 6 := by
+    (_hfix : ¬ ∀ g, ρ g s = s) : (stab ρ s).index ≤ 6 := by
   have hidx7 : (stab ρ s).index ≤ 7 := by
     rw [← orbit_ncard_eq_index ρ s]
     have hle := orbit_ncard_le_card_of_invariant ρ S hInv hs
@@ -185,6 +185,7 @@ section Irreducible
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 lemma exists_mem_ne_zero_of_ne_bot (U : Submodule (ZMod 2) W) (hbot : U ≠ ⊥) :
     ∃ u ∈ U, u ≠ 0 := by
   by_contra h
@@ -197,7 +198,7 @@ lemma exists_mem_ne_zero_of_ne_bot (U : Submodule (ZMod 2) W) (hbot : U ≠ ⊥)
 lemma two_le_card_of_ne_bot (U : Submodule (ZMod 2) W) (hbot : U ≠ ⊥) :
     2 ≤ Nat.card U := by
   classical
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   obtain ⟨u, huU, hu0⟩ := exists_mem_ne_zero_of_ne_bot U hbot
   have hT : (Finset.univ.filter (fun w : W => w ∈ U)).card = Nat.card U := by
     rw [← Fintype.card_subtype (fun w : W => w ∈ U), ← Nat.card_eq_fintype_card]
@@ -227,6 +228,7 @@ lemma card_lt_sixteen_of_ne_top (hW : Nat.card W = 16) (U : Submodule (ZMod 2) W
   change (↑U : Set W).ncard < 16
   exact h
 
+omit [Finite W] in
 lemma card_dvd_sixteen (hW : Nat.card W = 16) (U : Submodule (ZMod 2) W) :
     Nat.card U ∣ 16 := by
   have hcardU : Nat.card U = Nat.card U.toAddSubgroup :=
@@ -247,6 +249,7 @@ lemma invariant_submodule_card_eq_two_or_four_or_eight (hW : Nat.card W = 16)
   · exact Or.inr (Or.inl rfl)
   · exact Or.inr (Or.inr rfl)
 
+omit [Finite W] in
 lemma card_nonzero_of_submodule (U : Submodule (ZMod 2) W) [Fintype W] [DecidableEq W]
     [DecidablePred (· ∈ U)] :
     (Finset.univ.filter (fun w : W => w ∈ U ∧ w ≠ 0)).card = Nat.card U - 1 := by
@@ -258,7 +261,6 @@ lemma card_nonzero_of_submodule (U : Submodule (ZMod 2) W) [Fintype W] [Decidabl
     rw [← Fintype.card_subtype (fun w : W => w ∈ U), ← Nat.card_eq_fintype_card]
   have hEq : Finset.univ.filter (fun w : W => w ∈ U ∧ w ≠ 0) =
       (Finset.univ.filter (fun w : W => w ∈ U)).filter (fun w => w ≠ 0) := by
-    change Finset.univ.filter (fun w : W => w ∈ U ∧ w ≠ 0) = _
     rw [Finset.filter_filter]
   rw [hEq, Finset.filter_ne', Finset.card_erase_of_mem h0T, hT]
 
@@ -267,7 +269,7 @@ lemma invariant_submodule_contradiction (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W))
     (hInv : ∀ g, U.map (ρ g : W →ₗ[ZMod 2] W) ≤ U) (hbot : U ≠ ⊥)
     (hcases : Nat.card U = 2 ∨ Nat.card U = 4 ∨ Nat.card U = 8) : False := by
   classical
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   obtain ⟨u, huU, hu0⟩ := exists_mem_ne_zero_of_ne_bot U hbot
   let S : Finset W := Finset.univ.filter (fun w => w ∈ U ∧ w ≠ 0)
   have hS_card : S.card = Nat.card U - 1 := card_nonzero_of_submodule U

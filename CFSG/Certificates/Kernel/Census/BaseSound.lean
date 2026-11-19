@@ -33,13 +33,13 @@ theorem lsw_eq (h k : ℕ) : lsw h k = if k < h then h + k else k - h := by
   unfold lsw
   by_cases hk : k < h
   · have hb : Nat.blt k h = true := Nat.blt_eq.mpr hk
-    rw [if_pos hk, hb]
+    rw [ite_eq_left hk, hb]
     rfl
   · have hb : Nat.blt k h = false := by
       cases h' : Nat.blt k h
       · rfl
       · exact absurd (Nat.blt_eq.mp h') hk
-    rw [if_neg hk, hb]
+    rw [ite_eq_right hk, hb]
     rfl
 
 omit H in
@@ -94,13 +94,13 @@ theorem pcwPt_eq : ∀ (xw : List (List ℕ)), (∀ x ∈ xw, WordOK h x) → �
         change Nat.beq (m % 2) 1 = true
         rw [hm]
         rfl
-      rw [hb, if_pos hm, cond_true, wPt_eq H x (hx x List.mem_cons_self) _ hlt]
+      rw [hb, ite_eq_left hm, _root_.Bool.cond_true, wPt_eq H x (hx x List.mem_cons_self) _ hlt]
     · have hb : Nat.beq (Nat.mod m 2) 1 = false := by
         change Nat.beq (m % 2) 1 = false
         cases h' : Nat.beq (m % 2) 1
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true h') hm
-      rw [hb, if_neg hm, cond_false]
+      rw [hb, ite_eq_right hm, Bool.cond_false]
       rfl
 
 theorem pcwInvPt_eq : ∀ (xw : List (List ℕ)), (∀ x ∈ xw, WordOK h x) → ∀ (m p : ℕ) (hp : p < n),
@@ -118,14 +118,14 @@ theorem pcwInvPt_eq : ∀ (xw : List (List ℕ)), (∀ x ∈ xw, WordOK h x) →
         change Nat.beq (m % 2) 1 = true
         rw [hm]
         rfl
-      rw [hb, cond_true, if_pos hm, wInvPt_eq H x hxw p hp, e1,
+      rw [hb, _root_.Bool.cond_true, ite_eq_left hm, wInvPt_eq H x hxw p hp, e1,
         pcwInvPt_eq l hl _ _ ((wordPerm ℓ x)⁻¹ ⟨p, hp⟩).2]
     · have hb : Nat.beq (Nat.mod m 2) 1 = false := by
         change Nat.beq (m % 2) 1 = false
         cases h' : Nat.beq (m % 2) 1
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true h') hm
-      rw [hb, cond_false, if_neg hm, inv_one, Equiv.Perm.one_apply, e1, pcwInvPt_eq l hl _ _ hp]
+      rw [hb, Bool.cond_false, ite_eq_right hm, inv_one, Equiv.Perm.one_apply, e1, pcwInvPt_eq l hl _ _ hp]
 
 omit H in
 theorem iterPt_eq {f : ℕ → ℕ} {g : Equiv.Perm (Fin n)} (hf : ∀ p (hp : p < n), f p = (g ⟨p, hp⟩ : ℕ)) :
@@ -191,6 +191,7 @@ theorem eq_of_base (hB : BaseOf P bs) {g g' : Equiv.Perm (Fin n)} (hg : g ∈ P)
   rw [inv_mul_eq_one] at h1
   exact h1.symm
 
+omit H in
 theorem wordPerm_mem (hℓ : ∀ k < 2 * h, ℓ k ∈ P) {x : List ℕ} (hx : WordOK h x) :
     wordPerm ℓ x ∈ P :=
   P.list_prod_mem fun g hg => by
@@ -215,10 +216,10 @@ theorem pcRel_of_pcRelB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P) :
     obtain ⟨⟨⟨hlen, hsq⟩, hcj⟩, hrest⟩ := hc
     have hxw := hx x List.mem_cons_self
     have hl : ∀ y ∈ l, WordOK h y := fun y hy => hx y (List.mem_cons_of_mem _ hy)
-    have hxP := wordPerm_mem H hℓ hxw
+    have hxP := wordPerm_mem hℓ hxw
     have hlP : ∀ g ∈ l.map (wordPerm ℓ), g ∈ P := fun g hg => by
       obtain ⟨y, hy, rfl⟩ := List.mem_map.1 hg
-      exact wordPerm_mem H hℓ (hl y hy)
+      exact wordPerm_mem hℓ (hl y hy)
     refine ⟨⟨r, ?_⟩, fun g hg => ?_, pcRel_of_pcRelB hB hℓ l rs cs hl hrest⟩
     · refine eq_of_base hB (P.mul_mem hxP hxP) (pcG_mem_of hlP r) fun b hb hbs => ?_
       have e := Nat.eq_of_beq_eq_true (hsq b hbs)
@@ -230,7 +231,7 @@ theorem pcRel_of_pcRelB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P) :
         have := Nat.eq_of_beq_eq_true hlen
         omega
       have hyc := hcj (l[i], cl[i]) (mem_zip_of_lt hi hi')
-      refine ⟨cl[i], eq_of_base hB (P.mul_mem (wordPerm_mem H hℓ (hl _ hy)) hxP)
+      refine ⟨cl[i], eq_of_base hB (P.mul_mem (wordPerm_mem hℓ (hl _ hy)) hxP)
         (P.mul_mem hxP (pcG_mem_of hlP _)) fun b hb hbs => ?_⟩
       have e := Nat.eq_of_beq_eq_true (hyc b hbs)
       rw [wPt_eq H x hxw b hb, wPt_eq H _ (hl _ hy) _ (Fin.isLt _), pcwPt_eq H l hl _ b hb,
@@ -251,7 +252,7 @@ theorem exists_order4_of_witB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k �
     Set (Equiv.Perm (Fin n))))
   have hxP : ∀ g ∈ xw.map (wordPerm ℓ), g ∈ P := fun g hg => by
     obtain ⟨y, hy, rfl⟩ := List.mem_map.1 hg
-    exact wordPerm_mem H hℓ (hx y hy)
+    exact wordPerm_mem hℓ (hx y hy)
   have hbn : ∀ b ∈ bs, b < n := hB.1
   unfold witB at hw
   simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, Bool.not_eq_true'] at hw
@@ -262,7 +263,7 @@ theorem exists_order4_of_witB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k �
     obtain ⟨b, hb, hbm⟩ := hmv
     set t := pcG (xw.map (wordPerm ℓ)) f.1
     have htE : t ∈ E := subset_closure (Set.mem_insert_of_mem _ (by
-      simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map]
+      simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map]
       exact ⟨f, hf, rfl⟩))
     have ht1 : t ≠ 1 := by
       intro h1
@@ -275,9 +276,9 @@ theorem exists_order4_of_witB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k �
     have hcomm : ∀ c, WordOK h c → (∀ b ∈ bs, Nat.beq (wPt w L c (pcwPt w L xw f.1 b))
         (pcwPt w L xw f.1 (wPt w L c b)) = true) → wordPerm ℓ c ∈ P ⊓ centralizer {t} := by
       intro c hc hcb
-      refine ⟨wordPerm_mem H hℓ hc, mem_centralizer_singleton_iff.2 ?_⟩
-      refine eq_of_base hB (P.mul_mem (wordPerm_mem H hℓ hc) (pcG_mem_of hxP _))
-        (P.mul_mem (pcG_mem_of hxP _) (wordPerm_mem H hℓ hc)) fun b hb hbs => ?_
+      refine ⟨wordPerm_mem hℓ hc, mem_centralizer_singleton_iff.2 ?_⟩
+      refine eq_of_base hB (P.mul_mem (wordPerm_mem hℓ hc) (pcG_mem_of hxP _))
+        (P.mul_mem (pcG_mem_of hxP _) (wordPerm_mem hℓ hc)) fun b hb hbs => ?_
       have e := Nat.eq_of_beq_eq_true (hcb b hbs)
       rw [pcwPt_eq H xw hx f.1 b hb, wPt_eq H c hc _ (Fin.isLt _), wPt_eq H c hc b hb,
         pcwPt_eq H xw hx f.1 _ (Fin.isLt _)] at e
@@ -292,9 +293,9 @@ theorem exists_order4_of_witB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k �
     exact hfac f hf
   have hγP : gamPerm ℓ gs ∈ P := P.list_prod_mem fun g hgm => by
     obtain ⟨f, hf, rfl⟩ := List.mem_map.1 hgm
-    exact P.mul_mem (P.mul_mem (P.mul_mem (wordPerm_mem H hℓ (hg f hf).1)
-      (wordPerm_mem H hℓ (hg f hf).2)) (P.inv_mem (wordPerm_mem H hℓ (hg f hf).1)))
-      (P.inv_mem (wordPerm_mem H hℓ (hg f hf).2))
+    exact P.mul_mem (P.mul_mem (P.mul_mem (wordPerm_mem hℓ (hg f hf).1)
+      (wordPerm_mem hℓ (hg f hf).2)) (P.inv_mem (wordPerm_mem hℓ (hg f hf).1)))
+      (P.inv_mem (wordPerm_mem hℓ (hg f hf).2))
   set x := ⁅e, gamPerm ℓ gs⁆
   have hxN : x ∈ nE P E := commutator_mem_commutator (subset_closure (Set.mem_insert _ _)) hγ
   have heP : e ∈ P := pcG_mem_of hxP me

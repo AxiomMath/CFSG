@@ -20,12 +20,12 @@ namespace CFSG.RankThree.PartTwo.Sec4.Sporadic.J2
 open CFSG.ComponentClassification.J2Cover CFSG.Certificates.Native CFSG.Monster.B.Co2.Native
   CFSG.RankThree.Native CFSG.Monster.B.Mathieu
 
-@[expose] def sqA (t : Array ℕ) : Array ℕ := compA 315 t t
+def sqA (t : Array ℕ) : Array ℕ := compA 315 t t
 
-@[expose] def sqIterA : ℕ → Array ℕ → Array ℕ
+def sqIterA : ℕ → Array ℕ → Array ℕ
   | 0, t => t
   | n + 1, t => sqIterA n (sqA t)
 
-@[expose] def isTwoA (t : Array ℕ) : Bool := eqA 315 (sqIterA 7 t) (idA 315)
+def isTwoA (t : Array ℕ) : Bool := eqA 315 (sqIterA 7 t) (idA 315)
 
 end CFSG.RankThree.PartTwo.Sec4.Sporadic.J2

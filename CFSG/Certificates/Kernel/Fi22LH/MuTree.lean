@@ -30,9 +30,9 @@ private theorem muW_root (h : LHChecks D) {f : Nat} (hf : f < 3510)
   have e : Nat.add (Nat.mul (nat_lit 880) (f / 880)) (f % 880) = f := by
     change 880 * (f / 880) + f % 880 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at this
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at this
   unfold muK at this
-  rw [strictB_eq, strictB_eq, bIf_eq, memB_eq, if_pos hb] at this
+  rw [strictB_eq, strictB_eq, bIf_eq, memB_eq, ite_eq_left hb] at this
   exact Nat.eq_of_beq_eq_true this
 
 private noncomputable def mPos (mq f : Nat) : Nat := fld(mq, Nat.mul (nat_lit 10) f, nat_lit 1023)
@@ -59,7 +59,7 @@ private theorem posK_spec {pts pos : Nat → Nat} {none n N : Nat}
   by_cases e : pos x = none
   · exact Or.inl e
   · right
-    rw [beq_false e, if_neg (by decide), bAnd_eq, Bool.and_eq_true, Nat.blt_eq,
+    rw [beq_false e, ite_eq_right (by decide), bAnd_eq, Bool.and_eq_true, Nat.blt_eq,
       Nat.beq_eq] at this
     exact this
 
@@ -97,7 +97,7 @@ private theorem muTree_spec (h : LHChecks D) :
   · exact (posK_spec (pos := mPos D.mq) (pts := fun k => fd (D.M k) 0 4095) h6).1
   · exact (posK_spec (pos := mPos D.mq) (pts := fun k => fd (D.M k) 0 4095) h6).2
   · have := allN_iff.1 h7 f hf
-    rw [bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hw), Nat.blt_eq] at this
+    rw [bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hw), Nat.blt_eq] at this
     exact this
   · rw [Nat.beq_eq] at h8
     simp only [foldUp_eq, nIf_eq, Nat.blt_eq, strictN_eq] at h8
@@ -136,7 +136,7 @@ private theorem muHit_eq (R Z M G : Nat → Nat) (mk mq q a h f n : Nat) :
 
 private theorem muHit_zero (R Z M G : Nat → Nat) (mk mq q a h f : Nat) :
     muHit R Z M G mk mq q a h f 0 = 0 := by
-  rw [muHit_eq, if_pos rfl]
+  rw [muHit_eq, ite_eq_left rfl]
 
 private theorem muHit_spec {R Z M G : Nat → Nat} {mk mq q a h f n : Nat}
     (hne : muHit R Z M G mk mq q a h f n ≠ 0) :
@@ -249,6 +249,7 @@ private theorem muList_length (h : LHChecks D) :
   rw [← h1, ← h2]
   exact congrArg (mPos D.mq) e'
 
+set_option exponentiation.threshold 3584 in
 private theorem andPop_bitsOfNat {a b : Nat} (ha : a < 2 ^ 3510) :
     andPop (bitsOfNat a) (bitsOfNat b) = popK masks (Nat.land a b) := by
   have hab : Nat.land a b < 2 ^ 3510 := Nat.lt_of_le_of_lt Nat.and_le_left ha
@@ -348,13 +349,13 @@ private theorem mStep_inv (hO : OrbOK) (h : LHChecks D) {hh f m : Nat}
   · omega
   · rw [he]
     unfold mStep
-    rw [if_neg (by rw [hseen.2 hc]; decide)]
+    rw [ite_eq_right (by rw [hseen.2 hc]; decide)]
     exact ⟨h1, h2, h3, h4, h5, h6, h7⟩
   · rw [he]
     have hs' : bitAt s.2.2.2 f = false :=
       Bool.eq_false_iff.2 fun e => by have := hseen.1 e; omega
     unfold mStep
-    rw [if_pos (by rw [hs']; decide), hC, hand, if_neg (by simpa using hpop)]
+    rw [ite_eq_left (by rw [hs']; decide), hC, hand, ite_eq_right (by simpa using hpop)]
     exact ⟨h1, h2, h3, h4, h5, h6, h7⟩
   · rw [he]
     have hs' : bitAt s.2.2.2 f = false :=
@@ -363,7 +364,7 @@ private theorem mStep_inv (hO : OrbOK) (h : LHChecks D) {hh f m : Nat}
     rw [hGh, hGp] at hed
     obtain ⟨hwl, -, hwe⟩ := edgeWit_eq_of_edgeK hO h hrh hrf hed
     unfold mStep
-    rw [if_pos (by rw [hs']; decide), hC, hand, if_pos (by rw [hpop]; decide), hwe, if_pos hwl]
+    rw [ite_eq_left (by rw [hs']; decide), hC, hand, ite_eq_left (by rw [hpop]; decide), hwe, ite_eq_left hwl]
     refine ⟨by rw [Array.size_push, h1], fun k hk => ?_, by rw [Array.size_push, h3],
       fun k hk => ?_, by rw [Array.size_push, h5], fun k hk => ?_,
       (bitsIs_setBit h7 (by omega)).congr fun y _ => ?_⟩
@@ -408,7 +409,7 @@ private theorem filter_range_head {p : Nat → Bool} {n w : Nat} (hw : w < n) (h
   obtain ⟨r, rfl⟩ : ∃ r, n = w + 1 + r := ⟨n - w - 1, by omega⟩
   rw [List.range_add, List.range_succ, List.filter_append, List.filter_append,
     List.filter_eq_nil_iff.2 fun k hk => by rw [hlt k (List.mem_range.1 hk)]; simp,
-    List.filter_singleton, hp, cond_true]
+    List.filter_singleton, hp, _root_.Bool.cond_true]
   exact ⟨_, rfl⟩
 
 theorem muTree_eq_of (hO : OrbOK) (h : LHChecks D) :
@@ -434,7 +435,7 @@ theorem muTree_eq_of (hO : OrbOK) (h : LHChecks D) :
   have hSm : ∀ q m, Sf q m ≠ 0 → m ≤ Sf q m := fun q m hne => by
     simp only [Sf] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun f m => H q f m) (fun f => hH0 q f) (fun f m => hHm q f m) _ _
         hne).2
     · exact absurd rfl hne
@@ -483,8 +484,8 @@ theorem muTree_eq_of (hO : OrbOK) (h : LHChecks D) :
     show muHit _ _ _ _ _ _ _ _ _ _ _ = b
     rw [muHit_eq]
     by_cases hb : b = 0
-    · rw [if_pos hb, hb]
-    · rw [if_neg hb, if_pos hpos]
+    · rw [ite_eq_left hb, hb]
+    · rw [ite_eq_right hb, ite_eq_left hpos]
   have hinner : ∀ q < fd D.mt 70 1023, ∀ (l : List Nat),
       (∀ f ∈ l, f < 3510 ∧ fd (D.P f) 14 4095 < 3510) →
       ∀ m s, NInv D m s → l.foldl (fun m f => H q f m) m ≠ 0 →
@@ -537,7 +538,7 @@ theorem muTree_eq_of (hO : OrbOK) (h : LHChecks D) :
       have hfin : C (q + 1) = ((List.range 3510).filter
           (fun f => decide ((muWD D)[f]! < 3510))).foldl (fun m f => H q f m) (C q) := by
         rw [hC_succ]
-        simp only [Sf, if_pos (hCh q hq)]
+        simp only [Sf, ite_eq_left (hCh q hq)]
         exact foldl_filter_of _ (hskip q) _
       have hne : ((List.range 3510).filter (fun f => decide ((muWD D)[f]! < 3510))).foldl
           (fun m f => H q f m) (C q) ≠ 0 := by
@@ -601,14 +602,14 @@ private theorem muK_out (h : LHChecks D) {f : Nat} (hf : f < 3510)
   have e : Nat.add (Nat.mul (nat_lit 880) (f / 880)) (f % 880) = f := by
     change 880 * (f / 880) + f % 880 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at this
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at this
   unfold muK at this
-  rw [strictB_eq, strictB_eq, bIf_eq, memB_eq, hb, if_neg (by decide), strictB_eq, strictB_eq,
+  rw [strictB_eq, strictB_eq, bIf_eq, memB_eq, hb, ite_eq_right (by decide), strictB_eq, strictB_eq,
     bIf_eq] at this
   refine ⟨fun hp => ?_, fun hp => ?_⟩
-  · rw [if_pos (by rw [Nat.beq_eq]; exact hp)] at this
+  · rw [ite_eq_left (by rw [Nat.beq_eq]; exact hp)] at this
     exact this
-  · rw [if_neg (by rw [Nat.beq_eq]; exact hp)] at this
+  · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hp)] at this
     exact Nat.eq_of_beq_eq_true this
 
 private theorem edgeK_not_mem {R Z : Nat → Nat} {q bA bB w : Nat}
@@ -621,6 +622,7 @@ private theorem edgeK_not_mem {R Z : Nat → Nat} {q bA bB w : Nat}
   simp only [bAnd_eq, Bool.and_eq_true, memB_eq, notB_eq, Bool.not_eq_true'] at hmin
   exact hmin.2.2.1
 
+set_option exponentiation.threshold 3584 in
 private theorem commonCount_bitsOfNat {a b : Nat} (ha : a < 2 ^ 3510) :
     commonCount (bitsOfNat a) (bitsOfNat b) = popK masks (Nat.land a b) := by
   have hab : Nat.land a b < 2 ^ 3510 := Nat.lt_of_le_of_lt Nat.and_le_left ha
@@ -666,7 +668,7 @@ private theorem muTree_facts (h : LHChecks D) : ∀ k, 0 < k → k < fd D.mt 70 
   have hSm : ∀ q m, Sf q m ≠ 0 → m ≤ Sf q m := fun q m hne => by
     simp only [Sf] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun f m => H q f m) (fun f => hH0 q f) (fun f m => hHm q f m) _ _
         hne).2
     · exact absurd rfl hne
@@ -700,7 +702,7 @@ private theorem muTree_facts (h : LHChecks D) : ∀ k, 0 < k → k < fd D.mt 70 
     intro q hq j hj
     have hfin : C (q + 1) = (List.range 3510).foldl (fun m f => H q f m) (C q) := by
       rw [hC_succ]
-      simp only [Sf, if_pos (hCh q hq)]
+      simp only [Sf, ite_eq_left (hCh q hq)]
     have e : (List.range 3510).foldl (fun m f => H q f m) (C q) =
         ((List.range (3510 - (j + 1))).map ((j + 1) + ·)).foldl (fun m f => H q f m)
           (H q j (M q j)) := by
@@ -764,7 +766,7 @@ private theorem muTree_facts (h : LHChecks D) : ∀ k, 0 < k → k < fd D.mt 70 
               exact hed
       have hfin : C (q + 1) = M q 3510 := by
         rw [hC_succ]
-        simp only [Sf, M, if_pos (hCh q (by omega))]
+        simp only [Sf, M, ite_eq_left (hCh q (by omega))]
       rw [hfin] at hk
       exact hQ 3510 (Nat.le_refl _) k hk0 hk
   intro k hk0 hk
@@ -815,9 +817,9 @@ theorem c_mu_of (hO : OrbOK) (h : LHChecks D) :
           (sb (D.QA (fd D.mt 0 16383)))) = 63
       · have he := hpos hp
         obtain ⟨hwl, hmaps, -⟩ := edgeWit_eq_of_edgeK hO h hrf hv0 he
-        rw [if_pos hwl, hbit _ _ (by omega), edgeK_not_mem he, hmaps]
+        rw [ite_eq_left hwl, hbit _ _ (by omega), edgeK_not_mem he, hmaps]
         rfl
-      · rw [hneg hp, if_neg (by decide), commonCount_bitsOfNat (sb_lt _)]
+      · rw [hneg hp, ite_eq_right (by decide), commonCount_bitsOfNat (sb_lt _)]
         simpa using hp
     · rfl
   ·

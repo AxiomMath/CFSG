@@ -105,7 +105,7 @@ theorem exists_spChart (hC : HypothesisC D)
   have hvec : ∀ z (hz : z ∈ commSet D hC.d), vec z ≠ 0 ∧
       ρ ⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ = spTransvection (vec z) 1 := by
     intro z hz
-    simp only [vec, dif_pos hz]
+    simp only [vec, dite_eq_left hz]
     exact Classical.choose_spec ((hE _).mp (hmem z hz))
   have hne := (subset_rootBlock_and_ne_of_isSymplecticTransvection (imageClass_isClass hC) hZ hs
     hSp).2

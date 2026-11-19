@@ -110,7 +110,7 @@ theorem frame_orth (hp2 : p ≠ 2) (hd : 5 ≤ d) (hnd : (polarBilin Q).Nondegen
       (fun q hq => hfix q (Or.inl hq)) (fun q hq => hfix q (Or.inr hq))
     rw [hy']
     exact hfix y (Or.inr hyT)
-  · haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_neZero d⟩⟩
+  · have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_neZero d⟩⟩
     have hZn : IsNilpotent (zEnd p s0 c) := ⟨p, hn⟩
     refine isPGroup_closure_of_subset_map (omegaRep_injective Q) hZn
       (matrixProjectiveProjection Q) ?_
@@ -126,8 +126,8 @@ theorem kdCharPAt_of_orthEquiv {T : Type} [Group T] [Finite K] (hp2 : p ≠ 2) (
     (hnd : (polarBilin Q).Nondegenerate) (hQ : ∃ v, Q v ≠ 0)
     (hab : ∃ m : ℕ, Nat.card (Abelianization (matrixIsometries Q)) = 2 ^ m)
     (e : T ≃* matrixProjectiveDerived Q) (hT : IsSimpleGroup T) : KDCharPAt p T := by
-  haveI : IsSimpleGroup T := hT
-  haveI : IsSimpleGroup (matrixProjectiveDerived Q) := e.symm.isSimpleGroup
+  have : IsSimpleGroup T := hT
+  have : IsSimpleGroup (matrixProjectiveDerived Q) := e.symm.isSimpleGroup
   exact kdCharPAt_of_frame_simple e inferInstance fun y hy => frame_orth hp2 hd hnd hQ hab y hy
 
 end Orth
@@ -156,7 +156,7 @@ theorem kdCharPAt_of_model_POmegaOdd {T : Type} [Group T] {n ℓ f : ℕ}
     rw [hchar] at this
     exact this
   have hS := (isSimpleGroup_of_statedClassicalModel_POmegaOdd T n ℓ f hm).2
-  haveI : NeZero (2 * n + 1) := ⟨by omega⟩
+  have : NeZero (2 * n + 1) := ⟨by omega⟩
   exact kdCharPAt_of_orthEquiv hℓ2 (d := 2 * n + 1) (by omega) hnd
     (exists_nonzero_value _ (coordinate_model_intrinsic_odd hm K hK e).1)
     (exists_two_pow_card_abelianization (oddIndexEquiv n) (quadOdd n K) hab)
@@ -176,7 +176,7 @@ theorem kdCharPAt_of_model_POmegaPlus {T : Type} [Group T] {n ℓ f : ℕ}
     rw [hchar] at this
     exact this
   have hS := (isSimpleGroup_of_statedClassicalModel_POmegaPlus T n ℓ f hm).2
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   exact kdCharPAt_of_orthEquiv hℓ2 (d := 2 * n) (by omega) hnd
     (exists_nonzero_value _ (coordinate_model_intrinsic_plus hm K hK e).1)
     (exists_two_pow_card_abelianization (plusIndexEquiv n) (quadPlus n K) hab)
@@ -197,7 +197,7 @@ theorem kdCharPAt_of_model_POmegaMinus {T : Type} [Group T] {n ℓ f : ℕ}
     rw [hchar] at this
     exact this
   have hS := (isSimpleGroup_of_statedClassicalModel_POmegaMinus T n ℓ f hm).2
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   exact kdCharPAt_of_orthEquiv hℓ2 (d := 2 * n) (by omega) hnd
     (exists_nonzero_value _ (coordinate_model_intrinsic_minus hm K hK b c hirr e).1)
     (exists_two_pow_card_abelianization (minusIndexEquiv n hn1) (quadMinus n K b c) hab)

@@ -128,6 +128,7 @@ theorem rho_mk_eq_of_commute {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.norma
   change g * (l : G) * g⁻¹ = l
   rw [← hl, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem mk_eq_mk_iff {L : Subgroup G} (u v : L) :
     (u : L ⧸ aschbacherSolvableCore 3 L) = v ↔
       (u : G)⁻¹ * v ∈ inSubgroup (aschbacherSolvableCore 3) L := by
@@ -151,6 +152,7 @@ theorem isSolvable_of_le_theta {L W : Subgroup G}
   have := isSolvable_inSubgroup_theta L
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hW)
 
+omit [Finite G] in
 theorem surjective_mk_comp_inclusion {L J : Subgroup G} (hJL : J ≤ L)
     (hcov : L ≤ J ⊔ inSubgroup (aschbacherSolvableCore 3) L) :
     Function.Surjective
@@ -174,6 +176,7 @@ theorem surjective_mk_comp_inclusion {L J : Subgroup G} (hJL : J ≤ L)
   rw [this]
   exact hk'
 
+omit [Finite G] in
 theorem le_theta_of_isSolvable {L J W : Subgroup G}
     (hLq : CFSG.IsQuasisimple (L ⧸ aschbacherSolvableCore 3 L))
     (hZ : Subgroup.center (L ⧸ aschbacherSolvableCore 3 L) = ⊥) (hJL : J ≤ L)
@@ -194,11 +197,11 @@ theorem le_theta_of_isSolvable {L J W : Subgroup G}
     · rw [hq, map_mul, map_mul, map_inv]
       rfl
   have hWs' : Group.IsSolvable (W.subgroupOf L) := by
-    haveI := hWs
+    have := hWs
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hWL).toMonoidHom) (MulEquiv.injective _)
   have hs : Group.IsSolvable Wb := by
-    haveI := hWs'
+    have := hWs'
     exact Group.isSolvable_of_surjective (f := q.subgroupMap (W.subgroupOf L))
       (q.subgroupMap_surjective _)
   have h1 := eq_bot_of_isSolvable_of_normal hLq hZ hn hs
@@ -248,13 +251,13 @@ theorem mem_normalizer_of_forall_mul {c y : G} {L J W : Subgroup G} (hc3 : c ^ 3
   set R : Subgroup (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
     ((W ⊓ NL).subgroupOf NL).map (rho L) with hR
   have hRs : Group.IsSolvable R := by
-    haveI := hWs
+    have := hWs
     have h1 : Group.IsSolvable ((W ⊓ NL).subgroupOf NL) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.inclusion (inf_le_left : W ⊓ NL ≤ W)).comp
           (Subgroup.subgroupOfEquivOfLe (inf_le_right : W ⊓ NL ≤ NL)).toMonoidHom)
         ((Subgroup.inclusion_injective (inf_le_left : W ⊓ NL ≤ W)).comp (MulEquiv.injective _))
-    haveI := h1
+    have := h1
     exact Group.isSolvable_of_surjective (f := (rho L).subgroupMap _)
       ((rho L).subgroupMap_surjective _)
   set ρJ : J →* MulAut (L ⧸ aschbacherSolvableCore 3 L) :=
@@ -295,14 +298,14 @@ theorem mem_normalizer_of_forall_mul {c y : G} {L J W : Subgroup G} (hc3 : c ^ 3
         (fun a b hab => Subtype.ext (Subtype.ext
           (congrArg (fun t : inSubgroup (aschbacherSolvableCore 3) L => (t : G)) hab)))
     have hran : Group.IsSolvable ρJ.range := by
-      haveI := hRs
+      have := hRs
       exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJR)
-    haveI := hker
-    haveI := hran
+    have := hker
+    have := hran
     exact Group.isSolvable_of_ker_le_range ρJ.ker.subtype ρJ.rangeRestrict
       (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
   have hLs : Group.IsSolvable (L ⧸ aschbacherSolvableCore 3 L) := by
-    haveI := hJs
+    have := hJs
     exact Group.isSolvable_of_surjective (surjective_mk_comp_inclusion hJL hcov)
   have : Group.IsPerfect (L ⧸ aschbacherSolvableCore 3 L) := hLq.1
   have : Nontrivial (L ⧸ aschbacherSolvableCore 3 L) := CFSG.LocalCores.isQuasisimple_nontrivial hLq
@@ -370,7 +373,7 @@ theorem step13PZeroEFLift_of_cover (hC : Sec4.K419UnitaryCensusCover) (h46 : Sec
     (QuotientGroup.mk' (aschbacherSolvableCore 3 Lx)).comp (Subgroup.inclusion hJLx) with hχ
   set Yb := χ.range with hYb
   have hYbp : Group.IsPerfect Yb := by
-    haveI := hJperf
+    have := hJperf
     exact Group.IsPerfect.range χ
   have hYfix : ∀ v ∈ Yb, ρx v = v := by
     rintro _ ⟨j, rfl⟩
@@ -466,11 +469,11 @@ theorem step13PZeroEFLift_of_cover (hC : Sec4.K419UnitaryCensusCover) (h46 : Sec
         (fun u _ => (KFacts.mem_barCentralizer_zpowers_iff hcN u).mp u.2) ?_
       refine PGUTriple.of_mulEquiv ι (P' := fun _ => True) (fun _ _ => trivial) ?_
       have hYBp : Group.IsPerfect (Yb.subgroupOf B) := by
-        haveI := hYbp
+        have := hYbp
         exact Group.IsPerfect.ofSurjective
           (f := (Subgroup.subgroupOfEquivOfLe hYB).symm.toMonoidHom) (MulEquiv.surjective _)
       have hY₂p : Group.IsPerfect ((Yb.subgroupOf B).map ι.toMonoidHom) := by
-        haveI := hYBp
+        have := hYBp
         exact Group.IsPerfect.map ι.toMonoidHom
       obtain ⟨u, d, t, w, hu3, hd3, ht2, hud, hut, huN, hdt, hw⟩ :=
         Sec4.Ronan148L.pgu3_triple hU.odd hK''u hY₂p
@@ -493,7 +496,7 @@ theorem step13PZeroEFLift_of_cover (hC : Sec4.K419UnitaryCensusCover) (h46 : Sec
         change e (ρx (e.symm (e v))) = e v
         rw [MulEquiv.symm_apply_apply, hYfix v hv]
       have hYmp : Group.IsPerfect Ym := by
-        haveI := hYbp
+        have := hYbp
         exact Group.IsPerfect.map e.toMonoidHom
       have hκmem : ∀ k : K, (e.toMonoidHom.comp ((QuotientGroup.mk'
           (aschbacherSolvableCore 3 Lx)).comp (Subgroup.inclusion (inf_le_left : K ≤ Lx)))) k ∈

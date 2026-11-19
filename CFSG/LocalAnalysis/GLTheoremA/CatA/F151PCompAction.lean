@@ -73,8 +73,7 @@ private theorem exists_congr_indAut_eq_centerQuotientHom {G : Type} [Group G] [F
 
 theorem diagOfCompAction_holds :
     DiagOfCompAction := by
-  intro R _ _ p hp hp2 hlayer hchev hA hD4
-  intro x y hx hxp hyp hcomm J hJ hN
+  intro R _ _ p hp hp2 hlayer hchev hA hD4 x y hx hxp hyp hcomm J hJ hN
   have hfix : fixSubgroup (MulAut.conj x) = Subgroup.centralizer ({x} : Set R) :=
     fixSubgroup_conj_eq_centralizer x
   have hJfix : J ≤ fixSubgroup (MulAut.conj x) := by
@@ -107,7 +106,7 @@ theorem diagOfCompAction_holds :
   by_cases h360 : Nat.card (PSimple p J) = 360
   · obtain ⟨hsimple, hnab⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hJ
-    haveI : IsSimpleGroup (PSimple p J) := hsimple
+    have : IsSimpleGroup (PSimple p J) := hsimple
     exact hconclInner (CFSG.StandardType.RawAut.mem_inner_of_isPGroup_outer
       (CFSG.LocalAnalysis.GLTheoremA.T171Sh.isPGroup_outer_of_card_360 hnab hchevJ
         h360) hpOdd hpow)

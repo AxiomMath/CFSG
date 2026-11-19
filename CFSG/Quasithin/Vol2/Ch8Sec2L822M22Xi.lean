@@ -84,8 +84,8 @@ theorem isXi_of_quot_S3Wr {T H : Subgroup G} (hT : IsSylowTwoOf T H) (hO : pCore
   have hcardE : Nat.card (oddSub) = 3 ^ 2 := by rw [oddSub_card]; norm_num
   have hcommE : ∀ a b : S3Wr, a ∈ oddSub → b ∈ oddSub → a * b = b * a := by
     intro a b ha hb
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    have := IsPGroup.commutative_of_card_eq_prime_sq (G := ↥oddSub) (p := 3) hcardE ⟨a, ha⟩ ⟨b, hb⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := ↥oddSub) (p := 3) hcardE).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
     exact congrArg Subtype.val this
   have hrel : (pCoreOf 2 (oTwoUpper H)).relIndex (oTwoUpper H) = 9 := by
     set ψ : ↥(oTwoUpper H) →* S3Wr := φ.comp (Subgroup.inclusion hXH) with hψ

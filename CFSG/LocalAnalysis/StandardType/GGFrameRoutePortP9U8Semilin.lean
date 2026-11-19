@@ -13,16 +13,16 @@ open Matrix CFSG.Assembly CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.Co
 
 variable {L : Type} [Group L] {F : Type} [Field F] {m : ℕ}
 
-private lemma p9u8a_ker_le_projU_ker (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
+private lemma p9u8a_ker_le_projU_ker (_h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
     {φ : ↥(unitarySU 2 1 F m) →* L} (hφker : ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
       ∃ c : F, ((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) = diagonal (fun _ => c)) :
     φ.ker ≤ (InndiagSU.projU 1 m F).ker := by
   intro g hg
   rw [MonoidHom.mem_ker] at hg ⊢
-  haveI : ((LargeEvenScalars (Fin m) F).subgroupOf
+  have : ((LargeEvenScalars (Fin m) F).subgroupOf
       (LargeEvenSUGroup (Fin m) F (2 ^ 1))).Normal :=
     LargeEvenScalars.normal.subgroupOf _
-  haveI : ((LargeEvenScalars (Fin m) F).subgroupOf (unitarySU 2 1 F m)).Normal :=
+  have : ((LargeEvenScalars (Fin m) F).subgroupOf (unitarySU 2 1 F m)).Normal :=
     LargeEvenScalars.normal.subgroupOf _
   obtain ⟨c, hc⟩ := hφker g hg
   have hc_ne_zero : c ≠ 0 := by
@@ -30,7 +30,7 @@ private lemma p9u8a_ker_le_projU_ker (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
       rw [← hc]
       exact Units.isUnit (g : GL (Fin m) F)
     have hvec : IsUnit (fun _ : Fin m => c) := Matrix.isUnit_diagonal.mp hunit
-    haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
     exact isUnit_iff_ne_zero.mp (Pi.isUnit_iff.mp hvec (Classical.arbitrary (Fin m)))
   let u : Fˣ := Units.mk0 c hc_ne_zero
   have hu : Matrix.GeneralLinearGroup.scalar (Fin m) u = (g : GL (Fin m) F) := by
@@ -110,7 +110,7 @@ private lemma p9u8a_proj_lift_ker (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
       intro r
       obtain ⟨l', rfl⟩ := p9u8a_proj_lift_surjective h hm hφs hφker r
       rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp hl l']
-    haveI : Finite F := h.finite
+    have : Finite F := h.finite
     have hK : Nat.card F = (2 ^ 1) ^ 2 := by
       rw [h.card]
       norm_num
@@ -177,7 +177,7 @@ private lemma p9u8a_sigmaB (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
         InndiagSU.semilin_mem h hB τ s⟩
       map_one' := by
         apply Subtype.ext
-        simp [map_one, MulAut.one_apply]
+        simp [map_one]
       map_mul' := fun s t => by
         apply Subtype.ext
         simp only [Subgroup.coe_mul, map_mul]
@@ -202,8 +202,8 @@ private lemma p9u8a_sigmaB (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
   exact ⟨σB, hσB, hker⟩
 
 private lemma p9u8a_semilin_extend (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
-    {φ : ↥(unitarySU 2 1 F m) →* L} (hφs : Function.Surjective φ)
-    (hφker : ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
+    {φ : ↥(unitarySU 2 1 F m) →* L} (_hφs : Function.Surjective φ)
+    (_hφker : ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
       ∃ c : F, ((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) = diagonal (fun _ => c))
     (β : MulAut L) {B : GL (Fin m) F} {τ : F ≃+* F}
     {σB : ↥(unitarySU 2 1 F m) →* ↥(unitarySU 2 1 F m)}
@@ -212,9 +212,9 @@ private lemma p9u8a_semilin_extend (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
     (hker : ∀ s, (β (φ s))⁻¹ * (φ (σB s)) ∈ Subgroup.center L) :
     InndiagSU.IsSemilin φ β B τ := by
   have hperf : commutator (↥(unitarySU 2 1 F m)) = ⊤ := by
-    haveI : Finite F := h.finite
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := h.charP
+    have : Finite F := h.finite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := h.charP
     have hK : Nat.card F = (2 ^ 1) ^ 2 := by
       rw [h.card]
       norm_num
@@ -251,10 +251,10 @@ theorem P9_U8a_exists_isSemilin (h : UnitaryFieldData 2 1 F) (hm : 4 ≤ m)
   obtain ⟨σB, hσB, hker⟩ := p9u8a_sigmaB h hm hφs hφker β hB hω hsl
   exact ⟨B, hB, τ, p9u8a_semilin_extend h hm hφs hφker β hσB hker⟩
 private lemma p9u8a_units_map_mod_ne_zero (h : UnitaryFieldData 2 1 F) (τ : F ≃+* F)
-    {k : ℤ} (hcard : Nat.card Fˣ = 3) (h3 : ∀ c : Fˣ, c ^ 3 = 1)
+    {k : ℤ} (hcard : Nat.card Fˣ = 3) (_h3 : ∀ c : Fˣ, c ^ 3 = 1)
     (hmod : ∀ c : Fˣ, c ^ k = c ^ (k % 3))
     (hk : ∀ c : Fˣ, Units.map τ.toMonoidHom c = c ^ k) : k % 3 ≠ 0 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   intro h0
   have hkill : ∀ c : Fˣ, Units.map τ.toMonoidHom c = 1 := by
     intro c
@@ -271,8 +271,8 @@ private lemma p9u8a_units_map_mod_ne_zero (h : UnitaryFieldData 2 1 F) (τ : F �
     change τ (c : F) = τ (1 : F)
     rw [map_one]
     exact h1
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have h2 : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcard]
     norm_num
@@ -281,12 +281,12 @@ private lemma p9u8a_units_map_mod_ne_zero (h : UnitaryFieldData 2 1 F) (τ : F �
 
 private lemma p9u8a_units_map (h : UnitaryFieldData 2 1 F) (τ : F ≃+* F) :
     ∃ e : ℤˣ, ∀ c : Fˣ, Units.map τ.toMonoidHom c = c ^ (e : ℤ) := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hcard : Nat.card Fˣ = 3 := by
     rw [Nat.card_units, h.card]
     norm_num
   have hcyc : IsCyclic Fˣ := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact isCyclic_of_prime_card hcard
   obtain ⟨k, hk⟩ := MonoidHom.map_cyclic (Units.map τ.toMonoidHom)
   have h3 : ∀ c : Fˣ, c ^ 3 = 1 := by

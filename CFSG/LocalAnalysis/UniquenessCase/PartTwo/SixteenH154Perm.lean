@@ -116,11 +116,11 @@ theorem s16h_sSupIndep_conj_of_conc {W : Type} [CommGroup W] {A L : Subgroup (Mu
         Subgroup.mem_map_of_mem _ hl
       have hfix : ((MulAut.conj r⁻¹).toMonoidHom l) u = u := (mem_fixV.mp (hle hu)) _ hy'
       have hconj : (MulAut.conj r⁻¹).toMonoidHom l = r⁻¹ * l * r := by
-        simp [MulAut.conj_apply]
+        simp
       rw [hconj] at hfix
       have heq : l (r u) = r ((r⁻¹ * l * r) u) := by
         have hfun : l * r = r * (r⁻¹ * l * r) := by group
-        simpa [MulAut.mul_apply] using congrArg (fun f : MulAut W => f u) hfun
+        simp [MulAut.mul_apply]
       rw [heq, hfix]
     have hbr : b * r = a := by
       show b * (b⁻¹ * a) = a
@@ -148,8 +148,8 @@ theorem s16h_sSupIndep_conj_of_conc {W : Type} [CommGroup W] {A L : Subgroup (Mu
 
 private theorem s16h_isElemAbelian_of_card_eq_prime {A : Type*} [Group A] {p : ℕ}
     (hp : p.Prime) {H : Subgroup A} (hH : Nat.card ↥H = p) : IsElemAbelian p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic ↥H := isCyclic_of_prime_card hH
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic ↥H := isCyclic_of_prime_card hH
   refine ⟨inferInstance, ?_⟩
   intro x hx
   have h := pow_card_eq_one' (G := ↥H) (x := ⟨x, hx⟩)
@@ -166,7 +166,7 @@ theorem s16h_closure_inf_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : Su
       IsElemAbelian p X ∧ Nat.card ↥X = p ^ n ∧
       Set.ncard {X : Subgroup A | ∃ q ∈ Mb, X = Lb.map (MulAut.conj q).toMonoidHom} - 1 ≤ n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Set (Subgroup A) := {X : Subgroup A | ∃ q ∈ Mb, X = Lb.map (MulAut.conj q).toMonoidHom}
   let X0 : Subgroup A := sSup S
   let Hm : Subgroup A := ⁅Mb, Mb⁆
@@ -180,7 +180,7 @@ theorem s16h_closure_inf_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : Su
   have hSfin : S.Finite := by
     rw [hS_range]
     exact Set.finite_range (fun q : Mb => Lb.map (MulAut.conj (q : A)).toMonoidHom)
-  haveI : Fintype ↥S := hSfin.fintype
+  have : Fintype ↥S := hSfin.fintype
   have hcard_mem : ∀ ω : ↥S, Nat.card ↥(ω : Subgroup A) = p := by
     intro ω
     obtain ⟨q, hq, hqeq⟩ := ω.2
@@ -225,15 +225,14 @@ theorem s16h_closure_inf_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : Su
   have hcomm_same : ∀ ω : ↥S, ∀ x ∈ (ω : Subgroup A), ∀ y ∈ (ω : Subgroup A),
       x * y = y * x := by
     intro ω x hx y hy
-    haveI := (hmemEA ω).1
+    have := (hmemEA ω).1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(ω : Subgroup A)) ⟨y, hy⟩)
   have hX0comm : ∀ x ∈ X0, ∀ y ∈ X0, x * y = y * x := by
     intro x hx
     have hx' : x ∈ ⨆ ω : ↥S, (ω : Subgroup A) := hX0eq ▸ hx
     refine Subgroup.iSup_induction (C := fun v => ∀ y ∈ X0, v * y = y * v)
       (fun ω : ↥S => (ω : Subgroup A)) hx' ?_ ?_ ?_
-    · intro ω z hzω
-      intro y hy
+    · intro ω z hzω y hy
       have hy' : y ∈ ⨆ ω' : ↥S, (ω' : Subgroup A) := hX0eq ▸ hy
       refine Subgroup.iSup_induction (C := fun w => z * w = w * z)
         (fun ω' : ↥S => (ω' : Subgroup A)) hy' ?_ ?_ ?_
@@ -314,7 +313,7 @@ theorem s16h_closure_inf_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : Su
       rw [hX0eq]
       exact le_iSup (fun ω : ↥S => (ω : Subgroup A))
         ⟨Lb.map (MulAut.conj (q * m)).toMonoidHom, q * m, Mb.mul_mem hq hm, rfl⟩ hzmem
-    · simpa using X0.one_mem
+    · simp
     · intro a b iha ihb
       rw [show q * (a * b) * q⁻¹ = (q * a * q⁻¹) * (q * b * q⁻¹) from by group]
       exact X0.mul_mem iha ihb
@@ -323,7 +322,7 @@ theorem s16h_closure_inf_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : Su
     Subgroup.normalizer_commutator_ge_left Mb Mb
   let N : Subgroup Mb := Hm.subgroupOf Mb
   have hN : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHmMb).mpr hHmNorm
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   let π : Mb →* Mb ⧸ N := QuotientGroup.mk' N
   let g : X0 →* Mb ⧸ N := π.comp (Subgroup.inclusion hX0Mb)
   let πL : Lb →* Mb ⧸ N := π.comp (Subgroup.inclusion hLM)

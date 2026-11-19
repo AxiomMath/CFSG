@@ -279,7 +279,7 @@ theorem exists_chain_of_datum_core {τ : Tag}
     have hlt : j.val < m - 1 := by omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨j.val, hlt⟩
-    simpa only [if_pos (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
+    simpa only [ite_eq_left (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
   have hle_fork : Vg ≤ ⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg := by
     have hlt : m - 2 < m - 1 := by omega
     have hcond : ¬ (⟨m - 2, hlt⟩ : Fin (m - 1)).val + 2 < m := by
@@ -287,12 +287,12 @@ theorem exists_chain_of_datum_core {τ : Tag}
       omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨m - 2, hlt⟩
-    simpa only [if_neg hcond] using this
+    simpa only [ite_eq_right hcond] using this
   have hC : (⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg) =
       D.orbitGroup := by
     refine le_antisymm (iSup_le fun i => ?_) ?_
     · by_cases hi : i.val + 2 < m
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         rintro _ ⟨A, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) A
         · have h := (hlongmem ⟨i.val, by omega⟩ hi (t : L)
@@ -305,7 +305,7 @@ theorem exists_chain_of_datum_core {τ : Tag}
           rw [← hρi ⟨i.val, by omega⟩] at h
           simp only [MonoidHom.comp_apply, map_vSL']
           exact h
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         rintro _ ⟨B, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) B
         · have h := (hforkmem (t : L) (CFSG.LieType.Chevalley.mem_frobeniusFixedField.1 t.2)).1
@@ -416,8 +416,8 @@ theorem rationalLieType_of_datum_gen {τ : Tag}
         ⟨m - 1, by omega⟩).surjective.range_comp b).symm
     · have e : Equiv.swap (⟨m - 2, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ j = j :=
         Equiv.swap_apply_of_ne_of_ne
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
       show D.θ (toReal (b (Equiv.swap _ _ j))) = toReal (b (Equiv.swap _ _ j))
       rw [e]
       exact hfix j hj

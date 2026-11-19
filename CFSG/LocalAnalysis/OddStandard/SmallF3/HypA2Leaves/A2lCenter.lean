@@ -31,7 +31,7 @@ theorem a2l_center_eq_bot_of_row {Y : Type} [Group Y] [Group.IsPerfect Y]
 theorem a2l_center_eq_bot_psp44
     {Y : Type} [Group Y] (hY : CFSG.IsQuasisimple Y)
     (hL : LieModel (Y ⧸ center Y) .PSp 2 2 2) : center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨-, hrow⟩ := psp_row (hL.statedClassicalModel_of_ne_zero (by norm_num))
     (Or.inr (Or.inl rfl))
   exact a2l_center_eq_bot_of_row hrow (by decide) (by decide)
@@ -39,14 +39,14 @@ theorem a2l_center_eq_bot_psp44
 theorem a2l_center_eq_bot_psl52
     {Y : Type} [Group Y]
     (hY : CFSG.IsQuasisimple Y) (hL : LieModel (Y ⧸ center Y) .PSL 5 2 1) : center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨-, hrow⟩ := psl_row (hL.statedClassicalModel_of_ne_zero (by norm_num))
   exact a2l_center_eq_bot_of_row hrow (by decide) (by decide)
 
 theorem a2l_center_eq_bot_psu52
     {Y : Type} [Group Y] (hY : CFSG.IsQuasisimple Y)
     (hL : LieModel (Y ⧸ center Y) .PSU 5 2 1) : center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨-, hrow⟩ := psu_odd_row (hL.statedClassicalModel_of_ne_zero (by norm_num))
     (by decide)
   exact a2l_center_eq_bot_of_row hrow (by decide) (by decide)

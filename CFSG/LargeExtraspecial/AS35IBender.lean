@@ -69,7 +69,7 @@ theorem borel_facts [Finite X] [IsSimpleGroup X] (hQ1 : Q ≠ ⊥) (hM : M ≠ �
       refine mem_inf.2 ⟨hTM ht, CFSG.Timmesfeld.Bridge.mem_map_conj_inv_iff.2 (hTM ?_)⟩
       exact (mem_normalizer_iff.1 hg t).1 ht
     have hdvd := card_dvd_of_le hTle
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 T.isPGroup
     have hk0 : k ≠ 0 := by
       rintro rfl
       apply hQ1
@@ -159,7 +159,7 @@ theorem fusionIsBenderGroup [Finite X] (hQ2 : 2 < Nat.card Q) (hM : M ≠ ⊤)
         have hT4 : 4 ≤ Nat.card (T : Subgroup (↥N₀ ⧸ M₀.subgroupOf N₀)) :=
           hD.four.trans (card_le_of_le
             (CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter_le _))
-        obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 T.isPGroup'
+        obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 T.isPGroup
         rcases m with _ | m
         · rw [hm] at hT4
           norm_num at hT4

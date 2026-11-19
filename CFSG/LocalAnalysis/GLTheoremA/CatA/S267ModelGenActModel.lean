@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {X : Type} [Group X]
 
+omit [Finite Ω] in
 private theorem actHom_apply_of_mem (hS : S.Normal) {π : ↥S →* X} (hπ : Function.Surjective π)
     {Γ : Ω →* MulAut X}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 _⟩) (s : ↥S)
@@ -26,6 +27,7 @@ private theorem actHom_apply_of_mem (hS : S.Normal) {π : ↥S →* X} (hπ : Fu
   rw [hΓ, ← map_mul, ← map_inv, ← map_mul]
   rfl
 
+omit [Finite Ω] in
 private theorem card_map_comap (π : ↥S →* X) (hπ : Function.Surjective π) (H : Subgroup X) :
     Nat.card ((H.comap π).map S.subtype) = Nat.card H * Nat.card π.ker := by
   rw [Subgroup.card_map_of_injective S.subtype_injective]
@@ -33,6 +35,7 @@ private theorem card_map_comap (π : ↥S →* X) (hπ : Function.Surjective π)
   rw [Subgroup.map_comap_eq_self_of_surjective hπ, inf_eq_right.2 (Subgroup.ker_le_comap π H)] at h
   exact h.symm
 
+omit [Finite Ω] in
 theorem actFix_comap_eq_centralizer (hS : S.Normal) {π : ↥S →* X} (hπ : Function.Surjective π)
     {Γ : Ω →* MulAut X}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 _⟩)
@@ -71,6 +74,7 @@ private theorem map_conj_eq_of_mem_normalizer {J : Subgroup X} {a : X}
       rw [hφ]
       group
 
+omit [Finite Ω] in
 theorem actData_of_modelAGen_comap (hS : S.Normal) {π : ↥S →* X} (hπ : Function.Surjective π)
     (hker : Nat.card π.ker = p) {Γ : Ω →* MulAut X}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 _⟩) {n : ℕ}
@@ -133,6 +137,7 @@ theorem actData_of_modelAGen_comap (hS : S.Normal) {π : ↥S →* X} (hπ : Fun
     have hst : π s * t = t * π s := Subgroup.mem_centralizer_singleton_iff.1 (hAt hs)
     rw [hst, mul_inv_cancel_right]
 
+omit [Finite Ω] in
 private theorem exists_of_mem_map_comap {π : ↥S →* X} {H : Subgroup X} {x : Ω}
     (hx : x ∈ (H.comap π).map S.subtype) : ∃ s : ↥S, π s ∈ H ∧ x = s := by
   obtain ⟨s, hs, rfl⟩ := hx
@@ -146,6 +151,7 @@ private theorem map_pow_eq_of_map_eq {J : Subgroup X} {ψ : MulAut X}
     rw [pow_succ, show ((ψ ^ k * ψ : MulAut X)).toMonoidHom =
       (ψ ^ k).toMonoidHom.comp ψ.toMonoidHom from rfl, ← Subgroup.map_map, hJψ, ih]
 
+omit [Finite Ω] in
 theorem actData_of_modelBGen_comap (hp : p.Prime) (hS : S.Normal) {π : ↥S →* X}
     (hπ : Function.Surjective π) (hker : Nat.card π.ker = p) {Γ : Ω →* MulAut X}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 _⟩) {n : ℕ}
@@ -161,7 +167,7 @@ theorem actData_of_modelBGen_comap (hp : p.Prime) (hS : S.Normal) {π : ↥S →
     (hbM : ∀ m ∈ (A.comap π).map S.subtype, b * m = m * b) :
     ActData p ((A.comap π).map S.subtype ⊔ Subgroup.zpowers b) fun x => Γ x := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set M := (A.comap π).map S.subtype with hM
   set Z := Subgroup.zpowers b with hZ
   set D := (A₁.comap π).map S.subtype with hD
@@ -273,13 +279,14 @@ theorem actData_of_modelBGen_comap (hp : p.Prime) (hS : S.Normal) {π : ↥S →
     show Γ (x : Ω) t = t
     rw [hxs, hΓs, Subgroup.mem_centralizer_singleton_iff.1 (hAt (h1 hs)), mul_inv_cancel_right]
 
+omit [Finite Ω] in
 theorem exists_involution_lift_commute (hS : S.Normal) {π : ↥S →* X} (hπ : Function.Surjective π)
     (hπZ : π.ker ≤ Subgroup.center ↥S) (hodd : Odd (Nat.card π.ker)) {Γ : Ω →* MulAut X}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 _⟩) {t : X}
     (ht2 : t ^ 2 = 1) :
     ∃ s : ↥S, π s = t ∧ s ^ 2 = 1 ∧ ∀ x : Ω, Γ x t = t → x * (s : Ω) = (s : Ω) * x := by
   classical
-  haveI := hS
+  have := hS
   set n := Nat.card π.ker with hn
   have hzn : ∀ z ∈ π.ker, z ^ n = 1 := by
     intro z hz

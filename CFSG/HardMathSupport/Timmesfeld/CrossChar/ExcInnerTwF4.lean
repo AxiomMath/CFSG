@@ -120,7 +120,7 @@ theorem isInnerLocallyBalanced_adjointF4_of_dvd_add_one (h : F4TwistedResidual) 
     have h1 : ((Nat.card K + 1 : ℕ) : L) = 0 := by rw [hm, Nat.cast_mul, hp0, zero_mul]
     rw [Nat.cast_add, hK0, zero_add, Nat.cast_one] at h1
     exact one_ne_zero h1⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   set ζu : Lˣ := (hζ.isUnit hp.ne_zero).unit with hζu
   have hζu' : IsPrimitiveRoot ζu p :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)

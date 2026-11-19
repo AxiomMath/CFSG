@@ -212,11 +212,11 @@ private theorem copl_dual_pairs {n : ℕ} (P : Fin n → HypPair QN)
   by_cases hac : a = c
   · subst hac
     cases b <;> cases d <;> simp only [Prod.mk.injEq, and_false,
-      Bool.false_eq_true, if_true, if_false, HypPair.polar_ef, HypPair.polar_fe,
+      Bool.false_eq_true, ite_true, ite_false, HypPair.polar_ef, HypPair.polar_fe,
       HypPair.polar_ee, HypPair.polar_ff, Bool.true_eq_false]
   · have ho := hP a c hac
-    cases b <;> cases d <;> simp only [Prod.mk.injEq, hac, false_and, and_false, if_false,
-      ho.ee, ho.ef, ho.fe, ho.ff, Bool.false_eq_true, Bool.true_eq_false, if_true]
+    cases b <;> cases d <;> simp only [Prod.mk.injEq, hac, false_and, and_false, ite_false,
+      ho.ee, ho.ef, ho.fe, ho.ff, Bool.false_eq_true, Bool.true_eq_false, ite_true]
 
 omit [Finite K'] [FiniteDimensional K' N] in
 private theorem copl_dual {n : ℕ} (P : Fin n → HypPair QN)
@@ -239,16 +239,16 @@ private theorem copl_dual {n : ℕ} (P : Fin n → HypPair QN)
   · cases b <;> cases d
     · show polar QN u ((polar QN u v)⁻¹ • v) =
         if (Sum.inr false : (Fin n × Bool) ⊕ Bool) = Sum.inr false then 1 else 0
-      rw [if_pos rfl, polar_smul_right, smul_eq_mul, inv_mul_cancel₀ hpuv]
+      rw [ite_eq_left rfl, polar_smul_right, smul_eq_mul, inv_mul_cancel₀ hpuv]
     · show polar QN u ((polar QN u v)⁻¹ • u) =
         if (Sum.inr false : (Fin n × Bool) ⊕ Bool) = Sum.inr true then 1 else 0
-      rw [if_neg (by simp), polar_smul_right, copl_polar_self, smul_zero]
+      rw [ite_eq_right (by simp), polar_smul_right, copl_polar_self, smul_zero]
     · show polar QN v ((polar QN u v)⁻¹ • v) =
         if (Sum.inr true : (Fin n × Bool) ⊕ Bool) = Sum.inr false then 1 else 0
-      rw [if_neg (by simp), polar_smul_right, copl_polar_self, smul_zero]
+      rw [ite_eq_right (by simp), polar_smul_right, copl_polar_self, smul_zero]
     · show polar QN v ((polar QN u v)⁻¹ • u) =
         if (Sum.inr true : (Fin n × Bool) ⊕ Bool) = Sum.inr true then 1 else 0
-      rw [if_pos rfl, polar_smul_right, polar_comm QN v u, smul_eq_mul, inv_mul_cancel₀ hpuv]
+      rw [ite_eq_left rfl, polar_smul_right, polar_comm QN v u, smul_eq_mul, inv_mul_cancel₀ hpuv]
 
 omit [Finite K'] [FiniteDimensional K' N] [CharP K' 2] in
 private theorem copl_polar_perp {P : HypPair QN} {y : N} (h : y ∈ P.perp) :
@@ -399,12 +399,12 @@ private def coplLine (e f p p' : N) (w : ℕ → N) (k j : ℕ) : N × N :=
 private theorem coplLine_zero {e f p p' : N} {w : ℕ → N} {k : ℕ} :
     coplLine e f p p' w k 0 = (e, p) := by
   unfold coplLine
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem coplLine_mid {e f p p' : N} {w : ℕ → N} {k j : ℕ} (h1 : 1 ≤ j) (h2 : j ≤ k) :
     coplLine e f p p' w k j = (e, w (j - 1)) := by
   unfold coplLine
-  rw [if_neg (by omega), if_pos h2]
+  rw [ite_eq_right (by omega), ite_eq_left h2]
 
 private theorem coplLine_k1 {e f p p' : N} {w : ℕ → N} {k : ℕ} :
     coplLine e f p p' w k (k + 1) = (w 0, p) := by
@@ -429,7 +429,7 @@ private theorem coplLine_k4 {e f p p' : N} {w : ℕ → N} {k : ℕ} :
 private theorem coplLine_ge {e f p p' : N} {w : ℕ → N} {k j : ℕ} (h : k + 5 ≤ j) :
     coplLine e f p p' w k j = (0, 0) := by
   unfold coplLine
-  split_ifs <;> first | rfl | contradiction | omega
+  split_ifs <;> first | rfl | omega
 
 private noncomputable def coplAxis (ρ : ↥(elementaryGroup QN) →* (V ≃ₗ[K] V)) (e f p p' : N)
     (w : ℕ → N) (k j : ℕ) : Submodule K V :=
@@ -804,23 +804,23 @@ private theorem copl_cost_step {A : ℕ → Submodule K V} {k : ℕ}
   rcases (show j = 0 ∨ (1 ≤ j ∧ j ≤ k) ∨ j = k + 1 ∨ j = k + 2 ∨ j = k + 3 ∨ j = k + 4 by omega)
     with h | ⟨h1, h2⟩ | h | h | h | h
   · subst h
-    rw [show coplCost k 0 = 2 by unfold coplCost; rw [if_pos rfl]]
+    rw [show coplCost k 0 = 2 by unfold coplCost; rw [ite_eq_left rfl]]
     exact finrank_sup_le_add_two (hrank 0 (by omega))
-  · rw [show coplCost k j = 1 by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]]
+  · rw [show coplCost k j = 1 by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]]
     exact finrank_sup_le_add_one (hrank j (by omega)) (hle 0 j (by omega)) (hov j h1 h2)
   · subst h
     rw [show coplCost k (k + 1) = 0 by
-      unfold coplCost; rw [if_neg (by omega), if_pos (Or.inl rfl)]]
+      unfold coplCost; rw [ite_eq_right (by omega), ite_eq_left (Or.inl rfl)]]
     exact finrank_sup_le_of_le (hcopl.trans (sup_le (hle 0 (k + 1) (by omega))
       (hle 1 (k + 1) (by omega))))
   · subst h
-    rw [show coplCost k (k + 2) = 1 by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]]
+    rw [show coplCost k (k + 2) = 1 by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]]
     exact finrank_sup_le_add_one (hrank (k + 2) (by omega)) (hle (k + 1) (k + 2) (by omega)) h₂
   · subst h
-    rw [show coplCost k (k + 3) = 1 by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]]
+    rw [show coplCost k (k + 3) = 1 by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]]
     exact finrank_sup_le_add_one (hrank (k + 3) (by omega)) (hle (k + 2) (k + 3) (by omega)) h₃
   · subst h
-    rw [show coplCost k (k + 4) = 1 by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]]
+    rw [show coplCost k (k + 4) = 1 by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]]
     exact finrank_sup_le_add_one (hrank (k + 4) (by omega)) (hle (k + 2) (k + 4) (by omega)) h₄
 
 private theorem sum_coplCost (k : ℕ) : ∑ j ∈ Finset.range (k + 5), coplCost k j = k + 5 := by
@@ -829,14 +829,14 @@ private theorem sum_coplCost (k : ℕ) : ∑ j ∈ Finset.range (k + 5), coplCos
     · simp
     · have := Finset.mem_range.mp hj
       unfold coplCost
-      rw [if_neg (by omega), if_neg (by omega)]
-  have e0 : coplCost k 0 = 2 := by unfold coplCost; rw [if_pos rfl]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
+  have e0 : coplCost k 0 = 2 := by unfold coplCost; rw [ite_eq_left rfl]
   have e1 : coplCost k (k + 1) = 0 := by
     unfold coplCost
-    rw [if_neg (by omega), if_pos (Or.inl rfl)]
-  have e2 : coplCost k (k + 2) = 1 := by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]
-  have e3 : coplCost k (k + 3) = 1 := by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]
-  have e4 : coplCost k (k + 4) = 1 := by unfold coplCost; rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (Or.inl rfl)]
+  have e2 : coplCost k (k + 2) = 1 := by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
+  have e3 : coplCost k (k + 3) = 1 := by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
+  have e4 : coplCost k (k + 4) = 1 := by unfold coplCost; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   rw [show k + 5 = k + 4 + 1 from rfl, Finset.sum_range_succ, e4,
     show k + 4 = k + 3 + 1 from rfl, Finset.sum_range_succ, e3,
     show k + 3 = k + 2 + 1 from rfl, Finset.sum_range_succ, e2,

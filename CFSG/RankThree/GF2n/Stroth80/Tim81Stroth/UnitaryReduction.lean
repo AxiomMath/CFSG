@@ -17,6 +17,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem bar_CN_le_centralizer_bar_Z0 (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     bar M Q (hc.CN t) ≤ Subgroup.centralizer (bar M Q Z0 : Set (Mbar M Q)) := by
@@ -34,6 +35,7 @@ theorem bar_CN_le_centralizer_bar_Z0 (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G
   rw [QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf]
   simpa [commutatorElement_def, mul_inv_rev, div_eq_mul_inv, mul_assoc] using hcomm
 
+omit [Finite G] in
 theorem subgroupOf_bar_CN_le_centralizer_bar_Z0 (hc : Ctx M Q Z B) {t : G}
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     (bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z)) ≤
@@ -46,7 +48,8 @@ theorem subgroupOf_bar_CN_le_centralizer_bar_Z0 (hc : Ctx M Q Z B) {t : G}
     (bar_CN_le_centralizer_bar_Z0 hc hZ0 (Subgroup.mem_subgroupOf.mp hx))
     (y : Mbar M Q) (Subgroup.mem_subgroupOf.mp hy))
 
-theorem CN_le_NormH0 (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {Z0 : Subgroup G}
+omit [(Q.subgroupOf M).Normal] in
+theorem CN_le_NormH0 (hc : Ctx M Q Z B) {t : G} (_ht : t ∈ LB M Q B) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     hc.CN t ≤ NormH0 M Z Z0 := by
   have hnormR : ∀ r ∈ Rt M (LB M Q B) t, ∀ y ∈ Q, r * y * r⁻¹ ∈ Q := fun r hr y hy =>
@@ -70,6 +73,7 @@ theorem inSubgroup_pCore_eq_bar_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q
   rw [hO2]
   exact Subgroup.map_subgroupOf_eq_of_le hNM'
 
+omit [Finite G] in
 theorem Pc_MbarPrime_eq_bar_CN (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hO2 : inSubgroup (pCore 2) (MbarPrime M Q Z Z0) =

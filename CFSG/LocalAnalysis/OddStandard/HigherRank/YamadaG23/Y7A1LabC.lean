@@ -54,7 +54,7 @@ theorem y7a_card_lab_img {G : Type} [Group G] [Finite G] {n : ℕ} {V : Subgroup
   have hmain : Nat.card ↥S = Nat.card ↥(lab '' S) * Nat.card ↥V := by
     rw [Nat.card_congr he, Nat.card_prod]
   have hVpos : 0 < Nat.card ↥V := by
-    haveI : Nonempty ↥V := ⟨⟨1, V.one_mem⟩⟩
+    have : Nonempty ↥V := ⟨⟨1, V.one_mem⟩⟩
     exact Nat.card_pos
   exact (Nat.eq_of_mul_eq_mul_right hVpos (hS.symm.trans hmain)).symm
 

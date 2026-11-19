@@ -17,6 +17,7 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem mul_mem_axis {U U' V : Subgroup G}
     (hU : (U.subgroupOf V).index = 2) (hU' : (U'.subgroupOf V).index = 2)
     {v w : G} (hvV : v ∈ V) (hwV : w ∈ V)
@@ -54,6 +55,7 @@ private def axisSubgroup (U U' V : Subgroup G)
     exact ((Subgroup.inv_mem_iff (H := U)).trans hv).trans
       (Subgroup.inv_mem_iff (H := U')).symm
 
+omit [Finite G] in
 private theorem mul_mem_of_notMem_of_notMem {W H : Subgroup G}
     (hWH : H.relIndex W = 2) {a b : G} (haW : a ∈ W) (hbW : b ∈ W)
     (haH : a ∉ H) (hbH : b ∉ H) : a * b ∈ H := by
@@ -65,22 +67,26 @@ private theorem mul_mem_of_notMem_of_notMem {W H : Subgroup G}
     exact iff_of_false haH hbH
   simpa [Subgroup.mem_subgroupOf] using h'
 
+omit [Finite G] in
 private theorem conj_eq_of_mem_centralizer {W : Subgroup G} {x w : G}
     (hx : x ∈ Subgroup.centralizer (W : Set G)) (hw : w ∈ W) : x * w * x⁻¹ = w := by
   have h := Subgroup.mem_centralizer_iff.1 hx w hw
   calc x * w * x⁻¹ = w * x * x⁻¹ := by rw [← h]
     _ = w := by group
 
+omit [Finite G] in
 private theorem UOf_inf_V₀ (h : Hyp65 n M V₀ V g) :
     UOf M V g ⊓ V₀ = Z0Of M V₀ g := by
   unfold UOf Z0Of
   rw [inf_assoc, inf_comm (conjSubgroup M g) V₀, ← inf_assoc, inf_eq_right.mpr h.le]
 
+omit [Finite G] in
 private theorem conjUOf_inf_V₀ (h : Hyp65 n M V₀ V g) {k : G}
     (hk₀ : conjSubgroup V₀ k = V₀) :
     conjSubgroup (UOf M V g) k ⊓ V₀ = conjSubgroup (Z0Of M V₀ g) k := by
   rw [← UOf_inf_V₀ h, E3.conjSubgroup_inf, hk₀]
 
+omit [Finite G] in
 private theorem inducesTransvection_conj {V U : Subgroup G} {z z' c x : G}
     (hxN : x ∈ Subgroup.normalizer (V : Set G)) (hz' : x⁻¹ * z * x = z')
     (hc : FourteenTwo.InducesTransvection V U z c) :
@@ -103,11 +109,12 @@ private theorem inducesTransvection_conj {V U : Subgroup G} {z z' c x : G}
       _ = z' * v := by
             rw [show x⁻¹ * (z * (x * v * x⁻¹)) * x = (x⁻¹ * z * x) * v by group, hz']
 
+omit [Finite G] in
 private theorem inducesTransvection_mul {V U U' I : Subgroup G} {z c c' : G}
     (hIV : I ≤ V) (hI : ∀ v ∈ V, v ∈ I ↔ (v ∈ U ↔ v ∈ U'))
     (hc : FourteenTwo.InducesTransvection V U z c)
     (hc' : FourteenTwo.InducesTransvection V U' z c')
-    (hzU : z ∈ U) (hzU' : z ∈ U') (hz2 : z * z = 1) :
+    (hzU : z ∈ U) (_hzU' : z ∈ U') (hz2 : z * z = 1) :
     FourteenTwo.InducesTransvection V I z (c * c') := by
   constructor
   · intro w hw
@@ -173,9 +180,9 @@ theorem exists_axis (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g) (hV₀K : ¬
     by_cases hle : UOf M V g ≤ conjSubgroup (UOf M V g) x
     · have hnotle : ¬ conjSubgroup (UOf M V g) x ≤ UOf M V g :=
         fun hle' => hxUne (le_antisymm hle' hle)
-      obtain ⟨v, hvU', hvU⟩ := SetLike.not_le_iff_exists.1 hnotle
+      obtain ⟨v, hvU', hvU⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle
       exact ⟨v, hU'V hvU', fun h => hvU (h.mpr hvU')⟩
-    · obtain ⟨v, hvU, hvU'⟩ := SetLike.not_le_iff_exists.1 hle
+    · obtain ⟨v, hvU, hvU'⟩ := IsConcreteLE.not_le_iff_exists.1 hle
       exact ⟨v, (Subgroup.mem_inf.1 hvU).1, fun h => hvU' (h.mp hvU)⟩
   obtain ⟨v₀, hv₀V, hv₀diff⟩ := hdiff
   let I : Subgroup G :=
@@ -261,7 +268,7 @@ theorem exists_axis (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g) (hV₀K : ¬
     by_cases hvI : v ∈ I
     · have h1 : a * v * a⁻¹ = v := hT.1 v hvI
       rw [h1]
-      simpa using (Z0Of M V₀ g).one_mem
+      simp
     · have h1 : a * v * a⁻¹ = z * v := hT.2 v hvV hvI
       rw [h1]
       have h2 : z * v * v⁻¹ = z := by group
@@ -291,12 +298,12 @@ theorem exists_cTilde_conj_eq (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf
     intro hle
     have hcard : Nat.card D' ≤ Nat.card D := le_of_eq (E3.card_conjSubgroup D k)
     exact hkD (Subgroup.eq_of_le_of_card_ge hle hcard).symm
-  obtain ⟨v₁, hv₁D, hv₁D'⟩ := SetLike.not_le_iff_exists.1 hnotle
+  obtain ⟨v₁, hv₁D, hv₁D'⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle
   have hnotle' : ¬ D' ≤ D := by
     intro hle
     have hcard : Nat.card D ≤ Nat.card D' := le_of_eq (E3.card_conjSubgroup D k).symm
     exact hkD (Subgroup.eq_of_le_of_card_ge hle hcard)
-  obtain ⟨v₂, hv₂D', hv₂D⟩ := SetLike.not_le_iff_exists.1 hnotle'
+  obtain ⟨v₂, hv₂D', hv₂D⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle'
   have hv₁V₀ : v₁ ∈ V₀ := (Subgroup.mem_inf.1 hv₁D).1
   have hv₂V₀ : v₂ ∈ V₀ := hD'le hv₂D'
   have hkv₂D : k * v₂ * k⁻¹ ∈ D := mem_conjSubgroup_iff.1 hv₂D'

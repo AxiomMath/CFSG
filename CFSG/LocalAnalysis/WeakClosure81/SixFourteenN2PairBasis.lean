@@ -16,7 +16,7 @@ theorem autAddHom_mul_eq_of_comm {W : Type*} [CommGroup W] [Finite W]
     (hgh : (g * h) * x = x * (g * h)) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     autAddHom (g * h) v = autAddHom g (autAddHom h v) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   rw [← hGaloisLinearEquiv_apply hw2 x hx3 hfix (g * h) hgh v,
     ← hGaloisLinearEquiv_apply hw2 x hx3 hfix g hg (autAddHom h v),
     ← hGaloisLinearEquiv_apply hw2 x hx3 hfix h hh v]
@@ -28,7 +28,7 @@ theorem autAddHom_one_apply {W : Type*} [CommGroup W] [Finite W]
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     autAddHom (1 : MulAut W) v = v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   rw [← hGaloisLinearEquiv_apply hw2 x hx3 hfix 1 (by group) v,
     hGaloisLinearEquiv_one hw2 x hx3 hfix (by group)]
   rfl
@@ -39,7 +39,7 @@ theorem autAddHom_pow_eq_of_comm {W : Type*} [CommGroup W] [Finite W]
     (n : ℕ) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     (autAddHom g)^[n] v = autAddHom (g ^ n) v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   induction n with
   | zero =>
       rw [Function.iterate_zero_apply, pow_zero]
@@ -61,7 +61,7 @@ theorem autAddHom_smul_eq_of_comm {W : Type*} [CommGroup W] [Finite W]
     (c : GaloisField 2 2) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     autAddHom g (c • v) = c • autAddHom g v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   rw [← hGaloisLinearEquiv_apply hw2 x hx3 hfix g hg (c • v),
     ← hGaloisLinearEquiv_apply hw2 x hx3 hfix g hg v]
   exact map_smul (hGaloisLinearEquiv hw2 x hx3 hfix g hg) c v
@@ -71,26 +71,26 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16) :
     letI := galoisModule hw2 x hx3 hfix
     ∀ {G X H : Subgroup (MulAut W)}
-      (hH : H = G ⊓ Subgroup.centralizer (X : Set (MulAut W)))
-      (hxgen : X = Subgroup.zpowers x)
+      (_hH : H = G ⊓ Subgroup.centralizer (X : Set (MulAut W)))
+      (_hxgen : X = Subgroup.zpowers x)
       (hcommH : ∀ h ∈ H, h * x = x * h)
       {L M : LineOf (K := GaloisField 2 2) (V := Additive W)}
       {H0 : Subgroup ↥H} {d : ↥H}
-      (hLM : L ≠ M) (hH0card : Nat.card H0 = 9)
-      (hH0mem : ∀ h : ↥H, h ∈ H0 ↔
+      (_hLM : L ≠ M) (_hH0card : Nat.card H0 = 9)
+      (_hH0mem : ∀ h : ↥H, h ∈ H0 ↔
         lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L = L ∧
         lineMap (HLinHom hw2 x hx3 hfix H hcommH h) M = M)
-      (hcover : ∀ b : ↥H, b ∈ H0 ∨ b * d⁻¹ ∈ H0)
-      (hdL : lineMap (HLinHom hw2 x hx3 hfix H hcommH d) L = M)
-      (hdM : lineMap (HLinHom hw2 x hx3 hfix H hcommH d) M = L)
+      (_hcover : ∀ b : ↥H, b ∈ H0 ∨ b * d⁻¹ ∈ H0)
+      (_hdL : lineMap (HLinHom hw2 x hx3 hfix H hcommH d) L = M)
+      (_hdM : lineMap (HLinHom hw2 x hx3 hfix H hcommH d) M = L)
       {K0 : Subgroup ↥H} {vS : ↥K0} {dS : ↥H} {s0 : MulAut W}
-      (hvSord : orderOf vS = 3) (hdS2 : dS * dS = 1) (hdSnot : dS ∉ K0)
-      (hdvS : (dS : MulAut W) * (((vS : ↥K0) : ↥H) : MulAut W) * (dS : MulAut W)⁻¹ =
+      (_hvSord : orderOf vS = 3) (_hdS2 : dS * dS = 1) (_hdSnot : dS ∉ K0)
+      (_hdvS : (dS : MulAut W) * (((vS : ↥K0) : ↥H) : MulAut W) * (dS : MulAut W)⁻¹ =
         (((vS ^ 2 : ↥K0) : ↥H) : MulAut W))
-      (hs0sq : s0 * s0 = 1) (hs0x : s0 * x * s0⁻¹ = x ^ 2)
-      (hs0vS : s0 * (((vS : ↥K0) : ↥H) : MulAut W) * s0⁻¹ =
+      (_hs0sq : s0 * s0 = 1) (_hs0x : s0 * x * s0⁻¹ = x ^ 2)
+      (_hs0vS : s0 * (((vS : ↥K0) : ↥H) : MulAut W) * s0⁻¹ =
         (((vS : ↥K0) : ↥H) : MulAut W))
-      (hs0dS : s0 * (dS : MulAut W) * s0⁻¹ = (dS : MulAut W)),
+      (_hs0dS : s0 * (dS : MulAut W) * s0⁻¹ = (dS : MulAut W)),
     ∃ (l m : Additive W) (a : GaloisField 2 2) (U : Subgroup W),
       a ^ 3 = 1 ∧ a ≠ 1 ∧
       LinearIndependent (GaloisField 2 2) ![l, m] ∧
@@ -111,29 +111,29 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
         Additive.toMul ((autAddHom ((((vS : ↥K0) : ↥H) : MulAut W))) (Additive.ofMul u)) ∈ U ∧
         Additive.toMul ((autAddHom (dS : MulAut W)) (Additive.ofMul u)) ∈ U) ∧
       Submodule.span (GaloisField 2 2) (Additive.ofMul '' (U : Set W)) = ⊤ := by
-  letI := galoisModule hw2 x hx3 hfix
-  intro G X H hH hxgen hcommH L M H0 d hLM hH0card hH0mem hcover hdL hdM K0 vS dS s0
-    hvSord hdS2 hdSnot hdvS hs0sq hs0x hs0vS hs0dS
+  let := galoisModule hw2 x hx3 hfix
+  intro G X H _hH _hxgen hcommH L M H0 d _hLM _hH0card _hH0mem _hcover _hdL _hdM K0 vS dS s0
+    _hvSord _hdS2 _hdSnot _hdvS _hs0sq _hs0x _hs0vS _hs0dS
   let vH : ↥H := ((vS : ↥K0) : ↥H)
   let v0 : MulAut W := (vH : MulAut W)
   let d0 : MulAut W := (dS : MulAut W)
-  have hs0v : s0 * v0 * s0⁻¹ = v0 := by simpa [v0] using hs0vS
-  have hs0d : s0 * d0 * s0⁻¹ = d0 := by simpa [d0] using hs0dS
-  have hxX : x ∈ X := by rw [hxgen]; exact Subgroup.mem_zpowers x
+  have hs0v : s0 * v0 * s0⁻¹ = v0 := by simpa [v0] using _hs0vS
+  have hs0d : s0 * d0 * s0⁻¹ = d0 := by simpa [d0] using _hs0dS
+  have hxX : x ∈ X := by rw [_hxgen]; exact Subgroup.mem_zpowers x
   have hv0commx : v0 * x = x * v0 := by
     have hmem : v0 ∈ H := vH.2
-    rw [hH] at hmem
+    rw [_hH] at hmem
     have hcent : v0 ∈ Subgroup.centralizer (X : Set (MulAut W)) := (Subgroup.mem_inf.mp hmem).2
     exact ((Subgroup.mem_centralizer_iff.mp hcent) x hxX).symm
   have hd0commx : d0 * x = x * d0 := by
     have hmem : d0 ∈ H := dS.2
-    rw [hH] at hmem
+    rw [_hH] at hmem
     have hcent : d0 ∈ Subgroup.centralizer (X : Set (MulAut W)) := (Subgroup.mem_inf.mp hmem).2
     exact ((Subgroup.mem_centralizer_iff.mp hcent) x hxX).symm
   have hvHord : orderOf vH = 3 := by
     have h1 : orderOf vH = orderOf vS := Subgroup.orderOf_coe vS
     rw [h1]
-    exact hvSord
+    exact _hvSord
   have hv0ord : orderOf v0 = 3 := by
     have h2 : orderOf v0 = orderOf vH := Subgroup.orderOf_coe vH
     rw [h2]
@@ -145,11 +145,11 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     have := pow_orderOf_eq_one vH
     rwa [hvHord] at this
   have hd0sq : d0 * d0 = 1 := by
-    have := congrArg (fun z : ↥H => (z : MulAut W)) hdS2
+    have := congrArg (fun z : ↥H => (z : MulAut W)) _hdS2
     simpa [d0] using this
   have hd0ne : d0 ≠ 1 := by
     intro h
-    apply hdSnot
+    apply _hdSnot
     have h' : dS = 1 := Subtype.ext (by simpa [d0] using h)
     rw [h']
     exact K0.one_mem
@@ -162,11 +162,11 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
       (lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L = M ∧
        lineMap (HLinHom hw2 x hx3 hfix H hcommH h) M = L) := by
     intro h
-    rcases hcover h with hh | hh
-    · exact Or.inl ((hH0mem h).mp hh)
+    rcases _hcover h with hh | hh
+    · exact Or.inl ((_hH0mem h).mp hh)
     · right
       have hkd : h = (h * d⁻¹) * d := by group
-      have hkfix := (hH0mem (h * d⁻¹)).mp hh
+      have hkfix := (_hH0mem (h * d⁻¹)).mp hh
       constructor
       · calc lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L
             = lineMap (HLinHom hw2 x hx3 hfix H hcommH ((h * d⁻¹) * d)) L := by
@@ -177,7 +177,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
           _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹))
                 (lineMap (HLinHom hw2 x hx3 hfix H hcommH d) L) :=
                 lineMap_mul_apply _ _ _
-          _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹)) M := by rw [hdL]
+          _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹)) M := by rw [_hdL]
           _ = M := hkfix.2
       · calc lineMap (HLinHom hw2 x hx3 hfix H hcommH h) M
             = lineMap (HLinHom hw2 x hx3 hfix H hcommH ((h * d⁻¹) * d)) M := by
@@ -188,7 +188,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
           _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹))
                 (lineMap (HLinHom hw2 x hx3 hfix H hcommH d) M) :=
                 lineMap_mul_apply _ _ _
-          _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹)) L := by rw [hdM]
+          _ = lineMap (HLinHom hw2 x hx3 hfix H hcommH (h * d⁻¹)) L := by rw [_hdM]
           _ = L := hkfix.1
   have hv0fix : lineMap (HLinHom hw2 x hx3 hfix H hcommH vH) L = L ∧
       lineMap (HLinHom hw2 x hx3 hfix H hcommH vH) M = M := by
@@ -203,19 +203,19 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
       have h3L' : lineMap (HLinHom hw2 x hx3 hfix H hcommH (vH ^ 3)) L = M := by
         rw [show vH ^ 3 = vH * vH ^ 2 by group]
         rw [map_mul, lineMap_mul_apply, h2L, h.1]
-      exact hLM (h3L.symm.trans h3L')
+      exact _hLM (h3L.symm.trans h3L')
   have hd0swap : lineMap (hGaloisLinearEquiv hw2 x hx3 hfix d0 hd0commx) L = M ∧
       lineMap (hGaloisLinearEquiv hw2 x hx3 hfix d0 hd0commx) M = L := by
     rcases hpair_action dS with h | h
     · exfalso
-      have hdmem : dS ∈ H0 := (hH0mem dS).mpr h
+      have hdmem : dS ∈ H0 := (_hH0mem dS).mpr h
       have hdvd : orderOf dS ∣ Nat.card H0 := Subgroup.orderOf_dvd_natCard H0 hdmem
-      rw [hH0card] at hdvd
+      rw [_hH0card] at hdvd
       have hdSord : orderOf dS = 2 := by
-        have hpow : dS ^ 2 = 1 := by rw [pow_two]; exact hdS2
+        have hpow : dS ^ 2 = 1 := by rw [pow_two]; exact _hdS2
         exact orderOf_eq_prime hpow (by
           intro h1
-          apply hdSnot
+          apply _hdSnot
           rw [h1]
           exact K0.one_mem)
       rw [hdSord] at hdvd
@@ -254,9 +254,9 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     hGaloisLinearEquiv hw2 x hx3 hfix d0 hd0commx
   have hVf : Module.finrank (GaloisField 2 2) (Additive W) = 2 :=
     finrank_galoisModule hw2 x hx3 hfix hW
-  haveI hFD : FiniteDimensional (GaloisField 2 2) (Additive W) :=
+  have hFD : FiniteDimensional (GaloisField 2 2) (Additive W) :=
     FiniteDimensional.of_finrank_pos (by rw [hVf]; norm_num)
-  have htop : L.1 ⊔ M.1 = ⊤ := line_sup_eq_top hVf hLM
+  have htop : L.1 ⊔ M.1 = ⊤ := line_sup_eq_top hVf _hLM
   obtain ⟨l0, hl0_mem, hl0_ne⟩ : ∃ l0 : Additive W, l0 ∈ L.1 ∧ l0 ≠ 0 := by
     obtain ⟨l, hl⟩ := Module.finrank_pos_iff_exists_ne_zero.mp
       (show 0 < Module.finrank (GaloisField 2 2) L.1 by rw [L.2]; norm_num)
@@ -376,7 +376,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     · exact sub_eq_zero.mp h
     · exact absurd h hl0_ne
   have hdv0 : d0 * v0 * d0⁻¹ = v0 ^ 2 := by
-    simpa [v0, d0, Subgroup.coe_pow] using hdvS
+    simpa [v0, d0, Subgroup.coe_pow] using _hdvS
   have hd0inv : d0⁻¹ = d0 := (inv_eq_iff_mul_eq_one).mpr hd0sq
   have hconj_eq : d0 * v0 * d0 = v0 ^ 2 := by
     rw [hd0inv] at hdv0
@@ -517,7 +517,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
             simpa using h
       _ = autAddHom s0 (a • l0) := by rw [hva_l]
       _ = (a ^ 2) • autAddHom s0 l0 :=
-            autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x a l0
+            autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x a l0
       _ = b • autAddHom s0 l0 := by rw [hb_eq]
   have hs0l_memM : autAddHom s0 l0 ∈ M.1 := by
     have hE : autAddHom s0 l0 ∈ E := h_eig
@@ -525,7 +525,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
   have hs0l_ne : autAddHom s0 l0 ≠ 0 := by
     intro h
     have h2 : autAddHom s0 (autAddHom s0 l0) = 0 := by rw [h, map_zero]
-    rw [autAddHom_autAddHom_eq hs0sq l0] at h2
+    rw [autAddHom_autAddHom_eq _hs0sq l0] at h2
     exact hl0_ne h2
   let m0 : Additive W := autAddHom s0 l0
   have hm0_mem : m0 ∈ M.1 := hs0l_memM
@@ -534,7 +534,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     eq_span_singleton_of_mem_of_finrank_eq_one M.2 hm0_mem hm0_ne
   have hs0m0 : autAddHom s0 m0 = l0 := by
     change autAddHom s0 (autAddHom s0 l0) = l0
-    exact autAddHom_autAddHom_eq hs0sq l0
+    exact autAddHom_autAddHom_eq _hs0sq l0
   have hv_m0 : autAddHom v0 m0 = b • m0 := by
     change autAddHom v0 (autAddHom s0 l0) = b • autAddHom s0 l0
     exact h_eig
@@ -555,7 +555,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
             simpa using h
       _ = autAddHom s0 (c • m0) := by rw [hd0l_c]
       _ = c ^ 2 • autAddHom s0 m0 :=
-            autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x c m0
+            autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x c m0
       _ = c ^ 2 • l0 := by rw [hs0m0]
   let l : Additive W := c • l0
   let m : Additive W := c ^ 2 • m0
@@ -604,11 +604,11 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
             exact hroot_f4 c]
   have hs_l : autAddHom s0 l = m := by
     calc autAddHom s0 (c • l0) = c ^ 2 • autAddHom s0 l0 :=
-          autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x c l0
+          autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x c l0
       _ = c ^ 2 • m0 := rfl
   have hs_m : autAddHom s0 m = l := by
     calc autAddHom s0 (c ^ 2 • m0) = (c ^ 2) ^ 2 • autAddHom s0 m0 :=
-          autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x (c ^ 2) m0
+          autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x (c ^ 2) m0
       _ = (c ^ 2) ^ 2 • l0 := by rw [hs0m0]
       _ = c • l0 := by rw [hroot_f4 c]
   have hspanL' : L.1 = Submodule.span (GaloisField 2 2) {l} :=
@@ -618,7 +618,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
   have hli : LinearIndependent (GaloisField 2 2) ![l, m] := by
     rw [LinearIndependent.pair_iff]
     intro alpha beta hab
-    have hinf : L.1 ⊓ M.1 = ⊥ := line_inf_eq_bot hLM
+    have hinf : L.1 ⊓ M.1 = ⊥ := line_inf_eq_bot _hLM
     have hamem : alpha • l ∈ L.1 ⊓ M.1 := by
       refine Submodule.mem_inf.mpr ⟨L.1.smul_mem alpha hl_mem, ?_⟩
       have h : alpha • l = -(beta • m) := (add_eq_zero_iff_eq_neg).mp hab
@@ -657,8 +657,8 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
       change autAddHom s0 (c • l + c ^ 2 • m) = c • l + c ^ 2 • m
       calc autAddHom s0 (c • l + c ^ 2 • m)
           = c ^ 2 • autAddHom s0 l + (c ^ 2) ^ 2 • autAddHom s0 m := by
-              rw [map_add, autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x c l,
-                autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x (c ^ 2) m]
+              rw [map_add, autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x c l,
+                autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x (c ^ 2) m]
         _ = c ^ 2 • m + ((c ^ 2) ^ 2) • l := by rw [hs_l, hs_m]
         _ = c ^ 2 • m + c • l := by rw [hroot_f4 c]
         _ = c • l + c ^ 2 • m := by rw [add_comm]⟩
@@ -692,8 +692,8 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
     have hfixu := hu
     rw [hxy] at hfixu
     have hs0xy : autAddHom s0 (alpha • l + beta • m) = beta ^ 2 • l + alpha ^ 2 • m := by
-      rw [map_add, autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x alpha l,
-        autAddHom_smul_eq_sq hw2 x hx3 hfix hs0x beta m, hs_l, hs_m, add_comm]
+      rw [map_add, autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x alpha l,
+        autAddHom_smul_eq_sq hw2 x hx3 hfix _hs0x beta m, hs_l, hs_m, add_comm]
     have hrel : beta ^ 2 • l + alpha ^ 2 • m = alpha • l + beta • m := by
       calc beta ^ 2 • l + alpha ^ 2 • m = autAddHom s0 (alpha • l + beta • m) := hs0xy.symm
         _ = autAddHom s0 (Additive.ofMul (u : W)) := by rw [hxy]
@@ -796,7 +796,7 @@ private theorem pair_basis_and_U_aux {W : Type} [CommGroup W] [Finite W]
       exact sup_le hLle hMle
     exact top_le_iff.mp htop_le
   refine ⟨l, m, a, U, ha3, ha_ne_one, hli, hv_l, hv_m, hd_l, hd_m, hs_l, hs_m,
-    hv0ord, hd0sq, hs0sq, hs0x, hs0v, hs0d, rfl, hcardU, hpres, hspan_top⟩
+    hv0ord, hd0sq, _hs0sq, _hs0x, hs0v, hs0d, rfl, hcardU, hpres, hspan_top⟩
 
 theorem pair_basis_and_U_full {W : Type} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
@@ -858,7 +858,7 @@ theorem pair_basis_and_U_full {W : Type} [CommGroup W] [Finite W]
             (Additive.ofMul u)) ∈ U ∧
           Additive.toMul ((autAddHom (d : MulAut W)) (Additive.ofMul u)) ∈ U) ∧
         Submodule.span (GaloisField 2 2) (Additive.ofMul '' (U : Set W)) = ⊤) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨L, M, H0, v, d, s0, hLM, hXle, hH0card, hsup, hdisj, hvnotX, hvord, hdD, hd2,
     hdnot, hcoverS3, hdv, hs0cases, hs0G, hs0sq, hs0notH, hs0x, hs0v, hs0d, hs0comm⟩ :=
     sixfourteen_n2_pair_S3 hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen hsG hs_ord2

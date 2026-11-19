@@ -19,7 +19,7 @@ open CFSG.Assembly
       ∀ J₀ : Subgroup R,
         IsComponentOf J₀ (MonoidHom.eqLocus (h : R →* R) (MonoidHom.id R)) →
         ∀ f' : MulAut J₀, (∀ j : J₀, (f' j : R) = f j) →
-          GGMarkingAll (K := J₀) fun _ R' _ I' _ θ' => kgInducedAut θ' f' ∉ I'
+          GGMarkingAll (K := J₀) fun _ _R' _ I' _ θ' => kgInducedAut θ' f' ∉ I'
 
 @[expose] def KGFieldRestrictionOn (S : ℕ → LargeEvenLabel → Prop) : Prop :=
   ∀ (p : ℕ) (lab : LargeEvenLabel), p.Prime → p ≠ 2 → LargeEvenInLambda2 lab →
@@ -149,7 +149,7 @@ theorem kgFieldNotInnerInputOn_of_restriction {S : ℕ → LargeEvenLabel → Pr
     (largeEvenLabelAll_and (largeEvenLabelAll_and (largeEvenLabelAll_and hsm hconj) hinn)
       (hres p lab hp hp2 hlab ht3 hS))
   obtain ⟨⟨⟨⟨hs, hna⟩, hc⟩, hi⟩, hr⟩ := h
-  haveI := hs
+  have := hs
   exact kgFieldNotInnerCont_of_restriction hna hc hi hr
 
 end CFSG.StandardType

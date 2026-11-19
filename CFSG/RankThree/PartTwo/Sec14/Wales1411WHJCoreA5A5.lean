@@ -40,13 +40,13 @@ theorem map_ker_snd_eq (hA : Function.Injective (MulAut.conj : A →* MulAut A))
     (MonoidHom.snd A A).ker.map β.toMonoidHom = (MonoidHom.snd A A).ker ∨
       (MonoidHom.snd A A).ker.map β.toMonoidHom = (MonoidHom.fst A A).ker := by
   set N := (MonoidHom.snd A A).ker.map β.toMonoidHom with hN
-  haveI hNn : N.Normal := (MonoidHom.normal_ker _).map _ β.surjective
+  have hNn : N.Normal := (MonoidHom.normal_ker _).map _ β.surjective
   have hcardN : Nat.card N = Nat.card A := by
     rw [hN, Subgroup.card_map_of_injective β.injective, card_ker_snd]
   have h1 : N ⊓ (MonoidHom.snd A A).ker = ⊥ ∨ (MonoidHom.snd A A).ker ≤ N := by
     set P := (N ⊓ (MonoidHom.snd A A).ker).map (MonoidHom.fst A A) with hP
-    haveI : (N ⊓ (MonoidHom.snd A A).ker).Normal := inferInstance
-    haveI hPn : P.Normal := Subgroup.Normal.map inferInstance _ fun a => ⟨(a, 1), rfl⟩
+    have : (N ⊓ (MonoidHom.snd A A).ker).Normal := inferInstance
+    have hPn : P.Normal := Subgroup.Normal.map inferInstance _ fun a => ⟨(a, 1), rfl⟩
     rcases Subgroup.Normal.eq_bot_or_eq_top P with h | h
     · left
       rw [eq_bot_iff]
@@ -65,8 +65,8 @@ theorem map_ker_snd_eq (hA : Function.Injective (MulAut.conj : A →* MulAut A))
       exact this ▸ (Subgroup.mem_inf.mp hk).1
   have h2 : N ⊓ (MonoidHom.fst A A).ker = ⊥ ∨ (MonoidHom.fst A A).ker ≤ N := by
     set P := (N ⊓ (MonoidHom.fst A A).ker).map (MonoidHom.snd A A) with hP
-    haveI : (N ⊓ (MonoidHom.fst A A).ker).Normal := inferInstance
-    haveI hPn : P.Normal := Subgroup.Normal.map inferInstance _ fun a => ⟨(1, a), rfl⟩
+    have : (N ⊓ (MonoidHom.fst A A).ker).Normal := inferInstance
+    have hPn : P.Normal := Subgroup.Normal.map inferInstance _ fun a => ⟨(1, a), rfl⟩
     rcases Subgroup.Normal.eq_bot_or_eq_top P with h | h
     · left
       rw [eq_bot_iff]
@@ -146,7 +146,7 @@ theorem ks1411HJCoreA5A5 : KS1411HJCoreA5A5 := by
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST hsupp
   exfalso
   obtain ⟨φ⟩ := hX
-  haveI := HJInner.normal_X hset
+  have := HJInner.normal_X hset
   have hA5 := a5_facts
   set ι : alternatingGroup (Fin 5) →* M :=
     Xbar.subtype.comp (φ.symm.toMonoidHom.comp (MonoidHom.inl _ _)) with hι

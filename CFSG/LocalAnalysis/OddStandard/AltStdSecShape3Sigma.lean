@@ -53,7 +53,7 @@ theorem false_of_sylow_shape3_aux (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat
       have : z = (u⁻¹ * (u⁻¹ * y) * u * (u⁻¹ * y))⁻¹ := eq_inv_of_mul_eq_one_left hy1
       exact z_not_mem_L h d (by rw [this]; exact inv_mem hc')
     have hy1 : y ≠ 1 := fun h1 => hyU (h1 ▸ U.one_mem)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' (⟨y, hyS⟩ : (S : Subgroup G))
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup (⟨y, hyS⟩ : (S : Subgroup G))
     have hk' : orderOf y = 2 ^ k :=
       (Subgroup.orderOf_coe (⟨y, hyS⟩ : (S : Subgroup G))).trans hk
     rw [hu4, hk']
@@ -78,7 +78,7 @@ theorem false_of_sylow_shape3_aux (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat
     have := not_conj_mem_L h d hQ2 g⁻¹
     rw [inv_inv] at this
     exact this hsq
-  obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup'
+  obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup
     S.not_dvd_index hUT hUidx huS huU hmin hconj
   rcases hN.eq_bot_or_eq_top with h1 | h1
   · rw [h1, Subgroup.index_bot] at hNidx
@@ -98,7 +98,7 @@ theorem not_le_centralizer_of_sylow_shape3 (h : Setting G L n) (d : Cyc L Q z)
   set C := centralizer ({z} : Set G) with hC
   have hu4 : orderOf u = 4 := orderOf_eq_four_of_sq_eq d hu2
   have hSp : IsPGroup 2 ((S : Subgroup G).subgroupOf C) :=
-    S.isPGroup'.of_equiv (subgroupOfEquivOfLe hSC).symm
+    S.isPGroup.of_equiv (subgroupOfEquivOfLe hSC).symm
   have hSidx : ¬ 2 ∣ ((S : Subgroup G).subgroupOf C).index := by
     intro hd
     have h1 := Subgroup.relIndex_mul_index hSC
@@ -149,7 +149,7 @@ theorem exists_growth_shape3 (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   have hne : R ≠ (S : Subgroup G) := fun hRS' =>
     not_le_centralizer_of_sylow_shape3 h d hQ2 hu huL hu2 S (hRS' ▸ hRC)
-  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : R.subgroupOf (S : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne ?_
     refine le_antisymm hRS fun s hs => ?_
@@ -191,7 +191,7 @@ theorem exists_growth_shape3 (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card
         _ = z * x := by rw [← hw, hwz]
     have hle : R ⊔ Subgroup.zpowers x ≤ (S : Subgroup G) :=
       sup_le hRS (Subgroup.zpowers_le.2 hxS)
-    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup'.to_le hle
+    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup.to_le hle
     have hC : R ⊔ Subgroup.zpowers x ≤ centralizer ({z} : Set G) :=
       sup_le hRC (Subgroup.zpowers_le.2 hxC)
     have := hRmax _ hC hp le_sup_left

@@ -70,13 +70,13 @@ theorem centerIn_le_centralizer {H X : Subgroup G} (hXH : X ≤ H) :
   map_one' := by ext w; simp
   map_mul' a b := by
     ext w
-    simp [rho_mul_apply]
+    simp
 
 theorem commSpace_eq_top {A : Type} [Group A] [Finite A] {M : Type} [AddCommGroup M]
     [Module (ZMod 2) M] (σ : Representation (ZMod 2) A M) (B : Subgroup A)
     (hodd : Odd (Nat.card B)) (hfix : fixedSpace σ B = ⊥) : commSpace σ B = ⊤ := by
   classical
-  haveI : Fintype B := Fintype.ofFinite _
+  have : Fintype B := Fintype.ofFinite _
   have hc : ((Fintype.card B : ℕ) : ZMod 2) = 1 := by
     rw [Fintype.card_eq_nat_card]; exact ZMod.natCast_eq_one_iff_odd.2 hodd
   rw [eq_top_iff]
@@ -95,7 +95,7 @@ theorem commSpace_eq_top {A : Type} [Group A] [Finite A] {M : Type} [AddCommGrou
   rw [he]
   exact Submodule.neg_mem _ hs
 
-theorem stable_inf {H X : Subgroup G} (ρ : Representation (ZMod 2) G V) (hXH : X ≤ H)
+theorem stable_inf {H X : Subgroup G} (ρ : Representation (ZMod 2) G V) (_hXH : X ≤ H)
     {s : G} (hsH : s ∈ H) (hsX : s ∈ centralizer (X : Set G)) {w : V}
     (hw : w ∈ commSpace ρ (centerIn H) ⊓ fixedSpace ρ X) :
     ρ s w ∈ commSpace ρ (centerIn H) ⊓ fixedSpace ρ X := by
@@ -125,7 +125,7 @@ theorem dvd_base [Finite G] [Module.Finite (ZMod 2) V]
     (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G) (hH : CFSG.IsExtraspecialPGroup p H)
     (X : Subgroup G) (hXH : X ≤ H) :
     WeakClosure.dOfPrime p ∣ Module.finrank (ZMod 2) ↥(commSpace ρ (centerIn H) ⊓ fixedSpace ρ X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set W := commSpace ρ (centerIn H) ⊓ fixedSpace ρ X with hWdef
   have hZc := card_centerIn H hH
   set Z := centerIn H with hZ
@@ -249,7 +249,7 @@ theorem main_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ∀ n : ℕ, ∀ (G 
     ring
 
 theorem dimension_dvd [Finite G] [Module.Finite (ZMod 2) V]
-    (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective ρ) {p n : ℕ}
+    (ρ : Representation (ZMod 2) G V) (_hρ : Function.Injective ρ) {p n : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2)
     (H : Subgroup G) (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
     (hwidth : Nat.card H = p ^ (1 + 2 * n))

@@ -54,9 +54,9 @@ theorem step_matOps {n : ℕ} {R : Array (Matrix (Fin d) (Fin d) (ZMod p))}
     simp only [Ops.step, Array.set!, slpStep]
     rw [OpsSpec.getElem!_setIfInBounds_of_lt (by omega), Function.update_apply]
     by_cases hk : k = r
-    · rw [if_pos hk, if_pos hk.symm, hR i hi, hR j hj]
+    · rw [ite_eq_left hk, ite_eq_left hk.symm, hR i hi, hR j hj]
       rfl
-    · rw [if_neg hk, if_neg (Ne.symm hk), hR r hr]
+    · rw [ite_eq_right hk, ite_eq_right (Ne.symm hk), hR r hr]
   | pow e i k =>
     simp only [Op.lt, Bool.and_eq_true, decide_eq_true_eq] at hop
     obtain ⟨hi, -⟩ := hop
@@ -64,8 +64,8 @@ theorem step_matOps {n : ℕ} {R : Array (Matrix (Fin d) (Fin d) (ZMod p))}
     simp only [Ops.step, Array.set!, slpStep]
     rw [OpsSpec.getElem!_setIfInBounds_of_lt (by omega), Function.update_apply]
     by_cases hk : k = r
-    · rw [if_pos hk, if_pos hk.symm, hR i hi, matOps_pow]
-    · rw [if_neg hk, if_neg (Ne.symm hk), hR r hr]
+    · rw [ite_eq_left hk, ite_eq_left hk.symm, hR i hi, matOps_pow]
+    · rw [ite_eq_right hk, ite_eq_right (Ne.symm hk), hR r hr]
 
 theorem run_matOps {n : ℕ} : ∀ (prog : List Op) {R : Array (Matrix (Fin d) (Fin d) (ZMod p))}
     {S : ℕ → Matrix (Fin d) (Fin d) (ZMod p)}, R.size = n → (∀ r < n, R[r]! = S r) →

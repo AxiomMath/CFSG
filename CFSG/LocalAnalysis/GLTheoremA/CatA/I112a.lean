@@ -117,7 +117,7 @@ private theorem cat_card_le_nine_of_weakExc {i : TauCeti.CFSGIndex} (hi : weakEx
     rcases hi with h | h
     · rcases cat_excLie_shape h with ⟨q, rfl, hq⟩ | ⟨q, rfl, hq⟩
       ·
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have eP : M ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 3)
             (GaloisField q.p q.exponent) :=
           e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)
@@ -139,7 +139,7 @@ private theorem cat_card_le_nine_of_weakExc {i : TauCeti.CFSGIndex} (hi : weakEx
         norm_num at this
         exact this
       ·
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have eU := e.trans (CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj 2 q hv)
         have hch : TauCeti.ValidLieTypeIndex.characteristic
             (⟨TauCeti.LieTypeIndex.twistedA 2 q, hv⟩ : TauCeti.ValidLieTypeIndex) = q.p :=
@@ -478,7 +478,7 @@ private theorem cat_lm_E6
     (hp : q.p ≠ 2) (e : S ≃* ValidLieTypeIndex.Group ⟨.E6 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.e6 q hv hp (GaloisField q.p q.exponent)
@@ -493,7 +493,7 @@ private theorem cat_lm_E7
     (hp : q.p ≠ 2) (e : S ≃* ValidLieTypeIndex.Group ⟨.E7 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.e7 q hv hp (GaloisField q.p q.exponent)
@@ -508,7 +508,7 @@ private theorem cat_lm_E8
     (hp : q.p ≠ 2) (e : S ≃* ValidLieTypeIndex.Group ⟨.E8 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.e8 q hv hp (GaloisField q.p q.exponent)
@@ -523,7 +523,7 @@ private theorem cat_lm_F4
     (hp : q.p ≠ 2) (e : S ≃* ValidLieTypeIndex.Group ⟨.F4 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.f4 q hv hp (GaloisField q.p q.exponent)
@@ -538,7 +538,7 @@ private theorem cat_lm_G2
     (hp : q.p ≠ 2) (hr : 3 ≤ q.card) (e : S ≃* ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.g2 q hv hp (GaloisField q.p q.exponent)
@@ -561,7 +561,7 @@ private theorem cat_lm_twistedE6
     (e : S ≃* ValidLieTypeIndex.Group ⟨.twistedE6 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (TwistTag.E6).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (TwistTag.E6).order)) =
       (q.p ^ q.exponent) ^ (TwistTag.E6).order := by
@@ -583,7 +583,7 @@ private theorem cat_lm_trialityD4
     (e : S ≃* ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n q.p f ∧
       CFSG.Blueprint.LieModel S t n q.p f := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (TwistTag.D4).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (TwistTag.D4).order)) =
       (q.p ^ q.exponent) ^ (TwistTag.D4).order := by
@@ -604,7 +604,7 @@ private theorem cat_lm_reeG2
     (hm : 1 ≤ m) (e : S ≃* ValidLieTypeIndex.Group ⟨.reeG2 m, hv⟩) :
     ∃ (t : StatedLieTag) (n f : ℕ), StatedLieAdmissible t n 3 f ∧
       CFSG.Blueprint.LieModel S t n 3 f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 (2 * m + 1)) = 3 ^ (2 * m + 1) :=
     GaloisField.card _ _ (by omega)
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.reeG2 m hv (GaloisField 3 (2 * m + 1)) hK
@@ -720,7 +720,7 @@ private theorem cat_not_L2_odd
     {S : Type} [Group S] (n : ℕ) (hn : Odd n) (hn3 : 3 ≤ n)
     (e' : S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n))
     (e : S ≃* d.Group) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, m, f, hadm, hm⟩ := cat_lieModel_odd d hp e
   have hodd : CFSG.Blueprint.OddLieType S :=
     ⟨t, m, d.1.characteristic, f, hadm.1, hp, hadm, hm⟩
@@ -762,7 +762,7 @@ private theorem cat_card_psl_two_char2
     (n : ℕ) (hn : 1 ≤ n) :
     Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) =
       2 ^ n * ((2 ^ n) ^ 2 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := CFSG.RankThree.PartTwo.KFacts.card_psl_mul_gcd (K := GaloisField 2 n) (n := 2)
     (by norm_num)
   rw [GaloisField.card _ _ (by omega)] at h
@@ -851,7 +851,7 @@ private theorem cat_twoLocalRank_le
     (hW : ∀ W U : Subgroup G, W ≤ X → IsElemAbelian p W → U ≤ X → U ≠ ⊥ → IsPGroup 2 U →
       W ≤ Subgroup.normalizer (U : Set G) → Nat.card W ≤ Nat.card B) :
     GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := exists_card_eq_pow_of_isElemAbelian hp hB
   have hBm : m ≤ CFSG.Open.pRank p B := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB hm
   refine le_trans ?_ hBm
@@ -927,7 +927,7 @@ private theorem cat_su3_index
   have hf : TauCeti.ValidLieTypeIndex.fieldExponent ⟨TauCeti.LieTypeIndex.twistedA 2 Q, hv⟩ =
       Q.exponent :=
     TauCeti.LieTypeIndex.fieldExponent_twistedA 2 Q
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic
       ⟨TauCeti.LieTypeIndex.twistedA 2 Q, hv⟩).Prime :=
     ⟨TauCeti.ValidLieTypeIndex.characteristic_prime _⟩
   set c := TauCeti.ValidLieTypeIndex.characteristic ⟨TauCeti.LieTypeIndex.twistedA 2 Q, hv⟩ with hcdef
@@ -941,8 +941,8 @@ private theorem cat_su3_index
     rw [hc, hf, ← TauCeti.PrimePower.card_def, hQc]
   have hcard : Nat.card F = Nat.card (GaloisField c (2 * f)) := by
     rw [hKc, hFq, ← hcq, ← pow_mul, mul_comm]
-  letI := Fintype.ofFinite F
-  letI := Fintype.ofFinite (GaloisField c (2 * f))
+  let := Fintype.ofFinite F
+  let := Fintype.ofFinite (GaloisField c (2 * f))
   have φ' : F ≃+* GaloisField c (2 * f) :=
     FiniteField.ringEquivOfCardEq (by rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; exact hcard)
   have e₃ : X ≃* StatedSU 3 q (GaloisField c (2 * f)) :=
@@ -984,7 +984,7 @@ theorem i112ChevAt_holds
       have hsub : Subsingleton (PQuot 3 M ⧸ Subgroup.center (PQuot 3 M)) := by
         rw [h]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI := hQsimp.2.toNontrivial
+      have := hQsimp.2.toNontrivial
       exact not_subsingleton _ hsub
   refine ⟨rfl, hcen, ?_⟩
   have eS : PSimple 3 M ≃* PQuot 3 M :=

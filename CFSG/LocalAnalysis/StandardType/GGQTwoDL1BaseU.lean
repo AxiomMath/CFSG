@@ -45,7 +45,7 @@ theorem qtwoDL1_baseU_inner {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs X : 
     {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {ψ : Su K 2 1 n →* G}
     (hK : Nat.card K = 4) (h : GGNSLocalHyp p B Bs K 1 n ψ) (hrange : ψ.range = X)
     (hd : GGActsDiagonally (p := 2) (f := 1) ψ Bs)
-    (hfull : Nat.card ↥Bs = 3 ^ (n - 1) *
+    (_hfull : Nat.card ↥Bs = 3 ^ (n - 1) *
       Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)))
     {a b c : Fin n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) {r r' : MulAut ↥Bs}
     (hr : ∀ s : ↥Bs, ((r s : ↥Bs) : G) =
@@ -112,13 +112,13 @@ theorem qtwoDL1_baseU_hin {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subg
     {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
     (ha₀ : GGLNoncyclicInput)
-    (hodd : Odd (Nat.card ↥(Subgroup.centralizer (Bs : Set G))))
+    (_hodd : Odd (Nat.card ↥(Subgroup.centralizer (Bs : Set G))))
     {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} [NeZero n] {ψ : Su K 2 1 n →* G}
     (hK : Nat.card K = 4) (h : GGNSLocalHyp p B Bs K 1 n ψ) (hrange : ψ.range = L)
     (hd : GGActsDiagonally (p := 2) (f := 1) ψ Bs)
     (hfull : Nat.card ↥Bs = 3 ^ (n - 1) * Nat.card ↥(Bs ⊓ Subgroup.centralizer (L : Set G)))
     {r₀ r₀' : MulAut ↥Bs} (hr₀A : r₀ ∈ ggAutomizer L Bs) (hr₀'A : r₀' ∈ ggAutomizer L Bs)
-    (hr₀refl : GGIsReflection p r₀) (hr₀'refl : GGIsReflection p r₀')
+    (_hr₀refl : GGIsReflection p r₀) (_hr₀'refl : GGIsReflection p r₀')
     (hrfun : ∀ s : ↥Bs, ((r₀ s : ↥Bs) : G) =
       ψ (ggPermSU (Equiv.swap (0 : Fin n) 1)) * (s : G) *
         (ψ (ggPermSU (Equiv.swap (0 : Fin n) 1)))⁻¹)
@@ -181,7 +181,7 @@ theorem qtwoDL1_base_unit (ha₀ : GGLNoncyclicInput) {G : Type} [Group G] [Fini
     ∃ r₀ ∈ ggAutomizer L Bs, GGIsReflection p r₀ ∧ ∃ r₀' ∈ ggAutomizer L Bs,
       GGIsReflection p r₀' ∧ r₀ * r₀' ≠ r₀' * r₀ ∧ Nat.card ↥(ggRankTwo Bs r₀ r₀') ≤ 216 := by
   have hn4 : 4 ≤ n := h.four_le
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨ε, hact, hεrefl⟩ := ggNSDiag_automizer_perm (f := 1) h hd
   let r₀ : MulAut ↥Bs :=
     ((ε (Equiv.swap (0 : Fin n) 1) : ↥(ggAutomizer ψ.range Bs)) : MulAut ↥Bs)

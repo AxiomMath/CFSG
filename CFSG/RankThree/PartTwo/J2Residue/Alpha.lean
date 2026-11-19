@@ -36,6 +36,7 @@ private theorem le_centralizer_of_mem_thetaComponentsAt {L : Subgroup G} {b : G}
   obtain ⟨L', -, rfl⟩ := hL
   exact Subgroup.map_subtype_le L'
 
+omit [Finite G] in
 private theorem alpha_Y_facts {L LB : Subgroup G} {b d : G} (hJ : J2Config L d LB)
     (hLb : L ≤ Subgroup.centralizer ({b} : Set G)) (hbd : Commute b d) :
     LB ≤ Subgroup.centralizer (Subgroup.closure {b, d} : Set G) ⊓
@@ -92,11 +93,11 @@ theorem false_of_alpha (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
   set Z₀ := Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) with hZ₀
   obtain ⟨r, hr, hr5, F₁, F₂, hF₁Θ, hch, u, huZ, f, hfF, hfu⟩ :=
     exists_chiefFactor hΘs hΘ3 hΘ2 hZ2 hZ1 (hZU.trans hUΘ) hZY hYΘ'
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, hV1, hV2, hV3, ρ, q, hρ, hq⟩ := exists_chiefRep_of_isChiefFactorUnder hch
-  letI := hV1
-  letI := hV2
-  haveI := hV3
+  let := hV1
+  let := hV2
+  have := hV3
   have hF₁ : IsPGroup r F₁ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup r Θ).to_le hF₁Θ
   have hloc := Sec16.Kcd166.card_le_sq_of_localRank_lt hr (hrk r hr (by omega))
   have h2 : (2 : ZMod r) ≠ 0 := by

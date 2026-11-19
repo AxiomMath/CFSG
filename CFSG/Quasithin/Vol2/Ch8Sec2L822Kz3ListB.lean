@@ -13,6 +13,7 @@ open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem modO2_quot_iso_kz3 {Gz Lz : Subgroup G} (hLzG : Lz ≤ Gz) :
     Nonempty ((↥Lz ⧸ CFSG.pCore 2 ↥Lz) ≃*
       (↥(modO2Image Gz Lz) ⧸ CFSG.pCore 2 ↥(modO2Image Gz Lz))) := by

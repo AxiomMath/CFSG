@@ -87,11 +87,8 @@ theorem eichF_comp {w u u' : V6} (hu : bil u w = 0) (hu' : bil u' w = 0) (x : V6
     eichF w u (eichF w u' x) = eichF w (u + u') x := by
   funext i
   simp only [eichF, Pi.add_apply, Pi.smul_apply, smul_eq_mul, bil_add_left, bil_add_right,
-    bil_smul_left, bil_smul_right, bil_self, qm_add, bil_comm_zero hu, bil_comm_zero hu',
-    bil_comm u' u, hu, hu']
+    bil_smul_left, bil_self, qm_add, bil_comm_zero hu, bil_comm u' u, hu']
   ring_nf
-  try (simp only [pow_two, zmod2_mul_self, zmod2_add_self_self, CharTwo.add_self_eq_zero,
-    CharTwo.two_eq_zero, mul_zero, zero_mul, add_zero, zero_add])
 
 theorem eichF_self {w u : V6} (hu : bil u w = 0) (x : V6) :
     eichF w u (eichF w u x) = x := by
@@ -104,11 +101,10 @@ theorem eichF_apply_w {w u : V6} (hu : bil u w = 0) : eichF w u w = w := by
 theorem eichF_add_w {w u : V6} (hw : qm w = 0) (hu : bil u w = 0) (x : V6) :
     eichF w (u + w) x = eichF w u x := by
   funext i
-  simp only [eichF, Pi.add_apply, Pi.smul_apply, smul_eq_mul, bil_add_left, bil_add_right,
-    bil_smul_left, bil_smul_right, bil_self, qm_add, bil_comm_zero hu, hu, hw]
+  simp only [eichF, Pi.add_apply, Pi.smul_apply, smul_eq_mul, bil_add_right,
+    qm_add, hu, hw]
   ring_nf
-  try (simp only [pow_two, zmod2_mul_self, zmod2_add_self_self, CharTwo.add_self_eq_zero,
-    CharTwo.two_eq_zero, mul_zero, zero_mul, add_zero, zero_add])
+  try (simp only [CharTwo.two_eq_zero, mul_zero, add_zero])
 
 theorem eichF_conj {g : Equiv.Perm V6} (hg : g ∈ OrthMinus) {w u : V6} (hgw : g w = w) (x : V6) :
     g (eichF w u x) = eichF w (g u) (g x) := by
@@ -121,7 +117,7 @@ theorem eichF_conj {g : Equiv.Perm V6} (hg : g ∈ OrthMinus) {w u : V6} (hgw : 
   rw [hg.1, hg.1, perm_smul hg.1, perm_smul hg.1, hgw, hbw, hbu, hqu]
 
 theorem eichF_eq_iff {w u u' : V6} (hw : qm w = 0) (hw0 : w ≠ 0) (hu : bil u w = 0)
-    (hu' : bil u' w = 0) :
+    (_hu' : bil u' w = 0) :
     (∀ x, eichF w u x = eichF w u' x) ↔ (u + u' = 0 ∨ u + u' = w) := by
   constructor
   · intro hP

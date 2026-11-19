@@ -96,8 +96,8 @@ theorem mem_hypBlock {h : UnitaryFieldData 2 n K} {T : Set (HypIndex r ε)} {g :
   (coordBlockSL K ({i, j} : Finset (Fin r))).map (leviSU h ε)
 
 theorem one_mem_traceZero (h : UnitaryFieldData 2 n K) : (1 : K) ∈ h.traceZero := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   rw [UnitaryFieldData.mem_traceZero, UnitaryFieldData.trace, map_one]
   exact CharTwo.add_self_eq_zero 1
 

@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace ExtraspecialDimensionBounds
 
+omit [Finite G] in
 theorem commRank_eq {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) G V) (t : G) :
     commRank ρ t = Module.finrank (ZMod 2) ↥(BinaryRepresentations.commSpace ρ (Subgroup.zpowers t)) := by
@@ -60,7 +61,7 @@ theorem extraspecial_dimension_bound_le_two_mul_moduleRank {p : ℕ} {P T B : Su
   have hp2 : p ≠ 2 := by have := hS.odd; rintro rfl; exact absurd this (by decide)
   have hdO : binaryMultiplicativeOrder p = WeakClosure.dOfPrime p := by unfold binaryMultiplicativeOrder; exact (WeakClosure.dOfPrime_eq_orderOf hp hp2).symm
   rw [hdO]
-  haveI : Module.Finite (ZMod 2) V :=
+  have : Module.Finite (ZMod 2) V :=
     haveI := ExtraspecialDimensionBounds.finiteDimensional_of_irreducible' ρ
       h.faithfulBinaryIrreducibleAction.irreducible
     inferInstance
@@ -125,7 +126,7 @@ theorem extraspecial_dimension_bound_le_two_mul_moduleRank {p : ℕ} {P T B : Su
       NoncentralOrderP.exists_subgroup hp hH hexp
     obtain ⟨k1, k2, -⟩ := key X hXP hXp hXZ
     have hM : moduleM ρ = Module.finrank (ZMod 2) V := by
-      unfold moduleM; rw [if_neg hev]
+      unfold moduleM; rw [ite_eq_right hev]
     rw [hM]
     set m := Module.finrank (ZMod 2) ↥(BinaryRepresentations.commSpace ρ (BinaryRepresentations.centerIn P) ⊓ BinaryRepresentations.fixedSpace ρ X)
     calc p ^ (n - 1) * (p - 1) * WeakClosure.dOfPrime p = p ^ (n - 1) * WeakClosure.dOfPrime p * (p - 1) := by ring

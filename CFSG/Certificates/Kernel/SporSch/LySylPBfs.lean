@@ -45,7 +45,7 @@ private theorem plOK_spec {W PL : Nat → Nat} {n j : Nat} (h : plOK W PL n j = 
       rw [hb] at b2
       exact Eq.mp Nat.ble_eq b2
 
-private theorem ofFn_set {α : Type} (F : Nat → α) {n k : Nat} (hk : k < n) (v : α) :
+private theorem ofFn_set {α : Type} (F : Nat → α) {n k : Nat} (_hk : k < n) (v : α) :
     (Array.ofFn (n := n) fun i => F i.val).set! k v =
       Array.ofFn (n := n) fun i => if i.val = k then v else F i.val := by
   rw [Array.set!_eq_setIfInBounds]
@@ -81,7 +81,7 @@ private theorem index_fold {α : Type} [BEq α] [Hashable α] [LawfulBEq α] [In
       Std.HashMap.getElem?_insert]
     by_cases hkn : k = n
     · subst hkn
-      rw [if_pos (beq_self_eq_true _)]
+      rw [ite_eq_left (beq_self_eq_true _)]
     · have hne : (pts[n]! == pts[k]!) = false := by
         rw [beq_eq_false_iff_ne]
         intro e
@@ -106,24 +106,24 @@ private noncomputable def lamRows (W : Nat → Nat) (h k : Nat) : Array (Array N
 private theorem lamRows_step (W : Nat → Nat) {h k : Nat} (hk : k < 6) :
     (lamRows W h k).set! k ((lamRows W h k)[k]!.push (lamK W k h)) = lamRows W h (k + 1) := by
   unfold lamRows
-  rw [ofFn_getP (fun k' => lamRow W k' (if k' < k then h + 1 else h)) hk, if_neg (Nat.lt_irrefl k)]
+  rw [ofFn_getP (fun k' => lamRow W k' (if k' < k then h + 1 else h)) hk, ite_eq_right (Nat.lt_irrefl k)]
   have e : (lamRow W k h).push (lamK W k h) = lamRow W k (h + 1) :=
     ofFn_push (fun i => lamK W k i) h
   rw [e, ofFn_set (fun k' => lamRow W k' (if k' < k then h + 1 else h)) hk]
   congr 1
   funext i
   by_cases hi : i.val = k
-  · rw [if_pos hi, hi, if_pos (Nat.lt_succ_self k)]
-  · rw [if_neg hi]
+  · rw [ite_eq_left hi, hi, ite_eq_left (Nat.lt_succ_self k)]
+  · rw [ite_eq_right hi]
     by_cases hlt : i.val < k
-    · rw [if_pos hlt, if_pos (by omega)]
-    · rw [if_neg hlt, if_neg (by omega)]
+    · rw [ite_eq_left hlt, ite_eq_left (by omega)]
+    · rw [ite_eq_right hlt, ite_eq_right (by omega)]
 
 private theorem lamRows_next (W : Nat → Nat) (h : Nat) : lamRows W h 6 = lamRows W (h + 1) 0 := by
   unfold lamRows
   congr 1
   funext i
-  rw [if_pos i.isLt, if_neg (Nat.not_lt_zero _)]
+  rw [ite_eq_left i.isLt, ite_eq_right (Nat.not_lt_zero _)]
 
 private theorem lamRows_end (W : Nat → Nat) (c : Nat) :
     lamRows W c 0 = Array.ofFn (n := 6) fun k => Array.ofFn (n := c) fun h => lamK W k.val h.val := by
@@ -232,7 +232,7 @@ theorem bfs_sound {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W PL SO
     have hnf := (hI h hh (k + 1) (by omega)).2.1
     have e := hIs h k
     have hl : fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511) = lamK W k h := rfl
-    rw [stepB_eq, if_pos hcur, hl] at e
+    rw [stepB_eq, ite_eq_left hcur, hl] at e
     split_ifs at e with hA hB
     · exact Or.inl ⟨e, hA.1, hA.2⟩
     · exact Or.inr ⟨e, hB.1, hB.2.1, hB.2.2⟩
@@ -316,7 +316,7 @@ theorem bfs_sound {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W PL SO
         rw [Std.HashMap.getElem?_insert] at hz
         by_cases e : (idM 111 == z) = true
         · exact ⟨0, Nat.zero_lt_one, by rw [← hidE]; exact eq_of_beq e⟩
-        · rw [if_neg e, Std.HashMap.getElem?_empty] at hz
+        · rw [ite_eq_right e, Std.HashMap.getElem?_empty] at hz
           exact absurd hz (by decide)
       · change #[0] = Array.ofFn (n := 1) fun i => LySyl.parK PL i.val
         apply Array.ext
@@ -345,7 +345,7 @@ theorem bfs_sound {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W PL SO
       obtain ⟨hpts, hidx, hsome, hpar, hlab, hlam⟩ := hb
       have hlt' : h < stG h := hproc h hh
       dsimp only
-      rw [if_pos (by rw [hpts]; simpa using hlt')]
+      rw [ite_eq_left (by rw [hpts]; simpa using hlt')]
       refine ⟨_, rfl, ?_⟩
       have hx : b.2.1[h]! = P h := by rw [hpts]; exact ofFn_getP P hlt'
       have hfin : ∀ s, R h us.size (stI h us.size) s →
@@ -371,7 +371,7 @@ theorem bfs_sound {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W PL SO
         rw [hs6]
         unfold lamRows
         rw [ofFn_getP (fun k' => lamRow W k' (if k' < k then h + 1 else h)) hk,
-          if_neg (Nat.lt_irrefl k)]
+          ite_eq_right (Nat.lt_irrefl k)]
       split
       ·
         rename_i j hj
@@ -421,17 +421,17 @@ theorem bfs_sound {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W PL SO
           · change ((s.1.insert (P (stI h k)) (stI h k))[P i]?) = some i
             rw [Std.HashMap.getElem?_insert]
             by_cases e : (P (stI h k) == P i) = true
-            · rw [if_pos e]
+            · rw [ite_eq_left e]
               have := hP _ (by omega) _ (by omega) (eq_of_beq e)
               rw [this]
-            · rw [if_neg e]
+            · rw [ite_eq_right e]
               have hik : i ≠ stI h k := fun h' => e (by rw [h']; exact beq_self_eq_true _)
               exact hs2 i (by omega)
           · change ((s.1.insert (P (stI h k)) (stI h k))[z]?).isSome = true at hz
             rw [Std.HashMap.getElem?_insert] at hz
             by_cases e : (P (stI h k) == z) = true
             · exact ⟨stI h k, Nat.lt_succ_self _, eq_of_beq e⟩
-            · rw [if_neg e] at hz
+            · rw [ite_eq_right e] at hz
               obtain ⟨i, hi, hiz⟩ := hs3 z hz
               exact ⟨i, by omega, hiz⟩
           · change s.2.2.1.push h = _

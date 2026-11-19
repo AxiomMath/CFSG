@@ -118,7 +118,7 @@ theorem torus_coords_of_conj (w : WeylGroup Tag.E6) (Jf : Finset (Fin Tag.E6.ran
     intro m
     rw [Finset.prod_subtype Jf (p := fun x => x ∈ (↑Jf : Set (Fin Tag.E6.rank)))
       (fun x => Iff.rfl) (fun j => a' j ^ Tag.E6.cartan j m)]
-    exact Finset.prod_congr rfl fun j _ => by simp [a', j.2]
+    exact Finset.prod_congr rfl fun j _ => by simp [a']
   have ht' : t = n * (n⁻¹ * t * n) * n⁻¹ := by group
   refine ⟨fun β => a' (Function.invFun
     (fun j : Fin Tag.E6.rank => w • (Pi.single j 1 : Fin Tag.E6.rank → ℤ)) β), ?_⟩
@@ -164,8 +164,8 @@ theorem coords_unique_of_conj (w : WeylGroup Tag.E6) (Jf : Finset (Fin Tag.E6.ra
         corootPair (w • (Pi.single j 1 : Fin Tag.E6.rank → ℤ)) (w • ν) =
         f (w • (Pi.single j₀ 1 : Fin Tag.E6.rank → ℤ)) := by
     intro f
-    rw [Finset.prod_eq_single j₀ (fun j hj hne => by rw [hcp j hj, if_neg hne, zpow_zero])
-      (fun h => absurd hj₀ h), hcp j₀ hj₀, if_pos rfl, zpow_one]
+    rw [Finset.prod_eq_single j₀ (fun j hj hne => by rw [hcp j hj, ite_eq_right hne, zpow_zero])
+      (fun h => absurd hj₀ h), hcp j₀ hj₀, ite_eq_left rfl, zpow_one]
   rw [hsingle c, hsingle c'] at h1
   exact h1
 

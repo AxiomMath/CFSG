@@ -117,7 +117,7 @@ theorem exists_normal_regular_twoSubgroup_of_corefree
   have hSnormal : (S.subgroupOf H).Normal :=
     normal_subgroupOf_map_of_characteristic_of_normal H0 S H hH0le hH0Normal
       (P0 : Subgroup H0) (Sylow.characteristic_of_normal P0 hP0Normal) hSmap hSle
-  refine ⟨S, (P.isPGroup'.map B.subtype).map L.subtype, hSle, hSnormal, ?_⟩
+  refine ⟨S, (P.isPGroup.map B.subtype).map L.subtype, hSle, hSnormal, ?_⟩
   intro a b ha hb
   exact hregOrbit ⟨horbit a, ha⟩ ⟨horbit b, hb⟩
 

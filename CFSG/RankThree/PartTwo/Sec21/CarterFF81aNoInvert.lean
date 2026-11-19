@@ -14,7 +14,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
 theorem FF81Hyp.mem_B1_of_tau_inv (h : FF81Hyp b L)
-    {τ b₁ b₂ b₃ : G} (hτL : τ ∈ L)
+    {τ b₁ b₂ b₃ : G} (_hτL : τ ∈ L)
     (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
     (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
     (hb : τ * b * τ⁻¹ = b)

@@ -159,7 +159,7 @@ theorem components_pair_of_dim (K : Type) [Field K] [Finite K] (σ : K ≃+* K) 
       CFSG.Open.IsComponentOf J₃ (fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h))) →
         J₁ = J₂ ∨ J₁ = J₃ ∨ J₂ = J₃ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c

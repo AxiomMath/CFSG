@@ -50,11 +50,11 @@ theorem pairsWord_cons (p : ℕ × ℕ) (ps : List (ℕ × ℕ)) :
   rw [pairsWord, pairsWord, List.map_cons, List.reverse_cons, List.flatten_append,
     List.flatten_cons, List.flatten_nil, List.append_nil]
 
-@[expose] noncomputable def axS : MonsterY443Gen → MonsterY443Derived
+noncomputable def axS : MonsterY443Gen → MonsterY443Derived
   | none => 1
   | some g => axElt g
 
-@[expose] noncomputable def agS : MonsterY443Gen → Gmat
+noncomputable def agS : MonsterY443Gen → Gmat
   | none => 1
   | some g => gGen g
 
@@ -80,13 +80,13 @@ theorem coe_agS_L (s : MonsterY443Gen) :
     rw [← wIdx_add_one g]
     exact coe_gGen g
 
-@[expose] noncomputable def agC (c : ℕ) : Gmat := agS (y443GenOfLetter c)
+noncomputable def agC (c : ℕ) : Gmat := agS (y443GenOfLetter c)
 
 theorem coe_agC_L {c : ℕ} (hc : c < 12) :
     ((agC c : Gmat) : SpaceB ≃ₗ[ℚ] SpaceB) = wordLin (gL c) := by
   rw [agC, coe_agS_L, y443LetterOfGen_genOfLetter c hc]
 
-@[expose] noncomputable def pairsProd (ps : List (ℕ × ℕ)) : Gmat :=
+noncomputable def pairsProd (ps : List (ℕ × ℕ)) : Gmat :=
   (ps.map fun p => (agC p.1)⁻¹ * agC p.2).prod
 
 theorem nP_lt : ∀ p ∈ nP, p.1 < 12 ∧ p.2 < 12 := by decide

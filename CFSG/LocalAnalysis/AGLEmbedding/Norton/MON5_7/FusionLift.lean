@@ -54,7 +54,7 @@ theorem exists_datum_sylow [Finite G] [Fact p.Prime] (h : FusionGenerationOf G p
   obtain ⟨E, Γ, hd⟩ := fusionGenerationOf_iff.mp h
   obtain ⟨Q, hQ⟩ := hd.1.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q P
-  refine ⟨_, (hd.of_le hQ Q.isPGroup').conj g |>.of_le ?_ P.isPGroup'⟩
+  refine ⟨_, (hd.of_le hQ Q.isPGroup).conj g |>.of_le ?_ P.isPGroup⟩
   rw [← hg, Sylow.smul_def, Sylow.pointwise_smul_def, Subgroup.pointwise_smul_def]
   exact le_rfl
 
@@ -117,7 +117,7 @@ theorem fusionGenerationOf_of_central_quotient [Finite K] {p : ℕ} [Fact p.Prim
     intro hP
     apply hQ1
     rw [← hPQ', hP, Subgroup.map_bot]
-  refine fusionGenerationOf_iff.mpr ⟨P, π ⁻¹' Γ ∪ (π.ker : Set K), P.isPGroup', hP1, ?_, ?_⟩
+  refine fusionGenerationOf_iff.mpr ⟨P, π ⁻¹' Γ ∪ (π.ker : Set K), P.isPGroup, hP1, ?_, ?_⟩
   · refine eq_top_iff.mpr fun x _ => ?_
     have hπx : π x ∈ Subgroup.closure Γ := by rw [hΓtop]; trivial
     have key : ∀ z ∈ Subgroup.closure Γ, ∃ w ∈ Subgroup.closure (π ⁻¹' Γ ∪ (π.ker : Set K)),
@@ -149,8 +149,8 @@ theorem fusionGenerationOf_of_central_quotient [Finite K] {p : ℕ} [Fact p.Prim
       refine ⟨e', he'P, ?_, ?_⟩
       · rintro rfl
         exact he1 (map_one π)
-      · refine mem_of_map_mem_of_central π hcen hker P.isPGroup' ?_ (by simpa using hge)
-        obtain ⟨n, hn⟩ := P.isPGroup' ⟨e', he'P⟩
+      · refine mem_of_map_mem_of_central π hcen hker P.isPGroup ?_ (by simpa using hge)
+        obtain ⟨n, hn⟩ := P.isPGroup ⟨e', he'P⟩
         refine ⟨n, ?_⟩
         have h1 : e' ^ (p ^ n) = 1 := by simpa using congrArg Subtype.val hn
         have h2 : (g * e' * g⁻¹) ^ (p ^ n) = g * e' ^ (p ^ n) * g⁻¹ := by simp

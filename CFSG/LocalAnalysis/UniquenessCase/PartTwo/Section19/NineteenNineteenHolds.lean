@@ -464,7 +464,7 @@ theorem jzero_simple_of_p19_16_4 (D : Data G) {Dsub : Subgroup G} (h4 : P19_16_4
       obtain ⟨hJsimple, hJnc, hJcard⟩ := jzero_props_of_equiv_simple (e0.trans eY) hYsimple
         (by
           intro hcomm
-          letI : CommGroup ↥(barOfInter D.M Dsub) :=
+          let : CommGroup ↥(barOfInter D.M Dsub) :=
             { (inferInstance : Group ↥(barOfInter D.M Dsub)) with
               mul_comm := hcomm.is_comm.comm }
           have hprime : (Nat.card ↥(barOfInter D.M Dsub)).Prime :=

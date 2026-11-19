@@ -104,7 +104,7 @@ theorem trace_root_adjoinRoot (hg : g = X ^ 2 + X + 1) :
   rw [AdjoinRoot.minpoly_powerBasis_gen_of_monic hmon, AdjoinRoot.powerBasis_gen] at h
   rw [h, hg]
   have hdeg : (X ^ 2 + X + 1 : F[X]).natDegree = 2 := by compute_degree!
-  rw [nextCoeff, if_neg (by rw [hdeg]; norm_num), hdeg]
+  rw [nextCoeff, ite_eq_right (by rw [hdeg]; norm_num), hdeg]
   simp [coeff_X, coeff_one]
 
 theorem trace_root_pow (hg : g = X ^ 2 + X + 1) (n : ℕ) :

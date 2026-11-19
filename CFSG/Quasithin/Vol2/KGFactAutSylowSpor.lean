@@ -73,7 +73,7 @@ theorem exists_selfNormalizing_of_rows {Q : Type} [Group Q] [Finite Q] [IsSimple
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P₀ : Sylow 2 Q := default
   have hP₀ : IsSylowTwoOf (P₀ : Subgroup Q) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨P₀.isPGroup', P₀.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨P₀.isPGroup, P₀.not_dvd_index⟩
   have hcard : Nat.card (P₀ : Subgroup Q) = 2 ^ (Nat.card Q).factorization 2 :=
     P₀.card_eq_multiplicity
   have hnn : ¬ (P₀ : Subgroup Q).Normal := by
@@ -90,7 +90,7 @@ theorem exists_selfNormalizing_of_rows {Q : Type} [Group Q] [Finite Q] [IsSimple
     rcases hover _ N hP₀ hPN with htop | ⟨m, hm, hmo, hmo2, -⟩
     · exact absurd (Subgroup.normalizer_eq_top_iff.mp htop) hnn
     · have hle : (P₀ : Subgroup Q) ≤ pCoreOf 2 N :=
-        CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPN le_rfl P₀.isPGroup'
+        CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPN le_rfl P₀.isPGroup
       have h1 : 2 ^ (Nat.card Q).factorization 2 ≤ m.o2 := by
         rw [← hcard, ← hmo2]
         exact Subgroup.card_le_of_le hle

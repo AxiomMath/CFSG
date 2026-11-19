@@ -10,7 +10,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -451,10 +451,10 @@ theorem xorRun_sound {d S : Nat} {bs : List Nat} {terms : List (List Nat)} {m : 
     rw [List.map_cons, List.count_cons]
     by_cases hk : keyOf d (mapPt (fimg d S fs) bs) = k
     · rw [hk] at this ⊢
-      simp only [decide_true, Bool.xor_true, beq_self_eq_true, if_true, Nat.odd_add_one] at this ⊢
+      simp only [decide_true, Bool.xor_true, beq_self_eq_true, ite_true, Nat.odd_add_one] at this ⊢
       rw [← this]
       cases Nat.testBit m k <;> simp
-    · simp only [hk, decide_false, Bool.xor_false, beq_iff_eq, if_false, add_zero] at this ⊢
+    · simp only [hk, decide_false, Bool.xor_false, beq_iff_eq, ite_false, add_zero] at this ⊢
       exact this
 
 theorem xorCheck_sound {d : Nat} {l₀ l₁ : List Nat} {ws : List (List Nat)} {S : Nat} {bs : List Nat}
@@ -498,16 +498,16 @@ theorem gSum_sub (gk : List (Nat × (Nat × Bool))) (k : Nat) :
     cases hb : Nat.beq g1 k
     · have hk : g1 ≠ k := Nat.ne_of_beq_eq_false hb
       dsimp only
-      rw [if_neg hk, Nat.add_eq, Nat.add_eq]
+      rw [ite_eq_right hk, Nat.add_eq, Nat.add_eq]
       push_cast
       ring
     · have hk : g1 = k := Nat.eq_of_beq_eq_true hb
-      rw [if_pos hk]
+      rw [ite_eq_left hk]
       cases s
-      · simp only [Bool.not_false, Bool.not_true, Nat.add_eq, sgn, Bool.false_eq_true, if_false]
+      · simp only [Bool.not_false, Bool.not_true, Nat.add_eq, sgn, Bool.false_eq_true, ite_false]
         push_cast
         ring
-      · simp only [Bool.not_false, Bool.not_true, Nat.add_eq, sgn, if_true]
+      · simp only [Nat.add_eq, sgn, ite_true]
         push_cast
         ring
 
@@ -555,15 +555,15 @@ variable {σ₀ σ₁}
 
 theorem act_lt {g : Equiv.Perm (Fin d)} {x : Nat} (hx : x < d) : act g x < d := by
   unfold act
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   exact (g _).isLt
 
 theorem act_mul (g h : Equiv.Perm (Fin d)) (x : Nat) : act (g * h) x = act g (act h x) := by
   unfold act
   by_cases hx : x < d
-  · simp only [dif_pos hx, dif_pos (h ⟨x, hx⟩).isLt]
+  · simp only [dite_eq_left hx, dite_eq_left (h ⟨x, hx⟩).isLt]
     rfl
-  · rw [dif_neg hx, dif_neg hx, dif_neg hx]
+  · rw [dite_eq_right hx, dite_eq_right hx, dite_eq_right hx]
 
 theorem act_one (x : Nat) : act (1 : Equiv.Perm (Fin d)) x = x := by
   unfold act
@@ -589,16 +589,16 @@ include h₀ h₁
 theorem pget_gen (i : Nat) {x : Nat} (hx : x < d) :
     pget (nIf(Nat.beq i 0, P₀, P₁)) x = act (genP σ₀ σ₁ i) x := by
   unfold act genP
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   by_cases hi : i = 0
   · subst hi
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact (h₀ ⟨x, hx⟩).symm
   · have : Nat.beq i 0 = false := by
       cases h : Nat.beq i 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hi
-    rw [this, if_neg hi]
+    rw [this, ite_eq_right hi]
     exact (h₁ ⟨x, hx⟩).symm
 
 theorem wimg_eq (w : List Nat) {x : Nat} (hx : x < d) :
@@ -689,15 +689,15 @@ theorem sum_expand (f : G → A) (l : List (ℤ × G)) :
   | nil => simp
   | cons x l ih =>
     simp only [List.map_cons, List.sum_cons, add_smul, Finset.sum_add_distrib, ← ih, ite_smul,
-      zero_smul, Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem sum_count (f : G → A) (l : List G) : (l.map f).sum = ∑ g, l.count g • f g := by
   induction l with
   | nil => simp
   | cons x l ih =>
     simp only [List.map_cons, List.sum_cons, List.count_cons, add_smul, Finset.sum_add_distrib,
-      ← ih, beq_iff_eq, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      ← ih, beq_iff_eq, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq,
+      Finset.mem_univ, ite_true]
     abel
 
 omit [Fintype G] [DecidableEq G] [AddCommGroup A] in
@@ -740,8 +740,8 @@ theorem coef_flat [Group G] (hs : List G) (vl : List (ℤ × G)) (g : G) :
     refine congrArg List.sum (List.map_congr_left fun x _ => ?_)
     simp only [Function.comp]
     by_cases hx : x.2 = h⁻¹ * g
-    · rw [if_pos hx, if_pos (by rw [hx, mul_inv_cancel_left])]
-    · rw [if_neg hx, if_neg (fun h' => hx (by rw [← h', inv_mul_cancel_left]))]
+    · rw [ite_eq_left hx, ite_eq_left (by rw [hx, mul_inv_cancel_left])]
+    · rw [ite_eq_right hx, ite_eq_right (fun h' => hx (by rw [← h', inv_mul_cancel_left]))]
 
 end Sums
 
@@ -811,16 +811,16 @@ theorem coef_nodup {G : Type*} [DecidableEq G] {β : Type*} (vl : List β) (val 
     rw [List.map_cons, List.nodup_cons] at hnd
     simp only [List.map_cons, List.map_map, List.sum_cons]
     rcases List.mem_cons.mp ht with rfl | ht
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       have : (vl.map ((fun x => if x.2 = el t then x.1 else 0) ∘ fun x => (val x, el x))).sum = 0 := by
         refine List.sum_eq_zero fun y hy => ?_
         rw [List.mem_map] at hy
         obtain ⟨b, hb, rfl⟩ := hy
         have hne : el b ≠ el t := fun h => hnd.1 (by rw [← h]; exact List.mem_map_of_mem hb)
-        simp only [Function.comp, if_neg hne]
+        simp only [Function.comp, ite_eq_right hne]
       rw [this, add_zero]
     · have hne : el a ≠ el t := fun h => hnd.1 (by rw [h]; exact List.mem_map_of_mem ht)
-      simp only [Function.comp, if_neg hne, zero_add]
+      simp only [ite_eq_right hne, zero_add]
       have := ih hnd.2 t ht
       rwa [List.map_map] at this
 
@@ -832,7 +832,7 @@ theorem coef_not_mem {G : Type*} [DecidableEq G] {β : Type*} (vl : List β) (va
   rw [List.mem_map] at hy
   obtain ⟨b, hb, rfl⟩ := hy
   have hne : el b ≠ g := fun h => hg (by rw [← h]; exact List.mem_map_of_mem hb)
-  simp only [Function.comp, if_neg hne]
+  simp only [Function.comp, ite_eq_right hne]
 
 theorem prod_eq_of_checks {l₀ l₁ : List Nat} (h₀ : ∀ x : Fin d, (σ₀ x : Nat) = pget (pack8 l₀) x)
     (h₁ : ∀ x : Fin d, (σ₁ x : Nat) = pget (pack8 l₁) x) {bs : List Nat}
@@ -895,8 +895,8 @@ theorem prod_eq_of_checks {l₀ l₁ : List Nat} (h₀ : ∀ x : Fin d, (σ₀ x
     refine List.map_congr_left fun x _ => ?_
     simp only [Function.comp, hkw]
     by_cases hxg : wordM σ₀ σ₁ x.1 = g
-    · rw [if_pos hxg, if_pos (congrArg _ hxg)]
-    · rw [if_neg hxg, if_neg (fun h => hxg (hinj h))]
+    · rw [ite_eq_left hxg, ite_eq_left (congrArg _ hxg)]
+    · rw [ite_eq_right hxg, ite_eq_right (fun h => hxg (hinj h))]
   have hsum : ∀ g : Subgroup.closure ({σ₀, σ₁} : Set (Equiv.Perm (Fin d))),
       (terms.map fun t => coef vl ((fprod σ₀ σ₁ ws t.1)⁻¹ * g)).sum = coef gl g := by
     intro g
@@ -970,10 +970,8 @@ theorem sum_expand_pairs (ws : List (List Nat)) (e : Nat) (ps : List (Nat × Nat
     rw [expand, List.flatMap_cons, List.map_append, List.sum_append, ← expand, ih, List.map_cons,
       List.map_cons, List.sum_cons]
     congr 1
-    simp only [List.map_map, Function.comp, fprod, List.map_cons, List.map_append,
-      List.map_replicate, List.prod_cons, List.prod_append, List.prod_replicate, List.prod_singleton,
-      map_mul, map_pow, Finset.mul_sum, Finset.sum_mul]
-    simp [List.range_succ, Finset.sum_range_succ, mul_assoc, pow_succ, mul_add, add_mul, add_assoc]
+    simp only [List.map_map, fprod, Finset.mul_sum, Finset.sum_mul]
+    simp [List.range_succ, Finset.sum_range_succ, mul_assoc, pow_succ, add_assoc]
 
 end Ident
 

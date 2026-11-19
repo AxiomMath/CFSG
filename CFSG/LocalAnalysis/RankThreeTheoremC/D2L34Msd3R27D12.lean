@@ -18,6 +18,7 @@ variable {d : TauCeti.ValidLieTypeIndex} {P : Sylow 3 G} {M A H R : Subgroup G}
   {Rbar : Sylow 3 (H ⧸ primeComplementCore (G := H) 3)}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
 
+omit [Finite G] in
 private theorem isSylowTwoOf_inf_of_le {T M N : Subgroup G} (hT : IsSylowTwoOf T M)
     (hTN : T ≤ N) : IsSylowTwoOf T (N ⊓ M) := by
   refine ⟨le_inf hTN hT.1, hT.2.1, fun h => hT.2.2 ?_⟩

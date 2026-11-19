@@ -311,7 +311,7 @@ theorem cyclic_standard_full_normalizer_odd_core_splitting {G : Type*} [Group G]
     rw [← hCH']
     exact inf_le_right
   have hSg2 : IsPGroup 2 (Sg.subgroupOf H) :=
-    ((S.isPGroup'.map C.subtype)).of_equiv (subgroupOfEquivOfLe hSgH).symm
+    ((S.isPGroup.map C.subtype)).of_equiv (subgroupOfEquivOfLe hSgH).symm
   obtain ⟨φ, hφ, e, he⟩ := semiM
   have hMcard : Nat.card M = Nat.card K * Nat.card H := by
     rw [← Nat.card_congr e.toEquiv, SemidirectProduct.card]

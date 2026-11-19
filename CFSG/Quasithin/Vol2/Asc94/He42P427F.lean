@@ -41,7 +41,7 @@ theorem p427_zstar_trivial {H : Type} [Group H] [Finite H] (t0 : H) (ht0 : t0 * 
   have hQcard : Nat.card ↥(Subgroup.zpowers t0) = 2 := by
     rw [Nat.card_zpowers, ht0ord]
   let P : Subgroup H := N.comap (QuotientGroup.mk' (Subgroup.zpowers t0))
-  haveI hPnorm : P.Normal := ⟨fun n hn g => by
+  have hPnorm : P.Normal := ⟨fun n hn g => by
     show QuotientGroup.mk' (Subgroup.zpowers t0) (g * n * g⁻¹) ∈ N
     rw [map_mul, map_mul, map_inv]
     exact Subgroup.Normal.conj_mem inferInstance _ hn _⟩
@@ -54,7 +54,7 @@ theorem p427_zstar_trivial {H : Type} [Group H] [Finite H] (t0 : H) (ht0 : t0 * 
     have h := QuotientGroup.card_preimage_mk (Subgroup.zpowers t0) (N : Set (H ⧸ Subgroup.zpowers t0))
     rw [hQcard] at h
     exact h
-  haveI hQ'norm : ((Subgroup.zpowers t0).subgroupOf P).Normal := inferInstance
+  have hQ'norm : ((Subgroup.zpowers t0).subgroupOf P).Normal := inferInstance
   have hQ'card : Nat.card ↥((Subgroup.zpowers t0).subgroupOf P) = 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQP).toEquiv, hQcard]
   have hQ'idx : ((Subgroup.zpowers t0).subgroupOf P).index = Nat.card ↥N := by

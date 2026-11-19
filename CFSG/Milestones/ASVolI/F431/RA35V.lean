@@ -29,9 +29,9 @@ theorem burnsideF4r_conj_M2_of_V (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (h�
     (h : IsConj (bM β ε w) (bM β ε v)) :
     ∃ m ∈ M₂, m * (w : E) * m⁻¹ = (v : E) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set b1 := burnsideF4d_bOne β ε with hb1def
   set b2 := burnsideF4d_bTwo β ε with hb2def

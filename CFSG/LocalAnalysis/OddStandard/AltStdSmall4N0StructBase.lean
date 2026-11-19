@@ -165,8 +165,10 @@ theorem mem_B0_iff (x : G) :
     · exact mem_sup_left (eps_mem_E θ hn i)
     · exact mul_mem (mem_sup_right (mem_zpowers z)) (mem_sup_left (eps_mem_E θ hn i))
 
+omit [Finite G] c in
 theorem z_mem_B0 : z ∈ E θ hn ⊔ zpowers z := mem_sup_right (mem_zpowers z)
 
+omit [Finite G] c in
 theorem eps_mem_B0 (i : Fin 8) : eps θ hn i ∈ E θ hn ⊔ zpowers z :=
   mem_sup_left (eps_mem_E θ hn i)
 
@@ -177,7 +179,7 @@ theorem mem_N0_of_mem_L {l : G} (hl : l ∈ L) (h : ∀ i, ∃ j, l * eps θ hn 
   obtain ⟨i, rfl | rfl⟩ := (mem_B0_iff hn c x).1 hx
   · obtain ⟨j, hj⟩ := h i
     rw [hj]
-    exact eps_mem_B0 hn c j
+    exact eps_mem_B0 hn j
   · obtain ⟨j, hj⟩ := h i
     have : l * (z * eps θ hn i) * l⁻¹ = z * eps θ hn j := by
       rw [← hj, show l * (z * eps θ hn i) * l⁻¹ = (l * z) * eps θ hn i * l⁻¹ by group,
@@ -196,7 +198,7 @@ theorem lam_mem_N0 {f : Perm (Fin 8)} (hf : IsXorAdd f) (hs : sign f = 1) :
 theorem sg_comm_z : sg θ hn * z = z * sg θ hn := comm_z_of_mem_L c (sg_mem_L θ hn)
 
 theorem conj_z_eq {g : G} (hg : g ∈ N0 θ hn z) : ∃ i, g * z * g⁻¹ = z * eps θ hn i := by
-  have h1 : g * z * g⁻¹ ∈ E θ hn ⊔ zpowers z := (mem_normalizer_iff.1 hg z).1 (z_mem_B0 hn c)
+  have h1 : g * z * g⁻¹ ∈ E θ hn ⊔ zpowers z := (mem_normalizer_iff.1 hg z).1 (z_mem_B0 hn)
   obtain ⟨i, h | h⟩ := (mem_B0_iff hn c _).1 h1
   · exact absurd (h ▸ eps_mem_L θ hn i) (conj_z_not_mem_L c g)
   · exact ⟨i, h⟩
@@ -223,7 +225,7 @@ theorem exists_conj_z_eq (i : Fin 8) : ∃ g ∈ N0 θ hn z, g * z * g⁻¹ = z 
 theorem conj_eps_eq {g : G} (hg : g ∈ N0 θ hn z) (i : Fin 8) :
     ∃ j, g * eps θ hn i * g⁻¹ = eps θ hn j := by
   have h1 : g * eps θ hn i * g⁻¹ ∈ E θ hn ⊔ zpowers z :=
-    (mem_normalizer_iff.1 hg _).1 (eps_mem_B0 hn c i)
+    (mem_normalizer_iff.1 hg _).1 (eps_mem_B0 hn i)
   obtain ⟨j, h | h⟩ := (mem_B0_iff hn c _).1 h1
   · exact ⟨j, h⟩
   · exfalso
@@ -289,6 +291,7 @@ theorem conj_mem_D0 {g : G} (hg : g ∈ N0 θ hn z) {d : G} (hd : d ∈ D0 θ hn
     _ = g * (g⁻¹ * eps θ hn i * g) * d * g⁻¹ := by rw [hj]; group
     _ = eps θ hn i * (g * d * g⁻¹) := by group
 
+omit hF in
 private theorem conj_z_eq_of_sign (hD : ∀ d ∈ D0 θ hn z, d * z * d⁻¹ = z) {g g' : G}
     (hg : g ∈ N0 θ hn z) (hg' : g' ∈ N0 θ hn z) {f f' : Perm (Fin 8)} (hf : IsXorAdd f)
     (hf' : IsXorAdd f') (hfg : ∀ i, g * eps θ hn i * g⁻¹ = eps θ hn (f i))
@@ -352,7 +355,7 @@ theorem exists_D0_ne : ∃ d ∈ D0 θ hn z, d * z * d⁻¹ ≠ z := by
   obtain ⟨f₃, hf₃, hf₃g⟩ := exists_act hn c hF g₃ hg₃N
   have key := fun {g g' : G} (hg : g ∈ N0 θ hn z) (hg' : g' ∈ N0 θ hn z) {f f' : Perm (Fin 8)}
       (hf : IsXorAdd f) (hf' : IsXorAdd f') hfg hfg' (hs : sign f = sign f') =>
-    conj_z_eq_of_sign hn c hF hcon hg hg' hf hf' hfg hfg' hs
+    conj_z_eq_of_sign hn c hcon hg hg' hf hf' hfg hfg' hs
   have hz1 : (1 : G) * z * 1⁻¹ = z := by group
   have hne12 : z ≠ z * eps θ hn 1 := by
     intro h

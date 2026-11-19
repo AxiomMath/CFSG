@@ -51,7 +51,7 @@ private lemma k330c_mem_eq_one_or_eq_or_inv {T : Type} [Group T] {Z : Subgroup T
     refine inv_eq_of_mul_eq_one_right ?_
     rw [← pow_succ', hx3]
   have horder : orderOf x = 3 := orderOf_eq_prime hx3 hx1
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hle : Subgroup.zpowers x ≤ Z := Subgroup.zpowers_le.mpr hx
   have hcard : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, horder]
   have hEq : Subgroup.zpowers x = Z :=
@@ -115,7 +115,7 @@ private lemma k330c_inv_map_conj_of_map_conj {T : Type} [Group T] {A B : Subgrou
   have h'' := (Subgroup.map_symm_eq_iff_map_eq (H := B) (K := A) (e := MulAut.conj n)).mpr h'
   have hs : ((MulAut.conj n).symm : T →* T) = (MulAut.conj n⁻¹).toMonoidHom := by
     ext x
-    simp [MulAut.conj_symm_apply, MulAut.conj_apply]
+    simp [MulAut.conj_symm_apply]
   rwa [hs] at h''
 
 private lemma k330c_inv_mul_mem_normalizer_of_maps {T : Type} [Group T] {A B : Subgroup T}
@@ -141,7 +141,7 @@ private lemma k330c_not_pair_of_moves {T : Type} [Group T] {X Z₁ Z₂ : Subgro
       (k330c_mem_normalizer_mul_self_of_maps h1 h2)
 
 theorem automizerBig_of_one {T : Type} [Group T] [Finite T] (X₀ : Subgroup T)
-    (hS : IsSylowOf 3 X₀ ⊤) (hE : IsElemAbelian 3 X₀) (h9 : Nat.card X₀ = 9) (n : T)
+    (hS : IsSylowOf 3 X₀ ⊤) (_hE : IsElemAbelian 3 X₀) (_h9 : Nat.card X₀ = 9) (n : T)
     (hn : n ∈ normalizer (X₀ : Set T)) (h1 : MovesLines X₀ n) (h2 : MovesLines X₀ (n ^ 2)) :
     AutomizerBig T := by
   intro X hSX _ _ Z₁ Z₂ hZ₁ _ hc₁ _ _
@@ -186,7 +186,7 @@ theorem automizerBig_of_one {T : Type} [Group T] [Finite T] (X₀ : Subgroup T)
   exact k330c_not_pair_of_moves hm₁ hm₂ hZ₁ hc₁
 
 theorem automizerBig_of_two {T : Type} [Group T] [Finite T] (X₀ : Subgroup T)
-    (hS : IsSylowOf 3 X₀ ⊤) (hE : IsElemAbelian 3 X₀) (h9 : Nat.card X₀ = 9) (n₁ n₂ : T)
+    (hS : IsSylowOf 3 X₀ ⊤) (_hE : IsElemAbelian 3 X₀) (_h9 : Nat.card X₀ = 9) (n₁ n₂ : T)
     (hn₁ : n₁ ∈ normalizer (X₀ : Set T)) (hn₂ : n₂ ∈ normalizer (X₀ : Set T))
     (h1 : MovesLines X₀ n₁) (h2 : MovesLines X₀ n₂) (h3 : MovesLines X₀ (n₂⁻¹ * n₁)) :
     AutomizerBig T := by
@@ -269,7 +269,7 @@ theorem automizerBig_of_two {T : Type} [Group T] [Finite T] (X₀ : Subgroup T)
 
 private lemma k330c_eq_one_of_sq_eq_one {T : Type} [Group T] {X : Subgroup T}
     (hcard : Nat.card X = 9) {x : T} (hx : x ∈ X) (hx2 : x ^ 2 = 1) : x = 1 := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hx2' : (⟨x, hx⟩ : X) ^ 2 = 1 := Subtype.ext hx2
   have horder : orderOf (⟨x, hx⟩ : X) ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr hx2'
   have hdvd : orderOf (⟨x, hx⟩ : X) ∣ Nat.card X := orderOf_dvd_natCard _
@@ -654,7 +654,7 @@ private lemma k330c_isElemAbelian_map {J T : Type} [Group J] [Group T] (e : J �
     IsElemAbelian 3 (X.map (e : J →* T)) := by
   obtain ⟨hcomm, hpow⟩ := h
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative X := hcomm
+  · have : IsMulCommutative X := hcomm
     exact (Subgroup.equivMapOfInjective X (e : J →* T) e.injective).surjective.isMulCommutative
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx

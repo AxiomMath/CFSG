@@ -261,7 +261,7 @@ theorem n3_mem_normalizer : n3 ∈ Subgroup.normalizer (S : Set ↥j3P) := by
     intro s hs
     induction hs using Subgroup.closure_induction with
     | mem y hy =>
-        simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hy
+        simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hy
         rcases hy with rfl | rfl | rfl
         · have h := hgen 0 (by norm_num)
           have e : n3 * sg 0 * n3 * n3 = n3 * sg 0 * n3⁻¹ := by
@@ -315,7 +315,7 @@ private theorem n3mJ_label_ne {j i : ℕ} (hi : i < 3) (hj : j = 2 ∨ j = 3 ∨
     rw [← e]
     refine lab_evalElt_labF [i, 3] ?_
     intro l hl
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hl
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hl
     rcases hl with rfl | rfl
     · rw [gensY_size, mw_getD_length hj]; omega
     · rw [gensY_size, mw_getD_length hj]; omega
@@ -331,7 +331,7 @@ private theorem n3mJ_label_ne {j i : ℕ} (hi : i < 3) (hj : j = 2 ∨ j = 3 ∨
   exact heq
 
 private theorem n3mJ_not_mem_normalizer {j i : ℕ} (hi : i < 3)
-    (hj : j = 2 ∨ j = 3 ∨ j = 4)
+    (_hj : j = 2 ∨ j = 3 ∨ j = 4)
     (hne : lab 6156 ptLab CFSG.KD.J3Dc.C.Δ (sg i * n3mJ j) ≠
       lab 6156 ptLab CFSG.KD.J3Dc.C.Δ (n3mJ j)) :
     n3mJ j ∉ Subgroup.normalizer (S : Set ↥j3P) := by

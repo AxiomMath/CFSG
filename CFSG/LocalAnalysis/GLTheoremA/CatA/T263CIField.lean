@@ -33,7 +33,7 @@ theorem t263CaseIx_of_exc {Q : TauCeti.CFSGIndex → Prop}
     hlay
   exfalso
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : CFSG.Open.IsElemAbelian p B := hB.1
   have hbp : b ^ p = 1 := hBel.2 b hb
   have hbN : b ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
@@ -130,7 +130,7 @@ theorem t263CaseIx_of_exc {Q : TauCeti.CFSGIndex → Prop}
       rintro _ ⟨z, hz, rfl⟩
       exact (FP.fixSub α).mul_mem ((FP.fixSub α).mul_mem hc (hEC hz)) ((FP.fixSub α).inv_mem hc)
     exact hle ⟨y, hy, rfl⟩
-  haveI := hEs
+  have := hEs
   exact t263CI_layer_ne_bot_of_core hp hp2 hSp hbN hbp hEna hEC hEn hpE hlay
 
 end Generic

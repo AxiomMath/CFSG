@@ -258,7 +258,7 @@ theorem isV_inv {a : Perm (Fin 12)} (ha : IsV a) : IsV a⁻¹ := by
 
 theorem isV_sign {a : Perm (Fin 12)} (ha : IsV a) : Perm.sign a = 1 := by
   rcases ha with rfl | rfl | rfl | rfl <;>
-    simp [v1, v2, v3, Perm.sign_mul, Perm.sign_swap]
+    simp [v1, v2, v3, Perm.sign_mul]
 
 theorem isV_sq {a : Perm (Fin 12)} (ha : IsV a) : a ^ 2 = 1 := by
   rcases ha with rfl | rfl | rfl | rfl <;> decide
@@ -422,7 +422,7 @@ theorem alt3_center {σ : alternatingGroup (Fin 12)} (hσ : σ ∈ alt3)
   have := alt3_simple
   have hnab : ∃ a b : alt3, a * b ≠ b * a := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hcomm : commutator alt3 = ⊥ := by
       rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
       intro x _
@@ -522,8 +522,8 @@ theorem card_alt4 : Nat.card alt4 = 20160 := by
 theorem exists_noncomm_of_simple {S : Type*} [Group S] [Finite S] [IsSimpleGroup S]
     (h : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
-  letI : CommGroup S := { (inferInstance : Group S) with mul_comm := hc }
+  push Not at hc
+  let : CommGroup S := { (inferInstance : Group S) with mul_comm := hc }
   exact h (IsSimpleGroup.prime_card (α := S))
 
 theorem center_trivial_of_simple {Q : Type} [Group Q] {A : Subgroup Q} [Finite A]
@@ -562,7 +562,7 @@ theorem alt3_le_centralizer : alt3 ≤ Subgroup.centralizer {tri012A} := fun σ 
   Subgroup.mem_centralizer_singleton_iff.2 (centralizer_tri012.2.2 σ hσ)
 
 theorem alt4_le_inf : alt4 ≤ Subgroup.centralizer {tri012A} ⊓
-    Subgroup.normalizer (kleinV : Set (alternatingGroup (Fin 12))) := fun σ hσ =>
+    Subgroup.normalizer (kleinV : Set (alternatingGroup (Fin 12))) := fun _σ hσ =>
   ⟨alt3_le_centralizer (alt4_le_alt3 hσ), alt4_le_normalizer hσ⟩
 
 theorem alt3_facts :

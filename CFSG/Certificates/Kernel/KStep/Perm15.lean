@@ -200,7 +200,7 @@ theorem testBit_valA (p : ℕ) : valA.testBit p = decide (p < SA ∧ p % 32 < 24
     have hd : p / 32 < 32 := by rw [SA_eq] at hp; simp only [Nat.reducePow] at hp; omega
     simp only [h8, h9, decide_eq_true hp, Bool.true_and]
     rw [bits34 _ (Nat.mod_lt _ (by decide)), bits34 _ hd]
-    by_cases h1 : 24 ≤ p % 32 <;> by_cases h2 : 24 ≤ p / 32 <;> simp [h1, h2, hp] <;> omega
+    by_cases h1 : 24 ≤ p % 32 <;> by_cases h2 : 24 ≤ p / 32 <;> simp [h1, h2, hp]; omega
   · simp [hp]
 
 theorem valA_lt : valA < 2 ^ SA :=

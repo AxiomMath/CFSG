@@ -31,7 +31,7 @@ private theorem coverLin_sub (v w : Fin 4 → ZMod 3) : coverLin (v - w) = cover
 
 private theorem coverLin_zero : coverLin (0 : Fin 4 → ZMod 3) = 0 := by
   funext i
-  fin_cases i <;> simp [coverLin] <;> exact neg_zero
+  fin_cases i <;> simp [coverLin]
 
 private theorem coverLin_sum (v : Fin 4 → ZMod 3) : ∑ i, coverLin v i = 0 := by
   simp only [Fin.sum_univ_six, coverLin]
@@ -40,6 +40,7 @@ private theorem coverLin_sum (v : Fin 4 → ZMod 3) : ∑ i, coverLin v i = 0 :=
 private theorem zmod_three (a : ZMod 3) : a + a + a = 0 := by
   fin_cases a <;> decide
 
+omit [Finite F] [CharP F 2] in
 private theorem omega_pow_val_add {ω : F} (hω3 : ω ^ 3 = 1) (a b : ZMod 3) :
     ω ^ ((a + b).val) = ω ^ a.val * ω ^ b.val := by
   have hmod : (a + b).val ≡ a.val + b.val [MOD 3] := by
@@ -50,17 +51,19 @@ private theorem omega_pow_val_add {ω : F} (hω3 : ω ^ 3 = 1) (a b : ZMod 3) :
 noncomputable abbrev coverEntry {ω : F} (v : Fin 4 → ZMod 3) : Fin 6 → F :=
   fun i => ω ^ (coverLin v i).val
 
+omit [Finite F] [CharP F 2] in
 private theorem coverEntry_add {ω : F} (hω3 : ω ^ 3 = 1) (v w : Fin 4 → ZMod 3) :
     coverEntry (ω := ω) (v + w) = coverEntry (ω := ω) v * coverEntry (ω := ω) w := by
   funext i
   simp only [coverEntry, Pi.mul_apply, coverLin_add, Pi.add_apply]
   exact omega_pow_val_add hω3 _ _
 
+omit [Finite F] [CharP F 2] in
 private theorem coverEntry_zero {ω : F} : coverEntry (ω := ω) (0 : Fin 4 → ZMod 3) = 1 := by
   funext i
-  fin_cases i <;> simp [coverEntry, coverLin] <;>
-    rw [show (-(0 : ZMod 3)) = 0 from neg_zero, ZMod.val_zero, pow_zero]
+  fin_cases i <;> simp [coverEntry, coverLin]
 
+omit [Finite F] [CharP F 2] in
 private theorem omega_order {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) : orderOf ω = 3 := by
   have hdvd : orderOf ω ∣ 3 := orderOf_dvd_of_pow_eq_one hω3
   rcases (Nat.dvd_prime Nat.prime_three).1 hdvd with h1 | h3'
@@ -69,6 +72,7 @@ private theorem omega_order {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) : ord
     exact hω1 h1
   · exact h3'
 
+omit [Finite F] [CharP F 2] in
 private theorem omega_pow_val_eq {ω : F} (h : UnitaryFieldData 2 n F) (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) {a b : ℕ}
     (ha : a < 3) (hb : b < 3) (hpow : ω ^ a = ω ^ b) : a = b := by
@@ -91,13 +95,15 @@ private theorem omega_pow_val_eq {ω : F} (h : UnitaryFieldData 2 n F) (hω3 : �
     obtain ⟨k, hk⟩ := h3
     omega
 
+omit [Finite F] [CharP F 2] in
 theorem coverNorm (h : UnitaryFieldData 2 n F) {ω : F} (hωnorm : h.norm ω = 1)
     (v : Fin 4 → ZMod 3) : ∀ i, h.norm (coverEntry (ω := ω) v i) = 1 := by
   intro i
   rw [coverEntry]
   exact CFSG.LocalAnalysis.GLTheoremA.Y10F.unitaryNorm_pow_eq_one h hωnorm (coverLin v i).val
 
-theorem coverDet (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
+omit [Finite F] [CharP F 2] in
+theorem coverDet (_h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (v : Fin 4 → ZMod 3) : ∏ i, coverEntry (ω := ω) v i = 1 := by
   change ∏ i, ω ^ (coverLin v i).val = 1
   rw [Finset.prod_pow_eq_pow_sum]
@@ -113,19 +119,22 @@ noncomputable abbrev coverDiag (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω 
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) (v : Fin 4 → ZMod 3) : unitarySU 2 n F 6 :=
   diagSU h (coverEntry (ω := ω) v) (coverNorm h hωnorm v) (coverDet h hω3 hω1 v)
 
+omit [Finite F] [CharP F 2] in
 theorem coe_coverDiag (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) (v : Fin 4 → ZMod 3) :
     (((coverDiag h hω3 hωnorm hω1 v : unitarySU 2 n F 6) : GL (Fin 6) F) :
       Matrix (Fin 6) (Fin 6) F) = diagonal (coverEntry (ω := ω) v) :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem coverDiag_zero (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     coverDiag h hω3 hωnorm hω1 (0 : Fin 4 → ZMod 3) = 1 := by
   apply Subtype.ext; apply Units.ext
   rw [coe_coverDiag, coverEntry_zero]
-  simp [Matrix.diagonal_one]
+  simp
 
+omit [Finite F] [CharP F 2] in
 theorem coverDiag_mul (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) (v w : Fin 4 → ZMod 3) :
     coverDiag h hω3 hωnorm hω1 (v + w) =
@@ -135,6 +144,7 @@ theorem coverDiag_mul (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     diagonal_mul_diagonal, coverEntry_add hω3]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem coverDiag_inj (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     Function.Injective (coverDiag h hω3 hωnorm hω1) := by
@@ -228,6 +238,7 @@ noncomputable abbrev coverSubgroup (h : UnitaryFieldData 2 n F) {ω : F} (hω3 :
         _ = coverDiag h hω3 hωnorm hω1 v * coverDiag h hω3 hωnorm hω1 v := by group
     rw [hinv, coverDiag_mul h hω3 hωnorm hω1 v v]
 
+omit [Finite F] [CharP F 2] in
 theorem coverSubgroup_card (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     Nat.card (coverSubgroup h hω3 hωnorm hω1) = 3 ^ 4 := by
@@ -240,8 +251,9 @@ theorem coverSubgroup_card (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 
     rintro ⟨x, v, rfl⟩
     exact ⟨v, rfl⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
-  simp [Nat.card_pi, Nat.card_zmod]
+  simp
 
+omit [Finite F] [CharP F 2] in
 theorem coverSubgroup_elem (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     IsElemAbelian 3 (coverSubgroup h hω3 hωnorm hω1) := by
@@ -286,7 +298,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
   fun i => if i = 0 then 2 else if i = 1 then 1 else if i = 2 then 2 else 1
 
 private theorem coverLin_vx (i : Fin 6) : coverLin vx i = 1 := by
-  fin_cases i <;> simp [coverLin, vx] <;> decide
+  fin_cases i <;> simp [coverLin, vx]; decide
 
 private theorem coverLin_vA (i : Fin 6) :
     coverLin vA i = if i ∈ ({0, 1, 2} : Finset (Fin 6)) then 0 else 1 := by
@@ -300,24 +312,27 @@ private theorem zmod_val_zero : (0 : ZMod 3).val = 0 := rfl
 private theorem zmod_val_one : (1 : ZMod 3).val = 1 := rfl
 private theorem zmod_val_two : (2 : ZMod 3).val = 2 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem coverEntry_vx {ω : F} : coverEntry (ω := ω) vx = fun _ => ω := by
   funext i
   rw [coverEntry, coverLin_vx, zmod_val_one, pow_one]
 
+omit [Finite F] [CharP F 2] in
 private theorem coverEntry_vA {ω : F} : coverEntry (ω := ω) vA =
     fun i => if i ∈ ({0, 1, 2} : Finset (Fin 6)) then 1 else ω := by
   funext i
   rw [coverEntry, coverLin_vA]
   by_cases h : i ∈ ({0, 1, 2} : Finset (Fin 6))
-  · simp [h, zmod_val_zero]
+  · simp [h]
   · simp [h, zmod_val_one]
 
+omit [Finite F] [CharP F 2] in
 private theorem coverEntry_vB {ω : F} : coverEntry (ω := ω) vB =
     fun i => if i ∈ ({0, 1, 3} : Finset (Fin 6)) then 1 else ω ^ 2 := by
   funext i
   rw [coverEntry, coverLin_vB]
   by_cases h : i ∈ ({0, 1, 3} : Finset (Fin 6))
-  · simp [h, zmod_val_zero]
+  · simp [h]
   · simp [h, zmod_val_two]
 
 
@@ -327,6 +342,7 @@ open Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem centralizer_vA (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     Subgroup.centralizer ({coverDiag h hω3 hωnorm hω1 vA} : Set (unitarySU 2 n F 6)) =
@@ -340,6 +356,7 @@ theorem centralizer_vA (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
       (l := (1 : F)) (ν := ω) hlν (d := coverEntry (ω := ω) vA) hv
       (coverNorm h hωnorm vA) (coverDet h hω3 hω1 vA)
 
+omit [Finite F] [CharP F 2] in
 theorem centralizer_vB (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     Subgroup.centralizer ({coverDiag h hω3 hωnorm hω1 vB} : Set (unitarySU 2 n F 6)) =
@@ -436,6 +453,7 @@ noncomputable abbrev coverSubgroupE (h : UnitaryFieldData 2 n F) {ω : F} (hω3 
     rw [hinv]
     rw [coverDiagE, eExp_add, coverDiag_mul]
 
+omit [Finite F] [CharP F 2] in
 theorem coverSubgroupE_card (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     Nat.card (coverSubgroupE h hω3 hωnorm hω1) = 3 ^ 3 := by
@@ -450,7 +468,7 @@ theorem coverSubgroupE_card (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3
     rintro ⟨x, v, rfl⟩
     exact ⟨v, rfl⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
-  simp [Nat.card_pi, Nat.card_zmod]
+  simp
 
 
 open CFSG.Open CFSG.ClassicalGroups.UnitaryFlag CFSG.SeitzReduction.UnitaryPilot
@@ -465,22 +483,24 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
 
 theorem eExp_wx : eExp wx = vx := by
   funext i
-  fin_cases i <;> simp [eExp, wx, vx] <;> decide
+  fin_cases i <;> simp [eExp, wx, vx]
 
 theorem eExp_wA : eExp wA = vA := by
   funext i
-  fin_cases i <;> simp [eExp, wA, vA] <;> decide
+  fin_cases i <;> simp [eExp, wA, vA]; decide
 
 theorem eExp_wB : eExp wB = vB := by
   funext i
   fin_cases i <;> simp [eExp, wB, vB] <;> decide
 
+omit [Finite F] [CharP F 2] in
 theorem coverSubgroupE_le (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     coverSubgroupE h hω3 hωnorm hω1 ≤ coverSubgroup h hω3 hωnorm hω1 := by
   rintro _ ⟨w, rfl⟩
   exact ⟨eExp w, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem coverSubgroupE_elem (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     IsElemAbelian 3 (coverSubgroupE h hω3 hωnorm hω1) := by

@@ -37,8 +37,8 @@ theorem exists_fixed_involution {G : Type*} [Group G] [Finite G] (f : G →* G)
     (hf : ∀ x, f (f x) = x) (hG : Even (Nat.card G)) :
     ∃ t : G, t ≠ 1 ∧ t ^ 2 = 1 ∧ f t = t := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let inv : Function.End G := fun x => x⁻¹
   have hinv : inv ^ 2 ^ 1 = 1 := by
     funext x
@@ -83,7 +83,7 @@ theorem exists_fixed_involution {G : Type*} [Group G] [Finite G] (f : G →* G)
 
 theorem mem_of_sq_eq_one_of_odd_index {G : Type*} [Group G] {N : Subgroup G} [N.Normal]
     (hN : Odd N.index) {t : G} (ht : t ^ 2 = 1) : t ∈ N := by
-  haveI : Finite (G ⧸ N) := Nat.finite_of_card_ne_zero (by
+  have : Finite (G ⧸ N) := Nat.finite_of_card_ne_zero (by
     have : Nat.card (G ⧸ N) = N.index := rfl
     rw [this]
     exact (Nat.pos_of_ne_zero (by rintro h; rw [h] at hN; exact (Nat.not_odd_zero hN))).ne')
@@ -139,10 +139,10 @@ theorem exists_relIndex_stabilizer_le_three {H α : Type*} [Group H] [MulAction 
     {B : Subgroup H} (hB : IsPGroup 3 B) (X : Finset α) (hX : ∀ b ∈ B, ∀ x ∈ X, b • x ∈ X)
     (h9 : ¬ 9 ∣ X.card) : ∃ x ∈ X, (MulAction.stabilizer H x).relIndex B ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
-  letI : MulAction ↥B ↥X :=
+  let : MulAction ↥B ↥X :=
     { smul := fun b x => ⟨(b : H) • (x : α), hX b b.2 x x.2⟩
       one_smul := fun x => Subtype.ext (one_smul H (x : α))
       mul_smul := fun b c x => Subtype.ext (mul_smul (b : H) (c : H) (x : α)) }
@@ -155,7 +155,7 @@ theorem exists_relIndex_stabilizer_le_three {H α : Type*} [Group H] [MulAction 
       ← hsmul, Subtype.ext_iff]
   have horb : ∀ x : ↥X, 9 ∣ Nat.card (MulAction.orbit ↥B x) := by
     intro x
-    haveI : Finite (MulAction.orbit ↥B x) := Subtype.finite
+    have : Finite (MulAction.orbit ↥B x) := Subtype.finite
     obtain ⟨n, hn⟩ := hB.card_orbit x
     have hidx : Nat.card (MulAction.orbit ↥B x) = (MulAction.stabilizer H (x : α)).relIndex B := by
       rw [Subgroup.relIndex, ← hstab, MulAction.index_stabilizer, Nat.card_coe_set_eq]
@@ -265,7 +265,7 @@ theorem relIndex_le_of_card_le {G : Type*} [Group G] {E D : Subgroup G} [Finite 
     {n : ℕ} (h : Nat.card D ≤ n * Nat.card E) : E.relIndex D ≤ n := by
   have h1 := Subgroup.relIndex_mul_card E D
   rw [inf_of_le_left hED] at h1
-  haveI : Finite E := Finite.of_injective _ (Subgroup.inclusion_injective hED)
+  have : Finite E := Finite.of_injective _ (Subgroup.inclusion_injective hED)
   have hEpos : 0 < Nat.card E := Nat.card_pos
   by_contra hlt
   push Not at hlt
@@ -284,7 +284,7 @@ theorem starConcl_of_congr {S C : Type*} [Group S] [Group C] [Finite S] (e : S �
     rintro _ ⟨φ', hφ', rfl⟩
     obtain ⟨ψ, hψ, rfl⟩ := hE'D hφ'
     simpa using hψ
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   refine ⟨E'.map c.symm.toMonoidHom, hEA, ?_, U'.map e.symm.toMonoidHom, ?_, hU'2.map _, ?_⟩
   · refine relIndex_le_of_card_le hEA (n := 9) ?_
     have hle : E' ≤ D.map c.toMonoidHom := hE'D
@@ -301,7 +301,7 @@ theorem starConcl_of_congr {S C : Type*} [Group S] [Group C] [Finite S] (e : S �
       e.symm.injective).1 h)
   · rintro _ ⟨φ', hφ', rfl⟩ _ ⟨u', hu', rfl⟩
     refine ⟨φ' u', hU' φ' hφ' u' hu', ?_⟩
-    simp [hc, MulAut.congr_apply]
+    simp [hc]
 
 end Generic
 
@@ -320,7 +320,7 @@ theorem frobPow_apply {K : Type} [Field K] [Finite K] [CharP K 2] (f : ℕ) (c :
 theorem frobPow_frobPow {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ}
     (hK : Nat.card K = (2 ^ f) ^ 2) (c : K) : frobPow K f (frobPow K f c) = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [frobPow_apply, frobPow_apply, ← pow_mul, ← sq, ← hK, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card c
 
@@ -328,7 +328,7 @@ theorem card_fixSubfield_frobPow {K : Type} [Field K] [Finite K] [CharP K 2] {f 
     (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) :
     Nat.card ↥(CFSG.LieType.Chevalley.fixSubfield (frobPow K f)) = 2 ^ f := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
   apply le_antisymm
   · set Z : Finset K := Finset.univ.filter (fun c => c ^ 2 ^ f = c) with hZ
@@ -421,7 +421,7 @@ theorem core_centralizes [Finite K] [CharP K 2] (hO : OrbitProp τ) {P₁ : Subg
     ∃ γ : Fin τ.rank → ℤ, IsRoot τ γ ∧ ∃ E₂ : Subgroup (ModGL τ K), E₂ ≤ P₁ ∧
       Nat.card P₁ ≤ 9 * Nat.card E₂ ∧ ∀ e ∈ E₂, e * pinnedX τ K γ 1 = pinnedX τ K γ 1 * e := by
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   let f : ↥P₁ →* WeylGroup τ := (weylQuotientHom τ K).comp (Subgroup.inclusion hP₁)
   have hf3 : ∀ b ∈ f.range, b ^ 3 = 1 := by
     rintro _ ⟨x, rfl⟩
@@ -514,7 +514,7 @@ theorem orbitProp_E6 : OrbitProp Tag.E6 := by
   have hT' : (T.image (fun t => v • t)).card ≤ 8 := Finset.card_image_le.trans hT
   have hBT' : ∀ b ∈ B, b • γ ∈ T.image (fun t => v • t) := by
     intro b hb
-    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp [MulAut.conj_apply]⟩
+    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp⟩
     refine Finset.mem_image.2 ⟨(v⁻¹ * b * v) • β, hBT _ h1, ?_⟩
     rw [hγdef, smul_smul, smul_smul]
     congr 1
@@ -787,9 +787,9 @@ theorem smul_last7 {u : WeylGroup Tag.E7} (hu : u ∈ Pw7) (v : Fin Tag.E7.rank 
     · subst hj6
       rfl
     · have : (j : ℕ) ≠ 6 := fun h' => hj6 (Fin.ext h')
-      rw [if_neg this, if_neg hj6]
+      rw [ite_eq_right this, ite_eq_right hj6]
   simp only [Matrix.mulVec, dotProduct, hrow, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 theorem exists_root_orbit_subset7 {B : Subgroup (WeylGroup Tag.E7)} (hBP : B ≤ Pw7)
     (hB : IsElemAbelian 3 B) :
@@ -875,7 +875,7 @@ theorem orbitProp_E7 : OrbitProp Tag.E7 := by
   have hT' : (T.image (fun t => v • t)).card ≤ 8 := Finset.card_image_le.trans hT
   have hBT' : ∀ b ∈ B, b • γ ∈ T.image (fun t => v • t) := by
     intro b hb
-    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp [MulAut.conj_apply]⟩
+    have h1 : v⁻¹ * b * v ∈ B₂ := ⟨b, hb, by simp⟩
     refine Finset.mem_image.2 ⟨(v⁻¹ * b * v) • β, hBT _ h1, ?_⟩
     rw [hγdef, smul_smul, smul_smul]
     congr 1
@@ -892,7 +892,7 @@ theorem orbitProp_E7 : OrbitProp Tag.E7 := by
     have h1 : (MulAction.stabilizer (WeylGroup Tag.E7) γ).subgroupOf B =
         MulAction.stabilizer ↥B γ := by
       ext x
-      simp [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
+      simp [MulAction.mem_stabilizer_iff]
     rw [Subgroup.relIndex, h1, MulAction.index_stabilizer]
     calc (MulAction.orbit ↥B γ).ncard ≤
           ((T.image (fun t => v • t) : Finset _) : Set (Fin Tag.E7.rank → ℤ)).ncard := by
@@ -962,8 +962,8 @@ theorem odd_index_fixedFieldImage [Finite K] [CharP K 2] (σ : K ≃+* K) :
     Odd ((fixedFieldImage τ σ).subgroupOf (entrywiseFixedGroup τ σ)).index := by
   classical
   obtain ⟨-, h⟩ := fixedFieldImage_index_dvd_card (τ := τ) σ
-  haveI : CharP ↥(fixSubfield σ) 2 := CharP.subring K 2 (fixSubfield σ).toSubring
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+  have : CharP ↥(fixSubfield σ) 2 := CharP.subring K 2 (fixSubfield σ).toSubring
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
   obtain ⟨n, -, hn⟩ := FiniteField.card ↥(fixSubfield σ) 2
   rw [Nat.card_eq_fintype_card, hn] at h
   have hodd : Odd ((2 ^ (n : ℕ) - 1) ^ τ.rank) := by
@@ -981,7 +981,7 @@ theorem sigma_trick [Finite K] [CharP K 2] (hO : OrbitProp τ)
     ∃ E : Subgroup (ModGL τ ↥(fixSubfield σ)), E ≤ P ∧ Nat.card P ≤ 9 * Nat.card E ∧
       ∃ t ∈ adjointGroup τ ↥(fixSubfield σ), t ≠ 1 ∧ t ^ 2 = 1 ∧ ∀ e ∈ E, e * t = t * e := by
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   set φ : ModGL τ ↥(fixSubfield σ) →* ModGL τ K := baseChangeGL (fixSubfield σ).subtype with hφ
   have hφinj : Function.Injective φ := baseChangeGL_injective _
   set P' : Subgroup (ModGL τ K) := P.map φ with hP'
@@ -1150,8 +1150,8 @@ theorem not_three_dvd_of_sylow [Finite K]
     (h : ∃ Q : Sylow 3 ↥(adjointGroup τ K), (Q : Subgroup ↥(adjointGroup τ K)) ≤ monomialSub τ K) :
     ¬ 3 ∣ (monomialSubgroup τ K).relIndex (adjointGroup τ K) := by
   obtain ⟨Q, hQ⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL τ K) := finite_modGL
   intro h3
   have hdvd : (monomialSub τ K).index ∣ (Q : Subgroup ↥(adjointGroup τ K)).index :=
     Subgroup.index_dvd_of_le hQ
@@ -1191,12 +1191,12 @@ theorem monoMat_mul (d e : Fin N → Fˣ) (σ τ : Equiv.Perm (Fin N)) :
     monoMat d σ * monoMat e τ = monoMat (fun k => d (τ k) * e k) (σ * τ) := by
   ext i k
   rw [Matrix.mul_apply, Finset.sum_eq_single (τ k)]
-  · rw [monoMat_apply, monoMat_apply, monoMat_apply, if_pos rfl]
+  · rw [monoMat_apply, monoMat_apply, monoMat_apply, ite_eq_left rfl]
     by_cases h : i = σ (τ k)
-    · rw [if_pos h, if_pos (show i = (σ * τ) k from h), Units.val_mul]
-    · rw [if_neg h, if_neg (show ¬ i = (σ * τ) k from h), zero_mul]
+    · rw [ite_eq_left h, ite_eq_left (show i = (σ * τ) k from h), Units.val_mul]
+    · rw [ite_eq_right h, ite_eq_right (show ¬ i = (σ * τ) k from h), zero_mul]
   · intro j _ hj
-    rw [monoMat_apply (F := F) e τ j k, if_neg hj, mul_zero]
+    rw [monoMat_apply (F := F) e τ j k, ite_eq_right hj, mul_zero]
   · simp
 
 theorem monoMat_one : monoMat (1 : Fin N → Fˣ) (1 : Equiv.Perm (Fin N)) = (1 : Matrix (Fin N) (Fin N) F) := by
@@ -1205,7 +1205,7 @@ theorem monoMat_one : monoMat (1 : Fin N → Fˣ) (1 : Equiv.Perm (Fin N)) = (1 
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg (show ¬ i = (1 : Equiv.Perm (Fin N)) j from h), if_neg h]
+  · rw [ite_eq_right (show ¬ i = (1 : Equiv.Perm (Fin N)) j from h), ite_eq_right h]
 
 @[expose] def monoInv (d : Fin N → Fˣ) (σ : Equiv.Perm (Fin N)) : Fin N → Fˣ :=
   fun k => (d (σ⁻¹ k))⁻¹
@@ -1248,14 +1248,14 @@ theorem mono_injective {d e : Fin N → Fˣ} {σ τ : Equiv.Perm (Fin N)}
   have hst : ∀ j, σ j = τ j := by
     intro j
     have hj := congrFun (congrFun hm (σ j)) j
-    rw [monoMat_apply, monoMat_apply, if_pos rfl] at hj
+    rw [monoMat_apply, monoMat_apply, ite_eq_left rfl] at hj
     by_contra hne
-    rw [if_neg hne] at hj
+    rw [ite_eq_right hne] at hj
     exact (d j).ne_zero hj
   have hστ : σ = τ := Equiv.ext hst
   refine ⟨funext fun j => ?_, hστ⟩
   have hj := congrFun (congrFun hm (σ j)) j
-  rw [monoMat_apply, monoMat_apply, if_pos rfl, if_pos (hst j)] at hj
+  rw [monoMat_apply, monoMat_apply, ite_eq_left rfl, ite_eq_left (hst j)] at hj
   exact Units.ext hj
 
 variable (N F) in
@@ -1297,9 +1297,9 @@ theorem monoMat_conj_apply (d : Fin N → Fˣ) (σ : Equiv.Perm (Fin N)) (A : Ma
   have h1 : ∀ l, (monoMat d σ * A) i l = (d (σ⁻¹ i) : F) * A (σ⁻¹ i) l := by
     intro l
     rw [Matrix.mul_apply, Finset.sum_eq_single (σ⁻¹ i)]
-    · rw [monoMat_apply, if_pos (by simp)]
+    · rw [monoMat_apply, ite_eq_left (by simp)]
     · intro j _ hj
-      rw [monoMat_apply, if_neg]
+      rw [monoMat_apply, ite_eq_right]
       · simp
       · intro h
         apply hj
@@ -1307,10 +1307,10 @@ theorem monoMat_conj_apply (d : Fin N → Fˣ) (σ : Equiv.Perm (Fin N)) (A : Ma
         simp
     · simp
   rw [Matrix.mul_apply, Finset.sum_eq_single (σ⁻¹ k)]
-  · rw [h1, monoMat_apply, if_pos rfl]
+  · rw [h1, monoMat_apply, ite_eq_left rfl]
     simp [monoInv]
   · intro l _ hl
-    rw [monoMat_apply (F := F) (monoInv d σ) σ⁻¹ l k, if_neg hl, mul_zero]
+    rw [monoMat_apply (F := F) (monoInv d σ) σ⁻¹ l k, ite_eq_right hl, mul_zero]
   · simp
 
 theorem card_monoSub [Finite F] :
@@ -1328,7 +1328,7 @@ theorem card_monoSub [Finite F] :
 theorem factorization_three_GL_four (N : ℕ) :
     (∏ i : Fin N, (4 ^ N - 4 ^ (i : ℕ))).factorization 3 = N + (N.factorial).factorization 3 := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   rw [Fin.prod_univ_eq_prod_range (fun i => 4 ^ N - 4 ^ i) N]
   have hne : ∀ i ∈ Finset.range N, 4 ^ N - 4 ^ i ≠ 0 := by
     intro i hi
@@ -1368,7 +1368,7 @@ theorem factorization_three_GL_four (N : ℕ) :
 theorem not_three_dvd_index_monoSub {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) (N : ℕ) :
     ¬ 3 ∣ (monoSub N F).index := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hp : Nat.Prime 3 := Nat.prime_three
   have hGL : Nat.card (GL (Fin N) F) = ∏ i : Fin N, (4 ^ N - 4 ^ (i : ℕ)) := by
     rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, hF]
@@ -1667,7 +1667,7 @@ theorem monoPerm_eq_one_of_conjPSL {N : ℕ} (hN : 2 ≤ N) (z : ↥(monoSub N F
   have e2 : σ⁻¹ (σ j) = j := by simp
   rw [e1, e2] at hentry
   have hTij : Matrix.transvection i j (1 : F) i j = 1 := by
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Ne.symm hji]
+    simp [Matrix.transvection, Ne.symm hji]
   rw [hTij, mul_one] at hentry
   have hne : Matrix.transvection i j (1 : F) (σ i) (σ j) ≠ 0 := by
     rw [hentry]
@@ -1676,14 +1676,14 @@ theorem monoPerm_eq_one_of_conjPSL {N : ℕ} (hN : 2 ≤ N) (z : ↥(monoSub N F
   rw [Matrix.transvection, Matrix.add_apply, Matrix.one_apply_ne hsij, zero_add,
     Matrix.single_apply] at hne
   by_contra h
-  exact hne (if_neg (fun h' => h h'.1.symm))
+  exact hne (ite_eq_right (fun h' => h h'.1.symm))
 
 theorem perm_inv_apply_self {α : Type*} (σ : Equiv.Perm α) (x : α) : σ⁻¹ (σ x) = x := by simp
 
 theorem exists_sub_card_pow' {G : Type*} [Group G] [Finite G] {p m k : ℕ} (hp : p.Prime)
     {A : Subgroup G} (hA : Nat.card A = p ^ m) (hk : k ≤ m) :
     ∃ E : Subgroup G, E ≤ A ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hD⟩ := Sylow.exists_subgroup_card_pow_prime p
     (show p ^ k ∣ Nat.card A by rw [hA]; exact pow_dvd_pow p hk)
   refine ⟨D.map A.subtype, Subgroup.map_subtype_le D, ?_⟩
@@ -1695,7 +1695,7 @@ theorem exists_intransitive {N : ℕ} (hN : 2 ≤ N) (B : Subgroup (Equiv.Perm (
     ∃ B₀ : Subgroup (Equiv.Perm (Fin N)), B₀ ≤ B ∧ B₀.relIndex B ≤ 3 ∧
       ∃ O : Finset (Fin N), O.Nonempty ∧ O ≠ Finset.univ ∧ ∀ b ∈ B₀, ∀ i, b i ∈ O ↔ i ∈ O := by
   classical
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   let orb (C : Subgroup (Equiv.Perm (Fin N))) : Finset (Fin N) :=
     Finset.univ.filter fun k => ∃ c ∈ C, c 0 = k
   have mem_orb : ∀ C k, k ∈ orb C ↔ ∃ c ∈ C, c 0 = k := by
@@ -1714,7 +1714,7 @@ theorem exists_intransitive {N : ℕ} (hN : 2 ≤ N) (B : Subgroup (Equiv.Perm (
     fun C => ⟨0, (mem_orb C 0).2 ⟨1, one_mem C, rfl⟩⟩
   have orb_card : ∀ C : Subgroup (Equiv.Perm (Fin N)), (orb C).card ≤ Nat.card C := by
     intro C
-    haveI : Fintype ↥C := Fintype.ofFinite _
+    have : Fintype ↥C := Fintype.ofFinite _
     have hsub : orb C ⊆ Finset.univ.image (fun c : ↥C => (c : Equiv.Perm (Fin N)) 0) := by
       intro k hk
       obtain ⟨c, hc, rfl⟩ := (mem_orb C k).1 hk
@@ -1792,9 +1792,9 @@ theorem starConcl_linear (hAut : LinearAutCube) {F : Type} [Field F] [Finite F] 
     {N : ℕ} (hN : 3 ≤ N) (D : Subgroup (MulAut (ProjectiveSpecialLinearGroup (Fin N) F)))
     (hD : IsElemAbelian 3 D) : StarConcl D := by
   classical
-  haveI : CharP F 2 := Gen2318E64InAux.charP_two_of_card_four F hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut (ProjectiveSpecialLinearGroup (Fin N) F)) := MulEquiv.finite_left
+  have : CharP F 2 := Gen2318E64InAux.charP_two_of_card_four F hF
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut (ProjectiveSpecialLinearGroup (Fin N) F)) := MulEquiv.finite_left
   have hΦ : ∀ α ∈ D, ∃ g : GL (Fin N) F, conjPSLHom g = α := by
     intro α hα
     obtain ⟨g, hg⟩ := hAut F hF N hN α (hD.2 α hα)
@@ -1814,7 +1814,7 @@ theorem starConcl_linear (hAut : LinearAutCube) {F : Type} [Field F] [Finite F] 
   have htop : (Q.mapSurjective hf : Subgroup ↥D) = ⊤ :=
     (Q.mapSurjective hf).maximal_isPGroup.eq_of_le (hD3.to_subgroup ⊤) le_top
   set P : Subgroup (GL (Fin N) F) := (Q : Subgroup ↥X).map X.subtype with hP
-  have hPp : IsPGroup 3 ↥P := Q.isPGroup'.map X.subtype
+  have hPp : IsPGroup 3 ↥P := Q.isPGroup.map X.subtype
   have hPD : ∀ p ∈ P, conjPSLHom p ∈ D := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
@@ -1959,7 +1959,7 @@ theorem starConcl_linear (hAut : LinearAutCube) {F : Type} [Field F] [Finite F] 
     have hij := congrFun (congrFun hTm i) j
     have hne : i ≠ j := by rintro rfl; exact hjO hiO
     rw [hT] at hij
-    simp [transvection, Matrix.one_apply, hne, scalar_apply, diagonal_apply_ne _ hne] at hij
+    simp [transvection, hne, scalar_apply] at hij
   ·
     exact ((isPGroup_uSub O).map _).map _
   ·
@@ -1982,7 +1982,7 @@ theorem star_linear (hAut : LinearAutCube) {S : Type} [Group S] [Finite S] (r : 
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.A r q).Valid) (hq : IsTwoPow q 2)
     (hr : 3 ≤ r + 1) (eS : S ≃* (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.A r q, hv⟩).Group)
     (D : Subgroup (MulAut S)) (hD : IsElemAbelian 3 D) : StarConcl D := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e1 := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv
   have hF : Nat.card (GaloisField q.p q.exponent) = 4 := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', hq.1, hq.2]
@@ -2022,8 +2022,8 @@ theorem invCent_of_card {τ : Tag} {q : ℕ}
     (k' : Type) [Field k'] [Finite k'] (hk' : Nat.card k' = q) : InvCent ↥(adjointGroup τ k') := by
   classical
   obtain ⟨k, _, _, hk, hI⟩ := h
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : Fintype k' := Fintype.ofFinite k'
+  have : Fintype k := Fintype.ofFinite k
+  have : Fintype k' := Fintype.ofFinite k'
   have hcard : Fintype.card k = Fintype.card k' := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hk']
   exact hI.of_mulEquiv
@@ -2045,7 +2045,7 @@ theorem inner_of_cube_E78 (τ : Tag) (hτ : τ = .E7 ∨ τ = .E8) {k : Type} [F
     (β : MulAut ↥(adjointGroup τ k)) (hβ : β ^ 3 = 1) :
     β ∈ (MulAut.conj : ↥(adjointGroup τ k) →* MulAut ↥(adjointGroup τ k)).range := by
   by_contra hout
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdet : ¬ 3 ∣ τ.cartan.det.natAbs := by
     rcases hτ with rfl | rfl
     · rw [det_cartan_E7]
@@ -2166,7 +2166,7 @@ theorem star_E6_four {S : Type} [Group S] [Finite S] (q : TauCeti.PrimePower)
       eS.symm.injective).1 h)
   · rintro _ ⟨φ', hφ', rfl⟩ _ ⟨u', hu', rfl⟩
     refine ⟨φ' u', hU' φ' hφ' u' hu', ?_⟩
-    simp [he, MulAut.congr_apply]
+    simp [he]
 
 end Assembly
 
@@ -2202,7 +2202,7 @@ theorem exists_fixed_equiv_E (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E
     ∃ T : k ≃+* k, Nat.card ↥(fixSubfield T) = 2 ∧
       Nonempty (↥(fixedSubgroup β) ≃* ↥(adjointGroup τ ↥(fixSubfield T))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, T, r, j, ψ, hd, -, hTcard, -, -, hβr, hψ⟩ :=
     CFSG.HardMathSupport.Lang.E6Descent.exists_conj_entrywise_of_not_innerDiag τ hτ
       (ℓ := 2) (f := 3) (p := 3) (by norm_num) k hk Nat.prime_three (by norm_num) β hβ3
@@ -2229,8 +2229,8 @@ theorem card_le_three_mul_inner (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
     Nat.card D ≤ 3 * Nat.card ↥(D ⊓
       (MulAut.conj : ↥(adjointGroup τ k) →* MulAut ↥(adjointGroup τ k)).range) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL τ k) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL τ k) := finite_modGL
   obtain ⟨Θ, -, -, hker, -, -⟩ :=
     CFSG.LieType.Chevalley.ordinary_E_field_graph_quotient_and_involutions τ hτ k
   let f : ↥D →* RingAut k × Multiplicative (ZMod (exactE τ)) := Θ.comp D.subtype
@@ -2254,8 +2254,8 @@ theorem card_le_three_mul_inner (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
   have hEcard : Nat.card (Multiplicative (ZMod (exactE τ))) ≤ 2 := by
     rw [Nat.card_congr Multiplicative.toAdd]
     rcases hτ with rfl | rfl | rfl <;> simp [exactE]
-  haveI : NeZero (exactE τ) := ⟨by rcases hτ with rfl | rfl | rfl <;> simp [exactE]⟩
-  haveI : Finite (RingAut k) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
+  have : NeZero (exactE τ) := ⟨by rcases hτ with rfl | rfl | rfl <;> simp [exactE]⟩
+  have : Finite (RingAut k) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
   have hr3 : Nat.card f.range ≤ 3 := by
     have hp : IsPGroup 3 f.range := by
       rintro ⟨_, ⟨x, rfl⟩⟩
@@ -2269,7 +2269,7 @@ theorem card_le_three_mul_inner (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
       Subgroup.card_subgroup_dvd_card _
     rw [Nat.card_prod, hRcard] at hdvd
     rw [hn] at hdvd ⊢
-    haveI : Finite (Multiplicative (ZMod (exactE τ))) :=
+    have : Finite (Multiplicative (ZMod (exactE τ))) :=
       Nat.finite_of_card_ne_zero (by
         rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
         exact NeZero.ne _)
@@ -2321,8 +2321,8 @@ theorem starConcl_field (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {k
     (hI8 : InvCent ↥(adjointGroup τ k)) (D : Subgroup (MulAut ↥(adjointGroup τ k)))
     (hD : IsElemAbelian 3 D) : StarConcl D := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL τ k) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL τ k) := finite_modGL
   have hZ : Subgroup.center ↥(adjointGroup τ k) = ⊥ := center_adjointGroup_eq_bot
   by_cases hinn : D ≤ (MulAut.conj : ↥(adjointGroup τ k) →* MulAut ↥(adjointGroup τ k)).range
   · exact star_of_inner hZ hI8 D hD hinn

@@ -112,7 +112,7 @@ theorem solvable_quot_oPrimeResidual (X : Type*) [Group X] [Finite X]
   have hPR : (P : Subgroup X) ≤ oPrimeResidual 2 X := by
     intro x hx
     apply Subgroup.subset_closure
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hdvd : (oPrimeResidual 2 X).index ∣ (P : Subgroup X).index := Subgroup.index_dvd_of_le hPR
   have hodd : Odd (Nat.card (X ⧸ oPrimeResidual 2 X)) := by
@@ -136,7 +136,7 @@ theorem isSection_Jbar_of_residual {x : G} {T : Subgroup G}
   have hTC : T ≤ C := hT.le
   have hTp : IsPGroup 2 ↥T := by
     obtain ⟨Q, rfl⟩ := hT
-    have := Q.isPGroup'
+    have := Q.isPGroup
     exact this.map _
   have hRn : (oPrimeResidual 2 ↥C).Normal := Stage1.Thm6.Prod.oPrimeResidual_normal 2 _
   have hJn : ((Jx x).subgroupOf C).Normal := by

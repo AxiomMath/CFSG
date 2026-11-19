@@ -273,7 +273,7 @@ theorem eq_sSup_components_of_perfect_isSubnormal {S : Type} [Group S] [Finite S
     · have hfac : ∀ K' : 𝒜, K ≤ Subgroup.normalizer (((K' : Subgroup S)) : Set S) := fun K' => by
         have hK'c : CFSG.Open.IsComponentOf (K' : Subgroup S) W := by
           have h := K'.2
-          simp only [h𝒜def, Set.mem_setOf_eq] at h
+          simp only [h𝒜def, Set.mem_ofPred_eq] at h
           exact h.1
         exact (CFSG.LocalAnalysis.GLTheoremA.I142N.le_GLALayer hK.1).trans
           (GLALayer_le_normalizer_of_isComponentOf hK'c)
@@ -307,8 +307,8 @@ theorem isChevSimple_of_ggInvolCentTyped
     (hnc : ∃ a b : ↥S ⧸ N, a * b ≠ b * a) :
     CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2 (↥S ⧸ N) := by
   classical
-  haveI hFact : Fact p.Prime := ⟨hp⟩
-  haveI hFact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hFact : Fact p.Prime := ⟨hp⟩
+  have hFact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup X := Subgroup.centralizer ({r, e} : Set X) ⊓ G₀ with hYdef
   set V : Subgroup X := Subgroup.centralizer ({r} : Set X) ⊓ G₀ with hVdef
   have hmemCe : ∀ x : X, x ∈ Subgroup.centralizer ({e} : Set X) ↔ e * x = x * e := by
@@ -482,7 +482,7 @@ theorem isChevSimple_of_ggInvolCentTyped
           = {q : ↥V ⧸ Q | ∀ a : ↥M,
             CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction α Q hαN a q = q} from by
         ext q
-        simp only [I142N.mem_fixA, Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact ⟨fun h a => (hact a q).trans (h a), fun h a => (hact a q).symm.trans (h a)⟩]
       rw [hcfp, hYfix]
       rfl
@@ -549,7 +549,7 @@ theorem isChevSimple_of_ggInvolCentTyped
       _ = Subgroup.map (QuotientGroup.mk' N) (commutator ↥S) := by rw [commutator_def]
       _ = ⊤ := by rw [hperf, Subgroup.map_top_of_surjective _
             (QuotientGroup.mk'_surjective N)]
-  haveI hImpN : Group.IsPerfect (↥S ⧸ N) := (Group.isPerfect_def).2 hperfN
+  have hImpN : Group.IsPerfect (↥S ⧸ N) := (Group.isPerfect_def).2 hperfN
   have hQTnorm : QT.Normal := Subgroup.Normal.comap CFSG.pCore_normal (Subgroup.inclusion hSV)
   have hQN : QT ≤ N := by
     by_contra hcon
@@ -560,7 +560,7 @@ theorem isChevSimple_of_ggInvolCentTyped
         Subgroup.mem_map_of_mem _ hx
       rw [hbot] at hmem
       exact hxN ((QuotientGroup.eq_one_iff x).1 (Subgroup.mem_bot.1 hmem))
-    haveI hQTN : (Subgroup.map (QuotientGroup.mk' N) QT).Normal :=
+    have hQTN : (Subgroup.map (QuotientGroup.mk' N) QT).Normal :=
       Subgroup.Normal.map hQTnorm _ (QuotientGroup.mk'_surjective N)
     rcases hsimp.eq_bot_or_eq_top_of_normal (Subgroup.map (QuotientGroup.mk' N) QT) with h | h
     · exact hne h
@@ -608,8 +608,8 @@ theorem isChevSimple_of_ggInvolCentTyped
       have hKn : (K.subgroupOf Sbar).Normal := by
         rw [Subgroup.normal_subgroupOf_iff_le_normalizer hK.2]
         exact (hSbar_layer.trans (GLALayer_le_normalizer_of_isComponentOf hK.1))
-      haveI := hKn
-      haveI : (Subgroup.map f (K.subgroupOf Sbar)).Normal :=
+      have := hKn
+      have : (Subgroup.map f (K.subgroupOf Sbar)).Normal :=
         Subgroup.Normal.map hKn f f_surj
       rcases hsimp.eq_bot_or_eq_top_of_normal (Subgroup.map f (K.subgroupOf Sbar)) with h | h
       · intro x hx
@@ -649,7 +649,7 @@ theorem isChevSimple_of_ggInvolCentTyped
   have hMKle : qK.ker ≤ Subgroup.center ↥K := by
     rcases CFSG.LocalAnalysis.GLTheoremA.I142N.quasisimple_dichotomy hKq (N := qK.ker) with h | h
     · exfalso
-      haveI : Nontrivial (↥S ⧸ N) := hsimp.toNontrivial
+      have : Nontrivial (↥S ⧸ N) := hsimp.toNontrivial
       obtain ⟨y, hy⟩ := exists_ne (1 : ↥S ⧸ N)
       obtain ⟨x, rfl⟩ := qK_surj y
       have hx1 : x ∈ qK.ker := by rw [h]; exact Subgroup.mem_top x
@@ -682,7 +682,7 @@ theorem isChevSimple_two_of_largeEvenMarking_of_isSimpleGroup {G : Type} [Group 
     (hG : IsSimpleGroup G) {P : CFSG.Assembly.LargeEvenMarkProp G}
     (hM : LargeEvenMarking G P) :
     CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2 G := by
-  haveI := hG
+  have := hG
   have hnc : ∃ a b : G, a * b ≠ b * a := by
     by_contra h
     push Not at h

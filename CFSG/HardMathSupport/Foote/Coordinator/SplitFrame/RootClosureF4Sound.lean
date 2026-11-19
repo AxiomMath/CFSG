@@ -25,7 +25,7 @@ theorem ofFn_lin (a b : ℤ) (v w : Fin Tag.F4.rank → ℤ) :
 theorem inS_ofFn (v : Fin Tag.F4.rank → ℤ) : inS (List.ofFn v) = true ↔ (3 : ℤ) ∣ v 1 := by
   have hlt : 1 < Tag.F4.rank := by decide
   have h1 : (List.ofFn v).getD 1 0 = v 1 := by
-    simp [List.getD_eq_getElem?_getD, hlt] <;> rfl
+    simp [List.getD_eq_getElem?_getD, hlt]; rfl
   simp only [inS, h1, beq_iff_eq]
   omega
 
@@ -145,7 +145,7 @@ theorem stepNew_sound {K : Type} [Field K] {t : K} (ht0 : t ≠ 0) (ht1 : t ≠ 
       simp [stepNew]
     intro x hx
     rw [hnew] at hx
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hx
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl
     · exact ⟨va + vb, e11.symm, hr11, hsub1⟩
     · exact ⟨va + 2 • vb, e12.symm, hr12, hsub2⟩
@@ -167,7 +167,7 @@ theorem runSteps_sound {K : Type} [Field K] {t : K} (ht0 : t ≠ 0) (ht1 : t ≠
     split at h
     · rename_i a b ha hb
       by_cases hc : stepOK a b k = true
-      · rw [if_pos hc] at h
+      · rw [ite_eq_left hc] at h
         have hnew : ∀ x ∈ D ++ stepNew a b k, PL K H x := by
           intro x hx
           rcases List.mem_append.1 hx with hx | hx
@@ -175,7 +175,7 @@ theorem runSteps_sound {K : Type} [Field K] {t : K} (ht0 : t ≠ 0) (ht1 : t ≠
           · exact stepNew_sound ht0 ht1 H (hD a (List.mem_of_getElem? ha))
               (hD b (List.mem_of_getElem? hb)) hc x hx
         exact ih _ _ hnew h
-      · rw [if_neg hc] at h
+      · rw [ite_eq_right hc] at h
         simp at h
     · simp at h
 
@@ -248,7 +248,7 @@ theorem frameClosing_of_detection_F4 (K : Type) [Field K] [Finite K] (hK : 3 ≤
       by_contra h1
       exact hex ⟨x, hx, h1⟩
     classical
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h2 : Fintype.card K ≤ 2 := by
       calc Fintype.card K = (Finset.univ : Finset K).card := Finset.card_univ.symm
         _ ≤ ({0, 1} : Finset K).card := by

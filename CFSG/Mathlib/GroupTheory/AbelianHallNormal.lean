@@ -19,7 +19,7 @@ theorem conj_mem_of_permutes_of_centralizes {Γ : Type*} [Group Γ] [Finite Γ]
       ∀ r ∈ R, y * r = r * y)
     {h : Γ} (hh : h ∈ B ⊔ V) : h * y * h⁻¹ ∈ B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup Γ := B ⊔ V with hHdef
   have hBH : B ≤ H := le_sup_left
   have hVH : V ≤ H := le_sup_right
@@ -130,7 +130,7 @@ theorem conj_mem_of_permutes_of_centralizes {Γ : Type*} [Group Γ] [Finite Γ]
     · rw [hq2]
       exact le_sup_left
     · exact le_sup_of_le_right (hqB q hq2)
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
   set h' : ↥H := ⟨h, hh⟩ with hh'
   have hxF : h' * y' * h'⁻¹ ∈ CFSG.fittingSubgroup ↥H :=
     (CFSG.fittingSubgroup_normal).conj_mem _ hyF h'

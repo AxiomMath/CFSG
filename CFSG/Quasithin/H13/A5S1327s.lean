@@ -90,6 +90,7 @@ namespace TwoBlocks
 variable (B : TwoBlocks hU H T K₁ K₂)
 include B
 
+omit B in
 theorem commV_sup_le : commV (K₁ ⊔ K₂) ≤ commV K₁ ⊔ commV K₂ :=
   CFSG.Quasithin.FixVLat.commV_sup_le K₁ K₂
 
@@ -98,7 +99,7 @@ theorem commV_autI_twoResidual [Finite G] {y₁ y₂ : MulAut (IntMod U hU)} (hy
     commV (autI hU (twoResidual H)) = commV K₁ ⊔ commV K₂ := by
   have hL := B.autI_twoResidual_eq hy₁ hy₁3 hy₁1 hy₂ hy₂3 hy₂1
   apply le_antisymm
-  · exact (commV_mono' B.autI_twoResidual_le).trans B.commV_sup_le
+  · exact (commV_mono' B.autI_twoResidual_le).trans TwoBlocks.commV_sup_le
   · rw [← commV_zpowers_eq B.nat₁ hy₁ hy₁3 hy₁1, ← commV_zpowers_eq B.nat₂ hy₂ hy₂3 hy₂1, hL]
     exact sup_le (commV_mono' le_sup_left) (commV_mono' le_sup_right)
 

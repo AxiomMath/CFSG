@@ -39,7 +39,7 @@ theorem kgLangT3_model_comm_ne_one (k K : Type) [Field k] [Field K] [Algebra k K
   have hσdet : Matrix.GeneralLinearGroup.det (gx * g₁ * gx⁻¹) =
       Units.map (Algebra.norm k (S := K)) s := by
     rw [map_mul, map_mul, map_inv, hx, h₁, hN]
-    simp [mul_assoc, mul_comm, mul_left_comm]
+    simp [mul_assoc, mul_comm]
   have hs : triD4LineSigma k K σ (triD4LineMk k K g₁ c₁ h₁) =
       triD4LineMk k K g₁ s (h₁.trans hN.symm) :=
     triD4LineSigma_mk k K σ g₁ c₁ h₁ (h₁.trans hN.symm)
@@ -53,7 +53,7 @@ theorem kgLangT3_model_comm_ne_one (k K : Type) [Field k] [Field K] [Algebra k K
       Units.map (Algebra.norm k (S := K)) ((cx * s) * cx⁻¹) :=
     l02qj7a_det_mul k K (gx * g₁) gx⁻¹ (cx * s) cx⁻¹ hdet_mul1 hdet_inv
   have hcu : (cx * s) * cx⁻¹ = s := by
-    simp [mul_assoc, mul_comm, mul_left_comm]
+    simp [mul_comm, mul_left_comm]
   have hconj : triD4LineMk k K gx cx hx * triD4LineSigma k K σ (triD4LineMk k K g₁ c₁ h₁) *
       (triD4LineMk k K gx cx hx)⁻¹ =
       triD4LineMk k K (gx * g₁ * gx⁻¹) s hσdet := by

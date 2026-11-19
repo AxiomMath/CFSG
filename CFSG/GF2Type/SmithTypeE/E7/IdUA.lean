@@ -30,7 +30,7 @@ theorem fix_fst (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (a : Fin 6 �
   have h := B12_of_isometry hσ (a, 0) (0, Pi.single j 1)
   rw [hF] at h
   simp only [B12, Pi.zero_apply, Pi.single_apply, mul_ite, mul_one, mul_zero, zero_mul,
-    add_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+    add_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
   exact h
 
 theorem fix_apply (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (a b : Fin 6 → ZMod 2) :
@@ -68,7 +68,7 @@ theorem Mlin_alt (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (a : Fin 6 �
 theorem Mlin_symm (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (a a' : Fin 6 → ZMod 2) :
     ∑ i, a i * Mlin σ a' i = ∑ i, a' i * Mlin σ a i := by
   have h := B12_of_isometry hσ (a, 0) (a', 0)
-  simp only [B12, Pi.zero_apply, mul_zero, zero_mul, add_zero, Finset.sum_const_zero] at h
+  simp only [B12, Pi.zero_apply, mul_zero, add_zero, Finset.sum_const_zero] at h
   rw [fix_fst hσ hF, fix_fst hσ hF] at h
   have h2 : ∑ i, (a i * Mlin σ a' i + a' i * Mlin σ a i) = 0 := h
   rw [Finset.sum_add_distrib] at h2
@@ -81,13 +81,13 @@ theorem ent_comm (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (i j : Fin 6
     ent σ i j = ent σ j i := by
   have h := Mlin_symm hσ hF (Pi.single j 1) (Pi.single i 1)
   simp only [Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h
+    ite_true] at h
   exact h.symm
 
 theorem ent_diag (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ) (i : Fin 6) : ent σ i i = 0 := by
   have h := Mlin_alt hσ hF (Pi.single i 1)
   simp only [Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h
+    ite_true] at h
   exact h
 
 theorem fix_ext {σ τ : V12 ≃ₗ[ZMod 2] V12} (hσ : ∀ x, q12 (σ x) = q12 x) (hF : FixesF σ)
@@ -347,13 +347,13 @@ theorem card_F : Nat.card ↥(planeSub 0) = 2 ^ 6 := by
 
 theorem exists_fixed_vec {N : Subgroup TD6} (hN : N ≤ Stab0) (hp : IsPGroup 2 N) :
     ∃ x ∈ planeSub 0, x ≠ 0 ∧ ∀ n ∈ N, (omegaTD6.symm n).1 x = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥N ↥(planeSub 0) := MulAction.compHom _ (actN N hN)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥N ↥(planeSub 0) := MulAction.compHom _ (actN N hN)
   have h0 : (0 : ↥(planeSub 0)) ∈ MulAction.fixedPoints ↥N ↥(planeSub 0) := by
     intro n
     show actN N hN n 0 = 0
     exact Subtype.ext (by rw [actN_apply]; exact map_zero _)
-  haveI : Finite ↥(planeSub 0) := Nat.finite_of_card_ne_zero (by rw [card_F]; norm_num)
+  have : Finite ↥(planeSub 0) := Nat.finite_of_card_ne_zero (by rw [card_F]; norm_num)
   obtain ⟨b, hb, hb0⟩ := hp.exists_fixed_point_of_prime_dvd_card_of_fixed_point
     ↥(planeSub 0) (by rw [card_F]; norm_num) h0
   refine ⟨b.1, b.2, fun h => hb0 (Subtype.ext h.symm), fun n hn => ?_⟩
@@ -397,7 +397,7 @@ theorem le_K0_of_normal {N : Subgroup TD6} (hN : N ≤ Stab0)
   have h1 : (omegaTD6.symm n).1 ((omegaTD6.symm g).1 β) =
       (omegaTD6.symm g).1 ((omegaTD6.symm (g⁻¹ * n * g)).1 β) := by
     have := congrArg (fun t : TD6 => (omegaTD6.symm t).1 β) e
-    simpa [map_mul] using this
+    simp [map_mul]
   rw [← hgβ, h1, hβfix _ hn']
 
 end K0
@@ -442,7 +442,7 @@ theorem cv_parts : id7CvGens.size = 31 ∧ id7CvDual.size = 31 ∧
     ∀ m < 32, (2 ^ m ^^^ id7CvProj (2 ^ m) = 0 ∨ 2 ^ m ^^^ id7CvProj (2 ^ m) = wt 0) := by
   have h := idCvCheck_holds
   simp only [id7ChkCv, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
-    Array.all_eq_true', decide_eq_true_eq, Bool.or_eq_true] at h
+    Array.all_eq_true', Bool.or_eq_true] at h
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
   exact ⟨h1, h2, h3, h4⟩
 
@@ -551,7 +551,7 @@ end Cv
 
 section Syl
 
-theorem le_of_normal_isPGroup_of_max {X : Type*} [Group X] {H N P : Subgroup X} (hNH : N ≤ H)
+theorem le_of_normal_isPGroup_of_max {X : Type*} [Group X] {H N P : Subgroup X} (_hNH : N ≤ H)
     (hPH : P ≤ H) (hnorm : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hN : IsPGroup 2 N)
     (hP : IsPGroup 2 P) (hmax : ∀ Q : Subgroup X, P ≤ Q → IsPGroup 2 Q → Q = P) : N ≤ P := by
   have hnormP : P ≤ Subgroup.normalizer (N : Set X) := by

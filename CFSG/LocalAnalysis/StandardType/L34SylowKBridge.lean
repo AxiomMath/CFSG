@@ -56,7 +56,7 @@ theorem mset_inj {n s t : ℕ} (hs : s < 2 ^ n) (ht : t < 2 ^ n) (h : mset n s =
   intro i
   by_cases hi : i < n
   · have := congrArg (fun A : Set (Fin n) => (⟨i, hi⟩ : Fin n) ∈ A) h
-    simp only [mset, Set.mem_setOf_eq, eq_iff_iff] at this
+    simp only [mset, Set.mem_ofPred_eq, eq_iff_iff] at this
     exact Bool.eq_iff_iff.mpr this
   · have h2 : 2 ^ n ≤ 2 ^ i := Nat.pow_le_pow_right (by omega) (by omega)
     rw [Nat.testBit_lt_two_pow (by omega), Nat.testBit_lt_two_pow (by omega)]
@@ -203,7 +203,7 @@ theorem aSixData_of_checks {S M : Subgroup (Equiv.Perm (Fin 42))} {LS LM SX HP H
     rw [← hcnt c c.2]
     have e : B c = ↑((Finset.filter (fun k => lab k = c) (Finset.range 56)).image mk) := by
       ext y
-      simp only [B, Set.mem_setOf_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
+      simp only [B, Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
         Set.mem_image]
       constructor
       · rintro ⟨k, hk, hc, rfl⟩
@@ -212,7 +212,7 @@ theorem aSixData_of_checks {S M : Subgroup (Equiv.Perm (Fin 42))} {LS LM SX HP H
         exact ⟨k, hk, hc, rfl⟩
     rw [e, Set.ncard_coe_finset, Finset.card_image_of_injOn]
     intro k hk k' hk' h
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hk hk'
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hk hk'
     exact hmk_inj k hk.1 k' hk'.1 h
   refine ⟨hMS, ?_, o, ho, hMH, ⟨Q, hQcard.ge, fun τ hτ => hQR hτ⟩, B, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·

@@ -70,7 +70,7 @@ theorem T29Setup.normal (h : T29Setup X L x) : L.Normal := by
 
 theorem T29Setup.pRank_top_eq (h : T29Setup X L x) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ h.rank
   by_contra hlt
   have h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by omega
@@ -86,7 +86,7 @@ theorem T29Setup.pRank_top_eq (h : T29Setup X L x) :
   have h3 : 3 ≤ CFSG.Open.pRank 3 ((P : Subgroup X) ⊓ centralizer ({x} : Set X)) :=
     CFSG.LocalAnalysis.RankFourTheoremC.three_le_pRank_inf_centralizer
       CFSG.HardMathSupport.Timmesfeld.ComponentBalance.gl83NormalElementaryRankFour_holds
-      P.isPGroup' h4P hxP hx3
+      P.isPGroup h4P hxP hx3
   have hle : CFSG.Open.pRank 3 ((P : Subgroup X) ⊓ centralizer ({x} : Set X)) ≤
       CFSG.Open.pRank 3 (centralizer ({x} : Set X)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) inf_le_right
@@ -96,7 +96,7 @@ theorem T29Setup.pRank_top_eq (h : T29Setup X L x) :
 theorem IsOmegaCentral.mem_of_normal_of_core (hcore : primeComplementCore (G := X) 3 = ⊥)
     {P : Sylow 3 X} {z : X} (hz : IsOmegaCentral (P : Subgroup X) z) {N : Subgroup X}
     (hN : N.Normal) (hN1 : N ≠ ⊥) : z ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3N : 3 ∣ Nat.card N := by
     by_contra hnd
     have hcop : Nat.Coprime 3 (Nat.card N) := (Nat.prime_three.coprime_iff_not_dvd).2 hnd
@@ -106,7 +106,7 @@ theorem IsOmegaCentral.mem_of_normal_of_core (hcore : primeComplementCore (G := 
     exact hN1 (eq_bot_iff.2 hle)
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hKN : (⊤ : Subgroup X) ≤ normalizer (N : Set X) :=
@@ -123,7 +123,7 @@ theorem IsOmegaCentral.mem_of_normal_of_core (hcore : primeComplementCore (G := 
     intro g hg
     rw [Subgroup.mem_normalizer_iff]
     intro m
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     constructor
     · rintro ⟨hmP, hmN⟩
       exact ⟨(P : Subgroup X).mul_mem ((P : Subgroup X).mul_mem hg hmP)
@@ -137,7 +137,7 @@ theorem IsOmegaCentral.mem_of_normal_of_core (hcore : primeComplementCore (G := 
       rw [e] at hA hB
       exact ⟨hA, hB⟩
   have hzPN : z ∈ (P : Subgroup X) ⊓ N :=
-    IsOmegaCentral.mem_of_normal P.isPGroup' hz inf_le_left hnorm hne
+    IsOmegaCentral.mem_of_normal P.isPGroup hz inf_le_left hnorm hne
   exact (Subgroup.mem_inf.1 hzPN).2
 
 end Step0
@@ -163,9 +163,9 @@ theorem le_pRank_of_isElemAbelian_card {p : ℕ} (hp : p.Prime) {Y A : Subgroup 
 theorem exists_central_order_three {P : Subgroup X} (hPg : IsPGroup 3 ↥P)
     (hxP : x ∈ P) (hxne : x ≠ 1) :
     ∃ z ∈ P, (∀ y ∈ P, z * y = y * z) ∧ orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial ↥P := ⟨⟨⟨x, hxP⟩, 1, fun h1 => hxne (congrArg Subtype.val h1)⟩⟩
-  haveI : Nontrivial ↥(Subgroup.center ↥P) := hPg.center_nontrivial
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial ↥P := ⟨⟨⟨x, hxP⟩, 1, fun h1 => hxne (congrArg Subtype.val h1)⟩⟩
+  have : Nontrivial ↥(Subgroup.center ↥P) := hPg.center_nontrivial
   have h3dvd : 3 ∣ Nat.card ↥(Subgroup.center ↥P) := by
     rcases (hPg.to_subgroup (Subgroup.center ↥P)).card_eq_or_dvd with h1 | h1
     · have : 1 < Nat.card ↥(Subgroup.center ↥P) := Finite.one_lt_card
@@ -185,7 +185,7 @@ theorem central_unique_of_pRank {P : Subgroup X} (hxP : x ∈ P) (hx3 : x ^ 3 = 
     {z : X} (hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, z * y = y * z)
     {g : X} (hgP : g ∈ P) (hgc : ∀ y ∈ P, g * y = y * g) (hg3 : g ^ 3 = 1) :
     g ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hgz
   have hzz : z ^ 3 = 1 := by
     rw [← hz3]
@@ -203,15 +203,15 @@ theorem central_unique_of_pRank {P : Subgroup X} (hxP : x ∈ P) (hx3 : x ^ 3 = 
     exact (hzg.zpow_left k).eq
   have hcomm_g : ∀ e ∈ zpowers z, e * g = g * e := fun e he =>
     Subgroup.mem_centralizer_iff.1 hgZ e he
-  haveI hiz : CFSG.IsElementaryAbelian 3 ↥(zpowers z) :=
+  have hiz : CFSG.IsElementaryAbelian 3 ↥(zpowers z) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hzz
-  haveI hig : CFSG.IsElementaryAbelian 3 ↥(zpowers g) :=
+  have hig : CFSG.IsElementaryAbelian 3 ↥(zpowers g) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hg3
-  haveI hiA : CFSG.IsElementaryAbelian 3 ↥(zpowers z ⊔ zpowers g) :=
+  have hiA : CFSG.IsElementaryAbelian 3 ↥(zpowers z ⊔ zpowers g) :=
     CFSG.IsElementaryAbelian.sup_of_le_centralizer (Subgroup.zpowers_le.2 hgZ)
   have hA9 : Nat.card ↥(zpowers z ⊔ zpowers g) = 9 := by
     rw [CFSG.RankThree.PartOne.Planes.card_sup_zpowers Nat.prime_three (zpowers z) hg3 hgz
-      hcomm_g, Nat.card_zpowers, hz3] <;> norm_num
+      hcomm_g, Nat.card_zpowers, hz3]
   by_cases hxA : x ∈ zpowers z ⊔ zpowers g
   ·
     have hPC : P ≤ centralizer ({x} : Set X) := fun y hy =>
@@ -226,19 +226,19 @@ theorem central_unique_of_pRank {P : Subgroup X} (hxP : x ∈ P) (hx3 : x ^ 3 = 
       Subgroup.mem_centralizer_singleton_iff.2 (hAx e he)
     have hV27 : Nat.card ↥((zpowers z ⊔ zpowers g) ⊔ zpowers x) = 27 := by
       rw [CFSG.RankThree.PartOne.Planes.card_sup_zpowers Nat.prime_three (zpowers z ⊔ zpowers g)
-        hx3 hxA hAx, hA9] <;> norm_num
+        hx3 hxA hAx, hA9]
     have hxZ : x ∈ centralizer ((zpowers z ⊔ zpowers g : Subgroup X) : Set X) :=
       Subgroup.mem_centralizer_iff.2 fun e he => hAx e he
-    haveI hix : CFSG.IsElementaryAbelian 3 ↥(zpowers x) :=
+    have hix : CFSG.IsElementaryAbelian 3 ↥(zpowers x) :=
       CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hx3
-    haveI hiV : CFSG.IsElementaryAbelian 3 ↥((zpowers z ⊔ zpowers g) ⊔ zpowers x) :=
+    have hiV : CFSG.IsElementaryAbelian 3 ↥((zpowers z ⊔ zpowers g) ⊔ zpowers x) :=
       CFSG.IsElementaryAbelian.sup_of_le_centralizer (Subgroup.zpowers_le.2 hxZ)
     have hVprop : CFSG.Open.IsElemAbelian 3 ((zpowers z ⊔ zpowers g) ⊔ zpowers x) :=
       ⟨hiV.toIsMulCommutative, fun y hy => CFSG.elemPow_eq_one_of_isElementaryAbelian y hy⟩
     have hVle : (zpowers z ⊔ zpowers g) ⊔ zpowers x ≤ centralizer ({x} : Set X) :=
       sup_le hAC (Subgroup.zpowers_le.2 (Subgroup.mem_centralizer_singleton_iff.2 rfl))
     have hk : 3 ^ 3 ≤ Nat.card ↥((zpowers z ⊔ zpowers g) ⊔ zpowers x) := by
-      rw [hV27] <;> norm_num
+      rw [hV27]; norm_num
     have h3 := le_pRank_of_isElemAbelian_card Nat.prime_three hVle hVprop hk
     rw [hcent] at h3
     omega
@@ -253,7 +253,7 @@ theorem T29Setup.exists_omegaCentral (h : T29Setup X L x) {P : Sylow 3 X}
     intro h1
     rw [h1, orderOf_one] at hord
     norm_num at hord
-  have hPg : IsPGroup 3 ↥(P : Subgroup X) := P.isPGroup'
+  have hPg : IsPGroup 3 ↥(P : Subgroup X) := P.isPGroup
   have hrankP : 3 ≤ CFSG.Open.pRank 3 (P : Subgroup X) := by
     obtain ⟨Q, hQ⟩ := exists_sylow_rank_at_least_three 3 Nat.prime_three h.rank
     rw [← sylow_pRank_eq 3 Nat.prime_three Q P]
@@ -268,6 +268,7 @@ section CentreHelpers
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem commute_of_mem_map_center (L : Subgroup X) {a b : X}
     (ha : a ∈ (center ↥L).map L.subtype) (hb : b ∈ (center ↥L).map L.subtype) :
     Commute a b := by
@@ -294,14 +295,17 @@ def threePrimeCentre (L : Subgroup X) : Subgroup X where
     rw [orderOf_inv]
     exact ha3
 
+omit [Finite X] in
 theorem mem_threePrimeCentre (L : Subgroup X) (g : X) :
     g ∈ threePrimeCentre L ↔ g ∈ (center ↥L).map L.subtype ∧ Nat.Coprime (orderOf g) 3 :=
   Iff.rfl
 
+omit [Finite X] in
 theorem orderOf_conj_eq (g n : X) : orderOf (g * n * g⁻¹) = orderOf n := by
   have h := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective n
   simpa [MulAut.conj_apply] using h
 
+omit [Finite X] in
 theorem threePrimeCentre_normal (L : Subgroup X) (hZ : ((center ↥L).map L.subtype).Normal) :
     (threePrimeCentre L).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -310,7 +314,7 @@ theorem threePrimeCentre_normal (L : Subgroup X) (hZ : ((center ↥L).map L.subt
   exact ((mem_threePrimeCentre L n).mp hn).2
 
 theorem threePrimeCentre_coprime (L : Subgroup X) : Nat.Coprime 3 (Nat.card (threePrimeCentre L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
   intro hdvd
   obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' (G := ↥(threePrimeCentre L)) 3 hdvd
@@ -320,9 +324,10 @@ theorem threePrimeCentre_coprime (L : Subgroup X) : Nat.Coprime 3 (Nat.card (thr
   rw [hord, hr] at hr3
   exact absurd hr3 (by norm_num)
 
+omit [Finite X] in
 theorem ne_bot_of_isQuasisimple (L : Subgroup X) (hq : CFSG.Open.IsQuasisimple ↥L) : L ≠ ⊥ := by
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2
-  haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (N := center ↥L)).nontrivial
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2
+  have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (N := center ↥L)).nontrivial
   exact (Subgroup.nontrivial_iff_ne_bot L).mp inferInstance
 
 end CentreHelpers
@@ -334,8 +339,8 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 theorem T29Setup.pCore_inf_commute (h : T29Setup X L x) :
     ∀ g ∈ L, g ∈ CFSG.pCore 3 X → ∀ l ∈ L, l * g = g * l := by
   intro g hgL hgO l hl
-  haveI hLn : L.Normal := h.normal
-  haveI hNn : ((CFSG.pCore 3 X).subgroupOf L).Normal :=
+  have hLn : L.Normal := h.normal
+  have hNn : ((CFSG.pCore 3 X).subgroupOf L).Normal :=
     Subgroup.Normal.subgroupOf CFSG.pCore_normal L
   have hNp : IsPGroup 3 ((CFSG.pCore 3 X).subgroupOf L) :=
     (CFSG.pCore_isPGroup (p := 3) (G := X)).comap_subtype
@@ -349,7 +354,7 @@ theorem T29Setup.pCore_inf_commute (h : T29Setup X L x) :
 theorem T29Setup.pCore_eq_bot (h : T29Setup X L x) (hZ : center ↥L = ⊥) :
     CFSG.pCore 3 X = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hxP⟩ : ∃ P : Sylow 3 X, x ∈ (P : Subgroup X) := by
     have hp : IsPGroup 3 (zpowers x) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h.ord, pow_one])
@@ -372,9 +377,9 @@ theorem T29Setup.pCore_eq_bot (h : T29Setup X L x) (hZ : center ↥L = ⊥) :
   norm_num at h3
 
 theorem T29Setup.center_isPGroup (h : T29Setup X L x) : IsPGroup 3 ↥(center ↥L) := by
-  haveI hLn : L.Normal := h.normal
-  haveI hZn : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have hZn : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRn : (threePrimeCentre L).Normal := threePrimeCentre_normal L hZn
   have hRle : threePrimeCentre L ≤ primeComplementCore (G := X) 3 :=
     normal_coprime_le_primeComplementCore 3 (threePrimeCentre L) hRn (threePrimeCentre_coprime L)
@@ -410,7 +415,7 @@ theorem T29Setup.center_isPGroup (h : T29Setup X L x) : IsPGroup 3 ↥(center �
 
 theorem T29Setup.isCatalogGroup_quotient (h : T29Setup X L x) :
     IsCatalogGroup (↥L ⧸ center ↥L) := by
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := h.comp.2.2.2
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := h.comp.2.2.2
   exact h.catalog.surjective_image L (QuotientGroup.mk' (center ↥L))
     (QuotientGroup.mk'_surjective (N := center ↥L))
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥L h.comp.2.2)
@@ -438,7 +443,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem mem_zpowers_of_cyclic {W : Type*} [Group W] [Finite W] [IsCyclic W] {a b : W}
     (ha : a ^ 3 = 1) (hb : orderOf b = 3) : a ∈ zpowers b := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   by_contra hna
   have hb3 : b ^ 3 = 1 := by
     rw [← hb]
@@ -483,11 +488,11 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 theorem T29Setup.not_isCyclic_inf_sylow (h : T29Setup X L x) (hZ : center ↥L ≠ ⊥)
     {P : Sylow 3 X} {z : X} (hz : IsOmegaCentral (P : Subgroup X) z) :
     ¬ IsCyclic ↥((P : Subgroup X) ⊓ L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
   have hPtop : IsSylowOf 3 (P : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hPL : IsSylowOf 3 ((P : Subgroup X) ⊓ L) L :=
@@ -562,6 +567,7 @@ section Step0
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 
+omit [Finite X] in
 theorem normalizer_sup_of_le {P A B : Subgroup X} (hA : P ≤ normalizer (A : Set X))
     (hB : P ≤ normalizer (B : Set X)) : P ≤ normalizer ((A ⊔ B : Subgroup X) : Set X) := by
   intro g hg
@@ -570,6 +576,7 @@ theorem normalizer_sup_of_le {P A B : Subgroup X} (hA : P ≤ normalizer (A : Se
   apply Subgroup.mem_normalizer_iff_map_conj_eq.mpr
   rw [Subgroup.map_sup, hA', hB']
 
+omit [Finite X] in
 theorem conj_eq_of_mem_zpowers_central {P : Subgroup X} {z : X} (hzc : ∀ y ∈ P, z * y = y * z) {y : X}
     (hy : y ∈ P) {c : X} (hc : c ∈ zpowers z) : y * c * y⁻¹ = c := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
@@ -599,8 +606,8 @@ def commutatorSubgroup {P : Subgroup X} {z : X} (hzc : ∀ y ∈ P, z * y = y * 
 theorem T29Setup.isCyclic_pCore_of_center_ne_bot (h : T29Setup X L x)
     (hN1 : NoncyclicCentreRank) (hZ : center ↥L ≠ ⊥) : IsCyclic ↥(CFSG.pCore 3 X) := by
   by_contra hnc
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     have := pow_orderOf_eq_one x
     rwa [h.ord] at this
@@ -610,9 +617,9 @@ theorem T29Setup.isCyclic_pCore_of_center_ne_bot (h : T29Setup X L x)
     obtain ⟨P, hP⟩ := hp.exists_le_sylow
     exact ⟨P, hP (mem_zpowers x)⟩
   obtain ⟨z, hz⟩ := h.exists_omegaCentral hxP
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
   set O : Subgroup X := CFSG.pCore 3 X with hO
-  haveI hOn : O.Normal := CFSG.pCore_normal
+  have hOn : O.Normal := CFSG.pCore_normal
   have hOP : O ≤ (P : Subgroup X) := pCore_le_sylow P
   have hOnorm : (P : Subgroup X) ≤ normalizer (O : Set X) := le_normalizer_of_normal
   obtain ⟨U₂, hU₂O, hU₂el, hU₂9, hU₂n⟩ := exists_normal_E9 hP3 hOP hOnorm hnc
@@ -650,9 +657,9 @@ theorem T29Setup.isCyclic_pCore_of_center_ne_bot (h : T29Setup X L x)
       rw [Nat.card_zpowers, hz.order] at h1
       exact h1
     have hle : Nat.card (U₁ ⊓ U₂ : Subgroup X) ≤ 3 := by
-      haveI hcyc : IsCyclic ↥(center ↥L) := h.isCyclic_center hN1
+      have hcyc : IsCyclic ↥(center ↥L) := h.isCyclic_center hN1
       set ZL : Subgroup X := (center ↥L).map L.subtype with hZL
-      haveI : IsCyclic ↥ZL :=
+      have : IsCyclic ↥ZL :=
         isCyclic_of_surjective (Subgroup.equivMapOfInjective (center ↥L) L.subtype
           L.subtype_injective).toMonoidHom (Subgroup.equivMapOfInjective (center ↥L)
           L.subtype L.subtype_injective).surjective
@@ -663,7 +670,7 @@ theorem T29Setup.isCyclic_pCore_of_center_ne_bot (h : T29Setup X L x)
         refine ⟨⟨g, hgL⟩, Subgroup.mem_center_iff.mpr fun l => ?_, rfl⟩
         have := h.pCore_inf_commute g hgL hgO l l.2
         exact Subtype.ext this
-      haveI : IsCyclic ↥(U₁ ⊓ U₂) := isCyclic_of_le hWZ
+      have : IsCyclic ↥(U₁ ⊓ U₂) := isCyclic_of_le hWZ
       refine card_le_three_of_cyclic (W := ↥(U₁ ⊓ U₂)) ?_
       intro w
       have hw : (w : X) ∈ U₁ := w.2.1
@@ -701,8 +708,8 @@ theorem T29Setup.isCyclic_pCore (h : T29Setup X L x) (hN1 : NoncyclicCentreRank)
 theorem T29Setup.le_of_mem_pCore (h : T29Setup X L x) (hN1 : NoncyclicCentreRank) :
     ∀ y ∈ CFSG.pCore 3 X, y ^ 3 = 1 → y ∈ L := by
   intro y hyO hy3
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hZ : center ↥L = ⊥
   · have h1 := h.pCore_eq_bot hZ
     rw [h1, Subgroup.mem_bot] at hyO
@@ -723,7 +730,7 @@ theorem T29Setup.le_of_mem_pCore (h : T29Setup X L x) (hN1 : NoncyclicCentreRank
     have hc'ord : orderOf c' = 3 := by
       rw [hc', Subgroup.orderOf_coe, Subgroup.orderOf_coe, hc]
     have hc'L : c' ∈ L := ((c : ↥(center ↥L)) : ↥L).2
-    haveI hZn : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
+    have hZn : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
     have hZp : IsPGroup 3 ↥((center ↥L).map L.subtype) :=
       hp3.of_surjective
         (((center ↥L).equivMapOfInjective L.subtype L.subtype_injective).toMonoidHom)

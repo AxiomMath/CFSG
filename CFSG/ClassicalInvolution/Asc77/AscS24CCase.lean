@@ -270,7 +270,7 @@ theorem exists_frame_mul {x : G} (hx : x ∈ sZero Ω W S) (hxK : conjSub x K = 
   have hmem : n⁻¹ * (p * w⁻¹) ∈ W ⊔ OCW W := (Thompson.piG_eq_iff hnN hp₁N).mp hpn.symm
   have hw₁ : n⁻¹ * (p * w⁻¹) ∈ W := by
     refine Thompson.mem_of_isPGroup_of_mem_sup_OCW (Thompson.isPGroup_of_mem_WSet C.hd.hW)
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr ?_)) hmem
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr ?_)) hmem
     exact S.mul_mem (S.inv_mem hnP.1) hp₁P.1
   refine ⟨n, hn, n⁻¹ * (p * w⁻¹), hw₁, w * t, hwtA, by group⟩
 

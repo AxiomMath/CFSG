@@ -36,7 +36,7 @@ theorem card_closure_le_of_Tc
     (he : ∀ w ∈ Tc c, wprod e w = 1) :
     Nat.card (Subgroup.closure (Set.range e)) ≤ 7371 * 576 := by
   obtain ⟨hfin, hcard⟩ := card_PG_Tc_le c hc
-  haveI := hfin
+  have := hfin
   let φ : PG 7 (Tc c) →* X := pgHom e he
   have hrange : φ.range = Subgroup.closure (Set.range e) := by
     rw [MonoidHom.range_eq_map, ← PresentedGroup.closure_range_of

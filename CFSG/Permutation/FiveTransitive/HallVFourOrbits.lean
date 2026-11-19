@@ -14,6 +14,7 @@ open Research.SharpFourDegreeCompletion
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] [Fintype X] in
 theorem exists_commuting_single_double_lifts
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X)
@@ -82,12 +83,14 @@ theorem exists_commuting_single_double_lifts
       _ = ((u : G) * (v : G)) * (v : G) := by rw [← huv]
   exact ⟨a, b, haTwo, haNe, hbTwo, hbNe, habComm, haBase, hbBase⟩
 
+omit [Finite G] in
 theorem product_involution_sq
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (hab : Commute a b) :
     (a * b) ^ 2 = 1 := by
   rw [hab.mul_pow, haTwo, hbTwo, one_mul]
 
+omit [Finite G] [Fintype X] in
 private theorem product_lift_smul_base
     (e : Fin 4 ↪ X) (a b : G)
     (haBase : ∀ i, a • e i =
@@ -100,6 +103,7 @@ private theorem product_lift_smul_base
   congr 1
   fin_cases i <;> rfl
 
+omit [Finite G] [Fintype X] in
 theorem product_lift_ne_one
     (e : Fin 4 ↪ X) (a b : G)
     (haBase : ∀ i, a • e i =
@@ -112,6 +116,7 @@ theorem product_lift_ne_one
   rw [hc, one_smul] at hfix
   exact e.injective.ne (by decide) hfix
 
+omit [Finite G] in
 theorem exists_double_fixed_single_moved
     (e : Fin 4 ↪ X) (a b : G)
     (haBase : ∀ i, a • e i =
@@ -123,7 +128,7 @@ theorem exists_double_fixed_single_moved
     ∃ p : X, b • p = p ∧ a • p ≠ p := by
   classical
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hsub : MulAction.fixedBy X b ⊆ MulAction.fixedBy X a := by
     intro x hbx
     exact hnone x hbx
@@ -140,6 +145,7 @@ theorem exists_double_fixed_single_moved
   rw [hbBase] at hb0
   exact e.injective.ne (by decide) hb0
 
+omit [Finite G] in
 theorem fixedBy_decomposition
     (e : Fin 4 ↪ X) (a b : G)
     (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
@@ -333,6 +339,7 @@ theorem fixedBy_decomposition
     omega
   exact ⟨hFbEq, hFaEq, hFcEq⟩
 
+omit [Finite G] [Fintype X] in
 theorem regular_four_set_ncard
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (habComm : Commute a b) (x : X)
@@ -382,6 +389,7 @@ theorem regular_four_set_ncard
   exact ⟨x, a • x, b • x, (a * b) • x,
     hxa.symm, hxb.symm, hxc.symm, hxab, hxac, hxbc, rfl⟩
 
+omit [Finite G] in
 theorem exceptional_fixed_union_ncard_eq_six_or_seven
     (e : Fin 4 ↪ X) (a b : G)
     (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)

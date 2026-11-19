@@ -22,7 +22,7 @@ open CFSG CFSG.Assembly
 
 theorem ggFermat_two_pow_cast {p n : ℕ} (hp : p.Prime) (hpn : p ∣ n) :
     ((2 ^ n : ℕ) : ZMod p) = ((2 ^ (n / p) : ℕ) : ZMod p) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨m, rfl⟩ := hpn
   rw [Nat.mul_div_cancel_left m hp.pos, Nat.cast_pow, Nat.cast_pow, pow_mul, ZMod.pow_card]
 

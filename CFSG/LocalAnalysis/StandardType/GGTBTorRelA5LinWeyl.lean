@@ -102,12 +102,12 @@ theorem mem_linFullTorus_of_commute {p : ℕ} [Fact p.Prime]
     funext i
     by_cases hi : i = j
     · subst hi
-      rw [Pi.single_eq_same, if_pos rfl, Pi.single_eq_same]
+      rw [Pi.single_eq_same, ite_eq_left rfl, Pi.single_eq_same]
     · have hne : (Pi.single j (1 : ZMod p) : Fin 3 → ZMod p) i ≠
           (Pi.single j (1 : ZMod p) : Fin 3 → ZMod p) j := by
         rw [Pi.single_eq_of_ne hi 1, Pi.single_eq_same]
         exact zero_ne_one
-      rw [if_neg hne, Pi.single_eq_of_ne hi]
+      rw [ite_eq_right hne, Pi.single_eq_of_ne hi]
   have hframe : frameForm g ε (x : Matrix (Fin n) (Fin n) K) = blockAct g (Matrix.diagonal c) := by
     refine LinearMap.ext fun p => ?_
     obtain ⟨d, w⟩ := p

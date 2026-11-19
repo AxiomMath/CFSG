@@ -27,7 +27,7 @@ theorem sec5z_claimZ (hy : Sec5B59Hyp) (h55 : Asc82Lemma55) (h58d : Asc82Lemma58
     (hxt : ∃ g : G, g⁻¹ * t * g = x) (hne : x ≠ t) (hxc : x * t = t * x) (hxz : x * z = z * x)
     (hxQ : x ∉ centralizer ((Q₁ ⊔ Q₂ : Subgroup G) : Set G)) :
     ∃ g : G, g⁻¹ * z * g = x * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₀, hg₀⟩ := hxt
   have hxC : x ∈ centralizer ({t} : Set G) := Subgroup.mem_centralizer_singleton_iff.mpr hxc
   have hty : ∃ α : ℤˣ, InducesTypeSome L x 6 (-1) 1 α := by

@@ -14,7 +14,7 @@ open CFSG.Timmesfeld.ExceptionalOrders CFSG.RankThree.CentralCover
 @[expose] def foldedTorusExp (t : TwistTag) {K : Type} [Field K] {p : ℕ} [NeZero p]
     (ζ : Kˣ) (hζ : ζ ^ p = 1) :
     Multiplicative (Fin t.foldedTag.rank → ZMod p) →* (Fin t.tag.rank → Kˣ) :=
-  Pi.monoidHom fun i => (zmodPowHom ζ hζ).comp
+  _root_.MonoidHom.pi fun i => (zmodPowHom ζ hζ).comp
     (AddMonoidHom.toMultiplicative (Pi.evalAddMonoidHom (fun _ => ZMod p) (t.orbitIndex i)))
 
 theorem foldedTorusExp_ofAdd_apply (t : TwistTag) {K : Type} [Field K] {p : ℕ} [NeZero p]
@@ -222,7 +222,7 @@ theorem e6_iterReflect_orbitWord {K : Type} [Field K] (p : ℕ) [NeZero p]
       (CFSG.Timmesfeld.ExceptionalOrders.orthogonal_orbitWord (t := TwistTag.E6) a),
     list_prod_orbitWord_mulSingle, Pi.mul_apply]
   by_cases hk : k ∈ TwistTag.E6.orbit a
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     simp only [foldedTorusExp_ofAdd_apply]
     have hfac : ∀ j : Fin TwistTag.E6.tag.rank,
         (zmodPowHom ζ hζ (.ofAdd (v (TwistTag.E6.orbitIndex j)))) ^
@@ -250,14 +250,13 @@ theorem e6_iterReflect_orbitWord {K : Type} [Field K] (p : ℕ) [NeZero p]
     refine congrArg (zmodPowHom ζ hζ) ?_
     refine congrArg Multiplicative.ofAdd ?_
     simp [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
-  · rw [if_neg hk, mul_one]
+  · rw [ite_eq_right hk, mul_one]
     simp only [foldedTorusExp_ofAdd_apply]
     have hne : TwistTag.E6.orbitIndex k ≠ a :=
       fun h => hk ((TwistTag.E6.mem_orbit_iff).2 h)
     refine congrArg (zmodPowHom ζ hζ) ?_
     refine congrArg Multiplicative.ofAdd ?_
-    simp [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne' (Ne.symm hne), smul_zero,
-      sub_zero]
+    simp [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne' (Ne.symm hne), sub_zero]
 
 section Certificates
 

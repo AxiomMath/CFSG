@@ -203,8 +203,7 @@ section KD76cOpen
 set_option linter.unusedSectionVars false
 
 theorem kd76cLieP_holds : ∀ p : ℕ, p.Prime → p ≠ 2 → KD76cLieP p KDOpenFam := by
-  intro p hp hp2
-  intro S _ _ hS hnab idx _ hchar hiso D hD hcard hDI
+  intro p hp hp2 S _ _ hS hnab idx _ hchar hiso D hD hcard hDI
   have hcases : p = 3 ∨ p = 5 ∨ 5 < p := by
     rcases Nat.lt_or_ge 5 p with h5 | h5
     · exact Or.inr (Or.inr h5)

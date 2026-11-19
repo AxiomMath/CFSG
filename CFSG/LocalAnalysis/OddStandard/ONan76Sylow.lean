@@ -26,6 +26,7 @@ theorem exists_conj_le {K P Q : Subgroup G} (hP : IsSylowOf 2 P K) (hQK : Q ≤ 
   rw [← Sylow.coe_subgroup_smul, hc, hP₀, mem_subgroupOf] at h1
   exact h1
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {K Q : Subgroup G} (hQK : Q ≤ K) (hQ : IsPGroup 2 Q) :
     ∃ T : Subgroup G, IsSylowOf 2 T K ∧ Q ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

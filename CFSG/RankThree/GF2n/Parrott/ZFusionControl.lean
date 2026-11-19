@@ -10,6 +10,7 @@ open CFSG CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mem_H_of_mem_normalizer_J (h : Tim79a.ParrottHyp z) {g : G}
     (hg : g ∈ Subgroup.normalizer (J z : Set G)) : g ∈ H z := by
   rw [H_eq_centralizer, Subgroup.mem_centralizer_singleton_iff]
@@ -55,6 +56,7 @@ theorem mem_H_of_mem_normalizer_J (h : Tim79a.ParrottHyp z) {g : G}
   calc g * z = (g * z * g⁻¹) * g := by group
     _ = z * g := by rw [hconj]
 
+omit [Finite G] in
 theorem normalizer_centerIn_le_H (h : Tim79a.ParrottHyp z) :
     Subgroup.normalizer (centerIn (J z) : Set G) ≤ H z := by
   intro g hg
@@ -73,6 +75,7 @@ theorem normalizer_centerIn_le_H (h : Tim79a.ParrottHyp z) :
     rwa [hC, pCore_centralizer_centerIn_eq (z := z) h] at h1
   exact mem_H_of_mem_normalizer_J (z := z) h hNJ
 
+omit [Finite G] in
 theorem normalizer_centerIn_eq_H (h : Tim79a.ParrottHyp z) :
     Subgroup.normalizer (centerIn (J z) : Set G) = H z := by
   refine le_antisymm (normalizer_centerIn_le_H (z := z) h) ?_
@@ -84,6 +87,7 @@ def NormalizerControlsCenterJFusion (z : G) : Prop :=
     (∃ g : G, g * a * g⁻¹ = b) →
     ∃ n ∈ Subgroup.normalizer (centerIn (J z) : Set G), n * a * n⁻¹ = b
 
+omit [Finite G] in
 theorem conj_z_mem_centerIn_eq (h : Tim79a.ParrottHyp z)
     (hF : NormalizerControlsCenterJFusion z) {g : G}
     (hg : g * z * g⁻¹ ∈ centerIn (J z)) : g * z * g⁻¹ = z := by

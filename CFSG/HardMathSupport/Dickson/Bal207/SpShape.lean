@@ -105,6 +105,7 @@ theorem center_statedProj_eq_bot (hr : 2 ≤ r) (hne : ¬(r = 2 ∧ Nat.card F =
   obtain ⟨hs, hp⟩ := CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := F) hr hne
   exact center_eq_bot_of_simple
 
+omit [Field F] [Finite F] in
 private theorem not_two_two (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
     (hne : ¬(r = 2 ∧ f = 1)) : ¬(r = 2 ∧ Nat.card F = 2) := by
   rintro ⟨rfl, h2⟩
@@ -129,7 +130,7 @@ private theorem spGood_sp [Finite F] {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : f
     {A : Subgroup (StatedSp r F)} {s : ℕ} (hs : 1 ≤ s) (φ : A ≃* StatedSp s F)
     (hQ : CFSG.IsQuasisimple ↥⁅A, A⁆) : SpGood ⁅A, A⁆ := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ f := by rw [Fintype.card_eq_nat_card, hF]
   by_cases hs1 : s = 1
   · subst hs1
@@ -158,10 +159,10 @@ private theorem spGood_sp [Finite F] {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : f
         Subtype.val_injective.comp (φ.symm.injective.comp Subtype.val_injective),
         range_comp_eq_commutator φ _ (Subgroup.range_subtype _), hX.perfect, Or.inl ?_⟩
       let e : ↥(commutator ↥(StatedSp 2 F)) ≃* ↥(commutator sympFour) := commutatorSpFourEquiv hk
-      haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
-      haveI : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
-      haveI : IsSimpleGroup ↥(commutator ↥(StatedSp 2 F)) := e.isSimpleGroup
-      haveI : Group.IsPerfect ↥(commutator ↥(StatedSp 2 F)) :=
+      have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+      have : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
+      have : IsSimpleGroup ↥(commutator ↥(StatedSp 2 F)) := e.isSimpleGroup
+      have : Group.IsPerfect ↥(commutator ↥(StatedSp 2 F)) :=
         Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
       exact ⟨(QuotientGroup.quotientMulEquivOfEq center_eq_bot_of_simple).trans
         (QuotientGroup.quotientBot.trans (e.trans commutatorEquivAlternating))⟩
@@ -196,23 +197,23 @@ private theorem spGood_gu {g : ℕ} (hg : g = 1 ∨ g = 3) {E : Type} [Field E]
   have hfin : Module.finrank E V = m := by rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
   have hsolv : ¬ (Module.finrank E V ≤ 1 ∨ ¬ ((Module.finrank E V = 2 → 4 ≤ 2 ^ g) ∧
       (Module.finrank E V = 3 → 3 ≤ 2 ^ g))) := fun h => by
-    haveI := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl h
+    have := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl h
     exact not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   rw [hfin] at hsolv
   push Not at hsolv
   obtain ⟨hm, hq2, hq3⟩ := hsolv
-  haveI := hE.finite
-  haveI := Fintype.ofFinite E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have := hE.finite
+  have := Fintype.ofFinite E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   have hEcard : Fintype.card E = (2 ^ g) ^ 2 := by
     rw [Fintype.card_eq_nat_card]
     exact hE.card_eq_sq
   rcases Nat.lt_or_ge m 3 with hm3 | hm3
   · obtain rfl : m = 2 := by omega
     obtain ⟨e⟩ := nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hfin
-    haveI : Fintype ↥hE.fixedField := Fintype.ofFinite _
+    have : Fintype ↥hE.fixedField := Fintype.ofFinite _
     have hFcard : Fintype.card ↥hE.fixedField = 2 ^ g := by
       rw [Fintype.card_eq_nat_card]
       exact hE.card_fixedField
@@ -256,10 +257,10 @@ variable {F : Type} [Field F] [Finite F] {f : ℕ}
 theorem irreducible_X_sq_add_X_add_one_of_card (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3) :
     Irreducible (X ^ 2 + X + 1 : F[X]) := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ f := by rw [Fintype.card_eq_nat_card, hF]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcard
   have hdeg : (X ^ 2 + X + 1 : F[X]).natDegree = 2 := by compute_degree!
   refine irreducible_of_degree_le_three_of_not_isRoot (by rw [hdeg]; decide) fun μ hμ => ?_
   rw [IsRoot, eval_add, eval_add, eval_pow, eval_X, eval_one] at hμ
@@ -417,7 +418,7 @@ private theorem spGood_orbit (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3) {x
     change h0 = X - 1 at h1
     subst h1
     obtain ⟨φ, -⟩ := blocks.fixedFactor hm
-    haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+    have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hm)
     obtain ⟨s, hs, ⟨e⟩⟩ := exists_mulEquiv_sesqUnitaryGroup_statedSp
       (B := (spForm r F).restrict (primaryComponent (spEnd x) (X - 1)))
@@ -436,6 +437,7 @@ private theorem spGood_orbit (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3) {x
     subst hd1
     exact spGood_gu (by rw [mul_one]; exact hf) hE hHf hHfl e he φ hQ
 
+omit [Finite F] in
 private theorem two_le_primaryMultiplicity {x : StatedSp r F} {a : StatedProj (StatedSp r F)}
     (blocks : SpPrimaryBlocks 2 f 3 x a) (hh : (X ^ 2 + X + 1 : F[X]) ∈ primaryFactors (spEnd x))
     (hQ : CFSG.IsQuasisimple ↥⁅spSupported x {X ^ 2 + X + 1, reciprocalPolynomial (X ^ 2 + X + 1)},
@@ -454,11 +456,12 @@ private theorem two_le_primaryMultiplicity {x : StatedSp r F} {a : StatedProj (S
   by_contra hlt
   have hfin := Module.finrank_eq_card_basis e
   rw [Fintype.card_fin] at hfin
-  haveI := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl (Or.inl (by rw [hfin]; omega))
+  have := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl (Or.inl (by rw [hfin]; omega))
   exact not_isSolvable_of_isQuasisimple_commutator hQ
     (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
 
 open scoped Classical in
+omit [Finite F] in
 private theorem three_le_rank {x : StatedSp r F} {a : StatedProj (StatedSp r F)}
     (blocks : SpPrimaryBlocks 2 f 3 x a) (hsq : Squarefree (minpoly F (spEnd x)))
     (h1 : (X - 1 : F[X]) ∈ primaryFactors (spEnd x))
@@ -467,7 +470,7 @@ private theorem three_le_rank {x : StatedSp r F} {a : StatedProj (StatedSp r F)}
   obtain ⟨s, hs, ⟨P, hP⟩, hrank⟩ := blocks.rank
   have hr := hrank P hP
   have hs1 : 1 ≤ s := by
-    haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+    have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq h1)
     have := Module.finrank_pos (R := F) (M := primaryComponent (spEnd x) (X - 1))
     omega
@@ -487,11 +490,11 @@ theorem compShape_conj_sp (hr : 2 ≤ r) (hF : Nat.card F = 2 ^ f) (hf : f = 1 �
     CompShape SpCompType (MulAut.conj (SymplecticFlag.proj r F x)) := by
   classical
   have hf1 : 1 ≤ f := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   have hcardF : Fintype.card F = 2 ^ f := by rw [Fintype.card_eq_nat_card, hF]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcardF
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcardF
   have hq : 2 ≤ 2 ^ f := Nat.le_self_pow (by omega) 2
   have hlayer := LieSemisimple.perfectInLayer_conj_sp Nat.prime_two hf1 hF (by omega)
     Nat.prime_three (by norm_num) (by norm_num) x hx
@@ -512,7 +515,7 @@ theorem compShape_conj_sp (hr : 2 ≤ r) (hF : Nat.card F = 2 ^ f) (hf : f = 1 �
     norm_num at h
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
   have hX3 : spEnd x ^ 3 = 1 := spEnd_pow hx
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hcomp := components_conj_of_orbit_family (SymplecticFlag.proj r F)
@@ -588,7 +591,7 @@ theorem compShape_fieldAut_sp (hr : 2 ≤ r) (hF : Nat.card F = 2 ^ f) (hf : f =
   have hσ3 : σ ^ 3 = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   have hodd : Odd 3 := by decide
   have hlayer := LieSemisimple.perfectInLayer_fieldAut_sp hr Nat.prime_three (by norm_num) σ hσ3
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hk2 : Nat.card ↥(descentField σ) = 2 := by
     have h := card_descentField_pow σ
     rw [hσ, hF] at h
@@ -600,7 +603,7 @@ theorem compShape_fieldAut_sp (hr : 2 ≤ r) (hF : Nat.card F = 2 ^ f) (hf : f =
       rcases hf with rfl | rfl <;> norm_num at h27
     have h1 : 1 < Nat.card ↥(descentField σ) := Finite.one_lt_card
     omega
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   obtain ⟨e⟩ := nonempty_fixSubgroup_equiv (r := r) hodd hσ3
   by_cases hr2 : r = 2
   · subst hr2
@@ -619,18 +622,18 @@ theorem compShape_fieldAut_sp (hr : 2 ≤ r) (hF : Nat.card F = 2 ^ f) (hf : f =
       ((commutator ↥C).equivMapOfInjective C.subtype C.subtype_injective).symm.trans
         (((commutator ↥C).equivMapOfInjective hE.toMonoidHom hE.injective).trans
           (MulEquiv.subgroupCongr hmap))
-    haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
-    haveI : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
-    haveI : IsSimpleGroup ↥((commutator ↥C).map C.subtype) := e₁.isSimpleGroup
-    haveI : Group.IsPerfect ↥((commutator ↥C).map C.subtype) :=
+    have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+    have : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
+    have : IsSimpleGroup ↥((commutator ↥C).map C.subtype) := e₁.isSimpleGroup
+    have : Group.IsPerfect ↥((commutator ↥C).map C.subtype) :=
       Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective
     exact Or.inl ⟨(QuotientGroup.quotientMulEquivOfEq center_eq_bot_of_simple).trans
       (QuotientGroup.quotientBot.trans (e₁.trans commutatorEquivAlternating))⟩
   · have hex : ¬(r = 2 ∧ Nat.card ↥(descentField σ) = 2) := fun h => hr2 h.1
     obtain ⟨hs, hp⟩ :=
       CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := descentField σ) hr hex
-    haveI : IsSimpleGroup ↥(fixSubgroup (SymplecticHigher.fieldAut r F σ)) := e.isSimpleGroup
-    haveI : Group.IsPerfect ↥(fixSubgroup (SymplecticHigher.fieldAut r F σ)) :=
+    have : IsSimpleGroup ↥(fixSubgroup (SymplecticHigher.fieldAut r F σ)) := e.isSimpleGroup
+    have : Group.IsPerfect ↥(fixSubgroup (SymplecticHigher.fieldAut r F σ)) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have huniq : ∀ L, IsComponentOf L (fixSubgroup (SymplecticHigher.fieldAut r F σ)) →
         L = fixSubgroup (SymplecticHigher.fieldAut r F σ) := fun L hL =>
@@ -650,7 +653,7 @@ theorem compShape_psp {r : ℕ} {F : Type} [Field F] [Finite F] {f : ℕ} (hF : 
     CompShape SpCompType β := by
   have hf1 : 1 ≤ f := by omega
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := F) Nat.prime_two hf1 hr hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd (orderOf β) :=
     (Nat.prime_three.odd_of_ne_two (by norm_num)).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ)
   have hE : β ∈ spSemilinearAutGroup r F :=

@@ -29,7 +29,7 @@ theorem s16h_e3_l3_seven_K {W : Type} [CommGroup W] [Finite W]
     {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup W} (F : s16h_E3Frame X L L' T U U')
     (hL : IsL3 ↥L 1)
     (hsum : SumOfNat (fun H V Z => BinaryNaturalSL H V Z 3 1) L U ⊥ 3)
-    (hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 7 E → Nat.card ↥E ≤ 343)
+    (_hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 7 E → Nat.card ↥E ≤ 343)
     (hrk3 : ∃ E : Subgroup (MulAut W), E ≤ X ∧ IsElemAbelian 7 E ∧ Nat.card ↥E = 343)
     (hbad : ∃ w ∈ U, w ≠ 1 ∧ ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 7 E →
       (∀ e ∈ E, e w = w) → Nat.card ↥E ≤ 7) :
@@ -43,7 +43,7 @@ theorem s16h_e3_l3_seven_K {W : Type} [CommGroup W] [Finite W]
           Group.IsNilpotent ↥N → N ≤ Z) ∨
       IsL3 ↥(X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) : Set (MulAut W))) 1 := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨w, hwU, -, hbadw⟩ := hbad
   obtain ⟨t, -, hLt, -⟩ := F.swap
@@ -61,7 +61,7 @@ theorem s16h_e3_l3_seven_K {W : Type} [CommGroup W] [Finite W]
   have hrk : ∃ E : Subgroup (MulAut W), E ≤ X ∧ IsElemAbelian 7 E ∧ Nat.card ↥E = 7 ^ 3 := by
     obtain ⟨E, h1, h2, h3⟩ := hrk3
     exact ⟨E, h1, h2, by rw [h3]; norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨⟨d, hdK, hdord⟩, hnomove⟩ :=
     s16h_e3_frame_p F (by norm_num : Nat.Prime 7) (by norm_num) hcen hpL hAut hrk hwU hbadw
   have hN : ∀ I : Subgroup W, BinaryNaturalSL L I ⊥ 3 1 → s16h_SimpleScalar L I ⊥ :=
@@ -123,7 +123,7 @@ theorem s16h_e3_l3_seven_K {W : Type} [CommGroup W] [Finite W]
         simpa [MulAut.conj_apply] using this
       exact h2
     have hNnilK : Group.IsNilpotent ↥(N.subgroupOf K) := by
-      haveI := hNnil
+      have := hNnil
       exact Group.nilpotent_of_surjective (Subgroup.subgroupOfEquivOfLe hNK).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hNK).symm.surjective
     intro n hn

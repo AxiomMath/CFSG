@@ -45,13 +45,13 @@ theorem card_fix_mul_card_img (n : ℕ) (M : List ℕ) :
     have ha' : a < 2 ^ n := Finset.mem_range.1 ha
     refine Finset.card_nbij' (fun x => x ^^^ a) (fun x => x ^^^ a) ?_ ?_ ?_ ?_
     · intro x hx
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx
-      simp only [fixF, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx
+      simp only [fixF, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
       refine ⟨Nat.xor_lt_two_pow hx.1 ha', ?_⟩
       rw [← linL_eq_zero_iff, hL, hx.2, Nat.xor_self]
     · intro x hx
-      simp only [fixF, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+      simp only [fixF, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
       refine ⟨Nat.xor_lt_two_pow hx.1 ha', ?_⟩
       rw [hL, (linL_eq_zero_iff).2 hx.2, Nat.zero_xor]
     · intro x _

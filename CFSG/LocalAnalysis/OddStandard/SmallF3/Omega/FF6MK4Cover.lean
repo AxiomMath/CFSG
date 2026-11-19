@@ -20,7 +20,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 theorem ff6m_K4_cover_expl (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) {ρ : ↥(simGroup Q)}
+    (_hsgn : quadSign Q = -1) {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) :
     ∃ t a : OGroup Q, a ∈ omegaGroup hQ ∧
@@ -153,7 +153,7 @@ theorem ff6m_K4_cover_of_rho (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod
     · rw [htpi, invType_piOrth hQ] at ht_type
       exact absurd (congrArg Prod.fst ht_type) (by omega)
   obtain ⟨hGfin, hGsimple⟩ := ff_fin_simple_psl2 hLie
-  haveI := hGfin
+  have := hGfin
   obtain ⟨-, hnc⟩ := ff_simple_of_lieModel_psl2 hLie
   have hfC : ∀ g : ↥G1, omegaToProj hQ (Subgroup.inclusion hG1le g) ∈
       ffFix hQ h2dim (QuotientGroup.mk ρ : ProjSim Q) := by

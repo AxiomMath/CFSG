@@ -28,7 +28,7 @@ theorem nonempty_quotient_center_mulEquiv {Q J : Type} [Group Q] [Group J] [IsSi
     rwa [hZJ, Subgroup.mem_bot] at this
   have hK : f.ker ≤ Subgroup.center Q := by
     intro x hx
-    haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+    have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
     have hN : (f.ker.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
       (MonoidHom.normal_ker f).map _ (QuotientGroup.mk'_surjective _)
     rcases Subgroup.Normal.eq_bot_or_eq_top (f.ker.map (QuotientGroup.mk' (Subgroup.center Q)))
@@ -63,7 +63,7 @@ theorem nonempty_quotient_center_mulEquiv {Q J : Type} [Group Q] [Group J] [IsSi
 theorem normal_le_ker_of_isPGroup_two {X : Type*} {J : Type} [Group X] [Group J] [Finite J]
     [IsSimpleGroup J] (hJ : ∃ a b : J, a * b ≠ b * a) (g : X →* J) (hg : Function.Surjective g)
     {N : Subgroup X} (hN : N.Normal) (hp : IsPGroup 2 N) : N ≤ g.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNn : (N.map g).Normal := hN.map g hg
   have hNp : IsPGroup 2 (N.map g) := hp.map g
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map g) with h | h
@@ -88,7 +88,7 @@ theorem nonempty_barM_quotient_center_mulEquiv {M L : Subgroup G} (hL : IsTwoPri
     {J : Type} [Group J] [IsSimpleGroup J] (hJ : ∃ a b : J, a * b ≠ b * a) (g : ↥L →* J)
     (hg : Function.Surjective g) :
     Nonempty (↥(barM M L) ⧸ Subgroup.center ↥(barM M L) ≃* J) := by
-  haveI : Finite J := Finite.of_surjective g hg
+  have : Finite J := Finite.of_surjective g hg
   have hp : IsPGroup 2 (WeakBlockModuleData.barMHom hL.le).ker := by
     intro x
     have hx : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨(x : L), hL.le (x : L).2⟩ = 1 := by
@@ -118,9 +118,9 @@ theorem false_of_central_quotient_alternating {Q : Type} [Group Q]
     (hq : CFSG.Open.IsQuasisimple Q)
     (hA : ∀ N : ℕ, 6 ≤ N → IsEmpty (Q ⧸ Subgroup.center Q ≃* alternatingGroup (Fin N)))
     {N : ℕ} (hN : N ≠ 5) (φ : Q ⧸ Subgroup.center Q ≃* alternatingGroup (Fin N)) : False := by
-  haveI : Group.IsPerfect Q := ⟨hq.1⟩
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
-  haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
+  have : Group.IsPerfect Q := ⟨hq.1⟩
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
+  have : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center Q))
       (QuotientGroup.mk'_surjective _)
   have h5 := BlockCyc.five_le_of_perfect_mulEquiv_alternatingGroup φ
@@ -129,9 +129,9 @@ theorem false_of_central_quotient_alternating {Q : Type} [Group Q]
 theorem false_of_mulEquiv_alternating {Q : Type} [Group Q] (hq : CFSG.Open.IsQuasisimple Q)
     (hA : ∀ N : ℕ, 6 ≤ N → IsEmpty (Q ⧸ Subgroup.center Q ≃* alternatingGroup (Fin N)))
     {N : ℕ} (hN : N ≠ 5) (φ : Q ≃* alternatingGroup (Fin N)) : False := by
-  haveI : Group.IsPerfect Q := ⟨hq.1⟩
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := ⟨hq.1⟩
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
   have h5 := BlockCyc.five_le_of_perfect_mulEquiv_alternatingGroup φ
   have hnab : ∃ a b : Q, a * b ≠ b * a := by
     have h := Group.IsPerfect.not_isMulCommutative Q
@@ -227,9 +227,9 @@ theorem false_of_pairJ (hJ : KFactThreeFourPairJShape) (h85 : Asc81bEightFive)
     have h := local_pRank_le_evenRank 3 Nat.prime_three (by norm_num) M he.maxTwoLocal_M.1
     rw [hS.rank] at h
     exact h
-  haveI : Finite iJ.Group := Finite.of_surjective f hf
+  have : Finite iJ.Group := Finite.of_surjective f hf
   obtain ⟨⟨hJsimp, hJnab⟩, -⟩ := hJ q iK iJ hpair iJ.Group ⟨MulEquiv.refl _⟩
-  haveI := hJsimp
+  have := hJsimp
   let e : ↥L ≃* ↥(L.map (MulAut.conj m).toMonoidHom) :=
     L.equivMapOfInjective (MulAut.conj m).toMonoidHom (MulAut.conj m).injective
   obtain ⟨eQ⟩ := nonempty_barM_quotient_center_mulEquiv hLc hJnab (f.comp e.toMonoidHom)
@@ -238,9 +238,9 @@ theorem false_of_pairJ (hJ : KFactThreeFourPairJShape) (h85 : Asc81bEightFive)
     (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) ⟨eQ⟩
   have hperf : Group.IsPerfect ↥(barM M L) := ⟨hq.1⟩
   have hnab : ∃ a b : ↥(barM M L), a * b ≠ b * a := by
-    haveI := hperf
-    haveI : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hq.2
-    haveI : Nontrivial ↥(barM M L) :=
+    have := hperf
+    have : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hq.2
+    have : Nontrivial ↥(barM M L) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
     have h := Group.IsPerfect.not_isMulCommutative ↥(barM M L)
     simpa only [isMulCommutative_iff, not_forall] using h

@@ -13,13 +13,14 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem surjective_mk'_of_sup_eq_top {L X : Subgroup G} (hXL : X ≤ L)
     (hXn : (X.subgroupOf L).Normal)
     (hsup : X ⊔ CFSG.Open.pCoreOf 2 L = L) :
     Function.Surjective
       ((QuotientGroup.mk' (X.subgroupOf L)).comp
         (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 L))) := by
-  haveI := hXn
+  have := hXn
   have hOle : CFSG.Open.pCoreOf 2 L ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hsup' : (X.subgroupOf L) ⊔ (CFSG.Open.pCoreOf 2 L).subgroupOf L = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hXL hOle, hsup, Subgroup.subgroupOf_self]
@@ -44,20 +45,20 @@ private theorem eq_of_le_sup_pCoreOf {L X : Subgroup G} (hXL : X ≤ L)
     (h : L ≤ X ⊔ CFSG.Open.pCoreOf 2 L) : X = L := by
   have hOle : CFSG.Open.pCoreOf 2 L ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hsup : X ⊔ CFSG.Open.pCoreOf 2 L = L := le_antisymm (sup_le hXL hOle) h
-  haveI hPerfL : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
+  have hPerfL : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
   have hO2 : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 L) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
   let φ : ↥(CFSG.Open.pCoreOf 2 L) →* (↥L ⧸ (X.subgroupOf L)) :=
     (QuotientGroup.mk' (X.subgroupOf L)).comp (Subgroup.inclusion hOle)
   have hφ : Function.Surjective φ := surjective_mk'_of_sup_eq_top hXL hXn hsup
   have hP : IsPGroup 2 (↥L ⧸ (X.subgroupOf L)) := IsPGroup.of_surjective hO2 φ hφ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNil : Group.IsNilpotent (↥L ⧸ (X.subgroupOf L)) := IsPGroup.isNilpotent hP
-  haveI hPerf : Group.IsPerfect (↥L ⧸ (X.subgroupOf L)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNil : Group.IsNilpotent (↥L ⧸ (X.subgroupOf L)) := IsPGroup.isNilpotent hP
+  have hPerf : Group.IsPerfect (↥L ⧸ (X.subgroupOf L)) :=
     Group.IsPerfect.instQuotientSubgroup
   have hsub : Subsingleton (↥L ⧸ (X.subgroupOf L)) := by
     by_contra hns
-    haveI : Nontrivial (↥L ⧸ (X.subgroupOf L)) := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial (↥L ⧸ (X.subgroupOf L)) := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isNilpotent (G := ↥L ⧸ (X.subgroupOf L)) hNil
   exact le_antisymm hXL
     (Subgroup.subgroupOf_eq_top.mp (QuotientGroup.subgroup_eq_top_of_subsingleton _ hsub))
@@ -84,6 +85,7 @@ private theorem pCoreOf_L_le_centralizer_V {D : Data G} {Ch : Choice2011 G}
   intro v hv
   exact (Subgroup.mem_centralizer_iff.mp (Ctx23L.V_le_centralizer_pCore c hv) z (hp hz)).symm
 
+omit [Finite G] in
 private theorem mem_centralizer_of_actTil_mem_centSub {V A : Subgroup G}
     (hV : IsElemAbelian 2 V) (hAV : A ≤ V) {g : G} (hg : g ∈ stabTil ⊥ V)
     (h : actTil ⊥ V hV ⟨g, hg⟩ ∈ centSub (imgTil ⊥ V hV A)) :
@@ -106,6 +108,7 @@ private theorem mem_centralizer_of_actTil_mem_centSub {V A : Subgroup G}
   calc a * g = (g * a * g⁻¹) * g := by rw [h2]
     _ = g * a := by group
 
+omit [Finite G] in
 private theorem mem_imgTil_bot_iff {V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (x : IntMod V hV) : mkTil ⊥ V hV x ∈ imgTil ⊥ V hV A ↔ x.val ∈ A := by
   rw [mem_imgTil]
@@ -117,6 +120,7 @@ private theorem mem_imgTil_bot_iff {V A : Subgroup G} (hV : IsElemAbelian 2 V)
   · intro hxA
     exact ⟨x, hxA, rfl⟩
 
+omit [Finite G] in
 private theorem commutator_mem_of_actTil_mem_centQuot {V A : Subgroup G}
     (hV : IsElemAbelian 2 V) {g : G} (hg : g ∈ stabTil ⊥ V)
     (h : actTil ⊥ V hV ⟨g, hg⟩ ∈ centQuot (imgTil ⊥ V hV A)) :
@@ -137,6 +141,7 @@ private theorem commutator_mem_of_actTil_mem_centQuot {V A : Subgroup G}
     rfl
   rwa [hzval] at hzA
 
+omit [Finite G] in
 private theorem actTil_eq_one_of_mem_pCore {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hO2 : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (V : Set G)) {z : G}
     (hz : z ∈ CFSG.Open.pCoreOf 2 L) (hzs : z ∈ stabTil ⊥ V) :
@@ -149,8 +154,9 @@ private theorem actTil_eq_one_of_mem_pCore {V L : Subgroup G} (hV : IsElemAbelia
   calc z * v * z⁻¹ * v⁻¹ = v * z * z⁻¹ * v⁻¹ := by rw [hc]
     _ = 1 := by group
 
+omit [Finite G] in
 private theorem actTil_mem_center_of_commutator_le_pCore {V L X : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hLS : L ≤ stabTil ⊥ V)
+    (hV : IsElemAbelian 2 V) (_hLS : L ≤ stabTil ⊥ V)
     (hO2 : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (V : Set G))
     (hXL : X ≤ L) (hcomm : ⁅X, L⁆ ≤ CFSG.Open.pCoreOf 2 L)
     {x : G} (hxS : x ∈ stabTil ⊥ V) (hxX : x ∈ X) :
@@ -181,6 +187,7 @@ private theorem actTil_mem_center_of_commutator_le_pCore {V L X : Subgroup G}
     exact hz1
   exact Subtype.ext (commutatorElement_eq_one_iff_mul_comm.mp hcomm1).symm
 
+omit [Finite G] in
 private theorem mem_preBarSub_centQuot_iff {V A L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hLstab : L ≤ stabTil ⊥ V) {x : G} (hx : x ∈ L) :
     x ∈ preBarSub L ⊥ V hV (centQuot (imgTil ⊥ V hV A)) ↔
@@ -192,6 +199,7 @@ private theorem mem_preBarSub_centQuot_iff {V A L : Subgroup G} (hV : IsElemAbel
     rwa [he] at hxS
   · exact fun hxS => ⟨hx, hLstab hx, hxS⟩
 
+omit [Finite G] in
 private theorem actTil_conj_of_mem_normalizer {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hLstab : L ≤ stabTil ⊥ V) {g a : G} (hgst : g ∈ stabTil ⊥ V) (ha : a ∈ L)
     (hga : g * a * g⁻¹ ∈ L) :
@@ -202,6 +210,7 @@ private theorem actTil_conj_of_mem_normalizer {V L : Subgroup G} (hV : IsElemAbe
       ⟨g, hgst⟩ * ⟨a, hLstab ha⟩ * ⟨g, hgst⟩⁻¹ := Subtype.ext rfl
   rw [h1, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 private theorem mul_conj_not_mem_of_not_mem {L : Subgroup G} {g a : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (ha : a ∉ L) : g * a * g⁻¹ ∉ L := by
   intro h
@@ -212,6 +221,7 @@ private theorem mul_conj_not_mem_of_not_mem {L : Subgroup G} {g a : G}
     (Subgroup.mem_normalizer_iff.mp hginv (g * a * g⁻¹)).mp h
   rwa [show g⁻¹ * (g * a * g⁻¹) * (g⁻¹)⁻¹ = a by group] at h1
 
+omit [Finite G] in
 private theorem mem_normalizer_preBarSub {V A L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hLstab : L ≤ stabTil ⊥ V) {g : G} (hgst : g ∈ stabTil ⊥ V)
     (hgL : g ∈ Subgroup.normalizer (L : Set G))
@@ -240,6 +250,7 @@ private theorem mem_normalizer_preBarSub {V A L : Subgroup G} (hV : IsElemAbelia
   · exact ⟨fun hx => absurd (hXL hx) ha,
       fun hx => absurd (hXL hx) (mul_conj_not_mem_of_not_mem hgL ha)⟩
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer {L A : Subgroup G}
     (hLA : L ≤ Subgroup.normalizer (A : Set G)) :
     L ≤ Subgroup.normalizer ((L ⊓ Subgroup.centralizer (A : Set G) : Subgroup G) : Set G) :=
@@ -247,6 +258,7 @@ private theorem le_normalizer_inf_centralizer {L A : Subgroup G}
     (hLA.trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer A))).trans
     Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer_of {T L A : Subgroup G}
     (hTL : T ≤ Subgroup.normalizer (L : Set G))
     (hTA : T ≤ Subgroup.normalizer (A : Set G)) :
@@ -254,6 +266,7 @@ private theorem le_normalizer_inf_centralizer_of {T L A : Subgroup G}
   (le_inf hTL (hTA.trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer A))).trans
     Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 private theorem false_of_le_centralizer {V L A : Subgroup G} (hAV : A ≤ V) (hAne : A ≠ ⊥)
     (hfix : V ⊓ Subgroup.centralizer (L : Set G) = ⊥)
     (hLle : L ≤ Subgroup.centralizer (A : Set G)) : False := by
@@ -359,7 +372,7 @@ private theorem le_normalizer_centQuot_kernel_T {D : Data G} {Ch : Choice2011 G}
     (hTsub (actTil_mem_barSub ⊥ c.V hV ht (hTstab ht)))
 
 private theorem commutator_le_of_centQuot_kernel_eq_top {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {A : Subgroup G} (hAV : A ≤ c.V)
+    (c : Ctx23L D Ch) {A : Subgroup G} (_hAV : A ≤ c.V)
     (hXeq : preBarSub c.L ⊥ c.V (Ctx23L.isElemAbelian_V_basic c)
       (centQuot (imgTil ⊥ c.V (Ctx23L.isElemAbelian_V_basic c) A)) = c.L) :
     ⁅c.L, c.V⁆ ≤ A := by

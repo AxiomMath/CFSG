@@ -43,14 +43,14 @@ theorem card_cen_rAE :
 
 theorem card_cen_rBE :
     Nat.card ↥(Subgroup.centralizer ({rBE} : Set F42C)) = 2 ^ 9 * 3 ^ 5 * 5 * 7 := by
-  haveI : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
+  have : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
   have h1 := card_cen_isConj phi_link_C
   have h2 := card_cen_aut (ReeTag.F4.finiteExceptionalAut (ZMod 2)) rAE
   exact (h1.symm.trans h2).trans card_cen_rAE
 
 theorem three_pow_dvd_cen_zE :
     3 ^ 6 ∣ Nat.card ↥(Subgroup.centralizer ({zE} : Set F42C)) := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have hle : P0 ≤ Subgroup.centralizer ({zE} : Set F42C) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (zE_central x hx)
   have := Subgroup.card_dvd_of_le hle

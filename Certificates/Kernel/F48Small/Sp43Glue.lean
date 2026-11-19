@@ -44,16 +44,15 @@ theorem sp43_checkLetters : burnsideF48s_sp43CheckLetters () = true := by
 theorem sp43_checkClosed : burnsideF48s_sp43CheckClosed () = true := by
   have h := letOK_sp43
   have e : burnsideF48s_sp43CheckClosed () = closedSp43 := by
-    simp (disch := decide) only [burnsideF48s_sp43CheckClosed, closedSp43, burnsideF48s_sp43EvL,
-      sp43P1W_eq, sp43P2W_eq, eClosed_ev h, ekSp43_eq, ekSp43_eq', Bool.and_assoc]
+    simp (disch := decide) only [burnsideF48s_sp43CheckClosed, closedSp43, sp43P1W_eq, sp43P2W_eq, eClosed_ev h, ekSp43_eq, Bool.and_assoc]
   rw [e]
   exact closedSp43_ok
 
 theorem sp43_checkCand : burnsideF48s_sp43CheckCand () = true := by
   have h := letOK_sp43
   have e : burnsideF48s_sp43CheckCand () = candSp43 := by
-    simp only [burnsideF48s_sp43CheckCand, candSp43, burnsideF48s_sp43EvL, sp43P1W_eq, sp43P2W_eq,
-      eCandOK_ev h, ekSp43_eq, ekSp43_eq']
+    simp only [burnsideF48s_sp43CheckCand, candSp43, sp43P1W_eq, sp43P2W_eq,
+      eCandOK_ev h, ekSp43_eq]
   rw [e]
   exact candSp43_ok
 
@@ -91,16 +90,15 @@ theorem sp43e_checkLetters : burnsideF48s_sp43eCheckLetters () = true := by
 theorem sp43e_checkClosed : burnsideF48s_sp43eCheckClosed () = true := by
   have h := letOK_sp43e
   have e : burnsideF48s_sp43eCheckClosed () = closedSp43e := by
-    simp (disch := decide) only [burnsideF48s_sp43eCheckClosed, closedSp43e, burnsideF48s_sp43eEvL,
-      sp43eP1W_eq, sp43eP2W_eq, eClosed_ev h, eClosedW_ev h, ekSp43e_eq, ekSp43e_eq', Bool.and_assoc]
+    simp (disch := decide) only [burnsideF48s_sp43eCheckClosed, closedSp43e, sp43eP1W_eq, sp43eP2W_eq, eClosed_ev h, eClosedW_ev h, ekSp43e_eq, Bool.and_assoc]
   rw [e]
   exact closedSp43e_ok
 
 theorem sp43e_checkCand : burnsideF48s_sp43eCheckCand () = true := by
   have h := letOK_sp43e
   have e : burnsideF48s_sp43eCheckCand () = candSp43e := by
-    simp only [burnsideF48s_sp43eCheckCand, candSp43e, burnsideF48s_sp43eEvL, sp43eP1W_eq,
-      sp43eP2W_eq, eCandOK_ev h, ekSp43e_eq, ekSp43e_eq']
+    simp only [burnsideF48s_sp43eCheckCand, candSp43e, sp43eP1W_eq,
+      sp43eP2W_eq, eCandOK_ev h, ekSp43e_eq]
   rw [e]
   exact candSp43e_ok
 

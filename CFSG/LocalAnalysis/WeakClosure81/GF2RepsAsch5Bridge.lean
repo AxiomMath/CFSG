@@ -41,9 +41,9 @@ private theorem gf2_AschBridge_pow_mem_pCore_bar {K : Type} [Group K] [Finite K]
   exact hk
 
 theorem fittingSubgroup_bar2_eq_pCore {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (h : E1.oTwoPTwo K p = ⊤) :
+    (_hp2 : p ≠ 2) (h : E1.oTwoPTwo K p = ⊤) :
     CFSG.fittingSubgroup (K ⧸ CFSG.pCore 2 K) = CFSG.pCore p (K ⧸ CFSG.pCore 2 K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN2 : IsPGroup 2 (CFSG.pPrimeCore p (K ⧸ CFSG.pCore 2 K)) := by
     intro y
     obtain ⟨x, hx⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) (y : K ⧸ CFSG.pCore 2 K)
@@ -60,7 +60,7 @@ theorem fittingSubgroup_bar2_eq_pCore {K : Type} [Group K] [Finite K] {p : ℕ} 
       exact (CFSG.pPrimeCore_coprime_card (p := p) (G := K ⧸ CFSG.pCore 2 K)).symm.pow_right n
     have hdisj : CFSG.pPrimeCore p (K ⧸ CFSG.pCore 2 K) ⊓
         CFSG.pCore p (K ⧸ CFSG.pCore 2 K) = ⊥ :=
-      Subgroup.inf_eq_bot_of_coprime hcop
+      (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
     have h1 : (y : K ⧸ CFSG.pCore 2 K) ^ 2 ^ k = 1 := by
       have hb : (y : K ⧸ CFSG.pCore 2 K) ^ 2 ^ k ∈
           (⊥ : Subgroup (K ⧸ CFSG.pCore 2 K)) := by
@@ -111,7 +111,7 @@ theorem relIndex_le_two_pow_of_mQuot {G : Type} [Group G] [Finite G] {A U : Subg
 theorem eOne_of_eCaseI {G : Type} [Group G] [Finite G] {A K : Subgroup G} (hAK : A ≤ K)
     (hA : ¬ A ≤ pCoreOf 2 K) (h : ECaseI A K) : E1.EOne ↥K (A.subgroupOf K) := by
   obtain ⟨p, hp, hp2, hoTwo, hF, hrel⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfit := fittingSubgroup_bar2_eq_pCore (K := ↥K) hp hp2 hoTwo
   have hF' : CFSG.pCore p (Bar2 K) =
       ⁅E1.barO2 ↥K (A.subgroupOf K), CFSG.pCore p (Bar2 K)⁆ := by

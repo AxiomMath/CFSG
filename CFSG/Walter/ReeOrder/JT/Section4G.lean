@@ -226,7 +226,7 @@ theorem exists_conj_zpowers_of_orderOf_three
   obtain ⟨f, hf⟩ := MulAction.exists_smul_eq h.F P₂ P₁
   have hcyc : IsCyclic (P₁ : Subgroup h.F) := by
     have := hF.cyclic 3 (by norm_num) (by norm_num) (fun h0 => h3 h0.symm)
-      ((P₁ : Subgroup h.F).map h.F.subtype) (Subgroup.map_subtype_le _) (P₁.isPGroup'.map _)
+      ((P₁ : Subgroup h.F).map h.F.subtype) (Subgroup.map_subtype_le _) (P₁.isPGroup.map _)
     exact isCyclic_of_surjective ((P₁ : Subgroup h.F).equivMapOfInjective _
       h.F.subtype_injective).symm (MulEquiv.surjective _)
   have hfy : f * ⟨y', hbF⟩ * f⁻¹ ∈ (P₁ : Subgroup h.F) := by

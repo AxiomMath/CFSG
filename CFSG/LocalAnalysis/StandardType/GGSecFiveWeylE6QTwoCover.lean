@@ -42,14 +42,14 @@ theorem eq_one_of_le_closure_inv {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
     (hgen : Bs ≤ Subgroup.closure
       {b | b ∈ Bs ∧ ∃ l ∈ L, l ∈ Subgroup.normalizer (Bs : Set G) ∧ l * b * l⁻¹ = b⁻¹}) :
     x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   have hVcard : Nat.card V = 3 ^ 5 := by
     rw [← card_eq_of_ggLin ι]
     exact hcard
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
   let A₀ : Subgroup (MulAut ↥Bs) := ggAutomizer L Bs ⊔ ggAutomizer K' Bs
   have hWeylA : GGWeylOfType 3 CoxeterMatrix.E₆ A₀ := hW
   have hA : ∀ ψ ∈ A₀, ψ ∈ ggInduced ⊤ Bs := by

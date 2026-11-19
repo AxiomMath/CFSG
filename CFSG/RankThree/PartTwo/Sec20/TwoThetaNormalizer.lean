@@ -57,7 +57,7 @@ theorem TwoTheta.mem_sup_pCoreOf_of_pow_eq_one {L Θ : Subgroup G}
   have hLN : L ≤ N := hLΘ.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 Θ)
   have hΘN : Θ ≤ N := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 Θ
   have hRN : R ≤ N := Subgroup.le_normalizer
-  haveI : (R.subgroupOf N).Normal :=
+  have : (R.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRN).mpr le_rfl
   set f : ↥N →* ↥N ⧸ R.subgroupOf N := QuotientGroup.mk' (R.subgroupOf N) with hf
   have hcomm : ∀ a ∈ (L.subgroupOf N).map f, ∀ b ∈ (Θ.subgroupOf N).map f, a * b = b * a := by
@@ -105,7 +105,7 @@ theorem le_normalizer_of_comm_theta (L Y : Subgroup G)
     (h3 : CFSG.Open.pCoreOf 2 Y ≤ Subgroup.normalizer (L : Set G)) :
     Y ≤ Subgroup.normalizer (L : Set G) := by
   obtain ⟨e⟩ := hq
-  haveI : Group.IsPerfect ↥L := by
+  have : Group.IsPerfect ↥L := by
     refine ⟨?_⟩
     apply Subgroup.map_injective L.subtype_injective
     rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
@@ -119,7 +119,7 @@ theorem le_normalizer_of_comm_theta (L Y : Subgroup G)
   have hYΘ : Y ≤ Subgroup.normalizer (Θ : Set G) := Subgroup.le_normalizer.trans hnorm
   have hLΘ : L ≤ Subgroup.normalizer (Θ : Set G) := hLY.trans hnorm
   have h3Θ : Nat.Coprime 3 (Nat.card Θ) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥Y)
     rwa [← Subgroup.card_map_of_injective Y.subtype_injective] at h
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Θ

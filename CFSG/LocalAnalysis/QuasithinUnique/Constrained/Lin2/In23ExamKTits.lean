@@ -185,7 +185,7 @@ theorem tits_false (R₀ A₀ A₀' : Subgroup ↥titsD) (hRU : R₀ ≤ (titsSy
     (hstrong : ∀ r ∈ R₀, r * r = 1 → ∀ g : ↥titsD,
       g * r * g⁻¹ ∈ (titsSylow : Subgroup ↥titsD) → g * r * g⁻¹ ∈ R₀) : False := by
   obtain ⟨z', hz'R, hz'1, hz'c⟩ := CFSG.QuasithinUnique.K1.exists_ne_one_mem_centralizer
-    (Q := (titsSylow : Subgroup ↥titsD)) titsSylow.isPGroup' hRU
+    (Q := (titsSylow : Subgroup ↥titsD)) titsSylow.isPGroup hRU
     (fun a ha q hq => by
       have := hnorm q⁻¹ (Subgroup.le_normalizer (Subgroup.inv_mem _ hq)) a ha
       simpa using this) hne
@@ -237,7 +237,7 @@ theorem examExcludes_tits : ExamExcludes FamTits := by
     have hx' : e (QuotientGroup.mk x) = 1 := hx
     rwa [map_eq_one_iff e e.injective, QuotientGroup.eq_one_iff] at hx'
   have hU : IsSylowTwoOf (titsSylow : Subgroup ↥titsD) ⊤ :=
-    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup', titsSylow.not_dvd_index⟩
+    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup, titsSylow.not_dvd_index⟩
   obtain ⟨R₀, A₀, A₀', hRU, hnorm, hne, hA, hA', hel, hstrong⟩ :=
     h.toAbs.exists_RprimeE θ hθsurj hker _ hU
   exact TitsExam.tits_false R₀ A₀ A₀' hRU hnorm hne hA hA' hel hstrong

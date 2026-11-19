@@ -28,11 +28,11 @@ theorem mem_fixSub {σ : Perm (Fin 6)} {v : altHeart 6} : v ∈ fixSub σ ↔ al
   one_mem' := CFSG.HardMathSupport.Cooperstein.Coordinator.altAct_one u
   mul_mem' := fun {σ τ} hσ hτ => by
     show altAct (σ * τ) u = u
-    rw [CFSG.HardMathSupport.Cooperstein.Coordinator.altAct_mul, Set.mem_setOf_eq.mp hτ,
-      Set.mem_setOf_eq.mp hσ]
+    rw [CFSG.HardMathSupport.Cooperstein.Coordinator.altAct_mul, Set.mem_ofPred_eq.mp hτ,
+      Set.mem_ofPred_eq.mp hσ]
   inv_mem' := fun {σ} hσ => by
     show altAct σ⁻¹ u = u
-    conv_lhs => rw [← Set.mem_setOf_eq.mp hσ]
+    conv_lhs => rw [← Set.mem_ofPred_eq.mp hσ]
     exact CFSG.HardMathSupport.Cooperstein.Coordinator.altAct_inv_apply σ u
 
 theorem mem_stabSub {u : altHeart 6} {σ : Perm (Fin 6)} : σ ∈ stabSub u ↔ altAct σ u = u :=

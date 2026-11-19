@@ -104,7 +104,7 @@ theorem endgame_cfg [Finite Y] {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (hdim : Module.finrank (ZMod 2) (commSub ρ (Subgroup.closure
       ({z, n * z * n⁻¹, g, h} : Set Y))) ≤ 36) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hJP, hJe, hJcard, hEcard, hzE, hnJ', hnE', hgP, hgJ, hhQ, hhJ, -, -, hirr⟩ := cfg
   set E : Subgroup Y := ⁅J, P⁆ with hE
   set Q : Subgroup Y := conjSub n P with hQ

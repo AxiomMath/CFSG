@@ -37,14 +37,14 @@ theorem eq_refl_of_conj_sl2Upper (σ : K ≃+* K) (m : SpecialLinearGroup (Fin 2
   have hc : m 1 0 = 0 := by
     have h10 := hentry 1 1 0
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, map_one, mul_one,
+      Matrix.empty_val', Matrix.cons_val_fin_one, map_one, mul_one,
       neg_eq_zero] at h10
     exact pow_eq_zero_iff (n := 2) (by norm_num) |>.mp h10
   have h01 : ∀ s : K, m 0 0 ^ 2 * σ s = lam * s := by
     intro s
     have h1 := hentry s 0 1
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one] at h1
+      Matrix.empty_val', Matrix.cons_val_fin_one] at h1
     exact h1
   have hdet : m 0 0 * m 1 1 - m 0 1 * m 1 0 = 1 := by
     have h := m.2

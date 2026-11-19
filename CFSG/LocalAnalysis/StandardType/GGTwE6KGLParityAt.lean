@@ -40,7 +40,7 @@ private theorem canonical_rawDatum_of_two_le {lab : LargeEvenLabel}
   case twF4 =>
     have h3 := hl.2.2
     obtain ⟨K, i1, i2, hK, hq⟩ := h
-    exact ⟨K, i1, i2, hK, by rwa [if_neg (by omega)]⟩
+    exact ⟨K, i1, i2, hK, by rwa [ite_eq_right (by omega)]⟩
   all_goals exact h
 
 private theorem mulAut_mul_conj_mul_inv {R : Type} [Group R] (a : MulAut R) (r : R) :
@@ -61,9 +61,9 @@ theorem largeEvenLabelAll_n_dvd_of_isComponentOf_ggFix {lab : LargeEvenLabel}
   rcases Nat.lt_or_ge lab.n 2 with hn | hn
   · rw [show lab.n = 1 by have := hlab.1; omega]
     exact one_dvd _
-  haveI := hR
-  haveI := hfin
-  haveI : Finite (MulAut R) := Finite.of_injective _ (DFunLike.coe_injective (F := MulAut R))
+  have := hR
+  have := hfin
+  have : Finite (MulAut R) := Finite.of_injective _ (DFunLike.coe_injective (F := MulAut R))
   have hnc : ¬ IsMulCommutative R := fun h => by
     obtain ⟨a, b, hab⟩ := hna
     exact hab (h.is_comm.comm a b)
@@ -90,7 +90,7 @@ theorem largeEvenLabelAll_n_dvd_of_isComponentOf_ggFix {lab : LargeEvenLabel}
     · intro h
       calc MulAut.conj r * s⁻¹ = s⁻¹ * (s * MulAut.conj r * s⁻¹) := by group
         _ = s⁻¹ * MulAut.conj r := by rw [h]
-  haveI : Group.IsPerfect R := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
+  have : Group.IsPerfect R := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have hZL : Subgroup.center ↥L = ⊥ := CFSG.StandardType.center_eq_bot_of_mulEquiv e.symm hcen
   let θ : ↥L ⧸ Subgroup.center ↥L ≃* R :=
     (QuotientGroup.quotientMulEquivOfEq hZL).trans (QuotientGroup.quotientBot.trans e.symm)

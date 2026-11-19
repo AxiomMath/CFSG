@@ -18,14 +18,16 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 private def blk (g : SL(3, K)) : Matrix (Fin 2) (Fin 2) K :=
   fun i j => (g : Matrix (Fin 3) (Fin 3) K) (Fin.castLE (by decide) i) (Fin.castLE (by decide) j)
 
+omit [Finite K] [CharP K 2] in
 private theorem blk_mul {g h : SL(3, K)} (hg : g ∈ stabW K) (hh : h ∈ stabW K) :
     blk (g * h) = blk g * blk h := by
   obtain ⟨hg0, hg1⟩ := hg
   obtain ⟨hh0, hh1⟩ := hh
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blk, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, hg0, hg1, hh0, hh1]
+    simp [blk, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, hh0, hh1]
 
+omit [Finite K] [CharP K 2] in
 private theorem blk_one : blk (1 : SL(3, K)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [blk]
@@ -39,7 +41,7 @@ private def blkHom : ↥(stabW K) →* GL (Fin 2) K :=
   MonoidHom.mk' blkUnit fun g h => Units.ext (blk_mul g.2 h.2)
 
 theorem herm_parabolic_action {P Q : Subgroup SL(3, K)} {S : Subgroup (HMod n K)}
-    (hP : P = stabW K) (hQ : Q = QWs K) (hS : S = blkW n K) (hn : 1 ≤ n)
+    (hP : P = stabW K) (hQ : Q = QWs K) (hS : S = blkW n K) (_hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) :
     ∃ action : ↥P →* GL (Fin 2) K,
       Function.Surjective action ∧
@@ -163,7 +165,7 @@ theorem herm_parabolic_action {P Q : Subgroup SL(3, K)} {S : Subgroup (HMod n K)
           ((action g : Matrix (Fin 2) (Fin 2) K).map (bar n))ᵀ := by
       ext r c
       simp [hermBlk, mat_rho, tw, conjM, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three,
-        hact, hX02, hX12, hX22, hX20, hX21, hg20, hg21]
+        hact, hX02, hX12, hX22, hX20, hX21]
     refine ⟨hmem, hblk, ?_⟩
     have hdetmap : ∀ A : Matrix (Fin 2) (Fin 2) K, (A.map (bar n)).det = bar n A.det :=
       fun A => (RingHom.map_det (bar n).toRingHom A).symm

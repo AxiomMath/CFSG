@@ -46,7 +46,7 @@ open scoped Matrix
 theorem e6FourCent_reduce {J : Type} [Group J] [Finite J] (hJ : E6FourMark J)
     (hZ : center J = ⊥) {A : Subgroup J} (hA : Nat.card A = 5 ^ 4) {s : J} (hsA : s ∈ A)
     (hs1 : s ≠ 1) {X : Subgroup J} (hX : IsComponentOf X (centralizer ({s} : Set J)))
-    (hAX : A ≤ normalizer (X : Set J)) (hC : A ⊓ centralizer (X : Set J) = zpowers s) :
+    (_hAX : A ≤ normalizer (X : Set J)) (hC : A ⊓ centralizer (X : Set J) = zpowers s) :
     ∃ (L : Type) (_ : Field L) (_ : IsAlgClosed L) (S : LangSetup Tag.E6 L 5) (ζ : Lˣ)
       (v : Fin Tag.E6.rank → ZMod 5)
       (i : KernelComponent (rootCharHom (fun j => ζ ^ (v j).val))),
@@ -59,8 +59,8 @@ theorem e6FourCent_reduce {J : Type} [Group J] [Finite J] (hJ : E6FourMark J)
         ∀ γ ∈ rationalRoots S.ρ (rootCharHom (fun j => ζ ^ (v j).val)) i, e6Pair w γ = 0} ≤ 5 := by
   classical
   obtain ⟨L, hLf, hLac, S, ι, hq, hρ, hΦ, hinj, hrange, hAE⟩ := e6FourCent_conj hJ hZ hA
-  letI : Field L := hLf
-  letI : IsAlgClosed L := hLac
+  let : Field L := hLf
+  let : IsAlgClosed L := hLac
   have hE : Nat.card S.E = 5 ^ 4 := by
     rw [← hAE, Subgroup.card_map_of_injective hinj, hA]
   have h4L : (4 : L) = 0 := by

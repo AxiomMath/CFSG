@@ -37,7 +37,7 @@ theorem NaturalRep.exists_isSecMod {ι : Type} [Fintype ι] [DecidableEq ι] {K 
       (κ : ↥V →* Multiplicative (ι → K)),
       @IsSecMod G _ R V Z (ι → K) _ (natVecAct φ) κ := by
   obtain ⟨φ, hφX, hker, -, hN, ψ, hψ⟩ := h
-  haveI := hN
+  have := hN
   refine ⟨φ, hφX, hker, ψ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf V)), ?_⟩
   refine @IsSecMod.mk G _ R V Z (ι → K) _ (natVecAct φ) _ ?_ ?_ ?_ ?_
   · intro a
@@ -66,7 +66,7 @@ theorem NaturalRep.eq_or_eq_of_invariant {ι : Type} [Fintype ι] [DecidableEq �
     intro r hr x hx
     exact (Subgroup.mem_normalizer_iff.mp (hact.1 hr) x).mp hx
   obtain ⟨φ, hφX, hker, κ, hκ⟩ := h.exists_isSecMod
-  letI := natVecAct φ
+  let := natVecAct φ
   have hZV : Z ≤ V := hZU.trans hUV
   have hinv : ∀ A ∈ X, ∀ v ∈ secSub κ U, (A : Matrix ι ι K) *ᵥ v ∈ secSub κ U := by
     intro A hA v hv

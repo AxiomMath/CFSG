@@ -33,8 +33,8 @@ theorem w16l_exists_conj_eq_map_Sig01 (hs : 2 ≤ s)
     ∃ x : unitaryPSU h 3,
       conjSubgroup x (T ⊔ conjSubgroup g T) = (Sig01 h).map (unitaryProj h 3) := by
   classical
-  haveI : Finite F := h.finite
-  haveI : Finite (unitaryPSU h 3) :=
+  have : Finite F := h.finite
+  have : Finite (unitaryPSU h 3) :=
     Finite.of_surjective (unitaryProj h 3) (unitaryProj_surjective h 3)
   have hmodel := stated_model_pu h hs
   obtain ⟨⟨-, ⟨S₀, hS₀⟩, hBor⟩, -⟩ :=

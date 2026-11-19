@@ -26,6 +26,7 @@ section Irred
 
 variable [Module (ZMod 2) (Additive W)]
 
+omit [Module (ZMod 2) (Additive W)] in
 private theorem w1369_irred_M (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)}
     {M : Subgroup W}
     (hsurj : ∀ g : MulAut ↥M, ∃ k ∈ K, ∀ m : ↥M, ((g m : ↥M) : W) = k (m : W)) :
@@ -68,7 +69,7 @@ private theorem w1369_irred_M (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut
       apply e.injective
       calc e (φ ⟨a, hAM haA⟩)
           = CFSG.Quasithin.H13.Mult.toMulAutPi (rk ↥M) τ (e ⟨a, hAM haA⟩) := by
-            simp [φ, MulAut.congr]
+            simp [φ]
         _ = Multiplicative.ofAdd (τ (e ⟨a, hAM haA⟩).toAdd) := by
             rw [CFSG.Quasithin.H13.Mult.toMulAutPi_apply]
         _ = Multiplicative.ofAdd (e ⟨b, hbM⟩).toAdd := by rw [hτ]
@@ -88,6 +89,7 @@ private noncomputable def w1369_proj (M : Subgroup W) (x : MulAut W)
     (CFSG.Quasithin.H13.Mult.toSub (M.map x.toMonoidHom))
     (s16c1610_isCompl_toSub hdis hsup)
 
+omit [Finite W] in
 private lemma w1369_proj_mem (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
     (z : Additive W) :
@@ -97,6 +99,7 @@ private lemma w1369_proj_mem (M : Subgroup W) (x : MulAut W)
     (q := CFSG.Quasithin.H13.Mult.toSub (M.map x.toMonoidHom))
     (s16c1610_isCompl_toSub hdis hsup) z
 
+omit [Finite W] in
 private lemma w1369_proj_eq_zero (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
     {z : Additive W} :
@@ -106,6 +109,7 @@ private lemma w1369_proj_eq_zero (M : Subgroup W) (x : MulAut W)
     (q := CFSG.Quasithin.H13.Mult.toSub (M.map x.toMonoidHom))
     (s16c1610_isCompl_toSub hdis hsup)
 
+omit [Finite W] in
 private lemma w1369_proj_comm (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
     {k : MulAut W} (hkM : ∀ u ∈ M, k u ∈ M)
@@ -122,6 +126,7 @@ private lemma w1369_proj_comm (M : Subgroup W) (x : MulAut W)
     rw [CFSG.Quasithin.H13.Mult.mem_toSub] at hy ⊢
     simpa [CFSG.Quasithin.H13.Mult.linEquiv_apply] using hkxM y.toMul hy
 
+omit [Module (ZMod 2) (Additive W)] in
 private lemma w1369_inv_mem {U : Subgroup W} (e : MulAut W) (he : ∀ u ∈ U, e u ∈ U) :
     ∀ u ∈ U, e⁻¹ u ∈ U := by
   intro u hu
@@ -155,6 +160,7 @@ private noncomputable def w1369_projHom (M : Subgroup W) (x : MulAut W)
         (w1369_proj M x hdis hsup (Additive.ofMul v)).toMul
     rw [ofMul_mul, map_add, toMul_add]
 
+omit [Finite W] in
 private lemma w1369_projHom_eq_one_iff (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤) (w : W) :
     w1369_projHom M x hdis hsup w = 1 ↔ w ∈ M.map x.toMonoidHom := by
@@ -162,6 +168,7 @@ private lemma w1369_projHom_eq_one_iff (M : Subgroup W) (x : MulAut W)
   rw [toMul_eq_one, w1369_proj_eq_zero, CFSG.Quasithin.H13.Mult.mem_toSub,
     toMul_ofMul]
 
+omit [Finite W] in
 private lemma w1369_projHom_comm (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
     {k : MulAut W} (hkM : ∀ u ∈ M, k u ∈ M)
@@ -183,6 +190,7 @@ private noncomputable def w1369_piG (M : Subgroup W) (x : MulAut W)
       rw [← CFSG.Quasithin.H13.Mult.mem_toSub]
       exact w1369_proj_mem M x hdis hsup _)
 
+omit [Finite W] in
 private lemma w1369_piG_eq_one_iff (M : Subgroup W) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
     (g : MulAut W) (u : ↥(M.map g.toMonoidHom)) :
@@ -198,6 +206,7 @@ private noncomputable def w1369_Tg (M : Subgroup W) (g : MulAut W) :
     ↥M ≃* ↥(M.map g.toMonoidHom) :=
   Subgroup.equivMapOfInjective M g.toMonoidHom g.injective
 
+omit [Finite W] [Module (ZMod 2) (Additive W)] in
 private lemma w1369_Tg_apply (M : Subgroup W) (g : MulAut W) (m : ↥M) :
     ((w1369_Tg M g m : ↥(M.map g.toMonoidHom)) : W) = g (m : W) :=
   rfl
@@ -207,6 +216,7 @@ private noncomputable def w1369_T (M : Subgroup W) (x : MulAut W)
     (g : MulAut W) : ↥M →* ↥M :=
   (w1369_piG M x hdis hsup g).comp (w1369_Tg M g).toMonoidHom
 
+omit [Finite W] [Module (ZMod 2) (Additive W)] in
 private lemma w1369_stable_xM {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hKM : StableUnder K M) {x : MulAut W} (hxcomm : ∀ k ∈ K, k * x = x * k)
     (k : ↥K) : ∀ u ∈ M.map x.toMonoidHom, (k : MulAut W) u ∈ M.map x.toMonoidHom := by
@@ -220,6 +230,7 @@ private lemma w1369_stable_xM {K : Subgroup (MulAut W)} {M : Subgroup W}
   rw [h1]
   exact Subgroup.mem_map_of_mem x.toMonoidHom (hKM _ k.2 m hm)
 
+omit [Finite W] in
 private lemma w1369_T_twist {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hKM : StableUnder K M) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
@@ -288,6 +299,7 @@ private lemma w1369_T_range_eq_bot_or_top (hw2 : ∀ w : W, w ^ 2 = 1)
     have hmm : m' = m := Subtype.ext hm'm
     rwa [hmm] at hm'
 
+omit [Finite W] [Module (ZMod 2) (Additive W)] in
 private lemma w1369_conj_mem {K : Subgroup (MulAut W)}
     (hKnormal : ∀ g ∈ G, K.map (MulAut.conj g).toMonoidHom = K) {g : MulAut W} (hg : g ∈ G)
     (k : ↥K) : g⁻¹ * (k : MulAut W) * g ∈ K := by
@@ -300,6 +312,7 @@ private lemma w1369_conj_mem {K : Subgroup (MulAut W)}
     rw [← hgy']; group
   rwa [hyk] at hy
 
+omit [Finite W] in
 private lemma w1369_T_twist' {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hKM : StableUnder K M) (x : MulAut W)
     (hdis : M ⊓ M.map x.toMonoidHom = ⊥) (hsup : M ⊔ M.map x.toMonoidHom = ⊤)
@@ -433,6 +446,7 @@ lemma w1369_exists_centralizing (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulA
       _ = (g * k0⁻¹) * (k : MulAut W) := by rw [hceq]
   exact hc.symm
 
+omit [Module (ZMod 2) (Additive W)] in
 private lemma w1369_end_K_zero_or_id (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)}
     {M : Subgroup W} (hKM : StableUnder K M)
     (hsurjM : ∀ g : MulAut ↥M, ∃ k ∈ K, ∀ m : ↥M, ((g m : ↥M) : W) = k (m : W))
@@ -509,6 +523,7 @@ private lemma w1369_end_K_zero_or_id (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup 
     have h2 : rk ⟨m, hm⟩ = ⟨m, hm⟩ := by rw [hrk1]; rfl
     rw [← h1, h2]
 
+omit [Module (ZMod 2) (Additive W)] in
 lemma w1369_K_inf_centralizer (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)}
     {M : Subgroup W} (hKM : StableUnder K M)
     (hfaith : ∀ k ∈ K, (∀ m ∈ M, k m = m) → k = 1)

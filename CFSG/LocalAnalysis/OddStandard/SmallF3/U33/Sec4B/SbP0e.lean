@@ -17,20 +17,22 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 private abbrev p0_c4 (hc : Ctx8c t L S x₁ x₂ lam rho tau) : Ctx4 t L S x₁ x₂ lam rho tau :=
   hc.toCtx8b.toCtx8a.toCtx8.toCtx10.toCtx4
 
+omit [Finite G] in
 private theorem p0_t_mem_X (t tau x₁ x₂ : G) : t ∈ ctxX t tau x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private theorem p0_V_le_X (t tau x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ :=
   ((p0_V_le_N_le_X t tau x₁ x₂).1).trans ((p0_V_le_N_le_X t tau x₁ x₂).2)
 
 private theorem p0_comm_of_mem_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ ctxW t x₁ x₂) (hb : b ∈ ctxW t x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
+  have : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(ctxW t x₁ x₂)) ⟨b, hb⟩)
 
 private theorem p0_baseGrp_comm (hc : Ctx4 t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(baseGrp x₁ x₂) := (hc.wreath.baseGrp_eq).1
+  have : IsMulCommutative ↥(baseGrp x₁ x₂) := (hc.wreath.baseGrp_eq).1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(baseGrp x₁ x₂)) ⟨b, hb⟩)
 
 private theorem p0_fourGrp_le_baseGrp (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
@@ -40,6 +42,7 @@ private theorem p0_fourGrp_le_baseGrp (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
   intro a ha
   exact ha.1
 
+omit [Finite G] in
 private theorem p0_baseGrp_le_W (t x₁ x₂ : G) : baseGrp x₁ x₂ ≤ ctxW t x₁ x₂ :=
   le_sup_right
 
@@ -79,7 +82,7 @@ private theorem p0_X_comm (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
 
 private theorem p0_tau_comm_mem_V (hc : Ctx4 t L S x₁ x₂ lam rho tau) {v : G}
     (hv : v ∈ fourGrp x₁ x₂) : tau * v = v * tau := by
-  haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
+  have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
   exact congrArg Subtype.val (mul_comm'
     (⟨tau, Subgroup.subset_closure (by simp)⟩ : ↥(ctxX t tau x₁ x₂))
     (⟨v, p0_V_le_X t tau x₁ x₂ hv⟩ : ↥(ctxX t tau x₁ x₂)))
@@ -88,7 +91,7 @@ private theorem p0_t_mem_cent_V (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     t ∈ Subgroup.centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro v hv
-  haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
+  have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
   exact congrArg Subtype.val (mul_comm'
     (⟨v, p0_V_le_X t tau x₁ x₂ hv⟩ : ↥(ctxX t tau x₁ x₂))
     (⟨t, Subgroup.subset_closure (by simp)⟩ : ↥(ctxX t tau x₁ x₂)))
@@ -96,7 +99,7 @@ private theorem p0_t_mem_cent_V (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
 private theorem p0_conj_mem_V_of_mem_X (hc : Ctx4 t L S x₁ x₂ lam rho tau) {a v : G}
     (ha : a ∈ ctxX t tau x₁ x₂) (hv : v ∈ fourGrp x₁ x₂) :
     a * v * a⁻¹ ∈ fourGrp x₁ x₂ := by
-  haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
+  have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc
   have hcomm : a * v = v * a :=
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(ctxX t tau x₁ x₂))
       (⟨v, p0_V_le_X t tau x₁ x₂ hv⟩ : ↥(ctxX t tau x₁ x₂)))
@@ -117,7 +120,7 @@ private theorem p0_commutator_mem_V_of_gens (hc : Ctx4 t L S x₁ x₂ lam rho t
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
     rcases ha with rfl | rfl | rfl | rfl
     exacts [ht, htau, hy, hz]
-  · simpa using one_mem (fourGrp x₁ x₂)
+  · simp
   · intro a b ha hb pa pb
     have hconj : a * (g * b * g⁻¹ * b⁻¹) * a⁻¹ ∈ fourGrp x₁ x₂ :=
       p0_conj_mem_V_of_mem_X hc ha pb
@@ -131,6 +134,7 @@ private theorem p0_commutator_mem_V_of_gens (hc : Ctx4 t L S x₁ x₂ lam rho t
         a⁻¹ * (g * a * g⁻¹ * a⁻¹)⁻¹ * (a⁻¹)⁻¹ := by group
     rwa [heq]
 
+omit [Finite G] in
 private theorem p0_commutator_eq_sq_of_conj_eq_inv {a b : G} (h : b * a * b⁻¹ = a⁻¹) :
     a * b * a⁻¹ * b⁻¹ = a ^ 2 := by
   have h2 : b * (a⁻¹ * b⁻¹) = a := by
@@ -138,6 +142,7 @@ private theorem p0_commutator_eq_sq_of_conj_eq_inv {a b : G} (h : b * a * b⁻¹
     simpa [mul_inv_rev] using this
   rw [show a * b * a⁻¹ * b⁻¹ = a * (b * (a⁻¹ * b⁻¹)) by group, h2, pow_two]
 
+omit [Finite G] in
 private theorem p0_mul_comm_of_commutator_eq_one {a b : G} (h : a * b * a⁻¹ * b⁻¹ = 1) :
     a * b = b * a := by
   have h1 : a * b * a⁻¹ = b := by
@@ -231,7 +236,7 @@ private theorem p0_cent_U_t (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
 theorem p0_X_le_R (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
     ctxX t tau x₁ x₂ ≤ ctxR t tau x₁ x₂ := by
   intro x hx
-  haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm (p0_c4 hc)
+  have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm (p0_c4 hc)
   refine ⟨Subgroup.le_normalizer hx, ?_, ?_⟩
   · intro y hy
     have hcomm : x * y = y * x :=
@@ -375,7 +380,7 @@ theorem p0_mem_R_iff (hc : Ctx8c t L S x₁ x₂ lam rho tau) {g : G}
       hgR.2.1 t (Subgroup.subset_closure (by simp))
     refine Set.mem_smul_set.mpr ⟨g * t * g⁻¹ * t⁻¹, hmem, ?_⟩
     have haux : t * (g * t * g⁻¹ * t⁻¹) = (g * t * g⁻¹ * t⁻¹) * t := by
-      haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc4
+      have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc4
       exact congrArg Subtype.val (mul_comm'
         (⟨t, p0_t_mem_X t tau x₁ x₂⟩ : ↥(ctxX t tau x₁ x₂))
         (⟨_, p0_V_le_X t tau x₁ x₂ hmem⟩ : ↥(ctxX t tau x₁ x₂)))
@@ -384,7 +389,7 @@ theorem p0_mem_R_iff (hc : Ctx8c t L S x₁ x₂ lam rho tau) {g : G}
   · intro hgt
     obtain ⟨v, hv, hv_eq₀⟩ := Set.mem_smul_set.mp hgt
     have hv_eq : t * v = g * t * g⁻¹ := by rwa [smul_eq_mul] at hv_eq₀
-    haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc4
+    have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := p0_X_comm hc4
     have htv : t * v = v * t :=
       congrArg Subtype.val (mul_comm'
         (⟨t, p0_t_mem_X t tau x₁ x₂⟩ : ↥(ctxX t tau x₁ x₂))
@@ -534,7 +539,7 @@ theorem p0_exists_hom (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
       ∀ g : ↥(ctxR t tau x₁ x₂), φ g = 1 → (g : G) ∈ ctxX t tau x₁ x₂ := by
   have htX : t ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
   have htauX : tau ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
   refine ⟨MonoidHom.mk' (fun g : ↥(ctxR t tau x₁ x₂) =>
       (⟨(g : G) * t * (g : G)⁻¹ * t⁻¹, g.2.2.1 t htX⟩,
        ⟨(g : G) * tau * (g : G)⁻¹ * tau⁻¹, g.2.2.1 tau htauX⟩)) ?_, ?_⟩

@@ -33,7 +33,7 @@ namespace MatrixGroups
 
 open PFchapter1section1 PFAppendixIII
 open PFchapter1section3
-open MatrixGroups
+open _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization Matrix
 
 universe u
@@ -59,7 +59,7 @@ private theorem psl28_sl2_binary3_card :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) (BinaryGaloisField 3)) = 504 := by
   classical
   have hGL : Nat.card (GL (Fin 2) (BinaryGaloisField 3)) = 3528 := by
-    letI : Fintype (BinaryGaloisField 3) := Fintype.ofFinite _
+    let : Fintype (BinaryGaloisField 3) := Fintype.ofFinite _
     rw [Matrix.card_GL_field]
     have hF : Fintype.card (BinaryGaloisField 3) = 8 := by
       rw [← Nat.card_eq_fintype_card]
@@ -346,7 +346,7 @@ private theorem psl28_no_orderOf_21_perm_of_card_eq_9
 private theorem psl28_binary3_no_orderOf_21 (x : PSL2BinaryMatrixGroup 3) :
     orderOf x ≠ 21 := by
   classical
-  letI : Fintype (ℙ (BinaryGaloisField 3) (Fin 2 → BinaryGaloisField 3)) :=
+  let : Fintype (ℙ (BinaryGaloisField 3) (Fin 2 → BinaryGaloisField 3)) :=
     Fintype.ofFinite _
   let φ : PSL2BinaryMatrixGroup 3 →* Equiv.Perm (ℙ (BinaryGaloisField 3) (Fin 2 → BinaryGaloisField 3)) :=
     QuotientGroup.lift _
@@ -716,11 +716,11 @@ private theorem sl2_orderThree_centralizer_isCyclic
       ({(A : Matrix (Fin 2) (Fin 2) F)} : Set
         (Matrix (Fin 2) (Fin 2) F))
   have hnoeig := sl2_orderThree_no_eigenvector hFcard A hAorder
-  letI : CommRing C :=
+  let : CommRing C :=
     { (inferInstance : Ring C) with
       mul_comm := fun B D =>
         sl2_matrix_centralizer_mul_comm A hnoeig B D }
-  letI : IsDomain C := {
+  let : IsDomain C := {
     toIsCancelMulZero := by
       refine isCancelMulZero_iff_noZeroDivisors.mpr ?_
       rw [noZeroDivisors_iff]
@@ -907,8 +907,8 @@ private theorem psl28_binary3_orderThree_centralizer_card
     Subgroup.centralizer ({x} : Set (PSL2BinaryMatrixGroup 3))
   have hCcyc : IsCyclic C :=
     psl28_binary3_orderThree_centralizer_isCyclic x hx
-  letI : IsCyclic C := hCcyc
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : IsCyclic C := hCcyc
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX3 : IsPGroup 3 (Subgroup.zpowers x) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, hx, pow_one]
@@ -953,7 +953,7 @@ private theorem psl28_binary3_orderThree_centralizer_card
             (GaloisField.card 2 3 (by norm_num)))
         (e x) (by simpa [e] using hx) (ce y) hmaporder
   have hnot7 : ¬ 7 ∣ Nat.card C := by
-    letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     intro h7
     obtain ⟨y, hy⟩ :=
       exists_prime_orderOf_dvd_card' (G := C) 7 h7

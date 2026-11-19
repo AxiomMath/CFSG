@@ -571,9 +571,8 @@ theorem CFSG.fixedVectors_eq_zero_extendScalars
       (Module.Flat.lTensor_preserves_injective_linearMap (M := F') f hf_inj)
   have hf'_apply (w : F' ⊗[F] V) (g : G) :
       f' w g = (extendScalars F' ρ) g w - w := by
-    refine TensorProduct.induction_on (motive := fun w =>
-      f' w g = (extendScalars F' ρ) g w - w) w ?_ ?_ ?_
-    · simp [f', f, fixedDiffMap, Theory.Representation.extendScalars_apply]
+    refine TensorProduct.inductionOn (motive := fun w =>
+      f' w g = (extendScalars F' ρ) g w - w) w ?_ ?_
     · intro a v
       simp [f', f, fixedDiffMap, Theory.Representation.extendScalars_apply, TensorProduct.tmul_sub]
     · intro x y hx hy
@@ -598,7 +597,7 @@ theorem CFSG.exists_primitiveRoot_of_isAlgClosed_not_dvd
     intro hz
     exact hchar ((ringChar.spec F h).1 hz)
   let : NeZero (h : F) := ⟨hcast_ne_zero⟩
-  exact HasEnoughRootsOfUnity.exists_primitiveRoot F h
+  exact HasEnoughRootsOfUnity.exists_isPrimitiveRoot F h
 
 theorem CFSG.finrank_eq_primePow_of_faithful_irreducible_isExtraspecial
     {q : ℕ} [Fact q.Prime] {n : ℕ}

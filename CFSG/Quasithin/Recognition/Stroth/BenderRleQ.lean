@@ -57,7 +57,7 @@ theorem inf_le_jAtLeast
 
 private theorem relIndex_centralizer_zTilde_le_q
     (h : OrientedBenderPair L1 L2 S q r) {A : Subgroup G}
-    (hA : IsMaxElemAbelian S A) {t : G} (htA : t ∈ A) (htQ : t ∉ Q1 L1 L2 S) :
+    (hA : IsMaxElemAbelian S A) {t : G} (htA : t ∈ A) (_htQ : t ∉ Q1 L1 L2 S) :
     (zTilde L1 L2 S q ⊓ Subgroup.centralizer ({t} : Set G)).relIndex
       (zTilde L1 L2 S q) ≤ q := by
   have hcardA : Nat.card A = 2 ^ CFSG.Open.pRank 2 S := by
@@ -116,6 +116,7 @@ private theorem relIndex_centralizer_zTilde_le_q
     exact inf_le_inf_left _ (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr htA))
   exact hmono.trans h1
 
+omit [Finite G] in
 private theorem exists_maxElemAbelian_not_le_pCoreOf
     (h : OrientedBenderPair L1 L2 S q r) :
     ∃ A : Subgroup G, IsMaxElemAbelian S A ∧ ¬ A ≤ Q1 L1 L2 S := by

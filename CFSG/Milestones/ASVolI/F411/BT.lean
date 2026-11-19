@@ -26,7 +26,7 @@ theorem burnsideF411_borelTitsIn_of_holds [Finite E] {p : ℕ} [Fact p.Prime] {G
   obtain ⟨S'', P', hP', hN, -, -, hS⟩ := h (R.subgroupOf Gp) hR' hRp'
   have hS'' : ((S'' : Subgroup ↥Gp).map Gp.subtype).subgroupOf Gp = S'' :=
     Subgroup.comap_map_eq_self_of_injective Gp.subtype_injective _
-  refine ⟨(S'' : Subgroup ↥Gp).map Gp.subtype, ⟨Subgroup.map_subtype_le _, S''.isPGroup'.map _, ?_⟩,
+  refine ⟨(S'' : Subgroup ↥Gp).map Gp.subtype, ⟨Subgroup.map_subtype_le _, S''.isPGroup.map _, ?_⟩,
     P'.map Gp.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   ·
     rw [show ((S'' : Subgroup ↥Gp).map Gp.subtype).relIndex Gp = (S'' : Subgroup ↥Gp).index by
@@ -51,7 +51,7 @@ section Models
 
 theorem burnsideF411_holds_twoF4Two {H : Type} [Group H] (h : IsTwoF4Two H) : Holds H 2 := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : CharP K 2 := charP_of_natCard_eq (f := 1) (by rw [hK, pow_one])
   have hc' : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hc
   have hfix := CFSG.LieType.Ree.holds_reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0
@@ -63,7 +63,7 @@ theorem burnsideF411_holds_twoF4Two {H : Type} [Group H] (h : IsTwoF4Two H) : Ho
       ((CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0).equivMapOfInjective _
         Subtype.val_injective).trans (MulEquiv.subgroupCongr heq.symm)
     exact hfix.of_mulEquiv e1
-  haveI : Finite ↥Γ := inferInstance
+  have : Finite ↥Γ := inferInstance
   exact (hΓ.center_quotient).of_mulEquiv e.symm
 
 theorem burnsideF411_holds_of_isGenLie {H : Type} [Group H] {κ : GLKind} {p f : ℕ}
@@ -71,21 +71,21 @@ theorem burnsideF411_holds_of_isGenLie {H : Type} [Group H] {κ : GLKind} {p f :
   cases κ with
   | L3 =>
     obtain ⟨hp, -, K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have : CharP K p := charP_of_natCard_eq hK
     exact (holds_statedProj_statedSL 3 K p).of_mulEquiv e.symm
   | Sp4 =>
     obtain ⟨hp, -, K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have : CharP K p := charP_of_natCard_eq hK
     exact (holds_statedProj_statedSp (n := 2) (K := K) p).of_mulEquiv e.symm
   | G2 =>
     obtain ⟨hp, -, hm⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact holds_of_untwistedChevalleyModel hm
   | D4tw =>
     obtain ⟨hp, hf, hm⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact holds_of_twistedChevalleyModel hf hm
   | F4tw =>
     obtain ⟨rfl, -, ⟨-, h2⟩ | ⟨-, hm⟩⟩ := h
@@ -93,12 +93,12 @@ theorem burnsideF411_holds_of_isGenLie {H : Type} [Group H] {κ : GLKind} {p f :
     · exact holds_of_reeTitsModel hm (by decide)
   | U4 =>
     obtain ⟨hp, -, K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have : CharP K p := charP_of_natCard_eq (f := f * 2) (by rw [hK, pow_mul])
     exact (holds_statedProj_statedSU hK 4).of_mulEquiv e.symm
   | U5 =>
     obtain ⟨hp, -, K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have : CharP K p := charP_of_natCard_eq (f := f * 2) (by rw [hK, pow_mul])
     exact (holds_statedProj_statedSU hK 5).of_mulEquiv e.symm
   | G2d => exact absurd rfl hκ.1
@@ -107,8 +107,8 @@ theorem burnsideF411_holds_of_isGenLie {H : Type} [Group H] {κ : GLKind} {p f :
 theorem burnsideF411_borelTitsIn {κ : GLKind} {p f : ℕ} {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hκ : κ.IsLie) :
     burnsideF411_BorelTitsIn p Gp := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
+  have : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
   exact burnsideF411_borelTitsIn_of_holds (burnsideF411_holds_of_isGenLie hyp.model hκ)
 
 end Models

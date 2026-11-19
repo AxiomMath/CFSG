@@ -31,7 +31,7 @@ theorem isUnit_det_cartan : IsUnit cartan.det := by
   exact isUnit_iff_ne_zero.mpr (by decide)
 
 @[expose] noncomputable def rootToWeight : FEVec 7 ≃ₗ[ZMod 3] FEVec 7 :=
-  LinearEquiv.ofLinear (Matrix.toLin' cartan) (Matrix.toLin' cartan⁻¹)
+  LinearEquiv.ofLinearMap (Matrix.toLin' cartan) (Matrix.toLin' cartan⁻¹)
     (by rw [← Matrix.toLin'_mul, Matrix.mul_nonsing_inv _ isUnit_det_cartan,
       Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, Matrix.nonsing_inv_mul _ isUnit_det_cartan,

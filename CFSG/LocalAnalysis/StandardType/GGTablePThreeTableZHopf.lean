@@ -41,8 +41,8 @@ theorem tableZ_cover
         ((e (θ (QuotientGroup.mk x)) : ↥(twistedE6RootGroup K σ)) : ModGL TwistTag.E6.tag K)) ∧
       ∀ x, x ∈ κ.ker ↔ x ∈ Subgroup.center (HopfCover R) ∧ ∃ k : ℕ, x ^ (2 ^ k) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hθθ : ∀ c, σ.toRingHom (σ.toRingHom c) = c :=
     CFSG.LieType.Steinberg.CentralExt.TwistedE6Closed.theta_theta_of_card
@@ -58,17 +58,17 @@ theorem tableZ_cover
       CFSG.Blueprint.twistedFixedGroup .E6 K σ.toRingHom⁆ = twistedE6RootGroup K σ := by
     refine le_antisymm
       (commutator_twistedFixedGroup_le (t := .E6) (σ := σ.toRingHom) σ.surjective) ?_
-    haveI : Group.IsPerfect ↥(twistedE6RootGroup K σ) :=
+    have : Group.IsPerfect ↥(twistedE6RootGroup K σ) :=
       ⟨commutator_twistedE6RootGroup_eq_top (ℓ := 2) (f := n) Nat.prime_two hn hK σ hσ⟩
     rw [← Subgroup.isPerfect_iff.mp (inferInstance : Group.IsPerfect ↥(twistedE6RootGroup K σ))]
     exact Subgroup.commutator_mono (graphFixedRootGroup_le _ _ _) (graphFixedRootGroup_le _ _ _)
-  haveI hC₀perf : Group.IsPerfect ↥(twistedE6RootGroup K σ) :=
+  have hC₀perf : Group.IsPerfect ↥(twistedE6RootGroup K σ) :=
     ⟨commutator_twistedE6RootGroup_eq_top (ℓ := 2) (f := n) Nat.prime_two hn hK σ hσ⟩
-  haveI hRperf : Group.IsPerfect R :=
+  have hRperf : Group.IsPerfect R :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI hUperf : Group.IsPerfect ↥(TwistedE6.fixedGroup K σ.toRingHom) :=
+  have hUperf : Group.IsPerfect ↥(TwistedE6.fixedGroup K σ.toRingHom) :=
     CFSG.LieType.Steinberg.TwistedE6.fixedGroup_isPerfect_of_four_le_card σ.toRingHom hθθ hk4
-  haveI hHperf : Group.IsPerfect (HopfCover R) := hopfCover_isPerfect
+  have hHperf : Group.IsPerfect (HopfCover R) := hopfCover_isPerfect
   have hHcom : commutator (HopfCover R) = ⊤ := Group.IsPerfect.commutator_eq_top
   let τ := CFSG.LieType.Simplicity.twistedIsogeny σ.toRingHom hθθ hk4
   let π₁ : ↥(TwistedE6.fixedGroup K σ.toRingHom) →* ↥(twistedE6RootGroup K σ) :=

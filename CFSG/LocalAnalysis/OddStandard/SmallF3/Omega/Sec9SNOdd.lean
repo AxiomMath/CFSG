@@ -12,7 +12,8 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B : Subgroup G}
 
-private theorem sec9n_priv_conj_mem_C {A B : Subgroup G} (hBA : B ≤ A) {n : G}
+omit [Finite G] in
+private theorem sec9n_priv_conj_mem_C {A B : Subgroup G} (_hBA : B ≤ A) {n : G}
     (hnB : n ∈ normalizer (B : Set G)) (hnA : n ∈ normalizer (A : Set G)) {c : G}
     (hc : c ∈ centMod A B) (hcc : c ∈ centralizer (A : Set G)) :
     n * c * n⁻¹ ∈ centMod A B ⊓ centralizer (A : Set G) := by
@@ -37,6 +38,7 @@ private theorem sec9n_priv_conj_mem_C {A B : Subgroup G} (hBA : B ≤ A) {n : G}
             rw [← Subgroup.mem_centralizer_iff.mp hcc (n⁻¹ * a * n) hu]
       _ = (n * c * n⁻¹) * a := by group
 
+omit [Finite G] in
 private theorem sec9n_priv_centMod_le_normalizer_inf {A B : Subgroup G} (hBA : B ≤ A) :
     centMod A B ≤
       normalizer ((centMod A B ⊓ centralizer (A : Set G) : Subgroup G) : Set G) := by
@@ -62,7 +64,7 @@ theorem sec9n_oddCore_eq (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (hB : Asc82Se
   have hAel : CFSG.Open.IsElemAbelian 2 (Asub9 t t₀ B) := sec9n_A_elem hctx'
   have hBA : B ≤ Asub9 t t₀ B := by rw [Asub9]; exact le_sup_right
   have hAcent : Asub9 t t₀ B ≤ centralizer (Asub9 t t₀ B : Set G) := by
-    haveI : IsMulCommutative (Asub9 t t₀ B) := hAel.1
+    have : IsMulCommutative (Asub9 t t₀ B) := hAel.1
     intro a ha
     exact Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
   have hAN : Asub9 t t₀ B ≤ centMod (Asub9 t t₀ B) B :=

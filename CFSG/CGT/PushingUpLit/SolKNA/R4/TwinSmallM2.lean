@@ -138,15 +138,15 @@ theorem twin_false_of_model {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Sub
   have hq₂ : CFSG.IsQuasisimple ↥H₂ := isQuasisimple_of_open hK₂.2.2
   have hs₁ := hK₁.2.1
   have hs₂ := hK₂.2.1
-  haveI hsimple := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hsimple := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   have hΩ : HypOmegaGen (CoreAssembly.conjClass (tightCore R)) := h.core.hyp
   have hz : IsUniqueInvolution (tightCore R) t := Inner.isUniqueInvolution_core h.core.datum
   have hRsolv : Group.IsSolvable ↥R := isSolvable_of_quotient_twoGroup h.core.datum.twoGroup
   have hK₀solv : Group.IsSolvable ↥(tightCore R) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective (tightCore_le R))
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (tightCore_le R))
   have hsubK : CFSG.Open.IsSubnormal (tightCore R) (Subgroup.centralizer ({t} : Set Y)) :=
     isSubnormal_of_hypOmegaGen hΩ (CoreAssembly.mem_conjClass_self _) hz
   have hcomp : ∀ H : Subgroup P, CFSG.IsQuasisimple ↥H →
@@ -190,11 +190,11 @@ theorem twin_false_of_model {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Sub
     let Fix : Subgroup P :=
       { carrier := {p | ψ a p = p}
         mul_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [map_mul, hx, hy]
         one_mem' := map_one _
         inv_mem' := fun {x} hx => by
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           rw [map_inv, hx] }
     have hfixH : ∀ H : Subgroup P,
         (∀ x ∈ (H.map e.symm.toMonoidHom).map (genFittingFStar Y).subtype,

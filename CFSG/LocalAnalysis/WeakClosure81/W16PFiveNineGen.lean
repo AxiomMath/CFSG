@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem barSub_conjClosure_le_normalClosure {K A : Subgroup G} (hAK : A ≤ K)
     {X : Type} [Group X] (φ : ↥K →* X) :
     SevenK.barSub K φ (CFSG.Quasithin.conjClosure A K) ≤

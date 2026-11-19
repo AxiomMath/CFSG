@@ -114,6 +114,7 @@ variable (H) in
     socTorus H Γ (p i) (p (i - 1)) (p (i + 1)) ≤
       (GPath.stabPath (H := H) p ⊓ socleAt H Γ (p i)) ⊔ fixingSubgroup H (Γ.neighborSet (p i))
 
+omit [GraphAction H Γ] in
 theorem IsGoodPath.take {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) (k : ℕ) (hk : k ≤ s) :
     IsGoodPath H (p.take k hk) := by
   refine ⟨hp.1.take k hk, ?_⟩
@@ -131,6 +132,7 @@ theorem IsGoodPath.take {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) (k : �
   rw [GPath.take_apply_of_le _ _ _ hl]
   exact hg l (by omega)
 
+omit [GraphAction H Γ] in
 theorem IsGoodPath.drop {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) (k : ℕ) (hk : k ≤ s) :
     IsGoodPath H (p.drop k hk) := by
   refine ⟨hp.1.drop k hk, ?_⟩
@@ -146,6 +148,7 @@ theorem IsGoodPath.drop {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) (k : �
   exact le_trans hgood
     (sup_le_sup (inf_le_inf_right _ (GPath.stabPath_le_drop p k hk)) le_rfl)
 
+omit [GraphAction H Γ] in
 theorem IsGoodPath.rev {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) : IsGoodPath H p.rev := by
   refine ⟨hp.1.rev, ?_⟩
   intro i hi0 his
@@ -178,11 +181,13 @@ theorem IsGoodPath.smul {s : ℕ} {p : GPath Γ s} (hp : IsGoodPath H p) (g : H)
     ← Subgroup.map_sup]
   exact Subgroup.map_mono hgood
 
+omit [GraphAction H Γ] in
 theorem isGoodPath_castLength {m k : ℕ} (h : m = k) {p : GPath Γ m} :
     IsGoodPath H (GPath.castLength h p) ↔ IsGoodPath H p := by
   subst h
   rfl
 
+omit [GraphAction H Γ] in
 theorem pathRootGroup_rev_eq {n : ℕ} (p : GPath Γ n) :
     pathRootGroup H Γ p.rev = pathRootGroup H Γ p := by
   ext g
@@ -248,6 +253,7 @@ private theorem socleAt_le_normalizer_fixingSubgroup (z : V) :
   · intro a ha
     exact Subgroup.le_normalizer ha
 
+omit [GraphAction H Γ] in
 private theorem pathRootGroup_le_stabilizer {n : ℕ} (hn : 2 ≤ n) (p : GPath Γ n) :
     pathRootGroup H Γ p ≤ MulAction.stabilizer H (p n) := by
   intro x hx
@@ -398,7 +404,7 @@ private theorem forward_step {n s i j : ℕ} (hn : 3 ≤ n)
 private theorem backward_iterate {n s i : ℕ} (hn : 3 ≤ n)
     (hM : MoufangCondition H Γ n)
     (hne : ∀ v w : V, Γ.Adj v w → ∃ u, Γ.Adj v u ∧ u ≠ w)
-    {p : GPath Γ s} (hp : p.NoBack) (hi1 : 1 ≤ i) (his : i ≤ s) (hin : i ≤ n)
+    {p : GPath Γ s} (hp : p.NoBack) (hi1 : 1 ≤ i) (_his : i ≤ s) (hin : i ≤ n)
     (his1 : i + 1 ≤ s) {t : H} (ht : t ∈ socleAt H Γ (p i))
     (hfix0 : ∀ l, i - 1 ≤ l → l ≤ i + 1 → t • p l = p l) :
     ∃ k ∈ fixingSubgroup H (Γ.neighborSet (p i)),
@@ -432,7 +438,7 @@ private theorem backward_iterate {n s i : ℕ} (hn : 3 ≤ n)
 private theorem forward_iterate {n s i : ℕ} (hn : 3 ≤ n)
     (hM : MoufangCondition H Γ n)
     (hne : ∀ v w : V, Γ.Adj v w → ∃ u, Γ.Adj v u ∧ u ≠ w)
-    {p : GPath Γ s} (hp : p.NoBack) (hi1 : 1 ≤ i) (his : i < s) (hin : i ≤ n)
+    {p : GPath Γ s} (hp : p.NoBack) (hi1 : 1 ≤ i) (his : i < s) (_hin : i ≤ n)
     (hs : s ≤ n + 1) {t : H} (ht : t ∈ socleAt H Γ (p i))
     (hfix0 : ∀ l, l ≤ i + 1 → t • p l = p l) :
     ∃ k ∈ fixingSubgroup H (Γ.neighborSet (p i)),

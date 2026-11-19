@@ -64,7 +64,7 @@ theorem Z_le_T {g : G} (hg : g ∈ P) : Z ≤ M ⊓ conjSub g M := by
   · exact (VertT.Z_le_W h).trans h.wm
   · exact ((VertT.Z_le_conjSub_W h) hg).trans (conjSub_mono g h.wm)
 
-theorem Q_le_normalizer_T (hMS : M ≤ S) {g : G} (hg : g ∈ P) :
+theorem Q_le_normalizer_T (_hMS : M ≤ S) {g : G} (hg : g ∈ P) :
     Q ≤ Subgroup.normalizer ((M ⊓ conjSub g M : Subgroup G) : Set G) := by
   refine F7.le_normalizer_inf (h.qs.trans h.sm) ?_
   calc Q = conjSub g Q := (conjSub_eq_of_mem_normalizer (h.qn hg)).symm

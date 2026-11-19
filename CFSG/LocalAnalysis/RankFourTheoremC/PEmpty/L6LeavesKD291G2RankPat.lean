@@ -40,7 +40,7 @@ theorem comm_mul_mul_eq {x y g h : G} (hgy : ⁅g, y⁆ = 1) (hgh : ⁅g, h⁆ =
     simp only [commutatorElement_def]
     group
   rw [hgy, hgh, hhx] at e
-  simp only [mul_one, inv_one, one_mul, mul_inv_cancel] at e
+  simp only [mul_one, inv_one, mul_inv_cancel] at e
   exact mul_inv_eq_one.1 e
 
 end Abstract

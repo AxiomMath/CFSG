@@ -39,7 +39,7 @@ theorem pCore_isPGroup (G : Type u) [Group G] (prime : ℕ) :
   classical
   let sylow : Sylow prime G := Classical.choice inferInstance
   have hle := pCore_le_sylow prime sylow
-  exact sylow.isPGroup'.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
+  exact sylow.isPGroup.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
 
 theorem pCoreOf_le {G : Type u} [Group G] (prime : ℕ) (subgroup : Subgroup G) :
     pCoreOf prime subgroup ≤ subgroup := by

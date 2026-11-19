@@ -14,15 +14,15 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16h_ten_second_noncyclic (D : Data G) (h1110 : R1110Core D) {V₀ V : Subgroup G}
     (h11 : F11.Hyp11 D V₀ V) [((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G}
-    (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) {n : ℕ} (hn : 1 < n)
+    (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) {n : ℕ} (_hn : 1 < n)
     (Xbar : Subgroup (F11.MBar11 D.M V₀ V)) (hXn : Xbar.Normal) (hXe : IsElemAbelian p Xbar)
-    (hXc : Nat.card Xbar = p ^ n) (hXd : Xbar ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), ⊤⁆)
+    (_hXc : Nat.card Xbar = p ^ n) (hXd : Xbar ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), ⊤⁆)
     {v : G} (hv : v ∈ V)
     (hrk : 1 < CFSG.Open.pRank p (Xbar ⊓ F11.barImage11 D.M V₀ V (F11.CElt D.M V₀ v))) :
     ∃ B : Subgroup G,
       B ≤ F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar) ∧
         B ≤ F11.CElt D.M V₀ v ∧ ¬ IsCyclic ↥B := by
-  haveI hXnI : Xbar.Normal := hXn
+  have hXnI : Xbar.Normal := hXn
   have hcore := h1110 V₀ V h11 p hp hp2 P hP
   have h1 := hcore.1
   have hcyc := hcore.2.1.1
@@ -39,7 +39,7 @@ theorem s16h_ten_second_noncyclic (D : Data G) (h1110 : R1110Core D) {V₀ V : S
     rw [hZ]
     exact le_inf (inf_le_left.trans hTP) inf_le_right
   have hZc : IsCyclic ↥Z := by
-    haveI := hcyc
+    have := hcyc
     exact isCyclic_of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
   have hmemT : ∀ t ∈ T, ∃ h : t ∈ D.M,
       (QuotientGroup.mk ⟨t, h⟩ : F11.MBar11 D.M V₀ V) ∈ Xbar := by

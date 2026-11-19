@@ -48,6 +48,7 @@ theorem I4Setting.isSiegelFamily_planeFamily (hs : I4Setting hBN Qf ρ) {π : Su
     rintro _ ⟨g, hg, rfl⟩ hs1
     exact hs.isLongRootElement_map_of_isPlane hπ hg fun h => hs1 (by rw [h, map_one])
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem planeFamily_map (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (g : Gsp BN)
     (σ : Submodule K N) :
     planeFamily hBN ρ (σ.map g.lin) = conjSubgroup (ρ g) (planeFamily hBN ρ σ) := by

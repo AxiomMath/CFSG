@@ -66,11 +66,13 @@ theorem exists_g2Hex_eq_even_hexPos {k : ℤ} (hk : CFSG.GH74.BNPair.IsRoot 6 k)
 variable {K : Type} [Field K] [Finite K] {σ : K →+* K} (hσ : ∀ c, σ (σ (σ c)) = c)
 
 include hσ in
+omit [Finite K] in
 theorem d4RGD2_gen :
     ((⨆ i, hHat σ i) ⊔ posUnipotent (g2Shape (twistedX σ))) ⊔ (d4RGD2 σ hσ).N = ⊤ :=
   hexRGD2_gen (twistedData σ hσ)
 
 include hσ in
+omit [Finite K] in
 theorem d4X_mem_longSub (j : Fin 6) (c : fixedField σ) :
     d4X hσ j c ∈ longSub 6 (hexGroup (twistedX σ)) := by
   obtain ⟨k, hk, hk2, hjk⟩ := exists_even_hexPos_eq_g2Hex j

@@ -20,10 +20,10 @@ theorem q2_ofAdd (a : ZMod 5) : D.q2 (.ofAdd a) = D.i2 (thetaM a) := rfl
 theorem q12_ofAdd (a : ZMod 5) : D.q12 (.ofAdd a) = D.q1 (.ofAdd a) * D.q2 (.ofAdd (-a)) := rfl
 
 theorem q3_ofAdd (a : ZMod 5) : D.q3 (.ofAdd a) = D.y⁻¹ * D.q12 (.ofAdd a) * D.y := by
-  simp [q3, MulAut.conj_apply]
+  simp [q3]
 
 theorem q4_ofAdd (a : ZMod 5) : D.q4 (.ofAdd a) = D.c2⁻¹ * D.q3 (.ofAdd a) * D.c2 := by
-  simp [q4, MulAut.conj_apply]
+  simp [q4]
 
 private theorem hM_conj_thetaM (a : ZMod 5) :
     hM⁻¹ * thetaM a * hM = thetaM (4 * a) := by

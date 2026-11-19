@@ -149,7 +149,7 @@ theorem FTS_exceptional_sylow_abelian
   have hq : q.Prime := Nat.prime_of_mem_primeFactors hqmem
   have hqσ : q ∈ sigmaPrimes M := isPiSubgroup_iff.1 (isPiSubgroup_sigmaCore M) q hqmem
   have hqp : q ≠ p := fun h => hc.notMem_sigmaPrimes (h ▸ hqσ)
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hNP
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hNP
   have hgPeq : MulAut.conj g⁻¹ • P = P := mem_normalizer_iff_conj_smul_eq.1 (inv_mem hgN)
   have hAMg : A ≤ conjBy M g := fun a ha =>
     mem_conjBy.2 (hPM ((mem_normalizer_iff.1 hgN a).1 (hc.le_of_A ha)))

@@ -75,7 +75,7 @@ theorem co3_centShapeRk_level :
   obtain ⟨hXB3, -, hXBm, -⟩ := caseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 276)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 276)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -106,7 +106,7 @@ theorem kdSporRow_Co3_three
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDSporRow .Co3 3 := by
   have e : CFSG.Blueprint.NativeSporadic.Co3 ≃* ↥co3P := co3PermEquiv
-  haveI : IsSimpleGroup ↥co3P :=
+  have : IsSimpleGroup ↥co3P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co3.isSimpleGroup_Co3 e.symm
   have hc : Nat.card ↥co3P = 495766656000 :=
     (Nat.card_congr e.toEquiv).symm.trans CFSG.Sporadic.Co3.card_Co3
@@ -154,7 +154,7 @@ theorem co2_centShapeRk_level : CentShapeRk 3 LevelTwo (fun _ _ => True) ↥co2P
   obtain ⟨hXB3, -, hXBm, -⟩ := co2CaseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 2300)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 2300)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -183,7 +183,7 @@ theorem kdSporRow_Co2_three
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDSporRow .Co2 3 := by
   have e : CFSG.Blueprint.NativeSporadic.Co2 ≃* ↥co2P := co2PermEquiv
-  haveI : IsSimpleGroup ↥co2P :=
+  have : IsSimpleGroup ↥co2P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co2.isSimpleGroup_Co2 e.symm
   have hc : Nat.card ↥co2P = 42305421312000 :=
     (Nat.card_congr e.toEquiv).symm.trans CFSG.Sporadic.Co2.card_Co2
@@ -231,7 +231,7 @@ open CFSG.Sporadic.Fi22 CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 
 theorem shapeRkAt_xRep_three' : ShapeRkAt 3 LevelTwo (fun _ _ => True) (xRep 3) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hOP : OPrimeCoreTrivialAt 3 ↥fi22P :=
     @OPrimeCoreTrivialAt.of_mulEquiv 3 ↥fi22P _ ↥CFSG.Sporadic.Fi22.J inferInstance eJP.symm oPrimeCoreTrivialAt_Fi22J
   have hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥ :=
@@ -269,8 +269,8 @@ theorem shapeRkAt_xRep' {k : ℕ} (hk : k < 4) :
   · exact Or.inl (tabFi22_pConstrained_xRep (by omega))
 
 theorem centShapeRk_J_level : CentShapeRk 3 LevelTwo (fun _ _ => True) CFSG.Sporadic.Fi22.J := by
-  haveI := finite_J_tab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J_tab
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hk3
   have hord : orderOf k = 3 := orderOf_eq_prime hk3 hk1
@@ -326,7 +326,7 @@ theorem shapeRkAt_levelTwo_of_card {G : Type} [Group G] [Finite G] {Rk : ∀ (T 
 
 
 theorem shapeRkAt_t3' (i : Fin 4) : ShapeRkAt 3 LevelTwo (fun _ _ => True) (t3 i) := by
-  haveI := finite_J23
+  have := finite_J23
   have h0 : ShapeRkAt 3 LevelTwo (fun _ _ => True) (t3 0) :=
     shapeRkAt_levelTwo_of_card shapeRkAt_t3_zero (by rw [card_cent_t3_zero]; norm_num)
   fin_cases i
@@ -336,8 +336,8 @@ theorem shapeRkAt_t3' (i : Fin 4) : ShapeRkAt 3 LevelTwo (fun _ _ => True) (t3 i
   · exact Or.inl pConstrained_t3_three
 
 theorem centShapeRk_J23_level : CentShapeRk 3 LevelTwo (fun _ _ => True) J := by
-  haveI := finite_J23
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J23
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hk3
   have hord : orderOf k = 3 := orderOf_eq_prime hk3 hk1
@@ -397,7 +397,7 @@ theorem constrained_or_card (k : ↥suzM) (hk1 : k ≠ 1) (hk3 : k ^ 3 = 1) :
     PConstrainedShape 3 (Subgroup.centralizer ({k} : Set ↥suzM)) ∨
       ¬ 239500800 ∣ Nat.card (Subgroup.centralizer ({k} : Set ↥suzM)) := by
   have hs3 : orderOf (k : Equiv.Perm (Fin 1782)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 1782)) ^ 3 = 1 := by
       have := congrArg Subtype.val hk3
       simpa using this

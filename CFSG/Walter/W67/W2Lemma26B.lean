@@ -74,7 +74,7 @@ theorem MinCE.lspec_of_lt
   obtain ⟨L, hLC, hLn, hLodd, -, ⟨K'', hK''L, hJK'', hCL, ⟨eK''⟩⟩, -⟩ :=
     m.case2_ofSubgroup ⟨fr.S, hSC⟩ (hSC fr.J_mem) m.orderOf_J hKXC hKXH hKn m.p (m.f / m.eX X)
       m.p_ne_two hfe eKX hc
-  have hSL : (fr.S : Subgroup G) ≤ L := le_of_odd_relIndex hLn hLodd hSC fr.S.isPGroup'
+  have hSL : (fr.S : Subgroup G) ≤ L := le_of_odd_relIndex hLn hLodd hSC fr.S.isPGroup
   have hKXL : m.KX X ≤ L := by
     have := PSL2Sub.isSimpleGroup eKX hfe hr
     have hn : (L.subgroupOf (m.KX X)).Normal := ⟨fun x hx k => by

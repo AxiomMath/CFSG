@@ -33,7 +33,7 @@ theorem false_of_trialityD4 {f : ℕ} (hf3 : 3 ≤ f)
     calc Nat.card B ≤ 2 * (2 ^ f) ^ 5 := this
       _ = 2 ^ (5 * f + 1) := by rw [← pow_mul, pow_succ, mul_comm]; ring_nf
   obtain ⟨p, hpP, hp2, hord, hdvd, hmin⟩ := exists_ppd_prime (k := 12 * f) (by omega) (by omega)
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hpC : p ∣ Nat.card (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     trialityD4_ppd_dvd_card hf hK3 σ.toRingHom hσ hpP hdvd (hmin (4 * f) (by omega) (by omega))
   rcases Nat.even_or_odd f with hev | hodd

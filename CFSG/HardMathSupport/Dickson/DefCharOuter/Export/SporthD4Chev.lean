@@ -99,7 +99,7 @@ theorem outerCentData_fieldType_D4 {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
     OuterCentData 3 α := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ :=
     exists_frobenius_of_cube Nat.prime_three hf K hK σ hσ3 hσ1
   have hT1 : T ≠ 1 := by
@@ -145,7 +145,7 @@ theorem outerCentData_graphFieldType_D4 {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card 
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     OuterCentData 3 α := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, T, he, hef, hT, hσT⟩ :=
     exists_frobenius_eq_or_inv_of_orderOf_three Nat.prime_three hf K hK σ hord
@@ -194,11 +194,11 @@ open SporthD4 in
 theorem d4ThreeOuterCent_of_graphCent (hG : D4ThreeGraphCent) : D4ThreeOuterCent := by
   intro S _ _ q hv hS hq3 β hβ hout
   obtain ⟨e⟩ := hS
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card q.p q.exponent (by omega), TauCeti.PrimePower.card_def]
-  haveI : CharP (GaloisField q.p q.exponent) 3 := CharP.congr q.p hq3
+  have : CharP (GaloisField q.p q.exponent) 3 := CharP.congr q.p hq3
   have hK3 : Nat.card (GaloisField q.p q.exponent) = 3 ^ q.exponent := by
     rw [hcard, TauCeti.PrimePower.card_def, hq3]
   obtain ⟨br⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_adjointQuotient_D4_equiv
@@ -206,7 +206,7 @@ theorem d4ThreeOuterCent_of_graphCent (hG : D4ThreeGraphCent) : D4ThreeOuterCent
   let φ : S ≃* adjointGroup Tag.D4 (GaloisField q.p q.exponent) :=
     (e.trans br.symm).trans ((QuotientGroup.quotientMulEquivOfEq
       CFSG.LieType.Chevalley.center_adjointGroup_eq_bot).trans QuotientGroup.quotientBot)
-  haveI : Finite (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) :=
+  have : Finite (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) :=
     Finite.of_equiv S φ.toEquiv
   have hβ' : MulAut.congr φ β ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
   have hout' : MulAut.congr φ β ∉ innerAut (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) :=

@@ -55,7 +55,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G}
 
 theorem Hyp.s56_P0_comm_F_le_U10 (h49 : d.Thm49Statement) (hd : d.Hyp) {p f : G}
     (hp : p ∈ d.s56P0) (hf : f ∈ d.F) : p * f * p⁻¹ * f⁻¹ ∈ d.s56U10 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hyNC, -, -, -, -, -, -⟩ := hd.s56_Y_facts
   have hyN : d.s56Y ∈ d.N := (mem_inf.1 hyNC).1
   set Ŵ := commSub d.s56P0 d.s56U10 d.F (fun _ ha _ hb => hd.s56_F_comm ha hb)

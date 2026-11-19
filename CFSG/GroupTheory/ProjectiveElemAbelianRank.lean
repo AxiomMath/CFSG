@@ -25,8 +25,8 @@ theorem card_le_pow_finrank_sub_one_mul_card_scalar
   set m := Module.finrank F V with hm_def
   rcases Nat.eq_zero_or_pos m with hm | hm
   · have hfin : Module.finrank F V = 0 := by rw [← hm_def, hm]
-    haveI : Subsingleton V := Module.finrank_zero_iff.mp hfin
-    haveI : Subsingleton (V ≃ₗ[F] V) := inferInstance
+    have : Subsingleton V := Module.finrank_zero_iff.mp hfin
+    have : Subsingleton (V ≃ₗ[F] V) := inferInstance
     have hRbot : R = ⊥ := Subgroup.eq_bot_of_subsingleton R
     have hsub : Nat.card {x : R // ∃ a : F, ∀ v, (x : V ≃ₗ[F] V) v = a • v} = 1 := by
       apply Nat.card_eq_one_iff_unique.mpr
@@ -39,7 +39,7 @@ theorem card_le_pow_finrank_sub_one_mul_card_scalar
     let b : Module.Basis (Fin m) F V := Module.finBasis F V
     let ψ : (V ≃ₗ[F] V) ≃* GL (Fin m) F := b.toGL
     let R' : Subgroup (GL (Fin m) F) := R.map ψ.toMonoidHom
-    haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [← hm_def]; exact hm)
+    have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [← hm_def]; exact hm)
     have hR' : IsPGroup r R' := hR.map ψ.toMonoidHom
     have hcoeff : ∀ {x : V ≃ₗ[F] V} {a : F}, (∀ v, x v = a • v) → a ≠ 0 := by
       intro x a hx h0

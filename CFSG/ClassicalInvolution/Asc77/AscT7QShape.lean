@@ -1,7 +1,7 @@
 module
 
 public import CFSG.ClassicalInvolution.Asc77.AscT7QGen
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

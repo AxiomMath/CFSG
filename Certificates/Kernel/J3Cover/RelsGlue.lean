@@ -31,13 +31,13 @@ private theorem dets : (mA Native.j3Data).det ≠ 0 ∧ (mB Native.j3Data).det �
 private theorem hA :
     MatP 80 SA.M = matOf (J Native.j3Data).subtype (![a Native.j3Data, b Native.j3Data] 0) := by
   have e : (![a Native.j3Data, b Native.j3Data] 0 : J Native.j3Data) = a Native.j3Data := rfl
-  rw [e, matOf, Subgroup.subtype_apply, coe_a, gA, dif_pos dets.1,
+  rw [e, matOf, Subgroup.subtype_apply, coe_a, gA, dite_eq_left dets.1,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
 
 private theorem hB :
     MatP 80 SB.M = matOf (J Native.j3Data).subtype (![a Native.j3Data, b Native.j3Data] 1) := by
   have e : (![a Native.j3Data, b Native.j3Data] 1 : J Native.j3Data) = b Native.j3Data := rfl
-  rw [e, matOf, Subgroup.subtype_apply, coe_b, gB, dif_pos dets.2,
+  rw [e, matOf, Subgroup.subtype_apply, coe_b, gB, dite_eq_left dets.2,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
 
 theorem lift_checkWords_eq_one {w : List (Fin 3 × Bool)} (hw : w ∈ checkWords) :

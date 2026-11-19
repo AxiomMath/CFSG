@@ -198,8 +198,8 @@ private theorem signOf_spec (hsq : ∀ x ∈ S, ∀ y ∈ S, b (f x) (f y) ^ 2 =
     sq_eq_sq_or_neg h.symm
   unfold signOf
   by_cases hc : b (g x) (g x₀) = b (f x) (f x₀)
-  · rw [if_pos hc, one_mul, hc]
-  · rw [if_neg hc, neg_one_mul]
+  · rw [ite_eq_left hc, one_mul, hc]
+  · rw [ite_eq_right hc, neg_one_mul]
     rcases h' with h' | h'
     · exact absurd h' hc
     · rw [h']

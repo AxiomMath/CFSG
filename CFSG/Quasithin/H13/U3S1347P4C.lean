@@ -69,7 +69,7 @@ theorem s1347_four_count (S : A6.Setting134 G T L V)
         (mem_sup_iff_of_le_normalizer (inf_le_left.trans hR₂N)).1 hrs
       have hzc : Commute z c := mem_centralizer_singleton_iff.1 (mem_inf.1 hz).2
       have hzc' : z * c⁻¹ = c⁻¹ * z := hzc.inv_right.eq
-      have hrqz : (r : G) = q * z := by first | exact hqz | exact hqz.symm
+      have hrqz : (r : G) = q * z := by exact hqz.symm
       have hcomm : c * r * c⁻¹ * (r : G)⁻¹ = c * q * c⁻¹ * q⁻¹ := by
         rw [hrqz]
         calc c * (q * z) * c⁻¹ * (q * z)⁻¹ = c * q * (z * c⁻¹) * z⁻¹ * q⁻¹ := by group
@@ -102,7 +102,7 @@ theorem s1347_four_count (S : A6.Setting134 G T L V)
       (mem_sup_iff_of_le_normalizer (inf_le_left.trans hON₀)).1 (hOle hq)
     have hzc : Commute z c := mem_centralizer_singleton_iff.1 (mem_inf.1 hz).2
     have hzc' : z * c⁻¹ = c⁻¹ * z := hzc.inv_right.eq
-    have hqaz : q = a * z := by first | exact haz | exact haz.symm
+    have hqaz : q = a * z := by exact haz.symm
     have e : c * q * c⁻¹ * q⁻¹ = c * a * c⁻¹ * a⁻¹ := by
       rw [hqaz]
       calc c * (a * z) * c⁻¹ * (a * z)⁻¹ = c * a * (z * c⁻¹) * z⁻¹ * a⁻¹ := by group

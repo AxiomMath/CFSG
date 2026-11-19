@@ -140,7 +140,7 @@ theorem k_Table13_7_Omega4Plus_holds :
       · rw [h3] at hpodd
         exact absurd hpodd (by decide)
     refine opp_centVec_eq_bot_of_vecStab ε v w hiff (fun g k hk => ?_)
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hroots : ∀ a : F, a ^ (p ^ k) = 1 → a = 1 := by
       intro a ha
       have ha0 : a ≠ 0 := by
@@ -169,7 +169,7 @@ theorem k_Table13_7_Omega4Plus_holds :
     obtain ⟨hSq, hS2, x, hx, hxp⟩ := sl2_inputs h4 hp hpq
     obtain ⟨e⟩ := nonempty_bar2_opp_equiv_of_surjective hp (centVec H v) eC.toMonoidHom
       eC.surjective (IsPGroup.ker_isPGroup_of_injective eC.injective) hSq hS2 hx hxp
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     exact CFSG.CGT.PushingUpLit.CGT6K1.lieModel_PSL_two_of_mulEquiv_SL_two hn
       (by rw [← Nat.card_eq_fintype_card, hF]) e
 

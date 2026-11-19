@@ -50,9 +50,9 @@ theorem tP_mul_mulIdx' {k k' : ℕ} (hk' : k' < 8) : tP k * tP k' = tP (mulIdx k
     have e2 : mulIdx k k' % 4 = (k % 4 + k' % 4) % 4 := by unfold mulIdx; split_ifs <;> omega
     rw [e1, e2, h0, pow_zero, one_mul, ← hf (k / 4), ← hd (k % 4 + k' % 4), mul_assoc,
       ← pow_add]
-  · have e1 : mulIdx k k' / 4 = (k / 4 + 1) % 2 := by unfold mulIdx; split_ifs <;> omega
+  · have e1 : mulIdx k k' / 4 = (k / 4 + 1) % 2 := by unfold mulIdx; split_ifs; omega
     have e2 : mulIdx k k' % 4 = (3 * (k % 4) + k' % 4) % 4 := by
-      unfold mulIdx; split_ifs <;> omega
+      unfold mulIdx; split_ifs; omega
     rw [e1, e2, h1, pow_one, ← hf (k / 4 + 1), ← hd (3 * (k % 4) + k' % 4)]
     calc fP ^ (k / 4) * dP ^ (k % 4) * (fP * dP ^ (k' % 4))
         = fP ^ (k / 4) * (dP ^ (k % 4) * fP) * dP ^ (k' % 4) := by simp only [mul_assoc]

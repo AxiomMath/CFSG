@@ -86,7 +86,7 @@ theorem s16c11_alt_sw2_mem {n : ℕ} (a b c d : Fin n) (h₁ : a ≠ b) (h₂ : 
   ⟨Equiv.swap a b * Equiv.swap c d, s16c11_alt_sw2_mem a b c d h₁ h₂⟩
 
 instance s16c11AltModFinite (n : ℕ) : Finite (FFModel.altDn n).Mod := by
-  haveI : Finite (FFModel.altDn n).Amb := by
+  have : Finite (FFModel.altDn n).Amb := by
     unfold FFModel.altDn
     exact inferInstance
   exact inferInstanceAs (Finite (↥(FFModel.altDn n).sec ⧸
@@ -286,7 +286,7 @@ theorem s16c11_alt_le_ncard_orbit {n : ℕ} {v : Fin n → ZMod 2} (hv : ∑ i, 
   have hcard : ((L.map fun g => S16C11AltPact (g : Equiv.Perm (Fin n)) v).map
       (S16C11AltCls n)).toFinset.card = L.length := by
     rw [List.toFinset_card_of_nodup hpw]
-    simp [List.length_map, List.length_flatMap]
+    simp [List.length_map]
   have hsub : (↑((L.map fun g => S16C11AltPact (g : Equiv.Perm (Fin n)) v).map
       (S16C11AltCls n)).toFinset : Set (FFModel.altDn n).Mod) ⊆ O := by
     intro z hz

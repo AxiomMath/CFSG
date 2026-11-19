@@ -261,7 +261,7 @@ theorem sqLevel_succ_succ (h : HypB Δ N R) {s : ℕ} (hs : s + 2 ≤ N) (ih : S
         (comp_trans hb' (comp_of_adj (comp_mem_right hb') ⟨haw, hcw⟩ hb'w)) hd' hi
     · exact inClosure_square_of_caseB h hN (by omega) ih hb' hd' haw hcw (h.symm _ _ _ _ hRw) hi
 
-theorem sqLevel_zero (h : HypB Δ N R) : SqLevel Δ R 0 := fun a b c d hab hbc hcd hda hR =>
+theorem sqLevel_zero (h : HypB Δ N R) : SqLevel Δ R 0 := fun a b c _d hab hbc hcd hda hR =>
   inClosure_square_of_perp_ac hab hbc hcd hda (Or.inr ((h.zero a b c).mp hR).2.2)
 
 theorem sqLevel_one (h : HypB Δ N R) (hN : 1 ≤ N) : SqLevel Δ R 1 := by

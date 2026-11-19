@@ -57,17 +57,20 @@ theorem le_core_sup_layer_of_isQuasisimple (p : ℕ) {K : Subgroup X} (hK : CFSG
     rw [sup_comm] at h
     exact h.ge
 
+omit [Finite X] in
 theorem gLBConj_inv_eq (k : X) (H : Subgroup X) :
     GLBConj k⁻¹ H = H.map (MulAut.conj k).toMonoidHom := by
   show H.map (MulAut.conj k⁻¹⁻¹).toMonoidHom = H.map (MulAut.conj k).toMonoidHom
   rw [inv_inv]
 
+omit [Finite X] in
 theorem gLBConj_glaPLayer_le (p : ℕ) (g : X) (H : Subgroup X) :
     GLBConj g (GLAPLayer p H) ≤ GLAPLayer p (GLBConj g H) := by
   refine (Subgroup.map_le_iff_le_comap).2 (sSup_le fun L hL => ?_)
   rw [← Subgroup.map_le_iff_le_comap]
   exact le_sSup (glaPComponent_gLBConj hL g)
 
+omit [Finite X] in
 theorem map_conj_inf_centralizer {K : Subgroup X} {k : X} (hk : k ∈ K) (z : X) :
     (K ⊓ Subgroup.centralizer ({z} : Set X)).map (MulAut.conj k).toMonoidHom =
       K ⊓ Subgroup.centralizer ({k * z * k⁻¹} : Set X) := by
@@ -94,6 +97,7 @@ theorem map_conj_inf_centralizer {K : Subgroup X} {k : X} (hk : k ∈ K) (z : X)
     · show k * (k⁻¹ * x * k) * k⁻¹ = x
       group
 
+omit [Finite X] in
 theorem inf_centralizer_mul_of_mem_centralizer {K : Subgroup X} {c : X}
     (hc : c ∈ Subgroup.centralizer (K : Set X)) (z : X) :
     K ⊓ Subgroup.centralizer ({z * c} : Set X) = K ⊓ Subgroup.centralizer ({z} : Set X) := by
@@ -114,6 +118,7 @@ theorem inf_centralizer_mul_of_mem_centralizer {K : Subgroup X} {c : X}
       _ = z * x * c := by rw [h]
       _ = z * c * x := by rw [mul_assoc z x c, hcx, ← mul_assoc]
 
+omit [Finite X] in
 theorem mem_normalizer_sup {H K : Subgroup X} {g : X} (hH : g ∈ Subgroup.normalizer (H : Set X))
     (hK : g ∈ Subgroup.normalizer (K : Set X)) : g ∈ Subgroup.normalizer ((H ⊔ K : Subgroup X) : Set X) := by
   rw [← GL83.CompFam.cj_eq_iff_mem_normalizer] at hH hK ⊢
@@ -125,7 +130,7 @@ theorem exists_mem_inf_of_isSCp {p : ℕ} [hp : Fact p.Prime] {A L : Subgroup X}
     ∃ y ∈ A ⊓ L, y ≠ 1 := by
   classical
   have hAel : IsElemAbelian p A := hA.2.1
-  letI : MulAction ↥A ↥L :=
+  let : MulAction ↥A ↥L :=
     { smul := fun a l => ⟨(a : X) * l * (a : X)⁻¹, (Subgroup.mem_normalizer_iff.1 (hAL a.2) l).1 l.2⟩
       one_smul := fun l => Subtype.ext (by show (1 : X) * l * (1 : X)⁻¹ = l; group)
       mul_smul := fun a b l => Subtype.ext (by
@@ -169,11 +174,12 @@ theorem exists_mem_inf_of_isSCp {p : ℕ} [hp : Fact p.Prime] {A L : Subgroup X}
   have hyA : (x : X) ∈ A := hEA.le (Subgroup.mem_sup_right (Subgroup.mem_zpowers (x : X)))
   exact ⟨x, Subgroup.mem_inf.2 ⟨hyA, (Subgroup.mem_inf.1 x.2).1⟩, hy1⟩
 
+omit [Finite X] in
 theorem mem_of_pow_eq_one_of_normal {p : ℕ} [hp : Fact p.Prime] {L L₀ : Subgroup X} (hL₀L : L₀ ≤ L)
     (hn : (L₀.subgroupOf L).Normal) (hpL₀ : p ∣ Nat.card L₀) (hp2 : ¬ p ^ 2 ∣ Nat.card L) {y : X}
     (hyL : y ∈ L) (hyp : y ^ p = 1) : y ∈ L₀ := by
   set N : Subgroup ↥L := L₀.subgroupOf L with hN
-  haveI : N.Normal := hn
+  have : N.Normal := hn
   have hcardN : Nat.card N = Nat.card L₀ :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hL₀L).toEquiv
   set y' : ↥L := ⟨y, hyL⟩ with hy'
@@ -195,7 +201,7 @@ theorem le_sup_inf_normalizer_zpowers {p : ℕ} [hp : Fact p.Prime] {L L₀ : Su
     L ≤ L₀ ⊔ (L ⊓ Subgroup.normalizer (Subgroup.zpowers y : Set X)) := by
   classical
   set N : Subgroup ↥L := L₀.subgroupOf L with hN
-  haveI : N.Normal := hn
+  have : N.Normal := hn
   have hcardN : Nat.card N = Nat.card L₀ :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hL₀L).toEquiv
   set y' : ↥L := ⟨y, hyL⟩ with hy'
@@ -329,6 +335,7 @@ theorem inf_normalizer_zpowers_le {p : ℕ} [hp : Fact p.Prime] {K A L : Subgrou
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hh
     exact ((Commute.zpow_left (show Commute z n from hnz.symm) i)).eq
 
+omit [Finite X] in
 theorem inf_normalizer_le_normalizer_hyperW (p : ℕ) {K A Z : Subgroup X} (hZA : Z ≤ A)
     (hAel : IsElemAbelian p A) (hsup : Z ⊔ (A ⊓ Subgroup.centralizer (K : Set X)) = A)
     (hfaith : Z ⊓ Subgroup.centralizer (K : Set X) = ⊥) :
@@ -421,7 +428,7 @@ end GroupTheory
 theorem input23_23N_of_inputs (hI11 : Input23_11Two) (hB : Input14_1Bad) :
     Claims1314c2.Input23_23N := by
   intro p hp hp5 X _ _ K A Z hKc hKlie hAsc hArank hAcent hZ hZN hexc hns
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKc.2.2
   obtain ⟨hZA, hZel, hZcard⟩ := hZ
   by_cases hfaith : Z ⊓ Subgroup.centralizer (K : Set X) = ⊥

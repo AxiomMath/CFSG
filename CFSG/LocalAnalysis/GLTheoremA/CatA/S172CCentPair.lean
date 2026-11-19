@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {m : ℕ} {U : Fin m → Submodule F V}
   {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux1 {h : F[X]} (hirr : Irreducible h)
     (hmon : h.Monic) (hne : h ≠ X - 1) : h.eval 1 ≠ 0 := by
   intro h0
@@ -28,6 +29,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux1 {h : F[X]} (hirr : Irreduc
   exact hne (by simpa using
     (Polynomial.eq_of_monic_of_associated (monic_X_sub_C (1 : F)) hmon h4).symm)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux2 {W' : Submodule F V} {f g : V ≃ₗ[F] V}
     (hg : ∀ v ∈ W', g v ∈ W') (heq : ∀ v ∈ W', f v = g v) (q : F[X]) :
     ∀ v ∈ W', aeval f.toLinearMap q v = aeval g.toLinearMap q v := by
@@ -51,12 +53,14 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux2 {W' : Submodule F V} {f g 
       rw [aeval_monomial, aeval_monomial, Module.End.mul_apply, Module.End.mul_apply,
         hpow n v hv]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux3 (hF : IsPlaneFrame Q p U e Bb) (i : Fin m)
     (k : ℕ) : ∀ v ∈ U i, ((e i : V ≃ₗ[F] V) ^ k) v ∈ U i := by
   induction k with
   | zero => intro v hv; simpa using hv
   | succ k ih => intro v hv; rw [pow_succ', LinearEquiv.mul_apply]; exact hF.maps_to i _ (ih v hv)
 
+omit [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux4 (hF : IsPlaneFrame Q p U e Bb)
     {b : ↥(orthDerived Q)} (hb : b ∈ Bb) :
     ∀ i, ∀ v ∈ U i, (b : V ≃ₗ[F] V) v ∈ U i := by
@@ -65,6 +69,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux4 (hF : IsPlaneFrame Q p U e
   rw [hk v hv]
   exact IsPlaneFrame.primary_of_apply_eq_aux3 hF i k v hv
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux5 (hF : IsPlaneFrame Q p U e Bb) {h : F[X]}
     (hheval : h.eval 1 ≠ 0) {b : ↥(orthDerived Q)} (j : Fin m)
     (hj : U j ≤ primaryComponent (b : V ≃ₗ[F] V).toLinearMap h) : b ≠ 1 := by
@@ -78,6 +83,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux5 (hF : IsPlaneFrame Q p U e
   rw [Module.End.aeval_apply_of_mem_apply_eq_smul (μ := (1 : F)) hfix] at hv'
   exact hv0 ((smul_eq_zero.mp hv').resolve_left hheval)
 
+omit [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux6 (hF : IsPlaneFrame Q p U e Bb)
     {d d₁ : ↥(orthDerived Q)} (hd : d ∈ Bb) (j₀ : Fin m)
     (hdd₁ : ∀ i, i ≠ j₀ → ∀ v ∈ U i, (d₁ : V ≃ₗ[F] V) v = (d : V ≃ₗ[F] V) v) {h : F[X]}
@@ -91,6 +97,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux6 (hF : IsPlaneFrame Q p U e
     (IsPlaneFrame.primary_of_apply_eq_aux4 hF hd i) (fun v hv => hdd₁ i hi' v hv) h v hv]
   exact mem_primaryComponent.mp (hU i hv)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux7 (hF : IsPlaneFrame Q p U e Bb) (hm : 2 ≤ m)
     (j₀ : Fin m) : (⨆ i ∈ Finset.univ.erase j₀, U i) ≠ ⊥ := by
   intro hbot
@@ -106,6 +113,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux7 (hF : IsPlaneFrame Q p U e
   rw [hF.finrank_eq i₀] at h0
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux8 {h : F[X]} (hheval : h.eval 1 ≠ 0)
     {d₁ : ↥(orthDerived Q)}
     (hVhne : primaryComponent (d₁ : V ≃ₗ[F] V).toLinearMap h ≠ ⊥) : d₁ ≠ 1 := by
@@ -120,6 +128,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux8 {h : F[X]} (hheval : h.eva
   rw [Module.End.aeval_apply_of_mem_apply_eq_smul (μ := (1 : F)) hfix] at hv'
   exact (smul_eq_zero.mp hv').resolve_left hheval
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux9 (hF : IsPlaneFrame Q p U e Bb) :
     finrank F V = 2 * m + finrank F ↑(polarPerp Q (⨆ j, U j)) := by
   have hUuniv : (⨆ j : Fin m, U j) = ⨆ j ∈ (Finset.univ : Finset (Fin m)), U j := by
@@ -136,6 +145,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux9 (hF : IsPlaneFrame Q p U e
   rw [hUfin] at hkey
   exact hkey
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux10 (hF : IsPlaneFrame Q p U e Bb)
     (j₀ : Fin m) :
     finrank F ↑(U j₀ ⊔ polarPerp Q (⨆ j, U j)) =
@@ -148,6 +158,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux10 (hF : IsPlaneFrame Q p U 
   simp at hkey
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux11 (hF : IsPlaneFrame Q p U e Bb)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
     (hj₀ : ∀ v ∈ U j₀, (d₁ : V ≃ₗ[F] V) v = v) :
@@ -155,6 +166,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux11 (hF : IsPlaneFrame Q p U 
   refine sup_le (fun v hv => mem_fixedSpace.mpr (hj₀ v hv)) (fun v hv => ?_)
   exact mem_fixedSpace.mpr (hF.apply_eq_of_mem_polarPerp_iSup hd₁ hv)
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux12 (hF : IsPlaneFrame Q p U e Bb)
     {d₁ : ↥(orthDerived Q)} (j₀ : Fin m)
     (hj₀ : ∀ v ∈ U j₀, (d₁ : V ≃ₗ[F] V) v = v)
@@ -173,6 +185,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux12 (hF : IsPlaneFrame Q p U 
   rw [fixedSpace_eq_primaryComponent]
   exact disjoint_primaryComponent_of_ne hx₁ hmem hXm hh1
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux13 (hF : IsPlaneFrame Q p U e Bb)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
     (hj₀ : ∀ v ∈ U j₀, (d₁ : V ≃ₗ[F] V) v = v) {h : F[X]} (hh1 : h ≠ X - 1)
@@ -199,6 +212,7 @@ private theorem IsPlaneFrame.primary_of_apply_eq_aux13 (hF : IsPlaneFrame Q p U 
   rw [hV0] at hle
   omega
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.primary_of_apply_eq_aux14 {d₁ : ↥(orthDerived Q)} {h : F[X]}
     [Fact (Irreducible h)]
     (hfrP : finrank F ↑(primaryComponent (d₁ : V ≃ₗ[F] V).toLinearMap h) = 2 * (m - 1))
@@ -218,10 +232,10 @@ theorem IsPlaneFrame.primary_of_apply_eq (hF : IsPlaneFrame Q p U e Bb)
     h ∈ primaryFactors (d₁ : V ≃ₗ[F] V).toLinearMap ∧
       primaryMultiplicity (d₁ : V ≃ₗ[F] V).toLinearMap h = m - 1 ∧
       ∀ i, i ≠ j₀ → U i ≤ primaryComponent (d₁ : V ≃ₗ[F] V).toLinearMap h := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hirr := irreducible_of_mem_primaryFactors hhd
   have hmon := monic_of_mem_primaryFactors hhd
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have hheval : h.eval 1 ≠ 0 := IsPlaneFrame.primary_of_apply_eq_aux1 hirr hmon hh1
   have hWle := IsPlaneFrame.primary_of_apply_eq_aux6 hF hd j₀ hdd₁ hU
   have hWbot := IsPlaneFrame.primary_of_apply_eq_aux7 hF hm j₀
@@ -251,6 +265,7 @@ theorem IsPlaneFrame.primary_of_apply_eq (hF : IsPlaneFrame Q p U e Bb)
     (Finset.mem_erase.mpr ⟨hi, Finset.mem_univ i⟩)).trans hWle
 
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_solvable_ker_centralizer_pair_aux2 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {b : ↥(orthDerived Q)} (hb : b ∈ Bb) :
@@ -266,6 +281,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux2 (hF : IsPlaneFrame Q p
     exact hQ.1 v fun w => by
       rw [QuadraticMap.polarBilin_apply_apply]; exact hv w
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_solvable_ker_centralizer_pair_aux3 (j₀ : Fin m) :
     (⨆ j : Fin m, U j) = U j₀ ⊔ ⨆ i ∈ Finset.univ.erase j₀, U i := by
   apply le_antisymm
@@ -277,12 +293,14 @@ private theorem exists_solvable_ker_centralizer_pair_aux3 (j₀ : Fin m) :
   · refine sup_le (le_iSup U j₀) ?_
     refine iSup₂_le fun i _ => le_iSup U i
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_solvable_ker_centralizer_pair_aux4 (hF : IsPlaneFrame Q p U e Bb) {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb)
     (j₀ : Fin m) (hj₀ : ∀ v ∈ U j₀, (d₁ : V ≃ₗ[F] V) v = v) :
     U j₀ ⊔ polarPerp Q (⨆ j, U j) ≤ fixedSpace (d₁ : V ≃ₗ[F] V) := by
   refine sup_le (fun v hv => mem_fixedSpace.mpr (hj₀ v hv)) (fun v hv => ?_)
   exact mem_fixedSpace.mpr (hF.apply_eq_of_mem_polarPerp_iSup hd₁ hv)
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_solvable_ker_centralizer_pair_aux5 (hF : IsPlaneFrame Q p U e Bb) {d₁ : ↥(orthDerived Q)} (j₀ : Fin m)
     (hj₀ : ∀ v ∈ U j₀, (d₁ : V ≃ₗ[F] V) v = v) :
     (X - 1 : F[X]) ∈ primaryFactors (d₁ : V ≃ₗ[F] V).toLinearMap := by
@@ -293,6 +311,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux5 (hF : IsPlaneFrame Q p
   exact hv0 (by simpa using
     (hbot ▸ (mem_fixedSpace.mpr (hj₀ v hv)) : v ∈ (⊥ : Submodule F V)))
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux6 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
@@ -375,6 +394,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux7 (hF : IsPlaneFrame Q p
       ⟨hXm, Ne.symm hh1, by rw [hself]; exact Ne.symm hh1⟩ le_rfl
 
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_solvable_ker_centralizer_pair_aux8 (hF : IsPlaneFrame Q p U e Bb) (j : Fin m) :
     Submodule.map ((e j : V ≃ₗ[F] V).toLinearMap - 1) (U j) = U j := by
   have him : ∀ x ∈ U j, ((e j : V ≃ₗ[F] V).toLinearMap - 1) x ∈ U j := fun x hx =>
@@ -393,6 +413,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux8 (hF : IsPlaneFrame Q p
       have h2 : (a : V) - b = 0 := hF.eq_zero_of_apply_eq j _ (sub_mem a.2 b.2) h1
       exact Subtype.ext (sub_eq_zero.mp h2))
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux9 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
@@ -423,6 +444,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux9 (hF : IsPlaneFrame Q p
             (fixedSpace (d₁ : V ≃ₗ[F] V)) :=
           Submodule.map_mono (by rw [hF1]; exact le_sup_left)
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux10 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
@@ -460,6 +482,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux10 (hF : IsPlaneFrame Q 
   exact Submodule.mem_map.mpr ⟨(z : V ≃ₗ[F] V) v, hzv, rfl⟩
 
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux11 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
@@ -489,6 +512,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux11 (hF : IsPlaneFrame Q 
     rw [hu0, zero_add]
     exact hz
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux12 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (j₀ : Fin m)
@@ -521,10 +545,10 @@ private theorem exists_solvable_ker_centralizer_pair_aux1 {K W : Type} [Field K]
     (hQ : Q.polarBilin.Nondegenerate) (h2 : finrank K W = 2) :
     Group.IsSolvable (TauCeti.QuadraticMap.orthogonalGroup Q) := by
   set δ := CFSG.RankThree.OrthogonalInvolutions.dicksonHom Q hQ with hδ
-  haveI : Group.IsSolvable δ.ker :=
+  have : Group.IsSolvable δ.ker :=
     Group.isSolvable_of_comm fun a b =>
       Subtype.ext (Subtype.ext (commute_of_dicksonHom_eq_one hQ h2 a.1.2 b.1.2 a.2 b.2))
-  haveI : Group.IsSolvable (Multiplicative (ZMod 2)) :=
+  have : Group.IsSolvable (Multiplicative (ZMod 2)) :=
     Group.isSolvable_of_comm fun a b => mul_comm a b
   exact Group.isSolvable_of_ker_le_range δ.ker.subtype δ (by rw [Subgroup.range_subtype])
 
@@ -613,6 +637,7 @@ private noncomputable def exists_solvable_ker_centralizer_pair_aux18
     ((centralizerGL (d₁ : V ≃ₗ[F] V) h).comp
       (exists_solvable_ker_centralizer_pair_aux17 (Q := Q) (d₁ := d₁) j₀))
 
+omit [Finite F] in
 private theorem exists_solvable_ker_centralizer_pair_aux19
     (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -742,6 +767,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux20
     exact blockDet_eq_one_of_mem_specialBlock hz
   exact ⟨h1, h2, h3⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_solvable_ker_centralizer_pair_aux23 {U : Fin m → Submodule F V} :
     (⨆ j : Fin m, U j) = ⨆ j ∈ (Finset.univ : Finset (Fin m)), U j := by
   apply le_antisymm
@@ -766,10 +792,10 @@ private theorem exists_solvable_ker_centralizer_pair_aux21
       (Q.comp (polarPerp Q (⨆ j, U j)).subtype)) × (AdjoinRoot h)ˣ)
   have hUuniv : (⨆ j : Fin m, U j) = ⨆ j ∈ (Finset.univ : Finset (Fin m)), U j :=
     exists_solvable_ker_centralizer_pair_aux23
-  haveI hsolv₁ : Group.IsSolvable
+  have hsolv₁ : Group.IsSolvable
       ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U j₀).subtype)) :=
     exists_solvable_ker_centralizer_pair_aux1 (hF.nondeg j₀) (by rw [hF.finrank_eq j₀])
-  haveI hsolv₂ : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
+  have hsolv₂ : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
       (Q.comp (polarPerp Q (⨆ j, U j)).subtype)) := by
     refine exists_solvable_ker_centralizer_pair_aux1 ?_ ?_
     · have hW : (QuadraticMap.polarBilin (Q.comp (⨆ j, U j).subtype)).Nondegenerate := by
@@ -777,7 +803,7 @@ private theorem exists_solvable_ker_centralizer_pair_aux21
         exact hF.nondeg_biSup Finset.univ
       exact nondeg_comp_polarPerp hQ hW
     · rw [hV0fin]
-  haveI hsolv₃ : Group.IsSolvable (AdjoinRoot h)ˣ :=
+  have hsolv₃ : Group.IsSolvable (AdjoinRoot h)ˣ :=
     Group.isSolvable_of_comm fun a b => mul_comm a b
   refine ⟨A, inferInstance, inferInstance, (exists_solvable_ker_centralizer_pair_aux15 (Q := Q)
     hF hQ hp hp2 hd₁ j₀ hj₀ hh hh1 hU).prod
@@ -824,6 +850,7 @@ theorem exists_solvable_ker_centralizer_pair (hQ : (QuadraticMap.polarBilin Q).N
   exact exists_solvable_ker_centralizer_pair_aux21 hF hQ hp hp2 hpq hd₁ j₀ hj₀ hh hh1 hU hV0fin
 
 
+omit [Finite F] [CharP F 2] in
 private theorem layerIs_centralizer_pair_aux1 {n : ℕ} (hn : 4 ≤ n)
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d d₁ : ↥(orthDerived Q)}
@@ -841,11 +868,12 @@ private theorem layerIs_centralizer_pair_aux1 {n : ℕ} (hn : 4 ≤ n)
   rw [← hk1 i₀ hi₀ v hv, h1]
   rfl
 
+omit [FiniteDimensional F V] in
 private theorem layerIs_centralizer_pair_aux2 (hF : IsPlaneFrame Q p U e Bb)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {d₁ : ↥(orthDerived Q)} (hd₁ : d₁ ∈ Bb) (hd₁1 : d₁ ≠ 1) :
     orderOf d₁ = p ∧ OddOrderIsometry Q p (d₁ : V ≃ₗ[F] V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d₁ = p := orderOf_eq_prime (hF.isElemAbelian.2 d₁ hd₁) hd₁1
   exact ⟨hord, oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d₁ hord⟩
 
@@ -873,7 +901,7 @@ private theorem layerIs_centralizer_pair_aux4 (hF : IsPlaneFrame Q p U e Bb)
     (hh₁ : h ∈ primaryFactors (d₁ : V ≃ₗ[F] V).toLinearMap) (hh1 : h ≠ X - 1) :
     (specialBlock Q (d₁ : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q) ≤
       Subgroup.centralizer ({d₁, e j₀} : Set ↥(orthDerived Q)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hself := hx₁.reciprocal_eq_of_dvd_card_succ hp hpq hh₁ hh1
   obtain ⟨kk, hkk, hUkk⟩ := hF.exists_le_primaryComponent hp hp2 hpq hd₁ j₀
   have hkkh : kk ≠ h := by
@@ -903,9 +931,9 @@ theorem layerIs_centralizer_pair (hQ : (QuadraticMap.polarBilin Q).Nondegenerate
     (hU : ∀ j, U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) (j₀ : Fin (n - 1))
     (hm4 : 4 ≤ n - 2 ∨ ((n - 2 = 2 ∨ n - 2 = 3) ∧ 4 ≤ Nat.card F)) :
     LayerIs p (Subgroup.centralizer {d, e j₀}) (isUnA (n - 2) (Nat.card F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨k, hk0, hk1⟩ := hF.exists_mul_zpow_apply hd j₀
   have hd₁B : d * e j₀ ^ k ∈ Bb := mul_mem hd (zpow_mem (hF.mem j₀) k)

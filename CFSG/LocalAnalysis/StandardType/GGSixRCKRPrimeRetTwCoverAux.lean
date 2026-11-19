@@ -41,7 +41,7 @@ theorem rckTc_pack
     {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {p₀ : ℕ} (S : LangSetup τ GGL p₀)
     {a : Fin τ.rank → GGLˣ} {i : KernelComponent (rootCharHom a)}
     {β : Fin 6 → Fin τ.rank → ℤ} (hβroot : ∀ b, IsRoot τ (β b))
-    (hΨβ : componentRoots (rootCharHom a) i = rootsOfFam β Set.univ)
+    (_hΨβ : componentRoots (rootCharHom a) i = rootsOfFam β Set.univ)
     {ι : (Fin τ.rank → ℤ) → (Fin Tag.E6.rank → ℤ)} (hι : RetIotaSpec β ι)
     {θ : ↥(RetH τ β) →* ModGL Tag.E6 GGL} (hθ : RetCompSpec β ι θ)
     {h : ℕ} (hh : 0 < h) (hq : S.D.q = 2 ^ h)
@@ -56,13 +56,13 @@ theorem rckTc_pack
       (∀ x, φ₀ x = 1 →
         x.1 ∈ Subgroup.center ↥(e6Data_valid.minGroup (GaloisField 2 (2 * h)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPkg : GGLangPkg SK.D (rckTw6_iota h) := rckTw6_langPkg SK h hh hSKΦ
   have hΓSK : SK.D.Γ = (show Subgroup (ModGL Tag.E6 GGL) from (rckTw6_iota h).range).map
       (MulAut.conj SK.D.g0⁻¹).toMonoidHom := rckTw6_Gamma SK h hSKΦ hPkg
   have hqSK : SK.D.q = S.D.q := by rw [hSKq, ← hq]
   have hstepgen := rckRet_theta_step_gen S SK hqSK hι hθ hρΨ hρ
-  haveI hMperf : Group.IsPerfect (twistedE6Group 2 h) :=
+  have hMperf : Group.IsPerfect (twistedE6Group 2 h) :=
     fixedGroup_isPerfect_of_four_le_card (frobQ 2 h) (frobQ_frobQ 2 h hh)
       (four_le_card_galoisField 2 h hh)
   obtain ⟨Ψc, hΨcpin, hΨcrange, hΨcker⟩ :=

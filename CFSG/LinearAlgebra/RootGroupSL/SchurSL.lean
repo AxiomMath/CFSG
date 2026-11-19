@@ -32,7 +32,7 @@ private theorem exists_smul_of_forall_mem_span_singleton {F W : Type} [Field F]
       apply Submodule.lt_top_of_finrank_lt_finrank
       rw [finrank_span_singleton hv]
       exact Nat.lt_of_lt_of_le (by norm_num) hW
-    exact SetLike.exists_not_mem_of_ne_top (F ∙ v) (ne_of_lt hlt)
+    exact SetLike.exists_notMem_of_ne_top (F ∙ v) (ne_of_lt hlt)
   have key : ∀ v w : W, v ≠ 0 → w ≠ 0 → a v = a w := by
     intro v w hv hw
     by_cases hli : LinearIndependent F ![v, w]

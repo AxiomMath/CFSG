@@ -195,7 +195,7 @@ private theorem mem_leviM_of_spinMinus6 (hθ2 : ∀ c, θ (θ c) = c) [CharP (fi
       exact rankOne_le_leviM_zero_one_two 1
     · rw [← rankOne_twistedE6_two θ hθ2]
       exact rankOne_le_leviM_zero_one_two 2
-  exact SetLike.le_def.mp hle hmem
+  exact _root_.IsConcreteLE.le_iff.mp hle hmem
 
 omit [CharP k 2] q in
 private theorem exists_sl3_zero_one :
@@ -218,7 +218,7 @@ private theorem exists_sl3_zero_one :
       exact rankOne_le_leviM_zero_one_two 0
     · rw [← rankOne_twistedE6_one θ]
       exact rankOne_le_leviM_zero_one_two 1
-  exact SetLike.le_def.mp hle hmem
+  exact _root_.IsConcreteLE.le_iff.mp hle hmem
 
 omit [Finite k] [CharP k 2] q in
 private theorem commute_subgroupOf_rankOne (hθ2 : ∀ c, θ (θ c) = c) (i j : Fin 3)

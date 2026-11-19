@@ -123,7 +123,7 @@ theorem exists_four_of_le_kernel {Q₀ : Subgroup H} (hQ₀ : IsPGroup 2 Q₀)
     (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, d.b_ord, pow_one])).comap_subtype
   obtain ⟨R₀, hR₀⟩ := hb2.exists_le_sylow
   set R : Subgroup H := (R₀ : Subgroup ↥K).map K.subtype with hR
-  have hR2 : IsPGroup 2 R := R₀.isPGroup'.map _
+  have hR2 : IsPGroup 2 R := R₀.isPGroup.map _
   have hRK : R ≤ K := map_subtype_le _
   have hbR : d.b ∈ R := ⟨⟨d.b, hbK⟩, hR₀ (mem_subgroupOf.mpr (mem_zpowers _)), rfl⟩
   have hRb : ∀ r ∈ R, r * d.b = d.b * r := by

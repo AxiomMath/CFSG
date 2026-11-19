@@ -57,7 +57,6 @@ theorem ggKGEl_normalizer_data
             (k * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (v * v))⁻¹) * k := by group
       _ = k⁻¹ * yhat e * k := by rw [h1]
       _ = yhat e := by
-          change k⁻¹ * yhat e * k = yhat e
           rw [mul_assoc, ← hcomm, ← mul_assoc, inv_mul_cancel, one_mul]
   · have he : ((Additive.toMul (ggKGEl_pi hp hp5 hτ F hΦ ζ hζ hact y) : ↥E) :
         adjointGroup τ K) ∈ E := (Additive.toMul (ggKGEl_pi hp hp5 hτ F hΦ ζ hζ hact y)).2
@@ -157,7 +156,7 @@ theorem ggKGEl_modAct_eq {τ : Tag} {p : ℕ} [NeZero p] (V : WeylGroup τ) (x :
       (((ggKGEl_mat V).mulVec (ggKGEl_liftZ x)) i : ZMod p) := by
   simp only [ggKGEl_modAct, ggKGEl_liftZ, Matrix.mulVec, Matrix.map_apply, dotProduct]
   push_cast
-  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp [ZMod.natCast_zmod_val]
+  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp
 
 noncomputable def ggKGEl_pibar
     {τ : Tag} {K : Type} [Field K] [Finite K] {p : ℕ}
@@ -181,7 +180,7 @@ theorem ggKGEl_pibar_bijective
     (hact : ∀ y : Fin τ.rank → ℤ,
       weylTuple F.w (fun i => Units.map Fr.toMonoidHom (ζ ^ y i)) = (fun i => ζ ^ y i)) :
     Function.Bijective (ggKGEl_pibar hp hp5 hτ F hΦ ζ hζ hact) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   constructor
   · intro x x' h
     have h' : ggKGEl_pi hp hp5 hτ F hΦ ζ hζ hact (ggKGEl_liftZ x) =
@@ -225,7 +224,7 @@ theorem ggKGEl_pibar_modAct
       ⟨w₀ * ((ggKGEl_pibar hp hp5 hτ F hΦ ζ hζ hact x : ↥E) : adjointGroup τ K) * w₀⁻¹,
         (Subgroup.mem_normalizer_iff.mp hN _).mp
           (ggKGEl_pibar hp hp5 hτ F hΦ ζ hζ hact x).2⟩ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   dsimp only [ggKGEl_pibar]
   have h1 : ggKGEl_pi hp hp5 hτ F hΦ ζ hζ hact (ggKGEl_liftZ (ggKGEl_modAct V x)) =
@@ -255,14 +254,14 @@ theorem ggKGEl_fix_count
     Nat.card {x : Fin τ.rank → ZMod p //
       ((ggKGEl_mat V).map (Int.castRingHom (ZMod p))).mulVec x = x} = p ^ (τ.rank - 1) := by
   change Nat.card {x : Fin τ.rank → ZMod p // ggKGEl_modAct V x = x} = p ^ (τ.rank - 1)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hm1 : 1 ≤ τ.rank := by rcases hτ with rfl | rfl | rfl | rfl <;> decide
   have hbij := ggKGEl_pibar_bijective hp hp5 hτ F hΦ ζ hζ hact
   let eE : (Fin τ.rank → ZMod p) ≃ ↥E := Equiv.ofBijective _ hbij
   have heE : ∀ x, eE x = ggKGEl_pibar hp hp5 hτ F hΦ ζ hζ hact x := fun x => rfl
   have hcardE : Nat.card ↥E = p ^ τ.rank := by
     rw [← Nat.card_congr eE]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hfixeq : Nat.card {x : Fin τ.rank → ZMod p // ggKGEl_modAct V x = x} =
       Nat.card {e : ↥E // w₀ * ((e : ↥E) : adjointGroup τ K) * w₀⁻¹ =
         ((e : ↥E) : adjointGroup τ K)} := by

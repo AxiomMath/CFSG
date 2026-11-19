@@ -42,7 +42,7 @@ private theorem u_liftS8_apply_one {ρ : Perm (Fin 8)} (h1 : ρ 1 = 1) : liftS8 
   rw [show (1 : Fin 10) = Fin.castLEEmb (by norm_num : 8 ≤ 10) (1 : Fin 8) from rfl,
     liftS8, Equiv.Perm.viaEmbeddingHom_apply, Equiv.Perm.viaEmbedding_apply, h1]
 
-theorem g_sq (F : UFrame z ι ιd) : gElt ιd * gElt ιd = 1 := by
+theorem g_sq (_F : UFrame z ι ιd) : gElt ιd * gElt ιd = 1 := by
   rw [gElt, ← map_mul, ← map_one ιd]
   congr 1
   decide

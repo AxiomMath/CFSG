@@ -499,7 +499,7 @@ theorem exists_sylow_normalizer_le_flagStab_of_isotropicChain [Finite H] [Finite
           lt_of_le_of_ne (hXmono k.le_succ) fun h => by rw [h] at hrk; omega
         have hle : X (k + 1) ≤ F.perp (X k) :=
           (hXiso (k + 1)).trans (F.perp_antitone (hXmono k.le_succ))
-        obtain ⟨u, hu, huX, hufix⟩ := exists_mem_notMem_forall_sub_mem ρ p S S.isPGroup'
+        obtain ⟨u, hu, huX, hufix⟩ := exists_mem_notMem_forall_sub_mem ρ p S S.isPGroup
           (hlt.trans_le hle) hinv fun g hg v hv =>
             hρ.apply_mem_perp_of_forall (fun w hw => hinv _ (inv_mem hg) w hw) hv
         have hΦle : relFix F ρ (X k) S ≤ X (k + 1) := fun v hv =>
@@ -519,7 +519,7 @@ theorem exists_sylow_normalizer_le_flagStab_of_isotropicChain [Finite H] [Finite
           fun g hg _ v hv => ⟨hinv g hg v hv, hinv _ (inv_mem hg) v hv⟩
         have hΦ : relFix F ρ (X m') S = F.perp (X m') :=
           le_antisymm (relFix_le_perp F ρ _ _) fun v hv =>
-            ⟨hv, fun g hg => hmiddle S S.isPGroup' hSstab g hg v hv⟩
+            ⟨hv, fun g hg => hmiddle S S.isPGroup hSstab g hg v hv⟩
         rw [isoNext, hΦ, F.perp_perp]
         exact inf_eq_right.mpr (hXiso m')
   have hNX' : ∀ h ∈ Subgroup.normalizer ((S : Subgroup H) : Set H), ∀ k ≤ m, ∀ v ∈ X k,

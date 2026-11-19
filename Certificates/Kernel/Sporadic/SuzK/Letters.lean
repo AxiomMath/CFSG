@@ -146,7 +146,7 @@ theorem word_pt {j x : Nat} (hj : j < 14) (hx : x < 22880) :
   have e3 : Nat.add (x / 1000 * 1000) (x % 1000) = x := by
     change x / 1000 * 1000 + x % 1000 = x
     omega
-  rw [CFSG.KS.Raw.Orb.strictB_eq, e3, CFSG.KS.Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hx)] at h'
+  rw [CFSG.KS.Raw.Orb.strictB_eq, e3, CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hx)] at h'
   exact Nat.eq_of_beq_eq_true h'
 
 theorem word_eq {j x : Nat} (hj : j < 14) (hx : x < 22880) :

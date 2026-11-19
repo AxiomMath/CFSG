@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem le_M_of_eq_bot {T S : Subgroup G}
     (hO : pPrimeCoreOf 2 T ≤ Subgroup.normalizer (Y₀ : Set G))
     (hSidx : ¬ 2 ∣ S.relIndex T) (hSbot : S = ⊥) :
@@ -65,7 +66,7 @@ theorem le_M_of_omegaOneZ_le_centralizer
   obtain ⟨R₂, hR₂S, hZR₂, hAR₂, hKM⟩ :=
     exists_le_M_of_commutator_le h hTQ hsol hST hS2 hSidx hAS hO
   refine hKM fun p hp hp2 hp3 P hPT hPp hAP hPN => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcA : c ∈ A := h.toSec13Data.mem_A
   have hAc : A ≤ Subgroup.centralizer ({c} : Set G) := by
     intro a ha

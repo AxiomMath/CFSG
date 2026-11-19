@@ -73,8 +73,8 @@ theorem twE6_fixGeom_model {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^
     exact le_trans hp3 (Nat.le_mul_of_pos_right p hd1)
   have hq3 : 3 ≤ 2 ^ n :=
     le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) (show 2 ≤ n by omega))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [← Nat.card_eq_fintype_card]; exact hK2n)
   have hK2dm : Nat.card K = 2 ^ (2 * d * p) := by
     rw [hK2n, hd]
@@ -101,8 +101,8 @@ theorem twE6_fixGeom_model {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^
   have hk₀ : Nat.card (fixSubfield κ) = (2 ^ d) ^ 2 := by rw [hκcard, ← pow_mul, mul_comm]
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
   have hεp : orderOf ε = p := by rw [← orderOf_injective _ hinj ε, fieldActorHom_apply, hδord]
-  haveI : IsCyclic (K ≃+* K) := FP.isCyclic_ringEquiv K
-  haveI : Finite (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) := FP.isCyclic_ringEquiv K
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun g : K ≃+* K => (g : K → K)) DFunLike.coe_injective
   have hzp : Subgroup.zpowers σ' = Subgroup.zpowers ε := by
     rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers, hσ'p, hεp]
@@ -170,7 +170,7 @@ theorem twE6_fixGeom_model {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^
     rw [h1]
     have h2 := congrArg Subtype.val (ιJ.apply_symm_apply (jJ (kK x)))
     exact h2
-  haveI : IsSimpleGroup (subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) σ₀) := hJs
+  have : IsSimpleGroup (subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) σ₀) := hJs
   let eR : LargeEvenCenterQuot (graphFixedRootGroup TwistTag.E6 (fixSubfield κ) σ₀.toRingHom) ≃*
       subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) σ₀ :=
     (centerQuotEquivOfBot hZ₀).trans ιJ
@@ -239,8 +239,7 @@ theorem twE6_fixGeom_model {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^
     have hR : centerQuotEquivOfBot hZ₀ ((MulAut.congr (centerQuotEquivOfBot hZ₀)).symm
         (twConj (fixSubfield κ) σ₀ ⟨w₀, hw₀⟩) (θ₀ ⟨g, hg⟩)) =
         twConj (fixSubfield κ) σ₀ ⟨w₀, hw₀⟩ (centerQuotEquivOfBot hZ₀ (θ₀ ⟨g, hg⟩)) := by
-      simp only [MulAut.congr_symm_apply, MulEquiv.trans_apply, MulEquiv.symm_symm,
-        MulEquiv.apply_symm_apply]
+      simp only [MulAut.congr_symm_apply, MulEquiv.trans_apply, MulEquiv.apply_symm_apply]
     rw [hR, coe_twConj, map_mul, map_mul, map_inv, hθ₀ ⟨g, hg⟩, hw₀w]
     have h3 : centerQuotEquivOfBot hZ (φ g) = Ψ φ (centerQuotEquivOfBot hZ g) := by
       simp only [hΨ, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
@@ -265,7 +264,7 @@ theorem twE6_fixGeom_model {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^
       rw [Subgroup.mem_centralizer_iff]
       rintro _ ⟨j, hj, rfl⟩
       refine MulEquiv.ext fun x => ?_
-      simp only [MulAut.mul_apply, MonoidHom.coe_coe, MulAut.conj_apply, map_mul, map_inv,
+      simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv,
         hΦJ j hj]
     have hΦz : Ψ φ ∈ Subgroup.zpowers δ := by
       rw [← hcent]

@@ -59,7 +59,7 @@ lemma pk5_hvw (u : Fin 8 → ZMod 3) (h0 : ∑ k : Fin 8, pk5_d k * u k = 0) :
       have hbval : b.val ≠ 0 := fun h => hb (Fin.ext (by simpa using h))
       have hbk : u b = pk5_vOf (pk5_tail u) b := by
         simp only [pk5_vOf, pk5_tail]
-        rw [if_neg hbval]
+        rw [ite_eq_right hbval]
         congr 1
         apply Fin.ext
         simp
@@ -137,9 +137,9 @@ lemma pk5_T_left (du c : ZMod 3) (mvT : Fin 9 → ZMod 3) (hmvT8 : mvT 8 = 0)
     ring_nf
     linear_combination (w 8) * hcd'
   · have hs : (Pi.single (8 : Fin 9) (1 : ZMod 3) : Fin 9 → ZMod 3) j = 0 := by
-      simp [Pi.single_apply, hj]
+      simp [hj]
     have h8 : (Pi.single (8 : Fin 9) (1 : ZMod 3) : Fin 9 → ZMod 3) 8 = 1 := by
-      simp [Pi.single_apply]
+      simp
     simp only [pk5_Tfun, pk5_Tinv, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     rw [hs, h8, hmvT8]
     ring
@@ -156,9 +156,9 @@ lemma pk5_T_right (du c : ZMod 3) (mvT : Fin 9 → ZMod 3) (hmvT8 : mvT 8 = 0)
     ring_nf
     linear_combination (w 8) * hdc
   · have hs : (Pi.single (8 : Fin 9) (1 : ZMod 3) : Fin 9 → ZMod 3) j = 0 := by
-      simp [Pi.single_apply, hj]
+      simp [hj]
     have h8 : (Pi.single (8 : Fin 9) (1 : ZMod 3) : Fin 9 → ZMod 3) 8 = 1 := by
-      simp [Pi.single_apply]
+      simp
     simp only [pk5_Tfun, pk5_Tinv, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     rw [hs, h8, hmvT8]
     ring_nf
@@ -167,7 +167,7 @@ lemma pk5_T_right (du c : ZMod 3) (mvT : Fin 9 → ZMod 3) (hmvT8 : mvT 8 = 0)
 lemma pk5_T_fix (du : ZMod 3) (mvT : Fin 9 → ZMod 3) (w : Fin 9 → ZMod 3) (hw : w 8 = 0) :
     pk5_Tfun du mvT w = w := by
   funext j
-  simp only [pk5_Tfun, Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply, hw,
+  simp only [pk5_Tfun, Pi.add_apply, Pi.zero_apply, hw,
     mul_zero, zero_smul, sub_zero, add_zero]
 
 private lemma pk5_foldl_range_map (p D : ℕ) (F : ℕ → ℕ) :
@@ -307,7 +307,7 @@ lemma pk5_gens_getD (fa hb : Vec) (i : Fin 8) :
     (frame9m () ++ [(⟨fa ++ [0], hb ++ [0]⟩ : Refl)]).getD i.val ⟨[], []⟩
       = ⟨alpha8 i.val ++ [if i.val = 0 then 1 else 0], hvec8 i.val ++ [0]⟩ := by
   rw [List.getD_append frame9m [(⟨fa ++ [0], hb ++ [0]⟩ : Refl)] ⟨[], []⟩ i.val
-    (by simpa [frame9m] using i.isLt), pk5_frame9m_getD]
+    (by simp [frame9m]), pk5_frame9m_getD]
 
 lemma pk5_gens_getD8 (fa hb : Vec) :
     (frame9m () ++ [(⟨fa ++ [0], hb ++ [0]⟩ : Refl)]).getD 8 ⟨[], []⟩ = ⟨fa ++ [0], hb ++ [0]⟩ := by

@@ -137,7 +137,7 @@ theorem prep_inj {P : ℕ} (hc : cnK P = true) (hinj : Inj P) :
     · rw [CFSG.KS.Raw.Orb.unpack_get hi, CFSG.KS.Raw.Orb.unpack_get hj] at e
       exact hinj i hi j hj e
   intro x
-  rw [← CFSG.KS.Raw.Orb.unpack_get x.2, permOfArr, dif_pos hcond]
+  rw [← CFSG.KS.Raw.Orb.unpack_get x.2, permOfArr, dite_eq_left hcond]
   rfl
 
 theorem ybinds : Binds 240 8 YC.S 12 4 YC.BP yS yBaseA := by
@@ -527,9 +527,9 @@ theorem prep_rL (l : ℕ) : PRep 240 8 (rL l) (if l = 1 then iP else jP) := by
   rw [kn_if]
   by_cases h : l = 1
   · subst h
-    rw [if_pos (Nat.beq_refl 1), if_pos rfl]
+    rw [ite_eq_left (Nat.beq_refl 1), ite_eq_left rfl]
     exact prep_i
-  · rw [if_neg (fun hb => h (Nat.eq_of_beq_eq_true hb)), if_neg h]
+  · rw [ite_eq_right (fun hb => h (Nat.eq_of_beq_eq_true hb)), ite_eq_right h]
     exact prep_j
 
 theorem rword_mem (wd : List ℕ) : (wd.map fun l => if l = 1 then iP else jP).prod ∈ RSub := by
@@ -563,9 +563,9 @@ theorem prep_pL (l : ℕ) : PRep 240 8 (pL l) (if l = 1 then p1 else p2) := by
   rw [kn_if]
   by_cases h : l = 1
   · subst h
-    rw [if_pos (Nat.beq_refl 1), if_pos rfl]
+    rw [ite_eq_left (Nat.beq_refl 1), ite_eq_left rfl]
     exact prep_p1
-  · rw [if_neg (fun hb => h (Nat.eq_of_beq_eq_true hb)), if_neg h]
+  · rw [ite_eq_right (fun hb => h (Nat.eq_of_beq_eq_true hb)), ite_eq_right h]
     exact prep_p2
 
 noncomputable def pe (k : ℕ) : Equiv.Perm (Fin 240) := p1 ^ (k / 3) * p2 ^ (k % 3)
@@ -732,7 +732,7 @@ theorem good_parts {k : ℕ} (hk : k < 9) :
     rw [kb_and, Bool.and_eq_true] at hc
     exact hc
   · right
-    rw [if_neg hc, kb_and, kb_and, Bool.and_eq_true, Bool.and_eq_true] at h
+    rw [ite_eq_right hc, kb_and, kb_and, Bool.and_eq_true, Bool.and_eq_true] at h
     exact h
 
 theorem i_mem_C : iP ∈ CSub :=

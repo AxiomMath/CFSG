@@ -34,7 +34,7 @@ theorem inf_stab_le_Epl (h533 : Stmt5_3_3) (hJ : HypJ4 G z) {u : G ⧸ c.G1} {σ
       have hunion : {b | c.OnL b m} = {b | c.OnL b m ∧ c.Delta.Adj u b} ∪
           {b | c.OnL b m ∧ ¬ c.Delta.Adj u b} := by
         ext b
-        simp only [Set.mem_setOf_eq, Set.mem_union]
+        simp only [Set.mem_ofPred_eq, Set.mem_union]
         constructor
         · intro hb
           exact (em (c.Delta.Adj u b)).elim (fun hab => Or.inl ⟨hb, hab⟩)
@@ -50,7 +50,7 @@ theorem inf_stab_le_Epl (h533 : Stmt5_3_3) (hJ : HypJ4 G z) {u : G ⧸ c.G1} {σ
       omega
     have hx0N : c.x0 ∈ {b | c.OnL b m ∧ ¬ c.Delta.Adj u b} := ⟨hm, fun h => hnu h.symm⟩
     obtain ⟨p, hpset⟩ : ∃ p, {b | c.OnL b m ∧ ¬ c.Delta.Adj u b} \ {c.x0} = {p} :=
-      Set.ncard_eq_one.mp (by rw [Set.ncard_diff_singleton_of_mem hx0N, hN])
+      Set.ncard_eq_one.mp (by rw [Set.ncard_sdiff_singleton_of_mem hx0N, hN])
     have hpN : p ∈ {b | c.OnL b m ∧ ¬ c.Delta.Adj u b} \ {c.x0} := by
       rw [hpset]
       exact Set.mem_singleton p

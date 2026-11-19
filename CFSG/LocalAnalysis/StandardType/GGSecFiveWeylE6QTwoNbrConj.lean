@@ -132,7 +132,7 @@ theorem GGNbr.eq_of_mem_zpowers (hLB : GGLBalanceInput) {p : ℕ} {B : Subgroup 
     (hpJ : p ∣ Nat.card J) {y₁ y₂ : G} {K₁ K₂ : Subgroup G} (h₁ : GGNbr p B x D J y₁ K₁)
     (h₂ : GGNbr p B x D J y₂ K₂) (hy : y₂ ∈ Subgroup.zpowers y₁) : K₁ = K₂ := by
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hst : LargeEvenStandardType p B x L := hI.2.2.2.2.2.2.2
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
   have hy₁B : y₁ ∈ B := h₁.1.2.1

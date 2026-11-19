@@ -15,9 +15,10 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
 
+omit [Finite X] in
 theorem gnV_subgroupOf_map_le {T H : Subgroup X} (hT : T ≤ H) :
     (gnV (T.subgroupOf H)).map H.subtype ≤ gnV T := by
-  haveI hVn : (gnV T).Normal := Subgroup.normalClosure_normal
+  have hVn : (gnV T).Normal := Subgroup.normalClosure_normal
   rw [Subgroup.map_le_iff_le_comap]
   change Subgroup.normalClosure (CFSG.Quasithin.omegaOneCenterOf (T.subgroupOf H) : Set ↥H) ≤
     (gnV T).comap H.subtype
@@ -36,6 +37,7 @@ theorem gnV_subgroupOf_map_le {T H : Subgroup X} (hT : T ≤ H) :
     simpa using congrArg Subtype.val (CFSG.Quasithin.sq_eq_one_of_mem_omegaOneCenterOf hx)
   exact Subgroup.subset_normalClosure (CFSG.Quasithin.mem_omegaOneCenterOf hxT hxcent hx2)
 
+omit [Finite X] in
 theorem gnC_subgroupOf_le_gnC_subgroupOf {T H : Subgroup X} (hT : T ≤ H) :
     (gnC T).subgroupOf H ≤ gnC (T.subgroupOf H) := by
   intro x hx
@@ -45,6 +47,7 @@ theorem gnC_subgroupOf_le_gnC_subgroupOf {T H : Subgroup X} (hT : T ≤ H) :
   apply Subtype.ext
   exact hx (y : X) (gnV_subgroupOf_map_le hT (Subgroup.mem_map_of_mem H.subtype hy))
 
+omit [Finite X] in
 theorem isSolvable_restrictedQuotient {T H : Subgroup X} (hT : T ≤ H)
     (hsolvY : Group.IsSolvable ↥(gnImg T H)) :
     Group.IsSolvable (↥H ⧸ gnC (T.subgroupOf H)) := by
@@ -68,12 +71,12 @@ theorem isSolvable_restrictedQuotient {T H : Subgroup X} (hT : T ≤ H)
     rintro ⟨y, hy⟩
     obtain ⟨x, hxH, hxy⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hxH⟩, Subtype.ext hxy⟩
-  haveI : Group.IsSolvable ↥(gnImg T H) := hsolvY
+  have : Group.IsSolvable ↥(gnImg T H) := hsolvY
   have hsolvK : Group.IsSolvable (↥H ⧸ K) :=
     Group.isSolvable_of_surjective
       (f := (QuotientGroup.liftEquiv (N := K) (φ := φ) hφsurj hφker.symm).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : Group.IsSolvable (↥H ⧸ K) := hsolvK
+  have : Group.IsSolvable (↥H ⧸ K) := hsolvK
   exact Group.isSolvable_of_surjective
     (f := QuotientGroup.map K C' (MonoidHom.id ↥H) hKC)
     (QuotientGroup.map_surjective_of_surjective K C' (MonoidHom.id ↥H)

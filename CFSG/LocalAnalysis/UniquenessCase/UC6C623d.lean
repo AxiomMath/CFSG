@@ -21,18 +21,18 @@ def fixAddSubgroup (M : Matrix (Fin 3) (Fin 3) (ZMod 3)) : AddSubgroup (Fin 3 �
   carrier := {v | M *ᵥ v = v}
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [Matrix.mulVec_add, ha, hb]
   zero_mem' := by simp
   neg_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [Matrix.mulVec_neg, ha]
 
 theorem eq_zero_of_fixed_of_orderOf_thirteen {s : GL (Fin 3) (ZMod 3)} (hs : orderOf s = 13)
     {v : Fin 3 → ZMod 3} (hv : (s : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ v = v) : v = 0 := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
   obtain ⟨M, hM⟩ : ∃ M : Matrix (Fin 3) (Fin 3) (ZMod 3), M = (s : Matrix (Fin 3) (Fin 3) (ZMod 3)) :=
     ⟨_, rfl⟩
   rw [← hM] at hv
@@ -60,7 +60,7 @@ theorem eq_zero_of_fixed_of_orderOf_thirteen {s : GL (Fin 3) (ZMod 3)} (hs : ord
   have hmod := Equiv.Perm.card_fixedPoints_modEq (α := Fin 3 → ZMod 3) (p := 13) hf13
   have hset : f.fixedPoints = (fixAddSubgroup M : Set (Fin 3 → ZMod 3)) := rfl
   have hcardV : Fintype.card (Fin 3 → ZMod 3) = 27 := by
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   have hcardF : Fintype.card f.fixedPoints = Nat.card (fixAddSubgroup M) := by
     rw [← Nat.card_eq_fintype_card, hset]
     rfl
@@ -100,12 +100,12 @@ theorem exists_invariant_line_of_isPGroup_two {G : Subgroup (GL (Fin 3) (ZMod 3)
   classical
   let ψ : G →* LinearMap.GeneralLinearGroup (ZMod 3) (Fin 3 → ZMod 3) :=
     (Matrix.GeneralLinearGroup.toLin : GL (Fin 3) (ZMod 3) ≃* _).toMonoidHom.comp G.subtype
-  letI : MulAction G (Projectivization (ZMod 3) (Fin 3 → ZMod 3)) := MulAction.compHom _ ψ
+  let : MulAction G (Projectivization (ZMod 3) (Fin 3 → ZMod 3)) := MulAction.compHom _ ψ
   have hmod := hG.card_modEq_card_fixedPoints (α := Projectivization (ZMod 3) (Fin 3 → ZMod 3))
   have hcard : Nat.card (Projectivization (ZMod 3) (Fin 3 → ZMod 3)) = 13 := by
     have h := Projectivization.card' (k := ZMod 3) (V := Fin 3 → ZMod 3)
     have hV : Nat.card (Fin 3 → ZMod 3) = 27 := by
-      rw [Nat.card_eq_fintype_card]; simp [Fintype.card_fun, ZMod.card]
+      rw [Nat.card_eq_fintype_card]; simp [ZMod.card]
     rw [hV, Nat.card_zmod] at h
     omega
   rw [hcard] at hmod
@@ -132,7 +132,7 @@ theorem exists_normal_cyclic_thirteen {G : Subgroup (GL (Fin 3) (ZMod 3))} (h3 :
     ∃ s : GL (Fin 3) (ZMod 3), s ∈ G ∧ orderOf s = 13 ∧
       ∀ g ∈ G, ∃ k : ℤ, g * s * g⁻¹ = s ^ k := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
   have hdvd : Nat.card G ∣ 416 * 27 := by
     have := Subgroup.card_subgroup_dvd_card G
     rwa [card_gl3] at this
@@ -170,9 +170,9 @@ theorem exists_normal_cyclic_thirteen {G : Subgroup (GL (Fin 3) (ZMod 3))} (h3 :
     obtain ⟨j, hj, hj'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hd'
     rw [hj'] at hmod ⊢
     interval_cases j <;> simp_all [Nat.ModEq]
-  haveI : Subsingleton (Sylow 13 G) := (Nat.card_eq_one_iff_unique.1 hn).1
+  have : Subsingleton (Sylow 13 G) := (Nat.card_eq_one_iff_unique.1 hn).1
   have hnorm : (P : Subgroup G).Normal := Sylow.normal_of_subsingleton P
-  haveI : IsCyclic P := isCyclic_of_prime_card hPcard
+  have : IsCyclic P := isCyclic_of_prime_card hPcard
   obtain ⟨t, ht⟩ := IsCyclic.exists_generator (α := (P : Subgroup G))
   have hord : orderOf (t : G) = 13 := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers ht]
@@ -354,7 +354,7 @@ theorem false_of_irreducible_threePrime {G : Subgroup (GL (Fin 3) (ZMod 3))}
       (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ v ≠ c • v := by
     intro v hv
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinv : ∀ g ∈ G, ∀ w ∈ Submodule.span (ZMod 3) {v},
         (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ w ∈ Submodule.span (ZMod 3) {v} := by
       intro g hg w hw

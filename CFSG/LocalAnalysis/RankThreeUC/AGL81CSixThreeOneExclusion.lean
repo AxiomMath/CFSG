@@ -164,7 +164,7 @@ theorem le_centralizer_of_inverting {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     _ = e * a := by group
 
 theorem inf_le_of_inverting {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
-    {X : Type} [Group X] {Z A E : Subgroup X} {z : X} (hZA : Z ≤ A)
+    {X : Type} [Group X] {Z A E : Subgroup X} {z : X} (_hZA : Z ≤ A)
     (hA : IsElemAbelian p A) (hzA : ∀ a ∈ A, z * a * z⁻¹ * a ∈ Z)
     (hEz : ∀ e ∈ E, e * z = z * e) : E ⊓ A ≤ Z := by
   obtain ⟨m, hm⟩ := (Fact.out : p.Prime).odd_of_ne_two hp2
@@ -226,7 +226,7 @@ theorem map_comap_inf_centralizer_eq {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X
     (hz : z ^ 2 ^ a = 1) {E : Subgroup G} (hEρ : E ≤ ρ.range)
     (hEz : ∀ e ∈ E, e * ρ z = ρ z * e) :
     (E.comap ρ ⊓ Subgroup.centralizer {z}).map ρ = E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ ?_
   · calc (E.comap ρ ⊓ Subgroup.centralizer {z}).map ρ
         ≤ (E.comap ρ).map ρ := Subgroup.map_mono inf_le_left
@@ -269,7 +269,7 @@ theorem bar_inv_of_additive {X W : Type*} [Group X] [AddCommGroup W] {D : Subgro
   rw [mul_inv_cancel, bar_one_of_additive hbar_mul] at h1
   exact eq_neg_of_add_eq_zero_right h1.symm
 
-theorem exists_two_pow_order_neg_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
+theorem exists_two_pow_order_neg_one {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     {X : Type} [Group X] [Finite X] {W : Type*} [AddCommGroup W] [Module (ZMod p) W]
     (B : LinearMap.BilinForm (ZMod p) W) (ρ : X →* (Module.End (ZMod p) W)ˣ)
     (hneg : -1 ∈ ρ.range) {Z : Subgroup X}
@@ -329,7 +329,7 @@ theorem exists_sympPlane {p : ℕ} [Fact p.Prime] {X : Type} [Group X] {W : Type
   exact ⟨A, hZA, fun x hx => hx.1, fun x hx => hx.2, fun _ => Iff.rfl, hA⟩
 
 theorem exists_barA_sympPlane {p : ℕ} [Fact p.Prime] {X : Type} [Group X] {W : Type*}
-    [AddCommGroup W] [Module (ZMod p) W] {D Z : Subgroup X} (hZD : Z ≤ D) (bar : X → W)
+    [AddCommGroup W] [Module (ZMod p) W] {D Z : Subgroup X} (_hZD : Z ≤ D) (bar : X → W)
     (hbar_mul : ∀ a ∈ D, ∀ b ∈ D, bar (a * b) = bar a + bar b)
     (hbar_ker : ∀ d ∈ D, bar d = 0 ↔ d ∈ Z)
     (hbar_surj : ∀ w : W, ∃ d ∈ D, bar d = w)
@@ -425,16 +425,16 @@ theorem exists_isPGroup_not_isCyclic_comap_centralizer {p : ℕ} [Fact p.Prime] 
     (hEc : Nat.card E = p ^ 2) :
     ∃ E₁ : Subgroup X, IsPGroup p E₁ ∧ ¬ IsCyclic E₁ ∧
       E₁ ≤ Subgroup.centralizer {z} ∧ E₁.map ρ = E := by
-  haveI : Finite E :=
+  have : Finite E :=
     (Nat.card_pos_iff.mp (by rw [hEc]; exact pow_pos (Fact.out : p.Prime).pos 2)).2
-  haveI : CFSG.IsElementaryAbelian p E := hEel.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian p E := hEel.isElementaryAbelian
   have hEncyc : ¬ IsCyclic E := CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hEc
   refine ⟨E.comap ρ ⊓ Subgroup.centralizer {z}, ?_, ?_, inf_le_right, ?_⟩
   · exact (IsPGroup.comap_of_ker_isPGroup hEel.isPGroup ρ hρ).to_le inf_le_left
   · intro hcyc
     have hmap := map_comap_inf_centralizer_eq hp2 ρ hρ hz hEρ hEz
     have hcyc' : IsCyclic ↥((E.comap ρ ⊓ Subgroup.centralizer {z}).map ρ) := by
-      letI : IsCyclic ↥(E.comap ρ ⊓ Subgroup.centralizer {z}) := hcyc
+      let : IsCyclic ↥(E.comap ρ ⊓ Subgroup.centralizer {z}) := hcyc
       let f : ↥(E.comap ρ ⊓ Subgroup.centralizer {z}) →*
           ↥((E.comap ρ ⊓ Subgroup.centralizer {z}).map ρ) :=
         (ρ.comp (E.comap ρ ⊓ Subgroup.centralizer {z}).subtype).codRestrict _
@@ -480,7 +480,7 @@ theorem four_le_pRank_of_sympModel {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X :
       have hneg1 : (↑(-1 : (Module.End (ZMod p) W)ˣ) : Module.End (ZMod p) W) = -1 := by
         rw [Units.val_neg, Units.val_one]
       rw [hneg1]
-      simpa using LinearMap.neg_apply (1 : Module.End (ZMod p) W) (bar x)
+      simp
     rw [hnegz]
     abel
   have hEz : ∀ e ∈ E, e * ρ z = ρ z * e := by

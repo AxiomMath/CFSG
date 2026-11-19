@@ -15,9 +15,9 @@ variable {n : ℕ}
 
 @[expose] def suppSub (n : ℕ) (s : Set (Fin n)) : Subgroup (Wr n) where
   carrier := {a | SupportedOn a s}
-  mul_mem' {a b} ha hb := SupportedOn.mul ha hb
+  mul_mem' {_a _b} ha hb := SupportedOn.mul ha hb
   one_mem' := supportedOn_one s
-  inv_mem' {a} ha := SupportedOn.inv ha
+  inv_mem' {_a} ha := SupportedOn.inv ha
 
 theorem memAt_le_aeSub (α : Finset (Fin n)) (h : α.card = 4) (b : Bool) : memAt α h b ≤ aeSub n := by
   cases b
@@ -49,9 +49,9 @@ theorem not_mem_Ea_of_weight_two {w : Wr 7} (hw : w ∈ aeSub 7) (hperm : w.perm
       have hsub : γ ⊆ T := by
         intro y hy
         have h1 := cγ x hxγ y hy
-        rw [hT x, if_pos hxT, hT y] at h1
+        rw [hT x, ite_eq_left hxT, hT y] at h1
         by_contra hyT
-        rw [if_neg hyT] at h1
+        rw [ite_eq_right hyT] at h1
         exact absurd h1 (by decide)
       have := Finset.card_le_card hsub
       omega
@@ -70,7 +70,7 @@ theorem not_mem_Ea_of_weight_two {w : Wr 7} (hw : w ∈ aeSub 7) (hperm : w.perm
     subst hmw
     obtain ⟨p, hp⟩ : T.Nonempty := Finset.card_pos.mp (by omega)
     have h3 := (hmsupp p (by simpa using hp)).1
-    rw [hT p, if_pos hp] at h3
+    rw [hT p, ite_eq_left hp] at h3
     exact absurd h3 (by decide)
   · have hw' : w = m * allOnes 7 := by
       calc w = m * (m⁻¹ * w) := by group
@@ -123,7 +123,7 @@ theorem not_mem_of_layer_cen {w : Wr 7} (hperm : w.perm = 1) {p : Fin 7}
   have cα := const_of_le_centralizer (by norm_num : 5 ≤ 7) hperm (memBar_le_centralizer hc)
   obtain ⟨y, hyα, hyp⟩ := Finset.exists_mem_ne (by omega : 1 < α.card) p
   have h1 := cα p hpα y hyα
-  rw [hv p, hv y, if_pos rfl, if_neg hyp] at h1
+  rw [hv p, hv y, ite_eq_left rfl, ite_eq_right hyp] at h1
   exact absurd h1 (by decide)
 
 theorem ae7LayerOrbit_proved : AE7LayerOrbit := by
@@ -192,8 +192,8 @@ theorem ae7LayerOrbit_proved : AE7LayerOrbit := by
       · rw [ofPerm_conj_vec, hv₁ (c.symm x), hv₂ x]
         have hiff : c.symm x = p ↔ x = q := by rw [Equiv.symm_apply_eq, hcp]
         by_cases hxq : x = q
-        · rw [if_pos (hiff.mpr hxq), if_pos hxq]
-        · rw [if_neg fun h' => hxq (hiff.mp h'), if_neg hxq]
+        · rw [ite_eq_left (hiff.mpr hxq), ite_eq_left hxq]
+        · rw [ite_eq_right fun h' => hxq (hiff.mp h'), ite_eq_right hxq]
       · rw [ofPerm_conj_perm, hp₁, hp₂, mul_one, mul_inv_cancel]
     exact ⟨mkQ 7 (ofPerm c), hmem, hodd, hcomm, hconj⟩
 

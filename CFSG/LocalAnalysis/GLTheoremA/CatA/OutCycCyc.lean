@@ -51,10 +51,10 @@ theorem hall_P'Cyc
 theorem outCyc_cyc_case
     {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (B : Subgroup G) (x : G) (L A : Subgroup G) (hS : IsSTriple p B x L)
-    (hchev : IsChevSimple 2 (PSimple p L))
+    (_hchev : IsChevSimple 2 (PSimple p L))
     (hD : ¬ (p = 3 ∧ catalogIs (PSimple p L) isD4any)) (hAB : A ≤ B)
     (hBN : B ≤ Subgroup.normalizer (L : Set G))
-    (M₀ : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab R _ I F θ => True ∧ MarkedModel lab R) :
+    (M₀ : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab R _ _I _F _θ => True ∧ MarkedModel lab R) :
     ∃ A₀ : Subgroup G, A₀ ≤ A ∧ InnDiagOn p A₀ L ∧ Nat.card A ≤ p * Nat.card A₀ ∧
       ∀ a ∈ A, InnDiagOn p (Subgroup.zpowers a) L → a ∈ A₀ := by
   have hBel : CFSG.Open.IsElemAbelian p B := hS.1.1
@@ -66,7 +66,7 @@ theorem outCyc_cyc_case
   obtain ⟨hX, lab₁, hlab₁, hraw₁⟩ := hMs
   obtain ⟨R₁, _, I₁, F₁, hQ⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw₁
   obtain ⟨hs, hna, θ₁, hPθ, hP'⟩ := hQ
-  haveI : Finite R₁ := Finite.of_equiv (PSimple p L) θ₁.toEquiv
+  have : Finite R₁ := Finite.of_equiv (PSimple p L) θ₁.toEquiv
   by_cases hc : lab₁.tag = .D ∧ lab₁.rank = 4 ∧ p = 3
   · exfalso
     obtain ⟨ht, hr, hp3⟩ := hc

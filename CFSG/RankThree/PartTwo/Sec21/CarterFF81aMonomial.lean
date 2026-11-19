@@ -103,14 +103,14 @@ variable {b : G} {L : Subgroup G} [Finite G]
 theorem FF81Hyp.monomial_le_cen_X_tau (h : FF81Hyp b L)
     {τ b₁ b₂ b₃ : G} (hτL : τ ∈ L) (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
     (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
-    (hτ2 : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
+    (_hτ2 : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
     (hinv : τ * b₁ * τ⁻¹ = b₁⁻¹ ∧ τ * b₂ * τ⁻¹ = b₂⁻¹ ∧ τ * b₃ * τ⁻¹ = b₃⁻¹)
     (hbB : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₁B : b₁ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₂B : b₂ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₃B : b₃ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     {σ : MulAut ↥(Subgroup.closure ({b, b₁, b₂, b₃} : Set G))}
-    (hσX : σ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
+    (_hσX : σ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
     (hσb : σ ⟨b, hbB⟩ = ⟨b, hbB⟩ ∨ σ ⟨b, hbB⟩ = (⟨b, hbB⟩)⁻¹)
     (hσ₁ : ∃ j : Fin 3, ∃ ε : ℤ, σ ⟨b₁, hb₁B⟩ =
       (match j with | 0 => ⟨b₁, hb₁B⟩ | 1 => ⟨b₂, hb₂B⟩ | 2 => ⟨b₃, hb₃B⟩) ^ ε)

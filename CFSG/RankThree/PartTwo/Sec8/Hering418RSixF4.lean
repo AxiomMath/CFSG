@@ -58,9 +58,9 @@ theorem kF418OuterOn_TwistedF4Six : KF418OuterOn (fun X _ => IsTwistedFFourSix X
     · exact KFacts.InducesStdKind.inducesOuterTheta (k := .graphField) L h (by decide)
   obtain ⟨b', k', _, _, _, hk', -, ⟨eC⟩⟩ :=
     Item812Res2.exists_barCentralizer_mulEquiv_reeGamma_index ha1 hKf e hb3 hβ
-  haveI : IsSimpleGroup (ReeTag.F4.reeGamma Kf a') :=
+  have : IsSimpleGroup (ReeTag.F4.reeGamma Kf a') :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 ha1 hKf
-  haveI : IsSimpleGroup (L ⧸ aschbacherSolvableCore 3 L) := e.isSimpleGroup
+  have : IsSimpleGroup (L ⧸ aschbacherSolvableCore 3 L) := e.isSimpleGroup
   have hZ : Subgroup.center (L ⧸ aschbacherSolvableCore 3 L) = ⊥ :=
     center_eq_bot_of_isQuasisimple_of_isSimpleGroup hL.2.2
   by_cases hb0 : b' = 0
@@ -82,9 +82,9 @@ theorem kF418OuterOn_TwistedF4Six : KF418OuterOn (fun X _ => IsTwistedFFourSix X
     omega
   ·
     have hb1' : 1 ≤ b' := by omega
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb1' hk'
-    haveI : IsSimpleGroup ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) := eC.isSimpleGroup
+    have : IsSimpleGroup ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) := eC.isSimpleGroup
     have hC := barCentralizer_le_imageModTheta_of_simple c.hbL hb3 hK inferInstance
       (imageModTheta_ne_bot c.hKL hKq)
     have hinn : ∃ j : ℕ, c.alpha * c.beta ^ j ∈ innBar L := by

@@ -22,7 +22,7 @@ open scoped commutatorElement
 
 theorem exists_diagModel_of {L' : Type} [Group L'] [Finite L'] {K : Type} [Field K] [Finite K]
     {n d p : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hd : 5 ≤ d) (hp : p.Prime)
-    (hpq : p ∣ 2 ^ n + 1) (hpd : p ∣ d) (hperfSU : commutator (unitarySU 2 n K d) = ⊤)
+    (hpq : p ∣ 2 ^ n + 1) (_hpd : p ∣ d) (hperfSU : commutator (unitarySU 2 n K d) = ⊤)
     {ψ : L' →* LargeEvenProj (unitarySU 2 n K d)} (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
     {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian p A)
@@ -115,8 +115,8 @@ theorem exists_diagModel_of {L' : Type} [Group L'] [Finite L'] {K : Type} [Field
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   ·
     intro a ha
     obtain ⟨xa, hxaI, hxa⟩ := hAI a ha
@@ -170,7 +170,7 @@ theorem noInvariantLine63_of_cover {n : ℕ} {K : Type} [Field K] [Finite K]
     exists_diagModel_of hK hn (by norm_num) Nat.prime_three hpq (by norm_num) hperfSU hψ
       hker hperf hA hAI hcard hcov'
   have h := TableBU.unitaryFieldData_of_card hK hn
-  haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
     DFunLike.coe_injective
   refine ⟨{x | ∃ σ : Equiv.Perm (Fin 6), x = φ (permSU h σ)},
     weyl_W_prop h (by norm_num) hφker hA.2 hdiag, fun Λ hΛA hΛp => ?_⟩

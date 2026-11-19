@@ -120,7 +120,6 @@ theorem noNilp2013 : noNilpCheck (elemsT QS8) ((elemsT QA8).filter oddTest) 315 
   unfold noNilpCheck
   rw [List.all_eq_true]
   intro s _
-  beta_reduce
   by_cases hs : s * s = 1
   · obtain ⟨x₁, x₂, h1, h2, c1, c2, h12⟩ := wit8 hs
     have hp : pairWitness (((elemsT QA8).filter oddTest).filter fun x => decide (x * s = s * x))

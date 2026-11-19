@@ -180,16 +180,16 @@ theorem dvd_card_primeFormP_one {n p : ℕ} (hp : p.Prime) (hn : 3 ≤ n) (hpq :
   set d : Fin n → Lˣ := Pi.mulSingle a v * Pi.mulSingle c v⁻¹ with hd
   let D : gramSU h₀ ((1 : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) :=
     ⟨unitaryDiagGL d, unitaryDiagGL_mem_gramSU h₀ hd1 hd2⟩
-  have hda : d a = v := by simp [hd, Pi.mulSingle_apply, hac]
-  have hdb : d b = 1 := by simp [hd, Pi.mulSingle_apply, hab.symm, hbc]
+  have hda : d a = v := by simp [hd, hac]
+  have hdb : d b = 1 := by simp [hd, hab.symm, hbc]
   have hdp : ∀ i, d i ^ p = 1 := by
     intro i
     by_cases hia : i = a
     · rw [hia, hda]; exact hvp
     · by_cases hic : i = c
-      · have : d c = v⁻¹ := by simp [hd, Pi.mulSingle_apply, hac.symm]
+      · have : d c = v⁻¹ := by simp [hd, hac.symm]
         rw [hic, this, inv_pow, hvp, inv_one]
-      · have : d i = 1 := by simp [hd, Pi.mulSingle_apply, hia, hic]
+      · have : d i = 1 := by simp [hd, hia, hic]
         rw [this, one_pow]
   have hxp : (D : primeFormP h₀ ((1 : GL (Fin n) L) : Matrix (Fin n) (Fin n) L)) ^ p = 1 := by
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
@@ -210,7 +210,7 @@ theorem dvd_card_primeFormP_one {n p : ℕ} (hp : p.Prime) (hn : 3 ≤ n) (hpq :
     obtain ⟨c0, -, -, hc0⟩ := h1
     have e1 := congrArg (fun g : GL (Fin n) L => (g : Matrix (Fin n) (Fin n) L) b b) hc0
     have e2 := congrArg (fun g : GL (Fin n) L => (g : Matrix (Fin n) (Fin n) L) a a) hc0
-    simp only [coe_unitaryDiagGL, Matrix.diagonal_apply_eq, GeneralLinearGroup.coe_scalar,
+    simp only [Matrix.diagonal_apply_eq, GeneralLinearGroup.coe_scalar,
       Matrix.scalar_apply] at e1 e2
     change (d b : L) = c0 at e1
     change (d a : L) = c0 at e2

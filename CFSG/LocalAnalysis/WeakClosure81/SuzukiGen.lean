@@ -23,6 +23,7 @@ open CFSG.SignalizerFunctorTheorem.CatalogBridge
 
 variable {Q : Type} [Group Q] [Finite Q] {a : ℕ}
 
+omit [Finite Q] in
 theorem mem_centralizer_conj_iff {P : Subgroup Q} {g h : Q}
     (hg : ∀ q : Q, q ∈ P ↔ g * q * g⁻¹ ∈ P) :
     h ∈ Subgroup.centralizer (P : Set Q) ↔
@@ -93,7 +94,7 @@ theorem eq_of_orderOf_eq_two_of_cyclic_or_quaternion {P : Type} [Group P] [Finit
   rcases h with hc | ⟨r, -, ⟨e⟩⟩
   · exact CFSG.GF2Type.Aschbacher1976Full.LeafUniqueInvolution.eq_of_orderOf_eq_two_of_isCyclic
       hx hy
-  · haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  · have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
     exact CFSG.GF2Type.Aschbacher1976Full.LeafUniqueInvolution.eq_of_orderOf_eq_two_of_quaternion
       e hx hy
 
@@ -107,8 +108,8 @@ theorem exists_mulEquiv_sz_of_isSz {X : Type} [Group X] {r : ℕ}
   · exact absurd h.2.1 (by decide)
   · unfold CFSG.Blueprint.SuzukiModel at hSuz
     obtain ⟨-, a, ha, K, hKfld, hKfin, hf, hKcard, ⟨eX⟩⟩ := hSuz
-    letI : Field K := hKfld
-    letI : Finite K := hKfin
+    let : Field K := hKfld
+    let : Finite K := hKfin
     have hcard : Nat.card K = Nat.card (GaloisField 2 (2 * a + 1)) := by
       rw [GaloisField.card 2 (2 * a + 1) (by omega)]
       rw [hf] at hKcard
@@ -268,7 +269,7 @@ theorem inf_centralizer_sup_inf_centralizer_eq_top
     exact even_iff_two_dvd.mpr (h2.trans hdvd)
   have hSEY : fusionStronglyEmbedded (N₀.subgroupOf Y) :=
     stronglyEmbedded_subgroupOf hSE Y hnotY hEven
-  rcases CFSG.Open.Open.bender_strongly_embedded ↥Y (N₀.subgroupOf Y) hSEY with
+  rcases CFSG.Open.Thm.bender_strongly_embedded ↥Y (N₀.subgroupOf Y) hSEY with
     hcyc | ⟨M, N, hMnorm, hNnorm, hMNnorm, hMN, hModd, hNodd, hBender⟩
   · exfalso
     obtain ⟨S, hZsubS⟩ := IsPGroup.exists_le_sylow hZsubel.isPGroup

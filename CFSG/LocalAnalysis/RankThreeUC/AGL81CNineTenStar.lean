@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Sub
 
 private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
     relPPrimeCore p C = (primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -37,7 +37,7 @@ private theorem pRank_map_eq_of_coprime_ker (hp : p.Prime) {H H' : Type*} [Group
     [Group H'] [Finite H'] (f : H →* H') (A : Subgroup H)
     (hY : ¬ p ∣ Nat.card ↥(A ⊓ f.ker)) :
     CFSG.Open.pRank p (A.map f) = CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let g : A →* A.map f :=
     (f.comp A.subtype).codRestrict (A.map f) (fun x => Subgroup.mem_map_of_mem f x.2)
   have hgsurj : Function.Surjective g := by
@@ -74,7 +74,7 @@ private theorem frattini_le_sup_normalizer {q : ℕ} [Fact q.Prime] {H K S : Sub
     (hS : CFSG.ABGLocalTools.IsSylowOf q S K) :
     H ≤ K ⊔ (H ⊓ normalizer (S : Set G)) := by
   classical
-  haveI : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
+  have : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   obtain ⟨hSK, hSp, _⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hS
   have hSH : S ≤ H := hSK.trans hKH
   have hS' : CFSG.ABGLocalTools.IsSylowOf q (S.subgroupOf H) (K.subgroupOf H) := by
@@ -112,8 +112,8 @@ private theorem pGroup_quotient_sylow_sup_normal {X : Type*} [Group X] [Finite X
     (hprime : prime.Prime) (normalGroup : Subgroup X) (hnormal : normalGroup.Normal)
     (hquotient : IsPGroup prime (X ⧸ normalGroup)) (sylowGroup : Sylow prime X) :
     (sylowGroup : Subgroup X) ⊔ normalGroup = ⊤ := by
-  letI : Fact prime.Prime := ⟨hprime⟩
-  letI : normalGroup.Normal := hnormal
+  let : Fact prime.Prime := ⟨hprime⟩
+  let : normalGroup.Normal := hnormal
   let quotientSylow := sylowGroup.mapSurjective (QuotientGroup.mk'_surjective normalGroup)
   have hquotientTop : (quotientSylow : Subgroup (X ⧸ normalGroup)) = ⊤ := by
     exact (quotientSylow.maximal_isPGroup.eq_of_ge (hquotient.to_subgroup ⊤) le_top).symm
@@ -126,7 +126,7 @@ private theorem pGroup_quotient_sylow_sup_normal {X : Type*} [Group X] [Finite X
 
 theorem pRank_starImg_eq (hp : p.Prime) {H A : Subgroup G} (hAH : A ≤ H) :
     CFSG.Open.pRank p (starImg p H A) = CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOcop : ¬ p ∣ Nat.card (primeComplementCore (G := ↥H) p) :=
     (hp.coprime_iff_not_dvd).mp (primeComplementCore_coprime p)
   have hker : ¬ p ∣ Nat.card ↥((A.subgroupOf H) ⊓
@@ -155,7 +155,7 @@ private theorem le_sup_of_starImg_isPGroup {H U S : Subgroup G} (hp : p.Prime) (
     (hS' : CFSG.ABGLocalTools.IsSylowOf p (S ⊓ U) U) :
     U ≤ relPPrimeCore p H ⊔ (S ⊓ U) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥U →* StarGroup p H :=
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)).comp (Subgroup.inclusion hUH)
   have hφker : φ.ker = (relPPrimeCore p H).subgroupOf U := by
@@ -218,7 +218,7 @@ theorem exists_sylow_nineSetting (h : NineSetting G M p Q H E 2) (hH2 : H ∈ H2
     (hp : p ∉ sigmaM G M) (hU : NineNineOne M p) :
     ∃ P : Subgroup G, Q ≤ P ∧ NineSetting G M p P H E 2 ∧ H ∈ H2Fam M P ∧
       CFSG.ABGLocalTools.IsSylowOf p P H ∧ P ≤ M ∧ normalizer (P : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hQinf : Q ≤ H ⊓ M := le_inf h.Q_le_H h.Q_le_M
   have hQp : IsPGroup p (Q.subgroupOf (H ⊓ M)) :=
     (QSet.isPGroup_of_mem h.mem_Q).comap_subtype (K := H ⊓ M)
@@ -245,8 +245,8 @@ theorem pRank_le_of_mem_H2Fam (h : NineSetting G M p Q H E k) (hH2 : H ∈ H2Fam
     (hp : p ∉ sigmaM G M) :
     CFSG.Open.pRank p H ≤ 3 ∧ (5 < p → CFSG.Open.pRank p H ≤ 2) ∧
       CFSG.Open.pRank 3 H ≤ 3 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTne : CFSG.pCore 2 ↥H ≠ ⊥ := by
     intro hbot
     have hpcof : pCoreOf 2 H = ⊥ := by
@@ -283,7 +283,7 @@ theorem le_of_frattini (h : NineSetting G M p Q H E 2) (hU : NineNineOne M p)
     (hS : CFSG.ABGLocalTools.IsSylowOf p S B) (hSM : S ≤ M) (hES : E ≤ S) (hEU : E ≤ U) :
     B ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hUH : U ≤ H := hUB.trans hBH
   have hBU : B ≤ normalizer (U : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).mp hUn
@@ -304,7 +304,7 @@ theorem le_of_frattini (h : NineSetting G M p Q H E 2) (hU : NineNineOne M p)
 theorem not_starImg_le_pCore (h : NineSetting G M p Q H E 2) (hp : p ∉ sigmaM G M)
     (hU : NineNineOne M p) : ¬ starImg p H E ≤ CFSG.pCore p (StarGroup p H) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro hle
   let R : Subgroup G := ((CFSG.pCore p (StarGroup p H)).comap
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))).map H.subtype

@@ -61,10 +61,10 @@ private lemma qtwoDB41E_relIndex_toAddSubgroup {G : Type*} [Group G]
 
 private lemma qtwoDB41E_finrank_H {m : ℕ} (hm : 1 ≤ m)
     (σ : Multiplicative (DVec m) →* (W ≃ₗ[ZMod 2] W))
-    (N : Subgroup (W ≃ₗ[ZMod 2] W)) (hN : N ≤ σ.range)
-    (hrel : N.relIndex σ.range = 3) (hcard : Nat.card σ.range = 3 ^ (m - 1)) :
+    (N : Subgroup (W ≃ₗ[ZMod 2] W)) (_hN : N ≤ σ.range)
+    (hrel : N.relIndex σ.range = 3) (_hcard : Nat.card σ.range = 3 ^ (m - 1)) :
     Module.finrank (ZMod 3) (qtwoDB41E_H σ N) = m - 1 := by
-  haveI : Module.Finite (ZMod 3) (qtwoDB41E_H σ N) :=
+  have : Module.Finite (ZMod 3) (qtwoDB41E_H σ N) :=
     FiniteDimensional.finiteDimensional_submodule (qtwoDB41E_H σ N)
   have hindex : (N.toAddSubgroup.comap (qtwoDB41E_phi σ)).index = 3 := by
     rw [AddSubgroup.index_comap, qtwoDB41E_phi_range,
@@ -74,7 +74,7 @@ private lemma qtwoDB41E_finrank_H {m : ℕ} (hm : 1 ≤ m)
   have hcardH : Nat.card (qtwoDB41E_H σ N) = 3 ^ (m - 1) := by
     have h1 := AddSubgroup.card_mul_index (N.toAddSubgroup.comap (qtwoDB41E_phi σ))
     have hDVec : Nat.card (DVec m) = 3 ^ m := by
-      simp [DVec, Nat.card_fun, Nat.card_zmod]
+      simp [DVec]
     have hp : 3 ^ m = 3 ^ (m - 1) * 3 := by
       conv_lhs => rw [show m = (m - 1) + 1 from by omega]
       rw [pow_succ]
@@ -145,14 +145,14 @@ theorem qtwoDB41_generic_fixed_W {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
     have hG : Nat.card (Multiplicative (DVec m)) = 3 ^ m := by
       have : Nat.card (Multiplicative (DVec m)) = Nat.card (DVec m) := rfl
       rw [this]
-      simp [DVec, Nat.card_fun, Nat.card_zmod]
+      simp [DVec]
     have hp : 3 ^ m = 3 * 3 ^ (m - 1) := by
       conv_lhs => rw [show m = (m - 1) + 1 from by omega]
       rw [pow_succ']
     have h2 := Subgroup.card_ker_mul_card_range σ
     rw [hker, hG, hp] at h2
     exact Nat.eq_of_mul_eq_mul_left (by norm_num) h2
-  letI : IsElementaryAbelian 3 σ.range := qtwoDB41_isElementaryAbelian_range σ
+  let : IsElementaryAbelian 3 σ.range := qtwoDB41_isElementaryAbelian_range σ
   obtain ⟨I, d, hI, ⟨hindep, hsup, horth⟩, hblocks, hsum, hinf, hrI, hIm, hI3, hm0, hr0,
     hplanes, hnorm, hAll, hmr⟩ :=
     binary_quadratic_three_action_canonical_kernel_blocks (m := m - 1) (r := m - 1)

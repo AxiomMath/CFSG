@@ -244,7 +244,7 @@ theorem exists_fixed {y : G} (hy2 : y * y = 1)
   have hzSt := hKSt z.2
   obtain ⟨x, hx, hzx⟩ := hzSt.2
   set R : Subgroup G := ((P₂ : Subgroup ↥K).map K.subtype) ⊓ X with hR
-  have hR2 : IsPGroup 2 R := (P₂.isPGroup'.map K.subtype).to_inf_left
+  have hR2 : IsPGroup 2 R := (P₂.isPGroup.map K.subtype).to_inf_left
   have hyP : y ∈ (P₂ : Subgroup ↥K).map K.subtype :=
     ⟨⟨y, Subgroup.mem_sup_right (Subgroup.mem_zpowers y)⟩,
       hP₂ (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers y)), rfl⟩

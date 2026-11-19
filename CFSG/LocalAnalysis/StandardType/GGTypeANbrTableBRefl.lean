@@ -42,13 +42,13 @@ theorem permAut_swap_mem_reflSet [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
     {i j : Fin d} (hij : i ≠ j) :
     permAut φ' A hN (Equiv.swap i j) ∈ ggTorusReflSet p A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hc : ∀ a b : ↥A, a * b = b * a := fun a b => hA.1.is_comm.comm a b
   refine ⟨φ' (permSL (Equiv.swap i j)⁻¹), hN (Equiv.swap i j), ?_, rfl, ?_⟩
   · exact weyl_mul_apply_inv_diag hφker hdiag hA.2 _
@@ -160,7 +160,7 @@ theorem permAut_swap_mem_reflSet [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
       have hvm : ggPairVec i j (ζ * ζ) m = 1 := by
         rw [ggPairVec_apply, ite_eq_right hmi, ite_eq_right hmj, mul_one]
       rw [hvi, hvm] at hratio
-      simp only [Pi.one_apply, inv_one, mul_one] at hratio
+      simp only [inv_one, mul_one] at hratio
       exact hζinv (inv_eq_of_mul_eq_one_right hratio).symm
     constructor
     · rw [← map_pow, pow_two, Equiv.swap_mul_self, map_one]

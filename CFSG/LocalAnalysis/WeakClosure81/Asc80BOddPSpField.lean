@@ -576,7 +576,7 @@ theorem planeGen_of_not_spLinear {F : Type} [Field F] [Finite F] {r : ℕ} (hr :
     by_cases hτ1 : τ = 1
     · rwa [show y = y' from by simp [y', hτ1]]
     · have hys : y = y' * fieldAut r F σ := by
-        simp only [y', if_neg hτ1]
+        simp only [y', ite_eq_right hτ1]
         rw [mul_assoc, ← map_mul, ← pow_two, hσ2, map_one, mul_one]
       rw [hys, MulAut.mul_apply, hfσfix, hy'fix]
   have hstab : E' ≤ MulAction.stabilizer (MulAut (StatedProj (StatedSp r F))) (proj r F Xsp) := by

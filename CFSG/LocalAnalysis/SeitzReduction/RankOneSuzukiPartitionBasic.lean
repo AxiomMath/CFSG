@@ -58,12 +58,12 @@ theorem exists_mem_normalizer_not_mem_of_sylow [Finite G] {p : ℕ} [Fact p.Prim
     ∃ y ∈ normalizer (T : Set G), y ∉ H := by
   obtain ⟨P, hP⟩ := hT
   have hTp : IsPGroup p T := by
-    have hP' := P.isPGroup'
+    have hP' := P.isPGroup
     rw [hP] at hP'
     exact hP'.of_equiv (subgroupOfEquivOfLe hTH)
   obtain ⟨S, hTS⟩ := hTp.exists_le_sylow
   have hne : T ≠ S := fun h => hnot ⟨S, h.symm⟩
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : T.subgroupOf S < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hne ?_
     exact le_antisymm hTS (subgroupOf_eq_top.mp htop)
@@ -73,7 +73,7 @@ theorem exists_mem_normalizer_not_mem_of_sylow [Finite G] {p : ℕ} [Fact p.Prim
   refine ⟨y, hyN, fun hyH => hyT (mem_subgroupOf.mpr ?_)⟩
   set W := T ⊔ zpowers (y : G) with hW
   have hWH : W ≤ H := sup_le hTH (zpowers_le.mpr hyH)
-  have hWp : IsPGroup p W := S.isPGroup'.to_le (sup_le hTS (zpowers_le.mpr y.2))
+  have hWp : IsPGroup p W := S.isPGroup.to_le (sup_le hTS (zpowers_le.mpr y.2))
   have hWp' : IsPGroup p (W.subgroupOf H) := hWp.of_equiv (subgroupOfEquivOfLe hWH).symm
   have hle : (P : Subgroup H) ≤ W.subgroupOf H := by
     rw [hP]

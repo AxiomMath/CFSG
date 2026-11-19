@@ -47,9 +47,9 @@ private theorem pair_short (hP : LayerPairFact) (P : Pair L₁ L₂ 3)
 
 private theorem pair_alt (hP : LayerPairFact) (P : Pair L₁ L₂ r) {n : ℕ} (hn5 : 5 ≤ n)
     (hn9 : n ≤ 9) (e : ↥L₁ ⧸ center ↥L₁ ≃* alternatingGroup (Fin n)) : Concl L₁ L₂ r := by
-  haveI : Group.IsPerfect ↥L₁ := P.h₁.1.1
+  have : Group.IsPerfect ↥L₁ := P.h₁.1.1
   obtain ⟨φ⟩ := P.hφ
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hcard : Nat.card (↥L₁ ⧸ center ↥L₁) = Nat.factorial n / 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
       Fintype.card_fin]
@@ -159,7 +159,7 @@ private theorem pair_sporadic
     (hs : s = .M11 ∨ s = .M12 ∨ s = .M22 ∨ s = .M23 ∨ s = .M24 ∨ s = .J1 ∨ s = .J2 ∨ s = .J3 ∨
       s = .J4 ∨ s = .HS ∨ s = .He ∨ s = .Ru ∨ s = .McL)
     (e : ↥L₁ ⧸ center ↥L₁ ≃* NativeSporadic.Carrier s) : Concl L₁ L₂ r := by
-  haveI : Group.IsPerfect ↥L₁ := P.h₁.1.1
+  have : Group.IsPerfect ↥L₁ := P.h₁.1.1
   obtain ⟨φ⟩ := P.hφ
   have hJ4 : J4OrderHyp := dvd_of_eq CFSG.Sporadic.J4.card_J4
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl

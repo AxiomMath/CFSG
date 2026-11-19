@@ -44,7 +44,7 @@ theorem GGHalfJoin.le_range_slLower2Hom_of_perfect_of_commute {m : ℕ}
   have hS : {i : Fin (m + 1 + 1 + 1) | i ≠ (⟨0, Nat.succ_pos _⟩ : Fin (m + 1 + 1)).castSucc ∧
       i ≠ (⟨0, Nat.succ_pos _⟩ : Fin (m + 1 + 1)).succ} = {i | 2 ≤ i.val} := by
     ext i
-    simp only [Set.mem_setOf_eq, ne_eq, Fin.ext_iff, Fin.val_succ, Fin.coe_castSucc]
+    simp only [Set.mem_ofPred_eq, ne_eq, Fin.ext_iff, Fin.val_succ, Fin.val_castSucc]
     omega
   refine le_of_perfect_of_commutators hJ ?_
   intro g hg k hk

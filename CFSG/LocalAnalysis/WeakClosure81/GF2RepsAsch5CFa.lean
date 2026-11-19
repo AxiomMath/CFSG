@@ -20,12 +20,12 @@ theorem simpSec_barInf_of_cComp_sup {G : Type} [Group G] [Finite G] {L B : Subgr
   have hLX : L ≤ L ⊔ B := le_sup_left
   have hNn : (L.subgroupOf (L ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).2 (sup_le Subgroup.le_normalizer hB)
-  haveI := hNn
+  have := hNn
   rcases uc22p20b_simpSec_restrict (L.subgroupOf (L ⊔ B)) h with h1 | h2
   · have h1' : uc22p20bSimpSec ↥L Λ :=
       uc22p20b_simpSec_of_surjective (Subgroup.subgroupOfEquivOfLe hLX).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hLX).symm.surjective h1
-    haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+    have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
     have h1'' : uc22p20bSimpSec ↥(sSup (cComp L)) Λ := by
       rw [hsSup]
       exact h1'
@@ -43,8 +43,8 @@ theorem simpSec_barInf_of_cComp_sup {G : Type} [Group G] [Finite G] {L B : Subgr
       simp only [MonoidHom.comp_apply, QuotientGroup.mk'_apply]
       rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
       simpa [mul_assoc] using (Subgroup.mem_normalizer_iff''.1 (hB hb) l).1 hl
-    haveI : Group.IsSolvable ↥B := hBs
-    haveI : Group.IsSolvable (↥(L ⊔ B) ⧸ L.subgroupOf (L ⊔ B)) :=
+    have : Group.IsSolvable ↥B := hBs
+    have : Group.IsSolvable (↥(L ⊔ B) ⧸ L.subgroupOf (L ⊔ B)) :=
       Group.isSolvable_of_surjective hsurj
     obtain ⟨a, b, hab⟩ := hnc
     exact hab (uc22p20b_simpSec_comm h2 a b)
@@ -74,7 +74,7 @@ theorem map_solvableRadical_mulEquiv {A B : Type} [Group A] [Group B] [Finite A]
     intro A B _ _ _ e
     have hn : ((CFSG.solvableRadical A).map e.toMonoidHom).Normal :=
       Subgroup.Normal.map inferInstance _ e.surjective
-    haveI := A3.solvableRadical_isSolvable (G := A)
+    have := A3.solvableRadical_isSolvable (G := A)
     have hs : Group.IsSolvable ↥((CFSG.solvableRadical A).map e.toMonoidHom) :=
       Group.isSolvable_of_surjective (f := ((CFSG.solvableRadical A).equivMapOfInjective
         e.toMonoidHom e.injective).toMonoidHom) (MulEquiv.surjective _)

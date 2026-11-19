@@ -167,7 +167,7 @@ theorem aschbacherSixSixteenPR_holds : AschbacherSixSixteenPR := by
   intro G _ _ _ _ Y T hY hYT R hR U₀ _ _ _ _ S hS hSY _
   have hNo : SubTwo.NoTwoQuotient Y := SubTwo.noTwoQuotient_of_oResidualTwo hY.1.residual_eq
   set NY : Subgroup G := Subgroup.normalizer (Y : Set G) with hNY
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hTtop : IsSylowOf 2 (T : Subgroup G) ⊤ :=
     ⟨le_top, hT2, by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
   have hJTY : jIn (T : Subgroup G) ≤ NY :=

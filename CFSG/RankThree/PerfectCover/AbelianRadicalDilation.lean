@@ -83,7 +83,7 @@ theorem perfect_central_prime_kernel_abelian_radical_dilation_trivial' [Finite E
     intro q
     exact Subtype.ext (mem_centralizer_singleton_iff.mp (hQa q.2))
   have hAnormal : A.Normal := normal_of_le_center ((zpowers_le).mpr ha'center)
-  have hRpg : IsPGroup p R := P.isPGroup'.to_le hRP
+  have hRpg : IsPGroup p R := P.isPGroup.to_le hRP
   have hcop : Nat.Coprime (Nat.card A) (Nat.card (Additive R)) := by
     rw [hA, Nat.card_zpowers, ha', Subgroup.orderOf_mk]
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hRpg

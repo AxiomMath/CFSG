@@ -51,7 +51,7 @@ private theorem mem_normalizer_zpowers {S L A : Subgroup G} (hc : IsCyclic ↥(S
     (hAS : A ≤ S) (hA3 : ∀ x ∈ A, x ^ 3 = 1) {a g : G} (haA : a ∈ A) (haL : a ∈ L)
     (ha3 : orderOf a = 3) (hgA : g ∈ normalizer (A : Set G))
     (hgL : g ∈ normalizer (L : Set G)) : g ∈ normalizer (zpowers a : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine mem_normalizer_fintype fun n hn => ?_
   have hxA := (mem_normalizer_iff.1 hgA n).1 (zpowers_le.2 haA hn)
   have hxL := (mem_normalizer_iff.1 hgL n).1 (zpowers_le.2 haL hn)
@@ -75,7 +75,7 @@ theorem mem_uniqueSet_of_outer {D : Data G} (h82 : F08.R82 D)
     (hN₁₂ : normalizer ((zpowers a₁ ⊔ zpowers a₂ : Subgroup G) : Set G) ≤ D.M) {a₀ : G}
     (ha₀ : a₀ ∈ R) (ha₀3 : a₀ ^ 3 = 1) (hout : ¬ IsInnerAut (UC6S846.rhoL L₁ ⟨a₀, hR₁ ha₀⟩)) :
     zpowers a₁ ∈ uniqueSet D.M ∧ zpowers a₂ ∈ uniqueSet D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRp : IsPGroup 3 R := hR.isPGroup
   have hR₂ : R ≤ normalizer (L₂ : Set G) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hRp

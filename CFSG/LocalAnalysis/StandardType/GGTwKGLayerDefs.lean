@@ -99,7 +99,7 @@ structure KGTwFrame (n : ℕ) {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {
         g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v →
     ∀ α β : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag α → IsRoot TwistTag.E6.tag β →
       iform α β = 0 →
-    ∀ (ζ : (AlgebraicClosure K)ˣ) (hζ : ζ ^ 3 = 1), ζ ≠ 1 →
+    ∀ (ζ : (AlgebraicClosure K)ˣ) (_hζ : ζ ^ 3 = 1), ζ ≠ 1 →
     ∀ ta ∈ twistedE6InndiagGL K σ, ∀ tb ∈ twistedE6InndiagGL K σ,
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) ta * g0 =
         rootDiagUnit TwistTag.E6.tag (TwE6RootAs.corootTuple α ζ) →

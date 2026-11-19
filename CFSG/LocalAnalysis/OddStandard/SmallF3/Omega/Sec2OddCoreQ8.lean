@@ -84,9 +84,9 @@ theorem oddCore_centralizer_quaternion_of_isOmegaStar {Y : Type} [Group Y] {n : 
     (hY : IsOmegaStar Y n ε) (f : QuaternionGroup 2 →* Y) :
     oddCore ↥(Subgroup.centralizer ({f (QuaternionGroup.a 2)} : Set Y)) = ⊥ := by
   obtain ⟨V, i1, i2, i3, Q, hQ, -, -, ⟨e⟩⟩ := hY
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact oddCore_centralizer_eq_bot_of_mulEquiv e
     (oddCore_centralizer_quaternion_omegaProj hQ (e.toMonoidHom.comp f))
 

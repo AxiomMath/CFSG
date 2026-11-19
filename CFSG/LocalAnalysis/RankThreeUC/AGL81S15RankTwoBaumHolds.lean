@@ -33,7 +33,7 @@ private theorem card_center_eq_one_of_A2_odd {L : Type} [Group L] [Finite L]
   subst p
   let Q' : TauCeti.PrimePower := ⟨2, ex, hp, hpos⟩
   set F := GaloisField 2 Q'.exponent
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardF : Nat.card F = Q'.card := by
     simpa only [Q', TauCeti.PrimePower.card_def] using GaloisField.card 2 ex hpos.ne'
   have hcardF' : Fintype.card F = 2 ^ Q'.exponent := by

@@ -37,7 +37,7 @@ theorem exists_fieldPart_of_outPChain_outLift_tower {K : Type} [Group K] [Finite
       ¬ p ∣ (CFSG.ComponentClassification.OuterAutomorphisms.inner K ⊔ F).index ∧
       ∀ x : MulAut K, (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner K ⊔ F := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact exists_fieldPart_of_outPChain_outLift hp hChain hLift
     (sylow_normal_outer_of_outTowerAt (center_eq_bot_of_simple_nonneab hnab) hTower)
 
@@ -45,9 +45,9 @@ theorem two_le_pRank_three_classical_POmegaMinus_charTwo {S : Type} [Group S] [F
     {n f : ℕ} (h : StatedClassicalModel S .POmegaMinus n 2 f) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup S) := by
   obtain ⟨⟨-, -, hn⟩, K, _, _, hK, b, c, -, ⟨e⟩⟩ := h
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
-    charP_of_card_eq_prime_pow (by rwa [← Nat.card_eq_fintype_card, hK])
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
+    charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have h3 := CFSG.SectionRank.ClassicalEven.omegaMinus_three_le_pRank_three (K := K) hn b c
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
   omega
@@ -56,7 +56,7 @@ theorem i713ClauseFor_lie_B_odd (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B r q).Valid) (hq2 : q.p ≠ 2) (hr3 : 3 ≤ r) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.B r q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : IsSimpleGroup K := hK
+  have : IsSimpleGroup K := hK
   have hSC : StatedClassicalModel K .POmegaOdd r q.p q.exponent :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd r q hv hq2 hr3 eK
   have hChain : OutPChain p K := (outPNice_POmegaOdd_all hp hp2 hSC).toChain
@@ -69,7 +69,7 @@ theorem i713ClauseFor_lie_D (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.D r q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.D r q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : IsSimpleGroup K := hK
+  have : IsSimpleGroup K := hK
   have hr4 : 4 ≤ r :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
       ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
@@ -98,7 +98,7 @@ theorem i713ClauseFor_lie_twistedD (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedD r q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.twistedD r q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : IsSimpleGroup K := hK
+  have : IsSimpleGroup K := hK
   have hSC : StatedClassicalModel K .POmegaMinus r q.p q.exponent :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD r q hv eK
   have hChain : OutPChain p K := (outPNice_POmegaMinus_all hp hp2 hSC).toChain

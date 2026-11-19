@@ -131,7 +131,7 @@ theorem eq_inf_sup_pCoreOf_two_of_mem_scriptY4_of_a7 (h148 : Item148R)
   · obtain ⟨-, rfl⟩ := hpt c' L' hc' hL'
     exact (not_isLThreeEpsAt_of_card_2520 hL2520 2 (n * m) hε).elim
 
-theorem le_K_of_eq_inf_sup_pCoreOf_two_of_m22 {A : Subgroup G} {c : G} {L : Subgroup G}
+theorem le_K_of_eq_inf_sup_pCoreOf_two_of_m22 {A : Subgroup G} {_c : G} {L : Subgroup G}
     (hM22 : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.M22))
     (h1512 : Item1512 A (lB A) L) {K : Subgroup G} (hK : K ∈ scriptY0Star A (lB A))
     (hcover : K = (L ⊓ K) ⊔ CFSG.Open.pCoreOf 2 K) :
@@ -140,11 +140,11 @@ theorem le_K_of_eq_inf_sup_pCoreOf_two_of_m22 {A : Subgroup G} {c : G} {L : Subg
   exact le_sup_left
 
 theorem isSimpleGroup_quot_pCore_two_of_mem_scriptY4 (h148 : Item148R)
-    (hbot : Item145BotS14) (h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
+    (hbot : Item145BotS14) (_h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
     {L : Subgroup G} (h : Sec15R G A c L)
     (hL : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* alternatingGroup (Fin 7)) ∨
       Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.M22))
-    (hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
+    (_hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (hΩ : omegaA A = {Subgroup.zpowers c}) {X : Subgroup G} (hX4 : X ∈ scriptY4 A (lB A)) :
     IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X) := by
   have hXΔ := eq_deltaZero_of_mem_scriptY4 hbot h hX4
@@ -219,22 +219,22 @@ theorem isSimpleGroup_quot_pCore_two_of_mem_scriptY4 (h148 : Item148R)
   rcases htype with htype7 | htype22
   · have hO : CFSG.pPrimeCore 3 ↥X = CFSG.pCore 2 ↥X :=
       pPrimeCore_eq_pCore_of_mem_scriptY4 hX4 htype7 multFree_alternatingGroup_seven
-    haveI hsimp : IsSimpleGroup (↥X ⧸ CFSG.pPrimeCore 3 ↥X) :=
+    have hsimp : IsSimpleGroup (↥X ⧸ CFSG.pPrimeCore 3 ↥X) :=
       Proof1514.isSimpleGroup_of_mulEquiv_alternating (by norm_num) htype7.some
     exact (QuotientGroup.quotientMulEquivOfEq hO).symm.isSimpleGroup
   · have hO : CFSG.pPrimeCore 3 ↥X = CFSG.pCore 2 ↥X :=
       pPrimeCore_eq_pCore_of_mem_scriptY4 hX4 htype22 multFree_M22
-    haveI hsimp : IsSimpleGroup (↥X ⧸ CFSG.pPrimeCore 3 ↥X) := by
-      haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
+    have hsimp : IsSimpleGroup (↥X ⧸ CFSG.pPrimeCore 3 ↥X) := by
+      have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
         CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
       exact htype22.some.isSimpleGroup
     exact (QuotientGroup.quotientMulEquivOfEq hO).symm.isSimpleGroup
 
 theorem quot_pCore_two_equiv_a7_of_mem_scriptY4 (h148 : Item148R)
-    (hbot : Item145BotS14) (h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
+    (hbot : Item145BotS14) (_h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
     {L : Subgroup G} (h : Sec15R G A c L)
     (hL7 : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* alternatingGroup (Fin 7)))
-    (hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
+    (_hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (hΩ : omegaA A = {Subgroup.zpowers c}) {K : Subgroup G}
     (hK4 : K ∈ scriptY4 A (lB A)) :
     Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7)) := by
@@ -278,11 +278,11 @@ theorem quot_pCore_two_equiv_a7_of_mem_scriptY4 (h148 : Item148R)
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hO).symm.trans φ⟩
 
 theorem type_quot_pCore_two_of_mem_scriptY4 (h148 : Item148R)
-    (hbot : Item145BotS14) (h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
+    (hbot : Item145BotS14) (_h142 : Item142R) (h131 : Item131) {A : Subgroup G} {c : G}
     {L : Subgroup G} (h : Sec15R G A c L)
     (hL : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* alternatingGroup (Fin 7)) ∨
       Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.M22))
-    (hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
+    (_hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (hΩ : omegaA A = {Subgroup.zpowers c}) {Y : Subgroup G} (hY4 : Y ∈ scriptY4 A (lB A)) :
     Nonempty (↥Y ⧸ CFSG.pCore 2 ↥Y ≃* alternatingGroup (Fin 7)) ∨
       Nonempty (↥Y ⧸ CFSG.pCore 2 ↥Y ≃* CFSG.Blueprint.NativeSporadic.M22) := by
@@ -376,7 +376,7 @@ theorem twinOKType_of_mem_scriptY0 (h148 : Item148R) (hbot : Item145BotS14)
     rcases type_quot_pCore_two_of_mem_scriptY4 h148 hbot h142 h131 h hL hN hΩ hY0.1 with ⟨e⟩ | ⟨e⟩
     · exact Or.inl (by rw [Nat.card_congr e.some.toEquiv, card_alternatingGroup_seven])
     · exact Or.inr (by rw [Nat.card_congr e.some.toEquiv, KFacts.KS14.card_nativeM22])
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y)) with h0 | h0
@@ -445,7 +445,7 @@ theorem res1L112InAt_m22 {A : Subgroup G} {c : G} {L X K Y M T : Subgroup G}
     (hR : Sec15R G A c L)
     (hq : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.M22))
     (hN : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
-    (hS : Sec14Std G A c L) (hC : Ctx155 A X K Y M T) (hLX : ¬ L ≤ X) :
+    (hS : Sec14Std G A c L) (hC : Ctx155 A X K Y M T) (_hLX : ¬ L ≤ X) :
     L ≤ delta A (lB A) L ∧ L ≤ K ∧ K = L ⊔ CFSG.Open.pCoreOf 2 K ∧
       CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 K := by
   have hLΔ : L ≤ delta A (lB A) L := le_delta_of_m22 hgen hR (h142 G A c L hS) hq
@@ -454,7 +454,7 @@ theorem res1L112InAt_m22 {A : Subgroup G} {c : G} {L X K Y M T : Subgroup G}
   have hcover : K = (L ⊓ K) ⊔ CFSG.Open.pCoreOf 2 K :=
     eq_inf_sup_pCoreOf_two_of_mem_scriptY4_of_m22 h148 hbot h142R hR hq hΩ hC.mem_k.prop.1
   have hLK : L ≤ K :=
-    le_K_of_eq_inf_sup_pCoreOf_two_of_m22 (A := A) (c := c) (L := L) hq
+    le_K_of_eq_inf_sup_pCoreOf_two_of_m22 (A := A) (_c := c) (L := L) hq
       h1512 hC.mem_k hcover
   have hKL : K = L ⊔ CFSG.Open.pCoreOf 2 K := by
     rw [← inf_eq_left.mpr hLK]; exact hcover

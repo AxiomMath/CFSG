@@ -34,18 +34,18 @@ theorem sec8_reduction [Finite G] [IsSimpleGroup G] (hPU : PushingUpCorollary)
     {M V : Subgroup G} (h : Hyp M V) (hempty : ∀ H : Subgroup G, ¬ IsHMember M V H) :
     Sec8ReductionConclusion M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMtop : M ≠ ⊤ := by
     intro htop
     obtain ⟨R, hR1, hR2, hRM⟩ := h.maxLocal.1
     have hnormal : R.Normal := Subgroup.normalizer_eq_top_iff.mp (hRM.symm.trans htop)
-    haveI : R.Normal := hnormal
+    have : R.Normal := hnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal R with hbot | hwhole
     · exact hR1 hbot
     · have hpambient : IsPGroup 2 G := by
         rw [hwhole] at hR2
         exact hR2.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent G := hpambient.isNilpotent
+      have : Group.IsNilpotent G := hpambient.isNilpotent
       have hcomm : ∀ a b : G, a * b = b * a :=
         IsSimpleGroup.comm_iff_isSolvable.mpr (inferInstance : Group.IsSolvable G)
       obtain ⟨a, b, hab⟩ := hnonab
@@ -74,7 +74,7 @@ theorem sec8_reduction [Finite G] [IsSimpleGroup G] (hPU : PushingUpCorollary)
       (T₁.subgroupOf (pushingUpS (T : Subgroup G))).Characteristic →
         Subgroup.normalizer (T₁ : Set G) ≤ M := by
     intro T₁ hT₁1 hT₁S hT₁char
-    have hT₁2 : IsPGroup 2 T₁ := (T.isPGroup'.to_le (pushingUpS_le _)).to_le hT₁S
+    have hT₁2 : IsPGroup 2 T₁ := (T.isPGroup.to_le (pushingUpS_le _)).to_le hT₁S
     have hXT₁ : (T : Subgroup G) ≤ Subgroup.normalizer (T₁ : Set G) :=
       (Subgroup.le_normalizer.trans (normalizer_le_normalizer_pushingUpS _)).trans
         (normalizer_le_normalizer_of_characteristic hT₁S hT₁char)
@@ -84,7 +84,7 @@ theorem sec8_reduction [Finite G] [IsSimpleGroup G] (hPU : PushingUpCorollary)
       Subgroup.centralizer (T₂ : Set G) ≤ M := by
     intro T₂ hT₂1 hT₂le
     have hT₂2 : IsPGroup 2 T₂ :=
-      T.isPGroup'.to_le (hT₂le.trans (omegaOneCenterIn_le _))
+      T.isPGroup.to_le (hT₂le.trans (omegaOneCenterIn_le _))
     have hY : (T : Subgroup G) ≤
         Subgroup.centralizer (omegaOneCenterIn (T : Subgroup G) : Set G) :=
       fun t ht => Subgroup.mem_centralizer_iff.mpr fun _ hz =>

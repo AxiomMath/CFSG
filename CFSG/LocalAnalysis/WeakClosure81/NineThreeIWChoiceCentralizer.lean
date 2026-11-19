@@ -11,11 +11,12 @@ open scoped Pointwise commutatorElement IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
-theorem nine3_mem_of_sq_mem_of_odd_relIndex {N H : Subgroup G} (hNH : N ≤ H)
+omit [Finite G] in
+theorem nine3_mem_of_sq_mem_of_odd_relIndex {N H : Subgroup G} (_hNH : N ≤ H)
     (hN : (N.subgroupOf H).Normal) (hodd : Odd (N.relIndex H))
     {x : G} (hxH : x ∈ H) (hx2 : x * x ∈ N) : x ∈ N := by
   let NK : Subgroup H := N.subgroupOf H
-  haveI : NK.Normal := hN
+  have : NK.Normal := hN
   let q : H ⧸ NK := QuotientGroup.mk' NK ⟨x, hxH⟩
   by_contra hxN
   have hq : q ≠ 1 := by
@@ -39,8 +40,8 @@ theorem nine3_mem_of_sq_mem_of_odd_relIndex {N H : Subgroup G} (hNH : N ≤ H)
 
 theorem nine3_odd_relIndex_pCoreOf_sup_X (hc : Nine3Choice V T A K S X p g x) :
     Odd ((pCoreOf 2 K).relIndex (pCoreOf 2 K ⊔ X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   let R := pCoreOf 2 K
   have hRX : R ⊓ X = ⊥ := by
     exact (IsPGroup.disjoint_of_ne 2 p (Ne.symm hc.core.hyp.base.odd) R X
@@ -60,11 +61,11 @@ theorem nine3_odd_relIndex_pCoreOf_sup_X (hc : Nine3Choice V T A K S X p g x) :
   exact hc.core.hyp.base.prime.odd_of_ne_two hc.core.hyp.base.odd
 
 theorem nine3_commutator_map_injective (hc : Nine3Choice V T A K S X p g x)
-    (hI : Nine3IFacts V K S) {a : G} (ha : a ∈ A) (haR : a ∉ pCoreOf 2 K) :
+    (_hI : Nine3IFacts V K S) {a : G} (ha : a ∈ A) (haR : a ∉ pCoreOf 2 K) :
     ∀ α ∈ A ⊓ pCoreOf 2 K, α ≠ 1 → ⁅α, x⁻¹ * a * x⁆ ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   let R := pCoreOf 2 K
   let u : G := x⁻¹ * a * x
   have ha2 : a * a = 1 := by
@@ -152,7 +153,7 @@ theorem nine3_commutator_map_injective (hc : Nine3Choice V T A K S X p g x)
     exact Subgroup.inv_mem _ hmem
   have hRnormK : K ≤ Subgroup.normalizer (R : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K
-  haveI : (R.subgroupOf (R ⊔ X)).Normal :=
+  have : (R.subgroupOf (R ⊔ X)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr (hsupK.trans hRnormK)
   have huaR : u * a ∈ R :=
     nine3_mem_of_sq_mem_of_odd_relIndex le_sup_left inferInstance
@@ -210,7 +211,7 @@ theorem nine3_centralizer_A_eq_sup (hc : Nine3Choice V T A K S X p g x)
       (A ⊓ pCoreOf 2 K) ⊔ (nineI V K ⊓ Subgroup.centralizer (A : Set G) ⊓
         Subgroup.centralizer (conjSubgroup A x : Set G)) := by
   classical
-  haveI : IsMulCommutative ↥(nineI V K) := hI.abelian.1
+  have : IsMulCommutative ↥(nineI V K) := hI.abelian.1
   let R := pCoreOf 2 K
   let I := nineI V K
   let A₀ := A ⊓ R
@@ -317,8 +318,8 @@ theorem nine3_centralizer_A_eq_sup (hc : Nine3Choice V T A K S X p g x)
     rw [hU0_eq]
     exact (card_conjSubgroup' x A₀).symm
   have hφ_surj : Function.Surjective φ := by
-    haveI : Fintype ↥A₀ := Fintype.ofFinite _
-    haveI : Fintype ↥U₀ := Fintype.ofFinite _
+    have : Fintype ↥A₀ := Fintype.ofFinite _
+    have : Fintype ↥U₀ := Fintype.ofFinite _
     have hcardF : Fintype.card ↥A₀ = Fintype.card ↥U₀ := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
       exact hcard

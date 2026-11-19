@@ -171,7 +171,7 @@ theorem step148NormalHJA6_of_one
   have hlt : Nat.card (centPre148 A Y J) < Nat.card Y :=
     card_centPre148_lt hJY (Ronan148M.exists_ne_comm_of_isPerfect hJp hJne)
   have h148₁ : Item148At A (lB A) (centPre148 A Y J) hY₁ := ih _ hY₁ hlt
-  letI := ker148_normal hY₁.2
+  let := ker148_normal hY₁.2
   have hX1Y₁ : deltaZero A (lB A) (centPre148 A Y J) ≤ centPre148 A Y J :=
     sSup_le fun _ hQ => hQ.2
   have hN₁ := img148_le_normalizer_of_map_normal (A := A) hX1Y₁ h148₁.1

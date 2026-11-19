@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem invol_orderOf_eq_two_pow {P : Subgroup K} (hP : IsPGroup 2 P) {g : K} (hg : g ∈ P) :
     ∃ k : ℕ, orderOf g = 2 ^ k := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP) ⟨g, hg⟩
@@ -24,7 +25,7 @@ theorem invol_orderOf_eq_two_pow {P : Subgroup K} (hP : IsPGroup 2 P) {g : K} (h
 
 theorem invol_central_involution {P : Subgroup K} [Nontrivial P] (hP : IsPGroup 2 P) :
     ∃ u ∈ P, u ^ 2 = 1 ∧ u ≠ 1 ∧ ∀ g ∈ P, g * u = u * g := by
-  haveI : Nontrivial (Subgroup.center ↥P) := IsPGroup.center_nontrivial hP
+  have : Nontrivial (Subgroup.center ↥P) := IsPGroup.center_nontrivial hP
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center ↥P))
   obtain ⟨w, hwP, hw1, hwc⟩ : ∃ w ∈ P, w ≠ 1 ∧ ∀ g ∈ P, g * w = w * g := by
     refine ⟨((z : ↥P) : K), (z : ↥P).2, fun h => hz (Subtype.ext (Subtype.ext h)), ?_⟩
@@ -57,7 +58,7 @@ theorem exists_commuting_involutions {P : Subgroup K} (hP : IsPGroup 2 P) {e e' 
     (he'1 : e' ≠ 1) (hne : e ≠ e') :
     ∃ e₁ ∈ P, ∃ e₂ ∈ P, e₁ ^ 2 = 1 ∧ e₂ ^ 2 = 1 ∧ e₁ ≠ 1 ∧ e₂ ≠ 1 ∧ e₁ ≠ e₂ ∧
       e₁ * e₂ = e₂ * e₁ := by
-  haveI : Nontrivial P := ⟨⟨⟨e, he⟩, 1, fun h => he1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial P := ⟨⟨⟨e, he⟩, 1, fun h => he1 (congrArg Subtype.val h)⟩⟩
   obtain ⟨u, huP, hu2, hu1, huc⟩ := invol_central_involution hP
   by_cases hue : u = e
   · refine ⟨e', he', e, he, he'2, he2, he'1, he1, Ne.symm hne, ?_⟩
@@ -66,12 +67,13 @@ theorem exists_commuting_involutions {P : Subgroup K} (hP : IsPGroup 2 P) {e e' 
     exact h
   · exact ⟨e, he, u, huP, he2, hu2, he1, hu1, Ne.symm hue, huc e he⟩
 
+omit [Finite K] in
 theorem exists_sq_eq_of_not_isCyclic {C : Subgroup K} (hC : IsPGroup 2 C) {t : K} (ht : t ∈ C)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (huniq : ∀ e ∈ C, e ^ 2 = 1 → e = 1 ∨ e = t)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (huniq : ∀ e ∈ C, e ^ 2 = 1 → e = 1 ∨ e = t)
     (hnc : ¬ IsCyclic C) : ∃ c ∈ C, c ^ 2 = t := by
   obtain ⟨x, hxC, hxt⟩ : ∃ x ∈ C, x ∉ Subgroup.zpowers t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     refine ⟨⟨⟨t, ht⟩, fun y => ?_⟩⟩
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (hcon y.1 y.2)
@@ -80,7 +82,7 @@ theorem exists_sq_eq_of_not_isCyclic {C : Subgroup K} (hC : IsPGroup 2 C) {t : K
   have hx1 : x ≠ 1 := fun h => hxt (by rw [h]; exact Subgroup.one_mem _)
   have hk2 : 2 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k
     · exact hx1 (orderOf_eq_one_iff.mp (by simpa using hk))
     · have hx2 : x ^ 2 = 1 := orderOf_dvd_iff_pow_eq_one.mp (by rw [hk]; norm_num)
@@ -119,10 +121,10 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 
 theorem exists_mem_not_mem_commutator_mem {N R Z : Subgroup K} (hN : IsPGroup 2 N) (hRN : R ≤ N)
-    (hNR : N ≤ normalizer (R : Set K)) (hZR : Z ≤ R)
+    (hNR : N ≤ normalizer (R : Set K)) (_hZR : Z ≤ R)
     (hZ : ∀ n ∈ N, ∀ y ∈ Z, n * y = y * n) (hRZ : ¬ R ≤ Z) :
     ∃ r ∈ R, r ∉ Z ∧ ∀ n ∈ N, ⁅r, n⁆ ∈ Z := by
-  clear hZR
+  clear _hZR
   have hZN : (Z.subgroupOf N).Normal := by
     refine ⟨fun y hy g => ?_⟩
     rw [mem_subgroupOf] at hy ⊢
@@ -131,17 +133,17 @@ theorem exists_mem_not_mem_commutator_mem {N R Z : Subgroup K} (hN : IsPGroup 2 
     rw [hc, mul_inv_cancel_right]
     exact hy
   have hRnorm : (R.subgroupOf N).Normal := (normal_subgroupOf_iff_le_normalizer hRN).mpr hNR
-  haveI : (Z.subgroupOf N).Normal := hZN
+  have : (Z.subgroupOf N).Normal := hZN
   have hQnil : Group.IsNilpotent (↥N ⧸ Z.subgroupOf N) :=
     IsPGroup.isNilpotent (hN.to_quotient (Z.subgroupOf N))
-  haveI : Group.IsNilpotent (↥N ⧸ Z.subgroupOf N) := hQnil
+  have : Group.IsNilpotent (↥N ⧸ Z.subgroupOf N) := hQnil
   let π : ↥N →* ↥N ⧸ Z.subgroupOf N := QuotientGroup.mk' (Z.subgroupOf N)
   have hR'norm : ((R.subgroupOf N).map π).Normal :=
     hRnorm.map π (QuotientGroup.mk'_surjective (Z.subgroupOf N))
-  haveI : ((R.subgroupOf N).map π).Normal := hR'norm
+  have : ((R.subgroupOf N).map π).Normal := hR'norm
   have hR'ne : (R.subgroupOf N).map π ≠ ⊥ := by
     intro h
-    obtain ⟨r0, hr0R, hr0Z⟩ := SetLike.not_le_iff_exists.mp hRZ
+    obtain ⟨r0, hr0R, hr0Z⟩ := IsConcreteLE.not_le_iff_exists.mp hRZ
     have hmem : π ⟨r0, hRN hr0R⟩ ∈ (R.subgroupOf N).map π :=
       Subgroup.mem_map_of_mem _ (mem_subgroupOf.mpr hr0R)
     rw [h, Subgroup.mem_bot] at hmem
@@ -200,9 +202,9 @@ def fixedPt_conjAct (V : Subgroup K) {z : K} (hzV : zpowers z ≤ normalizer (V 
 theorem card_modEq_card_inf_centralizer {V : Subgroup K} {z : K} {p : ℕ} (hp : p.Prime)
     (hz : z ^ p = 1) (hzV : z ∈ normalizer (V : Set K)) :
     Nat.card V ≡ Nat.card ↥(V ⊓ centralizer ({z} : Set K)) [MOD p] := by
-  haveI hfact : Fact p.Prime := ⟨hp⟩
+  have hfact : Fact p.Prime := ⟨hp⟩
   have hGV : zpowers z ≤ normalizer (V : Set K) := Subgroup.zpowers_le.mpr hzV
-  letI hact : MulAction ↥(zpowers z) ↥V := fixedPt_conjAct V hGV
+  let hact : MulAction ↥(zpowers z) ↥V := fixedPt_conjAct V hGV
   have hpow : ∀ n : ℤ, (z ^ n) ^ p = 1 := by
     intro n
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hz, one_zpow]

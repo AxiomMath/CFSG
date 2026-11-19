@@ -19,20 +19,20 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 theorem theta_eq_bot_of_isG2D4 {r : TauCeti.PrimePower} {δ : ℕ} (h : IsG2D4 Y r δ) :
     aschbacherSolvableCore 3 Y = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hS : IsSimpleGroup Y := Hering129KModels.isSimpleGroup_of_isG2D4 h
-  haveI hP : Group.IsPerfect Y := Hering129KModels.isPerfect_of_isG2D4 h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hS : IsSimpleGroup Y := Hering129KModels.isSimpleGroup_of_isG2D4 h
+  have hP : Group.IsPerfect Y := Hering129KModels.isPerfect_of_isG2D4 h
   obtain ⟨hθsol, -, -, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
   rcases hS.eq_bot_or_eq_top_of_normal (aschbacherSolvableCore 3 Y) with h0 | h1
   · exact h0
   · exfalso
-    haveI : Group.IsSolvable (aschbacherSolvableCore 3 Y) := hθsol
-    haveI : Group.IsSolvable Y := by
-      refine solvable_of_surjective (f := (aschbacherSolvableCore 3 Y).subtype) ?_
+    have : Group.IsSolvable (aschbacherSolvableCore 3 Y) := hθsol
+    have : Group.IsSolvable Y := by
+      refine Group.isSolvable_of_surjective (f := (aschbacherSolvableCore 3 Y).subtype) ?_
       intro y
       exact ⟨⟨y, by rw [h1]; trivial⟩, rfl⟩
-    haveI : Nontrivial Y := hS.toNontrivial
+    have : Nontrivial Y := hS.toNontrivial
     exact Group.IsPerfect.not_isSolvable Y ‹_›
 
 end Theta
@@ -122,7 +122,7 @@ theorem pairData_of_hess (hD : HessData Yh Bh xh bh ch) (hZ : Subgroup.center �
   · intro u hu
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact ((hcomm u).mp (Subgroup.mem_centralizer_singleton_iff.mp (hXC hu)).symm).symm
-  · haveI := hperf
+  · have := hperf
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hXY).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXY).symm.surjective
   ·

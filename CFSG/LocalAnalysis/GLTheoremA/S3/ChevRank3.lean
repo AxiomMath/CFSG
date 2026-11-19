@@ -80,7 +80,7 @@ private theorem exists_elemAbelian_lift {p : ℕ} (hp : p.Prime) {Y : Type} [Gro
     (hE : IsElemAbelian p E) :
     ∃ W : Subgroup Y, IsElemAbelian p W ∧ W.map (QuotientGroup.mk' N) = E ∧
       Nat.card W = Nat.card E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmk : ∀ y : Y, QuotientGroup.mk' N y = 1 ↔ y ∈ N := fun y => QuotientGroup.eq_one_iff y
   have hOE : N ≤ E.comap (QuotientGroup.mk' N) := fun n hn => by
     rw [Subgroup.mem_comap, (hmk n).2 hn]
@@ -254,7 +254,7 @@ theorem chevRank3At_of {G : Type} [Group G] [Finite G] {p : ℕ} (hR : KDRank3 p
   have hZ : Subgroup.center (PQuot p K) = ⊥ :=
     h65 hp hp2 X K hX hK hChev ⟨b, hBN hbB, hBel.2 b hbB, hbC, hbI⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : IsSimpleGroup (PSimple p K) := hq.2
+  have : IsSimpleGroup (PSimple p K) := hq.2
   let e : PSimple p K ≃* PQuot p K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hsimple : IsSimpleGroup (PQuot p K) := e.symm.isSimpleGroup

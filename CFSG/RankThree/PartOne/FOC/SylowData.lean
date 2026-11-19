@@ -29,7 +29,7 @@ theorem sylowAbelian_of_shape (hp : p.Prime) {r e : ℕ} (h : K1214.SylowShape p
     SylowAbelian p G := by
   intro P x hx y hy
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨φ⟩ := h P P.isPGroup' (Sylow.not_dvd_index P)
+  obtain ⟨φ⟩ := h P P.isPGroup (Sylow.not_dvd_index P)
   have h1 : φ (⟨x, hx⟩ * ⟨y, hy⟩) = φ (⟨y, hy⟩ * ⟨x, hx⟩) := by
     rw [map_mul, map_mul, mul_comm (φ ⟨x, hx⟩)]
   have := φ.injective h1
@@ -40,7 +40,7 @@ theorem sylowAbelian_of_pRank_le_one (hp : p.Prime) (hp2 : p ≠ 2) (h : CFSG.pR
   intro P
   have : Fact p.Prime := ⟨hp⟩
   have hcyc : IsCyclic (P : Subgroup G) := isCyclic_of_pRank_le_one hp hp2
-    (le_top : (P : Subgroup G) ≤ ⊤) P.isPGroup' (by
+    (le_top : (P : Subgroup G) ≤ ⊤) P.isPGroup (by
       rw [pRank_eq_of_mulEquiv_of_one_lt hp.one_lt (Subgroup.topEquiv : (⊤ : Subgroup G) ≃* G)]
       exact h)
   exact commute_of_isCyclic hcyc

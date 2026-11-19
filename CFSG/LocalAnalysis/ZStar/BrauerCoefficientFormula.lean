@@ -34,6 +34,7 @@ noncomputable local instance subgroupFintype (H : Subgroup G) : Fintype H :=
     (X : Type*) [Group X] [Fintype X] (x : X) : ZMod 2 :=
   ∑ u : X, principalPairWeight x u
 
+omit [Fintype G] in
 theorem orderOf_conj_eq (x y : G) :
     orderOf (x * y * x⁻¹) = orderOf y := by
   have hsemi : SemiconjBy x y (x * y * x⁻¹) := by
@@ -41,14 +42,17 @@ theorem orderOf_conj_eq (x y : G) :
     group
   exact (SemiconjBy.orderOf_eq x hsemi).symm
 
+omit [Fintype G] in
 private theorem twoRegular_conj_iff (x y : G) :
     TwoRegular (x * y * x⁻¹) ↔ TwoRegular y := by
   rw [TwoRegular, TwoRegular, orderOf_conj_eq]
 
+omit [Fintype G] in
 private theorem twoElement_conj_iff (x y : G) :
     TwoElement (x * y * x⁻¹) ↔ TwoElement y := by
   rw [TwoElement, TwoElement, orderOf_conj_eq]
 
+omit [Fintype G] in
 private theorem principalPairWeight_conj
     (w x u : G) (hwx : w * x = x * w) :
     principalPairWeight x (w * u * w⁻¹) = principalPairWeight x u := by

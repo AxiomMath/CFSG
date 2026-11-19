@@ -78,6 +78,7 @@ section Reduction
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem subset_commComponent_iff (z : G) :
     conjClassSet z ⊆ commComponent z ↔ ∀ x ∈ conjClassSet z, ∀ y ∈ conjClassSet z,
       Relation.ReflTransGen (CommOn (conjClassSet z)) x y := by
@@ -99,13 +100,13 @@ theorem holt_of_not_connected (hHolt : CFSG.RankThree.PartTwo.Sec21.HoltUniqueFi
     (∃ M' : Subgroup (FStar G), CFSG.IsStronglyEmbedded M') ∨
       ∃ n : ℕ, Odd n ∧ Nonempty (FStar G ≃* alternatingGroup (Fin n)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : fittingSubgroup G = ⊥ := H.toTim81Hyp.fittingSubgroup_eq_bot H.q4
   obtain ⟨K, hK, hFK, hZK⟩ := exists_component_eq_generalizedFitting H
   obtain ⟨hsimple, hnonab⟩ := Tim81.component_isSimple hF hK
   have hFU := (generalizedFitting_eq_normalClosure H hz₀Z hz₀1).1
   subst hFK
-  haveI : IsSimpleGroup ↥(generalizedFitting G) := hsimple
+  have : IsSimpleGroup ↥(generalizedFitting G) := hsimple
   have hnonab' := hnonab
   have hz₀F : z₀ ∈ generalizedFitting G := hZK hz₀Z
   have hz₀2 : z₀ * z₀ = 1 := by rw [← pow_two]; exact Z_sq H hz₀Z
@@ -173,7 +174,7 @@ theorem smith217_of_holt (hHolt : CFSG.RankThree.PartTwo.Sec21.HoltUniqueFixedPo
   suffices hconn : conjClassSet z ⊆ commComponent z by
     exact (subset_commComponent_iff z).mp hconn x hx y hy
   by_contra hnot
-  haveI : (generalizedFitting G).Normal := (CFSG.LocalCores.generalized_fitting_characteristic).2
+  have : (generalizedFitting G).Normal := (CFSG.LocalCores.generalized_fitting_characteristic).2
   have hQF : Q ≤ generalizedFitting G := Q_le_generalizedFitting H
   obtain ⟨P, z₀, hz₀Z, hz₀1, hz₀P, hz₀c⟩ := exists_involution_center_sylow H hQF
   obtain ⟨m, -, hm⟩ := Z_isConj H hz hz1 hz₀Z hz₀1

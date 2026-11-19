@@ -242,7 +242,7 @@ private theorem exists_outer_of_inner_card32 {u : A5WrTwo} (hu2 : u ^ 2 = 1)
       have h32 : (3 : ℕ) ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hdvd
       norm_num at h32
 
-theorem exists_outer_involution_mul {u : A5WrTwo} (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1)
+theorem exists_outer_involution_mul {u : A5WrTwo} (hu2 : u ^ 2 = 1) (_hu1 : u ≠ 1)
     (h : u ∉ commutator A5WrTwo ∨
       Nat.card ↥(Subgroup.centralizer ({u} : Set A5WrTwo)) = 32) :
     ∃ v : A5WrTwo, v ^ 2 = 1 ∧ v ∉ commutator A5WrTwo ∧ ∀ k : ℕ, orderOf (u * v) ≠ 2 ^ k := by

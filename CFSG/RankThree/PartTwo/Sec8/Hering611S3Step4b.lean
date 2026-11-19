@@ -43,7 +43,7 @@ theorem mem_aschbacherSolvableCore_of_mem {K : Type} [Group K] [Finite K] {L : S
   have hK3 : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 K) :=
     (solvable_prime_complement_core_characterization (H := K) Nat.prime_three).2.2.1
   have hNsolv : Group.IsSolvable ((aschbacherSolvableCore 3 K).subgroupOf L) := by
-    haveI := hsolv
+    have := hsolv
     let f : ((aschbacherSolvableCore 3 K).subgroupOf L) →* aschbacherSolvableCore 3 K :=
       MonoidHom.codRestrict (L.subtype.comp ((aschbacherSolvableCore 3 K).subgroupOf L).subtype)
         (aschbacherSolvableCore 3 K) (fun n => Subgroup.mem_subgroupOf.mp n.2)
@@ -66,7 +66,7 @@ theorem mem_aschbacherSolvableCore_of_mem {K : Type} [Group K] [Finite K] {L : S
 
 theorem not_mem_aschbacherSolvableCore_of_pow_three {K : Type} [Group K] [Finite K] {x : K}
     (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) : x ∉ aschbacherSolvableCore 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 K) :=
     (solvable_prime_complement_core_characterization (H := K) Nat.prime_three).2.2.1
   intro hx

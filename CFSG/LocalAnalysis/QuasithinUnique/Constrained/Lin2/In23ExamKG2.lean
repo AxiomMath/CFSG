@@ -349,7 +349,7 @@ theorem _root_.CFSG.QuasithinUnique.Lin2.examExcludes_g2
   obtain ⟨⟨P', hP'⟩, -⟩ := exceptional_ordinary_Sylow_opposition Tag.G2 F 2 w₀ hw₀
   have hU : IsSylowTwoOf ((posUnipotent Tag.G2 F).subgroupOf (adjointGroup Tag.G2 F)) ⊤ := by
     rw [← hP']
-    exact CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup', P'.not_dvd_index⟩
+    exact CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup, P'.not_dvd_index⟩
   obtain ⟨R₀, A₀, A₀', hRU, hnorm, hne, hA, hA', hel, hstrong⟩ :=
     h.toAbs.exists_RprimeE θ hθsurj hker _ hU
   exact g2_false hF4 R₀ A₀ A₀' hRU hU hnorm hne hA hA' hel hstrong

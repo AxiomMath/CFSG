@@ -65,14 +65,14 @@ theorem case_a7four_eleven (h13 : A11DoubleThreeCycle) (h : StdForm G L s) (hd :
   have mk : ∀ i j k : Fin 7, [i, j, k].Nodup → ∃ ℓ : ↥L, hd.jL ℓ = MC2.c3 (p i) (p j) (p k) := by
     intro i j k hn
     have hn' : [p i, p j, p k].Nodup := by simpa using hn.map hp
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+    simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
       not_false_eq_true, List.nodup_nil, and_true] at hn'
     exact hd.exists_jL_eq (c3_mem_altOn (hpF' i) (hpF' j) (hpF' k) hn'.1.1 hn'.1.2 hn'.2)
   choose! ℓ hℓ using mk
   have hcube : ∀ i j k : Fin 7, [i, j, k].Nodup → ℓ i j k ^ 3 = 1 := by
     intro i j k hn
     have hn' : [p i, p j, p k].Nodup := by simpa using hn.map hp
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+    simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
       not_false_eq_true, List.nodup_nil, and_true] at hn'
     apply hd.jL_injective
     rw [map_pow, hℓ i j k hn, map_one]

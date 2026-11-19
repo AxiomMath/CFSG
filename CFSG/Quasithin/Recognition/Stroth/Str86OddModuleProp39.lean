@@ -180,6 +180,7 @@ theorem str86_sq_le_relIndex_conjClosure
     one_le_pow₀ (Nat.one_le_pow k 2 (by norm_num))
   exact (le_self_pow hbase hc).trans hM6
 
+omit [Finite G] in
 private theorem p3_inf_q1_le_centralizer_conjClosure {L1 L2 S A : Subgroup G}
     (hR : ∀ g ∈ L1, A ⊓ Q1 L1 L2 S ≤ MulAut.conj g • Q2 L1 L2 S) :
     A ⊓ Q1 L1 L2 S ≤
@@ -235,7 +236,7 @@ theorem str86_exists_conj_not_le
   have hP2 := str86_sq_le_relIndex_conjClosure (a := a)
     hF hSB hk hFc hU3 hZQ hab haS haQ ha2
   have hAcent : A ≤ Subgroup.centralizer (A : Set G) := by
-    haveI : IsMulCommutative ↥A := hA.2.1.1
+    have : IsMulCommutative ↥A := hA.2.1.1
     exact Subgroup.le_centralizer A
   have hsub : conjClosure (Z2 L1 L2 S) L1 ⊓ A ≤
       Subgroup.centralizer (Subgroup.zpowers a : Set G) :=
@@ -257,7 +258,7 @@ theorem str86_displacement_of_not_le_q2 {L1 L2 S : Subgroup G}
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hB2 : VBig L2) (hL2 : IsL2Quot m (oTwoQuot ↥L2))
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    {A : Subgroup G} (hA : IsMaxElemAbelian S A) (hAQ : ¬ A ≤ Q2 L1 L2 S) :
+    {A : Subgroup G} (hA : IsMaxElemAbelian S A) (_hAQ : ¬ A ≤ Q2 L1 L2 S) :
     (Subgroup.centralizer (A : Set G)).relIndex (Z2 L1 L2 S) ≤
       2 ^ k * (Q2 L1 L2 S).relIndex A := by
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
@@ -302,9 +303,9 @@ private theorem p4b_main_le {L1 L2 S : Subgroup G} {k : ℕ}
       2 ^ k * (MulAut.conj g • Q2 L1 L2 S).relIndex (A ⊓ Q1 L1 L2 S) := by
   have hne : ∀ H K : Subgroup G, H.relIndex K ≠ 0 := by
     intro H K
-    letI : H.IsFiniteRelIndex ⊤ :=
+    let : H.IsFiniteRelIndex ⊤ :=
       Subgroup.isFiniteRelIndex_top_iff.mpr (Subgroup.finiteIndex_of_finite (H := H))
-    haveI : H.IsFiniteRelIndex K := Subgroup.isFiniteRelIndex_of_le_right H le_top
+    have : H.IsFiniteRelIndex K := Subgroup.isFiniteRelIndex_of_le_right H le_top
     exact Subgroup.relIndex_ne_zero
   have hA1 : A ≤ S := hA.1
   have hXleA : A ⊓ Q1 L1 L2 S ≤ A := inf_le_left
@@ -354,6 +355,7 @@ private theorem p4b_main_le {L1 L2 S : Subgroup G} {k : ℕ}
     _ ≤ (MulAut.conj g • Q2 L1 L2 S).relIndex A := h6
     _ ≤ 2 ^ k * (MulAut.conj g • Q2 L1 L2 S).relIndex (A ⊓ Q1 L1 L2 S) := hstep2
 
+omit [Finite G] in
 private theorem p4b_conj_transport {L1 L2 S : Subgroup G} {k : ℕ} {A : Subgroup G} {g : G}
     (hmain : (Subgroup.centralizer (A ⊓ Q1 L1 L2 S : Set G)).relIndex
         (MulAut.conj g • Z2 L1 L2 S) ≤
@@ -468,7 +470,7 @@ theorem str86_exists_displacement
     (hk : 2 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2)
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
-    (hB2 : VBig L2) (hL2 : IsL2Quot m (oTwoQuot ↥L2)) (hkm : 2 * k ≤ m)
+    (hB2 : VBig L2) (hL2 : IsL2Quot m (oTwoQuot ↥L2)) (_hkm : 2 * k ≤ m)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hab : ∀ x ∈ conjClosure (Z2 L1 L2 S) L1, ∀ y ∈ conjClosure (Z2 L1 L2 S) L1, x * y = y * x) :

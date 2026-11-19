@@ -16,16 +16,16 @@ open CFSG CFSG.Open CFSG.Timmesfeld.ARS CFSG.Timmesfeld.Transvection.ModelRank
   CFSG.LieType.Universal.Symplectic
 
 theorem noInvCompStatement_holds : NoInvCompStatement :=
-  fun n hn F _ _ _ hF a ha T S hT hS hsup hinf hinv =>
+  fun _n hn _F _ _ _ hF _a ha _T _S hT hS hsup hinf hinv =>
     no_invariant_complement_spRad hn hF ha hT hS hsup hinf hinv
 
 theorem spRadFactsStatement_holds : SpRadFactsStatement :=
-  fun n hn F _ _ _ hF a ha =>
-    ⟨fun g hg h hh => spRad_comm hF ha hg hh, fun g hg => spRad_sq hF ha hg,
+  fun _n hn _F _ _ _ hF _a ha =>
+    ⟨fun _g hg _h hh => spRad_comm hF ha hg hh, fun _g hg => spRad_sq hF ha hg,
       spRad_card hF hn ha⟩
 
 theorem commPairingStatement_holds : CommPairingStatement :=
-  fun G _ _ A B Px K₀ m h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 =>
+  fun _G _ _ A B Px K₀ m h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 =>
     card_le_of_commutator_pairing A B Px K₀ m h1 h2 h3 h4 h5 h6 h7 h8 h9 h10
 
 theorem tim79a34TwoTwistedStatement_of_cited (hGr : GriessSpMultiplierStatement)

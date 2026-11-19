@@ -70,11 +70,13 @@ open scoped Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem f112saK_comm (L1 L2 S : Subgroup H) :
     f112saK L2 L1 S = f112saK L1 L2 S := by
   simp only [f112saK, f112saX1, f112saX2, bigB_comm]
   exact sup_comm _ _
 
+omit [Finite H] in
 theorem f112_commutator_zpow_mem_T_of_normal_left
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S)
     (hn : (S.subgroupOf (S ⊔ borelOf L1 S)).Normal)
@@ -103,6 +105,7 @@ theorem f112_commutator_zpow_mem_T_of_normal_left
     rw [heq]
     exact Subgroup.mul_mem _ hconj (Subgroup.inv_mem _ hkKi)
 
+omit [Finite H] in
 theorem f112_commutator_mem_T_of_normal_left
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S)
     (hn : (S.subgroupOf (S ⊔ borelOf L1 S)).Normal)
@@ -112,11 +115,12 @@ theorem f112_commutator_mem_T_of_normal_left
   simpa using
     f112_commutator_zpow_mem_T_of_normal_left (i := (1 : ℤ)) hF hn hkB hkK hs
 
+omit [Finite H] in
 theorem f112sa_orderOf_mk_pCore_eq_three {L : Subgroup H} {k : H} (hkL : k ∈ L)
     (hk3 : orderOf k = 3) :
     orderOf (QuotientGroup.mk (s := CFSG.Open.pCore 2 ↥L) ⟨k, hkL⟩) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set x : ↥L := ⟨k, hkL⟩ with hx
   have hord : orderOf x = 3 := by
     rw [hx, Subgroup.orderOf_mk, hk3]
@@ -213,7 +217,7 @@ theorem f112_exists_mul_centralizer_mod_left_of_isL2Quot {L1 L2 S : Subgroup H} 
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mp hnorm
   have hDN : D ≤ Subgroup.normalizer (S : Set H) :=
     fun d hd => hSN (Subgroup.mem_sup_right (hDB hd))
-  haveI : Subgroup.Normalizes D S := ⟨hDN⟩
+  have : Subgroup.Normalizes D S := ⟨hDN⟩
   have hcommAct : commutatorAction (A := ↥D) (G := ↥S) ≤
       (S ⊓ f112saK L1 L2 S).subgroupOf S := by
     rw [commutatorAction_eq_closure]
@@ -230,9 +234,9 @@ theorem f112_exists_mul_centralizer_mod_left_of_isL2Quot {L1 L2 S : Subgroup H} 
     rw [hgoal]
     exact f112_commutator_mem_T_of_normal_left (s := (g : H)⁻¹) hF hnorm (hDB a.2) (hDK a.2)
       (S.inv_mem g.2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsolv : Group.IsSolvable ↥S := by
-    haveI : Group.IsNilpotent ↥S := hF.1.h1.pgroup.isNilpotent
+    have : Group.IsNilpotent ↥S := hF.1.h1.pgroup.isNilpotent
     infer_instance
   have hodd : Odd (2 ^ m - 1) :=
     Nat.Even.sub_odd Nat.one_le_two_pow
@@ -248,7 +252,7 @@ theorem f112_exists_mul_centralizer_mod_left_of_isL2Quot {L1 L2 S : Subgroup H} 
     (le_inf Subgroup.le_normalizer ((le_sup_right : S ≤ bigB L1 L2 S).trans
       (f112sa_bigB_le_normalizer_K hF))).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := S) (K := f112saK L1 L2 S))
-  haveI : (commutatorAction (A := ↥D) (G := ↥S)).Normal :=
+  have : (commutatorAction (A := ↥D) (G := ↥S)).Normal :=
     (commutatorAction_normal_and_invariant (A := ↥D) (G := ↥S)).1
   intro s hs
   have hmem : (⟨s, hs⟩ : ↥S) ∈ fixedPointSubgroup ↥D ↥S ⊔

@@ -42,13 +42,13 @@ private theorem twE6D5_normal (t : ModGL TwistTag.E6.tag K)
     (hDq : CFSG.IsQuasisimple D) (hCeq : C = (Subgroup.centralizer
         ({t} : Set (ModGL TwistTag.E6.tag K))).subgroupOf (twistedE6RootGroup K σ)) :
     D ≤ C ∧ (D.subgroupOf C).Normal ∧
-      (∀ _ : (D.subgroupOf C).Normal, IsSolvable (↥C ⧸ D.subgroupOf C)) ∧
+      (∀ _ : (D.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ D.subgroupOf C)) ∧
       CFSG.Open.IsComponentOf D ((Subgroup.centralizer
         ({t} : Set (ModGL TwistTag.E6.tag K))).subgroupOf (twistedE6RootGroup K σ)) ∧
       (∀ x ∈ D, (x : ModGL TwistTag.E6.tag K) ∈
         Subgroup.centralizer ({t} : Set (ModGL TwistTag.E6.tag K))) := by
   obtain ⟨hDleM, hNM, hsolM⟩ := normal_solvable_of_eq_sup_cyclic hXD hX hXc
-  have hsolC : ∀ _ : (D.subgroupOf C).Normal, IsSolvable (↥C ⧸ D.subgroupOf C) :=
+  have hsolC : ∀ _ : (D.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ D.subgroupOf C) :=
     hCeq.symm ▸ hsolM
   refine ⟨hCeq.symm ▸ hDleM, hCeq.symm ▸ hNM, hsolC,
     ⟨hDleM, CFSG.Open.IsSubnormal.step hDleM hNM (CFSG.Open.IsSubnormal.refl _),
@@ -222,7 +222,7 @@ private theorem twE6D5_component (hK : Nat.card K = (2 ^ 1) ^ 2)
     let C := TauCeti.fixedSubgroup (φ v).toMonoidHom
     ∃ J : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom),
       CFSG.IsQuasisimple ↥J ∧ J ≤ C ∧ (J.subgroupOf C).Normal ∧
-      (∀ _ : (J.subgroupOf C).Normal, IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
+      (∀ _ : (J.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
       25920 < Nat.card (↥J ⧸ Subgroup.center ↥J) ∧
       LargeEvenMarking ↥J (fun lab _ _ _ _ _ => lab = ⟨.twD, 5, 1⟩) ∧
       (∀ w : X3, (∀ j ∈ J, φ w j = j) ↔ ∃ c : ZMod 3, w = c • v) ∧
@@ -265,7 +265,7 @@ theorem exists_twE6Component_D5
     let C := TauCeti.fixedSubgroup (φ v).toMonoidHom
     ∃ J : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom),
       CFSG.IsQuasisimple ↥J ∧ J ≤ C ∧ (J.subgroupOf C).Normal ∧
-      (∀ _ : (J.subgroupOf C).Normal, IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
+      (∀ _ : (J.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
       25920 < Nat.card (↥J ⧸ Subgroup.center ↥J) ∧
       LargeEvenMarking ↥J (fun lab _ _ _ _ _ => lab = ⟨.twD, 5, 1⟩) ∧
       (∀ w : X3, (∀ j ∈ J, φ w j = j) ↔ ∃ c : ZMod 3, w = c • v) ∧

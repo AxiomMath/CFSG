@@ -227,7 +227,7 @@ private theorem exists_common_eigenline {K : Type*} [Field K] [Finite K] [CharP 
     (hpow : ∀ g ∈ G, ∃ (k : ℕ) (c : K), ∀ v, (g ^ 2 ^ k) v = c • v) :
     ∃ v : Fin 2 → K, v ≠ 0 ∧ ∀ g ∈ G, ∃ μ : K, g v = μ • v := by
   classical
-  letI := lineAction G hlin
+  let := lineAction G hlin
   have hscal : ∀ z : G, (∃ c : K, ∀ v, z.1 v = c • v) →
       ∀ ℓ : Projectivization K (Fin 2 → K), z • ℓ = ℓ := by
     rintro z ⟨c, hc⟩ ℓ
@@ -302,8 +302,8 @@ private theorem isCyclic_ringAut (K : Type*) [Field K] [Finite K] : IsCyclic (Ri
   exact e.isCyclic.mpr inferInstance
 
 private theorem finite_ringAut (K : Type*) [Field K] [Finite K] : Finite (RingAut K) :=
-  Finite.of_injective (fun σ : RingAut K => (σ : K → K))
-    (fun σ τ h => RingEquiv.ext (fun x => congrFun h x))
+  Finite.of_injective (fun _σ : RingAut K => (_σ : K → K))
+    (fun _σ _τ h => RingEquiv.ext (fun x => congrFun h x))
 
 theorem exists_invariant_line {K : Type*} [Field K] [Finite K] [CharP K 2]
     (hdesc : ∀ (σ : RingAut K) (Φ : Equiv.Perm (Fin 2 → K)), IsSemilinear σ Φ →
@@ -346,8 +346,8 @@ theorem exists_invariant_line {K : Type*} [Field K] [Finite K] [CharP K 2]
       exact hg₀ ⟨d, hd⟩
   ·
     push Not at hA
-    haveI : IsCyclic (RingAut K) := isCyclic_ringAut K
-    haveI : Finite (RingAut K) := finite_ringAut K
+    have : IsCyclic (RingAut K) := isCyclic_ringAut K
+    have : Finite (RingAut K) := finite_ringAut K
     let σf : H → RingAut K := fun h => Classical.choose (hsemi h.1 h.2)
     have hσf : ∀ h : H, IsSemilinear (σf h) h.1 := fun h => Classical.choose_spec (hsemi h.1 h.2)
     let φ : H →* RingAut K := MonoidHom.mk' σf (fun a b =>

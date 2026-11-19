@@ -415,7 +415,7 @@ theorem largeEvenLabelAll_torusGenTableB_twA_coprime
       (LargeEvenProj (LargeEvenSUGroup (Fin (l + 1)) K (2 ^ n))) := by
     have h := ggTorusLift_unitary (p := p) (d := l + 1) hK hn (by omega) hdq hp hpn
     have hrank : ggUnitaryTorusRank p (l + 1) = ((l + 1) - 1) - 1 := by
-      rw [ggUnitaryTorusRank, if_neg hpd]
+      rw [ggUnitaryTorusRank, ite_eq_right hpd]
       omega
     rw [hrank] at h
     exact h

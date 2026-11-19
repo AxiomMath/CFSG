@@ -64,11 +64,11 @@ theorem list_sum_two {α M : Type*} [AddCommMonoid M] [DecidableEq α] :
     · subst hxa
       have hxb : x ≠ b := hab
       have hbx : b ≠ x := fun e => hxb e.symm
-      simp [hx, hxb, hbx]
+      simp [hx, hbx]
     · by_cases hxb : x = b
       · subst hxb
         have hax : a ≠ x := fun e => hxa e.symm
-        simp [hx, hxa, hax, add_comm]
+        simp [hx, hax, add_comm]
       · have h0 := h x List.mem_cons_self hxa hxb
         have hax : a ≠ x := fun e => hxa e.symm
         have hbx : b ≠ x := fun e => hxb e.symm
@@ -82,9 +82,9 @@ theorem heisCoord_pinnedX_of_pos {ρ : Fin Tag.F4.rank → ℤ} (hρ : ρ ∈ ro
     (hpos : 1 ≤ ρ 0) (z : K) :
     heisCoord .F4 K (pinnedX .F4 K ρ z) = if ρ 0 = 1 then Pi.single ρ z else 0 := by
   by_cases h1 : ρ 0 = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact (heisCoord_spec .F4 K).pinnedX_deg1 ρ ⟨mem_rootFinset.1 hρ, h1⟩ z
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     have h2 : ρ = highRoot .F4 := deg_eq_two ρ hρ (by have := (deg_bounds ρ hρ).2; omega)
     subst h2
     exact (heisCoord_spec .F4 K).pinnedX_highRoot z
@@ -133,7 +133,7 @@ theorem f4CommConst_spec {γ μ : Fin Tag.F4.rank → ℤ} (hγ : IsRoot .F4 γ)
   have hC : f4CommConst γ μ =
       Classical.choose (exists_pinnedX_commFormula_F4_exact h.1 h.2.1 h.2.2.1 h.2.2.2) := by
     unfold f4CommConst
-    exact dif_pos h
+    exact dite_eq_left h
   rw [hC]
   exact Classical.choose_spec (exists_pinnedX_commFormula_F4_exact h.1 h.2.1 h.2.2.1 h.2.2.2)
 
@@ -250,7 +250,7 @@ theorem conj_gen_deg1 {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ rootFinset
     have : (x.1 • γ + x.2 • μ) 0 ≠ 1 := by
       rw [hdeg, hx2]
       norm_num
-    exact if_neg this
+    exact ite_eq_right this
   have hsum := list_sum_two (commPairs .F4 γ μ) (commPairs_nodup γ μ) f (1, 1) (2, 1)
     (by decide) hzero
   have e11 : f (1, 1) = Pi.single (γ + μ) ((f4CommConst γ μ (1, 1) : K) * t * c) := by
@@ -260,21 +260,21 @@ theorem conj_gen_deg1 {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ rootFinset
   have hA : (if (1, 1) ∈ commPairs .F4 γ μ then f (1, 1) else 0) =
       (Pi.single (μ + γ) (t * (a1fun γ μ : K) * c) : (Fin Tag.F4.rank → ℤ) → K) := by
     by_cases hm : (1, 1) ∈ commPairs .F4 γ μ
-    · rw [if_pos hm, e11, a1fun, if_pos hm, add_comm γ μ]
+    · rw [ite_eq_left hm, e11, a1fun, ite_eq_left hm, add_comm γ μ]
       congr 1
       ring
-    · rw [if_neg hm, a1fun, if_neg hm]
+    · rw [ite_eq_right hm, a1fun, ite_eq_right hm]
       simp
   have hB : (if (2, 1) ∈ commPairs .F4 γ μ then f (2, 1) else 0) =
       (Pi.single (μ + 2 • γ) (t ^ 2 * (a2fun γ μ : K) * c) : (Fin Tag.F4.rank → ℤ) → K) := by
     by_cases hm : (2, 1) ∈ commPairs .F4 γ μ
-    · rw [if_pos hm, e21, a2fun, if_pos hm, add_comm (2 • γ) μ]
+    · rw [ite_eq_left hm, e21, a2fun, ite_eq_left hm, add_comm (2 • γ) μ]
       congr 1
       ring
-    · rw [if_neg hm, a2fun, if_neg hm]
+    · rw [ite_eq_right hm, a2fun, ite_eq_right hm]
       simp
   rw [hconj, (heisCoord_spec .F4 K).mul _ hPQ _ hμQ, heisCoord_list_prod _ _ hfac, hmap, hsum,
-    hA, hB, heisCoord_pinnedX_of_pos hμ (by omega) c, if_pos hμ1, actFun_single]
+    hA, hB, heisCoord_pinnedX_of_pos hμ (by omega) c, ite_eq_left hμ1, actFun_single]
   abel
 
 end Gen
@@ -299,12 +299,12 @@ theorem adm1 : Adm1 a1fun := by
   obtain ⟨hC, -⟩ := f4CommConst_spec (mem_rootFinset.1 hγ) (mem_rootFinset.1 hμr) hne hne'
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have hm := mem_commPairs_one_one.2 h
-    rw [a1fun, if_pos hm, hC _ hm]
+    rw [a1fun, ite_eq_left hm, hC _ hm]
     by_cases hr : μ - γ ∈ rootFinset .F4
-    · rw [if_pos hr, if_pos ⟨rfl, mem_rootFinset.1 hr⟩]
-    · rw [if_neg hr, if_neg fun h' => hr (mem_rootFinset.2 h'.2)]
+    · rw [ite_eq_left hr, ite_eq_left ⟨rfl, mem_rootFinset.1 hr⟩]
+    · rw [ite_eq_right hr, ite_eq_right fun h' => hr (mem_rootFinset.2 h'.2)]
   · have hm : (1, 1) ∉ commPairs .F4 γ μ := fun h' => h (mem_commPairs_one_one.1 h')
-    rw [a1fun, if_neg hm]
+    rw [a1fun, ite_eq_right hm]
 
 theorem adm2 : Adm2 a2fun := by
   intro γ hγ hγ0 μ hμ
@@ -313,9 +313,9 @@ theorem adm2 : Adm2 a2fun := by
   obtain ⟨hC, -⟩ := f4CommConst_spec (mem_rootFinset.1 hγ) (mem_rootFinset.1 hμr) hne hne'
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have hm := mem_commPairs_two_one.2 h
-    rw [a2fun, if_pos hm, hC _ hm, if_neg fun h' => absurd h'.1 (by decide)]
+    rw [a2fun, ite_eq_left hm, hC _ hm, ite_eq_right fun h' => absurd h'.1 (by decide)]
   · have hm : (2, 1) ∉ commPairs .F4 γ μ := fun h' => h (mem_commPairs_two_one.1 h')
-    rw [a2fun, if_neg hm]
+    rw [a2fun, ite_eq_right hm]
 
 section Main
 

@@ -39,8 +39,7 @@ private lemma map_conj_eq_self_of_mem {G : Type*} [Group G] {K : Subgroup G} {g 
   · intro h hh
     rw [Subgroup.mem_map]
     refine ⟨MulAut.conj g⁻¹ h, ?_, ?_⟩
-    · change (MulAut.conj g⁻¹) h ∈ K
-      rw [MulAut.conj_apply]
+    · rw [MulAut.conj_apply]
       exact K.mul_mem (K.mul_mem (K.inv_mem hg) hh) (by simpa using hg)
     · change (MulAut.conj g) (MulAut.conj g⁻¹ h) = h
       rw [MulAut.conj_apply, MulAut.conj_apply]
@@ -172,12 +171,12 @@ theorem e6FourCent_conj {J : Type} [Group J] [Finite J] (hJ : E6FourMark J)
       (∃ Fr : L →+* L, (∀ c, Fr c = c ^ S.D.q) ∧ S.D.Φ = Units.map (entrywiseHom Fr)) ∧
       Function.Injective ι ∧ ι.range = S.Γ ∧ A.map ι = S.E := by
   obtain ⟨L, iF, iC, S, ι, hq, hρ, hinj, hrange, ⟨S₀, hS₀torus⟩, hΦ⟩ := e6FourCent_setup hJ hZ
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hmodel : Finite ↥S.D.model := S.finite
-  haveI hΓfin : Finite ↥S.Γ := by
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hmodel : Finite ↥S.D.model := S.finite
+  have hΓfin : Finite ↥S.Γ := by
     have hle : S.Γ ≤ S.D.model := Subgroup.commutator_le_self S.D.model
     exact Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
-  haveI hEfin : Finite ↥S.E := by
+  have hEfin : Finite ↥S.E := by
     have hle : S.E ≤ S.D.model := fun x hx =>
       Subgroup.commutator_le_self S.D.model (S.E_le hx).2
     exact Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)

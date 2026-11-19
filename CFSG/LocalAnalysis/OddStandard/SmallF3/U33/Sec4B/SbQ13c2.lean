@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 private def pcj (g : G) (H : Subgroup G) : Subgroup G :=
   H.map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 private theorem mem_pcj {g x : G} {H : Subgroup G} :
     x ∈ pcj g H ↔ g⁻¹ * x * g ∈ H := by
   simp only [pcj, Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
@@ -26,25 +27,29 @@ private theorem mem_pcj {g x : G} {H : Subgroup G} :
   · intro hx
     exact ⟨g⁻¹ * x * g, hx, by group⟩
 
+omit [Finite G] in
 private theorem mem_pcj_inv_iff {g x : G} {H : Subgroup G} :
     x ∈ H ↔ g⁻¹ * x * g ∈ pcj g⁻¹ H := by
   rw [mem_pcj]
   rw [show (g⁻¹)⁻¹ * (g⁻¹ * x * g) * g⁻¹ = x by group]
 
+omit [Finite G] in
 private theorem card_pcj (g : G) (H : Subgroup G) : Nat.card (pcj g H) = Nat.card H := by
   simpa only [pcj] using Subgroup.card_map_of_injective (K := H) (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem isPGroup_pcj {p : ℕ} {g : G} {H : Subgroup G} (h : IsPGroup p H) :
     IsPGroup p (pcj g H) := by
   have e : ↥H ≃* ↥(pcj g H) :=
     Subgroup.equivMapOfInjective H (MulAut.conj g).toMonoidHom (MulAut.conj g).injective
   exact h.of_equiv e
 
+omit [Finite G] in
 private theorem smul_conj_eq_pcj (g : G) (P : Subgroup G) : MulAut.conj g • P = pcj g P := rfl
 
 private theorem exists_pcj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 P H)
     (hP' : IsSylowIn 2 P' H) : ∃ c ∈ H, pcj c P = P' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 (P.subgroupOf H) :=
     hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm
   have hP'2 : IsPGroup 2 (P'.subgroupOf H) :=
@@ -53,7 +58,7 @@ private theorem exists_pcj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 
     simpa only [Subgroup.relIndex] using hP.2.2
   have hP'idx : ¬ 2 ∣ (P'.subgroupOf H).index := by
     simpa only [Subgroup.relIndex] using hP'.2.2
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex (hP2.toSylow hPidx)
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex (hP2.toSylow hPidx)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥H) (hP2.toSylow hPidx) (hP'2.toSylow hP'idx)
   have hg' : MulAut.conj g • (P.subgroupOf H) = P'.subgroupOf H := by
     have h := congrArg (fun S : Sylow 2 ↥H => (S : Subgroup ↥H)) hg
@@ -70,6 +75,7 @@ private theorem exists_pcj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 
   rw [inf_eq_left.mpr hle, inf_eq_left.mpr hP'.1] at hinf
   exact hinf
 
+omit [Finite G] in
 private theorem conj_inv_mem_invCent {g₀ d : G} (hg₀ : g₀ * t * g₀⁻¹ = t * lam)
     (hd : d ∈ centralizer ({t * lam} : Set G)) : g₀⁻¹ * d * g₀ ∈ invCent t := by
   rw [S4A.mem_invCent_iff]

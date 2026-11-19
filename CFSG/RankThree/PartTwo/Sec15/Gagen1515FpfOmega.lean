@@ -84,6 +84,7 @@ theorem omegaA_eq_triple {A : Subgroup G} {c d : G} (hA : Late.IsE27 A) (hcA : c
     · exact hcd2Ω
   exact (Set.eq_of_subset_of_ncard_le hsub (by rw [h3, hS3]) (Set.toFinite _)).symm
 
+omit [Finite G] in
 theorem mem_centralizer_of_mul_mem_sup {X Θ : Subgroup G} {c t x : G}
     (hctx : t * x = c) (hcX : c ∈ Subgroup.centralizer (X : Set G)) (hxX : x ∈ X)
     (htθ : t ∈ Θ) (hXθ : X ≤ Subgroup.normalizer (Θ : Set G))
@@ -297,7 +298,7 @@ theorem omega_case2
       ∃ w ∈ oThreeWPre A, (Subgroup.zpowers c).map (MulAut.conj w).toMonoidHom =
         Subgroup.zpowers (c * d) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD := h.sec13Data
   have hA : Late.IsE27 A := h.isE27
   have hcA : c ∈ A := hD.mem_A

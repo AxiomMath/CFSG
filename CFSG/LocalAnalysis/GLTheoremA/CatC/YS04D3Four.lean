@@ -75,7 +75,7 @@ theorem d3UB_zero : d3UB (0 : K) 0 = 1 := by
 
 theorem d3UA_transpose_mul_UB (s₁ s₂ : K) : (d3UA s₁ s₂)ᵀ * d3UB s₁ s₂ = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3UA, d3UB, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [d3UA, d3UB, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem d3UA_mul_AltM (s₁ s₂ t₁ t₂ : K) :
     d3UA s₁ s₂ * d3AltM t₁ t₂ = d3AltM t₁ t₂ * d3UB s₁ s₂ := by
@@ -122,11 +122,11 @@ theorem d3I_transpose_mul : d3Iᵀ * d3I = (1 : Matrix (Fin 4) (Fin 4) K) := by
 
 theorem d3D_transpose : (d3D : Matrix (Fin 4) (Fin 4) K)ᵀ = d3D := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3D, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3D]
 
 theorem d3J_transpose : (d3J : Matrix (Fin 4) (Fin 4) K)ᵀ = d3J := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3J, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3J]
 
 def d3It : Matrix (Fin 4) (Fin 4) K := !![0, -1, 0, 0; 1, 0, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1]
 
@@ -138,46 +138,38 @@ theorem d3_comm_IJ : (d3I : Matrix (Fin 4) (Fin 4) K) * d3J * d3It * d3J = d3Z :
   have h1 : (d3I : Matrix (Fin 4) (Fin 4) K) * d3J =
       !![0, -1, 0, 0; -1, 0, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [d3I, d3J, Matrix.mul_apply, Fin.sum_univ_four,
-      Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp [d3I, d3J, Matrix.mul_apply, Matrix.diagonal_apply]
   have h2 : (!![0, -1, 0, 0; -1, 0, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] : Matrix (Fin 4) (Fin 4) K) *
       d3It = !![-1, 0, 0, 0; 0, 1, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;> simp [d3It, Matrix.mul_apply, Fin.sum_univ_four]
   rw [h1, h2]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3J, d3Z, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3J, d3Z, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3D_UA_D (s₁ s₂ : K) : d3D * d3UA s₁ s₂ * d3D = d3UA (-s₁) (-s₂) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3D, d3UA, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3D, d3UA, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3D_UB_D (s₁ s₂ : K) : d3D * d3UB s₁ s₂ * d3D = d3UB (-s₁) (-s₂) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3D, d3UB, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3D, d3UB, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3D_AltM_D (t₁ t₂ : K) : d3D * d3AltM t₁ t₂ * d3D = d3AltM (-t₁) (-t₂) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3D, d3AltM, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3D, d3AltM, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3Z_UA (s₁ s₂ : K) : d3Z * d3UA s₁ s₂ = d3UA s₁ s₂ * d3Z := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3Z, d3UA, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3Z, d3UA, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3Z_UB (s₁ s₂ : K) : d3Z * d3UB s₁ s₂ = d3UB s₁ s₂ * d3Z := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3Z, d3UB, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3Z, d3UB, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem d3Z_AltM (t₁ t₂ : K) : d3Z * d3AltM t₁ t₂ = d3AltM t₁ t₂ * d3Z := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [d3Z, d3AltM, Matrix.mul_apply, Fin.sum_univ_four,
-    Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [d3Z, d3AltM, Matrix.mul_apply, Matrix.diagonal_apply]
 
 def d3Rad (M : Matrix (Fin 4) (Fin 4) K) : Matrix D3I4 D3I4 K := Matrix.fromBlocks 1 M 0 1
 
@@ -232,7 +224,7 @@ theorem d3PhiM_injective : Function.Injective (d3PhiM : K × K × K × K → Mat
   have e2 := congrFun (congrFun h (Sum.inl 2)) (Sum.inl 3)
   have e3 := congrFun (congrFun h (Sum.inl 0)) (Sum.inr 1)
   have e4 := congrFun (congrFun h (Sum.inl 2)) (Sum.inr 3)
-  simp [d3UA, d3UB, d3AltM, Matrix.mul_apply, Fin.sum_univ_four] at e1 e2 e3 e4
+  simp [d3UA, d3UB, d3AltM] at e1 e2 e3 e4
   simp [e1, e2, e3, e4]
 
 theorem d3PhiM_isometry (a : K × K × K × K) (w : D3I4 → K) :
@@ -249,11 +241,9 @@ theorem d3PhiM_fix (a : K × K × K × K) :
     d3PhiM a *ᵥ (Pi.single (Sum.inl 0) 1 : D3I4 → K) = Pi.single (Sum.inl 0) 1 := by
   rw [d3PhiM_eq]
   ext (i | i)
-  · simp [Matrix.fromBlocks_mulVec, d3UA, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      Pi.single_apply]
+  · simp [d3UA, Matrix.mulVec, dotProduct, Pi.single_apply]
     fin_cases i <;> simp
-  · simp [Matrix.fromBlocks_mulVec, d3UB, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      Pi.single_apply]
+  · simp [d3UB, Matrix.mulVec, dotProduct, Pi.single_apply]
 
 theorem d3Lv_conj_D (a : K × K × K × K) :
     d3Lv d3D d3D * d3PhiM a * d3Lv d3D d3D = d3PhiM (-a) := by
@@ -362,8 +352,7 @@ theorem d3uZ_not_scalar (h2 : (2 : K) ≠ 0) : (d3uZ : GL D3I4 K) ∉ StatedScal
   rintro ⟨c, hc⟩
   have e1 := congrArg (fun g : GL D3I4 K => (g : Matrix D3I4 D3I4 K) (Sum.inl 0) (Sum.inl 0)) hc
   have e2 := congrArg (fun g : GL D3I4 K => (g : Matrix D3I4 D3I4 K) (Sum.inl 2) (Sum.inl 2)) hc
-  simp [d3uZ, d3LvGL, d3Lv, d3Z, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-    Matrix.diagonal_apply] at e1 e2
+  simp [d3uZ, d3LvGL, d3Lv, d3Z, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at e1 e2
   have h := congrArg (fun x : Kˣ => (x : K)) (e1.symm.trans e2)
   simp only [Units.val_neg, Units.val_one] at h
   exact h2 (by linear_combination (-1 : K) * h)

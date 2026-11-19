@@ -26,7 +26,7 @@ theorem commutator_orthogonalGroup_quadMinus_three (hirr : ∀ s : F, s ^ 2 + b 
       hxy) (by norm_num : 1 ≤ 3 - 1)
   have hpair : (minusPair F b c (⟨0, by omega⟩ : Fin (3 - 1))).Orth
       (minusPair F b c (⟨1, by omega⟩ : Fin (3 - 1))) :=
-    minusPair_orth (by simp [Fin.ext_iff])
+    minusPair_orth (by simp)
   apply le_antisymm
   · refine commutator_le_of_le_closure (fun g hg x hx => conj_mem_elementaryGroup hg hx)
       (elementaryGroup_le_orthogonalGroup _) ?_ hgen ?_

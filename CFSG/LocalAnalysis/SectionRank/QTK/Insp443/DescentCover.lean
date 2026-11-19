@@ -31,9 +31,9 @@ theorem map_pCore_eq_of_surjective_of_ker_le_center {A B : Type*} [Group A] [Gro
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hker hxker) (y : A))
-  haveI hPbarNil : Group.IsNilpotent ↥(CFSG.pCore 2 B) :=
+  have hPbarNil : Group.IsNilpotent ↥(CFSG.pCore 2 B) :=
     (CFSG.pCore_isPGroup (p := 2) (G := B)).isNilpotent
-  haveI hPnil : Group.IsNilpotent P := Subgroup.isNilpotent_of_ker_le_center φ hφker
+  have hPnil : Group.IsNilpotent P := Subgroup.isNilpotent_of_ker_le_center φ hφker
   let Q : Sylow 2 P := Classical.arbitrary (Sylow 2 P)
   have hQnormal : (Q : Subgroup P).Normal := Group.IsNilpotent.sylow_normal hPnil 2 Q
   have hQchar : (Q : Subgroup P).Characteristic := Sylow.characteristic_of_normal Q hQnormal
@@ -101,8 +101,8 @@ theorem center_quot_pCore_of_le {K : Type} [Group K] [Finite K] {Z L : Subgroup 
       (Subgroup.mem_center_iff.mp (hZ (Subgroup.mem_subgroupOf.mp hx)) (y : K))
   have hPmap : P.map qL = Pbar :=
     map_pCore_eq_of_surjective_of_ker_le_center hqL hqLker_center
-  haveI : P.Normal := CFSG.pCore_normal
-  haveI : Pbar.Normal := CFSG.pCore_normal
+  have : P.Normal := CFSG.pCore_normal
+  have : Pbar.Normal := CFSG.pCore_normal
   have hle : P ≤ Subgroup.comap qL Pbar :=
     Subgroup.map_le_iff_le_comap.mp (le_of_eq hPmap)
   let ρ : (L ⧸ P) →* (Lbar ⧸ Pbar) := QuotientGroup.map P Pbar qL hle
@@ -146,7 +146,7 @@ theorem center_quot_pCore_of_le {K : Type} [Group K] [Finite K] {Z L : Subgroup 
     exact (hZodd.coprime_two_right).pow_right n
   have hinf : qL.ker ⊓ P = ⊥ := by
     rw [hqLker]
-    exact Subgroup.inf_eq_bot_of_coprime hPcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hPcop))
   have hcard_image : Nat.card ((qL.ker).map (QuotientGroup.mk' P)) = Nat.card (qL.ker) := by
     refine CFSG.card_map_eq_card_of_inf_ker_eq_bot (QuotientGroup.mk' P) ?_
     rw [QuotientGroup.ker_mk']

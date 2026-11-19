@@ -17,6 +17,7 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_Z_mem (hc : Ctx M Q Z B) {k z : G} (hk : k ∈ M) (hz : z ∈ Z) : k * z * k⁻¹ ∈ Z :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hk) z).mp hz
 
@@ -41,7 +42,7 @@ theorem Q1_mul_right (hc : Ctx M Q Z B) {y q : G} (hy : y ∈ M) (hq : q ∈ Q) 
     rw [e]
     exact Z.mul_mem (conj_Z_mem hc hy (comm_mem_Z_of_Q hc hq hx)) h
 
-theorem Q1_congr (hc : Ctx M Q Z B) {y y' : G} (hy : y ∈ M) (hy' : y' ∈ M)
+theorem Q1_congr (hc : Ctx M Q Z B) {y y' : G} (hy : y ∈ M) (_hy' : y' ∈ M)
     (h : y⁻¹ * y' ∈ Q) : Q1 hc y' = Q1 hc y := by
   have := Q1_mul_right hc hy h
   rwa [mul_inv_cancel_left] at this
@@ -129,11 +130,11 @@ theorem Env.exists_model_scalar (I : Inputs) (e : Env hc n t m X) :
   have hnatSO := natSO_of_omega e.hm e.hΩ
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
   rcases e.hΩ with ⟨K, fK, finK, hK, hnat⟩ | ⟨K, fK, finK, hK, b, c, hirr, hnat⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by have := e.hm; omega⟩⟩
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by have := e.hm; omega⟩⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hgeom := omegaGeom_plus (K := K) e.hm
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [hgeom.dim]; have := e.hm; omega
@@ -146,11 +147,11 @@ theorem Env.exists_model_scalar (I : Inputs) (e : Env hc n t m X) :
     exact ⟨Fin m ⊕ Fin m, inferInstance, inferInstance, K, fK, finK, inferInstance, quadPlus m K,
       _, ElemMatrixIso.plus e.hm, φ, hn, ψ, u, hK, addCommutantScalar_statedOmegaPlus e.hm, hgeom,
       ⟨hφ, hker, hψ, hQu, hu0, hB, hL, fun r => (hr' r).2⟩⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hgeom := omegaGeom_minus (K := K) e.hm hirr
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [hgeom.dim]; have := e.hm; omega
@@ -180,6 +181,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {u : ι → K}
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_scalar (I : Inputs) (e : Env hc n t m X) (hX : AddCommutantScalar X')
     (hmod : OmegaModel hc t Q' E φ ψ u) {a : G} (ha : a ∈ hc.CN t) :
     ∃ c : K, ∀ x ∈ Q, vecOf ψ ⁅a, x⁆ = c • vecOf ψ ⁅x, t⁆ := by
@@ -242,6 +244,8 @@ theorem OmegaModel.exists_scalar (I : Inputs) (e : Env hc n t m X) (hX : AddComm
     (fun r x => hequi r x)
   exact ⟨c, hc'⟩
 
+omit [Finite K] [CharP K 2] in
+omit [Fintype ι] [DecidableEq ι] in
 theorem OmegaModel.exists_chiVec (I : Inputs) (e : Env hc n t m X) (w : ι → K) :
     ∃ x ∈ Q, vecOf ψ ⁅x, t⁆ = w := by
   have hχ := e.chi I.h34
@@ -251,6 +255,7 @@ theorem OmegaModel.exists_chiVec (I : Inputs) (e : Env hc n t m X) (w : ι → K
   rw [vecOf_of_mem ψ (hχ.1 x hxQ), ← hv]
   exact (secVec_eq_iff ψ _ v).mpr hxv
 
+omit [CharP K 2] in
 theorem OmegaModel.exists_elt_scalar (I : Inputs) (e : Env hc n t m X)
     (hX : AddCommutantScalar X') (hK : Nat.card K = Nat.card Z)
     (hmod : OmegaModel hc t Q' E φ ψ u) (lam : K) :
@@ -557,6 +562,7 @@ section Assembly
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {n : ℕ} {t : G} {m : ℕ} {X : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem comm_mem_Q_of_piM_comm {x y : G} (hx : x ∈ M) (hy : y ∈ M)
     (h : piM M Q x * piM M Q y = piM M Q y * piM M Q x) : ⁅x, y⁆ ∈ Q := by
   have hcM : ⁅x, y⁆ ∈ M := by

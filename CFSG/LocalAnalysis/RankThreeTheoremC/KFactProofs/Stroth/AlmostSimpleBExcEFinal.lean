@@ -41,7 +41,7 @@ theorem chevTwoPClosureOddE6_of_four (h4 : ChevTwoPClosureOddE6Four) : ChevTwoPC
     · have hp5 := five_le_of_prime_ne hp hp2 hp3
       obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
-      haveI : CharP K 2 := hq2 ▸ hchK
+      have : CharP K 2 := hq2 ▸ hchK
       by_cases hord : orderOf ((q.card : ℕ) : ZMod p) = 4
       · exact h4 p hp hp2 L hs hnab hrk hSE ⟨.E6 q, hv⟩ hord hdi ⟨e⟩
       · let θ : L ≃* adjointGroup Tag.E6 K := e.trans eK
@@ -81,7 +81,7 @@ theorem chevTwoPClosureOddE7_of_four (h4 : ChevTwoPClosureOddE7Four) : ChevTwoPC
     · have hp5 := five_le_of_prime_ne hp hp2 hp3
       obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 q hv
-      haveI : CharP K 2 := hq2 ▸ hchK
+      have : CharP K 2 := hq2 ▸ hchK
       let θ : L ≃* adjointGroup Tag.E7 K := e.trans eK
       obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk θ
       have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]
@@ -131,7 +131,7 @@ theorem chevTwoPClosureOddE8_holds : ChevTwoPClosureOddE8 := by
     · have hp5 := five_le_of_prime_ne hp hp2 hp3
       obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 q hv
-      haveI : CharP K 2 := hq2 ▸ hchK
+      have : CharP K 2 := hq2 ▸ hchK
       let θ : L ≃* adjointGroup Tag.E8 K := e.trans eK
       obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk θ
       have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]

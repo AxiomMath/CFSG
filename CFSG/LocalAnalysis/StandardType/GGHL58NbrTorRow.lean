@@ -16,7 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem ggHL58Nbr_of_tbTor_row (hT : GGTBTorAll) (hLift : GGTBTorLiftRows)
     (hW : GGTBWNormLabelInput) {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K) (hyK : y ∉ K)
+    (hH : GGResHyp p B Bs x L D J y K) (_hyK : y ∉ K)
     (hCent : Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Subgroup.zpowers y)
     (h : GGInnerDiagOnLabel GGDepED4KCovered p Bs K) : GGTWHLAt p Bs K y := by
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1

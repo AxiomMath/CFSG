@@ -28,7 +28,7 @@ private theorem w135c2_two_mul_of_selfDual_singleton {n : ℕ} (j : Fin n) (hj0 
   rw [Finset.image_singleton, Finset.singleton_inj] at hsd
   have h1 := congrArg Fin.val hsd
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   have := j.isLt
   omega
 
@@ -38,7 +38,7 @@ private theorem w135c2_labelStar_ne_of_natural {n : ℕ} (hn : 3 ≤ n) (j : Fin
   intro h
   have h1 := congrArg Fin.val h
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   omega
 
 private theorem w135c2_two_le_card_of_selfDual_three (S : Finset (Fin 3))
@@ -136,13 +136,13 @@ theorem w135c2_psu_label_gt_six {n f s : ℕ} (hn : 3 ≤ n) (hn4 : n ≠ 4)
             nlinarith
           · subst h5
             have h10 : 10 ≤ 2 * f * 5 := by
-              have h1 : 2 * 1 * 5 ≤ 2 * f * 5 := by gcongr <;> omega
+              have h1 : 2 * 1 * 5 ≤ 2 * f * 5 := by gcongr
               norm_num at h1
               exact h1
             omega
           · subst h6n
             have h10 : 10 ≤ 2 * f * 6 := by
-              have h1 : 2 * 1 * 5 ≤ 2 * f * 6 := by gcongr <;> omega
+              have h1 : 2 * 1 * 5 ≤ 2 * f * 6 := by gcongr; omega
               norm_num at h1
               exact h1
             omega
@@ -182,7 +182,7 @@ theorem w135c2_psu_label_gt_six {n f s : ℕ} (hn : 3 ≤ n) (hn4 : n ≠ 4)
             · have hsd0 := hsdall r₀
               rw [h, Finset.image_singleton, Finset.singleton_inj] at hsd0
               exact w135c2_labelStar_ne_of_natural (by omega) _
-                (Or.inr (by simp only [Fin.val_mk]; omega)) hsd0
+                (Or.inr (by simp only; omega)) hsd0
           have hbig : n.choose 2 ≤ orbitSize (ε r₀) :=
             choose_two_le_orbitSize_of_nonnatural hn5 (h0 r₀) hr₀ hnon
           have h10choose : 10 ≤ n.choose 2 := by

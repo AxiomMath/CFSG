@@ -51,7 +51,7 @@ theorem signalizer_factorization_model_prime_part
     (elementary_abelian_isPGroup prime actor elementary) (conditions.normalized selected member)
     (conditions.coprime selected member) divides
   let embedded := (sylow : Subgroup target).map target.subtype
-  have embedded_pgroup : IsPGroup groupPrime embedded := sylow.isPGroup'.map target.subtype
+  have embedded_pgroup : IsPGroup groupPrime embedded := sylow.isPGroup.map target.subtype
   have embedded_compatible := solvable_signalizer_compatible_of_le prime rank actor values target
     embedded (solvable_signalizer_value_compatible prime rank actor values conditions selected member)
     (Subgroup.map_subtype_le _) normalized
@@ -122,7 +122,7 @@ theorem signalizer_factorization_auxiliary_center
   let embedded := (sylow : Subgroup embeddedCore).map embeddedCore.subtype
   let center := (Subgroup.center embedded).map embedded.subtype
   have center_properties := normalized_prime_subgroup_center_nontrivial groupPrime groupPrime_prime
-    actor embedded normalized (sylow.isPGroup'.map embeddedCore.subtype) nontrivial
+    actor embedded normalized (sylow.isPGroup.map embeddedCore.subtype) nontrivial
   have center_le : center ≤ model := (Subgroup.map_subtype_le _).trans
     ((Subgroup.map_subtype_le _).trans (Subgroup.map_subtype_le _))
   have center_compatible := solvable_signalizer_compatible_of_le prime rank actor values model center

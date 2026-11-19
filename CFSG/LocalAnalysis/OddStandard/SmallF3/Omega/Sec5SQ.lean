@@ -21,6 +21,7 @@ private noncomputable def sec5sq_det (Q : QuadraticForm (ZMod 3) V) :
     simGroup Q →* (ZMod 3)ˣ :=
   (LinearEquiv.det : (V ≃ₗ[ZMod 3] V) →* (ZMod 3)ˣ).comp (simGroup Q).subtype
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec5sq_det_orthToSim (g : OGroup Q) :
     sec5sq_det Q (orthToSim Q g) = QuadraticMap.orthogonalDet Q g := by
   rw [QuadraticMap.orthogonalDet_apply]

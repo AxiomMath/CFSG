@@ -211,7 +211,7 @@ theorem isSolvable_of_ker_pGroup {S P' : Type*} [Group S] [Group P'] [Finite S]
 
 theorem odd_card_of_normal_nilpotent {Γ : Type} [Group Γ] [Finite Γ] (hΓ : pCore 2 Γ = ⊥)
     (F : Subgroup Γ) [F.Normal] [Group.IsNilpotent F] : Odd (Nat.card F) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card F := by
     rcases Nat.even_or_odd (Nat.card F) with h | h
@@ -234,8 +234,8 @@ theorem odd_card_of_normal_nilpotent {Γ : Type} [Group Γ] [Finite Γ] (hΓ : p
 
 theorem charP_two_of_card_eq_two_pow {K : Type*} [Field K] [Finite K] {k : ℕ}
     (h : Nat.card K = 2 ^ k) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := Fintype.ofFinite K
+  have := ringChar.charP K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 2 ^ k := by
     rw [← h, Nat.card_eq_fintype_card, hn]
@@ -255,7 +255,7 @@ theorem isQuasisimple_of_mulEquiv' {A B : Type*} [Group A] [Group B] (e : A ≃*
   refine ⟨?_, (MulEquiv.isSimpleGroup_congr e').mp hs, e' a, e' b, ?_⟩
   · have hmap : (commutator A).map (e : A →* B) = commutator B := by
       rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, hrange, commutator_def]
-    haveI : Group.IsPerfect A := hp
+    have : Group.IsPerfect A := hp
     refine ⟨?_⟩
     rw [← hmap, Group.IsPerfect.commutator_eq_top, Subgroup.map_top]
     exact hrange
@@ -324,13 +324,13 @@ theorem comm_of_inter_eq_bot {Γ : Type} [Group Γ] [Finite Γ] {Λ X : Subgroup
   have hΛ2 : IsPGroup 2 Λ := fun g => ⟨1, Subtype.ext (by simpa using hΛ.2 g g.2)⟩
   have hΛcomm : ∀ a ∈ Λ, ∀ b ∈ Λ, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hΛ.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hwc : CFSG.LargeExtraspecial.IsWeaklyClosedInNormalizer Λ := hw
   have hsc := CFSG.LargeExtraspecial.lemma_3_12_isStronglyClosedIn hΛ2 hΛcomm hwc
   set Y : Subgroup Γ := Λ ⊔ X with hY
   have hXY : X ≤ Y := le_sup_right
   have hΛY : Λ ≤ Y := le_sup_left
-  haveI hnormX : (X.subgroupOf Y).Normal := by
+  have hnormX : (X.subgroupOf Y).Normal := by
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer hXY).mpr ?_
     exact sup_le (fun l hl => hn hl) Subgroup.le_normalizer
   have hdec : ∀ y ∈ Y, ∃ l ∈ Λ, ∃ x ∈ X, l * x = y := by
@@ -344,7 +344,7 @@ theorem comm_of_inter_eq_bot {Γ : Type} [Group Γ] [Finite Γ] {Λ X : Subgroup
   have hΛ2' : IsPGroup 2 (Λ.subgroupOf Y) := hΛ2.comap_subtype
   obtain ⟨P, hP⟩ := hΛ2'.exists_le_sylow
   set T : Subgroup Γ := (P : Subgroup ↥Y).map Y.subtype with hT
-  have hT2 : IsPGroup 2 T := P.isPGroup'.map Y.subtype
+  have hT2 : IsPGroup 2 T := P.isPGroup.map Y.subtype
   have hΛT : Λ ≤ T := fun l hl =>
     ⟨⟨l, hΛY hl⟩, hP (show (⟨l, hΛY hl⟩ : ↥Y) ∈ Λ.subgroupOf Y from hl), rfl⟩
   have hTn : T ≤ Subgroup.normalizer (Λ : Set Γ) :=
@@ -465,9 +465,9 @@ theorem comm_of_inter_eq_bot {Γ : Type} [Group Γ] [Finite Γ] {Λ X : Subgroup
         Subgroup.card_dvd_of_le hle2
       have h2 : Nat.Coprime 2 (Nat.card ↥(CFSG.pPrimeCore 2 ↥Y)) := CFSG.pPrimeCore_coprime_card
       exact Nat.coprime_two_left.mp (Nat.Coprime.coprime_dvd_right h1 h2)
-    haveI : Group.IsSolvable ↥(X.subgroupOf Y) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-    haveI : Group.IsPerfect ↥(X.subgroupOf Y) := hq'.1
-    haveI : Nontrivial ↥(X.subgroupOf Y) := by
+    have : Group.IsSolvable ↥(X.subgroupOf Y) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+    have : Group.IsPerfect ↥(X.subgroupOf Y) := hq'.1
+    have : Nontrivial ↥(X.subgroupOf Y) := by
       by_contra hcon
       rw [not_nontrivial_iff_subsingleton] at hcon
       obtain ⟨a, b, hab⟩ := hq'.2.2
@@ -477,7 +477,7 @@ theorem comm_of_inter_eq_bot {Γ : Type} [Group Γ] [Finite Γ] {Λ X : Subgroup
     by_cases ht1 : t = 1
     · rw [ht1]
       simp
-    · haveI : Group.IsPerfect ↥X := hXq.1
+    · have : Group.IsPerfect ↥X := hXq.1
       refine comm_of_commutators_central (hn ht) (fun x' hx' y hy => ?_) x hx
       obtain ⟨k, hk, hkx⟩ := hZ t ht ht1 x' hx'
       have h := hcm ⟨y, hXY hy⟩ hy k hk

@@ -14,8 +14,8 @@ private theorem he42r_fix_coset {y a : G} (hy : y ^ 3 = 1) {Q : Subgroup G}
     (hQ : Nat.card Q = 16) (hstab : ∀ q ∈ Q, a⁻¹ * (y * (a * q) * y⁻¹) ∈ Q) :
     ∃ q ∈ Q, y * (a * q) * y⁻¹ = a * q := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype Q := Fintype.ofFinite Q
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let f : Q → Q := fun q => ⟨a⁻¹ * (y * (a * q) * y⁻¹), hstab q q.2⟩
   have hit : ∀ (n : ℕ) (q : Q), ((f^[n] q : Q) : G) = a⁻¹ * (y ^ n * (a * q) * (y ^ n)⁻¹) := by
     intro n
@@ -58,6 +58,7 @@ private theorem he42r_gl2_right_fix :
     ∀ g : GL2, g ^ 3 = 1 → g ≠ 1 → ∀ M : M2, M * g.val.transpose = M → M = 0 := by
   decide +kernel
 
+omit [Finite G] in
 private theorem he42r_card_mul_of_decomp {Z R K : Subgroup G} (hZK : Z ≤ K) (hRK : R ≤ K)
     (hinf : Z ⊓ R = ⊥) (hdec : ∀ a ∈ K, ∃ z ∈ Z, ∃ r ∈ R, a = z * r) :
     Nat.card K = Nat.card Z * Nat.card R := by
@@ -138,7 +139,7 @@ private theorem he42r_w_conj_y3 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y�
 
 private theorem he42r_Z_comm_y1 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) {z : G}
     (hz : z ∈ S.Z) (hc : z * y₁ = y₁ * z) : z = 1 := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hρ1 : S.rho ⟨y₁, hY.mem₁⟩ = (S.g, 1) := by
     rw [← S.rhoG_of_mem hY.mem₁]
@@ -154,7 +155,7 @@ private theorem he42r_Z_comm_y1 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y�
 
 private theorem he42r_Z_comm_y2 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) {z : G}
     (hz : z ∈ S.Z) (hc : z * y₂ = y₂ * z) : z = 1 := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hρ2 : S.rho ⟨y₂, hY.mem₂⟩ = (1, S.g) := by
     rw [← S.rhoG_of_mem hY.mem₂]
@@ -222,7 +223,7 @@ private theorem he42r_AZ_snd (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} 
 
 private theorem he42r_mem_Z_of_comm_A'_y3 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y₁ y₂)
     {x : G} (hx : x ∈ S.A') (hc : x * (y₁ * y₂) = (y₁ * y₂) * x) : x ∈ S.Z := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hconj : y₁ * y₂ * x * (y₁ * y₂)⁻¹ = x := mul_inv_eq_iff_eq_mul.mpr hc.symm
   have h := he42r_w_conj_y3 S hY hx
@@ -232,7 +233,7 @@ private theorem he42r_mem_Z_of_comm_A'_y3 (S : HeSetup G) {y₁ y₂ : G} (hY : 
 
 private theorem he42r_mem_Z_of_comm_A_y3 (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y₁ y₂)
     {x : G} (hx : x ∈ S.A) (hc : x * (y₁ * y₂) = (y₁ * y₂) * x) : x ∈ S.Z := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hconj : y₁ * y₂ * x * (y₁ * y₂)⁻¹ = x := mul_inv_eq_iff_eq_mul.mpr hc.symm
   have h := he42r_u_conj_y3 S hY hx

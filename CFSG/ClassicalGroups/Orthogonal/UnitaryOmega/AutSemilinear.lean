@@ -26,12 +26,12 @@ theorem exists_semilinear_conj_of_mulAut {m : ℕ} (hm : 3 ≤ m) (α : MulAut (
             (S v) =
           S ((y : ((F × F) × (Fin m → K)) ≃ₗ[F] ((F × F) × (Fin m → K))) v) := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   have hQ := normHypForm_polarBilin_nondegenerate E m
   have hdim := finrank_normHypForm E m
-  haveI : Nontrivial ((F × F) × (Fin m → K)) :=
+  have : Nontrivial ((F × F) × (Fin m → K)) :=
     Module.nontrivial_of_finrank_pos (R := F) (by omega)
   have hinj : Function.Injective (QuotientGroup.mk'
       ((scalars F ((F × F) × (Fin m → K))).subgroupOf (normOmega E m))) := by

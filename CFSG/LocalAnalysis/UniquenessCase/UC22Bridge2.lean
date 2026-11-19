@@ -11,11 +11,11 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cTilde_bot (M V : Subgroup G) :
     F11.CTilde M ⊥ V = M ⊓ centralizer (V : Set G) := by
   ext m
-  simp only [F11.CTilde, Subgroup.mem_iInf, F11.CElt, Subgroup.mem_mk, Set.mem_setOf_eq,
-    Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Subgroup.mem_bot]
+  simp only [F11.CTilde, Subgroup.mem_iInf, F11.CElt, Subgroup.mem_mk, Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Subgroup.mem_bot]
   constructor
   · intro h
     refine ⟨(h 1 V.one_mem).1, fun g hg => ?_⟩
@@ -27,7 +27,7 @@ theorem cTilde_bot (M V : Subgroup G) :
     have hN : m ∈ Subgroup.normalizer ((⊥ : Subgroup G) : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro h
-      simp only [SetLike.mem_coe, Subgroup.mem_bot]
+      simp only [Subgroup.mem_bot]
       constructor
       · rintro rfl; simp
       · intro hh
@@ -38,6 +38,7 @@ theorem cTilde_bot (M V : Subgroup G) :
     have h3 : m * i * m⁻¹ = i := by rw [← h1]; group
     rw [h3]; group
 
+omit [Finite G] in
 theorem kerAct_normal (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G)) :
     (kerAct M V).Normal := by
   refine ⟨fun x hx m => ?_⟩
@@ -53,6 +54,7 @@ theorem kerAct_normal (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G)) :
     _ = (m : G) * ((x : G) * ((m : G)⁻¹ * v * (m : G))) * (m : G)⁻¹ := by rw [hxv]
     _ = ((m : G) * (x : G) * (m : G)⁻¹) * v := by group
 
+omit [Finite G] in
 theorem subgroupOf_cTilde_bot (M V : Subgroup G) :
     (F11.CTilde M ⊥ V).subgroupOf M = kerAct M V := by
   rw [cTilde_bot]
@@ -60,6 +62,7 @@ theorem subgroupOf_cTilde_bot (M V : Subgroup G) :
   simp only [kerAct, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
   exact ⟨fun h => h.2, fun h => ⟨m.2, h⟩⟩
 
+omit [Finite G] in
 theorem cTilde_bot_normal (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G)) :
     ((F11.CTilde M ⊥ V).subgroupOf M).Normal := by
   rw [subgroupOf_cTilde_bot]
@@ -72,6 +75,7 @@ noncomputable def mbarEquiv (M V : Subgroup G) [hN : ((F11.CTilde M ⊥ V).subgr
     rw [Subgroup.normalCore_eq_self, subgroupOf_cTilde_bot]
   exact QuotientGroup.quotientMulEquivOfEq h2
 
+omit [Finite G] in
 theorem map_mbarImage (M V X : Subgroup G) [hN : ((F11.CTilde M ⊥ V).subgroupOf M).Normal] :
     (mbarImage M V X).map (mbarEquiv M V).toMonoidHom = F11.barImage11 M ⊥ V X := by
   unfold mbarImage F11.barImage11

@@ -135,10 +135,10 @@ theorem actMap_apply (i : Fin n) (A : Matrix (Fin 2) (Fin 2) K) (T : Cube n K)
       rw [Pi.mulSingle_eq_of_ne (Finset.ne_of_mem_erase hj), Matrix.one_apply]
     rw [h2, Finset.prod_boole]
     by_cases hc : ∀ j, j ≠ i → y j = x j
-    · rw [if_pos ?_, if_pos hc, mul_one]
+    · rw [ite_eq_left ?_, ite_eq_left hc, mul_one]
       intro j hj
       exact (hc j (Finset.ne_of_mem_erase hj)).symm
-    · rw [if_neg, if_neg hc, mul_zero]
+    · rw [ite_eq_right, ite_eq_right hc, mul_zero]
       intro h
       apply hc
       intro j hj
@@ -204,7 +204,7 @@ variable {K : Type*} [Field K] {n : ℕ}
 abbrev SL2 (K : Type*) [Field K] := Matrix.SpecialLinearGroup (Fin 2) K
 
 @[expose] def kronSL (k : Fin n → SL2 K) : Cube n K ≃ₗ[K] Cube n K :=
-  LinearEquiv.ofLinear (kronMap fun i => ((k i : SL2 K) : Matrix (Fin 2) (Fin 2) K))
+  LinearEquiv.ofLinearMap (kronMap fun i => ((k i : SL2 K) : Matrix (Fin 2) (Fin 2) K))
     (kronMap fun i => (((k i)⁻¹ : SL2 K) : Matrix (Fin 2) (Fin 2) K))
     (by
       rw [← kronMap_mul, ← kronMap_one]
@@ -291,7 +291,7 @@ theorem uniMat_det (β : K) : (uniMat β).det = 1 := by
 
 theorem uniMat_mul (β γ : K) : uniMat β * uniMat γ = uniMat (β + γ) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uniMat, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uniMat, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem uniMat_zero : uniMat (0 : K) = 1 := by
   ext i j
@@ -310,7 +310,7 @@ theorem uniMat_zero : uniMat (0 : K) = 1 := by
 
 @[expose] def uniKron (n : ℕ) (K : Type*) [Field K] :
     (Fin n → Multiplicative K) →* (Cube n K ≃ₗ[K] Cube n K) :=
-  (kronSLHom n K).comp (Pi.monoidHom fun i => (uniSLHom K).comp (Pi.evalMonoidHom _ i))
+  (kronSLHom n K).comp (_root_.MonoidHom.pi fun i => (uniSLHom K).comp (Pi.evalMonoidHom _ i))
 
 @[expose] def cubeU (n : ℕ) (K : Type*) [Field K] : Subgroup (Cube n K ≃ₗ[K] Cube n K) :=
   (uniKron n K).range

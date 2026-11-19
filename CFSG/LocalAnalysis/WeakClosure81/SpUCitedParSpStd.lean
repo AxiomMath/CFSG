@@ -23,7 +23,7 @@ theorem spUCited_weylRep_zero_mem_par (hr : 2 ≤ r) :
 theorem spUCited_rootParabolic_std [Finite K] [CharP K 2] (hr : 2 ≤ r) :
     RootParabolic (spUCitedRoot r K ⟨0, by omega⟩) (unipotent r K)
       (spUCitedRoot r K ⟨1, by omega⟩) (spUCitedPar r K) 1 := by
-  haveI : Finite ↥(StatedSp r K) := inferInstance
+  have : Finite ↥(StatedSp r K) := inferInstance
   have hU : ∃ T : Sylow 2 ↥(StatedSp r K),
       (T : Subgroup ↥(StatedSp r K)) = unipotent r K :=
     exists_sylow_unipotent (K := K) (p := 2) (r := r)
@@ -55,7 +55,7 @@ theorem spUCited_rootParabolic_std [Finite K] [CharP K 2] (hr : 2 ≤ r) :
           (spUCited_card_root (K := K) (r := r) (i := ⟨0, by omega⟩)).symm
       _ = (Nat.card (spUCitedRoot r K ⟨0, by omega⟩)) ^ 1 := (pow_one _).symm
   · obtain ⟨T, hT⟩ := hU
-    exact (hT ▸ T.isPGroup').to_inf_left
+    exact (hT ▸ T.isPGroup).to_inf_left
   · intro N hNP hN hN2
     have h := spUCited_le_inf_normalizer_of_normal (G := ↥(StatedSp r K))
       hU hUR hUP hn hNP hN hN2

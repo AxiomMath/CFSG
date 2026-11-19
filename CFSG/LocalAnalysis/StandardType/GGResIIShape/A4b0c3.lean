@@ -81,11 +81,9 @@ theorem ok : GGResIIShapeOK (CartanMatrix.A 4) 0 3 := by
     have hdvd : (q : ℤ) ∣ 5 := (ZMod.intCast_zmod_eq_zero_iff_dvd _ _).mp hd
     have hle : q ≤ 5 := by exact_mod_cast Int.le_of_dvd (by norm_num) hdvd
     interval_cases q
-    all_goals first
+    all_goals try first
       | exact absurd hq (by decide)
       | exact absurd hdvd (by decide)
-      | exact absurd rfl hq2
-      | skip
     exact Or.inl ⟨kappa5, 4, subB5, hsubB5⟩
 
 end CFSG.StandardType.GGResIIShape.A4b0c3

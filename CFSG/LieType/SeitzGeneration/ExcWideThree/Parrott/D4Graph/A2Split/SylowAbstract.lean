@@ -85,7 +85,7 @@ theorem mem_normalizer_map_conj [Finite G] (α : MulAut G) (S : Subgroup G)
   · rintro ⟨g, hg, rfl⟩
     refine ⟨α g, hαS g hg, ?_⟩
     ext y
-    simp only [MonoidHom.coe_coe, MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv,
+    simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv,
       MulAut.apply_inv_self]
   · rintro ⟨g, hg, hgeq⟩
     obtain ⟨x, hx, rfl⟩ := hsurj g hg
@@ -182,7 +182,7 @@ theorem card_le_of_isPGroup_of_fixed [Finite G] {p : ℕ} [hp : Fact p.Prime]
     have hxQ : (⟨x, hxA⟩ : A) ∈ (Q : Subgroup A) := hQ (by simpa [Subgroup.mem_subgroupOf] using hx)
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hxQ
     have h2 := hxQ
-    simp only [MulAut.smul_def, MulAut.conj_apply] at h2
+    simp only [MulAut.smul_def] at h2
     rw [Sylow.coe_ofCard, Subgroup.mem_subgroupOf] at h2
     simpa [mul_assoc] using h2
   have hnormal : ∀ x ∈ P, ∃ s ∈ S, ∃ k : ℤ, x = MulAut.conj s * α ^ k := by

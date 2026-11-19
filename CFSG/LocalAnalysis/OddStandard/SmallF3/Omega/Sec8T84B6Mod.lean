@@ -52,12 +52,12 @@ theorem comm_apply (h : RestrictsTo B E σ α) (h' : RestrictsTo B E τ β) (hc 
   exact Subtype.ext (h1.trans h2.symm)
 
 theorem card_fix (h : RestrictsTo B E σ α) (hBE : B ≤ E) :
-    Nat.card {e : ↥E // (e : G) ∈ B ∧ σ e = e} = Nat.card {b : ↥B // α b = b} :=
+    Nat.card {_e : ↥E // (_e : G) ∈ B ∧ σ _e = _e} = Nat.card {_b : ↥B // α _b = _b} :=
   Nat.card_congr
-    { toFun := fun e => ⟨⟨e.1, e.2.1⟩, (h.fix_iff e.2.1).mp e.2.2⟩
-      invFun := fun b => ⟨⟨b.1.1, hBE b.1.2⟩, b.1.2, (h.fix_iff b.1.2).mpr b.2⟩
-      left_inv := fun e => rfl
-      right_inv := fun b => rfl }
+    { toFun := fun _e => ⟨⟨_e.1, _e.2.1⟩, (h.fix_iff _e.2.1).mp _e.2.2⟩
+      invFun := fun _b => ⟨⟨_b.1.1, hBE _b.1.2⟩, _b.1.2, (h.fix_iff _b.1.2).mpr _b.2⟩
+      left_inv := fun _e => rfl
+      right_inv := fun _b => rfl }
 
 end RestrictsTo
 

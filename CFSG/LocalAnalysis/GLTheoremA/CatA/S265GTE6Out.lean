@@ -18,7 +18,7 @@ theorem commutator_le_twInndiag (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (H₁ H₂ : Subgroup (MulAut ↥(twistedE6RootGroup K σ))) :
     ⁅H₁, H₂⁆ ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ := by
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
   rw [← hker, Subgroup.commutator_le]

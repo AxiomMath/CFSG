@@ -42,13 +42,13 @@ theorem orth_block_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
       (S10.isL2n r)) :
     h = X ^ 2 + X + 1 ∧ primaryMultiplicity xe.toLinearMap h = 2 ∧ Nat.card K = 2 ^ r := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hs : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
   have hs1 : 1 ≤ (n : ℕ) := n.pos
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hinj := injective_mk'_of_charTwo hQ hT
   have hSB : specialBlock Q xe h ≤ orthDerived Q :=
@@ -83,8 +83,8 @@ theorem orth_block_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
     rw [hs] at ε
     have hcardE : Nat.card (AdjoinRoot h) = (2 ^ (n : ℕ)) ^ 2 := by
       rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h, hdeg2, hs]
-    haveI : CharP (AdjoinRoot h) 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP (AdjoinRoot h) 2 := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := (n : ℕ)) hcardE
     have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 (n : ℕ) (AdjoinRoot h) :=
       CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hcardE hs1
@@ -121,7 +121,7 @@ theorem orth_block_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
           rw [KD264Lie.card_statedSU_eq_nat hUF (by omega), hn1]
           decide +kernel
         have h1 := catalogIs_isL2n_card_of_odd hr hL
-        haveI : Finite ↥(componentImage Q xe h) := inferInstance
+        have : Finite ↥(componentImage Q xe h) := inferInstance
         have h2 : Nat.card (↥(componentImage Q xe h) ⧸ Subgroup.center ↥(componentImage Q xe h)) ≤
             Nat.card ↥(componentImage Q xe h) :=
           Nat.le_of_dvd Nat.card_pos ⟨Nat.card (Subgroup.center ↥(componentImage Q xe h)),
@@ -157,7 +157,7 @@ theorem orth_block_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
       rw [h0] at hω3
       norm_num at hω3
     have hord : orderOf (Units.mk0 (AdjoinRoot.root h) hωne) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       refine orderOf_eq_prime ?_ ?_
       · ext
         simpa using hω3

@@ -239,13 +239,13 @@ theorem sec53CentralizerW1_of_decomp_hBC
     rw [hV1]
     have hspKeep : SpNat hc t := hsp0
     obtain ⟨K, iF, iFin, hK, m, hm, hrep⟩ := hsp0
-    letI := iF
-    letI := iFin
+    let := iF
+    let := iFin
     have hVnat : SpMNat hc t m := ⟨K, iF, iFin, hK, hrep⟩
     obtain ⟨K₂, iF₂, iFin₂, iCh₂, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-    letI := iF₂
-    letI := iFin₂
-    letI := iCh₂
+    let := iF₂
+    let := iFin₂
+    let := iCh₂
     obtain ⟨T, hTmem, hBC'⟩ :=
       hBC G M Q Z B hc n t hs hspKeep r hr hplane m hVnat K₂ γ M₀ hD
     exact Ctx.centLam_sp_vone h34 hRoot h51 hc hs hm hVnat hr hplane hD T hTmem hBC'

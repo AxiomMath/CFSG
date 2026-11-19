@@ -25,21 +25,21 @@ theorem no_order_eight (hP : P12Facts) (hK : SolomonA12HypK K) {m : ℕ} {F : Ty
 theorem no_order_eight_PSL (hP : P12Facts) (hK : SolomonA12HypK K) {n f : ℕ}
     (h : StatedClassicalModel K .PSL n 2 f) (hf : 1 ≤ f) (hn : n ≤ 4) : False := by
   obtain ⟨-, F, hField, hFinite, hcard, ⟨e⟩⟩ := h
-  letI := hField
-  letI := hFinite
-  haveI : CharP F 2 := charP_two_of_card hf hcard
+  let := hField
+  let := hFinite
+  have : CharP F 2 := charP_two_of_card hf hcard
   exact no_order_eight hP hK hn e
 
 theorem no_order_eight_PSU (hP : P12Facts) (hK : SolomonA12HypK K) {n f : ℕ}
     (h : StatedClassicalModel K .PSU n 2 f) (hf : 1 ≤ f) (hn : n ≤ 4) : False := by
   obtain ⟨-, F, hField, hFinite, hcard, ⟨e⟩⟩ := h
-  letI := hField
-  letI := hFinite
+  let := hField
+  let := hFinite
   have hcard' : Nat.card F = 2 ^ (2 * f) := by
     rw [hcard, ← pow_mul]
     congr 1
     omega
-  haveI : CharP F 2 := charP_two_of_card (by omega : 1 ≤ 2 * f) hcard'
+  have : CharP F 2 := charP_two_of_card (by omega : 1 ≤ 2 * f) hcard'
   exact no_order_eight hP hK hn e
 
 theorem lieModel_psp_of_even (hO : LieOrderFormulasInput) (hP : P12Facts)
@@ -62,7 +62,6 @@ theorem lieModel_psp_of_even (hO : LieOrderFormulasInput) (hP : P12Facts)
         have hS := hL.statedClassicalModel (by decide : .PSL ∈ classicalTags)
         first
           | exact no_order_eight_PSL hP hK hS hf1 (by omega)
-          | omega
     ·
       simp only [lieSylowExponent] at hN
       interval_cases n <;> norm_num at hN
@@ -71,7 +70,6 @@ theorem lieModel_psp_of_even (hO : LieOrderFormulasInput) (hP : P12Facts)
         have hS := hL.statedClassicalModel (by decide : .PSU ∈ classicalTags)
         first
           | exact no_order_eight_PSU hP hK hS hf1 (by omega)
-          | omega
   · rcases ht with rfl | rfl
     ·
       simp only [lieSylowExponent] at hN

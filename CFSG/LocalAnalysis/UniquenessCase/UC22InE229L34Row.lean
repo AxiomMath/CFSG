@@ -118,8 +118,8 @@ theorem uc22ine229_l34_data (hG3 : Gls3StronglyThreeEmbeddedPlus)
     (∃ c : ℕ, Nat.card ↥(((H ⊓ k.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∣ 9 * 2 ^ c) ∧
       ∀ R : Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H), IsPGroup 3 R → Nat.card R ≤ 9 := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
-  haveI : (CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)).Normal :=
+  have : Fact k.p.Prime := ⟨k.prime⟩
+  have : (CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)).Normal :=
     CFSG.LocalCores.generalized_fitting_characteristic.2
   obtain ⟨P₀⟩ : Nonempty (Sylow k.p ↥(H ⊓ k.M)) := inferInstance
   obtain ⟨P', -, hP'N⟩ := k.exists_sylow_map_of_isSylowOf hH
@@ -140,7 +140,7 @@ theorem uc22ine229_l34_data (hG3 : Gls3StronglyThreeEmbeddedPlus)
     exact mul_dvd_mul h2 hc
   · have hPF : (P' : Subgroup _) ≤ F := by
       intro z hz
-      obtain ⟨a, ha⟩ := P'.isPGroup' ⟨z, hz⟩
+      obtain ⟨a, ha⟩ := P'.isPGroup ⟨z, hz⟩
       have hza : z ^ (k.p ^ a) = 1 := by simpa using congrArg Subtype.val ha
       have hcop : Nat.Coprime F.index (orderOf z) := by
         rw [he]
@@ -168,23 +168,23 @@ theorem uc22ine229_l34_solvable (hG3 : Gls3StronglyThreeEmbeddedPlus)
     Group.IsSolvable ↥(H ⊓ k.M) ∧
       ∀ R : Subgroup G, R ≤ H → IsPGroup 3 R → Nat.card R ≤ 3 ^ 2 := by
   obtain ⟨⟨c, hc⟩, hR⟩ := uc22ine229_l34_data hG3 hRee k hp3 hH hF
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   set K_ := CFSG.pPrimeCore k.p ↥H
   refine ⟨?_, fun R hRH hR3 => ?_⟩
   · set A := (H ⊓ k.M).subgroupOf H
-    haveI : Group.IsSolvable ↥K_ :=
+    have : Group.IsSolvable ↥K_ :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ (k.odd_card_pPrimeCore_of_not_le hH.not_le hH.two_le_pRank)
     have hKA : K_ ≤ A := fun x hx =>
       mem_subgroupOf.2 ⟨x.2, k.pPrimeCore_le_of_not_le hH.not_le hH.two_le_pRank ⟨x, hx, rfl⟩⟩
     obtain ⟨i, j, hij⟩ := uc22ine229_l34_exists_two_three hc
-    haveI : Group.IsSolvable ↥(A.map (QuotientGroup.mk' K_)) := by
-      letI := Fintype.ofFinite ↥(A.map (QuotientGroup.mk' K_))
+    have : Group.IsSolvable ↥(A.map (QuotientGroup.mk' K_)) := by
+      let := Fintype.ofFinite ↥(A.map (QuotientGroup.mk' K_))
       exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
         Nat.prime_two Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hij])
-    haveI : Group.IsSolvable ↥(K_.subgroupOf A) :=
+    have : Group.IsSolvable ↥(K_.subgroupOf A) :=
       Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hKA).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hKA).injective
-    haveI : Group.IsSolvable ↥A :=
+    have : Group.IsSolvable ↥A :=
       Group.isSolvable_of_ker_le_range (K_.subgroupOf A).subtype
         ((QuotientGroup.mk' K_).subgroupMap A) fun x hx => by
           have h1 : QuotientGroup.mk' K_ (x : ↥H) = 1 :=

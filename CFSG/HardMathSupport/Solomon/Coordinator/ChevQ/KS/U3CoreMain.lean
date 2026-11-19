@@ -21,7 +21,7 @@ section Z3
 theorem u3_centerThree {X : Type} [Group X] [Finite X] {K B : Subgroup X}
     (hKc : CFSG.Open.IsComponentOf K ⊤) (hSC : IsSCp 3 ⊤ B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X))
-    (hLie : IsLieQuot ↥K IsU3EightIndex) (hZ : Subgroup.center ↥K ≠ ⊥)
+    (_hLie : IsLieQuot ↥K IsU3EightIndex) (hZ : Subgroup.center ↥K ≠ ⊥)
     (hF : ∃ φ ∈ autImage B K, FieldAutU 3 (↥K ⧸ Subgroup.center ↥K) φ) :
     IsStronglyBalancedIn 3 B K := by
   obtain ⟨φ, hφA, hφF⟩ := hF

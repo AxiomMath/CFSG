@@ -177,8 +177,8 @@ theorem hasCleanFullClassBMember_psp
   set k : Fin (m + 1) := 0 with hk
   have hk' : (⟨1, by omega⟩ : Fin (m + 1)) ≠ k := fun h =>
     absurd (congrArg Fin.val h) (by simp [hk])
-  haveI : Finite ↥(complGroup (longInv K (m + 1) k)) := inferInstance
-  haveI : Finite (StatedProj (StatedSp (m + 1) K)) := inferInstance
+  have : Finite ↥(complGroup (longInv K (m + 1) k)) := inferInstance
+  have : Finite (StatedProj (StatedSp (m + 1) K)) := inferInstance
   refine hasCleanFullClassBMember_of_block
     (QuotientGroup.mk' ((StatedScalars (Fin (m + 1) ⊕ Fin (m + 1)) K).subgroupOf
       (StatedSp (m + 1) K))) (QuotientGroup.mk'_surjective _) ?_
@@ -199,7 +199,7 @@ theorem hasCleanFullClassBMember_of_lieModel_psp
   unfold CFSG.Open.StatedClassicalModel at hcm
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hcm
   have hK : Nat.card K = 3 := by simpa using hKcard
-  haveI : IsSimpleGroup (StatedProj (StatedSp n K)) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSp n K)) := e.symm.isSimpleGroup
   exact HasCleanFullClassBMember.of_mulEquiv e.symm (hasCleanFullClassBMember_psp hGA hK hn)
 
 end CFSG.OddStandard.HigherRank.F3

@@ -37,10 +37,10 @@ private theorem ggK1On_getD_succ_eq_tail_getD (m : List ℕ) (k : ℕ) :
   cases m <;> rfl
 
 theorem ggK1CBl_preblocks_one {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
-    (hnf : 1 ≤ nf) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hK : Nat.card K = 2 ^ nf)
+    (_hnf : 1 ≤ nf) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (_hK : Nat.card K = 2 ^ nf)
     {x : ↥(StatedSp r K)} {m : List ℕ} (hm : GGK1CMultOf p nf d r K x m)
-    (hx : x ^ p = 1) (hx1 : x = 1) :
+    (_hx : x ^ p = 1) (hx1 : x = 1) :
     Nonempty (ggK1CBl_PreBlocks p nf d r K x m) := by
   classical
   have hsp : spEnd x = (1 : Module.End K (Fin r ⊕ Fin r → K)) := by
@@ -82,11 +82,11 @@ theorem ggK1CBl_preblocks_one {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
         (fun _ : ι => ggK1CCo_Kind.sp (m.headD 0)) =
       (if m.headD 0 = 0 then 0 else {ggK1CCo_Kind.sp (m.headD 0)}) := by
     by_cases h0 : m.headD 0 = 0
-    · rw [if_pos h0]
-      haveI : IsEmpty ι := ⟨fun z => z.2 h0⟩
+    · rw [ite_eq_left h0]
+      have : IsEmpty ι := ⟨fun z => z.2 h0⟩
       rw [Finset.univ_eq_empty]
       simp
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hsub : (Finset.univ : Finset ι) = {⟨(), h0⟩} := by
         rw [Finset.eq_singleton_iff_unique_mem]
         exact ⟨Finset.mem_univ _, fun z _ => Subtype.ext (Subsingleton.elim _ _)⟩
@@ -114,9 +114,9 @@ theorem ggK1CBl_preblocks_one {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
       exact Subgroup.mem_center_iff.mpr (fun g => by simp)
     rw [hx1, hcent]
     by_cases h0 : m.headD 0 = 0
-    · haveI : IsEmpty ι := ⟨fun z => z.2 h0⟩
+    · have : IsEmpty ι := ⟨fun z => z.2 h0⟩
       have hr0 : r = 0 := by omega
-      haveI : Subsingleton ↥(StatedSp r K) := by rw [hr0]; exact inferInstance
+      have : Subsingleton ↥(StatedSp r K) := by rw [hr0]; exact inferInstance
       have hempty : (⨆ _ : ι, (⊤ : Subgroup (StatedSp r K))) = ⊥ := by
         apply le_antisymm _ bot_le
         apply iSup_le
@@ -127,7 +127,7 @@ theorem ggK1CBl_preblocks_one {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
       intro y _
       rw [Subgroup.mem_bot]
       exact Subsingleton.elim y 1
-    · haveI : Nonempty ι := ⟨⟨(), h0⟩⟩
+    · have : Nonempty ι := ⟨⟨(), h0⟩⟩
       exact iSup_const
   ·
     intro i

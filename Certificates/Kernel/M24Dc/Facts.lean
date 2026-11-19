@@ -54,8 +54,10 @@ theorem incl_iff {j jj : ℕ} (hj : j < 13) (hjj : jj < 13) :
   rw [m24Ctx.Y_le_iff (by rw [m24_J]; exact hj) (by rw [m24_J]; exact hjj)]
   exact CFSG.KD.M24Dc.m24K_check.2 j hj jj hjj
 
-theorem incl : M24InclFact := fun j hj jj hjj => incl_iff hj hjj
+omit [M24Lat] in
+theorem incl : M24InclFact := fun _j hj _jj hjj => incl_iff hj hjj
 
+omit [M24Lat] in
 theorem idx3 : M24Idx3Fact := by
   intro _
   obtain ⟨z₀, hz2, hZ, hzT⟩ := m24_centre
@@ -84,6 +86,7 @@ theorem idx3 : M24Idx3Fact := by
     · exact Or.inl hc
     · exact Or.inr fun hle => hfin j hj13 hj3 hne hc ((incl_iff hj13 (by decide)).mp hle)
 
+omit [M24Lat] in
 theorem cen : M24CenFact := by
   intro _ z₀ hz
   obtain ⟨z₁, -, hZ, hzT⟩ := m24_centre
@@ -98,6 +101,7 @@ theorem cen : M24CenFact := by
   exact ((Idx3Wit.sound m24Ctx hz₀ m24Wit hok).2 4 (by rw [m24_J]; norm_num)).mp (by decide)
 
 open CFSG.Quasithin.H13.KGInsp CFSG.Quasithin.H13.KGE64 in
+omit [M24Lat] in
 theorem e64 : M24E64Fact := by
   intro _ j hj
   have hj13 : j < 13 := by omega
@@ -132,6 +136,7 @@ theorem e64 : M24E64Fact := by
       (by rw [ho2]; rfl) hcert.2.2.2
 
 open CFSG.Quasithin.H13.KGT3J4 in
+omit [M24Lat] in
 theorem tab_y : (tab 24 (wordElt m24a m24b t3yWord)).toArray = t3yTab := by
   have hel : ∀ l < (#[m24a, m24b] : Array ↥CFSG.Blueprint.NativeSporadic.M24).size,
       (#[m24ta.toArray, m24tb.toArray] : Array (Array ℕ)).getD l #[] =
@@ -146,6 +151,7 @@ theorem tab_y : (tab 24 (wordElt m24a m24b t3yWord)).toArray = t3yTab := by
     fun l hl => by simpa using hw l hl).symm
 
 open CFSG.Quasithin.H13.KGT3J4 in
+omit [M24Lat] in
 theorem t3j4 : M24T3J4Fact := by
   intro _ c hc j hj hcard hmem
   have hjJ : j < m24Ctx.J := by rw [m24_J]; exact hj
@@ -198,6 +204,7 @@ theorem gens_eq {j : ℕ} {w : List ℕ} (h : m24LatK.mw[j]! = [w]) :
   rw [h]
   rfl
 
+omit [M24Lat] in
 theorem ne_one_of_wTab {w : List ℕ} (h : wTab w ≠ List.range 24) : elt w ≠ 1 :=
   fun e => h (by rw [← tab_elt, e, tab_one])
 
@@ -206,6 +213,7 @@ theorem not_mem_of_inYK {j : ℕ} (hj : j < 13) {w : List ℕ} (h : inYK j w = f
   rw [mem_Y_iff_inYK hj, h] at hm
   exact Bool.false_ne_true hm
 
+omit [M24Lat] in
 theorem x_facts : inYK 7 xw = true ∧
     wTab (xw ++ xw ++ xw) = List.range 24 ∧ wTab xw ≠ List.range 24 := by
   have h := CFSG.KD.M24Dc.kg7249K.1
@@ -213,12 +221,14 @@ theorem x_facts : inYK 7 xw = true ∧
     and_assoc] at h
   exact h
 
+omit [M24Lat] in
 theorem alpha_facts :
     inYK 2 (invW y3w ++ xw ++ y3w) = false ∧ inYK 2 ([0] ++ xw ++ [0]) = false := by
   have h := CFSG.KD.M24Dc.kg7249K.2.1
   simp only [chkAlphaK, Bool.and_eq_true, Bool.not_eq_true'] at h
   exact h
 
+omit [M24Lat] in
 theorem k_facts : inYK 2 k1w = true ∧ inYK 2 k2w = true ∧
     wTab k1w = wTab (commW (kWord c1v) (kWord c1u)) ∧
     wTab k2w = wTab (commW (kWord c2v) (kWord c2u)) ∧
@@ -227,6 +237,7 @@ theorem k_facts : inYK 2 k1w = true ∧ inYK 2 k2w = true ∧
   simp only [chkKK, Bool.and_eq_true, beq_iff_eq, and_assoc] at h
   exact h
 
+omit [M24Lat] in
 theorem q_facts : (∀ q ∈ qws, inYK 2 q = true) ∧
     (∀ q ∈ qws, wTab q ∈ qTabs) ∧ List.range 24 ∈ qTabs ∧ qTabs.Nodup ∧
     (∀ f ∈ qTabs, ∀ f' ∈ qTabs, compTab f f' ∈ qTabs) ∧
@@ -236,6 +247,7 @@ theorem q_facts : (∀ q ∈ qws, inYK 2 q = true) ∧
     List.any_eq_true, beq_iff_eq, and_assoc] at h
   exact h
 
+omit [M24Lat] in
 theorem vw_facts : inYK 2 vw = true ∧ inYK 2 ww = true ∧
     wTab (vw ++ vw ++ vw ++ vw ++ vw ++ vw ++ vw) = List.range 24 ∧ wTab vw ≠ List.range 24 ∧
     wTab (ww ++ ww ++ ww) = List.range 24 ∧ wTab ww ≠ List.range 24 ∧
@@ -246,6 +258,7 @@ theorem vw_facts : inYK 2 vw = true ∧ inYK 2 ww = true ∧
     beq_eq_false_iff_ne, List.all_eq_true, and_assoc] at h
   exact h
 
+omit [M24Lat] in
 theorem lat_facts : m24LatK.sTabs = m24STabs ∧
     m24LatK.mw[2]! = [w2w] ∧ m24LatK.mw[3]! = [y3w] ∧ m24LatK.mw[6]! = [w6w] := by
   have h := CFSG.KD.M24Dc.kg7249K.2.2.2.2.2
@@ -253,6 +266,7 @@ theorem lat_facts : m24LatK.sTabs = m24STabs ∧
     and_assoc] at h
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1⟩
 
+omit [M24Lat] in
 theorem exists_qSub : ∃ Q : Subgroup Γ, ∀ g : Γ, g ∈ Q ↔ tab 24 g ∈ qTabs := by
   obtain ⟨-, -, h1, -, hmul, -⟩ := q_facts
   have hmul' : ∀ x y : Γ, tab 24 x ∈ qTabs → tab 24 y ∈ qTabs → tab 24 (x * y) ∈ qTabs :=
@@ -276,6 +290,7 @@ theorem exists_qSub : ∃ Q : Subgroup Γ, ∀ g : Γ, g ∈ Q ↔ tab 24 g ∈ 
       inv_mem' := fun {x} hx => hinv x hx }
   exact ⟨Q, fun _ => Iff.rfl⟩
 
+omit [M24Lat] in
 theorem card_qSub {Q : Subgroup Γ} (hQ : ∀ g : Γ, g ∈ Q ↔ tab 24 g ∈ qTabs) :
     Nat.card Q = 64 := by
   classical
@@ -331,6 +346,7 @@ theorem Y2_le_normalizer {Q : Subgroup Γ} (hQ : ∀ g : Γ, g ∈ Q ↔ tab 24 
     rw [tab_elt]
     exact List.mem_append_right _ (List.mem_singleton_self _)
 
+omit [M24Lat] in
 theorem kg : M24KGFact := by
   intro _
   obtain ⟨hx7, hx3, hx1⟩ := x_facts

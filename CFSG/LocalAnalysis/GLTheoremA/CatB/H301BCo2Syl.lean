@@ -72,7 +72,7 @@ private theorem exists_conj_pow {G H : Type*} [Group G] [Finite G] [Group H] (φ
     rw [map_mul, map_mul, map_inv, ← hk, he,
       (((Commute.refl (φ d)).zpow_left k).pow_right e).eq, mul_inv_cancel_right]
   have hdisj : Disjoint ((Q : Subgroup K).map K.subtype) φ.ker :=
-    IsPGroup.disjoint_of_coprime (Q.isPGroup'.map K.subtype) hN (by decide)
+    IsPGroup.disjoint_of_coprime (Q.isPGroup.map K.subtype) hN (by decide)
   have hz : ((h : G) * y * (h : G)⁻¹)⁻¹ * d ^ e = 1 := by
     refine Subgroup.disjoint_def.1 hdisj (mul_mem (inv_mem h1) h2) ?_
     rw [MonoidHom.mem_ker, map_mul, map_inv, hφh, map_pow, inv_mul_cancel]

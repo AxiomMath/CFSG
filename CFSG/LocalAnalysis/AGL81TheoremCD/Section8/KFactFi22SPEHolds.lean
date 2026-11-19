@@ -11,9 +11,9 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section8
 
 theorem kFactFi22SPEThreeRank : KFactFi22SPEThreeRank := by
   intro X _ _ _ hK N hN
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
+  have : K.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
   obtain ⟨P, hP, hPN⟩ := hN.exists_isSylowOf_le
   let S := hP.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hP.2.2)
   obtain ⟨T, hT⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_sylow_inf_normal S K
@@ -33,7 +33,7 @@ theorem kFactFi22SPEThreeRank : KFactFi22SPEThreeRank := by
     have hUne : Q.map K.subtype ≠ ⊥ := by
       rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective]
     intro k hk
-    exact hN.normalizer_le hUne ((T.isPGroup'.to_le hQT).map K.subtype) (hUP.trans hPN)
+    exact hN.normalizer_le hUne ((T.isPGroup.to_le hQT).map K.subtype) (hUP.trans hPN)
       (Subgroup.le_normalizer_map K.subtype ⟨k, hk, rfl⟩)
   have h4 : 4 ≤ CFSG.Open.pRank 3 N :=
     CFSG.SectionRank.le_pRank (by norm_num) ((Subgroup.map_mono hEΓ).trans hΓ)

@@ -61,7 +61,7 @@ theorem mem_stab2_iff_exists_liftS8 {σ : Perm (Fin 10)} :
       exact h9.symm
     have hltinv := hlt_of_fix σ⁻¹ hinv8 hinv9
     let g : Fin 8 → Fin 8 := fun x =>
-      ⟨(σ (Fin.castLE (by norm_num : 8 ≤ 10) x)).val, hlt _ (by simpa using x.isLt)⟩
+      ⟨(σ (Fin.castLE (by norm_num : 8 ≤ 10) x)).val, hlt _ (by simp)⟩
     have hg_inj : Function.Injective g := by
       intro x y hxy
       have h1 : (σ (Fin.castLE (by norm_num : 8 ≤ 10) x)).val =
@@ -153,7 +153,7 @@ theorem liftS8_swap (a b : Fin 8) :
 theorem eq_one_or_eq_sign {n : ℕ} (f : Perm (Fin n) →* ℤˣ) : f = 1 ∨ f = sign := by
   by_cases hn : n ≤ 1
   · left
-    haveI : Subsingleton (Perm (Fin n)) := by
+    have : Subsingleton (Perm (Fin n)) := by
       rw [← Fintype.card_le_one_iff_subsingleton, Fintype.card_perm, Fintype.card_fin]
       interval_cases n <;> simp
     refine MonoidHom.ext fun σ => ?_

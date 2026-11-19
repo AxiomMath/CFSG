@@ -32,7 +32,7 @@ theorem szh1_index_pow {G : Type} [Group G] [Finite G] (K : Subgroup G) [K.Norma
       refine ⟨a, ?_⟩
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
       exact hK _ ha
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨n, hn⟩ := hp.exists_card_eq
   exact ⟨n, by rw [Subgroup.index_eq_card]; exact hn⟩
 
@@ -53,11 +53,11 @@ theorem szh1_exists_sq_normal {Y Q : Type} [Group Y] [Group Q] (π : Y →* Q)
             one_mem' := ?_
             inv_mem' := ?_ }, ⟨?_⟩, fun g => Iff.rfl⟩
   · intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, (hc a b).mul_pow, ha, hb, one_mul]
   · simp
   · intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, inv_pow, ha, inv_one]
   · intro n hn g
     have hn' : π n ^ 2 = 1 := hn
@@ -67,10 +67,10 @@ theorem szh1_exists_sq_normal {Y Q : Type} [Group Y] [Group Q] (π : Y →* Q)
 
 theorem szh1_final_contra
     (hperf : ∀ N : Subgroup Y, N.Normal → (∃ k : ℕ, N.index = 5 ^ k) → N = ⊤)
-    {H W : Subgroup Y} [H.Normal] [W.Normal] (hWH : W ≤ H)
+    {H W : Subgroup Y} [H.Normal] [W.Normal] (_hWH : W ≤ H)
     (hW5 : ∀ g ∈ H, Nat.Coprime (orderOf g) 5 → g ∈ W)
     {t y : Y} (ht2 : t * t ∈ H) (htY : ∀ g : Y, g ∈ H ∨ t⁻¹ * g ∈ H)
-    (hy : y ∈ H) (y5 : y ^ 5 = 1) (hyW : y ∉ W) (hH : H = W ⊔ Subgroup.zpowers y)
+    (_hy : y ∈ H) (y5 : y ^ 5 = 1) (hyW : y ∉ W) (hH : H = W ⊔ Subgroup.zpowers y)
     (hcomm : t * y * t⁻¹ * y⁻¹ ∈ W) : False := by
   let π : Y →* Y ⧸ W := QuotientGroup.mk' W
   have hπ1 : ∀ g : Y, π g = 1 ↔ g ∈ W := fun g => by
@@ -147,7 +147,7 @@ theorem szh1_final_contra
 theorem szh1_H_eq_sup {H W : Subgroup Y} [W.Normal] (hWH : W ≤ H)
     (hW5 : ∀ g ∈ H, Nat.Coprime (orderOf g) 5 → g ∈ W)
     (S : Sylow 5 Y) (hSH : (S : Subgroup Y) ≤ H) : H = (S : Subgroup Y) ⊔ W := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hW : ∃ k : ℕ, W.relIndex H = 5 ^ k := by
     apply szh1_index_pow (G := H) (W.subgroupOf H)
     intro g hg

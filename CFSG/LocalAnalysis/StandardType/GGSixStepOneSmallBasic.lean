@@ -81,7 +81,7 @@ theorem ggExists_invariant_two_subgroup {p : ℕ} [Fact p.Prime] {D X : Subgroup
   have hconj : ∀ d ∈ D, ∀ t ∈ T, d * t * d⁻¹ ∈ T := by
     rintro d hd _ ⟨s, hs, rfl⟩
     exact ⟨_, hS ⟨d, hd⟩ s hs, rfl⟩
-  refine ⟨T, Subgroup.map_subtype_le _, ?_, S.isPGroup'.map X.subtype, ?_⟩
+  refine ⟨T, Subgroup.map_subtype_le _, ?_, S.isPGroup.map X.subtype, ?_⟩
   · intro h
     have hS1 : (S : Subgroup X) = ⊥ :=
       (Subgroup.map_eq_bot_iff_of_injective _ Subtype.coe_injective).mp h

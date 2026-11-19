@@ -100,14 +100,14 @@ theorem lr5_cartan_one_mul_sum (v : Fin (Tag.rank .E6) → ℤ) :
     intro j
     by_cases h1' : j = nd 1
     · subst h1'
-      rw [if_pos rfl, if_pos rfl, if_neg (by decide : nd 1 ≠ nd 3)]
+      rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_right (by decide : nd 1 ≠ nd 3)]
       ring
-    · rw [if_neg h1']
+    · rw [ite_eq_right h1']
       by_cases h3 : j = nd 3
       · subst h3
-        rw [if_pos rfl, if_neg (by decide : nd 3 ≠ nd 1), if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_right (by decide : nd 3 ≠ nd 1), ite_eq_left rfl]
         ring
-      · rw [if_neg h3, if_neg h3, if_neg h1']
+      · rw [ite_eq_right h3, ite_eq_right h3, ite_eq_right h1']
         ring
   rw [Finset.sum_congr rfl (fun j _ => hsplit j), Finset.sum_add_distrib]
   simp only [Finset.sum_ite_eq', Finset.mem_univ, ↓reduceIte]
@@ -165,8 +165,7 @@ theorem torusHom_conj_xm_eOne (u : Fin (Tag.rank .E6) → kˣ) (c : k) :
     simp
   have hsingle : ∀ j ∈ (Finset.univ : Finset (Fin (Tag.rank .E6))),
       P (Pi.mulSingle j (u j)) := by
-    intro j _
-    intro c
+    intro j _ c
     rw [torusHom_mulSingle, e6Data_valid.hm_conj_xm k (IsRoot.basis (nd 1)) j (u j) c]
     congr 1
     have hsc : (u j) ^ MinData.toWeight eOne j =
@@ -179,14 +178,14 @@ theorem torusHom_conj_xm_eOne (u : Fin (Tag.rank .E6) → kˣ) (c : k) :
       rw [htw]
       by_cases h1 : j = nd 1
       · subst h1
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         simp [Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne (by decide : (nd 3) ≠ nd 1)]
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         by_cases h3 : j = nd 3
         · subst h3
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           simp [Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne (by decide : (nd 1) ≠ nd 3)]
-        · rw [if_neg h3]
+        · rw [ite_eq_right h3]
           simp [Pi.mulSingle_eq_of_ne (fun h => h1 h.symm),
             Pi.mulSingle_eq_of_ne (fun h => h3 h.symm)]
     rw [hsc]

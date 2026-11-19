@@ -13,8 +13,8 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
     (hcent : ∀ z, ι z ∈ Subgroup.center K) {m : ℕ} (hK : Nat.card K = 9 * m) (hm : ¬ 3 ∣ m)
     (h9 : ∀ x : K, x ^ 3 ∈ ι.range → x ^ 3 = 1) : ∃ θ : K →* Zc, ∀ z, θ (ι z) = z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
   have hz3 : ∀ z : Zc, z ^ 3 = 1 := fun z => by
     have := pow_card_eq_one' (G := Zc) (x := z)
     rwa [hZc] at this
@@ -41,7 +41,7 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
   have hZrcent : ∀ z ∈ Zr, z ∈ Subgroup.center K := by
     rintro _ ⟨z, rfl⟩
     exact hcent z
-  haveI hZrn : Zr.Normal := ⟨fun n hn g => by
+  have hZrn : Zr.Normal := ⟨fun n hn g => by
     have := Subgroup.mem_center_iff.mp (hZrcent n hn) g
     rw [this]
     simpa using hn⟩
@@ -55,7 +55,7 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
     omega
   have hx3 : x ^ 3 = 1 := by
     apply h9
-    haveI : (Zr.subgroupOf (P : Subgroup K)).Normal := hZrn.subgroupOf (P : Subgroup K)
+    have : (Zr.subgroupOf (P : Subgroup K)).Normal := hZrn.subgroupOf (P : Subgroup K)
     have hidx : (Zr.subgroupOf (P : Subgroup K)).index = 3 := by
       have h1 := Subgroup.card_mul_index (Zr.subgroupOf (P : Subgroup K))
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZrP).toEquiv, hZrcard, hPcard] at h1
@@ -66,10 +66,10 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
   have hx1 : x ≠ 1 := fun h => hxZ (h ▸ Zr.one_mem)
   have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hPcomm : ∀ a b : ↥(P : Subgroup K), a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hPcard]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hPcard]; norm_num)).is_comm.comm
   let xP : ↥(P : Subgroup K) := ⟨x, hxP⟩
   let Xs : Subgroup ↥(P : Subgroup K) := Subgroup.zpowers xP
-  haveI hXsn : Xs.Normal := ⟨fun n _ g => by
+  have hXsn : Xs.Normal := ⟨fun n _ g => by
     have h := hPcomm g n
     rw [show g * n * g⁻¹ = n by rw [h]; group]
     assumption⟩
@@ -94,7 +94,7 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
     have hcube : (ι z) ^ 3 = 1 := by
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp h2
       rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-      simp [← zpow_natCast, hx3]
+      simp [hx3]
     have hordz : orderOf (ι z) = 3 := orderOf_eq_prime hcube hι1
     have hle : Subgroup.zpowers (ι z) ≤ Subgroup.zpowers x :=
       (Subgroup.zpowers_le).mpr h2
@@ -112,7 +112,7 @@ theorem exists_retraction_of_central_three {K Zc : Type*} [Group K] [Finite K] [
     show e.symm (QuotientGroup.mk' Xs (ιP z)) = z
     have : QuotientGroup.mk' Xs (ιP z) = e z := rfl
     rw [this, MulEquiv.symm_apply_apply]
-  haveI hfi : (P : Subgroup K).FiniteIndex := Subgroup.finiteIndex_of_finite
+  have hfi : (P : Subgroup K).FiniteIndex := Subgroup.finiteIndex_of_finite
   have hidxP : (P : Subgroup K).index = m := by
     have h1 := Subgroup.card_mul_index (P : Subgroup K)
     rw [hPcard, hK] at h1
@@ -147,8 +147,8 @@ theorem exists_equivariant_retraction {K Zc : Type*} [Group K] [Finite K] [CommG
     (θ₀ : K →* Zc) (hθ₀ : ∀ z, θ₀ (ι z) = z) :
     ∃ θ : K →* Zc, (∀ z, θ (ι z) = z) ∧ ∀ q : Q, ∀ k, ι (θ (τ q k)) = τ q (ι (θ k)) := by
   classical
-  haveI : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
-  haveI : Fintype Q := Fintype.ofFinite _
+  have : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
+  have : Fintype Q := Fintype.ofFinite _
   have hz3 : ∀ z : Zc, z ^ 3 = 1 := fun z => by
     have := pow_card_eq_one' (G := Zc) (x := z)
     rwa [hZc] at this
@@ -191,7 +191,7 @@ theorem exists_equivariant_retraction {K Zc : Type*} [Group K] [Finite K] [CommG
   have hΘι : ∀ z, Θ (ι z) = z ^ Nat.card Q := by
     intro z
     show (∏ α : Q, tw α θ₀) (ι z) = _
-    rw [MonoidHom.finset_prod_apply]
+    rw [finsetProd_apply]
     simp only [tw_ret _ θ₀ hθ₀ z]
     rw [Finset.prod_const, Finset.card_univ, Nat.card_eq_fintype_card]
   have hΘinv : ∀ β : Q, tw β Θ = Θ := by
@@ -230,7 +230,7 @@ theorem cube_eq_one_of_real {Λ Γ Zc : Type*} [Group Λ] [Group Γ] [CommGroup 
     (hcent : ∀ z, ι z ∈ Subgroup.center Λ) (φ : Λ →* Γ) (hφs : Function.Surjective φ)
     (hφk : φ.ker = ι.range) (hreal : ∀ y : Γ, y ^ 3 = 1 → ∃ g : Γ, g * y * g⁻¹ = y⁻¹) :
     ∀ x : Λ, x ^ 3 ∈ ι.range → x ^ 3 = 1 := by
-  haveI : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
+  have : Finite Zc := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
   have hz3 : ∀ z : Zc, z ^ 3 = 1 := fun z => by
     have := pow_card_eq_one' (G := Zc) (x := z)
     rwa [hZc] at this

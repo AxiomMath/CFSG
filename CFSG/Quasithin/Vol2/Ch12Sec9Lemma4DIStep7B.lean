@@ -14,7 +14,8 @@ variable {G : Type} [Group G] [Finite G]
 
 section Basic
 
-theorem zU_le_u128 {V V₁ : Subgroup G} : zU128 V V₁ ≤ u128 V V₁ := fun x hx =>
+omit [Finite G] in
+theorem zU_le_u128 {V V₁ : Subgroup G} : zU128 V V₁ ≤ u128 V V₁ := fun _x hx =>
   (mem_centerOf_iff'.1 hx).1
 
 theorem Dg_le_i128 (h1289 : Lemma12_8_9W) {T L V V₁ V₂ : Subgroup G}
@@ -52,7 +53,8 @@ theorem wc_centralizes_Dg (h1289 : Lemma12_8_9W) (h12813 : Lemma12_8_13) {T L V 
   calc d * w * d⁻¹ = w * d * d⁻¹ := by rw [h]
     _ = w := by group
 
-theorem wc_normalized {T L V V₁ V₂ : Subgroup G} {y : G}
+omit [Finite G] in
+theorem wc_normalized {T L V V₁ _V₂ : Subgroup G} {y : G}
     (hy1 : y ∈ Subgroup.normalizer (i128 T L V V₁ : Set G))
     (hy2 : y ∈ Subgroup.normalizer (V₁ : Set G)) :
     ∀ x ∈ wcSub T L V V₁, y * x * y⁻¹ ∈ wcSub T L V V₁ := by
@@ -90,9 +92,10 @@ theorem relIndex_wc_zU (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemm
 theorem natCard_submodule_two {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Finite M]
     (P : Submodule (ZMod 2) M) : Nat.card ↥P = 2 ^ Module.finrank (ZMod 2) P := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := ↥P), ZMod.card]
 
+omit [Finite G] in
 theorem natCard_inf_eq_submodule {I W : Subgroup G} [IsMulCommutative ↥I]
     [Module (ZMod 2) (Additive ↥I)] [Finite (Additive ↥I)] (P : Submodule (ZMod 2) (Additive ↥I))
     (hfix : ∀ i (hi : i ∈ I), i ∈ W ↔ (Additive.ofMul ⟨i, hi⟩ : Additive ↥I) ∈ P) :
@@ -129,7 +132,7 @@ theorem sup_eq_of_card (Z I W : Subgroup G) (hZc : ∀ x ∈ Z, ∀ y ∈ Z, x *
     have := hZc (g : G) g.2 n (hWZ hn)
     rw [this]
     group
-  haveI hWn : W'.Normal := ⟨fun n hn g => by
+  have hWn : W'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have e : ((g * n * g⁻¹ : ↥Z) : G) = (n : G) := by
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]

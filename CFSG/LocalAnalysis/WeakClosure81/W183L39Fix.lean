@@ -15,7 +15,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {Y T L₁ L₂ : Subgroup (LGL 2 V)} {a : LGL 2 V}
 
 theorem exists_inner (c : SwapCfg Y T L₁ L₂ a) {D : Subgroup (LGL 2 V)}
-    (hD : IsElemAbelian 2 D) (hDY : D ≤ Y) (haD : a ∈ D) (h3 : 2 < Nat.card ↥D) :
+    (_hD : IsElemAbelian 2 D) (hDY : D ≤ Y) (haD : a ∈ D) (h3 : 2 < Nat.card ↥D) :
     ∃ b ∈ D, b ≠ 1 ∧ cj b L₁ = L₁ := by
   have hnotsub : ¬ (D : Set (LGL 2 V)) ⊆ ({1, a} : Set (LGL 2 V)) := by
     intro hsub
@@ -42,6 +42,7 @@ theorem exists_inner (c : SwapCfg Y T L₁ L₂ a) {D : Subgroup (LGL 2 V)}
         rw [← c.swap, ← cj_mul, c.sq, cj_one]
       rw [cj_mul, huL, haL₂]
 
+omit [Finite V] in
 theorem zeta_fixes_of_inner (c : SwapCfg Y T L₁ L₂ a) {b : LGL 2 V} (hbY : b ∈ Y)
     (hba : b * a = a * b) (hb1 : b ≠ 1) (hbL : cj b L₁ = L₁) (U : Set V)
     (hU : ∀ l ∈ L₁, ∀ u ∈ U, zeta a l u ∈ U) (hbU : ∀ u ∈ U, b u = u) :
@@ -119,9 +120,9 @@ theorem zeta_fixes_of_inner (c : SwapCfg Y T L₁ L₂ a) {b : LGL 2 V} (hbY : b
       rw [hn' _ hgu]
       change (zeta a (g : LGL 2 V)) ((zeta a (g : LGL 2 V)).symm u) = u
       exact LinearEquiv.apply_symm_apply _ u⟩
-  haveI := hKnormal
+  have := hKnormal
   have hKtop : K = ⊤ := by
-    haveI := c.two.simple₁
+    have := c.two.simple₁
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hbot | htop
     · exfalso
       have hcommBL₁ : ∀ l : ↥L₁, b * (l : LGL 2 V) = (l : LGL 2 V) * b := by

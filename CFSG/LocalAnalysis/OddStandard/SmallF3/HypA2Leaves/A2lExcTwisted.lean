@@ -42,7 +42,7 @@ theorem a2l_datum_of_cover [Finite K] (ψ : K →* X) (hψ : Function.Surjective
   have hq : CFSG.IsQuasisimple ↥R :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eR.symm (isQuasisimple_sl2 (by omega))
   have hN : HarrisLit.IsSLTwoOver (Nat.card F) ↥R := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     exact ⟨F, inferInstance, inferInstance, Nat.card_eq_fintype_card.symm, ⟨eR⟩⟩
   refine a2lDatum_of_block_normal ψ hψ hker hodd (by omega) hz2 ?_ (J := R) (N := R) le_rfl hzR
     hRc hRn hq hinj hN (a2l_typU_of_isSLTwoOver hodd h9 hN)
@@ -70,13 +70,13 @@ theorem a2l_exists_cover {t : CFSG.Assembly.LowTwoRank.StatedLieTag} {n r e : �
 
 theorem a2l_twistedE6_datum {X : Type} [Group X] {f : ℕ} (hf : 2 ≤ f)
     (hX : LieModel X .twistedE6 0 3 f) : a2lDatum X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm := hX.admissible
   have hFT : IsFundTag .twistedE6 := trivial
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hf0 : f ≠ 0 := by omega
   obtain ⟨ψ, hψ, hker⟩ := a2l_exists_cover Nat.prime_three hp2 hFT hadm hX
-  haveI : Finite (modelUniv .twistedE6 0 3 f Nat.prime_three).K :=
+  have : Finite (modelUniv .twistedE6 0 3 f Nat.prime_three).K :=
     CFSG.ClassicalInvolution.ModelFacts.finite_modelUniv hp2 Nat.prime_three hFT hadm
   have hq3 : 3 ^ f ≠ 3 := fun h => by
     have := Nat.pow_right_injective (by norm_num : 2 ≤ 3) (h.trans (pow_one 3).symm)
@@ -86,7 +86,7 @@ theorem a2l_twistedE6_datum {X : Type} [Group X] {f : ℕ} (hf : 2 ≤ f)
   have hγ : IsLongestRoot (modelUniv .twistedE6 0 3 f Nat.prime_three).D γ := ⟨hγR, hγl⟩
   obtain ⟨eR⟩ := nonempty_rankOne_equiv hp2 hFT hadm hγ
   have hcard : Nat.card (GaloisField 3 f) = 3 ^ f := GaloisField.card 3 f hf0
-  haveI : Finite (GaloisField 3 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have : Finite (GaloisField 3 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   have hodd : Odd (Nat.card (GaloisField 3 f)) := by
     rw [hcard]
     exact (by decide : Odd 3).pow
@@ -95,7 +95,7 @@ theorem a2l_twistedE6_datum {X : Type} [Group X] {f : ℕ} (hf : 2 ≤ f)
     calc (9 : ℕ) = 3 ^ 2 := by norm_num
       _ ≤ 3 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hz2 : orderOf (centralInv eR) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (centralInv_sq eR) (centralInv_ne_one eR hodd)
   refine a2l_datum_of_cover ψ hψ hker eR hodd h9 (hCC _ (centralInv_mem eR) hz2).1
     fun x hx hx1 => ?_

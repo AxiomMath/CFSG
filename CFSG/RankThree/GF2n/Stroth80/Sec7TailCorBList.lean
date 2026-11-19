@@ -195,6 +195,6 @@ theorem corB_listGroup {Y : Type} [Group Y] [Finite Y] {T : Subgroup Y} (hT : T 
     (hO : ∀ P : Subgroup Y, P.Normal → Odd (Nat.card P) → P = ⊥) :
     ListGroup ↥(Subgroup.normalClosure (T : Set Y)) :=
   corB_main T (Subgroup.normalClosure (T : Set Y)) hT hTp Subgroup.le_normalClosure
-    (fun Q _ hTQ => Subgroup.normalClosure_le_normal (fun _ ht => hTQ ht)) hThm hO2 hO
+    (fun _Q _ hTQ => Subgroup.normalClosure_le_normal (fun _ ht => hTQ ht)) hThm hO2 hO
 
 end CFSG.RankThree.GF2n.Stroth80

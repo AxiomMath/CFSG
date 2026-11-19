@@ -25,11 +25,11 @@ theorem FF81Hyp.CX_tau_invariant_subgroups
     (hB1irr : ∀ U₁ : Subgroup ↥B, U₁ ≤ B₁.subgroupOf B →
       (∀ σ : MulAut ↥B, σ ∈ X → σ * τX = τX * σ → Subgroup.map σ U₁ = U₁) →
       U₁ = ⊥ ∨ U₁ = B₁.subgroupOf B)
-    {U : Subgroup ↥B} (hUB : U ≤ ⊤)
+    {U : Subgroup ↥B} (_hUB : U ≤ ⊤)
     (hU : ∀ σ : MulAut ↥B, σ ∈ X → σ * τX = τX * σ → Subgroup.map σ U = U) :
     U = ⊥ ∨ U = Subgroup.zpowers (⟨b, hbB⟩ : ↥B) ∨ U = B₁.subgroupOf B ∨ U = ⊤ := by
   let bB : ↥B := ⟨b, hbB⟩
-  haveI : IsElementaryAbelian 3 ↥B := hE4.1
+  have : IsElementaryAbelian 3 ↥B := hE4.1
   have hpow3 : ∀ x : ↥B, x ^ 3 = 1 := fun x =>
     (Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
       (IsElementaryAbelian.exponent_dvd_p 3 ↥B)) x

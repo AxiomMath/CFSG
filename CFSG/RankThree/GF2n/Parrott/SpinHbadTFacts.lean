@@ -320,7 +320,7 @@ private theorem hbadT_count_fixed_perp (j : V) :
   rw [← hT]
   refine Set.ncard_congr (fun v _ => bitmask v) ?_ ?_ ?_
   · intro v hv
-    simp only [Set.mem_setOf_eq] at hv
+    simp only [Set.mem_ofPred_eq] at hv
     obtain ⟨htv, hbv⟩ := hv
     change bitmask v ∈ (hbadTFixedPerp (bitmask j)).toFinset
     rw [List.mem_toFinset, hbadTFixedPerp, List.mem_filter, List.mem_range]

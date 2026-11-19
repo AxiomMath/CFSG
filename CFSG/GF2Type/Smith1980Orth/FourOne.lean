@@ -69,7 +69,7 @@ private theorem exists_fixed_of_odd_ncard {α : Type*} [Finite α] (X : Set α) 
     (hφ : ∀ c, φ (φ c) = c) (hX : ∀ c ∈ X, φ c ∈ X) (hodd : Odd X.ncard) :
     ∃ c ∈ X, φ c = c := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   let σ : Equiv.Perm X :=
     { toFun := fun c => ⟨φ c, hX c c.2⟩
       invFun := fun c => ⟨φ c, hX c c.2⟩

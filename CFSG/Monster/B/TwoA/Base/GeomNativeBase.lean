@@ -19,7 +19,7 @@ attribute [local instance] parAction
 
 private theorem zmod2_cases : ∀ t : ZMod 2, t = 0 ∨ t = 1 := by decide
 
-@[expose] def natStd :
+def natStd :
     ℕ → Submodule (ZMod 2) (Wv v0)
   | 2 => Submodule.span (ZMod 2) {wFr}
   | 3 => Uplane
@@ -43,7 +43,7 @@ theorem Vhat_eq_EU :
     isKleinFour_Vhat.card_four]
   norm_num
 
-@[expose] def psiSubImage (A : Subgroup Dfull) : Submodule (ZMod 2) (Wv v0) where
+def psiSubImage (A : Subgroup Dfull) : Submodule (ZMod 2) (Wv v0) where
   carrier := {w | ∃ e : Ehat, (e : Dfull) ∈ A ∧ psiW e = w}
   add_mem' {a b} ha hb := by
     obtain ⟨e, he, rfl⟩ := ha
@@ -74,11 +74,11 @@ theorem conjSub_EU {h : Dfull} (hh : h ∈ Jhat) (U : Submodule (ZMod 2) (Wv v0)
 
 abbrev Res1 : Set ParGeom := parRes {stdObj 1 le_rfl (by norm_num)}
 
-@[expose] def NatObj :
+def NatObj :
     Set (ℕ × Submodule (ZMod 2) (Wv v0)) :=
   {x | 2 ≤ x.1 ∧ x.1 ≤ 5 ∧ ∃ k : Kstab v0, x.2 = (natStd x.1).map (wAct v0 k)}
 
-@[expose] def resNat (x : ParGeom) : ℕ × Submodule (ZMod 2) (Wv v0) :=
+def resNat (x : ParGeom) : ℕ × Submodule (ZMod 2) (Wv v0) :=
   (parType x, psiSubImage x.1.2)
 
 theorem jhatToKv0_quot :

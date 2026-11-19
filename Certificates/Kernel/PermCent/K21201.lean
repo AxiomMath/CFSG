@@ -116,7 +116,7 @@ theorem k21201 : elemC = true := by
     rw [QP, QA, certificate_originalSubgroup, certificate_originalSubgroup, Subgroup.closure_le]
     intro g hg
     apply Subgroup.subset_closure
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
     rcases hg with rfl | rfl <;> simp
   have hPA : ∀ g, g ∈ elemsC QP → g ∈ elemsC QA := fun g hg =>
     (mem_elemsC QA hA g).2 (hle ((mem_elemsC QP hP g).1 hg))

@@ -30,7 +30,7 @@ section PCore
 theorem pCore_two_eq_bot_of_quasisimple {Q : Type*} [Group Q] [Finite Q]
     (hperf : commutator Q = ⊤) (hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q))
     (hZ : ∀ z ∈ Subgroup.center Q, z ^ 3 = 1) : CFSG.pCore 2 Q = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (CFSG.pCore 2 Q).Normal := CFSG.pCore_normal
   have hP : IsPGroup 2 (CFSG.pCore 2 Q) := CFSG.pCore_isPGroup
   have hmap : ((CFSG.pCore 2 Q).map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
@@ -66,10 +66,10 @@ theorem pCore_two_eq_bot_of_quasisimple {Q : Type*} [Group Q] [Finite Q]
       refine ⟨k, ?_⟩
       have hk' : n ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
       rw [← map_pow, hk', map_one]
-    haveI : Group.IsNilpotent (Q ⧸ Subgroup.center Q) := hpS.isNilpotent
-    haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
-    haveI : Group.IsPerfect Q := ⟨hperf⟩
-    haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
+    have : Group.IsNilpotent (Q ⧸ Subgroup.center Q) := hpS.isNilpotent
+    have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
+    have : Group.IsPerfect Q := ⟨hperf⟩
+    have : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center Q))
     exact Group.IsPerfect.not_isNilpotent (Q ⧸ Subgroup.center Q) ‹_›
 
@@ -106,7 +106,7 @@ theorem exists_quotientEquiv_fst (hB : IsPGroup 2 B) (hL : CFSG.pCore 2 L = ⊥)
     ∃ e : (L × B) ⧸ CFSG.pCore 2 (L × B) ≃* L,
       ∀ x : L × B, e (QuotientGroup.mk x) = x.1 := by
   have h := pCore_prod_eq_ker_fst hB hL
-  haveI : (MonoidHom.fst L B).ker.Normal := MonoidHom.normal_ker _
+  have : (MonoidHom.fst L B).ker.Normal := MonoidHom.normal_ker _
   exact ⟨(QuotientGroup.quotientMulEquivOfEq h).trans
     (QuotientGroup.quotientKerEquivOfSurjective (MonoidHom.fst L B) fun l => ⟨(l, 1), rfl⟩),
     fun x => rfl⟩

@@ -122,7 +122,7 @@ theorem burnsideC56_fin_c6 (hι : Function.Injective ι) (hκ : Function.Injecti
       rw [burnsideC56_tr_thompsonJ hsΛ] at hrJ
       rw [← hA₁, ← hQ'', burnsideC56_fin_relIndex_inf hsΛ] at hidx
       rw [← hC', ← hA₁, ← hQ'', show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl,
-        burnsideC56_tr_rconj hsΛ, burnsideC56_tr_rconj hsΛ, ← burnsideC56_fin_image_four,
+        burnsideC56_tr_rconj, burnsideC56_tr_rconj, ← burnsideC56_fin_image_four,
         burnsideC56_fin_AFam_eq hsΛ] at hAF
       have h5 := h4 (κ x₀) (by rw [hC, burnsideC56_finL_N hκ]; exact Subgroup.mem_map_of_mem κ hx₀)
         (by rw [hC]; exact fun h => hx₀C ((Subgroup.mem_map_iff_mem hκ).mp h))
@@ -132,7 +132,7 @@ theorem burnsideC56_fin_c6 (hι : Function.Injective ι) (hκ : Function.Injecti
           exact fun h => hrJ (Subgroup.mem_map_of_mem _ ((Subgroup.mem_map_iff_mem hκ).mp h)))
         (by rw [hQ', burnsideC56_fin_relIndex_inf hκ]; exact hidx)
         (by
-          rw [hC, hQ', burnsideC56_tr_rconj hκ, burnsideC56_tr_rconj hκ,
+          rw [hC, hQ', burnsideC56_tr_rconj, burnsideC56_tr_rconj,
             ← burnsideC56_fin_image_four, burnsideC56_fin_AFam_eq hκ]
           exact hAF)
       rw [hQ', ← Subgroup.map_sup, burnsideC56_finL_N hκ, burnsideC56_tr_card hκ, hC,
@@ -194,7 +194,7 @@ theorem burnsideC56_C61_of_fin
               Nat.card ↥(Λ ⊓ H)))) :
     C_6_1 := by
   intro G _ H Λ _ _ hc hi hΛ2 hsyl hlt hiv
-  haveI : Finite ↥(Λ ⊓ H) := Finite.of_injective (fun x : ↥(Λ ⊓ H) => (⟨x, x.2.2⟩ : ↥H))
+  have : Finite ↥(Λ ⊓ H) := Finite.of_injective (fun x : ↥(Λ ⊓ H) => (⟨x, x.2.2⟩ : ↥H))
     (fun a b hab => Subtype.ext (by simpa using congrArg Subtype.val hab))
   have hι := burnsideC56_iota_injective H Λ
   have hκ := burnsideC56_kappa_injective H Λ

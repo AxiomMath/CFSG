@@ -23,23 +23,23 @@ private theorem s16h_finite_mulAut [Finite W] : Finite (MulAut W) := by
 private theorem s16h_isPerfect_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Group.IsPerfect X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem s16h_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : IsSimpleGroup X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -51,21 +51,21 @@ private theorem s16h_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finite X] 
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 2) (by norm_num)
       (Or.inr hK2) (Or.inr hK3)
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
   exact e.isSimpleGroup
 
 private theorem s16h_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := s16h_isSimpleGroup_of_isSLn_two hm h
-  haveI : Group.IsPerfect X := s16h_isPerfect_of_isSLn_two hm h
+  have : IsSimpleGroup X := s16h_isSimpleGroup_of_isSLn_two hm h
+  have : Group.IsPerfect X := s16h_isPerfect_of_isSLn_two hm h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -73,7 +73,7 @@ private theorem s16h_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] 
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} {g : MulAut W}
@@ -95,7 +95,7 @@ private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} 
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5_le_stabSub_commSub (L : Subgroup (MulAut W)) :
-    L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_le_stabSub_fixV (L : Subgroup (MulAut W)) : L ≤ stabSub (fixV L) := by
@@ -165,7 +165,7 @@ private theorem s16h_autSec_le_normalizer {L Y : Subgroup (MulAut W)} {V C : Sub
 theorem s16h_H5_row_SL2_eight_bridge [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : Nat.card K = 8)
       (D : Subgroup (MulAut (StdMod (Fin 2) K))),
@@ -173,12 +173,12 @@ theorem s16h_H5_row_SL2_eight_bridge [Finite W] {A L : Subgroup (MulAut W)} {t :
       IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Finite (MulAut W) := s16h_finite_mulAut
   obtain ⟨hSL, hNat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard3, hreal⟩ := hNat
   have hKcard : Nat.card K = 8 := by rw [hKcard3]; norm_num
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcenter : Subgroup.center ↥L = ⊥ := s16h_center_eq_bot_of_isSLn_two (by norm_num) hSL
   have hfaith : L ⊓ centSec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = ⊥ :=
     s16h_H5_faithful_on_quotient hc hcenter
@@ -232,8 +232,8 @@ theorem s16h_H5_row_SL2_eight_rank [Finite W] {A L : Subgroup (MulAut W)} {t : M
   intro q hq hq2 E hE hEab
   obtain ⟨K, hKf, hKfin, hKcard, D, hDN, hD, hcard⟩ :=
     s16h_H5_row_SL2_eight_bridge hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   rw [← hcard]
   exact s16h_natNorm_elemAbelian_le_sl2 (K := K) (a := 3) ⟨by norm_num, by norm_num⟩
     (by rw [hKcard]; norm_num) hq hq2 hDN hD

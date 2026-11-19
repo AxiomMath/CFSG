@@ -114,7 +114,7 @@ theorem bitProd_hom {ψ : ℕ → G} (h0 : ψ 0 = 1) (hψ : ∀ x y, ψ (x ^^^ y
     rw [bitProd_succ, ih, hr, List.foldl_append]
     by_cases hb : a.testBit n
     · simp [hb, hψ]
-    · simp [hb, h0]
+    · simp [hb]
 
 end Bits
 
@@ -134,7 +134,7 @@ theorem getElem!_of_lt {P : Array ℕ} {k : ℕ} (h : k < P.size) : P[k]! = P[k]
 theorem gen0_val {j : ℕ} (hj : j < 9) : (gen0 j).val = ugens[j]! := by
   have h : ugens[j]! < 1953 := (UaFacts.ugens_lt uaFacts j hj).1
   unfold gen0
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem planePtsArr0 : planePtsArr[0]! = planePts 0 := planePtsArr_get (by norm_num)
 
@@ -154,7 +154,7 @@ theorem planePts0_mem {k : ℕ} (hk : k < 49) :
 theorem pt0_val {k : ℕ} (hk : k < 49) : (pt0 k).val = (planePtsArr[0]!)[k]! := by
   have hlt := (planePts0_mem hk).1
   unfold pt0
-  rw [dif_pos hlt]
+  rw [dite_eq_left hlt]
 
 theorem pt0_mem {k : ℕ} (hk : k < 49) : pt0 k ∈ wPlane 0 :=
   mem_wPlane.2 (by rw [pt0_val hk]; exact (planePts0_mem hk).2)
@@ -191,8 +191,8 @@ theorem tvP_gen0_comm {j k : ℕ} (hj : j < 9) (hk : k < 9) :
   exact (tvP_apply _ _).trans h1
 
 theorem psi0_xor (a b : ℕ) : psi0 (a ^^^ b) = psi0 a * psi0 b :=
-  bitProd_xor (g := fun j => tvP (gen0 j)) (N := 9)
-    (fun j _ => tvP_mul_self _) (fun _ hj _ hk => tvP_gen0_comm hj hk) a b 9 le_rfl
+  bitProd_xor (g := fun _j => tvP (gen0 _j)) (N := 9)
+    (fun _j _ => tvP_mul_self _) (fun _ hj _ hk => tvP_gen0_comm hj hk) a b 9 le_rfl
 
 theorem psi0_mul_self (a : ℕ) : psi0 a * psi0 a = 1 := by
   rw [← psi0_xor, Nat.xor_self, psi0_zero]
@@ -216,7 +216,7 @@ theorem psi0_apply_aux (a : ℕ) : ∀ n, n ≤ 9 → ∀ x : Fin 1953,
     by_cases ha : a.testBit n
     · simp only [ha, ↓reduceIte, Equiv.Perm.mul_apply, List.foldr_cons, List.foldr_nil]
       rw [ih, hval]
-    · simp only [ha, ↓reduceIte, Equiv.Perm.mul_apply, mul_one, List.foldr_cons,
+    · simp only [ha, Equiv.Perm.mul_apply, List.foldr_cons,
         List.foldr_nil]
       exact ih x
 

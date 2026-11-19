@@ -40,10 +40,10 @@ theorem d4_closure_commute {Y : Type} [Group Y] {S T : Set Y}
 theorem d4_center_spin_not_dvd :
     ¬ 3 ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus 4 (GaloisField 3 1)))) := by
   have hn3 : 3 ≤ 4 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 4 := ⟨by norm_num⟩
-  haveI : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 4 (GaloisField 3 1))) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 4 := ⟨by norm_num⟩
+  have : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 4 (GaloisField 3 1))) :=
     finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   obtain ⟨-, hcomap, hZ⟩ := spinToStatedProj_quadPlus (K := GaloisField 3 1) hn3
   exact OrthAut.not_dvd_card_center_spin (Spin.quadPlus 4 (GaloisField 3 1))
@@ -89,7 +89,7 @@ theorem d4_recognition {Y : Type} [Group Y] (x y : Fin 4 → Y)
       ∀ a ∈ (U i).subgroupOf N, ∀ b ∈ (U j).subgroupOf N, a * b = b * a := by
     intro i j hij h1 h2 a ha b hb
     exact Subtype.ext (d4_closure_commute (hcomm i j hij h1 h2) a.1 ha b.1 hb)
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e3⟩ := d4_ringEq
   have hpair : ∀ i j : Fin 4, edgeD 4 i j → ∃ W, LinearBlockStandardPair (GaloisField 3 1) W
       ((U i).subgroupOf N) ((U j).subgroupOf N) := by
@@ -139,7 +139,7 @@ theorem d4_recognition {Y : Type} [Group Y] (x y : Fin 4 → Y)
       intro b
       exact hcon b a
     rw [hZbot] at htop
-    haveI := hsimple
+    have := hsimple
     exact bot_ne_top htop
   have hstated : StatedClassicalModel ↥N .POmegaPlus 4 3 1 :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv eN

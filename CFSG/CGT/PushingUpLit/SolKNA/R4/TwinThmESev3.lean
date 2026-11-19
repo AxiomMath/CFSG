@@ -251,7 +251,7 @@ theorem MinCex.part2 (hr : 4 ≤ r) (h : E18_6 r) (h4 : E18_4C r)
   have hdS : ∀ d : G, d ∈ W' → GoodInv H t d → d ∈ conjSub g₂ (S' : Subgroup G) :=
     fun d hd gd => hCS d (hWS hd) gd.comm_t.symm
   obtain ⟨m₁, m₂, m₃⟩ := endgame_cases hΩ hbad hK₁ hK₁t
-    (isPGroup_conjSub g₂ S'.isPGroup') (hRsyl.conj g₂) (conjSub_mono hRS)
+    (isPGroup_conjSub g₂ S'.isPGroup) (hRsyl.conj g₂) (conjSub_mono hRS)
     (hv8 _ hK₁ _ (hRsyl.conj g₂)) (hdS d₁ hW₁ g₁') (hdS d₂ hW₂ g₂') g₁' g₂' g₃' hc
   exact c'.orbit4_false hz hg₂H ht hCS hCSyl g₁' g₂' g₃' hc hW₁ hW₂ hshape m₁ m₂ m₃
 

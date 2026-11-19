@@ -15,9 +15,9 @@ section Coord
 
 variable {F : Type} [Field F] {κ : ℕ}
 
-theorem torusN_charP_two_of_card [Finite F] {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2) :
+theorem torusN_charP_two_of_card [Finite F] {n : ℕ} (_hn : 1 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2) :
     CharP F 2 := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hp⟩ := CharP.exists F
   obtain ⟨m, hpm, hm⟩ := FiniteField.card F p
   have h1 : p ^ (m : ℕ) = 2 ^ (n * 2) := by

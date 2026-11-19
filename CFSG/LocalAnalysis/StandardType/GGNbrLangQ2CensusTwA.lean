@@ -83,8 +83,8 @@ theorem q2c_rLevel_twA :
     CFSG.StandardType.TCJ.tcjUniEnnola_component_psu_fixed
       CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.uniScalar_holds
       hτ hτQ hK ⟨n, rfl⟩ hd3 hdQ (s : GL (Fin (l + 1)) K) hs hp hp2 hpQ u hu hpow J hJ'
-  letI : Field E := hEfld
-  letI : Finite E := hEfin
+  let : Field E := hEfld
+  let : Finite E := hEfin
   have hτ'm : ∀ x : E, τ' x = x ^ 2 ^ (n * dd) := by
     intro x
     rw [pow_mul]
@@ -92,7 +92,7 @@ theorem q2c_rLevel_twA :
   have hcardEm : Nat.card E = (2 ^ (n * dd)) ^ 2 := by
     rw [pow_mul]
     exact hcardE
-  haveI hsimple : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have hsimple : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
   have hΛA : LargeEvenInLambda2 (⟨.A, d - 1, m⟩ : LargeEvenLabel) :=
     ⟨show 1 ≤ m by omega, show 1 ≤ d - 1 by omega, fun _ => hm⟩
   have hhasA : GGHasLabel (⟨.A, d - 1, m⟩ : LargeEvenLabel)

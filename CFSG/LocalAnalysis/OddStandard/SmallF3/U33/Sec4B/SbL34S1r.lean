@@ -45,7 +45,7 @@ theorem claim1 {w : G} (hw : w ∈ ctxO t tau x₁ x₂) (hq : (t * lam * w) * (
   let σ : ↥O →* ↥O := (Outside.conjAut O q hqN).toMonoidHom
   have hσ_coe : ∀ a : ↥O, ((σ a : ↥O) : G) = q * (a : G) * q⁻¹ :=
     fun a => Outside.conjAut_coe O q hqN a
-  haveI : N.Normal := ⟨fun x hx g => by
+  have : N.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa only [Subgroup.coe_mul, InvMemClass.coe_inv] using X_normal_O hc g.2 hx⟩
   have hσN : ∀ x ∈ N, σ x ∈ N := fun x hx => by

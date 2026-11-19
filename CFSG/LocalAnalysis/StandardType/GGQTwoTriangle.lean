@@ -85,7 +85,7 @@ theorem ggQ2x_E_mulVec (i : Fin 3) (x : Fin 3 → ZMod 3) :
   ext a
   by_cases ha : a = i
   · subst a; simp
-  · simp [ha, Pi.single_eq_of_ne (Ne.symm ha)]
+  · simp [ha]
 
 theorem ggQ2x_gamma_single {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
     (c : Fin 3 → V) (i : Fin 3) :
@@ -103,7 +103,7 @@ theorem ggQ2x_L_E {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
   apply LinearMap.ext
   intro v
   simp only [ggQ2x_L, LinearMap.sub_apply, LinearMap.comp_apply,
-    LinearMap.id_apply, Module.reflection_apply]
+    LinearMap.id_apply]
   congr 1
   rw [Matrix.mulVecLin_apply, ggQ2x_E_mulVec, map_smul, ggQ2x_gamma_single]
   rfl
@@ -260,8 +260,8 @@ theorem transvection_of_triangle {V : Type*} [AddCommGroup V] [Module (ZMod 3) V
         | exact hsign 2 1 (by decide)
     simp only [t]
     rcases hk with hk | hk
-    · rw [if_pos hk, hk]; rfl
-    · rw [if_neg (by rw [hk]; decide), hk]; rfl
+    · rw [ite_eq_left hk, hk]; rfl
+    · rw [ite_eq_right (by rw [hk]; decide), hk]; rfl
   have hfun : sv = fun k => ggQ2x_val (t k) := funext hsv
   have hC_sv : ggQ2x_C c φ = ggQ2x_Cof sv := by
     ext i j

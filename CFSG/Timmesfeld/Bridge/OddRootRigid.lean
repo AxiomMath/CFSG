@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem rootGen_le_of_mem {d y c : G} (hcY : c ∈ rootGen D d y) :
     rootGen D d c ≤ rootGen D d y := by
   change Subgroup.closure (insert c (rootSet D d)) ≤ rootGen D d y
@@ -24,6 +25,7 @@ private theorem rootGen_le_of_mem {d y c : G} (hcY : c ∈ rootGen D d y) :
   · exact hcY
   · exact mem_rootGen_of_mem hw
 
+omit [Finite G] in
 private theorem inf_rootGen_le_Qof {d y c : G} (hXcY : rootGen D d c ≤ rootGen D d y) :
     rootGen D d c ⊓ Qof D d y ≤ Qof D d c := by
   let X := rootGen D d c
@@ -47,6 +49,7 @@ private theorem inf_rootGen_le_Qof {d y c : G} (hXcY : rootGen D d c ≤ rootGen
   rw [Subgroup.mem_subgroupOf]
   exact hq
 
+omit [Finite G] in
 private theorem exists_sylow_eq_subgroupOf (h : Hyp G D) {d y z : G} {Y S : Subgroup G}
     (hC : GoodCompl D d y Y S) (hz : z ∈ Qof D d y) (hzd : Commute z d) :
     ∃ Sd : Sylow 2 ↥(conjSubgroup z Y),
@@ -64,7 +67,7 @@ private theorem exists_sylow_eq_subgroupOf (h : Hyp G D) {d y z : G} {Y S : Subg
     · rw [← Subgroup.map_subgroupOf_eq_of_le hC₂.S_le]
       exact Subgroup.map_mono hS₂d
     · exact Subgroup.map_subtype_le _
-    · exact Sd.isPGroup'.map Y₂.subtype
+    · exact Sd.isPGroup.map Y₂.subtype
   have hSd_eq : (Sd : Subgroup ↥Y₂) = S₂.subgroupOf Y₂ := by
     apply Subgroup.map_injective (f := Y₂.subtype) (Subgroup.subtype_injective Y₂)
     rw [hmapSd, Subgroup.map_subgroupOf_eq_of_le hC₂.S_le]
@@ -270,6 +273,7 @@ theorem rootGen_eq_of_mem
   simp only [Qof]
   rw [hXY]
 
+omit [Finite G] in
 private theorem commute_of_commute_of_mem_rootGroup
     (h : Hyp G D) {d x y z : G} (hd : d ∈ D)
     (hy : y ∈ D) (hdy : ¬ Commute d y) (hpx : PSL2Pair D d y)

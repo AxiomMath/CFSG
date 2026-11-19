@@ -80,9 +80,9 @@ theorem twoLocalWhen_G2
     · exact hE.2
     · exact absurd h (by decide)
     · exact absurd h (by decide)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let θ : K ≃* adjointGroup Tag.G2 F := e.trans
     ((QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans
       QuotientGroup.quotientBot)
@@ -98,7 +98,7 @@ theorem twoLocalWhen_G2
   obtain ⟨r, hr, hr2, hdivk, hord⟩ := exists_zsigPrime hf₀ (by norm_num : 2 ≤ 3)
     (fun h => by omega) hp hp3
   refine ⟨r, hr, fun R hR2 hR1 => ?_⟩
-  haveI : Fintype (WeylGroup Tag.G2) := Fintype.ofFinite _
+  have : Fintype (WeylGroup Tag.G2) := Fintype.ofFinite _
   have hrF : ¬ r ∣ Nat.card F := by
     rw [hFcard]
     exact fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 (hr.dvd_of_dvd_pow h))

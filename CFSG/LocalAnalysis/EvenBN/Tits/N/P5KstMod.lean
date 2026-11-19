@@ -19,14 +19,16 @@ namespace KSetup
 
 theorem dd_mem_cls (h : KSetup U K x v t) (i : Fin 6) : h.dd i ∈ cls K t := (h.eqv.symm i).2
 
-theorem dd_injective (h : KSetup U K x v t) : Function.Injective h.dd := fun i j hij =>
+theorem dd_injective (h : KSetup U K x v t) : Function.Injective h.dd := fun _i _j hij =>
   h.eqv.symm.injective (Subtype.ext hij)
 
 theorem exists_dd (h : KSetup U K x v t) {c : Γ} (hc : c ∈ cls K t) : ∃ i, h.dd i = c :=
   ⟨h.eqv ⟨c, hc⟩, by simp [dd]⟩
 
+omit [Finite Γ] in
 theorem t_mem_U0 : t ∈ U ⊔ zpowers t := mem_sup_right (mem_zpowers t)
 
+omit [Finite Γ] in
 theorem cls_le_U0 (h : KSetup U K x v t) {d : Γ} (hd : d ∈ cls K t) : d ∈ U ⊔ zpowers t := by
   obtain ⟨u, hu, rfl⟩ := h.cls_subset hd
   exact mul_mem t_mem_U0 (mem_sup_left hu)
@@ -34,16 +36,20 @@ theorem cls_le_U0 (h : KSetup U K x v t) {d : Γ} (hd : d ∈ cls K t) : d ∈ U
 theorem dd_mem_U0 (h : KSetup U K x v t) (i : Fin 6) : h.dd i ∈ U ⊔ zpowers t :=
   h.cls_le_U0 (h.dd_mem_cls i)
 
+omit [Finite Γ] in
 theorem U0_comm (h : KSetup U K x v t) {a b : Γ} (ha : a ∈ U ⊔ zpowers t) (hb : b ∈ U ⊔ zpowers t) :
     a * b = b * a :=
   h.U0_data.1.comm ha hb
 
+omit [Finite Γ] in
 theorem U0_sq (h : KSetup U K x v t) {a : Γ} (ha : a ∈ U ⊔ zpowers t) : a * a = 1 :=
   h.U0_data.1.mul_self_eq_one ha
 
+omit [Finite Γ] in
 theorem U_le_K (h : KSetup U K x v t) : U ≤ K :=
   (IsF20.U_le_Pgrp U x v).trans (le_sup_right.trans h.hCK)
 
+omit [Finite Γ] in
 theorem U0_le_K (h : KSetup U K x v t) : U ⊔ zpowers t ≤ K :=
   sup_le h.U_le_K (le_sup_left.trans h.hCK)
 
@@ -113,6 +119,7 @@ theorem rho_base (h : KSetup U K x v t) {g : Γ} (hg : g ∈ K) (hgt : g * t = t
   rw [hgt]
   group
 
+omit [Finite Γ] in
 theorem v_mem_K (h : KSetup U K x v t) : v ∈ K :=
   (le_sup_right.trans h.hCK) (mem_sup_right (mem_sup_right (mem_zpowers v)))
 
@@ -194,7 +201,7 @@ theorem ddA_sq (h : KSetup U K x v t) (i : Fin 6) : h.ddA i ^ 2 = 1 := by
 
 theorem ev_add (h : KSetup U K x v t) (f g : Fin 6 → ZMod 2) :
     h.ev (f + g) = h.ev f * h.ev g := by
-  letI := h.commA
+  let := h.commA
   have key : ∀ i, h.ddA i ^ ((f + g) i).val = h.ddA i ^ (f i).val * h.ddA i ^ (g i).val := by
     intro i
     rw [Pi.add_apply, ZMod.val_add, ← pow_add, pow_eq_pow_mod ((f i).val + (g i).val) (h.ddA_sq i)]
@@ -203,17 +210,17 @@ theorem ev_add (h : KSetup U K x v t) (f g : Fin 6 → ZMod 2) :
     _ = (∏ i, h.ddA i ^ (f i).val) * ∏ i, h.ddA i ^ (g i).val := Finset.prod_mul_distrib
 
 theorem ev_zero (h : KSetup U K x v t) : h.ev 0 = 1 := by
-  letI := h.commA
+  let := h.commA
   unfold ev
-  exact Finset.prod_eq_one fun i _ => by simp <;> rfl
+  exact Finset.prod_eq_one fun i _ => by simp
 
 theorem ev_single (h : KSetup U K x v t) (j : Fin 6) : h.ev (Pi.single j 1) = h.ddA j := by
-  letI := h.commA
+  let := h.commA
   unfold ev
   rw [Finset.prod_eq_single j]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb] <;> rfl
+    simp [hb]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -230,14 +237,14 @@ theorem cA_ddA (h : KSetup U K x v t) {k : Γ} (hk : k ∈ K) (i : Fin 6) :
 
 theorem cA_ev (h : KSetup U K x v t) {k : Γ} (hk : k ∈ K) (f : Fin 6 → ZMod 2) :
     h.cA hk (h.ev f) = h.ev (fun j => f ((h.permOf hk).symm j)) := by
-  letI := h.commA
+  let := h.commA
   unfold ev
   rw [map_prod]
   refine Fintype.prod_equiv (h.permOf hk) _ _ fun i => ?_
   rw [map_pow, h.cA_ddA hk i]
   simp
 
-@[expose] def tA (h : KSetup U K x v t) : ↥(U ⊔ zpowers t) := ⟨t, t_mem_U0⟩
+@[expose] def tA (_h : KSetup U K x v t) : ↥(U ⊔ zpowers t) := ⟨t, t_mem_U0⟩
 
 theorem t_mul_dd_mem_U (h : KSetup U K x v t) (i : Fin 6) : t * h.dd i ∈ U := by
   obtain ⟨u, hu, hd⟩ := h.cls_subset (h.dd_mem_cls i)
@@ -254,7 +261,7 @@ theorem ddA_eq (h : KSetup U K x v t) (i : Fin 6) : h.ddA i = h.tA * h.uA i := b
 
 theorem ev_mem_U_iff (h : KSetup U K x v t) (f : Fin 6 → ZMod 2) :
     ((h.ev f : ↥(U ⊔ zpowers t)) : Γ) ∈ U ↔ ∑ i, f i = 0 := by
-  letI := h.commA
+  let := h.commA
   have hev : h.ev f = h.tA ^ (∑ i, (f i).val) * ∏ i, h.uA i ^ (f i).val := by
     unfold ev
     calc ∏ i, h.ddA i ^ (f i).val = ∏ i, (h.tA ^ (f i).val * h.uA i ^ (f i).val) :=
@@ -278,7 +285,7 @@ theorem ev_mem_U_iff (h : KSetup U K x v t) (f : Fin 6 → ZMod 2) :
   rw [hcoe, mul_mem_cancel_right hw]
   have hsum : (∑ i, f i) = (((∑ i, (f i).val : ℕ)) : ZMod 2) := by
     push_cast
-    simp [ZMod.natCast_zmod_val]
+    simp
   rw [hsum, ZMod.natCast_eq_zero_iff]
   have ht2 : t ^ 2 = 1 := by rw [pow_two]; exact h.htt
   rcases Nat.even_or_odd' (∑ i, (f i).val) with ⟨m, hm | hm⟩
@@ -349,7 +356,7 @@ theorem card_ker_evHom (h : KSetup U K x v t) : Nat.card h.evHom.ker = 2 := by
     rw [Nat.card_congr (Additive.toMul : Additive ↥(U ⊔ zpowers t) ≃ ↥(U ⊔ zpowers t))]
     exact h.U0_data.2
   have h3 : Nat.card (Fin 6 → ZMod 2) = 64 := by
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun]
+    simp [Nat.card_eq_fintype_card]
   rw [h2, h3] at h1
   omega
 
@@ -374,7 +381,7 @@ theorem ev_eq_one_iff (h : KSetup U K x v t) (f : Fin 6 → ZMod 2) :
     · exact Or.inl hf0
     · right
       have e1 : (⟨f, hmem⟩ : h.evHom.ker) = y := huniq _ (by simpa [Subtype.ext_iff] using hf0)
-      have e2 : (⟨1, hones⟩ : h.evHom.ker) = y := huniq _ (by simpa [Subtype.ext_iff] using hne)
+      have e2 : (⟨1, hones⟩ : h.evHom.ker) = y := huniq _ (by simp [Subtype.ext_iff])
       exact congrArg Subtype.val (e1.trans e2.symm)
   · rintro (rfl | rfl)
     · exact h.ev_zero
@@ -493,7 +500,7 @@ theorem centralizer_U0_eq [DecidableEq Γ] (h : KSetup U K x v t) {y : Γ} (hy :
       ↑((FixVec (h.permOf hy)).image h.evG) := by
   ext a
   simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff, Finset.coe_image,
-    Set.mem_image, Finset.mem_coe]
+    Set.mem_image]
   constructor
   · rintro ⟨ha, hac⟩
     obtain ⟨f, rfl⟩ := h.evG_surj ha
@@ -511,7 +518,7 @@ theorem centralizer_U_eq [DecidableEq Γ] (h : KSetup U K x v t) {y : Γ} (hy : 
       ↑((FixVec (h.permOf hy) ∩ EvenVec).image h.evG) := by
   ext a
   simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff, Finset.coe_image,
-    Set.mem_image, Finset.mem_coe, Finset.mem_inter]
+    Set.mem_image, Finset.mem_inter]
   constructor
   · rintro ⟨ha, hac⟩
     obtain ⟨f, rfl⟩ := h.evG_surj (mem_sup_left ha)
@@ -536,7 +543,7 @@ theorem centralizer_U0_inter_eq [DecidableEq Γ] (h : KSetup U K x v t) {y y' : 
         Set Γ) = ↑((FixVec (h.permOf hy) ∩ FixVec (h.permOf hy')).image h.evG) := by
   ext a
   simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff, Finset.coe_image,
-    Set.mem_image, Finset.mem_coe, Finset.mem_inter]
+    Set.mem_image, Finset.mem_inter]
   constructor
   · rintro ⟨⟨ha, hac⟩, hac'⟩
     obtain ⟨f, rfl⟩ := h.evG_surj ha

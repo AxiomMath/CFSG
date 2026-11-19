@@ -20,24 +20,27 @@ section Field
 
 variable {p : ℕ} {F : Type} [Field F]
 
+omit [Field F] in
 theorem finite_of_card (hp : p.Prime) (hF : Nat.card F = p ^ 3) : Finite F :=
   Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero 3 hp.ne_zero)
 
 theorem ringChar_ne_two (hp : p.Prime) (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3) :
     ringChar F ≠ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := finite_of_card hp hF
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have := finite_of_card hp hF
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F p :=
     charP_of_card_eq_prime_pow (f := 3) (by rwa [← Nat.card_eq_fintype_card])
   rw [ringChar.eq F p]
   omega
 
+omit [Field F] in
 theorem odd_card (hp : p.Prime) (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3) :
     Odd (Nat.card F) := by
   rw [hF]
   exact (hp.odd_of_ne_two (by omega)).pow
 
+omit [Field F] in
 theorem le_card_field (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3) : 125 ≤ Nat.card F := by
   rw [hF]
   calc 125 = 5 ^ 3 := by norm_num
@@ -61,7 +64,7 @@ theorem isSimpleGroup_projSL_two (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3) :
 
 theorem le_card_projSL_two (hp : p.Prime) (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3) :
     262080 ≤ Nat.card (projSL 2 F) := by
-  haveI := finite_of_card hp hF
+  have := finite_of_card hp hF
   have h125 := le_card_field hp5 hF
   rw [Nat.card_congr (eIso F).toEquiv,
     OddProjectiveCoverKernel.S_card F (ringChar_ne_two hp hp5 hF)]
@@ -173,14 +176,14 @@ private theorem twoRankAtLeastTwo_of_commuting {G : Type*} [Group G] {a b : G} (
   · apply Subtype.ext
     have hg : (g : G) ∈ ({1, a, b, a * b} : Set G) := g.2
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
-    simp only [SubgroupClass.coe_pow, OneMemClass.coe_one, pow_two]
+    simp only [OneMemClass.coe_one, pow_two]
     rcases hg with hg | hg | hg | hg <;> simp [hg, ha, hb, h5]
 
 theorem exists_klein_four_L2 (hp : p.Prime) (hp5 : 5 ≤ p) (hF : Nat.card F = p ^ 3)
     {Y : Type*} [Group Y] [Finite Y] (M : Subgroup Y) [M.Normal] (hM : Odd (Nat.card M))
     (e : Y ⧸ M ≃* projSL 2 F) :
     ∃ a b : Y, a * a = 1 ∧ b * b = 1 ∧ a * b = b * a ∧ a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
-  haveI := finite_of_card hp hF
+  have := finite_of_card hp hF
   obtain ⟨a, b, ha, hb, hab, ha1, hb1, hne⟩ := exists_klein_pair (F := F) (odd_card hp hp5 hF)
   let φ : NativeScalarProjective F 2 ≃* Y ⧸ M := (e.trans (eIso F)).symm
   have hrank : TwoRankAtLeastTwo (Y ⧸ M) :=

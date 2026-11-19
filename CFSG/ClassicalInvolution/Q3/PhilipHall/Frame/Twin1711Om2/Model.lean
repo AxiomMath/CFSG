@@ -189,7 +189,7 @@ private theorem md_L_surjective : Function.Surjective md_L :=
 
 private theorem md_L_bijective : Function.Bijective md_L := by
   obtain ⟨hfin, hle⟩ := Cover.card_hopfCover_le
-  haveI := hfin
+  have := hfin
   rw [Nat.bijective_iff_surjective_and_card]
   refine ⟨md_L_surjective, ?_⟩
   have h1 : Nat.card HY ≤ Nat.card (HopfCover omegaT) :=

@@ -156,10 +156,10 @@ theorem aschbacherSolvableCore_Lz
   have hLsperf : Group.IsPerfect ↥(Lz c x) :=
     CFSG.RankThree.PartOne.isPerfect_of_mem_thetaComponentsAt
       (Lz_mem_thetaComponentsAt c hON hP hA hZA hx hx1 hC)
-  haveI : Group.IsPerfect ↥(Lz c x) := hLsperf
+  have : Group.IsPerfect ↥(Lz c x) := hLsperf
   have hsurj : Function.Surjective (LzToLbar c x) :=
     LzToLbar_surjective c hON hP hA hZA hx hx1 hC
-  haveI hLbarperf : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
+  have hLbarperf : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
   have hQ : CFSG.IsQuasisimple c.Lbar :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native c.Lbar).mp hON.1
   have hθ := solvable_prime_complement_core_characterization (H := ↥(Lz c x))
@@ -167,7 +167,7 @@ theorem aschbacherSolvableCore_Lz
   have hθsmall : aschbacherSolvableCore 3 ↥(Lz c x) ≤
       ((Lz c x) ⊓ CFSG.Open.pCoreOf 2 c.L).subgroupOf (Lz c x) := by
     set N := aschbacherSolvableCore 3 ↥(Lz c x) with hN
-    haveI : Group.IsSolvable ↥N := hθ.1
+    have : Group.IsSolvable ↥N := hθ.1
     have hmapN_normal : (N.map (LzToLbar c x)).Normal :=
       (inferInstance : N.Normal).map (LzToLbar c x) hsurj
     have hmapN_solv : Group.IsSolvable ↥(N.map (LzToLbar c x)) := by
@@ -252,8 +252,8 @@ theorem theta_centralizer_autThetaQuot_eq_bot_core''
     (hK4 : K4) (c : Ctx82E3 D)
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
     (hAPL : A ≤ P ⊓ c.L) {x : G} (hx : x ∈ zSub P c.L) (hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M)
     {L : Subgroup G} (hL : L ∈ thetaComponentsAt 3 x)
@@ -280,11 +280,11 @@ theorem theta_centralizer_autThetaQuot_eq_bot_core''
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom
         (Lz c x ⧸ aschbacherSolvableCore 3 (Lz c x)))
   have hΛperf : Group.IsPerfect (Lz c x ⧸ aschbacherSolvableCore 3 (Lz c x)) := by
-    haveI : Group.IsPerfect ↥(Lz c x) :=
+    have : Group.IsPerfect ↥(Lz c x) :=
       CFSG.RankThree.PartOne.isPerfect_of_mem_thetaComponentsAt
         (Lz_mem_thetaComponentsAt c hON hP hA hZA hx hx1 hC)
     infer_instance
-  haveI := hΛperf
+  have := hΛperf
   have hφinj : Function.Injective φ := by
     intro σ τ h
     refine CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective _ ?_
@@ -323,7 +323,7 @@ theorem theta_centralizer_autThetaQuot_eq_bot_core''
           (⟨(l : G), (Lz c x).le_normalizer l.2⟩ : Subgroup.normalizer ((Lz c x) : Set G)) =
           MulAut.conj l := by
         refine MulEquiv.ext fun z => Subtype.ext ?_
-        simp [CFSG.RankThree.PartTwo.Sec4.normalizerMonoidHom_apply_coe, MulAut.conj_apply]
+        simp [MulAut.conj_apply]
       rw [hstep, hthetaConj, QuotientGroup.mk'_apply]
   have hcq : ∀ lam : (Lz c x ⧸ aschbacherSolvableCore 3 (Lz c x)),
       centerQuotientHom (Lz c x ⧸ aschbacherSolvableCore 3 (Lz c x)) (MulAut.conj lam) =
@@ -586,7 +586,7 @@ theorem thetaAlpha_center_eq_bot
 theorem k341_hyps_center'
     (hK4 : K4) (c : Ctx82E3 D)
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    (h7 : D.sig = {7})
+    (_h7 : D.sig = {7})
     {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)

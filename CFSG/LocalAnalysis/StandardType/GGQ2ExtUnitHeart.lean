@@ -53,9 +53,9 @@ theorem diff_mem_span_subset {N : ℕ} (hN : 6 ≤ N) {a b x y w : Fin N} (hab :
     rw [hc0] at this
     constructor
     · rintro rfl
-      simp [Pi.single_apply, h1, h2, h3, hab, hs] at this
+      simp [h1, h2, h3, hab, hs] at this
     · rintro rfl
-      simp [Pi.single_apply, h1, h2, h3, hab.symm, hs] at this
+      simp [h1, h2, h3, hab.symm, hs] at this
   constructor
   · by_contra ha
     exact (key a ha).1 rfl

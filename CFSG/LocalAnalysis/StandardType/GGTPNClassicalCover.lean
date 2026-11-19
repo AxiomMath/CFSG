@@ -97,7 +97,7 @@ private theorem tcl_eq_of_iso_of_exc {lab lab' : LargeEvenLabel}
     rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem tcl_cover_of_iso {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {lab₁ labX : LargeEvenLabel} {c : Prop} (hΛ₁ : LargeEvenInLambda2 lab₁)
+    {lab₁ labX : LargeEvenLabel} {c : Prop} (_hΛ₁ : LargeEvenInLambda2 lab₁)
     (hcl : GGTPNClTag labX.tag) (hiso : GGLabelIso lab₁ labX)
     (hhalf : LargeEvenHalfSplit p lab₁ c)
     (hdvd₁ : p ∣ 2 ^ lab₁.n - 1 ∨ p ∣ 2 ^ lab₁.n + 1) : tcl_cov p labX := by
@@ -158,7 +158,7 @@ private theorem tcl_cover_of_iso {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
           · rw [h1lab] at h; nomatch h
         ·
           obtain ⟨hn1, -⟩ := hh
-          have hn1' : 2 * labX.n = 1 := by simpa [h1lab] using hn1
+          have hn1' : 2 * labX.n = 1 := by simp [h1lab] at hn1
           exact absurd hn1' (by omega)
       ·
         rcases hh.1 with h | h | h | h | h <;> (rw [h1lab] at h; nomatch h)
@@ -168,11 +168,11 @@ private theorem tcl_cover_of_iso {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         · rw [h1lab] at h; nomatch h
       ·
         obtain ⟨-, hr, -⟩ := hh
-        have hr' : (1 : ℕ) = 5 := by simpa [h1lab] using hr
+        have hr' : (1 : ℕ) = 5 := by simp [h1lab] at hr
         exact absurd hr' (by omega)
       ·
         obtain ⟨-, hr, -⟩ := hh
-        have hr' : (1 : ℕ) = 8 := by simpa [h1lab] using hr
+        have hr' : (1 : ℕ) = 8 := by simp [h1lab] at hr
         exact absurd hr' (by omega)
       ·
         rw [h1lab] at hh

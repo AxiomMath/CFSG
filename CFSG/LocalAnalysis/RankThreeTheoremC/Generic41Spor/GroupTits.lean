@@ -47,8 +47,8 @@ theorem tits_local {K : Type} [Group K] [Finite K] (hK : IsTitsType 5 K) (S : Sy
 theorem tits_sylow : ∀ (K : Type) [Group K] [Finite K], IsTitsType 5 K → SylowIsPlane 5 K := by
   intro K _ _ hK S
   obtain ⟨hcard, -, hexp⟩ := tits_local hK S
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsMulCommutative ↥(S : Subgroup K) := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsMulCommutative ↥(S : Subgroup K) := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   exact ⟨⟨inferInstance, hexp⟩, hcard⟩
 
 theorem tits_trans : ∀ (K : Type) [Group K] [Finite K], IsTitsType 5 K → NormalizerTransitive 5 K := by
@@ -81,7 +81,7 @@ theorem tits_witness_D : ∃ u₀ : titsD, orderOf u₀ = 5 ∧ TwoWitness u₀ 
   have hJH : titsJ ≤ titsH := titsJ_le_titsH
   have hHle : titsH ≤ titsD := hHD ▸ inf_le_left
   have hJle : titsJ ≤ titsD := hJH.trans hHle
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := titsH) 5 (by rw [hHcard]; norm_num)
   have hxJ : (x : Equiv.Perm (Fin 1755)) ∈ normalizer (titsJ : Set (Equiv.Perm (Fin 1755))) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).1 hJn x.2

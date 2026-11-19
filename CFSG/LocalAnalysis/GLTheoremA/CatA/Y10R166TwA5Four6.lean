@@ -31,14 +31,14 @@ private theorem fiveLine_mixed_entries_zero
     ∀ i j, (i ∈ ({0, 1} : Finset (Fin 6)) ↔ j ∉ ({0, 1} : Finset (Fin 6))) → M i j = 0 := by
   intro i j hij
   fin_cases i <;> fin_cases j <;>
-    simp_all [h02, h20, h12, h21, h03, h30, h13, h31, h04, h40, h14, h41]
+    simp_all
 
 private theorem inf_centralizer_fiveLineSubgroup_le_unitaryBlockDiag
     (h : UnitaryFieldData 2 2 F) {ζu : Fˣ} (hζu : orderOf ζu = 5) :
     unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6)) ⊓
         Subgroup.centralizer (fiveLineSubgroup h : Set (unitarySU 2 2 F 6)) ≤
       unitaryBlockDiag h ({0, 1} : Finset (Fin 6)) := by
-  haveI := h.finite
+  have := h.finite
   let ζm : rootsOfUnity 5 F := rootsOfUnityOfNormOne (h := h) ζu (norm_zeta hζu)
   let y1p : unitaryTorusParam h ({0, 1} : Finset (Fin 6)) :=
     torusParamFourInv ![1, ζm, ζm⁻¹, 1]
@@ -139,7 +139,7 @@ theorem glaPLayer_fiveLineSubgroup_ne_bot
     GLAPLayer 5
       (unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6)) ⊓
         Subgroup.centralizer (fiveLineSubgroup h : Set (unitarySU 2 2 F 6))) ≠ ⊥ := by
-  haveI := h.finite
+  have := h.finite
   have hI : (({0, 1} : Finset (Fin 6)).card) = 2 := by decide
   refine glaPLayer_ne_bot_of_unitaryBlock_le (I := ({0, 1} : Finset (Fin 6))) h Nat.prime_five ?_ ?_ ?_ ?_
   · intro x hx

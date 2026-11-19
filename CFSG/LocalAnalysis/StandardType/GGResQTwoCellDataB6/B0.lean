@@ -10,7 +10,7 @@ namespace CFSG.StandardType.GGResQTwoCellDataB6
 open CFSG.StandardType
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def wits_B6_b0 (s : Fin 6 × ℤ × ℤ) : List (ℕ × ℕ × GGResQTwoCell 6) :=
+@[expose] def wits_B6_b0 (_s : Fin 6 × ℤ × ℤ) : List (ℕ × ℕ × GGResQTwoCell 6) :=
   []
 
 theorem cell_B6_b0 :

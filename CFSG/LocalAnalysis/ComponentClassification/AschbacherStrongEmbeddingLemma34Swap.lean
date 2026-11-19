@@ -145,7 +145,7 @@ theorem Hyp.sylow_le_normalizer_of_le (h : Hyp S A₁ A₂) (h21 : A₂ ≤ A₁
   have hNS : N ≤ S := inf_le_left
   have hNne : N ≠ S := fun heq => hcon (heq ▸ inf_le_right)
   obtain ⟨s, hsS, hsN, hsnorm⟩ :=
-    exists_mem_normalizer_not_mem S.isPGroup' hNS hNne
+    exists_mem_normalizer_not_mem S.isPGroup hNS hNne
   have hA₁N : A₁ ≤ N := le_inf h.le_one (Subgroup.le_normalizer)
   have hconjN : ∀ a ∈ A₁, s⁻¹ * a * s ∈ N := fun a ha =>
     (Subgroup.mem_normalizer_iff''.mp hsnorm a).mp (hA₁N ha)
@@ -172,7 +172,7 @@ theorem Hyp.sylow_le_pairStabilizer (h : Hyp S A₁ A₂) (h12 : ¬ A₁ ≤ A�
   have hNS : N ≤ S := inf_le_left
   have hNne : N ≠ S := fun heq => hcon (heq ▸ inf_le_right)
   obtain ⟨s, hsS, hsN, hsnorm⟩ :=
-    exists_mem_normalizer_not_mem S.isPGroup' hNS hNne
+    exists_mem_normalizer_not_mem S.isPGroup hNS hNne
   have key : ∀ {B : Subgroup G}, B ≤ S → (∀ b ∈ B, b ∈ pairStabilizer A₁ A₂) →
       (B : Set G) ⊆ (A₁ : Set G) ∪ A₂ → 4 ≤ Nat.card B →
       rightConjugate B s ≤ A₁ ∨ rightConjugate B s ≤ A₂ := by
@@ -277,7 +277,7 @@ theorem Hyp.fixesOnly_of_card (h : Hyp S A₁ A₂) (h12 : ¬ A₁ ≤ A₂) (h2
     · exact h.le_one hx
     · exact h.le_two hx
   have hP : IsPGroup 2 (rightConjugate X g) :=
-    (S.isPGroup'.to_le hXS).map (MulAut.conj g⁻¹).toMonoidHom
+    (S.isPGroup.to_le hXS).map (MulAut.conj g⁻¹).toMonoidHom
   obtain ⟨k, hk, hkS⟩ := exists_conj_le_sylow hSH (rightConjugate_le_iff.mpr hg) hP
   have hXS' : ∀ x ∈ X, (g * k)⁻¹ * x * (g * k) ∈ (S : Subgroup G) := by
     intro x hx

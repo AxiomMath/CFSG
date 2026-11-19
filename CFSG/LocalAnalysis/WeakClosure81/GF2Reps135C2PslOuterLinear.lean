@@ -35,7 +35,7 @@ theorem w135c2_psl_outer_linear
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
   have hQ : IsQuasisimple ↥L := hctx.2.2.2.2.1
   have hIrr : IsIrrOn L ⊤ ⊥ := hctx.2.2.2.2.2
   obtain ⟨hn2, K, _, _, _, hKcard, φ, hφs, hker, hodd⟩ := w135c2_psl_cover hW hQ hIrr hlie

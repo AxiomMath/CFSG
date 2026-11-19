@@ -264,17 +264,18 @@ section Pres
 variable {s : Fin 4 → G} {g4 g5 : G} (hp : Pres s g4 g5)
 include hp
 
+omit hp in
 theorem phi_mem_P' (m : ℕ) : phi s g4 g5 m ∈ closure (gensP s g4 g5) := by
   have hs : fS s (m % 81) ∈ closure (gensP s g4 g5) := T_le_P s g4 g5 (fS_mem_T s _)
   have h4m : g4 ∈ closure (gensP s g4 g5) := subset_closure (Or.inr (Or.inl rfl))
   have h5m : g5 ∈ closure (gensP s g4 g5) := subset_closure (Or.inr (Or.inr rfl))
   exact mul_mem hs (mul_mem (pow_mem h4m _) (pow_mem h5m _))
 
-theorem card_planeR_le (ht : tabChk VT AT QT = true) (hr : repChk VT AT QT PR = true) (hm : ModelOK)
+theorem card_planeR_le (ht : tabChk VT AT QT = true) (hr : repChk VT AT QT PR = true) (_hm : ModelOK)
     {r : ℕ} (hr67 : r < 67) : Nat.card (planeR s g4 g5 PR r) ≤ 9 := by
   obtain ⟨ha, ha3, hb, hb3, hab⟩ := rep_spec ht hr hr67
   have e3 : ∀ m, m < 729 → pmul (pmul m m) m = 0 → phi s g4 g5 m ^ 3 = 1 := fun m _ h => by
-    rw [pow_succ, pow_two, ← phi_pmul hp, ← phi_pmul hp, h, phi_zero hp]
+    rw [pow_succ, pow_two, ← phi_pmul hp, ← phi_pmul hp, h, phi_zero]
   refine card_closure_pair_le ?_ (e3 _ ha ha3) (e3 _ hb hb3)
   rw [← phi_pmul hp, ← phi_pmul hp, hab]
 
@@ -287,7 +288,7 @@ theorem planeL_mem (ht : tabChk VT AT QT = true) {a b : ℕ} (ha : a < 729) (hb 
     intro m n hm hn
     rw [pmulT_eq ht hm.1 hn.1, phi_pmul hp]
     exact ⟨pmul_lt m n, mul_mem hm.2 hn.2⟩
-  have k0 : 0 < 729 ∧ phi s g4 g5 0 ∈ C := ⟨by decide, by rw [phi_zero hp]; exact one_mem C⟩
+  have k0 : 0 < 729 ∧ phi s g4 g5 0 ∈ C := ⟨by decide, by rw [phi_zero]; exact one_mem C⟩
   have ka : a < 729 ∧ phi s g4 g5 a ∈ C := ⟨ha, subset_closure (Or.inl rfl)⟩
   have kb : b < 729 ∧ phi s g4 g5 b ∈ C := ⟨hb, subset_closure (Or.inr rfl)⟩
   have ka2 := key ka ka
@@ -310,7 +311,7 @@ theorem phi_conjT (ht : tabChk VT AT QT = true) {y yi e : ℕ} (hy : y < 729) (h
     phi s g4 g5 (conjT VT AT QT y yi e) = phi s g4 g5 y * phi s g4 g5 e * (phi s g4 g5 y)⁻¹ := by
   have hinv : phi s g4 g5 yi = (phi s g4 g5 y)⁻¹ := by
     refine eq_inv_of_mul_eq_one_right ?_
-    rw [← phi_pmul hp, ← pmulT_eq ht hy hyi, h1, phi_zero hp]
+    rw [← phi_pmul hp, ← pmulT_eq ht hy hyi, h1, phi_zero]
   have e1 : conjT VT AT QT y yi e = pmul (pmul y e) yi := by
     rw [conjT, pmulT_eq ht hy he, pmulT_eq ht (pmul_lt y e) hyi]
   rw [e1, phi_pmul hp, phi_pmul hp, hinv]
@@ -331,10 +332,10 @@ theorem plane_conj [Finite G] (hm : ModelOK) {reps tgt : List ℕ} {cover : List
   obtain ⟨m, hm729, rfl⟩ := mem_P hp (hE hxE)
   have hm0 : m ≠ 0 := by
     rintro rfl
-    exact hx1 (phi_zero hp)
+    exact hx1 (phi_zero)
   have hmc : pmul (pmul m m) m = 0 := by
     refine phi_injOn hp hm (pmul_lt _ _) (by decide : (0 : ℕ) < 729) ?_
-    rw [phi_pmul hp, phi_pmul hp, phi_zero hp, ← h3 _ hxE, pow_succ, pow_two]
+    rw [phi_pmul hp, phi_pmul hp, phi_zero, ← h3 _ hxE, pow_succ, pow_two]
   obtain ⟨hk48, hcu⟩ := cover_spec hcov hm729 hm0 hmc
   set c := (cover.getD m (0, 0)).1
   set k := (cover.getD m (0, 0)).2
@@ -346,7 +347,7 @@ theorem plane_conj [Finite G] (hm : ModelOK) {reps tgt : List ℕ} {cover : List
   have hfu : f (phi s g4 g5 m) = phi s g4 g5 u := by
     rw [hf, ← phi_pmul hp, hcu, phi_pmul hp, mul_inv_cancel_right]
   set E' := E.map f
-  have hCP : C ∈ P := phi_mem_P' hp c
+  have hCP : C ∈ P := phi_mem_P' c
   have hE'P : E' ≤ P := by
     rintro _ ⟨g, hg, rfl⟩
     rw [hf]
@@ -375,10 +376,10 @@ theorem plane_conj [Finite G] (hm : ModelOK) {reps tgt : List ℕ} {cover : List
   obtain ⟨n, hn729, rfl⟩ := mem_P hp (hE'P hvE)
   have hn0 : n ≠ 0 := by
     rintro rfl
-    exact hvz (by rw [phi_zero hp]; exact one_mem _)
+    exact hvz (by rw [phi_zero]; exact one_mem _)
   have hnc : pmul (pmul n n) n = 0 := by
     refine phi_injOn hp hm (pmul_lt _ _) (by decide : (0 : ℕ) < 729) ?_
-    rw [phi_pmul hp, phi_pmul hp, phi_zero hp, ← hE'3 _ hvE, pow_succ, pow_two]
+    rw [phi_pmul hp, phi_pmul hp, phi_zero, ← hE'3 _ hvE, pow_succ, pow_two]
   have hcomm := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (hE'9.trans (by norm_num))
   have huv : phi s g4 g5 u * phi s g4 g5 n = phi s g4 g5 n * phi s g4 g5 u :=
     congrArg Subtype.val (hcomm.is_comm.comm (⟨_, huE⟩ : E') ⟨_, hvE⟩)
@@ -424,7 +425,7 @@ theorem plane_conj [Finite G] (hm : ModelOK) {reps tgt : List ℕ} {cover : List
     rw [Subgroup.card_map_of_injective (MulAut.conj Y).injective]
     exact card_planeR_le hp ht hr hm hr67
   have hER : E' = R' := eq_of_le_of_card_ge hE'R (by rw [hE'9]; exact hR9)
-  refine ⟨row.1, hr67, C⁻¹ * Y, mul_mem (inv_mem hCP) (phi_mem_P' hp _), ?_⟩
+  refine ⟨row.1, hr67, C⁻¹ * Y, mul_mem (inv_mem hCP) (phi_mem_P' _), ?_⟩
   ext w
   constructor
   · intro hw

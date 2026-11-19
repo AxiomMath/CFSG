@@ -55,7 +55,7 @@ theorem mk_diagGL_pow_eq_one_iff {F : Type} [Field F] (b : Fˣ) (k : ℕ) :
     rw [diagGL_pow_val, h]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.diagonal_apply]
+      simp
 
 theorem orderOf_mk_diagGL {F : Type} [Field F] (b : Fˣ) (hb : orderOf b = 8) :
     orderOf (ProjGenLinGroup.mk (diagGL b) : ProjGenLinGroup (Fin 2) F) = 8 := by
@@ -155,7 +155,7 @@ theorem Tc2_mul_self : (Tc2 : Matrix (Fin 4) (Fin 4) K) * Tc2 = Tc4 := by
 theorem Tc4_mul_self : (Tc4 : Matrix (Fin 4) (Fin 4) K) * Tc4 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Tc4, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
+    simp [Tc4, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem Tc_sq (h3 : (3 : K) = 0) : (Tc : Matrix (Fin 4) (Fin 4) K) ^ 2 = Tc2 := by
   rw [pow_two]

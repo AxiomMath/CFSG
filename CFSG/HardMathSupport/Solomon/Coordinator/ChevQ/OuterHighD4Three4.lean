@@ -233,7 +233,7 @@ theorem escape_projImage_slPi (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree �
       omega
     · show p ^ f - 1 ≠ 0
       omega
-  haveI : NeZero N := ⟨hN0⟩
+  have : NeZero N := ⟨hN0⟩
   have hcardμ : Nat.card (rootsOfUnity N K) = N :=
     CFSG.RankThree.Chevalley.card_rootsOfUnity_of_dvd_card_sub_one hNdvd
   obtain ⟨ζ₀, hζ₀⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := rootsOfUnity N K)
@@ -332,11 +332,11 @@ theorem escape_projImage_slPi (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree �
       have huinv : ∀ i, hU.bar (u i : K) * (u i : K) = 1 := by
         intro i
         by_cases h : d i = d 0
-        · simp only [hu, h, if_true]
+        · simp only [hu, h, ite_true]
           rw [hU.bar_apply, ← pow_succ, ← Units.val_pow_eq_pow_val]
           have : ζ ^ (p ^ f + 1) = 1 := hζN
           rw [this, Units.val_one]
-        · simp only [hu, h, if_false, Units.val_one, map_one, mul_one]
+        · simp only [hu, h, ite_false, Units.val_one, map_one, mul_one]
       refine (Sec4.mem_glPi_false hU).2 ?_
       rw [hwc]
       refine unitary_conj_diagonal hU htti hitt ?_ hdinv huinv ?_
@@ -531,8 +531,8 @@ theorem closure_centralizers_eq_top_of_isPGLPiThree
   have hSP : S ≤ P := Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
   set M : Subgroup ↥P := S.subgroupOf P with hM
   have hcomm : commutator ↥P = M := Sec13.commutator_projImage_glPi hK hq2
-  haveI : M.Normal := by rw [← hcomm]; infer_instance
-  haveI hperf : Group.IsPerfect ↥S := Sec13.isPerfect_projImage_slPi hK hq2
+  have : M.Normal := by rw [← hcomm]; infer_instance
+  have hperf : Group.IsPerfect ↥S := Sec13.isPerfect_projImage_slPi hK hq2
   have hfaith : ∀ x : ↥P, (∀ m ∈ M, x * m = m * x) → x = 1 := by
     intro x hx
     obtain ⟨w, hw, hxw⟩ := x.2
@@ -545,7 +545,7 @@ theorem closure_centralizers_eq_top_of_isPGLPiThree
       have h1 := congrArg Subtype.val (hx _ hm)
       simp only [Subgroup.coe_mul] at h1
       rw [← hxw] at h1
-      simp only [map_mul, map_inv, MonoidHom.coe_coe]
+      simp only [map_mul, map_inv]
       rw [h1]
       group
     have hw1 := Sec4.mem_statedScalars_of_comm_mod hK hq hscal
@@ -816,8 +816,8 @@ theorem threePlaneGen_fixedSubgroup_gammaP_of_charTwo (hS2 : CFSG.AGLEmbeddingD2
     {K : Type} [Field K] [Finite K] (hK2 : ringChar K = 2) (hK5 : 5 ≤ Nat.card K) {B : SL2 K}
     (hB3 : B ^ 3 = 1) : ThreePlaneGen ↥(fixedSubgroup (gammaP K B)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := ringChar.of_eq hK2
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hm1, hK⟩ : ∃ m : ℕ, 1 ≤ m ∧ Nat.card K = 2 ^ m := by
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
@@ -865,7 +865,7 @@ theorem threePlaneGen_fixedSubgroup_gammaP_of_charTwo (hS2 : CFSG.AGLEmbeddingD2
   ·
     have hy1' : y = 1 := Subtype.ext hy1
     subst hy1'
-    haveI : CharP K₃ 2 :=
+    have : CharP K₃ 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (k := m * 3) (by omega) (by rw [hK₃, ← pow_mul])
     obtain ⟨eG⟩ := CFSG.RankThree.PartTwo.KFacts.nonempty_fixedPoints_fieldActor_mulEquiv_g2
@@ -877,7 +877,7 @@ theorem threePlaneGen_fixedSubgroup_gammaP_of_charTwo (hS2 : CFSG.AGLEmbeddingD2
       exact Subgroup.ext fun _ => Iff.rfl
     have hcard := CFSG.RankThree.PartTwo.KFacts.card_fixSubfield_of_cube hm1 hK₃ hFr
     refine threePlaneGen_of_mulEquiv ((MulEquiv.subgroupCongr hfix).trans eG) ?_
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hm1 hcard
     refine threePlaneGen_adjointGroup_G2 hS2 ?_ (hcard ▸ hq5)
     rw [ringChar.eq _ 2]

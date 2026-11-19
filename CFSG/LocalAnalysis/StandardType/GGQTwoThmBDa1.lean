@@ -36,7 +36,7 @@ private lemma ggQ2xF1_dsimple_chain {m : ℕ} (i : Fin m) (hlt : (i : ℕ) + 1 <
     ggDSimple 3 m i = (Pi.single i (1 : ZMod 3) : GGBCV m) -
         (Pi.single ⟨(i : ℕ) + 1, hlt⟩ (1 : ZMod 3) : GGBCV m) := by
   funext l
-  simp only [ggDSimple, hlt, if_true, Pi.sub_apply, Pi.single_apply, Fin.ext_iff]
+  simp only [ggDSimple, hlt, ite_true, Pi.sub_apply, Pi.single_apply, Fin.ext_iff]
   split_ifs <;> simp_all
 
 private lemma ggQ2xF1_dsimple_fork {m : ℕ} (hm : 2 ≤ m) :
@@ -44,27 +44,27 @@ private lemma ggQ2xF1_dsimple_fork {m : ℕ} (hm : 2 ≤ m) :
       (Pi.single ⟨m - 2, by omega⟩ (1 : ZMod 3) : GGBCV m) +
         (Pi.single ⟨m - 1, by omega⟩ (1 : ZMod 3) : GGBCV m) := by
   funext l
-  rw [ggDSimple, if_neg (show ¬ (m - 1) + 1 < m by omega), Pi.add_apply]
+  rw [ggDSimple, ite_eq_right (show ¬ (m - 1) + 1 < m by omega), Pi.add_apply]
   by_cases h2 : (l : ℕ) + 2 = m
-  · have hl : l = ⟨m - 2, by omega⟩ := Fin.ext (by simp only [Fin.val_mk]; omega)
-    rw [if_pos (Or.inl h2), hl, Pi.single_eq_same,
+  · have hl : l = ⟨m - 2, by omega⟩ := Fin.ext (by simp only; omega)
+    rw [ite_eq_left (Or.inl h2), hl, Pi.single_eq_same,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3)
-        (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)]
+        (by intro h; have := congrArg Fin.val h; simp only at this; omega)]
     simp
   · by_cases h1 : (l : ℕ) + 1 = m
-    · have hl : l = ⟨m - 1, by omega⟩ := Fin.ext (by simp only [Fin.val_mk]; omega)
-      rw [if_pos (Or.inr h1), hl,
+    · have hl : l = ⟨m - 1, by omega⟩ := Fin.ext (by simp only; omega)
+      rw [ite_eq_left (Or.inr h1), hl,
         Pi.single_eq_of_ne (M := fun _ => ZMod 3)
-          (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega),
+          (by intro h; have := congrArg Fin.val h; simp only at this; omega),
         Pi.single_eq_same]
       simp
-    · rw [if_neg (by rintro (h | h); exact h2 h; exact h1 h)]
+    · rw [ite_eq_right (by rintro (h | h); exact h2 h; exact h1 h)]
       rw [Pi.single_eq_of_ne (M := fun _ => ZMod 3)
           (by intro h; exact h2 (by
-            have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)),
+            have := congrArg Fin.val h; simp only at this; omega)),
         Pi.single_eq_of_ne (M := fun _ => ZMod 3)
           (by intro h; exact h1 (by
-            have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)),
+            have := congrArg Fin.val h; simp only at this; omega)),
         add_zero]
 
 private lemma ggQ2xF1_dsimple_mem_D {m : ℕ} (hm : 4 ≤ m) (i : Fin m) :
@@ -72,16 +72,16 @@ private lemma ggQ2xF1_dsimple_mem_D {m : ℕ} (hm : 4 ≤ m) (i : Fin m) :
   rcases lt_or_ge ((i : ℕ) + 1) m with hlt | hge
   · rw [ggDRoots, ggQ2xF1_dsimple_chain i hlt]
     exact ggQ2_DW_Wt_sub_single i ⟨(i : ℕ) + 1, hlt⟩
-      (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      (by intro h; have := congrArg Fin.val h; simp only at this; omega)
   · have hltm : m - 1 < m := by omega
     have hi : i = ⟨m - 1, hltm⟩ := Fin.ext (by
-      simp only [Fin.val_mk]
+      simp only
       have := i.isLt
       omega)
     subst hi
     rw [ggDRoots, ggQ2xF1_dsimple_fork (m := m) (by omega)]
     exact ggQ2_DW_Wt_add_single ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩
-      (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      (by intro h; have := congrArg Fin.val h; simp only at this; omega)
 
 private theorem ggQ2xF1_weyl_coord (D : GGQ2Lin 3) {m : ℕ} (hm : 4 ≤ m) (e : Fin m ≃ D.ι)
     (τ : D.V ≃ₗ[ZMod 3] GGBCV m)
@@ -114,13 +114,13 @@ private lemma ggQ2xF1_dsimple_zero {m : ℕ} [NeZero m] (hm : 4 ≤ m) {i : Fin 
     have h0i1 : (0 : Fin m) ≠ ⟨(i : ℕ) + 1, hlt⟩ := by
       intro h
       have := congrArg Fin.val h
-      simp only [Fin.val_mk, Fin.val_zero] at this
+      simp only [Fin.val_zero] at this
       omega
     rw [Pi.sub_apply, Pi.single_eq_of_ne (M := fun _ => ZMod 3) h0i,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) h0i1, sub_self]
   · have hlastm : m - 1 < m := by omega
     have hlast : i = ⟨m - 1, hlastm⟩ := Fin.ext (by
-      simp only [Fin.val_mk]
+      simp only
       have := i.isLt
       omega)
     subst hlast
@@ -128,12 +128,12 @@ private lemma ggQ2xF1_dsimple_zero {m : ℕ} [NeZero m] (hm : 4 ≤ m) {i : Fin 
     have h0a : (0 : Fin m) ≠ ⟨m - 2, by omega⟩ := by
       intro h
       have := congrArg Fin.val h
-      simp only [Fin.val_mk, Fin.val_zero] at this
+      simp only [Fin.val_zero] at this
       omega
     have h0b : (0 : Fin m) ≠ ⟨m - 1, hlastm⟩ := by
       intro h
       have := congrArg Fin.val h
-      simp only [Fin.val_mk, Fin.val_zero] at this
+      simp only [Fin.val_zero] at this
       omega
     rw [Pi.add_apply, Pi.single_eq_of_ne (M := fun _ => ZMod 3) h0a,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) h0b, zero_add]
@@ -162,19 +162,19 @@ private lemma ggQ2xF1_parabT_swap {m : ℕ} (hm : 4 ≤ m) (i j : Fin m)
       rcases lt_or_eq_of_le hle with hlt | heq
       · let c : Fin m := ⟨b.val - 1, by omega⟩
         have hcv : c.val = b.val - 1 := rfl
-        have hc0 : (c : ℕ) ≠ 0 := by simp only [c, Fin.val_mk] at *; omega
-        have hcn : (c : ℕ) + 1 < m := by simp only [c, Fin.val_mk] at *; omega
+        have hc0 : (c : ℕ) ≠ 0 := by simp only [c] at *; omega
+        have hcn : (c : ℕ) + 1 < m := by simp only [c] at *; omega
         have hcs : (⟨(c : ℕ) + 1, hcn⟩ : Fin m) = b := by
-          apply Fin.ext; simp only [c, Fin.val_mk]; omega
+          apply Fin.ext; simp only [c]; omega
         have hgen : ggQ2_DW_Q 3 m (Equiv.swap c (⟨(c : ℕ) + 1, hcn⟩ : Fin m)) ∈
             ggQ2xF1_parabT hm := ggQ2xF1_parabT_adj hm c hc0 hcn
         rw [hcs] at hgen
         by_cases hac : a.val = c.val
         · have hac' : a = c := Fin.ext hac
           rw [hac']; exact hgen
-        · have haltc : a.val < c.val := by simp only [c, Fin.val_mk] at *; omega
+        · have haltc : a.val < c.val := by simp only [c] at *; omega
           have ih_ac : ggQ2_DW_Q 3 m (Equiv.swap a c) ∈ ggQ2xF1_parabT hm :=
-            ih (max a.val c.val) (by simp only [c, Fin.val_mk] at *; omega)
+            ih (max a.val c.val) (by simp only [c] at *; omega)
               a c (by omega) rfl ha hc0
           have hne_ac : a ≠ c := by intro hh; exact hac (congrArg Fin.val hh)
           have hne_ab : a ≠ b := by intro hh; have := congrArg Fin.val hh; omega
@@ -200,7 +200,7 @@ private lemma ggQ2xF1_parabT_conj_add {m : ℕ} (hm : 4 ≤ m) (i j : Fin m) (hi
           Pi.single ⟨m - 1, by omega⟩ 1) =
         (Pi.single i (1 : ZMod 3) : GGBCV m) + Pi.single j 1 := by
   have hab : (⟨m - 2, by omega⟩ : Fin m) ≠ ⟨m - 1, by omega⟩ := by
-    intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+    intro h; have := congrArg Fin.val h; simp only at this; omega
   have h2 : (m - 2 : ℕ) ≠ 0 := by omega
   have h1 : (m - 1 : ℕ) ≠ 0 := by omega
   by_cases hja : j = ⟨m - 2, by omega⟩
@@ -209,7 +209,7 @@ private lemma ggQ2xF1_parabT_conj_add {m : ℕ} (hm : 4 ≤ m) (i j : Fin m) (hi
       intro h; exact hij (h.trans hja.symm)
     have hτa : Equiv.swap ⟨m - 1, by omega⟩ i (⟨m - 2, by omega⟩ : Fin m) =
         ⟨m - 2, by omega⟩ := by
-      rw [Equiv.swap_apply_def, if_neg hab, if_neg (fun h => hia h.symm)]
+      rw [Equiv.swap_apply_def, ite_eq_right hab, ite_eq_right (fun h => hia h.symm)]
     have hτb : Equiv.swap ⟨m - 1, by omega⟩ i (⟨m - 1, by omega⟩ : Fin m) = i :=
       Equiv.swap_apply_left _ _
     change ggQ2_DW_Q 3 m (Equiv.swap ⟨m - 1, by omega⟩ i)
@@ -224,12 +224,12 @@ private lemma ggQ2xF1_parabT_conj_add {m : ℕ} (hm : 4 ≤ m) (i j : Fin m) (hi
         rw [Equiv.Perm.mul_apply]
         have h1' : (Equiv.swap ⟨m - 1, by omega⟩ j) (⟨m - 2, by omega⟩ : Fin m) =
             ⟨m - 2, by omega⟩ := by
-          rw [Equiv.swap_apply_def, if_neg hab, if_neg (fun h => hja h.symm)]
+          rw [Equiv.swap_apply_def, ite_eq_right hab, ite_eq_right (fun h => hja h.symm)]
         rw [h1', Equiv.swap_apply_left]
       have hτb : (Equiv.swap ⟨m - 2, by omega⟩ i * Equiv.swap ⟨m - 1, by omega⟩ j)
           (⟨m - 1, by omega⟩ : Fin m) = j := by
         rw [Equiv.Perm.mul_apply, Equiv.swap_apply_left, Equiv.swap_apply_def,
-          if_neg hja, if_neg (fun h => hij h.symm)]
+          ite_eq_right hja, ite_eq_right (fun h => hij h.symm)]
       change ggQ2_DW_Q 3 m (Equiv.swap ⟨m - 2, by omega⟩ i * Equiv.swap ⟨m - 1, by omega⟩ j)
         (ggQ2_DW_fvec 3 m ⟨m - 2, by omega⟩ + ggQ2_DW_fvec 3 m ⟨m - 1, by omega⟩) = _
       rw [ggQ2_DW_Q_add_fvec, hτa, hτb]
@@ -245,7 +245,7 @@ private lemma ggQ2xF1_add_refl_mem_parabT {m : ℕ} (hm : 4 ≤ m) (i j : Fin m)
   let a : Fin m := ⟨m - 2, by omega⟩
   let b : Fin m := ⟨m - 1, by omega⟩
   have hab : a ≠ b := by
-    intro h; have := congrArg Fin.val h; simp only [a, b, Fin.val_mk] at this; omega
+    intro h; have := congrArg Fin.val h; simp only [a, b] at this; omega
   have hcA : ((Pi.single a (1 : ZMod 3) : GGBCV m) + Pi.single b 1) ⬝ᵥ
       ((Pi.single a (1 : ZMod 3) : GGBCV m) + Pi.single b 1) ≠ 0 := by
     rw [ggQ2_DW_add_norm a b hab]; decide
@@ -254,21 +254,21 @@ private lemma ggQ2xF1_add_refl_mem_parabT {m : ℕ} (hm : 4 ≤ m) (i j : Fin m)
     rw [ggQ2_DW_r_eq_bc hm b]
     refine ggQ2_DW_refl_congr ?_ _ _
     funext k
-    have hb' : ¬ ((b : ℕ) + 1 < m) := by simp only [b, Fin.val_mk]; omega
-    simp only [ggDSimple, hb', if_false, Pi.add_apply, Pi.single_apply]
+    have hb' : ¬ ((b : ℕ) + 1 < m) := by simp only [b]; omega
+    simp only [ggDSimple, hb', ite_false, Pi.add_apply, Pi.single_apply]
     by_cases hka : k = a
     · subst hka
-      rw [if_pos (Or.inl (by simp only [a, Fin.val_mk]; omega)), if_pos rfl,
-        if_neg (fun h => hab h), add_zero]
+      rw [ite_eq_left (Or.inl (by simp only [a]; omega)), ite_eq_left rfl,
+        ite_eq_right (fun h => hab h), add_zero]
     · by_cases hkb : k = b
       · subst hkb
-        rw [if_pos (Or.inr (by simp only [b, Fin.val_mk]; omega)),
-          if_neg (fun h => hab h.symm), if_pos rfl, zero_add]
+        rw [ite_eq_left (Or.inr (by simp only [b]; omega)),
+          ite_eq_right (fun h => hab h.symm), ite_eq_left rfl, zero_add]
       · have h1' : ¬ (k : ℕ) + 2 = m := by
-          intro h; exact hka (Fin.ext (by simp only [a, Fin.val_mk]; omega))
+          intro h; exact hka (Fin.ext (by simp only [a]; omega))
         have h2' : ¬ (k : ℕ) + 1 = m := by
-          intro h; exact hkb (Fin.ext (by simp only [b, Fin.val_mk]; omega))
-        rw [if_neg (by rintro (h | h); exact h1' h; exact h2' h), if_neg hka, if_neg hkb,
+          intro h; exact hkb (Fin.ext (by simp only [b]; omega))
+        rw [ite_eq_right (by rintro (h | h); exact h1' h; exact h2' h), ite_eq_right hka, ite_eq_right hkb,
           add_zero]
   have hconj := ggQ2_DW_bc_conj (ggQ2_DW_Q 3 m τ) (ggQ2_DW_Q_isom 3 m τ)
     ((Pi.single a (1 : ZMod 3) : GGBCV m) + Pi.single b 1) hcA
@@ -287,7 +287,7 @@ private lemma ggQ2xF1_add_refl_mem_parabT {m : ℕ} (hm : 4 ≤ m) (i j : Fin m)
   rw [← heq, ← hconj, ← hrb]
   exact Subgroup.mul_mem _
     (Subgroup.mul_mem _ hτmem
-      (Subgroup.subset_closure ⟨⟨b, by simp only [b, Fin.val_mk]; omega⟩, rfl⟩))
+      (Subgroup.subset_closure ⟨⟨b, by simp only [b]; omega⟩, rfl⟩))
     (Subgroup.inv_mem _ hτmem)
 
 private lemma ggQ2xF1_DrootLam_refl_mem_parabT {m : ℕ} [NeZero m] (hm : 4 ≤ m) {z : GGBCV m}
@@ -352,7 +352,7 @@ private lemma ggQ2xF1_DrootLam_refl_mem_parabT {m : ℕ} [NeZero m] (hm : 4 ≤ 
     exact ggQ2xF1_parabT_swap hm i j hi0 hj0
   · have hz' : z = -((Pi.single i (1 : ZMod 3) : GGBCV m) + Pi.single j 1) := by
       rw [hz_eq]; ext t
-      simp only [Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul, one_mul]
+      simp only [Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul]
       exact ggQ2_DW_scalar_h _ _
     have hcadd : ((Pi.single i (1 : ZMod 3) : GGBCV m) + Pi.single j 1) ⬝ᵥ
         ((Pi.single i (1 : ZMod 3) : GGBCV m) + Pi.single j 1) ≠ 0 := by
@@ -446,7 +446,7 @@ private theorem ggQ2xF1_fixed_lam1 {m : ℕ} [NeZero m] (hm : 5 ≤ m) (v : GGBC
       have hjk : j ≠ k := Ne.symm hkj
       have hc1mem : (Pi.single j 1 - Pi.single k 1 : GGBCV m) ∈ ggDRootsLam1 m := by
         refine ⟨ggQ2x_wt_sub_single j k hjk, ?_⟩
-        simp [Pi.sub_apply, Pi.single_eq_of_ne, hj, hk0]
+        simp [Pi.sub_apply, hj, hk0]
       have hc1n : (Pi.single j 1 - Pi.single k 1 : GGBCV m) ⬝ᵥ
           (Pi.single j 1 - Pi.single k 1 : GGBCV m) ≠ 0 := by
         rw [ggQ2x_sub_single_norm j k hjk]; decide
@@ -455,7 +455,7 @@ private theorem ggQ2xF1_fixed_lam1 {m : ℕ} [NeZero m] (hm : 5 ≤ m) (v : GGBC
       rw [ggQ2x_sub_single_dot] at hd1
       have hc2mem : (Pi.single j 1 + Pi.single k 1 : GGBCV m) ∈ ggDRootsLam1 m := by
         refine ⟨ggQ2x_wt_single_add_single j k hjk 1 1 one_ne_zero one_ne_zero, ?_⟩
-        simp [Pi.add_apply, Pi.single_eq_of_ne, hj, hk0]
+        simp [Pi.add_apply, hj, hk0]
       have hc2n : (Pi.single j 1 + Pi.single k 1 : GGBCV m) ⬝ᵥ
           (Pi.single j 1 + Pi.single k 1 : GGBCV m) ≠ 0 := by
         rw [ggQ2x_dot_self_eq_wt,
@@ -554,7 +554,7 @@ private lemma ggQ2xF1_prod_flipS_single {m : ℕ} (a : Fin m) (v : GGBCV m) :
     intro i hi
     rw [Finset.mem_erase] at hi
     simp only [ggQ2xF1_flipS, Finset.mem_singleton]
-    rw [if_neg hi.1]
+    rw [ite_eq_right hi.1]
   have ha : ggQ2xF1_flipS {a} v a = -v a := by simp [ggQ2xF1_flipS]
   rw [hprod, ha, mul_neg]
 
@@ -564,7 +564,7 @@ private lemma ggQ2xF1_prod_flipS_pair {m : ℕ} (a b : Fin m) (hab : a ≠ b) (v
     rw [Finset.disjoint_singleton_left]
     simpa using hab
   have hunion : ({a, b} : Finset (Fin m)) = {a} ∪ {b} := by
-    ext i; simp [Finset.mem_union]
+    ext i; simp
   rw [hunion, ggQ2xF1_flipS_union _ _ hdisj,
     ggQ2xF1_prod_flipS_single, ggQ2xF1_prod_flipS_single, neg_neg]
 
@@ -587,16 +587,16 @@ private lemma ggQ2xF1_add_refl_apply {m : ℕ} (a b : Fin m) (hab : a ≠ b)
   rw [hdot]
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   by_cases hka : k = a
-  · rw [hka, if_pos (by simp : (a : Fin m) ∈ ({a, b} : Finset (Fin m))),
+  · rw [hka, ite_eq_left (by simp : (a : Fin m) ∈ ({a, b} : Finset (Fin m))),
       Pi.single_eq_same, Pi.single_eq_of_ne hab, add_zero, mul_one,
       Equiv.symm_swap, Equiv.swap_apply_left]
     exact ggQ2xF1_scalar_b (v a) (v b)
   · by_cases hkb : k = b
-    · rw [hkb, if_pos (by simp : (b : Fin m) ∈ ({a, b} : Finset (Fin m))),
+    · rw [hkb, ite_eq_left (by simp : (b : Fin m) ∈ ({a, b} : Finset (Fin m))),
         Pi.single_eq_of_ne (Ne.symm hab), Pi.single_eq_same, zero_add, mul_one,
         Equiv.symm_swap, Equiv.swap_apply_right]
       exact ggQ2xF1_scalar_a (v a) (v b)
-    · rw [if_neg (by simp [hka, hkb]), Pi.single_eq_of_ne hka, Pi.single_eq_of_ne hkb,
+    · rw [ite_eq_right (by simp [hka, hkb]), Pi.single_eq_of_ne hka, Pi.single_eq_of_ne hkb,
         add_zero, mul_zero, add_zero, Equiv.symm_swap,
         Equiv.swap_apply_of_ne_of_ne hka hkb]
 
@@ -615,13 +615,13 @@ private lemma ggQ2xF1_r_prod {m : ℕ} (hm : 4 ≤ m) (i : Fin m) (v : GGBCV m) 
     exact ggQ2xF1_prod_Q (Equiv.swap i ⟨(i : ℕ) + 1, hlt⟩) v
   · have hltm : m - 1 < m := by omega
     have hi : i = ⟨m - 1, hltm⟩ := Fin.ext (by
-      simp only [Fin.val_mk]
+      simp only
       have := i.isLt
       omega)
     subst hi
     have hbc := ggQ2_DW_r_eq_bc (m := m) hm ⟨m - 1, hltm⟩
     have hab : (⟨m - 2, by omega⟩ : Fin m) ≠ ⟨m - 1, hltm⟩ := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     have hvec : ggDSimple 3 m ⟨m - 1, hltm⟩ =
         (Pi.single ⟨m - 2, by omega⟩ (1 : ZMod 3) : GGBCV m) +
           Pi.single ⟨m - 1, hltm⟩ 1 := ggQ2xF1_dsimple_fork (m := m) (by omega)
@@ -697,11 +697,11 @@ private lemma ggQ2xF1_wt_one_flip {m : ℕ} [NeZero m] {c : GGBCV m}
     rw [hcc, hcv]
     by_cases hka : k = a
     · rw [hka]
-      rw [if_pos (by simp : (a : Fin m) ∈ ({a} : Finset (Fin m)))]
+      rw [ite_eq_left (by simp : (a : Fin m) ∈ ({a} : Finset (Fin m)))]
       simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one]
       rw [ggQ2_DW_sq μ hμ]
       decide
-    · rw [if_neg (by simpa [Finset.mem_singleton] using hka)]
+    · rw [ite_eq_right (by simpa [Finset.mem_singleton] using hka)]
       simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_of_ne hka]
       rw [mul_zero, mul_zero, add_zero]
   rw [himg, ggQ2xF1_prod_flipS_single a, ggQ2xF1_prod]
@@ -864,7 +864,7 @@ private lemma ggQ2xF1_wt_smul {m : ℕ} (v : GGBCV m) (μ : ZMod 3) (hμ : μ �
 
 private lemma ggQ2xF1_lam1_smul {m : ℕ} [NeZero m] {v : GGBCV m} (hv : v ∈ ggDRootsLam1 m)
     (μ : ZMod 3) (hμ : μ ≠ 0) : μ • v ∈ ggDRootsLam1 m := by
-  simp only [ggDRootsLam1, Set.mem_setOf_eq] at hv ⊢
+  simp only [ggDRootsLam1, Set.mem_ofPred_eq] at hv ⊢
   refine ⟨?_, ?_⟩
   · rw [ggQ2xF1_wt_smul v μ hμ, hv.1]
   · rw [Pi.smul_apply, smul_eq_mul, hv.2, mul_zero]
@@ -1088,19 +1088,19 @@ private lemma ggQ2xF1_mem_pair {m : ℕ} {Z : Set (GGBCV m)}
     rw [ggQ2x_ggBCRefl_apply, hD, hc2]
     simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
     by_cases hka : k = a
-    · rw [hka, ggQ2xF1_flipS_pair_apply a b a hab v, if_pos rfl, Equiv.swap_apply_left]
-      simp only [Pi.add_apply, Pi.single_apply]
-      rw [if_pos trivial, if_neg hab, add_zero, mul_one]
+    · rw [hka, ggQ2xF1_flipS_pair_apply a b a hab v, ite_eq_left rfl, Equiv.swap_apply_left]
+      simp only [Pi.single_apply]
+      rw [ite_eq_left trivial, ite_eq_right hab, add_zero, mul_one]
       exact ggQ2xF1_scalar_a (v a) (v b)
-    · rw [ggQ2xF1_flipS_pair_apply a b k hab v, if_neg hka]
+    · rw [ggQ2xF1_flipS_pair_apply a b k hab v, ite_eq_right hka]
       by_cases hkb : k = b
-      · rw [hkb, if_pos rfl, Equiv.swap_apply_right]
-        simp only [Pi.add_apply, Pi.single_apply]
-        rw [if_neg (Ne.symm hab), if_pos trivial, zero_add, mul_one]
+      · rw [hkb, ite_eq_left rfl, Equiv.swap_apply_right]
+        simp only [Pi.single_apply]
+        rw [ite_eq_right (Ne.symm hab), ite_eq_left trivial, zero_add, mul_one]
         exact ggQ2xF1_scalar_b (v a) (v b)
-      · rw [if_neg hkb, Equiv.swap_apply_of_ne_of_ne hka hkb]
-        simp only [Pi.add_apply, Pi.single_apply]
-        rw [if_neg hkb, if_neg hka, add_zero, mul_zero, add_zero]
+      · rw [ite_eq_right hkb, Equiv.swap_apply_of_ne_of_ne hka hkb]
+        simp only [Pi.single_apply]
+        rw [ite_eq_right hkb, ite_eq_right hka, add_zero, mul_zero, add_zero]
   rw [hcomp] at h2mem
   exact h2mem
 
@@ -1148,7 +1148,7 @@ private lemma ggQ2xF1_mem_flipS {m : ℕ} {Z : Set (GGBCV m)}
         · exact hbU2 hxU
       have hins : insert a (insert b ((S.erase a).erase b)) =
           ({a, b} : Finset (Fin m)) ∪ ((S.erase a).erase b) := by
-        ext x; simp [Finset.mem_union]
+        ext x; simp
       rw [hins, ggQ2xF1_flipS_union _ _ hdisj]
       exact ggQ2xF1_mem_pair hZroots hZcl
         (ih ((S.erase a).erase b) hUsub hUeven hv) hab
@@ -1224,8 +1224,8 @@ private lemma ggQ2xF1_wt_flipS_single {m : ℕ} (a : Fin m) (v : GGBCV m) :
   intro i _
   rw [ggQ2xF1_flipS_single_apply]
   by_cases h : i = a
-  · rw [if_pos h]; simp [neg_ne_zero]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; simp
+  · rw [ite_eq_right h]
 
 private lemma ggQ2xF1_smul_single_refl {m : ℕ} (a : Fin m) (μ : ZMod 3) (hμ : μ ≠ 0)
     (hc : (μ • Pi.single a 1 : GGBCV m) ⬝ᵥ (μ • Pi.single a 1 : GGBCV m) ≠ 0)
@@ -1242,14 +1242,14 @@ private lemma ggQ2xF1_smul_single_refl {m : ℕ} (a : Fin m) (μ : ZMod 3) (hμ 
   rw [ggQ2x_ggBCRefl_apply, hcc, hcv, ggQ2xF1_flipS_single_apply]
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   by_cases hia : i = a
-  · rw [hia, if_pos rfl, Pi.single_eq_same]
+  · rw [hia, ite_eq_left rfl, Pi.single_eq_same]
     have e : v a + (μ * v a) * 1 * (μ * 1) = v a + v a := by
       rw [mul_one, mul_one, mul_assoc, mul_comm (v a) μ, ← mul_assoc, hsq, one_mul]
     have h2 : v a + v a = -v a := by
       have h21 : (2 : ZMod 3) = -1 := by decide
       rw [← two_mul, h21, neg_one_mul]
     rw [e, h2]
-  · rw [if_neg (by simpa [Finset.mem_singleton] using hia),
+  · rw [ite_eq_right (by simpa [Finset.mem_singleton] using hia),
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) hia]
     rw [mul_zero, mul_zero, add_zero]
 
@@ -1353,10 +1353,10 @@ private lemma ggQ2xF1_full_class {m : ℕ} {Z : Set (GGBCV m)}
     funext i
     rw [ggQ2xF1_flipS]
     by_cases hi : i ∈ S
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp only [S, Finset.mem_filter, Finset.mem_univ, true_and] at hi
       exact (ggQ2xF1_eq_neg_of_ne (hznz i) (hwnz i) hi).symm
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       by_contra hne
       exact hi (by simp only [S, Finset.mem_filter, Finset.mem_univ, true_and]; exact hne)
   have hSe : Even S.card := by
@@ -1392,8 +1392,8 @@ private lemma ggQ2xF1_wt1_not_full {m : ℕ} [NeZero m] {Z : Set (GGBCV m)}
     intro i
     rw [hflip, ggQ2xF1_flipS_single_apply]
     by_cases h : i = a
-    · rw [if_pos h]; simpa [neg_ne_zero] using hznz i
-    · rw [if_neg h]; exact hznz i
+    · rw [ite_eq_left h]; simpa [neg_ne_zero] using hznz i
+    · rw [ite_eq_right h]; exact hznz i
   have hwt' : ggBCWt (ggBCRefl (c • Pi.single a 1) hz00 z) = m := by
     rw [hflip, ggQ2xF1_wt_flipS_single]
     exact hzm
@@ -1483,8 +1483,8 @@ private theorem ggQ2xF1_Z_cases {m : ℕ} [NeZero m] (hm : 6 ≤ m) (Z : Set (GG
         · exact absurd ⟨z, hzZ, h.2⟩ h8
       · exact hZroots
 
-private lemma ggQ2xF1_tau_x (D : GGQ2Lin 3) (hbas : D.Basis) {m : ℕ} [NeZero m] (hm : 5 ≤ m)
-    (e : Fin m ≃ D.ι) (hD : D.coxeter = (ggCoxeterMatrixD m).reindex e)
+private lemma ggQ2xF1_tau_x (D : GGQ2Lin 3) (_hbas : D.Basis) {m : ℕ} [NeZero m] (hm : 5 ≤ m)
+    (e : Fin m ≃ D.ι) (_hD : D.coxeter = (ggCoxeterMatrixD m).reindex e)
     (τ : D.V ≃ₗ[ZMod 3] GGBCV m) (hτ : ∀ i, τ (D.coroot (e i)) = ggDSimple 3 m i)
     (hroot : ∀ i v, D.root (e i) v = ∑ j, ggDSimple 3 m i j * τ v j)
     (ha : D.a = e ⟨0, by omega⟩) (x : D.V)
@@ -1628,11 +1628,11 @@ private lemma ggQ2xF1_dotLin_fvec_fvec (p m : ℕ) (a b : Fin m) :
   rw [ggQ2_DW_dotLin_apply]
   by_cases h : a = b
   · subst h
-    rw [if_pos rfl, Finset.sum_eq_single a]
+    rw [ite_eq_left rfl, Finset.sum_eq_single a]
     · simp [ggQ2_DW_fvec]
     · intro c _ hc; rw [ggQ2_DW_fvec, Pi.single_eq_of_ne hc]; ring
     · intro hh; exact absurd (Finset.mem_univ a) hh
-  · rw [if_neg h, Finset.sum_eq_single a]
+  · rw [ite_eq_right h, Finset.sum_eq_single a]
     · rw [ggQ2_DW_fvec, ggQ2_DW_fvec, Pi.single_eq_same, Pi.single_eq_of_ne h]
       ring
     · intro c _ hc; rw [ggQ2_DW_fvec, Pi.single_eq_of_ne hc]; ring
@@ -1919,11 +1919,9 @@ private lemma ggQ2xF1_short_apply_self {m : ℕ} (i : Fin m) :
   ext k
   by_cases hk : k = i
   · rw [hk]
-    simp only [Pi.add_apply, Pi.single_eq_same, Pi.smul_apply, smul_eq_mul, one_mul,
-      Pi.neg_apply]
+    simp only [Pi.add_apply, Pi.single_eq_same, Pi.neg_apply]
     exact (by decide : ∀ x : ZMod 3, x + x = -x) 1
-  · simp only [Pi.add_apply, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hk, Pi.smul_apply,
-      Pi.single_eq_of_ne (M := fun _ => ZMod 3) hk, mul_zero, add_zero, Pi.neg_apply,
+  · simp only [Pi.add_apply, add_zero, Pi.neg_apply,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) hk, neg_zero]
 
 private lemma ggQ2xF1_short_apply_of_ne {m : ℕ} (i j : Fin m) (hij : j ≠ i) :
@@ -1975,21 +1973,21 @@ private lemma ggQ2xF1_diag_mem_W_aux {m : ℕ} (k : ℕ) :
         rw [LinearEquiv.mul_apply, hb j, map_smul]
         by_cases hji : j = i
         · subst hji
-          rw [if_pos hi, ggQ2xF1_short_apply_self, if_neg (by simp)]
+          rw [ite_eq_left hi, ggQ2xF1_short_apply_self, ite_eq_right (by simp)]
           calc (-1 : ZMod 3) • (-Pi.single j (1 : ZMod 3)) = Pi.single j 1 :=
                 ggQ2xF1_neg_one_smul_neg _
             _ = (1 : ZMod 3) • Pi.single j (1 : ZMod 3) := (one_smul _ _).symm
         · rw [ggQ2xF1_short_apply_of_ne i j hji]
           by_cases hjS : j ∈ S
-          · rw [if_pos hjS, if_pos (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
-          · rw [if_neg hjS, if_neg (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
+          · rw [ite_eq_left hjS, ite_eq_left (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
+          · rw [ite_eq_right hjS, ite_eq_right (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
       have hmem : ggQ2xF1_short i * b ∈ ggBCW m := ih (S.erase i) (ggQ2xF1_short i * b) hcard hb'
       have hshort : ggQ2xF1_short i ∈ ggBCW m := by
         rw [ggQ2xF1_short]
         exact Subgroup.subset_closure
           ⟨_, (by
             rw [ggBCRoots]
-            simp only [Set.mem_setOf_eq]
+            simp only [Set.mem_ofPred_eq]
             rw [ggQ2xF1_wt_single_of_ne_zero i 1 one_ne_zero]
             decide), ggQ2xF1_short_ne i, rfl⟩
       have hb_eq : b = (ggQ2xF1_short i)⁻¹ * (ggQ2xF1_short i * b) := by group
@@ -2007,7 +2005,7 @@ private lemma ggQ2xF1_neg_one_mem_Wc {m : ℕ} :
     (LinearEquiv.neg (ZMod 3) : GGBCV m ≃ₗ[ZMod 3] GGBCV m) ∈ ggBCW m := by
   refine ggQ2xF1_diag_mem_W Finset.univ (LinearEquiv.neg (ZMod 3)) ?_
   intro j
-  rw [LinearEquiv.neg_apply, if_pos (Finset.mem_univ j),
+  rw [LinearEquiv.neg_apply, ite_eq_left (Finset.mem_univ j),
     show -Pi.single j (1 : ZMod 3) = (-1 : ZMod 3) • Pi.single j (1 : ZMod 3) from
       (ggQ2xF1_neg_one_smul _).symm]
 
@@ -2103,12 +2101,12 @@ private lemma ggQ2xF1_A_le_pm_Gamma (D : GGQ2Lin 3) (hbas : D.Basis) {m : ℕ} (
   have hinner := ggQ2xF1_inner_Phi D hbas hm e hD τ hτ hroot A hW hTF hZPhi
   exact ggQ2_transfer (p := 3) (by decide) D hbas h4 A hW _ hinner
 
-private lemma ggQ2xF1_short_not_mem_of_Phi (D : GGQ2Lin 3) (hbas : D.Basis) {m : ℕ}
-    (hm : 5 ≤ m) (e : Fin m ≃ D.ι)
-    (hD : D.coxeter = (ggCoxeterMatrixD m).reindex e)
-    (τ : D.V ≃ₗ[ZMod 3] GGBCV m) (hτ : ∀ i, τ (D.coroot (e i)) = ggDSimple 3 m i)
-    (hroot : ∀ i v, D.root (e i) v = ∑ j, ggDSimple 3 m i j * τ v j)
-    (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (hW : D.weyl ≤ A) (hTF : TransvectionFree A)
+private lemma ggQ2xF1_short_not_mem_of_Phi (D : GGQ2Lin 3) (_hbas : D.Basis) {m : ℕ}
+    (_hm : 5 ≤ m) (e : Fin m ≃ D.ι)
+    (_hD : D.coxeter = (ggCoxeterMatrixD m).reindex e)
+    (τ : D.V ≃ₗ[ZMod 3] GGBCV m) (_hτ : ∀ i, τ (D.coroot (e i)) = ggDSimple 3 m i)
+    (_hroot : ∀ i v, D.root (e i) v = ∑ j, ggDSimple 3 m i j * τ v j)
+    (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (_hW : D.weyl ≤ A) (_hTF : TransvectionFree A)
     (i₀ : Fin m)
     (hZPhi : {z : GGBCV m | ∃ hz : z ⬝ᵥ z ≠ 0,
         ggBCRefl z hz ∈ A.map (ggLinConj τ).toMonoidHom} ⊆ ggDRoots m) :
@@ -2118,8 +2116,6 @@ private lemma ggQ2xF1_short_not_mem_of_Phi (D : GGQ2Lin 3) (hbas : D.Basis) {m :
       {z : GGBCV m | ∃ hz : z ⬝ᵥ z ≠ 0,
         ggBCRefl z hz ∈ A.map (ggLinConj τ).toMonoidHom} :=
     ⟨ggQ2xF1_short_ne i₀, by
-      change ggBCRefl (Pi.single i₀ (1 : ZMod 3)) (ggQ2xF1_short_ne i₀) ∈
-        A.map (ggLinConj τ).toMonoidHom
       exact hs⟩
   have h2 : ggBCWt (Pi.single i₀ (1 : ZMod 3) : GGBCV m) = 2 := hZPhi hmem
   rw [ggQ2xF1_wt_single_of_ne_zero i₀ 1 one_ne_zero] at h2
@@ -2245,7 +2241,7 @@ private theorem ggQ2xF1_pm (D : GGQ2Lin 3) (hbas : D.Basis) {m : ℕ} (hm : 6 �
     (hHL : ∀ φ ∈ A, φ x ∈ Submodule.span (ZMod 3) {x} →
       φ ∈ Subgroup.normalizer (D.parab {k | k ≠ D.a} : Set (D.V ≃ₗ[ZMod 3] D.V))) :
     ∀ a ∈ A, ∃ r ∈ reflGp A, (∀ v, a v = r v) ∨ (∀ v, a v = -(r v)) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨τ, hτ, hroot⟩ :=
     ggQ2_D_coordinates (p := 3) (by decide) D hbas (by omega) e hD
   let A' : Subgroup (GGBCV m ≃ₗ[ZMod 3] GGBCV m) := A.map (ggLinConj τ).toMonoidHom
@@ -2296,7 +2292,7 @@ private theorem ggQ2xF1_pm (D : GGQ2Lin 3) (hbas : D.Basis) {m : ℕ} (hm : 6 �
     have hZroots' : ggQ2xF1_Z A' = ggBCRoots m := by
       rw [hZ]
       ext z
-      simp only [Set.mem_union, Set.mem_setOf_eq, ggBCRoots, ggDRoots]
+      simp only [Set.mem_union, Set.mem_ofPred_eq, ggBCRoots, ggDRoots]
       constructor
       · rintro (h | h)
         · exact ⟨by omega, by omega⟩

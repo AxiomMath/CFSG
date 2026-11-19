@@ -42,15 +42,13 @@ private lemma wcgapenCadj_mul (b c : F) [CharP F 2] :
     sym2 b c 0 * sym2 0 c b = c ^ 2 • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply, Matrix.one_apply,
-      mul_comm c b, CharTwo.add_self_eq_zero, pow_two]
+    simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply, mul_comm c b, CharTwo.add_self_eq_zero, pow_two]
 
 private lemma wcgapenCadj_mul' (b c : F) [CharP F 2] :
     sym2 0 c b * sym2 b c 0 = c ^ 2 • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply, Matrix.one_apply,
-      mul_comm c b, CharTwo.add_self_eq_zero, pow_two]
+    simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply, mul_comm c b, CharTwo.add_self_eq_zero, pow_two]
 
 private lemma wcgapenC_mul_Cinv (b c : F) (hc : c ≠ 0) [CharP F 2] :
     wcgapenC b c * wcgapenCinv b c = 1 := by
@@ -104,7 +102,7 @@ private lemma wcgapen_blocks_gram {C Cinv : Matrix (Fin 2) (Fin 2) F} [CharP F 2
     refine ⟨rfl, rfl, ?_, rfl⟩
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.neg_apply, Matrix.one_apply, CharTwo.neg_eq]
+      simp [Matrix.neg_apply, CharTwo.neg_eq]
   rw [hJ]
   have ht : (fromBlocks (a • 1) (b • C) (c • Cinv) (d • 1))ᵀ =
       fromBlocks (a • 1) (c • Cinv) (b • C) (d • 1) := by
@@ -386,8 +384,8 @@ private lemma wcgapen_map_eq_of_hA (b c : F) (hc : c ≠ 0) [CharP F 2]
 theorem sp4_emb_line {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) (b c : F) (hc : c ≠ 0)
     {A : Subgroup (StatedSp 2 F)} (hA : ∀ g, g ∈ A ↔ ∃ t : F, g = sp4Z (t * b) (t * c)) :
     Sp4Sl2Emb A := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   refine ⟨wcgapenIota b c hc, wcgapenIota_injective b c hc,

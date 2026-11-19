@@ -77,7 +77,7 @@ theorem q_eq_one_of_mul_mem (hc : ∀ a ∈ J₁, ∀ b ∈ J₂, a * b = b * a)
         rw [e]
         exact W.mul_mem hab' hab''
       · exact map_mul Q₁.q ⟨a', ha'⟩ ⟨a'', ha''⟩
-    · exact ⟨1, 1, J₁.one_mem, J₂.one_mem, by simpa using W.one_mem, map_one _⟩
+    · exact ⟨1, 1, J₁.one_mem, J₂.one_mem, by simp, map_one _⟩
     · rintro _ ⟨a', b', ha', hb', hab', rfl⟩
       refine ⟨a'⁻¹, b'⁻¹, J₁.inv_mem ha', J₂.inv_mem hb', ?_, ?_⟩
       · have e : a'⁻¹ * b'⁻¹ = (a' * b')⁻¹ := by
@@ -158,7 +158,7 @@ theorem not_centralizes (hc : ∀ a ∈ J₁, ∀ b ∈ J₂, a * b = b * a) (Q�
     (ht₁ : t₁ ∈ J₁) (ht₂ : t₂ ∈ J₂) (ho₁ : orderOf t₁ = 5) :
     ∃ a ∈ J₁, a * (t₁ * t₂) ≠ (t₁ * t₂) * a := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hcent : Q₁.q ⟨t₁, ht₁⟩ = 1 := by
     apply Q₁.central_ker ⟨t₁, ht₁⟩
     intro b

@@ -24,7 +24,7 @@ private lemma q2cFC_A_apply (i j : Fin m) :
 private lemma q2cFC_A_apply_of_ne {i j : Fin m} (hij : i ≠ j) :
     (CoxeterMatrix.A m) i j =
       if (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) then 3 else 2 := by
-  rw [q2cFC_A_apply, if_neg hij]
+  rw [q2cFC_A_apply, ite_eq_right hij]
 
 private lemma q2cFC_fin_ne {n : ℕ} {a b : Fin n} (h : (a : ℕ) ≠ (b : ℕ)) : a ≠ b :=
   fun hh => h (congrArg Fin.val hh)
@@ -37,7 +37,7 @@ private lemma q2cFC_adjSwap_braid (i j : Fin m) (h : (i : ℕ) + 1 = (j : ℕ)) 
   exact SymmetricCoxeter.swap_braid
     (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
     (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
-    (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
+    (q2cFC_fin_ne (by simp only [Fin.val_succ]; omega))
 
 private lemma q2cFC_adjSwap_comm (i j : Fin m) (hij : (i : ℕ) ≠ (j : ℕ))
     (hna : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ))) :
@@ -46,10 +46,10 @@ private lemma q2cFC_adjSwap_comm (i j : Fin m) (hij : (i : ℕ) ≠ (j : ℕ))
   have h2 : (i : ℕ) + 1 ≠ (j : ℕ) := fun hh => hna (Or.inr hh)
   simp only [adjSwap]
   exact SymmetricCoxeter.swap_mul_swap_comm
+    (q2cFC_fin_ne (by simp only [Fin.val_castSucc]; omega))
     (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
     (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
-    (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
-    (q2cFC_fin_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
+    (q2cFC_fin_ne (by simp only [Fin.val_succ]; omega))
 
 private lemma q2cFC_pow_three_of_braid {G : Type*} [Group G] {x y : G} (hx : x * x = 1)
     (hy : y * y = 1) (hb : x * y * x = y * x * y) : (x * y) ^ 3 = 1 := by
@@ -104,9 +104,9 @@ private lemma q2cFC_isLiftable_adjSwap (m : ℕ) :
   · rw [(CoxeterMatrix.A m).diagonal i, pow_one, adjSwap_mul_self]
   · rw [q2cFC_A_apply_of_ne hij]
     by_cases hadj : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)
-    · rw [if_pos hadj]
+    · rw [ite_eq_left hadj]
       exact q2cFC_adjSwap_pow_three i j hadj
-    · rw [if_neg hadj]
+    · rw [ite_eq_right hadj]
       exact q2cFC_pow_two_of_comm (adjSwap_mul_self i) (adjSwap_mul_self j)
         (q2cFC_adjSwap_comm i j (fun hh => hij (Fin.ext hh)) hadj)
 
@@ -115,7 +115,7 @@ private noncomputable def q2cFC_x (m : ℕ) : ℕ → (CoxeterMatrix.A m).Group 
 
 private lemma q2cFC_x_of_lt {i : ℕ} (hi : i < m) :
     q2cFC_x m i = (CoxeterMatrix.A m).toCoxeterSystem.simple ⟨i, hi⟩ := by
-  rw [q2cFC_x, dif_pos hi]
+  rw [q2cFC_x, dite_eq_left hi]
 
 private theorem q2cFC_isCoxeterA_x (m : ℕ) :
     SymmetricCoxeter.IsCoxeterA m (q2cFC_x m) := by
@@ -129,7 +129,7 @@ private theorem q2cFC_isCoxeterA_x (m : ℕ) :
     have h3 : ((CoxeterMatrix.A m).toCoxeterSystem.simple ⟨i, hi'⟩ *
         (CoxeterMatrix.A m).toCoxeterSystem.simple ⟨i + 1, hi⟩) ^ 3 = 1 := by
       have hM : (CoxeterMatrix.A m) ⟨i, hi'⟩ ⟨i + 1, hi⟩ = 3 := by
-        rw [q2cFC_A_apply, if_neg (by simp [Fin.ext_iff]), if_pos]
+        rw [q2cFC_A_apply, ite_eq_right (by simp [Fin.ext_iff]), ite_eq_left]
         exact Or.inr (by simp)
       rw [← hM]
       exact (CoxeterMatrix.A m).toCoxeterSystem.simple_mul_simple_pow ⟨i, hi'⟩ ⟨i + 1, hi⟩
@@ -144,8 +144,8 @@ private theorem q2cFC_isCoxeterA_x (m : ℕ) :
         (CoxeterMatrix.A m).toCoxeterSystem.simple ⟨j, hj'⟩) ^ 2 = 1 := by
       have hM : (CoxeterMatrix.A m) ⟨i, hi⟩ ⟨j, hj'⟩ = 2 := by
         rw [q2cFC_A_apply_of_ne (by simp [Fin.ext_iff]; omega)]
-        rw [if_neg]
-        simp only [Fin.val_mk, not_or]
+        rw [ite_eq_right]
+        simp only [not_or]
         omega
       rw [← hM]
       exact (CoxeterMatrix.A m).toCoxeterSystem.simple_mul_simple_pow ⟨i, hi⟩ ⟨j, hj'⟩

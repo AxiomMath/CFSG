@@ -21,7 +21,7 @@ theorem card_le_pow_orthPlus_cover {K : Type} [Field K] [Finite K] [CharP K 2] {
       ∀ l : L', φ (ψ l) = ψ (a l)) :
     Nat.card A ≤ p ^ m := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))
   have hZR : Subgroup.center R = ⊥ := hZ
   have hex : ∀ a : A, ∃ t : R, ∀ l, ψ ((a : MulAut L') l) = t * ψ l * t⁻¹ := by

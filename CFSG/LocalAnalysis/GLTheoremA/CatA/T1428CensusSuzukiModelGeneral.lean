@@ -20,7 +20,7 @@ theorem suzukiModel_no_order_three_general
   have h3 := CFSG.Quasithin.H13.QRC.not_three_dvd_card_suzukiGroup (a := m) (k := K) hK
   have hcyc := (CFSG.LieType.Suzuki.suzukiGroup_outer_isCyclic_card_dvd
     (a := m) (K := K) hm1 hK).1
-  haveI := hcyc
+  have := hcyc
   have hcomm : ∀ a b : CFSG.ComponentClassification.OuterAutomorphisms.Outer
       ↥(suzukiGroup m K), a * b = b * a :=
     fun a b => (IsCyclic.isMulCommutative

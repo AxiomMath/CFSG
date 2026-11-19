@@ -159,10 +159,10 @@ theorem le_of_simple_section {Y : Type} [Group Y] [Finite Y] {Kk P Lc : Subgroup
     (hφs : Function.Surjective φ) (hφk : ∀ k : ↥Lc, φ k = 1 ↔ (k : Y) ∈ Kk) : Lc ≤ P := by
   let N : Subgroup ↥Lc := P.subgroupOf Lc
   have hNn : N.Normal := hPn.subgroupOf Lc
-  haveI hmapn : (N.map φ).Normal := hNn.map φ hφs
+  have hmapn : (N.map φ).Normal := hNn.map φ hφs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map φ) with hbot | htop
   · exfalso
-    haveI : Finite S := Finite.of_surjective φ hφs
+    have : Finite S := Finite.of_surjective φ hφs
     have hS2 : IsPGroup 2 S := by
       intro s
       obtain ⟨l, rfl⟩ := hφs s
@@ -194,7 +194,7 @@ theorem le_of_simple_section {Y : Type} [Group Y] [Finite Y] {Kk P Lc : Subgroup
     have hmK : ((n⁻¹ * l' : ↥Lc) : Y) ∈ Kk := (hφk (n⁻¹ * l')).mp hm1
     have hmP : ((n⁻¹ * l' : ↥Lc) : Y) ∈ P := hKP hmK
     have hl_eq : l = (n : Y) * ((n⁻¹ * l' : ↥Lc) : Y) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, l', Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, l']
       group
     rw [hl_eq]
     exact P.mul_mem hnP hmP

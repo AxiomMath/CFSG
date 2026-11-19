@@ -29,7 +29,7 @@ theorem levTwoS2d_isRt_iff (n : ℕ) (hn : n ≠ 1) (v : Fin n → ℤ) :
       · exact ⟨w, j, rfl⟩
       · exact absurd hj (Set.notMem_empty j)
   rw [h1, rootsD_eq n hn]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
 
 private theorem levTwoS2d_single_adj (n : ℕ) (i : Fin n) (h : i.val + 2 < n) :
     weylAction (isFiniteType_cartanD n)
@@ -42,12 +42,12 @@ private theorem levTwoS2d_single_adj (n : ℕ) (i : Fin n) (h : i.val + 2 < n) :
     have hc : (i.val + 1 = j.val ∧ j.val + 1 < n) ∨ (j.val + 1 = i.val ∧ i.val + 1 < n) ∨
         (i.val + 3 = n ∧ j.val + 1 = n) ∨ (j.val + 3 = n ∧ i.val + 1 = n) :=
       Or.inl ⟨by omega, by omega⟩
-    rw [cartanD, Matrix.of_apply, if_neg hij, if_pos hc]
+    rw [cartanD, Matrix.of_apply, ite_eq_right hij, ite_eq_left hc]
   have hAji : cartanD n j i = -1 := by
     have hc : (j.val + 1 = i.val ∧ i.val + 1 < n) ∨ (i.val + 1 = j.val ∧ j.val + 1 < n) ∨
         (j.val + 3 = n ∧ i.val + 1 = n) ∨ (i.val + 3 = n ∧ j.val + 1 = n) :=
       Or.inr (Or.inl ⟨by omega, by omega⟩)
-    rw [cartanD, Matrix.of_apply, if_neg (Ne.symm hij), if_pos hc]
+    rw [cartanD, Matrix.of_apply, ite_eq_right (Ne.symm hij), ite_eq_left hc]
   have step1 : weylAction (isFiniteType_cartanD n) (sg (isFiniteType_cartanD n) j)
       (Pi.single i 1) = Pi.single i 1 + Pi.single j 1 := by
     funext k
@@ -75,7 +75,7 @@ theorem levTwoS2d_cartanD_adj (n : ℕ) (i : Fin n) (h : i.val + 2 < n) :
       (i.val + 3 = n ∧ (⟨i.val + 1, by omega⟩ : Fin n).val + 1 = n) ∨
       ((⟨i.val + 1, by omega⟩ : Fin n).val + 3 = n ∧ i.val + 1 = n) :=
     Or.inl ⟨by simp, by simp; omega⟩
-  rw [cartanD, Matrix.of_apply, if_neg hij, if_pos hc]
+  rw [cartanD, Matrix.of_apply, ite_eq_right hij, ite_eq_left hc]
 
 theorem levTwoS2d_cartanD_bond_nm2 (n : ℕ) (hn : 3 ≤ n) :
     cartanD n ⟨n - 3, by omega⟩ ⟨n - 2, by omega⟩ = -1 := by
@@ -90,7 +90,7 @@ theorem levTwoS2d_cartanD_bond_nm2 (n : ℕ) (hn : 3 ≤ n) :
       ((⟨n - 2, by omega⟩ : Fin n).val + 3 = n ∧
         (⟨n - 3, by omega⟩ : Fin n).val + 1 = n) :=
     Or.inl ⟨by simp; omega, by simp; omega⟩
-  rw [cartanD, Matrix.of_apply, if_neg hij, if_pos hc]
+  rw [cartanD, Matrix.of_apply, ite_eq_right hij, ite_eq_left hc]
 
 theorem levTwoS2d_cartanD_bond_nm1 (n : ℕ) (hn : 3 ≤ n) :
     cartanD n ⟨n - 3, by omega⟩ ⟨n - 1, by omega⟩ = -1 := by
@@ -105,7 +105,7 @@ theorem levTwoS2d_cartanD_bond_nm1 (n : ℕ) (hn : 3 ≤ n) :
       ((⟨n - 1, by omega⟩ : Fin n).val + 3 = n ∧
         (⟨n - 3, by omega⟩ : Fin n).val + 1 = n) :=
     Or.inr (Or.inr (Or.inl ⟨by simp; omega, by simp; omega⟩))
-  rw [cartanD, Matrix.of_apply, if_neg hij, if_pos hc]
+  rw [cartanD, Matrix.of_apply, ite_eq_right hij, ite_eq_left hc]
 
 theorem levTwoS2d_cartanD_bond_nm1' (n : ℕ) (hn : 3 ≤ n) :
     cartanD n ⟨n - 1, by omega⟩ ⟨n - 3, by omega⟩ = -1 := by
@@ -120,6 +120,6 @@ theorem levTwoS2d_cartanD_bond_nm1' (n : ℕ) (hn : 3 ≤ n) :
       ((⟨n - 3, by omega⟩ : Fin n).val + 3 = n ∧
         (⟨n - 1, by omega⟩ : Fin n).val + 1 = n) :=
     Or.inr (Or.inr (Or.inr ⟨by simp; omega, by simp; omega⟩))
-  rw [cartanD, Matrix.of_apply, if_neg hij, if_pos hc]
+  rw [cartanD, Matrix.of_apply, ite_eq_right hij, ite_eq_left hc]
 
 end CFSG.StandardType.LevTwo

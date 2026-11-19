@@ -157,13 +157,13 @@ private lemma U_normal_in_H (c : Hyp11 G) : IsNormalIn c.U c.H := by
   · intro u hu
     have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
       simpa [Hyp11.U, oddCoreOf] using hu
-    exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   · intro h hh u hu
     have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
       simpa [Hyp11.U, oddCoreOf] using hu
     rcases (Subgroup.mem_map.mp huU) with ⟨x, hx, hxeq⟩
     have huH : u ∈ c.H :=
-      SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+      _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
     have hxeq' : (⟨u, huH⟩ : ↥c.H) = x := by
       ext
       simpa using hxeq.symm
@@ -326,8 +326,7 @@ private lemma mem_normalizer_of_conj_t_in_S (c : Hyp11 G) (hUB : c.U = c.B)
           Fintype.card ↥(c.B : Subgroup G) := orderOf_dvd_card
       have hordB : orderOf b ∣ Fintype.card ↥(c.B : Subgroup G) := by
         have hEq : orderOf b = orderOf (⟨b, hb⟩ : ↥(c.B : Subgroup G)) := by
-          simpa using (orderOf_injective (c.B : Subgroup G).subtype
-            (Subgroup.subtype_injective (c.B : Subgroup G)) ⟨b, hb⟩).symm
+          simp
         rwa [← hEq] at hord_sub
       have hcard : Fintype.card ↥(c.B : Subgroup G) = Nat.card ↥(c.B : Subgroup G) :=
         Nat.card_eq_fintype_card.symm
@@ -337,7 +336,7 @@ private lemma mem_normalizer_of_conj_t_in_S (c : Hyp11 G) (hUB : c.U = c.B)
         (Nat.Coprime.symm (B_odd_card c hUB)))
     have hBU : (c.B : Subgroup G) ≤ c.H := by
       have hUleH : c.U ≤ c.H :=
-        SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
+        _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
       simpa [hUB] using hUleH
     have hBnorm : IsNormalIn c.B c.H := by
       simpa [hUB] using U_normal_in_H c
@@ -529,7 +528,7 @@ private lemma one_involution_class_in_normalizerB (c : Hyp11 G) (hUB : c.U = c.B
 
 /-- Remark 3.5: if `U = B ⋬ G`, then `G1 := N_G(B)` is as in Theorem B
 (i.e., a proper subgroup containing `H` with one class of involutions). -/
-public theorem remark_3_5 (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
+public theorem remark_3_5 (c : Hyp11 G) (_h12 : Hyp12 c) (_hSC : Section3Hyp c)
     (hUB : c.U = c.B) (hUnormal : ¬ IsNormalIn c.U ⊤) :
     normalizerB c ≠ ⊤ ∧ c.H ≤ normalizerB c ∧
       (∀ x y : G, IsInvolution x → IsInvolution y → x ∈ normalizerB c →

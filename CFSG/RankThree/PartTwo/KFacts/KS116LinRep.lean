@@ -41,7 +41,7 @@ theorem quot_apply_eq_one_iff (g : G) :
   · intro h
     ext v
     simp only [quotient_apply, Submodule.mapQ_apply, Module.End.one_apply, LinearMap.comp_apply,
-      Submodule.mkQ_apply, LinearMap.id_comp]
+      Submodule.mkQ_apply]
     exact (Submodule.Quotient.eq U).mpr (h v)
 
 theorem trivial_of_sub_quot {S : Subgroup G} (hS : ⁅S, S⁆ = S)
@@ -96,7 +96,7 @@ variable {F : Type*} [Field F] {G : Type*} [Group G] {V : Type*} [AddCommGroup V
 theorem comm_of_finrank_le_one [Module.Finite F V] (h : Module.finrank F V ≤ 1)
     (φ ψ : V →ₗ[F] V) : φ * ψ = ψ * φ := by
   rcases Nat.le_one_iff_eq_zero_or_eq_one.mp h with h0 | h1
-  · haveI : Subsingleton V := Module.finrank_zero_iff.mp h0
+  · have : Subsingleton V := Module.finrank_zero_iff.mp h0
     ext v
     simp [Subsingleton.elim v 0]
   · obtain ⟨a, ha⟩ := (LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one h1 φ).exists
@@ -159,7 +159,7 @@ private theorem commutant_comm_aux [Finite F] [Module.Finite F V] (𝒮 : Set (V
   classical
   set R : Subalgebra F (V →ₗ[F] V) := Algebra.adjoin F 𝒮 with hR
   have hVfin : Finite V := Module.finite_of_finite F
-  haveI : IsSimpleModule R V := by
+  have : IsSimpleModule R V := by
     rw [isSimpleModule_iff_toSpanSingleton_surjective]
     refine ⟨hnt, fun x hx => ?_⟩
     set Ux : Submodule F V := (LinearMap.range (LinearMap.toSpanSingleton R V x)).restrictScalars F
@@ -175,12 +175,12 @@ private theorem commutant_comm_aux [Finite F] [Module.Finite F V] (𝒮 : Set (V
     intro w
     have : w ∈ Ux := by rw [htop]; trivial
     exact this
-  haveI : Finite (Module.End R V) :=
+  have : Finite (Module.End R V) :=
     Finite.of_injective (fun f : Module.End R V => (f : V → V)) DFunLike.coe_injective
   have hcomm : ∀ a b : Module.End R V, a * b = b * a := by
     intro a b
-    letI : DivisionRing (Module.End R V) := Module.End.instDivisionRing
-    letI : Field (Module.End R V) := littleWedderburn _
+    let : DivisionRing (Module.End R V) := Module.End.instDivisionRing
+    let : Field (Module.End R V) := littleWedderburn _
     exact mul_comm a b
   have hcentr : ∀ χ : V →ₗ[F] V, (∀ s ∈ 𝒮, χ ∘ₗ s = s ∘ₗ χ) →
       ∀ r ∈ R, χ ∘ₗ r = r ∘ₗ χ := by
@@ -215,8 +215,7 @@ theorem schur_commute [Finite F] [Module.Finite F V] [Nontrivial V] (ρ : Repres
       (∀ s ∈ Set.range fun b : B => ρ (b : G), ∀ u ∈ U, s u ∈ U) → U = ⊥ ∨ U = ⊤ := by
     intro U hU
     apply hirr U
-    intro b hb
-    intro u hu
+    intro b hb u hu
     exact Submodule.mem_comap.mpr (hU (ρ b) ⟨⟨b, hb⟩, rfl⟩ u hu)
   have hφ' : ∀ s ∈ Set.range fun b : B => ρ (b : G), φ ∘ₗ s = s ∘ₗ φ := by
     rintro s ⟨⟨b, hb⟩, rfl⟩
@@ -249,7 +248,7 @@ theorem trivial_of_line_family [Module.Finite F V] (ρ : Representation F G V) {
     (hstable : ∀ g : G, ∀ W ∈ 𝒱, W.map (ρ g) ∈ 𝒱)
     (hline : ∀ W ∈ 𝒱, Module.finrank F W = 1) (hsup : sSup 𝒱 = ⊤) :
     ∀ k ∈ K, ρ k = 1 := by
-  haveI : Finite 𝒱 := hfin.to_subtype
+  have : Finite 𝒱 := hfin.to_subtype
   let act : G → 𝒱 → 𝒱 := fun g W => ⟨(W : Submodule F V).map (ρ g), hstable g W W.2⟩
   have h1 : ∀ s, act 1 s = s := by
     intro s
@@ -329,7 +328,7 @@ theorem commute_of_scalar_commutators (ρ : Representation F G V) (A B : Subgrou
     rw [← hc (x * y) (B.mul_mem hx hy), hid]
     simp only [map_mul]
     rw [hc x hx, hc y hy]
-    simp only [mul_smul_comm, smul_mul_assoc, mul_one, one_mul, smul_smul, hx']
+    simp only [mul_smul_comm, smul_mul_assoc, mul_one, smul_smul, hx']
     rw [mul_comm]
   have hperfB : ∀ x ∈ B, ρ ⁅a, x⁆ = 1 := by
     intro x hx

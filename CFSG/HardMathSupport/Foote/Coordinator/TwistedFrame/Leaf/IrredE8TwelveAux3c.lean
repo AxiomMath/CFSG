@@ -109,7 +109,7 @@ theorem runSteps_sound (P : W8 → Prop)
     obtain ⟨b, μ₀, x⟩ := s
     unfold runSteps at h
     by_cases hs : stepOK R (b, μ₀, x) = true
-    · rw [if_pos hs] at h
+    · rw [ite_eq_left hs] at h
       refine ih _ R' ?_ h
       intro μ hμ
       rcases List.mem_cons.1 hμ with rfl | hμ
@@ -125,7 +125,7 @@ theorem runSteps_sound (P : W8 → Prop)
           obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hs
           exact hroot μ₀ x h2 h3 h4 (hR μ₀ h1)
       · exact hR μ hμ
-    · rw [if_neg hs] at h
+    · rw [ite_eq_right hs] at h
       exact absurd h (by simp)
 
 theorem certOK_sound (P : W8 → Prop)

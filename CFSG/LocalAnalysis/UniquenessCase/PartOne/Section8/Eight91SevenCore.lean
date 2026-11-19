@@ -29,7 +29,7 @@ private theorem sevenCore_exists_orderOf_three {Y : Type} [Group Y] [Finite Y]
     have h1 := Subgroup.card_le_of_le hle
     rw [hcard, hZ3] at h1
     norm_num at h1
-  obtain ⟨r, hrR, hrZ⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨r, hrR, hrZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   refine ⟨QuotientGroup.mk' (center Y) r, Subgroup.mem_map_of_mem _ hrR, ?_⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : (⟨r, hrR⟩ : R) ^ 3 = 1 := by

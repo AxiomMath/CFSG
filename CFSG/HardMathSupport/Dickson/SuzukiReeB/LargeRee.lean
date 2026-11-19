@@ -39,7 +39,7 @@ private theorem nqs_congr {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) (h : 
 
 private theorem nqs_of_isQuasisimple {X : Type*} [Group X] (h : CFSG.IsQuasisimple X) :
     NQS X := by
-  haveI : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
   exact ⟨⊤, inferInstance, CFSG.LocalCores.isQuasisimple_of_mulEquiv Subgroup.topEquiv.symm h,
     inferInstance⟩
 
@@ -59,13 +59,13 @@ private theorem perfectInLayer_of_nqs {S : Type*} [Group S] [Finite S] (β : Mul
     (QuotientGroup.quotientMulEquivOfEq hN).symm.surjective
 
 private theorem odd_index_of_two_elements {Γ : Type*} [Group Γ] [Finite Γ] (C N : Subgroup Γ)
-    (hNC : N ≤ C) (hN2 : ∀ g ∈ C, (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) :
+    (_hNC : N ≤ C) (hN2 : ∀ g ∈ C, (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) :
     Odd (N.subgroupOf C).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
   have hPN : (P : Subgroup ↥C) ≤ N.subgroupOf C := by
     intro g hg
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨g, hg⟩
     refine hN2 (g : Γ) g.2 ⟨k, ?_⟩
     rw [Subgroup.orderOf_coe g, ← hk]
     exact (Subgroup.orderOf_mk g hg).symm
@@ -157,8 +157,8 @@ private theorem perfectInLayer_inner_gt3
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     (hp3 : 3 < p) (x : ReeTag.F4.reeGamma K a) (hx : orderOf x = p) :
     PerfectInLayer (MulAut.conj x) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨N, hNC, hN2, hall, hcomp⟩ :=
     CFSG.RankThree.PartOne.TCF.largeRee_component_data ha hK hp hp3 x hx
   have hC := fixSubgroup_conj x
@@ -192,9 +192,9 @@ private theorem perfectInLayer_reeGamma
     (hp2 : p ≠ 2) {β : MulAut (ReeTag.F4.reeGamma K a)} (hβ : β ^ p = 1) (hβ1 : β ≠ 1) :
     PerfectInLayer β := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hNF, ⟨Ψ, hΨ⟩, -⟩ := large_Ree_full_inner_field_automorphism_normal_form a ha K hK
   obtain ⟨⟨x, σ⟩, hxσ, -⟩ := hNF β
   have hΨα : Ψ ⟨x, σ⟩ = β := by rw [hΨ x σ]; exact hxσ.symm
@@ -234,7 +234,7 @@ private theorem perfectInLayer_reeGamma
 
 theorem perfectInLayer_reeF4
     (m : ℕ) (hv : (TauCeti.LieTypeIndex.reeF4 m).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.reeF4 m, hv⟩).Group))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {β : MulAut S} (hβ : β ^ p = 1) (hβ1 : β ≠ 1) :
     CFSG.HardMathSupport.Solomon.Coordinator.PerfectInLayer β := by

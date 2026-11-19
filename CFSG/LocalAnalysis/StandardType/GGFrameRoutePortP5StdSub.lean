@@ -204,7 +204,7 @@ theorem exists_goodPlane_component_of_cover (θ : ↥L ⧸ Subgroup.center ↥L 
     (hφ : LargeEvenInduces θ (fun l l' => (l' : G) = z⁻¹ * l * z) φ)
     (hJ : CFSG.IsQuasisimple ↥J) (hfix : J ≤ TauCeti.fixedSubgroup φ.toMonoidHom)
     [(J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)).Normal]
-    (hsolv : IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
+    (hsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
       J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)))
     (hbig : 25920 < Nat.card (↥J ⧸ Subgroup.center ↥J)) {lab₀ : LargeEvenLabel}
     (hmark : LargeEvenMarking ↥J fun lab _ _ _ _ _ => lab = lab₀)
@@ -216,7 +216,7 @@ theorem exists_goodPlane_component_of_cover (θ : ↥L ⧸ Subgroup.center ↥L 
     let C := L ⊓ Subgroup.centralizer (D₁ : Set G)
     ∃ J₁ : Subgroup G, J₁ = LargeEvenLayer C ∧ IsComponentOf J₁ C ∧ CFSG.IsQuasisimple ↥J₁ ∧
       (J₁.subgroupOf C).Normal ∧
-      (∀ _ : (J₁.subgroupOf C).Normal, IsSolvable (↥C ⧸ J₁.subgroupOf C)) ∧
+      (∀ _ : (J₁.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ J₁.subgroupOf C)) ∧
       LargeEvenMarking ↥J₁ (fun lab _ _ _ _ _ => lab = lab₀) ∧
       Bs ⊓ Subgroup.centralizer (J₁ : Set G) = F ∧ LargeEvenStdSub 3 B x L D₁ J₁ := by
   dsimp only

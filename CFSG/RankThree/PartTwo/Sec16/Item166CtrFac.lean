@@ -28,8 +28,8 @@ theorem pPrimeCoreOf_two_delta_le_centralizer (h : Sec17Std G A c L Y₀) (h146 
     (hF : generalizedFitting ↥(deltaZero A (lB A) X) = CFSG.pCore 2 ↥(deltaZero A (lB A) X)) :
     pPrimeCoreOf 2 (delta A (lB A) (pPrimeCoreOf 3 X)) ≤ Subgroup.centralizer (A : Set G) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R : Subgroup G := pPrimeCoreOf 3 X with hR
   set T : Subgroup G := delta A (lB A) R with hT
   set X₀ : Subgroup G := deltaZero A (lB A) X with hX₀
@@ -95,8 +95,8 @@ theorem exists_sylow_two_delta (h : Sec17Std G A c L Y₀)
       ¬ 2 ∣ S.relIndex (delta A (lB A) (pPrimeCoreOf 3 X)) ∧
       A ≤ Subgroup.normalizer (S : Set G) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := pPrimeCoreOf 3 X with hR
   set T : Subgroup G := delta A (lB A) R with hT
   have hAR : A ≤ Subgroup.normalizer (R : Set G) :=
@@ -132,8 +132,8 @@ theorem delta_le_normalizer_of_delta_normalizer_le (h : Sec17Std G A c L Y₀)
       Subgroup.normalizer (Y₀ : Set G)) :
     delta A (lB A) (pPrimeCoreOf 3 X) ≤ Subgroup.normalizer (Y₀ : Set G) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := pPrimeCoreOf 3 X with hR
   set T : Subgroup G := delta A (lB A) R with hT
   set M : Subgroup G := Subgroup.normalizer (Y₀ : Set G) with hM

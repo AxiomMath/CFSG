@@ -41,18 +41,18 @@ theorem typeLayer_fieldAut_psp_two_eight_card {N : ℕ} (hT : TypeOrd T N) {K : 
   have hD' : fixSubgroup (fieldAut 2 K σ) = subfieldFixedGroup K 2 σ :=
     Subgroup.ext fun x => (hfixiff x).symm
   have h5 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_fin]; norm_num
-  haveI hsA : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
+  have hsA : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
   have hcardA : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
   set S : Subgroup (StatedProj (StatedSp 2 K)) :=
     ⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆ with hS
-  haveI hs : IsSimpleGroup ↥S := eA.isSimpleGroup
+  have hs : IsSimpleGroup ↥S := eA.isSimpleGroup
   have hcardS : Nat.card ↥S = 360 := by rw [Nat.card_congr eA.toEquiv, hcardA]
   have hnab : ∃ a b : ↥S, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥S := { (inferInstance : Group ↥S) with mul_comm := fun a b => hcon a b }
+    let : CommGroup ↥S := { (inferInstance : Group ↥S) with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥S).Prime := IsSimpleGroup.prime_card
     rw [hcardS] at hprime
     exact absurd hprime (by norm_num)

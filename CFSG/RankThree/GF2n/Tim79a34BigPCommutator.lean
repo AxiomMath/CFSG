@@ -192,7 +192,7 @@ theorem bigPCommutatorStatement_of_local (hN : BigNaturalStatement) (hLoc : BigP
     rw [← hx']
     exact hPaG l
   have hcomm_eq : ⁅P, P⁆ = V ⊓ wOf V H := le_antisymm (le_inf hPPV hPPW) hVWle
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hP2 : IsPGroup 2 P := hc.isPGroup_P
   have hfr_le : inSubgroup frattini P ≤ V ⊓ wOf V H := by
     have hle : frattini ↥P ≤ (V ⊓ wOf V H).subgroupOf P := by
@@ -206,7 +206,7 @@ theorem bigPCommutatorStatement_of_local (hN : BigNaturalStatement) (hLoc : BigP
           rw [Subgroup.mem_subgroupOf, ← hcomm_eq]
           exact Subgroup.commutator_mem_commutator g₁.2 g₂.2
         exact hcomm_le hx
-      · simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.coe_pow]
+      · simp only
         exact ⟨hc.frattini_P_le (Tim78.sq_mem_inSubgroup_frattini hP2 y.2),
           by rw [pow_two]; exact hsqW _ y.2⟩
     exact Subgroup.map_le_iff_le_comap.mpr hle
@@ -232,7 +232,7 @@ theorem exists_spTau_mulVec_eq {n : ℕ} {F : Type} [Field F] [CharP F 2]
   linear_combination (norm := module)
     CFSG.Timmesfeld.Transvection.ModelRank.vec_add_self (CaseM.spForm (μ⁻¹ • u) b • a)
 
-theorem bigPCoverStatement_of_local (hR : SpRadGeneralStatement) (hLoc : BigPLocalStatement) :
+theorem bigPCoverStatement_of_local (_hR : SpRadGeneralStatement) (hLoc : BigPLocalStatement) :
     BigPCoverStatement := by
   intro G _ _ M V Q P H hH hZ hcP n f hf Φ ψ hNat a T ha hT hTV b hb w hw
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex

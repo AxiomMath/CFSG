@@ -210,7 +210,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = (1 : Perm (Fin 10)) z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t0, cls_t2] <;> decide +kernel
     obtain ⟨c1, c2⟩ := cls_counts (m := 0) (m' := 4) hf (by decide +kernel)
       (by decide +kernel) hb4 hab4 hCC
     exfalso
@@ -219,7 +219,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = swap 2 3 z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t0, cls_t3] <;> decide +kernel
     have hfC : ∀ z : Fin 10, 4 ≤ z.val → swap 2 3 z = z := by decide +kernel
     obtain ⟨c1, c2⟩ := cls_counts (m := 2) (m' := 2) hf (by decide +kernel)
       (by decide +kernel) hb4 hab4 hCC
@@ -229,7 +229,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = swap 0 1 z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t1, cls_t2] <;> decide +kernel
     have hfC : ∀ z : Fin 10, 4 ≤ z.val → swap 0 1 z = z := by decide +kernel
     obtain ⟨c1, c2⟩ := cls_counts (m := 2) (m' := 2) hf (by decide +kernel)
       (by decide +kernel) hb4 hab4 hCC
@@ -239,7 +239,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = tZero z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3]
     obtain ⟨c1, c2⟩ := cls_counts (m := 4) (m' := 0) hf (by decide +kernel)
       (by decide +kernel) hb4 hab4 hCC
     exact absurd (cls_zero hf cls_tZero_hi (by omega)) hne
@@ -247,7 +247,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = taA z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t0, cls_t2] <;> decide +kernel
     have hfC : ∀ z : Fin 10, 4 ≤ z.val → taA z = z := by decide +kernel
     obtain ⟨c1, c2⟩ := cls_counts (m := 4) (m' := 4) hf (by decide +kernel)
       (by decide +kernel) hb4 hab4 hCC
@@ -256,7 +256,7 @@ theorem classify_comm_tZero {b : Perm (Fin 10)} (hb2 : b ^ 2 = 1) (hbc : b * tZe
     have hf : ∀ z : Fin 10, z.val < 4 → b z = (swap 0 3 * swap 1 2 : Perm (Fin 10)) z := by
       intro z hz
       rcases cls_A_val z hz with rfl | rfl | rfl | rfl <;>
-        simp only [hb1, hb3, h0, h2, cls_t0, cls_t1, cls_t2, cls_t3] <;> decide +kernel
+        simp only [hb1, hb3, h0, h2, cls_t1, cls_t3] <;> decide +kernel
     have hfC : ∀ z : Fin 10, 4 ≤ z.val → (swap 0 3 * swap 1 2 : Perm (Fin 10)) z = z := by
       decide +kernel
     obtain ⟨c1, c2⟩ := cls_counts (m := 4) (m' := 4) hf (by decide +kernel)

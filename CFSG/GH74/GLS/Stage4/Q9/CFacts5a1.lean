@@ -33,7 +33,7 @@ theorem exists_sylow3 {G : Type*} [Group G] {K : Subgroup G} (hK : Nat.card K = 
   have hP : Nat.card P = 9 := by
     rw [P.card_eq_multiplicity, hK, fac720_three]
     norm_num
-  refine ⟨(P : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map K.subtype, ?_⟩
+  refine ⟨(P : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, P.isPGroup.map K.subtype, ?_⟩
   rw [Subgroup.card_map_of_injective K.subtype_injective]
   exact hP
 

@@ -22,6 +22,7 @@ theorem exp_two_UT (h : HypF91 T V L V₁ Vp H) (w : ↥(UT V₁ Vp H)) : w * w 
   apply Subtype.ext
   simpa [sq] using h2
 
+omit [Finite G] in
 theorem thetaH_mem_UVp (h : HypF91 T V L V₁ Vp H) {x : ↥H} (hx : (x : G) ∈ L₁Of L V₁ ⊔ T)
     {u : ↥(UT V₁ Vp H)} (hu : u ∈ UVp V₁ Vp H) : thetaH h x u ∈ UVp V₁ Vp H := by
   show ((thetaH h x u : ↥(UT V₁ Vp H)) : SecQuot (N1 V₁) V₁) ∈ tildeOf V₁ Vp
@@ -29,6 +30,7 @@ theorem thetaH_mem_UVp (h : HypF91 T V L V₁ Vp H) {x : ↥H} (hx : (x : G) ∈
   exact secMk_conj_mem_secImg (A := N1 V₁) (B := V₁) (X := Vp) (a := ⟨x, le_N1 h x.2⟩)
     (h.L₁T_normalizes_Vp hx) hu
 
+omit [Finite G] in
 theorem tildeOf_self_eq_bot (V₁ : Subgroup G) : tildeOf V₁ V₁ = ⊥ := by
   rw [eq_bot_iff]
   intro y hy
@@ -36,6 +38,7 @@ theorem tildeOf_self_eq_bot (V₁ : Subgroup G) : tildeOf V₁ V₁ = ⊥ := by
   rw [Subgroup.mem_bot]
   exact secMk_eq_one_iff.2 ha
 
+omit [Finite G] in
 theorem uvp_irred (h : HypF91 T V L V₁ Vp H) (U' : Subgroup ↥(UT V₁ Vp H))
     (hU'U : U' ≤ UVp V₁ Vp H)
     (hinv : ∀ x : ↥H, (x : G) ∈ L₁Of L V₁ ⊔ T → ∀ u ∈ U', thetaH h x u ∈ U') :
@@ -100,7 +103,7 @@ theorem fixed_eq_one_of_odd_normal (h : HypF91 T V L V₁ Vp H) (E : Subgroup (H
     (hodd : Odd (Nat.card E)) (hE1 : ∃ e ∈ E, e ≠ 1)
     (hES : E ≤ star H (L₁Of L V₁ ⊔ T)) {w : ↥(UT V₁ Vp H)}
     (hw : ∀ e ∈ E, psiH h e w = w) : w = 1 := by
-  letI : CommGroup ↥(UT V₁ Vp H) := commGroupOfElemAbelian h.isElemAbelian_tilde
+  let : CommGroup ↥(UT V₁ Vp H) := commGroupOfElemAbelian h.isElemAbelian_tilde
   refine fixed_eq_one_of_normal_odd (exp_two_UT h) (psiH h) (psiH_injective h) E hodd hE1
     (star H (L₁Of L V₁ ⊔ T)) hES (UVp V₁ Vp H) ?_ ?_ ?_ hw
   ·

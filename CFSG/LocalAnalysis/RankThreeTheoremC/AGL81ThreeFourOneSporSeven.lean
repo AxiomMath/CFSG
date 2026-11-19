@@ -74,10 +74,10 @@ theorem noSig_map_conj_of_sevenModel {X : Type*} [Group X] [Finite X] {p : ℕ} 
 open CFSG.ONSchreier CFSG.RankThree.Native in
 theorem signalizerThreeAt_onan :
     SignalizerThreeAt 7 (TauCeti.CFSGIndex.sporadic .ONan).Group := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   have hZ : Subgroup.center Pv = ⊥ := by
-    haveI : IsSimpleGroup Pv := @MulEquiv.isSimpleGroup Pv _ Blueprint.NativeSporadic.ON _
+    have : IsSimpleGroup Pv := @MulEquiv.isSimpleGroup Pv _ Blueprint.NativeSporadic.ON _
       CFSG.Sporadic.ON.isSimpleGroup_ON onEquivPv.symm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Pv) with h | h
     · exact h
@@ -112,10 +112,10 @@ private theorem not_mem_zpowers_of_mul_comm {G : Type*} [Group G] {c x y : G}
 open CFSG.Sporadic.Fi24 Fi7 in
 theorem signalizerThreeAt_fi24Prime :
     SignalizerThreeAt 7 (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv
   have hZ : Subgroup.center J = ⊥ := by
-    haveI : IsSimpleGroup J := isSimpleGroup_J
+    have : IsSimpleGroup J := isSimpleGroup_J
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center J) with h | h
     · exact h
     · exfalso
@@ -148,7 +148,7 @@ theorem signalizerThreeAt_fi24Prime :
 open CFSG.RankThree.PartOne CFSG.Sporadic.HeldB in
 theorem signalizerThreeAt_he :
     SignalizerThreeAt 7 (TauCeti.CFSGIndex.sporadic .He).Group := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨⟨hQP, -, hQcard, hQexp⟩, -⟩ := R3E_He_full_seven_centralizer_structures
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
   have hZ : Subgroup.center heP = ⊥ := autModel_center_eq_bot heAutModel

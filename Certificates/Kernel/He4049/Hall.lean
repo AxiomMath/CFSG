@@ -150,11 +150,11 @@ variable {Γ : Type} [Group Γ] [MulAction Γ (Fin 8330)]
 @[expose] noncomputable def RX (a b : Γ) : Subgroup Γ := Subgroup.closure {y | y ∈ gs.map (G.E a b)}
 
 theorem hall [Finite Γ] {a b : Γ} (hta : (tab 8330 a).toArray = TA)
-    (htb : (tab 8330 b).toArray = TB) (hbase : ∀ g : Γ, (∀ p ∈ B, act 8330 g p = p) → g = 1) :
+    (htb : (tab 8330 b).toArray = TB) (hbase : ∀ g : Γ, (∀ _p ∈ B, act 8330 g _p = _p) → g = 1) :
     ∀ F : Subgroup Γ, F ≤ RX a b → (∀ x ∈ F, ∀ y ∈ F, x * y = y * x) → (∀ x ∈ F, x * x = 1) →
       Nat.card F = 16 → ¬ PairFibersAllowed (Fin 8330) F :=
   @CFSG.KD.E16.hall D Γ _ _ (G.E a b) _
-    ⟨fun j hj p hp => G.act_node hta htb hj hp, hbase⟩ checks
+    ⟨fun _j hj _p hp => G.act_node hta htb hj hp, hbase⟩ checks
 
 end Group
 

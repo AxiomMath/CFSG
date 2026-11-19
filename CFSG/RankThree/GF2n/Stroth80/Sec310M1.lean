@@ -33,7 +33,7 @@ theorem nilp_two {K : Type} [Field K] {E : Type} [AddCommGroup E] [Module K E]
       refine ⟨-(t⁻¹ * s), ?_⟩
       rw [neg_smul]
       exact neg_eq_iff_add_eq_zero.mpr h2
-  haveI : Module.Finite K W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
+  have : Module.Finite K W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   have hle : Submodule.span K (Set.range ![b, N x]) ≤ W := by
     rw [Submodule.span_le]
     rintro _ ⟨i, rfl⟩
@@ -47,7 +47,7 @@ theorem nilp_two {K : Type} [Field K] {E : Type} [AddCommGroup E] [Module K E]
     exact hx
   obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun K).mp hxs
   rw [Fin.sum_univ_two] at hc
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hc
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hc
   have hN : N x = 0 := by
     have h3 := congrArg N hc
     rw [map_add, map_smul, map_smul, hNb, hN2 x hx, smul_zero, smul_zero, add_zero] at h3

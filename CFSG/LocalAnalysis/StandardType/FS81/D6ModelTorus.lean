@@ -308,7 +308,7 @@ theorem witness_node1 : ∀ z ∈ node 1,
         (flipGL (ZMod 2) ({0, 1, 2, 3} : Finset (Fin 6)))⁻¹ =
         genGL (by decide : (1 : Fin 6) ≠ 2).symm (∅ : Finset (Fin 6)) := by
       apply Units.ext
-      simp only [flipGL_inv, Units.val_mul, Units.val_one, coe_genGL, coe_flipGL]
+      simp only [flipGL_inv, Units.val_mul, coe_genGL, coe_flipGL]
       decide +kernel
     rw [← map_inv, ← map_mul, ← map_mul, hid]
     exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
@@ -317,7 +317,7 @@ theorem witness_node1 : ∀ z ∈ node 1,
         (flipGL (ZMod 2) ({0, 1, 2, 3} : Finset (Fin 6)))⁻¹ =
         genGL (by decide : (1 : Fin 6) ≠ 2) (∅ : Finset (Fin 6)) := by
       apply Units.ext
-      simp only [flipGL_inv, Units.val_mul, Units.val_one, coe_genGL, coe_flipGL]
+      simp only [flipGL_inv, Units.val_mul, coe_genGL, coe_flipGL]
       decide +kernel
     rw [← map_inv, ← map_mul, ← map_mul, hid]
     exact Subgroup.subset_closure (Set.mem_insert _ _)
@@ -347,7 +347,7 @@ theorem witness_node3 : ∀ z ∈ node 3,
         (flipGL (ZMod 2) ({2, 3, 4, 5} : Finset (Fin 6)))⁻¹ =
         genGL (by decide : (3 : Fin 6) ≠ 4).symm (∅ : Finset (Fin 6)) := by
       apply Units.ext
-      simp only [flipGL_inv, Units.val_mul, Units.val_one, coe_genGL, coe_flipGL]
+      simp only [flipGL_inv, Units.val_mul, coe_genGL, coe_flipGL]
       decide +kernel
     rw [← map_inv, ← map_mul, ← map_mul, hid]
     exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
@@ -356,7 +356,7 @@ theorem witness_node3 : ∀ z ∈ node 3,
         (flipGL (ZMod 2) ({2, 3, 4, 5} : Finset (Fin 6)))⁻¹ =
         genGL (by decide : (3 : Fin 6) ≠ 4) (∅ : Finset (Fin 6)) := by
       apply Units.ext
-      simp only [flipGL_inv, Units.val_mul, Units.val_one, coe_genGL, coe_flipGL]
+      simp only [flipGL_inv, Units.val_mul, coe_genGL, coe_flipGL]
       decide +kernel
     rw [← map_inv, ← map_mul, ← map_mul, hid]
     exact Subgroup.subset_closure (Set.mem_insert _ _)

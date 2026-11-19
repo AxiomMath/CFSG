@@ -40,11 +40,11 @@ theorem pairVec_apply {n : ℕ} {p q : Fin n} (hpq : p ≠ q) (y : Fin n) :
     TL4.pairVec p q y = if y = p ∨ y = q then 1 else 0 := by
   by_cases h1 : y = p
   · subst h1
-    simp [TL4.pairVec, Pi.single_apply, hpq.symm]
+    simp [TL4.pairVec, hpq.symm]
   · by_cases h2 : y = q
     · subst h2
-      simp [TL4.pairVec, Pi.single_apply, h1]
-    · simp [TL4.pairVec, Pi.single_apply, h1, h2]
+      simp [TL4.pairVec, h1]
+    · simp [TL4.pairVec, h1, h2]
 
 theorem cent_sq7_aux {α : Finset (Fin 7)} (hα : α.card = 4) {x : AEQ 7}
     (ht : ∀ a ∈ kList, x * mkQ 7 (embed (emb α hα) a) = mkQ 7 (embed (emb α hα) a) * x)
@@ -135,9 +135,9 @@ theorem cent_sq7_aux {α : Finset (Fin 7)} (hα : α.card = 4) {x : AEQ 7}
         simp [hq, hc]
       · by_cases h2 : y = q
         · subst h2
-          simp only [or_true, if_true, hc]
+          simp only [or_true, ite_true, hc]
           rw [hσq, add_comm]
-        · rw [if_neg (by tauto)]
+        · rw [ite_eq_right (by tauto)]
           have hy : w.perm y = y := by
             by_cases hyr : y ∈ Set.range ι
             · obtain ⟨i, rfl⟩ := hyr

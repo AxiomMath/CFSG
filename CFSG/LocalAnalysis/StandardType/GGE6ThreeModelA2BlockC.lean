@@ -75,7 +75,7 @@ theorem commute_diagSL3_mem_range {Ω : Type} [Field Ω]
 
 theorem exists_diagSL3_pow {Ω : Type} [Field Ω] [IsAlgClosed Ω] (d' : Fin 3 → Ωˣ)
     (hd' : (d' 0 : Ω) * d' 1 * d' 2 = 1) {m : ℕ} (hm : m ≠ 0) :
-    ∃ (s : Fin 3 → Ωˣ) (hs : (s 0 : Ω) * s 1 * s 2 = 1), ∀ i, s i ^ m = d' i := by
+    ∃ (s : Fin 3 → Ωˣ) (_hs : (s 0 : Ω) * s 1 * s 2 = 1), ∀ i, s i ^ m = d' i := by
   have hmpos : 0 < m := Nat.pos_of_ne_zero hm
   obtain ⟨s0, hs0⟩ := IsAlgClosed.exists_pow_nat_eq (d' 0 : Ω) hmpos
   obtain ⟨s1, hs1⟩ := IsAlgClosed.exists_pow_nat_eq (d' 1 : Ω) hmpos
@@ -91,23 +91,21 @@ theorem exists_diagSL3_pow {Ω : Type} [Field Ω] [IsAlgClosed Ω] (d' : Fin 3 �
   let s1u : Ωˣ := Units.mk0 s1 hs1ne
   refine ⟨![s0u, s1u, (s0u * s1u)⁻¹], ?_, ?_⟩
   · simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Units.val_mul, Units.val_inv_eq_inv_val,
-      Units.val_mk0]
+      Matrix.cons_val_two, Matrix.tail_cons, Units.val_mul, Units.val_inv_eq_inv_val]
     exact mul_inv_cancel₀ (mul_ne_zero hs0ne hs1ne)
   · intro i
     fin_cases i
     · show s0u ^ m = d' 0
       apply Units.ext
-      simp only [Units.val_pow_eq_pow_val, Units.val_mk0]
+      simp only [Units.val_pow_eq_pow_val]
       exact hs0
     · show s1u ^ m = d' 1
       apply Units.ext
-      simp only [Units.val_pow_eq_pow_val, Units.val_mk0]
+      simp only [Units.val_pow_eq_pow_val]
       exact hs1
     · show ((s0u * s1u)⁻¹) ^ m = d' 2
       apply Units.ext
-      simp only [Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val, Units.val_mul,
-        Units.val_mk0]
+      simp only [Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val, Units.val_mul]
       rw [inv_pow, mul_pow]
       change (s0 ^ m * s1 ^ m)⁻¹ = (d' 2 : Ω)
       rw [hs0, hs1]

@@ -64,7 +64,7 @@ private lemma mem_sylow_of_mul_mem_center {L : Type*} [Group L] [Finite L]
     have h1 := hcomm.orderOf_mul_dvd_mul_orderOf
     rw [orderOf_inv] at h1
     rwa [← hzdef] at h1
-  obtain ⟨m, hm⟩ := S.isPGroup'.exists_pow_pow_eq_one ⟨s, hs⟩
+  obtain ⟨m, hm⟩ := S.isPGroup.exists_pow_pow_eq_one ⟨s, hs⟩
   have hsm : orderOf s ∣ 2 ^ m := by
     apply orderOf_dvd_of_pow_eq_one
     have := congrArg (Subtype.val) hm
@@ -108,13 +108,13 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
       fr'.Facts (innerAut (↥L ⧸ center ↥L)) ∧ fr.IsLift L fr'.toSFrame ∧
         fr.S = (S₀ : Subgroup ↥L).map L.subtype ∧ IsSylowIn 2 L fr.S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := ↥L ⧸ center ↥L
   let π : ↥L →* Q := QuotientGroup.mk' (center ↥L)
   let c : Q →* MulAut Q := MulAut.conj
   let ι : ↥L →* MulAut Q := c.comp π
   let Inn : Subgroup (MulAut Q) := innerAut Q
-  haveI hperf : Group.IsPerfect ↥L := hqs.1
+  have hperf : Group.IsPerfect ↥L := hqs.1
   have hcenterQ : center Q = ⊥ := Group.IsPerfect.center_quotient_center_eq_bot ↥L
   have hkerConj : (MulAut.conj : Q →* MulAut Q).ker = center Q := ker_conj_eq_center Q
   have hconj_inj : Function.Injective (MulAut.conj : Q →* MulAut Q) :=
@@ -138,7 +138,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
   have hS1def : S₁ = (S₀ : Subgroup ↥L).map ι := rfl
   have hS1pgroup : IsPGroup 2 S₁ := by
     rw [hS1def]
-    exact S₀.isPGroup'.map ι
+    exact S₀.isPGroup.map ι
   have hS1leInn : S₁ ≤ Inn := by
     rw [hS1def, hInndef]
     exact (Subgroup.map_le_range ι (S₀ : Subgroup ↥L)).trans (le_of_eq hιrange)
@@ -172,7 +172,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
   let Pinn : Subgroup (MulAut Q) := (P : Subgroup (MulAut Q)) ⊓ Inn
   have hfrS_le_Pinf : fr'.S ≤ Pinn := le_inf hfrS_le_P hSylS.1
   have hPinf_pgroup : IsPGroup 2 Pinn :=
-    P.isPGroup'.to_le (inf_le_left : Pinn ≤ (P : Subgroup (MulAut Q)))
+    P.isPGroup.to_le (inf_le_left : Pinn ≤ (P : Subgroup (MulAut Q)))
   have hPinf_eq : Pinn = fr'.S :=
     eq_of_isSylowIn_of_le hSylS hfrS_le_Pinf inf_le_right hPinf_pgroup
   have hS1_le_frS : S₁ ≤ fr'.S := (le_inf hS1leP hS1leInn).trans (le_of_eq hPinf_eq)
@@ -223,7 +223,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
     show ι (υ₂ * β₂ ^ 3 * υ₂⁻¹) = fr'.u₂ * fr'.b₂ ^ 3 * fr'.u₂⁻¹
     simp only [map_mul, map_pow, map_inv, hυ₂, hβ₂]
   have hw₁pow : ∃ k : ℕ, w₁ ^ 2 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S₀.isPGroup'.exists_pow_pow_eq_one ⟨β₁, hβ₁S⟩
+    obtain ⟨k, hk⟩ := S₀.isPGroup.exists_pow_pow_eq_one ⟨β₁, hβ₁S⟩
     refine ⟨k, ?_⟩
     have hk' : β₁ ^ 2 ^ k = 1 := by
       have := congrArg (Subtype.val) hk
@@ -232,7 +232,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
     rw [← map_pow, ← pow_mul, mul_comm 3 (2 ^ k), pow_mul, hk']
     simp
   have hw₂pow : ∃ k : ℕ, w₂ ^ 2 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S₀.isPGroup'.exists_pow_pow_eq_one ⟨β₂, hβ₂S⟩
+    obtain ⟨k, hk⟩ := S₀.isPGroup.exists_pow_pow_eq_one ⟨β₂, hβ₂S⟩
     refine ⟨k, ?_⟩
     have hk' : β₂ ^ 2 ^ k = 1 := by
       have := congrArg (Subtype.val) hk
@@ -283,7 +283,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
     show (closure {w₁, β₁, w₂, β₂, η}).map ι = fr'.S
     rw [MonoidHom.map_closure, SFrame.S]
     congr 1
-    simp only [Set.image_insert_eq, Set.image_singleton, Set.image_empty]
+    simp only [Set.image_insert_eq, Set.image_singleton]
     rw [hιw₁, hβ₁, hιw₂, hβ₂, hιη]
   have hFmap_le_frS : F.map L.subtype ≤ fr.S := by
     show (closure {w₁, β₁, w₂, β₂, η}).map L.subtype ≤ fr.S
@@ -333,7 +333,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
     · rw [hfrS_eq]
       exact Subgroup.map_subtype_le (S₀ : Subgroup ↥L)
     · rw [hfrS_eq]
-      exact S₀.isPGroup'.map L.subtype
+      exact S₀.isPGroup.map L.subtype
     · rw [hfrS_eq]
       have hrel : ((S₀ : Subgroup ↥L).map L.subtype).relIndex L = S₀.index := by
         have h := Subgroup.relIndex_map_map_of_injective (f := L.subtype)
@@ -341,7 +341,7 @@ theorem exists_frame_lift (hF : G23Facts) {G : Type} [Group G] [Finite G] {L : S
         rw [Subgroup.map_top, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h
         exact h
       rw [hrel]
-      haveI : S₀.FiniteIndex := ⟨by
+      have : S₀.FiniteIndex := ⟨by
         intro h
         have := S₀.index_mul_card
         rw [h, zero_mul] at this

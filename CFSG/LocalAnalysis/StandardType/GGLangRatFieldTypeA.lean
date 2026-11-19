@@ -78,9 +78,9 @@ private theorem langRatFA_rankOne
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, hK4, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_rankOne S hT i hr1 hn hq
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, h2]
   have hperf : commutator (SL(2, K)) = ⊤ :=
@@ -127,9 +127,9 @@ private theorem langRatFA_splitFrame
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_splitFrame S hT i hν hψ hΨ π hπ
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, h2]
   have hperf : commutator (SL(ν, K)) = ⊤ :=
@@ -176,9 +176,9 @@ private theorem langRatFA_unitaryFrame
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, h32, g, hgsurj, hgker⟩ :=
     exists_suCover_rationalComponent_unitaryFrame S hT i hν hψ hΨ π hπ hq
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hK' : Fintype.card K = (ringChar L ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]

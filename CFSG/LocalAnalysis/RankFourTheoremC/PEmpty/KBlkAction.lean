@@ -11,6 +11,7 @@ open Subgroup CFSG.Semidihedral.Principal CFSG.Semidihedral.Principal.CoprimeFix
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 theorem isPGroup_zpowers {σ : MulAut Y} (hσ : σ ^ p = 1) : IsPGroup p (zpowers σ) := by
   intro g
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp g.2
@@ -48,6 +49,7 @@ theorem quotAut_pow (σ : MulAut Y) (N' : Subgroup Y) [N'.Normal] (hN : ∀ n �
     rw [quotAut_pow_mk, hσ]
     rfl
 
+omit [Finite Y] in
 theorem exists_pow_eq_of_mem_zpowers {σ : MulAut Y} (hσ : σ ^ p = 1) (hp : 0 < p) {a : MulAut Y}
     (ha : a ∈ zpowers σ) : ∃ j : ℕ, σ ^ j = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -56,6 +58,7 @@ theorem exists_pow_eq_of_mem_zpowers {σ : MulAut Y} (hσ : σ ^ p = 1) (hp : 0 
   rw [← zpow_natCast, Int.toNat_of_nonneg (Int.emod_nonneg _ (by exact_mod_cast hp.ne'))]
   exact (zpow_eq_zpow_emod k h1).symm
 
+omit [Finite Y] in
 theorem mem_of_mem_zpowers {σ : MulAut Y} (hσ : σ ^ p = 1) (hp : 0 < p) {N' : Subgroup Y}
     (hN : ∀ n ∈ N', σ n ∈ N') {a : MulAut Y} (ha : a ∈ zpowers σ) {n : Y} (hn : n ∈ N') :
     a n ∈ N' := by

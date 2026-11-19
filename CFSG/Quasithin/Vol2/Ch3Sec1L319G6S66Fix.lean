@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -57,7 +57,7 @@ namespace CFSG.Quasithin.H13.L319.S66
 theorem card_fixed_of_involution_four {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     (γ : Matrix.SpecialLinearGroup (Fin 2) K) (h2 : γ ^ 2 = 1) (h1 : γ ≠ 1) :
     Nat.card {v : Fin 2 → K // Matrix.mulVec (γ : Matrix (Fin 2) (Fin 2) K) v = v} = 4 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr (by omega)
   have h2K : (2 : K) = 0 := by

@@ -61,7 +61,7 @@ theorem exists_parabolic_of_isL3TwoPow
         J ≠ Subgroup.normalizer (T : Set _) ∧ J ≠ ⊤ ∧
         J = ((barM M (H ⊓ L)).subgroupOf (barM M L)).map
           (QuotientGroup.mk' (Subgroup.center ↥(barM M L))) := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
@@ -79,7 +79,7 @@ theorem exists_parabolic_of_isL3TwoPow
   have hS : ¬ CFSG.QuasithinUnique.IsSylowTwoOf (pCoreOf 2 H ⊓ L) L :=
     hphase.not_isSylowTwoOf_inf hK h85 hD2 hLw
   have hno : ¬ CFSG.AGLEmbedding.BlockCyc.HasE9 ↥(barM M L) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hn0 : n ≠ 0 := by obtain ⟨k, rfl⟩ := hn; omega
     obtain ⟨eB⟩ := CFSG.RankThree.PartTwo.Sec19.Item194Proof.nonempty_barM_mulEquiv
       hLw.le hLw.toIsTwoPrimeComponent.inf_twoCore

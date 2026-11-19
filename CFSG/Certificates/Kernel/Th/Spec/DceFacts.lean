@@ -32,7 +32,7 @@ theorem recOK_spec {el : Bool} {ND NO R : ℕ} (h : DceS.recOK ND NO el R = true
   rw [hel] at e5
   exact Nat.eq_of_beq_eq_true e5
 
-@[expose] def ShapeF (HB GB TB : ℕ → ℕ) (TL VL nT W Wi c R e S S' : ℕ) : Prop :=
+@[expose] def ShapeF (HB GB TB : ℕ → ℕ) (TL VL nT _W Wi c R e S S' : ℕ) : Prop :=
   (c = 255 ∧ rJ R = 0 ∧ sD S = rD R ∧ S' = mkSt (rDp R) (mul24 (rPi R) (sPi S))) ∨
   (c = TL ∧ 0 < rJ R ∧ e < nT ∧ sD S = rD R ∧
     tSig HB TB e = mul24 (gm HB GB (rJ R - 1)) (sPi S) ∧
@@ -41,7 +41,7 @@ theorem recOK_spec {el : Bool} {ND NO R : ℕ} (h : DceS.recOK ND NO el R = true
     tSig HB TB e = mul24 (gm HB GB (rJ R - 1)) (sPi S) ∧
     S' = mkSt (rDp R) (mul24 (mul24 (mul24 (rPi R) (gi HB GB (rJ R - 1))) (tPsi HB TB e)) Wi))
 
-@[expose] def ShapeB (HB GB TB : ℕ → ℕ) (TL VL nT W Wi c R e S S' : ℕ) : Prop :=
+@[expose] def ShapeB (HB GB TB : ℕ → ℕ) (TL VL nT W _Wi c R e S S' : ℕ) : Prop :=
   (c = 255 ∧ rJ R = 0 ∧ sD S = rDp R ∧ S' = mkSt (rD R) (mul24 (rFI R) (sPi S))) ∨
   (c = TL ∧ 0 < rJ R ∧ e < nT ∧ sD S = rDp R ∧
     tPsi HB TB e = mul24 (mul24 (gm HB GB (rJ R - 1)) (rFI R)) (sPi S) ∧

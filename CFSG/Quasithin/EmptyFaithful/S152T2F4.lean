@@ -42,10 +42,10 @@ theorem borelCentralizerTrivial_ree (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a
   obtain ⟨Φ, -, -, -, hodd⟩ := large_Ree_opposite_Sylow_parameters_faithful a ha K hK
   have hU : IsSylowTwoOf ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((F4.reeFixedNegUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a) ⊓
       (F4.reeFixedNegUnipotent K a).subgroupOf (F4.reeGamma K a) = ⊥ := by
     refine eq_bot_iff.2 fun x hx => ?_

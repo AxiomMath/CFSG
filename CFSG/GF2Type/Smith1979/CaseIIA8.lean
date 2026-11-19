@@ -58,14 +58,15 @@ theorem bijective_ker_resR :
       rw [map_mul, (D.resR_eq_one_iff D.tR).mpr (Or.inr rfl), mul_one]
 
 theorem isPerfect_Rprime (hCE : S4.CentralExtInput.{u}) : Group.IsPerfect ↥(Rprime S g t χ) := by
-  haveI : Group.IsPerfect ↥D.Gam := ⟨D.commutator_Gam hCE⟩
+  have : Group.IsPerfect ↥D.Gam := ⟨D.commutator_Gam hCE⟩
   let e1 : ↥χ.ker ≃* ↥D.Gam := MulEquiv.ofBijective _ (D.bijective_ker_resR hχ)
-  haveI : Group.IsPerfect ↥χ.ker :=
+  have : Group.IsPerfect ↥χ.ker :=
     Group.IsPerfect.ofSurjective (f := e1.symm.toMonoidHom) e1.symm.surjective
   let e2 : ↥χ.ker ≃* ↥(Rprime S g t χ) :=
     Subgroup.equivMapOfInjective χ.ker (Rbar S g t).subtype Subtype.val_injective
   exact Group.IsPerfect.ofSurjective (f := e2.toMonoidHom) e2.surjective
 
+omit hχ D in
 theorem commutator_Rbar_le_ker : commutator ↥(Rbar S g t) ≤ χ.ker := by
   rw [commutator_def, Subgroup.commutator_le]
   intro x _ y _
@@ -88,13 +89,13 @@ theorem ker_le_commutator (hCE : S4.CentralExtInput.{u}) :
   obtain ⟨c, hc, hck⟩ := hmem
   have h1 : D.resR c = D.resR k := congrArg Subtype.val hck
   have h2 : χ c = χ k := by
-    rw [MonoidHom.mem_ker.mp (D.commutator_Rbar_le_ker hχ hc), MonoidHom.mem_ker.mp hk]
+    rw [MonoidHom.mem_ker.mp (CFSG.GF2Type.Smith1979.Case2.Data.commutator_Rbar_le_ker hc), MonoidHom.mem_ker.mp hk]
   rw [← D.pair_inj hχ c k h1 h2]
   exact hc
 
 theorem ker_eq_commutator (hCE : S4.CentralExtInput.{u}) :
     χ.ker = commutator ↥(Rbar S g t) :=
-  le_antisymm (D.ker_le_commutator hχ hCE) (D.commutator_Rbar_le_ker hχ)
+  le_antisymm (D.ker_le_commutator hχ hCE) (CFSG.GF2Type.Smith1979.Case2.Data.commutator_Rbar_le_ker)
 
 end Data
 

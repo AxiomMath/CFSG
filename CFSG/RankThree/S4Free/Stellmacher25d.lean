@@ -24,6 +24,7 @@ section L24Sz
 
 variable {H : Type*} [Group H] [Finite H] {S M A L : Subgroup H}
 
+omit [Finite H] in
 theorem inf_le_oTwo_of_odd (hA : CFSG.Open.IsElemAbelian 2 A) {R : Subgroup L} [R.Normal]
     (hodd : ¬ 2 ∣ (oTwo ↥L).relIndex R) : R ⊓ A.subgroupOf L ≤ oTwo ↥L := by
   rintro g ⟨hgR, hgA⟩
@@ -53,6 +54,7 @@ theorem suzukiGroup_exists_mul_ne {a : ℕ} (ha : 1 ≤ a) {K : Type}
     exact mem_top w
   exact hw (mem_bot.mp hw')
 
+omit [Finite H] in
 theorem IsL24Sz.sup_conj_subgroupOf (h : IsL24Sz S M A L) {x : H} (hxL : x ∈ L) (hxM : x ∉ M) :
     A.subgroupOf L ⊔ (A.subgroupOf L).map (MulAut.conj (⟨x, hxL⟩ : L)).toMonoidHom = ⊤ := by
   apply map_injective L.subtype_injective
@@ -60,6 +62,7 @@ theorem IsL24Sz.sup_conj_subgroupOf (h : IsL24Sz S M A L) {x : H} (hxL : x ∈ L
     ← MonoidHom.range_eq_map, range_subtype]
   exact h.sup_conj x hxL hxM
 
+omit [Finite H] in
 theorem IsL24Sz.le_of_suzuki (h : IsL24Sz S M A L)
     {R : Subgroup L} [R.Normal] {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : ↥L ⧸ R ≃* suzukiGroup a K)
@@ -104,6 +107,7 @@ theorem IsL24Sz.exists_mem_not_mem_oTwo (h : IsL24Sz S M A L)
   have h1 : ((oTwo ↥L).map L.subtype).relIndex A = 1 := relIndex_eq_one.mpr fun a ha => hcon a ha
   omega
 
+omit [Finite H] in
 theorem IsL24Sz.exists_conj_not_mem (h : IsL24Sz S M A L)
     (hA : CFSG.Open.IsElemAbelian 2 A) {a : H} (haA : a ∈ A)
     (haO : a ∉ (oTwo ↥L).map L.subtype) : ∃ y ∈ L, y * a * y⁻¹ ∉ M := by
@@ -144,6 +148,7 @@ theorem IsL24Sz.exists_conj_not_mem (h : IsL24Sz S M A L)
   have hle : (⊤ : Subgroup L) ≤ M.subgroupOf L := hsup ▸ sup_le hN hRM
   exact mem_subgroupOf.mp (hle (mem_top (⟨l, hl⟩ : L)))
 
+omit [Finite H] in
 theorem IsL24Sz.exists_sup_zpowers_eq (h : IsL24Sz S M A L)
     (hA : CFSG.Open.IsElemAbelian 2 A) {a : H} (haA : a ∈ A)
     (haO : a ∉ (oTwo ↥L).map L.subtype) : ∃ y ∈ L, A ⊔ Subgroup.zpowers (y * a * y⁻¹) = L := by
@@ -172,6 +177,7 @@ namespace Hyp25Sz
 
 variable [Finite V] {S M A L : Subgroup (MulAut V)} {Z₀ W : Subgroup V}
 
+omit [Finite V] in
 theorem setting (h : Hyp25Sz S M A L Z₀ W) : Setting25 A L Z₀ W where
   le_L := h.isL24Sz.le
   quad := (commSub_mono le_top le_rfl).trans ((commV_eq_commSub A).symm.le.trans h.quadratic)
@@ -233,7 +239,7 @@ theorem Setting25.mem_of_comm_mem_section (hV : ∀ v : V, v ^ 2 = 1) {A L : Sub
     (hx : A ⊔ A.map (MulAut.conj x).toMonoidHom = L)
     (hfix : W ⊓ fixV (Subgroup.zpowers a) = W ⊓ fixV A)
     (hbot : commSub W (Subgroup.zpowers a) ⊓ (W ⊓ fixV L) = ⊥) {U₁ U₂ : Subgroup V}
-    (hCU : W ⊓ fixV L ≤ U₂) (h21 : U₂ ≤ U₁) (h1W : U₁ ≤ W) (hU₁ : L ≤ stabSub U₁)
+    (hCU : W ⊓ fixV L ≤ U₂) (h21 : U₂ ≤ U₁) (h1W : U₁ ≤ W) (_hU₁ : L ≤ stabSub U₁)
     (hU₂ : L ≤ stabSub U₂) {w : V} (hw : w ∈ U₁) (hwa : a w * w⁻¹ ∈ U₂) :
     w ∈ (U₁ ⊓ fixV (Subgroup.zpowers a)) ⊔ U₂ := by
   have haL : a ∈ L := h.le_L haA
@@ -308,6 +314,7 @@ section OddNormal
 
 variable [Finite V]
 
+omit [Finite V] in
 theorem sq_eq_one_of_comm_mem_fixed (hV : ∀ v : V, v ^ 2 = 1) {F : Subgroup V} {g : MulAut V}
     (hgF : ∀ f ∈ F, g f = f) (hg : ∀ v, g v * v⁻¹ ∈ F) : g ^ 2 = 1 := by
   have hinv : ∀ v : V, v⁻¹ = v :=
@@ -457,8 +464,8 @@ theorem ker_eq_bot_of_isQuadratic
     intro y _
     obtain ⟨d, hd, hdy⟩ := hle (by rw [hx]; exact y.2)
     rwa [show d = y from Subtype.ext hdy] at hd
-  haveI : Group.IsPerfect ↥Y := ⟨hD⟩
-  haveI : Finite (suzukiGroup a K) := (CFSG.LieType.Ree.suzuki_simple ha hK).1
+  have : Group.IsPerfect ↥Y := ⟨hD⟩
+  have : Finite (suzukiGroup a K) := (CFSG.LieType.Ree.suzuki_simple ha hK).1
   exact CFSG.SignalizerFunctorTheorem.McBride.schur_odd_sz (by omega) (nonempty_mulEquiv_open_sz hK)
     ψ hψ hcen (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hodd))
 
@@ -515,7 +522,7 @@ variable [Finite V] {S M A L : Subgroup (MulAut V)} {Z₀ W : Subgroup V}
 
 theorem ker_secAct_eq
     (hV : ∀ v : V, v ^ 2 = 1) (h : Hyp25Sz S M A L Z₀ W) (R : Subgroup ↥L) [R.Normal]
-    (hOR : oTwo ↥L ≤ R) (hodd : ¬ 2 ∣ (oTwo ↥L).relIndex R) {a : ℕ} (ha : 1 ≤ a) {K : Type}
+    (_hOR : oTwo ↥L ≤ R) (hodd : ¬ 2 ∣ (oTwo ↥L).relIndex R) {a : ℕ} (ha : 1 ≤ a) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : ↥L ⧸ R ≃* suzukiGroup a K)
     {U₁ U₂ : Subgroup V} (hCU : W ⊓ fixV L ≤ U₂) (h21 : U₂ < U₁) (h1W : U₁ ≤ W)
     (hU₁ : L ≤ stabSub U₁) (hU₂ : L ≤ stabSub U₂)

@@ -533,7 +533,7 @@ theorem TBJOmData.exists_rk1_isometry_pos [Fact p.Prime] (hp2 : p ≠ 2) (hAΩ :
     simp at this
   have hfWjval : (toAdd (fW j)).val = p - 1 := by
     rw [hfWj, toAdd_ofAdd,
-      @ZMod.neg_val p ⟨(Fact.out : p.Prime).ne_zero⟩ (1 : ZMod p), if_neg h1ne,
+      @ZMod.neg_val p ⟨(Fact.out : p.Prime).ne_zero⟩ (1 : ZMod p), ite_eq_right h1ne,
       ZMod.val_one'' hp1]
   have hfWjpow : cL ^ (toAdd (fW j)).val = ci := by
     rw [hfWjval]

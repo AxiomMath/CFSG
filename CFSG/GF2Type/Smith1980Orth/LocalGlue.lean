@@ -47,6 +47,7 @@ theorem sq_eq_one_of_mem_commutator' (S : Setting G) (h34a : OE34a S) {x : G}
   have := hel
   exact CFSG.elemPow_eq_one_of_isElementaryAbelian g hg
 
+omit [Finite G] in
 theorem exists_commutator_of_coset' (S : Setting G) (h34b : OE34b S) {x x' : G}
     (hx : IsConj S.z x) (hx' : IsConj S.z x') (hxM : x ∈ S.M) (hxQ : x ∉ S.QG)
     (hQ : x⁻¹ * x' ∈ S.QG) : ∃ q ∈ S.QG, x⁻¹ * x' = x * q * x⁻¹ * q⁻¹ := by
@@ -103,8 +104,8 @@ theorem local_of_mem_QG' (S : Setting G) (h34a : OE34a S) (h24 : OE24 S) {x y : 
   exact hy'c.trans (isConj_iff.mpr ⟨_, rfl⟩)
 
 theorem local_of_mul_mem' (S : Setting G) (h34a : OE34a S) (h34b : OE34b S) {x y : G}
-    (hx : IsConj S.z x) (hy : IsConj S.z y) (hxM : x ∈ S.M) (hyM : y ∈ S.M) (hxQ : x ∉ S.QG)
-    (hyQ : y ∉ S.QG) (hxy : x * y ∈ S.QG) :
+    (hx : IsConj S.z x) (hy : IsConj S.z y) (hxM : x ∈ S.M) (_hyM : y ∈ S.M) (hxQ : x ∉ S.QG)
+    (_hyQ : y ∉ S.QG) (hxy : x * y ∈ S.QG) :
     orderOf (x * y) ∈ ({1, 2, 3, 4} : Set ℕ) ∧
       (orderOf (x * y) = 4 → IsConj S.z ((x * y) ^ 2)) := by
   have hxi := SME.inv_eq_of_isConj S hx

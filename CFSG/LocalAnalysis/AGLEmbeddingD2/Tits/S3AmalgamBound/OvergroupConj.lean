@@ -28,7 +28,7 @@ theorem exists_conj_eq_of_card_three {K : Type*} [Group K] [Finite K]
     exact ⟨b, hBQ hb, rfl⟩
   have hBcard : Nat.card (B.map (MulAut.conj g).toMonoidHom : Subgroup K) = 3 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hB]
-  have hPcyc : IsCyclic P := hcyc P P.isPGroup'
+  have hPcyc : IsCyclic P := hcyc P P.isPGroup
   have heq := (IsCyclic.subgroup_eq_iff_card_eq
     (H := (B.map (MulAut.conj g).toMonoidHom).subgroupOf P) (K := A.subgroupOf P)).2 (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBgP).toEquiv,

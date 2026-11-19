@@ -86,6 +86,7 @@ theorem yPowG_map (φ : G →* H) (hφ : Function.Injective φ) (Y g : G) :
     yPowG (φ Y) (φ g) = yPowG Y g := by
   simp only [yPowG, ← map_pow, hφ.eq_iff]
 
+omit [DecidableEq G] [DecidableEq H] in
 theorem product_map (φ : G →* H) (A B : List G) :
     (A.map φ) ×ˢ (B.map φ) = (A ×ˢ B).map (Prod.map φ φ) := by
   simp [SProd.sprod, List.product, List.map_flatMap, List.flatMap_map, List.map_map,

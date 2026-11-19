@@ -30,6 +30,7 @@ private lemma z4i_mul_pair_comm {G : Type*} [Group G] {a₁ a₂ b₁ b₂ : G}
     _ = a₁ * (b₁ * a₂) * b₂ := by rw [h.eq]
     _ = (a₁ * b₁) * (a₂ * b₂) := by group
 
+omit [Finite H] in
 private lemma mem_closure_pair_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ closure ({t, τ} : Set H) ↔ ∃ a b : Fin 2, x = t ^ (a : ℕ) * τ ^ (b : ℕ) := by
   let W : Subgroup H :=
@@ -60,6 +61,7 @@ private lemma mem_closure_pair_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     exact (closure ({t, τ} : Set H)).mul_mem
       ((closure ({t, τ} : Set H)).pow_mem ht a) ((closure ({t, τ} : Set H)).pow_mem hτ b)
 
+omit [Finite H] in
 private lemma mem_zpowers_tau_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ zpowers τ ↔ ∃ b : Fin 2, x = τ ^ (b : ℕ) := by
   let W : Subgroup H :=
@@ -82,7 +84,8 @@ private lemma mem_zpowers_tau_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
   · rintro ⟨b, rfl⟩
     exact (zpowers τ).pow_mem (Subgroup.mem_zpowers τ) b
 
-private lemma mem_normalizer_of_sq (h : ZEData Q Y V V' B K ρ t τ l) {g : H}
+omit [Finite H] in
+private lemma mem_normalizer_of_sq (_h : ZEData Q Y V V' B K ρ t τ l) {g : H}
     (hg2 : g * g = 1) (hnorm : ∀ k ∈ K, g * k * g⁻¹ ∈ K) :
     g ∈ Subgroup.normalizer (K : Set H) := by
   rw [Subgroup.mem_set_normalizer_iff]
@@ -96,14 +99,17 @@ private lemma mem_normalizer_of_sq (h : ZEData Q Y V V' B K ρ t τ l) {g : H}
     have hk' : g * (g * k * g⁻¹) * g⁻¹ ∈ K := hnorm (g * k * g⁻¹) hk
     rwa [hconj] at hk'
 
+omit [Finite H] in
 private lemma t_mem_normalizer (h : ZEData Q Y V V' B K ρ t τ l) :
     t ∈ Subgroup.normalizer (K : Set H) :=
   mem_normalizer_of_sq h h.t_sq h.t_norm_K
 
+omit [Finite H] in
 private lemma tau_mem_normalizer (h : ZEData Q Y V V' B K ρ t τ l) :
     τ ∈ Subgroup.normalizer (K : Set H) :=
   mem_normalizer_of_sq h h.tau_sq h.tau_norm_K
 
+omit [Finite H] in
 private lemma T2_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ s ∈ closure ({t, τ} : Set H), ∀ k ∈ K, s * k * s⁻¹ ∈ K := by
   have hle : closure ({t, τ} : Set H) ≤ Subgroup.normalizer (K : Set H) :=
@@ -117,6 +123,7 @@ private lemma T2_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
   intro s hs k hk
   exact ((Subgroup.mem_set_normalizer_iff (S := (K : Set H))).mp (hle hs) k).mp hk
 
+omit [Finite H] in
 private lemma zpowers_tau_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ s ∈ zpowers τ, ∀ k ∈ K, s * k * s⁻¹ ∈ K := by
   have hle : zpowers τ ≤ Subgroup.normalizer (K : Set H) :=
@@ -124,6 +131,7 @@ private lemma zpowers_tau_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
   intro s hs k hk
   exact ((Subgroup.mem_set_normalizer_iff (S := (K : Set H))).mp (hle hs) k).mp hk
 
+omit [Finite H] in
 theorem tau_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) : ∀ y ∈ Y, τ * y = y * τ := by
   intro y hy
   have h1 : τ * y * τ⁻¹ = y⁻¹ := h.tau_inv y (h.Y_le_Q hy)
@@ -132,13 +140,14 @@ theorem tau_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) : ∀ y ∈ Y, τ * y = y
   calc τ * y = (τ * y * τ⁻¹) * τ := by group
     _ = y * τ := by rw [h1]
 
+omit [Finite H] in
 theorem l_not_cent_V (h : ZEData Q Y V V' B K ρ t τ l) : ∃ v ∈ V, l * v ≠ v * l := by
   by_contra hcon
   have hcon' : ∀ v ∈ V, l * v = v * l := by
     intro v hv
     by_contra hvne
     exact hcon ⟨v, hv, hvne⟩
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     have hcardV : Nat.card V = 4 := h.card_V
@@ -183,6 +192,7 @@ theorem t_not_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) : ∃ y ∈ Y, t * y �
   rw [h.card_Y, h.card_V] at hcard
   omega
 
+omit [Finite H] in
 theorem mem_F_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ z4iF K t τ ↔ ∃ k ∈ K, ∃ a b : Fin 2, x = k * t ^ (a : ℕ) * τ ^ (b : ℕ) := by
   have hnorm := T2_norm_K h
@@ -195,6 +205,7 @@ theorem mem_F_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     exact ⟨k, hk, t ^ (a : ℕ) * τ ^ (b : ℕ), (mem_closure_pair_iff h).mpr ⟨a, b, rfl⟩,
       by rw [mul_assoc]⟩
 
+omit [Finite H] in
 theorem mem_K1_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ z4iK1 K τ ↔ ∃ k ∈ K, ∃ b : Fin 2, x = k * τ ^ (b : ℕ) := by
   have hnorm := zpowers_tau_norm_K h
@@ -206,6 +217,7 @@ theorem mem_K1_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
   · rintro ⟨k, hk, b, rfl⟩
     exact ⟨k, hk, τ ^ (b : ℕ), (mem_zpowers_tau_iff h).mpr ⟨b, rfl⟩, rfl⟩
 
+omit [Finite H] in
 theorem F_le_Vc (h : ZEData Q Y V V' B K ρ t τ l) : z4iF K t τ ≤ z4iVc K t τ l := by
   show K ⊔ closure ({t, τ} : Set H) ≤ K ⊔ z4iT3 t τ l
   refine sup_le_sup_left ?_ K
@@ -215,10 +227,12 @@ theorem F_le_Vc (h : ZEData Q Y V V' B K ρ t τ l) : z4iF K t τ ≤ z4iVc K t 
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg ⊢
   rcases hg with rfl | rfl <;> simp
 
-theorem K1_le_F (h : ZEData Q Y V V' B K ρ t τ l) : z4iK1 K τ ≤ z4iF K t τ := by
+omit [Finite H] in
+theorem K1_le_F (_h : ZEData Q Y V V' B K ρ t τ l) : z4iK1 K τ ≤ z4iF K t τ := by
   show K ⊔ zpowers τ ≤ K ⊔ closure ({t, τ} : Set H)
   exact sup_le_sup_left (Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp))) K
 
+omit [Finite H] in
 private lemma F_le_cent_V (h : ZEData Q Y V V' B K ρ t τ l) :
     z4iF K t τ ≤ centralizer (V : Set H) := by
   intro x hx
@@ -235,6 +249,7 @@ private lemma F_le_cent_V (h : ZEData Q Y V V' B K ρ t τ l) :
     ((centralizer (V : Set H)).mul_mem hk' ((centralizer (V : Set H)).pow_mem ht' a))
     ((centralizer (V : Set H)).pow_mem hτ' b)
 
+omit [Finite H] in
 private lemma K1_le_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) :
     z4iK1 K τ ≤ centralizer (Y : Set H) := by
   intro x hx
@@ -245,6 +260,7 @@ private lemma K1_le_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) :
     Subgroup.mem_centralizer_iff.mpr (fun y hy => (tau_cent_Y h y hy).symm)
   exact (centralizer (Y : Set H)).mul_mem hk' ((centralizer (Y : Set H)).pow_mem hτ' b)
 
+omit [Finite H] in
 private lemma lc_cent_of_ttau_lc_cent (h : ZEData Q Y V V' B K ρ t τ l) {a b c : Fin 2}
     (hword : t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ) ∈ centralizer (V : Set H)) :
     l ^ (c : ℕ) ∈ centralizer (V : Set H) := by
@@ -259,6 +275,7 @@ private lemma lc_cent_of_ttau_lc_cent (h : ZEData Q Y V V' B K ρ t τ l) {a b c
   have hmem := (centralizer (V : Set H)).mul_mem ((centralizer (V : Set H)).inv_mem hz) hzw
   simpa [mul_assoc] using hmem
 
+omit [Finite H] in
 theorem Vc_inf_cent_V (h : ZEData Q Y V V' B K ρ t τ l) :
     z4iVc K t τ l ⊓ centralizer (V : Set H) = z4iF K t τ := by
   apply le_antisymm
@@ -305,7 +322,7 @@ theorem F_inf_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) :
       simpa using this
     fin_cases a
     · rw [mem_K1_iff h]
-      exact ⟨k, hk, b, by simp [mul_assoc]⟩
+      exact ⟨k, hk, b, by simp⟩
     · exfalso
       obtain ⟨y, hy, hyne⟩ := t_not_cent_Y h
       have hyt : y * t = t * y := by

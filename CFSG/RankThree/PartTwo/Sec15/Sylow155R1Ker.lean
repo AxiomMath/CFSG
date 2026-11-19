@@ -34,6 +34,7 @@ theorem eq_one_of_coprime_of_mem_centralizer_layer {Q : Type*} [Group Q] [Finite
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1_le_C {A : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (L : Subgroup G) : A ≤ Res1C A L := by
   intro a ha
@@ -95,6 +96,7 @@ private theorem res1_c_not_mem {A : Subgroup G} {c : G} {L : Subgroup G}
     rwa [Subgroup.orderOf_mk, hord] at h
   exact ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card) hdvd
 
+omit [Finite G] in
 private theorem res1_comm_map {A : Subgroup G} {c : G} {L : Subgroup G}
     {Yc : Subgroup (Res1Q A L)} (hAab : CFSG.Assembly.IsElemAbelian 3 A)
     (hAeq : A ≤ (A ⊓ L) ⊔ Subgroup.zpowers c)
@@ -135,7 +137,7 @@ theorem res1_eq_one_of_centralizes {A : Subgroup G} {c : G} {L : Subgroup G}
     (hcomp : Res1Comp A c L Yc) (hsimple : IsSimpleGroup ↥Yc) {x : Res1Q A L}
     (hx : Nat.Coprime (orderOf x) 3) (hxY : ∀ y ∈ Yc, x * y = y * x) : x = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hS.mem_partTwoF.1
   have hAC : A ≤ Res1C A L := res1_le_C hAab L
   have hAmax : ∀ y : G, y ^ 3 = 1 → (∀ a ∈ A, a * y = y * a) → y ∈ A := by
@@ -148,7 +150,7 @@ theorem res1_eq_one_of_centralizes {A : Subgroup G} {c : G} {L : Subgroup G}
   have hAeq : A ≤ (A ⊓ L) ⊔ Subgroup.zpowers c :=
     res1_le_sup_zpowers hhyp hcA fun h => hcL (Subgroup.mem_inf.mp h).2
   obtain ⟨hYcomp, hcY, -⟩ := hcomp
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   have hlayer : CFSG.layer (Res1Q A L) ≤ Yc :=
     sSup_le fun _ hK => (res1_isComponent_unique hS hhyp hK hYcomp).le
   set P : Subgroup (Res1Q A L) := CFSG.pCore 3 (Res1Q A L)
@@ -165,8 +167,8 @@ theorem res1_eq_one_of_centralizes {A : Subgroup G} {c : G} {L : Subgroup G}
           rw [htop]
           exact Subgroup.mem_top _
         exact Subgroup.mem_subgroupOf.mp hy'
-      haveI : Group.IsNilpotent ↥Yc := (hP3.to_le hYP).isNilpotent
-      haveI : Group.IsPerfect ↥Yc := hYcomp.1.1
+      have : Group.IsNilpotent ↥Yc := (hP3.to_le hYP).isNilpotent
+      have : Group.IsPerfect ↥Yc := hYcomp.1.1
       exact Group.IsPerfect.not_isNilpotent ↥Yc ‹_›
   have hPY : ∀ u ∈ P, ∀ y ∈ Yc, u * y = y * u := by
     intro u hu y hy

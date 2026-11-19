@@ -62,7 +62,7 @@ theorem kd264Y1OutUni_core (r : ℕ) (q : TauCeti.PrimePower) (ℓ f : ℕ) [Fac
     (hpR : CFSG.Open.pRank 3 (⊤ : Subgroup S) ≤ 3) :
     ∀ a ∈ innAutDerived S, a ^ 3 = 1 → a ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner S := by
   subst hℓ hf
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   set K : Type := GaloisField q.p (2 * q.exponent) with hKdef
   have hK : Nat.card K = q.p ^ (2 * q.exponent) :=
     GaloisField.card q.p (2 * q.exponent) (by have := q.exponent_pos; omega)

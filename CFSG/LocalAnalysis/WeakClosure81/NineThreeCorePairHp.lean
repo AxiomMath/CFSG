@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_pair_hp_list_prod_inv {W : Subgroup G}
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) {ι : Type*}
     (l : List ι) (f : ι → G) (hf : ∀ x ∈ l, f x ∈ W) :
@@ -28,6 +29,7 @@ private theorem nine3_pair_hp_list_prod_inv {W : Subgroup G}
       rw [hW _ (W.inv_mem hP) _ (W.inv_mem hxW),
         ih (fun y hy => hf y (by simp [hy]))]
 
+omit [Finite G] in
 private theorem nine3_pair_hp_list_prod_reindex {W : Subgroup G}
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) {m : ℕ} (τ : Equiv.Perm (Fin m))
     (f : Fin m → G) (hf : ∀ k, f k ∈ W) :
@@ -89,8 +91,8 @@ theorem nine3_pair_hp (hc : Nine3Choice V T A K S X p g x)
         if ε k then ⁅j, c k⁆ else 1 := by
     intro k
     by_cases hε : ε k = true
-    · rw [if_pos hε, if_pos hε, map_commutatorElement, hxconj, hcbb k]
-    · rw [if_neg hε, if_neg hε, map_one]
+    · rw [ite_eq_left hε, ite_eq_left hε, map_commutatorElement, hxconj, hcbb k]
+    · rw [ite_eq_right hε, ite_eq_right hε, map_one]
   have h1 : ⁅j, i⁆ = ((List.finRange (n + 1)).map
       fun k => if ε k then ⁅j, c k⁆ else 1).prod := by
     have hkey := congrArg (fun z : G => (MulAut.conj (g⁻¹) : G ≃* G) z)
@@ -112,13 +114,13 @@ theorem nine3_pair_hp (hc : Nine3Choice V T A K S X p g x)
       (if ε k then ⁅j, c k⁆ else 1 : G) ∈ W := by
     intro k _
     by_cases hε : ε k = true
-    · rw [if_pos hε]; exact hFW k
-    · rw [if_neg hε]; exact W.one_mem
+    · rw [ite_eq_left hε]; exact hFW k
+    · rw [ite_eq_right hε]; exact W.one_mem
   have hgW : ∀ k : Fin (n + 1), (if ε k then ⁅c k, j⁆ else 1 : G) ∈ W := by
     intro k
     by_cases hε : ε k = true
-    · rw [if_pos hε]; exact hGW k
-    · rw [if_neg hε]; exact W.one_mem
+    · rw [ite_eq_left hε]; exact hGW k
+    · rw [ite_eq_right hε]; exact W.one_mem
   have hinv := nine3_pair_hp_list_prod_inv (W := W) hcommW (List.finRange (n + 1))
     (fun k => if ε k then ⁅j, c k⁆ else 1) hfW
   have hreindex := nine3_pair_hp_list_prod_reindex (W := W) hcommW σ.symm

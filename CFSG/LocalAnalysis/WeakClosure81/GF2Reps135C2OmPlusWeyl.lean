@@ -70,18 +70,18 @@ private theorem omWeyl_toStdD_third {n : ℕ} (c : Fin n → ℤ) {a : Fin n}
     toStdD n (omFromStdD2 n c) a = 2 * c a := by
   have hva : omFromStdD2 n c a = 2 * ∑ b ∈ Finset.Iic a, c b := by
     unfold omFromStdD2
-    rw [if_neg (by omega), dif_neg (by omega)]
+    rw [ite_eq_right (by omega), dite_eq_right (by omega)]
   simp only [toStdD]
   rw [hva]
   by_cases ha0 : 0 < a.val
   · have hvp : omFromStdD2 n c ⟨a.val - 1, by omega⟩ =
         2 * ∑ b ∈ Finset.Iic (⟨a.val - 1, by omega⟩ : Fin n), c b := by
       unfold omFromStdD2
-      rw [if_neg (by simp only; omega), dif_neg (by simp only; omega)]
-    rw [dif_pos ha0, hvp, dif_neg (by omega)]
+      rw [ite_eq_right (by simp only; omega), dite_eq_right (by simp only; omega)]
+    rw [dite_eq_left ha0, hvp, dite_eq_right (by omega)]
     rw [omWeyl_sum_Iic_succ ha0 c]
     ring
-  · rw [dif_neg ha0, dif_neg (by omega)]
+  · rw [dite_eq_right ha0, dite_eq_right (by omega)]
     rw [omWeyl_sum_Iic_zero (by omega) c]
     ring
 
@@ -90,24 +90,24 @@ private theorem omWeyl_toStdD_second {n : ℕ} (hn : 2 ≤ n) (c : Fin n → ℤ
     toStdD n (omFromStdD2 n c) a = 2 * c a := by
   have hva : omFromStdD2 n c a = ∑ b, c b - 2 * c ⟨a.val + 1, by omega⟩ := by
     unfold omFromStdD2
-    rw [if_neg (by omega), dif_pos h2]
+    rw [ite_eq_right (by omega), dite_eq_left h2]
   have hva1 : omFromStdD2 n c ⟨a.val + 1, by omega⟩ = ∑ b, c b := by
     unfold omFromStdD2
-    rw [if_pos (by simp only; omega)]
+    rw [ite_eq_left (by simp only; omega)]
   simp only [toStdD]
-  rw [hva, dif_pos h2, hva1]
+  rw [hva, dite_eq_left h2, hva1]
   by_cases ha0 : 0 < a.val
   · have hvp : omFromStdD2 n c ⟨a.val - 1, by omega⟩ =
         2 * ∑ b ∈ Finset.Iic (⟨a.val - 1, by omega⟩ : Fin n), c b := by
       unfold omFromStdD2
-      rw [if_neg (by simp only; omega), dif_neg (by simp only; omega)]
-    rw [dif_pos ha0, hvp]
+      rw [ite_eq_right (by simp only; omega), dite_eq_right (by simp only; omega)]
+    rw [dite_eq_left ha0, hvp]
     rw [omWeyl_sum_univ_eq_Iic_Iic hn h2 ha0 c]
     have hlast : (⟨a.val + 1, by omega⟩ : Fin n) = ⟨n - 1, by omega⟩ :=
       Fin.ext (by change a.val + 1 = n - 1; omega)
     rw [hlast]
     ring
-  · rw [dif_neg ha0]
+  · rw [dite_eq_right ha0]
     rw [omWeyl_sum_univ_eq_zero hn h2 (by omega) c]
     have hlast : (⟨a.val + 1, by omega⟩ : Fin n) = ⟨n - 1, by omega⟩ :=
       Fin.ext (by change a.val + 1 = n - 1; omega)
@@ -119,17 +119,17 @@ private theorem omWeyl_toStdD_first {n : ℕ} (hn : 2 ≤ n) (c : Fin n → ℤ)
     toStdD n (omFromStdD2 n c) a = 2 * c a := by
   have hva : omFromStdD2 n c a = ∑ b, c b := by
     unfold omFromStdD2
-    rw [if_pos h1]
+    rw [ite_eq_left h1]
   have hva1 : omFromStdD2 n c ⟨a.val - 1, by omega⟩ = ∑ b, c b - 2 * c a := by
     unfold omFromStdD2
-    rw [if_neg (by simp only; omega), dif_pos (by simp only; omega)]
+    rw [ite_eq_right (by simp only; omega), dite_eq_left (by simp only; omega)]
     congr 1
     congr 1
     congr 1
     exact Fin.ext (by change a.val - 1 + 1 = a.val; omega)
   have ha0 : 0 < a.val := by omega
   simp only [toStdD]
-  rw [hva, dif_pos ha0, hva1, dif_neg (by omega)]
+  rw [hva, dite_eq_left ha0, hva1, dite_eq_right (by omega)]
   ring
 
 theorem toStdD_omFromStdD2 {n : ℕ} (hn : 2 ≤ n) (c : Fin n → ℤ) :
@@ -209,11 +209,11 @@ private theorem omWeyl_signD_swap {n : ℕ} (hn : 2 ≤ n) {k : Fin n} (h : ¬ k
   by_cases hbp : b = (⟨n - 2, by omega⟩ : Fin n)
   · subst hbp
     rw [Equiv.swap_apply_left]
-    rw [if_pos (by omega), if_pos (by change n ≤ n - 2 + 2; omega)]
+    rw [ite_eq_left (by omega), ite_eq_left (by change n ≤ n - 2 + 2; omega)]
   · by_cases hbk : b = k
     · subst hbk
       rw [Equiv.swap_apply_right]
-      rw [if_pos (by change n ≤ n - 2 + 2; omega), if_pos (by omega)]
+      rw [ite_eq_left (by change n ≤ n - 2 + 2; omega), ite_eq_left (by omega)]
     · rw [Equiv.swap_apply_of_ne_of_ne hbp hbk]
 
 private theorem omWeyl_stdReflD_of_not_lt {n : ℕ} (hn : 2 ≤ n) {k : Fin n}
@@ -259,9 +259,9 @@ private theorem omWeyl_even_card_support {n : ℕ} {t : Fin n → ℤ} (ht : SpI
     apply Finset.prod_congr rfl
     intro a _
     by_cases ha : a ∈ Finset.univ.filter (fun a => t a = -1)
-    · rw [if_pos ha]
+    · rw [ite_eq_left ha]
       exact ((Finset.mem_filter.mp ha).2).symm
-    · rw [if_neg ha]
+    · rw [ite_eq_right ha]
       rcases ht a with h | h
       · exact h.symm
       · exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ a, h⟩) ha
@@ -319,8 +319,8 @@ private theorem omWeyl_negPair_realizes {n : ℕ} {x y : Fin n} (g : ggWeylD n)
   change (if b = x ∨ b = y then -toStdD n v b else toStdD n v b) =
     (if b = x ∨ b = y then (-1 : ℤ) else 1) * toStdD n v b
   by_cases hb : b = x ∨ b = y
-  · rw [if_pos hb, if_pos hb]; ring
-  · rw [if_neg hb, if_neg hb]; ring
+  · rw [ite_eq_left hb, ite_eq_left hb]; ring
+  · rw [ite_eq_right hb, ite_eq_right hb]; ring
 
 private theorem omWeyl_exists_sign_zero {n : ℕ} {t : Fin n → ℤ} (ht : SpIsSign t)
     (htcard : (Finset.univ.filter (fun a => t a = -1)).card = 0) :
@@ -386,8 +386,8 @@ private theorem omWeyl_exists_sign_succ {n : ℕ} (hn : 2 ≤ n) {t : Fin n → 
   change (if c = x ∨ c = y then (-1 : ℤ) else 1) * t c *
       (if c = x ∨ c = y then (-1 : ℤ) else 1) = t c
   by_cases hc : c = x ∨ c = y
-  · rw [if_pos hc]; ring
-  · rw [if_neg hc]; ring
+  · rw [ite_eq_left hc]; ring
+  · rw [ite_eq_right hc]; ring
 
 private theorem omWeyl_exists_sign {n : ℕ} (hn : 2 ≤ n) {t : Fin n → ℤ} (ht : SpIsSign t)
     (hprod : ∏ a, t a = 1) :
@@ -450,7 +450,7 @@ theorem omRealizes_unique {n : ℕ} (hn : 2 ≤ n)
     · exfalso
       have hz : s a = 0 := by
         have hsingle : (Pi.single a (1 : ℤ) : Fin n → ℤ) (π'.symm (π a)) = 0 := by
-          rw [Pi.single_apply, if_neg hd]
+          rw [Pi.single_apply, ite_eq_right hd]
         rw [hsingle] at heq
         simp only [mul_zero] at heq
         omega

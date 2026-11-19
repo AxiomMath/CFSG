@@ -115,7 +115,7 @@ private theorem unitaryJInv6_eq {k : Type} [Field k] :
 theorem exists_ne_of_card_nine [Finite k] (hk : Nat.card k = 9) (θ : k →+* k)
     (hθ3 : ∀ c, θ c = c ^ 3 ^ 1) : ∃ c, θ c ≠ c := by
   by_contra! h
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hdeg : (Polynomial.X ^ 3 - Polynomial.X : k[X]).natDegree = 3 := by
     refine (Polynomial.natDegree_sub_eq_left_of_natDegree_lt ?_).trans ?_
     · rw [Polynomial.natDegree_X_pow, Polynomial.natDegree_X]
@@ -159,10 +159,10 @@ theorem exists_mulEquiv_SU6 (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) {μ : 
   let w : Fin 6 → k := ![1, 1, 1, μ⁻¹, -μ⁻¹, μ⁻¹]
   have hvw : v * w = 1 := by
     funext i
-    fin_cases i <;> simp [v, w, mul_inv_cancel₀ hμ0, inv_mul_cancel₀ hμ0]
+    fin_cases i <;> simp [v, w, mul_inv_cancel₀ hμ0]
   have hwv : w * v = 1 := by
     funext i
-    fin_cases i <;> simp [v, w, mul_inv_cancel₀ hμ0, inv_mul_cancel₀ hμ0]
+    fin_cases i <;> simp [v, w, inv_mul_cancel₀ hμ0]
   have hDmul : Matrix.diagonal v * Matrix.diagonal w = (1 : Matrix (Fin 6) (Fin 6) k) := by
     rw [Matrix.diagonal_mul_diagonal]
     show Matrix.diagonal (v * w) = 1
@@ -184,19 +184,19 @@ theorem exists_mulEquiv_SU6 (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) {μ : 
     rw [hDm_eq]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [conjTr, Matrix.diagonal_apply, Matrix.map_apply, Matrix.transpose_apply,
+      simp [conjTr, Matrix.transpose_apply,
         v, hψμ]
   have hdi : conjTr ψ Di = Matrix.diagonal ![1, 1, 1, -μ⁻¹, μ⁻¹, -μ⁻¹] := by
     rw [hDi_eq]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [conjTr, Matrix.diagonal_apply, Matrix.map_apply, Matrix.transpose_apply,
+      simp [conjTr, Matrix.transpose_apply,
         w, hψμ, inv_neg]
   have hD2 : conjTr ψ Dm * antidiag 6 * Dm = μ • unitaryJInv6 := by
     rw [hdm, hDm_eq, unitaryJInv6_eq]
     ext i j
     rw [diagonal_antidiag_diagonal, Matrix.smul_apply, diagonal_antidiag]
-    fin_cases i <;> fin_cases j <;> simp [Fin.rev, v] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Fin.rev, v]
   have hDi : conjTr ψ Di * unitaryJInv6 * Di = μ⁻¹ • antidiag 6 := by
     rw [hdi, hDi_eq, unitaryJInv6_eq]
     rw [← Matrix.mul_assoc (Matrix.diagonal ![1,1,1,-μ⁻¹,μ⁻¹,-μ⁻¹])
@@ -205,7 +205,7 @@ theorem exists_mulEquiv_SU6 (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) {μ : 
     ext i j
     rw [diagonal_antidiag_diagonal, Matrix.smul_apply, antidiag]
     simp only [Matrix.of_apply]
-    fin_cases i <;> fin_cases j <;> simp [Fin.rev, w] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Fin.rev, w]
   have hDmulDinv : Dm * Di = (1 : Matrix (Fin 6) (Fin 6) k) := by
     rw [show Dm = (D : Matrix (Fin 6) (Fin 6) k) from rfl,
       show Di = ((D⁻¹ : (Matrix (Fin 6) (Fin 6) k)ˣ) : Matrix (Fin 6) (Fin 6) k) from rfl,

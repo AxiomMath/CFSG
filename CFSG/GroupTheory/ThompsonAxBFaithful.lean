@@ -76,7 +76,7 @@ theorem eq_one_of_forall_fixed_of_commute {W : Type*} [Group W] [Finite W] {p : 
     rw [isPGroup_iff_primeFactors_card_subset (Fact.out : p.Prime).ne_zero]
     intro q hq
     obtain ⟨hqprime, hqdvdcard, -⟩ := Nat.mem_primeFactors.mp hq
-    haveI : Fact q.Prime := ⟨hqprime⟩
+    have : Fact q.Prime := ⟨hqprime⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' q hqdvdcard
     have hqeqp : q = p := by
       by_contra hne

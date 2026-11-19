@@ -17,7 +17,7 @@ theorem exists_trace_form_aut
         σ (if δ then Matrix.trace ((s⁻¹ : SpecialLinearGroup (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4)
           else Matrix.trace (s : Matrix (Fin 3) (Fin 3) F4)) := by
   classical
-  haveI : Finite (SpecialLinearGroup (Fin 3) F4) := inferInstance
+  have : Finite (SpecialLinearGroup (Fin 3) F4) := inferInstance
   have hbij : Function.Bijective a := Finite.injective_iff_bijective.mp ha
   let β : MulAut (SpecialLinearGroup (Fin 3) F4) := MulEquiv.ofBijective a hbij
   have hβ : ∀ s : SpecialLinearGroup (Fin 3) F4,

@@ -62,7 +62,7 @@ theorem jL4_of_odd
 theorem exists_a
     (h : FF79Sec34In4 b J B A P D) :
     ∃ a ∈ B ⊓ J, orderOf a = 3 ∧ IsLnq 2 2 2 (Lay (J ⊓ Cen a)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJ : IsLnq 4 2 1 J := jL4_of_odd h
   have hX : IsLnq 4 2 1 (⊤ : Subgroup ↥J) :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv Subgroup.topEquiv.symm hJ

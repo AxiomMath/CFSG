@@ -30,11 +30,11 @@ theorem ggOrthKStruct_class4_comb {k : ℕ} (hk : k = 4) (h : ↥(spSignedGroup 
     show okCl_flip 4 3 T a t = okCl_a0 t
     rw [okCl_flip_apply]
     by_cases ht : t ∈ T
-    · rw [if_pos ht]
+    · rw [ite_eq_left ht]
       have ht' : a t = Multiplicative.ofAdd 2 := by simpa [T] using ht
       rw [ht']
       exact okCl_ofAdd_two_inv.trans (okCl_a0_apply t).symm
-    · rw [if_neg ht]
+    · rw [ite_eq_right ht]
       have hne2 : a t ≠ Multiplicative.ofAdd 2 := by
         intro hc
         exact ht (by simpa [T] using hc)
@@ -89,7 +89,7 @@ theorem ggOrthKStruct_class4_comb {k : ℕ} (hk : k = 4) (h : ↥(spSignedGroup 
     intro j
     have hval := hs okCl_a0 j
     rw [h'a0] at hval
-    simp only [okCl_a0_apply, okCl_ofAdd_one_inv] at hval
+    simp only [okCl_a0_apply] at hval
     by_cases hsj : s j = true
     · exfalso
       rw [hsj] at hval
@@ -102,7 +102,7 @@ theorem ggOrthKStruct_class4_comb {k : ℕ} (hk : k = 4) (h : ↥(spSignedGroup 
     ext v t
     have hthis := hs v (π.symm t)
     rw [hsfalse (π.symm t)] at hthis
-    simp only [Bool.false_eq_true, if_false] at hthis
+    simp only [Bool.false_eq_true, ite_false] at hthis
     rw [Equiv.apply_symm_apply] at hthis
     rw [hthis, coordPerm_apply]
   have hππ : π * π = 1 := by

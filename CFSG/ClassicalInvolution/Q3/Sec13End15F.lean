@@ -32,11 +32,12 @@ theorem mem_normalizer_comm (h : EndHyp Ω) (h9 : Perp9 Ω) {M M' : Subgroup G} 
       exact Subgroup.le_normalizer hwB.mem
   exact ⟨key hM hM' hb hb', key hM' hM hb' hb⟩
 
-theorem normalizer_eq_of_involution_eq (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
+omit [Finite G] in
+theorem normalizer_eq_of_involution_eq (h : EndHyp Ω) (_h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     {M M' : Subgroup G} (hM : M ∈ Ω) (hM' : M' ∈ Ω) {b : G} (hb : IsUniqueInvolution M b)
     (hb' : IsUniqueInvolution M' b) :
     Subgroup.normalizer (M : Set G) = Subgroup.normalizer (M' : Set G) := by
-  clear h9
+  clear _h9
   obtain ⟨L', hne, hT⟩ := h.twinSet_pair s hM
   have hmem : M' ∈ twinSet Ω M := ⟨hM', b, hb, hb'⟩
   rw [hT, Set.mem_insert_iff, Set.mem_singleton_iff] at hmem
@@ -46,7 +47,7 @@ theorem normalizer_eq_of_involution_eq (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twin
     have hne' : M ≠ M' := fun e2 => hne (e.symm.trans e2.symm)
     exact (h.normalizer_twin (⟨hM, hb, hT', hne'⟩ : TwinSit Ω M M' b)).1
 
-@[expose] def zGroupCommGroup (h : EndHyp Ω) (h9 : Perp9 Ω) : CommGroup (zGroup Ω) :=
+@[instance_reducible, expose] def zGroupCommGroup (h : EndHyp Ω) (h9 : Perp9 Ω) : CommGroup (zGroup Ω) :=
   { (inferInstance : Group (zGroup Ω)) with
     mul_comm := fun a b => Subtype.ext (h.zGroup_comm h9 a a.2 b b.2) }
 
@@ -66,6 +67,7 @@ open Classical in
 @[expose] noncomputable def betaPt (Ω : Set (Subgroup G)) (b d : G) : ZMod 2 :=
   if hb : ∃ M ∈ Ω, IsUniqueInvolution M b then bnorm hb.choose d else 0
 
+omit [Finite G] in
 private theorem e15f_mem_zGroup {Ω : Set (Subgroup G)} {L : Subgroup G} {u : G}
     (hL : L ∈ Ω) (hu : IsUniqueInvolution L u) : u ∈ zGroup Ω :=
   Subgroup.subset_closure ⟨L, hL, hu⟩
@@ -95,10 +97,12 @@ private theorem e15f_symm {V : Type*} [Group V] {bf : V → V → ZMod 2}
   have key : ∀ p q : ZMod 2, p + q = 0 → p = q := by decide
   exact key _ _ h
 
+omit [Finite G] in
 private theorem e15f_closure_zPoints (Ω : Set (Subgroup G)) :
     Subgroup.closure (zPoints Ω) = ⊤ :=
   Subgroup.closure_closure_coe_preimage (k := zSet Ω)
 
+omit [Finite G] in
 private theorem e15f_eq_of_eq_on_zPoints {Ω : Set (Subgroup G)}
     (hgen : Subgroup.closure (zPoints Ω) = ⊤) {F F' : zGroup Ω → ZMod 2}
     (hF : ∀ x y, F (x * y) = F x + F y) (hF' : ∀ x y, F' (x * y) = F' x + F' y)
@@ -112,6 +116,7 @@ private theorem e15f_eq_of_eq_on_zPoints {Ω : Set (Subgroup G)}
   | mul y z _ _ hy hz => rw [hF, hF', hy, hz]
   | inv y _ hy => rw [e15f_map_inv hF, e15f_map_inv hF', hy]
 
+omit [Finite G] in
 private theorem e15f_conj_mem {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) {a : G}
     (ha : a ∈ zGroup Ω) : g * a * g⁻¹ ∈ zGroup Ω :=
   (zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant).conj_mem a ha g
@@ -120,10 +125,12 @@ private def e15f_cj {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) (a : zGroup 
     zGroup Ω :=
   ⟨g * a.1 * g⁻¹, e15f_conj_mem h g a.2⟩
 
+omit [Finite G] in
 private theorem e15f_cj_val {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) (a : zGroup Ω) :
     (e15f_cj h g a).1 = g * a.1 * g⁻¹ :=
   rfl
 
+omit [Finite G] in
 private theorem e15f_normalizer_conj (g d : G) (A : Subgroup G) :
     g * d * g⁻¹ ∈ Subgroup.normalizer (conjSub g A : Set G) ↔
       d ∈ Subgroup.normalizer (A : Set G) := by
@@ -133,13 +140,14 @@ private theorem e15f_normalizer_conj (g d : G) (A : Subgroup G) :
   rw [e]
   exact (conjSub_injective g).eq_iff
 
+omit [Finite G] in
 private theorem e15f_bnorm_eq_zero_iff (M : Subgroup G) (d : G) :
     bnorm M d = 0 ↔ d ∈ Subgroup.normalizer (M : Set G) := by
   unfold bnorm
   by_cases hd : d ∈ Subgroup.normalizer (M : Set G)
-  · rw [if_pos hd]
+  · rw [ite_eq_left hd]
     exact ⟨fun _ => hd, fun _ => rfl⟩
-  · rw [if_neg hd]
+  · rw [ite_eq_right hd]
     exact ⟨fun h1 => absurd h1 (by decide), fun h1 => absurd h1 hd⟩
 
 private theorem e15f_conj_mem_twinSet {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Perp9 Ω)
@@ -167,12 +175,12 @@ private theorem e15f_bnorm_mul {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Per
     intro x
     unfold bnorm
     by_cases hx : x ∈ Subgroup.normalizer (M : Set G)
-    · rw [if_pos hx, if_pos (mem_normalizer_iff_conjSub_eq.mp hx)]
-    · rw [if_neg hx, if_neg (fun h' => hx (mem_normalizer_iff_conjSub_eq.mpr h'))]
+    · rw [ite_eq_left hx, ite_eq_left (mem_normalizer_iff_conjSub_eq.mp hx)]
+    · rw [ite_eq_right hx, ite_eq_right (fun h' => hx (mem_normalizer_iff_conjSub_eq.mpr h'))]
   rw [hbn, hbn, hbn]
   rcases hsub d hd with h1 | h1 <;> rcases hsub d' hd' with h2 | h2
   · have h3 : conjSub (d * d') M = M := by rw [conjSub_mul, h2, h1]
-    rw [if_pos h3, if_pos h1, if_pos h2]
+    rw [ite_eq_left h3, ite_eq_left h1, ite_eq_left h2]
     decide
   · have h3 : conjSub (d * d') M ≠ M := by
       rw [conjSub_mul, h2]
@@ -183,7 +191,7 @@ private theorem e15f_bnorm_mul {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Per
     have h6 : ¬ conjSub d' M = M := by
       rw [h2]
       exact hne
-    rw [if_neg h3, if_pos h1, if_neg h6]
+    rw [ite_eq_right h3, ite_eq_left h1, ite_eq_right h6]
     decide
   · have h3 : conjSub (d * d') M ≠ M := by
       rw [conjSub_mul, h2, h1]
@@ -191,7 +199,7 @@ private theorem e15f_bnorm_mul {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Per
     have h6 : ¬ conjSub d M = M := by
       rw [h1]
       exact hne
-    rw [if_neg h3, if_neg h6, if_pos h2]
+    rw [ite_eq_right h3, ite_eq_right h6, ite_eq_left h2]
     decide
   · have h3 : conjSub (d * d') M = M := by
       rw [conjSub_mul, h2]
@@ -202,7 +210,7 @@ private theorem e15f_bnorm_mul {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Per
     have h7 : ¬ conjSub d' M = M := by
       rw [h2]
       exact hne
-    rw [if_pos h3, if_neg h6, if_neg h7]
+    rw [ite_eq_left h3, ite_eq_right h6, ite_eq_right h7]
     decide
 
 private noncomputable def e15f_beta (Ω : Set (Subgroup G)) (a x : zGroup Ω) : ZMod 2 :=
@@ -212,6 +220,7 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem betaPt_eq (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) {M : Subgroup G}
     (hM : M ∈ Ω) {b : G} (hb : IsUniqueInvolution M b) (d : G) :
     betaPt Ω b d = bnorm M d := by
@@ -219,25 +228,27 @@ theorem betaPt_eq (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) {M : S
   obtain ⟨hM₀, hb₀⟩ := hex.choose_spec
   have hN := h.normalizer_eq_of_involution_eq h9 s hM₀ hM hb₀ hb
   unfold betaPt
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   unfold bnorm
   rw [hN]
 
 theorem betaPt_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {b : G} (hb : b ∈ zSet Ω) {d d' : G} (hd : d ∈ zGroup Ω)
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {b : G} (hb : b ∈ zSet Ω) {d d' : G} (hd : d ∈ zGroup Ω)
     (hd' : d' ∈ zGroup Ω) : betaPt Ω b (d * d') = betaPt Ω b d + betaPt Ω b d' := by
-  clear h13
+  clear _h13
   obtain ⟨B, hB, hbB⟩ := hb
   obtain ⟨L', hne, hT⟩ := h.twinSet_pair s hB
   rw [h.betaPt_eq h9 s hB hbB, h.betaPt_eq h9 s hB hbB, h.betaPt_eq h9 s hB hbB]
   exact e15f_bnorm_mul h h9 hB hbB hne hT hd hd'
 
+omit [Finite G] in
 theorem betaPt_self (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) {b : G}
     (hb : b ∈ zSet Ω) : betaPt Ω b b = 0 := by
   obtain ⟨B, hB, hbB⟩ := hb
   rw [h.betaPt_eq h9 s hB hbB b]
   exact (e15f_bnorm_eq_zero_iff B b).mpr (Subgroup.le_normalizer hbB.mem)
 
+omit [Finite G] in
 private theorem e15f_betaPt_conj (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) (g : G)
     {b : G} (hb : b ∈ zSet Ω) (d : G) :
     betaPt Ω (g * b * g⁻¹) (g * d * g⁻¹) = betaPt Ω b d := by
@@ -246,8 +257,8 @@ private theorem e15f_betaPt_conj (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω
     h.betaPt_eq h9 s hB hbB d]
   unfold bnorm
   by_cases hd : d ∈ Subgroup.normalizer (B : Set G)
-  · rw [if_pos hd, if_pos ((e15f_normalizer_conj g d B).mpr hd)]
-  · rw [if_neg hd, if_neg (fun h' => hd ((e15f_normalizer_conj g d B).mp h'))]
+  · rw [ite_eq_left hd, ite_eq_left ((e15f_normalizer_conj g d B).mpr hd)]
+  · rw [ite_eq_right hd, ite_eq_right (fun h' => hd ((e15f_normalizer_conj g d B).mp h'))]
 
 theorem betaPt_symm (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) {a b : G}
     (ha : a ∈ zSet Ω) (hb : b ∈ zSet Ω) : betaPt Ω b a = betaPt Ω a b := by
@@ -257,8 +268,8 @@ theorem betaPt_symm (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z) {a b
   rw [h.betaPt_eq h9 s hB hbu a, h.betaPt_eq h9 s hA hau b]
   unfold bnorm
   by_cases hd : a ∈ Subgroup.normalizer (B : Set G)
-  · rw [if_pos hd, if_pos (hiff.mp hd)]
-  · rw [if_neg hd, if_neg (fun h' => hd (hiff.mpr h'))]
+  · rw [ite_eq_left hd, ite_eq_left (hiff.mp hd)]
+  · rw [ite_eq_right hd, ite_eq_right (fun h' => hd (hiff.mpr h'))]
 
 end EndHyp
 
@@ -338,13 +349,13 @@ theorem exists_biadditive (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
 theorem nondeg_of_biadditive (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) (bf : zGroup Ω → zGroup Ω → ZMod 2)
     (hmulL : ∀ a a' b : zGroup Ω, bf (a * a') b = bf a b + bf a' b)
-    (hmul : ∀ a b b' : zGroup Ω, bf a (b * b') = bf a b + bf a b')
+    (_hmul : ∀ a b b' : zGroup Ω, bf a (b * b') = bf a b + bf a b')
     (hinv : ∀ (g : G) (a b a' b' : zGroup Ω), a'.1 = g * a.1 * g⁻¹ → b'.1 = g * b.1 * g⁻¹ →
       bf a' b' = bf a b)
     (hspec : ∀ M ∈ Ω, ∀ b : zGroup Ω, IsUniqueInvolution M b.1 → ∀ a : zGroup Ω,
       bf a b = 0 ↔ a.1 ∈ Subgroup.normalizer (M : Set G)) :
     ∀ a : zGroup Ω, (∀ b : zGroup Ω, bf a b = 0) → a = 1 := by
-  clear hmul
+  clear _hmul
   have hone : ∀ b : zGroup Ω, bf 1 b = 0 := fun b =>
     e15f_map_one (F := fun x => bf x b) (fun x y => hmulL x y b)
   have hinvL : ∀ a b : zGroup Ω, bf a⁻¹ b = bf a b := fun a b =>
@@ -445,10 +456,12 @@ namespace IsEndForm
 
 variable {Ω : Set (Subgroup G)} {bf : zGroup Ω → zGroup Ω → ZMod 2}
 
+omit [Finite G] in
 theorem symm (hbf : IsEndForm Ω bf) (a b : zGroup Ω) : bf a b = bf b a :=
   e15f_symm (bf := bf) (fun a a' b => hbf.mul_left a a' b)
     (fun a b b' => hbf.mul_right a b b') hbf.alt a b
 
+omit [Finite G] in
 theorem eq_of_forall_eq (hbf : IsEndForm Ω bf) {a a' : zGroup Ω}
     (h : ∀ b : zGroup Ω, bf b a = bf b a') : a = a' := by
   have hc : ∀ b : zGroup Ω, bf b (a * a'⁻¹) = 0 := fun b => by

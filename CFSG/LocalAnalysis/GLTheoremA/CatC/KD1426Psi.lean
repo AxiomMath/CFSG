@@ -18,9 +18,11 @@ variable {n : ℕ} (K : Subgroup Y) (hK : K.Normal)
 @[expose] def piK : ↥K →* alternatingGroup (Fin n) :=
   eK.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))
 
+omit [Finite Y] in
 theorem piK_surjective : Function.Surjective (piK K eK) :=
   eK.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite Y] in
 theorem piK_eq_one_iff (k : ↥K) : piK K eK k = 1 ↔ k ∈ Subgroup.center ↥K := by
   rw [piK, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.map_eq_one_iff,
     QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
@@ -32,11 +34,13 @@ theorem piK_eq_one_iff (k : ↥K) : piK K eK k = 1 ↔ k ∈ Subgroup.center ↥
 @[expose] def alphaQ (y : Y) : alternatingGroup (Fin n) ≃* alternatingGroup (Fin n) :=
   eK.symm.trans ((cqEquiv K hK y).trans eK)
 
+omit [Finite Y] in
 theorem alphaQ_piK (y : Y) (k : ↥K) :
     alphaQ K hK eK y (piK K eK k) = piK K eK (conjKequiv K hK y k) := by
   simp only [alphaQ, piK, MulEquiv.trans_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
     MulEquiv.symm_apply_apply, cqEquiv, QuotientGroup.mk'_apply, QuotientGroup.congr_mk]
 
+omit [Finite Y] in
 theorem conjKequiv_one (k : ↥K) : conjKequiv K hK 1 k = k := by
   ext
   simp [conjKequiv_apply]
@@ -59,10 +63,12 @@ theorem conjKequiv_one (k : ↥K) : conjKequiv K hK 1 k = k := by
     ext
     simp [conjKequiv_apply, mul_assoc]
 
+omit [Finite Y] in
 theorem alphaHom_piK (y : Y) (k : ↥K) :
     alphaHom K hK eK y (piK K eK k) = piK K eK (conjKequiv K hK y k) :=
   alphaQ_piK K hK eK y k
 
+omit [Finite Y] in
 theorem alphaHom_pow_eq_one {y : Y} (hy : y ^ 3 = 1) : (alphaHom K hK eK y) ^ 3 = 1 := by
   rw [← map_pow, hy, map_one]
 
@@ -72,11 +78,13 @@ variable (hn : 5 ≤ n)
   Classical.choose (exists_unique_inner (n := n) Nat.prime_three (by norm_num) hn
     (alphaHom_pow_eq_one K hK eK hy))
 
+omit [Finite Y] in
 theorem psiFun_spec (y : Y) (hy : y ^ 3 = 1) :
     MulAut.conj (psiFun K hK eK hn y hy) = alphaHom K hK eK y :=
   (Classical.choose_spec (exists_unique_inner (n := n) Nat.prime_three (by norm_num) hn
     (alphaHom_pow_eq_one K hK eK hy))).symm
 
+omit [Finite Y] in
 theorem psiFun_equiv (y : Y) (hy : y ^ 3 = 1) (k : ↥K) :
     piK K eK (conjKequiv K hK y k) =
       psiFun K hK eK hn y hy * piK K eK k * (psiFun K hK eK hn y hy)⁻¹ := by
@@ -92,10 +100,12 @@ theorem psiFun_equiv (y : Y) (hy : y ^ 3 = 1) (k : ↥K) :
     rw [map_mul (MulAut.conj), psiFun_spec, psiFun_spec, psiFun_spec, Subgroup.coe_mul,
       map_mul (alphaHom K hK eK)])
 
+omit [Finite Y] in
 theorem psiB_apply (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ 3 = 1) (b : B) :
     psiB K hK eK hn B hB b = psiFun K hK eK hn (b : Y) (hB b b.2) := by
   simp only [psiB, MonoidHom.mk'_apply]
 
+omit [Finite Y] in
 theorem conjK_eq_of_perfect (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y)
     (hy : ∀ k : ↥K, piK K eK (conjKequiv K hK y k) = piK K eK k) (k : ↥K) :
     conjKequiv K hK y k = k := by
@@ -130,6 +140,7 @@ theorem conjK_eq_of_perfect (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y)
   have hφ : φ k = 1 := MonoidHom.mem_ker.1 (htop (Subgroup.mem_top k))
   exact mul_inv_eq_one.1 hφ
 
+omit [Finite Y] in
 theorem psiFun_eq_one_iff (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y) (hy : y ^ 3 = 1) :
     psiFun K hK eK hn y hy = 1 ↔ y ∈ Subgroup.centralizer (K : Set Y) := by
   have hspec := psiFun_spec K hK eK hn y hy

@@ -122,7 +122,7 @@ theorem stabWCheck_of {RX PA PB PAX PBX P : ℕ → ℕ} {o oX : ℕ}
     change i < 512 * (i / 512) + 512
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
   rw [e4 i hi]
   beta_reduce
   have hall : (wCodes.all fun w => wCodes.contains (arrN (recX R o i))[w]!) =
@@ -158,7 +158,7 @@ theorem rhoKerCheck_of {RA PA PB PAA PBA : ℕ → ℕ} {o : ℕ}
     change i < 512 * (i / 512) + 512
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
   rw [e4 i hi]
   beta_reduce
   have h3 : ([9, 20, 38].all fun w => decide ((arrN (recX R o i))[w]! = w)) =

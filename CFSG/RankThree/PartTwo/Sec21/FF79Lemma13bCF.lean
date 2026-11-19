@@ -19,12 +19,12 @@ structure Crd (B : Subgroup G) (ω : Fin 3 → G) where
 
 theorem exists_crd [Finite G] {B : Subgroup G} {ω : Fin 3 → G} (hB : IsElemAb 3 3 B)
     (hω : ∀ i, ω i ∈ B) (hcl : B = Subgroup.closure (Set.range ω)) : Nonempty (Crd B ω) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsElementaryAbelian 3 ↥B := hB.1
-  letI : CommGroup ↥B := IsMulCommutative.instCommGroup
-  letI : Module (ZMod 3) (Additive ↥B) := IsElementaryAbelian.isVectorSpace 3
-  haveI : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
-  haveI : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 ↥B := hB.1
+  let : CommGroup ↥B := IsMulCommutative.instCommGroup
+  let : Module (ZMod 3) (Additive ↥B) := IsElementaryAbelian.isVectorSpace 3
+  have : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
+  have : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod 3) (Additive ↥B) = 3 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive ↥B)
     have h1 : Nat.card (Additive ↥B) = 3 ^ 3 := hB.2
@@ -184,7 +184,7 @@ theorem eq_of_sylowOf [Finite G] {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hP
 
 theorem isPGroup_zpowers {n : G} {k : ℕ} (hk : n ^ (3 ^ k) = 1) :
     IsPGroup 3 (Subgroup.zpowers n) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hk)
   exact IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
 
@@ -224,7 +224,7 @@ theorem cen_of_rho_one (M : Mono B ω) {n : Nor B} (h1 : rho M n = 1) {k : ℕ}
 theorem mem_of_cen [Finite G] {b : G} (hb : b ∈ B) (hB : IsSylowOf 3 B (Cen b))
     (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) {n : G} (hn : n ∈ CenS B) {k : ℕ}
     (hk : n ^ (3 ^ k) = 1) : n ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnN : n ∈ Nor B := by
     refine mem_nor_of_forall (fun y hy => ?_)
     have := (Subgroup.mem_centralizer_iff.mp hn) y hy
@@ -288,7 +288,7 @@ theorem co_conj (M : Mono B ω) {n : G} (hn : n ∈ Nor B) (σ : Equiv.Perm (Fin
     · rw [h1, M.crd.co_inv _ (M.mem _), M.crd.co_ω, M.crd.co_ω]
       by_cases hkm : k = m
       · subst hkm; simp [h2]
-      · simp [hkm, σ.injective.eq_iff] <;> rfl
+      · simp [hkm, σ.injective.eq_iff]
   | one =>
     intro _ k
     simp [M.crd.co_one]
@@ -342,7 +342,7 @@ theorem cfAbelian_eq [Finite G] (M : Mono B ω) {b : G} (hb : b ∈ B) (hB : IsS
   by_cases hAB : A ≤ B
   · exact Subgroup.eq_of_le_of_card_ge hAB (by rw [M.card]; exact hcard)
   exfalso
-  obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.mp hAB
+  obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.mp hAB
   let φ : A →* Equiv.Perm (Fin 3) := (rho M).comp (Subgroup.inclusion hAN)
   have hpow : ∀ x : A, ∃ k : ℕ, (x : G) ^ (3 ^ k) = 1 := fun x => by
     obtain ⟨k, hk⟩ := hAp x

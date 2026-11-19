@@ -54,6 +54,7 @@ theorem exists_class_of_two_bad (hS : IsSylowTwoOf S₀ L) (hcov : CoveredByTwo 
     have hb1 := (hcl b).resolve_right hb
     exact ⟨A₁, Or.inl rfl, ha1, hb1, hc1⟩
 
+omit [Finite K] in
 theorem leviM_nonabelian_of_oddNode {J : Set (Fin D.rank)} {i : Fin D.rank} (hi : i ∈ J)
     (hodd : OddNode (rankOne D.rootGroup i) 3) :
     ¬ IsMulCommutative ↥(leviM D J) ∧ ¬ IsPGroup 2 ↥(leviM D J) := by
@@ -75,6 +76,7 @@ theorem leviM_nonabelian_of_oddNode {J : Set (Fin D.rank)} {i : Fin D.rank} (hi 
       Nat.Coprime.pow_left k (by norm_num : Nat.Coprime 2 3)
     exact hw1 (orderOf_eq_one_iff.1 (Nat.eq_one_of_dvd_coprimes hcop hd1 hd2))
 
+omit [Finite W] in
 theorem hasLThreeCore_of_nodes {A : Subgroup W} (hA : A ≤ L) (hSA : S₀ ≤ A)
     (hZ : Subgroup.center ↥L = ⊥) (hbq : BorelQuotient D n H π M)
     (hT : (S₀.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)) =
@@ -96,7 +98,7 @@ theorem hasLThreeCore_of_nodes {A : Subgroup W} (hA : A ≤ L) (hSA : S₀ ≤ A
     (Subgroup.map_le_iff_le_comap).symm
   have hJ : {i | rankOne D.rootGroup i ≤ Xt} = {i | i ≠ c} := by
     ext i
-    simp only [Set.mem_setOf_eq, hrank]
+    simp only [Set.mem_ofPred_eq, hrank]
     constructor
     · rintro h rfl
       exact hc h
@@ -187,7 +189,7 @@ theorem hasLThreeCore_spinMinus_four (hS : IsSylowTwoOf S₀ L) (hcov : CoveredB
     (hk : Nat.card F = 2 ^ k) (hkodd : Odd k) (hZ : Subgroup.center ↥L = ⊥)
     (e : (↥L ⧸ Subgroup.center ↥L) ≃* StatedProj (StatedOmega (StatedQuadMinus 4 F b c))) :
     HasLThreeCore A₁ ∨ HasLThreeCore A₂ := by
-  haveI : Finite (spinGroup (quadMinus 4 F b c)) :=
+  have : Finite (spinGroup (quadMinus 4 F b c)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadMinus hirr)
   have hbq := borelQuotient_spinMinus hirr (le_refl 4) e
   have hodd : ∀ i : Fin (minusDatum 4 hirr).rank,

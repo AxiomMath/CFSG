@@ -56,6 +56,7 @@ private noncomputable def commutatorWithJ (h : Tim79a.ParrottHyp z) (j : J z) :
     exact zpowers_commute h (commutator_mem_zpowers_z h y₂.2 j.2)
       (commutator_mem_zpowers_z h y₁.2 j.2)
 
+omit hN [Finite G] in
 private theorem ker_commutatorWithJ (h : Tim79a.ParrottHyp z) (j : J z) :
     (commutatorWithJ h j).ker =
       (J z ⊓ Subgroup.centralizer ({(j : G)} : Set G)).subgroupOf (J z) := by
@@ -70,10 +71,11 @@ private theorem ker_commutatorWithJ (h : Tim79a.ParrottHyp z) (j : J z) :
     exact Subtype.ext (commutatorElement_eq_one_iff_commute.mpr
       (Subgroup.mem_centralizer_singleton_iff.mp hy.2))
 
+omit hN [Finite G] in
 private theorem range_commutatorWithJ_eq_top (h : Tim79a.ParrottHyp z) (j : J z)
     (hjZ : (j : G) ∉ centerIn (J z)) : (commutatorWithJ h j).range = ⊤ := by
   classical
-  haveI : Fact (Nat.card (Subgroup.zpowers z)).Prime :=
+  have : Fact (Nat.card (Subgroup.zpowers z)).Prime :=
     ⟨by rw [Nat.card_zpowers, h.1]; exact Nat.prime_two⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (commutatorWithJ h j).range with hbot | htop
   · exfalso
@@ -91,6 +93,7 @@ private theorem range_commutatorWithJ_eq_top (h : Tim79a.ParrottHyp z) (j : J z)
     exact Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_subgroupOf.mp hyker).2
   · exact htop
 
+omit hN [Finite G] in
 private theorem card_inf_centralizer_J_eq_two_pow_nine (h : Tim79a.ParrottHyp z) {j : G}
     (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) :
     Nat.card ↥(J z ⊓ Subgroup.centralizer ({j} : Set G)) = 2 ^ 9 := by
@@ -107,6 +110,8 @@ private theorem card_inf_centralizer_J_eq_two_pow_nine (h : Tim79a.ParrottHyp z)
   norm_num at h1 ⊢
   omega
 
+omit hN in
+omit [Finite G] in
 private theorem inf_J_eq_inf_centralizer_of_isSylow (h : Tim79a.ParrottHyp z) {j : G}
     {K : Subgroup G} (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G))) :
     K ⊓ J z = J z ⊓ Subgroup.centralizer ({j} : Set G) := by
@@ -120,6 +125,7 @@ private noncomputable def imageQuotientJ {K : Subgroup G} (hK : K ≤ H z) :
     Subgroup (↥(H z) ⧸ (J z).subgroupOf (H z)) :=
   ((QuotientGroup.mk' ((J z).subgroupOf (H z))).comp (Subgroup.inclusion hK)).range
 
+omit [Finite G] in
 private theorem card_eq_card_inf_J_mul_card_imageQuotientJ {K : Subgroup G} (hK : K ≤ H z) :
     Nat.card K = Nat.card ↥(K ⊓ J z) * Nat.card (imageQuotientJ hK) := by
   have h1 := Subgroup.card_ker_mul_card_range
@@ -146,6 +152,7 @@ private theorem card_eq_card_inf_J_mul_card_imageQuotientJ {K : Subgroup G} (hK 
   rw [h2] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem isPGroup_imageQuotientJ {j : G} {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G))) :
     IsPGroup 2 (imageQuotientJ (hK.le.trans inf_le_left)) := by
@@ -191,6 +198,7 @@ private theorem orderOf_tA :
   · intro h
     exact t_ne_one (by simpa using congrArg Subtype.val h)
 
+omit hN in
 private theorem seven_le_fixDimV_of_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G}
     (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G))) {k : G} (hkK : k ∈ K)
@@ -226,6 +234,7 @@ private theorem seven_le_fixDimV_of_mem_centerIn (h : Tim79a.ParrottHyp z) {j : 
   rw [card_fix h ⟨k, (hK.le hkK).1⟩] at hcardF
   exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hcardF
 
+omit [Finite G] in
 private theorem card_imageQA45_eq_two_pow_seven (h : Tim79a.ParrottHyp z) {j : G}
     (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G)))
@@ -241,6 +250,7 @@ private theorem card_imageQA45_eq_two_pow_seven (h : Tim79a.ParrottHyp z) {j : G
 private theorem zmod2_eq_one_of_ne_zero {x : ZMod 2} (hx : x ≠ 0) : x = 1 :=
   (by decide : ∀ y : ZMod 2, y ≠ 0 → y = 1) x hx
 
+omit hN in
 private theorem polarVZMod_eq_one_or_eq_of_forall_orthogonal (h : Tim79a.ParrottHyp z)
     {u v : QuotientV.V z}
     (huv : ∀ w, polarVZMod h u w = 0 → polarVZMod h v w = 0) :
@@ -279,6 +289,7 @@ private theorem polarVZMod_eq_one_or_eq_of_forall_orthogonal (h : Tim79a.Parrott
       _ = 1 * u := by rw [hvu]
       _ = u := one_mul u
 
+omit [Finite G] in
 private theorem exists_mem_conj_sylowTwoQA45 (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G)))
@@ -286,7 +297,7 @@ private theorem exists_mem_conj_sylowTwoQA45 (h : Tim79a.ParrottHyp z) {j : G} (
     ∃ a : kUpperA, ∀ x : kUpperA, x ∈ sylowTwoQA45 ↔
       a⁻¹ * x * a ∈ imageQA45 (z := z) D (hK.le.trans inf_le_left) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let qK : Subgroup kUpperA := imageQA45 (z := z) D (hK.le.trans inf_le_left)
   have hKleH : K ≤ H z := hK.le.trans inf_le_left
   have hqKcard : Nat.card qK = 2 ^ 7 :=
@@ -294,7 +305,6 @@ private theorem exists_mem_conj_sylowTwoQA45 (h : Tim79a.ParrottHyp z) {j : G} (
   have hqKp : IsPGroup 2 qK := isPGroup_imageQA45 D hKleH hK.isPGroup
   have hqKindex : qK.index = 3 ^ 4 * 5 := by
     rw [Subgroup.index_eq_card_div]
-    change Nat.card kUpperA / Nat.card qK = 3 ^ 4 * 5
     rw [card_QA45, hqKcard]
     norm_num
   have hqKnotdvd : ¬ 2 ∣ qK.index := by
@@ -316,10 +326,11 @@ private theorem exists_mem_conj_sylowTwoQA45 (h : Tim79a.ParrottHyp z) {j : G} (
     rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def, MulAut.conj_inv_apply]
   rwa [hTcoe, hQcoe] at h1
 
-private theorem conj_mem_center_sylowTwoQA45_of_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G}
-    (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
+omit [Finite G] in
+private theorem conj_mem_center_sylowTwoQA45_of_mem_centerIn (_h : Tim79a.ParrottHyp z) {j : G}
+    (_hj : j ∈ J z) (_hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G)))
-    (hcard : Nat.card K = 2 ^ 16) {k : G} (hkK : k ∈ K)
+    (_hcard : Nat.card K = 2 ^ 16) {k : G} (hkK : k ∈ K)
     (hkC : k ∈ Subgroup.centralizer (K : Set G)) {a : kUpperA}
     (hmem : ∀ x : kUpperA, x ∈ sylowTwoQA45 ↔
       a⁻¹ * x * a ∈ imageQA45 (z := z) D (hK.le.trans inf_le_left)) :
@@ -350,10 +361,11 @@ private theorem conj_mem_center_sylowTwoQA45_of_mem_centerIn (h : Tim79a.Parrott
   have hmemT : a * qk * a⁻¹ ∈ sylowTwoQA45 := by
     refine (hmem (a * qk * a⁻¹)).mpr ?_
     rw [show a⁻¹ * (a * qk * a⁻¹) * a = qk by
-      simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left, inv_mul_cancel, mul_one]]
+      simp only [mul_assoc, inv_mul_cancel_left, inv_mul_cancel, mul_one]]
     exact hqk_mem_qK
   exact Subgroup.mem_inf.mpr ⟨hmemT, hqk_centT⟩
 
+omit [Finite G] in
 private theorem isConj_tA_of_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G)))
@@ -380,9 +392,9 @@ private theorem not_mem_centerIn_of_z1_of_isSylow
     (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) ≠ centerIn (H z)) {z₁ : G} (hz₁ : z₁ ∈ centerIn (J z))
     (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
-    {j : G} (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
+    {j : G} (_hj : j ∈ J z) (_hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G)))
-    (hcard : Nat.card K = 2 ^ 16)
+    (_hcard : Nat.card K = 2 ^ 16)
     (hqcard : Nat.card (imageQA45 (z := z) D (hK.le.trans inf_le_left)) = 2 ^ 7)
     (hz₁K : z₁ ∈ centerIn K) : False := by
   have hKleH : K ≤ H z := hK.le.trans inf_le_left
@@ -409,6 +421,7 @@ private theorem not_mem_centerIn_of_z1_of_isSylow
   rw [hqk'] at hqk'P
   exact hxQ hqk'P
 
+omit [Finite G] in
 private theorem closure_pair_le_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     {K : Subgroup G} (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G))) :
     Subgroup.closure ({z, j} : Set G) ≤ centerIn K := by
@@ -441,7 +454,7 @@ private theorem closure_pair_le_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj :
     exact hx ▸ hjcenter
 
 private theorem mem_centerIn_J_or_mul_of_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G}
-    (hj : j ∈ J z) (hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
+    (hj : j ∈ J z) (_hjZ : j ∉ centerIn (J z)) {K : Subgroup G}
     (hK : IsSylowOf 2 K (H z ⊓ centralizer ({j} : Set G))) {k : G}
     (hk : k ∈ centerIn K) (hqk1 : qH D ⟨k, (hK.le hk.1).1⟩ = 1) :
     k ∈ centerIn (J z) ∨ k * j ∈ centerIn (J z) := by

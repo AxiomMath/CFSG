@@ -14,6 +14,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -284,7 +285,7 @@ theorem c13_A2 (hc : Ctx13C t L S x₁ x₂ lam rho tau om) :
       Nat.card ↥(closure ({tau, om} : Set G)) = 4 ∧
       closure ({tau, om} : Set G) ≤ ctxCO t tau x₁ x₂ rho ∧
       ∀ g ∈ closure ({tau, om} : Set G), ∀ a ∈ ctxYq t tau x₁ x₂ rho, g * a = a * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : tau * om = om * tau := c13_comm_om_tau hc.toCtx13A
   have htau2 : tau * tau = 1 := by simpa [pow_two] using hc.l44.1
   have hom2 : om * om = 1 := hc.om_sq
@@ -379,7 +380,7 @@ theorem c13_E32 (hc : Ctx13C t L S x₁ x₂ lam rho tau om)
     (h : lam * om * lam⁻¹ = om * tau) :
     ∃ A : Subgroup G, CFSG.Open.IsElemAbelian 2 A ∧ A ≤ centralizer ({lam * t} : Set G) ∧
       32 ≤ Nat.card A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsig := c13_sigma_data hc.toCtx11
   have hA2data := c13_A2 hc
   have hsigmatau : (lam * t) * tau = tau * (lam * t) := hsig.2.2.1

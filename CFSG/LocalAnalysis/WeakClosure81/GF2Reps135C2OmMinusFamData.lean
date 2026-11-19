@@ -161,9 +161,9 @@ theorem omMinus_two_type_cases (hK : Nat.card K = 2) {n : ℕ} (hn : 4 ≤ n)
         funext s
         by_cases hs : s.val = 0
         · have hss0 : s = s0 := Fin.ext (hs.trans hs0.symm)
-          rw [hss0, if_pos hs0]
+          rw [hss0, ite_eq_left hs0]
           exact (hμ01 s0).resolve_left hs0ne
-        · rw [if_neg hs]
+        · rw [ite_eq_right hs]
           exact hμne s hs
       · push Not at hzero
         left

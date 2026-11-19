@@ -29,6 +29,7 @@ variable {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K] [CharP K 2]
   [(Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal] {K' : Type} [Field K'] [Finite K']
   {γ : G → K'} {M₀ : Tim79.QuadModel Q Z K' γ} {θ : K' ≃+* K}
 
+omit [Finite K'] in
 theorem vecOf_mulVec (C : HS9.Coord95 hc t K) (hVD : VecData M₀ (Vt M (LB M Q B) B Z t) C.ψ θ)
     (φ₀ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K'] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ₀ m (M₀.π x))
@@ -50,6 +51,7 @@ theorem vecOf_mulVec (C : HS9.Coord95 hc t K) (hVD : VecData M₀ (Vt M (LB M Q 
   rw [h1, h2]
   exact C.hψ g ⟨w, hwV⟩ ⟨_, hgw⟩ rfl
 
+omit [Finite K'] in
 theorem exists_point (C : HS9.Coord95 hc t K) (hVD : VecData M₀ (Vt M (LB M Q B) B Z t) C.ψ θ)
     (ht : t ∈ LB M Q B) {p : Fin 2 ⊕ Fin 2 → K} (hp0 : p ≠ 0) (hpQ : quadPlus 2 K p = 0) :
     ∃ ρ ∈ Rt M (LB M Q B) t, ∀ x ∈ conjSubgroup ρ B, ∃ c : K',
@@ -79,6 +81,7 @@ theorem exists_point (C : HS9.Coord95 hc t K) (hVD : VecData M₀ (Vt M (LB M Q 
     (vecInv_secVec C.ψ hVD.le ⟨x, hxV⟩).symm
   rw [h2, hsec, ← hVD.vecInv_smul, RingEquiv.apply_symm_apply]
 
+omit [Finite K'] in
 theorem exists_pairing (hKq : ∃ c : K, c ≠ 0 ∧ c ≠ 1) (C : HS9.Coord95 hc t K)
     (hVD : VecData M₀ (Vt M (LB M Q B) B Z t) C.ψ θ) (ht : t ∈ LB M Q B)
     (φ₀ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K'] M₀.E))

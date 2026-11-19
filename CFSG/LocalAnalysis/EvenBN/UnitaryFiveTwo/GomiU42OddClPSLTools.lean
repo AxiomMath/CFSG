@@ -63,7 +63,7 @@ theorem u42_psl_index_dvd (n : ℕ) (K : Type) [Field K] [Finite K] :
     rw [← u42DetClass_ker, Subgroup.index_ker]
   have h2 : Nat.card (u42DetClass n K).range ∣ Nat.card (Kˣ ⧸ H) :=
     Subgroup.card_subgroup_dvd_card _
-  haveI : IsCyclic (Kˣ ⧸ H) := isCyclic_of_surjective (QuotientGroup.mk' H)
+  have : IsCyclic (Kˣ ⧸ H) := isCyclic_of_surjective (QuotientGroup.mk' H)
     QuotientGroup.mk_surjective
   have h3 : Nat.card (Kˣ ⧸ H) ∣ n := by
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ ⧸ H)
@@ -103,7 +103,7 @@ theorem u42_psl_inner_eq {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K
     ∃ ε e : ℕ, (ε = 1 ∨ ε = 2) ∧ e ∣ Nat.gcd n (Nat.card K - 1) ∧
       Nat.card ↥(fixedSubgroup (innerDiagonalAction n K A)) * e * (Nat.card K - 1) =
         ε * Nat.card (Subgroup.centralizer ({A} : Set (GL (Fin n) K))) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   obtain ⟨e, he, hG⟩ := u42_card_centralizer_eq n K (ProjGenLinGroup.mk A)
   have hidx := ordinaryCentralizerProjection_range_index_le_two A hsq
   have hidx0 : 0 < (ordinaryCentralizerProjection A).range.index := Nat.pos_of_ne_zero

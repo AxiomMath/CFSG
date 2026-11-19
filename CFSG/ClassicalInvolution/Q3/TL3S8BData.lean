@@ -73,7 +73,7 @@ theorem exists_sylow_le : ∃ Q₀ : Sylow 2 (tightCore R),
   obtain ⟨Q, hQ⟩ := hRK2.exists_le_sylow
   have heq : (Q : Subgroup (tightCore R)).map (tightCore R).subtype =
       (S : Subgroup R).map R.subtype :=
-    hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _)
+    hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _)
       (by rw [← Subgroup.map_subgroupOf_eq_of_le hRK.1]; exact Subgroup.map_mono hQ)
   exact ⟨Q, heq ▸ h.hST⟩
 
@@ -161,7 +161,7 @@ theorem mem_S : z ∈ (S : Subgroup G) := by
         exact ((Commute.zpow_left
           (Subgroup.mem_centralizer_singleton_iff.mp (hd.hSz hs)).symm k).eq))
   have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.zpowers z) :=
-    S.isPGroup'.to_sup_of_normal_right' hz2 hSN'
+    S.isPGroup.to_sup_of_normal_right' hz2 hSN'
   have h3 := S.maximal_isPGroup.le_of_ge h2 le_sup_left
   exact h3 (Subgroup.mem_sup_right (Subgroup.mem_zpowers z))
 
@@ -213,7 +213,7 @@ theorem isCyclic_V : IsCyclic ↥V := by
   obtain ⟨R, -, -, hcyc, -⟩ := hd.memV
   exact hcyc
 
-theorem isPGroup_V : IsPGroup 2 V := S.isPGroup'.to_le (hd.leW.trans hd.hWS)
+theorem isPGroup_V : IsPGroup 2 V := S.isPGroup.to_le (hd.leW.trans hd.hWS)
 
 theorem four_le_card_V : 4 ≤ Nat.card V := by
   obtain ⟨R, hR, hVR, -, hidx⟩ := hd.memV
@@ -272,7 +272,7 @@ theorem inf_sec19Y_eq_bot : V ⊓ sec19Y K z = ⊥ := by
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
   exact (S1916.commute_of_mem_centralizerModOdd htY inf_le_right
-    (S.isPGroup'.to_le inf_le_left) hd.htN hy).symm
+    (S.isPGroup.to_le inf_le_left) hd.htN hy).symm
 
 end TightSylowDataT
 

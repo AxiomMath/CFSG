@@ -281,12 +281,12 @@ theorem map_L0_ne_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (hK : KOrdNat
     rwa [c.hL0.prop.2.1] at hcommSub
   have hL0bot : c.L0 = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥c.L0 := (Subgroup.nontrivial_iff_ne_bot c.L0).2 hne
-    haveI : Group.IsPerfect ↥c.L0 := Subgroup.isPerfect_iff.mpr c.hL0.prop.2.1
+    have : Nontrivial ↥c.L0 := (Subgroup.nontrivial_iff_ne_bot c.L0).2 hne
+    have : Group.IsPerfect ↥c.L0 := Subgroup.isPerfect_iff.mpr c.hL0.prop.2.1
     have hL0p : IsPGroup 2 ↥c.L0 :=
       (uc22main1_isPGroup_pCoreOf c.L).to_le hL0leO2
     exact Group.IsPerfect.not_isNilpotent (G := ↥c.L0) hL0p.isNilpotent
-  exact uc22p20i_not_le_M D c.hL0.prop (by simpa [hL0bot] using bot_le)
+  exact uc22p20i_not_le_M D c.hL0.prop (by simp [hL0bot])
 
 end Ctx23L
 

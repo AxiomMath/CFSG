@@ -24,7 +24,7 @@ private lemma l05nEE_tgt_cast {c c0 : Fin 6} :
   · subst h
     simp [l05nEE_two_cast]
   · have hne : ¬ c.val = c0.val := fun hh => h (Fin.ext hh)
-    rw [if_neg h, if_neg hne]
+    rw [ite_eq_right h, ite_eq_right hne]
     simp
 
 private lemma l05nEE_det_of_kernel {p : ℕ} [Fact p.Prime]
@@ -51,7 +51,7 @@ private lemma l05nEE_det_of_kernel {p : ℕ} [Fact p.Prime]
     · exact (mul_eq_zero.mp hD2).resolve_left hm
   exact sub_eq_zero.mp hD
 
-theorem ggDepELEnc1 (c0 : Fin 6) (hc0 : GGDepED4Leaf c0) (ha αa : GGDepAE 3 6)
+theorem ggDepELEnc1 (c0 : Fin 6) (_hc0 : GGDepED4Leaf c0) (ha αa : GGDepAE 3 6)
     (hpair : GGDepELPairs1 c0 ha αa) (hdot : ggDepAdot αa ha = 2)
     (hx : ggDepAdot αa ggDepELx ≠ 0) :
     ∃ lh la : List ℕ,
@@ -101,7 +101,7 @@ theorem ggDepELEnc1 (c0 : Fin 6) (hc0 : GGDepED4Leaf c0) (ha αa : GGDepAE 3 6)
       exact ⟨(lh, la), by simp, by simp [hlh_eq, hla_eq]⟩
   exact ⟨lh, la, hlh_mem, hla_mem, hd, hz, ⟨hlh_len, hla_len, hd⟩, hnews_eq⟩
 
-theorem ggDepELEnc2 (c c' : Fin 6) (hc : GGDepED4Leaf c) (hc' : GGDepED4Leaf c')
+theorem ggDepELEnc2 (c c' : Fin 6) (_hc : GGDepED4Leaf c) (_hc' : GGDepED4Leaf c')
     (ha1 αa1 ha2 αa2 : GGDepAE 3 6) (hP : GGDepELPairs2 c c' ha1 αa1 ha2 αa2)
     (hx : ggDepAdot αa1 ggDepELx ≠ 0 ∨ ggDepAdot αa2 ggDepELx ≠ 0) (lam mu : ZMod 3)
     (hlm : lam ≠ 0 ∨ mu ≠ 0)
@@ -119,7 +119,7 @@ theorem ggDepELEnc2 (c c' : Fin 6) (hc : GGDepED4Leaf c) (hc' : GGDepED4Leaf c')
         (ggDepANDot 3 la1 ggDepELNZ * ggDepANDot 3 la2 ggDepELNX) % 3 ∧
       GGDepELNValid (lh1, la1) ∧ GGDepELNValid (lh2, la2) ∧
       ggDepELNNews [(lh1, la1), (lh2, la2)] = {(ha1, αa1), (ha2, αa2)} := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hvH1 : ∀ d : Fin 6, GGDepED4In d →
       ggDepAdot (ggDepELα d) ha1 =
         (((fun x : ℕ => if x = c.val then 2 else 0) d.val : ℕ) : ZMod 3) := by

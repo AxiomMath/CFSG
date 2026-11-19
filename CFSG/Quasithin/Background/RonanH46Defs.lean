@@ -51,20 +51,20 @@ theorem rho_embZ_mem_LZ {hK : Nat.card K = (2 ^ n) ^ 2} (h4 : 4 ≤ Nat.card K) 
   carrier := {X | mat X 0 0 = 0 ∧ mat X 0 1 = 0 ∧ mat X 0 2 = 0}
   one_mem' := by simp [mat_one]
   mul_mem' {X Y} hX hY := by
-    simp only [Set.mem_setOf_eq] at hX hY ⊢
+    simp only [Set.mem_ofPred_eq] at hX hY ⊢
     simp [mat_mul, hX.1, hX.2.1, hX.2.2, hY.1, hY.2.1, hY.2.2]
   inv_mem' {X} hX := by
-    simp only [Set.mem_setOf_eq] at hX ⊢
+    simp only [Set.mem_ofPred_eq] at hX ⊢
     simp [mat_inv, hX.1, hX.2.1, hX.2.2]
 
 @[expose] def V2z (n : ℕ) (K : Type) [Field K] [Finite K] [CharP K 2] : Subgroup (HMod n K) where
   carrier := {X | mat X 1 1 = 0 ∧ mat X 1 2 = 0 ∧ mat X 2 2 = 0}
   one_mem' := by simp [mat_one]
   mul_mem' {X Y} hX hY := by
-    simp only [Set.mem_setOf_eq] at hX hY ⊢
+    simp only [Set.mem_ofPred_eq] at hX hY ⊢
     simp [mat_mul, hX.1, hX.2.1, hX.2.2, hY.1, hY.2.1, hY.2.2]
   inv_mem' {X} hX := by
-    simp only [Set.mem_setOf_eq] at hX ⊢
+    simp only [Set.mem_ofPred_eq] at hX ⊢
     simp [mat_inv, hX.1, hX.2.1, hX.2.2]
 
 theorem mem_V2z {X : HMod n K} : X ∈ V2z n K ↔ mat X 1 1 = 0 ∧ mat X 1 2 = 0 ∧ mat X 2 2 = 0 :=

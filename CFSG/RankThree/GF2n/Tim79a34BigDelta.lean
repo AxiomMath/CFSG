@@ -127,7 +127,7 @@ theorem bigDelta_eq_one_of_centralizes {M V W B : Subgroup G}
     (hnc : ∀ v ∈ V, v ∉ W → ∀ b ∈ B, b ≠ 1 → v * b ≠ b * v)
     {g z : G} (hg : g ∈ M) (hzB : z ∈ conjSubgroup g B)
     (hz : ∀ v ∈ V, z * v = v * z) : z = 1 := by
-  obtain ⟨v₀, hv₀V, hv₀W⟩ := SetLike.not_le_iff_exists.mp hVW
+  obtain ⟨v₀, hv₀V, hv₀W⟩ := IsConcreteLE.not_le_iff_exists.mp hVW
   have hbB : g⁻¹ * z * g ∈ B := mem_conjSubgroup.mp hzB
   by_contra hz1
   have hb1 : g⁻¹ * z * g ≠ 1 := by

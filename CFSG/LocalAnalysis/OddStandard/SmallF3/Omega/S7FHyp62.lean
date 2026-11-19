@@ -19,7 +19,7 @@ theorem s7f_hyp62 (hZ : Asc82ZExists) (h76c : Asc82Lemma76Choice) (h79a : Asc82L
   obtain ⟨y, hy, hXy⟩ := hX
   have hF : InF X := ⟨hXy.isQuasisimple, Or.inl (Or.inr (Or.inl hΩ))⟩
   have hS' : Sec3SettingLB G y X := sec3SettingLB_of_component hS hy hXy hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSyl⟩ : ∃ S : Subgroup G, IsSylow2Of S (centralizer ({y} : Set G)) :=
     ⟨_, isSylow2Of_map_sylow (Classical.arbitrary (Sylow 2 ↥(centralizer ({y} : Set G))))⟩
   obtain ⟨z, hz⟩ := hZ G y X hS' S hSyl

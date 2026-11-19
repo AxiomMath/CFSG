@@ -36,7 +36,7 @@ theorem isMulCommutative_of_card_le_four {G : Type*} [Group G] [Finite G]
 theorem sylow_eq_bot_of_not_dvd {X : Type*} [Group X] [Finite X] {ℓ : ℕ} (hℓ : ℓ.Prime)
     (h : ¬ ℓ ∣ Nat.card X) (P : Sylow ℓ X) : (P : Subgroup X) = ⊥ := by
   have : Fact ℓ.Prime := ⟨hℓ⟩
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hk0 : k = 0 := by
     by_contra hk0
     exact h ((dvd_pow_self ℓ hk0).trans (hk ▸ Subgroup.card_subgroup_dvd_card _))
@@ -87,6 +87,6 @@ theorem sylow_isCyclic_pRank_le_one_of_injective {X Y : Type*} [Group X] [Group 
     exact Subgroup.isCyclic_of_le hVP
   have hX : ∀ V : Subgroup X, IsPGroup ℓ V → IsCyclic V := fun V hV =>
     OuterPrimeControl.isCyclic_of_isPGroup_of_injective ι hι hY hV
-  exact ⟨fun P => hX P P.isPGroup', OuterPrimeControl.pRank_le_one_of_forall_isCyclic hX⟩
+  exact ⟨fun P => hX P P.isPGroup, OuterPrimeControl.pRank_le_one_of_forall_isCyclic hX⟩
 
 end CFSG.Quasithin.H13.NQCat

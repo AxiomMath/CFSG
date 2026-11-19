@@ -107,7 +107,7 @@ theorem sg_mul (σ τ : Perm (Fin 6)) : sg (σ * τ) = sg σ + sg τ := by
   unfold sg
   rw [map_mul]
   rcases Int.units_eq_one_or (Perm.sign σ) with h | h <;>
-  rcases Int.units_eq_one_or (Perm.sign τ) with h' | h' <;> simp [h, h'] <;> decide
+  rcases Int.units_eq_one_or (Perm.sign τ) with h' | h' <;> simp [h, h']; decide
 
 theorem sg_one : sg (1 : Perm (Fin 6)) = 0 := by simp [sg]
 

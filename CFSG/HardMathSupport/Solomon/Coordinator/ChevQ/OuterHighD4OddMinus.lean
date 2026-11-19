@@ -263,15 +263,15 @@ theorem frob_frameHom {σ : L →+* L} {ω c x z : Lˣ}
       refine xb_triple_congr ?_ ?_ ?_
       · rw [rootChar_xxzx_val hb (show d4Root 20 0 + d4Root 20 1 + d4Root 20 3 = -2 ∧
           d4Root 20 2 = -1 by decide), hD2, hD0i, map_neg]
-        simp only [_root_.zpow_neg_one, _root_.zpow_neg, zpow_ofNat]
+        simp only [_root_.zpow_neg, zpow_ofNat]
         ring
       · rw [rootChar_xxzx_val hb (show d4Root 18 0 + d4Root 18 1 + d4Root 18 3 = -2 ∧
           d4Root 18 2 = -1 by decide), hD2, hD0i, map_neg]
-        simp only [_root_.zpow_neg_one, _root_.zpow_neg, zpow_ofNat]
+        simp only [_root_.zpow_neg, zpow_ofNat]
         ring
       · rw [rootChar_xxzx_val hb (show d4Root 17 0 + d4Root 17 1 + d4Root 17 3 = -2 ∧
           d4Root 17 2 = -1 by decide), hD2, hD0i, map_neg]
-        simp only [_root_.zpow_neg_one, _root_.zpow_neg, zpow_ofNat]
+        simp only [_root_.zpow_neg, zpow_ofNat]
         ring
     · show gTw (nSL c) * bcAd σ (Ψ _) * (gTw (nSL c))⁻¹ = Ψ (thetaD σ D _)
       rw [thetaD_transvection, h10, h01, map_mul, map_mul, bcAd_xb σ (by norm_num),
@@ -314,15 +314,15 @@ theorem frob_frameHom {σ : L →+* L} {ω c x z : Lˣ}
       refine xb_triple_congr ?_ ?_ ?_
       · rw [rootChar_xxzx_val hb (show d4Root 15 0 + d4Root 15 1 + d4Root 15 3 = 2 ∧
           d4Root 15 2 = 1 by decide), hD0, hD2i, map_neg]
-        simp only [_root_.zpow_one, zpow_ofNat]
+        simp only [zpow_ofNat]
         ring
       · rw [rootChar_xxzx_val hb (show d4Root 13 0 + d4Root 13 1 + d4Root 13 3 = 2 ∧
           d4Root 13 2 = 1 by decide), hD0, hD2i, map_neg]
-        simp only [_root_.zpow_one, zpow_ofNat]
+        simp only [zpow_ofNat]
         ring
       · rw [rootChar_xxzx_val hb (show d4Root 12 0 + d4Root 12 1 + d4Root 12 3 = 2 ∧
           d4Root 12 2 = 1 by decide), hD0, hD2i, map_neg]
-        simp only [_root_.zpow_one, zpow_ofNat]
+        simp only [zpow_ofNat]
         ring
     · show gTw (nSL c) * bcAd σ (Ψ _) * (gTw (nSL c))⁻¹ = Ψ (thetaD σ D _)
       rw [thetaD_diagA]
@@ -641,7 +641,7 @@ theorem d4GraphA2FixIsoMinusB0_holds : D4GraphA2FixIsoMinusB0 := by
   intro K _ _ hK2 _ _ hq
   have := Fintype.ofFinite K
   obtain ⟨f, hp, hcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   rw [hK]
   exact isPGLPiThree_fixedSubgroup_gammaP_orderThreeSL_of_ext f.pos hK hK2

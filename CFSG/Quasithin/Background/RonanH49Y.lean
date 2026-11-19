@@ -37,7 +37,7 @@ theorem tau_yW : tau yW = yW := by
 
 abbrev Tw (i : Fin 3) : WMod := Multiplicative.ofAdd (tMat i)
 
-theorem Tw_injective : Function.Injective Tw := fun i j h =>
+theorem Tw_injective : Function.Injective Tw := fun _i _j h =>
   tMat_injective (congrArg Multiplicative.toAdd h)
 
 theorem tau_Tw (i : Fin 3) : tau (Tw i) = Tw i := by
@@ -108,13 +108,11 @@ theorem Tw_sigFun {x : MulAut WMod} (hx : x ∈ Cy) (i : Fin 3) : Tw (sigFun x i
       left_inv := fun i => by
         apply Tw_injective
         rw [Tw_sigFun (x⁻¹ : ↥Cy).2, Tw_sigFun x.2]
-        change ((x⁻¹ : ↥Cy) : MulAut WMod) ((x : MulAut WMod) (Tw i)) = Tw i
         rw [Subgroup.coe_inv, ← MulAut.mul_apply, inv_mul_cancel]
         rfl
       right_inv := fun i => by
         apply Tw_injective
         rw [Tw_sigFun x.2, Tw_sigFun (x⁻¹ : ↥Cy).2]
-        change (x : MulAut WMod) (((x⁻¹ : ↥Cy) : MulAut WMod) (Tw i)) = Tw i
         rw [Subgroup.coe_inv, ← MulAut.mul_apply, mul_inv_cancel]
         rfl }
   map_one' := Equiv.ext fun i => by
@@ -167,7 +165,7 @@ theorem epsC_eq_one_iff (x : ↥Cy) : epsC x = 1 ↔ (x : MulAut WMod) ∈ img :
   change (if (x : MulAut WMod) ∈ img then (1 : Multiplicative (ZMod 2)) else tq) = 1 ↔ _
   by_cases h : (x : MulAut WMod) ∈ img
   · simp [h]
-  · simp [h, tq_ne_one]
+  · simp [h]
 
 @[expose] noncomputable def fC : ↥Cy →* Equiv.Perm (Fin 3) × Multiplicative (ZMod 2) :=
   sigC.prod epsC

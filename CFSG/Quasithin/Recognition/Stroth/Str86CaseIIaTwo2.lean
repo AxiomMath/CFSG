@@ -26,9 +26,10 @@ theorem str86_one_lt_relIndex_sup_of_not_le {Lo X : Subgroup G} (h : ¬ X ≤ Lo
     exact Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite)
   omega
 
+omit [Finite G] in
 theorem str86_commutator_mem_of_mem_sup {Nβ S K H X Lo : Subgroup G}
     (hNβ : Nβ = S ⊔ K) (hSN : Nβ ≤ Subgroup.normalizer (S : Set G))
-    (hSH : S ≤ H) (hKH : K ≤ H)
+    (hSH : S ≤ H) (_hKH : K ≤ H)
     (hSX : ∀ s ∈ S, ∀ x ∈ X, s * x * s⁻¹ * x⁻¹ ∈ Lo)
     (hKX : ∀ k ∈ K, ∀ x ∈ X, k * x * k⁻¹ * x⁻¹ ∈ Lo)
     (hLoH : ∀ h ∈ H, ∀ y ∈ Lo, h * y * h⁻¹ ∈ Lo) :
@@ -42,7 +43,7 @@ theorem str86_commutator_mem_of_mem_sup {Nβ S K H X Lo : Subgroup G}
     rw [← Subgroup.subgroupOf_sup hSNβ hKNβ, ← hNβ, Subgroup.subgroupOf_self]
   have hSNormal : (S.subgroupOf Nβ).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNβle
-  letI : (S.subgroupOf Nβ).Normal := hSNormal
+  let : (S.subgroupOf Nβ).Normal := hSNormal
   have hmem : (⟨n, hn⟩ : ↥Nβ) ∈ (⊤ : Subgroup ↥Nβ) := Subgroup.mem_top _
   rw [← hsup] at hmem
   obtain ⟨s, hs, k, hk, hsk⟩ := (Subgroup.mem_sup_of_normal_left).mp hmem
@@ -57,6 +58,7 @@ theorem str86_commutator_mem_of_mem_sup {Nβ S K H X Lo : Subgroup G}
   exact Lo.mul_mem (hLoH (s : G) (hSH hs') _ (hKX (k : G) hk' x hx))
     (hSX (s : G) hs' x hx)
 
+omit [Finite G] in
 theorem isChiefSeriesFrom_of_le_module {H U U' N : Subgroup G} {n : ℕ}
     (hU'U : U' ≤ U) (hNU' : N ≤ U') (h : IsChiefSeriesFrom H U N n) :
     IsChiefSeriesFrom H U' N n := by

@@ -40,7 +40,7 @@ theorem lineTorus_statedSL {d : ℕ} [NeZero d] (hd : 2 ≤ d) :
   have h01 : (0 : Fin d) ≠ 1 := by
     intro h
     have hv : (0 : ℕ) = 1 := by
-      simpa [Fin.ext_iff, Fin.val_one', Nat.mod_eq_of_lt (by omega : 1 < d)] using h
+      simp [Fin.ext_iff, Nat.mod_eq_of_lt (by omega : 1 < d)] at h
     exact Nat.zero_ne_one hv
   let t : Fin d → Kˣ := Pi.mulSingle 0 c * Pi.mulSingle 1 c⁻¹
   have hprod : (∏ i, t i) = 1 := by

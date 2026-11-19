@@ -23,7 +23,7 @@ section U6
 theorem map_sylow_eq_of_isPGroup {A B : Type*} [Group A] [Finite A] [Group B] (g : A →* B)
     (hg : Function.Surjective g) (hB : IsPGroup 2 B) (S : Sylow 2 A) :
     (S : Subgroup A).map g = ⊤ := by
-  haveI : Finite B := Finite.of_surjective g hg
+  have : Finite B := Finite.of_surjective g hg
   have hle : (S : Subgroup A) ≤ ((S : Subgroup A).map g).comap g := Subgroup.le_comap_map _ _
   have h1 := Subgroup.index_dvd_of_le hle
   rw [Subgroup.index_comap_of_surjective _ hg] at h1

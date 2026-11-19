@@ -127,7 +127,7 @@ theorem exists_kill_subgroup_E78 {τ : Tag} (hτ : τ = Tag.E7 ∨ τ = Tag.E8) 
     have := hPnorm p⁻¹ (inv_mem hp) _ hv
     rwa [show p⁻¹ * (p * v * p⁻¹) * p⁻¹⁻¹ = v by group] at this
   have hVP : TableBExc.torusPow τ F 3 ≤ (P : Subgroup ↥(adjointGroup τ F)) := by
-    have hsup := hVp.to_sup_of_normal_left' P.isPGroup' hnorm
+    have hsup := hVp.to_sup_of_normal_left' P.isPGroup hnorm
     exact le_sup_left.trans (P.maximal_isPGroup.le_of_ge hsup le_sup_right)
   have hw1 : w ^ 3 = 1 := by
     have h := pow_orderOf_eq_one w
@@ -135,7 +135,7 @@ theorem exists_kill_subgroup_E78 {τ : Tag} (hτ : τ = Tag.E7 ∨ τ = Tag.E8) 
   have hr : 7 ≤ τ.rank := by rcases hτ with rfl | rfl <;> decide
   have hcard : 3 ^ 7 ≤ Nat.card (TableBExc.torusPow τ F 3) :=
     (Nat.pow_le_pow_right (by norm_num) hr).trans (three_pow_rank_le_card_torusPow hτ h3)
-  exact dvd81_card_inf_centralizer_of_cube P.isPGroup' hVP hPnorm hVc hV3 hcard hwP hw1
+  exact dvd81_card_inf_centralizer_of_cube P.isPGroup hVP hPnorm hVc hV3 hcard hwP hw1
 
 theorem innerLeaf_E7_one : InnerLeaf (IdxExc .E7 1) := by
   intro X _ _ K R T z h hz d hd e

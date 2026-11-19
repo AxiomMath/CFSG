@@ -63,9 +63,9 @@ theorem evalWord_apply : ∀ u : List Int, plettersOK 12 u = true → ∀ x : Fi
     unfold GZ
     by_cases hp : 0 < l
     · rw [decide_eq_true hp, Quiver.SchreierGraph.evalWord_cons_true, Equiv.Perm.mul_apply,
-        if_pos hp, evalS_apply hg, ih hu' x, show l.toNat - 1 = l.natAbs - 1 by omega]
+        ite_eq_left hp, evalS_apply hg, ih hu' x, show l.toNat - 1 = l.natAbs - 1 by omega]
     · rw [show decide (0 < l) = false by simpa using hp, Quiver.SchreierGraph.evalWord_cons_false,
-        Equiv.Perm.mul_apply, if_neg hp, evalS_inv_apply hg, ih hu' x,
+        Equiv.Perm.mul_apply, ite_eq_right hp, evalS_inv_apply hg, ih hu' x,
         show (-l).toNat - 1 = l.natAbs - 1 by omega]
 
 theorem sgen_apply {j : Nat} (hj : j < 7) (x : Fin N) : ((sgen j x : Fin N) : Nat) = TT j x := by

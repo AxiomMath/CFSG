@@ -16,7 +16,7 @@ section Prelim
 
 instance instFiniteLinearEquivSelf {K V : Type*} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [Module.Finite K V] : Finite (V ≃ₗ[K] V) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
 
 theorem card_subgroup_prod {A B : Type*} [Group A] [Group B] (E : Subgroup A) (F : Subgroup B) :
@@ -135,7 +135,7 @@ theorem blockLE_mem {D C : Submodule K V} (hDC : IsCompl D C)
       TauCeti.BilinForm.isometryGroup (B.restrict C) →* TauCeti.BilinForm.isometryGroup B where
   toFun gg := ⟨blockLE hDC gg.1 gg.2, blockLE_mem hDC hperp hperp' gg.1.2 gg.2.2⟩
   map_one' := Subtype.ext (blockLE_one hDC)
-  map_mul' a b := Subtype.ext (blockLE_mul hDC _ _ _ _)
+  map_mul' _a _b := Subtype.ext (blockLE_mul hDC _ _ _ _)
 
 theorem blockHom_coe {D C : Submodule K V} (hDC : IsCompl D C)
     (hperp : ∀ d ∈ D, ∀ c ∈ C, B d c = 0) (hperp' : ∀ c ∈ C, ∀ d ∈ D, B c d = 0)
@@ -231,6 +231,7 @@ theorem pRank_centralizer_le_block {D C : Submodule K V} (hDC : IsCompl D C)
   congr 1
   exact Prod.ext hg (by simp)
 
+omit [Finite K] in
 theorem exists_nondeg_subspace_alt (hB : B.IsAlt) (hnd : B.Nondegenerate) {m : ℕ}
     (hm : 2 * m ≤ Module.finrank K V) :
     ∃ D : Submodule K V, Disjoint D (B.orthogonal D) ∧ Module.finrank K D = 2 * m := by
@@ -377,7 +378,7 @@ theorem three_le_pRank_centralizer_isometry (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.
     omega
   have hab : ∀ P : Sylow p (TauCeti.BilinForm.isometryGroup (B.restrict W)),
       IsMulCommutative (P : Subgroup _) := fun P =>
-    isMulCommutative_of_isPGroup_isometry hp2 hpK he hpe (B.restrict W) hne P.isPGroup'
+    isMulCommutative_of_isPGroup_isometry hp2 hpK he hpe (B.restrict W) hne P.isPGroup
   have hrank := le_pRank_isometryGroup he hee ((hpe e).2 dvd_rfl) 3 (B.restrict W) hWalt hWnd hW3
   exact (le_pRank_centralizer_of_sylow_abelian hab hrank hyWp).trans
     (pRank_centralizer_le_block hWC hperp hperp' y yW yC hblock)

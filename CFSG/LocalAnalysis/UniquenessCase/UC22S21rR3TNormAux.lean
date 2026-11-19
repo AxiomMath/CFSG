@@ -19,12 +19,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3t_uniqueFourConj_mul (a b : G) (Y : Subgroup G) :
     uniqueFourConj a (uniqueFourConj b Y) = uniqueFourConj (b * a) Y := by
   ext x
   rw [mem_uniqueFourConj_iff, mem_uniqueFourConj_iff, mem_uniqueFourConj_iff]
   rw [show b * (a * x * a⁻¹) * b⁻¹ = (b * a) * x * (b * a)⁻¹ by group]
 
+omit [Finite G] in
 private theorem uc22r3t_orbit_eq (K : Subgroup G) {T : Subgroup G} (a : G) (t : T) :
     uniqueFourConj a (K.map (MulAut.conj (t : G)).toMonoidHom) =
       uniqueFourConj ((t : G)⁻¹ * a) K := by
@@ -34,6 +36,7 @@ private theorem uc22r3t_orbit_eq (K : Subgroup G) {T : Subgroup G} (a : G) (t : 
     rw [inv_inv]]
   rw [uc22r3t_uniqueFourConj_mul]
 
+omit [Finite G] in
 private theorem uc22r3t_orbit_mem (K : Subgroup G) {T : Subgroup G} {a : G}
     (haT : a ∈ normalizer (T : Set G)) (t w : T) :
     uniqueFourConj (w : G) (uniqueFourConj ((t : G)⁻¹ * a) K) =
@@ -44,6 +47,7 @@ private theorem uc22r3t_orbit_mem (K : Subgroup G) {T : Subgroup G} {a : G}
   congr 1
   group
 
+omit [Finite G] in
 private theorem uc22r3t_iSup_orbit_canon {K : Subgroup G} {T : Subgroup G} {a : G}
     (haT : a ∈ normalizer (T : Set G)) (t : T) :
     (⨆ u : T, uniqueFourConj ((u : G)⁻¹ * a) K) =
@@ -69,6 +73,7 @@ private theorem uc22r3t_iSup_orbit_canon {K : Subgroup G} {T : Subgroup G} {a : 
     rw [h]
     exact le_iSup (fun u : T => uniqueFourConj ((u : G)⁻¹ * a) K) _
 
+omit [Finite G] in
 private theorem uc22r3t_iSup_eq_of_orbit_eq {K : Subgroup G} {T : Subgroup G} {a b : G}
     (haT : a ∈ normalizer (T : Set G)) (hbT : b ∈ normalizer (T : Set G)) {t s : T}
     (h : uniqueFourConj ((t : G)⁻¹ * a) K =
@@ -96,6 +101,7 @@ private theorem uc22r3t_conj_calC {H K : Subgroup G} (hKH : K ∈ calC H)
   have := calC_map_conj_of_mem_normalizer hKu (Subgroup.le_normalizer (H.inv_mem hcH))
   simpa [CFSG.Open.uniqueFourConj] using this
 
+omit [Finite G] in
 private theorem uc22r3t_conj_eq_iSup {T K K₁ : Subgroup G}
     (hKjoin : K₁ = ⨆ u : T, K.map (MulAut.conj (u : G)).toMonoidHom) (c : G) :
     uniqueFourConj c K₁ =
@@ -117,6 +123,7 @@ private theorem uc22r3t_barImage_conj_eq_iSup {T H K K₁ : Subgroup G}
   exact barImage_iSup _ fun u => CFSG.Quasithin.A3.subnormal_le
     (uc22r3t_conj_calC hKH hcH (hTH u.2)).1
 
+omit [Finite G] in
 private theorem uc22r3t_fam_pair_ne {T K K₁ : Subgroup G}
     (hKjoin : K₁ = ⨆ u : T, K.map (MulAut.conj (u : G)).toMonoidHom)
     {a b : G} (haT : a ∈ normalizer (T : Set G)) (hbT : b ∈ normalizer (T : Set G))
@@ -172,6 +179,7 @@ theorem uc22r3t_barImage_conj_commute {T M H K₁ : Subgroup G} (hTH : T ≤ H)
   rw [hbarB] at hy
   exact (Subgroup.mem_centralizer_iff.mp (hle hx) y hy).symm
 
+omit [Finite G] in
 private theorem uc22r3t_mem_normalizer_of_zpow {K : Subgroup G} {z : G} {r k d : ℕ}
     (hr : r.Prime) (hr5 : 5 ≤ r) (hzo : orderOf z = r ^ k)
     (hd1 : 1 ≤ d) (hd3 : d ≤ 3) (h : z ^ d ∈ normalizer (K : Set G)) :
@@ -185,6 +193,7 @@ private theorem uc22r3t_mem_normalizer_of_zpow {K : Subgroup G} {z : G} {r k d :
   have hcop : Nat.Coprime d (orderOf z) := by rwa [hzo]
   exact (Subgroup.zpowers_le.mpr h) (mem_zpowers_pow_iff.mpr hcop)
 
+omit [Finite G] in
 private theorem uc22r3t_mem_normalizer_of_uniqueFourConj {K : Subgroup G} {z g : G}
     (hcomm : z * g = g * z)
     (h : z ∈ normalizer (uniqueFourConj g K : Set G)) :
@@ -204,6 +213,7 @@ private theorem uc22r3t_mem_normalizer_of_uniqueFourConj {K : Subgroup G} {z g :
       _ = z := by rw [← hcomm]; group
   rwa [hn_eq] at hn
 
+omit [Finite G] in
 private theorem uc22r3t_conj_ne_of_lt {K₁ : Subgroup G} {z : G} {r k : ℕ}
     (hr : r.Prime) (hr5 : 5 ≤ r) (hzo : orderOf z = r ^ k)
     (hznot : z ∉ normalizer (K₁ : Set G)) {i j : Fin 4} (hij : (i : ℕ) < (j : ℕ)) :
@@ -230,6 +240,7 @@ private theorem uc22r3t_conj_ne_of_lt {K₁ : Subgroup G} {z : G} {r k : ℕ}
     uc22r3t_mem_normalizer_of_uniqueFourConj (g := z ^ (i : ℕ)) hcomm hzN_i
   exact hznot (uc22r3t_mem_normalizer_of_zpow hr hr5 hzo hd1 hd3 hzN)
 
+omit [Finite G] in
 private theorem uc22r3t_conj_ne_of_gt {K₁ : Subgroup G} {z : G} {r k : ℕ}
     (hr : r.Prime) (hr5 : 5 ≤ r) (hzo : orderOf z = r ^ k)
     (hznot : z ∉ normalizer (K₁ : Set G)) {i j : Fin 4} (hij : (j : ℕ) < (i : ℕ)) :
@@ -256,6 +267,7 @@ private theorem uc22r3t_conj_ne_of_gt {K₁ : Subgroup G} {z : G} {r k : ℕ}
     uc22r3t_mem_normalizer_of_uniqueFourConj (g := z ^ (j : ℕ)) hcomm hzN_i
   exact hznot (uc22r3t_mem_normalizer_of_zpow hr hr5 hzo hd1 hd3 hzN)
 
+omit [Finite G] in
 theorem uc22r3t_conj_ne_of_not_mem_normalizer {K₁ : Subgroup G} {z : G} {r k : ℕ}
     (hr : r.Prime) (hr5 : 5 ≤ r) (hzo : orderOf z = r ^ k)
     (hznot : z ∉ normalizer (K₁ : Set G)) {i j : Fin 4} (hij : i ≠ j) :
@@ -274,18 +286,21 @@ private def uc22r3tBarConj (H : Subgroup G) (z b : G) (hz : z ∈ H) (hb : b ∈
     (i : Fin 4) : Bar2 H :=
   uc22p21cPi H (uc22r3tHConj H z b hz hb i)
 
+omit [Finite G] in
 private theorem uc22r3tHConj_mem_conj {H K₁ : Subgroup G} {z b : G}
     (hz : z ∈ H) (hb : b ∈ H) (hbK : b ∈ K₁) (i : Fin 4) :
     (uc22r3tHConj H z b hz hb i : G) ∈ uniqueFourConj (z ^ (i : ℕ)) K₁ := by
   rw [mem_uniqueFourConj_iff]
   simpa [uc22r3tHConj, mul_assoc] using hbK
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_mem {H K₁ : Subgroup G} {z b : G}
     (hz : z ∈ H) (hb : b ∈ H) (hbK : b ∈ K₁) (i : Fin 4) :
     uc22r3tBarConj H z b hz hb i ∈ barImage H (uniqueFourConj (z ^ (i : ℕ)) K₁) :=
   uc22p21c_mem_barImage.2 ⟨uc22r3tHConj H z b hz hb i,
     uc22r3tHConj_mem_conj hz hb hbK i, rfl⟩
 
+omit [Finite G] in
 private theorem uc22r3tHConj_order {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb : b ∈ H)
     {q : ℕ} (hbo : orderOf b = q) (i : Fin 4) :
     orderOf (uc22r3tHConj H z b hz hb i) = q := by
@@ -297,18 +312,21 @@ private theorem uc22r3tHConj_order {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb
     exact h.symm
   simpa [uc22r3tHConj] using hconj
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_order {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb : b ∈ H)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hbo : orderOf b = q) (i : Fin 4) :
     orderOf (uc22r3tBarConj H z b hz hb i) = q :=
   uc22ine229_orderOf_mk (uc22r3tHConj H z b hz hb i) hq hq2
     (uc22r3tHConj_order hz hb hbo i)
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_pow {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb : b ∈ H)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hbo : orderOf b = q) (i : Fin 4) :
     uc22r3tBarConj H z b hz hb i ^ q = 1 := by
   rw [← uc22r3tBarConj_order hz hb hq hq2 hbo i]
   exact pow_orderOf_eq_one _
 
+omit [Finite G] in
 private theorem uc22r3tHConj_inverts {H : Subgroup G} {z b t : G}
     (hz : z ∈ H) (hb : b ∈ H) (ht : t ∈ H) (hinv : t * b * t⁻¹ = b⁻¹) (i : Fin 4) :
     uc22r3tHConj H z t hz ht i * uc22r3tHConj H z b hz hb i *
@@ -322,6 +340,7 @@ private theorem uc22r3tHConj_inverts {H : Subgroup G} {z b t : G}
     _ = (z ^ (i : ℕ))⁻¹ * b⁻¹ * z ^ (i : ℕ) := by rw [hinv]
     _ = ((z ^ (i : ℕ))⁻¹ * b * z ^ (i : ℕ))⁻¹ := by group
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_inverts {H : Subgroup G} {z b t : G}
     (hz : z ∈ H) (hb : b ∈ H) (ht : t ∈ H) (hinv : t * b * t⁻¹ = b⁻¹) (i : Fin 4) :
     uc22r3tBarConj H z t hz ht i * uc22r3tBarConj H z b hz hb i *
@@ -329,6 +348,7 @@ private theorem uc22r3tBarConj_inverts {H : Subgroup G} {z b t : G}
   have h := congrArg (uc22p21cPi H) (uc22r3tHConj_inverts hz hb ht hinv i)
   simpa [uc22r3tBarConj, map_mul, map_inv] using h
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_ne_inv {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb : b ∈ H)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hbo : orderOf b = q) (i : Fin 4) :
     uc22r3tBarConj H z b hz hb i ≠ (uc22r3tBarConj H z b hz hb i)⁻¹ := by
@@ -342,8 +362,9 @@ private theorem uc22r3tBarConj_ne_inv {H : Subgroup G} {z b : G} (hz : z ∈ H) 
   rw [uc22r3tBarConj_order hz hb hq hq2 hbo i] at hdvd
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 hdvd)
 
+omit [Finite G] in
 private theorem uc22r3tBarConj_not_central {H K₁ : Subgroup G} {z b t : G}
-    (hz : z ∈ H) (hb : b ∈ H) (ht : t ∈ H) (hbK : b ∈ K₁) (htK : t ∈ K₁)
+    (hz : z ∈ H) (hb : b ∈ H) (ht : t ∈ H) (_hbK : b ∈ K₁) (htK : t ∈ K₁)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hbo : orderOf b = q)
     (hinv : t * b * t⁻¹ = b⁻¹) (i : Fin 4) :
     ∃ h ∈ barImage H (uniqueFourConj (z ^ (i : ℕ)) K₁),
@@ -377,6 +398,7 @@ private theorem uc22r3t_closure_card {H K₁ : Subgroup G} {z b t : G}
   · exact fun i => uc22r3tBarConj_pow hz hb hq hq2 hbo i
   · exact fun i => uc22r3tBarConj_not_central hz hb ht hbK htK hq hq2 hbo hinv i
 
+omit [Finite G] in
 private theorem uc22r3t_closure_elemAbelian {H K₁ : Subgroup G} {z b : G}
     (hz : z ∈ H) (hb : b ∈ H) (hbK : b ∈ K₁)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hbo : orderOf b = q)
@@ -406,6 +428,7 @@ private theorem uc22r3t_B_le_M (D : Data G) {H : Subgroup G} {z b : G}
     (D.M.mul_mem (D.M.mul_mem (D.M.inv_mem (D.M.pow_mem hzM _)) hbM)
       (D.M.pow_mem hzM _))
 
+omit [Finite G] in
 private theorem uc22r3t_closure_le_map {H : Subgroup G} {z b : G} (hz : z ∈ H) (hb : b ∈ H) :
     Subgroup.closure (Set.range (fun i : Fin 4 => uc22r3tBarConj H z b hz hb i)) ≤
       (Subgroup.closure (Set.range (fun i : Fin 4 => uc22r3tHConj H z b hz hb i))).map
@@ -441,7 +464,7 @@ private theorem uc22r3t_rank_four_core (D : Data G) (he : evenRank G = 3)
     (hcommA : ∀ i j : Fin 4, i ≠ j →
       ∀ x ∈ barImage H (uniqueFourConj (z ^ (i : ℕ)) K₁),
         ∀ y ∈ barImage H (uniqueFourConj (z ^ (j : ℕ)) K₁), x * y = y * x) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let B : Subgroup ↥H := Subgroup.closure (Set.range (fun i : Fin 4 =>
     uc22r3tHConj H z b hzH hbH i))
   let E₀ : Subgroup (Bar2 H) := Subgroup.closure (Set.range (fun i : Fin 4 =>

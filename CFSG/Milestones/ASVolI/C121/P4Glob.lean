@@ -14,6 +14,7 @@ section Global
 
 variable {𝕎 : Type} [CommGroup 𝕎] [Finite 𝕎]
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_centQuot_normal {G : Subgroup (MulAut 𝕎)} {U : Subgroup 𝕎}
     (hG : G ≤ stabSub U) : ∀ g ∈ G, ∀ x ∈ G ⊓ centQuot U, g * x * g⁻¹ ∈ G ⊓ centQuot U := by
   intro g hg x hx
@@ -28,6 +29,7 @@ theorem burnsideC121_p4_centQuot_normal {G : Subgroup (MulAut 𝕎)} {U : Subgro
   rw [h3]
   exact h2
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_centSub_normal {G : Subgroup (MulAut 𝕎)} {U : Subgroup 𝕎}
     (hG : G ≤ stabSub U) : ∀ g ∈ G, ∀ x ∈ G ⊓ centSub U, g * x * g⁻¹ ∈ G ⊓ centSub U := by
   intro g hg x hx

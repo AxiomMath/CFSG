@@ -100,6 +100,7 @@ private theorem card_QG (hw : S.width = 3) : Nat.card S.QG = 128 := by
   rw [S.card_QG_eq_card_Q, S.card_Q_eq, hw]
   norm_num
 
+omit [Finite G] in
 private theorem card_QClass_eq_card_relIndex (τ : G) :
     Nat.card ↥(QClass S τ) = (Subgroup.centralizer {τ}).relIndex S.QG := by
   rw [QClass, Nat.card_coe_set_eq]
@@ -118,6 +119,7 @@ private theorem card_QClass_eq_sixteen (hw : S.width = 3) {τ : G}
   rw [hrel]
   omega
 
+omit [Finite G] in
 private theorem card_InvCoset_eq_sixteen {τ : G} (hττ : τ * τ = 1)
     (hcount : Nat.card {x : G // x ∈ S.QG ∧ (τ * x) * (τ * x) = 1} = 16) :
     Nat.card ↥(InvCoset S τ) = 16 := by
@@ -143,9 +145,9 @@ private theorem card_InvCoset_eq_sixteen {τ : G} (hττ : τ * τ = 1)
         change τ * (τ * x.1) = x.1
         rw [← mul_assoc, hττ, one_mul] }
 
-private theorem QClass_subset_InvCoset (hw : S.width = 3) {τ : G} (hτM : τ ∈ S.M)
-    (hττ : τ * τ = 1) (hcard : Nat.card (CQ S τ) = 8)
-    (hcount : Nat.card {x : G // x ∈ S.QG ∧ (τ * x) * (τ * x) = 1} = 16) :
+private theorem QClass_subset_InvCoset (_hw : S.width = 3) {τ : G} (hτM : τ ∈ S.M)
+    (hττ : τ * τ = 1) (_hcard : Nat.card (CQ S τ) = 8)
+    (_hcount : Nat.card {x : G // x ∈ S.QG ∧ (τ * x) * (τ * x) = 1} = 16) :
     QClass S τ ⊆ InvCoset S τ := by
   rintro y ⟨x, hx, rfl⟩
   have hxM : x ∈ S.M := S.QG_le_M hx
@@ -394,11 +396,11 @@ private theorem card_involution_coset_le {y : S.M} (hyM0 : y ∈ M0 S M0bar)
   classical
   let F := Fix S y
   have hFix : Nat.card F = 16 := card_Fix S M0bar hyM0 hy1 hyy h16
-  haveI : Finite S.Qt := inferInstance
-  haveI : Finite F := by
+  have : Finite S.Qt := inferInstance
+  have : Finite F := by
     dsimp [F]
     infer_instance
-  haveI : Finite (F × Bool) := inferInstance
+  have : Finite (F × Bool) := inferInstance
   let e : F → G := fun v => Classical.choose (S.exists_cl v.1)
   have he_mem : ∀ v : F, e v ∈ S.QG := fun v =>
     (Classical.choose_spec (S.exists_cl v.1)).1
@@ -656,6 +658,7 @@ private theorem exists_le_centralizer_card_eq_sixtyFour_of_mem_M0
       (mem_M0G_iff_rho S M0bar hyM).mp hyM0
     exact exists_le_centralizer_card_eq_sixtyFour_of_not_mem_Q S M0bar hw hyM0' hyy hy1 h16
 
+omit [Finite G] in
 private theorem map_CM_conj {τ : G} {g : G} (hg : g * S.z * g⁻¹ = τ) :
     (CM S (g⁻¹ * S.z * g)).map (MulAut.conj g).toMonoidHom = CM S τ := by
   have hg' : g⁻¹ * τ * g = S.z := by rw [← hg]; group
@@ -698,6 +701,7 @@ private theorem map_CM_conj {τ : G} {g : G} (hg : g * S.z * g⁻¹ = τ) :
     · show g * (g⁻¹ * x * g) * g⁻¹ = x
       group
 
+omit [Finite G] in
 private theorem card_CM_conj {τ : G} {g : G} (hg : g * S.z * g⁻¹ = τ) :
     Nat.card (CM S (g⁻¹ * S.z * g)) = Nat.card (CM S τ) := by
   rw [← map_CM_conj S hg]
@@ -996,8 +1000,8 @@ private theorem not_isConj_z_of_outer_involution (hw : S.width = 3)
       hHidx, hE'card] at hmul
     omega
 
-  haveI : Fintype ↥(E' ⊓ E) := Fintype.ofFinite _
-  haveI : Nontrivial ↥(E' ⊓ E) :=
+  have : Fintype ↥(E' ⊓ E) := Fintype.ofFinite _
+  have : Nontrivial ↥(E' ⊓ E) :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       rw [← Nat.card_eq_fintype_card, hHcard]
       norm_num)
@@ -1062,7 +1066,7 @@ private theorem not_isConj_z_of_outer_involution (hw : S.width = 3)
 private theorem isSylowIn_centralizer_and_center_inf_zConj (hw : S.width = 3)
     (hcls : ∀ u ∈ S.Mbar, u ∉ M0bar → u * u = 1 → ∀ u' ∈ S.Mbar, u' ∉ M0bar →
       u' * u' = 1 → ∃ k ∈ S.Mbar, k * u * k⁻¹ = u')
-    (h16 : ∀ w ∈ M0bar, w ≠ 1 → w * w = 1 →
+    (_h16 : ∀ w ∈ M0bar, w ≠ 1 → w * w = 1 →
       Nat.card ↥(S.Mbar ⊓ Subgroup.centralizer ({w} : Set S.O)) = 16 ∧
       Nat.card {v : S.Qt // (w : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v} = 16)
     (hsq : ∀ y : S.M, S.ρ y ∉ M0bar → (y : G) * y = 1 →
@@ -1076,7 +1080,7 @@ private theorem isSylowIn_centralizer_and_center_inf_zConj (hw : S.width = 3)
         ∃ x ∈ S.QG ⊓ Subgroup.centralizer ({(y : G)} : Set G),
           (w : G) * x * (w : G)⁻¹ ≠ x ∧ (w : G) * x * (w : G)⁻¹ ≠ x * S.z)
     {τ : G} (hτM : τ ∈ S.M) (hτM0 : S.ρ ⟨τ, hτM⟩ ∉ M0bar) (hττ : τ * τ = 1)
-    (hEcard : Nat.card (CQ S τ) = 8) (hEelem : ∀ x ∈ CQ S τ, x * x = 1)
+    (_hEcard : Nat.card (CQ S τ) = 8) (_hEelem : ∀ x ∈ CQ S τ, x * x = 1)
     (hA : ¬ IsConj S.z τ) (T₁ : Subgroup G) (hT₁ : IsSylowIn 2 T₁ (CM S τ)) :
     (∀ x : T₁, x ∈ Subgroup.center T₁ → IsConj S.z (x : G) → (x : G) = S.z) ∧
       IsSylowIn 2 T₁ (Subgroup.centralizer ({τ} : Set G)) := by
@@ -1192,12 +1196,14 @@ private theorem isSylowIn_centralizer_and_center_inf_zConj (hw : S.width = 3)
       _ = S.z * s := by rw [hszEq]
   exact ⟨hsM, hsC⟩
 
+omit [Finite G] in
 private theorem isSylowIn_map_conj {p : ℕ} {P H : Subgroup G} (h : IsSylowIn p P H) (g : G) :
     IsSylowIn p (P.map (MulAut.conj g).toMonoidHom) (H.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨Subgroup.map_mono h.1, h.2.1.map _, ?_⟩
   rw [Subgroup.relIndex_map_map_of_injective P H (MulAut.conj g).injective]
   exact h.2.2
 
+omit [Finite G] in
 private theorem exists_conj_eq_of_isSylowIn {p : ℕ} [Fact p.Prime] [Finite G] {P Q H : Subgroup G}
     (hP : IsSylowIn p P H) (hQ : IsSylowIn p Q H) :
     ∃ g ∈ H, P.map (MulAut.conj g).toMonoidHom = Q := by
@@ -1207,7 +1213,7 @@ private theorem exists_conj_eq_of_isSylowIn {p : ℕ} [Fact p.Prime] [Finite G] 
     simpa [Subgroup.relIndex] using hQ.2.2
   let P' : Sylow p H := (hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm).toSylow hPidx
   let Q' : Sylow p H := (hQ.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hQ.1).symm).toSylow hQidx
-  haveI : Finite (Sylow p H) :=
+  have : Finite (Sylow p H) :=
     Finite.of_injective (fun S : Sylow p H => (S : Set H))
       (fun S T h => Sylow.ext (by
         ext x
@@ -1236,6 +1242,7 @@ private theorem exists_conj_eq_of_isSylowIn {p : ℕ} [Fact p.Prime] [Finite G] 
     _ = (Q' : Subgroup H).map H.subtype := by rw [hsub]
     _ = Q := by rw [hQ', Subgroup.map_subgroupOf_eq_of_le hQ.1]
 
+omit [Finite G] in
 private theorem map_centralizer_conj {y g : G} :
     (Subgroup.centralizer ({y} : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ({g * y * g⁻¹} : Set G) := by
@@ -1262,7 +1269,7 @@ end PGLData
 open PGLData
 
 theorem false_of_pglData {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : Setting G)
-    (hw : S.width = 3) (M0bar : Subgroup S.O) (hM0 : M0bar ≤ S.Mbar)
+    (hw : S.width = 3) (M0bar : Subgroup S.O) (_hM0 : M0bar ≤ S.Mbar)
     (hidx : M0bar.relIndex S.Mbar = 2)
     (hcls : ∀ u ∈ S.Mbar, u ∉ M0bar → u * u = 1 → ∀ u' ∈ S.Mbar, u' ∉ M0bar →
       u' * u' = 1 → ∃ k ∈ S.Mbar, k * u * k⁻¹ = u')
@@ -1331,7 +1338,7 @@ theorem false_of_pglData {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : 
     have hd : (1 : G) * (1 : G) = 1 := by simp
     have hdU : ∀ x : G, x⁻¹ * (1 : G) * x ∈ T → x⁻¹ * (1 : G) * x ∈ U := by
       intro x hx
-      simpa using hx
+      simp
     obtain ⟨x, hxU, hext⟩ :=
       CFSG.LargeExtraspecial.GLR.exists_extremal_conj_mem_of_sq_eq_of_isSimpleGroup
         hnonab hT.2.1 hTidx hUT hUidx hτT hgU hττ hd hdU
@@ -1379,8 +1386,7 @@ theorem false_of_pglData {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : 
       have hct : c * (t : G) * c⁻¹ ∈ (T ⊓ Subgroup.centralizer ({y} : Set G)).map
           (MulAut.conj x).toMonoidHom := by
         rw [← hcMap]
-        simpa [MulAut.conj_apply] using
-          Subgroup.mem_map_of_mem (MulAut.conj c).toMonoidHom t.2
+        simp [MulAut.conj_apply]
       have hcomm := hz₂center _ hct
       have hz₂eq : z₂ = c * z₁ * c⁻¹ := hz₁eq.symm
       calc (t : G) * z₁ = c⁻¹ * (c * (t : G) * c⁻¹) * c * z₁ * c⁻¹ * c := by group
@@ -1537,8 +1543,7 @@ theorem false_of_pglData {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : 
       have hct : c * (t : G) * c⁻¹ ∈ (T ⊓ Subgroup.centralizer ({y} : Set G)).map
           (MulAut.conj x).toMonoidHom := by
         rw [← hcMap]
-        simpa [MulAut.conj_apply] using
-          Subgroup.mem_map_of_mem (MulAut.conj c).toMonoidHom t.2
+        simp [MulAut.conj_apply]
       have hcomm := hz₂center _ hct
       have hz₁eqG : c * z₁ * c⁻¹ = z₂ := by
         simpa [MulAut.conj_apply] using hz₁eq

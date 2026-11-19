@@ -13,7 +13,8 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (hLK : L ≤ K)
+omit [Finite G] in
+private theorem le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (_hLK : L ≤ K)
     (h : L.relIndex K = 2) {a : G} (haK : a ∈ K) (haL : a ∉ L) :
     K ≤ L ⊔ Subgroup.zpowers a := by
   intro x hxK
@@ -159,7 +160,7 @@ theorem seven_six_one_hall {V H E J A X Y : Subgroup G}
         have hconj : j * (x⁻¹ * u * x * u⁻¹) * j⁻¹ ∈ J :=
           (Subgroup.mem_normalizer_iff.mp hJj (x⁻¹ * u * x * u⁻¹)).mp hxJ'
         rw [hxmj] at hconj
-        convert hconj using 1 <;> group
+        convert hconj using 1; group
       have hrJ : m⁻¹ * u * m * u⁻¹ ∈ J := by
         have := J.mul_mem hxmJ hjuj
         rwa [show (m⁻¹ * u * m * (j * u * j⁻¹)⁻¹) * (j * u * j⁻¹ * u⁻¹) =

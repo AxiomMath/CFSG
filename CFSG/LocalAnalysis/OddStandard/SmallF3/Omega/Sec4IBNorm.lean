@@ -18,6 +18,7 @@ private lemma exists_third (k k' : Fin 7) (h : k ≠ k') : ∃ m : Fin 7, m ≠ 
   revert k k'
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IT_smul_of_normalizes (fr : Sec4IFrame Q) (g : OGroup Q)
     (hg : ∀ s : Fin 7 → ZMod 2, IsEvenVec s →
       ∃ s' : Fin 7 → ZMod 2, IsEvenVec s' ∧ g⁻¹ * sec4IT fr s * g = sec4IT fr s')
@@ -35,6 +36,7 @@ private theorem sec4IT_smul_of_normalizes (fr : Sec4IFrame Q) (g : OGroup Q)
   simp only [LinearEquiv.coe_inv, LinearEquiv.apply_symm_apply, map_smul] at h2
   simpa using h2
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4I_exists_smul_basis (fr : Sec4IFrame Q) (g : OGroup Q)
     (hg : ∀ s : Fin 7 → ZMod 2, IsEvenVec s →
       ∃ s' : Fin 7 → ZMod 2, IsEvenVec s' ∧ g⁻¹ * sec4IT fr s * g = sec4IT fr s')
@@ -60,7 +62,7 @@ private theorem sec4I_exists_smul_basis (fr : Sec4IFrame Q) (g : OGroup Q)
       show (∑ i, (Pi.single k 1 + Pi.single m 1 : Fin 7 → ZMod 2) i) = 0
       simp only [Pi.add_apply]
       rw [Finset.sum_add_distrib, Finset.sum_pi_single', Finset.sum_pi_single']
-      simp only [Finset.mem_univ, if_true]
+      simp only [Finset.mem_univ, ite_true]
       decide
     obtain ⟨eps, heps⟩ :=
       sec4IT_smul_of_normalizes fr g hg (Pi.single k 1 + Pi.single m 1) hs_even j
@@ -111,6 +113,7 @@ private theorem sec4I_exists_smul_basis (fr : Sec4IFrame Q) (g : OGroup Q)
       exact absurd (Finset.mem_univ k0) hk0
   rw [← hsum, fr.b.sum_repr]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4I_sigma_injective (fr : Sec4IFrame Q) (g : OGroup Q)
     (sigma0 : Fin 7 → Fin 7) (c : Fin 7 → (ZMod 3)ˣ)
     (hc : ∀ j, (g : V ≃ₗ[ZMod 3] V) (fr.b j) = (c j : ZMod 3) • fr.b (sigma0 j)) :
@@ -133,6 +136,7 @@ private theorem sec4I_sigma_injective (fr : Sec4IFrame Q) (g : OGroup Q)
     Finsupp.single_eq_of_ne hne, smul_eq_mul, mul_one, mul_zero, sub_zero] at hcoord
   exact (c j').ne_zero hcoord
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4I_eq_mono_of_normalizes (fr : Sec4IFrame Q) (g : OGroup Q)
     (hg : ∀ s : Fin 7 → ZMod 2, IsEvenVec s →
       ∃ s' : Fin 7 → ZMod 2, IsEvenVec s' ∧ g⁻¹ * sec4IT fr s * g = sec4IT fr s') :

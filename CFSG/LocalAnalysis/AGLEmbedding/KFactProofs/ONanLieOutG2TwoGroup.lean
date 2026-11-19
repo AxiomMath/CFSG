@@ -36,7 +36,7 @@ theorem g2Two_exists_perfect {k : Type} [Field k] [Finite k]
   have hL := CFSG.Quasithin.EmptyFaithfulMultiple.g2TwoDerivedUnitaryTransport_holds k hk
   rcases hL with ⟨-, hC⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
   swap
-  all_goals first | exact absurd h0 (by norm_num) | skip
+  all_goals try exact absurd h0 (by norm_num)
   have hC0 := hC
   obtain ⟨⟨hp3, hm, hn3, hne⟩, F, _, _, hF, ⟨e⟩⟩ := hC
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩

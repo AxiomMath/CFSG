@@ -32,6 +32,7 @@ section Transport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s21rs1_barPreimage_sSup_le (M H : Subgroup G) (𝓢 : Set (Subgroup (Bar2 M)))
     (hne : 𝓢.Nonempty) (h : ∀ R ∈ 𝓢, barPreimage M R ≤ H) : barPreimage M (sSup 𝓢) ≤ H := by
   obtain ⟨R₀, hR₀⟩ := hne
@@ -65,7 +66,7 @@ theorem uc22s21rs1_hinf_commutator_le (D : Data G) (st : Standing22 D) (hr77 : F
   classical
   rw [uc22p21c_commutator_bar_eq_bot_iff, Subgroup.commutator_eq_bot_iff_le_centralizer]
   by_contra hKF
-  haveI hKperf : Group.IsPerfect ↥(CFSG.perfectResidual (Bar2 D.M)) :=
+  have hKperf : Group.IsPerfect ↥(CFSG.perfectResidual (Bar2 D.M)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
   have hK : ⁅CFSG.perfectResidual (Bar2 D.M), CFSG.perfectResidual (Bar2 D.M)⁆ =
       CFSG.perfectResidual (Bar2 D.M) := Subgroup.isPerfect_iff.mp hKperf
@@ -73,11 +74,11 @@ theorem uc22s21rs1_hinf_commutator_le (D : Data G) (st : Standing22 D) (hr77 : F
     CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (H := ↥D.M) (p := 2)
   obtain ⟨q, hq, hq2, X, hXq, hXn, -, hXexp, hXcl, hnt, hXnc⟩ :=
     uc22s21rh_exists_supercritical_of_fitting h2 hK hKF
-  haveI : X.Normal := hXn
+  have : X.Normal := hXn
   have hXp : IsPGroup q ↥X := CFSG.pCore_isPGroup.to_le hXq
   have hns : ¬ Group.IsSolvable ↥D.M := by
     intro hs
-    haveI : Group.IsSolvable (Bar2 D.M) := inferInstance
+    have : Group.IsSolvable (Bar2 D.M) := inferInstance
     apply hKF
     have hbot : CFSG.perfectResidual (Bar2 D.M) = ⊥ :=
       CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_eq_bot_iff_solvable.2 this

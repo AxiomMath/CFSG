@@ -23,7 +23,7 @@ theorem l2aut_comm
     (hβ : ∀ x ∈ (S : Subgroup M), β x = x) : α * β = β * α := by
   refine l2aut_reduce e h5 h8 ?_
   intro p f _ hp hf h5' h8' e'
-  haveI : Finite M := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite M := Finite.of_equiv _ e'.symm.toEquiv
   exact (CFSG.Goldschmidt.G3b.mulAut_fix_props_of_mulEquiv e' hp hf h5' h8' S).1 α β hα hβ
 
 theorem l2aut_commutator_acts_trivially

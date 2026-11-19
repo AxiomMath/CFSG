@@ -21,16 +21,16 @@ theorem rankTwo_linearIndependent_of_gramDet3_ne_zero
     simpa [Fin.sum_univ_three] using hsum
   have ex : 2 * g 0 + iform x y * g 1 + iform x z * g 2 = 0 := by
     have h := congrArg (fun v => iform v x) hsum'
-    simp only [iform_add_left, iform_smul_left, smul_eq_mul, h0, hx, iform_comm y x,
+    simp only [iform_add_left, iform_smul_left, h0, hx, iform_comm y x,
       iform_comm z x] at h
     linear_combination h
   have ey : iform x y * g 0 + 2 * g 1 + iform y z * g 2 = 0 := by
     have h := congrArg (fun v => iform v y) hsum'
-    simp only [iform_add_left, iform_smul_left, smul_eq_mul, h0, hy, iform_comm z y] at h
+    simp only [iform_add_left, iform_smul_left, h0, hy, iform_comm z y] at h
     linear_combination h
   have ez : iform x z * g 0 + iform y z * g 1 + 2 * g 2 = 0 := by
     have h := congrArg (fun v => iform v z) hsum'
-    simp only [iform_add_left, iform_smul_left, smul_eq_mul, h0, hz] at h
+    simp only [iform_add_left, iform_smul_left, h0, hz] at h
     linear_combination h
   have k0 : gramDet3 x y z * g 0 = 0 := by
     unfold gramDet3

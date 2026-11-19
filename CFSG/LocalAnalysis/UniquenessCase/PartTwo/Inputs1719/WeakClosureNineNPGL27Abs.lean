@@ -96,7 +96,7 @@ theorem exists_ne_one_ne_of_four_le {X : Type} [Group X] [Finite X] {A : Subgrou
     (h4 : 4 ≤ Nat.card A) : ∃ a ∈ A, ∃ b ∈ A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   have hA : (A : Set X).ncard = Nat.card A := (Nat.card_coe_set_eq (A : Set X)).symm
   have h1 : ((A : Set X) \ {1}).ncard = (A : Set X).ncard - 1 :=
-    Set.ncard_diff_singleton_of_mem (one_mem A)
+    Set.ncard_sdiff_singleton_of_mem (one_mem A)
   have hlt : 1 < ((A : Set X) \ {1}).ncard := by omega
   obtain ⟨a, b, ha, hb, hab⟩ := (Set.one_lt_ncard_iff).mp hlt
   exact ⟨a, ha.1, b, hb.1, ha.2, hb.2, hab⟩

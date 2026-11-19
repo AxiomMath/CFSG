@@ -265,7 +265,7 @@ theorem gl12kE_G2_card_outer (q : TauCeti.PrimePower)
   obtain ⟨K, _, _, hK, hKc, ⟨e⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-  haveI : CharP K q.p := hKc
+  have : CharP K q.p := hKc
   obtain ⟨Q, _, _, Θ, hQ, hker⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_cyclic_G2 q hq K hK
   calc Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group)
@@ -279,7 +279,7 @@ theorem gl12kE_F4_card_outer (q : TauCeti.PrimePower)
   obtain ⟨K, _, _, hK, hKc, ⟨e⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  haveI : CharP K q.p := hKc
+  have : CharP K q.p := hKc
   obtain ⟨Q, _, _, Θ, hQ, hker⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_cyclic_F4 q K hK
   calc Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group)
@@ -391,7 +391,7 @@ theorem kFactOutGL12_holds :
     fun {K} [Group K] [Finite K] {p} hp hp2 {s} e => CFSG.LocalAnalysis.RankThreeTheoremC.Hyp111.ThreeOne.not_dvd_card_outer_spor hp hp2 e
   intro S _ _ hK hS hna hGL p hp hp7 f hf
   have hfp : f ^ p = 1 := by rw [← hf]; exact pow_orderOf_eq_one f
-  haveI := hS
+  have := hS
   obtain ⟨i, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.SmallRank.isCatalogGroup_of_isKGroup_simple hK
   cases i with

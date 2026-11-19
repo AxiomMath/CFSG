@@ -160,8 +160,7 @@ theorem exists_unbalanced_almostSimple_of_hull_pointed {K D : Subgroup G} {x : G
           apply Subtype.ext
           dsimp only [eLH]
           rw [Subgroup.subgroupOfEquivOfLe_apply_coe]
-          simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-            yH, kH, div_eq_mul_inv]
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv, yH, kH, div_eq_mul_inv]
           rw [← hne]
           rfl
         change eLH (⟨yH * l * yH⁻¹, hyconj⟩ / ⟨kH * l * kH⁻¹, hkconj⟩) ∈

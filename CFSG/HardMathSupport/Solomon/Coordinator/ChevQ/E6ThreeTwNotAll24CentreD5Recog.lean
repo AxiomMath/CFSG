@@ -118,15 +118,15 @@ theorem strongModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : 
     intro i j hij u hu v hv
     have hi2 : i.val + 2 < n := by have := j.isLt; omega
     refine Subtype.ext ?_
-    simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf] at hu
+    simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf] at hu
     obtain ⟨A, hA⟩ := hu
     by_cases hj2 : j.val + 2 < n
-    · simp only [hU, hnodeG, if_pos hj2, Subgroup.mem_subgroupOf] at hv
+    · simp only [hU, hnodeG, ite_eq_left hj2, Subgroup.mem_subgroupOf] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hcomm i.val j.val (by omega) (by omega) (by omega) (by simp only [dEdge]; omega)
         (by simp only [dEdge]; omega) _ _
-    · simp only [hU, hnodeG, if_neg hj2, Subgroup.mem_subgroupOf, hVg] at hv
+    · simp only [hU, hnodeG, ite_eq_right hj2, Subgroup.mem_subgroupOf, hVg] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hlongVg i.val (by have := j.isLt; omega) _ _
@@ -140,14 +140,14 @@ theorem strongModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : 
     have hjv : j.val = i.val + 1 := hij.symm
     have hi' : ((ρ i.val).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
       have := hN i
-      simpa only [hnodeG, if_pos hi2] using this
+      simpa only [hnodeG, ite_eq_left hi2] using this
     have hj' : ((ρ (i.val + 1)).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
       have := hN j
-      simpa only [hnodeG, if_pos hj, hjv] using this
+      simpa only [hnodeG, ite_eq_left hj, hjv] using this
     obtain ⟨W, hW⟩ := linearPair_of_frame ιF h0 h1 hnt C hi' hj'
     refine ⟨W, ?_⟩
     have hj3 : i.val + 1 + 2 < n := by omega
-    simp only [hU, hnodeG, if_pos hi2, hjv, if_pos hj3]
+    simp only [hU, hnodeG, ite_eq_left hi2, hjv, ite_eq_left hj3]
     exact hW
   have htwU : ∀ i j : Fin (n - 1), i.val + 3 = n → j.val + 2 = n →
       ∃ W, TwistedB2BlockPair hirr W (U i) (U j) := by
@@ -156,8 +156,8 @@ theorem strongModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : 
     have hi2 : i.val + 2 < n := by omega
     have hj2 : ¬ j.val + 2 < n := by omega
     have hni : nodeG i = ((ρ (n - 3)).comp (Matrix.SpecialLinearGroup.map ιF)).range := by
-      simp only [hnodeG, if_pos hi2, hiv]
-    have hnj : nodeG j = Vg := by simp only [hnodeG, if_neg hj2]
+      simp only [hnodeG, ite_eq_left hi2, hiv]
+    have hnj : nodeG j = Vg := by simp only [hnodeG, ite_eq_right hj2]
     have hΦinj : Function.Injective
         ((Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp (blockSL2 K 3 1)) := by
       have e : (Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp (blockSL2 K 3 1) =
@@ -220,7 +220,7 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
     DStrongModel C n 2 f := by
   classical
   have hn4 : 4 ≤ n := hadm.2.2
-  haveI : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := fact_shortField hirr
+  have : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := fact_shortField hirr
   set ιF : F →+* k := ι.comp (algebraMap F K) with hιF
   set Vg : Subgroup G := ((Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp
     (usbSL σ₀.toRingHom (CompsPTwoDPairE.σσ' D))).range with hVg
@@ -257,16 +257,16 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
     intro i j hij u hu v hv
     have hi2 : i.val + 2 < n := by have := j.isLt; omega
     refine Subtype.ext ?_
-    simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf] at hu
+    simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf] at hu
     obtain ⟨A, hA⟩ := hu
     by_cases hj2 : j.val + 2 < n
-    · simp only [hU, hnodeG, if_pos hj2, Subgroup.mem_subgroupOf] at hv
+    · simp only [hU, hnodeG, ite_eq_left hj2, Subgroup.mem_subgroupOf] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hcomm i.val j.val (by omega) (by omega) (by omega)
         (by simp only [CompsPTwoDChain.dEdge]; omega)
         (by simp only [CompsPTwoDChain.dEdge]; omega) _ _
-    · simp only [hU, hnodeG, if_neg hj2, Subgroup.mem_subgroupOf, hVg] at hv
+    · simp only [hU, hnodeG, ite_eq_right hj2, Subgroup.mem_subgroupOf, hVg] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hlongVg i.val (by have := j.isLt; omega) _ _
@@ -276,7 +276,7 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
     have hi' : (⟨i, by omega⟩ : Fin (n - 1)).val + 2 < n := hi
     have hle : nodeG ⟨i, by omega⟩ ≤ C := hN _
     have h1 : ((ρ i).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
-      simpa only [hnodeG, if_pos hi'] using hle
+      simpa only [hnodeG, ite_eq_left hi'] using hle
     exact h1 ⟨A, rfl⟩
   let ρ' : Fin (n - 2) → (SL(2, F) →* ↥C) := fun i =>
     ((ρ i.val).comp (Matrix.SpecialLinearGroup.map ιF)).codRestrict C
@@ -294,7 +294,7 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
           ρ i.val (Matrix.SpecialLinearGroup.map ιF B) := congrArg Subtype.val h
       exact CompsPTwoDChain.map_injective_sl ιF 2 (hρ i.val (by have := i.2; omega) h')
     · ext x
-      simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf, MonoidHom.mem_range]
+      simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf, MonoidHom.mem_range]
       constructor
       · rintro ⟨A, rfl⟩
         exact ⟨A, rfl⟩
@@ -350,7 +350,7 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
             show ¬ n - 2 + 2 < n
             omega
           have := hN ⟨n - 2, by omega⟩
-          simpa only [hnodeG, if_neg hnV] using this
+          simpa only [hnodeG, ite_eq_right hnV] using this
         exact h2 h1
     exact hle hs
   let θ' : spinGroup (quadMinus 3 F b c) →* ↥C := θ0.codRestrict C hθC
@@ -359,7 +359,7 @@ theorem strongModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f
       show ¬ n - 2 + 2 < n
       omega
     rw [CompsPTwoDChain.map_codRestrict_eq_subgroupOf']
-    simp only [hU, hnodeG, if_neg hnV]
+    simp only [hU, hnodeG, ite_eq_right hnV]
     congr 1
     rw [← MonoidHom.range_comp]
     exact hθsb
@@ -416,7 +416,7 @@ theorem twoDChainRecogS_odd {r : ℕ} [Fact r.Prime] {L : Type} [Field L] [CharP
   classical
   intro G _ ρ Φ C hρinj hcomm hfr hΦ0 hΦ1 hΦ2 hC
   obtain ⟨bb, cc, hirr, ⟨KD⟩⟩ := CompsPTwoDKlein.exists_kleinData_frob (k := L) (p := r) he hr2
-  haveI hFfin : Finite ↥(frobeniusFixedField L r e) :=
+  have hFfin : Finite ↥(frobeniusFixedField L r e) :=
     Nat.finite_of_card_ne_zero (by
       rw [card_frobeniusFixedField he]
       exact (pow_pos (Fact.out : r.Prime).pos _).ne')
@@ -434,7 +434,7 @@ theorem twoDChainRecogS_even {L : Type} [Field L] [CharP L 2] [IsAlgClosed L] {e
   intro G _ ρ Φ C hρinj hcomm hfr hΦ0 hΦ1 hΦ2 hC
   obtain ⟨bb, cc, hirr, ⟨KD⟩⟩ :=
     CompsPTwoDKleinE.exists_kleinDataEven_frob (k := L) (p := 2) he
-  haveI hFfin : Finite ↥(frobeniusFixedField L 2 e) :=
+  have hFfin : Finite ↥(frobeniusFixedField L 2 e) :=
     Nat.finite_of_card_ne_zero (by
       rw [card_frobeniusFixedField he]
       exact (pow_pos Nat.prime_two.pos _).ne')

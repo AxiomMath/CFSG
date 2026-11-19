@@ -83,10 +83,10 @@ theorem a6c_le_layerCent [Finite G] (h : IsOm6M L) {hQ : Q.Nondegenerate}
     (hX : Group.IsPerfect ↥X) (hXL : X ≤ L) (hXs : X ≤ centralizer ({s} : Set G)) :
     X ≤ layerCent L s := by
   obtain ⟨ρ, E, hE, hρ, -, -, hp, hmap⟩ := a6c_cover_data h hdim hsgn (by omega) hs hss hx
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   have hXH : X ≤ L ⊓ centralizer ({s} : Set G) := le_inf hXL hXs
   have hperf : Group.IsPerfect ↥(X.subgroupOf (L ⊓ centralizer ({s} : Set G))) := by
-    haveI := hX
+    have := hX
     have h' := Group.IsPerfect.range (Subgroup.inclusion hXH)
     rwa [Subgroup.inclusion_range] at h'
   have hle := a6c_perfect_le_layer hρ E hmap hp _ hperf
@@ -103,11 +103,11 @@ theorem a6c_layerCent_image [Finite G] (h : IsOm6M L) {hQ : Q.Nondegenerate}
       ∀ w ∈ E₀, ∃ c : ↥L, (c : G) ∈ layerCent L s ∧ ff6mPhi e c = w := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
   obtain ⟨ρ, E, hE, hρ, hρφ, hlie, hp, hmap⟩ := a6c_cover_data h hdim hsgn h2 hs hss hx
-  haveI : E.Normal := hE
-  haveI hLperf : Group.IsPerfect ↥(CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))) :=
+  have : E.Normal := hE
+  have hLperf : Group.IsPerfect ↥(CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))) :=
     CFSG.LocalCores.layer_isPerfect
-  haveI hEperf : Group.IsPerfect ↥E := by
-    haveI : Group.IsPerfect ↥((CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))).map ρ) :=
+  have hEperf : Group.IsPerfect ↥E := by
+    have : Group.IsPerfect ↥((CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))).map ρ) :=
       Group.IsPerfect.map (f := ρ)
     rwa [hmap] at this
   refine ⟨E.map (ffFix hQ h2 x).subtype, Group.IsPerfect.map (f := (ffFix hQ h2 x).subtype),

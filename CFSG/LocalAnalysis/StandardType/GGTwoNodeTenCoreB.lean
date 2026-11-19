@@ -46,7 +46,7 @@ theorem ggTen_absIrred_on_span {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
   have hker' : ∀ w : T, (∀ i, α' i w = 0) → w = 0 := by
     intro w hw
     apply Subtype.ext
-    exact hker (w : V) (by simpa [T] using w.2) fun i => hw i
+    exact hker (w : V) (by simp [T]) fun i => hw i
   have hconn' : ∀ i j, Relation.ReflTransGen
       (fun a b => α' a (h' b) ≠ 0 ∧ α' b (h' a) ≠ 0) i j := by
     intro i j
@@ -290,7 +290,7 @@ private lemma tenCoreBAux_refl_iff_restrictHom
     exact hfr
 
 theorem ggTen_linWeyl_lift {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V] {ι : Type} (h : ι → V) (α : ι → Module.Dual (ZMod 3) V)
-    (hα : ∀ i, α i (h i) = 2) (r : ι → (V ≃ₗ[ZMod 3] V)) (hr : ∀ i v, r i v = v - α i v • h i)
+    (_hα : ∀ i, α i (h i) = 2) (r : ι → (V ≃ₗ[ZMod 3] V)) (hr : ∀ i v, r i v = v - α i v • h i)
     (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hA : A = Subgroup.closure (Set.range r))
     (hinv : ∀ g ∈ A, ∀ w ∈ Submodule.span (ZMod 3) (Set.range h), g w ∈ Submodule.span (ZMod 3) (Set.range h))
     (hfaith : ∀ g ∈ A, (∀ u ∈ Submodule.span (ZMod 3) (Set.range h), g u = u) → g = 1)

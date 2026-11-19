@@ -19,12 +19,13 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def c23neY (V K₁ K₂ : Subgroup G) : Subgroup G :=
   ⁅V, c23neQ2 K₁ K₂⁆
 
+omit [Finite G] in
 theorem c23ne_omega_of_generic {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V} {x w : G}
     (hwV : w ∈ V) (h₁ : w ∉ wSub V₀ V hV L) (h₂ : w ∉ wSub V₀ V hV (conjSubgroup L x)) :
     mkTil V₀ V hV (IntMod.mk hV ⟨w, hwV⟩) ∈
       c23Omega (wTil V₀ V hV L) (wTil V₀ V hV (conjSubgroup L x)) := by
   unfold c23Omega
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact ⟨fun hmem => h₁ ((mem_preTil_iff_of_mem V₀ V hV _ hwV).2 hmem),
     fun hmem => h₂ ((mem_preTil_iff_of_mem V₀ V hV _ hwV).2 hmem)⟩
 

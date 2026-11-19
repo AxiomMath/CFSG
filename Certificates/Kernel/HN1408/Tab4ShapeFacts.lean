@@ -21,7 +21,7 @@ noncomputable def finPt (R : Nat → Nat) (k : Nat) : Fin 1408 :=
   if h : R k < 1408 then ⟨R k, h⟩ else 0
 
 theorem finPt_eq {R : Nat → Nat} {k : Nat} (h : R k < 1408) : finPt R k = ⟨R k, h⟩ := by
-  rw [finPt, dif_pos h]
+  rw [finPt, dite_eq_left h]
 
 theorem finPt_val {R : Nat → Nat} {k : Nat} (h : R k < 1408) : (finPt R k).val = R k := by
   rw [finPt_eq h]
@@ -167,14 +167,12 @@ theorem shape_of_checks (hP : Nat.card ↥P1408 = 177408000) {H : Nat} {c : Equi
   have hblk := blk_all hP hH ht ht' hs
   have hb : IsBlocks φ (fun x => L x.val) n (finPt R) :=
     { rep := fun k hk => by
-        change L (finPt R k).val = k + 1
         rw [finPt_val ((tabK_parts ht).2.2 k hk).1]
         exact ((tabK_parts ht).2.2 k hk).2
       le := lab_le ht
       map := fun g x hx => (hblk _ (hX g).1 (comm2_of_comm (hX g).2)).1 x hx }
   have hb' : IsBlocks φ (fun x => L' x.val) 2 (finPt R') :=
     { rep := fun k hk => by
-        change L' (finPt R' k).val = k + 1
         rw [finPt_val ((tabK_parts ht').2.2 k hk).1]
         exact ((tabK_parts ht').2.2 k hk).2
       le := lab_le ht'

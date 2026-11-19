@@ -21,6 +21,7 @@ theorem isSylowOf_of_isSylowOf_pElementSubgroup {p : ℕ} [Fact p.Prime] {X P : 
   have hTO := CFSG.le_pElementSubgroup_of_isPGroup Fact.out hT.isPGroup hT.le
   rwa [← hP.eq_of_le hPT hTO hT.isPGroup]
 
+omit [Finite G] in
 theorem isSylowOf_inf_of_commutator_le {K₁ K₂ O : Subgroup G} (hO : IsPGroup 2 O)
     (hO₁ : O ≤ K₁) (hO₂ : O ≤ K₂) (hc : ⁅K₁, K₂⁆ ≤ O)
     (hcore : CFSG.Open.pCoreOf 2 K₁ ≤ O) : IsSylowOf 2 O (K₁ ⊓ K₂) := by

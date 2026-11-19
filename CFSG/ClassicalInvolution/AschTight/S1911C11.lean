@@ -23,7 +23,7 @@ theorem mem_centralizerModOdd_of_mem_centralizer (hd : Sec19DataT p f K z S W L 
     fun l hl => ?_⟩
   exact AscL62.centSylow hd.tight.branch.odd hd.tight.branch.five (hypOmegaMod_of_tightD hd.tight)
     (K := L) (R := RL) (V := Subgroup.zpowers c) hd.memL hRL
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS))
     (fun y hy => mem_normalizer_iff_conjSub_eq.mp ((Subgroup.zpowers_le.mpr hcL) hy))
     (fun r hr v hv => Subgroup.mem_centralizer_iff.mp ((Subgroup.zpowers_le.mpr hc) hv) r hr)
     l hl c (Subgroup.mem_zpowers c)
@@ -75,7 +75,7 @@ theorem mem_centralizer_of_mem_centralizerModOdd {H : Subgroup G} {a : G}
     (hxS : x ∈ (S : Subgroup G)) (hxH : x ∈ H) : x * a = a * x := by
   obtain ⟨-, -, -, hc⟩ := ha
   have h1 : ⁅a, x⁆ = 1 := eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard H) (hc x hxH)
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (by
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (by
       rw [commutatorElement_def]
       exact (S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem haS hxS)
         ((S : Subgroup G).inv_mem haS)) ((S : Subgroup G).inv_mem hxS))))

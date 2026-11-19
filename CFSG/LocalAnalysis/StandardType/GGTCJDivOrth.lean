@@ -47,7 +47,7 @@ theorem tcjOrth_quotCenter_cases_of_component_conj_omega {G : Type} [Group G] [F
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a ha J hJ
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect g hg hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OrthFactorOver at hfac
@@ -91,16 +91,16 @@ theorem tcjOrth_quotCenter_canonLabel_cases_of_component_conj_omega
     ⟨b, k, E, hfE, hfinE, τ, hτ, hb, hτk, hE, hfk, hφ⟩ |
     ⟨s, K', hfK', hfinK', hs, hK', hne, hφ⟩ |
     ⟨s, hM | hM⟩
-  · letI : Field E := hfE
-    letI : Finite E := hfinE
+  · let : Field E := hfE
+    let : Finite E := hfinE
     exact Or.inl ⟨b, k, hb, hfk,
       Y10GInnLin.linLabelDict_of_ggLabelRigidInput hRig _ labJ b k E hb hE hlabJ hφ⟩
-  · letI : Field E := hfE
-    letI : Finite E := hfinE
+  · let : Field E := hfE
+    let : Finite E := hfinE
     exact Or.inr (Or.inl ⟨b, k, hb, hfk,
       Y10GNegBC.uniLabel_cases hRig τ hτ hb hτk hE hlabJ hφ⟩)
-  · letI : Field K' := hfK'
-    letI : Finite K' := hfinK'
+  · let : Field K' := hfK'
+    let : Finite K' := hfinK'
     obtain ⟨eφ⟩ := hφ
     exact Or.inr (Or.inr (Or.inl ⟨s, hs,
       Y10GSympLabel.canonLabel_eq_of_quot_statedSp hRig hs hK' hne hlabJ eφ⟩))

@@ -43,9 +43,9 @@ theorem entsOK_spec {x : ℕ} {f : ℕ → ℕ} (h : entsOK x f = true) :
 
 theorem cond_beq (a b x y : ℕ) : cond (Nat.beq a b) x y = if a = b then x else y := by
   cases hb : Nat.beq a b
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
     rfl
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
     rfl
 
 theorem gf8_add_self : ∀ c : GF8, c + c = 0 := by decide

@@ -20,7 +20,7 @@ theorem sylow_permute_of_involution_class
     (S : Subgroup (MulAut N)) (hS : IsSylowTwoOf S Y) :
     ∃ P : Subgroup (MulAut N), P ≤ innSub N ∧ Nat.card P = 3 ∧
       (S : Set (MulAut N)) * P = (P : Set (MulAut N)) * S := by
-  haveI : Finite (MulAut N) := inferInstance
+  have : Finite (MulAut N) := inferInstance
   have hinj := conj_injective_of_simple hs hnc
   obtain ⟨hSY, hS2, hSi⟩ := hS
   have hr0 : (innSub N).relIndex Y ≠ 0 := by

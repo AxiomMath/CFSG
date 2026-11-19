@@ -791,8 +791,8 @@ private lemma card_pairs [Finite I] (h4 : 4 ∣ d) (v e : ℕ) (hv : 1 ≤ v) (h
     · rintro ⟨p, hp⟩
       obtain ⟨x, hx⟩ := Φ_surj σ hσ hd h4 v e hv he hde p hp
       exact ⟨x, Subtype.ext hx⟩
-  haveI : Fintype (TB σ hd) := Fintype.ofFinite _
-  haveI : Fintype (TC I) := Fintype.ofFinite _
+  have : Fintype (TB σ hd) := Fintype.ofFinite _
+  have : Fintype (TC I) := Fintype.ofFinite _
   rw [← Nat.card_eq_of_bijective _ hbij, Nat.card_sum, Nat.card_sum]
 
 end Count

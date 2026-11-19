@@ -22,23 +22,23 @@ include hn
 theorem hC_mul_hC : hC n * hC n = (ρ₀ n)⁻¹ * (ρ₁ n)⁻¹ * cz n := by
   ext <;> simp only [hC, κ₀, κ₁, b₁H, s, ρ₀, ρ₁, cz, PHat.mul_x₁, PHat.mul_x₂, PHat.mul_x₃,
       PHat.mul_e, PHat.inv_x₁, PHat.inv_x₂, PHat.inv_x₃, PHat.inv_e, PHat.sw₁_zero, PHat.sw₁_one,
-      PHat.sw₂_zero, PHat.sw₂_one, PHat.one_x₁, PHat.one_x₂, PHat.one_x₃, PHat.one_e, SD.mul_i,
+      PHat.sw₂_zero, PHat.sw₂_one, SD.mul_i,
       SD.mul_j, SD.inv_i, SD.inv_j, SD.one_i, SD.one_j, tw_zero, tw_one, θ, hf_eq_two_mul_qr,
-      SD.σ, SD.ω, SD.z, add_zero, zero_add, PHat.one_add_one_zmod_two] <;> qr_close n hn
+      SD.z, add_zero, PHat.one_add_one_zmod_two] <;> qr_close n hn
 
 theorem t_mul_hC : t n * hC n = hC n * t n := by
   ext <;> simp only [hC, κ₀, κ₁, b₁H, s, t, PHat.mul_x₁, PHat.mul_x₂, PHat.mul_x₃,
-      PHat.mul_e, PHat.inv_x₁, PHat.inv_x₂, PHat.inv_x₃, PHat.inv_e, PHat.sw₁_zero, PHat.sw₁_one,
-      PHat.sw₂_zero, PHat.sw₂_one, PHat.one_x₁, PHat.one_x₂, PHat.one_x₃, PHat.one_e, SD.mul_i,
-      SD.mul_j, SD.inv_i, SD.inv_j, SD.one_i, SD.one_j, tw_zero, tw_one, θ, hf_eq_two_mul_qr,
-      SD.σ, SD.ω, SD.z, add_zero, zero_add, PHat.one_add_one_zmod_two] <;> qr_close n hn
+      PHat.mul_e, PHat.sw₁_zero, PHat.sw₁_one,
+      PHat.sw₂_zero, PHat.sw₂_one, SD.mul_i,
+      SD.mul_j, SD.one_i, SD.one_j, tw_zero, tw_one, θ, hf_eq_two_mul_qr,
+      SD.σ, add_zero, zero_add, PHat.one_add_one_zmod_two] <;> qr_close n hn
 
 theorem tC_mul_hC : tC n * hC n = (hC n)⁻¹ * b₀H n * b₁H n * tC n := by
   ext <;> simp only [hC, tC, κ₀, κ₁, b₀H, b₁H, s, PHat.mul_x₁, PHat.mul_x₂, PHat.mul_x₃,
       PHat.mul_e, PHat.inv_x₁, PHat.inv_x₂, PHat.inv_x₃, PHat.inv_e, PHat.sw₁_zero, PHat.sw₁_one,
-      PHat.sw₂_zero, PHat.sw₂_one, PHat.one_x₁, PHat.one_x₂, PHat.one_x₃, PHat.one_e, SD.mul_i,
+      PHat.sw₂_zero, PHat.sw₂_one, SD.mul_i,
       SD.mul_j, SD.inv_i, SD.inv_j, SD.one_i, SD.one_j, tw_zero, tw_one, θ, hf_eq_two_mul_qr,
-      SD.σ, SD.ω, SD.z, add_zero, zero_add, PHat.one_add_one_zmod_two] <;> qr_close n hn
+      add_zero, zero_add, PHat.one_add_one_zmod_two] <;> qr_close n hn
 
 end Gen
 
@@ -75,7 +75,7 @@ theorem w_mul_w : sT n * tT n * (sT n * tT n) = b₀T hn * b₁T hn := by
   calc sT n * tT n * (sT n * tT n) = sT n * (tT n * sT n * (tT n)⁻¹) * (tT n * tT n) := by
         group
     _ = b₀T hn * b₁T hn := by
-        rw [h, tT_mul_tT hn, mul_one, ← mul_assoc, ← mul_assoc, sT_mul_sT hn, one_mul]
+        rw [h, tT_mul_tT (n := n), mul_one, ← mul_assoc, ← mul_assoc, sT_mul_sT hn, one_mul]
 
 theorem mul_w_conj_mul_b₀T_ne_one {u : TM n} (hu : u ∈ B₀T hn) :
     u * (sT n * tT n * u * (sT n * tT n)⁻¹) * b₀T hn ≠ 1 := by
@@ -125,8 +125,8 @@ theorem mul_w_conj_mul_b₀T_ne_one {u : TM n} (hu : u ∈ B₀T hn) :
 
 theorem Bt_conj : ∀ x ∈ BT hn, (x * tT n) ^ 2 = 1 → ∃ y ∈ BT hn, y * (x * tT n) * y⁻¹ = tT n := by
   intro x hx hx2
-  have ht2 := tT_mul_tT hn
-  have htinv := tT_inv hn
+  have ht2 := tT_mul_tT (n := n)
+  have htinv := tT_inv (n := n)
   rcases (mem_BT_iff hn).1 hx with ⟨u, hu, v, hv, rfl⟩ | ⟨u, hu, v, hv, rfl⟩
   ·
     have htu : tT n * u * (tT n)⁻¹ ∈ B₁T hn := conj_tT_mem_B₁T hn hu
@@ -214,7 +214,7 @@ theorem b₁T_eq' : b₁T hn = πT n (toP (Gen.b₁H n)) := by
   rw [b₁T_eq hn, ρ₁T, ← map_pow]
   congr 1
   apply Subtype.ext
-  rw [Subgroup.coe_pow, coe_toP Gen.det_ρ₁, coe_toP Gen.det_b₁H, Gen.ρ₁_pow_qr hn]
+  rw [Subgroup.coe_pow, coe_toP Gen.det_ρ₁, coe_toP Gen.det_b₁H, Gen.ρ₁_pow_qr]
 
 theorem b₀T_eq' : b₀T hn = πT n (toP (Gen.b₀H n)) := by
   rw [b₀T_eq hn, ρ₀T, ← map_pow]
@@ -262,7 +262,7 @@ theorem tCT_mul_tCT : tCT n * tCT n = 1 := by
   calc κ₀T n * κ₁T n * (κ₀T n * κ₁T n) = κ₀T n * (κ₁T n * κ₀T n) * κ₁T n := by group
     _ = κ₀T n * (κ₀T n * κ₁T n) * κ₁T n := by rw [(commute_κ₀T_κ₁T hn).eq]
     _ = (κ₀T n * κ₀T n) * (κ₁T n * κ₁T n) := by group
-    _ = 1 := by rw [κ₀T_mul_κ₀T hn, κ₁T_mul_κ₁T hn, one_mul]
+    _ = 1 := by rw [κ₀T_mul_κ₀T hn, κ₁T_mul_κ₁T, one_mul]
 
 theorem tCT_conj_hCT : tCT n * hCT hn * (tCT n)⁻¹ = (hCT hn)⁻¹ * (b₀T hn * b₁T hn) := by
   rw [mul_inv_eq_iff_eq_mul, hCT_eq hn, tCT_eq, b₀T_eq' hn, b₁T_eq' hn, ← map_mul, ← map_inv,

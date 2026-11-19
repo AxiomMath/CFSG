@@ -143,7 +143,7 @@ theorem ff6p_adapt_P [Finite G] (hQ : Q.Nondegenerate) (hdim : Module.finrank (Z
     (hodd : Odd (Nat.card (Subgroup.center ↥L))) (fr : PFrame Q (Option (Fin 5)) ffC)
     {P : Subgroup G} (hP : IsSylow2Of P L) :
     ∃ y : ProjSim Q, ffImg (ff6mPhi (ffAdapt h2 e y)) P = ffP1p hQ fr := by
-  haveI : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero
+  have : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_plus hQ hdim hsgn]; norm_num)
   have hφ : OddCentralCover (ff6mPhi e) := ff6m_phi_cover e hodd
   have hS : IsSylow2Of (ffImg (ff6mPhi e) P) (⊤ : Subgroup ↥(omegaProj hQ)) :=

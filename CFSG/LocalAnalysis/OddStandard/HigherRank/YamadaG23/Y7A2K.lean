@@ -17,12 +17,12 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma y7aK_I_comm (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) :
     ∀ x ∈ centIn (M2 c.s) c.s.fr.F, ∀ y ∈ centIn (M2 c.s) c.s.fr.F, x * y = y * x := by
-  haveI : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
+  have : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
   intro x hx y hy
   exact congrArg Subtype.val (mul_comm' (⟨x, hF.2.2.1.2.2.1 hx⟩ : ↥(M3 c.s))
     ⟨y, hF.2.2.1.2.2.1 hy⟩)
 
-private lemma y7aK_F_le_I (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) :
+private lemma y7aK_F_le_I (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (_hF : c.toCtx5.Facts5) :
     c.s.fr.F ≤ centIn (M2 c.s) c.s.fr.F := by
   intro f hf
   exact Subgroup.mem_inf.mpr
@@ -90,7 +90,7 @@ private lemma y7aK_fpf_I (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fac
   · intro w hw
     exact y7a_conj_mem_cen hkNormB hw
 
-private lemma y7aK_fpf_B (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
+private lemma y7aK_fpf_B (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (_hF : c.toCtx5.Facts5)
     {k : G} (hkB : k ∈ normIn L c.s.fr.B) (hk3 : k ^ 3 = 1)
     (hkfix : ∀ v ∈ cen c.s.fr.B, k * v * k⁻¹ = v → v = 1) :
     ∀ b ∈ c.s.fr.B, k * b * k⁻¹ * b⁻¹ ∈ c.s.fr.F → b ∈ c.s.fr.F := by
@@ -128,7 +128,7 @@ private lemma y7aK_fpf_B (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fac
     (y54_F_comm hH) (fun f hf => by simpa [pow_two] using y54_F_sq hH f hf)
     hf0F hf0W hWB hBB hcentF hkB' hkF hkW hk3 hkfix
 
-private lemma y7aK_B_gen (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
+private lemma y7aK_B_gen (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (_hF : c.toCtx5.Facts5)
     {k : G} (hkB : k ∈ normIn L c.s.fr.B) (hk3 : k ^ 3 = 1)
     (hfpfB : ∀ b ∈ c.s.fr.B, k * b * k⁻¹ * b⁻¹ ∈ c.s.fr.F → b ∈ c.s.fr.F) :
     c.s.fr.B ≤ c.s.fr.F ⊔ c.s.fr.E ⊔ conjSub k c.s.fr.E := by
@@ -176,9 +176,9 @@ theorem y7a_B_V2_comm (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
   have hfpfB := y7aK_fpf_B c hH hF hkB hk3 hkfix
   have hcent := y7a_central_of_k (M := M2 c.s) (I := centIn (M2 c.s) c.s.fr.F)
     (B := c.s.fr.B) (V := V2 c.e) (E := c.s.fr.E) (F := c.s.fr.F) (W := cen c.s.fr.B) (k := k)
-    (hMIB := le_of_eq hF.2.2.1.2.2.2.1) (hIM := inf_le_left) (hBM := y54_B_le_M2 c.s)
+    (hMIB := le_of_eq hF.2.2.1.2.2.2.1) (hIM := inf_le_left) (_hBM := y54_B_le_M2 c.s)
     (hVI := y7a_V2_le_I c hH hF h71) (hI := y7aK_I_comm c hH hF) (hFI := y7aK_F_le_I c hH hF)
-    (hWF := y54_V_le_F hH) (hWV := y7a_cenB_le_V2 c hH hF h71) (hWM := y7aK_W_cent_M c hH)
+    (hWF := y54_V_le_F hH) (_hWV := y7a_cenB_le_V2 c hH hF h71) (hWM := y7aK_W_cent_M c hH)
     (hcI := y7a_card_I c hH hF) (hcV := hcV) (hcW := y54_V_card hH)
     (hVF := y7aK_VF c hH hF h71) (hVE := hVE) (hVF' := hVF') (hZV := y7aK_cent_le_V2 c hH hF h71)
     (hkM := hkM) (hkI := fun x hx => y7a_conj_mem_centIn hkM hkF_norm hx) (hkW := hkW)

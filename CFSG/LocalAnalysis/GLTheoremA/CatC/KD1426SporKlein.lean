@@ -82,7 +82,7 @@ theorem card_kleinSub [DecidableEq G] (ht1 : t1 ≠ 1) (ht2 : t2 ≠ 1) (h12 : t
   have e1 : t1 * t1 = 1 := by rw [← sq]; exact h1
   have hs : ((kleinSub h1 h2 hc : Subgroup G) : Set G) = ({1, t1, t2, t1 * t2} : Finset G) := by
     ext a
-    simp [mem_kleinSub, kleinSub]
+    simp [kleinSub]
   rw [← SetLike.coe_sort_coe, hs, Nat.card_coe_set_eq, Set.ncard_coe_finset]
   have n1 : t1 * t2 ≠ 1 := fun h => h12 (by
     have := congrArg (t1 * ·) h
@@ -163,7 +163,7 @@ theorem kleinData_spec [Finite G] (h : KleinData x y t1 t2) :
       (∀ t ∈ kleinSub h.t12 h.t22 h.tc, ∃ d ∈ Subgroup.zpowers x ⊔ Subgroup.zpowers y,
         ∃ s ∈ kleinSub h.t12 h.t22 h.tc, d * s * d⁻¹ * s⁻¹ = t) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T := kleinSub h.t12 h.t22 h.tc with hT
   have e1 : t1 * t1 = 1 := by rw [← sq]; exact h.t12
   have e2 : t2 * t2 = 1 := by rw [← sq]; exact h.t22
@@ -254,7 +254,7 @@ theorem klein_of_sylow [Finite G] (hfac : (Nat.card G).factorization 3 = 2)
       (∀ d ∈ D, ∀ t ∈ T0, d * t * d⁻¹ ∈ T0) ∧
       (∀ t ∈ T0, ∃ d ∈ D, ∃ s ∈ T0, d * s * d⁻¹ * s⁻¹ = t) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPc, hPn, hPcov⟩ := kleinData_spec h
   set P := Subgroup.zpowers x ⊔ Subgroup.zpowers y
   set T := kleinSub h.t12 h.t22 h.tc

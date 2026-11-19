@@ -29,17 +29,17 @@ theorem l154_selfDual_line (H : UnitaryPrimaryData hK.bar B x)
       ∃ g ∈ specialBlock B x (a : K[X]),
         ((g : LinearMap.GeneralLinearGroup K V) : Module.End K V) = 1 + c • N := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   obtain ⟨hE, hbarE, -, Hf, hHf, -, -, ⟨e, he⟩, φ, hφ, -⟩ :=
     (selfDualPrimaryBlock H a hself).unitaryForm
-  haveI : CharP (AdjoinRoot (a : K[X])) 2 := hE.charP
+  have : CharP (AdjoinRoot (a : K[X])) 2 := hE.charP
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
   let i0 : Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])) := ⟨0, by omega⟩
   let i1 : Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])) := ⟨1, by omega⟩
   have h01 : i0 ≠ i1 := fun h => by simpa [i0, i1] using congrArg Fin.val h
   set v₀ : W := e i0 + e i1 with hv₀
   have hv₀0 : Hf v₀ v₀ = 0 := by
-    simp only [hv₀, map_add, LinearMap.add_apply, he, if_neg h01, if_neg h01.symm, ↓reduceIte,
+    simp only [hv₀, map_add, LinearMap.add_apply, he, ite_eq_right h01, ite_eq_right h01.symm, ↓reduceIte,
       add_zero, zero_add]
     exact CharTwo.add_self_eq_zero _
   have hsupp : orbitFactor B x (a : K[X]) = supportedUnitary B x {(a : K[X])} := by
@@ -101,7 +101,7 @@ theorem l154_selfDual_line (H : UnitaryPrimaryData hK.bar B x)
     have h1 : ((g₁ : LinearMap.GeneralLinearGroup K V) : Module.End K V) (e i0 : V) = (e i0 : V) :=
       sub_eq_zero.1 (LinearMap.congr_fun h0 (e i0 : V))
     have hH0 : Hf v₀ (e i0) = 1 := by
-      simp only [hv₀, map_add, LinearMap.add_apply, he, ↓reduceIte, if_neg h01.symm, add_zero]
+      simp only [hv₀, map_add, LinearMap.add_apply, he, ↓reduceIte, ite_eq_right h01.symm, add_zero]
     rw [hg₁a _ (e i0).2, hH0, one_mul] at h1
     have h2 : (((1 : AdjoinRoot (a : K[X])) • v₀ : W) : V) = 0 := by
       have := congrArg (fun y : V => y - (e i0 : V)) h1
@@ -111,7 +111,7 @@ theorem l154_selfDual_line (H : UnitaryPrimaryData hK.bar B x)
       simpa using this
     have h4 := congrArg (fun w => e.repr w i1) h3
     simp only [hv₀, map_add, Module.Basis.repr_self, Finsupp.add_apply, Finsupp.single_apply,
-      if_neg h01, if_neg h01.symm, ↓reduceIte, zero_add, map_zero, Finsupp.coe_zero,
+      ite_eq_right h01, ↓reduceIte, zero_add, map_zero, Finsupp.coe_zero,
       Pi.zero_apply] at h4
     exact one_ne_zero h4
   · have hlam : hE.bar (algebraMap K (AdjoinRoot (a : K[X])) c) =
@@ -138,7 +138,7 @@ theorem l154_paired_line (H : UnitaryPrimaryData hK.bar B x)
       ∃ g ∈ specialBlock B x (a : K[X]),
         ((g : LinearMap.GeneralLinearGroup K V) : Module.End K V) = 1 + c • N := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
   let bW : Module.Basis (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))
       (AdjoinRoot (a : K[X])) W := Module.finBasisOfFinrankEq _ _ rfl
@@ -163,9 +163,9 @@ theorem l154_paired_line (H : UnitaryPrimaryData hK.bar B x)
     exact LinearMap.congr_fun e1 w
   have hNE1 : NE (bW i1) = bW i0 := by
     rw [hNE, Matrix.toLin_self, Finset.sum_eq_single i0]
-    · rw [Matrix.single_apply, if_pos ⟨rfl, rfl⟩, one_smul]
+    · rw [Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, one_smul]
     · intro l _ hl
-      rw [Matrix.single_apply, if_neg (fun hc => hl hc.1.symm), zero_smul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hl hc.1.symm), zero_smul]
     · intro hc
       exact absurd (Finset.mem_univ _) hc
   have key : ∀ c' : AdjoinRoot (a : K[X]), ∃ g ∈ specialBlock B x (a : K[X]),

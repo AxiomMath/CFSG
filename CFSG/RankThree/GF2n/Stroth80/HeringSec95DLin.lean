@@ -11,13 +11,14 @@ open Module
 variable {K : Type} [Field K] {E : Type} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
   {B : LinearMap.BilinForm K E} {Qf : E → K}
 
+omit [FiniteDimensional K E] in
 theorem selfAdj_sub_one95 (hQ : IsQuadSpace B Qf) (T : E ≃ₗ[K] E) (hT : ∀ e, Qf (T e) = Qf e)
     (hT2 : ∀ e, T (T e) = e) (e e' : E) :
     B (((T : E →ₗ[K] E) - 1) e) e' = B e (((T : E →ₗ[K] E) - 1) e') := by
   have h := hQ.B_iso T hT e (T e')
   rw [hT2] at h
   simp only [LinearMap.sub_apply, LinearEquiv.coe_coe, Module.End.one_apply, map_sub,
-    LinearMap.map_sub₂, h]
+    h]
 
 theorem finrank_range_eq_inf_orth_add95 (hQ : IsQuadSpace B Qf) (Φ : E →ₗ[K] E)
     (hΦ : ∀ e e', B (Φ e) e' = B e (Φ e')) (V : Submodule K E) :
@@ -105,6 +106,7 @@ theorem finrank_range_le_of_map_le95 (Φ : E →ₗ[K] E) (F P : Submodule K E) 
   have h4 := Submodule.finrank_add_eq_of_isCompl hC
   omega
 
+omit [FiniteDimensional K E] in
 theorem orthogonal_sup_eq95 (S₁ S₂ : Submodule K E) :
     B.orthogonal (S₁ ⊔ S₂) = B.orthogonal S₁ ⊓ B.orthogonal S₂ := by
   ext e

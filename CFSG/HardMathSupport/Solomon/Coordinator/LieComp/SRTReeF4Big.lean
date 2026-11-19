@@ -18,13 +18,13 @@ open CFSG.HardMathSupport.Dickson.SuzukiReeB (fixSubgroup_conj)
 
 
 private theorem odd_index_of_two_elements' {Γ : Type*} [Group Γ] [Finite Γ] (C N : Subgroup Γ)
-    (hNC : N ≤ C) (hN2 : ∀ g ∈ C, (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) :
+    (_hNC : N ≤ C) (hN2 : ∀ g ∈ C, (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) :
     Odd (N.subgroupOf C).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
   have hPN : (P : Subgroup ↥C) ≤ N.subgroupOf C := by
     intro g hg
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨g, hg⟩
     refine hN2 (g : Γ) g.2 ⟨k, ?_⟩
     rw [Subgroup.orderOf_coe g, ← hk]
     exact (Subgroup.orderOf_mk g hg).symm
@@ -64,7 +64,7 @@ theorem srtOut_of_component_data {q : ℕ} {S : Type} [Group S] [Finite S] (β :
       have h2 := hall _ h1
       rw [← h2]
       exact ⟨n, hn, rfl⟩
-    haveI hNn : (N.subgroupOf (fixSubgroup β)).Normal :=
+    have hNn : (N.subgroupOf (fixSubgroup β)).Normal :=
       (Subgroup.normal_subgroupOf_iff hNC).2 fun h k hh hk => hconj k hk h hh
     have hsol : Group.IsSolvable (↥(fixSubgroup β) ⧸ N.subgroupOf (fixSubgroup β)) :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ (odd_index_of_two_elements' (fixSubgroup β) N hNC hN2)
@@ -72,7 +72,7 @@ theorem srtOut_of_component_data {q : ℕ} {S : Type} [Group S] [Finite S] (β :
     have hnc : ∃ a b : ↥N, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
-      haveI := hs
+      have := hs
       have hc : commutator ↥N = ⊥ := by
         rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
         intro x _
@@ -82,7 +82,7 @@ theorem srtOut_of_component_data {q : ℕ} {S : Type} [Group S] [Finite S] (β :
       rw [hq.1] at hc
       exact top_ne_bot hc
     refine srtOut_of_normal β hNC hsol hq hl fun hb => ?_
-    haveI := hs
+    have := hs
     have hZ : Subgroup.center ↥N = ⊥ := b3Lie_center_eq_bot hnc
     let eZ : (↥N ⧸ Subgroup.center ↥N) ≃* ↥N :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -97,8 +97,8 @@ theorem srtOut_reeGamma_F4_inner_gt3 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field 
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     (hp3 : 3 < p) (y : ReeTag.F4.reeGamma K a) (hy : orderOf y = p) :
     SRTOut 2 (MulAut.conj y) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨N, hNC, hN2, hall, hcomp, hchev⟩ := largeRee_component_chev ha hK hp hp3 y hy
   have hC := fixSubgroup_conj y
   rw [← hC] at hNC hN2 hall hcomp
@@ -108,7 +108,7 @@ theorem srtOut_reeGamma_F4 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     (hp3 : 3 < p) {β : MulAut (ReeTag.F4.reeGamma K a)} (hβ : β ^ p = 1) (hβ1 : β ≠ 1) :
     SRTOut 2 β := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases reeF4_inner_or_field ha hK hp hβ hβ1 with ⟨y, rfl, hy, hy1⟩ | ⟨σ, g, hσ, rfl⟩
   · exact srtOut_reeGamma_F4_inner_gt3 ha hK hp hp3 y (orderOf_eq_prime hy hy1)
   · exact (srtOut_fieldAut_F4 hK hp (by omega) σ hσ).conj (MulAut.conj g)

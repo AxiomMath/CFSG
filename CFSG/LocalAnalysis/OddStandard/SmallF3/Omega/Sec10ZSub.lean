@@ -32,7 +32,7 @@ private lemma le_normalizer_sup_of_conj_mem {X Y : Subgroup G}
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -124,7 +124,7 @@ theorem isSL23Mod_sup_odd [Finite G] {K1 N : Subgroup G} (hK1 : IsSL23Mod ↥K1)
     (hN : ∀ k ∈ K1, ∀ n ∈ N, k * n * k⁻¹ ∈ N) (hodd : Odd (Nat.card N)) :
     IsSL23Mod ↥(K1 ⊔ N) := by
   have hKN : K1 ≤ Subgroup.normalizer N := Subgroup.le_normalizer_iff.mpr hN
-  letI : (N.subgroupOf (K1 ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hKN
+  let : (N.subgroupOf (K1 ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hKN
   have hN1odd : Odd (Nat.card (N.subgroupOf K1)) :=
     hodd.of_dvd_nat (Subgroup.card_comap_dvd_of_injective N K1.subtype K1.subtype_injective)
   have hNtodd : Odd (Nat.card (N.subgroupOf (K1 ⊔ N))) :=

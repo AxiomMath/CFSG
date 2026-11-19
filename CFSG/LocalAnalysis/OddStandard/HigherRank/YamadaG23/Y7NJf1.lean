@@ -14,7 +14,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma jf_isE_comm {A : Type} [Group A] (hA : IsE 3 A) : ∀ a b : A, a * b = b * a := by
-  haveI : IsMulCommutative (⊤ : Subgroup A) := hA.1.1
+  have : IsMulCommutative (⊤ : Subgroup A) := hA.1.1
   intro a b
   exact congrArg Subtype.val (mul_comm' (⟨a, Subgroup.mem_top a⟩ : ↥(⊤ : Subgroup A))
     ⟨b, Subgroup.mem_top b⟩)
@@ -22,9 +22,9 @@ private lemma jf_isE_comm {A : Type} [Group A] (hA : IsE 3 A) : ∀ a b : A, a *
 private lemma jf_exists_ne_two {α : Type*} [Finite α] (h : 3 ≤ Nat.card α) (a b : α) :
     ∃ c : α, c ≠ a ∧ c ≠ b := by
   classical
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : (Finset.univ : Finset α) ⊆ {a, b} := by
     intro c _
     by_cases h : c = a

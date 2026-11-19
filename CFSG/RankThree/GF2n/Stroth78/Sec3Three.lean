@@ -28,7 +28,7 @@ theorem rhoLin_apply_eq_self_of_perfect (S : Setting z E F) {Y : Subgroup (Hbar 
     (hY : ⁅Y, Y⁆ = Y) {x : Hbar z} (hx : x ∈ A2set S)
     (hYx : ∀ y ∈ Y, y * x = x * y) :
     ∀ y ∈ Y, ∀ v ∈ commSpace (rhoLin S x), rhoLin S y v = v := by
-  letI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  let : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
   have hW : finrank (ZMod 2) (commSpace (rhoLin S x)) = 2 :=
     finrank_commSpace_rhoLin_eq_two S hx
   have hst : ∀ g : ↥Y, ∀ w ∈ commSpace (rhoLin S x),
@@ -48,8 +48,8 @@ theorem aVec_not_mem_iSup_commSpace_of_trivial (S : Setting z E F) {a : G} {w : 
     (haω : aVec S h.mem_Q ∈ commSpace (rhoLin S ω)) {Y : Subgroup (Hbar z)}
     (hY : ∀ y ∈ Y, ∀ v ∈ commSpace (rhoLin S ω), rhoLin S y v = v) :
     aVec S h.mem_Q ∉ ⨆ y ∈ Y, commSpace (rhoLin S y) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hωq : ∀ v, qS S (rhoLin S ω v) = qS S v :=
     fun v => TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp (rhoBar S ω).2 v
   have hbot : commSpace (rhoLin S ω) ⊓ fixSpace (rhoLin S ω) = ⊥ :=
@@ -66,7 +66,7 @@ theorem aVec_not_mem_iSup_commSpace_of_trivial (S : Setting z E F) {a : G} {w : 
     have hyq : ∀ v, qS S (rhoLin S y v) = qS S v :=
       fun v => TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp (rhoBar S y).2 v
     exact CFSG.LargeExtraspecial.AS35QCo.commSpace_le_fixSpace_swap
-      (hq := by letI := modAbF S; exact q_nondegenerate S) hωq hyq
+      (hq := by let := modAbF S; exact q_nondegenerate S) hωq hyq
       (fun v hv => mem_fixSpace.mpr (hY y hy v hv))
   exact fun hmem => hna (hle hmem)
 
@@ -75,7 +75,7 @@ theorem eq_bot_of_le_normalizer_of_isPGroup_two (S : Setting z E F) {Y : Subgrou
     (hnorm : Y ≤ Subgroup.normalizer (P : Set (Hbar z))) : P = ⊥ := by
   have hPcore : P ≤ pCoreOf 2 Y :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer (r := 2) hPY hnorm hP2
-  haveI : Y.Normal := hYn
+  have : Y.Normal := hYn
   have hcoreNormal : (pCoreOf 2 Y).Normal :=
     ConjAct.normal_of_characteristic_of_normal (H := Y) (K := CFSG.pCore 2 Y)
   have hcoreLe : pCoreOf 2 Y ≤ CFSG.pCore 2 (Hbar z) :=
@@ -117,8 +117,8 @@ theorem aVec_not_mem_iSup_commSpace_of_le_centralizer (S : Setting z E F) {a : G
   obtain ⟨e, heE, h3re⟩ := exists_mem_Eset_orderOf_mul_eq_three S a (Tset_subset_Eset S a hrT)
   have hrA2 : r ∈ A2set S := Tset_subset_A2set S a hrT
   have heA2 : e ∈ A2set S := Eset_subset_A2set S a heE
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have htypeR : CFSG.LargeExtraspecial.IsTypeA (qS S) (rhoLin S r) 2 :=
     isTypeA_rhoBar_of_isA2Hbar S hrA2
   have htypeE : CFSG.LargeExtraspecial.IsTypeA (qS S) (rhoLin S e) 2 :=
@@ -126,7 +126,7 @@ theorem aVec_not_mem_iSup_commSpace_of_le_centralizer (S : Setting z E F) {a : G
   have h3lin : orderOf (rhoLin S r * rhoLin S e) = 3 := by
     rw [← rhoLin_mul, orderOf_rhoLin, h3re]
   have hmul := CFSG.LargeExtraspecial.commSpace_mul_of_orderOf_eq_three
-    (q := qS S) (hq := by letI := modAbF S; exact q_nondegenerate S) htypeR htypeE h3lin
+    (q := qS S) (hq := by let := modAbF S; exact q_nondegenerate S) htypeR htypeE h3lin
   have haR : aVec S h.mem_Q ∈ commSpace (rhoLin S r) :=
     aV_mem_commSpace_rhoBar_of_mem_Rbar S h.mem_Q h.isConj h.not_mem_ZQ h.mem_Qa
       h.centerIn_Qa_not_le_Q hrR hr1
@@ -156,7 +156,7 @@ theorem eq_bot_of_perfect_of_le_centralizer (S : Setting z E F) {a : G} {w : ℕ
       Rbar S a = ⊥ ∨ Y = ⊥)
     {Y : Subgroup (Hbar z)} (hYn : Y.Normal) (hY : ⁅Y, Y⁆ = Y)
     (hYC : Y ≤ Subgroup.centralizer (Xsub S a : Set (Hbar z))) : Y = ⊥ := by
-  haveI hXn : (Xsub S a).Normal := Xsub_normal S a
+  have hXn : (Xsub S a).Normal := Xsub_normal S a
   have hYoc : CFSG.GroupTheory.oddOrderClosure Y = Y :=
     CFSG.GroupTheory.oddOrderClosure_eq_self_of_commutator_eq hY
   have h2 : ∀ P : Subgroup (Hbar z), P ≤ Y → IsPGroup 2 P →
@@ -170,7 +170,7 @@ theorem eq_bot_of_perfect_of_le_centralizer (S : Setting z E F) {a : G} {w : ℕ
   have h5 : aVec S h.mem_Q ∉ ⨆ y ∈ Y, commSpace (rhoLin S y) :=
     aVec_not_mem_iSup_commSpace_of_le_centralizer S h hY hYC
   have hLnorm : Lbar S a ≤ Subgroup.normalizer (Y : Set (Hbar z)) := by
-    haveI : Y.Normal := hYn
+    have : Y.Normal := hYn
     rw [Subgroup.normalizer_eq_top Y]
     exact le_top
   rcases h217 Y hYoc h2 h3 h4 h5 hLnorm with hR | hYbot
@@ -194,20 +194,20 @@ theorem card_fittingSubgroup_centralizer_Xsub (S : Setting z E F) {a : G} {w : �
   let C := Subgroup.centralizer (Xsub S a : Set (Hbar z))
   let Fc : Subgroup ↥C := CFSG.fittingSubgroup C
   let R : Subgroup (Hbar z) := Fc.map C.subtype
-  haveI hXn : (Xsub S a).Normal := Xsub_normal S a
-  haveI hCn : C.Normal := Subgroup.normal_centralizer
+  have hXn : (Xsub S a).Normal := Xsub_normal S a
+  have hCn : C.Normal := Subgroup.normal_centralizer
   have hRn : R.Normal := ConjAct.normal_of_characteristic_of_normal (H := C) (K := Fc)
   have hcard : Nat.card R = Nat.card Fc :=
     Subgroup.card_map_of_injective (f := C.subtype) C.subtype_injective
-  haveI : R.Normal := hRn
-  haveI : Group.IsNilpotent ↥R :=
+  have : R.Normal := hRn
+  have : Group.IsNilpotent ↥R :=
     Group.nilpotent_of_mulEquiv
       (Subgroup.equivMapOfInjective Fc C.subtype C.subtype_injective)
   have hRodd : Odd (Nat.card R) :=
     CFSG.LocalAnalysis.RankThreeUC.Section5.OddActorSylowFactorization.odd_of_pCore_bot
       (pCore_two_Hbar_eq_bot S) R
   have hRle : Nat.card R ≤ 3 := card_le_three_of_odd S h h217 hRodd (by
-    haveI : R.Normal := hRn
+    have : R.Normal := hRn
     rw [Subgroup.normalizer_eq_top R]
     exact le_top)
   have hle3 : Nat.card Fc ≤ 3 := by rwa [hcard] at hRle
@@ -239,9 +239,9 @@ theorem fStar_centralizer_Xsub_eq (S : Setting z E F) {a : G} {w : ℕ} (h : Sec
         (CFSG.layer C).map C.subtype
       rw [← Subgroup.map_commutator (f := C.subtype), CFSG.LocalCores.layer_perfect]
     have hYn : Y.Normal := by
-      haveI hXn : (Xsub S a).Normal := Xsub_normal S a
-      haveI hCn : C.Normal := Subgroup.normal_centralizer
-      haveI hYc : (CFSG.layer C).Characteristic := CFSG.LocalCores.layer_characteristic
+      have hXn : (Xsub S a).Normal := Xsub_normal S a
+      have hCn : C.Normal := Subgroup.normal_centralizer
+      have hYc : (CFSG.layer C).Characteristic := CFSG.LocalCores.layer_characteristic
       exact ConjAct.normal_of_characteristic_of_normal (H := C) (K := CFSG.layer C)
     have hYC : Y ≤ Subgroup.centralizer (Xsub S a : Set (Hbar z)) :=
       Subgroup.map_subtype_le (CFSG.layer C)

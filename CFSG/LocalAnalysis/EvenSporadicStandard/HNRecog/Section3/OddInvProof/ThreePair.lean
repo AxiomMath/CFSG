@@ -10,7 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 private theorem isElemAbelian_two_of_le {G : Type} [Group G] {A H : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian 2 A) (hHA : H ≤ A) : CFSG.Open.IsElemAbelian 2 H := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   refine ⟨IsMulCommutative.of_comm (fun x y => Subtype.ext ?_), fun x hx => hA.2 x (hHA hx)⟩
   exact congrArg (Subtype.val : ↥A → G)
     (mul_comm' (⟨(x : G), hHA x.2⟩ : ↥A) ⟨(y : G), hHA y.2⟩)
@@ -68,7 +68,7 @@ theorem oddInv_three_exists_pair {G : Type} [Group G] [Finite G] {C W A : Subgro
   have hdvd4 : 2 ^ 2 ∣ Nat.card ↥(C ⊓ W) := by
     rw [hjeq]
     exact Nat.pow_dvd_pow 2 hj2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥(C ⊓ W)) 2 (n := 2) hdvd4
   refine ⟨K.map (C ⊓ W).subtype, Subgroup.map_subtype_le K, ?_⟩
   refine ⟨isElemAbelian_two_of_le hA.1 ((Subgroup.map_subtype_le K).trans hInfA), ?_⟩

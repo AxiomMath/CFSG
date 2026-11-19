@@ -14,7 +14,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.ClassicalInvolution.Phan
 private theorem qTwoNbrA_three_dvd_card_unitarySU {F : Type} [Field F]
     (hF : Nat.card F = (2 ^ 1) ^ 2) {t : ℕ} (ht : 4 ≤ t) :
     3 ∣ Nat.card ↥(unitarySU 2 1 F t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKd : UnitaryFieldData 2 1 F := TableBU.unitaryFieldData_of_card hF le_rfl
   let i0 : Fin t := ⟨0, by omega⟩
   let i1 : Fin t := ⟨1, by omega⟩

@@ -12,6 +12,7 @@ open CFSG.Quasithin
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 private theorem a10kMapFix {X : Subgroup (MulAut V)} {x : MulAut V} (hx : x ∈ X) :
     (fixV X).map (MulEquiv.toMonoidHom (x : V ≃* V)) = fixV X := by
   ext v
@@ -39,6 +40,7 @@ private noncomputable def a10kAct (X : Subgroup (MulAut V)) : X →* MulAut (V �
 private theorem a10kPTwoOfSq {G : Type*} [Group G] (h : ∀ g : G, g ^ 2 = 1) : IsPGroup 2 G :=
   fun g => ⟨1, by simpa using h g⟩
 
+omit [Finite V] in
 private theorem a10kMemStab {X : Subgroup (MulAut V)} {g : X} (hg : a10kAct X g = 1) :
     (g : MulAut V) ∈ CFSG.CGT.PushingUpLit.CGT6.stabGrp (fixV X) := by
   rw [CFSG.CGT.PushingUpLit.CGT6.mem_stabGrp]
@@ -50,6 +52,7 @@ private theorem a10kMemStab {X : Subgroup (MulAut V)} {g : X} (hg : a10kAct X g 
   have h2 := (fixV X).inv_mem h1
   rwa [mul_inv, inv_inv] at h2
 
+omit [Finite V] in
 private theorem a10kSqKer {X : Subgroup (MulAut V)} (hV : ∀ v : V, v ^ 2 = 1)
     (g : (a10kAct X).ker) : g ^ 2 = 1 := by
   have hg : a10kAct X (g : X) = 1 := MonoidHom.mem_ker.mp g.2
@@ -58,6 +61,7 @@ private theorem a10kSqKer {X : Subgroup (MulAut V)} (hV : ∀ v : V, v ^ 2 = 1)
   apply Subtype.ext
   simpa using hsq
 
+omit [Finite V] in
 private theorem a10kSqQuot (hV : ∀ v : V, v ^ 2 = 1) (X : Subgroup (MulAut V))
     (q : V ⧸ fixV X) : q ^ 2 = 1 := by
   obtain ⟨v, rfl⟩ := QuotientGroup.mk_surjective q
@@ -97,12 +101,12 @@ theorem not_twentyfive_dvd_card (hV : ∀ v : V, v ^ 2 = 1) (X : Subgroup (MulAu
     (hd : (fixV X).index ≤ 2 ^ 6) : ¬ 25 ∣ Nat.card X := by
   refine not_dvd_card_of_index_le hV X (d := 6) (m := 25) ⟨12, by norm_num⟩ hd ?_
   intro e he
-  interval_cases e <;> norm_num [Fin.prod_univ_succ] <;> decide
+  interval_cases e <;> norm_num [Fin.prod_univ_succ]
 
 theorem not_five_dvd_card (hV : ∀ v : V, v ^ 2 = 1) (X : Subgroup (MulAut V))
     (hd : (fixV X).index ≤ 2 ^ 3) : ¬ 5 ∣ Nat.card X := by
   refine not_dvd_card_of_index_le hV X (d := 3) (m := 5) ⟨2, by norm_num⟩ hd ?_
   intro e he
-  interval_cases e <;> norm_num [Fin.prod_univ_succ] <;> decide
+  interval_cases e <;> norm_num [Fin.prod_univ_succ]
 
 end CFSG.RankThree.PartTwo.Sec15.F153A10K

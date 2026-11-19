@@ -248,7 +248,7 @@ theorem exists_conj_complement_of_isPGroup {I : Subgroup A} [I.Normal] (Θ : A �
     intro x hx
     obtain ⟨α, rfl⟩ := QuotientGroup.mk'_surjective I x
     obtain ⟨κ, hκ, k, rfl⟩ := hgen α
-    obtain ⟨e, he⟩ := P₀.isPGroup' ⟨_, hx⟩
+    obtain ⟨e, he⟩ := P₀.isPGroup ⟨_, hx⟩
     have he' : π (κ * φ ^ k) ^ 2 ^ e = 1 := congrArg Subtype.val he
     have h2 : (κ * φ ^ k) ^ 2 ^ e ∈ I := (hπ1 _).1 (by rw [map_pow]; exact he')
     have h3 : Θ (φ ^ (k * 2 ^ e)) = 1 := by
@@ -269,7 +269,7 @@ theorem exists_conj_complement_of_isPGroup {I : Subgroup A} [I.Normal] (Θ : A �
       have h := mul_mem hx (inv_mem (pow_mem hφ₂P k'))
       rwa [hsplit, mul_inv_cancel_right] at h
     obtain ⟨m', hm', hκm'⟩ := hodd κ hκ
-    obtain ⟨e', he''⟩ := P₀.isPGroup' ⟨_, hκP⟩
+    obtain ⟨e', he''⟩ := P₀.isPGroup ⟨_, hκP⟩
     have h6 : π κ ^ m' = 1 := by rw [← map_pow]; exact (hπ1 _).2 hκm'
     have h7 : π κ ^ 2 ^ e' = 1 := congrArg Subtype.val he''
     have h8 : π κ = 1 := by
@@ -354,7 +354,7 @@ theorem exists_odd_relIndex_gen_of_mulAut {G : Type*} [Group G] [Finite G] {L : 
     rw [← h, mul_inv_cancel_right]
   obtain ⟨P⟩ : Nonempty (Sylow 2 β.range) := inferInstance
   obtain ⟨φ, hφI, hTφ⟩ := hcompl ((P : Subgroup β.range).map β.range.subtype)
-    (P.isPGroup'.map _)
+    (P.isPGroup.map _)
   set B : Subgroup (MulAut L) := I ⊔ zpowers φ with hBdef
   have hmemB : ∀ x : MulAut L, x ∈ B ↔ ∃ c : L, ∃ y ∈ zpowers φ, x = MulAut.conj c * y := by
     intro x

@@ -26,14 +26,14 @@ private lemma ggQTUa_extendPerm_apply_mem {N : ℕ} {S : Finset (Fin N)}
     ggQTUa_extendPerm S τ i =
       (S.equivFin.symm (τ (S.equivFin ⟨i, hi⟩)) : Fin N) := by
   simp only [ggQTUa_extendPerm, Equiv.Perm.subtypeCongrHom_apply,
-    Equiv.Perm.subtypeCongr.apply, dif_pos hi]
+    Equiv.Perm.subtypeCongr.apply, dite_eq_left hi]
   rfl
 
 private lemma ggQTUa_extendPerm_apply_notMem {N : ℕ} {S : Finset (Fin N)}
     (τ : Equiv.Perm (Fin S.card)) {i : Fin N} (hi : i ∉ S) :
     ggQTUa_extendPerm S τ i = i := by
   simp only [ggQTUa_extendPerm, Equiv.Perm.subtypeCongrHom_apply,
-    Equiv.Perm.subtypeCongr.apply, dif_neg hi]
+    Equiv.Perm.subtypeCongr.apply, dite_eq_right hi]
   rfl
 
 private lemma ggQTUa_blockExt_permMatrix {N : ℕ} {K : Type} [Field K]
@@ -42,22 +42,22 @@ private lemma ggQTUa_blockExt_permMatrix {N : ℕ} {K : Type} [Field K]
   ext i j
   by_cases hi : i ∈ S
   · by_cases hj : j ∈ S
-    · rw [TableBUE.blockExt, dif_pos hi, dif_pos hj]
+    · rw [TableBUE.blockExt, dite_eq_left hi, dite_eq_left hj]
       simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
         Option.mem_def, Option.some.injEq, ggQTUa_extendPerm_apply_mem τ hi]
       by_cases h : τ (S.equivFin ⟨i, hi⟩) = S.equivFin ⟨j, hj⟩
       · have h' : (S.equivFin.symm (τ (S.equivFin ⟨i, hi⟩)) : Fin N) = j := by
           rw [h]
           exact congrArg Subtype.val (S.equivFin.symm_apply_apply ⟨j, hj⟩)
-        rw [if_pos h, if_pos h']
+        rw [ite_eq_left h, ite_eq_left h']
       · have h' : (S.equivFin.symm (τ (S.equivFin ⟨i, hi⟩)) : Fin N) ≠ j := by
           intro hh
           apply h
           have hh' : S.equivFin.symm (τ (S.equivFin ⟨i, hi⟩)) = ⟨j, hj⟩ := Subtype.ext hh
           have := congrArg S.equivFin hh'
           simpa using this
-        rw [if_neg h, if_neg h']
-    · rw [TableBUE.blockExt, dif_pos hi, dif_neg hj]
+        rw [ite_eq_right h, ite_eq_right h']
+    · rw [TableBUE.blockExt, dite_eq_left hi, dite_eq_right hj]
       have hmem : (ggQTUa_extendPerm S τ i : Fin N) ∈ S := by
         rw [ggQTUa_extendPerm_apply_mem τ hi]
         exact (S.equivFin.symm (τ (S.equivFin ⟨i, hi⟩))).2
@@ -66,8 +66,8 @@ private lemma ggQTUa_blockExt_permMatrix {N : ℕ} {K : Type} [Field K]
         intro h
         exact hne (by rw [ggQTUa_extendPerm_apply_mem τ hi]; exact h)
       simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
-        Option.mem_def, Option.some.injEq, ggQTUa_extendPerm_apply_mem τ hi, if_neg hne']
-  · rw [TableBUE.blockExt, dif_neg hi]
+        Option.mem_def, Option.some.injEq, ggQTUa_extendPerm_apply_mem τ hi, ite_eq_right hne']
+  · rw [TableBUE.blockExt, dite_eq_right hi]
     simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
       Option.mem_def, Option.some.injEq, ggQTUa_extendPerm_apply_notMem τ hi, Matrix.one_apply]
 
@@ -132,7 +132,7 @@ private lemma ggQTUa_lin_apply {n : ℕ} {K : Type} [Field K] [Finite K]
   refine LinearEquiv.ext fun x => ?_
   obtain ⟨b, rfl⟩ : ∃ b : ↥Bs, x = C.ι (Additive.ofMul b) := by
     refine ⟨Additive.toMul (C.ι.symm x), ?_⟩
-    simpa using (AddEquiv.apply_symm_apply C.ι x).symm
+    simp
   rw [ggLin_apply_ofMul]
   let v : Fin (n + 1) → ZMod 3 := fun i => (C.ι (Additive.ofMul b) : Fin (n + 1) → ZMod 3) i
   let w : Fin (n + 1) → ZMod 3 := fun i => v (ρ i)
@@ -153,7 +153,6 @@ private lemma ggQTUa_lin_apply {n : ℕ} {K : Type} [Field K] [Finite K]
   have hPmat : ((P : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K) =
       ρ.permMatrix K := by
     rw [TableBUE.coe_blockExtSU, hxτ]
-    change TableBUE.blockExt S ((τ⁻¹).permMatrix K) = ρ.permMatrix K
     rw [show ρ = ggQTUa_extendPerm S τ⁻¹ from rfl, ggQTUa_blockExt_permMatrix]
   have hψP : (ggQTwoXInLU_blockCoverSU C (Finset.univ.erase c)) (ggPermSU (K := K) (f := 1) τ⁻¹) =
       C.φ P := rfl
@@ -210,7 +209,7 @@ private lemma ggQTUa_permSU_mem_blockSU {n : ℕ} {K : Type} [Field K] [Finite K
   rw [TableBUE.mem_blockSU]
   change TableBUE.IsBlockOn (Finset.univ.erase c) (σ.permMatrix K)
   intro i j hij
-  simp only [TableBUE.IsBlockOn, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply,
+  simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply,
     Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq, Matrix.one_apply]
   rcases hij with hi | hj
   · have hic : i = c := by
@@ -229,7 +228,7 @@ private lemma ggQTUa_permSU_mem_blockSU {n : ℕ} {K : Type} [Field K] [Finite K
         intro hh
         apply h
         exact σ.injective (by rw [hh, hσ])
-      rw [if_neg hσi, if_neg h]
+      rw [ite_eq_right hσi, ite_eq_right h]
 
 private lemma ggQTUa_conj_perm_element {n : ℕ} {K : Type} [Field K] [Finite K]
     [Fact (Nat.Prime 2)] [CharP K 2]
@@ -283,8 +282,8 @@ theorem ggQTwoXInLU_automizer {n : ℕ} {K : Type} [Field K] [Finite K]
           ((T v : ↥(GGQTwoXInLAug n)) : Fin (n + 1) → ZMod 3) i =
             (v : Fin (n + 1) → ZMod 3) (σ i)} := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨C.field.prime⟩
-  haveI : CharP K 2 := C.field.charP
+  have : Fact (Nat.Prime 2) := ⟨C.field.prime⟩
+  have : CharP K 2 := C.field.charP
   set S : Finset (Fin (n + 1)) := Finset.univ.erase c with hS_def
   have hrange : (ggQTwoXInLU_blockCoverSU C S).range =
       (TableBUE.blockSU (K := K) (n := 1) S).map C.φ := ggQTwoXInLU_blockCoverSU_range C S

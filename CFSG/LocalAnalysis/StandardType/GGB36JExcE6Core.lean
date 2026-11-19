@@ -319,7 +319,7 @@ private theorem ltqE6c_shape_transfer {tw : Bool} {n n₀ : ℕ}
   obtain ⟨o', ho', heqo⟩ := List.mem_map.mp (Multiset.mem_coe.mp hshapeOrb)
   exact ⟨D', hD'mem, o', ho', heqo.symm, hD'eq.symm⟩
 
-private theorem ltqE6c_classify_shape_false2 {n : ℕ} {o : GGKacOrbit} (hn : 1 ≤ n)
+private theorem ltqE6c_classify_shape_false2 {n : ℕ} {o : GGKacOrbit} (_hn : 1 ≤ n)
     (hshape : ggKacShapeLabel n o.lab ∈ ltqE6c_shapes false 2) (hdvd : n ∣ o.lab.n)
     (hres : 3 ∣ 2 ^ n - 1) :
     GGB36JLabel ⟨.E6, 0, n⟩ o.lab ∨ o.lab = ⟨.E6, 0, n⟩ := by
@@ -343,7 +343,7 @@ private theorem ltqE6c_classify_shape_false2 {n : ℕ} {o : GGKacOrbit} (hn : 1 
   · have hlab : o.lab = ⟨.E6, 0, n⟩ := by simpa using ltqE6c_shape_lab h (by decide) hdvd
     right; rw [hlab]
 
-private theorem ltqE6c_classify_shape_true2 {n : ℕ} {o : GGKacOrbit} (hn : 1 ≤ n)
+private theorem ltqE6c_classify_shape_true2 {n : ℕ} {o : GGKacOrbit} (_hn : 1 ≤ n)
     (hshape : ggKacShapeLabel n o.lab ∈ ltqE6c_shapes true 2) (hdvd : n ∣ o.lab.n)
     (hres : 3 ∣ 2 ^ n - 1) :
     GGB36JLabel ⟨.twE6, 0, n⟩ o.lab ∨ o.lab = ⟨.twE6, 0, n⟩ := by
@@ -358,7 +358,7 @@ private theorem ltqE6c_classify_shape_true2 {n : ℕ} {o : GGKacOrbit} (hn : 1 �
   · have hlab : o.lab = ⟨.twE6, 0, n⟩ := by simpa using ltqE6c_shape_lab h (by decide) hdvd
     right; rw [hlab]
 
-private theorem ltqE6c_classify_shape_false1 {n : ℕ} {o : GGKacOrbit} (hn : 1 ≤ n)
+private theorem ltqE6c_classify_shape_false1 {n : ℕ} {o : GGKacOrbit} (_hn : 1 ≤ n)
     (hshape : ggKacShapeLabel n o.lab ∈ ltqE6c_shapes false 1) (hdvd : n ∣ o.lab.n)
     (hres : 3 ∣ 2 ^ n + 1) :
     GGB36JLabel ⟨.E6, 0, n⟩ o.lab ∨ o.lab = ⟨.E6, 0, n⟩ := by
@@ -373,7 +373,7 @@ private theorem ltqE6c_classify_shape_false1 {n : ℕ} {o : GGKacOrbit} (hn : 1 
   · have hlab : o.lab = ⟨.E6, 0, n⟩ := by simpa using ltqE6c_shape_lab h (by decide) hdvd
     right; rw [hlab]
 
-private theorem ltqE6c_classify_shape_true1 {n : ℕ} {o : GGKacOrbit} (hn : 1 ≤ n)
+private theorem ltqE6c_classify_shape_true1 {n : ℕ} {o : GGKacOrbit} (_hn : 1 ≤ n)
     (hshape : ggKacShapeLabel n o.lab ∈ ltqE6c_shapes true 1) (hdvd : n ∣ o.lab.n)
     (hres : 3 ∣ 2 ^ n + 1) :
     GGB36JLabel ⟨.twE6, 0, n⟩ o.lab ∨ o.lab = ⟨.twE6, 0, n⟩ := by
@@ -508,7 +508,7 @@ private theorem ltqE6c_three_dvd (n : ℕ) : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1
       refine ⟨2 * k - 1, ?_⟩
       rw [pow_succ]; omega
 
-private theorem ltqE6c_kacRE {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
+private theorem ltqE6c_kacRE {lab : LargeEvenLabel} (_hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .E6 ∨ lab.tag = .twE6) : GGKacRE lab 3 := by
   refine ⟨by norm_num, by norm_num, ltqE6c_three_dvd lab.n, ?_⟩
   rcases htag with h | h
@@ -746,7 +746,7 @@ private theorem ltqE6c_A22_contra {X : Type} [Group X] [Finite X]
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)
@@ -824,7 +824,7 @@ theorem ggTablePKnownRK_b36JExc_E6Core
   obtain ⟨D, hDval, ha, hb, hc, f, hf⟩ := hP X ψ hψ hker_le hperfX σ hσpow
     ⟨ggInducedAut θ σ, hφ_mem, hφ_apply⟩
   obtain ⟨o, ho, hqs, hdvd, hΛo, hlabo⟩ := ha J hJfix
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hEqJ : ∀ J' (hJ' : IsComponentOf J' (ggFixSub σ)), J' = J :=
     fun J' hJ' => eq_of_isComponentOf_of_ggTPNOnlyComp honly hJ' (hc J' hJ')
   have hpos : ∀ i j : Fin D.orbits.length, D.orbits[i].qs = true → D.orbits[j].qs = true →

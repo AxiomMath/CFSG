@@ -76,10 +76,10 @@ theorem s16c11_rf3_of_modelRF3 {W : Type} [CommGroup W] [Finite W] {D : FFModel}
       have h := Subgroup.mem_subgroupOf.1 (QuotientGroup.eq.1 hmk)
       simpa using h
     exact hg₀ (s16c11_case2nat_inv_mul_mem_iff.1 hker')
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun e : MulAut W => (e : W → W))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro T₀ hT₀ hT₀p hT₀i
   let P : Subgroup (MulAut W) := T.map ι
   have hPL₀ : P ≤ L₀ := by
@@ -269,7 +269,7 @@ theorem s16c11_rf3Odd_of_realizes {W W' : Type} [CommGroup W] [CommGroup W'] {D 
 theorem s16c11_map_conj_eq_of_card_two_mul {W : Type} [CommGroup W] [Finite W]
     {L L₀ : Subgroup (MulAut W)} (hLL₀ : L ≤ L₀) (hcard : Nat.card ↥L₀ = 2 * Nat.card ↥L) :
     ∀ x ∈ L₀, L.map (MulAut.conj x).toMonoidHom = L := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun e : MulAut W => (e : W → W))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
   have hrel : L.relIndex L₀ = 2 := by

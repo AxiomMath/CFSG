@@ -78,7 +78,7 @@ theorem ot_two_gen_of_card_le_four {Γ : Type*} [Group Γ] [Finite Γ] (W : Subg
 theorem ot_cyclic_of_comparable {Γ : Type*} [Group Γ] [Finite Γ] (W : Subgroup Γ)
     (h : ∀ a ∈ W, ∀ b ∈ W, a ∈ Subgroup.zpowers b ∨ b ∈ Subgroup.zpowers a) :
     ∃ g ∈ W, W ≤ Subgroup.zpowers g := by
-  haveI : Nonempty W := ⟨⟨1, W.one_mem⟩⟩
+  have : Nonempty W := ⟨⟨1, W.one_mem⟩⟩
   obtain ⟨g0, hg0⟩ := Finite.exists_max (fun x : W => orderOf (x : Γ))
   refine ⟨(g0 : Γ), g0.2, ?_⟩
   intro x hx

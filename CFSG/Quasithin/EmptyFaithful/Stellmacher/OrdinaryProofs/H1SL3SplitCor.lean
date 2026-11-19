@@ -24,7 +24,7 @@ theorem conj_trivial_mod {G : Type} [Group G] (S : AbelSub G) {X Z W A L : Subgr
     { carrier := {x | x ∈ S.carrier ∧ ∀ l ∈ L, l * x * l⁻¹ * x⁻¹ ∈ X}
       one_mem' := by
         refine ⟨S.carrier.one_mem, fun l _ => ?_⟩
-        simp only [mul_one, one_mul, inv_one, mul_inv_cancel]
+        simp only [mul_one, inv_one, mul_inv_cancel]
         exact X.one_mem
       mul_mem' := by
         intro x y hx hy
@@ -68,7 +68,7 @@ theorem comm_mem_of_hom {G : Type} [Group G] (S : AbelSub G) {X L : Subgroup G}
     (hvS : ∀ l ∈ L, v * l * v⁻¹ * l⁻¹ ∈ S.carrier)
     (htriv : ∀ l ∈ L, ∀ x ∈ S.carrier, l * x * l⁻¹ * x⁻¹ ∈ X) :
     ∀ l ∈ L, v * l * v⁻¹ * l⁻¹ ∈ X := by
-  letI : Module (ZMod 2) (S.quot X) := AbelSub.quotZMod S X hS2
+  let : Module (ZMod 2) (S.quot X) := AbelSub.quotZMod S X hS2
   let cS : ↥L → S.carrier := fun l => ⟨v * (l : G) * v⁻¹ * (l : G)⁻¹, hvS l l.2⟩
   have hconjS : ∀ a b : ↥L, (a : G) * (v * (b : G) * v⁻¹ * (b : G)⁻¹) * (a : G)⁻¹ ∈ S.carrier := by
     intro a b
@@ -96,10 +96,10 @@ theorem comm_mem_of_hom {G : Type} [Group G] (S : AbelSub G) {X L : Subgroup G}
     { toFun := fun l => Multiplicative.ofAdd (Additive.ofMul (QuotientGroup.mk (cS l)))
       map_one' := by
         have h1 : cS 1 = 1 := Subtype.ext (by simp [cS])
-        rw [h1, QuotientGroup.mk_one] <;> rfl
+        rw [h1, QuotientGroup.mk_one]; rfl
       map_mul' := by
         intro a b
-        rw [hsplit a b] <;> rfl }
+        rw [hsplit a b]; rfl }
   intro l hl
   have h1 := hom_trivial_of_hom_zmod2 hL2 f ⟨l, hl⟩
   have h2 : (QuotientGroup.mk (cS ⟨l, hl⟩) : S.carrier ⧸ X.subgroupOf S.carrier) = 1 := h1

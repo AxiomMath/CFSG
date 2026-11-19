@@ -34,11 +34,11 @@ private theorem sup_zpowers_le_centralizer_self {G : Type*} [Group G] {B : Subgr
   exact sup_le (Subgroup.le_centralizer_iff.mp (sup_le hB h1)) (Subgroup.le_centralizer_iff.mp h2)
 
 theorem card_le_of_isPGroup_of_injective_mulAut {p : ℕ} [Fact p.Prime] {V A : Type*} [Group V]
-    [Finite V] (hVc : ∀ x y : V, x * y = y * x) (hVe : ∀ x : V, x ^ p = 1)
+    [Finite V] (_hVc : ∀ x y : V, x * y = y * x) (hVe : ∀ x : V, x ^ p = 1)
     (hVcard : Nat.card V ≤ p ^ 2) [Group A] [Finite A] (hA : IsPGroup p A) (f : A →* MulAut V)
     (hf : Function.Injective f) : Nat.card A ≤ p := by
   have hp : p.Prime := Fact.out
-  letI : MulDistribMulAction A V := MulDistribMulAction.compHom V f
+  let : MulDistribMulAction A V := MulDistribMulAction.compHom V f
   set F := FixedPoints.subgroup A V
   have hF : ∀ v, v ∈ F ↔ ∀ a : A, f a v = v := fun v => Iff.rfl
   have hVp : IsPGroup p V := fun v => ⟨1, by rw [pow_one, hVe]⟩
@@ -64,7 +64,7 @@ theorem card_le_of_isPGroup_of_injective_mulAut {p : ℕ} [Fact p.Prime] {V A : 
       (hn ▸ dvd_pow_self p hn0)
   have hFp : p ≤ Nat.card F := Nat.le_of_dvd Nat.card_pos hpF
   have hW : F ⊔ Subgroup.zpowers u = ⊤ := by
-    have hlt : F < F ⊔ Subgroup.zpowers u := SetLike.lt_iff_le_and_exists.mpr
+    have hlt : F < F ⊔ Subgroup.zpowers u := IsConcreteLE.lt_iff_le_and_exists.mpr
       ⟨le_sup_left, u, Subgroup.mem_sup_right (Subgroup.mem_zpowers u), hu⟩
     have h1 := mul_card_le_card_of_lt (hVp.to_subgroup _) hlt
     refine Subgroup.eq_top_of_card_eq _ (le_antisymm (Subgroup.card_le_card_group _) ?_)
@@ -87,8 +87,8 @@ theorem card_le_of_isPGroup_of_injective_mulAut {p : ℕ} [Fact p.Prime] {V A : 
     exact (inv_mul_eq_one.mp (hf h1)).symm
   have hlt : Nat.card A < Nat.card V := by
     have hu1 : u ≠ 1 := fun h => hu (h ▸ F.one_mem)
-    haveI := Fintype.ofFinite A
-    haveI := Fintype.ofFinite V
+    have := Fintype.ofFinite A
+    have := Fintype.ofFinite V
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     refine Fintype.card_lt_of_injective_of_notMem _ hinj (b := 1) ?_
     rintro ⟨a, ha⟩
@@ -123,14 +123,14 @@ theorem card_le_sq_mul_card_commutator {p : ℕ} [Fact p.Prime] {X : Type*} [Gro
           Nat.card (B ⊔ Subgroup.zpowers y : Subgroup X) ≤ p ^ 2 := by
     intro B hBD hBc y hyD hyB hyn
     have hWD : B ⊔ Subgroup.zpowers y ≤ D := sup_le hBD (Subgroup.zpowers_le.mpr hyD)
-    have hlt : B < B ⊔ Subgroup.zpowers y := SetLike.lt_iff_le_and_exists.mpr
+    have hlt : B < B ⊔ Subgroup.zpowers y := IsConcreteLE.lt_iff_le_and_exists.mpr
       ⟨le_sup_left, y, Subgroup.mem_sup_right (Subgroup.mem_zpowers y), hyn⟩
     exact ⟨mul_card_le_card_of_lt (hDp.to_le hWD) hlt,
       hab _ hWD (sup_zpowers_le_centralizer_self hBc hyB)⟩
   by_cases hDab : D ≤ Subgroup.centralizer (D : Set X)
   · calc Nat.card D ≤ p ^ 2 := hab D le_rfl hDab
       _ ≤ p ^ 2 * Nat.card (⁅D, D⁆ : Subgroup X) := Nat.le_mul_of_pos_right _ Nat.card_pos
-  obtain ⟨x, hxD, hxc⟩ := SetLike.not_le_iff_exists.mp hDab
+  obtain ⟨x, hxD, hxc⟩ := IsConcreteLE.not_le_iff_exists.mp hDab
   set Z := D ⊓ Subgroup.centralizer (D : Set X)
   have hZD : Z ≤ D := inf_le_left
   have hZc : Z ≤ Subgroup.centralizer (Z : Set X) := fun z hz w hw => hz.2 w hw.1
@@ -203,7 +203,7 @@ theorem false_of_pRank_le_two_of_surjective {p : ℕ} [Fact p.Prime] (hp2 : p �
     set E := Q.subgroupOf J
     have hEker : E ≤ φ.ker := by
       have hEn : (E.map φ).Normal := (Subgroup.normal_subgroupOf).map φ hφ
-      haveI := hEn
+      have := hEn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (E.map φ) with hb | ht
       · exact (Subgroup.map_eq_bot_iff _).mp hb
       · exfalso

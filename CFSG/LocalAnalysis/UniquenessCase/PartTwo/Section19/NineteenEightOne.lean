@@ -93,7 +93,7 @@ theorem false_of_hyp64_of_two_le
     exact Nat.Even.sub_odd (by omega) (Nat.even_pow.2 ⟨even_two, by omega⟩) odd_one
   set q := (Nat.card Y).minFac with hq_def
   have hq : q.Prime := Nat.minFac_prime (by omega)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqY : q ∣ Nat.card Y := Nat.minFac_dvd _
   have hqodd : Odd q := hYodd.of_dvd_nat hqY
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) q hqY
@@ -182,7 +182,7 @@ theorem bBar_conjClosure_le_two_19 (h77 : Inputs1719.W4Lem7_7)
     bBar (UC22.conjClosure D.M J) D.M V₀ V hp.isElemAbelian ≤ 2 := by
   rcases hJs with hA | hU
   · exact S18.bBar_conjClosure_le_two_of_isAlt hp hJ h77 hJ1 hA
-  · haveI : IsSimpleGroup (Bar2 J) :=
+  · have : IsSimpleGroup (Bar2 J) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU
     obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hJ.2.2 (uc22p21k_center_eq_bot hJ.2.2)
     exact bBar_conjClosure_le_of_aCandLe hp h77 hJ (ACandLe.of_mulEquiv e.symm (hU34 _ hU))

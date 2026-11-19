@@ -50,7 +50,7 @@ theorem ggUSixSh_fixDataSh_field
     GGFixDataSh 3 3 (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ n)))
       (LargeEvenGUSet (Fin 6) K (2 ^ n))) f := by
   have hKd : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK hn
-  haveI : CharP K 2 := hKd.charP
+  have : CharP K 2 := hKd.charP
   obtain ⟨σ, hσf⟩ := CFSG.LocalAnalysis.GLTheoremA.T156.Uni.exists_induced hf
   have hσord : orderOf σ = 3 :=
     (CFSG.LocalAnalysis.GLTheoremA.T156.Uni.orderOf_eq_of_induced (by norm_num) hn hK hσf).trans

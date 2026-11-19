@@ -19,7 +19,7 @@ theorem isQuasisimple_of_isChev2 {G : Type} [Group G] {J : Subgroup G} (h : IsCh
     CFSG.Open.IsQuasisimple ↥J := by
   obtain ⟨hc, lab, -, hraw⟩ := h
   obtain ⟨R, hR, I, F, hs, -, θ, -⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
-  haveI := hs
+  have := hs
   exact ⟨hc, θ.isSimpleGroup⟩
 
 theorem chev2_quot_equiv {G : Type} [Group G] [Finite G] {p : ℕ} {X J : Subgroup G}
@@ -33,8 +33,8 @@ theorem chev2_quot_equiv {G : Type} [Group G] [Finite G] {p : ℕ} {X J : Subgro
     exact not_subsingleton_iff_nontrivial.2 hnt QuotientGroup.subsingleton_quotient_top
   have hOZ : GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J :=
     le_center_of_normal_of_isQuasisimple hq inferInstance hOtop
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
-  haveI := hq.2.toNontrivial
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
+  have := hq.2.toNontrivial
   have hZbot : Subgroup.center (↥J ⧸ Subgroup.center ↥J) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (↥J ⧸ Subgroup.center ↥J)) with h | h
     · exact h

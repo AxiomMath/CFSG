@@ -44,11 +44,11 @@ theorem eq_of_comm_gens {ws : List (List (Fin 45))} {elems : List Tab} {par : Li
 
 theorem eq_of_mem_center_E {g : Equiv.Perm (Fin 45)} (hg : g ∈ E)
     (hcomm : ∀ h ∈ E, g * h = h * g) : g = 1 ∨ g = tauPerm 0 :=
-  eq_of_comm_gens E_enumOK E_center hg fun w hw => hcomm _ (wperm_mem_gen hw)
+  eq_of_comm_gens E_enumOK E_center hg fun _w hw => hcomm _ (wperm_mem_gen hw)
 
 theorem eq_of_mem_center_S0 {g : Equiv.Perm (Fin 45)} (hg : g ∈ S0)
     (hcomm : ∀ h ∈ S0, g * h = h * g) : g = 1 ∨ g = tauPerm 0 :=
-  eq_of_comm_gens S0_enumOK S0_center hg fun w hw => hcomm _ (wperm_mem_gen hw)
+  eq_of_comm_gens S0_enumOK S0_center hg fun _w hw => hcomm _ (wperm_mem_gen hw)
 
 theorem exists_noncomm_of_mem_E {a : Equiv.Perm (Fin 45)} (ha : a ∈ E) (ha1 : a ≠ 1)
     (ha0 : a ≠ tauPerm 0) :

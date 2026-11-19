@@ -205,7 +205,7 @@ theorem typed419_of (hC : Sec4.K419UnitaryCensusCover) (h46 : Sec4.Item4_6) {A :
     have : Subgroup.inclusion hJN j * c' = c' * Subgroup.inclusion hJN j := Subtype.ext hjc
     rw [hχ, MonoidHom.comp_apply, ha, ← map_mul, ← map_mul, this]
   have hYperf : Group.IsPerfect Y := by
-    haveI := hJperf
+    have := hJperf
     exact Group.IsPerfect.range χ
   set K : Subgroup G := Lx ⊓ Subgroup.centralizer ({c} : Set G) with hK
   have hKN : K ≤ N := inf_le_left.trans hLxN

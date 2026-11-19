@@ -732,7 +732,7 @@ theorem tlInd_sum {B n : ℕ} (a : ℕ × ℤ) (s : ℤ) (ha : a.1 < n) :
       if a.2 = s then B ^ a.1 else 0 := by
   by_cases hs : a.2 = s
   · simp only [hs, and_true, ite_mul, one_mul, zero_mul, ↓reduceIte]
-    rw [Finset.sum_ite_eq, if_pos (Finset.mem_range.2 ha)]
+    rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.2 ha)]
   · simp [hs]
 
 theorem tlPk_eq (s : ℤ) {L : List (ℕ × ℤ)} (hL : ∀ t ∈ L, t.1 < 64) :

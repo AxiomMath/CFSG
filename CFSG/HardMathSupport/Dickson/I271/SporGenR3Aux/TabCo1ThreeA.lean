@@ -21,10 +21,10 @@ theorem letterG_relLetter (gs : List GL24) (l : ℕ × Bool) :
   cases b
   · have h1 : ¬ (0 : ℤ) < -((i : ℤ) + 1) := by omega
     have h2 : (-(-((i : ℤ) + 1))).toNat - 1 = i := by omega
-    simp only [CFSG.Sporadic.Co1Schreier.letterG, relLetter, h1, if_false, h2, Bool.false_eq_true]
+    simp only [CFSG.Sporadic.Co1Schreier.letterG, relLetter, h1, ite_false, h2, Bool.false_eq_true]
   · have h1 : (0 : ℤ) < (i : ℤ) + 1 := by omega
     have h2 : ((i : ℤ) + 1).toNat - 1 = i := by omega
-    simp only [CFSG.Sporadic.Co1Schreier.letterG, relLetter, h1, if_true, h2]
+    simp only [CFSG.Sporadic.Co1Schreier.letterG, relLetter, h1, ite_true, h2]
 
 theorem wordG_map_relLetter (gs : List GL24) (v : List (ℕ × Bool)) :
     CFSG.Sporadic.Co1Schreier.wordG gs (v.map relLetter) =
@@ -113,7 +113,7 @@ theorem suz_centralizer_data {G : Type} [Group G] [Finite G] (A : Subgroup G) (x
     rw [Subgroup.mem_center_iff]
     intro t
     exact Subtype.ext (hZsc t t.2 y ((hZ'mem y).1 hy))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have cardZs : Nat.card ↥Zs = 3 := by
     rw [hZs, Nat.card_zpowers]
     exact orderOf_eq_prime hx3 hx1
@@ -134,7 +134,7 @@ theorem suz_centralizer_data {G : Type} [Group G] [Finite G] (A : Subgroup G) (x
     have := Subgroup.card_le_of_le hTC
     rw [cardZ']
     omega
-  haveI : Z'.Normal := Subgroup.normal_of_le_center hZc
+  have : Z'.Normal := Subgroup.normal_of_le_center hZc
   obtain ⟨hcen, hqcard, -⟩ := suz_central_quot hb Z' gT hZc hrelT hncT hcardT
   have hTcard : Nat.card ↥T₀ = 1345036492800 := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Z', hqcard, cardZ']
@@ -206,7 +206,7 @@ theorem threeA_data
     decide_eq_true_eq, and_assoc, List.all_eq_true] at h
   obtain ⟨hD, hwx, hw1, hxr, hx1, hx3, hcm, hxu, hxw, hw01, hw10, hg01, hrels, hcomm, hb1,
     hcnt1⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have rx := rep_nd (ext := TabCo1ThreeA.ext) hD 95
   have hxe : x = kG TabCo1ThreeA.ext 95 := hx.eq (by rw [← hxr]; exact rx)
   subst hxe

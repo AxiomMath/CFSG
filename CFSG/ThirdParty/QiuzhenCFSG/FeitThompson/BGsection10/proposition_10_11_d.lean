@@ -138,7 +138,7 @@ private theorem CFSG.section10_isPiSubgroup_sup_of_le_normalizer
         (Subgroup.subgroupOfEquivOfLe (H := K) (K := S)
           (by simp [S])).toEquiv
     exact hKπ q (by simpa [hcard] using hq)
-  haveI : Ks.Normal := by
+  have : Ks.Normal := by
     simpa [S, Ks] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := H) (N := K) hHnormK)
@@ -202,7 +202,7 @@ private theorem CFSG.section10_commutator_centralizerIn_eq_bot_of_coprime
     (hKcomm : IsMulCommutative K) :
     subgroupCentralizerIn ⁅K, P⁆ P = ⊥ := by
   classical
-  haveI : Subgroup.Normalizes P K := ⟨hPnormK⟩
+  have : Subgroup.Normalizes P K := ⟨hPnormK⟩
   let Cfix : Subgroup K := fixedPointSubgroup (↥P) (↥K)
   let Ccomm : Subgroup K := commutatorAction (A := ↥P) (G := ↥K)
   have hfixed_eq :
@@ -212,8 +212,8 @@ private theorem CFSG.section10_commutator_centralizerIn_eq_bot_of_coprime
   have hcomm_map : Ccomm.map K.subtype = ⁅K, P⁆ := by
     simpa [Ccomm] using
       commutatorAction_subgroup_conj_map_eq_commutator K P hPnormK
-  have hsolvK : IsSolvable K :=
-    isSolvable_of_comm fun x y => hKcomm.is_comm.comm x y
+  have hsolvK : Group.IsSolvable K :=
+    _root_.Group.isSolvable_of_comm fun x y => hKcomm.is_comm.comm x y
   have hcompl : IsCompl Cfix Ccomm := by
     simpa [Cfix, Ccomm] using
       (isCompl_fixedPointSubgroup_commutatorAction_of_solvable_coprime_of_isMulCommutative
@@ -254,7 +254,7 @@ private theorem CFSG.section10_subgroupCentralizerIn_sup_eq_bot_of_normalized_fa
   let S : Subgroup G := A ⊔ B
   let As : Subgroup S := A.subgroupOf S
   let Bs : Subgroup S := B.subgroupOf S
-  haveI : Bs.Normal := by
+  have : Bs.Normal := by
     simpa [S, Bs] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := A) (N := B) hAnormB)
@@ -361,7 +361,7 @@ private theorem CFSG.section10_commutator_le_centralizer_msigma_of_10_11d
   let K0 : Subgroup G := ⁅K, P⁆
   let S : Subgroup G := K0 ⊔ section10Msigma M
   let T : Subgroup G := P ⊔ S
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hPnormK : P ≤ Subgroup.normalizer (K : Set G) :=
     hPle.trans (section10_subgroupNormalizerIn_le_normalizer M (K : Set G))
   have hPleM : P ≤ M :=
@@ -455,7 +455,7 @@ private theorem CFSG.section10_commutator_le_centralizer_msigma_of_10_11d
       intro x hx
       exact hTleM (by simp [hTtop])
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvT : IsSolvable T :=
+  have hsolvT : Group.IsSolvable T :=
     IsMinCE.proper_subgroups_solvable T (lt_top_iff_ne_top.2 hTne_top)
   have hoddT : Odd (Nat.card T) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card T)
@@ -481,7 +481,7 @@ private theorem CFSG.section10_commutator_le_centralizer_msigma_of_10_11d
           (by simp [T])
       _ = ⊤ := by simp
   have hcompT : (S.subgroupOf T).IsComplement' (P.subgroupOf T) := by
-    letI : (S.subgroupOf T).Normal := hSnormalT
+    let : (S.subgroupOf T).Normal := hSnormalT
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
     · exact hSsub_Psub_disj
     · rw [Set.eq_univ_iff_forall]
@@ -505,7 +505,7 @@ private theorem CFSG.section10_commutator_le_centralizer_msigma_of_10_11d
   have hSnil : Group.IsNilpotent S := by
     let e : S.subgroupOf T ≃* S :=
       Subgroup.subgroupOfEquivOfLe (H := S) (K := T) (by simp [T])
-    letI : Group.IsNilpotent (S.subgroupOf T) := hSnil_sub
+    let : Group.IsNilpotent (S.subgroupOf T) := hSnil_sub
     exact Group.nilpotent_of_mulEquiv (G := S.subgroupOf T) (G' := S) e
   -- In the nilpotent group `S`, the `sigma(M)'` subgroup `K₀` centralizes
   -- the normal `sigma(M)` subgroup `M_sigma`.
@@ -555,15 +555,15 @@ public theorem CFSG.proposition_10_11_d
     exact ⟨⟨hK0leK hx, hK0cent hx⟩, hK0leDer hx⟩
   rcases proposition_10_11_c (G := G) hM hKle hKσ with ⟨hDnormM, hDcyc⟩
   have hK0cyc : IsCyclic K0 := by
-    letI : IsCyclic D := by simpa [D] using hDcyc
+    let : IsCyclic D := by simpa [D] using hDcyc
     exact Subgroup.isCyclic_of_le hK0leD
   have hK0normM : section10NormalIn K0 M := by
     rcases hDnormM with ⟨hDleM, hDnormalM⟩
     let K0D : Subgroup D := K0.subgroupOf D
-    haveI : IsCyclic D := by simpa [D] using hDcyc
+    have : IsCyclic D := by simpa [D] using hDcyc
     have hK0Dchar : K0D.Characteristic :=
       section10_characteristic_of_subgroup_of_isCyclic_pre (K := K0D)
-    letI : K0D.Characteristic := hK0Dchar
+    let : K0D.Characteristic := hK0Dchar
     have hnormD_le_normK0 :
         Subgroup.normalizer (D : Set G) ≤ Subgroup.normalizer (K0 : Set G) := by
       have hnorm :=

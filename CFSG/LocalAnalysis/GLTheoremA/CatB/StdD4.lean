@@ -52,7 +52,7 @@ theorem stdSubInnerD4At_holds (G : Type) [Group G] [Finite G] : StdSubInnerD4At 
   change tg = .D at h1
   change rk = 4 at h2
   subst h1 h2
-  simp only [CFSG.Assembly.LargeEvenRawDatum, ↓reduceIte] at hraw
+  simp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨K, _, _, _, hQK⟩ := hraw
   obtain ⟨-, -, θ', hP⟩ := hQK
   obtain ⟨hBN, hind⟩ := hP

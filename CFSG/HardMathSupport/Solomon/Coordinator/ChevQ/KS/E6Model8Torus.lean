@@ -25,27 +25,32 @@ variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 @[expose] noncomputable def Std8.F (D : Std8 L) : ModGL Tag.E6 L →* ModGL Tag.E6 L :=
   twFrob TwistTag.E6 (canonicalRep (coxeterSystem TwistTag.E6.tag) L twE6W0) D.Fr
 
+omit [CharP L 2] in
 theorem Std8.step_eq (D : Std8 L) : D.S.D.step = D.F := by
   unfold LangDatum.step Std8.F
   rw [D.hΦ, D.hn]
   rfl
 
+omit [CharP L 2] in
 theorem Std8.F_rootDiagUnit (D : Std8 L) (a : Fin Tag.E6.rank → Lˣ) :
     D.F (rootDiagUnit Tag.E6 a) = (rootDiagUnit Tag.E6 a)⁻¹ ^ 8 :=
   twE6Eight_twFrob_rootDiagUnit D.hFr a
 
+omit [CharP L 2] in
 theorem Std8.mem_model_iff (D : Std8 L) {x : ModGL Tag.E6 L} :
     x ∈ D.S.D.model ↔ x ∈ adjointGroup Tag.E6 L ∧ D.F x = x := by
   rw [LangDatum.mem_model]
   have h : D.S.D.n * D.S.D.Φ x * D.S.D.n⁻¹ = D.S.D.step x := rfl
   rw [h, D.step_eq]
 
+omit [CharP L 2] in
 theorem Std8.mem_torus_iff (D : Std8 L) {x : ModGL Tag.E6 L} :
     x ∈ D.S.D.torus ↔ x ∈ torusGroup Tag.E6 L ∧ D.F x = x := by
   rw [LangDatum.torus, mem_twistedTorusOf]
   have h : D.S.D.n * D.S.D.Φ x * D.S.D.n⁻¹ = D.S.D.step x := rfl
   rw [h, D.step_eq]
 
+omit [CharP L 2] in
 theorem Std8.pow_nine_of_mem_torus (D : Std8 L) {x : ModGL Tag.E6 L}
     (hx : x ∈ D.S.D.torus) : x ^ 9 = 1 := by
   obtain ⟨hxT, hxF⟩ := D.mem_torus_iff.1 hx
@@ -67,6 +72,7 @@ theorem Std8.dV_mem_torus (D : Std8 L) {ω : Lˣ} (hω : ω ^ 3 = 1)
     _ = (dV ω x ^ 3) ^ 3 := by rw [← pow_mul]
     _ = 1 := by rw [h3, one_pow]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem twFix8_HSL (μ : Lˣ) {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ 8) {ζ : Lˣ} (hζ : ζ ^ 9 = 1) :
     conjSL (RankThree.Classical.swapGL * diagUnitOne μ)
       (Matrix.SpecialLinearGroup.map Fr (HSL ζ)) = HSL ζ := by
@@ -80,7 +86,7 @@ theorem twFix8_HSL (μ : Lˣ) {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ 8) {ζ :
     have hμ : ((μ⁻¹ : Lˣ) : L) * (μ : L) = 1 := by
       rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [mul_comm, hμ]
+    fin_cases i <;> fin_cases j <;> simp [mul_comm]
   have hinv : ζ⁻¹ = ζ ^ 8 := inv_eq_of_mul_eq_one_right (by rw [← pow_succ', hζ])
   have h1 : (ζ : L) ^ 9 = 1 := by rw [← Units.val_pow_eq_pow_val, hζ, Units.val_one]
   have h64 : (ζ : L) ^ 64 = ζ := by
@@ -102,8 +108,9 @@ theorem twFix8_HSL (μ : Lˣ) {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ 8) {ζ :
   rw [hmap, Matrix.mul_fin_two, Matrix.mul_fin_two]
   have hμ0 : (μ : L) ≠ 0 := Units.ne_zero μ
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [h64] <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp [h64]; field_simp
 
+omit [CharP L 2] in
 theorem Std8.rootSL2_HSL_mem_model (D : Std8 L) {α : Fin Tag.E6.rank → ℤ}
     (hα : IsRoot Tag.E6 α) {ζ : Lˣ} (hζ : ζ ^ 9 = 1) :
     rootSL2 Tag.E6 L α (HSL ζ) ∈ D.S.D.model := by
@@ -113,6 +120,7 @@ theorem Std8.rootSL2_HSL_mem_model (D : Std8 L) {α : Fin Tag.E6.rank → ℤ}
   rw [twFix8_HSL μ D.hFr hζ] at hμ'
   exact hμ'
 
+omit [IsAlgClosed L] in
 theorem nSL_sq_eq_one (c : Lˣ) : nSL c ^ 2 = 1 := by
   have hcc : (c : L) * ((c⁻¹ : Lˣ) : L) = 1 := by
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
@@ -122,8 +130,9 @@ theorem nSL_sq_eq_one (c : Lˣ) : nSL c ^ 2 = 1 := by
   change !![0, (c : L); -((c⁻¹ : Lˣ) : L), 0] * !![0, (c : L); -((c⁻¹ : Lˣ) : L), 0] = 1
   rw [Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq, hcc, hcc']
+  fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq]
 
+omit [CharP L 2] in
 theorem Std8.exists_nSL_mem_model (D : Std8 L) {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α) :
     ∃ c : Lˣ, rootSL2 Tag.E6 L α (nSL c) ∈ D.S.D.model := by
   obtain ⟨μ, hμ⟩ := exists_twE6Two_twFrob_rootSL2 D.Fr hα
@@ -207,6 +216,7 @@ theorem Std8.dV_mem_Γ (D : Std8 L) {ω : Lˣ} (hω : ω ^ 3 = 1) (x : Fin Tag.E
   refine Finset.prod_eq_one fun j _ => ?_
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hb9 j, one_zpow]
 
+omit [IsAlgClosed L] in
 theorem conj_rootSL2_nSL_rootDiagUnit (i : Fin Tag.E6.rank) (c : Lˣ) (a : Fin Tag.E6.rank → Lˣ) :
     rootSL2 Tag.E6 L (Pi.single i 1) (nSL c) * rootDiagUnit Tag.E6 a *
       (rootSL2 Tag.E6 L (Pi.single i 1) (nSL c))⁻¹ =
@@ -249,7 +259,7 @@ theorem Std8.exists_lift (D : Std8 L) (i : Fin Tag.E6.rank) :
       ω ^ (((x j).val : ℤ) - Tag.E6.cartan i j * (x i).val) :=
     CFSG.RankThree.Chevalley.pow_val_eq_zpow_of_pow_eq_one hω _ _ (by
       push_cast
-      simp [ZMod.natCast_zmod_val])
+      simp)
   have e : ((x j).val : ℤ) - Tag.E6.cartan i j * (x i).val =
       ((x j).val : ℤ) + ((x i).val : ℤ) * (-Tag.E6.cartan i j) := by ring
   simp only [torV, reflV]

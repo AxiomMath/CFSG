@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private theorem y7a_M3_comm (c : Ctx7 G L) (hH : F33Hyp c.s c.e) {x y : G}
     (hx : x ∈ M3 c.s) (hy : y ∈ M3 c.s) : x * y = y * x := by
-  haveI : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
+  have : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(M3 c.s)) ⟨y, hy⟩)
 
 private theorem y7a_M3_comm_E (c : Ctx7 G L) (hH : F33Hyp c.s c.e) {m : G} (hm : m ∈ M3 c.s)

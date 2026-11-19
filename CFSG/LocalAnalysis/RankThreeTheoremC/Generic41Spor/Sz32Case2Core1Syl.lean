@@ -54,6 +54,7 @@ section Syl
 
 variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 
+omit [Finite Y] in
 theorem szh1c_syl_mem_sup {A B : Subgroup Y} (hcomm : ∀ x ∈ A, ∀ z ∈ B, x * z = z * x) {x : Y}
     (hx : x ∈ A ⊔ B) : ∃ u ∈ A, ∃ v ∈ B, x = u * v := by
   let f : A × B →* Y :=
@@ -68,6 +69,7 @@ theorem szh1c_syl_mem_sup {A B : Subgroup Y} (hcomm : ∀ x ∈ A, ∀ z ∈ B, 
   obtain ⟨p, hp⟩ := hle hx
   exact ⟨p.1, p.1.2, p.2, p.2.2, by rw [← hf]; exact hp.symm⟩
 
+omit [Finite Y] in
 theorem szh1c_syl_card_sup {A B : Subgroup Y} (hcomm : ∀ x ∈ A, ∀ z ∈ B, x * z = z * x)
     (hdisj : A ⊓ B = ⊥) : Nat.card ↥(A ⊔ B) = Nat.card A * Nat.card B := by
   let f : A × B →* Y :=
@@ -135,23 +137,23 @@ theorem szh1c_syl_five_dvd (hY : Sz32Case2Data Pb a c y) {L : Subgroup Y} (hL : 
 
 theorem szh1c_syl_isSylowOf_top (hY : Sz32Case2Data Pb a c y) : IsSylowOf 5 Pb ⊤ := by
   obtain ⟨S, hS⟩ := hY.sylow
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   · rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
 
 theorem szh1c_syl_pow_pElement (hY : Sz32Case2Data Pb a c y) {g : Y} (hg : g ∈ Pb) :
     ∃ k : ℕ, g ^ (5 ^ k) = 1 := by
   obtain ⟨S, hS⟩ := hY.sylow
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, by rw [hS]; exact hg⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨g, by rw [hS]; exact hg⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem szh1c_syl_sylow_inf (hY : Sz32Case2Data Pb a c y) {L : Subgroup Y}
     (hL : ∀ g ∈ Pb, g ∈ Subgroup.normalizer (L : Set Y)) : IsSylowOf 5 (Pb ⊓ L) L := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hPL : Pb ≤ Subgroup.normalizer (L : Set Y) := fun g hg => hL g hg
   have h1 := IsSylowOf.of_le (szh1c_syl_isSylowOf_top hY) hPL le_top
   exact h1.inf_of_le_normalizer Subgroup.le_normalizer le_rfl
@@ -187,7 +189,7 @@ theorem szh1c_syl_card_conj (h : Szh1Two Pb L₁ L₂ t) :
 
 theorem szh1c_syl_card_inf_sup (hY : Sz32Case2Data Pb a c y) (h : Szh1Two Pb L₁ L₂ t) :
     Nat.card ↥(Pb ⊓ (L₁ ⊔ L₂)) = Nat.card ↥(Pb ⊓ L₁) * Nat.card ↥(Pb ⊓ L₂) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hS : IsSylowOf 5 (Pb ⊓ (L₁ ⊔ L₂)) (L₁ ⊔ L₂) := szh1c_syl_sylow_inf hY (szh1c_syl_norm_sup h)
   have hS₁ : IsSylowOf 5 (Pb ⊓ L₁) L₁ := szh1c_syl_sylow_inf hY h.norm₁
   have hS₂ : IsSylowOf 5 (Pb ⊓ L₂) L₂ := szh1c_syl_sylow_inf hY h.norm₂
@@ -213,7 +215,7 @@ theorem szh1c_syl_inner_of_card_five (hY : Sz32Case2Data Pb a c y) (hI713 : KFac
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) (hz : Subgroup.center ↥L = ⊥)
     (hnorm : ∀ g ∈ Pb, g ∈ Subgroup.normalizer (L : Set Y)) (hcard : Nat.card ↥(Pb ⊓ L) = 5) :
     ∀ g ∈ Pb, ∃ l ∈ L, ∀ x ∈ L, g * x * g⁻¹ = l * x * l⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hs, hn, hc⟩ := szh1_simple_data hY.catalog hL hz
   have hsyl := szh1c_syl_sylow_inf hY hnorm
   have hS : ∀ S : Sylow 5 ↥L, Nat.card (S : Subgroup ↥L) = 5 := by
@@ -265,6 +267,7 @@ theorem szh1c_syl_mem_of_inner (h : Szh1Two Pb L₁ L₂ t) {g : Y}
   rw [hg]
   exact (L₁ ⊔ L₂).mul_mem (Subgroup.mem_sup_left hl₁) (Subgroup.mem_sup_right hl₂)
 
+omit [Finite Y] in
 theorem szh1c_syl_comm_sup {A B : Subgroup Y} (hcomm : ∀ x ∈ A, ∀ z ∈ B, x * z = z * x)
     (hA : ∀ x ∈ A, ∀ x' ∈ A, x * x' = x' * x) (hB : ∀ z ∈ B, ∀ z' ∈ B, z * z' = z' * z) :
     IsMulCommutative ↥(A ⊔ B) := by
@@ -286,6 +289,7 @@ theorem szh1c_syl_comm_sup {A B : Subgroup Y} (hcomm : ∀ x ∈ A, ∀ z ∈ B,
     _ = u' * (v' * u) * v := by rw [huv']
     _ = u' * v' * (u * v) := by group
 
+omit [Finite Y] in
 theorem szh1c_syl_zpowers_comm (g : Y) :
     ∀ x ∈ Subgroup.zpowers g, ∀ x' ∈ Subgroup.zpowers g, x * x' = x' * x := by
   intro x hx x' hx'
@@ -321,7 +325,7 @@ end Two
 
 theorem szh1_two_sylow (hY : Sz32Case2Data Pb a c y) (hI713 : KFactI713Out)
     {L₁ L₂ : Subgroup Y} {t : Y} (h : Szh1Two Pb L₁ L₂ t) : Szh1Cyc Pb a c y L₁ L₂ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨-, hn₁, -⟩ := szh1_simple_data hY.catalog h.comp₁ h.cen₁
   have hS₁ : IsSylowOf 5 (Pb ⊓ L₁) L₁ := szh1c_syl_sylow_inf hY h.norm₁
   have hc₁ : Nat.card ↥(Pb ⊓ L₁) = 5 ^ (Nat.card L₁).factorization 5 := hS₁.card_eq
@@ -355,7 +359,7 @@ theorem szh1_two_sylow (hY : Sz32Case2Data Pb a c y) (hI713 : KFactI713Out)
   have hc₂' : Nat.card ↥(Pb ⊓ L₂) = 25 := by rw [hc₂]; norm_num
   have hex : ∃ g ∈ Pb ⊓ L₁, g ^ 5 ≠ 1 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hP₁ : Pb ⊓ L₁ ≤ sz32Om a c y := fun g hg => hY.facts.Om_all g hg.1 (hno g hg)
     have hP₂ : Pb ⊓ L₂ ≤ sz32Om a c y := by
       intro u hu

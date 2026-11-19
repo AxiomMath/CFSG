@@ -24,7 +24,7 @@ theorem k108Field_mul_eq_one_of_mem_normalizer (T : Sylow 2 G) {a b : G}
     (by rwa [pow_one])
   have hbT := CFSG.RankThree.Transfer.mem_of_pow_eq_one_of_mem_normalizer T hb (k := 1)
     (by rwa [pow_one])
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨a * b, (mul_mem haT hbT : a * b ∈ (T : Subgroup G))⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨a * b, (mul_mem haT hbT : a * b ∈ (T : Subgroup G))⟩
   have hk' : (a * b) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hdvd : orderOf (a * b) ∣ Nat.gcd m (2 ^ k) :=
     Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one habm) (orderOf_dvd_of_pow_eq_one hk')

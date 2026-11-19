@@ -12,62 +12,73 @@ namespace NoOuterGraph
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
-@[expose]
 abbrev RootN := Subgroup.normalizer
   (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma mem_flagW_iff (v : DSpace E X) :
     v ∈ flagW k E X ↔ v.2.1 = 0 ∧ v.2.2 = 0 := by
   simp [flagW, Prod.ext_iff]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma mem_flagK_iff (v : DSpace E X) :
     v ∈ flagK k E X ↔ v.2.2 = 0 := by
   simp [flagK]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma rootEquiv_apply (t : E) (v : DSpace E X) :
     rootEquiv k X t v = (v.1 + t * v.2.2, v.2.1, v.2.2) := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma rootEquiv_zero : rootEquiv k X (0 : E) = 1 := by
   apply LinearEquiv.ext
   intro v
   simp [rootEquiv, shearE]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma rootEquiv_neg (t : E) :
     (rootEquiv k X t)⁻¹ = rootEquiv k X (-t) := by
   have h := rootEquiv_add (k := k) (X := X) t (-t)
   rw [add_neg_cancel, rootEquiv_zero] at h
   exact (eq_inv_of_mul_eq_one_right h.symm).symm
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma rootEquiv_inv_apply_of_mem_flagK (t : E) {v : DSpace E X}
     (hv : v ∈ flagK k E X) : (rootEquiv k X t)⁻¹ v = v := by
   rw [rootEquiv_neg, rootEquiv_apply]
   have hb : v.2.2 = 0 := (mem_flagK_iff v).mp hv
   ext <;> simp [hb]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma rootEquiv_inv_sub_mem_flagW (t : E) (v : DSpace E X) :
     (rootEquiv k X t)⁻¹ v - v ∈ flagW k E X := by
   rw [rootEquiv_neg, rootEquiv_apply, mem_flagW_iff]
   simp
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma blockDiag_apply (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E)
     (v : DSpace E X) :
     blockDiag a g b v = (a v.1, g v.2.1, b v.2.2) := rfl
 
+omit [Finite k] [CharP k 2] in
 lemma blockSL_apply (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E)
     (h : LinearEquiv.det a * LinearEquiv.det g * LinearEquiv.det b = 1)
     (v : DSpace E X) :
     (blockSL a g b h : SpecialLinearGroup k (DSpace E X)) v =
       (a v.1, g v.2.1, b v.2.2) := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma QK_apply_eq_self_of_mem_flagW {u : SpecialLinearGroup k (DSpace E X)}
     (hu : u ∈ QK k E X) {v : DSpace E X} (hv : v ∈ flagW k E X) : u v = v :=
   (mem_QK_iff.mp hu).1 v hv
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma QK_sub_mem_flagW_of_mem_flagK {u : SpecialLinearGroup k (DSpace E X)}
     (hu : u ∈ QK k E X) {v : DSpace E X} (hv : v ∈ flagK k E X) :
     u v - v ∈ flagW k E X :=
   (mem_QK_iff.mp hu).2.1 v hv
 
+omit [CharP k 2] in
 lemma center_apply_smul {z : SpecialLinearGroup k (DSpace E X)}
     (hz : z ∈ Subgroup.center (SpecialLinearGroup k (DSpace E X))) :
     ∃ c : kˣ, ∀ v : DSpace E X, z v = (c : k) • v := by
@@ -78,16 +89,15 @@ lemma center_apply_smul {z : SpecialLinearGroup k (DSpace E X)}
   have h := congrArg SpecialLinearGroup.toLinearEquiv hzs
   simpa only [map_mul] using h
 
-@[expose]
 abbrev AnnK (k E X : Type) [Field k] [Field E] [Algebra k E]
     [AddCommGroup X] [Module k X] : Submodule k (Module.Dual k (DSpace E X)) :=
   (flagK k E X).dualAnnihilator
 
-@[expose]
 abbrev AnnW (k E X : Type) [Field k] [Field E] [Algebra k E]
     [AddCommGroup X] [Module k X] : Submodule k (Module.Dual k (DSpace E X)) :=
   (flagW k E X).dualAnnihilator
 
+omit [Finite k] [CharP k 2] in
 lemma exists_dualAnnK_of_mem_flagW
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)
@@ -148,6 +158,7 @@ lemma exists_dualAnnK_of_mem_flagW
           ext <;> simp [hw1, hw2]
         rw [hw_eq]
 
+omit [Finite k] [CharP k 2] in
 lemma T_mem_flagK_of_mem_dualAnnW
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)
@@ -202,6 +213,7 @@ lemma T_mem_flagK_of_mem_dualAnnW
   have h' : (T f).1 + (T f).2.2 = (T f).1 + 0 := by simpa using hfst
   exact add_left_cancel h'
 
+omit [Finite k] [CharP k 2] in
 lemma mem_dualAnnK_of_T_mem_flagW
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)
@@ -216,6 +228,7 @@ lemma mem_dualAnnK_of_T_mem_flagW
   rw [← hfeq]
   exact hf'K
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma action_fixes_dualAnnK
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (T : Module.Dual k (DSpace E X) ≃+ DSpace E X)
@@ -256,6 +269,7 @@ lemma action_fixes_dualAnnK
     _ = f v + 0 := by rw [hfv]
     _ = f v := add_zero _
 
+omit [CharP k 2] in
 lemma action_flagW_and_second
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hC : ∀ h ∈ RootN, α h * h⁻¹ ∈ QK k E X ⊔
@@ -300,6 +314,7 @@ lemma action_flagW_and_second
     rw [hsmul]
     rw [show ((c : k) • u (h v)).2.1 = (c : k) • (u (h v)).2.1 from rfl, hsec]
 
+omit [Finite k] [CharP k 2] in
 lemma action_fixes_flagW_of_trivial_quotient
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)

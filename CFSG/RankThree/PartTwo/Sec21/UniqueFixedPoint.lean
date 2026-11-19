@@ -71,7 +71,7 @@ theorem odd_index_of_unique_fixed [Finite G] {N : Subgroup G} {z : G} (hz : orde
 theorem exists_sylow_two_eq_map_of_odd_index [Finite G] {N : Subgroup G} (hN : Odd N.index)
     (T : Sylow 2 N) : ∃ S : Sylow 2 G, (S : Subgroup G) = (T : Subgroup N).map N.subtype := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP : IsPGroup 2 ((T : Subgroup N).map N.subtype) := T.isPGroup'.map N.subtype
+  have hP : IsPGroup 2 ((T : Subgroup N).map N.subtype) := T.isPGroup.map N.subtype
   have hidx : ¬ 2 ∣ ((T : Subgroup N).map N.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

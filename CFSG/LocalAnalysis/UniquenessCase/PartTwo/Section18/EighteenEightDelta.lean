@@ -84,7 +84,7 @@ theorem card_fixV_autSub_le_of_realizes {V L : Subgroup G} (hV : IsElemAbelian 2
       (fixV (autSub (barSub ⊥ V hV L) (wTil ⊥ V hV L)))) :
     Nat.card ↥(fixV (autSub (barSub ⊥ V hV L) (wTil ⊥ V hV L))) ≤ 2 ^ n := by
   have : CharP K 2 := uc22p22d_charP_two (by omega) hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hst : barSub ⊥ V hV L ≤ stabSub (wTil ⊥ V hV L) := by
     intro g hg
     exact StabLat.mem_stabSub_commSub (by intro u; exact Iff.rfl)
@@ -119,7 +119,7 @@ theorem delta15_lt_of_p18_6_5_of_nat (D : Data G) {V : Subgroup G} {p : ℕ}
     omega
   ·
     obtain ⟨n, hn, -, K, hField, hFinite, hK, hR⟩ := hnat hfix
-    letI : Field K := hField
+    let : Field K := hField
     have : Finite K := hFinite
     have hcommW : commSub (wTil ⊥ V hV L) (barSub ⊥ V hV L) = wTil ⊥ V hV L := by
       have h1 := s15_Core_commSub_wTil_conj h151 (m := (1 : G)) D.M.one_mem

@@ -170,7 +170,7 @@ theorem exists_centralizer_decomp (hK : Nat.card K = 2 ^ (2 * 2 + 1))
     refine ⟨g⁻¹ * x * g, ?_, by rw [hcapp]; group⟩
     rw [← hz]
     exact hxA'
-  obtain ⟨eP⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup'
+  obtain ⟨eP⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup
     P.not_dvd_index
   have hPcomm : ∀ p ∈ (P : Subgroup (ReeTag.F4.reeGamma K 2)),
       ∀ q ∈ (P : Subgroup (ReeTag.F4.reeGamma K 2)), p * q = q * p := by

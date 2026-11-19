@@ -112,8 +112,8 @@ private lemma s168e3_e9_fixedSubgroup_eq_fixV_zpowers {L : Subgroup (MulAut W)}
 private lemma s168e3_e9_iSup_fixV_eq_top [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     {L : Subgroup (MulAut W)} (hL : IsElemAbelianOfRank 3 2 ↥L) :
     (⨆ H : s168e3_e9_idx L, fixV H.1) = ⊤ := by
-  haveI hEA : CFSG.IsElementaryAbelian 3 ↥L := s168e3_e9_isElementaryAbelian hL
-  letI : CommGroup ↥L := IsMulCommutative.instCommGroup
+  have hEA : CFSG.IsElementaryAbelian 3 ↥L := s168e3_e9_isElementaryAbelian hL
+  let : CommGroup ↥L := IsMulCommutative.instCommGroup
   have hcardL : Nat.card ↥L = 9 := s168e3_e9_card_L hL
   have hcop : ¬ 3 ∣ Nat.card W := by
     have h2 : IsPGroup 2 W := isPGroup_two_of_sq_eq_one hW
@@ -200,7 +200,7 @@ private lemma s168e3_e9_iSupIndep_fixV [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hfixL : fixV L = ⊥) :
     iSupIndep (fun H : s168e3_e9_idx L => fixV H.1) := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hLcard : Nat.card ↥L = 9 := s168e3_e9_card_L hL
   intro H
   rw [disjoint_iff]
@@ -213,8 +213,6 @@ private lemma s168e3_e9_iSupIndep_fixV [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
       map_one' := by simp
       map_mul' := by
         intro a b
-        change (∏ h : ↥H.1, (h : MulAut W) (a * b)) =
-          (∏ h : ↥H.1, (h : MulAut W) a) * (∏ h : ↥H.1, (h : MulAut W) b)
         simp only [map_mul]
         rw [Finset.prod_mul_distrib] }
   have hNx : N x = x := by
@@ -225,8 +223,7 @@ private lemma s168e3_e9_iSupIndep_fixV [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     rw [show x ^ 3 = x ^ 2 * x by rw [pow_succ], hW x, one_mul]
   have hker : (⨆ (H' : s168e3_e9_idx L) (_ : H' ≠ H), fixV H'.1) ≤ N.ker := by
     refine iSup₂_le ?_
-    intro H' hH'
-    intro w hw
+    intro H' hH' w hw
     rw [MonoidHom.mem_ker]
     have hwH' : ∀ h : ↥H.1, (h : MulAut W) w ∈ fixV H'.1 := by
       intro h
@@ -274,7 +271,7 @@ private lemma s168e3_e9_exists_irr_le [Finite W] {L : Subgroup (MulAut W)}
     (hXst : StableUnder L X) (hXne : X ≠ ⊥) :
     ∃ I : Subgroup W, I ∈ irrSet L ∧ I ≤ X := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   let T : Set (Subgroup W) := {I | I ≤ X ∧ I ≠ ⊥ ∧ StableUnder L I}
   have hT : T.Nonempty := ⟨X, le_rfl, hXne, hXst⟩
   have hex : ∃ m, ∃ I : Subgroup W, I ∈ T ∧ Nat.card I = m := by
@@ -392,7 +389,7 @@ private lemma s168e3_e9_ptStab_eq_of_secIsoOn {L : Subgroup (MulAut W)} {I J : S
     exact congrArg Subtype.val (hβinj h1)
 
 private lemma s168e3_e9_eq_of_card_three_le [Finite W] {L C H : Subgroup (MulAut W)}
-    (hHL : H ≤ L) (hHc : Nat.card H = 3) (hHC : H ≤ C) (hCL : C ≤ L) (hLcard : Nat.card ↥L = 9)
+    (_hHL : H ≤ L) (hHc : Nat.card H = 3) (hHC : H ≤ C) (hCL : C ≤ L) (hLcard : Nat.card ↥L = 9)
     (hCne : C ≠ L) : C = H := by
   have hHdvd : Nat.card H ∣ Nat.card C := Subgroup.card_dvd_of_le hHC
   rw [hHc] at hHdvd
@@ -412,8 +409,8 @@ private lemma s168e3_e9_eq_of_card_three_le [Finite W] {L C H : Subgroup (MulAut
       exact hCne (Subgroup.eq_of_le_of_card_ge hCL (by rw [h, hLcard]))
   exact (Subgroup.eq_of_le_of_card_ge hHC (by rw [hcard, hHc])).symm
 
-private lemma s168e3_e9_conj_of_ne_bot [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {L A : Subgroup (MulAut W)} (hLA : L ≤ A)
+private lemma s168e3_e9_conj_of_ne_bot [Finite W] (_hW : ∀ w : W, w ^ 2 = 1)
+    {L A : Subgroup (MulAut W)} (_hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L)
     (hL : IsElemAbelianOfRank 3 2 ↥L) (hfixL : fixV L = ⊥) (htr : IrrSpanTrans A L)
     {H H' : Subgroup (MulAut W)} (hHL : H ≤ L) (hHc : Nat.card H = 3)
@@ -524,7 +521,7 @@ private lemma s168e3_e9_even_rk_fixV [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hL : IsElemAbelianOfRank 3 2 ↥L) {H : Subgroup (MulAut W)}
     (hHL : H ≤ L) (hHc : Nat.card H = 3) : Even (rk ↥(fixV H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHne : H ≠ ⊥ := by intro h; rw [h, Subgroup.card_bot] at hHc; norm_num at hHc
   obtain ⟨h, hhne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hHne
   set hA : MulAut W := (h : MulAut W) with hhA
@@ -644,7 +641,7 @@ theorem s168e3_e9_blocks [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     ∃ Z : Subgroup W, rk ↥Z = 2 ∧ sSupIndep (conjSubs A Z) ∧ sSup (conjSubs A Z) = ⊤ ∧
       (conjSubs A Z).ncard = 3 := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hfixL : fixV L = ⊥ := s168e3_e9_fixV_eq_bot hW hL hWL
   have hLcard : Nat.card ↥L = 9 := s168e3_e9_card_L hL
   have hsup : (⨆ H : s168e3_e9_idx L, fixV H.1) = ⊤ := s168e3_e9_iSup_fixV_eq_top hW hL

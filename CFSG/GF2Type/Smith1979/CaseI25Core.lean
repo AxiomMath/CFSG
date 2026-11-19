@@ -242,10 +242,10 @@ theorem twoCentralBar_of_mem_Kbar (hΔ : (Delta S g t).ncard = 6) {ι : S.O}
     invariant_functional hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ
   obtain ⟨T, hTsyl, hLT, hTN⟩ := exists_sylow_le_NLbar H C
   have hKT : Kbar S g t ≤ T := (Kbar_le_Lbar ht).trans hLT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent T := hTsyl.isPGroup.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent T := hTsyl.isPGroup.isNilpotent
   set H' : Subgroup T := (Kbar S g t).subgroupOf T with hH'
-  haveI : H'.Normal := ⟨fun k hk x => by
+  have : H'.Normal := ⟨fun k hk x => by
     rw [hH', Subgroup.mem_subgroupOf] at hk ⊢
     exact conj_mem_Kbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ (hTN x.2) hk⟩
   have hH'ne : H' ≠ ⊥ := by

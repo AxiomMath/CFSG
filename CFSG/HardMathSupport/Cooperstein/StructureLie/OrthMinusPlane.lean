@@ -76,7 +76,7 @@ theorem col_row_of_two {r₁ r₂ : SM n} (h12 : r₁ ≠ r₂) (h1 : p ≠ r₁
   · intro x
     by_cases hx : x = p
     · subst hx; simp
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       by_cases hx1 : x = r₁
       · rw [H2.col_p h2 x]
         simp [hx1, h12, h1.symm]
@@ -85,7 +85,7 @@ theorem col_row_of_two {r₁ r₂ : SM n} (h12 : r₁ ≠ r₂) (h1 : p ≠ r₁
   · intro y
     by_cases hy : y = barS n p
     · subst hy; simp
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       by_cases hy1 : y = barS n r₁
       · exact (H2.row_bar h2 (fun e => h12 (barS_inj (hy1.symm.trans e)))  hy).2
       · exact (H1.row_bar h1 hy1 hy).2
@@ -122,14 +122,14 @@ theorem PlaneData.plane_row (hb : b ≠ 0) {a : Fin (n - 1)} (D : PlaneData b c 
   have h := D.S (1 - u') (minusPos n a true) y
   rw [one_sub_one_sub] at h
   have hr := D.row y
-  rw [if_neg hy] at hr
+  rw [ite_eq_right hy] at hr
   have hne : minusPos n a true ≠ pl n (1 - u') := minusPos_ne_pl a true _
-  rw [if_neg hy, if_neg hne, if_pos rfl, hr] at h
+  rw [ite_eq_right hy, ite_eq_right hne, ite_eq_left rfl, hr] at h
   apply mul_left_cancel₀ hb
   by_cases hy' : y = pl n u'
-  · rw [if_pos hy'] at h ⊢
+  · rw [ite_eq_left hy'] at h ⊢
     linear_combination h
-  · rw [if_neg hy'] at h ⊢
+  · rw [ite_eq_right hy'] at h ⊢
     linear_combination h
 
 theorem PlaneData.plane_col {a : Fin (n - 1)} (D : PlaneData b c G a) (u : Fin 2) {x : SM n}
@@ -138,12 +138,12 @@ theorem PlaneData.plane_col {a : Fin (n - 1)} (D : PlaneData b c G a) (u : Fin 2
   have h := D.S u x (minusPos n a false)
   have hne : minusPos n a false ≠ pl n (1 - u) := minusPos_ne_pl a false _
   have hc := D.col x
-  rw [if_neg hx] at hc
-  rw [if_pos rfl, if_neg hne, if_neg hx, hc, D.row (minusPos n a false), if_pos rfl] at h
+  rw [ite_eq_right hx] at hc
+  rw [ite_eq_left rfl, ite_eq_right hne, ite_eq_right hx, hc, D.row (minusPos n a false), ite_eq_left rfl] at h
   by_cases hx' : x = pl n u
-  · rw [if_pos hx'] at h ⊢
+  · rw [ite_eq_left hx'] at h ⊢
     linear_combination h
-  · rw [if_neg hx'] at h ⊢
+  · rw [ite_eq_right hx'] at h ⊢
     linear_combination h
 
 theorem block_of_two (hb : b ≠ 0) {a₁ a₂ : Fin (n - 1)} (h12 : a₁ ≠ a₂)
@@ -157,7 +157,7 @@ theorem block_of_two (hb : b ≠ 0) {a₁ a₂ : Fin (n - 1)} (h12 : a₁ ≠ a�
     intro u' y
     by_cases hy : y = minusPos n a₁ false
     · subst hy
-      rw [D₂.plane_row hb u' hne, if_neg (minusPos_ne_pl a₁ false u'), if_neg (minusPos_ne_pl a₁ false u')]
+      rw [D₂.plane_row hb u' hne, ite_eq_right (minusPos_ne_pl a₁ false u'), ite_eq_right (minusPos_ne_pl a₁ false u')]
     · exact D₁.plane_row hb u' hy
   have cols : ∀ x u, G x (pl n u) =
       if x = pl n u then G (minusPos n a₁ true) (minusPos n a₁ true) else 0 := by
@@ -165,7 +165,7 @@ theorem block_of_two (hb : b ≠ 0) {a₁ a₂ : Fin (n - 1)} (h12 : a₁ ≠ a�
     have hlam : G (minusPos n a₁ false) (minusPos n a₁ false) =
         G (minusPos n a₁ true) (minusPos n a₁ true) := by
       have h1 := D₁.plane_col u (x := pl n u) (fun e => (minusPos_ne_pl a₁ true u) e.symm)
-      rw [rows u (pl n u), if_pos rfl, if_pos rfl] at h1
+      rw [rows u (pl n u), ite_eq_left rfl, ite_eq_left rfl] at h1
       exact h1.symm
     have key : ∀ x, x ≠ minusPos n a₁ true → G x (pl n u) =
         if x = pl n u then G (minusPos n a₁ true) (minusPos n a₁ true) else 0 := by
@@ -174,7 +174,7 @@ theorem block_of_two (hb : b ≠ 0) {a₁ a₂ : Fin (n - 1)} (h12 : a₁ ≠ a�
     by_cases hx : x = minusPos n a₁ true
     · subst hx
       have := D₂.plane_col u (x := minusPos n a₁ true) hne'
-      rw [this, if_neg (minusPos_ne_pl a₁ true u), if_neg (minusPos_ne_pl a₁ true u)]
+      rw [this, ite_eq_right (minusPos_ne_pl a₁ true u), ite_eq_right (minusPos_ne_pl a₁ true u)]
     · exact key x hx
   rintro x y (⟨u, rfl⟩ | ⟨u, rfl⟩)
   · rw [rows u y]

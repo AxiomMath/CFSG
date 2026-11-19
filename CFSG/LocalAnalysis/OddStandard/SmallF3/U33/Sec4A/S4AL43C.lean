@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 theorem pow_four_mem_twoCore_of_mem_ctxW (h : Ctx t L S x₁ x₂ lam rho tau) {w : G}
     (hw : w ∈ ctxW t x₁ x₂) : w ^ 4 ∈ twoCore t := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
   have hbase_le_W : baseGrp x₁ x₂ ≤ ctxW t x₁ x₂ := le_sup_right
   have hcommW : ∀ a ∈ ctxW t x₁ x₂, ∀ b ∈ ctxW t x₁ x₂, a * b = b * a := by
     intro a ha b hb
@@ -43,7 +43,7 @@ theorem pow_four_mem_twoCore_of_mem_ctxW (h : Ctx t L S x₁ x₂ lam rho tau) {
       have hc : Commute x y := hcommW x hxW y hyW
       rw [hc.mul_pow 4, ihx, ihy, mul_one]
     · intro x hx ihx
-      simpa [ihx] using inv_pow x 4
+      simp [ihx]
   have hcomm_P_B : ∀ a ∈ twoCore t, ∀ b ∈ baseGrp x₁ x₂, a * b = b * a :=
     fun a ha b hb => twoCore_commute h.hyp a ha b (hbase_le_L hb)
   obtain ⟨q, hq, b, hb, hwb⟩ := (mem_sup_iff_of_commute hcomm_P_B).mp hw

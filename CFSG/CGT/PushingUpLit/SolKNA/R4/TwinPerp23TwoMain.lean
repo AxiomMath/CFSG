@@ -169,7 +169,7 @@ theorem sup_centralizer_eq_top_of_thmE (hr : 4 ≤ r) (hE : TwinThmER r n)
   have hcent := centralizersSylowPairsW_of_stdCentW hΩ hz htW hstd
   have hWnorm : ∀ s ∈ (D.S₀ : Subgroup Y), conjSub s W = W := fun s hs =>
     mem_normalizer_iff_conjSub_eq.mp
-      (WTool.le_normalizer_of_le_isPGroup hΩ h16 hW D.S₀.isPGroup' D.hWS hs)
+      (WTool.le_normalizer_of_le_isPGroup hΩ h16 hW D.S₀.isPGroup D.hWS hs)
   have hρ : IsSylow2In D.F.ρ.R K := by
     have := D.F.ρ.hRK
     rwa [D.hρK] at this

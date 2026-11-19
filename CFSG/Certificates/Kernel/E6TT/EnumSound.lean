@@ -83,8 +83,8 @@ theorem sumP_succ (m : Nat) (f : Nat → Nat) (p : Nat) :
   rw [h1, h2]
   simp only [beq_zero_eqE, decide_eq_true_eq]
   by_cases h : p % 128 = 0
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h]
     rfl
 
 theorem le_sumP (f : Nat → Nat) : ∀ (l : List Nat) (m : Nat), l.length ≤ m →
@@ -97,7 +97,7 @@ theorem le_sumP (f : Nat → Nat) : ∀ (l : List Nat) (m : Nat), l.length ≤ m
       simp only [packL]; omega
     have hdiv : packL (e :: es) / 128 = packL es := by
       simp only [packL]; omega
-    rw [sumP_succ, if_neg (by omega), hmod, hdiv, Nat.add_sub_cancel]
+    rw [sumP_succ, ite_eq_right (by omega), hmod, hdiv, Nat.add_sub_cancel]
     rcases List.mem_cons.1 ha with rfl | ha
     · exact Nat.le_add_right _ _
     · exact le_trans (le_sumP f es m (by simp at hl; omega)
@@ -130,11 +130,11 @@ theorem packF_aux (n : Nat) (pr : Nat → Bool) (hn : n ≤ 127) : ∀ j ≤ n,
     change (if pr (n - j - 1) = true then ((packL _) <<< 7) ||| (n - j - 1 + 1) else packL _) =
       packL (if pr (n - j - 1) = true then _ else _)
     by_cases hp : pr (n - j - 1) = true
-    · rw [if_pos hp, if_pos hp, packL]
+    · rw [ite_eq_left hp, ite_eq_left hp, packL]
       rw [← Nat.shiftLeft_add_eq_or_of_lt
         (lt_of_lt_of_le (by omega : n - j - 1 + 1 < 128) (by norm_num)), Nat.shiftLeft_eq,
         Nat.mul_comm]
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
 
 theorem packF_eq (n : Nat) (pr : Nat → Bool) (hn : n ≤ 127) :
     packF n pr = packL ((List.range n).filter pr) := by
@@ -235,9 +235,9 @@ theorem bits_spec (g : Nat → Bool) : ∀ ls : List Nat,
     · intro i hi
       rw [Nat.testBit_two_pow_mul_add _ hb]
       rcases i with _ | i
-      · rw [if_pos (by omega), List.getD_cons_zero]
+      · rw [ite_eq_left (by omega), List.getD_cons_zero]
         cases g l <;> rfl
-      · rw [if_neg (by omega), Nat.add_sub_cancel, List.getD_cons_succ]
+      · rw [ite_eq_right (by omega), Nat.add_sub_cancel, List.getD_cons_succ]
         exact hbit i (by simp at hi; omega)
 
 theorem repFlags_spec (x v : Vec) :
@@ -257,9 +257,9 @@ theorem flags_spec (x : Vec) : ∀ (L : List Vec) (k l : Nat), k < L.length → 
     change (Nat.lor (repFlags x v) (Nat.shiftLeft _ 6)).testBit _ = _
     rw [lor_shiftLeft_eqE hlt, Nat.testBit_two_pow_mul_add _ hlt]
     rcases k with _ | k
-    · rw [if_pos (by omega), List.getD_cons_zero, Nat.mul_zero, Nat.zero_add]
+    · rw [ite_eq_left (by omega), List.getD_cons_zero, Nat.mul_zero, Nat.zero_add]
       exact hbit l hl
-    · rw [if_neg (by omega), List.getD_cons_succ]
+    · rw [ite_eq_right (by omega), List.getD_cons_succ]
       have e : 6 * (k + 1) + l - 6 = 6 * k + l := by omega
       rw [e]
       exact flags_spec x vs k l (by simp at hk; omega) hl
@@ -383,17 +383,17 @@ theorem le_enumK {R : List Vec} {GR FL k L0 N1 N2 N3 N4 N5 : Nat} (hk : k < 5)
     (by rw [hnb 0 2 (by decide), f2]; rfl))
   refine le_trans ?_ (le_sumP_slot _ (s3 (a 2) (ha 2)) (ha 3)
     (by rw [hnb 2 3 (by decide), f3]; rfl))
-  rw [if_pos (zt_lm (hor 3 0 (by decide)))]
+  rw [ite_eq_left (zt_lm (hor 3 0 (by decide)))]
   refine le_trans ?_ (le_sumP_slot _ (s1 (a 3) (ha 3)) (ha 1)
     (by rw [hnb 3 1 (by decide), f1]; rfl))
-  rw [if_pos (by rw [zt_lor, zt_lm (hor 1 0 (by decide)), zt_lm (hor 1 2 (by decide))]; rfl)]
+  rw [ite_eq_left (by rw [zt_lor, zt_lm (hor 1 0 (by decide)), zt_lm (hor 1 2 (by decide))]; rfl)]
   refine le_trans ?_ (le_sumP_slot _ (s4 (a 3) (ha 3)) (ha 4)
     (by rw [hnb 3 4 (by decide), f4]; rfl))
-  rw [if_pos (by rw [zt_lor, zt_lor, zt_lm (hor 4 0 (by decide)), zt_lm (hor 4 2 (by decide)),
+  rw [ite_eq_left (by rw [zt_lor, zt_lor, zt_lm (hor 4 0 (by decide)), zt_lm (hor 4 2 (by decide)),
     zt_lm (hor 4 1 (by decide))]; rfl)]
   refine le_trans ?_ (le_sumP_slot _ (s5 (a 4) (ha 4)) (ha 5)
     (by rw [hnb 4 5 (by decide), f5]; rfl))
-  rw [if_pos (by rw [zt_lor, zt_lor, zt_lor, zt_lm (hor 5 0 (by decide)),
+  rw [ite_eq_left (by rw [zt_lor, zt_lor, zt_lor, zt_lm (hor 5 0 (by decide)),
     zt_lm (hor 5 2 (by decide)), zt_lm (hor 5 1 (by decide)), zt_lm (hor 5 3 (by decide))]; rfl)]
 
 section Bridge

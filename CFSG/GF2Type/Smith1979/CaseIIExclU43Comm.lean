@@ -130,7 +130,7 @@ theorem beta_val {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) {x x' : X} (hx 
     (hx' : x' ∈ S) : D.beta x x' = 1 ∨ D.beta x x' = D.neg :=
   D.ker_sq _ (D.beta_ker hS2 hx hx') (D.beta_sq hS2 hx hx')
 
-theorem beta_mul_left {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) {x x' z : X} (hx : x ∈ S)
+theorem beta_mul_left {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) {x x' z : X} (_hx : x ∈ S)
     (hx' : x' ∈ S) (hz : z ∈ S) : D.beta (x * x') z = D.beta x z * D.beta x' z := by
   have hcomm : x' * z = z * x' := comm_of_mem hS2 hx' hz
   set k := (D.lift x * D.lift x')⁻¹ * D.lift (x * x') with hk
@@ -151,7 +151,7 @@ theorem beta_mul_left {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) {x x' z : 
   exact hc (D.beta x z)
 
 theorem beta_mul_right {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) {x z z' : X} (hx : x ∈ S)
-    (hz : z ∈ S) (hz' : z' ∈ S) : D.beta x (z * z') = D.beta x z * D.beta x z' := by
+    (_hz : z ∈ S) (hz' : z' ∈ S) : D.beta x (z * z') = D.beta x z * D.beta x z' := by
   have hcomm : x * z' = z' * x := comm_of_mem hS2 hx hz'
   set k := (D.lift z * D.lift z')⁻¹ * D.lift (z * z') with hk
   have hkψ : D.ψ k = 1 := by

@@ -29,7 +29,7 @@ theorem nonempty_mulEquiv_elementaryGroup_of_catalog {S : Type} [Group S]
     obtain ⟨d, hv⟩ := j
     have hd : d = TauCeti.LieTypeIndex.twistedD 4 gfTwoPP := hi
     subst hd
-    haveI : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
     exact InputsSeitz8.nonempty_equiv_elementaryGroup_minus_orthF2
       (n := 4) (q := gfTwoPP) (by norm_num) hv rfl rfl e
 
@@ -51,7 +51,7 @@ theorem exists_ne_zero_fixed_of_alternatingGroup {V : Type} [AddCommGroup V] [Mo
     {σ : alternatingGroup (Fin 7)} (hσ : orderOf σ = 7) :
     ∃ u ∈ U, u ≠ 0 ∧ ρ σ u = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let d := Module.finrank (ZMod 2) U
   let ρU : alternatingGroup (Fin 7) →* (U ≃ₗ[ZMod 2] U) :=
     MonoidHom.mk' (fun a =>
@@ -88,13 +88,13 @@ theorem exists_ne_zero_fixed_of_alternatingGroup {V : Type} [AddCommGroup V] [Mo
   · have hU3 : Module.finrank (ZMod 2) U = 3 := by simpa [d] using hd3
     have hcardU3 : Nat.card (U ≃ₗ[ZMod 2] U) = 168 :=
       CFSG.GF2Type.Smith1979W3.CaseD.card_linearEquiv_of_finrank_three (W := U) hU3
-    haveI : Finite (U ≃ₗ[ZMod 2] U) :=
+    have : Finite (U ≃ₗ[ZMod 2] U) :=
       Finite.of_injective (fun e : U ≃ₗ[ZMod 2] U => (e : U → U))
         (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
     have hA7 : Nat.card (alternatingGroup (Fin 7)) = 2520 := by
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       decide
-    haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
       alternatingGroup.isSimpleGroup (by simp)
     have hnotinj : ¬ Function.Injective ρU := by
       intro hinj
@@ -102,7 +102,7 @@ theorem exists_ne_zero_fixed_of_alternatingGroup {V : Type} [AddCommGroup V] [Mo
       rw [hA7, hcardU3] at hle
       omega
     have hker : ρU.ker = ⊤ := by
-      haveI : ρU.ker.Normal := MonoidHom.normal_ker ρU
+      have : ρU.ker.Normal := MonoidHom.normal_ker ρU
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρU.ker with hbot | htop
       · exact absurd ((MonoidHom.ker_eq_bot_iff ρU).mp hbot) hnotinj
       · exact htop
@@ -129,7 +129,7 @@ theorem exists_ne_zero_fixed_of_alternatingGroup {V : Type} [AddCommGroup V] [Mo
       rw [← FiniteField.pow_finrank_eq_natCard 2 U]
     have hFpow : Nat.card F = 2 ^ Module.finrank (ZMod 2) F := by
       rw [← FiniteField.pow_finrank_eq_natCard 2 F]
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hmod := SFM7Lin.card_perm_modEq (ρU σ).toEquiv (p := 7) hpow
     rw [Nat.card_congr eF] at hmod
     have hpos : 0 < Module.finrank (ZMod 2) F := by

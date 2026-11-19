@@ -43,10 +43,10 @@ theorem card_sylow_eq_sixteen (hB3 : GoldschmidtB3Tmp) (hd : TightDatum R S z)
       have e : x = s * (s⁻¹ * x * s) * s⁻¹ := by group
       rw [e]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hs (hRT hx')) (Subgroup.inv_mem _ hs)
-    exact conjSubgroup_eq_self_iff.mp (ht.sylow_eq Q₀ T.isPGroup' hRT hle)
+    exact conjSubgroup_eq_self_iff.mp (ht.sylow_eq Q₀ T.isPGroup hRT hle)
   have hSKR : (T : Subgroup X) ⊓ tightCore R ≤ R0 := by
     have h2 : IsPGroup 2 (((T : Subgroup X) ⊓ tightCore R).subgroupOf (tightCore R)) :=
-      (T.isPGroup'.to_le inf_le_left).comap_subtype
+      (T.isPGroup.to_le inf_le_left).comap_subtype
     have hle : (Q₀ : Subgroup (tightCore R)) ≤
         ((T : Subgroup X) ⊓ tightCore R).subgroupOf (tightCore R) := by
       intro x hx
@@ -72,7 +72,7 @@ theorem card_sylow_eq_sixteen (hB3 : GoldschmidtB3Tmp) (hd : TightDatum R S z)
   have hPS : P ≤ (T : Subgroup X) := sup_le hRT (Subgroup.zpowers_le.mpr htS)
   have htzc : t' * z = z * t' := Subgroup.mem_centralizer_singleton_iff.mp (hTt htS)
   have hsd := SD.isSemidihedral_sup_of_allTypeTwo ht hA hR hRK (hSN htS) htzc htz
-  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (T.isPGroup'.to_le hPS) hsd
+  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (T.isPGroup.to_le hPS) hsd
   have hcl : fusionStronglyClosed (P : Set X) T := by
     intro x hx y hy
     have := SD.mem_sup_of_conj_mem ht hA hR hRK hRT hSKR hSN hTt htS htz hx (y := y⁻¹)
@@ -91,7 +91,7 @@ theorem card_sylow_eq_sixteen (hB3 : GoldschmidtB3Tmp) (hd : TightDatum R S z)
     refine TA3.TightDatum.eq_top_of_normal_le hd hgen Subgroup.normalClosure_normal ?_
     rw [← hQ₀]
     exact le_sup_left.trans Subgroup.le_normalClosure
-  have hTP : (T : Subgroup X) = P := hB.2.2 _ (hN ▸ le_top) T.isPGroup' hPS
+  have hTP : (T : Subgroup X) = P := hB.2.2 _ (hN ▸ le_top) T.isPGroup hPS
   have ht2 : t' * t' = 1 := by
     calc t' * t' = g * (z * z) * g⁻¹ := by rw [ht'def]; group
       _ = 1 := by rw [hzR.sq]; group

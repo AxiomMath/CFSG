@@ -117,15 +117,15 @@ theorem orderOf_toGL {Y Yi : Matrix (Fin 6) (Fin 6) F4c} {h1 : Y * Yi = 1} {h2 :
   · rw [← Φ_toGL Y Yi h1 h2, ← matC_apply, h, map_one]
 
 theorem orderOf_y7G : orderOf y7G = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_toGL y7C_pow y7C_ne_one
 
 theorem orderOf_y11G : orderOf y11G = 11 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   exact orderOf_toGL y11C_pow y11C_ne_one
 
 theorem orderOf_y5G : orderOf y5G = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_toGL y5C_pow y5C_ne_one
 
 theorem card_S6 : Nat.card S6 = 27590492160 := by
@@ -146,7 +146,7 @@ instance : Finite S6 := Nat.finite_of_card_ne_zero (by rw [card_S6]; norm_num)
 theorem exists_conj_pow_eq {r : ℕ} (hr : r.Prime) (hr2 : ¬ r ^ 2 ∣ Nat.card S6)
     {y h : GL (Fin 6) F4} (hy : y ∈ S6) (hh : h ∈ S6) (hyo : orderOf y = r)
     (hho : orderOf h = r) : ∃ t ∈ S6, ∃ m : ℤ, (t⁻¹ * h * t) ^ m = y := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set y' : S6 := ⟨y, hy⟩
   set h' : S6 := ⟨h, hh⟩
   have hy'o : orderOf y' = r := by rw [← Subgroup.orderOf_coe]; exact hyo

@@ -321,7 +321,7 @@ private theorem inner_step {n : Nat} {gens gensInv : Array Table} {x : Table} {s
   unfold closStepAt
   dsimp only
   by_cases hc : st.2.2.2.contains (key n (conjT n gens[l]! gensInv[l]! st.1[h]!)) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     refine ⟨hI, fun k hk l' hl' hkl => ?_, hh, rfl⟩
     rcases hkl with h1 | ⟨rfl, h2⟩
     · exact hP k hk l' hl' (Or.inl h1)
@@ -330,7 +330,7 @@ private theorem inner_step {n : Nat} {gens gensInv : Array Table} {x : Table} {s
       · have : l' = l := by omega
         subst this
         exact hc
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     obtain ⟨hps, hls, hpos, hfirst, htree, hseen, hreach, hdist⟩ := hI
     set z := conjT n gens[l]! gensInv[l]! st.1[h]! with hz
     have hget : ∀ k < st.1.size, (st.1.push z)[k]! = st.1[k]! := fun k hk => spec_getElem!_push _ _ hk

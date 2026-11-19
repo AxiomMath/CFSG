@@ -102,7 +102,7 @@ noncomputable def planeSpanEquiv (P : Finset (Fin 6)) :
     | Sum.inl i => if h : i ∈ P then w (Sum.inl ⟨i, h⟩) else 0
     | Sum.inr i => if h : i ∈ P then w (Sum.inr ⟨i, h⟩) else 0, by
       intro i hi
-      simp only [dif_neg hi, and_self]⟩
+      simp only [dite_eq_right hi, and_self]⟩
   map_add' v w := by
     ext x
     rcases x with (i | i) <;> simp
@@ -163,11 +163,11 @@ theorem Y2_nondeg : ∀ a ∈ Y2, (∀ b ∈ Y2, QuadraticMap.polar Q12 a b = 0)
   funext x
   rcases x with (i | i)
   · by_cases h : i ∈ ({2, 3} : Finset (Fin 6))
-    · fin_cases i <;> simp_all [ha2_inl, ha3_inl]
-    · simp [h, (mem_planeSpan.mp ha i h).1]
+    · fin_cases i <;> simp_all
+    · simp [(mem_planeSpan.mp ha i h).1]
   · by_cases h : i ∈ ({2, 3} : Finset (Fin 6))
-    · fin_cases i <;> simp_all [ha2_inr, ha3_inr]
-    · simp [h, (mem_planeSpan.mp ha i h).2]
+    · fin_cases i <;> simp_all
+    · simp [(mem_planeSpan.mp ha i h).2]
 
 theorem nondegenerate_Q12 : (QuadraticMap.polarBilin Q12).Nondegenerate :=
   CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus 6 (ZMod 2)

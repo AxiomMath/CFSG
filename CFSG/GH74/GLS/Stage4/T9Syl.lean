@@ -113,7 +113,7 @@ theorem t9_sylow3_inv {F : Type} [Field F] [Finite F] (h3 : Nat.card F = 3) (α 
     ext i j
     have h1 := he (slConj (dNeg F) x) i j
     rw [h1, t9_coe_slConj_dNeg, t9_coe_slConj_dNeg]
-    fin_cases i <;> fin_cases j <;> simp [he] <;> exact map_neg r _
+    fin_cases i <;> fin_cases j <;> simp [he]
   have hαe : α y = slConj (dNeg F) y := t9_alpha_eq α hU hL y
   have hey1 : e y ≠ 1 := fun h => hy1 (e.injective (by rw [h, map_one]))
   have hey3 : e y ^ 3 = 1 := by rw [← map_pow, hy3, map_one]

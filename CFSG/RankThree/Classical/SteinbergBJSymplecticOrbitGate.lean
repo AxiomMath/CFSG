@@ -203,7 +203,7 @@ theorem symplectic_inner_cross_prime_orbit_gate {ℓ p f : ℕ} (hℓ : ℓ.Prim
   have hchar := fun (ζ : AlgebraicClosure K) (hζ : IsPrimitiveRoot ζ p) =>
     charSpace_liftRep_facts hℓ hp hpℓ hcardK e hexp hcardA (AlgebraicClosure K) hζ
   have : NeZero (p : K) := ⟨hpK⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   have hlcm : Nat.lcm (orderOf ((ℓ ^ f : ℕ) : ZMod p)) 2 ≤ r := by
     obtain ⟨-, -, hsum, hfrob, hneg, hcl⟩ := hchar ζ₀ hζ₀
     have hS : AddSubgroup.closure {χ : Additive A →+ ZMod p |

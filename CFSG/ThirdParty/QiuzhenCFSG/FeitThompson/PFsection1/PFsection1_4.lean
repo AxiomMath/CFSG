@@ -1049,14 +1049,14 @@ public theorem coeffDot_self_eq_coeffSqNorm
           refine Finset.sum_congr rfl ?_
           intro j hj
           by_cases h : v j ≠ 0
-          · rw [if_pos h, if_pos h, pow_two, Int.natAbs_mul_self]
-          · rw [if_neg h, if_neg h]
+          · rw [ite_eq_left h, ite_eq_left h, pow_two, Int.natAbs_mul_self]
+          · rw [ite_eq_right h, ite_eq_right h]
     _ = ∑ j : J, v j * v j := by
           refine Finset.sum_congr rfl ?_
           intro j hj
           by_cases h : v j ≠ 0
-          · rw [if_pos h]
-          · rw [if_neg h]
+          · rw [ite_eq_left h]
+          · rw [ite_eq_right h]
             simp at h
             simp [h]
 

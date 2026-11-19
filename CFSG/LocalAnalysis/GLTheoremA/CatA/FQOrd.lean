@@ -51,6 +51,7 @@ theorem twoPart_card_SL {n e : ℕ} (hn : 2 ≤ n) (he : 1 ≤ e) (hL : Nat.card
   exact congrArg twoPart (Nat.card_congr (CFSG.StandardType.nonempty_proj_congr
     (CFSG.Open.StatedAPI.statedSL_eq_ker_det n L).symm).some.toEquiv)
 
+omit [Finite L] in
 theorem twoPart_card_statedProj_statedSU {n g : ℕ} (hn : 3 ≤ n) (hg : 1 ≤ g)
     (hL : Nat.card L = (2 ^ g) ^ 2) :
     twoPart (Nat.card (StatedProj (StatedSU n (2 ^ g) L))) = 2 ^ (g * (n * (n - 1) / 2)) := by

@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Timmesfeld.Orders.Bang
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -17,7 +17,7 @@ theorem not_dvd_prod_GL {r e g n : ℕ} (hr : IsPrimitivePrimeDivisor r e) (he :
     (hj : ∀ j, 1 ≤ j → j ≤ n → ¬ e ∣ g * j) :
     ¬ r ∣ ∏ i : Fin n, ((2 ^ g) ^ n - (2 ^ g) ^ (i : ℕ)) := by
   intro hdvd
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hr.prime.prime _).mp hdvd
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hr.prime.prime _).mp hdvd
   rw [pow_sub_pow_eq (Nat.le_of_lt i.2)] at hi
   rcases (Nat.Prime.dvd_mul hr.prime).mp hi with h | h
   · rw [← pow_mul] at h

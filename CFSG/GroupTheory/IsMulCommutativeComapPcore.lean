@@ -9,7 +9,7 @@ namespace CFSG
 open scoped commutatorElement
 
 theorem isMulCommutative_comap_quotient_pCore {L Q : Type} [Group L] [Group Q]
-    (pi : L →* Q) (hpi : Function.Surjective pi) (hker : IsPGroup 2 (MonoidHom.ker pi))
+    (pi : L →* Q) (_hpi : Function.Surjective pi) (hker : IsPGroup 2 (MonoidHom.ker pi))
     {B : Subgroup Q}
     (h : IsMulCommutative (↥B ⧸ CFSG.pCore 2 ↥B)) :
     IsMulCommutative (↥(B.comap pi) ⧸ CFSG.pCore 2 ↥(B.comap pi)) := by

@@ -104,9 +104,9 @@ theorem LeviHom.map {X X' : Type*} [Group X] [Group X'] [Finite X] [Finite X'] {
     exact this
 
 theorem mem_of_orderOf_prime_of_coprime_relIndex {A : Type*} [Group A] {Y X : Subgroup A}
-    (hYX : Y ≤ X) (hn : (Y.subgroupOf X).Normal) {p : ℕ} (hp : p.Prime)
+    (_hYX : Y ≤ X) (hn : (Y.subgroupOf X).Normal) {p : ℕ} (hp : p.Prime)
     (hidx : ¬ p ∣ Y.relIndex X) {z : A} (hzX : z ∈ X) (hz : orderOf z = p) : z ∈ Y := by
-  haveI := hn
+  have := hn
   have hzp : z ^ p = 1 := hz ▸ pow_orderOf_eq_one z
   have hzP : (⟨z, hzX⟩ : ↥X) ^ p = 1 := Subtype.ext hzp
   have hmk : (QuotientGroup.mk (⟨z, hzX⟩ : ↥X) : ↥X ⧸ Y.subgroupOf X) ^ p = 1 := by

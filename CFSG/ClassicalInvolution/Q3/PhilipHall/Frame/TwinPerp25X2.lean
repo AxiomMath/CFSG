@@ -47,7 +47,7 @@ theorem false_of_growth (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQ : QTFAt
   set E := D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z with hE
   have hEA : E ≤ cA S R R' :=
     sup_le (sup_le hDA (Subgroup.zpowers_le.mpr hxA)) (Subgroup.zpowers_le.mpr hzA)
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({b} : Set G) := by
     refine sup_le (sup_le ?_ ?_) ?_
     · intro d hd

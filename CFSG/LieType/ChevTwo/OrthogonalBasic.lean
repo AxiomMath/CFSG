@@ -107,6 +107,7 @@ noncomputable def statedOmegaEquivDerived {Q : (ι → ZMod 2) → ZMod 2}
       exact Subgroup.map_comap_eq_self_of_surjective
         (CFSG.ClassicalGroups.Orthogonal.toLinEquiv ι (ZMod 2)).surjective _))
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem regularQuad_of_nondegenerate {Q : (ι → ZMod 2) → ZMod 2}
     {q : QuadraticForm (ZMod 2) (ι → ZMod 2)} (hq : ⇑q = Q)
     (hnd : (polarBilin q).Nondegenerate) : RegularQuad Q :=

@@ -22,7 +22,7 @@ theorem exists_fixed_order_four_lThree {G : Type} [Group G]
     (hKa : KFacts.InducesStdKind K a .field) (haK : a ∈ Subgroup.normalizer (K : Set G)) :
     ∃ y : K ⧸ aschbacherSolvableCore 3 K,
       Sec4.thetaQuotMulAut K (Sec4.compAction K ⟨a, haK⟩) y = y ∧ y ^ 4 = 1 ∧ y ^ 2 ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eK : K ⧸ aschbacherSolvableCore 3 K ≃* projectiveSL 3 (GaloisField 2 m) :=
     eKP.trans (Sec4.projSLEquivProjectiveSL 3 (GaloisField 2 m))
   obtain ⟨haK', hkindK⟩ := hasKind_of_inducesStdKind_lThree hmE hm1 eKP hKa
@@ -49,7 +49,7 @@ theorem exists_fixed_order_four_uThree {G : Type} [Group G] [Finite G] {K : Subg
     (ha3 : a ^ 3 = 1) :
     ∃ y : K ⧸ aschbacherSolvableCore 3 K,
       Sec4.thetaQuotMulAut K (Sec4.compAction K ⟨a, haK⟩) y = y ∧ y ^ 4 = 1 ∧ y ^ 2 ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm1 : 1 ≤ m := by omega
   have hGF := Sec4.unitaryFieldData_galoisField 2 m hm1
   have hq : 2 < 2 ^ m :=

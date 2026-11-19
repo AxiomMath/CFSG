@@ -15,7 +15,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open
 theorem wcOn_five_of_data {K : Type} [Group K] [Finite K] {a b g : K} (ha1 : a ≠ 1)
     (ha5 : a ^ 5 = 1) (hab : Commute a b) (hga : g * a * g⁻¹ = b)
     (hgb : g * b * g⁻¹ = (a * b)⁻¹) (h3 : ¬ 5 ^ 3 ∣ Nat.card K) : WCOn 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hb5 : b ^ 5 = 1 := by
     rw [← hga, conj_pow, ha5]
     simp
@@ -45,7 +45,7 @@ theorem wcSporadicAt_J2
   simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
-  · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+  · have : Fact (Nat.Prime 3) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.J2_sylow3_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   · exact wcOn_J2_five
@@ -53,12 +53,12 @@ theorem wcSporadicAt_J2
 
 theorem wcOn_ON_three
     [Finite (Carrier .ONan)] : WCOn 3 (Carrier .ONan) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact WCOn.of_conj_elements fun x y hx hy => CFSG.RankThree.Native.onThree_fusion hx hy
 
 theorem wcOn_ON_seven [Finite (Carrier .ONan)] :
     WCOn 7 (Carrier .ONan) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_ON
 
 theorem wcSporadicAt_ON

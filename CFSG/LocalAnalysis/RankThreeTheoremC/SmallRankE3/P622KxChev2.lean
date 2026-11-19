@@ -29,7 +29,7 @@ theorem z_mem_normalizer_inf (c : P622KxCfg p P M x z T S L) :
 theorem isSylowOf_inf_primeCore (c : P622KxCfg p P M x z T S L) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ rankThreePrimeCore p (L ⊓ M))
       (rankThreePrimeCore p (L ⊓ M)) := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   set K₀ : Subgroup G := L ⊓ M with hK₀
   set D : Subgroup G := rankThreePrimeCore p K₀ with hD
   obtain ⟨hDK, hKD, hcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p K₀
@@ -46,7 +46,7 @@ theorem isSylowOf_inf_primeCore (c : P622KxCfg p P M x z T S L) :
   have hDn : (D.subgroupOf H').Normal :=
     (normal_subgroupOf_iff_le_normalizer hDH').mpr inf_le_right
   have hpD : ¬ p ∣ Nat.card D := (Nat.Prime.coprime_iff_not_dvd c.prime).mp hcop
-  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup'.to_le c.conf.B_le_P
+  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup.to_le c.conf.B_le_P
   have hSK₀ : S ≤ normalizer (K₀ : Set G) :=
     fun s hs => inf_normalizer_le_normalizer_inf ⟨c.S_le_normalizer hs,
       Subgroup.le_normalizer (c.S_le_M hs)⟩
@@ -62,8 +62,8 @@ theorem false_of_chev2 (hL613 : P622L613) (hp3 : p ≠ 3) (h131 : KFact131)
     (hgen : KFactParabolicGen) (h2715 : KFact2715) (hcov : KFactParabolicCover)
     (c : P622KxCfg p P M x z T S L) (hC : IsChevSimple 2 ↥L) : False := by
   have hp := c.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := c.ne_two
   have hp5 : 5 ≤ p := by
     have h2 : 2 ≤ p := hp.two_le

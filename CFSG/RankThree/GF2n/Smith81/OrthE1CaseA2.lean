@@ -20,7 +20,7 @@ theorem listGroup_isSimpleGroup {X : Type} [Group X]
     obtain ⟨hadm, K, _, _, hK, ⟨e⟩⟩ := hcl
     dsimp only [StatedLieAdmissible] at hadm
     obtain ⟨-, -, -, h22, h23⟩ := hadm
-    haveI : IsSimpleGroup (StatedProj (StatedSL m K)) := by
+    have : IsSimpleGroup (StatedProj (StatedSL m K)) := by
       refine CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K hm ?_ ?_
       · by_cases hm2 : m = 2
         · right
@@ -43,23 +43,23 @@ theorem listGroup_isSimpleGroup {X : Type} [Group X]
     exact (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity X 3 2 s hcl).2
   · obtain ⟨s, hs, hs3, hl⟩ := h
     obtain ⟨-, a, ha, K, _, _, hs', hK, ⟨φ⟩⟩ := lieModel_twistedB2_iff.1 hl
-    haveI := (CFSG.LieType.Ree.suzuki_simple (a := a) (K := K) ha (hK.trans (by rw [hs']))).2.2
+    have := (CFSG.LieType.Ree.suzuki_simple (a := a) (K := K) ha (hK.trans (by rw [hs']))).2.2
     exact φ.isSimpleGroup
   · obtain ⟨k, hk6, hk9, ⟨φ⟩⟩ := h
     have hk : Nat.card (Fin k) = k := by simp
-    haveI : IsSimpleGroup (alternatingGroup (Fin k)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin k)) :=
       alternatingGroup.isSimpleGroup (by rw [hk]; omega)
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
       CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M23) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M23) :=
       CFSG.Sporadic.Mathieu.fam_m23_simplicity.2.2
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M24) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M24) :=
       CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
     exact φ.isSimpleGroup
 
@@ -68,6 +68,7 @@ section Bar
 variable {G : Type} [Group G] [Finite G] {M Q : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem caseA2_mem_bar {S : Subgroup G} (hQS : Q ≤ S) (y : M) :
     QuotientGroup.mk' (Q.subgroupOf M) y ∈ bar M Q S ↔ (y : G) ∈ S := by
   constructor
@@ -81,6 +82,7 @@ theorem caseA2_mem_bar {S : Subgroup G} (hQS : Q ≤ S) (y : M) :
   · intro hy
     exact Subgroup.mem_map.mpr ⟨y, Subgroup.mem_subgroupOf.mpr hy, rfl⟩
 
+omit [Finite G] in
 theorem caseA2_mem_conj_bar {S : Subgroup G} (hQS : Q ≤ S) (m y : M) :
     QuotientGroup.mk' (Q.subgroupOf M) y ∈
         conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) m) (bar M Q S) ↔
@@ -89,6 +91,7 @@ theorem caseA2_mem_conj_bar {S : Subgroup G} (hQS : Q ≤ S) (m y : M) :
     caseA2_mem_bar hQS]
   rfl
 
+omit [Finite G] in
 theorem caseA2_Q_le_conj {S : Subgroup G} (hQM : Q ≤ M) (hQS : Q ≤ S) (m : M) :
     Q ≤ conjSubgroup (m : G) S := by
   intro q hq
@@ -97,6 +100,7 @@ theorem caseA2_Q_le_conj {S : Subgroup G} (hQM : Q ≤ M) (hQS : Q ≤ S) (m : M
   have h := (inferInstance : (Q.subgroupOf M).Normal).conj_mem _ hn m⁻¹
   exact hQS (by simpa using Subgroup.mem_subgroupOf.mp h)
 
+omit [Finite G] in
 theorem caseA2_bar_conj {S : Subgroup G} (hQM : Q ≤ M) (hQS : Q ≤ S) (m : M) :
     bar M Q (conjSubgroup (m : G) S) =
       conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) m) (bar M Q S) := by
@@ -104,9 +108,11 @@ theorem caseA2_bar_conj {S : Subgroup G} (hQM : Q ≤ M) (hQS : Q ≤ S) (m : M)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) z
   rw [caseA2_mem_conj_bar hQS, caseA2_mem_bar (caseA2_Q_le_conj hQM hQS m)]
 
+omit [Finite G] in
 theorem caseA2_bar_mono {S T : Subgroup G} (h : S ≤ T) : bar M Q S ≤ bar M Q T :=
   Subgroup.map_mono fun _ hx => Subgroup.mem_subgroupOf.mpr (h (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite G] in
 theorem caseA2_bar_self : bar M Q Q = ⊥ := by
   ext z
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) z
@@ -117,25 +123,30 @@ theorem caseA2_bar_self : bar M Q Q = ⊥ := by
 @[expose] def caseA2_lift (X : Subgroup (Mbar M Q)) : Subgroup G :=
   (X.comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype
 
+omit [Finite G] in
 theorem caseA2_subgroupOf_lift (X : Subgroup (Mbar M Q)) :
     (caseA2_lift X).subgroupOf M = X.comap (QuotientGroup.mk' (Q.subgroupOf M)) :=
   Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
 
+omit [Finite G] in
 theorem caseA2_bar_lift (X : Subgroup (Mbar M Q)) : bar M Q (caseA2_lift X) = X := by
   unfold bar
   rw [caseA2_subgroupOf_lift,
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _)]
 
+omit [Finite G] in
 theorem caseA2_mem_lift (X : Subgroup (Mbar M Q)) (y : M) :
     (y : G) ∈ caseA2_lift X ↔ QuotientGroup.mk' (Q.subgroupOf M) y ∈ X := by
   rw [← Subgroup.mem_subgroupOf, caseA2_subgroupOf_lift]
   rfl
 
+omit [Finite G] in
 theorem caseA2_rep {S : Subgroup G} {x : Mbar M Q} (hx : x ∈ bar M Q S) :
     ∃ m : M, (m : G) ∈ S ∧ QuotientGroup.mk' (Q.subgroupOf M) m = x := by
   obtain ⟨m, hm, hmx⟩ := Subgroup.mem_map.mp hx
   exact ⟨m, Subgroup.mem_subgroupOf.mp hm, hmx⟩
 
+omit [Finite G] in
 theorem caseA2_commute_iff (x y : M) :
     Commute (QuotientGroup.mk' (Q.subgroupOf M) x) (QuotientGroup.mk' (Q.subgroupOf M) y) ↔
       ⁅(x : G), (y : G)⁆ ∈ Q := by
@@ -144,6 +155,7 @@ theorem caseA2_commute_iff (x y : M) :
   exact ⟨fun h1 => Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h1),
     fun h1 => (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr h1)⟩
 
+omit [Finite G] in
 theorem caseA2_conj_le {L N : Subgroup G} (hNL : N ≤ L) {g : G} (hg : g ∈ L) :
     conjSubgroup g N ≤ L := by
   intro x hx
@@ -153,6 +165,7 @@ theorem caseA2_conj_le {L N : Subgroup G} (hNL : N ≤ L) {g : G} (hg : g ∈ L)
   rw [e] at h
   exact h
 
+omit [Finite G] in
 theorem caseA2_conj_bar_le {S : Subgroup G} (hQM : Q ≤ M) (hQS : Q ≤ S) (m : M)
     (h : conjSubgroup (m : G) S ≤ S) :
     conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) m) (bar M Q S) ≤ bar M Q S := by
@@ -166,11 +179,12 @@ section Core
 variable {G : Type} [Group G] [Finite G] {M Q : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem caseA2_nilp_bot {L : Subgroup G} (hQM : Q ≤ M) (hQL : Q ≤ L) (hLM : L ≤ M)
     (hFL : ∀ A : Subgroup G, Q ≤ A → A ≤ L → (∀ s ∈ L, conjSubgroup s A = A) →
       QuotSat A Q (fun W _ => Group.IsNilpotent W) → A = Q)
     (A : Subgroup ↥(bar M Q L)) (hA : A.Normal) (hnil : Group.IsNilpotent ↥A) : A = ⊥ := by
-  haveI := hA
+  have := hA
   set Ab : Subgroup (Mbar M Q) := A.map (bar M Q L).subtype with hAb
   have hAb_le : Ab ≤ bar M Q L := Subgroup.map_subtype_le A
   have hAb_norm : ∀ g ∈ bar M Q L, ∀ a ∈ Ab, g * a * g⁻¹ ∈ Ab := by
@@ -229,16 +243,17 @@ theorem caseA2_nilp_bot {L : Subgroup G} (hQM : Q ≤ M) (hQL : Q ≤ L) (hLM : 
   have hQN : QuotSat Ah Q (fun W _ => Group.IsNilpotent W) := by
     refine quotSat_of_bar (P := fun W _ => Group.IsNilpotent W) ?_ hQAh hAhM ?_
     · intro X Y _ _ e hX
-      haveI := hX
+      have := hX
       exact Group.nilpotent_of_mulEquiv e
     · rw [hbarAh]
-      haveI := hnil
+      have := hnil
       exact Group.nilpotent_of_mulEquiv (A.equivMapOfInjective _ (bar M Q L).subtype_injective)
   have hAh_eq : Ah = Q := hFL Ah hQAh hAhL hconj hQN
   have hAb_bot : Ab = ⊥ := by
     rw [← hbarAh, hAh_eq, caseA2_bar_self]
   exact (Subgroup.map_eq_bot_iff_of_injective _ (bar M Q L).subtype_injective).1 hAb_bot
 
+omit [Finite G] in
 theorem caseA2_solv_bot {L : Subgroup G}
     (hnil : ∀ A : Subgroup ↥(bar M Q L), A.Normal → Group.IsNilpotent ↥A → A = ⊥)
     (P : Subgroup ↥(bar M Q L)) [P.Normal] (hs : Group.IsSolvable ↥P) : P = ⊥ := by
@@ -262,8 +277,8 @@ theorem caseA2_solv_bot {L : Subgroup G}
   have h1 : ⁅derivedSeries ↥P j, derivedSeries ↥P j⁆ = ⊥ := by
     rw [← derivedSeries_succ]
     exact hk
-  haveI hcomm : IsMulCommutative ↥(derivedSeries ↥P j) := Subgroup.commutator_self_eq_bot_iff.mp h1
-  haveI : ((derivedSeries ↥P j).map P.subtype).Normal := inferInstance
+  have hcomm : IsMulCommutative ↥(derivedSeries ↥P j) := Subgroup.commutator_self_eq_bot_iff.mp h1
+  have : ((derivedSeries ↥P j).map P.subtype).Normal := inferInstance
   have hBnil : Group.IsNilpotent ↥((derivedSeries ↥P j).map P.subtype) :=
     Group.nilpotent_of_mulEquiv
       ((derivedSeries ↥P j).equivMapOfInjective P.subtype P.subtype_injective)
@@ -277,6 +292,7 @@ section KorollarB
 variable {G : Type} [Group G] [Finite G] {M Q : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem caseA2_corBHyp {L N : Subgroup G} (hQN : Q ≤ N) (hNL : N ≤ L) (hLM : L ≤ M)
     (hEA : (∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ Q) ∧ ∀ x ∈ N, x ^ 2 ∈ Q)
     (hTI : ∀ m ∈ L, N ⊓ conjSubgroup (m : G) N = Q ∨ conjSubgroup (m : G) N = N)
@@ -403,6 +419,7 @@ theorem caseA2_corBHyp {L N : Subgroup G} (hQN : Q ≤ N) (hNL : N ≤ L) (hLM :
         rw [h]
     exact key1.trans ((hA1 (m : G) hmL).trans (lemA.trans lemB).symm)
 
+omit [Finite G] in
 theorem caseA2_T_ne_bot {L N : Subgroup G} (hQN : Q ≤ N) (hNL : N ≤ L) (hNM : N ≤ M)
     (hQL : Q ≤ L) (hNe : N ≠ Q) : (bar M Q N).subgroupOf (bar M Q L) ≠ ⊥ := by
   intro hbot
@@ -426,14 +443,17 @@ variable {G : Type} [Group G] [Finite G] {M Q : Subgroup G}
 
 @[expose] def caseA2_D (L N : Subgroup G) : Subgroup G := ⨆ g ∈ L, conjSubgroup g N
 
+omit [Finite G] in
 theorem caseA2_D_le {L N : Subgroup G} (hNL : N ≤ L) : caseA2_D L N ≤ L :=
   iSup₂_le fun _ hg => caseA2_conj_le hNL hg
 
+omit [Finite G] in
 theorem caseA2_le_D {L N : Subgroup G} (hL : (1 : G) ∈ L) : N ≤ caseA2_D L N := by
   have h := le_iSup₂ (f := fun g (_ : g ∈ L) => conjSubgroup g N) (1 : G) hL
   rw [conjSubgroup_one] at h
   exact h
 
+omit [Finite G] in
 theorem caseA2_D_normal {L N : Subgroup G} {s : G} (hs : s ∈ L) :
     conjSubgroup s (caseA2_D L N) ≤ caseA2_D L N := by
   have h : caseA2_D L N ≤ (caseA2_D L N).comap (MulAut.conj s).toMonoidHom := by
@@ -449,6 +469,7 @@ theorem caseA2_D_normal {L N : Subgroup G} {s : G} (hs : s ∈ L) :
     exact le_iSup₂ (f := fun g (_ : g ∈ L) => conjSubgroup g N) (s * g) (L.mul_mem hs hg) hx'
   exact Subgroup.map_le_iff_le_comap.mpr h
 
+omit [Finite G] in
 theorem caseA2_normalClosure_map {L N : Subgroup G} (hQM : Q ≤ M) (hQN : Q ≤ N)
     (hNL : N ≤ L) (hLM : L ≤ M) (hQL : Q ≤ L) :
     (Subgroup.normalClosure
@@ -476,7 +497,7 @@ theorem caseA2_normalClosure_map {L N : Subgroup G} (hQM : Q ≤ M) (hQN : Q ≤
       rw [e]
       exact hn
     exact hconj hmem
-  haveI := hDsub
+  have := hDsub
   set K := Subgroup.normalClosure
     (((bar M Q N).subgroupOf (bar M Q L) : Subgroup ↥(bar M Q L)) : Set ↥(bar M Q L)) with hK
   have hTD : (((bar M Q N).subgroupOf (bar M Q L) : Subgroup ↥(bar M Q L)) :
@@ -531,7 +552,7 @@ theorem caseA2_of
     (hEA : NtElemAbelianStatement) (hF : M1FittingTrivialStatement) : CaseA2Statement := by
   intro G _ _ M Q Z B t hH hA
   have hc : Ctx M Q Z B := hH.ctx
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
   have hLM : Lgen M (LB M Q B) ≤ M := Lgen_le_M hc
   have hLH : Lgen M (LB M Q B) ≤ H0 M Z := Lgen_le_H0 hc
@@ -571,7 +592,7 @@ theorem caseA2_of
     fun A hA' hA'' => caseA2_nilp_bot hQM hQL hLM hFL A hA' hA''
   have hO2 : ∀ P : Subgroup ↥(bar M Q (Lgen M (LB M Q B))), P.Normal → IsPGroup 2 P → P = ⊥ := by
     intro P hP hp
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact hnil P hP hp.isNilpotent
   have hO : ∀ P : Subgroup ↥(bar M Q (Lgen M (LB M Q B))), P.Normal →
       Odd (Nat.card P) → P = ⊥ := by

@@ -259,7 +259,7 @@ theorem LeviData.le_sup_iSup_calEi
       rw [IsSylowIn.coe_toSylow]
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P.isPGroup'
+      exact P.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hcoe]
       exact P.not_dvd_index
   have htopJ : pslRange (ZMod p) ⊔ S' = ⊤ :=

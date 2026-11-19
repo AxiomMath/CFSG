@@ -14,7 +14,7 @@ open scoped MatrixGroups
 variable {F : Type} [Field F]
 
 theorem exists_omega [Finite F] (h3 : 3 ∣ Nat.card F - 1) : ∃ ω : F, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 hdvd
   refine ⟨(x : F), ?_⟩
@@ -54,7 +54,7 @@ theorem homMat_mem_gu {ω : F} (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1) (hbω : h.b
   rw [Sec4.mem_glPi_false h, IsUnit.unit_spec]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [homMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, hbω]
+    simp [homMat, Matrix.mul_apply, Matrix.diagonal_apply, hbω]
 
 theorem heisMat_mem_gu {l : F} (hl : ∀ θ : F, θ ^ 3 ≠ l) (hbl : h.bar l * l = 1) :
     ∃ c ∈ Sec4.glPi false 3 (p ^ f) F, (c : Matrix (Fin 3) (Fin 3) F) = heisMat l := by
@@ -80,7 +80,7 @@ theorem phi_mem_gu (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     linear_combination ω * hω3
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Phi, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply, hbar, hb2] <;> grind
+    simp [Phi, Matrix.mul_apply, Fin.sum_univ_three, hbar, hb2] <;> grind
 
 @[expose] def cj (b : F →+* F) (M : Matrix (Fin 3) (Fin 3) F) : Matrix (Fin 3) (Fin 3) F :=
   (M.map b)ᵀ
@@ -94,7 +94,7 @@ theorem cj_diagonal (b : F →+* F) (d : Fin 3 → F) :
   ext i j
   by_cases hij : i = j
   · subst hij; simp [cj]
-  · simp [cj, Matrix.diagonal_apply, hij, Ne.symm hij]
+  · simp [cj, hij, Ne.symm hij]
 
 theorem off_diag_zero (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     (hbar : h.bar ω = ω ^ 2) {ν : F} (hν : h.bar ν = ν) {c : F} (k : ℕ) (hk : ¬ 3 ∣ k)
@@ -138,7 +138,7 @@ theorem exists_unitary_eigenbasis (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + �
   obtain ⟨lam, hlamdef⟩ : ∃ lam : Fin 3 → F, lam = fun i : Fin 3 => μ * ω ^ (i : ℕ) := ⟨_, rfl⟩
   have hlam : μ • Dm ω = Matrix.diagonal lam := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Dm, hlamdef, Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp [Dm, hlamdef]
   rw [hlam] at hga
   obtain ⟨Gm, hGm⟩ : ∃ Gm : Matrix (Fin 3) (Fin 3) F, Gm = cj h.bar a * a := ⟨_, rfl⟩
   have hG : cj h.bar (Matrix.diagonal lam) * Gm * Matrix.diagonal lam = Gm := by
@@ -264,7 +264,7 @@ theorem exists_noncube_norm_one {ω : F} (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1)
     (hq3 : ¬ 3 ∣ p ^ f - 1) :
     ∃ l : F, (∀ θ : F, θ ^ 3 ≠ l) ∧ h.bar l * l = 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨ν, hν⟩ := exists_noncube hω1 hω3
   have hν0 : ν ≠ 0 := fun h0 => hν 0 (by simp [h0])
   refine ⟨ν ^ (p ^ f - 1), noncube_pow hν0 hν hq3, ?_⟩
@@ -285,7 +285,7 @@ theorem pairPropIn_gu (h : UnitaryFieldData p f F) (hp : p = 2) (hq : p ^ f % 3 
     PairPropIn ((Sec4.glPi false 3 (p ^ f) F).map
       (ProjGenLinGroup.mk : GL (Fin 3) F →* PGL(3, F))) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hF2 : (2 : F) = 0 := by
     have : CharP F 2 := hp ▸ h.charP
     simpa using CharP.cast_eq_zero F 2
@@ -347,7 +347,7 @@ theorem pair_projImage_glPi_false (n : ℕ) (hn : Odd n) {F : Type} [Field F] [F
     ⟨Nat.prime_two, by obtain ⟨k, rfl⟩ := hn; omega, by rw [hF, ← pow_mul, mul_comm]⟩
   exact (pairPropIn_gu h rfl (two_pow_mod_three_odd hn)).pairProp
 
-theorem pair_projImage_glPi_true (n : ℕ) (hn : Even n) (hn1 : 1 ≤ n) {F : Type} [Field F]
+theorem pair_projImage_glPi_true (n : ℕ) (hn : Even n) (_hn1 : 1 ≤ n) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 2 ^ n) :
     PairProp (projImage (Sec4.glPi true 3 (2 ^ n) F)) := by
   classical

@@ -219,7 +219,7 @@ theorem key_in_layer {r₁ : ℕ} {L₁ L₂ : Subgroup (CentralizerBar z)}
       _ = a * (j⁻¹ * u) := by group
   obtain ⟨q', hq'Q, hq'W, hq'⟩ := exists_lift Q hvW
   have hna : v⁻¹ * q' ∈ pPrimeCore 2 ↥(Cen z) := QuotientGroup.eq.1 hq'.symm
-  obtain ⟨kq, hkq⟩ := Q.isPGroup' ⟨q', hq'Q⟩
+  obtain ⟨kq, hkq⟩ := Q.isPGroup ⟨q', hq'Q⟩
   have hq'C : ∀ x ∈ pPrimeCore 2 ↥(Cen z), q' * x = x * q' :=
     centralizes_of_mul_eq hodd ⟨kq, congrArg Subtype.val hkq⟩ hvA hna (by group)
   have hq'mem : q' ∈ zpowers (zElt z) := by

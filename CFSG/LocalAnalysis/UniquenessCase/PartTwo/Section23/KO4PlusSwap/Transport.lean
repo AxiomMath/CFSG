@@ -51,9 +51,9 @@ theorem exists_mulEquiv_determinantIsometries {W : Type} [CommGroup W] [Finite W
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2), Nat.card K = 2 ^ e ∧
       Nonempty (↥R ≃* ↥(DeterminantIsometries K)) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hreal⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   let Γ := CFSG.PGLModel.orthogonalPlus 2 K
   obtain ⟨π, hπ⟩ := hreal
   have hinj : Function.Injective π :=
@@ -65,7 +65,7 @@ theorem exists_mulEquiv_determinantIsometries {W : Type} [CommGroup W] [Finite W
       rw [← Nat.card_eq_fintype_card]
       exact hKcard
     exact charP_of_card_eq_prime_pow (f := e) h1
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   refine ⟨K, hKfield, hKfinite, hchar, hKcard, ⟨?_⟩⟩
   exact eΓ.symm.trans
     ((MulEquiv.subgroupMap (CFSG.Quasithin.G11.P3Ortho.Om4.Ψ K) Γ).trans
@@ -95,7 +95,7 @@ theorem not_two_dvd_index_map {R S : Subgroup M} (φ : ↥R ≃* G)
   rw [hidx]
   exact hS.2.2
 
-theorem map_le_normalizer_map {R S L : Subgroup M} (φ : ↥R ≃* G) (hSR : S ≤ R) (hLR : L ≤ R)
+theorem map_le_normalizer_map {R S L : Subgroup M} (φ : ↥R ≃* G) (_hSR : S ≤ R) (_hLR : L ≤ R)
     (h : S ≤ normalizer (L : Set M)) :
     (S.subgroupOf R).map φ.toMonoidHom ≤
       normalizer (((L.subgroupOf R).map φ.toMonoidHom : Subgroup G) : Set G) := by

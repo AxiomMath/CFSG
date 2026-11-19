@@ -28,7 +28,7 @@ private theorem twE6t_endo_eval
     e6Data_valid.endo_xm, ← e6Data_valid.blockOp_upper,
     e6Data_valid.blockOp_single_of_eq_neg_one k hw2]
   have hne := e6Data_valid.sRefl_ne_self (i := nd 2) (a := w) (by omega)
-  simp [Finsupp.single_apply, hne]
+  simp [hne]
 
 theorem torusRegularAlpha3
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c)

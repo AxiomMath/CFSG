@@ -118,7 +118,7 @@ private lemma rckSD_pi_eq_zero_iff {n g : ℕ} {s : GL (Fin n) (PSUF g)}
         intro hw
         have h0 := congrArg (fun w : LinearMap.range (Matrix.mulVecLin ε) =>
           (w : Fin n → PSUF g) i) hw
-        simp only [Matrix.mulVec_single_one, Matrix.col_apply, Pi.zero_apply] at h0
+        simp only [Matrix.mulVec_single_one, Matrix.col_apply] at h0
         exact hij h0
       exact h ⟨_, hwne⟩
     obtain ⟨w, hwne⟩ := hWne
@@ -139,10 +139,10 @@ private lemma rckSD_antidiag_map_transpose {g n : ℕ} :
   simp only [Matrix.transpose_apply, Matrix.map_apply, Unitary.antidiag, Matrix.of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
     exact map_one _
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
     exact map_zero _
 
 private noncomputable def rckSD_adjHom {n g : ℕ} {s : GL (Fin n) (PSUF g)}
@@ -306,7 +306,6 @@ private lemma rckSD_rho_exists {n g : ℕ} {s : GL (Fin n) (PSUF g)}
     intro a ha
     change π (adj a) = 0
     rw [hπker (adj a)]
-    change (adj a : Matrix (Fin n) (Fin n) (PSUF g)) * ε = 0
     change π a = 0 at ha
     exact (rckSD_adjHom_mul_eps hsU hε a).mpr ((hπker a).mp ha)
   let eK : rckSD_A s ⧸ RingHom.ker πr ≃+* K :=

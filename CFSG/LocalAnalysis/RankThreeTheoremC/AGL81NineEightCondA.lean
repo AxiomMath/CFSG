@@ -27,11 +27,13 @@ end Helpers
 
 variable {p : ℕ} {M H : Subgroup G}
 
+omit [Finite G] in
 theorem kSub_eq_sSup (hJ : ¬ AGL81C.pLayerIn p H ≤ M) :
     AGL81C.kSub p M H = sSup {Y : Subgroup G | AGL81C.IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
   unfold AGL81C.kSub
-  rw [if_neg hJ]
+  rw [ite_eq_right hJ]
 
+omit [Finite G] in
 theorem kSub_le (hJ : ¬ AGL81C.pLayerIn p H ≤ M) : AGL81C.kSub p M H ≤ H := by
   rw [kSub_eq_sSup hJ]
   exact sSup_le fun Y hY => hY.1.1

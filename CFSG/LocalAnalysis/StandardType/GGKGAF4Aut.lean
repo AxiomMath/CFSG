@@ -20,15 +20,15 @@ theorem ggF4_basics_label
         ∀ φ ∈ I, ∃ r : R, φ = MulAut.conj r := by
   intro Q hQ
   obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hsimple : IsSimpleGroup (TableBF4.RecipeGroup K) := by
-    haveI : IsSimpleGroup (AdjointQuotient .F4 K) :=
+    have : IsSimpleGroup (AdjointQuotient .F4 K) :=
       CFSG.LieType.Simplicity.isSimpleGroup_adjointQuotient_f4 K
     obtain ⟨eR⟩ := centerQuot_chevGroup_equiv K .F4
     exact eR.isSimpleGroup
   have hnab : ∃ a b : TableBF4.RecipeGroup K, a * b ≠ b * a := by
-    haveI : IsSimpleGroup (TableBF4.RecipeGroup K) := hsimple
+    have : IsSimpleGroup (TableBF4.RecipeGroup K) := hsimple
     by_contra h
     push Not at h
     obtain ⟨x, hx⟩ := exists_ne (1 : TableBF4.RecipeGroup K)
@@ -51,9 +51,9 @@ theorem ggF4_autOrder_label
     LargeEvenLabelAll ⟨.F4, 4, f⟩ fun R _ _ _ => GGF4AutOrderAt p R := by
   intro Q hQ
   obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := charP_two_of_card hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := charP_two_of_card hK
   refine ⟨K, hField, hFinite, hK, hQ', ?_⟩
   intro E hE hr
   let e := TableBF4.recipeEquiv K

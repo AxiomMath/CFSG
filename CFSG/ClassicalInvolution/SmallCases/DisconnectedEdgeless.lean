@@ -65,7 +65,7 @@ theorem twoSubgroupsFourGenerated_of_edgeless {K : Subgroup G} {z : G} (hp2 : p 
   have hzmap : z ∈ (Q : Subgroup K).map K.subtype :=
     ⟨⟨z, hz.mem⟩, hzQ (Subgroup.mem_zpowers _), rfl⟩
   have hp2g : IsPGroup 2 ((Q : Subgroup K).map K.subtype) :=
-    Q.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ K.subtype K.subtype_injective)
+    Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ K.subtype K.subtype_injective)
   obtain ⟨S, hQS⟩ := hp2g.exists_le_sylow
   exact twoSubgroupsFourGenerated_of_tight_csm hU hT hCSM Q hQq hzmap S hQS hE2 hE3
 

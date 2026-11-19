@@ -139,7 +139,7 @@ theorem exists_diagonalizing_of_commuting_cube_one
     (three_ne_zero_of_primitive_cube_root ω hω hω1) E hE3 hcomm
   let A : Matrix (Fin 3) (Fin 3) K := Matrix.of fun i j => b j i
   have hA : IsUnit A := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact b.linearIndependent
   have hdet : A.det ≠ 0 := ((Matrix.isUnit_iff_isUnit_det A).mp hA).ne_zero
   let S : Matrix (Fin 3) (Fin 3) K := Matrix.diagonal ![(A.det)⁻¹, 1, 1]

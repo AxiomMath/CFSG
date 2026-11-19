@@ -46,7 +46,7 @@ theorem semilinearNormalizer_of_card_eq_two [Finite K] (hK : Nat.card K = 2)
     (Γ : Subgroup (GL ι K)) : SemilinearNormalizer Γ := by
   classical
   have hc : ∀ c : K, c = 0 ∨ c = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : (Finset.univ : Finset K).card = ({0, 1} : Finset K).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hK]
       simp
@@ -59,6 +59,7 @@ theorem semilinearNormalizer_of_card_eq_two [Finite K] (hK : Nat.card K = 2)
   refine ⟨c, fun v => ?_⟩
   rcases hc c with rfl | rfl <;> simp
 
+omit [DecidableEq ι] in
 private theorem card_le_index_of_forall_smul [Finite K] (σ : (ι → K) ≃+ (ι → K))
     (h : ∀ (c : K) (v : ι → K), σ (c • v) = c • σ v) {v₀ : ι → K} (hv₀ : σ v₀ ≠ v₀)
     (C : AddSubgroup (ι → K)) (hC : ∀ v, v ∈ C ↔ σ v = v) : Nat.card K ≤ C.index := by
@@ -79,6 +80,7 @@ private theorem card_le_index_of_forall_smul [Finite K] (σ : (ι → K) ≃+ (�
   have hle := Nat.card_le_card_of_injective _ hinj
   simpa only [AddSubgroup.index_eq_card] using hle
 
+omit [DecidableEq ι] in
 private theorem card_sq_le_card_of_not_forall_smul [Finite K] (σ : (ι → K) ≃+ (ι → K))
     (hsemi : ∀ c : K, ∃ c' : K, ∀ v : ι → K, σ (c • v) = c' • σ v)
     (h : ¬ ∀ (c : K) (v : ι → K), σ (c • v) = c • σ v) (C : AddSubgroup (ι → K))
@@ -118,6 +120,7 @@ private theorem card_sq_le_card_of_not_forall_smul [Finite K] (σ : (ι → K) �
   have hle := Nat.card_le_card_of_injective _ hinj
   rwa [Nat.card_prod] at hle
 
+omit [DecidableEq ι] in
 theorem card_le_index_of_semilinear [Finite K] (hι : 2 ≤ Fintype.card ι)
     (σ : (ι → K) ≃+ (ι → K)) (hsemi : ∀ c : K, ∃ c' : K, ∀ v : ι → K, σ (c • v) = c' • σ v)
     {v₀ : ι → K} (hv₀ : σ v₀ ≠ v₀) (C : AddSubgroup (ι → K)) (hC : ∀ v, v ∈ C ↔ σ v = v) :
@@ -126,7 +129,7 @@ theorem card_le_index_of_semilinear [Finite K] (hι : 2 ≤ Fintype.card ι)
   · exact card_le_index_of_forall_smul σ h hv₀ C hC
   · have hcard := card_sq_le_card_of_not_forall_smul σ hsemi h C hC
     have hN : Nat.card (ι → K) = Nat.card K ^ Fintype.card ι := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_fun, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     have hqpos : 0 < Nat.card K := Nat.card_pos
     have hq2 : Nat.card K ^ 2 ≤ Nat.card (ι → K) := by
@@ -134,7 +137,7 @@ theorem card_le_index_of_semilinear [Finite K] (hι : 2 ≤ Fintype.card ι)
       exact Nat.pow_le_pow_right hqpos hι
     have hI : C.index * Nat.card C = Nat.card (ι → K) := AddSubgroup.index_mul_card C
     have hdpos : 0 < Nat.card C := by
-      haveI : Nonempty C := ⟨0, C.zero_mem⟩
+      have : Nonempty C := ⟨0, C.zero_mem⟩
       exact Nat.card_pos
     have hdI : Nat.card C ≤ C.index := by
       rw [← hI] at hcard

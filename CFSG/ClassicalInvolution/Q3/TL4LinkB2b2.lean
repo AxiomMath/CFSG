@@ -70,6 +70,7 @@ theorem rot (h : SylowTri Ω S K J M P T T' t u) : SylowTri Ω S J M K T T' P u 
         · exact Or.inl h1
         · exact Or.inr (Or.inl h1) }
 
+omit [Finite G] in
 theorem conj (hΩ : ConjInvariant Ω) (h : SylowTri Ω S K J M P T T' t u) (g : G) :
     SylowTri Ω (g • S) (conjSub g K) (conjSub g J) (conjSub g M) (conjSub g P) (conjSub g T)
       (conjSub g T') (g * t * g⁻¹) (g * u * g⁻¹) := by
@@ -173,6 +174,7 @@ theorem eq_of_sylow (hΩ : HypOmegaGen Ω) (h : SylowTri Ω S K J M P T T' t u) 
 
 end SylowTri
 
+omit [Finite G] in
 private theorem conjSub_layerY_of_mem_centralizer (hΩ : ConjInvariant Ω) {x c : G}
     (hc : c ∈ Subgroup.centralizer ({x} : Set G)) : conjSub c (layerY Ω x) = layerY Ω x := by
   have key : ∀ d ∈ Subgroup.centralizer ({x} : Set G),
@@ -187,6 +189,7 @@ private theorem conjSub_layerY_of_mem_centralizer (hΩ : ConjInvariant Ω) {x c 
   have h := conjSub_mono (n := c) (key c⁻¹ ((Subgroup.centralizer ({x} : Set G)).inv_mem hc))
   rwa [conjSub_conjSub_inv] at h
 
+omit [Finite G] in
 private theorem conjSub_layerQ_of_mem_centralizer (hΩ : ConjInvariant Ω) {x c : G}
     (hc : c ∈ Subgroup.centralizer ({x} : Set G)) : conjSub c (layerQ Ω x) = layerQ Ω x := by
   unfold layerQ
@@ -291,7 +294,7 @@ theorem sylowTri_of_commuting (h : Tri r Ω K J M t u) {S : Sylow 2 G} {P T T' :
   obtain ⟨L, hL, hAL⟩ := exists_isSylow2In_of_mem_RSet hA
   have uniq : ∀ {B : Subgroup G}, IsSylow2In B L → B ≤ (S : Subgroup G) → A = B := by
     intro B hB hBS
-    have hLS : IsPGroup 2 ↥(L ⊓ (S : Subgroup G)) := S.isPGroup'.to_le inf_le_right
+    have hLS : IsPGroup 2 ↥(L ⊓ (S : Subgroup G)) := S.isPGroup.to_le inf_le_right
     exact (hAL.2.2 _ inf_le_left hLS (le_inf hAL.1 hAS)).symm.trans
       (hB.2.2 _ inf_le_left hLS (le_inf hB.1 hBS))
   by_cases hAP : A = P
@@ -310,7 +313,7 @@ theorem sylowTri_of_commuting (h : Tri r Ω K J M t u) {S : Sylow 2 G} {P T T' :
     have hzA : ν * u * ν⁻¹ ∈ A := Sec6Gen.mem_of_isSylow2In hzL hAL
     have hut : u ∈ Subgroup.centralizer ({t} : Set G) :=
       Subgroup.mem_centralizer_singleton_iff.mpr (hPT t htP u huT).symm
-    rw [conj_eq_of_mem_layerQ hΩ.conjInvariant S.isPGroup' hν (hTS huT) hut (hAS hzA)] at hzL
+    rw [conj_eq_of_mem_layerQ hΩ.conjInvariant S.isPGroup hν (hTS huT) hut (hAS hzA)] at hzL
     have hLJ : L = J := h.fam.noTwins J h.adj_J.1 L ⟨hL, u, h.inv_J, hzL⟩
     subst hLJ
     exact Or.inr (Or.inl (uniq hT hTS))
@@ -318,7 +321,7 @@ theorem sylowTri_of_commuting (h : Tri r Ω K J M t u) {S : Sylow 2 G} {P T T' :
     have hzA : ν * (t * u) * ν⁻¹ ∈ A := Sec6Gen.mem_of_isSylow2In hzL hAL
     have htut : t * u ∈ Subgroup.centralizer ({t} : Set G) :=
       Subgroup.mem_centralizer_singleton_iff.mpr (hPT' t htP (t * u) htuT').symm
-    rw [conj_eq_of_mem_layerQ hΩ.conjInvariant S.isPGroup' hν (hT'S htuT') htut
+    rw [conj_eq_of_mem_layerQ hΩ.conjInvariant S.isPGroup hν (hT'S htuT') htut
       (hAS hzA)] at hzL
     have hLM : L = M := h.fam.noTwins M h.adj_M.1 L ⟨hL, t * u, h.inv_M, hzL⟩
     subst hLM

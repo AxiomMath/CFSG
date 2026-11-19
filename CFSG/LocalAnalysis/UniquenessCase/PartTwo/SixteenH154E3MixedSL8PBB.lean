@@ -74,6 +74,7 @@ private theorem s16h_sl28_pbb_wSub_inf_centralizer_eq_preTil (D : Data G) {V L :
           _ = v * l := by rw [h1]
   simpa [lBar] using hmain
 
+omit [Finite G] in
 private theorem s16h_sl28_pbb_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -87,6 +88,7 @@ private theorem s16h_sl28_pbb_mkTil_bot_injective {V : Subgroup G} (hV : IsElemA
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 private theorem s16h_sl28_pbb_card_preTil_bot {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil ⊥ V hV)) :
     Nat.card ↥(preTil ⊥ V hV S) = Nat.card ↥S := by

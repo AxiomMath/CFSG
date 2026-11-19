@@ -14,12 +14,14 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 private theorem seven_eight_core_reps_phi_mul {H : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} {a b : G} (ha : a ∈ H) (hb : b ∈ H) (hab : a * b ∈ H) :
     φ ⟨a * b, hab⟩ = φ ⟨a, ha⟩ * φ ⟨b, hb⟩ := by
   rw [← map_mul]
   congr 1
 
+omit [Finite G] in
 private theorem seven_eight_core_reps_phi_inv {H : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} {a : G} (ha : a ∈ H) (hia : a⁻¹ ∈ H) :
     φ ⟨a⁻¹, hia⟩ = (φ ⟨a, ha⟩)⁻¹ := by
@@ -42,7 +44,7 @@ theorem Hyp78.exists_normalizing_rep_of_mem_omegaSet {V H E J L : Subgroup G}
   have hJX : J ≤ barPre H φ Xb := le_barPre hJH hφ Xb
   have hJnormH : H ≤ Subgroup.normalizer (J : Set G) :=
     le_normalizer_of_subgroupOf_normal hJH h.jnormal
-  haveI hJn : (J.subgroupOf (barPre H φ Xb)).Normal :=
+  have hJn : (J.subgroupOf (barPre H φ Xb)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hXH.trans hJnormH)
   have hUX : U ≤ Subgroup.normalizer ((barPre H φ Xb : Subgroup G) : Set G) :=
     hUL.trans (le_normalizer_barPre hφ hLH hXL)
@@ -81,7 +83,7 @@ theorem Hyp78.exists_normalizing_reps {V H E J L : Subgroup G} (h : Hyp78 V H E 
     le_normalizer_of_subgroupOf_normal hJH h.jnormal
   have hXH : barPre H φ Xb ≤ H := barPre_le H φ Xb
   have hJX : J ≤ barPre H φ Xb := le_barPre hJH hφ Xb
-  haveI hJn : (J.subgroupOf (barPre H φ Xb)).Normal :=
+  have hJn : (J.subgroupOf (barPre H φ Xb)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hXH.trans hJnormH)
   have h_exists : ∀ a : ↥(deltaSet (barSub H φ (pCoreOf 2 L)) (φ ⟨v, hVH⟩)),
       ∃ x ∈ pCoreOf 2 L, ∃ hw : x * v * x⁻¹ ∈ H,

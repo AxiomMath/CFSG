@@ -104,10 +104,10 @@ theorem mem_of_alperinDecomposition (hS : Setting G) (hU0 : FullCoreLocal G) {p 
   induction hdec with
   | one => exact M.one_mem
   | step _ hQ _ hn ih =>
-    have hQp : IsPGroup p _ := P.isPGroup'.to_le hQ.1
+    have hQp : IsPGroup p _ := P.isPGroup.to_le hQ.1
     exact M.mul_mem ih (normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hQp (hQ.1.trans hPM)
       (two_le_pRank_of_not_isCyclic hprime (sigmaA_odd p hp) hQp
-        (not_isCyclic_of_isAlperinSubgroup P.isPGroup' hPnc hQ)) hn)
+        (not_isCyclic_of_isAlperinSubgroup P.isPGroup hPnc hQ)) hn)
 
 theorem exists_mem_conj_eq_of_map_le (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
     (hp : p ∈ rankThreeSigmaA G) {P : Sylow p G} {M : Subgroup G} (hM : IsCoreMaxLocal p P M)

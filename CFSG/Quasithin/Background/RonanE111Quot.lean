@@ -105,7 +105,7 @@ theorem quotInduces {φ : G →* H} (hφ : Function.Surjective φ) (Mq Kq : Subg
     rw [hy, quotCongrApply, hx'α, he]
     rfl
 
-theorem quotInducesSymm {φ : G →* H} (hφ : Function.Surjective φ) (Mq Kq : Subgroup H)
+theorem quotInducesSymm {φ : G →* H} (_hφ : Function.Surjective φ) (Mq Kq : Subgroup H)
     [(Kq.subgroupOf Mq).Normal] [((Kq.comap φ).subgroupOf (Mq.comap φ)).Normal]
     {e : (↥(Mq.comap φ) ⧸ (Kq.comap φ).subgroupOf (Mq.comap φ)) ≃* (↥Mq ⧸ Kq.subgroupOf Mq)}
     (he : ∀ x : ↥(Mq.comap φ), e (QuotientGroup.mk x) = QuotientGroup.mk (quotRestrict φ Mq x))
@@ -140,8 +140,8 @@ theorem quotNParamMap [Finite G] [Finite H] {φ : G →* H} (hφ : Function.Surj
     E1.nParam (innAutInduced (T.map φ) Mq Kq) =
       E1.nParam (innAutInduced T (Mq.comap φ) (Kq.comap φ)) := by
   obtain ⟨e, he⟩ := quotEquivOfSurj hφ Mq Kq
-  haveI := quotFiniteMulAut (↥(Mq.comap φ) ⧸ (Kq.comap φ).subgroupOf (Mq.comap φ))
-  haveI := quotFiniteMulAut (↥Mq ⧸ Kq.subgroupOf Mq)
+  have := quotFiniteMulAut (↥(Mq.comap φ) ⧸ (Kq.comap φ).subgroupOf (Mq.comap φ))
+  have := quotFiniteMulAut (↥Mq ⧸ Kq.subgroupOf Mq)
   have hSM : T ⊓ Subgroup.normalizer ((Mq.comap φ : Subgroup G) : Set G) ⊓
       Subgroup.normalizer ((Kq.comap φ : Subgroup G) : Set G) ≤
         Subgroup.normalizer ((Mq.comap φ : Subgroup G) : Set G) :=
@@ -194,7 +194,7 @@ theorem HypT.quotient {G : Type} [Group G] [Finite G] {n : ℕ} {T N : Subgroup 
     (h : HypT n G T) : HypT n (G ⧸ N) (T.map (QuotientGroup.mk' N)) := by
   intro Mq Kq hKq hKqM hsn hTq hs hnab
   have hsurj : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
-  haveI := quotNormalComap (QuotientGroup.mk' N) Mq Kq
+  have := quotNormalComap (QuotientGroup.mk' N) Mq Kq
   have hKM : Kq.comap (QuotientGroup.mk' N) ≤ Mq.comap (QuotientGroup.mk' N) :=
     Subgroup.comap_mono hKqM
   have hMsn : (Mq.comap (QuotientGroup.mk' N)).IsSubnormal := hsn.comap _

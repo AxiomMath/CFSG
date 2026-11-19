@@ -21,6 +21,7 @@ section Coord
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {hc : Ctx M Q Z B} {n : ℕ} {t : G}
   [(Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal]
 
+omit [Finite G] in
 theorem Coord95.exists_eichler_LB (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {l : G}
     (hlL : l ∈ LB M Q B) :
     ∃ w : Fin 2 ⊕ Fin 2 → K, polar (quadPlus 2 K) C.u w = 0 ∧
@@ -32,6 +33,7 @@ theorem Coord95.exists_eichler_LB (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {l 
   obtain ⟨-, w, hw, hEw⟩ := (Om10.mem_LomGL_iff_eichler C.E).mp hmem
   exact ⟨w, hw, hEw⟩
 
+omit [Finite G] in
 theorem Coord95.fix_u (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {l : G} (hlL : l ∈ LB M Q B) :
     (C.φ ⟨l, le_Rt (M := M) (LB M Q B) hs.mem hlL⟩ :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ C.u = C.u := by
@@ -39,6 +41,7 @@ theorem Coord95.fix_u (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {l : G} (hlL : 
   rw [hEw]
   exact eichler_apply_self _ _
 
+omit [Finite G] in
 theorem Coord95.vec_mem_span (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {l : G}
     (hlL : l ∈ LB M Q B) {y : Fin 2 ⊕ Fin 2 → K} (hy : polar (quadPlus 2 K) y C.u = 0) :
     ∃ c : K, (C.φ ⟨l, le_Rt (M := M) (LB M Q B) hs.mem hlL⟩ :

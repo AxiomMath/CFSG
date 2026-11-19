@@ -81,7 +81,7 @@ private theorem exc_component_shape_aux4 (t : DynkinType) (ht : t.Valid)
 
 private theorem exc_component_shape_aux5 (t : DynkinType) (ht : t.Valid) (j : Fin t.numRoots) :
     IsOrbitRoot t.cartanMatrix ((t.simplyConnectedRootDatum ht).coroot j) := by
-  haveI := DynkinType.isReduced_simplyConnectedRootDatum t ht
+  have := DynkinType.isReduced_simplyConnectedRootDatum t ht
   obtain ⟨i, hi, w, hw⟩ :=
     exists_mem_support_weylGroupToPerm_eq (P := t.simplyConnectedRootDatum ht)
       (t.simplyConnectedBase ht) j

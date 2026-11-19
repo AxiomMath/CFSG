@@ -31,7 +31,7 @@ theorem rForm_of (hIH : I ≤ H) (hHK : H ≤ Subgroup.normalizer (K : Set G)) (
     intro a ha
     obtain ⟨v, hvV, i, hi⟩ := D.cover (Pi.single a 1) (fun b hb => by
       have : b ≠ a := fun h => by subst h; omega
-      simp [Pi.single_apply, this])
+      simp [this])
     have hvr : (v : G) * r = r * (v : G) :=
       Subgroup.mem_centralizer_iff.mp (hRC hr) (v : G) hvV
     have h := hx v v (by rw [← hvr, mul_inv_cancel_right]) i
@@ -55,10 +55,12 @@ noncomputable def zZero : G :=
   Classical.choose (exists_coG_eq D (Pi.single (⟨0, hj⟩ : Fin j)
     (Pi.single (Fin.last m) (1 : ZMod 2) : Fin (m + 1) → ZMod 2)))
 
+omit [Finite G] in
 theorem zZero_mem : zZero D hj ∈ uZero I K :=
   (Classical.choose_spec (exists_coG_eq D (Pi.single (⟨0, hj⟩ : Fin j)
     (Pi.single (Fin.last m) (1 : ZMod 2) : Fin (m + 1) → ZMod 2)))).1
 
+omit [Finite G] in
 theorem coG_zZero : coG D (zZero D hj) = Pi.single (⟨0, hj⟩ : Fin j)
     (Pi.single (Fin.last m) (1 : ZMod 2) : Fin (m + 1) → ZMod 2) :=
   (Classical.choose_spec (exists_coG_eq D (Pi.single (⟨0, hj⟩ : Fin j)
@@ -67,6 +69,7 @@ theorem coG_zZero : coG D (zZero D hj) = Pi.single (⟨0, hj⟩ : Fin j)
 noncomputable def arOf (r : G) : Fin (m + 1) → ZMod 2 :=
   coG D (r * zZero D hj * r⁻¹) ⟨0, hj⟩ + Pi.single (Fin.last m) 1
 
+omit [Finite G] in
 theorem arOf_spec (F : RForm D) {r : G} (hr : r ∈ pCoreOf 2 I) :
     arOf D hj r (Fin.last m) = 0 ∧ ∀ z : G, z ∈ uZero I K → ∀ i : Fin j,
       coG D (r * z * r⁻¹) i = coG D z i + (coG D z i (Fin.last m)) • arOf D hj r := by
@@ -85,6 +88,7 @@ theorem arOf_spec (F : RForm D) {r : G} (hr : r ∈ pCoreOf 2 I) :
   rw [harOf]
   exact ⟨ha, fun z hz i => hform z _ hz rfl i⟩
 
+omit [Finite G] in
 theorem arOf_mul (F : RForm D) {r₁ r₂ : G} (h₁ : r₁ ∈ pCoreOf 2 I) (h₂ : r₂ ∈ pCoreOf 2 I) :
     arOf D hj (r₁ * r₂) = arOf D hj r₁ + arOf D hj r₂ := by
   obtain ⟨h1e, h1⟩ := arOf_spec D hj F h₁
@@ -102,7 +106,7 @@ theorem arOf_mul (F : RForm D) {r₁ r₂ : G} (h₁ : r₁ ∈ pCoreOf 2 I) (h�
     Pi.single_eq_same _ _
   funext b
   have e3b := congrFun e3 b
-  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, hsl, h2e, add_zero, smul_eq_mul,
+  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, h2e, add_zero, smul_eq_mul,
     one_mul] at e3b ⊢
   generalize (Pi.single (Fin.last m) (1 : ZMod 2) : Fin (m + 1) → ZMod 2) b = s0 at e3b
   generalize arOf D hj r₁ b = c1 at e3b ⊢
@@ -111,6 +115,7 @@ theorem arOf_mul (F : RForm D) {r₁ r₂ : G} (h₁ : r₁ ∈ pCoreOf 2 I) (h�
   revert s0 c1 c2 c12
   decide
 
+omit [Finite G] in
 theorem arOf_eq_zero_iff (F : RForm D) {r : G} (hr : r ∈ pCoreOf 2 I) :
     arOf D hj r = 0 ↔ ∀ z : G, z ∈ uZero I K → r * z * r⁻¹ = z := by
   obtain ⟨hre, hspec⟩ := arOf_spec D hj F hr
@@ -234,6 +239,7 @@ theorem exists_arOf_ne_zero (h22 : ASC22Three G) (hc : Conf4212 G T M L I H K) (
     _ = a⁻¹ * (a * z * a⁻¹) * a := by rw [h]
     _ = z := by group
 
+omit [Finite G] in
 theorem exists_arOf_ne_zero' (hj : 0 < j) (D : StdData G T L I K m k (m + 1) j) (F : RForm D)
     {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I)

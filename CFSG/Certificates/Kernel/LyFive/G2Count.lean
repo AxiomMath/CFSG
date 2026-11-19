@@ -156,14 +156,14 @@ theorem e_lane (i : ℕ) (hi : i < 7) :
   rw [shl_eq, Nat.one_mul]
   rw [Finset.sum_eq_single i (fun b _ hb => by simp [hb])
     (fun h => absurd (Finset.mem_range.2 hi) h)]
-  simp only [if_pos, Nat.one_mul]
+  simp only [ite_eq_left, Nat.one_mul]
   rfl
 
 theorem e_lt (i L : ℕ) : (if L = i then 1 else 0) < 5 := by
   by_cases h : L = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     norm_num
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     norm_num
 
 theorem dv_e (i : Fin 7) : dv (Nat.shiftLeft 1 (Nat.mul 20 i.val)) = Pi.single i 1 := by
@@ -173,7 +173,7 @@ theorem dv_e (i : Fin 7) : dv (Nat.shiftLeft 1 (Nat.mul 20 i.val)) = Pi.single i
   by_cases h : j = i
   · subst h
     simp
-  · rw [if_neg (fun e => h (Fin.ext e)), Pi.single_apply, if_neg h]
+  · rw [ite_eq_right (fun e => h (Fin.ext e)), Pi.single_apply, ite_eq_right h]
     rfl
 
 theorem can_e (i : ℕ) (hi : i < 7) : Can (Nat.shiftLeft 1 (Nat.mul 20 i)) := by

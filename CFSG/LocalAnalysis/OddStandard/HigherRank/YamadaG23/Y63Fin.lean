@@ -21,7 +21,7 @@ theorem y63_secProp (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hY : Y63Hyps c) :
   have hidx : (S3 c.s).relIndex (y63Q c) = 2 := by omega
   have hN : ((S3 c.s).subgroupOf (y63Q c)).Normal := Subgroup.normal_of_index_eq_two hidx
   refine ⟨hN, ?_⟩
-  haveI := hN
+  have := hN
   have hq : Nat.card (↥(y63Q c) ⧸ (S3 c.s).subgroupOf (y63Q c)) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hidx
@@ -35,7 +35,7 @@ theorem y63_fact63 (hHS : HSSylowFacts) (c : Ctx6 G L) (hS : HRSetting G L)
   have hC := y63_concl hHS c hH hF h62 hRT
   have hSyl := y63_sylow c hH hY h61 hC
   have hext := y63_ext c hH hF hY hRT h61 hC hSyl
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : IsSimpleGroup G := hS.std.simple
   exact transfer_of_isSylowIn hS.std.nonab hSyl hY.S3_le (y63_secProp c hH hY) c.s.t_order hext
 
 end CFSG.OddStandard.HigherRank.YamadaG23

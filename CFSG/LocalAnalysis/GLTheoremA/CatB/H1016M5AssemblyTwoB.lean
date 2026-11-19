@@ -44,7 +44,7 @@ private theorem card_le_two_of_xGriess_mem (hb : Co1FiveCubeFacts) {F W : Subgro
     (hxW : xGriess ∈ W) (hF : IsElemAbelian 5 F) (hFc : Nat.card F = 5 ^ 3)
     (hW : IsElemAbelian 2 W) (hFW : F ≤ Subgroup.centralizer (W : Set MGriess)) :
     Nat.card W ≤ 2 := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite (cent xGriess) := finite_cent_xGriess
   have hcomm : ∀ f ∈ F, ∀ w ∈ W, f * w = w * f := fun f hf w hw =>
     (Subgroup.mem_centralizer_iff.1 (hFW hf) w hw).symm
   have hWC : W ≤ cent xGriess := fun w hw => Subgroup.mem_centralizer_singleton_iff.2

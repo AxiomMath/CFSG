@@ -32,7 +32,7 @@ theorem uc22s2114_k_eq_one_of_isU_of_r82 (hGA : GriessAllModelsStatement) {D : D
   have h := h82 L ⟨hL.1, hL.2.1, uc22s2114_three_le_pRank_of_isU hGA hL hX,
     Or.inl (PartTwo.s15_Three_qs_of_open hL.2.2)⟩
   unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem s21_14R_of_residuals
     (hGA : GriessAllModelsStatement) {D : Data G} {Ch : Choice2011 G} (hSg : UC6S846.SigmaStd D)

@@ -25,7 +25,7 @@ theorem ncard_add_ncard_add_ncard {A B : Set (Fin n)} (hB : ∀ x ∈ B, x ∉ A
     · exact hx'.2 h
   have hu : (A ∪ B) ∪ {x | x ∉ A ∧ x ∉ B} = Set.univ := by
     ext x
-    simp only [Set.mem_union, Set.mem_setOf_eq, Set.mem_univ, iff_true]
+    simp only [Set.mem_union, Set.mem_ofPred_eq, Set.mem_univ, iff_true]
     tauto
   rw [← Set.ncard_union_eq hd1, ← Set.ncard_union_eq hd2, hu, Set.ncard_univ,
     Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -183,7 +183,7 @@ private theorem mem_partStab_two
       (apply_mem_iff_of_subset_fixSet hH' hPΦ) (fun x => by simp)
       (fun _ _ _ _ => iff_of_true trivial trivial) fun x _ _ y _ _ => ht a hH' x y
     exact mem_partStab_pieceSetoid (hO (le_normalizer hH'))
-      (apply_mem_iff_of_subset_fixSet hH' Set.diff_subset)
+      (apply_mem_iff_of_subset_fixSet hH' Set.sdiff_subset)
       (fun x _ y _ => orbitRel_apply_iff (hEN (le_normalizer hH')) x y)
       fun x _ _ y _ _ => mem_partStab_iff.mp ht₂ x y
 
@@ -220,7 +220,7 @@ theorem exists_goodY_alt_two (hn : 7 ≤ n) (hn2 : ∀ m : ℕ, n ≠ 2 ^ m + 1)
         fun h => hx.2 ((fixSet_mem_setStab (le_normalizer hg) x).mp h)⟩)
       fun x hx => two_dvd_card_orbit_of_not_mem_fixSet hH hx.2
   have hsum := ncard_add_ncard_add_ncard hΦ
-  have hD := Set.ncard_diff hPΦ
+  have hD := Set.ncard_sdiff hPΦ
   norm_num at ha
   obtain ⟨Y, hY, hYa⟩ := exists_goodY_of_classes hn hn2 (Or.inl rfl)
     (fun x hx y => by
@@ -235,7 +235,7 @@ theorem exists_goodY_alt_two (hn : 7 ≤ n) (hn2 : ∀ m : ℕ, n ≠ 2 ^ m + 1)
     fun a ha x => ha.elim
       (fun hM => apply_mem_iff_of_mem_fixOutside (mem_inf.mp (mem_inf.mp hM).1).2
         (fun y (hy : y ∈ fixSet H \ P) => hΦ y hy.1) x)
-      fun hH' => apply_mem_iff_of_subset_fixSet hH' Set.diff_subset x
+      fun hH' => apply_mem_iff_of_subset_fixSet hH' Set.sdiff_subset x
   exact ⟨Y, hY, fun a ha => hYa a (Or.inl ha), fun a ha => hYa a (Or.inr ha)⟩
 
 end CFSG.GroupTheory.AltCore

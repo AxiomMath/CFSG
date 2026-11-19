@@ -35,7 +35,7 @@ theorem mem_sup_iff_exists_pow_mem {N : Type*} [Group N] [Finite N]
       Sylow q (N ⧸ C)) : Subgroup (N ⧸ C)) = P.map (mk' C) := by
     rw [Sylow.coe_mapSurjective, Sylow.coe_ofCard]
   have hPgroup : IsPGroup q (P.map (mk' C) : Subgroup (N ⧸ C)) := by
-    rw [← hT]; exact (Sylow.mapSurjective (mk'_surjective C) (Sylow.ofCard P hP)).isPGroup'
+    rw [← hT]; exact (Sylow.mapSurjective (mk'_surjective C) (Sylow.ofCard P hP)).isPGroup
   constructor
   · intro hg
     have hmem : mk' C g ∈ P.map (mk' C) := by

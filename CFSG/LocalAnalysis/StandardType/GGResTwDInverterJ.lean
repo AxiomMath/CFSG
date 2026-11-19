@@ -27,7 +27,7 @@ section CartanA
 
 variable {p : ℕ} [Fact p.Prime] {V : Type*} [AddCommGroup V] [Module (ZMod p) V] {r : ℕ}
 
-theorem cartanA_span_irred (hp2 : p ≠ 2) (hpr : ¬ p ∣ r + 1) {h : Fin r → V}
+theorem cartanA_span_irred (_hp2 : p ≠ 2) (hpr : ¬ p ∣ r + 1) {h : Fin r → V}
     {α : Fin r → Module.Dual (ZMod p) V}
     (hpair : ∀ i j, α i (h j) = (CartanMatrix.A r i j : ZMod p))
     (W : Submodule (ZMod p) V) (hW : W ≤ Submodule.span (ZMod p) (Set.range h))

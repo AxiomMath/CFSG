@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 variable {U B : Subgroup G} {α β : G}
 variable {H : Subgroup G} {h₀ y₀ z₀ : G}
 
+omit [Finite G] in
 private theorem conj_sylowImage_eq {S₁ : Sylow 2 ↥U} {g : ↥U}
     (hg : g ∈ Subgroup.normalizer ((S₁ : Subgroup ↥U) : Set ↥U)) :
     conjSubgroup (g : G) (sylowImage U S₁) = sylowImage U S₁ := by
@@ -35,7 +36,7 @@ private theorem exists_frame_sylow (hS : Sec6Hyp M V)
     (hm : MinBad V U B α β) (ht : Twin M V U α H h₀ y₀ z₀) :
     ∃ S₁ : Sylow 2 ↥U, V ⊔ conjSubgroup y₀ V ≤ sylowImage U S₁ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hroot := hS.sec5.toRootHyp
   have hα1 : α ≠ 1 := hm.alpha_ne_one hS
   have hα2 : α * α = 1 := hroot.mul_self_of_mem (mem_omegaSet_self V) hm.memα
@@ -93,7 +94,7 @@ private theorem exists_frame_data (hB : OddTranspBender) (hS : Sec6Hyp M V)
         piU U g ^ k * piU U ⟨α, hm.le.2.2.1⟩ * (piU U g ^ k)⁻¹ = z) ∧
       ∀ z ∈ Z, Commute (piU U g) z → z = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hα1 : α ≠ 1 := hm.alpha_ne_one hS
   have hα2 : α * α = 1 :=
     hS.sec5.toRootHyp.mul_self_of_mem (mem_omegaSet_self V) hm.memα
@@ -163,6 +164,7 @@ theorem MinBad.exists_frame (hB : OddTranspBender) (hS : Sec6Hyp M V) (h64 : Ome
   obtain ⟨g, Z, hg, h4, hZ, hαZ, htrans, hcent⟩ := exists_frame_data hB hS h64 hm hVS₁
   exact ⟨S₁, g, Z, hVS₁, hg, h4, hZ, hαZ, htrans, hcent⟩
 
+omit [Finite G] in
 private theorem span_points_stable
     {S₁ : Sylow 2 ↥U} {g : ↥U}
     (hg : g ∈ Subgroup.normalizer ((S₁ : Subgroup ↥U) : Set ↥U)) :
@@ -206,6 +208,7 @@ private theorem span_points_stable
         conjSubgroup (g : G) C) (conjSubgroup ((g : G)⁻¹) C) (hpts_conj_inv C hC)
     rwa [CGT.Timmesfeld75.conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one] at h
 
+omit [Finite G] in
 private theorem ker_restrict_piU
     {S₁ : Sylow 2 ↥U} (hR : CFSG.solvableRadical (UBar U) = ⊥) :
     Nat.card ↥(((piU U).comp
@@ -331,6 +334,7 @@ theorem Twin.exists_small (hS : Sec6Hyp M V)
       _ = Nat.card V * Nat.card Z * Nat.card K := by ring
   exact Nat.le_of_mul_le_mul_right h2 hKpos
 
+omit [Finite G] in
 private theorem conj_pow_mem_ptsIn
     {S₁ : Sylow 2 ↥U} {g : ↥U}
     (hg : g ∈ Subgroup.normalizer ((S₁ : Subgroup ↥U) : Set ↥U))
@@ -369,7 +373,7 @@ private theorem odd_ncard_ptsIn (hS : Sec6Hyp M V) (h64 : OmegaM M V)
   have hroot := hS.sec5.toRootHyp
   have hV_S : V ≤ sylowImage U S₁ := le_sup_left.trans hVS
   have hsub : ptsIn V (sylowImage U S₁) ⊆ Tim79a.omegaOf V H :=
-    fun C hC => hm.mem_pts hS h64 hnc ht (S₁.isPGroup'.map U.subtype) hVS hC
+    fun C hC => hm.mem_pts hS h64 hnc ht (S₁.isPGroup.map U.subtype) hVS hC
   have hcl : ∀ C ∈ Tim79a.omegaOf V H, C ≤ (⨆ A ∈ ptsIn V (sylowImage U S₁), A) →
       C ∈ ptsIn V (sylowImage U S₁) := by
     intro C hC hle
@@ -467,7 +471,7 @@ theorem MinBad.false (hB : OddTranspBender) (hS : Sec6Hyp M V) (h64 : OmegaM M V
   have hPmem : ∀ i : ℕ, conjSubgroup ((g : G) ^ i) V ∈ ptsIn V (sylowImage U S₁) :=
     conj_pow_mem_ptsIn hg hVS
   have hsub : ptsIn V (sylowImage U S₁) ⊆ Tim79a.omegaOf V H :=
-    fun C hC => hm.mem_pts hS h64 hnc ht (S₁.isPGroup'.map U.subtype) hVS hC
+    fun C hC => hm.mem_pts hS h64 hnc ht (S₁.isPGroup.map U.subtype) hVS hC
   have hodd : Odd (ptsIn V (sylowImage U S₁)).ncard :=
     odd_ncard_ptsIn hS h64 hm ht hnc hVS hPmem hk₀3 hdist
   have hR : CFSG.solvableRadical (UBar U) = ⊥ := hm.solvableRadical_eq_bot hS h64 hodd

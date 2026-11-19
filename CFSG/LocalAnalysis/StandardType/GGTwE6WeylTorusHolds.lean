@@ -13,8 +13,8 @@ section Holds
 
 theorem ggTwE6TorusModelInput_holds : GGTwE6TorusModelInput := by
   intro K _ _ n p hn hK hp hpn hp5
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   exact TwE6TB.ggTorusModelSCr_of_scWeylModel hp (TwE6Delta.center_recipeR_eq_bot hn hK)
@@ -24,8 +24,8 @@ theorem ggTwE6TorusModelInput_holds : GGTwE6TorusModelInput := by
 
 theorem ggTwE6NoTransvectionInput_holds : GGTwE6NoTransvectionInput := by
   intro K _ _ n p hn hK hp hpn hp5
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   exact TwE6TB.ggNoTransvectionSCr_of_framePackage hp2 hp3 (r := 5) (by norm_num)

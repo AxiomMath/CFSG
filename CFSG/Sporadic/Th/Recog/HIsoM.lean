@@ -41,7 +41,7 @@ private theorem zM_ne_one : S.toSetting.zM ≠ 1 := by
   rw [S.toSetting.coe_zM] at hG
   exact S.toSetting.z_ne_one hG
 
-private theorem exists_conj_q0_of_mem_Q (Fd : FibreData S) {m : J} (hm : m ∈ Max3.Q)
+private theorem exists_conj_q0_of_mem_Q (_Fd : FibreData S) {m : J} (hm : m ∈ Max3.Q)
     (hsq : m * m = 1) (hne : m ≠ Max3.z) (hne1 : m ≠ 1) :
     ∃ g ∈ Max3.M, g * m * g⁻¹ = Max3.q 0 := by
   obtain ⟨g, hgM, h | h⟩ := CFSG.Sporadic.Th.Max3.InvRep.exists_conj_of_mem_Q hm hsq hne1
@@ -71,8 +71,6 @@ private theorem φQ_eq_zQ_iff (Fd : FibreData S) (x : S.toSetting.Q) :
   · intro h
     apply Subtype.ext
     apply Subtype.ext
-    change (((Fd.φQ x : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) : J) =
-      (((Fd.φQ S.toSetting.zQ : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) : J)
     rw [Fd.φQ_z]
     exact h
 
@@ -436,13 +434,11 @@ private theorem mem_CH_iff (h1 : S.toSetting.Q) (h : S.toSetting.M) :
   · intro hc
     have := hc ((h1 : S.toSetting.M) : G) (by simp)
     exact Subtype.ext this.symm
-  · intro hc
-    intro y hy
+  · intro hc y hy
     rcases hy with rfl | rfl
     · have hz := Subgroup.mem_center_iff.mp S.toSetting.zM_mem_center h
       simpa [Subgroup.coe_mul] using congrArg (fun x : S.toSetting.M => (x : G)) hz.symm
-    · change ((h1 : S.toSetting.M) : G) * (h : G) = (h : G) * ((h1 : S.toSetting.M) : G)
-      rw [← Subgroup.coe_mul, ← Subgroup.coe_mul]
+    · rw [← Subgroup.coe_mul, ← Subgroup.coe_mul]
       exact congrArg (fun x : S.toSetting.M => (x : G)) hc.symm
 
 private noncomputable def nCM (w : Max3.M) : ℕ :=
@@ -586,8 +582,7 @@ private theorem exists_twisted_eq (Fd : FibreData S) (tw : Fd.TwistedSquares)
     change ((x : S.toSetting.M) : G) =
       ((h ^ 2 * S.toSetting.zM ^ eps (Fd.θ h) : S.toSetting.M) : G)
     simpa [S.toSetting.coe_zM, Subgroup.coe_pow, Subgroup.coe_mul] using hxG
-  · change ((Fd.φQ x : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) = (m ^ 2 : Max3.M)
-    exact Subtype.ext (by simpa [Subgroup.coe_pow] using hxJ)
+  · exact Subtype.ext (by simpa [Subgroup.coe_pow] using hxJ)
 
 private theorem nCM_eq_add_eps (w : Max3.M) :
     nCM w = nCMeps w 0 + nCMeps w 1 := by
@@ -692,7 +687,6 @@ private theorem h_sq_h1_iff (Fd : FibreData S) (tw : Fd.TwistedSquares)
     rcases eps_eq_zero_or_one (Fd.θ h) with he | he
     · have hx_h1 : x = h1 := by
         apply Subtype.ext
-        change (x : S.toSetting.M) = (h1 : S.toSetting.M)
         rw [hxH', he, pow_zero, mul_one]
       have hm2 : m ^ 2 = q0M := by
         calc m ^ 2 = ((Fd.φQ x : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) := hxM.symm
@@ -702,8 +696,6 @@ private theorem h_sq_h1_iff (Fd : FibreData S) (tw : Fd.TwistedSquares)
       exact Or.inl ⟨hm2, by rw [hkap, he]⟩
     · have hx_h1z : x = h1 * S.toSetting.zQ := by
         apply Subtype.ext
-        change (x : S.toSetting.M) =
-          ((h1 * S.toSetting.zQ : S.toSetting.Q) : S.toSetting.M)
         rw [hxH', he, pow_one]
         rw [Subgroup.coe_mul]
         rfl
@@ -922,7 +914,7 @@ private theorem nCH_h1_eq (Fd : FibreData S) (tw : Fd.TwistedSquares)
   change (U1 ∪ U2).ncard = nCMeps q0M 0 + nCMeps (q0M * aM) 1
   rw [hU]
   rfl
-private theorem nCH_h1_eq_nCH_z (Fd : FibreData S) {h1 : S.toSetting.Q} {g : G}
+private theorem nCH_h1_eq_nCH_z (_Fd : FibreData S) {h1 : S.toSetting.Q} {g : G}
     (hgz : g * S.z * g⁻¹ = ((h1 : S.toSetting.M) : G))
     (hgh : g * ((h1 : S.toSetting.M) : G) * g⁻¹ = S.z) :
     nCH h1 (h1 : S.toSetting.M) = nCH h1 S.toSetting.zM := by
@@ -946,7 +938,7 @@ private theorem nCH_h1_eq_nCH_z (Fd : FibreData S) {h1 : S.toSetting.Q} {g : G}
         ({S.z, ((h1 : S.toSetting.M) : G)} : Set G) =
         ({S.z, ((h1 : S.toSetting.M) : G)} : Set G) := by
       ext y
-      simp [MulAut.conj_apply, hgz_inv, hgh_inv]
+      simp [hgz_inv, hgh_inv]
       tauto
     rw [himg] at h
     simpa [CH] using h
@@ -958,7 +950,7 @@ private theorem nCH_h1_eq_nCH_z (Fd : FibreData S) {h1 : S.toSetting.Q} {g : G}
     · intro hx
       have hx' : g⁻¹ * (g * x * g⁻¹) * g ∈ CH h1 := by
         apply hmap_inv
-        exact Subgroup.mem_map.mpr ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply]⟩
+        exact Subgroup.mem_map.mpr ⟨g * x * g⁻¹, hx, by simp⟩
       have hx'' : g⁻¹ * (g * x * g⁻¹) * g = x := by group
       rwa [hx''] at hx'
   have h := ncard_conj_sqrt_eq (X := G) g (CH h1) hC (fun _ => True) (fun _ => Iff.rfl)
@@ -1035,7 +1027,7 @@ private theorem nCMeps_q0a_eq (hc : ∃ c ∈ Max3.Q,
     have himg : (MulAut.conj cM⁻¹).toMonoidHom '' ({q0M} : Set Max3.M) =
         {q0M * aM} := by
       ext x
-      simp [MulAut.conj_apply, hcM_inv]
+      simp [hcM_inv]
     rw [himg, centralizer_q0a_eq_CM] at h
     exact h
   have hC : ∀ x : Max3.M, x ∈ CM ↔ cM * x * cM⁻¹ ∈ CM := by
@@ -1089,7 +1081,6 @@ private theorem conj_M_mem (gJ : J) (hg1 : gJ * Max3.z * gJ⁻¹ = Max3.q 0)
     rw [hCM] at hmemC
     exact hmemC
   refine ⟨hmem, ?_⟩
-  change (⟨gJ * (m : J) * gJ⁻¹, hmem⟩ : Max3.M) ∈ CM
   rw [CM, Subgroup.mem_centralizer_singleton_iff]
   apply Subtype.ext
   change (gJ * (m : J) * gJ⁻¹) * Max3.q 0 =
@@ -1129,7 +1120,7 @@ private theorem nCM_q0_eq_nCM_a
           group
       _ = gJ * Max3.q 0 * gJ⁻¹ := by
           rw [show (m : J) ^ 2 = ((m ^ 2 : Max3.M) : J) from by
-            simpa [Subgroup.coe_pow], hm2]
+            simp, hm2]
       _ = Max3.z := hg2
   have hF_inj : ∀ (m n : Max3.M) (hm : m ∈ Uq) (hn : n ∈ Uq),
       F m hm = F n hn → m = n := by
@@ -1156,7 +1147,7 @@ private theorem nCM_q0_eq_nCM_a
             group
         _ = gJ⁻¹ * Max3.z * gJ := by
             rw [show (y : J) ^ 2 = ((y ^ 2 : Max3.M) : J) from by
-              simpa [Subgroup.coe_pow], hy2]
+              simp, hy2]
         _ = Max3.q 0 := hgq_inv
     refine ⟨m, ⟨hmCM, hm2⟩, ?_⟩
     dsimp [F]

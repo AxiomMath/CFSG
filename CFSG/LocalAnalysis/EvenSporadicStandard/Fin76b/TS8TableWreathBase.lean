@@ -70,7 +70,7 @@ theorem outerTable_map_inj {X Y : Type*} [Group X] [Group Y] (f : X →* Y)
 
 theorem outerTableWreath_of_noTabSig (hsig : TS8Wr.NoTabSig) : OuterTableWreath := by
   intro X _ _ N hN hnon hc ζ α t g₁ g₂ h₁ h₂ h
-  haveI := hN
+  have := hN
   obtain ⟨e0⟩ := hnon
   have hinj : Function.Injective (TS8Wr.Phi N e0) := TS8Wr.Phi_injective N e0 hc
   exact TS8Wr.no_table_Wfull hsig (outerTable_map_inj (TS8Wr.Phi N e0) hinj h)

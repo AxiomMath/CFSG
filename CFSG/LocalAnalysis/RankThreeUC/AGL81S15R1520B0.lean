@@ -11,10 +11,12 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.AGLEmbedding CFSG.O
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem exists_sylow_le_normalizer_aux_mem {S : Subgroup Y} (y s : Y) :
     s ∈ S.map (MulAut.conj y).toMonoidHom ↔ y⁻¹ * s * y ∈ S := by
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
+omit [Finite Y] in
 theorem exists_sylow_le_normalizer_aux_index {S : Subgroup Y} :
     (Subgroup.normalizer (S : Set Y)).index =
       {S' : Subgroup Y | ∃ y : Y, S' = S.map (MulAut.conj y).toMonoidHom}.ncard := by
@@ -60,13 +62,13 @@ theorem exists_sylow_le_normalizer_aux_index {S : Subgroup Y} :
   rw [Subgroup.index_eq_card, ← Set.ncard_range_of_injective hΦinj, hrange]
   congr 1
   ext T
-  simp only [Set.mem_range, Set.mem_setOf_eq]
+  simp only [Set.mem_range, Set.mem_ofPred_eq]
   exact ⟨fun ⟨y, hy⟩ => ⟨y, hy.symm⟩, fun ⟨y, hy⟩ => ⟨y, hy.symm⟩⟩
 
 theorem exists_sylow_le_normalizer {p : ℕ} (hp : p.Prime) {S : Subgroup Y} {k : ℕ} (hk : k < p)
     (hconj : {S' : Subgroup Y | ∃ y : Y, S' = S.map (MulAut.conj y).toMonoidHom}.ncard ≤ k) :
     ∃ P : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf p P ⊤ ∧ P ≤ Subgroup.normalizer (S : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hidx := exists_sylow_le_normalizer_aux_index (S := S)
   have hpos : (Subgroup.normalizer (S : Set Y)).index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hndvd : ¬ p ∣ (Subgroup.normalizer (S : Set Y)).index := by
@@ -84,6 +86,7 @@ theorem exists_sylow_le_normalizer {p : ℕ} (hp : p.Prime) {S : Subgroup Y} {k 
   · rw [Subgroup.relIndex_top_right] at h2
     exact hndvd h2
 
+omit [Finite Y] in
 theorem mem_sup_centralizer_of_outTwo {S : Subgroup Y} (hOut : OutTwoGroup ↥S) {x : Y}
     (hx : x ∈ Subgroup.normalizer (S : Set Y)) (hodd : Odd (orderOf x)) :
     x ∈ S ⊔ Subgroup.centralizer (S : Set Y) := by

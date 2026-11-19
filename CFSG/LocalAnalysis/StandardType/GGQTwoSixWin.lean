@@ -26,7 +26,7 @@ theorem qTwoSix_map_win_coordBlock {m k i : ℕ} (h : i + k ≤ m) (J : Finset (
     intro a b hab
     rw [coe_coe_blockEmb, blockMat_apply]
     by_cases hw : (i ≤ a.val ∧ a.val < i + k) ∧ (i ≤ b.val ∧ b.val < i + k)
-    · rw [dif_pos hw]
+    · rw [dite_eq_left hw]
       let a' : Fin k := ⟨a.val - i, by omega⟩
       let b' : Fin k := ⟨b.val - i, by omega⟩
       have ha : qTwoSixWinEmb h a' = a := by
@@ -51,7 +51,7 @@ theorem qTwoSix_map_win_coordBlock {m k i : ℕ} (h : i + k ≤ m) (J : Finset (
       change (((x : Su K 2 1 k) : GL (Fin k) K) : Matrix (Fin k) (Fin k) K) a' b' = _
       rw [hx' a' b' hmem]
       simp only [heq]
-    · rw [dif_neg hw]
+    · rw [dite_eq_right hw]
       exact Matrix.one_apply
   · have hcard : Nat.card ↥(coordBlockSU K 2 1 (J.map (qTwoSixWinEmb h))) =
         Nat.card ↥(coordBlockSU K 2 1 J) := by

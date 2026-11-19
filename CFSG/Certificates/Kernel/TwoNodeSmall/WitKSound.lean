@@ -42,7 +42,7 @@ theorem chkPt_kind {P : Pt} {r : Rec} (h : chkPt P r = true) : r.1 ≤ 3 := by
   have e2 : Nat.beq (m + 4) 2 = false := rfl
   have e3 : Nat.beq (m + 4) 3 = false := rfl
   unfold chkPt at h
-  simp only [e0, e1, e2, e3, cond_false, Bool.and_false] at h
+  simp only [e0, e1, e2, e3, Bool.cond_false, Bool.and_false] at h
   exact Bool.false_ne_true h
 
 theorem chkPt_verify (P : Pt) (r : Rec) (h : chkPt P r = true) : ∃ w, verify P w = true := by
@@ -97,7 +97,7 @@ theorem chunk_mem {B S : Nat} (hS : 0 < S) {pts : List Pt} {ws : List Rec}
     (h : ∀ s < S, chunkK B S pts ws s = true) : ∀ P ∈ pts, ∃ r, chkPt P r = true := by
   have hlen : pts.length = ws.length ∧ ws.length ≤ B * S := by
     have h0 := h 0 hS
-    simp only [chunkK, Nat.beq_refl, cond_true, Bool.and_eq_true, Nat.beq_eq, Nat.ble_eq] at h0
+    simp only [chunkK, Nat.beq_refl, _root_.Bool.cond_true, Bool.and_eq_true, Nat.beq_eq, Nat.ble_eq] at h0
     exact ⟨h0.1.1, h0.1.2⟩
   intro P hP
   obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hP

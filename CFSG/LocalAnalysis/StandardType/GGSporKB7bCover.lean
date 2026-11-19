@@ -14,13 +14,13 @@ private theorem gk7b_card_dvd_four_comm {H : Type*} [Group H] [Finite H]
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h4
   interval_cases k
   · have h1 : Nat.card H = 1 := by simpa using hk'
-    haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Fact (Nat.Prime (Nat.card H)) :=
+  · have : Fact (Nat.Prime (Nat.card H)) :=
       ⟨by rw [show Nat.card H = 2 by simpa using hk']; exact Nat.prime_two⟩
-    haveI : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
+    have : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by simpa using hk')
 
 theorem gk7b_card_centralizer_dvd_of_cover {Y R : Type*} [Group Y] [Finite Y] [Group R]
@@ -111,7 +111,7 @@ theorem gk7b_card_centralizer_dvd_of_cover {Y R : Type*} [Group Y] [Finite Y] [G
     rw [← h]
     simpa using Nat.mul_dvd_mul hfker_dvd hC'map_dvd
   have hrel : Y'.relIndex C ∣ 2 := by
-    haveI : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
+    have : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
     have h := Subgroup.relIndex_dvd_index_of_normal Y' C
     rwa [hY'] at h
   have hCcard : Nat.card C = Y'.relIndex C * Nat.card C' := by
@@ -130,7 +130,7 @@ theorem gk7b_card_centralizer_dvd_of_cover {Y R : Type*} [Group Y] [Finite Y] [G
 theorem gk7b_mul_comm_of_le_center {G : Type*} [Group G] [Finite G] {E : Subgroup G}
     (hE : E ≤ Subgroup.center G) (hodd : Odd (Nat.card E)) (h4 : E.index ∣ 4) (a b : G) :
     a * b = b * a := by
-  haveI : E.Normal := Subgroup.normal_of_le_center hE
+  have : E.Normal := Subgroup.normal_of_le_center hE
   have hquot : IsMulCommutative (G ⧸ E) :=
     gk7b_card_dvd_four_comm (H := G ⧸ E) (by rw [← Subgroup.index_eq_card]; exact h4)
   have hcE : ⁅a, b⁆ ∈ E :=

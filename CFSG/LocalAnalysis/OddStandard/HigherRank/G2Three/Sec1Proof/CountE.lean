@@ -36,18 +36,18 @@ private lemma conjSub_mul (a b : Γ) (H : Subgroup Γ) :
     group
   rw [conjSub, conjSub, conjSub, Subgroup.map_map, hf]
 
-theorem card_normIn_mul_le [Finite Γ] {L E : Subgroup Γ} {u : Γ} (hu : u ∈ invols L)
-    (hconj : ∀ v ∈ invols L, ∃ l ∈ L, v = l * u * l⁻¹) (hEL : E ≤ L)
-    (hE : Nat.card E = 8) (hEa : IsElemAbelian 2 E) (Ws : List (Subgroup Γ)) (hnodup : Ws.Nodup)
+theorem card_normIn_mul_le [Finite Γ] {L E : Subgroup Γ} {u : Γ} (_hu : u ∈ invols L)
+    (hconj : ∀ v ∈ invols L, ∃ l ∈ L, v = l * u * l⁻¹) (_hEL : E ≤ L)
+    (hE : Nat.card E = 8) (_hEa : IsElemAbelian 2 E) (Ws : List (Subgroup Γ)) (hnodup : Ws.Nodup)
     (hWs : ∀ W ∈ Ws, (∃ l ∈ L, W = conjSub l E) ∧ u ∈ W) :
     Nat.card (normIn L E) * (Nat.card (invols L) * Ws.length) ≤ 7 * Nat.card L := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
-  haveI : Finite (Subgroup Γ) :=
+  have : Fintype Γ := Fintype.ofFinite Γ
+  have : Finite (Subgroup Γ) :=
     Finite.of_injective _ (SetLike.coe_injective : Function.Injective
       (SetLike.coe : Subgroup Γ → Set Γ))
-  haveI : Fintype (Subgroup Γ) := Fintype.ofFinite _
-  letI : MulAction ↥L (Subgroup Γ) :=
+  have : Fintype (Subgroup Γ) := Fintype.ofFinite _
+  let : MulAction ↥L (Subgroup Γ) :=
     MulAction.compHom (Subgroup Γ) (MulAut.conj.comp L.subtype)
   let Wf : Finset (Subgroup Γ) := Finset.univ.filter (fun W => ∃ l ∈ L, W = conjSub l E)
   let If : Finset Γ := Finset.univ.filter (fun v => v ∈ invols L)
@@ -55,7 +55,7 @@ theorem card_normIn_mul_le [Finite Γ] {L E : Subgroup Γ} {u : Γ} (hu : u ∈ 
     have hs : (invols L).Finite := Set.toFinite _
     have hEq : If = hs.toFinset := by
       ext v
-      simp [If, Set.Finite.mem_toFinset]
+      simp [If]
     rw [hEq, ← Set.ncard_eq_toFinset_card (invols L) hs, Nat.card_coe_set_eq]
   have hWeq : Wf = (MulAction.orbit ↥L E).toFinset := by
     ext W

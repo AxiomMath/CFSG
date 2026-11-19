@@ -23,7 +23,7 @@ open scoped commutatorElement
 
 theorem subBody_ree {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (I F : Set (MulAut (LargeEvenCenterQuot (LargeEvenTwF4H a K)))) (hF : InnFree p F) :
+    (_I F : Set (MulAut (LargeEvenCenterQuot (LargeEvenTwF4H a K)))) (hF : InnFree p F) :
     ∀ f ∈ F, orderOf f = p → p ∣ 2 * a + 1 ∧
       ∃ D : Subgroup (LargeEvenCenterQuot (LargeEvenTwF4H a K)), SubfieldGrp f D ∧
         (LargeEvenRecipeTwF4Inherited (((2 * a + 1) / p - 1) / 2)
@@ -34,8 +34,8 @@ theorem subBody_ree {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       CFSG.StandardType.reeTitsRelationModel_largeEven a hK⟩
   obtain ⟨-, -, -, -, -, -, hmain⟩ := large_Ree_model_field_outer_group_and_inner_involutions _ 2
     (2 * a + 1) hR
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
     rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨⟨e⟩, -⟩ := hmain a K rfl hK (CFSG.StandardType.centerQuot_twF4H_equiv K a)
   have : Fact p.Prime := ⟨hp⟩
@@ -85,8 +85,8 @@ theorem subBody_ree {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       ((F4.reeGamma (fixSubfield β) b).equivMapOfInjective _
         (baseChangeGL_injective (τ := F4.tag) (fixSubfield β).subtype)).symm
   have : Finite (fixSubfield β) := Subtype.finite
-  haveI : Fintype (fixSubfield β) := Fintype.ofFinite _
-  haveI : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
+  have : Fintype (fixSubfield β) := Fintype.ofFinite _
+  have : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
     rw [← Nat.card_eq_fintype_card, hbcard])
   have hR' : ReeTitsModel (LargeEvenCenterQuot (LargeEvenTwF4H b (fixSubfield β))) .twistedF4 2
       (2 * b + 1) :=

@@ -17,10 +17,10 @@ theorem model_M :
   have hcard : Nat.card (Carrier .M) = monsterOrder :=
     (Nat.card_congr CFSG.Sporadic.Bridge.Y443.commutatorMulEquiv.toEquiv).trans
       CFSG.Milestones.fam_m_finiteness
-  haveI : Finite (Carrier .M) :=
+  have : Finite (Carrier .M) :=
     CFSG.Sporadic.finite_carrier_M_of_card CFSG.Milestones.fam_m_finiteness
-  haveI : IsSimpleGroup MonsterY443Derived := CFSG.Milestones.fam_m_simplicity
-  haveI : IsSimpleGroup (Carrier .M) :=
+  have : IsSimpleGroup MonsterY443Derived := CFSG.Milestones.fam_m_simplicity
+  have : IsSimpleGroup (Carrier .M) :=
     CFSG.Sporadic.Bridge.Y443.commutatorMulEquiv.isSimpleGroup
   refine ⟨inferInstance, inferInstance, CFSG.Sporadic.Bridge.Y443.nonempty_mulEquiv,
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple ?_⟩

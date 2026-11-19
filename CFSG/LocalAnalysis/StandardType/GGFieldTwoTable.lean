@@ -72,47 +72,47 @@ private theorem ftt_v0_class {m0 : ℕ} {e : Bool} {x : GGKacOrbit} (hx : x ∈ 
     x.lab = ⟨.A, 1, 2⟩ ∨ (x.lab.n = 1 ∧ x.lab ≠ ⟨.twD, 2, 1⟩) := by
   unfold ggMultV0 at hx
   by_cases h1 : m0 ≤ 1
-  · rw [if_pos h1] at hx
+  · rw [ite_eq_left h1] at hx
     exact absurd hx (List.not_mem_nil)
-  · rw [if_neg h1] at hx
+  · rw [ite_eq_right h1] at hx
     by_cases h2 : m0 = 2
-    · rw [if_pos h2] at hx
+    · rw [ite_eq_left h2] at hx
       by_cases h3 : e = true
-      · rw [if_pos h3] at hx
+      · rw [ite_eq_left h3] at hx
         simp only [List.mem_cons, List.mem_nil_iff, or_false] at hx
         rcases hx with rfl | rfl <;>
           exact Or.inr ⟨rfl, by
             intro hh
             exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-      · rw [if_neg h3] at hx
+      · rw [ite_eq_right h3] at hx
         simp only [List.mem_singleton] at hx
         rw [hx]
         exact Or.inl rfl
-    · rw [if_neg h2] at hx
+    · rw [ite_eq_right h2] at hx
       by_cases h4 : m0 = 3
-      · rw [if_pos h4] at hx
+      · rw [ite_eq_left h4] at hx
         by_cases h5 : e = true
-        · rw [if_pos h5] at hx
+        · rw [ite_eq_left h5] at hx
           simp only [List.mem_singleton] at hx
           rw [hx]
           exact Or.inr ⟨rfl, by
             intro hh
             exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-        · rw [if_neg h5] at hx
+        · rw [ite_eq_right h5] at hx
           simp only [List.mem_singleton] at hx
           rw [hx]
           exact Or.inr ⟨rfl, by
             intro hh
             exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-      · rw [if_neg h4] at hx
+      · rw [ite_eq_right h4] at hx
         by_cases h6 : e = true
-        · rw [if_pos h6] at hx
+        · rw [ite_eq_left h6] at hx
           simp only [List.mem_singleton] at hx
           rw [hx]
           exact Or.inr ⟨rfl, by
             intro hh
             exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-        · rw [if_neg h6] at hx
+        · rw [ite_eq_right h6] at hx
           simp only [List.mem_singleton] at hx
           rw [hx]
           refine Or.inr ⟨rfl, ?_⟩
@@ -144,7 +144,7 @@ private theorem ftt_A_false_orbit {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit}
     simpa using hh
   have hsum' : a + 2 * b = r + 1 := by omega
   simp only [ggMultDatumA] at ho
-  rw [if_neg (by decide)] at ho
+  rw [ite_eq_right (by decide)] at ho
   rw [List.mem_append] at ho
   rcases ho with ho0 | hoJ
   · left
@@ -152,13 +152,13 @@ private theorem ftt_A_false_orbit {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit}
         else []) := by
       simpa using ho0
     by_cases ha2 : 2 ≤ a
-    · rw [if_pos ha2] at ho0'
+    · rw [ite_eq_left ha2] at ho0'
       simp only [List.mem_singleton] at ho0'
       rw [ho0']
       exact ⟨rfl, by
         intro hh
         exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-    · rw [if_neg ha2] at ho0'
+    · rw [ite_eq_right ha2] at ho0'
       exact absurd ho0' (List.not_mem_nil)
   · right
     obtain ⟨hlab, hb2⟩ := ftt_A_orbJ_class (by simpa using hoJ)
@@ -218,7 +218,7 @@ private theorem ftt_A_true_one_false {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit}
   subst hDeq
   obtain ⟨a, b, c, rfl⟩ := List.length_eq_three.mp hmlen
   simp only [ggMultDatumA] at ho
-  rw [if_pos (by decide)] at ho
+  rw [ite_eq_left (by decide)] at ho
   have ho' : o ∈ ((List.range 3).filter (fun j => decide (2 ≤ [a, b, c].getD j 0))).map
       (fun j => ggMultBlockA ([a, b, c].getD j 0 - 1) 1 2) := by
     simpa using ho
@@ -239,7 +239,7 @@ private theorem ftt_A_false_two {D : GGKacDatum} {o : GGKacOrbit}
     simp only [List.sum_cons, List.sum_nil, add_zero] at hmsum
     omega
   simp only [ggMultDatumA] at ho
-  rw [if_pos (by decide)] at ho
+  rw [ite_eq_left (by decide)] at ho
   have ho' : o ∈ ((List.range 3).filter (fun j => decide (2 ≤ [a, b, c].getD j 0))).map
       (fun j => ggMultBlockA ([a, b, c].getD j 0 - 1) 2 1) := by
     simpa using ho
@@ -273,25 +273,25 @@ private theorem ftt_C_orb0_class {a : ℕ} {x : GGKacOrbit}
       else if 2 ≤ a then [⟨⟨.C, a, 1⟩, true⟩] else [])) :
     x.lab.n = 1 ∧ x.lab ≠ ⟨.twD, 2, 1⟩ := by
   by_cases h1 : a = 1
-  · rw [if_pos h1] at hx
+  · rw [ite_eq_left h1] at hx
     simp only [List.mem_singleton] at hx
     rw [hx]
     exact ⟨rfl, by intro hh; exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-  · rw [if_neg h1] at hx
+  · rw [ite_eq_right h1] at hx
     by_cases h2 : a = 2 ∧ 1 = 1
-    · rw [if_pos h2] at hx
+    · rw [ite_eq_left h2] at hx
       simp only [List.mem_singleton] at hx
       rw [hx]
       exact ⟨rfl, by intro hh; exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-    · rw [if_neg h2] at hx
+    · rw [ite_eq_right h2] at hx
       by_cases h3 : 2 ≤ a
-      · rw [if_pos h3] at hx
+      · rw [ite_eq_left h3] at hx
         simp only [List.mem_singleton] at hx
         rw [hx]
         exact ⟨rfl, by
           intro hh
           exact absurd (congrArg LargeEvenLabel.tag hh) (by intro h; cases h)⟩
-      · rw [if_neg h3] at hx
+      · rw [ite_eq_right h3] at hx
         exact absurd hx (List.not_mem_nil)
 
 private theorem ftt_C_false {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit}
@@ -359,31 +359,31 @@ private theorem ftt_twD_false {n k : ℕ} {T : GGKacTypeCl} {tw : Bool} {nf : �
   have hnot : ¬ GGLabelIso o.lab ⟨.A, 1, 2⟩ := ftt_rankThree_not_iso_A12 hoA
   simp only [ggKacTypeClOfLabel] at htype
   by_cases hk4 : 4 ≤ k
-  · rw [if_pos hk4] at htype
+  · rw [ite_eq_left hk4] at htype
     obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
     rw [hn1] at hmem
     exact absurd (ftt_D hmem ho (Or.inl rfl) hJ2) hnot
-  · rw [if_neg hk4] at htype
+  · rw [ite_eq_right hk4] at htype
     by_cases hk3 : k = 3
-    · rw [if_pos hk3] at htype
+    · rw [ite_eq_left hk3] at htype
       obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
       rw [hn1] at hmem
       exact (ftt_A_true_one_false hmem ho (Or.inl rfl) hJ2).elim
-    · rw [if_neg hk3] at htype
+    · rw [ite_eq_right hk3] at htype
       by_cases hk2 : k = 2
-      · rw [if_pos hk2] at htype
+      · rw [ite_eq_left hk2] at htype
         obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
         have h2n : 2 * n = 2 := by omega
         rw [h2n] at hmem
         exact absurd (ftt_A_false_two hmem ho) hnot
-      · rw [if_neg hk2] at htype
+      · rw [ite_eq_right hk2] at htype
         simp at htype
 
 theorem ggFieldTwoTable_outcome {lab : LargeEvenLabel} {D : GGKacDatum} {o : GGKacOrbit}
     {labJ : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hn : lab.n = 1 ∨ lab = ⟨.A, 1, 2⟩) (hD : GGMultValidCl lab 3 D)
-    (ho : o ∈ D.orbits) (hqs : o.qs = true)
-    (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
+    (ho : o ∈ D.orbits) (_hqs : o.qs = true)
+    (_huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
     (hJ : GGLabelIso o.lab labJ) (hJ2 : 2 ≤ labJ.n) (hX : ¬ GGLabelIso o.lab lab) :
     GGLabelIso o.lab ⟨.A, 1, 2⟩ ∨ (lab.tag = .A ∧ 5 ≤ lab.rank) := by
   obtain ⟨T, tw, nf, htype, hmem⟩ := hD
@@ -407,14 +407,14 @@ theorem ggFieldTwoTable_outcome {lab : LargeEvenLabel} {D : GGKacDatum} {o : GGK
     | B =>
       simp only [ggKacTypeClOfLabel] at htype
       have hk : 2 ≤ k := hlab'.1
-      rw [if_pos hk] at htype
+      rw [ite_eq_left hk] at htype
       obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
       rw [hn1'] at hmem
       exact (ftt_C_false hmem ho hJ hJ2).elim
     | C =>
       simp only [ggKacTypeClOfLabel] at htype
       have hk : 2 ≤ k := hlab'.1
-      rw [if_pos hk] at htype
+      rw [ite_eq_left hk] at htype
       obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
       rw [hn1'] at hmem
       exact (ftt_C_false hmem ho hJ hJ2).elim
@@ -422,13 +422,13 @@ theorem ggFieldTwoTable_outcome {lab : LargeEvenLabel} {D : GGKacDatum} {o : GGK
       simp only [ggKacTypeClOfLabel] at htype
       have hk : 3 ≤ k := hlab'
       by_cases hk4 : 4 ≤ k
-      · rw [if_pos hk4] at htype
+      · rw [ite_eq_left hk4] at htype
         obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
         rw [hn1'] at hmem
         exact Or.inl (ftt_D hmem ho hJ hJ2)
-      · rw [if_neg hk4] at htype
+      · rw [ite_eq_right hk4] at htype
         have hk3 : k = 3 := by omega
-        rw [if_pos hk3] at htype
+        rw [ite_eq_left hk3] at htype
         obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
         rw [hn1'] at hmem
         rcases ftt_A_false_one hmem ho hJ hJ2 with h | h
@@ -438,24 +438,24 @@ theorem ggFieldTwoTable_outcome {lab : LargeEvenLabel} {D : GGKacDatum} {o : GGK
       simp only [ggKacTypeClOfLabel] at htype
       have hk : 2 ≤ k := hlab'
       by_cases hk4 : 4 ≤ k
-      · rw [if_pos hk4] at htype
+      · rw [ite_eq_left hk4] at htype
         obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
         rw [hn1'] at hmem
         exact Or.inl (ftt_D hmem ho hJ hJ2)
-      · rw [if_neg hk4] at htype
+      · rw [ite_eq_right hk4] at htype
         by_cases hk3 : k = 3
-        · rw [if_pos hk3] at htype
+        · rw [ite_eq_left hk3] at htype
           obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
           rw [hn1'] at hmem
           exact (ftt_A_true_one_false hmem ho hJ hJ2).elim
-        · rw [if_neg hk3] at htype
+        · rw [ite_eq_right hk3] at htype
           by_cases hk2 : k = 2
-          · rw [if_pos hk2] at htype
+          · rw [ite_eq_left hk2] at htype
             obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
             have h2n : 2 * n = 2 := by omega
             rw [h2n] at hmem
             exact Or.inl (ftt_A_false_two hmem ho)
-          · rw [if_neg hk2] at htype
+          · rw [ite_eq_right hk2] at htype
             simp at htype
     | E6 => simp only [ggKacTypeClOfLabel] at htype; simp at htype
     | E7 => simp only [ggKacTypeClOfLabel] at htype; simp at htype
@@ -498,27 +498,27 @@ theorem ggFieldTwoTable_rankThree {lab : LargeEvenLabel} {D : GGKacDatum} {o : G
     exact (ftt_A_true_one_false hmem ho (Or.inl rfl) hJ2).elim
   | B =>
     simp only [ggKacTypeClOfLabel] at htype
-    rw [if_pos hlab'.1] at htype
+    rw [ite_eq_left hlab'.1] at htype
     obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
     rw [hn1] at hmem
     exact (ftt_C_false hmem ho (Or.inl rfl) hJ2).elim
   | C =>
     simp only [ggKacTypeClOfLabel] at htype
-    rw [if_pos hlab'.1] at htype
+    rw [ite_eq_left hlab'.1] at htype
     obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
     rw [hn1] at hmem
     exact (ftt_C_false hmem ho (Or.inl rfl) hJ2).elim
   | D =>
     simp only [ggKacTypeClOfLabel] at htype
     by_cases hk4 : 4 ≤ k
-    · rw [if_pos hk4] at htype
+    · rw [ite_eq_left hk4] at htype
       obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
       rw [hn1] at hmem
       exact absurd (ftt_D hmem ho (Or.inl rfl) hJ2) hnot
-    · rw [if_neg hk4] at htype
+    · rw [ite_eq_right hk4] at htype
       have hk : 3 ≤ k := by simpa using hlab'
       have hk3 : k = 3 := by omega
-      rw [if_pos hk3] at htype
+      rw [ite_eq_left hk3] at htype
       obtain ⟨rfl, rfl, rfl⟩ := ftt_some_eq htype
       rw [hn1] at hmem
       have h7 := ftt_A_false_rankThree hmem ho hf hoA

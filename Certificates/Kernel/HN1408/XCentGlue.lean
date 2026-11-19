@@ -28,7 +28,7 @@ theorem ncard_cent_conj {G : Type} [Group G] (H : Subgroup G) {T R h : G} (hh : 
   have hs : {g | g ∈ H ∧ g * (h * R * h⁻¹) = h * R * h⁻¹ * g} =
       (fun g => h * g * h⁻¹) '' {g | g ∈ H ∧ g * R = R * g} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨hg, hc⟩
       refine ⟨h⁻¹ * g * h, ⟨H.mul_mem (H.mul_mem (H.inv_mem hh) hg) hh, ?_⟩, by group⟩
@@ -113,7 +113,7 @@ theorem closure_u (hP : Nat.card ↥P1408 = 177408000) :
   rw [← (czT_eq hP).1, czC, classz_centGens]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro (rfl | rfl)

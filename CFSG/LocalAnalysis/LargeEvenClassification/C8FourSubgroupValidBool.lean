@@ -34,11 +34,11 @@ theorem c8K_mulN_eq : ∀ g h : C8FourCode,
     (c8FourMultiply g h).index.val = c8K_mulN g.index.val h.index.val := by
   decide +kernel
 
-theorem c8K_and_eq (a b : Bool) : Bool.and' a b = (a && b) := by
+theorem c8K_and_eq (a b : Bool) : _root_.Bool.and a b = (a && b) := by
   cases a <;> rfl
 
 @[expose] noncomputable def c8K_all {α : Type} (p : α → Bool) (L : List α) : Bool :=
-  List.rec (motive := fun _ => Bool) true (fun x _ ih => Bool.and' (p x) ih) L
+  List.rec (motive := fun _ => Bool) true (fun x _ ih => _root_.Bool.and (p x) ih) L
 
 theorem c8K_all_iff {α : Type} (p : α → Bool) :
     ∀ L : List α, c8K_all p L = true ↔ ∀ x ∈ L, p x = true
@@ -52,7 +52,7 @@ theorem c8K_all_iff {α : Type} (p : α → Bool) :
   List.rec (motive := fun _ => List C8FourCode → Bool)
     (fun E => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) E)
     (fun e _ ih E => List.rec (motive := fun _ => Bool) false
-      (fun g E' _ => Bool.and' (Nat.beq e.1.index.val g.index.val) (ih E')) E) W
+      (fun g E' _ => _root_.Bool.and (Nat.beq e.1.index.val g.index.val) (ih E')) E) W
 
 theorem c8K_keysEq_spec : ∀ (W : List (C8FourCode × ℕ × Fin 32)) (E : List C8FourCode),
     c8K_keysEq W E = true → W.map Prod.fst = E
@@ -85,11 +85,11 @@ theorem c8K_force_eq (x : ℕ) (k : ℕ → Bool) : c8K_force x k = k x := by
   cases x <;> rfl
 
 @[expose] noncomputable def c8K_chk (r : C8FourSubgroupRecord) : Bool :=
-  Bool.and' (c8K_all (fun g => Bool.and' (c8K_bit r.mask (c8FourInverse g).index.val)
+  _root_.Bool.and (c8K_all (fun g => _root_.Bool.and (c8K_bit r.mask (c8FourInverse g).index.val)
       (c8K_all (fun h => c8K_bit r.mask (c8K_mulN g.index.val h.index.val)) r.elements)) r.elements)
-    (Bool.and' (c8K_keysEq r.wordData r.elements)
+    (_root_.Bool.and (c8K_keysEq r.wordData r.elements)
       (c8K_force (c8K_vt r.wordData) (fun V =>
-        Bool.and' (c8K_all (fun e => Nat.beq (c8K_lane V e.1.index.val) e.2.2.val) r.wordData)
+        _root_.Bool.and (c8K_all (fun e => Nat.beq (c8K_lane V e.1.index.val) e.2.2.val) r.wordData)
           (c8K_all (fun g => c8K_all (fun h =>
             Nat.beq (c8K_lane V (c8K_mulN g.index.val h.index.val))
               (Nat.xor (c8K_lane V g.index.val) (c8K_lane V h.index.val))) r.elements) r.elements))))
@@ -123,7 +123,7 @@ theorem c8K_valid (r : C8FourSubgroupRecord)
     (hc : c8K_chk r = true) : c8FourRecordValid r := by
   unfold c8K_chk at hc
   rw [c8K_force_eq] at hc
-  simp only [c8K_and_eq, Bool.and_eq_true, c8K_all_iff, c8K_bit_iff, Nat.beq_eq] at hc
+  simp only [Bool.and_eq_true, c8K_all_iff, c8K_bit_iff, Nat.beq_eq] at hc
   obtain ⟨hcl, hk, hwd, hv⟩ := hc
   have hkeys := c8K_keysEq_spec _ _ hk
   have hmem : ∀ g h, g ∈ r.elements → h ∈ r.elements →

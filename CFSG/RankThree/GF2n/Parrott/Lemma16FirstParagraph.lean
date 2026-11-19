@@ -35,6 +35,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem conj_mem_J_of_mem_H {s j : G} (hsH : s ∈ H z) (hj : j ∈ J z) : s * j * s⁻¹ ∈ J z := by
   have hHN : H z ≤ Subgroup.normalizer (J z : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (J_le_H (z := z))).mp (J_subgroupOf_normal z)

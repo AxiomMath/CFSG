@@ -49,7 +49,7 @@ theorem s16h_false_of_seven_torus {W : Type} [CommGroup W] [Finite W] (hcard : N
     (hD : IsElemAbelian 3 D) (hD27 : 27 ≤ Nat.card ↥D)
     (hDR : D ≤ normalizer (R : Set (MulAut W))) : False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hFixR : ∀ x ∈ R, x ≠ 1 → fixV (Subgroup.zpowers x) = ⊥ := by
     intro x hx hx1
     obtain ⟨k, hk⟩ := hR7.exists_orderOf_eq_pow (⟨x, hx⟩ : R)
@@ -154,7 +154,7 @@ theorem s16h_false_of_seven_torus {W : Type} [CommGroup W] [Finite W] (hcard : N
     (fun x hx => hD.2 x hx)
   have hEcard : Nat.card ↥D ≤ 3 * Nat.card ↥E := by
     have h := hcardle
-    rw [if_pos (by norm_num : 3 ∣ 7 - 1)] at h
+    rw [ite_eq_left (by norm_num : 3 ∣ 7 - 1)] at h
     simpa [E] using h
   have hEab : IsElemAbelian 3 E := by simpa [E] using hD.mono inf_le_left
   have hE9 : 9 ≤ Nat.card ↥E := by omega
@@ -217,7 +217,7 @@ theorem s16h_false_of_seven_torus {W : Type} [CommGroup W] [Finite W] (hcard : N
     · exfalso
       have hUtop : U = ⊤ := by
         refine Subgroup.eq_of_le_of_card_ge le_top ?_
-        simpa [Subgroup.card_top, hcard, hU64]
+        simp [hcard, hU64]
       apply hh1
       ext v
       have hv : v ∈ U := by rw [hUtop]; exact Subgroup.mem_top v

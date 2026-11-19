@@ -317,7 +317,7 @@ theorem adjointGroup_eq_rootSpan_ne_pm
       have hset : {γ : Fin τ.rank → ℤ | IsRoot τ γ ∧ γ ≠ -α₀ ∧ γ ≠ -(-α₀)} =
           {γ : Fin τ.rank → ℤ | IsRoot τ γ ∧ γ ≠ α₀ ∧ γ ≠ -α₀} := by
         ext γ
-        simp [neg_neg, and_comm, and_left_comm, and_assoc]
+        simp [neg_neg, and_comm]
       rw [hset] at h
       exact h
     · exact le_iSup₂_of_le β ⟨hβ, hβ0, hβ1⟩ le_rfl

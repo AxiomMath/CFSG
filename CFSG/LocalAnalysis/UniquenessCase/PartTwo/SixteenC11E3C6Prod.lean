@@ -20,9 +20,9 @@ private theorem s1611e3_c6_alt_simpleCentreless {X : Type} [Group X] [Finite X]
     (h : IsAlt X 5) :
     CFSG.ComponentClassification.AutL2Facts.SimpleCentreless X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hcardX : Nat.card X = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num [Nat.factorial]
@@ -30,7 +30,7 @@ private theorem s1611e3_c6_alt_simpleCentreless {X : Type} [Group X] [Finite X]
     by_contra hc
     push Not at hc
     have hcomm : ∀ a b : X, a * b = b * a := fun a b => hc a b
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     have hprime : Nat.Prime (Nat.card X) :=
       Group.is_simple_iff_prime_card.mp (show IsSimpleGroup X from inferInstance)
     rw [hcardX] at hprime
@@ -50,7 +50,7 @@ private theorem s1611e3_c6_alt_simpleCentreless {X : Type} [Group X] [Finite X]
 private theorem s1611e3_c6_alt_perfect {X : Type} [Group X] (h : IsAlt X 5) :
     Group.IsPerfect X := by
   obtain ⟨e⟩ := h
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -159,7 +159,7 @@ private theorem s1611e3_c6_structure {D : Data G} {V₀ V L : Subgroup G} {hV : 
           (wTil V₀ V hV L).map φ.toMonoidHom = (wTil V₀ V hV L).map x.toMonoidHom ∧
           ((wTil V₀ V hV L).map x.toMonoidHom).map φ.toMonoidHom = wTil V₀ V hV L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup (MulAut (Vtil V₀ V hV)) := lBar V₀ V hV L with hA
   set Tb : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV D.T with hTb
   set Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV with hMb
@@ -235,12 +235,12 @@ private theorem s1611e3_c6_structure {D : Data G} {V₀ V L : Subgroup G} {hV : 
       s1611e3_commutator_card (F := ↥F) (Z := Multiplicative (ZMod 3)) (S := ↥A) hperfA e]
   have hEeq : E = ⁅F, F⁆ := Subgroup.map_subtype_commutator F
   have hAperf : ⁅A, A⁆ = A := by
-    haveI : Group.IsPerfect ↥A := hperfA
+    have : Group.IsPerfect ↥A := hperfA
     exact Subgroup.commutator_eq_self
   have hA'perf : ⁅A.map (MulAut.conj x).toMonoidHom, A.map (MulAut.conj x).toMonoidHom⁆ =
       A.map (MulAut.conj x).toMonoidHom := by
-    haveI : Group.IsPerfect ↥A := hperfA
-    haveI : Group.IsPerfect ↥(A.map (MulAut.conj x).toMonoidHom) :=
+    have : Group.IsPerfect ↥A := hperfA
+    have : Group.IsPerfect ↥(A.map (MulAut.conj x).toMonoidHom) :=
       Group.IsPerfect.map (f := (MulAut.conj x).toMonoidHom)
     exact Subgroup.commutator_eq_self
   have hAE : A ≤ E := by
@@ -405,7 +405,7 @@ private theorem s1611e3_c6_structure {D : Data G} {V₀ V L : Subgroup G} {hV : 
       intro hconj
       apply hz1
       calc z = x * ((MulAut.conj x⁻¹).toMonoidHom z) * x⁻¹ := by
-            simp [MulAut.conj_apply]; group
+            simp; group
         _ = x * 1 * x⁻¹ := by rw [hconj]
         _ = 1 := by group)
     refine ⟨x u, Subgroup.mem_map.2 ⟨u, hu, rfl⟩, ?_⟩
@@ -530,7 +530,7 @@ theorem s1611e3_case6_prod {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup 
   have h6c := h6
   obtain ⟨⟨e⟩, hfam, hs15, -⟩ := h6
   rcases hfam with ⟨hAlt, hSumAlt⟩ | ⟨hL3, hSumL3⟩
-  · haveI : Group.IsSolvable
+  · have : Group.IsSolvable
         (CFSG.ComponentClassification.OuterAutomorphisms.Outer (alternatingGroup (Fin 5))) :=
       (CFSG.Quasithin.SteinbergCB.isSolvable_outer_alternatingGroup (Or.inl rfl)).1
     have hAltc := hAlt

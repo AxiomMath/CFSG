@@ -14,7 +14,7 @@ open CFSG.Open Subgroup
 theorem uc22p22r_isSylowOf_map_top {p : ℕ} [Fact p.Prime] {A B : Type} [Group A] [Finite A] [Group B]
     {f : A →* B} (hf : Function.Surjective f) {T : Subgroup A}
     (hT : CFSG.ABGLocalTools.IsSylowOf p T ⊤) : CFSG.ABGLocalTools.IsSylowOf p (T.map f) ⊤ := by
-  haveI : Finite B := Finite.of_surjective f hf
+  have : Finite B := Finite.of_surjective f hf
   obtain ⟨-, hpg, hndvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hT
   rw [Subgroup.relIndex_top_right] at hndvd
   let S : Sylow p A := hpg.toSylow hndvd
@@ -32,10 +32,10 @@ theorem uc22p22r_normalizes {Hg : Type} [Group Hg] [Finite Hg] {q : ℕ} (hq : q
     (hNR : ∀ n ∈ N, (n : Hg) ∈ CFSG.solvableRadical Hg) (hNq : CFSG.Open.IsQuasisimple (↥K ⧸ N))
     (hKM : ¬ K ≤ M) : x ∈ normalizer (K : Set Hg) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set R := CFSG.solvableRadical Hg with hRdef
-  haveI hRn : R.Normal := CFSG.SignalizerFunctorTheorem.Nonsolvable.instNormalSolvableRadical
-  haveI hRs : Group.IsSolvable ↥R :=
+  have hRn : R.Normal := CFSG.SignalizerFunctorTheorem.Nonsolvable.instNormalSolvableRadical
+  have hRs : Group.IsSolvable ↥R :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   set π : Hg →* Hg ⧸ R := QuotientGroup.mk' R with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective R

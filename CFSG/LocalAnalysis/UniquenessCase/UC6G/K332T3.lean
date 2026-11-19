@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 
 theorem six25_of_K332Three (hK : UCK.K332Three) (h69 : R6_9 Dat)
     (hr3 : m.r = 3) (h623 : m.C623) : m.C625 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hKM : CFSG.Open.IsKGroup ↥m.M := Dat.standing.kProper.isKGroup m.M m.M_ne_top
   set Z' : Subgroup ↥m.M := m.Z.subgroupOf m.M with hZ'
   have hZ'card : Nat.card Z' = m.r := by

@@ -13,6 +13,7 @@ namespace RankOneData
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   (D : RankOneData K V)
 
+omit [Fintype K] [CharP K 2] in
 theorem span_translates_eq_top :
     Submodule.span K (Set.range fun g : D.Pg => D.τ.comp (D.Ad g).toLinearMap) = ⊤ := by
   refine Submodule.span_eq_top_of_ne_zero ?_
@@ -20,6 +21,7 @@ theorem span_translates_eq_top :
   obtain ⟨g, hg⟩ := D.lemmaS z hz
   exact ⟨D.τ.comp (D.Ad g).toLinearMap, ⟨g, rfl⟩, hg⟩
 
+omit [Fintype K] [CharP K 2] in
 theorem exists_crd {v : V} (hv : v ≠ 0) : ∃ c : V →ₗ[K] K, c v = 1 :=
   Module.Projective.exists_dual_eq_one K hv
 
@@ -39,8 +41,10 @@ theorem exists_crd {v : V} (hv : v ≠ 0) : ∃ c : V →ₗ[K] K, c v = 1 :=
     congr 1
     rw [map_smul, smul_sub]
 
+omit [Fintype K] [CharP K 2] in
 theorem Psi_apply (c : V →ₗ[K] K) (w : V) (n : D.N) : D.Psi c w n = c (D.ρ n w - w) := rfl
 
+omit [Fintype K] [CharP K 2] in
 theorem rho_sub_eq_Psi_smul [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v' : V}
     (hv' : v' ∈ D.fix) (hv'0 : v' ≠ 0) {c : V →ₗ[K] K} (hc : c v' = 1)
     {β : V →ₗ[K] V →ₗ[K] K} {w : V} (hw : w ∈ D.V1 β) (n : D.N) :
@@ -53,6 +57,7 @@ theorem rho_sub_eq_Psi_smul [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
     rw [Psi_apply, ← hval, map_smul, hc, smul_eq_mul, mul_one]
   rw [hPsi, hval]
 
+omit [Fintype K] [CharP K 2] in
 theorem fix_le_V1 [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
     {β : V →ₗ[K] V →ₗ[K] K} (hβalt : ∀ v, β v v = 0) : D.fix ≤ D.V1 β := by
   intro z hz
@@ -67,6 +72,7 @@ theorem fix_le_V1 [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
   · rw [(D.mem_fix.1 hz) n, sub_self]
     exact D.fix.zero_mem
 
+omit [Fintype K] [CharP K 2] in
 theorem finrank_map_Psi_le [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
     {β : V →ₗ[K] V →ₗ[K] K} (hβalt : ∀ v, β v v = 0) (c : V →ₗ[K] K)
     (hV1 : finrank K (D.V1 β) ≤ finrank K D.N + 1) :
@@ -88,6 +94,7 @@ theorem finrank_map_Psi_le [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
   rw [LinearMap.range_domRestrict] at hrn
   omega
 
+omit [CharP K 2] in
 theorem card_map_Psi_le [FiniteDimensional K V] (hfix : finrank K D.fix = 1)
     {β : V →ₗ[K] V →ₗ[K] K} (hβalt : ∀ v, β v v = 0) (c : V →ₗ[K] K)
     (hV1 : finrank K (D.V1 β) ≤ finrank K D.N + 1) :

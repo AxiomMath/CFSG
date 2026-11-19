@@ -160,11 +160,11 @@ theorem frameSubP_of_model (Sel : Subgroup (Multiplicative (Fin 6 → ZMod 3)) �
     (P : Sylow 3 (MulAut (twistedE6RootGroup K σ))) :
     FrameSubP Sel (twistedE6RootGroup K σ) (P : Subgroup (MulAut (twistedE6RootGroup K σ))) := by
   have hFr' : ∀ c, Fr c = c ^ 2 := fun c => by simpa using hFr c
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI hcharΩ : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharΩ : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Φ := rgrpConjAut le_rfl hK σ hσ Fr hFr with hΦ
   have hΦinj : Function.Injective Φ := rgrpConjAut_injective le_rfl hK σ hσ Fr hFr
   set ι := embP hK σ hσ Fr hFr hg hgn with hι
@@ -173,14 +173,14 @@ theorem frameSubP_of_model (Sel : Subgroup (Multiplicative (Fin 6 → ZMod 3)) �
     (isPGroup_sylP Fr hFr' hζ hζ').of_surjective ι.rangeRestrict
       (MonoidHom.rangeRestrict_surjective ι)
   have hle : (P : Subgroup (MulAut (twistedE6RootGroup K σ))) ≤ Φ.range :=
-    isPGroup_le_range_rgrpConjAut σ hK hσ Fr hFr P.isPGroup'
+    isPGroup_le_range_rgrpConjAut σ hK hσ Fr hFr P.isPGroup
   let X : Subgroup (ModGL Tag.E6 Ω) :=
     ((P : Subgroup (MulAut (twistedE6RootGroup K σ))).comap Φ).map (TwistedDiag.Rgrp Ω Fr).subtype
   have hXR : X ≤ TwistedDiag.Rgrp Ω Fr := Subgroup.map_subtype_le _
   have hXp : IsPGroup 3 X := by
     intro x
     obtain ⟨r, hr, hrx⟩ := Subgroup.mem_map.1 x.2
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨Φ r, hr⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨Φ r, hr⟩
     refine ⟨m, Subtype.ext ?_⟩
     have h1 : (Φ r) ^ (3 ^ m) = 1 := by
       have := congrArg Subtype.val hm
@@ -259,15 +259,15 @@ theorem x2e6LocalP_of_torusGoodP (Sel : Subgroup (Multiplicative (Fin 6 → ZMod
     (h : X2E6TorusGoodP Sel) : X2E6LocalP Sel := by
   intro d _ q hd hq P
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_model d q hd hq
-  haveI : Finite (twistedE6RootGroup K σ) := Finite.of_equiv _ e.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : Finite (twistedE6RootGroup K σ) := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   let Ω := AlgebraicClosure K
-  haveI hcharΩ : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsAlgClosed Ω := inferInstance
+  have hcharΩ : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := inferInstance
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 1
   have hFr : ∀ c, Fr c = c ^ 2 ^ 1 := fun c => iterateFrobenius_def 2 1 c
   obtain ⟨g, hg, hgn⟩ := exists_inv_mul_twistE6_eq (ℓ := 2) (f := 1) le_rfl hFr

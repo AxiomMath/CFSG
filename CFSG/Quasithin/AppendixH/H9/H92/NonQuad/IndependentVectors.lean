@@ -34,6 +34,7 @@ theorem right_mulVec_right : B *ᵥ (B *ᵥ v) = 0 := by
 theorem right_mulVec_left : B *ᵥ (A *ᵥ v) = (A * B) *ᵥ v := by
   rw [Matrix.mulVec_mulVec, ← hp.comm]
 
+omit hp in
 theorem left_mulVec_right : A *ᵥ (B *ᵥ v) = (A * B) *ᵥ v := by
   rw [Matrix.mulVec_mulVec]
 
@@ -51,9 +52,9 @@ theorem independent (hy : (A * B) *ᵥ v ≠ 0) {a b c : ZMod 2}
   have hA := congrArg (A *ᵥ ·) h
   have hB := congrArg (B *ᵥ ·) h
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_zero, hp.left_mulVec_left v,
-    hp.left_mulVec_right v, hp.left_mulVec_prod v, smul_zero, zero_add, add_zero] at hA
+    CFSG.ASVolI.ChH.NilPair.left_mulVec_right (A := A) (B := B) v, hp.left_mulVec_prod v, smul_zero, zero_add, add_zero] at hA
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_zero, hp.right_mulVec_left v,
-    hp.right_mulVec_right v, hp.right_mulVec_prod v, smul_zero, zero_add, add_zero] at hB
+    hp.right_mulVec_right v, hp.right_mulVec_prod v, smul_zero, add_zero] at hB
   have hb : b = 0 := (smul_eq_zero.mp hA).resolve_right hy
   have ha : a = 0 := (smul_eq_zero.mp hB).resolve_right hy
   subst ha hb
@@ -113,7 +114,7 @@ theorem mem_span_prod_of_mulVec_eq_zero (h : SubOneCover E 𝒩) (hp : NilPair A
   simp only [Fin.sum_univ_three, Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, Matrix.mulVec_add,
     Matrix.mulVec_smul, hp.left_mulVec_left v,
-    hp.left_mulVec_right v, hp.left_mulVec_prod v, hp.right_mulVec_left v,
+    CFSG.ASVolI.ChH.NilPair.left_mulVec_right (A := A) (B := B) v, hp.left_mulVec_prod v, hp.right_mulVec_left v,
     hp.right_mulVec_right v, hp.right_mulVec_prod v, smul_zero, zero_add, add_zero] at hAw hBw
   have hAw' : c • (A *ᵥ v) + (0 : ZMod 2) • (B *ᵥ v) + f 1 • ((A * B) *ᵥ v) = 0 := by
     rw [zero_smul, add_zero, add_comm]; exact hAw

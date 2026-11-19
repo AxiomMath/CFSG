@@ -25,15 +25,15 @@ private theorem c16_rho_move (h : L41GPh15 t L S x₁ x₂ lam rho) {k : G}
   calc rho * k = (rho * k * rho⁻¹) * rho := by group
     _ = k * rho := by rw [hconj]
 
-theorem c16_Q_cent_K (h : L41GPh15 t L S x₁ x₂ lam rho) {q k : G}
-    (hq : q ∈ l41Q t x₁ x₂ rho) (hk : k ∈ fourGrp x₁ x₂) : q * k = k * q :=
+theorem c16_Q_cent_K (h : L41GPh15 t L S x₁ x₂ lam rho) {_q _k : G}
+    (hq : _q ∈ l41Q t x₁ x₂ rho) (hk : _k ∈ fourGrp x₁ x₂) : _q * _k = _k * _q :=
   c16_comm_of_rho (Q := l41Q t x₁ x₂ rho) (K := fourGrp x₁ x₂) (rho := rho)
     (q14_Q_isPGroup t x₁ x₂ rho) (c16_K_le_Q h) h.wreath.fourGrp_eq_omega.2.2
-    (fun q hq k hk => c16_K_normal h (q14_Q_le_M t x₁ x₂ rho hq) hk)
-    (fun q hq => q14_conj_Q (q14_rho_mem_M h.toL41GPh8) hq)
-    (fun k hk => rho_conj_mem_fourGrp h.toCtx0 hk)
+    (fun _q hq _k hk => c16_K_normal h (q14_Q_le_M t x₁ x₂ rho hq) hk)
+    (fun _q hq => q14_conj_Q (q14_rho_mem_M h.toL41GPh8) hq)
+    (fun _k hk => rho_conj_mem_fourGrp h.toCtx0 hk)
     (q15_rho_cube h.toL41GPh1)
-    (fun k hk hk1 => c16_rho_move h hk hk1) q hq k hk
+    (fun _k hk hk1 => c16_rho_move h hk hk1) _q hq _k hk
 
 theorem c16_N_conj (h : L41GPh15 t L S x₁ x₂ lam rho) {q f : G} (hq : q ∈ l41Q t x₁ x₂ rho)
     (hf : f ∈ l41R t x₁ x₂ rho) : ⁅q * f * q⁻¹, t⁆ = ⁅f, t⁆ := by

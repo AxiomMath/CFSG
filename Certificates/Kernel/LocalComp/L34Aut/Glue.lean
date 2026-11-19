@@ -242,12 +242,10 @@ theorem aut_true :
       pinS.canon auxP.2.2.2.2.2.2.2.2.1
   · rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro a ha
-    beta_reduce
     rw [pts_get' ha, zT_eq, commB (cC3 ha) cz]
     exact auxP.2.2.2.2.2.2.2.2.2.1 a ha
   · rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk, zT_eq, r3_eq, commB (pinS.canon k hk) cz, commB (pinS.canon k hk) cr3]
     rcases orB_iff.1 (auxP.2.2.2.2.2.2.2.2.2.2.1 k hk) with h | h
     · rw [notB_iff.1 h]
@@ -256,7 +254,6 @@ theorem aut_true :
   · unfold centScanOK
     rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk]
     exact cenPt_sound (pinR.canon k hk) (cC3 (by decide)) (cC3 (by decide))
       ⟨1, by rw [size_pts]; decide, pts_get' (by decide)⟩
@@ -264,7 +261,6 @@ theorem aut_true :
   · unfold expOK
     rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk]
     exact expPt_sound (pinR.canon k hk) (parts hk).2.1
   · rw [r1_eq]

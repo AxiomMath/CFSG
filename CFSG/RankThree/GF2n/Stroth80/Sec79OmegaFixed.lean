@@ -35,6 +35,7 @@ theorem card_fixedSub_Lom_eq (hQ : (polarBilin Q).Nondegenerate)
   rw [key, Lom_smul (mul_ne_zero hc huu')] at h
   exact h.symm
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem stroth_2_1_ii_omega_fixed_of_card (hQ : (polarBilin Q).Nondegenerate) {M : Type*}
     [AddCommGroup M] [Finite M] (h2 : ∀ x : M, x + x = 0) [DistribMulAction (Gom Q) M]
     {u u' : V} (hu : Q u = 0) (hu' : Q u' = 0) (huu' : polar Q u u' ≠ 0)
@@ -73,7 +74,7 @@ theorem stroth_2_1_ii_omega_fixed_of_hom (hQ : (polarBilin Q).Nondegenerate)
     rw [ker_viaMatrix] at hy
     exact hker y hy a
   have hΦ := viaMatrix_surjective (e := E.equiv) φ hφ
-  letI : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ) hΦ hk
+  let : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ) hΦ hk
   have hsm : ∀ (z : Y) (a : M), viaMatrix X E.equiv φ hφ z • a = z • a := fun z a =>
     descendAction_smul (viaMatrix X E.equiv φ hφ) hΦ hk z a
   have hx : viaMatrix X E.equiv φ hφ y ∈ Lom Q u' := by

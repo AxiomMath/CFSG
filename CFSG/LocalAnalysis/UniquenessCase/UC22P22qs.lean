@@ -44,9 +44,9 @@ theorem uc22p22q_isSylowOf_top_of_normalizer {p : ℕ} [Fact p.Prime] {M P : Sub
   have hPS' : P ≤ (S : Subgroup G) := hPS
   have hEq : P = (S : Subgroup G) := by
     by_contra hne
-    have hlt := CFSG.Goldschmidt.G310.lt_inf_normalizer S.isPGroup' hPS' hne
+    have hlt := CFSG.Goldschmidt.G310.lt_inf_normalizer S.isPGroup hPS' hne
     have hle : (S : Subgroup G) ⊓ normalizer (P : Set G) ≤ M := inf_le_right.trans hN
-    have hpg : IsPGroup p ↥((S : Subgroup G) ⊓ normalizer (P : Set G)) := S.isPGroup'.to_inf_left
+    have hpg : IsPGroup p ↥((S : Subgroup G) ⊓ normalizer (P : Set G)) := S.isPGroup.to_inf_left
     exact hlt.ne (hP.eq_of_le hlt.le hle hpg).symm
   rw [isSylowOf_iff]
   refine ⟨le_top, hP.isPGroup, ?_⟩
@@ -55,7 +55,7 @@ theorem uc22p22q_isSylowOf_top_of_normalizer {p : ℕ} [Fact p.Prime] {M P : Sub
 
 theorem uc22p22q_isSylowOf_top (D : Data G) (hstd : Sigma23Std D) {p : ℕ} (hp : p ∈ D.sig)
     {P : Subgroup G} (hP : IsSylowOf p P D.M) : IsSylowOf p P ⊤ := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have h2 : 2 ≤ CFSG.Open.pRank p P := (D.sig_rank p hp).trans (uc22p22q_pRank_le_sylow hP)
   exact uc22p22q_isSylowOf_top_of_normalizer hP
     ((gamma_normalizer_le 2 p P P le_rfl h2).trans (hstd.gamma_two p hp P hP))
@@ -72,7 +72,7 @@ theorem uc22p22q_gamma_two_of_exists {p : ℕ} [Fact p.Prime] {M Q P : Subgroup 
     · rintro ⟨y, hy, rfl⟩
       simpa [f, MulAut.conj_apply, mul_assoc] using hy
     · intro hh
-      exact ⟨k * h * k⁻¹, hh, by simp [f, MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨k * h * k⁻¹, hh, by simp [f, mul_assoc]⟩
   have hYQ : Y.map f ≤ Q := by
     intro h hh
     have := (hk (k * h * k⁻¹)).1 (hYP ((hmem h).1 hh))
@@ -98,7 +98,7 @@ theorem uc22p22q_gamma_two_of_exists {p : ℕ} [Fact p.Prime] {M Q P : Subgroup 
 
 theorem uc22p22q_isSylowOf_of_sylow {p : ℕ} [Fact p.Prime] {M : Subgroup G} (Q : Sylow p G)
     (hQM : (Q : Subgroup G) ≤ M) : IsSylowOf p (Q : Subgroup G) M :=
-  (isSylowOf_iff.2 ⟨le_top, Q.isPGroup', by simpa [Subgroup.relIndex_top_right] using Q.not_dvd_index⟩ :
+  (isSylowOf_iff.2 ⟨le_top, Q.isPGroup, by simpa [Subgroup.relIndex_top_right] using Q.not_dvd_index⟩ :
     IsSylowOf p (Q : Subgroup G) ⊤).of_le hQM le_top
 
 theorem sigma23Std_ofSetup (hS : Standing G) (S : Setup G) :
@@ -106,7 +106,7 @@ theorem sigma23Std_ofSetup (hS : Standing G) (S : Setup G) :
   sig3_sub := fun q hq => Set.mem_singleton_iff.2 hq.1
   gamma_two := fun p hp P hP => by
     obtain ⟨hpA, Q, hw⟩ := hp
-    haveI : Fact p.Prime := ⟨(PartTwo.Three.prime_of_mem_rankThreeSigmaA hpA).1⟩
+    have : Fact p.Prime := ⟨(PartTwo.Three.prime_of_mem_rankThreeSigmaA hpA).1⟩
     have h3 : 3 ≤ CFSG.Open.pRank p (Q : Subgroup G) :=
       CFSG.RankThreeCoreUniqueness.Helpers.selected_sylow_rank_at_least_three hS.rank p hpA Q
     have hQM : (Q : Subgroup G) ≤ S.M :=
@@ -120,7 +120,7 @@ theorem sigma23Std_ofSetup4 (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique 
   sig3_sub := fun _ hq => absurd hq (by simp [CFSG.LocalAnalysis.UniquenessCase.UC6.dataOfSetup4])
   gamma_two := fun p hp P hP => by
     obtain ⟨-, -, -, Q, hQM, hΓ, -⟩ := (hU S.M S.maxLocal ⟨p, hp⟩).1 p hp
-    haveI : Fact p.Prime := ⟨hp.1.1⟩
+    have : Fact p.Prime := ⟨hp.1.1⟩
     exact uc22p22q_gamma_two_of_exists (uc22p22q_isSylowOf_of_sylow Q hQM) hΓ hP
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

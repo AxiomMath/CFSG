@@ -232,12 +232,12 @@ theorem false_of_a6Type {C : Type} [Group C] [Finite C]
       (by norm_num : Nat.Coprime (3 ^ (2 + 1)) 2)).dvd_of_dvd_mul_left h
     norm_num at h'
   set R' : Subgroup C := (R : Subgroup ↥Y).map Y.subtype with hR'
-  have hR'p : IsPGroup 3 ↥R' := R.isPGroup'.map Y.subtype
+  have hR'p : IsPGroup 3 ↥R' := R.isPGroup.map Y.subtype
   have hR'c : Nat.card R' = 9 := by
     rw [hR', Subgroup.card_map_of_injective Y.subtype_injective, hR9]; norm_num
   obtain ⟨T, hRT⟩ := hR'p.exists_le_sylow
   have hT27 := h27 T
-  have hTp : IsPGroup 3 ↥(T : Subgroup C) := T.isPGroup'
+  have hTp : IsPGroup 3 ↥(T : Subgroup C) := T.isPGroup
   have hZR : ∀ x ∈ Subgroup.center ↥(T : Subgroup C), (x : C) ∈ R' := by
     have hidx : (R'.subgroupOf (T : Subgroup C)).index = (Nat.card ↥(T : Subgroup C)).minFac := by
       have h1 := (R'.subgroupOf (T : Subgroup C)).card_mul_index

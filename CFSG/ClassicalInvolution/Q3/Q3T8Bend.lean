@@ -182,7 +182,7 @@ theorem false_of_isBenderGroup_weakMember {G : Type} [Group G] [Finite G]
   have hz2 : orderOf z = 2 := hK.orderOf_eq_two
   obtain ⟨Q, hzQ⟩ := IsPGroup.exists_le_sylow (isPGroup_two_zpowers_of_orderOf_two hz2)
   obtain ⟨t, hc⟩ := hT.exists_benderCore Q
-  have hQp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup'
+  have hQp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup
   have hzQ' : z ∈ (Q : Subgroup G) := hzQ (Subgroup.mem_zpowers z)
   have hzr := hc.involution_iff.mp ⟨le_borel _ hzQ', hz2⟩
   have hXeq : Subgroup.centralizer ({z} : Set G) =

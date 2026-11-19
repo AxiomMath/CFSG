@@ -17,9 +17,11 @@ variable {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
 
 namespace Fz319Data
 
+omit [Finite G] in
 private theorem mu_apply (p : FzUT) (a b c : ZMod 2) :
     D.mu (p, (a, b, c)) = (D.φ.symm p : G) * t ^ a.val * tau ^ b.val * lam ^ c.val := rfl
 
+omit [Finite G] in
 private theorem isQ8 {a b : FzElt} (h : FzQ8 (fzMulC D.cT D.cS D.cL) fzOneC a b) :
     IsQ8Pair (D.mu a) (D.mu b) := by
   obtain ⟨h4, hsq, hconj, hne⟩ := h
@@ -46,6 +48,7 @@ private theorem isQ8 {a b : FzElt} (h : FzQ8 (fzMulC D.cT D.cS D.cL) fzOneC a b)
     rw [pow_two] at h1
     exact h1
 
+omit [Finite G] in
 private theorem comm_of {a b : FzElt}
     (h : fzMulC D.cT D.cS D.cL a b = fzMulC D.cT D.cS D.cL b a) :
     Commute (D.mu a) (D.mu b) := by

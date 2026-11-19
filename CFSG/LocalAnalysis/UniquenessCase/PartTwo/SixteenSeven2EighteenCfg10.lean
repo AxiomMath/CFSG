@@ -98,7 +98,7 @@ theorem s16c167_cyclic3_block (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut 
     rw [Subgroup.orderOf_coe]
     exact hord
   have hYeq : Y = Subgroup.zpowers a' := by
-    haveI : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hY.2]; norm_num)
+    have : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hY.2]; norm_num)
     refine (Subgroup.eq_of_le_of_card_ge ?_ ?_).symm
     · exact Subgroup.zpowers_le.mpr a.2
     · have hcard : Nat.card (Subgroup.zpowers a') = Nat.card ↥Y := by

@@ -42,10 +42,10 @@ theorem pow_three_eq_one_of_apply (hβ : β.IsAlt) {a b e : V} (hab : β a b = 1
     match_scalars <;> (ring_nf; try reduce_mod_char)
   have hgb : g b = a + b + e := by
     rw [hg, hba, hβ.self_eq_zero, hbe]
-    match_scalars <;> (ring_nf; try reduce_mod_char)
+    match_scalars <;> (ring_nf)
   have hge : g e = e := by
     rw [hg, hea, heb, hβ.self_eq_zero]
-    match_scalars <;> (ring_nf; try reduce_mod_char)
+    match_scalars <;> (ring_nf)
   refine ⟨hga, hge, ?_⟩
   ext v
   change (g ^ 3) v = v

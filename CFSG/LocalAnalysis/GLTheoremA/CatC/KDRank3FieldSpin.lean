@@ -18,7 +18,7 @@ theorem le_gla_of_hasWitness {d : TauCeti.ValidLieTypeIndex} {S : Type} [Group S
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) {p k : ℕ} (hp : p.Prime)
     (h : CFSG.RankThree.PartTwo.Census.Spin.HasWitness d.Group p k) :
     k ≤ GLATwoLocalRank p S := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
   exact le_gla_of_carrier e hp
     (CFSG.RankThree.PartTwo.Census.Spin.le_localRank_of_hasWitness' hp h)
 

@@ -20,9 +20,11 @@ namespace Quo
 
 variable {Γ Z : Subgroup H} {G : Type} [Group G] (Q : Quo Γ Z G)
 
+omit [Finite H] in
 theorem eq_one_iff {x : H} (hx : x ∈ Γ) : Q.φ ⟨x, hx⟩ = 1 ↔ x ∈ Z := by
   rw [← MonoidHom.mem_ker, Q.ker, Subgroup.mem_subgroupOf]
 
+omit [Finite H] in
 theorem eq_iff {x y : H} (hx : x ∈ Γ) (hy : y ∈ Γ) :
     Q.φ ⟨x, hx⟩ = Q.φ ⟨y, hy⟩ ↔ x⁻¹ * y ∈ Z := by
   rw [← Q.eq_one_iff (Γ.mul_mem (Γ.inv_mem hx) hy)]
@@ -31,6 +33,7 @@ theorem eq_iff {x y : H} (hx : x ∈ Γ) (hy : y ∈ Γ) :
 
 def pre (K : Subgroup G) : Subgroup H := (K.comap Q.φ).map Γ.subtype
 
+omit [Finite H] in
 theorem mem_pre_iff (K : Subgroup G) {x : H} :
     x ∈ Q.pre K ↔ ∃ hx : x ∈ Γ, Q.φ ⟨x, hx⟩ ∈ K := by
   constructor
@@ -39,16 +42,19 @@ theorem mem_pre_iff (K : Subgroup G) {x : H} :
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite H] in
 theorem pre_le (K : Subgroup G) : Q.pre K ≤ Γ := by
   intro x hx
   exact ((Q.mem_pre_iff K).mp hx).1
 
+omit [Finite H] in
 theorem Z_le_pre (K : Subgroup G) (hZ : Z ≤ Γ) : Z ≤ Q.pre K := by
   intro z hz
   refine (Q.mem_pre_iff K).mpr ⟨hZ hz, ?_⟩
   rw [(Q.eq_one_iff (hZ hz)).mpr hz]
   exact K.one_mem
 
+omit [Finite H] in
 theorem pre_subgroupOf (K : Subgroup G) : (Q.pre K).subgroupOf Γ = K.comap Q.φ := by
   ext g
   rw [Subgroup.mem_subgroupOf, Q.mem_pre_iff]
@@ -58,6 +64,7 @@ theorem pre_subgroupOf (K : Subgroup G) : (Q.pre K).subgroupOf Γ = K.comap Q.φ
   · intro h
     exact ⟨g.2, h⟩
 
+omit [Finite H] in
 theorem mem_Nor_iff (K : Subgroup G) (gq : G) :
     gq ∈ Nor K ↔ ∃ g : ↥Γ, Q.φ g = gq ∧ (g : H) ∈ Nor (Q.pre K) := by
   constructor
@@ -78,6 +85,7 @@ theorem mem_Nor_iff (K : Subgroup G) (gq : G) :
       exact h2
     exact h1
 
+omit [Finite H] in
 theorem pre_zpowers (hZ : Z ≤ Γ) {x : H} (hx : x ∈ Γ) :
     Q.pre (Subgroup.zpowers (Q.φ ⟨x, hx⟩)) = Subgroup.zpowers x ⊔ Z := by
   apply le_antisymm
@@ -141,30 +149,34 @@ namespace Quo
 variable {Γ Z : Subgroup H} {G : Type} [Group G] [Finite G] (Q : Quo Γ Z G)
 variable {b t c : H} {J' : Subgroup H} (D : QData Γ Z b t c J')
 
+omit [Finite G] [Finite H] in
 theorem orderOf_b : orderOf (Q.φ ⟨b, D.b_mem⟩) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · have : (⟨b, D.b_mem⟩ : ↥Γ) ^ 3 = 1 := Subtype.ext (by simpa using D.b3)
     rw [← map_pow, this, map_one]
   · intro h1
     exact D.b_nmem ((Q.eq_one_iff D.b_mem).mp h1)
 
+omit [Finite G] [Finite H] in
 theorem orderOf_t : orderOf (Q.φ ⟨t, D.t_mem⟩) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime
   · have : (⟨t, D.t_mem⟩ : ↥Γ) ^ 2 = 1 := Subtype.ext (by simpa [pow_two] using D.t2)
     rw [← map_pow, this, map_one]
   · intro h1
     exact D.t_nmem ((Q.eq_one_iff D.t_mem).mp h1)
 
+omit [Finite G] [Finite H] in
 theorem orderOf_c : orderOf (Q.φ ⟨c, D.c_mem⟩) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · have : (⟨c, D.c_mem⟩ : ↥Γ) ^ 3 = 1 := Subtype.ext (by simpa using D.c3)
     rw [← map_pow, this, map_one]
   · intro h1
     exact D.c_nmem ((Q.eq_one_iff D.c_mem).mp h1)
 
+omit [Finite H] [Finite G] in
 theorem tb_eq : Q.φ ⟨t, D.t_mem⟩ * Q.φ ⟨b, D.b_mem⟩ * (Q.φ ⟨t, D.t_mem⟩)⁻¹ =
     (Q.φ ⟨b, D.b_mem⟩)⁻¹ := by
   have h : (⟨t, D.t_mem⟩ : ↥Γ) * ⟨b, D.b_mem⟩ * (⟨t, D.t_mem⟩ : ↥Γ)⁻¹ =
@@ -175,6 +187,7 @@ theorem tb_eq : Q.φ ⟨t, D.t_mem⟩ * Q.φ ⟨b, D.b_mem⟩ * (Q.φ ⟨t, D.t_
 
 def Jq : Subgroup G := (J'.subgroupOf Γ).map Q.φ
 
+omit [Finite H] [Finite G] in
 theorem mem_Jq_iff {x : G} : x ∈ Q.Jq (J' := J') ↔ ∃ j : ↥Γ, (j : H) ∈ J' ∧ Q.φ j = x := by
   constructor
   · rintro ⟨j, hj, rfl⟩
@@ -182,10 +195,12 @@ theorem mem_Jq_iff {x : G} : x ∈ Q.Jq (J' := J') ↔ ∃ j : ↥Γ, (j : H) �
   · rintro ⟨j, hj, rfl⟩
     exact ⟨j, hj, rfl⟩
 
+omit [Finite H] [Finite G] in
 theorem φ_mem_Jq {j : H} (hj : j ∈ J') : Q.φ ⟨j, D.J'_le hj⟩ ∈ Q.Jq (J' := J') :=
   (Q.mem_Jq_iff).mpr ⟨⟨j, D.J'_le hj⟩, hj, rfl⟩
 
 include D in
+omit [Finite H] [Finite G] in
 theorem Jq_iso : Nonempty (↥(Q.Jq (J' := J')) ≃* Equiv.Perm (Fin 3)) := by
   obtain ⟨e⟩ := D.J'_iso
   set K : Subgroup ↥Γ := J'.subgroupOf Γ with hK
@@ -208,6 +223,7 @@ theorem Jq_iso : Nonempty (↥(Q.Jq (J' := J')) ≃* Equiv.Perm (Fin 3)) := by
   let e3 : ↥K ≃* ↥J' := Subgroup.subgroupOfEquivOfLe D.J'_le
   exact ⟨(e1.trans e2).symm.trans (e3.trans e)⟩
 
+omit [Finite H] [Finite G] in
 theorem Jq_cen_b : Q.Jq (J' := J') ≤ Cen (Q.φ ⟨b, D.b_mem⟩) := by
   rintro x hx
   obtain ⟨j, hj, rfl⟩ := (Q.mem_Jq_iff).mp hx
@@ -215,6 +231,7 @@ theorem Jq_cen_b : Q.Jq (J' := J') ≤ Cen (Q.φ ⟨b, D.b_mem⟩) := by
   congr 1
   exact Subtype.ext (D.J'_comm_b _ hj)
 
+omit [Finite H] [Finite G] in
 theorem Jq_cen_t : Q.Jq (J' := J') ≤ Cen (Q.φ ⟨t, D.t_mem⟩) := by
   rintro x hx
   obtain ⟨j, hj, rfl⟩ := (Q.mem_Jq_iff).mp hx
@@ -222,16 +239,19 @@ theorem Jq_cen_t : Q.Jq (J' := J') ≤ Cen (Q.φ ⟨t, D.t_mem⟩) := by
   congr 1
   exact Subtype.ext (D.J'_comm_t _ hj)
 
+omit [Finite G] [Finite H] in
 theorem φ_eq_of_mul_mem {x y : ↥Γ} {z : H} (hz : z ∈ Z) (h : (x : H) = (y : H) * z) :
     Q.φ x = Q.φ y := by
   have := (Q.eq_iff y.2 x.2).mpr (by rw [h]; simpa using hz)
   exact this.symm
 
+omit [Finite G] [Finite H] in
 theorem mem_Nor_b_iff (gq : G) :
     gq ∈ Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) ↔
       ∃ g : ↥Γ, Q.φ g = gq ∧ (g : H) ∈ Nor (Subgroup.zpowers b ⊔ Z) := by
   rw [Q.mem_Nor_iff, Q.pre_zpowers D.Z_le D.b_mem]
 
+omit [Finite H] [Finite G] in
 theorem φ_mem_closure {y : H} (hy : y ∈ Subgroup.closure ({b, t} : Set H)) :
     ∃ hΓ : y ∈ Γ, Q.φ ⟨y, hΓ⟩ ∈
       Subgroup.closure ({Q.φ ⟨b, D.b_mem⟩, Q.φ ⟨t, D.t_mem⟩} : Set G) := by
@@ -256,6 +276,7 @@ theorem φ_mem_closure {y : H} (hy : y ∈ Subgroup.closure ({b, t} : Set H)) :
     rw [this, map_inv]
     exact Subgroup.inv_mem _ hx'
 
+omit [Finite H] in
 theorem Nor_b_le_Nor_Jq :
     Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) ≤ Nor (Q.Jq (J' := J')) := by
   intro gq hgq
@@ -270,14 +291,17 @@ theorem Nor_b_le_Nor_Jq :
   rw [h1]
   exact Q.φ_mem_Jq D hj'
 
+omit [Finite H] [Finite G] in
 theorem bq_mem_Nor : Q.φ ⟨b, D.b_mem⟩ ∈ Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) :=
   Subgroup.le_normalizer (Subgroup.mem_zpowers _)
 
+omit [Finite H] in
 theorem tq_mem_Nor : Q.φ ⟨t, D.t_mem⟩ ∈ Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) := by
   refine mem_Nor_zpowers_of_conj ?_
   rw [Q.tb_eq D]
   exact Subgroup.inv_mem _ (Subgroup.mem_zpowers _)
 
+omit [Finite H] in
 theorem closure_Jq_le_Nor :
     Subgroup.closure ({Q.φ ⟨b, D.b_mem⟩, Q.φ ⟨t, D.t_mem⟩} : Set G) ⊔ Q.Jq (J' := J') ≤
       Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) := by
@@ -289,17 +313,19 @@ theorem closure_Jq_le_Nor :
   · intro x hx
     exact fs79_cen_le_nor_zpowers _ (Q.Jq_cen_b D hx)
 
+omit [Finite G] [Finite H] in
 theorem mem_Nor_x_iff (hZ : Z ≤ Γ) {x : H} (hx : x ∈ Γ) (gq : G) :
     gq ∈ Nor (Subgroup.zpowers (Q.φ ⟨x, hx⟩)) ↔
       ∃ g : ↥Γ, Q.φ g = gq ∧ (g : H) ∈ Nor (Subgroup.zpowers x ⊔ Z) := by
   rw [Q.mem_Nor_iff, Q.pre_zpowers hZ hx]
 
+omit [Finite G] [Finite H] in
 theorem image_le_Opp (hZ : Z ≤ Γ) {x : H} (hx : x ∈ Γ) (W : Subgroup H)
     (hW : W ≤ Γ ⊓ Nor (Subgroup.zpowers x ⊔ Z)) (hcop : Nat.Coprime 3 (Nat.card W))
     (hnorm : ∀ g ∈ Γ ⊓ Nor (Subgroup.zpowers x ⊔ Z), ∀ w ∈ W, ∃ w' ∈ W, ∃ z ∈ Z,
       g * w * g⁻¹ = w' * z) :
     (W.subgroupOf Γ).map Q.φ ≤ Opp 3 (Nor (Subgroup.zpowers (Q.φ ⟨x, hx⟩))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWΓ : W ≤ Γ := hW.trans inf_le_left
   refine L14.le_Opp_of_normalized ?_ ?_ ?_
   · rintro _ ⟨w, hw, rfl⟩
@@ -319,6 +345,7 @@ theorem image_le_Opp (hZ : Z ≤ Γ) {x : H} (hx : x ∈ Γ) (W : Subgroup H)
     rw [h2] at h1
     exact hcop.coprime_dvd_right h1
 
+omit [Finite H] in
 theorem setMul_b :
     setMul (Opp 3 (Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩))))
       (Subgroup.closure ({Q.φ ⟨b, D.b_mem⟩, Q.φ ⟨t, D.t_mem⟩} : Set G) ⊔ Q.Jq (J' := J')) =
@@ -343,6 +370,7 @@ theorem setMul_b :
         Subtype.ext (by simp [hgw, mul_assoc])
       rw [this, map_mul, map_mul, map_mul, (Q.eq_one_iff hzΓ).mpr hz, mul_one]
 
+omit [Finite G] [Finite H] in
 theorem setMul_c :
     setMul (Opp 3 (Nor (Subgroup.zpowers (Q.φ ⟨c, D.c_mem⟩))))
       (Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) ⊓ Nor (Subgroup.zpowers (Q.φ ⟨c, D.c_mem⟩))) =
@@ -365,6 +393,7 @@ theorem setMul_c :
     · have : g = ⟨w, hwΓ⟩ * ⟨n, hnΓ⟩ * ⟨z, hzΓ⟩ := Subtype.ext (by simpa using hgw)
       rw [this, map_mul, map_mul, (Q.eq_one_iff hzΓ).mpr hz, mul_one]
 
+omit [Finite G] in
 theorem no_two_quot (R : Subgroup G) (hR : IsPGroup 2 R)
     (hBR : Subgroup.closure ({Q.φ ⟨b, D.b_mem⟩, Q.φ ⟨c, D.c_mem⟩} : Set G) ≤ Nor R) :
     R = ⊥ := by
@@ -403,6 +432,7 @@ theorem no_two_quot (R : Subgroup G) (hR : IsPGroup 2 R)
   have := (Q.eq_one_iff g.2).mpr (hle hg)
   simpa using this
 
+omit [Finite H] [Finite G] in
 theorem φ_conj_zpow (g : ↥Γ) (k : ℤ) (hΓ : (g : H) * b ^ k * (g : H)⁻¹ ∈ Γ) :
     Q.φ ⟨(g : H) * b ^ k * (g : H)⁻¹, hΓ⟩ =
       Q.φ g * (Q.φ ⟨b, D.b_mem⟩) ^ k * (Q.φ g)⁻¹ := by
@@ -410,6 +440,7 @@ theorem φ_conj_zpow (g : ↥Γ) (k : ℤ) (hΓ : (g : H) * b ^ k * (g : H)⁻¹
     Subtype.ext (by simp)
   rw [this, map_mul, map_mul, map_zpow, map_inv]
 
+omit [Finite H] in
 theorem weak_quot (h : G)
     (hh : conjBy h (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩)) ≤
       Nor (Subgroup.zpowers (Q.φ ⟨b, D.b_mem⟩))) :
@@ -449,7 +480,7 @@ theorem weak_quot (h : G)
     have e : (MulAut.conj (Q.φ g)).toMonoidHom ((Q.φ ⟨b, D.b_mem⟩) ^ k) =
         (Q.φ g * Q.φ ⟨b, D.b_mem⟩ * (Q.φ g)⁻¹) ^ k := by
       have := map_zpow (MulAut.conj (Q.φ g)) (Q.φ ⟨b, D.b_mem⟩) k
-      simpa [MulAut.conj_apply] using this
+      simp [MulAut.conj_apply]
     rw [e]
     exact Subgroup.zpow_mem _ hconj1 k
   exact Subgroup.eq_of_le_of_card_ge hle (by
@@ -461,8 +492,8 @@ theorem odd_Opp_of_no_two {G : Type} [Group G] [Finite G] {A : Subgroup G} (hA :
     (hno : ∀ R : Subgroup G, IsPGroup 2 R → A ≤ Nor R → R = ⊥) :
     Odd (Nat.card (Opp 3 (⊤ : Subgroup G))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup G := Opp 3 (⊤ : Subgroup G) with hO
   by_contra hodd
   have h2dvd : 2 ∣ Nat.card O := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd)
@@ -472,7 +503,7 @@ theorem odd_Opp_of_no_two {G : Type} [Group G] [Finite G] {A : Subgroup G} (hA :
   have hOn : O.Normal := ⟨fun x hx g => by
     simpa using L14.Opp_conj_mem (p := 3) (H := (⊤ : Subgroup G)) (Subgroup.mem_top g) hx⟩
   have hAO : A ≤ Subgroup.normalizer (O : Set G) := by
-    haveI := hOn
+    have := hOn
     exact Subgroup.le_normalizer_of_normal
   obtain ⟨R, hRsyl, -, hAR⟩ := CFSG.ABGLocalTools.exists_invariant_isSylowOf_ge_of_coprime
     (q := 3) (r := 2) (A := A) (K := O) (P := ⊥) Nat.prime_three Nat.prime_two hA hAO h3dvd

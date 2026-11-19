@@ -40,9 +40,9 @@ theorem mem_signedPermGroupOn_of_mem_torusAut [CharP K 2]
     have h := hφπ (Pi.single k 1) k
     rw [hfix k hk, Pi.single_eq_same, mul_one, Pi.single_apply] at h
     by_cases hπk : π k = k
-    · rw [if_pos hπk] at h
+    · rw [ite_eq_left hπk] at h
       exact ⟨hπk, h.symm⟩
-    · rw [if_neg hπk] at h
+    · rw [ite_eq_right hπk] at h
       rcases hε k with h1 | h1 <;> rw [h1] at h <;> exact absurd h (by decide)
   exact PlaneRaw.mem_signedPermGroupOn_of_apply S φ π ε hε (fun k hk => (hkey k hk).1)
     (fun k hk => (hkey k hk).2) hφπ
@@ -170,6 +170,6 @@ theorem spZeroTorusAut_holds : SpZeroTorusAut := by
   · have h3 : 3 ≤ S.card := hgt
     rw [torusAut_ycode_zero_of_three_le hK hζ h3]
     dsimp only [PlaneRaw.normalizerOf]
-    rw [if_neg (by omega : S.card ≠ 2)]
+    rw [ite_eq_right (by omega : S.card ≠ 2)]
 
 end CFSG.StandardType.GGQ2Frame.SpBlocks

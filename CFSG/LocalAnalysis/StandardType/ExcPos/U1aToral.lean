@@ -75,7 +75,7 @@ theorem excU1a_toral
           intro g
           obtain ⟨a, ha⟩ := (show (g : X) ∈ ψ.range from by rw [h1]; exact g.2)
           exact ⟨a, Subtype.ext ha⟩
-        haveI : Group.IsPerfect (ggU .E6 n f).K := hKperf
+        have : Group.IsPerfect (ggU .E6 n f).K := hKperf
         exact Group.isPerfect_def.mp (Group.IsPerfect.ofSurjective
           (f := ψ.codRestrict G₀ (fun a => h1 ▸ ⟨a, rfl⟩)) hsurj)
       have hpres : GGPresentsG0 G₀ (ggU .E6 n f).D .E6 n f ψ :=

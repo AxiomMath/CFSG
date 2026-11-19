@@ -29,7 +29,7 @@ theorem map_pCore_two_normal {K : Subgroup G} [hK : K.Normal] :
 
 theorem pCore_two_residual_eq_bot [Finite G] (ho : pCore 2 G = ⊥) :
     pCore 2 ↥(pResidual 2 G) = ⊥ := by
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   have hR := map_pCore_two_normal (K := pResidual 2 G)
   have hle : (pCore 2 ↥(pResidual 2 G)).map (pResidual 2 G).subtype ≤ pCore 2 G :=
     le_sSup ⟨hR, IsPGroup.map (pCore_isPGroup (p := 2) (G := ↥(pResidual 2 G)))

@@ -15,7 +15,7 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 private theorem card_le_of_isPGroup_small [Finite K] (hK : Nat.card K = 4) {E : Type*}
     [AddCommGroup E] [Module K E] [Module.Finite K E] (hE : Module.finrank K E ≤ 2)
     (H : Subgroup (E ≃ₗ[K] E)) (hH : IsPGroup 3 H) : Nat.card H ≤ 3 ^ Module.finrank K E := by
-  haveI : Finite (E ≃ₗ[K] E) := finite_linearEquiv
+  have : Finite (E ≃ₗ[K] E) := finite_linearEquiv
   rcases (by omega : Module.finrank K E = 0 ∨ Module.finrank K E = 1 ∨ Module.finrank K E = 2)
     with h | h | h
   · have := card_le_of_isPGroup hK h H hH
@@ -41,8 +41,8 @@ private theorem card_le_of_nonab_small [Finite K] (hK : Nat.card K = 4) [FiniteD
     {g h : V ≃ₗ[K] V} (hg : g ∈ Q) (hh : h ∈ Q) (hg3 : g ^ 3 = 1) (hgh : g * h ≠ h * g) :
     Nat.card Q ≤ 3 ^ 4 := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
-  haveI : Finite (eig g 1 ≃ₗ[K] eig g 1) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (eig g 1 ≃ₗ[K] eig g 1) := finite_linearEquiv
   have hZ := scalarLike_scalars (V := V) hK
   obtain ⟨ω, hω3, hω1, hω⟩ := exists_omega hK (hQ.1 g hg h hh) hgh
   obtain ⟨C, hCQ, hCg, hCcard⟩ := exists_centralizer_of_good hZ hQ hg
@@ -102,7 +102,7 @@ theorem abelian_exp_three_of_card_le_nine [Finite K] (hK : Nat.card K = 4) [Fini
     (hcard : 3 ^ (max 5 (N - 2)) ≤ Nat.card Q) :
     (∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) ∧ ∀ x ∈ Q, x ^ 3 = 1 := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hZ := scalarLike_scalars (V := V) hK
   by_cases hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x
   · refine ⟨hab, ?_⟩

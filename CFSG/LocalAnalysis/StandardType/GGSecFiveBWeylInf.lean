@@ -845,10 +845,10 @@ private theorem equivFun_of_action_basis {n : ℕ} {U : Type} [AddCommGroup U] [
     by_cases h : σ k = k
     · exact h
     · exfalso
-      rw [if_neg h, mul_zero] at hcoordk
+      rw [ite_eq_right h, mul_zero] at hcoordk
       exact zero_ne_one hcoordk
   have hck : c k = 1 := by
-    rw [if_pos hσk, mul_one] at hcoordk
+    rw [ite_eq_left hσk, mul_one] at hcoordk
     exact hcoordk
   have hsum : g v = ∑ i, (f.equivFun v i * c i) • f (σ i) := by
     conv_lhs => rw [← f.sum_equivFun v]
@@ -880,7 +880,7 @@ private theorem exists_fixed_basis_of_refl_form {U : Type} [AddCommGroup U] [Mod
       rw [Fintype.card_fin]
       norm_num
     obtain ⟨k, hki⟩ := Fintype.exists_ne_of_one_lt_card hcard i
-    exact ⟨k, by rw [ZS.diagMap_apply_basis, if_neg hki]; simp⟩
+    exact ⟨k, by rw [ZS.diagMap_apply_basis, ite_eq_right hki]; simp⟩
   · have hk : ∃ k : Fin 4, k ≠ i ∧ k ≠ j := by
       by_contra h
       simp only [not_exists, not_and, not_not] at h

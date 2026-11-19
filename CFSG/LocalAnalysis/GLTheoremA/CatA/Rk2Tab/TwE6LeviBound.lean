@@ -76,10 +76,10 @@ private theorem card_le_pow_five_of_le_graphFixedParabolicLevi_twE6MaxD4
     (hE : E ≤ graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxD4)
     (hEel : CFSG.Open.IsElemAbelian p E) :
     Nat.card E ≤ p ^ 5 := by
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     have hn : 1 ≤ n * 2 := by
       have h2F : 2 ≤ Nat.card F := by
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         rw [Nat.card_eq_fintype_card]
         exact Fintype.one_lt_card (α := F)
       rcases Nat.eq_zero_or_pos n with h | h

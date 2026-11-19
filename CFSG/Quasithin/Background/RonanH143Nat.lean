@@ -214,10 +214,10 @@ theorem goodMH_tau :
   exact beta6_tau u
 
 def goodMHSub : Subgroup P24 where
-  carrier := {g | GoodMH g}
-  mul_mem' := fun {g h} hg hh => goodMH_mul hg hh
+  carrier := {_g | GoodMH _g}
+  mul_mem' := fun {_g _h} hg hh => goodMH_mul hg hh
   one_mem' := goodMH_one
-  inv_mem' := fun {g} hg => goodMH_inv hg
+  inv_mem' := fun {_g} hg => goodMH_inv hg
 
 def genMH : Subgroup P24 := Subgroup.closure ((fixO : Set P24) ∪ {x6Perm, tauPerm})
 

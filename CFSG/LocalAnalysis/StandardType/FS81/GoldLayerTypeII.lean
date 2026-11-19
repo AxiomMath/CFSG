@@ -24,6 +24,7 @@ open CFSG.Open CFSG.Goldschmidt
 
 variable {Y : Type} [Group Y] [Finite Y] {S : Sylow 2 Y} {B L : Subgroup Y}
 
+omit [Finite Y] in
 private theorem goldLayerC_inf_ne_bot (hF : G310.CompFacts B L) : B ⊓ L ≠ ⊥ := by
   intro hbot
   obtain ⟨x, hx, y, -, hxy⟩ := hF.noncentral
@@ -61,7 +62,7 @@ private theorem goldLayerC_sylow_inf_eq
     SStarTransport.isSylowIn_of_sylow inf_le_right P hP
   refine ⟨hBsyl, ?_⟩
   have hBle : B ⊓ L ≤ (S : Subgroup Y) ⊓ L := inf_le_inf_right L D.hyp.le
-  exact hBsyl.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) hBle
+  exact hBsyl.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) hBle
 
 theorem goldLayer_inf_eq_of_typeII
     (D : GoldLayerFacts Y S B) (hL : IsComponentOf L ⊤)
@@ -69,7 +70,7 @@ theorem goldLayer_inf_eq_of_typeII
     (P : Subgroup Y) ⊓ L = (S : Subgroup Y) ⊓ L := by
   obtain ⟨hBsyl, hST⟩ := goldLayerC_sylow_inf_eq D hL hF hII
   have hPle : (P : Subgroup Y) ⊓ L ≤ (P : Subgroup Y) := inf_le_left
-  have hPp : IsPGroup 2 ((P : Subgroup Y) ⊓ L : Subgroup Y) := P.isPGroup'.to_le hPle
+  have hPp : IsPGroup 2 ((P : Subgroup Y) ⊓ L : Subgroup Y) := P.isPGroup.to_le hPle
   have hBleP : B ⊓ L ≤ (P : Subgroup Y) ⊓ L := inf_le_inf_right L hBP
   exact (hBsyl.2.2 _ inf_le_right hPp hBleP).trans hST.symm
 
@@ -98,8 +99,8 @@ theorem goldLayer_exists_not_le_of_typeII
     rw [hTBeq] at hzT
     exact Subgroup.mem_subgroupOf.mpr hzT.1
   have hPcomm : IsMulCommutative (P : Subgroup L) := by
-    haveI : IsMulCommutative B := D.hyp.comm
-    haveI : IsMulCommutative (B.subgroupOf L) :=
+    have : IsMulCommutative B := D.hyp.comm
+    have : IsMulCommutative (B.subgroupOf L) :=
       Subgroup.subgroupOf_isMulCommutative (K := L) (H := B)
     exact isMulCommutative_anti (t := B.subgroupOf L) hPleB
   have hN_le : Subgroup.normalizer ((P : Subgroup L) : Set L) ≤ (P : Subgroup L) := by
@@ -124,11 +125,11 @@ theorem goldLayer_exists_not_le_of_typeII
       Subgroup.centralizer ((P : Subgroup L) : Set L) :=
     hN_le.trans hPcent
   have hφ : MonoidHom.transferSylow P hnorm = 1 := by
-    haveI : Group.IsPerfect L := ⟨hL.2.2.1⟩
+    have : Group.IsPerfect L := ⟨hL.2.2.1⟩
     have : IsMulCommutative (P : Subgroup L) := hPcomm
-    haveI : Group.IsPerfect (MonoidHom.transferSylow P hnorm).range :=
+    have : Group.IsPerfect (MonoidHom.transferSylow P hnorm).range :=
       Group.IsPerfect.range (MonoidHom.transferSylow P hnorm)
-    haveI : Subsingleton (MonoidHom.transferSylow P hnorm).range :=
+    have : Subsingleton (MonoidHom.transferSylow P hnorm).range :=
       Group.IsPerfect.subsingleton_of_isMulCommutative
     ext g
     have hsub := Subsingleton.elim

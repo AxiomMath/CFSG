@@ -43,8 +43,8 @@ theorem Hyp.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hm : m ≤ 1)
     refine ⟨m + 6 + 2, (PP ψ (T₀ : Subgroup (Perm (Fin (m + 6 + 2))))).subgroupOf (layerIn G),
       ((T₀ : Subgroup (Perm (Fin (m + 6 + 2)))) ⊓ alternatingGroup (Fin (m + 6 + 2))).subgroupOf
         (alternatingGroup (Fin (m + 6 + 2))), by omega,
-      ((T₀.isPGroup'.to_inf_left).map _).comap_subtype, h.P_not_dvd hK2 h25 T₀ hzT hyT,
-      T₀.isPGroup'.to_inf_left.comap_subtype, ?_, ?_⟩
+      ((T₀.isPGroup.to_inf_left).map _).comap_subtype, h.P_not_dvd hK2 h25 T₀ hzT hyT,
+      T₀.isPGroup.to_inf_left.comap_subtype, ?_, ?_⟩
     · show ¬ 2 ∣ ((T₀ : Subgroup (Perm (Fin (m + 6 + 2)))) ⊓
         alternatingGroup (Fin (m + 6 + 2))).relIndex (alternatingGroup (Fin (m + 6 + 2)))
       rw [relIndex_inf_alt_eq _ hzT]

@@ -34,14 +34,14 @@ private def ct_tyd_embE8 : Fin 5 → Fin 8 := ![1, 3, 4, 5, 0]
 private theorem ct_tyd_A_three (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
     (CoxeterMatrix.A m) i j = 3 ↔ (SimpleGraph.pathGraph m).Adj i j := by
   rw [CoxeterMatrix.A]
-  simp only [Matrix.of_apply, if_neg hij, SimpleGraph.pathGraph_adj]
+  simp only [Matrix.of_apply, ite_eq_right hij, SimpleGraph.pathGraph_adj]
   split_ifs <;> omega
 
 private theorem ct_tyd_A_two (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
     (CoxeterMatrix.A m) i j = 2 ↔ ¬ (SimpleGraph.pathGraph m).Adj i j := by
   have h23 : (CoxeterMatrix.A m) i j = 2 ∨ (CoxeterMatrix.A m) i j = 3 := by
     rw [CoxeterMatrix.A]
-    simp only [Matrix.of_apply, if_neg hij]
+    simp only [Matrix.of_apply, ite_eq_right hij]
     split_ifs <;> omega
   rw [← ct_tyd_A_three m i j hij]
   constructor
@@ -54,29 +54,29 @@ private theorem ct_tyd_A_two (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
 private theorem ct_tyd_D_ne (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
     CartanMatrix.D n i j ≠ 0 ↔ ggOrthAdjFork n i j := by
   rw [CartanMatrix.D]
-  simp only [Matrix.of_apply, if_neg hij]
+  simp only [Matrix.of_apply, ite_eq_right hij]
   rw [ggOrthAdjFork]
   split_ifs <;> omega
 
 private theorem ct_tyd_D_three (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
     (ggCoxeterMatrixD n) i j = 3 ↔ ggOrthAdjFork n i j := by
-  rw [ggCoxeterMatrixD_apply, if_neg hij]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
   by_cases hD : CartanMatrix.D n i j = 0
-  · rw [if_pos hD]
+  · rw [ite_eq_left hD]
     have hne : ¬ ggOrthAdjFork n i j := by rw [← ct_tyd_D_ne n i j hij]; exact fun h => h hD
     simp [hne]
-  · rw [if_neg hD]
+  · rw [ite_eq_right hD]
     have hne : ggOrthAdjFork n i j := (ct_tyd_D_ne n i j hij).mp hD
     simp [hne]
 
 private theorem ct_tyd_D_two (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
     (ggCoxeterMatrixD n) i j = 2 ↔ ¬ ggOrthAdjFork n i j := by
-  rw [ggCoxeterMatrixD_apply, if_neg hij]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
   by_cases hD : CartanMatrix.D n i j = 0
-  · rw [if_pos hD]
+  · rw [ite_eq_left hD]
     have hne : ¬ ggOrthAdjFork n i j := by rw [← ct_tyd_D_ne n i j hij]; exact fun h => h hD
     simp [hne]
-  · rw [if_neg hD]
+  · rw [ite_eq_right hD]
     have hne : ggOrthAdjFork n i j := (ct_tyd_D_ne n i j hij).mp hD
     simp [hne]
 

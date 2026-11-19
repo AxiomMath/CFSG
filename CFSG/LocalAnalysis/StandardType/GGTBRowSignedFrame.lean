@@ -26,7 +26,7 @@ theorem ggWeylFrame_of_signedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       IsSignedPerm ⇑((MulAut.congr Θ).symm (ggConjAut A hn))) :
     GGWeylFrame p A (CoxeterMatrix.B k) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk2 : 2 ≤ k := by omega
   have hk1 : 1 ≤ k := by omega
   have hdata : ∀ i : Fin k, ∃ (n : L')
@@ -38,12 +38,12 @@ theorem ggWeylFrame_of_signedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       refine ⟨m, hm, ?_⟩
       rw [show ggSpSigned_spReflAut p k i =
           SpCoord.permAut (Equiv.swap i ⟨i.val + 1, h⟩) from by
-        simp only [ggSpSigned_spReflAut, dif_pos h]]
+        simp only [ggSpSigned_spReflAut, dite_eq_left h]]
       exact he
     · obtain ⟨m, hm, he⟩ := hsgn i
       refine ⟨m, hm, ?_⟩
       rw [show ggSpSigned_spReflAut p k i = SpCoord.sgnAut i from by
-        simp only [ggSpSigned_spReflAut, dif_neg h]]
+        simp only [ggSpSigned_spReflAut, dite_eq_right h]]
       exact he
   choose n hn heq using hdata
   have hweyl : ∀ i, GGTorusWeylElt p A (n i) := fun i => hW (n i) (hn i)
@@ -53,7 +53,7 @@ theorem ggWeylFrame_of_signedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     by_cases h : i.val + 1 < k
     · rw [show ggSpSigned_spReflAut p k i =
           SpCoord.permAut (Equiv.swap i ⟨i.val + 1, h⟩) from by
-        simp only [ggSpSigned_spReflAut, dif_pos h]]
+        simp only [ggSpSigned_spReflAut, dite_eq_left h]]
       have hne : i ≠ (⟨i.val + 1, h⟩ : Fin k) := by
         intro hh
         have : i.val = i.val + 1 := congrArg Fin.val hh
@@ -62,7 +62,7 @@ theorem ggWeylFrame_of_signedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (SpCoord.permAut_swap_sq i ⟨i.val + 1, h⟩)
         (SpCoord.card_fix_permAut_swap hp hp2 hne)
     · rw [show ggSpSigned_spReflAut p k i = SpCoord.sgnAut i from by
-        simp only [ggSpSigned_spReflAut, dif_neg h]]
+        simp only [ggSpSigned_spReflAut, dite_eq_right h]]
       exact ggSpSigned_ggIsReflection_congr hp hp2 Θ
         (SpCoord.sgnAut_sq i) (SpCoord.card_fix_sgnAut hp hp2 i)
   obtain ⟨e0, he0⟩ := ggRC_coxeterB_equiv_spSigned (p := p) hp2 hk2

@@ -22,12 +22,12 @@ theorem kf7_altTen_case {p : ℕ} (hp : p.Prime) (hp5 : p = 5)
       ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → ∀ (S : Type) [Group S],
         IsSimpleGroup S → ∀ f : ↥Y →* S, Function.Surjective f → IsAlt S 5 := by
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := genFittingFStar X with hKdef
   obtain ⟨hKs, -, hKn, hKC, ⟨P, T, hPN, hPK, hT, hle, hne⟩⟩ := kf7_setup hp (by omega) hO hLN hKL hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLsimple : IsSimpleGroup ↥L := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
       alternatingGroup.isSimpleGroup (by simp)
     exact hshape.some.isSimpleGroup
   have hKLeqL : K = L := eq_of_le_of_normal_of_isSimpleGroup hKL hKs hLsimple
@@ -36,7 +36,7 @@ theorem kf7_altTen_case {p : ℕ} (hp : p.Prime) (hp5 : p = 5)
   obtain ⟨-, -, h60⟩ := altTen_alternative (X := X) hKC e T hle hne
   refine ⟨rfl, hshape, ?_⟩
   intro Y hYN hYperf S _ hS f hf
-  haveI : Finite S := Finite.of_surjective f hf
+  have : Finite S := Finite.of_surjective f hf
   have htopY : (⊤ : Subgroup ↥Y).map Y.subtype = Y := by
     simpa using Subgroup.subgroupOf_map_subtype (H := (⊤ : Subgroup X)) (K := Y)
   have hperf : ⁅(⊤ : Subgroup ↥Y), (⊤ : Subgroup ↥Y)⁆ = ⊤ := by

@@ -83,7 +83,8 @@ theorem pairAt_facts {M : ℕ → ℕ → ℕ} {n : ℕ} {V CM PR : ℕ → ℕ}
 
 end Facts
 
-theorem uni_of_checks {n : ℕ} (hn : n ≤ 255) {M : ℕ → ℕ → ℕ} {one : ℕ} {enc : G → ℕ}
+omit [DecidableEq G] in
+theorem uni_of_checks {n : ℕ} (_hn : n ≤ 255) {M : ℕ → ℕ → ℕ} {one : ℕ} {enc : G → ℕ}
     (henc : ClosEnc enc M one) (v : ℕ → G) {V CM PR : ℕ → ℕ} {ncw : ℕ → ℕ → ℕ → Bool}
     (hV : ∀ i < n, enc (v i) = V i) {W : ℕ}
     (hncw : ∀ x y : G, ∀ w < W, ncw (enc x) (enc y) w = true → x * y ≠ y * x)
@@ -219,7 +220,7 @@ theorem prodW_testBit (prk elp szp acc i : ℕ) :
     (prodW prk elp szp acc).testBit i = true ↔ acc.testBit i = true ∨ ∃ t < szp,
       ((fld prk (8 * fld elp (8 * t) 255) 255 <<< (8 * (szp + 1 + t))) |||
         (1 <<< (512 + fld prk (8 * fld elp (8 * t) 255) 255))).testBit i = true :=
-  rec_or_testBit acc _ _ (fun t x => by simp only [letN_eq] <;> rfl) i szp
+  rec_or_testBit acc _ _ (fun t x => by simp only [letN_eq]; rfl) i szp
 
 theorem covW_testBit (NF : ℕ) (REC : ℕ → ℕ) (mk sz ch nc i : ℕ) :
     (covW NF REC mk sz ch nc).testBit i = true ↔ (0 : ℕ).testBit i = true ∨ ∃ t < nc,
@@ -227,7 +228,7 @@ theorem covW_testBit (NF : ℕ) (REC : ℕ → ℕ) (mk sz ch nc i : ℕ) :
         (andB (Nat.blt (fld ch (16 * t) 65535) NF)
           (andB (Nat.beq (mk &&& fld (REC (fld ch (16 * t) 65535)) 64 m256) mk)
             (Nat.beq (fld (REC (fld ch (16 * t) 65535)) 24 255) (sz + sz + 1))))).testBit i = true :=
-  rec_or_testBit 0 _ _ (fun t x => by simp only [letN_eq] <;> rfl) i nc
+  rec_or_testBit 0 _ _ (fun t x => by simp only [letN_eq]; rfl) i nc
 
 theorem ea_add_eq_xor : ∀ x y : ℕ, x &&& y = 0 → x + y = x ^^^ y := by
   intro x
@@ -498,15 +499,15 @@ theorem recs_of_checks {n NF : ℕ} (hn : n ≤ 255) (v : ℕ → G) {REC CM PR 
     · rintro (rfl | ⟨t, ht, rfl⟩ | ⟨_, ⟨s, hs, rfl⟩, rfl⟩)
       · refine ⟨recSz REC (recP REC f), by omega, ?_⟩
         have e : recEnt REC f _ = _ := hbytes _ (show recSz REC (recP REC f) < recSz REC f by omega)
-        rw [e, if_neg (Nat.lt_irrefl _), if_pos rfl]
+        rw [e, ite_eq_right (Nat.lt_irrefl _), ite_eq_left rfl]
       · refine ⟨t, by omega, ?_⟩
         have e : recEnt REC f t = _ := hbytes t (by omega)
-        rw [e, if_pos ht]
+        rw [e, ite_eq_left ht]
         rfl
       · refine ⟨recSz REC (recP REC f) + 1 + s, by omega, ?_⟩
         have e : recEnt REC f _ = _ := hbytes _
           (show recSz REC (recP REC f) + 1 + s < recSz REC f by omega)
-        rw [e, if_neg (by omega), if_neg (by omega),
+        rw [e, ite_eq_right (by omega), ite_eq_right (by omega),
           show recSz REC (recP REC f) + 1 + s - recSz REC (recP REC f) - 1 = s by omega]
   have hinv : ∀ f < NF, (∀ x, (fld (REC f) 64 m256).testBit x = true ↔ x ∈ recS REC f) ∧
       REC f >>> 576 < 2 ^ (8 * recSz REC f) := by

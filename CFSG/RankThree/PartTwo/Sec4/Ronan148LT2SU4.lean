@@ -91,7 +91,7 @@ theorem card_SU4_eq_mod_one {a m : ℕ} (hm : ¬ 3 ∣ m) (hpm : p - 1 = 3 ^ (a 
 
 theorem comm_of_isPGroup_SU4_mod_one (hp : p % 3 = 1) (P : Subgroup (SU4 p))
     (hP : IsPGroup 3 P) : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp2 : 2 ≤ p := (Fact.out : p.Prime).two_le
   obtain ⟨a, m, hm, hpm⟩ := exists_three_pow_succ (n := p - 1) (by omega) (by omega)
   obtain ⟨ζ, hζo⟩ := exists_orderOf_eq_of_dvd (F := FU p) (d := 3 ^ (a + 1)) (by
@@ -118,7 +118,7 @@ theorem comm_of_isPGroup_SU4_mod_one (hp : p % 3 = 1) (P : Subgroup (SU4 p))
   have hΨ : Function.Injective Ψ := (equivStatedSU hF 4).injective.comp fun x y h =>
     splitHom_injective hζ hζo (congrArg Subtype.val h)
   set T := Ψ.range with hT
-  haveI : IsMulCommutative T := ⟨⟨by
+  have : IsMulCommutative T := ⟨⟨by
     rintro ⟨_, x, rfl⟩ ⟨_, y, rfl⟩
     apply Subtype.ext
     change Ψ x * Ψ y = Ψ y * Ψ x
@@ -144,7 +144,7 @@ section Rows
 omit [Fact p.Prime] in
 theorem kT2_four_SU_mod_one (p : ℕ) [Fact p.Prime] (hp : p % 3 = 1) :
     RowOf425 (projSU 4 p 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine rowOf425_of_noCQ' (noCC425_of_abelian_sylow ?_)
   rw [← CFSG.RankThree.PartOne.projImage_statedSU_eq_projSU 4 p 1]
   exact comm_sylow_projImage fun P hP => comm_of_isPGroup_SU4_mod_one hp P hP

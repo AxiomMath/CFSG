@@ -10,18 +10,18 @@ namespace CFSG.OddTranspositions.PartThree.Nine
 
 theorem isMulCommutative_of_two_elementary_and_cyclic_image {G : Type*} [Group G] [Finite G]
     {S V U R A B X : Subgroup G} {u : G} {q : ℕ} {Y : Type*} [Group Y] [Finite Y]
-    (hq : 1 < q) (hVS : V ≤ S) (hUV : U ≤ V) (huS : u ∈ S) (hu2 : u * u = 1)
+    (hq : 1 < q) (hVS : V ≤ S) (_hUV : U ≤ V) (huS : u ∈ S) (_hu2 : u * u = 1)
     (hUc : S ≤ Subgroup.centralizer (U : Set G)) (hSq : ∀ s ∈ S, s * s ∈ U)
     (hR : R = V ⊓ Subgroup.centralizer ({u} : Set G))
-    (hUcard : Nat.card U = q) (hRcard : Nat.card R = q ^ 2)
+    (hUcard : Nat.card U = q) (_hRcard : Nat.card R = q ^ 2)
     (hRI : ∀ r ∈ R, r * r = 1 → r ∈ U)
     (hAB : A ⊔ B = V) (hAiB : A ⊓ B = U)
     (hA2 : ∀ a ∈ A, a * a = 1) (hB2 : ∀ b ∈ B, b * b = 1)
     (hAcard : Nat.card A = q ^ 2) (hBcard : Nat.card B = q ^ 2)
     (hI : ∀ v ∈ V, v * v = 1 → v ∈ A ∨ v ∈ B)
-    (hXV : X ≤ Subgroup.normalizer (V : Set G)) (hXU : X ≤ Subgroup.normalizer (U : Set G))
+    (hXV : X ≤ Subgroup.normalizer (V : Set G)) (_hXU : X ≤ Subgroup.normalizer (U : Set G))
     (hXu : X ≤ Subgroup.centralizer ({u} : Set G))
-    (ρ : X →* Y) (hρ : Function.Surjective ρ) (hYcyc : IsCyclic Y)
+    (ρ : X →* Y) (_hρ : Function.Surjective ρ) (hYcyc : IsCyclic Y)
     (hYodd : Odd (Nat.card Y))
     (hker : ∀ x : X, ρ x = 1 → (x : G) ∈ Subgroup.centralizer (U : Set G) ∧
       ∀ v ∈ V, v⁻¹ * ((x : G) * v * (x : G)⁻¹) ∈ U)

@@ -144,7 +144,7 @@ theorem s16h_e3_CycTwoCoreA_le_autSub [Finite X] [Finite (MulAut X)]
       have hne : m % 3 ≠ 0 := fun h => hm3 (Nat.dvd_iff_mod_eq_zero.mpr h)
       omega
     have hmul3 : m * m % 3 = 1 := by
-      rcases hm3mod with h | h <;> rw [Nat.mul_mod, h] <;> norm_num
+      rcases hm3mod with h | h <;> rw [Nat.mul_mod, h]
     let n : MulAut X := (n₀ : MulAut X) ^ (m * m)
     have hN : n ∈ s16h_CycN Mb z := (s16h_CycN Mb z).pow_mem n₀.2 (m * m)
     have h3n : ∃ k : ℕ, orderOf n = 3 ^ k := by

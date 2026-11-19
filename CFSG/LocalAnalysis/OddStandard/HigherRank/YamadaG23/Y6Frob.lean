@@ -21,8 +21,8 @@ private lemma frob18_card (a b : ℕ) (h : a * b = 18) (ha : 1 < a) (hb : 1 < b)
 theorem y6_frob18_no_normal_two {Φ : Type} [Group Φ] (h : IsFrobeniusOfOrder 18 Φ)
     (P : Subgroup Φ) (hP : P.Normal) (hP2 : IsPGroup 2 ↥P) : P = ⊥ := by
   obtain ⟨hcard, W, D, hWn, hsup, hinf, hWne, hDne, hfree⟩ := h
-  haveI : W.Normal := hWn
-  haveI : Finite Φ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : W.Normal := hWn
+  have : Finite Φ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hmul : ((W : Set Φ) * (D : Set Φ)) = Set.univ := by
     rw [← Subgroup.normal_mul W D, hsup]
     rfl
@@ -59,7 +59,7 @@ theorem y6_frob18_no_normal_two {Φ : Type} [Group Φ] (h : IsFrobeniusOfOrder 1
       norm_num at hprod
     omega
   obtain ⟨hW9, hD2⟩ := frob18_card _ _ hprod hW1 hD1 hdvdD
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hdvd18 : Nat.card ↥P ∣ 18 := by
     have := Subgroup.card_subgroup_dvd_card P
     rwa [hcard] at this
@@ -112,11 +112,11 @@ theorem y6_frob18_no_normal_two {Φ : Type} [Group Φ] (h : IsFrobeniusOfOrder 1
     have hd_ne : d ≠ 1 := by
       intro hd1
       exact hi_notin_W (by rw [← hwd, hd1, mul_one]; exact hwW)
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hcommW : ∀ a b : ↥W, a * b = b * a := fun a b =>
       (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
         (by rw [hW9]; norm_num)).is_comm.comm a b
-    haveI : Nontrivial ↥W := (Finite.one_lt_card_iff_nontrivial).mp hW1
+    have : Nontrivial ↥W := (Finite.one_lt_card_iff_nontrivial).mp hW1
     obtain ⟨x, hx_ne⟩ := exists_ne (1 : ↥W)
     have hwx : w * (x : Φ) = (x : Φ) * w :=
       congrArg Subtype.val (hcommW ⟨w, hwW⟩ x)

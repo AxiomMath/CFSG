@@ -120,7 +120,7 @@ private lemma l48gQ_quasisimple {L' R : Type} [Group L'] [Group R] (ψ : L' →*
     have hy : (y : R) ∈ (⁅Q, Q⁆).map ψ := by rw [hJmap]; exact y.2
     obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩
-  haveI : Nontrivial ↥S := hsimple.toNontrivial
+  have : Nontrivial ↥S := hsimple.toNontrivial
   have hJnontrivial : Nontrivial ↥(⁅Q, Q⁆) := Function.Surjective.nontrivial hf0
   have hJperfect : Group.IsPerfect ↥(⁅Q, Q⁆) := Subgroup.isPerfect_iff.mpr hJperf
   have hker0 : f0.ker ≤ Subgroup.center ↥(⁅Q, Q⁆) := by
@@ -138,9 +138,9 @@ private lemma l48gQ_quasisimple {L' R : Type} [Group L'] [Group R] (ψ : L' →*
   have hgw := CFSG.GorensteinWalter.isQuasisimple_of_perfect_of_ker_le_center_of_surjective_simple
     f0 hf0 hJnontrivial hJperfect hsimple hker0
   have hquotSimple : IsSimpleGroup (↥(⁅Q, Q⁆) ⧸ Subgroup.center ↥(⁅Q, Q⁆)) := hgw.2.2
-  haveI : Nontrivial (↥(⁅Q, Q⁆) ⧸ Subgroup.center ↥(⁅Q, Q⁆)) := hquotSimple.toNontrivial
-  haveI : Group.IsPerfect (↥(⁅Q, Q⁆) ⧸ Subgroup.center ↥(⁅Q, Q⁆)) := by
-    haveI : Group.IsPerfect ↥(⁅Q, Q⁆) := hJperfect
+  have : Nontrivial (↥(⁅Q, Q⁆) ⧸ Subgroup.center ↥(⁅Q, Q⁆)) := hquotSimple.toNontrivial
+  have : Group.IsPerfect (↥(⁅Q, Q⁆) ⧸ Subgroup.center ↥(⁅Q, Q⁆)) := by
+    have : Group.IsPerfect ↥(⁅Q, Q⁆) := hJperfect
     exact Group.IsPerfect.ofSurjective
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(⁅Q, Q⁆)))
   refine ⟨hJperfect, hquotSimple, ?_⟩

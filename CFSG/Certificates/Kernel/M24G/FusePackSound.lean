@@ -65,7 +65,7 @@ theorem duadV_lt32 {t : Array Nat} (ht : DuadV t) : ∀ x ∈ t.toList, x < 32 :
 theorem key_pkL {t : Array Nat} (ht : DuadV t) : Native.kzeroKey t = pkL t.toList.reverse := by
   rw [kzeroKey_eq]
   unfold kzeroKeyF
-  rw [if_pos ht.1, ← foldl_rev _ (fun x hx => duadV_lt32 ht x (List.mem_reverse.1 hx)),
+  rw [ite_eq_left ht.1, ← foldl_rev _ (fun x hx => duadV_lt32 ht x (List.mem_reverse.1 hx)),
     List.reverse_reverse]
 
 theorem laneP_key {t : Array Nat} (ht : DuadV t) {j : Nat} (hj : j < 24) :

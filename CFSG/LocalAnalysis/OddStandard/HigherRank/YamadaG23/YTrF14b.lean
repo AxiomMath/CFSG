@@ -15,11 +15,13 @@ open scoped commutatorElement
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_closure_pair (x y : Γ₁) :
     closure ({f x, f y} : Set Γ₂) = (closure ({x, y} : Set Γ₁)).map f := by
   rw [MonoidHom.map_closure]
   simp
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem f14b_map_iff (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (gf.map f).F14b ↔ gf.F14b := by
   have hS : (gf.map f).S = gf.S.map f := GFrame.map_S f gf

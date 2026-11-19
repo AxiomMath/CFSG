@@ -37,7 +37,7 @@ private theorem u9_alt_absurd {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
     (hNA : I2018U38NotAlt) {n : ℕ} (hn : 5 ≤ n) (eS : S ≃* alternatingGroup (Fin n)) : False := by
   by_cases hα1 : α = 1
   · rw [hα1, fixSubgroup_one_eq_top] at hI
-    haveI := hs
+    have := hs
     obtain ⟨eT⟩ := chevQ_pSimple_top_equiv Nat.prime_three hna hI
     exact hNA (PSimple 3 I) hU n hn ⟨eT.trans eS⟩
   · have hβ : (MulAut.congr eS) α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]

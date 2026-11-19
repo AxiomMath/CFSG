@@ -30,17 +30,17 @@ theorem smith24E3UUniform_of_inputs (h34 : Stroth34Statement)
     have hf0 : f = 0 := by omega
     rw [hf0, pow_zero] at hf
     omega
-  haveI : CharP K 2 := charP_two_of_card_eq hf1 (hKcard.trans hf)
+  have : CharP K 2 := charP_two_of_card_eq hf1 (hKcard.trans hf)
   obtain ⟨t, -, hQ21, -, hN, F, _, _, hFcard, ⟨θ⟩⟩ := id h3U
-  haveI := hN
+  have := hN
   have hF2 : Nat.card F = (2 ^ f) ^ 2 := by rw [hFcard, hf]
-  haveI : CharP F 2 := charP_two_of_card_eq (n := 2 * f) (by omega) (by rw [hF2, ← pow_mul, mul_comm])
+  have : CharP F 2 := charP_two_of_card_eq (n := 2 * f) (by omega) (by rw [hF2, ← pow_mul, mul_comm])
   have hσ : IsUnitaryInvolution (unitaryInvolution F 2 f) := isUnitaryInvolution_unitaryInvolution hF2
   have hFσ : Nat.card (Fσ (unitaryInvolution F 2 f)) = 2 ^ f := card_Fσ_eq hF2
   have hFK : Nat.card (Fσ (unitaryInvolution F 2 f)) = Nat.card K := by rw [hFσ, hKcard, hf]
   have hFK2 : Nat.card F = Nat.card K ^ 2 := by rw [hF2, hKcard, hf]
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite (Fσ (unitaryInvolution F 2 f))
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite (Fσ (unitaryInvolution F 2 f))
   have hKK' : Fintype.card K = Fintype.card (Fσ (unitaryInvolution F 2 f)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hFK.symm

@@ -187,7 +187,7 @@ theorem D1CaseTwoDataAt.star_core (hAut : KFactCycAut) (hS : KFactSeitzCyc)
         have h1 : (d1StarPsi p hCHs) ⟨a, hRA a.2.1⟩ = (d1StarPsi p hCHs) ⟨b, hRA b.2.1⟩ :=
           congrArg Subtype.val hab
         have hpg : IsPGroup p ((Rbars : Subgroup _) ⊓ L' : Subgroup _) :=
-          Rbars.isPGroup'.to_le inf_le_left
+          Rbars.isPGroup.to_le inf_le_left
         obtain ⟨k, hk⟩ := hpg (a⁻¹ * b)
         have h2 := hinjp ⟨a, hRA a.2.1⟩ ⟨b, hRA b.2.1⟩ ⟨k, by
           apply Subtype.ext

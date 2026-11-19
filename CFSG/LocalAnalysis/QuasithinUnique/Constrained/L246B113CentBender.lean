@@ -150,9 +150,9 @@ theorem sylowAutTrivial_of_bender {X : Type} [Group X] [Finite X] (hB : fusionIs
   intro Q α hα hfix
   obtain ⟨q, _, hq4, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hsup⟩, -, -, -⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hreg := regular_of_borel (isSimpleBenderGroup_of_fusion hB) Q hsolvN
-  exact aut_eq_one_of_regular Q.isPGroup' hSE.1 (fun a b ha hb => by
+  exact aut_eq_one_of_regular Q.isPGroup hSE.1 (fun a b ha hb => by
     obtain ⟨⟨r, hr⟩, hrb, -⟩ := hreg ha hb
     exact ⟨r, hr, hrb⟩) α hα hfix
 

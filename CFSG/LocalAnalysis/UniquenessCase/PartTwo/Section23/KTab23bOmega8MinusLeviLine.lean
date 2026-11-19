@@ -15,13 +15,13 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 theorem omegaMinus8Line_t3H (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {m : ℕ}
     (hK : Nat.card K = 2 ^ m) :
     OmegaMinus8Line (Multiplicative (T3V K)) (T3H K b c) m := by
-  letI : MulDistribMulAction ↥(T3H K b c) (Multiplicative (T3V K)) :=
+  let : MulDistribMulAction ↥(T3H K b c) (Multiplicative (T3V K)) :=
     MulDistribMulAction.compHom (Multiplicative (T3V K)) (T3H K b c).subtype
-  letI : MulAction ↥(T3H K b c) (Multiplicative (T3V K)) :=
+  let : MulAction ↥(T3H K b c) (Multiplicative (T3V K)) :=
     MulAction.compHom (Multiplicative (T3V K)) (T3H K b c).subtype
-  letI : MulAction ↥(T3H K b c) (Set (Multiplicative (T3V K))) := Set.mulActionSet
+  let : MulAction ↥(T3H K b c) (Set (Multiplicative (T3V K))) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S (Multiplicative (T3V K)) :=
+  let : MulDistribMulAction ↥S (Multiplicative (T3V K)) :=
     MulDistribMulAction.compHom (Multiplicative (T3V K))
       ((T3H K b c).subtype.comp (S : Subgroup ↥(T3H K b c)).subtype)
   let ℓ : Subgroup (Multiplicative (T3V K)) :=
@@ -29,8 +29,7 @@ theorem omegaMinus8Line_t3H (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {m : ℕ
   let Pℓ : Subgroup ↥(T3H K b c) :=
     MulAction.stabilizer ↥(T3H K b c) (ℓ : Set (Multiplicative (T3V K)))
   dsimp only
-  intro Tstar hTH hT hST
-  intro Pstar hmin
+  intro Tstar hTH hT hST Pstar hmin
   obtain ⟨h, hS⟩ := exists_map_conj_eq_of_sylow (K := K) (b := b) (c := c) hirr S
   have hPℓ : Pℓ = t3PℓH K b c h :=
     stabilizer_fixedPointSubgroup_eq_t3PℓH (K := K) (b := b) (c := c) hirr S h hS

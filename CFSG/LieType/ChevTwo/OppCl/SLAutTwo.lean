@@ -19,6 +19,7 @@ noncomputable def psiTwo : StatedProj (StatedSL 2 F) ≃* SL(2, F) :=
     ((LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 F).trans
       (LinearCover.projectiveSLTwoEquivSL F))
 
+omit [Finite F] in
 theorem psiTwo_symm_apply (g : SL(2, F)) :
     (psiTwo F).symm g = QuotientGroup.mk' ((StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F))
       (specialLinearGroupEquivStatedSL 2 F g) := by
@@ -32,8 +33,8 @@ theorem exists_conj_two (α : MulAut (StatedProj (StatedSL 2 F))) :
           ((A⁻¹ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) ∧
       α (QuotientGroup.mk' ((StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F)) h) =
         QuotientGroup.mk' ((StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F)) h' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨e, -, he⟩ := FiniteField.card F 2
   have hcard : Nat.card F = 2 ^ (e : ℕ) := by rw [Nat.card_eq_fintype_card, he]
   obtain ⟨-, -, -, -, hex⟩ :=

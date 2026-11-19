@@ -169,7 +169,7 @@ theorem noSimpleSec_centralizer_inf_layer {X : Type} [Group X] [Finite X]
     (h₃ : CFSG.Open.IsComponentOf K₃ ⊤)
     (h₁₂ : K₁ ≠ K₂) (h₁₃ : K₁ ≠ K₃) (h₂₃ : K₂ ≠ K₃)
     (hZ₁ : Subgroup.center K₁ = ⊥) (hZ₂ : Subgroup.center K₂ = ⊥)
-    (hZ₃ : Subgroup.center K₃ = ⊥)
+    (_hZ₃ : Subgroup.center K₃ = ⊥)
     {w : X} (hwE : w ∈ K₁ ⊔ K₂ ⊔ K₃) (hwo : orderOf w = 3)
     (hw₁ : w ∉ K₂ ⊔ K₃) (hw₂ : w ∉ K₁ ⊔ K₃) (hw₃ : w ∉ K₁ ⊔ K₂) :
     NoSimpleSec 3 ↥((Subgroup.centralizer ({w} : Set X)) ⊓ (K₁ ⊔ K₂ ⊔ K₃)) := by

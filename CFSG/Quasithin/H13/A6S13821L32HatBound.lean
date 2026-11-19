@@ -44,7 +44,7 @@ theorem le_P0_of_normal_two {X Y : Subgroup SL3.S} (hX : X = SL3.X1 ∨ X = SL3.
     · exact inf_le_left
     · exact inf_le_right
   set Yc : Subgroup ↥X := Y.subgroupOf X with hYc
-  haveI hYcn : Yc.Normal := ⟨fun n hn g => by
+  have hYcn : Yc.Normal := ⟨fun n hn g => by
     rw [hYc, Subgroup.mem_subgroupOf] at hn ⊢
     have := hYn (g : SL3.S) g.2 _ hn
     simpa using this⟩
@@ -70,7 +70,7 @@ theorem le_P0_of_normal_two {X Y : Subgroup SL3.S} (hX : X = SL3.X1 ∨ X = SL3.
   have hQi2 : IsPGroup 2 ↥Qi := by
     intro g
     obtain ⟨x, hx, hxg⟩ := Subgroup.mem_map.mp g.2
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
     refine ⟨k, Subtype.ext ?_⟩
     have h1 : ((x : ↥X) : SL3.S) ^ 2 ^ k = 1 := by
       have h := congrArg Subtype.val hk

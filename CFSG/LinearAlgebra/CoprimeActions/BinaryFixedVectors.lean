@@ -13,7 +13,7 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (hH : IsPGroup 2 H)
     (ρ : Representation (ZMod 2) H V) (W : Submodule (ZMod 2) V)
     (hW : ∀ g : H, W ≤ W.comap (ρ g)) (hne : W ≠ ⊥) :
     ∃ v ∈ W, v ≠ 0 ∧ ∀ g : H, ρ g v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hwW, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
   let S : Submodule (ZMod 2) V := Submodule.span (ZMod 2) (Set.range fun g : H => ρ g w)
   have hSW : S ≤ W := Submodule.span_le.mpr (by
@@ -28,12 +28,12 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (hH : IsPGroup 2 H)
       rw [← Module.End.mul_apply, ← map_mul]
       exact Submodule.subset_span ⟨g * k, rfl⟩
     exact this hu
-  haveI : Finite (Set.range fun g : H => ρ g w) := Set.finite_range _
-  haveI : Module.Finite (ZMod 2) S := Module.Finite.span_of_finite _ (Set.finite_range _)
-  haveI : Finite S := Module.finite_of_finite (ZMod 2)
+  have : Finite (Set.range fun g : H => ρ g w) := Set.finite_range _
+  have : Module.Finite (ZMod 2) S := Module.Finite.span_of_finite _ (Set.finite_range _)
+  have : Finite S := Module.finite_of_finite (ZMod 2)
   let σ : H →* (S ≃ₗ[ZMod 2] S) :=
     { toFun := fun g =>
-        LinearEquiv.ofLinear ((ρ g).restrict fun u hu => hSinv g u hu)
+        LinearEquiv.ofLinearMap ((ρ g).restrict fun u hu => hSinv g u hu)
           ((ρ g⁻¹).restrict fun u hu => hSinv g⁻¹ u hu)
           (by
             ext u

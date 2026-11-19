@@ -39,21 +39,22 @@ section Perfect
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem sup_commutator_primeComplementCore_eq_of_simple {d : ℕ} (hd : d.Prime)
-    {Y : Subgroup G} (hY : oPPrimeHull d Y = Y)
+omit [Finite G] in
+private theorem sup_commutator_primeComplementCore_eq_of_simple {d : ℕ} (_hd : d.Prime)
+    {Y : Subgroup G} (_hY : oPPrimeHull d Y = Y)
     [IsSimpleGroup (modPrimeComplement d Y)]
     (hQ : ¬ IsMulCommutative (modPrimeComplement d Y)) :
     ⁅Y, Y⁆ ⊔ (primeComplementCore (G := ↥Y) d).map Y.subtype = Y := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨_hd⟩
   let Nc : Subgroup ↥Y := primeComplementCore (G := ↥Y) d
   let D : Subgroup G := ⁅Y, Y⁆
   let π : ↥Y →* modPrimeComplement d Y := QuotientGroup.mk' Nc
-  haveI hDnorm : (D.subgroupOf Y).Normal := by
+  have hDnorm : (D.subgroupOf Y).Normal := by
     have h : (⁅Y, Y⁆.subgroupOf (Y ⊔ Y)).Normal :=
       Subgroup.normal_subgroupOf_commutator_sup Y Y
     rwa [sup_idem] at h
-  haveI hDmap_normal : ((D.subgroupOf Y).map π).Normal :=
+  have hDmap_normal : ((D.subgroupOf Y).map π).Normal :=
     hDnorm.map π (QuotientGroup.mk'_surjective Nc)
   have hDmap_ne_bot : (D.subgroupOf Y).map π ≠ ⊥ := by
     intro hbot
@@ -88,7 +89,7 @@ private theorem coprime_card_quot_commutator_of_sup_eq {d : ℕ} (hd : d.Prime)
   classical
   let Nc : Subgroup ↥Y := primeComplementCore (G := ↥Y) d
   let D : Subgroup G := ⁅Y, Y⁆
-  haveI hDnorm : (D.subgroupOf Y).Normal := by
+  have hDnorm : (D.subgroupOf Y).Normal := by
     have h : (⁅Y, Y⁆.subgroupOf (Y ⊔ Y)).Normal :=
       Subgroup.normal_subgroupOf_commutator_sup Y Y
     rwa [sup_idem] at h
@@ -118,9 +119,9 @@ theorem commutator_eq_self_of_simple_modPrimeComplement_of_not_isMulCommutative 
     (hQ : ¬ IsMulCommutative (modPrimeComplement d Y)) :
     ⁅Y, Y⁆ = Y := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let D : Subgroup G := ⁅Y, Y⁆
-  haveI hDnorm : (D.subgroupOf Y).Normal := by
+  have hDnorm : (D.subgroupOf Y).Normal := by
     have h : (⁅Y, Y⁆.subgroupOf (Y ⊔ Y)).Normal :=
       Subgroup.normal_subgroupOf_commutator_sup Y Y
     rwa [sup_idem] at h

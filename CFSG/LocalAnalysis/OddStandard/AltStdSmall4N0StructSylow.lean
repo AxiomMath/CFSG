@@ -37,6 +37,7 @@ theorem comm_z_mem_E {d : G} (hd : d ∈ N0 θ hn z) : d * z * d⁻¹ * z⁻¹ �
   rw [hj, ← eps_comm_z hn c j, mul_inv_cancel_right]
   exact eps_mem_E θ hn j
 
+omit [Finite G] c in
 theorem E_comm {x y : G} (hx : x ∈ E θ hn) (hy : y ∈ E θ hn) : x * y = y * x := by
   obtain ⟨i, rfl⟩ := (mem_E_iff θ hn x).1 hx
   obtain ⟨j, rfl⟩ := (mem_E_iff θ hn y).1 hy
@@ -57,7 +58,7 @@ theorem card_D0 : Nat.card (D0 θ hn z) = Nat.card (C0 θ hn z) * 8 := by
     set v := (a : G) * z * (a : G)⁻¹ * z⁻¹ with hv
     have hau : (a : G) * u = u * a :=
       ((mem_centralizer_iff.1 (Subgroup.mem_inf.1 a.2).2) u (hmem b)).symm
-    have huv : u * v = v * u := E_comm hn c (hmem b) (hmem a)
+    have huv : u * v = v * u := E_comm hn (hmem b) (hmem a)
     calc (a : G) * b * z * ((a : G) * b)⁻¹ * z⁻¹ = (a : G) * u * (z * (a : G)⁻¹ * z⁻¹) := by
           rw [hu]; group
       _ = u * a * (z * (a : G)⁻¹ * z⁻¹) := by rw [hau]
@@ -114,7 +115,7 @@ theorem exists_setup : ∃ P O : Subgroup G, ∃ s : G, SetupData θ hn z P O s 
   have hPS : Nat.card P = 2 ^ (Nat.card (D0 θ hn z)).factorization 2 := by
     rw [hPcard, hfact]
   have hPO : P ⊓ O = ⊥ := by
-    apply inf_eq_bot_of_coprime
+    apply (fun h => (Subgroup.disjoint_of_coprime_natCard h).eq_bot)
     rw [hPcard]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.2 hOodd)
   have hOD : O ≤ D0 θ hn z := hOC.trans (C0_le_D0 hn c)
@@ -220,9 +221,9 @@ theorem exists_setup : ∃ P O : Subgroup G, ∃ s : G, SetupData θ hn z P O s 
   have htO : t ∈ O := hOnorm p (Subgroup.mem_inf.1 (hPD hp)).1 _ (inv_mem ho)
   obtain ⟨htE, htz⟩ := (mem_C0_iff hn c t).1 (hOC htO)
   have hs : p * ((p * o)⁻¹ * sg θ hn) = t * sg θ hn := by rw [ht]; group
-  refine ⟨P, O, t * sg θ hn, ⟨hPD, S.isPGroup'.map _, hBP, hOC, hOodd, hOnorm, hdecomp, hfr,
+  refine ⟨P, O, t * sg θ hn, ⟨hPD, S.isPGroup.map _, hBP, hOC, hOodd, hOnorm, hdecomp, hfr,
     ?_, ?_, ?_, ?_⟩⟩
-  · exact mul_mem ((C0_le_N0 hn c) (hOC htO)) (sg_mem_N0 hn c)
+  · exact mul_mem ((C0_le_N0 hn) (hOC htO)) (sg_mem_N0 hn c)
   · rw [← hs]
     exact mul_mem (le_normalizer hp) hdN
   · rw [mul_assoc, sg_comm_z hn c, ← mul_assoc, htz, mul_assoc]

@@ -26,7 +26,7 @@ theorem alternatives
       (Nat.card (Family (X := X) Q 2) = 12 ∧ Nat.card (Family (X := X) Q 4) = 11)) := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 12 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF
@@ -52,7 +52,7 @@ theorem orbit_card_le_four
     Nat.card (orbit (sylowImage X P s S) x) ≤ 4 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   obtain ⟨h8,h16,h32,h64,_⟩ := alternatives P hcard h5 hnotAlt s hs S hF
   change Nat.card (orbit Q x) ≤ 4
   change Nat.card (Family (X := X) Q 8) = 0 at h8

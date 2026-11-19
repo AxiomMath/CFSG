@@ -13,7 +13,7 @@ theorem sec6_normalizer_ne_top_of_odd {X : Type} [Group X] [Finite X] [IsSimpleG
     {W : Subgroup X} (hodd : Odd (Nat.card ↥W)) (hne : W ≠ ⊥) {t : X} (ht : orderOf t = 2) :
     normalizer (W : Set X) ≠ ⊤ := by
   intro htop
-  haveI : W.Normal := normalizer_eq_top_iff.1 htop
+  have : W.Normal := normalizer_eq_top_iff.1 htop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal W with hb | htW
   · exact hne hb
   · rw [htW, Subgroup.card_top] at hodd

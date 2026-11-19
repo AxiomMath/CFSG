@@ -57,14 +57,14 @@ private theorem mcc_commC_congr {n w m : ℕ} {D : ℕ → ℕ} {k : ℕ} {g g' 
 private theorem mcc_pg_lt {n w p : ℕ} (h : canonK n w (mask w) (n * w) p = true) {x : ℕ}
     (hx : x < n) : pg w (mask w) p x < n := by
   unfold canonK at h
-  simp only [bAnd_eq, Bool.and_eq_true, allN_iff, Nat.blt_eq, decide_eq_true_eq] at h
+  simp only [bAnd_eq, Bool.and_eq_true, allN_iff, Nat.blt_eq] at h
   exact h.2.2 x hx
 
 private theorem mcc_idx_cfn {n : ℕ} (g : Equiv.Perm (Fin n)) {i : ℕ} (hi : i < n) :
     CFSG.Sporadic.Th.idx n g i = cfn g i := by
   rw [CFSG.Sporadic.Th.idx_of_lt g hi]
   unfold cfn
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   rfl
 
 private theorem mcc_ap_compT {n : ℕ} (P Q : CFSG.Sporadic.Th.Native.Table) {i : ℕ} (hi : i < n) :

@@ -56,7 +56,7 @@ theorem kGenSpans_of_lieModel_psl2 {K : Type} [Group K] [Finite K] {p f : ℕ}
   · subst hp7
     refine kGenSpans_of_isCoatom_normalizer hG hna h3 hBR ?_
     obtain ⟨T, hRT⟩ := hBR.2.1.isPGroup.exists_le_sylow
-    exact ⟨T, hRT, T.isPGroup',
+    exact ⟨T, hRT, T.isPGroup,
       isCoatom_normalizer_of_mulEquiv_psl2GF (by norm_num) hf e T,
       commutator_normalizer_sylow_le_of_mulEquiv_psl2GF (by norm_num) hf e T⟩
   · exfalso

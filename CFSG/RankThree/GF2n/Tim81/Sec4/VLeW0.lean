@@ -206,6 +206,7 @@ private noncomputable def tau {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
   ofW hW s + repW hW ψ (ψ (piK V H y)) (ofW hW s) +
     repW hW ψ (ψ (piK V H x) * ψ (piK V H y)) (ofW hW s)
 
+omit [Finite G] in
 private theorem tau_eq_add_sub {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
     {F : Type} [Field F] (ψ : HBar V H ≃* SL(2, F)) (x y : ↥H)
@@ -392,6 +393,7 @@ private theorem conjSubgroup_mul_of_braid {F : Type} [Field F]
     _ = conjSubgroup t (utri F) := by
         rw [ha2, CFSG.CGT.Timmesfeld75.conjSubgroup_one]
 
+omit [Finite G] in
 private theorem subRepW_sub_apply_coe {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
     {F : Type} [Field F] (ψ : HBar V H ≃* SL(2, F))
@@ -554,7 +556,7 @@ private theorem tau_mem_fixedSup_of_braid
     CFSG.GroupActions.braid_of_involutions ha2' hb2' h3
   have hdata := tau_sub_mem_fixedSub_and_commSub h hPH hVH ψ hW₀ hN hPW hx hs
     hSdef hadef hbdef ha2' hb2' hbraid hτW0
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hO4 := horth.fixedSub_zpowers_inf_commSub_eq_sup_map (hF := hl) S S' hS2 hScard
     hS'2 hS'card hSne (x := a) haS ha1'
   have hτRHS : (⟨tau ψ x y ⟨s, le_xOf_self V H hs⟩, hτW0⟩ : subW hW W₀) ∈
@@ -565,6 +567,7 @@ private theorem tau_mem_fixedSup_of_braid
     exact Submodule.mem_inf.mpr ⟨hdata.1, hdata.2⟩
   exact hτRHS
 
+omit [Finite G] in
 private theorem fixedSub_conj_eq_map {F : Type} [Field F]
     (ψ : HBar V H ≃* SL(2, F)) {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -580,6 +583,7 @@ private theorem fixedSub_conj_eq_map {F : Type} [Field F]
     rfl
   rw [hS'conj, fixedSub_map_conj]
 
+omit [Finite G] in
 private theorem exists_decomp_of_fixedSub_sup_map
     {F : Type} [Field F] (ψ : HBar V H ≃* SL(2, F))
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
@@ -739,8 +743,6 @@ private theorem exists_tau_decomp_of_subW_decomp
     rw [subRepW_sub_apply_coe]
     rfl
   refine ⟨v₀', v₁, hv₀'sub, hv₁sub, ?_⟩
-  change tau ψ x y ⟨s, le_xOf_self V H hs⟩ =
-    v₀' + (repW hW ψ a - 1) (repW hW ψ b v₁)
   rw [hval, hcoecoe]
 
 private theorem exists_tau_decomp
@@ -793,6 +795,7 @@ private theorem exists_tau_decomp
     hτW0 hv₀ hc₁ hdecomp
   simpa [hadef, hbdef] using hres
 
+omit [Finite G] in
 private theorem not_mem_W0_of_add_not_mem
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -819,6 +822,7 @@ private theorem not_mem_W0_of_add_not_mem
   rw [hs_eq]
   exact W₀.mul_mem hrW0 (W₀.inv_mem hv₁W0)
 
+omit [Finite G] in
 private theorem exists_u_aux
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -1216,6 +1220,7 @@ private theorem commutator_u_z_mem_V
   rw [hv'w]
   exact V.mul_mem hv'V hw₀V
 
+omit [Finite G] in
 private theorem exists_commMemSubgroup_le
     (h : RootHyp M V) {u' : G} (hu'W : u' ∈ Tim79a.xOf V H) :
     ∃ P₁ : Subgroup G, P₁ ≤ Pc M V ∧ (∀ p ∈ P₁, ⁅u', p⁆ ∈ V) ∧
@@ -1271,7 +1276,7 @@ private theorem imgK_le_of_closure_subset
       fixedSub (subRepW hW ψ hW₀ hN) S} with hZbardef
   obtain ⟨a₀, b₀, hS_eq, hS'_eq, hS2, hS'2, hScard, hS'card, hSne, haS, hbS'⟩ :=
     sec_data h hPH hVH hH hnM ψ hl hx hy S S' hSdef hS'def
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hclosure : S = Subgroup.closure Zbar :=
     horth.eq_closure_fixedSub_zpowers (hF := hl) S S' hS2 hScard hS'2 hS'card hSne
       (x := ψ (piK V H x)) haS ha1
@@ -1310,8 +1315,9 @@ private theorem imgK_le_of_closure_subset
     exact (Subgroup.closure_le (K := (imgK V H P₁).map ψ.toMonoidHom)).mpr hZ_le'
   exact hS_le
 
+omit [Finite G] in
 private theorem commutator_zpowers_le_of_imgK_le
-    (h : RootHyp M V) (hPH : Pc M V ≤ H)
+    (_h : RootHyp M V) (hPH : Pc M V ≤ H)
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     {u' : G} (hu'W : u' ∈ Tim79a.xOf V H)
     {P₁ : Subgroup G} (hP₁P : P₁ ≤ Pc M V)
@@ -1352,8 +1358,8 @@ private theorem commutator_zpowers_le_of_imgK_le
     exact P₁.mul_mem hkP₁ haP₁
   have hP₁_eq : P₁ = Pc M V := le_antisymm hP₁P hP_le_P₁
   have hu'2 : u' * u' = 1 := by
-    have h := hW.2 u' hu'W
-    rwa [pow_two] at h
+    have _h := hW.2 u' hu'W
+    rwa [pow_two] at _h
   rw [Subgroup.commutator_le]
   intro a ha p hp
   have ha' : a = 1 ∨ a = u' :=

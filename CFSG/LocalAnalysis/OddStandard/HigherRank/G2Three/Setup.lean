@@ -16,7 +16,7 @@ theorem exists_involution (hS : HRSetting G L) :
     ∃ t : G, t ∈ centralizer (L : Set G) ∧ orderOf t = 2 := by
   have hev : Even (Nat.card ↥(centralizer (L : Set G))) := (hS.std.standard).2.1
   have h2 : 2 ∣ Nat.card ↥(centralizer (L : Set G)) := even_iff_two_dvd.mp hev
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(centralizer (L : Set G))) 2 h2
   exact ⟨(x : G), x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
@@ -39,8 +39,8 @@ theorem exists_commuting_conjugate (hS : HRSetting G L) {t : G} (ht2 : orderOf t
     intro h1
     rw [h1, orderOf_one] at ht2
     omega
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : Fintype G := Fintype.ofFinite G
+  have : IsSimpleGroup G := hS.std.simple
   obtain ⟨N, hNn, hNodd, hN⟩ :=
     CFSG.ZStar.glauberman_zStar G t ht1 htt fun g hg => by
       by_contra hne

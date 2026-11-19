@@ -25,10 +25,10 @@ theorem omq_omMinus_wt_injective {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [
     (hν : ∀ g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,
       omqMinusWt n ι ι' ν g = omqMinusWt n ι ι' ν' g) : ν = ν' := by
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
-  haveI : NeZero h := ⟨by omega⟩
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero h := ⟨by omega⟩
   refine Prod.ext (funext fun i => ?_) ?_
   ·
     obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := Kˣ)

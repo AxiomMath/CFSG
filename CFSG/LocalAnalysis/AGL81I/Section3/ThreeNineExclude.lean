@@ -20,6 +20,7 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem normalizer_inf_le_normalizer_of_eq_sup {K Q : Subgroup X}
     (hQ : Q = (Q ⊓ K) ⊔ (Q ⊓ Subgroup.centralizer (K : Set X))) :
     Subgroup.normalizer (Q ⊓ K : Set X) ⊓ K ≤ Subgroup.normalizer (Q : Set X) := by

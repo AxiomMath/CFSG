@@ -32,7 +32,7 @@ theorem hasRootSL2_of_leastParabolic {ι : Type} [Fintype ι] [DecidableEq ι] {
     (htor : ∀ c : Kˣ, ρ₀ (torusSL c) ∈ Subgroup.normalizer ((U₀ : Subgroup G) : Set G) ∧
       (((φ (ρ₀ (torusSL c)) : ↥Γ) : GL ι K) : Matrix ι ι K) *ᵥ e₀ = (c : K) • e₀) :
     HasRootSL2 Γ e₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ' : G →* ↥Γ := φ.toMonoidHom
   let U : Sylow 2 ↥Γ := U₀.mapSurjective (f := φ') φ.surjective
   let ρ : SL(2, K) →* ↥Γ := φ'.comp ρ₀

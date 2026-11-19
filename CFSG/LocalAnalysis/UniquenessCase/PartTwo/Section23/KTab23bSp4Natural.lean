@@ -123,8 +123,7 @@ theorem fixV_natAut_unipotent (K : Type) [Field K] [Finite K] [CharP K 2] :
     · rw [hline]; simp
     · rw [hline]; simp
     · rw [hline]; simp
-  · intro hx
-    intro y hy
+  · intro hx y hy
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hy
     apply Multiplicative.toAdd.injective
     rw [toAdd_natAut_apply]
@@ -174,10 +173,10 @@ theorem stabilizer_submoduleSubSp4 (K : Type) [Field K]
     letI : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
     MulAction.stabilizer (CFSG.Open.StatedSp 2 K) (submoduleSubSp4 K W : Set (Vsp4 K)) =
       stabilizer 2 K W := by
-  letI : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
+  let : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
     MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natAut (CFSG.Open.StatedSp 2 K))
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
   ext A
   rw [MulAction.mem_stabilizer_iff, mem_stabilizer]
   constructor
@@ -252,10 +251,10 @@ theorem Q2_zero_eq_stabilizer_spLineSub (K : Type) [Field K] :
     letI : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
     letI : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
     MulAction.stabilizer (CFSG.Open.StatedSp 2 K) (spLineSub K : Set (Vsp4 K)) = Q2 K 0 := by
-  letI : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
+  let : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
     MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natAut (CFSG.Open.StatedSp 2 K))
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
   rw [show spLineSub K = submoduleSubSp4 K (spLine K) from rfl, stabilizer_submoduleSubSp4]
   rw [Q2_eq, flagStabilizer_singleton_sp]
   have h1 : ((0 : Fin 2) : ℕ) + 1 = 1 := rfl
@@ -267,14 +266,14 @@ theorem StdQsp_zero_eq_stabilizer_spLineSub (K : Type) [Field K] :
     letI : MulAction (Hsp K) (Vsp4 K) := MulDistribMulAction.toMulAction
     letI : MulAction (Hsp K) (Set (Vsp4 K)) := Set.mulActionSet
     MulAction.stabilizer (Hsp K) (spLineSub K : Set (Vsp4 K)) = StdQsp K 0 := by
-  letI : MulDistribMulAction (Hsp K) (Vsp4 K) :=
+  let : MulDistribMulAction (Hsp K) (Vsp4 K) :=
     MulDistribMulAction.compHom _ (Hsp K).subtype
-  letI : MulAction (Hsp K) (Vsp4 K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Hsp K) (Set (Vsp4 K)) := Set.mulActionSet
-  letI : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
+  let : MulAction (Hsp K) (Vsp4 K) := MulDistribMulAction.toMulAction
+  let : MulAction (Hsp K) (Set (Vsp4 K)) := Set.mulActionSet
+  let : MulDistribMulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) :=
     MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natAut (CFSG.Open.StatedSp 2 K))
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Vsp4 K) := MulDistribMulAction.toMulAction
+  let : MulAction (CFSG.Open.StatedSp 2 K) (Set (Vsp4 K)) := Set.mulActionSet
   have h := CFSG.ProperTwoGeneratedCore.LocalCriterionNumerator.stabilizer_map_of_equivariant
     (eSp4 K) (Equiv.refl (Set (Vsp4 K))) ?_ (spLineSub K : Set (Vsp4 K))
   · rw [Q2_zero_eq_stabilizer_spLineSub] at h
@@ -441,13 +440,13 @@ theorem isSolvable_Q2_one_of_card_two {K : Type} [Field K] [Finite K]
   have hrad : SymplecticFour.radical K ≤ Q2 K 1 :=
     SymplecticFour.radical_le_unipotent.trans
       (unipotent_le_borelSubgroup.trans (borelSubgroup_le_Q2 1))
-  haveI : IsPGroup 2 (SymplecticFour.radical K) := by
+  have : IsPGroup 2 (SymplecticFour.radical K) := by
     refine IsPGroup.of_card (n := 3) ?_
     rw [SymplecticFour.card_radical, hK2]
-  haveI : Group.IsSolvable ↥(SymplecticFour.radical K) := by
+  have : Group.IsSolvable ↥(SymplecticFour.radical K) := by
     have := (‹IsPGroup 2 (SymplecticFour.radical K)›).isNilpotent
     infer_instance
-  haveI : Group.IsSolvable (GL (Fin 2) K) := by
+  have : Group.IsSolvable (GL (Fin 2) K) := by
     have : Fintype K := Fintype.ofFinite K
     have hF : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK2
     refine isSolvable_of_card_two_three (a := 1) (b := 1) ?_
@@ -462,7 +461,7 @@ theorem isSolvable_Q2_one_of_card_two {K : Type} [Field K] [Finite K]
 
 theorem perfectCore_Q2_one_eq_bot_of_card_two {K : Type} [Field K] [Finite K]
     (hK2 : Nat.card K = 2) : perfectCore (Q2 K 1) = ⊥ := by
-  haveI := isSolvable_Q2_one_of_card_two hK2
+  have := isSolvable_Q2_one_of_card_two hK2
   exact (isSolvable_iff_perfectCore_eq_bot (Q2 K 1)).mp inferInstance
 
 theorem isL2_bar2_perfectCore_Q2_one {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -474,7 +473,7 @@ theorem isL2_bar2_perfectCore_Q2_one {K : Type} [Field K] [Finite K] [CharP K 2]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab := sl2_nonabelian (K := K) hK4
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
   have hmodel : CFSG.Blueprint.LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -551,9 +550,9 @@ theorem eq_StdQsp_one_of_overgroup {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem sp4NaturalLine_holds : Sp4NaturalLine := by
   intro K hF hFin n hK
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -567,10 +566,7 @@ theorem sp4NaturalLine_holds : Sp4NaturalLine := by
     omega
   change Sp4Line (Vsp4 K) (Hsp K) n
   unfold Sp4Line
-  intro S
-  intro ℓ Pℓ
-  intro Tstar hTnorm hT2 hST
-  intro Good Pstar hmin
+  intro S ℓ Pℓ Tstar hTnorm hT2 hST Good Pstar hmin
   classical
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥(Hsp K)) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S

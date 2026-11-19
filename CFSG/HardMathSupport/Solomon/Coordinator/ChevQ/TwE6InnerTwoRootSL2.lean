@@ -33,7 +33,7 @@ private theorem map_conj_mul_aux {Γ : Type*} [Group Γ] (H : Subgroup Γ) (a b 
 private theorem exists_hyperplane_le_aux {Y : Type*} [Group Y] {p : ℕ} (hp : p.Prime)
     {D E : Subgroup Y} (h1 : D.relIndex E ≤ p) (hE : Nat.card E = p ^ 3) :
     ∃ F : Subgroup Y, F ≤ E ∧ F.relIndex E = p ∧ F ≤ D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : D.relIndex E ∣ p ^ 3 := hE ▸ Subgroup.relIndex_dvd_card D E
   obtain ⟨i, hi, hi'⟩ := (Nat.dvd_prime_pow hp).1 h2
   have hi1 : i ≤ 1 := by
@@ -87,7 +87,7 @@ theorem exists_longRootPair_of_negDatum (q : ℕ) (K : Type) [Field K] [Finite K
     push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [hK, hqf]
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := fun c => by rw [hσ c, hqf]
   have hFrc : ∀ c, Fr c = c ^ (ringChar K ^ f) := fun c => by rw [hFr, hqf]
@@ -154,7 +154,7 @@ theorem exists_hyperplane_commute_of_rootSpan {K : Type} [Field K] [Finite K] {�
     (MulAut.conj g0⁻¹).toMonoidHom.comp ((baseChangeGL ι).comp (twistedE6RootGroup K σ).subtype)
   have hδ : ∀ x : twistedE6RootGroup K σ,
       δ x = g0⁻¹ * baseChangeGL ι (x : ModGL TwistTag.E6.tag K) * g0 := fun x => by
-    simp [δ, MulAut.conj_apply]
+    simp [δ]
   have hδT : ∀ x ∈ E₀, δ x ∈ torusGroup TwistTag.E6.tag L := by
     intro x hx
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.1 (hT x hx)
@@ -209,8 +209,6 @@ theorem exists_hyperplane_commute_of_rootSpan {K : Type} [Field K] [Finite K] {�
     have hx' : baseChangeGL ι ((x : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
         g0 * rootDiagUnit TwistTag.E6.tag a * g0⁻¹ := by
       rw [ha, hrd x]
-      change baseChangeGL ι ((x : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
-        g0 * δ (x : twistedE6RootGroup K σ) * g0⁻¹
       rw [hδ]
       group
     have hu' : baseChangeGL ι (u : ModGL TwistTag.E6.tag K) = g0 * s * g0⁻¹ := by

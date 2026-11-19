@@ -13,7 +13,7 @@ open scoped commutatorElement
 theorem aut_eq_one_of_small {X : Type*} [Group X] [Finite X] {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) {α : MulAut X} (hα : α ^ r = 1) {d : ℕ} (hX : Nat.card X = 2 ^ d)
     (hsmall : ∀ i, 0 < i → i ≤ d → ¬ r ∣ 2 ^ i - 1) : α = 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hP : IsPGroup r (Subgroup.zpowers α) := by
     intro g
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp g.2
@@ -76,9 +76,9 @@ theorem aut_pow_three_of_pow_nine {X : Type*} [CommGroup X] [Finite X] (h2 : ∀
     have := h2 (Additive.toMul v)
     apply Additive.toMul.injective
     simpa [two_nsmul, sq] using this
-  letI : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule h2'
-  haveI : Finite (Additive X) := inferInstanceAs (Finite X)
-  haveI : Module.Finite (ZMod 2) (Additive X) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule h2'
+  have : Finite (Additive X) := inferInstanceAs (Finite X)
+  have : Module.Finite (ZMod 2) (Additive X) := Module.Finite.of_finite
   have hfr : Module.finrank (ZMod 2) (Additive X) ≤ 5 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive X)
     rw [Nat.card_zmod, show Nat.card (Additive X) = Nat.card X from rfl, hX] at h
@@ -139,7 +139,7 @@ theorem aut_trivial_of_small {Γ S X : Type*} [Group Γ] [Group S] [IsSimpleGrou
       ∃ a : S, a ≠ 1 ∧ ∃ g : Γ, φ g = ι a ∧ σ g = 1 := by
     intro ι hι
     rcases hsmall with ⟨r, hr, hr2, hrS, hsm⟩ | ⟨⟨s, hs9⟩, hd5⟩
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' r hrS
       have hs1 : s ≠ 1 := by
         rintro rfl
@@ -165,7 +165,7 @@ theorem aut_trivial_of_small {Γ S X : Type*} [Group Γ] [Group S] [IsSimpleGrou
       omega
   obtain ⟨a, ha, ga, hga, hσa⟩ := key (MonoidHom.inl S S) (fun x y h => (Prod.mk.inj h).1)
   obtain ⟨b, hb, gb, hgb, hσb⟩ := key (MonoidHom.inr S S) (fun x y h => (Prod.mk.inj h).2)
-  haveI : ((Subgroup.map φ (σ.ker))).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have : ((Subgroup.map φ (σ.ker))).Normal := Subgroup.Normal.map inferInstance φ hφ
   have htop : Subgroup.map φ σ.ker = ⊤ := by
     refine normal_prod_eq_top _ ha hb ?_ ?_
     · exact ⟨ga, hσa, hga⟩
@@ -250,9 +250,9 @@ theorem comm_mem_of_small (N T : Subgroup Γ) [N.Normal] [T.Normal]
         show (((a * b)⁻¹ * (b * a) : ↥N) : Γ) ∈ T
         have := hNN (b⁻¹ : ↥N) (b⁻¹ : ↥N).2 (a⁻¹ : ↥N) (a⁻¹ : ↥N).2
         simpa [commutatorElement_def, mul_assoc] using this
-  letI : CommGroup (Xq N T) :=
+  let : CommGroup (Xq N T) :=
     { (inferInstance : Group (Xq N T)) with mul_comm := hcomm }
-  haveI : Finite (Xq N T) := inferInstance
+  have : Finite (Xq N T) := inferInstance
   have h2 : ∀ x : Xq N T, x * x = 1 := by
     intro x
     induction x using QuotientGroup.induction_on with
@@ -292,8 +292,8 @@ open CFSG CFSG.Open CFSG.Open.StatedAPI CFSG.Assembly.LowTwoRank
 theorem exists_orderOf_nine_statedSL (K : Type) [Field K] [Finite K] (hK : Nat.card K = 8) :
     ∃ s : StatedSL 2 K, orderOf s = 9 := by
   obtain ⟨A, hA⟩ := CFSG.GF2Type.Smith1979.W4As.exists_orderOf_eq_nine_sl2
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 3) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 3 (by decide)]

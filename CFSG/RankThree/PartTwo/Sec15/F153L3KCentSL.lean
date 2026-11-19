@@ -20,7 +20,7 @@ theorem cayley_hamilton_fin_three {R : Type*} [CommRing R] (M : Matrix (Fin 3) (
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_three, Matrix.trace_fin_three,
-      Matrix.det_fin_three, Matrix.adjugate_fin_three, Matrix.one_apply] <;> ring
+      Matrix.det_fin_three, Matrix.adjugate_fin_three] <;> ring
 
 theorem smul_sub_eq_zero_of_cayley {F : Type} [Field F] (M : Matrix (Fin 3) (Fin 3) F)
     (hCH : 1 - Matrix.trace M • M ^ 2 + Matrix.trace M • M - 1 = 0) :
@@ -59,7 +59,7 @@ theorem trace_eq_zero_of_cube_eq_one {F : Type} [Field F]
       exact sub_eq_zero.mp hMM
     have hYY : Y * Y = Y * 1 := by
       apply Subtype.ext
-      simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, mul_one]
+      simp only [Matrix.SpecialLinearGroup.coe_mul, mul_one]
       exact hMM'
     exact absurd (mul_left_cancel hYY) hY1
 
@@ -189,8 +189,6 @@ theorem kpgl_add_self {F : Type} [Field F] [CharP F 2] (ψ : Fin 3 → F) : ψ +
   rw [Pi.add_apply, Pi.zero_apply]
   first
     | rw [← two_mul, CharTwo.two_eq_zero, zero_mul]
-    | exact CharTwo.add_self_eq_zero (ψ i)
-    | simp [← two_mul, CharTwo.two_eq_zero]
 
 theorem kpgl_tv_mul_self {F : Type} [Field F] [CharP F 2] {v ψ : Fin 3 → F}
     (h : ψ ⬝ᵥ v = 0) : A2Mod.tv v ψ * A2Mod.tv v ψ = 1 := by
@@ -201,16 +199,14 @@ theorem kpgl_common_kernel {F : Type} [Field F] (ψ φ : Fin 3 → F) :
   let M : Matrix (Fin 3) (Fin 3) F := Matrix.of ![ψ, φ, 0]
   have hrow : ∀ j, M 2 j = 0 := by
     intro j
-    fin_cases j <;> (first | rfl | simp [M])
+    fin_cases j <;> (first | rfl)
   have hdet : M.det = 0 := Matrix.det_eq_zero_of_row_eq_zero 2 hrow
   obtain ⟨w, hw, hMw⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hdet
   refine ⟨w, hw, ?_, ?_⟩
   · first
       | exact congrFun hMw 0
-      | simpa [M, Matrix.mulVec, dotProduct, Fin.sum_univ_three] using congrFun hMw 0
   · first
       | exact congrFun hMw 1
-      | simpa [M, Matrix.mulVec, dotProduct, Fin.sum_univ_three] using congrFun hMw 1
 
 theorem kpgl_eq_one_of_mem_center {F : Type} [Field F]
     {g : Matrix.SpecialLinearGroup (Fin 3) F} {w : Fin 3 → F} (hw : w ≠ 0)
@@ -225,7 +221,6 @@ theorem kpgl_eq_one_of_mem_center {F : Type} [Field F]
     have h3 := congrFun h1 i
     first
       | (rw [Matrix.scalar_apply, Matrix.mulVec_diagonal] at h3; exact h3)
-      | simpa [Matrix.scalar_apply, Matrix.mulVec_diagonal] using h3
   obtain ⟨i, hi⟩ : ∃ i, w i ≠ 0 := by
     by_contra hcon
     exact hw (funext fun i => Classical.byContradiction fun hne => hcon ⟨i, hne⟩)
@@ -246,11 +241,11 @@ theorem kpgl_toPGL_eq_one_iff {F : Type} [Field F]
     exact Subgroup.one_mem _
 
 public theorem orderOf_toPGL_mul_eq_three_iff {F : Type} [Field F] [CharP F 2]
-    {u φ v ψ : Fin 3 → F} (hφu : φ ⬝ᵥ u = 0) (hψv : ψ ⬝ᵥ v = 0) :
+    {u φ v ψ : Fin 3 → F} (_hφu : φ ⬝ᵥ u = 0) (hψv : ψ ⬝ᵥ v = 0) :
     orderOf (Matrix.SpecialLinearGroup.toPGL (A2Mod.tv v ψ) *
         Matrix.SpecialLinearGroup.toPGL (A2Mod.tv u φ)) = 3 ↔
       ((A2Mod.tv v ψ * A2Mod.tv u φ) ^ 3 = 1 ∧ A2Mod.tv u φ ≠ A2Mod.tv v ψ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw, hψw, hφw⟩ := kpgl_common_kernel ψ φ
   have hτw : ((A2Mod.tv v ψ : Matrix.SpecialLinearGroup (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) *ᵥ w = w :=
@@ -473,7 +468,7 @@ theorem eq_one_of_pow_two_of_odd {Z : Type} [Group Z] [Finite Z] (hZ : Odd (Nat.
     omega
 
 theorem exists_involution_lift_of_cover {M T : Type} [Group M] [Finite M] [Group T] (π : M →* T)
-    (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center M) (hodd : Odd (Nat.card π.ker))
+    (hπ : Function.Surjective π) (_hker : π.ker ≤ Subgroup.center M) (hodd : Odd (Nat.card π.ker))
     {x : T} (hx : orderOf x = 2) : ∃ ξ : M, ξ * ξ = 1 ∧ π ξ = x := by
   obtain ⟨x0, hx0⟩ := hπ x
   subst hx0
@@ -529,7 +524,7 @@ theorem card_partners_of_cover {M T : Type} [Group M] [Finite M] [Group T] (π :
     (hP : ∀ ξ : M, ξ * ξ = 1 → (orderOf (π τ * π ξ) = 3 ↔ P ξ)) :
     Nat.card {x : T // orderOf x = 2 ∧ orderOf (π τ * x) = 3} =
       Nat.card {ξ : M // ξ * ξ = 1 ∧ P ξ} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ2 : π τ * π τ = 1 := by
     rw [← map_mul, hτ, map_one]
   have hτsq : π τ ^ 2 = 1 := by
@@ -609,7 +604,7 @@ theorem pow_three_eq_one_of_mem_center {F : Type} [Field F] {g : SL(3, F)}
 
 theorem odd_card_center_sl (F : Type) [Field F] [Finite F] :
     Odd (Nat.card (Subgroup.center SL(3, F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center SL(3, F)) := by
     rcases Nat.even_or_odd (Nat.card (Subgroup.center SL(3, F))) with he | ho
@@ -633,7 +628,7 @@ theorem card_partners_sl {F : Type} [Field F] [Finite F] [CharP F 2] (τ : SL(3,
     Nat.card {ξ : SL(3, F) // ξ * ξ = 1 ∧ ξ ≠ τ ∧ (τ * ξ) ^ 3 = 1} = Nat.card F ^ 3 := by
   set τ0 : SL(3, F) := A2Mod.tv (Pi.single 0 1) (Pi.single 1 1) with hτ0
   have hdot : (Pi.single 1 1 : Fin 3 → F) ⬝ᵥ (Pi.single 0 1 : Fin 3 → F) = 0 := by
-    simp [dotProduct, Fin.sum_univ_three, Pi.single_apply]
+    simp [dotProduct, Pi.single_apply]
   have hτ0sq : τ0 * τ0 = 1 := tv_involution hdot
   have hτ01 : τ0 ≠ 1 := by
     intro h

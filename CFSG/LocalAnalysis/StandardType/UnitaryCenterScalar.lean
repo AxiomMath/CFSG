@@ -14,11 +14,12 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f n : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem unitaryFieldData_of_card (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f) :
     UnitaryFieldData 2 f F :=
   ⟨Nat.prime_two, hf, by rw [hF, ← pow_mul, mul_comm]⟩
 
-theorem exists_scalar_of_commute_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f) (hn : 3 ≤ n)
+theorem exists_scalar_of_commute_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f) (_hn : 3 ≤ n)
     {B : GL (Fin n) F}
     (hB : ∀ u : SU (unitaryInvolution F 2 f) n, B * (u : GL (Fin n) F) = (u : GL (Fin n) F) * B) :
     ∃ c : Fˣ, B = Matrix.GeneralLinearGroup.scalar (Fin n) c := by
@@ -62,8 +63,8 @@ theorem exists_scalar_of_mem_center (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ 
     (hz : z ∈ Subgroup.center (SU (unitaryInvolution F 2 f) n)) :
     ∃ c : Fˣ, (z : GL (Fin n) F) = Matrix.GeneralLinearGroup.scalar (Fin n) c ∧ c ^ n = 1 ∧
       c ^ (2 ^ f + 1) = 1 := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hB : ∀ u : SU (unitaryInvolution F 2 f) n,
       (z : GL (Fin n) F) * (u : GL (Fin n) F) = (u : GL (Fin n) F) * (z : GL (Fin n) F) := by
     intro u

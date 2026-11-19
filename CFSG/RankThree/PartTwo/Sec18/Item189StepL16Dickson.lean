@@ -52,7 +52,7 @@ theorem isSimpleGroup_pgl2_four189 : IsSimpleGroup PGL(2, GaloisField 2 2) := by
 theorem eq_top_of_psl2_sixteen189
     (H : Subgroup PSL(2, GaloisField 2 4)) {x y w : PSL(2, GaloisField 2 4)}
     (hx : x ∈ H) (hy : y ∈ H) (hw : w ∈ H) (hx3 : orderOf x = 3) (hy5 : orderOf y = 5)
-    (hxy : y * x = x * y) (hw2 : w * w = 1) (hwx : w * x * w⁻¹ = x⁻¹)
+    (hxy : y * x = x * y) (_hw2 : w * w = 1) (hwx : w * x * w⁻¹ = x⁻¹)
     {E : Subgroup PSL(2, GaloisField 2 4)} (hEH : E ≤ H) (hE2 : ∀ e ∈ E, e * e = 1)
     (hE4 : 4 ≤ Nat.card E) : H = ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

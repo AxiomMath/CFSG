@@ -148,7 +148,7 @@ theorem isCyclic_of_mem_calMOf (c : Ctx147 D L n r p A X B R)
   obtain ⟨P₀, hBP₀⟩ := (hB3.comap_subtype (K := N)).exists_le_sylow
   let P' : Subgroup G := P₀.map N.subtype
   have hP'N : P' ≤ N := Subgroup.map_subtype_le _
-  have hP'3 : IsPGroup 3 P' := P₀.isPGroup'.map N.subtype
+  have hP'3 : IsPGroup 3 P' := P₀.isPGroup.map N.subtype
   have hBP' : B ≤ P' := by
     intro b hb
     exact Subgroup.mem_map.mpr
@@ -204,7 +204,7 @@ theorem isCyclic_sylow_three {N : Subgroup G}
     (hcyc : ∀ P : Subgroup G, P ≤ N → IsPGroup 3 P → IsCyclic P) (P : Sylow 3 ↥N) :
     IsCyclic (P : Subgroup ↥N) := by
   have h1 : IsCyclic ↥((P : Subgroup ↥N).map N.subtype) :=
-    hcyc _ (Subgroup.map_subtype_le _) (P.isPGroup'.map N.subtype)
+    hcyc _ (Subgroup.map_subtype_le _) (P.isPGroup.map N.subtype)
   exact (Subgroup.equivMapOfInjective (H := (P : Subgroup ↥N)) N.subtype
     N.subtype_injective).isCyclic.mpr h1
 
@@ -290,7 +290,7 @@ theorem normal_image_of_pCore_quotient_ne_bot (c : Ctx147 D L n r p A X B R) {N 
   have hPstar_cyc : IsCyclic ↥(Pstar : Subgroup Ns) :=
     CFSG.Quasithin.S146zY.FiveOdd.isCyclic_of_isPGroup_of_surjective_hom
       (f := π) (QuotientGroup.mk'_surjective Pc) (fun S => isCyclic_sylow_three hcyc S)
-      Pstar Pstar.isPGroup'
+      Pstar Pstar.isPGroup
   let K : Subgroup Ns := CFSG.pCore 3 Ns
   have hKle : K ≤ Pstar :=
     IsPGroup.le_sylow_of_normal (p := 3) (N := K) (CFSG.pCore_isPGroup (G := Ns)) Pstar
@@ -468,7 +468,7 @@ theorem le_sup_of_inf_relPPrimeCore_ne_bot (c : Ctx147 D L n r p A X B R)
       exact Subgroup.mem_subgroupOf.mpr (hEQ (Subgroup.mem_subgroupOf.mp hx))
     obtain ⟨P, hE'P⟩ := hE'7.exists_le_sylow
     let Y : Subgroup G := (P.map Q'.subtype).map N.subtype
-    have hY7 : IsPGroup 7 Y := P.isPGroup'.map Q'.subtype |>.map N.subtype
+    have hY7 : IsPGroup 7 Y := P.isPGroup.map Q'.subtype |>.map N.subtype
     have hEY : E ≤ Y := by
       have h1 : E'.map Q'.subtype = E.subgroupOf N := by
         rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hE'N]
@@ -519,7 +519,7 @@ theorem exists_minimalNormal_simple_of_caseC {Ns : Type} [Group Ns] [Finite Ns]
   let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpRankNs : CFSG.pRank 3 Ns ≤ 1 :=
     CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.pRank_le_one_of_sylow_cyclic
-      Nat.prime_three fun S => hcyc S S.isPGroup'
+      Nat.prime_three fun S => hcyc S S.isPGroup
   have hpRankOpen : CFSG.Open.pRank 3 (⊤ : Subgroup Ns) ≤ 1 := by
     rwa [← CFSG.SectionRank.pRank_eq_open_pRank_top]
   have hE9 : ¬ CFSG.GroupTheory.ThreeTranspositions.HasE9 Ns := fun h => by
@@ -615,7 +615,7 @@ theorem caseC_quotient_facts {N : Subgroup G}
       (f := π) (QuotientGroup.mk'_surjective Pc) (fun S => isCyclic_sylow_three hcyc S)
   have hpRankNs : CFSG.pRank 3 Ns ≤ 1 :=
     CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.pRank_le_one_of_sylow_cyclic
-      Nat.prime_three fun S => hcycNs S S.isPGroup'
+      Nat.prime_three fun S => hcycNs S S.isPGroup
   have hpRankOpen : CFSG.Open.pRank 3 (⊤ : Subgroup Ns) ≤ 1 := by
     rwa [← CFSG.SectionRank.pRank_eq_open_pRank_top]
   have hNsnt : Nontrivial Ns := by
@@ -1021,7 +1021,7 @@ theorem exists_seven_sylow_of_le_comap (c : Ctx147 D L n r p A X B R) {N : Subgr
       (QuotientGroup.ker_mk' Pc) hYs7
   have hSylTop : CFSG.ABGLocalTools.IsSylowOf 7 (S : Subgroup ↥Yp) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by simpa using S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by simpa using S.not_dvd_index⟩
   have hYp_le : Yp ≤ Pc ⊔ A :=
     CFSG.GroupTheory.le_sup_of_isPGroup_quotient_of_isSylowOf (p := 7) (C := Pc)
       (S := A) (Y := Yp) hPcYp hAsyl hquot
@@ -1197,7 +1197,7 @@ theorem caseC_le_sup {N : Subgroup G}
         inf_eq_left.mpr hRsK]
     rw [hRs_eq]
     exact Subgroup.map_mono hRkS
-  have hYs7 : IsPGroup 7 Ys := S.isPGroup'.map K.subtype
+  have hYs7 : IsPGroup 7 Ys := S.isPGroup.map K.subtype
   have hsup_top : normalizer (Ys : Set (↥N ⧸ Pc)) ⊔ K = ⊤ := by
     have h := Sylow.normalizer_sup_eq_top S
     rwa [show (S : Subgroup ↥K).map K.subtype = Ys from rfl] at h

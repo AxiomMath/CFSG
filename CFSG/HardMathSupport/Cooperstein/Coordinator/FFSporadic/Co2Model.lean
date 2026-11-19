@@ -294,7 +294,7 @@ theorem co2P_hZ :
   have h3 : Nat.card (Subgroup.center L) ∣ 3 :=
     CFSG.Sporadic.Recognition.Co2Multiplier.card_center_dvd_three_of_certificate hperf e'
   have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Group.IsPerfect L := hperf
+  have : Group.IsPerfect L := hperf
   have hnd : ¬ 3 ∣ Nat.card (Subgroup.center L) :=
     not_dvd_card_center_of_kernelTrivial
       CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.kernelTrivialAt_three_Co2 e'

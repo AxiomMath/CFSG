@@ -117,7 +117,7 @@ theorem exists_orderOf_three
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp7 := h.seven_le_of_pi hp3 hpq
   set W := omegaZ (P : Subgroup G) p with hWdef
-  have hWp : IsPGroup p W := P.isPGroup'.to_le omegaZ_le
+  have hWp : IsPGroup p W := P.isPGroup.to_le omegaZ_le
   have hTW : c.T₀ ≤ Subgroup.normalizer (W : Set G) :=
     hT₀P.trans normalizer_le_normalizer_omegaZ
   have hP1 : (P : Subgroup G) ≠ ⊥ := by
@@ -126,11 +126,11 @@ theorem exists_orderOf_three
     have : W = ⊥ := le_bot_iff.mp (h0 ▸ omegaZ_le)
     rw [this]
     infer_instance
-  have h8 := h.not_eight_dvd_card_normalizer_of_pi hp3 hpq P.isPGroup' hP1
+  have h8 := h.not_eight_dvd_card_normalizer_of_pi hp3 hpq P.isPGroup hP1
   have hBW := h.card_eq_mul_of_le_normalizer hp3 c hpq hWp hTW
-  have ha := h.card_omegaZ_inf_le hp3 hpq P.isPGroup' h.orderOf_t
-  have hb := h.card_omegaZ_inf_le hp3 hpq P.isPGroup' c.orderOf_w
-  have hc := h.card_omegaZ_inf_le hp3 hpq P.isPGroup' c.orderOf_tw
+  have ha := h.card_omegaZ_inf_le hp3 hpq P.isPGroup h.orderOf_t
+  have hb := h.card_omegaZ_inf_le hp3 hpq P.isPGroup c.orderOf_w
+  have hc := h.card_omegaZ_inf_le hp3 hpq P.isPGroup c.orderOf_tw
   have hWbig : p < Nat.card W := by
     by_contra hle
     replace hle := not_lt.mp hle

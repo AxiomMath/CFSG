@@ -39,7 +39,7 @@ theorem exists_eq_sup_zpowers_of_card_le_nine {X : Type*} [Group X] [Finite X] {
   · refine ⟨x, hxF, ?_⟩
     rw [sup_idem]
     exact le_antisymm h (Subgroup.zpowers_le.mpr hxF)
-  · obtain ⟨j, hjF, hjx⟩ := SetLike.not_le_iff_exists.mp h
+  · obtain ⟨j, hjF, hjx⟩ := IsConcreteLE.not_le_iff_exists.mp h
     have hSF : Subgroup.zpowers x ⊔ Subgroup.zpowers j ≤ F :=
       sup_le (Subgroup.zpowers_le.mpr hxF) (Subgroup.zpowers_le.mpr hjF)
     have hS9 : Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers j) = 9 :=

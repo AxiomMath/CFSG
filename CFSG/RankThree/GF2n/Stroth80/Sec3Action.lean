@@ -19,6 +19,7 @@ theorem mem_Q_of_pi_conj_eq {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.Qu
   have hmy : m * y * m⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp (H.Q_normal.2 hm) y).mp hy
   exact (Tim79.QuadModel.comm_mem_iff (M₀ := M₀) hy hmy).mpr (h y hy)
 
+omit [Finite G] in
 theorem eq_of_pi_conj_eq {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {g : G}
     {S₁ S₂ : M₀.E → M₀.E} (h1 : ∀ x ∈ Q, M₀.π (g * x * g⁻¹) = S₁ (M₀.π x))
     (h2 : ∀ x ∈ Q, M₀.π (g * x * g⁻¹) = S₂ (M₀.π x)) : S₁ = S₂ := by
@@ -162,17 +163,17 @@ theorem exists_fixed_vector_of_isPGroup {K V : Type*} [Field K] [Finite K] [Char
     [AddCommGroup V] [Module K V] [Finite V] (Λ : Subgroup (V ≃ₗ[K] V)) (hΛ : IsPGroup 2 Λ)
     (S : Submodule K V) (hS : ∀ T ∈ Λ, ∀ v ∈ S, T v ∈ S) (hS0 : S ≠ ⊥) :
     ∃ v ∈ S, v ≠ 0 ∧ ∀ T ∈ Λ, T v = v := by
-  letI : MulAction Λ S :=
+  let : MulAction Λ S :=
     { smul := fun T v => ⟨T.1 v.1, hS T.1 T.2 v.1 v.2⟩
       one_smul := fun v => Subtype.ext rfl
       mul_smul := fun a b v => Subtype.ext rfl }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hΛ.card_modEq_card_fixedPoints S
   have hSeven : 2 ∣ Nat.card S := by
-    haveI : Module.Finite K S := Module.Finite.of_finite
+    have : Module.Finite K S := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := K) (V := S)]
     have hK : 2 ∣ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
     have hpos : Module.finrank K S ≠ 0 := by
@@ -195,7 +196,7 @@ theorem exists_fixed_vector_of_isPGroup {K V : Type*} [Field K] [Finite K] [Char
     exact ⟨fun a b => Subtype.ext ((h0 a).trans (h0 b).symm)⟩
   have hle : Nat.card (MulAction.fixedPoints Λ S) ≤ 1 :=
     Finite.card_le_one_iff_subsingleton.mpr hsub
-  haveI : Nonempty (MulAction.fixedPoints Λ S) :=
+  have : Nonempty (MulAction.fixedPoints Λ S) :=
     ⟨⟨0, MulAction.mem_fixedPoints.mpr fun g => Subtype.ext (map_zero g.1)⟩⟩
   have hpos : 0 < Nat.card (MulAction.fixedPoints Λ S) := Nat.card_pos
   have := Nat.le_of_dvd hpos hF
@@ -223,6 +224,7 @@ theorem Lgen_normalizes (M L : Subgroup G) : M ≤ Subgroup.normalizer (Lgen M L
     (conjSubgroup_mul m m' L).symm
   exact h1.le.trans (le_iSup₂_of_le (m * m') (M.mul_mem hm hm') le_rfl)
 
+omit [Finite G] in
 theorem le_Lgen_self (M L : Subgroup G) : L ≤ Lgen M L := by
   unfold Lgen
   have : conjSubgroup 1 L ≤ ⨆ (m : G) (_ : m ∈ M), conjSubgroup m L :=
@@ -244,7 +246,7 @@ theorem Ctx.not_commutative_genB (hc : Ctx M Q Z B) :
     conjSubgroup_eq_self_iff.mpr (Lgen_normalizes M B hm)
   have hSnZ : S ≤ Subgroup.normalizer (Z : Set G) := fun s hs =>
     hc.hyp.Z_normal.2 (hQM (hSQ hs))
-  haveI : IsMulCommutative ↥Z := hc.hyp.maxAb.prop.2.2
+  have : IsMulCommutative ↥Z := hc.hyp.maxAb.prop.2.2
   have hcommSZ : IsMulCommutative ↥(S ⊔ Z) := by
     refine IsMulCommutative.of_setLike_mul_comm fun x hx y hy => ?_
     obtain ⟨s, hs, z, hz, rfl⟩ := exists_mul_of_mem_sup_of_le_normalizer hSnZ hx

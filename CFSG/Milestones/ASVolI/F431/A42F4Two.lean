@@ -63,7 +63,7 @@ theorem burnsideF4m_pCore_titsN_le : pCoreOf 2 titsN ≤ pCoreOf 2 twoF4N := by
 
 theorem burnsideF4m_tM_mem_O2N : tM ∈ pCoreOf 2 twoF4M2 := by
   have hp : IsPGroup 2 titsK := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.of_card (n := 10) (by rw [titsQK_facts.2.2.2]; norm_num)
   have hK : titsK ≤ pCoreOf 2 titsN :=
     CFSG.LieType.BorelTits.le_pCoreOf 2 titsK_le_titsN titsK_normal_N hp
@@ -89,8 +89,8 @@ theorem burnsideF4m_A42_F4Two (hyp : HypF_4_31 .F4tw f Gp M₁ M₂ β ε z) (hf
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .F4tw Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   obtain ⟨hGp, Ξ, h1, h2⟩ := burnsideF4m_F4Two_xi hyp.amalgam hf
   obtain ⟨zb, hzb, hΞz, hbz⟩ := burnsideF4m_F4Two_zbar hyp hGp Ξ h1
   have hz := hyp.z_mem.1 (by decide)

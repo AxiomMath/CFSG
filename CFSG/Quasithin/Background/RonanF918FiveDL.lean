@@ -101,10 +101,12 @@ variable {W : Type} [CommGroup W] [Finite W] {L Mp : Subgroup (MulAut W)} {F : T
 
 @[expose] noncomputable def Sline : Subgroup W := ((multLineModuleU F line).comap D.bq).map (commV L).subtype
 
+omit [Finite W] in
 theorem Sline_le_commV : Sline D line ≤ commV L := by
   rintro _ ⟨u, -, rfl⟩
   exact u.2
 
+omit [Finite W] in
 theorem mem_Sline_iff (w : ↥(commV L)) :
     (w : W) ∈ Sline D line ↔ D.bq w ∈ multLineModuleU F line := by
   constructor
@@ -115,6 +117,7 @@ theorem mem_Sline_iff (w : ↥(commV L)) :
   · intro h
     exact ⟨w, h, rfl⟩
 
+omit [Finite W] in
 theorem Sline_invariant {l : MulAut W} (hl : l ∈ L) {s : W} (hs : s ∈ Sline D line) :
     l s ∈ Sline D line := by
   have hsC : s ∈ commV L := Sline_le_commV D line hs
@@ -127,6 +130,7 @@ theorem Sline_invariant {l : MulAut W} (hl : l ∈ L) {s : W} (hs : s ∈ Sline 
   rw [mem_Sline_iff D line ⟨_, hlsC⟩, h1]
   exact slm_mul_mem_multLineModuleU h2 γ
 
+omit [Finite W] in
 theorem commSub_invariant {S : Subgroup W} (hS : ∀ l ∈ L, ∀ s ∈ S, l s ∈ S) {l : MulAut W} (hl : l ∈ L)
     {r : W} (hr : r ∈ commSub S L) : l r ∈ commSub S L := by
   induction hr using Subgroup.closure_induction with
@@ -135,13 +139,15 @@ theorem commSub_invariant {S : Subgroup W} (hS : ∀ l ∈ L, ∀ s ∈ S, l s �
     refine Subgroup.subset_closure ⟨l * x * l⁻¹, L.mul_mem (L.mul_mem hl hx) (L.inv_mem hl), l w,
       hS l hl w hw, ?_⟩
     simp [MulAut.mul_apply]
-  | one => simpa using (commSub S L).one_mem
+  | one => simp
   | mul a b ha hb iha ihb => simpa [map_mul] using (commSub S L).mul_mem iha ihb
   | inv a ha ih => simpa [map_inv] using (commSub S L).inv_mem ih
 
+omit [Finite W] in
 theorem commSub_le_Sline : commSub (Sline D line) L ≤ Sline D line :=
   commSub_le_of_invariant fun _ hl _ hs => Sline_invariant D line hl hs
 
+omit [Finite W] in
 theorem fixed_iff (hLMp : L ≤ Mp) (u : ↥(commV L)) :
     (∀ a ∈ L, a (u : W) = (u : W)) ↔ D.bq u = 1 := by
   constructor
@@ -160,6 +166,7 @@ theorem fixed_iff (hLMp : L ≤ Mp) (u : ↥(commV L)) :
   · intro h a ha
     exact ((D.bq_ker u).mp h) a (hLMp ha)
 
+omit [Finite W] in
 theorem exists_commSub_preimage (hrank : Module.finrank F line = 1) {Y : Multiplicative (Matrix (Fin 2) (Fin 2) F)}
     (hY : Y ∈ multLineModuleU F line) :
     ∃ (r : W) (hrC : r ∈ commV L), r ∈ commSub (Sline D line) L ∧ D.bq ⟨r, hrC⟩ = Y := by
@@ -223,6 +230,7 @@ theorem comm_ident {V : Type} [CommGroup V] (p q s c : V) :
   simp only [ofMul_mul, ofMul_inv]
   abel
 
+omit [Finite W] in
 theorem commSub_commSub_eq_of_perfect [Group.IsPerfect ↥L] {S : Subgroup W}
     (hS : ∀ l ∈ L, ∀ s ∈ S, l s ∈ S) : commSub (commSub S L) L = commSub S L := by
   apply le_antisymm
@@ -256,6 +264,7 @@ theorem commSub_commSub_eq_of_perfect [Group.IsPerfect ↥L] {S : Subgroup W}
       exact this
     exact (QuotientGroup.eq_one_iff _).mp h1
 
+omit [Finite W] in
 theorem isIrrSec_commSub (hLMp : L ≤ Mp) (hrank : Module.finrank F line = 1) :
     XMod.IsIrrSec ↥L (XMod.fixed ↥L (commSub (Sline D line) L)) (commSub (Sline D line) L) := by
   obtain ⟨r0, hr0, hrl, hgen⟩ := exists_gen_line hrank

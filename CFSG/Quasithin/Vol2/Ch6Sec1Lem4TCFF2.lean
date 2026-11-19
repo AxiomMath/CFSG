@@ -14,6 +14,7 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_self (S : Subgroup G) :
     Subgroup.centralizer (S : Set G) ≤ Subgroup.normalizer (S : Set G) := by
   intro g hg
@@ -38,6 +39,7 @@ theorem centralizer_le_normalizer_self (S : Subgroup G) :
     rw [e] at hx
     exact hx
 
+omit [Finite G] in
 theorem conj_mem_centralizer {S : Subgroup G} {n c : G} (hn : n ∈ Subgroup.normalizer (S : Set G))
     (hc : c ∈ Subgroup.centralizer (S : Set G)) : n * c * n⁻¹ ∈ Subgroup.centralizer (S : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -55,6 +57,7 @@ theorem conj_mem_centralizer {S : Subgroup G} {n c : G} (hn : n ∈ Subgroup.nor
 noncomputable def xSet {R : Subgroup G} (hV : IsElemAbelian 2 R) (H : Subgroup G) : Subgroup G :=
   ((pCoreOf 2 (autI hV H)).comap (convI hV)).map (Subgroup.normalizer (R : Set G)).subtype ⊓ H
 
+omit [Finite G] in
 theorem mem_xSet {R H : Subgroup G} (hV : IsElemAbelian 2 R) {g : G} :
     g ∈ xSet hV H ↔ g ∈ H ∧ ∃ hg : g ∈ Subgroup.normalizer (R : Set G),
       convI hV ⟨g, hg⟩ ∈ pCoreOf 2 (autI hV H) := by
@@ -83,8 +86,8 @@ theorem pCoreOf_autI_eq_bot {K T R : Subgroup G} (hV : IsElemAbelian 2 R)
     pCoreOf 2 (autI hV (K ⊔ T)) = ⊥ := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hperf
-  haveI : IsSimpleGroup (ModO2 K) := hsimp
+  have := hperf
+  have : IsSimpleGroup (ModO2 K) := hsimp
   set H : Subgroup G := K ⊔ T with hH
   have hTH : T ≤ H := le_sup_right
   have hKH : K ≤ H := le_sup_left
@@ -183,7 +186,7 @@ theorem pCoreOf_autI_eq_bot {K T R : Subgroup G} (hV : IsElemAbelian 2 R)
           have hyk : y = k ^ 2 ^ n := Subtype.ext (by simpa using hyeq)
           rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, ← hyk]
           exact hy
-      haveI : Group.IsPerfect (ModO2 K) :=
+      have : Group.IsPerfect (ModO2 K) :=
         Group.IsPerfect.ofSurjective (f := π) (QuotientGroup.mk'_surjective _)
       obtain ⟨q, hq⟩ := exists_ne (1 : ModO2 K)
       exact hq (eq_one_of_isPGroup_of_isPerfect hpg q)
@@ -239,6 +242,7 @@ section Step4
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_offender {K T R : Subgroup G} (hTK : T ≤ Subgroup.normalizer (K : Set G))
     (hKR : K ≤ Subgroup.normalizer (R : Set G))
     (hKC : K ⊓ Subgroup.centralizer (R : Set G) = pCoreOf 2 K)
@@ -252,7 +256,7 @@ theorem exists_offender {K T R : Subgroup G} (hTK : T ≤ Subgroup.normalizer (K
     by_contra hcon
     push Not at hcon
     exact hJ (iSup₂_le fun A hA => hcon A hA)
-  obtain ⟨a, haA, haCM⟩ := SetLike.not_le_iff_exists.mp hAnot
+  obtain ⟨a, haA, haCM⟩ := IsConcreteLE.not_le_iff_exists.mp hAnot
   have haT : a ∈ T := hA.1 haA
   have haN : a ∈ Subgroup.normalizer (K : Set G) := hTK haT
   have hu : ∃ u ∈ K, a * u * a⁻¹ * u⁻¹ ∉ pCoreOf 2 K := by

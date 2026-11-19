@@ -37,6 +37,7 @@ variable {G : Type} [Group G] [Finite G]
             (∀ H ∈ Δ, CFSG.LocalAnalysis.WeakClosure81.InFSq 2 H) ∧
               (∀ H ∈ Δ, ∀ g : G, g ∉ D.M → ¬ twoResidual H ≤ conjSubgroup D.M g)
 
+omit [Finite G] in
 theorem three_dvd_card_of_isJ1_bar2 {L : Subgroup G} (hJ : IsJ1 (Bar2 L)) :
     3 ∣ Nat.card L := by
   have h : 3 ∣ Nat.card (Bar2 L) := UC22.three_dvd_card_of_isJ1 hJ
@@ -131,7 +132,7 @@ theorem uniqueMax_of_isJ1 (D : Data G) {V₀ V L : Subgroup G} (c : Ctx17_17 D V
   have hAuniq' : A ∈ uniqueSet D.M := hAuniq A hAL hA3
   unfold UniqueMax
   ext H
-  simp only [calMOf, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [calMOf, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hH, hLH⟩
     by_contra hne

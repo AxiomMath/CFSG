@@ -33,7 +33,7 @@ theorem seitzHyperGamma_eq_top_unitary_field_three
   have hfield : ∀ k : ℕ, IsFieldAutThree (α ^ k) := fun k =>
     isFieldAutThree_pow_of_not_mem_primeFormD h hne hℓ θ hα3 haD k
   have hT : IsThreeType K := IsThreeType.of_isFieldAutThree (by simpa using hfield 1) hα1
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let αE : ↥E := ⟨α, hαE⟩
   have hαEord : orderOf αE = 3 := by
     rw [Subgroup.orderOf_mk]
@@ -88,9 +88,9 @@ theorem seitzHyperGamma_eq_top_unitary_eight
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv e)
   have hperf : commutator K = ⊤ := hq.1
-  haveI := hU.finite
-  haveI : Fact q.p.Prime := ⟨hℓ⟩
-  haveI : CharP Kf q.p := hU.charP
+  have := hU.finite
+  have : Fact q.p.Prime := ⟨hℓ⟩
+  have : CharP Kf q.p := hU.charP
   have h8' : q.p ^ q.exponent = 8 := by
     rw [← TauCeti.PrimePower.card_def]
     exact h8

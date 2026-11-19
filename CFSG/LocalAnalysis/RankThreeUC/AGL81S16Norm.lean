@@ -60,7 +60,7 @@ theorem exists_rot_std (hσ : IsUnitaryInvolution σ) {i j : Fin 4} (hij : i ≠
   have hjj : herm σ (Pi.single j 1 : Fin 4 → F) (Pi.single j 1) = 1 := by
     simp [herm_single_left]
   have hij' : herm σ (Pi.single i 1 : Fin 4 → F) (Pi.single j 1) = 0 := by
-    simp [herm_single_left, Pi.single_apply, hij.symm]
+    simp [herm_single_left, hij.symm]
   obtain ⟨g, h1, h2, h3⟩ := exists_rot hσ hii hjj hij' h
   refine ⟨g, h1, h2, fun v hi hj => h3 v ?_ ?_⟩
   · simp [herm_single_left, hi]
@@ -78,8 +78,8 @@ theorem rot_smul_apply {g : SUid σ 4} {i j : Fin 4} (hij : i ≠ j) {α β : F}
     (h3 : ∀ v : Fin 4 → F, v i = 0 → v j = 0 → g • v = v) (w : Fin 4 → F) :
     (g • w) i = α * w i + (-σ β) * w j ∧ (g • w) j = β * w i + σ α * w j := by
   set w' : Fin 4 → F := w - w i • Pi.single i 1 - w j • Pi.single j 1 with hw'
-  have hw'i : w' i = 0 := by simp [hw', Pi.single_apply, hij.symm]
-  have hw'j : w' j = 0 := by simp [hw', Pi.single_apply, hij]
+  have hw'i : w' i = 0 := by simp [hw', hij.symm]
+  have hw'j : w' j = 0 := by simp [hw', hij]
   have hdec : w = w i • (Pi.single i 1 : Fin 4 → F) + w j • (Pi.single j 1 : Fin 4 → F) + w' := by
     rw [hw']
     abel
@@ -89,9 +89,9 @@ theorem rot_smul_apply {g : SUid σ 4} {i j : Fin 4} (hij : i ≠ j) {α β : F}
     rw [smul_add, smul_add, smul_comm g (w i), smul_comm g (w j), h3 w' hw'i hw'j]
   rw [hgw, h1, h2]
   constructor
-  · simp [Pi.single_apply, hij.symm, hij, hw'i]
+  · simp [hij, hw'i]
     ring
-  · simp [Pi.single_apply, hij.symm, hij, hw'j]
+  · simp [hij.symm, hw'j]
     ring
 
 theorem commutant_offdiag (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →+ (Fin 4 → F))
@@ -104,7 +104,7 @@ theorem commutant_offdiag (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →
   obtain ⟨g, h1, h2, h3⟩ := exists_rot_std hσ (i := i) (j := j) hji.symm (α := ω) (β := 0)
     (by rw [map_zero, mul_zero, add_zero]; exact hω1)
   have hyk : ∀ m : Fin 4, m ≠ k → (y • (Pi.single k 1 : Fin 4 → F)) m = 0 := fun m hm => by
-    simp [Pi.single_apply, hm]
+    simp [hm]
   have hfix : g • β (y • (Pi.single k 1 : Fin 4 → F)) = β (y • (Pi.single k 1 : Fin 4 → F)) := by
     rw [← hβ g, h3 _ (hyk i hik) (hyk j hjk)]
   have h4 := (rot_smul_apply hji.symm h1 h2 h3 (β (y • (Pi.single k 1 : Fin 4 → F)))).1
@@ -123,7 +123,7 @@ theorem commutant_diag (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →+ (
   by_cases hik : i = k
   · subst hik
     simp
-  · simp [Pi.single_apply, hik, commutant_offdiag hσ β hβ k i hik y]
+  · simp [hik, commutant_offdiag hσ β hβ k i hik y]
 
 theorem commutant_suid (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →+ (Fin 4 → F))
     (hβ : ∀ (g : SUid σ 4) (x : Fin 4 → F), β (g • x) = g • β x) :
@@ -145,7 +145,7 @@ theorem commutant_suid (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →+ (
     rw [hL, hR] at h6
     have h7 := congrFun h6 i
     have h8 := congrFun h6 j
-    simp [Pi.single_apply, hij, hij.symm] at h7 h8
+    simp [hij, hij.symm] at h7 h8
     exact ⟨h7, h8⟩
   have hmul : ∀ i : Fin 4, ∀ y : F, gk i y = gk i 1 * y := by
     intro i y
@@ -174,7 +174,7 @@ theorem commutant_suid (hσ : IsUnitaryInvolution σ) (β : (Fin 4 → F) →+ (
   rw [map_sum]
   funext i
   simp only [Finset.sum_apply, hgk, Pi.smul_apply, smul_eq_mul, Pi.single_apply, mul_ite, mul_one,
-    mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [hmul i (x i), hk i]
 
 end Commutant
@@ -283,8 +283,8 @@ variable {F : Type} [Field F] [Finite F] {n : ℕ}
 theorem statedSU_data (hF : Nat.card F = (2 ^ n) ^ 2) :
     ∃ σ : F ≃+* F, IsUnitaryInvolution σ ∧ (2 : F) = 0 ∧
       SUid σ 4 = StatedSU 4 (2 ^ n) F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   refine ⟨CFSG.LieType.BorelTits.unitaryInvolution F 2 n, isUnitaryInvolution_unitaryInvolution hF,
     CharP.cast_eq_zero F 2, CFSG.LieType.Universal.Unitary.SUid_eq_statedSU hF 4⟩
 

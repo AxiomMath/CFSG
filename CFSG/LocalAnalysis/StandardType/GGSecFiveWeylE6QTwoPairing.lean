@@ -20,7 +20,7 @@ theorem exists_cartan_pairing_E6 [Finite G] (hNT : GGNoTransvection 3 Bs)
       (∀ i, ggLin (p := 3) ι ((e (CoxeterMatrix.E₆.simple i) : ↥A) : MulAut ↥Bs) =
         reflection (hα i)) ∧
       ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let par : Fin 6 → Fin 6 := ![0, 3, 0, 2, 3, 4]
   let depth : Fin 6 → ℕ := ![0, 3, 1, 2, 3, 4]
   have hsl : ∀ i j : Fin 6, i ≠ j →
@@ -42,13 +42,13 @@ theorem three_pow_five_le_card [Finite G] (hBs : IsElemAbelian 3 Bs)
     (hNT : GGNoTransvection 3 Bs) {A : Subgroup (MulAut ↥Bs)}
     (hA : ∀ φ ∈ A, φ ∈ ggInduced ⊤ Bs) (hW : GGWeylOfType 3 CoxeterMatrix.E₆ A) :
     3 ^ 5 ≤ Nat.card Bs := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := CFSG.StandardType.exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   obtain ⟨e, h, α, hα, hrefl, hP⟩ := exists_cartan_pairing_E6 hNT hW hA ι
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have h5 := five_le_finrank_span hP
   have hle : finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) ≤ finrank (ZMod 3) V :=
     Submodule.finrank_le _
@@ -61,11 +61,11 @@ theorem eq_one_of_forall_fixed_of_card [Finite G] (hBs : IsElemAbelian 3 Bs)
     (hNT : GGNoTransvection 3 Bs) {A : Subgroup (MulAut ↥Bs)}
     (hA : ∀ φ ∈ A, φ ∈ ggInduced ⊤ Bs) (hW : GGWeylOfType 3 CoxeterMatrix.E₆ A)
     (hcard : Nat.card Bs = 3 ^ 5) {b : ↥Bs} (hb : ∀ ψ ∈ A, ψ b = b) : b = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := CFSG.StandardType.exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   obtain ⟨e, h, α, hα, hrefl, hP⟩ := exists_cartan_pairing_E6 hNT hW hA ι
   have hV : Nat.card V = 3 ^ 5 := by
     rw [← CFSG.StandardType.card_eq_of_ggLin ι]
@@ -98,7 +98,7 @@ theorem le_sup_of_weylOfType_E6 [Finite G] (hBs : IsElemAbelian 3 Bs)
     (hL : Bs ≤ Subgroup.normalizer (L : Set G)) (hK : Bs ≤ Subgroup.normalizer (K : Set G))
     (hW : GGWeylOfType 3 CoxeterMatrix.E₆ (ggAutomizer L Bs ⊔ ggAutomizer K Bs))
     (hcard : Nat.card Bs = 3 ^ 5) : Bs ≤ L ⊔ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAle : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer (L ⊔ K) Bs :=
     sup_le (CFSG.StandardType.ggAutomizer_mono Bs le_sup_left)
       (CFSG.StandardType.ggAutomizer_mono Bs le_sup_right)
@@ -111,7 +111,7 @@ theorem le_sup_of_weylOfType_E6 [Finite G] (hBs : IsElemAbelian 3 Bs)
     intro ψ hψ b
     obtain ⟨g, hgLK, hgN, hg⟩ := CFSG.StandardType.mem_ggAutomizer_iff.mp (hAle hψ)
     have hbnorm : (b : G) ∈ Subgroup.normalizer ((L ⊔ K : Subgroup G) : Set G) :=
-      Subgroup.normalizer_inf_normalizer_le_normalizer_sup L K ⟨hL b.2, hK b.2⟩
+      Subgroup.inf_normalizer_le_normalizer_sup L K ⟨hL b.2, hK b.2⟩
     have hmem : (b : G) * g⁻¹ * (b : G)⁻¹ ∈ L ⊔ K :=
       (Subgroup.mem_normalizer_iff.mp hbnorm g⁻¹).mp (Subgroup.inv_mem _ hgLK)
     have heq : ((ψ b : ↥Bs) : G) * (b : G)⁻¹ = g * ((b : G) * g⁻¹ * (b : G)⁻¹) := by
@@ -119,9 +119,9 @@ theorem le_sup_of_weylOfType_E6 [Finite G] (hBs : IsElemAbelian 3 Bs)
     rw [heq]
     exact (L ⊔ K).mul_mem hgLK hmem
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := CFSG.StandardType.exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   obtain ⟨e, h, α, hα, hrefl, hP⟩ := exists_cartan_pairing_E6 hNT hW hAind ι
   have hV : Nat.card V = 3 ^ 5 := by
     rw [← CFSG.StandardType.card_eq_of_ggLin ι]

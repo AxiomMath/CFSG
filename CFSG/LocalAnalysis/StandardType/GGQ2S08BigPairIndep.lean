@@ -15,22 +15,22 @@ private theorem ggQ2s08pi_A_eq_three_iff {n : ℕ} (a b : Fin n) (hab : a ≠ b)
   have h : CoxeterMatrix.A n a b =
       (if (b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b then 3 else 2) := by
     simp only [CoxeterMatrix.A, Matrix.of_apply]
-    rw [if_neg hab]
+    rw [ite_eq_right hab]
   rw [h]
   by_cases hc : (b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b
-  · rw [if_pos hc]; simp [hc]
-  · rw [if_neg hc]; simp [hc]
+  · rw [ite_eq_left hc]; simp [hc]
+  · rw [ite_eq_right hc]; simp [hc]
 
 private theorem ggQ2s08pi_A_eq_two_iff {n : ℕ} (a b : Fin n) (hab : a ≠ b) :
     CoxeterMatrix.A n a b = 2 ↔ ¬ ((b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b) := by
   have h : CoxeterMatrix.A n a b =
       (if (b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b then 3 else 2) := by
     simp only [CoxeterMatrix.A, Matrix.of_apply]
-    rw [if_neg hab]
+    rw [ite_eq_right hab]
   rw [h]
   by_cases hc : (b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b
-  · rw [if_pos hc]; simp [hc]
-  · rw [if_neg hc]; simp [hc]
+  · rw [ite_eq_left hc]; simp [hc]
+  · rw [ite_eq_right hc]; simp [hc]
 
 private theorem ggQ2s08pi_A_ne_four {n : ℕ} (a b : Fin n) : CoxeterMatrix.A n a b ≠ 4 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
@@ -40,7 +40,7 @@ private theorem ggQ2s08pi_A_ne_six {n : ℕ} (a b : Fin n) : CoxeterMatrix.A n a
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   split_ifs <;> omega
 
-private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a ≠ b)
+private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (_hab : a ≠ b)
     (hadj : (b : ℕ) + 1 = a ∨ (a : ℕ) + 1 = b) :
     (∃ k : Fin n, k ≠ a ∧ k ≠ b ∧
       CoxeterMatrix.A n k a = 3 ∧ CoxeterMatrix.A n k b = 2) ∨
@@ -64,12 +64,12 @@ private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a 
       have hAa : CoxeterMatrix.A n k a = 3 := by
         rw [ggQ2s08pi_A_eq_three_iff k a hka]
         left
-        simp only [k, Fin.val_mk]
+        simp only [k]
         omega
       have hAb : CoxeterMatrix.A n k b = 2 := by
         rw [ggQ2s08pi_A_eq_two_iff k b hkb]
         intro h
-        rcases h with h | h <;> (simp only [k, Fin.val_mk] at h; omega)
+        rcases h with h | h <;> (simp only [k] at h; omega)
       exact Or.inl ⟨k, hka, hkb, hAa, hAb⟩
     ·
       let k : Fin n := ⟨(b : ℕ) - 1, by omega⟩
@@ -86,11 +86,11 @@ private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a 
       have hAa : CoxeterMatrix.A n k a = 2 := by
         rw [ggQ2s08pi_A_eq_two_iff k a hka]
         intro h
-        rcases h with h | h <;> (simp only [k, Fin.val_mk] at h; omega)
+        rcases h with h | h <;> (simp only [k] at h; omega)
       have hAb : CoxeterMatrix.A n k b = 3 := by
         rw [ggQ2s08pi_A_eq_three_iff k b hkb]
         right
-        simp only [k, Fin.val_mk]
+        simp only [k]
         omega
       exact Or.inr ⟨k, hka, hkb, hAa, hAb⟩
   ·
@@ -110,11 +110,11 @@ private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a 
       have hAa : CoxeterMatrix.A n k a = 2 := by
         rw [ggQ2s08pi_A_eq_two_iff k a hka]
         intro h
-        rcases h with h | h <;> (simp only [k, Fin.val_mk] at h; omega)
+        rcases h with h | h <;> (simp only [k] at h; omega)
       have hAb : CoxeterMatrix.A n k b = 3 := by
         rw [ggQ2s08pi_A_eq_three_iff k b hkb]
         left
-        simp only [k, Fin.val_mk]
+        simp only [k]
         omega
       exact Or.inr ⟨k, hka, hkb, hAa, hAb⟩
     ·
@@ -132,12 +132,12 @@ private theorem ggQ2s08pi_find3 {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a 
       have hAa : CoxeterMatrix.A n k a = 3 := by
         rw [ggQ2s08pi_A_eq_three_iff k a hka]
         right
-        simp only [k, Fin.val_mk]
+        simp only [k]
         omega
       have hAb : CoxeterMatrix.A n k b = 2 := by
         rw [ggQ2s08pi_A_eq_two_iff k b hkb]
         intro h
-        rcases h with h | h <;> (simp only [k, Fin.val_mk] at h; omega)
+        rcases h with h | h <;> (simp only [k] at h; omega)
       exact Or.inl ⟨k, hka, hkb, hAa, hAb⟩
 
 private theorem ggQ2s08pi_cartan_of_coxeter_two {G : Type} [Group G] {Bs L : Subgroup G} {x : G}

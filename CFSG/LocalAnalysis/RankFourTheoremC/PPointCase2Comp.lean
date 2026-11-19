@@ -217,7 +217,7 @@ theorem isCyclic_of_decomp (h : Case2Hyp Y x) (hWC : KFactWeakClosure) (hK : IsC
       (setLike_mul_comm ((hmem a).mp a.2) ((hmem b).mp b.2))))
     (by
       rw [inf_top_eq]
-      exact two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num) P.isPGroup' hnc)
+      exact two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num) P.isPGroup hnc)
     (zpowers r') (zpowers_le.mpr ((hmem r').mpr hrQK.1))
     (by rw [Nat.card_zpowers, hr', Subgroup.orderOf_mk, hro])
   have hgr : (g : Y) * r * (g : Y)⁻¹ ∈ (Q : Subgroup Y) :=
@@ -241,7 +241,7 @@ theorem mem_of_decomp (h : Case2Hyp Y x) (hK : IsComponentOf K ⊤)
   have hr'P : r' ∈ (P : Subgroup K) := (hmem r').mpr hrQK.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ :=
     CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect
-      hK.2.2.1 P.isPGroup' P.not_dvd_index hPc hP1
+      hK.2.2.1 P.isPGroup P.not_dvd_index hPc hP1
   have ha1 : a ≠ 1 := fun ha => hga (by rw [ha, mul_one, mul_inv_cancel])
   obtain ⟨j, rfl⟩ : ∃ j : ℤ, r' ^ j = a := by
     have hr'p : (⟨r', hr'P⟩ : (P : Subgroup K)) ^ 3 = 1 :=

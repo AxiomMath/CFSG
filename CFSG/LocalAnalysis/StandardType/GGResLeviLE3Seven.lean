@@ -19,9 +19,9 @@ theorem ggResTwoNodeSideDatum_of_LE3_seven {G : Type} [Group G] [Finite G] {Bs K
   have hfixy := ggRC_automizer_fixes_y hy hKy
   obtain ⟨Λ, i1, i2, S, M, C, MJ, V, i3, i4, ι, φ, h, α, hS2, hS3, hWM, hC, hWMJ, hMJ, hlin,
     hrefl, hpair, ⟨f, hf⟩, hclos, ⟨fJ, hfJ⟩, hclosJ, hconj⟩ := hK3
-  letI := i1; letI := i2; letI := i3; letI := i4
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1; let := i2; let := i3; let := i4
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let z : V := ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs))
   have hz0 : z ≠ 0 := by
     intro h0

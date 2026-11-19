@@ -325,7 +325,7 @@ private theorem hessConjOfFix72 (hX : Nat.card X = 72) {E : Subgroup X} [hEn : E
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE9 : Nat.card E = 9)
     (hC : ∀ y : X, (∀ b ∈ E, y * b = b * y) → y ∈ E) {α : MulAut X}
     (hα : ∀ b ∈ E, α b = b) : ∃ e ∈ E, α = MulAut.conj e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hQ8 : Nat.card (Q : Subgroup X) = 8 := by
     rw [Sylow.card_eq_multiplicity, hX, hessFactorization72]
@@ -373,7 +373,7 @@ private theorem hessConjOfFix72 (hX : Nat.card X = 72) {E : Subgroup X} [hEn : E
   set α' : MulAut X := MulAut.conj e⁻¹ * α with hα'
   have hα'apply : ∀ z : X, α' z = e⁻¹ * α z * e := by
     intro z
-    simp [hα', MulAut.conj_apply]
+    simp [hα']
   have hα'Q : ∀ q ∈ (Q : Subgroup X), α' q ∈ (Q : Subgroup X) := by
     intro q hq
     have h := hαQ q hq
@@ -419,7 +419,7 @@ private theorem hessCommuteOrder72 (hX : Nat.card X = 72) {E : Subgroup X}
       ∃ w ∈ Subgroup.normalizer (E : Set X), w * y₀ * w⁻¹ = y₁)
     (hC : ∀ y : X, (∀ b ∈ E, y * b = b * y) → y ∈ E) {σ τ : MulAut X}
     (hσ : ∀ b ∈ E, σ b = b) (hτ : ∀ b ∈ E, τ b = b) : σ * τ = τ * σ := by
-  haveI := hessNormal72 hX hE9 htr
+  have := hessNormal72 hX hE9 htr
   obtain ⟨e, he, rfl⟩ := hessConjOfFix72 hX hEc hE9 hC hσ
   obtain ⟨e', he', rfl⟩ := hessConjOfFix72 hX hEc hE9 hC hτ
   rw [← map_mul, ← map_mul, hEc e he e' he']
@@ -532,7 +532,7 @@ theorem false_of_commutator_hessian {X : Type} [Group X] [Finite X] {p e : ℕ} 
     {N : Type} [Group N] (act : N →* MulAut X) {c w : N}
     (hc : ∃ k : ℕ, c ^ 3 ^ k = 1) (hw : ∃ k : ℕ, w ^ 3 ^ k = 1)
     (hcE : ∀ b ∈ E, act c b = b) (hwE : ∀ b ∈ E, act w b = b)
-    {e₀ : X} (he₀ : e₀ ∈ E) (he₀1 : e₀ ≠ 1) (hcomm : act (c * w * c⁻¹ * w⁻¹) = MulAut.conj e₀) :
+    {e₀ : X} (_he₀ : e₀ ∈ E) (he₀1 : e₀ ≠ 1) (hcomm : act (c * w * c⁻¹ * w⁻¹) = MulAut.conj e₀) :
     False := by
   have hσ : ∃ k : ℕ, (act c) ^ 3 ^ k = 1 := by
     obtain ⟨k, hk⟩ := hc

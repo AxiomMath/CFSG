@@ -46,8 +46,8 @@ private theorem w115_two_transitive :
 
 private theorem w115_transitive (x : Fin 22) :
     ∃ g : ↥NativeSporadic.M22, (g : Equiv.Perm (Fin 22)) 0 = x := by
-  haveI : IsMultiplyPretransitive ↥NativeSporadic.M22 (Fin 22) 2 := w115_two_transitive
-  haveI : IsPretransitive ↥NativeSporadic.M22 (Fin 22) :=
+  have : IsMultiplyPretransitive ↥NativeSporadic.M22 (Fin 22) 2 := w115_two_transitive
+  have : IsPretransitive ↥NativeSporadic.M22 (Fin 22) :=
     isPretransitive_of_is_two_pretransitive (G := ↥NativeSporadic.M22) (α := Fin 22)
   obtain ⟨g, hg⟩ := exists_smul_eq ↥NativeSporadic.M22 (0 : Fin 22) x
   exact ⟨g, by simpa [Subgroup.smul_def] using hg⟩
@@ -182,7 +182,7 @@ theorem w115_N0_mem_cases_u
           rw [Subgroup.coe_mul]
           show ha * u * (↑hb * u) = ha * (u * ↑hb * u⁻¹)
           rw [hu_inv]
-          simp [mul_assoc, h2]
+          simp [mul_assoc]
       inv_mem' := by
         rintro a (⟨ha, rfl⟩ | ⟨ha, rfl⟩)
         · exact Or.inl ⟨ha⁻¹, by rw [Subgroup.coe_inv]⟩

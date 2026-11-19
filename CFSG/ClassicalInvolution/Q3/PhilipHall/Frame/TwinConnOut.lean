@@ -19,9 +19,9 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 
 set_option linter.unusedSectionVars false
 
-theorem e4_of_1711Out {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
-    (hD4m : TwinCentRes.ModelFactD42) (hM12 : TwinCentRes.ModelFactM12)
-    (hPre : TwinConnPreludeOut n) (hEdg : TwinConnEdgesOut n) (hthin : TwinThinInput n)
+theorem e4_of_1711Out {n : ℕ} (_hSp : TwinCentRes.ModelFactSp62)
+    (_hD4m : TwinCentRes.ModelFactD42) (_hM12 : TwinCentRes.ModelFactM12)
+    (hPre : TwinConnPreludeOut n) (_hEdg : TwinConnEdgesOut n) (hthin : TwinThinInput n)
     (hPerf : TwinE4Perfect n) (hT1 : Fin1711Sandwich) (hT2 : Fin1711Pairing) :
     ∀ (Y : Type) [Group Y] [Finite Y] (R : Subgroup Y) (S : Sylow 2 R) (t : Y),
       TwinCoreHyp n Y R S t → DConnected (CoreAssembly.conjClass (tightCore R)) →
@@ -70,9 +70,9 @@ theorem e4_of_1711Out {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
   exact Twin1711.not_quasiE4 hT1 hT2 h2 (by rw [piGen_conj]; exact hQE)
 
 open TwinE4Perf in
-theorem twinE4Untwisted_of_fin3TOut {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
-    (hD4m : TwinCentRes.ModelFactD42) (hM12 : TwinCentRes.ModelFactM12)
-    (hPre : TwinConnPreludeOut n) (hEdg : TwinConnEdgesOut n) (hF3 : Fin3ActsModels) :
+theorem twinE4Untwisted_of_fin3TOut {n : ℕ} (_hSp : TwinCentRes.ModelFactSp62)
+    (_hD4m : TwinCentRes.ModelFactD42) (_hM12 : TwinCentRes.ModelFactM12)
+    (hPre : TwinConnPreludeOut n) (_hEdg : TwinConnEdgesOut n) (hF3 : Fin3ActsModels) :
     TwinE4Untwisted n := by
   intro Y _ _ R S t h hconn π hπ hH1 g hg hKX z hz hnot hE4
   obtain ⟨hθ', hmem, -, hgs⟩ := hPre _ _ _ _ h hconn
@@ -121,8 +121,8 @@ theorem twinE4Perfect_of_certsOut {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
   twinE4Perfect_of_fin3TOut hSp hD4m hM12 hPre hEdg fin3ActsModels_of_certs₂
 
 theorem TwinConnPreS.of_outV {Y : Type} [Group Y] [Finite Y] {n : ℕ} {R : Subgroup Y}
-    {S : Sylow 2 R} {t : Y} (hSp : TwinCentRes.ModelFactSp62)
-    (hD4m : TwinCentRes.ModelFactD42) (hM12 : TwinCentRes.ModelFactM12)
+    {S : Sylow 2 R} {t : Y} (_hSp : TwinCentRes.ModelFactSp62)
+    (_hD4m : TwinCentRes.ModelFactD42) (_hM12 : TwinCentRes.ModelFactM12)
     (hPre : TwinConnPreludeOut n) (hEdg : TwinConnEdgesOut n) (h : TwinCoreHyp n Y R S t)
     (hconn : DConnected (CoreAssembly.conjClass (tightCore R))) (hT : Thm1RTwinLiftSetBelow n) :
     TwinConnPreS n R t := by

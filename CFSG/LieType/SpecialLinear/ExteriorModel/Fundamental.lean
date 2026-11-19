@@ -210,7 +210,7 @@ theorem bModelEquivOfCardLeOne_bRep [CharP k 2] (ε : τ → Finset (Fin n))
       simp [toFun, invFun]
     · apply Subtype.ext
       dsimp only [toFun, invFun]
-      rw [dif_neg hp]
+      rw [dite_eq_right hp]
       have hs : (s p).val = ∅ := by
         apply Finset.card_eq_zero.mp
         rw [Set.powersetCard.card_eq]
@@ -295,7 +295,7 @@ theorem bMat_apply_of_single (ε : τ → Finset (Fin n)) (r₀ : τ) (j : Fin n
         simp [toFun, invFun, hp₁]
       · apply Subtype.ext
         dsimp only [toFun, invFun]
-        rw [dif_neg hp₁, dif_neg hp₂]
+        rw [dite_eq_right hp₁, dite_eq_right hp₂]
         have hs : (s p).val = ∅ := by
           apply Finset.card_eq_zero.mp
           rw [Set.powersetCard.card_eq]

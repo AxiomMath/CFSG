@@ -41,7 +41,7 @@ theorem false_of_specialBlock_isD42_paired
     False := by
   classical
   have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite ↥(specialBlock Q x h) := by
+  have : Finite ↥(specialBlock Q x h) := by
     have : Finite V := Module.finite_of_finite K
     have : Finite (V ≃ₗ[K] V) :=
       Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
@@ -62,8 +62,8 @@ theorem false_of_specialBlock_isD42_paired
     Nat.card_le_card_of_surjective _ (QuotientGroup.mk'_surjective _)
   by_cases hm1 : m = 1
   · have hbot : specialBlock Q x h = ⊥ := hx.specialBlock_eq_bot_of_finrank_eq_one hh hm1
-    haveI : Subsingleton ↥(specialBlock Q x h) := by rw [hbot]; infer_instance
-    haveI : Subsingleton (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h)) :=
+    have : Subsingleton ↥(specialBlock Q x h) := by rw [hbot]; infer_instance
+    have : Subsingleton (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h)) :=
       by infer_instance
     obtain ⟨a, b, hab⟩ := hq.2.2
     exact hab (Subsingleton.elim (a * b) (b * a))
@@ -111,7 +111,7 @@ theorem false_of_specialBlock_isD42_paired
 theorem false_of_specialBlock_isD42_selfDual
     {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
-    {f₀ : ℕ} (hf₀ : 1 ≤ f₀) (hK : Nat.card K = 2 ^ f₀)
+    {f₀ : ℕ} (_hf₀ : 1 ≤ f₀) (hK : Nat.card K = 2 ^ f₀)
     (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h)
@@ -177,7 +177,7 @@ theorem false_of_specialBlock_isD42_selfDual
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI : Finite ↥(specialBlock Q x h) := by
+  have : Finite ↥(specialBlock Q x h) := by
     have : Finite V := Module.finite_of_finite K
     have : Finite (V ≃ₗ[K] V) :=
       Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
@@ -192,8 +192,8 @@ theorem false_of_specialBlock_isD42_selfDual
   by_cases hm1 : m = 1
   · have hbot : specialBlock Q x h = ⊥ :=
       hx.specialBlock_eq_bot_of_finrank_eq_one hh (by rw [← hm]; exact hm1)
-    haveI : Subsingleton ↥(specialBlock Q x h) := by rw [hbot]; infer_instance
-    haveI : Subsingleton (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h)) :=
+    have : Subsingleton ↥(specialBlock Q x h) := by rw [hbot]; infer_instance
+    have : Subsingleton (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h)) :=
       by infer_instance
     obtain ⟨a, b, hab⟩ := hq.2.2
     exact hab (Subsingleton.elim (a * b) (b * a))

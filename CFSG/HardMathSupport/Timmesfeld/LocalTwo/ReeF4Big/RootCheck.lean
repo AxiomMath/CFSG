@@ -55,11 +55,11 @@ theorem dvd_norm_of_dvd {p : ℕ} {v b e c d : ℤ} (hh : (p : ℤ) ∣ 2 * v ^ 
 
 theorem U1_affine (v : ℤ) (s : Fin 2) (i : Fin 4) :
     U1 v s i = expA1 s i + expB1 s i * v := by
-  fin_cases s <;> fin_cases i <;> simp [U1, expA1, expB1] <;> ring
+  fin_cases s <;> fin_cases i <;> simp [U1, expA1, expB1]
 
 theorem U2_affine (v : ℤ) (s : Fin 2) (i : Fin 4) :
     U2 v s i = expA2 s i + expB2 s i * v := by
-  fin_cases s <;> fin_cases i <;> simp [U2, expA2, expB2] <;> ring
+  fin_cases s <;> fin_cases i <;> simp [U2, expA2, expB2]; ring
 
 theorem U4m_affine (v : ℤ) (s : Fin 2) (i : Fin 4) :
     U4m v s i = expA4m s i + expB4m s i * v := by
@@ -67,7 +67,7 @@ theorem U4m_affine (v : ℤ) (s : Fin 2) (i : Fin 4) :
 
 theorem U4p_affine (v : ℤ) (s : Fin 2) (i : Fin 4) :
     U4p v s i = expA4p s i + expB4p s i * v := by
-  fin_cases s <;> fin_cases i <;> simp [U4p, expA4p, expB4p] <;> ring
+  fin_cases s <;> fin_cases i <;> simp [U4p, expA4p, expB4p]
 
 @[expose] def ReeGoodRoot (b e : ℤ) (A B : Fin 2 → Fin ReeTag.F4.tag.rank → ℤ)
     (β : Fin ReeTag.F4.tag.rank → ℤ) : Prop :=

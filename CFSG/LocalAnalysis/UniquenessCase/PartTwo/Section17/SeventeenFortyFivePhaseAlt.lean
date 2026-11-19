@@ -44,7 +44,7 @@ theorem phase45_false_of_alternating {X : Type} [Group X] [Finite X] {L A₁ A�
   have hB₀card : Nat.card ↥B₀ = 31 ^ 2 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAG₀).toEquiv).trans hAcard
   have hB₀ab : IsMulCommutative ↥B₀ := by
-    haveI : IsMulCommutative ↥A := hAab
+    have : IsMulCommutative ↥A := hAab
     exact Subgroup.subgroupOf_isMulCommutative G₀ A
   have hB₀odd : Odd (Nat.card ↥B₀) := by
     rw [hB₀card]
@@ -66,9 +66,9 @@ theorem phase45_false_of_alternating {X : Type} [Group X] [Finite X] {L A₁ A�
     exact (Subgroup.card_le_of_le hE).trans_eq hB₀card
   have hHyp : UC22.F10.Hyp10 T₀ B₀ :=
     ⟨hT₀syl, hB₀ab, hB₀odd, hB₀perm, hpRank⟩
-  haveI hL₀normal : L₀.Normal := hLn.subgroupOf G₀
+  have hL₀normal : L₀.Normal := hLn.subgroupOf G₀
   have hLs₀ : IsSimpleGroup ↥L₀ := by
-    haveI : IsSimpleGroup ↥L := hLs
+    have : IsSimpleGroup ↥L := hLs
     exact (Subgroup.subgroupOfEquivOfLe hLG₀).isSimpleGroup
   have hL₀nab : ∃ a b : ↥L₀, a * b ≠ b * a := by
     by_contra h
@@ -97,7 +97,7 @@ theorem phase45_false_of_alternating {X : Type} [Group X] [Finite X] {L A₁ A�
     exact ⟨(Subgroup.subgroupOfEquivOfLe hLG₀).trans e⟩
   have h3 : IsPGroup 3 ↥B₀ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k101_holds ↥G₀ T₀ B₀ hHyp hAlt
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3dvd : 3 ∣ Nat.card ↥B₀ := by
     rcases IsPGroup.card_eq_or_dvd h3 with h | h
     · rw [hB₀card] at h

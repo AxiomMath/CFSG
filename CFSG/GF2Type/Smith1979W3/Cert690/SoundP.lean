@@ -117,7 +117,7 @@ private theorem hom_of_outer (C : Cert D) {cu : ℕ} (hcu : cu ∈ D.pgl.involut
   rw [isHomTab, ← C.qmulFlat_eq]
   exact hh
 
-private noncomputable def outerF (C : Cert D) {cu : ℕ} (hcu : cu ∈ D.pgl.involutions) :
+private noncomputable def outerF (_C : Cert D) {cu : ℕ} (_hcu : cu ∈ D.pgl.involutions) :
     ℕ → Q0 ≃* Q0 :=
   fun f => if h : isHomTab (liftTab cu f) = true then ofTab (liftTab cu f) h else 1
 
@@ -125,7 +125,7 @@ private theorem outerF_eq (C : Cert D) {cu : ℕ} (hcu : cu ∈ D.pgl.involution
     {f : ℕ} (hf : f < 64) :
     outerF C hcu f = ofTab (liftTab cu f) (hom_of_outer C hcu hf) := by
   unfold outerF
-  rw [dif_pos (hom_of_outer C hcu hf)]
+  rw [dite_eq_left (hom_of_outer C hcu hf)]
 
 private theorem outerF_tab (C : Cert D) {cu : ℕ} (hcu : cu ∈ D.pgl.involutions)
     {f : ℕ} (hf : f < 64) :
@@ -168,9 +168,9 @@ private theorem cand_pgl (C : Cert D) (hσ : IsSquareData KPGL σ) {b : Bool × 
       sOf (repRoot (innTabs ()) (repThetas D.reps)) b.1 b.2 i < 128 ∧
       σ (ofTab (liftTab D.reps[i]! 0) (reps_hhom C i hi)) =
         dec (sOf (repRoot (innTabs ()) (repThetas D.reps)) b.1 b.2 i))
-    {u : V₀ ≃ₗ[ZMod 2] V₀} {cu : ℕ} (hcu : Code.HasCode (u : V₀ →ₗ[ZMod 2] V₀) cu)
+    {u : V₀ ≃ₗ[ZMod 2] V₀} {cu : ℕ} (_hcu : Code.HasCode (u : V₀ →ₗ[ZMod 2] V₀) cu)
     (hcu_invol : cu ∈ D.pgl.involutions)
-    {w : SqWit} (hw : D.witMap.get? cu = some w) (hsomew : some w ∈ D.wits)
+    {w : SqWit} (_hw : D.witMap.get? cu = some w) (hsomew : some w ∈ D.wits)
     (hcandAll : ∀ f < 64, (pglCand D b w cu f).isSome = true) {f : ℕ} (hf : f < 64) :
     pglCand D b w cu f = some (enc (σ (outerF C hcu_invol f))) := by
   obtain ⟨-, hEk, hrepIdx, -, -, hpsi, htp, hitp, -⟩ :=
@@ -199,14 +199,14 @@ private theorem cand_pgl (C : Cert D) (hσ : IsSquareData KPGL σ) {b : Bool × 
       hitp hvC
   rw [hv, hveq]
 
-private theorem outerF_set_eq (C : Cert D) (hσ : IsSquareData KPGL σ) {b : Bool × Bool}
-    (hb : ∀ i (hi : i < 2),
+private theorem outerF_set_eq (C : Cert D) (_hσ : IsSquareData KPGL σ) {b : Bool × Bool}
+    (_hb : ∀ i (hi : i < 2),
       sOf (repRoot (innTabs ()) (repThetas D.reps)) b.1 b.2 i < 128 ∧
       σ (ofTab (liftTab D.reps[i]! 0) (reps_hhom C i hi)) =
         dec (sOf (repRoot (innTabs ()) (repThetas D.reps)) b.1 b.2 i))
     {u : V₀ ≃ₗ[ZMod 2] V₀} {cu : ℕ} (hcu : Code.HasCode (u : V₀ →ₗ[ZMod 2] V₀) cu)
-    (hcu_out : cu ∈ D.pgl.outers) (hcu_invol : cu ∈ D.pgl.involutions)
-    {w : SqWit} (hw : D.witMap.get? cu = some w) (hsomew : some w ∈ D.wits)
+    (_hcu_out : cu ∈ D.pgl.outers) (hcu_invol : cu ∈ D.pgl.involutions)
+    {w : SqWit} (_hw : D.witMap.get? cu = some w) (_hsomew : some w ∈ D.wits)
     (hval : ∀ f < 64, pglCand D b w cu f = some (enc (σ (outerF C hcu_invol f))))
     {q : Q0} {n : ℕ} (hn : enc q = n) :
     {θ : Q0 ≃* Q0 | (∀ x, (θ x).v = u x.v) ∧ σ θ = q} =

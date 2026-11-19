@@ -53,7 +53,7 @@ theorem isCyclic_center_starImg_iff (hp : p.Prime) {B : Subgroup G} (hBH : B ≤
 theorem isSylowOf_starImg_top (hp : p.Prime) {B : Subgroup G}
     (hB : CFSG.ABGLocalTools.IsSylowOf p B H) :
     CFSG.ABGLocalTools.IsSylowOf p (starImg p H B) ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQ⟩ := hB
   let π : ↥H →* StarGroup p H :=
     QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
@@ -68,12 +68,14 @@ theorem isSylowOf_starImg_top (hp : p.Prime) {B : Subgroup G}
     _ = (B.subgroupOf H).map π := by rw [hQ]
     _ = starImg p H B := rfl
 
+omit [Finite G] in
 theorem starImg_normal {A : Subgroup G} (hA : (A.subgroupOf H).Normal) :
     (starImg p H A).Normal := by
   simpa [starImg] using
     hA.map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))
       (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 private theorem starImg_map_subtype (p : ℕ) (A : Subgroup ↥H) :
     starImg p H (A.map H.subtype) =
       A.map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) := by
@@ -84,7 +86,7 @@ theorem starImg_normalizer_eq (hp : p.Prime) {D : Subgroup G} (hDH : D ≤ H)
     (hD : IsPGroup p D) :
     Subgroup.normalizer (starImg p H D : Set (StarGroup p H)) =
       starImg p H (Subgroup.normalizer (D : Set G) ⊓ H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have hD' : IsPGroup p (D.subgroupOf H) := hD.comap_subtype (K := H)
@@ -102,11 +104,11 @@ theorem starImg_normalizer_eq (hp : p.Prime) {D : Subgroup G} (hDH : D ≤ H)
   rw [Subgroup.map_subgroupOf_eq_of_le inf_le_right]
 
 theorem rankThreeGamma_starImg_le (hp : p.Prime) {k : ℕ} {B M : Subgroup G}
-    (hBH : B ≤ H) (hB : IsPGroup p B)
+    (_hBH : B ≤ H) (hB : IsPGroup p B)
     (hM : ∀ D : Subgroup G, D ≤ B → k ≤ CFSG.Open.pRank p D →
       Subgroup.normalizer (D : Set G) ⊓ H ≤ M) :
     CFSG.Open.rankThreeGamma k p (starImg p H B) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   let π : ↥H →* StarGroup p H :=
     QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
@@ -157,10 +159,11 @@ theorem pRank_starImg_eq_pRank_inf (hp : p.Prime) (M : Subgroup G) :
 
 theorem pPrimeCore_starGroup (hp : p.Prime) :
     CFSG.pPrimeCore p (StarGroup p H) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   change CFSG.pPrimeCore p (↥H ⧸ CFSG.pPrimeCore p ↥H) = ⊥
   exact CFSG.GH74.pPrimeCore_quotient_pPrimeCore_eq_bot (↥H) p
 
+omit [Finite G] in
 theorem catalogSimpleSections_starGroup
     (h : CFSG.AGLEmbedding.CatalogSimpleSections ↥H) :
     CFSG.AGLEmbedding.CatalogSimpleSections (StarGroup p H) := by
@@ -172,6 +175,7 @@ theorem catalogSimpleSections_starGroup
   let e := QuotientGroup.quotientMulEquivOfEq hcore
   simpa [StarGroup] using h'.of_surjective e.toMonoidHom e.surjective
 
+omit [Finite G] in
 theorem starImg_eq_barInf (p : ℕ) (M H : Subgroup G) :
     starImg p H M = barInf p M H := by
   unfold starImg barInf CFSG.pPrimeCore primeComplementCore

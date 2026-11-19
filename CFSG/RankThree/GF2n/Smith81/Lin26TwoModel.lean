@@ -15,6 +15,7 @@ section Two
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem TensorModel.exists_lgen_phi_eq (TM : TensorModel M Q Z B)
     (g : Matrix (Fin 2) (Fin 2) TM.F) (hg : g.det = 1) :
     ∃ s : ↥(Lgen M (LB M Q B)), (TM.φ s : Matrix (Fin 2) (Fin 2) TM.F) = g := by
@@ -25,7 +26,7 @@ theorem TensorModel.exists_lgen_phi_eq (TM : TensorModel M Q Z B)
   obtain ⟨s, hs⟩ := hmem
   exact ⟨s, by rw [hs]; rfl⟩
 
-theorem TensorModel.exists_plane_of_module (hc : Ctx M Q Z B) (TM : TensorModel M Q Z B)
+theorem TensorModel.exists_plane_of_module (_hc : Ctx M Q Z B) (TM : TensorModel M Q Z B)
     {V : Subgroup G} (hZV : Z ≤ V) (hVQ : V ≤ Q)
     (hN : Lgen M (LB M Q B) ≤ Subgroup.normalizer (V : Set G))
     (hcard : Nat.card V = Nat.card Z ^ 3) :
@@ -74,6 +75,7 @@ theorem TensorModel.exists_plane_of_module (hc : Ctx M Q Z B) (TM : TensorModel 
     have : e' = e := TM.Φ.injective h
     rwa [this] at he'
 
+omit [Finite G] in
 private theorem TensorModel.exists_coord {TM : TensorModel M Q Z B} {u : Fin 2 → TM.F}
     (hu : u ≠ 0) (W : Submodule TM.K TM.M₀.E) (hW : ∀ e, e ∈ W ↔ TM.Φ e ∈ planeAdd u) :
     ∃ ψ : ↥W ≃+ (Fin 2 → TM.F), (∀ (c : TM.K) (w : ↥W), ψ (c • w) = TM.ε c • ψ w) ∧
@@ -97,6 +99,7 @@ private theorem TensorModel.exists_coord {TM : TensorModel M Q Z B} {u : Fin 2 �
   · rw [AddEquiv.trans_apply, hcoe]
     rfl
 
+omit [Finite G] in
 theorem TensorModel.exists_lift (TM : TensorModel M Q Z B) {u₁ u₂ : Fin 2 → TM.F}
     (hu₁ : u₁ ≠ 0) (hu₂ : u₂ ≠ 0) (hne : ∀ c : TM.F, u₂ ≠ c • u₁)
     (W₁ W₂ : Submodule TM.K TM.M₀.E) (hW₁ : ∀ e, e ∈ W₁ ↔ TM.Φ e ∈ planeAdd u₁)

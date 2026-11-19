@@ -92,7 +92,7 @@ theorem zNumeric_of_surviving {G : Type} [Group G] [Finite G] {L : Subgroup G} {
       · norm_num at h1
       · exact h2
     exact zNumeric_L38 (Nat.card_congr eL.toEquiv) (Nat.card_congr ef.toEquiv)
-  · haveI := hp
+  · have := hp
     obtain ⟨ef⟩ := nonempty_fixedSub_equiv_L2 (p := p) (e := 1) le_rfl ⟨e⟩ hαo hαi
     exact zNumeric_psl2 (p := p) (e := 1) le_rfl (by omega)
       (Nat.card_congr e.toEquiv) (Nat.card_congr ef.toEquiv)

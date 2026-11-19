@@ -18,8 +18,8 @@ theorem exists_sylow_quaternion {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [F
     [Finite V] {ρ : Representation (ZMod p) G V} (hρ : Function.Injective ρ) (hf : Fpf ρ) :
     ∃ P : Sylow 2 G, ∃ r : ℕ, 3 ≤ r ∧
       Nonempty ((P : Subgroup G) ≃* QuaternionGroup (2 ^ (r - 2))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hnsol : ¬ Group.IsSolvable G := Group.IsPerfect.not_isSolvable G
   have hnc : ∃ P : Sylow 2 G, ¬ IsCyclic P := by
     by_contra h
@@ -28,7 +28,7 @@ theorem exists_sylow_quaternion {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [F
   obtain ⟨P, hP⟩ := hnc
   rcases hf.sylow_two hρ P with hc | ⟨k, hk, hq, ⟨e⟩⟩
   · exact absurd hc hP
-  · haveI : NeZero k := ⟨by omega⟩
+  · have : NeZero k := ⟨by omega⟩
     obtain ⟨n, hn⟩ := hq.exists_card_eq
     have hc4 : 4 * k = 2 ^ n := by
       rw [← hn, Nat.card_eq_fintype_card, QuaternionGroup.card]
@@ -49,10 +49,10 @@ theorem zassenhausPerfect_holds :
     UCK.ZassenhausPerfect := by
   intro p _ G _ _ hperf V _ _ _ ρ hρ hfix hG1
   have hf : Fpf ρ := hfix
-  haveI : Nontrivial G :=
+  have : Nontrivial G :=
     Finite.one_lt_card_iff_nontrivial.mp (by have := Nat.card_pos (α := G); omega)
-  haveI : Nontrivial V := nontrivial_of_injective hρ
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Nontrivial V := nontrivial_of_injective hρ
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hnsol : ¬ Group.IsSolvable G := Group.IsPerfect.not_isSolvable G
   have hev : 2 ∣ Nat.card G := by
     by_contra h
@@ -70,7 +70,7 @@ theorem zassenhausPerfect_holds :
   rcases CFSG.ClassicalInvolution.quaternion_sylow_structure_of_perfect P ⟨r, hr, hq⟩ hperfQ with
     ⟨F, _, _, hF, ⟨eF⟩⟩ | ⟨-, -, ⟨eA⟩⟩
   · let e : G ≃* SL(2, F) := eG.trans eF
-    haveI : Group.IsPerfect SL(2, F) :=
+    have : Group.IsPerfect SL(2, F) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     let ρ' : Representation (ZMod p) SL(2, F) V := ρ.comp e.symm.toMonoidHom
     have hρ' : Function.Injective ρ' := hρ.comp e.symm.injective
@@ -80,7 +80,7 @@ theorem zassenhausPerfect_holds :
       card_eq_five_of_fpf_sl2 hp2 hF (Group.isPerfect_def.mp inferInstance) hρ' hf'
     obtain ⟨eR⟩ := CFSG.ClassicalInvolution.G2D4Models.exists_ringEquiv_zmod_five h5
     exact ⟨e.trans (slEquivOfRingEquiv eR)⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let f : G →* alternatingGroup (Fin 7) :=
       eA.toMonoidHom.comp ((QuotientGroup.mk' (Subgroup.center (G ⧸ CFSG.oddCore G))).comp
         (QuotientGroup.mk' (CFSG.oddCore G)))

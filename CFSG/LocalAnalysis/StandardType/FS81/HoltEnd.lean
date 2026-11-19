@@ -117,7 +117,7 @@ theorem l3HoltEnd_holds
     have h1 : t = 1 := congrArg Subtype.val h
     rw [h1, orderOf_one] at ht2
     exact absurd ht2 (by norm_num)
-  haveI : Nontrivial ↥Y := ⟨⟨⟨t, htY⟩, 1, ht1⟩⟩
+  have : Nontrivial ↥Y := ⟨⟨⟨t, htY⟩, 1, ht1⟩⟩
   have hYnsolv : ¬ Group.IsSolvable ↥Y :=
     fs81Hl_not_solvable_of_commutator_top hEm.1
   have hnonab : ∃ a b : G, a * b ≠ b * a := by
@@ -127,7 +127,7 @@ theorem l3HoltEnd_holds
       exact hYnsolv (Group.isSolvable_of_comm fun a b => h a b)
     obtain ⟨a, b, hab⟩ := hnonabY
     exact ⟨(a : G), (b : G), fun hxy => hab (Subtype.ext hxy)⟩
-  haveI : FaithfulSMul G (G ⧸ Y) :=
+  have : FaithfulSMul G (G ⧸ Y) :=
     CFSG.RankThree.PartTwo.Sec21.faithfulSMul_quotient_of_simple hYtop
   have hfix : ∀ q : G ⧸ Y, t • q = q ↔ q = ((1 : G) : G ⧸ Y) := by
     intro q

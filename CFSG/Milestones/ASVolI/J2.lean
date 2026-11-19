@@ -227,7 +227,7 @@ private theorem burnsideJ1_sylow_conj {G : Type} [Group G] [Finite G] {p : ℕ} 
 
 private theorem burnsideJ1_equiv_conj {G : Type} [Group G] {X₁ X₂ : Subgroup G} (l : G)
     (h : ∀ x : G, x ∈ X₂ ↔ l⁻¹ * x * l ∈ X₁) : Nonempty (↥X₁ ≃* ↥X₂) :=
-  ⟨{ toFun := fun x => ⟨l * x * l⁻¹, (h _).mpr (by simpa [mul_assoc] using x.2)⟩
+  ⟨{ toFun := fun x => ⟨l * x * l⁻¹, (h _).mpr (by simp [mul_assoc])⟩
      invFun := fun y => ⟨l⁻¹ * y * l, (h _).mp y.2⟩
      left_inv := fun x => Subtype.ext (by simp [mul_assoc])
      right_inv := fun y => Subtype.ext (by simp [mul_assoc])
@@ -238,7 +238,7 @@ private theorem burnsideJ1_quotEquiv_conj {G : Type} [Group G] {C₁ C₂ A₁ A
     [(A₁.subgroupOf C₁).Normal] [(A₂.subgroupOf C₂).Normal] :
     Nonempty ((↥C₁ ⧸ A₁.subgroupOf C₁) ≃* (↥C₂ ⧸ A₂.subgroupOf C₂)) := by
   let e : ↥C₁ ≃* ↥C₂ :=
-    { toFun := fun x => ⟨l * x * l⁻¹, (hC _).mpr (by simpa [mul_assoc] using x.2)⟩
+    { toFun := fun x => ⟨l * x * l⁻¹, (hC _).mpr (by simp [mul_assoc])⟩
       invFun := fun y => ⟨l⁻¹ * y * l, (hC _).mp y.2⟩
       left_inv := fun x => Subtype.ext (by simp [mul_assoc])
       right_inv := fun y => Subtype.ext (by simp [mul_assoc])
@@ -268,7 +268,7 @@ private theorem burnsideJ1_sylow3_conj {G : Type} [Group G] [Finite G]
     (M : CFSG.Quasithin.RuType.RuDataM G) {B : Subgroup G}
     (hB : CFSG.ASVolI.ChIJK.IsSylowIn 3 B (CFSG.ASVolI.ChIJK.L1Ru M.L (M.T : Subgroup G))) :
     ∃ l ∈ CFSG.ASVolI.ChIJK.L1Ru M.L (M.T : Subgroup G), ∀ x : G, x ∈ B ↔ l⁻¹ * x * l ∈ M.B := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hL₁H : CFSG.ASVolI.ChIJK.L1Ru M.L (M.T : Subgroup G) ≤ CFSG.Quasithin.RuType.ruH M.T :=
     (burnsideJ1_L1_le M).trans inf_le_left
   have hbel : (M.bel : G) ∈ CFSG.ASVolI.ChIJK.L1Ru M.L (M.T : Subgroup G) := by
@@ -404,7 +404,7 @@ private theorem burnsideJ1_S_le {G : Type} [Group G] [Finite G] (M :
       zero_mem' := ⟨1, W.one_mem, by rw [map_one, toAdd_one]⟩
       neg_mem' := by
         rintro _ ⟨y, hy, rfl⟩
-        exact ⟨y⁻¹, W.inv_mem hy, by rw [map_inv, toAdd_inv] <;> rfl⟩ }
+        exact ⟨y⁻¹, W.inv_mem hy, by rw [map_inv, toAdd_inv]⟩ }
   have hE : ∀ g : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2),
       g ∈ CFSG.Quasithin.RuType.SL3.Stab0 → g ^ 3 = 1 →
       ∀ A : Matrix (Fin 3) (Fin 3) (ZMod 2), CFSG.Quasithin.RuType.IsTraceZero A →
@@ -661,7 +661,7 @@ private theorem burnsideJ2b_twoResidual_eq {G : Type} [Group G] [Finite G] (X : 
           refine ⟨k, ?_⟩
           rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
           exact Subgroup.mem_subgroupOf.2 (by simpa using hk)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
       exact ⟨n, by rw [Subgroup.index_eq_card, hn]⟩
     have h1 : sInf {N' : Subgroup ↥X | N'.Normal ∧ ∃ n : ℕ, N'.index = 2 ^ n} ≤
@@ -960,7 +960,7 @@ private theorem burnsideJ2b_normal_two_le_R0
 
 private theorem burnsideJ2b_pCoreOf_LT1 {G : Type} [Group G] [Finite G]
     (N : CFSG.Quasithin.RuType.RuDataN G) : pCoreOf 2 N.LT1 = N.R1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR1LT : N.R1 ≤ N.LT1 := fun r hr => by
     obtain ⟨h, hx⟩ := CFSG.Quasithin.RuType.mem_pullL.mp hr
     exact CFSG.Quasithin.RuType.mem_pullL.mpr ⟨h, CFSG.Quasithin.RuType.SL3.R0_le_Stab0 hx⟩
@@ -1010,7 +1010,7 @@ private theorem burnsideJ2b_T_sylow_LT1 {G : Type} [Group G] [Finite G]
   have hT : (N.T : Subgroup G) ≤ N.LT1 := by
     rw [← N.L_inf_H]
     exact le_inf N.toRuData.T_le_L N.toRuData.T_le_H
-  refine ⟨hT, N.T.isPGroup', ?_⟩
+  refine ⟨hT, N.T.isPGroup, ?_⟩
   have h1 := Subgroup.relIndex_mul_index hT
   intro h2
   apply N.T.not_dvd_index
@@ -1026,7 +1026,7 @@ private theorem burnsideJ2b_part1 {G : Type} [Group G] [Finite G] (N :
     (pCoreOf 2 (CFSG.Quasithin.twoResidual N.LT1 ⊔ (N.T : Subgroup G)) =
         pCoreOf 2 (CFSG.Quasithin.twoResidual N.LT1)) ∧
     (CFSG.Quasithin.RuType.ruQ N.T ≤ CFSG.Quasithin.twoResidual (CFSG.Quasithin.RuType.ruH N.T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup : CFSG.Quasithin.twoResidual N.LT1 ⊔ (N.T : Subgroup G) = N.LT1 := by
     rw [sup_comm]
     exact CFSG.Quasithin.sup_twoResidual_eq (burnsideJ2b_T_sylow_LT1 N)
@@ -1648,7 +1648,7 @@ private theorem burnsideJ3b_isSylowTwoIn_of_sylow [Finite G] {C D : Subgroup G} 
   refine ⟨hle, ?_, ?_⟩
   · have h1 : IsPGroup 2 ↥(D.subgroupOf C) := by
       rw [← hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe hle)
   · rw [← hP]
     exact P.not_dvd_index
@@ -1878,11 +1878,13 @@ private theorem burnsideJ3b_B_le_L1 (M : RuDataM G) :
   exact mem_pullL.mpr ⟨M.bel.2, by rw [M.θ_bel]; exact SL3.b0_mem_Stab0⟩
 
 open CFSG.Quasithin.RuType in
+omit [Finite G] in
 private theorem burnsideJ3b_L1_le_L (M : RuDataM G) :
     CFSG.ASVolI.ChIJK.L1Ru M.L (M.T : Subgroup G) ≤ M.L :=
   (burnsideJ3b_twoResidual_le _).trans inf_le_right
 
 open CFSG.Quasithin.RuType in
+omit [Finite G] in
 private theorem burnsideJ3b_not_dvd_of_le (M : RuDataM G) {K : Subgroup G} (hK : K ≤ M.L) {n : ℕ}
     (hn : ¬ n ∣ 2 ^ 11 * 168) : ¬ n ∣ Nat.card K := fun h =>
   hn (h.trans ((Subgroup.card_dvd_of_le hK).trans (by rw [M.toRuData.card_L])))
@@ -2284,10 +2286,12 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem burnsideJ3b_map_inf (φ : G ≃* G) (X Y : Subgroup G) :
     (X ⊓ Y).map φ.toMonoidHom = X.map φ.toMonoidHom ⊓ Y.map φ.toMonoidHom :=
   Subgroup.map_inf X Y _ φ.injective
 
+omit [Finite G] in
 private theorem burnsideJ3b_eq_map_conj {g : G} {X Y : Subgroup G}
     (h : ∀ x, x ∈ X ↔ g⁻¹ * x * g ∈ Y) : X = Y.map (MulAut.conj g).toMonoidHom := by
   ext x
@@ -2303,6 +2307,7 @@ private theorem burnsideJ3b_S0_conj (M : RuDataM G) {g : G} (hg : g ∈ M.L) :
   rw [burnsideJ3b_map_inf, h1, burnsideJ3b_map_centralizer_subgroup]
 
 open CFSG.Quasithin.RuType in
+omit [Finite G] in
 private theorem burnsideJ3b_CS_conj (M : RuDataM G) {g : G} (hg : g ∈ M.L) (s0 : G) :
     ruS M.L ⊓ Subgroup.centralizer ({g * s0 * g⁻¹} : Set G) =
       (ruS M.L ⊓ Subgroup.centralizer ({s0} : Set G)).map (MulAut.conj g).toMonoidHom := by
@@ -2312,6 +2317,7 @@ private theorem burnsideJ3b_CS_conj (M : RuDataM G) {g : G} (hg : g ∈ M.L) (s0
   rfl
 
 open CFSG.Quasithin.RuType in
+omit [Finite G] in
 private theorem burnsideJ3b_CL_conj (M : RuDataM G) {g : G} (hg : g ∈ M.L) (s0 : G) :
     Subgroup.centralizer ({g * s0 * g⁻¹} : Set G) ⊓ M.L =
       (M.L ⊓ Subgroup.centralizer ({s0} : Set G)).map (MulAut.conj g).toMonoidHom := by
@@ -2555,7 +2561,7 @@ private theorem burnsideJ1_J_2_5_of_st (hSt : CFSG.Quasithin.RuType.StUniqueStat
       (X₂ := CFSG.Quasithin.RuType.ruQ M.T ⊓ Subgroup.centralizer (B : Set G)) l
       (fun x => by rw [Subgroup.mem_inf, Subgroup.mem_inf, hQc x, hCc x])
     exact ⟨e.symm.trans e1⟩
-  · haveI hN : (B.subgroupOf (CFSG.Quasithin.RuType.ruH M.T ⊓
+  · have hN : (B.subgroupOf (CFSG.Quasithin.RuType.ruH M.T ⊓
         Subgroup.centralizer (B : Set G))).Normal :=
       ⟨fun x hx g => by
         rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -2903,7 +2909,7 @@ theorem burnsideJ28_exists_w {G : Type} [Group G] [Finite G] (M : RuDataM G) :
   obtain ⟨l, hl, hQ⟩ := M.exists_conjU_not_le_Q
   have hne : M.conjU l ≠ ruU M.L M.T := fun e => hQ (e ▸ M.U_le_Q)
   have h := M.conjU_inf_Q_not_le_HC hl hne
-  rw [SetLike.not_le_iff_exists] at h
+  rw [IsConcreteLE.not_le_iff_exists] at h
   obtain ⟨w, hw, hwC⟩ := h
   obtain ⟨hwl, hwQ⟩ := Subgroup.mem_inf.mp hw
   refine ⟨l, hl, hne, w, hwl, hwQ, hwC, ?_⟩
@@ -3241,12 +3247,12 @@ theorem burnsideJ28_card_I {G : Type} [Group G] [Finite G] (M : RuDataM G) {w : 
       Nat.card {x : I // g x = v} = if v = 1 then 0 else 16 := by
     intro v
     by_cases hv : v = 1
-    · rw [if_pos hv]
+    · rw [ite_eq_left hv]
       have : IsEmpty {x : I // g x = v} := ⟨fun x => by
         have h1 : g x.1 ≠ 1 := burnsideJ28_psi_ne_one M x.1.2.1 x.1.2.2.1 x.1.2.2.2
         exact h1 (x.2.trans hv)⟩
       exact Nat.card_of_isEmpty
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       have hψw := burnsideJ28_psi_ne_one M hwQ hwU hw2
       obtain ⟨g0, hg0⟩ := Sigma.exists_sigmaAct_eq
         (v := Multiplicative.toAdd (M.ψQ ⟨w, hwQ⟩)) (w := Multiplicative.toAdd v)
@@ -3863,7 +3869,7 @@ private theorem burnsideJ4_LsRu_conjugate {G : Type} [Group G] [Finite G] (s g :
   rw [MonoidHom.map_closure]
   congr 1
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   have hcen : ∀ y : G, y ∈ CFSG.Quasithin.RuType.Cen (g⁻¹ * s * g) ↔
       g * y * g⁻¹ ∈ CFSG.Quasithin.RuType.Cen s := fun y => by
     have := burnsideJ4_cen_conjugate s g
@@ -3875,15 +3881,15 @@ private theorem burnsideJ4_LsRu_conjugate {G : Type} [Group G] [Finite G] (s g :
   · rintro ⟨hy, hodd⟩
     refine ⟨g * y * g⁻¹, ⟨(hcen y).mp hy, ?_⟩, ?_⟩
     · rwa [CFSG.Quasithin.RuType.orderOf_conj_eq]
-    · simp [MulAut.conj_apply, mul_assoc]
+    · simp [mul_assoc]
   · rintro ⟨x, ⟨hx, hodd⟩, rfl⟩
     refine ⟨?_, ?_⟩
     · rw [hcen]
       have e2 : g * ((MulAut.conj g⁻¹).toMonoidHom x) * g⁻¹ = x := by
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e2]; exact hx
     · have e2 : (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g⁻¹⁻¹ := by
-        simp [MulAut.conj_apply]
+        simp
       rw [e2, CFSG.Quasithin.RuType.orderOf_conj_eq]; exact hodd
 
 open CFSG.ASVolI.ChIJK in
@@ -4061,7 +4067,7 @@ private theorem burnsideJ4_conjClass_inter_conjugate {G : Type} [Group G] (z g :
       involutionsOf (CFSG.conjugate Y g) := by
   ext y
   have h1 := Set.ext_iff.mp h (g * y * g⁻¹)
-  simp only [Set.mem_inter_iff, SetLike.mem_coe, involutionsOf, Set.mem_setOf_eq,
+  simp only [Set.mem_inter_iff, SetLike.mem_coe, involutionsOf, Set.mem_ofPred_eq,
     burnsideJ4_conjClass_conj] at h1 ⊢
   rw [burnsideJ4_mem_conjugate, burnsideJ4_mem_conjugate]
   have hsq : (g * y * g⁻¹) ^ 2 = 1 ↔ y ^ 2 = 1 := by

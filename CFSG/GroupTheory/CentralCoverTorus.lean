@@ -38,7 +38,7 @@ theorem isMulCommutative_sylow_of_comap_comm [Finite Y] {r : ℕ} [Fact r.Prime]
     (D : Sylow r T) (hD : ∀ x ∈ (D : Subgroup T).comap φ, ∀ y ∈ (D : Subgroup T).comap φ,
       x * y = y * x) (P : Sylow r Y) : IsMulCommutative (P : Subgroup Y) := by
   classical
-  haveI : Finite T := Finite.of_surjective φ hφ
+  have : Finite T := Finite.of_surjective φ hφ
   obtain ⟨Tstar, hTp, hidx, hle⟩ :=
     exists_isPGroup_not_dvd_index_map_le φ hφ Fact.out (T := (D : Subgroup T)) D.not_dvd_index
   have hTle : Tstar ≤ (D : Subgroup T).comap φ := Subgroup.map_le_iff_le_comap.mp hle
@@ -46,7 +46,7 @@ theorem isMulCommutative_sylow_of_comap_comm [Finite Y] {r : ℕ} [Fact r.Prime]
     ⟨⟨fun a b => Subtype.ext (hD a.1 (hTle a.2) b.1 (hTle b.2))⟩⟩
   let Q : Sylow r Y := hTp.toSylow hidx
   have hQ : (Q : Subgroup Y) = Tstar := IsPGroup.toSylow_coe hTp hidx
-  haveI : IsMulCommutative (Q : Subgroup Y) := by rw [hQ]; exact hTcomm
+  have : IsMulCommutative (Q : Subgroup Y) := by rw [hQ]; exact hTcomm
   refine ⟨⟨fun a b => (Sylow.equiv Q P).symm.injective ?_⟩⟩
   rw [map_mul, map_mul]
   exact IsMulCommutative.is_comm.comm _ _
@@ -91,7 +91,7 @@ theorem not_dvd_index_map_comap_sylow_two [Finite Y] [Finite T] (hφ : Function.
     {U : Subgroup T} (hU : ¬ 2 ∣ U.index) (P : Sylow 2 (U.comap φ)) :
     ¬ 2 ∣ ((P : Subgroup (U.comap φ)).map (U.comap φ).subtype).index := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPcard : Nat.card (P : Subgroup (U.comap φ)) =
       2 ^ (Nat.card (U.comap φ)).factorization 2 := Sylow.card_eq_multiplicity P
   have hRcard : Nat.card ((P : Subgroup (U.comap φ)).map (U.comap φ).subtype) =

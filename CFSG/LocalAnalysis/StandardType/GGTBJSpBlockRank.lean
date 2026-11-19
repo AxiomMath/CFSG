@@ -30,7 +30,7 @@ theorem ggTBJ_sp_blockData_with_card {p m : ℕ} (hp : p.Prime)
       (lam = 1 → 2 ≤ Nat.card {i : Fin m // t i = 1}) ∧
       (lam ≠ 1 → 3 ≤ Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹}) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin m → Multiplicative (ZMod p)) :=
     {f | ∀ j ∈ J, TableBSymp.spTorusSp hζ f * j = j * TableBSymp.spTorusSp hζ f}
   obtain ⟨lam, hperm, hmixed, hswap, hcentral⟩ := ggTBJ_sp_blockData hK4 t hJ
@@ -40,8 +40,8 @@ theorem ggTBJ_sp_blockData_with_card {p m : ℕ} (hp : p.Prime)
       ∀ j ∈ J, TableBSymp.spTorusSp hζ f * j = j * TableBSymp.spTorusSp hζ f} := by
     let e : C ≃ {f : Fin m → Multiplicative (ZMod p) //
         ∀ j ∈ J, TableBSymp.spTorusSp hζ f * j = j * TableBSymp.spTorusSp hζ f} :=
-      { toFun := fun f => ⟨f.1, by simpa only [C, Set.mem_setOf_eq] using f.2⟩
-        invFun := fun f => ⟨f.1, by simpa only [C, Set.mem_setOf_eq] using f.2⟩
+      { toFun := fun f => ⟨f.1, by simpa only [C, Set.mem_ofPred_eq] using f.2⟩
+        invFun := fun f => ⟨f.1, by simpa only [C, Set.mem_ofPred_eq] using f.2⟩
         left_inv := fun f => Subtype.ext rfl
         right_inv := fun f => Subtype.ext rfl }
     exact Nat.card_congr e

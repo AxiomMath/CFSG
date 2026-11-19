@@ -21,7 +21,7 @@ variable {G H : Type} [Group G] [Finite G] [Group H] {p : ℕ}
 
 private theorem center_eq_bot_of_mulEquiv_simple {M : Type} [Group M] (e : M ≃* H)
     (hs : IsSimpleGroup H) (hn : ∃ a b : H, a * b ≠ b * a) : Subgroup.center M = ⊥ := by
-  haveI : IsSimpleGroup M := e.isSimpleGroup
+  have : IsSimpleGroup M := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center M) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hn
@@ -53,7 +53,7 @@ end Generic
 
 private theorem exists_mul_ne_mul_co1 : ∃ a b : NativeSporadic.Co1, a * b ≠ b * a := by
   by_contra hc
-  haveI : IsMulCommutative NativeSporadic.Co1 :=
+  have : IsMulCommutative NativeSporadic.Co1 :=
     ⟨⟨fun a b => not_not.1 fun hab => hc ⟨a, b, hab⟩⟩⟩
   have h := Group.is_simple_iff_prime_card.mp CFSG.Sporadic.Co1.isSimpleGroup_Co1
   rw [CFSG.Sporadic.Co1.card_Co1] at h

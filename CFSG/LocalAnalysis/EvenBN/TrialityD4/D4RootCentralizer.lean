@@ -208,7 +208,7 @@ theorem isConj_x₁_x₄ (a : d.Γ) : IsConj (d.x₁ a) (d.x₄ a) := by
 
 private theorem isPGroup_D : IsPGroup 2 d.D := by
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-  exact (hP ▸ P.isPGroup').to_le d.D_le_S
+  exact (hP ▸ P.isPGroup).to_le d.D_le_S
 
 private theorem sup_D_inf_leviShort_eq_bot {A : Subgroup X} (hA : IsPGroup 2 A)
     (hAC : A ≤ d.D ⊔ d.leviShort) (hN : d.leviShort ≤ normalizer (A : Set X)) :

@@ -17,7 +17,7 @@ open scoped commutatorElement
 variable {W : Type} [CommGroup W]
 
 private instance s16h_H5C_finite_mulAut [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W)) (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W)) (fun _f _g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_H5C_commutator_le_self {Γ : Type*} [Group Γ] (H : Subgroup Γ) :
     ⁅H, H⁆ ≤ H := by
@@ -49,14 +49,14 @@ private theorem s16h_H5C_injective_of_surjective_simple {G S : Type} [Group G] [
 
 private theorem s16h_H5C_nontrivial_of_isQuasisimple {X : Type} [Group X]
     (h : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
   exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
 
 private theorem s16h_H5C_not_isCyclic_of_isElemAbelian_sq {G : Type*} [Group G] {p : ℕ}
     [Fact p.Prime] {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian p E)
     (hcard : Nat.card E = p ^ 2) : ¬ IsCyclic E := by
   intro hcyc
-  haveI : IsCyclic E := hcyc
+  have : IsCyclic E := hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
   have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' (Subgroup.zpowers g)).2 hg
   have hcardE : Nat.card E = orderOf g := by
@@ -73,7 +73,7 @@ private theorem s16h_H5C_two_le_pRank_of_center_alt_six {X : Type} [Group X] [Fi
     (hZ : Nat.card (Subgroup.center X) = 3)
     (he : Nonempty (X ⧸ Subgroup.center X ≃* ↥(alternatingGroup (Fin 6)))) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := he
   have hq : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (X ⧸ Subgroup.center X)) := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
@@ -92,7 +92,7 @@ private theorem s16h_H5C_two_le_pRank_of_center_alt_six {X : Type} [Group X] [Fi
   have hP3 : IsPGroup 3 P := IsPGroup.of_card hPcard
   have hPnc : ¬ IsCyclic P := by
     intro hcyc
-    haveI : IsCyclic P := hcyc
+    have : IsCyclic P := hcyc
     let f : P →* E :=
       ((QuotientGroup.mk' Z).comp P.subtype).codRestrict E (fun x => x.2)
     have hf : Function.Surjective f := by
@@ -112,7 +112,7 @@ theorem s16h_H5_not_thin_of_g2
     False := by
   obtain ⟨F, iF, fF, hF, π, hπ⟩ := h
   have hF2 : Nat.card F = 2 := hF.trans (pow_one 2)
-  haveI : CharP F 2 := CFSG.Quasithin.FFC.charP_two_of_card_pow hF
+  have : CharP F 2 := CFSG.Quasithin.FFC.charP_two_of_card_pow hF
   let e := CFSG.Quasithin.FFC.equivOfRealizes
     (CFSG.Quasithin.FFC.zornQ_faithful _ (s16h_H5C_commutator_le_self _)) hπ
   have hP : IsPSU 3 3 1 ↥L :=
@@ -149,7 +149,7 @@ theorem s16h_H5_not_thin_of_u43 [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
       (hmodel.statedClassicalModel_of_ne_zero (by norm_num) :
         StatedClassicalModel S .PSU 4 3 1)
     exact Finite.of_equiv _ eK.symm.toEquiv
-  haveI : Finite S := hFinS
+  have : Finite S := hFinS
   have hsc : StatedClassicalModel S .PSU 4 3 1 :=
     hmodel.statedClassicalModel_of_ne_zero (by norm_num)
   obtain ⟨-, -, hrk⟩ :=
@@ -166,7 +166,7 @@ theorem s16h_H5_not_thin_of_u43 [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
   have hq4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (↥L ⧸ Subgroup.center ↥L)) := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
     exact hS4
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hthin : CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) ≤ 1 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup L]
     exact hc.thin 3 Nat.prime_three (by norm_num)
@@ -179,8 +179,8 @@ theorem s16h_H5_not_thin_of_a7 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAu
     (hc : s16h_H5Cfg A L t) (h : A7Four L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L)) : False := by
   obtain ⟨α, hR⟩ := h
   obtain ⟨π, hπ⟩ := hR
-  haveI : IsSimpleGroup (FFModel.a7Four α).Gam := alternatingGroup.isSimpleGroup (by simp)
-  haveI : Nontrivial ↥L := s16h_H5C_nontrivial_of_isQuasisimple hc.comp.2.2
+  have : IsSimpleGroup (FFModel.a7Four α).Gam := alternatingGroup.isSimpleGroup (by simp)
+  have : Nontrivial ↥L := s16h_H5C_nontrivial_of_isQuasisimple hc.comp.2.2
   have hinj : Function.Injective π := s16h_H5C_injective_of_surjective_simple π hπ.1
   let e : ↥L ≃* ↥(alternatingGroup (Fin 7)) :=
     (MulEquiv.ofBijective π ⟨hinj, hπ.1⟩).symm
@@ -193,7 +193,7 @@ theorem s16h_H5_not_thin_of_sp6 [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := h
   have hdiv : 6 / 2 = 3 := by norm_num
   rw [hdiv] at e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥(StatedSp 3 K)) := by
     have hdvd : 3 ∣ Nat.card K ^ 2 - 1 := by rw [hKcard]; norm_num
     have := CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedSp
@@ -207,7 +207,7 @@ theorem s16h_H5_not_thin_of_sp6 [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
 theorem s16h_H5_not_thin_of_m22 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) (h : UC22.IsSpor ↥L .M22) : False := by
   obtain ⟨e⟩ := h
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M22 := inferInstance
+  have : Finite CFSG.Blueprint.NativeSporadic.M22 := inferInstance
   have hodd : CFSG.Quasithin.A3Facts.OddRankTwo CFSG.Blueprint.NativeSporadic.M22 :=
     CFSG.Quasithin.A3Facts.oddRankTwo_M22
   have e' : ↥L ≃* CFSG.Blueprint.NativeSporadic.M22 := e

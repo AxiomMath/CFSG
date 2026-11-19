@@ -299,7 +299,7 @@ theorem field_factor_one_torus_local_data (G : Type) [Group G] [Finite G]
     exact hsCt (eq_of_orderOf_eq_two_of_isCyclic hCJcyc hsCJ htCJ hsC2 htC2)
   have h2elt : ∀ g ∈ (S : Subgroup G), ∃ k : ℕ, orderOf g ∣ 2 ^ k := by
     intro g hg
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨g, hg⟩
     refine ⟨k, ?_⟩
     rw [← Subgroup.orderOf_mk g hg]
     exact orderOf_dvd_of_pow_eq_one hk

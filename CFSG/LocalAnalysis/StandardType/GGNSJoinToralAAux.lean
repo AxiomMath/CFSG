@@ -77,7 +77,7 @@ theorem nsTor_ratioPi_range_card_le {G : Type} [Group G] [Finite G] {p : ℕ} {B
     {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} {ψ : Su K 2 f n →* G}
     (h : GGNSLocalHyp p B Bs K f n ψ) (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs) (a : Fin n) :
     Nat.card (nsTor_ratioPi h hd a).range ≤ p ^ (n - 1) := by
-  haveI : NeZero p := ⟨h.prime.ne_zero⟩
+  have : NeZero p := ⟨h.prime.ne_zero⟩
   let Φ : ↥(nsTor_ratioPi h hd a).range → ({i : Fin n // i ≠ a} → rootsOfUnity p K) :=
     fun x => fun i => ⟨x.1 i, by
       obtain ⟨s, hs⟩ := MonoidHom.mem_range.mp x.2

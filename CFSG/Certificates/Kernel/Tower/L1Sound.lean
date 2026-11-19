@@ -19,7 +19,7 @@ theorem cntB_eq (n : Nat) (f : Nat → Bool) : cntB n f = ((List.range n).filter
   | succ n ih =>
     have e : cntB (n + 1) f = Nat.add (cond (f n) 1 0) (cntB n f) := rfl
     rw [e, ih, List.range_succ, List.filter_append, List.length_append]
-    rcases Bool.eq_false_or_eq_true (f n) with h | h <;> simp [h, List.filter_cons] <;> try omega
+    rcases Bool.eq_false_or_eq_true (f n) with h | h <;> simp [h]; try omega
 
 theorem cntW_eq (SM AC x : Nat) : cntW SM AC x = cntC (wm SM AC) (List.range 8192) x := by
   rw [cntW, cntB_eq, cntC]

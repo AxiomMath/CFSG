@@ -78,7 +78,7 @@ theorem injective_of_surjective_alt7 {N : Type} [AddCommGroup N] [Module (ZMod 2
   by_contra hK
   let Ψ : GLV N ≃* alternatingGroup (Fin 8) :=
     (glvEquiv e).trans CFSG.GH74.Exceptional.alternatingEightEquivGLFourTwo.symm
-  haveI : Finite (GLV N) := Finite.of_injective Ψ Ψ.injective
+  have : Finite (GLV N) := Finite.of_injective Ψ Ψ.injective
   let Y' : Subgroup (alternatingGroup (Fin 8)) := Y.map Ψ.toMonoidHom
   have hYY' : Nat.card ↥Y' = Nat.card ↥Y :=
     (Nat.card_congr (Y.equivMapOfInjective Ψ.toMonoidHom Ψ.injective).toEquiv).symm
@@ -112,7 +112,7 @@ open L13Alt
 
 theorem h1AltSevenFour_holds : H1AltSevenFour := by
   intro N _ _ _ hdim Y ⟨α, hα⟩
-  haveI : Module.Finite (ZMod 2) N := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) N := Module.Finite.of_finite
   let e : N ≃ₗ[ZMod 2] (Fin 4 → ZMod 2) := (Module.finBasisOfFinrankEq (ZMod 2) N hdim).equivFun
   let α' : ↥Y ≃* alternatingGroup (Fin 7) :=
     MulEquiv.ofBijective α ⟨injective_of_surjective_alt7 e Y α hα, hα⟩
@@ -129,7 +129,7 @@ theorem h1AltSevenFour_holds : H1AltSevenFour := by
 
 theorem a6NoSixDimIrr_holds : A6NoSixDimIrr := by
   intro W _ _ _ H ⟨φ⟩ hirr hdim
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   let ψ : alternatingGroup (Fin 6) →* (W ≃ₗ[ZMod 2] W) := H.subtype.comp φ.symm.toMonoidHom
   have h := CFSG.LocalAnalysis.EvenBN.Tits.I21L.modA_finrank_irred ψ (fun U hU => by
     have hinv : Invariant H U := fun k hk u hu => by

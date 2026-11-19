@@ -42,7 +42,7 @@ theorem not_two_dvd_card_primeCore (hS : D1Global G) (hD1 : D1For G) (hloc : D1L
   have hOM : O ≤ M := h.primeCore_le hloc
   have hOC : O ≤ C := glbPrimeCore_le p C
   have hCO : C ≤ normalizer (O : Set G) := le_normalizer_glbPrimeCore p C
-  have hQp : IsPGroup p ((P : Subgroup G) ⊓ C : Subgroup G) := P.isPGroup'.to_inf_left
+  have hQp : IsPGroup p ((P : Subgroup G) ⊓ C : Subgroup G) := P.isPGroup.to_inf_left
   intro h2
   obtain ⟨T, hT⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 O
   have hTne : T ≠ ⊥ := by
@@ -71,7 +71,7 @@ theorem fullCore_map_le_map_inf_of_coprime (hFC : FullCoreLocality G) {p : ℕ} 
     GLBCore p 2 ((R.subgroupOf H).map (QuotientGroup.mk' O)) ≤
       ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' O) := by
   have hp := hloc.beta.1
-  have hR : IsPGroup p (R.subgroupOf H) := (P.isPGroup'.to_le hRP).comap_subtype
+  have hR : IsPGroup p (R.subgroupOf H) := (P.isPGroup.to_le hRP).comap_subtype
   have hRG : (R.subgroupOf H).map H.subtype ≤ P :=
     (Subgroup.map_subgroupOf_eq_of_le hRH).le.trans hRP
   refine (CFSG.PreuniquenessRankFour.Helpers.fullCore_le_iff p 2 _ _).mpr fun Qbar hQR hQ2 => ?_
@@ -80,7 +80,7 @@ theorem fullCore_map_le_map_inf_of_coprime (hFC : FullCoreLocality G) {p : ℕ} 
   rw [pRank_map_mk_eq_pRank_map_subtype hp O hO] at hQ2
   have hQG : (Q.map H.subtype) ≤ P := (Subgroup.map_mono hQR').trans hRG
   have hN : Subgroup.normalizer ((Q.map H.subtype : Subgroup G) : Set G) ≤ M :=
-    normalizer_le_of_two_le_pRank hFC hloc (P.isPGroup'.to_le hQG)
+    normalizer_le_of_two_le_pRank hFC hloc (P.isPGroup.to_le hQG)
       (hQG.trans (sylow_le_of_core hloc)) hQ2
   have hNH : Subgroup.normalizer (Q : Set H) ≤ (H ⊓ M).subgroupOf H := fun n hn =>
     Subgroup.mem_subgroupOf.mpr
@@ -186,7 +186,7 @@ theorem exists_pPointReduced (hFC : FullCoreLocality G) (hloc : D1Local p P M)
           normalizer ((CFSG.pCore p (RedCent p x) : Subgroup _) : Set _) := by
         rw [Subgroup.normalizer_eq_top]
         exact le_top
-      have hle := card_le_of_isCyclic_of_centralizer_le hodd Tbar.isPGroup' hpR hnorm hcent hcyc
+      have hle := card_le_of_isCyclic_of_centralizer_le hodd Tbar.isPGroup hpR hnorm hcent hcyc
         hAR hA
       rw [hAc] at hle
       have := (Nat.pow_le_pow_iff_right hp.one_lt).1 hle
@@ -223,7 +223,7 @@ theorem exists_pPointReduced (hFC : FullCoreLocality G) (hloc : D1Local p P M)
     fun L hL => hred.eq_of_isComponentOf_of_center hzc hzp hL hK, hKX₀, ?_⟩, by rw [hTbar, hTeq]⟩
   by_contra hnc
   have hY2 := two_le_pRank_of_not_isCyclic hp hodd
-    (Tbar.isPGroup'.to_inf_left : IsPGroup p ↥((Tbar : Subgroup (RedCent p x)) ⊓
+    (Tbar.isPGroup.to_inf_left : IsPGroup p ↥((Tbar : Subgroup (RedCent p x)) ⊓
       centralizer (K : Set (RedCent p x)))) hnc
   have hNY := (CFSG.PreuniquenessRankFour.Helpers.fullCore_le_iff p 2 _ _).mp hfull _
     inf_le_left hY2

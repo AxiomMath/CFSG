@@ -13,7 +13,7 @@ theorem false_of_lieModel_sz8
     {K : Type} [Group K] [Finite K] (h : LieModel K .twistedB2 0 2 3) (T : Sylow 2 K)
     (hT : IsT (T : Subgroup K)) : False := by
   obtain ⟨hinv, -⟩ :=
-    CFSG.GH74.KGroups.Sz8.bender h (T : Subgroup K) T.isPGroup' T.not_dvd_index
+    CFSG.GH74.KGroups.Sz8.bender h (T : Subgroup K) T.isPGroup T.not_dvd_index
   obtain ⟨x, hx2, -, hxE⟩ := hT.exists_involution_not_mem (E := Subgroup.center ↥(T : Subgroup K))
     (fun z hz => hT.sq_eq_one_of_mem_center hz)
   apply hxE

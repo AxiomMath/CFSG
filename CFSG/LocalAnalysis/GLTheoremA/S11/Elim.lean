@@ -25,6 +25,7 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p p' : ℕ} {B B' : Subgroup G} {x x' : G} {L L' J : Subgroup G}
 
+omit [Finite G] in
 theorem labelOf_lam2 {lab : GLALabel} (h : LabelOf L lab) : GLAInLambda2 lab := by
   obtain ⟨-, lab', hlab', hs⟩ := CFSG.StandardType.Canonical.largeEvenMarking_exists h
   obtain ⟨R, _, I, F, θ, -, -, rfl⟩ := hs

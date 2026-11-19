@@ -49,10 +49,10 @@ theorem commutator_le_of_card_eq_two_mul {G : Type*} [Group G] [Finite G] (O I :
     have h1 := Subgroup.card_mul_index H
     rw [hHcard, hc] at h1
     exact Nat.eq_of_mul_eq_mul_left hpos (by rw [h1, mul_comm])
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : H.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : Nat.card (O ⧸ H) = 2 := by rw [← Subgroup.index_eq_card]; exact hidx
-  haveI : IsCyclic (O ⧸ H) := isCyclic_of_prime_card hq
+  have : IsCyclic (O ⧸ H) := isCyclic_of_prime_card hq
   have hcomm : _root_.commutator O ≤ H :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := H)).mp inferInstance
   refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
@@ -85,7 +85,7 @@ theorem commutator_omegaGroup_qPlus :
 theorem commutator_orthogonalGroup_qPlus :
     ⁅TauCeti.QuadraticMap.orthogonalGroup qPlus, TauCeti.QuadraticMap.orthogonalGroup qPlus⁆ =
       omegaGroup qPlus qPlus_nondegenerate := by
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   apply le_antisymm
   · exact commutator_le_of_card_eq_two_mul _ _ (omegaGroup_le qPlus qPlus_nondegenerate)
       (by rw [card_orthogonalGroup_qPlus, card_omegaGroup_qPlus])
@@ -98,7 +98,7 @@ theorem commutator_orthogonalGroup_qPlus :
 theorem eq_omegaGroup_of_card (I : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
     (hI : I ≤ TauCeti.QuadraticMap.orthogonalGroup qPlus) (hc : Nat.card I = 20160) :
     I = omegaGroup qPlus qPlus_nondegenerate := by
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   have h1 : omegaGroup qPlus qPlus_nondegenerate ≤ I := by
     rw [← commutator_orthogonalGroup_qPlus]
     exact commutator_le_of_card_eq_two_mul _ _ hI (by rw [card_orthogonalGroup_qPlus, hc])

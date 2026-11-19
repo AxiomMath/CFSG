@@ -186,7 +186,7 @@ theorem eq_one_of_orth_zero (hSS : OmegaMinusSmallSplit) (hirr : ∀ s : F, s ^ 
   exact (hSS F b c hirr p hp57 hpq).1 g hg hgp
 
 theorem false_of_split (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hSQ : OmegaMinusSmallQS)
-    (hSS : OmegaMinusSmallSplit) (hr : 3 ≤ r) {p : ℕ} (hp57 : p = 5 ∨ p = 7)
+    (hSS : OmegaMinusSmallSplit) (_hr : 3 ≤ r) {p : ℕ} (hp57 : p = 5 ∨ p = 7)
     (hK : Nat.card F = 2 ∨ 4 ≤ Nat.card F) (hpq : p ∣ Nat.card F - 1)
     (hS : ∀ i ∈ S, 1 ≤ i ∧ i ≤ r)
     (hA1 : ∀ X : Subgroup (GL (Idx r) F), X ≤ JΩ r F b c S → CFSG.Open.IsQuasisimple ↥X →
@@ -199,7 +199,7 @@ theorem false_of_split (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hSQ : OmegaM
     {x : GL (Idx r) F} (hxΩ : x ∈ Ωm r F b c) (hxp : x ^ p = 1)
     (hfix : ∀ g ∈ Ωm r F b c, g * x = x * g → g ∈ JΩ r F b c S)
     {V E : Subgroup (GL (Idx r) F)} (hVJ : V ≤ JΩ r F b c S)
-    (hVx : V ≤ Subgroup.centralizer ({x} : Set (GL (Idx r) F))) (hV : ⁅V, V⁆ = V) (hEV : E ≤ V)
+    (_hVx : V ≤ Subgroup.centralizer ({x} : Set (GL (Idx r) F))) (hV : ⁅V, V⁆ = V) (hEV : E ≤ V)
     (hEel : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) : False := by
   have hp : p.Prime := by rcases hp57 with rfl | rfl <;> norm_num
   have hp2 : p ≠ 2 := by rcases hp57 with rfl | rfl <;> norm_num

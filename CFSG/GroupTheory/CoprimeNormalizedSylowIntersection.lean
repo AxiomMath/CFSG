@@ -26,7 +26,7 @@ theorem coprime_normalized_sylow_intersection {A G : Type*} [Group A] [Group G]
   have hcopH : Nat.Coprime p (Nat.card H) :=
     hcopG.coprime_dvd_right (Subgroup.card_subgroup_dvd_card H)
   have hIq : IsPGroup q ((P : Subgroup G).subgroupOf H) :=
-    P.isPGroup'.comap_of_injective _ H.subtype_injective
+    P.isPGroup.comap_of_injective _ H.subtype_injective
   have hIinv : ∀ a : A, ∀ x ∈ (P : Subgroup G).subgroupOf H,
       a • x ∈ (P : Subgroup G).subgroupOf H := fun a x hx =>
     Subgroup.mem_subgroupOf.mpr (hP a x (Subgroup.mem_subgroupOf.mp hx))
@@ -38,7 +38,7 @@ theorem coprime_normalized_sylow_intersection {A G : Type*} [Group A] [Group G]
       rw [← Sylow.pointwise_smul_def, hRinv a]
     rw [← heq]
     exact Subgroup.smul_mem_pointwise_smul x a _ hx
-  have hRGq : IsPGroup q ((R : Subgroup H).map H.subtype) := R.isPGroup'.map H.subtype
+  have hRGq : IsPGroup q ((R : Subgroup H).map H.subtype) := R.isPGroup.map H.subtype
   have hRGinv : ∀ a : A, ∀ x ∈ (R : Subgroup H).map H.subtype,
       a • x ∈ (R : Subgroup H).map H.subtype := by
     rintro a _ ⟨y, hy, rfl⟩
@@ -53,7 +53,7 @@ theorem coprime_normalized_sylow_intersection {A G : Type*} [Group A] [Group G]
     exact Subgroup.smul_mem_pointwise_smul x a _ hx
   have hSH : (S : Subgroup G) ⊓ H = (R : Subgroup H).map H.subtype := by
     have hq' : IsPGroup q (((S : Subgroup G) ⊓ H).subgroupOf H) :=
-      (S.isPGroup'.to_le inf_le_left).comap_of_injective _ H.subtype_injective
+      (S.isPGroup.to_le inf_le_left).comap_of_injective _ H.subtype_injective
     have hle : (R : Subgroup H) ≤ ((S : Subgroup G) ⊓ H).subgroupOf H := fun x hx =>
       Subgroup.mem_subgroupOf.mpr ⟨hRS (Subgroup.mem_map_of_mem H.subtype hx), x.2⟩
     have heq := R.maximal_isPGroup.eq_of_le hq' hle

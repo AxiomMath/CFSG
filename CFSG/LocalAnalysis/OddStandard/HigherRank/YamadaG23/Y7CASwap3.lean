@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →* MulAut M}
   {t : Γ} {J Q P M6 M7 K : Subgroup Γ}
 
+omit [Finite Γ] in
 private lemma y7c_conjSub_injective (g : Γ) : Function.Injective (conjSub g) := by
   intro A B h
   have hA : conjSub g⁻¹ (conjSub g A) = A := by
@@ -31,6 +32,7 @@ private lemma y7c_mem_sup_decomp {A B : Subgroup Γ}
   have hz' : z ∈ (A : Set Γ) * (B : Set Γ) := hset ▸ hz
   simpa [Set.mem_mul] using hz'
 
+omit [Finite Γ] in
 private lemma y7c_sq_eq_one_of_mem_center_map {L : Subgroup Γ} {x : Γ}
     (hx : x ∈ (Subgroup.center ↥L).map L.subtype)
     (hcard : Nat.card ↥(Subgroup.center ↥L) ∣ 2) : x * x = 1 := by
@@ -145,7 +147,7 @@ theorem y7c_swap_N_eq (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
     · rw [h1, h2]
     · rw [h1, h2, sup_comm]
     · exact absurd (h1.trans h2.symm) hne2
-  haveI hnorm : (K ⊔ conjSub t K).Normal := by
+  have hnorm : (K ⊔ conjSub t K).Normal := by
     rw [Subgroup.normal_iff_map_conj_eq]
     intro g
     change conjSub g (K ⊔ conjSub t K) = K ⊔ conjSub t K

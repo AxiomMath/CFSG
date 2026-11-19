@@ -160,12 +160,13 @@ theorem alphaCore_le_commutator (hna : ¬ IsMulCommutative G) (hodd : Odd (Nat.c
 theorem map_subtype_alphaCore_le_commutator (hna : ¬ IsMulCommutative G)
     (hodd : Odd (Nat.card G)) (hsolv : ∀ Y : Subgroup G, Y ≠ ⊤ → Group.IsSolvable ↥Y)
     (hM : IsCoatom M) : (alphaCore ↥M).map M.subtype ≤ ⁅M, M⁆ := by
-  haveI := hsolv M hM.1
+  have := hsolv M hM.1
   refine le_commutator_of_isHallSubgroup_alphaPrimes_subgroupOf hna hodd hsolv hM
     (Subgroup.map_subtype_le _) ?_
   rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective M.subtype_injective]
   exact isHallSubgroup_alphaCore hna hodd hsolv hM
 
+omit [IsSimpleGroup G] in
 theorem commutator_quotient_alphaCore_le_fittingRaw_subgroup (hodd : Odd (Nat.card G))
     (hsolv : ∀ Y : Subgroup G, Y ≠ ⊤ → Group.IsSolvable ↥Y) (hM : IsCoatom M) :
     haveI := alphaCore_normal ↥M

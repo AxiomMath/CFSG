@@ -213,21 +213,20 @@ theorem lifts300 {s : ℕ} (V W U R : Torus (Type100.k (s + 1)) →+ Torus (Type
     rw [hRRf] at h
     rw [← h, hR2]
     simp only [map_add, map_zsmul, hV0, hV1', hV2']
-    simp only [map_add, map_zsmul, hR0, hR1, hR2, hRt]
+    simp only [hR0, hR1, hR2, hRt]
     module
   have hWt : ∀ x y z : ℤ, W (tor300 s x y z) = tor300 s (x - 4 * z) (x - y - 2 * z) (-z) := by
     intro x y z
     have e : tor300 s x y z =
         (x * 2 ^ s) • (𝔤 s 0) + (y * 2 ^ (s + 1)) • (𝔤 s 1) + (z * 2 ^ (s + 1)) • (𝔤 s 2) := rfl
     rw [e, map_add, map_add, map_zsmul, map_zsmul, map_zsmul, hW0, hW1, hW2]
-    simp only [smul_add, smul_sub, smul_neg, pow_succ_zsmul_tor300, add_zero, sub_zero,
-      neg_zero]
+    simp only [smul_add, smul_sub, smul_neg, pow_succ_zsmul_tor300, add_zero, sub_zero]
     simp only [tor300]
     module
   have hx0p1 : 2 ∣ -p1 + r2 - r0 ∧ 2 ∣ p1 + 2 * r1 - x0 + 2 * x1 := by
     have h := hUW (𝔤 s 1)
     rw [hW1, hU1'] at h
-    simp only [map_add, map_sub, map_neg, map_zsmul] at h
+    simp only [map_add, map_sub, map_neg] at h
     rw [hU1', hUt, hUt, hV2', hVt] at h
     simp only [map_add, map_zsmul] at h
     rw [hW0, hW1, hW2, hWt, hWt] at h
@@ -313,7 +312,7 @@ theorem images300 {s : ℕ} (V W U R : Torus (Type100.k (s + 1)) →+ Torus (Typ
     rw [hRRf] at h
     rw [← h, hR2]
     simp only [map_add, map_zsmul, hV0, hV1e, hV2e]
-    simp only [map_add, map_zsmul, hR0, hR1, hR2, hRt]
+    simp only [hR0, hR1, hR2, hRt]
     module
   have a_uv0 := Type100.uv_c (s + 1)
   have a_uv1 := Type100.uv_a (s + 1)
@@ -518,7 +517,7 @@ theorem rho_normalize300 {s : ℕ} (R : Torus (Type100.k (s + 1)) →+ Torus (Ty
     rw [tor300_eq_iff] at key
     omega
   refine ⟨w0, ?_⟩
-  simp only [map_add, hR1, hRRf, hRt]
+  simp only [map_add, hR1, hRt]
   have e1 : tor300 s w0 w1 w2 = tor300 s w0 0 0 := tor300_congr (by omega) (by omega) (by omega)
   rw [hR2', e1]
   have hz : tor300 s (4 * w0) 0 0 = 0 := by

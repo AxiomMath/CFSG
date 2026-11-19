@@ -29,8 +29,8 @@ theorem qTwoLMH_card_comap_subtype {X : Type} [Group X] (B H : Subgroup X) (hHB 
   refine
     { toFun := fun x => ⟨x.1.1, x.2⟩
       invFun := fun y => ⟨⟨y.1, hHB y.2⟩, y.2⟩
-      left_inv := fun x => by ext <;> rfl
-      right_inv := fun y => by ext <;> rfl }
+      left_inv := fun x => by ext; rfl
+      right_inv := fun y => by ext; rfl }
 
 theorem qTwoLMH_card_of_surjective_ker {X V : Type} [Group X] [Group V] [Fintype X]
     (z : X) (π : X →* V) (hsurj : Function.Surjective π)
@@ -71,18 +71,18 @@ theorem qTwoLMH_card_fix_of_index_three {X V : Type} [Group X] [Group V] [Fintyp
     (hBidx : Nat.card B * 3 = Nat.card X)
     (hBfix : ∀ w : X, w ∈ B ↔ ρ s (π w) = π w) :
     Nat.card {v : V // ρ s v = v} * 3 = Nat.card V := by
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   let fixV : Subgroup V :=
     { carrier := {v | ρ s v = v}
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        rw [Set.mem_setOf_eq] at ha hb
+        rw [Set.mem_ofPred_eq] at ha hb
         show (ρ s) (a * b) = a * b
         rw [map_mul, ha, hb]
       inv_mem' := by
         intro a ha
-        rw [Set.mem_setOf_eq] at ha
+        rw [Set.mem_ofPred_eq] at ha
         show (ρ s) a⁻¹ = a⁻¹
         rw [map_inv, ha] }
   let φ : B →* V := π.comp B.subtype
@@ -159,7 +159,7 @@ theorem qTwoLMH_mem_zpowers_oneVec {m : ℕ} (h3 : 3 ∣ m) (hm : 1 ≤ m)
 theorem qTwoLMH_card_zpowers_oneVec {m : ℕ} (h3 : 3 ∣ m) (hm : 1 ≤ m) :
     Nat.card (Subgroup.zpowers (qTwoOneVec m h3)) = 3 := by
   rw [Nat.card_zpowers]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · simpa using pow_p_eq_one (qTwoOneVec m h3)
   · intro h

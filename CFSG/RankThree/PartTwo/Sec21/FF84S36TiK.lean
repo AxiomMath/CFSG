@@ -34,6 +34,7 @@ theorem S36_isPGroup_comap {H K : Type} [Group H] [Group K] (f : H →* K)
   simp only [Subgroup.coe_pow, Subgroup.coe_one, map_pow, map_one]
   exact h1
 
+omit [Finite G] in
 theorem S36_map_cen (c : G ≃* G) (x : G) : (Cen x).map c.toMonoidHom = Cen (c x) := by
   ext y
   rw [Subgroup.mem_map]

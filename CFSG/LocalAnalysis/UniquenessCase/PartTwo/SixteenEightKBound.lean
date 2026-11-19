@@ -16,7 +16,7 @@ theorem s16k_pRank_le_statedSL {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (hA : ¬ p ∣ Nat.card (RingAut K)) (ρ : ↥A →* MulAut (Multiplicative (Fin n → K)))
     (hρ : Function.Injective ρ) (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedSL n K)) :
     CFSG.Open.pRank p A ≤ n := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   refine s16g_pRank_le_of_embedding ρ hρ hp fun E hE hEel => ?_
   have hEN : E ≤ s16gNorm (StatedSL n K) := hE.trans (s16g_range_le_norm hρN)
   have hEL : E ≤ s16gLin (Fin n) K :=
@@ -30,7 +30,7 @@ theorem s16k_pRank_le_statedSp {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (hA : ¬ p ∣ Nat.card (RingAut K)) (hU : Nat.card Kˣ = p)
     (ρ : ↥A →* MulAut (Multiplicative (Fin m ⊕ Fin m → K))) (hρ : Function.Injective ρ)
     (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedSp m K)) : CFSG.Open.pRank p A ≤ m + 1 := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
   have hΓ := addCommutantScalar_statedSp (m := m) (K := K)
   obtain ⟨μ, -, hμ⟩ := s16g_exists_mult_statedSp (K := K) hm
   refine s16g_pRank_le_of_embedding ρ hρ hp fun E hE hEel => ?_
@@ -56,8 +56,8 @@ theorem s16k_pRank_le_statedOmegaMinus_two {G : Type*} [Group G] [Finite G] {A :
     (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedOmega (StatedQuadMinus m K b c))) :
     CFSG.Open.pRank p A ≤ 2 := by
   subst hm
-  haveI : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
-  haveI : CharP K 2 := by
+  have : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : CharP K 2 := by
     rcases hK with hK | hK
     · exact s16k_charP_two_of_card (a := 1) (by norm_num) (by rw [hK]; norm_num)
     · exact s16k_charP_two_of_card (a := 2) (by norm_num) (by rw [hK]; norm_num)
@@ -102,7 +102,7 @@ theorem s16k_pRank_le_statedOmegaMinus_three_six [CharP K 2] {G : Type*} [Group 
     (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedOmega (StatedQuadMinus m K b c))) :
     CFSG.Open.pRank p A ≤ 3 := by
   subst hm
-  haveI : Nonempty (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaMinus (m := 3) (by norm_num) hirr
   refine s16g_pRank_le_of_embedding ρ hρ hp fun E hE hEel => ?_
   have hEN : E ≤ s16gNorm (StatedOmega (StatedQuadMinus 3 K b c)) :=
@@ -123,7 +123,7 @@ theorem s16k_pRank_le_statedOmegaMinus_three_four [CharP K 2] {G : Type*} [Group
     (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedOmega (StatedQuadMinus m K b c))) :
     CFSG.Open.pRank p A ≤ 3 := by
   subst hm
-  haveI : Nonempty (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hΓ := addCommutantScalar_statedOmegaMinus (m := 3) (K := K) (by norm_num) hirr
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaMinus (m := 3) (by norm_num) hirr
   refine s16g_pRank_le_of_embedding ρ hρ hp fun E hE hEel => ?_

@@ -51,7 +51,7 @@ theorem resL_apply (g : T3E K) (x : V4 K) : resL g x = piL (g (iotaL x)) := rfl
 theorem act2E_unip_one_iotaL (x : V4 K) : act2E (unipSL (1 : K)) (iotaL x) = iotaL x := by
   funext a b c
   fin_cases c <;>
-    simp [act2E_apply, tensor3Act2, Fin.sum_univ_two, unipSL_apply, iotaL_apply]
+    simp [act2E_apply, tensor3Act2, unipSL_apply, iotaL_apply]
 
 theorem eq_iotaL_of_fixed {T : Tensor3 K} (hT : act2E (unipSL (1 : K)) T = T) :
     T = iotaL (piL T) := by
@@ -165,10 +165,10 @@ end CharTwo
     ![v (Sum.inr 1), v (Sum.inr 0)]]
   map_add' x y := by
     funext i
-    rcases i with i | i <;> fin_cases i <;> simp <;> ring
+    rcases i with i | i <;> fin_cases i <;> simp; ring
   map_smul' r x := by
     funext i
-    rcases i with i | i <;> fin_cases i <;> simp <;> ring
+    rcases i with i | i <;> fin_cases i <;> simp; ring
   left_inv x := by
     funext a b
     fin_cases a <;> fin_cases b <;> simp
@@ -256,6 +256,7 @@ section Element
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem resL_uf (c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) (x : V4 K) (a b : Fin 2) :
     resL (act0E (unipSL c) * act1E F) x a b =
       ∑ a', (unipSL c : Matrix (Fin 2) (Fin 2) K) a a' *
@@ -263,6 +264,7 @@ theorem resL_uf (c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) (x : V4 K) (a 
   simp [resL_apply, LinearEquiv.mul_apply, act0E_apply, act1E_apply, tensor3Act0, tensor3Act1,
     iotaL_apply, piL_apply]
 
+omit [CharP K 2] in
 theorem resL_uf_zero (c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) (x : V4 K) (b : Fin 2) :
     resL (act0E (unipSL c) * act1E F) x 0 b =
       ((F : Matrix (Fin 2) (Fin 2) K) *ᵥ x 0) b +
@@ -270,6 +272,7 @@ theorem resL_uf_zero (c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) (x : V4 K
   rw [resL_uf]
   simp [Fin.sum_univ_two, unipSL_apply, Matrix.mulVec, dotProduct]
 
+omit [CharP K 2] in
 theorem resL_uf_one (c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) (x : V4 K) (b : Fin 2) :
     resL (act0E (unipSL c) * act1E F) x 1 b = ((F : Matrix (Fin 2) (Fin 2) K) *ᵥ x 1) b := by
   rw [resL_uf]
@@ -306,6 +309,7 @@ theorem mulVec_ne_of_form {F : Matrix (Fin 2) (Fin 2) K} {r : Fin 2 → K}
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   linear_combination r 0 * r 1 * h2
 
+omit [CharP K 2] in
 theorem psiMat_sub_one_mulVec (κ : K) (g : T3E K) (x : V4 K) :
     (psiMat κ g - 1) *ᵥ lamE κ x = lamE κ (resL g x - x) := by
   rw [Matrix.sub_mulVec, Matrix.one_mulVec, psiMat_mulVec, map_sub]
@@ -341,8 +345,7 @@ theorem rank_psiMat_uf (κ c : K) (F : Matrix.SpecialLinearGroup (Fin 2) K) {r :
       have e11 : x1 1 = 0 := rfl
       have e20 : x2 0 = 0 := rfl
       have e21 : x2 1 = r := rfl
-      simp only [e10, e11, e20, e21, Matrix.mulVec_zero, Pi.zero_apply, mul_zero, zero_mul,
-        add_zero, zero_add, sub_zero, sub_self] at h1 h0
+      simp only [e10, e11, e20, e21, Matrix.mulVec_zero, Pi.zero_apply, mul_zero, add_zero, zero_add, sub_zero, sub_self] at h1 h0
       have ht : t = 0 := by
         rcases mul_eq_zero.mp h1 with h | h
         · exact h

@@ -41,22 +41,22 @@ private theorem cl24_finPSU_PSL {n n' j d : ℕ}
   have hcross := cl24_cross_NE hj hd hN hE
   simp only [lieSylowExponent, cl24E] at hcross
   by_cases hn'ev : Even n'
-  · rw [if_pos hn'ev] at hcross
+  · rw [ite_eq_left hn'ev] at hcross
     have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
     have hrel : 2 * (n - 1) = n' := by
       have ht := cl24_tri n
       have hc : (2 * (n - 1)) * n = n' * n := by nlinarith only [h4, ht]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < n) hc
-    rw [if_pos hn'ev, ← hrel] at hEltn
+    rw [ite_eq_left hn'ev, ← hrel] at hEltn
     omega
-  · rw [if_neg hn'ev] at hcross
+  · rw [ite_eq_right hn'ev] at hcross
     have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
     have hrel : 2 * (n - 1) = n' - 1 := by
       have ht := cl24_tri n
       have hc : (2 * (n - 1)) * n = (n' - 1) * n := by nlinarith only [h4, ht]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < n) hc
     have hn'val : n' = 2 * (n - 1) + 1 := by omega
-    rw [if_neg hn'ev, hn'val] at hEltn
+    rw [ite_eq_right hn'ev, hn'val] at hEltn
     omega
 
 private theorem cl24_finPSU_sq2n {n n' j d : ℕ} (hj1 : 1 ≤ j) (hn2 : 2 ≤ n)
@@ -73,20 +73,20 @@ private theorem cl24_finPSU_sq2n {n n' j d : ℕ} (hj1 : 1 ≤ j) (hn2 : 2 ≤ n
   have hcross := cl24_cross_NE hj hd hN hE
   simp only [lieSylowExponent, cl24E] at hcross
   by_cases hn'ev : Even n'
-  · rw [if_pos hn'ev] at hcross
+  · rw [ite_eq_left hn'ev] at hcross
     have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
     have hrel : 2 * n = n' := by
       have hc : (2 * n) * (2 * n) = n' * (2 * n) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
-    rw [if_pos hn'ev, ← hrel] at hEltn
+    rw [ite_eq_left hn'ev, ← hrel] at hEltn
     omega
-  · rw [if_neg hn'ev] at hcross
+  · rw [ite_eq_right hn'ev] at hcross
     have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
     have hrel : 2 * n = n' - 1 := by
       have hc : (2 * n) * (2 * n) = (n' - 1) * (2 * n) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
     have hn'val : n' = 2 * n + 1 := by omega
-    rw [if_neg hn'ev, hn'val] at hEltn
+    rw [ite_eq_right hn'ev, hn'val] at hEltn
     omega
 
 private theorem cl24_finPSU_PSp {n n' j d : ℕ}
@@ -121,20 +121,20 @@ private theorem cl24_finPSU_POmegaPlus {n n' j d : ℕ}
   have hcross := cl24_cross_NE hj hd hN hE
   simp only [lieSylowExponent, cl24E] at hcross
   by_cases hn'ev : Even n'
-  · rw [if_pos hn'ev] at hcross
+  · rw [ite_eq_left hn'ev] at hcross
     have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
     have hrel : 2 * n = n' := by
       have hc : (2 * n) * (2 * (n - 1)) = n' * (2 * (n - 1)) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * (n - 1)) hc
-    rw [if_pos hn'ev, ← hrel] at hEltn
+    rw [ite_eq_left hn'ev, ← hrel] at hEltn
     omega
-  · rw [if_neg hn'ev] at hcross
+  · rw [ite_eq_right hn'ev] at hcross
     have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
     have hrel : 2 * n = n' - 1 := by
       have hc : (2 * n) * (2 * (n - 1)) = (n' - 1) * (2 * (n - 1)) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * (n - 1)) hc
     have hn'val : n' = 2 * n + 1 := by omega
-    rw [if_neg hn'ev, hn'val] at hEltn
+    rw [ite_eq_right hn'ev, hn'val] at hEltn
     omega
 
 private theorem cl24_finPSU_POmegaMinus {n n' j d : ℕ}
@@ -153,20 +153,20 @@ private theorem cl24_finPSU_POmegaMinus {n n' j d : ℕ}
   have hcross := cl24_cross_NE hj hd hN hE
   simp only [lieSylowExponent, cl24E] at hcross
   by_cases hn'ev : Even n'
-  · rw [if_pos hn'ev] at hcross
+  · rw [ite_eq_left hn'ev] at hcross
     have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
     have hrel : 2 * (n - 1) = n' := by
       have hc : (2 * (n - 1)) * (2 * n) = n' * (2 * n) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
-    rw [if_pos hn'ev, ← hrel] at hEltn
+    rw [ite_eq_left hn'ev, ← hrel] at hEltn
     omega
-  · rw [if_neg hn'ev] at hcross
+  · rw [ite_eq_right hn'ev] at hcross
     have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
     have hrel : 2 * (n - 1) = n' - 1 := by
       have hc : (2 * (n - 1)) * (2 * n) = (n' - 1) * (2 * n) := by nlinarith only [h4]
       exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
     have hn'val : n' = 2 * (n - 1) + 1 := by omega
-    rw [if_neg hn'ev, hn'val] at hEltn
+    rw [ite_eq_right hn'ev, hn'val] at hEltn
     omega
 
 private theorem cl24_finPSU_PSU {n n' j d : ℕ}
@@ -193,25 +193,25 @@ private theorem cl24_finPSU_PSU {n n' j d : ℕ}
   have hcross := cl24_cross_NE hj hd hN hE
   simp only [lieSylowExponent, cl24E] at hcross
   by_cases hn'ev : Even n'
-  · rw [if_pos hn'ev] at hcross
+  · rw [ite_eq_left hn'ev] at hcross
     by_cases hnev : Even n
-    · rw [if_pos hnev] at hcross
+    · rw [ite_eq_left hnev] at hcross
       have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
       have hrel : n = n' := by
         have ht := cl24_tri n
         have hc : n * (2 * (n - 1)) = n' * (2 * (n - 1)) := by nlinarith only [h4, ht]
         exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * (n - 1)) hc
-      rw [if_pos hn'ev, if_pos hnev, hrel] at hEltn
+      rw [ite_eq_left hn'ev, ite_eq_left hnev, hrel] at hEltn
       omega
-    · rw [if_neg hnev] at hcross
+    · rw [ite_eq_right hnev] at hcross
       have h4 := cl24_PSU_rel_even (by omega : 1 < n') hcross
       have hrel : n - 1 = n' := by
         have ht := cl24_tri n
         have hc : (n - 1) * (2 * n) = n' * (2 * n) := by nlinarith only [h4, ht]
         exact Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
       have hnodd : Odd n := Nat.not_even_iff_odd.mp hnev
-      have hEn : cl24E .PSU n = 2 * n := by simp only [cl24E, if_neg hnev]
-      have hEevenn' : cl24E .PSU n' = 2 * (n' - 1) := by simp only [cl24E, if_pos hn'ev]
+      have hEn : cl24E .PSU n = 2 * n := by simp only [cl24E, ite_eq_right hnev]
+      have hEevenn' : cl24E .PSU n' = 2 * (n' - 1) := by simp only [cl24E, ite_eq_left hn'ev]
       have hE' : j * (2 * n) = d * (2 * (n' - 1)) := by
         have h := hE
         rw [hEn, hEevenn'] at h
@@ -239,9 +239,9 @@ private theorem cl24_finPSU_PSU {n n' j d : ℕ}
       have hsize := cl24_size_of_digit hX
       have hcontra := cl24_digit_contra4 hj1 hDle hD'
       omega
-  · rw [if_neg hn'ev] at hcross
+  · rw [ite_eq_right hn'ev] at hcross
     by_cases hnev : Even n
-    · rw [if_pos hnev] at hcross
+    · rw [ite_eq_left hnev] at hcross
       have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
       have hrel : n + 1 = n' := by
         have ht := cl24_tri n
@@ -249,16 +249,16 @@ private theorem cl24_finPSU_PSU {n n' j d : ℕ}
         have : n = n' - 1 := Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * (n - 1)) hc
         omega
       have hn'val : n' = n + 1 := by omega
-      rw [if_neg hn'ev, if_pos hnev, hn'val] at hEltn
+      rw [ite_eq_right hn'ev, ite_eq_left hnev, hn'val] at hEltn
       omega
-    · rw [if_neg hnev] at hcross
+    · rw [ite_eq_right hnev] at hcross
       have h4 := cl24_PSU_rel_odd (by omega : 0 < n') hcross
       have hrel : n = n' := by
         have ht := cl24_tri n
         have hc : (n - 1) * (2 * n) = (n' - 1) * (2 * n) := by nlinarith only [h4, ht]
         have : n - 1 = n' - 1 := Nat.eq_of_mul_eq_mul_right (by omega : 0 < 2 * n) hc
         omega
-      rw [if_neg hn'ev, if_neg hnev, hrel] at hEltn
+      rw [ite_eq_right hn'ev, ite_eq_right hnev, hrel] at hEltn
       omega
 
 theorem cl24_finPSU_cla {τ : StatedLieTag} {n n' j d : ℕ}

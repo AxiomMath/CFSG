@@ -32,10 +32,11 @@ theorem IsRootForm.mul_self {D : D4Datum G K} {ρ : Representation K G X}
 
 theorem IsRootForm.rho_x_inv {D : D4Datum G K} {ρ : Representation K G X}
     {E : (Fin 4 → ℤ) → Module.End K X} {j : ℕ}
-    (h : IsRootForm D ρ E j) {α : Fin 4 → ℤ} (hα : IsD4Root α) (c : K) :
+    (_h : IsRootForm D ρ E j) {α : Fin 4 → ℤ} (hα : IsD4Root α) (c : K) :
     ρ ((D.x α c)⁻¹) = ρ (D.x α c) := by
   simpa [CharTwo.neg_eq] using (congrArg (fun g => ρ g) (D.x_neg hα c)).symm
 
+omit [CharP K 2] in
 theorem eq_zero_of_add_eq_zero_of_smul_add_smul_eq_zero {M : Type*} [AddCommGroup M]
     [Module K M] {μ : K} (hμ0 : μ ≠ 0) (hμ1 : μ ≠ 1) {P Q : M}
     (h1 : P + Q = 0) (h2 : μ • P + μ ^ 2 • Q = 0) : P = 0 ∧ Q = 0 := by
@@ -71,7 +72,7 @@ theorem mul_four_expand (A B : Module.End K X) (u v : K)
         (u ^ 2 * v) • (A * B * A) + (u ^ 2 * v ^ 2) • (A * B * A * B) := by
   have hABB : A * B * B = 0 := by rw [mul_assoc, hB, mul_zero]
   simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, smul_smul,
-    smul_add, smul_zero, hA, hB, hABB, mul_zero, zero_mul, add_zero, zero_add]
+    smul_add, smul_zero, hA, hB, hABB, add_zero]
   match_scalars
   all_goals try simp only [CharTwo.add_self_eq_zero]
   all_goals ring
@@ -122,6 +123,7 @@ private theorem IsRootForm.hzero {D : D4Datum G K} {ρ : Representation K G X}
         (1 + (c ^ (2 ^ j) * d ^ (2 ^ j)) • E (α + β)) by module]
   rw [h, sub_self]
 
+omit [CharP K 2] in
 private theorem eq_zero_of_four_smul_eq_zero {M : Type*} [AddCommGroup M] [Module K M]
     {w : K} (hw0 : w ≠ 0) (hw1 : w ≠ 1) {M1 M2 M3 M4 : M}
     (h11 : (M1 + M2) + (M3 + M4) = 0)

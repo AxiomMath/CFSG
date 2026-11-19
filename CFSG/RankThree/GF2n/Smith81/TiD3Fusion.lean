@@ -31,8 +31,8 @@ theorem exists_centralized_ne_one {G : Type*} [Group G] [Finite G] {T D : Subgro
     (hTD : ∀ t ∈ T, ∀ d ∈ D, t * d * t⁻¹ ∈ D) :
     ∃ b ∈ D, b ≠ 1 ∧ ∀ t ∈ T, t * b * t⁻¹ = b := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥T ↥D :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥T ↥D :=
     { smul := fun t d => ⟨(t : G) * d * (t : G)⁻¹, hTD t t.2 d d.2⟩
       one_smul := fun d => Subtype.ext (by
         show (((1 : ↥T) : G)) * (d : G) * (((1 : ↥T) : G))⁻¹ = d
@@ -64,6 +64,8 @@ variable {K : Type} [Field K] [Fintype K] [CharP K 2] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {S : Subgroup G} {φS : ↥S →* (M₀.E ≃ₗ[K] M₀.E)}
   {F : Type} [Field F] [Finite F] [Algebra K F]
 
+omit [CharP K 2] in
+omit [Finite G] in
 theorem D3Data.exists_ctx_line (D : D3Data Q Z M₀ φS F) (hc : Ctx M Q Z B) (hSM : S ≤ M)
     (hφπ : ∀ (m : ↥S) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φS m (M₀.π x))
     {w₁ : Fin 2 → F} (hw₁ : w₁ ≠ 0)
@@ -108,11 +110,13 @@ namespace D3Ctx
 
 variable [CharP F 2] (R : D3Ctx M Q Z B M₀ F)
 
+omit [CharP K 2] [CharP F 2] in
 theorem hφSπ (m : ↥(Lgen M (LB M Q B))) (x : G) (hx : x ∈ Q) :
     M₀.π ((m : G) * x * (m : G)⁻¹) =
       (R.φ.comp (Subgroup.inclusion R.hc.Lgen_le_H0)) m (M₀.π x) :=
   R.hφπ ⟨m, R.hc.Lgen_le_H0 m.2⟩ x hx
 
+omit [CharP K 2] [CharP F 2] in
 theorem hBinv (m : ↥(Lgen M (LB M Q B))) (e f : M₀.E) :
     M₀.B ((R.φ.comp (Subgroup.inclusion R.hc.Lgen_le_H0)) m e)
       ((R.φ.comp (Subgroup.inclusion R.hc.Lgen_le_H0)) m f) = M₀.B e f := by
@@ -123,11 +127,13 @@ theorem hBinv (m : ↥(Lgen M (LB M Q B))) (e f : M₀.E) :
   linear_combination h2 - h1
 
 include R in
+omit [CharP K 2] [CharP F 2] in
 theorem hK4 : 4 ≤ Nat.card K := by
   rw [R.hD.card]
   exact R.hc.hyp.q4
 
 include R in
+omit [CharP K 2] in
 theorem mem_S_of_two_power {m : G} (hm : m ∈ H0 M Z) {k : ℕ} (hk : m ^ (2 ^ k) ∈ Q) :
     m ∈ Lgen M (LB M Q B) := by
   have h3 : m ^ 3 ∈ Lgen M (LB M Q B) :=
@@ -138,6 +144,7 @@ theorem mem_S_of_two_power {m : G} (hm : m ∈ H0 M Z) {k : ℕ} (hk : m ^ (2 ^ 
     h3 (R.hc.Q_le_Lgen hk)
 
 include R in
+omit [CharP K 2] in
 theorem line_of_root {A : Subgroup G} (hA : Ctx M Q Z A) :
     ∃ w : Fin 2 → F, w ≠ 0 ∧
       ∀ v, v ∈ M₀.img A ↔ ∃ μ : K, v = μ • R.D.ptv w := by
@@ -209,11 +216,12 @@ namespace D3Ctx
 variable [CharP F 2] (R : D3Ctx M Q Z B M₀ F)
 
 include R in
+omit [CharP K 2] in
 theorem not_typeA {x : G} (hxH : x ∈ H0 M Z) (hxQ : x ∉ Q) (hx2 : x * x = 1) :
     ¬ ∃ k, IsTypeA Q Z k x := by
   rintro ⟨k, -, -, hall⟩
   have hxS : x ∈ Lgen M (LB M Q B) :=
-    R.mem_S_of_two_power hxH (k := 1) (by simpa [pow_two, hx2] using Q.one_mem)
+    R.mem_S_of_two_power hxH (k := 1) (by simp [pow_two, hx2])
   set t : ↥(Lgen M (LB M Q B)) := ⟨x, hxS⟩ with ht
   have ht1 : R.D.p t ≠ 1 := fun h => hxQ ((R.D.ker_iff t).mp h)
   have ht2 : R.D.p t * R.D.p t = 1 := by
@@ -231,6 +239,7 @@ theorem not_typeA {x : G} (hxH : x ∈ H0 M Z) (hxQ : x ∉ Q) (hx2 : x * x = 1)
   exact hv h2
 
 include R in
+omit [CharP K 2] in
 theorem p2 : P2Prop M Q Z := by
   refine p2_of_conj R.hc.hyp fun X x hs => ?_
   have h12 := smith_1_12 hs
@@ -359,14 +368,14 @@ theorem tiFusionD3_of_module (hMod : D3ModuleStatement) : TiFusionD3Statement :=
     unfold Width
     simpa using this
   obtain ⟨K, _, _, _, γ, M₀, hD⟩ := stroth_globalModelData H
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨φ, hφπ, hφker, hφQ⟩ := exists_actionHom_H0 H hD
   obtain ⟨F, _, _, _, hcardF, hfinrank, ⟨D⟩⟩ := exists_d3Data hMod hC hw hc.2.1 hD
     (φ.comp (Subgroup.inclusion hC.Lgen_le_H0))
     (fun m x hx => hφπ ⟨m, hC.Lgen_le_H0 m.2⟩ x hx)
     (fun m => hφker ⟨m, hC.Lgen_le_H0 m.2⟩)
     (fun m e => hφQ ⟨m, hC.Lgen_le_H0 m.2⟩ e)
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   let R : D3Ctx M Q Z B M₀ F := ⟨hC, hw, hD, φ, hφπ, hφker, hφQ, hc.2.2, D⟩
   exact tiFusion_of_omega_p2 H R.omega R.p2
 

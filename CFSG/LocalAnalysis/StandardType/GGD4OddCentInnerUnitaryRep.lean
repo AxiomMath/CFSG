@@ -227,7 +227,7 @@ theorem phiRep_mem_unitaryIsom3 (hx : OddOrderIsometry Q 3 x)
   have hcent : centralizerGL x φ ⟨g, hgc⟩ = centralizerGL x φ g' := by
     refine Units.ext (LinearMap.ext fun v => Subtype.ext ?_)
     change g (v : V) = g'.1 (v : V)
-    rw [hg'def, blockComponent_apply_of_mem hx _ _ hmem v.2, if_pos (Or.inl rfl)]
+    rw [hg'def, blockComponent_apply_of_mem hx _ _ hmem v.2, ite_eq_left (Or.inl rfl)]
   set M := (phiBlockEquiv hx hmem hU b hb hrange).symm ⟨g'.1, hg'⟩ with hM
   have hgM : (phiBlockEquiv hx hmem hU b hb hrange M : V ≃ₗ[F] V) = g'.1 := by
     rw [hM, MulEquiv.apply_symm_apply]

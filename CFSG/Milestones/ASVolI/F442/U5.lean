@@ -20,8 +20,8 @@ variable {K : Type} [Field K]
 
 theorem burnsideF42g_u5_omega (h : UnitaryFieldData 2 1 K) : ∃ ω : K, ω * ω + ω + 1 = 0 := by
   classical
-  haveI := h.finite
-  haveI := Fintype.ofFinite K
+  have := h.finite
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, h.card]; norm_num
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra hcon
@@ -48,7 +48,7 @@ theorem burnsideF42g_u5_herm_cases {h : UnitaryFieldData 2 1 K} {ω : K} (hω : 
     {Y : Matrix (Fin 2) (Fin 2) K} (hY : IsHerm h Y) (hd : Y.det = 0)
     (hdJ : (Y + !![0, 1; 1, 0]).det = 0) :
     Y = !![1, ω + 1; ω, 1] ∨ Y = !![1, ω; ω + 1, 1] := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   obtain ⟨h00, h11, h10⟩ := isHerm_iff.mp hY
   rw [h.bar_apply, pow_one, pow_two] at h00 h11 h10
@@ -144,7 +144,7 @@ theorem burnsideF42g_u5_u_inv {ω : K} (hω : ω * ω + ω + 1 = 0)
     (hx : x ∈ Subgroup.centralizer ({Un.t5Y h} : Set (hypPSU h 2 1))) :
     x * hypProj h 2 1 (vSU h _ hU) * x⁻¹ = hypProj h 2 1 (vSU h _ hU) ∨
       x * hypProj h 2 1 (vSU h _ hU) * x⁻¹ = hypProj h 2 1 (vSU h _ hU) * Un.t5Y h := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hJ : IsHerm h (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) K) := isHerm_swap h
   have hUJ := burnsideF42g_u5_isHerm_add hU hJ
@@ -241,10 +241,10 @@ theorem burnsideF42g_A42_U5two (hyp : HypF_4_31 .U5 1 Gp M₁ M₂ β ε z) (_hL
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .U5 Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   obtain ⟨K, fK, h, Ψ, h1, h2⟩ := burnsideF4m_U5_chart hyp.amalgam.toHypF_4_4g
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hch2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hle : ∀ X : Subgroup E, Gp ⊓ X = X := fun X => inf_eq_right.2 (hGp ▸ le_top)
   set ψ : hypPSU h 2 1 →* E := Gp.subtype.comp Ψ.toMonoidHom with hψdef

@@ -86,7 +86,7 @@ private theorem d4Type_card_centerQuot {X : Type} [Group X] {n : ℕ}
     (largeEvenLabelAll_markedModel_classical hl (Or.inr (Or.inr (Or.inr rfl))) _ hraw)
   have hM' : LieModel R .POmegaPlus 4 2 n := by
     have h43 : ¬ ((4 : ℕ) = 3) := by decide
-    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, if_false] using hM
+    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, ite_false] using hM
   rw [Nat.card_congr θ.toEquiv]
   exact CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags (by decide) hM'
 
@@ -123,8 +123,8 @@ theorem twE6MatFixDim_eq_30_of_d4 (hS : E6LeviThreeToralBar)
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by
@@ -212,8 +212,8 @@ theorem twistInner_of_d4 {n : ℕ} (h3 : 3 ∣ 2 ^ n + 1) {K : Type} [Field K] [
     intro γ hγ
     rw [hker] at hγ ⊢
     exact outer_rho_mem_kernelRoots D.S D.hT hγ
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have := D.hchar
   have hf : 1 ≤ D.e := D.he
   have h3' : 3 ∣ ringChar K ^ D.e + 1 := D.hqe ▸ h3
   have hTp : rootDiagUnit Tag.E6 D.a ^ 3 = 1 := by

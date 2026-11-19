@@ -28,6 +28,7 @@ private theorem fourteenNine_M_le_normalizer_L {M L : Subgroup G} (h8 : Fourteen
     M ≤ Subgroup.normalizer (L : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer h8.L_le).mp h8.L_normal
 
+omit [Finite G] in
 private theorem fourteenNine_M_le_normalizer_D (M : Subgroup G) :
     M ≤ Subgroup.normalizer (CFSG.inSubgroup (CFSG.pPrimeCore 3) M : Set G) :=
   Subgroup.le_normalizer.trans
@@ -41,19 +42,21 @@ private theorem fourteenNine_T_ne_bot {M H E Q J R T : Subgroup G}
   exact CFSG.Quasithin.pCoreOf_ne_bot_of_isTwoLocal c.choice.hypCGen.isTwoLocal hO
 
 private theorem fourteenNine_sylow_D1 {M H E Q J R T : Subgroup G}
-    (c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T)
-    {L : Subgroup G} (h8 : FourteenEightData M L) :
+    (_c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T)
+    {L : Subgroup G} (_h8 : FourteenEightData M L) :
     CFSG.ABGLocalTools.IsSylowOf 2
       (T ⊓ CFSG.inSubgroup (CFSG.pPrimeCore 3) M)
       (CFSG.inSubgroup (CFSG.pPrimeCore 3) M ⊓ (L ⊔ T)) :=
   h7.sylow_D.of_le
     (le_inf inf_le_right (inf_le_left.trans le_sup_right)) inf_le_left
 
+omit [Finite G] in
 private theorem subgroupOf_normal_of_le_normalizer {L M X : Subgroup G}
     (hLX : L ≤ X) (hXM : X ≤ M) (hML : M ≤ Subgroup.normalizer (L : Set G)) :
     (L.subgroupOf X).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).mpr (hXM.trans hML)
 
+omit [Finite G] in
 private theorem subgroupOf_map_subtype_eq {X : Subgroup G} (U : Subgroup ↥X) :
     (U.map X.subtype).subgroupOf X = U :=
   Subgroup.comap_map_eq_self_of_injective X.subtype_injective U
@@ -73,8 +76,8 @@ private theorem le_core_or_le_of_normal {M L X U : Subgroup G}
       L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩
   rcases h8.dichotomy (U ⊓ L) inf_le_right hNnorm with hNleD | hNeqL
   · left
-    haveI : (U.subgroupOf X).Normal := hUnorm
-    haveI : (L.subgroupOf X).Normal := hLnormX
+    have : (U.subgroupOf X).Normal := hUnorm
+    have : (L.subgroupOf X).Normal := hLnormX
     have hcommX : ⁅U.subgroupOf X, L.subgroupOf X⁆ ≤
         U.subgroupOf X ⊓ L.subgroupOf X :=
       le_inf (Subgroup.commutator_le_left _ _) (Subgroup.commutator_le_right _ _)
@@ -119,9 +122,10 @@ private theorem le_sup_of_sylow_of_surjective_isPGroup {X : Type*} [Group X] [Fi
 private theorem le_centralizer_normalClosure {X : Type*} [Group X] [Finite X]
     {U Z : Subgroup X} (hU : U.Normal) (hZ : Z ≤ Subgroup.centralizer (U : Set X)) :
     U ≤ Subgroup.centralizer (Subgroup.normalClosure (Z : Set X)) := by
-  haveI : (Subgroup.centralizer (U : Set X)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (U : Set X)).Normal := Subgroup.normal_centralizer
   exact (Subgroup.le_centralizer_iff).mpr (Subgroup.normalClosure_le_normal hZ)
 
+omit [Finite G] in
 private theorem pCoreOf_top_map_facts {X : Subgroup G} :
     (((CFSG.Open.pCoreOf 2 (⊤ : Subgroup ↥X)).map X.subtype).subgroupOf X).Normal ∧
       IsPGroup 2 ((CFSG.Open.pCoreOf 2 (⊤ : Subgroup ↥X)).map X.subtype) ∧
@@ -142,10 +146,11 @@ private theorem pCoreOf_top_map_facts {X : Subgroup G} :
   change (O.subgroupOf X).Normal ∧ IsPGroup 2 O ∧ O ≤ X
   exact ⟨hOnormX, hO2, hOX⟩
 
+omit [Finite G] in
 private theorem fourteenNine_quotient_isPGroup_two {X L T : Subgroup G}
     (hXL : X = L ⊔ T) (hLN : (L.subgroupOf X).Normal) (hT2 : IsPGroup 2 T) :
     IsPGroup 2 (↥X ⧸ L.subgroupOf X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* (↥X ⧸ L.subgroupOf X) := QuotientGroup.mk' (L.subgroupOf X)
   have hT2' : IsPGroup 2 (T.subgroupOf X) := hT2.comap_subtype
   have hsurj : Function.Surjective (π.comp (T.subgroupOf X).subtype) := by
@@ -165,6 +170,7 @@ private theorem fourteenNine_quotient_isPGroup_two {X L T : Subgroup G}
     rfl
   exact hT2'.of_surjective _ hsurj
 
+omit [Finite G] in
 private theorem fourteenNine_primeResidual_subgroupOf {X L : Subgroup G} (hLX : L ≤ X)
     (hres : CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥L = ⊤) :
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥(L.subgroupOf X) = ⊤ := by
@@ -173,7 +179,7 @@ private theorem fourteenNine_primeResidual_subgroupOf {X L : Subgroup G} (hLX : 
       ↥(L.subgroupOf X)).map e.toMonoidHom = ⊤ := by
     rw [CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_map_equiv 3 e, hres]
   have h3 : (⊤ : Subgroup ↥(L.subgroupOf X)).map e.toMonoidHom = ⊤ := by
-    simpa using Subgroup.map_top_of_surjective e.toMonoidHom e.surjective
+    simp
   exact Subgroup.map_injective e.injective (h2.trans h3.symm)
 
 private theorem fourteenNine_primeResidual_le_of_quotient_two {X L : Subgroup G}
@@ -181,8 +187,8 @@ private theorem fourteenNine_primeResidual_le_of_quotient_two {X L : Subgroup G}
     (hQ2 : IsPGroup 2 (↥X ⧸ L.subgroupOf X)) :
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥N0).map
         N0.subtype ≤ L.subgroupOf X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (L.subgroupOf X).Normal := hLN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (L.subgroupOf X).Normal := hLN
   let π : ↥X →* (↥X ⧸ L.subgroupOf X) := QuotientGroup.mk' (L.subgroupOf X)
   rw [Subgroup.map_le_iff_le_comap,
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_eq_closure]
@@ -208,8 +214,8 @@ private theorem fourteenNine_coset_mem_sup {X : Type*} [Group X] [Finite X]
     (hx3 : ∃ k, orderOf x = 3 ^ k) :
     x ∈ (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥N0).map
         N0.subtype ⊔ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : D.Normal := hD
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : D.Normal := hD
   let π : X →* (X ⧸ D) := QuotientGroup.mk' D
   obtain ⟨k, hk⟩ := hx3
   obtain ⟨d, hd, n, hn, hdn⟩ := Subgroup.mem_sup_of_normal_left.mp hx
@@ -256,7 +262,7 @@ private theorem fourteenNine_le_sup_inf {X : Type*} [Group X] [Finite X]
     (hNres : (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥N0).map
       N0.subtype ≤ L) :
     L ≤ (L ⊓ N0) ⊔ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup X :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥N0).map N0.subtype
   have hO_le_L : O ≤ L := hNres
@@ -284,9 +290,9 @@ private theorem fourteenNine_le_sup_inf {X : Type*} [Group X] [Finite X]
     (le_sup_right : D ≤ (L ⊓ N0) ⊔ D)) hcoset
 
 private theorem fourteenNine_pCoreOf_two_M_le_TD {M H E Q J R T : Subgroup G}
-    (c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T) :
+    (_c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T) :
     CFSG.Open.pCoreOf 2 M ≤ T ⊓ CFSG.inSubgroup (CFSG.pPrimeCore 3) M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 M
   have hQ2 : IsPGroup 2 Q := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 M
@@ -304,7 +310,7 @@ private theorem fourteenNine_pCoreOf_two_M_le_TD {M H E Q J R T : Subgroup G}
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hQD]
     exact hDleM.trans hQnorm
   obtain ⟨S, hS⟩ := h7.sylow_D.exists_sylow_eq_subgroupOf
-  haveI : (Q.subgroupOf D).Normal := hQDnorm
+  have : (Q.subgroupOf D).Normal := hQDnorm
   have hQleS : Q.subgroupOf D ≤ (S : Subgroup D) :=
     @IsPGroup.le_sylow_of_normal 2 ↥D _ (Q.subgroupOf D) hQDnorm
       (hQ2.comap_subtype) S
@@ -320,7 +326,7 @@ private theorem fourteenNine_charTwo_top {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T)
     {L : Subgroup G} (h8 : FourteenEightData M L) :
     CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup ↥(L ⊔ T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := L ⊔ T
   have hXM : X ≤ M := fourteenNine_X_le_M c h8
   have hQTD := fourteenNine_pCoreOf_two_M_le_TD c h7
@@ -337,11 +343,11 @@ private theorem fourteenNine_charTwo_top {M H E Q J R T : Subgroup G}
   exact hcharTop
 
 private theorem fourteenNine_pCoreOf_top_le_D {M H E Q J R T : Subgroup G}
-    (c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T)
+    (c : CaseOneCtx G M H E Q J R T) (_h7 : FourteenSevenData M H Q R T)
     {L : Subgroup G} (h8 : FourteenEightData M L) :
     ((CFSG.Open.pCoreOf 2 (⊤ : Subgroup ↥(L ⊔ T))).map (L ⊔ T).subtype) ≤
       CFSG.inSubgroup (CFSG.pPrimeCore 3) M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := L ⊔ T
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   have hXM : X ≤ M := fourteenNine_X_le_M c h8
@@ -357,8 +363,8 @@ private theorem fourteenNine_pCoreOf_top_le_D {M H E Q J R T : Subgroup G}
         (hO2.to_le hL).of_surjective
           (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥L))
           (QuotientGroup.mk'_surjective _)
-      haveI : IsSimpleGroup (threeStar L) := h8.simple
-      letI : Nontrivial (threeStar L) := IsSimpleGroup.toNontrivial
+      have : IsSimpleGroup (threeStar L) := h8.simple
+      let : Nontrivial (threeStar L) := IsSimpleGroup.toNontrivial
       have hcent : Nontrivial ↥(Subgroup.center (threeStar L)) := hLbar2.center_nontrivial
       have hcenttop : Subgroup.center (threeStar L) = ⊤ := by
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (threeStar L)) with
@@ -375,7 +381,7 @@ private theorem fourteenNine_pCoreOf_top_le_T {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) (h7 : FourteenSevenData M H Q R T)
     {L : Subgroup G} (h8 : FourteenEightData M L) :
     CFSG.Open.pCoreOf 2 (⊤ : Subgroup ↥(L ⊔ T)) ≤ T.subgroupOf (L ⊔ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := L ⊔ T
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   have hXM : X ≤ M := fourteenNine_X_le_M c h8
@@ -394,7 +400,7 @@ private theorem fourteenNine_pCoreOf_top_le_T {M H E Q J R T : Subgroup G}
     have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ D) (D ⊓ X) :=
       h7.sylow_D.of_le (le_inf inf_le_right (inf_le_left.trans le_sup_right)) inf_le_left
     obtain ⟨S₁, hS₁⟩ := hSyl.exists_sylow_eq_subgroupOf
-    haveI : (O.subgroupOf (D ⊓ X)).Normal := hOD1norm
+    have : (O.subgroupOf (D ⊓ X)).Normal := hOD1norm
     have hle : O.subgroupOf (D ⊓ X) ≤ (S₁ : Subgroup ↥(D ⊓ X)) :=
       @IsPGroup.le_sylow_of_normal 2 ↥(D ⊓ X) _ (O.subgroupOf (D ⊓ X)) hOD1norm
         (hO2.comap_subtype) S₁
@@ -424,7 +430,7 @@ theorem CaseOneCtx.fourteenNine_stepOne (c : CaseOneCtx G M H E Q J R T)
   let N : Subgroup G := L ⊓ Subgroup.normalizer (C : Set G)
   obtain ⟨p, hp⟩ := c.choice.sigma_nonempty
   have hpprime : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hp2 : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   have hNM : N ≤ M := inf_le_left.trans h8.L_le
   have hDN : N ≤ Subgroup.normalizer (D : Set G) :=
@@ -695,7 +701,7 @@ private theorem fourteenNine_one_not_le {M H E Q J R T : Subgroup G}
         (QuotientGroup.mk' (gnC (T.subgroupOf (L ⊔ T)))) := by
   let X : Subgroup G := L ⊔ T
   let Y : Subgroup ↥X := gnC (T.subgroupOf X)
-  haveI : Y.Normal := inferInstance
+  have : Y.Normal := inferInstance
   let Q : Type := ↥X ⧸ Y
   let π : ↥X →* Q := QuotientGroup.mk' Y
   let P : Subgroup Q := CFSG.pCore 2 Q
@@ -741,7 +747,7 @@ private theorem fourteenNine_one_le_D {M H E Q J R T : Subgroup G}
   let X : Subgroup G := L ⊔ T
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   let Y : Subgroup ↥X := gnC (T.subgroupOf X)
-  haveI : Y.Normal := inferInstance
+  have : Y.Normal := inferInstance
   let Q : Type := ↥X ⧸ Y
   let π : ↥X →* Q := QuotientGroup.mk' Y
   let P : Subgroup Q := CFSG.pCore 2 Q
@@ -779,7 +785,7 @@ private theorem fourteenNine_one_le_sup {M H E Q J R T : Subgroup G}
   let X : Subgroup G := L ⊔ T
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   let Y : Subgroup ↥X := gnC (T.subgroupOf X)
-  haveI : Y.Normal := inferInstance
+  have : Y.Normal := inferInstance
   let Q : Type := ↥X ⧸ Y
   let π : ↥X →* Q := QuotientGroup.mk' Y
   let P : Subgroup Q := CFSG.pCore 2 Q
@@ -841,7 +847,7 @@ private theorem fourteenNine_one_le_Y {M H E Q J R T : Subgroup G}
       gnC (T.subgroupOf (L ⊔ T)) := by
   let X : Subgroup G := L ⊔ T
   let Y : Subgroup ↥X := gnC (T.subgroupOf X)
-  haveI : Y.Normal := inferInstance
+  have : Y.Normal := inferInstance
   let Q : Type := ↥X ⧸ Y
   let π : ↥X →* Q := QuotientGroup.mk' Y
   let P : Subgroup Q := CFSG.pCore 2 Q
@@ -877,7 +883,7 @@ theorem CaseOneCtx.fourteenNine_one (c : CaseOneCtx G M H E Q J R T)
   let X : Subgroup G := L ⊔ T
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   let Y : Subgroup ↥X := gnC (T.subgroupOf X)
-  haveI : Y.Normal := inferInstance
+  have : Y.Normal := inferInstance
   let Q : Type := ↥X ⧸ Y
   let π : ↥X →* Q := QuotientGroup.mk' Y
   let P : Subgroup Q := CFSG.pCore 2 Q

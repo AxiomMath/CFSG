@@ -58,8 +58,8 @@ theorem glaPComponent_fixSubgroup_one {p : ℕ} (hp : p.Prime) {K : Type} [Group
     IsComponentOf J (fixSubgroup (1 : MulAut K)) ∧ Subgroup.center ↥J = ⊥ ∧
       Nonempty (↥J ≃* (TauCeti.CFSGIndex.lie d).Group) := by
   classical
-  haveI := (CFSG.Assembly.lie_finite_simple d).2
-  haveI : IsSimpleGroup K := eK.isSimpleGroup
+  have := (CFSG.Assembly.lie_finite_simple d).2
+  have : IsSimpleGroup K := eK.isSimpleGroup
   have hKna := exists_mul_ne_mul_of_glaPComponent hp hJ
   have h1 : fixSubgroup (1 : MulAut K) = ⊤ := by
     ext x
@@ -74,10 +74,10 @@ theorem glaPComponent_fixSubgroup_one {p : ℕ} (hp : p.Prime) {K : Type} [Group
   have hJc : IsComponentOf J (fixSubgroup (1 : MulAut K)) :=
     (CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_isComponent_of_le_layer hJ
       (hlayer J hJ.1 (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ))).1
-  haveI : ((fixSubgroup (1 : MulAut K)).subgroupOf (fixSubgroup (1 : MulAut K))).Normal := by
+  have : ((fixSubgroup (1 : MulAut K)).subgroupOf (fixSubgroup (1 : MulAut K))).Normal := by
     rw [Subgroup.subgroupOf_self]
     infer_instance
-  haveI : Subsingleton (↥(fixSubgroup (1 : MulAut K)) ⧸
+  have : Subsingleton (↥(fixSubgroup (1 : MulAut K)) ⧸
       (fixSubgroup (1 : MulAut K)).subgroupOf (fixSubgroup (1 : MulAut K))) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with | H a => ?_
@@ -109,8 +109,8 @@ theorem s2019ExcComp_identify {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq2 : 
     obtain ⟨hJc, hZ, ⟨φ⟩⟩ := glaPComponent_fixSubgroup_one hp eK hJ
     refine ⟨hJc, fun _ => ⟨.lie d, compRel_self d.1, ⟨(quotientCenterEquivOfBot hZ).trans φ⟩⟩,
       fun hout => (hout 1 (map_one _)).elim⟩
-  haveI := (CFSG.Assembly.lie_finite_simple d).2
-  haveI : IsSimpleGroup K := eK.isSimpleGroup
+  have := (CFSG.Assembly.lie_finite_simple d).2
+  have : IsSimpleGroup K := eK.isSimpleGroup
   have hKna := exists_mul_ne_mul_of_glaPComponent hp hJ
   have hpq : p ≠ d.1.characteristic := by rw [hdq]; exact Ne.symm hqp
   have hlayer := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.lieSemisimpleCent K
@@ -196,7 +196,7 @@ theorem s2019ExcCompNotRee_holds : S2019ExcCompNotRee := by
         obtain ⟨hZ, e, hsh, -, ⟨φ⟩⟩ := hout hin
         exact (hnotLie e (ne_reeG2_of_sameShape hd hsh)).false
           ((quotientCenterEquivOfBot hZ).trans φ)
-    · haveI := (CFSG.Assembly.lie_finite_simple d).2
+    · have := (CFSG.Assembly.lie_finite_simple d).2
       have hKs : IsSimpleGroup K := eK.isSimpleGroup
       obtain ⟨-, hchev⟩ := isComponentOf_and_isChevSimple hp hp2 hqp hKs
         (exists_mul_ne_mul_of_glaPComponent hp hJ) hdq eK hβ hβ1 hJ

@@ -25,8 +25,8 @@ theorem AschbacherHyp.exists_conj_of_sq_mem_centerOf (hC : AschbacherHyp C Q) {�
     (h₁ : τ₁ ∉ commutator C) (h₂ : τ₂ ∉ commutator C) (h₁2 : τ₁ ^ 2 ∈ centerOf Q)
     (h₂2 : τ₂ ^ 2 ∈ centerOf Q) : ∃ g : C, ∃ z ∈ centerOf Q, g * τ₁ * g⁻¹ = τ₂ * z := by
   have hE : IsExtraspecialPGroup 2 ↥Q := hC.plus.isExtraspecialPGroup
-  haveI : Finite ↥Q := hC.plus.finite
-  letI : Module (ZMod 2) (Additive (Abelianization ↥Q)) :=
+  have : Finite ↥Q := hC.plus.finite
+  let : Module (ZMod 2) (Additive (Abelianization ↥Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
   have hQn : Q.Normal := inferInstance
   have hQcomm : Q ≤ commutator C := hC.le_commutator

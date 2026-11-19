@@ -16,7 +16,7 @@ theorem cast_ne_zero_of_abs_eq_one {z : ℤ} (h : |z| = 1) : (z : K) ≠ 0 := by
 theorem deg1_of_mRoots {μ : Fin Tag.E8.rank → ℤ} (h : μ ∈ mRoots) : μ ∈ deg1Roots :=
   Finset.mem_filter.2 ⟨(Finset.mem_filter.1 h).1, (Finset.mem_filter.1 h).2.1⟩
 
-theorem lxPos_sub : ∀ γ ∈ lxPos, γ ∈ lxRoots := fun γ hγ =>
+theorem lxPos_sub : ∀ _γ ∈ lxPos, _γ ∈ lxRoots := fun _γ hγ =>
   Finset.mem_filter.2 ⟨(Finset.mem_filter.1 hγ).1, (Finset.mem_filter.1 hγ).2.1,
     (Finset.mem_filter.1 hγ).2.2.1⟩
 

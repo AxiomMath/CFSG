@@ -31,7 +31,7 @@ theorem he_delta_trivial
     orderOf_eq_prime (hE.2 d hd) hd1
   obtain ⟨d₀, hd₀E, hd₀1⟩ : ∃ d ∈ E, d ≠ 1 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have : Nat.card E = 1 := Subgroup.card_eq_one.2 ((Subgroup.eq_bot_iff_forall _).2 hall)
     rw [hEc] at this
     norm_num at this

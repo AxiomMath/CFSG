@@ -42,7 +42,7 @@ theorem sixNine {Γ : Type*} [Group Γ] [Finite Γ] {K V S : Subgroup Γ} {t : �
     rwa [hSV] at h1
   · right
     have hP := h.pHyp
-    haveI hVn : (V.subgroupOf (S ⊔ zpowers t)).Normal := hP.V_normal
+    have hVn : (V.subgroupOf (S ⊔ zpowers t)).Normal := hP.V_normal
     have hVP : V ≤ S ⊔ zpowers t := h.V_le_S.trans hSP
     have hne : S.subgroupOf (S ⊔ zpowers t) ≠ V.subgroupOf (S ⊔ zpowers t) := by
       intro heq

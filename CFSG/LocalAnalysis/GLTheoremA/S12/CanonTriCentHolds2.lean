@@ -123,7 +123,7 @@ private theorem triD4J_mat_cube {L : Type} [Field L] [IsAlgClosed L] (h3 : (3 : 
       refine ⟨v, hv0, ?_⟩
       rw [Matrix.sub_mulVec, sub_eq_zero] at hv
       rw [← hv]
-      simp [Matrix.scalar_apply, Matrix.smul_mulVec]
+      simp [Matrix.scalar_apply]
     choose v hv0 hv using hev'
     have hli : LinearIndependent L v := by
       refine Module.End.eigenvectors_linearIndependent' (Matrix.toLin' A) μ hμinj v fun i => ?_
@@ -132,7 +132,7 @@ private theorem triD4J_mat_cube {L : Type} [Field L] [IsAlgClosed L] (h3 : (3 : 
       exact hv i
     set P : Matrix (Fin 3) (Fin 3) L := Matrix.of fun i j => v j i with hP
     have hPu : IsUnit P := by
-      rw [← Matrix.linearIndependent_cols_iff_isUnit]
+      rw [← Matrix.linearIndependent_col_iff_isUnit]
       exact hli
     have hAP : A * P = P * Matrix.diagonal μ := by
       ext i j
@@ -255,7 +255,7 @@ private theorem triD4J_single_two_eq : (Pi.single 2 1 : Fin TwistTag.D4.tag.rank
 
 private theorem triD4J_val1 {l a : Lˣ} : l ^ (2 : ℤ) * (l ^ 2 * a⁻¹) ^ (-1 : ℤ) = a := by
   apply Units.ext
-  simp only [Units.val_mul, Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val,
+  simp only [Units.val_mul, Units.val_pow_eq_pow_val,
     Units.val_inv_eq_inv_val, zpow_neg, zpow_one, zpow_two]
   have hl := l.ne_zero
   have ha := a.ne_zero
@@ -266,7 +266,7 @@ private theorem triD4J_val2 {l a s : Lˣ} (hl : l ^ 3 = a ^ 3 * s) :
   apply Units.ext
   have hl' := congrArg Units.val hl
   simp only [Units.val_mul, Units.val_pow_eq_pow_val] at hl'
-  simp only [Units.val_mul, Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val,
+  simp only [Units.val_mul, Units.val_pow_eq_pow_val,
     Units.val_inv_eq_inv_val, zpow_neg, zpow_one, zpow_two]
   have h0 := l.ne_zero
   have ha := a.ne_zero
@@ -437,7 +437,7 @@ private theorem triD4J_alg [IsAlgClosed L] [CharP L 2] {B : Lˣ} (hB3 : B ^ 3 = 
     ext α
     exact d4Minus_rootCharKernel hB3 hB1 α
   have hord : orderOf (rootDiagUnit TwistTag.D4.tag aB) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · have e : aB * aB * aB = 1 := by
         funext i
@@ -610,7 +610,7 @@ private theorem triD4J_cent_data {L : Type} [Field L] [CharP L 2] {B : Lˣ} (hB3
     ext α
     exact d4Minus_rootCharKernel hB3 hB1 α
   have hord : orderOf (rootDiagUnit TwistTag.D4.tag aB) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · have e : aB * aB * aB = 1 := by
         funext i
@@ -716,6 +716,7 @@ private theorem triD4J_diagramPow_conj_mem {L : Type} [Field L] {p : ModGL Twist
     exact diagramMap_conj_mem_adjointGroup (diagramMap_conj_mem_adjointGroup hg)
 
 open CFSG.RankThree.PartTwo.Sec11.KS11Lie5Proof in
+omit [Finite K₃] in
 private theorem triD4J_model_core {L : Type} [Field L] [Algebra K₃ L] [IsAlgClosed L] [CharP L 2]
     {x : graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom}
     {α : MulAut (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)} (hαx : α x = x)
@@ -901,6 +902,7 @@ section Model2
 
 variable {K₃ : Type} [Field K₃] [Finite K₃] {Fr : K₃ ≃+* K₃}
 
+omit [Finite K₃] in
 private theorem triD4J_h3 (hZ0 : Subgroup.center (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) = ⊥)
     {α : MulAut (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)} (hα3 : α ^ 3 = 1)
     {y : graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom} {pK : ModGL TwistTag.D4.tag K₃}
@@ -971,10 +973,10 @@ private theorem triD4J_model {n : ℕ} (hn1 : 1 ≤ n) (hK : Nat.card K₃ = (2 
           Subgroup.centralizer ({x} : Set (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom))⁆,
           α d₁ = d₁ → α d₂ = d₂ → d₁ * d₂ = d₂ * d₁) := by
   classical
-  haveI : CharP K₃ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K₃ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := n * 3) (by omega) (by rw [hK, pow_mul])
   set L := AlgebraicClosure K₃ with hL
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₃ L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₃ L).injective 2
   have h3L : (3 : L) ≠ 0 := by
     have h2 : (2 : L) = 0 := CharP.cast_eq_zero L 2
     have : (3 : L) = 1 := by linear_combination h2
@@ -1046,7 +1048,7 @@ open CFSG.RankThree.PartTwo
 theorem triD4LemmaJ_holds : TriD4LemmaJ := by
   intro Γ _ _ J K a g lab hlab htag hodd hn3 hZ haJ ha3 ha1 hKc hKlab hgN hg3 hgout hga
   obtain ⟨K₃, _, _, hn1, hK₃, hs, hna, ⟨θ⟩⟩ := triD4_datum hlab htag
-  haveI : CharP K₃ 2 := charP_two_of_card (m := lab.n * 3) (by rw [hK₃, pow_mul])
+  have : CharP K₃ 2 := charP_two_of_card (m := lab.n * 3) (by rw [hK₃, pow_mul])
   set σ₀ := iterateFrobeniusEquiv K₃ 2 lab.n with hσ₀def
   have hσ₀ : ∀ c, σ₀ c = c ^ 2 ^ lab.n := fun c => by
     rw [hσ₀def, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -1199,9 +1201,9 @@ theorem triD4LemmaJ_holds : TriD4LemmaJ := by
     have hK''S := tcent_component_eq hK''c hSC hcomm hSq
     obtain ⟨eS⟩ := Sec11.KS11Lie4Proof.nonempty_mulEquiv_d4ShortSL2 hσ3
     set F := orbitField TwistTag.D4 K₃ σ₀.toRingHom Sec11.KS11Lie4Proof.d4Outer with hFdef
-    haveI : Finite ↥F := Subtype.finite
+    have : Finite ↥F := Subtype.finite
     have hFcard : Nat.card ↥F = Nat.card K₃ := Sec11.KS11Lie4Proof.natCard_orbitField_d4Outer hσ3
-    haveI : CharP ↥F 2 := charP_two_of_card (m := lab.n * 3) (by rw [hFcard, hK₃, pow_mul])
+    have : CharP ↥F 2 := charP_two_of_card (m := lab.n * 3) (by rw [hFcard, hK₃, pow_mul])
     obtain ⟨hsF, hnaF⟩ := ggL48TBVac_simple_linear_two (K := ↥F) (by rw [hFcard]; exact hK4)
     let eKS : ↥K ≃* CFSG.Assembly.LargeEvenProj (CFSG.Assembly.LargeEvenSLGroup (Fin 2) ↥F) :=
       (Subgroup.subgroupOfEquivOfLe hKJ).symm.trans

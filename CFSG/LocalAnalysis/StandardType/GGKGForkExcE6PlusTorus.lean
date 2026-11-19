@@ -123,18 +123,18 @@ theorem exists_sylow_conj_le_torus
               ModGL .E6 (AlgebraicClosure K)) (Units.map (entrywiseHom Fr)) := by
 
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let L := AlgebraicClosure K
   set a := padicValNat p (Nat.card K + 1) with ha
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   have hp_not_dvd : ¬ 2 ∣ p := by
     obtain ⟨k, hk⟩ := hp.odd_of_ne_two hp2
     rintro ⟨j, hj⟩
     omega
-  haveI : NeZero ((p : L)) := ⟨by
+  have : NeZero ((p : L)) := ⟨by
     rw [Ne, CharP.cast_eq_zero_iff L 2]
     exact hp_not_dvd⟩
-  haveI : NeZero (((p ^ a : ℕ)) : L) := ⟨by
+  have : NeZero (((p ^ a : ℕ)) : L) := ⟨by
     rw [Nat.cast_pow]
     exact pow_ne_zero _ (NeZero.ne (p : L))⟩
   have hpq' : p ^ a ∣ Nat.card K + 1 := by rw [ha]; exact pow_padicValNat_dvd

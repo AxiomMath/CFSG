@@ -41,6 +41,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W : Subgroup Ω}
 
 include c
 
+omit [Finite Ω] in
 theorem noTwoQuotient : CFSG.CGT.PushingUpLit.SubTwo.NoTwoQuotient Y := by
   intro N hNY _ h2
   apply le_antisymm hNY
@@ -65,6 +66,7 @@ theorem inf_centralizer_W : Y ⊓ Subgroup.centralizer (W : Set Ω) = pCoreOf 2 
   le_antisymm (burnsideC121_inf_centralizer_le D.α D.β D.αk D.βs D.βe)
     (le_inf (pCoreOf_le 2 Y) c.pCore_Y_le_centralizer)
 
+omit [Finite Ω] c in
 theorem not_le_pCore : ¬ Y ≤ pCoreOf 2 Y := by
   intro h
   have hbot : D.α.range = ⊥ := by
@@ -94,7 +96,7 @@ theorem not_le_pCore : ¬ Y ≤ pCoreOf 2 Y := by
 
 theorem not_le_centralizer_W : ¬ Y ≤ Subgroup.centralizer (W : Set Ω) := by
   intro h
-  apply c.not_le_pCore D
+  apply CFSG.ASVolI.burnsideC121_YCtx.not_le_pCore D
   rw [← c.inf_centralizer_W D]
   exact le_inf le_rfl h
 
@@ -106,7 +108,7 @@ theorem inf_centralizer_H :
   set C := H ⊓ Subgroup.centralizer (W : Set Ω) with hC
   have hCp : IsPGroup 2 C := by
     rintro ⟨x, hx⟩
-    obtain ⟨k, hk⟩ := C124.exists_pow_mem_of_prod c.Y_le_H c.H_le_normalizer c.P_le_H c.P_pGroup
+    obtain ⟨k, hk⟩ := C124.exists_pow_mem_of_prod CFSG.ASVolI.burnsideC121_YCtx.Y_le_H c.H_le_normalizer (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)) c.P_pGroup
       hx.1 (c.H_prod x hx.1)
     have hkC : x ^ 2 ^ k ∈ Y ⊓ Subgroup.centralizer (W : Set Ω) :=
       ⟨hk, Subgroup.pow_mem _ hx.2 _⟩
@@ -129,7 +131,7 @@ theorem inf_centralizer_P :
       pCoreOf 2 (burnsideC121_H X T Y) := by
   apply le_antisymm
   · rw [← c.inf_centralizer_H D]
-    exact inf_le_inf_right _ c.P_le_H
+    exact inf_le_inf_right _ (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y))
   · exact le_inf c.pCore_H_le_P c.pCore_H_le_centralizer
 
 theorem le_normalizer_S_of_thompsonJ_le
@@ -142,7 +144,7 @@ theorem le_normalizer_S_of_thompsonJ_le
   have hb := baum_eq_baum_centralizer c.W_elem hWP hJP
   rw [c.inf_centralizer_P D, c.baum_P] at hb
   rw [hb]
-  exact c.Y_le_H.trans ((le_normalizer_pCoreOf 2 _).trans
+  exact CFSG.ASVolI.burnsideC121_YCtx.Y_le_H.trans ((le_normalizer_pCoreOf 2 _).trans
     (normalizer_le_normalizer_baum (pCoreOf 2 (burnsideC121_H X T Y))))
 
 omit D in
@@ -153,7 +155,7 @@ theorem thompsonJ_le_pCore_H
   set P := burnsideC121_P X R T Y with hP
   set D₀ := pCoreOf 2 Y ⊔ thompsonJ P with hD₀
   have hD₀P : D₀ ≤ P := sup_le c.pCore_Y_le_P (B6.thompsonJ_le P)
-  have hD₀H : D₀ ≤ burnsideC121_H X T Y := hD₀P.trans c.P_le_H
+  have hD₀H : D₀ ≤ burnsideC121_H X T Y := hD₀P.trans (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y))
   have hD₀p : IsPGroup 2 D₀ := c.P_pGroup.to_le hD₀P
   have hY1 : ∀ y ∈ Y, ∀ x ∈ D₀, y * x * y⁻¹ ∈ D₀ := by
     intro y hy
@@ -184,7 +186,7 @@ theorem thompsonJ_le_pCore_H
 theorem commutator_thompsonJ_eq (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω)) :
     ⁅Y, thompsonJ R⁆ = Y := by
   have hJY : thompsonJ R ≤ Subgroup.normalizer (Y : Set Ω) :=
-    (c.thompsonJ_R_le_S.trans c.S_le_P).trans c.P_le_normalizer
+    (c.thompsonJ_R_le_S.trans CFSG.ASVolI.burnsideC121_YCtx.S_le_P).trans c.P_le_normalizer
   have hNY : ⁅Y, thompsonJ R⁆ ≤ Y := Subgroup.le_normalizer_iff_commutator_le_left.mp hJY
   have hYN : Y ≤ Subgroup.normalizer ((⁅Y, thompsonJ R⁆ : Subgroup Ω) : Set Ω) :=
     Subgroup.normalizer_commutator_ge_left Y (thompsonJ R)

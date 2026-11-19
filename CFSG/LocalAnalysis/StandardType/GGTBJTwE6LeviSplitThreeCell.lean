@@ -23,7 +23,7 @@ theorem twE6Split_leviFrame_three
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ 2 ^ n) (h3 : 3 ∣ 2 ^ n - 1)
     {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) (hζσ : σ (ζ : K) = ζ) :
     GGF4LeviFrame 3 (ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨nk, wt, hnk, hwn, hwt⟩ := twE6Split_frame_three σ hn hK hσ h3 hζo hζ hζσ
   exact ⟨K, inferInstance, ζ, hζ, ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ, nk, _, wt, hζo,
     TwE6SplitRootGen.twE6SplitFrameHom_injective_of_orderOf σ hζo hζ hζσ, rfl, hnk, hwn, hwt,
@@ -37,7 +37,7 @@ theorem ggTwE6Split_leviModel_K_three
     (hK : GGHasLabel (⟨.twE6, 0, n⟩ : LargeEvenLabel) (↥K ⧸ Subgroup.center ↥K))
     (h3 : 3 ∣ 2 ^ n - 1) :
     GGF4LeviModel 3 Bs K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hN, F, hF, hFfin, σ, hcard, hσ, ζ, hζ, hζσ, e, hZ, hζo, hA⟩ :=
     ggTwE6Split_model_K_three hRig hH hΛ hK h3
   have hn2 : 2 ≤ n := by

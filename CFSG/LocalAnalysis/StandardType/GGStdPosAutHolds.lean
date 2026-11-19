@@ -14,7 +14,7 @@ open CFSG.LieType.Universal CFSG.LieType.RootSystem CFSG.LieType
 
 private theorem ggStdPosAut_exists_pow_eq_one_ne_one {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
     (hpf : p ∣ 2 ^ f - 1) : ∃ ζ : (GaloisField 2 f)ˣ, ζ ^ p = 1 ∧ ζ ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (GaloisField 2 f)ˣ = 2 ^ f - 1 := by
     rw [Nat.card_units, GaloisField.card 2 f (by omega)]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := (GaloisField 2 f)ˣ) p (hcard ▸ hpf)

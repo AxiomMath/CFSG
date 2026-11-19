@@ -56,7 +56,7 @@ theorem normalIntersection_deficient_sylow_moving_element
   let _ : CD.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDnormalizes
   obtain ⟨_hUtriple, A, hUA, hzA, _hfixed⟩ := triple_invariant_subgroup_extends
     h S hzS hzcenter beta hbeta p hp U (hUE.trans inf_le_left)
-      (Q.isPGroup'.map (C ⊓ E).subtype) hzQ
+      (Q.isPGroup.map (C ⊓ E).subtype) hzQ
   let W := (A : Subgroup E).map E.subtype
   have hWE : W ≤ E := Subgroup.map_subtype_le _
   have hWD : W ≤ D := hWE.trans le_sup_right
@@ -64,7 +64,7 @@ theorem normalIntersection_deficient_sylow_moving_element
     p hp C E (inf_le_left.trans hBnormalizes) Q A hUA
   have hnotfull := normalIntersection_join_sylow_deficiency
     p hp C E hDnormalizes Q A hUA hdeficient
-  have hWp : IsPGroup p W := A.isPGroup'.map E.subtype
+  have hWp : IsPGroup p W := A.isPGroup.map E.subtype
   have hWDp : IsPGroup p (W.subgroupOf D) := hWp.comap_subtype
   obtain ⟨T, hWTin⟩ := hWDp.exists_le_sylow
   let TG := (T : Subgroup D).map D.subtype
@@ -79,7 +79,7 @@ theorem normalIntersection_deficient_sylow_moving_element
   have hsurj : Function.Surjective (q.domRestrict (E.subgroupOf D)) :=
     normalIntersection_join_quotient_surjective C E inferInstance
   have himages := noncentralSylow_containing_pgroup_image_eq p hp D E le_sup_right
-    q hsurj A TG (T.isPGroup'.map D.subtype) hWT
+    q hsurj A TG (T.isPGroup.map D.subtype) hWT
   have hsubtypeT : TG.subgroupOf D = (T : Subgroup D) := by
     ext d
     exact Subgroup.mem_map_iff_mem D.subtype_injective
@@ -89,7 +89,7 @@ theorem normalIntersection_deficient_sylow_moving_element
     rw [Subgroup.map_subgroupOf_eq_of_le hWD]
     exact hstrict
   obtain ⟨xD, hxT, hxker, hxN, hxW⟩ := noncentralSylow_kernel_normalizer_growth
-    p hp (T : Subgroup D) (W.subgroupOf D) T.isPGroup' hWTinside q himages
+    p hp (T : Subgroup D) (W.subgroupOf D) T.isPGroup hWTinside q himages
   have hxG : (xD : G) ∈ TG := Subgroup.mem_map_of_mem D.subtype hxT
   have hxC : (xD : G) ∈ C := by
     have hxCD : xD ∈ CD := by
@@ -106,7 +106,7 @@ theorem normalIntersection_deficient_sylow_moving_element
   have hxnotE : (xD : G) ∉ E := by
     intro hxE
     have hTGinter : TG ⊓ E = W := noncentralSylow_containing_pgroup_intersection
-      p E A TG (T.isPGroup'.map D.subtype) hWT
+      p E A TG (T.isPGroup.map D.subtype) hWT
     have hxWG : (xD : G) ∈ W := by
       rw [← hTGinter]
       exact ⟨hxG, hxE⟩

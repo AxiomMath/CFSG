@@ -92,14 +92,14 @@ theorem q125_mem_nz {g : Nat → Nat} {x : Nat} : ∀ {l : List Nat}, x ∈ q125
   | i :: l => by
     have ih := q125_mem_nz (g := g) (x := x) (l := l)
     by_cases h : g i = 0
-    · simp only [q125Nz, if_pos h, ih, List.mem_cons]
+    · simp only [q125Nz, ite_eq_left h, ih, List.mem_cons]
       constructor
       · rintro ⟨j, hj, h1, h2⟩
         exact ⟨j, Or.inr hj, h1, h2⟩
       · rintro ⟨j, rfl | hj, h1, h2⟩
         · exact absurd h h1
         · exact ⟨j, hj, h1, h2⟩
-    · simp only [q125Nz, if_neg h, List.mem_cons, ih]
+    · simp only [q125Nz, ite_eq_right h, List.mem_cons, ih]
       constructor
       · rintro (rfl | ⟨j, hj, h1, h2⟩)
         · exact ⟨i, Or.inl rfl, h, rfl⟩
@@ -117,9 +117,9 @@ theorem q125_fold (g : Nat → Nat) : ∀ l : List Nat, (∀ i ∈ l, g i < 2097
     rw [List.foldr_cons, q125sN, q125_fold g l (fun j hj => h j (by simp [hj]))]
     by_cases h0 : g i = 0
     · rw [q125nIfT (q125beqT h0)]
-      simp only [q125Nz, if_pos h0]
+      simp only [q125Nz, ite_eq_left h0]
     · rw [q125nIfF (q125beqF h0), q125shift_or (h i (by simp))]
-      simp only [q125Nz, if_neg h0, q125Pk]
+      simp only [q125Nz, ite_eq_right h0, q125Pk]
 
 theorem q125_recsJ : ∀ R : List Q125E, (∀ e ∈ R, e.1 < 8192 ∧ e.2.1 < 64) →
     recsJ R = q125Pk (R.map q125RecE)
@@ -161,12 +161,12 @@ theorem q125_rec0At (SC PT LT L i : Nat) : rec0At SC PT LT L i =
   unfold rec0At
   rw [q125sN, q125sN]
   by_cases h1 : lookL L (matMulK (saAtK SC i) (saAtK SC i)) = 0
-  · rw [q125nIfT (q125beqT h1), if_pos h1]
-  · rw [q125nIfF (q125beqF h1), if_neg h1]
+  · rw [q125nIfT (q125beqT h1), ite_eq_left h1]
+  · rw [q125nIfF (q125beqF h1), ite_eq_right h1]
     by_cases h2 : parK PT LT i = 0
-    · rw [q125nIfT (q125beqT h2), if_pos h2]
+    · rw [q125nIfT (q125beqT h2), ite_eq_left h2]
       rfl
-    · rw [q125nIfF (q125beqF h2), if_neg h2]
+    · rw [q125nIfF (q125beqF h2), ite_eq_right h2]
 
 @[expose] noncomputable def q125L1 : Nat := tyLK (ycK saCodes yIdxT) q125Ty 1
 
@@ -239,7 +239,7 @@ theorem q125_exists_entry {i k : Nat} (hi : i < 8192) (hp : parK saParT saLabT i
     ∃ e ∈ roots, e.1 = i ∧ e.2.1 = k := by
   have hv : q125R0 i = 1048576 + 128 * i + 2 * k := by
     unfold q125R0
-    rw [q125_rec0At, if_neg (by omega), if_pos hp, hl]
+    rw [q125_rec0At, ite_eq_right (by omega), ite_eq_left hp, hl]
     rfl
   have hm : q125R0 i ∈ roots.map q125RecE := by
     rw [q125_roots_map]
@@ -258,9 +258,9 @@ theorem q125_nz_nodup (g dec : Nat → Nat) : ∀ l : List Nat, l.Nodup →
     have hl' := (List.nodup_cons.1 hl)
     have ih := q125_nz_nodup g dec l hl'.2 (fun j hj => hd j (by simp [hj]))
     by_cases h0 : g i = 0
-    · simp only [q125Nz, if_pos h0]
+    · simp only [q125Nz, ite_eq_left h0]
       exact ih
-    · simp only [q125Nz, if_neg h0, List.map_cons]
+    · simp only [q125Nz, ite_eq_right h0, List.map_cons]
       refine List.nodup_cons.2 ⟨fun hm => hl'.1 ?_, ih⟩
       obtain ⟨x, hx, hxe⟩ := List.mem_map.1 hm
       obtain ⟨j, hj, hj0, rfl⟩ := q125_mem_nz.1 hx
@@ -295,8 +295,8 @@ theorem q125_and_two_pow (m p : Nat) : m &&& 2 ^ p = if m.testBit p then 2 ^ p e
   rw [Nat.testBit_and, Nat.testBit_two_pow]
   by_cases hj : p = j
   · subst hj
-    cases h : m.testBit p <;> simp [Nat.testBit_two_pow]
-  · cases h : m.testBit p <;> simp [hj, Nat.testBit_two_pow]
+    cases h : m.testBit p <;> simp
+  · cases h : m.testBit p <;> simp [hj]
 
 theorem q125_bitK {m p : Nat} (h : bitK m p = true) : m.testBit p = true := by
   unfold bitK at h
@@ -385,7 +385,6 @@ theorem q125_plK {SC PT LT : Nat} {Ls : List (List Nat)} {C0 D0 C1 D1 C2 D2 k y 
     exact ⟨h.symm, List.nodup_nil, fun p hp => absurd hp List.not_mem_nil⟩
   | (v, tag) :: pl, lo, n, h, hn => by
     rw [q125_plK_cons, q125sN] at h
-    beta_reduce at h
     cases hc : bAnd(Nat.blt lo v, bAnd(Nat.blt v (nat_lit 8192),
         bAnd(Nat.beq (parK PT LT v) (nat_lit 0),
         bAnd(Nat.beq (matMulK (saAtK SC v) (saAtK SC v)) y, bAnd(antiQK R ry (saAtK SC v),

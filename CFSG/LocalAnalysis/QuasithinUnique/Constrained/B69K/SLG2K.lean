@@ -80,8 +80,8 @@ theorem false_of_sl_sectionK (hLn : E2P.E22LnTwoFam)
       have hy : y ∈ π.ker := by rw [htop]; trivial
       rw [MonoidHom.mem_ker.mp hx, MonoidHom.mem_ker.mp hy]
   let eπ : ↥(StatedSL n K) ≃* ↥(B69.wtL L W) := MulEquiv.ofBijective π ⟨hinj, hπ⟩
-  haveI : IsSimpleGroup ↥(B69.wtL L W) := (MulEquiv.isSimpleGroup_congr eπ).mp hs
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have : IsSimpleGroup ↥(B69.wtL L W) := (MulEquiv.isSimpleGroup_congr eπ).mp hs
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   obtain ⟨eLZ⟩ := B69.equiv_of_central_quotients hL.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _) ℓ hℓs
   have hPSL : IsPSL n 2 1 (↥L ⧸ Subgroup.center ↥L) := by
@@ -100,8 +100,8 @@ theorem equiv_quot_L_of_hyp {V : Type} [CommGroup V] [Finite V] {X T M A L : Sub
     (ℓ : ↥L →* P) (hℓs : Function.Surjective ℓ) :
     Nonempty (↥L ⧸ Subgroup.center ↥L ≃* P ⧸ Subgroup.center P) := by
   obtain ⟨-, -, -, -, -, -, hL, -⟩ := id hH
-  haveI : IsSimpleGroup (P ⧸ Subgroup.center P) := hP.2.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have : IsSimpleGroup (P ⧸ Subgroup.center P) := hP.2.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   exact B69.equiv_of_central_quotients hL.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _) ((QuotientGroup.mk' (Subgroup.center P)).comp ℓ)
     ((QuotientGroup.mk'_surjective _).comp hℓs)
@@ -183,7 +183,7 @@ theorem noG2K (hExc : E2P.E22Char2ExcFam) (hF : E2P.E22Families) :
     have heq : ffJ (autSec (L ⊔ A) W (W ⊓ fixV L)) = autSec L W (W ⊓ fixV L) := hn2 hge
     let eL : ↥(quasithinG2 K) ≃* ↥(autSec L W (W ⊓ fixV L)) :=
       e.trans (MulEquiv.subgroupCongr heq)
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hF' : Fintype.card K = 2 ^ n := by rw [Fintype.card_eq_nat_card, hK]
     exact isG2_quot_L_absurd hExc hH hge (CFSG.Quasithin.SmithC27.isG2_quasithinG2 hge hF') eL
       hLbq ℓ hℓs

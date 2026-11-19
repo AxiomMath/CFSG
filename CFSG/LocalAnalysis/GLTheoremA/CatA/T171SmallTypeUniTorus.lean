@@ -45,7 +45,7 @@ private theorem tCube (w : Fin 5 → rootsOfUnity 3 K) (i : Fin 5) : (w i : Kˣ)
 private theorem tEntry5_mul (w w' : Fin 5 → rootsOfUnity 3 K) (k : ℕ) :
     tEntry5 (w * w') k = tEntry5 w k * tEntry5 w' k := by
   unfold tEntry5
-  split_ifs <;> simp [Finset.prod_mul_distrib, mul_assoc]
+  split_ifs <;> simp [Finset.prod_mul_distrib]
 
 private theorem tEntry5_one (k : ℕ) : tEntry5 (1 : Fin 5 → rootsOfUnity 3 K) k = 1 := by
   unfold tEntry5
@@ -101,7 +101,7 @@ theorem tDiag5_mul (hn : 7 ≤ n) (w w' : Fin 5 → rootsOfUnity 3 K) :
 
 theorem tDiag5_one (hn : 7 ≤ n) : tDiag5 (K := K) hn 1 = 1 := by
   apply Subtype.ext
-  simp only [coe_tDiag5, tEntry5_one, Units.val_one, SpecialLinearGroup.coe_one]
+  simp only [coe_tDiag5, tEntry5_one, Units.val_one]
   exact diagonal_one
 
 @[expose] noncomputable def torusHom5SU (hn : 7 ≤ n) :

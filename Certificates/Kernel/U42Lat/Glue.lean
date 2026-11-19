@@ -187,7 +187,7 @@ theorem rho_code (j : ℕ) (hj : j < 24) : wcode 6 (rho j) = RC j := by
   obtain ⟨g, -, hge⟩ := wordG_mem henc (LL t) (FG_code (by omega)) h1
   have hex : ∃ g : Perm (Fin 45), wcode 6 g = RC j := ⟨g, hge.trans (Nat.eq_of_beq_eq_true h2)⟩
   unfold rho
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec
 
 theorem UE_zero : Nat.beq (UE 0) oneU = true := (andB_eq_true ch409001u).1

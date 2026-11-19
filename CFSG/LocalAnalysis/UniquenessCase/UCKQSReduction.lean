@@ -345,7 +345,7 @@ theorem kqs_of_abelian : ∀ (J : Type) [Group J] [Finite J], IsSimpleGroup J �
     ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ T : Subgroup J, IsSylowOf p T ⊤ →
     IsMulCommutative T → ∀ Z : Subgroup J, Z ≤ T → Nat.card Z = p → IsWeaklyClosedIn Z T → IsCyclic T := by
   intro J _ _ hs hK p hp h5 T hT hab Z hZT hZ hWC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨-, hTp, hTi⟩ := (isSylowOf_iff (p := p)).1 hT
   rw [Subgroup.relIndex_top_right] at hTi
@@ -354,7 +354,7 @@ theorem kqs_of_abelian : ∀ (J : Type) [Group J] [Finite J], IsSimpleGroup J �
   · exfalso
     by_cases hc : ∀ a b : J, a * b = b * a
     ·
-      letI : CommGroup J := { (inferInstance : Group J) with mul_comm := hc }
+      let : CommGroup J := { (inferInstance : Group J) with mul_comm := hc }
       have hprime : (Nat.card J).Prime := IsSimpleGroup.prime_card
       obtain ⟨E, -, -, hEc⟩ := CFSG.SectionRank.exists_pRank hp.one_lt T
       have hdvd : p ^ CFSG.Open.pRank p T ∣ Nat.card J := hEc ▸ Subgroup.card_subgroup_dvd_card E
@@ -369,7 +369,7 @@ theorem kqs_of_abelian : ∀ (J : Type) [Group J] [Finite J], IsSimpleGroup J �
           have h4 : p * p = p * 1 := by rw [← pow_two, h3, mul_one]
           exact hp.one_lt.ne' (Nat.eq_of_mul_eq_mul_left hp.pos h4)
     · push Not at hc
-      haveI hsT : IsSimpleGroup ↥(⊤ : Subgroup J) :=
+      have hsT : IsSimpleGroup ↥(⊤ : Subgroup J) :=
         (Subgroup.topEquiv (G := J)).isSimpleGroup_congr.mpr hs
       have hcT : ∃ a b : ↥(⊤ : Subgroup J), a * b ≠ b * a := by
         obtain ⟨a, b, hab'⟩ := hc
@@ -397,14 +397,14 @@ theorem kqs_of_abelian : ∀ (J : Type) [Group J] [Finite J], IsSimpleGroup J �
 
 theorem kqs_of_pca (h : PCentralAbelian) : UCK.KQS := by
   intro J _ _ hs hK p hp h5 T hT hcen hrk Z hZT hZ hWC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine kqs_of_abelian J hs hK p hp h5 T hT ?_ Z hZT hZ hWC
   by_cases hc : ∀ a b : J, a * b = b * a
   · rw [isMulCommutative_iff]
     exact fun a b => Subtype.ext (hc a b)
   push Not at hc
   by_cases hpJ : p ∣ Nat.card J
-  · haveI hsT : IsSimpleGroup ↥(⊤ : Subgroup J) :=
+  · have hsT : IsSimpleGroup ↥(⊤ : Subgroup J) :=
       (Subgroup.topEquiv (G := J)).isSimpleGroup_congr.mpr hs
     have hcT : ∃ a b : ↥(⊤ : Subgroup J), a * b ≠ b * a := by
       obtain ⟨a, b, hab'⟩ := hc
@@ -419,7 +419,7 @@ theorem kqs_of_pca (h : PCentralAbelian) : UCK.KQS := by
       by_contra hk0
       exact hpJ ((dvd_pow_self p hk0).trans (hk ▸ Subgroup.card_subgroup_dvd_card T))
     have h1 : Nat.card T = 1 := by rw [hk, hk0, pow_zero]
-    haveI := (Nat.card_eq_one_iff_unique.mp h1).1
+    have := (Nat.card_eq_one_iff_unique.mp h1).1
     rw [isMulCommutative_iff]
     exact fun a b => Subsingleton.elim _ _
 

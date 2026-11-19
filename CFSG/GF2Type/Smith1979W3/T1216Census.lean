@@ -132,7 +132,7 @@ private theorem clSub_inf_Qa_sq {G : Type*} [Group G] [Finite G] (S : Setting G)
   exact S.QG_inf_Qa_sq hne hx
 
 private theorem finrank_clSub_inf_Qa_le_three {G : Type*} [Group G] [Finite G] (S : Setting G)
-    (hw : S.width = 3) {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG)
+    (hw : S.width = 3) {g : G} (_haQ : g * S.z * g⁻¹ ∈ S.QG)
     (hne : g * S.z * g⁻¹ ≠ S.z) :
     Module.finrank (ZMod 2) (S.clSub (S.QG ⊓ S.Qa g)) ≤ 3 := by
   have h := finrank_le_of_totallySingular (q := S.q) S.q_nondegenerate (n := S.width)
@@ -340,8 +340,8 @@ theorem censusCond_conj {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : S
       rw [hφt, conjL_apply, LinearEquiv.symm_apply_apply, S.s12_Lbar_apply_cl_a haQ ht]
     · intro x hx
       rw [hLm] at hx
-      haveI : IsElementaryAbelian 2 ↥(S.Lbar g) := S.isElementaryAbelian_Lbar haQ
-      haveI : IsElementaryAbelian 2 ↥((S.Lbar g).map φ) := IsElementaryAbelian.map φ
+      have : IsElementaryAbelian 2 ↥(S.Lbar g) := S.isElementaryAbelian_Lbar haQ
+      have : IsElementaryAbelian 2 ↥((S.Lbar g).map φ) := IsElementaryAbelian.map φ
       have h2 := elemPow_eq_one_of_isElementaryAbelian (p := 2) x hx
       simpa [pow_two] using h2
     · have hcard : Nat.card (((S.Lbar g).map S.O.subtype).map (conjL L).toMonoidHom) =
@@ -469,7 +469,7 @@ private theorem card_mbarModel_of_conj_KPGL {G : Type} [Group G] [Finite G] (S :
     · intro hx
       refine ⟨k * x * k⁻¹, (hk (k * x * k⁻¹)).mpr ?_, ?_⟩
       · simpa [mul_assoc] using hx
-      · simp [MulAut.conj_apply, mul_assoc]
+      · simp [mul_assoc]
   have h1 : Nat.card (mbarModel S L) = Nat.card Cert690.KPGL := by
     rw [← hmap]
     exact (Subgroup.card_map_of_injective (MulAut.conj k⁻¹).injective).symm
@@ -482,7 +482,7 @@ private theorem censusPlus_mbarModel {G : Type} [Group G] [Finite G] [IsSimpleGr
     (hP : Cert690.CensusPlusProp) :
     mbarModel S L = Ω₀ false ∨ mbarModel S L = O₀ false ∨
       ∃ k ∈ O₀ false, ∀ x, x ∈ mbarModel S L ↔ k⁻¹ * x * k ∈ Cert690.KPGL := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 2) S.Qt = 6 := by
     rw [S.finrank_Qt_eq_two_mul_width, hw]
   have hhL : ∀ v, qModel false (L v) = S.q v := hL
@@ -507,7 +507,7 @@ private theorem censusMinus_mbarModel {G : Type} [Group G] [Finite G] [IsSimpleG
     (hb : ∃ g : G, g * S.z * g⁻¹ ∈ S.QG ∧ g * S.z * g⁻¹ ≠ S.z ∧ S.HasTypeAInL g)
     (L : S.Qt ≃ₗ[ZMod 2] V₀) (hL : ∀ v, qMinus (L v) = S.q v)
     (hM : Cert690.CensusMinusProp) : mbarModel S L = Ω₀ true ∨ mbarModel S L = O₀ true := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 2) S.Qt = 6 := by
     rw [S.finrank_Qt_eq_two_mul_width, hw]
   have hhL : ∀ v, qModel true (L v) = S.q v := hL
@@ -544,7 +544,7 @@ theorem t1216W3Census_of (hP : Cert690.CensusPlusProp) (hM : Cert690.CensusMinus
     · exact Or.inl (by rw [← card_mbarModel S L, hΩ]; exact card_Ω₀_true)
     · exact Or.inr (by rw [← card_mbarModel S L, hO]; exact card_O₀_true)
 
-theorem exists_mbarModel_eq_KPGL (hP : Cert690.CensusPlusProp) (hF : Cert690.PGLFactsProp)
+theorem exists_mbarModel_eq_KPGL (hP : Cert690.CensusPlusProp) (_hF : Cert690.PGLFactsProp)
     {G : Type} [Group G] [Finite G] [IsSimpleGroup G] (S : Setting G) (hw : S.width = 3)
     (hirr : ¬ S.IsReducible)
     (hb : ∃ g : G, g * S.z * g⁻¹ ∈ S.QG ∧ g * S.z * g⁻¹ ≠ S.z ∧ S.HasTypeAInL g)
@@ -579,7 +579,7 @@ theorem exists_mbarModel_eq_KPGL (hP : Cert690.CensusPlusProp) (hF : Cert690.PGL
           have hxy : x = k⁻¹ * conjL L (S.ρ m : S.Qt ≃ₗ[ZMod 2] S.Qt) * k := by
             rw [← hm]
             ext v
-            simp [conjL_apply, LinearEquiv.trans_apply, MulAut.conj_apply, mul_assoc]
+            simp [conjL_apply, LinearEquiv.trans_apply, mul_assoc]
           rw [hxy]
           exact (hk (conjL L (S.ρ m : S.Qt ≃ₗ[ZMod 2] S.Qt))).mp
             (conjL_ρ_mem_mbarModel S L m)
@@ -597,7 +597,7 @@ theorem exists_mbarModel_eq_KPGL (hP : Cert690.CensusPlusProp) (hF : Cert690.PGL
           rw [hcomp, hm]
           group
   · exfalso
-    haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
     have hdvd : Nat.card S.Mbar ∣ 51840 := by
       have hle : mbarModel S L ≤ O₀ true := mbarModel_le_O₀ S L hL
       have h := Subgroup.card_dvd_of_le hle
@@ -631,7 +631,7 @@ theorem qtPlusType_of_card {G : Type} [Group G] [Finite G] (S : Setting G) (hw :
   obtain ⟨L, hL | hL⟩ := exists_linearEquiv_model (V := S.Qt) (Q := S.q) hdim S.q_nondegenerate
   · exact qtPlusType_of_qPlus S L hL hdim
   · exfalso
-    haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
     have hdvd : Nat.card S.Mbar ∣ 51840 := by
       have hle : mbarModel S L ≤ O₀ true := mbarModel_le_O₀ S L hL
       have h := Subgroup.card_dvd_of_le hle

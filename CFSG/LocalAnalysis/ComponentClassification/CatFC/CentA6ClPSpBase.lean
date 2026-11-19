@@ -18,6 +18,7 @@ section Witness
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.range_le (h : A6Hyp σ D) {Q : Type} [Group Q] (φ : Q →* ↥(fixedSubgroup σ))
     (hQ : commutator Q = ⊤) : φ.range ≤ D := by
   apply h.2.2
@@ -26,6 +27,7 @@ theorem A6Hyp.range_le (h : A6Hyp σ D) {Q : Type} [Group Q] (φ : Q →* ↥(fi
   rw [h2] at hQ
   rw [h1, ← Subgroup.map_commutator, hQ]
 
+omit [Finite S] in
 theorem A6Hyp.perfect_dvd (h : A6Hyp σ D) {Q : Type} [Group Q] [Finite Q]
     (φ : Q →* ↥(fixedSubgroup σ)) (hQ : commutator Q = ⊤) (hk : Nat.card ↥φ.ker ≤ 2) :
     Nat.card Q ∣ 720 := by
@@ -59,7 +61,7 @@ theorem A6Hyp.range_eq (h : A6Hyp σ D) {Q : Type} [Group Q] [Finite Q]
     Nat.le_of_dvd Nat.card_pos (Subgroup.card_dvd_of_le hker)
   have h5 : 0 < Nat.card ↥φ.ker := Nat.card_pos
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h6 : Nat.card ↥φ.range * Nat.card ↥φ.ker < 360 * Nat.card ↥φ.ker :=
     Nat.mul_lt_mul_of_pos_right hlt h5
   have h7 : 360 * Nat.card ↥(center Q) ≤ Nat.card (Q ⧸ center Q) * Nat.card ↥(center Q) :=
@@ -149,6 +151,7 @@ theorem card_ker_comp_spCentFix_le (hr : 1 ≤ r) (A : gsp r K) {Q : Type} [Grou
   apply Subtype.ext
   exact hι (congrArg (fun z : ↥(spCentFix A).ker => z.1) hx)
 
+omit [Finite K] in
 theorem ker_comp_spCentFix_le_center (A : gsp r K) {Q : Type} [Group Q]
     (ι : Q →* spCent r K A) (hι : Function.Injective ι) :
     ((spCentFix A).comp ι).ker ≤ center Q := by
@@ -172,7 +175,7 @@ theorem A6Hyp.false_of_perfectBig3 (hr : 1 ≤ r) (h : A6Hyp (conjAut r K A) D)
   revert h2
   norm_num
 
-theorem A6Hyp.exists_map_eq_of_perfect360 (hr : 1 ≤ r) (h : A6Hyp (conjAut r K A) D)
+theorem A6Hyp.exists_map_eq_of_perfect360 (_hr : 1 ≤ r) (h : A6Hyp (conjAut r K A) D)
     (hP : Perfect360 (spCent r K A)) :
     ∃ H : Subgroup (spCent r K A), H.map (spCentFix A) = D := by
   obtain ⟨Q, _, _, ι, hι, hQ, h360⟩ := hP

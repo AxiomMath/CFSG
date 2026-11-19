@@ -13,31 +13,40 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma t_mem_ctxE (t x₁ x₂ : G) : t ∈ ctxE t x₁ x₂ := by
   rw [ctxE]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_ctxE (t x₁ x₂ : G) : x₁ ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma z_mem_ctxE (t x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma t_mem_ctxX (t tau x₁ x₂ : G) : t ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma tau_mem_ctxX (t tau x₁ x₂ : G) : tau ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_ctxX (t tau x₁ x₂ : G) : x₁ ^ 2 ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma z_mem_ctxX (t tau x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_baseGrp (x₁ x₂ : G) : x₁ ^ 2 ∈ baseGrp x₁ x₂ := by
   rw [baseGrp]
   exact Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) 2
 
+omit [Finite G] in
 private lemma z_mem_baseGrp (x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ baseGrp x₁ x₂ := by
   rw [baseGrp]
   exact Subgroup.pow_mem _
@@ -73,6 +82,7 @@ private lemma ctxE_le_Pl (h : Ctx0 t L S x₁ x₂ lam rho) : ctxE t x₁ x₂ �
   · exact Subgroup.mem_sup_right (y_z_mem_L h).1
   · exact Subgroup.mem_sup_right (y_z_mem_L h).2
 
+omit [Finite G] in
 private lemma fourGrp_le_ctxE (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x₁ x₂ := by
   rw [fourGrp, ctxE]
   refine (Subgroup.closure_le
@@ -83,6 +93,7 @@ private lemma fourGrp_le_ctxE (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x
   · exact Subgroup.subset_closure (by simp)
   · exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma ctxE_le_ctxX (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxE]
   refine (Subgroup.closure_le (K := ctxX t tau x₁ x₂)).mpr ?_
@@ -93,6 +104,7 @@ private lemma ctxE_le_ctxX (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t t
   · rw [h]; exact y_mem_ctxX t tau x₁ x₂
   · rw [h]; exact z_mem_ctxX t tau x₁ x₂
 
+omit [Finite G] in
 private lemma ctxX_le_sup (t tau x₁ x₂ : G) :
     ctxX t tau x₁ x₂ ≤ ctxE t x₁ x₂ ⊔ zpowers tau := by
   rw [ctxX]
@@ -105,6 +117,7 @@ private lemma ctxX_le_sup (t tau x₁ x₂ : G) :
   · rw [h]; exact Subgroup.mem_sup_left (y_mem_ctxE t x₁ x₂)
   · rw [h]; exact Subgroup.mem_sup_left (z_mem_ctxE t x₁ x₂)
 
+omit [Finite G] in
 private lemma zpowers_tau_le_ctxX (t tau x₁ x₂ : G) : zpowers tau ≤ ctxX t tau x₁ x₂ :=
   Subgroup.zpowers_le.mpr (tau_mem_ctxX t tau x₁ x₂)
 
@@ -125,6 +138,7 @@ private lemma commute_tauy (h : Ctx t L S x₁ x₂ lam rho tau) : Commute tau (
 private lemma commute_tauz (h : Ctx t L S x₁ x₂ lam rho tau) : Commute tau ((x₁ * x₂) ^ 2) :=
   tau_commute_z h
 
+omit [Finite G] in
 private lemma commute_yz (h : WreathRel x₁ x₂ lam) :
     Commute (x₁ ^ 2) ((x₁ * x₂) ^ 2) :=
   y_commute_z h
@@ -162,7 +176,7 @@ private lemma ctxX_comm (h : Ctx t L S x₁ x₂ lam rho tau) :
 
 private lemma ctxX_sq_one (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 = 1) :
     ∀ x ∈ ctxX t tau x₁ x₂, x ^ 2 = 1 := by
-  haveI : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm h
+  have : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm h
   intro x hx
   rw [ctxX] at hx
   induction hx using Subgroup.closure_induction with
@@ -196,10 +210,10 @@ private lemma ctxW_le_centralizer_ctxE (h : Ctx t L S x₁ x₂ lam rho tau) :
   rw [Subgroup.mem_centralizer_iff]
   intro e he
   have heW : e ∈ ctxW t x₁ x₂ := ctxE_le_ctxW h.toCtx0 he
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
   exact congrArg Subtype.val (mul_comm' (⟨e, heW⟩ : ↥(ctxW t x₁ x₂)) ⟨w, hw⟩)
 
-private lemma mem_invCent_of_mem_centralizer_ctxE (h : Ctx t L S x₁ x₂ lam rho tau)
+private lemma mem_invCent_of_mem_centralizer_ctxE (_h : Ctx t L S x₁ x₂ lam rho tau)
     {g : G} (hg : g ∈ centralizer ((ctxE t x₁ x₂ : Subgroup G) : Set G)) : g ∈ invCent t := by
   rw [mem_invCent_iff]
   exact ((Subgroup.mem_centralizer_iff.mp hg) t (t_mem_ctxE t x₁ x₂)).symm
@@ -297,7 +311,7 @@ theorem ctxX_elemAbelian_of (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2
 
 private lemma tau_conj_eq_inv_of_mem_baseGrp (h : Ctx t L S x₁ x₂ lam rho tau) :
     ∀ a ∈ baseGrp x₁ x₂, tau * a * tau⁻¹ = a⁻¹ := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
   intro a ha
   rw [baseGrp] at ha
   induction ha using Subgroup.closure_induction with
@@ -355,7 +369,7 @@ private lemma mem_ctxE_of_mem_ctxW_of_commute_tau (h : Ctx t L S x₁ x₂ lam r
 
 private lemma tau_mem_centralizer_ctxX (h : Ctx t L S x₁ x₂ lam rho tau) :
     tau ∈ centralizer ((ctxX t tau x₁ x₂ : Subgroup G) : Set G) := by
-  haveI : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm h
+  have : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm h
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
   exact (congrArg Subtype.val (mul_comm' (⟨tau, tau_mem_ctxX t tau x₁ x₂⟩ :
@@ -364,7 +378,7 @@ private lemma tau_mem_centralizer_ctxX (h : Ctx t L S x₁ x₂ lam rho tau) :
 theorem centralizer_X_of (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoCore t = zpowers t)
     (h44 : tau ^ 2 = 1) :
     centralizer ((ctxX t tau x₁ x₂ : Subgroup G) : Set G) = ctxX t tau x₁ x₂ := by
-  haveI : IsMulCommutative (ctxX t tau x₁ x₂) := (ctxX_elemAbelian_of h h44).1.1
+  have : IsMulCommutative (ctxX t tau x₁ x₂) := (ctxX_elemAbelian_of h h44).1.1
   apply le_antisymm
   · intro g hg
     have hgE : g ∈ centralizer ((ctxE t x₁ x₂ : Subgroup G) : Set G) := by

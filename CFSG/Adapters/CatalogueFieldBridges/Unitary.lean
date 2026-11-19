@@ -22,17 +22,17 @@ theorem primeFormP_one_mulEquiv_twistedA {q : TauCeti.PrimePower} {K : Type} [Fi
     Nonempty (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) ≃*
       (TauCeti.CFSGIndex.lie ⟨.twistedA (N - 1) q, hv⟩).Group) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact q.p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact q.p.Prime := ⟨h.prime⟩
   let G := (TauCeti.CFSGIndex.lie ⟨.twistedA (N - 1) q, hv⟩).Group
   have hmodel : StatedClassicalModel G .PSU N q.p q.exponent := by
     have h := statedClassicalModel_twistedA (N - 1) q hv (MulEquiv.refl G)
     simpa only [Nat.sub_add_cancel (by omega : 1 ≤ N)] using h
   obtain ⟨K', hF', hK', -, ⟨eP⟩⟩ := exists_primeFormP_mulEquiv_of_statedModel hmodel
-  letI : Field K' := hF'
-  haveI : Finite K' := hK'.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  let : Field K' := hF'
+  have : Finite K' := hK'.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   let e1 : primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) ≃*
       StatedProj (StatedSU N (q.p ^ q.exponent) K) :=
     (Classical.choice (nonempty_primeFormP_mulEquiv h (isPrimeFormGram_one (n := N)))).trans

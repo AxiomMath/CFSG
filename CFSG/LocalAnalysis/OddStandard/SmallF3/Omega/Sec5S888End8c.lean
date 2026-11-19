@@ -54,7 +54,7 @@ theorem sl2_quotient_of_sup {P : Type} [Group P] [Finite P] {z : P} (hz : z ∈ 
     Nonempty (P ⧸ CFSG.oddCore P ≃* SL(2, GaloisField 3 1)) := by
   obtain ⟨O, hOnormal, _hOleR, hOcard, _hOinf, hOsup⟩ :=
     exists_odd_normal_complement hz hz2 hzR hcard hm
-  haveI hOnorm : O.Normal := hOnormal
+  have hOnorm : O.Normal := hOnormal
   have hoddO : Odd (Nat.card O) := by rw [hOcard]; exact hm
   have hKO_sup : K ⊔ O = ⊤ := by
     have hzKle : zpowers z ≤ K := Subgroup.zpowers_le.mpr hzK
@@ -81,7 +81,7 @@ theorem sl2_quotient_of_sup {P : Type} [Group P] [Finite P] {z : P} (hz : z ∈ 
     (hcompl.QuotientMulEquiv).trans eK
   have hcore_quot : CFSG.oddCore (P ⧸ O) = ⊥ := oddCore_eq_bot_of_mulEquiv_sl23 eO
   have hcore : CFSG.oddCore P = O := oddCore_eq_of_quotient O hoddO hcore_quot
-  haveI : Fintype (GaloisField 3 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 1) := Fintype.ofFinite _
   have hcardfield : Fintype.card (ZMod 3) = Fintype.card (GaloisField 3 1) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, GaloisField.card 3 1 (by norm_num)]
     norm_num

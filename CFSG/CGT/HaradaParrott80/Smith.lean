@@ -24,8 +24,8 @@ theorem Setting.smithList_of_not_le (hS : CFSG.GF2Type.Smith1979WidthsFourSixCha
         (LieModel G .PSL 8 2 1 ∨ LieModel G .PSU 8 2 1 ∨ LieModel G .POmegaPlus 5 2 1 ∨
           LieModel G .POmegaMinus 5 2 1 ∨ NativeSporadic.IsSporadic G .J4 ∨
           NativeSporadic.IsSporadic G .Fi24Prime)) := by
-  haveI := S.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := S.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hext, hcard⟩ := S.isExtraspecial_of_not_le hH1 hC ha1 ha hnot
   have hord : orderOf (a : G) = 2 :=
     orderOf_eq_prime (S.elemU.2 a a.2) fun h => ha1 (Subtype.ext h)

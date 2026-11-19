@@ -41,7 +41,7 @@ theorem exists_injective_m22_hom_hs :
 
 theorem hs_center_eq_bot :
     Subgroup.center NativeSporadic.HS = ⊥ := by
-  haveI : Finite NativeSporadic.HS := CFSG.Sporadic.HS.fam_hs_simplicity.1
+  have : Finite NativeSporadic.HS := CFSG.Sporadic.HS.fam_hs_simplicity.1
   refine center_eq_bot_of_simple_of_not_prime CFSG.Sporadic.HS.isSimpleGroup_HS ?_
   rw [CFSG.Sporadic.HS.card_HS]
   norm_num
@@ -59,7 +59,7 @@ theorem hs_mulAut_card :
 
 theorem eInvNine_hs :
     EInvNine NativeSporadic.HS := by
-  haveI : Finite NativeSporadic.HS := CFSG.Sporadic.HS.fam_hs_simplicity.1
+  have : Finite NativeSporadic.HS := CFSG.Sporadic.HS.fam_hs_simplicity.1
   obtain ⟨ι, hι⟩ := exists_injective_m22_hom_hs
   have hZ := hs_center_eq_bot
   have hY : Nat.card NativeSporadic.HS = 44352000 := CFSG.Sporadic.HS.card_HS

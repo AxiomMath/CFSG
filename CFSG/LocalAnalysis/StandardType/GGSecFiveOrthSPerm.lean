@@ -29,12 +29,12 @@ private lemma ct_s1_unique {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : 
   have h0 := congrArg (fun v => f.coord (π i) v) (h i)
   rw [ct_s1_coord_smul_basis, ct_s1_coord_smul_basis] at h0
   have hc : ε i = ε' i * (if π' i = π i then 1 else 0) := by
-    rw [if_pos rfl, mul_one] at h0
+    rw [ite_eq_left rfl, mul_one] at h0
     exact h0
   by_cases hpi : π i = π' i
-  · exact ⟨hpi, by rw [if_pos hpi.symm, mul_one] at hc; exact hc⟩
+  · exact ⟨hpi, by rw [ite_eq_left hpi.symm, mul_one] at hc; exact hc⟩
   · exfalso
-    rw [if_neg (fun h => hpi h.symm), mul_zero] at hc
+    rw [ite_eq_right (fun h => hpi h.symm), mul_zero] at hc
     rcases hε i with h1 | h1 <;> rw [h1] at hc <;> exact absurd hc (by decide)
 
 private noncomputable def ct_s1_mk {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
@@ -191,8 +191,8 @@ theorem card_ggOrthSignedPerms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
       simp only [LinearMap.comp_apply, LinearMap.id_apply]
       rw [hT j]
       by_cases hj : j = i
-      · rw [if_pos hj, map_neg, hT j, if_pos hj, neg_neg]
-      · rw [if_neg hj, hT j, if_neg hj]
+      · rw [ite_eq_left hj, map_neg, hT j, ite_eq_left hj, neg_neg]
+      · rw [ite_eq_right hj, hT j, ite_eq_right hj]
     intro x
     have hx := congrArg (fun L : V →ₗ[ZMod 3] V => L x) hcomp
     simpa [LinearMap.comp_apply] using hx)
@@ -200,13 +200,13 @@ theorem card_ggOrthSignedPerms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
 theorem ggOrthSignChange_apply_self {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) V) (i : Fin n) : ggOrthSignChange f i (f i) = -f i := by
   simp only [ggOrthSignChange, LinearEquiv.coe_ofInvolutive]
-  rw [Module.Basis.constr_basis, if_pos rfl]
+  rw [Module.Basis.constr_basis, ite_eq_left rfl]
 
 theorem ggOrthSignChange_apply_of_ne {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) V) {i j : Fin n} (h : j ≠ i) :
     ggOrthSignChange f i (f j) = f j := by
   simp only [ggOrthSignChange, LinearEquiv.coe_ofInvolutive]
-  rw [Module.Basis.constr_basis, if_neg h]
+  rw [Module.Basis.constr_basis, ite_eq_right h]
 
 theorem ggOrthSignChange_mem {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) V) (i : Fin n) : ggOrthSignChange f i ∈ ggOrthSignedPerms f := by
@@ -214,14 +214,14 @@ theorem ggOrthSignChange_mem {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n 
   · intro j
     dsimp only
     by_cases hj : j = i
-    · right; rw [if_pos hj]
-    · left; rw [if_neg hj]
+    · right; rw [ite_eq_left hj]
+    · left; rw [ite_eq_right hj]
   · intro j
     dsimp only
     rw [Equiv.Perm.one_apply]
     by_cases hj : j = i
-    · rw [hj, if_pos rfl, ggOrthSignChange_apply_self]; simp
-    · rw [if_neg hj, ggOrthSignChange_apply_of_ne f hj]; simp
+    · rw [hj, ite_eq_left rfl, ggOrthSignChange_apply_self]; simp
+    · rw [ite_eq_right hj, ggOrthSignChange_apply_of_ne f hj]; simp
 
 private lemma ct_s1_signChange_range {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) V) (i : Fin n) :
@@ -232,9 +232,9 @@ private lemma ct_s1_signChange_range {V : Type} [AddCommGroup V] [Module (ZMod 3
     intro j
     rw [LinearMap.sub_apply, LinearMap.id_apply, LinearEquiv.coe_toLinearMap]
     by_cases hj : j = i
-    · rw [hj, if_pos rfl, ggOrthSignChange_apply_self]
+    · rw [hj, ite_eq_left rfl, ggOrthSignChange_apply_self]
       exact ct_s1_char3 (f i)
-    · rw [if_neg hj, ggOrthSignChange_apply_of_ne f hj, sub_self]
+    · rw [ite_eq_right hj, ggOrthSignChange_apply_of_ne f hj, sub_self]
   have hconstr : (ggOrthSignChange f i).toLinearMap - (LinearMap.id : V →ₗ[ZMod 3] V) =
       f.constr (ZMod 3)
         (fun j => ((ggOrthSignChange f i).toLinearMap - (LinearMap.id : V →ₗ[ZMod 3] V)) (f j)) :=
@@ -247,13 +247,13 @@ private lemma ct_s1_signChange_range {V : Type} [AddCommGroup V] [Module (ZMod 3
     dsimp only
     rw [hsub j]
     by_cases hj : j = i
-    · rw [if_pos hj]; exact Submodule.subset_span (by simp)
-    · rw [if_neg hj]; exact Submodule.zero_mem _
+    · rw [ite_eq_left hj]; exact Submodule.subset_span (by simp)
+    · rw [ite_eq_right hj]; exact Submodule.zero_mem _
   · rw [Submodule.span_le]
     intro x hx
     rw [Set.mem_singleton_iff] at hx
     subst hx
-    exact Submodule.subset_span ⟨i, by dsimp only; rw [hsub i, if_pos rfl]⟩
+    exact Submodule.subset_span ⟨i, by dsimp only; rw [hsub i, ite_eq_left rfl]⟩
 
 theorem ggOrthSignChange_isRefl {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) V) (i : Fin n) :

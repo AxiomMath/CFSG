@@ -22,16 +22,19 @@ abbrev anchoredSupport (F : Type) [Field F] (n : ℕ) (S : Finset (Fin (n - 1)))
     Submodule F (Vm n F) :=
   supp F (activeCoords n S : Set (Idx n))
 
+omit [Finite F] [CharP F 2] in
 theorem mem_anchoredSupport_iff {S : Finset (Fin (n - 1))} {v : Vm n F} :
     v ∈ anchoredSupport F n S ↔ ∀ a ∉ (activeCoords n S : Set (Idx n)), v a = 0 :=
   Iff.rfl
 
+omit [Finite F] [CharP F 2] in
 theorem single_mem_anchoredSupport {S : Finset (Fin (n - 1))} {k : Fin (n - 1)} (hk : k ∈ S)
     (s : Bool) (x : F) :
     (Pi.single (minusPos n k s) x : Vm n F) ∈ anchoredSupport F n S := by
   refine single_mem_supp (F := F) ?_ x
   exact Finset.mem_coe.2 (Finset.mem_union_left _ (minusPos_mem_frame hk s))
 
+omit [Finite F] [CharP F 2] in
 theorem planeVec_mem_anchoredSupport (S : Finset (Fin (n - 1))) (p : Fin 2 → F) :
     planeVec n p ∈ anchoredSupport F n S := by
   intro a ha
@@ -96,7 +99,7 @@ theorem polarNondegOn_anchoredSupport (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0
     rw [polar_quadMinus_single_inr_inr_one] at h1
     have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
     rw [h2] at h0 h1
-    simp only [zero_mul, zero_add, mul_zero, add_zero] at h0 h1
+    simp only [zero_mul, zero_add, add_zero] at h0 h1
     have hx1 : x (.inr (.inr 1)) = 0 := (mul_eq_zero.mp h0).resolve_left hb
     have hx0 : x (.inr (.inr 0)) = 0 := (mul_eq_zero.mp h1).resolve_left hb
     fin_cases t
@@ -122,7 +125,7 @@ theorem spinAction_longRoot_mem_supportedDerived
   · rw [minusVec_eq_single]
     exact (anchoredSupport F n S).smul_mem x (single_mem_anchoredSupport hi s 1)
   · rw [polar_smul_right, polar_minusVec_minusVec,
-      if_neg (by rintro ⟨hji, -⟩; exact hij hji.symm)]
+      ite_eq_right (by rintro ⟨hji, -⟩; exact hij hji.symm)]
     simp
   · exact eichler_mem_orthDerived_of_ne_zero_ne_one hnd hν0 hν1 _ _
 

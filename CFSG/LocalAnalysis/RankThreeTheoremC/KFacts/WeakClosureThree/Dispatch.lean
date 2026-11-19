@@ -33,7 +33,7 @@ theorem sylow_comm_of_mulEquiv {p : ℕ} [Fact p.Prime] (e : K ≃* L)
 
 theorem CentralFusionAt.of_mulEquiv (e : K ≃* L) (h : CentralFusionAt L) :
     CentralFusionAt K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨by rw [Nat.card_congr (equivalence e).toEquiv]; exact h.1, ?_⟩
   intro T A hAT hAc hA
   have hconj : ∀ (g : L) (x : K), e ((MulAut.conj (e.symm g)) x) = (MulAut.conj g) (e x) := by
@@ -75,7 +75,7 @@ theorem CentralFusionAt.of_mulEquiv (e : K ≃* L) (h : CentralFusionAt L) :
       exact ⟨e b, ⟨b, hb, rfl⟩, (hconj g b).symm⟩
 
 theorem OmegaDichAt.of_mulEquiv (e : K ≃* L) (h : OmegaDichAt L) : OmegaDichAt K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h | h | h | h
   · exact Or.inl (sylow_comm_of_mulEquiv e h)
   · exact Or.inr (Or.inl (h.map e.symm.toMonoidHom e.symm.injective))

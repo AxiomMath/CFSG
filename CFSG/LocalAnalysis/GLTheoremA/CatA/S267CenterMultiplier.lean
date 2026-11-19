@@ -25,7 +25,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 theorem center_eq_bot_of_multiplier {p : ℕ} (hp : p.Prime) (hperf : ⁅S, S⁆ = S)
     (hcore : GLAPPrimeCore p ↥S = ⊥) {T : Type} [Group T] (e : PSimple p S ≃* T)
     (hM : ¬ p ∣ Nat.card (CFSG.Open.griessHopfMultiplier T)) : Subgroup.center ↥S = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf' : Group.IsPerfect ↥S :=
     ⟨CFSG.LocalAnalysis.GLTheoremA.S267.perfect_of_commutator_self_eq hperf⟩
   have hdvd := CFSG.AGLEmbedding.card_center_dvd_card_griessHopfMultiplier hperf'

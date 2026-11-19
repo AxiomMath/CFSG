@@ -76,7 +76,7 @@ private theorem p427_normalizer_of_conj (S : HeSetup G) {n x : G} (hn : n ∈ S.
     (hx : x ∈ S.B) (hx1 : x ≠ 1) (hnx : n * x * n⁻¹ ∈ S.B) :
     n ∈ normalizer (S.B : Set G) := by
   have hxZ : x ∈ S.A ⊓ S.A' := hx.1
-  have hxc : S.g.val * S.m x = S.m x * S.g.val := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hx).2
+  have hxc : S.g.val * S.m x = S.m x * S.g.val := ((S.hD.mem_B_iff S.hxN S.hxa).1 hx).2
   have hMne : S.m x ≠ 0 := by
     intro h0
     apply hx1
@@ -89,15 +89,15 @@ private theorem p427_normalizer_of_conj (S : HeSetup G) {n x : G} (hn : n ∈ S.
     rw [hP, hQ]
     exact S.hD.hT.m_conj S.N S.hD.hK.norm ⟨n, hn⟩ hy
   have hnxc : S.g.val * (P.val * S.m x * Q.valᵀ) = (P.val * S.m x * Q.valᵀ) * S.g.val := by
-    have h := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hnx).2
+    have h := ((S.hD.mem_B_iff S.hxN S.hxa).1 hnx).2
     rwa [hmc x hxZ] at h
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hgc := p427_gl2_cent S.g P Q hg3 hg1
   apply Subgroup.mem_normalizer_fintype
   intro y hy
-  have hyc := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hy
-  apply (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2
+  have hyc := (S.hD.mem_B_iff S.hxN S.hxa).1 hy
+  apply (S.hD.mem_B_iff S.hxN S.hxa).2
   refine ⟨S.hD.mem_Z_conj hn hyc.1, ?_⟩
   rw [hmc y hyc.1]
   exact hgc (S.m x) (S.m y) hMne hxc hnxc hyc.2
@@ -115,7 +115,7 @@ theorem p427_S_le_normalizer_B (T : HeSetup G) (hB : T.BaseFacts) {z : G} (hz : 
   exact p427_normalizer_of_conj T hsN haB ha1 (by rw [hsa]; exact haB)
 
 theorem p427_eq_sylow_of_odd_index {H : Type} [Group H] [Finite H] {P R : Subgroup H}
-    (hP : IsPGroup 2 P) (hR : IsPGroup 2 R) (hPR : P ≤ R) (hPi : Odd P.index) : R ≤ P := by
+    (_hP : IsPGroup 2 P) (hR : IsPGroup 2 R) (hPR : P ≤ R) (hPi : Odd P.index) : R ≤ P := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
   have h1 : P.relIndex R * Nat.card ↥(P ⊓ R : Subgroup H) = Nat.card R :=
     Subgroup.relIndex_mul_card P R
@@ -133,14 +133,14 @@ theorem p427_conj_into {H : Type} [Group H] [Finite H] {P Q : Subgroup H}
     ∃ g : H, ∀ q ∈ Q, g⁻¹ * q * g ∈ P := by
   obtain ⟨SP, hPSP⟩ := hP.exists_le_sylow
   have hPeq : (SP : Subgroup H) = P :=
-    le_antisymm (p427_eq_sylow_of_odd_index hP SP.isPGroup' hPSP hPi) hPSP
+    le_antisymm (p427_eq_sylow_of_odd_index hP SP.isPGroup hPSP hPi) hPSP
   obtain ⟨Q', hQQ'⟩ := hQ.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq H SP Q'
   refine ⟨g, fun q hq => ?_⟩
   have hqQ' : q ∈ (Q' : Subgroup H) := hQQ' hq
   rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, hPeq] at hqQ'
   have e : (MulAut.conj g)⁻¹ • q = g⁻¹ * q * g := by
-    simp [MulAut.conj_apply]
+    simp
   rw [e] at hqQ'
   exact hqQ'
 

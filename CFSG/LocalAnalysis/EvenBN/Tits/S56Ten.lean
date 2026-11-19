@@ -104,7 +104,7 @@ theorem Hyp.s56_J_comm_z0_mem (hd : d.Hyp) {z₀ : G} (hz₀ : z₀ ∈ d.s56Q2)
   have hcen : ∀ e ∈ d.E, z₀ * e = e * z₀ := fun e he => (((s56_mem_Q2_iff).1 hz₀).2 e he).symm
   let H₃ : Subgroup G :=
     { carrier := {j | j ∈ d.s56J ∧ j * z₀ * j⁻¹ * z₀⁻¹ ∈ zpowers d.z}
-      one_mem' := ⟨one_mem _, by simpa using one_mem (zpowers d.z)⟩
+      one_mem' := ⟨one_mem _, by simp⟩
       mul_mem' := by
         rintro j j' ⟨hj, hjz⟩ ⟨hj', hj'z⟩
         refine ⟨mul_mem hj hj', ?_⟩
@@ -154,15 +154,15 @@ theorem Hyp.s56_J_comm_z0 (hd : d.Hyp) {z₀ : G} (hz₀ : z₀ ∈ d.s56Q2)
     (hxz₀ : d.x₅ * z₀ = z₀ * d.x₅) (hvz₀ : d.pv 7 * z₀ * (d.pv 7)⁻¹ * z₀⁻¹ ∈ zpowers d.z)
     {j : G} (hj : j ∈ d.s56J) : j * z₀ = z₀ * j :=
   S56.centralizes_of_comm_mem (P := d.s56J) (X := zpowers d.x₅) (Zc := zpowers d.z)
-    (fun w hw g hg => hd.s56_M_comm_zpowers (sup_le hd.s56_J_le_M hd.s56_X_le_M hg) hw)
-    (fun a ha b hb => hd.s56_zpowers_comm ha hb) (s56_X_comm_of_comm d hxz₀)
+    (fun _w hw _g hg => hd.s56_M_comm_zpowers (sup_le hd.s56_J_le_M hd.s56_X_le_M hg) hw)
+    (fun _a ha _b hb => hd.s56_zpowers_comm ha hb) (s56_X_comm_of_comm d hxz₀)
     hd.s56_J_eq_comm
-    (fun g hg p hp => (mem_normalizer_iff.1 ((zpowers_le.2 hd.s56_x5_normalizes_J) hg) p).1 hp)
-    (fun p hp => hd.s56_J_comm_z0_mem hz₀ hxz₀ hvz₀ hp) hj
+    (fun _g hg _p hp => (mem_normalizer_iff.1 ((zpowers_le.2 hd.s56_x5_normalizes_J) hg) _p).1 hp)
+    (fun _p hp => hd.s56_J_comm_z0_mem hz₀ hxz₀ hvz₀ hp) hj
 
 theorem Hyp.s56_E_inf_centralizer_J (hd : d.Hyp) :
     d.E ⊓ centralizer (d.s56J : Set G) = zpowers d.z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxM := hd.s56_x5_mem_M
   have hKE : d.E ⊓ centralizer (d.s56J : Set G) ≤ d.E := inf_le_left
   have hzK : zpowers d.z ≤ d.E ⊓ centralizer (d.s56J : Set G) := by

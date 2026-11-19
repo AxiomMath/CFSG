@@ -22,7 +22,7 @@ theorem phase45_exists_gen_linTwo_thirtyOne {X : Type} [Group X] [Finite X]
     ∃ C : Subgroup X, IsMulCommutative C ∧ A₁ ≤ C ∧
       L ≤ (T ⊓ L) ⊔ (L ⊓ normalizer (C : Set X)) := by
   obtain ⟨q, hq31, hdq⟩ := hd
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hqpos : 1 ≤ q.exponent := q.exponent_pos
   obtain ⟨e2⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := 31) (n := q.exponent) (d := d) ⟨q, hdq, hq31, rfl⟩
@@ -32,8 +32,8 @@ theorem phase45_exists_gen_linTwo_thirtyOne {X : Type} [Group X] [Finite X]
   have hA1subP : IsPGroup 31 (A₁.subgroupOf L) :=
     IsPGroup.of_card (n := 1) (by rw [hA1subcard, pow_one])
   obtain ⟨U, hA1U⟩ := hA1subP.exists_le_sylow
-  haveI hUab : IsMulCommutative ↥(U : Subgroup ↥L) := by
-    haveI : IsMulCommutative ↥((U : Subgroup ↥L).map eL.toMonoidHom) :=
+  have hUab : IsMulCommutative ↥(U : Subgroup ↥L) := by
+    have : IsMulCommutative ↥((U : Subgroup ↥L).map eL.toMonoidHom) :=
       (CFSG.AGLEmbedding.psl2GF_sylow 31 q.exponent hqpos
         (U.mapSurjective (f := eL.toMonoidHom) eL.surjective)).1.1
     have h := Subgroup.comap_injective_isMulCommutative
@@ -90,7 +90,7 @@ theorem phase45_false_of_rankOne_thirtyOne (hK4 : K45UnitaryThirtyOneGen) {X : T
   · have hq31 : q.p = 31 := by
       rw [hq, TauCeti.LieTypeIndex.characteristic_A] at h31
       exact h31
-    haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
     have hqpos : 1 ≤ q.exponent := q.exponent_pos
     obtain ⟨e2⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
       (p := 31) (n := q.exponent) (d := d) ⟨q, hq, hq31, rfl⟩

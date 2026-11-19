@@ -233,7 +233,7 @@ theorem spSiegel_eq_one_iff {m : ℕ} {x y : Fin m ⊕ Fin m → GaloisField 2 1
         exact (eq_neg_of_add_eq_zero_left ht).trans
           (eq_neg_of_add_eq_zero_left hcc0).symm
       have hc1 : spB m x v = 1 := by
-        haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+        have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
         have hcard : Nat.card (GaloisField 2 1) = 2 := by
           rw [GaloisField.card 2 1 one_ne_zero]
           norm_num

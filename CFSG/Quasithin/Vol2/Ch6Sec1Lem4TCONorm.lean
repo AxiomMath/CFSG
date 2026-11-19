@@ -13,7 +13,7 @@ open scoped MatrixGroups
 
 theorem conj_mem_X_pCoreOf {G : Type} [Group G] [Finite G] {T M L V X : Subgroup G}
     {F : Type} [Field F] [Finite F] [CharP F 2]
-    (h : Hyp611 G T M L V 4) (horth : IsOrthCh5 L V 4)
+    (h : Hyp611 G T M L V 4) (_horth : IsOrthCh5 L V 4)
     (hF : Nat.card F = 16) {ψ : ↥(autOn L V) ≃* SL(2, F)}
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     (hXL : X ≤ L) (hX5 : (X ⊓ T).relIndex X = 5)

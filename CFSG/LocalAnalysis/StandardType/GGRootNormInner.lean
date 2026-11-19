@@ -171,6 +171,7 @@ variable {G : Type*} [Group G] {K R Y : Subgroup G}
   (hNY : K ⊓ Subgroup.normalizer (R : Set G) ≤ Subgroup.normalizer (Y : Set G))
 include hRK hYK hYR hY2 hNY
 
+omit hRK hYR hNY in
 theorem induced_isTwoPower {y : G} (hy : y ∈ Y) :
     ∃ k : ℕ, K.normalizerMonoidHom ⟨y, hYK hy⟩ ^ 2 ^ k = 1 := by
   obtain ⟨k, hk⟩ := hY2 ⟨y, hy⟩
@@ -181,6 +182,7 @@ theorem induced_isTwoPower {y : G} (hy : y ∈ Y) :
     simpa using this
   rw [← map_pow, h1, map_one]
 
+omit hRK hY2 hNY in
 theorem induced_map_eq {y : G} (hy : y ∈ Y) :
     (R.subgroupOf K).map (K.normalizerMonoidHom ⟨y, hYK hy⟩).toMonoidHom = R.subgroupOf K :=
   mem_ggStab_iff.mp (normalizerMonoidHom_mem_ggStab (hYK hy) (hYR hy))
@@ -350,8 +352,8 @@ theorem ggRootNormInner_le_sup_centralizer {G : Type*} [Group G] {K R Y : Subgro
     (hI : GGRootNormInner (R.subgroupOf K)) :
     Y ≤ K ⊔ Subgroup.centralizer (K : Set G) := by
   intro y hy
-  obtain ⟨k, hk⟩ := hI _ (GGRootNorm.induced_isTwoPower hRK hYK hYR hY2 hNY hy)
-    (GGRootNorm.induced_map_eq hRK hYK hYR hY2 hNY hy)
+  obtain ⟨k, hk⟩ := hI _ (GGRootNorm.induced_isTwoPower hYK hY2 hy)
+    (GGRootNorm.induced_map_eq hYK hYR hy)
     (GGRootNorm.induced_commutes hRK hYK hYR hY2 hNY hy)
   exact GGRootNorm.mem_sup_centralizer_of_induced_inner (hYK hy) hk
 
@@ -375,7 +377,7 @@ theorem ggRootNormInnerDiag_le_sup_centralizer {G : Type*} [Group G] {K R Y : Su
     (Subgroup.normalizer (R' : Set K)).map (MulAut.conj : K →* MulAut K) with hNbar
   set H : Subgroup (MulAut K) := Nbar ⊔ Subgroup.zpowers δ' with hH
   set ρY : Subgroup (MulAut K) := GGRootNorm.inducedGroup K Y with hρY
-  haveI : Inn.Normal := GGRootNorm.innerAut_normal
+  have : Inn.Normal := GGRootNorm.innerAut_normal
   set c : MulAut K := δ' * y' * δ'⁻¹ * y'⁻¹ with hc
   have hδst : δ' ∈ GGRootNorm.ggStab R' := GGRootNorm.normalizerMonoidHom_mem_ggStab hδK hδR
   have hyst : y' ∈ GGRootNorm.ggStab R' :=
@@ -425,8 +427,8 @@ theorem ggRootNormInnerDiag_le_sup_centralizer {G : Type*} [Group G] {K R Y : Su
         exact ⟨(Subgroup.mem_normalizer_iff.mp (hHn hm) t).mp ht.1,
           H.mul_mem (H.mul_mem hm ht.2) (H.inv_mem hm)⟩
     exact hT ⟨hcY, hcH⟩
-  obtain ⟨k, hk⟩ := hmain y' (GGRootNorm.induced_isTwoPower hRK hYK hYR hY2 hNY hy)
-    (GGRootNorm.induced_map_eq hRK hYK hYR hY2 hNY hy)
+  obtain ⟨k, hk⟩ := hmain y' (GGRootNorm.induced_isTwoPower hYK hY2 hy)
+    (GGRootNorm.induced_map_eq hYK hYR hy)
     (GGRootNorm.induced_commutes hRK hYK hYR hY2 hNY hy) hcore
   exact GGRootNorm.mem_sup_centralizer_of_induced_inner hyK hk
 

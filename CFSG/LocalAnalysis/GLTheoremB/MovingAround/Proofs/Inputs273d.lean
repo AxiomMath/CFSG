@@ -141,7 +141,7 @@ theorem pow_prime_eq_one {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) (hp2 : p
 
 theorem conj_eq_self_of_pow_prime {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {e z : G} {m : ℤ}
     (hm : e * z * e⁻¹ = z ^ m) (he : e ^ p = 1) (hz : z ^ p = 1) : e * z * e⁻¹ = z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hz1 : z = 1
   · rw [hz1, mul_one, mul_inv_cancel]
   have hzo : orderOf z = p := orderOf_eq_prime hz hz1
@@ -170,8 +170,8 @@ section Center
 theorem isCyclic_center_of_pRank_le_one {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hZp : IsPGroup p ↥(Subgroup.center Y)) (hr : CFSG.Open.pRank p (Subgroup.center Y) ≤ 1) :
     IsCyclic ↥(Subgroup.center Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p ↥(Subgroup.center Y)) := ⟨hZp⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p ↥(Subgroup.center Y)) := ⟨hZp⟩
   by_contra hnc
   obtain ⟨F, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := p) hp2 hnc
   have hF : IsElemAbelian p F := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p F).mp hel
@@ -221,7 +221,7 @@ theorem mem_normalizer_of_conj (hp : p.Prime) (hp2 : p ≠ 2) {E K : Subgroup X}
     (k : X) ∈ Subgroup.normalizer
       ((Subgroup.zpowers x ⊔ (E ⊓ Subgroup.centralizer (K : Set X)) : Subgroup X) : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hE.2.1.2 x hx
   have h1 : (k : X)⁻¹ * x * (k : X) = (z : X) * x := by
     calc (k : X)⁻¹ * x * (k : X) = (k : X)⁻¹ * (x * (k : X) * x⁻¹) * x := by group
@@ -265,7 +265,7 @@ theorem mem_normalizer_of_conj (hp : p.Prime) (hp2 : p ≠ 2) {E K : Subgroup X}
     · rw [Subgroup.zpowers_le]
       have hx' : (MulAut.conj (k : X)⁻¹).toMonoidHom x = (z : X) * x := by
         rw [← h1]
-        simp [MulAut.conj_apply]
+        simp
       rw [hx']
       exact D.mul_mem (Subgroup.mem_sup_right hzC) (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
     · rintro _ ⟨c, hc, rfl⟩
@@ -284,7 +284,7 @@ theorem mem_normalizer_of_conj (hp : p.Prime) (hp2 : p ≠ 2) {E K : Subgroup X}
 theorem two_le_pRank_zpowers_sup (hp : p.Prime) {E C : Subgroup X} (hE : IsElemAbelian p E) (hCE : C ≤ E)
     (hC : C ≠ ⊥) {x : X} (hx : x ∈ E) (hxC : x ∉ C) :
     2 ≤ CFSG.Open.pRank p (Subgroup.zpowers x ⊔ C) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := fun h => hxC (h ▸ C.one_mem)
   have hxo : orderOf x = p := orderOf_eq_prime (hE.2 x hx) hx1
   have hxc : Nat.card (Subgroup.zpowers x) = p := by rw [Nat.card_zpowers, hxo]
@@ -320,7 +320,7 @@ theorem le_glbCore_of_plane (h2 : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo) (hp : p
     {E₂ : Subgroup X} (hE₂E : E₂ ≤ E) (hE₂C : E₂ ⊓ Subgroup.centralizer (K : Set X) = ⊥)
     (hE₂c : Nat.card E₂ = p ^ 2) : K ≤ GLBCore p 2 E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : commutator ↥K = ⊤ := hq.1
   have hE₂N : E₂ ≤ Subgroup.normalizer (K : Set X) := hE₂E.trans hN
   have hE₂el : IsElemAbelian p E₂ := CFSG.Open.IsElemAbelian.mono hE.2.1 hE₂E
@@ -399,7 +399,7 @@ theorem le_glbCore_of_spTwo {E K : Subgroup X} (hE : IsSCp 3 ⊤ E)
     (eK : ↥K ≃* (TauCeti.CFSGIndex.lie ⟨.B n q, hv⟩).Group) : K ≤ GLBCore 3 2 E := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨e₂⟩ := nonempty_typeBGroupEquiv_spTwo hn q hv hqp hqe
   set ψ : ↥K ≃* ↥(CFSG.Open.StatedSp n (ZMod 2)) := eK.trans e₂ with hψ
   have hinn : ∀ α : MulAut ↥K, α ∈ (MulAut.conj : ↥K →* MulAut ↥K).range := by
@@ -494,7 +494,7 @@ theorem false_of_tits_five (hGM : CFSG.ComponentClassification.TBLit.GriessMulti
     (hA2 : CFSG.Open.pRank 5 (⊤ : Subgroup (MulAut K)) ≤ 2 →
       5 ≤ 5 ∧ (5 ∣ (innerAut K).index ∨ ∃ P : Sylow 5 K, ¬ IsMulCommutative ↥(P : Subgroup K))) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hperf : commutator K = ⊤ := hq.1
   obtain ⟨-, hOS⟩ := hA2 (InputsSeitz3.pRank_five_mulAut_le_two_of_tits hperf d hd e)
   obtain ⟨d0, hv⟩ := d
@@ -521,7 +521,7 @@ theorem false_of_tits_five (hGM : CFSG.ComponentClassification.TBLit.GriessMulti
     rw [hidx] at hdvd
     norm_num at hdvd
   · apply hP
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hk2 : k ≤ 2 := by
       by_contra hk3
       push Not at hk3
@@ -537,6 +537,7 @@ section Suzuki
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isCompLocallyBalanced_sz32 {K : Subgroup X} (A : Subgroup X) (hq : CFSG.Open.IsQuasisimple ↥K)
     (hOK : GLAPPrimeCore 5 ↥K = ⊥) {hv : (TauCeti.LieTypeIndex.suzuki 2).Valid}
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group) :
@@ -553,7 +554,7 @@ theorem sz32_down (hO : GLAPPrimeCore 5 X = ⊥) {K : Subgroup X} (hK : GLAPComp
     (hJ : GLAPComponent 5 (GLAPLayer 5 ((⨆ g ∈ A, GLBConj g K) ⊓ Subgroup.centralizer ({a} : Set X))) J) :
     IsLocallyOTwoBalancedWrtP 5 1 (barOf 5 J) := by
   have hp : Nat.Prime 5 := Nat.prime_five
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hbal : CFSG.HardMathSupport.Timmesfeld.Coordinator.IsLocallyBalancedAbs 5 1 (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.IsLocallyBalancedAbs.of_mulEquiv e
       (CFSG.HardMathSupport.Dickson.Bal207.isLocallyBalancedAbs_five_one_sz32 hv)
@@ -568,7 +569,7 @@ theorem sz32_down (hO : GLAPPrimeCore 5 X = ⊥) {K : Subgroup X} (hK : GLAPComp
     have eS : PSimple 5 (GLBConj g K) ≃* ↥K ⧸ Subgroup.center ↥K :=
       (Lemma1315b.centerQuotEquiv (Inputs273.barOfEquivOfCore hOL)).trans eLK
     obtain ⟨hSs, hSna⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hLc
-    haveI : IsSimpleGroup (PSimple 5 (GLBConj g K)) := hSs
+    have : IsSimpleGroup (PSimple 5 (GLBConj g K)) := hSs
     have hap5 : a ^ 5 = 1 := hA.2 a ha
     have hap := Inputs273.isPGroup_zpowers_of_pow hap5
     have hI := CFSG.LocalAnalysis.GLTheoremA.glaPComponent_chevTransfer hp haL hap hJL
@@ -609,7 +610,7 @@ theorem chevQ_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : GLAPPrimeCore 
       (p = 5 ∧ Subgroup.center ↥K = ⊥ ∧ ∃ hv : (TauCeti.LieTypeIndex.suzuki 2).Valid,
         Nonempty (↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hOK⟩ := Inputs273.comp_facts hO hK
   have hq : CFSG.Open.IsQuasisimple ↥K := hKh.1
   have hperf : commutator ↥K = ⊤ := hq.1

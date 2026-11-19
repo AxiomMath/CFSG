@@ -110,7 +110,7 @@ theorem dvd_sq_sub_one_of_orderOf_dvd_two {p q : ℕ} (hq : 1 ≤ q)
 
 theorem orderOf_pos_of_ne {q : TauCeti.PrimePower} {p : ℕ} (hp : p.Prime) (hpq : p ≠ q.p) :
     0 < orderOf ((q.card : ℕ) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : ((q.card : ℕ) : ZMod p) ≠ 0 := fun h0 =>
     (not_dvd_card_of_ne hp hpq) ((ZMod.natCast_eq_zero_iff _ p).1 h0)
   exact orderOf_pos_iff.2 (isOfFinOrder_iff_pow_eq_one.2
@@ -336,15 +336,15 @@ theorem exists_singular_stable_of_oddOrder {G : Type} [Group G] {π : elementary
     ∃ W : Submodule K V, W ≠ ⊥ ∧ (∀ x ∈ W, Q x = 0) ∧
       ∀ g : elementaryGroup Q, π g ∈ E₀ → ∀ w ∈ W, (g : V ≃ₗ[K] V) w ∈ W := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g => (g : V → V)) DFunLike.coe_injective
   have hE1 : 1 < Nat.card E₀ := by
     rw [hcard]
     exact Nat.one_lt_pow (by norm_num) hp.one_lt
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial V := by
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
     have h1 : ∀ a b : elementaryGroup Q, a = b := fun a b =>
@@ -489,18 +489,19 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
   {Q : QuadraticForm K V}
 
 theorem finite_linearEquiv : Finite (V ≃ₗ[K] V) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   exact Finite.of_injective (fun g => (g : V → V)) DFunLike.coe_injective
 
 @[expose] noncomputable def aRep (A : Subgroup (elementaryGroup Q)) : A →* Module.End K V :=
   (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := K) (M := V)).comp
     ((elementaryGroup Q).subtype.comp A.subtype)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem aRep_apply (A : Subgroup (elementaryGroup Q)) (a : A) (v : V) :
     aRep A a v = ((a : elementaryGroup Q) : V ≃ₗ[K] V) v := rfl
 
 theorem finite_sub (A : Subgroup (elementaryGroup Q)) : Finite A := by
-  haveI := (finite_linearEquiv : Finite (V ≃ₗ[K] V))
+  have := (finite_linearEquiv : Finite (V ≃ₗ[K] V))
   infer_instance
 
 noncomputable abbrev topFintype (A : Subgroup (elementaryGroup Q)) :
@@ -527,11 +528,12 @@ namespace HighSetup
 
 variable {p : ℕ} {A : Subgroup (elementaryGroup Q)}
 
+omit [FiniteDimensional K V] in
 theorem not_dvd_card (S : HighSetup Q p A) : ¬ p ∣ Nat.card K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hℓ : (ringChar K).Prime := CharP.char_is_prime K _
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   obtain ⟨n, -, hcard⟩ := FiniteField.card K (ringChar K)
   intro hd
   rw [Nat.card_eq_fintype_card, hcard] at hd
@@ -539,8 +541,9 @@ theorem not_dvd_card (S : HighSetup Q p A) : ¬ p ∣ Nat.card K := by
     (Nat.prime_dvd_prime_iff_eq S.prime hℓ).1 (S.prime.dvd_of_dvd_pow hd)
   exact S.cast_ne_zero (by rw [hpl]; exact ringChar.Nat.cast_ringChar)
 
+omit [FiniteDimensional K V] in
 theorem five_le (S : HighSetup Q p A) : 5 ≤ p := by
-  haveI : Fact p.Prime := ⟨S.prime⟩
+  have : Fact p.Prime := ⟨S.prime⟩
   have h0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := fun h0 =>
     S.not_dvd_card ((ZMod.natCast_eq_zero_iff _ p).1 h0)
   have hdvd : orderOf ((Nat.card K : ℕ) : ZMod p) ∣ p - 1 :=
@@ -549,26 +552,32 @@ theorem five_le (S : HighSetup Q p A) : 5 ≤ p := by
   have := S.four_le
   omega
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem isElemAbelian (S : HighSetup Q p A) : IsElemAbelian p A :=
   ⟨⟨⟨fun a b => Subtype.ext (S.comm a a.2 b b.2)⟩⟩, S.pow_eq_one⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem comm' (S : HighSetup Q p A) (a b : A) : a * b = b * a :=
   Subtype.ext (S.comm a a.2 b b.2)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem pow' (S : HighSetup Q p A) (a : A) : a ^ p = 1 :=
   Subtype.ext (by simpa using S.pow_eq_one a a.2)
 
 end HighSetup
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem mem_orth {A : Subgroup (elementaryGroup Q)} (a : A) :
     ((a : elementaryGroup Q) : V ≃ₗ[K] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   elementaryGroup_le_orthogonalGroup Q (a : elementaryGroup Q).2
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem polar_aRep {A : Subgroup (elementaryGroup Q)} (a : A) (x y : V) :
     polarBilin Q (aRep A a x) (aRep A a y) = polarBilin Q x y := by
   simp only [polarBilin_apply_apply, aRep_apply]
   exact TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup (mem_orth a) x y
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eq_one_of_aRep {A : Subgroup (elementaryGroup Q)} (a : A) (h : aRep A a = 1) : a = 1 := by
   refine Subtype.ext (Subtype.ext (LinearEquiv.ext fun v => ?_))
   have := LinearMap.congr_fun h v
@@ -585,35 +594,36 @@ include S
 
 theorem card_top_ne_zero : letI := topFintype A
     ((Fintype.card (⊤ : Subgroup A) : ℕ) : K) ≠ 0 := by
-  letI := topFintype A
+  let := topFintype A
   rw [Fintype.card_eq_nat_card, Subgroup.card_top, S.card_eq, Nat.cast_pow]
   exact pow_ne_zero 3 S.cast_ne_zero
 
 omit S in
 theorem hblk_le_fixSub (F : Subgroup A) : hblk A F ≤ fixSub (aRep A) F := by
-  letI := topFintype A
+  let := topFintype A
   exact inf_le_left
 
 theorem fixSub_inf_hblk (F : Subgroup A) : fixSub (aRep A) ⊤ ⊓ hblk A F = ⊥ := by
-  letI := topFintype A
+  let := topFintype A
   exact fixSub_inf_block (aRep A) S.card_top_ne_zero F
 
 theorem fixSub_eq (F : Subgroup A) : fixSub (aRep A) F = fixSub (aRep A) ⊤ ⊔ hblk A F := by
-  letI := topFintype A
+  let := topFintype A
   exact fixSub_eq_sup (aRep A) S.card_top_ne_zero le_top
 
 theorem hblk_stable (F : Subgroup A) (a : A) {v : V} (hv : v ∈ hblk A F) :
     aRep A a v ∈ hblk A F := by
-  letI := topFintype A
+  let := topFintype A
   exact block_invariant (aRep A) le_top (fun a _ b _ => S.comm' a b) (Subgroup.mem_top a) hv
 
 theorem eq_zero_of_fixed {F : Subgroup A} (hF : F.index = p) {x : A} (hx : x ∉ F) {v : V}
     (hv : v ∈ hblk A F) (hxv : aRep A x v = v) : v = 0 := by
-  letI := topFintype A
+  let := topFintype A
   exact block_fixed_eq_zero (aRep A) S.card_top_ne_zero
     (sup_zpowers_eq S.prime le_top (by rw [Subgroup.relIndex_top_right]; exact hF)
       (Subgroup.mem_top x) hx) hv hxv
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sup_eq_top {F F' : Subgroup A} (hF : F.index = p) (hF' : F'.index = p)
     (hne : F ≠ F') : F ⊔ F' = ⊤ :=
   sup_eq_of_ne_relIndex_prime S.prime le_top le_top
@@ -622,9 +632,10 @@ theorem sup_eq_top {F F' : Subgroup A} (hF : F.index = p) (hF' : F'.index = p)
 
 theorem hblk_inf {F F' : Subgroup A} (hF : F.index = p) (hF' : F'.index = p) (hne : F ≠ F') :
     hblk A F ⊓ hblk A F' = ⊥ := by
-  letI := topFintype A
+  let := topFintype A
   exact block_inf_block (aRep A) S.card_top_ne_zero (S.sup_eq_top hF hF' hne)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem card_hyperplane {F : Subgroup A} (hF : F.index = p) : Nat.card F = p ^ 2 := by
   have h := F.card_mul_index
   rw [hF, S.card_eq] at h
@@ -633,10 +644,10 @@ theorem card_hyperplane {F : Subgroup A} (hF : F.index = p) : Nat.card F = p ^ 2
 
 theorem polar_hblk {F F' : Subgroup A} (hF : F.index = p) (hF' : F'.index = p) (hne : F ≠ F')
     {v w : V} (hv : v ∈ hblk A F) (hw : w ∈ hblk A F') : polar Q v w = 0 := by
-  letI := topFintype A
-  haveI := finite_sub A
-  letI : Fintype F := Fintype.ofFinite _
-  letI : Fintype F' := Fintype.ofFinite _
+  let := topFintype A
+  have := finite_sub A
+  let : Fintype F := Fintype.ofFinite _
+  let : Fintype F' := Fintype.ofFinite _
   have hKF : ((Fintype.card F : ℕ) : K) ≠ 0 := by
     rw [Fintype.card_eq_nat_card, S.card_hyperplane hF, Nat.cast_pow]
     exact pow_ne_zero 2 S.cast_ne_zero
@@ -647,17 +658,17 @@ theorem polar_hblk {F F' : Subgroup A} (hF : F.index = p) (hF' : F'.index = p) (
 
 theorem polar_fixSub_hblk {F : Subgroup A} {v w : V} (hv : v ∈ fixSub (aRep A) ⊤)
     (hw : w ∈ hblk A F) : polar Q v w = 0 := by
-  letI := topFintype A
+  let := topFintype A
   have h1 := sumOp_adjoint (aRep A) (polarBilin Q) (fun g x y => polar_aRep g x y) ⊤ v w
   rw [sumOp_apply_of_fix (aRep A) ⊤ hv, LinearMap.mem_ker.mp hw.2, map_zero,
     LinearMap.map_smul₂] at h1
-  simp only [LinearMap.smul_apply, smul_eq_mul, polarBilin_apply_apply] at h1
+  simp only [smul_eq_mul, polarBilin_apply_apply] at h1
   exact (mul_eq_zero.mp h1).resolve_left S.card_top_ne_zero
 
 theorem le_sup_hblk :
     (⊤ : Submodule K V) ≤ fixSub (aRep A) ⊤ ⊔ ⨆ (F : Subgroup A) (_ : F.index = p), hblk A F := by
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
   intro m _
   have h := mem_iSup_hyperFixed_top S.cast_ne_zero S.comm' S.pow' (aRep A) ⊤
     (fun _ _ _ => Submodule.mem_top) (k := 3) (by norm_num) S.card_eq
@@ -675,9 +686,9 @@ theorem le_sup_hblk :
 theorem orderOf_le_finrank {F : Subgroup A} (h0 : hblk A F ≠ ⊥) :
     orderOf ((Nat.card K : ℕ) : ZMod p) ≤ finrank K (hblk A F) := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
-  haveI : Finite V := Module.finite_of_finite K
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
+  have : Finite V := Module.finite_of_finite K
   set B := hblk A F with hB
   let _ : MulAction A B :=
     { smul := fun a v => ⟨aRep A a v, S.hblk_stable F a v.2⟩
@@ -718,8 +729,8 @@ theorem orderOf_le_finrank {F : Subgroup A} (h0 : hblk A F ≠ ⊥) :
 theorem exists_two_hblk : ∃ F₁ F₂ : Subgroup A, F₁.index = p ∧ F₂.index = p ∧ F₁ ≠ F₂ ∧
     hblk A F₁ ≠ ⊥ ∧ hblk A F₂ ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
   by_contra hcon
   push Not at hcon
   obtain ⟨F₀, hF₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := A) p (n := 2)
@@ -760,6 +771,7 @@ theorem exists_two_hblk : ∃ F₁ F₂ : Subgroup A, F₁.index = p ∧ F₂.in
   exact hf1 (eq_one_of_aRep f (htriv f hfF))
 
 omit S in
+omit [Finite K] [FiniteDimensional K V] in
 theorem dvd_of_zpow_mem (hp : p.Prime) {F : Subgroup A} {x : A} (hxp : x ^ p = 1) (hx : x ∉ F)
     {j : ℤ} (hj : x ^ j ∈ F) : (p : ℤ) ∣ j := by
   by_contra hpj
@@ -778,8 +790,8 @@ theorem eichler_mem {F₁ F₂ : Subgroup A} (h1 : F₁.index = p) (h2 : F₂.in
     ∀ e ∈ fixSub (aRep A) (F₁ ⊓ F₂), ∀ w ∈ fixSub (aRep A) (F₁ ⊓ F₂),
       eichler Q e w ∈ (hyperClosure p ⊤ A).map (elementaryGroup Q).subtype := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
   have hp2 : p ≠ 2 := by have := S.five_le; omega
   obtain ⟨f, hf, hf1⟩ : ∃ f ∈ F₁ ⊓ F₂, f ≠ 1 := by
     by_contra h
@@ -912,7 +924,7 @@ theorem hyperClosure_eq_top : hyperClosure p ⊤ A = ⊤ := by
     rintro _ ⟨x, -, rfl⟩
     exact elementaryGroup_le_orthogonalGroup Q x.2
   let ι := {F : Subgroup A // F.index = p ∧ F ≠ F₁ ∧ hblk A F ≠ ⊥}
-  haveI : Nonempty ι := ⟨⟨F₂, h2, hne.symm, hb2⟩⟩
+  have : Nonempty ι := ⟨⟨F₂, h2, hne.symm, hb2⟩⟩
   set V₀ := fixSub (aRep A) (⊤ : Subgroup A) with hV₀
   have hP0 : OrthSep Q (hblk A F₁) V₀ := fun s hs t ht => by
     rw [polar_comm]
@@ -971,14 +983,14 @@ theorem hyperGen_of_orderOf_ge_four {G : Type} [Group G] {π : elementaryGroup Q
     (hE : IsElemAbelian p E₀) (hcard : Nat.card E₀ = p ^ 3) :
     HyperGen p (⊤ : Subgroup G) E₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hE1 : 1 < Nat.card E₀ := by
     rw [hcard]
     exact Nat.one_lt_pow (by norm_num) hp.one_lt
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial V := by
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
     have h1 : ∀ a b : elementaryGroup Q, a = b := fun a b =>
@@ -1041,7 +1053,7 @@ theorem ratio_apply_eq_one_iff {M : Type*} [Group M] {F : Type*} [Field F] (χ �
 variable {ℓ f p : ℕ} {K : Type} [Field K]
 
 theorem hyperGen_of_unitary_diag (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp : p.Prime)
-    (hpq : p ∣ ℓ ^ f + 1) (hq : ℓ ^ f ≠ 2) {G : Type*} [Group G]
+    (_hpq : p ∣ ℓ ^ f + 1) (hq : ℓ ^ f ≠ 2) {G : Type*} [Group G]
     (π : unitarySU ℓ f K (n + 1) →* G) (hπ : Function.Surjective π)
     (hker : ∀ g ∈ π.ker, ∃ c : K,
       ((g : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K) = c • 1)
@@ -1053,8 +1065,8 @@ theorem hyperGen_of_unitary_diag (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp : 
   have hfin := h.finite
   have : Fact ℓ.Prime := ⟨h.prime⟩
   have : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 hp.ne_zero)
   set Eh : Subgroup (unitarySU ℓ f K (n + 1)) := E.comap π with hEh
   have hle : unitarySU ℓ f K (n + 1) ≤ primeFormUnitary h (idGram K (n + 1)) :=
@@ -1074,7 +1086,7 @@ theorem hyperGen_of_unitary_diag (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp : 
     rw [h1]
     exact Dvd.intro_left _ rfl
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_dvd_natCard_sub_one hdvdK
-  haveI : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
+  have : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
   obtain ⟨P, hP⟩ :=
     CFSG.RankThree.PartOne.Q1327C.exists_unitary_conj_diag_m h hζ dvd_rfl Gu hGcomm hGpow
   let Pg : GL (Fin (n + 1)) K := (P : GL (Fin (n + 1)) K)

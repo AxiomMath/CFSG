@@ -23,7 +23,7 @@ theorem s16k_sum_two_transport_of_le {G : Type} [Group G] [Finite G]
     (hbar : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV) {D₁ D₂ : FFModel}
     {I₁ I₂ : Subgroup (Vtil V₀ V hV)} {π₁ : D₁.Gam →* ↥(lBar V₀ V hV L)}
     {π₂ : D₂.Gam →* ↥(lBar V₀ V hV L)}
-    (hZ₁ : fixV (lBar V₀ V hV L) ≤ I₁) (hZ₂ : fixV (lBar V₀ V hV L) ≤ I₂)
+    (_hZ₁ : fixV (lBar V₀ V hV L) ≤ I₁) (_hZ₂ : fixV (lBar V₀ V hV L) ≤ I₂)
     (hsup : fixV (lBar V₀ V hV L) ⊔ (I₁ ⊔ I₂) = ⊤)
     (h₁ : D₁.RealizesVia (lBar V₀ V hV L) I₁ (fixV (lBar V₀ V hV L)) π₁)
     (h₂ : D₂.RealizesVia (lBar V₀ V hV L) I₂ (fixV (lBar V₀ V hV L)) π₂)
@@ -59,7 +59,7 @@ theorem s16k_sum_two_transport_of_le {G : Type} [Group G] [Finite G]
       obtain ⟨b₀, hb₀, rfl⟩ := Subgroup.mem_map.mp hb
       exact hbar b₀.2
     · intro hcyc
-      haveI : IsCyclic ↥(B₀.map (lBar V₀ V hV L).subtype) := hcyc
+      have : IsCyclic ↥(B₀.map (lBar V₀ V hV L).subtype) := hcyc
       exact hBc (isCyclic_of_injective
         (Subgroup.equivMapOfInjective B₀ (lBar V₀ V hV L).subtype
           (lBar V₀ V hV L).subtype_injective).toMonoidHom
@@ -126,7 +126,7 @@ theorem s16k_sum_two_transport_of_le {G : Type} [Group G] [Finite G]
           (u₂ : Vtil V₀ V hV) * (u₂ : Vtil V₀ V hV)⁻¹ ∈ fixV (lBar V₀ V hV L) := by
       rw [hγ₁val, ← hγ₂val]
       exact hZu₂
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hB₀p.exists_orderOf_eq_pow (⟨b, hb⟩ : ↥B₀)
     have hbord : orderOf b = p ^ k := by rw [← Subgroup.orderOf_mk b hb, hk]
     have hzord : orderOf (((π₁ γ₁ : ↥(lBar V₀ V hV L)) : MulAut (Vtil V₀ V hV))) = p ^ k := by

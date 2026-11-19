@@ -16,13 +16,15 @@ variable {L' : Type} [Group L'] [Finite L'] {A : Subgroup (MulAut L')}
 theorem qAutHom_compat (a : MulAut L') : ∀ l, qAutHom L' a (qmk L' l) = qmk L' (a l) :=
   fun l => qAutHom_mk a l
 
+omit [Finite L'] in
 theorem mul_comm_of_mem (hA : CFSG.Open.IsElemAbelian 3 A) {a a' : MulAut L'} (ha : a ∈ A)
     (ha' : a' ∈ A) : a * a' = a' * a :=
   congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨a', ha'⟩)
 
+omit [Finite L'] in
 theorem layer_invariant_A (hA : CFSG.Open.IsElemAbelian 3 A) {a : MulAut L'} (ha : a ∈ A) :
-    ∀ a' ∈ A, ∀ e ∈ LargeEvenLayer (ggFix a), a' e ∈ LargeEvenLayer (ggFix a) :=
-  fun a' ha' => layer_invariant (mul_comm_of_mem hA ha ha')
+    ∀ _a' ∈ A, ∀ e ∈ LargeEvenLayer (ggFix a), _a' e ∈ LargeEvenLayer (ggFix a) :=
+  fun _a' ha' => layer_invariant (mul_comm_of_mem hA ha ha')
 
 theorem mem_zpowers_iff_qAutHom (hperf : commutator L' = ⊤) (a a₀ : MulAut L') :
     a ∈ Subgroup.zpowers a₀ ↔ qAutHom L' a ∈ Subgroup.zpowers (qAutHom L' a₀) := by
@@ -107,7 +109,7 @@ theorem smallHyp_down (hperf : commutator L' = ⊤) (hA : CFSG.Open.IsElemAbelia
         rw [map_mul, map_mul, map_inv] at h2
         exact (hn (qmk L' y)).mpr h2
 
-theorem concl_up (hperf : commutator L' = ⊤) (hA : CFSG.Open.IsElemAbelian 3 A)
+theorem concl_up (_hperf : commutator L' = ⊤) (hA : CFSG.Open.IsElemAbelian 3 A)
     {a : MulAut L'} (haA : a ∈ A)
     (h : GGStdSubTwoTorusConcl 3 (A.map (qAutHom L')) (qAutHom L' a)) :
     GGStdSubTwoTorusConcl 3 A a := by

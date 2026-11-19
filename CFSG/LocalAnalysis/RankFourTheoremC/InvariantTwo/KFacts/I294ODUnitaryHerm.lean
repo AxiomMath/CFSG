@@ -64,21 +64,27 @@ local notation "β" => AdjoinRoot.root (X ^ p - C c : K[X])
 
 variable {σ : K ≃+* K} {B : GL (Fin n) K}
 
+omit [Finite K] in
 theorem odBv_add (s t : ℤ) (y : Fin n → K) : odBv B (s + t) y = odBv B s (odBv B t y) := by
   simp [odBv, _root_.zpow_add, Matrix.mulVec_mulVec]
 
+omit [Finite K] in
 theorem odBv_zero (y : Fin n → K) : odBv B 0 y = y := by simp [odBv]
 
+omit [Finite K] in
 theorem odBv_one (y : Fin n → K) :
     odBv B 1 y = ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ y := by
   simp [odBv]
 
+omit [Finite K] in
 theorem odBv_add_vec (s : ℤ) (y y' : Fin n → K) :
     odBv B s (y + y') = odBv B s y + odBv B s y' := by simp [odBv, Matrix.mulVec_add]
 
+omit [Finite K] in
 theorem odBv_smul (s : ℤ) (a : K) (y : Fin n → K) : odBv B s (a • y) = a • odBv B s y := by
   simp [odBv, Matrix.mulVec_smul]
 
+omit [Finite K] hpf hirr in
 theorem odBv_p (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (y : Fin n → K) : odBv B (p : ℤ) y = c • y := by
   have h1 : ((B ^ (p : ℤ) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
@@ -88,15 +94,18 @@ theorem odBv_p (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matr
   ext i
   simp [Matrix.scalar_apply, Matrix.mulVec_diagonal]
 
+omit [Finite K] in
 theorem odBv_herm (hB : B ∈ Uid σ n) (s : ℤ) (x y : Fin n → K) :
     herm σ (odBv B s x) (odBv B s y) = herm σ x y := (zpow_mem hB s) x y
 
+omit [Finite K] in
 theorem odA_root_ne_zero (hc0 : c ≠ 0) : (β : 𝔸) ≠ 0 := by
   intro h
   have h1 : (β : 𝔸) ^ p = algebraMap K 𝔸 c := odA_root_pow
   rw [h, zero_pow hpf.out.ne_zero] at h1
   exact hc0 ((map_eq_zero_iff _ (algebraMap K 𝔸).injective).1 h1.symm)
 
+omit [Finite K] in
 theorem odG_add_p (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) (s : ℤ) :
@@ -110,12 +119,14 @@ theorem odG_add_p (hc0 : c ≠ 0)
     hβp]
   field_simp
 
+omit [Finite K] in
 theorem odG_period (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) :
     odG p c σ B x y (p : ℤ) = odG p c σ B x y 0 := by
   simpa using odG_add_p (σ := σ) hc0 hBp x y 0
 
+omit [Finite K] in
 theorem odH_B_right (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) :
@@ -133,6 +144,7 @@ theorem odH_B_right (hc0 : c ≠ 0)
   simp only [Nat.cast_add, Nat.cast_one] at h2
   rw [← Finset.mul_sum, h2]
 
+omit [Finite K] in
 theorem odH_B_left (hB : B ∈ Uid σ n) (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) :
@@ -157,50 +169,59 @@ theorem odH_B_left (hB : B ∈ Uid σ n) (hc0 : c ≠ 0)
   simp only [Nat.cast_add, Nat.cast_one, add_sub_cancel_right] at h3
   rw [← Finset.mul_sum, ← h3]
 
+omit [Finite K] hpf in
 theorem odG_add_left (x x' y : Fin n → K) (s : ℤ) :
     odG p c σ B (x + x') y s = odG p c σ B x y s + odG p c σ B x' y s := by
   unfold odG
   rw [herm_add_left, map_add, add_mul]
 
+omit hpf [Finite K] in
 theorem odG_add_right (x y y' : Fin n → K) (s : ℤ) :
     odG p c σ B x (y + y') s = odG p c σ B x y s + odG p c σ B x y' s := by
   unfold odG
   rw [odBv_add_vec, herm_add_right, map_add, add_mul]
 
+omit [Finite K] hpf in
 theorem odG_smul_left (a : K) (x y : Fin n → K) (s : ℤ) :
     odG p c σ B (a • x) y s = algebraMap K 𝔸 (σ a) * odG p c σ B x y s := by
   unfold odG
   rw [herm_smul_left, map_mul, mul_assoc]
 
+omit hpf [Finite K] in
 theorem odG_smul_right (a : K) (x y : Fin n → K) (s : ℤ) :
     odG p c σ B x (a • y) s = algebraMap K 𝔸 a * odG p c σ B x y s := by
   unfold odG
   rw [odBv_smul, herm_smul_right, map_mul, mul_assoc]
 
+omit [Finite K] hpf in
 theorem odH_add_left (x x' y : Fin n → K) :
     odH p c σ B (x + x') y = odH p c σ B x y + odH p c σ B x' y := by
   unfold odH
   simp_rw [odG_add_left]
   rw [Finset.sum_add_distrib]
 
+omit hpf [Finite K] in
 theorem odH_add_right (x y y' : Fin n → K) :
     odH p c σ B x (y + y') = odH p c σ B x y + odH p c σ B x y' := by
   unfold odH
   simp_rw [odG_add_right]
   rw [Finset.sum_add_distrib]
 
+omit [Finite K] hpf in
 theorem odH_smul_left (a : K) (x y : Fin n → K) :
     odH p c σ B (a • x) y = algebraMap K 𝔸 (σ a) * odH p c σ B x y := by
   unfold odH
   simp_rw [odG_smul_left]
   rw [← Finset.mul_sum]
 
+omit hpf [Finite K] in
 theorem odH_smul_right (a : K) (x y : Fin n → K) :
     odH p c σ B x (a • y) = algebraMap K 𝔸 a * odH p c σ B x y := by
   unfold odH
   simp_rw [odG_smul_right]
   rw [← Finset.mul_sum]
 
+omit [Finite K] in
 theorem odH_pow_right (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) (t : ℕ) :
@@ -212,6 +233,7 @@ theorem odH_pow_right (hc0 : c ≠ 0)
       rw [← odBv_add]; congr 1; push_cast; ring
     rw [h1, odH_B_right hc0 hBp, ih, pow_succ, mul_comm (β ^ t) β, mul_assoc]
 
+omit [Finite K] in
 theorem odH_pow_left (hB : B ∈ Uid σ n) (hc0 : c ≠ 0)
     (hBp : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) c)
     (x y : Fin n → K) (t : ℕ) :
@@ -249,27 +271,33 @@ variable (p c) in
         simp only [map_sub, map_pow, aeval_X, aeval_C, hM, h2, sub_self]
       rw [map_mul, hroot, zero_mul])
 
+omit [Finite K] hpf in
 theorem odAct_mk (M : Matrix (Fin n) (Fin n) K) (hM : M ^ p = Matrix.scalar (Fin n) c)
     (g : K[X]) : odAct p c M hM (AdjoinRoot.mk _ g) = aeval M g := rfl
 
+omit [Finite K] hpf in
 theorem odAct_algebraMap (M : Matrix (Fin n) (Fin n) K) (hM : M ^ p = Matrix.scalar (Fin n) c)
     (k : K) : odAct p c M hM (algebraMap K 𝔸 k) = Matrix.scalar (Fin n) k := by
   rw [AdjoinRoot.algebraMap_eq, ← AdjoinRoot.mk_C, odAct_mk, aeval_C]
   ext i j
   simp [Matrix.algebraMap_matrix_apply, Matrix.scalar_apply, Matrix.diagonal_apply]
 
+omit [Finite K] hpf in
 theorem odAct_root (M : Matrix (Fin n) (Fin n) K) (hM : M ^ p = Matrix.scalar (Fin n) c) :
     odAct p c M hM β = M := by
   rw [AdjoinRoot.root, odAct_mk, aeval_X]
 
+omit [Finite K] in
 theorem scalar_mulVec' (k : K) (v : Fin n → K) : Matrix.scalar (Fin n) k *ᵥ v = k • v := by
   ext i
   simp [Matrix.scalar_apply, Matrix.mulVec_diagonal]
 
+omit [Finite K] in
 theorem odBv_natCast (s : ℕ) (y : Fin n → K) :
     odBv B (s : ℤ) y = ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ s *ᵥ y := by
   rw [odBv, _root_.zpow_natCast, Units.val_pow_eq_pow_val]
 
+omit [Finite K] hpf in
 theorem mk_monomial_eq (s : ℕ) (k : K) :
     AdjoinRoot.mk (X ^ p - C c : K[X]) (monomial s k) = algebraMap K 𝔸 k * β ^ s := by
   rw [← C_mul_X_pow_eq_monomial, map_mul, map_pow, AdjoinRoot.mk_C, AdjoinRoot.mk_X]
@@ -288,6 +316,7 @@ theorem odH_act_left (S : OdSetup r e0 p c σ B) (a : 𝔸) (x y : Fin n → K) 
         map_mul, map_pow, odIota_algebraMap S.hK S.hpodd, odIota_root S.hpodd S.hpq S.hcq,
         S.hσq, mul_assoc]
 
+omit [Fact (Nat.Prime r)] [CharP K r] [Finite K] in
 theorem odH_act_right (S : OdSetup r e0 p c σ B) (a : 𝔸) (x y : Fin n → K) :
     odH p c σ B x (odAct p c _ S.hBp a *ᵥ y) = a * odH p c σ B x y := by
   induction a using AdjoinRoot.induction_on with
@@ -299,6 +328,7 @@ theorem odH_act_right (S : OdSetup r e0 p c σ B) (a : 𝔸) (x y : Fin n → K)
       rw [mk_monomial_eq, map_mul, map_pow, odAct_algebraMap, odAct_root, ← Matrix.mulVec_mulVec,
         scalar_mulVec', ← odBv_natCast, odH_smul_right, odH_pow_right S.hc0 S.hBp, mul_assoc]
 
+omit [Fact (Nat.Prime r)] [CharP K r] [Finite K] hpf in
 theorem odAct_mem (S : OdSetup r e0 p c σ B) {W : Submodule K (Fin n → K)}
     (hW : ∀ x ∈ W, ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ x ∈ W) (a : 𝔸)
     {x : Fin n → K} (hx : x ∈ W) : odAct p c _ S.hBp a *ᵥ x ∈ W := by
@@ -322,27 +352,32 @@ variable (p c) in
 @[expose] noncomputable def odPB : PowerBasis K (AdjoinRoot (X ^ p - C c : K[X])) :=
   AdjoinRoot.powerBasis ((monic_X_pow_sub_C c hpf.out.ne_zero).ne_zero)
 
+omit [Finite K] in
 theorem odPB_dim : (odPB p c).dim = p := by
-  simp [odPB, AdjoinRoot.powerBasis, natDegree_X_pow_sub_C]
+  simp [odPB, AdjoinRoot.powerBasis]
 
+omit [Finite K] in
 theorem odPB_gen : (odPB p c).gen = β := rfl
 
 variable (p c) in
 @[expose] noncomputable def odCoeff0 : AdjoinRoot (X ^ p - C c : K[X]) →ₗ[K] K :=
   (odPB p c).basis.coord ⟨0, (odPB p c).dim_pos⟩
 
+omit [Finite K] in
 theorem odCoeff0_pow (m : ℕ) (hm : m < p) :
     odCoeff0 p c ((β : 𝔸) ^ m) = if m = 0 then 1 else 0 := by
   have hm' : m < (odPB p c).dim := hm.trans_eq (odPB_dim (p := p) (c := c)).symm
   have h1 : (β : 𝔸) ^ m = (odPB p c).basis ⟨m, hm'⟩ := by
     rw [PowerBasis.basis_eq_pow, odPB_gen]
   rw [h1, odCoeff0, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply]
-  simp [eq_comm]
+  simp
 
+omit [Finite K] in
 theorem odCoeff0_alg_mul (k : K) (a : 𝔸) :
     odCoeff0 p c (algebraMap K 𝔸 k * a) = k * odCoeff0 p c a := by
   rw [← Algebra.smul_def, map_smul, smul_eq_mul]
 
+omit [Finite K] in
 theorem odCoeff0_odH (hc0 : c ≠ 0) (x y : Fin n → K) :
     odCoeff0 p c (odH p c σ B x y) = herm σ x y := by
   have hβ0 := odA_root_ne_zero (p := p) hc0
@@ -354,7 +389,7 @@ theorem odCoeff0_odH (hc0 : c ≠ 0) (x y : Fin n → K) :
     simp only [Nat.cast_zero, odBv_zero, neg_zero, _root_.zpow_zero, mul_one]
     rw [← mul_one (algebraMap K 𝔸 (herm σ x y)), odCoeff0_alg_mul]
     have := odCoeff0_pow (p := p) (c := c) 0 hpf.out.pos
-    simp only [pow_zero, if_true] at this
+    simp only [pow_zero, ite_true] at this
     rw [this, mul_one]
   · intro t ht ht0
     have htp := Finset.mem_range.1 ht
@@ -363,7 +398,7 @@ theorem odCoeff0_odH (hc0 : c ≠ 0) (x y : Fin n → K) :
       rw [this, _root_.zpow_add₀ hβ0, hβp, _root_.zpow_natCast, mul_comm]
     unfold odG
     rw [h1, ← mul_assoc, ← map_mul, odCoeff0_alg_mul, odCoeff0_pow (p - t) (by omega),
-      if_neg (by omega), mul_zero]
+      ite_eq_right (by omega), mul_zero]
   · intro h
     exact absurd (Finset.mem_range.2 hpf.out.pos) h
 
@@ -423,7 +458,7 @@ theorem od_exists_orbit (S : OdSetup r e0 p c σ B) {w : Fin n → K} (hw : herm
     rw [hjj, odBv_herm S.hB, h1 (j - i) (by omega)]
     by_cases hij' : i = j
     · simp [hij']
-    · rw [if_neg hij', if_neg (by omega)]
+    · rw [ite_eq_right hij', ite_eq_right (by omega)]
   intro i j hi hj
   rcases le_total i j with hle | hle
   · exact key i j hle hj
@@ -431,7 +466,7 @@ theorem od_exists_orbit (S : OdSetup r e0 p c σ B) {w : Fin n → K} (hw : herm
     · subst hij
       exact key i i le_rfl hi
     · rw [herm_conj σ S.hσσ (odBv B (j : ℤ) w') (odBv B (i : ℤ) w'),
-        key j i hle hi, if_neg (Ne.symm hij), if_neg hij, map_zero]
+        key j i hle hi, ite_eq_right (Ne.symm hij), ite_eq_right hij, map_zero]
 
 end Herm
 

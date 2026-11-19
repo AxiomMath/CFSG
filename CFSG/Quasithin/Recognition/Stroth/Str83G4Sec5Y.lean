@@ -33,7 +33,7 @@ theorem str83G4_q2_le_normalizer_conjugate_x
   exact Subgroup.mem_normalizer_iff.mp (le_normalizer_str83X L1 L2 S hq'P) _
 
 theorem str83G4_y_le_q2
-    (hfr : Str83G4Frame L1 L2 S a) : str83Y L1 L2 S ≤ Q2 L1 L2 S := fun y hy =>
+    (hfr : Str83G4Frame L1 L2 S a) : str83Y L1 L2 S ≤ Q2 L1 L2 S := fun _y hy =>
   (Subgroup.mem_inf.mp (str83G4_centralizer_x_le hfr (str83G4_not_le_normalizer_z2 hfr)
     (Subgroup.mem_inf.mpr ⟨Subgroup.mem_sup_right (str83G4_q1_le_s hfr (Subgroup.mem_inf.mp hy).1),
       (Subgroup.mem_inf.mp hy).2⟩))).2

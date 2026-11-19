@@ -122,7 +122,7 @@ theorem outerPElementLifts_projectiveSL_of_not_dvd (N : ℕ) (K : Type) [Field K
     exact Nat.pow_succ_factorization_not_dvd e.pos.ne' hp (hcop.dvd_of_dvd_mul_right h1)
   intro y hy
   exact exists_lift_orderOf_eq_of_sylow_map (QuotientGroup.mk' (inner (projectiveSL N K)))
-    (QuotientGroup.mk'_surjective _) (fieldAut N K) hψ (S : Subgroup (K ≃+* K)) S.isPGroup'
+    (QuotientGroup.mk'_surjective _) (fieldAut N K) hψ (S : Subgroup (K ≃+* K)) S.isPGroup
     hidx hy
 
 theorem exists_orderOf_eq_not_mem_of_outerPElementLifts {X : Type} [Group X] [Finite X]

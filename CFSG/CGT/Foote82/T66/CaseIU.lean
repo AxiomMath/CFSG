@@ -39,7 +39,7 @@ theorem Hyp.gg_not_mem_normalizer (h : Hyp G L z v H₁ m ψ) :
   have hcA : c ∈ altOn {i : Fin (m + 6 + 2) | i ≠ 0 ∧ i ≠ 1} := by
     refine mem_altOn_iff.2 ⟨?_, fun x hx => ?_⟩
     · rw [Equiv.Perm.mem_alternatingGroup, hc, map_mul, sign_swap h24, sign_swap h45]; rfl
-    · simp only [Set.mem_setOf_eq, not_and_or, not_not] at hx
+    · simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hx
       have h04 : (0 : Fin (m + 6 + 2)) ≠ 4 := Fin.ne_of_val_ne (show (0 : ℕ) ≠ 4 by decide)
       have h05 : (0 : Fin (m + 6 + 2)) ≠ 5 := Fin.ne_of_val_ne (show (0 : ℕ) ≠ 5 by decide)
       have h14 : (1 : Fin (m + 6 + 2)) ≠ 4 := Fin.ne_of_val_ne (show (1 : ℕ) ≠ 4 by decide)
@@ -83,10 +83,12 @@ theorem Hyp.odd_card_CH (h : Hyp G L z v H₁ m ψ) :
     alternatingGroup (Fin (m + 6 + 2)) →* GLV V :=
   (pe ψ).comp (alternatingGroup (Fin (m + 6 + 2))).subtype
 
+omit [Finite V] in
 theorem jH_apply (a : alternatingGroup (Fin (m + 6 + 2))) :
     jH ψ a = pe ψ (a : Perm (Fin (m + 6 + 2))) := rfl
 
-theorem jH_injective : Function.Injective (jH ψ) := fun a b hab =>
+omit [Finite V] in
+theorem jH_injective : Function.Injective (jH ψ) := fun _a _b hab =>
   Subtype.ext (pe_injective hab)
 
 theorem Hyp.range_jH (h : Hyp G L z v H₁ m ψ) : (jH ψ).range = HH G L v := by
@@ -140,7 +142,7 @@ theorem eq_one_of_isPGroup_of_odd {Γ : Type*} [Group Γ] {Q K : Subgroup Γ} (h
 theorem Hyp.card_le_of_isPGroup (h : Hyp G L z v H₁ m ψ) {Q : Subgroup (GLV V)}
     (hQ : Q ≤ G ⊓ Subgroup.normalizer (HH G L v : Set (GLV V))) (hQ2 : IsPGroup 2 Q)
     (P : Sylow 2 (Perm (Fin (m + 6 + 2)))) : Nat.card Q ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, -, hθ1, -⟩ := h.exists_thetaH
   let X := G ⊓ Subgroup.normalizer (HH G L v : Set (GLV V))
   let Q' : Subgroup ↥X := Q.subgroupOf X
@@ -204,6 +206,7 @@ theorem Hyp.card_le_two_of_centralizer (h : Hyp G L z v H₁ m ψ) {Q : Subgroup
   rw [Nat.card_eq_fintype_card, Fintype.card_coe]
   exact Finset.card_le_two
 
+omit [Finite V] in
 theorem isComponentOf_conj {A K : Subgroup (GLV V)} (hA : IsComponentOf A K) (x : GLV V) :
     IsComponentOf (A.map (MulAut.conj x).toMonoidHom) (K.map (MulAut.conj x).toMonoidHom) := by
   refine ⟨Subgroup.map_mono hA.1, hA.2.1.map _, ?_⟩
@@ -224,7 +227,7 @@ theorem Hyp.normalizer_U_le (h : Hyp G L z v H₁ m ψ) {x : GLV V} (hxG : x ∈
     obtain ⟨w', hw'⟩ := hfs ⟨w, hw⟩
     have : x (w' : V) = w := congrArg Subtype.val hw'
     rw [← this]
-    simpa using w'.2
+    simp
   have hCU : (CU G z ψ).map (MulAut.conj x).toMonoidHom = CU G z ψ := by
     ext c
     constructor

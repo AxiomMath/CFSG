@@ -34,7 +34,7 @@ theorem rk3CasesOther_mRank_B {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) 
 theorem rk3CasesOther_mRank_G2 {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (z : ℕ) :
     mRankChev (.G2 Q) 3 z = 2 := by
   show rkG2 Q.card 3 = 2
-  rw [rkG2, rk3CasesOther_eS hQ, if_pos rfl]
+  rw [rkG2, rk3CasesOther_eS hQ, ite_eq_left rfl]
 
 theorem rk3CasesOther_mRank_D {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 4 ≤ l)
     (z : ℕ) : 4 ≤ mRankChev (.D l Q) 3 z := by
@@ -42,9 +42,9 @@ theorem rk3CasesOther_mRank_D {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) 
   unfold rkOmPlus
   rw [rk3CasesOther_eS hQ, rk3CasesOther_eP hQ]
   by_cases hn : Even Q.exponent
-  · rw [if_pos hn]
+  · rw [ite_eq_left hn]
     split_ifs <;> omega
-  · rw [if_neg hn]
+  · rw [ite_eq_right hn]
     split_ifs <;> omega
 
 theorem rk3CasesOther_mRank_tD {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (z : ℕ) :
@@ -56,7 +56,7 @@ theorem rk3CasesOther_mRank_tD {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2)
 theorem rk3CasesOther_mRank_tD_four {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (z : ℕ) :
     mRankChev (.twistedD 4 Q) 3 z = 3 := by
   have h := rk3CasesOther_mRank_tD (l := 4) hQ z
-  rw [if_pos (rk3CasesOther_eP_dvd_four hQ)] at h
+  rw [ite_eq_left (rk3CasesOther_eP_dvd_four hQ)] at h
   omega
 
 theorem rk3CasesOther_mRank_tD_ge {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 5 ≤ l)

@@ -19,6 +19,7 @@ theorem le_oddCore_of_normal_of_odd {M : Type*} [Group M] {N : Subgroup M} (hN :
     (hodd : Odd (Nat.card N)) : N ≤ CFSG.oddCore M :=
   le_sSup ⟨hN, hodd⟩
 
+omit [Finite X] in
 theorem commutator_eq_bot_of_odd_card {L E : Subgroup X} (hO : CFSG.oddCore L = ⊥)
     (hEL : E ≤ normalizer (L : Set X)) (hodd : Odd (Nat.card (⁅E, L⁆ : Subgroup X))) :
     ⁅E, L⁆ = ⊥ := by
@@ -33,6 +34,7 @@ theorem commutator_eq_bot_of_odd_card {L E : Subgroup X} (hO : CFSG.oddCore L = 
   rw [hO, le_bot_iff, subgroupOf_eq_bot] at h
   exact (inf_eq_left.mpr hle).symm.trans (disjoint_iff.mp h)
 
+omit [Finite X] in
 theorem le_centralizer_of_odd_of_le_normalizer {L E : Subgroup X} (hO : CFSG.oddCore L = ⊥)
     (hEL : E ≤ normalizer (L : Set X)) (hLE : L ≤ normalizer (E : Set X))
     (hE : Odd (Nat.card E)) : E ≤ centralizer (L : Set X) := by
@@ -43,11 +45,11 @@ theorem le_centralizer_of_odd_of_le_normalizer {L E : Subgroup X} (hO : CFSG.odd
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp (commutator_eq_bot_of_odd_card hO hEL hodd)
 
 theorem sup_inf_centralizer_eq_bot {J U : Subgroup X} (hJn : J.Normal) (hJUn : (J ⊔ U).Normal)
-    (hZ : center J = ⊥) (hUJ : U ≤ normalizer (J : Set X)) (hU : Odd (Nat.card U))
+    (hZ : center J = ⊥) (_hUJ : U ≤ normalizer (J : Set X)) (hU : Odd (Nat.card U))
     (hO : CFSG.oddCore X = ⊥) : (J ⊔ U) ⊓ centralizer (J : Set X) = ⊥ := by
-  haveI := hJn
-  haveI := hJUn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hJn
+  have := hJUn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNodd : Odd (Nat.card ↥((J ⊔ U) ⊓ centralizer (J : Set X))) := by
     by_contra heven
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at heven
@@ -85,7 +87,7 @@ theorem pgl2_eq_bot_of_normal_of_odd {F : Type} [Field F] [Finite F]
   set g := Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)
   have hg : Function.Injective g := Matrix.ProjectiveSpecialLinearGroup.toPGL_injective
   have hNJ : N ≤ g.range := le_of_index_eq_two_of_odd (pgl2_index_range_toPGL hF) hodd
-  haveI : (N.comap g).Normal := hN.comap g
+  have : (N.comap g).Normal := hN.comap g
   have h := CFSG.ABGDGroups.eq_bot_of_normal_of_odd_card_psl2 hF (N.comap g)
     (by rwa [card_comap_of_le_range g hg hNJ])
   rw [← map_comap_eq_self hNJ, h, Subgroup.map_bot]
@@ -103,14 +105,14 @@ theorem oddCore_eq_bot_of_isL2PGL2OrA7OrV4 {L : Type*} [Group L] [Finite L]
     (hL : IsL2PGL2OrA7OrV4 L) : CFSG.oddCore L = ⊥ := by
   rcases hL with (⟨⟨e⟩⟩ | ⟨p, k, hp, hp2, hq, ⟨e⟩⟩) | ⟨p, k, hp, hp2, hq, ⟨e⟩⟩ | hV
   · refine oddCore_eq_bot_of_mulEquiv e fun N hN hodd => ?_
-    haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI := hN
+    have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h
     · rw [h, card_top, CFSG.ABGDGroups.card_alternatingGroup_fin_seven] at hodd
       exact absurd hodd (by decide)
   · refine oddCore_eq_bot_of_mulEquiv e fun N hN hodd => ?_
-    haveI := hN
+    have := hN
     exact CFSG.ABGDGroups.eq_bot_of_normal_of_odd_card_psl2
       (isOddPrimePower_card_galoisField hp2 (by omega)) N hodd
   · exact oddCore_eq_bot_of_mulEquiv e fun N hN hodd =>
@@ -130,6 +132,7 @@ section FourGroup
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem range_subtype_comp_symm {M : Type*} [Group M] {L : Subgroup X} (e : L ≃* M) :
     (L.subtype.comp e.symm.toMonoidHom).range = L := by
   ext x
@@ -139,11 +142,13 @@ theorem range_subtype_comp_symm {M : Type*} [Group M] {L : Subgroup X} (e : L �
   · intro hx
     exact ⟨e ⟨x, hx⟩, by simp⟩
 
+omit [Finite X] in
 theorem mul_comm_of_isCyclic {R : Subgroup X} (hR : IsCyclic R) {x y : X} (hx : x ∈ R)
     (hy : y ∈ R) : x * y = y * x := by
-  letI := IsCyclic.commGroup (α := R)
+  let := IsCyclic.commGroup (α := R)
   exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : R) ⟨y, hy⟩)
 
+omit [Finite X] in
 theorem eq_bot_of_le_of_isKleinFour {L K : Subgroup X} (hL : IsKleinFour L) (hKL : K ≤ L)
     (hK : Odd (Nat.card K)) : K = ⊥ := by
   have hdvd : Nat.card K ∣ 2 ^ 2 := by
@@ -225,13 +230,14 @@ theorem exists_le_centralizer_of_odd_of_kleinFour_le_normalizer
     (hVK : V ≤ normalizer (K : Set X)) : ∃ a ∈ V, a ≠ 1 ∧ K ≤ centralizer ({a} : Set X) :=
   (isCyclic_and_exists_le_centralizer_of_odd hL hV hVL hKL hK hVK).2
 
+omit [Finite X] in
 theorem exists_isCyclic_forall_odd_mem_inf_centralizer {L : Subgroup X}
     (hL : IsL2PGL2OrA7OrV4 L) {a : X} (haL : a ∈ L) (ha : orderOf a = 2) :
     ∃ R : Subgroup X, R ≤ L ⊓ centralizer ({a} : Set X) ∧ IsCyclic R ∧
       ∀ x ∈ L ⊓ centralizer ({a} : Set X), Odd (orderOf x) → x ∈ R := by
   rcases hL with (⟨⟨e⟩⟩ | ⟨p, k, hp, hp2, hq, ⟨e⟩⟩) | ⟨p, k, hp, hp2, hq, ⟨e⟩⟩ | hL4
   · obtain ⟨U, hU, hUc, hodd⟩ := exists_card_eq_three_forall_odd_mem_of_aSeven e haL ha
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact ⟨U, hU, isCyclic_of_prime_card hUc, hodd⟩
   · have hF := isOddPrimePower_card_galoisField hp2 (by omega : 3 ≤ p ^ k)
     have ht : orderOf (e ⟨a, haL⟩) = 2 := by
@@ -269,7 +275,7 @@ theorem exists_isSylowOf_inf_centralizer_forall_le {L : Subgroup X} (hL : IsL2PG
 
 theorem odd_card_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q : Subgroup X}
     (hQ : IsPGroup p Q) : Odd (Nat.card Q) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hQ.exists_card_eq
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
@@ -330,7 +336,7 @@ theorem hasDihedralSylowTwo_of_isL2OrA7 {L : Type*} [Group L] [Finite L] {qmin :
 theorem exists_mem_normalizer_sq_not_mem_centralizer_of_isL2OrA7 {L V : Subgroup X}
     (hL : IsL2OrA7 L 5) (hV : IsKleinFour V) (hVL : V ≤ L) :
     ∃ g ∈ L ⊓ normalizer (V : Set X), g ^ 2 ∉ centralizer (V : Set X) := by
-  haveI : IsSimpleGroup L := isSimpleGroup_of_isL2OrA7 le_rfl hL
+  have : IsSimpleGroup L := isSimpleGroup_of_isL2OrA7 le_rfl hL
   have h4 : 4 < Nat.card L := by
     have := sixty_le_card_of_isL2OrA7 le_rfl hL
     omega
@@ -372,7 +378,7 @@ theorem exists_conj_eq_of_isPGroup_ne_bot
     (hPap : IsPGroup p Pa) (hPa1 : Pa ≠ ⊥) (hPb : Pb ≤ L ⊓ centralizer ({b} : Set X))
     (hPbp : IsPGroup p Pb) (hPb1 : Pb ≠ ⊥) :
     ∃ g ∈ L ⊓ normalizer (V : Set X), g * a * g⁻¹ = b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hL with (hL7 | hLpsl) | ⟨r, k, hr, hr2, hq, ⟨e⟩⟩ | hL4
   · exact exists_conj_eq_of_mem_kleinFour (Or.inl hL7) hV hVL ha ha1 hb hb1
   · exact exists_conj_eq_of_mem_kleinFour (Or.inr hLpsl) hV hVL ha ha1 hb hb1

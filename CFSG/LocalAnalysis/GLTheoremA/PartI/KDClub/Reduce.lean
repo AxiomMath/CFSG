@@ -187,7 +187,7 @@ theorem kdClub_of_at (h : ∀ i : TauCeti.CFSGIndex, clubIndex i → KDClubAt i.
   exact (clubData_congr eJ).1 ⟨c, cat⟩
 
 theorem kdClubAt_of_solvable {S : Type} [Group S] [Finite S]
-    (h : ∀ α : MulAut S, α ≠ 1 → α ^ 3 = 1 → IsSolvable ↥(fixSub α)) : KDClubAt S := by
+    (h : ∀ α : MulAut S, α ≠ 1 → α ^ 3 = 1 → Group.IsSolvable ↥(fixSub α)) : KDClubAt S := by
   intro α hα1 hα3 J hJ
   exfalso
   have hsolv : Group.IsSolvable ↥(fixSub α) := h α hα1 hα3

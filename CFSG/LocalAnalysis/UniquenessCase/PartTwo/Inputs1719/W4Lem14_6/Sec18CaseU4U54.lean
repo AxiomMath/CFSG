@@ -148,8 +148,8 @@ private theorem center_eq_bot_of_isSimpleGroup {X : Type} [Group X] [IsSimpleGro
   rcases (inferInstance : (Subgroup.center X).Normal).eq_bot_or_eq_top with hZ | hZ
   · exact hZ
   · exfalso
-    haveI hq' : Nontrivial (X ⧸ Subgroup.center X) := hq.toNontrivial
-    haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+    have hq' : Nontrivial (X ⧸ Subgroup.center X) := hq.toNontrivial
+    have : Subsingleton (X ⧸ Subgroup.center X) := by
       refine ⟨fun a b => ?_⟩
       induction a using QuotientGroup.induction_on with
       | H a =>
@@ -367,7 +367,7 @@ theorem concl146_of_caseI_U4
     (hX : L = ⨆ g ∈ Y, L.map (MulAut.conj g).toMonoidHom) (hU4 : IsU4 ↥L n)
     (hn : 1 < n) (hfix : fixV L = ⊥) (hm : 3 < E3.mParam Y)
     (hle : E3.mParam Y ≤ max (bParam L Y) n + 2) : Sec18Concl Y L L n := by
-  haveI hLsimple : IsSimpleGroup ↥L :=
+  have hLsimple : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU4
   have hZ : Subgroup.center ↥L = ⊥ := center_eq_bot_of_isSimpleGroup hL.2.2.2
   have hoddZ : Odd (Nat.card ↥(Subgroup.center ↥L)) := by
@@ -478,7 +478,7 @@ theorem concl146_of_caseI_U4
       obtain ⟨J, hJs, hJnot⟩ := Set.not_subset.mp hsingle
       have hJI : J ≠ I := by
         intro h
-        exact hJnot (by simpa [h] using Set.mem_singleton I)
+        exact hJnot (by simp [h])
       have hJirr : J ∈ irrSet L := hsL hJs
       have h2D : 2 * rk ↥I ≤ rk ↥(sSup s) :=
         two_mul_rk_le_of_second hsind hIs hJs hJI (hrkJ J hJirr)
@@ -630,7 +630,7 @@ theorem concl146_of_caseI_U4
       obtain ⟨J, hJs, hJnot⟩ := Set.not_subset.mp hsingle
       have hJI : J ≠ I := by
         intro h
-        exact hJnot (by simpa [h] using Set.mem_singleton I)
+        exact hJnot (by simp [h])
       have hJirr : J ∈ irrSet L := hsL hJs
       by_cases hsingle2 : s ⊆ {I, J}
       ·
@@ -800,7 +800,7 @@ theorem concl146_of_caseI_U4
       obtain ⟨J, hJs, hJnot⟩ := Set.not_subset.mp hsingle
       have hJI : J ≠ I := by
         intro h
-        exact hJnot (by simpa [h] using Set.mem_singleton I)
+        exact hJnot (by simp [h])
       have h2m : 2 * E3.mParam (autSub Y I) ≤ E3.mParam Y :=
         h2m_of J hJs hJI
       have hmN5 : 5 ≤ E3.mParam (autSub Y I) := by
@@ -823,7 +823,7 @@ theorem false_of_caseI_U54
     (hX : L = ⨆ g ∈ Y, L.map (MulAut.conj g).toMonoidHom) (hU5 : LieModel ↥L .PSU 5 2 2)
     (hfix : fixV L = ⊥) (hm : 3 < E3.mParam Y)
     (hle : E3.mParam Y ≤ max (bParam L Y) 2 + 2) : False := by
-  haveI hLsimple : IsSimpleGroup ↥L :=
+  have hLsimple : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU5
   have hZ : Subgroup.center ↥L = ⊥ := center_eq_bot_of_isSimpleGroup hL.2.2.2
   have hoddZ : Odd (Nat.card ↥(Subgroup.center ↥L)) := by

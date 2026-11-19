@@ -169,7 +169,7 @@ theorem sDN : ∀ c < SD.cnt * 4, findPtK SD.cnt SD.T (conjQK 3850 12 (mask 12) 
   have hc := sbase_parts.2.2.1
   have hk : c / 64 < 4 := by omega
   exact slK_spec (nqD_all (c / 64) hk) c (by change 64 * (c / 64) ≤ c; omega)
-    (by change c < 64 * (c / 64) + 64; omega) (by change c < Nat.mul SD.cnt 4; omega)
+    (by change c < 64 * (c / 64) + 64; omega) (by omega)
 
 theorem harSOK_true :
     harSOK = true := by

@@ -91,19 +91,19 @@ theorem kdCharPAt_of_bridge_E {τ : Tag}
 theorem kdCharPAt_E6 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E6 q).Valid) {p : ℕ}
     (hp2 : p ≠ 2) (hpq : p = q.p) : KDCharPAt p (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group :=
   kdCharPAt_of_bridge_E (τ := .E6)
-    (fun K _ _ J hJ α hα => mem_diagonalFieldActors_E6_of_fixes_radical hJ hα)
+    (fun _K _ _ _J hJ _α hα => mem_diagonalFieldActors_E6_of_fixes_radical hJ hα)
     CFSG.TauCetiBridge.chevalleyBridges.e6 q hv hp2 hpq
 
 theorem kdCharPAt_E7 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E7 q).Valid) {p : ℕ}
     (hp2 : p ≠ 2) (hpq : p = q.p) : KDCharPAt p (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group :=
   kdCharPAt_of_bridge_E (τ := .E7)
-    (fun K _ _ J hJ α hα => mem_diagonalFieldActors_of_E7_E8 (Or.inl rfl) α)
+    (fun _K _ _ _J _hJ α _hα => mem_diagonalFieldActors_of_E7_E8 (Or.inl rfl) α)
     CFSG.TauCetiBridge.chevalleyBridges.e7 q hv hp2 hpq
 
 theorem kdCharPAt_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8 q).Valid) {p : ℕ}
     (hp2 : p ≠ 2) (hpq : p = q.p) : KDCharPAt p (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
   kdCharPAt_of_bridge_E (τ := .E8)
-    (fun K _ _ J hJ α hα => mem_diagonalFieldActors_of_E7_E8 (Or.inr rfl) α)
+    (fun _K _ _ _J _hJ α _hα => mem_diagonalFieldActors_of_E7_E8 (Or.inr rfl) α)
     CFSG.TauCetiBridge.chevalleyBridges.e8 q hv hp2 hpq
 
 theorem kdCharPAt_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).Valid) {p : ℕ}
@@ -127,8 +127,8 @@ theorem kdCharPAt_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).
 theorem kdCharPAt_adjointG2_three {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite K] [CharP K 3]
     (hK : Nat.card K = 3 ^ f) {S : Type} [Group S] (e : S ≃* adjointGroup .G2 K) :
     KDCharPAt 3 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
   have hd := pCharData_adjoint_top_of_outer ReeTag.G2.tag K 3 (g2_three_sq_mem hf hK)
     (fun J hJ α hfix hsq => g2_three_hOut hf hK hJ α hfix hsq)
   exact kdCharPAt_of_model e (holds_adjointGroup_tag .G2 K 3) center_adjointGroup_eq_bot hd
@@ -146,7 +146,7 @@ theorem kdCharPAt_G2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 q).
       QuotientGroup.quotientBot)
   subst hpq
   by_cases h3 : q.p = 3
-  · haveI : CharP K 3 := CharP.congr q.p h3
+  · have : CharP K 3 := CharP.congr q.p h3
     have hK3 : Nat.card K = 3 ^ q.exponent := by rw [hK, h3]
     rw [h3]
     exact kdCharPAt_adjointG2_three q.exponent_pos K hK3 e

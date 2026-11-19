@@ -221,7 +221,7 @@ theorem false_of_normalizing_class (hGraph : FinGraphOdd) {G : Type} [Group G] [
       change orderOf T ∣ 2 ∨ Odd (orderOf T)
       have hprod : T = ⟨α w, MonoidHom.mem_range.mpr ⟨w, rfl⟩⟩ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only
         change (α n * α gal * (α n)⁻¹) * (α n' * α gal * (α n')⁻¹) = α w
         rw [show w = (n * gal * n⁻¹) * (n' * gal * n'⁻¹) from rfl]
         simp only [map_mul, map_inv]

@@ -650,7 +650,7 @@ theorem s4054_codes (gA gB : Perm (Fin 11)) (E : List (Perm (Fin 11)))
     ∧ (OddOK m11mul 1 495 E I O)
     ∧ (QuatAll m11mul 1 E I)
     ∧ (CoreAll m11mul 1 m11inv E I) := by
-  simp only [CenterOK, OddOK, QuatAll, CoreAll, QuatOK, CoreOK, lpow_eq, lpow_mul, m11mul_eq,
+  simp only [CenterOK, OddOK, QuatAll, CoreAll, QuatOK, CoreOK, lpow_mul, m11mul_eq,
     m11inv_eq]
   rw [codeS] at ha hb
   set G := Subgroup.closure ({gA, gB} : Set (Perm (Fin 11))) with hGdef

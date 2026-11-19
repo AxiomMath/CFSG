@@ -51,7 +51,7 @@ theorem mem_ggMultVecs {k t : ℕ} {m : List ℕ} :
   | zero =>
       by_cases ht : t = 0
       · subst ht
-        rw [ggMultVecs, if_pos rfl]
+        rw [ggMultVecs, ite_eq_left rfl]
         constructor
         · intro h
           rw [List.mem_singleton] at h
@@ -61,7 +61,7 @@ theorem mem_ggMultVecs {k t : ℕ} {m : List ℕ} :
           rw [List.length_eq_zero_iff] at hlen
           rw [hlen]
           simp
-      · rw [ggMultVecs, if_neg ht]
+      · rw [ggMultVecs, ite_eq_right ht]
         constructor
         · intro h
           exact False.elim ((List.mem_nil_iff m).mp h)
@@ -223,7 +223,7 @@ theorem mem_ggMultTableCl_C {r p n : ℕ} {D : GGKacDatum} (hd : ggMultOrd p n �
     D ∈ ggMultTableCl (.C r) false p n ↔
       ∃ m : List ℕ, m.length = (p - 1) / 2 + 1 ∧ m.sum = r ∧
         D = ggMultDatumC p n (ggMultOrd p n) m := by
-  simp only [ggMultTableCl, if_neg hd, List.mem_map]
+  simp only [ggMultTableCl, ite_eq_right hd, List.mem_map]
   constructor
   · rintro ⟨m, hm, hmD⟩
     obtain ⟨hlen, hsum⟩ := mem_ggMultVecs.mp hm
@@ -236,7 +236,7 @@ theorem mem_ggMultTableCl_D {r p n : ℕ} {tw : Bool} {D : GGKacDatum} (hd : ggM
       ∃ m : List ℕ, m.length = (p - 1) / 2 + 1 ∧ m.sum = r ∧
         (m.headD 0 = 0 → ggMultEps0 p (ggMultOrd p n) tw m = true) ∧
         D = ggMultDatumD p n (ggMultOrd p n) tw m := by
-  simp only [ggMultTableCl, if_neg hd, List.mem_flatMap]
+  simp only [ggMultTableCl, ite_eq_right hd, List.mem_flatMap]
   constructor
   · rintro ⟨m, hm, hDm⟩
     obtain ⟨hlen, hsum⟩ := mem_ggMultVecs.mp hm
@@ -254,7 +254,7 @@ theorem mem_ggMultTableCl_A {r p n : ℕ} {tw : Bool} {D : GGKacDatum} (hd : ggM
         ((tw = false ∧ ggMultOrd p n = 1) ∨ (tw = true ∧ ggMultOrd p n = 2) ∨
           ∀ j, j < p → m.getD ((p - j) % p) 0 = m.getD j 0) ∧
         D = ggMultDatumA p n (ggMultOrd p n) tw m := by
-  simp only [ggMultTableCl, if_neg hd, List.mem_map, List.mem_filter]
+  simp only [ggMultTableCl, ite_eq_right hd, List.mem_map, List.mem_filter]
   constructor
   · rintro ⟨m, ⟨hm, hQ⟩, hmD⟩
     obtain ⟨hlen, hsum⟩ := mem_ggMultVecs.mp hm

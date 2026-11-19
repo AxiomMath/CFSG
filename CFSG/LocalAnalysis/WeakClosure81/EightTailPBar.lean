@@ -29,7 +29,8 @@ theorem conjSubgroup_le_kGenIn_of_mem_H (h : Hyp83 V H T) (hKT : H = kGenIn V H 
   rw [he] at hmem
   rwa [h.conjClosure_eq_kGenIn hKT] at hmem
 
-theorem exists_barMap_eCent (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T) :
+omit [Finite G] in
+theorem exists_barMap_eCent (h : Hyp83 V H T) (_hKT : H = kGenIn V H ⊔ T) :
     ∃ (X : Type) (_ : Group X) (φ : ↥(kGenIn V H) →* X),
       IsBarMap (kGenIn V H) (Subgroup.centralizer (eSub V H T : Set G)) φ := by
   let N := (Subgroup.centralizer (eSub V H T : Set G)).subgroupOf (kGenIn V H)
@@ -91,7 +92,7 @@ theorem not_conjSubgroup_le_centralizer_eSub (h : Hyp83 V H T) (hKT : H = kGenIn
 variable {X : Type} [Group X] {φ : ↥(kGenIn V H) →* X}
 
 theorem odd_card_center_bar (s : TailSetup V H T φ) : Odd (Nat.card (Subgroup.center X)) := by
-  haveI : Finite X := Finite.of_surjective φ s.bar.surjective
+  have : Finite X := Finite.of_surjective φ s.bar.surjective
   have hno : ∀ z ∈ Subgroup.center X, z * z = 1 → z = 1 := by
     intro z hz hzz
     obtain ⟨y, hy⟩ := s.bar.surjective z
@@ -107,7 +108,7 @@ theorem odd_card_center_bar (s : TailSetup V H T φ) : Odd (Nat.card (Subgroup.c
       mem_eCentSet_of_mem_centerPre s.hyp83 s.eq_sup hyPre hyy
     rw [← hy]
     exact (s.bar.ker_iff y).mpr hyC
-  haveI : Fintype (Subgroup.center X) := Fintype.ofFinite _
+  have : Fintype (Subgroup.center X) := Fintype.ofFinite _
   by_contra hodd
   rw [Nat.not_odd_iff_even, even_iff_two_dvd, Nat.card_eq_fintype_card] at hodd
   obtain ⟨z, hz2⟩ := exists_prime_orderOf_dvd_card 2 hodd
@@ -124,7 +125,7 @@ theorem conjSubgroup_eq_of_barSub_eq (s : TailSetup V H T φ) {a a' : G} (ha : a
     conjSubgroup V a = conjSubgroup V a' := by
   classical
   have hnot := not_conjSubgroup_le_centralizer_eSub s.hyp83 s.eq_sup ha
-  rw [SetLike.le_def] at hnot
+  rw [_root_.IsConcreteLE.le_iff] at hnot
   obtain ⟨x, hx⟩ := not_forall.mp hnot
   obtain ⟨hxA, hxC⟩ := not_imp.mp hx
   have hxK : x ∈ kGenIn V H := conjSubgroup_le_kGenIn_of_mem_H s.hyp83 s.eq_sup ha hxA
@@ -142,7 +143,7 @@ theorem conjSubgroup_eq_of_barSub_eq (s : TailSetup V H T φ) {a a' : G} (ha : a
 
 theorem exists_sylow_barSub_T (s : TailSetup V H T φ) :
     ∃ P : Sylow 2 X, (P : Subgroup X) = barSub (kGenIn V H) φ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKH : kGenIn V H ≤ H := kGenIn_le_H s.hyp83.le_H
   have hKN : ((kGenIn V H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr
@@ -156,6 +157,7 @@ theorem exists_sylow_barSub_T (s : TailSetup V H T φ) :
     (T.subgroupOf (kGenIn V H)).map φ
   rw [inf_subgroupOf_right]
 
+omit [Finite G] in
 private theorem w85g_barSub_cjSub_eq {K : Subgroup G} {Y : Type} [Group Y] {ψ : ↥K →* Y}
     {n : G} (hnK : n ∈ K) (hn1 : ψ ⟨n, hnK⟩ = 1) (A : Subgroup G) :
     barSub K ψ (cjSub n A) = barSub K ψ A := by
@@ -184,6 +186,7 @@ private theorem w85g_barSub_cjSub_eq {K : Subgroup G} {Y : Type} [Group Y] {ψ :
     simp only [map_mul, map_inv, hn1]
     group
 
+omit [Finite G] in
 private theorem w85g_exists_mul_eq_of_mem_sup_of_le_normalizer {S N : Subgroup G}
     (hN : S ≤ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ S ⊔ N) :
     ∃ s ∈ S, ∃ n ∈ N, s * n = x := by
@@ -203,6 +206,7 @@ private theorem w85g_exists_mul_eq_of_mem_sup_of_le_normalizer {S N : Subgroup G
       (Subgroup.mem_normalizer_iff.mp (hN hs) n⁻¹).mp (N.inv_mem hn), ?_⟩
     group
 
+omit [Finite G] in
 private theorem w85g_barSub_conjSubgroup {K : Subgroup G} {Y : Type} [Group Y] {ψ : ↥K →* Y}
     (A : Subgroup G) (k : ↥K) :
     barSub K ψ (conjSubgroup A (k : G)) = conjSubgroup (barSub K ψ A) (ψ k) := by
@@ -237,6 +241,7 @@ private theorem w85g_barSub_conjSubgroup {K : Subgroup G} {Y : Type} [Group Y] {
     rw [hay]
     group
 
+omit [Finite G] in
 private theorem w85g_mk_comp_eq_one_iff_centerPre {K N : Subgroup G} {Y : Type} [Group Y]
     {φ : ↥K →* Y} (hφ : IsBarMap K N φ) (k : ↥K) :
     (QuotientGroup.mk' (Subgroup.center Y)) (φ k) = 1 ↔ (k : G) ∈ centerPre K N := by
@@ -261,7 +266,7 @@ private theorem w85g_mk_comp_eq_one_iff_centerPre {K N : Subgroup G} {Y : Type} 
 theorem conjSubgroup_le_iff_barSub_le (s : TailSetup V H T φ) {a : G} (ha : a ∈ H) :
     conjSubgroup V a ≤ T ↔
       barSub (kGenIn V H) φ (conjSubgroup V a) ≤ barSub (kGenIn V H) φ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := kGenIn V H
   let C := Subgroup.centralizer (eSub V H T : Set G)
   let N := K ⊓ C
@@ -401,7 +406,7 @@ theorem weaklyClosed_of_bar (s : TailSetup V H T φ)
   exact hEq
 
 theorem isWeaklyClosedIn_of_sylow {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y}
-    {P Q : Sylow 2 Y} (hP : S ≤ (P : Subgroup Y)) (hQ : S ≤ (Q : Subgroup Y))
+    {P Q : Sylow 2 Y} (_hP : S ≤ (P : Subgroup Y)) (hQ : S ≤ (Q : Subgroup Y))
     (hw : IsWeaklyClosedIn S (P : Subgroup Y)) : IsWeaklyClosedIn S (Q : Subgroup Y) := by
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq Y P Q
   have hQz : (Q : Subgroup Y) = conjSubgroup (P : Subgroup Y) y⁻¹ := by
@@ -482,7 +487,8 @@ theorem exists_central_quotient (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T) {
     rw [← map_mul, ← map_mul]
     exact h1
 
-theorem nonempty_mulEquiv_of_kBarCenterShape_eCent (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T)
+omit [Finite G] in
+theorem nonempty_mulEquiv_of_kBarCenterShape_eCent (_h : Hyp83 V H T) (_hKT : H = kGenIn V H ⊔ T)
     {P : ∀ (Y : Type) [Group Y], Prop} (hP : KBarCenterShape V H T P)
     (hφ : IsBarMap (kGenIn V H) (Subgroup.centralizer (eSub V H T : Set G)) φ) :
     ∃ (Y : Type) (_ : Group Y), P Y ∧ Nonempty ((X ⧸ Subgroup.center X) ≃* Y) := by
@@ -507,15 +513,15 @@ private theorem w85g_eq_bot_of_odd_normal_perm {m : ℕ} (hm : 4 ≤ m)
     {N : Subgroup (Equiv.Perm (Fin m))} [hNN : N.Normal] (hodd : Odd (Nat.card N)) :
     N = ⊥ := by
   by_contra hbot
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hbot
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hbot
   have hm1 : Nat.card N ≠ 1 := by
-    haveI : Fintype N := Fintype.ofFinite N
+    have : Fintype N := Fintype.ofFinite N
     have : 1 < Nat.card N := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     omega
   obtain ⟨p, hpprime, hpdvd⟩ := Nat.exists_prime_and_dvd hm1
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hpodd : Odd p := Odd.of_dvd_nat hodd hpdvd
   obtain ⟨σN, hσorder⟩ := exists_prime_orderOf_dvd_card' p (by simpa using hpdvd)
   set σ : Equiv.Perm (Fin m) := (σN : Equiv.Perm (Fin m)) with hσdef
@@ -551,10 +557,10 @@ private theorem w85g_eq_bot_of_odd_normal_perm {m : ℕ} (hm : 4 ≤ m)
     ext x
     by_cases hx1 : x = σ a
     · subst hx1
-      simp [τ, Equiv.swap_apply_left, Equiv.swap_apply_right]
+      simp [τ, Equiv.swap_apply_left]
     by_cases hx2 : x = σ (σ a)
     · subst hx2
-      simp [τ, Equiv.swap_apply_left, Equiv.swap_apply_right]
+      simp [τ, Equiv.swap_apply_right]
     · have hx1' : σ⁻¹ x ≠ a := by
         intro h
         apply hx1
@@ -589,7 +595,7 @@ private theorem w85g_eq_bot_of_odd_normal_perm {m : ℕ} (hm : 4 ≤ m)
     exact (Subgroup.closure_le N).mpr fun d hd => hthree d hd
   have hdvd : Nat.card (alternatingGroup (Fin m)) ∣ Nat.card N :=
     Subgroup.card_dvd_of_le hAle
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have heven : Even (Nat.card (alternatingGroup (Fin m))) := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     have h4 : 4 ∣ m.factorial :=
@@ -617,7 +623,7 @@ theorem isSymGp_quot_fusionOddCore_of_center {Y : Type} [Group Y] [Finite Y] {m 
   have hker : π.ker = (fusionOddCore Y).map (QuotientGroup.mk' (Subgroup.center Y)) := by
     rw [QuotientGroup.ker_map]
     rfl
-  haveI : (π.ker.map e.toMonoidHom).Normal :=
+  have : (π.ker.map e.toMonoidHom).Normal :=
     Subgroup.Normal.map (inferInstance : π.ker.Normal) e.toMonoidHom e.surjective
   have hNodd : Odd (Nat.card (π.ker.map e.toMonoidHom)) := by
     rw [Subgroup.card_map_of_injective e.injective, hker]
@@ -645,7 +651,7 @@ theorem hyp85Three'_of_hyp85Three (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T)
   · refine Or.inr (Or.inr ⟨m, hm, ?_⟩)
     obtain ⟨Y, _, φ, hφ⟩ := exists_barMap_eCent h hKT
     obtain ⟨Z, _, ⟨e'⟩, ⟨e⟩⟩ := nonempty_mulEquiv_of_kBarCenterShape_eCent h hKT hP hφ
-    haveI : Finite Y := Finite.of_surjective φ hφ.surjective
+    have : Finite Y := Finite.of_surjective φ hφ.surjective
     exact ⟨Y, inferInstance, φ, hφ, isSymGp_quot_fusionOddCore_of_center (by omega)
       (odd_card_center_bar ⟨h, hKT, hφ⟩) ⟨e.trans e'⟩⟩
 

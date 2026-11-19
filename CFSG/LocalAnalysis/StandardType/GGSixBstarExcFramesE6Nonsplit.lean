@@ -99,7 +99,7 @@ theorem ggSixBstarExcFrameOn_E6NonsplitThree (hU : E6ThreeSCUnique) (hE : E6Thre
         (Nat.prime_three.dvd_of_dvd_pow hd)) (by norm_num)
     have hpos : 1 ≤ 2 ^ f := Nat.one_le_two_pow
     omega
-  haveI : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
+  have : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
   have hAel : IsElemAbelian 3 (Bs.comap χ) := isElemAbelian_comap_frame χ hχinj hBs
   have hAc : 3 ^ 4 ≤ Nat.card (Bs.comap χ) := by
     rw [card_comap_of_le_range χ hχinj hBsR]

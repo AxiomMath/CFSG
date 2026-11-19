@@ -85,7 +85,7 @@ private lemma transportMat_mul_transportMatInv {F : Type*} [Field F] (h3 : (3 : 
 private lemma minusQuadForm_comp_coordEquiv {F : Type*} [Field F] (b c : F) (w : Fin 6 → F) :
     CFSG.PGLModel.minusQuadForm 2 b c (w ∘ coordEquiv.symm) =
       w 0 * w 1 + w 2 * w 3 + w 4 ^ 2 + b * w 4 * w 5 + c * w 5 ^ 2 := by
-  simp [CFSG.PGLModel.minusQuadForm, CFSG.MatrixModel.minusQuadCore, coordEquiv,
+  simp [CFSG.PGLModel.minusQuadForm, coordEquiv,
     Fin.sum_univ_two]
 
 private lemma form_transportMat {F : Type*} [Field F] {b c : F} (h3 : (3 : F) = 0)
@@ -103,7 +103,7 @@ theorem exists_minusQuadForm_mulVec_eq_sumSqForm {F : Type*} [Field F] [Finite F
     (hF : Nat.card F = 3) {b c : F} (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     ∃ P : GL Six F, ∀ v : Six → F,
       CFSG.PGLModel.minusQuadForm 2 b c ((P : Matrix Six Six F) *ᵥ v) = sumSqForm v := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF

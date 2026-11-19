@@ -21,6 +21,7 @@ theorem mem_of_pow_mem_of_coprime' {G : Type*} [Group G] {H : Subgroup G} {g : G
 
 variable {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
 
+omit [Fact (Nat.Prime p)] in
 theorem isCyclic_of_comm_mem_frattini (T : Sylow p K)
     (hirr : ∀ V : Subgroup K, V ≤ T →
       ¬ V ≤ (frattini ↥(T : Subgroup K)).map (T : Subgroup K).subtype →
@@ -37,7 +38,7 @@ theorem isCyclic_of_comm_mem_frattini (T : Sylow p K)
       intro t _
       obtain ⟨u, hu, hut⟩ := hΦ t.2
       rwa [(T : Subgroup K).subtype_injective hut] at hu
-    haveI : Subsingleton ↥(T : Subgroup K) := by
+    have : Subsingleton ↥(T : Subgroup K) := by
       by_contra hns
       rw [not_subsingleton_iff_nontrivial] at hns
       have hlt : frattini ↥(T : Subgroup K) < ⊤ := by

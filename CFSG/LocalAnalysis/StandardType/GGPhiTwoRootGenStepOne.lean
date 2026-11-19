@@ -154,7 +154,7 @@ theorem range_le_iSup_phiTwoComp_of_ggTorusModelAt
     have h1 : Nat.card (Multiplicative (Fin τ.rank → ZMod p)) = p ^ τ.rank := by
       change Nat.card (Fin τ.rank → ZMod p) = p ^ τ.rank
       rw [Nat.card_fun]
-      simp [Nat.card_zmod]
+      simp
     rw [← h1]
     exact Nat.card_congr (Equiv.ofInjective T hTinj).symm
   have hcardE : Nat.card E = p ^ τ.rank := by
@@ -194,7 +194,7 @@ theorem range_le_iSup_phiTwoComp_of_ggTorusModelAt
     intro k
     change Nat.card (Fin k → ZMod p) = p ^ k
     rw [Nat.card_fun]
-    simp [Nat.card_zmod]
+    simp
   have hk : k = τ.rank := by
     have hcardrange : Nat.card τ'.range = Nat.card (Fin k → Multiplicative (ZMod p)) :=
       Nat.card_congr (Equiv.ofInjective τ' hτinj).symm

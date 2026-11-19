@@ -108,7 +108,7 @@ theorem tG2_comm_thetaG2 (K : Type) [Field K] (d : K) :
   ZMod.castHom (dvd_refl 3) K
 
 theorem iota3_injective (K : Type) [Field K] [CharP K 3] : Function.Injective (iota3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (iota3 K).injective
 
 @[expose] noncomputable def phiFun (K : Type) [Field K] [CharP K 3]
@@ -173,7 +173,7 @@ theorem g2_witness
     (hK : Nat.card K = 27) (hcomm : G2CommRes) (hdir : G2DirectRes)
     [Finite (AdjointQuotient Tag.G2 K)] :
     HasTwoLocalWitness (AdjointQuotient Tag.G2 K) 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Φ := (piQ K).comp (phiG K hcomm)
   have htt2 : ttG2 K * ttG2 K = 1 := Subtype.ext (tG2_mul_self K)
   have hu2 : piQ K (ttG2 K) ^ 2 = 1 := by
@@ -244,14 +244,14 @@ theorem i1432WitG2_G2
         exact dvd_pow_self 2 (Nat.pos_iff_ne_zero.1 q.exponent_pos)
       rw [hq] at hdvd
       norm_num at hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hK27 : Nat.card (GaloisField 3 3) = 27 := by
       rw [GaloisField.card 3 3 (by norm_num)]
       norm_num
     have hcard : Nat.card (GaloisField 3 3) = q.card := hK27.trans hq.symm
     obtain ⟨eK⟩ := CFSG.TauCetiBridge.untwistedBridge_G2 q hv hp2 (GaloisField 3 3) hcard
     have eS' : S ≃* AdjointQuotient Tag.G2 (GaloisField 3 3) := e.trans eK.symm
-    haveI : Finite (AdjointQuotient Tag.G2 (GaloisField 3 3)) := Finite.of_equiv S eS'.toEquiv
+    have : Finite (AdjointQuotient Tag.G2 (GaloisField 3 3)) := Finite.of_equiv S eS'.toEquiv
     exact CFSG.LocalAnalysis.GLTheoremA.H1420.WitD4.hasTwoLocalWitness_of_mulEquiv eS'
       (g2_witness (GaloisField 3 3) hK27 hcomm hdir)
   | _ => exact (hP : False).elim

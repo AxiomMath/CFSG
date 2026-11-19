@@ -270,7 +270,7 @@ theorem competitorsOn_klingen3 {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M R : S
     have : Finite (MulAut K') := MulEquiv.finite_left
     intro x hx
     rw [← hcfg'.rbar] at hx
-    obtain ⟨n, hn⟩ := Rbar'.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Rbar'.isPGroup ⟨x, hx⟩
     have hxn : x ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hmem := mem_sup_centralizer_of_pow hp hOut' hxn
     rwa [hC', sup_bot_eq] at hmem

@@ -73,7 +73,7 @@ theorem IsSemi.mul {g h : G} {σ τ : K ≃+* K} (h1 : IsSemi Ψ g σ) (h2 : IsS
     rw [hF's, hFs]
     rfl
 
-theorem isSemi_one : IsSemi Ψ (1 : G) 1 := ⟨id, fun X => one_smul _ _, fun _ _ => rfl⟩
+theorem isSemi_one : IsSemi Ψ (1 : G) 1 := ⟨id, fun _X => one_smul _ _, fun _ _ => rfl⟩
 
 theorem exists_conj_eq_of_inv {g : G} (h : ∀ γ, ∃ δ, g⁻¹ * π γ * g⁻¹⁻¹ = π δ)
     (δ : ↥(StatedSL 2 K)) : ∃ γ, g * π γ * g⁻¹ = π δ := by
@@ -122,7 +122,6 @@ theorem exists_form [Finite K] (hK : ringChar K = 2) (hΨ : IsCoord π Ψ) {g : 
     congr 2
     simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ hμ, one_smul]
   · rw [hα]
-    congr 1
     rw [eq_mul_inv_iff_mul_eq, ← map_mul, ← map_mul]
     congr 1
     apply slm_injective
@@ -196,13 +195,13 @@ theorem eq_bot_or_eq_lineSub (hΨ : IsCoord π Ψ) {r : Fin 2 → K} {J : Subgro
   let S : AddSubgroup (Fin 2 → K) :=
     { carrier := {w | Ψ (ofAdd (vecMulVec w r)) ∈ J}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, add_vecMulVec, ofAdd_add, map_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, add_vecMulVec, ofAdd_add, map_mul] at ha hb ⊢
         exact J.mul_mem ha hb
       zero_mem' := by
-        simp only [Set.mem_setOf_eq, zero_vecMulVec, ofAdd_zero, map_one]
+        simp only [Set.mem_ofPred_eq, zero_vecMulVec, ofAdd_zero, map_one]
         exact J.one_mem
       neg_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, neg_vecMulVec, ofAdd_neg, map_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, neg_vecMulVec, ofAdd_neg, map_inv] at ha ⊢
         exact J.inv_mem ha }
   have hS : S = ⊤ := by
     refine eq_top_of_slMulVec_mem le_rfl (S := S) (fun γ w hw => ?_) (v := v) ?_ ?_
@@ -292,7 +291,7 @@ theorem exists_fixed_lineSub [Finite K] (hK : ringChar K = 2) (hΨ : IsCoord π 
       rw [h1, ← hΨ.2, Matrix.mul_one, e]
     rw [smul_lineSub hact (hslu A), transpose_one, one_mulVec]
     rfl
-  haveI := isCyclic_ringEquiv (K := K)
+  have := isCyclic_ringEquiv (K := K)
   obtain ⟨⟨_, g₀, rfl⟩, hgen⟩ := IsCyclic.exists_generator (α := ↥s.range)
   obtain ⟨A₀, B₀, hB₀, hact₀, -⟩ := hform g₀
   have hCu : IsUnit B₀ᵀ := (Matrix.isUnit_transpose B₀).2 hB₀

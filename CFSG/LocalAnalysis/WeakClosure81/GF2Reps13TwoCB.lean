@@ -54,9 +54,9 @@ private theorem w16g_zmod3Pow_mem {G : Type*} [Group G] {E : Subgroup G} {y : G}
 theorem w16g_nonempty_mulEquiv_zwr_one {X : Type} [Group X] (hX : IsZ3WrZ3 X) :
     Nonempty (X ≃* CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.UC326.ZWr 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcard, z, b, hz3, hcomm, hb3, hconj, hgen⟩ := hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h01 : (0 : Fin 3) + 1 = 1 := by decide
   have h11 : (1 : Fin 3) + 1 = 2 := by decide
   have hm01 : (0 : Fin 3) - 1 = 2 := by decide
@@ -206,7 +206,7 @@ theorem w16g_nonempty_mulEquiv_zwr_one {X : Type} [Group X] (hX : IsZ3WrZ3 X) :
     rw [hcard] at hc
     omega
   have hdisj : Disjoint E (Subgroup.zpowers b) := by
-    haveI : Fact (Nat.card ↥(Subgroup.zpowers b)).Prime := ⟨by rw [hzpbcard]; norm_num⟩
+    have : Fact (Nat.card ↥(Subgroup.zpowers b)).Prime := ⟨by rw [hzpbcard]; norm_num⟩
     rw [disjoint_iff]
     have hsub := Subgroup.eq_bot_or_eq_top_of_prime_card
       ((E ⊓ Subgroup.zpowers b).subgroupOf (Subgroup.zpowers b))
@@ -235,7 +235,7 @@ theorem w16g_nonempty_mulEquiv_zwr_one {X : Type} [Group X] (hX : IsZ3WrZ3 X) :
         have h := hconj (i - 1)
         have hi : (i - 1) + 1 = i := by
           apply Fin.ext
-          simp [Fin.add_def]
+          simp
         rwa [hi] at h
     rw [himg]
   have hEcard : Nat.card ↥E = 27 := by
@@ -346,7 +346,7 @@ private def w16g_D : Subgroup w16g_ZWr1 where
 
 private theorem w16g_el_cube_zero (a b c : ZMod 3) : (el 1 a b c 0) ^ 3 = 1 := by
   have h3 : (el 1 a b c 0) ^ 3 = el 1 a b c 0 * el 1 a b c 0 * el 1 a b c 0 := by
-    simp [pow_succ, pow_two]
+    simp [pow_succ]
   rw [h3, el_mul_zero, el_mul_zero]
   have h3a : a + a + a = 0 := by
     have h : (3 : ZMod 3) = 0 := by decide
@@ -362,7 +362,7 @@ private theorem w16g_el_cube_zero (a b c : ZMod 3) : (el 1 a b c 0) ^ 3 = 1 := b
 private theorem w16g_el_cube_one (a b c : ZMod 3) :
     (el 1 a b c 1) ^ 3 = el 1 (a + b + c) (a + b + c) (a + b + c) 0 := by
   have h3 : (el 1 a b c 1) ^ 3 = el 1 a b c 1 * el 1 a b c 1 * el 1 a b c 1 := by
-    simp [pow_succ, pow_two]
+    simp [pow_succ]
   rw [h3]
   have hsq : el 1 a b c 1 * el 1 a b c 1 = el 1 (a + c) (b + a) (c + b) 2 := by
     rw [el_mul_one, show (1 : ZMod 3) + 1 = 2 by decide]
@@ -378,7 +378,7 @@ private theorem w16g_el_cube_one (a b c : ZMod 3) :
 private theorem w16g_el_cube_two (a b c : ZMod 3) :
     (el 1 a b c 2) ^ 3 = el 1 (a + b + c) (a + b + c) (a + b + c) 0 := by
   have h3 : (el 1 a b c 2) ^ 3 = el 1 a b c 2 * el 1 a b c 2 * el 1 a b c 2 := by
-    simp [pow_succ, pow_two]
+    simp [pow_succ]
   rw [h3]
   have hsq : el 1 a b c 2 * el 1 a b c 2 = el 1 (a + b) (b + c) (c + a) 1 := by
     rw [el_mul_two, show (2 : ZMod 3) + 2 = 1 by decide]
@@ -420,7 +420,7 @@ private theorem w16g_card_D : Nat.card w16g_D = 9 := by
       rw [show c + (a + b) = a + b + c by abel, hs]
     have hc : c = -(a + b) := eq_neg_of_add_eq_zero_left hs'
     apply Subtype.ext
-    simp only [w16g_hfun, Subtype.coe_mk]
+    simp only [w16g_hfun]
     rw [hc]
   have hle : Nat.card (ZMod 3 × ZMod 3) ≤ Nat.card w16g_D :=
     Nat.card_le_card_of_injective w16g_hfun hinj
@@ -547,7 +547,7 @@ private theorem w16g_card_M : Nat.card w16g_M = 27 := by
       rw [show c + (a + b) = a + b + c by abel, hs]
     have hc : c = -(a + b) := eq_neg_of_add_eq_zero_left hs'
     apply Subtype.ext
-    simp only [w16g_kfun, Subtype.coe_mk]
+    simp only [w16g_kfun]
     rw [hc]
   have hle : Nat.card ((ZMod 3 × ZMod 3) × ZMod 3) ≤ Nat.card w16g_M :=
     Nat.card_le_card_of_injective w16g_kfun hinj
@@ -569,7 +569,7 @@ private theorem w16g_M_le_sup : w16g_M ≤ w16g_D ⊔ Subgroup.zpowers w16g_b0 :
   have hd : el 1 a b c 0 ∈ w16g_D := ⟨a, b, c, hs, rfl⟩
   have hb0sq : w16g_b0 ^ 2 = el 1 0 0 0 2 := by
     rw [pow_two, w16g_b0, el_mul_one, show (1 : ZMod 3) + 1 = 2 by decide]
-    congr 2 <;> abel
+    congr 2
   have hpow : el 1 0 0 0 e ∈ Subgroup.zpowers w16g_b0 := by
     rcases zmod3_cases e with rfl | rfl | rfl
     · rw [el_zero_zero]
@@ -601,10 +601,10 @@ private theorem w16g_M_noncomm : ∃ x y : w16g_M, x * y ≠ y * x := by
   have h' := congrArg (fun z : w16g_M => (z : w16g_ZWr1)) h
   have hb0d : (w16g_b0 : w16g_ZWr1) * el 1 1 (-1) 0 0 = el 1 0 1 (-1) 1 := by
     rw [w16g_b0, el_mul_one, show (1 : ZMod 3) + 0 = 1 by decide]
-    congr 2 <;> abel
+    congr 2
   have hdb0 : el 1 1 (-1) 0 0 * (w16g_b0 : w16g_ZWr1) = el 1 1 (-1) 0 1 := by
     rw [w16g_b0, el_mul_zero]
-    congr 2 <;> abel
+    congr 2
   change (w16g_b0 : w16g_ZWr1) * el 1 1 (-1) 0 0 =
     el 1 1 (-1) 0 0 * (w16g_b0 : w16g_ZWr1) at h'
   rw [hb0d, hdb0] at h'
@@ -613,9 +613,9 @@ private theorem w16g_M_noncomm : ∃ x y : w16g_M, x * y ≠ y * x := by
   exact (by decide : (0 : ZMod 3) ≠ 1) (Multiplicative.ofAdd.injective hcoord)
 
 private theorem w16g_M_isPOnePlusTwo : IsPOnePlusTwo 3 ↥w16g_M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card ↥w16g_M = 27 := w16g_card_M
-  haveI : Finite ↥w16g_M := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥w16g_M := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hexp : ∀ x : ↥w16g_M, x ^ 3 = 1 := by
     intro x
     apply Subtype.ext
@@ -704,9 +704,9 @@ private theorem w16g_B_comm {a b : w16g_ZWr1} (ha : a ∈ w16g_B) (hb : b ∈ w1
 
 private theorem w16g_inf_B_le_D (Q : Subgroup w16g_ZWr1) (hQ : IsPOnePlusTwo 3 ↥Q) :
     Q ⊓ w16g_B ≤ w16g_D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hQext, hQcard, hQexp⟩ := hQ
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hQcomm : ¬ IsMulCommutative ↥Q := by
     intro hcomm
     have htop : Subgroup.center ↥Q = ⊤ := Subgroup.center_eq_top_iff.mpr hcomm
@@ -812,9 +812,9 @@ private theorem w16g_inf_B_le_D (Q : Subgroup w16g_ZWr1) (hQ : IsPOnePlusTwo 3 �
 
 private theorem w16g_card_inf_B (Q : Subgroup w16g_ZWr1) (hQ : IsPOnePlusTwo 3 ↥Q) :
     Nat.card ↥(Q ⊓ w16g_B) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hQext, hQcard, hQexp⟩ := hQ
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hQcomm : ¬ IsMulCommutative ↥Q := by
     intro hcomm
     have htop : Subgroup.center ↥Q = ⊤ := Subgroup.center_eq_top_iff.mpr hcomm
@@ -844,7 +844,7 @@ private theorem w16g_card_inf_B (Q : Subgroup w16g_ZWr1) (hQ : IsPOnePlusTwo 3 �
     simpa [ρ] using h
   have hM3card : Nat.card (Multiplicative (ZMod 3)) = 3 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  haveI : Fact (Nat.card (Multiplicative (ZMod 3))).Prime :=
+  have : Fact (Nat.card (Multiplicative (ZMod 3))).Prime :=
     ⟨by rw [hM3card]; norm_num⟩
   have hrange : Nat.card ↥ρ.range = 3 := by
     have hne : ρ.range ≠ ⊥ := by
@@ -886,10 +886,10 @@ private theorem w16g_inf_B_eq_D (Q : Subgroup w16g_ZWr1) (hQ : IsPOnePlusTwo 3 �
 
 private theorem w16g_b0_mem_of_isPOnePlusTwo (Q : Subgroup w16g_ZWr1)
     (hQ : IsPOnePlusTwo 3 ↥Q) : w16g_b0 ∈ Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ0 : IsPOnePlusTwo 3 ↥Q := hQ
   obtain ⟨hQext, hQcard, hQexp⟩ := hQ
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hQcomm : ¬ IsMulCommutative ↥Q := by
     intro hcomm
     have htop : Subgroup.center ↥Q = ⊤ := Subgroup.center_eq_top_iff.mpr hcomm
@@ -960,7 +960,7 @@ private theorem w16g_b0_mem_of_isPOnePlusTwo (Q : Subgroup w16g_ZWr1)
       exact Q.mul_mem hqQ hdQ
     have hb0sq : w16g_b0 ^ 2 = el 1 0 0 0 2 := by
       rw [pow_two, w16g_b0, el_mul_one, add_zero]
-      congr 2 <;> abel
+      congr 2
     have hsq2 : (el 1 0 0 0 2) ^ 2 = w16g_b0 := by
       rw [← hb0sq]
       have h4 : w16g_b0 ^ 4 = w16g_b0 := by
@@ -974,7 +974,7 @@ private theorem w16g_b0_mem_of_isPOnePlusTwo (Q : Subgroup w16g_ZWr1)
 private theorem w16g_isPOnePlusTwo_of_iso {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (f : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨CFSG.GH74.M12.Hyp.isExtraspecial_of_mulEquiv f hX, ?_, ?_⟩
   · rw [← Nat.card_congr f.toEquiv]; exact hc
   · intro y
@@ -997,7 +997,7 @@ private theorem w16g_eq_M_of_isPOnePlusTwo (Q : Subgroup w16g_ZWr1)
   exact (Subgroup.eq_of_le_of_card_ge hMQ hcard).symm
 
 private theorem w16g_center_le_M : Subgroup.center w16g_ZWr1 ≤ w16g_M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [center_eq_diag (n := 1) (by norm_num)]
   rintro c ⟨d, rfl⟩
   rw [w16g_mem_M]
@@ -1039,7 +1039,7 @@ theorem w16g_wr_unique_of_mulEquiv {X : Type} [Group X]
     intro y
     obtain ⟨x, rfl⟩ := e.surjective y
     rw [← map_mul, ← map_mul, hc x]
-  exact ⟨e c, w16g_center_le_M hce, by simp [M]⟩
+  exact ⟨e c, w16g_center_le_M hce, by simp⟩
 
 end W16GTwoCB
 

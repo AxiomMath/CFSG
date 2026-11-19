@@ -192,7 +192,7 @@ theorem ggTBTorC_holds : GGTBTorC := by
   · have hE : ggTorMpm p ⟨t, l, f⟩ = 2 ^ f - 1 := by
       unfold ggTorMpm
       dsimp only
-      rw [if_pos h]
+      rw [ite_eq_left h]
     rw [hE]
     exact hmain hoddm h fun hK => by
       have : CharP _ 2 := charP_two_of_card hK
@@ -207,7 +207,7 @@ theorem ggTBTorC_holds : GGTBTorC := by
     have hE : ggTorMpm p ⟨t, l, f⟩ = 2 ^ f + 1 := by
       unfold ggTorMpm
       dsimp only
-      rw [if_neg hn1]
+      rw [ite_eq_right hn1]
     rw [hE]
     exact hmain hoddp h fun hK => by
       have : CharP _ 2 := charP_two_of_card hK

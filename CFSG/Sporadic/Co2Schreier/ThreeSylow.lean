@@ -133,7 +133,7 @@ theorem eltE_mem_of_le_locP0
       have hjF : eltE enumP0 j ∈ F := (Finset.mem_filter.1 hj).2
       have hkF : eltE enumP0 k ∈ F := (Finset.mem_filter.1 hk).2
       have hcomm : eltE enumP0 j * eltE enumP0 k = eltE enumP0 k * eltE enumP0 j := by
-        letI := hF
+        let := hF
         exact congrArg Subtype.val (mul_comm' (⟨eltE enumP0 j, hjF⟩ : F)
           ⟨eltE enumP0 k, hkF⟩)
       exact (commA_iff (enumP0_facts.rep (Finset.mem_range.1

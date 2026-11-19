@@ -124,28 +124,28 @@ private theorem e6cd_scalar_of_commute_transvections
     constructor
     · have hL : (A * Matrix.single i j (1 : F4)) i j = A i i := by
         rw [Matrix.mul_apply, Finset.sum_eq_single i]
-        · simp [Matrix.single_apply]
-        · intro m _ hm; simp [Matrix.single_apply, hm, Ne.symm hm]
+        · simp
+        · intro m _ hm; simp [Ne.symm hm]
         · intro hi; exact absurd (Finset.mem_univ i) hi
       have hR : (Matrix.single i j (1 : F4) * A) i j = A j j := by
         rw [Matrix.mul_apply, Finset.sum_eq_single j]
-        · simp [Matrix.single_apply]
-        · intro m _ hm; simp [Matrix.single_apply, hm, Ne.symm hm]
+        · simp
+        · intro m _ hm; simp [Ne.symm hm]
         · intro hj; exact absurd (Finset.mem_univ j) hj
       have := congr_fun (congr_fun h' i) j
       rwa [hL, hR] at this
     · intro k hk
       have hL : (A * Matrix.single i j (1 : F4)) k j = A k i := by
         rw [Matrix.mul_apply, Finset.sum_eq_single i]
-        · simp [Matrix.single_apply]
-        · intro m _ hm; simp [Matrix.single_apply, hm, Ne.symm hm]
+        · simp
+        · intro m _ hm; simp [Ne.symm hm]
         · intro hi; exact absurd (Finset.mem_univ i) hi
       have hR : (Matrix.single i j (1 : F4) * A) k j = 0 := by
         rw [Matrix.mul_apply]
         apply Finset.sum_eq_zero
         intro m _
         have : Matrix.single i j (1 : F4) k m = 0 := by
-          simp [Matrix.single_apply, hk, Ne.symm hk]
+          simp [Ne.symm hk]
         rw [this, zero_mul]
       have := congr_fun (congr_fun h' k) j
       rwa [hL, hR] at this
@@ -160,7 +160,7 @@ private theorem e6cd_scalar_of_commute_transvections
   refine ⟨A 0 0, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, hd, hd', hz10, hz20, hz01, hz21,
+    simp [Matrix.scalar_apply, hd, hd', hz10, hz20, hz01, hz21,
       hz02, hz12]
 
 private theorem e6cd_commutant_sl3four (M : Matrix.SpecialLinearGroup (Fin 6) F2)
@@ -213,7 +213,7 @@ private theorem e6cd_zeta5_ne_one : zeta5 ≠ 1 := by
     have h2 : (1 : F4) = 0 := by
       have hh := f4Omega_sq
       rw [h1] at hh
-      simpa [CharTwo.add_self_eq_zero] using hh
+      simp [CharTwo.add_self_eq_zero] at hh
     exact one_ne_zero h2
   have homega_ne : omegaScalar ≠ 1 := by
     intro h1

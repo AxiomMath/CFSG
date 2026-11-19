@@ -165,7 +165,6 @@ theorem spinMu_injective : Function.Injective spinMu := by
   apply Subtype.ext
   apply MulEquiv.ext
   intro w
-  change (h : MulAut SpinW) w = (h' : MulAut SpinW) w
   have hf : ∀ u, spinMu h u = spinMu h' u := fun u =>
     congrArg (fun f : AddMonoid.End (Fin 8 → ZMod 2) => f u) hh
   have hfw := hf (fcoord (Multiplicative.toAdd w))

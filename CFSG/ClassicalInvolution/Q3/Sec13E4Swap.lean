@@ -31,16 +31,19 @@ private theorem two_lt_card_inf_of_sq_ne_one {M P : Subgroup G} {u : G} (hM : u 
     have h2 : u * u = u * 1 := by rw [mul_one]; exact h1.symm
     rw [mul_left_cancel h2, one_mul]
 
+omit [Finite G] in
 private theorem comm_of_mem_uniqueInvolution {K : Subgroup G} {z : G}
     (hz : IsUniqueInvolution K z) {u : G} (hu : u ∈ K) : u * z = z * u :=
   mul_inv_eq_iff_eq_mul.mp (hz.conj_eq (conjSub_eq_self_of_mem hu))
 
+omit [Finite G] in
 private theorem comm_of_sq_eq_one {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z) {x : G}
     (hx : x ∈ K) (hx2 : x * x = 1) {y : G} (hy : y ∈ K) : x * y = y * x := by
   rcases hz.unique x hx hx2 with rfl | rfl
   · rw [one_mul, mul_one]
   · exact (comm_of_mem_uniqueInvolution hz hy).symm
 
+omit [Finite G] in
 private theorem le_normalizer_of_commutes' {A B : Subgroup G} (hc : Commutes A B) :
     A ≤ Subgroup.normalizer (B : Set G) := by
   intro x hx
@@ -51,6 +54,7 @@ private theorem le_normalizer_of_commutes' {A B : Subgroup G} (hc : Commutes A B
   rw [mem_conjSub_iff, inv_inv] at h2
   exact h2.symm
 
+omit [Finite G] in
 private theorem mem_normalizer_of_conjSub_eq' {K : Subgroup G} {t : G} (h : conjSub t K = K) :
     t ∈ Subgroup.normalizer (K : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -62,6 +66,7 @@ private theorem mem_normalizer_of_conjSub_eq' {K : Subgroup G} {t : G} (h : conj
   rw [mem_conjSub_iff, inv_inv] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem exists_comm_of_conj_mod {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z)
     (hnab : ∃ x ∈ K, ∃ y ∈ K, x * y ≠ y * x) {t : G}
     (ht : ∀ k ∈ K, t * k * t⁻¹ = k ∨ t * k * t⁻¹ = k * z) :
@@ -104,6 +109,7 @@ namespace E4Hyp
 variable {Ω : Set (Subgroup G)} {W : Subgroup G} (h : E4Hyp Ω W)
 include h
 
+omit [Finite G] in
 theorem nonabelian {L : Subgroup G} (hL : L ∈ Ω) : ∃ x ∈ L, ∃ y ∈ L, x * y ≠ y * x := by
   obtain ⟨-, P, ⟨hPL, -, hmax⟩, hnc⟩ := h.thmD.hyp.omega1 L hL
   have hLP : L = P := hmax L le_rfl (h.isPGroup hL) hPL
@@ -136,7 +142,7 @@ private theorem sq_sq_eq_one {K : Subgroup G} (hK : K ∈ Ω) {x : G} (hx : x �
     norm_num)
   obtain ⟨a, ha, b, hb, hab⟩ := h.nonabelian hK
   exact hab (congrArg Subtype.val
-    ((IsCyclic.commutative (α := ↥K)).is_comm.comm (⟨a, ha⟩ : ↥K) ⟨b, hb⟩))
+    ((_root_.IsCyclic.isMulCommutative (α := ↥K)).is_comm.comm (⟨a, ha⟩ : ↥K) ⟨b, hb⟩))
 
 private theorem sq_eq_of_sq_ne_one {K : Subgroup G} (hK : K ∈ Ω) {z : G}
     (hz : IsUniqueInvolution K z) {x : G} (hx : x ∈ K) (hx2 : x * x ≠ 1) : x * x = z :=

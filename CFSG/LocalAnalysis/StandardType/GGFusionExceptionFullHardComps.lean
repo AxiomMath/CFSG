@@ -45,7 +45,7 @@ theorem ggRCS_perfect_le_generalizedFitting {X : Type} [Group X] [Finite X] {V E
   intro P hP
   set W₀ := E ⊔ K with hW₀
   set U := ggRCSU V E K with hU
-  haveI hUinst : (U.subgroupOf W₀).Normal := inferInstance
+  have hUinst : (U.subgroupOf W₀).Normal := inferInstance
   set π : ↥W₀ →* ↥W₀ ⧸ U.subgroupOf W₀ := QuotientGroup.mk' (U.subgroupOf W₀) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hπ1 : ∀ w : ↥W₀, π w = 1 ↔ (w : X) ∈ U := fun w => by
@@ -56,13 +56,13 @@ theorem ggRCS_perfect_le_generalizedFitting {X : Type} [Group X] [Finite X] {V E
     intro h k hh hk
     have hkN : k ∈ Subgroup.normalizer (K : Set X) := (sup_le hEK Subgroup.le_normalizer) hk
     exact (Subgroup.mem_normalizer_iff.mp hkN h).mp hh
-  haveI hKnInst : (K.subgroupOf W₀).Normal := hKn
+  have hKnInst : (K.subgroupOf W₀).Normal := hKn
   have hKnat : CFSG.IsQuasisimple ↥K := hK.1
   have hKA : CFSG.Assembly.IsQuasisimple ↥K :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mpr hKnat
   have hKcW : IsComponentOf K W₀ := ⟨hKW, ggIsSubnormal_of_normal hKW hKn, hKA⟩
   set Kbar : Subgroup (↥W₀ ⧸ U.subgroupOf W₀) := (K.subgroupOf W₀).map π with hKbar
-  haveI hKbarN : Kbar.Normal := hKn.map π hπs
+  have hKbarN : Kbar.Normal := hKn.map π hπs
   have hUC : U ≤ Subgroup.centralizer (K : Set X) := inf_le_right
   have hKnotker : ¬ K.subgroupOf W₀ ≤ π.ker := by
     intro hle
@@ -79,7 +79,7 @@ theorem ggRCS_perfect_le_generalizedFitting {X : Type} [Group X] [Finite X] {V E
     have h2 : CFSG.layer (↥W₀ ⧸ U.subgroupOf W₀) ≤
         CFSG.generalizedFitting (↥W₀ ⧸ U.subgroupOf W₀) := le_sup_right
     exact h1.trans h2
-  haveI hEsolv : Group.IsSolvable ↥E :=
+  have hEsolv : Group.IsSolvable ↥E :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (hE a.1 a.2 b.1 b.2).eq
   let φ : ↥E →* (↥W₀ ⧸ U.subgroupOf W₀) ⧸ Kbar :=
     (QuotientGroup.mk' Kbar).comp (π.comp (Subgroup.inclusion (le_sup_left : E ≤ W₀)))
@@ -108,17 +108,17 @@ theorem ggRCS_perfect_le_generalizedFitting {X : Type} [Group X] [Finite X] {V E
       rw [show Subgroup.inclusion (le_sup_left : E ≤ W₀)
           ⟨(e : X), Subgroup.mem_subgroupOf.mp he⟩ = e from Subtype.ext rfl]
     rw [hφe, hπw, map_mul, hkbar1, mul_one]
-  haveI hsolv : Group.IsSolvable ((↥W₀ ⧸ U.subgroupOf W₀) ⧸ Kbar) :=
+  have hsolv : Group.IsSolvable ((↥W₀ ⧸ U.subgroupOf W₀) ⧸ Kbar) :=
     Group.isSolvable_of_surjective hφsurj
   have hPK : P ≤ Kbar := by
     intro x hx
     have hφx : (QuotientGroup.mk' Kbar) x = 1 := by
       let ψ : ↥P →* (↥W₀ ⧸ U.subgroupOf W₀) ⧸ Kbar :=
         (QuotientGroup.mk' Kbar).comp P.subtype
-      haveI hPperf : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
-      haveI hperf'' : Group.IsPerfect ↥ψ.range :=
+      have hPperf : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+      have hperf'' : Group.IsPerfect ↥ψ.range :=
         Group.IsPerfect.ofSurjective ψ.rangeRestrict_surjective
-      haveI hrangeSolv : Group.IsSolvable ↥ψ.range :=
+      have hrangeSolv : Group.IsSolvable ↥ψ.range :=
         Group.isSolvable_of_isSolvable_injective (f := ψ.range.subtype)
           (Subgroup.subtype_injective ψ.range)
       have hss : Subsingleton ↥ψ.range := by

@@ -11,6 +11,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {T1 T2 : Subgroup G}
 
+omit [Finite G] in
 theorem sec8t84_wr_decomp (W : Sec8T84Wr G t T1 T2) {x : G} (hx : x ∈ T1 ⊔ T2) :
     ∃ a ∈ T1, ∃ b ∈ T2, x = a * b := by
   have hcoe : x = ((sec124SupEquiv W.comm W.inf) ⟨x, hx⟩).1
@@ -22,6 +23,7 @@ theorem sec8t84_wr_decomp (W : Sec8T84Wr G t T1 T2) {x : G} (hx : x ∈ T1 ⊔ T
     ((sec124SupEquiv W.comm W.inf) ⟨x, hx⟩).2.1,
     ((sec124SupEquiv W.comm W.inf) ⟨x, hx⟩).2.2, hcoe⟩
 
+omit [Finite G] in
 theorem sec8t84_wr_unique (W : Sec8T84Wr G t T1 T2) {a a' b b' : G} (ha : a ∈ T1)
     (ha' : a' ∈ T1) (hb : b ∈ T2) (hb' : b' ∈ T2) (h : a * b = a' * b') : a = a' ∧ b = b' := by
   have hm : a'⁻¹ * a = b' * b⁻¹ := by
@@ -37,6 +39,7 @@ theorem sec8t84_wr_unique (W : Sec8T84Wr G t T1 T2) {a a' b b' : G} (ha : a ∈ 
   · have hb1 : b' * b⁻¹ = 1 := by rw [← hm]; exact hbot
     exact (mul_inv_eq_one.mp hb1).symm
 
+omit [Finite G] in
 theorem sec8t84_wr_conj_mem (W : Sec8T84Wr G t T1 T2) {x : G} (hx : x ∈ T1 ⊔ T2) :
     t * x * t⁻¹ ∈ T1 ⊔ T2 := by
   obtain ⟨a, ha, b, hb, rfl⟩ := sec8t84_wr_decomp W hx
@@ -46,6 +49,7 @@ theorem sec8t84_wr_conj_mem (W : Sec8T84Wr G t T1 T2) {x : G} (hx : x ∈ T1 ⊔
   rw [hmul]
   exact (T1 ⊔ T2).mul_mem (Subgroup.mem_sup_right h1) (Subgroup.mem_sup_left h2)
 
+omit [Finite G] in
 theorem sec8t84_wr_mem_cent (W : Sec8T84Wr G t T1 T2) {x : G} :
     x ∈ (T1 ⊔ T2) ⊓ centralizer ({t} : Set G) ↔ ∃ a ∈ T1, x = a * (t * a * t⁻¹) := by
   constructor
@@ -79,10 +83,12 @@ theorem sec8t84_wr_mem_cent (W : Sec8T84Wr G t T1 T2) {x : G} :
     exact ⟨Subgroup.mul_mem_sup ha (W.swap1 a ha),
       Subgroup.mem_centralizer_singleton_iff.mpr h2.symm⟩
 
+omit [Finite G] in
 theorem sec8t84_wr_diag_inj (W : Sec8T84Wr G t T1 T2) {a b : G} (ha : a ∈ T1) (hb : b ∈ T1)
     (h : a * (t * a * t⁻¹) = b * (t * b * t⁻¹)) : a = b := by
   exact (sec8t84_wr_unique W ha hb (W.swap1 a ha) (W.swap1 b hb) h).1
 
+omit [Finite G] in
 theorem sec8t84_wr_card_cent (W : Sec8T84Wr G t T1 T2) :
     Nat.card ↥((T1 ⊔ T2) ⊓ centralizer ({t} : Set G)) = Nat.card T1 := by
   let f : T1 → ↥((T1 ⊔ T2) ⊓ centralizer ({t} : Set G)) :=

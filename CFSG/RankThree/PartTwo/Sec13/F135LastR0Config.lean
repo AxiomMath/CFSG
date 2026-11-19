@@ -41,7 +41,7 @@ theorem eq_sup_of_card_nine' {G : Type} [Group G] [Finite G] {A : Subgroup G} {c
 
 theorem normalizer_A_le_normalizer_L {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G}
     {L : Subgroup G} (hD : Sec13Data G A c L) (h9 : Nat.card (A ⊓ L : Subgroup G) = 9)
-    (hcL : c ∉ L)
+    (_hcL : c ∉ L)
     (hW : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (L : Set G) := by
   have hnot : ¬ (A ⊓ L : Subgroup G) ≤ Subgroup.zpowers c := by
@@ -49,7 +49,7 @@ theorem normalizer_A_le_normalizer_L {G : Type} [Group G] [Finite G] {A : Subgro
     have h3 := Subgroup.card_dvd_of_le hle
     rw [h9, hD.card_zpowers] at h3
     norm_num at h3
-  obtain ⟨d, hdAL, hdc⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨d, hdAL, hdc⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hdA : d ∈ A := (Subgroup.mem_inf.mp hdAL).1
   have hdL : d ∈ L := (Subgroup.mem_inf.mp hdAL).2
   intro g hg
@@ -65,7 +65,7 @@ theorem inf_thetaQuotCentralizer_eq {G : Type} [Group G] [Finite G] {A : Subgrou
       l * t * l⁻¹ ∈ inSubgroup (aschbacherSolvableCore 3) L := by
     intro l hl t ht
     have hN : (aschbacherSolvableCore 3 L).Normal := by
-      haveI := Sec4.aschbacherSolvableCore_characteristic L
+      have := Sec4.aschbacherSolvableCore_characteristic L
       infer_instance
     unfold inSubgroup at ht ⊢
     obtain ⟨t', ht', rfl⟩ := Subgroup.mem_map.mp ht

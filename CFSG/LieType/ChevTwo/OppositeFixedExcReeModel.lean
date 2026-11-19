@@ -40,8 +40,8 @@ theorem exists_mulEquiv_reeGamma {S : Type} [Group S] {a : ℕ} (ha : 1 ≤ a)
   obtain ⟨K, _, _, hcard, ⟨e⟩⟩ := hrel'
   have haa : a' = a := by omega
   subst haa
-  haveI : CharP K 2 := charP_two_of_card_two_pow hcard
-  haveI : CharP K ReeTag.F4.prime := (inferInstance : CharP K 2)
+  have : CharP K 2 := charP_two_of_card_two_pow hcard
+  have : CharP K ReeTag.F4.prime := (inferInstance : CharP K 2)
   have hH : reeFixedGroup .F4 K reeF4Perm
       (fun i => if i ∈ reeF4Long then 2 ^ a' else 2 ^ (a' + 1)) =
       ReeTag.F4.reeGamma K a' :=

@@ -14,6 +14,7 @@ open Subgroup CFSG.GH74.Uniqueness
 
 variable {G : Type} [Group G] [Finite G] {M L N W Q T : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_mul_mem_of_mem_conjugate {g y : G} (hy : y ∈ CFSG.conjugate Q g) :
     g * y * g⁻¹ ∈ Q := by
   obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.1 hy
@@ -26,9 +27,9 @@ theorem exists_conj_rank_two_of_not_A2 (h : ¬ A2 M Q) :
   obtain ⟨a, haQ, b, hbQ, ha2, hb2, hab, hcomm, g, hag, hbg, hgM⟩ := h
   refine ⟨g, hgM, ?_⟩
   have hxa : g⁻¹ * a * g ∈ CFSG.conjugate Q g :=
-    Subgroup.mem_map.2 ⟨a, haQ, by simp [MulAut.conj_apply, mul_assoc]⟩
+    Subgroup.mem_map.2 ⟨a, haQ, by simp [mul_assoc]⟩
   have hxb : g⁻¹ * b * g ∈ CFSG.conjugate Q g :=
-    Subgroup.mem_map.2 ⟨b, hbQ, by simp [MulAut.conj_apply, mul_assoc]⟩
+    Subgroup.mem_map.2 ⟨b, hbQ, by simp [mul_assoc]⟩
   refine two_le_pRank_of_commute (D := CFSG.conjugate Q g ⊓ M)
     (x := g⁻¹ * a * g) (y := g⁻¹ * b * g) ⟨hxa, hag⟩ ⟨hxb, hbg⟩
     ((orderOf_conj_eq g).trans ha2) ((orderOf_conj_eq g).trans hb2) ?_ ?_

@@ -26,25 +26,31 @@ abbrev Str86AutFact (L : Subgroup G) : Prop :=
       (∀ x ∈ (T : Subgroup _), σ x ∈ (T : Subgroup _)) →
       (∀ h ∈ H, σ h = h) → σ = 1
 
+omit [Finite G] in
 theorem str86S'_le (L1 L2 S : Subgroup G) : str86S' L1 L2 S ≤ S :=
   sup_le inf_le_left inf_le_left
 
+omit [Finite G] in
 theorem str86S'_comm (L1 L2 S : Subgroup G) :
     str86S' L2 L1 S = str86S' L1 L2 S := by
   rw [str86S', str86S', sup_comm]
 
+omit [Finite G] in
 theorem sup_inf_str86S' (L1 L2 S : Subgroup G) :
     (str86S' L1 L2 S ⊓ L1) ⊔ (str86S' L1 L2 S ⊓ L2) = str86S' L1 L2 S := by
   rw [str86S', sup_inf_inf_left, sup_inf_inf_right]
 
+omit [Finite G] in
 theorem borelOf_str86S'_left (L1 L2 S : Subgroup G) :
     borelOf L1 (str86S' L1 L2 S) = borelOf L1 S := by
   rw [borelOf, borelOf, str86S', sup_inf_inf_left]
 
+omit [Finite G] in
 theorem borelOf_str86S'_right (L1 L2 S : Subgroup G) :
     borelOf L2 (str86S' L1 L2 S) = borelOf L2 S := by
   rw [borelOf, borelOf, str86S', sup_inf_inf_right]
 
+omit [Finite G] in
 theorem bigB_eq_bigB_str86S'_sup (L1 L2 S : Subgroup G) :
     bigB L1 L2 S = bigB L1 L2 (str86S' L1 L2 S) ⊔ S := by
   rw [bigB, bigB, borelOf_str86S'_left, borelOf_str86S'_right]
@@ -52,18 +58,21 @@ theorem bigB_eq_bigB_str86S'_sup (L1 L2 S : Subgroup G) :
       (borelOf L1 S ⊔ borelOf L2 S) ⊔ S by
     rw [sup_assoc, sup_eq_right.mpr (str86S'_le L1 L2 S)]]
 
+omit [Finite G] in
 theorem str86S'_le_bigB (L1 L2 S : Subgroup G) :
     str86S' L1 L2 S ≤ bigB L1 L2 (str86S' L1 L2 S) :=
   show str86S' L1 L2 S ≤
     (borelOf L1 (str86S' L1 L2 S) ⊔ borelOf L2 (str86S' L1 L2 S)) ⊔
       str86S' L1 L2 S from le_sup_right
 
+omit [Finite G] in
 theorem str86S'_le_P1_str86S' (L1 L2 S : Subgroup G) :
     str86S' L1 L2 S ≤ P1 L1 L2 (str86S' L1 L2 S) :=
   (str86S'_le_bigB L1 L2 S).trans
     (show bigB L1 L2 (str86S' L1 L2 S) ≤ P1 L1 L2 (str86S' L1 L2 S)
       from le_sup_right)
 
+omit [Finite G] in
 theorem le_normalizer_pCoreOf_P1 (L1 L2 S : Subgroup G) :
     P1 L1 L2 S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G) :=
   le_normalizer_pCoreOf 2 (P1 L1 L2 S)
@@ -156,6 +165,7 @@ theorem le_pCoreOf_of_vertex_cartan
     hP_eq hSP' hF.1.h1.pgroup (str86S'_le L1 L2 S) hS'P' hS'odd rfl
     (CFSG.Quasithin.A4.omegaOneCenterOf_le _) hPQ' hPZ' hLP' hPL inf_le_left hTL hE2 hC7 hNF
 
+omit [Finite G] in
 theorem eq_sup_str86S'_pCoreOf_of_cartan {L1 L2 S D : Subgroup G}
     (hSdec : S = (S ⊓ L1) ⊔ (S ⊓ Subgroup.centralizer (D : Set G)))
     (hTQ : S ⊓ Subgroup.centralizer (D : Set G) ≤ Q1 L1 L2 S)
@@ -237,9 +247,11 @@ theorem bigB_le_normalizer_of_eq_sup_pCoreOf
   rw [← hS] at hbig
   exact hbig
 
+omit [Finite G] in
 theorem Q1_comm (L1 L2 S : Subgroup G) : Q1 L2 L1 S = Q2 L1 L2 S := by
   rw [Q1, Q2, P1, P2, bigB_comm]
 
+omit [Finite G] in
 theorem Z1_comm (L1 L2 S : Subgroup G) : Z1 L2 L1 S = Z2 L1 L2 S := by
   rw [Z1, Z2, Q1_comm]
 

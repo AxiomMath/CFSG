@@ -117,7 +117,6 @@ theorem comm_of
   rw [(rowF i).2.2.2] at hmem
   have h := Subgroup.mem_centralizer_singleton_iff.1 hmem.2
   first
-  | exact h
   | exact h.symm
 
 theorem sq_of {t : Equiv.Perm (Fin 315)} (h : orderOf t = 2) : t * t = 1 := by
@@ -227,7 +226,6 @@ theorem hbs : ∀ i : Fin j2Chain.baseCount, (j2Chain.base.get i).val ∈ bs := 
   have h : (j2Chain.base.get i).val ∈ j2Chain.base.toList.map Fin.val := by
     refine List.mem_map_of_mem ?_
     first
-    | exact List.Vector.get_mem i j2Chain.base
     | simp [Vector.get]
   rw [j2Chain_base] at h
   exact h

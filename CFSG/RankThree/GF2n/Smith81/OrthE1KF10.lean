@@ -76,7 +76,7 @@ lemma kf10D_cyc (c : SL(2, K) → Matrix (Fin 2) (Fin 2) K)
       ((g⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) := by
     rw [← mul_assoc, kf10_mul_inv_coe h, one_mul]
   simp only [kf10D, kf10Ad, hc, mul_inv_rev, Matrix.SpecialLinearGroup.coe_mul,
-    Matrix.add_mul, Matrix.mul_add, mul_assoc, hh']
+    Matrix.add_mul, mul_assoc, hh']
   exact add_comm _ _
 
 lemma kf10_cyc_cob [CharP K 2] (X : Matrix (Fin 2) (Fin 2) K) :
@@ -100,11 +100,11 @@ lemma kf10_cyc_add {f f' : SL(2, K) → Matrix (Fin 2) (Fin 2) K} (hf : kf10Cyc 
   one_mem' := kf10_cyc_one hf
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [hf a b, ha, hb, kf10Ad_zero, add_zero]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h := hf a a⁻¹
     rw [mul_inv_cancel, kf10_cyc_one hf, ha, zero_add] at h
     have h' := kf10Ad_inv_ad a (f a⁻¹)
@@ -127,7 +127,7 @@ lemma kf10T_mul (μ l : Kˣ) : kf10T μ * kf10T l = kf10T (μ * l) := by
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10T_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two, mul_inv] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 lemma kf10Ad_T (l : Kˣ) (Y : Matrix (Fin 2) (Fin 2) K) :
     kf10Ad (kf10T l) Y =
@@ -209,7 +209,7 @@ lemma kf10U_mul (a b : K) : kf10U a * kf10U b = kf10U (a + b) := by
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10U_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 lemma kf10U_zero : kf10U (0 : K) = 1 := by
   apply Subtype.ext
@@ -224,9 +224,8 @@ lemma kf10T_mul_U (l : Kˣ) (a : K) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10T_coe, kf10U_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_two];
     first
-    | ring1
     | linear_combination (-((l : K) * a)) * hl
 
 lemma kf10W_mul_self [CharP K 2] : (kf10W : SL(2, K)) * kf10W = 1 := by
@@ -234,7 +233,7 @@ lemma kf10W_mul_self [CharP K 2] : (kf10W : SL(2, K)) * kf10W = 1 := by
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10W_coe, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 lemma kf10Ad_W [CharP K 2] (Y : Matrix (Fin 2) (Fin 2) K) :
     kf10Ad kf10W Y = !![Y 1 1, Y 1 0; Y 0 1, Y 0 0] := by
@@ -260,14 +259,14 @@ lemma kf10W_mul_T_mul_W [CharP K 2] (l : Kˣ) : kf10W * kf10T l * kf10W = kf10T 
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10W_coe, kf10T_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 lemma kf10W_mul_U_mul_W [CharP K 2] (a : K) : kf10W * kf10U a * kf10W = kf10V a := by
   apply Subtype.ext
   simp only [Matrix.SpecialLinearGroup.coe_mul, kf10W_coe, kf10U_coe, kf10V_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 lemma kf10_transvection_U (a : K) (h : (0 : Fin 2) ≠ 1) :
     Matrix.TransvectionStruct.toSpecialLinearGroup
@@ -276,7 +275,7 @@ lemma kf10_transvection_U (a : K) (h : (0 : Fin 2) ≠ 1) :
   rw [Matrix.TransvectionStruct.toSpecialLinearGroup_coe, kf10U_coe,
     Matrix.TransvectionStruct.toMatrix_mk, Matrix.transvection]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 lemma kf10_transvection_V (a : K) (h : (1 : Fin 2) ≠ 0) :
     Matrix.TransvectionStruct.toSpecialLinearGroup
@@ -285,7 +284,7 @@ lemma kf10_transvection_V (a : K) (h : (1 : Fin 2) ≠ 0) :
   rw [Matrix.TransvectionStruct.toSpecialLinearGroup_coe, kf10V_coe,
     Matrix.TransvectionStruct.toMatrix_mk, Matrix.transvection]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 lemma kf10_gen {f : SL(2, K) → Matrix (Fin 2) (Fin 2) K} (hf : kf10Cyc f)
     (hU : ∀ a : K, f (kf10U a) = 0) (hV : ∀ a : K, f (kf10V a) = 0) (g : SL(2, K)) :
@@ -317,7 +316,7 @@ lemma kf10_exists_ne [Finite K] (hq : 4 ≤ Nat.card K) : ∃ c0 : K, c0 ≠ 0 �
   have h' : ∀ c0 : K, c0 ≠ 0 → c0 = 1 := fun c0 h0 => by
     by_contra h1
     exact h ⟨c0, h0, h1⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hsurj : Function.Surjective (fun i : Fin 2 => if i = 0 then (0 : K) else 1) := by
     intro x
     by_cases hx : x = 0
@@ -520,7 +519,7 @@ lemma kf10_weyl [CharP K 2] {D₂ : SL(2, K) → Matrix (Fin 2) (Fin 2) K} (hD�
     intro a
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [kf10Ad_U_00, kf10Ad_U_01, kf10Ad_U_10, kf10Ad_U_11, hN01, hN10, hdiag] <;> ring
+      simp [kf10Ad_U_00, kf10Ad_U_01, kf10Ad_U_10, kf10Ad_U_11, hN01, hN10, hdiag]
   have hV : ∀ a : K, D₂ (kf10V a) = 0 := by
     intro a
     rw [← kf10W_mul_U_mul_W a, hD₂ (kf10W * kf10U a) kf10W, hD₂ kf10W (kf10U a), hU a,
@@ -534,7 +533,7 @@ theorem kf10_sl2 [Finite K] [CharP K 2] (hq : 4 ≤ Nat.card K)
     ∃ m : Matrix (Fin 2) (Fin 2) K, ∀ g : SL(2, K),
       c g = (g : Matrix (Fin 2) (Fin 2) K) * m - m * (g : Matrix (Fin 2) (Fin 2) K) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hq' : 4 ≤ Fintype.card K := by rw [← Nat.card_eq_fintype_card]; exact hq
   have hc0 := kf10_exists_ne hq
   have h2 := kf10_two_eq (K := K)

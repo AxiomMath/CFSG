@@ -197,7 +197,7 @@ theorem outer_type {ρ : Representation k ↥(e6Data_valid.minGroup K) V} (hρ :
       ∀ i : N6, i ∈ J ↔ exactPerm .E6 ε i ∈ J := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨μ, hμ⟩ := ht.exists_mu hρ (e6Cover_split k)
   set ρ' : Representation k ↥(e6Data_valid.minGroup K) V := ρ.comp N.toMonoidHom with hρ'
   have hρ'a : ∀ x v, ρ' x v = ρ (N x) v := fun _ _ => rfl

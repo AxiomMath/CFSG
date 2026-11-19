@@ -179,7 +179,7 @@ theorem TBJOmData.centralizer_mapsTo [Fact p.Prime] (Δ : TBJOmData Q p A r)
         div_eq_one]
       change (if i = i ∨ i = j then ofAdd (1 : ZMod p) else 1) =
         (if j = i ∨ j = j then ofAdd (1 : ZMod p) else 1)
-      rw [if_pos (Or.inl rfl), if_pos (Or.inr rfl)]
+      rw [ite_eq_left (Or.inl rfl), ite_eq_left (Or.inr rfl)]
     have hcomm : Δ.τ f * g = g * Δ.τ f :=
       (Subgroup.mem_centralizer_iff.mp hg) _ (Subgroup.mem_map.mpr ⟨f, hfmem, rfl⟩)
     have htriv : ∀ l, ¬ (Δ.F.U l ≤ Δ.F.U i ⊔ Δ.F.U j) → toAdd (piMul r p f) l = 0 := by
@@ -188,17 +188,17 @@ theorem TBJOmData.centralizer_mapsTo [Fact p.Prime] (Δ : TBJOmData Q p A r)
       have hlj : l ≠ j := by rintro rfl; exact hl le_sup_right
       rw [tbjOmPieces_toAdd_piMul]
       show toAdd (if l = i ∨ l = j then ofAdd (1 : ZMod p) else 1) = 0
-      rw [if_neg (by rintro (h | h); exacts [hli h, hlj h]), toAdd_one]
+      rw [ite_eq_right (by rintro (h | h); exacts [hli h, hlj h]), toAdd_one]
     have hsub := tbjOmPieces_tau_sub_mem Δ hfix f htriv
     have hsi : toAdd (piMul r p f) i ≠ 0 := by
       rw [tbjOmPieces_toAdd_piMul]
       show toAdd (if i = i ∨ i = j then ofAdd (1 : ZMod p) else 1) ≠ 0
-      rw [if_pos (Or.inl rfl), toAdd_ofAdd]
+      rw [ite_eq_left (Or.inl rfl), toAdd_ofAdd]
       exact one_ne_zero
     have hsj : toAdd (piMul r p f) j ≠ 0 := by
       rw [tbjOmPieces_toAdd_piMul]
       show toAdd (if j = i ∨ j = j then ofAdd (1 : ZMod p) else 1) ≠ 0
-      rw [if_pos (Or.inr rfl), toAdd_ofAdd]
+      rw [ite_eq_left (Or.inr rfl), toAdd_ofAdd]
       exact one_ne_zero
     have hsurj : ∀ u ∈ Δ.F.U i ⊔ Δ.F.U j, ∃ u' : V, Δ.τ f u' - u' = u := by
       intro u hu

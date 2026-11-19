@@ -10,29 +10,29 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 private theorem w183b5_center_eq_bot {G : Type*} [Group G] {L : Subgroup G} {S : Type} [Group S]
     (e : ↥L ≃* S) (hZ : Subgroup.center S = ⊥) : Subgroup.center ↥L = ⊥ := by
-  haveI : Subsingleton (Subgroup.center S) := by rw [hZ]; infer_instance
-  haveI : Subsingleton (Subgroup.center ↥L) := (Subgroup.centerCongr e).toEquiv.subsingleton
+  have : Subsingleton (Subgroup.center S) := by rw [hZ]; infer_instance
+  have : Subsingleton (Subgroup.center ↥L) := (Subgroup.centerCongr e).toEquiv.subsingleton
   exact Subgroup.eq_bot_of_subsingleton (Subgroup.center ↥L)
 
 private theorem w183b5_isQuasisimple_of_simple (S : Type*) [Group S] [IsSimpleGroup S]
     (hSnc : ∃ u v : S, u * v ≠ v * u) : CFSG.Open.IsQuasisimple S := by
-  letI : Group.IsPerfect S :=
+  let : Group.IsPerfect S :=
     ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top S hSnc⟩
   exact CFSG.ComponentClassification.Quasisimple.simple_of_perfect S
 
 theorem kk_eq_bot_of_simple_subnormal {Y : Type} [Group Y] [Finite Y] {Kk P Λ : Subgroup Y}
-    (hKn : Kk.Normal) (hPn : P.Normal) (hKP : Kk ≤ P)
+    (_hKn : Kk.Normal) (hPn : P.Normal) (hKP : Kk ≤ P)
     (hKc : Kk ≤ Subgroup.centralizer (P : Set Y))
     (hle : ∀ N : Subgroup Y, N.Normal → ¬ N ≤ Kk → P ≤ N) (hΛP : Λ ≤ P)
     (hΛs : Λ.IsSubnormal) (hΛk : Λ ⊓ Kk = ⊥) {S : Type} [Group S] [IsSimpleGroup S]
     (hSnc : ∃ u v : S, u * v ≠ v * u) (e : ↥Λ ≃* S) : Kk = ⊥ := by
   classical
-  letI : Fintype Y := Fintype.ofFinite Y
+  let : Fintype Y := Fintype.ofFinite Y
   let A : Y → Subgroup Y := fun y => Λ.map (MulAut.conj y).toMonoidHom
   have hΛnle : ¬ Λ ≤ Kk := by
     intro hleKk
     have hbot : Λ = ⊥ := by rw [← inf_eq_left.mpr hleKk, hΛk]
-    haveI : Nontrivial ↥Λ := e.toEquiv.nontrivial
+    have : Nontrivial ↥Λ := e.toEquiv.nontrivial
     have hsub : Subsingleton ↥Λ := by rw [hbot]; infer_instance
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial ↥Λ).exists_pair_ne
     exact hab (Subsingleton.elim a b)
@@ -40,7 +40,7 @@ theorem kk_eq_bot_of_simple_subnormal {Y : Type} [Group Y] [Finite Y] {Kk P Λ :
     fun h => hΛnle ((Subgroup.le_normalClosure (H := Λ)).trans h)
   have hPleNC : P ≤ Subgroup.normalClosure (Λ : Set Y) := hle _ inferInstance hNCnle
   have hNCleP : Subgroup.normalClosure (Λ : Set Y) ≤ P := by
-    haveI : P.Normal := hPn
+    have : P.Normal := hPn
     exact Subgroup.normalClosure_le_normal (fun x hx => hΛP hx)
   have hPeqNC : P = Subgroup.normalClosure (Λ : Set Y) := le_antisymm hPleNC hNCleP
   have hA_iso : ∀ y : Y, ↥(A y) ≃* S := fun y =>

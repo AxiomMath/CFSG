@@ -135,7 +135,7 @@ private theorem constituent_not_subgroupInKernel'_of_subgroupRestriction_not_ker
   rcases hθirr with ⟨nθ, ρθ, _hρθirr, hθeq⟩
   let indρθ : Representation ℂ L (Representation.IndV K.subtype ρθ) :=
     Representation.ind K.subtype ρθ
-  haveI : FiniteDimensional ℂ (Representation.IndV K.subtype ρθ) :=
+  have : FiniteDimensional ℂ (Representation.IndV K.subtype ρθ) :=
     Theory.Representation.finiteDimensional_ind K ρθ
   have hIndCharKer :
       Section1.subgroupInKernel' (Section1.inducedCF K ρθ.character) A :=
@@ -173,7 +173,7 @@ private theorem constituent_not_subgroupInKernel'_of_subgroupRestriction_not_ker
   rw [Module.finrank_pos_iff_exists_ne_zero] at hfinrank_pos
   rcases hfinrank_pos with ⟨f, hf⟩
   have hχRepKer : Section1.subgroupInRepresentationKernel ρχ A := by
-    letI : Representation.IsIrreducible ρχ := hρχirr
+    let : Representation.IsIrreducible ρχ := hρχirr
     have hf_inj : Function.Injective f := by
       rcases (Representation.IsIrreducible.injective_or_eq_zero
           (ρ := ρχ) (σ := indρθ) f) with hinj | hzero
@@ -204,11 +204,11 @@ private theorem exists_irreducible_constituent_of_subgroupRestriction_appendixIV
         Section1.scalarProduct K θ (Section1.subgroupRestriction K χ) ≠ 0 := by
   rcases hχ with ⟨n, ρ, hρirr, hρchar⟩
   let ρK : Representation ℂ K (Fin n → ℂ) := ρ.comp K.subtype
-  letI : Nontrivial (Fin n → ℂ) :=
+  let : Nontrivial (Fin n → ℂ) :=
     Subrepresentation.irreducible_module_nontrivial ρ
   obtain ⟨φ, hφirr⟩ :=
     Subrepresentation.irreducible_subrepresentation_of_finite_dimensional ρK
-  letI : Nontrivial φ.toSubmodule :=
+  let : Nontrivial φ.toSubmodule :=
     Subrepresentation.irreducible_module_nontrivial φ.toRepresentation
   let incl : Theory.Representation.RepMap φ.toRepresentation ρK := by
     refine Theory.Representation.RepMap.mk φ.toSubmodule.subtype ?_
@@ -261,7 +261,7 @@ normal in `H`. -/
 public theorem FeitSibleyData.Q1_normal
     {G : Type u} [Group G] [Finite G] (d : FeitSibleyData G) :
     d.Q1.Normal := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   refine ⟨?_⟩
   intro n hn g
   have hg : g ∈ d.Q ⊔ d.D := by
@@ -288,11 +288,11 @@ private theorem FeitSibleyData.Q1D_centralizer
     let N : Subgroup K := d.Q1.subgroupOf K
     ∀ n : N, n ≠ 1 →
       Subgroup.centralizer ({(n : K)} : Set K) ≤ N := by
-  letI : d.Q1.Normal := d.Q1_normal
+  let : d.Q1.Normal := d.Q1_normal
   let K : Subgroup d.H := d.Q1 ⊔ d.D
   let N : Subgroup K := d.Q1.subgroupOf K
   let E : Subgroup K := d.D.subgroupOf K
-  haveI : N.Normal := by
+  have : N.Normal := by
     simpa [N, K] using
       (Subgroup.Normal.subgroupOf (inferInstance : d.Q1.Normal) K)
   have hQ1ne : d.Q1 ≠ ⊥ := by
@@ -361,7 +361,7 @@ public theorem FeitSibleyData.exists_Q_mul_D
     {G : Type u} [Group G] [Finite G]
     (d : FeitSibleyData G) (g : d.H) :
     ∃ q : d.Q, ∃ e : d.D, (q : d.H) * (e : d.H) = g := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   have hg : g ∈ d.Q ⊔ d.D := by
     rw [d.H_eq_Q_sup_D]
     trivial
@@ -374,7 +374,7 @@ public theorem FeitSibleyData.exists_Q1_inner_conjugator
     ∃ q1 : d.Q1, ∀ x : d.Q1,
       (q : d.H) * (x : d.H) * (q : d.H)⁻¹ =
         (q1 : d.H) * (x : d.H) * (q1 : d.H)⁻¹ := by
-  letI : d.Q1.Normal := d.Q1_normal
+  let : d.Q1.Normal := d.Q1_normal
   have hq : (q : d.H) ∈ d.S ⊔ d.Q1 := by
     rw [d.Q_eq_S_sup_Q1]
     exact q.property
@@ -466,10 +466,10 @@ public theorem lemma_2_Q1_restriction_homogeneous
       (show Representation ℂ (d.Q1.subgroupOf d.Q) V from
         rho.comp (d.Q1.subgroupOf d.Q).subtype).character =
           (m : ℂ) • W.toRepresentation.character := by
-  letI : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
+  let : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
   let rhoN : Representation ℂ (d.Q1.subgroupOf d.Q) V :=
     rho.comp (d.Q1.subgroupOf d.Q).subtype
-  letI : Nontrivial V :=
+  let : Nontrivial V :=
     Subrepresentation.irreducible_module_nontrivial rho
   rcases Theory.Representation.isaacs_theorem_6_5.{0, u, v, v} rho
       (d.Q1.subgroupOf d.Q) hrho W hW with
@@ -559,11 +559,11 @@ private theorem lemma_2_D_eq_one_of_mem_inertia
     (he : (e : d.H) ∈ inertiaSubgroup d.Q rho.character) :
     e = 1 := by
   classical
-  letI : d.Q1.Normal := d.Q1_normal
+  let : d.Q1.Normal := d.Q1_normal
   let NQ : Subgroup d.Q := d.Q1.subgroupOf d.Q
   let K : Subgroup d.H := d.Q1 ⊔ d.D
   let NK : Subgroup K := d.Q1.subgroupOf K
-  haveI : NK.Normal := by
+  have : NK.Normal := by
     simpa [NK, K] using
       (Subgroup.Normal.subgroupOf (inferInstance : d.Q1.Normal) K)
   let eNQ : NQ ≃* d.Q1 := Subgroup.subgroupOfEquivOfLe d.Q1_le_Q
@@ -572,11 +572,11 @@ private theorem lemma_2_D_eq_one_of_mem_inertia
   let rhoN : Representation ℂ NQ V := rho.comp NQ.subtype
   let sigma : Representation ℂ NK W.toSubmodule :=
     W.toRepresentation.comp eQK.symm.toMonoidHom
-  letI : Representation.IsIrreducible W.toRepresentation := hW
+  let : Representation.IsIrreducible W.toRepresentation := hW
   have hsigmaIrr : Representation.IsIrreducible sigma := by
     exact irreducible_compMulEquiv_appendixIV W.toRepresentation eQK.symm
-  letI : Representation.IsIrreducible sigma := hsigmaIrr
-  letI : FiniteDimensional ℂ W.toSubmodule :=
+  let : Representation.IsIrreducible sigma := hsigmaIrr
+  let : FiniteDimensional ℂ W.toSubmodule :=
     FiniteDimensional.of_injective W.toSubmodule.subtype Subtype.val_injective
   have hsigmaNonprincipal :
       ¬ Nonempty (sigma ≃ₗ Representation.trivial ℂ NK ℂ) := by
@@ -645,7 +645,7 @@ private theorem lemma_2_D_eq_one_of_mem_inertia
     change W.toRepresentation.character xQ =
       W.toRepresentation.character exQ
     exact hWchar.symm
-  letI : Representation.IsIrreducible
+  let : Representation.IsIrreducible
       (Theory.Representation.conjugateRep (G := K) (H := NK) sigma eK) :=
     conjugateRep_irreducible (G := K) (H := NK) (ρ := sigma) eK
   have hsigmaEquiv : Nonempty (sigma ≃ₗ
@@ -678,8 +678,8 @@ private theorem lemma_2_inertia_eq_Q_nontrivial_complement_core
     (hnotker : ¬ subgroupInKernel' rho.character (d.Q1.subgroupOf d.Q)) :
     inertiaSubgroup d.Q rho.character = d.Q := by
   classical
-  letI : d.Q.Normal := d.Q_normal
-  letI : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
+  let : d.Q.Normal := d.Q_normal
+  let : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
   let rhoN : Representation ℂ (d.Q1.subgroupOf d.Q) (Fin n → ℂ) :=
     rho.comp (d.Q1.subgroupOf d.Q).subtype
   have hQ1notker :
@@ -697,7 +697,7 @@ private theorem lemma_2_inertia_eq_Q_nontrivial_complement_core
   have moduleRhoN : Module (MonoidAlgebra ℂ (d.Q1.subgroupOf d.Q))
       rhoN.asModule := by
     simpa [rhoN, Representation.asModule] using moduleRhoNV
-  letI : Module (MonoidAlgebra ℂ (d.Q1.subgroupOf d.Q)) rhoN.asModule :=
+  let : Module (MonoidAlgebra ℂ (d.Q1.subgroupOf d.Q)) rhoN.asModule :=
     moduleRhoN
   have hcr : rhoN.IsCompletelyReducible :=
     Representation.isCompletelyReducible_of_ringChar_eq_zero_or_prime_coprime
@@ -718,8 +718,8 @@ private theorem lemma_2_inertia_eq_Q_nontrivial_complement_core
   let W : Subrepresentation rhoN := Subrepresentation.ofSubmodule' mW
   have hWirr : Representation.IsIrreducible W.toRepresentation :=
     irreducible_subrepresentation_of_simple_asModuleSubmodule rhoN hmWSimple
-  letI : Representation.IsIrreducible W.toRepresentation := hWirr
-  letI : FiniteDimensional ℂ W.toSubmodule :=
+  let : Representation.IsIrreducible W.toRepresentation := hWirr
+  let : FiniteDimensional ℂ W.toSubmodule :=
     FiniteDimensional.of_injective W.toSubmodule.subtype Subtype.val_injective
   have hWnonprincipal :
       ¬ Nonempty (W.toRepresentation ≃ₗ
@@ -769,7 +769,7 @@ private theorem lemma_2_inertia_eq_Q
     (hrho : Representation.IsIrreducible rho)
     (hnotker : ¬ subgroupInKernel' rho.character (d.Q1.subgroupOf d.Q)) :
     inertiaSubgroup d.Q rho.character = d.Q := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   have hclass : IsClassFunction rho.character := by
     intro x g
     simpa [mul_assoc] using Representation.char_conj (ρ := rho) g x
@@ -795,7 +795,7 @@ private theorem lemma_2_induced_irreducible_nontrivial_complement_core
     (hphi : IsIrreducibleCharacterOnGroup phi)
     (hnotker : ¬ subgroupInKernel' phi (d.Q1.subgroupOf d.Q)) :
     IsIrreducibleCharacterOnGroup (inducedCF d.Q phi) := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   rcases hphi with ⟨n, rho, hrho, hphieq⟩
   have hnotker' :
       ¬ subgroupInKernel' rho.character (d.Q1.subgroupOf d.Q) := by
@@ -816,7 +816,7 @@ private theorem lemma_2_induced_irreducible_source_core
     (hphi : IsIrreducibleCharacterOnGroup phi)
     (hnotker : ¬ subgroupInKernel' phi (d.Q1.subgroupOf d.Q)) :
     IsIrreducibleCharacterOnGroup (inducedCF d.Q phi) := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   by_cases hD : d.D = ⊥
   · have hQtop : d.Q = ⊤ := by
       simpa [hD] using d.H_eq_Q_sup_D
@@ -833,8 +833,8 @@ private theorem lemma_2_induced_irreducible_core
     (hnotker : ¬ subgroupInKernel' phi (d.Q1.subgroupOf d.Q)) :
     IsIrreducibleCharacterOnGroup (inducedCF d.Q phi) ∧
       ¬ subgroupInKernel' (inducedCF d.Q phi) d.Q1 := by
-  letI : d.Q.Normal := d.Q_normal
-  letI : d.Q1.Normal := d.Q1_normal
+  let : d.Q.Normal := d.Q_normal
+  let : d.Q1.Normal := d.Q1_normal
   constructor
   · exact lemma_2_induced_irreducible_source_core d hphi hnotker
   · intro hindker
@@ -860,8 +860,8 @@ private theorem lemma_2_a_source_core
           IsIrreducibleCharacterOnGroup phi ∧
             ¬ subgroupInKernel' phi (d.Q1.subgroupOf d.Q) ∧
             inducedCF d.Q phi = chi := by
-  letI : d.Q.Normal := d.Q_normal
-  letI : d.Q1.Normal := d.Q1_normal
+  let : d.Q.Normal := d.Q_normal
+  let : d.Q1.Normal := d.Q1_normal
   intro chi
   rw [hchars chi]
   constructor
@@ -956,7 +956,7 @@ private theorem lemma_2_b_normalizer_eq_H {G : Type u} [Group G] [Finite G]
     have hnotle : ¬ d.QInG ≤ (⊥ : Subgroup G) := by
       intro hle
       exact hQ_ne (le_bot_iff.mp hle)
-    rcases SetLike.not_le_iff_exists.mp hnotle with ⟨q, hqQ, hqBot⟩
+    rcases IsConcreteLE.not_le_iff_exists.mp hnotle with ⟨q, hqQ, hqBot⟩
     have hqNe : q ≠ 1 := by simpa using hqBot
     have hconjQ : g * q * g⁻¹ ∈ d.QInG :=
       (Subgroup.mem_normalizer_iff.mp hgNorm q).1 hqQ
@@ -1016,7 +1016,7 @@ private theorem lemma_2_b_char_vanish_outside_Q
     (hchars : IsFeitSibleyExceptionalFamily d chars)
     {chi : ClassFunction d.H} (hchi : chi ∈ chars)
     {x : d.H} (hx : x ∉ d.Q) : chi x = 0 := by
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   rcases (lemma_2_a d chars hchars chi).mp hchi with
     ⟨phi, _hphi, _hnotker, hind⟩
   rw [← hind]
@@ -1165,7 +1165,7 @@ private theorem lemma_2_c_character_self_of_induced_self
       inducedCF d.Q rho.character) :
     rho.character = conjugateCharacter rho.character := by
   classical
-  letI : d.Q.Normal := d.Q_normal
+  let : d.Q.Normal := d.Q_normal
   have hdualIrr : Representation.IsIrreducible rho.dual :=
     representation_dual_irreducible_of rho hrho
   have hInd : inducedCF d.Q rho.dual.character =
@@ -1288,7 +1288,7 @@ private theorem lemma_2_c_Q1_constituent_nonselfconjugate
     rho.character ≠ conjugateCharacter rho.character := by
   classical
   intro hself
-  letI : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
+  let : (d.Q1.subgroupOf d.Q).Normal := d.Q1_normal_in_Q
   let NQ : Subgroup d.Q := d.Q1.subgroupOf d.Q
   let rhoN : Representation ℂ NQ (Fin n → ℂ) := rho.comp NQ.subtype
   have hQ1notker : ¬ subgroupInRepresentationKernel rho NQ := by
@@ -1296,7 +1296,7 @@ private theorem lemma_2_c_Q1_constituent_nonselfconjugate
     apply hnotker
     exact (subgroupInKernel'_character_iff_subgroupInRepresentationKernel
       rho NQ).mpr hker
-  letI : Module (MonoidAlgebra ℂ NQ) rhoN.asModule :=
+  let : Module (MonoidAlgebra ℂ NQ) rhoN.asModule :=
     Representation.instModuleMonoidAlgebraAsModule rhoN
   have hcr : rhoN.IsCompletelyReducible :=
     Representation.isCompletelyReducible_of_ringChar_eq_zero_or_prime_coprime
@@ -1315,8 +1315,8 @@ private theorem lemma_2_c_Q1_constituent_nonselfconjugate
   let W : Subrepresentation rhoN := Subrepresentation.ofSubmodule' mW
   have hWirr : Representation.IsIrreducible W.toRepresentation :=
     irreducible_subrepresentation_of_simple_asModuleSubmodule rhoN hmWSimple
-  letI : Representation.IsIrreducible W.toRepresentation := hWirr
-  letI : FiniteDimensional ℂ W.toSubmodule :=
+  let : Representation.IsIrreducible W.toRepresentation := hWirr
+  let : FiniteDimensional ℂ W.toSubmodule :=
     FiniteDimensional.of_injective W.toSubmodule.subtype Subtype.val_injective
   have hWnonprincipal :
       ¬ Nonempty (W.toRepresentation ≃ₗ Representation.trivial ℂ NQ ℂ) := by

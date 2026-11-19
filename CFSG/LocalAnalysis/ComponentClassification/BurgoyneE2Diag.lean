@@ -201,7 +201,7 @@ theorem exists_eq_rootDiagAut_of_fix_rootPairs (hτ : τ = .E6 ∨ τ = .E7 ∨ 
     have := (Nat.prime_dvd_prime_iff_eq hpp hℓ).1 hdvd
     omega
   have : NeZero (ℓ : K) := ⟨hℓK⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L ℓ
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L ℓ
   set ζ : Lˣ := (hζ₀.isUnit hℓ.ne_zero).unit with hζdef
   have hζ : orderOf ζ = ℓ := by
     have h1 : IsPrimitiveRoot ζ ℓ := IsPrimitiveRoot.coe_units_iff.1 hζ₀

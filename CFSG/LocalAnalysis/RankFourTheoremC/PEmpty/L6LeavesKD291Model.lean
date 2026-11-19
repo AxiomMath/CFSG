@@ -15,7 +15,7 @@ theorem kd291LinUniModel_of_tables (hGA : CFSG.Open.GriessAllModelsStatement) :
   intro p Y _ _ P x z L hcfg
   have hYD := hcfg.data
   have hprime := hYD.cfg.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp5 := hYD.cfg.five_le
   have hLn : L.Normal := I291.normal_of_unique hcfg.comp hcfg.uniq
   have hq : CFSG.Open.IsQuasisimple ↥L := hcfg.comp.2.2
@@ -33,7 +33,7 @@ theorem kd291LinUniModel_of_tables (hGA : CFSG.Open.GriessAllModelsStatement) :
   rcases hcfg.linuni with ⟨n, K, _, _, hpn, hpK, ⟨e⟩⟩ | ⟨n, q, K, _, _, hKq, hpn, hpq, ⟨e⟩⟩
   · exact Or.inl (L6KD291.linear_model hGA hp5 L hq hZp hYD.perf hxord hYD.rank_cent hpn hpK e)
   · obtain ⟨r, m, hr, hchar, -, hKr⟩ := exists_char_pow_card K
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hKr, hKq]

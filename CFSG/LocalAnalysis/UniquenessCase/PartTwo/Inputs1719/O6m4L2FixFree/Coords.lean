@@ -21,8 +21,8 @@ theorem exists_coords_of_natOmegaMinus {W : Type} [CommGroup W] {X : Subgroup (M
             (((ε x : GL Idx F) : Matrix Idx Idx F).mulVec (Multiplicative.toAdd (ψ s))) := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := hN
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   let Γ := StatedOmega (StatedQuadMinus 3 K b c)
   have hNR : CFSG.Quasithin.SzN15.NatReal X I ⊥ Γ π :=
     CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ

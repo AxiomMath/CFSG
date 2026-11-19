@@ -49,24 +49,29 @@ scoped instance instSMulCommClassPi (k : ℕ) :
     Representation (ZMod 2) SL(2, F) (Fin k → Fin 2 → F) :=
   Representation.ofDistribMulAction (ZMod 2) SL(2, F) (Fin k → Fin 2 → F)
 
+omit [Fintype F] in
 theorem natSumRep_apply (k : ℕ) (g : SL(2, F)) (v : Fin k → Fin 2 → F) :
     natSumRep F k g v = g • v := rfl
 
+omit [Fintype F] in
 @[simp] theorem natSumRep_mul_apply (k : ℕ) (a b : SL(2, F)) (u : Fin k → Fin 2 → F) :
     natSumRep F k a (natSumRep F k b u) = natSumRep F k (a * b) u := by
   change ((natSumRep F k a) * (natSumRep F k b)) u = natSumRep F k (a * b) u
   rw [← map_mul]
 
+omit [Fintype F] [CharP F 2] in
 private theorem sl2_smul_smul (g : SL(2, F)) (c : F) (x : Fin 2 → F) :
     g • (c • x) = c • (g • x) := by
   rw [smul_eq_mulVec', smul_eq_mulVec', Matrix.mulVec_smul]
 
+omit [Fintype F] in
 theorem natSumRep_smul (k : ℕ) (a : F) (g : SL(2, F)) (w : Fin k → Fin 2 → F) :
     a • (natSumRep F k g w) = natSumRep F k g (a • w) := by
   ext i j
   rw [natSumRep_apply, Pi.smul_apply, natSumRep_apply, Pi.smul_apply]
   exact congrFun (sl2_smul_smul g a (w i)).symm j
 
+omit [Fintype F] in
 theorem second_eq_zero_of_fixed_rootGroup (k : ℕ)
     {U : Submodule (ZMod 2) (Fin k → Fin 2 → F)}
     (hU : U ≤ fixedSub (natSumRep F k) (upperRootGroup F))
@@ -80,6 +85,7 @@ theorem second_eq_zero_of_fixed_rootGroup (k : ℕ)
   have h2' : u i 0 + u i 1 = u i 0 + 0 := by simpa using h2
   exact add_left_cancel h2'
 
+omit [Fintype F] in
 theorem exists_coeff_e1 {v : Fin 2 → F} (hv : v 1 ≠ 0) (x : Fin 2 → F) :
     ∃ a b : F, x = a • ((Pi.single (0 : Fin 2) (1 : F) : Fin 2 → F)) + b • v := by
   refine ⟨x 0 + (x 1 * (v 1)⁻¹) * v 0, x 1 * (v 1)⁻¹, ?_⟩
@@ -88,6 +94,7 @@ theorem exists_coeff_e1 {v : Fin 2 → F} (hv : v 1 ≠ 0) (x : Fin 2 → F) :
   · simp [add_assoc, CharTwo.add_self_eq_zero]
   · simp [mul_assoc, inv_mul_cancel₀ hv]
 
+omit [Fintype F] in
 theorem natSumRep_action_eq (k : ℕ) {g h : SL(2, F)} {a b : F}
     (hcoeff : g • ((Pi.single (0 : Fin 2) (1 : F) : Fin 2 → F)) =
       a • ((Pi.single (0 : Fin 2) (1 : F) : Fin 2 → F)) +
@@ -103,8 +110,9 @@ theorem natSumRep_action_eq (k : ℕ) {g h : SL(2, F)} {a b : F}
   rw [hui, sl2_smul_smul, hcoeff, sl2_smul_smul]
   simp only [smul_add, smul_smul, Pi.add_apply, Pi.smul_apply]
   fin_cases j <;>
-    simp [Pi.single_eq_same, Pi.single_eq_of_ne, Pi.add_apply, Pi.smul_apply, hu i, mul_comm]
+    simp [Pi.single_eq_same, Pi.single_eq_of_ne, mul_comm]
 
+omit [Fintype F] in
 theorem natSumRep_action_h_eq (k : ℕ) {g h : SL(2, F)} {a b : F}
     (hcoeff : g • (h • ((Pi.single (0 : Fin 2) (1 : F) : Fin 2 → F))) =
       a • ((Pi.single (0 : Fin 2) (1 : F) : Fin 2 → F)) +
@@ -128,8 +136,9 @@ theorem natSumRep_action_h_eq (k : ℕ) {g h : SL(2, F)} {a b : F}
   rw [sl2_smul_smul, hcoeff, hui]
   simp only [smul_add, smul_smul, Pi.add_apply, Pi.smul_apply]
   fin_cases j <;>
-    simp [Pi.single_eq_same, Pi.single_eq_of_ne, Pi.add_apply, Pi.smul_apply, hu i, mul_comm]
+    simp [Pi.single_eq_same, Pi.single_eq_of_ne, hu i, mul_comm]
 
+omit [Fintype F] in
 theorem smul_mem_of_mem_rootGroup (k : ℕ)
     {U : Submodule (ZMod 2) (Fin k → Fin 2 → F)}
     (hU : U ≤ fixedSub (natSumRep F k) (upperRootGroup F))
@@ -152,6 +161,7 @@ theorem smul_mem_of_mem_rootGroup (k : ℕ)
       fin_cases j <;> simp [hu1 i, hc]
     rwa [hdiag_eq] at hmem
 
+omit [Fintype F] in
 theorem upperRootGroup_sup_map_invariant (k : ℕ)
     {U : Submodule (ZMod 2) (Fin k → Fin 2 → F)}
     (hU : U ≤ fixedSub (natSumRep F k) (upperRootGroup F))
@@ -197,6 +207,7 @@ theorem upperRootGroup_sup_map_invariant (k : ℕ)
       U.add_mem (smul_mem_of_mem_rootGroup k hU hUN hu)
         (smul_mem_of_mem_rootGroup k hU hUN hu'), rfl⟩)
 
+omit [Fintype F] in
 private theorem sup_map_invariant_of_conj (k : ℕ)
     {U U₁ : Submodule (ZMod 2) (Fin k → Fin 2 → F)} {x h h₁ : SL(2, F)}
     (hUmap : U₁ = U.map (natSumRep F k x⁻¹)) (hhmap : h₁ = x⁻¹ * h * x)
@@ -215,7 +226,6 @@ private theorem sup_map_invariant_of_conj (k : ℕ)
     change natSumRep F k x (natSumRep F k h₁ (natSumRep F k x⁻¹ u)) i j =
       natSumRep F k h u i j
     rw [natSumRep_mul_apply, natSumRep_mul_apply]
-    congr 1
     rw [hhmap]
     group
   have hUx : U₁.map (natSumRep F k x) = U := by

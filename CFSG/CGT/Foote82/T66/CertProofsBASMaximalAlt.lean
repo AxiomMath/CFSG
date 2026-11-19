@@ -179,7 +179,7 @@ theorem finrank_add_two_le [Finite V] {L : Subgroup (GLV V)} {M : Type} [AddComm
     (C : Submodule (ZMod 2) V) (u₁ u₂ : ↥(commSpace L ⊤)) (h₁ : (u₁ : V) ∈ C)
     (h₂ : (u₂ : V) ∈ C) (hb₁ : β u₁ ≠ 0) (hb₂ : β u₂ ≠ 0) (hb₁₂ : β u₁ ≠ β u₂) :
     Module.finrank (ZMod 2) ↥(tildeVBot L) + 2 ≤ Module.finrank (ZMod 2) ↥(C ⊔ tildeVBot L) := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hz2 : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
   have hcomb : ∀ a b : ZMod 2, a • (u₁ : V) + b • (u₂ : V) ∈ fixedSpace L → a = 0 ∧ b = 0 := by
     intro a b hab

@@ -205,7 +205,7 @@ theorem exists_sylow_three_k_726 (hc : Ctx726 G T L V H D) :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 ↥(oTwoUpper H)))
   refine ⟨(S : Subgroup ↥(oTwoUpper H)).map (oTwoUpper H).subtype, Subgroup.map_subtype_le _,
-    (S.isPGroup').map _, ?_⟩
+    (S.isPGroup).map _, ?_⟩
   rw [Subgroup.card_map_of_injective (oTwoUpper H).subtype_injective]
   exact card_sylow_three_k_726 hc S
 

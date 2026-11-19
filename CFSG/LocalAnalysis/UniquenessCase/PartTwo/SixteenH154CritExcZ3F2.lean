@@ -17,7 +17,7 @@ theorem s16h_not_three_dvd_of_torus {W : Type} [CommGroup W] [Finite W]
     (hJgen : ∃ X : Set (MulAut W), (∀ g ∈ X, g ^ 2 = 1) ∧ J = closure X)
     (hJ3 : ∀ y ∈ J, y ^ 3 = 1 → y ∈ zpowers l) : ¬ 3 ∣ Nat.card ↥J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K : Subgroup (MulAut W) := J ⊔ D with hKdef
   have hDK : D ≤ K := by rw [hKdef]; exact le_sup_right
   have hJK : J ≤ K := by rw [hKdef]; exact le_sup_left

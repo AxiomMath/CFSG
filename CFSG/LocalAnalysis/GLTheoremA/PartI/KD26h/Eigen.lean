@@ -67,7 +67,7 @@ theorem exists_primaryMultiplicity_ge_two {F : Type} [Field F] {p : ℕ} (hp : p
   rw [hcpM, Fintype.card_fin, hdet] at hdetc
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hc0 : (X ^ p - C c : F[X]).coeff 0 = -c := by
-    rw [coeff_sub, coeff_X_pow, coeff_C_zero, if_neg hp.ne_zero.symm]
+    rw [coeff_sub, coeff_X_pow, coeff_C_zero, ite_eq_right hp.ne_zero.symm]
     ring
   rw [hc0, hodd.neg_one_pow] at hdetc
   apply hc

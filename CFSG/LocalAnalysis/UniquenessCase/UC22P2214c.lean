@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p2214_pCoreOf_inf_le {M X : Subgroup G} (hXM : X ≤ M) : pCoreOf 2 M ⊓ X ≤ pCoreOf 2 X := by
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right ?_ ?_
   · intro x hx
@@ -28,6 +29,7 @@ theorem uc22p2214_pCoreOf_inf_le {M X : Subgroup G} (hXM : X ≤ M) : pCoreOf 2 
         hy1, X.mul_mem (X.mul_mem (X.inv_mem hx) hy2) (X.inv_mem (X.inv_mem hx))⟩
   · exact (CFSG.pCore_isPGroup.map M.subtype).to_le inf_le_left
 
+omit [Finite G] in
 theorem uc22p2214_centralizesBar_conjClosure {M K : Subgroup G} {a : G}
     (ha : a ∈ normalizer (conjClosure M K : Set G))
     (h : ∀ K' ∈ conjSetOf M K, ∀ k ∈ K', a * k * a⁻¹ * k⁻¹ ∈ pCoreOf 2 (conjClosure M K)) :
@@ -63,6 +65,7 @@ theorem uc22p2214_calC_of_mem_conjSetOf {M K K' : Subgroup G} (hK : K ∈ calC M
   rw [hconj]
   exact uc22p22u_calC_conj Subgroup.le_normalizer hK (M.inv_mem hg)
 
+omit [Finite G] in
 theorem uc22p2214_not_le_centralizer_of_mem_conjSetOf {M V K K' : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
     (hKV : ¬ K ≤ centralizer (V : Set G)) (hK' : K' ∈ conjSetOf M K) : ¬ K' ≤ centralizer (V : Set G) := by
   obtain ⟨g, hg, rfl⟩ := hK'

@@ -17,11 +17,11 @@ theorem psl3_graph_involution_centralizer_escape {Q : Type} [Group Q] [Finite Q]
     (hL : CFSG.Models.LieModel ↥L .PSL 3 2 f) {a : Q} (ha : a * a = 1)
     (haD : ActsOnDynkinMod ⊥ L a) :
     ¬ L ⊓ centralizer ({a} : Set Q) ≤ normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hL.admissible.2.1
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel (hL.toBlueprint (by decide))
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   let α : MulAut ↥L := MulAut.conjNormal a
   have hα : ∀ x : ↥L, (α x : Q) = a * (x : Q) * a⁻¹ := fun x => MulAut.conjNormal_apply a x
   obtain ⟨D, σ, ε, hε, hstd⟩ :=
@@ -38,7 +38,7 @@ theorem psl3_graph_involution_centralizer_escape {Q : Type} [Group Q] [Finite Q]
     rw [← hstd, sq, ← map_mul, hαα, map_one]
   let S : Subgroup (projectiveSL 3 K) := (T.subgroupOf L).map e.toMonoidHom
   have hTL : IsSylowIn 2 (T.subgroupOf L) ⊤ := by
-    haveI := hLn
+    have := hLn
     have h := hT.inf_normal (H := ⊤) (N := L) le_top inferInstance
     have h2 := (E1.isSylowIn_subgroupOf_iff (H := L) inf_le_right le_rfl).2 h
     rwa [Subgroup.inf_subgroupOf_right, Subgroup.subgroupOf_self] at h2

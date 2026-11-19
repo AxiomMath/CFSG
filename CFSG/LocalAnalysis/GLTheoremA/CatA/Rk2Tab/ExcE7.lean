@@ -46,7 +46,7 @@ theorem pRank_adjointGroup_E7_le_seven_of_dvd_sub_one
     (F : Type) [Field F] [Finite F] [CharP F 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F - 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E7 F)) ≤ 7 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hV : Nat.card (CFSG.StandardType.TableBExc.torusPow Tag.E7 F p) = p ^ Tag.E7.rank :=
     CFSG.StandardType.TableBExc.card_torusPow_E7 hp hpq
   have hT : CFSG.StandardType.GGExcToralRankInput Tag.E7 F p := by
@@ -65,19 +65,19 @@ theorem pRank_adjointGroup_E7_le_seven_of_dvd_add_one
     (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E7 F)) ≤ 7 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   let F' := GaloisField 2 (2 * n)
-  haveI : Field F' := inferInstance
-  haveI : Finite F' := inferInstance
-  haveI : Fintype F' := Fintype.ofFinite F'
+  have : Field F' := inferInstance
+  have : Finite F' := inferInstance
+  have : Fintype F' := Fintype.ofFinite F'
   have hF'pow : Nat.card F' = 2 ^ (2 * n) := GaloisField.card 2 (2 * n) (by omega)
   have hF'card : Nat.card F' = (2 ^ n) ^ 2 := by
     rw [hF'pow, ← pow_mul]
     ring_nf
   have hF'rew : Nat.card F' = (Nat.card F) ^ 2 := by
     rw [hF'card, ← hFcard]
-  haveI : CharP F' 2 :=
+  have : CharP F' 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega : 1 ≤ 2 * n) hF'pow
   obtain ⟨φ⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq
@@ -113,8 +113,8 @@ private theorem pRank_adjointGroup_E7_le_degCount (F : Type) [Field F] [Finite F
     (he : orderOf ((Nat.card F : ℕ) : ZMod p) = e) :
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E7 F)) ≤ degCount Tag.E7 e := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn hFcard
   have hpF : ¬ p ∣ Nat.card F := by
@@ -219,7 +219,7 @@ theorem rk2_pRank_le_E7 {K : Type} [Group K] [Finite K] (lab : GLALabel) (p : �
   let χ : AdjointQuotient .E7 F ≃* adjointGroup Tag.E7 F :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := Tag.E7) (K := F))).trans
       QuotientGroup.quotientBot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he : orderOf ((Nat.card F : ℕ) : ZMod p) = rk2Ord p lab.n := by
     rw [hFcard, rk2Ord, Nat.cast_pow]
     norm_num

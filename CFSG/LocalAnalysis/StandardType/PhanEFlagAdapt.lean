@@ -146,7 +146,7 @@ private lemma q2cFP_inf_eq_of_le_pos (E F : FlagK K n) (k : Fin n) {j : ℕ}
     rcases Nat.eq_zero_or_pos j with rfl | hjpos
     · have hbot : F.E 0 = ⊥ := F.E_zero
       rw [hbot, Submodule.mem_bot] at hxF
-      simpa [hxF] using Submodule.zero_mem (E.E k.val)
+      simp [hxF]
     · have hmin := q2cFP_pos_min E F k.val k.isLt (j := j - 1) (by omega)
       rw [show j - 1 + 1 = j by omega] at hmin
       exact hmin hx
@@ -216,7 +216,7 @@ private theorem q2cFP_rank_formula (E F : FlagK K n) :
           by_contra hki
           have hk : k = (⟨i, hin⟩ : Fin n) := by
             apply Fin.ext
-            simp only [Fin.val_mk]
+            simp only
             omega
           subst hk
           have h2' : q2cFP_pos E F i hin < j := by
@@ -240,7 +240,7 @@ private theorem q2cFP_rank_formula (E F : FlagK K n) :
             · exact Or.inl ⟨hki, h2⟩
             · exact Or.inr (by
                 apply Fin.ext
-                simp only [Fin.val_mk]
+                simp only
                 omega)
           · rintro (⟨h1, h2⟩ | rfl)
             · exact ⟨by omega, h2⟩
@@ -369,7 +369,7 @@ private theorem q2cFP_E_span (E F : FlagK K n) :
                   · exact Or.inl hki
                   · exact Or.inr (by
                       apply Fin.ext
-                      simp only [Fin.val_mk]
+                      simp only
                       omega)
               rw [hset]
 
@@ -451,6 +451,6 @@ private theorem q2cFP_F_eq (E F : FlagK K n) {j : ℕ} (hj : j ≤ n) :
 theorem exists_adapted (E F : FlagK K n) :
     ∃ (b : Fin n → (Fin n → K)) (σ : Equiv.Perm (Fin n)), IsAdapted b σ E F :=
   ⟨q2cFP_b E F, q2cFP_sigma E F, q2cFP_linIndep E F,
-    fun i hi => q2cFP_E_span E F i hi, fun j hj => q2cFP_F_eq E F hj⟩
+    fun i hi => q2cFP_E_span E F i hi, fun _j hj => q2cFP_F_eq E F hj⟩
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Flag

@@ -21,7 +21,7 @@ theorem mod48_count : ∀ k Z, Z < 2 ^ (48 * k) → (∀ q, Z.testBit q = true �
     have hZe : Z = 2 ^ 48 * (Z / 2 ^ 48) + Z % 2 ^ 48 := (Nat.div_add_mod Z _).symm
     have hbit : ∀ j, Z.testBit (48 + j) = (Z / 2 ^ 48).testBit j := fun j => by
       conv_lhs => rw [hZe]
-      rw [Nat.testBit_two_pow_mul_add _ hb48, if_neg (by omega), Nat.add_sub_cancel_left]
+      rw [Nat.testBit_two_pow_mul_add _ hb48, ite_eq_right (by omega), Nat.add_sub_cancel_left]
     have hlow : ∀ j, (Z % 2 ^ 48).testBit j = true → j = 0 := by
       intro j hj
       have hj48 : j < 48 := by
@@ -29,7 +29,7 @@ theorem mod48_count : ∀ k Z, Z < 2 ^ (48 * k) → (∀ q, Z.testBit q = true �
         rw [testBit_ge hb48 (by omega)] at hj
         exact Bool.noConfusion hj
       have h1 : Z.testBit j = true := by
-        rw [hZe, Nat.testBit_two_pow_mul_add _ hb48, if_pos hj48]
+        rw [hZe, Nat.testBit_two_pow_mul_add _ hb48, ite_eq_left hj48]
         exact hj
       have := hb j h1
       omega
@@ -60,7 +60,7 @@ theorem mod48_count : ∀ k Z, Z < 2 ^ (48 * k) → (∀ q, Z.testBit q = true �
       have e : Z.testBit 0 = (Z % 2 ^ 48).testBit 0 := by
         conv_lhs => rw [hZe]
         have h048 : 0 < 48 := by norm_num
-        rw [Nat.testBit_two_pow_mul_add _ hb48, if_pos h048]
+        rw [Nat.testBit_two_pow_mul_add _ hb48, ite_eq_left h048]
       rw [Nat.mul_zero, e]
       rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hle with h | h <;> rw [h] <;> rfl
     rw [Finset.sum_range_succ', h0]

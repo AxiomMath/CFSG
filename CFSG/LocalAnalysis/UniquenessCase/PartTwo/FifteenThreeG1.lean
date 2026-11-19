@@ -91,17 +91,17 @@ private theorem s15_Three_inf_centralizer_le_centralizer {D : Data G} {V₀ V L 
   exact hev.symm
 
 private theorem s15_Three_not_three_sig_core_gap {D : Data G} {V₀ V L K₀ : Subgroup G}
-    (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D) (h127 : R127 D) (h1111 : R1111_153 D)
+    (h61 : UC6.R6_1 D) (_h63 : UC6.R6_3 D) (h127 : R127 D) (h1111 : R1111_153 D)
     (hAut : RAutRank153) (hAbs : RAbsIrr153) (hT : RTable137) (h1217 : R1217 D)
     (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥)
-    (hshape : s15Shape D V₀ V hV L K₀) (hrs : s15Rs D V₀ V hV L K₀ = 1)
+    (_hshape : s15Shape D V₀ V hV L K₀) (_hrs : s15Rs D V₀ V hV L K₀ = 1)
     (hs : s15 D.M V₀ V hV L = 1)
     (hperf : s15KNatPerf ↥(lBar V₀ V hV L) (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L))
     (hL2 : s15ListTwo ↥(lBar V₀ V hV L)) (hbig : 2 < mSub V₀) (h3 : 3 ∈ D.sig)
-    {E : Subgroup G} (hEC : E ≤ F11.CTilde D.M V₀ V) (hE : CFSG.Open.IsElemAbelian 3 E)
-    (hEcard : Nat.card E = 3 ^ 2) (hne : E ⊓ centralizer (V₀ : Set G) ≠ ⊥)
-    (hcentV : (E ⊓ centralizer (V₀ : Set G)) ≤ centralizer (V : Set G))
-    (hnotin : ¬ E ≤ centralizer (V₀ : Set G))
+    {E : Subgroup G} (_hEC : E ≤ F11.CTilde D.M V₀ V) (_hE : CFSG.Open.IsElemAbelian 3 E)
+    (_hEcard : Nat.card E = 3 ^ 2) (_hne : E ⊓ centralizer (V₀ : Set G) ≠ ⊥)
+    (_hcentV : (E ⊓ centralizer (V₀ : Set G)) ≤ centralizer (V : Set G))
+    (_hnotin : ¬ E ≤ centralizer (V₀ : Set G))
     (hCV : CFSG.Open.pRank 3 (D.M ⊓ centralizer (V : Set G)) ≤ 1) :
     ∀ v ∈ V, v ≠ 1 → ¬ E ≤ centralizer ({v} : Set G) →
       1 < CFSG.Open.pRank 3 (D.M ⊓ centralizer ({v} : Set G)) := by
@@ -117,14 +117,14 @@ private theorem s15_Three_not_three_sig_core_gap {D : Data G} {V₀ V L K₀ : S
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
 
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have h3le : 3 ≤ CFSG.Open.pRank 3 D.M := by
     have := (h1111 V₀ V hH11 3 h3).2
     omega
   obtain ⟨E27, hE27M, hE27el, hE27card⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (H := D.M) (k := 3) h3le
 
-  haveI : IsMulCommutative ↥E27 := hE27el.1
+  have : IsMulCommutative ↥E27 := hE27el.1
   have hcyc := s15_Three_cyclic_quotient h61 h h127 h3 hE27M hE27el.isPGroup
   have hexp : ∀ q : ↥E27 ⧸ (E27 ⊓ centralizer (V₀ : Set G)).subgroupOf E27, q ^ 3 = 1 := by
     intro q

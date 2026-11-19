@@ -59,6 +59,7 @@ private lemma sylowTwoOf_inf_of_isSylowIn (hT : IsSylowIn 2 T ⊤) (hL : L.Norma
   CFSG.Quasithin.A4.isSylowTwoOf_inf_normal (CFSG.Quasithin.E1.isSylowIn_two_iff.mp hT) le_top
     (by rw [Subgroup.normalizer_eq_top_iff.mpr hL])
 
+omit [Finite Q] in
 private lemma range_comp {K : Type} [Field K]
     (φ : ↥L ≃* StatedProj (StatedSp 2 K))
     (ψ : StatedSp 2 K ≃* StatedProj (StatedSp 2 K)) :
@@ -70,6 +71,7 @@ private lemma range_comp {K : Type} [Field K]
   · intro hx
     exact ⟨ψ.symm (φ ⟨x, hx⟩), by simp⟩
 
+omit [Finite Q] in
 private lemma vW_eq_tauS {K : Type} [Field K]
     (φ : ↥L ≃* StatedProj (StatedSp 2 K))
     (ψ : StatedSp 2 K ≃* StatedProj (StatedSp 2 K))
@@ -79,6 +81,7 @@ private lemma vW_eq_tauS {K : Type} [Field K]
   rw [Sp4.vW_apply, hιeq, hψ]
   rfl
 
+omit [Finite Q] in
 private lemma map_unipotent_eq {K : Type} [Field K] [CharP K 2]
     (φ : ↥L ≃* StatedProj (StatedSp 2 K))
     (hφ : ∀ x : ↥L, (x : Q) ∈ T ⊓ L ↔ φ x ∈ projUnipotent 2 K)
@@ -110,6 +113,7 @@ private lemma sp4C_map_Q2 {K : Type} [Field K] [Finite K]
   rw [L436.map_sp4C ι hι, ← CFSG.Quasithin.Lie2Parabolic.pCoreOf_map_of_injective ι hι,
     map_perfectCore ι (Q2 K j)]
 
+omit [Finite Q] in
 private lemma action_coordinates {K : Type} [Field K] [CharP K 2] [Finite K]
     (φ : ↥L ≃* StatedProj (StatedSp 2 K))
     (hφ : ∀ x : ↥L, (x : Q) ∈ T ⊓ L ↔ φ x ∈ projUnipotent 2 K)
@@ -219,9 +223,9 @@ theorem exists_setting (hF : Fstar (⊤ : Subgroup Q) = L)
   have hR : IsSylowTwoOf (T ⊓ L) L := sylowTwoOf_inf_of_isSylowIn hT hL
   obtain ⟨K, hKf, hKfin, φ, hcard, hφ⟩ :=
     CFSG.Quasithin.Sp4.exists_equiv_projUnipotent hn hP4 hR
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI hchar : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hcard
   let ψ : StatedSp 2 K ≃* StatedProj (StatedSp 2 K) :=

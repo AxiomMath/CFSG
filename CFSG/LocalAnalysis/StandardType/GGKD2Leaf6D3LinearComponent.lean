@@ -55,9 +55,9 @@ private theorem ltrd3j5_main (h1 : CubicFieldBlockContract)
     h1 K d hd S κ hκ hS3
   obtain ⟨Φ2, hΦ2⟩ :=
     h2 K d hd S κ hκ hS3 m E hEf hEalg hEfin hd3m hcubic α hα3 b hb
-  letI : Field E := hEf
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
+  let : Field E := hEf
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
   have hαβ : ∀ k : ↥(StatedSL d K),
       LargeEvenProjMk (StatedSL d K) (conjSL S k) =
         TableB.projConj (StatedSL d K) ⟨S, hSnorm⟩ (LargeEvenProjMk (StatedSL d K) k) := by
@@ -111,7 +111,7 @@ private theorem ltrd3j5_main (h1 : CubicFieldBlockContract)
         rw [hEcard]
         calc 4 ≤ 2 ^ 3 := by norm_num
           _ ≤ Nat.card K ^ 3 := by gcongr
-      haveI : Fintype E := Fintype.ofFinite E
+      have : Fintype E := Fintype.ofFinite E
       obtain ⟨s, _, hs⟩ := Finset.exists_subset_card_eq (s := Finset.univ) (n := 4)
         (by simpa [Nat.card_eq_fintype_card] using hcard)
       exact ⟨s, hs⟩

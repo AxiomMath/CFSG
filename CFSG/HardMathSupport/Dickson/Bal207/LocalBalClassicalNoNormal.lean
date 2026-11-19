@@ -31,6 +31,7 @@ theorem charP_two_of_card_eight (hK : Nat.card K = 8) : CharP K 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
 
+omit [Finite K] in
 theorem center_statedSp_eq_bot_of_charP_two [CharP K 2] (n : ℕ) :
     Subgroup.center (StatedSp n K) = ⊥ := by
   rw [CFSG.LieType.Universal.Symplectic.center_eq,
@@ -49,14 +50,14 @@ theorem noNormalPPrime_three_statedSp_eight (hK : Nat.card K = 8) (s : ℕ) :
   have : CharP K 2 := charP_two_of_card_eight hK
   rcases Nat.eq_zero_or_pos s with rfl | hs
   · intro N _ _ _
-    haveI : Subsingleton (StatedSp 0 K) :=
+    have : Subsingleton (StatedSp 0 K) :=
       ⟨fun a b => Subtype.ext (Units.ext (Matrix.ext fun i => by
         rcases i with i | i <;> exact i.elim0))⟩
     exact Subgroup.eq_bot_of_subsingleton N
   · have hq := CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs
       (Or.inl (Or.inr (by rw [hK]; norm_num)))
     intro N _ hNn hNc
-    haveI hNnorm : N.Normal := ⟨fun x hx g => by simpa using hNn g (Subgroup.mem_top g) x hx⟩
+    have hNnorm : N.Normal := ⟨fun x hx g => by simpa using hNn g (Subgroup.mem_top g) x hx⟩
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hNnorm with htop | hcen
     · exfalso
       have h3 : 3 ∣ Nat.card N := by
@@ -190,7 +191,7 @@ theorem noNormalPPrime_three_sesqUnitaryGroup_eight :
   by_cases h0 : Module.finrank E W = 0
   · have : Subsingleton W := Module.finrank_zero_iff.1 h0
     intro N _ _ _
-    haveI : Subsingleton (sesqUnitaryGroup Hf) :=
+    have : Subsingleton (sesqUnitaryGroup Hf) :=
       ⟨fun a b => Subtype.ext (Units.ext (LinearMap.ext fun w => Subsingleton.elim _ _))⟩
     exact Subgroup.eq_bot_of_subsingleton N
   have hn1 : 1 ≤ Module.finrank E W := Nat.one_le_iff_ne_zero.2 h0

@@ -41,6 +41,7 @@ theorem ea_SU :
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] (Φ : QuadForm F (ι → F))
 
+omit [Finite F] [CharP F 2] in
 theorem ea_Omega (hι : 5 ≤ Fintype.card ι) :
     EA0 Φ.polar (fun v => Φ.Q v = 0) (natRep (StatedOmega Φ.Q)) ∧
     EA1 Φ.polar (fun v => Φ.Q v = 0) (natRep (StatedOmega Φ.Q)) ∧
@@ -55,12 +56,14 @@ section Flags
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Finite V] {H : Type} [Group H]
 
+omit [Finite F] [CharP F 2] [Finite V] in
 theorem hflag_iso (Φ : ReflForm F V) (ρ : H →* Module.End F V) :
     ∀ Q : Subgroup H, IsPGroup 2 Q → ∃ (X : ℕ → Submodule F V) (m : ℕ), X 0 = ⊥ ∧ Monotone X ∧
       (∀ k, Φ.IsTotallyIsotropic (X k)) ∧ isoFlag Φ ρ Q = isoCompletion Φ X m := fun Q _ =>
   ⟨isoSeq Φ ρ Q, Module.finrank F V, isoSeq_zero Φ ρ Q, isoSeq_mono Φ ρ Q,
     isoSeq_isTotallyIsotropic Φ ρ Q, rfl⟩
 
+omit [Finite F] [CharP F 2] [Finite V] in
 theorem hflag_sing (Φ : QuadForm F V) (ρ : H →* Module.End F V) :
     ∀ Q : Subgroup H, IsPGroup 2 Q → ∃ (X : ℕ → Submodule F V) (m : ℕ), X 0 = ⊥ ∧ Monotone X ∧
       (∀ k, Φ.IsTotallySingular (X k)) ∧ singFlag Φ ρ Q = isoCompletion Φ.polar X m := fun Q _ =>

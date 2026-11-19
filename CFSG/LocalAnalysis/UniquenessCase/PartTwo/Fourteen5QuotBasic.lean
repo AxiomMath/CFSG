@@ -17,7 +17,7 @@ theorem normalizer_map_mk'_le_of_coprime {p : ℕ} [Fact p.Prime] {A : Subgroup 
     (hA : IsPGroup p A) (hpN : ¬ p ∣ Nat.card N) :
     normalizer ((A.map (QuotientGroup.mk' N) : Subgroup (B ⧸ N)) : Set (B ⧸ N)) ≤
       (normalizer (A : Set B)).map (QuotientGroup.mk' N) := by
-  haveI : Fact (IsPGroup p (↥A)) := ⟨hA⟩
+  have : Fact (IsPGroup p (↥A)) := ⟨hA⟩
   have hcop : Nat.Coprime p (Nat.card N) :=
     (Nat.Prime.coprime_iff_not_dvd Fact.out).2 hpN
   exact (CFSG.normalizer_map_quotient_eq_map_normalizer p A N inferInstance hcop).le
@@ -31,6 +31,7 @@ theorem isSylowOf_map_mk' {p : ℕ} [Fact p.Prime] {A C : Subgroup B}
   rw [Sylow.coe_mapSurjective, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite B] in
 theorem eq_bot_of_normal_of_not_dvd {p : ℕ} [Fact p.Prime]
     (hN : ∀ U : Subgroup B, U.Normal → ¬ p ∣ Nat.card U → U ≤ N) (hpN : ¬ p ∣ Nat.card N)
     {U : Subgroup (B ⧸ N)} (hU : U.Normal) (hpU : ¬ p ∣ Nat.card U) : U = ⊥ := by

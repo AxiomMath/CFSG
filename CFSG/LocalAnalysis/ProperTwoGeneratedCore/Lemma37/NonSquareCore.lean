@@ -53,7 +53,7 @@ theorem exists_sq_conj_eq_mul_of_borelFacts (hperf : commutator K = ⊤) {u : K}
     have hcomm := Commute.of_orderOf_dvd_two (G := (Q : Subgroup K)) fun g =>
       orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using hall g g.2))
     exact hQ fun w hw => hcen w hw fun q hq => congrArg Subtype.val (hcomm ⟨q, hq⟩ ⟨w, hw⟩)
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hxQ⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hxQ⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one
     (show x ^ 2 ^ k = 1 by simpa using congrArg Subtype.val hk))
   obtain ⟨n, hn⟩ := exists_orderOf_pow_eq_four hj hx

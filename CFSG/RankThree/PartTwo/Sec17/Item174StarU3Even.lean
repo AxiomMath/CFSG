@@ -78,12 +78,12 @@ theorem eq_one_of_fix_e_f (d : hypSU h 1 1) (he : d • (Pi.single ie (1 : K) : 
 theorem sSU_smul (v : HypIndex 1 1 → K) :
     (sSU h • v) ie = v jf ∧ (sSU h • v) jf = v ie := by
   rw [smul_eq, coe_sSU]
-  constructor <;> simp [Matrix.mulVec, dotProduct, sum_hyp]
+  constructor <;> simp [Matrix.mulVec, dotProduct]
 
 theorem sSU_smul_single_ie :
     sSU h • (Pi.single ie (1 : K) : HypIndex 1 1 → K) = Pi.single jf 1 := by
   rw [smul_eq, coe_sSU]
-  refine vec_ext ?_ ?_ ?_ <;> simp [Matrix.mulVec, dotProduct, sum_hyp]
+  refine vec_ext ?_ ?_ ?_ <;> simp [Matrix.mulVec, dotProduct]
 
 theorem two_dvd_card_vec (h : UnitaryFieldData 2 f K) :
     2 ∣ Nat.card (HypIndex 1 1 → K) := by

@@ -189,7 +189,7 @@ theorem exteriorPower_map_basis_transvection [CharP K 2] {b : Basis (Fin n) K V}
         rw [show b c = (⇑b ∘ ⇑f) t₀ by simp [hft₀]]
         exact Function.update_eq_self t₀ _]
     by_cases ha : a ∈ I.val
-    · rw [dif_neg (by tauto)]
+    · rw [dite_eq_right (by tauto)]
       obtain ⟨t₁, ht₁⟩ := exists_orderEmbOfFin_eq (I := I) (c := a) ha
       have hft₁ : f t₁ = a := by rw [hf]; exact ht₁
       have hne : t₀ ≠ t₁ := fun h => hac (by rw [← hft₁, ← hft₀, h])
@@ -199,7 +199,7 @@ theorem exteriorPower_map_basis_transvection [CharP K 2] {b : Basis (Fin n) K V}
         rw [Function.update_self, Function.update_of_ne hne.symm]
         simp [hft₁]
       rw [hzero, smul_zero, add_zero]
-    · rw [dif_pos (⟨hc, ha⟩ : c ∈ I.val ∧ a ∉ I.val)]
+    · rw [dite_eq_left (⟨hc, ha⟩ : c ∈ I.val ∧ a ∉ I.val)]
       have hinner : exteriorPower.ιMulti K k (Function.update (⇑b ∘ ⇑f) t₀ (b a)) =
           b.exteriorPower k (CFSG.LieType.Chevalley.ExteriorCube.replace I hc ha) := by
         rw [show Function.update (⇑b ∘ ⇑f) t₀ (b a) = ⇑b ∘ Function.update f t₀ a from
@@ -241,7 +241,7 @@ theorem exteriorPower_map_basis_transvection [CharP K 2] {b : Basis (Fin n) K V}
         rw [hσ, ← Function.comp_assoc]
         exact exteriorPower_ιMulti_comp_perm (K := K) (V := V) (k := k) _ σ
       rw [hinner]
-  · rw [dif_neg (by tauto)]
+  · rw [dite_eq_right (by tauto)]
     have hfun' : (fun s => b (f s) + (if f s = c then t • b a else 0)) = ⇑b ∘ f := by
       funext s
       have hne : f s ≠ c := fun hh => hc (hh ▸ Finset.orderEmbOfFin_mem _ _ s)

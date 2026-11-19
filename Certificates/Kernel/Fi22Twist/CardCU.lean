@@ -71,7 +71,7 @@ theorem baseImg_inj {g g' : Equiv.Perm (Fin 3510)} (hg : g ∈ fi22P) (hg' : g' 
   have k : cg (baseImg g) l = cg (baseImg g') l := by rw [h]
   rw [cg_baseImg g hl, cg_baseImg g' hl] at k
   unfold pt at k
-  rw [dif_pos hb, dif_pos hb] at k
+  rw [dite_eq_left hb, dite_eq_left hb] at k
   exact k
 
 theorem orb_card {KT G : ℕ → ℕ} {gof ng off sz : ℕ} (hsz : 0 < sz)
@@ -250,19 +250,19 @@ theorem szU_pos {j : ℕ} (hj : j < 5) : 0 < t12 szU j := by
   interval_cases j <;> decide
 
 theorem orbC {j : ℕ} (hj : j < 5) :
-    (∀ i < t12 szC j, ∃ g ∈ cSub j, baseImg g = fld(CK (Nat.add (t12 offC j) i), 0, m72)) ∧
-    (∀ g ∈ cSub j, ∃ i < t12 szC j, fld(CK (Nat.add (t12 offC j) i), 0, m72) = baseImg g) ∧
+    (∀ _i < t12 szC j, ∃ g ∈ cSub j, baseImg g = fld(CK (Nat.add (t12 offC j) _i), 0, m72)) ∧
+    (∀ g ∈ cSub j, ∃ _i < t12 szC j, fld(CK (Nat.add (t12 offC j) _i), 0, m72) = baseImg g) ∧
     Nat.card (cSub j) = t12 szC j :=
-  orb_card (szC_pos hj) (fun i hi => (ob_row hj hi).1) (cgP j)
-    (fun m hm => prep_of_PP (cg_PP (cgIdx_lt hj hm))) (fun m hm => cg_memP (cgIdx_lt hj hm))
+  orb_card (szC_pos hj) (fun _i hi => (ob_row hj hi).1) (cgP j)
+    (fun _m hm => prep_of_PP (cg_PP (cgIdx_lt hj hm))) (fun _m hm => cg_memP (cgIdx_lt hj hm))
 
 theorem orbU {j : ℕ} (hj : j < 5) :
-    (∀ i < t12 szU j, ∃ g ∈ uSub j, baseImg g = fld(UK (Nat.add (t12 offU j) i), 0, m72)) ∧
-    (∀ g ∈ uSub j, ∃ i < t12 szU j, fld(UK (Nat.add (t12 offU j) i), 0, m72) = baseImg g) ∧
+    (∀ _i < t12 szU j, ∃ g ∈ uSub j, baseImg g = fld(UK (Nat.add (t12 offU j) _i), 0, m72)) ∧
+    (∀ g ∈ uSub j, ∃ _i < t12 szU j, fld(UK (Nat.add (t12 offU j) _i), 0, m72) = baseImg g) ∧
     Nat.card (uSub j) = t12 szU j :=
-  orb_card (szU_pos hj) (fun i hi => ((ob_row hj (lt_of_lt_of_le hi (szU_le hj))).2 hi).1)
-    (ugP j) (fun t ht => prep_of_PP (ug_PP (ugIdx_lt hj ht)))
-    (fun t ht => ug_memP (ugIdx_lt hj ht))
+  orb_card (szU_pos hj) (fun _i hi => ((ob_row hj (lt_of_lt_of_le hi (szU_le hj))).2 hi).1)
+    (ugP j) (fun _t ht => prep_of_PP (ug_PP (ugIdx_lt hj ht)))
+    (fun _t ht => ug_memP (ugIdx_lt hj ht))
 
 theorem uSub_le_P {j : ℕ} (hj : j < 5) : uSub j ≤ fi22P := by
   refine (Subgroup.closure_le _).2 ?_

@@ -46,12 +46,12 @@ theorem core_edgeV_val {T : Nat → Nat} {n MS y pos t : Nat}
   rw [h1, h2]
   by_cases h3 : pp T t = pos
   · have : Nat.beq (pp T t) pos = true := Nat.beq_eq.mpr h3
-    rw [this, if_pos h3]
+    rw [this, ite_eq_left h3]
   · have : Nat.beq (pp T t) pos = false := by
       cases h4 : Nat.beq (pp T t) pos
       · rfl
       · exact absurd (Nat.beq_eq.mp h4) h3
-    rw [this, if_neg h3]
+    rw [this, ite_eq_right h3]
 
 theorem core_posOK {i P Pp : Nat} (h : posOK i P Pp = true) :
     (i = 0 → P = 0) ∧ (0 < i → P ≤ 2 * i ∧ Pp < P) := by
@@ -123,7 +123,7 @@ theorem core_init (T : Nat → Nat) (lo : Nat) : coreInit T 464 lo = core_Q T lo
       cases h4 : Nat.beq lo 0
       · rfl
       · exact absurd (Nat.beq_eq.mp h4) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     rfl
 
 @[expose] noncomputable def core_F (T : Nat → Nat) (n MS YA YB b m : Nat) : Nat :=
@@ -182,7 +182,7 @@ theorem core_record {T : Nat → Nat} {n MS YA YB b m : Nat}
   · have := p1 hi; rw [hi] at this; exact this
   · have := p2 hi
     have hq : core_Q T (64 * b + m) = pp T (64 * b + m - 1) := by
-      unfold core_Q; rw [if_neg (Nat.pos_iff_ne_zero.mp hi)]
+      unfold core_Q; rw [ite_eq_right (Nat.pos_iff_ne_zero.mp hi)]
     rw [hq] at this
     exact ⟨this.1, this.2⟩
 
@@ -196,17 +196,17 @@ theorem core_good_step (T : Nat → Nat) (n MS YA YB b m : Nat) (hm : m < 64)
   · unfold core_Good
     rw [core_F_succ, core_step_eq _ _ _ _ _ _ _ _ hm, hF, core_shr_st _ _ hQ, core_low_st _ _ hQ]
     have hb : Nat.blt S 1048576 = true := Nat.blt_eq.mpr hSl
-    simp only [hb, core_brecN_true]
+    simp only [hb]
     cases hP : posOK (64 * b + m) (pp T (64 * b + m)) (core_Q T (64 * b + m))
-    · left; simp only [Bool.false_and, core_brecN_false, core_shl]; omega
+    · left; simp only [Bool.false_and, core_shl]; omega
     cases he0 : Nat.blt (edgeV T 464 n MS (fldW YA (1729 * m) 1729) (2 * (64 * b + m) + 1)
         (qv T 0 (64 * b + m))) 1048576
-    · left; simp only [Bool.false_and, Bool.and_false, core_brecN_false, core_shl]; omega
+    · left; simp only [Bool.false_and, Bool.and_false, core_shl]; omega
     cases he1 : Nat.blt (edgeV T 464 n MS (fldW YB (1729 * m) 1729) (2 * (64 * b + m) + 2)
         (qv T 1 (64 * b + m))) 1048576
-    · left; simp only [Bool.and_false, core_brecN_false, core_shl]; omega
+    · left; simp only [Bool.and_false, core_shl]; omega
     right
-    simp only [Bool.and_true, core_brecN_true]
+    simp only [Bool.and_true]
     have r0 := Nat.blt_eq.mp he0
     have r1 := Nat.blt_eq.mp he1
     have hR := core_record hP r0 r1
@@ -214,7 +214,7 @@ theorem core_good_step (T : Nat → Nat) (n MS YA YB b m : Nat) (hm : m < 64)
     · rw [core_edgeV_val (core_edgeV_lt r0), core_edgeV_val (core_edgeV_lt r1),
         Finset.sum_range_succ, hS, core_shl]
       have hq : core_Q T (64 * b + (m + 1)) = pp T (64 * b + m) := by
-        unfold core_Q; rw [if_neg (by omega)]; rfl
+        unfold core_Q; rw [ite_eq_right (by omega)]; rfl
       rw [hq]
       unfold core_ind
       change pp T (64 * b + m) + (S + (_ + _)) * 2 ^ 24 = _

@@ -16,7 +16,7 @@ theorem exists_lift_inverted_of_center_three {L : Type} [Group L] [Finite L] {z 
     ∃ a : L, (a : L ⧸ center L) = x ∧ σ a = a⁻¹ ∧ orderOf a = 3 := by
   have hcardz : Nat.card (Subgroup.zpowers z) = 3 := by
     classical
-    haveI : Fintype L := Fintype.ofFinite L
+    have : Fintype L := Fintype.ofFinite L
     rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hz3]
   have hcenter : center L = Subgroup.zpowers z := by
     refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hz) ?_).symm

@@ -63,7 +63,7 @@ theorem ggRC_scalars_pm1_two (hJr : GGForkJr) (hPump : GGForkPumpOr)
     change Subgroup.closure (Set.range r) =
       (Subgroup.closure (Set.range φ)).map (ggLin (p := p) ι)
     rw [hr, ← MonoidHom.map_closure (ggLin (p := p) ι) (Set.range φ)]
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_basis f
+  have : Module.Finite (ZMod p) V := Module.Finite.of_basis f
   by_contra hbad
   obtain ⟨bf, hbfmon, hbfperm, -⟩ := ggRC_monomial_frame hp2 f A hirr hgen hmon
   have hbadb : ¬ ∀ a ∈ A, ∃ (σ : Equiv.Perm (Fin n)) (c : Fin n → ZMod p),

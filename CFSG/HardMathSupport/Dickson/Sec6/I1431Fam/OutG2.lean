@@ -37,7 +37,7 @@ end Core
 theorem outDerived3_g2Low : OutDerived3At FamG2Low := by
   intro P _ _ t n p f hadm ht hF hm τ hτ _
   obtain ⟨rfl, hp3⟩ := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .G2 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩

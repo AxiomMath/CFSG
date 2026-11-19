@@ -244,7 +244,7 @@ theorem levi_card_le_three_explicit {K : Type} [Field K] [Finite K] [CharP K 2] 
     {J : Set (Fin Tag.E8.rank)} (hJ : J ≠ Set.univ)
     {E : Subgroup (ModGL Tag.E8 K)} (hE : E ≤ subsystemGroup Tag.E8 K J)
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨i, hi⟩ : ∃ i, i ∉ J := by
     by_contra hall
     push Not at hall

@@ -205,7 +205,7 @@ theorem smul_sylow_eq_of_bender (hX : fusionIsBenderGroup L)
   have hWeven : 2 ∣ Nat.card W := by
     rw [hΩ, hZcard]
     have hpow : IsPGroup 2 (sylowCenter (T : Subgroup L)) :=
-      T.isPGroup'.to_le (fun z hz => hz.1)
+      T.isPGroup.to_le (fun z hz => hz.1)
     obtain ⟨j, hj⟩ := hpow.exists_card_eq
     rw [← hZcard, hj]
     rcases j with _ | j

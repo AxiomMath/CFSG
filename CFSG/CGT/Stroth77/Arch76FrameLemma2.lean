@@ -122,6 +122,7 @@ theorem mat_dword (i : Fin 8) : C.mat (C.dword i) = dmat i := by
   · show C.mat (C.u * C.uv * C.t) = matMul (matMul mU mUV) mT
     rw [mat_mul, mat_mul, C.mat_u_eq, C.mat_uv_eq, C.mat_t_eq]
 
+omit [C.A.Normal] in
 theorem dword_mem (i : Fin 8) : C.dword i ∈ C.A ⊔ Subgroup.closure {C.uv, C.t, C.u} := by
   have huv := C.uv_mem_T
   have ht := C.t_mem_T
@@ -166,7 +167,7 @@ theorem card_T_ge : 256 ≤ Nat.card (F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t,
 
 theorem card_le_of_le_centralizer_E {K : Subgroup G} (hK : K ≤ Subgroup.centralizer (F.E : Set G))
     (hK2 : IsPGroup 2 K) : Nat.card K ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hEC, -, hodd⟩ := F.E_syl
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp hK2)
   have hE16 : Nat.card F.E = 2 ^ 4 := F.E_isE.2
@@ -184,7 +185,7 @@ theorem card_le_of_le_centralizer_E {K : Subgroup G} (hK : K ≤ Subgroup.centra
 
 theorem card_le_of_perm_six {K : Subgroup (Equiv.Perm (Fin 6))} (hK2 : IsPGroup 2 K) :
     Nat.card K ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp hK2)
   have hdvd : 2 ^ n ∣ 720 := by
     rw [← hn, show (720 : ℕ) = Nat.card (Equiv.Perm (Fin 6)) by
@@ -252,7 +253,7 @@ theorem mem_T_of_normalizer_E {g : G} (hgS : g ∈ (F.S : Subgroup G))
     sup_le F.T_le_S ((Subgroup.closure_le _).mpr (Set.singleton_subset_iff.mpr hgS))
   have hHE : H ≤ Subgroup.normalizer (F.E : Set G) :=
     sup_le F.T_le_normalizer_E ((Subgroup.closure_le _).mpr (Set.singleton_subset_iff.mpr hgE))
-  have hH2 : IsPGroup 2 H := (F.S.isPGroup').to_le hHS
+  have hH2 : IsPGroup 2 H := (F.S.isPGroup).to_le hHS
   have hTH : T = H := Subgroup.eq_of_le_of_card_ge le_sup_left
     ((F.card_le_of_le_normalizer_E hHE hH2).trans F.card_T_ge)
   rw [hTH]
@@ -320,7 +321,7 @@ theorem arch76Lemma2_normalizer
           (s⁻¹ * F.dA.uv * s = (F.dA.a : G) * (F.dA.b : G)⁻¹ * F.dA.uv ∧
             s⁻¹ * F.dA.t * s = (F.dA.a : G) * (F.dA.b : G) ^ 2 * F.dA.t ∧
             s⁻¹ * F.dA.u * s = (F.dA.c : G) * F.dA.u)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (F.A : Set G) with hN
   set Q := (F.S : Subgroup G) ⊓ N with hQ
   obtain ⟨-, hQ2, hQidx⟩ := F.nsylowA

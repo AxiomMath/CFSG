@@ -20,9 +20,9 @@ open CFSG.ClassicalInvolution.Q3.Q3Z (spMap spMap_injective spMap_surjective)
 theorem c8_nonempty_mulEquiv_of_isSpn {X : Type} [Group X] (hX : IsSpn X 6 1) :
     Nonempty (X ≃* ↥(StatedSp 3 (ZMod 2))) := by
   obtain ⟨-, K, instK, instFin, hK, ⟨e₀⟩⟩ := hX
-  letI : Field K := instK
-  letI : Finite K := instFin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := instK
+  let : Finite K := instFin
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     simpa using hK
@@ -64,7 +64,7 @@ theorem c8_exists_model {H' : Type} [Group H'] {H P : Subgroup H'} (hPH : P ≤ 
   have hN'64 : Nat.card N' = 64 := by
     rw [Subgroup.card_map_of_injective P.subtype_injective, hcardN]
   have hPcard : Nat.card P = 10752 := by
-    haveI := hNn
+    have := hNn
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup N
     rw [CFSG.Blueprint.LieModel.card_psl_three_two hL3, hcardN] at h
     norm_num at h

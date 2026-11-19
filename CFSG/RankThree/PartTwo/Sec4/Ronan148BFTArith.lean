@@ -42,7 +42,7 @@ theorem exists_prime_dvd_cube_add_one {n : ℕ} (hn : Odd n) (hn3 : 3 ≤ n) :
   have hrm : r ∣ m := Nat.minFac_dvd m
   have hr3 : r ≠ 3 := fun h => hm3 (h ▸ hrm)
   have hr2 : r ≠ 2 := fun h => hm2 (h ▸ hrm)
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hm0 : ((m : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).mpr hrm
   have hsqz : ((q : ℕ) : ZMod r) ^ 2 + 1 = (q : ZMod r) := by
     have := congrArg (fun x : ℕ => (x : ZMod r)) hsq

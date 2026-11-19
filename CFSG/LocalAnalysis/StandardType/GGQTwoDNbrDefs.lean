@@ -48,8 +48,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_dvec (m : ℕ) : Nat.card (DVec m) = 3 ^ m := by
   rw [Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
+omit [Finite G] in
 theorem card_bs_of_module {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m) :
     Nat.card ↥Bs = 3 ^ m := by
   rw [← card_dvec m]
@@ -60,6 +61,7 @@ theorem qtwoDNbr_card_cent_le {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) ≤ 3 ^ 2 :=
   card_bstar_inf_centralizer_le hcfg hnbr
 
+omit [Finite G] in
 theorem card_bs_eq_cent_mul_gamma {Bs X : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (X : Set G)) :
     Nat.card ↥Bs =

@@ -26,13 +26,13 @@ theorem exists_ne_zero_herm_eq_zero {W : Submodule F (Fin 4 → F)}
   have hF : 1 < Nat.card F := Finite.one_lt_card
   have hk : 1 < Nat.card ψ.ker := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have h1 : Nat.card ψ.ker * Nat.card ψ.range ≤ Nat.card F := by
       calc Nat.card ψ.ker * Nat.card ψ.range ≤ 1 * Nat.card F := Nat.mul_le_mul hle hr
         _ = Nat.card F := one_mul _
     rw [hmul, hW'] at h1
     nlinarith
-  haveI : Nontrivial ↥ψ.ker := Finite.one_lt_card_iff_nontrivial.mp hk
+  have : Nontrivial ↥ψ.ker := Finite.one_lt_card_iff_nontrivial.mp hk
   obtain ⟨w, hw0⟩ := exists_ne (0 : ↥ψ.ker)
   refine ⟨(w.1 : Fin 4 → F), w.1.2, fun h => hw0 ?_, w.2⟩
   exact Subtype.ext (Subtype.ext h)
@@ -69,7 +69,7 @@ theorem generation_model (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) {E : 
     · exact hw0 h
   · rw [tv_smul, hwx, mul_zero, zero_smul, add_zero]
 
-theorem ts_plane_model (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) {E : Subgroup (SUid σ 4)}
+theorem ts_plane_model (hσ : IsUnitaryInvolution σ) (_h2 : (2 : F) = 0) {E : Subgroup (SUid σ 4)}
     (hE2 : ∀ a ∈ E, a * a = 1) (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {n : ℕ} (hn : 1 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) (hcard : 2 ^ (2 * n) ≤ Nat.card ↥E)
     (hts : ∀ u ∈ commSp E, herm σ u u = 0) :

@@ -32,7 +32,7 @@ theorem noL34OuterAt3_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
     NoL34OuterAtThree FamG2 := by
   intro P _ _ t n f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .G2 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -49,7 +49,7 @@ theorem noL34OuterAt3_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow (r := 1) (j := 1) (by simp)
     (by simpa using hδ) ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have h3 : 3 ≤ 3 ^ d := Nat.le_self_pow (by omega) 3
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.G2 ↥(fixSubfield T)) .G2 3 d :=
     ⟨⟨Nat.prime_three, hd, rfl, h3⟩, untwisted_adjointGroup hTc⟩
@@ -68,7 +68,7 @@ theorem noL34OuterAt3_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
     NoL34OuterAtThree FamF4 := by
   intro P _ _ t n f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .F4 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -84,7 +84,7 @@ theorem noL34OuterAt3_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow (r := 1) (j := 1) (by simp)
     (by simpa using hδ) ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.F4 ↥(fixSubfield T)) .F4 3 d :=
     ⟨⟨Nat.prime_three, hd, rfl⟩, untwisted_adjointGroup hTc⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_f4_simplicity _ 3 d hM
@@ -102,7 +102,7 @@ theorem noL34OuterAt3_e7 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
     NoL34OuterAtThree FamE7 := by
   intro P _ _ t n f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E7 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -122,7 +122,7 @@ theorem noL34OuterAt3_e7 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
       (by norm_num) hdet _ hβ3 hβinn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow hrj hδ ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E7 ↥(fixSubfield T)) .E7 3 d :=
     ⟨⟨Nat.prime_three, hd, rfl⟩, untwisted_adjointGroup hTc⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e7_simplicity _ 3 d hM
@@ -140,7 +140,7 @@ theorem noL34OuterAt3_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
     NoL34OuterAtThree FamE8 := by
   intro P _ _ t n f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E8 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -160,7 +160,7 @@ theorem noL34OuterAt3_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
       (by norm_num) hdet _ hβ3 hβinn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow hrj hδ ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E8 ↥(fixSubfield T)) .E8 3 d :=
     ⟨⟨Nat.prime_three, hd, rfl⟩, untwisted_adjointGroup hTc⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e8_simplicity _ 3 d hM
@@ -178,7 +178,7 @@ theorem noL34OuterAt3_e6 (hO : ComponentClassification.CatLeaf.LieOrderFormulasI
     NoL34OuterAtThree FamE6 := by
   intro P _ _ t n f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E6 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -249,9 +249,9 @@ theorem noL34Layer_reeGammaFieldAut_G2 (hO : ComponentClassification.CatLeaf.Lie
           (ReeTag.G2.reeGamma F a).subtype =
         (ReeTag.G2.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     NoL34Layer (ReeTag.G2.reeGammaFieldAut F a σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three
       (by omega) hk
   let C : Subgroup ↥(ReeTag.G2.reeGamma F a) :=
@@ -275,7 +275,7 @@ theorem noL34Layer_reeGammaFieldAut_G2 (hO : ComponentClassification.CatLeaf.Lie
     ReeTag.center_reeGamma_G2_eq_bot hk
   have hX : LieModel ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) .twistedG2 0 3 (2 * b + 1) :=
     Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hrel⟩))
-  haveI : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
+  have : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
   exact noL34Layer_of_fixed_equiv _ eC hsimp (exists_noncomm_of_center_bot hZ)
     (not_isLThreeFour_of_lieModel_odd hO (by norm_num) hX)
 
@@ -326,7 +326,7 @@ theorem noL34OuterAt3_reeG2 (hO : ComponentClassification.CatLeaf.LieOrderFormul
   have hF' : Nat.card F = 3 ^ (2 * a + 1) := hfa ▸ hF
   obtain ⟨e₂⟩ := nonempty_derivedCentralQuotient_reeGamma_G2 (K := F) ha hF'
   let e := e₁.trans e₂
-  haveI : Finite ↥(ReeTag.G2.reeGamma F a) := Finite.of_equiv P e.toEquiv
+  have : Finite ↥(ReeTag.G2.reeGamma F a) := Finite.of_equiv P e.toEquiv
   have hβ3 : MulAut.congr e ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hβinn : MulAut.congr e ψ ∉ inner ↥(ReeTag.G2.reeGamma F a) := fun hin =>
     hψ ((congr_mem_inner_iff_of_equiv e ψ).mp hin)

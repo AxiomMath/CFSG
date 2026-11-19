@@ -165,7 +165,7 @@ theorem structure_M {Γ : Type*} [Group Γ] [Finite Γ] {M Q : Subgroup Γ} {ω 
     eq_alternatingGroup_of_card p.range (by rw [hrange']; norm_num)
   have hq16 : ∀ q ∈ Q, q ^ 16 = 1 := by
     intro q hq
-    haveI : Fintype ↥Q := Fintype.ofFinite _
+    have : Fintype ↥Q := Fintype.ofFinite _
     have h := pow_card_eq_one (x := (⟨q, hq⟩ : ↥Q))
     rw [show Fintype.card ↥Q = 16 by rw [← Nat.card_eq_fintype_card, hcardQ]] at h
     simpa using congrArg Subtype.val h
@@ -231,7 +231,7 @@ theorem structure_M {Γ : Type*} [Group Γ] [Finite Γ] {M Q : Subgroup Γ} {ω 
     have hPp : IsPGroup 2 (pCore 2 ↥M) := pCore_isPGroup
     have hmapnorm : ((pCore 2 ↥M).map qmap).Normal := hPnorm.map qmap hqmapsurj
     have hmapP : IsPGroup 2 ((pCore 2 ↥M).map qmap) := IsPGroup.map hPp qmap
-    haveI := hSimple
+    have := hSimple
     have hbot := normal_pGroup_eq_bot_of_simple hncA6 _ hmapnorm hmapP
     have hle : pCore 2 ↥M ≤ qmap.ker := (Subgroup.map_eq_bot_iff _).mp hbot
     have hleK : pCore 2 ↥M ≤ K.subgroupOf M := by
@@ -271,7 +271,7 @@ theorem structure_M {Γ : Type*} [Group Γ] [Finite Γ] {M Q : Subgroup Γ} {ω 
       rw [← Subgroup.map_subgroupOf_eq_of_le hQM]
       exact Subgroup.map_mono hQ_le_pcore
   let N : Subgroup ↥M := Q.subgroupOf M
-  letI : N.Normal := hQnormal_M
+  let : N.Normal := hQnormal_M
   let Y := ↥M ⧸ N
   let ωbar : Y := QuotientGroup.mk' N ⟨ω, hωM⟩
   have hle_qmap : N ≤ qmap.ker := by
@@ -366,10 +366,10 @@ theorem structure_M {Γ : Type*} [Group Γ] [Finite Γ] {M Q : Subgroup Γ} {ω 
       (commutator_alternatingGroup_eq_top (by norm_num : 5 ≤ Nat.card (Fin 6)))
   have hperf : Group.IsPerfect Y :=
     isPerfect_of_central_cover pBar hpBar_surj hperfA6 ωbar hpBar_ker hωcomm
-  haveI : Fintype Y := Fintype.ofFinite _
+  have : Fintype Y := Fintype.ofFinite _
   let e : Y ≃ Fin (Fintype.card Y) := Fintype.equivFin Y
-  letI : Mul (Fin (Fintype.card Y)) := e.symm.mul
-  letI : Group (Fin (Fintype.card Y)) := e.symm.group
+  let : Mul (Fin (Fintype.card Y)) := e.symm.mul
+  let : Group (Fin (Fintype.card Y)) := e.symm.group
   let e0 : Fin (Fintype.card Y) ≃* Y :=
     { toEquiv := e.symm
       map_mul' := by
@@ -411,7 +411,7 @@ theorem structure_M {Γ : Type*} [Group Γ] [Finite Γ] {M Q : Subgroup Γ} {ω 
       rw [map_zpow, map_zpow, show e0 ω0 = ωbar from e0.apply_symm_apply ωbar,
         hωbarker, one_zpow]
   have hperf0 : Group.IsPerfect (Fin (Fintype.card Y)) := by
-    haveI := hperf
+    have := hperf
     exact Group.IsPerfect.ofSurjective (f := e0.symm.toMonoidHom) e0.symm.surjective
   have hIsHat0 : IsHat (Fin (Fintype.card Y)) ↥(alternatingGroup (Fin 6)) :=
     isHat_of_central_cover pBar0 hpBar0_surj hSimple hncA6 ω0 horderω0 hω0_center

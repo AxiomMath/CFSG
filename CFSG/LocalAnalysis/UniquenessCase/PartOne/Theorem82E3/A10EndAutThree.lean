@@ -24,7 +24,7 @@ private lemma mem_of_pow_eq_one (h27 : KFactOutThreeTwentySeven) {L : Subgroup X
     (hcat : CFSG.Open.IsCatalogGroup ↥L) (hC : Subgroup.centralizer (L : Set X) = ⊥)
     (hrank : CFSG.Open.pRank 3 L = 2) (hfac : (Nat.card L).factorization 3 = 3)
     {x : X} {n : ℕ} (hx : x ^ (3 ^ n) = 1) : x ∈ L := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hφ : ∃ m : ℕ, (MulAut.conjNormal (H := L) x) ^ (3 ^ m) = 1 :=
     ⟨n, by rw [← map_pow, hx, map_one]⟩
   obtain ⟨k, hk⟩ := h27 ↥L hLs hnab hcat
@@ -50,7 +50,7 @@ private lemma mem_of_pow_eq_one (h27 : KFactOutThreeTwentySeven) {L : Subgroup X
 theorem kFactAutThreeRankTwo_of_kFacts (hIA : RankThreeTheoremC.KFactInnerAction)
     (h27 : KFactOutThreeTwentySeven) : KFactAutThreeRankTwo := by
   intro X _ _ L hKg hLn hLs hnab hC hrank hnot81L h81X
-  haveI : IsSimpleGroup ↥L := hLs
+  have : IsSimpleGroup ↥L := hLs
   have hK : CFSG.IsKGroup ↥L :=
     CFSG.IsKGroup.subgroup
       (CFSG.HardMathSupport.Solomon.Coordinator.isKGroup_of_openIsKGroup hKg) L

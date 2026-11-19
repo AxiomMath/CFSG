@@ -19,7 +19,7 @@ theorem noHardRankTwoMid : NoLowTwoRankSectionFor IsHardRankTwoMidIndex := by
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     · obtain ⟨hr, hq2, he, h9⟩ := hi
       subst hr
       rename_i q

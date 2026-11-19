@@ -47,7 +47,7 @@ theorem ggFieldFixKnown_spThree : GGFieldFixKnown GGFieldOtherSpThreeLabel := by
   rcases hBC with ht | ht <;> subst ht <;>
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
     refine NbrGraphSymplectic.recipeSymplectic_all (fun K _ _ hK => ?_) hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     intro hS hna f hf hord
     exact FieldFixSp.exists_fixGeom le_rfl hn hp hp2 hK hS hna hf hord
 
@@ -132,13 +132,13 @@ theorem ggFieldFixKnown_unitFour : GGFieldFixKnown GGFieldOtherUnitFourLabel := 
       LargeEvenRecipeUnitary 4 (2 ^ n) fun R _ I F => Q R I F ∧
         GGRawFieldFixStd p ⟨t, 3, n / p⟩ R I F := by
     rintro ⟨K, i1, i2, hK, hQ'⟩
-    haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+    have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
     intro _ _ f hf hord
     have h := CFSG.LocalAnalysis.GLTheoremA.T156.Uni.exists_raw_unitary (d := 4) (by norm_num) hn
       hK hp hp2 (fun h => by have := congrArg Prod.fst h; dsimp only at this; omega) hf hord
     rcases hT with ht | ht <;> subst ht <;> dsimp only [LargeEvenRawDatum] <;>
-      first | exact h | (simp only [show (3 : ℕ) ≠ 2 by norm_num, ↓reduceIte]; exact h)
+      first | exact h
   rcases hT with ht | ht <;> subst ht <;> dsimp only [LargeEvenRawDatum] at hQ ⊢
   · exact key hQ
   · simp only [show (3 : ℕ) ≠ 2 by norm_num, ↓reduceIte] at hQ ⊢
@@ -161,7 +161,7 @@ theorem largeEvenLabelAll_rowPlainSC_unitFour {p : ℕ} (hp : p.Prime) (hp2 : p 
     · exact Or.inr ⟨ht, hl, hpn⟩
   have hr2 : ggUnitaryTorusRank p 4 = 2 := by
     unfold ggUnitaryTorusRank
-    rw [if_neg hp4]
+    rw [ite_eq_right hp4]
   have hlift : LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift p 2 R := by
     rcases hT with ht | ht
     · have h' := largeEvenLabelAll_torusLift_twA hlab ht hp hpn
@@ -172,9 +172,7 @@ theorem largeEvenLabelAll_rowPlainSC_unitFour {p : ℕ} (hp : p.Prime) (hp2 : p 
       exact h'
   have hrk := largeEvenLabelAll_torusSCRank_unitary hp hlab hcop
   have hrk3 : LargeEvenLabelAll lab fun R _ I _ => GGTorusSCRank p 3 R I := by
-    rcases hT with ht | ht <;> simp only [ht, ↓reduceIte, hl] at hrk <;> first | exact hrk |
-      (simp only [show LargeEvenLieTag.twD ≠ LargeEvenLieTag.twA by decide, ↓reduceIte] at hrk;
-        exact hrk)
+    rcases hT with ht | ht <;> simp only [ht, ↓reduceIte, hl] at hrk <;> first | exact hrk
   exact (largeEvenLabelAll_and (largeEvenLabelAll_inn_unitFour hlab hT hl)
     (largeEvenLabelAll_and hlift (largeEvenLabelAll_and
       (largeEvenLabelAll_torusIrredSC_unitary hp hlab hcop) hrk3))).mono

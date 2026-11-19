@@ -28,6 +28,7 @@ private lemma sec4F_inv_mul_mem_centralizer (h : Sec4FSetup t L S z A B φ) {y y
     y⁻¹ * y' ∈ centralizer (A : Set G) :=
   h.mem_centralizer_iff_realizes_one.mpr (by simpa using hσ.inv.mul hσ')
 
+omit [Finite G] in
 private lemma sec4F_conj_eq_inv_of_mul_eq_one {y y' c : G} (hy : y * y = 1)
     (hy' : y' * y' = 1) (hc : c = y⁻¹ * y') : y * c * y⁻¹ = c⁻¹ := by
   have hyc : y * c = y' := by rw [hc]; group
@@ -36,11 +37,13 @@ private lemma sec4F_conj_eq_inv_of_mul_eq_one {y y' c : G} (hy : y * y = 1)
   have hyinv : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy
   rw [hyinv, h2]
 
+omit [Finite G] in
 private lemma sec4F_conj_zpowers_eq_inv {y c v : G} (hyc : y * c * y⁻¹ = c⁻¹)
     (hv : v ∈ Subgroup.zpowers c) : y * v * y⁻¹ = v⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
   rw [← conj_zpow, hyc, inv_zpow]
 
+omit [Finite G] in
 private lemma sec4F_commute_mem_zpowers {c v w : G} (hv : v ∈ Subgroup.zpowers c)
     (hw : w ∈ Subgroup.zpowers c) : v * w = w * v := by
   obtain ⟨kv, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
@@ -49,7 +52,7 @@ private lemma sec4F_commute_mem_zpowers {c v w : G} (hv : v ∈ Subgroup.zpowers
 
 theorem Sec4FSetup.fiber (h : Sec4FSetup t L S z A B φ) {y y' : G}
     (hy : ∃ g : G, y = g⁻¹ * t * g) (hy' : ∃ g : G, y' = g⁻¹ * t * g)
-    (hyN : y ∈ normalizer (A : Set G)) (hy'N : y' ∈ normalizer (A : Set G))
+    (hyN : y ∈ normalizer (A : Set G)) (_hy'N : y' ∈ normalizer (A : Set G))
     {a b : Option (Fin 7)} (hab : a ≠ b) (hσ : Sec4MRealizes t φ y (Equiv.swap a b))
     (hσ' : Sec4MRealizes t φ y' (Equiv.swap a b)) :
     ∃ o : G, o ∈ centralizer (A : Set G) ∧ Odd (orderOf o) ∧
@@ -116,7 +119,7 @@ theorem Sec4FSetup.fiber (h : Sec4FSetup t L S z A B φ) {y y' : G}
 
 theorem Sec4FSetup.fiber_two (h : Sec4FSetup t L S z A B φ) {y y' : G}
     (hy : ∃ g : G, y = g⁻¹ * t * g) (hy' : ∃ g : G, y' = g⁻¹ * t * g)
-    (hyN : y ∈ normalizer (A : Set G)) (hy'N : y' ∈ normalizer (A : Set G))
+    (hyN : y ∈ normalizer (A : Set G)) (_hy'N : y' ∈ normalizer (A : Set G))
     {a b : Option (Fin 7)} (hab : a ≠ b) (hσ : Sec4MRealizes t φ y (Equiv.swap a b))
     (hσ' : Sec4MRealizes t φ y' (Equiv.swap a b))
     (hn : ∃ n : ℕ, (y⁻¹ * y') ^ (2 ^ n) = 1) :

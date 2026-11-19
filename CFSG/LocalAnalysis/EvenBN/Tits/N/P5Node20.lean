@@ -18,7 +18,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
 
-theorem img_Ig_inf (h49 : d.Thm49Statement) (hd : d.Hyp) {y₁ : G}
+theorem img_Ig_inf (_h49 : d.Thm49Statement) (_hd : d.Hyp) {y₁ : G}
     (hk : KSet (Hs d) (img d (CMt d)) (Us d) (Ks d) (W0s d) (Ws d) (star d d.x₅) (star d y₁)
       (star d d.t)) :
     img d (Ig d ⊓ centralizer ({d.t} : Set G)) = img d (CMt d) := by

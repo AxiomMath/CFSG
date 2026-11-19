@@ -169,15 +169,15 @@ theorem gl_eq {x : G} {c : ℕ} (hA : IsConj h.z x ↔ inA c = true)
     h.gl x = gLab c := by
   unfold gl gLab
   by_cases a : inA c = true
-  · rw [if_pos (hA.2 a), if_pos a]
-  · rw [if_neg (fun e => a (hA.1 e)), if_neg a]
+  · rw [ite_eq_left (hA.2 a), ite_eq_left a]
+  · rw [ite_eq_right (fun e => a (hA.1 e)), ite_eq_right a]
     by_cases b : inB c = true
-    · rw [if_pos (hB.2 b), if_pos b]
-    · rw [if_neg (fun e => b (hB.1 e)), if_neg b]
+    · rw [ite_eq_left (hB.2 b), ite_eq_left b]
+    · rw [ite_eq_right (fun e => b (hB.1 e)), ite_eq_right b]
       by_cases cc : (inC c || c == 9) = true
-      · rw [if_pos (hC.2 (by simpa only [Bool.or_eq_true, beq_iff_eq] using cc)), if_pos cc]
-      · rw [if_neg (fun e => cc (by simpa only [Bool.or_eq_true, beq_iff_eq] using hC.1 e)),
-          if_neg cc]
+      · rw [ite_eq_left (hC.2 (by simpa only [Bool.or_eq_true, beq_iff_eq] using cc)), ite_eq_left cc]
+      · rw [ite_eq_right (fun e => cc (by simpa only [Bool.or_eq_true, beq_iff_eq] using hC.1 e)),
+          ite_eq_right cc]
 
 abbrev zx (m : ℕ) : G := ((h.φ.symm (zuPt m) : h.H) : G)
 
@@ -207,17 +207,17 @@ theorem zuLab_eq {m : ℕ} (hm : m < 16) : zuLab m = h.gl (h.zx m) := by
   · subst hm0
     rw [h.zx_zero]
     have hz1 : h.z ≠ 1 := h.ne_one_of_isConj_z (IsConj.refl _)
-    rw [zuLab, if_pos rfl]
+    rw [zuLab, ite_eq_left rfl]
     unfold gl
-    rw [if_neg (fun e => hz1 (isConj_one_left.1 e)),
-      if_neg (fun e => h.rG_ne_one (by norm_num) (isConj_one_left.1 e)),
-      if_neg (fun e => h.rG_ne_one (by norm_num) (isConj_one_left.1 e))]
+    rw [ite_eq_right (fun e => hz1 (isConj_one_left.1 e)),
+      ite_eq_right (fun e => h.rG_ne_one (by norm_num) (isConj_one_left.1 e)),
+      ite_eq_right (fun e => h.rG_ne_one (by norm_num) (isConj_one_left.1 e))]
   · have hcls := zuCls_lt hm
     have hcj : IsConj (rep zuCls[m]!) (h.φ (h.φ.symm (zuPt m))) := by
       rw [MulEquiv.apply_symm_apply]
       exact zuPt_isConj hm hm0
     obtain ⟨hA, hB, hC⟩ := h.isConj_iff_of_class hcls hcj
-    rw [zuLab, if_neg hm0]
+    rw [zuLab, ite_eq_right hm0]
     exact (h.gl_eq hA hB hC).symm
 
 abbrev XG : Subgroup G := Subgroup.centralizer {h.z} ⊓ Subgroup.centralizer {h.rG 8}
@@ -345,7 +345,7 @@ theorem smith_contra {w a : G} (hw2 : w * w = 1) (hwz : IsConj h.z w) (ha2 : a *
 
 theorem not_swap {w : G} (hw8 : w * h.rG 8 = h.rG 8 * w) (hwz : IsConj h.z w)
     (hwπ : w * h.z * w⁻¹ = h.rG 7) : False := by
-  haveI := h.finite
+  have := h.finite
   have hw2 : w * w = 1 := h.sq_eq_one_of_isConj_z hwz
   have hwinv : w⁻¹ = w := inv_eq_of_mul_eq_one_right hw2
   have hπ8 : h.rG 7 * h.rG 8 = h.z := by
@@ -487,7 +487,7 @@ theorem not_swap {w : G} (hw8 : w * h.rG 8 = h.rG 8 * w) (hwz : IsConj h.z w)
     rw [h.zuLab_eq hmp] at hm1
     by_contra hns
     unfold gl at hm1
-    rw [if_neg hns] at hm1
+    rw [ite_eq_right hns] at hm1
     split_ifs at hm1 <;> omega
   have ha2 : h.zx m * h.zx m = 1 := by rw [h.zx_mul hm hm, Nat.xor_self, h.zx_zero]
   have hb : w' * h.zx m * w'⁻¹ = h.zx (p m) := hpe m hm
@@ -597,7 +597,7 @@ theorem exists_normal_of_quotient {L : Type*} [Group L] [Finite L] {t : L} (ht2 
   have hKcard : Nat.card K = 2 := by rw [Nat.card_zpowers, hot]
   have hNcard : Nat.card N = Nat.card K * Nat.card Nb :=
     QuotientGroup.card_preimage_mk K (Nb : Set (L ⧸ K))
-  haveI : (K.subgroupOf N).Normal := Subgroup.normal_comap N.subtype
+  have : (K.subgroupOf N).Normal := Subgroup.normal_comap N.subtype
   have hK'card : Nat.card (K.subgroupOf N) = 2 := by rw [card_subgroupOf_eq hKN, hKcard]
   have hK'idx : (K.subgroupOf N).index = Nat.card Nb := by
     have := (K.subgroupOf N).card_mul_index
@@ -664,7 +664,7 @@ theorem rG_eight_sq : h.rG 8 * h.rG 8 = 1 := by
 
 theorem conj_z_mem {m : G} (hm : m ∈ Subgroup.centralizer ({h.rG 8} : Set G)) :
     m * h.z * m⁻¹ = h.z ∨ m * h.z * m⁻¹ = h.rG 7 := by
-  haveI := h.finite
+  have := h.finite
   set M := Subgroup.centralizer ({h.rG 8} : Set G) with hMdef
   have h88 := h.rG_eight_sq
   have hz2 : h.z * h.z = 1 := h.sq_eq_one_of_isConj_z (IsConj.refl _)
@@ -676,7 +676,7 @@ theorem conj_z_mem {m : G} (hm : m ∈ Subgroup.centralizer ({h.rG 8} : Set G)) 
   have ht2 : t8M * t8M = 1 := Subtype.ext h88
   have ht1 : t8M ≠ 1 := fun e => h.rG_ne_one (by norm_num) (congrArg Subtype.val e)
   set K : Subgroup M := Subgroup.zpowers t8M with hKdef
-  haveI hKn : K.Normal := ⟨fun n hn g => by
+  have hKn : K.Normal := ⟨fun n hn g => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
     have hc : Commute g t8M := htc g
     rw [(hc.zpow_right k).eq, mul_inv_cancel_right]
@@ -703,7 +703,7 @@ theorem conj_z_mem {m : G} (hm : m ∈ Subgroup.centralizer ({h.rG 8} : Set G)) 
     · have e' : h.z = h.rG 8 := congrArg Subtype.val e
       have : h.rG 7 = 1 := by rw [← h.z_mul_rG_eight, ← e', hz2]
       exact h.rG_ne_one (by norm_num) this
-  haveI : Fintype (M ⧸ K) := Fintype.ofFinite _
+  have : Fintype (M ⧸ K) := Fintype.ofFinite _
   have hzb1 : (zM : M ⧸ K) ≠ 1 := fun e => hzK ((QuotientGroup.eq_one_iff zM).1 e)
   have hzb2 : (zM : M ⧸ K) * (zM : M ⧸ K) = 1 := by
     rw [← QuotientGroup.mk_mul, show zM * zM = 1 from Subtype.ext hz2, QuotientGroup.mk_one]
@@ -771,7 +771,7 @@ theorem conj_z_mem {m : G} (hm : m ∈ Subgroup.centralizer ({h.rG 8} : Set G)) 
   obtain ⟨Nb, hNb, hNbodd, hNbz⟩ := CFSG.ZStar.glauberman_zStar (M ⧸ K) (zM : M ⧸ K) hzb1 hzb2
     hiso
   have hNbot : Nb = ⊥ := by
-    haveI := hNb
+    have := hNb
     obtain ⟨Y, hYn, hYcard⟩ := exists_normal_of_quotient ht2 ht1 htc Nb hNbodd
     have hYG : Y.map M.subtype = ⊥ := by
       apply h.eq_bot_of_odd_normal
@@ -801,9 +801,9 @@ theorem conj_z_mem {m : G} (hm : m ∈ Subgroup.centralizer ({h.rG 8} : Set G)) 
 
 theorem card_centralizer_eight :
     Nat.card (Subgroup.centralizer ({h.rG 8} : Set G)) = 1474560 := by
-  haveI := h.finite
+  have := h.finite
   set M := Subgroup.centralizer ({h.rG 8} : Set G) with hMdef
-  letI := conjActG M
+  let := conjActG M
   obtain ⟨u, hu1, hu2⟩ := h.exists_swap_seven
   have huM : u ∈ M := by
     rw [Subgroup.mem_centralizer_singleton_iff, ← h.rG_seven_mul_z]

@@ -88,7 +88,7 @@ theorem exists_isPGroup_map_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact 
   have hT : ((S.mapSurjective hφ : Sylow p P) : Subgroup P) = ⊤ :=
     (S.mapSurjective hφ).maximal_isPGroup.eq_of_le (hP.of_equiv Subgroup.topEquiv.symm) le_top
   rw [Sylow.coe_mapSurjective] at hT
-  refine ⟨(S : Subgroup Q₀).map Q₀.subtype, S.isPGroup'.map _, fun x hx => ?_⟩
+  refine ⟨(S : Subgroup Q₀).map Q₀.subtype, S.isPGroup.map _, fun x hx => ?_⟩
   have hmem : (⟨x, hx⟩ : P) ∈ (S : Subgroup Q₀).map φ := by
     rw [hT]
     exact Subgroup.mem_top _

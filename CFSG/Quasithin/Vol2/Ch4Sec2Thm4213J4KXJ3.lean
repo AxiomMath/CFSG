@@ -48,7 +48,7 @@ theorem alt2_impossible {Γ : Type} [Group Γ] [Finite Γ] {KX J J' : Subgroup �
     (hoT : CFSG.ASVolI.ChIJK.oddTwoCore ↥KX = Subgroup.center ↥KX)
     (hpz : CFSG.Open.pRank 3 (Subgroup.centralizer ({z} : Set Γ)) ≤ 2) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzr : z * r = r * z := (hrK z hzKX).symm
   have hzrinv : z * r⁻¹ = r⁻¹ * z := by
     calc z * r⁻¹ = r⁻¹ * (r * z) * r⁻¹ := by group

@@ -75,7 +75,7 @@ theorem fusion_contradiction {S : Sylow 2 G} {M : Subgroup G} {z : G} (h : Hyp21
     exact h.rank
   obtain ⟨E, hET, hE, hEcard⟩ := SU1.exists_isElemAbelian_of_le_pRank Nat.prime_two hrankT
   have hnc := hpair.exists_noncomm_of_rank hdecomp hET hE hEcard
-  have hQinv := hpair.inverter_of_noncomm (T.isPGroup'.to_le hQT) hnc
+  have hQinv := hpair.inverter_of_noncomm (T.isPGroup.to_le hQT) hnc
   let ι : ↥(S : Subgroup G) →* Hbar (centralizer ({z} : Set G)) := sylowBar hS
   have hιinj : Function.Injective ι := sylowBar_injective hS
   have hTι : ∀ s : ↥(S : Subgroup G), ι s ∈ (T : Subgroup (Hbar (centralizer ({z} : Set G)))) := by
@@ -141,7 +141,7 @@ theorem fusion_contradiction {S : Sylow 2 G} {M : Subgroup G} {z : G} (h : Hyp21
       exact congrArg Subtype.val huxS
     · rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
       exact congrArg Subtype.val hvxS
-  have hDp : IsPGroup 2 ↥D := S.isPGroup'.to_le hDS
+  have hDp : IsPGroup 2 ↥D := S.isPGroup.to_le hDS
   have hg₁x : g₀⁻¹ * (g₀ * z * g₀⁻¹) * g₀⁻¹⁻¹ = z := by group
   have hKH : D.map (MulAut.conj g₀⁻¹).toMonoidHom ≤ centralizer ({z} : Set G) := by
     have h1 : centralizer ({g₀⁻¹ * (g₀ * z * g₀⁻¹) * g₀⁻¹⁻¹} : Set G) =

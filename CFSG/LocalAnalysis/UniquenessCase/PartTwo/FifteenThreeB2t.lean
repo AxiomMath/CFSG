@@ -175,7 +175,7 @@ private theorem s15_Three_iSup_map_invariant (h : Hyp151 D V₀ V L)
       rw [Subgroup.map_map]
       congr 1
       ext x
-      simp [mul_assoc]
+      simp
     exact le_iSup_of_le (⟨(g : MulAut (vStar D.M V₀ V hV L))⁻¹ * k',
       (Mbar D.M (v1Sub D.M V₀ V hV L) V hV).mul_mem
         ((Mbar D.M (v1Sub D.M V₀ V hV L) V hV).inv_mem

@@ -30,7 +30,7 @@ theorem main_49
           ∀ TG : Subgroup G, IsSylowIn 2 TG ⊤ → T ≤ TG →
             fixV (TG.map ρ) = V₁ ⊓ fixV (TG.map ρ) ∧ (L < ⊤ → rk ↥(fixV (TG.map ρ)) = 1) := by
   intro T hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := Trans.exists_conj_toG_eq (τ := τ) (p := 2) isSylowIn_T0 hT
   have hfc : FormClause glHom G0 ι0 f0 := formClause_G0
   have hι : (τ.conj c).iota ι0 = τ.iota ι0 :=

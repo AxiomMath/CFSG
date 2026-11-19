@@ -22,18 +22,18 @@ theorem simpleSympFieldInput_holds :
   rcases lab with ⟨tag, rank, n⟩
   rcases hsymp with ht | ht <;> subst ht
   all_goals
-    simp only [LargeEvenInLambda2, LargeEvenLabelAll, LargeEvenRawDatum] at hlam hQ ⊢
+    simp only [LargeEvenInLambda2, LargeEvenRawDatum] at hlam hQ ⊢
     obtain ⟨hnpos, hrank2, hrankn⟩ := hlam
     obtain ⟨K, hKfld, hKfin, hKcard, hQ'⟩ := hQ
-    letI : Field K := hKfld
-    letI : Finite K := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
+    let : Field K := hKfld
+    let : Finite K := hKfin
+    have : Fintype K := Fintype.ofFinite K
     have hcardK : Fintype.card K = 2 ^ n := by
       rw [Fintype.card_eq_nat_card, hKcard]
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) hcardK
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) hcardK
     refine ⟨K, hKfld, hKfin, hKcard, hQ', ?_⟩
     intro φ hφ1 hφ3 hφI J hJ hlabel
-    haveI : NeZero rank := ⟨by omega⟩
+    have : NeZero rank := ⟨by omega⟩
     have hcenter : Subgroup.center (LargeEvenProj (LargeEvenSpGroup K rank)) = ⊥ :=
       TableBSymp.center_spProj_eq_bot
     obtain ⟨g, hg⟩ := TableBSymp.sp_I_subset_inn (K := K) (m := rank) hφI

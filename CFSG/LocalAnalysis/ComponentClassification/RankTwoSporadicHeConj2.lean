@@ -41,7 +41,7 @@ theorem nodeH_map (φ : A →* B) (l : List A) (bm : List ℕ) :
   rw [nodeH, nodeH, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨a, ⟨m, hm, rfl⟩, rfl⟩
     exact ⟨m, hm, map_pcG φ l m⟩
@@ -113,7 +113,7 @@ theorem repF_xE {f F : ℕ} (hF : nfv F = true) : RepF n (xp nfp uf f F) (xE uR 
   by_cases hf : f = 1
   · subst hf
     simpa using h
-  · simp only [nbeq_false hf, hf, if_false, one_mul]
+  · simp only [nbeq_false hf, hf, ite_false, one_mul]
     exact h1
 
 include hnf hu2 in
@@ -123,7 +123,7 @@ theorem inC_xE {f F : ℕ} (hF : nfv F = true) (hf : f < 2) :
   unfold InC xE
   rcases (by omega : f = 0 ∨ f = 1) with rfl | rfl
   · simpa using hm
-  · simp only [one_ne_zero, if_false, if_true]
+  · simp only [one_ne_zero, ite_false, ite_true]
     rw [← mul_assoc, hu2, one_mul]
     exact hm
 
@@ -135,14 +135,14 @@ theorem inC_mul {a b : Equiv.Perm (Fin n)} {p q : ℕ} (hp : p < 2) (hq : q < 2)
   rcases (by omega : p = 0 ∨ p = 1) with rfl | rfl <;>
     rcases (by omega : q = 0 ∨ q = 1) with rfl | rfl <;>
     simp only [↓reduceIte, one_ne_zero] at ha hb
-  · rw [if_pos (by decide)]
+  · rw [ite_eq_left (by decide)]
     exact mul_mem ha hb
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     have := mul_mem (hN a ha) hb
     rwa [hui, mul_assoc, mul_assoc, ← mul_assoc uR uR b, hu2, one_mul, ← mul_assoc] at this
-  · rw [if_neg (by decide), ← mul_assoc]
+  · rw [ite_eq_right (by decide), ← mul_assoc]
     exact mul_mem ha hb
-  · rw [if_pos (by decide)]
+  · rw [ite_eq_left (by decide)]
     have := mul_mem (hN _ ha) hb
     rwa [hui, ← mul_assoc uR uR a, hu2, one_mul, mul_assoc, ← mul_assoc uR uR b, hu2,
       one_mul] at this
@@ -155,9 +155,9 @@ theorem bpar_cons (f : ℕ) (fl : List ℕ) (m : ℕ) :
     bpar (f :: fl) m = ((if m % 2 = 1 then f else 0) + bpar fl (m / 2)) % 2 := by
   change ((bif Nat.beq (m % 2) 1 then f else 0) + bpar fl (m / 2)) % 2 = _
   by_cases h : m % 2 = 1
-  · rw [nbeq_true h, if_pos h]
+  · rw [nbeq_true h, ite_eq_left h]
     rfl
-  · rw [nbeq_false h, if_neg h]
+  · rw [nbeq_false h, ite_eq_right h]
     rfl
 
 theorem bpcOK_facts {bs : List ℕ} : ∀ {fl xf rs : List ℕ} {cs : List (List ℕ)},
@@ -195,9 +195,9 @@ theorem repF_bpcAt : ∀ {fl xf : List ℕ}, fl.length = xf.length → (∀ F �
     simp only [strictN_val, xsE, List.zipWith_cons_cons]
     rw [pcG]
     by_cases hm : m % 2 = 1
-    · rw [nbeq_true hm, if_pos hm]
+    · rw [nbeq_true hm, ite_eq_left hm]
       exact (hx.comp ih) x hx'
-    · rw [nbeq_false hm, if_neg hm, one_mul]
+    · rw [nbeq_false hm, ite_eq_right hm, one_mul]
       exact ih x hx'
   | [], _ :: _, hl, _, _ | _ :: _, [], hl, _, _ => by simp at hl
 
@@ -213,15 +213,16 @@ theorem inC_pcG : ∀ {fl xf : List ℕ}, fl.length = xf.length → (∀ F ∈ x
     simp only [xsE, List.zipWith_cons_cons]
     rw [pcG, bpar_cons]
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_pos hm]
+    · rw [ite_eq_left hm, ite_eq_left hm]
       exact inC_mul hu2 hN hf2 (bpar_lt _ _) (inC_xE hnf hu2 (hF F List.mem_cons_self) hf2) ih
-    · rw [if_neg hm, if_neg hm, one_mul, Nat.zero_add, Nat.mod_eq_of_lt (bpar_lt _ _)]
+    · rw [ite_eq_right hm, ite_eq_right hm, one_mul, Nat.zero_add, Nat.mod_eq_of_lt (bpar_lt _ _)]
       exact ih
   | [], _ :: _, hl, _, _, _ | _ :: _, [], hl, _, _, _ => by simp at hl
 
 variable (hX : BaseFaithful X bs) (hbs : ∀ b ∈ bs, b < n)
 
 include hX hbs huf hu2 in
+omit hu2 hbs in
 theorem eq_of_inC {a b : Equiv.Perm (Fin n)} {fa fb : ℕ → ℕ} (hfa : RepF n fa a) (hfb : RepF n fb b)
     {p : ℕ} (ha : InC X uR a p) (hb : InC X uR b p) (h : eqOnL bs fa fb = true) : a = b := by
   unfold InC at ha hb
@@ -235,6 +236,7 @@ theorem eq_of_inC {a b : Equiv.Perm (Fin n)} {fa fb : ℕ → ℕ} (hfa : RepF n
     exact mul_left_cancel this
 
 include hnf huf hu2 hN hX hbs in
+omit hbs in
 theorem brel_spec {f F : ℕ} (hF : nfv F = true) (hf : f < 2) {fl xf : List ℕ}
     (hl : fl.length = xf.length) (hxf : ∀ F ∈ xf, nfv F = true) (hfl : ∀ f ∈ fl, f < 2) :
     ∀ {fys Fys cs : List ℕ}, (∀ F ∈ Fys, nfv F = true) → (∀ f ∈ fys, f < 2) →
@@ -253,7 +255,7 @@ theorem brel_spec {f F : ℕ} (hF : nfv F = true) (hf : f < 2) {fl xf : List ℕ
       have hx := repF_xE hnf huf (f := f) hF
       have hy' := repF_xE hnf huf (f := fy) hFy
       have hp := repF_bpcAt hnf huf hl hxf c
-      refine eq_of_inC huf hu2 hX hbs (hy'.comp hx) (hx.comp hp) (p := (fy + f) % 2)
+      refine eq_of_inC huf hX (hy'.comp hx) (hx.comp hp) (p := (fy + f) % 2)
         (inC_mul hu2 hN hfy hf (inC_xE hnf hu2 hFy hfy) (inC_xE hnf hu2 hF hf)) ?_ ?_
       · have h1 := inC_mul hu2 hN hf (bpar_lt fl c) (inC_xE hnf hu2 hF hf)
           (inC_pcG hnf hu2 hN hl hxf hfl c)
@@ -266,6 +268,7 @@ theorem brel_spec {f F : ℕ} (hF : nfv F = true) (hf : f < 2) {fl xf : List ℕ
   | _ :: _, _ :: _, [], _, _, h => by simp [brelOK] at h
 
 include hnf huf hu2 hN hX hbs in
+omit hbs in
 theorem pcRel_of_bpcOK : ∀ {fl xf rs : List ℕ} {cs : List (List ℕ)},
     bpcOK nfv nfp uf bs fl xf rs cs = true → PcRel (xsE uR nfE fl xf)
   | [], [], _, _, _ => by simp [xsE, PcRel]
@@ -276,10 +279,10 @@ theorem pcRel_of_bpcOK : ∀ {fl xf rs : List ℕ} {cs : List (List ℕ)},
     obtain ⟨hl, hxf, hfl⟩ := bpcOK_facts hrest
     have hx := repF_xE hnf huf (f := f) hF
     simp only [xsE, List.zipWith_cons_cons, PcRel]
-    refine ⟨⟨r, ?_⟩, brel_spec hnf huf hu2 hN hX hbs hF hf hl hxf hfl hxf hfl hrel,
+    refine ⟨⟨r, ?_⟩, brel_spec hnf huf hu2 hN hX hF hf hl hxf hfl hxf hfl hrel,
       pcRel_of_bpcOK hrest⟩
     have hp := repF_bpcAt hnf huf hl hxf r
-    refine eq_of_inC huf hu2 hX hbs (hx.comp hx) hp (p := (f + f) % 2)
+    refine eq_of_inC huf hX (hx.comp hx) hp (p := (f + f) % 2)
       (inC_mul hu2 hN hf hf (inC_xE hnf hu2 hF hf) (inC_xE hnf hu2 hF hf)) ?_ ?_
     · have h1 := inC_pcG hnf hu2 hN hl hxf hfl r
       rw [Nat.eq_of_beq_eq_true hpar] at h1
@@ -292,8 +295,7 @@ theorem pcRel_of_bpcOK : ∀ {fl xf rs : List ℕ} {cs : List (List ℕ)},
 theorem distinct_nodup : ∀ {l : List ℕ}, distinct l = true → l.Nodup
   | [], _ => List.nodup_nil
   | a :: l, h => by
-    simp only [distinct, Bool.and_eq_true, Bool.not_eq_true', List.any_eq_false,
-      Nat.beq_eq_true_eq] at h
+    simp only [distinct, Bool.and_eq_true, Bool.not_eq_true', List.any_eq_false] at h
     refine List.nodup_cons.2 ⟨fun ha => ?_, distinct_nodup h.2⟩
     have := h.1 a ha
     simp at this
@@ -324,7 +326,7 @@ theorem rep_pperm {n w P : ℕ} (hw : n ≤ 2 ^ w) (hc : canonP n w P = true)
   have hva : CFSG.RankThree.Native.validA n (unpackP n w P) = true :=
     (CFSG.KC.Census.SP.validA_unpack hw hc).trans hv
   have := CFSG.RankThree.Native.rep_of_validA hva i
-  rw [pperm, ← this, CFSG.KC.Census.SP.unpackP_get, if_pos i.2]
+  rw [pperm, ← this, CFSG.KC.Census.SP.unpackP_get, ite_eq_left i.2]
 
 include hnf huf hu2 hX hbs in
 theorem witness_of_heConjOK (hR : ∀ r ∈ R, ∀ x ∈ X, r * x * r⁻¹ ∈ X) (huR : uR ∈ R)
@@ -338,7 +340,7 @@ theorem witness_of_heConjOK (hR : ∀ r ∈ R, ∀ x ∈ X, r * x * r⁻¹ ∈ X
   obtain ⟨⟨⟨ht, hn⟩, hb⟩, hw⟩ := h
   obtain ⟨hrel32, hsep32, hfacts, htree⟩ := tree32_sound (n := 32) (w := 6) (by norm_num)
     (by norm_num) ht hn
-  simp only [bridgeOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true] at hb
+  simp only [bridgeOK, Bool.and_eq_true, List.all_eq_true] at hb
   obtain ⟨⟨⟨⟨⟨⟨hdl, hdlt⟩, hdist⟩, hfl⟩, hxf⟩, hdelta⟩, hbpc⟩ := hb
   obtain ⟨hl, hnfv, hf2⟩ := bpcOK_facts hbpc
   set xs8 := xsE uR nfE d.fl d.xf with hxs8
@@ -359,7 +361,7 @@ theorem witness_of_heConjOK (hR : ∀ r ∈ R, ∀ x ∈ X, r * x * r⁻¹ ∈ X
     · exact huR
     · exact one_mem _
   have hSR : S ≤ R := (closure_le R).2 hmemR
-  have hrel8 : PcRel xs8 := pcRel_of_bpcOK hnf huf hu2 hN hX hbs hbpc
+  have hrel8 : PcRel xs8 := pcRel_of_bpcOK hnf huf hu2 hN hX hbpc
   have hcard8 : Nat.card S ≤ 2 ^ d.xs.length := by
     have hsurj : ∀ g : S, ∃ m : Fin (2 ^ xs8.length), pcG xs8 m = g := by
       intro g

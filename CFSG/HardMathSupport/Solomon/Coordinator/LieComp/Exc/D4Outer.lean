@@ -42,7 +42,7 @@ open TauCeti CFSG.Assembly.LowTwoRank CFSG.Yardstones.Md0ec50421ce4
 private theorem nonempty_ringEquiv_fixedField' {K : Type} [Field K] [Fintype K]
     (d : ValidLieTypeIndex)
     (hK : Fintype.card K = d.fieldOrder) : Nonempty (K ≃+* ↥d.fixedField) := by
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype d.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card (α := d.fixedField), ValidLieTypeIndex.card_fixedField]
@@ -69,7 +69,7 @@ theorem isChevSimple_adjointGroup_D4 {K : Type} [Field K] [Finite K] :
     IsChevSimple (ringChar K) ↥(adjointGroup Tag.D4 K) ∧
       IsEmpty (↥(adjointGroup Tag.D4 K) ≃* alternatingGroup (Fin 6)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
   refine ⟨isChevSimple_congr e (isChevSimple_statedProj_plus' (K := K) 4 le_rfl), ?_⟩
   obtain ⟨f, hp, hcard⟩ := FiniteField.card K (ringChar K)
@@ -97,7 +97,7 @@ theorem exists_fixSubgroup_twistedOne_equiv {ℓ e : ℕ} [Fact ℓ.Prime] [Char
       Nonempty (↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ≃*
         ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
   classical
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, hfixeq, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ e Fact.out he K
@@ -111,8 +111,8 @@ theorem compsFine_of_equiv_cat_trialityD4 {ℓ : ℕ} {C X : Type} [Group C] [Gr
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid)
     (eC : (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group ≃* X) (eF : C ≃* X) :
     CompsFine ℓ C := by
-  haveI : Finite C := Finite.of_equiv X eF.symm.toEquiv
-  haveI : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr eF).2 inferInstance
+  have : Finite C := Finite.of_equiv X eF.symm.toEquiv
+  have : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr eF).2 inferInstance
   have hnc' : ∃ x y : C, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eF.symm x, eF.symm y, fun h => hxy (by simpa using congrArg eF h)⟩
@@ -158,12 +158,12 @@ theorem compsFine_fixSubgroup_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Pri
   · rw [h]
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := exists_fixSubgroup_twistedOne_equiv he hK T 1 (Or.inl rfl)
       (fun c => by rw [hT, pow_one])
-    haveI := hs
+    have := hs
     exact compsFine_of_equiv_cat_trialityD4 hnc q rfl hv eC eF
   · rw [h]
     have hfix := fixedSubgroup_twistedEntrywiseAut_D4_two T
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := exists_fixSubgroup_twistedOne_equiv he hK T⁻¹ 2 (Or.inr rfl) hinv
-    haveI := hs
+    have := hs
     let eT : ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom) ≃*
         ↥(graphFixedRootGroup TwistTag.D4 K T⁻¹.toRingHom) :=
       (Subgroup.equivMapOfInjective _ (trialityTranspositionAut K).toMonoidHom
@@ -230,16 +230,16 @@ theorem compsFine_fixSubgroup_entrywiseAdjointAut {q : ℕ} (τ : Tag) (σ : K �
     (hA6 : IsEmpty (↥(adjointGroup τ (fixSubfield σ)) ≃* alternatingGroup (Fin 6))) :
     CompsFine q ↥(fixSubgroup (entrywiseAdjointAut τ σ)) := by
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
-  haveI : Finite ↥(adjointGroup τ K) := Subtype.finite
+  have : Finite (ModGL τ K) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
+  have : Finite ↥(adjointGroup τ K) := Subtype.finite
   obtain ⟨ι, hι, hJC, hnorm, hsol⟩ := ExcCopy.exists_fixed_structure τ σ
-  haveI := hs
+  have := hs
   let J : Subgroup ↥(fixSubgroup (entrywiseAdjointAut τ σ)) :=
     ι.range.subgroupOf (fixSubgroup (entrywiseAdjointAut τ σ))
-  haveI : J.Normal := hnorm
+  have : J.Normal := hnorm
   let e : adjointGroup τ (fixSubfield σ) ≃* ι.range := MonoidHom.ofInjective hι
   let eJ : ↥J ≃* adjointGroup τ (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans e.symm
@@ -308,7 +308,7 @@ theorem compsFine_d4_outer (hodd : TrialityOddA2Comps) {ℓ f : ℕ} [Fact ℓ.P
     · rw [hα'] at hα
       obtain ⟨ψ, hψ⟩ := ExcCopy.exists_conj_eq_entrywiseAdjointAut .D4 Nat.prime_three g a σ hσ1
         hσ3 hα
-      haveI : Finite (fixSubfield σ) := Subtype.finite
+      have : Finite (fixSubfield σ) := Subtype.finite
       obtain ⟨hChev, hA6⟩ := isChevSimple_adjointGroup_D4 (K := fixSubfield σ)
       have hring : ringChar (fixSubfield σ) = ℓ :=
         ringChar_subfield (ringChar.eq F ℓ) (fixSubfield σ)
@@ -337,7 +337,7 @@ theorem d4OuterExport_of (hodd : TrialityOddA2Comps) (hchar3 : D4Char3Outer) : D
   left
   have hG' := hG
   obtain ⟨⟨hℓ, hf, -⟩, F, _, _, hF, ⟨eG⟩⟩ := hG'
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨eC⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   let e₂ : G ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC
   refine lieCompExport_of_compsFine (perfectInLayer_omega_D4_three hG hℓ3 β hβ) ?_

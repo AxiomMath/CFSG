@@ -27,6 +27,6 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.RankThree.Native
     pairFreeCheck 100 hs100FiveC2Cert.pts hs100FiveLines[2]! &&
     pairFreeCheck 100 hs100FiveC23Cert.pts hs100FiveLines[23]!
 
-@[expose] abbrev HSPairFreeCheck : Prop := hsPairFreeOK = true
+abbrev HSPairFreeCheck : Prop := hsPairFreeOK = true
 
 end CFSG.RankThree.PartOne.K133Spor

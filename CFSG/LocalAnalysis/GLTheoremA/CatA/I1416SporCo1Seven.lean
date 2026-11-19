@@ -85,7 +85,7 @@ theorem row_Co1_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
   obtain ⟨hfin, hs, hnc, ⟨b⟩⟩ := co1_model hbr
   refine @row_of_model .Co1 7 ↥GA _ hfin hs hOut b hnc fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   exact typeOK_seven_of_card_dvd_2520 hb hnab (card_pSimple_dvd_2520 x hx hI)
 
 theorem qrow_Co1_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
@@ -96,7 +96,7 @@ theorem qrow_Co1_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
   refine @CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qrow_of_model .Co1 7 ↥GA _ hfin hs hOut b hnc
     fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   exact qtypeOK_seven_of_card_dvd_2520 hb hnab (card_pSimple_dvd_2520 x hx hI)
 
 end CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1S

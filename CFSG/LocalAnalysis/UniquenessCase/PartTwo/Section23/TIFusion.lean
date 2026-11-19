@@ -56,7 +56,7 @@ theorem mem_M_of_conj_mem_U (hTI : IsTI D.U) {u : G} (huU : u ∈ D.U) (hu : u �
   have hmem : g * u * g⁻¹ ∈ D.U ⊓ conjSubgroup g D.U := by
     refine ⟨hgu, ?_⟩
     exact Subgroup.mem_map.mpr
-      ⟨u, huU, by simp [CFSG.CGT.Timmesfeld75.conjSubgroup, MulAut.conj_apply]⟩
+      ⟨u, huU, by simp [MulAut.conj_apply]⟩
   have hne : D.U ⊓ conjSubgroup g D.U ≠ ⊥ := by
     intro hbot
     rw [hbot] at hmem

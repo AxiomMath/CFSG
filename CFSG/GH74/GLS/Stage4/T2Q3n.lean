@@ -40,7 +40,7 @@ theorem t2q3n_setting_core (hr : pRank 2 G = 3) {n : ℕ} (hn : 3 ≤ n)
   have hεeq : ε₂ = ε₁ := by
     have h12 : ε₁ ≡ ε₂ [ZMOD 4] := hq₁.symm.trans hq₂
     unfold Int.ModEq at h12
-    rcases hε₁ with h | h <;> rcases hε₂ with h' | h' <;> rw [h, h'] at h12 ⊢ <;> first | rfl | omega
+    rcases hε₁ with h | h <;> rcases hε₂ with h' | h' <;> rw [h, h'] at h12 ⊢ <;> omega
   have hm₁ : Nat.card ↥(H ⊓ K₁) % 4 = 2 := by
     have h1 := hcard₁
     have h2 := hq₁

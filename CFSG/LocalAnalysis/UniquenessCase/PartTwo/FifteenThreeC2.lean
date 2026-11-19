@@ -29,6 +29,7 @@ private theorem s15_Three_comm_of_commutator_eq_bot {A : Type} [Group A] {S T : 
   rw [h, Subgroup.mem_bot] at h1
   exact commutatorElement_eq_one_iff_mul_comm.1 h1
 
+omit [Finite G] in
 private theorem s15_Three_actTil_mk_eq_iff {hV : IsElemAbelian 2 V} (hV0 : V₀ = ⊥)
     {x : G} (hx : x ∈ stabTil V₀ V) (v : IntMod V hV) :
     actTil V₀ V hV ⟨x, hx⟩ (mkTil V₀ V hV v) = mkTil V₀ V hV v ↔
@@ -221,7 +222,7 @@ theorem s15_Three_cover (hSimple : RSimple153) (h127 : R127 D) (h119 : F11.R119 
       ∀ y ∈ Y, ∀ w ∈ v1Sub D.M V₀ V hV L, y * w * y⁻¹ = w := by
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-  haveI := s15_Three_cTilde_normal hV hMs
+  have := s15_Three_cTilde_normal hV hMs
   obtain ⟨X, Y, -, hXM, -, -, hYbar, hYstar, H⟩ :=
     s15_Three_Y119 hSimple h127 h119 h1217 h hV hshape hperf
   have H' : F11.IsY119 D.M V₀ V X Y ∧ (¬ F09.Thin9 Y → ⁅Y, V₀⁆ = ⊥) :=
@@ -303,6 +304,7 @@ theorem s15_Three_inCalV {V₀ V : Subgroup G} (h : Hyp125 D V₀ V) : InCalV D.
   · exact hW.1.1.1
   · exact h0.2.1
 
+omit [Finite G] in
 private theorem s15_Three_uniqueMax_of_le {M E C : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hEC : E ≤ C) (hCM : C ≤ M) (hE : UniqueMax M E) : UniqueMax M C := by
   refine Set.eq_singleton_iff_unique_mem.2 ⟨⟨hM, hCM⟩, fun N hN => ?_⟩

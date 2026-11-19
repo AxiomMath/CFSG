@@ -10,6 +10,7 @@ section Gen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_le_of_equiv_comm {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     {Q : Subgroup T} (hcomm : ∀ x y : T, x * y * x⁻¹ * y⁻¹ ∈ Q) (hYC : Y ≤ C)
     (hp : Group.IsPerfect ↥Y) : ∃ N : Subgroup G, N ≤ C ∧ Y ≤ N ∧ Nonempty (↥N ≃* ↥Q) := by
@@ -22,6 +23,7 @@ theorem exists_le_of_equiv_comm {T : Type} [Group T] {C Y : Subgroup G} (eC : �
     rw [map_mul, map_mul, map_mul, map_inv, map_inv]
     exact hcomm _ _
 
+omit [Finite G] in
 theorem eq_bot_of_equiv_comm {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     {Q : Subgroup T} (hQ : CFSG.IsQuasisimple ↥Q) (h3Q : 3 ∣ Nat.card Q)
     (hcomm : ∀ x y : T, x * y * x⁻¹ * y⁻¹ ∈ Q) (hYC : Y ≤ C)
@@ -34,6 +36,7 @@ theorem eq_bot_of_equiv_comm {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C 
     exact h3Q
   exact eq_bot_of_le_quasisimple hYN hNC hsub hNq h3N hp h3
 
+omit [Finite G] in
 theorem eq_bot_of_equiv_comm_simple {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     {Q : Subgroup T} (hQ : IsSimpleGroup ↥Q) (h3Q : 3 ∣ Nat.card Q)
     (hcomm : ∀ x y : T, x * y * x⁻¹ * y⁻¹ ∈ Q) (hYC : Y ≤ C)
@@ -47,25 +50,28 @@ theorem eq_bot_of_equiv_comm_simple {T : Type} [Group T] {C Y : Subgroup G} (eC 
   rw [hYN', Nat.card_congr eN.toEquiv]
   exact h3Q
 
+omit [Finite G] in
 theorem eq_bot_of_le_solvable {Y M : Subgroup G} (hYM : Y ≤ M) (hM : Group.IsSolvable ↥M)
     (hp : Group.IsPerfect ↥Y) : Y = ⊥ := by
-  haveI := hM
-  haveI : Group.IsSolvable ↥Y :=
+  have := hM
+  have : Group.IsSolvable ↥Y :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYM)
       (Subgroup.inclusion_injective hYM)
   by_contra hne
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥Y inferInstance
 
+omit [Finite G] in
 theorem eq_bot_of_equiv_comm_solvable {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     {Q : Subgroup T} (hQ : Group.IsSolvable ↥Q) (hcomm : ∀ x y : T, x * y * x⁻¹ * y⁻¹ ∈ Q)
     (hYC : Y ≤ C) (hp : Group.IsPerfect ↥Y) : Y = ⊥ := by
   obtain ⟨N, -, hYN, ⟨eN⟩⟩ := exists_le_of_equiv_comm eC hcomm hYC hp
-  haveI := hQ
-  have hN : Group.IsSolvable ↥N := solvable_of_surjective (f := eN.symm.toMonoidHom)
+  have := hQ
+  have hN : Group.IsSolvable ↥N := Group.isSolvable_of_surjective (f := eN.symm.toMonoidHom)
     eN.symm.surjective
   exact eq_bot_of_le_solvable hYN hN hp
 
+omit [Finite G] in
 theorem eq_bot_of_equiv_quasisimple {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     (hT : CFSG.IsQuasisimple T) (h3T : 3 ∣ Nat.card T) (hYC : Y ≤ C)
     (hsub : (Y.subgroupOf C).IsSubnormal) (hp : Group.IsPerfect ↥Y)
@@ -76,6 +82,7 @@ theorem eq_bot_of_equiv_quasisimple {T : Type} [Group T] {C Y : Subgroup G} (eC 
     exact h3T
   exact eq_bot_of_le_quasisimple hYC le_rfl hsub hC h3C hp h3
 
+omit [Finite G] in
 theorem eq_bot_of_equiv_simple {T : Type} [Group T] {C Y : Subgroup G} (eC : ↥C ≃* T)
     (hT : IsSimpleGroup T) (h3T : 3 ∣ Nat.card T) (hYC : Y ≤ C)
     (hsub : (Y.subgroupOf C).IsSubnormal) (h3 : ¬ 3 ∣ Nat.card Y) : Y = ⊥ := by

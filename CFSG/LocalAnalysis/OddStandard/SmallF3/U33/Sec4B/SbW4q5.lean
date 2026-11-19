@@ -10,11 +10,13 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem w4q_sq_formula (l d : G) :
     (l * d) * (l * d) = (l * d * l⁻¹ * d⁻¹) * (d * (l * l) * d⁻¹ * (l * l)⁻¹) * (l * l) *
       (d * d) := by
   group
 
+omit [Finite G] in
 private theorem w4q_aux_solve (P Q R : G) (h : P * R * Q = 1) : R = P⁻¹ * Q⁻¹ := by
   calc R = P⁻¹ * (P * R * Q) * Q⁻¹ := by group
     _ = P⁻¹ * Q⁻¹ := by rw [h]; group
@@ -97,7 +99,7 @@ theorem w4q_sq_mem_V
       calc (l * d) * (l * d) = (t * t) * ((l * d) * (l * d)) := by rw [w4q_t_mul_t hc, one_mul]
         _ = t * (t * ((l * d) * (l * d))) := mul_assoc _ _ _
   · exfalso
-    push_neg at hL
+    push Not at hL
     obtain ⟨l₀, hl₀, hl₀τ, hl₀sq⟩ := hL
     exact hF (w4q_H_of_bad hc ⟨l₀, hl₀, hl₀τ, hl₀sq⟩)
 

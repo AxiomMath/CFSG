@@ -21,7 +21,7 @@ theorem sigma_eq_refl_of_id {A : (Fin 2 → K) ≃+ (Fin 2 → K)} {σA : K ≃+
 
 theorem uB_commute_iff [Finite K] {a₀ : K} (ha₀ : a₀ ≠ 0)
     {A : (Fin 2 → K) ≃+ (Fin 2 → K)} {σA : K ≃+* K} (hσA : IsSemi A σA)
-    (hσA2 : ∀ x, σA x = x ^ 2) (hfixA : A (a₀ • e₁) = a₀ • e₁) (hb : A e₂ 1 ≠ 0) (β : K)
+    (hσA2 : ∀ x, σA x = x ^ 2) (hfixA : A (a₀ • e₁) = a₀ • e₁) (_hb : A e₂ 1 ≠ 0) (β : K)
     (hcomm : (uB β).trans A = A.trans (uB β)) :
     β = 0 ∨ β = A e₂ 1 / (a₀ * (σA a₀)⁻¹) := by
   have hAe1 : A e₁ = (a₀ * (σA a₀)⁻¹) • e₁ := semi_e₁ hσA ha₀ hfixA

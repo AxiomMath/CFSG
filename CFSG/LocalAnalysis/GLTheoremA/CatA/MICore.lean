@@ -95,7 +95,7 @@ theorem canonMI_derived {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
       dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwF4Inherited] at h' ⊢
       obtain ⟨K', hF', hfin', hK', hQ'⟩ := h'
       refine ⟨K', hF', hfin', hK', hQ', fun hs' hna' σ φ hφ => ?_⟩
-      simp only [if_pos e] at hφ ⊢
+      simp only at hφ ⊢
       exact twF4der_transport_if e hK hK' σ hφ
   refine (hA.and hB).mono ?_
   rintro R _ I F ⟨hMM, hTr⟩ hs hna lab' hlab'
@@ -131,7 +131,7 @@ theorem marking_transport {X : Type} [Group X] (rel : X → X → Prop) {P : Lar
   · intro l l' hll'
     have h1 := hind₁ l l' hll'
     simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply,
-      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply, h1]
+      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, h1]
 
 end Certs
 

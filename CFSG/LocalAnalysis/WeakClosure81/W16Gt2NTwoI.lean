@@ -30,8 +30,8 @@ theorem false_of_u3 (hK : KFacts1234) (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 :
   have hcard := c.card_hatS h1 h5 h15 hS Mo
   have hn' : E3.mQuot V (U ⊔ V₀) = n' :=
     Nat.pow_right_injective (le_refl 2) (hcard.symm.trans hRoot.1)
-  haveI : Group.IsPerfect ↥(hatK Mo V) := c.isPerfect_hatK hn h1 h5 h15 hS Mo
-  haveI : Group.IsPerfect (hatX Mo V) :=
+  have : Group.IsPerfect ↥(hatK Mo V) := c.isPerfect_hatK hn h1 h5 h15 hS Mo
+  have : Group.IsPerfect (hatX Mo V) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥(hatK Mo V)))
   have hZ : Subgroup.center (hatX Mo V ⧸ Subgroup.center (hatX Mo V)) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (hatX Mo V)
@@ -76,7 +76,7 @@ theorem false_of_symplectic_root (hK : KFacts1234) (hn : 2 ≤ E3.mQuot V (U ⊔
     · have h1S : 1 < Nat.card (hatS Mo V) := by
         rw [hcard]
         exact Nat.one_lt_two_pow (by omega)
-      haveI : Nontrivial (hatS Mo V) := Finite.one_lt_card_iff_nontrivial.1 h1S
+      have : Nontrivial (hatS Mo V) := Finite.one_lt_card_iff_nontrivial.1 h1S
       obtain ⟨w, hw1⟩ := exists_ne (1 : hatS Mo V)
       have h0 := htr w w.2 (fun h => hw1 (Subtype.ext h))
       unfold SevenK.IsSymplecticTransvectionIn at h0

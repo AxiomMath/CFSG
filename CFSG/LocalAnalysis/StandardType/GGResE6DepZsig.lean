@@ -12,7 +12,7 @@ open CFSG.Timmesfeld
 private lemma l05nL4z_orderOf_eq {p k : ℕ} (h : IsPrimitivePrimeDivisor p k) (hk : 0 < k) :
     orderOf (2 : ZMod p) = k := by
   have hp : p.Prime := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : (2 : ZMod p) ^ k = 1 := (Bang.dvd_two_pow_sub_one_iff k).mp h.dvd
   have hdvd : orderOf (2 : ZMod p) ∣ k := orderOf_dvd_of_pow_eq_one hpow
   refine le_antisymm (Nat.le_of_dvd hk hdvd) ?_
@@ -25,7 +25,7 @@ private lemma l05nL4z_orderOf_eq {p k : ℕ} (h : IsPrimitivePrimeDivisor p k) (
 private lemma l05nL4z_ppd_dvd_sub_one {p k : ℕ} (h : IsPrimitivePrimeDivisor p k) (hk : 0 < k) :
     k ∣ p - 1 := by
   have hp : p.Prime := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : (2 : ZMod p) ≠ 0 := by
     intro h0
     exact h.ne_two hk ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp

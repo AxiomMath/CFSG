@@ -13,10 +13,12 @@ open scoped Pointwise
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 private theorem conjBy_zpowers (g b : H) :
     conjBy g (Subgroup.zpowers b) = Subgroup.zpowers (g * b * g⁻¹) :=
   MonoidHom.map_zpowers _ _
 
+omit [Finite H] in
 private theorem eq_or_eq_inv_of_mem_zpowers {b : H} (hb : orderOf b = 3) {x : H}
     (hx : x ∈ Subgroup.zpowers b) (hx1 : x ≠ 1) : x = b ∨ x = b⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -32,14 +34,14 @@ private theorem eq_or_eq_inv_of_mem_zpowers {b : H} (hb : orderOf b = 3) {x : H}
     exact eq_inv_of_mul_eq_one_left (by rw [← pow_succ, hb3])
 
 theorem FS79Hyp.weaklyClosed_sylow (h : FS79Hyp b t b₁ b₂ J)
-    {M : Subgroup H} (hbM : Subgroup.zpowers b ≤ M) (P : Sylow 3 M)
+    {M : Subgroup H} (_hbM : Subgroup.zpowers b ≤ M) (P : Sylow 3 M)
     (hbP : b ∈ (P : Subgroup M).map M.subtype) :
     ∀ D : Subgroup H, (∃ g : H, conjBy g (Subgroup.zpowers b) = D) →
       D ≤ (P : Subgroup M).map M.subtype → D = Subgroup.zpowers b := by
   classical
   have hordb : orderOf b = 3 := h.ord_b
   set P' : Subgroup H := (P : Subgroup M).map M.subtype with hP'def
-  have hP'p : IsPGroup 3 P' := P.isPGroup'.map M.subtype
+  have hP'p : IsPGroup 3 P' := P.isPGroup.map M.subtype
   have hbP' : b ∈ P' := hbP
   have hP'le : P' ≤ Cen b := by
     by_contra hle

@@ -48,8 +48,8 @@ theorem dGL_mem_UG (δ : Fin 6 → F4) (hδ : ∀ i, δ i ≠ 0) (h3 : ∀ i, δ
     have e : bar (δ i) * δ i = 1 := by
       rw [show bar (δ i) = δ i ^ 2 by simp [bar, frobenius_def], ← pow_succ]
       exact h3 i
-    simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply, hF4_bar, e]
-  · simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply, hij]
+    simp [Matrix.mul_apply, Matrix.diagonal_apply, hF4_bar, e]
+  · simp [Matrix.mul_apply, Matrix.diagonal_apply, hij]
 
 theorem commute_D {Ê : Subgroup M6} {d : Fin 6 → F4}
     (hcomm : ∀ h ∈ Ê, ∀ k ∈ Ê, ⁅h, k⁆ ∈ Zs) {D : M6} (hDd : mM6 D = Matrix.diagonal d)
@@ -76,7 +76,7 @@ theorem commute_D {Ê : Subgroup M6} {d : Fin 6 → F4}
 open CFSG.LocalAnalysis.GLTheoremA.LevelLieU6
 open CFSG.Fischer
 
-theorem cube_one {Ê : Subgroup M6} {d : Fin 6 → F4} {l : F4} {i1 i2 : Fin 6}
+theorem cube_one {Ê : Subgroup M6} {d : Fin 6 → F4} {_l : F4} {i1 _i2 : Fin 6}
     (hcube : ∀ h ∈ Ê, h ^ 3 ∈ Zs)
     (hblock : ∀ h ∈ Ê, ∀ i j, d i ≠ d j → mM6 h i j = 0)
     (hd1 : ∀ j, j ≠ i1 → d j ≠ d i1) :

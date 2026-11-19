@@ -11,6 +11,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {T1 T2 : Subgroup G}
 
+omit [Finite G] in
 private lemma local_mem_sup_of_le_normalizer {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, a * b = x := by
@@ -31,13 +32,14 @@ private lemma local_mem_sup_of_le_normalizer {H K : Subgroup G}
             by group⟩ }
     have hHP : H ≤ P := fun a ha => ⟨a, ha, 1, K.one_mem, by simp⟩
     have hKP : K ≤ P := fun b hb => ⟨1, H.one_mem, b, hb, by simp⟩
-    exact SetLike.le_def.mp (sup_le hHP hKP) hx
+    exact _root_.IsConcreteLE.le_iff.mp (sup_le hHP hKP) hx
   · rintro ⟨a, ha, b, hb, rfl⟩
     exact Subgroup.mul_mem_sup ha hb
 
+omit [Finite G] in
 private lemma local_zpowers_inf_eq_bot_of_notMem {C : Subgroup G}
     (ht : t ∉ C) (hcard : Nat.card ↥(zpowers t) = 2) : zpowers t ⊓ C = ⊥ := by
-  haveI : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
+  have : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (C.subgroupOf (zpowers t)) with h | h
   · have hd : Disjoint C (zpowers t) := Subgroup.subgroupOf_eq_bot.mp h
     rw [Subgroup.disjoint_def] at hd
@@ -47,6 +49,7 @@ private lemma local_zpowers_inf_eq_bot_of_notMem {C : Subgroup G}
     exact hd hx.2 hx.1
   · exact absurd ((Subgroup.subgroupOf_eq_top.mp h) (Subgroup.mem_zpowers t)) ht
 
+omit [Finite G] in
 private lemma local_mem_diag_map {d : ↥T1 →* G} {R : Subgroup G} {a : G} (ha : a ∈ T1) :
     a ∈ (R.comap d).map T1.subtype ↔ d ⟨a, ha⟩ ∈ R := by
   constructor
@@ -58,11 +61,12 @@ private lemma local_mem_diag_map {d : ↥T1 →* G} {R : Subgroup G} {a : G} (ha
   · intro h
     exact Subgroup.mem_map.mpr ⟨⟨a, ha⟩, Subgroup.mem_comap.mpr h, rfl⟩
 
+omit [Finite G] in
 theorem sec8t84_wr_card_cent_T (W : Sec8T84Wr G t T1 T2) (ht : t ∉ T1 ⊔ T2) :
     Nat.card ↥((zpowers t ⊔ (T1 ⊔ T2)) ⊓ centralizer ({t} : Set G)) = 2 * Nat.card T1 := by
   set T0 : Subgroup G := T1 ⊔ T2 with hT0
   have ht0 : t ∉ T0 := by rw [hT0]; exact ht
-  have ht_ne : t ≠ 1 := fun h => ht0 (by simpa [h] using Subgroup.one_mem T0)
+  have ht_ne : t ≠ 1 := fun h => ht0 (by simp [h])
   have h2 : Nat.card ↥(zpowers t) = 2 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (by rw [pow_two]; exact W.t_sq) ht_ne
@@ -111,6 +115,7 @@ theorem sec8t84_wr_card_cent_T (W : Sec8T84Wr G t T1 T2) (ht : t ∉ T1 ⊔ T2) 
     rwa [hbot] at hx'
   rw [hEq, sec124_card_sup hc hd, h2, hT0, sec8t84_wr_card_cent W]
 
+omit [Finite G] in
 theorem sec8t84_wr_elem_cent (W : Sec8T84Wr G t T1 T2) {R : Subgroup G}
     (hR : R ≤ (T1 ⊔ T2) ⊓ centralizer ({t} : Set G)) (he : CFSG.Open.IsElemAbelian 2 R) :
     ∃ R1 : Subgroup G, R1 ≤ T1 ∧ CFSG.Open.IsElemAbelian 2 R1 ∧ Nat.card R1 = Nat.card R ∧
@@ -194,7 +199,6 @@ theorem sec8t84_wr_elem_cent (W : Sec8T84Wr G t T1 T2) {R : Subgroup G}
       exact hx
     exact ⟨a, (hR1_mem ha).mpr hda, hxa⟩
   · intro a ha
-    change a * (t * a * t⁻¹) ∈ R
     exact (hR1_mem (hR1_le ha)).mp ha
 
 section TData

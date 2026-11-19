@@ -610,7 +610,7 @@ theorem multiplier_preimage_isCyclic {t : G} {p f : ℕ} {F : Type} [Field F] [F
           (((P : Subgroup H').map H'.subtype).equivMapOfInjective _
             (C t).subtype_injective)).toMonoidHom (MulEquiv.injective _)
     · have hPp : ∀ x : P, ∃ k : ℕ, orderOf x = ℓ ^ k := fun x =>
-        IsPGroup.iff_orderOf.mp P.isPGroup' x
+        IsPGroup.iff_orderOf.mp P.isPGroup x
       by_cases hℓa : ℓ ∣ 2 * Nat.card (N t)
       ·
         have hℓa' : ℓ ∣ Nat.card (N t) := by
@@ -771,11 +771,11 @@ theorem not_four_dvd_card_centralizer {t : G} {p f : ℕ} {F : Type} [Field F] [
     have := Nat.le_of_dvd Nat.card_pos hR4
     omega
   have hZnt : Nontrivial (Subgroup.center (R : Subgroup Cu)) :=
-    R.isPGroup'.center_nontrivial
+    R.isPGroup.center_nontrivial
   obtain ⟨y, hy2⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (R : Subgroup Cu)) 2
     (by
       obtain ⟨j, hj⟩ :=
-        (R.isPGroup'.to_subgroup (Subgroup.center (R : Subgroup Cu))).exists_card_eq
+        (R.isPGroup.to_subgroup (Subgroup.center (R : Subgroup Cu))).exists_card_eq
       have h1 := Finite.one_lt_card_iff_nontrivial.mpr hZnt
       rw [hj] at h1 ⊢
       rcases j with _ | j
@@ -850,7 +850,7 @@ theorem not_four_dvd_card_centralizer {t : G} {p f : ℕ} {F : Type} [Field F] [
     calc g * (x : G) * g⁻¹ * (g * u * g⁻¹) = g * ((x : G) * u) * g⁻¹ := by group
       _ = g * (u * x) * g⁻¹ := by rw [huR x]
       _ = g * u * g⁻¹ * (g * (x : G) * g⁻¹) := by group
-  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp R.isPGroup' x
+  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp R.isPGroup x
   have hvj : v ^ 2 ^ j = 1 := by
     apply Subtype.ext
     change (g * (x : G) * g⁻¹) ^ 2 ^ j = 1

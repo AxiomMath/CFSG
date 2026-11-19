@@ -36,7 +36,7 @@ theorem gzNo_mem_Qz_symm {G : Type} [Group G] [Finite G] {a z : G} (h : IsF5Type
     have ht_Gx_v : t ∈ Gx v := mem_Gx.mpr (mem_Gx.mp hvt_Gx).symm
     let C := ↥(Gx v)
     let Q : Subgroup C := CFSG.pCore 2 C
-    haveI hQn : Q.Normal := CFSG.pCore_normal
+    have hQn : Q.Normal := CFSG.pCore_normal
     have hQ : IsExtraspecialPlusByA5WrTwoWith C Q :=
       isExtraspecialPlusByA5WrTwoWith_pCore hv'.cent_z
     let c : C := ⟨t, ht_Gx_v⟩

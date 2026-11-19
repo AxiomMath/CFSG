@@ -13,8 +13,8 @@ open CFSG.Open Subgroup
 
 theorem not_isPerfect_perm_three : ¬ Group.IsPerfect (Equiv.Perm (Fin 3)) := by
   intro h
-  haveI : Group.IsPerfect ℤˣ := Group.IsPerfect.ofSurjective (Equiv.Perm.sign_surjective (Fin 3))
-  haveI : Subsingleton ℤˣ := inferInstance
+  have : Group.IsPerfect ℤˣ := Group.IsPerfect.ofSurjective (Equiv.Perm.sign_surjective (Fin 3))
+  have : Subsingleton ℤˣ := inferInstance
   exact absurd (Subsingleton.elim (1 : ℤˣ) (-1)) (by decide)
 
 theorem false_of_subnormal_symThree_of_isQuasisimple {R : Type} [Group R]
@@ -27,7 +27,7 @@ theorem false_of_subnormal_symThree_of_isQuasisimple {R : Type} [Group R]
     have hperf : Group.IsPerfect R := ⟨hR.1⟩
     let e' : R ≃* Equiv.Perm (Fin 3) :=
       (Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr htop.symm)).trans e
-    haveI : Group.IsPerfect (Equiv.Perm (Fin 3)) :=
+    have : Group.IsPerfect (Equiv.Perm (Fin 3)) :=
       Group.IsPerfect.ofSurjective (f := e'.toMonoidHom) e'.surjective
     exact not_isPerfect_perm_three inferInstance
   · obtain ⟨a, haX, ha1, ha3, hXa, ⟨s, hs, hs2, hs1⟩, -⟩ := Sym.symThree_data hX

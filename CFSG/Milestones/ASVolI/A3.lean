@@ -182,7 +182,7 @@ section A314
 
 variable {G : Type} [Group G]
 
-@[expose] def A314Conclusion (T B L : Subgroup G) : Prop :=
+@[expose] def A314Conclusion (_T B L : Subgroup G) : Prop :=
   (CFSG.generalizedFitting ↥B = pCore 2 ↥B ∧ pCore 2 ↥B = CFSG.solvableRadical ↥B ∧
     (CFSG.Quasithin.IsPSL 3 2 2 ↥L ∨ CFSG.Quasithin.IsSL3 4 ↥L ∨ CFSG.Quasithin.IsPSp4 2 2 ↥L ∨
       CFSG.Quasithin.IsG2 2 2 ↥L ∨ CFSG.Quasithin.Is3D4 2 2 ↥L) ∧
@@ -418,7 +418,7 @@ private theorem burnsideA35_cover_unique {S X Y : Type} [Group S] [Group X] [Gro
       Nat.card π.ker = 1 ∨ Nat.card π.ker = 3) :
     Nonempty (X ≃* Y) := by
   classical
-  haveI : Group.IsPerfect S := Group.IsPerfect.ofSurjective hX
+  have : Group.IsPerfect S := Group.IsPerfect.ofSurjective hX
   let f : X × Y →* S := πX.comp (MonoidHom.fst X Y)
   let P : Subgroup (X × Y) := (πX.comp (MonoidHom.fst X Y)).eqLocus (πY.comp (MonoidHom.snd X Y))
   have hP : ∀ p : X × Y, p ∈ P ↔ πX p.1 = πY p.2 := fun p => Iff.rfl
@@ -459,7 +459,7 @@ private theorem burnsideA35_cover_unique {S X Y : Type} [Group S] [Group X] [Gro
       rw [map_mul, map_inv, ← h1, hwp, h2, inv_mul_cancel]
   have hW'perf : ⁅W', W'⁆ = W' :=
     le_antisymm (burnsideA35_commutator_le_self W') (burnsideA35_commutator_le hdec)
-  haveI : Group.IsPerfect W' := Subgroup.isPerfect_iff.2 hW'perf
+  have : Group.IsPerfect W' := Subgroup.isPerfect_iff.2 hW'perf
   let pX : W' →* X := (MonoidHom.fst X Y).comp W'.subtype
   let pY : W' →* Y := (MonoidHom.snd X Y).comp W'.subtype
   let πW : W' →* S := πX.comp pX
@@ -496,7 +496,7 @@ private theorem burnsideA35_cover_unique {S X Y : Type} [Group S] [Group X] [Gro
     rw [Nat.card_prod, hXn, hYn] at hdvd
     exact Odd.of_dvd_nat (by decide : Odd (3 * 3)) hdvd
   have hb := hbound W' πW hπWsurj hπWc hodd
-  haveI : Finite S := Finite.of_surjective πX hX
+  have : Finite S := Finite.of_surjective πX hX
   have hSpos : 0 < Nat.card S := Nat.card_pos
   have hcardW : Nat.card W' = Nat.card S * Nat.card πW.ker := by
     rw [πW.ker.card_eq_card_quotient_mul_card_subgroup,
@@ -579,12 +579,12 @@ private theorem burnsideA35_hat_unique {S X Y : Type} [Group S] [Finite S] [Grou
       Function.Surjective π → π.ker ≤ Subgroup.center W → Odd (Nat.card π.ker) →
       Nat.card π.ker = 1 ∨ Nat.card π.ker = 3) :
     Nonempty (X ≃* Y) := by
-  haveI := burnsideA35_hat_finite hX
-  haveI := burnsideA35_hat_finite hY
+  have := burnsideA35_hat_finite hX
+  have := burnsideA35_hat_finite hY
   obtain ⟨πX, hπX, hkX⟩ := burnsideA35_hat_cover hX
   obtain ⟨πY, hπY, hkY⟩ := burnsideA35_hat_cover hY
-  haveI : Group.IsPerfect X := hX.1.1
-  haveI : Group.IsPerfect Y := hY.1.1
+  have : Group.IsPerfect X := hX.1.1
+  have : Group.IsPerfect Y := hY.1.1
   exact burnsideA35_cover_unique πX πY hπX hπY hkX.le hkY.le (by rw [hkX]; exact hX.2.1)
     (by rw [hkY]; exact hY.2.1) hbound
 
@@ -629,7 +629,7 @@ private theorem burnsideA35_isHat_of_cover {G S : Type} [Group G] [Group S] (hS 
   let e : G ⧸ Subgroup.center G ≃* S :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans
       (QuotientGroup.quotientKerEquivOfSurjective π hπ)
-  haveI := hS
+  have := hS
   refine ⟨⟨hperf, e.isSimpleGroup, ?_⟩, by rw [hcenter]; exact hcard, ⟨e⟩⟩
   obtain ⟨a, b, hab⟩ := hnab
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -713,12 +713,12 @@ private theorem burnsideA35_isHat_preimage {S : Type} [Group S] (hS : IsSimpleGr
     (hx : hatM22Act x ∈ K) (hy : hatM22Act y ∈ K)
     (hc : hatM22Act x * hatM22Act y = hatM22Act y * hatM22Act x) (hn : x * y ≠ y * x) :
     CFSG.Quasithin.IsHat ↥(K.comap hatM22Act) S := by
-  haveI := hS
-  haveI hKs : IsSimpleGroup K := e.symm.isSimpleGroup
+  have := hS
+  have hKs : IsSimpleGroup K := e.symm.isSimpleGroup
   have hKnab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e a, e b, fun h => hab (by simpa using congrArg e.symm h)⟩
-  haveI hKperf : Group.IsPerfect K := burnsideA35_isPerfect_of_simple hKs hKnab
+  have hKperf : Group.IsPerfect K := burnsideA35_isPerfect_of_simple hKs hKnab
   let X : Subgroup ↥hatM22Γ₀ := K.comap hatM22Act
   let πK : ↥X →* K := (hatM22Act.comp X.subtype).codRestrict K (fun g => g.2)
   have hsurj : Function.Surjective πK := by
@@ -824,12 +824,12 @@ private theorem burnsideA35_bound_M22 :
       Function.Surjective π → π.ker ≤ Subgroup.center W → Odd (Nat.card π.ker) →
       Nat.card π.ker = 1 ∨ Nat.card π.ker = 3 := by
   intro W _ _ _ π hπ hc hodd
-  haveI : Finite ↥NativeSporadic.M22 := inferInstance
+  have : Finite ↥NativeSporadic.M22 := inferInstance
   have hcard : Nat.card ↥NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
   refine CFSG.QuasithinUnique.Ch1.card_ker_eq_one_or_three ?_ (burnsideA35_M22_sylow3) π hπ hc
     hodd
   intro q hq hq2 hq3 Q
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact CFSG.SectionRank.sylow_isCyclic_of_not_sq_dvd (by
     rw [hcard]; exact burnsideA35_not_sq_dvd hq hq2 hq3) Q
 
@@ -936,7 +936,7 @@ private theorem burnsideA35_Fwd_of_tab {g : Equiv.Perm (Fin 22)}
     (h : ∀ q, ∀ l ∈ burnsideA35_linesTab q,
       l.toFinset.image g ∈ burnsideA35_lines (g q)) : burnsideA35_Fwd g := by
   intro q L hL
-  simp only [burnsideA35_lines, Finset.mem_val, List.mem_toFinset, List.mem_map] at hL
+  simp only [burnsideA35_lines, List.mem_toFinset, List.mem_map] at hL
   obtain ⟨l, hl, rfl⟩ := hL
   exact h q l hl
 
@@ -1050,7 +1050,7 @@ private theorem burnsideA35_psi_injective : Function.Injective burnsideA35_psi :
   · exact hfix x hx
   · refine (burnsideA35_lines_inj x (g.1 x) hx fun l hl => ?_).symm
     have hFwd := g.2.1 x l.toFinset (by
-      simp only [burnsideA35_lines, Finset.mem_val, List.mem_toFinset, List.mem_map]
+      simp only [burnsideA35_lines, List.mem_toFinset, List.mem_map]
       exact ⟨l, hl, rfl⟩)
     have himg : l.toFinset.image g.1 = l.toFinset := by
       ext y
@@ -1367,8 +1367,8 @@ private theorem burnsideA35_exists_hat_alt7 {S : Type} [Group S] (e : S ≃* alt
     (Fin 7)) :
     ∃ (X : Type) (_ : Group X), CFSG.Quasithin.IsHat X S := by
   obtain ⟨K, eK, hK, hα, hβ⟩ := burnsideA35_exists_A7
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI hS : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have hS : IsSimpleGroup S := e.isSimpleGroup
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := burnsideA35_alt7_nonabelian
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -1403,8 +1403,8 @@ private theorem burnsideA35_exists_hat_alt6 {S : Type} [Group S] (e : S ≃* alt
     ∃ (X : Type) (_ : Group X), CFSG.Quasithin.IsHat X S := by
   obtain ⟨K, eK, hK, hα, hβ⟩ := burnsideA35_exists_A7
   have h67 := burnsideA35_h67
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI hS : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have hS : IsSimpleGroup S := e.isSimpleGroup
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := burnsideA35_alt6_nonabelian
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -1448,19 +1448,19 @@ theorem as_A_3_5 : A_3_5 := by
   intro S _ hS
   rcases hS with hS | hS | hS
   · obtain ⟨e⟩ : Nonempty (S ≃* alternatingGroup (Fin 6)) := hS
-    haveI : Finite S := Finite.of_equiv (alternatingGroup (Fin 6)) e.symm.toEquiv
+    have : Finite S := Finite.of_equiv (alternatingGroup (Fin 6)) e.symm.toEquiv
     exact ⟨burnsideA35_exists_hat_alt6 e, fun X Y _ _ hX hY =>
       burnsideA35_hat_unique hX hY
         (burnsideA35_bound_of_equiv e (burnsideA35_bound_alt (Or.inl rfl)))⟩
   · obtain ⟨e⟩ : Nonempty (S ≃* alternatingGroup (Fin 7)) := hS
-    haveI : Finite S := Finite.of_equiv (alternatingGroup (Fin 7)) e.symm.toEquiv
+    have : Finite S := Finite.of_equiv (alternatingGroup (Fin 7)) e.symm.toEquiv
     exact ⟨burnsideA35_exists_hat_alt7 e, fun X Y _ _ hX hY =>
       burnsideA35_hat_unique hX hY
         (burnsideA35_bound_of_equiv e (burnsideA35_bound_alt (Or.inr rfl)))⟩
   · obtain ⟨e⟩ : Nonempty (S ≃* CFSG.Blueprint.NativeSporadic.Carrier .M22) := hS
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
       inferInstanceAs (Finite CFSG.Blueprint.NativeSporadic.M22)
-    haveI : Finite S := Finite.of_equiv (CFSG.Blueprint.NativeSporadic.Carrier .M22) e.symm.toEquiv
+    have : Finite S := Finite.of_equiv (CFSG.Blueprint.NativeSporadic.Carrier .M22) e.symm.toEquiv
     exact ⟨burnsideA35_exists_hat_M22 e, fun X Y _ _ hX hY =>
       burnsideA35_hat_unique hX hY (burnsideA35_bound_of_equiv e burnsideA35_bound_M22)⟩
 
@@ -1553,7 +1553,7 @@ private theorem burnsideA38_toCat {G : Type} [Group G] [Finite G] (h : ChA.HypA_
 
 private theorem burnsideA38_a134SQTK (h : CFSG.Quasithin.A134Fact) :
     CFSG.QuasithinUnique.Vol2Native.A134SQTKFactCat := fun H _ _ hH =>
-  h H (CFSG.QuasithinUnique.Vol2Native.isQuasithin_of_rank fun q hq hq2 => hH.rank_top hq hq2)
+  h H (CFSG.QuasithinUnique.Vol2Native.isQuasithin_of_rank fun _q hq hq2 => hH.rank_top hq hq2)
     hH.kgroup
 
 private theorem burnsideA38_conjSub_inv {G : Type} [Group G] (X : Subgroup G) (t : G) :
@@ -1589,7 +1589,7 @@ theorem as_A_3_8
           rw [burnsideA38_conjSub_inv] <;> assumption
     · rcases hB T hT with ⟨hn, hc, hcc⟩ | ⟨t, htT, ht, hc, hcc, hcomm, hinf, hTN, hLT⟩
       · exact Or.inl ⟨hn, hc, hcc, by
-          haveI : L.Normal := hn
+          have : L.Normal := hn
           exact Subgroup.normal_mul L T⟩
       · refine Or.inr ⟨t⁻¹, T.inv_mem htT, burnsideA38_inv_notMem ht, ?_⟩
         rw [burnsideA38_conjSub_inv]
@@ -1882,7 +1882,7 @@ private theorem burnsideA314_card_inf_centralizer {Bg : Type} [Group Bg] [Finite
     (∀ s : ↥V, c * (s : Bg) * c⁻¹ = (s : Bg) → s ∈ Subgroup.center ↥V) ∧
       ∀ w ∈ Subgroup.center ↥V, c * (w : Bg) * c⁻¹ = (w : Bg) := by
   have hzc : z ∈ Subgroup.center ↥V := hz ▸ Subgroup.mem_zpowers z
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hV2 : IsPGroup 2 ↥V := IsPGroup.of_card (n := 5) (hcard.trans (by norm_num))
   have hcn : c ∈ Subgroup.normalizer (V : Set Bg) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance]
@@ -1996,8 +1996,8 @@ open scoped commutatorElement in
 private theorem burnsideA314_isQ8D8 {Bg : Type} [Group Bg] [Finite Bg] (V : Subgroup Bg) [V.Normal]
     (hV : CFSG.Quasithin.IsExtraspecial2 2 ↥V) (hA : CFSG.Quasithin.IsAlt 5 (Bg ⧸ V))
     (hperf : commutator Bg = ⊤) : ChA.IsQ8D8 ↥V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hVe, hVc⟩ := hV
   have hcard : Nat.card ↥V = 32 := by rw [hVc]; norm_num
   have hS : CFSG.IsExtraspecialPGroup 2 ↥V := CFSG.isExtraspecialPGroup_iff_isExtraspecial.mpr hVe
@@ -2461,7 +2461,7 @@ open scoped commutatorElement in
 private theorem burnsideA314_isZ4StarQ8D8 {W : Type} [Group W] [Finite W]
     (h : CFSG.Quasithin.IsZ4StarExtra2 W) : ChA.IsZ4StarQ8D8 W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Z, E, hZ4, hZc, ⟨hEe, hEc⟩, hZcen, hZE, hZEi⟩ := h
   have hEcard : Nat.card ↥E = 32 := by rw [hEc]; norm_num
   have hS : CFSG.IsExtraspecialPGroup 2 ↥E := CFSG.isExtraspecialPGroup_iff_isExtraspecial.mpr hEe
@@ -2682,7 +2682,7 @@ private theorem burnsideA314_bridge {G : Type} [Group G] [Finite G] {T B L : Sub
   · iterate 8 right
     left
     obtain ⟨⟨V, hVn, hV, hA⟩, hJ, hz⟩ := h
-    haveI := hVn
+    have := hVn
     exact ⟨⟨V, hVn, burnsideA314_isQ8D8 V hV hA hperf, hA⟩, hJ, hz⟩
   · iterate 9 right
     left
@@ -2971,7 +2971,7 @@ section
 theorem as_A_3_20
     : A_3_20 := by
   intro H _ _ hH L hL hLn h3
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hSQ : CFSG.Quasithin.SQTKGroup H :=
     ⟨CFSG.SectionRank.isStronglyQuasithin_iff.mp hH.1, hH.2⟩
   have h36 := CFSG.QuasithinUnique.Vol2Native.a36ForSQTKCat_proved (H ⧸ CFSG.pCore 2 H)
@@ -3129,7 +3129,7 @@ private theorem burnsideA318_section_of_central {H : Type} [Group H]
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 2 ↥π.ker))
   set P : Subgroup E := (Q : Subgroup ↥π.ker).map π.ker.subtype with hPdef
   have hPK : P ≤ π.ker := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 ↥P := Q.isPGroup'.map π.ker.subtype
+  have hP2 : IsPGroup 2 ↥P := Q.isPGroup.map π.ker.subtype
   have hPn : P.Normal := Subgroup.normal_of_le_center (hPK.trans hcen)
   let π₁ : E ⧸ P →* H :=
     QuotientGroup.lift P π (fun x hx => MonoidHom.mem_ker.mp (hPK hx))

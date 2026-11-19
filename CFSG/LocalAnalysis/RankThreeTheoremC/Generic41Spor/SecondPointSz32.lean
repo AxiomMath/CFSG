@@ -79,6 +79,7 @@ theorem sz32DataFacts_holds :
     ∀ {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q), Function.Surjective ψ →
       ψ.ker = (rankThreePrimeCore p J).subgroupOf J → IsoLie Q (.suzuki 2) → False
 
+omit [Finite G] in
 theorem sps_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {s : G} (hs : s ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, s = a * b := by
   have hr := MonoidHom.noncommCoprod_range A.subtype B.subtype (fun a b => h a a.2 b b.2)
@@ -87,6 +88,7 @@ theorem sps_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B,
   obtain ⟨⟨a, b⟩, rfl⟩ := hs
   exact ⟨a, a.2, b, b.2, rfl⟩
 
+omit [Finite G] in
 theorem sps_commutator_mem {P T Z : Subgroup G} (hTZ : T ⊔ Z = P)
     (hZT : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) (hZcyc : IsCyclic Z) {a b : G} (ha : a ∈ P)
     (hb : b ∈ P) : a * b * a⁻¹ * b⁻¹ ∈ T := by
@@ -116,6 +118,7 @@ theorem sps_commutator_mem {P T Z : Subgroup G} (hTZ : T ⊔ Z = P)
   rw [← h] at hmem
   exact hmem
 
+omit [Finite G] in
 theorem sps_pow_mem_Z {P T Z : Subgroup G} (hTZ : T ⊔ Z = P)
     (hZT : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) (hTexp : ∀ t ∈ T, t ^ 5 = 1) {g : G} (hg : g ∈ P) :
     g ^ 5 ∈ Z := by
@@ -156,6 +159,7 @@ theorem sps_commute_of_normalized {P T Z S : Subgroup G} (hTZ : T ⊔ Z = P)
   calc e * g = e * g * e⁻¹ * e := by group
     _ = g * e := by rw [h4]
 
+omit [Finite G] in
 theorem sps_conj_hom (J H : Subgroup G) (hH : H ≤ Subgroup.normalizer (J : Set G)) :
     ∃ ι : H →* MulAut J, ∀ (c : H) (j : J), ((ι c j : J) : G) = (c : G) * j * (c : G)⁻¹ := by
   let f : ∀ c : G, c ∈ Subgroup.normalizer (J : Set G) → MulAut J := fun c hc =>
@@ -305,9 +309,10 @@ theorem sps_exists_elemAbelian {p : ℕ} {Q : Subgroup G} {k : ℕ} (hp : 1 < p)
   obtain ⟨E, hEQ, hEel, hEc⟩ := Nat.sSup_mem hne hbdd
   exact ⟨E, hEQ, hEel, _, h, hEc⟩
 
+omit [Finite G] in
 theorem sps_isElemAbelian_of_le {p : ℕ} {E R : Subgroup G} (hE : IsElemAbelian p E) (hRE : R ≤ E) :
     IsElemAbelian p R := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨?_⟩⟩, fun x hx => hE.2 x (hRE hx)⟩
   intro a b
   apply Subtype.ext
@@ -327,6 +332,7 @@ theorem sps_card_le_of_not_two_le {p : ℕ} [Fact p.Prime] {E R : Subgroup G} {j
   calc p ^ i ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos this
     _ = p := pow_one p
 
+omit [Finite G] in
 theorem sps_card_range_le {p : ℕ} [Fact p.Prime] {E : Subgroup G} (hE : IsElemAbelian p E)
     {A : Type} [Group A] (φ : ↥E →* A) (f : A) (hφ : ∀ e, φ e ∈ Subgroup.zpowers f) :
     Nat.card φ.range ≤ p := by
@@ -347,6 +353,7 @@ theorem sps_card_range_le {p : ℕ} [Fact p.Prime] {E : Subgroup G} (hE : IsElem
   rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKle).toEquiv]
   exact Nat.le_of_dvd (Fact.out : p.Prime).pos hdvd
 
+omit [Finite G] in
 theorem sps_card_le_of_cyclic_image {p : ℕ} [Fact p.Prime] {E : Subgroup G}
     (hE : IsElemAbelian p E) {A : Type} [Group A] (φ : ↥E →* A) (f : A)
     (hφ : ∀ e, φ e ∈ Subgroup.zpowers f) : Nat.card E ≤ Nat.card φ.ker * p := by
@@ -373,9 +380,9 @@ theorem sps_rank_le_one (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD
     (hcomm : ∀ r ∈ R, ∀ j ∈ J, r * j * r⁻¹ * j⁻¹ ∈ rankThreePrimeCore 5 J) :
     ¬ 2 ≤ CFSG.Open.pRank 5 R := by
   intro h2
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hp hM).1
-  have hRp : IsPGroup 5 R := P.isPGroup'.to_le hRP
+  have hRp : IsPGroup 5 R := P.isPGroup.to_le hRP
   have hNR : Subgroup.normalizer (R : Set G) ≤ M :=
     normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hRp (hRP.trans hPM) h2
   have hOM : rankThreePrimeCore 5 J ≤ M := (u3main_core_facts hS hD1 hp hM hgen hJC hCJ).1
@@ -428,17 +435,17 @@ theorem sps_sylow_data {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M : Subgroup G}
   have hSylJ : IsSylowOf p ((P : Subgroup G) ⊓ Subgroup.centralizer ({u} : Set G) ⊓ J) J :=
     hgen.2.2.1.inf_of_le_normalizer hJC hCJ
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf
-  exact ⟨Tsyl, hTsyl, u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup'⟩
+  exact ⟨Tsyl, hTsyl, u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup⟩
 
 theorem sz32_second_point_false (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G)
-    (hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts) {P : Sylow 5 G} {M : Subgroup G}
-    (hM : IsCoreMaxLocal 5 P M) (hp : 5 ∈ rankThreeSigmaA G) {x : G} (hxp : x ^ 5 = 1) (hx1 : x ≠ 1)
-    (hxC : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
+    (_hSz : Sz32Facts) (_hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts) {P : Sylow 5 G} {M : Subgroup G}
+    (hM : IsCoreMaxLocal 5 P M) (hp : 5 ∈ rankThreeSigmaA G) {x : G} (_hxp : x ^ 5 = 1) (_hx1 : x ≠ 1)
+    (_hxC : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
     {T Z : Subgroup G} (hTZ : T ⊔ Z = (P : Subgroup G))
     (hZT : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) (hTZ0 : T ⊓ Z = ⊥) (hTexp : ∀ t ∈ T, t ^ 5 = 1)
-    (hZcyc : IsCyclic Z) (hxZ : x ∈ Z) : Sz32SecondPointFalse 5 P M x := by
+    (hZcyc : IsCyclic Z) (_hxZ : x ∈ Z) : Sz32SecondPointFalse 5 P M x := by
   intro u hgen _hux J hJC hCJ _hperf _hlt _hmin hJM Q _ _ ψ hψ hker hiso
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := Subgroup.centralizer ({u} : Set G) with hC
   set S : Subgroup G := (P : Subgroup G) ⊓ C with hSdef
   have hSP : S ≤ (P : Subgroup G) := inf_le_left

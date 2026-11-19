@@ -14,7 +14,7 @@ theorem up34Core_of_leaves (hAlt : Up34AltLeaf) (hSpor : Up34SporLeaf) (hOdd : U
     (hChev2 : Up34Chev2Leaf) (hD44 : Up34D44Centre) (hL364 : Up34L364NotInnDiag) :
     Up34Core := by
   intro Q _ _ hq hK h3 β hpump
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
   have hnab : ∃ a b : Q ⧸ Subgroup.center Q, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Q hq
   have hpS := Up34Pumpup.descend hq hpump

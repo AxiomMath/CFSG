@@ -74,7 +74,7 @@ theorem c134SqCond_Tv (h1222 : Stmt12_2_2)
       (CFSG.Quasithin.Vol2.Ch11.SecA.normalizer_le_normalizer_omegaOneCenterOf T₁)
   obtain ⟨t, htT, htv⟩ : ∃ t ∈ T, t ∉ S.Tv := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : S.Tv.subgroupOf T = ⊤ := by
       rw [eq_top_iff]; rintro ⟨x, hx⟩ -; exact Subgroup.mem_subgroupOf.mpr (hc x hx)
     rw [this, Subgroup.index_top] at h2
@@ -132,7 +132,7 @@ theorem c134SqCond_Tv (h1222 : Stmt12_2_2)
     · exact hPs g hgv y hy
     · have hgt : g * t⁻¹ ∈ S.Tv := by
         have := (Subgroup.mul_mem_iff_of_index_two h2 (a := ⟨g, hg⟩) (b := ⟨t⁻¹, T.inv_mem htT⟩))
-        simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at this
+        simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at this
         exact this.mpr (iff_of_false hgv (fun h => htv (by simpa using S.Tv.inv_mem h)))
       have := hPs _ hgt _ (hPt y hy)
       have e : g * y * g⁻¹ = g * t⁻¹ * (t * y * t⁻¹) * (g * t⁻¹)⁻¹ := by group

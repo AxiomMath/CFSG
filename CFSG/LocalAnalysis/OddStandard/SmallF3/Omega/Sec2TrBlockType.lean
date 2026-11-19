@@ -14,6 +14,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_blockInr {s : OGroup Q} (hs : s * s = 1) (b : OGroup (Q.restrict (commSp s))) :
     commSp (blockInr hs b) = (commSp b).map (commSp s).subtype := by
   ext v
@@ -26,7 +27,6 @@ theorem commSp_blockInr {s : OGroup Q} (hs : s * s = 1) (b : OGroup (Q.restrict 
     refine ⟨(b : commSp s ≃ₗ[ZMod 3] commSp s) u - u, ?_, ?_⟩
     · exact CFSG.RankThree.OrthogonalInvolutions.sub_mem_commSpace _ _
     · rw [← hx]
-      change (commSp s).subtype ((b : commSp s ≃ₗ[ZMod 3] commSp s) u - u) = _
       rw [LinearMap.map_sub]
       have h1 : ((blockInr hs b : OGroup Q) : V ≃ₗ[ZMod 3] V) ((w : V) + (u : V)) =
           (w : V) + (((b : commSp s ≃ₗ[ZMod 3] commSp s) u : commSp s) : V) := by

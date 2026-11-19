@@ -29,8 +29,8 @@ open CFSG.Monster.Existence.Co1Bridge
 theorem card_inf_cent_xGriess_le_seven (hS : Co1SevenBound) {k : MGriess} (hk : orderOf k = 7)
     (hxk : xGriess * k = k * xGriess) :
     Nat.card ↥(cent xGriess ⊓ Subgroup.centralizer ({k} : Set MGriess)) ≤ 150528 := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
-  haveI : Finite J24 := finite_J24
+  have : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite J24 := finite_J24
   have hkmem : k ∈ cent xGriess := Subgroup.mem_centralizer_singleton_iff.2 hxk.symm
   have hk' : orderOf (⟨k, hkmem⟩ : cent xGriess) = 7 := by
     rw [← Subgroup.orderOf_coe]
@@ -68,8 +68,8 @@ theorem card_cent_xGriess_dvd_of_fixCount_le_one (k : cent xGriess)
       Matrix (Fin 24) (Fin 24) (ZMod 2)) ≤ 1) :
     Nat.card (Subgroup.centralizer ({k} : Set (cent xGriess))) ∣
       2 * Nat.card (Subgroup.centralizer ({cosetEquivJ24 (QuotientGroup.mk k)} : Set J24)) := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
-  haveI : Finite J24 := finite_J24
+  have : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite J24 := finite_J24
   obtain ⟨p, hp⟩ := mem_Gvis.1 (centGriessEquiv k).2
   have hp' : thetaEquiv p = (((k : MGriess) : AutO) : SpaceB ≃ₗ[ℚ] SpaceB) := hp
   have h2 := card_pCore_inf_cent_le k p hp'
@@ -143,7 +143,7 @@ theorem h2A_seven
         1128960 := by
   intro t k ht htc hk htk
   obtain ⟨⟨hfin, -, -, -⟩, a, z, -, -, -, hcls, hA, hB, -⟩ := id hE
-  haveI : Finite G := hfin
+  have : Finite G := hfin
   have htA : IsConj a t := by
     rcases hcls t ht with h | h
     · exact h
@@ -161,10 +161,10 @@ theorem h2A_seven
       Subgroup.card_map_of_injective X.subtype_injective
     rw [hZ, Nat.card_zpowers, ht] at h1
     exact h1.symm
-  haveI : Finite ↥X := inferInstance
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥X := inferInstance
+  have : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e.toEquiv
   have hbar : orderOf (e (QuotientGroup.mk k')) = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     rw [MulEquiv.orderOf_eq]
     refine orderOf_eq_prime ?_ fun h1 => ?_
     · rw [← QuotientGroup.mk_pow, ← hk'7, pow_orderOf_eq_one, QuotientGroup.mk_one]

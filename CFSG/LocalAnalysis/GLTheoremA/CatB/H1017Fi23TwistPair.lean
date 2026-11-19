@@ -93,7 +93,7 @@ private theorem card_lt_of_le_cdc (hB : FactB) {S : Subgroup J}
     (hS : IsPGroup 3 S)
     (hH : S ≤ Subgroup.centralizer ({d} : Set J) ⊓ Subgroup.centralizer ({d1} : Set J))
     (hc : S ≤ Subgroup.centralizer ({c39} : Set J)) : Nat.card S < 243 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQH, hQ, -, h4⟩ := hB
   obtain ⟨g, hgH, hg⟩ := exists_conj_into_of_card hQH
     (by rw [hQ, factorization_centralizer_d_d1]; norm_num) hH hS
@@ -173,7 +173,7 @@ theorem closed_of_twoC
     {D : Subgroup J} (hD : IsElemAbelian 3 D) (hc : Nat.card D = 81) {z : J}
     (hz : IsConj t2 z) (hDz : D ≤ Subgroup.centralizer ({z} : Set J)) :
     PElemsClosed 3 (Subgroup.centralizer (D : Set J)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h5 := factorization_centralizer_t2 hB hC
   obtain ⟨Q, hQ, hQc, hcl⟩ := hC
   obtain ⟨h, rfl⟩ := isConj_iff.1 hz

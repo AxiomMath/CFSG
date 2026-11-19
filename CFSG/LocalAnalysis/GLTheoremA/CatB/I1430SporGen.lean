@@ -21,7 +21,7 @@ open CFSG.LocalAnalysis.GLTheoremA.H1431c (NoCardComp)
       GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β) J →
       catalogIs (PSimple 3 J) isA6 → Nat.card (Subgroup.center (PQuot 3 J)) = 1 → False
 
-theorem i1430SporS_of_rows (hB : LieOrderBridge)
+theorem i1430SporS_of_rows (_hB : LieOrderBridge)
     (h : ∀ s : TauCeti.SporadicName, s ≠ .J3 → s ≠ .ONan → s ≠ .Suz → A6Row s) :
     ClsRed.I1430SporS := by
   intro S _ _ s e β hβ hβ1 J hJ hT hZ
@@ -45,6 +45,7 @@ end Card
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem card_center_pQuot (I : Subgroup Q) :
     Nat.card (PQuot 3 I) = Nat.card (PSimple 3 I) * Nat.card (Subgroup.center (PQuot 3 I)) :=
   Subgroup.card_eq_card_quotient_mul_card_subgroup _
@@ -77,6 +78,7 @@ theorem a6Free_of_mulEquiv_apply {Q' : Type} [Group Q'] [Finite Q'] (σ : Q ≃*
 theorem a6Free_conj {c : Q} (h : A6Free c) (g : Q) : A6Free (g * c * g⁻¹) :=
   a6Free_of_mulEquiv (MulAut.conj g) h
 
+omit [Finite Q] in
 theorem a6Free_of_noCardComp {k : Q} (h : NoCardComp 360 k) : A6Free k :=
   fun I hI hc _ => h I hI hc
 
@@ -84,7 +86,7 @@ theorem not_mem_of_center {k : Q} (hk : orderOf k = 3) {I : Subgroup Q}
     (hI : GLAPComponent 3 (Subgroup.centralizer ({k} : Set Q)) I)
     (hZ : Nat.card (Subgroup.center (PQuot 3 I)) = 1) : k ∉ I := by
   intro hkI
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set k' : ↥I := ⟨k, hkI⟩
   have hcen : (QuotientGroup.mk k' : PQuot 3 I) ∈ Subgroup.center (PQuot 3 I) := by
     rw [Subgroup.mem_center_iff]
@@ -97,7 +99,6 @@ theorem not_mem_of_center {k : Q} (hk : orderOf k = 3) {I : Subgroup Q}
     simp only [Subgroup.coe_mul, k']
     first
       | exact hw
-      | exact hw.symm
   have hZbot : Subgroup.center (PQuot 3 I) = ⊥ := Subgroup.eq_bot_of_card_eq _ hZ
   rw [hZbot, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hcen
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥I)) := CFSG.pPrimeCore_coprime_card
@@ -112,8 +113,9 @@ theorem not_mem_of_center {k : Q} (hk : orderOf k = 3) {I : Subgroup Q}
     rintro ⟨a, ha⟩ ⟨b, hb⟩
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
     have hbk := Subgroup.mem_centralizer_singleton_iff.1 (hI hb)
-    exact ((Commute.zpow_left (by first | exact hbk.symm | exact hbk) m)))
+    exact ((Commute.zpow_left (by first | exact hbk.symm) m)))
 
+omit [Finite Q] in
 theorem prodHom_apply (k : Q) (I : Subgroup Q) (hI : I ≤ Subgroup.centralizer ({k} : Set Q))
     (u : ↥(Subgroup.zpowers k) × ↥I) : prodHom k I hI u = (u.1 : Q) * (u.2 : Q) := rfl
 
@@ -130,7 +132,7 @@ theorem prodHom_injective {k : Q} (hk : orderOf k = 3) {I : Subgroup Q}
   have ha1 : k ^ m = 1 := by
     by_contra hne
     have hord : orderOf (k ^ m) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hd : orderOf (k ^ m) ∣ 3 := by
         have h3 : k ^ 3 = 1 := by rw [← hk]; exact pow_orderOf_eq_one k
         refine orderOf_dvd_of_pow_eq_one ?_
@@ -186,7 +188,7 @@ theorem a6Row_of_model (hB : LieOrderBridge) {s : TauCeti.SporadicName} {Q : Typ
     (h : ∀ k : Q, orderOf k = 3 → A6Free k) : A6Row s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ hT hZ
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -214,11 +216,9 @@ theorem a6Row_of_model (hB : LieOrderBridge) {s : TauCeti.SporadicName} {Q : Typ
     · intro h
       first
         | exact h.eq
-        | exact h.eq.symm
     · intro h
       first
         | exact h
-        | exact h.symm
   rw [heq] at hJ
   have hk : orderOf (φ x) = 3 := by rw [MulEquiv.orderOf_eq, hxo]
   have := a6Free_of_mulEquiv φ.symm (h _ hk)

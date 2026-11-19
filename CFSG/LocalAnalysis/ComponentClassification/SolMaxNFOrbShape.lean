@@ -92,7 +92,7 @@ theorem false_of_four_fix_orbit [Finite X] (hρ : IsPermAction θ ρ) (hn : 11 �
   have hinj : ∀ d ∈ D', ρP d = 1 → d = 1 := by
     intro d hd h1
     obtain ⟨d₀, hd₀, rfl⟩ := hd
-    obtain ⟨k, hk⟩ := D.isPGroup' ⟨d₀, hd₀⟩
+    obtain ⟨k, hk⟩ := D.isPGroup ⟨d₀, hd₀⟩
     have hk' : (V.subtype d₀) ^ 2 ^ k = 1 := by
       have := congrArg (fun y : ↥(D : Subgroup ↥V) => V.subtype (y : ↥V)) hk
       simpa using this

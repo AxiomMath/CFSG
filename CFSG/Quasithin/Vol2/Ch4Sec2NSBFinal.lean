@@ -18,7 +18,7 @@ namespace CFSG.Quasithin.H13.Ch4.NSB
 open CFSG.Open CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Quasithin CFSG.Quasithin.H13
 open CFSG.Blueprint CFSG.Quasithin.A4 CFSG.Quasithin.H13.Ch4 CFSG.Quasithin.CosetGraph
 
-theorem lemma324One_holds (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK) :
+theorem lemma324One_holds (_h37 : A37ForSQTK) (_h38 : A38ForSQTK) (_h39 : A39ForSQTK) :
     Lemma324One := by
   refine lemma324One_of_aux fun G _ _ T M L Mm I H K m k hd => ?_
   refine I_factorization_aux hd (M_le_L_sup_C_aux hd fun t ht => ?_)

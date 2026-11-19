@@ -40,7 +40,7 @@ theorem oddCent_bot_of_liftFam' {X : Type} [Group X] [Finite X] {Φ : Set (Subgr
     (hO : classicalInvolutionOddCore X = ⊥) (hne : (liftFam Φ).Nonempty) {Y' : Subgroup X}
     (hY : Y' = omegaGen (liftFam Φ)) (a : ↥Y') (ha : a * a = 1) :
     oddCoreIn (Subgroup.centralizer ({a} : Set ↥Y')) = ⊥ := by
-  haveI : Y'.Normal := hY ▸ omegaGen_normal (conjInvariant_liftFam hΦ.conjInvariant)
+  have : Y'.Normal := hY ▸ omegaGen_normal (conjInvariant_liftFam hΦ.conjInvariant)
   have hΩ := hypOmegaModU_liftFam hΦ.conjInvariant
   have hΛ := Q3T6.hypOmegaModU_restrict hΩ Y'
   have hOZ : classicalInvolutionOddCore ↥Y' = ⊥ := oddCore_normal_eq_bot Y' hO

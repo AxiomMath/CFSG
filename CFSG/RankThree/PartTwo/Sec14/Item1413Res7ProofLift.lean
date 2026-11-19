@@ -48,7 +48,7 @@ theorem exists_sylow_thetaPre {A L : Subgroup G} {eb : ↥L ⧸ aschbacherSolvab
     exact hq
   obtain ⟨t, ht, rfl⟩ := hqQ
   refine ⟨(P : Subgroup ↥(thetaPre L eb)).map (thetaPre L eb).subtype,
-    Subgroup.map_subtype_le _, P.isPGroup'.map _, hAP,
+    Subgroup.map_subtype_le _, P.isPGroup.map _, hAP,
     Subgroup.inclusion (thetaPre_le L eb) t, ⟨t, ht, rfl⟩, ?_⟩
   intro h
   apply hy1
@@ -73,7 +73,7 @@ theorem exists_sylow_thetaPre_centralizer {A L : Subgroup G}
     not_three_dvd_card_thetaPre L eb (h3.trans (Subgroup.card_dvd_of_le inf_le_left))
   obtain ⟨P, hAP⟩ := Res8Hess.exists_invariant_sylow hA3 hΘr3 hAΘr 2
   set S := (P : Subgroup ↥Θr).map Θr.subtype with hS
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := P.isPGroup.map _
   have hS1 : S ≠ ⊥ := Res8Hess.map_sylow_ne_bot P h2r
   obtain ⟨⟨s, hsS⟩, hs1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hS1
   have hs1' : s ≠ 1 := fun h => hs1 (Subtype.ext h)

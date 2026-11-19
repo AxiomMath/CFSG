@@ -216,7 +216,7 @@ theorem cfInner_primeTIirr_primeTIbridge (hB : IsUniformBridgeData h σ ζ d n �
     cfInner (h.primeTIirr σ i j) (h.primeTIbridge σ ζ δ n i j) = 1 := by
   rw [cfInner_primeTIbridge_right, h.cfInner_primeTIirr hB.isometry i i j j,
     h.cfInner_primeTIirr hB.isometry i i j (principalIrr ↥W₂),
-    cfInner_primeTIirr_zeta_eq_zero hB i j, if_pos ⟨rfl, rfl⟩, if_neg (by simp [hj])]
+    cfInner_primeTIirr_zeta_eq_zero hB i j, ite_eq_left ⟨rfl, rfl⟩, ite_eq_right (by simp [hj])]
   ring
 
 theorem cfInner_primeTIirr_principal_primeTIbridge (hB : IsUniformBridgeData h σ ζ d n δ)
@@ -226,7 +226,7 @@ theorem cfInner_primeTIirr_principal_primeTIbridge (hB : IsUniformBridgeData h �
     h.cfInner_primeTIirr hB.isometry i i (principalIrr ↥W₂) j,
     h.cfInner_primeTIirr hB.isometry i i (principalIrr ↥W₂) (principalIrr ↥W₂),
     cfInner_primeTIirr_zeta_eq_zero hB i (principalIrr ↥W₂),
-    if_neg (by simp [Ne.symm hj]), if_pos ⟨rfl, rfl⟩]
+    ite_eq_right (by simp [Ne.symm hj]), ite_eq_left ⟨rfl, rfl⟩]
   ring
 
 theorem cfInner_zeta_primeTIbridge (hB : IsUniformBridgeData h σ ζ d n δ) (i : Irr ↥W₁)

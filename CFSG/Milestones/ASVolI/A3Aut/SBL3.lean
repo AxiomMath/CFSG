@@ -16,12 +16,12 @@ variable {K : Type} [Field K]
 theorem burnsideAut_transvection_zero_one (c : K) :
     Matrix.transvection (0 : Fin 2) 1 c = !![1, c; 0, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection]
 
 theorem burnsideAut_transvection_one_zero (c : K) :
     Matrix.transvection (1 : Fin 2) 0 c = !![1, 0; c, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection]
 
 theorem burnsideAut_not_isSolvable_of_reflection_mem {n : ℕ} [Finite K] (hK : 4 ≤ Nat.card K)
     {M : Subgroup (SpecialLinearGroup (Fin n) K)} (hU : unitriangular n K ≤ M) {i : ℕ}
@@ -64,8 +64,8 @@ theorem burnsideAut_not_isSolvable_of_reflection_mem {n : ℕ} [Finite K] (hK : 
       (1 : Matrix (Fin n) (Fin n) K) x y at h1
     rw [burnsideAut_transvection_zero_one, SymplecticHigher.pairMat_up hne,
       Matrix.one_apply_ne hne] at h1
-    simp [Matrix.add_apply, Matrix.single_apply, Matrix.one_apply_ne hne] at h1
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
+    simp [Matrix.add_apply, Matrix.one_apply_ne hne] at h1
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   intro hs
   have hs' : Group.IsSolvable ↥(M.map ι) :=
     Group.isSolvable_of_isSolvable_injective

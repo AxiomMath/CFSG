@@ -73,7 +73,7 @@ theorem card_upper [Finite F] [CharP F 2] (Y : Subgroup (SpecialLinearGroup (Fin
     (hx₀ : x₀ ≠ 0) (hx₀Y : u2 x₀ ∈ Y) :
     Nat.card {x : F | u2 x ∈ Y} = 2 ^ (Nat.card Y).factorization 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup Y := (uSub F).subgroupOf Y with hQdef
   have hcardQ : Nat.card {x : F | u2 x ∈ Y} = Nat.card Q := by
     refine Nat.card_congr (Equiv.ofBijective
@@ -107,8 +107,8 @@ theorem card_upper [Finite F] [CharP F 2] (Y : Subgroup (SpecialLinearGroup (Fin
       apply u2_injective
       rw [u2_zero]
       exact congrArg (fun s : (S : Subgroup Y) => ((s : Y) : SpecialLinearGroup (Fin 2) F)) h
-    haveI : Nontrivial (S : Subgroup Y) := ⟨⟨_, 1, hne⟩⟩
-    haveI := S.isPGroup'.center_nontrivial
+    have : Nontrivial (S : Subgroup Y) := ⟨⟨_, 1, hne⟩⟩
+    have := S.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center (S : Subgroup Y))
     have hzc := Subgroup.mem_center_iff.mp z.2 ⟨⟨u2 x₀, hx₀Y⟩, hq₀⟩
     have hzc' : ((((z : (S : Subgroup Y)) : Y)) : SpecialLinearGroup (Fin 2) F) * u2 x₀ =
@@ -253,7 +253,7 @@ theorem block_two [Finite F] [CharP F 2]
       Nat.card {x : F | u2 x ∈ Y} = Nat.card K₁ ∧ Nat.card {y : F | l2 y ∈ Y} = Nat.card K₁ := by
   classical
   obtain ⟨f, hf1, hF⟩ := exists_card_eq_two_pow F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := mkPSL_injective (F := F)
   set H : Subgroup (PSL2MatrixGroup F) := Y.map (mkPSL F) with hHdef
   have hHcard : Nat.card H = Nat.card Y := Subgroup.card_map_of_injective hinj
@@ -471,13 +471,13 @@ theorem blkEmbMat_u2 (x : F) :
     blkEmbMat (u2 x : Matrix (Fin 2) (Fin 2) F) = 1 + Matrix.single 0 1 x := by
   rw [u2_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blkEmbMat, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [blkEmbMat]
 
 theorem blkEmbMat_l2 (x : F) :
     blkEmbMat (l2 x : Matrix (Fin 2) (Fin 2) F) = 1 + Matrix.single 1 0 x := by
   rw [l2_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blkEmbMat, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [blkEmbMat]
 
 @[expose] def rootSet (D : Subgroup (GL (Fin 3) F)) (p ℓ : Fin 3 → F) : Set F :=
   {c | ∃ g ∈ D, (g : Matrix (Fin 3) (Fin 3) F) = 1 + c • vecMulVec p ℓ}
@@ -520,8 +520,7 @@ theorem block_three [Finite F] [CharP F 2]
     intro c
     have hmat : (φ (u2 (c * (ℓ ⬝ᵥ b))) : Matrix (Fin 3) (Fin 3) F) = 1 + c • vecMulVec p ℓ := by
       rw [hφmat, blkEmbMat_u2, frame_conj_transvection hfr]
-      simp only [he, hf, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        vecMulVec_smul, smul_smul]
+      simp only [he, hf, Matrix.cons_val_zero, Matrix.cons_val_one, vecMulVec_smul, smul_smul]
       rw [mul_assoc, mul_inv_cancel₀ hℓb, mul_one]
     constructor
     · rintro ⟨g, hg, hgm⟩
@@ -535,8 +534,7 @@ theorem block_three [Finite F] [CharP F 2]
     intro d
     have hmat : (φ (l2 (d * (ψ ⬝ᵥ p))) : Matrix (Fin 3) (Fin 3) F) = 1 + d • vecMulVec b ψ := by
       rw [hφmat, blkEmbMat_l2, frame_conj_transvection hfr]
-      simp only [he, hf, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        vecMulVec_smul, smul_smul]
+      simp only [he, hf, Matrix.cons_val_zero, Matrix.cons_val_one, vecMulVec_smul, smul_smul]
       rw [mul_assoc, mul_inv_cancel₀ hψp, mul_one]
     constructor
     · rintro ⟨g, hg, hgm⟩

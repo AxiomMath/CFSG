@@ -19,7 +19,7 @@ theorem subtype_preimage_card {α β : Type*} [Finite α] [Finite β]
     Nat.card_congr (Equiv.sigmaSubtypeFiberEquivSubtype f (p := fun x => q (f x))
       (q := q) (fun x => Iff.rfl))
   rw [← h1]
-  haveI : Fintype {y : β // q y} := Fintype.ofFinite _
+  have : Fintype {y : β // q y} := Fintype.ofFinite _
   rw [Nat.card_sigma]
   have h2 : ∀ y : {y : β // q y}, Nat.card {x : α // f x = y.1} = k :=
     fun y => hfib y.1 y.2
@@ -45,6 +45,7 @@ def q8d8MulHom (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q) (hsup : Q ⊔ D
         by rw [hcomm (p'.1 : G) p'.1.2 (p.2 : G) p.2.2]
       _ = (p.1 : G) * p.2 * ((p'.1 : G) * p'.2) := by group)
 
+omit [Finite G] in
 lemma q8d8MulHom_surjective (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q)
     (hsup : Q ⊔ D = N) : Function.Surjective (q8d8MulHom hcomm hsup) := by
   intro n
@@ -53,6 +54,7 @@ lemma q8d8MulHom_surjective (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q)
     CFSG.GH74.Uniqueness.SU.SU5.mem_sup_of_commute hcomm (hNle n.2)
   exact ⟨(⟨q, hq⟩, ⟨d, hd⟩), Subtype.ext hqd⟩
 
+omit [Finite G] in
 lemma q8d8MulHom_ker_card (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q)
     (hsup : Q ⊔ D = N) (eQ : ↥Q ≃* QuaternionGroup 2) (eD : ↥D ≃* DihedralGroup 4)
     (hNcard : Nat.card ↥N = 32) : Nat.card (q8d8MulHom hcomm hsup).ker = 2 := by
@@ -74,6 +76,7 @@ def q8d8FiberEquivKer (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q)
   left_inv x := Subtype.ext (by group)
   right_inv k := Subtype.ext (by group)
 
+omit [Finite G] in
 lemma q8d8_mul_sq_eq_one_iff (hcomm : ∀ q ∈ Q, ∀ d ∈ D, q * d = d * q)
     (hsup : Q ⊔ D = N) {ζ : G}
     (hζsq : ∀ n ∈ N, n * n = 1 ∨ n * n = ζ) (hζne : ζ ≠ 1) (hζsq1 : ζ * ζ = 1)

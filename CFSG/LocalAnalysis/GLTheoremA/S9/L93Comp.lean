@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l93c_conj_comm {g x h : G} (hg : g * x = x * g) :
     h * x = x * h ↔ (g * h * g⁻¹) * x = x * (g * h * g⁻¹) := by
   have hgi : g⁻¹ * x = x * g⁻¹ := by
@@ -31,6 +32,7 @@ private theorem l93c_conj_comm {g x h : G} (hg : g * x = x * g) :
   rw [e1, e2]
   simp only [mul_left_inj, mul_right_inj]
 
+omit [Finite G] in
 private theorem l93c_centralizer_le_normalizer (x g : G)
     (hg : g ∈ Subgroup.centralizer ({x} : Set G)) :
     g ∈ Subgroup.normalizer (Subgroup.centralizer ({x} : Set G) : Set G) := by
@@ -39,6 +41,7 @@ private theorem l93c_centralizer_le_normalizer (x g : G)
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
   exact l93c_conj_comm (Subgroup.mem_centralizer_singleton_iff.1 hg)
 
+omit [Finite G] in
 private theorem l93c_mk_eq_one_of_mem {p : ℕ} {X : Subgroup G} {z : G} (hz : z ∈ X)
     (h : z ∈ GLAPPrimeCoreOf p X) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨z, hz⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) = 1 := by
@@ -48,12 +51,14 @@ private theorem l93c_mk_eq_one_of_mem {p : ℕ} {X : Subgroup G} {z : G} (hz : z
   rw [← hw']
   exact hw
 
+omit [Finite G] in
 private theorem l93c_mem_of_mk_eq_one {p : ℕ} {X : Subgroup G} {z : G} (hz : z ∈ X)
     (h : (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨z, hz⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) = 1) :
     z ∈ GLAPPrimeCoreOf p X := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h
   exact ⟨⟨z, hz⟩, h, rfl⟩
 
+omit [Finite G] in
 private theorem l93c_mk_commute {p : ℕ} {X : Subgroup G} {l y : G} (hlX : l ∈ X) (hyX : y ∈ X)
     (h : ⁅l, y⁆ ∈ GLAPPrimeCoreOf p X) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨l, hlX⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) *
@@ -74,6 +79,7 @@ private theorem l93c_mk_commute {p : ℕ} {X : Subgroup G} {l y : G} (hlX : l �
   calc a * b = a * b * a⁻¹ * a := by group
     _ = b * a := by rw [h2]
 
+omit [Finite G] in
 private theorem l93c_barX_gLBConj {p : ℕ} {X L : Subgroup G} {y : G} (hLX : L ≤ X) (hyX : y ∈ X)
     (hyc : ∀ l ∈ L, ⁅l, y⁆ ∈ GLAPPrimeCoreOf p X) :
     barX p X (GLBConj y L) = barX p X L := by
@@ -146,6 +152,7 @@ private theorem l93c_gLBConj_eq {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent
   rw [hXy] at h1
   exact glaPComponent_unique h1 hL (l93c_barX_gLBConj hL.1 hyX hyc)
 
+omit [Finite G] in
 private theorem l93c_isElemAbelian_pair {p : ℕ} {x y : G} (hxy : x * y = y * x) (hx : x ^ p = 1)
     (hy : y ^ p = 1) : IsElemAbelian p (Subgroup.closure ({x, y} : Set G)) := by
   have hpair : ({x, y} : Set G).Pairwise Commute := by
@@ -291,7 +298,7 @@ theorem l93_cx_le_normalizer_L {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} {x : 
     Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer (L : Set G) := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := h.comp
   have hxN : x ∈ Subgroup.normalizer (L : Set G) := h.norm h.mem
   have hxp : x ^ p = 1 := h.bmax.1.2 x h.mem
@@ -306,7 +313,7 @@ theorem l93_cx_le_normalizer_L {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} {x : 
     rwa [hXg] at this
   have hne : L ≠ GLBConj g L := fun e => hgN (mem_normalizer_iff_gLBConj_eq.2 e.symm)
   obtain ⟨y, hyL', hyo, hyx⟩ : ∃ y ∈ GLBConj g L, y ^ p = 1 ∧ y ∉ Subgroup.zpowers x := by
-    haveI : Fintype (PQuot p (GLBConj g L)) := Fintype.ofFinite _
+    have : Fintype (PQuot p (GLBConj g L)) := Fintype.ofFinite _
     obtain ⟨P⟩ : Nonempty (Sylow p (PQuot p (GLBConj g L))) := inferInstance
     obtain ⟨q, -, hqo, hqc⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.S3.exists_order_p_not_central hp hp2 hL' P
@@ -357,8 +364,8 @@ private theorem l93c_pPrimeCore_map_normal {Y : Type} [Group Y] [Finite Y] (p : 
   let e : ↥R ≃* ↥R :=
     { toFun := fun r => ⟨g * r * g⁻¹, hR.conj_mem r.1 r.2 g⟩
       invFun := fun r => ⟨g⁻¹ * r * g, by simpa using hR.conj_mem r.1 r.2 g⁻¹⟩
-      left_inv := fun r => Subtype.ext (by simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left]; group)
-      right_inv := fun r => Subtype.ext (by simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left]; group)
+      left_inv := fun r => Subtype.ext (by simp only [mul_assoc, inv_mul_cancel_left]; group)
+      right_inv := fun r => Subtype.ext (by simp only [mul_assoc, mul_inv_cancel_left]; group)
       map_mul' := fun a b => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   have he : (GLAPPrimeCore p ↥R).map e.toMonoidHom = GLAPPrimeCore p ↥R :=
     CFSG.pPrimeCore_map_iso p e
@@ -366,7 +373,7 @@ private theorem l93c_pPrimeCore_map_normal {Y : Type} [Group Y] [Finite Y] (p : 
     rw [← he]
     exact Subgroup.mem_map_of_mem _ hk
   refine Subgroup.mem_map.2 ⟨e k, hek, ?_⟩
-  simp only [e, MulEquiv.coe_mk, Equiv.coe_fn_mk, Subgroup.coe_subtype, MonoidHom.coe_coe]
+  simp only [e, MulEquiv.coe_mk, Equiv.coe_fn_mk, Subgroup.coe_subtype]
 
 private theorem l93c_pPrimeCore_eq_bot_of_normal {Y : Type} [Group Y] [Finite Y] (p : ℕ) [Fact p.Prime]
     {R : Subgroup Y} [hR : R.Normal] (hY : GLAPPrimeCore p Y = ⊥) : GLAPPrimeCore p ↥R = ⊥ := by
@@ -385,7 +392,7 @@ private theorem l93c_isPGroup_of_cyclic {H : Type} [Group H] [Finite H] {p : ℕ
     (hzP : z ∈ P) (hz1 : z ≠ 1) (hzc : ∀ r : H, r * z = z * r)
     (hbend : ∀ r : H, (∀ s ∈ P, r * s = s * r) → r ∈ P) : IsPGroup p H := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hPp
   obtain ⟨c, hc⟩ := IsCyclic.exists_generator (α := ↥P)
   have hord : orderOf c = p ^ m := by
@@ -494,6 +501,7 @@ private theorem l93c_isCyclic_of_elemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p �
   · exact hcyc
   · exact absurd h2 hp2
 
+omit [Finite G] in
 private theorem l93c_comm_mem {p : ℕ} {X : Subgroup G} {l y : G} (hlX : l ∈ X) (hyX : y ∈ X)
     (hab : (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨l, hlX⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) *
         QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨y, hyX⟩ =
@@ -527,10 +535,12 @@ private theorem l93c_mk_comm_of_centMod {p : ℕ} (hp : p.Prime) {X L : Subgroup
 abbrev l93cR (p : ℕ) (X L : Subgroup G) : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X) :=
   Subgroup.centralizer ((barX p X L : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)) : Set (↥X ⧸ GLAPPrimeCore p ↥X))
 
+omit [Finite G] in
 private theorem l93c_mem_barX {p : ℕ} {X L : Subgroup G} {l : G} (hl : l ∈ L) (hlX : l ∈ X) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨l, hlX⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) ∈ barX p X L :=
   ⟨⟨l, hlX⟩, (Subgroup.mem_subgroupOf).2 hl, rfl⟩
 
+omit [Finite G] in
 private theorem l93c_mem_cR {p : ℕ} {X L : Subgroup G} {g : G} (hgX : g ∈ X)
     (hc : ∀ l ∈ L, ∀ hlX : l ∈ X,
       (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨l, hlX⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) *
@@ -544,6 +554,7 @@ private theorem l93c_mem_cR {p : ℕ} {X L : Subgroup G} {g : G} (hgX : g ∈ X)
   have hl : l ∈ L := Subgroup.mem_subgroupOf.1 hk
   exact hc l hl hlX
 
+omit [Finite G] in
 private theorem l93c_comm_of_mem_cR {p : ℕ} {X L : Subgroup G} {w : G} (hwX : w ∈ X)
     (hw : (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨w, hwX⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) ∈
       l93cR p X L) (l : G) (hl : l ∈ L) (hlX : l ∈ X) :
@@ -586,7 +597,7 @@ private theorem l93c_card_le_of_elemAbelian {p : ℕ} (hp : p.Prime) {X L : Subg
     (hspade : ∀ A : Subgroup G, A ≤ X ⊓ centModSubgroup p L → IsElemAbelian p A → Nat.card A ≤ p)
     {E : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)} (hER : E ≤ l93cR p X L) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥X)) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux p ↥X
   set π : ↥X →* (↥X ⧸ GLAPPrimeCore p ↥X) := QuotientGroup.mk' (GLAPPrimeCore p ↥X) with hπ
@@ -700,7 +711,7 @@ private theorem l93c_layer_eq_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : 
     (hO : GLAPPrimeCore p ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L) = ⊥)
     {K : Subgroup ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L)}
     (hK : CFSG.Open.IsComponentOf K ⊤) : K = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hKsn, hKq⟩ := hK
   by_contra hK0
   have hdvd : p ∣ Nat.card ↥K := by
@@ -798,7 +809,7 @@ theorem l93_pow_mem_core_of_centMod {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} 
       ∃ n : ℕ, g ^ (p ^ n) ∈ GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G)) := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := h.comp
   have hxN : x ∈ Subgroup.normalizer (L : Set G) := h.norm h.mem
   have hxp : x ^ p = 1 := h.bmax.1.2 x h.mem
@@ -813,9 +824,9 @@ theorem l93_pow_mem_core_of_centMod {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} 
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p
   have hLn : (L.subgroupOf (Subgroup.centralizer ({x} : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hL.1).2 hN
-  haveI hLbarn : (barX p (Subgroup.centralizer ({x} : Set G)) L).Normal :=
+  have hLbarn : (barX p (Subgroup.centralizer ({x} : Set G)) L).Normal :=
     Subgroup.Normal.map hLn _ (QuotientGroup.mk'_surjective _)
-  haveI hRn : (l93cR p (Subgroup.centralizer ({x} : Set G)) L).Normal := inferInstance
+  have hRn : (l93cR p (Subgroup.centralizer ({x} : Set G)) L).Normal := inferInstance
   have hOR : GLAPPrimeCore p ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L) = ⊥ :=
     l93c_pPrimeCore_eq_bot_of_normal p hOX
   have hlayer : CFSG.ComponentClassification.Layer.subgroup
@@ -903,7 +914,7 @@ theorem l93_pow_mem_core_of_centMod {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} 
       unfold CFSG.pCore
       exact le_sSup ⟨hzPnorm, hzPp⟩
     exact hle (Subgroup.mem_zpowers zR)
-  haveI : (CFSG.pCore p ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L)).Normal :=
+  have : (CFSG.pCore p ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L)).Normal :=
     CFSG.pCore_normal
   have hRp : IsPGroup p ↥(l93cR p (Subgroup.centralizer ({x} : Set G)) L) :=
     l93c_isPGroup_of_cyclic hp _ (CFSG.pCore_isPGroup) hPc hzP hzR1 hzRc hbend

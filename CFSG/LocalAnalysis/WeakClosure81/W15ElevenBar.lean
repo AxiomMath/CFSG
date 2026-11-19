@@ -29,6 +29,7 @@ private noncomputable def b15_Bar_conjQuot [(I.subgroupOf Q).Normal]
   QuotientGroup.map (I.subgroupOf Q) (I.subgroupOf Q) (b15_Bar_conjOn hBQ b) (fun x hx =>
     Subgroup.mem_comap.2 (Subgroup.mem_subgroupOf.2 (hBI b b.2 x (Subgroup.mem_subgroupOf.1 hx))))
 
+omit [Finite G] in
 private theorem b15_Bar_conjQuot_mul [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I)
     (b b' : B) (y : Q ⧸ I.subgroupOf Q) :
@@ -42,6 +43,7 @@ private theorem b15_Bar_conjQuot_mul [(I.subgroupOf Q).Normal]
     ext
     simp [b15_Bar_conjOn, mul_assoc]
 
+omit [Finite G] in
 private theorem b15_Bar_conjQuot_one [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I)
     (y : Q ⧸ I.subgroupOf Q) : b15_Bar_conjQuot hBQ hBI 1 y = y := by
@@ -52,6 +54,7 @@ private theorem b15_Bar_conjQuot_one [(I.subgroupOf Q).Normal]
     ext
     simp [b15_Bar_conjOn]
 
+omit [Finite G] in
 private theorem b15_Bar_exists_action [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I) :
     ∃ ρ : B →* MulAut (Q ⧸ I.subgroupOf Q), ∀ (b : B) (q : Q),
@@ -114,8 +117,8 @@ theorem exists_relIndex_le_two_commutator_mem (c : Cfg1511 M V₀ V U S H P Q₀
     (hBY : ⁅B, Y⁆ ≤ iHull15 V₀ U H) :
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ B₀.relIndex B ≤ 2 ∧
       ∀ b ∈ B₀, ∀ k ∈ kHull15 V₀ H, ⁅k, b⁆ ∈ iHull15 V₀ U H := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI hNorm : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : Fact p.Prime := ⟨c.prime⟩
+  have hNorm : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
   have hBH : B ≤ H := hBT.trans c.tSub15_le_H
   have hHI : H ≤ normalizer (iHull15 V₀ U H : Set G) := Hyp1510.le_normalizer_iHull15 V₀ U H
   have hBQ : ∀ b ∈ B, ∀ q ∈ Q₀, b * q * b⁻¹ ∈ Q₀ := fun b hb q hq =>
@@ -128,7 +131,7 @@ theorem exists_relIndex_le_two_commutator_mem (c : Cfg1511 M V₀ V U S H P Q₀
     exact (Nat.card_congr (Equiv.ofBijective φ hφbij)).symm
   have hshape := c.shape
   simp only [OddCoreShape15] at hshape
-  haveI hext : CFSG.IsExtraspecial p (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := by
+  have hext : CFSG.IsExtraspecial p (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := by
     rcases hshape with h | ⟨-, h, -⟩
     · exfalso
       rw [hcardN] at h
@@ -158,7 +161,7 @@ theorem exists_relIndex_le_two_commutator_mem (c : Cfg1511 M V₀ V U S H P Q₀
     have hy'Y : (y' : G) ∈ Y := Subgroup.mem_subgroupOf.1 hy'
     have h := hBY (Subgroup.commutator_mem_commutator a.2 (Y.inv_mem hy'Y))
     simpa [commutatorElement_def, mul_assoc] using h
-  haveI := hBe.1
+  have := hBe.1
   have hcomm : ∀ a a' : ↥B, a * a' = a' * a := fun a a' => mul_comm' a a'
   have hsq : ∀ a : ↥B, a * a = 1 := fun a => Subtype.ext (by
     have h := hBe.2 a a.2

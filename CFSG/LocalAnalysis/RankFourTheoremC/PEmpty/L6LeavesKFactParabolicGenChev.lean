@@ -17,7 +17,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem le_sup_zpowers_of_splitBN {G : Type*} [Group G] {B N U : Subgroup G} {ι : Type*}
     {n : ι → N} (h : SplitBN B N U n) : N ≤ B ⊔ ⨆ i, zpowers ((n i : N) : G) := by
   obtain ⟨hnorm, -, -, -, hclos, -⟩ := h
-  haveI := hnorm
+  have := hnorm
   set C := (B ⊓ N).subgroupOf N with hC
   set M : Subgroup G := B ⊔ ⨆ i, zpowers ((n i : N) : G) with hM
   set M' : Subgroup N := M.subgroupOf N with hM'
@@ -41,8 +41,8 @@ theorem le_sup_zpowers_of_splitBN {G : Type*} [Group G] {B N U : Subgroup G} {ι
 theorem adjointGroup_isSplitBNPair
     {p f : ℕ} (hp : p.Prime) (hf : 0 < f) (t : Tag) (F : Type) [Field F] [Finite F]
     (hF : Nat.card F = p ^ f) : IsSplitBNPair p (borelSub t F) (monomialSub t F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := burnsideI2BN_charP_of_card hp hf hF
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := burnsideI2BN_charP_of_card hp hf hF
   obtain ⟨hsb, hBN, -, -, -, -, -, hpg⟩ := chevalley_split_bn_pair t F
   have hfinG : Finite (adjointGroup t F) := inferInstance
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element t
@@ -76,13 +76,13 @@ theorem parFam_adjointGroup
     (t : Tag) {f : ℕ} (hf : 0 < f) (F : Type) [Field F] [Finite F] (hF : Nat.card F = 2 ^ f) :
     ∃ Fam : ParFam ↥(adjointGroup t F) (Fin t.rank),
       Fam.Q = fun i => (parabolicRadical t F {i}).subgroupOf (adjointGroup t F) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
   have hBN := adjointGroup_isSplitBNPair Nat.prime_two hf t F hF
   obtain ⟨hsb, -, -, -, -, -, -, hpg⟩ := chevalley_split_bn_pair t F
   have hrank : 2 ≤ t.rank := by cases t <;> decide
-  haveI : Nonempty (Fin t.rank) := ⟨⟨0, by omega⟩⟩
-  haveI : Nontrivial (Fin t.rank) := Fin.nontrivial_iff_two_le.mpr hrank
+  have : Nonempty (Fin t.rank) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Fin t.rank) := Fin.nontrivial_iff_two_le.mpr hrank
   have hne : ∀ i : Fin t.rank, ({i} : Set (Fin t.rank)) ≠ Set.univ := by
     intro i h
     obtain ⟨j, hj⟩ := exists_ne i

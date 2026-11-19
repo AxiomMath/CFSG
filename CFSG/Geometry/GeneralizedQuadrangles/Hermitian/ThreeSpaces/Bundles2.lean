@@ -40,7 +40,7 @@ theorem ncard_abs_threeBundle_of_isConePlane (hΓ : IsThasQuadrangle Γ c q) {T 
     · rintro ⟨hE, u, hu0, rfl⟩
       have hEβ : IsThreespace Γ c q (ptPerp Γ c {u}) ∧
           (ptPerp Γ c {z} ∩ clSet Γ x y) ⊆ ptPerp Γ c {u} := by
-        simpa only [threeBundle, Set.mem_setOf_eq] using hE
+        simpa only [threeBundle, Set.mem_ofPred_eq] using hE
       have huEq : u = z := by
         by_contra hune
         have hspanCard : (spanSet Γ x y).ncard = q + 1 := hΓ.span x y hx0 hxy
@@ -162,7 +162,7 @@ private theorem threeBundle_card_equation (hΓ : IsThasQuadrangle Γ c q) {T : S
   have hEsubP : ∀ E ∈ threeBundle Γ c q T, E ⊆ (P : Set V) := by
     intro E hE x hx
     have hEβ : IsThreespace Γ c q E ∧ T ⊆ E := by
-      simpa only [threeBundle, Set.mem_setOf_eq] using hE
+      simpa only [threeBundle, Set.mem_ofPred_eq] using hE
     have hx0 : c x = 0 := by
       rcases hEβ.1 with ⟨u, -, rfl⟩ | hF
       · exact (mem_ptPerp.mp hx).1
@@ -203,9 +203,9 @@ private theorem threeBundle_card_equation (hΓ : IsThasQuadrangle Γ c q) {T : S
       have := (hβmem E).1 hE
       simpa [β] using this
     by_cases hA : Abs E
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       exact habsA E hEβ hA
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       exact hnonB E hEβ hA
   have htermSum : (∑ E ∈ βfin, (E \ T).ncard) =
       ∑ E ∈ βfin, (if Abs E then a else b) :=
@@ -375,13 +375,13 @@ theorem ncard_of_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {β : Set (Set V)
     · obtain ⟨y, z, hy0, hyz, rfl⟩ := hTtrace
       have htrace : IsTracePlane Γ c (traceSet Γ y z) := ⟨y, z, hy0, hyz, rfl⟩
       have hTcard : (traceSet Γ y z).ncard = q ^ 3 + 1 := by
-        rw [ncard_trace hP hyz, hΓ.deg y, if_pos hy0]
+        rw [ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy0]
       have hEabs : ∀ E, E ∈ threeBundle Γ c q (traceSet Γ y z) →
           (∃ u, c u = 0 ∧ E = ptPerp Γ c {u}) →
           (E \ traceSet Γ y z).ncard = q ^ 5 - q ^ 3 + q ^ 2 := by
         intro E hE hAbs
         have hEβ : IsThreespace Γ c q E ∧ traceSet Γ y z ⊆ E := by
-          simpa only [threeBundle, Set.mem_setOf_eq] using hE
+          simpa only [threeBundle, Set.mem_ofPred_eq] using hE
         obtain ⟨u, hu0, rfl⟩ := hAbs
         have hEcard : (ptPerp Γ c {u}).ncard = q ^ 5 + q ^ 2 + 1 := by
           rw [ncard_ptPerp_singleton hP hThick c (s := q ^ 2) (t := q ^ 3) hΓ.deg hu0]
@@ -396,7 +396,7 @@ theorem ncard_of_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {β : Set (Set V)
           (E \ traceSet Γ y z).ncard = q ^ 5 + q ^ 2 := by
         intro E hE hnon
         have hEβ : IsThreespace Γ c q E ∧ traceSet Γ y z ⊆ E := by
-          simpa only [threeBundle, Set.mem_setOf_eq] using hE
+          simpa only [threeBundle, Set.mem_ofPred_eq] using hE
         have hF : IsFullSubquadrangle c E q := by
           rcases hEβ.1 with hAbs | hF
           · exact absurd hAbs hnon
@@ -448,7 +448,7 @@ theorem ncard_of_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {β : Set (Set V)
         intro E hE hAbs
         have hEβ : IsThreespace Γ c q E ∧
             (ptPerp Γ c {z} ∩ clSet Γ x y) ⊆ E := by
-          simpa only [threeBundle, Set.mem_setOf_eq] using hE
+          simpa only [threeBundle, Set.mem_ofPred_eq] using hE
         obtain ⟨u, hu0, rfl⟩ := hAbs
         have hEcard : (ptPerp Γ c {u}).ncard = q ^ 5 + q ^ 2 + 1 := by
           rw [ncard_ptPerp_singleton hP hThick c (s := q ^ 2) (t := q ^ 3) hΓ.deg hu0]
@@ -464,7 +464,7 @@ theorem ncard_of_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {β : Set (Set V)
         intro E hE hnon
         have hEβ : IsThreespace Γ c q E ∧
             (ptPerp Γ c {z} ∩ clSet Γ x y) ⊆ E := by
-          simpa only [threeBundle, Set.mem_setOf_eq] using hE
+          simpa only [threeBundle, Set.mem_ofPred_eq] using hE
         have hF : IsFullSubquadrangle c E q := by
           rcases hEβ.1 with hAbs | hF
           · exact absurd hAbs hnon
@@ -511,6 +511,6 @@ theorem ncard_of_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {β : Set (Set V)
         color_eq_zero_of_adj_of_color_eq_one hL (by simpa [mem_neighborSet] using hv)
       exact ptPerp_singleton_injective hP hThick hu0 hv0 huv
     rw [hinj.ncard_image, SimpleGraph.ncard_neighborSet, hΓ.deg L,
-      if_neg (by rw [hL]; decide)]
+      ite_eq_right (by rw [hL]; decide)]
 
 end CFSG.Geometry.GeneralizedQuadrangles

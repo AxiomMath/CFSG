@@ -115,7 +115,7 @@ variable {p f : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
 
 theorem Std20.isSylow2In_S_centralizer (d : Std20 p f K K' J S R R' W V z t) :
     IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
+  ⟨d.hSz, S.isPGroup, fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
 
 theorem Std20.odd_index_centralizer (d : Std20 p f K K' J S R R' W V z t) :
     Odd (Subgroup.centralizer ({z} : Set G)).index := by
@@ -149,7 +149,7 @@ theorem Std20.swap_fusion [IsSimpleGroup G] (d : Std20 p f K K' J S R R' W V z t
       ∀ c : ↥(Subgroup.centralizer ({z} : Set G)), ϕ c = 1 ↔ conjSub (c : G) K = K :=
     ⟨swapHom hne h1 h2, swapHom_eq_one_iff hne h1 h2⟩
   have hbC : b ∈ Subgroup.centralizer ({z} : Set G) := d.hSz hb
-  have hb2 : IsPGroup 2 (Subgroup.zpowers b) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hb)
+  have hb2 : IsPGroup 2 (Subgroup.zpowers b) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hb)
   have hϕb : ϕ ⟨b, hbC⟩ ≠ 1 := by
     rw [Ne, hϕ]
     show conjSub b K ≠ K

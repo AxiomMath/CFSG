@@ -113,8 +113,8 @@ theorem sgnY_eq_one_iff (τ : Yaut) : sgnY τ = 1 ↔ τ ∈ Yone := by
   · simp
 
 theorem le_Yone_of_simple {H : Subgroup Yaut} (e : ↥H ≃* A6) : H ≤ Yone := by
-  haveI : IsSimpleGroup A6 := CFSG.EvenSporadicStandard.M24Std.DRes.alt6_simple
-  haveI : IsSimpleGroup ↥H := e.isSimpleGroup
+  have : IsSimpleGroup A6 := CFSG.EvenSporadicStandard.M24Std.DRes.alt6_simple
+  have : IsSimpleGroup ↥H := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (sgnY.comp H.subtype).ker with h | h
   · exfalso
     have hinj : Function.Injective (sgnY.comp H.subtype) :=

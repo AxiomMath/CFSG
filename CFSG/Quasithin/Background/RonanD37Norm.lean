@@ -15,6 +15,7 @@ variable {U : Type} [CommGroup U] [Finite U] {X L₁ L₂ : Subgroup (MulAut U)}
 theorem le_of_two_pow_le {x y : ℕ} (h : 2 ^ x ≤ 2 ^ y) : x ≤ y :=
   (Nat.pow_le_pow_iff_right (by norm_num)).mp h
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 theorem rk_top_eq {d n : ℕ} (Mm : MatModel L₁ L₂ F d) (hF : Nat.card F = 2 ^ n) :
     rk U = d * d * n := by
   unfold rk
@@ -24,6 +25,7 @@ theorem rk_top_eq {d n : ℕ} (Mm : MatModel L₁ L₂ F d) (hF : Nat.card F = 2
 theorem card_fixV_eq (hU : ∀ u : U, u ^ 2 = 1) (B : Subgroup (MulAut U)) :
     Nat.card ↥(fixV B) = 2 ^ rk ↥(fixV B) := card_eq_two_pow hU _
 
+omit [Finite U] in
 theorem cent_inf_cent_eq_bot {d : ℕ} (Mm : MatModel L₁ L₂ F d) {B : Subgroup (MulAut U)}
     (hE : IsElemAbelian2 B) :
     (B ⊓ Subgroup.centralizer (L₁ : Set (MulAut U))) ⊓

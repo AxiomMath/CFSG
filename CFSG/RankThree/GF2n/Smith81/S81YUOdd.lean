@@ -18,6 +18,7 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type} [Field K]
 
+omit [Finite F] [CharP F 2] in
 private theorem s81yu_tvMat_eq (a : Fin 6 → F) (c : F) :
     tvMat σ a c = 1 + vecMulVec a (fun i => c * σ (a i)) := by
   unfold tvMat
@@ -42,7 +43,7 @@ private theorem s81yu_mul_self [CharP K 2] {g : GL (Fin 6) K} (hg : IsTransvec K
 
 theorem u6_herm_eq_zero_of_not_odd (hσ : IsUnitaryInvolution σ) (e : K ≃+* Fσ σ)
     {gx gy : SUid σ 6} (hx : IsTransvec F (gx : GL (Fin 6) F)) (hy : IsTransvec F (gy : GL (Fin 6) F))
-    {a b : Fin 6 → F} {c d : F} (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) (hd : d ≠ 0)
+    {a b : Fin 6 → F} {c d : F} (ha : a ≠ 0) (_hb : b ≠ 0) (hc : c ≠ 0) (hd : d ≠ 0)
     (haa : herm σ a a = 0) (hbb : herm σ b b = 0)
     (hxa : ((gx : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = tvMat σ a c)
     (hyb : ((gy : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = tvMat σ b d)
@@ -165,11 +166,11 @@ theorem u6_odd_disj (e : K ≃+* Fσ σ) (r s : E3UWspace σ e ≃ₗ[K] E3UWspa
   have hmx : ((show Wform σ from w : Wform σ) : Cube F) ∈
       LinearMap.range (rho F (gx : GL (Fin 6) F) - 1) := by
     refine LinearMap.mem_range.mpr ⟨((show Wform σ from v1 : Wform σ) : Cube F), ?_⟩
-    rw [LinearMap.sub_apply, Module.End.one_apply, ← hX gx v1, ← hv1'] <;> exact rfl
+    rw [LinearMap.sub_apply, Module.End.one_apply, ← hX gx v1, ← hv1']; exact rfl
   have hmy : ((show Wform σ from w : Wform σ) : Cube F) ∈
       LinearMap.range (rho F (gy : GL (Fin 6) F) - 1) := by
     refine LinearMap.mem_range.mpr ⟨((show Wform σ from v2 : Wform σ) : Cube F), ?_⟩
-    rw [LinearMap.sub_apply, Module.End.one_apply, ← hX gy v2, ← hv2'] <;> exact rfl
+    rw [LinearMap.sub_apply, Module.End.one_apply, ← hX gy v2, ← hv2']; exact rfl
   have hmem : ((show Wform σ from w : Wform σ) : Cube F) ∈
       LinearMap.range (rho F (gx : GL (Fin 6) F) - 1) ⊓
         LinearMap.range (rho F (gy : GL (Fin 6) F) - 1) :=

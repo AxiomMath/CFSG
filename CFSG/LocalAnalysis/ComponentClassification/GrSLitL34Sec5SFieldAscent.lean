@@ -34,7 +34,7 @@ theorem exists_map_eq_projUnitriangular_of_isSylowTwoIn {F : Type} [Field F] [Fi
   rw [map_top_of_surjective ρ hρ] at hS
   obtain ⟨S, hSU⟩ := exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
   have hU' : LargeExtraspecial.S5.IsSylowTwoIn (projUnitriangular 3 F) ⊤ :=
-    ⟨le_top, hSU ▸ S.isPGroup', by
+    ⟨le_top, hSU ▸ S.isPGroup, by
       rw [relIndex_top_right, ← hSU]
       exact S.not_dvd_index⟩
   obtain ⟨c, -, hc⟩ := hS.exists_conj hU'
@@ -162,7 +162,7 @@ theorem commute_of_mem_coreActionKernel {Q S : Subgroup G} (hS : IsPGroup 2 S) {
     exact Nat.Coprime.pow_left n pPrimeCore_coprime_card
   have h1 : j⁻¹ * g⁻¹ * j * g ∈ S ⊓ (pPrimeCore 2 Q).map Q.subtype :=
     mem_inf.mpr ⟨hjg, (mem_coreActionKernel.mp hg).2 j hj⟩
-  rw [inf_eq_bot_of_coprime hcop, mem_bot] at h1
+  rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), mem_bot] at h1
   calc j * g = g * j * (j⁻¹ * g⁻¹ * j * g) := by group
     _ = g * j := by rw [h1, mul_one]
 

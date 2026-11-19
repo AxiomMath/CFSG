@@ -36,11 +36,11 @@ lemma w1369_ta_transitive_on_simple [Finite Q] {Λ N : Subgroup (MulAut Q)}
   classical
   let α := {S : Subgroup Q // w1369_ta_IsSimple Λ S}
   let β := {f : Fin k → Bool // f ≠ (0 : Fin k → Bool)}
-  haveI : Finite (Subgroup Q) :=
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun H : Subgroup Q => (H : Set Q)) SetLike.coe_injective
-  haveI : Finite α := Finite.of_injective (fun a : α => a.1) Subtype.val_injective
-  haveI : Finite β := Finite.of_injective (fun f : β => (f : Fin k → Bool)) Subtype.val_injective
-  letI : MulAction N α :=
+  have : Finite α := Finite.of_injective (fun a : α => a.1) Subtype.val_injective
+  have : Finite β := Finite.of_injective (fun f : β => (f : Fin k → Bool)) Subtype.val_injective
+  let : MulAction N α :=
     { smul := fun n S => ⟨S.1.map (n : MulAut Q).toMonoidHom, w1369_simple_map hnorm S.2 n.2⟩
       one_smul := fun S => by
         apply Subtype.ext

@@ -103,7 +103,7 @@ theorem conjugate_centralizer_singleton (x g : G) :
     CFSG.conjugate (centralizer ({x} : Set G)) g = centralizer ({g⁻¹ * x * g} : Set G) := by
   unfold CFSG.conjugate
   rw [CFSG.centralizer_singleton_map (MulAut.conj g⁻¹) x,
-    show (MulAut.conj g⁻¹) x = g⁻¹ * x * g by simp [MulAut.conj_apply]]
+    show (MulAut.conj g⁻¹) x = g⁻¹ * x * g by simp]
 
 theorem Sl23PocketIn.conjugate {X : Subgroup G} {y : G} {K : Subgroup G}
     (h : Sl23PocketIn X y K) (g : G) :
@@ -120,7 +120,7 @@ theorem Sl23PocketIn.conjugate {X : Subgroup G} {y : G} {K : Subgroup G}
       X.map (MulAut.conj g⁻¹).toMonoidHom ⊓ centralizer ({g⁻¹ * y * g} : Set G)
     rw [Subgroup.map_inf _ _ _ (MulAut.conj g⁻¹).injective,
       CFSG.centralizer_singleton_map (MulAut.conj g⁻¹) y,
-      show (MulAut.conj g⁻¹) y = g⁻¹ * y * g by simp [MulAut.conj_apply]]
+      show (MulAut.conj g⁻¹) y = g⁻¹ * y * g by simp]
   have heq : (K.subgroupOf A).map e.toMonoidHom =
       (K.map (MulAut.conj g⁻¹).toMonoidHom).subgroupOf
         (A.map (MulAut.conj g⁻¹).toMonoidHom) := by
@@ -135,7 +135,7 @@ theorem Sl23PocketIn.conjugate {X : Subgroup G} {y : G} {K : Subgroup G}
       Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr (Subgroup.map_mono hKA)]
   refine ⟨?_, ?_, ?_, ?_⟩
   · unfold CFSG.conjugate
-    exact Subgroup.mem_map.mpr ⟨y, h.1, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨y, h.1, by simp⟩
   · rw [← hconjA]
     change K.map (MulAut.conj g⁻¹).toMonoidHom ≤ A.map (MulAut.conj g⁻¹).toMonoidHom
     exact Subgroup.map_mono h.2.1

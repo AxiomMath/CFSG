@@ -72,7 +72,7 @@ theorem eq_scalar_of_commute_of_eigen {a : F} (ha : ∀ b : F, b ^ 3 ≠ a)
       simpa [Fin.sum_univ_three, hcol, w] using hg)
     intro i
     exact congrFun this i
-  have hB : IsUnit B := Matrix.linearIndependent_cols_iff_isUnit.mp hind
+  have hB : IsUnit B := Matrix.linearIndependent_col_iff_isUnit.mp hind
   have hyx : ∀ u : Fin 3 → F, y.mulVec (x.mulVec u) = x.mulVec (y.mulVec u) := fun u => by
     rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← hxy]
   have hw : ∀ j, y.mulVec (w j) = ε • w j := by

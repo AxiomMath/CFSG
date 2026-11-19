@@ -32,7 +32,7 @@ theorem ggShadow_fi22_component
     decide
   · exfalso
     subst hp
-    haveI : Fact (Nat.Prime 5) := ⟨hyp.1.1⟩
+    have : Fact (Nat.Prime 5) := ⟨hyp.1.1⟩
     have hnc : ∀ C : Subgroup W,
         ¬ CFSG.Assembly.IsComponentOf C (H ⊓ CFSG.generalizedFitting W) :=
       fun C hC => hcomp ⟨C, hC⟩

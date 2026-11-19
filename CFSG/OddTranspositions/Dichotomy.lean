@@ -17,7 +17,7 @@ theorem ascNoSqDichotomy
     (hI1 : NoSqE1OrThreeTranspositions) :
     AscNoSqDichotomy :=
   ascNoSqDichotomy_of_inputs hI1
-    (fun G _ _ D hcls hinv hprod hgen hcenter hsolv hEG =>
+    (fun _G _ _ _D hcls hinv hprod hgen hcenter hsolv hEG =>
       commutator_isSimpleGroup_of_threeTranspositions hcls hinv hprod hgen hcenter hsolv hEG)
     threeTranspositionDichotomy
 

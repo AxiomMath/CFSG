@@ -50,7 +50,7 @@ private theorem levelTransversals_rawOf (hF : PairsOK n F NL) (i : Fin k) :
   show ((rawOf n hn F NL bs hbs).transversal? i x).getD 1 = _
   rw [htr x]
   dsimp only
-  rw [if_pos hxmem]
+  rw [ite_eq_left hxmem]
   rfl
 
 private theorem enumeration_rawOf (hF : PairsOK n F NL) :

@@ -137,6 +137,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Field K] [Finite K] [CharP K 2] in
 private theorem qTwoS34C_card_eq (hK : Nat.card K = 4) : Nat.card K = ((2 : ℕ) ^ 1) ^ 2 := by
   rw [hK]; norm_num
 
@@ -264,7 +265,7 @@ private theorem qTwoS34C_card_unitarySU_F4c_two : Nat.card (unitarySU 2 1 F4c 2)
   have hdata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F4c :=
     CFSG.RankThree.PartOne.KFU.unitaryFieldData_two (K := F4c) (f := 1)
       (by rw [Nat.card_eq_fintype_card, F4c.card_eq]; norm_num) (by norm_num)
-  haveI : CharP F4c 2 := hdata.charP
+  have : CharP F4c 2 := hdata.charP
   have hval : (Nat.card (unitarySU 2 1 F4c 2) : ℤ) = 6 := by
     rw [show unitarySU 2 1 F4c 2 = CFSG.Open.StatedSU 2 (2 ^ 1) F4c from rfl,
       CFSG.RankThree.PartOne.KFU.card_statedSU_eq (K := F4c) (f := 1) hdata (n := 2) (by norm_num)]
@@ -275,7 +276,7 @@ private theorem qTwoS34C_card_unitarySU_F4c_three : Nat.card (unitarySU 2 1 F4c 
   have hdata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F4c :=
     CFSG.RankThree.PartOne.KFU.unitaryFieldData_two (K := F4c) (f := 1)
       (by rw [Nat.card_eq_fintype_card, F4c.card_eq]; norm_num) (by norm_num)
-  haveI : CharP F4c 2 := hdata.charP
+  have : CharP F4c 2 := hdata.charP
   have hval : (Nat.card (unitarySU 2 1 F4c 3) : ℤ) = 216 := by
     rw [show unitarySU 2 1 F4c 3 = CFSG.Open.StatedSU 3 (2 ^ 1) F4c from rfl,
       CFSG.RankThree.PartOne.KFU.card_statedSU_eq (K := F4c) (f := 1) hdata (n := 3) (by norm_num)]

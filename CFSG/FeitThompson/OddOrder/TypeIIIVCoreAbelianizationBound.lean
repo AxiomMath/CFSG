@@ -108,6 +108,7 @@ theorem le_normalizer_commutator_W₁ : W₁ ≤ normalizer ((⁅M, M⁆ : Subgr
   hc.le_M_W₁.trans (Subgroup.normalizer_commutator_ge_left M M)
 
 omit hc in
+omit [Finite G] in
 theorem isSolvable_commutator [Group.IsSolvable ↥M] :
     Group.IsSolvable ↥(⁅M, M⁆ : Subgroup G) :=
   Group.isSolvable_of_isSolvable_injective

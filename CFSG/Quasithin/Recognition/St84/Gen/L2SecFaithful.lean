@@ -31,7 +31,7 @@ theorem four_le_relIndex_of_nontrivial {V Z : Subgroup G} {l : G} (hsec : IsElem
     rw [Subgroup.relIndex, Subgroup.index]
     exact Nat.card_pos
   have h2dvd : 2 ∣ Z.relIndex V := by
-    haveI hN : (Z.subgroupOf V).Normal :=
+    have hN : (Z.subgroupOf V).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hZV).mpr
         (Subgroup.le_normalizer_iff_commutator_le_right.mpr
           ((Subgroup.commutator_mono le_rfl hZV).trans hsec.2.1))
@@ -61,6 +61,7 @@ theorem four_le_relIndex_of_nontrivial {V Z : Subgroup G} {l : G} (hsec : IsElem
   have h2 : Z.relIndex V = 2 := by omega
   exact hne (CFSG.Quasithin.S15223.commutator_mem_of_relIndex_le_two (Or.inr h2) hlZ hlV hvV)
 
+omit [Finite G] in
 private theorem false_of_trivial_on_quotients {V Z W L : Subgroup G} {m : ℕ}
     (hm : 2 ≤ m) (hquot : IsL2Quot m (oTwoQuot ↥L)) (hsec : IsElemSec Z V)
     (hL : L ≤ Subgroup.normalizer (V : Set G) ⊓ Subgroup.normalizer (Z : Set G))
@@ -118,13 +119,13 @@ private theorem false_of_trivial_on_quotients {V Z W L : Subgroup G} {m : ℕ}
     have hxwZ : ⁅(x : G), ⁅(x : G), v⁆⁆ ∈ Z := htrivW (x : G) x.2 _ hwW
     have e : ⁅((x ^ 2 : ↥L) : G), v⁆ =
         ⁅(x : G), ⁅(x : G), v⁆⁆ * ⁅(x : G), v⁆ ^ 2 := by
-      simp only [Subgroup.coe_pow, Subgroup.coe_mul, commutatorElement_def, pow_two]
+      simp only [Subgroup.coe_mul, commutatorElement_def, pow_two]
       group
     rw [e]
     exact Z.mul_mem hxwZ hw2Z
   let X := oTwoQuot ↥L
   let q : ↥L →* X := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
-  haveI hNmap : (N.map q).Normal := hNnormal.map q (QuotientGroup.mk'_surjective _)
+  have hNmap : (N.map q).Normal := hNnormal.map q (QuotientGroup.mk'_surjective _)
   have hXsimple : IsSimpleGroup X :=
     CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot (by omega) hquot
   rcases hXsimple.eq_bot_or_eq_top_of_normal (N.map q) with hbot | htop
@@ -137,7 +138,7 @@ private theorem false_of_trivial_on_quotients {V Z W L : Subgroup G} {m : ℕ}
       rw [hbot] at hx2
       have h1 : q (x ^ 2) = 1 := Subgroup.mem_bot.mp hx2
       rwa [map_pow] at h1
-    haveI hcomm : IsMulCommutative X :=
+    have hcomm : IsMulCommutative X :=
       CFSG.BenderSuzuki.isMulCommutative_of_forall_sq_one hsqX
     have hprime : (Nat.card X).Prime := (Group.is_simple_iff_prime_card).mp hXsimple
     exact CFSG.Quasithin.QA19.not_prime_card_isL2Quot hm hquot hprime

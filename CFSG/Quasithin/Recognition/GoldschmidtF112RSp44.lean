@@ -210,15 +210,17 @@ variable [Finite G]
 
 local notation "C" => Subgroup.centralizer (U : Set G)
 
+omit [Finite G] in
 theorem RA.blockQ_eq (hS : RootAxisStructure U A s d coord vec) : blockQ C = A := by
   rw [blockQ, pCoreOf, CFSG.Open.pCore_eq_pCore, hS.C_pCore, Subgroup.subgroupOf_map_subtype]
   exact inf_eq_left.mpr hS.A_le_C
 
+omit [Finite G] in
 theorem RA.blockU_eq (hS : RootAxisStructure U A s d coord vec) : blockU C = A := by
   rw [blockU, (RA.blockQ_eq hS)]
   have hAC := hS.A_le_C
   set A' := A.subgroupOf C with hA'
-  haveI hA'n : A'.Normal := ⟨fun a ha g => by
+  have hA'n : A'.Normal := ⟨fun a ha g => by
     rw [hA', Subgroup.mem_subgroupOf] at ha ⊢
     exact hS.A_normal_C g g.2 a ha⟩
   have himg : ⁅A, C⁆ = (⁅A', (⊤ : Subgroup C)⁆).map (Subgroup.centralizer (U : Set G)).subtype := by
@@ -245,8 +247,9 @@ theorem RA.blockU_eq (hS : RootAxisStructure U A s d coord vec) : blockU C = A :
     rw [commutatorElement_def, mul_assoc, mul_assoc, ← mul_assoc (s _), hS.vec_add z hz _ hcA,
       hS.vec_conj _ _ (A.inv_mem hz), (RA.vec_inv hS) hz, hzv] at h0
     have := congrFun h0 0
-    simp [trU, mulVec, dotProduct, Fin.sum_univ_two] at this
+    simp [trU] at this
 
+omit [Finite G] in
 theorem RA.blockZ_eq (hS : RootAxisStructure U A s d coord vec) (hUA : U ≤ A) :
     blockZ C = U := by
   rw [blockZ, (RA.blockU_eq hS)]
@@ -271,9 +274,11 @@ theorem RA.blockZ_eq (hS : RootAxisStructure U A s d coord vec) (hUA : U ≤ A) 
       rw [← hS.C_pCore] at hb
       exact hb)
 
+omit [Finite G] in
 theorem RA.quotEquiv_apply (hS : RootAxisStructure U A s d coord vec)
     (M : SL₂ K) : RA.quotEquiv hS M = QuotientGroup.mk (⟨s M, hS.s_mem_C M⟩ : C) := rfl
 
+omit [Finite G] in
 theorem RA.quotEquiv_symm_mk (hS : RootAxisStructure U A s d coord vec)
     {a : G} (ha : a ∈ A) (M : SL₂ K) (hg : a * s M ∈ C) :
     (RA.quotEquiv hS).symm (QuotientGroup.mk (⟨a * s M, hg⟩ : C)) = M := by
@@ -315,7 +320,7 @@ theorem RA.isShort2 (hS : RootAxisStructure U A s d coord vec) [Finite K]
       have h3 : s M * z = z * s M := by
         apply mul_left_cancel (a := a)
         calc a * (s M * z) = a * s M * z := (mul_assoc _ _ _).symm
-          _ = z * (a * s M) := by first | exact h1 | exact h1.symm
+          _ = z * (a * s M) := by exact h1.symm
           _ = z * a * s M := (mul_assoc _ _ _).symm
           _ = a * z * s M := by rw [← h2]
           _ = a * (z * s M) := mul_assoc _ _ _
@@ -349,6 +354,7 @@ theorem RA.isShort2 (hS : RootAxisStructure U A s d coord vec) [Finite K]
     · refine Or.inr (hS.normal_eq_A W (hWU.trans hS.A_le_C) (fun g hg v hv => ?_) hWU hW)
       exact (Subgroup.mem_normalizer_iff.mp (hN hg) v).mp hv
 
+omit [Finite G] in
 theorem RA.isLin2Type (hS : RootAxisStructure U A s d coord vec) [Fintype K]
     {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hUA : U ≤ A) (hA : IsElemAbelian 2 A) :
     IsLin2Type C n := by
@@ -474,6 +480,7 @@ open CFSG.Quasithin CFSG.Quasithin.H13.F431 CFSG.Quasithin.H13.F431.SpModel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem perfectCore_vertex {L B : Subgroup G} (hBL : B ≤ Subgroup.normalizer (L : Set G))
     (hB : Group.IsSolvable ↥B) (hL : perfectCore L = L) : perfectCore (L ⊔ B) = L := by
   have hLP : L ≤ L ⊔ B := le_sup_left

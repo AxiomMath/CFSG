@@ -136,7 +136,7 @@ theorem exists_dValueData
     let ρ := Subgroup.equivMapOfInjective (N t) (C t).subtype (C t).subtype_injective
     refine ⟨θ₀.comp (ρ.toMonoidHom.comp π), ?_, ?_⟩
     · intro c hc
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨c, hc⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨c, hc⟩
       rw [Subgroup.orderOf_mk, Subgroup.orderOf_coe] at hk
       have h1 : orderOf (π c) ∣ 2 ^ k := hk ▸ orderOf_map_dvd π c
       have h2 : orderOf (π c) ∣ Nat.card (N t) := orderOf_dvd_natCard _

@@ -11,7 +11,7 @@ namespace CFSG.RankThree.GF2n.Smith81.Smith23E1
 open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
   CFSG.RankThree.GF2n CFSG.RankThree.GF2n.Stroth80
 
-theorem b7a_le_commutator_sup {G : Type} [Group G] {F Q : Subgroup G} (hQF : Q ≤ F)
+theorem b7a_le_commutator_sup {G : Type} [Group G] {F Q : Subgroup G} (_hQF : Q ≤ F)
     [hN : (Q.subgroupOf F).Normal] [hP : Group.IsPerfect (↥F ⧸ Q.subgroupOf F)] :
     F ≤ ⁅F, F⁆ ⊔ Q := by
   let p : ↥F →* ↥F ⧸ Q.subgroupOf F := QuotientGroup.mk' (Q.subgroupOf F)
@@ -50,10 +50,10 @@ theorem b7a_le_commutator_sup {G : Type} [Group G] {F Q : Subgroup G} (hQF : Q �
 theorem b7a_le_commutator_sup_of_sl {G : Type} [Group G] {F Q : Subgroup G} {q : ℕ}
     (hq : 4 ≤ q) (hQF : Q ≤ F) (hS : QuotSat F Q (IsSLModel 2 q)) : F ≤ ⁅F, F⁆ ⊔ Q := by
   obtain ⟨hN, K, hK, hfin, hcard, ⟨e⟩⟩ := hS
-  haveI := hN
-  haveI hSL : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have := hN
+  have hSL : Group.IsPerfect ↥(StatedSL 2 K) :=
     (statedSL_quasisimple_of_card 2 K le_rfl (by rw [hcard]; exact hq)).1
-  haveI : Group.IsPerfect (↥F ⧸ Q.subgroupOf F) :=
+  have : Group.IsPerfect (↥F ⧸ Q.subgroupOf F) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact b7a_le_commutator_sup hQF
 

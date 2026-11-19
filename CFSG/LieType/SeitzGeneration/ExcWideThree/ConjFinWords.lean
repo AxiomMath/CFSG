@@ -33,9 +33,9 @@ theorem rfRefl_ofFn (i : Fin Tag.E6.rank) (x : Fin Tag.E6.rank → ℤ) :
     have hn : n < Tag.E6.rank := by simpa using h2
     by_cases hin : (i : ℕ) = n
     · subst hin
-      simp [reflect, Pi.single_apply]
+      simp [reflect]
     · have hne : ¬ (⟨n, hn⟩ : Fin Tag.E6.rank) = i := fun h => hin (by rw [← h])
-      simp [reflect, Pi.single_apply, hne, hin, Fin.ext_iff]
+      simp [reflect, hne, hin]
 
 theorem rf_wordProd_smul_eq_foldr (ω : List (Fin Tag.E6.rank)) (v : Fin Tag.E6.rank → ℤ) :
     ((coxeterSystem Tag.E6).wordProd ω) • v = ω.foldr (fun j x => reflect Tag.E6 j x) v := by

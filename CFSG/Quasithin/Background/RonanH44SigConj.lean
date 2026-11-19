@@ -63,7 +63,7 @@ theorem mul_conjM_eq_one (hK : Nat.card K = (2 ^ n) ^ 2) {A : GL (Fin 3) K}
 theorem exists_conj_of_mul_conjM (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) {A : GL (Fin 3) K}
     (hA : (A : Matrix (Fin 3) (Fin 3) K) * conjM n (A : Matrix (Fin 3) (Fin 3) K) = 1) :
     ∃ B : GL (Fin 3) K, rhoT hK A * sig n K = rhoT hK B * sig n K * (rhoT hK B)⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (bar n : K ≃+* K) = 2 := by
     refine orderOf_eq_prime ?_ ?_
     · ext x

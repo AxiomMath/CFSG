@@ -15,11 +15,11 @@ public theorem lieModel_derived :
     rw [Nat.card_zmod]
     norm_num
   have hdim : Module.finrank F (Fin 5 → F) = 5 := by
-    simpa using Module.finrank_fin_fun (R := F) (n := 5)
-  letI : AddCommGroup (Fin 5 → F) :=
+    simp
+  let : AddCommGroup (Fin 5 → F) :=
     { Pi.addCommGroup with toAddCommMonoid := Pi.addCommMonoid }
-  letI : Module F (Fin 5 → F) := Pi.Function.module (Fin 5) F F
-  haveI : FiniteDimensional F (Fin 5 → F) := inferInstance
+  let : Module F (Fin 5 → F) := Pi.Function.module (Fin 5) F F
+  have : FiniteDimensional F (Fin 5 → F) := inferInstance
   obtain ⟨_, _, eO, _, _, _⟩ :=
     CFSG.ComponentClassification.CatalogueBOrthogonalFive.finite_odd_five_selfAdjoint_form_similarity
       (K := F) (Q := Q) hodd (Generic.polar_nondegenerate F) hdim

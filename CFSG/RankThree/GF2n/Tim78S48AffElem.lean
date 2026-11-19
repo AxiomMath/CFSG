@@ -178,9 +178,11 @@ theorem aC_elem (h48 : Hyp48 M B T g) (h1 : Phase1 B T g)
   · rw [pow_two]; exact hsq x hx
 
 
+omit [Finite G] in
 theorem aC_inf_Bg (hBgQ : conjSubgroup g B ⊓ Q = ⊥) : H.aC g ⊓ conjSubgroup g B = ⊥ :=
   le_bot_iff.mp ((inf_le_inf_right _ H.aC_le_P).trans (H.P_inf_Bg hBgQ).le)
 
+omit [Finite G] in
 theorem card_aL (hBgQ : conjSubgroup g B ⊓ Q = ⊥)
     (hcent : ∀ c ∈ H.aC g, ∀ y ∈ conjSubgroup g B, c * y = y * c) :
     Nat.card (H.aC g ⊔ conjSubgroup g B : Subgroup G) = Nat.card (H.aC g) * Nat.card B := by
@@ -215,7 +217,7 @@ theorem comm_Q_Bg_mem_aC (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
       ∃! U, U ∈ classIn B (B ⊔ conjSubgroup g B) ∧ w ∈ U)
     {x y : G} (hx : x ∈ Q) (hy : y ∈ conjSubgroup g B) : ⁅x, y⁆ ∈ H.aC g := by
   by_cases hy1 : y = 1
-  · rw [hy1]; simpa using (H.aC g).one_mem
+  · rw [hy1]; simp
   have hxPT : x ∈ P ⊔ T := H.Q_eq_sup ▸ hx
   obtain ⟨p, hp, t, ht, rfl⟩ := exists_mul_of_mem_sup
     (le_normalizer_of_comm fun t ht p hp =>
@@ -268,6 +270,7 @@ theorem Q_le_normalizer_aL (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P
   exact (H.aC g ⊔ conjSubgroup g B).mul_mem (Subgroup.mem_sup_left
     (H.Q_comm_aL h48 hP hBgQ hpart hcent hx hl)) hl
 
+omit [Finite G] in
 theorem T_comm_aL (h48 : Hyp48 M B T g) {t l : G} (ht : t ∈ T)
     (hcent : ∀ c ∈ H.aC g, ∀ y ∈ conjSubgroup g B, c * y = y * c)
     (hl : l ∈ H.aC g ⊔ conjSubgroup g B) : ⁅l, t⁆ ∈ B := by

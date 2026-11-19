@@ -42,16 +42,16 @@ theorem ggExcReflTBWeylDatumQFourOn_of_bFrame {S : ℕ → LargeEvenLabel → Pr
   have hdet : (((CartanMatrix.C k).det : ℤ) : ZMod p) ≠ 0 := by
     rw [CartanMatrix.C_det (by omega : 0 < k)]
     have h2 : ((2 : ℤ) : ZMod p) ≠ 0 := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       exact_mod_cast zmod_two_ne_zero hp2
     exact h2
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hmul := card_range_ggGamma_mul_of hp hBs hxBs hS.2.2.1 hLx hS.2.2.2.2 hNL
   have hV : Module.finrank (ZMod p) V = k + 1 := by
-    haveI : Module.Finite (ZMod p) V := by
-      haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+    have : Module.Finite (ZMod p) V := by
+      have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
       exact Module.Finite.of_finite
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
       rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),
         Nat.card_zmod]
@@ -59,11 +59,11 @@ theorem ggExcReflTBWeylDatumQFourOn_of_bFrame {S : ℕ → LargeEvenLabel → Pr
       rw [← hcardV, ← hmul, hcard, pow_succ]
     exact Nat.pow_right_injective hp.two_le hpow
   have hk : k ≤ Module.finrank (ZMod p) (ggReflSpan (p := p) Bs L ιV) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have := ggReflSpan_card_le_finrank_of_weylOfType hp2 hNT (ggIntCartan_C k) hno6
       (ggPathPar k) ⟨0, by omega⟩ (fun i => i.1) hpar hdepth hdet hW ιV
     simpa using this
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ggExcReflTBWeylDatum_of_weylOfType hp2 hNT (M := CoxeterMatrix.B k)
     (Or.inl ⟨k, Equiv.refl _, by omega, Or.inr (Or.inl ⟨by omega, rfl⟩)⟩) (by simpa using hk3)
     (ggIntCartan_C k) hno6 (ggPathPar k) ⟨0, by omega⟩ (fun i => i.1) hpar hdepth hW ιV

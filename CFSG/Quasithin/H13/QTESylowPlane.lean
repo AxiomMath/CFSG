@@ -209,7 +209,7 @@ theorem false_of_mul_comm_card_sq {S : Type} [Group S] [Finite S] [IsSimpleGroup
   have hG : Nat.card (coordinateG K) = Nat.card S := (Nat.card_congr Φ.toEquiv).symm
   have hpodd : Odd p := hp.out.odd_of_ne_two (by omega)
   have hqodd : Odd (p ^ 2) := hpodd.pow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
   have hTdvd : Nat.card (T : Subgroup S) ∣ Nat.card S := Subgroup.card_subgroup_dvd_card _
   by_cases hMtop : M = ⊤
   ·

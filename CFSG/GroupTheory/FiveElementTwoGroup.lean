@@ -189,7 +189,7 @@ theorem mem_centralizer_of_orderOf_five_pow_of_invariant {V₀ U : Subgroup G}
       Subgroup.mem_subgroupOf.mp h1
     have hcoeeq : (((σ ⟨y, hy⟩) / ⟨y, hy⟩ : ↥V₀) : G) =
         x * y * x⁻¹ * y⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
         σ, Subgroup.normalizerMonoidHom_apply_apply_coe]
     rwa [hcoeeq] at hmem
   have hxodd : Odd (orderOf x) := by

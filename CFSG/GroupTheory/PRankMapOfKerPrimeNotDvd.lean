@@ -7,7 +7,7 @@ public section
 namespace CFSG
 
 theorem pRank_map_eq_of_not_dvd_card_ker {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y]
-    (f : X →* Y) (hf : Function.Surjective f) {p : Nat} (hp : p.Prime)
+    (f : X →* Y) (_hf : Function.Surjective f) {p : Nat} (hp : p.Prime)
     (hker : ¬ p ∣ Nat.card ↥(MonoidHom.ker f)) (H : Subgroup X) :
     CFSG.Open.pRank p (H.map f) = CFSG.Open.pRank p H := by
   have hp1 : 1 < p := hp.one_lt
@@ -19,7 +19,7 @@ theorem pRank_map_eq_of_not_dvd_card_ker {X Y : Type} [Group X] [Group Y] [Finit
       exact Subgroup.card_comap_dvd_of_injective (MonoidHom.ker f) H.subtype
         H.subtype_injective
     exact fun h => hker (h.trans hdvd)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (↥H ⧸ φ.ker)) =
       CFSG.Open.pRank p (⊤ : Subgroup ↥H) :=
     CFSG.SectionRank.pRank_quotient_eq φ.ker hkerφ

@@ -54,9 +54,9 @@ private theorem comm_prodX_pinnedX {l : List (Fin τ.rank → ℤ)} (hD : ∀ β
     have hc : ⁅pinnedX τ F β (c β), pinnedX τ F γ b⁆ = pinnedX τ F (highRoot τ)
         (if β + γ = highRoot τ then N β * c β * b else 0) := by
       by_cases h : β + γ = highRoot τ
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact hN β List.mem_cons_self h (c β) b
-      · rw [if_neg h, pinnedX_zero]
+      · rw [ite_eq_right h, pinnedX_zero]
         exact comm_pinnedX_of_ne hβ hγ h _ _
     rw [CoordAux.prodX_cons, commutatorElement_mul_left_eq_conj_mul,
       ih (fun α hα => hD α (List.mem_cons_of_mem _ hα))
@@ -96,15 +96,15 @@ theorem comm_prodX_prodX {l l' : List (Fin τ.rank → ℤ)} (hl : l.Nodup) (hl'
       if highRoot τ - β ∈ l' then N β * c β * c' (highRoot τ - β) else 0 := by
     intro β
     by_cases hm : highRoot τ - β ∈ l'
-    · rw [if_pos hm, Finset.sum_eq_single (highRoot τ - β)]
-      · rw [if_pos (add_sub_cancel β (highRoot τ))]
+    · rw [ite_eq_left hm, Finset.sum_eq_single (highRoot τ - β)]
+      · rw [ite_eq_left (add_sub_cancel β (highRoot τ))]
       · intro γ _ hne
-        refine if_neg fun h => hne ?_
+        refine ite_eq_right fun h => hne ?_
         rw [← h, add_sub_cancel_left]
       · intro h
         exact absurd (List.mem_toFinset.2 hm) h
-    · rw [if_neg hm]
-      refine Finset.sum_eq_zero fun γ hγ => if_neg fun h => hm ?_
+    · rw [ite_eq_right hm]
+      refine Finset.sum_eq_zero fun γ hγ => ite_eq_right fun h => hm ?_
       rw [← h, add_sub_cancel_left]
       exact List.mem_toFinset.1 hγ
   calc (l'.map fun γ => (l.map fun β =>

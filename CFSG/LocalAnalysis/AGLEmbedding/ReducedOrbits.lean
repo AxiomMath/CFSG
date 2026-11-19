@@ -119,7 +119,7 @@ theorem sylow_le_normalizer_component (h : ReducedNongeneration p X R X₀) {L :
   have hr2 : r ^ 2 ∈ Subgroup.normalizer (L : Set X) := by
     refine mem_normalizer_of_conj_map_le (le_of_eq ?_)
     rw [hcomp, ← Subgroup.map_map, ← heq]
-  obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
   have hrk : r ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨m, hm⟩ : Odd (orderOf r) :=
     Odd.of_dvd_nat (hp.odd_of_ne_two h.ne_two).pow (orderOf_dvd_of_pow_eq_one hrk)
@@ -145,7 +145,7 @@ theorem normalizer_sup_zpowers_le (h : ReducedNongeneration p X R X₀) {K : Sub
     Subgroup.normalizer
       ((Subgroup.zpowers c ⊔ Subgroup.zpowers z : Subgroup X) : Set X) ≤ X₀ := by
   have hp := h.prime
-  have hTp : IsPGroup p ((R : Subgroup X) ⊓ K : Subgroup X) := R.isPGroup'.to_le inf_le_left
+  have hTp : IsPGroup p ((R : Subgroup X) ⊓ K : Subgroup X) := R.isPGroup.to_le inf_le_left
   have hQR : Subgroup.zpowers c ⊔ Subgroup.zpowers z ≤ R :=
     sup_le (Subgroup.zpowers_le.mpr hcRK.1) (Subgroup.zpowers_le.mpr hzR)
   have hQrank : 2 ≤ Open.pRank p (Subgroup.zpowers c ⊔ Subgroup.zpowers z) :=
@@ -178,7 +178,7 @@ theorem inf_normalizer_le_of_pRank_le_one (h : ReducedNongeneration p X R X₀) 
   have hp := h.prime
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hcU, hc, hcC⟩ :=
-    exists_mem_centralizer_orderOf_eq (R.isPGroup'.to_le (hU.trans inf_le_left)) hU1
+    exists_mem_centralizer_orderOf_eq (R.isPGroup.to_le (hU.trans inf_le_left)) hU1
   have hcp : c ^ p = 1 := hc ▸ pow_orderOf_eq_one c
   have hΩ : ∀ a ∈ U, a ^ p = 1 → a ∈ Subgroup.zpowers c := by
     intro a ha hap
@@ -203,7 +203,7 @@ theorem normalizer_inf_le_of_rankOne (h : ReducedNongeneration p X R X₀) {K : 
     Subgroup.normalizer (((R : Subgroup X) ⊓ K : Subgroup X) : Set X) ≤ X₀ :=
   h.normalizer_le_of_mem_centralizer hzR (fun hz => hzK hz.2) hzp
     (Subgroup.centralizer_le inf_le_right hzc) inf_le_left
-    (two_le_pRank_of_isPGroup_not_isCyclic h.prime h.ne_two (R.isPGroup'.to_le inf_le_left) hnc)
+    (two_le_pRank_of_isPGroup_not_isCyclic h.prime h.ne_two (R.isPGroup.to_le inf_le_left) hnc)
 
 theorem not_le_of_rankOne (h : ReducedNongeneration p X R X₀) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) (hnc : ¬ IsCyclic ((R : Subgroup X) ⊓ K : Subgroup X)) {z : X}
@@ -213,7 +213,7 @@ theorem not_le_of_rankOne (h : ReducedNongeneration p X R X₀) {K : Subgroup X}
   have hp := h.prime
   have : Fact p.Prime := ⟨hp⟩
   have hrank : 2 ≤ Open.pRank p ((R : Subgroup X) ⊓ K) :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup'.to_le inf_le_left) hnc
+    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup.to_le inf_le_left) hnc
   by_cases hn : K.Normal
   · exact not_le_of_normalizer_inf_le R (h.normalizer_inf_le_of_rankOne hnc hzR hzK hzp hzc)
       h.ne_top hKX₀

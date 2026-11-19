@@ -11,22 +11,22 @@ open CFSG.StandardType
 private lemma c2slomqmsf_simple_fst {l : ℕ} {t : Fin l} (h : t.val + 1 < l) :
     (omqMinusSimple l t).1 = Equiv.swap t ⟨t.val + 1, h⟩ := by
   unfold omqMinusSimple
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private lemma c2slomqmsf_simple_snd {l : ℕ} {t : Fin l} (h : t.val + 1 < l) :
     (omqMinusSimple l t).2 = (1 : Fin l → ℤ) := by
   unfold omqMinusSimple
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private lemma c2slomqmsf_simple_short_fst {l : ℕ} {t : Fin l} (h : ¬ t.val + 1 < l) :
     (omqMinusSimple l t).1 = (1 : Equiv.Perm (Fin l)) := by
   unfold omqMinusSimple
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private lemma c2slomqmsf_simple_short_snd {l : ℕ} {t : Fin l} (h : ¬ t.val + 1 < l) :
     (omqMinusSimple l t).2 = spSgn t := by
   unfold omqMinusSimple
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private lemma c2slomqmsf_flag_val {l j : ℕ} {t : Fin l} (ht : t.val ≠ j)
     (h : t.val + 1 < l) (b : Fin l) :
@@ -65,8 +65,8 @@ theorem omq_minus_simpleFix_flag {l j : ℕ} (hj : j + 2 ≤ l) {t : Fin l} (ht 
     rw [Equiv.symm_swap]
     have hiff := c2slomqmsf_flag_val ht h b
     by_cases hb : b.val ≤ j
-    · rw [if_pos hb, if_pos (hiff.mpr hb)]
-    · rw [if_neg hb, if_neg (fun hh => hb (hiff.mp hh))]
+    · rw [ite_eq_left hb, ite_eq_left (hiff.mpr hb)]
+    · rw [ite_eq_right hb, ite_eq_right (fun hh => hb (hiff.mp hh))]
   · rw [c2slomqmsf_simple_short_fst h, c2slomqmsf_simple_short_snd h]
     have hb1 : (1 : Equiv.Perm (Fin l)).symm b = b := by simp [Equiv.Perm.one_def]
     rw [hb1]
@@ -101,7 +101,7 @@ theorem omq_minus_simpleFix_two_one_one {l : ℕ} {t : Fin l} (h1 : 1 ≤ t.val)
   rw [Equiv.symm_swap]
   have hiff := c2slomqmsf_zero_val h1 ht b
   by_cases hb : b.val = 0
-  · rw [if_pos hb, if_pos (hiff.mpr hb)]
-  · rw [if_neg hb, if_neg (fun hh => hb (hiff.mp hh))]
+  · rw [ite_eq_left hb, ite_eq_left (hiff.mpr hb)]
+  · rw [ite_eq_right hb, ite_eq_right (fun hh => hb (hiff.mp hh))]
 
 end CFSG.LocalAnalysis.WeakClosure81

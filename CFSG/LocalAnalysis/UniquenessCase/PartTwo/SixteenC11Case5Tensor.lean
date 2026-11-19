@@ -86,9 +86,9 @@ private theorem s16c11_case5_aux {W : Type} [CommGroup W] {L : Subgroup (MulAut 
     {K : Type} [Field K] [Finite K] (hKcard : Nat.card K = 2 ^ 2)
     (hR : (FFModel.nat (StatedOmega (StatedQuadPlus 2 K))).Realizes L ⊤ ⊥) :
     ∃ β : W ≃* VM K, L.map (MulAut.congr β).toMonoidHom = (rho (K := K)).range := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKfcard : Fintype.card K = 2 ^ 2 := by rwa [← Nat.card_eq_fintype_card]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKfcard
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKfcard
   have h4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
   obtain ⟨π, hπ⟩ := hR
   obtain ⟨E, hE⟩ :=
@@ -180,8 +180,8 @@ theorem s16c11_case5_tensor {W : Type} [CommGroup W] {L : Subgroup (MulAut W)}
       L.map (MulAut.congr β).toMonoidHom = (rho (K := K)).range := by
   rw [NatOmegaPlus] at h
   obtain ⟨-, K, hKf, hKfin, hKcard, hR⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hdiv : 4 / 2 = 2 := by decide
   rw [hdiv] at hR
   obtain ⟨β, hβ⟩ := s16c11_case5_aux (K := K) hKcard hR

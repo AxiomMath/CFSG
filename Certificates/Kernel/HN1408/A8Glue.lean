@@ -76,7 +76,6 @@ theorem orbRowOK_of {cap korder X CI cntO cntS : Nat} {kg : List (List Nat)} {wy
   have aI : kg.all (fun w => invOK 1408 (tabW w) (invT 1408 (tabW w))) = true :=
     allW (f := fun t => invOK 1408 t (invT 1408 t)) rfl (fun j hj => (hOG j hj).1) hkg
       fun j hj => by
-        change invOK 1408 _ (invT 1408 _) = true
         rw [invT_unpack (by norm_num) (hOG j hj).2.2]
         exact invOK_unpack (cO j hj) (hOG j hj).2.1 (hOG j hj).2.2
   have aC : invOK 1408 (tabW r.conj) (invT 1408 (tabW r.conj)) = true := by

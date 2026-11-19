@@ -232,7 +232,8 @@ theorem Env.commutator_Rt_le (I : Inputs) (e : Env hc n t m X) :
   have hQ2 : x' * ⁅x, n₂⁆ * x'⁻¹ ∈ Q := (hc.conj_mem_Q_of_mem_M (e.X_le_M hx')).1 _ q2
   exact X.mul_mem (hQX hQ1) (X.mul_mem hxx' (hQX hQ2))
 
-theorem le_commutator_sup_of_perfect {X Q : Subgroup G} (hQX : Q ≤ X) [(Q.subgroupOf X).Normal]
+omit [Finite G] in
+theorem le_commutator_sup_of_perfect {X Q : Subgroup G} (_hQX : Q ≤ X) [(Q.subgroupOf X).Normal]
     (hperf : commutator (↥X ⧸ Q.subgroupOf X) = ⊤) : X ≤ ⁅X, X⁆ ⊔ Q := by
   let π : ↥X →* ↥X ⧸ Q.subgroupOf X := QuotientGroup.mk' (Q.subgroupOf X)
   let T : Subgroup ↥X := (⁅X, X⁆ ⊔ Q).subgroupOf X
@@ -261,21 +262,22 @@ theorem le_commutator_sup_of_perfect {X Q : Subgroup G} (hQX : Q ≤ X) [(Q.subg
   exact Subgroup.mem_subgroupOf.mp h3
 
 
+omit [Finite G] in
 theorem commutator_quot_eq_top {X Q : Subgroup G} {m q : ℕ} (hm : 3 ≤ m)
     (hq2 : ∃ e : ℕ, q = 2 ^ e)
     (h : QuotSat X Q (IsOmegaPlus m q) ∨ QuotSat X Q (IsOmegaMinus m q)) :
     ∃ _ : (Q.subgroupOf X).Normal, commutator (↥X ⧸ Q.subgroupOf X) = ⊤ := by
   rcases h with ⟨hN, K, fK, finK, hK, ⟨e⟩⟩ | ⟨hN, K, fK, finK, hK, b, c, hirr, ⟨e⟩⟩
-  · haveI : Group.IsPerfect ↥(StatedOmega (StatedQuadPlus m K)) :=
+  · have : Group.IsPerfect ↥(StatedOmega (StatedQuadPlus m K)) :=
       (statedOmega_plus_quasisimple_of_three_le K m hm).1
-    haveI : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) :=
+    have : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     exact ⟨hN, Group.isPerfect_def.mp inferInstance⟩
   · obtain ⟨ee, hee⟩ := hq2
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hee)
-    haveI : Group.IsPerfect ↥(StatedOmega (StatedQuadMinus m K b c)) :=
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hee)
+    have : Group.IsPerfect ↥(StatedOmega (StatedQuadMinus m K b c)) :=
       (statedOmega_minus_quasisimple_of_two_le K (by omega) hirr).1
-    haveI : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) :=
+    have : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     exact ⟨hN, Group.isPerfect_def.mp inferInstance⟩
 

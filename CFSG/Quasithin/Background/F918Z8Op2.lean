@@ -130,7 +130,7 @@ theorem opq_sylow_glue {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
   have hgQ : g ∈ Q := ⟨a, haQ, rfl⟩
   have hQcard : Nat.card Q = p ^ (Nat.card H).factorization p := by
     rw [hQ, Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity]
-  refine ⟨Q, Q'.isPGroup'.map H.subtype, hgQ, hQH,
+  refine ⟨Q, Q'.isPGroup.map H.subtype, hgQ, hQH,
     Nat.card H / p ^ (Nat.card H).factorization p, ?_, Nat.not_dvd_ordCompl hp Nat.card_pos.ne'⟩
   have hLQ : Q ⊔ L' = H := by
     refine le_antisymm (sup_le hQH le_sup_left) (sup_le le_sup_right ?_)

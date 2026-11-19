@@ -100,7 +100,7 @@ abbrev ae6AE8 : Subgroup (AE.AEQ 8) := (AE.aeSub 8).map (AE.mkQ 8)
 theorem ae6V0_closure : Subgroup.closure (Set.range fun i => A6.curtisGen (ae6V0Letter i)) = ae6ModelV 0 := by
   have hr : Set.range ae6V0Letter = {i | i ≠ ae6Omit 0} := by
     ext j
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     revert j
     decide
   rw [ae6ModelV, ← hr, ← Set.range_comp]
@@ -212,7 +212,7 @@ theorem ae6Corr_base (h : AE6AE8Fin) : ae6Corr h (AE.memBar ae6Alpha0 ae6Alpha0_
       Subgroup.map_comap_eq_self_of_surjective (ae6Rho h).surjective _
     rw [← Subgroup.card_map_of_injective (f := (ae6Rho h).toMonoidHom) (ae6Rho h).injective, e1]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (ae6ModelK_le_V0 h)).toEquiv).trans h.2.2.2.2.2.1
-  haveI : Finite Sp := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  have : Finite Sp := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
   have heq : Kp = Sp := Subgroup.eq_of_le_of_card_ge hle (by rw [hS, hK])
   have hx' : x ∈ Sp := hx
   rw [← heq] at hx'
@@ -234,7 +234,7 @@ theorem ae6_memBar_conj (h : AE6AE8Fin) {g : AE.AEQ 8} (hg : g ∈ ae6AE8) (α :
     | zero => rw [pow_zero]; exact hone
     | succ n ih => rw [pow_succ]; exact hmul _ _ ih hx
   have hgen : ∀ i, P (AE.mkQ 8 (ae6AEGen i)) := fun i α hα b => h.2.2.2.2.2.2.2.1 α hα b i
-  haveI := h.finite
+  have := h.finite
   have hinv : ∀ i, P (AE.mkQ 8 (ae6AEGen i))⁻¹ := by
     intro i
     have hm : AE.mkQ 8 (ae6AEGen i) ∈ ae6AE8 := Subgroup.mem_map_of_mem _ (h.1 i)
@@ -341,7 +341,7 @@ theorem ae6Diag_leftInverse (cc : Fin 2) : Function.LeftInverse (ae6Diag cc) (ae
 
 theorem ae6ModelK_eq_words :
     ae6ModelK = Subgroup.closure {ae6Word (ae6KWord 0), ae6Word (ae6KWord 1)} := by
-  simp only [ae6ModelK, ae6KWord, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [ae6ModelK, ae6KWord, Matrix.cons_val_zero, Matrix.cons_val_one]
 
 theorem ae6_diag_K_le (h : AE6AE8Fin) (cc : Fin 2) {e : MulAut AE6Om}
     (he : ∀ i, e (A6.curtisGen i) = A6.curtisGen (ae6Diag cc i)) :
@@ -356,7 +356,7 @@ theorem ae6_diag_K_eq (h : AE6AE8Fin) (cc : Fin 2) {e : MulAut AE6Om}
   have hcK : Nat.card (ae6Twin (ae6DiagTwin cc)) = 8 := by
     rw [ae6Twin, conjSub, Subgroup.card_map_of_injective (MulAut.conj _).injective]
     exact h.2.2.2.2.2.1
-  haveI : Finite (ae6Twin (ae6DiagTwin cc)) := Nat.finite_of_card_ne_zero (by rw [hcK]; norm_num)
+  have : Finite (ae6Twin (ae6DiagTwin cc)) := Nat.finite_of_card_ne_zero (by rw [hcK]; norm_num)
   exact Subgroup.eq_of_le_of_card_ge (ae6_diag_K_le h cc he) (by
     rw [hcK, Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective, h.2.2.2.2.2.1])
 

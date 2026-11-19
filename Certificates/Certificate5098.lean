@@ -31,7 +31,7 @@ theorem certificate5098 : oddCoreCheck 189 (elemsT U33.QA) (elemsT U33.QP) = tru
     rw [QP, QA, certificate_originalSubgroup, certificate_originalSubgroup, Subgroup.closure_le]
     intro g hg
     apply Subgroup.subset_closure
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
     rcases hg with rfl | rfl <;> simp
   have hmem : ∀ (Q : RawSchreierDatum 28) (hQ : ValidSchreier Q) (c : CV 28),
       siftC Q c 0 = true → c ∈ elemsC Q := fun Q hQ c h =>

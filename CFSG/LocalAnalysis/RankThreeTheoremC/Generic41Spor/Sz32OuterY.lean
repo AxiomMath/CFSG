@@ -19,7 +19,7 @@ local notation "Inn" => CFSG.ComponentClassification.OuterAutomorphisms.inner
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem sz32_y_not_mem_commutator (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem sz32_y_not_mem_commutator (_hS : Setting G) (_hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hSz : Sz32Facts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hA : Sz32QDecomp P x J a c y)
     (hNJ : Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) ≤
@@ -27,8 +27,8 @@ theorem sz32_y_not_mem_commutator (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Fu
     y ∉ ⁅Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G),
       Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G)⁆ := by
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite Q := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set N : Subgroup G := Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) with hN
   set S : Subgroup G := (P : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G) with hSdef
   have hOJ : rankThreePrimeCore 5 J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le 5 J
@@ -60,7 +60,7 @@ theorem sz32_y_not_mem_commutator (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Fu
     rw [hTsyl, Subgroup.mem_subgroupOf]
     exact ⟨S.mul_mem (S.mul_mem hg htS.1) (S.inv_mem hg), hj⟩
   have hOut : Nat.card (Outer Q) = 5 := hSz.outer Q hQ
-  haveI : IsCyclic (Outer Q) := isCyclic_of_prime_card hOut
+  have : IsCyclic (Outer Q) := isCyclic_of_prime_card hOut
   let φ : ↥N →* Outer Q := (QuotientGroup.mk' (Inn Q)).comp ρ
   have hφcomm : ∀ g₁ g₂ : ↥N, φ ⁅g₁, g₂⁆ = 1 := by
     intro g₁ g₂
@@ -115,7 +115,7 @@ theorem sz32_y_not_mem_commutator (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Fu
       rwa [e] at h1
   have hSylTb : IsSylowOf 5 (Tb : Subgroup Q) (⊤ : Subgroup Q) := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Tb.isPGroup', ?_⟩
+    refine ⟨le_top, Tb.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Tb.not_dvd_index
   have hqT : q ∈ (Tb : Subgroup Q) := by
@@ -124,7 +124,7 @@ theorem sz32_y_not_mem_commutator (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Fu
     rcases (Nat.dvd_prime (by norm_num : Nat.Prime 5)).mp hd with h | h
     · exact ⟨0, by simpa using h⟩
     · exact ⟨1, by simpa using h⟩
-  haveI hTbcyc : IsCyclic (Tb : Subgroup Q) := (hSz.sylow Q hQ Tb).1
+  have hTbcyc : IsCyclic (Tb : Subgroup Q) := (hSz.sylow Q hQ Tb).1
   have haJ : a ∈ J := hA.a_J
   have haT : a ∈ S ⊓ J := by
     have : a ∈ u3T P x J := hA.T_eq ▸ Subgroup.mem_zpowers a

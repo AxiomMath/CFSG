@@ -20,7 +20,7 @@ variable {G : Type} [Group G]
 theorem dl_zpow {d : G} (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (k : ℤ) : dl d (d ^ k) = (k : F3) := by
   have hh : ∃ k' : ℤ, d ^ k' = d ^ k := ⟨k, rfl⟩
   unfold dl
-  rw [@dif_pos _ (Classical.propDecidable _) hh]
+  rw [@dite_eq_left _ (Classical.propDecidable _) hh]
   have hspec := Classical.choose_spec hh
   have hord : orderOf d = 3 := orderOf_eq_prime hd3 hd1
   have h1 := zpow_eq_zpow_iff_modEq.mp hspec
@@ -130,8 +130,10 @@ theorem cm_mul_right {x y y' : G} (hx : x ∈ Q) (hy : y ∈ Q) (hy' : y' ∈ Q)
     _ = (y'⁻¹ * cm x y * y') * cm x y' := by group
     _ = cm x y * cm x y' := by rw [e3]
 
+omit h in
 theorem cm_self (x : G) : cm x x = 1 := by unfold cm; group
 
+omit h in
 theorem cm_one_left (y : G) : cm 1 y = 1 := by unfold cm; group
 
 theorem cm_d_right {x : G} (hx : x ∈ Q) : cm x d = 1 := by
@@ -195,10 +197,10 @@ theorem om_add_right {x y y' : G} (hx : x ∈ Q) (hy : y ∈ Q) (hy' : y' ∈ Q)
   exact dl_mul h.hd3 h.hd1 (h.hcm y hy x hx) (h.hcm y' hy' x hx)
 
 theorem om_self (x : G) : om d x x = 0 := by
-  unfold om; rw [h.cm_self]; exact dl_one h.hd3 h.hd1
+  unfold om; rw [CommData.cm_self]; exact dl_one h.hd3 h.hd1
 
 theorem om_one_left (y : G) : om d 1 y = 0 := by
-  unfold om; rw [h.cm_one_left]; exact dl_one h.hd3 h.hd1
+  unfold om; rw [CommData.cm_one_left]; exact dl_one h.hd3 h.hd1
 
 theorem om_neg {x y : G} (hx : x ∈ Q) (hy : y ∈ Q) : om d y x = - om d x y := by
   unfold om
@@ -294,14 +296,18 @@ variable {A Q : Subgroup G} {d a₀ a₁ : G} (h : QData A Q d a₀ a₁)
 
 include h
 
+omit [Finite G] in
 theorem hd3 : d ^ 3 = 1 := h.hAe.2 d h.hdA
 
+omit [Finite G] in
 theorem hdQ : d ∈ Q := h.hAQ h.hdA
 
+omit [Finite G] in
 theorem hQ243 : Nat.card Q = 243 := by
   obtain ⟨-, h35, -⟩ := h.hQX
   rw [h35]; norm_num
 
+omit [Finite G] in
 theorem hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
   congrArg Subtype.val (h.hAe.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
@@ -431,7 +437,9 @@ include h
 
 theorem hC : CommData Q d := h.toQData.comm
 
+omit [Finite G] in
 theorem ha₀Q : a₀ ∈ Q := h.hAQ h.ha₀
+omit [Finite G] in
 theorem ha₁Q : a₁ ∈ Q := h.hAQ h.ha₁
 
 theorem Phi_mul {x y : G} (hx : x ∈ Q) (hy : y ∈ Q) :
@@ -500,9 +508,10 @@ theorem Phi_pow {x : G} (hx : x ∈ Q) (n : ℕ) :
   | zero => simp [h.Phi_one]
   | succ n ih => rw [pow_succ, h.Phi_mul (Q.pow_mem hx n) hx, ih, succ_nsmul]
 
-@[expose] def rep (d a₀ a₁ f₀ f₁ : G) (n : V4) : G :=
+@[expose] def rep (_d a₀ a₁ f₀ f₁ : G) (n : V4) : G :=
   a₀ ^ (n 0).val * a₁ ^ (n 1).val * f₀ ^ (n 2).val * f₁ ^ (n 3).val
 
+omit [Finite G] in
 theorem rep_mem (n : V4) : rep d a₀ a₁ f₀ f₁ n ∈ Q :=
   Q.mul_mem (Q.mul_mem (Q.mul_mem (Q.pow_mem h.ha₀Q _) (Q.pow_mem h.ha₁Q _))
     (Q.pow_mem h.hf₀ _)) (Q.pow_mem h.hf₁ _)
@@ -516,7 +525,7 @@ theorem Phi_rep (n : V4) : Phi d a₀ a₁ f₀ f₁ (rep d a₀ a₁ f₀ f₁ 
     h.Phi_pow h.ha₀Q, h.Phi_pow h.ha₁Q, h.Phi_pow h.hf₀, h.Phi_pow h.hf₁, h.Phi_a₀, h.Phi_a₁,
     h.Phi_f₀, h.Phi_f₁]
   ext i
-  fin_cases i <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+  fin_cases i <;> simp [nsmul_eq_mul]
 
 theorem Phi_ker {x : G} (hx : x ∈ Q) (h0 : Phi d a₀ a₁ f₀ f₁ x = 0) :
     x ∈ Subgroup.zpowers d := by
@@ -679,6 +688,7 @@ variable {A Q : Subgroup G} {d a₀ a₁ f₀ f₁ : G} (h : SympBasis A Q d a�
 
 include h
 
+omit [Finite G] h in
 theorem conj_mem {g x : G} (hg : g ∈ Subgroup.normalizer (Q : Set G)) (hx : x ∈ Q) :
     g * x * g⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp hg x).mp hx
 
@@ -690,7 +700,7 @@ theorem Mg_apply {g : G} (hg : g ∈ Subgroup.normalizer (Q : Set G))
   · intro x hx y hy
     show Phi d a₀ a₁ f₀ f₁ (g * (x * y) * g⁻¹) = _ + _
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
-    rw [this, h.Phi_mul (h.conj_mem hg hx) (h.conj_mem hg hy)]
+    rw [this, h.Phi_mul (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg hx) (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg hy)]
   · intro x hx y hy
     show (Mg d a₀ a₁ f₀ f₁ g).mulVec (Phi d a₀ a₁ f₀ f₁ (x * y)) = _ + _
     rw [h.Phi_mul hx hy, Matrix.mulVec_add]
@@ -723,7 +733,7 @@ theorem Mg_mul {g g' : G} (hg : g ∈ Subgroup.normalizer (Q : Set G))
     · exact h.ha₁Q
     · exact h.hf₀
     · exact h.hf₁
-  have h1 := h.Mg_apply hg hgd (h.conj_mem hg' (hb j))
+  have h1 := h.Mg_apply hg hgd (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg' (hb j))
   have e : g * (g' * ![a₀, a₁, f₀, f₁] j * g'⁻¹) * g⁻¹ =
       g * g' * ![a₀, a₁, f₀, f₁] j * (g * g')⁻¹ := by group
   rw [e] at h1
@@ -748,6 +758,7 @@ theorem Mg_one : Mg d a₀ a₁ f₀ f₁ 1 = 1 := by
     simp [Mg, this, Matrix.one_apply]
     fin_cases i <;> simp
 
+omit [Finite G] in
 theorem basis_mem (j : Fin 4) : ![a₀, a₁, f₀, f₁] j ∈ Q := by
   fin_cases j
   · exact h.ha₀Q
@@ -788,7 +799,7 @@ theorem Mg_omega {g : G} {m : ℤ} (hg : g ∈ Subgroup.normalizer (Q : Set G))
   have hu := h.Phi_rep u
   have hv := h.Phi_rep v
   rw [← hu, ← hv, ← h.Mg_apply hg hgz (h.rep_mem u), ← h.Mg_apply hg hgz (h.rep_mem v),
-    h.omega4_Phi (h.conj_mem hg (h.rep_mem u)) (h.conj_mem hg (h.rep_mem v)),
+    h.omega4_Phi (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg (h.rep_mem u)) (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg (h.rep_mem v)),
     hC.om_conj hgd (h.rep_mem u) (h.rep_mem v), h.omega4_Phi (h.rep_mem u) (h.rep_mem v)]
 
 theorem Mg_symp {g : G} (hg : g ∈ Subgroup.normalizer (Q : Set G)) (hgd : g * d * g⁻¹ = d)

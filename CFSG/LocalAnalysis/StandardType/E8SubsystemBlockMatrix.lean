@@ -42,6 +42,7 @@ section Block
 variable
   {τ : Tag} {w : WeylGroup τ} {J : Set (Fin τ.rank)} [Fintype J] [DecidableEq J]
 
+omit [DecidableEq ↑J] in
 private lemma iform_extJ'_cartan (hsym : τ.symmetrizer = 1) (a b : J → ℤ) :
     iform (extJ' J a) (extJ' J b) = ∑ m : J, ∑ l : J, a m * τ.cartan m l * b l := by
   rw [iform_eq_sum_single']
@@ -84,6 +85,7 @@ theorem blockP_sq_add_self_add_one
     Pi.add_apply]
   simpa [pow_two] using key j
 
+omit [DecidableEq J] in
 theorem blockP_transpose_mul_cartanBlock_mul_self (hsym : τ.symmetrizer = 1)
     (hJ : ∀ β ∈ parabolicRoots τ J, w • β ∈ parabolicRoots τ J) :
     (blockP w J)ᵀ * cartanBlock τ J * blockP w J = cartanBlock τ J := by
@@ -128,11 +130,11 @@ section E8
 
 private def e6NodesEquiv : Fin 6 ≃ ↥(e6Nodes Tag.E8) where
   toFun i := ⟨Fin.castLE (by decide) i, by
-    simp only [e6Nodes, Set.mem_setOf_eq, Fin.val_castLE]
+    simp only [e6Nodes, Set.mem_ofPred_eq, Fin.val_castLE]
     omega⟩
   invFun j := ⟨j.1.val, by
     have h := j.2
-    simp only [e6Nodes, Set.mem_setOf_eq] at h
+    simp only [e6Nodes, Set.mem_ofPred_eq] at h
     omega⟩
   left_inv i := by
     apply Fin.ext
@@ -147,11 +149,11 @@ private def d4NodesEquiv : Fin 4 ≃ ↥(d4Nodes Tag.E8) where
     have hrank : Tag.E8.rank = 8 := rfl
     rw [hrank] at *
     omega⟩, by
-    simp only [d4Nodes, Set.mem_setOf_eq]
+    simp only [d4Nodes, Set.mem_ofPred_eq]
     omega⟩
   invFun j := ⟨j.1.val - 1, by
     have h := j.2
-    simp only [d4Nodes, Set.mem_setOf_eq] at h
+    simp only [d4Nodes, Set.mem_ofPred_eq] at h
     omega⟩
   left_inv i := by
     apply Fin.ext
@@ -160,7 +162,7 @@ private def d4NodesEquiv : Fin 4 ≃ ↥(d4Nodes Tag.E8) where
     apply Subtype.ext
     apply Fin.ext
     have h := j.2
-    simp only [d4Nodes, Set.mem_setOf_eq] at h
+    simp only [d4Nodes, Set.mem_ofPred_eq] at h
     change j.1.val - 1 + 1 = j.1.val
     omega
 

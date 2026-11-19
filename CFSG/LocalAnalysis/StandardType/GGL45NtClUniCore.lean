@@ -145,9 +145,9 @@ private noncomputable def cUG2_sigmaU {K : Type} [Field K] {n d : ℕ}
     ↥(TableB.unitGroup (ι := Fin d) h.bar) →* ↥(TableB.unitGroup (ι := Fin d) h.bar) where
   toFun A := ⟨cUG2_sigmaGL (d := d) σ₀ A, cUG2_sigmaGL_mem_unit h σ₀ hσbar A.2⟩
   map_one' := Subtype.ext (by
-    simpa using map_one (cUG2_sigmaGL (d := d) σ₀))
+    simp)
   map_mul' A B := Subtype.ext (by
-    simpa using map_mul (cUG2_sigmaGL (d := d) σ₀) (A : GL (Fin d) K) (B : GL (Fin d) K))
+    simp)
 
 private theorem cUG2_sigmaGL_mem_SU {K : Type} [Field K] {n d : ℕ}
     (h : UnitaryFieldData 2 n K) (σ₀ : K ≃+* K)
@@ -252,7 +252,7 @@ private theorem cUG2_field_conj {K : Type} [Field K] [Fintype K] {n d : ℕ}
   rw [hAconj2]
   apply congrArg (LargeEvenProjMk _)
   apply Subtype.ext
-  simp only [Subgroup.coe_mk]
+  simp only
   simp only [MulEquiv.map_mul, MulEquiv.map_inv, cUG2_sigmaGL_apply_symm]
 
 private theorem cUG2_sigmaOn_eq_sigmaU {K : Type} [Field K] {n d : ℕ}
@@ -279,7 +279,7 @@ private theorem cUG2_sigma_inv_comm_bar {K : Type} [Field K] [Fintype K] [CharP 
 
 theorem uni_sigma_conj {K : Type} [Field K] [Fintype K] [CharP K 2] {n d : ℕ}
     (h : UnitaryFieldData 2 n K) (S : ClSetting K (Fin d)) (hτ : ∀ c : K, S.τ c = h.bar c)
-    (hG : S.G = 1) (hH : S.GoodGroup (TableB.unitGroup (ι := Fin d) h.bar))
+    (_hG : S.G = 1) (hH : S.GoodGroup (TableB.unitGroup (ι := Fin d) h.bar))
     (f : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))))
     (hf : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
       (fun s s' => ((s' : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
@@ -324,7 +324,7 @@ private theorem cUG3_exists_unitary_of_gu {K : Type} [Field K] [Fintype K] [Char
     ∃ u : Kˣ, GeneralLinearGroup.scalar (Fin d) u * M ∈
       CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
         (CFSG.RankThree.PartOne.KCUnitaryModel.idGram K d) := by
-  haveI : Finite K := Fintype.finite inferInstance
+  have : Finite K := Fintype.finite inferInstance
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hM
   have hbar : h.bar μ = μ := by rw [UnitaryFieldData.bar_apply]; exact hμq
   have hK : Nat.card K = (2 ^ n) ^ 2 := by
@@ -409,9 +409,9 @@ theorem uni_mem_conjImage_iff {K : Type} [Field K] [Fintype K] [CharP K 2] {n d 
     rfl
 
 private lemma cUG4_isElemAbelian_map {G G' : Type*} [Group G] [Group G'] {p : ℕ}
-    {E : Subgroup G} (hE : IsElemAbelian p E) (f : G →* G') (hf : Function.Injective f) :
+    {E : Subgroup G} (hE : IsElemAbelian p E) (f : G →* G') (_hf : Function.Injective f) :
     IsElemAbelian p (E.map f) := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
   · obtain ⟨x, hx, hax⟩ := Subgroup.mem_map.1 a.2
     obtain ⟨z, hz, hbz⟩ := Subgroup.mem_map.1 b.2

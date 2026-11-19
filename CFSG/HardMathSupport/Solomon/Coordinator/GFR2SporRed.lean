@@ -55,7 +55,7 @@ theorem sporNoPumpup_of_card_bound (hSpM : SporadicMultipliers)
     rw [MulEquiv.orderOf_eq]
     exact orderOf_eq_prime hs3 hs1
   have hbound := hb (e s) hso
-  haveI : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic name).Group := Finite.of_equiv _ e.toEquiv
   let π : Y →* (TauCeti.CFSGIndex.sporadic name).Group :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))
   let φ : ↥J₁ →* (TauCeti.CFSGIndex.sporadic name).Group := π.comp J₁.subtype

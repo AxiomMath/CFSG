@@ -25,7 +25,7 @@ theorem strong_of_dichotomy_rk {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spor
     (hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K))
     (hIH : ∀ (Y : Type) [Group Y] [Finite Y] (J B' : Subgroup Y), CompHyp p J B' →
       Good (↥J ⧸ Subgroup.center ↥J) → Rk ↥J → IsStronglyBalancedIn p B' J)
-    (hD : ∀ (a k : X) (hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
+    (hD : ∀ (a k : X) (_hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
       a ∉ Subgroup.centralizer (K : Set X) →
         (∀ J : Subgroup X, ¬ GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J) ∨
           ∃ J₀ : Subgroup X, J₀ ≤ K ∧
@@ -34,7 +34,7 @@ theorem strong_of_dichotomy_rk {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spor
     IsStronglyBalancedIn p B K := by
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hH.quasi
   have hO : GLAPPrimeCore p ↥K = ⊥ := hH.primeCore
   have hdvd : p ∣ Nat.card K := hH.dvd
@@ -53,8 +53,8 @@ theorem strong_of_dichotomy_rk {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spor
           (∀ J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
             J = J₀) ∧ Good (PSimple p (J₀.subgroupOf K)) ∧ Rk (PQuot p (J₀.subgroupOf K)) := by
     intro a ha ha1
-    obtain ⟨k, hk, hc⟩ := hin a ha
-    exact hD a k hk (hAB ha) hc (not_mem_centralizer_of_faithful hAf ha ha1)
+    obtain ⟨k, _hk, hc⟩ := hin a ha
+    exact hD a k _hk (hAB ha) hc (not_mem_centralizer_of_faithful hAf ha ha1)
   have hcomp : ∀ a ∈ A, a ≠ 1 → ∀ J : Subgroup X,
       GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
         B ≤ Subgroup.normalizer (J : Set X) ∧ IsStronglyLocallyOneBalanced p B a J := by
@@ -96,7 +96,7 @@ theorem strong_of_dichotomy_rk {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spor
     by_contra hcon'
     push Not at hcon'
     apply hAnc
-    haveI : Subsingleton ↥A :=
+    have : Subsingleton ↥A :=
       ⟨fun x y => Subtype.ext ((hcon' x x.2).trans (hcon' y y.2).symm)⟩
     exact isCyclic_of_subsingleton
   have hc : ∃ a ∈ A, a ≠ 1 ∧ ∀ w ∈ Subgroup.normalizer (K : Set X), Nat.Coprime p (orderOf w) →
@@ -124,7 +124,7 @@ theorem strong_of_dichotomy {p : ℕ} {K B : Subgroup X} {name : TauCeti.Sporadi
     (hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K))
     (hIH : ∀ (Y : Type) [Group Y] [Finite Y] (J B' : Subgroup Y), CompHyp p J B' →
       Good (↥J ⧸ Subgroup.center ↥J) → IsStronglyBalancedIn p B' J)
-    (hD : ∀ (a k : X) (hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
+    (hD : ∀ (a k : X) (_hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
       a ∉ Subgroup.centralizer (K : Set X) →
         (∀ J : Subgroup X, ¬ GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J) ∨
           ∃ J₀ : Subgroup X, J₀ ≤ K ∧
@@ -133,7 +133,7 @@ theorem strong_of_dichotomy {p : ℕ} {K B : Subgroup X} {name : TauCeti.Sporadi
     IsStronglyBalancedIn p B K :=
   strong_of_dichotomy_rk (Rk := fun _ _ => True) hGood (fun _ _ _ _ _ h => h) hOut hH hN hS hloc
     (fun Y _ _ J B' h hG _ => hIH Y J B' h hG)
-    (fun a k hk haB hc haC => (hD a k hk haB hc haC).imp_right
+    (fun a k _hk haB hc haC => (hD a k _hk haB hc haC).imp_right
       fun ⟨J₀, h1, h2, h3⟩ => ⟨J₀, h1, h2, h3, trivial⟩)
 
 end StepGen

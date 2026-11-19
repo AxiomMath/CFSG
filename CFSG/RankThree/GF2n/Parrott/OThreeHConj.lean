@@ -78,7 +78,7 @@ theorem exists_conj_eq_sigma1Nine_mul_inv_of_mem_O3H (h : Tim79a.ParrottHyp z)
   have hxne : x ≠ 1 := by
     rintro rfl
     exact hx1 (Subgroup.one_mem _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hox : orderOf x = 3 := orderOf_eq_prime hx3 hxne
   have hs3 : s ^ 3 = 1 := by
     rw [← sigma1Nine_order (z := z) D]

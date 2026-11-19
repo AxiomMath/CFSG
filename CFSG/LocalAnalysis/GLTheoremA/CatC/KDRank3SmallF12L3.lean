@@ -183,7 +183,7 @@ theorem mul_conj_mul_inv {G : Type} [Group G] (φ : MulAut G) (x : G) :
   intro z
   simp [MulAut.conj_apply, map_mul, map_inv]
 
-theorem matrix_of_inner (h3 : (3 : K) = 0) :
+theorem matrix_of_inner (_h3 : (3 : K) = 0) :
     ∀ y : MulAut (projectiveSL 3 K), ∃ M : SpecialLinearGroup (Fin 3) K,
       y ∈ inner (projectiveSL 3 K) → MulAut.conj (proj 3 K M) = y := by
   intro y
@@ -209,7 +209,7 @@ theorem conj_pow_eq {G : Type} [Group G] (x h : G) (n : ℕ) :
     group
 
 theorem f2_T [Finite K] [CharP K 3] (hcard : Nat.card K = 3 ^ 3)
-    (E : Subgroup (MulAut (projectiveSL 3 K))) (hE : IsElemAbelian 3 E) (hEcard : Nat.card E = 3 ^ 3)
+    (E : Subgroup (MulAut (projectiveSL 3 K))) (hE : IsElemAbelian 3 E) (_hEcard : Nat.card E = 3 ^ 3)
     (hnot : ¬ E ≤ OI (projectiveSL 3 K))
     (hE0 : Nat.card ↥(E ⊓ OI (projectiveSL 3 K)) = 3 ^ 2) :
     ∀ W : Subgroup (MulAut (projectiveSL 3 K)), IsPGroup 2 W → W ≤ OI (projectiveSL 3 K) →
@@ -217,11 +217,11 @@ theorem f2_T [Finite K] [CharP K 3] (hcard : Nat.card K = 3 ^ 3)
       W = ⊥ := by
   have h3 : (3 : K) = 0 := CharP.cast_eq_zero K 3
   have hK : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro W hW hWI hWC
   by_contra hW0
   obtain ⟨b, hbE, hbI⟩ : ∃ b ∈ E, b ∉ OI (projectiveSL 3 K) := by
-    obtain ⟨b, hb, hbn⟩ := SetLike.not_le_iff_exists.1 hnot
+    obtain ⟨b, hb, hbn⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
     exact ⟨b, hb, hbn⟩
   have hb3 : b ^ 3 = 1 := hE.2 b hbE
   have hb1 : b ≠ 1 := fun h => hbI (h ▸ (OI (projectiveSL 3 K)).one_mem)
@@ -249,7 +249,7 @@ theorem f2_T [Finite K] [CharP K 3] (hcard : Nat.card K = 3 ^ 3)
     have := (CFSG.ComponentClassification.OuterAutomorphisms.inner_normal (projectiveSL 3 K)).conj_mem x hx h⁻¹
     rwa [inv_inv] at this
   choose Mof hMof using matrix_of_inner (K := K) h3
-  haveI : Fintype ↥(E ⊓ OI (projectiveSL 3 K)) := Fintype.ofFinite _
+  have : Fintype ↥(E ⊓ OI (projectiveSL 3 K)) := Fintype.ofFinite _
   classical
   set Pm : Finset (Matrix (Fin 3) (Fin 3) K) := Finset.univ.image (fun x : ↥(E ⊓ OI (projectiveSL 3 K)) =>
     ((Mof (h⁻¹ * (x : MulAut (projectiveSL 3 K)) * h) : SpecialLinearGroup (Fin 3) K) :
@@ -479,8 +479,8 @@ theorem smallF2_smallF1_A2 (S : Type) [Group S] [Finite S] (q : TauCeti.PrimePow
   have hf3 : q.exponent = 3 := by
     rw [hp3] at hpow
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) hpow
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP (GaloisField q.p q.exponent) 3 := by
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP (GaloisField q.p q.exponent) 3 := by
     rw [← hp3]
     infer_instance
   have hK : Nat.card (GaloisField q.p q.exponent) = 3 ^ 3 := by

@@ -20,13 +20,14 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem sylow_three_isCyclic_of_isL2 {L : Subgroup G} {n : ℕ}
     (hL2 : IsL2 (Bar2 L) n) (T : Sylow 3 ↥L) : IsCyclic ↥(T : Subgroup ↥L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) ≤ 1 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) L]
     exact le_of_eq (pRank_three_eq_one_of_isL2 hL2)
-  exact UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) T.isPGroup'
+  exact UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) T.isPGroup
     ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) le_top).trans htop)
 
+omit [Finite G] in
 private theorem L9_le_of_le_normalizer_of_isL2 {L H N : Subgroup G} (hLN : L ≤ N)
     (hHN : H ≤ normalizer (N : Set G)) : F09.L9 L H ≤ N := by
   refine iSup_le fun h => ?_
@@ -39,7 +40,7 @@ private theorem mem_uniqueSet_of_card_three_of_isL2 {D : Data G} {L D₃ : Subgr
     (hL : L ∈ calC D.M) (hL2 : IsL2 (Bar2 L) n) (hD₃L : D₃ ≤ L)
     (hD₃ : Nat.card D₃ = 3) (hD₃U : D₃ ∈ uniqueSet D.M) {A : Subgroup G} (hAL : A ≤ L)
     (hA : Nat.card A = 3) : A ∈ uniqueSet D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := CFSG.AGLEmbeddingD2.exists_eq_map_conj_of_isCyclic (J := ↥L) (p := 3)
     (sylow_three_isCyclic_of_isL2 hL2) (Y₀ := D₃.subgroupOf L) (Y₁ := A.subgroupOf L)
     (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD₃L).toEquiv, hD₃])
@@ -71,7 +72,7 @@ private theorem exists_normal_pRank_eq_one_of_isL2 {D : Data G} (hK : UCK.K332Cy
     ∃ N : Subgroup G, D₃ ≤ N ∧ N ≤ H ∧ H ≤ normalizer (N : Set G) ∧
       CFSG.Open.pRank 3 N = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ D.M := CFSG.Open.IsSubnormal.le hL.1
   have hEp : IsPGroup 3 ↥D₃ := IsPGroup.of_card (n := 1) (by simpa using hD₃)
   obtain ⟨P, hP, hEP⟩ := UC6.exists_isSylowOf_ge (hD₃L.trans hLH) hEp
@@ -107,7 +108,7 @@ private theorem exists_normal_pRank_eq_one_of_isL2 {D : Data G} (hK : UCK.K332Cy
       rw [Subgroup.mem_subgroupOf] at hz ⊢
       have h1 : (((MulAut.conj (g⁻¹ : ↥H)).toMonoidHom z : ↥H) : G) ∈
           D₃.map (MulAut.conj ((g⁻¹ : ↥H) : G)).toMonoidHom :=
-        Subgroup.mem_map.2 ⟨z, hz, by simp [MulAut.conj_apply]⟩
+        Subgroup.mem_map.2 ⟨z, hz, by simp⟩
       rwa [hEq] at h1
     · intro hx
       have hx' : (x : G) ∈ D₃ := Subgroup.mem_subgroupOf.1 hx
@@ -158,7 +159,7 @@ theorem mem_calH9_of_isL2_not_sp {D : Data G} (hK : UCK.K332Cyc) {n : ℕ}
     (hD₃L : D₃ ≤ L) (hD₃ : Nat.card D₃ = 3) (hD₃U : D₃ ∈ uniqueSet D.M)
     (hLH : L ≤ H) (hHt : H ≠ ⊤) (hHM : ¬ H ≤ D.M) : H ∈ F09.calH9 D L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hLH, hHM, ?_⟩
   obtain ⟨N, hD₃N, hNH, hHN, hNrank⟩ :=
     exists_normal_pRank_eq_one_of_isL2 hK hKM h82 hSg hKF7 hnsp hL hL2 hn hσ
@@ -197,7 +198,7 @@ theorem mem_calH9_of_isL2_not_sp {D : Data G} (hK : UCK.K332Cyc) {n : ℕ}
     exact hD₃L
   have hD₃L9 : D₃ ≤ F09.L9 L H := fun x hx =>
     le_iSup (fun h : ↥H => (Opp 3 L).map (MulAut.conj (h : G)).toMonoidHom) 1
-      (Subgroup.mem_map.2 ⟨x, hD₃Opp hx, by simp [MulAut.conj_apply]⟩)
+      (Subgroup.mem_map.2 ⟨x, hD₃Opp hx, by simp⟩)
   have hge : 1 ≤ CFSG.Open.pRank 3 (F09.L9 L H) :=
     UC6S846.le_pRank' Nat.prime_three hD₃L9
       (CFSG.GroupTheory.isElemAbelian_of_card_prime hD₃) (k := 1) (by simpa using hD₃)
@@ -210,12 +211,12 @@ theorem uniqueMax_or_mem_calY2_of_not_sp {D : Data G} (hK : UCK.K332Cyc) {n : �
     (hD₃L : D₃ ≤ L) (hD₃ : Nat.card D₃ = 3) (hD₃U : D₃ ∈ uniqueSet D.M) :
     UniqueMax D.M L ∨ L ∈ F09.calY2_9 D := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hU : UniqueMax D.M L
   · exact Or.inl hU
   · right
     have hLM : L ≤ D.M := CFSG.Open.IsSubnormal.le hL.1
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hY9 : L ∈ F09.calY9 D :=
       ⟨hLM, F09.calNOf_ne_of_calMOf_ne D hLM hU,
         fun A hAL hA3 => mem_uniqueSet_of_card_three_of_isL2 hL hL2 hD₃L hD₃ hD₃U hAL hA3⟩

@@ -12,20 +12,20 @@ namespace CFSG.OddTranspositions.PartThree
 open Matrix QuadraticMap CFSG.ClassicalGroups.Orthogonal
 
 theorem exists_fiveReflOf_orth_sign_not {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
-    {c : Fin (k + 1) → ZMod 5} (hc : c ≠ 0) :
+    {c : Fin (k + 1) → ZMod 5} (_hc : c ≠ 0) :
     ∃ u : Fin (k + 1) → ZMod 5, fiveForm k ε u u ≠ 0 ∧
       (IsSquare (fiveForm k ε u u) ↔ (!π) = true) ∧ fiveForm k ε u c = 0 := by
   let d : ZMod 5 := if π then 2 else 1
   have hd0 : d ≠ 0 := by unfold d; split_ifs <;> decide
   have he0 : fiveForm k ε (Pi.single (0 : Fin (k + 1)) 1) (Pi.single (0 : Fin (k + 1)) 1) ≠ 0 := by
-    rw [fiveForm_single_single, if_pos rfl, fiveWeight_zero k ε (by omega)]
+    rw [fiveForm_single_single, ite_eq_left rfl, fiveWeight_zero k ε (by omega)]
     decide
   obtain ⟨u, -, huc, huu⟩ := exists_fiveForm_orth_eq (k := k) hk ε he0 c hd0
   refine ⟨u, ?_, ?_, huc⟩
   · rw [huu]; exact hd0
   · rw [huu]
     unfold d
-    cases π <;> simp [isSquare_one_zmod5, not_isSquare_two_zmod5]
+    cases π <;> simp [not_isSquare_two_zmod5]
 
 theorem fiveReflOf_mem_closure_union {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
     {c u w : Fin (k + 1) → ZMod 5}

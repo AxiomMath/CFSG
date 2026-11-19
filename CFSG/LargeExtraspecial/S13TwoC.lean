@@ -118,7 +118,7 @@ theorem exists_conj_Ebar {h : S.M} (hg : g₁ = (h : G) * g) :
   obtain ⟨P', hBP⟩ := hB.exists_le_sylow
   obtain ⟨r, hr⟩ := MulAction.exists_smul_eq R P P'
   set T : Subgroup S.O := (P : Subgroup R).map R.subtype with hT
-  have hTp : IsPGroup 2 T := P.isPGroup'.map _
+  have hTp : IsPGroup 2 T := P.isPGroup.map _
   have hET : Ebar S g K ≤ T := fun x hx =>
     ⟨⟨x, mem_sup_left hx⟩, hAP (mem_subgroupOf.mpr hx), rfl⟩
   have hρ : S.ρ h ∈ S.Mbar := MonoidHom.mem_range.mpr ⟨h, rfl⟩

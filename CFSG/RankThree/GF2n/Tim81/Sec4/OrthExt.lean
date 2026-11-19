@@ -114,6 +114,7 @@ theorem sup_imgK_conj_eq_top_of_sl2
   exact Subgroup.map_injective ψ.injective hmap_sup
 
 
+omit [Finite G] in
 private theorem subRepW_sub_eq_ofW {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
     {X : Type} [Group X] (ψ : HBar V H ≃* X) {E : Subgroup G}
@@ -131,6 +132,7 @@ private theorem subRepW_sub_eq_ofW {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V 
     repW_apply_piK_sub (hW := hW) ψ h
       (toW hW (z : Additive (IntMod (Tim79a.xOf V H) hW)))
 
+omit [Finite G] in
 private theorem exists_cocycle_of_commutator_mem
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -193,6 +195,7 @@ private theorem exists_cocycle_of_commutator_mem
     rw [toW_ofW, toW_zero]
     exact Subtype.ext h1
 
+omit [Finite G] in
 private theorem commutator_eq_and_commutes_of_subRepW
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -310,7 +313,7 @@ theorem mem_of_isOrthModule_of_commutator_mem
     omega
   obtain ⟨w, hw⟩ := horth.exists_eq_sub_of_cocycle_comp hl hl0 π hπ hc hker
   let w' : G := toW hW w
-  have hw'E : w' ∈ E := (mem_subW_iff hW).mp (by simpa [w'] using w.2)
+  have hw'E : w' ∈ E := (mem_subW_iff hW).mp (by simp)
   have hcomm :=
     commutator_eq_and_commutes_of_subRepW (hW := hW) ψ hE hN hvH hc_canon hw
   let u : G := w'⁻¹ * v

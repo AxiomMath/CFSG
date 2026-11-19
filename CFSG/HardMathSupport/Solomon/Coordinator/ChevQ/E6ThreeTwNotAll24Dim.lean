@@ -26,8 +26,8 @@ theorem exists_torV_eq_of_cube_one {τ : Tag} {L : Type} [Field L] [IsAlgClosed 
     (h3 : ((3 : ℕ) : L) ≠ 0) {a : Fin τ.rank → Lˣ} (ha : ∀ i, a i ^ 3 = 1) :
     ∃ ζ : Lˣ, ζ ^ 3 = 1 ∧ ζ ≠ 1 ∧ ∃ v : Fin τ.rank → ZMod 3, torV ζ v = a := by
   classical
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot ((hu.unit : Lˣ) : L) 3 := by simpa using hζ₀
   have hω : orderOf hu.unit = 3 := (IsPrimitiveRoot.coe_units_iff.1 hζ).eq_orderOf.symm
@@ -74,12 +74,12 @@ theorem exists_torus_conj_of_cube_one_with_conjugator {K : Type} [Field K] [Fini
       ∃ g ∈ adjointGroup Tag.E6 (AlgebraicClosure K),
         g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g = rootDiagUnit Tag.E6 a := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hp, hpK⟩ : ∃ p, Nat.Prime p ∧ ringChar K = p :=
     ⟨ringChar K, CharP.char_is_prime K (ringChar K), rfl⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hpK ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hpK ▸ ringChar.charP K
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hp3 : p ≠ 3 := hpK ▸ hK3
   have hL3 : ringChar (AlgebraicClosure K) ≠ 3 := by
@@ -211,8 +211,8 @@ theorem exists_coroot_conj_of_cube_one_of_finrank_eq_thirtysix
         g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g =
           rootDiagUnit Tag.E6 (fun j => ζ ^ (iform ρ (Pi.single j 1) : ℤ)) := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h0
@@ -267,7 +267,7 @@ end KSNotAll24
 theorem twE6Order3Dim_holds : TwE6Order3Dim := by
   intro K _ _ σ q hK3 hσ hKq h3 hq2 h hh3 hh1
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hxL : baseChangeGL (algebraMap K (AlgebraicClosure K)) (h : ModGL TwistTag.E6.tag K) ∈
       adjointGroup Tag.E6 (AlgebraicClosure K) :=
     map_twistedE6InndiagGL_le σ (algebraMap K (AlgebraicClosure K))
@@ -277,8 +277,8 @@ theorem twE6Order3Dim_holds : TwE6Order3Dim := by
     rfl
   obtain ⟨a, ha3, ha1, hdim⟩ :=
     KSNotAll24.exists_torus_conj_of_cube_one (x := (h : ModGL TwistTag.E6.tag K)) hK3 hxL hx3
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h0

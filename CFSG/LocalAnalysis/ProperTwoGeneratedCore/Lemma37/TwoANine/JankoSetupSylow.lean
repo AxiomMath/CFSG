@@ -120,7 +120,7 @@ theorem isSylowOf_of_forall_card_le {K P : Subgroup X} (hPK : P ≤ K) (hP : IsP
   have hPQ : P ≤ (Q₀ : Subgroup K).map K.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hPK]
     exact Subgroup.map_mono hQ₀
-  exact ⟨Q₀, (Subgroup.eq_of_le_of_card_ge hPQ (h _ (Q₀.isPGroup'.map _)
+  exact ⟨Q₀, (Subgroup.eq_of_le_of_card_ge hPQ (h _ (Q₀.isPGroup.map _)
     (Subgroup.map_subtype_le _))).symm⟩
 
 theorem card_le_card_inf_of_isSylowOf {K N D Q : Subgroup X} (hD : IsSylowOf K p D)

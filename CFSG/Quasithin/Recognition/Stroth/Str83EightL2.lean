@@ -63,7 +63,7 @@ theorem eightL_l_one_numerics (hF : Fintype.card F = 2 ^ 3)
       have hjd : (j + d) % 3 = j := by
         have hmem : (j + d) % 3 ∈ J := by
           have himg : (j + d) % 3 ∈ J.image (fun i => (i + d) % 3) := by
-            simp only [Finset.mem_image, Finset.mem_univ, true_and]
+            simp only [Finset.mem_image]
             exact ⟨j, by rw [hjJ]; simp, rfl⟩
           rwa [hshift] at himg
         simpa [hjJ] using hmem

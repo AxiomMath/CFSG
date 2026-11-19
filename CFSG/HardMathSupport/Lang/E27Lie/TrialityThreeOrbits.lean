@@ -70,7 +70,7 @@ theorem sum_orbitWeight_le (N : ℕ) :
       have h3 : ((k + 1 : ℕ) : ℤ) ≠ 3 := by omega
       have h4 : ((k + 1 : ℕ) : ℤ) ≠ 4 := by omega
       have h5 : ((k + 1 : ℕ) : ℤ) ≠ 5 := by omega
-      rw [orbitTable, if_neg h1, if_neg h2, if_neg h3, if_neg h4, if_neg h5]
+      rw [orbitTable, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_right h4, ite_eq_right h5]
     rw [this]; rfl
   by_cases hN : N ≤ 5
   · calc ∑ k ∈ Finset.range N, ∑ O ∈ orbitTable ((k + 1 : ℕ) : ℤ), orbitWeight O

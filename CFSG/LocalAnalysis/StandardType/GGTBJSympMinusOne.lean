@@ -56,7 +56,7 @@ theorem ggTBJNbr_sympMinus_one_of_marking
   have hBs : IsElemAbelian p Bs := hcfg.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   obtain ⟨m, Kf, _, _, _, hN, θ, hm3, hK2, hpq, hXc, hBsI⟩ := exists_data_of_marking_one hmark
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hxBs : x ∈ Bs := hcfg.tableB_facts.2.2.1
   have hJK : J ≤ K := hI3 G p B x L D J hH.1.1 hH.1.2.2 y K hnb
   have hJcomp : IsComponentOf J (K ⊓ Subgroup.centralizer ({x} : Set G)) :=
@@ -86,7 +86,7 @@ theorem ggTBJLeft_sympMinus_one_of_marking
   have hBs : IsElemAbelian p Bs := hcfg.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   obtain ⟨m, Kf, _, _, _, hN, θ, hm3, hK2, hpq, hXc, hBsI⟩ := exists_data_of_marking_one hmark
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hp3 : p = 3 := by
     rw [hK2] at hpq
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp hpq

@@ -12,6 +12,7 @@ open Subgroup CFSG.Quasithin.A94.HeJ CFSG.Quasithin.A94.He42PD
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem he42sp_conj_y {L A Z : Subgroup G} {y g : G}
     (hyL : y ∈ normalizer (L : Set G)) (hcomm : ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ A)
     (hAab : ∀ x ∈ A, ∀ x' ∈ A, x * x' = x' * x) (hZA : Z ≤ A)
@@ -43,6 +44,7 @@ private theorem he42sp_conj_y {L A Z : Subgroup G} {y g : G}
   rw [e3, hconj]
   exact hyZ _ hgz
 
+omit [Finite G] in
 private theorem he42sp_fin4_key {B : Subgroup G} {u v : G} (hu2 : u * u = 1) (hv2 : v * v = 1)
     (huv : u * v = v * u) (h1 : u ∉ B) (h2 : v ∉ B) (h3 : u * v ∉ B) :
     ∀ i j : Fin 4, (![1, u, v, u * v] i)⁻¹ * ![1, u, v, u * v] j ∈ B → i = j := by
@@ -62,7 +64,6 @@ private theorem he42sp_fin4_key {B : Subgroup G} {u v : G} (hu2 : u * u = 1) (hv
     | exact absurd hij h1
     | exact absurd hij h2
     | exact absurd hij h3
-    | rfl
 
 private theorem he42sp_eq_top_of_four {Z B X : Subgroup G} (hXZ : X ≤ Z) (hBX : B ≤ X)
     (hZc : Nat.card ↥Z = 16) (hBc : Nat.card ↥B = 4) (xs : Fin 4 → G) (hxs : ∀ i, xs i ∈ X)
@@ -152,6 +153,7 @@ private theorem he42sp_all_norm {L K A J Z : Subgroup G} {ψ : ↥L →* Equiv.P
     rwa [hprod] at hm
   exact ((hWmem l).mp hlW).2 z hz
 
+omit [Finite G] in
 private theorem he42sp_centr {L K A A' J Z R : Subgroup G} {ψ : ↥L →* Equiv.Perm (Fin 5)}
     (hPD : PData L K A J ψ) (hA'J : A' ≤ J) (hZA : Z ≤ A) (hZA' : Z ≤ A')
     (hAab : ∀ x ∈ A, ∀ x' ∈ A, x * x' = x' * x) (hA'ab : ∀ x ∈ A', ∀ x' ∈ A', x * x' = x' * x)
@@ -189,7 +191,7 @@ private theorem he42sp_centr {L K A A' J Z R : Subgroup G} {ψ : ↥L →* Equiv
     have ha : (a : Equiv.Perm (Fin 5)) ∈ ψ.range := by rw [hPD.range]; exact a.2
     obtain ⟨l, hl⟩ := MonoidHom.mem_range.mp ha
     exact ⟨l, Subtype.ext ((hψ' l).trans hl)⟩
-  haveI hMn : ((D.subgroupOf L).map ψ').Normal := hDn.map ψ' hsurj
+  have hMn : ((D.subgroupOf L).map ψ').Normal := hDn.map ψ' hsurj
   have hsimp : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (α := Fin 5) (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((D.subgroupOf L).map ψ') with hbot | htop
@@ -326,7 +328,7 @@ private theorem he42sp_yB (S : HeSetup G) {y : G} (hyN : y ∈ S.N) (hρ : S.rho
   intro b hb
   have hbZ : b ∈ S.Z := (Subgroup.mem_inf.mp hb).1
   have hcb : (S.g : M2) * S.m b = S.m b * (S.g : M2) :=
-    ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hb).2
+    ((S.hD.mem_B_iff S.hxN S.hxa).1 hb).2
   have hm : S.m (y * b * y⁻¹) = (S.g : M2) * S.m b := by
     rw [he42sp_m_conj S hyN hbZ, hρ]
     simp
@@ -334,7 +336,7 @@ private theorem he42sp_yB (S : HeSetup G) {y : G} (hyN : y ∈ S.N) (hρ : S.rho
     rw [hm]
     calc (S.g : M2) * ((S.g : M2) * S.m b) = (S.g : M2) * (S.m b * (S.g : M2)) := by rw [hcb]
       _ = (S.g : M2) * S.m b * (S.g : M2) := (mul_assoc _ _ _).symm
-  exact (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2 ⟨hyZ b hbZ, hc⟩
+  exact (S.hD.mem_B_iff S.hxN S.hxa).2 ⟨hyZ b hbZ, hc⟩
 
 private theorem he42sp_yB2 (S : HeSetup G) {y₁ y₂ : G} (hyB : ∀ b ∈ S.B, y₁ * b * y₁⁻¹ ∈ S.B)
     (h0K : y₁ * y₂⁻¹ ∈ S.K) : ∀ b ∈ S.B, y₂ * b * y₂⁻¹ ∈ S.B := by

@@ -43,12 +43,12 @@ theorem ggA6F4_three
     rwa [hcent] at h0
   obtain ⟨F, hFfield, hFfinite, hFcard, ⟨φ⟩⟩ :=
     ggA6F4_comp_iso_sp (K := K) hK (e x) hx' (L.map (e : G →* ↥(adjointGroup .F4 K))) hL'
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hcard : Fintype.card F = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hFcard, hK]

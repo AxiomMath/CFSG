@@ -63,10 +63,10 @@ theorem exists_label_component (hLSC : LieSemisimpleCent) {S : Type} [Group S] [
         _ < Nat.card ↥(⊤ : Subgroup S) :=
             Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card S := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
     have hQs := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
-    haveI := hQs.2
-    haveI : Nontrivial (PQuot 3 Jb) :=
+    have := hQs.2
+    have : Nontrivial (PQuot 3 Jb) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 Jb))).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot 3 Jb)).ne hQs.1
   · exfalso

@@ -239,7 +239,7 @@ private theorem normal_subgroupOf_kerReflVec :
 private theorem pow_three_mem_kerReflVec
     {w : WeylGroup Tag.E6} (hw : w ∈ stabVec xRep) :
     w ^ 3 ∈ kerReflVec xRep := by
-  haveI : ((kerReflVec xRep).subgroupOf (stabVec xRep)).Normal := normal_subgroupOf_kerReflVec
+  have : ((kerReflVec xRep).subgroupOf (stabVec xRep)).Normal := normal_subgroupOf_kerReflVec
   have hpow : (⟨w, hw⟩ : stabVec xRep) ^ ((kerReflVec xRep).subgroupOf (stabVec xRep)).index ∈
       (kerReflVec xRep).subgroupOf (stabVec xRep) :=
     Subgroup.pow_index_mem _ _

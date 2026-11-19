@@ -151,8 +151,8 @@ theorem rootCount_eq {IX : Nat → Nat} {N hi : Nat} (hN : N ≤ 64 * hi) (k : N
   · have hne : rtOf IX i ≠ k := fun e => by
       rw [e, Nat.beq_refl] at h
       exact Bool.noConfusion h
-    rw [if_neg hne]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+    rw [ite_eq_right hne]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 end CFSG.KC.Co2Census
 

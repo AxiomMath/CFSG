@@ -21,10 +21,11 @@ theorem isElemAbelian_range' {A H : Type*} [CommGroup A] [Group H] (f : A →* H
   · obtain ⟨a, rfl⟩ := hx
     rw [← map_pow, hA, map_one]
 
+omit [CharP F 2] in
 theorem exists_unit_order_p (M : NormModel F b c) {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ Nat.card F + 1) :
     ∃ ζ : M.Eˣ, orderOf ζ = p ∧ ζ ∈ rootsOfUnity (Nat.card F + 1) M.E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card F := Nat.card_pos
   have hdvd : p ∣ Nat.card M.Eˣ := by
     rw [Nat.card_units, M.card_E, CFSG.ClassicalGroups.Unitary.sq_sub_one_eq (Nat.card F) hq]
@@ -34,6 +35,7 @@ theorem exists_unit_order_p (M : NormModel F b c) {p : ℕ} (hp : p.Prime)
   rw [mem_rootsOfUnity]
   exact orderOf_dvd_iff_pow_eq_one.mp (hζ ▸ hpq)
 
+omit [CharP F 2] in
 theorem tau_mulVec_symm (M : NormModel F b c)
     (a : ↥(rootsOfUnity (Nat.card F + 1) M.E) × ↥(rootsOfUnity (Nat.card F + 1) M.E) ×
       ↥(rootsOfUnity (Nat.card F + 1) M.E)) (v : Fin 3 → M.E) :
@@ -45,6 +47,7 @@ theorem tau_mulVec_symm (M : NormModel F b c)
   apply M.T.injective
   rw [M.τ_apply, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
 
+omit [CharP F 2] in
 theorem exists_Zc (M : NormModel F b c) {p : ℕ} (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     ∃ Z : Subgroup ↥(rootsOfUnity (Nat.card F + 1) M.E), (∀ x ∈ Z, x ^ p = 1) ∧ Nat.card Z = p := by
   obtain ⟨ζ, hζ, hζμ⟩ := exists_unit_order_p M hp hpq
@@ -71,7 +74,7 @@ variable (M : NormModel F b c)
     exact M.τ.map_one
   map_mul' x y := by
     rw [← map_mul]
-    congr 1 <;> simp [Prod.ext_iff]
+    congr 1; simp
 
 @[expose] noncomputable def hom1 (Z : Subgroup (MuG M)) :
     ↥Z →* GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F where
@@ -81,7 +84,7 @@ variable (M : NormModel F b c)
     exact M.τ.map_one
   map_mul' x y := by
     rw [← map_mul]
-    congr 1 <;> simp [Prod.ext_iff]
+    congr 1; simp
 
 @[expose] noncomputable def hom2 (Z : Subgroup (MuG M)) :
     (↥Z × ↥Z) →* GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F where
@@ -91,16 +94,20 @@ variable (M : NormModel F b c)
     exact M.τ.map_one
   map_mul' x y := by
     rw [← map_mul]
-    congr 1 <;> simp [Prod.ext_iff]
+    congr 1
 
+omit [CharP F 2] in
 theorem hom0_apply (Z : Subgroup (MuG M)) (x : ↥Z × ↥Z) :
     hom0 M Z x = M.τ (1, (x.1 : MuG M), (x.2 : MuG M)) := rfl
 
+omit [CharP F 2] in
 theorem hom1_apply (Z : Subgroup (MuG M)) (z : ↥Z) : hom1 M Z z = M.τ (1, 1, (z : MuG M)) := rfl
 
+omit [CharP F 2] in
 theorem hom2_apply (Z : Subgroup (MuG M)) (x : ↥Z × ↥Z) :
     hom2 M Z x = M.τ ((x.1 : MuG M), (x.1 : MuG M), (x.2 : MuG M)) := rfl
 
+omit [CharP F 2] in
 theorem hom0_injective (Z : Subgroup (MuG M)) : Function.Injective (hom0 M Z) := by
   intro x y h
   rw [hom0_apply, hom0_apply] at h
@@ -109,12 +116,14 @@ theorem hom0_injective (Z : Subgroup (MuG M)) : Function.Injective (hom0 M Z) :=
   have e2 : ((x.2 : MuG M)) = (y.2 : MuG M) := congrArg (fun t => t.2.2) h1
   exact Prod.ext (Subtype.ext e1) (Subtype.ext e2)
 
+omit [CharP F 2] in
 theorem hom1_injective (Z : Subgroup (MuG M)) : Function.Injective (hom1 M Z) := by
   intro x y h
   rw [hom1_apply, hom1_apply] at h
   have h1 := M.τ_injective h
   exact Subtype.ext (congrArg (fun t => t.2.2) h1)
 
+omit [CharP F 2] in
 theorem hom2_injective (Z : Subgroup (MuG M)) : Function.Injective (hom2 M Z) := by
   intro x y h
   rw [hom2_apply, hom2_apply] at h
@@ -129,6 +138,7 @@ section Subgroups
 
 variable (M : NormModel F b c) {p : ℕ}
 
+omit [CharP F 2] in
 theorem exists_E0 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     ∃ E : Subgroup (GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F),
       E ≤ StatedOmega (StatedQuadMinus 3 F b c) ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
@@ -149,6 +159,7 @@ theorem exists_E0 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     funext i
     fin_cases i <;> simp
 
+omit [CharP F 2] in
 theorem exists_E1 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     ∃ E : Subgroup (GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F),
       E ≤ StatedOmega (StatedQuadMinus 3 F b c) ∧ IsElemAbelian p E ∧ Nat.card E = p ∧
@@ -168,6 +179,7 @@ theorem exists_E1 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     funext i
     fin_cases i <;> simp
 
+omit [CharP F 2] in
 theorem exists_E2 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :
     ∃ E : Subgroup (GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F),
       E ≤ StatedOmega (StatedQuadMinus 3 F b c) ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧

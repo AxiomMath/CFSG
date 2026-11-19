@@ -472,7 +472,7 @@ private theorem omcpl_entryMap_eq_pow {K : Type} [Field K] {r : ℕ} (hr : r.Pri
       · exact hru h'
       · exact Nat.not_dvd_of_pos_of_lt (Nat.sub_pos_of_lt hr.one_lt) (Nat.sub_one_lt hr.ne_zero) h'
     · show (if (1 : ℕ) = 0 then σ (x : K) else (σ (x : K))⁻¹) = (x : K) ^ (u₀ * (r - 1))
-      rw [if_neg (by norm_num), hpow x hx]
+      rw [ite_eq_right (by norm_num), hpow x hx]
       have hxr : (x : K) ^ r = 1 := by rw [← Units.val_pow_eq_pow_val, hx, Units.val_one]
       have hmul : (x : K) ^ (u₀ * (r - 1)) * (x : K) ^ u₀ = 1 := by
         rw [← pow_add]
@@ -1234,7 +1234,6 @@ private theorem omcpu_A_monomial {p f : ℕ} {K : Type} [Field K] (h : UnitaryFi
       simp only [Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one] at hij ⊢
     all_goals
       first
-      | rfl
       | exact absurd (Units.ext hij) hζu2
       | exact absurd (Units.ext hij) hζu1
       | exact absurd (Units.ext hij.symm) hζu2

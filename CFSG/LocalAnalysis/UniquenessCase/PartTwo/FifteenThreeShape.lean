@@ -153,7 +153,7 @@ private theorem s15_Three_family_eq_W (h : Hyp151 D V₀ V L)
     {Y : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L) | ∃ n ∈ s15NW h,
       Y = (commSub ⊤ B).map n.toMonoidHom} := by
   ext Z
-  simp only [Set.mem_setOf_eq, s15_Infra_commSub_top_map_conj]
+  simp only [Set.mem_ofPred_eq, s15_Infra_commSub_top_map_conj]
 
 private theorem s15_Three_indep_transfer (h1217 : R1217 D) (h : Hyp151 D V₀ V L)
     (hL : barSub V₀ V h.isElemAbelian L ≠ ⊥)

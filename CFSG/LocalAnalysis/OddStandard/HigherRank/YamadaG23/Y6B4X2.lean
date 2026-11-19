@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem y6b_normal_of_card {P T : Subgroup G} (hTP : T ≤ P) (hP : Nat.card ↥P = 2 * Nat.card ↥T) :
     ∀ x ∈ P, ∀ y ∈ T, x * y * x⁻¹ ∈ T := by
   let T' : Subgroup ↥P := T.subgroupOf P
-  haveI : Nonempty ↥T' := Set.nonempty_coe_sort.mpr (Subgroup.coe_nonempty T')
+  have : Nonempty ↥T' := Set.nonempty_coe_sort.mpr (_root_.OneMemClass.coe_nonempty T')
   have hcard : Nat.card ↥T' = Nat.card ↥T :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTP).toEquiv
   have hindex : T'.index = 2 := by
@@ -39,7 +39,7 @@ theorem y6b_normal_of_card {P T : Subgroup G} (hTP : T ≤ P) (hP : Nat.card ↥
 theorem y6b_card_X (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
     (hRT : c.s.R ≠ c.s.T) (h1 : Y6bHasX1 c) :
     Nat.card ↥(y6bX c) = 16 * Nat.card ↥(y6bX c ⊓ c.s.H) := by
-  letI : MulAction ↥(y6bX c) G :=
+  let : MulAction ↥(y6bX c) G :=
     { smul := fun x g => (x : G) * g * (x : G)⁻¹
       mul_smul := by
         intro x y g
@@ -125,8 +125,8 @@ theorem y6b_exists_P (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
     have h := Subgroup.relIndex_mul_card (H := c.s.T) (K := y6bX c ⊓ c.s.H)
     rw [inf_of_le_left hT_le_Q, hTcard] at h
     exact h.symm
-  haveI : Nonempty ↥(y6bX c ⊓ c.s.H) :=
-    Set.nonempty_coe_sort.mpr (Subgroup.coe_nonempty _)
+  have : Nonempty ↥(y6bX c ⊓ c.s.H) :=
+    Set.nonempty_coe_sort.mpr (_root_.OneMemClass.coe_nonempty _)
   have hrel_ne : c.s.T.relIndex (y6bX c ⊓ c.s.H) ≠ 0 := by
     intro h0
     have hpos : 0 < Nat.card ↥(y6bX c ⊓ c.s.H) := Nat.card_pos

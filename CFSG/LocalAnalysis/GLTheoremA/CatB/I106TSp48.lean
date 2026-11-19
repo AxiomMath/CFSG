@@ -27,10 +27,10 @@ private theorem exists_lie_index_of_isSp48 {i : TauCeti.CFSGIndex} (h : isSp48 i
     all_goals simp [isSp48, onLie] at h
     by_cases hrank : rank = 2
     · subst hrank
-      simp only [isSp48, onLie] at h
+      simp only at h
       exact ⟨⟨.B 2 q, hx⟩, q, rfl, rfl,
         by simpa [TauCeti.PrimePower.card_def] using h⟩
-    · simp [isSp48, onLie, hrank] at h
+    · simp [hrank] at h
   · simp [isSp48, onLie] at h
 
 private theorem isElemAbelian_spE : IsElemAbelian 3 spE := by

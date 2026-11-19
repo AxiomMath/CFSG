@@ -18,9 +18,9 @@ theorem m6z_odd_pocketed_omegaStar {X : Type} [Group X] {n : ℕ} {ε : ℤˣ}
       (n = 8 ∧ ε = -1) ∨ (n = 8 ∧ ε = 1)) :
     Odd (Nat.card {x : X // IsI4PlusIn (⊤ : Subgroup X) x}) := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   rw [m6z_card_pocketed_of_mulEquiv e]
   rcases hn with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · have hπ : piOrth Q ∉ omegaGroup hQ := by
@@ -59,9 +59,9 @@ theorem m6z_odd_pocketed_omegaStar {X : Type} [Group X] {n : ℕ} {ε : ℤˣ}
 theorem m6z_odd_pocketed_omegaCover {X : Type} [Group X] (h : IsOmegaCover X 6 (-1)) :
     Odd (Nat.card {x : X // IsI4PlusIn (⊤ : Subgroup X) x}) := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   rw [m6z_card_pocketed_of_mulEquiv e]
   rw [m6z_card_pocketed_omega hQ (by omega) (fun h8 => by omega)]
   rw [m6z_card_four_plus_six_minus hQ hdim hs]

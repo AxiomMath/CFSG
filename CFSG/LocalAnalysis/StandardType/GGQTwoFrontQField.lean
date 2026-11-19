@@ -13,7 +13,7 @@ theorem qTwoFrontQ_exists_fixed {K : Type} [Field K] [Finite K] [CharP K 2] {f :
     (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 ≤ f) :
     ∃ ω : K, unitaryInvolution K 2 f ω = ω ∧ ω ≠ 0 ∧ ω ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = (2 ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]
   obtain ⟨q, hq⟩ : ∃ q : ℕ, q = 2 ^ f := ⟨_, rfl⟩
   rw [← hq] at hcard

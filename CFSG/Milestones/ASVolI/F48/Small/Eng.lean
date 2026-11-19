@@ -424,7 +424,7 @@ theorem burnsideF48s_e_core (hM : burnsideF48s_EModel G LS LSi P1 P2 K P1W P2W K
     obtain ⟨j, hj, rfl⟩ := hM.cov2 z hz
     exact ⟨_, hM.let2 j hj, rfl⟩
   obtain ⟨hfin, htc⟩ := hC.tc k hk
-  haveI := hfin
+  have := hfin
   have hYle := burnsideF48s_core_card_le (L := G) (f₁ := f₁) (f₂ := f₂) h12 hgen hcov1 hcov2 hY
   rcases htc with hlt | ⟨hle, hX1⟩
   · exact absurd (hcard.trans hYle) (not_le.2 hlt)

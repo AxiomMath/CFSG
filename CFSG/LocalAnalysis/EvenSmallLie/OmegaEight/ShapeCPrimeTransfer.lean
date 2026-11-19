@@ -176,13 +176,13 @@ theorem exists_conj_eq_mul [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ x y : G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS'⟩ := hS.isPGroup_TH.exists_le_sylow
   have hlt : U ⊔ zpowers c < S := lt_of_le_of_ne hS' (fun h => hS.TH_ne_sylow hG hnab S h.symm)
-  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup' hlt
+  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup hlt
   have hnt : n * t ≠ t * n := by
     intro hnt
     have hVS : U ⊔ zpowers c ⊔ zpowers n ≤ S := sup_le hS' (zpowers_le.2 hnS)
     have hV := hS.data.sylow (U ⊔ zpowers c ⊔ zpowers n)
       (sup_le hS.TH_le_centralizer (zpowers_le.2 (mem_centralizer_singleton_iff.2 hnt)))
-      (S.isPGroup'.to_le hVS) le_sup_left
+      (S.isPGroup.to_le hVS) le_sup_left
     exact hnTH (hV ▸ mem_sup_right (mem_zpowers n))
   have htc : ∀ x ∈ U ⊔ zpowers c, t * x = x * t := fun x hx =>
     (mem_centralizer_singleton_iff.1 (hS.TH_le_centralizer hx)).symm

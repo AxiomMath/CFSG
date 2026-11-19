@@ -413,7 +413,7 @@ theorem ggLieLangPosition_holds
   intro τ _ L _ _ _ f hf Φ hΦ _ p hp hp2 A hA hAea hAtoral
   obtain ⟨g₁, hg₁, hg₁A⟩ := hAtoral
   obtain ⟨Fr, hFr, P, hP, hΦP⟩ := hΦ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFr_eq : Fr = iterateFrobenius L 2 f := by
     ext c
     rw [hFr c, iterateFrobenius_def]

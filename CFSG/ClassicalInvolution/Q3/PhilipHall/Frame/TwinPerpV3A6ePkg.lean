@@ -25,7 +25,7 @@ variable {Y : Type} [Group Y] {I D : Subgroup Y} (P : E8Pkg I D)
 open Classical in
 @[expose] noncomputable def ph (x : Y) : AEQ 8 := if h : x ∈ I then P.φ ⟨x, h⟩ else 1
 
-theorem ph_of_mem {x : Y} (h : x ∈ I) : P.ph x = P.φ ⟨x, h⟩ := dif_pos h
+theorem ph_of_mem {x : Y} (h : x ∈ I) : P.ph x = P.φ ⟨x, h⟩ := dite_eq_left h
 
 theorem ph_mul {x y : Y} (hx : x ∈ I) (hy : y ∈ I) : P.ph (x * y) = P.ph x * P.ph y := by
   rw [P.ph_of_mem (I.mul_mem hx hy), P.ph_of_mem hx, P.ph_of_mem hy, ← map_mul]

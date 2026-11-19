@@ -19,7 +19,7 @@ private def commKer {G : Type*} [Group G] (L U W : Subgroup G)
     (hU : L ≤ Subgroup.normalizer (U : Set G)) (hW : L ≤ Subgroup.normalizer (W : Set G)) :
     Subgroup L where
   carrier := {l | ∀ v ∈ W, (l : G) * v * (l : G)⁻¹ * v⁻¹ ∈ U}
-  one_mem' := fun v _ => by simpa using U.one_mem
+  one_mem' := fun v _ => by simp
   mul_mem' := by
     intro a b ha hb v hv
     have h1 : ((a * b : L) : G) * v * ((a * b : L) : G)⁻¹ * v⁻¹ =
@@ -61,12 +61,12 @@ private theorem exists_comm_not_mem {G : Type*} [Group G] [Finite G] {L U W : Su
     ∃ v ∈ W, (y : G) * v * (y : G)⁻¹ * v⁻¹ ∉ U := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set K := commKer L U W hU hW
-  haveI hKn : K.Normal := commKer_normal hU hW
+  have hKn : K.Normal := commKer_normal hU hW
   have hyK : y ∈ K := hcon
   have hKP : K.map (QuotientGroup.mk' (CFSG.pCore 2 L)) = ⊤ := by
-    haveI hN : (K.map (QuotientGroup.mk' (CFSG.pCore 2 L))).Normal :=
+    have hN : (K.map (QuotientGroup.mk' (CFSG.pCore 2 L))).Normal :=
       hKn.map _ (QuotientGroup.mk'_surjective _)
     rcases hS.eq_bot_or_eq_top_of_normal (K.map (QuotientGroup.mk' (CFSG.pCore 2 L))) with h | h
     · exfalso
@@ -93,8 +93,8 @@ private theorem exists_comm_not_mem {G : Type*} [Group G] [Finite G] {L U W : Su
       rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv, (QuotientGroup.eq_one_iff k).mpr hk,
         inv_one, one_mul]
     rw [← hkl', ← QuotientGroup.mk_pow, ha', QuotientGroup.mk_one]
-  haveI := hperf
-  haveI : Group.IsNilpotent (L ⧸ K) := h2.isNilpotent
+  have := hperf
+  have : Group.IsNilpotent (L ⧸ K) := h2.isNilpotent
   have hsub : Subsingleton (L ⧸ K) := by
     rw [← not_nontrivial_iff_subsingleton]
     intro hnt
@@ -124,7 +124,7 @@ private theorem count_contra {G : Type} [Group G] [Finite G] {X L T : Subgroup G
     (hj : ¬ ⁅Vs j.succ, L⁆ ≤ Vs j.castSucc) (hk : ¬ ⁅Vs k.succ, L⁆ ≤ Vs k.castSucc) :
     False := by
   classical
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hn0 : n ≠ 0 := by obtain ⟨k, rfl⟩ := hn; omega
   obtain ⟨hAT, hA2, -⟩ := mem_famG.mp hA
   have hTX : T ≤ X := le_of_isSylowOf' hT
@@ -148,7 +148,7 @@ private theorem count_contra {G : Type} [Group G] [Finite G] {X L T : Subgroup G
     rw [hcardE]; exact hoff.trans hoff'
   obtain ⟨τ, hτE, hτ1⟩ : ∃ τ ∈ imgSL hLN φ A, τ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : imgSL hLN φ A = ⊥ := eq_bot_iff.mpr fun g hg => (Subgroup.mem_bot).mpr (hcon g hg)
     rw [hbot, Subgroup.card_bot, eq_comm, Subgroup.relIndex_eq_one] at hcardE
     exact hAQ (hcardE.trans inf_le_right)
@@ -216,7 +216,7 @@ theorem item321Count_holds : Item321Count := by
   rw [hJT] at hJ
   obtain ⟨A, hA, hAQ⟩ : ∃ A ∈ famG T 0, ¬ A ≤ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hJ (le_normalizer_jG_of_le hT (sSup_le fun A hA => hcon A hA))
   exact count_contra hLN φ hL hT hLT hn hX hA hAQ hVs hij hjk hi hj hk
 

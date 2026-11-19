@@ -58,8 +58,8 @@ theorem isPretransitive_of_unique_fixed_point
   have hq := hQ.card_modEq_card_fixedPoints (orbitAction Q x)
   change Nat.card (orbit G x) % 2 = Nat.card (fixedPoints P (orbitAction P x)) % 2 at hp
   change Nat.card (orbit G x) % 2 = Nat.card (fixedPoints Q (orbitAction Q x)) % 2 at hq
-  rw [card_fixed_orbit P x x hPx, if_pos (mem_orbit_self x)] at hp
-  rw [card_fixed_orbit Q x y hQy, if_neg hy] at hq
+  rw [card_fixed_orbit P x x hPx, ite_eq_left (mem_orbit_self x)] at hp
+  rw [card_fixed_orbit Q x y hQy, ite_eq_right hy] at hq
   omega
 
 end FiveTransitive.UniqueTwoFixedPointTransitivity

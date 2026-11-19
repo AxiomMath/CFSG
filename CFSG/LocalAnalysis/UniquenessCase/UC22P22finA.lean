@@ -15,7 +15,7 @@ namespace P22fin
 theorem isL2Ev_of_isL2 {X : Type} [Group X] {n : ℕ} (h : IsL2 X n) : IsL2Ev X n ∧ 2 ≤ n := by
   obtain ⟨⟨-, hn1, -, hne, -⟩, F, _, _, hF, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
-  haveI : CharP F 2 := uc22p22d_charP_two hn1 hF
+  have : CharP F 2 := uc22p22d_charP_two hn1 hF
   have hZ := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := F)
   let g : StatedProj (StatedSL 2 F) ≃* StatedSL 2 F :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot

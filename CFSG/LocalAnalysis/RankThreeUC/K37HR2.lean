@@ -46,7 +46,7 @@ theorem k37Rest₂Two_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : K37
       omega
     · omega
   obtain ⟨hp2, hf1⟩ := card_eq_two_aux hq2
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hU := CFSG.RankThree.PartTwo.Census.unitaryFieldData_galoisField q.p q.exponent
     q.exponent_pos
   obtain ⟨r', rfl⟩ : ∃ r', m = r' + 2 := ⟨m - 2, by omega⟩

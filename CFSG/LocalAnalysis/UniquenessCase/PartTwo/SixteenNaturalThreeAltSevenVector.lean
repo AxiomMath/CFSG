@@ -353,8 +353,8 @@ theorem exists_fixed_vector_of_alternatingNatural_seven
         intro s t
         ext x
         simp [step, MulAut.mul_apply] }
-  letI : MulAction ↥T ↥S := MulAction.compHom ↥S actHom
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥T ↥S := MulAction.compHom ↥S actHom
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : ¬ 2 ∣ Nat.card ↥S := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, hS_card]
     norm_num
@@ -387,7 +387,7 @@ theorem exists_fixed_vector_of_alternatingNatural_seven
   have hE3 : IsPGroup 3 ↥E := hP3.map g
   have hEnc : ¬ IsCyclic ↥E := by
     intro hcyc
-    haveI : IsCyclic ↥E := hcyc
+    have : IsCyclic ↥E := hcyc
     apply hPnc
     have hginj : Function.Injective g :=
       (Subgroup.subtype_injective H).comp (hπinj.comp (altLift6At_injective j))
@@ -469,7 +469,7 @@ theorem ThreeNat.exists_fixed_vector_alt_seven
     have hE3 : IsPGroup 3 ↥E := hP3.map H.subtype
     have hEnc : ¬ IsCyclic ↥E := by
       intro hcyc
-      haveI : IsCyclic ↥E := hcyc
+      have : IsCyclic ↥E := hcyc
       apply hPnc
       exact isCyclic_of_injective
         (Subgroup.equivMapOfInjective P H.subtype H.subtype_injective).toMonoidHom

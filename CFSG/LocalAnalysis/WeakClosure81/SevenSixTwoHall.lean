@@ -12,7 +12,8 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (hLK : L ≤ K)
+omit [Finite G] in
+private theorem le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (_hLK : L ≤ K)
     (h : L.relIndex K = 2) {a : G} (haK : a ∈ K) (haL : a ∉ L) :
     K ≤ L ⊔ Subgroup.zpowers a := by
   intro x hxK
@@ -32,10 +33,11 @@ private theorem le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (hLK : L �
         (Subgroup.mem_sup_right ((Subgroup.zpowers a).inv_mem (Subgroup.mem_zpowers a)))
     rwa [show (x * a) * a⁻¹ = x by group] at hmem
 
+omit [Finite G] in
 private theorem relIndex_sup_of_le_normalizer {H N : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (H ⊔ N) = N.relIndex H := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hH
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hH
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
   exact (Nat.card_congr
     (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hH).toEquiv).symm
 
@@ -90,6 +92,7 @@ theorem Hyp76.exists_hallCompl (h : Hyp76 V H E J A X) :
   · rw [sup_assoc, sup_eq_right.mpr hIleJ, sup_comm S J]
     exact hSsup
 
+omit [Finite G] in
 theorem Hyp76.relIndex_odd_of_isHallCompl (h : Hyp76 V H E J A X) {Y : Subgroup G}
     (hY : IsHallCompl V H E J X Y) {W : Subgroup G} (hIW : iSub V H E ≤ W) (hWY : W ≤ Y) :
     Odd ((iSub V H E).relIndex W) := by

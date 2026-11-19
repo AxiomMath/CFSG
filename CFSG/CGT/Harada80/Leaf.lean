@@ -31,6 +31,7 @@ theorem h1Natural
   · exact h1Natural_two CFSG.CGT.Foote82.h1OmegaMinusSix_holds
   · exact h1Natural_three OmegaEight.h1OmegaMinusEight_holds
 
+omit [Finite G] in
 private theorem comm_of_cyclic_or_elemAbelian {W : Subgroup G}
     (h : (IsCyclic ↥W ∧ Nat.card ↥W = 4) ∨ IsElemAbelian 2 W) :
     ∀ a ∈ W, ∀ b ∈ W, a * b = b * a := by

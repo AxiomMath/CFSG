@@ -21,14 +21,14 @@ theorem ob5_cyc5_irred : Irreducible (cyclotomic 5 (ZMod 2)) := by
   rw [this, Nat.totient_prime (by decide : Nat.Prime 5)]
 
 theorem ob5_cyc5_card : Nat.card (AdjoinRoot (cyclotomic 5 (ZMod 2))) = 2 ^ 4 := by
-  haveI := Fact.mk ob5_cyc5_irred
+  have := Fact.mk ob5_cyc5_irred
   have hf : cyclotomic 5 (ZMod 2) ≠ 0 := (cyclotomic.monic 5 (ZMod 2)).ne_zero
   have hd : (AdjoinRoot.powerBasis hf).dim = 4 := by
     rw [AdjoinRoot.powerBasis_dim, natDegree_cyclotomic,
       Nat.totient_prime (by decide : Nat.Prime 5)]
   have hfin : Module.finrank (ZMod 2) (AdjoinRoot (cyclotomic 5 (ZMod 2))) = 4 := by
     rw [PowerBasis.finrank (AdjoinRoot.powerBasis hf), hd]
-  haveI : Module.Finite (ZMod 2) (AdjoinRoot (cyclotomic 5 (ZMod 2))) :=
+  have : Module.Finite (ZMod 2) (AdjoinRoot (cyclotomic 5 (ZMod 2))) :=
     (AdjoinRoot.powerBasis hf).finite
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hfin, Nat.card_zmod]
 
@@ -77,7 +77,7 @@ theorem ob5_f16Hom_commute {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 theorem ob5_aeval_cyc5_zero {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (σ : Module.End (ZMod 2) W) (h5 : σ ^ 5 = 1) (hfix : ∀ w : W, σ w = w → w = 0) :
     aeval σ (cyclotomic 5 (ZMod 2)) = 0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   rw [cyclotomic_prime, map_sum]
   simp only [map_pow, aeval_X]
   have hgeom : (∑ i ∈ Finset.range 5, σ ^ i) * (σ - 1) = 0 := by
@@ -99,7 +99,7 @@ theorem ob5_finrank_two {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite 
     (hW : Nat.card W = 2 ^ 8) (σ : Module.End (ZMod 2) W)
     (hσ : aeval σ (cyclotomic 5 (ZMod 2)) = 0) :
     @Module.finrank (GaloisField 2 4) W _ _ (Module.compHom W (ob5_f16Hom σ hσ)) = 2 := by
-  letI : Module (GaloisField 2 4) W := Module.compHom W (ob5_f16Hom σ hσ)
+  let : Module (GaloisField 2 4) W := Module.compHom W (ob5_f16Hom σ hσ)
   have hF : Nat.card (GaloisField 2 4) = 2 ^ 4 := GaloisField.card 2 4 (by norm_num)
   have h := Module.natCard_eq_pow_finrank (K := GaloisField 2 4) (V := W)
   rw [hW, hF] at h

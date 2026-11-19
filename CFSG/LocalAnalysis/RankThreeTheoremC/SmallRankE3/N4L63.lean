@@ -31,7 +31,7 @@ theorem slotP614NormalizerRankLarge_of_kfacts (hβ : NoTwoComponentsGen) (hK : K
     SlotP614NormalizerRankLarge := by
   intro G _ _ hS hD1 p hp5 P M hsit x z hx hz hcon T hT
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp2 : p ≠ 2 := sigmaA_odd p hsit.mem_sigmaA
   obtain ⟨hPM, hxM, hzM, hpl⟩ := n4_plane63E3 hS hsit hp5 hx hz
   have hne : M ≠ ⊤ := fun h => hx.not_centralizer_le (h ▸ le_top)

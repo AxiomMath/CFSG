@@ -87,7 +87,7 @@ private theorem exists_conj_complement_of_relations
       J.subgroupOf P' =
         ((H.subgroupOf P).map e.toMonoidHom).map (MulAut.conj n⁻¹).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S₁' : Subgroup ↥P' := S'.subgroupOf P'
   let H₁ : Subgroup ↥P' := (H.subgroupOf P).map e.toMonoidHom
   let F₁ : Subgroup ↥P' := Subgroup.normalizer (S₁' : Set ↥P')
@@ -99,12 +99,12 @@ private theorem exists_conj_complement_of_relations
   let N : Subgroup ↥F₁ := S₁'.subgroupOf F₁
   let HF : Subgroup ↥F₁ := H₁.subgroupOf F₁
   let JF : Subgroup ↥F₁ := J₁.subgroupOf F₁
-  haveI : N.Normal := Subgroup.normal_in_normalizer
+  have : N.Normal := Subgroup.normal_in_normalizer
   have hS₁'p : IsPGroup 2 ↥S₁' :=
     hS'.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS'.1).symm
   have hNp : IsPGroup 2 ↥N :=
     hS₁'p.of_equiv (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer : S₁' ≤ F₁)).symm
-  haveI : Group.IsNilpotent ↥N := hNp.isNilpotent
+  have : Group.IsNilpotent ↥N := hNp.isNilpotent
   have hNsolv : Group.IsSolvable ↥N := inferInstance
   have hNcard : Nat.card ↥N = Nat.card ↥S₁' :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer : S₁' ≤ F₁)).toEquiv
@@ -149,7 +149,7 @@ private theorem exists_conj_complement_of_relations
   have hcomp : F₁.subtype.comp (MulAut.conj nF⁻¹).toMonoidHom =
       (MulAut.conj nP⁻¹).toMonoidHom.comp F₁.subtype := by
     ext x
-    simp [nP, MulAut.conj_apply, mul_assoc]
+    simp [nP, mul_assoc]
   have h := congrArg (Subgroup.map F₁.subtype) hEqF
   rw [Subgroup.map_subgroupOf_eq_of_le hJ₁leF, Subgroup.map_map, hcomp,
     ← Subgroup.map_map, Subgroup.map_subgroupOf_eq_of_le hH₁leF] at h
@@ -239,7 +239,7 @@ theorem exists_mulEquiv_map_sylow_complement [Finite G] {P S H : Subgroup G}
         (ψ x : G') ∈ Subgroup.normalizer (S' : Set G')) ∧
       ∀ x : ↥P, (x : G) ∈ H ↔ (ψ x : G') ∈ J := by
   classical
-  haveI : Finite ↥P' := Finite.of_equiv _ ψ₀.toEquiv
+  have : Finite ↥P' := Finite.of_equiv _ ψ₀.toEquiv
   obtain ⟨e, hmap⟩ :=
     CFSG.exists_mulEquiv_map_subgroupOf_eq_of_isSylowTwoOf ψ₀ hS hS'
   let S₁ : Subgroup ↥P := S.subgroupOf P

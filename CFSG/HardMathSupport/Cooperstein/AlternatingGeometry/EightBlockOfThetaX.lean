@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G] {X S L : Subgroup G}
   ∀ X : Subgroup G, Asc81bHyp X S → IsWeakSBlock X S L → S ≤ Subgroup.normalizer (L : Set G) →
     SymAutInner → EightBlockData X S L r s
 
+omit [Finite G] in
 theorem mem_normalizer_sup {x : G} (hL : x ∈ Subgroup.normalizer (L : Set G))
     (hS : x ∈ Subgroup.normalizer (S : Set G)) :
     x ∈ Subgroup.normalizer ((L ⊔ S : Subgroup G) : Set G) := by
@@ -41,6 +42,7 @@ theorem mem_normalizer_sup {x : G} (hL : x ∈ Subgroup.normalizer (L : Set G))
   right_inv m := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem conjAutOfNormalizer_apply {M : Subgroup G} {x : G} (hx : x ∈ Subgroup.normalizer (M : Set G))
     (m : ↥M) : ((conjAutOfNormalizer hx m : ↥M) : G) = x * m * x⁻¹ := rfl
 

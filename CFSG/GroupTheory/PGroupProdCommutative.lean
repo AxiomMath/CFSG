@@ -16,7 +16,7 @@ private theorem isMulCommutative_map_prod_of_isPGroup {p : ℕ} (hp : p.Prime) (
     (φ : X →* A × B) {R : Subgroup X} (hR : IsPGroup p ↥R) :
     IsMulCommutative ↥(R.map φ) := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   let P₁ : Subgroup A := (R.map φ).map (MonoidHom.fst A B)
   let P₂ : Subgroup B := (R.map φ).map (MonoidHom.snd A B)
   have hP₁p : IsPGroup p ↥P₁ := (hR.map φ).map _

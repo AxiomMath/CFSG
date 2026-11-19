@@ -290,7 +290,7 @@ theorem generating (PS : Sylow 3 J) (hPS : (PS : Subgroup J) = Psub p1 p2) (hco 
         k * (g⁻¹ * (k⁻¹ * x * k) * g) * k⁻¹ := by group
     exact (mem_conjPre Y k g).2 (hctl _ (by rw [e]; exact hg'))
   have hx' : orderOf (k⁻¹ * x * k) = 3 := by
-    have e : k⁻¹ * x * k = MulAut.conj k⁻¹ x := by simp [MulAut.conj_apply]
+    have e : k⁻¹ * x * k = MulAut.conj k⁻¹ x := by simp
     rw [e, MulEquiv.orderOf_eq]
     exact hx
   have hY' := Y_top F PS hPS hco hPY' hx' hctl'

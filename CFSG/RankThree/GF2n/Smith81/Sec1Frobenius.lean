@@ -188,7 +188,7 @@ theorem semilin_cover [Finite G] {N Y C : Subgroup G} (hS : SemilinAct N Y)
     simp only [toAdd_mul, toAdd_ofAdd, toAdd_one] at h2
     rw [one_add_one_eq_two] at h2
     exact h2
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hK2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hK2
   have hsame : ∀ c ∈ C, c ∉ Subgroup.centralizer (Y : Set G) → ∀ c' ∈ C,
       c' ∉ Subgroup.centralizer (Y : Set G) → ∀ y ∈ Y, c * y * c⁻¹ = c' * y * c'⁻¹ := by
     intro c hc hcn c' hc' hcn'
@@ -279,7 +279,7 @@ theorem semilin_cover [Finite G] {N Y C : Subgroup G} (hS : SemilinAct N Y)
   by_cases hall : C ≤ Subgroup.centralizer (Y : Set G)
   · rw [inf_eq_left.mpr hall]
     omega
-  · obtain ⟨c₁, hc₁C, hc₁⟩ := SetLike.not_le_iff_exists.mp hall
+  · obtain ⟨c₁, hc₁C, hc₁⟩ := IsConcreteLE.not_le_iff_exists.mp hall
     have hcov : ∀ c ∈ C, c ∉ Subgroup.centralizer (Y : Set G) →
         c₁⁻¹ * c ∈ Subgroup.centralizer (Y : Set G) := by
       intro c hc hcn

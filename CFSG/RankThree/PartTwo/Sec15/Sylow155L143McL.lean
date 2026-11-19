@@ -38,7 +38,7 @@ private theorem factorization_three_card_mclP :
 
 private theorem l143Rows_mclP :
     L143Rows mclP := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, R, T, A, -, -, -, -, hL⟩ :=
     CFSG.Sporadic.Recognition.McLAS.threeLocal_of_embedding mclP.subtype mclP.subtype_injective
       (Subgroup.range_subtype mclP) CFSG.Sporadic.Recognition.McLAS.threeFacts_cert'
@@ -49,7 +49,7 @@ private theorem l143Rows_mclP :
       _ = 3 ^ (Nat.card mclP).factorization 3 := by rw [factorization_three_card_mclP]
   let P : Sylow 3 mclP := Sylow.ofCard T hT
   have hP : (P : Subgroup mclP) = T := Sylow.coe_ofCard _ _
-  haveI := hL.A_elementaryAbelian
+  have := hL.A_elementaryAbelian
   refine L143Rows.of_normal P A ?_ ?_ ?_ (by rw [hL.card_A])
   · intro g hg a ha
     rw [hP] at hg

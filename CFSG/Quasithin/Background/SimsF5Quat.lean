@@ -559,14 +559,14 @@ theorem quat_mem_V4plus_iff (v : V6) : v ∈ V4plus ↔ v 4 = 0 ∧ v 5 = 0 := b
   · intro hv
     induction hv using Submodule.span_induction with
     | mem x hx =>
-      rcases hx with rfl | rfl | rfl | rfl <;> simp [x1, x2, x3, x4, xvec, Pi.single_apply]
+      rcases hx with rfl | rfl | rfl | rfl <;> simp [x1, x2, x3, x4, xvec]
     | zero => simp
     | add x y _ _ hx hy => simp [hx.1, hx.2, hy.1, hy.2]
     | smul c x _ hx => simp [hx.1, hx.2]
   · rintro ⟨h4, h5⟩
     have : v = v 0 • x1 + v 1 • x2 + v 2 • x3 + v 3 • x4 := by
       funext i
-      fin_cases i <;> simp [x1, x2, x3, x4, xvec, Pi.single_apply, h4, h5]
+      fin_cases i <;> simp [x1, x2, x3, x4, xvec, h4, h5]
     rw [this]
     refine add_mem (add_mem (add_mem ?_ ?_) ?_) ?_ <;>
       exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
@@ -600,8 +600,8 @@ theorem quat_fwd {g : GL6} (hc : zDot * g = g * zDot) (v : V6) (hv : v 4 = 0 ∧
   rw [quat_zDot_apply] at h4 h5
   have e4 : ¬ (4 : Fin 6).val < 4 := by decide
   have e5 : ¬ (5 : Fin 6).val < 4 := by decide
-  rw [if_neg e4] at h4
-  rw [if_neg e5] at h5
+  rw [ite_eq_right e4] at h4
+  rw [ite_eq_right e5] at h5
   refine ⟨quat_two_mul_eq_zero _ ?_, quat_two_mul_eq_zero _ ?_⟩
   · simp only [Pi.neg_apply] at h4
     linear_combination h4
@@ -609,7 +609,7 @@ theorem quat_fwd {g : GL6} (hc : zDot * g = g * zDot) (v : V6) (hv : v 4 = 0 ∧
     linear_combination h5
 
 theorem quat_bil_xvec (u : V6) (j : Fin 6) (hj : j.val < 4) : bil u (xvec j) = 2 * u j := by
-  fin_cases j <;> simp [bil_coord, xvec, Pi.single_apply] at hj ⊢ <;> ring
+  fin_cases j <;> simp [bil_coord, xvec] at hj ⊢
 
 theorem quat_perp {g : GL6} (hg : g ∈ OVq)
     (hS : ∀ v : V6, (v 4 = 0 ∧ v 5 = 0) ↔ (((g : M6) *ᵥ v) 4 = 0 ∧ ((g : M6) *ᵥ v) 5 = 0))
@@ -621,7 +621,7 @@ theorem quat_perp {g : GL6} (hg : g ∈ OVq)
   have hAw : (g : M6) *ᵥ w = xvec j := by
     rw [hw, Matrix.mulVec_mulVec, hgi, Matrix.one_mulVec]
   have hxj : (xvec j) 4 = 0 ∧ (xvec j) 5 = 0 := by
-    fin_cases j <;> simp [xvec, Pi.single_apply] at hj ⊢
+    fin_cases j <;> simp [xvec] at hj ⊢
   have hw45 := (hS w).2 (by rw [hAw]; exact hxj)
   have h1 := bil_mulVec_of_mem_OVq hg p w
   have h2 : bil p w = 0 := by
@@ -641,7 +641,7 @@ theorem quat_commute_of_stab {g : GL6} (hg : g ∈ OVq) (hs : g ∈ MulAction.st
   have F1 : ∀ i j : Fin 6, 4 ≤ i.val → j.val < 4 → (g : M6) i j = 0 := by
     intro i j hi hj
     have hxj : (xvec j) 4 = 0 ∧ (xvec j) 5 = 0 := by
-      fin_cases j <;> simp [xvec, Pi.single_apply] at hj ⊢
+      fin_cases j <;> simp [xvec] at hj ⊢
     have h := (hS (xvec j)).1 hxj
     rw [← quat_apply_xvec (g : M6) i j]
     have hi' : i = 4 ∨ i = 5 := by
@@ -654,7 +654,7 @@ theorem quat_commute_of_stab {g : GL6} (hg : g ∈ OVq) (hs : g ∈ MulAction.st
     intro i j hi hj
     have hxj : (xvec j) 0 = 0 ∧ (xvec j) 1 = 0 ∧ (xvec j) 2 = 0 ∧ (xvec j) 3 = 0 := by
       revert hj
-      fin_cases j <;> simp [xvec, Pi.single_apply]
+      fin_cases j <;> simp [xvec]
     rw [← quat_apply_xvec (g : M6) i j]
     exact quat_perp hg hS (xvec j) hxj i hi
   apply Units.ext
@@ -663,13 +663,13 @@ theorem quat_commute_of_stab {g : GL6} (hg : g ∈ OVq) (hs : g ∈ MulAction.st
   have hz : ((zDot : GL6) : M6) = Matrix.diagonal (eJd {0, 1, 2, 3}) := rfl
   rw [hz, Matrix.diagonal_mul, Matrix.mul_diagonal, quat_eJd, quat_eJd]
   by_cases hi : i.val < 4 <;> by_cases hj : j.val < 4
-  · simp only [if_pos hi, if_pos hj]
+  · simp only [ite_eq_left hi, ite_eq_left hj]
     ring
   · have := F2 i j hi (by omega)
     simp [this]
   · have := F1 i j (by omega) hj
     simp [this]
-  · simp only [if_neg hi, if_neg hj]
+  · simp only [ite_eq_right hi, ite_eq_right hj]
     ring
 
 theorem M1Dot_eq_stab : M1Dot = MDot ⊓ MulAction.stabilizer GL6 V4plus := by
@@ -700,7 +700,7 @@ theorem quat_mulVec_x6 {g : GL6} (hg : g ∈ M1Dot) :
   have hq : qV ((g : M6) *ᵥ x6) = -1 :=
     (qV_mulVec_of_mem_OVq (MDot_le_OVq hM) x6).trans qV_x6
   have hx6 : x6 0 = 0 ∧ x6 1 = 0 ∧ x6 2 = 0 ∧ x6 3 = 0 := by
-    simp [x6, xvec, Pi.single_apply]
+    simp [x6, xvec]
   have h0 : ∀ j : Fin 6, j.val < 4 → ((g : M6) *ᵥ x6) j = 0 := fun j hj =>
     quat_perp (MDot_le_OVq hM) hS x6 hx6 j hj
   generalize (g : M6) *ᵥ x6 = w at hq h0 ⊢
@@ -713,10 +713,10 @@ theorem quat_mulVec_x6 {g : GL6} (hg : g ∈ M1Dot) :
   rcases h5 with h5 | h5
   · left
     funext i
-    fin_cases i <;> simp [x6, xvec, Pi.single_apply, e0, e1, e2, e3, h4, h5]
+    fin_cases i <;> simp [x6, xvec, e0, e1, e2, e3, h4, h5]
   · right
     funext i
-    fin_cases i <;> simp [x6, xvec, Pi.single_apply, e0, e1, e2, e3, h4, h5]
+    fin_cases i <;> simp [x6, xvec, e0, e1, e2, e3, h4, h5]
 
 theorem M1Dot_le_M0Dot : M1Dot ≤ M0Dot := by
   have hfwd : ∀ g ∈ M1Dot, ∀ v ∈ spn {x6}, g • v ∈ spn {x6} := by
@@ -801,7 +801,7 @@ theorem quat_mulVec_x5 {g : GL6} (hg : g ∈ M1Dot) :
   have hq : qV ((g : M6) *ᵥ x5) = 1 :=
     (qV_mulVec_of_mem_OVq (MDot_le_OVq hM) x5).trans (by decide)
   have hx5 : x5 0 = 0 ∧ x5 1 = 0 ∧ x5 2 = 0 ∧ x5 3 = 0 := by
-    simp [x5, xvec, Pi.single_apply]
+    simp [x5, xvec]
   have h0 : ∀ j : Fin 6, j.val < 4 → ((g : M6) *ᵥ x5) j = 0 := fun j hj =>
     quat_perp (MDot_le_OVq hM) hS x5 hx5 j hj
   generalize (g : M6) *ᵥ x5 = w at hq h0 ⊢
@@ -815,10 +815,10 @@ theorem quat_mulVec_x5 {g : GL6} (hg : g ∈ M1Dot) :
   rcases h4 with h4 | h4
   · left
     funext i
-    fin_cases i <;> simp [x5, xvec, Pi.single_apply, e0, e1, e2, e3, h4, h5]
+    fin_cases i <;> simp [x5, xvec, e0, e1, e2, e3, h4, h5]
   · right
     funext i
-    fin_cases i <;> simp [x5, xvec, Pi.single_apply, e0, e1, e2, e3, h4, h5]
+    fin_cases i <;> simp [x5, xvec, e0, e1, e2, e3, h4, h5]
 
 theorem quat_matrix_eq {A B : M6} (h : ∀ j, A *ᵥ xvec j = B *ᵥ xvec j) : A = B :=
   Matrix.ext fun i j => by rw [← quat_apply_xvec A i j, ← quat_apply_xvec B i j, h j]
@@ -860,7 +860,7 @@ theorem quat_eq_one_of_fix {h : GL6} (hh : h ∈ M1Dot) (f1 : (h : M6) *ᵥ x1 =
       by_cases hij : i = j
       · subst hij
         simp [xvec]
-      · simp [xvec, Pi.single_apply, hij]
+      · simp [xvec, hij]
     have hM : (h : M6) = Matrix.diagonal ![1, 1, 1, 1, a, b] :=
       quat_matrix_eq_of_cols (hcol 0 1 (by rw [one_smul]; exact c0) rfl)
         (hcol 1 1 (by rw [one_smul]; exact c1) rfl) (hcol 2 1 (by rw [one_smul]; exact c2) rfl)

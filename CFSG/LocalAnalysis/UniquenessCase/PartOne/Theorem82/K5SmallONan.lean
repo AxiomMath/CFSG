@@ -15,10 +15,10 @@ open scoped commutatorElement Pointwise
 
 
 theorem card_sylow_seven_ON_of_le {Q : Sylow 7 CFSG.Blueprint.NativeSporadic.ON}
-    {A : Subgroup CFSG.Blueprint.NativeSporadic.ON} (hA7 : IsPGroup 7 A) (hAQ : A ≤ Q)
+    {A : Subgroup CFSG.Blueprint.NativeSporadic.ON} (_hA7 : IsPGroup 7 A) (hAQ : A ≤ Q)
     (hAcard : Nat.card A = 7 ^ 3) : Nat.card (Q : Subgroup CFSG.Blueprint.NativeSporadic.ON) =
       7 ^ 3 := by
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have hdvd : 7 ^ j ∣ Nat.card CFSG.Blueprint.NativeSporadic.ON := by
     rw [← hj]
     exact Subgroup.card_subgroup_dvd_card (Q : Subgroup CFSG.Blueprint.NativeSporadic.ON)
@@ -68,7 +68,7 @@ theorem not_elemAbelian_card_seven_cube_ON :
       (Subgroup.mem_smul_pointwise_iff_exists x (MulAut.conj g) E).mp (by rw [hmap]; exact hxP)
     obtain ⟨ey, heyE, hyey⟩ :=
       (Subgroup.mem_smul_pointwise_iff_exists y (MulAut.conj g) E).mp (by rw [hmap]; exact hyP)
-    haveI : IsMulCommutative ↥E := hEab.1
+    have : IsMulCommutative ↥E := hEab.1
     have he : ex * ey = ey * ex := setLike_mul_comm hexE heyE
     have hxex' : MulAut.conj g ex = x := hxex
     have hyey' : MulAut.conj g ey = y := hyey
@@ -102,7 +102,7 @@ theorem pRank_seven_ON_le_two :
 theorem k5ONan_holds : K5ONan := by
   intro Y _ _ hThree p hp h5
   obtain ⟨hq, hcenter, hSpor⟩ := hThree
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup (MulAut Y))]
   obtain ⟨e⟩ := hSpor
   have hS : IsSimpleGroup (Y ⧸ center Y) := hq.2
@@ -122,7 +122,7 @@ theorem k5ONan_holds : K5ONan := by
   have hnab : ∃ a b : Y ⧸ center Y, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative (Y ⧸ center Y) := ⟨⟨fun a b => hc a b⟩⟩
+    have : IsMulCommutative (Y ⧸ center Y) := ⟨⟨fun a b => hc a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card (α := Y ⧸ center Y)).1 hS
     rw [hcardS] at hprime
     norm_num at hprime
@@ -183,7 +183,7 @@ theorem k5ONan_holds : K5ONan := by
 theorem k3Out_holds : K3Out := by
   intro Y _ _ hThree φ hφ
   obtain ⟨hq, hcenter, hSpor⟩ := hThree
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
   obtain ⟨e⟩ := hSpor
   let π : MulAut Y →* Outer Y := QuotientGroup.mk' (inner Y)
   have hOutS : Nat.card (Outer (Y ⧸ center Y)) ∣ 4 := by

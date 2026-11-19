@@ -67,15 +67,15 @@ private theorem pPrimeCore_le_center_of_nontrivial {Ω : Type} [Group Ω] [Finit
     {L : Subgroup Ω} {p : ℕ} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hnt : Nontrivial (PSimple p L)) :
     GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Nontrivial (PSimple p L) := hnt
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Nontrivial (PSimple p L) := hnt
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq
     (GLAPPrimeCore.normal p ↥L) ?_
   intro htop
   have hsub : Subsingleton (PQuot p L) := by
     rw [PQuot, QuotientGroup.subsingleton_iff]
     exact htop
-  haveI : Subsingleton (PQuot p L) := hsub
+  have : Subsingleton (PQuot p L) := hsub
   have hsub2 : Subsingleton (PSimple p L) := by
     rw [PSimple, QuotientGroup.subsingleton_iff]
     refine top_unique ?_
@@ -201,11 +201,11 @@ private theorem orthMarking_plus
             LargeEvenInduces θ (fun l l' => (l' : G) = a⁻¹ * l * a) φ := by
   have hLM : CFSG.Blueprint.LieModel (PSimple p L) .POmegaPlus m 2 n :=
     lieModel_of_catalogIs_D hcat
-  haveI : IsSimpleGroup (PSimple p L) :=
+  have : IsSimpleGroup (PSimple p L) :=
     CFSG.SeitzReduction.LinearPilot.isSimpleGroup_of_lieModel_POmega (Or.inl rfl) hLM
   have hnt : Nontrivial (PSimple p L) := inferInstance
   have hcore := pPrimeCore_le_center_of_nontrivial hS.qs hnt
-  haveI : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
   let eP : ↥L ⧸ Subgroup.center ↥L ≃* PSimple p L :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hcore
   have hLieZ : CFSG.Blueprint.LieModel (↥L ⧸ Subgroup.center ↥L) .POmegaPlus m 2 n :=
@@ -223,13 +223,13 @@ private theorem orthMarking_plus
   rw [htag] at hrecipe
   dsimp only at hrecipe
   rw [hrank, hnlab] at hrecipe
-  rw [if_neg (by omega : ¬ (m = 3))] at hrecipe
+  rw [ite_eq_right (by omega : ¬ (m = 3))] at hrecipe
   dsimp only [LargeEvenRecipeOmegaPlus] at hrecipe
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrecipe
   obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
   obtain ⟨-, hBI⟩ := hP'
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   exact ⟨K, hKfield, hKfinite, hKcard, θ', hBI⟩
 
 private theorem orthMarking_minus
@@ -246,11 +246,11 @@ private theorem orthMarking_minus
             LargeEvenInduces θ (fun l l' => (l' : G) = a⁻¹ * l * a) φ := by
   have hLM : CFSG.Blueprint.LieModel (PSimple p L) .POmegaMinus m 2 n :=
     lieModel_of_catalogIs_twistedD hcat
-  haveI : IsSimpleGroup (PSimple p L) :=
+  have : IsSimpleGroup (PSimple p L) :=
     CFSG.SeitzReduction.LinearPilot.isSimpleGroup_of_lieModel_POmega (Or.inr rfl) hLM
   have hnt : Nontrivial (PSimple p L) := inferInstance
   have hcore := pPrimeCore_le_center_of_nontrivial hS.qs hnt
-  haveI : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
   let eP : ↥L ⧸ Subgroup.center ↥L ≃* PSimple p L :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hcore
   have hLieZ : CFSG.Blueprint.LieModel (↥L ⧸ Subgroup.center ↥L) .POmegaMinus m 2 n :=
@@ -268,14 +268,14 @@ private theorem orthMarking_minus
   rw [htag] at hrecipe
   dsimp only at hrecipe
   rw [hrank, hnlab] at hrecipe
-  rw [if_neg (by omega : ¬ (m = 2)), if_neg (by omega : ¬ (m = 3))] at hrecipe
+  rw [ite_eq_right (by omega : ¬ (m = 2)), ite_eq_right (by omega : ¬ (m = 3))] at hrecipe
   dsimp only [LargeEvenRecipeOmegaMinus] at hrecipe
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrecipe
   obtain ⟨b, c, hbc, hQ'⟩ := hQ
   obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ'
   obtain ⟨-, hBI⟩ := hP'
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   exact ⟨K, hKfield, hKfinite, hKcard, b, c, hbc, θ', hBI⟩
 
 theorem orthMarking_holds :

@@ -52,7 +52,7 @@ theorem two_le_pRank_of_le_map {K Y : Type} [Group K] [Group Y] [Finite K] [Fini
     have := hp.two_le
     nlinarith
   obtain ⟨B, hB, hBc⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
-    (hp.odd_of_ne_two hp2) S.isPGroup' hnc
+    (hp.odd_of_ne_two hp2) S.isPGroup hnc
   have := hB
   refine CFSG.SectionRank.le_pRank_of_injective hp.one_lt (fun a b => mul_comm' a b)
     (Monoid.exponent_dvd_iff_forall_pow_eq_one.1 (IsElementaryAbelian.exponent_dvd_p p ↥B)) hBc

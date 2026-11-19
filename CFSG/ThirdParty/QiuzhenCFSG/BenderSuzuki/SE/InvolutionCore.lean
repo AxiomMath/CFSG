@@ -70,7 +70,6 @@ public theorem involutionCore_involutionCore_eq_top
     convert
       (Subgroup.mul_mem (Subgroup.closure
         (involutionsSet (involutionCore X))) hca hcb) using 1
-    all_goals (apply Subtype.ext; rfl)
   · intro a _ha hca
     exact Subgroup.inv_mem
       (Subgroup.closure (involutionsSet (involutionCore X))) hca

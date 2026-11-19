@@ -45,13 +45,13 @@ theorem a6grp_two_pow_modEq {U : Type*} [AddCommGroup U] [Module (ZMod 2) U]
     [Module.Finite (ZMod 2) U] {g : U ≃ₗ[ZMod 2] U} {p : ℕ} [Fact p.Prime] (hg : g ^ p = 1)
     (hfix : ∀ u : U, g u = u → u = 0) : 2 ^ finrank (ZMod 2) U ≡ 1 [MOD p] := by
   classical
-  haveI : Finite U := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Finite U := Module.finite_of_finite (ZMod 2)
+  have : Fintype U := Fintype.ofFinite U
   let φ : Function.End U := MulAction.toEndHom (M := U ≃ₗ[ZMod 2] U) (α := U) g
   have hφ : φ ^ (p ^ 1) = 1 := by
     rw [pow_one, ← map_pow, hg, map_one]
   have hmod := Equiv.Perm.card_fixedPoints_modEq (α := U) (f := φ) (p := p) (n := 1) hφ
-  haveI : Unique (Function.fixedPoints φ) :=
+  have : Unique (Function.fixedPoints φ) :=
     ⟨⟨⟨0, show φ 0 = 0 from map_zero g⟩⟩, fun y => Subtype.ext (hfix _ y.2)⟩
   have hU : Nat.card U = 2 ^ finrank (ZMod 2) U := by
     have := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := U)
@@ -65,7 +65,7 @@ theorem a6grp_dim_six {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hd1 : 1 ≤ d)
   have hpd : p ≤ d := Nat.le_of_dvd (by omega) h1
   have hp1 : 2 ≤ p := hp.two_le
   have hp8 : p ≤ 8 := by omega
-  interval_cases p <;> interval_cases d <;> first | omega | (exfalso; revert hp; decide) | skip
+  interval_cases p <;> interval_cases d <;> first | omega
 
 end Arith
 
@@ -73,10 +73,10 @@ section Main
 
 theorem a6grp_perfect_map_one {G H : Type*} [Group G] [Group H] [Group.IsSolvable H]
     [Group.IsPerfect G] (f : G →* H) (g : G) : f g = 1 := by
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hsub : Subsingleton f.range := by
     by_contra h
-    haveI : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isSolvable f.range inferInstance
   have h1 : (⟨f g, MonoidHom.mem_range.mpr ⟨g, rfl⟩⟩ : f.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val h1
@@ -84,6 +84,7 @@ theorem a6grp_perfect_map_one {G H : Type*} [Group G] [Group H] [Group.IsSolvabl
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
   {G : Type*} [Group G]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem a6grp_perfect_plane [Group.IsPerfect G] (ρ : G →* (V ≃ₗ[ZMod 2] V))
     (W : Submodule (ZMod 2) V) (hW : finrank (ZMod 2) W = 2) (hst : ∀ g : G, Stable (ρ g) W) :
     ∀ g : G, ∀ w ∈ W, ρ g w = w :=
@@ -94,7 +95,7 @@ theorem a6grp_module_contra [Group.IsPerfect G] (ρ : G →* (V ≃ₗ[ZMod 2] V
     (hfix : ∀ v : V, ρ x v = v → v = 0) {a b c : G} (hc : c = b * a * b⁻¹ * a⁻¹)
     (hcc : ∀ j : G, j * c = c * j) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hcp : orderOf c = p) :
     False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : V ≃ₗ[ZMod 2] V := ρ c with hg
   have hgp : orderOf g = p := by rw [hg, orderOf_injective ρ hinj c, hcp]
   have hodd : Odd (orderOf g) := by rw [hgp]; exact hp.odd_of_ne_two hp2

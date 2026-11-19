@@ -221,7 +221,7 @@ theorem exists_centralizer_eq_sup_of_kernel (S : LangSetup Tag.E6 L p₀) {Fr : 
       have h := mul_mem hxΓ (inv_mem (rationalComponent_le_Γ S i hgR))
       rwa [mul_inv_cancel_right] at h
     exact Subgroup.mul_mem_sup (Subgroup.mem_inf.2 ⟨htΓ, htH⟩) hgR
-  · haveI := S.finite
+  · have := S.finite
     have hle : S.Γ ⊓ H ≤ S.D.model :=
       inf_le_left.trans (Subgroup.commutator_le_self S.D.model)
     exact hcyc _ (Finite.of_injective _ (Subgroup.inclusion_injective hle)) inf_le_right
@@ -234,7 +234,7 @@ theorem exists_centralizer_eq_sup_d5 (S : LangSetup Tag.E6 L p₀) {Fr : L →+*
     ∃ Z R : Subgroup (ModGL Tag.E6 L),
       S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 a} = Z ⊔ R ∧ IsCyclic Z ∧
         Z ≤ Subgroup.centralizer (R : Set (ModGL Tag.E6 L)) ∧ CFSG.IsQuasisimple R := by
-  haveI : CharP L 2 := ringChar.of_eq hL
+  have : CharP L 2 := ringChar.of_eq hL
   have h3 : ((3 : ℕ) : L) ≠ 0 := fun h =>
     absurd ((CharP.cast_eq_zero_iff L 2 3).1 h) (by omega)
   obtain ⟨v, J, hJ, hΨv⟩ := d5_position h3 hap hk

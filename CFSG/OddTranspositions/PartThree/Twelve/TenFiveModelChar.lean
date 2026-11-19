@@ -111,9 +111,9 @@ private theorem weight_ne_zero (k : ℕ) (ε : Bool) (i : Fin (k + 1)) :
     fiveWeight k ε i ≠ 0 := by
   rw [fiveWeight]
   by_cases hi : i = Fin.last k
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     cases ε <;> decide
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     exact (by decide : (1 : ZMod 5) ≠ 0)
 
 private def weightUnit (k : ℕ) (ε : Bool) (i : Fin (k + 1)) : (ZMod 5)ˣ :=
@@ -127,7 +127,7 @@ private theorem qUnit_single (k : ℕ) (ε : Bool) (i : Fin (k + 1)) :
     qUnit k ε (Pi.single i 1) = weightUnit k ε i := by
   apply Units.ext
   rw [qUnit]
-  rw [dif_neg (show ¬ (fiveQ k ε (Pi.single i 1) = 0) by
+  rw [dite_eq_right (show ¬ (fiveQ k ε (Pi.single i 1) = 0) by
     rw [fiveQ_single]; exact weight_ne_zero k ε i)]
   rw [Units.val_mk0, weightUnit, Units.val_mk0, fiveQ_single]
 
@@ -153,7 +153,7 @@ private theorem squareClassHom_weightUnit_last (k : ℕ) (ε : Bool) :
       ← TauCeti.isSquare_units_val_iff, Units.val_mul, Units.val_mk0, Units.val_mk0]
     decide
   ·
-    simp only [Bool.true_eq, ↓reduceIte]
+    simp only [↓reduceIte]
     rw [sqClass_true]
     apply squareClassHom_eq_one_of_isSquare_val
     rw [Units.val_mk0]
@@ -174,14 +174,14 @@ private theorem stdBasis_pairwise (k : ℕ) (ε : Bool) :
     (stdBasis k).Pairwise (fun u v => polar (fiveQ k ε) u v = 0) := by
   rw [stdBasis, List.pairwise_ofFn]
   intro i j hij
-  rw [fiveQ_polar, fiveForm_single_single, if_neg (ne_of_lt hij), mul_zero]
+  rw [fiveQ_polar, fiveForm_single_single, ite_eq_right (ne_of_lt hij), mul_zero]
 
 private theorem stdBasis_span (k : ℕ) :
     Submodule.span (ZMod 5) {v : Fin (k + 1) → ZMod 5 | v ∈ stdBasis k} = ⊤ := by
   have hset : {v : Fin (k + 1) → ZMod 5 | v ∈ stdBasis k} =
       Set.range (fun i : Fin (k + 1) => Pi.single i (1 : ZMod 5)) := by
     ext v
-    rw [Set.mem_setOf_eq, stdBasis, List.mem_ofFn']
+    rw [Set.mem_ofPred_eq, stdBasis, List.mem_ofFn']
   rw [hset, ← (Pi.basisFun (ZMod 5) (Fin (k + 1))).span_eq]
   congr 1
   ext v
@@ -234,7 +234,7 @@ private theorem unitOfInvertible_eq_qUnit {k : ℕ} (ε : Bool) {v : Fin (k + 1)
     (hv : fiveQ k ε v ≠ 0) [Invertible (fiveQ k ε v)] :
     unitOfInvertible (fiveQ k ε v) = qUnit k ε v := by
   apply Units.ext
-  rw [val_unitOfInvertible, qUnit, dif_neg hv, Units.val_mk0]
+  rw [val_unitOfInvertible, qUnit, dite_eq_right hv, Units.val_mk0]
 
 private theorem fiveGLIso_neg_one_eq_neg {k : ℕ} :
     fiveGLIso k (-1 : GL (Fin (k + 1)) (ZMod 5)) = LinearEquiv.neg (ZMod 5) := by
@@ -258,7 +258,7 @@ private theorem detSpinorNorm_neg_one_value {k : ℕ} (ε : Bool) :
       ((-1 : (ZMod 5)ˣ), TauCeti.squareClassHom (qUnit k ε v)) := by
     intro v hv
     have hvQ : fiveQ k ε v ≠ 0 := stdBasis_ne_zero k ε v hv
-    letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ
+    let : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ
     rw [detSpinorNorm_reflO, unitOfInvertible_eq_qUnit ε hvQ]
   rw [hdet]
   rw [show ((stdBasis k).map (fun v => detSpinorNorm (fiveQ_nondegenerate k ε) (reflO k ε v))) =
@@ -268,7 +268,7 @@ private theorem detSpinorNorm_neg_one_value {k : ℕ} (ε : Bool) :
   congr 1
   rw [stdBasis, List.length_ofFn]
 
-private theorem neg_one_mem_imp_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
+private theorem neg_one_mem_imp_cond {k : ℕ} (_hk : 4 ≤ k) {ε π : Bool}
     (hneg : (-1 : GL (Fin (k + 1)) (ZMod 5)) ∈ fiveReflectionGroup k ε π) :
     ε = true ↔ (π = true ∨ Even (k + 1)) := by
   let a : (ZMod 5)ˣ × Multiplicative (TauCeti.SquareClassGroup (ZMod 5)) :=
@@ -289,7 +289,7 @@ private theorem neg_one_mem_imp_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     · intro r hr
       obtain ⟨v, hv, hsign, rfl⟩ := exists_eq_fiveReflOf hr
       have hQv : fiveQ k ε v ≠ 0 := by rwa [fiveQ_apply]
-      letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
+      let : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
       have hsub : (⟨fiveGLIso k (fiveReflOf k ε v),
           fiveGLIso_mem_orthogonalGroup_of_mem (Subgroup.subset_closure hr)⟩ :
           TauCeti.QuadraticMap.orthogonalGroup (fiveQ k ε)) = reflO k ε v := by
@@ -430,7 +430,7 @@ private theorem frame_of_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
       rw [Finset.sum_eq_single j]
       · simp
       · intro i _ hi
-        simp [Pi.single_apply, hi]
+        simp [hi]
       · intro hj
         exact absurd (Finset.mem_univ j) hj
     rw [hsum] at h
@@ -443,21 +443,21 @@ private theorem frame_of_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     congr 1
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, Finset.sum_eq_single i]
+      rw [ite_eq_left rfl, Finset.sum_eq_single i]
       · simp
       · intro l _ hl
-        simp [Pi.single_apply, hl]
+        simp [hl]
       · intro hi
         exact absurd (Finset.mem_univ i) hi
-    · rw [if_neg hij, Finset.sum_eq_zero]
+    · rw [ite_eq_right hij, Finset.sum_eq_zero]
       intro l _
       by_cases hli : l = i
       · subst hli
-        simp [Pi.single_apply, hij]
+        simp [hij]
       · simp [Pi.single_apply, hli]
   have hvQ : ∀ i, fiveForm k ε' (v i) (v i) = c := by
     intro i
-    rw [hv_gram, if_pos rfl, mul_one]
+    rw [hv_gram, ite_eq_left rfl, mul_one]
   have hvQ_ne : ∀ i, fiveForm k ε' (v i) (v i) ≠ 0 := by
     intro i; rw [hvQ]; exact hc0
   have hsign : ∀ i, IsSquare (fiveForm k ε' (v i) (v i)) ↔ π = true := by
@@ -465,7 +465,7 @@ private theorem frame_of_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     rw [hvQ]
     cases π
     · simp [c, not_isSquare_two_zmod5]
-    · simp [c, isSquare_one_zmod5]
+    · simp [c]
   let l : List (Fin (k + 1) → ZMod 5) := List.ofFn v
   have hl0 : ∀ a ∈ l, fiveQ k ε' a ≠ 0 := by
     intro a ha
@@ -478,7 +478,7 @@ private theorem frame_of_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     show (List.ofFn v).Pairwise (fun a b => polar (fiveQ k ε') a b = 0)
     rw [List.pairwise_ofFn]
     intro i j hij
-    rw [fiveQ_polar, hv_gram, if_neg (ne_of_lt hij)]
+    rw [fiveQ_polar, hv_gram, ite_eq_right (ne_of_lt hij)]
     ring
   have hlen : l.length = Module.finrank (ZMod 5) (Fin (k + 1) → ZMod 5) := by
     show (List.ofFn v).length = Module.finrank (ZMod 5) (Fin (k + 1) → ZMod 5)
@@ -516,11 +516,11 @@ private theorem frame_of_cond {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     by_cases hij : i = j
     · subst hij
       exact Commute.refl _
-    · exact fiveReflOf_comm_of_orthogonal ε (by rw [hv_gram, if_neg hij, mul_zero])
+    · exact fiveReflOf_comm_of_orthogonal ε (by rw [hv_gram, ite_eq_right hij, mul_zero])
   · intro i j hij
     by_contra hne
     have horth : fiveForm k ε (v i) (v j) = 0 := by
-      rw [hv_gram, if_neg hne, mul_zero]
+      rw [hv_gram, ite_eq_right hne, mul_zero]
     have h1 : (fiveReflOf k ε (v i) : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ v i =
         -v i := by
       rw [fiveReflOf_mulVec]

@@ -37,7 +37,7 @@ private lemma fzl_mul_eq (f u : MulAut S) (huf : u * f * u⁻¹ = f⁻¹) :
 
 theorem fzl_fpf_mod_center (hS : FzSuz S) (f : MulAut S) (hfix : ∀ g : S, f g = g → g = 1)
     {g : S} (hg : f g * g⁻¹ ∈ center S) : g ∈ center S := by
-  haveI : Finite (center S) := Nat.finite_of_card_ne_zero (by rw [hS.center_card]; norm_num)
+  have : Finite (center S) := Nat.finite_of_card_ne_zero (by rw [hS.center_card]; norm_num)
   let φ : center S →* center S :=
     { toFun := fun z => ⟨f z.1, fzl_map_center f z.2⟩
       map_one' := by ext; simp
@@ -113,7 +113,7 @@ theorem fzl_comm_f_self (hS : FzSuz S) (f : MulAut S) (hf3 : f ^ 3 = 1)
 theorem fzl_card_le_fixed_sq {V : Type} [Group V] [Finite V] (hc : ∀ v w : V, v * w = w * v)
     (hV : ∀ v : V, v * v = 1) (φ : V →* V) (hφ : ∀ v : V, φ (φ v) = v) :
     Nat.card V ≤ Nat.card {v : V // φ v = v} ^ 2 := by
-  haveI : IsMulCommutative V := IsMulCommutative.of_comm hc
+  have : IsMulCommutative V := IsMulCommutative.of_comm hc
   let ε : V →* V :=
     { toFun := fun v => v * φ v
       map_one' := by rw [map_one, mul_one]
@@ -150,7 +150,7 @@ theorem fzl_card_le_fixed_sq {V : Type} [Group V] [Finite V] (hc : ∀ v w : V, 
 theorem fzl_exists_fixed_pair (hS : FzSuz S) (u : MulAut S) (hu2 : u * u = 1) :
     ∃ a c : S, u a * a⁻¹ ∈ center S ∧ u c * c⁻¹ ∈ center S ∧ a ∉ center S ∧ c ∉ center S ∧
       a * c⁻¹ ∉ center S := by
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS.card]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS.card]; norm_num)
   have huu : ∀ x : S, u (u x) = x := fzl_apply_mul_self u hu2
   let φ : S ⧸ center S →* S ⧸ center S :=
     QuotientGroup.map (center S) (center S) u.toMonoidHom (fun z hz => fzl_map_center u hz)
@@ -188,7 +188,7 @@ theorem fzl_exists_fixed_pair (hS : FzSuz S) (u : MulAut S) (hu2 : u * u = 1) :
         _ ≤ Nat.card {v : S ⧸ center S // φ v = v} ^ 2 := hle
     exact (Nat.pow_le_pow_iff_left (a := 4) (n := 2) (by norm_num)).mp (by simpa using h16)
   classical
-  haveI : Fintype {v : S ⧸ center S // φ v = v} := Fintype.ofFinite _
+  have : Fintype {v : S ⧸ center S // φ v = v} := Fintype.ofFinite _
   let F := {v : S ⧸ center S // φ v = v}
   let e : F := ⟨1, map_one φ⟩
   have hcardF : 4 ≤ Fintype.card F := by
@@ -224,7 +224,7 @@ theorem fzl_Z_structure (hS : FzSuz S) (f u : MulAut S) (hf3 : f ^ 3 = 1)
       z₁ ≠ 1 ∧ z₂ ≠ 1 ∧ z₃ ≠ 1 ∧ z₁ ≠ z₂ ∧ z₁ ≠ z₃ ∧ z₂ ≠ z₃ ∧ z₃ = z₁ * z₂ ∧
       (∀ z ∈ center S, z = 1 ∨ z = z₁ ∨ z = z₂ ∨ z = z₃) ∧
       u z₁ = z₁ ∧ u z₂ = z₃ ∧ u z₃ = z₂ ∧ f z₁ = z₂ ∧ f z₂ = z₃ ∧ f z₃ = z₁ := by
-  haveI : Finite (center S) :=
+  have : Finite (center S) :=
     Nat.finite_of_card_ne_zero (by rw [hS.center_card]; norm_num)
   have huu : ∀ x : S, u (u x) = x := fzl_apply_mul_self u hu2
   let φ : center S →* center S :=
@@ -238,9 +238,9 @@ theorem fzl_Z_structure (hS : FzSuz S) (f u : MulAut S) (hf3 : f ^ 3 = 1)
   have h2 : 2 ≤ Nat.card {z : center S // φ z = z} :=
     (Nat.pow_le_pow_iff_left (a := 2) (n := 2) (by norm_num)).mp (by simpa using hle)
   classical
-  haveI : Fintype {z : center S // φ z = z} := Fintype.ofFinite _
+  have : Fintype {z : center S // φ z = z} := Fintype.ofFinite _
   let e : {z : center S // φ z = z} := ⟨1, map_one φ⟩
-  haveI : Nontrivial {z : center S // φ z = z} := by
+  have : Nontrivial {z : center S // φ z = z} := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card]; omega
   obtain ⟨p, hp⟩ := exists_ne e
   let Z1 : center S := p.1

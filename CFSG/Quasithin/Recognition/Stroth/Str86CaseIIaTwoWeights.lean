@@ -49,6 +49,7 @@ theorem mem_of_mul_add_one_mem {K : Type} [Field K] [Fintype K] [CharP K 2]
   rw [← hfinal]
   exact hpow (Fintype.card K - 2)
 
+omit [Finite G] in
 theorem inf_str86U2_eq_p {S U₂ N p P : Subgroup G}
     (hPN : P ≤ N) (hpP : p ≤ P) (hpU₂ : p ≤ U₂)
     (hU₂C : U₂ ≤ Subgroup.centralizer (S : Set G))
@@ -69,7 +70,7 @@ theorem str86_caseIIa_two_u1_not_le
     (hB2 : VBig L2) (hm : IsL2Quot m (oTwoQuot ↥L2))
     (hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
     {N : Subgroup G} (hNne : N ≠ ⊥) (hNZ : N ≤ Z1 L1 L2 S)
-    (hNP1 : P1 L1 L2 S ≤ Subgroup.normalizer (N : Set G)) :
+    (_hNP1 : P1 L1 L2 S ≤ Subgroup.normalizer (N : Set G)) :
     ¬ N ≤ str86U1 ⁅N, S⁆ L2 S := by
   classical
   let H : Subgroup G := L2 ⊔ S
@@ -107,7 +108,7 @@ theorem str86_caseIIa_two_u1_not_le
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (P2 L1 L2 S))
   have hs_decomp : ∀ s ∈ S, ∃ q1 ∈ Q1 L1 L2 S, ∃ q2 ∈ Q2 L1 L2 S, q1 * q2 = s := by
     intro s hs
-    letI : ((Q1 L1 L2 S).subgroupOf S).Normal :=
+    let : ((Q1 L1 L2 S).subgroupOf S).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hQ1_normS
     have hmem : (⟨s, hs⟩ : ↥S) ∈ ((Q1 L1 L2 S).subgroupOf S) ⊔ ((Q2 L1 L2 S).subgroupOf S) := by
       have hsub : ((Q1 L1 L2 S).subgroupOf S) ⊔ ((Q2 L1 L2 S).subgroupOf S) = ⊤ := by
@@ -150,7 +151,7 @@ theorem str86_caseIIa_two_u1_not_le
     conjClosure_le fun h hh z hz =>
       (Subgroup.mem_normalizer_iff.mp (hU₁_normal hh) z).mp (hN_le_U₁ hz)
   have hUN_le_comm : U_N ≤ C := hUN_le_U₁.trans hU₁_le_comm
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hQ2p : IsPGroup 2 (Q2 L1 L2 S) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (P2 L1 L2 S)
   have hQ2_le_H : Q2 L1 L2 S ≤ H := hQ2S.trans (le_sup_right : S ≤ H)
@@ -166,6 +167,7 @@ theorem str86_caseIIa_two_u1_not_le
   exact (not_le_of_gt hlt) hUN_le_comm
 
 
+omit [Finite G] in
 theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgroup G}
     {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ}
     (hk : 2 ≤ k) (hKcard : Nat.card K = (2 ^ k) ^ 2)
@@ -199,7 +201,7 @@ theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgr
       ((∀ y ∈ N ⊔ U₁, ⁅(d : G), y⁆ ∈ U₁ → y ∈ U₁) ↔ (χ₃ d : K) ≠ 1)) ∧
     p.relIndex P = (2 ^ k) ^ 2 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hone : (1 : K) + 1 = 0 := by
     rw [← two_mul]
@@ -338,7 +340,7 @@ theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgr
           _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
       nlinarith
     exact hq2 hrelP.symm
-  obtain ⟨-, x₀, hx₀P, hx₀p⟩ := SetLike.lt_iff_le_and_exists.mp hp_lt_P
+  obtain ⟨-, x₀, hx₀P, hx₀p⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hp_lt_P
   have hx₀1 : Φ (Additive.ofMul ⟨x₀, hPN hx₀P⟩) 1 ≠ 0 := by
     intro h1
     apply hx₀p
@@ -570,7 +572,7 @@ theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgr
       exact U₁.mul_mem (Subgroup.mem_inf.mp hnW).2 hu
   obtain ⟨c₀, hc₀⟩ : ∃ c : K, c ∉ W₀ := by
     have hlt : W₀ < ⊤ := lt_of_le_of_ne le_top hW₀_ne_top
-    obtain ⟨-, c, -, hc⟩ := SetLike.lt_iff_le_and_exists.mp hlt
+    obtain ⟨-, c, -, hc⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
     exact ⟨c, hc⟩
   have hχ3triv : ∀ d : ↥Kb,
       ((∀ y ∈ N ⊔ U₁, ⁅(d : G), y⁆ ∈ U₁) ↔ (χ₃ d : K) = 1) := by
@@ -583,7 +585,7 @@ theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgr
       let n : ↥N := (Φ.symm (Pi.single 2 (c₀ * ((χ₃ d : K) + 1)⁻¹))).toMul
       have hn2 : Φ (Additive.ofMul n) 2 = c₀ * ((χ₃ d : K) + 1)⁻¹ := by
         have h : Φ (Additive.ofMul n) = Pi.single 2 (c₀ * ((χ₃ d : K) + 1)⁻¹) := by
-          simpa [n] using Φ.apply_symm_apply (Pi.single 2 (c₀ * ((χ₃ d : K) + 1)⁻¹))
+          simp [n]
         rw [h]
         simp
       have hprod : Φ (Additive.ofMul n) 2 * ((χ₃ d : K) + 1) = c₀ := by
@@ -603,7 +605,7 @@ theorem str86_two_weights_section {S N p P U₁ U₂ U : Subgroup G} {Kb : Subgr
       let n : ↥N := (Φ.symm (Pi.single 2 c₀)).toMul
       have hn2 : Φ (Additive.ofMul n) 2 = c₀ := by
         have h : Φ (Additive.ofMul n) = Pi.single 2 c₀ := by
-          simpa [n] using Φ.apply_symm_apply (Pi.single 2 c₀)
+          simp [n]
         rw [h]
         simp
       have hprod : Φ (Additive.ofMul n) 2 * ((χ₃ d : K) + 1) = 0 := by

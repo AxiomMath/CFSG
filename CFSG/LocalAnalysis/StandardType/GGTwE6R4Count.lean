@@ -276,8 +276,6 @@ theorem oddNotTwoLocal_of_torus {R : Type} [Group R] [Finite R] (hZR : Subgroup.
       rintro z ⟨x, rfl⟩
       change ψ ((x : L') ^ 3) = 1
       apply hconjinj
-      change (MulAut.conj : R →* MulAut R) (ψ ((x : L') ^ 3)) =
-        (MulAut.conj : R →* MulAut R) 1
       rw [map_pow, map_pow, hYab.2 ((MulAut.conj : R →* MulAut R) (ψ x.1))
         ((hPmem x.1).mp x.2), map_one]
     have hF3_eq_cube : cubeHom.ker.map P.subtype = F₃ := by

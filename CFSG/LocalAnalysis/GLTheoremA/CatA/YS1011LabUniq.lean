@@ -165,7 +165,7 @@ theorem ne_E6_twF4 {f f' : ℕ} (hf : excOK .E6 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact (ordTwistedF4_ne_ordE6 h2 h1).symm
 
-theorem ne_E6_Tits {f f' : ℕ} (hf : excOK .E6 f) (hf' : excOK .twF4der f') :
+theorem ne_E6_Tits {f f' : ℕ} (hf : excOK .E6 f) (_hf' : excOK .twF4der f') :
     excOrd .E6 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordE6 h1).symm
@@ -212,7 +212,7 @@ theorem ne_E7_twF4 {f f' : ℕ} (hf : excOK .E7 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact (ordTwistedF4_ne_ordE7 h2 h1).symm
 
-theorem ne_E7_Tits {f f' : ℕ} (hf : excOK .E7 f) (hf' : excOK .twF4der f') :
+theorem ne_E7_Tits {f f' : ℕ} (hf : excOK .E7 f) (_hf' : excOK .twF4der f') :
     excOrd .E7 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordE7 h1).symm
@@ -247,7 +247,7 @@ theorem ne_E8_twF4 {f f' : ℕ} (hf : excOK .E8 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact (ordTwistedF4_ne_ordE8 h2 h1).symm
 
-theorem ne_E8_Tits {f f' : ℕ} (hf : excOK .E8 f) (hf' : excOK .twF4der f') :
+theorem ne_E8_Tits {f f' : ℕ} (hf : excOK .E8 f) (_hf' : excOK .twF4der f') :
     excOrd .E8 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordE8 h1).symm
@@ -288,7 +288,7 @@ theorem ne_F4_twF4 {f f' : ℕ} (hf : excOK .F4 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact (ordTwistedF4_ne_ordF4 h2 h1).symm
 
-theorem ne_F4_Tits {f f' : ℕ} (hf : excOK .F4 f) (hf' : excOK .twF4der f') :
+theorem ne_F4_Tits {f f' : ℕ} (hf : excOK .F4 f) (_hf' : excOK .twF4der f') :
     excOrd .F4 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordF4 h1).symm
@@ -317,7 +317,7 @@ theorem ne_twE6_twF4 {f f' : ℕ} (hf : excOK .twE6 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact (ordTwistedF4_ne_ordTwistedE6 h2 h1).symm
 
-theorem ne_twE6_Tits {f f' : ℕ} (hf : excOK .twE6 f) (hf' : excOK .twF4der f') :
+theorem ne_twE6_Tits {f f' : ℕ} (hf : excOK .twE6 f) (_hf' : excOK .twF4der f') :
     excOrd .twE6 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordTwistedE6 h1).symm
@@ -340,7 +340,7 @@ theorem ne_triD4_twF4 {f f' : ℕ} (hf : excOK .triD4 f) (hf' : excOK .twF4 f') 
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact ordTrialityD4_ne_ordTwistedF4 h1 h2
 
-theorem ne_triD4_Tits {f f' : ℕ} (hf : excOK .triD4 f) (hf' : excOK .twF4der f') :
+theorem ne_triD4_Tits {f f' : ℕ} (hf : excOK .triD4 f) (_hf' : excOK .twF4der f') :
     excOrd .triD4 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordTrialityD4 h1).symm
@@ -358,7 +358,7 @@ theorem ne_G2_twF4 {f f' : ℕ} (hf : excOK .G2 f) (hf' : excOK .twF4 f') :
   have h3 : f' ≠ 2 := by simp only [excOK] at hf'; omega
   exact ordG2_ne_ordTwistedF4 h1 h2 h3
 
-theorem ne_G2_Tits {f f' : ℕ} (hf : excOK .G2 f) (hf' : excOK .twF4der f') :
+theorem ne_G2_Tits {f f' : ℕ} (hf : excOK .G2 f) (_hf' : excOK .twF4der f') :
     excOrd .G2 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact ordG2_ne_ordTits h1
@@ -369,12 +369,12 @@ theorem ne_twB2_twF4 {f f' : ℕ} (hf : excOK .twB2 f) (hf' : excOK .twF4 f') :
   have h2 : 1 ≤ f' := by simp only [excOK] at hf'; omega
   exact ordSuzuki_ne_ordTwistedF4 h1 h2
 
-theorem ne_twB2_Tits {f f' : ℕ} (hf : excOK .twB2 f) (hf' : excOK .twF4der f') :
+theorem ne_twB2_Tits {f f' : ℕ} (hf : excOK .twB2 f) (_hf' : excOK .twF4der f') :
     excOrd .twB2 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact ordSuzuki_ne_ordTits h1
 
-theorem ne_twF4_Tits {f f' : ℕ} (hf : excOK .twF4 f) (hf' : excOK .twF4der f') :
+theorem ne_twF4_Tits {f f' : ℕ} (hf : excOK .twF4 f) (_hf' : excOK .twF4der f') :
     excOrd .twF4 f ≠ excOrd .twF4der f' := by
   have h1 : 1 ≤ f := by simp only [excOK] at hf; omega
   exact (ordTits_ne_ordTwistedF4 h1).symm
@@ -520,7 +520,7 @@ theorem cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenInLam
   rcases hc with rfl | rfl | rfl | rfl | rfl | rfl
   ·
     rcases (show r = 1 ∨ 2 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 2 2 nn := hM
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.RankOne.sl2EvenTypeDet X nn t n f' hM' h.admissible h
       exact ⟨h1, h2, h3⟩
@@ -529,7 +529,7 @@ theorem cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenInLam
       exact ⟨h1, h2, h3⟩
   ·
     rcases (show r = 2 ∨ 3 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSU 3 2 nn := hM
       obtain ⟨h1, h2, h3⟩ :=
         CFSG.LocalAnalysis.EvenBN.GMSK.su3EvenTypeDet X nn t n f' hM' h.admissible h
@@ -550,7 +550,7 @@ theorem cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenInLam
     exact ⟨h1, h2, h3⟩
   ·
     rcases (show r = 3 ∨ 4 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 4 2 nn := hM
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.LinearPilot.lieModel_PSL_two_unique (by norm_num) hM' h
       exact ⟨h1, h2, h3⟩
@@ -558,16 +558,16 @@ theorem cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenInLam
       have hM' : CFSG.Blueprint.LieModel X .POmegaPlus r 2 nn := by
         have h' := hM
         simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-          CFSG.StandardType.markDeg, if_neg hr3] at h'
+          CFSG.StandardType.markDeg, ite_eq_right hr3] at h'
         exact h'
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.OmegaPilot.omegaEvenTypeDetAt r X .POmegaPlus nn t n f'
         (Or.inl rfl) hM' h.admissible h
       simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-        CFSG.StandardType.markDeg, if_neg hr3]
+        CFSG.StandardType.markDeg, ite_eq_right hr3]
       exact ⟨h1, h2, h3⟩
   ·
     rcases (show r = 2 ∨ r = 3 ∨ 4 ≤ r by
-      have := hl.2; simp only [LargeEvenInLambda2] at this; omega) with rfl | rfl | hr
+      have := hl.2; simp only at this; omega) with rfl | rfl | hr
     · have hM' : CFSG.Blueprint.LieModel X .PSL 2 2 (2 * nn) := hM
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.RankOne.sl2EvenTypeDet X (2 * nn) t n f' hM' h.admissible h
       exact ⟨h1, h2, h3⟩
@@ -580,12 +580,12 @@ theorem cls_det {X : Type} [Group X] {lab : LargeEvenLabel} (hl : LargeEvenInLam
       have hM' : CFSG.Blueprint.LieModel X .POmegaMinus r 2 nn := by
         have h' := hM
         simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-          CFSG.StandardType.markDeg, if_neg hr2, if_neg hr3] at h'
+          CFSG.StandardType.markDeg, ite_eq_right hr2, ite_eq_right hr3] at h'
         exact h'
       obtain ⟨h1, h2, h3⟩ := CFSG.SeitzReduction.OmegaPilot.omegaEvenTypeDetAt r X .POmegaMinus nn t n f'
         (Or.inr rfl) hM' h.admissible h
       simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-        CFSG.StandardType.markDeg, if_neg hr2, if_neg hr3]
+        CFSG.StandardType.markDeg, ite_eq_right hr2, ite_eq_right hr3]
       exact ⟨h1, h2, h3⟩
 
 
@@ -608,7 +608,7 @@ theorem cls_pair (lab₁ lab₂ : LargeEvenLabel) (hl₁ : LargeEvenInLambda2 la
     rcases h₂ with rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markDeg,
       LargeEvenInLambda2] at hs hr hd hl₁ hl₂ ⊢ <;>
-    (try split_ifs at hs hr hd ⊢) <;> simp_all <;> omega
+    (try split_ifs at hs hr hd ⊢) <;> simp_all
 
 def IsExcLab (lab : LargeEvenLabel) : Prop :=
   lab.tag = .E6 ∨ lab.tag = .E7 ∨ lab.tag = .E8 ∨ lab.tag = .F4 ∨ lab.tag = .twE6 ∨
@@ -843,7 +843,7 @@ theorem cls_exc_contra {Q : Type} [Group Q] [Finite Q] {lab₁ lab₂ : LargeEve
     (first
       | (simp [CFSG.StandardType.markTag] at hs; done)
       | (by_cases h2 : r₁ = 2 <;> by_cases h3 : r₁ = 3 <;>
-          simp [CFSG.StandardType.markTag, h2, h3] at hs <;> done))
+          simp [CFSG.StandardType.markTag, h2, h3] at hs))
 
 end Cert
 

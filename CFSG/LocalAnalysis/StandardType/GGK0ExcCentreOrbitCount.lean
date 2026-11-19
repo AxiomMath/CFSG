@@ -40,7 +40,7 @@ private lemma lk0xpa4_orbit_eq_sameCycle {n : ℕ} (σ : Equiv.Perm (Fin n)) (i 
       exact (lk0xpa4_orbit_mem σ i x).mpr (heq.trans h ((lk0xpa4_orbit_mem σ j x).mp hx))
 
 private lemma lk0xpa4_go_eq {n : ℕ} {σ : Equiv.Perm (Fin n)} {rho : List ℕ}
-    (hlen : rho.length = n) (happly : ∀ i : Fin n, rho.getD i.val 0 = (σ i).val)
+    (_hlen : rho.length = n) (happly : ∀ i : Fin n, rho.getD i.val 0 = (σ i).val)
     (i : Fin n) :
     ∀ (m t fuel : ℕ), t + m = Function.minimalPeriod σ i → 1 ≤ t → m + 1 ≤ fuel →
       k0NodeOrbit.go rho i.val fuel ((fun s => ((σ ^ s) i).val) t)
@@ -53,10 +53,10 @@ private lemma lk0xpa4_go_eq {n : ℕ} {σ : Equiv.Perm (Fin n)} {rho : List ℕ}
       have htk : t = Function.minimalPeriod σ i := by omega
       have hfix : (fun s => ((σ ^ s) i).val) (Function.minimalPeriod σ i) = i.val := by
         have h := Function.iterate_minimalPeriod (f := σ) (x := i)
-        simpa [Equiv.Perm.coe_pow] using congrArg Fin.val h
+        simp [Equiv.Perm.coe_pow]
       rw [htk]
       obtain ⟨f, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : fuel ≠ 0)
-      rw [k0NodeOrbit.go.eq_2, if_pos hfix]
+      rw [k0NodeOrbit.go.eq_2, ite_eq_left hfix]
   | succ m ih =>
       intro t fuel ht ht1 hfuel
       have hlt : t < Function.minimalPeriod σ i := by omega
@@ -68,7 +68,7 @@ private lemma lk0xpa4_go_eq {n : ℕ} {σ : Equiv.Perm (Fin n)} {rho : List ℕ}
           simpa [Equiv.Perm.coe_pow] using hpow
         exact (Function.not_isPeriodicPt_of_pos_of_lt_minimalPeriod (by omega : t ≠ 0) hlt) hper
       obtain ⟨f, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : fuel ≠ 0)
-      rw [k0NodeOrbit.go.eq_2, if_neg hne]
+      rw [k0NodeOrbit.go.eq_2, ite_eq_right hne]
       have hstep : (fun s => ((σ ^ s) i).val) (t + 1)
           = rho.getD ((fun s => ((σ ^ s) i).val) t) 0 := by
         change ((σ ^ (t + 1)) i).val = rho.getD ((σ ^ t) i).val 0
@@ -118,8 +118,7 @@ private lemma lk0xpa4_zpow_eq_pow_mod {n : ℕ} (σ : Equiv.Perm (Fin n)) (i : F
       (Function.Injective.mem_periodicPts σ.injective i)
   refine ⟨r.toNat % Function.minimalPeriod σ i, Nat.mod_lt _ hkpos, ?_⟩
   have hiter : (σ ^ (r.toNat % Function.minimalPeriod σ i)) i = (σ ^ r.toNat) i := by
-    simpa [Equiv.Perm.coe_pow] using
-      (Function.iterate_mod_minimalPeriod_eq (f := σ) (x := i) (n := r.toNat))
+    simp [Equiv.Perm.coe_pow]
   have hcast : (σ ^ r.toNat) i = (σ ^ r) i := by
     conv_rhs => rw [← Int.toNat_of_nonneg hr_nonneg]
     rfl
@@ -209,7 +208,7 @@ private lemma lk0xpa4_go_count {n : ℕ} (σ : Equiv.Perm (Fin n)) (rho : List �
       have hrest : ∀ j ∈ rest, j < n := fun j hj => hnodes j (by simp [hj])
       rw [k0NumRhoOrbits.go.eq_2]
       by_cases hmem : i ∈ seen
-      · rw [if_pos hmem]
+      · rw [ite_eq_left hmem]
         have hwit : ∃ p ∈ P, σ.SameCycle p ⟨i, hi⟩ := (hseen ⟨i, hi⟩).mp hmem
         have hseen' : ∀ j : Fin n, j.val ∈ seen ↔
             ∃ p ∈ insert ⟨i, hi⟩ P, σ.SameCycle p j := by
@@ -229,7 +228,7 @@ private lemma lk0xpa4_go_count {n : ℕ} (σ : Equiv.Perm (Fin n)) (rho : List �
         congr 1
         rw [lk0xpa4_nf_cons hi]
         ext j; simp only [Finset.mem_union, Finset.mem_insert]; tauto
-      · rw [if_neg hmem]
+      · rw [ite_eq_right hmem]
         have hnot : ∀ p ∈ P, ¬ σ.SameCycle p ⟨i, hi⟩ := by
           intro p hp hsp
           exact hmem ((hseen ⟨i, hi⟩).mpr ⟨p, hp, hsp⟩)

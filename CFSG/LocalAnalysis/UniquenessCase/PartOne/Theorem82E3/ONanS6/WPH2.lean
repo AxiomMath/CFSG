@@ -29,7 +29,7 @@ theorem isSylowOf_top_of_normalizer_le {P M : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P M)
     (hN : Subgroup.normalizer (P : Set G) ≤ M) :
     CFSG.ABGLocalTools.IsSylowOf 3 P ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   simpa using CFSG.ABGLocalTools.isSylowOf_of_normalizer_inf_le
     (H := M) (M := ⊤) (T := P) (by simpa using hP) (by simpa using hN)
 
@@ -43,8 +43,8 @@ theorem exists_sylowOf_normalized_of_isPGroup_of_not_dvd_index {p q : ℕ}
   classical
   let f : Q →* MulAut ↥K :=
     (Subgroup.normalizerMonoidHom K).comp (Subgroup.inclusion hQK)
-  letI : MulAction Q (Sylow q K) := MulAction.compHom (Sylow q K) f
-  haveI : Finite (Sylow q K) :=
+  let : MulAction Q (Sylow q K) := MulAction.compHom (Sylow q K) f
+  have : Finite (Sylow q K) :=
     Sylow.finite_of_finiteIndex (Classical.choice (Sylow.nonempty (p := q) (G := K)))
   have hnotcard : ¬ p ∣ Nat.card (Sylow q K) := by
     obtain ⟨S₀, hS₀⟩ := hS.exists_sylow_eq_subgroupOf
@@ -143,7 +143,7 @@ theorem map_zSub_le_center_of_onan (c : Ctx82E3 D)
     ((zSub P c.L).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) ≤ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -180,8 +180,8 @@ theorem exists_seven_mem_centralizer_inf_L_of_onan (c : Ctx82E3 D)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ∃ y : G, y ∈ D.M ∧ orderOf y = 7 ∧ ∀ q ∈ P ⊓ c.L, y * q = q * y := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let Z : Subgroup G := zSub P c.L
   let H : Subgroup G := Subgroup.normalizer (Z : Set G) ⊓ D.M
   have hHrank : 3 ≤ CFSG.Open.pRank 7 H := by
@@ -192,12 +192,12 @@ theorem exists_seven_mem_centralizer_inf_L_of_onan (c : Ctx82E3 D)
   have hrank := CFSG.GroupTheory.pRank_le_pRank_map_ker_add_pRank_range
     (p := 2) (q := 7) (by norm_num) c.L H hHL
   have hrange : CFSG.Open.pRank 7 ψ.range ≤ 2 := by
-    haveI : Finite c.Lbar := by
+    have : Finite c.Lbar := by
       change Finite (↥c.L ⧸ CFSG.pCore 2 ↥c.L)
       infer_instance
-    haveI : Fintype c.Lbar := Fintype.ofFinite c.Lbar
-    haveI : Fintype (c.Lbar → c.Lbar) := inferInstance
-    haveI : Finite (MulAut c.Lbar) :=
+    have : Fintype c.Lbar := Fintype.ofFinite c.Lbar
+    have : Fintype (c.Lbar → c.Lbar) := inferInstance
+    have : Finite (MulAut c.Lbar) :=
       Finite.of_injective (fun f : MulAut c.Lbar => (f : c.Lbar → c.Lbar))
         (fun f g h => MulEquiv.ext (fun x => congrFun h x))
     have h1 : CFSG.Open.pRank 7 ψ.range ≤
@@ -407,7 +407,7 @@ theorem zSub_conj_le_centerPreimage_of_onan (c : Ctx82E3 D)
   exact Subgroup.mem_map_of_mem (πM ⟨g, hg⟩).toMonoidHom hzcenter
 
 theorem inf_centerPreimage_sylow_le_zSub_of_onan (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     centerPreimage_of_onan c ⊓ P ≤ zSub P c.L := by
   classical
@@ -692,7 +692,7 @@ theorem exists_sylow_centralizer_of_gamma' (hK6 : K6ONanClasses) (c : Ctx82E3 D)
     exact hTg_syl
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let πL : ↥c.L →* c.Lbar := QuotientGroup.mk' N
-  haveI : Finite c.Lbar := by
+  have : Finite c.Lbar := by
     change Finite (↥c.L ⧸ CFSG.pCore 2 ↥c.L)
     infer_instance
   let xL : ↥c.L := ⟨x, hxL⟩

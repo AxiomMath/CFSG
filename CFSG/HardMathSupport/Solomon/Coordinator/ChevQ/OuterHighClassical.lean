@@ -157,8 +157,8 @@ theorem not_exists_cube_A_one {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeInd
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ≠ q.p) :
     ¬ ∃ F : Subgroup (Cat ⟨.A 1 q, hv⟩), IsElemAbelian p F ∧ Nat.card F = p ^ 3 := by
   rintro ⟨F, hFa, hFc⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e : Cat ⟨.A 1 q, hv⟩ ≃* CFSG.GorensteinWalter.PSL2 (GaloisField q.p q.exponent) :=
     CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv
   have hKq : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
@@ -166,7 +166,7 @@ theorem not_exists_cube_A_one {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeInd
   have h7 : 7 ≤ Nat.card (GaloisField q.p q.exponent) := by
     rw [hKq, ← TauCeti.PrimePower.card_def]
     exact seven_le_card_of_valid_A_one hv
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFc]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFc]; exact pow_ne_zero _ hp.ne_zero)
   obtain ⟨F₀, hF₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := F) p
     (show p ^ 2 ∣ Nat.card F from hFc ▸ pow_dvd_pow p (by norm_num))
   have hF₁F : F₀.map F.subtype ≤ F := Subgroup.map_subtype_le F₀
@@ -244,7 +244,7 @@ theorem fixPlaneGen_projectiveSp_three {r : ℕ} (hr : 2 ≤ r) {K : Type} [Fiel
     norm_num
   have hcomm₁ : ∀ x ∈ E₁, ∀ y ∈ E₁, x * y = y * x := by
     intro x hx y hy
-    haveI := hE₁.1
+    have := hE₁.1
     exact congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : E₁) ⟨y, hy⟩)
   refine CFSG.RankThree.PartOne.CTP.closure_centralizers_of_lift
     (proj r (CFSG.ComponentClassification.UnbalancedCatalog.descentField σ))

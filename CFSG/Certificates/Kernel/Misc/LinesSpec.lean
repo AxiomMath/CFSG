@@ -233,9 +233,9 @@ theorem interB_testBit (PB : Nat → Nat) (Py : Nat) (l : List Nat) (z : Nat) :
   | cons w t ih =>
     rw [interB_cons, List.all_cons]
     by_cases hb : bitK Py w = true
-    · rw [if_pos hb, Nat.testBit_and, ih, hb]
+    · rw [ite_eq_left hb, Nat.testBit_and, ih, hb]
       cases (PB w).testBit z <;> simp [Bool.and_comm]
-    · rw [if_neg hb, ih]
+    · rw [ite_eq_right hb, ih]
       have hb' : bitK Py w = false := by simpa using hb
       rw [hb']
       simp
@@ -582,8 +582,8 @@ theorem popK_rec_eq (S n : Nat) :
         (Nat.land (Nat.shiftRight S n) 1) = _
     rw [ih, Finset.range_add_one, Finset.filter_insert, land_shiftRight_one']
     by_cases h : S.testBit n = true
-    · rw [if_pos h, if_pos h, Finset.card_insert_of_notMem (by simp)]
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_left h, ite_eq_left h, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right h, ite_eq_right h]
       rfl
 
 theorem popK_eq (S : Nat) :

@@ -13,7 +13,7 @@ variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [G
 attribute [local instance] auxAction
 
 theorem exists_auxI_adj_of_ne [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
-    (hQ : W.QuarterHyp) {x y : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))} (hxy : x ≠ y) :
+    (_hQ : W.QuarterHyp) {x y : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))} (hxy : x ≠ y) :
     ∃ z, W.auxI.Adj x z := by
   have hreach : (auxGraph Γ (W.kernelAt 0)).Reachable (x : V) (y : V) :=
     SimpleGraph.ConnectedComponent.reachable_of_mem_supp
@@ -179,16 +179,14 @@ theorem auxI_twinFree [Finite V] [Finite H] {W : ClosedGoodPath H Γ} (hQ : W.Qu
         (SimpleGraph.Walk.cons hb1z1.symm (SimpleGraph.Walk.cons hb1y
           SimpleGraph.Walk.nil)))).IsPath := by
       rw [SimpleGraph.Walk.isPath_def]
-      simp [hxa1.ne, hxa1.ne.symm, hneV hz1, (hneV hz1).symm, hb1x, hb1x.symm, hnexy,
-        hnexy.symm, ha1z1.ne, ha1z1.ne.symm, hmid1, hmid1.symm, ha1y, ha1y.symm, hb1z1.ne,
-        hb1z1.ne.symm, hneV hy1, (hneV hy1).symm, hb1y.ne, hb1y.ne.symm]
+      simp [hxa1.ne, hneV hz1, hb1x.symm, hnexy,
+        ha1z1.ne, hmid1, ha1y, hb1z1.ne.symm, (hneV hy1).symm, hb1y.ne]
     have hW2 : (SimpleGraph.Walk.cons hxa2 (SimpleGraph.Walk.cons ha2z2
         (SimpleGraph.Walk.cons hb2z2.symm (SimpleGraph.Walk.cons hb2y
           SimpleGraph.Walk.nil)))).IsPath := by
       rw [SimpleGraph.Walk.isPath_def]
-      simp [hxa2.ne, hxa2.ne.symm, hneV hz2, (hneV hz2).symm, hb2x, hb2x.symm, hnexy,
-        hnexy.symm, ha2z2.ne, ha2z2.ne.symm, hmid2, hmid2.symm, ha2y, ha2y.symm, hb2z2.ne,
-        hb2z2.ne.symm, hneV hy2, (hneV hy2).symm, hb2y.ne, hb2y.ne.symm]
+      simp [hxa2.ne, hneV hz2, hb2x.symm, hnexy,
+        ha2z2.ne, hmid2, ha2y, hb2z2.ne.symm, (hneV hy2).symm, hb2y.ne]
     have hW12 : (SimpleGraph.Walk.cons hxa1 (SimpleGraph.Walk.cons ha1z1
         (SimpleGraph.Walk.cons hb1z1.symm (SimpleGraph.Walk.cons hb1y
           SimpleGraph.Walk.nil)))) ≠
@@ -208,7 +206,7 @@ theorem auxI_twinFree [Finite V] [Finite H] {W : ClosedGoodPath H Γ} (hQ : W.Qu
           (SimpleGraph.Walk.cons hb2z2.symm (SimpleGraph.Walk.cons hb2y
             SimpleGraph.Walk.nil)))).length = 8 := by simp
     rw [hlen] at hclen
-    have h1 : Γ.egirth ≤ ((c.length : ℕ) : ℕ∞) := SimpleGraph.egirth_le_length hc
+    have h1 : Γ.egirth ≤ ((c.length : ℕ) : ℕ∞) := SimpleGraph.Walk.IsCycle.egirth_le_length hc
     have h2 : ((c.length : ℕ) : ℕ∞) ≤ (8 : ℕ∞) := by exact_mod_cast hclen
     have h3 : ((2 * 8 + 2 : ℕ) : ℕ∞) ≤ (8 : ℕ∞) := le_trans hQ.egirth.le (le_trans h1 h2)
     norm_num at h3
@@ -299,7 +297,7 @@ theorem mem_fixingSubgroup_of_fixes_auxI [Finite V] [Finite H] {W : ClosedGoodPa
 theorem ClosedGoodPath.QuarterHyp.weissFree_aux [Finite V] [Finite H]
     {W : ClosedGoodPath H Γ} (hQ : W.QuarterHyp) : WeissFree ↥W.auxS W.auxI 4 := by
   classical
-  letI := auxAction Γ (W.kernelAt 0) (W.x 0)
+  let := auxAction Γ (W.kernelAt 0) (W.x 0)
   intro p hp h hfix h0 h1
   obtain ⟨P, hPnb, hP2, hPodd, hPfix⟩ := exists_lift hQ p hp
   have h34 : W.auxI.Adj (p 3) (p 4) := p.adj 3 (by omega)

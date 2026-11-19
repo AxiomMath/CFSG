@@ -75,7 +75,7 @@ theorem card_ker_range_of_nilpotent (hS : Nat.card H = 27) (h3 : δ.comp (δ.com
     Nat.card δ.range = 9 ∧ Nat.card (δ.comp δ).range = 3 ∧ Nat.card δ.ker = 3 ∧
       Nat.card (δ.comp δ).ker = 9 ∧ δ.range = (δ.comp δ).ker ∧ (δ.comp δ).range = δ.ker := by
   classical
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite H := Nat.finite_of_card_ne_zero (by omega)
   have hK1 := one_lt_card_ker δ hS h3
   have hlt12 : Nat.card δ.ker < Nat.card (δ.comp δ).ker :=
     Subgroup.card_lt_of_lt (lt_of_le_of_ne (ker_le_ker_comp δ) (ker_ne_ker_comp δ h3 h2))
@@ -114,6 +114,7 @@ variable (S : Subgroup G) [IsMulCommutative S] (y : G)
   map_one' := by ext; simp
   map_mul' a b := by ext; simp [mul_assoc]
 
+omit [IsMulCommutative ↥S] in
 @[simp] theorem coe_conjEnd (hy : ∀ s ∈ S, y * s * y⁻¹ ∈ S) (s : S) :
     ((conjEnd S y hy s : S) : G) = y * s * y⁻¹ := rfl
 
@@ -290,14 +291,14 @@ theorem card_quotient : Nat.card (R ⧸ S.subgroupOf R) = 3 := by
   rw [← this]; rfl
 
 theorem cube_mem {y : G} (hy : y ∈ R) : y ^ 3 ∈ S := by
-  haveI := h.normal_subgroupOf
+  have := h.normal_subgroupOf
   have := Subgroup.pow_index_mem (S.subgroupOf R) (⟨y, hy⟩ : R)
   rw [show (S.subgroupOf R).index = 3 from h.card_quotient, Subgroup.mem_subgroupOf] at this
   simpa using this
 
 theorem exists_pow_mul {y : G} (hy : y ∈ R) (hyS : y ∉ S) {r : G} (hr : r ∈ R) :
     ∃ i : ℕ, i < 3 ∧ ∃ s ∈ S, r = y ^ i * s := by
-  haveI := h.normal_subgroupOf
+  have := h.normal_subgroupOf
   have hQ := h.card_quotient
   set g : R ⧸ S.subgroupOf R := QuotientGroup.mk ⟨y, hy⟩ with hg
   have hg1 : g ≠ 1 := by
@@ -307,7 +308,7 @@ theorem exists_pow_mul {y : G} (hy : y ∈ R) (hyS : y ∉ S) {r : G} (hr : r �
   have hg3 : g ^ 3 = 1 := by
     rw [hg, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     simpa using h.cube_mem hy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : Subgroup.zpowers g = ⊤ := zpowers_eq_top_of_prime_card hQ hg1
   have hmem : (QuotientGroup.mk ⟨r, hr⟩ : R ⧸ S.subgroupOf R) ∈ Subgroup.zpowers g := by
     rw [htop]; trivial
@@ -327,7 +328,7 @@ theorem exists_pow_mul {y : G} (hy : y ∈ R) (hyS : y ∉ S) {r : G} (hr : r �
 
 theorem cube_mul {y s : G} (hy : y ∈ R) (hs : s ∈ S) :
     (y * s) ^ 3 = ⁅y, ⁅y, s⁆⁆ * y ^ 3 := by
-  haveI := h.elemAbelian.1
+  have := h.elemAbelian.1
   exact mul_pow_three S y (h.normal_in y hy) h.elemAbelian.2 (h.cube_mem hy) ⟨s, hs⟩
 
 theorem cube_eq_iff {y s : G} (hy : y ∈ R) (hs : s ∈ S) :
@@ -371,7 +372,7 @@ theorem chain {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
     Nat.card {t : S // ⁅y, ⁅y, (t : G)⁆⁆ = 1} = 9 ∧
     (∀ t ∈ S, ⁅y, ⁅y, t⁆⁆ = 1 → ∃ u ∈ S, ⁅y, u⁆ = t) ∧
     (∀ t ∈ S, ⁅y, t⁆ = 1 → ∃ u ∈ S, ⁅y, ⁅y, u⁆⁆ = t) := by
-  haveI := h.elemAbelian.1
+  have := h.elemAbelian.1
   exact commEnd_chain S y (h.normal_in y hy) h.card_S h.elemAbelian.2 (h.cube_mem hy)
     (h.jordan_all hy hyS)
 
@@ -380,7 +381,7 @@ theorem card_inf_centralizer {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
 
 theorem center_eq {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
     R ⊓ centralizer (R : Set G) = S ⊓ centralizer {y} := by
-  haveI := h.elemAbelian.1
+  have := h.elemAbelian.1
   ext z
   simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, SetLike.mem_coe,
     Set.mem_singleton_iff, forall_eq]
@@ -408,9 +409,9 @@ theorem center_eq {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
 
 theorem card_centralizer {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
     Nat.card ↥(R ⊓ centralizer {y}) = 9 := by
-  haveI := h.normal_subgroupOf
+  have := h.normal_subgroupOf
   have hQ := h.card_quotient
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set g : R ⧸ S.subgroupOf R := QuotientGroup.mk ⟨y, hy⟩ with hg
   have hg1 : g ≠ 1 := by
     intro h1
@@ -447,27 +448,27 @@ theorem card_centralizer {y : G} (hy : y ∈ R) (hyS : y ∉ S) :
 
 theorem eq_of_isElemAbelian {E : Subgroup G} (hE : E ≤ R) (hEa : IsElemAbelian 3 E)
     (hE27 : Nat.card E = 27) : E = S := by
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [h.card_S]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [h.card_S]; norm_num)
   by_contra hne
   have hnot : ¬ E ≤ S := fun hle =>
     hne (Subgroup.eq_of_le_of_card_ge hle (by rw [hE27, h.card_S]))
-  obtain ⟨e, heE, heS⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨e, heE, heS⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have heR : e ∈ R := hE heE
   have hle : E ≤ R ⊓ centralizer {e} := by
     intro x hx
     refine Subgroup.mem_inf.2 ⟨hE hx, ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
-    haveI := hEa.1
+    have := hEa.1
     have := mul_comm' (⟨x, hx⟩ : E) ⟨e, heE⟩
     exact congrArg Subtype.val this
   have h9 := h.card_centralizer heR heS
-  haveI : Finite ↥(R ⊓ centralizer {e}) := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
+  have : Finite ↥(R ⊓ centralizer {e}) := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
   have := Subgroup.card_le_of_le hle
   omega
 
 theorem exists_orderOf_three : ∃ y ∈ R, y ∉ S ∧ orderOf y = 3 := by
-  haveI := h.elemAbelian.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.elemAbelian.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y₀, hy₀, hy₀S, -⟩ := h.jordan
   have hy₃ : y₀ ^ 3 ∈ S := h.cube_mem hy₀
   obtain ⟨-, -, -, hr⟩ := h.chain hy₀ hy₀S
@@ -484,7 +485,7 @@ theorem exists_orderOf_three : ∃ y ∈ R, y ∉ S ∧ orderOf y = 3 := by
 
 theorem exists_conj {y : G} (hy : y ∈ R) (hyS : y ∉ S) (hy3 : orderOf y = 3) {x : G}
     (hx : y⁻¹ * x ∈ S) (hx3 : orderOf x = 3) : ∃ s ∈ S, x = s * y * s⁻¹ := by
-  haveI := h.elemAbelian.1
+  have := h.elemAbelian.1
   have hy3' : y ^ 3 = 1 := by rw [← hy3]; exact pow_orderOf_eq_one y
   have hx3' : x ^ 3 = 1 := by rw [← hx3]; exact pow_orderOf_eq_one x
   have hxe : x = y * (y⁻¹ * x) := by group
@@ -507,8 +508,8 @@ theorem exists_conj {y : G} (hy : y ∈ R) (hyS : y ∉ S) (hy3 : orderOf y = 3)
 
 theorem card_orderThree_coset {y : G} (hy : y ∈ R) (hyS : y ∉ S) (hy3 : orderOf y = 3) :
     Nat.card {x : G // y⁻¹ * x ∈ S ∧ orderOf x = 3} = 9 := by
-  haveI := h.elemAbelian.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.elemAbelian.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3' : y ^ 3 = 1 := by rw [← hy3]; exact pow_orderOf_eq_one y
   have key : ∀ t : G, t ∈ S → (orderOf (y * t) = 3 ↔ ⁅y, ⁅y, t⁆⁆ = 1) := by
     intro t ht
@@ -548,7 +549,7 @@ end Wreath81
 
 theorem isElemAbelian_map {H : Type*} [Group H] {S : Subgroup G} (hS : IsElemAbelian 3 S)
     (φ : G →* H) : IsElemAbelian 3 (S.map φ) := by
-  haveI := hS.1
+  have := hS.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
   · obtain ⟨a, ha⟩ := a
     obtain ⟨b, hb⟩ := b

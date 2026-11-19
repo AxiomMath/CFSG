@@ -11,21 +11,25 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem mem_ElPts_iff {H : Subgroup (V ≃ₗ[K] V)} (e : V) :
     e ∈ ElPts F H ↔ e ≠ 0 ∧ ElationFull F ((H : Set _) ∩ pointRad F e) e :=
   Iff.rfl
 
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem pointRad_set_smul {e : V} {c : K} (hc : c ≠ 0) :
     pointRad F (c • e) = pointRad F e := by
   unfold pointRad
   rw [pointRad_smul hc]
 
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem ElPts_invariant {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ sympSubgroup F) {g : V ≃ₗ[K] V}
     (hg : g ∈ H) {y : V} (hy : y ∈ ElPts F H) : g y ∈ ElPts F H := by
   obtain ⟨hy0, hyf⟩ := (mem_ElPts_iff y).mp hy
   refine (mem_ElPts_iff (g y)).mpr ⟨fun h => hy0 (g.injective (by rw [h, map_zero])), ?_⟩
   exact elationFull_conj hH hyf hg
 
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem ElPts_smul {H : Subgroup (V ≃ₗ[K] V)} {c : K} (hc : c ≠ 0) {e : V}
     (he : e ∈ ElPts F H) : c • e ∈ ElPts F H := by
   obtain ⟨he0, hef⟩ := (mem_ElPts_iff e).mp he
@@ -33,13 +37,16 @@ theorem ElPts_smul {H : Subgroup (V ≃ₗ[K] V)} {c : K} (hc : c ≠ 0) {e : V}
   rw [pointRad_set_smul hc]
   exact (elationFull_smul hc).mpr hef
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem quadForm_smul_zero (Q : QuadraticForm K V) {c : K} {e : V} (he : Q e = 0) :
     Q (c • e) = 0 := by
   rw [QuadraticMap.map_smul, he, smul_zero]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem pairing_normalize {e r : V} (h : F e r ≠ 0) : F e ((F e r)⁻¹ • r) = 1 := by
   rw [map_smul, smul_eq_mul, inv_mul_cancel₀ h]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem exists_partner_ElPts {H : Subgroup (V ≃ₗ[K] V)} (hnd : F.Nondegenerate)
     (hspan : Submodule.span K (ElPts F H) = ⊤) {e₀ : V} (he₀ : e₀ ∈ ElPts F H) :
     ∃ r ∈ ElPts F H, F e₀ r ≠ 0 := by
@@ -47,6 +54,7 @@ theorem exists_partner_ElPts {H : Subgroup (V ≃ₗ[K] V)} (hnd : F.Nondegenera
   push Not at hcon
   exact ((mem_ElPts_iff e₀).mp he₀).1 (eq_zero_of_perp_span hnd hspan hcon)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_global_form (hnd : F.Nondegenerate) (halt : F.IsAlt)
     {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ sympSubgroup F) (hne : (ElPts F H).Nonempty)
     (hspan : Submodule.span K (ElPts F H) = ⊤)

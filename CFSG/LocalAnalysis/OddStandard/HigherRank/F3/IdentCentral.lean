@@ -48,7 +48,7 @@ theorem le_center_of_central_two_subgroup {G : Type} [Group G] [Finite G]
     (hO : pPrimeCore 2 G = ⊥) {K Z : Subgroup G} (hK : K.Normal) (hZK : Z ≤ K)
     (hZc : Z ≤ center G) (hZ2 : IsPGroup 2 Z) {m : ℕ} (hm : Odd m)
     (hcard : Nat.card K = Nat.card Z * m) : K ≤ center G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm0 : m ≠ 0 := hm.pos.ne'
   have hnotdvd : ¬ 2 ∣ m := by
     intro h
@@ -148,8 +148,8 @@ theorem exists_central_reduction {P R Q : Type} [Group P] [Finite P] [Group R] [
     ∃ (P₁ : Type) (_ : Group P₁) (_ : Finite P₁) (ρ₁ : P →* P₁) (f₁ : P₁ →* Q),
       Group.IsPerfect P₁ ∧ Function.Surjective ρ₁ ∧ Function.Surjective f₁ ∧
         ¬ 2 ∣ Nat.card ρ₁.ker ∧ f₁.ker ≤ center P₁ ∧ ∀ p : P, f₁ (ρ₁ p) = g (ρ p) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect P := hP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect P := hP
   have hfs : Function.Surjective (g.comp ρ) := hg.comp hρ
   have hNf : pPrimeCore 2 P ≤ (g.comp ρ).ker := by
     have h1 : (pPrimeCore 2 P).map (g.comp ρ) ≤ pPrimeCore 2 Q := map_pPrimeCore_le _ hfs

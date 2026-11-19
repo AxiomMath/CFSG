@@ -10,6 +10,7 @@ open CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_noTransvection_of_shear {Bs : Subgroup G}
     (hcomm : ∀ b ∈ Bs, ∀ c ∈ Bs, b * c = c * b) (hexp : ∀ b ∈ Bs, b ^ 3 = 1)
     {n a : G} (hn : n ∈ Subgroup.normalizer (Bs : Set G)) (ha : a ∈ Bs) (ha1 : a ≠ 1)
@@ -18,7 +19,7 @@ theorem not_noTransvection_of_shear {Bs : Subgroup G}
     (hmove : ∃ b ∈ Bs, n * b * n⁻¹ ≠ b) :
     ¬ GGNoTransvection 3 Bs := by
   have hc : ∀ x y : ↥Bs, x * y = y * x := fun x y => Subtype.ext (hcomm x x.2 y y.2)
-  letI : CommGroup ↥Bs := CommGroup.mk hc
+  let : CommGroup ↥Bs := CommGroup.mk hc
   let φ : MulAut ↥Bs := Bs.normalizerMonoidHom ⟨n, hn⟩
   have hφcoe : ∀ b : ↥Bs, ((φ b : ↥Bs) : G) = n * b * n⁻¹ :=
     fun b => Subgroup.normalizerMonoidHom_apply_apply_coe (H := Bs) ⟨n, hn⟩ b

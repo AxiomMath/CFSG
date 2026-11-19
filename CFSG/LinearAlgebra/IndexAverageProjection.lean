@@ -42,7 +42,7 @@ theorem exists_equivariant_projection_of_index (ρ : G →* Module.End K V) (H :
     ∃ p' : V →ₗ[K] V, (∀ v, p' v ∈ A) ∧ (∀ a ∈ A, p' a = a) ∧
       ∀ g v, p' (ρ g v) = ρ g (p' v) := by
   classical
-  haveI : Fintype (G ⧸ H) := Fintype.ofFinite _
+  have : Fintype (G ⧸ H) := Fintype.ofFinite _
   let F := cosetConj ρ H p
   refine ⟨(H.index : K)⁻¹ • ∑ c : G ⧸ H, F c, fun v => ?_, fun a ha => ?_, fun g v => ?_⟩
   · have hFv : ∀ c : G ⧸ H, F c v ∈ A := fun c => hA _ _ (hpA _)

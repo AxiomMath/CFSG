@@ -34,7 +34,7 @@ theorem local_facts {Z : G} (hZ : φ Z = pkMat (RB regZ)) :
         ∃ E : Subgroup G, E ≤ Subgroup.centralizer ({t} : Set G) ∧ CFSG.Open.IsElemAbelian 3 E ∧
           Nat.card E = 9 ∧ ∀ x ∈ E, x ≠ 1 → IsConj x Z ∨ IsConj x (Z ^ 2) := by
   have hk := CFSG.KD.ThS.k0
-  have hreg := regs_elem hφ ha hb
+  have hreg := regs_elem ha hb
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 ch17305L
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 hL
   obtain ⟨hpr, hL⟩ := Dce.andB_iff.1 hL
@@ -193,7 +193,7 @@ theorem local_facts {Z : G} (hZ : φ Z = pkMat (RB regZ)) :
       have e := congrArg pkMat (Nat.eq_of_beq_eq_true v3)
       rw [pkMat_mulB hk, pkMat_mulB hk, hu, ← hZ, ← map_mul, ← map_mul] at e
       exact e
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact ⟨u, orderOf_eq_prime hsq hne, hcomm⟩
   have hpwS := SylowPc.pw_spec φ hk g hg hpw
   obtain ⟨hI1, hI⟩ := Dce.andB_iff.1 ch17305I

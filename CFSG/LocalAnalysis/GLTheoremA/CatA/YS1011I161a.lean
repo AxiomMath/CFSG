@@ -276,7 +276,7 @@ theorem gen_E7_eq (n f : ℕ) : (genericOrders .E7 n 2 f).1 * (genericOrders .E7
 theorem exc_pos (t : StatedLieTag) (n f : ℕ) :
     0 < (exceptionalOrders t n 2 f).1 * (exceptionalOrders t n 2 f).2 := by
   unfold exceptionalOrders
-  split <;> first | omega | norm_num
+  split <;> first | omega
 
 theorem tabOrd_pos {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) : 0 < tabOrd lab := by
   obtain ⟨t, l, n⟩ := lab
@@ -295,7 +295,7 @@ theorem tabOrd_pos {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) : 0 < 
          | (rw [gen_POmegaMinus_eq]; exact Nat.gcd_pos_of_pos_left _ (by norm_num))
          | (rw [gen_POmegaPlus _ _ hn]; norm_num)
          | (rw [gen_default _ _ _ (by simp)]; norm_num)
-         | (simp [genericOrders]))
+)
     | (unfold tabOrd; simp only [markTag, markRank, markChar, markDeg]; decide)
 
 
@@ -354,25 +354,22 @@ theorem edge_pow_five_mem [Finite K] {q : ℕ} (hK : Nat.card K = q ^ 2) {σ : K
     funext i
     fin_cases i
     · apply Units.ext
-      simp [s, map_mul, map_pow, map_inv₀, hσc, hσα]
+      simp [s, map_mul, map_pow]
       field_simp
-      try ring
     · apply Units.ext
-      simp [s, hσα]
+      simp [s]
     · apply Units.ext
-      simp [s, map_mul, map_pow, map_inv₀, hσc, hσα]
+      simp [s, map_mul, map_pow]
     · apply Units.ext
-      simp [s, map_mul, map_pow, map_inv₀, hσc, hσα]
+      simp [s, map_mul, map_pow, hσc]
       field_simp
       linear_combination -hrel
     · apply Units.ext
-      simp [s, map_mul, map_pow, map_inv₀, hσc, hσα]
+      simp [s, map_mul, map_pow, hσc, hσα]
       field_simp
-      try ring
     · apply Units.ext
-      simp [s, map_mul, map_pow, map_inv₀, hσc, hσα]
+      simp [s, map_mul, map_pow, hσc, hσα]
       field_simp
-      try ring
   have hmem : cartanHom s ∈ torus₀ σ := Subgroup.mem_map.2 ⟨s, hs, rfl⟩
   rw [hcart, hx] at hmem
   exact hmem
@@ -496,10 +493,10 @@ theorem labelAll_of_iff {lab lab' : LargeEvenLabel} {P : LargeEvenRawCont}
 
 theorem outGuard_of_subset_inn {p : ℕ} {lab : LargeEvenLabel}
     (h : CFSG.StandardType.LargeEvenLabelAll lab
-      (LargeEvenSimpleGuard fun R _ I _ => I ⊆ LargeEvenInnSet R)) :
+      (LargeEvenSimpleGuard fun _R _ _I _ => _I ⊆ LargeEvenInnSet _R)) :
     CFSG.StandardType.LargeEvenLabelAll lab (OutGuard p) :=
   CFSG.StandardType.LargeEvenLabelAll.mono
-    (fun R _ I F hI hs hna φ hφ _ => hI hs hna hφ) h
+    (fun _R _ _I _F hI hs hna _φ hφ _ => hI hs hna hφ) h
 
 theorem canon_twE6_three {n : ℕ} (hn : 1 ≤ n) (hev : n % 2 = 0) :
     CFSG.StandardType.Canonical.LargeEvenLabelAll ⟨LargeEvenLieTag.twE6, 0, n⟩ (OutGuard 3) := by
@@ -645,7 +642,7 @@ theorem canon_outdiag {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenL
         CFSG.StandardType.LargeEvenRawDatum ⟨LargeEvenLieTag.twF4, 0, n⟩ Q := fun Q => by
       show LargeEvenRecipeTwF4Inherited ((n - 1) / 2) Q ↔ LargeEvenRecipeTwF4 ((n - 1) / 2) Q
       unfold LargeEvenRecipeTwF4Inherited LargeEvenRecipeTwF4
-      simp only [if_neg ha]
+      simp only [ite_eq_right ha]
     exact canon_of_legacy hiff
       (outGuard_of_subset_inn (largeEvenLabelAll_subset_inn_twF4 hlab rfl))
   ·

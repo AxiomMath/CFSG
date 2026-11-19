@@ -102,7 +102,7 @@ theorem three_and_card {G : Type} [Group G] [Finite G] {T K : Subgroup G}
   have hNA : CFSG.Open.pCore 2 ↥K ≤ (T ⊓ K).subgroupOf K := by
     intro x hx
     exact hOle (Subgroup.mem_map_of_mem K.subtype hx)
-  haveI : (CFSG.Open.pCore 2 ↥K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : (CFSG.Open.pCore 2 ↥K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hcardA : Nat.card ↥((T ⊓ K).subgroupOf K) = Nat.card ↥(T ⊓ K) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
   have hcardN : Nat.card ↥(pCoreOf 2 K) = Nat.card ↥(CFSG.Open.pCore 2 ↥K) :=

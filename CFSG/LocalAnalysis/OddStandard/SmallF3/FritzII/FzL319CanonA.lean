@@ -26,7 +26,7 @@ theorem canon_of_autW (h : FzAutW D.cT D.cS D.cL) : FzCanon T W := by
   let μ' : FzElt ≃ ↥T := Equiv.ofBijective f ⟨hf, hfs⟩
   let αT : ↥T ≃ ↥T :=
     { toFun := fun x => ⟨α x, (hα x).mp x.2⟩
-      invFun := fun x => ⟨α.symm x, (hα (α.symm x)).mpr (by simpa using x.2)⟩
+      invFun := fun x => ⟨α.symm x, (hα (α.symm x)).mpr (by simp)⟩
       left_inv := fun x => Subtype.ext (by simp)
       right_inv := fun x => Subtype.ext (by simp) }
   let σ : FzElt ≃ FzElt := μ'.trans (αT.trans μ'.symm)

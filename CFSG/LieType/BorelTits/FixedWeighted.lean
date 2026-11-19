@@ -57,7 +57,7 @@ theorem exists_sylow_eq_of_normalizer {Γ : Type*} [Group Γ] [Finite Γ] (p : �
   obtain ⟨T, hT⟩ := hS.exists_le_sylow
   refine ⟨T, le_antisymm ?_ hT⟩
   by_contra hne
-  have : Group.IsNilpotent (T : Subgroup Γ) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (T : Subgroup Γ) := T.isPGroup.isNilpotent
   have hlt : S.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hne fun x hx => ?_
     have : (⟨x, hx⟩ : (T : Subgroup Γ)) ∈ S.subgroupOf T := htop ▸ Subgroup.mem_top _
@@ -76,7 +76,7 @@ theorem exists_sylow_eq_of_normalizer {Γ : Type*} [Group Γ] [Finite Γ] (p : �
         have := mul_mem (mul_mem (inv_mem s.2) (hT hx)) s.2
         simpa [mul_assoc] using this
       exact (Subgroup.mem_normalizer_iff.mp hsN ⟨x, hxT⟩).mpr hx
-  obtain ⟨k, hk⟩ := T.isPGroup' s
+  obtain ⟨k, hk⟩ := T.isPGroup s
   exact hsS' (hN s hsNG ⟨k, by simpa using congrArg Subtype.val hk⟩)
 
 variable {G : Type*} [Group G]

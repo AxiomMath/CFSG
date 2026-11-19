@@ -269,7 +269,7 @@ theorem trans_commutator (h : G36Hyp L A₀ T₀) (hB : G36Borel L A₀ T₀ Tb 
   have hyN := hB.mem_normalizer
   have hcop : Nat.Coprime (Nat.card A₀) (Nat.card (Subgroup.zpowers y)) := by
     rw [Nat.card_zpowers]
-    obtain ⟨n, hn⟩ := (T₀.isPGroup'.to_le h.le).exists_card_eq
+    obtain ⟨n, hn⟩ := (T₀.isPGroup.to_le h.le).exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr hB.odd)
   obtain ⟨hdisj, -, hle, -⟩ := CFSG.Walter.W67.coprime_decomp (A := A₀)

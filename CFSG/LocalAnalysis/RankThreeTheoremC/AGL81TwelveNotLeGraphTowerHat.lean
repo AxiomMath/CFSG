@@ -31,7 +31,7 @@ theorem isSolvable_normalizer_sylow [Finite R] (S : Sylow 2 R) :
   have hSN : (S : Subgroup R) ≤ N := Subgroup.le_normalizer
   have hTn : ((S : Subgroup R).subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hS : Group.IsSolvable ↥(S : Subgroup R) := by
-    have := S.isPGroup'.isNilpotent
+    have := S.isPGroup.isNilpotent
     infer_instance
   have hT : Group.IsSolvable ↥((S : Subgroup R).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hSN).toMonoidHom)
@@ -72,11 +72,11 @@ theorem isSolvable_sup_of_normal {N B : Subgroup R} [N.Normal] [Group.IsSolvable
   exact Group.isSolvable_of_ker_le_range inclusion projection hkernel
 
 theorem isSolvable_towerHat [Finite R] (S : Sylow 2 R) : Group.IsSolvable ↥(towerHat S) := by
-  haveI : (CFSG.pCore 3 R).Normal := CFSG.pCore_normal
-  haveI : Group.IsSolvable ↥(CFSG.pCore 3 R) := by
+  have : (CFSG.pCore 3 R).Normal := CFSG.pCore_normal
+  have : Group.IsSolvable ↥(CFSG.pCore 3 R) := by
     have := (CFSG.pCore_isPGroup (p := 3) (G := R)).isNilpotent
     infer_instance
-  haveI : Group.IsSolvable ↥(normalizer ((S : Subgroup R) : Set R)) :=
+  have : Group.IsSolvable ↥(normalizer ((S : Subgroup R) : Set R)) :=
     isSolvable_normalizer_sylow S
   exact isSolvable_sup_of_normal (N := CFSG.pCore 3 R)
     (B := normalizer ((S : Subgroup R) : Set R))
@@ -125,7 +125,7 @@ theorem false_of_towerHat_le_normalizer [Finite R] (S : Sylow 2 R)
     exact (CFSG.pCore 3 R).mul_mem this ((CFSG.pCore 3 R).inv_mem haN)
   have h4 : s * a * s⁻¹ * a⁻¹ = 1 := by
     refine Sym.eq_one_of_pow_two_pow_three ?_ ?_
-    · obtain ⟨i, hi⟩ := S.isPGroup' ⟨_, h1⟩
+    · obtain ⟨i, hi⟩ := S.isPGroup ⟨_, h1⟩
       exact ⟨i, by simpa using congrArg Subtype.val hi⟩
     · obtain ⟨j, hj⟩ := (CFSG.pCore_isPGroup (p := 3) (G := R)) ⟨_, h3⟩
       exact ⟨j, by simpa using congrArg Subtype.val hj⟩

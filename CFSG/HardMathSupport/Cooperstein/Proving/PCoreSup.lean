@@ -63,7 +63,7 @@ theorem conj_mem_pCoreOf {p : ℕ} {L : Subgroup G} {g x : G}
   rw [map_conj_pCoreOf hg] at h
   exact h
 
-theorem inf_pCoreOf_sup (hL : IsTwoPrimeComponent X L) (hSX : S ≤ X) (hS : IsPGroup 2 S)
+theorem inf_pCoreOf_sup (_hL : IsTwoPrimeComponent X L) (_hSX : S ≤ X) (_hS : IsPGroup 2 S)
     (hSL : S ≤ Subgroup.normalizer (L : Set G)) : L ⊓ pCoreOf 2 (L ⊔ S) = pCoreOf 2 L := by
   have hLnorm : L ≤ Subgroup.normalizer (L : Set G) := Subgroup.le_normalizer
   have hTnorm : L ⊔ S ≤ Subgroup.normalizer (L : Set G) := sup_le hLnorm hSL

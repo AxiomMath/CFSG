@@ -12,6 +12,7 @@ open CFSG.Assembly (LargeEvenInduces)
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem excLang_jhom_ker_le_center {p : ℕ} {X J : Subgroup Ω} (hX : CFSG.Open.IsQuasisimple ↥X)
     (hnt : Nontrivial (PSimple p X)) (hJX : J ≤ X) {C : Type} [Group C] (θ : PSimple p X ≃* C) :
     (K155X.l154JHom p hJX θ).ker ≤ Subgroup.center ↥J := by

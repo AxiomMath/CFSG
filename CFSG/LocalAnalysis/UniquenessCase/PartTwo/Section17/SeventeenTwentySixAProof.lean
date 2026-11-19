@@ -183,7 +183,7 @@ theorem isPGroup_inf_centralizer_cClos_two {D : Data G} {V₀ V L : Subgroup G}
     let Y : Subgroup G := Subgroup.zpowers (z : G)
     have hYH : Y ≤ H₁ := Subgroup.zpowers_le.mpr hzH
     have hYcard : Nat.card Y = q := by rw [Nat.card_zpowers, hzordG]
-    obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.mp hN2
+    obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.mp hN2
     have hYZ : Y ≤ centralizer (E3.cClos V₀ 2 D.T : Set G) := Subgroup.zpowers_le.mpr hzC
     have hconj : ∀ y ∈ Y, g⁻¹ * y * g ∈ D.M := by
       intro y hy
@@ -331,7 +331,7 @@ theorem le_normalizer_wClos_zero_of_H2 (hTim : CFSG.CGT.Timmesfeld75.NodeStateme
   have hXcard : Nat.card X = 5 := by rw [Nat.card_zpowers, hyord]
   have hXp : IsPGroup 5 X := IsPGroup.of_card (hXcard.trans (pow_one 5).symm)
   have hXinfT : X ⊓ D.T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hXcard]
     obtain ⟨k, hk⟩ := D.sylowM.isPGroup.exists_card_eq
     rw [hk]
@@ -419,8 +419,8 @@ theorem uniqueMax_sup_H17_25_one_of_H2
   obtain ⟨x, hxL, hxH₁, hxord, hxy⟩ :=
     exists_five_mem_H17_25_one_commute hJ2center c.hyp125 c hJ2 hL1 hMnorm hyM hys hyord hyC
   let E : Subgroup G := Subgroup.closure ({x, y} : Set G)
-  have hxE : x ∈ E := Subgroup.subset_closure (by simp [E])
-  have hyE : y ∈ E := Subgroup.subset_closure (by simp [E])
+  have hxE : x ∈ E := Subgroup.subset_closure (by simp)
+  have hyE : y ∈ E := Subgroup.subset_closure (by simp)
   have hEM : E ≤ D.M := by
     refine (Subgroup.closure_le D.M).mpr ?_
     intro z hz

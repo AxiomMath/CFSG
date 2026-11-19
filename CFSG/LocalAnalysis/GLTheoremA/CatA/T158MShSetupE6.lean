@@ -92,6 +92,7 @@ section Glue
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem indAut_mul {p : ℕ} {L : Subgroup G} {x y : G} (hx : x ∈ Subgroup.normalizer (L : Set G))
     (hy : y ∈ Subgroup.normalizer (L : Set G)) (k : ℤ) :
     MI.indAut p L ((x * y) ^ k) (Subgroup.zpow_mem _ (Subgroup.mul_mem _ hx hy) k) =
@@ -151,7 +152,7 @@ theorem t158SetupE6_of
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 L) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL
   obtain ⟨-, -, -, R, _, I0, F0, θ0, hRs, hRna, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists (CFSG.StandardType.ChevTwo.ys08_holds (PQuot 3 L) hq hchev)
-  haveI : IsSimpleGroup (PSimple 3 L) := hq.2
+  have : IsSimpleGroup (PSimple 3 L) := hq.2
   have hna : ∃ x y : PSimple 3 L, x * y ≠ y * x := by
     obtain ⟨u, v, huv⟩ := hRna
     refine ⟨θ0.symm u, θ0.symm v, fun h => huv ?_⟩

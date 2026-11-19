@@ -19,6 +19,7 @@ theorem Ctx.LB_le_H0 (hc : Ctx M Q Z B) : LB M Q B ≤ H0 M Z := fun l hl =>
     calc z * l = (l * z * l⁻¹) * l := by rw [this]
       _ = l * z := by group⟩
 
+omit [Finite G] in
 theorem Ctx.LB_conj_le_Rt (hc : Ctx M Q Z B) {m t : G} (hm : m ∈ M)
     (htm : t ∈ conjSubgroup m (LB M Q B)) : LB M Q (conjSubgroup m B) ≤ Rt M (LB M Q B) t := by
   rw [hc.LB_conj hm]
@@ -110,6 +111,7 @@ theorem Tt_le_Q {V : Subgroup G} {t : G} (hZQ : Z ≤ Q)
 
 variable {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem StrothHyp.comm_action (H : StrothHyp M Q Z) {a b : G} (ha : a ∈ M) (hb : b ∈ M)
     (hab : ⁅a, b⁆ ∈ Q) {Sa Sb : M₀.E → M₀.E}
     (hSa : ∀ x ∈ Q, M₀.π (a * x * a⁻¹) = Sa (M₀.π x))
@@ -124,6 +126,7 @@ theorem StrothHyp.comm_action (H : StrothHyp M Q Z) {a b : G} (ha : a ∈ M) (hb
     simp only [commutatorElement_def]; group
   rw [e, Tim79.QuadModel.pi_conj_self hab (hQn hb _ hax)]
 
+omit [Finite G] in
 theorem StrothHyp.mem_img_Tt_iff (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (V : Subgroup G) (t : H0 M Z) (hT2 : φ t ^ 2 = 1) {e : M₀.E} :
@@ -183,6 +186,7 @@ theorem StrothHyp.mem_img_Tt_iff (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M
       abel
     simpa using (M₀.img (Tt Q Z V t)).neg_mem hmem
 
+omit [Finite G] in
 theorem StrothHyp.smul_mem_img_Tt (H : StrothHyp M Q Z) (R : Tim79.GammaReg Q Z γ)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -192,6 +196,7 @@ theorem StrothHyp.smul_mem_img_Tt (H : StrothHyp M Q Z) (R : Tim79.GammaReg Q Z 
   exact (H.mem_img_Tt_iff φ hφπ V t hT2).mpr
     ⟨c • w, smul_mem_img_Wt M₀ R hVQ c hw, by rw [map_smul]⟩
 
+omit [Finite G] in
 theorem StrothHyp.mem_img_Tt_of_comm (H : StrothHyp M Q Z)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -220,7 +225,7 @@ theorem Ctx.img_Vt_le_of_invariant (hc : Ctx M Q Z B)
         ∀ v ∈ Sp, S v ∈ Sp) :
     ∀ v ∈ M₀.img (Vt M (LB M Q B) B Z t), v ∈ Sp := by
   obtain ⟨φ, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hZQ : Z ≤ Q := hc.Z_le_Q
   have hle : Vt M (LB M Q B) B Z t ≤ M₀.lift Sp.toAddSubgroup := by
     refine sec39_Vt_le (fun z hz => ⟨hZQ hz, by
@@ -284,7 +289,7 @@ theorem Ctx.Tt_le_Z_or_Vt_le_Tt (hc : Ctx M Q Z B)
   let Sp : Submodule (GaloisField 2 n) M₀.E := imgSub M₀ (Tt Q Z V t)
     (fun c _ he => hc.hyp.smul_mem_img_Tt h.reg φ hφπ hVQ ⟨t, htH⟩ hT2 c he)
   have hSp0 : Sp ≠ ⊥ := by
-    obtain ⟨x, hxT, hxZ⟩ := SetLike.not_le_iff_exists.mp hTZ
+    obtain ⟨x, hxT, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hTZ
     intro hbot
     have h0 : M₀.π x ∈ Sp := mem_imgSub.mpr (M₀.pi_mem_img hxT (hTQ hxT))
     rw [hbot, Submodule.mem_bot] at h0

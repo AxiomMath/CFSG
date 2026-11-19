@@ -142,7 +142,7 @@ theorem zpowers_eq_of_orderOf {G : Type*} [Group G] (x d : G) (hx : orderOf x = 
     rw [Nat.card_zpowers, hd3]
   have hc2 : Nat.card (Subgroup.zpowers (x ^ 9)) = 3 := by
     rw [Nat.card_zpowers, h9]
-  haveI : Finite (Subgroup.zpowers (x ^ 9)) :=
+  have : Finite (Subgroup.zpowers (x ^ 9)) :=
     Nat.finite_of_card_ne_zero (by rw [hc2]; norm_num)
   exact Subgroup.eq_of_le_of_card_ge hle (by omega)
 

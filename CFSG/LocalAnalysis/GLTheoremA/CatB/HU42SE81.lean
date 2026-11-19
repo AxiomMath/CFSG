@@ -55,7 +55,7 @@ theorem isSimple_of_host (S : Type) [Group S] [Finite S] (h : catalogIs S IsU42H
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   rcases hi with hD | hU5 | hU6
   · obtain ⟨e'⟩ := bridge_d4two (⟨i, hD, ⟨e⟩⟩ : catalogIs S S9.isD4two)
-    haveI := isSimple_om8
+    have := isSimple_om8
     exact e'.isSimpleGroup
   · obtain ⟨q, hv, hq2, ⟨e0⟩⟩ := lieIndex_isU5two (⟨i, hU5, ⟨e⟩⟩ : catalogIs S S9.isU5two)
     obtain ⟨e1⟩ := nonempty_equiv_timmesfeldPSU 4 q hv hq2 e0
@@ -112,7 +112,7 @@ theorem conj_injective_of_center {S : Type} [Group S] (hZ : Subgroup.center S = 
 
 theorem u42E81At_of_residuals (hC : U42E81CentAt) (hI6 : U42E81InnU6At) : U42E81At := by
   intro S _ _ hS E hE hE81 U hU hnorm
-  haveI := isSimple_of_host S hS
+  have := isSimple_of_host S hS
   have hZ := center_eq_bot_of_simple E hE81
   have hinj := conj_injective_of_center hZ
   let T : Subgroup S := U.comap (MulAut.conj : S →* MulAut S)
@@ -125,14 +125,13 @@ theorem u42E81At_of_residuals (hC : U42E81CentAt) (hI6 : U42E81InnU6At) : U42E81
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at hk'
     rw [Subgroup.coe_pow, Subgroup.coe_one, map_pow, hk', map_one]
   have hEnorm : E ≤ Subgroup.normalizer (T : Set S) := by
-    intro e he
-    intro n
+    intro e he n
     show n ∈ T ↔ e * n * e⁻¹ ∈ T
     have h := hnorm e he (MulAut.conj n)
     have hconj : MulAut.conj (e * n * e⁻¹) =
         MulAut.conj e * MulAut.conj n * (MulAut.conj e)⁻¹ := by
       rw [map_mul, map_mul, map_inv]
-    simp only [T, Subgroup.mem_comap, SetLike.mem_coe]
+    simp only [T, Subgroup.mem_comap]
     rw [hconj]
     exact h
   have hTbot : T = ⊥ := by
@@ -168,7 +167,7 @@ theorem u42E81At_of_residuals (hC : U42E81CentAt) (hI6 : U42E81InnU6At) : U42E81
     · exact absurd (by simpa using hn) hn1
     · rw [hn]
       exact dvd_pow_self 2 (Nat.succ_ne_zero n)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 hcard
   exact hC S hS E hE hE81 (t : MulAut S) (by rw [Subgroup.orderOf_coe, ht]) (fun e he => hcomm e he t t.2)
 

@@ -89,7 +89,7 @@ variable {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
 omit [Finite X] [Fact p.Prime] in
 theorem isPGroup_of_isSylowOf {K P : Subgroup X} (hP : IsSylowOf K p P) : IsPGroup p P := by
   obtain ⟨Q, rfl⟩ := hP
-  exact Q.isPGroup'.map K.subtype
+  exact Q.isPGroup.map K.subtype
 
 omit [Finite X] [Fact p.Prime] in
 theorem le_isSylowOf_of_le_normalizer {K P Q : Subgroup X} (hP : IsSylowOf K p P)
@@ -168,7 +168,7 @@ theorem isSylowOf_of_isSylowOf_inf_normalizer {K P : Subgroup X} (hPK : P ≤ K)
   have hPQ : P ≤ (Q₀ : Subgroup K).map K.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hPK]
     exact Subgroup.map_mono hQ₀
-  have hQp : IsPGroup p ((Q₀ : Subgroup K).map K.subtype) := Q₀.isPGroup'.map _
+  have hQp : IsPGroup p ((Q₀ : Subgroup K).map K.subtype) := Q₀.isPGroup.map _
   rcases hPQ.lt_or_eq with hlt | heq
   · have h1 := Subgroup.card_lt_of_lt (lt_inf_normalizer_of_lt hQp hlt)
     have h2 := card_le_of_isSylowOf hP (hQp.to_le inf_le_left)

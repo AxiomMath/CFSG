@@ -336,7 +336,7 @@ theorem not_isSolvable_deltaZero (hLCen : KS1619LCen) {A L : Subgroup G} {c : G}
           Nat.prime_three Nat.prime_two A J hA3 hAJ
           ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hJ3) hJ2
       refine hT1 (hnoTwo _ ⟨(Subgroup.map_subtype_le _).trans hJL, ?_, hTA⟩)
-      exact (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (T.isPGroup'.map _)
+      exact (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (T.isPGroup.map _)
     have hres : perfectResidual ↥D = ⊥ := by
       have h0 : (perfectResidual ↥D).map D.subtype = ⊥ := hJbot
       exact (Subgroup.map_eq_bot_iff_of_injective _ D.subtype_injective).mp h0
@@ -636,7 +636,7 @@ theorem rank3II_16_19_two_of_star {A L : Subgroup G} {c : G}
     have hTmem : (T : Subgroup ↥J).map J.subtype ∈
         invariantPiSubgroups (Subgroup.centralizer (L : Set G)) A (piOf 2) :=
       ⟨(Subgroup.map_subtype_le _).trans hJL,
-        (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (T.isPGroup'.map _), hTA⟩
+        (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (T.isPGroup.map _), hTA⟩
     exact hT1 (hnoTwo _ hTmem)
   · push Not at hcase
     obtain ⟨hα, hn⟩ := hcase

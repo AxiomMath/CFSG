@@ -37,7 +37,7 @@ private theorem permGL_mul_diagGL (π : Equiv.Perm (Fin n)) (d : Fin n → Lˣ) 
   by_cases h : π⁻¹ a = b
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp
 
 private theorem conjTr_permGL (σ : L ≃+* L) (π : Equiv.Perm (Fin n)) :
@@ -60,9 +60,9 @@ private theorem antidiag_eq_permMatrix :
   ext a b
   by_cases h : b = Fin.rev a
   · subst h
-    simp [antidiag, permMatrix_apply]
+    simp [antidiag]
   · have h' : Fin.rev a ≠ b := fun h'' => h h''.symm
-    simp [antidiag, permMatrix_apply, h, h']
+    simp [antidiag, h, h']
 
 private theorem permGL_isometry (σ : L ≃+* L) (π : Equiv.Perm (Fin n))
     (hπ : ∀ a, π (Fin.rev a) = Fin.rev (π a)) :
@@ -208,7 +208,7 @@ private theorem negSwap_pos (hn : n = 6 ∨ n = 7) (j i : Fin 3) :
   by_cases h : i = j
   · subst h
     simp [negSwap]
-  · rw [if_neg h, negSwap, Equiv.swap_apply_of_ne_of_ne]
+  · rw [ite_eq_right h, negSwap, Equiv.swap_apply_of_ne_of_ne]
     · exact fun h' => h ((pos_injective hn) h')
     · exact pos_ne_rev_pos hn i j
 
@@ -217,7 +217,7 @@ private theorem negSwap_neg (hn : n = 6 ∨ n = 7) (j i : Fin 3) :
   by_cases h : i = j
   · subst h
     simp [negSwap]
-  · rw [if_neg h, negSwap, Equiv.swap_apply_of_ne_of_ne]
+  · rw [ite_eq_right h, negSwap, Equiv.swap_apply_of_ne_of_ne]
     · exact rev_pos_ne_pos hn i j
     · exact fun h' => h ((pos_injective hn) (Fin.rev_injective h'))
 
@@ -276,11 +276,11 @@ private theorem exists_realizes_neg (htr : ∃ c : L, c ≠ 0 ∧ σ c = -c) (hn
     intro a
     by_cases ha : a = pos hn j
     · subst ha
-      simp only [m, if_true, if_neg hne, Fin.rev_rev]
+      simp only [m, ite_true, ite_eq_right hne]
       simpa using h1
     · by_cases ha' : a = Fin.rev (pos hn j)
       · subst ha'
-        simp only [m, if_neg hne, if_true, Fin.rev_rev]
+        simp only [m, ite_eq_right hne, ite_true, Fin.rev_rev]
         simpa using h2
       · have h3 : Fin.rev a ≠ pos hn j := fun h => ha' (by rw [← h, Fin.rev_rev])
         have h4 : Fin.rev a ≠ Fin.rev (pos hn j) := fun h => ha (Fin.rev_injective h)

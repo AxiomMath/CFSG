@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {U X : Type} [Group U] [Group X] [Finite X] {ψ : U →* X}
 
+omit [Finite X] in
 theorem pCoreOf_range_inf_normalizer_sup_eq_range (hker : ψ.ker ≤ Subgroup.center U)
     (hodd : Odd (Nat.card ψ.ker)) {Rr Q J : Subgroup U} (hRr : IsPGroup 2 Rr) (hQ : IsPGroup 2 Q)
     (hQN : Q ≤ Subgroup.normalizer (Rr : Set U))

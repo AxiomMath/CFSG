@@ -18,7 +18,7 @@ open CFSG CFSG.Open CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.LargeExtra
   ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G], (∃ a b : G, a * b ≠ b * a) →
     IsCharTwoType G → CFSG.Assembly.KProper CFSG.Assembly.InCatalog G →
     ∀ S : Setting G, S.width = 4 → S11.NoA2All S → ¬ S.IsReducible →
-    ∀ g : G, ∀ (H : Hyp4 S g) (C : Cons311 S g),
+    ∀ g : G, ∀ (_H : Hyp4 S g) (_C : Cons311 S g),
       StatedClassicalModel (M0 S g) .PSL 2 2 3 → LieModel G .trialityD4 0 2 1
 
 @[expose] def ParrottThKP : Prop :=

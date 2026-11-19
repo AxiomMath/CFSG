@@ -17,8 +17,8 @@ theorem statedSp3_hom_cyclic (hK : 4 ≤ Nat.card K) (C : Type) [Group C] [IsCyc
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal h.ker with hker | hker
   · exfalso
     have hinj : Function.Injective h := (MonoidHom.ker_eq_bot_iff h).mp hker
-    haveI : IsCyclic ↥(StatedSp 3 K) := isCyclic_of_injective h hinj
-    haveI : IsMulCommutative ↥(StatedSp 3 K) :=
+    have : IsCyclic ↥(StatedSp 3 K) := isCyclic_of_injective h hinj
+    have : IsMulCommutative ↥(StatedSp 3 K) :=
       ⟨⟨fun a b => (IsCyclic.commGroup (α := ↥(StatedSp 3 K))).mul_comm a b⟩⟩
     have hprime := Group.is_simple_iff_prime_card.mp hS
     rcases Nat.Prime.eq_one_or_self_of_dvd hprime 16 h16 with h' | h'
@@ -40,7 +40,7 @@ theorem statedSp3_hom_perm (hK : 4 ≤ Nat.card K) (ι : Type) [Fintype ι]
     rw [Nat.card_eq_fintype_card (α := Equiv.Perm ι), Fintype.card_perm] at hdvd
     have h8 : (Fintype.card ι).factorial ∣ (8 : ℕ).factorial := Nat.factorial_dvd_factorial hι
     have hdvd8 := hdvd.trans h8
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨f, -, hf'⟩ := FiniteField.card K 2
     have hf : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf'
     obtain ⟨o, hodd, hord⟩ := exists_odd_card_statedSp (K := K) (f := (f : ℕ)) f.pos hf 3

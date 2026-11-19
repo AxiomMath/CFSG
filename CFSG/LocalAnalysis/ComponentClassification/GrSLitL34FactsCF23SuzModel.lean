@@ -44,9 +44,9 @@ theorem suzFusParts : SuzFusParts := by
 
 @[expose] def sGen (i : Fin 2) : Equiv.Perm (Fin 1782) := if i = 0 then sY1 else sY2
 
-theorem sGen_zero : sGen 0 = sY1 := by rw [sGen, if_pos rfl]
+theorem sGen_zero : sGen 0 = sY1 := by rw [sGen, ite_eq_left rfl]
 
-theorem sGen_one : sGen 1 = sY2 := by rw [sGen, if_neg (by decide)]
+theorem sGen_one : sGen 1 = sY2 := by rw [sGen, ite_eq_right (by decide)]
 
 theorem isSimpleGroup_S : IsSimpleGroup ↥PSL3Four.S := by
   obtain ⟨θ, -⟩ := PSL3Four.exact_model.2.1

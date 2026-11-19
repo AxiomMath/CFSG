@@ -248,7 +248,7 @@ theorem mem_H274_of_conj_mem_sylow (hs : Std8Core Ω K J S R T W z t) (hμ : MuI
       calc t * b = (b * t * b⁻¹) * b := by rw [hbt]
         _ = b * t := by group
     obtain ⟨x, hxL, hxo, hxc⟩ := Q3T8.Asc77.T8.exists_orderFour_centralizes_one_of_three hΩ hLΩ
-      hb S.isPGroup' (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
+      hb S.isPGroup (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
       (mem_normalizer_iff_conjSub_eq.mp (hCb htb))
     refine ⟨x, hxL, hxo, ?_⟩
     rcases hxc with h | h | h

@@ -62,7 +62,7 @@ theorem qrow_of_ne_BM {s : TauCeti.SporadicName} (hsB : s ≠ .B) (hsM : s ≠ .
   all_goals refine I1416QRows.qrow_of_factors hOut hbr hOrd hsB hsM (fun x hx h2 he => ?_) p
   all_goals simp only [sporFactors, List.mem_cons, List.not_mem_nil, or_false] at hx
   all_goals rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first | exact absurd rfl h2 | (exfalso; omega) | skip
+  all_goals try first | exact absurd rfl h2 | (exfalso; omega)
   case M11 => exact qrow_M11_three hOut
   case M12 => exact qrow_M12_three hOut
   case M22 => exact qrow_M22_three hOut
@@ -126,7 +126,7 @@ theorem row_of_ne_BM {s : TauCeti.SporadicName} (hsB : s ≠ .B) (hsM : s ≠ .M
   all_goals refine I1416Rows.row_of_factors hOut hbr hOrd hsB hsM (fun x hx h2 he => ?_) p
   all_goals simp only [sporFactors, List.mem_cons, List.not_mem_nil, or_false] at hx
   all_goals rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first | exact absurd rfl h2 | (exfalso; omega) | skip
+  all_goals try first | exact absurd rfl h2 | (exfalso; omega)
   case M11 => exact row_M11_three hOut
   case M12 => exact row_M12_three hOut
   case M22 => exact row_M22_three hOut
@@ -190,7 +190,7 @@ theorem crow_of_ne_BM {s : TauCeti.SporadicName} (hsB : s ≠ .B) (hsM : s ≠ .
   all_goals refine Chev2Rows.crow_of_factors hOut hbr hOrd hsB hsM (fun x hx h2 he => ?_) p
   all_goals simp only [sporFactors, List.mem_cons, List.not_mem_nil, or_false] at hx
   all_goals rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first | exact absurd rfl h2 | (exfalso; omega) | skip
+  all_goals try first | exact absurd rfl h2 | (exfalso; omega)
   case M11 => exact crow_M11_three hOut
   case M12 => exact crow_M12_three hOut
   case M22 => exact crow_M22_three hOut

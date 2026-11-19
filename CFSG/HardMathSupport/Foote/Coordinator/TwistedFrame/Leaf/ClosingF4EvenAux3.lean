@@ -50,12 +50,12 @@ theorem comm_char2 {β γ : Fin Tag.F4.rank → ℤ} (hβ : IsRoot Tag.F4 β) (h
       if p = (1, 1) ∧ γ - β ∈ rootFinset Tag.F4 then 0 else 1 := by
     by_cases hc : p = (1, 1) ∧ γ - β ∈ rootFinset Tag.F4
     · have hc' : p = (1, 1) ∧ IsRoot Tag.F4 (γ - β) := ⟨hc.1, mem_rootFinset.1 hc.2⟩
-      rw [if_pos hc'] at hp'
-      rw [if_pos hc]
+      rw [ite_eq_left hc'] at hp'
+      rw [ite_eq_left hc]
       exact cast_zero_of_abs hp'
     · have hc' : ¬ (p = (1, 1) ∧ IsRoot Tag.F4 (γ - β)) := fun h => hc ⟨h.1, mem_rootFinset.2 h.2⟩
-      rw [if_neg hc'] at hp'
-      rw [if_neg hc]
+      rw [ite_eq_right hc'] at hp'
+      rw [ite_eq_right hc]
       exact cast_one_of_abs hp'
   rw [this]
 

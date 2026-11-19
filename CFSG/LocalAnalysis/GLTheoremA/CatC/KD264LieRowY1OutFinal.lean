@@ -59,7 +59,7 @@ theorem KD264Y1Out_of_families (hE6 : KD264Y1OutE6)
     · subst hr4
       exact hD4 ⟨_, hv⟩ ⟨q, rfl⟩ hns hk2 hk3 hpR a ha ha3
     · have hr5 : 5 ≤ r := by
-        simp only [TauCeti.LieTypeIndex.inStandardRange_iff] at hstd
+        simp only at hstd
         omega
       exact hOS ⟨_, hv⟩ (Or.inr (Or.inr (Or.inl ⟨r, q, hr5, rfl⟩))) hns hk2 hk3 hpR a ha ha3
   | twistedD r q =>

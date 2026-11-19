@@ -33,9 +33,9 @@ theorem exists_mem_thetaComponentsIn_of_suzukiModel
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q := ↥K₀ ⧸ CFSG.pCore 2 ↥K₀ with hQ
   have hsimpleQ : IsSimpleGroup Q := isSimpleGroup_of_suzukiModel hSz
-  haveI : IsSimpleGroup Q := hsimpleQ
+  have : IsSimpleGroup Q := hsimpleQ
   have hperfQ : Group.IsPerfect Q := KSL3PiNoSzProof.isPerfect_of_suzukiModel hSz
-  haveI : Group.IsPerfect Q := hperfQ
+  have : Group.IsPerfect Q := hperfQ
   have hnonabQ : ∃ a b : Q, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -73,7 +73,7 @@ theorem exists_mem_thetaComponentsIn_of_suzukiModel
     MonoidHom.range_eq_top.mp (by rw [hfr, hAmap])
   have hpCore2 : IsPGroup 2 (↥(CFSG.pCore 2 ↥K₀)) :=
     CFSG.pCore_isPGroup (p := 2) (G := ↥K₀)
-  haveI : Group.IsNilpotent (↥(CFSG.pCore 2 ↥K₀)) := IsPGroup.isNilpotent hpCore2
+  have : Group.IsNilpotent (↥(CFSG.pCore 2 ↥K₀)) := IsPGroup.isNilpotent hpCore2
   have hPsolv : Group.IsSolvable (↥(CFSG.pCore 2 ↥K₀)) := inferInstance
   have hP3 : ¬ 3 ∣ Nat.card (↥(CFSG.pCore 2 ↥K₀)) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hpCore2
@@ -112,7 +112,7 @@ theorem exists_mem_thetaComponentsIn_of_suzukiModel
     rw [hK]
     have hAperf : Group.IsPerfect ↥(CFSG.perfectResidual ↥K₀) :=
       (perfect_residual_characterization (G := ↥K₀)).2.2.1
-    haveI : Group.IsPerfect ↥(CFSG.perfectResidual ↥K₀) := hAperf
+    have : Group.IsPerfect ↥(CFSG.perfectResidual ↥K₀) := hAperf
     exact Group.IsPerfect.ofSurjective (f := eAK.toMonoidHom) eAK.surjective
   have hKsn : (K.subgroupOf K₀).IsSubnormal := by
     have hnorm : (K.subgroupOf K₀).Normal := by
@@ -213,7 +213,7 @@ theorem false_of_orderOf_five_mem_sectionCentralizer (h : Sec17Std G A c L Y₀)
           rw [Step163Alt.mem_pCore_two_iff]
           have hcoe : (((y * ⟨e, heY⟩) / (⟨e, heY⟩ * y) : ↥Y₀) : G)
               = (e * (y : G) * e⁻¹ * (y : G)⁻¹)⁻¹ := by
-            simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_div, Subgroup.coe_mul]
             rw [div_eq_mul_inv]
             group
           rw [hcoe]

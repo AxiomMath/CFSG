@@ -199,6 +199,7 @@ section Compare
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {LB : Subgroup G → Subgroup G}
 
+omit [Finite G] in
 theorem item153MainJ2_of_item153Big (h : Item153Big A LB) : Item153MainJ2 A LB :=
   fun Y hY hJ => h Y hY hJ.big152
 

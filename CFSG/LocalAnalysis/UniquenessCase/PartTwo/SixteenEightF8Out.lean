@@ -32,9 +32,6 @@ theorem s16g_exists_semilinear [Finite K] [Nonempty ι] {Γ : Subgroup (GL ι K)
           (Multiplicative.toAdd (g⁻¹ (Multiplicative.ofAdd v))))) = v
         rw [ofAdd_toAdd, MulAut.apply_inv_self, toAdd_ofAdd]
       map_add' := fun v w => by
-        change Multiplicative.toAdd (g (Multiplicative.ofAdd (v + w))) =
-          Multiplicative.toAdd (g (Multiplicative.ofAdd v)) +
-            Multiplicative.toAdd (g (Multiplicative.ofAdd w))
         rw [ofAdd_add, map_mul, toAdd_mul] }
   have hcomm : ∀ (c : K), ∀ B ∈ Γ, ∀ v : ι → K,
       ψ (c • ψ.symm ((B : Matrix ι ι K) *ᵥ v)) =
@@ -69,6 +66,7 @@ theorem s16g_exists_semilinear [Finite K] [Nonempty ι] {Γ : Subgroup (GL ι K)
   rw [h]
   rfl
 
+omit [Fintype ι] in
 private theorem s16g_theta_unique [Nonempty ι] {g : MulAut (Multiplicative (ι → K))}
     {θ₁ θ₂ : RingAut K}
     (h₁ : ∀ (c : K) (v : Multiplicative (ι → K)),
@@ -211,7 +209,7 @@ theorem s16g_card_le_of_norm [Finite K] [Nonempty ι] {Γ : Subgroup (GL ι K)}
     (hEN : E ≤ s16gNorm Γ) :
     Nat.card E ≤ Nat.card (RingAut K) * Nat.card ↥(E ⊓ s16gLin ι K) := by
   obtain ⟨θ, -, hker⟩ := s16g_exists_theta hΓ
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun f : RingAut K => (f : K → K)) DFunLike.coe_injective
   let φ : ↥E →* RingAut K := θ.comp (Subgroup.inclusion hEN)
   have h2 : Nat.card φ.range ≤ Nat.card (RingAut K) :=

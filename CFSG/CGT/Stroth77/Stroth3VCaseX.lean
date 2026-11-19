@@ -26,11 +26,13 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {τ : StrothTypeIndex}
   (dD : StrothWeakTypeData D τ)
 
+omit [Finite G] in
 theorem crdT_pow {a : G} (ha : a ∈ D) (n : ℕ) : crdT dD.e (a ^ n) = n • crdT dD.e a := by
   induction n with
   | zero => rw [pow_zero, crdT_one, zero_nsmul]
   | succ n ih => rw [pow_succ, crdT_mul dD.e (pow_mem ha n) ha, ih, succ_nsmul]
 
+omit [Finite G] in
 theorem val_crdT_even_of_pow_four (hk : 3 ≤ τ.k 0) {a : G} (ha : a ∈ D) (h4 : a ^ 4 = 1) :
     (crdT dD.e a 0).val % 2 = 0 := by
   have h := dD.crdT_pow ha 4
@@ -48,8 +50,9 @@ theorem val_crdT_even_of_pow_four (hk : 3 ≤ τ.k 0) {a : G} (ha : a ∈ D) (h4
   have := dvd_trans h8 hd
   omega
 
+omit [Finite G] in
 theorem eq_of_inv_mul_mem (hk : 1 ≤ τ.k 0) {x y : G} (hx : x ∈ Subgroup.normalizer (D : Set G))
-    (hy : y ∈ Subgroup.normalizer (D : Set G)) {a b : Torus τ.k} (ha : InW a) (hb : InW b)
+    (hy : y ∈ Subgroup.normalizer (D : Set G)) {a b : Torus τ.k} (ha : InW a) (_hb : InW b)
     (hθx : ∀ v, dD.thetaT hx v = nuMap a v) (hθy : ∀ v, dD.thetaT hy v = nuMap b v)
     (hxy : x⁻¹ * y ∈ D) : a = b := by
   have key : ∀ v, nuMap (b + a) v = nuMap 0 v := fun v => by
@@ -60,6 +63,7 @@ theorem eq_of_inv_mul_mem (hk : 1 ≤ τ.k 0) {x y : G} (hx : x ∈ Subgroup.nor
   rw [add_eq_zero_iff_eq_neg] at this
   rw [this, neg_eq_of_add_eq_zero_left ha.2]
 
+omit [Finite G] in
 theorem conj_eq_iff_even {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) {v : Torus τ.k}
     (hv : InW v) (hv0 : v ≠ 0) (hθ : ∀ x, dD.thetaT hg x = nuMap v x) {d : G} (hd : d ∈ D) :
     g⁻¹ * d * g = d ↔ (crdT dD.e d 0).val % 2 = 0 := by
@@ -67,6 +71,7 @@ theorem conj_eq_iff_even {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) {v
   rw [← nuMap_eq_self_iff hv.2 hv0, ← hθ, dD.thetaT_crdT hg hd]
   exact ⟨fun h => by rw [h], fun h => crdT_inj dD.e hd' hd h⟩
 
+omit [Finite G] in
 theorem mul_comm_iff_conj {g x : G} : x * g = g * x ↔ g⁻¹ * x * g = x := by
   constructor
   · intro h; rw [mul_assoc, h, inv_mul_cancel_left]
@@ -217,8 +222,7 @@ theorem exists_X_of_comm_pair (h : F.IsD D dD) (hτ : VFacts τ)
         | rfl
         | (exfalso
            simp only [vs, Fin.zero_eta, Fin.isValue, Fin.mk_one, Matrix.cons_val_zero,
-             Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
-             Matrix.head_cons] at hij
+             Matrix.cons_val_one] at hij
            first
              | exact hw0 hij.symm | exact hw0 hij | exact hw'0 hij.symm | exact hw'0 hij
              | exact hne1 hij.symm | exact hne1 hij | exact hPw hij.symm | exact hPw hij
@@ -386,7 +390,7 @@ theorem stroth_3_9_t321_of_vFacts (hτ : VFacts StrothTypeIndex.t321)
           ((X ⊔ Subgroup.centralizer (D : Set G) : Subgroup G) : Set G) ∧
         Nat.card D < Nat.card X :=
   h.stroth_3_9_t321 hns fun ⟨e, he, heD, _⟩ hkill => h.exists_X_of_vcase hτ hns hkill
-    (SetLike.lt_iff_le_and_exists.mpr ⟨(h.setting hns).D_le_R, e, he, heD⟩)
+    (IsConcreteLE.lt_iff_le_and_exists.mpr ⟨(h.setting hns).D_le_R, e, he, heD⟩)
 
 theorem stroth_3_9_t331_of_vFacts (hτ : VFacts StrothTypeIndex.t331)
     {dD : StrothWeakTypeData D StrothTypeIndex.t331} (h : F.IsD D dD)
@@ -399,7 +403,7 @@ theorem stroth_3_9_t331_of_vFacts (hτ : VFacts StrothTypeIndex.t331)
           ((X ⊔ Subgroup.centralizer (D : Set G) : Subgroup G) : Set G) ∧
         Nat.card D < Nat.card X :=
   h.stroth_3_9_t331 hns fun ⟨e, he, heD, _⟩ hkill => h.exists_X_of_vcase hτ hns hkill
-    (SetLike.lt_iff_le_and_exists.mpr ⟨(h.setting hns).D_le_R, e, he, heD⟩)
+    (IsConcreteLE.lt_iff_le_and_exists.mpr ⟨(h.setting hns).D_le_R, e, he, heD⟩)
 
 end StrothFrame.IsD
 

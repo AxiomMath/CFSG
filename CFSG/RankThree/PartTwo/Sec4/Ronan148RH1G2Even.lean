@@ -17,7 +17,7 @@ namespace G2Even
 
 theorem odd_card_center_sl3 {F : Type} [Field F] [Finite F] :
     Odd (Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) := by
     intro A
     refine ⟨1, ?_⟩
@@ -92,7 +92,7 @@ theorem good427_onFree_threeB
     norm_num
   obtain ⟨hcomm, -⟩ := KS11Lie4Proof.g2ThreeBCent_holds F hchar (by omega) z hzM hz3 hz1
   obtain ⟨hs, hna, hcard⟩ := G2.short_simple (F := F) (by omega)
-  haveI := hs
+  have := hs
   refine good427_onFree_of_derived_simple hz1 hna ?_
     (fun s hs' => KS11Lie4Proof.g2Short_commute_g2Long hs' hzM) hcomm
   rw [hcard]
@@ -106,7 +106,7 @@ theorem good427_onFree_inner
     {x : adjointGroup .G2 F} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     Good427 (Subgroup.centralizer ({x} : Set (adjointGroup .G2 F))) ∧
       OnFree (Subgroup.centralizer ({x} : Set (adjointGroup .G2 F))) x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have hchar : ringChar F ≠ 3 := by
@@ -144,7 +144,7 @@ theorem good427_field
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 2 ≤ f)
     {α : MulAut (adjointGroup .G2 F)} (hα3 : α ^ 3 = 1)
     (hout : ¬ CFSG.RankThree.PartTwo.KFacts.IsInnerAut α) : Good427 (Sec4.autFix α) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have hchar : ringChar F = 2 := ringChar.eq F 2
@@ -192,7 +192,7 @@ theorem good427_field
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
     have hsimp := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3k
-    haveI : IsSimpleGroup E := eE.symm.isSimpleGroup
+    have : IsSimpleGroup E := eE.symm.isSimpleGroup
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card (fixSubfield φ)
       h3k
     refine good427_of_le_simple le_rfl ?_ ?_ fun _ hKC _ => hKC
@@ -223,7 +223,7 @@ theorem noCfgS427_g2
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 4 ≤ f) (hev : Even f) :
     NoCfgS427 (adjointGroup .G2 F) := by
   intro α hα3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf α = 3 := orderOf_eq_prime hα3 h1
   by_cases hin : CFSG.RankThree.PartTwo.KFacts.IsInnerAut α
   · obtain ⟨x, rfl, hx3, hx1⟩ := RonanKChevTwo.exists_conj_of_isInnerAut

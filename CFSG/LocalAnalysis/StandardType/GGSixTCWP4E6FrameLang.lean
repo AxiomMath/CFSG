@@ -46,8 +46,7 @@ theorem e6fl_list5 (c : List ℤ) (hc : c.length = 5) :
   rcases c with _ | ⟨c0, _ | ⟨c1, _ | ⟨c2, _ | ⟨c3, _ | ⟨c4, _ | ⟨_, _⟩⟩⟩⟩⟩⟩
   all_goals first
     | exact ⟨c0, c1, c2, c3, c4, rfl⟩
-    | (simp at hc; done)
-    | (simp at hc; omega)
+    | (simp at hc)
 
 theorem e6fl_comb5_len {c : List ℤ} (hc : c.length = 5) {d₀ d₁ d₂ d₃ d₄ : List ℤ}
     (h₀ : d₀.length = 6) (h₁ : d₁.length = 6) (h₂ : d₂.length = 6) (h₃ : d₃.length = 6)

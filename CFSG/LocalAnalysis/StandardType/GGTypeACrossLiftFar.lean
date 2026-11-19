@@ -21,7 +21,7 @@ private theorem ggFarCtx_abab_mem_range₂ {G : Type} [Group G] [Finite G] {p : 
     (hCu : u ∈ Subgroup.centralizer (Bs : Set G)) : u ∈ φ₂.range := by
   classical
   have hp : p.Prime := hC.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : GaloisField 2 f) = 0 := hC.two
   have hn : 3 ≤ n := hC.three_le
   have hBp := hC.exp
@@ -180,7 +180,7 @@ private theorem ggFarCfg_dvd_card_J {G : Type} [Group G] [Finite G] {p : ℕ}
     (hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J) :
     p ∣ Nat.card J := by
   have hp : p.Prime := hC.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ n := hC.three_le
   obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
   obtain ⟨g, hg, hg1, hgp⟩ :=

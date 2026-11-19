@@ -195,7 +195,7 @@ theorem rank_bound_of_fixed {X : Type} [Group X] [Finite X] {K B : Subgroup X} {
       IsPGroup 2 ↥P ∧ E ≤ Subgroup.normalizer (P : Set ↥H))
     {r : ℕ} (hr : autOrderIn B K = 3 ^ r) : 5 ≤ r := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, P, hEel, hE4, hP, hP2, hEN⟩ := hcart
   have hπinj : ∀ a c : ↥K, (QuotientGroup.mk a : ↥K ⧸ Subgroup.center ↥K) = QuotientGroup.mk c → a = c :=
     fun a c h => eKS.injective (by rw [hεK, hεK]; exact h)
@@ -352,7 +352,7 @@ theorem gamma_input {S : Type} [Group S] [Finite S] (A : Subgroup (MulAut S))
     ∃ E₀ : Subgroup (MulAut S), E₀ ≤ A ∧ IsElemAbelian 3 E₀ ∧ Nat.card E₀ = 3 ^ 4 ∧
       ∃ U : Subgroup S, U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧ ∀ φ ∈ E₀, ∀ u ∈ U, φ u ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hιinj : Function.Injective (MulAut.conj : S →* MulAut S) :=
     conj_injective_of_center_eq_bot hcenS
   have hA0el : IsElemAbelian 3 ((MulAut.conj : S →* MulAut S).range ⊓ A) :=
@@ -487,11 +487,11 @@ theorem E68OutThree_holds :
       intro u
       apply Units.ext
       rw [Units.val_pow_eq_pow_val, Units.val_one]
-      haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+      have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
       have h8 : Fintype.card (GaloisField 2 3) = 8 := by
-        rw [Fintype.card_eq_nat_card, hKcard] <;> norm_num
+        rw [Fintype.card_eq_nat_card, hKcard]; norm_num
       have hcard : Fintype.card (GaloisField 2 3) - 1 = 7 := by
-        rw [h8] <;> norm_num
+        rw [h8]
       have h := FiniteField.pow_card_sub_one_eq_one (u : GaloisField 2 3) u.ne_zero
       rw [hcard] at h
       exact h
@@ -567,7 +567,7 @@ theorem E68OutThree_holds :
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hm1
     have hk1 : k ≤ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h9 : 3 ^ 2 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hcon
       have h6 : 3 ^ k ≤ 6 := Nat.le_of_dvd (by norm_num) (hk ▸ hm2)
       norm_num at h9
@@ -623,7 +623,7 @@ theorem gen2318E68Outer_of_inputs (hGA : CFSG.Open.GriessAllModelsStatement)
   have hbex : ∃ b ∈ B ⊓ Subgroup.normalizer (K : Set X),
       ∀ k ∈ K, k⁻¹ * b ∉ Subgroup.centralizer (K : Set X) := by
     unfold InducesInnerIn at hout
-    push_neg at hout
+    push Not at hout
     exact hout
   obtain ⟨b, hbBN, hbnot⟩ := hbex
   have hbB : b ∈ B := (Subgroup.mem_inf.1 hbBN).1

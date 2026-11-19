@@ -34,7 +34,7 @@ private theorem ggQ2gc_alpha_xV {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : GGQ2L
       v ∈ Submodule.span (ZMod p) {xV}) :
     ∀ j : {k // k ≠ e}, D.root j xV = 0 := by
   have h2ne : (2 : ZMod p) ≠ 0 := by
-    haveI : CharP (ZMod p) 3 := by
+    have : CharP (ZMod p) 3 := by
       rw [← hp]
       infer_instance
     exact two_ne_zero_of_charP_three
@@ -131,7 +131,7 @@ theorem ggQ2_gammaNbr_core (P : GGQ2NbrPosPred) (hLB : GGLBalanceInput)
       GGQTwoSetting p B Bs x L D J → p = 3 → GGQTwoI1 Bs D J → P G x L →
       ∀ {u : ↥Bs}, GGNbrLine p B x D J u → GGGammaAt p B Bs x L D J u := by
   intro G _ _ p B Bs x L D J hS hp hI1 hxL u hu
-  haveI : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
+  have : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
   subst hp
   classical
   have hH : GGCorFiveTwentyHyp 3 B Bs x L D J := hS.1
@@ -265,7 +265,7 @@ theorem ggQ2_gammaNbr_core (P : GGQ2NbrPosPred) (hLB : GGLBalanceInput)
             (v := fun o : Option {k // k ≠ M.b} => Option.elim o M.yV (fun i => M.coroot i))
             (by rw [hrange]; exact hV)
         rwa [Fintype.card_option] at htop
-      haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+      have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
       have hcard_bs : Nat.card ↥Bs = 3 ^ Module.finrank (ZMod 3) M.V := by
         calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := rfl
           _ = Nat.card M.V := Nat.card_congr M.model.toEquiv

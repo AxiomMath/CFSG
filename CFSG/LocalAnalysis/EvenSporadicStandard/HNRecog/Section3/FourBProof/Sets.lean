@@ -59,9 +59,9 @@ private lemma fourB_classes_of_mem (H : FourBHyps a z) (P : FourBPair a p q) {i 
     (IsConj a t ∨ IsConj z t) ∧ (IsConj a (p * t) ∨ IsConj z (p * t)) ∧
       (IsConj a (q * t) ∨ IsConj z (q * t)) := by
   fin_cases i <;>
-    simp only [fourBSetP, orb2A, orb2B, orb2AB, orb2BB, Set.mem_inter_iff, Set.mem_setOf_eq,
+    simp only [fourBSetP, orb2A, orb2B, orb2AB, orb2BB, Set.mem_inter_iff, Set.mem_ofPred_eq,
       Set.mem_singleton_iff, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.cons_val_succ, Matrix.head_cons,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons,
       Matrix.tail_cons, Fin.isValue, Fin.reduceFinMk] at ht
   · rw [ht]
     exact ⟨Or.inl P.hb, Or.inl (fourB_isConj_pb H P), Or.inl (fourB_isConj_qb H P)⟩
@@ -144,7 +144,7 @@ theorem fourB_set_conj (i : Fin 7) :
   fin_cases i <;>
     simp only [fourBSetP, Set.mem_inter_iff, Set.mem_singleton_iff, Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four,
-      Matrix.cons_val_succ, Matrix.head_cons, Matrix.tail_cons, Fin.isValue,
+      Matrix.head_cons, Matrix.tail_cons, Fin.isValue,
       Fin.reduceFinMk] at hc ⊢
   · rw [hc]
     exact fourB_conj_b hk

@@ -1061,7 +1061,7 @@ private theorem conjBy_mem_H_of_mem_elementCentralizer'
     conjBy g u ∈ H a := by
   let C := elementCentralizer a
   have hprod := h.centralizer_eq_product ha
-  haveI : ((H a).subgroupOf C).Normal := by
+  have : ((H a).subgroupOf C).Normal := by
     simpa [C] using internalSemidirectProduct_left_normal hprod
   have hmem :=
     Subgroup.Normal.conj_mem (show ((H a).subgroupOf C).Normal from inferInstance)
@@ -1335,12 +1335,12 @@ public theorem inducedCF_alphaB_eq_zero_of_not_mem_dadeSupport
     refine Finset.sum_eq_zero ?_
     intro x _hx
     by_cases hxM : x⁻¹ * g * x ∈ MOfSet H L B
-    · rw [dif_pos hxM]
+    · rw [dite_eq_left hxM]
       by_contra hne
       exact hg
         (alphaBSpec_nonzero_conjugate_mem_dadeSupport
           (A := A) (L := L) (H := H) h hB hBA hαA hαB hxM hne)
-    · rw [dif_neg hxM]
+    · rw [dite_eq_right hxM]
   simp [hsum]
 
 private theorem conjugateSet_closed_under_conjugateIn_left
@@ -1458,20 +1458,20 @@ private theorem inducedCF_alphaB_support_piece_filter_formula
   refine Finset.sum_congr rfl ?_
   intro x _hx
   by_cases hxM : x⁻¹ * g * x ∈ MOfSet H L B
-  · rw [dif_pos hxM]
+  · rw [dite_eq_left hxM]
     by_cases hx :
         ∃ b : G, b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b ∧
           x⁻¹ * g * x ∈ rightTranslateSet (HInter H B : Set G) b
-    · rw [dif_pos hx]
+    · rw [dite_eq_left hx]
       exact (alphaBSpec_apply_eq_of_mem_support_piece
         (A := A) (L := L) (H := H) h hB hBA
         hαclass hαA hαB ha hgpiece hxM).1 hx
-    · rw [dif_neg hx]
+    · rw [dite_eq_right hx]
       exact (alphaBSpec_apply_eq_of_mem_support_piece
         (A := A) (L := L) (H := H) h hB hBA
         hαclass hαA hαB ha hgpiece hxM).2 hx
-  · rw [dif_neg hxM]
-    rw [dif_neg]
+  · rw [dite_eq_right hxM]
+    rw [dite_eq_right]
     intro hx
     rcases hx with ⟨b, hbN, _hab, hxb⟩
     rcases hxb with ⟨h₀, hh₀, hxeq⟩
@@ -1502,9 +1502,9 @@ private theorem support_piece_filter_sum_eq_transporter_card_sum
     ∃ b : G, b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b ∧
       x⁻¹ * g * x ∈ rightTranslateSet (HInter H B : Set G) b
   let idx : Type u := {b : G // b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b}
-  letI : DecidableEq G := Classical.decEq G
-  letI : DecidableEq idx := Classical.decEq idx
-  letI : Fintype idx := Fintype.ofFinite idx
+  let : DecidableEq G := Classical.decEq G
+  let : DecidableEq idx := Classical.decEq idx
+  let : Fintype idx := Fintype.ofFinite idx
   let fiber : idx → Finset G := fun b =>
     (transporterSet g
       (rightTranslateSet (HInter H B : Set G) (b : G))).toFinset
@@ -1610,7 +1610,7 @@ public theorem inducedCF_alphaB_support_piece_formula
   classical
   let αa : ℂ := α ⟨a, hAL a ha⟩
   let idx : Type u := {b : G // b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b}
-  letI : Fintype idx := Fintype.ofFinite idx
+  let : Fintype idx := Fintype.ofFinite idx
   have hαproof : α ⟨a, h.subset_L a ha⟩ = αa := by
     simp [αa]
   have hfilter :=
@@ -1873,7 +1873,7 @@ private theorem scalarProduct_dadeAveraging_eq_restrict_of_constant
       exact hα.2 l hlA)
     (by
       intro l hlA
-      letI : Fintype (H (l : G)) := Fintype.ofFinite (H (l : G))
+      let : Fintype (H (l : G)) := Fintype.ofFinite (H (l : G))
       have hsum :
           (∑ x : H (l : G), χ ((l : G) * (x : G))) =
             (Nat.card (H (l : G)) : ℂ) * χ (l : G) := by
@@ -1943,12 +1943,12 @@ private theorem exists_representative_system_for_nonempty_subsets
             intro B C D hBC hCD
             exact hrel_trans.trans B C D hBC hCD } }
   let Q := Quotient s
-  haveI : Finite Q := by
+  have : Finite Q := by
     refine Finite.of_surjective (Quotient.mk s) ?_
     intro q
     refine ⟨Quotient.out q, ?_⟩
     exact Quotient.out_eq q
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   let reps : Finset (Set G) := (Finset.univ : Finset Q).image fun q =>
     ((Quotient.out q : S) : Set G)
   refine ⟨reps, ?_⟩
@@ -2327,12 +2327,12 @@ private theorem exists_representative_system_for_lconjugate_elements
             intro a b c hab hbc
             exact hrel_trans.trans a b c hab hbc } }
   let Q := Quotient s
-  haveI : Finite Q := by
+  have : Finite Q := by
     refine Finite.of_surjective (Quotient.mk s) ?_
     intro q
     refine ⟨Quotient.out q, ?_⟩
     exact Quotient.out_eq q
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   let reps : Finset G := (Finset.univ : Finset Q).image fun q =>
     ((Quotient.out q : S) : G)
   refine ⟨reps, ?_⟩
@@ -2383,8 +2383,8 @@ private theorem dadeAveragingFunction_eq_of_lconj
   have hH :
       H (conjBy (x : G) a) = conjugateSubgroup (x : G) (H a) := by
     simpa [hx] using (proposition_2_4 A L H).1 h ha x.2
-  letI : Fintype (H a) := Fintype.ofFinite (H a)
-  letI : Fintype (H (conjBy (x : G) a)) := Fintype.ofFinite (H (conjBy (x : G) a))
+  let : Fintype (H a) := Fintype.ofFinite (H a)
+  let : Fintype (H (conjBy (x : G) a)) := Fintype.ofFinite (H (conjBy (x : G) a))
   let e : H a ≃ H (conjBy (x : G) a) := by
     refine
       { toFun := fun y => ⟨conjBy (x : G) (y : G), ?_⟩
@@ -2554,7 +2554,7 @@ private theorem ncard_conjAct_orbit_mul_card_setNormalizer
     Nat.card (MulAction.orbit (ConjAct G) S) * Nat.card (setNormalizer S) =
       Nat.card G := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hsurj :
       Function.Surjective
         (fun x : ConjAct G =>
@@ -2565,12 +2565,12 @@ private theorem ncard_conjAct_orbit_mul_card_setNormalizer
     refine ⟨x, ?_⟩
     ext g
     simp [hx]
-  haveI : Finite (MulAction.orbit (ConjAct G) S) :=
+  have : Finite (MulAction.orbit (ConjAct G) S) :=
     Finite.of_surjective
       (fun x : ConjAct G =>
         (⟨x • S, by exact ⟨x, rfl⟩⟩ :
           MulAction.orbit (ConjAct G) S)) hsurj
-  letI : Fintype (MulAction.orbit (ConjAct G) S) :=
+  let : Fintype (MulAction.orbit (ConjAct G) S) :=
     Fintype.ofFinite (MulAction.orbit (ConjAct G) S)
   have hcard :=
     MulAction.card_orbit_mul_card_stabilizer_eq_card_group
@@ -2599,8 +2599,8 @@ private theorem conjugateImage_sum_eq
       (letI : Fintype S := Fintype.ofFinite S
         ∑ g : S, χ (g : G)) := by
   classical
-  letI : Fintype S := Fintype.ofFinite S
-  letI : Fintype (conjugateImage S x) := Fintype.ofFinite (conjugateImage S x)
+  let : Fintype S := Fintype.ofFinite S
+  let : Fintype (conjugateImage S x) := Fintype.ofFinite (conjugateImage S x)
   let f : S → conjugateImage S x := fun s =>
     ⟨conjBy x (s : G), ⟨s, s.2, rfl⟩⟩
   have hf : Function.Bijective f := by
@@ -2628,8 +2628,8 @@ private theorem sum_cosetProduct_eq_sum_subgroup
     ∑ g : cosetProduct a K, f (g : G) =
       ∑ k : K, f (a * (k : G)) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (cosetProduct a K) := Fintype.ofFinite (cosetProduct a K)
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (cosetProduct a K) := Fintype.ofFinite (cosetProduct a K)
   let toCoset : K → cosetProduct a K := fun k =>
     ⟨a * (k : G), ⟨a, by simp, (k : G), k.2, rfl⟩⟩
   have hbij : Function.Bijective toCoset := by
@@ -2659,7 +2659,7 @@ private theorem sum_toFinset_eq_subtype
       (letI : Fintype S := Fintype.ofFinite S
         ∑ g : S, f (g : G)) := by
   classical
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   simp [Set.toFinset]
 
 
@@ -2739,8 +2739,8 @@ private theorem sum_conjugateSet_cosetProduct_eq_orbit
     (@Finset.univ (conjugateImage S x)
       (Fintype.ofFinite (conjugateImage S x))).sum
       (fun g => χ (g : G))
-  letI : Fintype S := Fintype.ofFinite S
-  letI : Fintype (conjugateSet S) := Fintype.ofFinite (conjugateSet S)
+  let : Fintype S := Fintype.ofFinite S
+  let : Fintype (conjugateSet S) := Fintype.ofFinite (conjugateSet S)
   change (∑ g : conjugateSet S, χ (g : G)) =
       (Nat.card (MulAction.orbit (ConjAct G) S) : ℂ) *
         (∑ g : S, χ (g : G))
@@ -2753,11 +2753,11 @@ private theorem sum_conjugateSet_cosetProduct_eq_orbit
     refine ⟨x, ?_⟩
     ext g
     simp [hx]
-  haveI : Finite (MulAction.orbit (ConjAct G) S) :=
+  have : Finite (MulAction.orbit (ConjAct G) S) :=
     Finite.of_surjective
       (fun x : ConjAct G =>
         (⟨x • S, by exact ⟨x, rfl⟩⟩ : MulAction.orbit (ConjAct G) S)) hsurj
-  letI : Fintype (MulAction.orbit (ConjAct G) S) :=
+  let : Fintype (MulAction.orbit (ConjAct G) S) :=
     Fintype.ofFinite (MulAction.orbit (ConjAct G) S)
   let pieces : MulAction.orbit (ConjAct G) S → Finset G := fun T =>
     letI : Fintype (T : Set G) := Fintype.ofFinite (T : Set G)
@@ -2887,7 +2887,7 @@ private theorem sum_orbit_conjAct_eq_card_mul
     ∑ b : MulAction.orbit (ConjAct L) a, ψ (b : L) =
       (Nat.card (MulAction.orbit (ConjAct L) a) : ℂ) * ψ a := by
   classical
-  letI : Fintype (MulAction.orbit (ConjAct L) a) :=
+  let : Fintype (MulAction.orbit (ConjAct L) a) :=
     Fintype.ofFinite (MulAction.orbit (ConjAct L) a)
   have hconst : ∀ b : MulAction.orbit (ConjAct L) a, ψ (b : L) = ψ a := by
     intro b
@@ -3022,9 +3022,9 @@ private theorem sum_conjugateSet_cosetProduct_star_eq_orbit_h_avg
         (Nat.card (H a) : ℂ) *
           star (dadeAveragingFunction L H χ ⟨a, hAL a ha⟩) := by
   classical
-  letI : Fintype (conjugateSet (cosetProduct a (H a))) :=
+  let : Fintype (conjugateSet (cosetProduct a (H a))) :=
     Fintype.ofFinite (conjugateSet (cosetProduct a (H a)))
-  letI : Fintype (cosetProduct a (H a)) :=
+  let : Fintype (cosetProduct a (H a)) :=
     Fintype.ofFinite (cosetProduct a (H a))
   let χstar : Section1.ClassFunction G := fun g => star (χ g)
   have hχstarclass : Section1.IsClassFunction χstar := by
@@ -3470,8 +3470,8 @@ private theorem dadeInductionFormulaTerm_setConjugateBy_eq
         exact (conjugateInSubgroup_conjBy_iff x).2 hcconj
       · apply Subtype.ext
         simpa [f] using hcz.symm
-  letI : Fintype idx := Fintype.ofFinite idx
-  letI : Fintype idxc := Fintype.ofFinite idxc
+  let : Fintype idx := Fintype.ofFinite idx
+  let : Fintype idxc := Fintype.ofFinite idxc
   have hsum_idx :
       ∑ b : idxc,
           (Nat.card
@@ -3553,8 +3553,8 @@ private theorem dadeInductionFormulaTerm_lconj_left_eq
         conjugateInSubgroup_trans hac b.2.2⟩, ?_⟩
       apply Subtype.ext
       rfl
-  letI : Fintype idxa := Fintype.ofFinite idxa
-  letI : Fintype idxc := Fintype.ofFinite idxc
+  let : Fintype idxa := Fintype.ofFinite idxa
+  let : Fintype idxc := Fintype.ofFinite idxc
   have hsum :
       ∑ b : idxc,
           (Nat.card
@@ -3847,7 +3847,7 @@ private theorem sum_orbit_if_mem_normalizer_eq_subtype
         f (b : G) := by
   classical
   let orbit := MulAction.orbit (ConjAct L) aL
-  letI : Fintype orbit := Fintype.ofFinite orbit
+  let : Fintype orbit := Fintype.ofFinite orbit
   let p : orbit → Prop := fun b => ((b : L) : G) ∈ normalizerIn L B
   let e := normalizerConjugateEquivOrbitNormalizer (L := L) aL B
   have hfilter :
@@ -3897,7 +3897,7 @@ private theorem lSubsetOrbitFinset_card_mul_card_normalizerIn
       Nat.card L := by
   classical
   let toG : ConjAct L → G := fun x => ((ConjAct.ofConjAct x : L) : G)
-  letI : MulAction (ConjAct L) (Set G) := {
+  let : MulAction (ConjAct L) (Set G) := {
     smul := fun x B => setConjugateBy (toG x) B
     one_smul := by
       intro B
@@ -4636,7 +4636,7 @@ private theorem weighted_nonemptySubsets_dadeInductionFormulaTerm_support_cancel
             if a ∈ normalizerIn L B then fixedContribution B else 0) := by
     classical
     let orbit := MulAction.orbit (ConjAct L) (⟨a, hAL a ha⟩ : L)
-    letI : Fintype orbit := Fintype.ofFinite orbit
+    let : Fintype orbit := Fintype.ofFinite orbit
     let contribution : Set G → G → ℂ := fun B b =>
       ((-1 : ℂ) ^ Nat.card B) *
         (Nat.card (HInter H B) : ℂ)⁻¹ *
@@ -4670,10 +4670,10 @@ private theorem weighted_nonemptySubsets_dadeInductionFormulaTerm_support_cancel
           normalizerIn_setConjugateBy_mem_iff
             (L := L) (B := B) x (b : G)
         by_cases hbN : (b : G) ∈ normalizerIn L B
-        · rw [if_pos ((hiff).2 hbN), if_pos hbN]
+        · rw [ite_eq_left ((hiff).2 hbN), ite_eq_left hbN]
           exact transporterContribution_setConjugateBy_eq
             (A := A) (L := L) (H := H) h hBA x g (b : G)
-        · rw [if_neg (mt hiff.1 hbN), if_neg hbN]
+        · rw [ite_eq_right (mt hiff.1 hbN), ite_eq_right hbN]
       have hright :
           (∑ B ∈ nonemptySubsetsFinset A, f B) =
             ψ (x * b * x⁻¹) := by
@@ -4694,7 +4694,7 @@ private theorem weighted_nonemptySubsets_dadeInductionFormulaTerm_support_cancel
         normalizer_card_mul_dadeInductionFormulaTerm_eq
           (A := A) (L := L) (H := H) h hAL
           (α := α) (g := g) ha hBprops.1 hBprops.2
-      letI : Fintype {b : G // b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b} :=
+      let : Fintype {b : G // b ∈ normalizerIn L B ∧ conjugateInSubgroup L a b} :=
         Fintype.ofFinite _
       have horbit :
           (∑ b : orbit,
@@ -4950,11 +4950,11 @@ private theorem weighted_nonemptySubsets_dadeInductionFormulaTerm_support_cancel
         (Nat.card (elementCentralizer a) : ℂ) =
           (Nat.card (H a) : ℂ) * (Nat.card (centralizerIn L a) : ℂ) := by
       exact_mod_cast centralizer_card_eq_mul (A := A) (L := L) (H := H) h ha
-    haveI : Nonempty (H a) := ⟨⟨1, (H a).one_mem⟩⟩
+    have : Nonempty (H a) := ⟨⟨1, (H a).one_mem⟩⟩
     have hHneNat : Nat.card (H a) ≠ 0 := Nat.card_pos.ne'
     have hHne : (Nat.card (H a) : ℂ) ≠ 0 := by
       exact_mod_cast hHneNat
-    haveI : Nonempty (centralizerIn L a) := ⟨⟨1, by simp [centralizerIn]⟩⟩
+    have : Nonempty (centralizerIn L a) := ⟨⟨1, by simp [centralizerIn]⟩⟩
     have hCneNat : Nat.card (centralizerIn L a) ≠ 0 := Nat.card_pos.ne'
     have hCne : (Nat.card (centralizerIn L a) : ℂ) ≠ 0 := by
       exact_mod_cast hCneNat
@@ -5132,7 +5132,7 @@ public theorem theorem_2_6_inner_product_core
               dadeTransform H hAL α (g : G) * star (χ (g : G)) := by
           refine Finset.sum_congr rfl ?_
           intro a ha
-          letI : Fintype (conjugateSet (cosetProduct a (H a))) :=
+          let : Fintype (conjugateSet (cosetProduct a (H a))) :=
             Subtype.fintype _
           rw [show
               ∑ g ∈ piece a, dadeTransform H hAL α g * star (χ g) =
@@ -5562,14 +5562,14 @@ private theorem theorem_2_6_virtual_closure_core
       intro B hBmem
       have hBprops : B.Nonempty ∧ B ⊆ A := hreps.1 B hBmem
       dsimp [αB]
-      rw [dif_pos hBprops]
+      rw [dite_eq_left hBprops]
       exact alphaBFromProjection_spec A L H h hBprops.1 hBprops.2 α
     have hαBvirt :
         ∀ B ∈ reps, Theory.Character.IsVirtualCharacter (αB B) := by
       intro B hBmem
       have hBprops : B.Nonempty ∧ B ⊆ A := hreps.1 B hBmem
       dsimp [αB]
-      rw [dif_pos hBprops]
+      rw [dite_eq_left hBprops]
       exact alphaBFromProjection_isVirtualCharacter A L H h
         hBprops.1 hBprops.2 α hα.1
     have hformula :

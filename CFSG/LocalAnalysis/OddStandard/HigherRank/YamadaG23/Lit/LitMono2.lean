@@ -13,7 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 theorem lit_le_oddCore_of_normal_normal {M L : Subgroup G} [M.Normal] (hLM : L ≤ M)
     (hL : ∀ m ∈ M, ∀ l ∈ L, m * l * m⁻¹ ∈ L) (hodd : Odd (Nat.card L)) :
     L ≤ CFSG.oddCore G := by
-  haveI hnorm : (L.subgroupOf M).Normal :=
+  have hnorm : (L.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff hLM).mpr fun h k hh hk => hL k hk h hh
   have hcard : Nat.card (L.subgroupOf M) = Nat.card L :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hLM).toEquiv
@@ -29,6 +29,7 @@ theorem lit_le_oddCore_of_normal_normal {M L : Subgroup G} [M.Normal] (hLM : L �
 
 variable {A : Subgroup G} {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)}
 
+omit [Finite G] in
 private theorem lit_A_ne_bot (h : LitBar A φ) : A ≠ ⊥ := by
   intro hbot
   have hcard : Nat.card A = 1 := by rw [hbot, Subgroup.card_bot]
@@ -38,7 +39,7 @@ private theorem lit_A_ne_bot (h : LitBar A φ) : A ≠ ⊥ := by
 private theorem lit_step_A (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M)
     {L : Subgroup G} (hLM : L ≤ M) (hL : ∀ m ∈ M, ∀ l ∈ L, m * l * m⁻¹ ∈ L)
     (hLne : L ≠ ⊥) : A ≤ L := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hAM : A ≤ M := lit_mono_le h hM
   have hEven : Even (Nat.card L) := by
     by_contra hnot
@@ -89,7 +90,7 @@ private theorem lit_step_A (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal
     intro hbot
     have hzbot : z ∈ (⊥ : Subgroup G) := hbot ▸ (show z ∈ A ⊓ L from ⟨hzA, hzL⟩)
     exact hz1 (Subgroup.mem_bot.mp hzbot)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard_alt : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]; norm_num
   obtain ⟨σ, hσ⟩ :=
@@ -140,7 +141,7 @@ private theorem lit_step_A (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal
 
 theorem lit_mono_simple (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) :
     IsSimpleGroup ↥M := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hAM : A ≤ M := lit_mono_le h hM
   have hAne : A ≠ ⊥ := lit_A_ne_bot h
   rw [Subgroup.isSimpleGroup_iff]
@@ -184,8 +185,8 @@ theorem lit_mono_simple (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M)
 theorem lit_mono_unique (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M)
     {K : Subgroup G} [K.Normal] (hK : K ≠ ⊥) : M ≤ K := by
   obtain ⟨M₀, hM₀, hM₀K⟩ := lit_exists_minNormal_le (K := K) hK
-  haveI : M.Normal := hM.1
-  haveI : M₀.Normal := hM₀.1
+  have : M.Normal := hM.1
+  have : M₀.Normal := hM₀.1
   have hAM : A ≤ M := lit_mono_le h hM
   have hAM₀ : A ≤ M₀ := lit_mono_le h hM₀
   have hAne : A ≠ ⊥ := lit_A_ne_bot h
@@ -201,11 +202,11 @@ theorem lit_mono_unique (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M)
 
 theorem lit_mono_centralizer (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) :
     centralizer (M : Set G) = ⊥ := by
-  haveI : M.Normal := hM.1
-  haveI : (centralizer (M : Set G)).Normal := inferInstance
+  have : M.Normal := hM.1
+  have : (centralizer (M : Set G)).Normal := inferInstance
   by_contra hne
   have hMleC : M ≤ centralizer (M : Set G) := lit_mono_unique h hM hne
-  haveI : IsMulCommutative ↥M := IsMulCommutative.of_comm fun a b => by
+  have : IsMulCommutative ↥M := IsMulCommutative.of_comm fun a b => by
     have ha : (a : G) ∈ centralizer (M : Set G) := hMleC a.2
     have hh := (Subgroup.mem_centralizer_iff.mp ha) (b : G) b.2
     exact Subtype.ext hh.symm
@@ -232,7 +233,7 @@ theorem lit_mono (h : LitBar A φ) :
   refine ⟨M, hM.1, lit_mono_simple h hM, lit_mono_le h hM, lit_mono_centralizer h hM, ?_,
     lit_mono_five h hM⟩
   intro K hK hKne
-  letI : K.Normal := hK
+  let : K.Normal := hK
   exact lit_mono_unique h hM hKne
 
 end CFSG.OddStandard.HigherRank.YamadaG23

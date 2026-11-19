@@ -23,7 +23,7 @@ section Holds
 theorem kFactSingleW_of_gamma (hγ : N3.GammaStructureP) : KFactSingleW := by
   intro p X _ _ P x z hpl hperf hU W hWcop hBW
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp5 := hpl.five_le
   have hp2 : p ≠ 2 := by omega
   set D : Subgroup X := primeComplementCore (G := X) p with hD
@@ -69,7 +69,7 @@ theorem kFactSingleW_of_gamma (hγ : N3.GammaStructureP) : KFactSingleW := by
     rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers]
     rfl
   have hx1b : (x : X ⧸ D) ≠ 1 := fun h =>
-    hx1 (K62B.eq_one_of_mk_eq_one hprime (P.isPGroup'.to_le (zpowers_le.mpr hxP))
+    hx1 (K62B.eq_one_of_mk_eq_one hprime (P.isPGroup.to_le (zpowers_le.mpr hxP))
       (Subgroup.mem_zpowers x) h)
   have hxord : orderOf (x : X ⧸ D) = p := orderOf_eq_prime hcfg.x_pow hx1b
   have hBL : (zpowers (x : X ⧸ D) ⊔ zpowers (z : X ⧸ D) : Subgroup (X ⧸ D)) ≤ L :=
@@ -84,7 +84,7 @@ theorem kFactSingleW_of_gamma (hγ : N3.GammaStructureP) : KFactSingleW := by
     K62B.isElemAbelian_sup hXe hZe (fun a ha b hb =>
       hcfg.zpowers_central hb (zpowers_le.2 hcfg.x_mem ha))
   have hrankc : Open.pRank p (centralizer ({(x : X ⧸ D)} : Set (X ⧸ D))) ≤ 2 := by
-    have hxp : IsPGroup p (zpowers x) := P.isPGroup'.to_le (zpowers_le.mpr hxP)
+    have hxp : IsPGroup p (zpowers x) := P.isPGroup.to_le (zpowers_le.mpr hxP)
     have hmap :=
       CFSG.RankThreeEvenClassification.Helpers.centralizer_map_eq_of_pGroup_prime_complement_kernel
         p hprime π hπs hker (zpowers x) hxp
@@ -105,7 +105,7 @@ theorem kFactSingleW_of_gamma (hγ : N3.GammaStructureP) : KFactSingleW := by
       GLAPLayer p (centralizer ({d} : Set (X ⧸ D))) = ⊥ ∧
         GLAPPrimeCoreOf p (centralizer ({d} : Set (X ⧸ D))) = ⊥ := by
     intro d hd hd1
-    haveI := hLn
+    have := hLn
     exact CFSG.LocalAnalysis.RankFourTheoremC.kd29Inner_holds p hprime hp5 (X ⧸ D) L hLs hLnab
       hLcat hnlu hLC hY3 ⟨(x : X ⧸ D), hxL, hxord, hrankc⟩ d (hBL hd) hd1 (hBe.2 d hd)
   have hcard : Nat.card (zpowers (x : X ⧸ D) ⊔ zpowers (z : X ⧸ D) : Subgroup (X ⧸ D)) = p ^ 2 := by

@@ -98,9 +98,9 @@ theorem card_le_pc {W : Finset ℕ} {X : ℕ} (h : ∀ κ ∈ W, X.testBit κ = 
   exact Finset.card_le_card fun κ hκ => Finset.mem_filter.2 ⟨Finset.mem_range.2 (hW κ hκ), h κ hκ⟩
 
 theorem foldl_land_le (g : Nat × Nat → ℕ) :
-    ∀ (labs : List (Nat × Nat)) (m : ℕ), labs.foldl (fun m l => Nat.land m (g l)) m ≤ m
-  | [], m => le_refl m
-  | l :: labs, m => le_trans (foldl_land_le g labs _) Nat.and_le_left
+    ∀ (labs : List (Nat × Nat)) (_m : ℕ), labs.foldl (fun _m _l => Nat.land _m (g _l)) _m ≤ _m
+  | [], _m => le_refl _m
+  | _l :: labs, _m => le_trans (foldl_land_le g labs _) Nat.and_le_left
 
 set_option exponentiation.threshold 1024 in
 theorem fixOf_lt (FA : ℕ) (labs : List (Nat × Nat)) : fixOf FA labs < 2 ^ 1024 :=
@@ -109,7 +109,7 @@ theorem fixOf_lt (FA : ℕ) (labs : List (Nat × Nat)) : fixOf FA labs < 2 ^ 102
 theorem phiW_eq_zero {W : Finset ℕ} : ∀ g : List ℕ, (∀ x ∈ g, x ∈ W) → phiW W g = 0
   | [], _ => rfl
   | x :: g, h => by
-    rw [phiW, if_pos (h x List.mem_cons_self),
+    rw [phiW, ite_eq_left (h x List.mem_cons_self),
       phiW_eq_zero g (fun y hy => h y (List.mem_cons_of_mem _ hy))]
 
 set_option exponentiation.threshold 1024 in

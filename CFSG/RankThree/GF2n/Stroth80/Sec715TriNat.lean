@@ -63,10 +63,10 @@ theorem natW_apply (N : ℕ) (k : Fin 4) (r : Bool) (p : Fin 4) :
 
 theorem natW_self (N : ℕ) (k : Fin 4) (r : Bool) :
     natW N k r k = ((boolSign r : ℤ) : ZMod N) := by
-  rw [natW_apply, if_pos rfl]
+  rw [natW_apply, ite_eq_left rfl]
 
 theorem natW_of_ne {N : ℕ} {k p : Fin 4} (h : p ≠ k) (r : Bool) : natW N k r p = 0 := by
-  rw [natW_apply, if_neg h]
+  rw [natW_apply, ite_eq_right h]
 
 theorem natW_true (N : ℕ) (k : Fin 4) : natW N k true = Pi.single k 1 := by
   funext p
@@ -237,9 +237,9 @@ theorem natBasis_natW (hN : 3 ≤ Nat.card Kˣ) (k : Fin 4) (r : Bool) :
   funext x
   rcases x with m | m
   · rw [natBasis_natW_inl hN]
-    cases r <;> by_cases h : k = m <;> simp [plusVec, Pi.single_apply, h, eq_comm]
+    cases r <;> by_cases h : k = m <;> simp [plusVec, h, eq_comm]
   · rw [natBasis_natW_inr hN]
-    cases r <;> by_cases h : k = m <;> simp [plusVec, Pi.single_apply, h, eq_comm]
+    cases r <;> by_cases h : k = m <;> simp [plusVec, h, eq_comm]
 
 theorem natBasis_single_one (hN : 3 ≤ Nat.card Kˣ) (k : Fin 4) :
     natBasis (Pi.single k 1 : Fin 4 → ZMod (Nat.card Kˣ)) =
@@ -296,12 +296,12 @@ theorem natRep_X8_plusVec [CharP K 2] {i j : Fin 4} (hij : i ≠ j) (s t : Bool)
     map_add, map_add, map_neg, reindexVectorEquiv_symm_pvec]
   by_cases h1 : k = j ∧ r = !t
   · have h2 : ¬ (k = i ∧ r = !s) := fun h => hij (h.1.symm.trans h1.1)
-    simp only [if_pos h1, if_neg h2, map_zero, map_smul, reindexVectorEquiv_symm_pvec, neg_zero,
+    simp only [ite_eq_left h1, ite_eq_right h2, map_zero, map_smul, reindexVectorEquiv_symm_pvec, neg_zero,
       add_zero]
   · by_cases h2 : k = i ∧ r = !s
-    · simp only [if_neg h1, if_pos h2, map_zero, map_smul, reindexVectorEquiv_symm_pvec,
+    · simp only [ite_eq_right h1, ite_eq_left h2, map_zero, map_smul, reindexVectorEquiv_symm_pvec,
         neg_vec_eq_self, add_zero]
-    · simp only [if_neg h1, if_neg h2, map_zero, neg_zero, add_zero]
+    · simp only [ite_eq_right h1, ite_eq_right h2, map_zero, neg_zero, add_zero]
 
 end Action
 
@@ -349,19 +349,19 @@ theorem nf_natRep [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) :
           natW (Nat.card Kˣ) i s := by
         rw [h1.1, h1.2]
         exact natW_not_add_castW_lv_j i j s t
-      rw [hw, if_pos (natW_mem_natWts i s), natBasis_natW hN, if_pos h1, if_neg h2, add_zero]
+      rw [hw, ite_eq_left (natW_mem_natWts i s), natBasis_natW hN, ite_eq_left h1, ite_eq_right h2, add_zero]
     · by_cases h2 : k = i ∧ r = !s
       · have hw : natW (Nat.card Kˣ) k r + castW (Nat.card Kˣ) (lv i j s t) =
             natW (Nat.card Kˣ) j t := by
           rw [h2.1, h2.2]
           exact natW_not_add_castW_lv_i i j s t
-        rw [hw, if_pos (natW_mem_natWts j t), natBasis_natW hN, if_neg h1, if_pos h2, add_zero]
+        rw [hw, ite_eq_left (natW_mem_natWts j t), natBasis_natW hN, ite_eq_right h1, ite_eq_left h2, add_zero]
       · have hn : natW (Nat.card Kˣ) k r + castW (Nat.card Kˣ) (lv i j s t) ∉
             natWts (K := K) := by
           intro hmem
           obtain ⟨m, r', hm⟩ := exists_natW_of_mem hmem
           exact natW_add_castW_lv_ne hN hij s t h1 h2 m r' hm
-        rw [if_neg hn, if_neg h1, if_neg h2, add_zero, add_zero]
+        rw [ite_eq_right hn, ite_eq_right h1, ite_eq_right h2, add_zero, add_zero]
 
 end Normal
 

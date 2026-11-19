@@ -39,9 +39,9 @@ theorem omq_omMinus_chi_of_long_trivial {n : ℕ} (hn : 4 ≤ n) {K : Type} [Fie
         χ g = omqMinusWt n ι ι' (((fun _ => a : Fin (n - 1) → ZMod (Nat.card Kˣ)), d) :
           OmqMinusLat (n - 1) (Nat.card Kˣ) (Nat.card K + 1)) g := by
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hχmul : ∀ a ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,
       ∀ b ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H, χ (a * b) = χ a * χ b :=
     fun a ha b hb => ht.chi_mul ha hb
@@ -79,7 +79,7 @@ theorem omq_omMinus_chi_of_long_trivial {n : ℕ} (hn : 4 ≤ n) {K : Type} [Fie
         exact ht.chi_mul (hlmem u) (hlmem u') }
   obtain ⟨C, hClt, hC⟩ := omq_exists_pow_of_units_hom ι' θS
   have hcardK : ∃ e : ℕ, 1 ≤ e ∧ Nat.card K = 2 ^ e := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨e, -, he⟩ := FiniteField.card K 2
     refine ⟨(e : ℕ), e.pos, ?_⟩
     rw [Nat.card_eq_fintype_card]

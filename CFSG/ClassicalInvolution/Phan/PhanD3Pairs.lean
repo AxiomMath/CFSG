@@ -48,7 +48,7 @@ theorem mem_inf01 (x : Fin 4 ⊕ Fin 4 → F) :
     rw [La_neg_one_frame0, La_neg_one_frame1]
     refine ⟨?_, ?_⟩ <;>
     · ext s
-      rcases s with i | i <;> fin_cases i <;> simp <;> field_simp
+      rcases s with i | i <;> fin_cases i <;> simp; try field_simp
 
 include hε h4 h2 in
 theorem mem_inf12 (x : Fin 4 ⊕ Fin 4 → F) :
@@ -80,7 +80,7 @@ theorem mem_inf12 (x : Fin 4 ⊕ Fin 4 → F) :
     rw [La_neg_one_frame2, La_neg_one_frame1]
     refine ⟨?_, ?_⟩ <;>
     · ext s
-      rcases s with i | i <;> fin_cases i <;> simp <;> field_simp
+      rcases s with i | i <;> fin_cases i <;> simp; try field_simp
 
 omit h4 in
 @[expose] def mapB (ε : F) : (F × F) →ₗ[F] (Fin 4 ⊕ Fin 4 → F) where

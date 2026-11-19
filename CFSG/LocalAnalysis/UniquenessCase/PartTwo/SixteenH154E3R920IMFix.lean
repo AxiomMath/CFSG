@@ -33,14 +33,15 @@ variable {G : Type} [Group G] [Finite G]
     simp only [HSMul.hSMul, Subgroup.coe_mul]
     group
 
+omit [Finite G] in
 theorem mem_of_fixed_coset_of_coprime {p : ℕ} (hp : p.Prime) {M U W A : Subgroup G}
     (hM : rankThreeIsMaxTwoLocal M) (hAp : Nat.card A = p) (hAu : A ∈ uniqueSet M)
-    (hAU : A ≤ normalizer (U : Set G)) (hAW : A ≤ normalizer (W : Set G)) (hWU : W ≤ U)
+    (_hAU : A ≤ normalizer (U : Set G)) (hAW : A ≤ normalizer (W : Set G)) (hWU : W ≤ U)
     (hUW : U ≤ normalizer (W : Set G)) (hUp : ¬ p ∣ Nat.card U) (hUM : U ⊓ M ≤ W) {u : G}
     (hu : u ∈ U) (hfix : ∀ a ∈ A, a * u * a⁻¹ * u⁻¹ ∈ W) : u ∈ W := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI := r920imf_conjAction A U W hAW hUW hu hfix
+  have : Fact p.Prime := ⟨hp⟩
+  let := r920imf_conjAction A U W hAW hUW hu hfix
   have hApg : IsPGroup p ↥A := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hAp)
   have hcop : ¬ p ∣ Nat.card W := fun h => hUp (h.trans (Subgroup.card_dvd_of_le hWU))
   obtain ⟨w, hwfix⟩ := hApg.nonempty_fixed_point_of_prime_not_dvd_card W hcop

@@ -145,7 +145,7 @@ theorem checkCycG_eq : checkCycG mvN eqV = checkCyc := rfl
 
 theorem checkOneG_eq (i : Fin 2) : checkOneG mvN eqV i = checkOne i := by
   simp only [checkOneG, checkOneAuxG, oneHeadG, checkYG, checkFixG, checkEpG, checkBinvG,
-    checkUniqG, uniqAtG, uniqTestG, checkWordsG, wordANG, upG, epG, mulNG, kryNG, eqMG, powNG_eq]
+    checkUniqG, checkWordsG, wordANG, upG, epG, mulNG, kryNG, eqMG, powNG_eq]
   rfl
 
 end CFSG.EvenSporadicStandard.Wong77.Cls

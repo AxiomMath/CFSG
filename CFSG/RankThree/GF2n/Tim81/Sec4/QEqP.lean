@@ -43,20 +43,20 @@ private theorem inf_centralizer_pCore_le (h : Hyp M V) :
 
 private theorem inf_centralizer_pCore_ne_bot (h : Hyp M V) :
     V ⊓ Subgroup.centralizer (inSubgroup (pCore 2) M : Set G) ≠ ⊥ := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := inSubgroup (pCore 2) M with hQ
   have hVQ : V ≤ Q := by rw [hQ]; exact h.le_Q
   have hQ2 : IsPGroup 2 Q := by rw [hQ]; exact (inSubgroup_pCore_two M).1
   have hVnorm : Q ≤ Subgroup.normalizer (V : Set G) := by
     rw [hQ]
     exact (inSubgroup_pCore_two M).2.1.trans h.le_normalizer
-  haveI : (V.subgroupOf Q).Normal :=
+  have : (V.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVQ).mpr hVnorm
   have hVsub_ne : V.subgroupOf Q ≠ ⊥ := by
     intro hbot
     apply h.ne_bot
     rw [← Subgroup.map_subgroupOf_eq_of_le hVQ, hbot, Subgroup.map_bot]
-  haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ2.isNilpotent
   obtain ⟨w, hw1⟩ :=
     Subgroup.ne_bot_iff_exists_ne_one.mp
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hVsub_ne)
@@ -177,8 +177,8 @@ private theorem frattini_eq_and_commutator_eq_of_minimal (h : RootHyp M V)
     rw [hQP]
     exact h.toHyp.frattini_Pc_le
   have hComm_le_Phi : inSubgroup commutator Q ≤ inSubgroup frattini Q := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fact (IsPGroup 2 ↥Q) := ⟨by rw [hQ]; exact (inSubgroup_pCore_two M).1⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (IsPGroup 2 ↥Q) := ⟨by rw [hQ]; exact (inSubgroup_pCore_two M).1⟩
     exact Subgroup.map_mono (commutator_le_frattini_of_isPGroup (R := ↥Q) (p := 2))
   have hComm_le_V : inSubgroup commutator Q ≤ V := hComm_le_Phi.trans hPhi_le_V
   have hComm_normal : M ≤ Subgroup.normalizer (inSubgroup commutator Q : Set G) :=

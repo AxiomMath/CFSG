@@ -27,7 +27,7 @@ section Reduction
 theorem u38MeetsX_of_sylow (h : U38SylowMeetsX) : U38MeetsX := by
   intro E hE hcard
   obtain ⟨Q, hQ⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3 : IsPGroup 3 E := fun y => ⟨1, by simpa using Subtype.ext (hE.2 (y : U38G) y.2)⟩
   obtain ⟨P, hEP⟩ := hE3.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq U38G P Q

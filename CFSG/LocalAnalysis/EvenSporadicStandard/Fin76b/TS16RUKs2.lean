@@ -65,7 +65,7 @@ theorem ks_inv7_sylow {u : Equiv.Perm (Fin 820)} (hu : u ∈ U43ExtStar) (hu2 : 
     (hc : ∀ r ∈ R, r * u = u * r) (hR2 : IsPGroup 2 R) (hcard : 64 ≤ Nat.card ↥R) :
     ∃ r ∈ R, orderOf r = 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu1 : u ≠ 1 := by
     intro h
     have h1 : tP 7 ∈ P := by
@@ -87,7 +87,7 @@ theorem ks_inv7_sylow {u : Equiv.Perm (Fin 820)} (hu : u ∈ U43ExtStar) (hu2 : 
     · rintro ⟨r, hr, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hr
     · intro hx
-      exact ⟨c * x * c⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨c * x * c⁻¹, hx, by simp [mul_assoc]⟩
   have hR'Ks : R' ≤ U43ExtStar := by
     intro x hx
     have h1 := hR ((hmemR' x).1 hx)
@@ -114,10 +114,10 @@ theorem ks_inv7_sylow {u : Equiv.Perm (Fin 820)} (hu : u ∈ U43ExtStar) (hu2 : 
   have h64 : 2 ^ a = 64 := by
     have hle : 2 ^ a ≤ 64 := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h7 : 7 ≤ a := by
         by_contra h
-        push_neg at h
+        push Not at h
         have : 2 ^ a ≤ 2 ^ 6 := Nat.pow_le_pow_right (by norm_num) (by omega)
         omega
       have : 128 ∣ 2880 := dvd_trans (Nat.pow_dvd_pow 2 h7) hdvd
@@ -429,7 +429,7 @@ theorem ks_pair_D16 {v ξ : Equiv.Perm (Fin 820)} (hv : v ∈ U43ExtStar) (hv8 :
     · rintro ⟨r, hr, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hr
     · intro hx
-      exact ⟨d * x * d⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨d * x * d⁻¹, hx, by simp [mul_assoc]⟩
   have hS₁Ks : S₁ ≤ U43ExtStar := by
     intro x hx
     have h1 := hS ((hmemS₁ x).1 hx)

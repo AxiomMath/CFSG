@@ -61,7 +61,7 @@ theorem exists_mem_normalizer_inv_mul_mem (hSz : KFacts.KPSz) (hR : TheoremFourH
       exact Subgroup.mem_subgroupOf.mpr s.2
     · intro hx
       exact ⟨⟨x, Subgroup.mem_subgroupOf.mp hx⟩, rfl⟩
-  have hTU2 : IsPGroup 2 (T.subgroupOf U) := hP ▸ P.isPGroup'
+  have hTU2 : IsPGroup 2 (T.subgroupOf U) := hP ▸ P.isPGroup
   have hinj : Function.Injective ι := by
     rw [injective_iff_map_eq_one]
     intro t ht
@@ -81,7 +81,7 @@ theorem exists_mem_normalizer_inv_mul_mem (hSz : KFacts.KPSz) (hR : TheoremFourH
     S4Free.stellmacherWSz_normal hadm ((hR.szSections hSz hU3).quotient N')
   set C' : Subgroup ↥U := W.map incl with hC'
   set N₀ : Subgroup ↥U := (W.map ι).comap f with hN₀
-  haveI : N₀.Normal := Subgroup.Normal.comap hWn f
+  have : N₀.Normal := Subgroup.Normal.comap hWn f
   have hC'N₀ : C' ≤ N₀ := by
     rintro _ ⟨w, hw, rfl⟩
     exact ⟨w, hw, rfl⟩
@@ -186,7 +186,7 @@ theorem commute_pPrimeCore_of_commute_pCore {H : Type*} [Group H] [Finite H]
     ∀ r ∈ CFSG.pPrimeCore 2 H, γ * r = r * γ := by
   classical
   set R := CFSG.pPrimeCore 2 H with hRdef
-  haveI : R.Normal := CFSG.pPrimeCore_normal
+  have : R.Normal := CFSG.pPrimeCore_normal
   have hRodd : Nat.Coprime 2 (Nat.card R) := CFSG.pPrimeCore_coprime_card
   have hRs : Group.IsSolvable R :=
     CFSG.Milestones.odd_order_solvable (Nat.coprime_two_left.mp hRodd)
@@ -204,7 +204,7 @@ theorem commute_pPrimeCore_of_commute_pCore {H : Type*} [Group H] [Finite H]
         have hdvd : q.1.1 ∣ Nat.card R := Nat.dvd_of_mem_primeFactors q.1.2
         rw [h2] at hdvd
         exact Nat.prime_two.coprime_iff_not_dvd.mp hRodd hdvd
-      haveI : Fact q.1.1.Prime := ⟨hq⟩
+      have : Fact q.1.1.Prime := ⟨hq⟩
       intro y hy
       have hK : (CFSG.pCore q.1.1 R).map R.subtype ≤ CFSG.pCore q.1.1 H := by
         refine le_sSup ⟨⟨fun x hx h => ?_⟩, (CFSG.pCore_isPGroup).map _⟩
@@ -230,7 +230,7 @@ theorem pCore_two_eq_oTwo (X : Type*) [Group X] [Finite X] :
   rw [CFSG.pCore_eq_piCore X 2]
   congr 1
   ext q
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro h; exact Subtype.ext h
   · intro h; rw [h]
@@ -319,7 +319,7 @@ theorem stellmacherSub_le_centralizer_pCoreOf {A : Subgroup G} {c : G} {L Y₀ :
   have hAC : A ≤ Subgroup.normalizer (C : Set G) := hAS.trans hNS
   have hC2 : IsPGroup 2 C := hS2.to_le hCS
   have hCsol : Group.IsSolvable ↥C := by
-    haveI := hC2.isNilpotent
+    have := hC2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card A) (Nat.card C) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hC2
@@ -344,9 +344,10 @@ theorem stellmacherSub_le_centralizer_pCoreOf {A : Subgroup G} {c : G} {L Y₀ :
     exact mul_mem h1 (inv_mem (hAZ ha))
   exact hfac.trans (sup_le hcomm hCA)
 
+omit [Finite G] in
 theorem le_normalizer_inf {X H K : Subgroup G} (hH : X ≤ Subgroup.normalizer (H : Set G))
     (hK : X ≤ Subgroup.normalizer (K : Set G)) :
-    X ≤ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := fun g hg =>
+    X ≤ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := fun _g hg =>
   Subgroup.mem_normalizer_iff.mpr fun x =>
     ⟨fun hx => ⟨(Subgroup.mem_normalizer_iff.mp (hH hg) x).mp hx.1,
         (Subgroup.mem_normalizer_iff.mp (hK hg) x).mp hx.2⟩,

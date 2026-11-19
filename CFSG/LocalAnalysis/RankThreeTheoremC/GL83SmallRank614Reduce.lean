@@ -52,7 +52,7 @@ private theorem reduce614_exists_sylow_le {B H : Subgroup G} (hB3 : IsPGroup 3 B
     ∃ Q : Subgroup G, B ≤ Q ∧ Q ≤ H ∧ IsPGroup 3 Q ∧ 3 ^ k ∣ Nat.card Q := by
   have hB3' : IsPGroup 3 (B.subgroupOf H) := hB3.of_equiv (subgroupOfEquivOfLe hBH).symm
   obtain ⟨Q', hQ'⟩ := hB3'.exists_le_sylow
-  refine ⟨(Q' : Subgroup H).map H.subtype, ?_, map_subtype_le _, Q'.isPGroup'.map H.subtype, ?_⟩
+  refine ⟨(Q' : Subgroup H).map H.subtype, ?_, map_subtype_le _, Q'.isPGroup.map H.subtype, ?_⟩
   · intro b hb
     exact ⟨⟨b, hBH hb⟩, hQ' (mem_subgroupOf.mpr hb), rfl⟩
   · rw [card_map_of_injective H.subtype_injective]
@@ -68,7 +68,7 @@ theorem le_of_three_dvd_relIndex (hS : Setting G) (hU0 : FullCoreLocal G) (hD2 :
   set B : Subgroup G := zpowers x ⊔ zpowers z
   have hBP : B ≤ P := hB.isIsolatedPlane.1
   have hBc : Nat.card B = 9 := hB.card_eq.trans (by norm_num)
-  have hB3 : IsPGroup 3 B := P.isPGroup'.to_le hBP
+  have hB3 : IsPGroup 3 B := P.isPGroup.to_le hBP
   have hHc : 3 ^ 3 ∣ Nat.card H := by
     have h := Subgroup.relIndex_mul_card (H := B) (K := H)
     rw [inf_eq_left.mpr hBH, hBc] at h

@@ -12,6 +12,7 @@ open Matrix CFSG.Open
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] in
 theorem frob_eq : (⇑(iterateFrobenius F 2 2 : F →+* F)) = fun y : F => y ^ 2 ^ 2 := by
   funext a
   rfl
@@ -27,6 +28,7 @@ theorem eigP_map_frob (d : Fin 6 → F) (l₀ : F) :
   rw [frob_eq]
   exact eigP_map d l₀
 
+omit [DecidableEq F] in
 theorem mem_SU_iff_n {n : ℕ} (hF : Nat.card F = (2 ^ 2) ^ 2) (hn : 1 ≤ n) (A : GL (Fin n) F) :
     A ∈ StatedSU n (2 ^ 2) F ↔ (A : Matrix (Fin n) (Fin n) F).det = 1 ∧
       (((A : Matrix (Fin n) (Fin n) F)).map (iterateFrobenius F 2 2 : F →+* F))ᵀ *
@@ -34,10 +36,12 @@ theorem mem_SU_iff_n {n : ℕ} (hF : Nat.card F = (2 ^ 2) ^ 2) (hn : 1 ≤ n) (A
   have h := (CFSG.LinearGroups.unitary_scalar_kernel Nat.prime_two hF (n := n) hn).1
   exact Set.ext_iff.1 h A
 
+omit [CharP F 2] in
 theorem Smt_mul_one_sub (d : Fin 6 → F) (l₀ : F) :
     (Sm d l₀)ᵀ * (1 - eigP d l₀) = 0 := by
   rw [Matrix.mul_sub, Matrix.mul_one, Smt_mul_eigP, sub_self]
 
+omit [CharP F 2] in
 theorem one_sub_mul_Sm (d : Fin 6 → F) (l₀ : F) :
     (1 - eigP d l₀) * Sm d l₀ = 0 := by
   rw [Matrix.sub_mul, Matrix.one_mul, eigP_mul_Sm, sub_self]
@@ -82,29 +86,35 @@ theorem block_unitary (d : Fin 6 → F) (l₀ : F)
     (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) : Matrix (Fin 6) (Fin 6) F :=
   Sm d l₀ * X * (Sm d l₀)ᵀ + (1 - eigP d l₀)
 
+omit [Field F] [CharP F 2] in
 theorem d_emb (d : Fin 6 → F) (l₀ : F) (i : Fin (Eset d l₀).card) : d (emb d l₀ i) = l₀ :=
   (mem_range_emb_iff d l₀ _).1 ⟨i, rfl⟩
 
+omit [CharP F 2] in
 theorem Sm_emb (d : Fin 6 → F) (l₀ : F) (i a : Fin (Eset d l₀).card) :
     Sm d l₀ (emb d l₀ i) a = if i = a then 1 else 0 := by
   simp [Sm, (emb d l₀).injective.eq_iff]
 
+omit [CharP F 2] in
 theorem Sm_off {d : Fin 6 → F} {l₀ : F} {k : Fin 6} (hk : ¬ d k = l₀) (a : Fin (Eset d l₀).card) :
     Sm d l₀ k a = 0 := by
   simp only [Sm]
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h
   exact hk ((mem_range_emb_iff d l₀ k).1 ⟨a, h.symm⟩)
 
+omit [CharP F 2] in
 theorem SAS_emb (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F)
     (i j : Fin (Eset d l₀).card) :
     (Sm d l₀ * X * (Sm d l₀)ᵀ) (emb d l₀ i) (emb d l₀ j) = X i j := by
-  simp [Matrix.mul_apply, Matrix.transpose_apply, Sm_emb, Finset.sum_ite_eq']
+  simp [Matrix.mul_apply, Matrix.transpose_apply, Sm_emb]
 
+omit [CharP F 2] in
 theorem SAS_off {d : Fin 6 → F} {l₀ : F} (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F)
     {k k' : Fin 6} (hk : ¬ d k = l₀) : (Sm d l₀ * X * (Sm d l₀)ᵀ) k k' = 0 := by
   simp only [Matrix.mul_apply, Sm_off hk, zero_mul, Finset.sum_const_zero]
 
+omit [CharP F 2] in
 theorem det_block (d : Fin 6 → F) (l₀ : F)
     (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     (Mblk d l₀ X).det = X.det := by
@@ -130,8 +140,7 @@ theorem det_block (d : Fin 6 → F) (l₀ : F)
       Mblk d l₀ X k.1 (emb d l₀ j) = 0 := by
     intro k j
     have hne : k.1 ≠ emb d l₀ j := fun h => k.2 (h ▸ d_emb d l₀ j)
-    simp [Mblk, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, eigP, Matrix.diagonal_apply,
-      SAS_off X k.2, hne]
+    simp [Mblk, Matrix.add_apply, Matrix.sub_apply, eigP, SAS_off X k.2, hne]
   have hcomp : ∀ k l : {k : Fin 6 // ¬ d k = l₀},
       Mblk d l₀ X k.1 l.1 = if k = l then 1 else 0 := by
     intro k l
@@ -159,6 +168,7 @@ theorem det_block (d : Fin 6 → F) (l₀ : F)
   rw [← Matrix.det_submatrix_equiv_self ε, hN, Matrix.det_fromBlocks_zero₂₁, hD, Matrix.det_one,
     mul_one]
 
+omit [CharP F 2] in
 theorem Mblk_mul (d : Fin 6 → F) (l₀ : F)
     (X Z : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     Mblk d l₀ X * Mblk d l₀ Z = Mblk d l₀ (X * Z) := by
@@ -177,12 +187,14 @@ theorem Mblk_mul (d : Fin 6 → F) (l₀ : F)
         = ((1 - eigP d l₀) * Sm d l₀) * Z * (Sm d l₀)ᵀ := by simp only [Matrix.mul_assoc]
       _ = 0 := by rw [hQS, Matrix.zero_mul, Matrix.zero_mul]
   rw [Matrix.add_mul, Matrix.mul_add, Matrix.mul_add, e1, e2, e3, one_sub_mul_one_sub]
-  simp [add_assoc]
+  simp
 
+omit [CharP F 2] in
 theorem Mblk_one (d : Fin 6 → F) (l₀ : F) : Mblk d l₀ 1 = 1 := by
   unfold Mblk
   rw [Matrix.mul_one, Sm_mul_transpose_eq, add_sub_cancel]
 
+omit [CharP F 2] in
 theorem Mblk_comm_P (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     Mblk d l₀ X * eigP d l₀ = eigP d l₀ * Mblk d l₀ X := by
   unfold Mblk
@@ -193,12 +205,14 @@ theorem Mblk_comm_P (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).
       add_zero]
   rw [h1, h2]
 
+omit [CharP F 2] in
 theorem Mblk_mul_one_sub (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     Mblk d l₀ X * (1 - eigP d l₀) = 1 - eigP d l₀ := by
   unfold Mblk
   rw [Matrix.add_mul, Matrix.mul_assoc, Smt_mul_one_sub, Matrix.mul_zero, zero_add,
     one_sub_mul_one_sub]
 
+omit [CharP F 2] in
 theorem Smt_Mblk (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     (Sm d l₀)ᵀ * Mblk d l₀ X * Sm d l₀ = X := by
   unfold Mblk
@@ -211,6 +225,7 @@ theorem Smt_Mblk (d : Fin 6 → F) (l₀ : F) (X : Matrix (Fin (Eset d l₀).car
     rw [Smt_mul_one_sub, Matrix.zero_mul]
   rw [h1, h2, add_zero]
 
+omit [CharP F 2] in
 theorem block_form {d : Fin 6 → F} {l₀ : F} {g : Matrix (Fin 6) (Fin 6) F}
     (hg : g * eigP d l₀ = eigP d l₀ * g) (hQ : g * (1 - eigP d l₀) = 1 - eigP d l₀) :
     Mblk d l₀ ((Sm d l₀)ᵀ * g * Sm d l₀) = g := by
@@ -279,6 +294,7 @@ theorem rhoSU_injective (d : Fin 6 → F) (l₀ : F) (hF : Nat.card F = (2 ^ 2) 
   intro x y h
   exact rhoHom_injective d l₀ (congrArg Subtype.val h)
 
+omit [CharP F 2] in
 theorem eigP_mul_Sm_ne {d : Fin 6 → F} {l₀ m : F} (hm : m ≠ l₀) :
     eigP d m * Sm d l₀ = 0 := by
   ext k i
@@ -288,6 +304,7 @@ theorem eigP_mul_Sm_ne {d : Fin 6 → F} {l₀ m : F} (hm : m ≠ l₀) :
     simp [Sm, hne]
   · simp [hk]
 
+omit [CharP F 2] in
 theorem Mblk_comm_eigP (d : Fin 6 → F) (l₀ m : F)
     (X : Matrix (Fin (Eset d l₀).card) (Fin (Eset d l₀).card) F) :
     Mblk d l₀ X * eigP d m = eigP d m * Mblk d l₀ X := by

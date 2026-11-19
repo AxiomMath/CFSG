@@ -22,7 +22,7 @@ theorem le_rankThreeGamma {p : ℕ} (hp : p.Prime) {X : Subgroup G} (hXp : IsPGr
   by_cases hX : X = ⊥
   · rw [hX]
     exact bot_le
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card X := by
     rcases hXp.card_eq_or_dvd with h1 | h
     · exact absurd (Subgroup.card_eq_one.1 h1) hX
@@ -56,7 +56,7 @@ theorem inf_centralizer_cClos_eq_bot (D : Data G) {W : Subgroup G} (hW : InCalV 
     (hXM : ∀ g : G, g ∉ D.M → W ≤ conjSubgroup D.M g → X ⊓ conjSubgroup D.M g = ⊥)
     (h1 : ¬ normalizer (E3.wClos W 1 D.T : Set G) ≤ D.M) :
     X ⊓ centralizer (E3.cClos W 1 D.T : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : normalizer (W : Set G) = D.M := normalizer_eq_of_inCalV D hW
   have hsyl : IsSylowIn 2 D.T (normalizer (W : Set G)) := by
     rw [hN]
@@ -68,14 +68,14 @@ theorem inf_centralizer_cClos_eq_bot (D : Data G) {W : Subgroup G} (hW : InCalV 
   have hrk := TwelveSeven.two_lt_rk_of_card hW.2.2.2 h8
   have hWW : W ≤ E3.wClos W 1 D.T := E3.le_wClos_of_mQuot_le_self hW.2.2.2 hWT le_rfl
     (k := 1) (by rw [E3.mQuot_self]; norm_num) (by omega)
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 h1
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 h1
   have hW1g : conjSubgroup (E3.wClos W 1 D.T) g = E3.wClos W 1 D.T :=
     conjSubgroup_eq_iff_mem_normalizer.2 hgN
   have hW1T : E3.wClos W 1 D.T ≤ D.T := E3.wClos_le 1 D.T
   have hW1two : IsPGroup 2 (E3.wClos W 1 D.T) := hsyl.isPGroup.to_le hW1T
   have hW1N : E3.wClos W 1 D.T ≤ normalizer (W : Set G) := hW1T.trans hsyl.le
-  haveI : Group.IsNilpotent (E3.wClos W 1 D.T) := hW1two.isNilpotent
-  haveI : (W.subgroupOf (E3.wClos W 1 D.T)).Normal :=
+  have : Group.IsNilpotent (E3.wClos W 1 D.T) := hW1two.isNilpotent
+  have : (W.subgroupOf (E3.wClos W 1 D.T)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hW1N
   have hne : W.subgroupOf (E3.wClos W 1 D.T) ≠ ⊥ := by
     intro hb

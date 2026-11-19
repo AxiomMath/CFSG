@@ -13,6 +13,7 @@ namespace Setting16
 
 variable {G : Type} [Group G] [Finite G] {Q Y : Subgroup G} {τ ω : G}
 
+omit [Finite G] in
 private theorem tau_cent_Y (h : Setting16 Q Y τ ω) {a : G} (ha : a ∈ Y) :
     τ * a = a * τ := by
   have haQ : a ∈ Q := h.Y_le_Q ha
@@ -22,6 +23,7 @@ private theorem tau_cent_Y (h : Setting16 Q Y τ ω) {a : G} (ha : a ∈ Y) :
     exact inv_eq_of_mul_eq_one_right ha2
   rw [h.tau_mul haQ, hainv]
 
+omit [Finite G] in
 private theorem tau_conj (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q) :
     τ * q * τ = q⁻¹ := by
   have ht := h.tau_inv q hq
@@ -36,7 +38,7 @@ private theorem false_of_inf_le_Y (h : Setting16 Q Y τ ω) {A : Subgroup G}
     exact hle
   have hsup : A ⊔ Q = ⊤ := h.sup_Q_eq_top (by omega) hcardAQ
   have hτ : τ ∈ A ⊔ Q := by rw [hsup]; trivial
-  haveI : Q.Normal := h.normal
+  have : Q.Normal := h.normal
   obtain ⟨a', ha'A, q', hq'Q, haq⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := A) (t := Q)).mp hτ
   have ha'eq : a' = τ * q'⁻¹ := by
@@ -50,7 +52,7 @@ private theorem false_of_inf_le_Y (h : Setting16 Q Y τ ω) {A : Subgroup G}
     exact mul_mem (h.Y_le_Q ha'Y) hq'Q
   exact h.tau_not_mem hτQ
 
-theorem Q_unique (h : Setting16 Q Y τ ω) {A : Subgroup G} (hYA : Y ≤ A)
+theorem Q_unique (h : Setting16 Q Y τ ω) {A : Subgroup G} (_hYA : Y ≤ A)
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hcard : Nat.card A = 64)
     (hinv : ∀ a ∈ A, a ^ 2 = 1 → a ∈ Y) : A = Q := by
   by_contra hne
@@ -322,8 +324,8 @@ theorem tauY_eq_inf (h : Setting16 Q Y τ ω) :
 
 theorem char_tauY (h : Setting16 Q Y τ ω) : (zpowers τ ⊔ Y).Characteristic := by
   rw [tauY_eq_inf h]
-  haveI := h.char_E6
-  haveI := h.char_Qtau
+  have := h.char_E6
+  have := h.char_Qtau
   infer_instance
 
 end Setting16

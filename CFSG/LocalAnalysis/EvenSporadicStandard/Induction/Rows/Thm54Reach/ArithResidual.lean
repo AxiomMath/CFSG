@@ -31,7 +31,7 @@ private theorem not_thm54Order_251596800 : ¬ Thm54Order 251596800 := by
     have hmub : m ≤ 3 := by
       have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 251596800)
       omega
-    interval_cases m <;> exact absurd hce (by norm_num)
+    interval_cases m; exact absurd hce (by norm_num)
   · have hV : 2 ^ (6 * m) ∣ 251596800 :=
       ⟨((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) + 1) * (2 ^ (4 * m) - 1))), hce⟩
     have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 251596800)
@@ -183,7 +183,7 @@ private theorem not_thm54Order_9196830720 : ¬ Thm54Order 9196830720 := by
     have hmub : m ≤ 3 := by
       have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 16 ∣ 9196830720)
       omega
-    interval_cases m <;> exact absurd hce (by norm_num)
+    interval_cases m; exact absurd hce (by norm_num)
   · have hV : 2 ^ (6 * m) ∣ 9196830720 :=
       ⟨((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) + 1) * (2 ^ (4 * m) - 1))), hce⟩
     have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 16 ∣ 9196830720)
@@ -218,7 +218,7 @@ private theorem not_thm54Order_174182400 : ¬ Thm54Order 174182400 := by
     have hmub : m ≤ 3 := by
       have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 174182400)
       omega
-    interval_cases m <;> exact absurd hce (by norm_num)
+    interval_cases m; exact absurd hce (by norm_num)
   · have hV : 2 ^ (6 * m) ∣ 174182400 :=
       ⟨((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) + 1) * (2 ^ (4 * m) - 1))), hce⟩
     have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 174182400)
@@ -253,7 +253,7 @@ private theorem not_thm54Order_197406720 : ¬ Thm54Order 197406720 := by
     have hmub : m ≤ 3 := by
       have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 197406720)
       omega
-    interval_cases m <;> exact absurd hce (by norm_num)
+    interval_cases m; exact absurd hce (by norm_num)
   · have hV : 2 ^ (6 * m) ∣ 197406720 :=
       ⟨((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) + 1) * (2 ^ (4 * m) - 1))), hce⟩
     have := lt_of_pow_dvd hV (by norm_num : ¬ 2 ^ 13 ∣ 197406720)

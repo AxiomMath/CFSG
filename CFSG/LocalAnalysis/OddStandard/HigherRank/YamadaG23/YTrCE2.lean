@@ -40,8 +40,8 @@ private theorem eq_one_of_mem_inf_of_card_dvd_three_of_isPGroup_two
     {G : Type} [Group G] {Z A : Subgroup G} {x : G}
     (hZ3 : Nat.card ↥Z ∣ 3) (hA2 : IsPGroup 2 ↥A) (hxZ : x ∈ Z) (hxA : x ∈ A) :
     x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hZp : IsPGroup 3 ↥Z := IsPGroup.of_card_dvd_pow (p := 3) (n := 1) (by simpa using hZ3)
   exact Subgroup.mem_bot.mp
     ((IsPGroup.disjoint_of_ne 3 2 (by norm_num) Z A hZp hA2).le_bot ⟨hxZ, hxA⟩)
@@ -73,10 +73,10 @@ private theorem quotient_mk'_pow_three_eq_one {H : Type} [Group H] (N : Subgroup
 theorem centExt_comm_sup_eq {G : Type} [Group G] [Finite G] {N K : Subgroup G} (hKN : K ≤ N)
     (h : SecProp N K (fun Y _ _ _ => Nonempty (Y ≃* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)))) :
     ⁅N, N⁆ ⊔ K = N := by
-  haveI : Group.IsPerfect (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  have : Group.IsPerfect (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.Quasithin.G11.g119_isPerfect_generalLinearGroup_zmod2 (n := 3) (by norm_num)
   obtain ⟨hKnorm, e⟩ := h
-  letI := hKnorm
+  let := hKnorm
   let f := QuotientGroup.mk' (K.subgroupOf N)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective (K.subgroupOf N)
   have hperf : Group.IsPerfect (↥N ⧸ K.subgroupOf N) :=
@@ -96,12 +96,12 @@ theorem centExt_comm_sup_eq {G : Type} [Group G] [Finite G] {N K : Subgroup G} (
   exact this
 
 theorem exists_threeElem_not_mem_of_secProp_perm3 {G : Type} [Group G] [Finite G]
-    {N K : Subgroup G} (hKN : K ≤ N)
+    {N K : Subgroup G} (_hKN : K ≤ N)
     (h : SecProp N K (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3)))) :
     ∃ κ ∈ N, IsPGroup 3 ↥(zpowers κ) ∧ κ ∉ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hKnorm, e⟩ := h
-  letI := hKnorm
+  let := hKnorm
   let f := QuotientGroup.mk' (K.subgroupOf N)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective (K.subgroupOf N)
   obtain ⟨x, hx⟩ := hf (e.some.symm (finRotate 3))
@@ -138,11 +138,11 @@ theorem centExt_cube_eq_one {G : Type} [Group G] [Finite G] {N₁ Z A : Subgroup
     (hA2 : IsPGroup 2 ↥A) (hAn : ∀ g ∈ N₁, ∀ a ∈ A, g * a * g⁻¹ ∈ A)
     (h : SecProp N₁ (Z ⊔ A) (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3))))
     {k : G} (hk : k ∈ N₁) (hk3 : IsPGroup 3 ↥(zpowers k)) (hkn : k ∉ Z ⊔ A) : k ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hBnorm, e⟩ := h
   have hBnorm' : ∀ h k : G, h ∈ Z ⊔ A → k ∈ N₁ → k * h * k⁻¹ ∈ Z ⊔ A :=
     (Subgroup.normal_subgroupOf_iff hZA).mp hBnorm
-  letI := hBnorm
+  let := hBnorm
   let π := QuotientGroup.mk' ((Z ⊔ A).subgroupOf N₁)
   let kB : ↥N₁ := ⟨k, hk⟩
   have hA_le : A ≤ N₁ := (le_sup_right : A ≤ Z ⊔ A).trans hZA
@@ -249,7 +249,7 @@ theorem centExt_cube_eq_one {G : Type} [Group G] [Finite G] {N₁ Z A : Subgroup
     group
   have hAnorm : (A.subgroupOf N₁).Normal :=
     (Subgroup.normal_subgroupOf_iff hA_le).mpr fun a g ha hg => hAn g hg a ha
-  letI := hAnorm
+  let := hAnorm
   let ρ := QuotientGroup.mk' (A.subgroupOf N₁)
   have hm'G_N₁ : m'G ∈ N₁ := hZA hm'B
   let mB : ↥N₁ := ⟨m'G, hm'G_N₁⟩

@@ -39,7 +39,7 @@ private theorem sporadic_facts {K : Type} [Group K] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {s : TauCeti.SporadicName} (hK : IsSporadic K s) :
     IsSimpleGroup K ∧ ¬ p ∣ Nat.card (Outer K) := by
   obtain ⟨e⟩ := hK
-  haveI := hSporSimple s
+  have := hSporSimple s
   exact ⟨MulEquiv.isSimpleGroup e,
     CFSG.AGLEmbedding.not_dvd_card_outer_of_mulEquiv e.symm (hSporOut s) hp hp2⟩
 
@@ -70,8 +70,8 @@ theorem pairFive_member_facts
     rcases hcases with ⟨-, ⟨-, hle⟩ | ⟨h, -⟩ | h4⟩ | ⟨h, -⟩ | ⟨h, -⟩ | h4
     all_goals first | omega | cases h
   · obtain ⟨e⟩ := hA
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : Fact p.Prime := ⟨hp⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hm : StatedClassicalModel K .PSL 3 p 1 :=
       ⟨⟨hp, le_rfl, by norm_num, by simp, by simp⟩, ZMod p, inferInstance, inferInstance,
         by rw [Nat.card_zmod, pow_one],
@@ -100,7 +100,7 @@ theorem pairFive_member_facts
     rcases hcases with ⟨h, -⟩ | ⟨h, -⟩ | ⟨-, ⟨-, hle⟩ | h4⟩ | h4
     all_goals first | omega | cases h
   · exfalso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have := CFSG.SectionRank.three_mul_le_pRank_of_G2Model (p := p) (f := 1) hG2.2
     omega
   · exfalso
@@ -120,8 +120,8 @@ theorem pairFive_member_facts_of_mulEquiv {K₁ K₂ : Type} [Group K₁] [Group
     (hq : CFSG.IsQuasisimple K₂) {p : ℕ}
     (h : IsSimpleGroup K₁ ∧ ((p = 5 ∧ SuzukiModel K₁ 2 5) ∨ ¬ p ∣ Nat.card (Outer K₁))) :
     Subgroup.center K₂ = ⊥ ∧ ((p = 5 ∧ SuzukiModel K₂ 2 5) ∨ ¬ p ∣ Nat.card (Outer K₂)) := by
-  haveI : IsSimpleGroup K₁ := h.1
-  haveI : IsSimpleGroup K₂ := e.symm.isSimpleGroup
+  have : IsSimpleGroup K₁ := h.1
+  have : IsSimpleGroup K₂ := e.symm.isSimpleGroup
   refine ⟨CFSG.ComponentClassification.GSThmB.center_eq_bot_of_isSimpleGroup_of_isQuasisimple hq,
     ?_⟩
   rcases h.2 with ⟨rfl, hSz⟩ | hout

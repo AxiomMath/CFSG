@@ -27,7 +27,7 @@ theorem not_surjective_of_isNineFourIndex_three {q : ℕ} (hq : q.Prime) (hq2 : 
     (hA : ∀ (n : ℕ) (h : 5 ≤ n), i ≠ .alternating n h) {V : Type} [Group V] [Finite V]
     (hV : IsPGroup q V) (hr : CFSG.Open.pRank q (⊤ : Subgroup V) ≤ 3) (A : Subgroup (MulAut V))
     (φ : ↥A →* i.Group) : ¬ Function.Surjective φ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro hφ
   have h3 := threeAutFour_of_surjective hq2 hq3 (glThreeAutFour hq3) hV hr A φ hφ
   have h7 := sevenCentralizesTwo_of_surjective hq2 (sevenCentralizesTwoGL hq2) hV hr A φ hφ

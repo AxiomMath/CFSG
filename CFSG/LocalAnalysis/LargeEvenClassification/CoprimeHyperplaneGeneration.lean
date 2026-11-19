@@ -69,7 +69,7 @@ theorem coprime_hyperplane_fixed_generation {Acting : Type actingUniverse} [Comm
     rw [hstable element] at hmem
     exact hmem)
   have hgenerates := pGroup_hyperplane_fixed_generation hprime hsylowPrime hneq hpacting hexponent
-    SylowSubgroup.isPGroup' restrictedAction
+    SylowSubgroup.isPGroup restrictedAction
   have hspanLe : hyperplaneFixedSpan prime restrictedAction ≤ Generators.comap (SylowSubgroup : Subgroup Ambient).subtype := by
     apply iSup_le
     intro Fixers source hsource

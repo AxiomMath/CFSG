@@ -110,7 +110,7 @@ theorem kFactJ3CoverA6 :
     exact Subgroup.map_mono hSY
   rcases hover T _ hTY with hN | htop
   · exfalso
-    have hsolv := isSolvable_normalizer_of_facts T.isPGroup' (kFactJ3Sylow _ he T)
+    have hsolv := isSolvable_normalizer_of_facts T.isPGroup (kFactJ3Sylow _ he T)
     exact not_isSolvable_of_perfect (commutator_self_eq hd.rel₁ hd.rel₂ hd.rel₃ hd.rel₄)
       ⟨u, hd.u_mem, hd.u_ne_one⟩ (hDY.trans hN) hsolv
   · exact eq_top_of_map_eq_top hker.le hperf htop

@@ -22,7 +22,7 @@ private theorem oddCore_le_center_of_center_card_two {A : Type*} [Group A] [Fini
     CFSG.oddCore A ≤ Subgroup.center A := by
   have hne : CFSG.oddCore A ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (A ⧸ CFSG.oddCore A) := by
+    have : Subsingleton (A ⧸ CFSG.oddCore A) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     have h1 : Nat.card (Subgroup.center (A ⧸ CFSG.oddCore A)) = 1 :=
@@ -77,7 +77,7 @@ theorem t5_exists_central_involution (hL : IsOm6Z2 L) : ∃ t ∈ centerIn L, or
   have hcard : Nat.card (Subgroup.center (↥L ⧸ CFSG.oddCore ↥L)) = 2 := hL.2.1
   have hcore : CFSG.oddCore ↥L ≤ Subgroup.center ↥L :=
     oddCore_le_center_of_center_card_two hq hcard
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   let ρ : ↥L →* (↥L ⧸ CFSG.oddCore ↥L) := QuotientGroup.mk' (CFSG.oddCore ↥L)
   have hρ : OddCentralCover ρ := oddCentralCover_mk_oddCore hcore
   obtain ⟨cZ, hcZ2⟩ := exists_prime_orderOf_dvd_card'
@@ -94,7 +94,6 @@ theorem t5_exists_central_involution (hL : IsOm6Z2 L) : ∃ t ∈ centerIn L, or
     apply (QuotientGroup.eq_one_iff (⁅w, m⁆)).mp
     change ρ ⁅w, m⁆ = 1
     rw [map_commutatorElement]
-    change ⁅ρ w, ρ m⁆ = 1
     rw [hwρ, commutatorElement_eq_one_iff_mul_comm]
     exact (Subgroup.mem_center_iff.mp cZ.2 (ρ m)).symm
   have hwcenter : w ∈ Subgroup.center ↥L := mem_center_of_commutator_mem_center hcore hwcomm
@@ -122,7 +121,7 @@ theorem t5_central_involution_unique (hL : IsOm6Z2 L) {t t' : G} (ht : t ∈ cen
   have hcard : Nat.card (Subgroup.center (↥L ⧸ CFSG.oddCore ↥L)) = 2 := hL.2.1
   have hcore : CFSG.oddCore ↥L ≤ Subgroup.center ↥L :=
     oddCore_le_center_of_center_card_two hq hcard
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   let ρ : ↥L →* (↥L ⧸ CFSG.oddCore ↥L) := QuotientGroup.mk' (CFSG.oddCore ↥L)
   have hρ : OddCentralCover ρ := oddCentralCover_mk_oddCore hcore
   obtain ⟨a, ha, haeq⟩ := Subgroup.mem_map.mp ht
@@ -194,7 +193,7 @@ theorem t5_centerIn_eq (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 : o
   have hcard : Nat.card (Subgroup.center (↥L ⧸ CFSG.oddCore ↥L)) = 2 := hL.2.1
   have hcore : CFSG.oddCore ↥L ≤ Subgroup.center ↥L :=
     oddCore_le_center_of_center_card_two hq hcard
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   let ρ : ↥L →* (↥L ⧸ CFSG.oddCore ↥L) := QuotientGroup.mk' (CFSG.oddCore ↥L)
   have hρ : OddCentralCover ρ := oddCentralCover_mk_oddCore hcore
   obtain ⟨w, hw, hweq⟩ := Subgroup.mem_map.mp ht
@@ -266,10 +265,11 @@ theorem t5_centerIn_eq (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 : o
     rw [← hbeq, hb1]
     simp
 
+omit [Finite G] in
 theorem t5_centralizes_of_central_comm (hL : CFSG.IsQuasisimple ↥L) {Z : Subgroup G}
-    (hZ : Z ≤ centerIn L) {s : G} (hs : s ∈ normalizer (L : Set G))
+    (hZ : Z ≤ centerIn L) {s : G} (_hs : s ∈ normalizer (L : Set G))
     (h : ∀ l ∈ L, s * l * s⁻¹ * l⁻¹ ∈ Z) : s ∈ centralizer (L : Set G) := by
-  haveI : Group.IsPerfect ↥L := hL.1
+  have : Group.IsPerfect ↥L := hL.1
   have hZle : centerIn L ≤ L := Subgroup.map_subtype_le _
   have hfL : ∀ l : ↥L, s * (l : G) * s⁻¹ * (l : G)⁻¹ ∈ L :=
     fun l => hZle (hZ (h (l : G) l.2))

@@ -102,6 +102,7 @@ theorem mem_of_pow_mem {K S : Subgroup A} (hS : S ≤ normalizer (K : Set A)) (h
 
 variable [Finite A]
 
+omit [Finite A] in
 theorem exists_isSylowOf_ge {f : ℕ} [Fact f.Prime] {L X : Subgroup A} (hXL : X ≤ L)
     (hX : IsPGroup f X) : ∃ E : Subgroup A, CFSG.ABGLocalTools.IsSylowOf f E L ∧ X ≤ E := by
   have hX' : IsPGroup f (X.subgroupOf L) := hX.comap_subtype

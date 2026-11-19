@@ -25,7 +25,7 @@ theorem five_false (hb : CatDistinct.OrderBridge) {Ω : Type} [Group Ω] [Finite
     (hK : catalogIs (PSimple 3 K) (isLnA 2 4)) : False := by
   classical
   have hKq : CFSG.Open.IsQuasisimple ↥K := hcfg.std.2.2.2.2.2.1.2.2
-  haveI : Group.IsPerfect ↥K := ⟨hKq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hKq.1⟩
   have hBN : B ≤ Subgroup.normalizer (K : Set Ω) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.B_norm_K hcfg.elem
       (CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hcfg.idiag) hcfg.std
@@ -52,7 +52,7 @@ theorem five_false (hb : CatDistinct.OrderBridge) {Ω : Type} [Group Ω] [Finite
     obtain ⟨i, hi, ⟨e⟩⟩ := hK
     exact ⟨i, hi, ⟨Φ.trans e⟩⟩
   have hAut := autThreePowInner_of_isLnA_two_four hcatQ h3
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKq.2
   have hZQ : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ := center_quotient_center_eq_bot
   let ψ : ↥B →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
     (centerQuotientHom ↥K).comp (K.normalizerMonoidHom.comp (Subgroup.inclusion hBN))
@@ -102,7 +102,7 @@ theorem five_false (hb : CatDistinct.OrderBridge) {Ω : Type} [Group Ω] [Finite
   obtain ⟨e, -, he⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvdB
   have he1 : e ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h9 : 3 ^ 2 ∣ 3 ^ e := pow_dvd_pow 3 hc
     rw [← he] at h9
     have h60 := dvd_trans h9 hdvdInn

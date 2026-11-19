@@ -14,12 +14,12 @@ namespace CFSG.StandardType.NSJoin
 open CFSG CFSG.Assembly
 
 theorem nsWeakOrthPosInputOf_D
-    (hRk : GGTwE6ThreeNbrRankInput) (hNQ4 : NSNbrQFourInputOf (fun {ι} M => NSTypeD M)) :
-    NSWeakOrthPosInputOf (fun {ι} M => NSTypeD M) := by
+    (hRk : GGTwE6ThreeNbrRankInput) (hNQ4 : NSNbrQFourInputOf (fun {_ι} M => NSTypeD M)) :
+    NSWeakOrthPosInputOf (fun {_ι} M => NSTypeD M) := by
   intro G _ _ p B Bs x L D J 𝒦 hcfg hnsL hguard K hK hns hnU
   have hmark := nsWeakNbr_orthMarking_typeD hRk hNQ4 hcfg hnsL hguard hK hns hnU
   obtain ⟨hp, hodd⟩ := ggRouteCfg_prime hcfg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨y, hnb⟩, -⟩ := id hK
   refine OrthTorus.exists_orthWeakFrame_of_marking ggLabelRigidInput_holds hodd
     hcfg.1.1.2.1.2.1 hcfg.1.1.2.1.2.2.2 hmark fun hN => ?_

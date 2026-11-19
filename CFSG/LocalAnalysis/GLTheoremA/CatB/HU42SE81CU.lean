@@ -57,7 +57,7 @@ private theorem mem_statedSU_of_mem_uU (h : UnitaryFieldData 2 1 K) (hn : 1 ≤ 
 theorem exists_conj_of_uConjAut (h : UnitaryFieldData 2 1 K) (hn : 4 ≤ n) (A : uU h n)
     (ht : (uConjAut h (by omega) A) ^ 2 = 1) :
     ∃ g : StatedProj (StatedSU n (2 ^ 1) K), uConjAut h (by omega) A = MulAut.conj g := by
-  haveI := h.charP
+  have := h.charP
   have hA2 : uConjAut h (by omega) (A ^ 2) = 1 := by rw [map_pow]; exact ht
   obtain ⟨c, hc⟩ := (uConjAut_eq_one_iff h (by omega) (A ^ 2)).1 hA2
   have hB2 : ((A ^ 3 : uU h n) : GL (Fin n) K) ^ 2 = 1 := by
@@ -157,11 +157,11 @@ theorem false_of_bar (h : UnitaryFieldData 2 1 K) (A : uU h n) {φ : K ≃+* K} 
     (hcard : Nat.card E = 3 ^ 4)
     (hfix : ∀ e ∈ E, (uConjAut h (by omega) A * uFieldAut h (by omega) φ :
       MulAut (StatedProj (StatedSU n (2 ^ 1) K))) e = e) : False := by
-  haveI := h.charP
-  haveI := h.finite
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have := h.charP
+  have := h.finite
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hn1 : 1 ≤ n := by omega
   have h2K : (2 : K) = 0 := CharTwo.two_eq_zero
   have hφφ : ∀ c, φ (φ c) = c := bar_bar' h hφ

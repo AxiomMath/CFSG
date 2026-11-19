@@ -167,6 +167,7 @@ theorem o2_sort {k : ℕ} (hk : k + 1 < 968750) :
   · exact sortChunk_sound CFSG.KD.LyO2.sort236 k (by change 966656 ≤ k; omega)
       (by change k < 966656 + 2093; omega)
 
+set_option exponentiation.threshold 196608 in
 theorem card_orbit_o2_sp
     [LySeed] : 968750 ≤ Nat.card (orbit lyH (imOp (gRep 2 • opE))) := by
   obtain ⟨cG0, cG1, mG0, mG1, eG0, eG1⟩ := o2_gens
@@ -223,9 +224,9 @@ theorem card_orbit_o2_sp
     (fun e c hec hc => absurd hc (by omega))
     (fun s hs => by
       by_cases h : s = 0
-      · simp only [G, Gi, h, if_true]
+      · simp only [G, Gi, h, ite_true]
         exact mG0
-      · simp only [G, Gi, h, if_false]
+      · simp only [G, Gi, h, ite_false]
         exact mG1)
     t_facts.1
     (fun i hi => by
@@ -281,10 +282,10 @@ theorem card_orbit_o2_sp
       set s := fldW (getRec CFSG.KD.LyO2.PT 21 i) 20 1
       have hm : Tm * G s * TIm = (mat (aStar (s + 2)))ᵀ := by
         by_cases h : s = 0
-        · simp only [G, h, if_true]
+        · simp only [G, h, ite_true]
           exact eG0
         · have h1 : s = 1 := by omega
-          simp only [G, h, if_false, h1]
+          simp only [G, h1]
           exact eG1
       refine ⟨hp, ⟨aStar (s + 2), aStar_mem_lyH (by omega)⟩, ?_⟩
       change sp i = aStar (s + 2) • sp _

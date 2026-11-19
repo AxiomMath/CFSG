@@ -15,6 +15,7 @@ variable {L : Type} [Group L] [Finite L] (Q : Subgroup L) [Q.Normal]
 noncomputable def frattiniConjAct : L →* MulAut (↥Q ⧸ frattini ↥Q) :=
   (quotientAutomorphism (frattini ↥Q)).comp (MulAut.conjNormal (H := Q))
 
+omit [Finite L] in
 theorem frattiniConjAct_mk (x : L) (q : ↥Q) :
     frattiniConjAct Q x (QuotientGroup.mk' (frattini ↥Q) q) =
       QuotientGroup.mk' (frattini ↥Q) (MulAut.conjNormal (H := Q) x q) := by
@@ -23,7 +24,7 @@ theorem frattiniConjAct_mk (x : L) (q : ↥Q) :
 
 theorem frattiniConjAct_of_mem (hQ : IsPGroup 2 ↥Q) (q : Q) :
     frattiniConjAct Q (q : L) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : IsMulCommutative (↥Q ⧸ frattini ↥Q) :=
     (CFSG.GroupTheory.frattini_elementary_quotient (p := 2) (P := ↥Q) hQ).2.1
   refine MulEquiv.ext fun v => ?_
@@ -44,8 +45,8 @@ theorem frattiniConjAct_of_mem (hQ : IsPGroup 2 ↥Q) (q : Q) :
 
 theorem eq_one_of_perfect_isPGroup {G : Type} [Group G] [Finite G] (hG : IsPGroup 2 G)
     (hperf : ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤) : ∀ g : G, g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent G := hG.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent G := hG.isNilpotent
   intro g
   rcases subsingleton_or_nontrivial G with h | hnt'
   · exact Subsingleton.elim g 1
@@ -72,9 +73,9 @@ theorem frattini_kernel_le (hQ : IsPGroup 2 ↥Q)
     (hperf : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = ⊤)
     (hsimp : IsSimpleGroup (L ⧸ Q)) (hnt : ⁅Q, (⊤ : Subgroup L)⁆ ≠ ⊥) :
     ∀ x : L, frattiniConjAct Q x = 1 → x ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hsimp
-  haveI : Finite (MulAut ↥Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hsimp
+  have : Finite (MulAut ↥Q) :=
     Finite.of_injective (fun g : MulAut ↥Q => (g : ↥Q → ↥Q))
       fun g h hgh => MulEquiv.ext (congrFun hgh)
   have hQC : Q ≤ (frattiniConjAct Q).ker := by

@@ -205,7 +205,7 @@ theorem sylowCentralizingAutInner_hypPSU {f : ℕ} {K : Type} [Field K] (h : Uni
   obtain ⟨Qs, hQs⟩ := (unitary_order_and_Sylow h (le_refl 1) (le_refl 1)).2.2.2.2.1
   have hQ : IsSylowTwoOf (hypProjUnitriangular h 1 1) ⊤ := by
     rw [← hQs]
-    exact isSylowTwoOf_top_iff.mpr ⟨Qs.isPGroup', Qs.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨Qs.isPGroup, Qs.not_dvd_index⟩
   refine sylowCentralizingAutInner_of_sylow _ hQ fun β hβ => ?_
   obtain ⟨σ, B, hiso, hβB⟩ := exists_isometry_hypPSU h hq β
   have hfix : ∀ a b : K, h.norm a + h.trace b = 0 →

@@ -86,7 +86,7 @@ public theorem secondCase_psl2_normalizer_innerAction_of_linear_model
     exact hmap.symm
   have hOodd : Odd (Nat.card O) :=
     Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := N))
-  have hOsolv : IsSolvable O := odd_order_theorem O hOodd
+  have hOsolv : Group.IsSolvable O := odd_order_theorem O hOodd
   have hLbarData := @perfect_image_le_normal_odd_index_of_solvable_kernel
     N _ _ LN hLNperf hLNne O (inferInstance : O.Normal) hOsolv
       Lq hLqnormal hLqindex
@@ -114,7 +114,7 @@ public theorem secondCase_psl2_normalizer_innerAction_of_linear_model
   have hQdihedral : HasDihedralSylowTwo (N ⧸ O) := by
     have hRange : HasDihedralSylowTwo q.range :=
       image_hasDihedralSylowTwo_of_odd_kernel hNdihedral q (by
-        have hker : q.ker = O := by simpa [q] using QuotientGroup.ker_mk' O
+        have hker : q.ker = O := by simp [q]
         rwa [hker])
     let eqQ : q.range ≃* (N ⧸ O) :=
       (MulEquiv.subgroupCongr (MonoidHom.range_eq_top.mpr hqsurj)).trans

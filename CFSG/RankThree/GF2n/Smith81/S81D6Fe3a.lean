@@ -107,7 +107,7 @@ theorem nWord_conj_xm [CharP K 2] (ω : List ℕ) : ∀ v : Fin (Tag.rank .E7) �
 theorem nm_mem_Lam [CharP K 2] {i : Fin (Tag.rank .E7)} (hi : i ≠ ⟨0, by decide⟩) :
     ((e7Data_valid.nm K i : ↥(e7Data_valid.minGroup K)) : (Module.End K (V K))ˣ) ∈ Lam K := by
   have hsP : Pi.single i (1 : ℤ) ∈ Perp :=
-    perp_iff.2 ⟨isRoot_single .E7 i, by rw [Pi.single_apply, if_neg (fun h => hi h.symm)]⟩
+    perp_iff.2 ⟨isRoot_single .E7 i, by rw [Pi.single_apply, ite_eq_right (fun h => hi h.symm)]⟩
   have hsN : -Pi.single i (1 : ℤ) ∈ Perp := neg_mem_Perp hsP
   show ((e7Data_valid.xm K (Pi.single i 1) 1 * e7Data_valid.xm K (-Pi.single i 1)
       (-(((1 : Kˣ)⁻¹ : Kˣ) : K)) * e7Data_valid.xm K (Pi.single i 1) 1 :

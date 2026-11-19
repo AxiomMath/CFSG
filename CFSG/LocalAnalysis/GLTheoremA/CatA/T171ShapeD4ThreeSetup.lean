@@ -70,9 +70,9 @@ private theorem inducesInnerMod_of_untwistedBridge {G : Type} [Group G] [Finite 
     InducesInnerMod 3 J b := by
   obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup hB q hv
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := by rw [← hq2]; exact hKchar
   exact inner_of_d4ExitAt_model hS hshape hin center_adjointGroup_eq_bot (eCat.trans eAd)
     (h hτ K 3 Nat.prime_three (by norm_num) fun h6 _ => by simpa [hKcard] using hE6 h6)
     hCatJ hmem
@@ -138,10 +138,10 @@ theorem smallExitD4AtThree_twE6_of (h : F151.TwE6D4Inner) :
         exact hPchar
       obtain ⟨K, hKf, σ, hKcard, hσ, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-      letI := hKf
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; positivity)
-      haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-      haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+      let := hKf
+      have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; positivity)
+      have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+      have : Finite (twistedE6RootGroup K σ) := Subtype.finite
       have hnot3 : ¬ 3 ∣ q.p ^ q.exponent + 1 := by
         intro h3
         refine hshape ⟨.lie ⟨.twistedE6 q, hv⟩, ⟨rfl, hq2, ?_⟩, ⟨eCat⟩⟩

@@ -82,7 +82,7 @@ theorem IsOptimalRelPair.not_map_conj_le_of_normalizer {p : ℕ} {P : Sylow p G}
   have hkerc : (3 : ℕ).Coprime (Nat.card π.ker) := by
     rw [hker]
     exact primeComplementCore_coprime 3
-  have hDp : IsPGroup 3 D := P.isPGroup'.to_le hd.ext.obstruction.2.1
+  have hDp : IsPGroup 3 D := P.isPGroup.to_le hd.ext.obstruction.2.1
   set Dy : Subgroup ↥H := D.subgroupOf H with hDy
   have hDy3 : IsPGroup 3 Dy := hDp.of_equiv (Subgroup.subgroupOfEquivOfLe hDH).symm
   set N' : Subgroup G := H ⊓ normalizer (Y : Set G) with hN'

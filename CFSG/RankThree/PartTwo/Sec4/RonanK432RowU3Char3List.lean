@@ -54,7 +54,7 @@ theorem torusU_mul_heisSU (hσ : ∀ c, σ (σ c) = c) {t : F} (ht : t ≠ 0) (a
   rw [CFSG.LieType.Steinberg.heisenbergMatrix_three, CFSG.LieType.Steinberg.heisenbergMatrix_three]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal, hσ] <;> field_simp
+    simp [Matrix.mul_apply, diagonal, hσ] <;> field_simp
 
 end Torus
 
@@ -220,7 +220,7 @@ theorem listRow_SU_three_char_three {e : ℕ} (he : 2 ≤ e) :
   exact exists_torusU_witness _ hs0 hsσ hs4 hq hq1
 
 instance finite_projSU_three_u3 (p f : ℕ) [Fact p.Prime] : Finite (projSU 3 p f) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
     Finite.of_surjective
       (Matrix.ProjGenLinGroup.mk :
         Matrix.GeneralLinearGroup (Fin 3) (GaloisField p (2 * f)) →* _)

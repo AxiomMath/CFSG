@@ -31,7 +31,7 @@ theorem ker_eq_bot_of_not_sq_dvd [Finite J] (π : J →* T) (hπ : Function.Surj
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.mp hxc g)
   have hcyc : IsCyclic ↥((P : Subgroup J).map π) := by
-    have hPp : IsPGroup p ↥((P : Subgroup J).map π) := P.isPGroup'.map π
+    have hPp : IsPGroup p ↥((P : Subgroup J).map π) := P.isPGroup.map π
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp hPp
     have hdvd : Nat.card ↥((P : Subgroup J).map π) ∣ Nat.card T :=
       Subgroup.card_subgroup_dvd_card _

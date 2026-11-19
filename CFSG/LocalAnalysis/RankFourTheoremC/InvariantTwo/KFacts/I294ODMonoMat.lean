@@ -54,7 +54,7 @@ theorem exists_monomial_matrices {K : Type*} [Field K] {p n : ℕ} [NeZero p] (h
   refine ⟨P, Q, N, π, hPQ, hQP, hMP, fun s => ?_⟩
   ext i j
   simp only [N, Matrix.mul_apply, Matrix.of_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-    ite_mul, zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   by_cases h : i = π j
   · subst h
     simp [mul_comm]

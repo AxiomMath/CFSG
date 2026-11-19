@@ -70,7 +70,7 @@ open scoped commutatorElement
 private theorem orthCuts_zero_one_Q04 {r : ℕ} (hr : 1 ≤ r) : OrthCuts r ![0, 1] where
   mono := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all <;> decide
+    fin_cases i <;> fin_cases j <;> simp_all
   zero := rfl
   last := by
     rw [show (![0, 1] : Fin 2 → ℕ) (Fin.last 1) = 1 by decide]
@@ -90,7 +90,7 @@ private theorem isPerfect_of_simple_noncomm_Q04 {T : Type} [Group T] (hs : IsSim
 
 private instance finite_orthElementaryGroup_quadTail_Q04 {K : Type} [Field K] [Finite K] {r : ℕ}
     {b c : K} : Finite ↥(orthElementaryGroup (quadTail r (minusTailForm K b c))) := by
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     finite_orthLinearEquiv (K := K) (M := ((Fin r ⊕ Fin r → K) × (Fin 2 → K)))
   exact Finite.of_injective (Subtype.val) Subtype.val_injective
@@ -137,7 +137,7 @@ private theorem nonempty_bar2_hinf_orthParab_one_Q04 {K : Type} [Field K] [Finit
   have hcomm : ⁅β.range, β.range⁆ ≤ Subgroup.pi Set.univ B :=
     commutator_range_orthLeviHom_le (b := b) (c := c) hd
   have hperf : Group.IsPerfect T := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨f, _, hKf⟩ := FiniteField.card K 2
     have hK : Nat.card K = 2 ^ (f : ℕ) := by
       rw [Nat.card_eq_fintype_card, hKf]

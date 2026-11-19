@@ -26,7 +26,7 @@ structure TriD4LineKGXData (n : ℕ) (K : Type) [Field K] (k : Type) [Field k] [
   Θ_α : ∀ (y : Subgroup.centralizer {z₀}) (hy : α y ∈ Subgroup.centralizer {z₀}),
     (Θ ⟨α y, hy⟩ : TriD4LineX k K) = triD4LineSigma k K σ (Θ y)
 
-@[expose] noncomputable abbrev triD4LineE (n : ℕ) (K : Type) [Field K]
+noncomputable abbrev triD4LineE (n : ℕ) (K : Type) [Field K]
     (A : Subgroup (MulAut (GGTriD4R n K))) : Subgroup (GGTriD4R n K) :=
   A.comap (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K))
 
@@ -47,12 +47,12 @@ theorem triD4Line_exists_subfield {n : ℕ} (K : Type) [Field K] (hK : Nat.card 
     rcases Nat.eq_zero_or_pos n with hn | hn
     · subst hn
       rw [pow_zero, one_pow] at hK
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+      have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
       have h2 : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
       omega
     · exact hn
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobeniusEquiv_def K 2 n c
   refine ⟨↥(CFSG.LieType.Chevalley.trialityFixedField K σ.toRingHom), inferInstance,

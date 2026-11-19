@@ -88,7 +88,7 @@ theorem sign_omegaPerm4 (g : ↥(StatedOmega Q4)) : Equiv.Perm.sign (omegaPerm4 
   rw [this] at hy
   exact hy
 
-theorem omegaPerm4_injective : Function.Injective omegaPerm4 := fun g h hgh =>
+theorem omegaPerm4_injective : Function.Injective omegaPerm4 := fun _g _h hgh =>
   (MulEquiv.subgroupCongr statedOmega_eq).injective
     (Subgroup.inclusion_injective comm_le_O4 (toPermHom_injective hgh))
 

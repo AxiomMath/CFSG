@@ -61,7 +61,7 @@ theorem octNorm_single (m : Fin 4 ⊕ Fin 4) : octNorm (Pi.single m 1 : Oct K) =
   refine Finset.sum_eq_zero fun k _ => ?_
   by_cases h : m = .inl k
   · subst h
-    simp [Pi.single_apply]
+    simp
   · rw [Pi.single_eq_of_ne (Ne.symm h), zero_mul]
 
 end CharTwo
@@ -74,6 +74,7 @@ variable {K : Type*} [Field K] [CharP K 2]
     Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K :=
   Matrix.of fun m' m => if R m m' then 1 else 0
 
+omit [CharP K 2] in
 theorem stepMat_mulVec_apply (R : Fin 4 ⊕ Fin 4 → Fin 4 ⊕ Fin 4 → Prop) [DecidableRel R]
     (y : Oct K) (m' : Fin 4 ⊕ Fin 4) :
     (stepMat R *ᵥ y) m' = ∑ m, if R m m' then y m else 0 := by
@@ -94,13 +95,13 @@ theorem octNorm_add_smul_stepMat (R : Fin 4 ⊕ Fin 4 → Fin 4 ⊕ Fin 4 → Pr
       have : w (.inr k) = 0 := by
         rw [hwapp]
         refine Finset.sum_eq_zero fun m _ => ?_
-        exact if_neg (fun hm => hR4 m₁ m (.inl k) ⟨hm₁, hm⟩)
+        exact ite_eq_right (fun hm => hR4 m₁ m (.inl k) ⟨hm₁, hm⟩)
       rw [this, mul_zero]
     · push Not at h
       have : w (.inl k) = 0 := by
         rw [hwapp]
         refine Finset.sum_eq_zero fun m _ => ?_
-        rw [if_neg (h m)]
+        rw [ite_eq_right (h m)]
       rw [this, zero_mul]
   have h2 : octPolar y w = 0 := by
     rw [octPolar_eq_sum]
@@ -112,15 +113,15 @@ theorem octNorm_add_smul_stepMat (R : Fin 4 ⊕ Fin 4 → Fin 4 ⊕ Fin 4 → Pr
     · rintro ⟨m, n⟩
       by_cases h : R n m.swap
       · have h' : R m n.swap := (hR3 m n).1 h
-        simp only [if_pos h, if_pos h']
+        simp only [ite_eq_left h, ite_eq_left h']
         rw [mul_comm (y n) (y m)]
         exact CharTwo.add_self_eq_zero _
       · have h' : ¬ R m n.swap := fun h' => h ((hR3 m n).2 h')
-        simp only [if_neg h, if_neg h', mul_zero, add_zero]
+        simp only [ite_eq_right h, ite_eq_right h', mul_zero, add_zero]
     · rintro ⟨m, n⟩ hf hg
       have hnm : n = m := (Prod.mk.inj hg).1
       subst hnm
-      exact hf (by simp only [if_neg (hR2 n), mul_zero])
+      exact hf (by simp only [ite_eq_right (hR2 n), mul_zero])
   rw [octNorm_add, octNorm_smul, octPolar_smul_right, h1, h2]
   ring
 
@@ -140,13 +141,14 @@ theorem exists_wtChar_ne_one {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ≠ 0) 
   by_contra hcon
   push Not at hcon
   have h := D4Datum.sum_wtChar (K := K) a
-  simp only [hcon, ha, if_false, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one] at h
+  simp only [hcon, ha, ite_false, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one] at h
   have hcard : Fintype.card (Fin 4 → Kˣ) = Nat.card Kˣ ^ 4 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_fun, Nat.card_eq_fintype_card (α := Fin 4),
       Fintype.card_fin]
   rw [hcard, Nat.cast_pow, D4Datum.natCard_units_cast_eq_one, one_pow] at h
   exact one_ne_zero h
 
+omit [Finite K] [CharP K 2] in
 theorem polar_invariant_of_invariant {q : QuadraticForm K X}
     (hq : ∀ (g : G) (x : X), q (ρ g x) = q x) (g : G) (x y : X) :
     QuadraticMap.polar q (ρ g x) (ρ g y) = QuadraticMap.polar q x y := by
@@ -179,7 +181,7 @@ theorem SpinNF.equiv_root {i j : Fin 4} (hij : i ≠ j) (u v : Bool) (c : K) (x 
       have : stepMat (L.Rel i j u v) *ᵥ (Pi.single m 1 : Fin 4 ⊕ Fin 4 → K) = 0 := by
         rw [Matrix.mulVec_single_one]
         funext m''
-        rw [Matrix.col_apply, stepMat, Matrix.of_apply, if_neg (hex m'')]
+        rw [Matrix.col_apply, stepMat, Matrix.of_apply, ite_eq_right (hex m'')]
         rfl
       rw [hN.equiv_basis L, this, smul_zero, add_zero]
   have := LinearMap.congr_fun h x
@@ -233,7 +235,7 @@ variable {q : QuadraticForm K X}
 theorem SpinNF.polar_eq_zero_of_ne_swap (hq : ∀ (g : G) (x : X), q (ρ g x) = q x)
     {m n : Fin 4 ⊕ Fin 4} (hmn : n ≠ m.swap) :
     QuadraticMap.polar q (hN.basis L m) (hN.basis L n) = 0 := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   have hne : hsWeight b₀ (L.lab m) + hsWeight b₀ (L.lab n) ≠ 0 := by
     intro h
     rw [hsWeight_add_eq_zero_iff hN.two_mul] at h
@@ -254,7 +256,7 @@ theorem SpinNF.polar_eq_zero_of_ne_swap (hq : ∀ (g : G) (x : X), q (ρ g x) = 
 
 theorem SpinNF.eq_zero_of_invariant (hq : ∀ (g : G) (x : X), q (ρ g x) = q x)
     (m : Fin 4 ⊕ Fin 4) : q (hN.basis L m) = 0 := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   have hne : hsWeight b₀ (L.lab m) + hsWeight b₀ (L.lab m) ≠ 0 :=
     hsWeight_add_self_ne_zero hN.two_mul _
   obtain ⟨t, ht⟩ := exists_wtChar_ne_one (K := K) hne
@@ -314,9 +316,9 @@ theorem SpinNF.exists_eq_mul_octNorm (hq : ∀ (g : G) (x : X), q (ρ g x) = q x
     rw [octPolar_single_single]
     by_cases hn : n = m.swap
     · subst hn
-      rw [if_pos rfl, mul_one, hμ]
+      rw [ite_eq_left rfl, mul_one, hμ]
       exact hN.polar_swap_const L hq m (.inl 0)
-    · rw [if_neg hn, mul_zero]
+    · rw [ite_eq_right hn, mul_zero]
       exact hN.polar_eq_zero_of_ne_swap L hq hn
   have hbil : ∀ x y, QuadraticMap.polar q x y = μ * octPolar (hN.equiv L x) (hN.equiv L y) := by
     intro x y

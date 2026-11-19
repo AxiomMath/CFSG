@@ -119,7 +119,7 @@ theorem semi_pow {G : Type*} [Monoid G] {f t : G} (h : f * t = t ^ 7 * f) (k i :
   have hk : ∀ k : ℕ, SemiconjBy (f ^ k) t (t ^ (7 ^ k)) := by
     intro k
     induction k with
-    | zero => simpa using SemiconjBy.one_left t
+    | zero => simp
     | succ k ih =>
       rw [pow_succ f k, pow_succ 7 k, pow_mul t]
       exact (ih.pow_right 7).mul_left h
@@ -248,6 +248,7 @@ theorem one_eq : oneP = nfT (0, 0, 0) := by
   exact this
 
 include r hg in
+omit r in
 theorem gen_eqs : t1c = nfT (1, 0, 0) ∧ t2c = nfT (0, 1, 0) ∧ fc = nfT (0, 0, 1) := by
   have h1 := repP_nfElt hg 1 0 0
   have h2 := repP_nfElt hg 0 1 0
@@ -344,7 +345,7 @@ theorem normalFormOK_true : normalFormOK = true := by
 
 include r hg hom in
 theorem centreOK_true : centreOK = true := by
-  obtain ⟨e1, e2, e3⟩ := gen_eqs r hg
+  obtain ⟨e1, e2, e3⟩ := gen_eqs hg
   have hc : ∀ p ∈ lstE, ∀ q ∈ lstT, mulP p q = mulP q p := by
     intro p hp q hq
     obtain ⟨a, ha, b, hb, rfl⟩ := mem_E_iff.1 hp
@@ -411,7 +412,7 @@ theorem normC_of {b bi : Pc} {u v : ℕ × ℕ × ℕ} (hb : b = nfT u) (hbi : b
 
 include r hg in
 theorem normalOK_true : normalOK = true := by
-  obtain ⟨e1, e2, e3⟩ := gen_eqs r hg
+  obtain ⟨e1, e2, e3⟩ := gen_eqs hg
   have p18 : powP t1c 8 = nfT (8, 0, 0) := by rw [e1, nf_powT r hg]; rfl
   have p28 : powP t2c 8 = nfT (0, 8, 0) := by rw [e2, nf_powT r hg]; rfl
   have pf2 : powP fc 2 = nfT (0, 0, 2) := by rw [e3, nf_powT r hg]; rfl
@@ -469,7 +470,7 @@ theorem normalOK_true : normalOK = true := by
 
 include r hg in
 theorem cj_eq (k : ℕ) (hk : k < 4) (a : ℕ × ℕ × ℕ) : cj k (nfT a) = nfT (cjIx k a) := by
-  obtain ⟨e1, e2, e3⟩ := gen_eqs r hg
+  obtain ⟨e1, e2, e3⟩ := gen_eqs hg
   have hu : (uList[k]!).1 = nfT (uIx k) ∧ (uList[k]!).2 = nfT (vIx k) := by
     interval_cases k
     · exact ⟨one_eq r hg, one_eq r hg⟩

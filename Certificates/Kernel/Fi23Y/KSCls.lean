@@ -243,11 +243,11 @@ private theorem clsY_eq (cd : ℕ → ℕ) (l : ℕ) : CFSG.KC.Fi23Y.clsY cd l =
   unfold CFSG.KC.Fi23Y.clsY
   rw [strictN_eq, e, nIf_eq, nIf_eq]
   by_cases h1 : (cd l - 2) / 4 < 17
-  · rw [if_pos (Nat.blt_eq.mpr h1), if_pos h1]
+  · rw [ite_eq_left (Nat.blt_eq.mpr h1), ite_eq_left h1]
   · by_cases h2 : (cd l - 2) / 4 < 27
-    · rw [if_neg (by rw [Nat.blt_eq]; exact h1), if_pos (Nat.blt_eq.mpr h2), if_neg h1, if_pos h2]
-    · rw [if_neg (by rw [Nat.blt_eq]; exact h1), if_neg (by rw [Nat.blt_eq]; exact h2), if_neg h1,
-        if_neg h2]
+    · rw [ite_eq_right (by rw [Nat.blt_eq]; exact h1), ite_eq_left (Nat.blt_eq.mpr h2), ite_eq_right h1, ite_eq_left h2]
+    · rw [ite_eq_right (by rw [Nat.blt_eq]; exact h1), ite_eq_right (by rw [Nat.blt_eq]; exact h2), ite_eq_right h1,
+        ite_eq_right h2]
 
 theorem fixP_lvP {l : ℕ}
     (hl : l < 262144) (hc : 2 ≤ CFSG.KD.Fi23Y.CD l) (h2 : lvP l ^ 2 = 1) :
@@ -255,10 +255,10 @@ theorem fixP_lvP {l : ℕ}
   rw [fixP_eq_xR hl hc h2, clsY_eq]
   unfold xR
   by_cases h1 : (CFSG.KD.Fi23Y.CD l - 2) / 4 < 17
-  · rw [if_pos h1, if_pos h1, fix_C, (by decide : fi23Fix[2]! = 183)]
+  · rw [ite_eq_left h1, ite_eq_left h1, fix_C, (by decide : fi23Fix[2]! = 183)]
   · by_cases h3 : (CFSG.KD.Fi23Y.CD l - 2) / 4 < 27
-    · rw [if_neg h1, if_pos h3, if_neg h1, if_pos h3, fix_B, (by decide : fi23Fix[1]! = 695)]
-    · rw [if_neg h1, if_neg h3, if_neg h1, if_neg h3, fix_D, (by decide : fi23Fix[0]! = 3511)]
+    · rw [ite_eq_right h1, ite_eq_left h3, ite_eq_right h1, ite_eq_left h3, fix_B, (by decide : fi23Fix[1]! = 695)]
+    · rw [ite_eq_right h1, ite_eq_right h3, ite_eq_right h1, ite_eq_right h3, fix_D, (by decide : fi23Fix[0]! = 3511)]
 
 end CertificateChecks.KernelFi23Y.KSC
 

@@ -137,7 +137,7 @@ theorem H0_le_normalizer :
 
 theorem le_P {A : Subgroup G} (hA : A ≤ (K ⊔ K') ⊔ (J ⊓ Subgroup.centralizer ({z} : Set G)))
     (hAS : A ≤ (S : Subgroup G)) : A ≤ P := by
-  have h2 : IsPGroup 2 ↥(P ⊔ A) := S.isPGroup'.to_le (sup_le (le_sup_left.trans c.hPS) hAS)
+  have h2 : IsPGroup 2 ↥(P ⊔ A) := S.isPGroup.to_le (sup_le (le_sup_left.trans c.hPS) hAS)
   have h := c.hP.eq_of_le h2 (sup_le c.hP.1 hA) le_sup_left
   rw [← h]
   exact le_sup_right
@@ -148,7 +148,7 @@ theorem sylow_R [Finite G] : IsSylow2In (K ⊓ (S : Subgroup G)) K := by
   have h2 := isSylow2In_inf_of_normal h1 le_sup_left hKN
   have hle : (P ⊓ (K ⊔ K')) ⊓ K ≤ K ⊓ (S : Subgroup G) :=
     le_inf inf_le_right (inf_le_left.trans (inf_le_left.trans (le_sup_left.trans c.hPS)))
-  have h3 := h2.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left hle
+  have h3 := h2.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left hle
   rw [h3]
   exact h2
 
@@ -158,7 +158,7 @@ theorem sylow_R' [Finite G] : IsSylow2In (K' ⊓ (S : Subgroup G)) K' := by
   have h2 := isSylow2In_inf_of_normal h1 le_sup_right hKN
   have hle : (P ⊓ (K ⊔ K')) ⊓ K' ≤ K' ⊓ (S : Subgroup G) :=
     le_inf inf_le_right (inf_le_left.trans (inf_le_left.trans (le_sup_left.trans c.hPS)))
-  have h3 := h2.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left hle
+  have h3 := h2.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left hle
   rw [h3]
   exact h2
 
@@ -166,7 +166,7 @@ theorem W_abelian [Finite G] : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x := by
   obtain ⟨η, ⟨S', hηS', hinv⟩, rfl⟩ := c.hW
   exact (Sec6Gen.eta_abelian_of_cyc66 c.hΩ (Sec6Gen.cyc66 c.hΩ) hηS' hinv).1
 
-theorem W_isPGroup : IsPGroup 2 W := S.isPGroup'.to_le c.hWS
+theorem W_isPGroup : IsPGroup 2 W := S.isPGroup.to_le c.hWS
 
 theorem inf_W_mem [Finite G] {M : Subgroup G} (hM : M ∈ Ω)
     (h2 : 2 < Nat.card ↥(M ⊓ (S : Subgroup G))) : M ⊓ W ∈ USet Ω := by

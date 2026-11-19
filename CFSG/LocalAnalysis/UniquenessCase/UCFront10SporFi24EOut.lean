@@ -22,7 +22,7 @@ private theorem ncard_card_eq (k : ℕ) :
   rw [show {T : Finset (Fin 24) | T.card = k} =
       (Finset.powersetCard k (Finset.univ : Finset (Fin 24)) : Set (Finset (Fin 24))) by
     ext T
-    rw [Finset.mem_coe, Finset.mem_powersetCard_univ, Set.mem_setOf_eq],
+    rw [Finset.mem_coe, Finset.mem_powersetCard_univ, Set.mem_ofPred_eq],
     Set.ncard_coe_finset, Finset.card_powersetCard, Finset.card_univ, Fintype.card_fin]
 
 private theorem ncard_tetrads : {T : Finset (Fin 24) | T.card = 4 ∧ 0 ∈ T}.ncard = 1771 := by
@@ -30,7 +30,7 @@ private theorem ncard_tetrads : {T : Finset (Fin 24) | T.card = 4 ∧ 0 ∈ T}.n
       insert 0 '' (Finset.powersetCard 3 ((Finset.univ : Finset (Fin 24)).erase 0) :
         Set (Finset (Fin 24))) := by
     ext T
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, Finset.mem_powersetCard]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, Finset.mem_powersetCard]
     constructor
     · rintro ⟨h4, h0⟩
       refine ⟨T.erase 0, ⟨Finset.erase_subset_erase _ (Finset.subset_univ _), ?_⟩,
@@ -142,12 +142,12 @@ theorem exists_fi24Pi_map {S T : Finset (Fin 24)} (hST : S.card = T.card) (h4 : 
     obtain ⟨g, hg⟩ := CFSG.Sporadic.Mathieu.maps m24_hyp S.card (h4.trans (by decide))
       (fun j => if h : j < S.card then fi24EC⁻¹ (U.orderEmbOfFin hU ⟨j, h⟩) else 0) (by
         intro i hi j hj e
-        simp only [dif_pos hi, dif_pos (hj.trans hi)] at e
+        simp only [dite_eq_left hi, dite_eq_left (hj.trans hi)] at e
         exact absurd (Fin.mk.inj_iff.1 ((U.orderEmbOfFin hU).injective (fi24EC⁻¹.injective e)))
           (Nat.ne_of_gt hj))
     refine ⟨g, fun j => ?_⟩
     have := hg j.val j.isLt ⟨j.val, hlt j⟩ rfl
-    simp only [Subgroup.smul_def, Equiv.Perm.smul_def, dif_pos j.isLt] at this
+    simp only [Subgroup.smul_def, Equiv.Perm.smul_def, dite_eq_left j.isLt] at this
     exact this
   obtain ⟨g₁, hg₁⟩ := key S rfl
   obtain ⟨g₂, hg₂⟩ := key T hST.symm
@@ -173,7 +173,7 @@ theorem image_normClass {x : CFSG.Sporadic.Fi24.J} {S : Finset (Fin 24)} {k : �
   ext r
   constructor
   · rintro ⟨_, ⟨n, hn, rfl⟩, rfl⟩
-    exact ⟨_, by rw [Set.mem_setOf_eq, Finset.card_map, hk],
+    exact ⟨_, by rw [Set.mem_ofPred_eq, Finset.card_map, hk],
       (jR_conj_eq (n := ⟨n, hn⟩) hx).symm⟩
   · rintro ⟨T, (hT : T.card = k), rfl⟩
     obtain ⟨n, hn⟩ := exists_fi24Pi_map (hk.trans hT.symm) (hk.le.trans h4)

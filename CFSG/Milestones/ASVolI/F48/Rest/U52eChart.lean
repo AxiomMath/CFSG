@@ -24,7 +24,7 @@ theorem burnsideF48t_ext_equiv {D E : Type} [Group D] [Group E] [Finite D] [Fini
   have hρX := burnsideF4d_rho_injective (Gp := X) hcX
   let ρD : D →* MulAut ↥Gp := (MulAut.congr ε).toMonoidHom.comp (burnsideF4d_rho X)
   have hρD : Function.Injective ρD := (MulAut.congr ε).injective.comp hρX
-  haveI : Finite (MulAut ↥Gp) :=
+  have : Finite (MulAut ↥Gp) :=
     Finite.of_injective (fun f : MulAut ↥Gp => (f : ↥Gp → ↥Gp)) DFunLike.coe_injective
   have hEb : Function.Bijective (burnsideF4d_rho Gp) :=
     hρE.bijective_of_nat_card_le (hAut.trans hDE)
@@ -45,9 +45,9 @@ end Ext
 
 theorem burnsideF48t_u52e_card_mulAut {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) : Nat.card (MulAut ↥Gp) ≤ 2 * Nat.card ↥Gp := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨K, fK, h, Ψ, -, -⟩ := burnsideF4m_U5_chart hyp
-  haveI : Finite (hypPSU h 2 1) := Finite.of_equiv _ Ψ.symm.toEquiv
+  have : Finite (hypPSU h 2 1) := Finite.of_equiv _ Ψ.symm.toEquiv
   have hc1 : Nat.card (MulAut ↥Gp) = Nat.card (MulAut (hypPSU h 2 1)) :=
     Nat.card_congr (MulAut.congr Ψ.symm).toEquiv
   have hc2 : Nat.card ↥Gp = Nat.card (hypPSU h 2 1) := Nat.card_congr Ψ.symm.toEquiv
@@ -62,12 +62,12 @@ theorem burnsideF48t_u52e_card_mulAut {E : Type} [Group E] {Gp M₁ M₂ : Subgr
     by_cases hσ : σ = 1
     · refine ⟨(hypProj h 2 1 g, false), ?_⟩
       rw [hα, hσ, map_one, mul_one]
-      simp only [Φ, Bool.false_eq_true, if_false, mul_one]
+      simp only [Φ, Bool.false_eq_true, ite_false, mul_one]
       rfl
     · have hb := CFSG.Quasithin.H13.F431.Un.OL5.fld5_eq_bar h (burnsideF4m_ringEquiv_sq h σ) hσ
       refine ⟨(hypProj h 2 1 g, true), ?_⟩
       rw [hα, hb]
-      simp only [Φ, if_true]
+      simp only [Φ, ite_true]
       rfl
   have hle := Nat.card_le_card_of_surjective Φ hΦ
   rw [Nat.card_prod, Nat.card_eq_fintype_card (α := Bool), Fintype.card_bool] at hle
@@ -181,7 +181,7 @@ theorem burnsideF48t_u52e_normalizer_P1 :
     obtain ⟨hX, hP⟩ := (burnsideF48t_u52e_mem_map_ι _).1 h2
     exact (burnsideF48t_u52_mem_P1 _).1 hP
   · intro hg z
-    haveI := burnsideF48t_u52e_normal
+    have := burnsideF48t_u52e_normal
     rw [burnsideF48t_u52e_mem_map_ι, burnsideF48t_u52e_mem_map_ι]
     have hXiff : (z : Equiv.Perm (Fin 462)) ∈ burnsideF48t_u52X ↔
         ((g * z * g⁻¹ : ↥burnsideF48t_u52Xh) : Equiv.Perm (Fin 462)) ∈ burnsideF48t_u52X := by
@@ -289,10 +289,10 @@ theorem burnsideF48t_u52e_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
         (M₁ = burnsideF48t_u52eP2.map θ.toMonoidHom ∧
           M₂ = burnsideF48t_u52eP1.map θ.toMonoidHom)) ∧
       burnsideF48t_u52eXs.map θ.toMonoidHom = Gp := by
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := burnsideF48t_u52e_normal
+  have : Finite E := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := burnsideF48t_u52e_normal
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := burnsideF48t_u52_equiv_X' hyp.model
   obtain ⟨ε, hεB, hε⟩ := burnsideF48t_identify ε₀ burnsideF48t_u52_sylow burnsideF48t_u52_B_eq

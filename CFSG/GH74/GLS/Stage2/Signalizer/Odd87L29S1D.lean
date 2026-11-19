@@ -61,13 +61,13 @@ theorem sylow_O2_swap_cyclic_or_dihedral {H : Type} [Group H] [Finite H]
     (P : Subgroup ↥(O2Of (centralizer ({u} : Set H)))).subtype
   have hg : ∀ p : ↥P, g p ∈ (L29S1.diagHom hS).range := by
     intro p
-    obtain ⟨k, hk⟩ := P.isPGroup' p
+    obtain ⟨k, hk⟩ := P.isPGroup p
     have hk' : g p ^ 2 ^ k = 1 := by rw [← map_pow, hk, map_one]
     exact L29S1.mem_diagHom_range_of_two_power hS hout (hO p.1.2) hk'
   let f : ↥P →* ↥(L29S1.diagHom hS).range := g.codRestrict _ hg
   have hgi : Function.Injective g :=
     Subtype.val_injective.comp (Subtype.val_injective (p := fun x => x ∈ P))
   have hf : Function.Injective f := Function.Injective.of_comp (f := Subtype.val) hgi
-  exact L29S1.isCyclic_or_isDihedral_of_psl2 (hqF ▸ hodd) ePsl P.isPGroup' f hf
+  exact L29S1.isCyclic_or_isDihedral_of_psl2 (hqF ▸ hodd) ePsl P.isPGroup f hf
 
 end CFSG.GH74.GLS.Stage2.Signalizer.Odd87

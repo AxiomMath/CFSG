@@ -51,6 +51,7 @@ theorem c33_gammaSet_le_centralizer (D : Data G) (hSg : UC6S846.SigmaStd D)
     exact V₀.inv_mem hcm
   exact Subgroup.le_centralizer_iff.1 hVc
 
+omit [Finite G] in
 theorem autI_top_eq_of_normalizer_eq {V M : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : Subgroup.normalizer (V : Set G) = M) : autI hV (⊤ : Subgroup G) = autI hV M := by
   refine le_antisymm (fun φ hφ => ?_) (autI_mono hV le_top)

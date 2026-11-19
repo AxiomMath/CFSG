@@ -28,12 +28,12 @@ theorem u81_exists_mem_normalizer (u : U4X D L K n)
     ∃ y ∈ normalizer (B : Set G) ⊓ D.M, orderOf y = n := by
   have hn : n.Prime := u.prime_n
   have hr := u.prime_r
-  haveI : Fact n.Prime := ⟨hn⟩
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact n.Prime := ⟨hn⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   obtain ⟨hcomm, hinf, -, -, -, hXn, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
-  haveI := hXn
+  have := hXn
   have hRH : barImage D.M R ≤ barImage D.M L ⊔ barImage D.M K ⊔
       centralizer ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)) :=
     fun β hβ => by
@@ -53,7 +53,7 @@ theorem u81_exists_mem_normalizer (u : U4X D L K n)
     have h₀ := pRank_le_one_of_isL2_or_isSz (u4x_shape_barImage u.hL u.shape) hn hn2
     have h₁ := pRank_le_one_of_isL2_or_isSz (u4x_shape_barImage u.hK u.shapeK) hn hn2
     omega
-  obtain ⟨e, heE, heH⟩ := SetLike.not_le_iff_exists.1 hEH
+  obtain ⟨e, heE, heH⟩ := IsConcreteLE.not_le_iff_exists.1 hEH
   obtain ⟨S, hS⟩ := (u4x_isSylowOf_barImage hR).of_le hRH le_top
   obtain ⟨x, hxo, hxN⟩ := CFSG.RankThree.PartOne.KFSU5.exists_orderOf_eq_normalizer_sylow_of_pow
     _ S (hEel.2 e heE) heH

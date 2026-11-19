@@ -17,13 +17,13 @@ theorem exists_Z (ha : Ctx4P t L S x₁ x₂ lam rho tau) :
     ∃ Z : Subgroup G, fourGrp x₁ x₂ ≤ Z ∧ Z ≤ ctxO t tau x₁ x₂ ∧ 16 ≤ Nat.card Z ∧
       (∀ z ∈ Z, ∀ p ∈ ctxPL t tau x₁ x₂, z * p * z⁻¹ * p⁻¹ ∈ fourGrp x₁ x₂) ∧
       (∀ g ∈ ctxLO t tau x₁ x₂, ∀ z ∈ Z, g * z * g⁻¹ ∈ Z) := by
-  obtain ⟨Z, hZ⟩ := exists_zP (ctxPL t tau x₁ x₂) (fourGrp x₁ x₂) (P_comm_V ha)
+  obtain ⟨Z, hZ⟩ := exists_zP (ctxPL t tau x₁ x₂) (fourGrp x₁ x₂) (P_comm_V)
   refine ⟨Z, ?_, ?_, ?_, ?_, ?_⟩
   ·
     intro v hv
     rw [hZ v]
     refine ⟨V_le_P ha hv, fun q hq => ?_⟩
-    have hvq : v * q = q * v := (P_comm_V ha q hq v hv).symm
+    have hvq : v * q = q * v := (P_comm_V q hq v hv).symm
     have h1 : v * q * v⁻¹ * q⁻¹ = 1 := by rw [hvq]; group
     rw [h1]
     exact (fourGrp x₁ x₂).one_mem

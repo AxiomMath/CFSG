@@ -65,11 +65,11 @@ private theorem s1611e3_c9_card_mulAut_prod_dvd {Z T : Type*} [CommGroup Z] [Fin
     (hAutT : Nat.card (MulAut T) ∣ 2 * 336 ^ 2) :
     Nat.card (MulAut (Z × T)) ∣ 6 * (2 * 336 ^ 2) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨K, hK⟩ : ∃ K : Subgroup (Z × T), K = _root_.commutator (Z × T) := ⟨_, rfl⟩
   obtain ⟨Zc, hZc⟩ : ∃ Zc : Subgroup (Z × T), Zc = Subgroup.center (Z × T) := ⟨_, rfl⟩
-  haveI : K.Characteristic := by rw [hK]; infer_instance
-  haveI : Zc.Characteristic := by rw [hZc]; infer_instance
+  have : K.Characteristic := by rw [hK]; infer_instance
+  have : Zc.Characteristic := by rw [hZc]; infer_instance
   have hZmem : ∀ a : Z, ((a, 1) : Z × T) ∈ Zc := by
     intro a
     rw [hZc, Subgroup.mem_center_iff]
@@ -113,7 +113,7 @@ private theorem s1611e3_c9_card_mulAut_prod_dvd {Z T : Type*} [CommGroup Z] [Fin
       map_mul' := fun x y => rfl }
   have hZccard : Nat.card ↥Zc = 7 := by
     rw [Nat.card_congr eZ.toEquiv, hZ]
-  haveI : IsCyclic ↥Zc := isCyclic_of_prime_card hZccard
+  have : IsCyclic ↥Zc := isCyclic_of_prime_card hZccard
   have hAutZ : Nat.card (MulAut ↥Zc) = 6 := by
     rw [IsCyclic.card_mulAut, hZccard, Nat.totient_prime (by norm_num)]
   have hAutK : Nat.card (MulAut ↥K) ∣ 2 * 336 ^ 2 := by
@@ -147,7 +147,7 @@ theorem s1611e3_c9_card_mulAut_dvd {S : Type} [Group S] [Finite S] (hS : IsL3 S 
   classical
   have hcS : Subgroup.center S = ⊥ := center_eq_bot_of_isL3 hS
   have hpS : _root_.commutator S = ⊤ := s16c1610_commutator_of_isL3 hS
-  haveI : IsSimpleGroup S := isSimpleGroup_of_isL3 hS
+  have : IsSimpleGroup S := isSimpleGroup_of_isL3 hS
   have hcT : Subgroup.center (S × S) = ⊥ := by
     rw [Subgroup.center_prod, hcS, Subgroup.bot_prod_bot]
   have hpT : _root_.commutator (S × S) = ⊤ := by
@@ -157,7 +157,7 @@ theorem s1611e3_c9_card_mulAut_dvd {S : Type} [Group S] [Finite S] (hS : IsL3 S 
       Subgroup.top_prod_top]
   have hAutT : Nat.card (MulAut (S × S)) ∣ 2 * 336 ^ 2 := by
     have hsimple : ∀ N : Subgroup S, N.Normal → N = ⊥ ∨ N = ⊤ := fun N hN => by
-      haveI := hN
+      have := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
     have hcentral : ∀ a : S, (∀ c : S, a * c = c * a) → a = 1 := by
       intro a ha
@@ -176,7 +176,7 @@ theorem s1611e3_c9_seven_count {A : Type} [Group A] [Finite A] {F : Subgroup A} 
     (e : ↥F ≃* Multiplicative (ZMod 7) × S × S) :
     padicValNat 7 (Nat.card A) = 3 ∧ ∀ x : A, (∃ n : ℕ, x ^ 7 ^ n = 1) → x ^ 7 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hequiv : ↥(Subgroup.centralizer (F : Set A)) ≃ ↥(Subgroup.center ↥F) :=
     { toFun := fun x => ⟨⟨x.1, hF x.2⟩, by
         rw [Subgroup.mem_center_iff]
@@ -194,10 +194,10 @@ theorem s1611e3_c9_seven_count {A : Type} [Group A] [Finite A] {F : Subgroup A} 
   let φ : A →* MulAut ↥F := MulAut.conjNormal
   have hker : φ.ker = Subgroup.centralizer (F : Set A) :=
     s1611e3_c9_ker_conjNormal_eq_centralizer F
-  haveI : Nonempty A := ⟨1⟩
-  haveI : Nonempty ↥F := ⟨1⟩
-  haveI : Nonempty ↥φ.range := ⟨1⟩
-  haveI : Nonempty (A ⧸ F) := ⟨1⟩
+  have : Nonempty A := ⟨1⟩
+  have : Nonempty ↥F := ⟨1⟩
+  have : Nonempty ↥φ.range := ⟨1⟩
+  have : Nonempty (A ⧸ F) := ⟨1⟩
   have hNne : Nat.card φ.range ≠ 0 := (Nat.card_pos (α := ↥φ.range)).ne'
   have hAne : Nat.card A ≠ 0 := (Nat.card_pos (α := A)).ne'
   have hFne : Nat.card ↥F ≠ 0 := (Nat.card_pos (α := ↥F)).ne'

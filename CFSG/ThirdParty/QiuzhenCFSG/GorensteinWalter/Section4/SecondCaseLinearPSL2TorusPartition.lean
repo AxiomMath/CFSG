@@ -80,7 +80,7 @@ public theorem psl2_torus_family_partition_of_huppert
       rw [hKcard]
       exact dvd_pow_self r hf0
     have hrone : r ∣ 1 := by
-      convert Nat.dvd_sub hrK hrU using 1 <;> omega
+      convert Nat.dvd_sub hrK hrU using 1; omega
     exact (Fact.out : Nat.Prime r).ne_one (Nat.dvd_one.mp hrone)
   have hp_not_two : p ≠ 2 := by
     intro hp2
@@ -97,7 +97,7 @@ public theorem psl2_torus_family_partition_of_huppert
       rw [Nat.dvd_div_iff_mul_dvd h2plus] at hpS
       exact dvd_trans (Nat.dvd_mul_left p 2) hpS
     have hpTwo : p ∣ 2 := by
-      convert Nat.dvd_sub hpplus hpminus using 1 <;> omega
+      convert Nat.dvd_sub hpplus hpminus using 1; omega
     have hpEq : p = 2 :=
       (Nat.prime_dvd_prime_iff_eq (Fact.out : Nat.Prime p) Nat.prime_two).mp hpTwo
     exact hp_not_two hpEq
@@ -120,7 +120,7 @@ public theorem psl2_torus_family_partition_of_huppert
         rw [← hconj, hyx, hxord]
       have hydiv : orderOf y ∣ Nat.card (P : Subgroup (PSL2 K)) :=
         Subgroup.orderOf_dvd_natCard (P : Subgroup (PSL2 K)) hyP
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
       have hpdiv : p ∣ r ^ n := by
         rw [hn] at hydiv
         simpa [hyord] using hydiv
@@ -182,7 +182,7 @@ public theorem transport_psl2_torus_family_partition
   let TQ : Subgroup Q := T.1.map e.symm.toMonoidHom
   have hTQmem : x ∈ TQ := by
     refine Subgroup.mem_map.mpr ⟨y, hTy, ?_⟩
-    simp [y, TQ]
+    simp [y]
   have hTQfamily : ∃ g : Q, TQ =
       (U.map e.symm.toMonoidHom).map (MulAut.conj g).toMonoidHom := by
     rcases T.2 with ⟨g, hg⟩

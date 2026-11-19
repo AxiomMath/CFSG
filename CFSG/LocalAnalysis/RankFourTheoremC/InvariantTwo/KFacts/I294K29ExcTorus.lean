@@ -103,7 +103,7 @@ theorem exists_torsion_torusSub {p : ℕ} (hp : p.Prime) (hdvd : p ∣ Nat.card 
   · intro n hn
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, hmemA]
+    simp only [hmemA]
     constructor
     · rintro ⟨hh, hhp⟩
       exact ⟨conj_mem_torusSub hn hh, by rw [conj_pow, hhp, mul_one, mul_inv_cancel]⟩

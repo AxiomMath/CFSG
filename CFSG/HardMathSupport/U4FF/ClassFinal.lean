@@ -26,12 +26,12 @@ theorem u4RankDichotomy_of_classif
     (hN : Natural4Input) (hO : Omega2InputGen) : U4RankDichotomy := by
   intro S _ _ _ n L hn hL hirr
   classical
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨K, _, _, _, hK, ⟨η⟩⟩ := exists_equiv_SU hL
   obtain ⟨hSnt, x₀, hx₀⟩ := ClassFinal.nontrivial_of_isU4Group hL
-  haveI := hSnt
+  have := hSnt
   let ρ := ClassFinal.binRep L η
-  haveI : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirr⟩
   have hnt : ∃ g, ρ g ≠ 1 := ⟨η x₀, ClassFinal.binRep_ne_one L η x₀ hx₀⟩
   have hρ : ∀ (x : ↥L) (s : S),
       ρ (η x) (Additive.ofMul s) = Additive.ofMul ((x : MulAut S) s) :=
@@ -41,10 +41,10 @@ theorem u4RankDichotomy_of_classif
     ClassFinal.binRep_eta_lin L η
   have hC := hCl K n hK
   obtain ⟨d, hd1, hDcard, hdesc⟩ := u4_descent hC hK hnt
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
   let b₀ : Module.Basis (Fin (Module.finrank (EndRing ρ) (Additive S))) (EndRing ρ)
       (Additive S) := Module.finBasis (EndRing ρ) (Additive S)
   obtain ⟨E, _, _, _, ιK, ιD, l, hl0, ⟨Φ⟩, hm1, hm2, hdimW⟩ := hdesc b₀
@@ -60,7 +60,7 @@ theorem u4RankDichotomy_of_classif
     have h2n : 2 * n ∣ d := Lbl.SingleN.two_mul_dvd hSN hinv
     have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
     obtain ⟨ι⟩ := ClassFinal.exists_ringHom_of_dvd hK' hDcard h2n
-    letI : Algebra K (EndRing ρ) := ι.toAlgebra
+    let : Algebra K (EndRing ρ) := ι.toAlgebra
     let b : Module.Basis (Fin 4) (EndRing ρ) (Additive S) :=
       Module.finBasisOfFinrankEq _ _ h4
     obtain ⟨l', -, ⟨Φ'⟩, hdim'⟩ := u4_exists_label hC hnt b ι (RingHom.id (EndRing ρ))
@@ -103,8 +103,8 @@ theorem u4RankDichotomy_of_classif
       rw [hdimW]
       exact Lbl.dim_eq_six_of_singleO hSO
     obtain ⟨m', hm'⟩ := Lbl.SingleO.dvd hSO hinv
-    letI : Algebra K E := ιK.toAlgebra
-    letI : Algebra (EndRing ρ) E := ιD.toAlgebra
+    let : Algebra K E := ιK.toAlgebra
+    let : Algebra (EndRing ρ) E := ιD.toAlgebra
     let b : Module.Basis (Fin 6) (EndRing ρ) (Additive S) :=
       Module.finBasisOfFinrankEq _ _ h6
     obtain ⟨l', -, ⟨Φ'⟩, hdim'⟩ := u4_exists_label hC hnt b ιK ιD
@@ -134,7 +134,7 @@ theorem u4RankDichotomy_of_classif
   ·
     right
     intro t ht ht1 ht2
-    letI : Algebra K E := ιK.toAlgebra
+    let : Algebra K E := ιK.toAlgebra
     have hxt : (⟨t, ht⟩ : ↥L) * ⟨t, ht⟩ = 1 := Subtype.ext ht2
     have hηt : η ⟨t, ht⟩ * η ⟨t, ht⟩ = 1 := by rw [← map_mul, hxt, map_one]
     have hηt1 : η ⟨t, ht⟩ ≠ 1 := by

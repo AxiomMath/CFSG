@@ -17,6 +17,7 @@ variable {K : Type} [Field K] [CharP K 2]
 @[expose] noncomputable def e0 (J : Finset ℕ) : (J → Fin 2) → K :=
   Pi.single (fun _ => 0) 1
 
+omit [CharP K 2] in
 theorem e0_ne_zero (J : Finset ℕ) : e0 (K := K) J ≠ 0 := by
   intro h
   have := congrFun h (fun _ => 0)
@@ -33,6 +34,7 @@ theorem slotEmb_comm (J : Fin 3 → Finset ℕ) (s : Fin 3) (g : SL(2, K)) (x : 
   fin_cases s <;>
     simp [slotEmb, cubeRep_tmul, slot_apply_self, slot_apply_of_ne, map_one]
 
+omit [CharP K 2] in
 theorem slotEmb_ne_zero (J : Fin 3 → Finset ℕ) (s : Fin 3) : slotEmb (K := K) J s ≠ 0 := by
   intro h
   have h1 := LinearMap.congr_fun h (e0 (J s))

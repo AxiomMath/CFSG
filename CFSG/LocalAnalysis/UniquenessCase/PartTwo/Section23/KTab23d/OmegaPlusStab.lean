@@ -68,7 +68,7 @@ private theorem nonempty_bar2_hinf_plusFlagStab_three_Q15 {K : Type} [Field K] [
       Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K) := by
   obtain ⟨A, hA, β, S, eS, hker, hSR, hcomm⟩ :=
     exists_leviHom_plusFlagStab_three (K := K)
-  letI : Group A := hA
+  let : Group A := hA
   obtain ⟨eS⟩ := eS
   refine nonempty_bar2_hinf_equiv_of_leviHom_of_equiv
     (plusFlagStab K 3 ({1} : Finset ℕ)) β hker S hSR hcomm eS ?_ ?_

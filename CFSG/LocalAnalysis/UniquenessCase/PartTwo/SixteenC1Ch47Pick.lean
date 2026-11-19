@@ -102,7 +102,7 @@ theorem s16c1_not_centralizer_le_M {D : Data G} {V : Subgroup G} (hV : IsElemAbe
 theorem s16c1_exists_sylow_conj (D : Data G) (z : G) :
     ∃ k ∈ D.M, IsSylowIn 2 (D.T ⊓ centralizer ({k⁻¹ * z * k} : Set G))
       (D.M ⊓ centralizer ({k⁻¹ * z * k} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : IsPGroup 2 (⊥ : Subgroup G) := IsPGroup.of_card (n := 0) (by simp)
   obtain ⟨S, hS, -⟩ := exists_isSylowIn_ge 2
     (bot_le : (⊥ : Subgroup G) ≤ D.M ⊓ centralizer ({z} : Set G)) hbot

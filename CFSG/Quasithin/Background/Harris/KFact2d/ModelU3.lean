@@ -36,9 +36,9 @@ theorem scF_mem_gu2 (a : Fˣ) (ha : (a : F) ^ (p + 1) = 1) : scF F a ∈ GU2Stat
   simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply]
   by_cases h : j = i
   · subst h
-    simp [Matrix.one_apply, ← pow_succ, ha]
+    simp [← pow_succ, ha]
   · have h' : ¬ i = j := fun e => h e.symm
-    simp [Matrix.one_apply, h, h', zero_pow (Fact.out : p.Prime).ne_zero]
+    simp [h, h', zero_pow (Fact.out : p.Prime).ne_zero]
 
 
 theorem isSylowTwoOf_map_top' {X : Type} [Group X] {K S : Subgroup X} {L' : Type} [Group L']
@@ -111,6 +111,7 @@ theorem rhoU_ne_one [Finite F] (hF : Nat.card F = p ^ 2) {a : Fˣ} (ha : (a : F)
   linear_combination -h22
 
 
+omit [Fact (Nat.Prime p)] in
 theorem pow_prop {a : Fˣ} (ha : (a : F) ^ (p + 1) = 1) (n : ℕ) : ((a ^ n : Fˣ) : F) ^ (p + 1) = 1 := by
   rw [Units.val_pow_eq_pow_val, ← pow_mul, mul_comm, pow_mul, ha, one_pow]
 
@@ -129,6 +130,7 @@ theorem rhoU_pow (hF : Nat.card F = p ^ 2) (a : Fˣ) (ha : (a : F) ^ (p + 1) = 1
   unfold rhoU
   rw [← map_pow, ← map_pow, scU_pow]
 
+omit [Fact (Nat.Prime p)] in
 theorem exists_unit_odd_u [Finite F] (hF : Nat.card F = p ^ 2) (hp4 : p % 4 = 1) (hp11 : 11 ≤ p) :
     ∃ a : Fˣ, (a : F) ^ (p + 1) = 1 ∧ a ^ 3 ≠ 1 ∧ Odd (orderOf a) := by
   classical

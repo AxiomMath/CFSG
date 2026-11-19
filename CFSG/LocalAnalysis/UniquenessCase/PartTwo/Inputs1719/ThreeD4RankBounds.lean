@@ -177,7 +177,7 @@ theorem isMulCommutative_sylow_of_is3D4
       σ hσ hr hr5 hrd
   have hshapeY : CFSG.RankThree.PartOne.K1214.SylowShape r 2 ((2 ^ n - 1).factorization r) Y :=
     CFSG.RankThree.PartOne.K1214.SylowShape.of_mulEquiv e hshapeC
-  obtain ⟨eP⟩ := hshapeY (P : Subgroup Y) P.isPGroup'
+  obtain ⟨eP⟩ := hshapeY (P : Subgroup Y) P.isPGroup
     (@Sylow.not_dvd_index r Y inferInstance ⟨hr⟩ P inferInstance)
   refine ⟨⟨fun a b => eP.injective ?_⟩⟩
   rw [map_mul, map_mul]
@@ -231,7 +231,7 @@ theorem k_3D4TwoSylowSeven_holds :
     simpa [CFSG.RankThree.PartOne.K128.phiNat, hfac] using h
   have hshapeY : CFSG.RankThree.PartOne.K1214.SylowShape 7 2 1 X :=
     CFSG.RankThree.PartOne.K1214.SylowShape.of_mulEquiv e hshapeC
-  obtain ⟨eP⟩ := hshapeY (P : Subgroup X) P.isPGroup'
+  obtain ⟨eP⟩ := hshapeY (P : Subgroup X) P.isPGroup
     (@Sylow.not_dvd_index 7 X inferInstance ⟨by norm_num⟩ P inferInstance)
   have h7 : ∀ y : Fin 2 → Multiplicative (ZMod (7 ^ 1)), y ^ 7 = 1 := by
     intro y

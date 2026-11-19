@@ -47,7 +47,7 @@ theorem isTop_bot_of_simple (h0 : ∀ g, act g 0 = 0) {N : AddSubgroup A} (hN : 
 
 theorem exists_isMaxInvSub_ge [Finite A] {N S : AddSubgroup A} (hS : InvSub act S)
     (hlt : S < N) : ∃ K, IsMaxInvSub act N K ∧ S ≤ K := by
-  haveI : Finite (AddSubgroup A) :=
+  have : Finite (AddSubgroup A) :=
     Finite.of_injective (SetLike.coe : AddSubgroup A → Set A) SetLike.coe_injective
   obtain ⟨K, hSK, hK, hmax⟩ := Set.Finite.exists_le_maximal
     (Set.toFinite {K : AddSubgroup A | InvSub act K ∧ K < N}) (show S ∈ _ from ⟨hS, hlt⟩)
@@ -103,6 +103,7 @@ variable {X A A' : Type} [AddCommGroup A] [AddCommGroup A'] {act : X → A → A
 
 include he
 
+omit he in
 theorem mem_mapAddSubgroup {S : AddSubgroup A} {x : A'} :
     x ∈ e.mapAddSubgroup S ↔ e.symm x ∈ S :=
   AddSubgroup.mem_map_equiv
@@ -111,12 +112,12 @@ theorem invSub_map_iff {S : AddSubgroup A} :
     InvSub act' (e.mapAddSubgroup S) ↔ InvSub act S := by
   constructor
   · intro h g s hs
-    have h1 : e s ∈ e.mapAddSubgroup S := (mem_mapAddSubgroup e he).mpr (by simpa using hs)
+    have h1 : e s ∈ e.mapAddSubgroup S := (mem_mapAddSubgroup e).mpr (by simpa using hs)
     have h2 := h g _ h1
     rw [he] at h2
-    simpa [mem_mapAddSubgroup e he] using h2
+    simpa [mem_mapAddSubgroup e] using h2
   · intro h g a' ha'
-    rw [mem_mapAddSubgroup e he] at ha' ⊢
+    rw [mem_mapAddSubgroup e] at ha' ⊢
     have h1 := h g _ ha'
     have : e.symm (act' g a') = act g (e.symm a') := by
       apply e.injective
@@ -150,16 +151,16 @@ theorem jrad_map {N : AddSubgroup A} :
     jrad act' (e.mapAddSubgroup N) = e.mapAddSubgroup (jrad act N) := by
   ext x
   unfold jrad
-  simp only [AddSubgroup.mem_inf, AddSubgroup.mem_iInf, mem_mapAddSubgroup e he]
+  simp only [AddSubgroup.mem_inf, AddSubgroup.mem_iInf, mem_mapAddSubgroup e]
   refine and_congr Iff.rfl ⟨fun h K hK => ?_, fun h K' hK' => ?_⟩
-  · exact (mem_mapAddSubgroup e he).mp (h (e.mapAddSubgroup K) ((isMaxInvSub_map_iff e he).mpr hK))
+  · exact (mem_mapAddSubgroup e).mp (h (e.mapAddSubgroup K) ((isMaxInvSub_map_iff e he).mpr hK))
   · have h0 : e.mapAddSubgroup (e.mapAddSubgroup.symm K') = K' :=
       (e.mapAddSubgroup).apply_symm_apply K'
     have hK : IsMaxInvSub act N (e.mapAddSubgroup.symm K') :=
       (isMaxInvSub_map_iff e he).mp (by rw [h0]; exact hK')
     have := h _ hK
     rw [← h0]
-    exact (mem_mapAddSubgroup e he).mpr this
+    exact (mem_mapAddSubgroup e).mpr this
 
 theorem jradPow_map (n : ℕ) {N : AddSubgroup A} :
     jradPow act' n (e.mapAddSubgroup N) = e.mapAddSubgroup (jradPow act n N) := by

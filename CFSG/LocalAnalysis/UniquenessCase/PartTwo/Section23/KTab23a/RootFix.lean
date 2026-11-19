@@ -35,7 +35,7 @@ private theorem exists_polar_eq_zero_notMem_span {K V : Type*} [Field K] [AddCom
     have h1 : Module.finrank K (LinearMap.ker f) = 1 := by
       rw [heq, finrank_span_singleton hu0]
     omega
-  obtain ⟨w, hwk, hws⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨w, hwk, hws⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   exact ⟨w, by simpa [f, polarBilin_apply_apply] using hwk, hws⟩
 
 theorem mem_span_of_forall_eichler_apply_eq {K V : Type*} [Field K] [AddCommGroup V] [Module K V]

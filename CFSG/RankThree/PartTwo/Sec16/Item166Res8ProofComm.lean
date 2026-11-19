@@ -349,7 +349,7 @@ theorem normalizer_le_centralizer_or_exists_inv [Finite H] (P : Sylow 3 H)
   have hac : a * c * a⁻¹ = c :=
     (eq_or_eq_inv_of_mem_zpowers hc hz hne1).resolve_right (hex a haN)
   have haC : a ∈ Subgroup.centralizer (P : Set H) := by
-    refine mem_centralizer_of_coprime hP P.isPGroup' hcP hc haN ?_ hac
+    refine mem_centralizer_of_coprime hP P.isPGroup hcP hc haN ?_ hac
     rw [hao]
     exact ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hs3).symm
   have hcop : Nat.Coprime (3 ^ e) s :=

@@ -112,7 +112,7 @@ theorem ggTBTorAInd_of_uThree
   have hE : ggTorEnn p ⟨.twA, l, n⟩ = 1 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_pos hpq]
+    rw [ite_eq_left hpq]
   have hn : 1 ≤ n := hlab.1
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
@@ -142,7 +142,7 @@ theorem ggTBTorAIndUThree_of_uFourTwo
   have hE : ggTorEnn p ⟨.twA, 3, n⟩ = 1 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_pos hpq]
+    rw [ite_eq_left hpq]
   have hn : 1 ≤ n := hlab.1
   rcases Nat.lt_or_ge n 2 with hn2 | hn2
   · obtain rfl : n = 1 := by omega

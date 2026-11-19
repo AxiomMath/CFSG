@@ -13,7 +13,7 @@ section B
 variable {G : Type} [Group G] [Finite G]
 
 theorem B_stability (p : ℕ) [Fact p.Prime] (T N : Subgroup G) (a : G) (hT : IsPGroup p T)
-    (hN : N ≤ T) (hNn : (N.subgroupOf T).Normal) (haT : a ∈ Nor T) (ha : ¬ p ∣ orderOf a)
+    (_hN : N ≤ T) (_hNn : (N.subgroupOf T).Normal) (haT : a ∈ Nor T) (ha : ¬ p ∣ orderOf a)
     (h1 : ∀ u ∈ T, ∃ n ∈ N, a * u * a⁻¹ = u * n) (h2 : ∀ n ∈ N, a * n * a⁻¹ = n) :
     a ∈ CenS T := by
   have hcon : ∀ t ∈ T, a * t * a⁻¹ ∈ T := fun t ht =>
@@ -70,6 +70,7 @@ theorem B_stability (p : ℕ) [Fact p.Prime] (T N : Subgroup G) (a : G) (hT : Is
   have h' : a * t * a⁻¹ = t := congrArg Subtype.val hfix
   exact (mul_inv_eq_iff_eq_mul.1 h').symm
 
+omit [Finite G] in
 private theorem comm_aux {a b c d : G} (hca : Commute c a) (hcb : Commute c b)
     (hda : Commute d a) (hdb : Commute d b) (hcd : Commute c d) :
     ⁅c * a, d * b⁆ = ⁅a, b⁆ := by
@@ -88,6 +89,7 @@ private theorem comm_aux {a b c d : G} (hca : Commute c a) (hcb : Commute c b)
       _ = (c * d) * (a * b * a⁻¹ * b⁻¹) * (c * d)⁻¹ := by group
   rw [key, hK.eq, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem perfect_centralizes_of_comm_central (L : Subgroup G) (hL : ⁅L, L⁆ = L) (x : G)
     (hxL : ∀ l ∈ L, x * l * x⁻¹ ∈ L) (hz : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ CenS L) :
     ∀ l ∈ L, x * l = l * x := by
@@ -125,6 +127,7 @@ theorem perfect_centralizes_of_comm_central (L : Subgroup G) (hL : ⁅L, L⁆ = 
     exact hl
   exact Subgroup.mem_centralizer_iff.1 hlC x (Set.mem_singleton x)
 
+omit [Finite G] in
 theorem B_perfect_comm (L X : Subgroup G) (hL : ⁅L, L⁆ = L) (hLX : L ≤ Nor X) (hXL : X ≤ Nor L)
     (h : ∀ x ∈ X ⊓ L, ∀ l ∈ L, x * l = l * x) : X ≤ CenS L := by
   intro x hx
@@ -144,6 +147,7 @@ theorem B_perfect_comm (L X : Subgroup G) (hL : ⁅L, L⁆ = L) (hLX : L ≤ Nor
     exact Subgroup.mem_centralizer_iff.2 (fun m hm => (h _ hY m hm).symm)
   exact (perfect_centralizes_of_comm_central L hL x hxl hz l hl).symm
 
+omit [Finite G] in
 private theorem Opp_conj_mem (p : ℕ) [Fact p.Prime] (K : Subgroup G) {h : G} (hh : h ∈ Nor K) :
     ∀ m ∈ Opp p K, h * m * h⁻¹ ∈ Opp p K := by
   intro m hm
@@ -159,6 +163,7 @@ private theorem Opp_conj_mem (p : ℕ) [Fact p.Prime] (K : Subgroup G) {h : G} (
     simp
   exact h5
 
+omit [Finite G] in
 private theorem le_Opp_of_normal_coprime (p : ℕ) [Fact p.Prime] (H M : Subgroup G)
     (hMH : M ≤ H) (hMn : (M.subgroupOf H).Normal) (hcop : Nat.Coprime p (Nat.card M)) :
     M ≤ Opp p H := by
@@ -172,6 +177,7 @@ private theorem le_Opp_of_normal_coprime (p : ℕ) [Fact p.Prime] (H M : Subgrou
   have hmem : (⟨m, hMH hm⟩ : H) ∈ M.subgroupOf H := hm
   exact Subgroup.mem_map.2 ⟨⟨m, hMH hm⟩, hle hmem, rfl⟩
 
+omit [Finite G] in
 private theorem card_Opp_coprime (p : ℕ) [Fact p.Prime] [Finite G] (H : Subgroup G) :
     Nat.Coprime p (Nat.card (Opp p H)) := by
   have e := (pPrimeCore p H).equivMapOfInjective H.subtype H.subtype_injective
@@ -180,6 +186,7 @@ private theorem card_Opp_coprime (p : ℕ) [Fact p.Prime] [Finite G] (H : Subgro
   rw [h]
   exact pPrimeCore_coprime_card
 
+omit [Finite G] in
 private theorem oddClosure_normalized (H : Subgroup G) {h : G} (hh : h ∈ H) (g : G)
     (hg : g ∈ Subgroup.closure {x : G | x ∈ H ∧ ¬ 3 ∣ orderOf x}) :
     h * g * h⁻¹ ∈ Subgroup.closure {x : G | x ∈ H ∧ ¬ 3 ∣ orderOf x} := by
@@ -242,7 +249,7 @@ theorem B_central_notin_Oup (p : ℕ) [Fact p.Prime] (H P : Subgroup G) (hP : Is
     (hz1 : z ≠ 1) :
     z ∉ Subgroup.closure {x : G | x ∈ H ∧ ¬ p ∣ orderOf x} := by
   obtain ⟨hPH, hPp, hcop⟩ := hP
-  letI : CommGroup ↥P :=
+  let : CommGroup ↥P :=
     { (inferInstance : Group ↥P) with mul_comm := fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2) }
   let ϕ : ↥(P.subgroupOf H) →* ↥P := (Subgroup.subgroupOfEquivOfLe hPH).toMonoidHom
   let V : ↥H →* ↥P := MonoidHom.transfer ϕ
@@ -296,11 +303,13 @@ theorem B_central_notin_Oup (p : ℕ) [Fact p.Prime] (H P : Subgroup G) (hP : Is
   rw [MonoidHom.mem_ker, hw] at hwV
   exact hVz1 hwV
 
+omit [Finite G] in
 theorem B_charTwo (hchar : CFSG.Assembly.IsCharTwoType G) (Q : Subgroup G) (hQ : Q ≠ ⊥)
     (h2 : IsPGroup 2 Q) :
     Nor Q ⊓ CenS (Op 2 (Nor Q)) ≤ Op 2 (Nor Q) :=
   fun _ hg => hchar (Nor Q) ⟨Q, hQ, h2, rfl⟩ hg
 
+omit [Finite G] in
 theorem B_kgroup (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (H : Subgroup G)
     (hH : H ≠ ⊤) :
     CFSG.KCore.KGroupNonab CFSG.Assembly.InCatalog ↥H :=

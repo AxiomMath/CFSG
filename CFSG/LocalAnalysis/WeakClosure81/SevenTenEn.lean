@@ -14,7 +14,7 @@ open CFSG.ASVolI.ChIJK Equiv
   ⟨Pi.single a 1 + Pi.single b 1, by
     show ∑ i, ((Pi.single a 1 : Fin n → ZMod 2) i + (Pi.single b 1 : Fin n → ZMod 2) i) = 0
     rw [Finset.sum_add_distrib]
-    simp only [Finset.sum_pi_single', Finset.mem_univ, if_true]
+    simp only [Finset.sum_pi_single', Finset.mem_univ, ite_true]
     decide⟩
 
 private lemma coe_evenWeightRep_apply (n : ℕ) (σ : Perm (Fin n)) (x : evenWeight n) (i : Fin n) :
@@ -29,9 +29,9 @@ private lemma evenPair_self (n : ℕ) (a : Fin n) : evenPair n a a = 0 := by
   show (Pi.single a 1 + Pi.single a 1 : Fin n → ZMod 2) k = 0
   simp only [Pi.add_apply, Pi.single_apply]
   by_cases hk : k = a
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     decide
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     simp
 
 private lemma zmod2_sub_eq_add (a b : ZMod 2) : a - b = a + b := by
@@ -53,7 +53,7 @@ private lemma exists_ne_of_notMem_constInEven {n : ℕ} (hn : 1 ≤ n) {x : even
     rw [Submodule.mem_span_singleton]
     refine ⟨(x : Fin n → ZMod 2) i0, ?_⟩
     funext i
-    simp only [Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one]
+    simp only [Pi.smul_apply, smul_eq_mul, mul_one]
     exact (hc i i0).symm
   exact hx (by simpa [constInEven] using hxspan)
 
@@ -107,8 +107,7 @@ theorem span_evenPair_eq_top {n : ℕ} (hn : 1 ≤ n) :
     apply Subtype.ext
     funext k
     rw [Submodule.coe_sum, Finset.sum_apply]
-    simp only [Submodule.coe_smul, Pi.smul_apply, smul_eq_mul, evenPair, Submodule.coe_mk,
-      Pi.add_apply, Pi.single_apply, mul_add, Finset.sum_add_distrib]
+    simp only [Submodule.coe_smul, Pi.smul_apply, smul_eq_mul, evenPair, Pi.add_apply, Pi.single_apply, mul_add, Finset.sum_add_distrib]
     rw [← Finset.sum_mul, x.2, zero_mul, add_zero]
     simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq]
     simp

@@ -18,6 +18,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L D J K : Subgroup G} {x y : G}
 
+omit [Finite G] in
 theorem hdRo7CLOKnownAux_p_eq_three
     (hrow : GGResRowAt ggRowCorank2C p J K) : p = 3 := by
   obtain ⟨_, _, _, _, _, _, hp3, _, _, _, _, _⟩ := hrow
@@ -47,7 +48,7 @@ theorem hdRo7CLOKnownAux_exists_d
       exact Subgroup.subset_closure (by simp)
   have hcardD : Nat.card D = p ^ 2 := hH.1.2.2.1.2.2.1
   have hcardZ : Nat.card (Subgroup.zpowers x) = p := by
-    haveI : Fact (Nat.Prime p) := ⟨hH.1.tableB_facts.1⟩
+    have : Fact (Nat.Prime p) := ⟨hH.1.tableB_facts.1⟩
     rw [Nat.card_zpowers, orderOf_eq_prime (hdRo7CLCoordAux_x_pow_eq_one hH) (hdRo7CLCoordAux_x_ne_one hH)]
   rw [hD_eq_x, hcardZ] at hcardD
   have hp2 : 1 < p := Nat.Prime.one_lt hH.1.tableB_facts.1
@@ -85,7 +86,7 @@ theorem hdRo7CLOKnownAux_D_eq_closure
       exact Subgroup.subset_closure (by simp)
   have hcardD : Nat.card D = p ^ 2 := hH.1.2.2.1.2.2.1
   have hcardZ : Nat.card (Subgroup.zpowers x) = p := by
-    haveI : Fact (Nat.Prime p) := ⟨hH.1.tableB_facts.1⟩
+    have : Fact (Nat.Prime p) := ⟨hH.1.tableB_facts.1⟩
     rw [Nat.card_zpowers, orderOf_eq_prime (hdRo7CLCoordAux_x_pow_eq_one hH) (hdRo7CLCoordAux_x_ne_one hH)]
   rw [hD_eq_x, hcardZ] at hcardD
   have hp2 : 1 < p := Nat.Prime.one_lt hH.1.tableB_facts.1
@@ -125,7 +126,7 @@ theorem hdRo7CLOKnownAux_e_ne_one
     (hdn : d ∉ Subgroup.zpowers x) :
     ∃ l ∈ L, d⁻¹ * l * d ≠ l := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hd_cent : d ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
     intro l hl
@@ -141,7 +142,7 @@ theorem hdRo7CLOKnownAux_e_ne_one
 
 theorem hdRo7CLOKnownAux_e_pow_eq_one
     (hH : GGResHyp p B Bs x L D J y K) {d : G} (hd : d ∈ D)
-    (hdn : d ∉ Subgroup.zpowers x) :
+    (_hdn : d ∉ Subgroup.zpowers x) :
     (hdRo7CLOKnownAux_e hH hd) ^ p = 1 := by
   have hd_pow : d ^ p = 1 := hdRo7CLOKnownAux_d_pow_eq_one hH hd
   have key : ∀ (n : ℕ) (l : ↥L),
@@ -173,7 +174,7 @@ theorem hdRo7CLOKnownAux_centralizer_eq
   have hp : Nat.Prime p := hH.1.tableB_facts.1
   have hcardD : Nat.card D = p ^ 2 := hH.1.2.2.1.2.2.1
   have hcardzx : Nat.card (Subgroup.zpowers x) = p := by
-    haveI : Fact (Nat.Prime p) := ⟨hp⟩
+    have : Fact (Nat.Prime p) := ⟨hp⟩
     rw [Nat.card_zpowers, orderOf_eq_prime (hdRo7CLCoordAux_x_pow_eq_one hH) (hdRo7CLCoordAux_x_ne_one hH)]
   set H : Subgroup G := Subgroup.closure ({x, d} : Set G) with hHdef
   have hH_le_D : H ≤ D := by
@@ -198,7 +199,7 @@ theorem hdRo7CLOKnownAux_centralizer_eq
     rwa [hcardzx] at hdvd
   have hi_ge : 1 ≤ i := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hi0 : i = 0 := by omega
     rw [hi0, pow_zero] at hi_eq
     have : p ∣ 1 := by rwa [hi_eq] at hp_dvd_H
@@ -238,7 +239,7 @@ theorem hdRo7CLOKnownAux_centralizer_eq
 
 theorem hdRo7CLOKnownAux_ggFixSub_eq
     (hH : GGResHyp p B Bs x L D J y K) {d : G} (hd : d ∈ D)
-    (hdn : d ∉ Subgroup.zpowers x) :
+    (_hdn : d ∉ Subgroup.zpowers x) :
     ggFixSub (hdRo7CLOKnownAux_e hH hd) =
       (Subgroup.centralizer ({d} : Set G) ⊓ L).subgroupOf L := by
   ext l

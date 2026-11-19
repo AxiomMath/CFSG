@@ -27,7 +27,7 @@ theorem fzc_card_K (hs : FzCSteps t L S x₁ x₂ lam rho) :
     omega
   have hnle : n ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h3 : 2 ^ 3 ≤ 2 ^ n := pow_le_pow_right₀ (by norm_num : (1 : ℕ) ≤ 2) (by omega)
     norm_num at h3
     omega
@@ -46,7 +46,7 @@ theorem fzc_K_two (hs : FzCSteps t L S x₁ x₂ lam rho) (h2 : Nat.card (twoCor
 
 theorem fzc_K_four (hs : FzCSteps t L S x₁ x₂ lam rho) (h4 : Nat.card (twoCore t) = 4) :
     ∃ q : G, twoCore t = zpowers q ∧ orderOf q = 4 ∧ q ^ 2 = t := by
-  haveI : IsCyclic (twoCore t) := hs.ctx.hyp.isCyclic
+  have : IsCyclic (twoCore t) := hs.ctx.hyp.isCyclic
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := twoCore t)
   have hordg : orderOf g = 4 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, h4]

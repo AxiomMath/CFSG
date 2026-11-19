@@ -162,7 +162,7 @@ theorem burnsideA315y_map_inf_normalizer (hα : Function.Injective α) (I U : Su
 
 theorem burnsideA315y_isCyclic_of_map (hα : Function.Injective α) {H : Subgroup G}
     (h : IsCyclic ↥(H.map α)) : IsCyclic ↥H := by
-  haveI := h
+  have := h
   exact isCyclic_of_surjective (H.equivMapOfInjective α hα).symm
     (H.equivMapOfInjective α hα).symm.surjective
 
@@ -207,7 +207,7 @@ end Transport
 theorem burnsideA315y_mem_of_odd {G : Type} [Group G] {B S : Subgroup G} (hS : IsPGroup 2 ↥S)
     (hSB : S ≤ Subgroup.normalizer (B : Set G)) {x : G} (hx : x ∈ S ⊔ B)
     (hodd : Odd (orderOf x)) : x ∈ B := by
-  haveI : (B.subgroupOf (S ⊔ B)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSB
+  have : (B.subgroupOf (S ⊔ B)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSB
   let f : ↥S →* ↥(S ⊔ B) ⧸ B.subgroupOf (S ⊔ B) :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion le_sup_left)
   have hf : Function.Surjective f := by
@@ -328,7 +328,7 @@ theorem burnsideA315y_pullback_of_hyp {G P : Type} [Group G] [Group P] {L T B : 
     (hM : burnsideA315y_ModelConclusion (MulAut P) δ p (L.map (burnsideA315y_alpha L e))
       (B.map (burnsideA315y_alpha L e)) ((T ⊓ L).map (burnsideA315y_alpha L e))) :
     CFSG.Quasithin.A315Case2 L T B ∨ CFSG.Quasithin.A315Case3 L T B := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   exact burnsideA315y_pullback _
     (burnsideA315y_alpha_injective L e (burnsideA315x_centralizer_eq_bot h)) h.sylow.2.1 h.perm
     h.odd hp hp2 hL hM

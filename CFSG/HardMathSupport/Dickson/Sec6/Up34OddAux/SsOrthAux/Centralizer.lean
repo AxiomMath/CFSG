@@ -14,6 +14,7 @@ open CFSG.ComponentClassification.CatLeafProof (OddLieCentralQuotient
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} {ℓ f : ℕ}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem normal_supportedBlock_subgroupOf (h : K[X]) :
     ((supportedBlock Q x h).subgroupOf (isometryCentralizer Q x)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (supportedBlock_le_isometryCentralizer h)]

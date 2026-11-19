@@ -95,8 +95,8 @@ theorem exists_layer_centralizer_of_isConj_c0 {y : CFSG.Blueprint.NativeSporadic
       Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* X₀) ∧
       Nonempty (PQuot 3 (GLAPLayer 3 (⊤ : Subgroup
         ↥(Subgroup.centralizer ({y} : Set CFSG.Blueprint.NativeSporadic.Co1)))) ≃* ↥J) := by
-  haveI : Finite GL24 := inferInstance
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co1 := CFSG.Sporadic.Co1.Module.finite_co1
+  have : Finite GL24 := inferInstance
+  have : Finite CFSG.Blueprint.NativeSporadic.Co1 := CFSG.Sporadic.Co1.Module.finite_co1
   obtain ⟨g, hx, ⟨eW⟩⟩ := exists_centralizer_equiv hy
   obtain ⟨J, hJH, hJn, hq, hp3, hZ3, -, ⟨eJ⟩, hZ9⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.H1420.suzCo1_threeB_data hx

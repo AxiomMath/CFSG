@@ -43,9 +43,9 @@ theorem exists_signedPerm_of_mem_signedPermGroup {t : ℕ} {φ : V t ≃ₗ[F] V
       · intro k
         by_cases hk : k = i <;> simp [hk]
       · intro u k
-        simp [negEquiv, LinearEquiv.piCongrRight_apply, Equiv.Perm.one_symm]
+        simp [negEquiv, LinearEquiv.piCongrRight_apply, ← Equiv.Perm.inv_def 1, inv_one]
         split_ifs <;> simp
-  · exact ⟨1, fun _ => 1, fun _ => Or.inl rfl, by intro u i; simp [Equiv.Perm.one_symm]⟩
+  · exact ⟨1, fun _ => 1, fun _ => Or.inl rfl, by intro u i; simp [← Equiv.Perm.inv_def 1, inv_one]⟩
   · rintro x y _ _ ⟨σ, ε, hε, hx⟩ ⟨τ, δ, hδ, hy⟩
     refine ⟨σ * τ, fun i => ε i * δ (σ.symm i), ?_, ?_⟩
     · intro i

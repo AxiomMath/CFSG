@@ -59,7 +59,7 @@ theorem exists_invariant_parabolic {X : Type*} [Group X] [Finite X]
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hkey (Subgroup.mem_inf.mpr ⟨hx, x.2⟩)
-  haveI : Group.IsNilpotent (pCoreOf 2 P : Subgroup X) :=
+  have : Group.IsNilpotent (pCoreOf 2 P : Subgroup X) :=
     IsPGroup.isNilpotent (pCoreOf_isPGroup 2 P)
   have hnc := normalizerCondition_iff_only_full_group_self_normalizing.mp
     (Group.normalizerCondition_of_isNilpotent (G := (pCoreOf 2 P : Subgroup X)))

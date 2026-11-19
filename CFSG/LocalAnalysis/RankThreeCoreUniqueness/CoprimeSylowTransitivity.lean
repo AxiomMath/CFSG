@@ -130,7 +130,7 @@ theorem coprime_maximal_invariant_prime_subgroup_is_sylow
   obtain ⟨normalizerSylow, hfixed⟩ := coprime_pGroup_has_invariant_sylow actorPrime hactorPrime
     hactor (hcoprime.of_dvd_right normalizer.card_subgroup_dvd_card) sylowPrime hsylowPrime
   let liftedSylow := (normalizerSylow : Subgroup normalizer).map normalizer.subtype
-  have hliftedGroup : IsPGroup sylowPrime liftedSylow := normalizerSylow.isPGroup'.map _
+  have hliftedGroup : IsPGroup sylowPrime liftedSylow := normalizerSylow.isPGroup.map _
   have hliftedInvariant : ∀ actingElement : Actor,
       liftedSylow.map (action actingElement).toMonoidHom = liftedSylow := by
     intro actingElement
@@ -156,7 +156,7 @@ theorem coprime_maximal_invariant_prime_subgroup_is_sylow
     rwa [Subgroup.map_subgroupOf_eq_of_le Subgroup.le_normalizer] at himage
   have hliftedEqual := hmaximal liftedSylow hliftedGroup hliftedInvariant hcontained
   obtain ⟨ambientSylow, hambientLe⟩ := hgroup.exists_le_sylow
-  let : Group.IsNilpotent (ambientSylow : Subgroup Value) := ambientSylow.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (ambientSylow : Subgroup Value) := ambientSylow.isPGroup.isNilpotent
   have hself : Subgroup.normalizer
       (invariantGroup.subgroupOf (ambientSylow : Subgroup Value) : Set (ambientSylow : Subgroup Value)) =
         invariantGroup.subgroupOf (ambientSylow : Subgroup Value) := by
@@ -168,7 +168,7 @@ theorem coprime_maximal_invariant_prime_subgroup_is_sylow
         (Subgroup.normalizer (invariantGroup : Set Value) ⊓ (ambientSylow : Subgroup Value)).subgroupOf
           normalizer
       have hintersectionGroup : IsPGroup sylowPrime internalIntersection := by
-        exact (ambientSylow.isPGroup'.to_inf_right).of_equiv
+        exact (ambientSylow.isPGroup.to_inf_right).of_equiv
           (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
       have hintersectionLe : (normalizerSylow : Subgroup normalizer) ≤ internalIntersection := by
         intro internalElement hinternal

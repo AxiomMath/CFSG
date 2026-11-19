@@ -146,7 +146,7 @@ private theorem ggL45E67_tFrame_good
     (hζo : orderOf ζ = 3)
     {D : E6ThreeModel.FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : E6ThreeModel.TSpec hn hK σ hσ Fr hFr g hζ D) : D.Good :=
-  { center := E6ThreeModel.tFrame_center hn hK σ hσ
+  { center := E6ThreeModel.tFrame_center σ
     faithful := E6ThreeModel.tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD
     shape := E6ThreeModel.tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD
     torus := E6ThreeModel.tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD

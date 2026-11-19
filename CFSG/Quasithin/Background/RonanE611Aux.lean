@@ -72,6 +72,7 @@ section Commutator
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G} (hV : IsElemAbelian 2 V)
 
+omit [Finite G] in
 theorem commutator_eq_of_autI_eq {X K : Subgroup G} (hXK : X ≤ K)
     (hK : K ≤ Subgroup.normalizer (V : Set G)) (h : autI hV X = autI hV K) : ⁅V, X⁆ = ⁅V, K⁆ := by
   refine le_antisymm (Subgroup.commutator_mono le_rfl hXK) ?_

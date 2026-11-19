@@ -29,7 +29,7 @@ theorem testBit_bit (v n m : ℕ) : (bit v n).testBit m = (decide (m = 0) && v.t
   · simp
   · rcases Nat.eq_zero_or_pos m with rfl | hm
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [Nat.testBit_eq_decide_div_mod_eq, Nat.div_eq_of_lt (Nat.one_lt_two_pow hm.ne')]
       simp [hm.ne']
 
@@ -115,7 +115,7 @@ theorem ptOfCode_zero : ptOfCode 0 = 1 := by
   · change Multiplicative.ofAdd _ = Multiplicative.ofAdd 0
     congr 1
     funext i
-    simp [ind]
+    simp
 
 theorem mul_self_pt (p : Pt) : p * p = 1 := by
   have h : ∀ c : ZMod 2, c + c = 0 := by decide
@@ -141,7 +141,7 @@ theorem allPts_nodup : allPts.Nodup := by
 
 theorem card_pt : Fintype.card Pt = 256 := by
   change Fintype.card (Multiplicative (Fin 4 → ZMod 2) × Multiplicative (Fin 4 → ZMod 2)) = 256
-  simp [Fintype.card_prod, Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+  simp [Fintype.card_prod, Fintype.card_multiplicative, ZMod.card]
 
 theorem mem_allPts (p : Pt) : p ∈ allPts := by
   have h1 : allPts.toFinset = Finset.univ := by
@@ -524,7 +524,7 @@ theorem mem_closure_insert (s : Pt) (A : Set Pt) (x : Pt) :
 theorem mem_spanList : ∀ (L : List Pt) (x : Pt),
     x ∈ spanList L ↔ x ∈ Subgroup.closure {y | y ∈ L}
   | [], x => by
-    simp only [spanList, List.mem_singleton, List.not_mem_nil, Set.setOf_false,
+    simp only [spanList, List.mem_singleton, List.not_mem_nil, Set.ofPred_false,
       Subgroup.closure_empty, Subgroup.mem_bot]
   | s :: ss, x => by
     have e : {y | y ∈ s :: ss} = insert s {y | y ∈ ss} := by
@@ -642,9 +642,9 @@ theorem testBit_translK_aux (S v : ℕ) : ∀ k ≤ 8, ∀ u < 256,
     · have e : Nat.beq (bit v k) (nat_lit 1) = false := by rw [bit_eq, hv]; rfl
       rw [e]
       dsimp only
-      rw [testBit_translK_aux S v k (by omega) u hu, if_neg Bool.false_ne_true, Nat.xor_zero]
+      rw [testBit_translK_aux S v k (by omega) u hu, ite_eq_right Bool.false_ne_true, Nat.xor_zero]
     · have e : Nat.beq (bit v k) (nat_lit 1) = true := by rw [bit_eq, hv]; rfl
-      rw [e, if_pos rfl]
+      rw [e, ite_eq_left rfl]
       dsimp only
       have hlt : u ^^^ 2 ^ k < 256 := by
         have := Nat.xor_lt_two_pow (n := 8) (by simpa using hu)
@@ -706,7 +706,7 @@ theorem isMask_spanM_aux (U : ℕ) : ∀ k ≤ 256,
     · have e : {p | ∃ w < k + 1, U.testBit w = true ∧ ptOfCode w = p} =
           insert (ptOfCode k) {p | ∃ w < k, U.testBit w = true ∧ ptOfCode w = p} := by
         ext p
-        simp only [Set.mem_setOf_eq, Set.mem_insert_iff]
+        simp only [Set.mem_ofPred_eq, Set.mem_insert_iff]
         refine ⟨fun ⟨w, hw, h1, h2⟩ => ?_, ?_⟩
         · rcases Nat.lt_succ_iff_lt_or_eq.mp hw with hw | rfl
           · exact Or.inr ⟨w, hw, h1, h2⟩
@@ -815,7 +815,7 @@ theorem isMask_spanCols :∀ X : List ℕ, IsMask (spanCols X) (colsOf X)
               (colsOf X ∪ {p | ∃ k < n, p = commHom (decE (eltX v)) (ptOfCode (2 ^ k))}) := by
           rw [ptOfCode_col]
           ext p
-          simp only [Set.mem_union, Set.mem_setOf_eq, Set.mem_insert_iff]
+          simp only [Set.mem_union, Set.mem_ofPred_eq, Set.mem_insert_iff]
           constructor
           · rintro (h | ⟨k, hk, rfl⟩)
             · exact Or.inr (Or.inl h)
@@ -831,7 +831,7 @@ theorem isMask_spanCols :∀ X : List ℕ, IsMask (spanCols X) (colsOf X)
     have e : colsOf (v :: X) =
         colsOf X ∪ {p | ∃ k < 8, p = commHom (decE (eltX v)) (ptOfCode (2 ^ k))} := by
       ext p
-      simp only [colsOf, Set.mem_union, Set.mem_setOf_eq, List.mem_cons]
+      simp only [colsOf, Set.mem_union, Set.mem_ofPred_eq, List.mem_cons]
       constructor
       · rintro ⟨u, rfl | hu, k, hk, rfl⟩
         · exact Or.inr ⟨k, hk, rfl⟩

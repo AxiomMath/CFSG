@@ -208,12 +208,12 @@ theorem fbar_psi (x : ↥(stabSU w)) : fbar w (psi w x) = Phi w x := by
   rfl
 
 instance finite_GL_F4 (n : ℕ) : Finite (GL (Fin n) F4) := by
-  haveI : Finite (Matrix (Fin n) (Fin n) F4) := inferInstance
+  have : Finite (Matrix (Fin n) (Fin n) F4) := inferInstance
   exact Finite.of_injective (fun g : GL (Fin n) F4 => (g : Matrix (Fin n) (Fin n) F4))
     (fun g h hgh => Units.ext hgh)
 
 instance finite_PSU_ambient (w : ℕ) : Finite ↥(timmesfeldPSU (w + 2)) := by
-  haveI : Finite (ProjGenLinGroup (Fin (w + 2)) F4) := by
+  have : Finite (ProjGenLinGroup (Fin (w + 2)) F4) := by
     unfold ProjGenLinGroup
     infer_instance
   exact Subtype.finite
@@ -221,7 +221,7 @@ instance finite_PSU_ambient (w : ℕ) : Finite ↥(timmesfeldPSU (w + 2)) := by
 instance finite_Cbar (w : ℕ) : Finite ↥(Cbar w) := Subtype.finite
 
 theorem coprime_ker_fbar (hw : 12 ≤ w) : Nat.Coprime 5 (Nat.card (fbar w).ker) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   rw [Nat.Prime.coprime_iff_not_dvd (by norm_num : Nat.Prime 5)]
   intro h5
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(fbar w).ker) 5 h5
@@ -300,7 +300,7 @@ theorem quotient_core_iso (p : ℕ) [Fact p.Prime] {X Y : Type} [Group X] [Group
 
 theorem isSimpleGroup_oPrimeRes_Cbar (hw : 12 ≤ w) :
     IsSimpleGroup ↥(oPrimeRes 5 (↥(Cbar w) ⧸ CFSG.pPrimeCore 5 ↥(Cbar w))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨e⟩ := quotient_core_iso 5 (fbar w) (fbar_surjective w) (coprime_ker_fbar hw)
   have hT := isSimpleGroup_oPrimeRes_PGU hw
   have hK : Nat.Coprime 5 (Nat.card (CFSG.pPrimeCore 5 (PGU w))) :=

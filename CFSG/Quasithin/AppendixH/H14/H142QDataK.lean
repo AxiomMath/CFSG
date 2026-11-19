@@ -32,7 +32,7 @@ theorem repOK_sound {a : Array ℕ} (h : (a.size == 24 && repOKL a.toList) = tru
   simp only [repOKL, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨ha, ⟨hK, h8⟩, hM⟩ := h
   refine ⟨?_, ?_, ?_⟩
-  · rw [inAutOK_eq_K, inAutK, if_pos ha]
+  · rw [inAutOK_eq_K, inAutK, ite_eq_left ha]
     exact hK
   · rw [getElem!_eq_getD_toList]
     exact h8
@@ -54,7 +54,7 @@ theorem compL_eq {g r c : Array ℕ} (hr : r.size = 24) (h : c.toList = compL g.
       rw [compL, List.length_map, Array.length_toList] at h1
       exact h1
     rw [List.getElem_ofFn]
-    simp only [compL, List.getElem_map, Array.getElem_toList, Fin.val_mk]
+    simp only [compL, List.getElem_map, Array.getElem_toList]
     rw [getElem!_pos r i hi, getElem!_eq_getD_toList g]
     try rfl
 

@@ -112,7 +112,7 @@ theorem rank3II_19_2 (h : Hyp191 G) {A₁ A₂ M₁ M₂ : Subgroup G} (hA₁ : 
   have hPM₂ : P ≤ M₂ := hPM.trans inf_le_right
   obtain ⟨S, hS⟩ := (hP3.comap_subtype (K := M₂)).exists_le_sylow
   have hSP : (S : Subgroup M₂).map M₂.subtype = P := by
-    refine hmax _ (S.isPGroup'.map _) ?_ (Subgroup.map_subtype_le _)
+    refine hmax _ (S.isPGroup.map _) ?_ (Subgroup.map_subtype_le _)
     rw [← Subgroup.map_subgroupOf_eq_of_le hPM₂]
     exact Subgroup.map_mono hS
   have hA₂M₂ : A₂ ≤ M₂ := le_of_mem_scriptM_gamma hA₂ hM₂

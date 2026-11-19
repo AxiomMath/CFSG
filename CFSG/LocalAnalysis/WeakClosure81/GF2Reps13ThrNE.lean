@@ -36,17 +36,21 @@ private def w16g_C (p : ℕ) (A : Subgroup (MulAut W)) (L : Subgroup (MulAut W))
     rw [heq]
     exact h1
 
+omit [Finite W] in
 private theorem w16g_le_C {p : ℕ} {L : Subgroup (MulAut W)} (hLO : L ≤ pCoreOf p A) :
     L ≤ w16g_C p A L :=
   fun _ hl => ⟨hLO hl, fun w => Subgroup.subset_closure ⟨_, hl, w, Subgroup.mem_top w, rfl⟩⟩
 
+omit [Finite W] in
 private theorem w16g_C_le_pCore (p : ℕ) (A L : Subgroup (MulAut W)) :
     w16g_C p A L ≤ pCoreOf p A := fun _ hc => hc.1
 
-private theorem w16g_C_isPGroup {p : ℕ} {L : Subgroup (MulAut W)} (hLO : L ≤ pCoreOf p A) :
+omit [Finite W] in
+private theorem w16g_C_isPGroup {p : ℕ} {L : Subgroup (MulAut W)} (_hLO : L ≤ pCoreOf p A) :
     IsPGroup p ↥(w16g_C p A L) :=
   (s13_pCore_facts A p).2.2.to_le (w16g_C_le_pCore p A L)
 
+omit [Finite W] in
 private theorem w16g_C_le_stabSub (p : ℕ) (A L : Subgroup (MulAut W)) :
     w16g_C p A L ≤ stabSub (commSub ⊤ L) := by
   intro c hc
@@ -63,6 +67,7 @@ private theorem w16g_C_le_stabSub (p : ℕ) (A L : Subgroup (MulAut W)) :
     have := (commSub ⊤ L).mul_mem (hc.2 u) hu
     simpa [mul_assoc] using this
 
+omit [Finite W] in
 private theorem w16g_C_inf_centSub_eq_bot {p : ℕ} (hW : ∀ w : W, w * w = 1) (hodd : Odd p)
     {L : Subgroup (MulAut W)} (hLO : L ≤ pCoreOf p A) :
     w16g_C p A L ⊓ centSub (commSub ⊤ L) = ⊥ := by
@@ -96,6 +101,7 @@ private theorem w16g_C_inf_centSub_eq_bot {p : ℕ} (hW : ∀ w : W, w * w = 1) 
   · rw [h] at hoddord
     norm_num at hoddord
 
+omit [Finite W] in
 private theorem w16g_C_embed_dvd (p : ℕ) (A L : Subgroup (MulAut W))
     (hW : ∀ w : W, w * w = 1) (hodd : Odd p) (hLO : L ≤ pCoreOf p A) :
     Nat.card ↥(w16g_C p A L) ∣ Nat.card (MulAut ↥(commSub ⊤ L)) := by
@@ -136,7 +142,7 @@ private noncomputable def w16g_autSubEquiv {X : Subgroup (MulAut W)} {U : Subgro
 private theorem w16g_card_mulAut_eq_card_GL (hW : ∀ w : W, w ^ 2 = 1) :
     Nat.card (MulAut W) =
       Nat.card (GL (Fin (rk ↥(⊤ : Subgroup W))) (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardW : Nat.card W = 2 ^ rk ↥(⊤ : Subgroup W) := by
     rw [← Subgroup.card_top]
     exact card_eq_two_pow hW ⊤
@@ -188,7 +194,7 @@ private theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] 
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
   refine ⟨?_, ?_, ?_⟩
-  · haveI : CFSG.IsExtraspecial p X := hX
+  · have : CFSG.IsExtraspecial p X := hX
     exact isExtraspecial_of_mulEquiv e.symm
   · rw [← Nat.card_congr e.toEquiv, hc]
   · intro y
@@ -202,6 +208,7 @@ private theorem w16g_extraspecial_unique_of_isZ3WrZ3 {X : Type} [Group X] (hX : 
   intro Q Q' hQ hQ'
   rw [huniq Q hQ, huniq Q' hQ']
 
+omit [Finite W] in
 private theorem w16g_conj_le_C {p : ℕ} {L : Subgroup (MulAut W)} (hLO : L ≤ pCoreOf p A)
     {g : MulAut W} (hgA : g ∈ A)
     (hgW : (commSub ⊤ L).map g.toMonoidHom = commSub ⊤ L) :
@@ -229,7 +236,7 @@ theorem s13_U3_five (h : Cfg133 A t 5) {L : Subgroup (MulAut W)} (hLO : L ≤ pC
     ∀ g ∈ A, (commSub ⊤ L).map g.toMonoidHom = commSub ⊤ L →
       L.map (MulAut.conj g).toMonoidHom = L := by
   intro g hgA hgW
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hW2 : ∀ w : W, w * w = 1 := h.hW
   have hW'2 : ∀ w : ↥(commSub ⊤ L), w ^ 2 = 1 := fun w =>
     Subtype.ext (by simpa [pow_two] using h.hW (w : W))
@@ -276,7 +283,7 @@ theorem s13_U3_three (h : Cfg133 A t 3) {L : Subgroup (MulAut W)} (hLO : L ≤ p
     ∀ g ∈ A, (commSub ⊤ L).map g.toMonoidHom = commSub ⊤ L →
       L.map (MulAut.conj g).toMonoidHom = L := by
   intro g hgA hgW
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW2 : ∀ w : W, w * w = 1 := h.hW
   have hW'2 : ∀ w : ↥(commSub ⊤ L), w ^ 2 = 1 := fun w =>
     Subtype.ext (by simpa [pow_two] using h.hW (w : W))

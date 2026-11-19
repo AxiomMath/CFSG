@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
 theorem pCoreOf_Xsub_normal (S : Setting z E F) (a : G) (p : ℕ) :
     (pCoreOf p (Xsub S a)).Normal := by
-  haveI : (Xsub S a).Normal := Xsub_normal S a
+  have : (Xsub S a).Normal := Xsub_normal S a
   have hle : (⊤ : Subgroup (Hbar z)) ≤
       Subgroup.normalizer (pCoreOf p (Xsub S a) : Set (Hbar z)) := by
     rw [← Subgroup.normalizer_eq_top (Xsub S a)]

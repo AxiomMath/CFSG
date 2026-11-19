@@ -20,7 +20,7 @@ theorem noL2OuterAt_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInp
     NoL2OuterAt FamE8 := by
   intro P _ _ t n p f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E8 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -40,7 +40,7 @@ theorem noL2OuterAt_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInp
       (by norm_num) hdet _ hβ3 hβinn
   refine noL2Layer_congr θ (noL2Layer_of_conj_pow hrj hδ ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E8 ↥(fixSubfield T)) .E8 p d :=
     ⟨⟨hadm.1, hd, rfl⟩, untwisted_adjointGroup hTc⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e8_simplicity _ p d hM

@@ -109,16 +109,16 @@ theorem censusBodyTwistedD : CensusBodyTwistedD := by
   · have h4n : 4 ≤ n := hadm.2.2
     omega
   have hG0 := hSC
-  haveI : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.twistedD n q, hv⟩) :=
+  have : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.twistedD n q, hv⟩) :=
     CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
   obtain ⟨hadm', K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hSC
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm'.2.2
   have hn1 : 1 ≤ n := by omega
   have hchar : ringChar K = 2 :=
     (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm'.1 hadm'.2.1 hK).trans hq2
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   obtain ⟨-, -, hZ, hinner⟩ := KD264Lie.matrixModel_facts_pomegaMinus hG0 hK hn1 b c hirr e
   obtain ⟨t, hηt, ht3⟩ := exists_inner_of_matrixModel
     (CFSG.ComponentClassification.CatalogueBOrthogonalPointData.coordinateMinusWitnessEquiv
@@ -154,15 +154,15 @@ theorem censusBodyD_of_graph (hg : CensusBodyD4Graph) : CensusBodyD := by
   · have h4n : 4 ≤ n := hadm.2.2
     omega
   have hG0 := hSC
-  haveI : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.D n q, hv⟩) :=
+  have : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.D n q, hv⟩) :=
     CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
   obtain ⟨hadm', K, hfield, hfinite, hK, ⟨e⟩⟩ := hSC
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm'.2.2
   have hchar : ringChar K = 2 :=
     (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm'.1 hadm'.2.1 hK).trans hq2
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   obtain ⟨hQ, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := n) (by omega)
   let θ := e.trans (CFSG.RankThree.PartOne.statedProjOrthEquiv
     (CFSG.LieType.Universal.Spin.coe_quadPlus (n := n) (K := K)))

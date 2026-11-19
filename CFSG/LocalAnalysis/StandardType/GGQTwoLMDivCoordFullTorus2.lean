@@ -11,6 +11,7 @@ open CFSG.StandardType CFSG.StandardType.UCoord CFSG.SectionRank.OddCover
 
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoLMDivF_tormono {m : ℕ}
     {δ : (Fin m → Multiplicative (ZMod 3)) →* GL (Fin m) F0}
     (hdiag : ∀ f, ggIsDiagMat (δ f))
@@ -32,11 +33,11 @@ theorem qTwoLMDivF_tormono {m : ℕ}
   have hMN : M * N = 1 := by
     have h := congrArg (fun g : GL (Fin m) F0 => (g : Matrix (Fin m) (Fin m) F0))
       (mul_inv_cancel u)
-    simpa [M, N] using h
+    simp [M, N]
   have hNM : N * M = 1 := by
     have h := congrArg (fun g : GL (Fin m) F0 => (g : Matrix (Fin m) (Fin m) F0))
       (inv_mul_cancel u)
-    simpa [M, N] using h
+    simp [M, N]
   have hrow : ∀ (g : Fin m → Multiplicative (ZMod 3)) (k l l' : Fin m),
       M k l ≠ 0 → M k l' ≠ 0 → d g l = d g l' := by
     intro g k l l' hl hl'
@@ -91,7 +92,7 @@ theorem qTwoLMDivF_tormono {m : ℕ}
     by_contra hne
     have hmk : M k' (r k) ≠ 0 := by rw [hkk]; exact hr k'
     have h0 : (M * N) k' k = 0 := by
-      simp [hMN, Matrix.one_apply, Ne.symm hne]
+      simp [hMN, Ne.symm hne]
     have hcalc : (M * N) k' k = M k' (r k) * N (r k) k := by
       rw [Matrix.mul_apply, Finset.sum_eq_single (r k)]
       · intro j _ hj
@@ -153,6 +154,7 @@ theorem qTwoLMDivF_tormono {m : ℕ}
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul, hMkl]
     ring
 
+omit [CharP F0 2] in
 theorem qTwoLMDivF_torus (hF0 : Nat.card F0 = 4) (m : ℕ) :
     ∃ δ : (Fin m → Multiplicative (ZMod 3)) →* GL (Fin m) F0, QTwoDivFullTorus hF0 δ := by
   classical
@@ -192,8 +194,7 @@ theorem qTwoLMDivF_torus (hF0 : Nat.card F0 = 4) (m : ℕ) :
       intro i h0
       have hunit : ((g : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
           (((g⁻¹ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) = 1 := by
-        simpa using congrArg (fun x : GL (Fin m) F0 =>
-          ((x : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) (mul_inv_cancel g)
+        simp
       have hentry := congrFun (congrFun hunit i) i
       rw [hd, Matrix.diagonal_mul, h0, zero_mul] at hentry
       exact absurd (by simpa using hentry.symm : (1 : F0) = 0) one_ne_zero
@@ -227,7 +228,7 @@ theorem qTwoLMDivF_torus (hF0 : Nat.card F0 = 4) (m : ℕ) :
       rcases Nat.eq_zero_or_pos m with h0 | hpos
       · subst h0
         exact ⟨1, by ext i; exact i.elim0⟩
-      · haveI : NeZero m := ⟨hpos.ne'⟩
+      · have : NeZero m := ⟨hpos.ne'⟩
         refine ⟨((qTwoLMDivF_unitsIso hF0 (f 0) : F0ˣ) : F0), ?_⟩
         rw [qTwoLMDivF_diagHom_coe]
         congr 1

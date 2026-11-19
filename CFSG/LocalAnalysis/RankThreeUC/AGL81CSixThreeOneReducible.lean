@@ -15,7 +15,7 @@ theorem monoidHom_eq_one_of_finrank_eq_one {F : Type} [Field F] [CharP F p]
     {T : Type} [AddCommGroup T] [Module F T] (hT : Module.finrank F T = 1)
     {G : Type} [Group G] [Finite G] (hG : oPPrimeHull p (⊤ : Subgroup G) = ⊤)
     (ρ : G →* (Module.End F T)ˣ) : ρ = 1 := by
-  haveI : Nontrivial T := Module.nontrivial_of_finrank_pos (by rw [hT]; norm_num)
+  have : Nontrivial T := Module.nontrivial_of_finrank_pos (by rw [hT]; norm_num)
   rw [← MonoidHom.ker_eq_top_iff, eq_top_iff, ← hG]
   refine (Subgroup.closure_le (ρ.ker)).mpr ?_
   rintro x ⟨-, k, hk⟩
@@ -81,11 +81,11 @@ private noncomputable def actEnd (H : Subgroup (GL (Fin 3) F)) :
     ↥H →* (Module.End F (Fin 3 → F))ˣ :=
   (Matrix.GeneralLinearGroup.toLin (n := Fin 3) (R := F)).toMonoidHom.comp H.subtype
 
+omit [Finite F] in
 private theorem actEnd_apply (H : Subgroup (GL (Fin 3) F)) (g : ↥H) (v : Fin 3 → F) :
     (actEnd H g : Module.End F (Fin 3 → F)) v =
       (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ v := by
-  simpa [actEnd, Matrix.mulVecLin_apply] using
-    Matrix.GeneralLinearGroup.toLin_apply (H.subtype g) v
+  simp [actEnd]
 
 private noncomputable def actWEnd (H : Subgroup (GL (Fin 3) F))
     {W : Submodule F (Fin 3 → F)}
@@ -94,6 +94,7 @@ private noncomputable def actWEnd (H : Subgroup (GL (Fin 3) F))
   (actEnd H g : Module.End F (Fin 3 → F)).restrict
     (fun x hx => by rw [actEnd_apply]; exact hW g x hx)
 
+omit [Finite F] in
 private theorem actWEnd_mul (H : Subgroup (GL (Fin 3) F))
     {W : Submodule F (Fin 3 → F)}
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W) (g h : ↥H) :
@@ -102,6 +103,7 @@ private theorem actWEnd_mul (H : Subgroup (GL (Fin 3) F))
   simp only [actWEnd, LinearMap.coe_restrict_apply, Module.End.mul_apply, map_mul,
     Units.val_mul]
 
+omit [Finite F] in
 private theorem actWEnd_one (H : Subgroup (GL (Fin 3) F))
     {W : Submodule F (Fin 3 → F)}
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W) :
@@ -123,6 +125,7 @@ private noncomputable def actW (H : Subgroup (GL (Fin 3) F))
     ↥H →* (Module.End F ↥W)ˣ :=
   (actWHom H hW).toHomUnits
 
+omit [Finite F] in
 private theorem coe_actW (H : Subgroup (GL (Fin 3) F))
     {W : Submodule F (Fin 3 → F)}
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W) (g : ↥H) :
@@ -142,6 +145,7 @@ private noncomputable def actW'End (H : Subgroup (GL (Fin 3) F))
           ⟨(Matrix.toLin' (H.subtype g : Matrix (Fin 3) (Fin 3) F)) x, rfl⟩
       rwa [Submodule.range_projection (hpq := hcompl.symm)] at hx)
 
+omit [Finite F] in
 private theorem projection_idem {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (x : Fin 3 → F) :
     (W'.projection W hcompl.symm) ((W'.projection W hcompl.symm) x) =
@@ -152,12 +156,14 @@ private theorem projection_idem {W W' : Submodule F (Fin 3 → F)} (hcompl : IsC
     rwa [Submodule.range_projection (hpq := hcompl.symm)] at h
   exact Submodule.projection_apply_left (hpq := hcompl.symm) ⟨_, hx⟩
 
+omit [Finite F] in
 private theorem sub_projection_mem {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (x : Fin 3 → F) : x - (W'.projection W hcompl.symm) x ∈ W := by
   have hk : x - (W'.projection W hcompl.symm) x ∈ (W'.projection W hcompl.symm).ker :=
     LinearMap.mem_ker.mpr (by rw [map_sub, projection_idem hcompl, sub_self])
   rwa [Submodule.ker_projection (hpq := hcompl.symm)] at hk
 
+omit [Finite F] in
 private theorem actW'End_mul (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W)
@@ -196,11 +202,12 @@ private theorem actW'End_mul (H : Subgroup (GL (Fin 3) F))
     exact hzero
   exact sub_eq_zero.mp h0
 
+omit [Finite F] in
 private theorem actW'End_one (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W') :
     actW'End H hcompl 1 = 1 := by
   ext w
-  simpa [actW'End] using congrFun (Submodule.projection_apply_left (hpq := hcompl.symm) w)
+  simp [actW'End]
 
 private noncomputable def actW'Hom (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
@@ -216,6 +223,7 @@ private noncomputable def actW' (H : Subgroup (GL (Fin 3) F))
     ↥H →* (Module.End F ↥W')ˣ :=
   (actW'Hom H hcompl hW).toHomUnits
 
+omit [Finite F] in
 private theorem coe_actW' (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W) (g : ↥H) :
@@ -223,6 +231,7 @@ private theorem coe_actW' (H : Subgroup (GL (Fin 3) F))
     actW'End H hcompl g :=
   MonoidHom.coe_toHomUnits _ g
 
+omit [Finite F] in
 private theorem actEnd_sub_one_sq (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W)
@@ -259,6 +268,7 @@ private theorem actEnd_sub_one_sq (H : Subgroup (GL (Fin 3) F))
   intro v
   rw [Module.End.mul_apply, hkill (n v) (hinto v), LinearMap.zero_apply]
 
+omit [Fact (Nat.Prime p)] [Finite F] in
 private theorem pow_eq_one_of_sq_eq_zero {n : Module.End F (Fin 3 → F)} (hn : n * n = 0) :
     (1 + n) ^ p = 1 := by
   have hstep : ∀ k : ℕ, (1 + n) ^ k = 1 + k • n := by
@@ -273,6 +283,7 @@ private theorem pow_eq_one_of_sq_eq_zero {n : Module.End F (Fin 3 → F)} (hn : 
     rw [← Nat.cast_smul_eq_nsmul F p n, CharP.cast_eq_zero F p, zero_smul]
   rw [hp0, add_zero]
 
+omit [Finite F] in
 private theorem isPGroup_ker_prod (H : Subgroup (GL (Fin 3) F))
     {W W' : Submodule F (Fin 3 → F)} (hcompl : IsCompl W W')
     (hW : ∀ g : ↥H, ∀ x ∈ W, (H.subtype g : Matrix (Fin 3) (Fin 3) F) *ᵥ x ∈ W) :
@@ -308,6 +319,7 @@ private theorem isPGroup_ker_prod (H : Subgroup (GL (Fin 3) F))
   · exact ⟨0, by rw [← Subgroup.orderOf_coe g, h, pow_zero]⟩
   · exact ⟨1, by rw [← Subgroup.orderOf_coe g, h, pow_one]⟩
 
+omit [CharP F p] in
 private theorem to_quotient_pCore (hD : ∀ H : Subgroup (GL (Fin 2) F), oPPrimeHull p H = H →
       IsSLType 2 F (↥H ⧸ CFSG.pCore p ↥H) ∨ Nat.card (↥H ⧸ CFSG.pCore p ↥H) = 1)
     {U : Type} [AddCommGroup U] [Module F U] [Module.Finite F U]

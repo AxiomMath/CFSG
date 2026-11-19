@@ -44,7 +44,7 @@ private theorem s16h_e3_CycThreeCentAAAE_conjSubs_eq_range
 
 theorem s16h_e3_cyc_conjSubs_ncard
     (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (h : Setting16 D V₀ V L)
-    (hc : Conc4_136 D V₀ V hV L)
+    (_hc : Conc4_136 D V₀ V hV L)
     {p : ℕ} (hp : p.Prime) (hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p) :
     (conjSubs (Mbar D.M V₀ V hV) (wTil V₀ V hV L)).ncard = s15 D.M V₀ V hV L := by
   have hL : barSub V₀ V hV L ≠ ⊥ := by

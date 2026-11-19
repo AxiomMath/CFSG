@@ -21,7 +21,7 @@ theorem solvableOrComponent_iff (X : Type) [Group X] (τ : X) :
 theorem HasCompOrSolv.of_mulEquiv {G G' : Type*} [Group G] [Group G'] (e : G ≃* G')
     (h : HasCompOrSolv G) : HasCompOrSolv G' := by
   rcases h with hs | ⟨K, hK⟩
-  · exact Or.inl (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+  · exact Or.inl (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
   · exact Or.inr ⟨K.map e.toMonoidHom, LocalCores.isComponent_map_mulEquiv e hK⟩
 
 theorem isComponent_map_of_normal_range {G G' : Type*} [Group G] [Group G'] (f : G →* G')
@@ -62,11 +62,11 @@ theorem HasCompOrSolv.prod {G₁ G₂ : Type*} [Group G₁] [Group G₂] (h₁ :
   rcases h₁ with hs₁ | ⟨K, hK⟩
   · rcases h₂ with hs₂ | ⟨K, hK⟩
     · exact Or.inl (inferInstance)
-    · haveI : (MonoidHom.inr G₁ G₂).range.Normal := by
+    · have : (MonoidHom.inr G₁ G₂).range.Normal := by
         rw [range_inr_eq_ker_fst]; infer_instance
       exact Or.inr ⟨_, isComponent_map_of_normal_range (MonoidHom.inr G₁ G₂)
         (fun a b h => (Prod.ext_iff.1 h).2) hK⟩
-  · haveI : (MonoidHom.inl G₁ G₂).range.Normal := by
+  · have : (MonoidHom.inl G₁ G₂).range.Normal := by
       rw [range_inl_eq_ker_snd]; infer_instance
     exact Or.inr ⟨_, isComponent_map_of_normal_range (MonoidHom.inl G₁ G₂)
       (fun a b h => (Prod.ext_iff.1 h).1) hK⟩
@@ -80,11 +80,11 @@ theorem hasCompOrSolv_GL (n : ℕ) (K : Type u) [Field K] [Finite K] (hn : 1 ≤
     exact Subgroup.Normal.isSubnormal inferInstance
 
 theorem HasCompOrSolv.of_inj {H G : Type*} [Group H] [Group G] (ρ : H →* G)
-    (hρ : Function.Injective ρ) [hn : ρ.range.Normal] (hc : commutator G ≤ ρ.range)
+    (hρ : Function.Injective ρ) [_hn : ρ.range.Normal] (hc : commutator G ≤ ρ.range)
     (h : HasCompOrSolv G) : HasCompOrSolv H := by
   rcases h with hs | ⟨K, hK⟩
-  · haveI := hs
-    exact Or.inl (solvable_of_solvable_injective hρ)
+  · have := hs
+    exact Or.inl (Group.isSolvable_of_isSolvable_injective hρ)
   · have hKr : K ≤ ρ.range := by
       calc K = ⁅K, K⁆ := (Subgroup.isPerfect_iff.mp hK.1.1).symm
         _ ≤ commutator G := Subgroup.commutator_mono le_top le_top
@@ -147,7 +147,7 @@ theorem solvableOrComponent_of_inj {H G : Type} [Group H] [Group G] (ι : H →*
       exact Subgroup.commutator_mem_commutator (mem_top (a : G)) (mem_top (b : G))
     obtain ⟨c', hc'⟩ := exists_mem_centralizer_of_range hι h (⁅a, b⁆ : centralizer ({ι h} : Set G)).2 h1
     exact ⟨c', hc'⟩
-  haveI := hρn
+  have := hρn
   exact HasCompOrSolv.of_inj ρ hρinj hcomm hs
 
 end Descent

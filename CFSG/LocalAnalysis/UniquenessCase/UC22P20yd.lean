@@ -29,6 +29,7 @@ variable {G : Type} [Group G] [Finite G]
     congr 1
     exact Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem uc22pwIndHom_apply (K S : Subgroup G) (hS : S ≤ normalizer (K : Set G)) (t : S) (x : Bar2 K) :
     uc22pwIndHom K S hS t x = uc22p20uInd K (t : G) (hS t.2) x := rfl
 
@@ -36,7 +37,7 @@ theorem uc22pw_two_pow_mul_unique {e m e' m' : ℕ} (hm : Odd m) (hm' : Odd m')
     (h : 2 ^ e * m = 2 ^ e' * m') : e = e' ∧ m = m' := by
   have hv : ∀ {a b : ℕ}, Odd b → padicValNat 2 (2 ^ a * b) = a := by
     intro a b hb
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hb0 : b ≠ 0 := by rintro rfl; exact (Nat.not_odd_zero hb)
     rw [padicValNat.mul (by positivity) hb0, padicValNat.prime_pow,
       padicValNat.eq_zero_of_not_dvd (by simpa [even_iff_two_dvd] using Nat.not_even_iff_odd.2 hb)]

@@ -72,7 +72,7 @@ theorem order96_orderThree_elements_conjugate_or_inverse
       (∃ q : fixingSubgroup P s,
         q * u * q⁻¹ = v⁻¹) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let Ru : Subgroup H := Subgroup.zpowers u
   let Rv : Subgroup H := Subgroup.zpowers v

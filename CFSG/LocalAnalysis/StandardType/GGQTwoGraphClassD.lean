@@ -17,7 +17,7 @@ private lemma ggQ2gd_nbr_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
       (i.val + 3 = m ∧ (j.val + 2 = m ∨ j.val + 1 = m)) ∨
       (j.val + 3 = m ∧ (i.val + 2 = m ∨ i.val + 1 = m)) := by
   rw [CartanMatrix.D, Matrix.of_apply]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   constructor
   · intro h
     split_ifs at h with h1 h2 h3 h4 <;> omega
@@ -91,17 +91,17 @@ private lemma ggQ2gd_center_of_three {m : ℕ} (hm : 5 ≤ m) {i a b c : Fin m}
 
 private lemma ggQ2gd_nbr_center_a {m : ℕ} (hm : 4 ≤ m) :
     ggQ2gd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 4, by omega⟩ := by
-  rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; left
+  rw [ggQ2gd_nbr_iff']; simp only; right; left
   exact ⟨by omega, by omega⟩
 
 private lemma ggQ2gd_nbr_center_b {m : ℕ} (hm : 4 ≤ m) :
     ggQ2gd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 2, by omega⟩ := by
-  rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; right; left
+  rw [ggQ2gd_nbr_iff']; simp only; right; right; left
   exact ⟨by omega, Or.inl (by omega)⟩
 
 private lemma ggQ2gd_nbr_center_c {m : ℕ} (hm : 4 ≤ m) :
     ggQ2gd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ := by
-  rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; right; left
+  rw [ggQ2gd_nbr_iff']; simp only; right; right; left
   exact ⟨by omega, Or.inr (by omega)⟩
 
 private lemma ggQ2gd_nbr_zero {m : ℕ} (hm : 4 ≤ m) {j : Fin m} :
@@ -109,41 +109,41 @@ private lemma ggQ2gd_nbr_zero {m : ℕ} (hm : 4 ≤ m) {j : Fin m} :
   rw [ggQ2gd_nbr_iff']
   constructor
   · intro h
-    simp only [Fin.val_mk] at h
+    simp only at h
     rcases h with ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩
-    · exact Fin.ext (by simp only [Fin.val_mk]; omega)
+    · exact Fin.ext (by simp only; omega)
     · omega
     · omega
     · omega
   · intro h
     rw [h]
-    exact Or.inl ⟨by simp only [Fin.val_mk] <;> omega, by simp only [Fin.val_mk] <;> omega⟩
+    exact Or.inl ⟨by simp only, by simp only; omega⟩
 
-private lemma ggQ2gd_nbr_chain {m : ℕ} (hm : 4 ≤ m) {i j : Fin m}
+private lemma ggQ2gd_nbr_chain {m : ℕ} (_hm : 4 ≤ m) {i j : Fin m}
     (hi1 : 1 ≤ i.val) (hi2 : i.val + 4 ≤ m) :
     ggQ2gd_nbr i j ↔ j = ⟨i.val - 1, by omega⟩ ∨ j = ⟨i.val + 1, by omega⟩ := by
   rw [ggQ2gd_nbr_iff']
   constructor
   · intro h
     rcases h with ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩
-    · right; exact Fin.ext (by simp only [Fin.val_mk] <;> omega)
-    · left; exact Fin.ext (by simp only [Fin.val_mk] <;> omega)
+    · right; exact Fin.ext (by simp only; omega)
+    · left; exact Fin.ext (by simp only; omega)
     · omega
     · omega
   · intro h
     rcases h with h | h
     · rw [h]
-      exact Or.inr (Or.inl ⟨by simp only [Fin.val_mk] <;> omega, by omega⟩)
+      exact Or.inr (Or.inl ⟨by simp only; omega, by omega⟩)
     · rw [h]
-      exact Or.inl ⟨by simp only [Fin.val_mk] <;> omega,
-        by simp only [Fin.val_mk] <;> omega⟩
+      exact Or.inl ⟨by simp only,
+        by simp only; omega⟩
 
 private lemma ggQ2gd_two_nbr {m : ℕ} (hm : 4 ≤ m) {i : Fin m}
     (h0 : i ≠ ⟨0, by omega⟩) (h2 : i ≠ ⟨m - 2, by omega⟩) (h1 : i ≠ ⟨m - 1, by omega⟩) :
     ∃ a b, a ≠ b ∧ ggQ2gd_nbr i a ∧ ggQ2gd_nbr i b := by
   by_cases hi : i.val = m - 3
   · refine ⟨⟨m - 4, by omega⟩, ⟨m - 2, by omega⟩, ?_, ?_, ?_⟩
-    · intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+    · intro hh; have := congrArg Fin.val hh; simp only at this; omega
     · exact (Fin.ext hi : i = (⟨m - 3, by omega⟩ : Fin m)).symm ▸ ggQ2gd_nbr_center_a hm
     · exact (Fin.ext hi : i = (⟨m - 3, by omega⟩ : Fin m)).symm ▸ ggQ2gd_nbr_center_b hm
   · have hi1 : 1 ≤ i.val := by
@@ -156,7 +156,7 @@ private lemma ggQ2gd_two_nbr {m : ℕ} (hm : 4 ≤ m) {i : Fin m}
       have h1' : i.val ≠ m - 1 := fun hh => h1 (Fin.ext hh)
       omega
     refine ⟨⟨i.val - 1, by omega⟩, ⟨i.val + 1, by omega⟩, ?_, ?_, ?_⟩
-    · intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+    · intro hh; have := congrArg Fin.val hh; simp only at this; omega
     · exact (ggQ2gd_nbr_chain hm hi1 hi2).mpr (Or.inl rfl)
     · exact (ggQ2gd_nbr_chain hm hi1 hi2).mpr (Or.inr rfl)
 
@@ -187,11 +187,11 @@ private lemma ggQ2gd_center_image {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
   have hn5 : 5 ≤ n := by omega
   have hnb := ggQ2gd_nbr_transport hg hcart
   have hab : (⟨m - 4, by omega⟩ : Fin m) ≠ ⟨m - 2, by omega⟩ := by
-    intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only at this; omega
   have hac : (⟨m - 4, by omega⟩ : Fin m) ≠ ⟨m - 1, by omega⟩ := by
-    intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only at this; omega
   have hbc : (⟨m - 2, by omega⟩ : Fin m) ≠ ⟨m - 1, by omega⟩ := by
-    intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only at this; omega
   have h3 := ggQ2gd_center_of_three hn5
     ((hnb _ _).mp (ggQ2gd_nbr_center_a hm)) ((hnb _ _).mp (ggQ2gd_nbr_center_b hm))
     ((hnb _ _).mp (ggQ2gd_nbr_center_c hm))
@@ -217,7 +217,7 @@ private lemma ggQ2gd_zero_contra {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
         have hle1 : v - 1 ≤ m - 4 := by omega
         have hprev := ih (v - 1) (by omega) hvm hle1
         have hnbj : ggQ2gd_nbr (⟨v, hv⟩ : Fin m) ⟨v - 1, hvm⟩ := by
-          rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; left
+          rw [ggQ2gd_nbr_iff']; simp only; right; left
           exact ⟨by omega, by omega⟩
         have hgnb : ggQ2gd_nbr (g ⟨v, hv⟩) (⟨v - 1, by omega⟩ : Fin n) := by
           have h := (hnb _ _).mp hnbj
@@ -226,7 +226,7 @@ private lemma ggQ2gd_zero_contra {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
         · have hveq : v = 1 := by omega
           subst hveq
           have hz : (⟨1 - 1, by omega⟩ : Fin n) = ⟨0, by omega⟩ := by
-            apply Fin.ext; simp only [Fin.val_mk] <;> omega
+            apply Fin.ext; simp only
           rw [hz] at hgnb
           exact (ggQ2gd_nbr_zero (m := n) (by omega)).mp (ggQ2gd_nbr_symm hgnb)
         · have hvm2 : v - 2 < m := by omega
@@ -234,17 +234,17 @@ private lemma ggQ2gd_zero_contra {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
           have hprev2 := ih (v - 2) (by omega) hvm2 hle2
           have hchain := (ggQ2gd_nbr_chain (m := n) (by omega)
             (i := (⟨v - 1, by omega⟩ : Fin n))
-            (by simp only [Fin.val_mk]; omega) (by simp only [Fin.val_mk]; omega)).mp
+            (by simp only; omega) (by simp only; omega)).mp
             (ggQ2gd_nbr_symm hgnb)
           rcases hchain with h | h
           · have heq : g ⟨v, hv⟩ = g ⟨v - 2, hvm2⟩ := by
-              rw [h, hprev2]; apply Fin.ext; simp only [Fin.val_mk] <;> omega
+              rw [h, hprev2]; apply Fin.ext; simp only; omega
             exact absurd heq (by
               intro hh
               have hv' := congrArg Fin.val (hg hh)
-              simp only [Fin.val_mk] at hv'
+              simp only at hv'
               omega)
-          · rw [h]; apply Fin.ext; simp only [Fin.val_mk] <;> omega
+          · rw [h]; apply Fin.ext; simp only; omega
   rcases Nat.lt_or_ge m 5 with hm4 | hm5
   · have hm4' : m = 4 := by omega
     subst hm4'
@@ -255,7 +255,7 @@ private lemma ggQ2gd_zero_contra {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
       rw [h0] at h
       exact (ggQ2gd_nbr_zero (m := n) (by omega)).mp h
     have := congrArg Fin.val (h1.symm.trans hcenter)
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
   · have hfix4 := hfix (m - 4) (by omega) (by omega)
     have hgnb : ggQ2gd_nbr (g ⟨m - 3, by omega⟩) (⟨m - 4, by omega⟩ : Fin n) := by
@@ -263,23 +263,23 @@ private lemma ggQ2gd_zero_contra {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
       rwa [hfix4] at h
     have hchain := (ggQ2gd_nbr_chain (m := n) (by omega)
       (i := (⟨m - 4, by omega⟩ : Fin n))
-      (by simp only [Fin.val_mk]; omega) (by simp only [Fin.val_mk]; omega)).mp
+      (by simp only; omega) (by simp only; omega)).mp
       (ggQ2gd_nbr_symm hgnb)
     rcases hchain with h | h
     · have hfix5 : g ⟨m - 5, by omega⟩ = (⟨m - 5, by omega⟩ : Fin n) :=
         hfix (m - 5) (by omega) (by omega)
       have heq : g ⟨m - 3, by omega⟩ = g ⟨m - 5, by omega⟩ := by
-        rw [h, hfix5]; apply Fin.ext; simp only [Fin.val_mk] <;> omega
+        rw [h, hfix5]; apply Fin.ext; simp only; omega
       exact absurd heq (by
         intro hh
         have hv' := congrArg Fin.val (hg hh)
-        simp only [Fin.val_mk] at hv'
+        simp only at hv'
         omega)
     · have hcval : (g ⟨m - 3, by omega⟩).val = n - 3 := by
         have := congrArg Fin.val hcenter
         simpa only [Fin.val_mk] using this
       have hval : (g ⟨m - 3, by omega⟩).val = m - 3 := by
-        rw [h]; simp only [Fin.val_mk] <;> omega
+        rw [h]; simp only; omega
       omega
 
 private lemma ggQ2gd_rigid {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
@@ -308,25 +308,25 @@ private lemma ggQ2gd_rigid {m n : ℕ} (hm : 4 ≤ m) (hn : n = m + 1)
     exact ggQ2gd_zero_contra hm hn g hg hcart hcenter hi0
   · rw [h] at hi0
     have hnb23 : ggQ2gd_nbr (⟨m - 2, by omega⟩ : Fin m) ⟨m - 3, by omega⟩ := by
-      rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; right; right
+      rw [ggQ2gd_nbr_iff']; simp only; right; right; right
       exact ⟨by omega, Or.inl (by omega)⟩
     have h1' : g ⟨m - 3, by omega⟩ = (⟨1, by omega⟩ : Fin n) := by
       have h := (hnb _ _).mp hnb23
       rw [hi0] at h
       exact (ggQ2gd_nbr_zero (m := n) (by omega)).mp h
     have := congrArg Fin.val (h1'.symm.trans hcenter)
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
   · rw [h] at hi0
     have hnb13 : ggQ2gd_nbr (⟨m - 1, by omega⟩ : Fin m) ⟨m - 3, by omega⟩ := by
-      rw [ggQ2gd_nbr_iff']; simp only [Fin.val_mk]; right; right; right
+      rw [ggQ2gd_nbr_iff']; simp only; right; right; right
       exact ⟨by omega, Or.inr (by omega)⟩
     have h1' : g ⟨m - 3, by omega⟩ = (⟨1, by omega⟩ : Fin n) := by
       have h := (hnb _ _).mp hnb13
       rw [hi0] at h
       exact (ggQ2gd_nbr_zero (m := n) (by omega)).mp h
     have := congrArg Fin.val (h1'.symm.trans hcenter)
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
 
 theorem ggQ2g_classD {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) {n : ℕ} (hn : 4 ≤ n)

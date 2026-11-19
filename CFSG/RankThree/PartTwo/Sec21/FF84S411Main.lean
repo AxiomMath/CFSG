@@ -71,8 +71,8 @@ theorem S411_ctx :
     rw [hall, hSE.2] at hc0
     norm_num at hc0
   have hb3 : orderOf b = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI := hBE.1
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have := hBE.1
     exact orderOf_eq_prime (elemPow_eq_one_of_isElementaryAbelian (p := 3) (A := B) b hbB) hb1
   have hbs' : b ∈ Cen s := hbs
   have htb : t ∈ Op 2 (Nor U) ⊓ Cen b :=

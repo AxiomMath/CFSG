@@ -37,6 +37,7 @@ theorem exists_dot_eq_zero_normE6 : ∀ c : Fin 4 → ZMod 3, c ≠ 0 → ∀ z 
 variable
   {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem isElemAbelian_range_torusE6Two (h2 : (2 : K) = 0) :
     IsElemAbelian 3 (torusE6Two (K := K) h2).range := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
@@ -55,6 +56,7 @@ theorem isElemAbelian_range_torusE6Two (h2 : (2 : K) = 0) :
       simp [nsmul_eq_mul, hzero]
     rw [h3, map_one]
 
+omit [Finite K] [CharP K 2] in
 theorem card_range_torusE6Two (h2 : (2 : K) = 0) :
     Nat.card (torusE6Two (K := K) h2).range = 3 ^ 4 := by
   rw [Nat.card_congr (MonoidHom.ofInjective (torusE6Two_injective h2)).toEquiv.symm,
@@ -71,13 +73,14 @@ theorem four_le_glaTwoLocalRank_three_E6 [Finite ↥(adjointGroup .E6 K)] :
   rw [hEcard] at h
   exact (Nat.pow_le_pow_iff_right (by norm_num)).1 h
 
+omit [Finite K] in
 theorem exists_conj_mem_hyperplane_torusE6Two (h2 : (2 : K) = 0) {b : Fin 4 → ZMod 3} {m : ℕ}
     {z : ZMod 3} (hz : z ≠ 0) (hb : ∀ v : Fin 4 → ZMod 3, normE6 v = z → reachB b m v = true)
     {D : Subgroup ↥(torusE6Two (K := K) h2).range} (hD : D.index = 3) :
     ∃ n ∈ Subgroup.normalizer (((torusE6Two (K := K) h2).range : Subgroup (adjointGroup .E6 K)) :
         Set (adjointGroup .E6 K)),
       n * torusE6Two h2 (.ofAdd b) * n⁻¹ ∈ D.map (torusE6Two (K := K) h2).range.subtype := by
-  haveI := Fact.mk Nat.prime_three
+  have := Fact.mk Nat.prime_three
   have hB : D.map (torusE6Two (K := K) h2).range.subtype ≤ (torusE6Two (K := K) h2).range :=
     Subgroup.map_subtype_le D
   have hcard : Nat.card (D.map (torusE6Two (K := K) h2).range.subtype) * 3 = 3 ^ 4 := by
@@ -96,6 +99,7 @@ theorem exists_conj_mem_hyperplane_torusE6Two (h2 : (2 : K) = 0) {b : Fin 4 → 
   rw [hnw]
   exact hfB w (by simpa [Fin.sum_univ_four] using hw0)
 
+omit [Finite K] [CharP K 2] in
 theorem stdVanishes_torusE6Two_of_inOrbit (h2 : (2 : K) = 0) {b v : Fin 4 → ZMod 3}
     (hbv : InOrbit h2 b v)
     (hb : IsStdElt 3 (torusE6Two (K := K) h2).range (torusE6Two h2 (.ofAdd b)) →
@@ -114,6 +118,7 @@ theorem stdVanishes_torusE6Two_of_inOrbit (h2 : (2 : K) = 0) {b v : Fin 4 → ZM
   have h := (stdVanishes_map_iff (MulAut.conj g)).2 (hb hstd)
   rwa [hBg, hgb'] at h
 
+omit [Finite K] [CharP K 2] in
 theorem not_isStdElt_of_inOrbit (h2 : (2 : K) = 0) {b v : Fin 4 → ZMod 3} (hbv : InOrbit h2 b v)
     (hb : ¬ IsStdElt 3 (torusE6Two (K := K) h2).range (torusE6Two h2 (.ofAdd b))) :
     ¬ IsStdElt 3 (torusE6Two (K := K) h2).range (torusE6Two h2 (.ofAdd v)) := by

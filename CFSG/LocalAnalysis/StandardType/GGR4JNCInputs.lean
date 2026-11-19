@@ -41,7 +41,7 @@ theorem ggR4JCardNC_of_inputs
     ggR4Meet_data hCfg hCard hZL hInnL
   have hBsN : Bs ≤ Subgroup.normalizer (L : Set G) :=
     GGDichotomy.le_normalizer_of_innerDiagOn hInnAll.1
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have hlabJ : GGR4JLabel (↥J ⧸ Subgroup.center ↥J) :=
     ggR4J_label_of_row hM7a hM7b hf hrow hJL hz1 hz3 hJlayer hJcomp
       (fun hL1 hJ1 => ggR4Meet_noE6TwoL34 hCfg hBsN hCard hperf hZL hL1 hJ1)

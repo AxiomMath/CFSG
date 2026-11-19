@@ -111,7 +111,7 @@ theorem cover_of_val_two [Finite G] {p : ℕ} (hp : p.Prime) (hval : (Nat.card G
     (hc : ∀ u, chW L u = true → ev u = 1 → E u [] = true) {t : List ℕ} (ht : chW L t = true)
     (hne : neOK E t = true) (hpow : E (repW t p) [] = true)
     (hgen : ∀ y, IsConj (ev t) y → SporKRestGenerating p y) : SporKRestCover p G :=
-  sporKRest_cover_of_orderE hp hval (ev t) (hM.ne_one hc ht hne)
+  sporKRest_cover_of_orderE hp hval (ev t) (CFSG.KD.SporCov.Model.ne_one hc ht hne)
     (isPGroup_zpowers_of_pow (hM.pow ht hpow)) hgen
 
 theorem cover_of_cl [Finite G] {p nL : ℕ} (hp : p.Prime) (hval : (Nat.card G).factorization p = 2)
@@ -126,7 +126,7 @@ theorem cover_of_cl [Finite G] {p nL : ℕ} (hp : p.Prime) (hval : (Nat.card G).
     rw [← hT₁, mul_inv_cancel_right]
   have hpow : ev t ^ p = 1 := by
     rw [hY, conj_pow, h₁, mul_one, mul_inv_cancel]
-  exact sporKRest_cover_of_orderE hp hval (ev t) (hM.ne_one hc ht hne)
+  exact sporKRest_cover_of_orderE hp hval (ev t) (CFSG.KD.SporCov.Model.ne_one hc ht hne)
     (isPGroup_zpowers_of_pow hpow) (hM.generating_of_cl hp h ht htop)
 
 end Model

@@ -67,7 +67,7 @@ theorem three_pow_dvd : 3 ^ 7 ∣ Nat.card MAct.K := by
   have hHK : H ≤ MAct.K := by
     rw [hH, Subgroup.closure_le]
     intro g hg
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl | rfl
     · exact hg0
     · exact hg1

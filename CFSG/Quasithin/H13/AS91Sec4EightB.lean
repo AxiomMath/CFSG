@@ -64,10 +64,10 @@ theorem kap_toMb_QG {q : G} (hq : q ∈ h.setting.QG) :
       rw [this, mul_inv_cancel_right]
     by_cases hj0 : j = 0
     · subst hj0
-      rw [if_pos rfl, bE, if_pos rfl, hqz, D.crd_z]
-    rw [if_neg hj0]
+      rw [ite_eq_left rfl, bE, ite_eq_left rfl, hqz, D.crd_z]
+    rw [ite_eq_right hj0]
     set w := Two.w1Basis.getD (j - 1) 0 with hw
-    have hb : D.bE j = D.rep w := by rw [bE, if_neg hj0]
+    have hb : D.bE j = D.rep w := by rw [bE, ite_eq_right hj0]
     have hpolar : QuadraticMap.polar h.setting.q (h.setting.cl q) (h.setting.cl (D.rep w)) =
         QuadraticMap.polar q0 (vecOf w) (vecOf (D.wc q)) := by
       rw [D.polar_ψV, QuadraticMap.polar_comm, D.ψV_cl_rep, wc, vecOf_codeOf]
@@ -153,7 +153,7 @@ theorem eq_of_kap_eq {φ ψ : ↥D.Mb} (hφ : φ ∈ D.Mz) (hψ : ψ ∈ D.Mz)
   refine D.eq_of_agree_E1 hOut hTw hHat fun x hx => Subtype.ext ?_
   exact D.crd_injective (hφ' x hx) (hψ' x hx) (by rw [D.crd_apply hφ' hx, D.crd_apply hψ' hx, hk])
 
-theorem Bb_le_C3 : D.Bb ≤ D.C3 := fun φ hφ =>
+theorem Bb_le_C3 : D.Bb ≤ D.C3 := fun _φ hφ =>
   ⟨D.mem_Mz.mpr (hφ.2 _ (D.zE_mem_Iset hOut hTw hHat)), hφ.1⟩
 
 theorem omE_mem_Iset {v : ℕ} (hv : v ∈ Two.i7List) : D.omE v ∈ D.Iset := by
@@ -240,6 +240,7 @@ theorem mem_Bb_of_mem_C3 {φ : ↥D.Mb} (hφ : φ ∈ D.C3) (hc : ∀ b ∈ D.Bb
   obtain ⟨φ', hφ', hk⟩ := D.exists_of_mem_b7List hOut hTw hHat hX
   rwa [← D.eq_of_kap_eq hOut hTw hHat (D.Bb_le_C3 hOut hTw hHat hφ').1 hφ.1 hk]
 
+omit hHat in
 theorem apply_omE {φ : ↥D.Mb} (hφ : φ ∈ D.C3) {c d : ℕ} (hc : c < 128)
     (hd : Two.app7 (D.kap (φ : MulAut ↥D.E)) c = d) (hd' : d < 128) :
     (φ : MulAut ↥D.E) (D.omE c) = D.omE d := by
@@ -257,8 +258,8 @@ theorem exists_C3_apply {c c' : ℕ} (hc : c ∈ Two.omList) (hc' : c' ∈ Two.o
   obtain ⟨X', hX', hX2'⟩ := hi8 c' hc'
   obtain ⟨φ, hφ, rfl⟩ := D.exists_of_mem_c3List hOut hTw hHat hX
   obtain ⟨φ', hφ', rfl⟩ := D.exists_of_mem_c3List hOut hTw hHat hX'
-  have h1 := D.apply_omE hOut hTw hHat hφ (by norm_num) hX2 (Two.omList_lt c hc)
-  have h2 := D.apply_omE hOut hTw hHat hφ' (by norm_num) hX2' (Two.omList_lt c' hc')
+  have h1 := D.apply_omE hOut hTw hφ (by norm_num) hX2 (Two.omList_lt c hc)
+  have h2 := D.apply_omE hOut hTw hφ' (by norm_num) hX2' (Two.omList_lt c' hc')
   refine ⟨φ' * φ⁻¹, mul_mem hφ' (inv_mem hφ), ?_⟩
   change (φ' : MulAut ↥D.E) (((φ⁻¹ : ↥D.Mb) : MulAut ↥D.E) (D.omE c)) = D.omE c'
   rw [← h1, D.inv_apply_apply, h2]
@@ -389,7 +390,7 @@ theorem mem_Bb_of_centralizes {φ : ↥D.Mb} (hφ : φ ∈ D.Cb) (hcent : ∀ b 
           right_inv := fun _ => rfl }
     rw [h2] at h1
     omega
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨s, hs7⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 7 (by rw [hcardK]; norm_num)
   have hs' : orderOf (s : ↥D.Mb) = 7 := by rw [Subgroup.orderOf_coe, hs7]
   have hsK : (s : ↥D.Mb) ∈ K := s.2

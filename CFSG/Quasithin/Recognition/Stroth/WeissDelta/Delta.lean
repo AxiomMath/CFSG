@@ -83,10 +83,10 @@ private theorem height_eq_of_middle {c : (RankTwoAmalgam.ofSubgroups P1 P2).Comp
   rcases hmid with ⟨h1, h2⟩ | ⟨h1, h2⟩
   · have hx : c.graph.dist (p 0) c.xv = n - 1 := by rw [← h1]; exact hd1
     have hy : c.graph.dist (p 0) c.lv = n := by rw [← h2]; exact hd2
-    simp [height, hx, hy, min_eq_left (show n - 1 ≤ n by omega)]
+    simp [height, hx, hy]
   · have hy : c.graph.dist (p 0) c.lv = n - 1 := by rw [← h1]; exact hd1
     have hx : c.graph.dist (p 0) c.xv = n := by rw [← h2]; exact hd2
-    simp [height, hx, hy, min_eq_right (show n - 1 ≤ n by omega)]
+    simp [height, hx, hy]
 
 theorem typeB_symm (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {Good : ∀ s : ℕ, GPath c.graph s → Prop} {n : ℕ}

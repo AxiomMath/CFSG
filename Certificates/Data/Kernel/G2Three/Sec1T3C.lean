@@ -80,7 +80,7 @@ open CFSG.KC.Loop
         bIf(subM K K', Nat.beq K K', true), true), Nat.shiftLeft 1 k, 0), 0)
 
 @[expose] noncomputable def eaMaxK (Q L m X N k1 k2 : Nat) : Bool :=
-  bAnd(Bool.not' (Nat.beq k1 k2),
+  bAnd(not (Nat.beq k1 k2),
     Nat.beq (maxIdx L (secC Q L m X N) m) (Nat.lor (Nat.shiftLeft 1 k1) (Nat.shiftLeft 1 k2)))
 
 @[expose] noncomputable def abR (P C V g N : Nat) : Bool :=
@@ -112,7 +112,7 @@ open CFSG.KC.Loop
 @[expose] noncomputable def cycK (P X : Nat) : Bool :=
   strictB X fun X => strictB (Nat.shiftRight (pop X) 1) fun e =>
     Nat.rec (motive := fun _ => Bool) false (fun i ih =>
-      bIf(bAnd(hasB X i, Bool.not' (Nat.beq (powE P i e) 0)), true, ih)) 128
+      bIf(bAnd(hasB X i, not (Nat.beq (powE P i e) 0)), true, ih)) 128
 
 @[expose] noncomputable def q8M (u v : Nat) : Nat :=
   (fun i j => nIf(Nat.blt u 4,
@@ -150,7 +150,7 @@ open CFSG.KC.Loop
 
 @[expose] noncomputable def outB (H g : Nat) : Bool :=
   Nat.rec (motive := fun _ => Bool) false (fun t ih =>
-    bIf(Bool.not' (hasB H (genAt g t)), true, ih)) (Nat.land g 7)
+    bIf(not (hasB H (genAt g t)), true, ih)) (Nat.land g 7)
 
 @[expose] noncomputable def rgK (L RG m : Nat) : Bool :=
   allBelow m 7 fun k => (fun g => bAnd(Nat.ble (Nat.land g 7) 4, gensIn (entL L k) g)) (rgAt RG k)
@@ -194,16 +194,16 @@ open CFSG.KC.Loop
   bAnd(Nat.beq Bm (closK C gB R), strictB (cenS P C Bm gB) fun ZB =>
   bAnd(Nat.beq ZB (closK C [b1b2, atR Q b1] R),
   bAnd(closMOK C (involM Q Z2) R, bAnd(Nat.beq ZB (closM C (involM Q Z2) R),
-  bAnd(Nat.beq (pop Bm) 32, bAnd(Bool.not' (cycK P ZB),
+  bAnd(Nat.beq (pop Bm) 32, bAnd(not (cycK P ZB),
   bAnd(allBelow m 7 (fun k => strictB (entL L k) fun K =>
-    bIf(bAnd(subM K S, bAnd(Nat.beq (pop K) 32, Bool.not' (cycK P (cenR P C K (rgAt RG k))))),
+    bIf(bAnd(subM K S, bAnd(Nat.beq (pop K) 32, not (cycK P (cenR P C K (rgAt RG k))))),
       Nat.beq K Bm, true)),
   bAnd(joinK C (j0U P C V L RG m S) R J, bAnd(joinK C (j0U P C V L RG m Bm) R J,
   bAnd(z4K P b1 a1a2h0 J, bAnd(closMOK C (involM Q J) R, bAnd(Nat.beq ZB (closM C (involM Q J) R),
     invertK P C V h0 J))))))))))))))))))
     [a1, b1, a2, b2, h0] [mulE P a1 a2, b1, b2, h0] (mulE P b1 b2) (mulE P (mulE P a1 a2) h0)
 
-@[expose] noncomputable def f14dK (P C V Q L m a1 b1 a2 b2 h0 kE kF R : Nat) : Bool :=
+@[expose] noncomputable def f14dK (P C _V Q L m a1 b1 a2 b2 h0 kE kF R : Nat) : Bool :=
   (fun gB b1b2 a1a2 z => bAnd(closOK C [a1, b1, a2, b2] R, bAnd(closOK C [a1, b1, a2, b2, h0] R,
   bAnd(closOK C [b1b2, mulE P (mulE P a1 b1) a2, z] R, bAnd(closOK C [a1a2, b1b2, z] R,
   bAnd(closOK C gB R,

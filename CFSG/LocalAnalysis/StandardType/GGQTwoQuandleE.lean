@@ -78,7 +78,7 @@ lemma ggQ2xQ_tc_tc_apply {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
     (B : LinearMap.BilinForm (ZMod 3) V) (c c' v : V) :
     ggQ2xQ_tc B c (ggQ2xQ_tc B c' v) =
       v - B c' v • c' - (B c v - B c' v * B c c') • c := by
-  simp only [ggQ2xQ_tc_apply, map_sub, map_smul, smul_eq_mul]
+  simp only [ggQ2xQ_tc_apply, map_sub, map_smul]
   module
 
 lemma ggQ2xQ_tc_comm_apply {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
@@ -591,7 +591,7 @@ private lemma ggQ2xQ_Q23_intForm_pos (D : GGQ2Lin 3)
   rw [ggQ2xQ_intForm_apply]
   exact_mod_cast h
 
-private lemma ggQ2xQ_Q23_red_surj (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
+private lemma ggQ2xQ_Q23_red_surj (D : GGQ2Lin 3) (_hbas : D.Basis) (_hE : ggQ2xQ_IsE D) :
     ∀ w ∈ D.weyl, ∃ u : ggQ2xQ_intWeyl D,
       ∀ x : D.ι → ℤ, ggQ2xQ_rhoBar D ((u : (D.ι → ℤ) ≃ₗ[ℤ] (D.ι → ℤ)) x) =
         w (ggQ2xQ_rhoBar D x) := by
@@ -644,7 +644,7 @@ private theorem ggQ2xQ_Q2_lift (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE
   ext v
   rw [Module.reflection_apply, Module.reflection_apply, hργ]
 
-private theorem ggQ2xQ_Q2_red (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
+private theorem ggQ2xQ_Q2_red (D : GGQ2Lin 3) (_hbas : D.Basis) (_hE : ggQ2xQ_IsE D) :
     ∀ u : ggQ2xQ_intWeyl D, ∃ g ∈ D.weyl,
       ∀ x : D.ι → ℤ,
         ggQ2xQ_rhoBar D ((u : (D.ι → ℤ) ≃ₗ[ℤ] (D.ι → ℤ)) x) = g (ggQ2xQ_rhoBar D x) := by
@@ -669,7 +669,7 @@ private theorem ggQ2xQ_Q2_red (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE 
     rw [h]
     simp
 
-private theorem ggQ2xQ_Q3 (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
+private theorem ggQ2xQ_Q3 (D : GGQ2Lin 3) (_hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
     (∀ x : D.ι → ℚ, x ≠ 0 → 0 < ∑ i, ∑ j, x i * (D.cartan i j : ℚ) * x j) ∧
     (∀ γ δ : D.ι → ℤ, ggQ2xQ_IsRoot D γ → ggQ2xQ_IsRoot D δ → γ ≠ δ → γ ≠ -δ →
       (∑ i, ∑ j, γ i * D.cartan i j * δ j) ∈ ({-1, 0, 1} : Set ℤ)) := by
@@ -984,7 +984,7 @@ lemma ggQ2xQ4_Phi_finite (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
   have hpd := ggQ2xQ4_cartan_posDef D hbas hE
   have hfin := Matrix.PosDef.finite_setOfPred_dotProduct_mulVec_le hpd (2 : ℤ)
   refine hfin.subset fun v hv => ?_
-  simp only [Set.mem_setOf_eq] at hv ⊢
+  simp only [Set.mem_ofPred_eq] at hv ⊢
   have h2 := ggQ2xQ4_intForm_self_isRoot D (ggQ2xQ_cartan_symm_of_E D hE) hv
   have hdot : v ⬝ᵥ (D.cartan.mulVec v) = ggQ2xQ_intForm D v v := by
     rw [ggQ2xQ_intForm_apply]
@@ -997,8 +997,8 @@ lemma ggQ2xQ4_Phi_finite (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
 lemma ggQ2xQ4_Wz_finite (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_IsE D) :
     Finite (ggQ2xQ_intWeyl D) := by
   classical
-  haveI : Finite {v : D.ι → ℤ // ggQ2xQ_IsRoot D v} := ggQ2xQ4_Phi_finite D hbas hE
-  haveI : Finite (Equiv.Perm {v : D.ι → ℤ // ggQ2xQ_IsRoot D v}) := inferInstance
+  have : Finite {v : D.ι → ℤ // ggQ2xQ_IsRoot D v} := ggQ2xQ4_Phi_finite D hbas hE
+  have : Finite (Equiv.Perm {v : D.ι → ℤ // ggQ2xQ_IsRoot D v}) := inferInstance
   refine Finite.of_injective
     (fun w : ggQ2xQ_intWeyl D =>
       ({ toFun := fun v => ⟨w.1 v.1, ggQ2xQ4_intWeyl_smul_isRoot D w.2 v.2⟩
@@ -1351,8 +1351,8 @@ private lemma ggQ2xQ4_frame_perm (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_I
       exact ⟨x₀, 2, by norm_num, hx₀⟩
     · obtain ⟨x₀, hx₀⟩ := ggQ2xQ4_dominant_E8 D e (ggQ2xQ_cartan_E8 D e he)
       exact ⟨x₀, 1, by norm_num, hx₀⟩
-  haveI : Finite (ggQ2xQ_intWeyl D) := ggQ2xQ4_Wz_finite D hbas hE
-  letI := Fintype.ofFinite (ggQ2xQ_intWeyl D)
+  have : Finite (ggQ2xQ_intWeyl D) := ggQ2xQ4_Wz_finite D hbas hE
+  let := Fintype.ofFinite (ggQ2xQ_intWeyl D)
   obtain ⟨v, -, hv⟩ := Finset.exists_max_image Finset.univ
     (fun v : ggQ2xQ_intWeyl D => ggQ2xQ_intForm D x₀ (v.1 (ggQ2xQ4_F D γ x₀)))
     Finset.univ_nonempty
@@ -1425,7 +1425,7 @@ private lemma ggQ2xQ4_frame_perm (D : GGQ2Lin 3) (hbas : D.Basis) (hE : ggQ2xQ_I
     intro a b hab
     rw [hHapply, hHapply] at hab
     exact hFinj (v.1.injective hab)
-  haveI : Finite {v : D.ι → ℤ // ggQ2xQ_IsRoot D v} := ggQ2xQ4_Phi_finite D hbas hE
+  have : Finite {v : D.ι → ℤ // ggQ2xQ_IsRoot D v} := ggQ2xQ4_Phi_finite D hbas hE
   have hHΦinj : Function.Injective
       (fun x : {v : D.ι → ℤ // ggQ2xQ_IsRoot D v} =>
         (⟨H x.1, hHmem x.1 x.2⟩ : {v : D.ι → ℤ // ggQ2xQ_IsRoot D v})) := by
@@ -2510,7 +2510,7 @@ theorem ggQ2_quandle_aut_E (D : GGQ2Lin 3) (hbas : D.Basis)
     (π : (D.V ≃ₗ[ZMod 3] D.V) → (D.V ≃ₗ[ZMod 3] D.V))
     (hπT : ∀ t ∈ ggQ2xQ_isConjRefl D, π t ∈ ggQ2xQ_isConjRefl D)
     (hinj : Set.InjOn π (ggQ2xQ_isConjRefl D))
-    (hsurj : Set.SurjOn π (ggQ2xQ_isConjRefl D) (ggQ2xQ_isConjRefl D))
+    (_hsurj : Set.SurjOn π (ggQ2xQ_isConjRefl D) (ggQ2xQ_isConjRefl D))
     (hπ : ∀ s ∈ ggQ2xQ_isConjRefl D, ∀ t ∈ ggQ2xQ_isConjRefl D,
       π (s * t * s⁻¹) = π s * π t * (π s)⁻¹) :
     ∃ g ∈ D.weyl, ∀ t ∈ ggQ2xQ_isConjRefl D, π t = g * t * g⁻¹ := by

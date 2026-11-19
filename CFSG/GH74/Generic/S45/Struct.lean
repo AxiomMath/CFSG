@@ -92,7 +92,7 @@ theorem sup_isSylow {X : Type} [Group X] [Finite X] {K D R : Subgroup X} [D.Norm
   have hS₀ := isPGroup_sup_of_commute hD hR hcomm
   refine ⟨hS₀, ?_⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 X) := inferInstance
-  have hTp : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup'
+  have hTp : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup
   have hDT : D ≤ (T : Subgroup X) := hD.le_sylow_of_normal T
   have hTle := hsyl T
   have hTeq : (T : Subgroup X) = ((T : Subgroup X) ⊓ K) ⊔ D := by
@@ -326,7 +326,7 @@ theorem D_isPGroup_cyclic (h : KData X K z) :
   set D : Subgroup X := centralizer (K : Set X) with hD
   have hDn : D.Normal := by rw [hD]; infer_instance
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥D) := inferInstance
-  have hSmap : IsPGroup 2 ↥((S : Subgroup ↥D).map D.subtype) := S.isPGroup'.map D.subtype
+  have hSmap : IsPGroup 2 ↥((S : Subgroup ↥D).map D.subtype) := S.isPGroup.map D.subtype
   have hSle : (S : Subgroup ↥D).map D.subtype ≤ centralizer (K : Set X) := by
     rintro _ ⟨c, -, rfl⟩
     exact c.2
@@ -358,13 +358,13 @@ theorem D_isPGroup_cyclic (h : KData X K z) :
   have e : ↥(S : Subgroup ↥D) ≃* ↥D := by
     rw [hStop]; exact Subgroup.topEquiv
   refine ⟨?_, ?_⟩
-  · exact S.isPGroup'.of_equiv e
+  · exact S.isPGroup.of_equiv e
   · exact (MulEquiv.isCyclic e).1 hScyc
 
 theorem sylow_le (h : KData X K z) (T : Sylow 2 X) :
     (T : Subgroup X) ≤ K ⊔ centralizer (K : Set X) := by
   have := h.normal
-  exact sylow_le_sup_centralizer K h.facts.2.1 T.isPGroup'
+  exact sylow_le_sup_centralizer K h.facts.2.1 T.isPGroup
 
 theorem sup_isSylow' (h : KData X K z) (R : Sylow 2 ↥K) :
     IsPGroup 2 ↥((R : Subgroup ↥K).map K.subtype ⊔ centralizer (K : Set X)) ∧
@@ -373,7 +373,7 @@ theorem sup_isSylow' (h : KData X K z) (R : Sylow 2 ↥K) :
   have hDn : (centralizer (K : Set X)).Normal := inferInstance
   obtain ⟨hDp, -⟩ := h.D_isPGroup_cyclic
   refine sup_isSylow (K := K) (D := centralizer (K : Set X)) (R := (R : Subgroup ↥K).map K.subtype)
-    hDp h.inf_centralizer_eq_bot ?_ (R.isPGroup'.map K.subtype) (Subgroup.map_subtype_le _) ?_
+    hDp h.inf_centralizer_eq_bot ?_ (R.isPGroup.map K.subtype) (Subgroup.map_subtype_le _) ?_
     (fun T => h.sylow_le T)
   · rintro _ ⟨r, -, rfl⟩ d hd
     exact mem_centralizer_iff.1 hd r r.2

@@ -12,6 +12,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma map_conj_eq_of_mem_normalizer_M07 {H : Subgroup G} {r : G}
     (hr : r ∈ Subgroup.normalizer (H : Set G)) :
     H.map (MulAut.conj r).toMonoidHom = H := by
@@ -29,6 +30,7 @@ private lemma map_conj_eq_of_mem_normalizer_M07 {H : Subgroup G} {r : G}
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
 
+omit [Finite G] in
 private lemma isComponentOf_map_conj_of_mem_normalizer_M07 {L H : Subgroup G}
     (hL : IsComponentOf L H) {r : G} (hr : r ∈ Subgroup.normalizer (H : Set G)) :
     IsComponentOf (L.map (MulAut.conj r).toMonoidHom) H := by
@@ -38,16 +40,16 @@ private lemma isComponentOf_map_conj_of_mem_normalizer_M07 {L H : Subgroup G}
 private lemma ne_bot_of_isComponentOf_M07 {F H : Subgroup G} (h : IsComponentOf F H) :
     F ≠ ⊥ := by
   intro hF
-  haveI : Subsingleton ↥F := by
+  have : Subsingleton ↥F := by
     refine ⟨fun x y => Subtype.ext ?_⟩
     have hx : (x : G) = 1 := by simpa only [hF, Subgroup.mem_bot] using x.2
     have hy : (y : G) = 1 := by simpa only [hF, Subgroup.mem_bot] using y.2
     rw [hx, hy]
-  haveI : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := h.2.2.2
+  have : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := h.2.2.2
   exact not_subsingleton _ (inferInstance : Subsingleton (↥F ⧸ Subgroup.center ↥F))
 
 private lemma ne_top_of_isComponentOf_of_disjoint_M07 {F₁ F₂ H : Subgroup G}
-    (hH : F₁ ⊔ F₂ = H) (hd : Disjoint F₁ F₂) (h₂ : IsComponentOf F₂ H) : F₁ ≠ H := by
+    (_hH : F₁ ⊔ F₂ = H) (hd : Disjoint F₁ F₂) (h₂ : IsComponentOf F₂ H) : F₁ ≠ H := by
   intro hF
   have hle : F₂ ≤ (⊥ : Subgroup G) :=
     (le_inf (by rw [hF]; exact h₂.1) le_rfl).trans hd.le_bot
@@ -88,10 +90,10 @@ theorem eq_factor_of_isComponentOf {F₁ F₂ H K : Subgroup G} (hH : F₁ ⊔ F
   by_contra h
   rw [not_or] at h
   obtain ⟨hK₁, hK₂⟩ := h
-  haveI : IsMulCommutative ↥K := isMulCommutative_of_ne_factors_M07 hH h₁ h₂ hK hK₁ hK₂
+  have : IsMulCommutative ↥K := isMulCommutative_of_ne_factors_M07 hH h₁ h₂ hK hK₁ hK₂
   have hbot : commutator ↥K = ⊥ := commutator_eq_bot ↥K
   have htopbot : (⊤ : Subgroup ↥K) = ⊥ := hK.2.2.1.symm.trans hbot
-  haveI : Subsingleton ↥K := by
+  have : Subsingleton ↥K := by
     refine ⟨fun x y => Subtype.ext ?_⟩
     have hx : x = 1 := by
       have hx' : x ∈ (⊥ : Subgroup ↥K) := htopbot ▸ Subgroup.mem_top x
@@ -100,9 +102,10 @@ theorem eq_factor_of_isComponentOf {F₁ F₂ H K : Subgroup G} (hH : F₁ ⊔ F
       have hy' : y ∈ (⊥ : Subgroup ↥K) := htopbot ▸ Subgroup.mem_top y
       simpa only [Subgroup.mem_bot] using hy'
     rw [hx, hy]
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
   exact not_subsingleton _ (inferInstance : Subsingleton (↥K ⧸ Subgroup.center ↥K))
 
+omit [Finite G] in
 private lemma not_le_of_iSup_map_conj_M07 {H K R X : Subgroup G}
     (hgen : H = ⨆ r ∈ R, K.map (MulAut.conj r).toMonoidHom)
     (hRX : R ≤ Subgroup.normalizer (X : Set G)) (hXH : X < H) : ¬ K ≤ X := by

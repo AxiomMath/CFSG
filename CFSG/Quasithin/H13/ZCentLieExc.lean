@@ -100,7 +100,7 @@ theorem zCentAt_suzuki {a : ℕ} {K : Type} [Field K] [Finite K]
     ZCentAt (P : Subgroup (suzukiGroup a K)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro u w k hu _ hu1 _ hcw hk
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨u, hu⟩
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨u, hu⟩
   rw [Subgroup.orderOf_mk] at hn
   have hyo := exists_pow_orderOf_eq_two hu1 hn
   obtain ⟨Q, -, hCQ, huniq⟩ :=

@@ -58,7 +58,7 @@ theorem small_seven_local_normalizer_card_le
           (S : Set (fixingSubgroup P s))) ≤
       28 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let h := Nat.card H
   let n := Nat.card (Sylow 7 H)
@@ -84,7 +84,7 @@ theorem small_seven_local_normalizer_card_le
         sylow_card_eq_prime_of_card_eq_prime_mul
           H 7 165888 (by norm_num) (by norm_num)
             (by simpa only [H] using hH) S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   have hGlobalCard :
       Nat.card
@@ -138,7 +138,7 @@ theorem small_seven_local_normalizer_card_le
     change n % 7 = 1 % 7 at hmod
     norm_num at hmod
     simpa only [n, Nat.card_eq_fintype_card] using hmod
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup H :=
     Subgroup.centralizer (S : Set H)
@@ -178,7 +178,7 @@ theorem small_seven_local_normalizer_card_le
   have hrDvd : r ∣ 6 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrel :
       r * N.index = C.index := by

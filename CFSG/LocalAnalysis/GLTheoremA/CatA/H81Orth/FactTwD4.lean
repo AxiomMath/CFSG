@@ -42,11 +42,11 @@ theorem h81Choice_minus_four_model {F : Type} [Field F] [Finite F] {p : ℕ} (hp
   refine h81Choice_of_lift hQnd hT hK hK3 hp hp2 hpK hP (fun Pt hPt hPtc => ?_)
     (fun yy hy hR hW hpJ => ?_) (fun yy hy hR hW α hα hαJ => ?_)
   ·
-    haveI := hPt.1
-    letI : CommGroup ↥Pt :=
+    have := hPt.1
+    let : CommGroup ↥Pt :=
       { (inferInstance : Group ↥Pt) with mul_comm := fun a b => mul_comm' a b }
-    haveI : Finite (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F) := Module.finite_of_finite F
-    haveI : Finite ((Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F) ≃ₗ[F]
+    have : Finite (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F) := Module.finite_of_finite F
+    have : Finite ((Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F) ≃ₗ[F]
         (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F)) :=
       Finite.of_injective (fun e : (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → F) ≃ₗ[F] _ => (e : _ → _))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
@@ -98,7 +98,7 @@ theorem h81FactTwD4_holds : H81FactTwD4 := by
   · exact absurd hi id
   change d = .twistedD 4 Q at hi
   subst hi
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) =
       Q.p ^ Q.exponent :=
@@ -110,7 +110,7 @@ theorem h81FactTwD4_holds : H81FactTwD4 := by
   let e : H ≃* ProjOrthDerived
       (quadMinus 4 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) b c) :=
     e₀.trans (e₁.trans (CFSG.RankThree.PartOne.statedProjOrthEquiv (coe_quadMinus 4 _ b c)))
-  haveI : Finite (ProjOrthDerived
+  have : Finite (ProjOrthDerived
       (quadMinus 4 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) b c)) :=
     Finite.of_equiv H e.toEquiv
   have hch := h81Choice_minus_four_model hp hp2 Q hQ2 hFcard hdiv hirr

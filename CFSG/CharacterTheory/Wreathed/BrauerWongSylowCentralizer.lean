@@ -27,7 +27,7 @@ theorem pPrimeCore_isComplement'_of_le_center {X : Type v} [Group X] [Finite X] 
   have hdisj : CFSG.pPrimeCore p X ⊓ (P : Subgroup X) = ⊥ := by
     apply disjoint_iff.mp
     apply Subgroup.disjoint_of_coprime_natCard
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right _ (Nat.Coprime.symm CFSG.pPrimeCore_coprime_card)
   have heq : CFSG.pPrimeCore p X = K := by
@@ -87,17 +87,17 @@ theorem exists_sylow_centralizer_eq_center [Finite G] (n : ℕ) (hn : 2 ≤ n) (
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer ((S : Subgroup G) : Set G)
   have hZp : IsPGroup 2 ((modelCenter S e).subgroupOf C) := by
-    have h : IsPGroup 2 (modelCenter S e) := S.isPGroup'.to_le (modelCenter_le_sylow S e)
+    have h : IsPGroup 2 (modelCenter S e) := S.isPGroup.to_le (modelCenter_le_sylow S e)
     exact h.of_equiv (Subgroup.subgroupOfEquivOfLe (modelCenter_le_centralizer n hn S e)).symm
   obtain ⟨P, hP⟩ := hZp.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hP⟩
   let Q : Subgroup G := (P : Subgroup C).map C.subtype
-  have hQp : IsPGroup 2 Q := P.isPGroup'.map C.subtype
+  have hQp : IsPGroup 2 Q := P.isPGroup.map C.subtype
   have hQC : Q ≤ C := Subgroup.map_subtype_le _
   have hQN : Q ≤ Subgroup.normalizer ((S : Subgroup G) : Set G) :=
     hQC.trans (Subgroup.centralizer_le_normalizer _)
   have hsup : IsPGroup 2 ↥(Q ⊔ (S : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_right' hQp S.isPGroup' hQN
+    IsPGroup.to_sup_of_normal_right' hQp S.isPGroup hQN
   have hQS : Q ≤ (S : Subgroup G) := by
     have := S.maximal_isPGroup.2 hsup le_sup_right
     exact le_sup_left.trans this
@@ -125,7 +125,7 @@ theorem sylow_inf_sylowCentralizerCore [Finite G] (S : Sylow 2 G) :
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply disjoint_iff.mp
   apply Subgroup.disjoint_of_coprime_natCard
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   rw [hk]
   exact Nat.Coprime.pow_left _ (sylowCentralizerCore_coprime S)
 

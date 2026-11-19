@@ -36,7 +36,7 @@ theorem exists_mem_normalizer_conj_zpowers (hS : Situation G p P M) (hx : Point 
   have hB := plane_of_central hS hx hz
   have hx1 : x ≠ 1 := hx.ne_one hprime
   have hxp : x ^ p = 1 := hx.pow_eq_one
-  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hprime P.isPGroup' hz.centralizes
+  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hprime P.isPGroup hz.centralizes
     hz.ne_one hz.pow_eq_one hS.exists_elemAbelian_cube
   obtain ⟨d, hdeq⟩ : ∃ d, d = h * x * h⁻¹ * x⁻¹ := ⟨_, rfl⟩
   have hd : d ∈ zpowers z := by rw [hdeq]; exact hcomm h hh

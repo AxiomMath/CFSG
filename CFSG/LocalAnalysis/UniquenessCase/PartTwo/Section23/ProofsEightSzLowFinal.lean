@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem szLow_order {m a r : ℕ} (hm : 2 ≤ m) (ha : a = 2 ^ m - 1)
     (hap : a.Prime) (hr : r.Prime) (hrdvd : r ∣ 2 ^ a - 1) :
     Odd a ∧ r ≠ 2 ∧ orderOf (2 : ZMod r) = a ∧ a ∣ r - 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have haodd : Odd a := by
     rw [ha]
     exact Nat.Even.sub_odd Nat.one_le_two_pow
@@ -323,7 +323,7 @@ theorem s23_8_SzLow_of (D : Data G) (Ch : Choice2011 G) (hKD : KDiag) (hKO : KOr
     S23_8_SzLow D Ch := by
   intro h1930 c K hK a hSz hne ha_eq ha_prime r hr hrdvd A hAcard hAM hAT hAK
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set m : ℕ := CFSG.Open.pRank 2 D.Z with hm
   have ha : a = 2 ^ m - 1 := by rw [hm]; exact ha_eq
   have hm2 : 2 ≤ m := by

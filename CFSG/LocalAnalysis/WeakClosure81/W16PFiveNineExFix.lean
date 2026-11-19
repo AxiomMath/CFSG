@@ -30,6 +30,7 @@ theorem conj_eq_self_of_mem_normalizer_of_card_two {X : Type} [Group X]
       simpa [mul_assoc] using this)
   exact Subtype.ext_iff.1 ((ht_uniq _ hmemY).trans (ht_uniq _ hyY).symm)
 
+omit [Finite G] in
 theorem barSub_conj_mem {K V : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {d : G} (hdK : d ∈ K) (hdV : d ∈ Subgroup.normalizer (V : Set G)) {y : X}
     (hy : y ∈ SevenK.barSub K φ V) :
@@ -43,6 +44,7 @@ theorem barSub_conj_mem {K V : Subgroup G} {X : Type} [Group X] {φ : ↥K →* 
     SevenK.mem_barSub.2 ⟨(⟨d, hdK⟩ : ↥K) * v * (⟨d, hdK⟩ : ↥K)⁻¹, hmemV, rfl⟩
   rwa [map_mul, map_mul, map_inv] at hmap
 
+omit [Finite G] in
 theorem barSub_mem_normalizer {K V : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {d : G} (hdK : d ∈ K) (hdV : d ∈ Subgroup.normalizer (V : Set G)) :
     φ ⟨d, hdK⟩ ∈ Subgroup.normalizer (SevenK.barSub K φ V : Set X) := by
@@ -122,10 +124,10 @@ theorem IsMinFam16.map_mem_center_of_mem_centralizer_V₀ (h1 : W16One G) (hS : 
     rcases hX.2 with h | ⟨-, h, -⟩
     · exact absurd h.1 (lt_irrefl 1)
     · exact h
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY2]; norm_num)
-  haveI : Finite ↥(fusionOddCore X) :=
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY2]; norm_num)
+  have : Finite ↥(fusionOddCore X) :=
     Nat.finite_of_card_ne_zero (by rw [hNc]; exact pow_ne_zero _ hp.ne_zero)
-  haveI : Finite X := Finite.of_surjective
+  have : Finite X := Finite.of_surjective
     (fun q : ↥Y × ↥(fusionOddCore X) => (q.1 : X) * (q.2 : X)) (by
       rintro x
       have hx : x ∈ (Y : Set X) * (fusionOddCore X : Set X) := by
@@ -160,6 +162,7 @@ theorem isElemAbelian_conjClosure_V₀_conjClosure (h1 : W16One G) (h5 : W16Five
     IsElemAbelian 2 (conjClosure V₀ (conjClosure V H)) :=
   (h.isElemAbelian_iSub16 h1 hS hF).mono (conjClosure_V₀_conjClosure_le_iSub16 h5 hS h hF hV)
 
+omit [Finite G] in
 theorem conjClosure_le_normalizer_conjClosure_V₀ :
     conjClosure V H ≤ Subgroup.normalizer (conjClosure V₀ (conjClosure V H) : Set G) :=
   le_normalizer_conjClosure V₀ (conjClosure V H)

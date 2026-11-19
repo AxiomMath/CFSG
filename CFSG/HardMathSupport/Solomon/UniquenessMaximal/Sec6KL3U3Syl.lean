@@ -112,7 +112,7 @@ theorem relIndex_le_nine_of_hom (hK : Nat.card K % 3 = 1) {A : Type*} [Group A]
     (G : Subgroup (GL (Fin 3) K)) (c : G →* A)
     (hc : ∀ g : G, (∃ c0 : Kˣ, (g : GL (Fin 3) K) = Matrix.GeneralLinearGroup.scalar (Fin 3) c0) →
       c g = 1)
-    {H0 N0 : Subgroup A} (hH0 : H0 ≤ c.range) (h3 : IsPGroup 3 H0) (hN : N0 ≤ H0)
+    {H0 N0 : Subgroup A} (hH0 : H0 ≤ c.range) (h3 : IsPGroup 3 H0) (_hN : N0 ≤ H0)
     (hcomm : ∀ x ∈ H0, ∀ y ∈ H0, ⁅x, y⁆ ∈ N0) (hcube : ∀ x ∈ H0, x ^ 3 ∈ N0) :
     N0.relIndex H0 ≤ 9 := by
   classical

@@ -141,7 +141,7 @@ theorem false_of_not_isCyclic_sylow
   set SgG := (Sg : Subgroup Ys).map Ys.subtype with hSgGdef
   have hSgGcard : Nat.card SgG = p ^ (Nat.card Ys).factorization p := by
     rw [Subgroup.card_map_of_injective Ys.subtype_injective, Sg.card_eq_multiplicity]
-  have hSgGp : IsPGroup p SgG := Sg.isPGroup'.map _
+  have hSgGp : IsPGroup p SgG := Sg.isPGroup.map _
   have hSgGYs : SgG ≤ Ys := Subgroup.map_subtype_le _
   have hw₀Sg : w₀ ∈ SgG :=
     ⟨⟨w₀, hW₀Ys (Subgroup.mem_zpowers w₀)⟩, hW₀Sg (by
@@ -353,11 +353,11 @@ theorem false_of_not_isCyclic_sylow
   obtain ⟨Sg2, hSg2⟩ := (hW₀p.comap_subtype (K := NPs)).exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq NPs Sg1 Sg2
   set Sg2G := (Sg2 : Subgroup NPs).map NPs.subtype with hSg2Gdef
-  have hSg2Gp : IsPGroup p Sg2G := Sg2.isPGroup'.map _
+  have hSg2Gp : IsPGroup p Sg2G := Sg2.isPGroup.map _
   have hSg2N : Sg2G ≤ NPs := Subgroup.map_subtype_le _
   by_cases hSg2c : IsCyclic Sg2G
   swap
-  · have := h.eq_bot_of_le_normalizer_of_not_isCyclic hp3 c hpq hSg2Gp hSg2c Ps.isPGroup' hSg2N
+  · have := h.eq_bot_of_le_normalizer_of_not_isCyclic hp3 c hpq hSg2Gp hSg2c Ps.isPGroup hSg2N
     exact hKG1 (hPs ▸ this)
   have hw₀Sg2 : w₀ ∈ Sg2G :=
     ⟨⟨w₀, hW₀N (Subgroup.mem_zpowers w₀)⟩, hSg2 (by

@@ -10,6 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem gamma_fourA_setup (H : GammaHyps a z) {y zz b : G}
     (hy : y ∈ orb4A a z a) (hzz : zz = (a * y) ^ 2) (hb : b = zz * y) :
     IsConj a b ∧ b * y = zz ∧ y * b = zz ∧ IsConj a (y * zz) ∧ y * zz = zz * y ∧
@@ -33,6 +34,7 @@ private theorem gamma_fourA_setup (H : GammaHyps a z) {y zz b : G}
   · rw [hb, hzz]
     exact hyy
 
+omit [Finite G] in
 theorem gamma_fourA_row4A (H : GammaHyps a z) {y t : G} (hy : y ∈ orb4A a z a)
     (ht : t ∈ orb2A a y) (htb : t ∈ orb4A a z ((a * y) ^ 2 * y)) :
     ∃ c : G, c ∈ Qz ((a * y) ^ 2) ∧ c * y = y * c ∧ c * t = t * c ∧ orderOf c = 2 ∧
@@ -94,6 +96,7 @@ theorem gamma_fourA_row4A (H : GammaHyps a z) {y t : G} (hy : y ∈ orb4A a z a)
     exact (Qz zz).mul_mem hy_Q hyc_Q
   exact ⟨c, hc_Q, hcy, htc.symm, hc2, hcy2⟩
 
+omit [Finite G] in
 theorem gamma_fourA_row6A (H : GammaHyps a z) {y t : G} (hy : y ∈ orb4A a z a)
     (ht : t ∈ orb2A a y) (htb : t ∈ orb6A a ((a * y) ^ 2 * y)) :
     ∃ c : G, c ∈ Qz ((a * y) ^ 2) ∧ c * y = y * c ∧ c * t = t * c ∧ orderOf c = 2 ∧

@@ -36,8 +36,8 @@ theorem eP_two_pow_three (n : ℕ) : eP (2 ^ n) 3 = if Even n then 1 else 2 := b
   unfold eP
   rw [hc]
   rcases Nat.even_or_odd' n with ⟨k, rfl | rfl⟩
-  · rw [if_pos (even_two_mul k), hev k, orderOf_one]
-  · rw [if_neg (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, hev k, one_mul]
+  · rw [ite_eq_left (even_two_mul k), hev k, orderOf_one]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, hev k, one_mul]
     exact orderOf_eq_prime (by decide) (by decide)
 
 theorem eM_two_pow_three (n : ℕ) : eM (2 ^ n) 3 = if Even n then 2 else 1 := by
@@ -47,9 +47,9 @@ theorem eM_two_pow_three (n : ℕ) : eM (2 ^ n) 3 = if Even n then 2 else 1 := b
   unfold eM
   rw [hc]
   rcases Nat.even_or_odd' n with ⟨k, rfl | rfl⟩
-  · rw [if_pos (even_two_mul k), hev k]
+  · rw [ite_eq_left (even_two_mul k), hev k]
     exact orderOf_eq_prime (by decide) (by decide)
-  · rw [if_neg (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, hev k, one_mul]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, hev k, one_mul]
     exact orderOf_eq_one_iff.mpr (by decide)
 
 theorem eS_two_pow_three (n : ℕ) : eS (2 ^ n) 3 = 1 := by

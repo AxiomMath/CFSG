@@ -186,7 +186,7 @@ private noncomputable def kRefl_kerEquiv {Bs : Subgroup G} {y : G} (hyBs : y ∈
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp gg.2
       have hgb : (⟨(gg : G), hgBs⟩ : ↥Bs) = (⟨y, hyBs⟩ : ↥Bs) ^ k := by
         ext
-        simpa [hk]
+        simp [hk]
       rw [hgb, map_zpow, hφy]
     let x : ↥(kRefl_Fx φ) :=
       ⟨Additive.ofMul (⟨(gg : G), hgBs⟩ : ↥Bs), by
@@ -218,7 +218,7 @@ private theorem card_fixH {Bs X : Subgroup G} {y : G} (hyBs : y ∈ Bs) (hy1 : y
       exact Nat.mul_right_cancel (show 0 < 3 by norm_num) h
     rwa [Nat.card_congr (kRefl_fxEquiv φ)]
   have hker : Nat.card (kRefl_f κ φ).ker = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     rw [Nat.card_congr (kRefl_kerEquiv hyBs hκ.1 hφy), Nat.card_zpowers]
     exact orderOf_eq_prime hy3 hy1
   have hcardRange : Nat.card (kRefl_f κ φ).range = 3 ^ 4 := by

@@ -119,10 +119,10 @@ theorem kgLangRee_torus_lang {L : Type} [Field L] [IsAlgClosed L]
   have hker : CFSG.LieType.Chevalley.kernelRoots
       (MonoidHom.id (Multiplicative (Fin ReeTag.F4.tag.rank → ℤ))) = ∅ := by
     ext α
-    simp only [CFSG.LieType.Chevalley.kernelRoots, Set.mem_setOf_eq, Set.mem_empty_iff_false,
+    simp only [CFSG.LieType.Chevalley.kernelRoots, Set.mem_ofPred_eq, Set.mem_empty_iff_false,
       iff_false, not_and, MonoidHom.id_apply]
     exact fun hα => hα.ne_zero
-  letI : Group (WithConv (CFSG.LieType.AlgebraicGroups.GLCoord L (Label ReeTag.F4.tag) →ₐ[L] L)) :=
+  let : Group (WithConv (CFSG.LieType.AlgebraicGroups.GLCoord L (Label ReeTag.F4.tag) →ₐ[L] L)) :=
     AlgHom.convGroup
   have hconn : CFSG.LieType.AlgebraicGroups.IsConnectedAlgebraicSubgroup L
       (Subgroup.map (CFSG.LieType.AlgebraicGroups.modGLPoint ReeTag.F4.tag L).toMonoidHom

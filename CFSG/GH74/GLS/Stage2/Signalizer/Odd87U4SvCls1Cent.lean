@@ -191,13 +191,13 @@ theorem u4T_mul_U (h : UnitaryFieldData p f K) {l τ : K} (h3 : (3 : K) = 0) :
     u4T h l * u4U τ = u4U τ * u4U τ * u4T h l := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [u4T, u4U, Matrix.mul_apply, Fin.sum_univ_four]
-  all_goals first | ring1 | linear_combination (l * τ) * h3
+  all_goals linear_combination (l * τ) * h3
 
 theorem u4T_mul_L (h : UnitaryFieldData p f K) {l τ : K} (h3 : (3 : K) = 0) :
     u4T h l * u4L τ = u4L τ * u4L τ * u4T h l := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [u4T, u4L, Matrix.mul_apply, Fin.sum_univ_four]
-  all_goals first | ring1 | linear_combination (l * τ) * h3 | linear_combination (-(l * τ)) * h3
+  all_goals first | linear_combination (l * τ) * h3 | linear_combination (-(l * τ)) * h3
 
 theorem u4_cls1_cent3_std (h : UnitaryFieldData p f K) (hq3 : p ^ f = 3) (x : ↥(hypSU h 2 0))
     (hc : ∀ a b : ↥(hypSU h 2 0), hypProj h 2 0 a ∈ fixSub (u4Alpha0 h) →

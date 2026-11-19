@@ -75,8 +75,8 @@ theorem class_sound {letters : List (M3 Q8)} {words2 : List (List ℕ)} {table :
   have h1 := forallUnitary_sound hcls hA hu
   unfold classOk at h1
   rw [hns, h3] at h1
-  simp only [Bool.false_or, Bool.not_true, Bool.or_eq_true, List.any_eq_true, decide_eq_true_eq,
-    List.mem_map, Bool.false_eq_true, false_or] at h1
+  simp only [Bool.false_or, Bool.not_true, List.any_eq_true, decide_eq_true_eq,
+    List.mem_map] at h1
   obtain ⟨o, ⟨e, he, rfl⟩, hAo⟩ := h1
   obtain ⟨g, hg, l, hl, hAe⟩ := mem_orbitOf.1 hAo
   have hg' := (List.all_eq_true.1 hgu) g hg

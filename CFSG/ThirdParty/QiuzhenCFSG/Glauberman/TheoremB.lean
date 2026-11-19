@@ -63,7 +63,7 @@ public theorem theoremB {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2)
                 (Subgroup.nontrivial_iff_ne_bot (S₂ : Subgroup G)).2 hS₂ne
               have hcenter_ne_bot : Subgroup.center ↥(S₂ : Subgroup G) ≠ ⊥ :=
                 ne_of_gt (IsPGroup.bot_lt_center (p := p)
-                  (G := ↥(S₂ : Subgroup G)) S₂.isPGroup')
+                  (G := ↥(S₂ : Subgroup G)) S₂.isPGroup)
               intro hcenterIn_bot
               apply hcenter_ne_bot
               ext z
@@ -93,7 +93,7 @@ public theorem theoremB {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2)
               intro hNtop
               have hHnormal : H.Normal :=
                 Subgroup.normalizer_eq_top_iff.mp (by simpa [N] using hNtop)
-              have hHp : IsPGroup p H := IsPGroup.to_le S₂.isPGroup' hHleS₂
+              have hHp : IsPGroup p H := IsPGroup.to_le S₂.isPGroup hHleS₂
               have hHcore : H ≤ pCore p G :=
                 le_pCore_of_normal_isPGroup hHnormal hHp
               apply hHne

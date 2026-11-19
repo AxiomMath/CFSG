@@ -21,7 +21,7 @@ private lemma three_mul_sum_le (d : ℕ) (h2 : 2 ≤ d) (h4 : d ≤ 4) :
 theorem fg_card_le_three_mul_nonisotropic (B : LinearMap.BilinForm (ZMod 3) V)
     (hsymm : ∀ x y, B x y = B y x) {u : V} (hu : B u u ≠ 0) :
     Nat.card V ≤ 3 * Nat.card {v : V // B v v ≠ 0} := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite V := Module.finite_of_finite (ZMod 3)
   have hchoose : ∀ w : V, ∃ s : ZMod 3, B (w + s • u) (w + s • u) ≠ 0 := by
     intro w
     have hquad : ∀ s : ZMod 3,
@@ -48,6 +48,7 @@ theorem fg_card_le_three_mul_nonisotropic (B : LinearMap.BilinForm (ZMod 3) V)
   rw [Nat.card_prod, Nat.card_zmod] at hcard
   simpa [Nat.mul_comm] using hcard
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_exists_nonisotropic [Nontrivial V] (B : LinearMap.BilinForm (ZMod 3) V)
     (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x) : ∃ u : V, B u u ≠ 0 := by
   by_contra h
@@ -77,9 +78,9 @@ theorem fg_exists_nonisotropic_not_mem (B : LinearMap.BilinForm (ZMod 3) V)
     by_contra hc
     push Not at hc
     exact h ⟨v, hv, hc.1, hc.2⟩
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite V := Module.finite_of_finite (ZMod 3)
   obtain ⟨u, hu⟩ := fg_exists_nonisotropic B hB hsymm
   have hcard_le := fg_card_le_three_mul_nonisotropic B hsymm hu
   let f : {v : V // B v v ≠ 0} → Y ⊕ B.orthogonal Y := fun w =>

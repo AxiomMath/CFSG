@@ -205,7 +205,7 @@ private theorem l10scsp_coreFour_statedSp {n : ℕ} {F : Type} [Field F] [CharP 
   have hv : v ≠ 0 := by
     intro hv0
     rw [hv0] at hvw
-    simp only [Pi.zero_apply, zero_dotProduct] at hvw
+    simp only [zero_dotProduct] at hvw
     exact one_ne_zero hvw.symm
   have hQ' : Q = CFSG.Timmesfeld.Transvection.ModelRank.spRad v := by
     rw [hQ]
@@ -218,7 +218,7 @@ private theorem l10scsp_coreFour_statedSp {n : ℕ} {F : Type} [Field F] [CharP 
       CFSG.Timmesfeld.Transvection.ModelRank.spRadCommStmt_holds (n := n) (F := F)
         hv g hg h hh
     rw [hgh]
-    simpa using Rr.one_mem
+    simp
   · rw [hQ']
     intro g hg
     rw [Subgroup.mem_centralizer_iff]

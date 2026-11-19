@@ -149,7 +149,8 @@ private theorem descent_field_facts {p v : ℕ} (hp : p.Prime) (hodd : Odd p)
   · rw [hK₀eq]
     exact OrdPFieldNs.ordQ_fixed (ℓ := p) (v := v) (σ := S.right) hp hσ
 
-private theorem exists_fixed_derived {p v : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+omit [CharP K 2] in
+private theorem exists_fixed_derived {p v : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {Q : QuadraticForm K (Fin (2 * n) → K)}
     {S : coordinateSemilinearGroup (2 * n) K} (hSQ : RecipeFieldOmega.IsIsoPair Q S)
     (hSp : S ^ p ^ v = 1) {A : Subgroup (GL (Fin (2 * n)) K)}
@@ -178,6 +179,7 @@ private theorem exists_fixed_derived {p v : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     OrdPFieldNs.exists_orderOf_eq_fixed_of_le (v := v) hp Φ hΦp hΦΓ hpΓ
   exact ⟨x, hxΓ, hxo, hxΦ⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_fixed_transfer {p : ℕ} (hp : p.Prime)
     {Q : QuadraticForm K (Fin (2 * n) → K)}
     {S : coordinateSemilinearGroup (2 * n) K} {H : GL (Fin (2 * n)) K}
@@ -217,6 +219,7 @@ private theorem exists_fixed_transfer {p : ℕ} (hp : p.Prime)
     exact hp.one_lt.ne hxo
   exact ⟨x', hx'σ, hx'iso, hx'p, hx'1⟩
 
+omit [CharP K 2] in
 private theorem exists_fixed_descend {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {Q : QuadraticForm K (Fin (2 * n) → K)}
     {S : coordinateSemilinearGroup (2 * n) K} {H : GL (Fin (2 * n)) K}
@@ -301,6 +304,7 @@ private theorem exists_genMax_mem_of_fixed_x₀ {p : ℕ} (hp : p.Prime) (hp2 : 
   exact ⟨E₀, hE₀, card_le_card_of_genMax_field K₀.subtype κ hκ hT₀ hwp hq hord hA hE₀
     ⟨x₀, hx₀E, hx₀1⟩⟩
 
+omit [CharP K 2] in
 private theorem exists_fixed_elemAb_image {p : ℕ} (hodd : Odd p)
     {Q : QuadraticForm K (Fin (2 * n) → K)} (hnd : (polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K (Fin (2 * n) → K), finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0)

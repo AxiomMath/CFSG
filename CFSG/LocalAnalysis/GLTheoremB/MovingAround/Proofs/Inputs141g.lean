@@ -69,10 +69,10 @@ theorem twoGen_shape_of_hom {C : Type} [Group C] [Finite C] {A M : Subgroup G} {
   classical
   set T := Subgroup.closure {g | g ∈ A ∧ g ∈ M ∧ IsPGroup 2 ↥(Subgroup.zpowers g)} with hTdef
   have hTle : T ≤ f.range := twoGen_le_of_mem h2
-  haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : Finite ↥T := Finite.of_injective (Subgroup.inclusion hTle) (Subgroup.inclusion_injective hTle)
+  have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Finite ↥T := Finite.of_injective (Subgroup.inclusion hTle) (Subgroup.inclusion_injective hTle)
   rcases hC with hq | hcop
-  · haveI hN : (T.comap f).Normal := ⟨fun n hn c => by
+  · have hN : (T.comap f).Normal := ⟨fun n hn c => by
       rw [Subgroup.mem_comap, map_mul, map_mul, map_inv]
       exact conj_mem_twoGen (hfA c) (hfM c) hn⟩
     rcases CFSG.LieType.CurtisTits.le_center_or_eq_top_of_isQuasisimple hq (T.comap f) with hZ | htop
@@ -86,7 +86,7 @@ theorem twoGen_shape_of_hom {C : Type} [Group C] [Finite C] {A M : Subgroup G} {
         show f c * f d = f d * f c
         rw [← map_mul, ← map_mul, (Subgroup.mem_center_iff.1 hc d).symm]
       have hT2 : IsPGroup 2 ↥T := isPGroup_two_closure_of_commute (fun x hx => hx.2.2) hcomm
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hT2
       rw [hn]
       exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -97,7 +97,7 @@ theorem twoGen_shape_of_hom {C : Type} [Group C] [Finite C] {A M : Subgroup G} {
         rintro _ ⟨c, rfl⟩
         have hc : c ∈ T.comap f := by rw [htop]; exact Subgroup.mem_top c
         exact hc
-      haveI : Group.IsPerfect C := hq.1
+      have : Group.IsPerfect C := hq.1
       rw [hTeq, MonoidHom.range_eq_map, ← Subgroup.map_commutator, ← commutator_def,
         Group.IsPerfect.commutator_eq_top]
   · right
@@ -132,7 +132,7 @@ theorem ratTwo_shape_of_hom (hK2 : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp2
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -407,7 +407,7 @@ theorem layer_d4_twE6 (hE6 : E6FixDNAll) {L : Type} [Field L] [IsAlgClosed L] {p
   rw [hΨ]
   refine CFSG.HardMathSupport.Dickson.Sec6.ssTw_layer_tw S hq hFr hΦ' hn v (d4Nodes Tag.E6)
     (fun P => Finite ↥P ∧ CFSG.IsQuasisimple ↥P) (fun P g h => ?_) (fun n hn' hwn => ?_)
-  · haveI := h.1
+  · have := h.1
     exact ⟨Finite.of_equiv _ (P.equivMapOfInjective _ (MulAut.conj g).injective).toEquiv,
       CFSG.LocalCores.isQuasisimple_of_mulEquiv (P.equivMapOfInjective _ (MulAut.conj g).injective)
         h.2⟩
@@ -687,8 +687,8 @@ theorem ratTwo_shape_suN {τ : Tag} {K : Type} [Field K] [Finite K] {p₀ : ℕ}
         Inputs141f.ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model ∨
       Nat.Coprime p (Nat.card (Inputs141f.ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model)) := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
@@ -741,7 +741,7 @@ theorem ratTwo_shape_suN {τ : Tag} {K : Type} [Field K] [Finite K] {p₀ : ℕ}
     rw [hCdef, mem_fixSubgroup, stdUnitaryEquiv_apply]
   obtain ⟨hfinC, hqsC, hcardC⟩ :=
     stdUnitary_fixSubgroup (ν := ν) hr (Nat.mul_pos he hs0) σQ hσc hν
-  haveI := hfinC
+  have := hfinC
   have hker : ψ.ker ≠ ⊤ := by
     intro h
     obtain ⟨ε, hε⟩ := hψ.transv ⟨0, by omega⟩ ⟨1, by omega⟩ (by simp)
@@ -800,7 +800,7 @@ theorem ratTwo_shape_suN {τ : Tag} {K : Type} [Field K] [Finite K] {p₀ : ℕ}
       rw [hCmem, map_pow, hXc, hcX.mul_pow, hcm, one_mul]
     refine ⟨m, hm, ⟨X ^ m, hXm⟩, ?_⟩
     rw [hθ, hyX, conj_pow]
-    simp only [SubgroupClass.coe_pow, map_pow]
+    simp only [map_pow]
   ·
     rw [hr2] at hqsC hcardC
     by_cases h32 : (ν, 2 ^ (e * s)) = (3, 2)

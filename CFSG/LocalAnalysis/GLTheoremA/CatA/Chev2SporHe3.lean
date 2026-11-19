@@ -19,7 +19,7 @@ theorem ccompOK_three_of_card_dvd_7560
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 7560) : CCompOK 3 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs
+  have := hs
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 7560 :=
     (prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3 hI.1).trans hk
   exact ctypeOK_three_of_card_dvd_2520 hb hnab
@@ -47,7 +47,7 @@ theorem crow_He_three
     rw [← map_centralizer_subtype CFSG.Sporadic.HeldB.heP x,
       Subgroup.card_map_of_injective CFSG.Sporadic.HeldB.heP.subtype_injective]
   rw [hcc]
-  rcases he3_card x.2 hx3 with h | h <;> rw [h] <;> norm_num
+  rcases he3_card x.2 hx3 with h | h <;> rw [h]; norm_num
 
 end CFSG.LocalAnalysis.GLTheoremA.Chev2Rows
 

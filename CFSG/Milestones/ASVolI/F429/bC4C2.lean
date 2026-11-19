@@ -67,9 +67,9 @@ theorem burnsideF429b_c2ab_of_borelAutData {E : Type} [Group E] [Finite E]
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ Hc : Subgroup E, IsComplementIn Hc (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite C := Finite.of_injective _ (Gp.subtype_injective.comp Ψ.injective)
-  haveI : Finite (MulAut C) := Finite.of_injective (fun α : MulAut C => (α : C → C))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite C := Finite.of_injective _ (Gp.subtype_injective.comp Ψ.injective)
+  have : Finite (MulAut C) := Finite.of_injective (fun α : MulAut C => (α : C → C))
     (fun a b h => MulEquiv.ext (congrFun h))
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set φ : C →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
@@ -137,7 +137,7 @@ theorem burnsideF429b_c2ab_of_borelAutData {E : Type} [Group E] [Finite E]
           (D.F_B σ⁻¹ (F.inv_mem hσ) g⁻¹).2 (Subgroup.inv_mem _ hg), ?_⟩
         rw [map_inv act t, e, burnsideF429b_conj_mul_inv] }
   have hSgF : Sg ≤ F := fun σ hσ => hσ.1
-  haveI : IsCyclic Sg := Subgroup.isCyclic_of_le hSgF
+  have : IsCyclic Sg := Subgroup.isCyclic_of_le hSgF
   obtain ⟨⟨σ₀, hσ₀⟩, hgen⟩ := IsCyclic.exists_generator (α := ↥Sg)
   have hpow : ∀ σ ∈ Sg, ∃ m : ℕ, σ₀ ^ m = σ := by
     intro σ hσ
@@ -220,12 +220,12 @@ theorem burnsideF429b_c2ab_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, hcard, Ψ, -, hB⟩ := burnsideF429b_G2_chartB hyp.toHypF_4_4g
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : IsCyclic (CFSG.Quasithin.H13.Sec53F.G2.fieldAut K).range :=
+  have : IsCyclic (CFSG.Quasithin.H13.Sec53F.G2.fieldAut K).range :=
     isCyclic_of_surjective _ (CFSG.Quasithin.H13.Sec53F.G2.fieldAut K).rangeRestrict_surjective
   exact burnsideF429b_c2ab_of_borelAutData hyp.centralizer_trivial Ψ
     (CFSG.Quasithin.H13.Sec53F.G2.borelAutData_g2 hf hcard) hB burnsideF429b_G2_pCoreOf_borel hT
@@ -242,13 +242,13 @@ theorem burnsideF429b_c2ab_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : IsCyclic (fieldActorHom (t := TwistTag.D4) σ).range :=
+  have : IsCyclic (fieldActorHom (t := TwistTag.D4) σ).range :=
     isCyclic_of_surjective _ (fieldActorHom (t := TwistTag.D4) σ).rangeRestrict_surjective
   exact burnsideF429b_c2ab_of_borelAutData hyp.centralizer_trivial Ψ
     (CFSG.Quasithin.H13.Sec53F.TriD4.borelAutData_d4 σ hf1 hK hσq)

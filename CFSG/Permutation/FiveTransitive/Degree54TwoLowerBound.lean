@@ -102,7 +102,7 @@ theorem sylow_sixteen_le
     16 ≤ Nat.card S := by
   obtain ⟨hF,him⟩ := Degree54TwoEntrance.fixed_six_and_image P hcard h5 hnotAlt s hs S
   have hb := sixteen_le_card P hcard h5 hnotAlt (sylowImage X P s S)
-    (S.isPGroup'.map _) hF him
+    (S.isPGroup.map _) hF him
   rwa [Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective] at hb
 
 end FiveTransitive.Degree54TwoLowerBound

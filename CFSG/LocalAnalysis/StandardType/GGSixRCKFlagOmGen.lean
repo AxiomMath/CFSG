@@ -63,7 +63,7 @@ private lemma rckFlagOm_ker_eq_orthogonal {K : Type} [Field K] [CharP K 2] {V : 
 
 private lemma rckFlagOm_exists_unit_lift {K : Type} [Field K] [CharP K 2] {V : Type}
     [AddCommGroup V] [Module K V] (Q : QuadraticForm K V) (N : V →ₗ[K] V)
-    (W H : Submodule K V) (hWH : W ≤ H) (hNN : ∀ y : V, N (N y) = 0) (hW : N.range = W)
+    (W H : Submodule K V) (hWH : W ≤ H) (_hNN : ∀ y : V, N (N y) = 0) (_hW : N.range = W)
     (hH : N.ker = H) (hWsing : ∀ w ∈ W, Q w = 0)
     (hker : ∀ m : V, N m = 0 ↔ ∀ w ∈ W, QuadraticMap.polar Q m w = 0)
     (halt : ∀ m : V, QuadraticMap.polar Q m (N m) = 0) {m u : V} (hNm : N m = u) (hu : u ≠ 0) :
@@ -162,10 +162,10 @@ theorem rckFlagIrredW_quadratic {K : Type} [Field K] [Finite K] [CharP K 2] {σ 
     · exact Or.inl hPbot
     · right
       obtain ⟨x, hxP, hx0⟩ := (Submodule.ne_bot_iff P).mp hPbot
-      haveI : FiniteDimensional K W := FiniteDimensional.finiteDimensional_submodule W
-      haveI : FiniteDimensional K P := FiniteDimensional.finiteDimensional_submodule P
+      have : FiniteDimensional K W := FiniteDimensional.finiteDimensional_submodule W
+      have : FiniteDimensional K P := FiniteDimensional.finiteDimensional_submodule P
       have hPle : Module.finrank K P ≤ Module.finrank K W := Submodule.finrank_mono hPW
-      haveI : Nontrivial P := (Submodule.nontrivial_iff_ne_bot (p := P)).mpr hPbot
+      have : Nontrivial P := (Submodule.nontrivial_iff_ne_bot (p := P)).mpr hPbot
       have hPpos : 0 < Module.finrank K P := Module.finrank_pos_iff.mpr inferInstance
       have hPfin : Module.finrank K P = 1 := by omega
       exact Submodule.eq_of_le_of_finrank_eq hPW (by rw [hPfin, hdim])

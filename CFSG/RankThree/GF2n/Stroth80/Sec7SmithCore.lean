@@ -299,10 +299,10 @@ theorem sec7_smith_core_twisted (hSmith : SmithOmegaPlusEightStatement)
       ∀ s ∈ S, T h s ∈ S) :
     ∀ s ∈ S, ψ s ∈ A := by
   classical
-  letI : Module K' E := Module.compHom E θ.symm.toRingHom
+  let : Module K' E := Module.compHom E θ.symm.toRingHom
   have hsm : ∀ (c : K') (x : E), c • x = θ.symm c • x := fun c x => rfl
-  haveI hfinE : Finite E := Module.finite_of_finite K
-  haveI : Module.Finite K' E := Module.Finite.of_finite
+  have hfinE : Finite E := Module.finite_of_finite K
+  have : Module.Finite K' E := Module.Finite.of_finite
   have hcard : Nat.card K = Nat.card K' := Nat.card_congr θ.toEquiv
   have hK2 : 2 ≤ Nat.card K' := Finite.one_lt_card
   have hfin8 : ∀ N : Submodule K E, Nat.card N = Nat.card K ^ 8 →

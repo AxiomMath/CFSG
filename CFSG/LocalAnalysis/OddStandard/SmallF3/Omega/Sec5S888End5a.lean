@@ -56,15 +56,15 @@ theorem sylow_le_sup_inf_component {Y : Type} [Group Y] [Finite Y]
     (D : Subgroup Y) ≤
       ((D : Subgroup Y) ⊓ J) ⊔ ((D : Subgroup Y) ⊓ Subgroup.centralizer (J : Set Y)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup Y := Subgroup.centralizer (J : Set Y)
-  haveI hJnormal : J.Normal := GoldY.component_normal hlayer hJ
-  haveI hCnormal : C.Normal := by
+  have hJnormal : J.Normal := GoldY.component_normal hlayer hJ
+  have hCnormal : C.Normal := by
     change (Subgroup.centralizer (J : Set Y)).Normal
     infer_instance
   have hD : CFSG.ABGLocalTools.IsSylowOf 2 (D : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, D.isPGroup', by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
+    exact ⟨le_top, D.isPGroup, by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
   have hDJ : CFSG.ABGLocalTools.IsSylowOf 2 ((D : Subgroup Y) ⊓ J) J :=
     hD.inf_of_le_normalizer (N := J) le_top (by rw [Subgroup.normalizer_eq_top])
   have hDC : CFSG.ABGLocalTools.IsSylowOf 2 ((D : Subgroup Y) ⊓ C) C :=

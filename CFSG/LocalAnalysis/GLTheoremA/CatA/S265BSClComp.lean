@@ -53,14 +53,14 @@ theorem glaPLayer_inf_ne_bot_of_specialBlock (hF : Nat.card F = 2)
     GLAPLayer 3 (X ⊓ Subgroup.centralizer ({a} : Set (V ≃ₗ[F] V)) ⊓
       Subgroup.centralizer ({e} : Set (V ≃ₗ[F] V))) ≠ ⊥ := by
   classical
-  haveI := charP_two hF
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun g : V ≃ₗ[F] V => (g : V → V))
+  have := charP_two hF
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun g : V ≃ₗ[F] V => (g : V → V))
     fun g g' h => LinearEquiv.ext (congrFun h)
   have hx : OddOrderIsometry Q 3 a :=
     ⟨TauCeti.QuadraticMap.mem_orthogonalGroup_iff.2 haQ, ha3, cast_three_ne_zero_of_card_two hF,
       fun v hv => hQ.1 v hv⟩
-  haveI : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
+  have : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
   have hcompl := isCompl_fixedSpace_cyc3 hF hx
   have hc := Submodule.finrank_add_eq_of_isCompl hcompl
   have hm := finrank_cyc3 (x := a) hF

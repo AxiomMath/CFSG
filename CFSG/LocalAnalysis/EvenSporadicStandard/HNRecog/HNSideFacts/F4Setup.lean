@@ -35,10 +35,10 @@ theorem prep_pword_hom {Γ : Type*} [Group Γ] {n j : ℕ} (f : Γ →* Perm (Fi
         if decide (0 < l) then f (g (l.natAbs - 1)) else (f (g (l.natAbs - 1)))⁻¹ := by
       unfold CFSG.Sporadic.LySchreier.letterVal
       by_cases hpos : 0 < l
-      · rw [if_pos hpos, if_pos (decide_eq_true hpos)]
+      · rw [ite_eq_left hpos, ite_eq_left (decide_eq_true hpos)]
         congr 3
         omega
-      · rw [if_neg hpos, if_neg (by simpa using hpos), map_inv]
+      · rw [ite_eq_right hpos, ite_eq_right (by simpa using hpos), map_inv]
         congr 3
         omega
     rw [e]
@@ -66,10 +66,10 @@ abbrev CJ : Subgroup JH := Subgroup.centralizer {t4J}
 theorem gJ_eq_gC4 (s : Fin 10) : C4J.subtype (cjHom (gJ s)) = gC4 ⟨s, by omega⟩ := by
   apply Subtype.ext
   show jR (g4 s) = gC s
-  rw [gC, if_pos s.2]
+  rw [gC, ite_eq_left s.2]
 
 theorem rhoJ_gJ (s : Fin 10) : rhoJ (gJ s) = rhoGen s := by
-  rw [rhoJ, MonoidHom.comp_apply, MonoidHom.comp_apply, gJ_eq_gC4, rhoGen, dif_pos (by omega)]
+  rw [rhoJ, MonoidHom.comp_apply, MonoidHom.comp_apply, gJ_eq_gC4, rhoGen, dite_eq_left (by omega)]
 
 theorem rhoJ_t4G : rhoJ t4G = 1 := by
   have h : C4J.subtype (cjHom t4G) = t4C := rfl
@@ -110,18 +110,18 @@ theorem card_ker_rhoJ : Nat.card (rhoJ : CJ →* Perm (Fin 800)).ker = 2 := by
   rw [ker_rhoJ, Nat.card_zpowers, orderOf_t4G]
 
 theorem prep_rhoJ_gJn {h : ℕ} (hh : h < 10) : PRep 800 s800[h]! (rhoJ (gJn h)) := by
-  rw [gJn, dif_pos hh, rhoJ_gJ]
+  rw [gJn, dite_eq_left hh, rhoJ_gJ]
   exact prep_rhoGen (by omega)
 
 theorem prep_rhoJ_gJn_inv {h : ℕ} (hh : h < 10) :
     PRep 800 (pinvs 800 s800)[h]! (rhoJ (gJn h))⁻¹ := by
-  rw [gJn, dif_pos hh, rhoJ_gJ]
+  rw [gJn, dite_eq_left hh, rhoJ_gJ]
   exact prep_rhoGen_inv (by omega)
 
 theorem prep_rhoJ_word {w : List ℤ} (hw : plettersOK 10 w = true) :
     PRep 800 (pword 800 s800 (pinvs 800 s800) w)
       (rhoJ (CFSG.Sporadic.LySchreier.evalWord gJn w)) :=
-  prep_pword_hom rhoJ gJn (fun h hh => prep_rhoJ_gJn hh) (fun h hh => prep_rhoJ_gJn_inv hh) w hw
+  prep_pword_hom rhoJ gJn (fun _h hh => prep_rhoJ_gJn hh) (fun _h hh => prep_rhoJ_gJn_inv hh) w hw
 
 theorem qbar_mem_rhoJ_range {i : ℕ} (hi : i < 8) :
     qbar i ∈ (rhoJ : CJ →* Perm (Fin 800)).range := by

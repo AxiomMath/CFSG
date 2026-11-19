@@ -42,9 +42,9 @@ private lemma w183b2_orderOf_eq_two_of_card_eq_two {Lb : Type*} [Group Lb] {P : 
 
 private lemma w183b2_exists_ne_one_of_card_two {G : Type} [Group G] [Finite G]
     (h : Nat.card G = 2) : ∃ x : G, x ≠ 1 := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have h2 : Fintype.card G = 2 := by rwa [← Nat.card_eq_fintype_card]
-  haveI : Nontrivial G := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial G := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   exact exists_ne (1 : G)
 
 private lemma w183b2_four_le_pow_two {k : ℕ} (hk : 2 ≤ k) : 4 ≤ 2 ^ k := by
@@ -159,7 +159,7 @@ private lemma w183b2_isPGroup_of_zpowers_involution {G : Type} [Group G] [Finite
 
 theorem w183b2_pair_abs_isSz_excluded
     {Xh Lb Y : Type} [Group Xh] [Finite Xh] [Group Lb] [Finite Lb] [Group Y] [Finite Y]
-    (π : Xh →* Lb) (hK : IsPGroup 2 π.ker) (ψ : Xh →* Y) (hC : IsSolvable ψ.ker)
+    (π : Xh →* Lb) (hK : IsPGroup 2 π.ker) (ψ : Xh →* Y) (hC : Group.IsSolvable ψ.ker)
     (h13 : ¬ 13 ∣ Nat.card Y) (h : IsSz Lb 3) (hπ : π.range = ⊤) : False := by
   obtain ⟨-, hsz⟩ := CFSG.Blueprint.LieModel.suzukiModel h
   obtain ⟨-, a, ha, F, _, _, hf, hF, ⟨e⟩⟩ := hsz
@@ -169,17 +169,17 @@ theorem w183b2_pair_abs_isSz_excluded
   have hcard : Nat.card Lb = 29120 := by
     rw [Nat.card_congr e.toEquiv, CFSG.LieType.Ree.suzuki_order hF']
     norm_num
-  haveI hsimple : IsSimpleGroup Lb := by
-    haveI := (CFSG.LieType.Ree.suzuki_simple (K := F) ha hF').2.2
+  have hsimple : IsSimpleGroup Lb := by
+    have := (CFSG.LieType.Ree.suzuki_simple (K := F) ha hF').2.2
     exact e.isSimpleGroup
-  haveI hperf : Group.IsPerfect Lb := by
-    haveI := (CFSG.LieType.Ree.suzuki_perfect (K := F) ha hF').2
+  have hperf : Group.IsPerfect Lb := by
+    have := (CFSG.LieType.Ree.suzuki_perfect (K := F) ha hF').2
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Nontrivial Lb := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
+  have : Nontrivial Lb := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
   have hπsurj : Function.Surjective π := MonoidHom.range_eq_top.mp hπ
   have hψle : ψ.ker ≤ π.ker := by
-    haveI : IsSolvable ψ.ker := hC
-    have hmap_solv : IsSolvable ↥((ψ.ker).map π) := by
+    have : Group.IsSolvable ψ.ker := hC
+    have hmap_solv : Group.IsSolvable ↥((ψ.ker).map π) := by
       have hrange : (π.comp (ψ.ker).subtype).range = (ψ.ker).map π := by
         rw [MonoidHom.range_comp, Subgroup.range_subtype]
       rw [← hrange]
@@ -189,12 +189,12 @@ theorem w183b2_pair_abs_isSz_excluded
         (π.comp (ψ.ker).subtype).rangeRestrict_surjective hC
     have hmap_normal : ((ψ.ker).map π).Normal :=
       (inferInstance : ψ.ker.Normal).map π hπsurj
-    haveI := hmap_normal
+    have := hmap_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((ψ.ker).map π) with h | h
     · rw [Subgroup.map_eq_bot_iff] at h; exact h
     · exfalso
-      have htop : IsSolvable ↥(⊤ : Subgroup Lb) := by rw [h] at hmap_solv; exact hmap_solv
-      have hsolv : IsSolvable Lb :=
+      have htop : Group.IsSolvable ↥(⊤ : Subgroup Lb) := by rw [h] at hmap_solv; exact hmap_solv
+      have hsolv : Group.IsSolvable Lb :=
         @Group.isSolvable_of_surjective (⊤ : Subgroup Lb) Lb _ _
           (Subgroup.topEquiv : (⊤ : Subgroup Lb) ≃* Lb).toMonoidHom
           Subgroup.topEquiv.surjective htop
@@ -222,7 +222,7 @@ theorem w183b2_pair_abs_isSz_excluded
 theorem w183b2_pair_abs
     (hL28 : FinPairGenL28) (hSz8 : FinPairGenSz8)
     {Xh Lb Y : Type} [Group Xh] [Finite Xh] [Group Lb] [Finite Lb] [Group Y] [Finite Y]
-    (π : Xh →* Lb) (hK : IsPGroup 2 π.ker) (ψ : Xh →* Y) (hC : IsSolvable ψ.ker)
+    (π : Xh →* Lb) (hK : IsPGroup 2 π.ker) (ψ : Xh →* Y) (hC : Group.IsSolvable ψ.ker)
     (h13 : ¬ 13 ∣ Nat.card Y) (Ah Bh : Subgroup Xh) (hgen : Ah ⊔ Bh = ⊤) (k₁ k₂ d : ℕ)
     (hk₁ : 1 ≤ k₁ ∧ k₁ ≤ 2) (hk₂ : 1 ≤ k₂ ∧ k₂ ≤ 2) (hd₁ : k₁ ≤ d ∧ d ≤ k₁ + 1)
     (hd₂ : k₂ ≤ d ∧ d ≤ k₂ + 1)
@@ -286,7 +286,7 @@ theorem w183b2_pair_abs
       obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hxE
       have hker : a₀ ^ (-n) * x ∈ π.ker := by
         rw [MonoidHom.mem_ker, map_mul, map_zpow, ha₀, ← hn]
-        simp [← zpow_add]
+        simp
       have h2 : a₀ ^ (-n) * x ∈ Ah ⊓ π.ker :=
         Subgroup.mem_inf.mpr ⟨Ah.mul_mem (Ah.zpow_mem ha₀Ah (-n)) hx, hker⟩
       have h3 := Subgroup.mul_mem_sup (Subgroup.zpow_mem_zpowers a₀ n) h2
@@ -300,7 +300,7 @@ theorem w183b2_pair_abs
       obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hxF
       have hker : b₀ ^ (-n) * x ∈ π.ker := by
         rw [MonoidHom.mem_ker, map_mul, map_zpow, hb₀, ← hn]
-        simp [← zpow_add]
+        simp
       have h2 : b₀ ^ (-n) * x ∈ Bh ⊓ π.ker :=
         Subgroup.mem_inf.mpr ⟨Bh.mul_mem (Bh.zpow_mem hb₀Bh (-n)) hx, hker⟩
       have h3 := Subgroup.mul_mem_sup (Subgroup.zpow_mem_zpowers b₀ n) h2
@@ -476,8 +476,8 @@ theorem w183b2_pair_abs
           exact CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_eight
             (hL2.statedClassicalModel (by decide))
       have hψle : ψ.ker ≤ π.ker := by
-        haveI : IsSolvable ψ.ker := hC
-        have hmap_solv : IsSolvable ↥((ψ.ker).map π) := by
+        have : Group.IsSolvable ψ.ker := hC
+        have hmap_solv : Group.IsSolvable ↥((ψ.ker).map π) := by
           have hrange : (π.comp (ψ.ker).subtype).range = (ψ.ker).map π := by
             rw [MonoidHom.range_comp, Subgroup.range_subtype]
           rw [← hrange]
@@ -487,13 +487,13 @@ theorem w183b2_pair_abs
             (π.comp (ψ.ker).subtype).rangeRestrict_surjective hC
         have hmap_normal : ((ψ.ker).map π).Normal :=
           (inferInstance : ψ.ker.Normal).map π hπsurj
-        haveI := hmap_normal
+        have := hmap_normal
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((ψ.ker).map π) with h | h
         · rw [Subgroup.map_eq_bot_iff] at h; exact h
         · exfalso
-          have htop : IsSolvable ↥(⊤ : Subgroup Lb) := by rw [h] at hmap_solv; exact hmap_solv
-          have hsolv : IsSolvable Lb := by
-            haveI : IsSolvable (⊤ : Subgroup Lb) := htop
+          have htop : Group.IsSolvable ↥(⊤ : Subgroup Lb) := by rw [h] at hmap_solv; exact hmap_solv
+          have hsolv : Group.IsSolvable Lb := by
+            have : Group.IsSolvable (⊤ : Subgroup Lb) := htop
             exact @Group.isSolvable_of_surjective (⊤ : Subgroup Lb) Lb _ _
               (Subgroup.topEquiv : (⊤ : Subgroup Lb) ≃* Lb).toMonoidHom
               Subgroup.topEquiv.surjective htop
@@ -501,7 +501,7 @@ theorem w183b2_pair_abs
             IsSimpleGroup.comm_iff_isSolvable.mpr hsolv
           have hP1n : P₁.Normal := ⟨fun n hn g => by
             rw [hcomm g n, mul_assoc, mul_inv_cancel, mul_one]; exact hn⟩
-          haveI := hP1n
+          have := hP1n
           rcases Subgroup.Normal.eq_bot_or_eq_top P₁ with hbot | htop'
           · have h1 : Nat.card P₁ = 1 := by rw [hbot]; simp
             have h4 : 4 ≤ Nat.card P₁ := by rw [hc₁]; exact w183b2_four_le_pow_two hd2
@@ -528,7 +528,7 @@ theorem w183b2_pair_abs
         have h1 : ((π.ker).map ψ.rangeRestrict).Normal :=
           (inferInstance : π.ker.Normal).map ψ.rangeRestrict ψ.rangeRestrict_surjective
         rwa [hN_eq] at h1
-      haveI := hNnormal
+      have := hNnormal
       let hq : Xh →* ↥X ⧸ N := (QuotientGroup.mk' N).comp ψ.rangeRestrict
       have hq_surj : Function.Surjective hq :=
         (QuotientGroup.mk'_surjective N).comp ψ.rangeRestrict_surjective

@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjClosure_conjClosure_of_le {M K W : Subgroup G} (hKM : K ≤ M) :
     conjClosure M (conjClosure K W) = conjClosure M W := by
   refine le_antisymm ?_ ?_
@@ -200,7 +201,7 @@ private theorem s23fifteen_preimage_le_core {D : Data G} {Ch : Choice2011 G}
   have hsub : pCorePreimage c ≤ c.CMETilde.subgroupOf D.M := by
     rw [← Subgroup.comap_subtype]
     exact (Subgroup.map_le_iff_le_comap).mp hle
-  haveI : (pCorePreimage c).Normal := pCorePreimage_normal c
+  have : (pCorePreimage c).Normal := pCorePreimage_normal c
   exact (Subgroup.normal_le_normalCore).mpr hsub
 
 theorem s23_15_2_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
@@ -263,8 +264,8 @@ private theorem s23sixteen_E_cent {D : Data G} {Ch : Choice2011 G}
     (hVK : H1930 D → ∀ c : Ctx2311 D Ch, ⁅c.V, c.K⁆ = c.V) :
     ¬ c.E ≤ Subgroup.centralizer (c.V : Set G) := by
   intro hcent
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥c.E) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥c.E) :=
     ⟨Ctx2311.isPGroup_E c h1930 h4 h12 (hVK h1930 c)⟩
   have hphi : frattini ↥c.E = ⊥ :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥c.E) (p := 2)).mpr
@@ -338,7 +339,7 @@ private theorem s23sixteen_quotient_isPGroup {D : Data G} {Ch : Choice2011 G}
   have hsup : CFSG.Open.pCoreOf 2 c.L ⊔ c.I = c.L := by
     rw [sup_comm]
     exact hIL
-  haveI hInormSup : (c.I.subgroupOf (CFSG.Open.pCoreOf 2 c.L ⊔ c.I)).Normal := by
+  have hInormSup : (c.I.subgroupOf (CFSG.Open.pCoreOf 2 c.L ⊔ c.I)).Normal := by
     rw [hsup]
     exact hInorm
   have hpquot := CFSG.GroupTheory.isPGroup_quotient_sup_left (p := 2)
@@ -358,13 +359,13 @@ private theorem s23sixteen_I_eq_L {D : Data G} {Ch : Choice2011 G}
       conjClosure c.L J ⊔ CFSG.Open.pCoreOf 2 c.L = c.L) :
     c.I = c.L := by
   have hI_le_L := s23sixteen_I_le_L c h4 h12 h1930 hVK
-  haveI hInorm : (c.I.subgroupOf c.L).Normal :=
+  have hInorm : (c.I.subgroupOf c.L).Normal :=
     s23sixteen_I_normal c h4 h12 h1930 hVK
   have hLp := s23sixteen_quotient_isPGroup c h4 h12 h14 h1930 hVK hLV hLJ
-  haveI hperfL : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+  have hperfL : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
   have hsub : Subsingleton (↥c.L ⧸ c.I.subgroupOf c.L) := by
     by_contra h
-    haveI : Nontrivial (↥c.L ⧸ c.I.subgroupOf c.L) :=
+    have : Nontrivial (↥c.L ⧸ c.I.subgroupOf c.L) :=
       not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isNilpotent (G := ↥c.L ⧸ c.I.subgroupOf c.L) hLp.isNilpotent
   have htop : c.I.subgroupOf c.L = ⊤ :=

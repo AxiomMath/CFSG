@@ -32,7 +32,7 @@ include hFr hΦ hn hτ hw4
 
 theorem bigComponent_of_star (hp2 : p ≠ 2) (hMΓ : S.D.model ≤ S.Γ) {a a' : Fin τ.rank → Lˣ}
     (ha'E : rootDiagUnit τ a' ∈ S.E) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ)
-    (hχa : rootChar a γ = 1) (hχa' : rootChar a' γ ≠ 1) (i : KernelComponent (rootCharHom a))
+    (_hχa : rootChar a γ = 1) (hχa' : rootChar a' γ ≠ 1) (i : KernelComponent (rootCharHom a))
     (hγi : γ ∈ componentRoots (rootCharHom a) i) :
     ¬ Nat.Coprime p (Nat.card (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   have hp := S.hp

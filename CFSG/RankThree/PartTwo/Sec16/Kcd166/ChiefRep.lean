@@ -20,10 +20,10 @@ theorem exists_chiefRep {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
       (∀ m ∈ M, ∀ m' ∈ M, q (m * m') = q m + q m') ∧ (∀ m ∈ M, q m = 0 ↔ m ∈ N) ∧
       ∀ x : X, ∀ m ∈ M, ρ x (q m) = q (x * m * x⁻¹) := by
   classical
-  haveI hNnormal : N.Normal := hN
-  haveI hMnormal : M.Normal := hM
+  have hNnormal : N.Normal := hN
+  have hMnormal : M.Normal := hM
   have hNMle : N ≤ M := hNM.le
-  haveI hNsub : (N.subgroupOf M).Normal :=
+  have hNsub : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNMle).mpr Subgroup.le_normalizer_of_normal
   have hchief : IsChiefFactorUnder p ⊤ M N :=
     ⟨hNM, (Subgroup.normalizer_eq_top (H := M)).ge, (Subgroup.normalizer_eq_top (H := N)).ge,
@@ -31,10 +31,10 @@ theorem exists_chiefRep {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
       (fun x hx y hy => hab x hx y hy), (fun x hx => hexp x hx),
       (fun K hNK hKM hKNorm =>
         hmin K (Subgroup.normalizer_eq_top_iff.mp (le_antisymm le_top hKNorm)) hNK hKM)⟩
-  haveI hEA : IsElementaryAbelian p (M ⧸ N.subgroupOf M) := hchief.isElementaryAbelian
+  have hEA : IsElementaryAbelian p (M ⧸ N.subgroupOf M) := hchief.isElementaryAbelian
   let F := Additive (M ⧸ N.subgroupOf M)
-  haveI hFin : Finite F := inferInstance
-  haveI hModFin : Module.Finite (ZMod p) F := Module.Finite.of_finite
+  have hFin : Finite F := inferInstance
+  have hModFin : Module.Finite (ZMod p) F := Module.Finite.of_finite
   let ρ₀ := chiefRep (p := p) hchief.2.1 hchief.2.2.1
   let ρ : Representation (ZMod p) X F :=
     (Units.coeHom (Module.End (ZMod p) F)).comp
@@ -45,8 +45,8 @@ theorem exists_chiefRep {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
       q y = Additive.ofMul ((⟨y, hy⟩ : M) : M ⧸ N.subgroupOf M) := by
     intro y hy
     dsimp only [q]
-    rw [dif_pos hy]
-  haveI hFnt : Nontrivial F := by
+    rw [dite_eq_left hy]
+  have hFnt : Nontrivial F := by
     obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.exists_of_lt hNM
     refine ⟨0, Additive.ofMul ((⟨m, hmM⟩ : M) : M ⧸ N.subgroupOf M), ?_⟩
     intro hzero

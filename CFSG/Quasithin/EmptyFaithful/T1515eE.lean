@@ -71,7 +71,7 @@ theorem two_le_pRank_statedSU_three_three1515e {K : Type} [Field K] [Finite K]
   have h9 : 3 ^ 2 ∣ Nat.card (P : Subgroup (StatedSU 3 3 K)) :=
     P.pow_dvd_card_of_pow_dvd_card (by rw [card_statedSU hK]; norm_num)
   refine two_le_pRank_of_not_isCyclic (by norm_num) (P := (P : Subgroup (StatedSU 3 3 K)))
-    P.isPGroup' ?_
+    P.isPGroup ?_
   intro hcyc
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hord : orderOf g = Nat.card (P : Subgroup (StatedSU 3 3 K)) :=
@@ -79,7 +79,7 @@ theorem two_le_pRank_statedSU_three_three1515e {K : Type} [Field K] [Finite K]
   have hg3 : g ^ 3 = 1 :=
     pow_three_eq_one_of_isPGroup1515e
       ((StatedSU 3 3 K).subtype.comp (P : Subgroup (StatedSU 3 3 K)).subtype)
-      ((Subtype.val_injective).comp (Subtype.val_injective)) P.isPGroup' g
+      ((Subtype.val_injective).comp (Subtype.val_injective)) P.isPGroup g
   have hdvd : Nat.card (P : Subgroup (StatedSU 3 3 K)) ∣ 3 := hord ▸ orderOf_dvd_of_pow_eq_one hg3
   have hpos : 0 < Nat.card (P : Subgroup (StatedSU 3 3 K)) := Nat.card_pos
   have := Nat.le_of_dvd (by norm_num) (dvd_trans h9 hdvd)

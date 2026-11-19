@@ -31,7 +31,7 @@ private theorem noncomm_of_perfect_nontrivial (G : Type) [Group G] [Nontrivial G
     [Group.IsPerfect G] : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   exact (Group.IsPerfect.not_isMulCommutative G) inferInstance
 
 private theorem noncomm_of_mulEquiv_target {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
@@ -62,7 +62,7 @@ theorem isSpModel_facts {m q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 �
       (Or.inl (Or.inr h4))
   have hS : IsSimpleGroup ↥(CFSG.Open.StatedSp m K) := (quotEquivOfEqBot hbot).symm.isSimpleGroup
   have hQ := CFSG.RankThree.GF2n.Stroth80.statedSp_quasisimple_of_card m K (by omega) h4
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedSp m K) := hQ.1
+  have : Group.IsPerfect ↥(CFSG.Open.StatedSp m K) := hQ.1
   exact ⟨e.isSimpleGroup, noncomm_of_mulEquiv_target e
     (noncomm_of_perfect_nontrivial ↥(CFSG.Open.StatedSp m K))⟩
 
@@ -88,7 +88,7 @@ theorem isOmegaPlus_facts {m q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 
   have hW : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus m K)) :=
     (quotEquivOfEqBot hbot).symm.isSimpleGroup
   have hQ := CFSG.RankThree.GF2n.Stroth80.statedOmega_plus_quasisimple_of_three_le K m (by omega)
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus m K)) := hQ.1
+  have : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus m K)) := hQ.1
   exact ⟨e.isSimpleGroup, noncomm_of_mulEquiv_target e
     (noncomm_of_perfect_nontrivial ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus m K)))⟩
 
@@ -104,7 +104,7 @@ theorem isOmegaMinus_three_facts {q : ℕ} {X : Type} [Group X]
   have hW : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)) :=
     ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le (m := 3) (by norm_num) hirr
   have hperf := ORigid.commutator_statedOmega_quadMinus_eq_top (m := 3) (by norm_num) hirr
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)) :=
+  have : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)) :=
     Group.isPerfect_def.mpr hperf
   obtain ⟨E, _, hU, ⟨θ⟩⟩ := nonempty_statedOmega_quadMinus_three_equiv hK hirr
   have hXE : Nat.card X = Nat.card ↥(CFSG.Open.StatedSU 4 (2 ^ a) E) :=

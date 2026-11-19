@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.act_fixes_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {t : G}
     (ht : t ∈ LB M Q B) {T : M₀.E → M₀.E} (hT : ∀ x ∈ Q, M₀.π (t * x * t⁻¹) = T (M₀.π x))
     {y : M₀.E} (hy : y ∈ PerpSub M₀ (Lgen M B)) : T y = y := by
@@ -20,6 +21,7 @@ theorem Ctx.act_fixes_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) 
   exact (M₀.comm_mem_iff hcQ ((hc.conj_mem_Q_of_mem_M (hc.LB_le_M ht)).1 c hcQ)).mp
     (hc.comm_LB_PerpB_mem_Z ht hcP)
 
+omit [Finite G] [Finite K] in
 theorem finrank_span_pair_of_B {b f : M₀.E} (hb0 : b ≠ 0) (hfb : M₀.B f b = 1) :
     Module.finrank K (Submodule.span K {b, f}) = 2 := by
   have hli : LinearIndependent K ![b, f] := by
@@ -39,6 +41,7 @@ theorem finrank_span_pair_of_B {b f : M₀.E} (hb0 : b ≠ 0) (hfb : M₀.B f b 
   rw [hr] at this
   simpa using this
 
+omit [Finite K] in
 theorem Ctx.finrank_U (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {n : ℕ}
     (hw : Width Q Z n) (hd : Module.finrank K (PerpSub M₀ (Lgen M B)) = 2) {b f : M₀.E}
     (hb0 : b ≠ 0) (hbW : b ∈ hc.Wn h) (hfb : M₀.B f b = 1) :

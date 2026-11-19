@@ -25,7 +25,7 @@ theorem L2_inf_M1_le_oTwoUpper
     (h : KuHyp G T M H P z)
     (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z) :
     Ψ.L2 ⊓ (M ⊓ Subgroup.normalizer (kuV2 T M : Set G)) ≤ oTwoUpper M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set X : Subgroup (Equiv.Perm (Fin 6)) :=
     ((oTwoUpper M ⊓ kuN P H).subgroupOf (kuN P H)).map Ψ.π
   have hkX : kleinS ≤ X := by

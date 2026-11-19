@@ -20,7 +20,7 @@ theorem res1AutCent_J1 :
     Res1AutCent NativeSporadic.J1 := by
   intro α V y hy hα hαy hV hαV _
   have hfin : Finite NativeSporadic.J1 := CFSG.Sporadic.J1.fam_j1_simplicity.1
-  haveI := CFSG.Sporadic.Schreier.finite_mulAut_J1
+  have := CFSG.Sporadic.Schreier.finite_mulAut_J1
   have hout := (CFSG.Sporadic.Schreier.at_j1_schreier).2.1
   have hsurj : Function.Surjective
       (MulAut.conj : NativeSporadic.J1 →* MulAut NativeSporadic.J1) := fun φ => by
@@ -48,9 +48,9 @@ theorem res1AutCent_J1 :
       orderOf_pow_orderOf_div (orderOf_pos x).ne' hx7
     have hcomm : Commute (x ^ (orderOf x / 7)) y := hxy.pow_left _
     have hco : (orderOf (x ^ (orderOf x / 7))).Coprime (orderOf y) := by
-      rw [hord, hy] <;> norm_num
+      rw [hord, hy]; norm_num
     have h21 : orderOf (x ^ (orderOf x / 7) * y) = 21 := by
-      rw [hcomm.orderOf_mul_eq_mul_orderOf_of_coprime hco, hord, hy] <;> norm_num
+      rw [hcomm.orderOf_mul_eq_mul_orderOf_of_coprime hco, hord, hy]
     exact res1J1_no_order_21 _ h21
   have h67 : Nat.Coprime (orderOf (MulAut.conj x)) (6 * 7) :=
     Nat.Coprime.mul_right hα ((Nat.Prime.coprime_iff_not_dvd (by norm_num)).2 h7).symm

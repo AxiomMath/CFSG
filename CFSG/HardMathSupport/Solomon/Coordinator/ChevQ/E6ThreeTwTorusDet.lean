@@ -100,7 +100,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
     (hSu : (S.map hF.bar)ᵀ * S = 1) {β : F} (hβ : hF.bar β * β = 1) :
     ∃ Z : Matrix (Fin 3) (Fin 3) F, Z * S = S * Z ∧ Z.det = β ∧ (Z.map hF.bar)ᵀ * Z = 1 := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨ω, hω⟩ := exists_isPrimitiveRoot_three (three_dvd_card_sub_one_of_unitary hF h3)
   have hω3 : ω ^ 3 = 1 := hω.pow_eq_one
   have hω1 : ω ≠ 1 := hω.ne_one (by norm_num)
@@ -122,7 +122,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
     rintro x ⟨m, rfl⟩
     rw [← _root_.zpow_natCast, ← _root_.zpow_mul, mul_comm, _root_.zpow_mul, _root_.zpow_natCast,
       hG3, _root_.one_zpow]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := CFSG.RankThree.PartOne.CTP.exists_conj_diagonal_of_exponent_prime (p := 3)
     ⟨ω, hω⟩ (Subgroup.zpowers G) hcomm hexp
   have hoff := hg G (Subgroup.mem_zpowers G)
@@ -138,7 +138,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
   have hgS : (g : Matrix (Fin 3) (Fin 3) F) * S = Dm * g := by
     have h : g * G = (g * G * g⁻¹) * g := by group
     have h' := congrArg Units.val h
-    simpa [hDm, G] using h'
+    simp [hDm, G]
   have hDm3 : Dm ^ 3 = 1 := by
     rw [hDm, ← Units.val_pow_eq_pow_val, conj_pow, hG3, mul_one, mul_inv_cancel, Units.val_one]
   have hd3 : ∀ i, d i ^ 3 = 1 := by
@@ -169,7 +169,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
     · rw [diagonal_map (map_zero hF.bar), diagonal_transpose, diagonal_mul_diagonal]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [diagonal_apply, hβ]
+        simp [hβ]
   ·
     obtain ⟨i₀, hi₀⟩ : ∃ i₀ : Fin 3, ∀ j, j ≠ i₀ → d j ≠ d i₀ := by
       by_contra hcon
@@ -207,7 +207,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
         have h := spectral_coeff_eq hl3 (hd3 i) hc3
         simp only [hiff] at h
         simpa [diagonal_apply_eq, Matrix.one_apply_eq, mul_comm, mul_assoc] using h
-      · simp [diagonal_apply_ne _ hij, Matrix.one_apply_ne hij, hij]
+      · simp [Matrix.one_apply_ne hij, hij]
     have hgE : (g : Matrix (Fin 3) (Fin 3) F) * E = En * g := by
       have hgSS : (g : Matrix (Fin 3) (Fin 3) F) * (S * S) = Dm * Dm * g := by
         rw [← Matrix.mul_assoc, hgS, Matrix.mul_assoc, hgS, ← Matrix.mul_assoc]
@@ -246,8 +246,8 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
       ext i j
       by_cases hij : i = j
       · subst hij
-        by_cases hi : i = i₀ <;> simp [hi, diagonal_apply, Matrix.one_apply]
-      · simp [diagonal_apply_ne _ hij, Matrix.one_apply_ne hij, hij]
+        by_cases hi : i = i₀ <;> simp [hi]
+      · simp [Matrix.one_apply_ne hij, hij]
     refine ⟨1 + (β - 1) • E, ?_, ?_, ?_⟩
     · rw [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul,
         Matrix.mul_smul, hSE]
@@ -268,8 +268,7 @@ theorem exists_isom_commute_det_eq_of_pow_three_eq_one (hF : UnitaryFieldData p 
       rw [hZadj]
       have key : (1 + (hF.bar β - 1) • E) * (1 + (β - 1) • E) =
           1 + ((hF.bar β - 1) + (β - 1) + (hF.bar β - 1) * (β - 1)) • E := by
-        simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, smul_smul,
-          hE2]
+        simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, hE2]
         module
       rw [key]
       have h0 : (hF.bar β - 1) + (β - 1) + (hF.bar β - 1) * (β - 1) = 0 := by
@@ -287,7 +286,7 @@ theorem exists_isom_commute_det_eq_of_pow_three (hF : UnitaryFieldData p n F)
     (hγu : (γ.map hF.bar)ᵀ * γ = 1) {β : F} (hβ : hF.bar β * β = 1) :
     ∃ Z : Matrix (Fin 3) (Fin 3) F, Z * γ = γ * Z ∧ Z.det = β ∧ (Z.map hF.bar)ᵀ * Z = 1 := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   have hγdet : γ.det ≠ 0 := by
     intro h0
     have h := congrArg Matrix.det hγu

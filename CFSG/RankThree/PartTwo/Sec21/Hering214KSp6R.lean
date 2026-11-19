@@ -90,11 +90,11 @@ theorem bit_foldl (r : ℕ) (B : List ℕ) (l : List ℕ) (acc j : ℕ) :
   | cons k l ih =>
     rw [List.foldl_cons, List.map_cons, List.sum_cons]
     by_cases h : r.testBit k
-    · rw [if_pos h, ih, bit_xor]
+    · rw [ite_eq_left h, ih, bit_xor]
       have hb : bit r k = 1 := by simp [bit, h]
       rw [hb, one_mul]
       ring
-    · rw [if_neg h, ih]
+    · rw [ite_eq_right h, ih]
       have hb : bit r k = 0 := by simp [bit, h]
       rw [hb, zero_mul]
       ring
@@ -208,7 +208,7 @@ theorem dr_inj {A B : List ℕ} (hA : Canon A) (hB : Canon B) (h : dr A = dr B) 
 
 theorem length_mulR (A B : List ℕ) : (mulR A B).length = A.length := by simp [mulR]
 
-theorem length_powR {A : List ℕ} (hA : A.length = 6) (n : ℕ) : (powR A n).length = 6 := by
+theorem length_powR {A : List ℕ} (_hA : A.length = 6) (n : ℕ) : (powR A n).length = 6 := by
   induction n with
   | zero => rfl
   | succ n ih =>
@@ -234,7 +234,7 @@ theorem length_addR {A B : List ℕ} (hA : A.length = 6) (hB : B.length = 6) :
       !(mulR (mulR (Kr A B ws w) Kinv) (mulR (Kr A B ws w) Kinv) == oneR) ||
         mulR (Kr A B ws w) Kinv == oneR
 
-theorem length_gOf {A B : List ℕ} (hA : A.length = 6) (hB : B.length = 6) (w : ℕ) :
+theorem length_gOf {A B : List ℕ} (hA : A.length = 6) (_hB : B.length = 6) (w : ℕ) :
     (gOf A B w).length = 6 := by
   rw [gOf, length_mulR, length_powR hA]
 
@@ -340,7 +340,7 @@ theorem eq_one_of_cycChk {A B ws Kinv : List ℕ} {v : ℕ} (hA : Canon A) (hB :
     {M : Matrix (Fin 6) (Fin 6) (ZMod 2)} (hMA : M * dr A = dr A * M)
     (hMB : M * dr B = dr B * M) (hM : M * M = 1) : M = 1 := by
   simp only [cycChk, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, Bool.not_eq_true', beq_eq_false_iff_ne, decide_eq_true_eq] at h
+    Bool.or_eq_true, Bool.not_eq_true', beq_eq_false_iff_ne] at h
   obtain ⟨hKlist, hdec⟩ := h
   have hg : ∀ m : Fin 6, M * dr (gOf A B (ws.getD m 0)) = dr (gOf A B (ws.getD m 0)) * M := by
     intro m

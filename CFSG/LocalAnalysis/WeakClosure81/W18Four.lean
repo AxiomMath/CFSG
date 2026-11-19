@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F12 (HasCompFactor)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem lGen_le_inf' {M H T : Subgroup G} (P : ∀ (X : Type) [Group X], Prop)
     (hP : ∀ X : Subgroup G, T ≤ X → X < H → ¬ HasCompFactor X P → X ≤ M) :
     lGen P H T ≤ H ⊓ M :=
@@ -46,12 +47,12 @@ theorem inf_lt (h : MinCex183 D V₀ V H i) : D.T ≤ H ⊓ D.M ∧ H ⊓ D.M < 
 theorem lGen_one_le_inf (h : MinCex183 D V₀ V H i) (h1 : ¬ Concl181 D V₀ V H) :
     lGen IsCalL1 H D.T ≤ H ⊓ D.M :=
   lGen_le_inf' (M := D.M) (H := H) (T := D.T) IsCalL1
-    (fun X hTX hXH hX => h.le_normalizer_one h1 hTX hXH hX)
+    (fun _X hTX hXH hX => h.le_normalizer_one h1 hTX hXH hX)
 
 theorem lGen_zero_le_inf (h : MinCex183 D V₀ V H i) (h2 : ¬ Concl182 D V₀ V H i) :
     lGen IsCalL0 H D.T ≤ H ⊓ D.M :=
   lGen_le_inf' (M := D.M) (H := H) (T := D.T) IsCalL0
-    (fun X hTX hXH hX => h.le_normalizer_zero h2 hTX hXH hX)
+    (fun _X hTX hXH hX => h.le_normalizer_zero h2 hTX hXH hX)
 
 theorem hyps_5_13 (h : MinCex183 D V₀ V H i) (h1 : ¬ Concl181 D V₀ V H) :
     CFSG.Open.IsKGroup ↥H ∧ IsSylowIn 2 D.T H ∧ D.T < H ∧ CFSG.Open.pRank 3 H ≤ 1 ∧

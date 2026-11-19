@@ -58,7 +58,7 @@ theorem uc22p2213t_of_hyp2120TB (D : Data G) (Ch : Choice2011 G) (h21 : S21_21TB
     rw [sub_neg_eq_add] at h
     exact_mod_cast h
   obtain ⟨K, hK, hKV, hKs⟩ := uc22p2213t_exists_not_le_centralizer D Ch hV h1930 c hp hpn e hA hB
-  haveI : IsSimpleGroup (Bar2 K) := hKs.elim
+  have : IsSimpleGroup (Bar2 K) := hKs.elim
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3
     CFSG.Blueprint.LieModel.isSimpleGroup_psl_two
   obtain ⟨eK⟩ := uc22p2213c_bar2_equiv D hV h1930 c hK hKV

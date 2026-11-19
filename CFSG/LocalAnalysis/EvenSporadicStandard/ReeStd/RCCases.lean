@@ -76,7 +76,7 @@ include h in
 theorem exists_sylow_RC (hR : Nat.card (H.RC S) = 8 * Nat.card (H.DC S ⊔ S : Subgroup G)) :
     ∃ T : Subgroup G, IsPGroup 2 T ∧ S ≤ T ∧ T ≤ H.RC S ∧ Nat.card T = 8 * Nat.card S ∧
       Odd (T.relIndex (H.RC S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTp, hST, hTR, hTodd⟩ :=
     exists_isPGroup_le_odd_relIndex (A := H.RC S) h.pgroup h.S_le_RC
   refine ⟨T, hTp, hST, hTR, ?_, hTodd⟩

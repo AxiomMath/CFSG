@@ -231,7 +231,7 @@ theorem N4a :
       A ≤ Q ∧ Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (A : Set G) := by
   intro G _ _ S A Q hAS hAab hcl hQ
   obtain ⟨hQS, -, hcent, hrad⟩ := hQ
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.to_le hQS
   have hSA : (S : Subgroup G) ≤ Subgroup.normalizer (A : Set G) :=
     le_normalizer_of_stronglyClosed hAS hcl
   set N := Subgroup.normalizer (Q : Set G) with hNdef
@@ -272,7 +272,7 @@ theorem N4a :
   have hAQ : A ≤ Q := by
     by_contra hnot
     have hlt : Q < A ⊔ Q := lt_of_le_of_ne le_sup_right fun h => hnot (h ▸ le_sup_left)
-    have hP : IsPGroup 2 (A ⊔ Q : Subgroup G) := S.isPGroup'.to_le (sup_le hAS hQS)
+    have hP : IsPGroup 2 (A ⊔ Q : Subgroup G) := S.isPGroup.to_le (sup_le hAS hQS)
     obtain ⟨Y, hQY, hYP, hYN, -⟩ :=
       CFSG.section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup hP hlt
     obtain ⟨y, hyY, hyQ⟩ := IsConcreteLE.exists_of_lt hQY

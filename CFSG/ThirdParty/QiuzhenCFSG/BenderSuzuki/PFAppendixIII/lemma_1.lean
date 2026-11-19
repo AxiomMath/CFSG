@@ -46,7 +46,7 @@ public theorem lemma1a_square_induces_quadratic
         q (x * (y₁ * y₂)) * (q x)⁻¹ * (q (y₁ * y₂))⁻¹ =
           (q (x * y₁) * (q x)⁻¹ * (q y₁)⁻¹) *
             (q (x * y₂) * (q x)⁻¹ * (q y₂)⁻¹) := by
-  letI : W.Normal := ⟨fun w hw g => by
+  let : W.Normal := ⟨fun w hw g => by
     simpa [mul_assoc, Subgroup.mem_center_iff.mp (hW_center hw) g] using hw⟩
   dsimp
   intro hW_elementary hV_elementary

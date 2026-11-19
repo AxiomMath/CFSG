@@ -22,11 +22,11 @@ theorem tau_of_index_two {K N : Subgroup G} {t : G} (hNK : N ≤ K) (htN : t ∈
   have hτN : ∀ g ∈ N, τ g = g := by
     intro g hg
     dsimp only [τ]
-    rw [if_pos hg]
+    rw [ite_eq_left hg]
   have hτK : ∀ g ∈ K, g ∉ N → τ g = g * t := by
     intro g _ hgn
     dsimp only [τ]
-    rw [if_neg hgn]
+    rw [ite_eq_right hgn]
   have htK : t ∈ K := hNK htN
   refine ⟨τ, ⟨?_, ?_, ?_, ?_⟩, hτN, hτK⟩
   ·
@@ -111,9 +111,9 @@ theorem derived_Gx_z (h : F5Std a z) :
     z ∈ derivedOf (Gx z) ∧ ∀ x ∈ Gx z, ∀ y ∈ Gx z, x ∉ derivedOf (Gx z) →
       y ∉ derivedOf (Gx z) → x * y ∈ derivedOf (Gx z) := by
   classical
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   obtain ⟨Q, hQn, hAH⟩ := h.loc.gz9.self.aschbacher
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hz_center : GxSelf z ∈ Subgroup.center ↥(Gx z) := by
     rw [Subgroup.mem_center_iff]
     intro g

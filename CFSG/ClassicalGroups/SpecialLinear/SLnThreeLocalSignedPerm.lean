@@ -80,7 +80,7 @@ theorem exists_realizes_signedPerm
   · have h' : ε i ≠ 1 := by rw [h]; decide
     have h2 : (2 : ZMod 3) = -1 := by decide
     have h3 : (-1 : ZMod 3) ≠ 1 := by decide
-    simp [h, h', h2, h3]
+    simp [h, h2, h3]
 
 theorem exists_conj_signedPerm
     (hswap : ∀ x y : Fin 3, x ≠ y → ∃ g : G, Realizes c g fun v i => v (Equiv.swap x y i))

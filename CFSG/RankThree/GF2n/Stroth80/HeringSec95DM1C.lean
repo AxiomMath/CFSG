@@ -126,18 +126,22 @@ theorem theta_eq_zero_iff {m : G} (hm : m ∈ hc.CN t) :
 
 end Setup95
 
+omit [Finite K] in
 theorem actW_mul (g₁ g₂ h₁ h₂ : Matrix (Fin 2) (Fin 2) K) (y : (Fin 2 → Y₁) × (Fin 2 → Y₂)) :
     M1.actW (g₁ * g₂) (h₁ * h₂) y = M1.actW g₁ h₁ (M1.actW g₂ h₂ y) :=
   Prod.ext (M1.smulVec_mul g₁ g₂ y.1) (M1.smulVec_mul h₁ h₂ y.2)
 
+omit [Finite K] in
 theorem actW_one_one (y : (Fin 2 → Y₁) × (Fin 2 → Y₂)) :
     M1.actW (1 : Matrix (Fin 2) (Fin 2) K) (1 : Matrix (Fin 2) (Fin 2) K) y = y :=
   Prod.ext (M1.smulVec_one y.1) (M1.smulVec_one y.2)
 
+omit [Finite K] in
 theorem coe_inv_mul_SL (a : SL(2, K)) :
     ((a⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) * (a : Matrix (Fin 2) (Fin 2) K) = 1 := by
   rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one]
 
+omit [Finite K] in
 theorem coe_mul_inv_SL (a : SL(2, K)) :
     (a : Matrix (Fin 2) (Fin 2) K) * ((a⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = 1 := by
   rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]

@@ -79,7 +79,7 @@ private theorem wcP2_not_sq_dvd {q n p : ℕ} (hq4 : 4 ≤ q) (hq7 : q < 7) (hp 
 theorem wcOn_cross_psl_two {K : Type} [Group K] [Finite K] {ℓ f p : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (h : CFSG.Open.StatedClassicalModel K .PSL 2 ℓ f) : WCOn p K := by
   have hℓ : ℓ.Prime := h.1.1
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hf : 1 ≤ f := h.1.2.1
   have hne2 : ℓ ^ f ≠ 2 := fun h2 => h.1.2.2.2.1 (by rw [h2])
   have hne3 : ℓ ^ f ≠ 3 := fun h3 => h.1.2.2.2.2 (by rw [h3])
@@ -89,7 +89,7 @@ theorem wcOn_cross_psl_two {K : Type} [Group K] [Finite K] {ℓ f p : ℕ} [Fact
   by_cases hq7 : 7 ≤ ℓ ^ f
   · obtain ⟨e⟩ :=
       CFSG.Adapters.RankTwoModelTransports.nonempty_mulEquiv_psl_galoisField K 2 ℓ f h
-    haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField ℓ f)) :=
+    have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField ℓ f)) :=
       Finite.of_equiv K e.toEquiv
     refine WCOn.of_mulEquiv e (WCOn.of_isCyclic_sylow fun R => ?_)
     have hK : Nat.card (GaloisField ℓ f) = ℓ ^ f := GaloisField.card ℓ f (by omega)

@@ -36,7 +36,7 @@ open scoped commutatorElement
 
 theorem bAnd_eq (a b : Bool) : bAnd(a, b) = (a && b) := by cases a <;> rfl
 
-theorem not'_eq (b : Bool) : Bool.not' b = !b := by cases b <;> rfl
+theorem not'_eq (b : Bool) : not b = !b := by cases b <;> rfl
 
 theorem strictB_eq (y : ℕ) (k : ℕ → Bool) : strictB y k = k y := by cases y <;> rfl
 
@@ -210,6 +210,7 @@ variable {G : Type} [Group G] (elt : ℕ → G)
 
 variable {elt}
 
+omit [Group G] in
 theorem RepM.eq_mset {m : ℕ} {X : Set G} (h : RepM elt m X) : X = mset elt m := by
   ext g
   constructor
@@ -219,19 +220,22 @@ theorem RepM.eq_mset {m : ℕ} {X : Set G} (h : RepM elt m X) : X = mset elt m :
   · rintro ⟨i, hi, hb, rfl⟩
     exact (h.1 i hi).1 hb
 
+omit [Group G] in
 theorem repM_mset (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) (m : ℕ) :
     RepM elt m (mset elt m) := by
   refine ⟨fun i hi => ⟨fun hb => ⟨i, hi, hb, rfl⟩, ?_⟩, fun x ⟨i, hi, _, he⟩ => ⟨i, hi, he⟩⟩
   rintro ⟨j, hj, hb, he⟩
   rwa [← hinj j hj i hi he]
 
+omit [Group G] in
 theorem mem_mset_iff (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {m i : ℕ}
     (hi : i < 128) : elt i ∈ mset elt m ↔ hasB m i = true :=
   ((repM_mset hinj m).1 i hi).symm
 
+omit [Group G] in
 theorem mset_lor (a b : ℕ) : mset elt (Nat.lor a b) = mset elt a ∪ mset elt b := by
   ext g
-  simp only [mset, Set.mem_setOf_eq, Set.mem_union, hasB_eq]
+  simp only [mset, Set.mem_ofPred_eq, Set.mem_union, hasB_eq]
   change (∃ i < 128, (a ||| b).testBit i = true ∧ elt i = g) ↔ _
   simp only [Nat.testBit_or, Bool.or_eq_true]
   constructor
@@ -247,6 +251,7 @@ theorem imgR_bit (r H k : ℕ) :
   rw [hasB_eq]
   exact recMask_bit (hasB H) (atR r) k 128
 
+omit [Group G] in
 theorem mset_imgR (r H : ℕ) (f : G → G) (hr : ∀ i < 128, elt (atR r i) = f (elt i)) :
     mset elt (imgR r H) = f '' mset elt H := by
   ext g
@@ -313,9 +318,10 @@ theorem pop_eq (m : ℕ) : ∀ n,
     rw [pop_eq m n]
     cases hb : hasB m n
     · rfl
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [Finset.card_insert_of_notMem (by simp)]
 
+omit [Group G] in
 theorem pop_sound (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {m : ℕ} {X : Set G}
     (h : RepM elt m X) : X.ncard = pop m := by
   have e : X = elt '' ↑((Finset.range 128).filter fun i => hasB m i = true) := by
@@ -325,7 +331,7 @@ theorem pop_sound (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {m 
   rw [e, Set.InjOn.ncard_image, Set.ncard_coe_finset]
   · exact (pop_eq m 128).symm
   · intro i hi j hj he
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hi hj
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hi hj
     exact hinj i hi.1 j hj.1 he
 
 section Lattice
@@ -591,7 +597,7 @@ theorem pairsOK_spec {P C Q L OR h H lo : ℕ} (hp : pairsOK P C Q L OR h H lo =
         ordAt OR (pairK lo t) = 2 * ordAt OR h) := by
   intro t ht
   have hf := (recAnd_iff (fun t => bIf(Nat.blt t (desD lo),
-    bAnd(Bool.not' (hasB H (pairX lo t)), bAnd(hasB H (atR Q (pairX lo t)), bAnd(
+    bAnd(not (hasB H (pairX lo t)), bAnd(hasB H (atR Q (pairX lo t)), bAnd(
       Nat.beq (latM L (pairK lo t)) (Nat.lor H (imgR (rowT C (pairX lo t)) H)),
       Nat.beq (latM L (pairK lo t)) (Nat.lor H (imgR (rowT P (pairX lo t)) H))))),
     bAnd(Nat.beq (Nat.land H (latM L (pairK lo t))) H,
@@ -599,7 +605,7 @@ theorem pairsOK_spec {P C Q L OR h H lo : ℕ} (hp : pairsOK P C Q L OR h H lo =
   refine ⟨fun hlt => ?_, fun hle => ?_⟩
   · have hb : Nat.blt t (desD lo) = true := by rw [Nat.blt_eq]; exact hlt
     rw [hb] at hf
-    simp only [bAnd_eq, Bool.and_eq_true, not'_eq, Bool.not_eq_true', Nat.beq_eq] at hf
+    simp only [bAnd_eq, Bool.and_eq_true, Bool.not_eq_true', Nat.beq_eq] at hf
     exact hf
   · have hb : Nat.blt t (desD lo) = false := by
       cases hb : Nat.blt t (desD lo)
@@ -616,7 +622,7 @@ theorem gensIn_spec {H gs : ℕ} (h : gensIn H gs = true) :
 
 theorem witB_spec {rx cv H gs : ℕ} (h : witB rx cv H gs = true) :
     ∃ t < Nat.land gs 7, hasB H (conjR rx cv (genL gs t)) = false := by
-  obtain ⟨t, ht, h⟩ := recOr_of (fun t => Bool.not' (hasB H (conjR rx cv (genL gs t)))) _ h
+  obtain ⟨t, ht, h⟩ := recOr_of (fun t => not (hasB H (conjR rx cv (genL gs t)))) _ h
   rw [not'_eq, Bool.not_eq_true'] at h
   exact ⟨t, ht, h⟩
 
@@ -725,6 +731,7 @@ theorem rowOK_spec {P C V Q G' L LG OR h lo : ℕ} (hr : rowOK P C V Q G' L LG O
       coverOK P C V Q G' (latM L h) (unionU L lo) (latG LG h) = true := by
   simpa only [rowOK, bAnd_eq, Bool.and_eq_true, Nat.beq_eq] using hr
 
+omit [Group G] in
 theorem subset_of_land {H K : ℕ} (h : Nat.land H K = H) : mset elt H ⊆ mset elt K := by
   rintro _ ⟨i, hi, hb, rfl⟩
   refine ⟨i, hi, ?_, rfl⟩
@@ -769,7 +776,7 @@ theorem lat_sound {P C V Q GM L LG OR N : ℕ} {LO : List ℕ} {G₀ : Subgroup 
     have e : latM L 0 = 1 := h0
     simp only [hSdef, e]
     ext g
-    simp only [mset, Set.mem_setOf_eq, Set.mem_singleton_iff, hasB_eq,
+    simp only [mset, Set.mem_ofPred_eq, Set.mem_singleton_iff, hasB_eq,
       Nat.testBit_one_eq_true_iff_self_eq_zero]
     constructor
     · rintro ⟨i, -, rfl, rfl⟩

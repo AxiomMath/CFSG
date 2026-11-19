@@ -36,7 +36,7 @@ theorem NoOddSections.of_equiv {F F' : Type*} [Group F] [Group F'] (e : F ≃* F
       rw [h0]
       exact Subgroup.mem_top _
     simpa using hy
-  · haveI := hs
+  · have := hs
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 theorem eq_one_of_pow_two_of_odd {A : Type*} [Group A] {x : A} {n m : ℕ} (hx : x ^ (2 ^ n) = 1)
@@ -48,7 +48,7 @@ theorem eq_one_of_pow_two_of_odd {A : Type*} [Group A] {x : A} {n m : ℕ} (hx :
 
 theorem not_isSolvable_alternatingGroup_nine : ¬ Group.IsSolvable (alternatingGroup (Fin 9)) := by
   intro h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hc := IsSimpleGroup.comm_iff_isSolvable.2 h
   have hx : (Equiv.swap (0 : Fin 9) 1 * Equiv.swap 1 2) ∈ alternatingGroup (Fin 9) :=
@@ -65,9 +65,9 @@ theorem not_isSolvable_alternatingGroup_nine : ¬ Group.IsSolvable (alternatingG
 theorem noOddSections_of_alternating {F : Type*} [Group F] [Finite F] {Q : Subgroup F}
     (hQn : Q.Normal) (hQ : IsPGroup 2 Q) (hc : centralizer (Q : Set F) ≤ Q)
     (e : F ⧸ Q ≃* alternatingGroup (Fin 9)) : NoOddSections F := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (F ⧸ Q) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (F ⧸ Q) := MulEquiv.isSimpleGroup e
   have hcardA : Nat.card (F ⧸ Q) = 181440 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     simp [Nat.card_eq_fintype_card, Nat.factorial]
@@ -122,8 +122,8 @@ theorem noOddSections_of_alternating {F : Type*} [Group F] [Finite F] {Q : Subgr
       rw [e1]
       exact K.mul_mem hx (hQK hq)
   · intro hs
-    haveI := hs
-    haveI : Group.IsSolvable (F ⧸ Q) :=
+    have := hs
+    have : Group.IsSolvable (F ⧸ Q) :=
       Group.isSolvable_of_surjective (f := QuotientGroup.mk' Q) (QuotientGroup.mk'_surjective Q)
     exact not_isSolvable_alternatingGroup_nine
       (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
@@ -194,9 +194,9 @@ theorem false_of_stronglyEmbedded {X : Type} [Group X] [Finite X]
   rcases CFSG.Milestones.ctgms_bender_1971_even_rank_one_model_and_strong_embedding_input_3 X D hD
     with hS | ⟨M, N, hMn, hNn, hMNn, hMN, hModd, hNodd, hB⟩
   · exact false_of_sylow_cyclic_or_quaternion ha hb ha1 hb1 hab hne hS
-  · haveI := hMn
-    haveI := hNn
-    haveI := hMNn
+  · have := hMn
+    have := hNn
+    have := hMNn
     have hFN : F ≤ N := by
       have hnorm : (N.subgroupOf F).Normal := hNn.subgroupOf F
       have hodd : Odd (N.subgroupOf F).index :=

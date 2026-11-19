@@ -46,13 +46,13 @@ theorem pairSylow_double_transitivity_of_full_fixed_points
   let C := rightCosetStabilizer H (rightCosetMk H 1)
   let Q : Sylow p C := default
   obtain ⟨A, hA⟩ := point_sylow_is_ambient_of_two_fixed_points H (R : Subgroup G)
-    p hp hodd R.isPGroup' (hfixed R) (rightCosetMk H 1) Q
+    p hp hodd R.isPGroup (hfixed R) (rightCosetMk H 1) Q
   let P := (Q : Subgroup C).map C.subtype
   have hAP : (A : Subgroup G) = P := hA
   have hPH : P ≤ H := by
     have hPC : P ≤ C := Subgroup.map_subtype_le _
     simpa only [C, rightCosetStabilizer_base] using hPC
-  have hP : IsPGroup p P := Q.isPGroup'.map C.subtype
+  have hP : IsPGroup p P := Q.isPGroup.map C.subtype
   have hPfixed : Nat.card (pointFixedSet H P) = 2 := by
     rw [← hAP]
     exact hfixed A

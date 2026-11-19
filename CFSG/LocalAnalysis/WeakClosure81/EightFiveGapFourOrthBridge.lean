@@ -33,8 +33,8 @@ theorem not_centralInSylow_of_mulEquiv_orth {Y : Type} [Group Y] [Finite Y]
     (e : Y ≃* ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) (d : Y) (hdd : d * d = 1)
     (hcl : Subgroup.normalClosure ({d} : Set Y) = ⊤) :
     ¬ CentralInSylow Y (Subgroup.zpowers d) := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := Finite.of_equiv Y e.toEquiv
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := Finite.of_equiv Y e.toEquiv
   intro hc
   have hmap := centralInSylow_map e.toMonoidHom e.surjective _ hc
   rw [MonoidHom.map_zpowers] at hmap
@@ -51,9 +51,9 @@ theorem not_centralInSylow_of_isOrthGp {Y : Type} [Group Y] [Finite Y] {m n : �
     (hcl : Subgroup.normalClosure ({d} : Set Y) = ⊤) :
     ¬ CentralInSylow Y (Subgroup.zpowers d) := by
   rcases hY with ⟨k, hk, -, F, _, _, hF, ⟨e⟩⟩ | ⟨k, hk, -, F, _, _, hF, b, c, hirr, ⟨e⟩⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
     have hco : ⇑(CFSG.LieType.Universal.Spin.quadPlus k F) = CFSG.PGLModel.plusQuadForm k :=
       (CFSG.LieType.Universal.Spin.coe_quadPlus k F).trans rfl
@@ -62,9 +62,9 @@ theorem not_centralInSylow_of_isOrthGp {Y : Type} [Group Y] [Finite Y] {m n : �
       (CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus k F) ?_ (e.trans e') d hdd hcl
     simp only [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
     have hco : ⇑(CFSG.LieType.Universal.Spin.quadMinus (k + 1) F b c) =
         CFSG.PGLModel.minusQuadForm k b c :=

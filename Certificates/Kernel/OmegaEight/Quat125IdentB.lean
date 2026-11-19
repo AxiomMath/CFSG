@@ -181,9 +181,7 @@ theorem q125_wit01 {w : Nat} (hw : w < 2) : ∃ c ∈ omegaT, c * repPerm 10 = r
   beta_reduce at hwit
   obtain ⟨hlet, hwit⟩ := q125bAnd.1 hwit
   rw [q125sB] at hwit
-  beta_reduce at hwit
   rw [q125sB] at hwit
-  beta_reduce at hwit
   obtain ⟨hcn, hwit⟩ := q125bAnd.1 hwit
   obtain ⟨hpm, hwit⟩ := q125bAnd.1 hwit
   obtain ⟨hcni, hwit⟩ := q125bAnd.1 hwit
@@ -212,7 +210,6 @@ theorem q125_wit37 : ∃ c ∈ omegaT, c * repPerm 37 = repPerm 37 * c ∧
   simp only [q125bAnd] at h
   obtain ⟨-, h1, h2, h3, h4, h5⟩ := h
   rw [q125sB] at h5
-  beta_reduce at h5
   have hw := q125blt.1 h1
   have hwi := q125blt.1 h2
   have aY : Acts (repPerm 37) (saAtK saCodes (ix13 yIdxT 37)) := by

@@ -15,7 +15,7 @@ open CFSG CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Ra
 
 theorem perfectInLayer_fieldActor_two {f : ℕ} (hf : 1 ≤ f)
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (hK : Nat.card K = (2 ^ f) ^ 3)
-    (hσ : ∀ c, σ c = c ^ (2 ^ f)) : PerfectInLayer (fieldActor (t := TwistTag.D4) σ σ) := by
+    (_hσ : ∀ c, σ c = c ^ (2 ^ f)) : PerfectInLayer (fieldActor (t := TwistTag.D4) σ σ) := by
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two

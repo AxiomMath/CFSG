@@ -17,7 +17,7 @@ theorem normalizer_le_of_pRank_centralizer {p : ℕ} {P : Sylow p G} {M H₁ R�
     (hA3 : 3 ≤ CFSG.Open.pRank p (U ⊓ Subgroup.centralizer (A : Set G))) :
     Subgroup.normalizer (A : Set G) ≤ M := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm, hUP⟩ := exists_conj_le he.sylow_le hU hUM
   refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p (hAU.trans hUP) hA2 ?_).trans
     (weakCore_conj_le hp he.weakCore_le hm)
@@ -34,7 +34,7 @@ theorem normalizer_le_d1X0_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Su
         Subgroup.centralizer (Ab : Set (N ⧸ primeComplementCore (G := N) p)))) :
     Subgroup.normalizer (Ab : Set (N ⧸ primeComplementCore (G := N) p)) ≤ d1X0 p M N := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
@@ -87,14 +87,14 @@ theorem le_normalizer_component_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁
     (P₁.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p)) ≤
       Subgroup.normalizer (L : Set (N ⧸ primeComplementCore (G := N) p)) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   obtain ⟨S, hS⟩ := hP₁
   have hSP : (S : Subgroup N) = P₁.subgroupOf N := by
     rw [← hS, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
-  have hP₁p : IsPGroup p (P₁.subgroupOf N) := hSP ▸ S.isPGroup'
-  have hP₁G : IsPGroup p P₁ := hS ▸ S.isPGroup'.map N.subtype
+  have hP₁p : IsPGroup p (P₁.subgroupOf N) := hSP ▸ S.isPGroup
+  have hP₁G : IsPGroup p P₁ := hS ▸ S.isPGroup.map N.subtype
   set Rb : Sylow p (N ⧸ O) := S.mapSurjective (QuotientGroup.mk'_surjective O) with hRb
   have hRbeq : (Rb : Subgroup (N ⧸ O)) = (P₁.subgroupOf N).map π := by
     rw [hRb, Sylow.coe_mapSurjective, hSP]

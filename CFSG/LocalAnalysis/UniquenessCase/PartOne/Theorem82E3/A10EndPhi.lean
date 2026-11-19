@@ -68,7 +68,7 @@ theorem ne_one_of_deg_ne_zero {a : G} (haL : a ∈ c.L) (h : F.deg (Subgroup.zpo
 
 theorem card_zpowers_of_mem_A {a : G} (haA : a ∈ F.A) (ha1 : a ≠ 1) :
     Nat.card (Subgroup.zpowers a) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime (F.elemAbelian.2 a haA) ha1
 

@@ -35,8 +35,8 @@ theorem not_isSolvable_alt8 : ¬ Group.IsSolvable (alternatingGroup (Fin 8)) := 
 noncomputable def alt8EquivSL4 : alternatingGroup (Fin 8) ≃* SL4 :=
   CFSG.GH74.Exceptional.alternatingEightEquivGLFourTwo.trans (slEquivGL 4).symm
 
-theorem not_isSolvable_SL4 : ¬ Group.IsSolvable SL4 := fun h =>
-  not_isSolvable_alt8 (solvable_of_solvable_injective (f := alt8EquivSL4.toMonoidHom)
+theorem not_isSolvable_SL4 : ¬ Group.IsSolvable SL4 := fun _h =>
+  not_isSolvable_alt8 (Group.isSolvable_of_isSolvable_injective (f := alt8EquivSL4.toMonoidHom)
     alt8EquivSL4.injective)
 
 theorem k21dGeomAt_SL4 : K21dGeomAt SL4 := by

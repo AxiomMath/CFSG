@@ -79,7 +79,7 @@ theorem false_of_simple_quotient_inf_centralizer3
     obtain ⟨S, hS'⟩ := hJ'p.exists_le_sylow
     set T := (S : Subgroup C).map C.subtype with hT
     have hTC : T ≤ C := Subgroup.map_subtype_le _
-    have hTp : IsPGroup 3 T := S.isPGroup'.map _
+    have hTp : IsPGroup 3 T := S.isPGroup.map _
     have hJT : J ≤ T := fun j hj => ⟨⟨j, hJC hj⟩, hS' hj, rfl⟩
     have hTJ : T = J := hSyl T hTC hTp hJT
     have hSJ : (S : Subgroup C) = J' := by

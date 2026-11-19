@@ -30,7 +30,7 @@ theorem commutant_anticomm_scalar [Module.Finite F V] (h2 : (2 : F) ≠ 0)
     (hd : Module.finrank F V = 2) (u v : V →ₗ[F] V) (hu : IsUnit u) (hv : IsUnit v)
     (huv : u * v = -(v * u)) (φ : V →ₗ[F] V) (hφu : φ * u = u * φ) (hφv : φ * v = v * φ) :
     ∃ c : F, φ = c • (1 : V →ₗ[F] V) := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
   have hnotscalar : ∀ a : F, u ≠ a • (1 : V →ₗ[F] V) := by
     intro a ha
     rw [ha] at huv hu
@@ -106,7 +106,7 @@ theorem commutator_scalar_pow_finrank [Module.Finite F V] (ρ : Representation F
 theorem three_dvd_orderOf_commutator [Module.Finite F V] (hd : Module.finrank F V = 3)
     (ρ : Representation F G V) (x y : G) (c : F) (hc : ρ ⁅x, y⁆ = c • (1 : V →ₗ[F] V))
     (hne : ρ x * ρ y ≠ ρ y * ρ x) : 3 ∣ orderOf ⁅x, y⁆ := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
   have hpow : c ^ 3 = 1 := by
     have h := commutator_scalar_pow_finrank ρ x y c hc
     rwa [hd] at h
@@ -374,15 +374,15 @@ private theorem nab2_card_le (ρ : Representation F G V) (B : Subgroup G) (u v :
       rw [hC]
       exact hcls b hb hns
     by_cases h1 : C.1 = nab2_cls u
-    · have hf0 : f C = 0 := by simp only [f, if_pos h1]
+    · have hf0 : f C = 0 := by simp only [f, ite_eq_left h1]
       rw [hf0]
       simpa [g] using h1
     · by_cases h2 : C.1 = nab2_cls v
-      · have hf1 : f C = 1 := by simp only [f, if_neg h1, if_pos h2]
+      · have hf1 : f C = 1 := by simp only [f, ite_eq_right h1, ite_eq_left h2]
         rw [hf1]
         simpa [g] using h2
       · have h3 : C.1 = nab2_cls (u * v) := (hmem.resolve_left h1).resolve_left h2
-        have hf2 : f C = 2 := by simp only [f, if_neg h1, if_neg h2]
+        have hf2 : f C = 2 := by simp only [f, ite_eq_right h1, ite_eq_right h2]
         rw [hf2]
         simpa [g] using h3
   have hinj : Function.Injective f := by
@@ -452,7 +452,7 @@ theorem nonabelian_two (h2 : (2 : F) ≠ 0) [Module.Finite F V] (hd : Module.fin
     ∀ k ∈ K, ρ k = 1 := by
   classical
   obtain ⟨x, hx, y, hy, hxy⟩ := hnab
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hd]; norm_num)
   have hu : ρ x * ρ x⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
   have hui : ρ x⁻¹ * ρ x = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
   have hv : ρ y * ρ y⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
@@ -472,12 +472,12 @@ theorem nonabelian_two (h2 : (2 : F) ≠ 0) [Module.Finite F V] (hd : Module.fin
     rintro ⟨d, hd'⟩
     apply hxy
     rw [hd']
-    simp [smul_mul_assoc, mul_smul_comm]
+    simp
   have hyns : ¬ ∃ d : F, ρ y = d • (1 : V →ₗ[F] V) := by
     rintro ⟨d, hd'⟩
     apply hxy
     rw [hd']
-    simp [smul_mul_assoc, mul_smul_comm]
+    simp
   have hcls : ∀ b ∈ B, (¬ ∃ d : F, ρ b = d • (1 : V →ₗ[F] V)) →
       nab2_cls (ρ b) = nab2_cls (ρ x) ∨ nab2_cls (ρ b) = nab2_cls (ρ y) ∨
         nab2_cls (ρ b) = nab2_cls (ρ x * ρ y) := by
@@ -505,7 +505,7 @@ theorem nonabelian_two (h2 : (2 : F) ≠ 0) [Module.Finite F V] (hd : Module.fin
       refine Or.inr (Or.inr ?_)
       rw [hs, nab2_cls_smul hs0]
   obtain ⟨hfin, hcard⟩ := nab2_card_le ρ B (ρ x) (ρ y) hcls
-  haveI := hfin
+  have := hfin
   have hS4 : Nat.card (nab2_ClsSet ρ B) ≤ 4 := le_trans hcard (by norm_num)
   have hfix : ∀ k ∈ K, ∀ s : nab2_ClsSet ρ B, nab2_conj ρ B k s = s := fun k hk s =>
     perfect_act_trivial hS4 (nab2_conj ρ B) (nab2_conj_one ρ B) (nab2_conj_mul ρ B) hK hk s
@@ -524,7 +524,7 @@ theorem nonabelian_two (h2 : (2 : F) ≠ 0) [Module.Finite F V] (hd : Module.fin
   obtain ⟨da, hda⟩ := hscal a ha
   obtain ⟨db, hdb⟩ := hscal b hb
   rw [hda, hdb]
-  simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm]
+  simp only [mul_smul_comm, mul_one, smul_smul, mul_comm]
 
 end Rep
 

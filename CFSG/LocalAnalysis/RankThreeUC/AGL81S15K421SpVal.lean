@@ -22,7 +22,7 @@ theorem padicValNat_sp6_two_aux1 {N : ℕ} (hN : N % 3 = 2) :
 theorem padicValNat_sp6_two_aux2 {N : ℕ} (hN : N % 3 = 2) :
     padicValNat 3 (N ^ 4 - 1) = padicValNat 3 (N + 1) := by
   have hsq2 : N ^ 2 % 3 = 1 := by
-    rw [Nat.pow_mod, hN] <;> norm_num
+    rw [Nat.pow_mod, hN]
   have hn2 : ¬ 3 ∣ N ^ 2 + 1 := by omega
   have hv0 : padicValNat 3 (N ^ 2 + 1) = 0 := padicValNat.eq_zero_of_not_dvd hn2
   have hA := padicValNat_sp6_two_aux1 hN
@@ -38,7 +38,7 @@ theorem padicValNat_sp6_two_aux2 {N : ℕ} (hN : N % 3 = 2) :
 theorem padicValNat_sp6_two_aux3 {N : ℕ} (hN : N % 3 = 2) :
     padicValNat 3 (N ^ 6 - 1) = padicValNat 3 (N + 1) + 1 := by
   have hcube : N ^ 3 % 3 = 2 := by
-    rw [Nat.pow_mod, hN] <;> norm_num
+    rw [Nat.pow_mod, hN]
   have hm3 : ¬ 3 ∣ N ^ 3 - 1 := by omega
   have hlift : padicValNat 3 (N ^ 3 + 1) = padicValNat 3 (N + 1) + 1 := by
     have h := padicValNat.pow_add_pow (p := 3) (x := N) (y := 1) (n := 3) (by decide)

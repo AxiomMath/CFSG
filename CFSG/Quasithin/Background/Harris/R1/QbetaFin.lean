@@ -15,6 +15,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem card_W_eq_two_mul : Nat.card W = 2 * Nat.card ↥(W ⊓ Q) := by
   obtain ⟨w0, hw0W, hw0Q⟩ := IsConcreteLE.not_le_iff_exists.mp h.vh.wq
   have hw0S : w0 ∈ S := h.vh.ws hw0W
@@ -40,6 +41,7 @@ theorem card_W_eq_two_mul : Nat.card W = 2 * Nat.card ↥(W ⊓ Q) := by
   rw [hidx, h2] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem card_A' (hW : Nat.card W = 32) : Nat.card ↥(conjSub g W ⊓ Q) = 16 := by
   have h1 := h.card_W_eq_two_mul
   have hA : Nat.card ↥(W ⊓ Q) = 16 := by omega

@@ -46,7 +46,7 @@ theorem paired_suzuki_quotient
   have h₂ : IsSylowOf 2 (S ⊓ K₂) K₂ := isSylowOf_inf_left hc' hSsyl hKn'
   obtain ⟨U₁, hU₁⟩ := h₁.exists_sylow_eq_subgroupOf
   have hdSz := H13.QRC.benderData_suzuki ha hk
-  obtain ⟨θ, hθU, -⟩ := H13.QRC.exists_mulEquiv_map_sylow θ₁ U₁.isPGroup' U₁.not_dvd_index
+  obtain ⟨θ, hθU, -⟩ := H13.QRC.exists_mulEquiv_map_sylow θ₁ U₁.isPGroup U₁.not_dvd_index
     hdSz.isPGroup hdSz.not_dvd_index
   have hD : H13.QRC.BenderData K₁ (U₁ : Subgroup K₁) (2 * a + 1) := by
     have h := hdSz.map θ.symm

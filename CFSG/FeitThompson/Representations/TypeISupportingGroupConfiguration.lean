@@ -114,7 +114,7 @@ theorem exists_exponent_eq_and_isMulCommutative_of_isComplement' [Finite X] [Gro
     (isHallSubgroup_compl_primeFactors_of_isComplement' hU.coprime_card hU.isComplement')
     (isHallSubgroup_compl_primeFactors_of_isComplement' hcopD hD)
   have hcomm' : IsMulCommutative ↥(MulAut.conj g • E₁) := by
-    letI := hcomm; exact isMulCommutative_conj_smul g E₁
+    let := hcomm; exact isMulCommutative_conj_smul g E₁
   refine ⟨MulAut.conj g • E₀, (conj_smul_mono hE₀U g).trans (le_of_eq hg),
     MulAut.conj g • E₁, (conj_smul_mono hE₁U g).trans (le_of_eq hg), ?_, ?_, hcomm', ?_⟩
   · rw [exponent_conj_smul, hexp, ← hg, exponent_conj_smul]

@@ -67,7 +67,7 @@ theorem uc22r3p_pX {D : Data G} {L K : Subgroup G} (hL : L ∈ calC D.M) (hK : K
       interval_cases n <;> norm_num [Int.ModEq] at hc
     rw [hcard]
     exact (Nat.pow_dvd_pow 2 hn6).mul_right _
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     have hcard : Nat.card (Bar2 L) = ((2 ^ n) ^ 2 + 1) * (2 ^ n) ^ 2 * (2 ^ n - 1) := by
       obtain ⟨a, ha, rfl, ⟨e⟩⟩ :=
         CFSG.LocalAnalysis.EvenBN.GMSK.exists_mulEquiv_sz_of_lieModel_twistedB2 hSz
@@ -173,7 +173,7 @@ theorem conj_mem_V (u : R3Pair D L K n p) {x₀ x₁ : Bar2 D.M} (hx₀ : x₀ �
     (ht : (t : G) ∈ D.T) :
     uc22p21cPi D.M t * (x₀ * x₁⁻¹) * (uc22p21cPi D.M t)⁻¹ ∈
       zpowers (x₀ * x₁⁻¹) ⊔ (barImage D.M D.T ⊓ (barImage D.M L ⊔ barImage D.M K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, hinf, -, -, -, hXn, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hT := u4x_isSylowOf_barImage (p := 2) D.sylowM
   have hτ : uc22p21cPi D.M t ∈ barImage D.M D.T := uc22p21c_mem_barImage.2 ⟨t, ht, rfl⟩

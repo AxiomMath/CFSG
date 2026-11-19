@@ -26,7 +26,7 @@ scoped instance charP_L : CharP D.L 2 := charP_of_injective_algebraMap (algebraM
 
 theorem hsurj_L (hK : 2 ≤ Nat.card K) : ∀ n : D.L, ∃ z, z + D.Fr z = n := by
   intro n
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   open Polynomial in
   have hdeg : (X ^ Nat.card K + (X - C n) : D.L[X]).degree ≠ 0 := by
     have h1 : (X - C n : D.L[X]).degree < (X ^ Nat.card K : D.L[X]).degree := by
@@ -43,7 +43,7 @@ theorem hsurj_L (hK : 2 ≤ Nat.card K) : ∀ n : D.L, ∃ z, z + D.Fr z = n := 
 
 theorem exists_zeta (hK : 3 ≤ Nat.card K) : ∃ ζ : D.L, D.Fr ζ = ζ ∧ ζ ≠ 0 ∧ ζ ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : 3 ≤ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
     rw [Finset.card_univ]
@@ -66,7 +66,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] (D : LangLevi Tag.F4 K wF4)
 
 theorem Θ_apply (x : ModGL Tag.F4 K) :
     Θ D x = D.g⁻¹ * baseChangeGL (algebraMap K D.L) x * D.g := by
-  simp [Θ, MulAut.conj_apply]
+  simp [Θ]
 
 theorem Θ_injective : Function.Injective (Θ D) := by
   intro x y h
@@ -74,7 +74,7 @@ theorem Θ_injective : Function.Injective (Θ D) := by
   exact baseChangeGL_injective (algebraMap K D.L) (mul_left_cancel (mul_right_cancel h))
 
 theorem fr_comp_algebraMap : D.Fr.comp (algebraMap K D.L) = algebraMap K D.L := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   ext c
   simp only [RingHom.comp_apply]
   rw [D.hFr, ← map_pow, Nat.card_eq_fintype_card, FiniteField.pow_card]

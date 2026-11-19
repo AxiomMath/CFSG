@@ -19,6 +19,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_zpowers_of_commute_of_frame {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} {L : Subgroup ↥(orthDerived Q)}
@@ -110,6 +111,7 @@ theorem apply_eq_of_le_supportedFixedDerived (hp : p.Prime) (hp2 : p ≠ 2)
       (hF.maps_to j) (hF.apply_of_perp j))
   exact hF.apply_eq_of_mem_zpowers hp hd hej
 
+omit [CharP F 2] in
 theorem weightOne_of_le_supportedFixedDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {n : ℕ} (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime)
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
@@ -156,7 +158,7 @@ theorem standard_dichotomy_full (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (∃ h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap, h ≠ X - 1 ∧
         (∀ j, U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) ∧
         L = (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d hord

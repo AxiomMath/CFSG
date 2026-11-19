@@ -492,7 +492,7 @@ theorem exists_isometry_of_fixedSpace_eight [Finite K]
     have hle := Submodule.finrank_mono hRW
     rw [hdimR, hW, hfix] at hle
     omega
-  obtain ⟨z, hzR, hzW⟩ := SetLike.not_le_iff_exists.mp hRnotle
+  obtain ⟨z, hzR, hzW⟩ := IsConcreteLE.not_le_iff_exists.mp hRnotle
   have hyz : y z = z := hyR z hzR
   have hxz : x z ≠ z := by
     intro h

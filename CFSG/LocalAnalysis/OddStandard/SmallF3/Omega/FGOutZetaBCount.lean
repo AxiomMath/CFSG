@@ -72,7 +72,7 @@ theorem zetaCount_holds : ZetaCount := by
   have hcomm : ∀ x y : M, x * y = y * x := fun x y => by
     apply e.injective
     rw [map_mul, map_mul, mul_comm]
-  haveI : Fintype M :=
+  have : Fintype M :=
     Fintype.ofEquiv (Multiplicative (ZMod 4 × ZMod 3 × ZMod 3)) e.symm.toEquiv
   have hN12 : ∀ y : Multiplicative (ZMod 4 × ZMod 3 × ZMod 3), y ^ 12 = 1 := by decide
   have h12 : ∀ x : M, x ^ 12 = 1 := by

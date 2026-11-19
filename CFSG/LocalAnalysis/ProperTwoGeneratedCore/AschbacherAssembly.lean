@@ -86,9 +86,9 @@ theorem exists_centralInvolution (S : Sylow 2 G) (hrank : 1 ≤ CFSG.Open.pRank 
     apply Subtype.ext
     simpa using congrArg Subtype.val h
   have hcenter : Nontrivial (Subgroup.center (S : Subgroup G)) :=
-    IsPGroup.center_nontrivial S.isPGroup'
+    IsPGroup.center_nontrivial S.isPGroup
   have hdvd : 2 ∣ Nat.card (Subgroup.center (S : Subgroup G)) := by
-    obtain ⟨n, hn⟩ := (S.isPGroup'.to_subgroup (Subgroup.center (S : Subgroup G))).exists_card_eq
+    obtain ⟨n, hn⟩ := (S.isPGroup.to_subgroup (Subgroup.center (S : Subgroup G))).exists_card_eq
     have hn0 : n ≠ 0 := by
       intro h0
       rw [h0, pow_zero] at hn

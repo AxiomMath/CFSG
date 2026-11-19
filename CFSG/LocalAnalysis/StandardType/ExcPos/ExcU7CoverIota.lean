@@ -157,8 +157,8 @@ theorem excU7Cover_group_props (f : ℕ) (hf : 1 ≤ f) :
   have h32 : (6, 2 ^ f) ≠ (3, 2) := by
     intro h
     exact absurd (congrArg Prod.fst h) (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (GaloisField 2 (2 * f)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (GaloisField 2 (2 * f)) :=
     Nat.finite_of_card_ne_zero (by rw [hGF]; positivity)
   let e := CFSG.LieType.Universal.Unitary.equivStatedSU
     (F := GaloisField 2 (2 * f)) (p := 2) (f := f) hGF 6

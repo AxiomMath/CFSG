@@ -11,8 +11,8 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
-theorem FF81Hyp.cubeMulEquiv (h : FF81Hyp b L)
-    {b₁ b₂ b₃ : G} (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
+theorem FF81Hyp.cubeMulEquiv (_h : FF81Hyp b L)
+    {b₁ b₂ b₃ : G} (_hb₁ : b₁ ∈ L) (_hb₂ : b₂ ∈ L) (_hb₃ : b₃ ∈ L)
     (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G))) :
     ∃ e : ↥(Subgroup.closure ({b₁, b₂, b₃} : Set G)) ≃*
         Multiplicative (Fin 3 → ZMod 3),
@@ -21,11 +21,11 @@ theorem FF81Hyp.cubeMulEquiv (h : FF81Hyp b L)
       e ⟨b₃, Subgroup.subset_closure (by simp)⟩ = Multiplicative.ofAdd (Pi.single 2 1) := by
   let B : Subgroup G := Subgroup.closure ({b₁, b₂, b₃} : Set G)
   have hB : IsElemAb 3 3 B := hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsElementaryAbelian 3 ↥B := hB.1
-  letI : Module (ZMod 3) (Additive ↥B) := IsElementaryAbelian.isVectorSpace 3
-  haveI : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
-  haveI : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 ↥B := hB.1
+  let : Module (ZMod 3) (Additive ↥B) := IsElementaryAbelian.isVectorSpace 3
+  have : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
+  have : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
   let gen : Fin 3 → ↥B := fun i =>
     match i with
     | 0 => ⟨b₁, Subgroup.subset_closure (by simp)⟩
@@ -39,10 +39,10 @@ theorem FF81Hyp.cubeMulEquiv (h : FF81Hyp b L)
       fin_cases i <;> simp [gen]
     · intro hx
       simp only [Set.mem_preimage, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-      rcases hx with h | h | h
-      · exact ⟨0, Subtype.ext h.symm⟩
-      · exact ⟨1, Subtype.ext h.symm⟩
-      · exact ⟨2, Subtype.ext h.symm⟩
+      rcases hx with _h | _h | _h
+      · exact ⟨0, Subtype.ext _h.symm⟩
+      · exact ⟨1, Subtype.ext _h.symm⟩
+      · exact ⟨2, Subtype.ext _h.symm⟩
   have htop : Subgroup.closure (Set.range gen) = ⊤ := by
     rw [hgen_range]
     exact Subgroup.closure_closure_coe_preimage
@@ -68,10 +68,10 @@ theorem FF81Hyp.cubeMulEquiv (h : FF81Hyp b L)
       rw [hneg]
       exact Submodule.neg_mem (Submodule.span (ZMod 3) (Set.range v)) ihy
   have hrank : Module.finrank (ZMod 3) (Additive ↥B) = 3 := by
-    have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive ↥B)
+    have _h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive ↥B)
     have h1 : Nat.card (Additive ↥B) = 3 ^ 3 := hB.2
-    rw [h1, Nat.card_zmod] at h
-    exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) h).symm
+    rw [h1, Nat.card_zmod] at _h
+    exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) _h).symm
   have hli : LinearIndependent (ZMod 3) v :=
     linearIndependent_of_top_le_span_of_card_eq_finrank hspan (by rw [hrank]; simp)
   let bs : Module.Basis (Fin 3) (ZMod 3) (Additive ↥B) := Module.Basis.mk hli hspan
@@ -107,7 +107,7 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
     (hHι₁ : ∀ x ∈ H, ι₁ * x * ι₁⁻¹ ∈ H) (hHι₂ : ∀ x ∈ H, ι₂ * x * ι₂⁻¹ ∈ H)
     (hHι₃ : ∀ x ∈ H, ι₃ * x * ι₃⁻¹ ∈ H)
     (hHσ₁₂ : ∀ x ∈ H, σ₁₂ * x * σ₁₂⁻¹ ∈ H) (hHσ₂₃ : ∀ x ∈ H, σ₂₃ * x * σ₂₃⁻¹ ∈ H)
-    (hHγ : ∀ x ∈ H, γ * x * γ⁻¹ ∈ H) :
+    (_hHγ : ∀ x ∈ H, γ * x * γ⁻¹ ∈ H) :
     H = Subgroup.closure ({b₁, b₂, b₃} : Set G) := by
   let B : Subgroup G := Subgroup.closure ({b₁, b₂, b₃} : Set G)
   obtain ⟨e, hb0, hb1, hb2⟩ := FF81Hyp.cubeMulEquiv h hb₁ hb₂ hb₃ hE
@@ -142,7 +142,7 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
         funext j
         by_cases hj : j = i
         · subst hj
-          simp only [eq_self_iff_true, if_true, Pi.zero_apply]
+          simp only [ite_true, Pi.zero_apply]
           exact neg_zero
         · simp [hj]
       map_add' := by
@@ -150,7 +150,7 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
         funext j
         by_cases hj : j = i
         · subst hj
-          simp only [eq_self_iff_true, if_true, Pi.add_apply, Pi.neg_apply]
+          simp only [ite_true, Pi.add_apply]
           change -(u j + w j) = -u j + -w j
           calc
             -(u j + w j) = -w j + -u j := neg_add_rev _ _
@@ -167,11 +167,11 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
       funext k
       by_cases hk : k = j
       · simp [flipAdd, hk]
-      · simp [flipAdd, hk, Pi.single_eq_of_ne hk]
+      · simp [flipAdd, hk]
     · funext k
       by_cases hk : k = i
       · subst hk
-        simp [flipAdd, Pi.single_eq_of_ne (Ne.symm hji), hji]
+        simp [flipAdd, hji]
       · simp [flipAdd, hk, Pi.single_apply, hji]
   have permAdd_single (σ : Equiv.Perm (Fin 3)) (j : Fin 3) :
       permAdd σ (Pi.single j 1) = Pi.single (σ.symm j) 1 := by
@@ -462,7 +462,7 @@ theorem FF81Hyp.B1_irreducible_monomial (h : FF81Hyp b L)
     · rw [hk]
       simp [flipAdd]
       exact (two_mul (v i)).symm
-    · simp [flipAdd, hk, Pi.single_eq_of_ne hk]
+    · simp [flipAdd, hk]
   have hmem : (2 * v i) • Pi.single i 1 ∈ Kadd := by
     rw [← hdiff]
     exact Kadd.sub_mem hvK hflipK

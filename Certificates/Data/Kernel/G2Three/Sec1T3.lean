@@ -34,7 +34,7 @@ open CFSG.KC.Loop
 @[expose] noncomputable def pairsOK (P C Q L OR h H lo : Nat) : Bool :=
   (fun d => Nat.rec (motive := fun _ => Bool) true (fun t ih => bAnd(
     (fun p => (fun k x => (fun K => bIf(Nat.blt t d,
-        bAnd(Bool.not' (hasB H x), bAnd(hasB H (atR Q x), bAnd(
+        bAnd(not (hasB H x), bAnd(hasB H (atR Q x), bAnd(
           Nat.beq K (Nat.lor H (imgR (rowT C x) H)), Nat.beq K (Nat.lor H (imgR (rowT P x) H))))),
         bAnd(Nat.beq (Nat.land H K) H, Nat.beq (ordAt OR k) (Nat.mul 2 (ordAt OR h)))))
       (fld(L, Nat.mul 128 k, M128))) (Nat.land p 511) (Nat.shiftRight p 9)) (pairAt lo t), ih))
@@ -50,7 +50,7 @@ open CFSG.KC.Loop
 
 @[expose] noncomputable def witB (rx cv H gs : Nat) : Bool :=
   Nat.rec (motive := fun _ => Bool) false (fun t ih =>
-    bIf(Bool.not' (hasB H (conjR rx cv (fld(gs, Nat.add 3 (Nat.mul 7 t), 127)))), true, ih))
+    bIf(not (hasB H (conjR rx cv (fld(gs, Nat.add 3 (Nat.mul 7 t), 127)))), true, ih))
     (Nat.land gs 7)
 
 @[expose] noncomputable def gensIn (H gs : Nat) : Bool :=

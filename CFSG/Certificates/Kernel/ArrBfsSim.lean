@@ -248,7 +248,7 @@ theorem loop_eq (T : Tables n N act key Pt E PA LA) :
     have hsz : pts.size = m := by rw [H.pts_eq, toArray_size]
     unfold arrBfsLoop
     by_cases hi : i < m
-    · rw [if_pos (by rw [hsz]; exact hi), arrBfsStep_eq]
+    · rw [ite_eq_left (by rw [hsz]; exact hi), arrBfsStep_eq]
       obtain ⟨m', hi', H', hrow⟩ := fold_inv (act := act) T n le_rfl H hi
       dsimp only at H' hrow ⊢
       generalize (List.range n).foldl (stepA act key i) (pts, par, lab, idx, #[]) = acc at H' hrow ⊢
@@ -259,7 +259,7 @@ theorem loop_eq (T : Tables n N act key Pt E PA LA) :
         omega) (by omega) ?_
       rw [he, hrow, List.range_succ, List.map_append]
       simp
-    · rw [if_neg (by rw [hsz]; exact hi)]
+    · rw [ite_eq_right (by rw [hsz]; exact hi)]
       have hiN' : i = N := by
         by_contra hne
         apply hi

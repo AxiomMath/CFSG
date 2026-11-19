@@ -77,7 +77,7 @@ theorem exists_hom {m : ℕ} (gs : ℕ → Perm α) (hs : ℕ → Perm β) (O : 
     have h3 : x * y⁻¹ = 1 := Subtype.ext (Prod.ext h1 h2)
     exact mul_inv_eq_one.1 h3
   have hrange : π1.range = closure (gs '' {k | k < m}) := by
-    rw [← hfst, MonoidHom.restrict_range]
+    rw [← hfst, MonoidHom.domRestrict_range]
   let e : ↥L ≃* ↥(closure (gs '' {k | k < m})) :=
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)
   have he : ∀ x : ↥L, ((e x : ↥(closure (gs '' {k | k < m}))) : Perm α) = x.1.1 := fun _ => rfl

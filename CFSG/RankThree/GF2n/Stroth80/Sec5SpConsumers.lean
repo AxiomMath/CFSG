@@ -65,6 +65,7 @@ theorem sec8AExists_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement
   exact ⟨r, ⟨hr, hplane, hc.Rt_eq_sup_of_51 h51 hs8.toSec5 (Or.inl hs8.spNat) hr hplane hgen⟩⟩
 
 
+omit [Finite G] in
 theorem mem_sup_Z_iff_secVec {D V : Subgroup G} {K : Type} [Field K] {ι : Type} [Fintype ι]
     [DecidableEq ι] [(Z.subgroupOf V).Normal]
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (hZV : Z ≤ V) (hDV : D ≤ V)
@@ -164,7 +165,7 @@ theorem Ctx.conj_orbit_of_transitive (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : 
   intro m hm hmV
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   obtain ⟨nn, γ, M₀, hglob, θ, hθ⟩ := hc.exists_globalRingEquiv hs.mem hK hX φ hφ ψ hψ
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt hs.mem
   obtain ⟨b₀, hb₀B, hu0, hBiff⟩ := hc.exists_point_of_le hBV ψ hglob θ hθ
@@ -181,7 +182,7 @@ theorem Ctx.conj_orbit_of_transitive (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : 
 theorem stroth56Sp_holds : Stroth56SpStatement := by
   intro G _ _ M Q Z B hc n t hs8 m hm hmV
   obtain ⟨K, fK, finK, hK, mm, hmm, hnat⟩ := hs8.spNat
-  haveI : Nonempty (Fin mm ⊕ Fin mm) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin mm ⊕ Fin mm) := ⟨Sum.inl ⟨0, by omega⟩⟩
   exact hc.conj_orbit_of_transitive hs8.toSec5 hK addCommutantScalar_statedSp
     (fun x y hx hy => exists_statedSp_mulVec_eq hx hy) hnat m hm hmV
 

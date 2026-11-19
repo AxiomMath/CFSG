@@ -60,7 +60,7 @@ private def rowHom (m : ℕ) (K : Type) [Field K] :
     Multiplicative (Fin (m + 1) → K) →* SpecialLinearGroup (Fin (m + 2)) K where
   toFun ρ := ⟨rowMat (Multiplicative.toAdd ρ), det_rowMat _⟩
   map_one' := Subtype.ext rowMat_zero
-  map_mul' ρ ρ' := Subtype.ext (rowMat_mul _ _).symm
+  map_mul' _ρ _ρ' := Subtype.ext (rowMat_mul _ _).symm
 
 private theorem rowHom_single (j : Fin (m + 1)) (c : K) :
     rowHom m K (Multiplicative.ofAdd (Pi.single j c)) =
@@ -69,14 +69,14 @@ private theorem rowHom_single (j : Fin (m + 1)) (c : K) :
   show rowMat (Pi.single j c) = Matrix.transvection 0 j.succ c
   ext a b
   refine Fin.cases ?_ (fun a' => ?_) a <;> refine Fin.cases ?_ (fun b' => ?_) b
-  · simp [Matrix.transvection, Matrix.single_apply, Fin.succ_ne_zero]
+  · simp [Matrix.transvection, Fin.succ_ne_zero]
   · by_cases h : b' = j
     · subst h
-      simp [Matrix.transvection, Matrix.single_apply, (Fin.succ_ne_zero _).symm]
-    · simp [Matrix.transvection, Matrix.single_apply, Pi.single_apply, h, Ne.symm h,
+      simp [Matrix.transvection, (Fin.succ_ne_zero _).symm]
+    · simp [Matrix.transvection, h, Ne.symm h,
         (Fin.succ_ne_zero _).symm]
-  · simp [Matrix.transvection, Matrix.single_apply, Fin.succ_ne_zero]
-  · simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, (Fin.succ_ne_zero a').symm]
+  · simp [Matrix.transvection, Fin.succ_ne_zero]
+  · simp [Matrix.transvection, Matrix.one_apply, (Fin.succ_ne_zero a').symm]
 
 end Row
 
@@ -100,7 +100,7 @@ theorem commutator_stabilizer_single_zero {m : ℕ} (hm : 2 ≤ m) :
     rw [hmem]
     show Matrix.transvection a b c *ᵥ e₀ = e₀
     rw [Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec]
-    simp [he₀, Pi.single_apply, hb]
+    simp [he₀, hb]
   have hrow : ∀ {j : Fin (m + 2)} (hj : (0 : Fin (m + 2)) ≠ j) (c : K),
       SpecialLinearGroup.transvection hj c ∈ ⁅S, S⁆ := by
     intro j hj c

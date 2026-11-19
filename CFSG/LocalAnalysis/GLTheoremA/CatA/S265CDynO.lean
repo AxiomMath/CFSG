@@ -195,10 +195,10 @@ theorem n_eq_one_of_component_over_two {S : Type} [Group S] [Finite S] {labL : G
       calc Nat.card ↥J ≤ Nat.card ↥(fixSubgroup β) := Subgroup.card_le_of_le hJ.1
         _ < Nat.card S := CanonTriL.card_fixSubgroup_lt hβ1
         _ = 60 := hS60
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
     have hqJ := hJ.2.2
-    haveI := hqJ.2
-    haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+    have := hqJ.2
+    have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J).ne hqJ.1
   ·
     exact (CanonSubcomp.canonLabel_n_eq_markDeg hlamL hc).trans h1
@@ -223,7 +223,7 @@ theorem false_of_small_order {S : Type} [Group S] [Finite S] {β : MulAut S} (h�
       _ < Nat.card S := CanonTriL.card_fixSubgroup_lt hβ1
   rcases card_of_target_model hT hM with h | h | h | h <;>
     rcases hS with h' | h' | h' | h' <;> rw [h, h'] at hdvd hlt <;>
-    first | omega | exact absurd hdvd (by decide)
+    first | omega
 
 end Small
 

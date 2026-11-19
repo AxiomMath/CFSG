@@ -35,10 +35,10 @@ theorem entOK_spec {j : Nat} {e : List Nat} (h : entOK SP VT PS n L P j e = true
   refine ⟨h1, fun hm => by simp [(memN_iff _ _).2 hm] at h2, ?_⟩
   cases hb : Nat.blt (e.getD 1 0) n
   · rw [hb] at h3
-    simp only [cond_false, Bool.and_eq_true, allLt_iff, Bool.or_eq_true] at h3
+    simp only [Bool.cond_false, Bool.and_eq_true, allLt_iff, Bool.or_eq_true] at h3
     exact Or.inr ⟨h3.1, h3.2⟩
   · rw [hb] at h3
-    simp only [cond_true, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h3
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h3
     exact Or.inl ⟨by simpa using hb, h3.1, h3.2⟩
 
 theorem entsOK_spec : ∀ {es : List (List Nat)} {j0 : Nat}, entsOK SP VT PS n L P es j0 = true →
@@ -70,7 +70,7 @@ theorem entOK_of_blk {E : List (List Nat)} {K : Nat} (hK : E.length ≤ 128 * K)
     exact Nat.div_add_mod j 128
   rw [hj'] at this
   simp only [List.getD_eq_getElem?_getD, List.getElem?_take, List.getElem?_drop] at this
-  rw [if_pos (Nat.mod_lt j (by norm_num)), hj'] at this
+  rw [ite_eq_left (Nat.mod_lt j (by norm_num)), hj'] at this
   simpa only [List.getD_eq_getElem?_getD] using this
 
 variable {U : Submodule (ZMod 2) V12}

@@ -36,7 +36,7 @@ private theorem exists_sylow_eq_zpowers {G : Type*} [Group G] [Finite G] {p : �
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   refine ⟨S, (Subgroup.eq_of_le_of_card_ge hS ?_).symm⟩
   have h1 : Nat.card (S : Subgroup G) ≤ p :=
-    Nat.le_of_dvd (Fact.out : p.Prime).pos (hbound _ S.isPGroup')
+    Nat.le_of_dvd (Fact.out : p.Prime).pos (hbound _ S.isPGroup)
   rwa [Nat.card_zpowers, hg]
 
 theorem exists_fixed_conj {Y : Type*} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)

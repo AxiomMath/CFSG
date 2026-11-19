@@ -41,7 +41,7 @@ theorem l41_sylow_of {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
     (hc : L41GPh1 t L S x₁ x₂ lam rho) (hgen : ¬ GH74.Gen4 G) : Lemma4_2Concl S := by
   by_contra hodd
   have hS : IsPGroup 2 S := hc.isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact hgen
     (sectionalTwoRankLE_of_sylow_rank (hS.toSylow hodd) fun Q hQ => hc.basic.rank_S Q hQ)
 
@@ -52,9 +52,9 @@ theorem l41_sylow_holds : L41SylowStmt := by
   refine S4A.l41_sylow_of hc.toG fun hgen4 => ?_
   have hnonab : ∃ a b : G, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
-    haveI : IsSimpleGroup G := hc.glob.simple
-    letI : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcon a b }
+    push Not at hcon
+    have : IsSimpleGroup G := hc.glob.simple
+    let : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card G).Prime := IsSimpleGroup.prime_card
     rcases hprime.eq_one_or_self_of_dvd (2 ^ 11) hc.glob.dvd with h1 | h1
     · norm_num at h1

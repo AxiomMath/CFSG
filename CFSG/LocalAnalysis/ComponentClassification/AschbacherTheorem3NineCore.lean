@@ -117,7 +117,7 @@ theorem R_not_le (c : Core49 A T S Q H) : ¬ S ⊓ A ≤ centerOf A := by
     intro a
     have hpR : (p : X) ∈ S ⊓ A := hP ▸ ⟨p, hp, rfl⟩
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hR hpR).2 a a.2)
-  have h := AschbacherToolkit.central_sylow_commutator P hPc P.isPGroup'
+  have h := AschbacherToolkit.central_sylow_commutator P hPc P.isPGroup
   rw [c.quasisimple.1, inf_top_eq] at h
   have hP'bot : commutator (P : Subgroup A) = ⊥ := by
     rw [_root_.commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]

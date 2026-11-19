@@ -87,7 +87,7 @@ theorem normal_three_eq_bot (hf : IsF3Form f) (hm : 4 ≤ m) (N : Subgroup (R3 f
       exact Subgroup.index_eq_one.mp hj
     · exact absurd ((dvd_pow_self 3 (Nat.succ_ne_zero j)).trans (hj ▸ hdvd)) hnd
   have hP3 : ∀ p ∈ (P : Subgroup Ñ), ∃ k, p ^ 3 ^ k = 1 := fun p hp => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hcent : ∀ {z : R}, z ∈ Subgroup.center R → ∀ {k : ℕ}, z ^ 3 ^ k = 1 → z = 1 := by
     intro z hz k hk
@@ -135,7 +135,7 @@ theorem normal_three_eq_bot (hf : IsF3Form f) (hm : 4 ≤ m) (N : Subgroup (R3 f
     { smul := fun p x => F3.act ((p : R) : GL (Fin m) (ZMod 3)) x
       one_smul := fun x => F3.act_one x
       mul_smul := fun p q x => F3.act_mul _ _ x }
-  have hPR3 : IsPGroup 3 PR := (P.isPGroup').map Ñ.subtype
+  have hPR3 : IsPGroup 3 PR := (P.isPGroup).map Ñ.subtype
   have hfixU : ∃ U : Submodule (ZMod 3) (Fin m → ZMod 3),
       ∀ x, x ∈ U ↔ ∀ p ∈ PR, F3.act ((p : R) : GL (Fin m) (ZMod 3)) x = x :=
     ⟨{ carrier := {x | ∀ p ∈ PR, F3.act ((p : R) : GL (Fin m) (ZMod 3)) x = x}

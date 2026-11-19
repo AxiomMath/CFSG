@@ -196,14 +196,14 @@ theorem zBar_eq_cases {n : ℕ} {α β : Finset (Fin n)} {h : α.card = 4} {h' :
     · have h4' : x ∈ Set.range (emb α h) := e1.mpr h4
       by_cases h5 : x ∈ β
       · have h5' := e2.mpr h5
-        rw [if_pos h4', if_pos h5'] at hv
+        rw [ite_eq_left h4', ite_eq_left h5'] at hv
         exact absurd hv (by decide)
       · exact ⟨fun _ => h5, fun _ => h4⟩
     · have h4' : x ∉ Set.range (emb α h) := fun hh => h4 (e1.mp hh)
       by_cases h5 : x ∈ β
       · exact ⟨fun hh => absurd hh h4, fun hh => absurd h5 hh⟩
       · have h5' : x ∉ Set.range (emb β h') := fun hh => h5 (e2.mp hh)
-        rw [if_neg h4', if_neg h5'] at hv
+        rw [ite_eq_right h4', ite_eq_right h5'] at hv
         exact absurd hv (by decide)
 
 end Exclusion

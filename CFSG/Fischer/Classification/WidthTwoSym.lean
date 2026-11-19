@@ -10,7 +10,7 @@ open CFSG.OddTranspositions
 open CFSG.GroupTheory
 
 theorem isSolvable_perm_three : Group.IsSolvable (Equiv.Perm (Fin 3)) := by
-  haveI : Group.IsSolvable ↥(alternatingGroup (Fin 3)) :=
+  have : Group.IsSolvable ↥(alternatingGroup (Fin 3)) :=
     Group.isSolvable_of_comm (by decide)
   exact Group.isSolvable_of_ker_le_range (alternatingGroup (Fin 3)).subtype Equiv.Perm.sign
     (by rw [Subgroup.range_subtype]; exact le_rfl)
@@ -58,7 +58,7 @@ theorem sym_width_two_m_eq_five {G : Type*} [Group G] {D : Set G} {m : ℕ}
   have hm5 : m ≤ 5 := (widthLe_transpositionsFin_iff hm2).1 hW'
   rcases hm with rfl | hm5'
   · exfalso
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := isSolvable_perm_three
+    have : Group.IsSolvable (Equiv.Perm (Fin 3)) := isSolvable_perm_three
     exact hns (Group.isSolvable_of_isSolvable_injective
       (f := φ.toMonoidHom) φ.injective)
   · omega

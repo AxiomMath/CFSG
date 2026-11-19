@@ -83,9 +83,8 @@ theorem resBlockHom_leviEHom (h : UnitaryFieldData p f K) (hε : ε ≤ 1) {I : 
   · simp only [resIdx, blk3_inl_inl]
     rw [extendMat_apply_of_not_mem _ _ (Or.inl (hout i))]
     simp [one_apply]
-  all_goals first
+  all_goals try first
     | (simp [resIdx, blk3, one_apply]; done)
-    | skip
   · simp only [resIdx, blk3_inr_inr_inr_inr, hD]
     rw [extendMat_apply_of_not_mem _ _ (Or.inl (hout i))]
     simp [one_apply]

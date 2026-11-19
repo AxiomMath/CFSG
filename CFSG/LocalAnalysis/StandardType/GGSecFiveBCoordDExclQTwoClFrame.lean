@@ -108,7 +108,7 @@ theorem exists_negEquiv_or_rotEquiv_mem_normalizerOf_symplectic {r : ℕ} (hr : 
         Subgroup.zpowers (if h : ∃ i j, i ∈ S ∧ j ∈ S ∧ i ≠ j then
           PlaneRaw.rotEquiv r h.choose h.choose_spec.choose else 1)
       else PlaneRaw.signedPermGroupOn r S)
-    rw [if_pos hS2, dif_pos hex]
+    rw [ite_eq_left hS2, dite_eq_left hex]
     exact Subgroup.mem_zpowers _
   · have hpos : 0 < S.card := by rw [hScard]; omega
     obtain ⟨i, hi⟩ := Finset.card_pos.mp hpos
@@ -118,7 +118,7 @@ theorem exists_negEquiv_or_rotEquiv_mem_normalizerOf_symplectic {r : ℕ} (hr : 
         Subgroup.zpowers (if h : ∃ i j, i ∈ S ∧ j ∈ S ∧ i ≠ j then
           PlaneRaw.rotEquiv r h.choose h.choose_spec.choose else 1)
       else PlaneRaw.signedPermGroupOn r S)
-    rw [if_neg hS2]
+    rw [ite_eq_right hS2]
     exact Subgroup.subset_closure (Or.inr ⟨i, hi, rfl⟩)
 
 private theorem lin_exists_exact_label {K₀ : Type} [Group K₀] {E : Subgroup K₀}

@@ -62,6 +62,7 @@ section Row26B
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem relIndex_normalizer_le_two_aux1 (g h : X) (H : Subgroup X) :
     conjSub g (conjSub h H) = conjSub (g * h) H := by
   unfold conjSub
@@ -70,6 +71,7 @@ theorem relIndex_normalizer_le_two_aux1 (g h : X) (H : Subgroup X) :
   ext y
   simp [mul_assoc]
 
+omit [Finite X] in
 theorem relIndex_normalizer_le_two_aux2 (H : Subgroup X) : conjSub 1 H = H := by
   unfold conjSub
   ext y
@@ -80,7 +82,7 @@ theorem relIndex_normalizer_le_two {T T₁ T₂ : Subgroup X} (h : IsGNPair T T�
     {I : Subgroup X} (hI : I ∈ CY T T₁ T₂) :
     (A ⊓ Subgroup.normalizer (I : Set X)).relIndex A ≤ 2 := by
   classical
-  letI : MulAction A (Subgroup X) :=
+  let : MulAction A (Subgroup X) :=
     { smul := fun a J => conjSub (a : X) J
       one_smul := fun J => by
         show conjSub ((1 : A) : X) J = J
@@ -131,7 +133,7 @@ theorem commutator_yLifts_le_aux1 {T T₁ T₂ : Subgroup X} (hX : GNSetting X T
     {I I' : Subgroup X} (hI : I ∈ CY T T₁ T₂) (hI' : I' ∈ CY T T₁ T₂) {y : X} (hy : y ∈ I)
     {i : X} (hi : i ∈ I') {v : X} (hv : v ∈ gnV T) :
     y * ⁅i, v⁆ * y⁻¹ ∈ ⁅I', gnV T⁆ := by
-  haveI hVn : (gnV T).Normal := Subgroup.normalClosure_normal
+  have hVn : (gnV T).Normal := Subgroup.normalClosure_normal
   have hv' : y * v * y⁻¹ ∈ gnV T := hVn.conj_mem v hv y
   by_cases hII : I = I'
   · subst hII

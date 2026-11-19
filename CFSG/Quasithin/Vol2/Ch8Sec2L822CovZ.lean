@@ -21,9 +21,9 @@ theorem central_image_of_hat_cv {B N₀ : Type} [Group B] [Finite B] [Group N₀
     (hN27 : ¬ 27 ∣ Nat.card (N₀ ⧸ Subgroup.center N₀))
     (u : B) (hu3 : u ^ 3 = 1)
     (hu : (QuotientGroup.mk u : B ⧸ O) ∈ Subgroup.center (B ⧸ O))
-    (hu1 : u ∉ O) :
+    (_hu1 : u ∉ O) :
     ρ u ∈ Subgroup.center N₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOpow : ∀ x ∈ O, ∃ n : ℕ, x ^ (2 ^ n) = 1 := by
     intro x hx
     obtain ⟨n, hn⟩ := hO2 ⟨x, hx⟩

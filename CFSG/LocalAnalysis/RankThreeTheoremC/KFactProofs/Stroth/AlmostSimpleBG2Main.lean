@@ -31,7 +31,7 @@ theorem pClosureOdd_adjointG2 (K : Type) [Field K] [Finite K] [CharP K 2] {f : �
     (hE₀ : ∃ E : Subgroup ↥(adjointGroup .G2 K), IsElemAbelian p E ∧ Nat.card E = p ^ 2) :
     PClosureOdd p ↥(adjointGroup .G2 K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro d hd1 hdp
   have hord : orderOf d = p := orderOf_eq_prime hdp hd1
   have hq4 : 4 ≤ Nat.card K := by
@@ -93,7 +93,7 @@ theorem chevTwoPClosureOddG2_holds : ChevTwoPClosureOddG2 := by
     have hq2 : q.p = 2 := hdi
     obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.g2 q hv
-    haveI : CharP K 2 := hq2 ▸ hchK
+    have : CharP K 2 := hq2 ▸ hchK
     let θ : L ≃* adjointGroup Tag.G2 K := e.trans eK
     have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]
     have h3 : 3 ≤ q.card := (LieTypeIndex.inStandardRange_iff _).1

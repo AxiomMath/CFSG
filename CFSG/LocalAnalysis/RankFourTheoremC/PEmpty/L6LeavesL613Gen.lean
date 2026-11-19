@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L613
 open CFSG CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 
-theorem mem_of_mem_sup_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
+theorem mem_of_mem_sup_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ} (_hp : p.Prime)
     {N M : Subgroup X} [N.Normal] (hM : Nat.Coprime p (Nat.card M)) {w : X} (hw : w ∈ N ⊔ M)
     (hwp : w ^ p = 1) : w ∈ N := by
   have h1 : QuotientGroup.mk' N w ∈ M.map (QuotientGroup.mk' N) := by
@@ -30,8 +30,8 @@ theorem mem_of_mem_sup_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ} (hp 
 theorem mem_pLayer_of_mem_layer {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) {w : X}
     (hw : (w : X ⧸ pPrimeCore p X) ∈ layer (X ⧸ pPrimeCore p X)) (hwp : w ^ p = 1) :
     w ∈ pLayer X p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (pLayer X p).Characteristic :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : (pLayer X p).Characteristic :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic (G := X) (p := p)
   have h1 : w ∈ (layer (X ⧸ pPrimeCore p X)).comap (QuotientGroup.mk' (pPrimeCore p X)) := hw
   rw [CFSG.ComponentClassification.LBalance.Quot.comap_layer_quotient_eq] at h1
@@ -64,7 +64,7 @@ theorem l613_of_facts (hI : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input
   · subst hf3
     exact L630.l613f3_of_facts hI hSch hβ h291 h313 G p P M x z hS hx hz hpc H K hHM hsec hpS hfS
   have hp := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf5 : 5 ≤ f := by
     by_contra hlt
     interval_cases f <;> simp_all <;> exact absurd hf (by norm_num)

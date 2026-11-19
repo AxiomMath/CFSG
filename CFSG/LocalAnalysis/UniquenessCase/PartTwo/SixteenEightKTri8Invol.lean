@@ -55,7 +55,7 @@ private theorem s16k_exists_two_moves_of_even {K : Type} [Field K] {V : Type}
     s16k_exists_two_nonzero_of_two_le_finrank h2
   exact ⟨u₁, u₂, hu₁, hu₂, hne, mem_commSpace.mp hu₁W, mem_commSpace.mp hu₂W⟩
 
-theorem s16k_statedOmega_moves {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
+theorem s16k_statedOmega_moves {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2)
     {g : ↥(StatedOmega (StatedQuadPlus 4 K))} (hg1 : g ≠ 1) :
     ∃ u₁ u₂ : Fin 4 ⊕ Fin 4 → K, u₁ ≠ 0 ∧ u₂ ≠ 0 ∧ u₁ ≠ u₂ ∧
       (∃ v : Fin 4 ⊕ Fin 4 → K,

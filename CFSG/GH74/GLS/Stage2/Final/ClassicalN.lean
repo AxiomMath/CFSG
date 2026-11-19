@@ -14,7 +14,7 @@ open Subgroup CFSG CFSG.GH74 CFSG.GH74.GLS CFSG.Blueprint CFSG.Assembly.LowTwoRa
 
 theorem exists_prime_pow_of_field (F : Type) [Field F] [Finite F] :
     ∃ p f : ℕ, p.Prime ∧ 1 ≤ f ∧ Nat.card F = p ^ f := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, hp, hn⟩ := FiniteField.card F (ringChar F)
   exact ⟨ringChar F, n, hp, n.pos, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 

@@ -15,6 +15,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 lemma h2_perfect_top {K : Subgroup G} (hK : ⁅K, K⁆ = K) :
     ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ = ⊤ := by
   have hmap : Subgroup.map K.subtype (⊤ : Subgroup K) = K := by
@@ -44,8 +45,8 @@ lemma h2_perf_solv {A B Q : Type*} [Group A] [Group B] [Group Q] [Group.IsSolvab
     rintro _ ⟨a', rfl⟩
     obtain ⟨b, hb⟩ := h a'
     exact ⟨b, hb⟩
-  haveI : Group.IsSolvable g.range := Group.isSolvable_of_surjective g.rangeRestrict_surjective
-  haveI : Group.IsSolvable f.range :=
+  have : Group.IsSolvable g.range := Group.isSolvable_of_surjective g.rangeRestrict_surjective
+  have : Group.IsSolvable f.range :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   have hR : ⁅f.range, f.range⁆ = f.range := by
     rw [MonoidHom.range_eq_map, ← Subgroup.map_commutator, hA]
@@ -58,6 +59,7 @@ lemma h2_perf_solv {A B Q : Type*} [Group A] [Group B] [Group Q] [Group.IsSolvab
   have hel := h2_eq_one_of_solvable_perfect hD ⟨f a, ⟨a, rfl⟩⟩
   exact congrArg Subtype.val hel
 
+omit [Finite G] in
 lemma h2_inv_centr {S : Subgroup G} {y : G} (hy : ∀ s ∈ S, y * s * y⁻¹ = s) :
     ∀ s ∈ S, y⁻¹ * s * y = s := by
   intro s hs
@@ -68,6 +70,7 @@ lemma h2_inv_centr {S : Subgroup G} {y : G} (hy : ∀ s ∈ S, y * s * y⁻¹ = 
     _ = y⁻¹ * (y * s) := by rw [hcomm]
     _ = s := by group
 
+omit [Finite G] in
 lemma h2_comm_centr {S : Subgroup G} {y g : G} (hy : ∀ s ∈ S, y * s * y⁻¹ = s)
     (hg : ∀ s ∈ S, g⁻¹ * s * g ∈ S) :
     ∀ s ∈ S, (y * g * y⁻¹ * g⁻¹) * s * (y * g * y⁻¹ * g⁻¹)⁻¹ = s := by
@@ -79,6 +82,7 @@ lemma h2_comm_centr {S : Subgroup G} {y g : G} (hy : ∀ s ∈ S, y * s * y⁻¹
     _ = y * s * y⁻¹ := by group
     _ = s := hy s hs
 
+omit [Finite G] in
 lemma h2_mem_normalizer_of_centr {S : Subgroup G} {y : G} (hy : ∀ s ∈ S, y * s * y⁻¹ = s) :
     y ∈ Subgroup.normalizer (S : Set G) := by
   have hinv := h2_inv_centr hy
@@ -95,11 +99,13 @@ lemma h2_mem_normalizer_of_centr {S : Subgroup G} {y : G} (hy : ∀ s ∈ S, y *
     rw [h2]
     exact hx
 
+omit [Finite G] in
 lemma h2_conj_inv_mem {S : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (S : Set G))
     {s : G} (hs : s ∈ S) : g⁻¹ * s * g ∈ S := by
   have h := (Subgroup.mem_normalizer_iff.mp ((Subgroup.normalizer (S : Set G)).inv_mem hg) s).mp hs
   rwa [inv_inv] at h
 
+omit [Finite G] in
 lemma h2_witness {S θ : Subgroup G} {X Y u : G} (hY : Y = u * X)
     (hYc : ∀ s ∈ S, Y * s * Y⁻¹ = s) (hu : u ∈ θ) (hX : X ∈ Subgroup.normalizer (S : Set G)) :
     ∃ n ∈ θ, n ∈ Subgroup.normalizer (S : Set G) ∧ ∀ s ∈ S, X * s * X⁻¹ = n * s * n⁻¹ := by
@@ -127,8 +133,9 @@ abbrev h2_act (S A : Subgroup G) (hA : A ≤ Subgroup.normalizer (S : Set G)) : 
     simp only [Subgroup.coe_mul]
     group
 
+omit [Finite G] in
 theorem five_nc_lemma {θ H S K : Subgroup G} [(θ.subgroupOf K).Normal]
-    (hθH : θ ≤ H) (hHθ : H ≤ normalizer (θ : Set G)) (hθs : Group.IsSolvable θ)
+    (_hθH : θ ≤ H) (hHθ : H ≤ normalizer (θ : Set G)) (hθs : Group.IsSolvable θ)
     (hKH : K ≤ H) (hKS : K ≤ normalizer (S : Set G)) (hperf : ⁅K, K⁆ = K)
     (hsimp : IsSimpleGroup (K ⧸ θ.subgroupOf K)) (hnt : ∃ k ∈ K, ∃ s ∈ S, k * s * k⁻¹ ≠ s)
     {k m y : G} (hk : k ∈ K) (hm : m ∈ H) (hmK : ∀ g ∈ K, ⁅m, g⁆ ∈ θ)
@@ -181,11 +188,11 @@ theorem five_nc_lemma {θ H S K : Subgroup G} [(θ.subgroupOf K).Normal]
       calc g * l * g⁻¹ * s * (g * l * g⁻¹)⁻¹ = g * (l * (g⁻¹ * s * g) * l⁻¹) * g⁻¹ := by group
         _ = g * (n * (g⁻¹ * s * g) * n⁻¹) * g⁻¹ := by rw [e]
         _ = g * n * g⁻¹ * s * (g * n * g⁻¹)⁻¹ := by group
-  haveI hLn : (L.subgroupOf K).Normal := ⟨fun x hx g => by
+  have hLn : (L.subgroupOf K).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have h := hLconj (g : G) g.2 (x : G) hx
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using h⟩
-  haveI hI : ((L.subgroupOf K).map (QuotientGroup.mk' (θ.subgroupOf K))).Normal :=
+  have hI : ((L.subgroupOf K).map (QuotientGroup.mk' (θ.subgroupOf K))).Normal :=
     Subgroup.Normal.map hLn (QuotientGroup.mk' (θ.subgroupOf K))
       (QuotientGroup.mk'_surjective (θ.subgroupOf K))
   rcases Subgroup.Normal.eq_bot_or_eq_top
@@ -278,9 +285,9 @@ theorem five_nc_lemma {θ H S K : Subgroup G} [(θ.subgroupOf K).Normal]
       ⟨θ ⊓ Subgroup.normalizer (S : Set G), fun n => Subgroup.mem_inf⟩
     have hTN : T ≤ Subgroup.normalizer (S : Set G) := fun n hn => ((hTmem n).mp hn).2
     have hTθ : T ≤ θ := fun n hn => ((hTmem n).mp hn).1
-    letI hKact : MulAction K S := h2_act S K hKS
-    letI hTact : MulAction T S := h2_act S T hTN
-    haveI hTsolv : Group.IsSolvable T :=
+    let hKact : MulAction K S := h2_act S K hKS
+    let hTact : MulAction T S := h2_act S T hTN
+    have hTsolv : Group.IsSolvable T :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hTθ)
     have hcov : ∀ a : K, ∃ b : T,
         (MulAction.toPermHom T S) b = (MulAction.toPermHom K S) a := by
@@ -312,8 +319,8 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem exists_five_element_not_mem {θ K : Subgroup G} [(θ.subgroupOf K).Normal]
     (h5 : 5 ∣ Nat.card (K ⧸ θ.subgroupOf K)) : ∃ x ∈ K, x ∉ θ ∧ IsPGroup 5 (Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite (K ⧸ θ.subgroupOf K) := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite (K ⧸ θ.subgroupOf K) := inferInstance
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := K ⧸ θ.subgroupOf K) 5 h5
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (θ.subgroupOf K) q
   have hn0 : orderOf y ≠ 0 := (orderOf_pos y).ne'
@@ -369,7 +376,7 @@ theorem h4_mem_normalizer_inf {X : Type*} [Group X] {θ S : Subgroup X} {g : X}
     g ∈ Subgroup.normalizer ((θ ⊓ Subgroup.normalizer (S : Set X) : Subgroup X) : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.mp hgθ h) (h4_conj_mem _ hgS)
 
 theorem h4_comm_of_gen {Q : Type*} [Group Q] {a b : Q} (hab : a * b = b * a)
@@ -454,7 +461,7 @@ theorem h4_isPGroup_of_gen {Q : Type*} [Group Q] {a b : Q} (ha : ∃ k : ℕ, a 
 theorem h4_sylow_sup {K : Type*} [Group K] [Finite K] (M : Subgroup K) [M.Normal]
     (hM : IsPGroup 5 (K ⧸ M)) (P : Sylow 5 K) :
     (P : Subgroup K) ⊔ M = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hM
   have hMidx : M.index = 5 ^ n := by
     rw [Subgroup.index_eq_card]; exact hn
@@ -478,7 +485,7 @@ theorem h4_lift_gen {X : Type*} [Group X] [Finite X] (N : Subgroup X) {x₁ x₂
     (hx₁ : ∃ k : ℕ, x₁ ^ 5 ^ k = 1) (hx₂ : ∃ k : ℕ, x₂ ^ 5 ^ k = 1) :
     ∃ P : Subgroup X, IsPGroup 5 P ∧ P ≤ Subgroup.closure ({x₁, x₂} : Set X) ⊔ N ∧
       ∀ g ∈ Subgroup.closure ({x₁, x₂} : Set X) ⊔ N, ∃ p ∈ P, ∃ n ∈ N, g = p * n := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨E, hE⟩ : ∃ E : Subgroup X, E = Subgroup.closure ({x₁, x₂} : Set X) ⊔ N := ⟨_, rfl⟩
   rw [← hE] at hnorm ⊢
   have hNE : N ≤ E := by
@@ -489,7 +496,7 @@ theorem h4_lift_gen {X : Type*} [Group X] [Finite X] (N : Subgroup X) {x₁ x₂
     rw [hE]
     exact Subgroup.mem_sup_left
       (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _)))
-  haveI hM : (N.subgroupOf E).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
+  have hM : (N.subgroupOf E).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   obtain ⟨k₁, hk₁⟩ := hx₁
   obtain ⟨k₂, hk₂⟩ := hx₂
   have hp₁ : (⟨x₁, hx₁E⟩ : ↥E) ^ 5 ^ k₁ = 1 := Subtype.ext (by simpa using hk₁)
@@ -550,7 +557,7 @@ theorem h4_lift_gen {X : Type*} [Group X] [Finite X] (N : Subgroup X) {x₁ x₂
   have hQ : IsPGroup 5 (↥E ⧸ N.subgroupOf E) := h4_isPGroup_of_gen ha5 hb5 hab hgen
   obtain ⟨P₀⟩ : Nonempty (Sylow 5 ↥E) := inferInstance
   have hsup : (P₀ : Subgroup ↥E) ⊔ N.subgroupOf E = ⊤ := h4_sylow_sup (N.subgroupOf E) hQ P₀
-  refine ⟨(P₀ : Subgroup ↥E).map E.subtype, IsPGroup.map P₀.isPGroup' E.subtype, ?_, ?_⟩
+  refine ⟨(P₀ : Subgroup ↥E).map E.subtype, IsPGroup.map P₀.isPGroup E.subtype, ?_, ?_⟩
   · rintro _ ⟨y, _, rfl⟩
     exact y.2
   · intro g hg
@@ -645,6 +652,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 lemma h5_eq_one_of_fix {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a : ↥P) (h : ∀ s ∈ S, (a : G) * s * (a : G)⁻¹ = s) : ψ a = 1 := by
@@ -654,6 +662,7 @@ lemma h5_eq_one_of_fix {S P : Subgroup G} (ψ : P →* MulAut ↥S)
   rw [hψ]
   exact h (s : G) s.2
 
+omit [Finite G] in
 lemma h5_ne_one_of_exists {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a : ↥P) (h : ∃ s ∈ S, (a : G) * s * (a : G)⁻¹ ≠ s) : ψ a ≠ 1 := by
@@ -666,13 +675,15 @@ lemma h5_ne_one_of_exists {S P : Subgroup G} (ψ : P →* MulAut ↥S)
   rw [hψ] at h3
   exact h3
 
+omit [Finite G] in
 lemma h5_exists_of_ne_one {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a : ↥P) (h : ψ a ≠ 1) : ∃ s ∈ S, (a : G) * s * (a : G)⁻¹ ≠ s := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact h (h5_eq_one_of_fix ψ hψ a hcon)
 
+omit [Finite G] in
 lemma h5_comm_of_central {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a : ↥P) (hc : ∀ g : ↥P, ψ g * ψ a = ψ a * ψ g) :
@@ -684,6 +695,7 @@ lemma h5_comm_of_central {S P : Subgroup G} (ψ : P →* MulAut ↥S)
   simp only [hψ] at h2
   exact h2.symm
 
+omit [Finite G] in
 lemma h5_eq_zpow_of_act {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a b : ↥P) (j : ℤ)
@@ -702,16 +714,16 @@ lemma h5_core {S P : Subgroup G} (hP5 : IsPGroup 5 P) (ψ : P →* MulAut ↥S)
       (∃ s ∈ S, a * s * a⁻¹ ≠ s) → ∀ b ∈ P, ∃ j : ℤ, ∀ s ∈ S, b * s * b⁻¹ = a ^ j * s * (a ^ j)⁻¹)
     {y₁ y₂ : G} (hy₁ : y₁ ∈ P) (hy₂ : y₂ ∈ P) (hnt : ∃ s ∈ S, y₁ * s * y₁⁻¹ ≠ s) :
     ∃ c : ℤ, ∀ s ∈ S, y₂ * s * y₂⁻¹ = y₁ ^ c * s * (y₁ ^ c)⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hy1ne : ψ ⟨y₁, hy₁⟩ ≠ 1 := h5_ne_one_of_exists ψ hψ ⟨y₁, hy₁⟩ hnt
   have hmem1 : ψ ⟨y₁, hy₁⟩ ∈ ψ.range := MonoidHom.mem_range.mpr ⟨_, rfl⟩
-  haveI : Finite ψ.range :=
+  have : Finite ψ.range :=
     Finite.of_surjective ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
-  haveI : Nontrivial ψ.range :=
+  have : Nontrivial ψ.range :=
     nontrivial_of_ne ⟨ψ ⟨y₁, hy₁⟩, hmem1⟩ 1 (fun h => hy1ne (congrArg Subtype.val h))
   have hH5 : IsPGroup 5 ψ.range :=
     hP5.of_surjective ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
-  haveI : Nontrivial (Subgroup.center ψ.range) := IsPGroup.center_nontrivial hH5
+  have : Nontrivial (Subgroup.center ψ.range) := IsPGroup.center_nontrivial hH5
   have hZ5 : IsPGroup 5 (Subgroup.center ψ.range) := hH5.to_subgroup _
   have hne1 : Nat.card (Subgroup.center ψ.range) ≠ 1 := Finite.one_lt_card.ne'
   have hcard : 5 ∣ Nat.card (Subgroup.center ψ.range) := hZ5.card_eq_or_dvd.resolve_left hne1

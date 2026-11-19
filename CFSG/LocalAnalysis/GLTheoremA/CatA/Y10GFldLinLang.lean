@@ -75,10 +75,10 @@ theorem lang_fixed_nz {d : ℕ} [NeZero d] {K : Type} [Field K] [Finite K] (A : 
 theorem isPerfect_statedSL_two_of_four_le {F : Type} [Field F] [Finite F] (hF : 4 ≤ Nat.card F) :
     Group.IsPerfect (StatedSL 2 F) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset F)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hF)
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect ⟨s, hs⟩
   exact Group.IsPerfect.ofSurjective
     (f := (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).toMonoidHom)
@@ -91,8 +91,8 @@ theorem isSimpleGroup_statedProj_two_of_four_le {F : Type} [Field F] [Finite F] 
 
 theorem not_perfect_of_prime_card {J : Type} [Group J] [Finite J] {p : ℕ} (hp : p.Prime)
     (hc : Nat.card J = p) [Group.IsPerfect J] : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic J := isCyclic_of_prime_card hc
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic J := isCyclic_of_prime_card hc
   have h1 : commutator J = ⊥ := commutator_eq_bot J
   have h2 : (⊤ : Subgroup J) = ⊥ := by
     rw [← Group.IsPerfect.commutator_eq_top, h1]
@@ -117,8 +117,8 @@ theorem card_eq_one_of_perfect_of_dvd_six (J : Type) [Group J] [Finite J] [Group
   · exact (not_perfect_of_prime_card Nat.prime_three hn).elim
   · norm_num at hJ
   · norm_num at hJ
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    letI : Fintype J := Fintype.ofFinite J
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    let : Fintype J := Fintype.ofFinite J
     have h3 : 3 ∣ Fintype.card J := by
       rw [← Nat.card_eq_fintype_card, hn]
       norm_num
@@ -128,8 +128,8 @@ theorem card_eq_one_of_perfect_of_dvd_six (J : Type) [Group J] [Finite J] [Group
       have hm := (Subgroup.zpowers g).index_mul_card
       rw [hHcard, hn] at hm
       omega
-    haveI : (Subgroup.zpowers g).Normal := Subgroup.normal_of_index_eq_two hidx
-    haveI : Group.IsPerfect (J ⧸ Subgroup.zpowers g) :=
+    have : (Subgroup.zpowers g).Normal := Subgroup.normal_of_index_eq_two hidx
+    have : Group.IsPerfect (J ⧸ Subgroup.zpowers g) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.zpowers g))
         (QuotientGroup.mk'_surjective _)
     have hq : Nat.card (J ⧸ Subgroup.zpowers g) = 2 := hidx
@@ -138,7 +138,7 @@ theorem card_eq_one_of_perfect_of_dvd_six (J : Type) [Group J] [Finite J] [Group
 theorem card_statedProj_two_eq_six {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) (hF : Nat.card F = 2) :
     Nat.card (StatedProj (StatedSL 2 F)) = 6 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hq : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hS : slGL (Fin 2) F = StatedSL 2 F := (CFSG.Open.StatedAPI.statedSL_eq_ker_det 2 F).symm
   have hN : (StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F) = ⊥ := by
@@ -168,8 +168,8 @@ theorem card_statedProj_two_eq_six {F : Type} [Field F] [Finite F] (h2 : (2 : F)
   rw [h1, mul_one, hSL] at key
   exact key.symm
 
-theorem fixed_component_iso {d : ℕ} (hd : 2 ≤ d) {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0)
-    (A : GL (Fin d) K) (σ : K ≃+* K) (p : ℕ) (hord : orderOf σ = p)
+theorem fixed_component_iso {d : ℕ} (hd : 2 ≤ d) {K : Type} [Field K] [Finite K] (_h2 : (2 : K) = 0)
+    (A : GL (Fin d) K) (σ : K ≃+* K) (p : ℕ) (_hord : orderOf σ = p)
     (u : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K)))
     (hβ : ∀ x : ↥(slGL (Fin d) K), u (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K) x) =
       LargeEvenProjMk (LargeEvenSLGroup (Fin d) K) (slTwist σ A x))
@@ -177,31 +177,31 @@ theorem fixed_component_iso {d : ℕ} (hd : 2 ≤ d) {K : Type} [Field K] [Finit
     (J : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K))) (hJ : GLAPComponent p (fixSubgroup u) J)
     (h4 : 3 ≤ d ∨ 4 ≤ Nat.card (fixField σ)) :
     Nonempty (↥J ⧸ Subgroup.center ↥J ≃* StatedProj (StatedSL d ↥(fixField σ))) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨c, hc⟩ := hsc
   obtain ⟨Y, hYC, hYn, hCY, ⟨eY⟩⟩ := lang_fixed_nz A σ c hc u hβ
   rcases (show 3 ≤ d ∨ d = 2 by omega) with h3 | h2d
-  · haveI := isSimpleGroup_statedProj_of_three_le h3 ↥(fixField σ)
-    haveI := isPerfect_statedProj_of_three_le h3 ↥(fixField σ)
-    haveI : IsSimpleGroup ↥Y := eY.isSimpleGroup
-    haveI : Group.IsPerfect ↥Y :=
+  · have := isSimpleGroup_statedProj_of_three_le h3 ↥(fixField σ)
+    have := isPerfect_statedProj_of_three_le h3 ↥(fixField σ)
+    have : IsSimpleGroup ↥Y := eY.isSimpleGroup
+    have : Group.IsPerfect ↥Y :=
       Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
     rw [component_eq_of_fixed hJ hYC hYn hCY]
     exact nonempty_quotCenter_equiv eY
   · have h4' : 4 ≤ Nat.card (fixField σ) := h4.resolve_left (by omega)
     subst h2d
-    haveI := isSimpleGroup_statedProj_two_of_four_le h4'
-    haveI := isPerfect_statedSL_two_of_four_le h4'
-    haveI : Group.IsPerfect (StatedProj (StatedSL 2 ↥(fixField σ))) :=
+    have := isSimpleGroup_statedProj_two_of_four_le h4'
+    have := isPerfect_statedSL_two_of_four_le h4'
+    have : Group.IsPerfect (StatedProj (StatedSL 2 ↥(fixField σ))) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI : IsSimpleGroup ↥Y := eY.isSimpleGroup
-    haveI : Group.IsPerfect ↥Y :=
+    have : IsSimpleGroup ↥Y := eY.isSimpleGroup
+    have : Group.IsPerfect ↥Y :=
       Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
     rw [component_eq_of_fixed hJ hYC hYn hCY]
     exact nonempty_quotCenter_equiv eY
 
 theorem no_pComponent_two_two {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0)
-    (A : GL (Fin 2) K) (σ : K ≃+* K) (p : ℕ) (hord : orderOf σ = p)
+    (A : GL (Fin 2) K) (σ : K ≃+* K) (p : ℕ) (_hord : orderOf σ = p)
     (u : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin 2) K)))
     (hβ : ∀ x : ↥(slGL (Fin 2) K), u (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K) x) =
       LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K) (slTwist σ A x))
@@ -220,7 +220,7 @@ theorem no_pComponent_two_two {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0)
     calc J = ⁅J, J⁆ := hperf.symm
       _ ≤ ⁅fixSubgroup u, fixSubgroup u⁆ := Subgroup.commutator_mono hJ.1 hJ.1
       _ ≤ Y := hCY
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   have hdvd : Nat.card ↥J ∣ 6 := by
     have h1 : Nat.card ↥(J.subgroupOf Y) = Nat.card ↥J :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJY).toEquiv

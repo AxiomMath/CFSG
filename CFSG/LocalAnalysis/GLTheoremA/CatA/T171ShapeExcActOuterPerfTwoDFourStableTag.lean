@@ -88,7 +88,7 @@ theorem tag_simplyLaced_of_twistKind_twoD_rank_four {τ : Tag} {L : Type} [Field
       have hset : {γ : Fin Tag.F4.rank → ℤ | IsRoot Tag.F4 γ} =
           (rootFinset Tag.F4 : Set (Fin Tag.F4.rank → ℤ)) := by
         ext γ
-        rw [Set.mem_setOf_eq, Finset.mem_coe, mem_rootFinset]
+        rw [Set.mem_ofPred_eq, Finset.mem_coe, mem_rootFinset]
       rw [hset, Set.ncard_coe_finset, card_rootFinset]
       rfl
     have hsubset : Ψ ⊂ {γ : Fin Tag.F4.rank → ℤ | IsRoot Tag.F4 γ} := by

@@ -24,10 +24,10 @@ theorem oneIs_eq {T : Nat} : ∀ {s : List Nat}, oneIs T s = true → s = [T]
 
 theorem progVal_append (RB : Nat → Nat) (L : Nat) (RS : Nat → Nat) (mul : Nat → Nat → Nat)
     (ONE : Nat) (Q : List Nat) :
-    ∀ (P st : List Nat), progVal RB L RS mul ONE (P ++ Q) st =
-      progVal RB L RS mul ONE Q (progVal RB L RS mul ONE P st)
+    ∀ (P _st : List Nat), progVal RB L RS mul ONE (P ++ Q) _st =
+      progVal RB L RS mul ONE Q (progVal RB L RS mul ONE P _st)
   | [], _ => rfl
-  | _ :: P, st => progVal_append RB L RS mul ONE Q P _
+  | _ :: P, _st => progVal_append RB L RS mul ONE Q P _
 
 theorem sC_of_pieces {k : Nat} {P0 P1 P2 : List Nat} {X0 X1 : Nat}
     (h0 : oneIs X0 (progVal RB 11 RS MUL ONE P0 []) = true)

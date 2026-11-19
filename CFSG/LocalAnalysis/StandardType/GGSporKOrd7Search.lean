@@ -56,14 +56,14 @@ private theorem lr2os_lieAdm_markTag {lab : LargeEvenLabel} (hl : LargeEvenInLam
     obtain ⟨-, -, hodd, h3⟩ := hl
     rw [Nat.odd_iff] at hodd
     simp [hodd, h3]
-  all_goals first | rfl | (split_ifs <;> rfl)
+  all_goals (split_ifs <;> rfl)
 
 private theorem lr2os_labOrd_eq_lieOrd_of_markTag_mem {lab : LargeEvenLabel}
     (ht : markTag lab ∈ searchTags) :
     labOrd lab = lieOrd (markTag lab) (markRank lab) (markChar lab ^ markDeg lab) := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [labOrd, markTag, markRank, markChar, markDeg]
-  all_goals first | rfl |
+  all_goals first |
     (exact absurd ht (by simp only [markTag, searchTags]; decide))
 
 private theorem lr2os_labOrd_twF4_eq {lab : LargeEvenLabel} (h : lab.tag = .twF4) :
@@ -188,7 +188,7 @@ theorem ord7_search_B {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (hd
       hmin hle hadm hd'
   have h127 : (2 ^ markDeg lab - 1) % 127 ≠ 0 := by
     intro h
-    simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, h] using hC
+    simp [ord7Pred, h] at hC
   have h7f : ¬ 7 ∣ markDeg lab := by
     intro h7
     obtain ⟨k, hk⟩ := h7
@@ -204,17 +204,16 @@ theorem ord7_search_B {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (hd
     intro ht h3 h7
     have hmod : (2 ^ markDeg lab - 1) % 7 = 0 := Nat.dvd_iff_mod_eq_zero.mp h7
     have hn2 : markRank lab ≠ 2 := by omega
-    simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, ht, hmod, hn2]
-      using hC
+    simp [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, ht, hmod, hn2] at hC
   have hE6 : markTag lab ≠ .E6 := by
     intro h
-    simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, h] using hC
+    simp [ord7Pred, h] at hC
   have hE7 : markTag lab ≠ .E7 := by
     intro h
-    simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, h] using hC
+    simp [ord7Pred, h] at hC
   have hE8 : markTag lab ≠ .E8 := by
     intro h
-    simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, h] using hC
+    simp [ord7Pred, h] at hC
   have hE6' : lab.tag ≠ .E6 := fun h => hE6 (lr2os_markTag_E6_of_tag h)
   have hE7' : lab.tag ≠ .E7 := fun h => hE7 (lr2os_markTag_E7_of_tag h)
   have hE8' : lab.tag ≠ .E8 := fun h => hE8 (lr2os_markTag_E8_of_tag h)
@@ -236,9 +235,8 @@ theorem ord7_search_B {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (hd
       rfl
     have hlast : 2 ^ markDeg lab = 2 := by
       by_contra h
-      simpa [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, ht, hn, h]
-        using hC
-    exact Nat.pow_right_injective (by norm_num : 2 ≤ (2 : ℕ)) (by simpa [hlast])
+      simp [ord7Pred, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq, ht, hn, h] at hC
+    exact Nat.pow_right_injective (by norm_num : 2 ≤ (2 : ℕ)) (by simp [hlast])
   exact ⟨h7f, hPSL, hE6', hE7', hE8', hDclause⟩
 
 end CFSG.StandardType.SporadicShape

@@ -64,6 +64,7 @@ theorem normalizer_sylowCenter_eq (hK : IsBenderGroup K) (S : Sylow 2 K) :
       have e : n⁻¹ * (n * z * n⁻¹) * n⁻¹⁻¹ = z := by group
       rwa [e] at h1
 
+omit [Finite K] in
 theorem pCoreOf_normalizer_sylow (S : Sylow 2 K) :
     pCoreOf 2 (Subgroup.normalizer ((S : Subgroup K) : Set K)) = (S : Subgroup K) := by
   set N := Subgroup.normalizer ((S : Subgroup K) : Set K) with hN
@@ -79,7 +80,7 @@ theorem pCoreOf_normalizer_sylow (S : Sylow 2 K) :
   · have hnorm : ((S : Subgroup K).subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).mpr le_rfl
     have hp : IsPGroup 2 ((S : Subgroup K).subgroupOf N) :=
-      S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
+      S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
     have hcore : (S : Subgroup K).subgroupOf N ≤ CFSG.pCore 2 ↥N := by
       rw [CFSG.pCore_eq_iSup]
       exact le_iSup_of_le _ (le_iSup_of_le hnorm (le_iSup_of_le hp le_rfl))
@@ -184,6 +185,7 @@ end Automorphisms
 
 section Generation
 
+omit [Finite K] in
 theorem not_mem_normalizer_of_not_commute (S : Sylow 2 K) {g : K}
     (hg : ¬ ∀ a ∈ sylowCenter (S : Subgroup K),
       ∀ b ∈ conjSubgroup g (sylowCenter (S : Subgroup K)), a * b = b * a) :

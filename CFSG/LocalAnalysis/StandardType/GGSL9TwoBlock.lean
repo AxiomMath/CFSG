@@ -94,7 +94,7 @@ private theorem ggSL9TorusCoord_apply' (f : Multiplicative (Fin 3 → ZMod 7)) (
   conv_lhs => rw [show f = ofAdd (toAdd f) from (ofAdd_toAdd f).symm]
   rw [ggSL9TorusCoord_apply]
 
-private theorem ggSL9Fun_apply_j {i j : Fin 3} (hij : i ≠ j) (n : ℕ) (μ : GaloisField 2 3)
+private theorem ggSL9Fun_apply_j {i j : Fin 3} (_hij : i ≠ j) (n : ℕ) (μ : GaloisField 2 3)
     (v : GGSL9V) : ggSL9Fun i j n μ v j = v j + μ * v i ^ 2 ^ n := by
   simp only [ggSL9Fun, Pi.add_apply, Pi.single_eq_same]
 
@@ -125,9 +125,9 @@ theorem ggSL9W_apply {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) (v : GGSL9V) (l 
       ggSL9Fun_apply_j hij.symm (-e).val 1 _,
       ggSL9Fun_apply_of_ne e.val 1 _ hij,
       ggSL9Fun_apply_j hij e.val 1 _,
-      if_pos rfl, one_mul, add_pow_char_pow, one_mul, ggSL9_pow_exp_mul]
+      ite_eq_left rfl, one_mul, add_pow_char_pow, one_mul, ggSL9_pow_exp_mul]
     exact ggSL9_add_self_cancel (v i) (v j ^ 2 ^ (-e).val)
-  · rw [if_neg hli]
+  · rw [ite_eq_right hli]
     by_cases hlj : l = j
     · rw [hlj]
       have houter : (v i + (v j + v i ^ 2 ^ e.val) ^ 2 ^ (-e).val) ^ 2 ^ e.val =
@@ -138,14 +138,14 @@ theorem ggSL9W_apply {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) (v : GGSL9V) (l 
         ggSL9Fun_apply_j hij.symm (-e).val 1 _,
         ggSL9Fun_apply_of_ne e.val 1 _ hij,
         ggSL9Fun_apply_j hij e.val 1 _,
-        if_pos rfl]
+        ite_eq_left rfl]
       simp only [one_mul]
       rw [houter, ggSL9_pow_exp_mul']
       exact ggSL9_add_self_cancel (v j + v i ^ 2 ^ e.val) (v i ^ 2 ^ e.val)
     · rw [ggSL9Fun_apply_of_ne e.val 1 _ hlj,
         ggSL9Fun_apply_of_ne (-e).val 1 _ hli,
         ggSL9Fun_apply_of_ne e.val 1 _ hlj,
-        if_neg hlj]
+        ite_eq_right hlj]
 
 theorem ggSL9W_mul_self {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) :
     ggSL9W i j hij e * ggSL9W i j hij e = 1 := by
@@ -155,19 +155,19 @@ theorem ggSL9W_mul_self {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) :
   rw [LinearEquiv.mul_apply]
   simp only [ggSL9W_apply]
   by_cases hli : l = i
-  · rw [if_pos hli]
-    rw [if_neg (Ne.symm hij)]
-    rw [if_pos trivial]
+  · rw [ite_eq_left hli]
+    rw [ite_eq_right (Ne.symm hij)]
+    rw [ite_eq_left trivial]
     rw [hli]
     exact ggSL9_pow_exp_mul _ e
-  · rw [if_neg hli]
+  · rw [ite_eq_right hli]
     by_cases hlj : l = j
-    · rw [if_pos hlj]
-      rw [if_pos trivial]
+    · rw [ite_eq_left hlj]
+      rw [ite_eq_left trivial]
       rw [hlj]
       exact ggSL9_pow_exp_mul' _ e
-    · rw [if_neg hlj]
-      rw [if_neg hli, if_neg hlj]
+    · rw [ite_eq_right hlj]
+      rw [ite_eq_right hli, ite_eq_right hlj]
       rfl
 
 @[expose] def ggSL9WCoordFun (i j : Fin 3) (e : ZMod 3) (f : Fin 3 → ZMod 7) : Fin 3 → ZMod 7 :=
@@ -182,11 +182,11 @@ theorem ggSL9WCoordFun_invol {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) (f : Fin
   have h1 := ggSL9_two_pow_neg_mul e
   have h2 : (2 : ZMod 7) ^ e.val * 2 ^ (-e).val = 1 := by rw [mul_comm]; exact h1
   have hi : ∀ g : Fin 3 → ZMod 7, ggSL9WCoordFun i j e g i = 2 ^ (-e).val * g j :=
-    fun g => if_pos (rfl : i = i)
+    fun g => ite_eq_left (rfl : i = i)
   have hj : ∀ g : Fin 3 → ZMod 7, ggSL9WCoordFun i j e g j = 2 ^ e.val * g i :=
-    fun g => (if_neg hij.symm).trans (if_pos (rfl : j = j))
+    fun g => (ite_eq_right hij.symm).trans (ite_eq_left (rfl : j = j))
   have hl : ∀ (g : Fin 3 → ZMod 7) (l : Fin 3), l ≠ i → l ≠ j → ggSL9WCoordFun i j e g l = g l :=
-    fun g l hli hlj => (if_neg hli).trans (if_neg hlj)
+    fun g l hli hlj => (ite_eq_right hli).trans (ite_eq_right hlj)
   funext l
   by_cases hli : l = i
   · rw [hli, hi, hj, ← mul_assoc, h1, one_mul]
@@ -198,17 +198,17 @@ theorem ggSL9WCoordFun_invol {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) (f : Fin
 private theorem ggSL9WCoordFun_apply_i {i j : Fin 3} (e : ZMod 3) (f : Fin 3 → ZMod 7) :
     ggSL9WCoordFun i j e f i = 2 ^ (-e).val * f j := by
   unfold ggSL9WCoordFun
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem ggSL9WCoordFun_apply_j {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3)
     (f : Fin 3 → ZMod 7) : ggSL9WCoordFun i j e f j = 2 ^ e.val * f i := by
   unfold ggSL9WCoordFun
-  rw [if_neg hij.symm, if_pos rfl]
+  rw [ite_eq_right hij.symm, ite_eq_left rfl]
 
 private theorem ggSL9WCoordFun_apply_of_ne {i j : Fin 3} (e : ZMod 3) (f : Fin 3 → ZMod 7)
     {l : Fin 3} (hli : l ≠ i) (hlj : l ≠ j) : ggSL9WCoordFun i j e f l = f l := by
   unfold ggSL9WCoordFun
-  rw [if_neg hli, if_neg hlj]
+  rw [ite_eq_right hli, ite_eq_right hlj]
 
 @[expose] def ggSL9WCoord (i j : Fin 3) (hij : i ≠ j) (e : ZMod 3) :
     MulAut (Multiplicative (Fin 3 → ZMod 7)) where
@@ -246,33 +246,33 @@ theorem ggSL9W_conj_torusCoord {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3)
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   simp only [ggSL9W_apply]
   by_cases hli : l = i
-  · rw [if_pos hli]
+  · rw [ite_eq_left hli]
     rw [ggSL9TorusCoord_apply']
     simp only [ggSL9W_apply]
-    rw [if_neg (Ne.symm hij)]
-    rw [if_pos trivial]
+    rw [ite_eq_right (Ne.symm hij)]
+    rw [ite_eq_left trivial]
     rw [ggSL9WCoord_apply' hij e f]
     rw [ggSL9TorusCoord_apply']
     rw [toAdd_ofAdd]
     rw [hli]
     rw [ggSL9WCoordFun_apply_i]
     rw [mul_pow, ggSL9_pow_exp_mul, ← ggSL9Zeta_field_pow_val_mul_neg]
-  · rw [if_neg hli]
+  · rw [ite_eq_right hli]
     by_cases hlj : l = j
-    · rw [if_pos hlj]
+    · rw [ite_eq_left hlj]
       rw [ggSL9TorusCoord_apply']
       simp only [ggSL9W_apply]
-      rw [if_pos trivial]
+      rw [ite_eq_left trivial]
       rw [ggSL9WCoord_apply' hij e f]
       rw [ggSL9TorusCoord_apply']
       rw [toAdd_ofAdd]
       rw [hlj]
       rw [ggSL9WCoordFun_apply_j hij e (toAdd f)]
       rw [mul_pow, ggSL9_pow_exp_mul', ← ggSL9Zeta_field_pow_val_mul_pos]
-    · rw [if_neg hlj]
+    · rw [ite_eq_right hlj]
       rw [ggSL9TorusCoord_apply']
       simp only [ggSL9W_apply]
-      rw [if_neg hli, if_neg hlj]
+      rw [ite_eq_right hli, ite_eq_right hlj]
       rw [ggSL9WCoord_apply' hij e f]
       rw [ggSL9TorusCoord_apply']
       rw [toAdd_ofAdd]
@@ -296,27 +296,27 @@ private noncomputable def ggSL9WCoordFixEquiv (i j : Fin 3) (hij : i ≠ j) (e :
     · rw [hli, ggSL9WCoordFun_apply_i]
       show 2 ^ (-e).val * (if h : j = j then 2 ^ e.val * g ⟨i, hij⟩ else g ⟨j, h⟩) =
         (if h : i = j then 2 ^ e.val * g ⟨i, hij⟩ else g ⟨i, h⟩)
-      rw [dif_pos rfl, dif_neg hij, ← mul_assoc, ggSL9_two_pow_neg_mul, one_mul]
+      rw [dite_eq_left rfl, dite_eq_right hij, ← mul_assoc, ggSL9_two_pow_neg_mul, one_mul]
     · by_cases hlj : l = j
       · rw [hlj, ggSL9WCoordFun_apply_j hij e]
         show 2 ^ e.val * (if h : i = j then 2 ^ e.val * g ⟨i, hij⟩ else g ⟨i, h⟩) =
           (if h : j = j then 2 ^ e.val * g ⟨i, hij⟩ else g ⟨j, h⟩)
-        rw [dif_neg hij, dif_pos rfl]
+        rw [dite_eq_right hij, dite_eq_left rfl]
       · rw [ggSL9WCoordFun_apply_of_ne e _ hli hlj]⟩
   left_inv f := by
     apply Subtype.ext
     funext l
     show (if h : l = j then 2 ^ e.val * f.1 i else f.1 l) = f.1 l
     by_cases hlj : l = j
-    · rw [dif_pos hlj, hlj]
+    · rw [dite_eq_left hlj, hlj]
       have h := congrFun f.2 j
       rw [ggSL9WCoordFun_apply_j hij e] at h
       exact h
-    · rw [dif_neg hlj]
+    · rw [dite_eq_right hlj]
   right_inv g := by
     funext x
     show (if h : x.1 = j then 2 ^ e.val * g ⟨i, hij⟩ else g ⟨x.1, h⟩) = g x
-    rw [dif_neg x.2]
+    rw [dite_eq_right x.2]
 
 private noncomputable def ggSL9MultiplicativeFixEquiv (i j : Fin 3) (hij : i ≠ j) (e : ZMod 3) :
     {f : Multiplicative (Fin 3 → ZMod 7) // ggSL9WCoord i j hij e f = f} ≃
@@ -365,7 +365,6 @@ theorem ggSL9WCoord_inj {i j i' j' : Fin 3} (hij : i < j) (hij' : i' < j') {e e'
       | exact absurd hij' (by decide)
       | (refine ⟨rfl, rfl, rfl⟩)
       | (exact absurd h1 (by decide))
-      | (exact absurd h2 (by decide))
 
 @[expose] noncomputable def ggSL9BlockFun (i j : Fin 3) (e : ZMod 3)
     (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) (v : GGSL9V) : GGSL9V :=
@@ -376,20 +375,20 @@ private theorem ggSL9BlockFun_apply_i {i j : Fin 3} (e : ZMod 3)
     (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) (v : GGSL9V) :
     ggSL9BlockFun i j e M v i = M 0 0 * v i + M 0 1 * v j ^ 2 ^ (-e).val := by
   unfold ggSL9BlockFun
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem ggSL9BlockFun_apply_j {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3)
     (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) (v : GGSL9V) :
     ggSL9BlockFun i j e M v j =
       (M 1 0 * v i + M 1 1 * v j ^ 2 ^ (-e).val) ^ 2 ^ e.val := by
   unfold ggSL9BlockFun
-  rw [if_neg (Ne.symm hij), if_pos rfl]
+  rw [ite_eq_right (Ne.symm hij), ite_eq_left rfl]
 
 private theorem ggSL9BlockFun_apply_of_ne {i j : Fin 3} (e : ZMod 3)
     (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) (v : GGSL9V) {l : Fin 3}
     (hli : l ≠ i) (hlj : l ≠ j) : ggSL9BlockFun i j e M v l = v l := by
   unfold ggSL9BlockFun
-  rw [if_neg hli, if_neg hlj]
+  rw [ite_eq_right hli, ite_eq_right hlj]
 
 private theorem ggSL9_zero_pow_two (n : ℕ) : (0 : GaloisField 2 3) ^ 2 ^ n = 0 :=
   zero_pow (pow_ne_zero _ (by norm_num : (2 : ℕ) ≠ 0))
@@ -481,11 +480,11 @@ theorem ggSL9BlockFun_one (i j : Fin 3) (e : ZMod 3) (v : GGSL9V) :
   funext l
   by_cases hli : l = i
   · rw [hli, ggSL9BlockFun_apply_i e 1 v]
-    simp [Matrix.one_apply]
+    simp
   · by_cases hlj : l = j
     · have hij : i ≠ j := fun h => hli (hlj.trans h.symm)
       rw [hlj, ggSL9BlockFun_apply_j hij e 1 v]
-      simp [Matrix.one_apply]
+      simp
       exact ggSL9_pow_exp_mul' (v j) e
     · rw [ggSL9BlockFun_apply_of_ne e 1 v hli hlj]
 
@@ -526,22 +525,22 @@ private theorem ggSL9BlockGL_transvection_01 {i j : Fin 3} (hij : i ≠ j) (e : 
       (show (0 : Fin 2) ≠ 1 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 0 0 = 1 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h01 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (0 : Fin 2) ≠ 1 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 0 1 = c := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h10 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (0 : Fin 2) ≠ 1 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 1 0 = 0 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h11 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (0 : Fin 2) ≠ 1 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 1 1 = 1 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   apply LinearEquiv.ext
   intro v
   funext l
@@ -564,22 +563,22 @@ private theorem ggSL9BlockGL_transvection_10 {i j : Fin 3} (hij : i ≠ j) (e : 
       (show (1 : Fin 2) ≠ 0 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 0 0 = 1 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h01 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (1 : Fin 2) ≠ 0 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 0 1 = 0 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h10 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (1 : Fin 2) ≠ 0 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 1 0 = c := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   have h11 : (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection
       (show (1 : Fin 2) ≠ 0 by decide) c) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) 1 1 = 1 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.add_apply]
   apply LinearEquiv.ext
   intro v
   funext l
@@ -711,7 +710,7 @@ theorem isQuasisimple_ggSL9J {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) :
 theorem seven_dvd_card_ggSL9J {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) :
     7 ∣ Nat.card (ggSL9J i j e) := by
   have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 3)) = 504 := by
-    letI := Fintype.ofFinite (GaloisField 2 3)
+    let := Fintype.ofFinite (GaloisField 2 3)
     have hq : Fintype.card (GaloisField 2 3) = 8 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)]
       norm_num

@@ -148,7 +148,7 @@ theorem index_P0_SL3 : SL3.P0.index = 21 := by
   omega
 
 theorem modelIdx_S6 : ModelIdx (Perm (Fin 6)) D6sub P1sub P2sub where
-  p2 := D6syl.isPGroup'
+  p2 := D6syl.isPGroup
   syl := D6syl.not_dvd_index
   cls := overgroups_D6
   le₁ := fun _ hσ => (D6sub_le hσ).1

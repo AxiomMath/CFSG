@@ -26,6 +26,7 @@ namespace Extra
 
 variable {S : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem z_central (h : Extra S z) : ∀ t ∈ S, z * t = t * z := fun t ht =>
   (h.center z h.zS).2 (Or.inr rfl) t ht
 
@@ -64,7 +65,7 @@ theorem isExtraspecial (h : Extra S z) : IsExtraspecialPGroup 2 S := by
         exact Subgroup.commutator_mem_commutator (mem_top _) (mem_top _)
   have hzcen : (⟨z, h.zS⟩ : S) ∈ Subgroup.center S := (hcen _).2 (Or.inr rfl)
   refine ⟨h.two, hcom, ?_, ?_⟩
-  · haveI : Fact (IsPGroup 2 S) := ⟨h.two⟩
+  · have : Fact (IsPGroup 2 S) := ⟨h.two⟩
     rw [CFSG.frattini_eq_closure_commutator_union_powers (p := 2)]
     apply le_antisymm
     · rw [Subgroup.closure_le]
@@ -228,7 +229,7 @@ theorem exists_inner (h : Extra S z) {t : G}
     have := ((hmemK x).1 (hKS' hx)).2
     simp only [inv_one, mul_one]
     exact this.symm
-  obtain ⟨s₁, hs₁, hs₁K⟩ := SetLike.not_le_iff_exists.1 hKS'
+  obtain ⟨s₁, hs₁, hs₁K⟩ := IsConcreteLE.not_le_iff_exists.1 hKS'
   have hcos : ∀ s ∈ S, s ∉ K → ∀ s' ∈ S, s' ∉ K → s⁻¹ * s' ∈ K := by
     intro s hs hsK s' hs' hs'K
     refine (hmemK _).2 ⟨S.mul_mem (S.inv_mem hs) hs', ?_⟩

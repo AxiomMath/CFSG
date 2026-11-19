@@ -46,6 +46,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1Cent361_normalizer_le_normalizer_pCoreOf (p : ℕ) (H : Subgroup G) :
     Subgroup.normalizer (H : Set G) ≤ Subgroup.normalizer (CFSG.Open.pCoreOf p H : Set G) := by
   intro h hh
@@ -59,6 +60,7 @@ private theorem res1Cent361_normalizer_le_normalizer_pCoreOf (p : ℕ) (H : Subg
   rw [Subgroup.map_map, ← hcomp, ← Subgroup.map_map,
     (Subgroup.characteristic_iff_map_eq.mp inferInstance) α]
 
+omit [Finite G] in
 private theorem res1Cent361_le_normalizer_map (H : Subgroup G) (N : Subgroup ↥H) [N.Normal] :
     H ≤ Subgroup.normalizer ((N.map H.subtype : Subgroup G) : Set G) := by
   intro h hh
@@ -77,7 +79,7 @@ private theorem res1Cent361_le_normalizer_map (H : Subgroup G) (N : Subgroup ↥
 
 private theorem res1Cent361_eq_bot_of_le_pCoreOf {L : Subgroup G} [Group.IsPerfect L]
     (hL : L ≤ CFSG.Open.pCoreOf 2 L) : L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (CFSG.Open.pCoreOf 2 L) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).map L.subtype
   refine (Subgroup.eq_bot_iff_forall _).mpr fun x hx => ?_
@@ -93,15 +95,15 @@ private theorem res1Cent361_theta_facts (H : Subgroup G) :
         (((aschbacherSolvableCore 3 ↥H).map H.subtype : Subgroup G) : Set G) := by
   obtain ⟨hsol, hchar, h3, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥H) Nat.prime_three
-  haveI := hsol
-  haveI := hchar
-  refine ⟨solvable_of_surjective (H.subtype.subgroupMap_surjective _), ?_,
+  have := hsol
+  have := hchar
+  refine ⟨Group.isSolvable_of_surjective (H.subtype.subgroupMap_surjective _), ?_,
     Subgroup.map_subtype_le _, res1Cent361_le_normalizer_map H _⟩
   rwa [Subgroup.card_map_of_injective H.subtype_injective]
 
 theorem res1QE9_a7 : Res1QE9 (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 7))) := by
   intro Z _ ⟨e⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
   exact ⟨e.isSimpleGroup,
     res1Cent_exists_e9_of_mulEquiv e res1Cent_exists_e9_alternatingGroup_seven⟩
@@ -109,7 +111,7 @@ theorem res1QE9_a7 : Res1QE9 (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 
 theorem res1QE9_m22 :
     Res1QE9 (fun X _ => Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22)) := by
   intro Z _ ⟨e⟩
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
     CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
   exact ⟨e.isSimpleGroup, res1Cent_exists_e9_of_mulEquiv e res1Cent_exists_e9_m22⟩
 
@@ -154,7 +156,7 @@ theorem isPerfect_quot (τ : Res1Tau Q P A c L X K Y M T P' Yc z) :
 theorem not_le_centralizer (h149 : Item149 A (lB A)) (τ : Res1Tau Q P A c L X K Y M T P' Yc z)
     (hL : L ≠ ⊥) : ¬ L ≤ Subgroup.centralizer (CFSG.Open.pCoreOf 2 X : Set G) := by
   intro hLC
-  haveI := τ.isPerfect_l
+  have := τ.isPerfect_l
   have hchar := (isCharacteristicP_x_and_pCoreOf_ne_bot τ.std h149 τ.ctx τ.i_le).1
   exact hL (res1Cent361_eq_bot_of_le_pCoreOf
     ((le_inf le_rfl hLC).trans (inf_centralizer_le_pCoreOf hchar τ.l_le)))
@@ -170,8 +172,8 @@ theorem pCoreOf_centralizer_ne_bot (h149 : Item149 A (lB A))
     CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({j} : Set G)) ≠ ⊥ := by
   classical
   intro hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := τ.isPerfect_l
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := τ.isPerfect_l
   set Yj := Subgroup.centralizer ({j} : Set G) with hYj
   set Γ := (aschbacherSolvableCore 3 ↥Yj).map Yj.subtype with hΓ
   set U := CFSG.Open.pCoreOf 2 X with hU
@@ -180,7 +182,7 @@ theorem pCoreOf_centralizer_ne_bot (h149 : Item149 A (lB A))
   have hΓ2 : CFSG.Open.pCoreOf 2 Γ = ⊥ :=
     le_bot_iff.mp (hbot ▸ CFSG.GroupTheory.pCoreOf_le_pCoreOf_of_le_normalizer 2 hΓYj hYjΓ)
   have hLne : L ≠ ⊥ := by
-    haveI := hQ.1
+    have := hQ.1
     exact (Subgroup.nontrivial_iff_ne_bot L).mp
       (QuotientGroup.mk'_surjective (aschbacherSolvableCore 3 ↥L)).nontrivial
   have hUp : IsPGroup 2 U := (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
@@ -199,7 +201,7 @@ theorem pCoreOf_centralizer_ne_bot (h149 : Item149 A (lB A))
   obtain ⟨p, hp, hp5, hLS⟩ := res1Cent_exists_prime_not_le_centralizer hΓsol hΓ2 hΓ3
     (hUX.trans (hXYj.trans hYjΓ)) h150
     (fun h => hLU (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h)) (hUp.to_le hLUU)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : IsPGroup p (CFSG.Open.pCoreOf p Γ) :=
     (CFSG.pCore_isPGroup (p := p) (G := ↥Γ)).map Γ.subtype
   have hXS : X ≤ Subgroup.normalizer (CFSG.Open.pCoreOf p Γ : Set G) :=
@@ -241,7 +243,7 @@ theorem pCoreOf_centralizer_ne_bot (h149 : Item149 A (lB A))
   have hU1U : U1 ≤ U := (Subgroup.closure_le _).mpr fun u hu => hu.1
   have hU1X : U1 ≤ X := hU1U.trans hUX
   have hXU1 : X ≤ Subgroup.normalizer (U1 : Set G) := res1Cent_le_normalizer_closure_sq hXU
-  haveI : (U1.subgroupOf X).Normal :=
+  have : (U1.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hU1X).mpr hXU1
   have hLU1 : ¬ L ≤ Subgroup.centralizer (U1 : Set G) := by
     intro hc
@@ -264,7 +266,7 @@ theorem pCoreOf_centralizer_ne_bot (h149 : Item149 A (lB A))
     have hyU : (y : G) ∈ U := Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
     exact Subtype.ext
       (Subgroup.mem_centralizer_iff.mp (hcU hyU) u (hU1U (Subgroup.mem_subgroupOf.mp hu)))
-  haveI := τ.isPerfect_quot
+  have := τ.isPerfect_quot
   have hidx : ∀ H : Subgroup ↥X,
       Subgroup.centralizer ((U1.subgroupOf X : Subgroup ↥X) : Set ↥X) ≤ H → H.index < 5 →
         H = ⊤ := fun H hH h5 => res1Cent_eq_top_of_index_lt_five (hPC.trans hH) h5

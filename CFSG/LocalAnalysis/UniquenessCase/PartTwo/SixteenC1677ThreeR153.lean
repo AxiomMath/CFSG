@@ -106,7 +106,7 @@ theorem s168e3_s2_153_3 {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian
       omega
     obtain ⟨p, hp⟩ := c.std.hx.sig_nonempty
     exact Set.eq_singleton_iff_unique_mem.2 ⟨hmem p hp ▸ hp, hmem⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨⟨isCyclic_of_prime_card hcard, hcard⟩, hrk, hs, hsig⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

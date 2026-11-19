@@ -50,6 +50,7 @@ section ClassI
 
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem omega_polarBilin_comp_nondeg {Q : QuadraticForm K V} {W : Submodule K V}
     (h : (LinearMap.BilinForm.restrict Q.polarBilin W).Nondegenerate) :
     (Q.comp W.subtype).polarBilin.Nondegenerate := by
@@ -128,7 +129,7 @@ theorem omega_classI {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f)
             hodd (Q.comp W.subtype) hndW hW ⟨S, by omega, hSQ⟩).2 hK3).1
         have h1 := hsol V₁ h41 hp₁ hnd₁'
         have h2 := hsol V₂ h42 hp₂ hnd₂'
-        exact Or.inr (Or.inl (solvable_of_solvable_injective (f := e.toMonoidHom) e.injective))
+        exact Or.inr (Or.inl (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective))
       ·
         have hp₂ : ¬ IsPlusType (Q.comp V₂.subtype) := fun h => hp₁ ((htype.mp hplus).mpr h)
         have hmodel : ∀ (W : Submodule K V), finrank K W = 4 → ¬ IsPlusType (Q.comp W.subtype) →
@@ -347,7 +348,7 @@ theorem omega_linear_core {f : ℕ} (hf : 1 ≤ f)
   · obtain ⟨r, hr⟩ := hsqc
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact c.ne_zero (by simpa using hr)
+      exact c.ne_zero (by simp at hr)
     let b : Kˣ := Units.mk0 r hr0
     have hb : (c : K) = (b : K) ^ 2 := by rw [hr, sq]; rfl
     rcases hsign with hpos | hneg

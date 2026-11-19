@@ -70,7 +70,7 @@ theorem pCoreOf_le_of_sylow [Finite X] {H P : Subgroup X} (hPH : P ≤ H) (hP2 :
   have hQp : IsPGroup 2 Q := by
     rw [hQeq]
     exact CFSG.pCore_isPGroup
-  haveI hQn : Q.Normal := by
+  have hQn : Q.Normal := by
     rw [hQeq]
     exact CFSG.pCore_normal
   have hP'p : IsPGroup 2 P' := hP2.comap_subtype (K := H)
@@ -111,8 +111,8 @@ theorem pCoreOf_eq_of_selfCentralizing_irreducible [Finite X] {M E : Subgroup X}
     intro h
     apply hEne
     rw [← Subgroup.map_subgroupOf_eq_of_le hE_le, h, Subgroup.map_bot]
-  haveI : Group.IsNilpotent ↥P := (isPGroup_pCoreOf 2 M).isNilpotent
-  haveI : (E.subgroupOf P).Normal := hEnormP
+  have : Group.IsNilpotent ↥P := (isPGroup_pCoreOf 2 M).isNilpotent
+  have : (E.subgroupOf P).Normal := hEnormP
   have hcenter : (E.subgroupOf P) ⊓ Subgroup.center ↥P ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hP_ne
   have hWne : W ≠ ⊥ := by

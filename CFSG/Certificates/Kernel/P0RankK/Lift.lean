@@ -40,13 +40,13 @@ theorem layer_liftPm (hbd : bdOK p0Data = true) {E : Subgroup Dfull} (hE : IsEle
   have hgE : ∀ j (hj : j < ks.length), (g j : Dfull) ∈ E := by
     intro j hj
     dsimp [g]
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     exact (Classical.choose_spec ((Finset.mem_filter.1 (hks (ks.getD j 0) (hgetW j hj))).2)).1
   have hgcoord : ∀ j (hj : j < ks.length),
       uCoord (g j) = Multiplicative.ofAdd (bvec 10 (ks.getD j 0)) := by
     intro j hj
     dsimp [g]
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     exact (Classical.choose_spec ((Finset.mem_filter.1 (hks (ks.getD j 0) (hgetW j hj))).2)).2
   have hexNF : ∀ j, ∃ p : ℕ × ℕ × ℕ, p.1 < 2 ^ 16 ∧ p.2.1 < 2 ^ 9 ∧ p.2.2 < 2 ^ 10 ∧
       (g j : Dfull) = lD p.1 * tD p.2.1 * uE p.2.2 := by
@@ -76,13 +76,13 @@ theorem layer_liftPm (hbd : bdOK p0Data = true) {E : Subgroup Dfull} (hE : IsEle
   have hyE : ∀ i (hi : i < ds.length), (y i : Dfull) ∈ E := by
     intro i hi
     dsimp [y]
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact (Classical.choose_spec ((Finset.mem_filter.1 (hds (ds.getD i 0) (hgetD i hi))).2)).1
   have hysCoord : ∀ i (hi : i < ds.length),
       sCoord (y i) = Multiplicative.ofAdd (bvec 16 (ds.getD i 0)) := by
     intro i hi
     dsimp [y]
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact (Classical.choose_spec ((Finset.mem_filter.1 (hds (ds.getD i 0) (hgetD i hi))).2)).2
   have hexNFx : ∀ i, ∃ q : ℕ × ℕ, q.1 < 2 ^ 16 ∧ q.2 < 2 ^ 9 ∧
       (y i : Dfull) = lD q.1 * tD q.2 := by
@@ -110,11 +110,11 @@ theorem layer_liftPm (hbd : bdOK p0Data = true) {E : Subgroup Dfull} (hE : IsEle
   have hX1 : ∀ j (hj : j < ks.length), X j = (p j).1 := by
     intro j hj
     dsimp [X]
-    rw [if_pos hj]
+    rw [ite_eq_left hj]
   have hX2 : ∀ i (hi : i < ds.length), X (ks.length + i) = (q i).2 := by
     intro i hi
     dsimp [X]
-    rw [if_neg (by omega), if_pos (by simpa [Nat.add_sub_cancel_left] using hi),
+    rw [ite_eq_right (by omega), ite_eq_left (by simpa [Nat.add_sub_cancel_left] using hi),
       Nat.add_sub_cancel_left]
   refine ⟨X, ?_, ?_, ?_, ?_, ?_⟩
   · intro j hj

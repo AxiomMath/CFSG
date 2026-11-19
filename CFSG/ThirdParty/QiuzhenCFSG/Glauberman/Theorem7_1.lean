@@ -105,7 +105,7 @@ private lemma pPart_mono {p : ℕ} [Fact p.Prime] {a b : ℕ} (hb : b ≠ 0) (ha
 private lemma pPart_card_eq_card_of_sylow {p : ℕ} [Fact p.Prime] {G : Type*} [Group G]
     [Finite G] (T : Sylow p G) : pPart p (Nat.card G) = Nat.card T := by
   classical
-  have hTp : IsPGroup p (T : Subgroup G) := T.isPGroup'
+  have hTp : IsPGroup p (T : Subgroup G) := T.isPGroup
   obtain ⟨n, hn⟩ := hTp.exists_card_eq
   have hnot : ¬ p ∣ (T : Subgroup G).index := Sylow.not_dvd_index (P := T)
   have hTcard_ne : Nat.card (↥(T : Subgroup G)) ≠ 0 :=
@@ -208,7 +208,7 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
               (fun X : Subgroup ↥(S : Subgroup G) => X.map (S : Subgroup G).subtype) htop.symm
           _ = T := by
             exact (Subgroup.map_subgroupOf_eq_of_le hTS))
-    have hHp : IsPGroup p (↥(S : Subgroup G)) := S.isPGroup'
+    have hHp : IsPGroup p (↥(S : Subgroup G)) := S.isPGroup
     have hgrowth := normalizer_lt_of_lt_of_isPGroup (P := ↥(S : Subgroup G)) (p := p) hHp hHlt
     -- N_{S}(H) = (N_G(T) ∩ S).subgroupOf S
     have hnorm : Subgroup.normalizer (H : Set ↥(S : Subgroup G)) =
@@ -222,7 +222,7 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
       ((Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G)).subgroupOf (Subgroup.normalizer (T : Set G))
     have hQp : IsPGroup p Q := by
       have hXp : IsPGroup p (((Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G)) : Subgroup G) := by
-        apply IsPGroup.to_le (hK := S.isPGroup')
+        apply IsPGroup.to_le (hK := S.isPGroup)
         exact inf_le_right
       exact IsPGroup.of_equiv (hG := hXp)
         (Subgroup.subgroupOfEquivOfLe (show (Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G) ≤
@@ -319,7 +319,7 @@ public theorem theorem7_1 [Finite G] (p : ℕ) [Fact p.Prime]
   let N : Subgroup G := Subgroup.normalizer (W : Set G)
   let L : Subgroup G := (pPrimeCore p ↥N).map N.subtype
   -- basic facts
-  have hWp : IsPGroup p W := IsPGroup.to_le S.isPGroup' hWleS
+  have hWp : IsPGroup p W := IsPGroup.to_le S.isPGroup hWleS
   have hWN : W ≤ N := Subgroup.le_normalizer (H := W)
   have hL_le_N : L ≤ N := by
     intro x hx
@@ -468,7 +468,7 @@ public theorem theorem7_1 [Finite G] (p : ℕ) [Fact p.Prime]
                 rw [hyx']
           rw [hxeq]
           refine Subgroup.mem_map.mpr ⟨(h : ↥M)⁻¹ * y * (h : ↥M), hyh, ?_⟩
-          · simp [Subgroup.coe_subtype, mul_assoc]
+          · simp [mul_assoc]
     · -- g = c·h in G
       exact congrArg (fun y : ↥M => (y : G)) hgh
   -- (7.2): N ⊓ M = A ⊔ B
@@ -691,7 +691,7 @@ public theorem theorem7_1 [Finite G] (p : ℕ) [Fact p.Prime]
             (le_bot_iff.mp (hWT.trans (le_of_eq hbot)))
         _ = ⊥ := by simp
     have hKne : KM ≠ ⊥ := by
-      have hTp' : IsPGroup p (T : Subgroup ↥M) := T.isPGroup'
+      have hTp' : IsPGroup p (T : Subgroup ↥M) := T.isPGroup
       have hKn := K.K_nontrivial (P := (T : Subgroup ↥M)) hTp' hTne
       exact hKn
     intro hbot
@@ -699,7 +699,7 @@ public theorem theorem7_1 [Finite G] (p : ℕ) [Fact p.Prime]
     apply Subgroup.map_injective (f := M.subtype) M.subtype_injective
     simpa [K'] using hbot
   have hK'_p : IsPGroup p K' := by
-    have hKp : IsPGroup p KM := (T.isPGroup').to_le (K.K_le (T : Subgroup ↥M))
+    have hKp : IsPGroup p KM := (T.isPGroup).to_le (K.K_le (T : Subgroup ↥M))
     exact IsPGroup.map hKp M.subtype
   let NK' : Subgroup G := Subgroup.normalizer (K' : Set G)
   have hOpNK' : pCore p (↥NK') ≠ ⊥ := by
@@ -776,7 +776,7 @@ public theorem theorem7_1 [Finite G] (p : ℕ) [Fact p.Prime]
     exact Subgroup.card_map_of_injective (K := (T : Subgroup ↥M)) (f := M.subtype) M.subtype_injective
   have hT'p : IsPGroup p T' := by
     dsimp [T']
-    exact IsPGroup.map (H := (T : Subgroup ↥M)) T.isPGroup' M.subtype
+    exact IsPGroup.map (H := (T : Subgroup ↥M)) T.isPGroup M.subtype
   have hT'ppart : pPart p (Nat.card (↥T')) = Nat.card (↥T') := by
     rcases hT'p.exists_card_eq with ⟨n, hn⟩
     unfold pPart

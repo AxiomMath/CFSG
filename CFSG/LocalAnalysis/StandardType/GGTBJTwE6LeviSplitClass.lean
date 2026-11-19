@@ -26,7 +26,7 @@ theorem twE6Split_classFacts
     {K : Type} [Field K] [Finite K] (σ : K →+* K) {n p : ℕ} [Fact p.Prime] [NeZero p]
     (hn : 2 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ 2 ^ n)
     (hp2 : p ≠ 2) (hpn : p ∣ 2 ^ n - 1)
-    {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (hζσ : σ (ζ : K) = ζ)
+    {ζ : Kˣ} (_hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (hζσ : σ (ζ : K) = ζ)
     (t : Fin Tag.F4.rank → ZMod p)
     (ht : ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ (Multiplicative.ofAdd t) ≠ 1)
     {Y : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ)}
@@ -53,11 +53,11 @@ theorem twE6Split_classFacts
                 (Multiplicative.ofAdd (TableBExc.torusAct .F4 p (rootReflection c) s))) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpq : ¬ p ∣ 2 ^ n := by
     intro h

@@ -77,7 +77,7 @@ theorem quatHom_injective (hr : orderOf r = 2 * m) (hjj : j * j = r ^ m)
     exact inv_mem (pow_mem (mem_zpowers r) _)
 
 theorem range_quatHom (hr : orderOf r = 2 * m) (hjj : j * j = r ^ m)
-    (hj : j * r * j⁻¹ = r⁻¹) (hm : 1 < 2 * m) : (quatHom hr hjj hj).range = closure {r, j} := by
+    (hj : j * r * j⁻¹ = r⁻¹) (_hm : 1 < 2 * m) : (quatHom hr hjj hj).range = closure {r, j} := by
   apply le_antisymm
   · rintro _ ⟨i | i, rfl⟩
     · exact pow_mem (subset_closure (by simp)) _
@@ -136,7 +136,7 @@ theorem el_one_eq_one_iff (hn : 2 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (h : detSu
 abbrev s01 : Fin81.R0 := ⟨swap 0 1, by decide⟩
 abbrev s23 : Fin81.R0 := ⟨swap 2 3, by decide⟩
 
-theorem sgnH_swap (hn : 1 ≤ n) {π : Fin81.R0} (hπ : Perm.sign (π : Perm (Fin 4)) = -1) :
+theorem sgnH_swap (_hn : 1 ≤ n) {π : Fin81.R0} (hπ : Perm.sign (π : Perm (Fin 4)) = -1) :
     sgnH (n := n) π = hh n := by
   rw [sgnH, hπ, signZ_neg_one, toAdd_ofAdd]
 
@@ -241,8 +241,7 @@ theorem r1T_pow (hn : 2 ≤ n) : r1T n ^ 2 ^ (n - 1) = zT (by omega) := by
     exact_mod_cast ZMod.natCast_self (2 ^ n)
   intro i j
   fin_cases i <;> fin_cases j <;> simp [hv, v1, hh] <;>
-    first | linear_combination | linear_combination h2 | linear_combination (-1) * h2 |
-      linear_combination 2 * h2 | linear_combination (-2) * h2
+    first | linear_combination | linear_combination h2 | linear_combination (-1) * h2
 
 theorem r2T_pow (hn : 2 ≤ n) : r2T n ^ 2 ^ (n - 1) = zT (by omega) := by
   rw [r2T, el_one_pow, zT, el_eq_el_iff hn]
@@ -252,8 +251,7 @@ theorem r2T_pow (hn : 2 ≤ n) : r2T n ^ 2 ^ (n - 1) = zT (by omega) := by
     exact_mod_cast ZMod.natCast_self (2 ^ n)
   intro i j
   fin_cases i <;> fin_cases j <;> simp [hv, v2, hh] <;>
-    first | linear_combination | linear_combination h2 | linear_combination (-1) * h2 |
-      linear_combination 2 * h2 | linear_combination (-2) * h2
+    first | linear_combination | linear_combination h2 | linear_combination (-1) * h2
 
 theorem j1T_mul_r1T (hn : 2 ≤ n) :
     j1T (n := n) (by omega) * r1T n = (r1T n)⁻¹ * j1T (by omega) := by

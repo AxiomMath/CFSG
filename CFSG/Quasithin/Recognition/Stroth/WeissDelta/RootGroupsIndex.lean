@@ -60,8 +60,8 @@ theorem exists_relIndex_stabPath_succ_eq_two_pow [Finite H] {n : ℕ} (hn : 3 �
     intro g hg
     have h := (GPath.mem_stabPath_iff.mp hg) (j - 1) (by omega)
     rwa [GPath.take_apply_of_le p j his (i := j - 1) (by omega)] at h
-  letI : MulAction ↥Gj Ω := neighborAction Gj (p j) (p (j - 1)) hGjv hGjw
-  haveI : MulAction.IsPretransitive ↥Gj Ω := by
+  let : MulAction ↥Gj Ω := neighborAction Gj (p j) (p (j - 1)) hGjv hGjw
+  have : MulAction.IsPretransitive ↥Gj Ω := by
     refine ⟨fun y y' => ?_⟩
     obtain ⟨g, hg, hgy⟩ :=
       exists_smul_of_mem_stabPath_take hn hM hne hp hj1 (s := n + 1) his hjn

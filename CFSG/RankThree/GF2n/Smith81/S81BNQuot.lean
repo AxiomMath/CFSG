@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem smith28aE3L_of_normQuot (hN : NormQuotE3LStatement) (hB : ElemBoundE3LStatement) :
     Smith28aE3LStatement := by
   intro G _ _ M Q Z B IH hc h3L X x hs hQ
-  haveI := hc.ctx.normal_Q_in_M
+  have := hc.ctx.normal_Q_in_M
   obtain ⟨n, m, hw, hnm⟩ := hc.e.exists_width
   have h115 := smith115Statement_holds G M Q Z X x hs n hw hQ
   have hel : IsElemAbelian 2 (Lx M X) := h115.1.mono le_sup_right

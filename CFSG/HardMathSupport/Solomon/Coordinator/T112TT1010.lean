@@ -85,7 +85,7 @@ theorem pRank_mulAut_statedSU_le_two {K : Type} [Group K] [Finite K]
     by_contra hle
     have hq2' : q = 2 := by omega
     subst hq2'
-    haveI : Group.IsPerfect K := ⟨hq.1⟩
+    have : Group.IsPerfect K := ⟨hq.1⟩
     exact CFSG.Quasithin.H13.Prop711.not_isPerfect_statedSU_three_two (K := F)
       (by rw [hF]; norm_num)
       (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective)

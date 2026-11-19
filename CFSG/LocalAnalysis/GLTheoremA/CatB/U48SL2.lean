@@ -24,8 +24,8 @@ theorem isSimpleGroup_su2 : IsSimpleGroup (Su K 2 3 2) := by
   have hs : IsSimpleGroup (SpecialLinearGroup (Fin 2) (CFSG.LieType.Steinberg.fixedSubfield K 2 3)) :=
     CFSG.RankThree.PartTwo.Sec21.Item228Census4Proof.isSimpleGroup_SL_two_of_charTwo
       (by rw [hF]; norm_num)
-  haveI := hs
-  haveI : IsSimpleGroup (StatedSU 2 (2 ^ 3) K) := e.symm.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup (StatedSU 2 (2 ^ 3) K) := e.symm.isSimpleGroup
   exact (MulEquiv.subgroupCongr (CFSG.LieType.Universal.Unitary.SUid_eq_statedSU (F := K) (p := 2)
     (f := 3) card_K 2)).isSimpleGroup
 
@@ -59,7 +59,7 @@ theorem mem_W0_iff (g : SU4) :
     · exact h3
 
 theorem isSimpleGroup_W0 : IsSimpleGroup ↥W0 := by
-  haveI := isSimpleGroup_su2
+  have := isSimpleGroup_su2
   exact (MonoidHom.ofInjective (blockEmb_injective (K := K) (p := 2) (f := 3)
     (by norm_num : 0 + 2 ≤ 4))).symm.isSimpleGroup
 
@@ -70,7 +70,7 @@ theorem card_W0 : Nat.card ↥W0 = 504 := by
 
 theorem not_isMulCommutative_W0 : ¬ IsMulCommutative ↥W0 := by
   intro h
-  haveI := isSimpleGroup_W0
+  have := isSimpleGroup_W0
   have hp := (Group.is_simple_iff_prime_card (α := ↥W0)).mp isSimpleGroup_W0
   rw [card_W0] at hp
   norm_num at hp
@@ -164,7 +164,7 @@ theorem exists_smul_single_two {g : SU4} {t : μ3} (ht : (t : Kˣ) ≠ 1) (hg : 
   show ent g a 2 = ent g 2 2 * (Pi.single 2 1 : Fin 4 → K) a
   by_cases ha : a = 2
   · subst ha; simp
-  · simp [Pi.single_apply, ha, key a ha]
+  · simp [ha, key a ha]
 
 theorem forward_W0 {t : μ3} (ht : (t : Kˣ) ≠ 1) {g : SU4} (hgJ : g ∈ Jblk)
     (hcomm : g * z0 t = z0 t * g) {h : SU4} (hh : h ∈ W0) : g * h * g⁻¹ ∈ W0 := by
@@ -203,7 +203,7 @@ theorem W0_comm_Bsub {b : SU4} (hb : b ∈ Bsub 0) {w : SU4} (hw : w ∈ W0) : b
 
 theorem exists_ne_one_mu3 : ∃ t : μ3, (t : Kˣ) ≠ 1 := by
   have h3 : 1 < Nat.card μ3 := by rw [card_μ3]; norm_num
-  haveI : Nontrivial μ3 := Finite.one_lt_card_iff_nontrivial.1 h3
+  have : Nontrivial μ3 := Finite.one_lt_card_iff_nontrivial.1 h3
   obtain ⟨t, ht⟩ := exists_ne (1 : μ3)
   exact ⟨t, fun h => ht (Subtype.ext h)⟩
 
@@ -300,8 +300,8 @@ theorem layer_third (f : SU4 →* G) (hf : Function.Injective f) (J : Subgroup G
         group
   have hn : (W.subgroupOf (J ⊓ Subgroup.centralizer (((Bsub 0).map f : Subgroup G) : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWY).2 hnorm
-  haveI : IsSimpleGroup ↥W := by
-    haveI := isSimpleGroup_W0
+  have : IsSimpleGroup ↥W := by
+    have := isSimpleGroup_W0
     exact (Subgroup.equivMapOfInjective W0 f hf).symm.isSimpleGroup
   have hna : ¬ IsMulCommutative ↥W := by
     intro hc

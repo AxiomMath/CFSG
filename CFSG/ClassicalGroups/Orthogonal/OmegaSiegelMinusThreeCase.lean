@@ -32,13 +32,13 @@ private theorem rhoE_conj_elementary (g : ↥(elementaryGroup QN)) (a b : N) :
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact (eichler_conj hG a b).symm
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem movedSpace_rhoE_apply (g : ↥(elementaryGroup QN)) (a b : N) :
     movedSpace (rhoE ρ ((g : N ≃ₗ[K'] N) a) ((g : N ≃ₗ[K'] N) b)) =
       (movedSpace (rhoE ρ a b)).map (ρ g : V →ₗ[K] V) := by
   rw [rhoE_conj_elementary, movedSpace_conj]
 
-omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem exists_map_eq_of_isFlag (hs : OmegaSetting QN Qf ρ) {e f p p' u v : N}
     (hF : MinusThreeFrame QN e f p p' u v) {a b c : N} (h : IsFlag QN a b c) :
     ∃ g : ↥(elementaryGroup QN),
@@ -80,7 +80,7 @@ private theorem exists_map_eq_of_isFlag (hs : OmegaSetting QN Qf ρ) {e f p p' u
     rw [hga, hgc, e2] at h2
     exact h2
 
-omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem inf_eq_bot_iff_of_isFlag (hs : OmegaSetting QN Qf ρ) {e f p p' u v : N}
     (hF : MinusThreeFrame QN e f p p' u v) {a b c : N} (h : IsFlag QN a b c) :
     movedSpace (rhoE ρ a b) ⊓ movedSpace (rhoE ρ a c) = ⊥ ↔
@@ -89,7 +89,7 @@ private theorem inf_eq_bot_iff_of_isFlag (hs : OmegaSetting QN Qf ρ) {e f p p' 
   rw [h1, h2, ← Submodule.map_inf (ρ g : V →ₗ[K] V) (ρ g).injective,
     Submodule.map_eq_bot_iff]
 
-omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem OmegaSetting.flag_dichotomy (hs : OmegaSetting QN Qf ρ) {e f p p' u v : N}
     (hF : MinusThreeFrame QN e f p p' u v) :
     (∀ a b c, IsFlag QN a b c → movedSpace (rhoE ρ a b) ⊓ movedSpace (rhoE ρ a c) ≠ ⊥) ∨

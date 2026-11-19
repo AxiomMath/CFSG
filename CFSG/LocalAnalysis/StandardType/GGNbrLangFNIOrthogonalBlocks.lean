@@ -162,8 +162,8 @@ theorem kgFieldRestriction_orthogonalPairedBlock_of_semilinear
       toLinEquiv ι K (((fC c : ↥C) : StatedOmega ⇑Φ) : GL ι K) v =
         S (toLinEquiv ι K (((c : ↥C) : StatedOmega ⇑Φ) : GL ι K) (S.symm v))) :
     GGMarkingAll (K := ↥C) fun _ _ _ I _ θ' => kgInducedAut θ' fC ∉ I := by
-  haveI : Finite (AdjoinRoot a) := finite_adjoinRoot_of_fact a
-  haveI : CharP (AdjoinRoot a) 2 :=
+  have : Finite (AdjoinRoot a) := finite_adjoinRoot_of_fact a
+  have : CharP (AdjoinRoot a) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot a)).injective 2
   let τ : AdjoinRoot a ≃+* AdjoinRoot a := extAut a σ haσ
   have hτext : ∀ c : K, τ (AdjoinRoot.of a c) = AdjoinRoot.of a (σ c) :=
@@ -264,8 +264,8 @@ theorem kgFieldRestriction_orthogonalSelfDualBlock_of_semilinear
   classical
   let x : (ι → K) ≃ₗ[K] (ι → K) := toLinEquiv ι K b
   have hx' : OddOrderIsometry Φ (orderOf b) x := hx
-  haveI : Finite (AdjoinRoot a) := finite_adjoinRoot_of_fact a
-  haveI : CharP (AdjoinRoot a) 2 :=
+  have : Finite (AdjoinRoot a) := finite_adjoinRoot_of_fact a
+  have : CharP (AdjoinRoot a) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot a)).injective 2
   obtain ⟨d, m, ℓ, f, hU, basis, eSB, B, τ, hd1, hq, hcardE, hd, hdim, hdeg,
     hbarK, hbar, hτeq, hsquare, hτne, hfixed⟩ :=
@@ -374,7 +374,7 @@ theorem kgFieldRestriction_orthogonalSelfDualBlock_of_semilinear
     have hzexists : ∃ z : ↥(CFSG.RankThree.PartOne.KCOrthogonal.fixedSubfield K
         (AdjoinRoot a) d), τ (z : AdjoinRoot a) ≠ (z : AdjoinRoot a) := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hfixed
       ext z
       exact h z

@@ -37,6 +37,7 @@ private theorem aimgJ_Fcore_ne_Seven6 (c : DoubleSetupJ S ρ ψ Λ α A g) :
   rw [e, c.seed.commutator_Hone_Fcore]
   exact Vmod_le_Ecore.trans c.seed.Ecore_le_Fcore
 
+omit [Finite G] in
 private theorem cj_eq_of_le_centralizer_Hone_Seven6 {N : Subgroup G}
     (hN : N ≤ Subgroup.centralizer (Hone S : Set G)) {g₀ : G} (hg : g₀ ∈ Hone S) :
     cj N g₀ = N := by
@@ -68,7 +69,8 @@ private theorem cj_aimgJ_Zfix_Seven6 (c : DoubleSetupJ S ρ ψ Λ α A g) :
       (aimgJ_Fcore_ne_Seven6 c) (x := x) hx).2)
     c.hgH
 
-private theorem isElemAbelian_Ysub_Seven6 (c : DoubleSetupJ S ρ ψ Λ α A g) :
+omit [Finite G] [Finite k] in
+private theorem isElemAbelian_Ysub_Seven6 (_c : DoubleSetupJ S ρ ψ Λ α A g) :
     CFSG.Open.IsElemAbelian 2 (YsubJ S α g) :=
   isElemAbelian_cj (isElemAbelian_aimg
     (S := CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm

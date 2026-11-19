@@ -25,10 +25,12 @@ private theorem e18b_sq (h : EndHyp Ω) (h9 : Perp9 Ω) {a : G} (ha : a ∈ zGro
     a * a = 1 :=
   h.zGroup_mul_self h9 a ha
 
+omit [Finite G] in
 private theorem e18b_mem_zGroup {L : Subgroup G} {u : G} (hL : L ∈ Ω)
     (hu : IsUniqueInvolution L u) : u ∈ zGroup Ω :=
   Subgroup.subset_closure ⟨L, hL, hu⟩
 
+omit [Finite G] in
 private theorem e18b_zGroup_normal (hΩ : ConjInvariant Ω) : (zGroup Ω).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hn' : n ∈ Subgroup.closure {u : G | ∃ L ∈ Ω, IsUniqueInvolution L u} := hn
@@ -63,6 +65,7 @@ private theorem e18b_center (h : EndHyp Ω) {L : Subgroup G} {z c : G} (hL : L �
   · rw [h1]; exact Subgroup.one_mem _
   · rw [h1]; exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 private theorem e18b_twin_inv {K L : Subgroup G} {z : G} (hz : IsUniqueInvolution K z)
     (hL : L ∈ twinSet Ω K) : IsUniqueInvolution L z := by
   obtain ⟨-, w, hwK, hwL⟩ := hL
@@ -84,16 +87,19 @@ private theorem e18b_conj_mem_twin (h : EndHyp Ω) (h9 : Perp9 Ω) {K L : Subgro
   rw [hz'] at hinv
   exact ⟨h.thmD.hyp.conjInvariant d L hLΩ, z, hz, hinv⟩
 
+omit [Finite G] in
 private theorem e18b_self_mem_twin {K : Subgroup G} {z : G} (hK : K ∈ Ω)
     (hz : IsUniqueInvolution K z) : K ∈ twinSet Ω K :=
   ⟨hK, z, hz, hz⟩
 
+omit [Finite G] in
 private theorem e18b_dComm_mem_D (hN : (zGroup Ω).Normal) {d : G} (hd : d ∈ zGroup Ω) (k : G) :
     dComm d k ∈ zGroup Ω := by
   have e : dComm d k = d * (k * d⁻¹ * k⁻¹) := by unfold dComm; group
   rw [e]
   exact (zGroup Ω).mul_mem hd (hN.conj_mem d⁻¹ ((zGroup Ω).inv_mem hd) k)
 
+omit [Finite G] in
 private theorem e18b_dComm_mem_sup {K : Subgroup G} {s k : G} (hk : k ∈ K) :
     dComm s k ∈ K ⊔ conjSub s K := by
   have e : dComm s k = (s * k * s⁻¹) * k⁻¹ := by unfold dComm; group
@@ -101,6 +107,7 @@ private theorem e18b_dComm_mem_sup {K : Subgroup G} {s k : G} (hk : k ∈ K) :
   exact (K ⊔ conjSub s K).mul_mem (Subgroup.mem_sup_right (conj_mem_conjSub hk))
     (Subgroup.mem_sup_left (K.inv_mem hk))
 
+omit [Finite G] in
 private theorem e18b_dComm_swap {K : Subgroup G} {s k k₁ : G}
     (hc : Commutes K (conjSub s K)) (hk : k ∈ K) (hk₁ : k₁ ∈ K) :
     dComm (dComm s k) k₁ = k⁻¹ * k₁ * k * k₁⁻¹ := by
@@ -113,6 +120,7 @@ private theorem e18b_dComm_swap {K : Subgroup G} {s k k₁ : G}
     _ = (k⁻¹ * k₁ * k) * (s * k * s⁻¹) * (s * k * s⁻¹)⁻¹ * k₁⁻¹ := by rw [← hcom]
     _ = k⁻¹ * k₁ * k * k₁⁻¹ := by group
 
+omit [Finite G] in
 private theorem e18b_q8_comm {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     i⁻¹ * j * i * j⁻¹ = z ∧ j⁻¹ * i * j * i⁻¹ = z := by
   have hij : i * j = z * (j * i) := by
@@ -131,6 +139,7 @@ private theorem e18b_q8_comm {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) 
       _ = j * j := by group
       _ = z := hQ.sq_j
 
+omit [Finite G] in
 private theorem e18b_zpowers_one_or {z x : G} (hz2 : z * z = 1)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -140,10 +149,12 @@ private theorem e18b_zpowers_one_or {z x : G} (hz2 : z * z = 1)
   · right
     rw [hm, zpow_add_one, zpow_mul, zpow_two, hz2, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem e18b_comm_of_one_or {z x y : G} (hx : x = 1 ∨ x = z) (hy : y = 1 ∨ y = z) :
     x * y = y * x := by
   rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp
 
+omit [Finite G] in
 private theorem e18b_centralizer_le_normalizer (K : Subgroup G) :
     Subgroup.centralizer (K : Set G) ≤ Subgroup.normalizer (K : Set G) := by
   intro x hx
@@ -168,6 +179,7 @@ private theorem e18b_centralizer_le_normalizer (K : Subgroup G) :
     rw [key]
     exact hn
 
+omit [Finite G] in
 private theorem e18b_sup_le_normalizer {K K' : Subgroup G} (hc : Commutes K K') :
     K ⊔ K' ≤ Subgroup.normalizer (K : Set G) := by
   refine sup_le (fun k hk => Subgroup.le_normalizer hk) (fun k' hk' => ?_)
@@ -176,6 +188,7 @@ private theorem e18b_sup_le_normalizer {K K' : Subgroup G} (hc : Commutes K K') 
   intro k hk
   exact hc k hk k' hk'
 
+omit [Finite G] in
 private theorem e18b_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x : G}
     (hx : x ∈ K ⊔ K') : ∃ k ∈ K, ∃ k' ∈ K', x = k * k' := by
   let P : Subgroup G :=
@@ -202,6 +215,7 @@ private theorem e18b_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x 
       (fun k' hk' => ⟨1, K.one_mem, k', hk', by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 private theorem e18b_commute_of_gens {K : Subgroup G} {z i j c : G} (hQ : Q8Data K z i j)
     (hcz : c * z = z * c) (hci : c * i = i * c) (hcj : c * j = j * c) :
     c ∈ Subgroup.centralizer (K : Set G) := by
@@ -222,6 +236,7 @@ private theorem e18b_commute_of_gens {K : Subgroup G} {z i j c : G} (hQ : Q8Data
     · exact hcz'.mul_right (hci'.mul_right hcj')
   exact hcy.symm.eq
 
+omit [Finite G] in
 private theorem e18b_exists_pair {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j)
     (hN : (zGroup Ω).Normal) {s : G} (hs : s ∈ zGroup Ω) (hc : Commutes K (conjSub s K))
     {p q : G} (hp : p = 1 ∨ p = z) (hq : q = 1 ∨ q = z) :
@@ -318,6 +333,7 @@ private theorem e18b_card_eq_four_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (hN : (zGr
   rw [← hidx]
   ring
 
+omit [Finite G] in
 private theorem e18b_mul_normalizer {K : Subgroup G}
     (hN : (zGroup Ω ⊓ Subgroup.normalizer (K : Set G)).relIndex (zGroup Ω) = 2)
     (hcomm : ∀ a ∈ zGroup Ω, ∀ b ∈ zGroup Ω, a * b = b * a)
@@ -339,6 +355,7 @@ private theorem e18b_mul_normalizer {K : Subgroup G}
   rw [e] at hmem
   exact (Subgroup.mem_inf.mp hmem).2
 
+omit [Finite G] in
 private theorem e18b_alg (a1 a2 a3 b1 b2 b3 : G) (h21 : a2 * b1 = b1 * a2)
     (h31 : a3 * b1 = b1 * a3) (h32 : a3 * b2 = b2 * a3) :
     a1 * b1 * (a2 * b2) * (a3 * b3) = a1 * a2 * a3 * (b1 * b2 * b3) := by
@@ -350,6 +367,7 @@ private theorem e18b_alg (a1 a2 a3 b1 b2 b3 : G) (h21 : a2 * b1 = b1 * a2)
     _ = a1 * a2 * (a3 * b1) * b2 * b3 := by rw [← h31]
     _ = a1 * a2 * a3 * (b1 * b2 * b3) := by group
 
+omit [Finite G] in
 private theorem e18b_triple_hom {A₁ A₂ A₃ : Subgroup G}
     (hcomm : ∀ a ∈ zGroup Ω, ∀ b ∈ zGroup Ω, a * b = b * a)
     (h1 : A₁ ≤ zGroup Ω) (h2 : A₂ ≤ zGroup Ω) (h3 : A₃ ≤ zGroup Ω) :
@@ -457,14 +475,14 @@ theorem conjSub_mem_twinSet {K : Subgroup G} (hK : K ∈ Ω) {d : G} (hd : d ∈
 theorem exists_swap {K : Subgroup G} (hK : K ∈ Ω) :
     ∃ J ∈ Ω, ∃ s : G, IsUniqueInvolution J s ∧ conjSub s K ≠ K := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : zGroup Ω ≤ eGroup Ω K := by
     unfold zGroup
     refine (Subgroup.closure_le _).mpr ?_
     rintro u ⟨J, hJ, hu⟩
     exact (H.mem_eGroup_iff_normalizes hK hJ hu).mpr
       (mem_normalizer_iff_conjSub_eq.mpr (hcon J hJ u hu))
-  exact H.ne K hK (le_antisymm hle (H.endHyp.eGroup_le_zGroup hK))
+  exact H.ne K hK (le_antisymm hle (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup hK))
 
 theorem card_dZero {K : Subgroup G} (hK : K ∈ Ω) {s : G} (hs : s ∈ zGroup Ω)
     (hsK : conjSub s K ≠ K) : Nat.card ↥(zGroup Ω ⊓ (K ⊔ conjSub s K)) = 8 := by
@@ -621,7 +639,7 @@ theorem relIndex_inf_normalizer {K : Subgroup G} (hK : K ∈ Ω) :
   rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and]
   refine ⟨s, hsD, fun h => hsN (Subgroup.mem_inf.mp h).2, fun b hb => ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hbs, hbN⟩ := hcon
   have hbsD : b * s ∈ zGroup Ω := (zGroup Ω).mul_mem hb hsD
   have hbN' : b ∉ Subgroup.normalizer (K : Set G) := fun h => hbN (Subgroup.mem_inf.mpr ⟨hb, h⟩)

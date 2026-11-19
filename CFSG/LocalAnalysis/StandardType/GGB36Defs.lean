@@ -45,7 +45,7 @@ open CFSG CFSG.Assembly
       (labL.tag = .E6 ∨ labL.tag = .twE6) → GGHasLabel labL (L ⧸ Subgroup.center L) →
       GGHasLabel labJ (J ⧸ Subgroup.center J) →
       (labJ = ⟨.A, 2, 2⟩ ∨ labJ = ⟨.twA, 4, 1⟩ ∨ labJ = ⟨.D, 4, labL.n⟩) →
-      ∀ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+      ∀ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
         (hx : x ∈ Subgroup.normalizer (K : Set G)),
         GGTPNKernel (ggAutsOf K Bs hN) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K) ∨
           (labJ = ⟨.D, 4, labL.n⟩ ∧ ∃ labK : LargeEvenLabel,

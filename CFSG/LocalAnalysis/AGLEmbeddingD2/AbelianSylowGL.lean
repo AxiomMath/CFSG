@@ -17,7 +17,7 @@ theorem isMulCommutative_of_isPGroup_of_not_dvd_index {G : Type*} [Group G] [Fin
   have hQ : ¬ r ∣ (Q.map S.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Fact.out Q.not_dvd_index hS
-  let R₀ : Sylow r G := (Q.isPGroup'.map S.subtype).toSylow hQ
+  let R₀ : Sylow r G := (Q.isPGroup.map S.subtype).toSylow hQ
   have hR₀ : IsMulCommutative (R₀ : Subgroup G) :=
     isMulCommutative_anti (t := S) (Subgroup.map_subtype_le _)
   obtain ⟨R, hPR⟩ := hP.exists_le_sylow

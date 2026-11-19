@@ -17,6 +17,7 @@ section Core
 
 variable {B : Type} [Group B] [Finite B]
 
+omit [Finite B] in
 private theorem standardComponentOddCore_eq_bot (hO : pPrimeCore 2 B = ⊥) :
     Open.standardComponentOddCore B = ⊥ := by
   rw [← hO]

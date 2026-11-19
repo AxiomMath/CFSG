@@ -312,8 +312,8 @@ private lemma uc22s2112r34q35_G4_apply (K : Type) [Field K] (i l : Fin 4) :
       if l = uc22s2112r34q35_rho i then 1 else 0 := by
   rw [uc22s2112r34q35_G4, uc22s2112r34q35_permMatrix_apply]
   by_cases h : l = uc22s2112r34q35_rho i
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg fun h' => h h'.symm]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right fun h' => h h'.symm]
 
 private lemma uc22s2112r34q35_C4mat_transpose_mul (K : Type) [Field K] [CharP K 5] :
     Matrix.transpose (uc22s2112r34q35_C4mat K) * uc22s2112r34q35_C4mat K =
@@ -405,12 +405,12 @@ private lemma uc22s2112r34q35_diag_G_diag {K : Type} [Field K]
   rw [Matrix.mul_assoc, Matrix.diagonal_mul, Matrix.mul_diagonal,
     uc22s2112r34q35_G4_apply]
   by_cases h : j = uc22s2112r34q35_rho i
-  · rw [if_pos h, one_mul]
+  · rw [ite_eq_left h, one_mul]
     have hzw : 5 * Multiplicative.toAdd a.left i + Multiplicative.toAdd a.left j = 0 := by
       rw [h, hrel i]
       exact uc22s2112r34q35_five_add_three _
     exact uc22s2112r34q35_zeta_pow_add_eq_one D hzw
-  · rw [if_neg h, zero_mul, mul_zero]
+  · rw [ite_eq_right h, zero_mul, mul_zero]
 
 private lemma uc22s2112r34q35_permMatrix_conj_G4 (K : Type) [Field K]
     (π : Fin81.R0) :

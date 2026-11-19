@@ -270,11 +270,11 @@ private theorem comm_of_eigen {G M : Type*} [Group G] [Finite G] [AddCommGroup M
   let C : AddSubgroup M :=
     { carrier := {m | g • m = m}
       add_mem' := fun {m n} hm hn => by
-        simp only [Set.mem_setOf_eq] at hm hn ⊢
+        simp only [Set.mem_ofPred_eq] at hm hn ⊢
         rw [smul_add, hm, hn]
       zero_mem' := by simp
       neg_mem' := fun {m} hm => by
-        simp only [Set.mem_setOf_eq] at hm ⊢
+        simp only [Set.mem_ofPred_eq] at hm ⊢
         rw [smul_neg, hm] }
   have hCinv : ∀ h : G, ∀ m ∈ C, h • m ∈ C := by
     intro h m hm
@@ -411,13 +411,13 @@ theorem comm_of_frame_action {G M : Type*} [Group G] [Finite G] [AddCommGroup M]
     have : d₂ * d₃ * d₃ = d₃ * d₁ * d₃ := by rw [h]
     rw [mul_assoc, h3, mul_one, mul_assoc, h13, ← mul_assoc, h3, one_mul] at this
     exact this.symm
-  letI iC : CommGroup T₁ :=
+  let iC : CommGroup T₁ :=
     { (inferInstance : Group T₁) with mul_comm := fun a b => Subtype.ext (hT₁comm a a.2 b b.2) }
-  haveI : CFSG.IsElementaryAbelian 2 T₁ :=
+  have : CFSG.IsElementaryAbelian 2 T₁ :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hT₁comm a a.2 b b.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by rw [sq]; simpa using hT₁sq g g.2) }
-  haveI : Nontrivial T₁ := ⟨⟨⟨(d₂ * d₃), hzAT⟩, 1, fun h => hzA1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial T₁ := ⟨⟨⟨(d₂ * d₃), hzAT⟩, 1, fun h => hzA1 (congrArg Subtype.val h)⟩⟩
   let α : T₁ →* MulAut Q := (MulAut.conjNormal (H := Q)).comp T₁.subtype
   have hα : ∀ (b : T₁) (x : Q), ((α b x : Q) : G) = (b : G) * x * (b : G)⁻¹ := by
     intro b x

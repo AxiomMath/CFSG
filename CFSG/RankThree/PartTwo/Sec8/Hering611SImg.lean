@@ -42,7 +42,7 @@ theorem card_imageSub_of_isPGroup {K D : Subgroup G} (hDK : D ≤ K) (hD3 : IsPG
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDK).toEquiv]
 
 theorem mem_of_mk_mem_imageSub {K D D₁ : Subgroup G} (hD3 : IsPGroup 3 D) (hD₁ : D₁ ≤ D)
-    (hDK : D ≤ K) {x : K} (hx : (x : G) ∈ D)
+    (_hDK : D ≤ K) {x : K} (hx : (x : G) ∈ D)
     (h : QuotientGroup.mk' (aschbacherSolvableCore 3 K) x ∈ imageSub K D₁) :
     (x : G) ∈ D₁ := by
   obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp h

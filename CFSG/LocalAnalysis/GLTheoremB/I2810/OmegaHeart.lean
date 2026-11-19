@@ -22,6 +22,7 @@ variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
       (∀ g ∈ StatedOmega Q, t * g * t⁻¹ = g → g ∈ H) → (∃ g ∈ H, t * g * t⁻¹ ≠ g) →
         H = StatedOmega Q
 
+omit [Finite X] in
 theorem comm_mem_kerAct (h : Setup28 W K S) {a : X} (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S)
     {k : X} (hk : k ∈ K) (hka : a * k * a⁻¹ * k⁻¹ ∈ W) : ∀ s ∈ S, ⁅k, s⁆ ∈ kerAct W K S := by
   intro s hs
@@ -43,10 +44,11 @@ theorem comm_mem_kerAct (h : Setup28 W K S) {a : X} (hS2 : ∀ s ∈ S, s ∈ ke
     rw [hs', h1]
     exact hW1 _ (W.mul_mem hka' (Subgroup.Normal.conj_mem inferInstance _ (hWc w hsa) a))
 
+omit [Finite X] in
 theorem centMax_of_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     (hcoat : Coatom Q) (h : Setup28 W K S) (hR : Red28 W K S) {V U₁ U₂ : Subgroup X}
     (sf : SingleFactor K V U₁ U₂) (hZ : Subgroup.center ↥(bar W K) = ⊥) {a : X} (haS : a ∈ S)
-    (hna : a ∉ kerAct W K S) (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S)
+    (_hna : a ∉ kerAct W K S) (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S)
     (hΩ : OmegaModelWith Q W K a U₁ U₂) : CentMax W K S a := by
   obtain ⟨θ, t, hθs, hθW, htr, hQt, htn, hθa⟩ := OmegaModel.model_equiv Q hR sf hZ hΩ
   intro H hHK hP hex
@@ -113,6 +115,7 @@ theorem centMax_of_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → 
     (∀ x, Q (Matrix.mulVec (t : Matrix ι ι (ZMod 2)) x) = Q x) →
     ∃ g ∈ StatedOmega Q, g ≠ 1 ∧ g ^ 3 = 1 ∧ t * g * t⁻¹ = g⁻¹
 
+omit [Finite X] in
 theorem threeElt_of_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     (hthree : Three Q) (h : Setup28 W K S) (hR : Red28 W K S) {V U₁ U₂ : Subgroup X}
     (sf : SingleFactor K V U₁ U₂) (hZ : Subgroup.center ↥(bar W K) = ⊥) {a : X} (haS : a ∈ S)

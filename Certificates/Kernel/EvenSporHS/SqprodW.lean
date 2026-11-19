@@ -86,10 +86,10 @@ theorem sqprod_of_w {u q : List R4} {ws : List (R4 × R4 × Bool)} (hq : eqL q0R
   refine ⟨A₁, hA₁, A₂, hA₂, ?_⟩
   cases s with
   | false =>
-    rw [cond_false, ofR4_toR4] at e
+    rw [Bool.cond_false, ofR4_toR4] at e
     exact Or.inl e.symm
   | true =>
-    rw [cond_true, ofR4_rneg (wf_toR4 B), ofR4_toR4] at e
+    rw [_root_.Bool.cond_true, ofR4_rneg (wf_toR4 B), ofR4_toR4] at e
     exact Or.inr (by rw [e, neg_neg])
 
 end CertificateChecks.EvenSporHS

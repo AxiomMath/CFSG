@@ -17,7 +17,7 @@ theorem s16_LemmaP_exists_fixed {W : Type*} [CommGroup W] [Finite W]
     {N : Subgroup W} (hN : N ≠ ⊥) (hAN : ∀ a ∈ A, ∀ n ∈ N, a n ∈ N) :
     ∃ n ∈ N, n ≠ 1 ∧ ∀ a ∈ A, a n = n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let s : SubMulAction A W :=
     { carrier := (N : Set W)
       smul_mem' := fun a n hn => hAN a a.2 n hn }
@@ -41,12 +41,12 @@ theorem s16_LemmaP_exists_fixed {W : Type*} [CommGroup W] [Finite W]
     apply Subtype.ext
     show (a : MulAut W) 1 = 1
     exact map_one _
-  haveI : Nonempty (MulAction.fixedPoints A s) := ⟨⟨one, hone⟩⟩
+  have : Nonempty (MulAction.fixedPoints A s) := ⟨⟨one, hone⟩⟩
   have h4 : 0 < Nat.card (MulAction.fixedPoints A s) := Nat.card_pos
   have h5 : 1 < Nat.card (MulAction.fixedPoints A s) := by
     have := Nat.le_of_dvd h4 h3
     omega
-  haveI : Nontrivial (MulAction.fixedPoints A s) := Finite.one_lt_card_iff_nontrivial.mp h5
+  have : Nontrivial (MulAction.fixedPoints A s) := Finite.one_lt_card_iff_nontrivial.mp h5
   obtain ⟨x, hx⟩ := exists_ne (⟨one, hone⟩ : MulAction.fixedPoints A s)
   refine ⟨x.1.1, x.1.2, fun h1 => hx (Subtype.ext (Subtype.ext h1)), fun a ha => ?_⟩
   have := x.2 ⟨a, ha⟩
@@ -178,10 +178,10 @@ theorem thin_four_twentySix_commutator_eq_bot {W : Type*} [CommGroup W] [Finite 
     (hX : Odd (Nat.card X)) (hAX : A ≤ normalizer (X : Set (MulAut W))) : ⁅X, A⁆ = ⊥ := by
   obtain ⟨-, hA1, hAel, hAfix⟩ := hA
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
-  haveI : IsMulCommutative A := ⟨⟨fun x y => Subtype.ext (hAel.1 x x.2 y y.2)⟩⟩
-  haveI : IsElementaryAbelian 2 A :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
+  have : IsMulCommutative A := ⟨⟨fun x y => Subtype.ext (hAel.1 x x.2 y y.2)⟩⟩
+  have : IsElementaryAbelian 2 A :=
     { exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (hAel.2 x x.2) }
   suffices h : ∀ n : ℕ, ∀ X : Subgroup (MulAut W), Nat.card X = n → Odd n →
@@ -211,7 +211,7 @@ theorem thin_four_twentySix_commutator_eq_bot {W : Type*} [CommGroup W] [Finite 
     · have hA2 : ¬ 2 ∣ Nat.card X := by
         intro h2
         exact (Nat.not_even_iff_odd.2 (hXn ▸ hXodd)) (even_iff_two_dvd.2 h2)
-      letI : MulDistribMulAction A X := Subgroup.conjMulDistribMulActionOfLeNormalizer A X hAX
+      let : MulDistribMulAction A X := Subgroup.conjMulDistribMulActionOfLeNormalizer A X hAX
       have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := 2) (A := A) (H := X) hA2
       set Ct : Subgroup X := (centralizer (A : Set (MulAut W))).comap X.subtype with hCt
       have hle : ⨆ (B : Subgroup A) (_ : B.index = 2), CFSG.fixedPointSubgroup B X ≤ Ct := by

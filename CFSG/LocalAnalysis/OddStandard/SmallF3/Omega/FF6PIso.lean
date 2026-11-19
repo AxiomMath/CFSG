@@ -179,7 +179,7 @@ theorem ffIso_permModule_of (Φ : ↥L ≃* H) {B : Subgroup G} (hBL : B ≤ L) 
   have hψeven : ∀ v, IsEvenVec v → ∃ hv : φ v ∈ L, ψ v = Φ ⟨φ v, hv⟩ := by
     intro v hv
     have hvB : φ v ∈ B := (h3 (φ v)).mpr ⟨v, hv, rfl⟩
-    exact ⟨hBL hvB, dif_pos (hBL hvB)⟩
+    exact ⟨hBL hvB, dite_eq_left (hBL hvB)⟩
   refine ⟨ψ, ⟨?_, ?_, ?_, ?_, ?_⟩, hψeven⟩
   · dsimp only [ψ]
     intro v w hv hw
@@ -188,14 +188,14 @@ theorem ffIso_permModule_of (Φ : ↥L ≃* H) {B : Subgroup G} (hBL : B ≤ L) 
     have hvwB : φ (v + w) ∈ B := by
       rw [h1 v w hv hw]
       exact B.mul_mem hvB hwB
-    rw [dif_pos (hBL hvB), dif_pos (hBL hwB), dif_pos (hBL hvwB), ← map_mul]
+    rw [dite_eq_left (hBL hvB), dite_eq_left (hBL hwB), dite_eq_left (hBL hvwB), ← map_mul]
     congr 1
     exact Subtype.ext (h1 v w hv hw)
   · dsimp only [ψ]
     intro v w hv hw heq
     have hvB : φ v ∈ B := (h3 (φ v)).mpr ⟨v, hv, rfl⟩
     have hwB : φ w ∈ B := (h3 (φ w)).mpr ⟨w, hw, rfl⟩
-    rw [dif_pos (hBL hvB), dif_pos (hBL hwB)] at heq
+    rw [dite_eq_left (hBL hvB), dite_eq_left (hBL hwB)] at heq
     exact h2 v w hv hw (congrArg (fun x : ↥L => (x : G)) (Φ.injective heq))
   · dsimp only [ψ]
     intro x
@@ -205,12 +205,12 @@ theorem ffIso_permModule_of (Φ : ↥L ≃* H) {B : Subgroup G} (hBL : B ≤ L) 
       obtain ⟨v, hv, hvl⟩ := (h3 (l : G)).mp hlB
       refine ⟨v, hv, ?_⟩
       have hvL : φ v ∈ L := by rw [hvl]; exact hBL hlB
-      rw [dif_pos hvL]
+      rw [dite_eq_left hvL]
       exact congrArg (fun y : ↥L => Φ y) (Subtype.ext hvl)
     · rintro ⟨v, hv, hψ⟩
       have hvB : φ v ∈ B := (h3 (φ v)).mpr ⟨v, hv, rfl⟩
       have hvL : φ v ∈ L := hBL hvB
-      rw [dif_pos hvL] at hψ
+      rw [dite_eq_left hvL] at hψ
       rw [← hψ]
       exact (ffIso_mem_ffImg_iff Φ ⟨φ v, hvL⟩).mpr hvB
   · dsimp only [ψ]
@@ -227,7 +227,7 @@ theorem ffIso_permModule_of (Φ : ↥L ≃* H) {B : Subgroup G} (hBL : B ≤ L) 
     have hpB : φ (permVec σ v) ∈ B := by
       rw [← hσv v hv]
       exact (Subgroup.mem_normalizer_iff.mp hlN (φ v)).mp hvB
-    rw [dif_pos hvL, dif_pos (hBL hpB), ← hl]
+    rw [dite_eq_left hvL, dite_eq_left (hBL hpB), ← hl]
     have heq : (l * ⟨φ v, hvL⟩ * l⁻¹ : ↥L) = ⟨φ (permVec σ v), hBL hpB⟩ :=
       Subtype.ext (hσv v hv)
     simpa [map_mul, map_inv] using congrArg (fun y : ↥L => Φ y) heq
@@ -243,7 +243,7 @@ theorem ffIso_permModule_of (Φ : ↥L ≃* H) {B : Subgroup G} (hBL : B ≤ L) 
     have hpB : φ (permVec σ v) ∈ B := by
       rw [← hσv v hv]
       exact (Subgroup.mem_normalizer_iff.mp (Subgroup.mem_inf.mp hh).2 (φ v)).mp hvB
-    rw [dif_pos hvL, dif_pos (hBL hpB)]
+    rw [dite_eq_left hvL, dite_eq_left (hBL hpB)]
     have heq : (l * ⟨φ v, hvL⟩ * l⁻¹ : ↥L) = ⟨φ (permVec σ v), hBL hpB⟩ :=
       Subtype.ext (hσv v hv)
     simpa [map_mul, map_inv] using congrArg (fun y : ↥L => Φ y) heq

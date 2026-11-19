@@ -15,16 +15,16 @@ theorem eq_of_le_of_isQuasisimple {M K : Subgroup G} (hMK : M ≤ K)
     (hK : CFSG.IsQuasisimple ↥K) (hKO : Nontrivial (↥K ⧸ pPrimeCore 2 ↥K))
     (hcard : Nat.card (↥K ⧸ pPrimeCore 2 ↥K) ≤ Nat.card (↥M ⧸ pPrimeCore 2 ↥M)) : M = K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥K := pPrimeCore 2 ↥K
   have hOnorm : O.Normal := pPrimeCore_normal (p := 2) (G := ↥K)
-  haveI : O.Normal := hOnorm
+  have : O.Normal := hOnorm
   have hOcop : Nat.Coprime 2 (Nat.card O) := pPrimeCore_coprime_card (p := 2) (G := ↥K)
   have hOcenter : O ≤ Subgroup.center ↥K := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hK hOnorm with htop | hle
     · exfalso
       have hKO' : Nontrivial (↥K ⧸ O) := hKO
-      haveI : Subsingleton (↥K ⧸ O) := by
+      have : Subsingleton (↥K ⧸ O) := by
         rw [htop]
         exact QuotientGroup.subsingleton_quotient_top
       exact not_nontrivial_iff_subsingleton.mpr inferInstance hKO'
@@ -43,9 +43,9 @@ theorem eq_of_le_of_isQuasisimple {M K : Subgroup G} (hMK : M ≤ K)
   have hker_normal : ψ.ker.Normal := MonoidHom.normal_ker ψ
   have hker_le : ψ.ker ≤ pPrimeCore 2 ↥M :=
     le_sSup ⟨hker_normal, hker_odd⟩
-  haveI : ψ.ker.Normal := hker_normal
+  have : ψ.ker.Normal := hker_normal
   have hMquot_le : Nat.card (↥M ⧸ pPrimeCore 2 ↥M) ≤ Nat.card (↥M ⧸ ψ.ker) := by
-    haveI : ψ.ker.FiniteIndex := Subgroup.finiteIndex_of_finite
+    have : ψ.ker.FiniteIndex := Subgroup.finiteIndex_of_finite
     calc Nat.card (↥M ⧸ pPrimeCore 2 ↥M) = (pPrimeCore 2 ↥M).index :=
           (Subgroup.index_eq_card (pPrimeCore 2 ↥M)).symm
       _ ≤ ψ.ker.index := Subgroup.index_antitone hker_le
@@ -74,7 +74,7 @@ theorem eq_of_le_of_isQuasisimple {M K : Subgroup G} (hMK : M ≤ K)
       group
     rw [← hmul]
     exact Subgroup.mul_mem_sup hmemM hmem
-  haveI : Group.IsPerfect ↥K := hK.1
+  have : Group.IsPerfect ↥K := hK.1
   have htop : M.subgroupOf K = ⊤ :=
     CFSG.GroupTheory.eq_top_of_sup_le_center_of_isPerfect hOcenter hsup
   exact le_antisymm hMK (Subgroup.subgroupOf_eq_top.mp htop)
@@ -82,7 +82,7 @@ theorem eq_of_le_of_isQuasisimple {M K : Subgroup G} (hMK : M ≤ K)
 theorem exists_isMarkedChoice {S : Set (Subgroup G)} {T : Type*} [Group T]
     (h : ∃ X : Subgroup G, Balanced S T X) : ∃ N : Subgroup G, IsMarkedChoice S T N := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun K : Subgroup G => (K : Set G)) SetLike.coe_injective
   obtain ⟨X₀, hX₀⟩ := h
   obtain ⟨N₁, hN₁, hN₁max⟩ :=

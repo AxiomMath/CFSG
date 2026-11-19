@@ -66,7 +66,7 @@ theorem burnsideAut_solvBorel_of_comap {G Q : Type} [Group G] [Group Q] (π : G 
     set f : ↥Y' →* ↥Y := (π.comp Y'.subtype).codRestrict Y (fun y => y.2) with hf
     set k : ↥(π.ker.subgroupOf Y') →* ↥Y' := (π.ker.subgroupOf Y').subtype with hk
     have hks : Group.IsSolvable ↥(π.ker.subgroupOf Y') := by
-      haveI : IsMulCommutative ↥(π.ker.subgroupOf Y') :=
+      have : IsMulCommutative ↥(π.ker.subgroupOf Y') :=
         ⟨⟨fun a b => Subtype.ext (Subtype.ext (hker _ a.2 _ b.2))⟩⟩
       infer_instance
     refine Group.isSolvable_of_ker_le_range k f ?_

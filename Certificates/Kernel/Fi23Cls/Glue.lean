@@ -72,7 +72,6 @@ theorem cls_of {g : CFSG.Sporadic.Fi23.J} {w : List Nat} {p N V : Nat} {L S : Li
     exact orderOf_eq_prime hg3 hg1
   · rw [← hval, ← hL, List.countP_filter, ← card_fin_subtype_eq_countP']
     refine Nat.card_congr (Equiv.subtypeEquivRight fun r => ?_)
-    beta_reduce
     rw [Bool.and_eq_true, valF_iff, cmK_iff hp r.2, hfx r]
     constructor
     · rintro ⟨h1, h2, h4⟩

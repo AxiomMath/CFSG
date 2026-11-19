@@ -242,7 +242,7 @@ private theorem burnsideC2c_exists_sylow {G : Type} [Group G] [Finite G] {M R : 
   have hsub : ((P : Subgroup ↥M).map M.subtype).subgroupOf M = (P : Subgroup ↥M) :=
     Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
   refine ⟨(P : Subgroup ↥M).map M.subtype,
-    ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩, ?_⟩
+    ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩, ?_⟩
   · rw [hsub]
     exact P.not_dvd_index
   · intro x hx

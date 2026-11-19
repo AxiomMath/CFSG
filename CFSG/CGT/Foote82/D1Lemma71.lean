@@ -49,11 +49,11 @@ theorem coe_mem_pCoreOf_iff {K : Subgroup G} (x : ↥K) :
     Subgroup (↥K ⧸ CFSG.pCore 2 ↥K) where
   carrier := {x | ∀ t : ↥T, barConj K (Subgroup.inclusion hT t) x = x}
   mul_mem' {a b} ha hb t := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha t, hb t]
   one_mem' t := map_one _
   inv_mem' {a} ha t := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha t]
 
 theorem barConj_mk_eq_iff (K : Subgroup G) (y : ↥(Subgroup.normalizer (K : Set G))) (k : ↥K) :
@@ -165,6 +165,7 @@ section OmegaMinus
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_eq_of_isOmegaMinusType_two {K : Subgroup G} (hK : IsOmegaMinusType K 2) :
     Nat.card K = 25920 * Nat.card (CFSG.pCore 2 ↥K) := by
   have h1 := CFSG.RankThree.PartTwo.Sec19.SimsTheoremC.card_quot_of_isOmegaMinusType hK
@@ -176,6 +177,7 @@ theorem card_eq_of_isOmegaMinusType_two {K : Subgroup G} (hK : IsOmegaMinusType 
     exact_mod_cast h2
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥K), h1, h3]
 
+omit [Finite G] in
 theorem mem_pCore_of_central_of_isAltNaturalType_six {J : Subgroup G}
     (hJ : IsAltNaturalType J 6) {b : ↥J} (hb : ∀ a : ↥J, a * b = b * a) :
     b ∈ CFSG.pCore 2 ↥J := by
@@ -189,6 +191,7 @@ theorem mem_pCore_of_central_of_isAltNaturalType_six {J : Subgroup G}
   rw [alternatingGroup.center_eq_bot (by simp), Subgroup.mem_bot] at hc
   exact hc
 
+omit [Finite G] in
 theorem five_dvd_card_of_isAltNaturalType_six {J : Subgroup G} (hJ : IsAltNaturalType J 6) :
     5 ∣ Nat.card J := by
   obtain ⟨α, hα, -, -⟩ := hJ
@@ -205,7 +208,7 @@ theorem five_dvd_card_of_isAltNaturalType_six {J : Subgroup G} (hJ : IsAltNatura
 theorem false_of_commute_omegaMinus {K J₁ J₂ : Subgroup G} (hK : IsOmegaMinusType K 2)
     (h₁ : J₁ ≤ K) (h₂ : J₂ ≤ K) (hc : ∀ a ∈ J₁, ∀ b ∈ J₂, a * b = b * a)
     (hJ₁ : IsAltNaturalType J₁ 6) (hJ₂ : IsAltNaturalType J₂ 6) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 5 (five_dvd_card_of_isAltNaturalType_six hJ₁)
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' 5 (five_dvd_card_of_isAltNaturalType_six hJ₂)
   have haG : orderOf (a : G) = 5 := by rw [Subgroup.orderOf_coe]; exact ha

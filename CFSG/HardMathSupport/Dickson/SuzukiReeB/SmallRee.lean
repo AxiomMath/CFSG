@@ -32,16 +32,16 @@ private theorem three_dvd_mul_sq_sub_one (q : ℕ) : 3 ∣ q * (q ^ 2 - 1) := by
 private theorem isSolvable_of_odd_normal_two_quotient {C : Type} [Group C] [Finite C]
     (N : Subgroup C) [N.Normal] (hN : Nat.Coprime 2 (Nat.card N)) (hQ : IsPGroup 2 (C ⧸ N)) :
     Group.IsSolvable C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hN)
-  haveI : Group.IsNilpotent (C ⧸ N) := hQ.isNilpotent
-  exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hN)
+  have : Group.IsNilpotent (C ⧸ N) := hQ.isNilpotent
+  exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
     rw [QuotientGroup.ker_mk']
     exact fun x hx => ⟨⟨x, hx⟩, rfl⟩)
 
 private theorem hasNormalPComplement_two_of_cyclic {C : Type} [Group C] [Finite C]
     (hcyc : ∀ S : Sylow 2 C, IsCyclic S) : CFSG.HasNormalPComplement 2 C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h2 : 2 ∣ Nat.card C
   · let S : Sylow 2 C := Classical.choice Sylow.nonempty
     have hmin : (Nat.card C).minFac = 2 := (Nat.minFac_eq_two_iff (Nat.card C)).2 h2
@@ -72,7 +72,7 @@ section Dihedral
 private theorem isPGroup_two_quotient_of_dihedral {C : Type} [Group C] [Finite C]
     (h3 : ¬ 3 ∣ Nat.card C) (hD : CFSG.GorensteinWalter.HasDihedralSylowTwo C) :
     IsPGroup 2 (C ⧸ CFSG.pPrimeCore 2 C) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (CFSG.GorensteinWalter.gorensteinWalter : CFSG.GorensteinWalter.gorensteinWalterStatement)
       C hD with ⟨_, hq⟩ | ⟨_, ⟨e⟩⟩ | ⟨_, K, hKp, L, hLn, hLi, hLm⟩
   · exact hq
@@ -111,7 +111,7 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
     (hT : ∀ T : Sylow 2 C, Nat.card T ≤ 4 ∧
       ∀ a ∈ (T : Subgroup C), ∀ b ∈ (T : Subgroup C), a * b = b * a ∧ a * a = 1) :
     Group.IsSolvable C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hcard : ∀ T : Sylow 2 C, Nat.card T = Nat.card T₀ := fun T =>
     Nat.card_congr (Sylow.equiv T T₀).toEquiv
@@ -124,9 +124,8 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
       have hT4 : Nat.card T = 4 := (hcard T).trans h4
       have hK : IsKleinFour ↥(T : Subgroup C) := by
         refine ⟨hT4, ?_⟩
-        haveI : Nontrivial ↥(T : Subgroup C) := by
+        have : Nontrivial ↥(T : Subgroup C) := by
           rw [← Finite.one_lt_card_iff_nontrivial]
-          change 1 < Nat.card (T : Subgroup C)
           rw [hT4]
           norm_num
         rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
@@ -152,12 +151,12 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
         omega
       rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hk with h0 | h1
       · have : Nat.card T = 1 := by rw [hpow T, h0]; rfl
-        haveI : Subsingleton T := (Nat.card_eq_one_iff_unique.mp this).1
+        have : Subsingleton T := (Nat.card_eq_one_iff_unique.mp this).1
         infer_instance
       · have : Nat.card T = 2 := by rw [hpow T, h1]; rfl
         exact isCyclic_of_prime_card this
     obtain ⟨N, hNn, hNc, hNq⟩ := hasNormalPComplement_two_of_cyclic hcycT
-    haveI := hNn
+    have := hNn
     exact isSolvable_of_odd_normal_two_quotient N hNc hNq
 
 end Dihedral
@@ -172,10 +171,10 @@ private theorem not_three_dvd_card_centralizer {G : Type} [Group G] [Finite G]
     (hx : orderOf x = p) : ¬ 3 ∣ Nat.card (Subgroup.centralizer ({x} : Set G)) := by
   classical
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨k, hk, hq⟩, hG⟩ := ward_order h
-  letI : Fintype G := Fintype.ofFinite G
-  haveI : CharP h.F 3 := ree_charP_three h hq
+  let : Fintype G := Fintype.ofFinite G
+  have : CharP h.F 3 := ree_charP_three h hq
   obtain ⟨S, D, B, -⟩ := exists_data h hq hG
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({x} : Set G))) 3 h3
@@ -211,7 +210,7 @@ private theorem sylow_two_centralizer_small {G : Type} [Group G] [Finite G] (hJ 
     (hJ2 : hJ.p ≠ 2) {x : G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hx : orderOf x = p)
     (C : Subgroup G) (hC : ∀ c ∈ C, c * x = x * c) (T : Sylow 2 C) :
     Nat.card T ≤ 4 ∧ ∀ a ∈ (T : Subgroup C), ∀ b ∈ (T : Subgroup C), a * b = b * a ∧ a * a = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hSyl, -, hcent, -⟩ := lemma_2_1 hJ hJ2
   have hcardT' : Nat.card ((T : Subgroup C).map C.subtype) = Nat.card T := by
     rw [Subgroup.card_map_of_injective C.subtype_injective]
@@ -220,7 +219,7 @@ private theorem sylow_two_centralizer_small {G : Type} [Group G] [Finite G] (hJ 
       (by rw [hcardT']; exact T.card_eq_multiplicity)
   obtain ⟨E, hTE⟩ := hT'p.exists_le_sylow
   obtain ⟨hEA, hE8⟩ := hSyl E
-  haveI := hEA
+  have := hEA
   have hT'C : ∀ e ∈ (T : Subgroup C).map C.subtype, e * x = x * e := by
     intro e he
     obtain ⟨c, -, rfl⟩ := Subgroup.mem_map.mp he
@@ -262,7 +261,7 @@ end Ward
 
 private theorem isQuasisimple_of_simple_nonab {L : Type*} [Group L] (hs : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) : CFSG.IsQuasisimple L := by
-  haveI := hs
+  have := hs
   have hc : Subgroup.center L = ⊥ := by
     rcases (inferInstance : (Subgroup.center L).Normal).eq_bot_or_eq_top with h | h
     · exact h
@@ -309,7 +308,7 @@ private theorem perfectInLayer_of_commutator_simple {S : Type*} [Group S] [Finit
     (commutator ↥C).equivMapOfInjective C.subtype C.subtype_injective
   have hNn : (N.subgroupOf C).Normal := by rw [hNC]; infer_instance
   refine perfectInLayer_of_normal_quasisimple β (N := N) (Subgroup.map_subtype_le _) hNn ?_ ?_
-  · haveI := hsC
+  · have := hsC
     have hsN : IsSimpleGroup ↥N := eN'.symm.isSimpleGroup
     have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
       obtain ⟨x, y, hxy⟩ := hncC
@@ -347,11 +346,11 @@ private theorem perfectInLayer_reeGamma {a : ℕ} (ha : 1 ≤ a) (K : Type) [Fie
     (hp2 : p ≠ 2) (hp3 : p ≠ 3) {β : MulAut (ReeTag.G2.reeGamma K a)} (hβ : β ^ p = 1)
     (hβ1 : β ≠ 1) : PerfectInLayer β := by
   have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hin : β ∈
       (MulAut.conj : ReeTag.G2.reeGamma K a →* MulAut (ReeTag.G2.reeGamma K a)).range
   · obtain ⟨-, hsimple, hnc⟩ := CatalogueBSmallRee.reeGamma_G2_simple ha K hK
-    haveI := hsimple
+    have := hsimple
     obtain ⟨x, rfl, hxp, hx1⟩ :=
       exists_eq_conj_of_mem_range (b3Lie_center_eq_bot hnc) hin hβ hβ1
     refine perfectInLayer_of_isSolvable _ ?_
@@ -362,7 +361,7 @@ private theorem perfectInLayer_reeGamma {a : ℕ} (ha : 1 ≤ a) (K : Type) [Fie
         hβ hin
     obtain ⟨b, -, hbcard, hchar, ⟨eC⟩⟩ :=
       CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK hp hp2 hσord
-    haveI := hchar
+    have := hchar
     obtain ⟨hs, hnc, -⟩ :=
       CatalogueBSmallRee.small_Ree_whole_group_p_components b (fixSubfield σ) hbcard
     have hfix : fixSubgroup (ReeTag.G2.reeGammaFieldAut K a σ) =
@@ -377,7 +376,7 @@ end Gamma
 
 theorem perfectInLayer_reeG2
     (m : ℕ) (hv : (TauCeti.LieTypeIndex.reeG2 m).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.reeG2 m, hv⟩).Group))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) {β : MulAut S} (hβ : β ^ p = 1) (hβ1 : β ≠ 1) :
     CFSG.HardMathSupport.Solomon.Coordinator.PerfectInLayer β := by

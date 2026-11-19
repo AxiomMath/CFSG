@@ -27,7 +27,7 @@ theorem hyperGen_of_levi_cube (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (
       (x : twistedE6RootGroup K σ) * j * (x : twistedE6RootGroup K σ)⁻¹ = φ x * j * (φ x)⁻¹) :
     HyperGen 3 ⊤ E₀ := by
   classical
-  haveI := hE₀.1
+  have := hE₀.1
   have hEJ : φ.range ≤ twE6LongRootLevi X Xm := by
     rintro _ ⟨x, rfl⟩
     exact hφJ x

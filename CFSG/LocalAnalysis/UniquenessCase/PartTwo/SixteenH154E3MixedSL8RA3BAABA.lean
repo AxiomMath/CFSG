@@ -17,7 +17,7 @@ theorem s16h_frattini_lift_noncyclic_pgroup
     ∃ P : Subgroup Γ, P ≤ M ⊓ Subgroup.normalizer ((T ⊓ B.comap φ : Subgroup Γ) : Set Γ) ∧
       IsPGroup p P ∧ ¬ IsCyclic ↥P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R : Subgroup Γ := T ⊓ B.comap φ
   let H : Subgroup Γ := M ⊓ B.comap φ
   let X : Subgroup Γ := M ⊓ (Subgroup.normalizer (B : Set Q)).comap φ
@@ -143,7 +143,7 @@ theorem s16h_frattini_lift_noncyclic_seven
     (hEB : E ≤ Subgroup.normalizer (B : Set Q)) (hE7 : IsPGroup 7 E) (hEc : ¬ IsCyclic ↥E) :
     ∃ P : Subgroup Γ, P ≤ M ⊓ Subgroup.normalizer ((T ⊓ B.comap φ : Subgroup Γ) : Set Γ) ∧
       IsPGroup 7 P ∧ ¬ IsCyclic ↥P := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   exact s16h_frattini_lift_noncyclic_pgroup φ hTM hT hB hE hEB hE7 hEc
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

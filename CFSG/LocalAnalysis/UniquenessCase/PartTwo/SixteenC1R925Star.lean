@@ -10,22 +10,26 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem r925_starImg_mono {H X X' : Subgroup G} (h : X ≤ X') : starImg H X ≤ starImg H X' :=
-  Subgroup.map_mono fun x hx => h hx
+  Subgroup.map_mono fun _x hx => h hx
 
+omit [Finite G] in
 theorem r925_odd_index_starImg {H M : Subgroup G} (hM : Odd (M.relIndex H)) :
     Odd (starImg H M).index :=
   Odd.of_dvd_nat hM (Subgroup.index_map_dvd _ (QuotientGroup.mk'_surjective _))
 
+omit [Finite G] in
 theorem r925_pCoreOf_le_of_sylow {H S : Subgroup G} (hS : IsSylowIn 2 S H) :
     pCoreOf 2 H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : IsPGroup 2 (S.subgroupOf H) := hS.2.1.comap_subtype
   have hQ : CFSG.pCore 2 ↥H ≤ S.subgroupOf H :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).le_sylow_of_normal (hS'.toSylow hS.2.2)
   rw [pCoreOf]
   exact Subgroup.map_le_iff_le_comap.mpr hQ
 
+omit [Finite G] in
 theorem r925_le_of_starImg_eq_top {H M : Subgroup G} (hQ : pCoreOf 2 H ≤ M)
     (h : starImg H M = ⊤) : H ≤ M := by
   have hQ' : CFSG.pCore 2 ↥H ≤ M.subgroupOf H := Subgroup.map_le_iff_le_comap.mp hQ
@@ -80,11 +84,12 @@ private lemma r925_isPGroup_of_elemAbelianOfRank_two {X : Type} [Group X]
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, Fintype.card_multiplicative,
     Fintype.card_fun, ZMod.card, Fintype.card_fin]
 
+omit [Finite G] in
 theorem r925_perfA5Cover_of_e16a5 {L Y : Subgroup G} (hYL : Y ≤ L) (hY : commutator ↥Y = ⊤)
     (hE : IsE16A5 ↥(starImg L Y)) : IsPerfA5Cover ↥Y := by
   classical
   obtain ⟨N, hNnormal, hNrank, hNalt⟩ := hE
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   let ι : ↥Y →* ↥L := Subgroup.inclusion hYL
   let φ : ↥Y →* ↥(starImg L Y) :=
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp ι).codRestrict (starImg L Y)
@@ -181,7 +186,7 @@ private lemma r925_map_conj_iSup_conjSubgroup {Γ : Type} [Group Γ] (S : Subgro
 
 private lemma r925_normalClosure_eq_iSup_conjSubgroup {Γ : Type} [Group Γ] (S : Subgroup Γ) :
     Subgroup.normalClosure (S : Set Γ) = ⨆ g : Γ, conjSubgroup S g := by
-  haveI : (⨆ g : Γ, conjSubgroup S g).Normal :=
+  have : (⨆ g : Γ, conjSubgroup S g).Normal :=
     Subgroup.normal_iff_map_conj_eq.mpr (r925_map_conj_iSup_conjSubgroup S)
   refine le_antisymm (Subgroup.normalClosure_le_normal ?_) ?_
   · intro x hx
@@ -194,6 +199,7 @@ private lemma r925_normalClosure_eq_iSup_conjSubgroup {Γ : Type} [Group Γ] (S 
     exact (inferInstance : (Subgroup.normalClosure (S : Set Γ)).Normal).conj_mem y
       (Subgroup.subset_normalClosure hy) g⁻¹
 
+omit [Finite G] in
 private lemma r925_hConj_le_self {H Y : Subgroup G} (hY : Y ≤ H) : hConj H Y ≤ H := by
   refine iSup_le fun h => ?_
   intro x hx
@@ -202,15 +208,17 @@ private lemma r925_hConj_le_self {H Y : Subgroup G} (hY : Y ≤ H) : hConj H Y �
     H.mul_mem (H.mul_mem (H.inv_mem h.2) (hY hx)) h.2
   rwa [show (h : G)⁻¹ * ((h : G) * x * (h : G)⁻¹) * (h : G) = x by group] at hmem
 
+omit [Finite G] in
 private lemma r925_map_conjSubgroup_subgroupOf {H Y : Subgroup G} (hY : Y ≤ H) (g : ↥H) :
     (conjSubgroup (Y.subgroupOf H) g).map H.subtype = conjSubgroup Y (g : G) := by
   have hcomp : H.subtype.comp (MulAut.conj g⁻¹).toMonoidHom =
       (MulAut.conj (g : G)⁻¹).toMonoidHom.comp H.subtype := by
     ext x
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [conjSubgroup, Subgroup.map_map, hcomp]
   conv_rhs => rw [conjSubgroup, ← Subgroup.map_subgroupOf_eq_of_le hY, Subgroup.map_map]
 
+omit [Finite G] in
 private lemma r925_hConj_subgroupOf {H Y : Subgroup G} (hY : Y ≤ H) :
     (hConj H Y).subgroupOf H = Subgroup.normalClosure (Y.subgroupOf H) := by
   rw [r925_normalClosure_eq_iSup_conjSubgroup]
@@ -226,6 +234,7 @@ private lemma r925_hConj_subgroupOf {H Y : Subgroup G} (hY : Y ≤ H) :
     rw [r925_map_conjSubgroup_subgroupOf hY h]
     exact le_iSup (fun h : ↥H => conjSubgroup Y (h : G)) h
 
+omit [Finite G] in
 theorem r925_starImg_hConj {H Y : Subgroup G} (hY : Y ≤ H) :
     starImg H (hConj H Y) = Subgroup.normalClosure (starImg H Y : Set (Bar2 H)) := by
   have h1 : starImg H (hConj H Y) =
@@ -235,6 +244,7 @@ theorem r925_starImg_hConj {H Y : Subgroup G} (hY : Y ≤ H) :
   rw [h1]
   exact Subgroup.map_normalClosure _ _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem r925_kGroupNonab_starImg (H X : Subgroup G) {C : CFSG.KCore.Catalogue.{0}}
     (hC : CFSG.KCore.IsoInvariant C) (hX : CFSG.KCore.KGroupNonab C ↥X) :
     CFSG.KCore.KGroupNonab C ↥(starImg H X) := by

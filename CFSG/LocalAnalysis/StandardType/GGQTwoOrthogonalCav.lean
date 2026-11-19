@@ -25,7 +25,7 @@ theorem four_dvd_component_of_full_three_card
     (hJ : IsComponentOf J (Subgroup.centralizer ({t} : Set ↥(orthDerived Q)))) :
     4 ∣ Nat.card (ggAutomizer J E) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A := E.map (orthDerived Q).subtype
   have hAΩ : A ≤ orthDerived Q := Subgroup.map_subtype_le E
   have hAE : CFSG.Open.IsElemAbelian 3 A := hE.map (orthDerived Q).subtype
@@ -44,9 +44,9 @@ theorem four_dvd_component_of_full_three_card
   have hx := Δ.oddOrderIsometry (by decide) hQ hAΩ f₀
   have hh : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors (Δ.τ f₀).toLinearMap :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.phi_mem hx (by norm_num [hK]) ht1
-  letI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  letI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
-  letI : Nontrivial ↥J := Function.Surjective.nontrivial
+  let : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  let : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  let : Nontrivial ↥J := Function.Surjective.nontrivial
     (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
   have hJns : ¬ Group.IsSolvable ↥J := Group.IsPerfect.not_isSolvable (G := ↥J)
   have hcases := ggQ2OrthNonFull_comp_cases hK hQ hdim ht3 hJ
@@ -83,12 +83,12 @@ theorem four_dvd_image_of_full_orthogonal
   obtain ⟨K, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, Q, hK, hQ, hdim,
     θ, E, t, hZ, hE, hcardE, hmap, htE, _, _, horder, hJ⟩ :=
     exists_orthogonal_full_component hS hq2 htag hr hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module K V := hMod
-  letI : FiniteDimensional K V := hFinDim
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module K V := hMod
+  let : FiniteDimensional K V := hFinDim
   have hfour := four_dvd_component_of_full_three_card hK hQ hdim hr hE hcardE htE horder hJ
   rwa [card_automizer_eq_original_image hS.2.1.1 hN θ hZ hmap] at hfour
 

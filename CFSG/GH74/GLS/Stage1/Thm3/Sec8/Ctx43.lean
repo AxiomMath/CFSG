@@ -23,6 +23,7 @@ theorem Y_inf_Nh (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U
   rw [Subgroup.mem_bot]
   exact hY.cent_h y hy.1 (hs.W_Nh_comm hII (hY.le_W hy.1) hy.2).symm
 
+omit [Finite G] in
 theorem S_eq_sup (hY : YData S K₁ W₂ U h Y) : S = Y ⊔ Nh S h := by
   apply le_antisymm
   · intro s hs

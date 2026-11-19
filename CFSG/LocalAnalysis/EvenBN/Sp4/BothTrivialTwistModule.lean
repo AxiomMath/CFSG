@@ -41,10 +41,10 @@ theorem natural_module_facts {m : ℕ} (hk : Nat.card k = 2 ^ m) (hm : 2 ≤ m) 
     (∀ g ∈ N, (∀ f ∈ F₀, g * f * g⁻¹ * f⁻¹ ∈ Z) → g ∈ S₀) ∧
     (∀ n ∈ N, n ∉ X → Odd (orderOf n) → ∀ s ∈ S₀, n * s * n⁻¹ * s⁻¹ ∈ X → s ∈ X) ∧
     (3 ∣ 2 ^ m - 1 → ∃ ω ∈ N, ω ∈ normalizer (S₀ : Set G) ∧ ω ∉ X ∧ ω * ω * ω = 1) := by
-  letI : CommGroup ↥X := { (inferInstance : Group ↥X) with
+  let : CommGroup ↥X := { (inferInstance : Group ↥X) with
     mul_comm := fun a b => Subtype.ext (hXab a a.2 b b.2) }
   set Z' : Subgroup ↥X := Z.subgroupOf X with hZ'
-  haveI hZ'n : Z'.Normal := Subgroup.normal_of_comm Z'
+  have hZ'n : Z'.Normal := normal_of_isMulCommutative Z'
   have hXZ : X ≤ normalizer (Z : Set G) := fun x hx => by
     rw [mem_normalizer_iff]
     intro z
@@ -174,7 +174,7 @@ theorem natural_module_facts {m : ℕ} (hk : Nat.card k = 2 ^ m) (hm : 2 ≤ m) 
     have hfx := (hfix ⟨n, hn⟩ ⟨x, hx⟩).mpr hxZ
     obtain ⟨P, hP⟩ := hsyl _ hx1
     have hPn : π ⟨n, hn⟩ ∈ P := (hP _).mp hfx
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨π ⟨n, hn⟩, hPn⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨π ⟨n, hn⟩, hPn⟩
     have hj' : (π ⟨n, hn⟩) ^ 2 ^ j = 1 := congrArg Subtype.val hj
     have hodd' : Odd (orderOf (π ⟨n, hn⟩)) :=
       hodd.of_dvd_nat ((orderOf_map_dvd π ⟨n, hn⟩).trans (by rw [← Subgroup.orderOf_coe]))
@@ -250,7 +250,7 @@ theorem natural_module_facts {m : ℕ} (hk : Nat.card k = 2 ^ m) (hm : 2 ≤ m) 
     exact hnX ((hπX _).mp (eq_one_of_pow_two_pow_of_odd h2 hodd'))
   ·
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hunits : 3 ∣ Nat.card kˣ := by
       rw [Nat.card_units, hk]
       exact h3

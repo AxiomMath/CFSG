@@ -82,8 +82,8 @@ theorem nonempty_mulEquiv_statedSp_minus {n : ℕ} (hn : n = 2 ∨ n = 3)
     exact hαout (hgκ ▸ (hG.kappa_mem_inner_iff g).2 hmem)
   have hgne : g ≠ 1 := by
     intro hg1
-    exact hgΩ (by simpa [G, hg1] using (StatedOmega Q).one_mem)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    exact hgΩ (by simp [G, hg1])
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨d, hd5⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 5 h5
   let D : GL ι (ZMod 2) := (StatedOmega Q).subtype (Y.subtype d)
   have hD5 : orderOf D = 5 := by

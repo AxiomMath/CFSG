@@ -132,8 +132,8 @@ theorem c23_card_dvd_of_two_summands_four {U : Type} [CommGroup U] [Finite U]
     Subtype.ext (mul_comm a.1 b.1)
   have hsqC : ∀ (C : Subgroup U) (a : C), a * a = 1 := fun C a => Subtype.ext (hsq a.1)
   have hS6 : Nat.card S ∣ 6 ^ 2 := by
-    haveI : IsKleinFour ↥A := c23_isKleinFour_of_card_four hA (hsqC A)
-    haveI : IsKleinFour ↥B := c23_isKleinFour_of_card_four hB (hsqC B)
+    have : IsKleinFour ↥A := c23_isKleinFour_of_card_four hA (hsqC A)
+    have : IsKleinFour ↥B := c23_isKleinFour_of_card_four hB (hsqC B)
     have h := Subgroup.card_dvd_of_injective ι hinj
     rwa [Nat.card_prod, CFSG.GorensteinWalter.kleinFourAut_card ↥A,
       CFSG.GorensteinWalter.kleinFourAut_card ↥B, ← pow_two] at h
@@ -235,6 +235,6 @@ theorem c23_exists_prime (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
       c23_not_dvd_card_mbar_case3 D h1217 hS hc⟩
     · rw [hc.2.2.2]
       exact Set.mem_singleton 3
-    · simpa [hc.1.2] using (dvd_rfl : 3 ∣ 3)
+    · simp [hc.1.2]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

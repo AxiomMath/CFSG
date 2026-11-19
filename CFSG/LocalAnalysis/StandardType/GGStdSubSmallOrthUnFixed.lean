@@ -31,10 +31,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p n : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
   {Y : Submodule K V}
 
+omit [CharP K 2] in
 theorem finite_linearEquiv : Finite (V ≃ₗ[K] V) :=
   haveI : Finite V := Module.finite_of_finite K
-  Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
+  Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) fun _e₁ _e₂ h => LinearEquiv.ext (congrFun h)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem inter_ne_bot_or {U R : Submodule K V} (hY : Y ≠ ⊥)
     (hsplit : ∀ y ∈ Y, ∃ u ∈ Y ⊓ U, ∃ r ∈ Y ⊓ R, y = u + r) : Y ⊓ U ≠ ⊥ ∨ Y ⊓ R ≠ ⊥ := by
   by_contra hcon
@@ -55,9 +57,9 @@ theorem bigConcl_of_fixed (S : OrbitData Q p n A Y) (h5 : 5 ≤ n) {D : Subgroup
     (hmem : (X - 1 : K[X]) ∈ primaryFactors a.toLinearMap)
     (hX : D ≤ ⁅supportedBlock Q a (X - 1), supportedBlock Q a (X - 1)⁆) : BigConcl p A D := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨S.prime⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_odd S.prime S.odd
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) p A :=
     isoGroup_of_le S.regular S.le_omega S.elem

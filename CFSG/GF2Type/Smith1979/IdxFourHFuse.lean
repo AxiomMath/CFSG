@@ -21,6 +21,7 @@ theorem z_mem_L0 {g : G} (H : S4.Hyp4 S g) : S.z ∈ S.L0 g :=
 theorem z_mem_QG_inf_Qa {g : G} (H : S4.Hyp4 S g) : S.z ∈ S.QG ⊓ S.Qa g :=
   ⟨S.z_mem_QG, S.z_mem_Qa_of_mem_QG rfl H.conj_mem H.conj_ne⟩
 
+omit [Finite G] in
 theorem QG_inf_Qa_le_L0 {g : G} : S.QG ⊓ S.Qa g ≤ S.L0 g :=
   fun _ hx => ⟨hx.2, S.QG_le_M hx.1⟩
 

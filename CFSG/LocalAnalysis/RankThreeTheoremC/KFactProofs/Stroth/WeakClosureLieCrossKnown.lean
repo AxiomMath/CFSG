@@ -30,7 +30,7 @@ theorem wcOn_cross_suzuki {K : Type} [Group K] [Finite K]
 theorem wcOn_of_crossCharKnown {K : Type} [Group K] [Finite K]
     {t : StatedLieTag} {n ℓ f p : ℕ} (hmodel : LieModel K t n ℓ f) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hk : CrossCharKnown t n ℓ f p) : WCOn p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hk with rfl | ⟨rfl, rfl⟩ | ⟨rfl, rfl, ⟨rfl, hq⟩ | ⟨rfl, hq⟩⟩
   · rcases hmodel with ⟨ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, -, hS⟩
     · exact absurd ht (by decide)

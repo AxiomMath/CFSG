@@ -83,7 +83,7 @@ theorem permOfTab_tabL (p : Perm (Fin 16)) : permOfTab (tabL p) = p := by
   have e : (fun i : Fin 16 => (tabL p).getD i.val 0) = p := funext (tabL_getD p)
   rw [e]
   unfold mkPerm
-  rw [dif_pos (isPermChk_perm p)]
+  rw [dite_eq_left (isPermChk_perm p)]
   ext i
   rfl
 
@@ -460,7 +460,7 @@ theorem n24Cov_ev (C : List (CV 16)) (tw : Bool) :
   have e : (if tw then twPerm * ev a * twPerm⁻¹ else ev a) =
       ev (if tw then twC * a * twC⁻¹ else a) := by
     cases tw <;> simp [twC, ev_mul, ev_inv, ev_cOf]
-  simp only [Function.comp_apply, e, decide_eq_decide, mem_map_tabL, mem_map_ev]
+  simp only [Function.comp_apply, e, mem_map_tabL, mem_map_ev]
 
 theorem Ppl_ev (x : CV 16) : decide (Ppl.image (ev x) = Ppl) = (imgN x (pN Ppl) == pN Ppl) := by
   rw [decide_eq_pN, pN_image]
@@ -519,7 +519,7 @@ theorem d8Chk_ev (b c : CV 16) : d8Chk (ev b) (ev c) = d8ChkC b c := by
   unfold d8Chk d8ChkC
   have eg : [yHat, ev b, ev c] = [yC, b, c].map ev := by simp [yC, ev_cOf]
   simp only [eg, closureL_ev, List.all_map, Function.comp_def, tabL_mul, ← ev_mul, ← ev_inv,
-    decide_eq_decide, mem_map_tabL, mem_map_ev, n24L_eq, d8L_eq, List.filter_map,
+    mem_map_tabL, mem_map_ev, n24L_eq, d8L_eq, List.filter_map,
     List.length_map]
 
 end CFSG.Certificates.Kernel.L5H

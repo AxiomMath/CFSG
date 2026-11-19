@@ -33,7 +33,7 @@ theorem exists_five_with_fixed_five
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 7
   obtain ⟨hF,hAlt⟩ := Degree80SevenFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS
   have hE : Nat.card E = 10 := Degree80SevenCount.seven_family_card P hcard h5 hnotAlt s hs S hS
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 10 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF

@@ -29,8 +29,8 @@ theorem ht_le_seventeen : ∀ α ∈ Rpos, ht α ≤ 17 := by
   exact h α (mem_Rpos.1 hα).1
 
 theorem chars_Rpos [Finite K] [CharP K 2] (hq : 4 ≤ Nat.card K) : Chars K Rpos :=
-  ⟨fun α hα => chi_surjective (mem_Rpos.1 hα).1,
-   fun α hα β hβ hne σ => chi_ne hq (mem_Rpos.1 hα).1 (mem_Rpos.1 hα).2 (mem_Rpos.1 hβ).1
+  ⟨fun _α hα => chi_surjective (mem_Rpos.1 hα).1,
+   fun _α hα _β hβ hne σ => chi_ne hq (mem_Rpos.1 hα).1 (mem_Rpos.1 hα).2 (mem_Rpos.1 hβ).1
      (mem_Rpos.1 hβ).2 hne σ⟩
 
 theorem URge_comm [CharP K 2] {R : Finset Rt} (hR : Closed R)
@@ -44,7 +44,7 @@ theorem URge_comm [CharP K 2] {R : Finset Rt} (hR : Closed R)
       · intro β hβ _ d
         have hne : α + β ≠ 0 := add_ne_zero_of_pos hR hα hβ
         have h1 := comm_xE (K := K) (hR.root α hα) (hR.root β hβ) hne c d
-        rw [if_neg (hab α hα β hβ)] at h1
+        rw [ite_eq_right (hab α hα β hβ)] at h1
         exact (commutatorElement_eq_one_iff_mul_comm.1 h1)
       · simp
       · intro y y' hy hy'
@@ -66,8 +66,8 @@ theorem URge_comm [CharP K 2] {R : Finset Rt} (hR : Closed R)
 theorem isStab_URge [CharP K 2] {R : Finset Rt} (hR : Closed R)
     (hab : ∀ α ∈ R, ∀ β ∈ R, ¬ IsRoot .E7 (α + β)) : IsStab R (URge K R 1) where
   le := le_rfl
-  tau t e he := conj_tau_mem_URge hR t he
-  norm u hu e he := conj_mem_URge hR hu he
-  comm e he e' he' := URge_comm hR hab he he'
+  tau t _e he := conj_tau_mem_URge hR t he
+  norm _u hu _e he := conj_mem_URge hR hu he
+  comm _e he _e' he' := URge_comm hR hab he he'
 
 end CFSG.RankThree.GF2n.Smith81.S81Z

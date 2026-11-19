@@ -54,7 +54,7 @@ theorem Hyp167.closure_le_centralizer_of_ne_bot (h1 : W16One G) (hS : Std15 G)
     (hX : Hyp167 M V₀ V U S H g X T) (hVO : V ≤ pCoreOf 2 H)
     (hc : conjSubgroup V₀ g ⊓ centralizer (eSub V₀ X T : Set G) ≠ ⊥) :
     conjClosure V₀ X ≤ centralizer (conjSubgroup V₀ g : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hc
   have hcB : (c : G) ∈ conjSubgroup V₀ g := c.2.1
   have hcC : (c : G) ∈ centralizer (eSub V₀ X T : Set G) := c.2.2
@@ -133,8 +133,8 @@ private theorem w16pThirteenC_conjSubgroup_le_centralizer_V (h1 : W16One G) (hS 
   (E3.le_wClos (E3.mem_gammaSet_iff.mpr ⟨hX.le_S, g, le_rfl, E3.mQuot_self _⟩)).trans
     (hX.cex.wClos_le_centralizer h1 hS)
 
-theorem Hyp167.V₀_le_A (hMult : SchurMultiplierInput)
-    (hS : Std15 G) (h152 : Thm152 G) (h1 : W16One G) (hX : Hyp167 M V₀ V U S H g X T)
+theorem Hyp167.V₀_le_A (_hMult : SchurMultiplierInput)
+    (hS : Std15 G) (_h152 : Thm152 G) (h1 : W16One G) (hX : Hyp167 M V₀ V U S H g X T)
     (hVO : V ≤ pCoreOf 2 H) {Y : Subgroup G} {k : ℕ} (hAY : conjSubgroup V g ≤ Y)
     (hYX : Y ≤ X) (hYM : ¬ Y ≤ M)
     (h12 : Setting12Two ((conjSubgroup V g).subgroupOf Y) (M.subgroupOf Y) k)
@@ -240,12 +240,12 @@ theorem Hyp167.V₀_le_A (hMult : SchurMultiplierInput)
   have hav : a = v := MD.ι_injOn ha.2 hvF hae
   exact hav ▸ ha.1
 
-theorem Hyp167.conj_V_le_centralizer_B (hS : Std15 G) (h152 : Thm152 G) (h1 : W16One G)
+theorem Hyp167.conj_V_le_centralizer_B (hS : Std15 G) (_h152 : Thm152 G) (h1 : W16One G)
     (hX : Hyp167 M V₀ V U S H g X T) (hVO : V ≤ pCoreOf 2 H)
     (hn : E3.mQuot V (U ⊔ V₀) < mSub V₀) (hV₀A : V₀ ≤ conjSubgroup V g)
     (hF : conjClosure V₀ X ≤ centralizer (conjSubgroup V₀ g : Set G)) :
     ∀ x ∈ X, conjSubgroup V x ≤ centralizer (conjSubgroup V₀ g : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgM : g ∉ M := Hyp167.not_mem_M h1 hS hX hVO
   have hAc : conjSubgroup V g ≤ Subgroup.centralizer (V : Set G) :=
     w16pThirteenC_conjSubgroup_le_centralizer_V h1 hS hX
@@ -350,7 +350,7 @@ theorem Hyp167.conj_V_le_centralizer_B (hS : Std15 G) (h152 : Thm152 G) (h1 : W1
     have ht2 : ∃ k : ℕ, orderOf t = 2 ^ k :=
       ⟨k, (Subgroup.orderOf_coe (⟨t, htA⟩ : conjSubgroup (conjSubgroup V₀ g) x⁻¹)).trans hk⟩
     have ht_ct : t ∈ F11.CTilde M V₀ V :=
-      mem_cTilde_of_mQuot_lt (hV := hX.cex.hyp.h6.elemAbelian) (hV₀ := hX.cex.hyp.h6.le)
+      mem_cTilde_of_mQuot_lt (hV := hX.cex.hyp.h6.elemAbelian) (_hV₀ := hX.cex.hyp.h6.le)
         (hM := hX.cex.hyp.h6.normalizer_eq.symm.le) (hM₀ := hX.cex.hyp.h6.le_normalizer₀)
         (ht := htM) (ht2 := ht2) (C := U ⊔ V₀)
         (hCV := sup_le hX.cex.le hX.cex.hyp.h6.le) (hCt := hCt)

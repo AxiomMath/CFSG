@@ -36,7 +36,7 @@ theorem ggG0_eq_join_of_qTwo {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subg
     (h𝒦 : GGNbrSet p B x D J 𝒦) :
     ggG0 p B x L D J = L ⊔ ⨆ K ∈ 𝒦, K :=
   le_antisymm (ggG0_le_join_of_reflMax_genN h.hJL h.hcJ h.hRM h.hGen)
-    (ggJoin_le_ggG0 (Bs := Bs) h𝒦)
+    (ggJoin_le_ggG0 (_Bs := Bs) h𝒦)
 
 section Guard
 
@@ -96,7 +96,7 @@ theorem qTwoJoinProducer_of_rmGen (hP : QTwoRMGenProducer) : QTwoJoinProducer :=
       hGen := (hP G p B Bs x L D J 𝒦 hG).hGen }
 
 @[expose] def QTwoBlockProducer (K : Type) [Field K] [Finite K] [CharP K 2] : Prop :=
-  ∀ (hK : Nat.card K = 4) (G : Type) [Group G] [Finite G]
+  ∀ (_hK : Nat.card K = 4) (G : Type) [Group G] [Finite G]
     (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (𝒦 : Finset (Subgroup G)),
     GGSecFiveRouteCfg p B Bs x L D J 𝒦 →

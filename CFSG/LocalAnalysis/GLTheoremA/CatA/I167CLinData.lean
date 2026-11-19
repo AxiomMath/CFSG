@@ -69,7 +69,7 @@ private theorem i167CLin_data_aux2 {S : Type} [Group S] {d : ℕ} {K : Type} [Fi
 
 private theorem i167CLin_data_aux3 {K : Type} [Field K] [Finite K] {n : ℕ}
     (hcard : Nat.card K = 2 ^ n) : (2 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨q, hq, m, hqp, hqcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card, hqcard] at hcard
   have hdvd : q ∣ 2 ^ n := by
@@ -83,8 +83,8 @@ private theorem i167CLin_data_aux4 {S : Type} [Group S] {labK : GLALabel} {α : 
     (hcen : Subgroup.center S = ⊥) (hin : InnDiagKind S labK α) : IsSimpleGroup S := by
   obtain ⟨-, -, -, R, hgrp, I, F, θ, hR, -, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists hin
-  letI := hgrp
-  haveI : IsSimpleGroup R := hR
+  let := hgrp
+  have : IsSimpleGroup R := hR
   exact MulEquiv.isSimpleGroup
     (((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm.trans θ)
 
@@ -140,7 +140,7 @@ theorem i167CLin_data {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : Mu
       omega
     · rw [show (canonLabel labK).n = labK.n by simp [canonLabel, ht]]; exact hcard
   · unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, u, hu, hind⟩ := hQ'
@@ -151,7 +151,7 @@ theorem i167CLin_data {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : Mu
     · norm_num
     · rw [show (canonLabel labK).n = labK.n by simp [canonLabel, ht, hr]]; exact hcard
   · unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, u, hu, hind⟩ := hQ'
@@ -163,7 +163,7 @@ theorem i167CLin_data {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : Mu
     · rw [show (canonLabel labK).n = 2 * labK.n by simp [canonLabel, ht, hr], hcard, ← pow_mul, mul_comm]
 
 theorem i167CLin_normalize {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {d : ℕ} (hd : 1 ≤ d) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K - 1) (A : GL (Fin d) K)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K - 1) (A : GL (Fin d) K)
     (u : MulAut (LargeEvenProj (StatedSL d K)))
     (hu : ∀ h h' : ↥(StatedSL d K), (h' : GL (Fin d) K) = A * (h : GL (Fin d) K) * A⁻¹ →
       u (LargeEvenProjMk (StatedSL d K) h) = LargeEvenProjMk (StatedSL d K) h')
@@ -172,7 +172,7 @@ theorem i167CLin_normalize {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {d
       (∀ h h' : ↥(StatedSL d K), (h' : GL (Fin d) K) = g * (h : GL (Fin d) K) * g⁻¹ →
         u (LargeEvenProjMk (StatedSL d K) h) = LargeEvenProjMk (StatedSL d K) h') ∧
       (∀ c : K, (g : Matrix (Fin d) (Fin d) K) ≠ c • (1 : Matrix (Fin d) (Fin d) K)) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨c, hc⟩ := Y10GInnLin.isScalar_of_pow_trivial h2 A p u hu hpow
   have hc0 : c ≠ 0 := by
     intro h0
@@ -276,7 +276,7 @@ private theorem i167CLin_lift_aux2 {K : Type} [Field K] [Finite K] {d : ℕ} {p 
         intro htop
         have htriv : ∀ x : ↥M, f x = 1 := fun x =>
           MonoidHom.mem_ker.mp (by rw [htop]; exact Subgroup.mem_top x)
-        haveI hnt : Nontrivial (PQuot p J') :=
+        have hnt : Nontrivial (PQuot p J') :=
           isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hJ')
         obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
         obtain ⟨x, hx⟩ := hf a

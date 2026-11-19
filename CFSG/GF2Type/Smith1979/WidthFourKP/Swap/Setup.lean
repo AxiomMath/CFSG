@@ -137,7 +137,7 @@ theorem SwapW4.exists_form_minus (W : SwapW4 D) :
   push Not at hcon
   have hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q :=
     ⟨U, by rw [hU, W.h4], hcon⟩
-  haveI : Finite (Vt S g D.t ≃ₗ[ZMod 2] Vt S g D.t) := finite_linearEquiv_of_finite
+  have : Finite (Vt S g D.t ≃ₗ[ZMod 2] Vt S g D.t) := finite_linearEquiv_of_finite
   have hcardZ := CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type
     (K := ZMod 2) (V := Vt S g D.t) hQ (m := 1) (by rw [W.h4]) (ε := 1)
     (Or.inl ⟨rfl, hplus⟩)
@@ -148,7 +148,7 @@ theorem SwapW4.exists_form_minus (W : SwapW4 D) :
   rw [h72] at hcardZ
   have hcard : Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup Q) = 72 :=
     Nat.cast_injective hcardZ
-  haveI : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup Q) :=
     Fintype.ofFinite _
   have hcardF : Fintype.card ↥(TauCeti.QuadraticMap.orthogonalGroup Q) = 72 := by
     rw [← Nat.card_eq_fintype_card]
@@ -196,8 +196,8 @@ theorem SwapW4.exists_herm (W : SwapW4 D)
         intro U hU
         exact hmin U (by rw [W.h4] at hU; omega))
   obtain ⟨E, hField, hAlg, P, ψ, ρ, hψQ, hρψ, hρinj, hρrange, -⟩ := h4data W.h4
-  letI := hField
-  letI := hAlg
+  let := hField
+  let := hAlg
   have hρrange' : ρ.range = RmodN S g D.t := by
     rw [hρrange, hcomm]
   let ρEquiv : Matrix.SpecialLinearGroup (Fin 2) E ≃* ρ.range :=

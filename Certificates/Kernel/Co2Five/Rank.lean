@@ -52,7 +52,7 @@ theorem rankOf_eq {r : Nat} (hr : r < 2) (hlt : ∀ i < 2300, lineK r i < 2300)
 
 theorem rank_ok : co2RankCheck () = true := by
   have h := rank_k
-  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  simp only [Bool.and_eq_true] at h
   obtain ⟨⟨hp, h0⟩, h1⟩ := h
   have hl : ∀ r < 2, ∀ i < 2300, lineK r i < 2300 := by
     intro r hr i hi

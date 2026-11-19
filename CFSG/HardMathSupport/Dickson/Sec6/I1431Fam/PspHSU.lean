@@ -43,7 +43,7 @@ theorem t6psph_not_isTypeL2_sesqSU (hO : CFSG.ComponentClassification.CatLeaf.Li
       ⟨MulEquiv.refl _⟩⟩
   have hZ : Subgroup.center (StatedProj (StatedSU (Module.finrank E W) (ℓ ^ f) E)) = ⊥ := by
     let e := QuotientGroup.quotientMulEquivOfEq hZc
-    haveI : IsSimpleGroup (StatedSU (Module.finrank E W) (ℓ ^ f) E ⧸
+    have : IsSimpleGroup (StatedSU (Module.finrank E W) (ℓ ^ f) E ⧸
         Subgroup.center (StatedSU (Module.finrank E W) (ℓ ^ f) E)) := hQ.2.1
     have hc := center_eq_bot_of_simple hQ.2.2
     rw [← Subgroup.map_center_eq e, hc, Subgroup.map_bot]
@@ -71,7 +71,7 @@ theorem t6psph_sqOK_sesqUnitary (hO : CFSG.ComponentClassification.CatLeaf.LieOr
     [Module E W] [FiniteDimensional E W] {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm)
     (hHfl : Hf.SeparatingLeft) {q : ℕ} (hq : 10 ≤ q) : t6psph_SqOK q ↥(sesqUnitaryGroup Hf) := by
   have hfin := hE.finite
-  haveI := t6psph_finite_generalLinearGroup (E := E) (W := W)
+  have := t6psph_finite_generalLinearGroup (E := E) (W := W)
   have hq2 : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : f ≠ 0) hE.prime.one_lt
     omega

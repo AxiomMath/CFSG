@@ -231,7 +231,7 @@ theorem le_pPrimeCore_of_scn_normalizes (hX : IsPiSeparable {q : Nat.Primes | q.
   have hAP : A ≤ P := hcen ▸ inf_le_left
   have hPK : (P : Subgroup X) ⊓ K = ⊥ := by
     refine disjoint_iff.1 (disjoint_of_coprime_natCard ?_)
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rw [hn]
     exact (pPrimeCore_coprime_card (p := p) (G := X)).pow_left n
   have hPAbar : (Pbar : Subgroup (X ⧸ K)) ≤ normalizer (A.map φ : Set (X ⧸ K)) := by
@@ -267,7 +267,7 @@ theorem le_pPrimeCore_of_scn_normalizes (hX : IsPiSeparable {q : Nat.Primes | q.
       rw [← map_mul, ← map_mul, mem_centralizer_iff.1 hb' a ha]
   have hbot : H.map φ = ⊥ :=
     eq_bot_of_normalized_by_scn (pCore_isPGroup (p := p) (G := X ⧸ K))
-      (centralizer_pCore_quotient_le hX) hQP Pbar.isPGroup' hPAbar hcenbar
+      (centralizer_pCore_quotient_le hX) hQP Pbar.isPGroup hPAbar hcenbar
       (Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd H _) hH)
       ((map_mono hAH).trans (le_normalizer_map φ))
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot

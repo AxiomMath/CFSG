@@ -11,7 +11,7 @@ open Matrix
 
 theorem center_specialLinear_four_eq_bot (F : Type) [Field F] [Finite F] [CharP F 2] :
     Subgroup.center (SpecialLinearGroup (Fin 4) F) = ⊥ := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Nat.card (Subgroup.center (SpecialLinearGroup (Fin 4) F)) = 1 := by
     rw [Nat.card_congr
       (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity (n := Fin 4) (R := F)).toEquiv]

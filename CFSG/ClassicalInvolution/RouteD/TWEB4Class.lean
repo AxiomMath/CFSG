@@ -187,7 +187,6 @@ theorem class_spin_b4 (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f)
     · exfalso
       have ht' : FJ.La (-1) = FM.La (-1) := by
         first
-        | exact ht.symm
         | exact ht
       rcases Frame.La_range_eq_or_eq_swap h2 ht' with h | h
       · exact hRJM (cq.map_inj hRJ hRM (by rw [hFJ, h, hFM]))

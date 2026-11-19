@@ -61,7 +61,7 @@ theorem eq_one_of_commute_of_pCore_eq_bot {G : Type*} [Group G] [Finite G] {Γ P
   have : (Q : Subgroup C).Characteristic := Sylow.characteristic_of_normal Q hQn
   have hQΓ : ((Q : Subgroup C).map C.subtype).Normal := inferInstance
   have hle : (Q : Subgroup C).map C.subtype ≤ CFSG.pCore 2 Γ :=
-    le_sSup ⟨hQΓ, Q.isPGroup'.map C.subtype⟩
+    le_sSup ⟨hQΓ, Q.isPGroup.map C.subtype⟩
   rw [hO2, le_bot_iff] at hle
   set c : C := ⟨⟨a, haΓ⟩, (hmemC _).2 haP⟩
   obtain ⟨k, hk⟩ := ha2

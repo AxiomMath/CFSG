@@ -45,7 +45,7 @@ theorem mem_zpowers_thetaA_iff (a : C.AtildeE) :
 
 theorem E_le_gammaU : C.E ≤ gammaU := C.hEX.trans C.hXg
 
-theorem rhoA_injective : Function.Injective C.rhoA := fun a b h =>
+theorem rhoA_injective : Function.Injective C.rhoA := fun _a _b h =>
   Subtype.ext (Subtype.ext h)
 
 theorem rhoA_mem_gammaU (a : C.AtildeE) : C.rhoA a ∈ gammaU := C.E_le_gammaU a.1.2
@@ -69,7 +69,7 @@ theorem frame_of_ctx : ∃ (g : G12) (c : Gen → Fin 6 → ZMod 3) (p : Gen →
     Function.Surjective ψ' ∧ (∀ d : D5, ψ' d = 1 ↔ (d : G12) ∈ Subgroup.zpowers theta0e) ∧
     (∀ (k : Gen) (d : D5) (h : permE (p k) * (d : G12) * (permE (p k))⁻¹ ∈ D5),
       ψ' ⟨permE (p k) * (d : G12) * (permE (p k))⁻¹, h⟩ = sg k (ψ' d)) := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
   refine frame_data (A := C.AtildeE) (fun a => Subtype.ext (C.AtildeE_pow_three a.2))
     C.card_AtildeE (ρ := C.rhoA) C.rhoA_injective C.rhoA_mem_gammaU (θ := C.thetaA) rfl C.psiE
     C.psiE_surjective (fun a => ?_) (fun k => ((C.levLift k : C.E) : G12))
@@ -260,7 +260,7 @@ theorem exists_conj_eq_M0 (C : Ctx) (hM0card : Nat.card M0 = 39191040) :
     exact hDt a₀
   have hM0le : M0 ≤ conjSub C.X t :=
     fl_of_type hX₂card hNX₂ hyX₂ hyg hyu hnot₂ hS' he' hc' hd
-  haveI : Finite (conjSub C.X t) := Nat.finite_of_card_ne_zero (by rw [hX₂card]; norm_num)
+  have : Finite (conjSub C.X t) := Nat.finite_of_card_ne_zero (by rw [hX₂card]; norm_num)
   exact ⟨t, htg, (Subgroup.eq_of_le_of_card_ge hM0le (by rw [hX₂card, hM0card])).symm⟩
 
 end CFSG.GF2Type.Smith1979.IdxFour

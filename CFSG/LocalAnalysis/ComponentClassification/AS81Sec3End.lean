@@ -67,11 +67,11 @@ theorem exists_sylow_eq_of_center_le [Finite G] {z : G} {T' : Subgroup G}
       calc u * z = u * z * u⁻¹ * u := by group
         _ = z * u := by rw [huz]
     have hX2 : IsPGroup 2 ↥(T' ⊔ zpowers u) :=
-      S.isPGroup'.to_le (sup_le hTS (zpowers_le.mpr huS))
+      S.isPGroup.to_le (sup_le hTS (zpowers_le.mpr huS))
     have heq := hT'.eq_of_le le_sup_left (sup_le hT'.le (zpowers_le.mpr huC)) hX2
     rw [← heq]
     exact mem_sup_right (mem_zpowers u)
-  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   have hnc := (normalizerCondition_iff_only_full_group_self_normalizing.mp
     Group.normalizerCondition_of_isNilpotent) (T'.subgroupOf S) ?_
   · apply le_antisymm _ hTS

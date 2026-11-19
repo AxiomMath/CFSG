@@ -47,7 +47,7 @@ structure BigNatCfg (V H : Subgroup G) (hVH : V ≤ H) {n f : ℕ}
         Nat.card ↥P = qBar V H ^ (4 * n - 2)
 
 @[expose] def BigPCommutatorStatement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (hH : BigEndHyp M V Q P H),
+  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (_hH : BigEndHyp M V Q P H),
     Subgroup.center (Xbar V H) = ⊥ → cPbar V H P ≤ wOf V H →
     ⁅P, P⁆ = V ⊓ wOf V H ∧ inSubgroup frattini P = V ⊓ wOf V H ∧
       Subgroup.centralizer (P : Set G) = V

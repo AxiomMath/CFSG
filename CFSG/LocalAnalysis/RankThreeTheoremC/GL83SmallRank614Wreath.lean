@@ -73,7 +73,7 @@ theorem exists_noncyclic_le_of_twentySeven_le_card (hS : Setting G) (hU0 : FullC
     by_contra hlt
     push Not at hlt
     nlinarith
-  refine ⟨V ⊓ Y, inf_le_right, (P.isPGroup').to_le hRP, ?_, ?_⟩
+  refine ⟨V ⊓ Y, inf_le_right, (P.isPGroup).to_le hRP, ?_, ?_⟩
   ·
     intro hcyclic
     obtain ⟨c, hc⟩ := hcyclic.exists_generator

@@ -11,7 +11,7 @@ namespace CFSG.KC.G2Three.Sec1
 open Subgroup CFSG.KC.Ord CFSG.KC.Loop CFSG.KD.G2Three CFSG.KD.G2Three.Sec1
   CFSG.OddStandard.HigherRank.G2Three.Sec1Proof
 
-theorem notB_true {b : Bool} (h : Bool.not' b = true) : b = false := by
+theorem notB_true {b : Bool} (h : not b = true) : b = false := by
   cases b
   · rfl
   · exact absurd h (by decide)
@@ -82,7 +82,6 @@ theorem sqInK_at {X Y IQ : ℕ → ℕ} {nY n hi : ℕ} (h : sqInK X Y IQ nY n h
     rw [Nat.beq_eq]
     exact h4
   rw [strictB_eq] at e
-  beta_reduce at e
   rw [hb] at e
   obtain ⟨h1, h2⟩ := bAnd_g2 e
   exact ⟨Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true h2⟩
@@ -187,7 +186,7 @@ theorem blt_land_bit (c i : ℕ) : Nat.blt 0 (Nat.land c (Nat.shiftLeft 1 i)) = 
   cases c.testBit i
   · simp only [Bool.toNat_false, Nat.zero_mul]
     rfl
-  · simp [Nat.two_pow_pos]
+  · simp
 
 variable (ρ) in
 theorem enc_pwP {Gd : ℕ → ℕ} {g : ℕ → G} {r : ℕ} (hg : ∀ s < r, Enc ρ (Gd s) (g s)) (c : ℕ) :
@@ -267,7 +266,7 @@ theorem basis_tab {Gd X : ℕ → ℕ} {g : ℕ → G} {r : ℕ} (hg : ∀ s < r
       rw [pwG_succ]
       refine mul_mem (ih (by omega)) ?_
       split
-      · exact subset_closure ⟨r', by simp only [Set.mem_setOf_eq]; omega, rfl⟩
+      · exact subset_closure ⟨r', by simp only [Set.mem_ofPred_eq]; omega, rfl⟩
       · exact one_mem _
   have hK : ∀ y ∈ closure (g '' {s | s < r}), ∃ c < 2 ^ r, pwG g r c = y := by
     intro y hy
@@ -328,7 +327,7 @@ theorem closure_pair_ne {g : ℕ → G} (hc : ∀ s < 3, ∀ t < 3, g s * g t = 
           obtain ⟨d2, hd2, rfl⟩ := hy
           refine ⟨d1 ^^^ d2, ?_, (pwG_mul hc hs d1 d2).symm⟩
           rcases hd1 with rfl | rfl | rfl | rfl <;> rcases hd2 with rfl | rfl | rfl | rfl <;>
-            simp [Nat.xor_comm, Nat.xor_left_comm]
+            simp [Nat.xor_comm]
         | inv x _ hx =>
           obtain ⟨d, hd, rfl⟩ := hx
           refine ⟨d, hd, ?_⟩
@@ -384,12 +383,12 @@ theorem cntK_card [Finite G] (hρ : Function.Injective ρ) {X Gd : ℕ → ℕ} 
     by_cases hp : P i
     · have : allR k (fun s => Nat.beq (MULP (X i) (Gd s)) (MULP (Gd s) (X i))) = true :=
         (allR_iff _ k).2 fun s hs => Nat.beq_eq.mpr (hp s hs)
-      rw [this, if_pos hp]
+      rw [this, ite_eq_left hp]
     · have : allR k (fun s => Nat.beq (MULP (X i) (Gd s)) (MULP (Gd s) (X i))) = false := by
         cases e : allR k (fun s => Nat.beq (MULP (X i) (Gd s)) (MULP (Gd s) (X i)))
         · rfl
         · exact absurd (fun s hs => Nat.eq_of_beq_eq_true ((allR_iff _ k).1 e s hs)) hp
-      rw [this, if_neg hp]
+      rw [this, ite_eq_right hp]
   have hcnt : cntK X Gd k n hi = ((Finset.range n).filter P).card := by
     rw [Finset.card_filter]
     unfold cntK

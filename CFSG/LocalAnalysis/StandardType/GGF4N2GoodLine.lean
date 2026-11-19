@@ -152,7 +152,7 @@ theorem isSolvable_isometryCentralizer (hF : Nat.card F = 4) (hQ : (polarBilin Q
     LayerCores.OrthRegular.isSolvable_orthogonalGroup_of_finrank_le_two
       hx.polarBilin_fixed_nondegenerate hW
   have : Group.IsSolvable ↥(isometryRestrictFixed Q x).range :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   exact Group.isSolvable_of_ker_le_range (isometryRestrictFixed Q x).ker.subtype
     (isometryRestrictFixed Q x).rangeRestrict
     (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
@@ -174,11 +174,11 @@ theorem isSolvable_centralizer_projOrthDerived (hF : Nat.card F = 4)
     ((orthDerived Q).subtype.comp (Subgroup.subtype _)).codRestrict _ fun g =>
       Subgroup.mem_subgroupOf.mp g.2
   have : Group.IsSolvable ↥((isometryCentralizer Q (y : V ≃ₗ[F] V)).subgroupOf (orthDerived Q)) :=
-    solvable_of_solvable_injective (f := ι) fun a b hab => Subtype.ext (Subtype.ext (by
+    Group.isSolvable_of_isSolvable_injective (f := ι) fun a b hab => Subtype.ext (Subtype.ext (by
       have h := congrArg Subtype.val hab
       exact h))
   rw [← centralizerImage_eq hQ y, centralizerImage]
-  exact solvable_of_surjective (MonoidHom.subgroupMap_surjective _ _)
+  exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective _ _)
 
 theorem isSolvable_inf_centralizer_of_mulEquiv {G : Type} [Group G] {L : Subgroup G}
     (hF : Nat.card F = 4) (hQ : (polarBilin Q).Nondegenerate) (hV : finrank F V = 8)
@@ -199,7 +199,7 @@ theorem isSolvable_inf_centralizer_of_mulEquiv {G : Type} [Group G] {L : Subgrou
     exact (map_mul θ (Subgroup.inclusion inf_le_left g) ⟨m, hmL⟩).symm.trans
       ((congrArg θ hc).trans (map_mul θ ⟨m, hmL⟩ (Subgroup.inclusion inf_le_left g)))
   have hinj : Function.Injective f := θ.injective.comp (Subgroup.inclusion_injective inf_le_left)
-  exact solvable_of_solvable_injective (f := f.codRestrict _ hf) fun a b hab =>
+  exact Group.isSolvable_of_isSolvable_injective (f := f.codRestrict _ hf) fun a b hab =>
     hinj (congrArg Subtype.val hab)
 
 end CFSG.StandardType.N2GoodLine

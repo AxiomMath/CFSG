@@ -19,9 +19,9 @@ open scoped Pointwise commutatorElement
 theorem kGenO6p_holds : KGenO6p := by
   intro W _ _ H n _ _ hn S _ _ _ hΩ p hp hp2 hdvd
   obtain ⟨-, K, hF, hFin, hK, hReal⟩ := hΩ.2
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hK
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hK
   have hReal' : (CFSG.Quasithin.FFModel.nat
       (StatedOmega (StatedQuadPlus 3 K))).Realizes H ⊤ ⊥ := hReal
   have hline := KGenO6pProof.sylowFixedLine_omegaPlusSix K

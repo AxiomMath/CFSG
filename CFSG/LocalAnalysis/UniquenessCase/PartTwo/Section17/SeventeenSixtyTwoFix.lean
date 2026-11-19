@@ -30,7 +30,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem not_centralizes_pCoreOf_of_orderOf_three (D : Data G) {z : G} (hzM : z ∈ D.M)
     (hz3 : orderOf z = 3) :
     ∃ q ∈ pCoreOf 2 D.M, z * q * z⁻¹ * q⁻¹ ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   have hzC : z ∈ centralizer (pCoreOf 2 D.M : Set G) := by
@@ -52,6 +52,7 @@ theorem not_centralizes_pCoreOf_of_orderOf_three (D : Data G) {z : G} (hzM : z �
   norm_num at h32
 
 
+omit [Finite G] in
 theorem exists_bar2_rep {N R₁ R₂ L : Subgroup G} [(R₂.subgroupOf R₁).Normal]
     [IsElementaryAbelian 2 (R₁ ⧸ R₂.subgroupOf R₁)]
     (hch : CFSG.ABGLocalTools.IsChiefFactorUnder 2 N R₁ R₂)
@@ -94,7 +95,7 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
     (hzb3 : orderOf (z * b) = 3) (hK : K_L34Fix) :
     4 ≤ Nat.card ↥(pCoreOf 2 D.M ⊓ centralizer ({z * b} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := pCoreOf 2 D.M
   have hQ2 : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M
   have hQM : Q ≤ D.M := CFSG.LieType.BorelTits.pCoreOf_le 2 D.M
@@ -129,7 +130,7 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
     CFSG.GroupTheory.exists_chief_factor_of_odd (N := N) (R := Q) hQ2 hQN hNQ hzN hzOdd hzNot
   have hR₁2 : IsPGroup 2 R₁ := hQ2.to_le hR₁Q
   have hR₁N : R₁ ≤ N := hR₁Q.trans hQN
-  haveI hHn : (R₂.subgroupOf R₁).Normal :=
+  have hHn : (R₂.subgroupOf R₁).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hR₁₂
   have hch2 : CFSG.Quasithin.IsTwoChiefFactor N R₁ R₂ := by
     refine ⟨hlt, hR₁N, hN₁, hN₂, ?_, ?_⟩
@@ -141,7 +142,7 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
       obtain ⟨k, hk⟩ := hR₁2.exists_orderOf_eq_pow (⟨a, ha⟩ : ↥R₁)
       have h1 : (⟨a, ha⟩ : ↥R₁) ^ orderOf (⟨a, ha⟩ : ↥R₁) = 1 := pow_orderOf_eq_one _
       have h2 : a ^ orderOf (⟨a, ha⟩ : ↥R₁) = 1 := by
-        simpa using congrArg Subtype.val h1
+        simp
       exact ⟨k, by rw [← hk, h2]; exact R₂.one_mem⟩
   have hch : CFSG.ABGLocalTools.IsChiefFactorUnder 2 N R₁ R₂ := by
     refine ⟨hlt, hN₁, hN₂, ?_, ?_, ?_, hchief⟩
@@ -153,7 +154,7 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
     · intro x hx
       rw [pow_two]
       exact CFSG.Quasithin.H13.S3320.sq_mem_of_chief hch2 x hx
-  haveI : IsElementaryAbelian 2 (R₁ ⧸ R₂.subgroupOf R₁) := hch.isElementaryAbelian
+  have : IsElementaryAbelian 2 (R₁ ⧸ R₂.subgroupOf R₁) := hch.isElementaryAbelian
   have hQtriv : ∀ (q : G) (hq : q ∈ Q),
       CFSG.ABGLocalTools.chiefRep (p := 2) hch.2.1 hch.2.2.1 (⟨q, hQN hq⟩ : ↥N) = 1 := by
     intro q hq
@@ -245,12 +246,12 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
             intro v
             have h : (ρE x * ρE x⁻¹) = 1 := by
               rw [← map_mul, mul_inv_cancel, map_one]
-            simpa [Module.End.mul_apply] using congrArg (fun f : Module.End (ZMod 2) V => f v) h
+            simp
           right_inv := by
             intro v
             have h : (ρE x⁻¹ * ρE x) = 1 := by
               rw [← map_mul, inv_mul_cancel, map_one]
-            simpa [Module.End.mul_apply] using congrArg (fun f : Module.End (ZMod 2) V => f v) h
+            simp
           map_add' := map_add _
           map_smul' := map_smul _ }
       have hxmap : W.map (e : V →ₗ[ZMod 2] V) ≤ W := hx
@@ -283,7 +284,7 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
       · have hxQ' : x ∈ Q := hxQ
         have hx1 : ρN ⟨x, hQN hxQ'⟩ = 1 := hQtriv x hxQ'
         have hx1' : ρE ⟨x, Subgroup.subset_closure (Or.inl (Or.inl hxQ'))⟩ = 1 := by
-          simpa [ρE, hx1]
+          simp [ρE, hx1]
         rw [hx1']
         exact hmapone
       · have hxL' : x ∈ L := hxL
@@ -384,14 +385,14 @@ theorem four_le_card_pCoreOf_inf_centralizer_mul (D : Data G) {V₀ V L : Subgro
   have hAx₂ : A ≤ Subgroup.normalizer (R₂ : Set G) :=
     Subgroup.zpowers_le.mpr (hN₂ hxN)
   let Nsub : Subgroup ↥R₁ := R₂.subgroupOf R₁
-  letI : MulDistribMulAction ↥A ↥R₁ := CFSG.Walter.JT.conjAct A R₁ hAx
+  let : MulDistribMulAction ↥A ↥R₁ := CFSG.Walter.JT.conjAct A R₁ hAx
   have hInv : CFSG.IsInvariant ↥A ↥R₁ Nsub := by
     refine ⟨fun a w => ?_⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
     change (w : G) ∈ R₂ ↔ (a : G) * (w : G) * (a : G)⁻¹ ∈ R₂
     exact Subgroup.mem_normalizer_iff.mp (hAx₂ a.2) (w : G)
-  letI : CFSG.IsInvariant ↥A ↥R₁ Nsub := hInv
-  letI : MulDistribMulAction ↥A (↥R₁ ⧸ Nsub) :=
+  let : CFSG.IsInvariant ↥A ↥R₁ Nsub := hInv
+  let : MulDistribMulAction ↥A (↥R₁ ⧸ Nsub) :=
     CFSG.quotientMulDistribMulAction (A := ↥A) (G := ↥R₁) Nsub hInv
   have hsolvR₁ : Group.IsSolvable ↥R₁ :=
     CFSG.GorensteinWalter.isSolvable_of_isPGroup hR₁2
@@ -570,7 +571,7 @@ theorem exists_sylow_three_le_centralizer (D : Data G) {p : ℕ} (hp : Hyp1754 D
     exact CFSG.GroupTheory.inf_pCoreOf_le_pCoreOf 2 hLM ⟨hcommL, hO2M'⟩
   have hsup : (L ⊓ Subgroup.centralizer (Y : Set G)) ⊔ pCoreOf 2 L = L :=
     uc22p21d_sup_pCore_eq hr hr2 hYcard hcentral
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A', hA'sylC⟩ :=
     CFSG.ABGLocalTools.exists_isSylowOf (G := G) 3
       (L ⊓ Subgroup.centralizer (Y : Set G))
@@ -828,7 +829,7 @@ theorem exists_elemAbelian_three_central_sylow (D : Data G) {V₀ V L : Subgroup
       IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       CFSG.ABGLocalTools.IsSylowOf 3 P D.M ∧ rankThreeGamma 1 3 E ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hns : ¬ Group.IsSolvable ↥D.M :=
     CFSG.LocalAnalysis.UniquenessCase.UC6S846.not_solvable_of_mem_calC ctx.memC
   have hsig1 : D.sig ⊆ D.sig1 :=
@@ -946,7 +947,7 @@ theorem exists_elemAbelian_three_central_sylow (D : Data G) {V₀ V L : Subgroup
     · exact h
     · exfalso
       have hcomm : IsMulCommutative (Bar2 L) := Subgroup.center_eq_top_iff.mp h
-      letI : CommGroup (Bar2 L) := IsMulCommutative.instCommGroup
+      let : CommGroup (Bar2 L) := IsMulCommutative.instCommGroup
       have hp := IsSimpleGroup.prime_card (α := Bar2 L)
       rw [card_bar_of_isL3 ctx.shapeL] at hp
       norm_num at hp
@@ -974,7 +975,7 @@ theorem exists_elemAbelian_three_central_sylow (D : Data G) {V₀ V L : Subgroup
     rw [hdisjAO] at hxbot
     simpa using hxbot
   have hPp : IsPGroup 3 P := hPsyl.isPGroup
-  haveI : Group.IsNilpotent ↥P := hPp.isNilpotent
+  have : Group.IsNilpotent ↥P := hPp.isNilpotent
   have hAeq : P ⊓ L = A :=
     hAsylL.eq_of_le (le_inf hAP hAsylL.le) inf_le_right hPp.to_inf_left
   have hPLnorm : ((P ⊓ L).subgroupOf P).Normal :=
@@ -1019,7 +1020,7 @@ theorem exists_elemAbelian_three_central_sylow (D : Data G) {V₀ V L : Subgroup
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr
       ((le_inf Subgroup.le_normalizer (hPM.trans hCLnormM)).trans
         Subgroup.inf_normalizer_le_normalizer_inf)
-  haveI : ((P ⊓ F08.CentOverO2 D.M L).subgroupOf P).Normal := hPCLnorm
+  have : ((P ⊓ F08.CentOverO2 D.M L).subgroupOf P).Normal := hPCLnorm
   have hN2ne : (P ⊓ F08.CentOverO2 D.M L).subgroupOf P ≠ ⊥ := by
     intro hbot
     have hbPsub : (⟨b, hbP⟩ : ↥P) ∈ (P ⊓ F08.CentOverO2 D.M L).subgroupOf P :=
@@ -1080,7 +1081,7 @@ theorem exists_elemAbelian_three_central_sylow (D : Data G) {V₀ V L : Subgroup
     rw [disjoint_iff]
     let K := Subgroup.zpowers z
     let N := Subgroup.zpowers b' ⊓ K
-    haveI : Fact (Nat.Prime (Nat.card K)) := ⟨by rw [Nat.card_zpowers, hz3]; norm_num⟩
+    have : Fact (Nat.Prime (Nat.card K)) := ⟨by rw [Nat.card_zpowers, hz3]; norm_num⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (N.subgroupOf K) with hbot | htop
     · rw [eq_bot_iff]
       intro x hx

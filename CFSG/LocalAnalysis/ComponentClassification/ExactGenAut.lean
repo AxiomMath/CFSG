@@ -73,7 +73,7 @@ end Induced
 
 theorem prime_card_of_comm {G : Type*} [Group G] [IsSimpleGroup G] (hc : ∀ a b : G, a * b = b * a) :
     (Nat.card G).Prime := by
-  haveI : IsMulCommutative G := ⟨⟨hc⟩⟩
+  have : IsMulCommutative G := ⟨⟨hc⟩⟩
   exact (Group.is_simple_iff_prime_card.1 inferInstance)
 
 theorem commutator_eq_top_of_simple_card {G : Type*} [Group G] [IsSimpleGroup G]
@@ -96,7 +96,7 @@ theorem factorization_two_le_one {m : ℕ} (h0 : 0 < m) (h : m ≤ 2) : m.factor
 theorem exists_conj_mem_of_two_part {A : Type*} [Group A] [Finite A] (H : Subgroup A)
     (h : (Nat.card A).factorization 2 ≤ (Nat.card H).factorization 2) {x : A} (hx : x * x = 1) :
     ∃ σ : A, σ * x * σ⁻¹ ∈ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 H) := inferInstance
   let T : Subgroup A := (T₀ : Subgroup H).map H.subtype
   have hTH : T ≤ H := by
@@ -117,7 +117,7 @@ theorem exists_conj_mem_of_two_part {A : Type*} [Group A] [Finite A] (H : Subgro
       intro t ht _
       exact Or.inr ⟨1, Subgroup.one_mem _, t, hTH ht, by simp⟩)
   rcases hcov x (Subgroup.mem_top x) hx with h1 | ⟨μ, -, ρ, hρ, hμ⟩
-  · exact ⟨1, by rw [h1]; simpa using H.one_mem⟩
+  · exact ⟨1, by rw [h1]; simp⟩
   · exact ⟨μ, hμ ▸ hρ⟩
 
 theorem hAut_of_two_part {S Γ : Type*} [Group S] [Group Γ] [Finite S] (P N : Subgroup Γ)
@@ -126,7 +126,7 @@ theorem hAut_of_two_part {S Γ : Type*} [Group S] [Group Γ] [Finite S] (P N : S
     (h2 : (Nat.card (MulAut S)).factorization 2 ≤ (Nat.card N).factorization 2) :
     ∀ τ : MulAut S, τ * τ = 1 → ∃ σ : MulAut S, ∃ ν ∈ N,
       ∀ s : S, ((e ((σ * τ * σ⁻¹) s) : P) : Γ) = ν * (e s : Γ) * ν⁻¹ := by
-  haveI : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
+  have : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
     (fun f g h => MulEquiv.ext (congrFun h))
   have hinj := indAut_injective P N e hnorm hcent
   have hH : Nat.card (indAut P N e hnorm).range = Nat.card N :=
@@ -180,7 +180,7 @@ theorem coreStmt_of_model (n : ℕ) (c : FCCert) (hc : c.ok n = true) {S : Type*
     have : e x = 1 := Subtype.ext h1
     have : x = 1 := e.injective (by rw [this, map_one])
     simpa using this
-  haveI : Finite (c.ctx.chN.sub n) := inferInstance
+  have : Finite (c.ctx.chN.sub n) := inferInstance
   refine coreStmt_of_cert n c hc e
     (commutator_eq_of_equiv _ e hperf) ?_
   refine hAut_of_two_part _ _ e hnorm hcent ?_

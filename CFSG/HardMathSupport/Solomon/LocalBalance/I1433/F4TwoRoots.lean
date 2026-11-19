@@ -110,7 +110,7 @@ theorem ncard_roots_filter (P : V4 → Prop) [DecidablePred P] :
   have hset : {γ | IsRoot Tag.F4 γ ∧ P γ} =
       (((rts.filter (fun l => decide (P (vec4 l)))).map vec4 : List V4).toFinset : Set V4) := by
     ext γ
-    simp only [Set.mem_setOf_eq, List.coe_toFinset, List.mem_map, List.mem_filter, decide_eq_true_eq]
+    simp only [Set.mem_ofPred_eq, List.coe_toFinset, List.mem_map, List.mem_filter, decide_eq_true_eq]
     constructor
     · rintro ⟨hγ, hP⟩
       obtain ⟨l, hl, rfl⟩ := (mem_rts_iff γ).1 hγ

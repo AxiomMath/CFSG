@@ -119,7 +119,7 @@ theorem exists_equiv_Fgrp_T0
       Subgroup.index_map_of_bijective (f := ι.toMonoidHom) ι.bijective]
     exact hTidx
   have hP0' : IsSylowOf 2 (P0 : Subgroup (Fgrp n)) ⊤ :=
-    isSylowOf_iff.2 ⟨le_top, P0.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, P0.isPGroup, by
       rw [Subgroup.relIndex_top_right]; exact P0.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := hTm.exists_mem_conj hP0'
   have hP0mem : ∀ y : Fgrp n, y ∈ (P0 : Subgroup (Fgrp n)) ↔ ((y : Fgrp n) : Amb n) ∈ T0 n := by

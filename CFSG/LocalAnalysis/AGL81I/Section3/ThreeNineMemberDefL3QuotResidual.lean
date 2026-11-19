@@ -92,8 +92,8 @@ theorem primeResidual_pgl2_zmod {p d : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hd :
     (hd2 : d ≠ 2) (hdp : d ∣ p + 1) :
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d (PGL(2, ZMod p)) =
       (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := ZMod p)).range := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : IsSimpleGroup (PSL(2, ZMod p)) := CFSG.Quasithin.Vol2.Ch11.SecE.isSimpleGroup_psl hp5
+  have : Fact d.Prime := ⟨hd⟩
+  have : IsSimpleGroup (PSL(2, ZMod p)) := CFSG.Quasithin.Vol2.Ch11.SecE.isSimpleGroup_psl hp5
   have hdvd : d ∣ Nat.card (PSL(2, ZMod p)) := dvd_card_PSL_two_zmod hp5 hd hd2 hdp
   refine le_antisymm ?_ ?_
   · refine sSup_le fun P hP x hx => ?_
@@ -104,7 +104,7 @@ theorem primeResidual_pgl2_zmod {p d : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hd :
   ·
     have htop : CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d
         (PSL(2, ZMod p)) = ⊤ := by
-      haveI : (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d
+      have : (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d
           (PSL(2, ZMod p))).Characteristic :=
         CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_characteristic d _
       have hne : CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d
@@ -153,17 +153,17 @@ theorem nonempty_primeResidual_pgl2_quot_mulEquiv_PSL {p d : ℕ} [Fact p.Prime]
     Nonempty (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual d
         (PGL(2, ZMod p) ⧸ primeComplementCore (G := PGL(2, ZMod p)) d) ≃*
       PSL(2, ZMod p)) := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : IsSimpleGroup (PSL(2, ZMod p)) := CFSG.Quasithin.Vol2.Ch11.SecE.isSimpleGroup_psl hp5
+  have : Fact d.Prime := ⟨hd⟩
+  have : IsSimpleGroup (PSL(2, ZMod p)) := CFSG.Quasithin.Vol2.Ch11.SecE.isSimpleGroup_psl hp5
   have hdvd : d ∣ Nat.card (PSL(2, ZMod p)) := dvd_card_PSL_two_zmod hp5 hd hd2 hdp
   classical
   set toPGL := Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := ZMod p) with htoPGL
   set O := primeComplementCore (G := PGL(2, ZMod p)) d with hO
-  haveI hOnormal : O.Normal :=
+  have hOnormal : O.Normal :=
     CFSG.LocalAnalysis.AGL81TheoremCD.Section12.primeComplementCore_normal d _
   have hOcard : ¬ d ∣ Nat.card ↥O := (primeComplementCore_properties _ d hd).2
   have hcomapbot : O.comap toPGL = ⊥ := by
-    haveI : (O.comap toPGL).Normal := Subgroup.Normal.comap hOnormal toPGL
+    have : (O.comap toPGL).Normal := Subgroup.Normal.comap hOnormal toPGL
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.comap toPGL) with h | h
     · refine (Subgroup.map_eq_bot_iff_of_injective _ (f := toPGL)
         Matrix.ProjectiveSpecialLinearGroup.toPGL_injective).mp ?_

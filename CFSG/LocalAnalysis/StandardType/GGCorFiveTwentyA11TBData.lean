@@ -103,7 +103,7 @@ private theorem a11diagSL_conj (d : Fin 4 → A11Fˣ) (hd : ∏ i, d i = 1)
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_a11diagSL,
     coe_ggDiagConj, TypeA.coe_inv_SL_of_diagonal (coe_a11diagSL d hd)]
-  simp only [Pi.inv_apply, Units.val_inv_eq_inv_val]
+  simp only [Units.val_inv_eq_inv_val]
 
 private theorem a11diagSL_inv (d : Fin 4 → A11Fˣ) (hd : ∏ i, d i = 1)
     (hd' : ∏ i, d⁻¹ i = 1) :
@@ -355,8 +355,8 @@ private theorem a11diagSL_one :
   rw [coe_a11diagSL, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   by_cases hij : i = j
-  · subst hij; simp [Matrix.diagonal_apply_eq, Matrix.one_apply]
-  · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply, hij]
+  · subst hij; simp [Matrix.diagonal_apply_eq]
+  · simp [hij]
 
 private theorem a11ModelFun_zero {G : Type} [Group G] {Bs : Subgroup G}
     (φ : SpecialLinearGroup (Fin (3 + 1)) A11F →* G)
@@ -384,13 +384,13 @@ private theorem a11ModelFun_surjective {G : Type} [Group G] {Bs L : Subgroup G} 
     (φ : SpecialLinearGroup (Fin (3 + 1)) A11F →* G) (hrange : φ.range = L)
     (χ : ZMod 7 → A11Fˣ) (hχadd : ∀ a b, χ (a + b) = χ a * χ b) (hχ0 : χ 0 = 1)
     (hχsurj : Function.Surjective χ) (hχinj : Function.Injective χ)
-    (xPow : ZMod 7 → G) (hxadd : ∀ a b, xPow (a + b) = xPow a * xPow b)
+    (xPow : ZMod 7 → G) (_hxadd : ∀ a b, xPow (a + b) = xPow a * xPow b)
     (hxsurj : ∀ c ∈ Subgroup.zpowers x, ∃ m, xPow m = c)
     (hdmem : ∀ (u : Fin 4 → A11Fˣ) (h : ∏ i, u i = 1), φ (a11diagSL u h) ∈ Bs)
     (hxmem : ∀ m, xPow m ∈ Bs)
     (hdiag : ∀ b ∈ Bs, GGActsDiag φ b)
     (hz : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
-    (hZL : L ⊓ Subgroup.centralizer (L : Set G) = ⊥)
+    (_hZL : L ⊓ Subgroup.centralizer (L : Set G) = ⊥)
     (b : ↥Bs) : ∃ v : Fin 4 → ZMod 7, a11ModelFun φ χ hχadd hχ0 xPow hdmem hxmem v = b := by
   obtain ⟨h, hh⟩ := hdiag b b.2
   set p : A11Fˣ := ∏ i, h i with hp
@@ -456,7 +456,7 @@ private theorem a11ModelFun_surjective {G : Type} [Group G] {Bs L : Subgroup G} 
   let v : Fin 4 → ZMod 7 := fun i => a i + m
   have hMv : a11M v = m := by
     simp only [a11M, v, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
-      Fintype.card_fin, nsmul_eq_mul, hsum, mul_zero, zero_add]
+      Fintype.card_fin, nsmul_eq_mul, hsum, zero_add]
     ring_nf
     rw [show (8 : ZMod 7) = 1 by decide, mul_one]
   have hdv : a11diagVec χ v = d := by
@@ -482,7 +482,7 @@ private theorem a11ModelFun_injective {G : Type} [Group G] {Bs L : Subgroup G} {
     (hrange : φ.range = L)
     (χ : ZMod 7 → A11Fˣ) (hχadd : ∀ a b, χ (a + b) = χ a * χ b) (hχ0 : χ 0 = 1)
     (hχinj : Function.Injective χ)
-    (xPow : ZMod 7 → G) (hxadd : ∀ a b, xPow (a + b) = xPow a * xPow b)
+    (xPow : ZMod 7 → G) (_hxadd : ∀ a b, xPow (a + b) = xPow a * xPow b)
     (hdmem : ∀ (u : Fin 4 → A11Fˣ) (h : ∏ i, u i = 1), φ (a11diagSL u h) ∈ Bs)
     (hxmem : ∀ m, xPow m ∈ Bs)
     (hxzer : ∀ m, xPow m = 1 → m = 0)
@@ -553,7 +553,7 @@ theorem ggExcReflTBData_of_slFourLift [Fact (Nat.Prime 7)] {G : Type} [Group G] 
     (hdiag : ∀ b ∈ Bs, GGActsDiag φ b)
     (hJ : (φ.comp (slLowerBlockHom 3 (GaloisField 2 3))).range = J) :
     Nonempty (GGExcReflTBData 7 Bs L J) := by
-  haveI : IsCyclic A11Fˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic A11Fˣ := instIsCyclicUnitsOfFinite
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := A11Fˣ)
   let χ : ZMod 7 → A11Fˣ := a11chi g hg
   have hχadd : ∀ a b, χ (a + b) = χ a * χ b := a11chi_add g hg
@@ -768,7 +768,7 @@ theorem ggExcReflTBData_of_slFourLift [Fact (Nat.Prime 7)] {G : Type} [Group G] 
     fin_cases i <;> fin_cases k <;>
       simp [hroot_apply, coroot, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
         Pi.single_eq_same, Pi.single_eq_of_ne, Equiv.swap_apply_left, Equiv.swap_apply_right,
-        Equiv.swap_apply_of_ne_of_ne] <;> ring_nf
+        Equiv.swap_apply_of_ne_of_ne]
   have hJ1 : φ (slPerm h2 (Equiv.swap 1 2)) ∈ J := by
     rw [← hJ]
     exact MonoidHom.mem_range.mpr ⟨slPerm h2 (Equiv.swap 0 1), by
@@ -1083,7 +1083,6 @@ theorem ggExcReflTBData_of_slFourLift [Fact (Nat.Prime 7)] {G : Type} [Group G] 
       simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, coroot, Pi.sub_apply,
         Fin.sum_univ_three] at e3 e2 e1 e0
       simp at e3 e2 e1 e0
-      norm_num at e3 e2 e1 e0
       intro i
       fin_cases i
       · exact e0

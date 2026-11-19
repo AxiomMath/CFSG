@@ -64,14 +64,14 @@ public theorem CFSG.nilpotencyClassLe_of_card_le_p_cubed
   let hp : Nat.Prime p := Fact.out
   let hRp : IsPGroup p R := Fact.out
   rcases subsingleton_or_nontrivial R with hsub | hnontriv
-  · letI : Subsingleton R := hsub
-    haveI : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
+  · let : Subsingleton R := hsub
+    have : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
     have hnil : Group.nilpotencyClass R = 0 :=
       (Group.nilpotencyClass_zero_iff_subsingleton (G := R)).2 hsub
     exact (Subgroup.upperCentralSeries_eq_top_iff_nilpotencyClass_le (G := R) (n := 2)).2 <| by
       simp [hnil]
-  letI : Nontrivial R := hnontriv
-  letI : Group.IsNilpotent R := hRp.isNilpotent
+  let : Nontrivial R := hnontriv
+  let : Group.IsNilpotent R := hRp.isNilpotent
   have hquot_p : IsPGroup p (R ⧸ Subgroup.center R) := hRp.to_quotient (Subgroup.center R)
   have hcenter_ne_bot : Subgroup.center R ≠ ⊥ := by
     exact ne_of_gt hRp.bot_lt_center
@@ -122,11 +122,11 @@ public theorem CFSG.nilpotencyClassLe_of_card_le_p_cubed
       exact hcyc.isMulCommutative
     · have hsub : Subsingleton (R ⧸ Subgroup.center R) :=
         (Nat.card_eq_one_iff_unique.mp (by simpa using h0)).1
-      letI : Subsingleton (R ⧸ Subgroup.center R) := hsub
+      let : Subsingleton (R ⧸ Subgroup.center R) := hsub
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
   have hnil_cls : Group.nilpotencyClass R ≤ 2 := by
-    letI : IsMulCommutative (R ⧸ Subgroup.center R) := hquot_comm
-    letI : CommGroup (R ⧸ Subgroup.center R) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (R ⧸ Subgroup.center R) := hquot_comm
+    let : CommGroup (R ⧸ Subgroup.center R) := IsMulCommutative.instCommGroup
     have hquot_nil : Group.nilpotencyClass (R ⧸ Subgroup.center R) ≤ 1 := by
       simpa using (CommGroup.nilpotencyClass_le_one (G := R ⧸ Subgroup.center R))
     have hker_center : (QuotientGroup.mk' (Subgroup.center R) : R →* R ⧸ Subgroup.center R).ker ≤
@@ -148,14 +148,14 @@ public theorem CFSG.nilpotencyClassLe_of_card_le_p_four
   let hp : Nat.Prime p := Fact.out
   let hRp : IsPGroup p R := Fact.out
   rcases subsingleton_or_nontrivial R with hsub | hnontriv
-  · letI : Subsingleton R := hsub
-    haveI : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
+  · let : Subsingleton R := hsub
+    have : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
     have hnil : Group.nilpotencyClass R = 0 :=
       (Group.nilpotencyClass_zero_iff_subsingleton (G := R)).2 hsub
     exact (Subgroup.upperCentralSeries_eq_top_iff_nilpotencyClass_le (G := R) (n := 3)).2 <| by
       simp [hnil]
-  letI : Nontrivial R := hnontriv
-  letI : Group.IsNilpotent R := hRp.isNilpotent
+  let : Nontrivial R := hnontriv
+  let : Group.IsNilpotent R := hRp.isNilpotent
   have hquot_p : IsPGroup p (R ⧸ Subgroup.center R) := hRp.to_quotient (Subgroup.center R)
   have hcenter_ne_bot : Subgroup.center R ≠ ⊥ := by
     exact ne_of_gt hRp.bot_lt_center
@@ -187,8 +187,8 @@ public theorem CFSG.nilpotencyClassLe_of_card_le_p_four
     have hpow : Nat.card (R ⧸ Subgroup.center R) * p ≤ p ^ 4 := le_trans hdiv hcard
     have hcancel := Nat.le_of_mul_le_mul_right hpow hp.pos
     simpa [pow_succ, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm] using hcancel
-  letI : Fact (IsPGroup p (R ⧸ Subgroup.center R)) := ⟨hquot_p⟩
-  letI : Group.IsNilpotent (R ⧸ Subgroup.center R) := hquot_p.isNilpotent
+  let : Fact (IsPGroup p (R ⧸ Subgroup.center R)) := ⟨hquot_p⟩
+  let : Group.IsNilpotent (R ⧸ Subgroup.center R) := hquot_p.isNilpotent
   have hquot_class : NilpotencyClassLe 2 (R ⧸ Subgroup.center R) :=
     nilpotencyClassLe_of_card_le_p_cubed (R := R ⧸ Subgroup.center R) (p := p) hquot_card_le
   have hquot_nil : Group.nilpotencyClass (R ⧸ Subgroup.center R) ≤ 2 := by
@@ -232,7 +232,7 @@ public theorem CFSG.coatom_normal_of_isPGroup_local {G : Type*} [Group G] [Finit
     [Fact p.Prime] [Fact (IsPGroup p G)] {K : Subgroup G} (hK : IsCoatom K) :
     K.Normal := by
   have hnil : Group.IsNilpotent G := IsPGroup.isNilpotent (p := p) (G := G) (h := Fact.out)
-  letI : Group.IsNilpotent G := hnil
+  let : Group.IsNilpotent G := hnil
   have hnc : NormalizerCondition G := Group.normalizerCondition_of_isNilpotent (G := G)
   exact Subgroup.NormalizerCondition.normal_of_coatom K hnc hK
 
@@ -360,7 +360,7 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
         have hT_lt : T < ⊤ := lt_of_le_of_ne le_top hT_ne_top
         have hT_card_lt : Nat.card T < n := by
           simpa [hcardH] using natCard_lt_of_subgroup_lt_local hT_lt
-        letI : Fact (IsPGroup p T) := ⟨(Fact.out : IsPGroup p H).to_subgroup T⟩
+        let : Fact (IsPGroup p T) := ⟨(Fact.out : IsPGroup p H).to_subgroup T⟩
         have hTgood :
             Monoid.exponent ↥(omega₁ (G := T) (p := p)) = 1 ∨
               Monoid.exponent ↥(omega₁ (G := T) (p := p)) = p :=
@@ -390,8 +390,8 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
       by_cases hx_top : Subgroup.zpowers x = ⊤
       · have hcyc : IsCyclic H :=
           (isCyclic_iff_exists_zpowers_eq_top (α := H)).2 ⟨x, hx_top⟩
-        letI : IsCyclic H := hcyc
-        letI : CommGroup H := hcyc.commGroup
+        let : IsCyclic H := hcyc
+        let : CommGroup H := hcyc.commGroup
         have hnil : Group.nilpotencyClass H ≤ 1 := by
           simpa using (CommGroup.nilpotencyClass_le_one (G := H))
         have hclass2 : NilpotencyClassLe 2 H := by
@@ -405,8 +405,8 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
         have hM_card_lt : Nat.card M < n := by
           simpa [hcardH] using natCard_lt_of_subgroup_lt_local hM_lt
         have hM_normal : M.Normal := coatom_normal_of_isPGroup_local (p := p) (K := M) hM_coatom
-        letI : M.Normal := hM_normal
-        letI : Fact (IsPGroup p M) := ⟨(Fact.out : IsPGroup p H).to_subgroup M⟩
+        let : M.Normal := hM_normal
+        let : Fact (IsPGroup p M) := ⟨(Fact.out : IsPGroup p H).to_subgroup M⟩
         have hM_rank : groupRank M ≤ 2 :=
           (groupRank_le_of_subgroup (R := H) (S := M)).trans hHrank
         have hMgood :
@@ -414,11 +414,11 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
               Monoid.exponent ↥(omega₁ (G := M) (p := p)) = p :=
           ih (Nat.card M) hM_card_lt M rfl hM_rank
         let ΩM : Subgroup M := omega₁ (G := M) (p := p)
-        letI : ΩM.Characteristic := omega₁_characteristic M
+        let : ΩM.Characteristic := omega₁_characteristic M
         let ΩH : Subgroup H := ΩM.map M.subtype
         have hΩH_normal : ΩH.Normal := by
           exact ConjAct.normal_of_characteristic_of_normal
-        letI : ΩH.Normal := hΩH_normal
+        let : ΩH.Normal := hΩH_normal
         have hxM_mem : x ∈ M := hMx (Subgroup.mem_zpowers x)
         have hxΩM : (⟨x, hxM_mem⟩ : M) ∈ ΩM := by
           change (⟨x, hxM_mem⟩ : M) ∈ Subgroup.closure {g : M | g ^ (p ^ 1) = 1}
@@ -433,7 +433,7 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
           exact Subgroup.card_map_of_injective (K := ΩM) (f := M.subtype) M.subtype_injective
         have hΩH_card_le : Nat.card ΩH ≤ p ^ 3 := by
           rcases hMgood with h1 | hp
-          · haveI : Subsingleton ΩM := (Monoid.exp_eq_one_iff (G := ΩM)).mp h1
+          · have : Subsingleton ΩM := (Monoid.exp_eq_one_iff (G := ΩM)).mp h1
             have hΩM_eq_bot : ΩM = ⊥ := by
               rw [Subgroup.eq_bot_iff_forall]
               intro z hz
@@ -443,7 +443,7 @@ private theorem CFSG.proposition_4_8_b_aux {G : Type u} [Group G] [Finite G] {p 
               Nat.card ΩH = Nat.card ΩM := hΩH_card_eq
               _ = 1 := by simp [hΩM_eq_bot]
               _ ≤ p ^ 3 := Nat.succ_le_of_lt (pow_pos (show 0 < p from (Fact.out : Nat.Prime p).pos) 3)
-          · letI : Fact (IsPGroup p ΩM) := ⟨hΩMp⟩
+          · let : Fact (IsPGroup p ΩM) := ⟨hΩMp⟩
             calc
               Nat.card ΩH = Nat.card ΩM := hΩH_card_eq
               _ ≤ p ^ 3 := proposition_4_8_a (R := ΩM) (p := p) hΩM_rank hp

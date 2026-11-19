@@ -17,8 +17,8 @@ theorem slotP614StepL617Large_holds :
     SlotP614StepL617Large := by
   intro G _ _ hS hD1 p hp5 P M hsit x z hx hz H S hopt
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := sigmaA_odd p hsit.mem_sigmaA
   have hpl : SmallRankPlane p (P : Subgroup G) x z := SmallRankPlane.of_situation hS hsit hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=

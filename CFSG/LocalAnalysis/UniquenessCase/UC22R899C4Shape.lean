@@ -46,7 +46,7 @@ theorem uc22r899c4_sp_L2 {D : Data G}
   obtain ⟨A₀, hA₀M, hA₀, hA₀c⟩ := UC6S846.exists_elemAbelian_card_of_le_pRank hpp (hfour p hp)
   by_cases hmv : p = 3 ∧ ¬ A₀ ≤ normalizer (L : Set G)
   · obtain ⟨rfl, hmv⟩ := hmv
-    obtain ⟨w, hw, hwL⟩ := SetLike.not_le_iff_exists.1 hmv
+    obtain ⟨w, hw, hwL⟩ := IsConcreteLE.not_le_iff_exists.1 hmv
     exact uc22r899c3_sp_of_moves hSg h614 h76 hL hc3 hL2 hs hsn hr hrs hp hA₀M hA₀ hA₀c hw hwL
   have hA₀N : ∀ K ∈ conjSetOf D.M L, A₀ ≤ normalizer (K : Set G) := fun K hK g hg =>
     uc22r899_mem_normalizer_of_fix hc3 (hA₀M hg) hpp hp2 (k := 1)
@@ -61,7 +61,7 @@ theorem uc22r899c4_sp_L2 {D : Data G}
     (fun K hK S hS => uc22r8100b_not_dvd_normalizer_of_le (hX K hK) hpp hp2 hpn hr hrn hS)
     (fun K hK B hB => uc22r8100b_card_inf_le hpp hp2 (hX K hK) hB) (fun K hK => ?_)
   ·
-    haveI := P22y.isCyclic_of_isPGroup_of_isL2Ev (P22fin.isL2Ev_of_isL2 (hX K hK)).1 hr hr2
+    have := P22y.isCyclic_of_isPGroup_of_isL2Ev (P22fin.isL2Ev_of_isL2 (hX K hK)).1 hr hr2
       (S.subgroupOf (barImage D.M K))
       (hS.isPGroup.comap_of_injective (barImage D.M K).subtype (barImage D.M K).subtype_injective)
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hS.le) (MulEquiv.surjective _)
@@ -81,7 +81,7 @@ theorem uc22r899c4_sp_Sz {D : Data G}
     (hrs : r ∣ 2 ^ s - 1) {p : ℕ} (hp : p ∈ D.sig) (hp3 : p % 3 ≠ 1)
     (hpn : p ∣ 2 ^ (2 * n) + 1) : IsStronglyPEmbedded r D.M := by
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two hs hrs
   have hrn : r ∣ 2 ^ n - 1 := hrs.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hsn)
   have hp3' : p ≠ 3 := by
@@ -108,10 +108,10 @@ theorem uc22r899c4_sp_Sz {D : Data G}
   ·
     obtain ⟨Q, rfl⟩ := hS
     obtain ⟨a, F, _, _, e, -, -, -, hQT, -⟩ := uc22r899c3_suzuki_torus_frame (hX K hK) hr2 hrn Q
-    haveI := CFSG.ShultStronglyClosedTI.SuzukiModel.isCyclic_suzukiT (a := a) (K := F)
-    haveI : IsCyclic ((Q : Subgroup (barImage D.M K)).map e.toMonoidHom) :=
+    have := CFSG.ShultStronglyClosedTI.SuzukiModel.isCyclic_suzukiT (a := a) (K := F)
+    have : IsCyclic ((Q : Subgroup (barImage D.M K)).map e.toMonoidHom) :=
       Subgroup.isCyclic_of_le hQT
-    haveI : IsCyclic (Q : Subgroup (barImage D.M K)) := isCyclic_of_injective
+    have : IsCyclic (Q : Subgroup (barImage D.M K)) := isCyclic_of_injective
       ((Q : Subgroup (barImage D.M K)).equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom
       (MulEquiv.injective _)
     exact isCyclic_of_surjective ((Q : Subgroup (barImage D.M K)).equivMapOfInjective _

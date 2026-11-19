@@ -100,7 +100,7 @@ theorem burnsideI17b_genFitting_eq_subgroupOf {Ω : Type*} [Group Ω] (G : Subgr
   rw [CFSG.Quasithin.quasithinGenFitting_eq_map_subtype]
   exact (Subgroup.comap_map_eq_self_of_injective G.subtype_injective _).symm
 
-theorem burnsideI17b_faithful (hW : ∀ w : W, w ^ 2 = 1) {G L : Subgroup (MulAut W)} {V : Subgroup W}
+theorem burnsideI17b_faithful (_hW : ∀ w : W, w ^ 2 = 1) {G L : Subgroup (MulAut W)} {V : Subgroup W}
     (hL : L = quasithinGenFitting G) (hVinv : ∀ g ∈ G, ∀ v ∈ V, g v ∈ V)
     (hcomm : commV G ≤ V) (hLfaith : ∀ l ∈ L, (∀ v ∈ V, l v = v) → l = 1) :
     ∀ g ∈ G, (∀ v ∈ V, g v = v) → g = 1 := by
@@ -111,7 +111,6 @@ theorem burnsideI17b_faithful (hW : ∀ w : W, w ^ 2 = 1) {G L : Subgroup (MulAu
         change a (b v) = v
         rw [hb.2 v hv, ha.2 v hv]⟩
       inv_mem' := fun {a} ha => ⟨G.inv_mem ha.1, fun v hv => by
-        change a⁻¹ v = v
         have := ha.2 v hv
         rw [MulAut.inv_apply, MulEquiv.symm_apply_eq]
         exact this.symm⟩ }
@@ -144,7 +143,7 @@ theorem burnsideI17b_faithful (hW : ∀ w : W, w ^ 2 = 1) {G L : Subgroup (MulAu
     show (h : MulAut W) ((n : MulAut W) ((h : MulAut W)⁻¹ v)) = v
     rw [h1]
     simp
-  haveI : IsMulCommutative ↥N := ⟨⟨fun a b => Subtype.ext (hcomm_N a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥N := ⟨⟨fun a b => Subtype.ext (hcomm_N a a.2 b b.2)⟩⟩
   have hNnil : Group.IsNilpotent ↥N := inferInstance
   have hNL : N ≤ L := by
     rw [hL]
@@ -214,7 +213,7 @@ theorem burnsideI17b_card_img (V : Subgroup W) (β : ↥V ≃* M) (G : Subgroup 
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAG).toEquiv
 
 theorem burnsideI17b_img_normal (V : Subgroup W) (β : ↥V ≃* M) (G : Subgroup (MulAut W))
-    (hG : ∀ g ∈ G, ∀ v ∈ V, g v ∈ V) {L : Subgroup (MulAut W)} (hLG : L ≤ G)
+    (hG : ∀ g ∈ G, ∀ v ∈ V, g v ∈ V) {L : Subgroup (MulAut W)} (_hLG : L ≤ G)
     (hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L) (g : ↥G) (h : MulAut M) :
     h ∈ burnsideI17b_img V β G hG L ↔
       burnsideI17b_rho V β G hG g * h * (burnsideI17b_rho V β G hG g)⁻¹ ∈
@@ -242,6 +241,7 @@ open CFSG.Quasithin CFSG.Quasithin.JonesParshall CFSG.Quasithin.Explicit
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [Finite K] in
 theorem burnsideI17b_negc_apply (g : ↥(cayleyGroup K)) (v : Multiplicative (Ix3 → K)) :
     Multiplicative.toAdd ((burnsideB46_pi burnsideB46_neg_pi) g v) =
       g2Act g (Multiplicative.toAdd v) := by
@@ -1149,7 +1149,7 @@ theorem burnsideI17b_main_ge2 (hqs : burnsideB46_G2Qs) {n : ℕ} (hn : 2 ≤ n)
   have hAmff : Nat.card (Multiplicative (Ix3 → K)) ≤ Nat.card ↥Am * Nat.card ↥(fixV Am) := by
     rw [← hVQ, hcardAm, burnsideI17b_card_fixV_img V β G hVinv hAG]
     exact burnsideI17b_card_le_of_offender hAr
-  haveI : Finite (Multiplicative (Ix3 → K)) := inferInstance
+  have : Finite (Multiplicative (Ix3 → K)) := inferInstance
   obtain ⟨hAmL, hAm3, hAmfix⟩ := burnsideB46_of_offender hqs H hn hAmG hAme hAm1 hAmff
   obtain ⟨x, hx⟩ := burnsideB46_of_offender_conj hqs H hn hAmG hAme hAm1 hAmff
   have hcardQ := burnsideB46_of_card_V H
@@ -1259,9 +1259,9 @@ theorem burnsideI17b_ge2 (hqs : burnsideB46_G2Qs) {n : ℕ} (hn : 2 ≤ n)
     (hNat : G2NaturalDerived L V ⊥ n) (hcomm : commV G ≤ V) (hfix : fixV G = ⊥)
     (hFF : IsFFModule G) : V = ⊤ := by
   obtain ⟨K, _, _, hK, hR⟩ := hNat
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hK]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hF
+  have : CharP K 2 := charP_of_card_eq_prime_pow hF
   obtain ⟨c₀, hc0, hc1⟩ := exists_ne_zero_ne_one_of_card hn hK
   have heq : ⁅quasithinG2 K, quasithinG2 K⁆ = quasithinG2 K :=
     (g2Derived_eq hc0 hc1).trans
@@ -1318,8 +1318,8 @@ theorem burnsideI17b_one
     (hFF : IsFFModule G) : V = ⊤ := by
   obtain ⟨K, _, _, hK, hR⟩ := hNat
   have hK' : Nat.card K = 2 := by rw [hK, pow_one]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by
     rw [Nat.card_eq_fintype_card] at hK'
     rw [hK', pow_one])
   obtain ⟨π₀, hπ₀⟩ := hR

@@ -18,6 +18,7 @@ section General
 
 variable {M L H : Subgroup G}
 
+omit [Finite G] in
 theorem Lgen_le_iff (hH : ∀ m ∈ M, conjSubgroup m H = H) :
     Lgen M L ≤ H ↔ L ≤ H := by
   constructor
@@ -33,8 +34,9 @@ end General
 
 variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem Lgen_le_XbarPre_iff (hc : Ctx M Q Z B) :
     Lgen M (LB M Q B) ≤ XbarPre M Q Z B ↔ LB M Q B ≤ XbarPre M Q Z B :=
-  Lgen_le_iff (fun m hm => XbarPre_normal hc hm)
+  Lgen_le_iff (fun _m hm => XbarPre_normal hc hm)
 
 end CFSG.RankThree.GF2n.Stroth80

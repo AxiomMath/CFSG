@@ -17,12 +17,14 @@ section Components
 
 variable {T K H : Subgroup G}
 
+omit [Finite G] in
 theorem conjSub_inv_le_conjClosure {t : G} (ht : t ∈ T) : conjSub t⁻¹ K ≤ conjClosure K T := by
   intro x hx
   rw [mem_conjSub, inv_inv] at hx
   have h := mem_conjClosure (T.inv_mem ht) hx
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem conjSub_inv_ne {t : G} (htK : t ∉ Subgroup.normalizer (K : Set G)) :
     K ≠ conjSub t⁻¹ K := by
   intro h
@@ -41,10 +43,12 @@ theorem star_mono {X Y : Subgroup G} (h : X ≤ Y) : S126.star H X ≤ S126.star
   rintro _ ⟨x, hx, rfl⟩
   exact ⟨x, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx)), rfl⟩
 
+omit [Finite G] in
 theorem star_card_K (h2 : Case2 T L H K) : Nat.card ↥(S126.star H K) = 60 := by
   obtain ⟨-, ⟨e⟩, -, -, -, -⟩ := h2
   rw [Nat.card_congr e.toEquiv, S126.card_alternatingGroup_five]
 
+omit [Finite G] in
 theorem star_card_K0 (h2 : Case2 T L H K) :
     Nat.card ↥(S126.star H (conjClosure K T)) = 3600 := by
   obtain ⟨-, -, ⟨e⟩, -, -, -⟩ := h2
@@ -65,10 +69,12 @@ theorem center_eq_bot_of_simple {X : Type} [Group X] [IsSimpleGroup X]
     have hb : b ∈ Subgroup.center X := h ▸ Subgroup.mem_top b
     exact hab ((Subgroup.mem_center_iff.1 hb a))
 
+omit [Finite G] in
 theorem isSimpleGroup_star_K (h2 : Case2 T L H K) : IsSimpleGroup ↥(S126.star H K) := by
   obtain ⟨-, ⟨e⟩, -, -, -, -⟩ := h2
   exact (MulEquiv.isSimpleGroup_congr e).mpr isSimpleGroup_alt5
 
+omit [Finite G] in
 theorem star_conjSub_eq_map {t : G} (ht : t ∈ T) (hTH : T ≤ H) :
     S126.star H (conjSub t⁻¹ K) =
       (S126.star H K).map (MulAut.conj (QuotientGroup.mk ⟨t⁻¹, H.inv_mem (hTH ht)⟩ :
@@ -81,6 +87,7 @@ section Pair
 
 variable {T L H K : Subgroup G}
 
+omit [Finite G] in
 theorem normalizes_of_commute_sup {P Q : Subgroup G} (hc : ∀ a ∈ P, ∀ b ∈ Q, a * b = b * a)
     {s : G} (hs : s ∈ P ⊔ Q) {p : G} (hp : p ∈ P) : s * p * s⁻¹ ∈ P := by
   rw [← range_mulHom P Q hc] at hs
@@ -100,20 +107,24 @@ noncomputable def starK2_equiv {t : G} (ht : t ∈ T) (hTH : T ≤ H) :
       (MulAut.conj (QuotientGroup.mk ⟨t⁻¹, H.inv_mem (hTH ht)⟩ : S126.HStar H)).injective).trans
     (MulEquiv.subgroupCongr (star_conjSub_eq_map ht hTH).symm)
 
+omit [Finite G] in
 theorem star_card_K2 (h2 : Case2 T L H K) {t : G} (ht : t ∈ T) (hTH : T ≤ H) :
     Nat.card ↥(S126.star H (conjSub t⁻¹ K)) = 60 := by
   rw [Nat.card_congr (starK2_equiv ht hTH).symm.toEquiv, star_card_K h2]
 
+omit [Finite G] in
 theorem isSimpleGroup_star_K2 (h2 : Case2 T L H K) {t : G} (ht : t ∈ T) (hTH : T ≤ H) :
     IsSimpleGroup ↥(S126.star H (conjSub t⁻¹ K)) :=
   (MulEquiv.isSimpleGroup_congr (starK2_equiv ht hTH)).mp (isSimpleGroup_star_K h2)
 
+omit [Finite G] in
 theorem nonabelian_star_K (h2 : Case2 T L H K) :
     ∃ a b : ↥(S126.star H K), a * b ≠ b * a := by
   obtain ⟨-, ⟨e⟩, -, -, -, -⟩ := h2
   obtain ⟨a, b, hab⟩ := exists_noncomm_alt5
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
 
+omit [Finite G] in
 theorem nonabelian_star_K2 (h2 : Case2 T L H K) {t : G} (ht : t ∈ T) (hTH : T ≤ H) :
     ∃ a b : ↥(S126.star H (conjSub t⁻¹ K)), a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := nonabelian_star_K h2
@@ -137,7 +148,7 @@ theorem inf_star_K_K2 (h2 : Case2 T L H K) {t : G} (ht : t ∈ T) (hKc : K ∈ c
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hcomm g g.2 x hxB)
-  haveI := isSimpleGroup_star_K h2
+  have := isSimpleGroup_star_K h2
   have hz := center_eq_bot_of_simple (nonabelian_star_K h2) ▸ hc
   rw [Subgroup.mem_bot] at hz
   exact Subgroup.mem_bot.2 (congrArg Subtype.val hz)
@@ -193,8 +204,8 @@ theorem conj_eq_or_of_sup {Q : Type} [Group Q] [Finite Q] {A B C : Subgroup Q}
     rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
     refine ⟨hNnorm g (hBC g.2) _ hd.1, ?_⟩
     exact B.mul_mem (B.mul_mem g.2 hd.2) (B.inv_mem g.2)
-  haveI := hBs
-  haveI := hDn
+  have := hBs
+  have := hDn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ B).subgroupOf B) with hbot | htop
   ·
     have hNB : ∀ y ∈ N, y ∈ B → y = 1 := by
@@ -250,6 +261,7 @@ theorem conj_eq_or_of_sup {Q : Type} [Group Q] [Finite Q] {A B C : Subgroup Q}
     right
     exact (Subgroup.eq_of_le_of_card_ge hBN (by rw [hNcard, hBcard])).symm
 
+omit [Finite G] in
 theorem normal_star_K0 {T H K : Subgroup G} (hK0 : H ≤ Subgroup.normalizer (conjClosure K T : Set G)) :
     (S126.star H (conjClosure K T)).Normal := by
   constructor
@@ -309,7 +321,7 @@ theorem map_conj_one {Q : Type} [Group Q] (S : Subgroup Q) :
   · rintro ⟨a, ha, rfl⟩
     simpa [MulAut.conj_apply] using ha
   · intro hq
-    exact ⟨q, hq, by simp [MulAut.conj_apply]⟩
+    exact ⟨q, hq, by simp⟩
 
 theorem perm_star_K {T L H K : Subgroup G} (h2 : Case2 T L H K) {t : G} (ht : t ∈ T)
     (hKc : K ∈ cComp H) (hTH : T ≤ H) (htK : t ∉ Subgroup.normalizer (K : Set G))
@@ -326,6 +338,7 @@ theorem perm_star_K {T L H K : Subgroup G} (h2 : Case2 T L H K) {t : G} (ht : t 
     exact mem_normalizer_inv_mul_of_map_eq (x := x) (y := (QuotientGroup.mk ⟨t⁻¹, H.inv_mem (hTH ht)⟩ : S126.HStar H))
       (h.trans (by rw [star_conjSub_eq_map ht hTH]))
 
+omit [Finite G] in
 theorem card_quot_star_K0 {T L H K : Subgroup G} (h2 : Case2 T L H K) :
     Nat.card (S126.HStar H ⧸ S126.star H (conjClosure K T)) = 4 ∨
       Nat.card (S126.HStar H ⧸ S126.star H (conjClosure K T)) = 8 := by
@@ -336,10 +349,11 @@ theorem card_quot_star_K0 {T L H K : Subgroup G} (h2 : Case2 T L H K) :
   · left; omega
   · right; omega
 
+omit [Finite G] in
 theorem pow_eight_mem_star_K0 {T L H K : Subgroup G} (h2 : Case2 T L H K)
     (hK0 : H ≤ Subgroup.normalizer (conjClosure K T : Set G)) (y : S126.HStar H) :
     y ^ 8 ∈ S126.star H (conjClosure K T) := by
-  haveI := normal_star_K0 hK0
+  have := normal_star_K0 hK0
   have hdvd := orderOf_dvd_natCard
     (QuotientGroup.mk y : S126.HStar H ⧸ S126.star H (conjClosure K T))
   have hpow := orderOf_dvd_iff_pow_eq_one.1 hdvd
@@ -358,17 +372,18 @@ noncomputable def pairMulEquiv (M : Type) [Group M] : M × M ≃* (Fin 2 → M) 
   right_inv f := by funext i; fin_cases i <;> rfl
   map_mul' x y := by funext i; fin_cases i <;> rfl
 
+omit [Finite G] in
 theorem layer_star_K0 {T L H K : Subgroup G} (h2 : Case2 T L H K) :
     CFSG.layer ↥(S126.star H (conjClosure K T)) = ⊤ := by
   obtain ⟨-, -, ⟨e⟩, -, -, -⟩ := h2
-  haveI : ∀ _ : Fin 2, IsSimpleGroup (alternatingGroup (Fin 5)) := fun _ => isSimpleGroup_alt5
+  have : ∀ _ : Fin 2, IsSimpleGroup (alternatingGroup (Fin 5)) := fun _ => isSimpleGroup_alt5
   exact CFSG.LocalCores.layer_eq_top_of_mulEquiv_pi (ι := Fin 2) (S := fun _ => alternatingGroup (Fin 5))
     (fun _ => exists_noncomm_alt5) (e.trans (pairMulEquiv _))
 
 theorem sqtkGroup_HStar (hA21 : AsA21SQTKSection) {T L H K : Subgroup G} (hSQ : SQTKGroup ↥H)
     (h2 : Case2 T L H K) (hK0 : H ≤ Subgroup.normalizer (conjClosure K T : Set G)) :
     SQTKGroup (S126.HStar H) := by
-  haveI := normal_star_K0 hK0
+  have := normal_star_K0 hK0
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥H)).comp (⊤ : Subgroup ↥H).subtype) := by
     intro q
@@ -383,7 +398,7 @@ theorem sqtkGroup_HStar (hA21 : AsA21SQTKSection) {T L H K : Subgroup G} (hSQ : 
 
 theorem pCore_star_K_bot {T L H K : Subgroup G} (h2 : Case2 T L H K) :
     CFSG.pCore 2 ↥(S126.star H K) = ⊥ := by
-  haveI := isSimpleGroup_star_K h2
+  have := isSimpleGroup_star_K h2
   have hcard := star_card_K h2
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 ↥(S126.star H K)) with h | h
@@ -402,7 +417,7 @@ theorem pCore_star_K_bot {T L H K : Subgroup G} (h2 : Case2 T L H K) :
 
 theorem isQuasisimple_star_K_quot {T L H K : Subgroup G} (h2 : Case2 T L H K) :
     CFSG.IsQuasisimple (↥(S126.star H K) ⧸ CFSG.pCore 2 ↥(S126.star H K)) := by
-  haveI := isSimpleGroup_star_K h2
+  have := isSimpleGroup_star_K h2
   have e : (↥(S126.star H K) ⧸ CFSG.pCore 2 ↥(S126.star H K)) ≃* ↥(S126.star H K) :=
     (QuotientGroup.quotientMulEquivOfEq (pCore_star_K_bot h2)).trans QuotientGroup.quotientBot
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm

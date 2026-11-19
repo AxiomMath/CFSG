@@ -501,7 +501,7 @@ theorem twE6_not_twistInner_of_swap
     {ρ : Equiv.Perm (Fin Tag.E6.rank → ℤ)}
     (hρ : ∀ γ, IsRoot Tag.E6 γ → ρ γ = permLattice (TwistTag.perm .E6) γ)
     {Ψ₁ Ψ₂ : Set (Fin Tag.E6.rank → ℤ)} (h₁ : Ψ₁ ⊆ componentRoots χ i)
-    (h₂ : Ψ₂ ⊆ componentRoots χ i) (hne : Ψ₁.Nonempty) (hdisj : Disjoint Ψ₁ Ψ₂)
+    (_h₂ : Ψ₂ ⊆ componentRoots χ i) (hne : Ψ₁.Nonempty) (hdisj : Disjoint Ψ₁ Ψ₂)
     (hswap : (fun u => ρ u) '' Ψ₁ = Ψ₂)
     (hstab : (fun u => ρ u) '' componentRoots χ i = componentRoots χ i) :
     ¬ twistInner (componentRoots χ i) (fun u => ρ u) := by

@@ -76,6 +76,7 @@ theorem ElemV.exists_noncomm_F (hset : HSSetting G z) (hV : ElemV z V) {t : G} (
   have htsq : t ^ 2 = 1 := by rw [pow_two]; exact hV.sq t htV
   exact htz (Width.involution_eq hD hz htZ htsq ht1 ▸ Subgroup.mem_zpowers z)
 
+omit [Finite G] in
 theorem cbit_eq_zero_iff (x t : G) : Width.cbit z x t = 0 ↔ t * x = x * t := by
   unfold Width.cbit
   split_ifs with h

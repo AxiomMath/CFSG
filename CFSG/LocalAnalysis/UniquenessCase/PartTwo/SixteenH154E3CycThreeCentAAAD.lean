@@ -74,7 +74,7 @@ private lemma s16h_e3_CycThreeCentAAAD_map_inv_map (g : MulAut W) (U : Subgroup 
   rw [Subgroup.map_map]
   have h : g⁻¹.toMonoidHom.comp g.toMonoidHom = MonoidHom.id W := by
     ext x
-    simp [MulAut.inv_apply_self]
+    simp
   rw [h, Subgroup.map_id]
 
 end Conjugation

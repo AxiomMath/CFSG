@@ -21,7 +21,7 @@ variable {k : Type*} [Field k]
 private theorem rM_mul_self :
     (rM * rM : Matrix (Fin 3) (Fin 3) k) = !![0, 1, 0; 0, 0, 1; 1, 0, 0] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [rM, Matrix.mul_fin_three]
+  fin_cases i <;> fin_cases j <;> simp [rM]
 
 private theorem toGL_rSL_sq :
     (((Matrix.SpecialLinearGroup.toGL rSL) ^ 2 : GL (Fin 3) k) :
@@ -38,14 +38,14 @@ private theorem coe_diagGL_mul_rSL {u : kˣ} :
   ext i j
   rw [Units.val_mul, coe_diagGL, pow_one, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
     coe_rSL']
-  fin_cases i <;> fin_cases j <;> simp [rM, Matrix.mul_fin_three]
+  fin_cases i <;> fin_cases j <;> simp [rM]
 
 private theorem coe_diagGL_mul_rSL_sq {u : kˣ} :
     (((diagGL u * (Matrix.SpecialLinearGroup.toGL rSL) ^ 2 : GL (Fin 3) k) :
         Matrix (Fin 3) (Fin 3) k)) = !![0, (u : k), 0; 0, 0, 1; 1, 0, 0] := by
   ext i j
   rw [Units.val_mul, coe_diagGL, toGL_rSL_sq]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_three]
+  fin_cases i <;> fin_cases j <;> simp
 
 private theorem cube_one (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     (!![0, 0, (u : k); 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) k) ^ 3 =
@@ -54,8 +54,7 @@ private theorem cube_one (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     LinearFieldFour.omega_mul_omega hk u.ne_zero (val_ne_one hu)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_succ, Matrix.mul_fin_three, Matrix.one_apply, Matrix.smul_apply, huu] <;>
-    ring_nf
+    simp [pow_succ, Matrix.smul_apply]
 
 private theorem cube_two (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     (!![0, (u : k), 0; 0, 0, 1; 1, 0, 0] : Matrix (Fin 3) (Fin 3) k) ^ 3 =
@@ -64,8 +63,7 @@ private theorem cube_two (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     LinearFieldFour.omega_mul_omega hk u.ne_zero (val_ne_one hu)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_succ, Matrix.mul_fin_three, Matrix.one_apply, Matrix.smul_apply, huu] <;>
-    ring_nf
+    simp [pow_succ, Matrix.smul_apply]
 
 private theorem diagGL_mul_rSL_pow_three (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1)
     (j : ℕ) (hj : j = 1 ∨ j = 2) :
@@ -103,11 +101,11 @@ private theorem card_centralizer_eq_63 (hk : Nat.card k = 4) {u : kˣ} (hu : u �
     {Mt : GL (Fin 3) k}
     (hpow : (Mt : Matrix (Fin 3) (Fin 3) k) ^ 3 = (u : k) • 1) :
     Nat.card (Subgroup.centralizer {Mt}) = 63 := by
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) k := ZMod.algebra k 2
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) k := ZMod.algebra k 2
   let ψ : k ≃+* GaloisField 2 2 :=
     (GaloisField.algEquivGaloisFieldOfFintype 2 2 (K := k) (by
       rw [← Nat.card_eq_fintype_card, hk]
@@ -125,7 +123,7 @@ private theorem card_centralizer_eq_63 (hk : Nat.card k = 4) {u : kˣ} (hu : u �
     rw [hMt₀, ← Matrix.map_pow, hpow]
     ext i j
     by_cases h : i = j <;>
-      simp [h, Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply]
+      simp [h, Matrix.map_apply, Matrix.smul_apply]
   have hℓ₀ : ∀ μ : GaloisField 2 2, μ ^ 3 ≠ (ψ u : GaloisField 2 2) := by
     intro μ hμ
     apply pow_three_ne hk hu (ψ.symm μ)
@@ -184,8 +182,8 @@ private theorem card_ker_det_centralizer (hk : Nat.card k = 4) {u : kˣ} (hu : u
     (hdet : GeneralLinearGroup.det Mt ≠ 1) :
     Nat.card ((GeneralLinearGroup.det.comp
       (Subgroup.centralizer {Mt}).subtype).ker) = 21 := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup (GL (Fin 3) k) := Subgroup.centralizer {Mt} with hCdef
   have hCcard : Nat.card C = 63 := by
     rw [hCdef]
@@ -233,7 +231,7 @@ private theorem card_map_comap_centralizer (hk : Nat.card k = 4) {u : kˣ} (hu :
     (hdet : GeneralLinearGroup.det Mt ≠ 1) :
     Nat.card ↥(((Subgroup.centralizer {Mt}).comap Matrix.SpecialLinearGroup.toGL).map
       (proj 3 k)) = 7 := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
+  have := LinearFieldFour.finite_of_card_eq_four hk
   have hker := card_ker_det_centralizer hk hu hpow hdet
   set C : Subgroup (GL (Fin 3) k) := Subgroup.centralizer {Mt} with hCdef
   set D : Subgroup (Matrix.SpecialLinearGroup (Fin 3) k) :=
@@ -366,8 +364,8 @@ private theorem exists_singer_witness (hk : Nat.card k = 4) {u : kˣ} (hu : u �
     ∃ s ∈ CFSG.inSubgroup (CFSG.RankThree.LocalRank.aschbacherSolvableCore 3)
         (GL3TwoFixedModel.autFixed (conjAut 3 k Mt)),
       aP u * s * (aP u)⁻¹ ≠ s := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup (Matrix.SpecialLinearGroup (Fin 3) k) :=
     (Subgroup.centralizer {Mt}).comap Matrix.SpecialLinearGroup.toGL with hDdef
   set N : Subgroup (projectiveSL 3 k) := D.map (proj 3 k) with hNdef
@@ -382,10 +380,10 @@ private theorem exists_singer_witness (hk : Nat.card k = 4) {u : kˣ} (hu : u �
     rw [hNdef]
     exact card_map_comap_centralizer hk hu hpow hdet
   have hNcyc : IsCyclic N := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact isCyclic_of_prime_card hNcard
   have hNsolv : Group.IsSolvable N := by
-    haveI := hNcyc
+    have := hNcyc
     exact Group.isSolvable_of_comm fun a b => mul_comm' a b
   have hnormSub : (N.subgroupOf (GL3TwoFixedModel.autFixed (conjAut 3 k Mt))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNnorm

@@ -23,8 +23,8 @@ theorem fj_exists_component_of_layerModel {P : Type} [Group P] [Finite P] {H : S
     ∃ J : Subgroup P, IsComponentIn J H ∧ InFStar J ∧ B ≤ J := by
   obtain ⟨E, hEn, hLie, h2⟩ := hLM
   obtain ⟨hs, hnc, hF⟩ := hsh ↥E hLie
-  haveI := hEn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hEn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E' : Subgroup P := E.map H.subtype
   have hE'H : E' ≤ H := Subgroup.map_subtype_le E
   have hsub : E'.subgroupOf H = E := Subgroup.comap_map_eq_self_of_injective H.subtype_injective E

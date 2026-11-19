@@ -81,7 +81,7 @@ theorem signalizer_prime_local_sylow
       (⟨actorElement, actor_member⟩ : actor) _ representative_member
   have embedded_compatible : signalizerPrimeCompatible prime rank groupPrime actor values
       embedded := ⟨signalizer_compatible_of_le prime rank actor values target_compatible
-        embedded_le embedded_normalized, sylow.isPGroup'.map target.subtype⟩
+        embedded_le embedded_normalized, sylow.isPGroup.map target.subtype⟩
   obtain ⟨other, embedded_contains, other_maximal⟩ :=
     Finite.exists_le_maximal (p := signalizerPrimeCompatible prime rank groupPrime actor values)
       embedded_compatible

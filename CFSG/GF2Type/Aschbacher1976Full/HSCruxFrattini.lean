@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def cruxPImage (z u : G) : Subgroup (Qbar z) := (cruxPHom z u).range
 
+omit [Finite G] in
 theorem mem_cruxPImage {z u : G} {x : Qbar z} :
     x ∈ cruxPImage z u ↔ ∃ g : ↥(Hz z), (g : G) ∈ Fz u ⊓ Hz z ∧ qmk z g = x := by
   rw [cruxPImage, MonoidHom.mem_range]
@@ -28,15 +29,18 @@ theorem mem_cruxPImage {z u : G} {x : Qbar z} :
   · rintro ⟨g, hg, rfl⟩
     exact ⟨⟨g, Subgroup.mem_subgroupOf.mpr hg⟩, rfl⟩
 
+omit [Finite G] in
 theorem cruxPIncl_injective (z u : G) : Function.Injective (cruxPIncl z u) :=
-  fun a b h => Subtype.ext (Subtype.ext h)
+  fun _a _b h => Subtype.ext (Subtype.ext h)
 
+omit [Finite G] in
 theorem cruxMapKer_le (z u : G) : ((cruxPHom z u).ker).map (cruxPIncl z u) ≤ Fz u ⊓ Fz z := by
   rintro _ ⟨p, hp, rfl⟩
   have h1 : qmk z (p : ↥(Hz z)) = 1 := MonoidHom.mem_ker.mp hp
   have h2 := Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp p.2)
   exact Subgroup.mem_inf.mpr ⟨h2.1, (qmk_eq_one_iff z _).mp h1⟩
 
+omit [Finite G] in
 theorem cruxQmk_mul_eq {z : G} {a b : ↥(Hz z)}
     (h : (a : G) * (b : G) * (a : G)⁻¹ * (b : G)⁻¹ ∈ Fz z) :
     qmk z a * qmk z b = qmk z b * qmk z a := by
@@ -52,6 +56,7 @@ theorem cruxIsPGroup_closure {Q : Type*} [Group Q] {a : Q} (ha : orderOf a = 2) 
     rw [← Subgroup.zpowers_eq_closure, Nat.card_zpowers, ha]
   exact IsPGroup.of_card (n := 1) (h.trans (pow_one 2).symm)
 
+omit [Finite G] in
 theorem cruxPImage_comm {z u : G} (huF : u ∈ Fz z)
     (hcomm : ∀ p ∈ Fz u ⊓ Hz z, ∀ p' ∈ Fz u ⊓ Hz z, p * p' * p⁻¹ * p'⁻¹ ∈ Subgroup.zpowers u)
     {x y : Qbar z} (hx : x ∈ cruxPImage z u) (hy : y ∈ cruxPImage z u) : x * y = y * x := by
@@ -59,6 +64,7 @@ theorem cruxPImage_comm {z u : G} (huF : u ∈ Fz z)
   obtain ⟨g', hg', rfl⟩ := mem_cruxPImage.mp hy
   exact cruxQmk_mul_eq ((Subgroup.zpowers_le.mpr huF) (hcomm _ hg _ hg'))
 
+omit [Finite G] in
 theorem cruxPImage_sq {z u : G} (huF : u ∈ Fz z)
     (hsq : ∀ p ∈ Fz u ⊓ Hz z, p * p ∈ Subgroup.zpowers u) {x : Qbar z}
     (hx : x ∈ cruxPImage z u) : x * x = 1 := by
@@ -66,6 +72,7 @@ theorem cruxPImage_sq {z u : G} (huF : u ∈ Fz z)
   rw [← map_mul, qmk_eq_one_iff]
   exact (Subgroup.zpowers_le.mpr huF) (hsq _ hg)
 
+omit [Finite G] in
 theorem cruxConj_mem {z u : G} (c : ↥(Hz z))
     (hc : ∀ p ∈ Fz u ⊓ Hz z, (c : G) * p * (c : G)⁻¹ ∈ Fz u ⊓ Hz z) {x : Qbar z}
     (hx : x ∈ cruxPImage z u) : qmk z c * x * (qmk z c)⁻¹ ∈ cruxPImage z u := by
@@ -91,12 +98,13 @@ theorem cruxFour_le_card {z u : G} (hP : Nat.card ↥(Fz u ⊓ Hz z : Subgroup G
   have h32 : Nat.card ↥(cruxPImage z u) * Nat.card ↥(cruxPHom z u).ker = 32 := by
     rw [hY, ← hdec, hS]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h3 : Nat.card ↥(cruxPImage z u) ≤ 3 := by omega
   have hmul := Nat.mul_le_mul h3 hK'
   rw [h32] at hmul
   norm_num at hmul
 
+omit [Finite G] in
 theorem cruxConjMulZ {z u : G} (hzz : z * z = 1) (hFH : Fz z ≤ Hz z) {a : G} (haF : a ∈ Fz z)
     (ha : a⁻¹ * u * a = u * z) (h : ↥(Hz z)) (huh : (h : G) * u * (h : G)⁻¹ = u * z) :
     ∃ c : ↥(Hz z), (c : G) * u = u * (c : G) ∧ qmk z c = qmk z h := by

@@ -12,7 +12,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem card_eq_pow_pRank_of_isElemAbelian {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) : Nat.card E = p ^ pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p ↥E := fun y =>
     ⟨1, Subtype.ext (by simpa using hE.2 y y.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hEp

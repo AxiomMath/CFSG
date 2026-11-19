@@ -147,10 +147,10 @@ theorem repAct_eq_R (hp : Array (Array ℕ)) (rp : Array ℕ) (PKh PKrp : ℕ) (
   unfold repAct repR
   rw [hs]
   by_cases h3 : s < 3
-  · rw [if_pos h3, Nat.blt_eq.mpr h3]
+  · rw [ite_eq_left h3, Nat.blt_eq.mpr h3]
     exact pinT_arr PKh 9 280 hp h s i
   · have hb : Nat.blt s 3 = false := Bool.eq_false_iff.mpr fun e => h3 (Nat.blt_eq.mp e)
-    rw [if_neg h3, hb]
+    rw [ite_eq_right h3, hb]
     change rp[i]! = lane PKrp 9 i
     rw [pin1_lane 9 _ PKrp hr, arr_getD]
     rfl

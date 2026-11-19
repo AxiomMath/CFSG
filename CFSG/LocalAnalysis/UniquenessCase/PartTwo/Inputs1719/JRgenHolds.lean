@@ -65,8 +65,8 @@ theorem involutionCentralizersGenerate_of_isJankoReeType10
 theorem k_19_JRgen_holds :
     K_19_JRgen := by
   intro Y _ _ Kb hKn hKs hC _ hJR v₁ v₂ hv₁ hv₂ hne _
-  haveI := hKs
-  haveI := hKn
+  have := hKs
+  have := hKn
   have hT : ∀ T : Sylow 2 Kb, Nat.card (T : Subgroup Kb) = 8 ∧
       IsMulCommutative (T : Subgroup Kb) ∧ ∀ t ∈ (T : Subgroup Kb), t * t = 1 := fun T =>
     ⟨(hJR.1 T).1, ⟨⟨fun x y => Subtype.ext ((hJR.1 T).2 x x.2 y y.2).1⟩⟩,

@@ -16,12 +16,12 @@ open scoped MatrixGroups
         rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
           Matrix.diagonal_injective.eq_iff]
         funext i
-        simpa using (f i).mul_inv,
+        simp,
       by
         rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
           Matrix.diagonal_injective.eq_iff]
         funext i
-        simpa using (f i).inv_mul⟩
+        simp⟩
   map_one' := by
     apply Units.ext
     simp
@@ -47,14 +47,14 @@ open scoped MatrixGroups
   (diagPTorsion p d F).map (diagHom d F)
 
 private theorem diagHom_mem_UniSU {n d : ℕ} {F : Type} [Field F] {f : Fin d → Fˣ}
-    (hq0 : 2 ^ n ≠ 0)
+    (_hq0 : 2 ^ n ≠ 0)
     (hpow : ∀ i, (f i : F) ^ (2 ^ n + 1) = 1)
     (hdet : ∏ i, (f i : F) = 1) :
     diagHom d F f ∈ UniSU n d F := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
   · rw [coe_diagHom, Matrix.det_diagonal]
     exact hdet
-  · rw [coe_diagHom, Matrix.diagonal_map (by simp [hq0]), Matrix.diagonal_transpose,
+  · rw [coe_diagHom, Matrix.diagonal_map (by simp), Matrix.diagonal_transpose,
       Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
       Matrix.diagonal_injective.eq_iff]
     funext i
@@ -131,7 +131,7 @@ theorem pairUnit_mem_diagPTorsion {p d : ℕ} {F : Type} [Field F] {i j : Fin d}
     · simp [powMonoidHom_apply, pairUnit, hki, hu]
     · by_cases hkj : k = j
       · have hji : j ≠ i := fun h => hki (hkj.trans h)
-        simp [powMonoidHom_apply, pairUnit, hki, hkj, hji, hv]
+        simp [powMonoidHom_apply, pairUnit, hkj, hji, hv]
       · simp [powMonoidHom_apply, pairUnit, hki, hkj]
   · rw [MonoidHom.mem_ker]
     show Finset.univ.prod (pairUnit i j u v) = 1
@@ -164,7 +164,7 @@ theorem permMatrix_map_pow {n d : ℕ} {F : Type} [Field F] (σ : Equiv.Perm (Fi
   rw [Matrix.map_apply, permMatrix_apply']
   by_cases h : σ i = j
   · simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact zero_pow hq0
 
 theorem swap_permGL_mem_UniSU {n d : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -190,7 +190,7 @@ theorem block_mul {d : ℕ} {F : Type} [Field F] {I : Finset (Fin d)} {g h : GL 
   by_cases hi : i ∈ I
   · have hj : j ∉ I := by rcases hij with h | h; exact absurd hi h; exact h
     rw [Finset.sum_eq_single j]
-    · rw [hh j j (Or.inr hj), if_pos rfl, mul_one]
+    · rw [hh j j (Or.inr hj), ite_eq_left rfl, mul_one]
       exact hg i j (Or.inr hj)
     · intro b _ hbj
       rw [hh b j (Or.inr hj)]
@@ -198,7 +198,7 @@ theorem block_mul {d : ℕ} {F : Type} [Field F] {I : Finset (Fin d)} {g h : GL 
     · intro hnot
       exact absurd (Finset.mem_univ j) hnot
   · rw [Finset.sum_eq_single i]
-    · rw [hg i i (Or.inl hi), if_pos rfl, one_mul]
+    · rw [hg i i (Or.inl hi), ite_eq_left rfl, one_mul]
       exact hh i j (Or.inl hi)
     · intro b _ hbi
       rw [hg i b (Or.inl hi)]
@@ -226,7 +226,7 @@ theorem swap_permMatrix_block {d : ℕ} {F : Type} [Field F] {b b' : Fin d}
     have hib : i ≠ b := fun hh => hi (hh ▸ hbI)
     have hib' : i ≠ b' := fun hh => hi (hh ▸ hb'I)
     rw [Equiv.swap_apply_of_ne_of_ne hib hib']
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hsw_ne : Equiv.swap b b' i ≠ j := by
       intro hsw
       rcases hij with hi | hj
@@ -242,7 +242,7 @@ theorem swap_permMatrix_block {d : ℕ} {F : Type} [Field F] {b b' : Fin d}
           have hib' : i ≠ b' := fun hh => hi (hh ▸ hb'I)
           rw [Equiv.swap_apply_of_ne_of_ne hib hib'] at hsw
           exact h hsw
-    rw [if_neg hsw_ne]
+    rw [ite_eq_right hsw_ne]
 
 theorem diagonal_comm_permMatrix_swap {d : ℕ} {F : Type} [Field F] {b b' : Fin d}
     {h : Fin d → F} (hh : h b = h b') :
@@ -258,9 +258,9 @@ theorem diagonal_comm_permMatrix_swap {d : ℕ} {F : Type} [Field F] {b b' : Fin
   ext i j
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, permMatrix_apply']
   by_cases hij : Equiv.swap b b' i = j
-  · rw [if_pos hij, mul_one, one_mul]
+  · rw [ite_eq_left hij, mul_one, one_mul]
     rw [← hij, hswap i]
-  · rw [if_neg hij, mul_zero, zero_mul]
+  · rw [ite_eq_right hij, mul_zero, zero_mul]
 
 theorem det_eq_one_of_mem_UniSU {n d : ℕ} {F : Type} [Field F] {g : GL (Fin d) F}
     (hg : g ∈ UniSU n d F) : (g : Matrix (Fin d) (Fin d) F).det = 1 := by
@@ -280,7 +280,7 @@ private theorem uniArith_charP_two {p n d : ℕ} {F : Type} [Field F] [Finite F]
     have h2dvd : 2 ∣ Nat.card F := by
       rw [hcard, sq]
       exact dvd_mul_of_dvd_left (dvd_pow_self 2 (by omega : n ≠ 0)) _
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card]
     exact Nat.dvd_iff_mod_eq_zero.mp h2dvd
   rw [← hring]
@@ -313,7 +313,7 @@ private theorem permGL_swap_ne_one {d : ℕ} {F : Type} [Field F] {b b' : Fin d}
   have hPb : ((permGL (Equiv.swap b b') : GL (Fin d) F) :
       Matrix (Fin d) (Fin d) F) b b' = 1 := by
     change ((Equiv.swap b b').permMatrix F) b b' = 1
-    rw [permMatrix_apply', Equiv.swap_apply_left, if_pos rfl]
+    rw [permMatrix_apply', Equiv.swap_apply_left, ite_eq_left rfl]
   have h1b : ((1 : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) b b' = 0 := by
     rw [Units.val_one, Matrix.one_apply_ne hbb']
   rw [hPb, h1b] at hmat
@@ -373,7 +373,7 @@ private theorem exists_pair_pow_eq {p d : ℕ} {F : Type} [Field F] [Finite F] (
     (hp_ne_two : p ≠ 2) {ω : Fˣ} (hωorder : orderOf ω = p)
     {f : Fin d → Fˣ} (hfp : f ^ p = 1) (b b' : Fin d) :
     ∃ k : ℕ, ω ^ k * ω ^ k = f b * (f b')⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hωp : ω ^ p = 1 := by simpa [hωorder] using pow_orderOf_eq_one ω
   have hωprim : IsPrimitiveRoot ω p := IsPrimitiveRoot.iff_orderOf.mpr hωorder
   have hgen : Subgroup.zpowers ω = rootsOfUnity p F := IsPrimitiveRoot.zpowers_eq hωprim
@@ -447,14 +447,14 @@ private theorem diag_pair_pow_mem_block {p n d : ℕ} {F : Type} [Field F] [Fini
   rw [hmm_eq, coe_diagHom, Matrix.diagonal_apply]
   by_cases h : i = j
   · subst h
-    simp only [if_pos rfl]
+    simp only
     have hi : i ∉ I := hij.elim id id
     have hib : i ≠ b := fun hh => hi (hh ▸ hbI)
     have hib' : i ≠ b' := fun hh => hi (hh ▸ hb'I)
     rw [show pairUnit b b' (ω ^ k) ((ω⁻¹) ^ k) i = 1 by
       simp [pairUnit, hib, hib']]
     simp
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private theorem exists_diag_split_of_mem {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : UniArith p n d F) {A' : Subgroup (GL (Fin d) F)} (hA'le_D : A' ≤ diagPGroup p d F)
@@ -498,7 +498,7 @@ private theorem exists_diag_split_of_mem {p n d : ℕ} {F : Type} [Field F] [Fin
 
 theorem uni_diag_decomp {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : UniArith p n d F) {A' : Subgroup (GL (Fin d) F)} (hA'le_D : A' ≤ diagPGroup p d F)
-    (I : Finset (Fin d)) (hI : 2 ≤ I.card)
+    (I : Finset (Fin d)) (_hI : 2 ≤ I.card)
     (b b' : Fin d) (hbI : b ∈ I) (hb'I : b' ∈ I) (hbb' : b ≠ b')
     (ω : Fˣ) (hωorder : orderOf ω = p)
     (hvbb : diagHom d F (pairUnit b b' ω ω⁻¹) ∈ A') :
@@ -508,8 +508,8 @@ theorem uni_diag_decomp {p n d : ℕ} {F : Type} [Field F] [Finite F]
         ∃ c ∈ A', c ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)) ∧ a = m * c := by
   have hp : p.Prime := h.1
   have hn : 1 ≤ n := h.2.2.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F 2 := uniArith_charP_two h
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F 2 := uniArith_charP_two h
   have hq0 : 2 ^ n ≠ 0 := by positivity
   let P : GL (Fin d) F := permGL (Equiv.swap b b')
   let U : Subgroup (GL (Fin d) F) := Subgroup.zpowers P
@@ -539,7 +539,7 @@ private theorem uni_iv_diag_core {p n d : ℕ} {F : Type} [Field F] [Finite F] [
       ∀ a ∈ A', ∃ m ∈ A', m ∈ UniBlockSet n d F I ∧
         ∃ c ∈ A', c ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)) ∧ a = m * c := by
   have hp : p.Prime := h.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA_le_D : A ≤ diagPGroup p d F := by
     intro a ha
     have hdiag : (a : Matrix (Fin d) (Fin d) F) = Matrix.diagonal (fun i => a i i) := by
@@ -627,10 +627,10 @@ theorem uni_iv_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : UniArith 
     have h2dvd : 2 ∣ Nat.card F := by
       rw [h.2.2.2.1, sq]
       exact dvd_mul_of_dvd_left (dvd_pow_self 2 (by omega : n ≠ 0)) _
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card]
     exact Nat.dvd_iff_mod_eq_zero.mp h2dvd
-  haveI : CharP F 2 := ringChar.of_eq hchar
+  have : CharP F 2 := ringChar.of_eq hchar
   have hp_ne_two : p ≠ 2 := by
     intro hp2
     have hdvd : p ∣ 2 ^ n + 1 := h.2.1
@@ -643,7 +643,7 @@ theorem uni_iv_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : UniArith 
       rw [hpow2]
       exact ⟨2 ^ (n - 1), by ring⟩
     exact hodd.not_two_dvd_nat hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_dvd_card : p ∣ Nat.card Fˣ := by
     have h2dvd_sq : p ∣ (2 ^ n) ^ 2 - 1 := by
       have hmod : ((2 ^ n) ^ 2 : ℕ) ≡ 1 [MOD p] := by

@@ -36,6 +36,7 @@ open CFSG.Open Matrix CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitar
 
 variable {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 private theorem exists_tv_fix_moves {σ : K ≃+* K} (hσ : IsUnitaryInvolution σ) {n : ℕ}
     {e u : Fin n → K} (he : herm σ e e = 0)
     (h : ∃ a : Fin n → K, herm σ a a = 0 ∧ herm σ a u = 0 ∧ herm σ a e ≠ 0) :

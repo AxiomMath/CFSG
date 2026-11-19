@@ -13,6 +13,7 @@ section M1Fitting
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem m1Fit_bar_conj_mem [(Q.subgroupOf M).Normal] {L A : Subgroup G}
     (hnorm : ∀ s ∈ L, conjSubgroup s A = A) {g n : Mbar M Q}
     (hg : g ∈ bar M Q L) (hn : n ∈ bar M Q A) : g * n * g⁻¹ ∈ bar M Q A := by
@@ -34,6 +35,7 @@ private theorem m1Fit_bar_conj_mem [(Q.subgroupOf M).Normal] {L A : Subgroup G}
   rw [← e]
   exact Subgroup.mem_map_of_mem _ hmem
 
+omit [Finite G] in
 private theorem m1Fit_bar_subgroupOf_normal [(Q.subgroupOf M).Normal] {L A : Subgroup G}
     (hnorm : ∀ s ∈ L, conjSubgroup s A = A) :
     ((bar M Q A).subgroupOf (bar M Q L)).Normal := by
@@ -42,6 +44,7 @@ private theorem m1Fit_bar_subgroupOf_normal [(Q.subgroupOf M).Normal] {L A : Sub
   have h := m1Fit_bar_conj_mem hnorm g.2 hn
   simpa using h
 
+omit [Finite G] in
 private theorem m1Fit_le_normalizer [(Q.subgroupOf M).Normal] {L A : Subgroup G}
     (hnorm : ∀ s ∈ L, conjSubgroup s A = A) {g : Mbar M Q} (hg : g ∈ bar M Q L) :
     g ∈ Subgroup.normalizer ((bar M Q A : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := by
@@ -56,14 +59,16 @@ private theorem m1Fit_le_normalizer [(Q.subgroupOf M).Normal] {L A : Subgroup G}
     rw [e] at h
     exact h
 
+omit [Finite G] in
 private theorem m1Fit_bar_mono {S T : Subgroup G} [(Q.subgroupOf M).Normal] (h : S ≤ T) :
     bar M Q S ≤ bar M Q T :=
   Subgroup.map_mono fun _ hx => Subgroup.mem_subgroupOf.mpr (h (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite G] in
 private theorem m1Fit_pCore_bar_eq_one [(Q.subgroupOf M).Normal] {L : Subgroup G}
     (hN : (bar M Q L).Normal) (h0 : CFSG.pCore 2 (Mbar M Q) = ⊥)
     {y : ↥(bar M Q L)} (hy : y ∈ CFSG.pCore 2 ↥(bar M Q L)) : (y : Mbar M Q) = 1 := by
-  haveI := hN
+  have := hN
   have hp : IsPGroup 2 ((CFSG.pCore 2 ↥(bar M Q L)).map (bar M Q L).subtype) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(bar M Q L))).map (bar M Q L).subtype
   have hle : (CFSG.pCore 2 ↥(bar M Q L)).map (bar M Q L).subtype ≤ CFSG.pCore 2 (Mbar M Q) :=
@@ -88,6 +93,7 @@ private theorem m1Fit_odd_card {X : Type} [Group X] [Finite X] (S : Subgroup X) 
   rw [hx1, orderOf_one] at hx
   exact absurd hx (by norm_num)
 
+omit [Finite G] in
 private theorem m1Fit_isNilpotent_bar [(Q.subgroupOf M).Normal] {L A : Subgroup G}
     (hAM : A ≤ M) (hAL : A ≤ L) [(Q.subgroupOf A).Normal]
     (hnil : Group.IsNilpotent (↥A ⧸ Q.subgroupOf A)) :
@@ -115,24 +121,24 @@ private theorem m1Fit_isNilpotent_bar [(Q.subgroupOf M).Normal] {L A : Subgroup 
     apply Subtype.ext
     apply Subtype.ext
     exact hmy
-  haveI := hnil
+  have := hnil
   exact Group.nilpotent_of_surjective F hF
 
 theorem m1FittingTrivial_of (h44 : Stroth44Statement) : M1FittingTrivialStatement := by
   intro G _ _ M Q Z B t hH A hQA hAL hnorm hnil
   have hc : Ctx M Q Z B := hH.ctx
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨hAn, hnilA⟩ := hnil
-  haveI := hAn
+  have := hAn
   have hLM : Lgen M (LB M Q B) ≤ M := Lgen_le hc.LB_le_M
   have hAM : A ≤ M := hAL.trans hLM
   have hĀL : bar M Q A ≤ bar M Q (Lgen M (LB M Q B)) := m1Fit_bar_mono hAL
   have hĀH : bar M Q A ≤ bar M Q (H0 M Z) := m1Fit_bar_mono (hAL.trans (Lgen_le_H0 hc))
   have hLBL : bar M Q (LB M Q B) ≤ bar M Q (Lgen M (LB M Q B)) :=
     m1Fit_bar_mono (le_Lgen _)
-  haveI := hc.normal_bar_Lgen
+  have := hc.normal_bar_Lgen
   have hodd : Odd (Nat.card ↥(bar M Q A)) := by
-    haveI : ((bar M Q A).subgroupOf (bar M Q (Lgen M (LB M Q B)))).Normal :=
+    have : ((bar M Q A).subgroupOf (bar M Q (Lgen M (LB M Q B)))).Normal :=
       m1Fit_bar_subgroupOf_normal hnorm
     have hcore : ∀ y ∈ CFSG.pCore 2 ↥(bar M Q (Lgen M (LB M Q B))), y = 1 := fun y hy =>
       Subtype.ext (m1Fit_pCore_bar_eq_one hc.normal_bar_Lgen hc.pCore_two_Mbar hy)

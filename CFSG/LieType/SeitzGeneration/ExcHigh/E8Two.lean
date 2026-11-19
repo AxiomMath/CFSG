@@ -475,7 +475,7 @@ theorem seitzExcHighE8Two_of_ge_eleven : SeitzExcHighE8TwoGeEleven :=
 
 theorem seitzExcHighE8Two_of_ge_eleven_of_lt
     (h : SeitzExcHighE8TwoLtEleven) : SeitzExcHighE8Two :=
-  SeitzExcHighForAt.union (fun d p _ _ hQ => (Nat.lt_or_ge p 11).elim (fun h' => Or.inr ⟨h', hQ⟩)
+  SeitzExcHighForAt.union (fun _d p _ _ hQ => (Nat.lt_or_ge p 11).elim (fun h' => Or.inr ⟨h', hQ⟩)
     (fun h' => Or.inl ⟨h', hQ⟩)) seitzExcHighE8Two_of_ge_eleven h
 
 end Glue

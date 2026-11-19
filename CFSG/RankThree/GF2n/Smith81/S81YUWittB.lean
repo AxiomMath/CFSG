@@ -14,6 +14,7 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] in
 theorem exists_ti_triple_ext (hσ : IsUnitaryInvolution σ) {X a Y b : Fin 6 → F}
     (hli : LinearIndependent F ![X, a, Y])
     (hiso : ∀ i j, herm σ (![X, a, Y] i) (![X, a, Y] j) = 0)

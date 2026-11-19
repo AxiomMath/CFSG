@@ -82,7 +82,7 @@ private theorem exists_addEquiv_of_upper_quadratic {K V : Type*} [Field K] [Fini
   let w : V := a • v₀ - v₀
   have hw : w ≠ 0 := sub_ne_zero.mpr hv₀
   have hwfix : ∀ a' ∈ upperUnipotent K, a' • w = w := fun a' ha' => hquad a ha a' ha' v₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, hinj, -, he, hθ⟩ :=
     CFSG.Timmesfeld.ARS.exists_natural_of_quadratic hfix hquad hwfix hw
   have hrangeInv : ∀ g : Matrix.SpecialLinearGroup (Fin 2) K, ∀ y ∈ θ.range, g • y ∈ θ.range := by
@@ -108,8 +108,8 @@ theorem exists_addEquiv_of_quadratic {K V : Type*} [Field K] [Finite K] [CharP K
     ∃ θ : (Fin 2 → K) ≃+ V, ∀ (g : Matrix.SpecialLinearGroup (Fin 2) K) (u : Fin 2 → K),
       θ ((g : Matrix (Fin 2) (Fin 2) K) *ᵥ u) = g • θ u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hcardK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   obtain ⟨g, hg⟩ := CFSG.SL2MinimalFaithful.exists_conj_unipotent_mem
@@ -130,7 +130,7 @@ theorem exists_addEquiv_of_quadratic {K V : Type*} [Field K] [Finite K] [CharP K
   let ρ := DistribMulAction.toAddMonoidEnd (Matrix.SpecialLinearGroup (Fin 2) K) V
   let e₀ : V ≃+ V := DistribMulAction.toAddEquiv V g⁻¹
   let ρ' := ρ.comp (MulAut.conj g).toMonoidHom
-  letI : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) K) V := DistribMulAction.compHom _ ρ'
+  let : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) K) V := DistribMulAction.compHom _ ρ'
   have hirr' : ∀ W : AddSubgroup V,
       (∀ h : Matrix.SpecialLinearGroup (Fin 2) K, ∀ v ∈ W, h • v ∈ W) → W = ⊥ ∨ W = ⊤ := by
     intro W hW
@@ -347,7 +347,7 @@ theorem exists_sectionModule {G : Type*} [Group G] {K : Type*} [Field K]
       rw [commutatorElement_def]; group]
     exact mul_mem (hXX (y : G) y.2 (c : G) (hCX hc)) hc
   let N : Subgroup ↥X := C.subgroupOf X
-  letI : N.Normal := hCN
+  let : N.Normal := hCN
   let W := ↥X ⧸ N
   have hWcomm : IsMulCommutative W := by
     refine IsMulCommutative.of_comm fun u v => ?_
@@ -356,7 +356,7 @@ theorem exists_sectionModule {G : Type*} [Group G] {K : Type*} [Field K]
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq_iff_div_mem,
       Subgroup.mem_subgroupOf, Subgroup.coe_div, div_eq_mul_inv]
     simpa [commutatorElement_def, mul_assoc] using hXX (y : G) y.2 (z : G) z.2
-  letI : CommGroup W := IsMulCommutative.instCommGroup
+  let : CommGroup W := IsMulCommutative.instCommGroup
   have hmemN : ∀ y : ↥X, y ∈ N ↔ (y : G) ∈ C := fun y => Subgroup.mem_subgroupOf
   obtain ⟨cX, hcX, hcX_one, hcX_mul, hcN⟩ :=
     exists_conjEnd (K := K) (N := N) hmemN hAX hAC
@@ -373,7 +373,7 @@ theorem exists_sectionModule {G : Type*} [Group G] {K : Type*} [Field K]
     show QuotientGroup.lift φ.ker ρ₀ hker_le (e.symm (φ b)) = ρ₀ b
     rw [h1]
     rfl
-  letI : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) K) (Additive W) :=
+  let : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) K) (Additive W) :=
     DistribMulAction.compHom _ ρ
   have hsmul : ∀ (b : ↥A) (y : ↥X),
       ρ (φ b) (Additive.ofMul (QuotientGroup.mk y)) =
@@ -504,7 +504,7 @@ theorem exists_smul_ne (hAX : ∀ a ∈ A, ∀ x ∈ X, a * x * a⁻¹ ∈ X)
   exact hne ((S.smul_eq_iff_commutator_mem hAX ⟨a, ha⟩ ⟨x, hx⟩).mp hfix)
 
 theorem quadratic (hAX : ∀ a ∈ A, ∀ x ∈ X, a * x * a⁻¹ ∈ X)
-    {Q : Subgroup G} (hQA : Q ≤ A)
+    {Q : Subgroup G} (_hQA : Q ≤ A)
     (hquad : ∀ q ∈ Q, ∀ q' ∈ Q, ∀ x ∈ X, ⁅q', ⁅q, x⁆⁆ ∈ C) :
     ∀ a ∈ (Q.subgroupOf A).map φ, ∀ a' ∈ (Q.subgroupOf A).map φ, ∀ v : S.W,
       a' • (a • v - v) = a • v - v := by

@@ -214,7 +214,7 @@ private theorem exists_lowerElem_of_exceptional
       ((g2Inv : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) = 1
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blockMat, e1, g2Inv, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+      simp [blockMat, e1, g2Inv, Matrix.mul_apply, Fin.sum_univ_three]
   have hg2Inv_eq : g2⁻¹ = g2Inv := inv_eq_of_mul_eq_one_right hg2Inv
   let v : Fin 2 → K := fun j => if j = 0 then 0 else -2 * a
   have hv_ne : v ≠ 0 := by
@@ -236,7 +236,7 @@ private theorem exists_lowerElem_of_exceptional
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [blockMat, e1, v, negDiagElem_coe, g2Inv, lowerElem,
-        Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+        Matrix.mul_apply, Fin.sum_univ_three]; ring
   have hmem : negDiagElem ∈ H := hD negDiag_mem_levi
   have hcommH : (negDiagElem * g2 * negDiagElem⁻¹) * g2⁻¹ ∈ H :=
     H.mul_mem (H.mul_mem (H.mul_mem hmem hg2H) (H.inv_mem hmem)) (H.inv_mem hg2H)
@@ -269,7 +269,7 @@ private theorem exists_gl2_mulVec_eq_e1 {v : Fin 2 → K} (hv : v ≠ 0) :
               rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel,
                 Matrix.SpecialLinearGroup.coe_one]]
       _ = e1 := by rw [Matrix.one_mulVec]
-  · simpa [Matrix.GeneralLinearGroup.val_det_apply] using (S⁻¹).2
+  · simp
 
 private theorem blockMat_conj_one (P : GL (Fin 2) K) (v w : Fin 2 → K) :
     blockMat (P : Matrix (Fin 2) (Fin 2) K) 0 0 1 * blockMat 1 v w 1 *
@@ -281,7 +281,7 @@ private theorem blockMat_conj_one (P : GL (Fin 2) K) (v w : Fin 2 → K) :
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   rw [blockMat_mul, blockMat_mul, blockMat_inj]
   refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa [Matrix.vecMulVec_zero, hPPinv]
+  · simp [Matrix.vecMulVec_zero]
   · funext i
     simp
   · funext j
@@ -325,7 +325,7 @@ private theorem detA_mul_d_eq_one_of_condition {A : Matrix (Fin 2) (Fin 2) K} {b
 
 private theorem exists_lowerElem_of_condition
     (H : Subgroup (SL(3, K))) (hD : levi ≤ H) {g : SL(3, K)}
-    (hgH : g ∈ H) (hgD : g ∉ levi) {A : Matrix (Fin 2) (Fin 2) K}
+    (hgH : g ∈ H) (_hgD : g ∉ levi) {A : Matrix (Fin 2) (Fin 2) K}
     {b c : Fin 2 → K} {d : K}
     (hM : blockMat A b c d = (g : Matrix (Fin 3) (Fin 3) K))
     (hb : b ≠ 0) (hc : c ≠ 0)
@@ -379,12 +379,9 @@ private theorem exists_lowerElem_of_condition
     change blockMat (((Aunit⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)) 0 0
         (Aunit : Matrix (Fin 2) (Fin 2) K).det * blockMat A b c d = blockMat 1 v w 1
     rw [← hAunit]
-    change blockMat (((Aunit⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)) 0 0
-        (Aunit : Matrix (Fin 2) (Fin 2) K).det *
-      blockMat (Aunit : Matrix (Fin 2) (Fin 2) K) b c d = blockMat 1 v w 1
     rw [blockMat_mul, blockMat_inj]
     refine ⟨?_, ?_, ?_, ?_⟩
-    · simpa using hAinvA
+    · simp
     · funext i
       simp [v]
     · have hdetAunit : (Aunit : Matrix (Fin 2) (Fin 2) K).det = A.det := by rw [hAunit]
@@ -564,12 +561,12 @@ private theorem ellA_ne_zero {A : Matrix (Fin 2) (Fin 2) K} {b c : Fin 2 → K} 
 
 private theorem exists_lowerElem_of_not_condition
     (H : Subgroup (SL(3, K))) (hD : levi ≤ H) {g : SL(3, K)}
-    (hgH : g ∈ H) (hgD : g ∉ levi) {A : Matrix (Fin 2) (Fin 2) K}
+    (hgH : g ∈ H) (_hgD : g ∉ levi) {A : Matrix (Fin 2) (Fin 2) K}
     {b c : Fin 2 → K} {d : K}
     (hM : blockMat A b c d = (g : Matrix (Fin 3) (Fin 3) K))
-    (hb : b ≠ 0) (hc : c ≠ 0)
+    (hb : b ≠ 0) (_hc : c ≠ 0)
     (hnot : ¬ ∃ u : Fin 2 → K, A *ᵥ u = b ∧ c ⬝ᵥ u = 0)
-    (h2 : (2 : K) ≠ 0) :
+    (_h2 : (2 : K) ≠ 0) :
     ∃ v : Fin 2 → K, lowerElem v ∈ H ∧ lowerElem v ≠ 1 := by
   have hMdet : (blockMat A b c d).det = 1 := by rw [hM]; exact g.2
   have hMdet_ne : (blockMat A b c d).det ≠ 0 := by rw [hMdet]; exact one_ne_zero
@@ -982,13 +979,12 @@ private theorem blockMat_conj_upper_diag (P : GL (Fin 2) K) (s : Kˣ) (v : Fin 2
   have hssinv : (s : K) * ((s⁻¹ : Kˣ) : K) = 1 := by
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa [Matrix.vecMulVec_zero, hPPinv]
+  · simp [Matrix.vecMulVec_zero]
   · funext i
-    simp [Pi.smul_apply, mul_comm]
+    simp [mul_comm]
   · funext j
-    simp [Matrix.zero_vecMul, Matrix.vecMul_one, Matrix.vecMul, dotProduct,
-      zero_dotProduct, Fin.sum_univ_two]
-  · simpa [dotProduct_zero, hssinv]
+    simp [Matrix.vecMul, dotProduct]
+  · simp [dotProduct_zero]
 
 private theorem blockMat_conj_lower_diag (P : GL (Fin 2) K) (s : Kˣ) (u : Fin 2 → K) :
     blockMat (P : Matrix (Fin 2) (Fin 2) K) 0 0 (s : K) *
@@ -1002,14 +998,14 @@ private theorem blockMat_conj_lower_diag (P : GL (Fin 2) K) (s : Kˣ) (u : Fin 2
   have hssinv : (s : K) * ((s⁻¹ : Kˣ) : K) = 1 := by
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa [Matrix.vecMulVec_zero, hPPinv]
+  · simp [Matrix.vecMulVec_zero]
   · funext i
     simp
   · funext j
-    simp [Pi.smul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two,
-      mul_assoc, mul_comm, mul_left_comm]
+    simp [Matrix.vecMul, dotProduct, Fin.sum_univ_two,
+      mul_assoc]
     ring
-  · simpa [dotProduct_zero, hssinv]
+  · simp [dotProduct_zero]
 
 @[expose] noncomputable def graphAut (B : GL (Fin 3) K) : SL(3, K) ≃* SL(3, K) :=
   CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation 3 K B *
@@ -1021,11 +1017,6 @@ theorem coe_graphAut (B : GL (Fin 3) K) (g : SL(3, K)) :
         ((((g⁻¹ : SL(3, K)) : Matrix (Fin 3) (Fin 3) K))ᵀ) *
         (((B⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) := by
   rw [graphAut, MulAut.mul_apply]
-  change ((CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation 3 K B
-      (CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut 3 K g) : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) =
-    (B : Matrix (Fin 3) (Fin 3) K) *
-      ((((g⁻¹ : SL(3, K)) : Matrix (Fin 3) (Fin 3) K))ᵀ) *
-      (((B⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))
   have h := congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
     (CFSG.ComponentClassification.CatalogueBHigherLinearAction.toGL_slConjugation 3 K B
       (CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut 3 K g))
@@ -1048,7 +1039,7 @@ theorem graphAut_upper (P : GL (Fin 2) K) (s : Kˣ) (u : Fin 2 → K) :
   rw [blockMat_transpose, Matrix.transpose_one, blockMat_conj_lower_diag, blockMat_inj]
   refine ⟨rfl, rfl, ?_, rfl⟩
   funext j
-  simp [Pi.smul_apply, Matrix.neg_vecMul, mul_neg, mul_comm]
+  simp [Matrix.neg_vecMul, mul_neg]
 
 theorem graphAut_lower (P : GL (Fin 2) K) (s : Kˣ) (u : Fin 2 → K) :
     graphAut (blockGL P s) (lowerElem u) =
@@ -1065,7 +1056,7 @@ theorem graphAut_lower (P : GL (Fin 2) K) (s : Kˣ) (u : Fin 2 → K) :
   rw [blockMat_transpose, Matrix.transpose_one, blockMat_conj_upper_diag, blockMat_inj]
   refine ⟨rfl, ?_, rfl, rfl⟩
   funext i
-  simp [Pi.smul_apply, Matrix.mulVec_neg, mul_neg, mul_comm]
+  simp [Matrix.mulVec_neg, mul_neg, mul_comm]
 
 theorem graphAut_upper_surj (P : GL (Fin 2) K) (s : Kˣ) (c : Fin 2 → K) :
     ∃ u : Fin 2 → K, graphAut (blockGL P s) (upperElem u) = lowerElem c := by
@@ -1092,7 +1083,7 @@ theorem graphAut_upper_surj (P : GL (Fin 2) K) (s : Kˣ) (c : Fin 2 → K) :
       _ = -(((s⁻¹ : Kˣ) : K) • c) := by rw [Matrix.vecMul_one]
   rw [hu]
   funext j
-  simp [Pi.smul_apply, Pi.neg_apply, mul_neg, neg_mul, mul_assoc]
+  simp [Pi.smul_apply, Pi.neg_apply, mul_neg]
 
 theorem graphAut_lower_surj (P : GL (Fin 2) K) (s : Kˣ) (v : Fin 2 → K) :
     ∃ c : Fin 2 → K, graphAut (blockGL P s) (lowerElem c) = upperElem v := by
@@ -1121,8 +1112,7 @@ theorem graphAut_lower_surj (P : GL (Fin 2) K) (s : Kˣ) (v : Fin 2 → K) :
   rw [hc]
   funext i
   fin_cases i <;>
-    simp [Pi.smul_apply, mul_neg, neg_mul, mul_assoc, mul_comm] <;>
-    ring
+    simp [Pi.smul_apply, mul_neg]
 
 theorem graphAut_swaps (P : GL (Fin 2) K) (s : Kˣ) :
     SwapsRadicals (graphAut (blockGL P s)) := by

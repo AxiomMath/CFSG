@@ -17,12 +17,14 @@ private theorem s16h_not_dvd_two_pow_three (n : ℕ) : ¬ 3 ∣ 2 ^ n := fun hdv
   absurd ((Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_two).1
     (Nat.prime_three.dvd_of_dvd_pow hdvd)) (by norm_num)
 
+omit [Finite G] in
 private theorem s16h_conjSubgroup_mono {A B : Subgroup G} (h : A ≤ B) (x : G) :
     conjSubgroup A x ≤ conjSubgroup B x := by
   intro y hy
   rw [mem_conjSubgroup_iff] at hy ⊢
   exact h hy
 
+omit [Finite G] in
 private theorem s16h_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -31,11 +33,13 @@ private theorem s16h_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_isPGroup_conj {p : ℕ} {P : Subgroup G} (hP : IsPGroup p P) (x : G) :
     IsPGroup p (conjSubgroup P x) :=
   hP.of_equiv (Subgroup.equivMapOfInjective P (MulAut.conj x⁻¹).toMonoidHom
     (MulAut.conj x⁻¹).injective)
 
+omit [Finite G] in
 private theorem s16h_not_isCyclic_conj {P : Subgroup G} (hP : ¬ IsCyclic ↥P) (x : G) :
     ¬ IsCyclic ↥(conjSubgroup P x) := fun hc =>
   hP ((Subgroup.equivMapOfInjective P (MulAut.conj x⁻¹).toMonoidHom

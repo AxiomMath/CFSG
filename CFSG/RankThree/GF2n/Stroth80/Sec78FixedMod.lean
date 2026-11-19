@@ -15,10 +15,10 @@ theorem sec7ctr_exists_fixed_mod {T D V : Subgroup G} (hT : IsPGroup 2 ↥T) (hD
     (hVD : V < D) (hcomm : ∀ x ∈ D, ∀ y ∈ D, ⁅x, y⁆ ∈ V) (hsq : ∀ x ∈ D, x ^ 2 ∈ V)
     (hTD : ∀ r ∈ T, ∀ x ∈ D, r * x * r⁻¹ ∈ D) (hTV : ∀ r ∈ T, ∀ x ∈ V, r * x * r⁻¹ ∈ V) :
     ∃ d ∈ D, d ∉ V ∧ ∀ l ∈ T, ⁅l, d⁆ ∈ V := by
-  haveI hp2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hp2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSec : SecHyp T D V := ⟨hVD.le, hcomm, hsq, hTD, hTV⟩
   obtain ⟨Md, _, _, κ, hκ⟩ := exists_sectionModule hSec
-  haveI hMdfin : Finite Md := hκ.finite
+  have hMdfin : Finite Md := hκ.finite
   have hsec : Nat.card ↥D = Nat.card ↥V * Nat.card Md := natCard_eq_of_isSecMod hVD.le hκ
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hD2
   have hdvd : Nat.card Md ∣ Nat.card ↥D := by

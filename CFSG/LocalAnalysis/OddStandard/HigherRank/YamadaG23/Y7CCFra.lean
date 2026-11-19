@@ -40,8 +40,8 @@ theorem y7c_frattini {G : Type} [Group G] [Finite G] (p : ℕ) [Fact p.Prime]
     exact hS.2.2
   let P₁ : Sylow p ↥K0 := hQk.toSylow hQkidx
   let P₂ : Sylow p ↥K0 := hDk.toSylow hDkidx
-  haveI : P₁.FiniteIndex := inferInstance
-  haveI : Finite (Sylow p ↥K0) := Sylow.finite_of_finiteIndex P₁
+  have : P₁.FiniteIndex := inferInstance
+  have : Finite (Sylow p ↥K0) := Sylow.finite_of_finiteIndex P₁
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq (↥K0) P₁ P₂
   have hcoe : MulAut.conj x • Qk = Dk := by
     have h := congrArg (fun Q : Sylow p ↥K0 => (Q : Subgroup ↥K0)) hx

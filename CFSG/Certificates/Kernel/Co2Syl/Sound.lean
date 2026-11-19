@@ -58,7 +58,7 @@ variable {CF G : Nat → Nat} {N : Nat}
 theorem edgeT_spec {m X g t : Nat} (h : edgeT CF N m X g t = true) (hm : m ≤ t) :
     t < N ∧ elemAt CF t = mulV X g := by
   unfold edgeT at h
-  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, if_pos rfl] at h
+  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, ite_eq_left rfl] at h
   unfold edgeK at h
   rw [andK_eq, Bool.and_eq_true] at h
   exact ⟨blt_iff.1 h.1, Nat.eq_of_beq_eq_true h.2⟩
@@ -85,12 +85,12 @@ theorem stK_cover {t m : Nat} (h : stK t m < BAD) :
     m ≤ stK t m ∧ ∀ s, m ≤ s → s < stK t m → s = t := by
   rw [stK_cases] at h ⊢
   by_cases h1 : t < m
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact ⟨le_refl _, fun s h2 h3 => absurd h3 (by omega)⟩
   · by_cases h2 : t = m
-    · rw [if_neg h1, if_pos h2]
+    · rw [ite_eq_right h1, ite_eq_left h2]
       exact ⟨by omega, fun s h3 h4 => by omega⟩
-    · rw [if_neg h1, if_neg h2] at h
+    · rw [ite_eq_right h1, ite_eq_right h2] at h
       exact absurd h (lt_irrefl _)
 
 theorem rowK_cover {m t0 t1 t2 t3 t4 : Nat} (hb : rowK m t0 t1 t2 t3 t4 < BAD) :
@@ -247,7 +247,7 @@ theorem blkRecs_spec {b : Nat} (h : blkRecs CF G N b = true) :
   have := recAll (p := fun i => implK (Nat.blt (Nat.add (Nat.mul 64 b) i) N)
     (recT CF G N (Nat.add (Nat.mul 64 b) i))) 64 h i hi
   have hb : Nat.blt (Nat.add (Nat.mul 64 b) i) N = true := blt_iff.2 hN
-  rw [implK_eq, hb, if_pos rfl] at this
+  rw [implK_eq, hb, ite_eq_left rfl] at this
   exact this
 
 theorem blk_ok {A B : Nat} {CNT : Nat → Nat} {nb : Nat} (hN : N ≤ 64 * nb)
@@ -413,14 +413,14 @@ theorem hit_le_one (CF : Nat → Nat) (A N k : Nat) : hit CF A N k ≤ 1 := by
 
 theorem hit_ge {CF : Nat → Nat} {A N k : Nat} (hk : N ≤ k) : hit CF A N k = 0 := by
   unfold hit
-  exact if_neg fun h => absurd h.1 (by omega)
+  exact ite_eq_right fun h => absurd h.1 (by omega)
 
 theorem sqK_eq (A B k : Nat) : sqK CF A B N k = hit CF A N k + 256 * hit CF B N k := by
   unfold sqK sqC hit
   by_cases hk : k < N
-  · simp only [selN_eq, blt_iff.2 hk, strictN_eq', Nat.beq_eq, hk, true_and, if_true]
+  · simp only [selN_eq, blt_iff.2 hk, strictN_eq', Nat.beq_eq, hk, true_and, ite_true]
     split_ifs <;> rfl
-  · simp only [selN_eq, blt_false hk, hk, false_and, if_false]
+  · simp only [selN_eq, blt_false hk, hk, false_and, ite_false]
     rfl
 
 theorem recSum (F : Nat → Nat) : ∀ n, Nat.rec (motive := fun _ => Nat) (nat_lit 0)
@@ -572,9 +572,9 @@ theorem dK_spec {l d Z : Nat} (h : dK CF LD N l d Z = true) :
   unfold dK at h
   rw [bIf_eq'] at h
   by_cases hd : d < N
-  · rw [blt_iff.2 hd, if_pos rfl, andK_eq, Bool.and_eq_true, notK_eq, Bool.not_eq_true'] at h
+  · rw [blt_iff.2 hd, ite_eq_left rfl, andK_eq, Bool.and_eq_true, notK_eq, Bool.not_eq_true'] at h
     exact Or.inl ⟨hd, Nat.eq_of_beq_eq_true h.1, Nat.ne_of_beq_eq_false h.2⟩
-  · rw [blt_false hd, if_neg Bool.false_ne_true, notK_eq, Bool.not_eq_true'] at h
+  · rw [blt_false hd, ite_eq_right Bool.false_ne_true, notK_eq, Bool.not_eq_true'] at h
     exact Or.inr ⟨hd, h⟩
 
 theorem labK_spec {k : Nat} (h : labK CF G LD R N k = true) (hi : involK (elemAt CF k) = true) :
@@ -584,8 +584,8 @@ theorem labK_spec {k : Nat} (h : labK CF G LD R N k = true) (hi : involK (elemAt
     dK CF LD N (labK0 LD k) (dOf (labAt LD k)) (mulV (elemAt CF k) R) = true := by
   unfold labK at h
   simp only [letB_eq] at h
-  rw [implK_eq, if_pos hi] at h
-  simp only [letB_eq, andK_eq, Bool.and_eq_true] at h
+  rw [implK_eq, ite_eq_left hi] at h
+  simp only [andK_eq, Bool.and_eq_true] at h
   obtain ⟨c0, c1, c2, c3, c4, hd⟩ := h
   refine ⟨fun j hj => ?_, hd⟩
   interval_cases j

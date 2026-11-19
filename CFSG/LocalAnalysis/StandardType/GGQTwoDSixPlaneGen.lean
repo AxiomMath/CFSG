@@ -63,11 +63,11 @@ private lemma coordBlockSU_smul_eq_self_of_eq_zero {K : Type} [Field K] [Finite 
     by_cases hj : j ∈ T
     · rw [hx j hj, mul_zero]
     · have hij : i ≠ j := fun h => hj (h ▸ hi)
-      rw [hmat i j (Or.inr hj), if_neg hij, zero_mul]
+      rw [hmat i j (Or.inr hj), ite_eq_right hij, zero_mul]
   · rw [Finset.sum_eq_single_of_mem i (Finset.mem_univ i)]
-    · rw [hmat i i (Or.inl hi), if_pos rfl, one_mul]
+    · rw [hmat i i (Or.inl hi), ite_eq_left rfl, one_mul]
     · intro j _ hji
-      rw [hmat i j (Or.inl hi), if_neg hji.symm, zero_mul]
+      rw [hmat i j (Or.inl hi), ite_eq_right hji.symm, zero_mul]
 
 private lemma blockSUOn_smul_apply_mem {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime]
     [CharP K p] {J : Finset (Fin n)} (t : Su K p f J.card) {x : Fin n → K} {i : Fin n}
@@ -81,7 +81,7 @@ private lemma blockSUOn_smul_apply_mem {K : Type} [Field K] [Finite K] {p f : �
     rw [blockOn_apply_mem J _ hi j.2]
     simp [Subtype.coe_eta, Equiv.symm_apply_apply]
   · intro j _ hj
-    rw [blockOn_apply_not_mem J _ (Or.inr hj), if_neg fun h : i = j => hj (h ▸ hi), zero_mul]
+    rw [blockOn_apply_not_mem J _ (Or.inr hj), ite_eq_right fun h : i = j => hj (h ▸ hi), zero_mul]
 
 private lemma blockSUOn_smul_apply_not_mem {K : Type} [Field K] [Finite K] {p f : ℕ}
     [Fact p.Prime] [CharP K p] {J : Finset (Fin n)} (t : Su K p f J.card) {x : Fin n → K}
@@ -89,11 +89,11 @@ private lemma blockSUOn_smul_apply_not_mem {K : Type} [Field K] [Finite K] {p f 
   rw [smul_def, coe_coe_blockSUOn]
   simp only [Matrix.mulVec, dotProduct]
   rw [Finset.sum_eq_single i]
-  · rw [blockOn_apply_not_mem J _ (Or.inl hi), if_pos rfl, one_mul]
+  · rw [blockOn_apply_not_mem J _ (Or.inl hi), ite_eq_left rfl, one_mul]
   · intro j _ hji
     by_cases hj : j ∈ J
-    · rw [blockOn_apply_not_mem J _ (Or.inl hi), if_neg (Ne.symm hji), zero_mul]
-    · rw [blockOn_apply_not_mem J _ (Or.inr hj), if_neg (Ne.symm hji), zero_mul]
+    · rw [blockOn_apply_not_mem J _ (Or.inl hi), ite_eq_right (Ne.symm hji), zero_mul]
+    · rw [blockOn_apply_not_mem J _ (Or.inr hj), ite_eq_right (Ne.symm hji), zero_mul]
   · intro hi'
     exact absurd (Finset.mem_univ i) hi'
 
@@ -243,11 +243,11 @@ theorem commute_sixSU_rot_triple (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 
     simp only [Finset.mem_insert, Finset.mem_singleton] at hi
     simp only [Pi.mul_apply, Pi.mulSingle_apply]
     rcases hi with rfl | rfl | rfl
-    · rw [if_pos rfl, if_neg hab, if_neg had]
+    · rw [ite_eq_left rfl, ite_eq_right hab, ite_eq_right had]
       simp
-    · rw [if_neg (Ne.symm hab), if_pos rfl, if_neg hbd]
+    · rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl, ite_eq_right hbd]
       simp
-    · rw [if_neg (Ne.symm had), if_neg (Ne.symm hbd), if_pos rfl]
+    · rw [ite_eq_right (Ne.symm had), ite_eq_right (Ne.symm hbd), ite_eq_left rfl]
       simp
   have hconst : ∀ i ∈ ({a, b, d} : Finset (Fin n)), ∀ j ∈ ({a, b, d} : Finset (Fin n)),
       ((t i : Kˣ) : K) = ((t j : Kˣ) : K) := by
@@ -427,7 +427,7 @@ theorem crefl_mul_mul_crefl_mem_supp (k : Fin n ⊕ Fin n) {T : Finset (Fin n)}
           exact mem_planeSpan.mp hv (Sum.inl i) (by simpa [planeOf] using hkT)
       rwa [hpol, zero_smul, add_zero]
     · refine add_mem hv (Submodule.smul_mem _ _ (mem_planeSpan.mpr fun l hl => ?_))
-      rw [Pi.single_apply, if_neg]
+      rw [Pi.single_apply, ite_eq_right]
       rintro rfl
       exact hl (Finset.mem_compl.mpr hkT)
   refine mem_supp.mpr ⟨?_, fun v hv => ?_⟩

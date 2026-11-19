@@ -59,10 +59,10 @@ theorem card_le_pow_nine_of_frobenius {F : Type} [Field F] [Finite F] (hF : Nat.
     (T : F ≃+* F) (hT : ∀ c, T c = c ^ 3) {B : Subgroup (MulAut ↥(adjointGroup Tag.D4 F))}
     (hB : IsElemAbelian 3 B) (hβB : entrywiseAdjointAut Tag.D4 T ∈ B) : Nat.card B ≤ 3 ^ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := Tag.D4) (K := F)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := Tag.D4) (K := F)
   have hF3 : Nat.card F = 3 ^ 3 := hF.trans (by norm_num)
-  haveI : CharP F 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_three (by norm_num) hF3
   have hM : ringChar F ≠ 2 := by rw [ringChar.eq F 3]; norm_num
   obtain ⟨fr, hfr, hord, -⟩ :=
@@ -168,7 +168,7 @@ theorem card_le_pow_nine_of_fieldNormalForm (hN : BD4FieldNormalForm) {F : Type}
     (hA : GLAPComponent 3 (fixSubgroup α) A) (hcard : Nat.card (PSimple 3 A) = 4952179814400)
     {B : Subgroup (MulAut ↥(adjointGroup Tag.D4 F))} (hB : IsElemAbelian 3 B) (hαB : α ∈ B) :
     Nat.card B ≤ 3 ^ 9 := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   obtain ⟨T, ψ, hT, hψ⟩ := hN F hF α hα3 hout A hA hcard
   set c : MulAut (MulAut ↥(adjointGroup Tag.D4 F)) := MulAut.conj ψ with hc
   have hβB : entrywiseAdjointAut Tag.D4 T ∈ B.map c.toMonoidHom := by

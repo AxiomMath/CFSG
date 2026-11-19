@@ -11,6 +11,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commute_of_mem_normal_of_mem_closure_commSet {D : Set G} (hodd : Asc72.IsOddTransp D)
     {N : Subgroup G} (hN : N.Normal) (hNo : Odd (Nat.card N)) {u : G} (hu : u ∈ D)
     (huD : u ∈ Subgroup.closure (commSet D u))
@@ -73,12 +74,13 @@ theorem commute_of_mem_normal_of_mem_closure_commSet {D : Set G} (hodd : Asc72.I
     · exact absurd h (hodd_y.ne_two_of_dvd_nat (dvd_refl (orderOf y)))
   exact hy_ne (orderOf_eq_one_iff.mp hord)
 
+omit [Finite G] in
 theorem normal_le_center_of_mem_closure_commSet {D : Set G} (hS : Asc72.Setup G D)
     {N : Subgroup G} (hN : N.Normal) (hNo : Odd (Nat.card N)) {u : G} (hu : u ∈ D)
     (huD : u ∈ Subgroup.closure (commSet D u))
     (huxD : ∀ x ∈ N, x ≠ 1 → u * x * u = x⁻¹ → u * x ∈ D) :
     N ≤ Subgroup.center G := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   refine Setup.le_center_of_mem_centralizer (D := D) (N := N) hS hu ?_
   rw [Subgroup.mem_centralizer_iff]
   intro x hx

@@ -20,9 +20,9 @@ theorem y7b_fpf_onto {U M : Subgroup G} (hMU : M ≤ U)
     ∀ v ∈ U, ∃ u ∈ U, v⁻¹ * (u * (k * u * k⁻¹)⁻¹) ∈ M := by
   have hMnormal : (M.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff hMU).mpr fun m u hm hu => hMnorm u hu m hm
-  letI : (M.subgroupOf U).Normal := hMnormal
+  let : (M.subgroupOf U).Normal := hMnormal
   let Q := ↥U ⧸ (M.subgroupOf U)
-  haveI hQcomm : IsMulCommutative Q := by
+  have hQcomm : IsMulCommutative Q := by
     change IsMulCommutative (↥U ⧸ (M.subgroupOf U))
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, _root_.commutator_def,
       Subgroup.commutator_le]

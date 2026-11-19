@@ -43,7 +43,7 @@ theorem CoverCtx.false_of_psp (ctx : CoverCtx L S₀ A₁ A₂) {n f : ℕ}
   have hF4 := four_le_card_of_card_eq_two_pow hcard hf
   exact false_of_big_node ctx.syl ctx.cov ctx.solv₁ ctx.solv₂ (borelQuotient_sp e) ⟨0, by change 0 < n; omega⟩
     (fun hπ' => not_isPSolvable_map_rankOne_of_sl2Node hπ' hF4
-      (hasSL2Node_sp ⟨0, by change 0 < n; omega⟩))
+      (hasSL2Node_sp ⟨0, by omega⟩))
 
 open CFSG.LieType.Universal.Spin in
 theorem CoverCtx.false_of_pomegaPlus (ctx : CoverCtx L S₀ A₁ A₂) {n f : ℕ}
@@ -60,7 +60,7 @@ theorem CoverCtx.false_of_pomegaPlus (ctx : CoverCtx L S₀ A₁ A₂) {n f : �
   have hF4 := four_le_card_of_card_eq_two_pow hcard hf
   exact false_of_big_node ctx.syl ctx.cov ctx.solv₁ ctx.solv₂ (borelQuotient_spinPlus hn3 e)
     ⟨0, by change 0 < n; omega⟩ (fun hπ' => not_isPSolvable_map_rankOne_of_sl2Node hπ' hF4
-      (hasSL2Node_spinPlus hn3 ⟨0, by change 0 < n; omega⟩))
+      (hasSL2Node_spinPlus hn3 ⟨0, by omega⟩))
 
 open CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits in
 theorem CoverCtx.false_of_psu (ctx : CoverCtx L S₀ A₁ A₂) {n f : ℕ}

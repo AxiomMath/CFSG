@@ -153,11 +153,11 @@ private theorem teOpp_conj_mem_rad_gen
         omega
       · exact absurd (h' ▸ hδ) (teOpp_two_smul_notMem θ hγ)
       · have : δ (teOpp_last θ) = -2 * γ (teOpp_last θ) := by
-          rw [h']; simp only [Pi.neg_apply, Pi.smul_apply, smul_eq_mul]; ring
+          rw [h']; simp only [Pi.neg_apply, Pi.smul_apply]; ring
         omega
       · exact absurd (h' ▸ hγ) (teOpp_two_smul_notMem θ hδ)
       · have : γ (teOpp_last θ) = -2 * δ (teOpp_last θ) := by
-          rw [h']; simp only [Pi.neg_apply, Pi.smul_apply, smul_eq_mul]; ring
+          rw [h']; simp only [Pi.neg_apply, Pi.smul_apply]; ring
         omega
     have hc := (twistedDatum_steinbergExtras θ hθ).commutator_mem δ hδ γ hγ hli x hx y hy
     have hle : ⨆ ε ∈ openCone (twistedDatum k θ).roots δ γ,
@@ -199,7 +199,7 @@ private theorem teOpp_ggSub_level_le_normalizer_rad
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) :
     ggSub (twistedDatum k θ) (teOpp_Pnonneg θ) ≤
       Subgroup.normalizer ((twE6Rad θ : Subgroup (fixedGroup k θ)) : Set (fixedGroup k θ)) :=
-  iSup₂_le fun γ hγ => teOpp_rootGroup_le_normalizer_rad θ hθ hγ.1 hγ.2
+  iSup₂_le fun _γ hγ => teOpp_rootGroup_le_normalizer_rad θ hθ hγ.1 hγ.2
 
 private theorem teOpp_posUnipotent_le_normalizer_rad
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) :

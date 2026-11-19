@@ -20,8 +20,8 @@ instance : SMul ↥⁅Qj, Qj⁆ ↥O1 where
   smul g x := ⟨g.1 x.1, apply_mem_O1 (Subgroup.commutator_le_self Qj g.2) x.2⟩
 
 instance : MulAction ↥⁅Qj, Qj⁆ ↥O1 where
-  one_smul x := Subtype.ext rfl
-  mul_smul g h x := Subtype.ext rfl
+  one_smul _x := Subtype.ext rfl
+  mul_smul _g _h _x := Subtype.ext rfl
 
 @[simp]
 private theorem commutator_smul_coe (g : ↥⁅Qj, Qj⁆) (x : ↥O1) :
@@ -360,16 +360,16 @@ private noncomputable def HH : Subgroup ↥⁅Qj, Qj⁆ := Subgroup.closure {bG 
 private theorem qWord_dWord_mem_closure {w : List Nat} (hw : ∀ l ∈ w, l < 2) :
     qWord (dWord w) ∈ Subgroup.closure ({qWord g1w, qWord g2w} : Set (MulAut ↥Jc)) := by
   induction w with
-  | nil => simpa [dWord, qWord] using (Subgroup.closure _).one_mem
+  | nil => simp [dWord, qWord]
   | cons l w ih =>
     have hl : l < 2 := hw l List.mem_cons_self
     have hw' : ∀ k ∈ w, k < 2 := fun k hk => hw k (List.mem_cons_of_mem _ hk)
     rw [qWord_dWord_cons, qWord_dWord_single l hl]
     refine (Subgroup.closure _).mul_mem ?_ (ih hw')
     by_cases h : l = 0
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact Subgroup.subset_closure (by simp)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Subgroup.subset_closure (by simp)
 
 private theorem c0G_word : qWord (dWord (Native.cWord 0)) =
@@ -445,7 +445,6 @@ private theorem c0G_mem (hD : ⁅Qj, Qj⁆ = Subgroup.closure {qWord g1w, qWord 
     ⟨qWord (dWord [1]), by rw [hD]; exact qWord_dWord_mem_closure (by decide)⟩
   have hc : c0G = ⁅A, B⁆ := by
     refine Subtype.ext ?_
-    change (c0G : MulAut ↥Jc) = ((⁅A, B⁆ : ↥⁅Qj, Qj⁆) : MulAut ↥Jc)
     rw [c0G_val]
     rfl
   change c0G ∈ Subgroup.closure {g : ↥⁅Qj, Qj⁆ |
@@ -461,7 +460,6 @@ private theorem c1G_mem (hD : ⁅Qj, Qj⁆ = Subgroup.closure {qWord g1w, qWord 
     ⟨qWord (dWord [1, 0]), by rw [hD]; exact qWord_dWord_mem_closure (by decide)⟩
   have hc : c1G = ⁅A, B⁆ := by
     refine Subtype.ext ?_
-    change (c1G : MulAut ↥Jc) = ((⁅A, B⁆ : ↥⁅Qj, Qj⁆) : MulAut ↥Jc)
     rw [c1G_val]
     rfl
   change c1G ∈ Subgroup.closure {g : ↥⁅Qj, Qj⁆ |
@@ -805,7 +803,7 @@ private theorem hElt_val (w : List Nat) : (hElt hb ha w : MulAut ↥Jc) = qWord 
     by_cases hl : l = 0
     · subst hl
       simp [bG, qWord_cons, qWord_nil]
-    · simp [hl, a2G, qWord_cons, qWord_nil, mul_assoc]
+    · simp [hl, a2G, qWord_cons, qWord_nil]
 
 private theorem hElt_smul_val (w : List Nat) {m : Nat} (hm : m < 1024) (hO : m ∈ Native.glNJOm) :
     (((hElt hb ha w) • (⟨jcA m, (jcA_mem_O1_iff hm).2 hO⟩ : ↥O1) : ↥O1) : ↥Jc) =
@@ -819,9 +817,9 @@ private theorem hElt_mem (w : List Nat) : hElt hb ha w ∈ HH hb ha := by
     intro x hx
     obtain ⟨l, -, rfl⟩ := List.mem_map.1 hx
     by_cases hl : l = 0
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact Subgroup.subset_closure (by simp)
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       exact Subgroup.subset_closure (by simp))
 
 
@@ -886,7 +884,7 @@ private theorem a2G_smul_alpha : a2G ha • (⟨tA, tA_mem_O1⟩ : ↥O1) = ⟨t
   change (qA 0 * qA 0) tA = tA
   have hq : qA 0 * qA 0 = qWord [0, 0] := by
     rw [qWord_cons, qWord_cons, qWord_nil]
-    simp [mul_assoc]
+    simp
   rw [hq]
   change qWord [0, 0] (jcA 1) = jcA 1
   rw [qWord_jcA (by decide), fix_a2 1 rfl]
@@ -1074,7 +1072,7 @@ private theorem U_comm (hD) : IsMulCommutative (U hD) := by
 
 private theorem U_abelian (hD) {a b : ↥⁅Qj, Qj⁆} (ha : a ∈ U hD) (hb : b ∈ U hD) :
     a * b = b * a := by
-  haveI := U_comm hD
+  have := U_comm hD
   exact setLike_mul_comm ha hb
 
 
@@ -1217,7 +1215,7 @@ private theorem bG_norm_gen (hD) (i : Fin 4) :
   rw [hword]
   exact qWord_mem_V_of_action hD (by
     intro k hk
-    simp only [List.mem_append, List.mem_singleton, List.mem_cons, List.not_mem_nil,
+    simp only [List.mem_append, List.mem_cons, List.not_mem_nil,
       or_false] at hk
     rcases hk with (rfl | hk) | (rfl | rfl)
     · norm_num
@@ -1242,7 +1240,7 @@ private theorem bGinv_norm_gen (hD) (i : Fin 4) :
   refine qWord_mem_V_of_action hD ?_ (uConj_lt4 _ (uConjBinv_mem_all i))
     (u_conj_parts i.2).2.2.2.2.2
   intro k hk
-  simp only [List.mem_append, List.mem_singleton, List.mem_cons, List.not_mem_nil,
+  simp only [List.mem_append, List.mem_cons, List.not_mem_nil,
     or_false] at hk
   rcases hk with ((rfl | rfl) | hk) | rfl
   · norm_num
@@ -1459,7 +1457,7 @@ private theorem nG_mem_normalClosure (hD) (j : Fin 10) :
   exact (Subgroup.normalClosure_normal (s := (U hD : Set ↥⁅Qj, Qj⁆))).conj_mem
     (uG hD ⟨ncList[j.val]!.2, hdata.2⟩) (hle hu) (dG hD (ncList[j.val]!.1) hdata.1)
 
-private theorem evalN_mem_normalClosure (hD) (w : List Nat) (hw : ∀ l ∈ w, l < 10) :
+private theorem evalN_mem_normalClosure (hD) (w : List Nat) (_hw : ∀ l ∈ w, l < 10) :
     evalN hD w ∈ Subgroup.normalClosure (U hD : Set ↥⁅Qj, Qj⁆) := by
   refine Subgroup.list_prod_mem _ ?_
   intro x hx
@@ -1675,7 +1673,7 @@ private theorem perfect
 private theorem preprimitive (hD : ⁅Qj, Qj⁆ = Subgroup.closure {qWord g1w, qWord g2w})
     (hb : qA 1 ∈ ⁅Qj, Qj⁆) (ha : qA 0 * qA 0 ∈ ⁅Qj, Qj⁆) :
     MulAction.IsPreprimitive ↥⁅Qj, Qj⁆ ↥O1 := by
-  haveI := pretransitive_G hD
+  have := pretransitive_G hD
   refine MulAction.IsPreprimitive.of_isTrivialBlock_base (⟨tA, tA_mem_O1⟩ : ↥O1) ?_
   intro B hα hB
   by_cases hsub : B.Subsingleton
@@ -1733,9 +1731,9 @@ private theorem preprimitive (hD : ⁅Qj, Qj⁆ = Subgroup.closure {qWord g1w, q
 
 theorem isSimpleGroup_commutator_Qj (hD : ⁅Qj, Qj⁆ = Subgroup.closure {qWord g1w, qWord g2w})
     (hb : qA 1 ∈ ⁅Qj, Qj⁆) (ha : qA 0 * qA 0 ∈ ⁅Qj, Qj⁆) : IsSimpleGroup ↥⁅Qj, Qj⁆ := by
-  haveI : Nontrivial ↥⁅Qj, Qj⁆ := nontrivial_G hD
-  haveI : FaithfulSMul ↥⁅Qj, Qj⁆ ↥O1 := faithful_G
-  haveI : MulAction.IsPreprimitive ↥⁅Qj, Qj⁆ ↥O1 := preprimitive hD hb ha
+  have : Nontrivial ↥⁅Qj, Qj⁆ := nontrivial_G hD
+  have : FaithfulSMul ↥⁅Qj, Qj⁆ ↥O1 := faithful_G
+  have : MulAction.IsPreprimitive ↥⁅Qj, Qj⁆ ↥O1 := preprimitive hD hb ha
   exact CFSG.GroupActions.isSimpleGroup_of_iwasawa (perfect hD)
     (⟨tA, tA_mem_O1⟩ : ↥O1) (A := U hD)
     (fun h hh u hu => stabilizer_normalizes_U hD hh u hu)

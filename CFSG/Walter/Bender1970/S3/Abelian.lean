@@ -95,7 +95,7 @@ theorem exists_elementary_of_not_isCyclic {G : Type*} [Group G] [Finite G] {U : 
   have hPcomm : IsMulCommutative (P : Subgroup U) :=
     ⟨⟨fun a b => Subtype.ext (hU.is_comm.comm (a : U) (b : U))⟩⟩
   let _ : CommGroup (P : Subgroup U) := IsMulCommutative.instCommGroup
-  refine isCyclic_of_card_ker_powMonoidHom_le (p := r) _ (P : Subgroup U) rfl P.isPGroup' ?_
+  refine isCyclic_of_card_ker_powMonoidHom_le (p := r) _ (P : Subgroup U) rfl P.isPGroup ?_
   set K := (powMonoidHom r : (P : Subgroup U) →* (P : Subgroup U)).ker
   set E : Subgroup G := (K.map (P : Subgroup U).subtype).map U.subtype
   have hEcard : Nat.card E = Nat.card K := by
@@ -114,7 +114,7 @@ theorem exists_elementary_of_not_isCyclic {G : Type*} [Group G] [Finite G] {U : 
     have h' := congrArg (fun z : (P : Subgroup U) => ((z : U) : G)) h
     simpa using h'
   have hlt := hcon r hr E hEU hEcomm hEexp
-  obtain ⟨k, hk⟩ := (P.isPGroup'.to_subgroup K).exists_card_eq
+  obtain ⟨k, hk⟩ := (P.isPGroup.to_subgroup K).exists_card_eq
   rw [hEcard, hk] at hlt
   have hk1 : k ≤ 1 := by
     by_contra h

@@ -22,6 +22,7 @@ theorem fstar_quot_quasisimple (hQ : TightFStarQuasisimple Y)
   rw [TA3.genFittingFStar_quotient_fstarCenter Y hQ hNc]
   exact ⟨TA3.isSimpleGroup_fstarBar Y hQ, TA3.exists_ne_comm_fstarBar Y hQ⟩
 
+omit [Finite Y] in
 theorem center_map_le_fitting {L : Subgroup Y} (hLn : L.Normal) :
     (Subgroup.center ↥L).map L.subtype ≤ genFittingFitting Y := by
   set Z : Subgroup Y := (Subgroup.center ↥L).map L.subtype with hZ
@@ -53,6 +54,7 @@ theorem center_map_le_fitting {L : Subgroup Y} (hLn : L.Normal) :
     exact hZcomm w z
   exact le_sSup ⟨hZn, hZnil⟩
 
+omit [Finite Y] in
 theorem subgroupOf_fitting_eq_center {L : Subgroup Y} (hLn : L.Normal)
     (hFc : genFittingFitting Y ≤ Subgroup.center Y) :
     (genFittingFitting Y).subgroupOf L = Subgroup.center ↥L := by
@@ -167,8 +169,8 @@ theorem fstar_quot_twisted {L : Subgroup Y} (hLc : CFSG.IsComponent L) (hLn : L.
       exact Subgroup.mem_subgroupOf.mp h2
     rw [Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact (genFittingFitting Y).mul_mem hℓX hf
-  haveI := hLbn
-  haveI := hLbs
+  have := hLbn
+  have := hLbs
   rw [genFittingFStar_eq_of_normal_simple _ hnab hC]
   exact ⟨hLbs, hnab⟩
 

@@ -91,7 +91,7 @@ private theorem eleven_cycle_centralizer_card_le
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcases : q = 5 ∨ q = 7)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -138,7 +138,7 @@ private theorem eleven_cycle_centralizer_card_le
     himpossible (q := 5) (by norm_num) (Or.inl rfl)
   have hnotSeven : ¬7 ∣ Nat.card C :=
     himpossible (q := 7) (by norm_num) (Or.inr rfl)
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let S : Sylow 3 C := Sylow.nonempty.some
   have hScardLe : Nat.card S ≤ 9 := by
     let F := MulAction.fixedBy X u
@@ -405,7 +405,7 @@ theorem eleven_not_dvd_card_of_not_alternating
     ¬11 ∣ Nat.card P := by
   classical
   intro h11
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 11 h11
   let C : Subgroup P :=
@@ -414,13 +414,13 @@ theorem eleven_not_dvd_card_of_not_alternating
     eleven_cycle_centralizer_card_le
       X P hcard h5 hnotAlt u huorder
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
   have hAcard :
       Fintype.card A * Nat.card C = Nat.card P := by
-    letI :
+    let :
         Fintype (MulAction.stabilizer (ConjAct P) u) :=
       Fintype.ofFinite _
     have hstabilizer :
@@ -476,12 +476,12 @@ theorem eleven_not_dvd_card_of_not_alternating
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
-  letI : Nonempty (Fin 5 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : Nonempty (Fin 5 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
       norm_num)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 5 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

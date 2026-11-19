@@ -92,10 +92,10 @@ theorem no_X0_of_conclusion {X : Type} [Group X] [Finite X]
       have h := C.index_mul_card
       rw [hCcard, h960] at h
       omega
-    haveI : C.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : C.Normal := Subgroup.normal_of_index_eq_two hidx
     have hcard : Nat.card (X ⧸ C) = 2 := by
       rw [← Subgroup.index_eq_card, hidx]
-    haveI : IsCyclic (X ⧸ C) := isCyclic_of_prime_card (p := 2) hcard
+    have : IsCyclic (X ⧸ C) := isCyclic_of_prime_card (p := 2) hcard
     have hcomm : IsMulCommutative (X ⧸ C) := inferInstance
     have hle : _root_.commutator X ≤ C :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hcomm

@@ -176,7 +176,7 @@ theorem mem_ggTorus_of_commute_twShortRoot (hirr : ∀ s : F, s ^ 2 + b * s + c 
     rwa [hy, quadMinus_combo, quadMinus_fVec] at h
   have hPxy : a * c'' + a' * c' = 1 := by
     have h := polar_spinAction (quadMinus n F b c) t (eVec n k) (fVec n k)
-    rwa [hx, hy, polar_combo, polar_eVec_fVec, if_pos rfl] at h
+    rwa [hx, hy, polar_combo, polar_eVec_fVec, ite_eq_left rfl] at h
   have hext : ∀ g g' : spinGroup (quadMinus n F b c),
       (∀ l, spinAction (quadMinus n F b c) g (eVec n l) =
         spinAction (quadMinus n F b c) g' (eVec n l)) →
@@ -443,7 +443,6 @@ theorem shortReflB3_commute (k l : Fin 3) :
   fin_cases k <;> fin_cases l <;>
     simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk] <;>
     first
-    | rfl
     | (rw [h2, h1]; exact c21.eq)
     | (rw [h2, h1]; exact c21.eq.symm)
     | (rw [h1]; exact c10.eq)

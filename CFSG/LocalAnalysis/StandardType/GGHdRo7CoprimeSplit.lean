@@ -19,7 +19,7 @@ section CoprimeSplitAux
 
 private lemma hdRo7CopSplitAux_mem_centralizer_of_conj_action {G : Type} [Group G]
     {X : Subgroup G} {b x : G}
-    (hxX : x ∈ X) (h : ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
+    (_hxX : x ∈ X) (h : ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
     x⁻¹ * b ∈ Subgroup.centralizer (X : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
@@ -182,7 +182,7 @@ end CoprimeSplitAux
 theorem ggBstar_split_of_inner_coprime {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : Subgroup G}
     (hcop : Nat.Coprime p (Nat.card (Subgroup.center X)))
-    (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
+    (_hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
     ∀ b ∈ Bs, ∃ x ∈ Bs ⊓ X, ∃ c ∈ Bs ⊓ Subgroup.centralizer (X : Set G), b = x * c := by
   intro b hb
@@ -354,7 +354,7 @@ theorem bstar_inf_le_conj_preimage_centralizes {G : Type} [Group G] {p : ℕ}
     (Bs ⊓ J : Subgroup G) ≤ P.map J.subtype ∧
       ∀ q ∈ P, ∀ e ∈ (Bs ⊓ J : Subgroup G), (q : G) * e * (q : G)⁻¹ = e := by
   intro P
-  letI : IsMulCommutative ↥Bs := hBs.2.1.1
+  let : IsMulCommutative ↥Bs := hBs.2.1.1
   have hconj : ∀ (e : G) (heBs : e ∈ Bs) (heJ : e ∈ J),
       MulAut.conj (⟨e, heJ⟩ : ↥J) = ggGamma J hBN ⟨e, heBs⟩ := by
     intro e heBs heJ

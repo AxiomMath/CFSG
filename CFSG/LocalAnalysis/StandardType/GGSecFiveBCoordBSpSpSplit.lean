@@ -226,7 +226,7 @@ private theorem spSplit_rotate {s : ℕ} (β : Fin (s + 3) ≃ Fin (s + 3)) :
       congr 1
       rw [Equiv.symm_apply_eq]
       ext
-      rw [coe_finRotate, if_neg (Fin.castSucc_lt_last m).ne, Fin.val_succ, Fin.coe_castSucc]
+      rw [coe_finRotate, ite_eq_right (Fin.castSucc_lt_last m).ne, Fin.val_succ, Fin.val_castSucc]
 
 theorem ggSecFiveBCoordBSpSp_charts_of_frames {p s f : ℕ} (hs : 2 ≤ s) {Bs L K : Subgroup G}
     {eta : ↥Bs ≃* (Fin (s + 3) → Multiplicative (ZMod p))} {i0 j : Fin (s + 3)} (hij : j ≠ i0)
@@ -322,10 +322,10 @@ theorem ggSecFiveBCoordBSpSp_charts_of_frames {p s f : ℕ} (hs : 2 ≤ s) {Bs L
       (κ₁.comp (shortBlock (GaloisField 2 f)
         (Fin.castSucc_lt_succ (i := (0 : Fin (s + 1)))).ne)).range := by
     rw [← hS₁, ggReflComm_map_conj hgconj hwcoord,
-      hfix _ (by simp only [Fin.coe_castSucc, Fin.val_zero]; omega)
-        (by simp only [Fin.coe_castSucc, Fin.val_zero]; omega),
-      hfix _ (by simp only [Fin.coe_castSucc, Fin.val_succ, Fin.val_zero]; omega)
-        (by simp only [Fin.coe_castSucc, Fin.val_succ, Fin.val_zero]; omega)]
+      hfix _ (by simp only [Fin.val_castSucc, Fin.val_zero]; omega)
+        (by simp only [Fin.val_castSucc, Fin.val_zero]; omega),
+      hfix _ (by simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_zero]; omega)
+        (by simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_zero]; omega)]
   refine ⟨κ₁, κ₂, hF₁.1, hF₁.2.1, hF₂.1, hF₂.2.1, fun k => ?_, ?_, ?_, ?_⟩
   · rw [← hS₁, ← hS₂]
     all_goals congr 4
@@ -339,14 +339,14 @@ theorem ggSecFiveBCoordBSpSp_charts_of_frames {p s f : ℕ} (hs : 2 ≤ s) {Bs L
           (Fin.castSucc_lt_succ (i := Fin.last s)).ne)).range.map (MulAut.conj g).toMonoidHom =
         (κ₁.comp (shortBlock (GaloisField 2 f) h2)).range := by
       rw [← hS₂, ← hS₁, ggReflComm_map_conj hgconj hwcoord,
-        hfix _ (by simp only [Fin.val_succ, Fin.coe_castSucc, Fin.val_last]; omega)
-          (by simp only [Fin.val_succ, Fin.coe_castSucc, Fin.val_last]; omega),
+        hfix _ (by simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last]; omega)
+          (by simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last]; omega),
         show β (Fin.last s).succ.succ = β (Fin.last (s + 2)) from rfl, hi0,
         show c = β (⟨2, by omega⟩ : Fin (s + 2)).castSucc from rfl]
       all_goals congr 4
     refine spSplit_commute_of_map hAfix hB (spSplit_commute_range κ₁ fun A B => ?_)
     refine commute_shortBlock_shortBlock _ _ ?_ ?_ ?_ ?_ A B <;>
-      simp only [ne_eq, Fin.ext_iff, Fin.val_last, Fin.coe_castSucc, Fin.val_succ,
+      simp only [ne_eq, Fin.ext_iff, Fin.val_last, Fin.val_castSucc, Fin.val_succ,
         Fin.val_zero] <;>
       omega
   ·
@@ -358,7 +358,7 @@ theorem ggSecFiveBCoordBSpSp_charts_of_frames {p s f : ℕ} (hs : 2 ≤ s) {Bs L
         show c = β (⟨2, by omega⟩ : Fin (s + 2)).castSucc from rfl]
     refine spSplit_commute_of_map hAfix hB (spSplit_commute_range κ₁ fun A B => ?_)
     refine commute_shortBlock_longBlock _ ?_ ?_ A B <;>
-      simp only [ne_eq, Fin.ext_iff, Fin.coe_castSucc, Fin.val_succ, Fin.val_zero] <;>
+      simp only [ne_eq, Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Fin.val_zero] <;>
       omega
 end CFSG.StandardType
 

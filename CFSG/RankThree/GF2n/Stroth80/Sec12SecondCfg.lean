@@ -17,7 +17,7 @@ variable {G : Type} [Group G] {M Q : Subgroup G}
 
 theorem quotSat_bar_of {P : ∀ (X : Type) [Group X], Prop}
     (hP : ∀ (X Y : Type) [Group X] [Group Y], X ≃* Y → P X → P Y) {S N : Subgroup G}
-    (hQN : Q ≤ N) (hNS : N ≤ S) (hSM : S ≤ M) (h : QuotSat S N P) :
+    (hQN : Q ≤ N) (_hNS : N ≤ S) (hSM : S ≤ M) (h : QuotSat S N P) :
     QuotSat (bar M Q S) (bar M Q N) P := by
   obtain ⟨hn, hP'⟩ := h
   let f0 : ↥S →* Mbar M Q :=
@@ -71,10 +71,11 @@ section SpNat
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem SpMNat.quotSat {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : SpMNat hc t m) :
     QuotSat (Rt M (LB M Q B) t) (hc.CN t) (IsSpModel m (Nat.card Z)) := by
   obtain ⟨K, fK, finK, hK, φ, hrange, hker, -⟩ := h
-  haveI hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
+  have hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     rw [← hker]
     exact φ.normal_ker
   refine ⟨hn, K, fK, finK, hK, ⟨?_⟩⟩
@@ -126,11 +127,13 @@ section SubCfg
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem ConfigSatz.of_subConfigSatz {N : Subgroup G} (h : SubConfigSatz M Q Z N) :
     ∃ hN : (Q.subgroupOf (H0 M Z)).Normal, haveI := hN; ConfigSatz (bar (H0 M Z) Q N) := by
   obtain ⟨⟨hN, hS⟩, hN', hall⟩ := h
   exact ⟨hN, hS, hall⟩
 
+omit [Finite G] in
 theorem bar_centre_le_cen (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) (hZN : Z0 ≤ hc.CN t)
     [(Q.subgroupOf (H0 M Z)).Normal] :
@@ -217,7 +220,7 @@ theorem Ctx.false_of_secondCfg (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
       E (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)) (bar (H0 M Z) Q (hc.CN t)))
     (hsub : SubConfigSatz M Q Z (hc.CN t)) (hS : SecondCfgFalseE E P k) : False := by
   obtain ⟨⟨hN', H₂⟩, hN'', hall⟩ := hsub
-  haveI := hN'
+  have := hN'
   have hQH : Q ≤ H0 M Z := hc.Q_le_H0'
   have hQN : Q ≤ hc.CN t := sec8_Q_le_CN hc ht
   have hCNR : hc.CN t ≤ Rt M (LB M Q B) t := fun x hx => (Ctx.mem_CN.mp hx).1
@@ -292,6 +295,7 @@ section Omega
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem IsCentrePre.unique {Z0 Z1 R : Subgroup G} (h0 : IsCentrePre Z0 R Q)
     (h1 : IsCentrePre Z1 R Q) : Z1 = Z0 :=
   Subgroup.ext fun x => (h1 x).trans (h0 x).symm

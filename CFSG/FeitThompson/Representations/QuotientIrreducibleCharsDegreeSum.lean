@@ -145,6 +145,7 @@ theorem sum_comp_mk [Fintype G] [Fintype (G ⧸ N)] (F : G ⧸ N → ℂ) :
     exact Nat.card_congr (Equiv.refl _)
   simp [h2]
 
+omit [N.Normal] in
 theorem cfInner_comp_mk [Fintype G] [Fintype (G ⧸ N)] (f h : G ⧸ N → ℂ) :
     cfInner (f ∘ (QuotientGroup.mk : G → G ⧸ N)) (h ∘ (QuotientGroup.mk : G → G ⧸ N))
       = cfInner f h := by

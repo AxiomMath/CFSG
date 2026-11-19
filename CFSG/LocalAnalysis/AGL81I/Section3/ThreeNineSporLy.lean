@@ -694,10 +694,10 @@ private theorem ly_g2_case {L : Type} [Group L] [Finite L] {Y J : Subgroup L}
       ChevalleyExceptionalModel (oPrimeModPrimeComplement 31 Y) .G2 5 1 := by
   have hYeq : Y = J := le_antisymm hYJ hJY
   subst Y
-  haveI : IsSimpleGroup ↥J := hJs
+  have : IsSimpleGroup ↥J := hJs
   have hO : CFSG.RankThreeEvenClassification.Helpers.primeComplementCore ↥J 31 = ⊥ :=
     primeComplementCore_eq_bot_of_isSimpleGroup (by norm_num) h31
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥J) :=
+  have : IsSimpleGroup ↥(⊤ : Subgroup ↥J) :=
     MulEquiv.isSimpleGroup Subgroup.topEquiv
   obtain ⟨e1⟩ := SporCent.nonempty_oPrimeModPrimeComplement_mulEquiv (d := 31)
     (by norm_num) (Y := J) (⊤ : Subgroup ↥J)
@@ -792,7 +792,7 @@ private theorem ly_J_card_of_sieve {L : Type} [Group L] [Finite L] (e : L ≃* C
     (hJna : ∃ a b : ↥J, a * b ≠ b * a) (hcat : Catalog ↥J)
     (hord : Nat.card ↥J ∣ 51765179004000000) :
     Nat.card ↥J = 5859000000 ∧ CFSG.Blueprint.LieModel ↥J .G2 0 5 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨h.prime⟩
   rcases ly_sieve hcat hJna hord with ⟨h5J, -⟩ | ⟨hinn, h55⟩
   · exact (false_of_not_dvd_of_gLAPPrimeCoreOf_eq_bot Nat.prime_five hO5 hJY hJn h5J hJna).elim
   · obtain ⟨F, hFcard, hFexp⟩ := exists_exponent_five_Ly e
@@ -823,11 +823,11 @@ private theorem ly_J_card_of_sieve {L : Type} [Group L] [Finite L] (e : L ≃* C
 
 private theorem ly_false_of_d_eq_seven {L : Type} [Group L] [Finite L]
     (e : L ≃* Carrier .Ly) {Y J : Subgroup L} (h : SporOvergroupData L 5 7 Y)
-    (hJY : J ≤ Y) (hYJ : Y ≤ J) (hJmodel : CFSG.Blueprint.LieModel ↥J .G2 0 5 1) :
+    (_hJY : J ≤ Y) (hYJ : Y ≤ J) (hJmodel : CFSG.Blueprint.LieModel ↥J .G2 0 5 1) :
     False := by
   obtain ⟨D, hDsyl, hDne, hDnorm⟩ := h.sylowD
   have hDp : IsPGroup 7 D := hDsyl.isPGroup
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hDleY : D ≤ Y := Subgroup.le_normalizer.trans (hDnorm D le_rfl hDne)
   have h7dvd : 7 ∣ Nat.card ↥D := by
     rcases hDp.card_eq_or_dvd with h1 | h
@@ -879,7 +879,7 @@ theorem ly_gTwo_of_data_of_op_eq_bot {L : Type} [Group L] [Finite L] (e : L ≃*
   have hO5 : CFSG.Open.GLAPPrimeCoreOf 5 Y = ⊥ := gLAPPrimeCoreOf_eq_bot_of_data h hO
   obtain ⟨J, hJY, hJn, hJs, hJna, hJC⟩ :=
     exists_simple_normal_of_data h (by norm_num) hO5 hOp (card_center_sylow_Ly e)
-  haveI : IsSimpleGroup ↥J := hJs
+  have : IsSimpleGroup ↥J := hJs
   have hcat : Catalog ↥J :=
     CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective h.kgroup J (MonoidHom.id ↥J)
       Function.surjective_id

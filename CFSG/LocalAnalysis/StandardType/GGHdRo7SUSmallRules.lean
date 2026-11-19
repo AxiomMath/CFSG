@@ -188,11 +188,8 @@ private lemma hdRo7SmRulesAux_conj {m : ℕ} {H : Subgroup (SMGL m)} :
     rw [hinv]
     rw [show (r * t * r) x =
         x - (smDual (z - smDot z u • w) x) • (v - smDot w v • u) by
-      simp only [LinearEquiv.mul_apply, hr.2, ht.2, map_sub, map_smul, hr.1, ht.1,
-        hdRo7SmRulesAux_smDual_sub, hdRo7SmRulesAux_smDual_smul,
-        hdRo7SmRulesAux_smDual_apply, hdRo7SmRulesAux_smDot_sub_left,
-        hdRo7SmRulesAux_smDot_smul_left, hdRo7SmRulesAux_smDot_sub_right,
-        hdRo7SmRulesAux_smDot_smul_right, LinearMap.sub_apply, LinearMap.smul_apply,
+      simp only [LinearEquiv.mul_apply, hr.2, ht.2, map_sub, map_smul, hr.1, hdRo7SmRulesAux_smDual_sub, hdRo7SmRulesAux_smDual_smul,
+        hdRo7SmRulesAux_smDual_apply, LinearMap.sub_apply, LinearMap.smul_apply,
         smul_eq_mul]
       module]
 
@@ -224,8 +221,7 @@ private lemma hdRo7SmRulesAux_swap_mem {m : ℕ} {H : Subgroup (SMGL m)}
     · by_cases hkj : k = j
       · subst hkj
         rw [Equiv.swap_apply_right]
-        simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
-          Pi.single_eq_of_ne hij.symm, smul_eq_mul]
+        simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij.symm, smul_eq_mul]
         ring
       · rw [Equiv.swap_apply_of_ne_of_ne hki hkj]
         simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hki,
@@ -266,8 +262,8 @@ private lemma hdRo7SmRulesAux_transvection_of_same_functional {m : ℕ} {r t : S
     exact hdRo7SmRulesAux_two_ne_zero h1
   · rw [map_sub, hr.1, ht.1, sub_self]
   · intro x
-    simp only [LinearEquiv.mul_apply, hr.2, ht.2, map_sub, map_smul, hr.1, ht.1,
-      LinearMap.sub_apply, smul_eq_mul]
+    simp only [LinearEquiv.mul_apply, hr.2, ht.2, map_sub, map_smul, ht.1,
+      smul_eq_mul]
     module
 
 private lemma hdRo7SmRulesAux_same_root {m : ℕ} {H : Subgroup (SMGL m)}

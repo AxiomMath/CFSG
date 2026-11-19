@@ -37,7 +37,7 @@ private lemma rootChar_thetaConjTuple_1121 {K : Type} [Field K] (σ : K →+* K)
         Units.map σ.toMonoidHom (Units.map σ.toMonoidHom a))⁻¹ * B ^ 2 from rfl,
     show thetaConjTuple σ a B 3 =
       (Units.map σ.toMonoidHom (Units.map σ.toMonoidHom a)) ^ 2 * B⁻¹ from rfl]
-  simp only [zpow_one, zpow_ofNat]
+  simp only [zpow_ofNat]
   refine Units.ext ?_
   simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val]
   field_simp
@@ -54,7 +54,7 @@ private lemma rootChar_thetaConjTuple_1111 {K : Type} [Field K] (σ : K →+* K)
         Units.map σ.toMonoidHom (Units.map σ.toMonoidHom a))⁻¹ * B ^ 2 from rfl,
     show thetaConjTuple σ a B 3 =
       (Units.map σ.toMonoidHom (Units.map σ.toMonoidHom a)) ^ 2 * B⁻¹ from rfl]
-  simp only [zpow_one, zpow_ofNat]
+  simp only [zpow_ofNat]
   refine Units.ext ?_
   simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val]
   field_simp
@@ -116,7 +116,7 @@ theorem triD4LineTheta_conj
         (triD4LineMk k K g (Units.map (algebraMap k K).toMonoidHom c * a) hdet)⁻¹ =
       triD4LineSL3 k K s' := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   let B : Kˣ := Units.map (algebraMap k K).toMonoidHom c
   let bL : Fin Tag.D4.rank → Lˣ :=
     fun i => Units.map (algebraMap K L) (thetaConjTuple σ a B i)
@@ -180,7 +180,7 @@ theorem triD4LineTheta_conj
     congr 1
     funext i
     fin_cases i
-    · simpa [hχ1]
+    · simp [hχ1]
     · simpa using hχ2
     · simp
   have hAinvA : Ainv * A = 1 := by

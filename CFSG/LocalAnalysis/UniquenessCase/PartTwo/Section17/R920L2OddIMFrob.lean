@@ -62,21 +62,22 @@ private theorem card_map_quotient_of_inf_eq_bot {Q : Type} [Group Q] (N : Subgro
   rw [hker, hrange, Subgroup.card_bot, one_mul] at hcard
   exact hcard
 
+omit [Finite G] in
 private theorem exists_surjective_quotient_bar2 {L : Subgroup G} {n : ℕ}
     (hL2 : IsL2 (Bar2 L) n) (N : Subgroup ↥L) [N.Normal] (hN3 : ¬ 3 ∣ Nat.card N) :
     ∃ π : (↥L ⧸ N) →* Bar2 L, Function.Surjective π := by
   classical
   let P : Subgroup ↥L := CFSG.pCore 2 ↥L
-  haveI : P.Normal := CFSG.pCore_normal (p := 2) (G := ↥L)
+  have : P.Normal := CFSG.pCore_normal (p := 2) (G := ↥L)
   have hScm : CFSG.Open.StatedClassicalModel (Bar2 L) .PSL 2 2 n :=
     (CFSG.Blueprint.LieModel.classical_iff (t := .PSL) (by decide)).mp hL2
   have hSthree : 3 ∣ Nat.card (Bar2 L) :=
     CFSG.Open.StatedAPI.three_dvd_card_of_statedClassicalModel_psl_two_two hScm
-  haveI hSsimple : IsSimpleGroup (Bar2 L) :=
+  have hSsimple : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hNbarBot : N ≤ P := by
     let Nbar : Subgroup (Bar2 L) := N.map (QuotientGroup.mk' P)
-    haveI : Nbar.Normal :=
+    have : Nbar.Normal :=
       Subgroup.Normal.map (inferInstance : N.Normal) (QuotientGroup.mk' P)
         (QuotientGroup.mk'_surjective P)
     have hNbarThree : ¬ 3 ∣ Nat.card Nbar := fun h3 =>
@@ -154,7 +155,7 @@ private theorem false_of_isExt_q8d8_a5 {X : Type} [Group X] [Finite X] {s : ℕ}
       (fun V _ => CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8 (⊤ : Subgroup V))
       (fun Y _ => CFSG.Quasithin.IsAlt 5 Y)) : False := by
   obtain ⟨V, hVnormal, hQ8, hA5⟩ := hExt
-  haveI : V.Normal := hVnormal
+  have : V.Normal := hVnormal
   have hVcard : Nat.card ↥V = 32 := by
     have h := (CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8.facts hQ8).1
     simpa using h
@@ -193,7 +194,7 @@ private theorem false_of_isL2_K42 {Q : Type} [Group Q] [Finite Q] {m s r : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod r) V] [Finite V] [Nontrivial V]
     (ρ : Representation (ZMod r) Q V) (hρ : Function.Injective ρ)
     (D : Subgroup Q) (hD : Nat.card D = s) (hfixD : fixV ρ D = ⊥) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hs2 : s ≠ 2 := by omega
   have hsr : s ≠ r := by
     intro h
@@ -271,7 +272,7 @@ private theorem false_of_isL2_odd_quotient {X S : Type} [Group X] [Finite X] [Gr
     {V : Type} [AddCommGroup V] [Module (ZMod r) V] [Finite V] [Nontrivial V]
     (ρ : Representation (ZMod r) X V) (hρ : Function.Injective ρ)
     (D : Subgroup X) (hD : Nat.card D = s) (hfixD : fixV ρ D = ⊥) : False := by
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmL2
   have hker := IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker
   rcases hker with hbot | htop
@@ -310,10 +311,10 @@ theorem false_of_odd_chief_factor_L2 (hK462 : UCK.K462) {L Z A U W : Subgroup G}
     (hAL : A ≤ L) (hs : s.Prime) (hAs : Nat.card A = s) (hs7 : 7 ≤ s) (hsd : s ∣ 2 ^ n - 1)
     (hfixA : ∀ u ∈ U, (∀ a ∈ A, a * u * a⁻¹ * u⁻¹ ∈ W) → u ∈ W) : False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, _, _, _, _, ρ, hirr, hfixV⟩ := exists_rep_of_chief_factor hUW
   have hperf : commutator ↥L = ⊤ := by
-    haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
+    have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
     exact Group.IsPerfect.commutator_eq_top
   have hD3 : Nat.card (Z.subgroupOf L) = 3 := by
     rw [← hZ3]
@@ -328,12 +329,12 @@ theorem false_of_odd_chief_factor_L2 (hK462 : UCK.K462) {L Z A U W : Subgroup G}
   obtain ⟨π, hπ⟩ := exists_surjective_quotient_bar2 hL2 ρ.ker hN3
   obtain ⟨Ā, hĀcard, hfixĀ, hs_dvd⟩ :=
     chief_quotient_facts hAL hs hAs hfixA ρ hfixV
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   rcases hcases with hSL2 | hL2odd | hExt
   · obtain ⟨F, hFfield, hFfinite, hFodd, ⟨eF⟩⟩ := hSL2
-    letI : Field F := hFfield
-    letI : Finite F := hFfinite
+    let : Field F := hFfield
+    let : Finite F := hFfinite
     have hSecBar : Sec8 (Bar2 L) :=
       Sec8.of_surjective π hπ (sec8_of_sl2_odd hFodd eF)
     exact false_of_sec8_of_isL2 hn4 hL2 hSecBar

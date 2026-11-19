@@ -27,7 +27,7 @@ private theorem map_normalWord {P Q : Type*} [Group P] [Group Q] (φ : P →* Q)
     φ (normalWord a b c z i) = normalWord (φ a) (φ b) (φ c) (φ z) i := by
   obtain ⟨e, j, k⟩ := i
   fin_cases e <;> fin_cases j <;> fin_cases k <;>
-    simp [normalWord, parabolicWord, cosetWord, map_mul, map_pow]
+    simp [normalWord, parabolicWord, cosetWord, map_mul]
 
 private theorem normalWord_mem_closure {P : Type*} [Group P] (a b c z : P)
     (i : Fin 2 × Fin 6 × Fin 4) :
@@ -48,7 +48,7 @@ private theorem normalWord_mem_closure {P : Type*} [Group P] (a b c z : P)
 
 theorem m11_card_centralizer_z_le :
     Nat.card ↥(Subgroup.centralizer ({m11zG} : Set ↥CFSG.Open.M11)) ≤ 48 := by
-  haveI : MulAction.IsPretransitive ↥CFSG.Open.M11 (Set.powersetCard (Fin 11) 3) :=
+  have : MulAction.IsPretransitive ↥CFSG.Open.M11 (Set.powersetCard (Fin 11) 3) :=
     Set.powersetCard.isPretransitive_of_isMultiplyPretransitive ↥CFSG.Open.M11
       m11_isMultiplyPretransitive_three
   have hmap : ∀ (g : ↥CFSG.Open.M11),

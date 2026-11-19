@@ -80,9 +80,9 @@ private theorem largeEvenRawDatum_legacy_of_canonical {lab : LargeEvenLabel} {Q 
     | (dsimp only [LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4] at h ⊢
        obtain ⟨K, hf, hfin, hK, hQ⟩ := h
        by_cases ha : (n - 1) / 2 = 0
-       · rw [if_pos ha] at hQ
+       · rw [ite_eq_left ha] at hQ
          exact ⟨K, hf, hfin, hK, hTwF4 ha hK hQ⟩
-       · rw [if_neg ha] at hQ
+       · rw [ite_eq_right ha] at hQ
          exact ⟨K, hf, hfin, hK, hQ⟩)
 
 private theorem largeEvenMarkingLegacy_of_canonical_clause1
@@ -127,7 +127,7 @@ private theorem largeEvenMarkingLegacy_of_canonical_clause1
     exact conj_mem_chevIDImage _ r
 
 private theorem largeEvenMarkingLegacy_of_canonical_clause3
-    {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {x : G} {J : Subgroup G}
     (h : CFSG.Assembly.LargeEvenMarking J (fun lab _ _ I F θ =>
       LargeEvenHalfSplit p lab (Subgroup.center J = ⊥) ∨

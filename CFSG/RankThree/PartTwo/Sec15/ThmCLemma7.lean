@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem thmc_top_le_oPrimeResidual {Y : Subgroup G} (hY3 : Y = oPrimeResidualOf 3 Y) :
     (⊤ : Subgroup ↥Y) ≤ CFSG.GH74.GLS.oPrimeResidual 3 ↥Y := by
   intro x _
@@ -35,11 +36,12 @@ private theorem thmc_top_le_oPrimeResidual {Y : Subgroup G} (hY3 : Y = oPrimeRes
 
 private theorem thmc_coprime_three_card_pCore (Y : Subgroup G) :
     Nat.Coprime 3 (Nat.card (CFSG.pCore 2 ↥Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥Y))
   rw [hn]
   exact Nat.Coprime.pow_right n (by norm_num)
 
+omit [Finite G] in
 private theorem thmc_commutator_Y_zpowers_le {Y V : Subgroup G} {x : G} (hVY : V ≤ Y)
     (hYV : Y ≤ Subgroup.normalizer (V : Set G)) (hV2 : IsPGroup 2 V)
     (hY3 : Y = oPrimeResidualOf 3 Y) (hxV : x ∈ Subgroup.normalizer (V : Set G))
@@ -70,7 +72,7 @@ private theorem thmc_commutator_Y_zpowers_le {Y V : Subgroup G} {x : G} (hVY : V
 theorem lemma7_perfect {A : Subgroup G} {Y : Subgroup G} (hY : Y ∈ scriptY0 A (lB A)) :
     Group.IsPerfect ↥Y := by
   obtain ⟨⟨-, hY3, -, hQ⟩, -⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQperf : Group.IsPerfect (↥Y ⧸ CFSG.pCore 2 ↥Y) := hQ.1
   have hmapTop : Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) ⁅(⊤ : Subgroup ↥Y), ⊤⁆ = ⊤ := by
     rw [Subgroup.map_commutator,
@@ -109,8 +111,8 @@ theorem lemma7_center {A : Subgroup G} {Y : Subgroup G} (hY : Y ∈ scriptY0 A (
         CFSG.pPrimeCore 3 (↥Y ⧸ CFSG.pCore 2 ↥Y) ∧
       CFSG.pPrimeCore 3 (↥Y ⧸ CFSG.pCore 2 ↥Y) ≤ Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y) := by
   obtain ⟨⟨-, hY3, -, hQ⟩, -⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker : ¬ 3 ∣ Nat.card (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)).ker := by
     rw [QuotientGroup.ker_mk']
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (thmc_coprime_three_card_pCore Y)
@@ -167,7 +169,7 @@ theorem lemma7_center {A : Subgroup G} {Y : Subgroup G} (hY : Y ∈ scriptY0 A (
         intro q
         obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q
         exact (QuotientGroup.eq_one_iff y).mpr (hall (Subgroup.mem_top y))
-      haveI : Nontrivial (↥Y ⧸ CFSG.pCore 2 ↥Y) := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+      have : Nontrivial (↥Y ⧸ CFSG.pCore 2 ↥Y) := CFSG.LocalCores.isQuasisimple_nontrivial hQ
       obtain ⟨p1, p2, hp⟩ := exists_pair_ne (↥Y ⧸ CFSG.pCore 2 ↥Y)
       exact hp ((hQt p1).trans (hQt p2).symm)
     · exact h
@@ -181,7 +183,7 @@ theorem lemma7_centralizes {A : Subgroup G} {Y : Subgroup G} (hY : Y ∈ scriptY
   have hperf := lemma7_perfect hY
   obtain ⟨-, hmap, hcen⟩ := lemma7_center hY
   obtain ⟨⟨⟨-, hAY⟩, hY3, -, -⟩, -⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmemc : ∀ y : ↥Y, ⁅(y : G), a⁆ ∈ Y := by
     intro y
     have h1 : a * (y : G)⁻¹ * a⁻¹ ∈ Y :=

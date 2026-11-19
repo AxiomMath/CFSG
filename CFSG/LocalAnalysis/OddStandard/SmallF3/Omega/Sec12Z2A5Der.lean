@@ -25,7 +25,7 @@ theorem card_outer_U34_dvd_twelve {T : Type} [Group T] (h : LieModel T .PSU 3 2 
 theorem z2a5_derived_le {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y} (hS : FixedData Y S)
     (hT : LieModel ↥S .PSL 2 2 4 ∨ LieModel ↥S .PSU 3 2 2 ∨ LieModel ↥S .PSL 3 2 2) :
     derivedSeries Y 2 ≤ S := by
-  haveI := hS.normal
+  have := hS.normal
   have h12 : Nat.card (Outer ↥S) ∣ 12 := by
     rcases hT with h | h | h
     · exact card_outer_L216_dvd_twelve h

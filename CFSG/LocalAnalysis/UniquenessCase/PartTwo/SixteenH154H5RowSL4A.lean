@@ -18,7 +18,7 @@ theorem s16h_H5_natNorm_statedSL_two_four_elemAbelian
     (hD : IsElemAbelian q D) :
     Nat.card D ≤ q ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hΓ : HasScalarCommutant (CFSG.Assembly.LowTwoRank.StatedSL 2 K) :=
     hasScalarCommutant_statedSL (K := K) (by norm_num)
   have hAut : Nat.card (K ≃+* K) = 2 := by
@@ -67,7 +67,7 @@ theorem s16h_H5_natNorm_statedSL_two_four_elemAbelian
       rw [Matrix.card_GL_field, Fin.prod_univ_two, ← Nat.card_eq_fintype_card, hK]
       norm_num
     rwa [hlin] at h1
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpg : IsPGroup q D := by
     intro x
     refine ⟨1, ?_⟩

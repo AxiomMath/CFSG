@@ -242,7 +242,6 @@ theorem mem_F_cases {v : G} (hv : v ∈ c.F) : v = 1 ∨ v = c.u ∨ v = c.u₁ 
       simp only [f, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val, Subtype.ext_iff] at hij ⊢ <;>
       first
-      | rfl
       | exact absurd hij h1
       | exact absurd hij.symm h1
       | exact absurd hij h2

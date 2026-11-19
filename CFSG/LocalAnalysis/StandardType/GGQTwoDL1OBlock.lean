@@ -88,7 +88,7 @@ theorem qtwoDL1_tauAt_not_mem_omegaGroup [CharP F 2] [CharP K 2] [FiniteDimensio
   intro hmem
   rw [mem_omegaGroup] at hmem
   have hQ : Qn E n (Pi.single k 1) = 1 := Qn_single_one E k
-  haveI : Invertible (Qn E n (Pi.single k 1)) :=
+  have : Invertible (Qn E n (Pi.single k 1)) :=
     invertibleOfNonzero (by rw [hQ]; exact one_ne_zero)
   have hrefl : tauAt E k = TauCeti.QuadraticMap.reflection (Qn E n) (Pi.single k 1) := by
     rw [tauAt_eq_reflect E k, CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection]
@@ -99,9 +99,9 @@ theorem qtwoDL1_tauAt_not_mem_omegaGroup [CharP F 2] [CharP K 2] [FiniteDimensio
   obtain ⟨m, hm⟩ := hmem.2
   omega
 
-theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
+theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (_hK4 : Nat.card K = 4)
     (E : QuadExt F K (unitaryInvolution K 2 1)) {n : ℕ} {i j k : Fin n}
-    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
+    (_hij : i ≠ j) (_hjk : j ≠ k) (_hik : i ≠ k)
     {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1) (hζ3 : ζ ^ 3 = 1)
     {g : (Fin n → K) ≃ₗ[F] (Fin n → K)}
     (hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup (Qn E n))
@@ -205,7 +205,7 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
         smul_eq_mul, z, u]
       ring
     · rw [Pi.mulSingle_eq_of_ne hm]
-      simp [Pi.smul_apply, Pi.single_apply, hm, smul_eq_mul]
+      simp [Pi.smul_apply, hm, smul_eq_mul]
   have hcommD (l : Fin n) (hl : l ∉ J) :
       g * diagSingle F σ n l ζ = diagSingle F σ n l ζ * g := by
     have hl' : l ≠ i ∧ l ≠ j ∧ l ≠ k := by
@@ -213,17 +213,17 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
     let fz : Fin n → ZMod 3 := Pi.single l (1 : ZMod 3)
     have hcond1 : fz i = fz j := by
       simp only [fz, Pi.single_apply]
-      rw [if_neg (show i ≠ l from hl'.1.symm), if_neg (show j ≠ l from hl'.2.1.symm)]
+      rw [ite_eq_right (show i ≠ l from hl'.1.symm), ite_eq_right (show j ≠ l from hl'.2.1.symm)]
     have hcond2 : fz j = fz k := by
       simp only [fz, Pi.single_apply]
-      rw [if_neg (show j ≠ l from hl'.2.1.symm), if_neg (show k ≠ l from hl'.2.2.symm)]
+      rw [ite_eq_right (show j ≠ l from hl'.2.1.symm), ite_eq_right (show k ≠ l from hl'.2.2.symm)]
     have h := hgc fz hcond1 hcond2
     have hfun : (fun m => ζ ^ (fz m).val) = Pi.mulSingle l ζ := by
       funext m
       by_cases hm : m = l
       · subst hm; simp [fz, ZMod.val_one 3, pow_one]
       · rw [Pi.mulSingle_eq_of_ne hm]
-        simp [fz, Pi.single_apply, hm]
+        simp [fz, hm]
     rw [hfun] at h
     rw [diagSingle_apply]
     exact h
@@ -245,7 +245,7 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
       funext m
       by_cases hm : m = l
       · subst hm; simp
-      · simp [Pi.single_eq_of_ne (Ne.symm hm), hm]
+      · simp [hm]
     rw [h1, hKlin c (Pi.single l 1)]
     have hg1 : g (Pi.single l 1) = Pi.single l (μ l) := by
       simpa [μ] using hproj l hl (Pi.single l 1)
@@ -253,7 +253,7 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
     funext m
     by_cases hm : m = l
     · subst hm; simp [Pi.smul_apply, smul_eq_mul]
-    · simp [Pi.single_eq_of_ne hm, hm]
+    · simp [hm]
   have hcoord (l : Fin n) (hl : l ∉ J) (x : Fin n → K) :
       (g x) l = x l * μ l := by
     have h1 := hproj l hl x
@@ -315,20 +315,20 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
     rw [hA_entry, hcoord l hl (Pi.single j 1)]
     by_cases hj : j = l
     · subst hj; simp
-    · rw [Pi.single_eq_of_ne (Ne.symm hj), if_neg hj]; simp
+    · rw [Pi.single_eq_of_ne (Ne.symm hj), ite_eq_right hj]; simp
   have hA_col (l : Fin n) (hl : l ∉ J) (i : Fin n) :
       A i l = if i = l then μ l else 0 := by
     rw [hA_entry, hsingle l hl 1, one_mul]
     by_cases hi : i = l
     · subst hi; simp
-    · rw [Pi.single_eq_of_ne hi, if_neg hi]
+    · rw [Pi.single_eq_of_ne hi, ite_eq_right hi]
   have hA_out1 (l : Fin n) (hl : l ∉ J) (j : Fin n) :
       A l j = if j = l then 1 else 0 := by rw [hA_out l hl j, hμeq l hl]
   have hA_col1 (l : Fin n) (hl : l ∉ J) (i : Fin n) :
       A i l = if i = l then 1 else 0 := by rw [hA_col l hl i, hμeq l hl]
   have hblock : ∀ i j : Fin n, (i ∉ J ∨ j ∉ J) → A i j = if i = j then 1 else 0 := by
-    intro i j hij
-    rcases hij with hi | hj
+    intro i j _hij
+    rcases _hij with hi | hj
     · simpa [eq_comm] using hA_out1 i hi j
     · exact hA_col1 j hj i
   have hApow_mulVec : ∀ t : ℕ, ∀ v : Fin n → K, (A ^ t) *ᵥ v = (g ^ t) v := by
@@ -366,9 +366,9 @@ theorem qtwoDL1_orthBlock [Finite K] [CharP K 2] (hK4 : Nat.card K = 4)
       ⟨hdetpow, hdet3⟩
   refine ⟨mkSU σ A hdet hAherm, ?_, ?_⟩
   · rw [mem_coordBlockSU_iff]
-    intro i j hij
+    intro i j _hij
     change A i j = if i = j then 1 else 0
-    exact hblock i j hij
+    exact hblock i j _hij
   · apply LinearEquiv.ext
     intro v
     rw [suEndN_apply, mkSU_smul, hA_apply]

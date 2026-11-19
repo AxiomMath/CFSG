@@ -25,6 +25,7 @@ variable {K G : Type} [Group K] [Finite K] [Group G] [Finite G] {D : UniversalRo
   {j | (TauCeti.diagramGraph D.cartan).degree j = 1 ∧
     Nat.card (parJ D H {j}) = 3 * Nat.card (borel D H)}
 
+omit [Finite G] in
 theorem nodePerm_image_endNodesThree (h : BorelQuotient D n H π M) (α : MulAut G)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) :
     nodePerm h α hα '' endNodesThree D H = endNodesThree D H := by
@@ -142,7 +143,7 @@ theorem permWitness_of_borelQuotient (h : BorelQuotient D n H π M) (hM : M ∣ 
     rwa [hJ φ hφ'] at hW
   · have hK : parJ D H J = unipRad D J ⊔ (⨆ i, H i) ⊔
         ⨆ j ∈ J, rankOne D.rootGroup j := by
-      rw [parJ_eq_sup, unipJ_eq_sup h.ct h.extras J]
+      rw [parJ_eq_sup, unipJ_eq_sup h.ct J]
       simp only [sup_assoc, sup_comm]
     rw [hK, Subgroup.map_sup, Subgroup.map_sup]
     simp only [Subgroup.map_iSup]

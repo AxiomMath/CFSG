@@ -138,16 +138,16 @@ theorem lkg_qElt (a : Nat) (QG : List Nat) (qs : List Rows)
     | zero => exact one_eq
     | succ n ih =>
       rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ih (by omega)]
-      simp only [lkg_rec, CFSG.KC.F2W.strictN_eq, CFSG.KC.F2W.bit_eq]
+      simp only [CFSG.KC.F2W.strictN_eq, CFSG.KC.F2W.bit_eq]
       cases hb : i.testBit n
-      · rw [if_neg (by simp)]
-      · rw [if_pos rfl, hqs n (by omega), lkg_mul]
+      · rw [ite_eq_right (by simp)]
+      · rw [ite_eq_left rfl, hqs n (by omega), lkg_mul]
   unfold qElt lkQ
   simp only [key 8 le_rfl, CFSG.KC.F2W.strictN_eq, CFSG.KC.F2W.bit_eq]
   cases hb : i.testBit 8
-  · rw [if_neg (by simp)]
+  · rw [ite_eq_right (by simp)]
     rfl
-  · rw [if_pos rfl, lkg_mul]
+  · rw [ite_eq_left rfl, lkg_mul]
     rfl
 
 theorem lkg_word (x y len code : Nat) :
@@ -158,11 +158,11 @@ theorem lkg_word (x y len code : Nat) :
   | zero => exact one_eq
   | succ n ih =>
     rw [List.range_succ, List.map_append, List.foldl_append, ih]
-    simp only [lkg_rec, CFSG.KC.F2W.strictN_eq, CFSG.KC.F2W.bit_eq, List.map_cons, List.map_nil,
+    simp only [CFSG.KC.F2W.strictN_eq, CFSG.KC.F2W.bit_eq, List.map_cons, List.map_nil,
       List.foldl_cons, List.foldl_nil]
     cases hb : code.testBit n
-    · rw [if_neg (by simp), lkg_mul]
-    · rw [if_pos rfl, lkg_mul]
+    · rw [ite_eq_right (by simp), lkg_mul]
+    · rw [ite_eq_left rfl, lkg_mul]
 
 theorem lkg_rows (a : Nat) (QG : List Nat) : ∀ (QL : List Nat) (i0 : Nat), lkRows a QG QL i0 = true →
     ∀ k (hk : k < QL.length), QL[k] < 2 ^ 576 ∧ eqK QL[k] (lkQ a QG (i0 + k)) = true

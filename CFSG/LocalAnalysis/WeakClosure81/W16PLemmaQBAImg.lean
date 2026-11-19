@@ -17,6 +17,7 @@ namespace CfgLemmaQ
 
 variable {M V₀ V C : Subgroup G} {h : G}
 
+omit [Finite G] in
 theorem isElemAbelian_map_subgroupOf (q : CfgLemmaQ M V₀ V h C) {K : Type} [Group K]
     (ψ : ↥(V₀ ⊔ conjSubgroup V₀ h) →* K) :
     IsElemAbelian 2 ((V₀.subgroupOf (V₀ ⊔ conjSubgroup V₀ h)).map ψ) :=
@@ -29,7 +30,7 @@ theorem card_map_subgroupOf_eq_relIndex (q : CfgLemmaQ M V₀ V h C) {K : Type} 
     Nat.card ((V₀.subgroupOf (V₀ ⊔ conjSubgroup V₀ h)).map ψ) = (nVSub V₀ h).relIndex V₀ := by
   let X : Subgroup G := V₀ ⊔ conjSubgroup V₀ h
   let N : Subgroup ↥X := (nVSub V₀ h ⊔ bSub V₀ h).subgroupOf X
-  haveI : N.Normal := q.prop24Setup.normal_subgroupOf
+  have : N.Normal := q.prop24Setup.normal_subgroupOf
   have hrel : (nVSub V₀ h).relIndex V₀ =
       Nat.card ((V₀.subgroupOf X).map (QuotientGroup.mk' N)) :=
     q.prop24Setup.relIndex_eq_card_image

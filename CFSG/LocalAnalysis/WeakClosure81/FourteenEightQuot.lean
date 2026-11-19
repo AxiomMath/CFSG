@@ -16,7 +16,7 @@ theorem exists_isCyclic_map_eq_of_isPGroup {H : Type*} [Group H] [Finite H] (N :
     (hodd : Odd (Nat.card T)) :
     ∃ Y : Subgroup H, IsCyclic Y ∧ Nat.card Y = Nat.card T ∧ Y.map (QuotientGroup.mk' N) = T := by
   classical
-  haveI : IsCyclic ↥T := hT
+  have : IsCyclic ↥T := hT
   obtain ⟨t, ht⟩ := IsCyclic.exists_generator (α := ↥T)
   have htorder : orderOf t = Nat.card T := orderOf_eq_card_of_forall_mem_zpowers ht
   obtain ⟨x, hx⟩ := QuotientGroup.mk'_surjective N (t : H ⧸ N)
@@ -54,7 +54,7 @@ theorem exists_isCyclic_map_eq_of_isPGroup {H : Type*} [Group H] [Finite H] (N :
 variable {G : Type} [Group G] [Finite G]
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
 
-theorem s148_W148Quot_K_le_L (h : Hyp64 n M V₀ V g)
+theorem s148_W148Quot_K_le_L (_h : Hyp64 n M V₀ V g)
     (hKset : (K : Set G) = ((BOf M V g : Subgroup G) : Set G) *
       ((UOf M V g : Subgroup G) : Set G)) :
     K ≤ LOf V g := by
@@ -81,6 +81,7 @@ theorem mk_eq_one_iff_mem_UOf (h : Hyp64 n M V₀ V g) [hK : (K.subgroupOf (LOf 
     ← V_inf_K_eq_U h hKset]
   exact ⟨fun hvK => ⟨hv, hvK⟩, fun hvU => hvU.2⟩
 
+omit [Finite G] in
 theorem map_subgroupOf_conjSubgroup_eq [hK : (K.subgroupOf (LOf V g)).Normal] {l : G}
     (hlL : l ∈ LOf V g) (hlV : conjSubgroup V g = conjSubgroup V l) :
     ((conjSubgroup V g).subgroupOf (LOf V g)).map (QuotientGroup.mk' (K.subgroupOf (LOf V g))) =

@@ -18,6 +18,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite K] in
 theorem sixEmb_e1_aux_elt (i : Axis) :
     FullCenterWeyl.weylElt K i.swap * FullCenterWeyl.weylElt K i * FullCenterWeyl.weylElt K i.swap =
       RootStandard.rootSLHom K i FullCenterWeyl.swapSL := by
@@ -33,6 +34,7 @@ theorem sixEmb_e1_aux_elt (i : Axis) :
     simp [Axis.swap, FullCenterWeyl.weylMat, RootStandard.rootMat, Matrix.mul_apply,
       Fin.sum_univ_four]
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e1_aux_coe (φ : L ≃* antiSp K) (i : Axis) :
     RootStandard.rootHom φ i FullCenterWeyl.swapSL = embTau φ i := by
   have hel := sixEmb_e1_aux_elt (K := K) i
@@ -43,6 +45,7 @@ theorem sixEmb_e1_aux_coe (φ : L ≃* antiSp K) (i : Axis) :
   rw [← hel]
   simp only [map_mul, Subgroup.coe_mul]
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixEmb_e1_of_four_le (hK : 4 ≤ Nat.card K) (φ : L ≃* antiSp K) (i : Axis) :
     EmbE1Concl φ i := by
   show embTau φ i ∈ Sk φ i
@@ -50,11 +53,13 @@ theorem sixEmb_e1_of_four_le (hK : 4 ≤ Nat.card K) (φ : L ≃* antiSp K) (i :
     MonoidHom.mem_range]
   exact ⟨FullCenterWeyl.swapSL, sixEmb_e1_aux_coe φ i⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e1_aux_four_le (hS : SCSetting L K n φ t i) : 4 ≤ Nat.card K := by
   rw [hS.fc.setup.card_K]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hS.fc.setup.two_le
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixEmb_e1 (hS : SCSetting L K n φ t i) : EmbE1Concl φ i :=
   sixEmb_e1_of_four_le (sixEmb_e1_aux_four_le hS) φ i
 

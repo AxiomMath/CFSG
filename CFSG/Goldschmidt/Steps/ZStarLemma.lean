@@ -99,7 +99,7 @@ theorem N6 :
       by_contra ha'
       exact hn ⟨a, ha, ha'⟩
   obtain ⟨a₀, ha₀A, ha₀⟩ := hex
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hAS
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hAS
   obtain ⟨n, hn⟩ := hA2 ⟨a₀, ha₀A⟩
   obtain ⟨j, hj, hj2⟩ := exists_two_pow_not_mem_sq_mem ha₀
     ⟨n, by simpa using congrArg Subtype.val hn⟩

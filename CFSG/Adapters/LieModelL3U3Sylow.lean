@@ -110,10 +110,10 @@ theorem LieModel.pow_eq_one_of_psl3 {X : Type} [Group X] {p f : ℕ} (h : LieMod
     (hp2 : p ≠ 2) {x : X} (hx : ∃ k : ℕ, x ^ p ^ k = 1) : x ^ p = 1 := by
   have hp : p.Prime := h.admissible.1
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite X := Finite.of_equiv (StatedProj (StatedSL 3 K)) e.toEquiv.symm
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite X := Finite.of_equiv (StatedProj (StatedSL 3 K)) e.toEquiv.symm
   have hLn : CFSG.GH74.GLS.IVK.IsLnEps 3 X 1 (p ^ f) :=
     Or.inl ⟨rfl, K, hfield, hfinite, hK, ⟨e⟩⟩
   obtain ⟨k, hk⟩ := hx
@@ -126,16 +126,16 @@ theorem LieModel.pow_eq_one_of_psu3 {X : Type} [Group X] {p f : ℕ} (h : LieMod
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Nat.card K = p ^ (2 * f) := by
     rw [hK, ← pow_mul, Nat.mul_comm]
   have hchar : CharP K p :=
     CFSG.GH74.GLS.IVK.Proofs2.Ivk41R.charP_of_natCard_eq_pow hp hK'
-  haveI : CharP K p := hchar
+  have : CharP K p := hchar
   let H := StatedSU 3 (p ^ f) K
   let N := (StatedScalars (Fin 3) K).subgroupOf H
   let π : H →* StatedProj H := QuotientGroup.mk' N
@@ -175,7 +175,7 @@ theorem LieModel.factorization_card_psl3 {X : Type} [Group X] {p f : ℕ}
     (h : LieModel X .PSL 3 p f) : (Nat.card X).factorization p = 3 * f := by
   have hp : p.Prime := h.admissible.1
   have hf : 1 ≤ f := h.admissible.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.factorization_def _ hp, h.card_eq_lieOrd (by norm_num)]
   change padicValNat p (ordA 2 (p ^ f)) = 3 * f
   rw [CFSG.ClassicalInvolution.RouteD.TWR.v_ordA2 (by omega)]
@@ -185,7 +185,7 @@ theorem LieModel.factorization_card_psu3 {X : Type} [Group X] {p f : ℕ}
     (h : LieModel X .PSU 3 p f) : (Nat.card X).factorization p = 3 * f := by
   have hp : p.Prime := h.admissible.1
   have hf : 1 ≤ f := h.admissible.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.factorization_def _ hp, h.card_eq_lieOrd (by norm_num)]
   change padicValNat p (ordTwistedA 2 (p ^ f)) = 3 * f
   rw [CFSG.ClassicalInvolution.RouteD.TWR.v_ordTA2 (by omega)]

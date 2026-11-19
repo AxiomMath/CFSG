@@ -237,14 +237,14 @@ theorem ggQ2s08_cell_twA8c (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
 
 theorem ggQ2s08_coords_twE6b {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeB) (e : Fin 6 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E₆) i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = ((CartanMatrix.E 6)) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] Vn 6, κ M.xV = xLast 5 ∧
       ∀ i v, κ (ggLin (p := 3) M.model (M.simple (e i)) (κ.symm v)) = e6bS i v := by
   have hA : AlphOK e6bGens := AlphOK.of_all (by decide +kernel)
-  exact ggQ2LDatum_coords_shapeB M hShape e (CartanMatrix.E₆) hC (fun k => (letAt e6bGens k).1)
+  exact ggQ2LDatum_coords_shapeB M hShape e ((CartanMatrix.E 6)) hC (fun k => (letAt e6bGens k).1)
     (fun k => (letAt e6bGens k).2) (by decide +kernel)
     (xLast 5) (by decide +kernel) 0 ![2, 0, 1, 0, 2, 1] (by decide +kernel) (by decide)
-    (ggQ2S08_ker_of_cert (CartanMatrix.E₆) ![2, 0, 1, 0, 2, 1] 0 2
+    (ggQ2S08_ker_of_cert ((CartanMatrix.E 6)) ![2, 0, 1, 0, 2, 1] 0 2
       ![![0, 0, 0, 0, 0, 0], ![2, 2, 1, 0, 0, 0], ![2, 0, 0, 0, 0, 0], ![1, 0, 2, 0, 0, 0], ![1,
         1, 0, 2, 0, 0], ![1, 2, 1, 1, 2, 0]]
       (by decide +kernel))
@@ -254,24 +254,24 @@ theorem ggQ2s08_coords_twE6b {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 
 theorem ggQ2s08_cell_twE6b (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     (hΓi : GGQ2GammaXOffI1Input) (hTBN : GGQ2TableBNbr) : GGQ2S08Cell .twE6 0 .b :=
-  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .b) hLB hP hΓi hTBN CartanMatrix.E₆
+  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .b) hLB hP hΓi hTBN (CartanMatrix.E 6)
     (fun M labL htag _ hWeyl => ggQ2s08_lab_twE6 M labL htag hWeyl) e6bS (xLast 5)
     (fun M hShape e hC => (ggQ2s08_coords_twE6b M hShape e hC).imp fun _ h => ⟨Or.inl h.1, h.2⟩)
     (fun A Mg hT r hr hrR hrx t ht htR htx => e6b_test A Mg hT r hr hrR hrx t ht htR htx)
 
 theorem ggQ2s08_coords_twE6d {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeD) (e : Fin 6 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E₆) i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = ((CartanMatrix.E 6)) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] Vn 6, (κ M.xV = xLast 5 ∨ κ M.xV = -xLast 5) ∧
       ∀ i v, κ (ggLin (p := 3) M.model (M.simple (e i)) (κ.symm v)) = e6dS i v := by
   have hA : AlphOK e6dGens := AlphOK.of_all (by decide +kernel)
-  exact ggQ2LDatum_coords_shapeD M hShape e (CartanMatrix.E₆) hC (fun k => (letAt e6dGens k).1)
+  exact ggQ2LDatum_coords_shapeD M hShape e ((CartanMatrix.E 6)) hC (fun k => (letAt e6dGens k).1)
     (fun k => (letAt e6dGens k).2) (by decide +kernel)
     ![![1, 2, 1, 1, 2, 0], ![0, 2, 1, 1, 2, 0], ![0, 2, 0, 1, 2, 0], ![0, 2, 0, 0, 2, 0], ![0, 2,
       0, 0, 1, 0], ![2, 0, 1, 0, 2, 1]]
     (by decide +kernel) e6dS (fun k v => letLin_letAt_apply hA k v)
     ![2, 0, 1, 0, 2, 1] (by decide +kernel) (by decide)
-    (ggQ2S08_ker_of_cert (CartanMatrix.E₆) ![2, 0, 1, 0, 2, 1] 0 2
+    (ggQ2S08_ker_of_cert ((CartanMatrix.E 6)) ![2, 0, 1, 0, 2, 1] 0 2
       ![![0, 0, 0, 0, 0, 0], ![2, 2, 1, 0, 0, 0], ![2, 0, 0, 0, 0, 0], ![1, 0, 2, 0, 0, 0], ![1,
         1, 0, 2, 0, 0], ![1, 2, 1, 1, 2, 0]]
       (by decide +kernel))
@@ -279,22 +279,22 @@ theorem ggQ2s08_coords_twE6d {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 
 theorem ggQ2s08_cell_twE6d (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     (hΓi : GGQ2GammaXOffI1Input) (hTBN : GGQ2TableBNbr) : GGQ2S08Cell .twE6 0 .d :=
-  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .d) hLB hP hΓi hTBN CartanMatrix.E₆
+  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .d) hLB hP hΓi hTBN (CartanMatrix.E 6)
     (fun M labL htag _ hWeyl => ggQ2s08_lab_twE6 M labL htag hWeyl) e6dS (xLast 5)
     (fun M hShape e hC => ggQ2s08_coords_twE6d M hShape e hC)
     (fun A Mg hT r hr hrR hrx t ht htR htx => e6d_test A Mg hT r hr hrR hrx t ht htR htx)
 
 theorem ggQ2s08_coords_twE6a {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeA) (e : Fin 6 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E₆) i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = ((CartanMatrix.E 6)) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] Vn 7, (κ M.xV = xLast2 5 ∨ κ M.xV = -xLast2 5) ∧
       ∀ i v, κ (ggLin (p := 3) M.model (M.simple (e i)) (κ.symm v)) = e6aS i v := by
   have hA : AlphOK e6aGens := AlphOK.of_all (by decide +kernel)
-  exact ggQ2LDatum_coords_shapeA M hShape (n := 7) rfl e (CartanMatrix.E₆) hC (fun k => (letAt
+  exact ggQ2LDatum_coords_shapeA M hShape (n := 7) rfl e ((CartanMatrix.E 6)) hC (fun k => (letAt
     e6aGens k).1) (fun k => (letAt e6aGens k).2)
     (by decide +kernel) 0 ![1, 0, 0, 0, 0, 1, 0] (by decide +kernel) ![2, 0, 1, 0, 2, 1]
     (by decide +kernel) (by decide) ![2, 0, 1, 0, 2, 1] (by decide +kernel) (by decide)
-    (ggQ2S08_ker_of_cert (CartanMatrix.E₆) ![2, 0, 1, 0, 2, 1] 0 2
+    (ggQ2S08_ker_of_cert ((CartanMatrix.E 6)) ![2, 0, 1, 0, 2, 1] 0 2
       ![![0, 0, 0, 0, 0, 0], ![2, 2, 1, 0, 0, 0], ![2, 0, 0, 0, 0, 0], ![1, 0, 2, 0, 0, 0], ![1,
         1, 0, 2, 0, 0], ![1, 2, 1, 1, 2, 0]]
       (by decide +kernel))
@@ -306,18 +306,18 @@ theorem ggQ2s08_coords_twE6a {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 
 theorem ggQ2s08_cell_twE6a (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     (hΓi : GGQ2GammaXOffI1Input) (hTBN : GGQ2TableBNbr) : GGQ2S08Cell .twE6 0 .a :=
-  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .a) hLB hP hΓi hTBN CartanMatrix.E₆
+  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .a) hLB hP hΓi hTBN (CartanMatrix.E 6)
     (fun M labL htag _ hWeyl => ggQ2s08_lab_twE6 M labL htag hWeyl) e6aS (xLast2 5)
     (fun M hShape e hC => ggQ2s08_coords_twE6a M hShape e hC)
     (fun A Mg hT r hr hrR hrx t ht htR htx => e6a_test A Mg hT r hr hrR hrx t ht htR htx)
 
 theorem ggQ2s08_coords_twE6c {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeC) (e : Fin 6 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E₆) i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = ((CartanMatrix.E 6)) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] Vn 7, κ M.xV = xLast2 5 ∧
       ∀ i v, κ (ggLin (p := 3) M.model (M.simple (e i)) (κ.symm v)) = e6cS i v := by
   have hA : AlphOK e6cGens := AlphOK.of_all (by decide +kernel)
-  exact ggQ2LDatum_coords_shapeC M hShape e (CartanMatrix.E₆) hC (fun k => (letAt e6cGens k).2)
+  exact ggQ2LDatum_coords_shapeC M hShape e ((CartanMatrix.E 6)) hC (fun k => (letAt e6cGens k).2)
     ![![1, 0, 0, 0, 0, 2, 0], ![2, 2, 2, 2, 2, 0, 0], ![1, 1, 0, 0, 0, 1, 0], ![1, 1, 1, 0, 0, 0,
       0], ![2, 2, 2, 2, 1, 2, 0], ![0, 0, 0, 0, 0, 1, 0]] (fun k => (letAt e6cGens k).1)
     ![0, 0, 0, 0, 0, 0, 1] (xLast2 5)
@@ -326,7 +326,7 @@ theorem ggQ2s08_coords_twE6c {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 
 theorem ggQ2s08_cell_twE6c (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     (hΓi : GGQ2GammaXOffI1Input) (hTBN : GGQ2TableBNbr) : GGQ2S08Cell .twE6 0 .c :=
-  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .c) hLB hP hΓi hTBN CartanMatrix.E₆
+  ggQ2s08_cell_of_label (t := .twE6) (r := 0) (s := .c) hLB hP hΓi hTBN (CartanMatrix.E 6)
     (fun M labL htag _ hWeyl => ggQ2s08_lab_twE6 M labL htag hWeyl) e6cS (xLast2 5)
     (fun M hShape e hC =>
       (ggQ2s08_coords_twE6c M hShape e hC).imp fun _ h => ⟨Or.inl h.1, h.2⟩)

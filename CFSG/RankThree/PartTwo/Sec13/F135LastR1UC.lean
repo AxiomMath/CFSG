@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] (L : Subgroup G)
 
 @[expose] def u1N : Subgroup G := Subgroup.normalizer (L : Set G)
 
+omit [Finite G] in
 theorem le_u1N : L ≤ u1N L := Subgroup.le_normalizer
 
 theorem u1ca_oddCore_characteristic (X : Type) [Group X] [Finite X] :
@@ -92,7 +93,7 @@ instance u1J_normal : (u1J L).Normal := by
   refine MonoidHom.mem_range.mpr ⟨⟨(n : G) * (l : G) * (n : G)⁻¹, ?_⟩, ?_⟩
   · exact (Subgroup.mem_normalizer_iff.mp n.2 (l : G)).mp l.2
   · rw [u1ψ_apply, u1ψ_apply, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul,
-      ← QuotientGroup.mk_mul] <;> rfl
+      ← QuotientGroup.mk_mul]; rfl
 
 @[expose] noncomputable def u1ΛJ : (L ⧸ CFSG.oddCore L) ≃* u1J L :=
   (QuotientGroup.quotientMulEquivOfEq (u1ψ_ker L).symm).trans

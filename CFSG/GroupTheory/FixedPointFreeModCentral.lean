@@ -73,7 +73,7 @@ theorem conj_conj_mul_inv_mem_of_pow_three_eq_one {Q Z : Subgroup G} {k x : G}
     have h : k * w * k⁻¹ = (k * k * k) * x * (k * k * k)⁻¹ := by
       simp only [w, y]
       group
-    rw [h, show k * k * k = k ^ 3 by simp [pow_succ, pow_two, mul_assoc], hk]
+    rw [h, show k * k * k = k ^ 3 by simp [pow_succ, mul_assoc], hk]
     simp
   have hkp : k * p * k⁻¹ = y * w * x := by
     have h : k * p * k⁻¹ =

@@ -44,10 +44,10 @@ private lemma ltrn2b4_rank_bound
   have hAll := largeEvenLabelAll_torusLift_twA (p := 3) hΛX htag Nat.prime_three hpq
   have hRaw := hAll (fun R _ _ _ => Nonempty (X ⧸ Subgroup.center X ≃* R)) hhX
   obtain ⟨R, hR, I, F, ⟨⟨e⟩, hT⟩⟩ := largeEvenRawDatum_exists hRaw
-  letI := hR
+  let := hR
   have hT' : GGTorusLift 3 (N - 3) R := by
     have hrankEq : ggUnitaryTorusRank 3 (labX.rank + 1) = N - 3 := by
-      rw [ggUnitaryTorusRank, if_pos (by rw [← hN]; exact h3N), hN]
+      rw [ggUnitaryTorusRank, ite_eq_left (by rw [← hN]; exact h3N), hN]
     rwa [hrankEq] at hT
   have hlift := ltrn2b4_le_twoLocalRank_of_torusLift (r := N - 3) hT' e hperf
   obtain ⟨m, hcardAb, hrankle⟩ := hrank

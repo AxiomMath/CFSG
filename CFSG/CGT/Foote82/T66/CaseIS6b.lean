@@ -17,6 +17,7 @@ section Groups
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem mem_map_center_iff {A : Subgroup Γ} {x : Γ} :
     x ∈ (Subgroup.center ↥A).map A.subtype ↔ x ∈ A ∧ ∀ a ∈ A, a * x = x * a := by
   constructor
@@ -26,7 +27,7 @@ theorem mem_map_center_iff {A : Subgroup Γ} {x : Γ} :
     exact ⟨⟨x, hxA⟩, Subgroup.mem_center_iff.2 fun a => Subtype.ext (hx a a.2), rfl⟩
 
 theorem card_le_two_mul_of_conj_mem {Y Z : Subgroup Γ} (hY : IsPGroup 2 Y)
-    (hZ : Nat.card Z = 4) {c : Γ} (hcZ : c ∈ Z) (hc1 : c ≠ 1)
+    (hZ : Nat.card Z = 4) {c : Γ} (_hcZ : c ∈ Z) (hc1 : c ≠ 1)
     (hYZ : ∀ y ∈ Y, y * c * y⁻¹ ∈ Z) :
     Nat.card Y ≤ 2 * Nat.card ↥(Y ⊓ Subgroup.centralizer {c}) := by
   set C : Subgroup ↥Y := (Subgroup.centralizer {c}).subgroupOf Y with hC
@@ -67,7 +68,7 @@ theorem card_le_two_mul_of_conj_mem {Y Z : Subgroup Γ} (hY : IsPGroup 2 Y)
     have e : Nat.card {x : Γ // x ∈ Z ∧ x ≠ 1} = ((Z : Set Γ) \ {1}).ncard := by
       rw [← Nat.card_coe_set_eq]
       rfl
-    rw [e, Set.ncard_diff_singleton_of_mem (Z.one_mem), ← Nat.card_coe_set_eq]
+    rw [e, Set.ncard_sdiff_singleton_of_mem (Z.one_mem), ← Nat.card_coe_set_eq]
     have : Nat.card ↥(Z : Set Γ) = 4 := hZ
     omega
   have hidx : C.index ≤ 3 :=
@@ -104,7 +105,7 @@ variable {S : Subgroup (GLV V)}
 theorem SBad.card_le_64 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (h4 : Nat.card S = 4)
     (hm : m ≤ 1) {Q : Subgroup (GLV V)} (hQG : Q ≤ G) (hQz : ∀ q ∈ Q, q * z = z * q)
     (hQ2 : IsPGroup 2 Q) : Nat.card Q ≤ 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, -, hθ1, -⟩ := h.exists_thetaL
   have hQN : Q ≤ NN G L := fun q hq => h.centralizer_z_le (hQG hq) (hQz q hq)
   let g : ↥Q →* Perm (Fin (m + 6)) := θ.comp (Subgroup.inclusion hQN)

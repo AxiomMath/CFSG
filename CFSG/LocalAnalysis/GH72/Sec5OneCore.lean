@@ -267,6 +267,7 @@ theorem core {H K₀ OK W : Subgroup G} {L : Type*} [Group L] (f : K₀ →* L)
     calc b * a = a * b * a⁻¹ * b⁻¹ * (b * a) := by rw [h1, one_mul]
       _ = a * b := by group
 
+omit [Finite G] in
 theorem bar_inf_le_centralizer_of_sup {H OK W Z Z' A : Subgroup G} (hAZ : A = Z ⊔ Z')
     (hZW : Z ≤ W) (hZH : Z ≤ H) (hZ'H : Z' ≤ H) (hOKZ' : OK ≤ centralizer (Z' : Set G))
     (hWc : bar H (H ⊓ OK) ≤ centralizer (bar H W : Set (Bar H))) :
@@ -980,7 +981,7 @@ theorem exists_conj_isSylowOf (hAS : A ≤ 𝔖.S) (hA : IsE16 A) {H : Subgroup 
       rw [← G4c.map_cj_map_cj, ← hSs]
       exact map_mono hc
     have hS2 : IsPGroup 2 ↥((𝔖.S : Subgroup G) ⊓ H.map (G4c.cj (s⁻¹ * c))) :=
-      𝔖.S.isPGroup'.to_le (inf_le_left : (𝔖.S : Subgroup G) ⊓ H.map (G4c.cj (s⁻¹ * c)) ≤ 𝔖.S)
+      𝔖.S.isPGroup.to_le (inf_le_left : (𝔖.S : Subgroup G) ⊓ H.map (G4c.cj (s⁻¹ * c)) ≤ 𝔖.S)
     rw [hP'.eq_of_le (le_inf hP'S hP'.le) inf_le_right hS2]
     exact hP'
 
@@ -1135,7 +1136,7 @@ theorem exists_isIsolatedIn_mem_A (hAS : A ≤ 𝔖.S) (hA : IsE16 A) {H : Subgr
   have h2 : a * (c * t * c⁻¹) * a⁻¹ * (c * t * c⁻¹)⁻¹ ∈ (𝔖.S : Subgroup G) :=
     mul_mem (mul_mem (mul_mem (hAS ha) (mem_inf.mp hct).1) (inv_mem (hAS ha)))
       (inv_mem (mem_inf.mp hct).1)
-  have h3 := G4c.inf_eq_bot_of_odd_of_isPGroup (G4c.odd_card_O H) 𝔖.S.isPGroup'
+  have h3 := G4c.inf_eq_bot_of_odd_of_isPGroup (G4c.odd_card_O H) 𝔖.S.isPGroup
   have h4 : a * (c * t * c⁻¹) * a⁻¹ * (c * t * c⁻¹)⁻¹ = 1 := by
     rw [← mem_bot, ← h3]
     exact mem_inf.mpr ⟨h1, h2⟩

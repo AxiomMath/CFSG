@@ -31,7 +31,7 @@ theorem oneClassE_of_witness {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {G : Type*}
       !![(a' : ZMod p), (c' : ZMod p); (b' : ZMod p), (d' : ZMod p)]]} ?_
     (Heis.trans_of_reach _ n hreach) B U hB hU
   intro A hA
-  simp only [List.mem_cons, List.mem_nil_iff, or_false, Set.mem_setOf_eq] at hA
+  simp only [List.mem_cons, List.mem_nil_iff, or_false, Set.mem_ofPred_eq] at hA
   rcases hA with rfl | rfl
   · exact ⟨g₁, a, b, k, c, d, l, rfl, h₁x, h₁y⟩
   · exact ⟨g₂, a', b', k', c', d', l', rfl, h₂x, h₂y⟩

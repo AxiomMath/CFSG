@@ -62,6 +62,7 @@ section Ree
 
 variable {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K F4.prime]
 
+omit [CharP K F4.prime] in
 theorem exists_unit_pow (hK : Nat.card K = 2 ^ (2 * a + 1)) {c : K} (hc : c ≠ 0) :
     ∃ u : Kˣ, (u : K) ^ 2 ^ a = c := by
   have hu : c ^ (2 * 2 ^ a) ≠ 0 := pow_ne_zero _ hc
@@ -136,7 +137,7 @@ theorem ree_normalTwo (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (R : Subgroup ↥(F4.reeGamma K a))
     (hR : (reeCenter K a).subgroupOf (F4.reeGamma K a) ≤ R) :
     NormalTwoDichotomy ((reeCenter K a).subgroupOf (F4.reeGamma K a)) R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBT : CFSG.LieType.BorelTits.Holds ↥(F4.reeGamma K a) 2 :=
     CFSG.LieType.ChevTwo.Semi.holds_reeGamma ReeTag.F4 K a
   have hU : IsSylowIn 2 ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
@@ -211,7 +212,7 @@ theorem isElemAbelian_reeCenter (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1
     simp only [Subgroup.subtype_apply]
     rw [← Subgroup.coe_mul, ← Subgroup.coe_mul, Subgroup.mem_center_iff.mp hu v]
   · obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
-    haveI := hE
+    have := hE
     set g : ↥(Subgroup.center ↥(F4.reeFixedPosUnipotent K a)) := ⟨u, hu⟩ with hg
     have h2 : g ^ 2 = 1 :=
       (Monoid.exponent_dvd_iff_forall_pow_eq_one.mp

@@ -31,8 +31,9 @@ theorem sec11d_set (hp : Asc82Pre11) (hctx : Sec11Ctx G t L S z K1 K2 T R) :
 
 theorem sec11d_Q_le_KD (hs : Sec11dSet t z K1 K2 R) : secQ K1 K2 ≤ secKD (secD K1 K2 R) :=
   fun q hq => sec11d_cent_mem_KD hs.K0_eq hs.KD_le (hs.split.split.right_le (hs.split.Q_le hq))
-    fun d hd => (Subgroup.mem_centralizer_iff.mp hd.1 q hq).symm
+    fun _d hd => (Subgroup.mem_centralizer_iff.mp hd.1 q hq).symm
 
+omit [Finite G] in
 theorem sec11d_card_CTQ (h : IsD8 (secCTQ K1 K2 T)) : Nat.card ↥(secCTQ K1 K2 T) = 8 := by
   obtain ⟨e⟩ := h
   have h1 := Nat.card_congr e.toEquiv
@@ -106,7 +107,7 @@ theorem asc82Lemma115d_of (hp : Asc82Pre11) (h112 : Asc82Lemma112) : Asc82Lemma1
   obtain ⟨hone, hgen⟩ := sec11d_R_side hDR hRD hCT hz hCl
   obtain ⟨x0, hx0R, hx0⟩ : ∃ x0 ∈ R, x0 ∉ T ⊔ secD K1 K2 R := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hRTD (le_antisymm (fun x hx => hcon x hx) hTDR)
   have hs := sec11d_set hp hctx
   obtain ⟨ρ, hρ⟩ := sec11d_exists_rho hs.split (sec11d_pair_le hp hctx) hs.RN hs.K0_eq

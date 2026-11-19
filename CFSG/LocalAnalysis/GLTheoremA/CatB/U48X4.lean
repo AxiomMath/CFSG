@@ -29,7 +29,7 @@ theorem derived_three_in_ipart {I : Subgroup G} {γ : MulAut SU4}
     ∃ Q : Subgroup G, IsPGroup 3 Q ∧ Q ≤ ⁅I ⊓ Subgroup.centralizer ({y} : Set G),
         I ⊓ Subgroup.centralizer ({y} : Set G)⁆ ∧
       ∃ g ∈ Q, ∃ g' ∈ Q, g * g' ≠ g' * g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, a, hg, hκ⟩ := ipart_central_conj hγ3 hff hcardF ψ hψs hψk hyI hyc
   set z : SU4 := ((ψ ⟨y, hyI⟩ : ↥(fixSub γ)) : SU4) with hzdef
   set φ : K ≃+* K := fieldFactor4 γ with hφdef

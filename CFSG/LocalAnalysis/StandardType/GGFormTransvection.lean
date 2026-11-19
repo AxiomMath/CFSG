@@ -142,7 +142,7 @@ private lemma ftv_alt_not_isometry {F V : Type*} [Field F]
   ext y
   have h1 := hiso b y
   simp only [ClassicalGroups.Linear.transv_apply, hφb, zero_smul, add_zero,
-    zero_mul, zero_add, haddR, hsmulR, hba, mul_one] at h1
+    haddR, hsmulR, hba, mul_one] at h1
   have h2 : φ y = 0 :=
     add_left_cancel (show H b y + φ y = H b y + 0 by rw [add_zero]; exact h1)
   simpa using h2

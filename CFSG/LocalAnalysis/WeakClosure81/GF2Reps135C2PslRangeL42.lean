@@ -39,7 +39,7 @@ theorem w135c2_psl_range_l42 {f s d : ℕ} (hf : f = 1) (hs : 1 ≤ s)
       omega
     refine hr (congrArg ε ?_)
     apply Fin.ext
-    simp [hrv, Nat.mod_one]
+    simp
   have hd21 : d ≤ 21 := by
     rcases hrange with ⟨-, hd⟩ | ⟨hs23, hd7⟩
     · exact hd

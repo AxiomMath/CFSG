@@ -174,8 +174,8 @@ theorem exists_comm_coeff (x : Y) (M : Fin 4 → Subgroup Y) (t : Y) :
   classical
   refine ⟨fun i => if (∀ m ∈ M i, x * m = m * x) then 1 else t, fun i => ?_⟩
   by_cases hi : ∀ m ∈ M i, x * m = m * x
-  · left; exact ⟨hi, if_pos hi⟩
-  · right; exact ⟨hi, if_neg hi⟩
+  · left; exact ⟨hi, ite_eq_left hi⟩
+  · right; exact ⟨hi, ite_eq_right hi⟩
 
 theorem WFFrame.a_e (h : WFIn n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
     (hfr : WFFrame (CoreAssembly.conjClass (tightCore R)) K t W M a y) {x : Y}
@@ -199,16 +199,16 @@ theorem WFFrame.a_e (h : WFIn n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
   let d : Fin 4 → Y := fun k => if j = k then c j else 1
   have hdU : ∀ k l, d k * U l = U l * d k := fun k l => by
     by_cases hjk : j = k
-    · simp only [d, if_pos hjk]; exact hcU j l
-    · simp only [d, if_neg hjk, one_mul, mul_one]
+    · simp only [d, ite_eq_left hjk]; exact hcU j l
+    · simp only [d, ite_eq_right hjk, one_mul, mul_one]
   have hjk : ∀ k, a j * U k = d k * (U k * a j) := fun k => by
     by_cases hjk : j = k
     · subst hjk
-      simp only [d, if_pos rfl]
+      simp only [d, ite_eq_left rfl]
       rcases hc j with ⟨hcen, e⟩ | ⟨hmv, e⟩
       · rw [e, one_mul, hUdef, hfr.act_fixed j hcen]
       · rw [e, hUdef]; exact hfr.act_moved h hxo hxt hxM j hmv
-    · simp only [d, if_neg hjk, one_mul]
+    · simp only [d, ite_eq_right hjk, one_mul]
       rw [hUdef]
       exact (hfr.act_cross h hxM hjk).1
   have key := swap_prod4 (hjk 0) (hjk 1) (hjk 2) (hjk 3) (hdU 1 0) (hdU 2 0) (hdU 2 1) (hdU 3 0)

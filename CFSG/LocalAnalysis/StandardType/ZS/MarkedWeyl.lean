@@ -118,7 +118,7 @@ private theorem zg_parI_iff (o : Fin k ≃ ι) (hk : 0 < k) (par : Fin k → Fin
   · intro hA
     have hMij : M i j = 3 := by
       by_contra h
-      simp only [ggCartanMatrix, if_neg hij, h] at hA
+      simp only [ggCartanMatrix, ite_eq_right hij, h] at hA
       norm_num at hA
     obtain ⟨a, rfl⟩ := o.surjective i
     obtain ⟨b, rfl⟩ := o.surjective j

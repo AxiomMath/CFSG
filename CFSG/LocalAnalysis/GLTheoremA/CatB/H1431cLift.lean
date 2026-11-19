@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.GLTheoremA (pQuotHom ker_pQuotHom chev_barAut_eq_one_iff
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_sup_zpowers_normal {c e x : G} (hce : Commute c e)
     (hx : x ∈ Subgroup.zpowers c ⊔ Subgroup.zpowers e) : ∃ i j : ℤ, x = c ^ i * e ^ j := by
   rw [Subgroup.sup_eq_closure] at hx
@@ -47,6 +48,7 @@ theorem mem_sup_zpowers_normal {c e x : G} (hce : Commute c e)
           rw [mul_inv_rev, zpow_neg, zpow_neg]
       _ = c ^ (-i) * e ^ (-j) := h1
 
+omit [Finite G] in
 theorem barAut_eq_conj_pi {K : Subgroup G} {x : G} (hx : x ∈ K)
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) :
     barAut 3 K ⟨x, hxN⟩ = MulAut.conj (pQuotHom 3 K ⟨x, hx⟩) := by
@@ -58,6 +60,7 @@ theorem barAut_eq_conj_pi {K : Subgroup G} {x : G} (hx : x ∈ K)
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
   congr 1
 
+omit [Finite G] in
 theorem normalizer_c25Pre_of_fix {K : Subgroup G} {X : Subgroup (PQuot 3 K)} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hfix : ∀ u ∈ X, barAut 3 K ⟨g, hg⟩ u = u) :
@@ -89,6 +92,7 @@ theorem normalizer_c25Pre_of_fix {K : Subgroup G} {X : Subgroup (PQuot 3 K)} {g 
     exact (barAut 3 K ⟨g, hg⟩).injective h2 ▸ hX
 
 
+omit [Finite G] in
 theorem pQuotHom_conj {K : Subgroup G} {g s : G} (hgN : g ∈ Subgroup.normalizer (K : Set G))
     (hsK : s ∈ K) (hgs : g * s * g⁻¹ ∈ K) :
     pQuotHom 3 K ⟨g * s * g⁻¹, hgs⟩ = barAut 3 K ⟨g, hgN⟩ (pQuotHom 3 K ⟨s, hsK⟩) := by
@@ -121,6 +125,7 @@ theorem eq_one_of_pi_eq_one {K : Subgroup G} {s : G} (hsK : s ∈ K) (hs3 : ∃ 
   rw [pow_zero, orderOf_eq_one_iff] at hm
   exact hm
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers_of_pow_eq_one {e : G} (he3 : e ^ 3 = 1) :
     IsElemAbelian 3 (Subgroup.zpowers e) := by
   refine ⟨inferInstance, fun x hx => ?_⟩
@@ -128,6 +133,7 @@ theorem isElemAbelian_zpowers_of_pow_eq_one {e : G} (he3 : e ^ 3 = 1) :
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
   simp [he3]
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers_sup {c e : G} (hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) (hce : Commute c e) :
     IsElemAbelian 3 (Subgroup.zpowers c ⊔ Subgroup.zpowers e) := by
   refine c25_isElemAbelian_sup_zpowers ?_ hc3 ?_
@@ -138,6 +144,7 @@ theorem isElemAbelian_zpowers_sup {c e : G} (hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) 
     exact ((hce.zpow_right k).eq).symm
 
 
+omit [Finite G] in
 theorem normalizer_zpowers_of_commute {c e : G} (hce : Commute c e) :
     e ∈ Subgroup.normalizer (Subgroup.zpowers c : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -180,7 +187,7 @@ theorem exists_lift_pair {K : Subgroup G} {c e : G}
     (hHE : (Subgroup.zpowers c ⊔ Subgroup.zpowers e) ⊓ c25Pre K E = ⊥) :
     ∃ S : Subgroup G, S ≤ c25Pre K E ∧ IsElemAbelian 3 S ∧ Nat.card ↥S = Nat.card ↥E ∧
       ∀ s ∈ S, c * s = s * c ∧ e * s = s * e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hE
   have hO : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   have hO0 : Nat.card (GLAPPrimeCore 3 ↥K) ≠ 0 := Nat.card_pos.ne'
@@ -277,7 +284,7 @@ theorem exists_lift_pair {K : Subgroup G} {c e : G}
   have hS3 : ∀ s ∈ S, ∃ j : ℕ, s ^ 3 ^ j = 1 := by
     intro s hs
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 (hSQ' hs)
-    obtain ⟨j, hj⟩ := Q.isPGroup' ⟨y, hy⟩
+    obtain ⟨j, hj⟩ := Q.isPGroup ⟨y, hy⟩
     refine ⟨j, ?_⟩
     have h1 : y ^ 3 ^ j = 1 := by
       have h2 := congrArg Subtype.val hj
@@ -340,6 +347,7 @@ theorem exists_lift_pair {K : Subgroup G} {c e : G}
   exact ⟨S, hSÊ, hSel, hScard, fun s hs =>
     ⟨mul_inv_eq_iff_eq_mul.1 (hcomm s hs), mul_inv_eq_iff_eq_mul.1 (hecomm s hs)⟩⟩
 
+omit [Finite G] in
 theorem normalizer_of_commute_subgroup {H : Subgroup G} {s : G} (h : ∀ x ∈ H, Commute s x) :
     s ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -364,6 +372,7 @@ theorem normalizer_of_commute_subgroup {H : Subgroup G} {s : G} (h : ∀ x ∈ H
     rw [← h4] at hy'
     exact hy'
 
+omit [Finite G] in
 theorem barAut_zpow_mul {K : Subgroup G} {c e : G} (hcN : c ∈ Subgroup.normalizer (K : Set G))
     (heN : e ∈ Subgroup.normalizer (K : Set G)) {i j : ℤ}
     {g : ↥(Subgroup.normalizer (K : Set G))} (hg : (g : G) = c ^ i * e ^ j) :
@@ -375,12 +384,12 @@ theorem barAut_zpow_mul {K : Subgroup G} {c e : G} (hcN : c ∈ Subgroup.normali
 
 theorem zpowers_sup_inf_c25Pre_eq_bot {K : Subgroup G} {c e : G} {E : Subgroup (PQuot 3 K)}
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) (heN : e ∈ Subgroup.normalizer (K : Set G))
-    (hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) (hce : Commute c e) (he1 : e ≠ 1)
-    (hcbar : barAut 3 K ⟨c, hcN⟩ = 1) (hE : IsElemAbelian 3 E)
+    (hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) (hce : Commute c e) (_he1 : e ≠ 1)
+    (hcbar : barAut 3 K ⟨c, hcN⟩ = 1) (_hE : IsElemAbelian 3 E)
     (hEZ : E ⊓ Subgroup.center (PQuot 3 K) = ⊥)
     (hpow : ∀ a ∈ E, barAut 3 K ⟨e, heN⟩ ≠ MulAut.conj a) :
     (Subgroup.zpowers c ⊔ Subgroup.zpowers e) ⊓ c25Pre K E = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHel : IsElemAbelian 3 (Subgroup.zpowers c ⊔ Subgroup.zpowers e) :=
     isElemAbelian_zpowers_sup hc3 he3 hce
   have hτ3 : (barAut 3 K ⟨e, heN⟩) ^ 3 = 1 := by
@@ -445,7 +454,7 @@ theorem rkTau_barAut {K B : Subgroup G} (hrk : GLATwoLocalRank 3 ↥(K ⊔ B) �
     RkTau (barAut 3 K ⟨e, heN⟩) := by
   unfold RkTau
   intro U hU hU2 hUfix E hEfix hEN hE hEZ hpow
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcN : c ∈ Subgroup.normalizer (K : Set G) := hcK.1
   have hc3 : c ^ 3 = 1 := hB.2 c hcB
   have he3 : e ^ 3 = 1 := hB.2 e heB

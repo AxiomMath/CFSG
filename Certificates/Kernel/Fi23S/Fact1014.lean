@@ -71,7 +71,7 @@ theorem lf14_cases {k j : Nat} (h : lf14 k j = true) (hc : 2 ≤ code k j) :
       cyK (hK k j ((code k j - 2) / 4)) q 119 1 (hK k j ((code k j - 2) / 4) q) % 2 = 1 := by
   have h2 : ¬ code k j < 2 := by omega
   unfold lf14 lf14c at h
-  rw [strictB_eq, bIf_eq, if_neg (by rw [Nat.blt_eq]; exact h2), strictB_eq, bAnd_eq,
+  rw [strictB_eq, bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; exact h2), strictB_eq, bAnd_eq,
     Bool.and_eq_true] at h
   have e : Nat.shiftRight (Nat.sub (code k j) 2) 2 = (code k j - 2) / 4 := by
     change (code k j - 2) >>> 2 = _
@@ -137,22 +137,22 @@ theorem conj_ap {X : Table} {f : Nat → Nat} (hX : ∀ y < 31671, ap X y = f y 
 
 theorem xEv_C {r y : Nat} (hr : r < 17) : xEv r y = tb H 43 y := by
   unfold xEv
-  rw [nIf_eq, if_pos (Nat.blt_eq.mpr hr)]
+  rw [nIf_eq, ite_eq_left (Nat.blt_eq.mpr hr)]
 
 theorem xEv_B {r y : Nat} (h1 : 17 ≤ r) (hr : r < 27) : xEv r y = tb H 42 y := by
   have h2 : ¬ r < 17 := by omega
   unfold xEv
-  rw [nIf_eq, if_neg (by rw [Nat.blt_eq]; exact h2), nIf_eq, if_pos (Nat.blt_eq.mpr hr)]
+  rw [nIf_eq, ite_eq_right (by rw [Nat.blt_eq]; exact h2), nIf_eq, ite_eq_left (Nat.blt_eq.mpr hr)]
 
 theorem xEv_A {r y : Nat} (h1 : 27 ≤ r) : xEv r y = tb G 43 y := by
   have h2 : ¬ r < 17 := by omega
   have h3 : ¬ r < 27 := by omega
   unfold xEv
-  rw [nIf_eq, if_neg (by rw [Nat.blt_eq]; exact h2), nIf_eq, if_neg (by rw [Nat.blt_eq]; exact h3)]
+  rw [nIf_eq, ite_eq_right (by rw [Nat.blt_eq]; exact h2), nIf_eq, ite_eq_right (by rw [Nat.blt_eq]; exact h3)]
 
 theorem D_ap {y : Nat} (hy : y < 31671) : ap (dTab orbLit) y = tb G 43 y ∧ tb G 43 y < 31671 := by
   refine ⟨?_, rng 43 (by norm_num) y hy⟩
-  rw [rw_dTab.ap hy, wa_cons, wa_nil, lf_eq, if_pos (by norm_num)]
+  rw [rw_dTab.ap hy, wa_cons, wa_nil, lf_eq, ite_eq_left (by norm_num)]
 
 theorem XB_ap {y : Nat} (hy : y < 31671) :
     ap (compT 31671 (dTab orbLit) (treeActTab orbLit (dTab orbLit) (genTables orbLit (-2)) 1)) y =
@@ -161,8 +161,8 @@ theorem XB_ap {y : Nat} (hy : y < 31671) :
       (treeActTab orbLit (dTab orbLit) (genTables orbLit (-2)) 1)) y = tb H 42 y := by
     rw [rw_X.ap hy, xb_pt hy]
     have e1 : wX = [129, 43] := rfl
-    rw [e1, wa_cons, wa_cons, wa_nil, lf_eq, lf_eq, if_pos (by norm_num : (43 : Nat) < 128),
-      if_neg (by norm_num : ¬ (129 : Nat) < 128)]
+    rw [e1, wa_cons, wa_cons, wa_nil, lf_eq, lf_eq, ite_eq_left (by norm_num : (43 : Nat) < 128),
+      ite_eq_right (by norm_num : ¬ (129 : Nat) < 128)]
   refine ⟨e, ?_⟩
   rw [xb_pt hy]
   exact rng 43 (by norm_num) _ (tA_lt 1 hy)
@@ -178,8 +178,8 @@ theorem XC_ap {y : Nat} (hy : y < 31671) :
     rw [rw_XC.ap hy, xc_pt hy, xb_pt (tA_lt 39 hy)]
     have e1 : wXC = [167, 129, 43] := rfl
     rw [e1, wa_cons, wa_cons, wa_cons, wa_nil, lf_eq, lf_eq, lf_eq,
-      if_pos (by norm_num : (43 : Nat) < 128), if_neg (by norm_num : ¬ (129 : Nat) < 128),
-      if_neg (by norm_num : ¬ (167 : Nat) < 128)]
+      ite_eq_left (by norm_num : (43 : Nat) < 128), ite_eq_right (by norm_num : ¬ (129 : Nat) < 128),
+      ite_eq_right (by norm_num : ¬ (167 : Nat) < 128)]
   refine ⟨e, ?_⟩
   rw [xc_pt hy, xb_pt (tA_lt 39 hy)]
   exact rng 43 (by norm_num) _ (tA_lt 1 (tA_lt 39 hy))
@@ -333,7 +333,7 @@ theorem allk_ok : allIn 0 31671 (fun k => k == 0 || k == 1 || ap (dTab orbLit) k
     omega
   have hr : nfix (cT 39 * wp wX) = 183 := by
     have e : wp (wX ++ [167]) = cT 39 * wp wX := by
-      rw [wp_append, wp_cons, wp_nil, one_mul, lp_big (by norm_num)] <;> rfl
+      rw [wp_append, wp_cons, wp_nil, one_mul, lp_big (by norm_num)]
     rw [← e, ← countP_nfix _ (ok_append ok_wX (by decide)), c39]
   have hs : orbSl G wX exU (wr 0) gU 39 39 0 31671 = true := uscan_ok
   rw [CFSG.KS.TW.allIn_iff]
@@ -380,7 +380,7 @@ theorem inv_main (chunks : Nat) : invChecks orbLit chunks = true := by
   · rw [beq_iff_eq, (D_ap (by norm_num)).1]
     exact h1
   · rw [beq_iff_eq, (rw_treeActTab (k := 1) (by norm_num)).ap (by norm_num), wa_cons, wa_nil,
-      lf_eq, if_neg (by norm_num : ¬ (129 : Nat) < 128)]
+      lf_eq, ite_eq_right (by norm_num : ¬ (129 : Nat) < 128)]
     exact h2
   · rw [c1]
     rfl

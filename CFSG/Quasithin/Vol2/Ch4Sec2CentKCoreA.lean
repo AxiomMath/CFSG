@@ -44,11 +44,13 @@ structure CoreHyp (R Rp H K Q LH V : Subgroup G) (F : Type) [Field F] [Fintype F
   F2 : ∃ m : ℕ, 2 ≤ m ∧ Fintype.card F = 2 ^ m
   VS : VStruct K Q V F α
 
+omit [Finite G] in
 private theorem coreA_conj_eq {V : Subgroup G} {g v : G}
     (hg : g ∈ Subgroup.centralizer (V : Set G)) (hv : v ∈ V) : g * v * g⁻¹ = v := by
   have h1 : v * g = g * v := Subgroup.mem_centralizer_iff.mp hg v hv
   rw [← h1, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem coreA_conj_E {V : Subgroup G} {g x y : G}
     (hg : g ∈ Subgroup.centralizer (V : Set G)) (hxy : x * y⁻¹ ∈ V) :
     (g * x * g⁻¹) * (g * y * g⁻¹)⁻¹ ∈ V := by
@@ -56,18 +58,21 @@ private theorem coreA_conj_E {V : Subgroup G} {g x y : G}
   rw [e, coreA_conj_eq hg hxy]
   exact hxy
 
+omit [Finite G] in
 private theorem coreA_conj_omega {R : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (R : Set G)) (hx : x ∈ omegaOneCenterOf R) :
     g * x * g⁻¹ ∈ omegaOneCenterOf R :=
   (Subgroup.mem_normalizer_iff.mp
     (CFSG.Quasithin.A4.normalizer_le_normalizer_omegaOneCenterOf R hg) x).mp hx
 
+omit [Finite G] in
 private theorem coreA_conj_omega_inv {R : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (R : Set G)) (hx : x ∈ omegaOneCenterOf R) :
     g⁻¹ * x * g ∈ omegaOneCenterOf R := by
   have := coreA_conj_omega (Subgroup.inv_mem _ hg) hx
   rwa [inv_inv] at this
 
+omit [Finite G] in
 private theorem coreA_normalizer_centralizer {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) := by
@@ -92,6 +97,7 @@ private theorem coreA_normalizer_centralizer {X : Subgroup G} {g : G}
     have := key g⁻¹ (Subgroup.inv_mem _ hg) _ hc
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem mem_sup_coreA {W N : Subgroup G} (hWN : W ≤ Subgroup.normalizer (N : Set G))
     {x : G} (hx : x ∈ W ⊔ N) : ∃ w ∈ W, ∃ n ∈ N, w * n = x := by
   have hle : W ⊔ N ≤ Subgroup.normalizer (N : Set G) := sup_le hWN Subgroup.le_normalizer
@@ -103,6 +109,7 @@ private theorem mem_sup_coreA {W N : Subgroup G} (hWN : W ≤ Subgroup.normalize
   obtain ⟨w, hw, n, hn, hwn⟩ := Subgroup.mem_sup_of_normal_right.mp hx'
   exact ⟨w, hw, n, hn, congrArg Subtype.val hwn⟩
 
+omit [Finite G] in
 private theorem map_subgroupOf_sup_eq_top_coreA {W N : Subgroup G}
     (hWN : W ≤ Subgroup.normalizer (N : Set G)) [(N.subgroupOf (W ⊔ N)).Normal] :
     (W.subgroupOf (W ⊔ N)).map (QuotientGroup.mk' (N.subgroupOf (W ⊔ N))) = ⊤ := by
@@ -119,6 +126,7 @@ private theorem map_subgroupOf_sup_eq_top_coreA {W N : Subgroup G}
   rw [this]
   exact hn
 
+omit [Finite G] in
 private theorem le_of_map_eq_bot_coreA {K W N : Subgroup G} (hKWN : K ≤ W ⊔ N)
     [(N.subgroupOf (W ⊔ N)).Normal]
     (h : (K.subgroupOf (W ⊔ N)).map (QuotientGroup.mk' (N.subgroupOf (W ⊔ N))) = ⊥) :
@@ -130,6 +138,7 @@ private theorem le_of_map_eq_bot_coreA {K W N : Subgroup G} (hKWN : K ≤ W ⊔ 
   rw [h, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
   exact h1
 
+omit [Finite G] in
 theorem le_of_perfect_of_le_sup_coreA {K W N : Subgroup G} (hK : ⁅K, K⁆ = K)
     (hWN : W ≤ Subgroup.normalizer (N : Set G)) (hW : Group.IsSolvable W)
     (hKWN : K ≤ W ⊔ N) : K ≤ N := by
@@ -172,6 +181,7 @@ variable {R Rp H K Q LH V : Subgroup G} {F : Type} [Field F] [Fintype F]
 @[expose] def InR2 (R Rp V : Subgroup G) (s : G) : Prop :=
   s ∈ Rp ∧ s ∈ Subgroup.normalizer (R : Set G) ∧ ∀ ω ∈ omegaOneCenterOf R, ⁅ω, s⁆ ∈ V
 
+omit [Finite G] in
 private theorem coreA_F1 (h : CoreHyp R Rp H K Q LH V F α β) {g x : G} (hg : g ∈ LH)
     (hx : x ∈ omegaOneCenterOf R) : x * (g * x * g⁻¹)⁻¹ ∈ V := by
   have e : x * (g * x * g⁻¹)⁻¹ = ⁅x, g⁆ := by
@@ -182,16 +192,19 @@ private theorem coreA_F1 (h : CoreHyp R Rp H K Q LH V F α β) {g x : G} (hg : g
   rw [← e]
   exact (omegaOneCenterOf R).mul_mem hx ((omegaOneCenterOf R).inv_mem hgx)
 
+omit [Finite G] in
 private theorem coreA_F1' (h : CoreHyp R Rp H K Q LH V F α β) {g x : G} (hg : g ∈ LH)
     (hx : x ∈ omegaOneCenterOf R) : x * (g⁻¹ * x * g)⁻¹ ∈ V := by
   have := coreA_F1 h (LH.inv_mem hg) hx
   rwa [inv_inv] at this
 
+omit [Finite G] in
 theorem omega_comm_R {a r : G} (ha : a ∈ omegaOneCenterOf R) (hr : r ∈ R) : a * r = r * a :=
   (Subgroup.mem_centralizer_iff.mp
     (CFSG.Quasithin.A4.centerOf_le_centralizer R
       (CFSG.Quasithin.A4.omegaOneCenterOf_le_centerOf R ha)) r hr).symm
 
+omit [Finite G] in
 theorem inR2_mul (h : CoreHyp R Rp H K Q LH V F α β) {s s' : G} (hs : InR2 R Rp V s)
     (hs' : InR2 R Rp V s') : InR2 R Rp V (s * s') := by
   unfold InR2 at hs hs' ⊢
@@ -204,6 +217,7 @@ theorem inR2_mul (h : CoreHyp R Rp H K Q LH V F α β) {s s' : G} (hs : InR2 R R
   rw [e]
   exact V.mul_mem (hsV ω hω) (by rw [coreA_conj_eq hc (hsV' ω hω)]; exact hsV' ω hω)
 
+omit [Finite G] in
 theorem inR2_inv (h : CoreHyp R Rp H K Q LH V F α β) {s : G} (hs : InR2 R Rp V s) :
     InR2 R Rp V s⁻¹ := by
   unfold InR2 at hs ⊢
@@ -215,6 +229,7 @@ theorem inR2_inv (h : CoreHyp R Rp H K Q LH V F α β) {s : G} (hs : InR2 R Rp V
   rw [e, coreA_conj_eq hc (V.inv_mem (hsV ω hω))]
   exact V.inv_mem (hsV ω hω)
 
+omit [Finite G] in
 theorem inR2_conj (h : CoreHyp R Rp H K Q LH V F α β) {s t : G} (hs : InR2 R Rp V s)
     (ht : t ∈ LH) : InR2 R Rp V (t * s * t⁻¹) := by
   unfold InR2 at hs ⊢
@@ -229,6 +244,7 @@ theorem inR2_conj (h : CoreHyp R Rp H K Q LH V F α β) {s t : G} (hs : InR2 R R
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp (h.LHV ht) _).mp (hsV _ htω)
 
+omit [Finite G] in
 theorem inR2_comm (h : CoreHyp R Rp H K Q LH V F α β) {s h' : G} (hsR : s ∈ Rp)
     (hsN : s ∈ Subgroup.normalizer (R : Set G)) (hh : h' ∈ LH) :
     InR2 R Rp V (s * h' * s⁻¹ * h'⁻¹) := by
@@ -273,7 +289,7 @@ theorem exists_inR2_not_mem (h : CoreHyp R Rp H K Q LH V F α β)
       LH.map (MulAut.conj s₀).toMonoidHom := by
     rw [← Subgroup.map_commutator, h.LHp]
   have hRsolv : Group.IsSolvable R := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have := (h.Rp2.to_le h.RRp).isNilpotent
     infer_instance
   have hPLH : LH.map (MulAut.conj s₀).toMonoidHom ≤ LH :=

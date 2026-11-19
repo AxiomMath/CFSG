@@ -48,7 +48,7 @@ theorem IsMaxArc.eq_of_Zv_le
         (x₁ := t.x₁) (x₂ := t.x₂)
         (a := ε + 1 - b₁) (b := ε + 1 + b₁)
         (a' := ε + b₀ + 1) (b' := ε + b₀ + 1)
-        (by push_cast; omega) (by push_cast; omega)
+        (by omega) (by omega)
       simpa using hwin.trans_eq (win_self (ε + b₀ + 1))
     exact h₀.not_le_Gv hleGv
   obtain ⟨m', hm'⟩ := even_iff_two_dvd.mp (Track.IsMaxArc.even t hfr h hrq)
@@ -254,9 +254,9 @@ theorem IsMaxArc.card_Zv_add_one_le {a f : ℕ}
         ((if Even (ε + 2 - (m : ℤ)) then 2 ^ (2 * a + 1) else 2 ^ f) *
           (if Even (ε + (m : ℤ)) then 2 ^ (2 * a + 1) else 2 ^ f)) =
         (2 ^ (2 * a + 1)) ^ 2 * 2 ^ f := by
-      rw [if_neg hparC, if_pos hparB, if_pos hparA]
+      rw [ite_eq_right hparC, ite_eq_left hparB, ite_eq_left hparA]
       ring
-    rw [if_pos hε]
+    rw [ite_eq_left hε]
     exact hmain.trans_eq hval
   · have hoddε : Odd ε := Int.not_even_iff_odd.mp hε
     have hoddA : Odd (ε + (m : ℤ)) := hoddε.add_even hmEven
@@ -271,9 +271,9 @@ theorem IsMaxArc.card_Zv_add_one_le {a f : ℕ}
         ((if Even (ε + 2 - (m : ℤ)) then 2 ^ (2 * a + 1) else 2 ^ f) *
           (if Even (ε + (m : ℤ)) then 2 ^ (2 * a + 1) else 2 ^ f)) =
         (2 ^ f) ^ 2 * 2 ^ (2 * a + 1) := by
-      rw [if_pos hparC, if_neg hparB, if_neg hparA]
+      rw [ite_eq_left hparC, ite_eq_right hparB, ite_eq_right hparA]
       ring
-    rw [if_neg hε]
+    rw [ite_eq_right hε]
     exact hmain.trans_eq hval
 
 end Track

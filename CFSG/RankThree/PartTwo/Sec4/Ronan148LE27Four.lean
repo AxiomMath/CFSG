@@ -127,7 +127,7 @@ theorem unitary_permGL3_FU :
   rw [coe_permGL3]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [permMat3, Matrix.mul_apply, Fin.sum_univ_three, h0, (Fact.out : p.Prime).ne_zero]
+    simp [permMat3, Matrix.mul_apply, Fin.sum_univ_three, (Fact.out : p.Prime).ne_zero]
 
 theorem exists_permMat_SU4 (σ : Equiv.Perm (Fin 4)) (hσ : Equiv.Perm.sign σ = 1) :
     ∃ n ∈ SU4 p, (n : Matrix (Fin 4) (Fin 4) (FU p)) = σ.toPEquiv.toMatrix := by
@@ -285,7 +285,7 @@ theorem noThreeCover_projSU4
     simp only [generic, exceptional, Nat.card_prod, card_multiplicative_zmod, hexc]
     simp [genericOrders]
   have hg : 0 < Nat.gcd 4 (p ^ 1 + 1) := Nat.gcd_pos_of_pos_left _ (by norm_num)
-  haveI : Finite (generic .PSU 4 p 1 × exceptional .PSU 4 p 1) :=
+  have : Finite (generic .PSU 4 p 1 × exceptional .PSU 4 p 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
   refine noThreeCover_of_hopf e ?_
   rw [hcard]
@@ -455,7 +455,7 @@ theorem noThreeCover_projSL4
     simp only [generic, exceptional, Nat.card_prod, card_multiplicative_zmod, hexc]
     simp [genericOrders]
   have hg : 0 < Nat.gcd 4 (p ^ 1 - 1) := Nat.gcd_pos_of_pos_left _ (by norm_num)
-  haveI : Finite (generic .PSL 4 p 1 × exceptional .PSL 4 p 1) :=
+  have : Finite (generic .PSL 4 p 1 × exceptional .PSL 4 p 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
   refine noThreeCover_of_hopf e ?_
   rw [hcard]

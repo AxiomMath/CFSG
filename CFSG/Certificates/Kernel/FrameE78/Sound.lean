@@ -51,9 +51,9 @@ theorem ln_succ (x q : ℕ) : ln x (q + 1) = ln (x / 4) q := by
 theorem ln_add4 {r : ℕ} (hr : r < 4) (m q : ℕ) :
     ln (r + 4 * m) q = if q = 0 then r else ln m (q - 1) := by
   cases q with
-  | zero => rw [ln_zero, if_pos rfl]; omega
+  | zero => rw [ln_zero, ite_eq_left rfl]; omega
   | succ q =>
-    rw [ln_succ, if_neg (Nat.succ_ne_zero q), Nat.add_sub_cancel]
+    rw [ln_succ, ite_eq_right (Nat.succ_ne_zero q), Nat.add_sub_cancel]
     congr 1
     omega
 
@@ -83,17 +83,17 @@ theorem ln_shl {v : ℕ} (hv : v < 4) (k q : ℕ) :
     ln (v <<< (2 * k)) q = if q = k then v else 0 := by
   rw [ln_bits, Nat.testBit_shiftLeft, Nat.testBit_shiftLeft]
   rcases lt_trichotomy q k with h | rfl | h
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     simp only [ge_iff_le, decide_eq_false (by omega : ¬ 2 * q ≥ 2 * k),
       decide_eq_false (by omega : ¬ 2 * q + 1 ≥ 2 * k), Bool.false_and]
     rfl
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     simp only [ge_iff_le, le_refl, decide_true, Bool.true_and, Nat.sub_self,
       decide_eq_true (by omega : 2 * q ≤ 2 * q + 1), Nat.add_sub_cancel_left]
     have h := ln_bits v 0
     rw [ln_zero, Nat.mod_eq_of_lt hv, Nat.mul_zero, Nat.zero_add] at h
     exact h.symm
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     have hv' : v < 2 ^ 2 := hv
     have e0 : v.testBit (2 * q - 2 * k) = false :=
       Nat.testBit_lt_two_pow (lt_pow_of hv' (by omega))
@@ -108,7 +108,7 @@ private theorem ln_zero_val (q : ℕ) : ln 0 q = 0 := by
 theorem ln_pack (g : ℕ → ℕ) : ∀ k q, ln (Nat.rec (motive := fun _ => ℕ) 0
     (fun p ih => ih ||| (g p % 3) <<< (2 * p)) k) q = if q < k then g q % 3 else 0
   | 0, q => by
-    rw [if_neg (Nat.not_lt_zero q)]
+    rw [ite_eq_right (Nat.not_lt_zero q)]
     exact ln_zero_val q
   | k + 1, q => by
     have hv : g k % 3 < 4 := lt_trans (Nat.mod_lt _ (by decide)) (by decide)
@@ -116,12 +116,12 @@ theorem ln_pack (g : ℕ → ℕ) : ∀ k q, ln (Nat.rec (motive := fun _ => ℕ
       (fun p ih => ih ||| (g p % 3) <<< (2 * p)) k ||| (g k % 3) <<< (2 * k)) q = _
     by_cases hq : q = k
     · subst hq
-      rw [ln_or_right (by rw [ln_pack g q q, if_neg (Nat.lt_irrefl q)]), ln_shl hv, if_pos rfl,
-        if_pos (Nat.lt_succ_self q)]
-    · rw [ln_or_left (by rw [ln_shl hv, if_neg hq]), ln_pack g k q]
+      rw [ln_or_right (by rw [ln_pack g q q, ite_eq_right (Nat.lt_irrefl q)]), ln_shl hv, ite_eq_left rfl,
+        ite_eq_left (Nat.lt_succ_self q)]
+    · rw [ln_or_left (by rw [ln_shl hv, ite_eq_right hq]), ln_pack g k q]
       by_cases hk : q < k
-      · rw [if_pos hk, if_pos (by omega)]
-      · rw [if_neg hk, if_neg (by omega)]
+      · rw [ite_eq_left hk, ite_eq_left (by omega)]
+      · rw [ite_eq_right hk, ite_eq_right (by omega)]
 
 theorem VOK_zero {x : ℕ} : VOK 0 x ↔ x = 0 := by
   unfold VOK
@@ -231,7 +231,7 @@ theorem lead_spec : ∀ (n x : ℕ), (lead n x = 0 ∧ ∀ q < n, ln x q = 0) �
   | n + 1, x => by
     rw [lead_succ]
     by_cases h0 : x % 4 = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       rcases lead_spec n (x / 4) with ⟨h1, h2⟩ | ⟨q0, hq0, h1, h2, h3⟩
       · refine Or.inl ⟨h1, fun q hq => ?_⟩
         cases q with
@@ -242,7 +242,7 @@ theorem lead_spec : ∀ (n x : ℕ), (lead n x = 0 ∧ ∀ q < n, ln x q = 0) �
         cases q with
         | zero => rw [ln_zero]; exact h0
         | succ q => rw [ln_succ]; exact h3 q (by omega)
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       exact Or.inr ⟨0, Nat.succ_pos n, by rw [ln_zero], by rw [ln_zero]; exact h0,
         fun q hq => absurd hq (Nat.not_lt_zero q)⟩
 
@@ -272,7 +272,7 @@ noncomputable instance (n x : ℕ) : Decidable (VOK n x) :=
 
 private theorem card_vok : ∀ n, ((Finset.range (4 ^ n)).filter (VOK n)).card = 3 ^ n
   | 0 => by
-    rw [card_eq_sum, pow_zero, pow_zero, Finset.sum_range_one, if_pos (VOK_zero.2 rfl)]
+    rw [card_eq_sum, pow_zero, pow_zero, Finset.sum_range_one, ite_eq_left (VOK_zero.2 rfl)]
   | n + 1 => by
     rw [card_eq_sum, pow_succ', sum_range_four, pow_succ', ← card_vok n, card_eq_sum,
       Finset.mul_sum]
@@ -286,7 +286,7 @@ private theorem card_vok : ∀ n, ((Finset.range (4 ^ n)).filter (VOK n)).card =
 theorem card_norm : ∀ n,
     2 * ((Finset.range (4 ^ n)).filter (fun x => VOK n x ∧ lead n x = 1)).card + 1 = 3 ^ n
   | 0 => by
-    rw [card_eq_sum, pow_zero, pow_zero, Finset.sum_range_one, if_neg (fun h => by
+    rw [card_eq_sum, pow_zero, pow_zero, Finset.sum_range_one, ite_eq_right (fun h => by
       rw [lead_zero] at h; exact absurd h.2 (by decide))]
     rfl
   | n + 1 => by
@@ -329,7 +329,7 @@ theorem ln_cvec {n p : ℕ} (C c : ℕ) (hp : p < n) :
     ln (cvec n C c) p = (∑ q ∈ Finset.range n, cij C p q * ln c q) % 3 := by
   have h := ln_pack (fun p => Nat.rec (motive := fun _ => ℕ) 0
     (fun q ih' => ih' + cij C p q * ln c q) n) n p
-  rw [if_pos hp, rec_sum] at h
+  rw [ite_eq_left hp, rec_sum] at h
   exact h
 
 theorem ln_sV {n C j x p : ℕ} (hp : p < n) (hx : ln x p ≤ 2) :
@@ -340,10 +340,10 @@ theorem ln_sV {n C j x p : ℕ} (hp : p < n) (hx : ln x p ≤ 2) :
     x (Nat.beq xj 0)) p = _
   rw [strictN_eq, nIf_eq]
   by_cases h0 : ln x j = 0
-  · rw [if_pos (beqT.2 h0), h0, Nat.zero_mul, Nat.mul_zero, Nat.add_zero]
+  · rw [ite_eq_left (beqT.2 h0), h0, Nat.zero_mul, Nat.mul_zero, Nat.add_zero]
     omega
-  · rw [if_neg (fun h => h0 (beqT.1 h)), ln_pack (fun p => ln x p + 2 * (ln x j * cij C p j)) n p,
-      if_pos hp]
+  · rw [ite_eq_right (fun h => h0 (beqT.1 h)), ln_pack (fun p => ln x p + 2 * (ln x j * cij C p j)) n p,
+      ite_eq_left hp]
 
 theorem pack_lt (g : ℕ → ℕ) : ∀ k, Nat.rec (motive := fun _ => ℕ) 0
     (fun p ih => ih ||| (g p % 3) <<< (2 * p)) k < 4 ^ k
@@ -369,7 +369,7 @@ theorem VOK_sV {n C j y : ℕ} (hy : VOK n y) : VOK n (sV n C j y) := by
   split
   · exact hy
   · refine ⟨pack_lt _ n, fun q hq => ?_⟩
-    rw [ln_pack, if_pos hq]
+    rw [ln_pack, ite_eq_left hq]
     omega
 
 private theorem ln_clear : ∀ (i c q : ℕ),
@@ -379,7 +379,7 @@ private theorem ln_clear : ∀ (i c q : ℕ),
       ln_add4 (by decide)]
     cases q with
     | zero => rfl
-    | succ q => rw [if_neg (Nat.succ_ne_zero q), if_neg (Nat.succ_ne_zero q), ln_succ,
+    | succ q => rw [ite_eq_right (Nat.succ_ne_zero q), ite_eq_right (Nat.succ_ne_zero q), ln_succ,
         Nat.add_sub_cancel]
   | i + 1, c, q => by
     rw [ln_succ]
@@ -392,12 +392,12 @@ private theorem ln_clear : ∀ (i c q : ℕ),
       omega
     rw [e, ln_add4 (Nat.mod_lt _ (by decide))]
     cases q with
-    | zero => rw [if_pos rfl, if_neg (by omega), ln_zero]
+    | zero => rw [ite_eq_left rfl, ite_eq_right (by omega), ln_zero]
     | succ q =>
-      rw [if_neg (Nat.succ_ne_zero q), Nat.add_sub_cancel, ln_clear i (c / 4) q, ln_succ]
+      rw [ite_eq_right (Nat.succ_ne_zero q), Nat.add_sub_cancel, ln_clear i (c / 4) q, ln_succ]
       by_cases hq : q = i
-      · rw [if_pos hq, if_pos (by omega)]
-      · rw [if_neg hq, if_neg (by omega)]
+      · rw [ite_eq_left hq, ite_eq_left (by omega)]
+      · rw [ite_eq_right hq, ite_eq_right (by omega)]
 
 theorem ln_sRt (c Cc i q : ℕ) :
     ln (sRt c Cc i) q = if q = i then (ln c i + 2 * ln Cc i) % 3 else ln c q := by
@@ -408,8 +408,8 @@ theorem ln_sRt (c Cc i q : ℕ) :
   rw [e]
   by_cases hq : q = i
   · subst hq
-    rw [ln_or_right (by rw [ln_clear, if_pos rfl]), ln_shl hv, if_pos rfl, if_pos rfl]
-  · rw [ln_or_left (by rw [ln_shl hv, if_neg hq]), ln_clear, if_neg hq, if_neg hq]
+    rw [ln_or_right (by rw [ln_clear, ite_eq_left rfl]), ln_shl hv, ite_eq_left rfl, ite_eq_left rfl]
+  · rw [ln_or_left (by rw [ln_shl hv, ite_eq_right hq]), ln_clear, ite_eq_right hq, ite_eq_right hq]
 
 theorem ptsOK_sound {n N V : ℕ} (hn : n ≤ 8) (h : ptsOK n N V = true) :
     2 * N = 3 ^ n - 1 ∧ ∀ i < N, VOK n (vget V i) ∧ lead n (vget V i) = 1 ∧
@@ -423,7 +423,7 @@ theorem ptsOK_sound {n N V : ℕ} (hn : n ≤ 8) (h : ptsOK n N V = true) :
   obtain ⟨hv, hl, hs⟩ := h3
   rw [bIf_eq] at hs
   refine ⟨validV_sound hn hv, beqT.1 hl, fun hi1 => ?_⟩
-  rw [if_pos (bltT.2 hi1)] at hs
+  rw [ite_eq_left (bltT.2 hi1)] at hs
   exact bltT.1 hs
 
 theorem ptsOK_lt {n N V : ℕ} (hn : n ≤ 8) (h : ptsOK n N V = true) :
@@ -565,7 +565,7 @@ private theorem foldr_cnt (f : ℕ → Bool) : ∀ (l : List ℕ) (s : ℕ),
     rw [List.foldr_cons, foldr_cnt f l, List.filter_cons]
     cases f x
     · rfl
-    · rw [if_pos rfl, List.length_cons]
+    · rw [ite_eq_left rfl, List.length_cons]
       rfl
 
 theorem cntN_eq (m : ℕ) (f : ℕ → Bool) :
@@ -579,7 +579,7 @@ theorem cntN_eq (m : ℕ) (f : ℕ → Bool) :
       Finset.filter_insert, List.filter_cons, List.filter_nil]
     cases hf : f m
     · simp
-    · rw [if_pos rfl, if_pos rfl, Finset.card_insert_of_notMem (fun hm => by
+    · rw [ite_eq_left rfl, ite_eq_left rfl, Finset.card_insert_of_notMem (fun hm => by
         rw [Finset.mem_filter, Finset.mem_range] at hm; exact Nat.lt_irrefl m hm.1)]
       rfl
 
@@ -591,9 +591,9 @@ theorem txOK_sound {n m RP x Tm : ℕ} (h : txOK n m RP x Tm = true) :
   have h1 := allN_iff.1 h.2 a ha
   rw [bIf_eq, bitB_eq, notB_eq] at h1
   by_cases hd : dot3 n (rc RP a) x = 0
-  · rw [if_pos (beqT.2 hd)] at h1
+  · rw [ite_eq_left (beqT.2 hd)] at h1
     exact ⟨fun _ => hd, fun _ => h1⟩
-  · rw [if_neg (fun e => hd (beqT.1 e)), Bool.not_eq_true'] at h1
+  · rw [ite_eq_right (fun e => hd (beqT.1 e)), Bool.not_eq_true'] at h1
     exact ⟨fun e => absurd (h1 ▸ e) Bool.false_ne_true, fun e => absurd e hd⟩
 
 theorem unifK_sound {n m RP Tm t d : ℕ} (h : unifK n m RP Tm t d = true) :
@@ -607,7 +607,7 @@ theorem unifK_sound {n m RP Tm t d : ℕ} (h : unifK n m RP Tm t d = true) :
   simp only [bitB_eq] at h1
   refine ⟨h1, fun a ha hT => ?_⟩
   have h3 := allN_iff.1 h2 a ha
-  rw [bIf_eq, bitB_eq, if_pos hT, beqT, cntN_eq] at h3
+  rw [bIf_eq, bitB_eq, ite_eq_left hT, beqT, cntN_eq] at h3
   rw [← h3]
   congr 1
   apply Finset.filter_congr
@@ -651,14 +651,14 @@ theorem splitK_sound {n m RP Tm P : ℕ} (h : splitK n m RP Tm P = true) :
   · rw [e, Nat.beq_refl] at h3
     exact Bool.noConfusion h3
   · have h5 := allN_iff.1 h4 a ha
-    rw [bIf_eq, bitB_eq P a, if_pos hPa] at h5
+    rw [bIf_eq, bitB_eq P a, ite_eq_left hPa] at h5
     have h6 := allN_iff.1 h5 b hb
     have hx : bitB (Nat.xor Tm P) b = true := by
       rw [bitB_eq]
       change (Tm ^^^ P).testBit b = true
       rw [Nat.testBit_xor, hTb, hPb]
       rfl
-    rw [bIf_eq, if_pos hx] at h6
+    rw [bIf_eq, ite_eq_left hx] at h6
     exact beqT.1 h6
 
 theorem repK_sound {n m RP V b : ℕ} {Q : List ℕ} (h : repK n m RP V b Q = true) :
@@ -671,9 +671,9 @@ theorem repK_sound {n m RP V b : ℕ} {Q : List ℕ} (h : repK n m RP V b Q = tr
   obtain ⟨h1, h2⟩ := h
   refine ⟨h1, ?_⟩
   by_cases hk : getS Q 1 = 0
-  · rw [if_pos (beqT.2 hk), strictB_eq, bAnd_eq, Bool.and_eq_true] at h2
+  · rw [ite_eq_left (beqT.2 hk), strictB_eq, bAnd_eq, Bool.and_eq_true] at h2
     exact Or.inl ⟨hk, h2⟩
-  · rw [if_neg (fun e => hk (beqT.1 e)), bAnd_eq, Bool.and_eq_true] at h2
+  · rw [ite_eq_right (fun e => hk (beqT.1 e)), bAnd_eq, Bool.and_eq_true] at h2
     exact Or.inr ⟨beqT.1 h2.1, h2.2⟩
 
 end CFSG.KC.FrameE78

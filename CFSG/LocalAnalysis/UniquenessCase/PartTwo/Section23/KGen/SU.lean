@@ -63,8 +63,8 @@ theorem genLine_statedSU_four {K : Type} [Field K] {f : ℕ} (h : UnitaryFieldDa
     (hf : 2 ≤ f) :
     GenLine 3 (StatedSU 4 (2 ^ f) K) (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   set V : Subgroup (GL (Fin 4) K) := blkSU2L f K with hVdef
   have hfacts := sl2_block_facts h (nonempty_blkSU2L_mulEquiv h)
   have hVperf : Group.IsPerfect ↥V := by
@@ -87,7 +87,7 @@ theorem genLine_statedSU_four {K : Type} [Field K] {f : ℕ} (h : UnitaryFieldDa
   have h3dvd : 3 ∣ Nat.card ↥V := by
     rw [hVcard]
     exact dvd_mul_of_dvd_right h3 (2 ^ f)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨xV, hxVord⟩ := exists_prime_orderOf_dvd_card' (G := ↥V) 3 h3dvd
   let x : GL (Fin 4) K := xV
   have hxV : x ∈ V := xV.2

@@ -98,10 +98,10 @@ private noncomputable def e67T {K : Type} [Group K] {R : Type} [Group R]
 
 private theorem e67_finite_mulAut {K : Type} [Group K] [Finite K] {R : Type} [Group R]
     (θ : K ⧸ Subgroup.center K ≃* R) : Finite (MulAut R) := by
-  haveI : Finite (K ⧸ Subgroup.center K) :=
+  have : Finite (K ⧸ Subgroup.center K) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite R := Finite.of_equiv _ θ.toEquiv
+  have : Finite R := Finite.of_equiv _ θ.toEquiv
   exact CFSG.StandardType.TableBSymp.finite_mulAut (R := R)
 
 private theorem e67Bridge_facts {τ : Tag} {L : Type} [Field L]
@@ -222,7 +222,7 @@ private theorem e67_count_centralizer {τ : Tag} {L : Type} [Field L]
   let D : Subgroup (ModGL τ L) := powCentralSubgroup Ê (adjointGroup τ L) hcommG
   obtain ⟨hÊC, hDC, hCcomm, hCAD⟩ :=
     e67_centralizer_facts hÊadj hÊea hcommG hdec
-  haveI : Finite Ê := (Nat.card_ne_zero.mp (by rw [hEq]; norm_num)).2
+  have : Finite Ê := (Nat.card_ne_zero.mp (by rw [hEq]; norm_num)).2
   have hcount := CFSG.GroupTheory.encard_pow_mem_le_card_mul_encard
     (C := e67Centralizer Ê) (A := Ê) (D := D) hÊC hDC hCcomm hCAD 3
   have h9' : {d : ModGL τ L | d ∈ D ∧ d ^ 3 = 1}.encard ≤ 9 := by
@@ -317,7 +317,7 @@ private theorem e67_injection_bound {τ : Tag} {L : Type} [Field L]
       c ^ 3 ∈ e67Bridge Θ θ E}.encard ≤ 3 ^ 4 * 9) :
     Nat.card (e67T θ E I (e67Ebar θ E)) ≤ 3 ^ 4 * 9 := by
   have hle := e67_injection_le_target hH θ Θ hΘ hI (E := E)
-  exact ENat.coe_le_coe.mp (hle.trans hcount)
+  exact ENat.natCast_le_natCast.mp (hle.trans hcount)
 
 private theorem e67_piK_bound {τ : Tag} {L : Type} [Field L]
     {H : Subgroup (ModGL τ L)} (hH : H ≤ adjointGroup τ L)
@@ -355,7 +355,7 @@ private theorem e67_contradiction {R : Type} [Group R] (T : Set (MulAut R))
 private theorem e67_not_three_dvd_card (K₀ : Type) [Field K₀] [Finite K₀] [CharP K₀ 2] :
     ¬ 3 ∣ Nat.card K₀ := by
   intro h3
-  haveI := Fintype.ofFinite K₀
+  have := Fintype.ofFinite K₀
   obtain ⟨n, -, hn⟩ := FiniteField.card K₀ 2
   have hcard : Nat.card K₀ = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   rw [hcard] at h3
@@ -396,7 +396,7 @@ private theorem e67_e6_false
     omega
   obtain ⟨hcommG, hdec, h9⟩ := hB2 K₀ (e67Bridge Θ θ E) hÊadj hÊea hnt hEq
   have hcount := e67_count_centralizer hÊadj hÊea hcommG hdec h9 hEq
-  haveI : Finite (MulAut R) := e67_finite_mulAut θ
+  have : Finite (MulAut R) := e67_finite_mulAut θ
   have hTle := e67_injection_bound hH θ Θ hΘ hI hcount
   have hPiK := e67_piK_bound hH θ Θ hΘ hI hcyc hKG' hK hcommG
   have hEcard : Nat.card E = 3 ^ 4 := by rw [← hÊcard]; exact hEq

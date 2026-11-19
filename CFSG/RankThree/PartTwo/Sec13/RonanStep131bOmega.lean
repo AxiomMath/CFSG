@@ -67,7 +67,7 @@ theorem ronan131b_piece_solvable {G : Type} [Group G] [Finite G] (a b : G) :
   obtain ⟨hsol, h3⟩ := Sec4.Item422Proof.inSubgroup_theta_solvable_coprime
     (Subgroup.centralizer ({a} : Set G))
   refine ⟨?_, fun h => h3 (h.trans (Subgroup.card_dvd_of_le inf_le_left))⟩
-  haveI := hsol
+  have := hsol
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective inf_le_left)
 
 theorem ronan131b_normalizes_piece {G : Type} [Group G] {a b m : G}
@@ -84,7 +84,7 @@ theorem ronan131b_normalizes_piece {G : Type} [Group G] {a b m : G}
 
 theorem ronan131b_R_le_theta {G : Type} [Group G] [Finite G] {R : Subgroup G} {a b : G}
     (hRa : R ≤ inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)))
-    (hRb : R ≤ Subgroup.centralizer ({b} : Set G))
+    (_hRb : R ≤ Subgroup.centralizer ({b} : Set G))
     (aC : ↥(Subgroup.centralizer ({b} : Set G))) (haCe : (aC : G) = a) :
     R.subgroupOf (Subgroup.centralizer ({b} : Set G)) ≤
       inSubgroup (aschbacherSolvableCore 3)
@@ -93,7 +93,7 @@ theorem ronan131b_R_le_theta {G : Type} [Group G] [Finite G] {R : Subgroup G} {a
   have hPC : ronan131bPiece a b ≤ Subgroup.centralizer ({b} : Set G) := inf_le_right
   have hPsol : Group.IsSolvable ↥((ronan131bPiece a b).subgroupOf
       (Subgroup.centralizer ({b} : Set G))) := by
-    haveI := hsol
+    have := hsol
     exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hPC).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPC).symm.surjective
   have hP3 : ¬ 3 ∣ Nat.card ↥((ronan131bPiece a b).subgroupOf
@@ -125,7 +125,7 @@ theorem ronan131b_R_le_theta {G : Type} [Group G] [Finite G] {R : Subgroup G} {a
       exact congrArg Subtype.val hmC
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact ronan131b_normalizes_piece hma m.2 (h : G)
   have hSnorm := (Subgroup.normal_subgroupOf_iff_le_normalizer hSM).mpr hMN
   have hθ := Sec4.Item422Proof.le_inSubgroup_theta_of_normal hSM hSnorm hPsol hP3
@@ -173,7 +173,7 @@ theorem ronan131b_H1 {G : Type} [Group G] [Finite G] {F Bs : Subgroup G} {b : G}
       aschbacherSolvableCore 3 (Subgroup.centralizer ({b} : Set G) ⧸ centralLine b)) :
     thetaAlpha 3 (Bs.subgroupOf (Subgroup.centralizer ({b} : Set G))) ≤
       aschbacherSolvableCore 3 (Subgroup.centralizer ({b} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFcomm : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hFe.1.is_comm.comm (⟨x, hx⟩ : F) ⟨y, hy⟩)
   have hF3 : ∀ x ∈ F, x ^ 3 = 1 := hFe.2
@@ -336,7 +336,7 @@ theorem not_starConditionAt {G : Type} [Group G] [Finite G] {F R : Subgroup G} {
     rw [Subgroup.mem_normalizer_iff]
     intro h
     have hc := Subgroup.mem_normalizer_iff.mp (hFR hcF) (h : G)
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv,
       hcCe]
     exact hc
   have hRp2 : IsPGroup 2 (R.subgroupOf (Subgroup.centralizer ({b} : Set G))) :=

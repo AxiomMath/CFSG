@@ -27,7 +27,7 @@ structure Crit (ι : Λ →* (E ≃ₗ[ZMod 2] E)) (P W : Subgroup Λ) (r s : Λ
 theorem isNilpotent_of_fpf (P : Subgroup Λ) [P.Normal] (r : Λ) (hr3 : r ^ 3 = 1)
     (hfix : ∀ x ∈ P, r * x * r⁻¹ = x → x = 1) : Group.IsNilpotent ↥P := by
   by_cases hsub : Subsingleton ↥P
-  · haveI := hsub
+  · have := hsub
     infer_instance
   ·
     let α : MulAut ↥P := MulAut.conjNormal r
@@ -58,15 +58,15 @@ theorem isNilpotent_of_fpf (P : Subgroup Λ) [P.Normal] (r : Λ) (hr3 : r ^ 3 = 
 theorem exists_normal_sylow (P : Subgroup Λ) [P.Normal] (hnil : Group.IsNilpotent ↥P) (p : ℕ)
     [Fact p.Prime] :
     ∃ R : Subgroup Λ, R ≤ P ∧ R.Normal ∧ IsPGroup p R ∧ ¬ p ∣ R.relIndex P := by
-  haveI : Group.IsNilpotent ↥P := hnil
+  have : Group.IsNilpotent ↥P := hnil
   let S : Sylow p ↥P := Classical.arbitrary _
   let R : Subgroup Λ := (S : Subgroup ↥P).map P.subtype
   have hRP : R ≤ P := Subgroup.map_subtype_le _
-  have hRpg : IsPGroup p R := S.isPGroup'.map P.subtype
+  have hRpg : IsPGroup p R := S.isPGroup.map P.subtype
   have hSchar : (S : Subgroup ↥P).Characteristic :=
     Sylow.characteristic_of_normal S inferInstance
   have hRnorm : R.Normal := by
-    haveI : (S : Subgroup ↥P).Characteristic := hSchar
+    have : (S : Subgroup ↥P).Characteristic := hSchar
     exact ConjAct.normal_of_characteristic_of_normal
   refine ⟨R, hRP, hRnorm, hRpg, ?_⟩
   have hRsub : R.subgroupOf P = S := by

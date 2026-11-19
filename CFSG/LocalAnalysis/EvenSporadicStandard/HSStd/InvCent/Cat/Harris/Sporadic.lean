@@ -22,7 +22,7 @@ theorem sporadic_arm {s : TauCeti.SporadicName}
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) : s = .HS := by
   have hσ : orderOf (MulAut.conjNormal t : MulAut ↥S) = 2 := orderOf_conjNormal h.cent h.ord
   obtain ⟨e⟩ := commutator_fixed_equiv h ζ
-  haveI : (commutator ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S))).Normal :=
+  have : (commutator ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S))).Normal :=
     Subgroup.commutator_normal ⊤ ⊤
   have hD := isComponent_of_alt6 _ e
   have hcard := card_quotient_center_alt6 e

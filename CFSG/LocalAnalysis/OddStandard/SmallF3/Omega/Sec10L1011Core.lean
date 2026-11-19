@@ -38,7 +38,7 @@ private lemma sec1011_wfour_ne_zero (i : Fin 5) : sec1011_wfour i ≠ 0 := by
   intro h
   have hw := sec1011_wfour_weight i
   rw [h] at hw
-  simpa [vecWeight] using hw
+  simp [vecWeight] at hw
 
 private lemma sec1011_orb_smul {K : Subgroup (MulAut A)} {t : A} {α : MulAut A}
     (hα : α ∈ K) {a : A} (ha : a ∈ sec1011_orb K t) : α a ∈ sec1011_orb K t := by
@@ -86,7 +86,7 @@ theorem Sec1011Core.orb_sub (h : Sec1011Core B t K φ) :
   exact ⟨t⁻¹ * α t, h.coset_inv α hα, by group⟩
 
 theorem Sec1011Core.orb_weight_four (h : Sec1011Core B t K φ) {v : Fin 5 → ZMod 2}
-    (hv : IsEvenVec v) (hw : vecWeight v = 4) : t * φ v ∈ sec1011_orb K t := by
+    (_hv : IsEvenVec v) (hw : vecWeight v = 4) : t * φ v ∈ sec1011_orb K t := by
   obtain ⟨v0, hv0, hv0w, β, hβK, hβt⟩ := h.tz_mem
   obtain ⟨σ, hσ, hσv⟩ := exists_alt_permVec_weight_four v0 v hv0w hw
   obtain ⟨α, hαK, hαt, hα⟩ := h.N_act σ hσ

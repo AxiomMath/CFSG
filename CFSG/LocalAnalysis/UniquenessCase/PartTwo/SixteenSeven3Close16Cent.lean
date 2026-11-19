@@ -61,7 +61,7 @@ theorem close16_centralizer_le (hS : Close16Setting D V L hV)
     (hY : Close16Pack D V L hV Y) {z : G} (hz : z ∈ V ⊓ centralizer (D.T : Set G)) (hz1 : z ≠ 1)
     (hN7 : ∀ A : Subgroup G, A ≤ Y → Nat.card A = 7 → normalizer (A : Set G) ≤ D.M) :
     centralizer ({z} : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Ψ, hΨ, hker⟩ := close16_zc_quot hS hY hz hz1
   set Z : Subgroup G := Y ⊓ centralizer ({z} : Set G) with hZdef
   have hZM : Z ≤ D.M := inf_le_left.trans hY.le

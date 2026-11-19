@@ -26,7 +26,7 @@ private theorem i167CS_block_aux1 {S : Type} [Group S] [Finite S] {p : ℕ} (hp 
   have hO : GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
     by_cases htop : GLAPPrimeCore p ↥J = ⊤
     · exfalso
-      haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
+      have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
       obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot p J)
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -68,7 +68,7 @@ private theorem i167CS_block_aux2 {K : Type} [Field K] [Finite K] {n m p : ℕ}
   have hJcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))) :=
     (CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_isComponent_of_le_layer hJ hJle).1
   obtain ⟨X, inst, hXfin, hXLie, hfac, f, hf, hker⟩ := hcompR J hJcomp
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   obtain ⟨eP⟩ := i167CS_block_aux1 hp hJ hJcomp
@@ -76,7 +76,7 @@ private theorem i167CS_block_aux2 {K : Type} [Field K] [Finite K] {n m p : ℕ}
   exact ⟨X, inst, hXfin, hfac, ⟨eJP⟩⟩
 
 private theorem i167CS_block_aux3 {K : Type} [Field K] {n m p : ℕ}
-    {J : Subgroup (StatedProj (StatedSp m K))} (hK : Nat.card K = 2 ^ n) (hp : p.Prime)
+    {J : Subgroup (StatedProj (StatedSp m K))} (hK : Nat.card K = 2 ^ n) (_hp : p.Prime)
     {X : Type} [Group X]
     (eJP : PQuot p J ⧸ Subgroup.center (PQuot p J) ≃* X ⧸ Subgroup.center X)
     (hSL : ∃ (a j : ℕ) (E : Type) (_ : Field E) (_ : Fintype E), 2 ≤ a ∧ 1 ≤ j ∧
@@ -92,8 +92,8 @@ private theorem i167CS_block_aux3 {K : Type} [Field K] {n m p : ℕ}
         Nonempty (PSimple p J ≃* StatedProj (StatedSp s K))) ∨
     (Nat.card K = 2 ∧ Nat.card (PSimple p J) ≤ 720) := by
   obtain ⟨a, j, E, hEfield, hEf, ha2, -, -, hcardE, -, hdvd, ⟨eX⟩⟩ := hSL
-  letI := hEfield
-  letI := hEf
+  let := hEfield
+  let := hEf
   have hcard : Fintype.card E = 2 ^ (n * j) := by rw [hcardE, hK, pow_mul]
   obtain ⟨eXZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sl (a := a) eX
   refine Or.inl ⟨a, n * j, E, inferInstance, inferInstance, ha2, ?_, ?_, ⟨eJP.trans eXZ⟩⟩
@@ -143,8 +143,8 @@ theorem i167CS_block {K : Type} [Field K] [Finite K] {n m p : ℕ} (hK : Nat.car
     (Nat.card K = 2 ∧ Nat.card (PSimple p J) ≤ 720) := by
   classical
   obtain ⟨X, inst, hXfin, hfac, ⟨eJP⟩⟩ := i167CS_block_aux2 hK hn hm hp hp2 x hx hJ
-  letI := inst
-  letI := hXfin
+  let := inst
+  let := hXfin
   unfold I167CSpFactor at hfac
   rcases hfac with hSL | hSU | hSp | hSp42
   ·

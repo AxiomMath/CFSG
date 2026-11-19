@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem ker_le_center {p : ℕ} {S : Subgroup Ω} (hcore : GLAPPrimeCore p ↥S = ⊥) :
     (chevQuotHom p S).ker ≤ Subgroup.center ↥S := by
   intro x hx
@@ -66,14 +67,14 @@ theorem exists_involution_fixed {p : ℕ} {S E₁ : Subgroup Ω} (hcore : GLAPPr
     rw [← hP'map, ← hP'perf, hbot, Subgroup.map_bot]
   have heven : 2 ∣ Nat.card ↥Q := by
     by_contra hodd
-    haveI : Group.IsSolvable ↥Q :=
+    have : Group.IsSolvable ↥Q :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 hodd))
-    haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
+    have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
     have hQtop : commutator ↥Q = ⊤ := by
       apply Subgroup.map_injective Q.subtype_injective
       rw [map_commutator_eq, ← MonoidHom.range_eq_map, Subgroup.range_subtype, hQperf]
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥Q)).ne hQtop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥Q) 2 heven
   refine ⟨(t : PSimple p S), by rw [Subgroup.orderOf_coe]; exact ht, ?_⟩
   intro e he heE
@@ -86,10 +87,10 @@ theorem exists_involution_fixed {p : ℕ} {S E₁ : Subgroup Ω} (hcore : GLAPPr
     rw [Subgroup.mem_centralizer_singleton_iff]
     have h := Subgroup.mem_centralizer_iff.1 hkE e heE
     first
-    | exact h
     | exact h.symm
   rw [mem_fixSubgroup.1 hkfix]
 
+omit [Finite Ω] in
 private theorem card_inf_ker_mul_card_map {M : Type} [Group M] (f : Ω →* M) (H : Subgroup Ω) :
     Nat.card ↥(H ⊓ f.ker) * Nat.card ↥(H.map f) = Nat.card ↥H := by
   have h := Subgroup.card_ker_mul_card_range (f.domRestrict H)

@@ -39,7 +39,7 @@ theorem sprod_mem {A : Type} [Group A] (V : Nat → A) (s p : Nat) :
     refine Subgroup.mul_mem _ (sprod_mem V s p k (by omega)) ?_
     split
     · exact Subgroup.subset_closure (by
-        simp only [Set.mem_setOf_eq, List.mem_map, List.mem_range]
+        simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_range]
         exact ⟨k, by omega, rfl⟩)
     · exact Subgroup.one_mem _
 

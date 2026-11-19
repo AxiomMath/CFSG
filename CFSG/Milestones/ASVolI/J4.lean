@@ -482,7 +482,7 @@ theorem RuChoice.pCoreOf_G2 {G : Type} [Group G] [Finite G] (M : RuDataM G) :
   ·
     have hn : (CFSG.pCore 2 ↥M.G2).Normal := CFSG.pCore_normal
     have hTp : IsPGroup 2 ((M.T : Subgroup G).subgroupOf M.G2) :=
-      (M.T.isPGroup').of_equiv (Subgroup.subgroupOfEquivOfLe M.T_le_G2).symm
+      (M.T.isPGroup).of_equiv (Subgroup.subgroupOfEquivOfLe M.T_le_G2).symm
     have hidx : ¬ 2 ∣ ((M.T : Subgroup G).subgroupOf M.G2).index := by
       have h1 := Subgroup.card_mul_index ((M.T : Subgroup G).subgroupOf M.G2)
       rw [card_subgroupOf_of_le M.T_le_G2, RuChoice.card_T, M.card_G2] at h1
@@ -881,7 +881,7 @@ theorem RuChoice.conjugate_U_eq {G : Type} [Group G] (M : RuDataM G) (g : G) :
   rw [RuChoice.URu_eq, M.mem_conjU]
   unfold CFSG.conjugate
   rw [Subgroup.mem_map_equiv]
-  simp [MulAut.conj_symm_apply]
+  simp
 
 open CFSG.Quasithin.RuType in
 theorem RuChoice.Ual_mul_mem_Q {G : Type} [Group G] [Finite G] (M : RuDataM G) {v : G}
@@ -1281,7 +1281,7 @@ theorem RuChoice.conjugate_zpowers {G : Type} [Group G] (x t : G) :
     CFSG.conjugate (Subgroup.zpowers x) t = Subgroup.zpowers (t⁻¹ * x * t) := by
   unfold CFSG.conjugate
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
 theorem RuChoice.conjugate_eq_self {G : Type} [Group G] {A : Subgroup G} {t : G}
     (h : ∀ x ∈ A, t * x * t⁻¹ ∈ A) (h' : ∀ x ∈ A, t⁻¹ * x * t ∈ A) :
@@ -1294,7 +1294,7 @@ theorem RuChoice.mem_conjugate {G : Type} [Group G] {A : Subgroup G} {t x : G} :
     x ∈ CFSG.conjugate A t ↔ t * x * t⁻¹ ∈ A := by
   unfold CFSG.conjugate
   rw [Subgroup.mem_map_equiv]
-  simp [MulAut.conj_symm_apply]
+  simp
 
 open scoped Pointwise in
 open CFSG.Quasithin.RuType in
@@ -1565,7 +1565,7 @@ theorem RuChoice.fx_conjugate_zpowers {G : Type*} [Group G] (x g : G) :
     CFSG.conjugate (Subgroup.zpowers x) g = Subgroup.zpowers (g⁻¹ * x * g) := by
   unfold CFSG.conjugate
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
 theorem RuChoice.fx_mem_normalizer {G : Type*} [Group G] {K : Subgroup G} {g : G}
     (h1 : ∀ y ∈ K, g * y * g⁻¹ ∈ K) (h2 : ∀ y ∈ K, g⁻¹ * y * g ∈ K) :
@@ -2309,7 +2309,7 @@ private theorem burnsideJ7_pCoreOf_G2 {G : Type} [Group G] [Finite G] (M : RuDat
   ·
     have hn : (CFSG.pCore 2 ↥M.G2).Normal := CFSG.pCore_normal
     have hTp : IsPGroup 2 ((M.T : Subgroup G).subgroupOf M.G2) :=
-      (M.T.isPGroup').of_equiv (Subgroup.subgroupOfEquivOfLe M.T_le_G2).symm
+      (M.T.isPGroup).of_equiv (Subgroup.subgroupOfEquivOfLe M.T_le_G2).symm
     have hidx : ¬ 2 ∣ ((M.T : Subgroup G).subgroupOf M.G2).index := by
       have h1 := Subgroup.card_mul_index ((M.T : Subgroup G).subgroupOf M.G2)
       rw [card_subgroupOf_of_le M.T_le_G2, burnsideJ7_card_T, M.card_G2] at h1
@@ -2543,7 +2543,7 @@ open CFSG.Quasithin.RuType in
 private theorem burnsideJ7_Q0_set {G : Type} [Group G] [Finite G] (M : RuDataM G) :
     {h : G | h ∈ ruH M.T ∧ ∀ x ∈ ruH M.T, h⁻¹ * x⁻¹ * h * x ∈ ruU M.L M.T} = (M.Q0 : Set G) := by
   ext h
-  simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
   constructor
   · rintro ⟨hH, hc⟩
     have hφ1 : M.φ ⟨h, hH⟩ = 1 := by
@@ -2907,7 +2907,7 @@ private theorem burnsideJ7_comm_normalized {G : Type} [Group G] {Q B : Subgroup 
     convert this using 1
     simp only [commutatorElement_def]
     group
-  | one => simpa using (one_mem _)
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : q * (x * y) * q⁻¹ = (q * x * q⁻¹) * (q * y * q⁻¹) := by group
     rw [e]
@@ -3070,7 +3070,7 @@ private theorem burnsideJ7_sylow5_cyclic {G : Type} [Group G] [Finite G] (M : Ru
   subst hk1
   have hcard : Nat.card B5 = 5 := by rw [hk]; norm_num
   have h5 : 1 < Nat.card B5 := by rw [hcard]; norm_num
-  haveI : Nontrivial B5 := Finite.one_lt_card_iff_nontrivial.mp h5
+  have : Nontrivial B5 := Finite.one_lt_card_iff_nontrivial.mp h5
   obtain ⟨⟨b, hb⟩, hb1⟩ := exists_ne (1 : B5)
   have hb1' : b ≠ 1 := fun h => hb1 (Subtype.ext h)
   have hord : orderOf b = 5 := by
@@ -3497,7 +3497,7 @@ private theorem burnsideJ7_relIndex_DU {G : Type} [Group G] [Finite G] (M : RuDa
     (ruU M.L M.T).relIndex (M.conjU l ⊓ ruQ M.T ⊔ ruU M.L M.T) = 2 := by
   have hDQ : M.conjU l ⊓ ruQ M.T ≤ ruQ M.T := inf_le_right
   have hUQ : ruU M.L M.T ≤ ruQ M.T := M.U_le_Q
-  haveI : ((ruU M.L M.T).subgroupOf (ruQ M.T)).Normal := M.UQ_normal
+  have : ((ruU M.L M.T).subgroupOf (ruQ M.T)).Normal := M.UQ_normal
   have h1 := Subgroup.relIndex_sup_right (H := (M.conjU l ⊓ ruQ M.T).subgroupOf (ruQ M.T))
     (K := (ruU M.L M.T).subgroupOf (ruQ M.T))
   rw [← Subgroup.subgroupOf_sup hDQ hUQ, Subgroup.relIndex_subgroupOf (sup_le hDQ hUQ),
@@ -3717,13 +3717,13 @@ private theorem burnsideJ7_count_inverted {Y : Type} [Group Y] [Finite Y] (ι : 
     · exact hn4 hx2
   have hS : {P : Sylow 5 Y | ∀ x ∈ (P : Subgroup Y), w⁻¹ * x * w = x⁻¹} = {P₁, P₂} := by
     ext P
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hP
       have hPcard : Nat.card (P : Subgroup Y) = 5 := by
         rw [Sylow.card_eq_multiplicity, hfac, pow_one]
       have h5 : 1 < Nat.card (P : Subgroup Y) := by rw [hPcard]; norm_num
-      haveI : Nontrivial (P : Subgroup Y) := Finite.one_lt_card_iff_nontrivial.mp h5
+      have : Nontrivial (P : Subgroup Y) := Finite.one_lt_card_iff_nontrivial.mp h5
       obtain ⟨⟨z, hzP⟩, hz1⟩ := exists_ne (1 : (P : Subgroup Y))
       have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
       have hz5 : z ^ 5 = 1 := by
@@ -3966,14 +3966,14 @@ private theorem burnsideJ7_card_starImg {G : Type} [Group G] [Finite G] (M : RuD
   exact h
 
 private theorem burnsideJ7_mem_centerImg {Y : Type} [Group Y] (T' : Subgroup Y) {x : Y} :
-    x ∈ (Subgroup.center ↥T').map T'.subtype ↔ ∃ hx : x ∈ T', ∀ d ∈ T', d * x = x * d := by
+    x ∈ (Subgroup.center ↥T').map T'.subtype ↔ ∃ _hx : x ∈ T', ∀ d ∈ T', d * x = x * d := by
   constructor
   · rintro ⟨c, hc, rfl⟩
     refine ⟨c.2, fun d hd => ?_⟩
     have := Subgroup.mem_center_iff.mp hc ⟨d, hd⟩
     exact congrArg Subtype.val this
-  · rintro ⟨hx, h⟩
-    refine ⟨⟨x, hx⟩, Subgroup.mem_center_iff.mpr fun g => Subtype.ext (h g.1 g.2), rfl⟩
+  · rintro ⟨_hx, h⟩
+    refine ⟨⟨x, _hx⟩, Subgroup.mem_center_iff.mpr fun g => Subtype.ext (h g.1 g.2), rfl⟩
 
 open CFSG.Quasithin.RuType in
 private theorem burnsideJ7_clause1 {G : Type} [Group G] [Finite G] (M : RuDataM G) {V2 : Subgroup G}
@@ -4354,7 +4354,7 @@ private theorem burnsideJ8b_comm_conj_mem {G : Type*} [Group G] {A B : Subgroup 
 
 private theorem burnsideJ8b_mul_rotate5 {A : Type*} [CommGroup A] (a b c d e : A) :
     b * c * d * e * a = a * b * c * d * e := by
-  simp only [mul_comm, mul_left_comm, mul_assoc]
+  simp only [mul_comm, mul_left_comm]
 
 private theorem burnsideJ8b_norm_identity {A : Type*} [CommGroup A] (u e1 e2 e3 e4 : A) (hu2 :
     u * u = 1) :
@@ -4364,7 +4364,7 @@ private theorem burnsideJ8b_norm_identity {A : Type*} [CommGroup A] (u e1 e2 e3 
     rw [this, hu2, one_mul, one_mul]
   calc u * (e1 * u) * (e2 * u) * (e3 * u) * (e4 * u)
       = (u * u * u * u * u) * (e1 * e2 * e3 * e4) := by
-        simp only [mul_comm, mul_left_comm, mul_assoc]
+        simp only [mul_comm, mul_left_comm]
     _ = u * (e1 * e2 * e3 * e4) := by rw [h5]
 
 open scoped commutatorElement in
@@ -4374,7 +4374,7 @@ private theorem burnsideJ8b_U_decomp {G : Type} [Group G] [Finite G]
     (hu : u ∈ ruU M.L M.T) :
     ∃ n ∈ ruZ M.T, ∃ e ∈ ⁅ruQ M.T, Subgroup.zpowers b⁆, e ∈ ruU M.L M.T ∧ u = n * e⁻¹ := by
   classical
-  letI : CommGroup ↥(ruU M.L M.T) :=
+  let : CommGroup ↥(ruU M.L M.T) :=
     { (inferInstance : Group ↥(ruU M.L M.T)) with
       mul_comm := fun x y => M.U_elem.1.is_comm.comm x y }
   let u' : ↥(ruU M.L M.T) := ⟨u, hu⟩
@@ -4726,7 +4726,7 @@ private theorem burnsideJ8b_conjugate_zpowers {G : Type*} [Group G] (x g : G) :
     CFSG.conjugate (Subgroup.zpowers x) g = Subgroup.zpowers (g⁻¹ * x * g) := by
   unfold CFSG.conjugate
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem burnsideJ8b_conjugate_eq_self {G : Type*} [Group G] {A : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (A : Set G)) : CFSG.conjugate A g = A := by
@@ -5147,7 +5147,7 @@ private theorem burnsideJ8b_conjEquiv_apply {G : Type*} [Group G] (F : Subgroup 
     ((burnsideJ8b_conjEquiv F t x : ↥(CFSG.conjugate F t)) : G) = t⁻¹ * x * t := by
   show (((MulAut.conj t⁻¹).subgroupMap F x : ↥(F.map (MulAut.conj t⁻¹).toMonoidHom)) : G) = _
   rw [MulEquiv.coe_subgroupMap_apply]
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem burnsideJ8b_oTwoQuot_conj {G : Type*} [Group G] (F : Subgroup G) (t : G) {K : Type*}
     [Group K] (h : Nonempty (↥F ⧸ CFSG.pCore 2 ↥F ≃* K)) :
@@ -5467,7 +5467,7 @@ open CFSG.Quasithin.RuType in
 private theorem burnsideJ8b_Q0_set {G : Type} [Group G] [Finite G] (M : RuDataM G) :
     {h : G | h ∈ ruH M.T ∧ ∀ x ∈ ruH M.T, h⁻¹ * x⁻¹ * h * x ∈ ruU M.L M.T} = (M.Q0 : Set G) := by
   ext h
-  simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
   constructor
   · rintro ⟨hH, hc⟩
     have hφ1 : M.φ ⟨h, hH⟩ = 1 := by
@@ -5960,7 +5960,7 @@ theorem as_J_4_6 : J_4_6 := by
     rw [← hH]; exact hB5.1 (Subgroup.mem_zpowers b)
   have hQ5 : Q5Ru T (Subgroup.zpowers b) = M.Q5 hbH := by
     unfold Q5Ru; rw [hQ']; exact burnsideJ8b_Q5_eq M hbH hb5
-  have hTp : IsPGroup 2 T := hTM ▸ M.T.isPGroup'
+  have hTp : IsPGroup 2 T := hTM ▸ M.T.isPGroup
   have hT2 : ¬ 2 ∣ T.index := by rw [← hTM]; exact M.T.not_dvd_index
   have hG2T : T ≤ G2Ru M.L V2 T := le_sup_right
   have hTrel : ¬ 2 ∣ T.relIndex (G2Ru M.L V2 T) := fun hd =>
@@ -6393,7 +6393,7 @@ private theorem burnsideJ48_LS_of_isConj
     {G : Type} [Group G] [Finite G] (M : RuDataM G) {c : G} {Bc : Subgroup G}
     (hc : IsConj M.z c) (hB : Nat.card Bc = 5)
     (hBc : Bc ≤ Subgroup.centralizer ({c} : Set G)) : burnsideJ48_LS M.z c Bc := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := isConj_iff.mp hc
   obtain ⟨x0, hx0B, hx05, hx01, -⟩ := exists_gen_of_card_five hB
   have hzp : Subgroup.zpowers x0 = Bc := zpowers_eq_of_card_five hB hx0B hx05 hx01

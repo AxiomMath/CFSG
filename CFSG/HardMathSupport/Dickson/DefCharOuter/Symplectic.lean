@@ -11,9 +11,9 @@ open CFSG.HardMathSupport.Solomon.Coordinator
 
 theorem perfectInLayer_C_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.C r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.C r q, hv⟩)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
     PerfectInLayer β := by
   have hr : 3 ≤ r := ((TauCeti.LieTypeIndex.inStandardRange_iff _).mp
@@ -23,9 +23,9 @@ theorem perfectInLayer_C_outer (r : ℕ) (q : TauCeti.PrimePower)
 
 theorem perfectInLayer_B_two_outer (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B 2 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
     PerfectInLayer β := by
   rcases CFSG.Models.lieModel_B 2 q hv e with h | h

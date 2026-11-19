@@ -19,15 +19,15 @@ variable {S : Type} [Group S] [Finite S]
 theorem s16n9b_case7_card_mulAut_dvd (hS : IsL3 S 1) :
     Nat.card (MulAut (Multiplicative (ZMod 7) × S)) ∣ 336 * 6 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcS : center S = ⊥ := center_eq_bot_of_isL3 hS
   have hpS : _root_.commutator S = ⊤ := s16c1610_commutator_of_isL3 hS
   obtain ⟨K, hK⟩ : ∃ K : Subgroup (Multiplicative (ZMod 7) × S),
       K = _root_.commutator (Multiplicative (ZMod 7) × S) := ⟨_, rfl⟩
   obtain ⟨Z, hZ⟩ : ∃ Z : Subgroup (Multiplicative (ZMod 7) × S),
       Z = center (Multiplicative (ZMod 7) × S) := ⟨_, rfl⟩
-  haveI : K.Characteristic := by rw [hK]; infer_instance
-  haveI : Z.Characteristic := by rw [hZ]; infer_instance
+  have : K.Characteristic := by rw [hK]; infer_instance
+  have : Z.Characteristic := by rw [hZ]; infer_instance
   have hZmem : ∀ a : Multiplicative (ZMod 7), ((a, 1) : Multiplicative (ZMod 7) × S) ∈ Z := by
     intro a
     rw [hZ, Subgroup.mem_center_iff]
@@ -73,7 +73,7 @@ theorem s16n9b_case7_card_mulAut_dvd (hS : IsL3 S 1) :
   have hZc : Nat.card ↥Z = 7 := by
     rw [Nat.card_congr eZ.toEquiv]
     simp
-  haveI : IsCyclic ↥Z := isCyclic_of_prime_card hZc
+  have : IsCyclic ↥Z := isCyclic_of_prime_card hZc
   have hAutZ : Nat.card (MulAut ↥Z) = 6 := by
     rw [IsCyclic.card_mulAut, hZc, Nat.totient_prime (by norm_num)]
   have hAutK : Nat.card (MulAut ↥K) ∣ 336 := by
@@ -102,12 +102,12 @@ theorem s16n9b_case7_card_mulAut_dvd (hS : IsL3 S 1) :
 theorem s16n9b_case7_card_le_seven {F : Type} [Group F] (hS : IsL3 S 1)
     (e : F ≃* Multiplicative (ZMod 7) × S) {A : Subgroup (MulAut F)} (hA : IsElemAbelian 7 A) :
     Nat.card A ≤ 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : Nat.card A ∣ 336 * 6 := by
     refine (Subgroup.card_subgroup_dvd_card A).trans ?_
     rw [Nat.card_congr (MulAut.congr e).toEquiv]
     exact s16n9b_case7_card_mulAut_dvd hS
-  haveI : Finite A := Nat.finite_of_card_ne_zero fun h0 => by
+  have : Finite A := Nat.finite_of_card_ne_zero fun h0 => by
     rw [h0, zero_dvd_iff] at hdvd
     omega
   obtain ⟨j, hj⟩ := hA.isPGroup.exists_card_eq
@@ -120,6 +120,7 @@ theorem s16n9b_case7_card_le_seven {F : Type} [Group F] (hS : IsL3 S 1)
   calc 7 ^ j ≤ 7 ^ 1 := Nat.pow_le_pow_right (by norm_num) hj1
     _ = 7 := pow_one 7
 
+omit [Finite S] in
 theorem s16n9b_case7_card_center_le {F : Type} [Group F] (hS : IsL3 S 1)
     (e : F ≃* Multiplicative (ZMod 7) × S) : Nat.card (center F) ≤ 7 := by
   have hcS : center S = ⊥ := center_eq_bot_of_isL3 hS
@@ -174,11 +175,11 @@ theorem s16n9b_pRank_lt_of_fstar_zmod7_l3 {Q : Type} [Group Q] [Finite Q] (H : S
     CFSG.Open.pRank 7 H < 3 := by
   classical
   obtain ⟨e'⟩ := hF
-  haveI : Finite ↥H := Subtype.finite
-  haveI : Finite S := Finite.of_injective
+  have : Finite ↥H := Subtype.finite
+  have : Finite S := Finite.of_injective
     (fun s : S => e'.symm ((1 : Multiplicative (ZMod 7)), s)) fun a b h =>
       (Prod.mk.inj (e'.symm.injective h)).2
-  haveI hnorm : (genFittingFStar ↥H).Normal :=
+  have hnorm : (genFittingFStar ↥H).Normal :=
     CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
   have hself : centralizer (genFittingFStar ↥H : Set ↥H) ≤ genFittingFStar ↥H :=
     CFSG.ClassicalInvolution.Q3.centralizer_genFittingFStar_le

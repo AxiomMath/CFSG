@@ -19,6 +19,7 @@ private lemma sec4ISgn_eq_neg_one_of_ne_zero {u : ZMod 2} (hu : u ≠ 0) :
   revert u
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4IT_mem_commSp_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) (v : V) :
     v ∈ commSp (sec4IT fr s) ↔ ∀ i, s i = 0 → fr.b.repr v i = 0 := by
   rw [mem_commSp_iff (sec4IT_mul_self fr s)]
@@ -44,6 +45,7 @@ private lemma sec4IT_mem_commSp_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) (
     · rw [sec4ISgn_eq_neg_one_of_ne_zero hi]
       simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IT_invDim (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) :
     invDim (sec4IT fr s) = vecWeight s := by
   have hspan : commSp (sec4IT fr s) =

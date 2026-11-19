@@ -14,7 +14,7 @@ theorem kFactP65RankTwoE3_of_kdata (hI713 : GL83.I_7_13_1) (hChevP : KDI278ChevP
     (hSporC : KDI278SporCNoM) (hI204 : KDL64I204U3) : KFactP65RankTwoE3 := by
   intro A _ _ hNoM p X Q B U hp hp5 hX hrk hQX hQp hQs hZc hBQ hBel hBc hUQ hUel hUc hBU hw
     ⟨Y, hYX, hYne, hΓU, hΓ2⟩ W hWX hBUW hcop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBX : B ≤ X := hBQ.trans hQX
   have hUX : U ≤ X := hUQ.trans hQX
   have hXY : ¬ X ≤ Y := fun h => hYne (le_antisymm hYX h)

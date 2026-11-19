@@ -11,7 +11,7 @@ open scoped MatrixGroups Matrix
 theorem s16c1_G47_cube_five {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5) :
     ∀ r : F, r ^ 3 = 1 → r = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   intro r hr
   have hr0 : r ≠ 0 := by
     rintro rfl
@@ -33,7 +33,7 @@ theorem s16c1_G47_L3_cls {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
         ((B⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) := by
   classical
   have hcube := s16c1_G47_cube_five hF
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hsub : Subsingleton (F ≃+* F) := by
     have hord : addOrderOf (1 : F) = 5 := by
       have hdvd : addOrderOf (1 : F) ∣ 5 := hF ▸ addOrderOf_dvd_natCard (1 : F)

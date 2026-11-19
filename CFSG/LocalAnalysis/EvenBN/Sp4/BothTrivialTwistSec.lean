@@ -14,6 +14,7 @@ section SecAut
 
 variable {Y Z : Subgroup G} [(Z.subgroupOf Y).Normal]
 
+omit [(Z.subgroupOf Y).Normal] in
 theorem map_conjAut_subgroupOf {g : G} (hY : g ∈ normalizer (Y : Set G))
     (hZ : g ∈ normalizer (Z : Set G)) :
     (Z.subgroupOf Y).map ((CFSG.SL2MinimalFaithful.conjAut hY : MulAut ↥Y) : ↥Y →* ↥Y) =
@@ -224,6 +225,7 @@ theorem comm_mul_eq {x y f f' : G} (h1 : f * y = y * f) (h2 : f * f' = f' * f)
     (Quotient.out v : Y₂)⁻¹ * (Quotient.out w : Y₁)⁻¹, hmem _ (Quotient.out v).2 _
       (Quotient.out w).2⟩
 
+omit [(F.subgroupOf Y₂).Normal] [(F.subgroupOf Y₁).Normal] [(Z.subgroupOf F).Normal] in
 theorem secPair_mk (hmem : ∀ x ∈ Y₂, ∀ y ∈ Y₁, x * y * x⁻¹ * y⁻¹ ∈ F) (hFY₂ : F ≤ Y₂)
     (hc₂ : ∀ f ∈ F, ∀ x ∈ Y₂, x * f = f * x)
     (hc₁ : ∀ f ∈ F, ∀ y ∈ Y₁, y * f = f * y) (x : Y₂) (y : Y₁) :
@@ -267,6 +269,7 @@ theorem secPair_secAut (hmem : ∀ x ∈ Y₂, ∀ y ∈ Y₁, x * y * x⁻¹ * 
         (g * (y : G) * g⁻¹)⁻¹ = g * ((x : G) * y * (x : G)⁻¹ * (y : G)⁻¹) * g⁻¹
       group
 
+omit [(F.subgroupOf Y₂).Normal] in
 theorem secPair_mul_right (hmem : ∀ x ∈ Y₂, ∀ y ∈ Y₁, x * y * x⁻¹ * y⁻¹ ∈ F) (hFY₂ : F ≤ Y₂)
     (hc₂ : ∀ f ∈ F, ∀ x ∈ Y₂, x * f = f * x)
     (hc₁ : ∀ f ∈ F, ∀ y ∈ Y₁, y * f = f * y) (v : ↥Y₂ ⧸ F.subgroupOf Y₂)

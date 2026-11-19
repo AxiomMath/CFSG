@@ -25,7 +25,7 @@ private theorem index_borelOf_of_l2 {L S : Subgroup G} {f : ℕ}
     ((borelOf L S).subgroupOf L).index =
       Nat.card (((S ⊓ L).subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L))) + 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdata := CFSG.Quasithin.F1.map_borelOf_eq_normalizer hsyl
   let T := ((S ⊓ L).subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L))
   have hTp : IsPGroup 2 T := hdata.1
@@ -48,7 +48,7 @@ theorem mem_bigB_or_mem_doubleCoset_p2
     p ∈ bigB L1 L2 S ∨
       p ∈ bigB L1 L2 S * ({g} : Set G) * bigB L1 L2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   let M := oTwoQuot ↥L2
   let π : ↥L2 →* M := QuotientGroup.mk' (pCore 2 ↥L2)
@@ -82,7 +82,7 @@ theorem mem_bigB_or_mem_doubleCoset_p2
   have hT'p : IsPGroup 2 T' := hTp.map eM.toMonoidHom
   have hT'idx : ¬ 2 ∣ T'.index := by
     have h : T'.index = T.index := by
-      simpa [T'] using Subgroup.index_map_equiv (H := T) eM
+      simp [T']
     rwa [h]
   let Qe : Sylow 2 (PSL2Model n) := hT'p.toSylow hT'idx
   have hQecoe : (Qe : Subgroup (PSL2Model n)) = T.map eM.toMonoidHom :=
@@ -96,7 +96,7 @@ theorem mem_bigB_or_mem_doubleCoset_p2
       have hcomp : (MulAut.conj x⁻¹).toMonoidHom.comp (MulAut.conj x).toMonoidHom =
           MonoidHom.id (PSL2Model n) := by
         ext y
-        simp [MulAut.conj_apply]
+        simp
       rw [hcomp, Subgroup.map_id]
     rwa [hEq] at h
   have hD2 : BenderData M T n := by
@@ -202,7 +202,7 @@ theorem str83G4_str83R_le_q1_iff
   have hlt : L2 ⊓ bigB L2 L1 S < L2 := by
     rw [CFSG.Quasithin.F1.inf_bigB_eq_borelOf hR']
     exact CFSG.Quasithin.F1.lt_borelOf hR'
-  obtain ⟨g0, hg0L2, hg0B⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g0, hg0L2, hg0B⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hg0B' : g0 ∉ bigB L1 L2 S := fun h => hg0B ⟨hg0L2, by rwa [bigB_comm]⟩
   have hwP2 : d.w ∈ P2 L1 L2 S :=
     (sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)) d.hwH2

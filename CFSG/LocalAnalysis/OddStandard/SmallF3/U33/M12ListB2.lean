@@ -17,9 +17,9 @@ private instance instDecEqM12 : DecidableEq M12Mod := fun a b =>
 private def m1 : M12Mod := M12Mod.mx₁ * M12Mod.mx₂
 
 private def projI : M12Mod →* Multiplicative (Fin 2) where
-  toFun m := Multiplicative.ofAdd m.i
+  toFun _m := Multiplicative.ofAdd _m.i
   map_one' := rfl
-  map_mul' := fun m n => rfl
+  map_mul' := fun _m _n => rfl
 
 private lemma mem_projI_ker (m : M12Mod) : m ∈ projI.ker ↔ m.i = 0 := by
   rw [MonoidHom.mem_ker]

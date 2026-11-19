@@ -122,7 +122,7 @@ theorem exists_twoSubgroup_of_normalizes {L : Subgroup G} {R : Type} [Group R]
     have hQP : Q = P := Subsingleton.elim Q P
     rw [← hQP]
     exact hQ (Subgroup.mem_zpowers h)
-  refine ⟨((P : Subgroup H).map H.subtype).map L.subtype, ?_, (P.isPGroup'.map _).map _, ?_⟩
+  refine ⟨((P : Subgroup H).map H.subtype).map L.subtype, ?_, (P.isPGroup.map _).map _, ?_⟩
   · intro hbot
     rw [Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective,
       Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective] at hbot
@@ -143,7 +143,7 @@ theorem exists_twoSubgroup_of_normalizes {L : Subgroup G} {R : Type} [Group R]
         rw [ggQuotHom_apply, ggQuotHom_apply, ggLAut_apply]
       rw [h1]
       exact hEU e he _ q.2
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨q, hq⟩
     have hqk : (q : L) ^ 2 ^ k = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => ((z : H) : L)) hk
       simpa using this

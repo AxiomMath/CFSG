@@ -14,23 +14,23 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 private theorem s16h_e3_finite_mulAut (W : Type) [Group W] [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W))
-    (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W))
+    (fun _f _g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_e3_a5_isQuasisimple {X : Type} [Group X] (h : IsAlt X 5) :
     CFSG.Open.IsQuasisimple X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by norm_num))
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hP : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hZ : Subgroup.center X = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
     · exact h
     · exfalso
-      haveI := hP
+      have := hP
       exact Group.IsPerfect.not_isMulCommutative X
         (IsMulCommutative.of_comm fun x y => by
           have hy : y ∈ Subgroup.center X := by rw [h]; exact Subgroup.mem_top y
@@ -56,7 +56,7 @@ theorem s16h_e3_a5_two_center {W : Type} [CommGroup W] [Finite W]
     {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup W} (F : s16h_E3Frame X L L' T U U')
     (hL : IsAlt ↥L 5)
     (hsum : SumOfNat (fun H V Z => AlternatingNatural H V Z 5) L U ⊥ 2)
-    (hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E → Nat.card ↥E ≤ 27)
+    (_hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E → Nat.card ↥E ≤ 27)
     (hrk3 : ∃ E : Subgroup (MulAut W), E ≤ X ∧ IsElemAbelian 3 E ∧ Nat.card ↥E = 27)
     (hbad : ∃ w ∈ U, w ≠ 1 ∧ ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E →
       (∀ e ∈ E, e w = w) → Nat.card ↥E ≤ 3) :
@@ -66,7 +66,7 @@ theorem s16h_e3_a5_two_center {W : Type} [CommGroup W] [Finite W]
       ∀ k ∈ X, (∀ a ∈ L ⊔ L', k * a = a * k) →
         k ∈ Z ∨ (k ^ 2 = 1 ∧ ∀ z ∈ Z, k * z * k⁻¹ = z⁻¹) := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3_finite_mulAut W
+  have : Finite (MulAut W) := s16h_e3_finite_mulAut W
   obtain ⟨w, hwU, -, hbadw⟩ := hbad
   obtain ⟨t, -, hLt, -⟩ := F.swap
   have h60 : Nat.card ↥L = 60 := by

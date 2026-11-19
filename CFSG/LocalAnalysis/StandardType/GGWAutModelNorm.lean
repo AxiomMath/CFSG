@@ -150,7 +150,7 @@ private lemma ggWAutD_negLin_apply {n : ℕ} (a : Fin n) (v : GGBCV n) (i : Fin 
   · subst hia
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     exact (by decide : ∀ x : ZMod 3, x + x = -x) (v i)
-  · rw [if_neg hia]
+  · rw [ite_eq_right hia]
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne hia, smul_eq_mul, mul_zero,
       add_zero]
 
@@ -162,21 +162,21 @@ private lemma ggWAutD_coroot_chain {n : ℕ} (i : Fin n) (h : (i : ℕ) + 1 < n)
     intro hh; have := congrArg Fin.val hh; simp at this
   have hne2 : (⟨(i : ℕ) + 1, h⟩ : Fin n) ≠ i := hne1.symm
   funext j
-  rw [ggBCCoroot, if_pos h, Pi.sub_apply]
+  rw [ggBCCoroot, ite_eq_left h, Pi.sub_apply]
   by_cases hji : (j : ℕ) = (i : ℕ)
-  · rw [if_pos hji]
+  · rw [ite_eq_left hji]
     have hji' : j = i := Fin.ext hji
     subst hji'
     rw [Pi.single_eq_same, Pi.single_eq_of_ne hne1]
     decide +kernel
-  · rw [if_neg hji]
+  · rw [ite_eq_right hji]
     by_cases hj : (j : ℕ) = (i : ℕ) + 1
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       have hj' : j = (⟨(i : ℕ) + 1, h⟩ : Fin n) := Fin.ext hj
       subst hj'
       rw [Pi.single_eq_of_ne hne2, Pi.single_eq_same]
       decide +kernel
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       rw [Pi.single_eq_of_ne (fun hh => hji (by rw [hh])),
         Pi.single_eq_of_ne (fun hh => hj (by rw [hh]))]
       simp
@@ -200,24 +200,24 @@ private lemma ggWAutD_ggDSimple_eq_coroot {n : ℕ} (i : Fin n) (hi : (i : ℕ) 
   rw [ggWAutD_coroot_chain i hi 1]
   funext j
   rw [ggDSimple]
-  simp only [hi, if_true]
+  simp only [hi, ite_true]
   rw [Pi.sub_apply]
   by_cases h1 : (j : ℕ) = i
   · have hj : j = i := Fin.ext h1
     subst j
     have hne : i ≠ (⟨(i : ℕ) + 1, hi⟩ : Fin n) := by
       intro h; have := congrArg Fin.val h; simp at this
-    rw [if_pos rfl, Pi.single_eq_same, Pi.single_eq_of_ne hne]
+    rw [ite_eq_left rfl, Pi.single_eq_same, Pi.single_eq_of_ne hne]
     decide +kernel
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : (j : ℕ) = (i : ℕ) + 1
     · have hj : j = (⟨(i : ℕ) + 1, hi⟩ : Fin n) := Fin.ext h2
       subst j
       have hne : (⟨(i : ℕ) + 1, hi⟩ : Fin n) ≠ i := by
         intro h; have := congrArg Fin.val h; simp at this
-      rw [if_pos rfl, Pi.single_eq_of_ne hne, Pi.single_eq_same]
+      rw [ite_eq_left rfl, Pi.single_eq_of_ne hne, Pi.single_eq_same]
       decide +kernel
-    · rw [if_neg h2, Pi.single_eq_of_ne (fun hh => h1 (by rw [hh])),
+    · rw [ite_eq_right h2, Pi.single_eq_of_ne (fun hh => h1 (by rw [hh])),
         Pi.single_eq_of_ne (fun hh => h2 (by rw [hh]))]
       simp
 
@@ -227,25 +227,25 @@ private lemma ggWAutD_ggDSimple_last {n : ℕ} (a b : Fin n) (hab : a ≠ b)
   have hbn : ¬ ((b : ℕ) + 1 < n) := by omega
   funext j
   rw [ggDSimple]
-  simp only [hbn, if_false]
+  simp only [hbn, ite_false]
   rw [Pi.add_apply]
   by_cases hja : (j : ℕ) = (a : ℕ)
   · have hj : j = a := Fin.ext hja
     subst j
     have h1 : (a : ℕ) + 2 = n ∨ (a : ℕ) + 1 = n := Or.inl ha
-    rw [if_pos h1, Pi.single_eq_same, Pi.single_eq_of_ne hab]
+    rw [ite_eq_left h1, Pi.single_eq_same, Pi.single_eq_of_ne hab]
     simp
   · by_cases hjb : (j : ℕ) = (b : ℕ)
     · have hj : j = b := Fin.ext hjb
       subst j
       have h1 : (b : ℕ) + 2 = n ∨ (b : ℕ) + 1 = n := Or.inr hb
-      rw [if_pos h1, Pi.single_eq_of_ne (Ne.symm hab), Pi.single_eq_same]
+      rw [ite_eq_left h1, Pi.single_eq_of_ne (Ne.symm hab), Pi.single_eq_same]
       simp
     · have h1 : ¬ ((j : ℕ) + 2 = n ∨ (j : ℕ) + 1 = n) := by
         rintro (h | h)
         · exact hja (by omega)
         · exact hjb (by omega)
-      rw [if_neg h1, Pi.single_eq_of_ne (fun hh => hja (by rw [hh])),
+      rw [ite_eq_right h1, Pi.single_eq_of_ne (fun hh => hja (by rw [hh])),
         Pi.single_eq_of_ne (fun hh => hjb (by rw [hh]))]
       simp
 
@@ -631,9 +631,9 @@ private noncomputable def ggWAutD_coordProd {n : ℕ} (v : GGBCV n) : ZMod 3 := 
 private lemma ggWAutD_coordProd_negLin {n : ℕ} (a : Fin n) (v : GGBCV n) :
     ggWAutD_coordProd (ggWAutD_negLin a v) = - ggWAutD_coordProd v := by
   unfold ggWAutD_coordProd
-  rw [Finset.prod_eq_mul_prod_diff_singleton a (fun i => ggWAutD_negLin a v i)
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton a (fun i => ggWAutD_negLin a v i)
     (by intro h; exact absurd (Finset.mem_univ a) h)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton a (fun i => v i)
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton a (fun i => v i)
     (by intro h; exact absurd (Finset.mem_univ a) h)]
   have hrest : ∏ x ∈ Finset.univ \ {a}, ggWAutD_negLin a v x =
       ∏ x ∈ Finset.univ \ {a}, v x := by
@@ -649,13 +649,13 @@ private lemma ggWAutD_coordProd_update_neg {n : ℕ} {i j : Fin n} (hij : i ≠ 
     (hother : ∀ k, k ≠ i → k ≠ j → f k = g k) :
     ggWAutD_coordProd f = ggWAutD_coordProd g := by
   unfold ggWAutD_coordProd
-  rw [Finset.prod_eq_mul_prod_diff_singleton i f
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton i f
     (by intro h; exact absurd (Finset.mem_univ i) h)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton i g
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton i g
     (by intro h; exact absurd (Finset.mem_univ i) h)]
   have hji : j ∈ Finset.univ \ {i} := by simp [hij.symm]
-  rw [Finset.prod_eq_mul_prod_diff_singleton j f (by intro h; exact absurd hji h)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton j g (by intro h; exact absurd hji h)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton j f (by intro h; exact absurd hji h)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton j g (by intro h; exact absurd hji h)]
   have hrest : ∏ x ∈ (Finset.univ \ {i}) \ {j}, f x =
       ∏ x ∈ (Finset.univ \ {i}) \ {j}, g x := by
     apply Finset.prod_congr rfl
@@ -672,13 +672,13 @@ private lemma ggWAutD_coordProd_update_pos {n : ℕ} {i j : Fin n} (hij : i ≠ 
     (hother : ∀ k, k ≠ i → k ≠ j → f k = g k) :
     ggWAutD_coordProd f = ggWAutD_coordProd g := by
   unfold ggWAutD_coordProd
-  rw [Finset.prod_eq_mul_prod_diff_singleton i f
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton i f
     (by intro h; exact absurd (Finset.mem_univ i) h)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton i g
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton i g
     (by intro h; exact absurd (Finset.mem_univ i) h)]
   have hji : j ∈ Finset.univ \ {i} := by simp [hij.symm]
-  rw [Finset.prod_eq_mul_prod_diff_singleton j f (by intro h; exact absurd hji h)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton j g (by intro h; exact absurd hji h)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton j f (by intro h; exact absurd hji h)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton j g (by intro h; exact absurd hji h)]
   have hrest : ∏ x ∈ (Finset.univ \ {i}) \ {j}, f x =
       ∏ x ∈ (Finset.univ \ {i}) \ {j}, g x := by
     apply Finset.prod_congr rfl

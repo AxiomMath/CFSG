@@ -33,7 +33,7 @@ theorem r847Thin17_of_r847G4 {D : Data G} (h : R847G4 D) : R847Thin17 D := by
     rw [pRank_bar2_eq_of_odd (Y := Y) Nat.prime_three (by norm_num)] at h3r
     have := hthin 3 Nat.prime_three (by norm_num)
     omega
-  · letI := hA
+  · let := hA
     exact Or.inr ⟨hp3, e9O2Normal_of_mulEquiv hLA hiso⟩
 
 @[expose] def R847Sec17 (D : Data G) : Prop := R847Thin17 D ∧ R847SU3G4 D

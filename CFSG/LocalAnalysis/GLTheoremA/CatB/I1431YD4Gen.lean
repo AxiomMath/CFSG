@@ -35,9 +35,9 @@ theorem exists_descend {X Y T : Type} [Group X] [Group Y] [Group T] (ρ : X →*
 
 theorem perfect_hom_perm_trivial {L α : Type} [Group L] [Group.IsPerfect L] [Finite α]
     (hα : Nat.card α ≤ 4) (ψ : L →* Equiv.Perm α) : ψ = 1 := by
-  haveI : Group.IsSolvable (Equiv.Perm α) := Equiv.Perm.isSolvable hα
-  haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
-  haveI : Group.IsSolvable ψ.range := inferInstance
+  have : Group.IsSolvable (Equiv.Perm α) := Equiv.Perm.isSolvable hα
+  have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsSolvable ψ.range := inferInstance
   have : Subsingleton ψ.range := by
     by_contra h
     rw [not_subsingleton_iff_nontrivial] at h
@@ -151,7 +151,7 @@ theorem exists_perfect_sub {G S : Type} [Group G] [Finite G] [Group S] [Group.Is
     ∃ L : Subgroup G, L ≤ A₀ ∧ Group.IsPerfect ↥L ∧ ∃ φ : ↥L →* S, Function.Surjective φ := by
   obtain ⟨P, hP, hPmap⟩ := exists_perfect_cover f hf
   refine ⟨P.map A₀.subtype, Subgroup.map_subtype_le P, ?_, ?_⟩
-  · haveI := hP
+  · have := hP
     exact Group.IsPerfect.map A₀.subtype
   · let e : ↥P ≃* ↥(P.map A₀.subtype) :=
       Subgroup.equivMapOfInjective P A₀.subtype A₀.subtype_injective

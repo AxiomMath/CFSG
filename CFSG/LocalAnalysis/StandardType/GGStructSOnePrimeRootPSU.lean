@@ -93,7 +93,7 @@ open Subgroup
 theorem ggRootInvolCentTypedTag_PSU : GGRootInvolCentTypedTag .PSU := by
   intro X _ _ n f
   by_cases hf : 1 ≤ f
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have e : ggU .PSU n f =
         ⟨Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) n,
           Unitary.rootDatum (card_galoisField_two_mul 2 f hf) n⟩ := by
@@ -163,7 +163,7 @@ theorem ggRootInvolCentTypedTag_PSU : GGRootInvolCentTypedTag .PSU := by
           (m := k))).range ≤
         normalizer (((RCSTSU.suRad (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) k).map ψ') :
           Set X) := hL₀X.trans hXQ
-    haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
     have hSU : IsChevTwoLayered (SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) k) := by
       have hcard : Fintype.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := by
         rw [← Nat.card_eq_fintype_card]

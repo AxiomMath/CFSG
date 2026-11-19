@@ -319,6 +319,6 @@ private theorem lemK_p5 : (lemKTab.all fun s =>
 
 theorem lemKCheck_true : lemKCheck () = true := by
   unfold lemKCheck
-  simp only [lemK_p1, lemK_p2, lemK_p3, lemK_p4, lemK_p5, Bool.and_true, Bool.true_and]
+  simp only [lemK_p1, lemK_p2, lemK_p3, lemK_p4, lemK_p5, Bool.and_true]
 
 end CFSG.StandardType.TwE6LemmaK

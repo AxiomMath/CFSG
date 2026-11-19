@@ -80,7 +80,7 @@ private theorem mem_spn_xvec_iff (J : Finset (Fin 6)) (w : V6) :
       obtain ⟨j, hj, rfl⟩ := hx
       intro i hi
       have hne : i ≠ j := fun h => hi (h ▸ hj)
-      rw [xvec_apply, if_neg hne]
+      rw [xvec_apply, ite_eq_right hne]
     | zero => intro i _; rfl
     | add x y _ _ hx hy => intro i hi; simp only [Pi.add_apply, hx i hi, hy i hi]; exact add_zero _
     | smul c x _ hx => intro i hi; simp only [Pi.smul_apply, hx i hi, smul_eq_mul]; exact mul_zero _
@@ -97,10 +97,10 @@ private theorem mem_spn_xvec_iff (J : Finset (Fin 6)) (w : V6) :
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, hj, rfl⟩)
 
 private theorem eJd_of_mem {J : Finset (Fin 6)} {i : Fin 6} (h : i ∈ J) : eJd J i = -1 := by
-  unfold eJd; rw [if_pos h]
+  unfold eJd; rw [ite_eq_left h]
 
 private theorem eJd_of_not_mem {J : Finset (Fin 6)} {i : Fin 6} (h : i ∉ J) : eJd J i = 1 := by
-  unfold eJd; rw [if_neg h]
+  unfold eJd; rw [ite_eq_right h]
 
 private theorem eJd_sq (J : Finset (Fin 6)) (i : Fin 6) : eJd J i * eJd J i = 1 := by
   unfold eJd; split_ifs <;> decide
@@ -117,9 +117,9 @@ private theorem eJ_mulVec_xvec_of_mem {J : Finset (Fin 6)} {i : Fin 6} (hi : i �
   show eJd J k * xvec i k = -(xvec i k)
   by_cases hk : k = i
   · subst hk
-    rw [eJd_of_mem hi, xvec_apply, if_pos rfl]
+    rw [eJd_of_mem hi, xvec_apply, ite_eq_left rfl]
     exact (by decide : (-1 : ZMod 3) * 1 = -1)
-  · rw [xvec_apply, if_neg hk]
+  · rw [xvec_apply, ite_eq_right hk]
     exact (by decide : ∀ a : ZMod 3, a * 0 = -0) _
 
 private theorem eJ_mulVec_xvec_of_not_mem {J : Finset (Fin 6)} {i : Fin 6} (hi : i ∉ J) :
@@ -129,9 +129,9 @@ private theorem eJ_mulVec_xvec_of_not_mem {J : Finset (Fin 6)} {i : Fin 6} (hi :
   show eJd J k * xvec i k = xvec i k
   by_cases hk : k = i
   · subst hk
-    rw [eJd_of_not_mem hi, xvec_apply, if_pos rfl]
+    rw [eJd_of_not_mem hi, xvec_apply, ite_eq_left rfl]
     exact (by decide : (1 : ZMod 3) * 1 = 1)
-  · rw [xvec_apply, if_neg hk]
+  · rw [xvec_apply, ite_eq_right hk]
     exact (by decide : ∀ a : ZMod 3, a * 0 = 0) _
 
 private theorem zm3_neg_one_mul_sub_self (a : ZMod 3) : -1 * a - a = a := by
@@ -181,7 +181,7 @@ theorem fixSp_eJ (J : Finset (Fin 6)) (hJ : J ⊆ Iset) :
   have hset : ({x6} ∪ {w | ∃ i ∈ Iset \ J, w = xvec i} : Set V6) =
       {w | ∃ j ∈ insert (5 : Fin 6) (Iset \ J), w = xvec j} := by
     ext w
-    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq, Finset.mem_insert]
+    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq, Finset.mem_insert]
     constructor
     · rintro (rfl | ⟨i, hi, rfl⟩)
       · exact ⟨5, Or.inl rfl, rfl⟩
@@ -262,7 +262,7 @@ theorem eq_eJ_of_commSp (J : Finset (Fin 6)) :
 private theorem fMat_mulVec (v : V6) :
     fMat *ᵥ v = ![v 1, v 0, v 2, v 3, v 4, -v 5] := by
   ext i
-  fin_cases i <;> simp [fMat, Matrix.mulVec, dotProduct, Fin.sum_univ_six] <;> exact neg_one_mul _
+  fin_cases i <;> simp [fMat, Matrix.mulVec, dotProduct, Fin.sum_univ_six]
 
 theorem fDot_mul_self : fDot * fDot = 1 := Units.ext fMat_sq
 
@@ -432,12 +432,12 @@ private theorem linearIndependent_of_dual {n : ℕ} (v : Fin n → V6) (p : Fin 
 
 private theorem range_vec2 (a b : V6) : Set.range ![a, b] = {a, b} := by
   ext w
-  simp [Fin.exists_fin_two, eq_comm]
+  simp [eq_comm]
   tauto
 
 private theorem range_vec4 (a b c d : V6) : Set.range ![a, b, c, d] = {a, b, c, d} := by
   ext w
-  simp [Fin.exists_fin_succ, eq_comm]
+  simp [eq_comm]
   tauto
 
 private theorem finrank_spn_range {n : ℕ} (v : Fin n → V6) (hv : LinearIndependent (ZMod 3) v) :
@@ -584,7 +584,7 @@ theorem commSp_zDot : commSp zDot = V4plus := by
   have hset : {w | ∃ j ∈ ({0, 1, 2, 3} : Finset (Fin 6)), w = xvec j} =
       ({x1, x2, x3, x4} : Set V6) := by
     ext w
-    simp only [Set.mem_setOf_eq, Finset.mem_insert, Finset.mem_singleton, Set.mem_insert_iff,
+    simp only [Set.mem_ofPred_eq, Finset.mem_insert, Finset.mem_singleton, Set.mem_insert_iff,
       Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj | hj | hj | hj, rfl⟩ <;> subst hj

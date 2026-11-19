@@ -40,6 +40,7 @@ variable (P : DcSoundCtx Γ n)
 
 @[expose] def S : Subgroup Γ := Subgroup.closure {x | x ∈ P.sl.take P.C.ng}
 
+omit [Finite Γ] in
 theorem hlaw : LabLawful Γ n ptLab (PtValid n) := ptLab_lawful
 
 private theorem els_size : P.els.size = 2 + P.C.ns := by

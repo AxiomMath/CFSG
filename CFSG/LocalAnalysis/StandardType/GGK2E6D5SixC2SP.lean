@@ -36,7 +36,7 @@ theorem exists_d5_six_c2sp_basis_of_cartan
       ext i
       have hi := hαx i
       rw [← hc] at hi
-      simp only [map_sum, map_smul, smul_eq_mul, map_zero] at hi
+      simp only [map_sum, map_smul, smul_eq_mul] at hi
       simpa [Matrix.mulVec, dotProduct, mul_comm, mul_left_comm, mul_assoc] using hi
     have hc0 : c = 0 := Matrix.eq_zero_of_mulVec_eq_zero hdet hv
     have hxzero : x = 0 := by simpa [hc0] using hc.symm

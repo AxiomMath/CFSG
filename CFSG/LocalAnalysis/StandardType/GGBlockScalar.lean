@@ -174,12 +174,12 @@ private theorem bsc_mu_pow_sub_one_dvd {K : Type*} [Field K] {V : Type*} [AddCom
   have heps : ε ^ p = 1 := bsc_eps_pow_eq_one (bsc_good_dvd hxp hgood)
   by_cases h1 : h = X - 1
   · subst h1
-    rw [bsc_mu, if_pos rfl]
+    rw [bsc_mu, ite_eq_left rfl]
     have hzero : (C ε : K[X]) ^ p - 1 = 0 := by
       rw [← C_pow, heps, C_1, sub_self]
     rw [hzero]
     exact dvd_zero _
-  · rw [bsc_mu, if_neg h1]
+  · rw [bsc_mu, ite_eq_right h1]
     exact dvd_trans (mem_primaryFactors.mp hh).2.2
       (minpoly.dvd K x (by simp [hxp]))
 
@@ -190,13 +190,13 @@ private theorem bsc_mu_sub_one_not_dvd {K : Type*} [Field K] {V : Type*} [AddCom
   intro hdvd
   by_cases h1 : h = X - 1
   · subst h1
-    rw [bsc_mu, if_pos rfl] at hdvd
+    rw [bsc_mu, ite_eq_left rfl] at hdvd
     have hroot : (C ε - 1 : K[X]).IsRoot 1 := (dvd_iff_isRoot).mp hdvd
     have h := hroot.eq_zero
     simp only [eval_sub, eval_C, eval_one] at h
     have heps1 : ε = 1 := sub_eq_zero.mp h
     exact hne (by rw [heps1, C_1])
-  · rw [bsc_mu, if_neg h1] at hdvd
+  · rw [bsc_mu, ite_eq_right h1] at hdvd
     have hassoc : Associated h (X - 1) :=
       (irreducible_of_mem_primaryFactors hh).associated_of_dvd (irreducible_X_sub_C 1) hdvd
     exact h1 (eq_of_monic_of_associated (monic_of_mem_primaryFactors hh) (monic_X_sub_C 1) hassoc)
@@ -213,7 +213,7 @@ private theorem bsc_mk_eq_of_aeval_eq {K : Type*} [Field K] {V : Type*} [AddComm
     (hv : v ∈ primaryComponent x h) (hv0 : v ≠ 0)
     (hact : aeval x f v = aeval x g v) :
     AdjoinRoot.mk h f = AdjoinRoot.mk h g := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hscalar : (AdjoinRoot.mk h f) • (⟨v, hv⟩ : primaryComponent x h) =
       (AdjoinRoot.mk h g) • (⟨v, hv⟩ : primaryComponent x h) := by
     apply Subtype.ext
@@ -240,7 +240,7 @@ private theorem bsc_modEq_of_apply {K : Type*} [Field K] {V : Type*} [AddCommGro
     (hv : v ∈ primaryComponent x h) (hv0 : v ≠ 0)
     (heq : ((bsc_tau ε x h) ^ m) v = ((bsc_tau ε x h) ^ n) v) :
     m % p = n % p := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hact : aeval x (bsc_mu ε h ^ m) v = aeval x (bsc_mu ε h ^ n) v := by
     rw [← bsc_tau_pow_apply_of_mem hsq ε hh v hv m,
       ← bsc_tau_pow_apply_of_mem hsq ε hh v hv n]
@@ -373,8 +373,8 @@ private theorem bsc_p_ne_zero {K : Type*} [Field K] {N p : ℕ} (hp : p.Prime)
     (hcard : 4 ≤ (primaryFactors (glA g : Module.End K (Fin N → K))).card) :
     (p : K) ≠ 0 := by
   intro hpk
-  haveI : CharP K p := (CharP.charP_iff_prime_eq_zero hp).mpr hpk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := (CharP.charP_iff_prime_eq_zero hp).mpr hpk
+  have : Fact p.Prime := ⟨hp⟩
   set x : Module.End K (Fin N → K) := (glA g : Module.End K (Fin N → K)) with hx
   have hxp : x ^ p = 1 := by
     rw [hx]
@@ -382,7 +382,7 @@ private theorem bsc_p_ne_zero {K : Type*} [Field K] {N p : ℕ} (hp : p.Prime)
       Module.End K (Fin N → K))) ^ p = 1
     rw [← Units.val_pow_eq_pow_val, ← map_pow, hg, map_one, Units.val_one]
   have hchar : (X - C 1 : K[X]) ^ p = X ^ p - 1 := by
-    haveI : CharP (K[X]) p := Polynomial.charP
+    have : CharP (K[X]) p := Polynomial.charP
     rw [sub_pow_char]
     simp
   have hmin : minpoly K x ∣ (X - 1) ^ p := by
@@ -424,7 +424,7 @@ theorem ggBlockScalarCore_holds :
             (glA (τ : GL (Fin N) K) : Module.End K (Fin N → K)) v = v) := by
   intro p N hp hp2 K _instK _finK g ε hg hgood hmult hcard
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpk : (p : K) ≠ 0 := bsc_p_ne_zero hp g hg hcard
   let x : Module.End K (Fin N → K) := (glA g : Module.End K (Fin N → K))
   have hgoodx : (X - C ε) ∈ primaryFactors x := hgood
@@ -496,7 +496,7 @@ theorem ggBlockScalarCore_holds :
     · exact hτ02.symm
     · exact hτ12.symm
     · exact Commute.refl _
-  letI : CommGroup G :=
+  let : CommGroup G :=
     @IsMulCommutative.instCommGroup G _ (Subgroup.isMulCommutative_closure hcommS)
   have hτ0G : τ0 ∈ G := Subgroup.mem_closure_of_mem (by simp)
   have hτ1G : τ1 ∈ G := Subgroup.mem_closure_of_mem (by simp)
@@ -554,11 +554,11 @@ theorem ggBlockScalarCore_holds :
   have hcardG : p ^ 3 ≤ Nat.card G := by
     have h := Nat.card_le_card_of_injective ψ hψinj
     rwa [show Nat.card (Fin 3 → Fin p) = p ^ 3 from by
-      simp [Nat.card_eq_fintype_card, Fintype.card_fun]] at h
+      simp [Nat.card_eq_fintype_card]] at h
   let detHom : (Module.End K (Fin N → K))ˣ →* Kˣ :=
     Units.map (LinearMap.det : Module.End K (Fin N → K) →* K)
   let f : G →* Kˣ := detHom.comp G.subtype
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hfr : f.range ≤ rootsOfUnity p K := by
     rintro u ⟨y, rfl⟩
     rw [mem_rootsOfUnity]

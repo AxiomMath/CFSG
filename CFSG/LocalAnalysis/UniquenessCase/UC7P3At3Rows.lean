@@ -34,9 +34,9 @@ theorem irreducible_or_psl28_of_gls3ConclusionPlus {X : Type} [Group X] [Finite 
       Nat.card ↥(K ⊓ normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X)) = 18 ∧
       Nat.card (P : Subgroup X) = 27) := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPK : ¬ 3 ∣ K.index → (P : Subgroup X) ≤ K :=
-    CFSG.HardMathSupport.Solomon.Coordinator.i1810_le_of_not_dvd_index P.isPGroup'
+    CFSG.HardMathSupport.Solomon.Coordinator.i1810_le_of_not_dvd_index P.isPGroup
   obtain ⟨-, -, h⟩ := h
   rcases h with ⟨q, hq3, hI, hidx, -, -, hEl, hcard⟩ | ⟨q, hq3, hI, hidx, -⟩ | ⟨m, hI, -⟩ |
       ⟨hI, hidx, -, h9, hΓ, ⟨e⟩, h27, -⟩ | ⟨-, hidx, hEl, -, hΓ, J, -, hJ, hJirr⟩ |
@@ -61,10 +61,10 @@ theorem irreducible_or_psl28_of_gls3ConclusionPlus {X : Type} [Group X] [Finite 
       rwa [Sylow.coe_subtype] at h3
     refine Or.inl ⟨hPK', hexp, fun W hWP hW => ?_⟩
     rcases CFSG.LocalAnalysis.RankThreeTheoremC.kFactU33SylowIrr X K
-        ⟨q, hq3, by rw [q.card_def, hq3, hq1, pow_one], hI⟩ P hPK' P.isPGroup' hidxK W hWP hW
+        ⟨q, hq3, by rw [q.card_def, hq3, hq1, pow_one], hI⟩ P hPK' P.isPGroup hidxK W hWP hW
       with h | h
     · exact Or.inl (h.trans
-        (CFSG.Quasithin.Ch1Sec3.frattiniIn_eq_commutator P.isPGroup' hexp).le)
+        (CFSG.Quasithin.Ch1Sec3.frattiniIn_eq_commutator P.isPGroup hexp).le)
     · exact Or.inr h
   · exact absurd hI (hR m)
   ·

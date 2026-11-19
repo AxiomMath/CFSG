@@ -46,6 +46,7 @@ noncomputable def ThetaF4
     ((adjointGroup Tag.F4 L).subtype.comp
       (thetaF4 (L := L) ψ G0 B1 hG0 hker hcenter hBN hinner))
 
+omit [Finite K] [Finite X] in
 @[simp] theorem etaF4_apply
     (ψ : adjointGroup Tag.F4 K →* X) (G0 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
@@ -59,6 +60,7 @@ noncomputable def ThetaF4
   rw [MulAut.conj_apply]
   simp
 
+omit [Finite K] [Finite X] in
 @[simp] theorem ThetaF4_apply
     (ψ : adjointGroup Tag.F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
@@ -90,6 +92,7 @@ noncomputable def langDatumF4
       rw [frobF4_apply_coe, bcGL, bcEndHom_eq_entrywiseHom]
     rw [h1, hg0])
 
+omit [Field K] [Finite K] [Algebra K L] in
 @[simp] theorem langDatumF4_n
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (w : WeylGroup Tag.F4) {g0 : ModGL Tag.F4 L}
@@ -100,6 +103,7 @@ noncomputable def langDatumF4
       canonicalRep (coxeterSystem Tag.F4) L w :=
   rfl
 
+omit [Field K] [Finite K] [Algebra K L] in
 @[simp] theorem langDatumF4_g0
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (w : WeylGroup Tag.F4) {g0 : ModGL Tag.F4 L}
@@ -109,6 +113,7 @@ noncomputable def langDatumF4
     (langDatumF4 (K := K) (L := L) Fr hFr w hg0C hg0).g0 = g0 :=
   rfl
 
+omit [Field K] [Finite K] [Algebra K L] in
 @[simp] theorem langDatumF4_Phi
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (w : WeylGroup Tag.F4) {g0 : ModGL Tag.F4 L}
@@ -119,6 +124,7 @@ noncomputable def langDatumF4
       Units.map (entrywiseHom Fr) :=
   rfl
 
+omit [Field K] [Finite K] [Algebra K L] in
 theorem frobF4_coe_eq_unitsMap
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (g : adjointGroup Tag.F4 L) :
@@ -228,6 +234,7 @@ theorem etaF4_range_model
   simp only [ha]
   group
 
+omit [Finite K] [Finite X] in
 theorem etaF4_action
     (ψ : adjointGroup Tag.F4 K →* X) (G0 B1 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
@@ -246,6 +253,7 @@ theorem etaF4_action
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
+omit [Finite X] [Finite K] in
 theorem ThetaF4_ker
     (ψ : adjointGroup Tag.F4 K →* X) (G0 B1 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
@@ -283,6 +291,7 @@ theorem ThetaF4_ker
     change g0⁻¹ * (1 : ModGL Tag.F4 L) * g0 = 1
     group
 
+omit [Finite X] [Finite K] in
 theorem iotaF4_injective
     (ψ : adjointGroup Tag.F4 K →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
@@ -298,6 +307,7 @@ theorem iotaF4_injective
     exact hab
   rw [huv]
 
+omit [Finite X] [Finite K] in
 theorem etaF4_injective
     (ψ : adjointGroup Tag.F4 K →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))

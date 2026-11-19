@@ -29,7 +29,7 @@ theorem two_ne_zero_zmod {a : ℕ} (ha : 2 ≤ a) : (2 : ZMod (2 ^ a)) ≠ 0 := 
 
 theorem eq_zero_or_half {b : ℕ} {k : ZMod (2 ^ (b + 1))} (h : k + k = 0) :
     k = 0 ∨ k = ((2 ^ b : ℕ) : ZMod (2 ^ (b + 1))) := by
-  haveI : NeZero (2 ^ (b + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (b + 1)) := ⟨by positivity⟩
   have hcast : ((2 * k.val : ℕ) : ZMod (2 ^ (b + 1))) = 2 * k := by
     rw [Nat.cast_mul, ZMod.natCast_zmod_val]
     norm_num
@@ -59,7 +59,7 @@ theorem eq_zero_or_half {b : ℕ} {k : ZMod (2 ^ (b + 1))} (h : k + k = 0) :
 theorem zc_mem_of_rot {a : ℕ} (ha : 1 ≤ a) (K : Subgroup (DihedralGroup (2 ^ a)))
     {k : ZMod (2 ^ a)} (hk : r k ∈ K) (hk0 : k ≠ 0) : zc a ∈ K := by
   obtain ⟨c, rfl⟩ : ∃ c, a = c + 1 := ⟨a - 1, by omega⟩
-  haveI : NeZero (2 ^ (c + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (c + 1)) := ⟨by positivity⟩
   have hv0 : k.val ≠ 0 := by
     rwa [Ne, ZMod.val_eq_zero]
   obtain ⟨t, u, hu, hvtu⟩ := Nat.exists_eq_two_pow_mul_odd hv0
@@ -155,7 +155,7 @@ theorem mul_comm_of_le_one {a : ℕ} (ha : a ≤ 1) (g h : DihedralGroup (2 ^ a)
   interval_cases a
   · have hs : ∀ x y : ZMod (2 ^ 0), x = y := by
       intro x y
-      haveI : NeZero (2 ^ 0) := ⟨by norm_num⟩
+      have : NeZero (2 ^ 0) := ⟨by norm_num⟩
       have h0 : ∀ z : ZMod (2 ^ 0), z = 0 := by
         intro z
         have hz := ZMod.val_lt z
@@ -178,7 +178,7 @@ theorem pow_two_pow_eq_one {a b : ℕ} (ha : 1 ≤ a) (hab : a ≤ b) (g : Dihed
   obtain ⟨c, rfl⟩ : ∃ c, b = a + c := ⟨b - a, by omega⟩
   rw [pow_add (2 : ℕ) a c, pow_mul, h1, one_pow]
 
-theorem rho_pow {a : ℕ} (ha : 1 ≤ a) : (r 1 : DihedralGroup (2 ^ a)) ^ (2 ^ (a - 1)) = zc a := by
+theorem rho_pow {a : ℕ} (_ha : 1 ≤ a) : (r 1 : DihedralGroup (2 ^ a)) ^ (2 ^ (a - 1)) = zc a := by
   show (r 1 : DihedralGroup (2 ^ a)) ^ (2 ^ (a - 1)) = r ((2 ^ (a - 1) : ℕ) : ZMod (2 ^ a))
   exact r_one_pow _
 

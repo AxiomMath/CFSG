@@ -29,8 +29,8 @@ theorem u6Sel (h207 : CFSG.HardMathSupport.Dickson.Bal207.Bal207Corr) :
   have hperf : commutator ↥K = ⊤ := hK.2.2.1
   have hBel : CFSG.Open.IsElemAbelian 3 B := hBSC.2.1
   obtain ⟨K0, fK0, h, e, -, -, -, -, -⟩ := U6Bridge.exists_uFieldAut_of_fieldAutU6 hFx
-  haveI := h.finite
-  letI : Fintype K0 := Fintype.ofFinite K0
+  have := h.finite
+  let : Fintype K0 := Fintype.ofFinite K0
   have hW := u6_twoLocal_witness hKG hK hBel hBN hLie hxB hxI hFx
   have hr : CFSG.Open.pRank 3 (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) + (3 + 1) ≤
       CFSG.Open.pRank 3 B :=

@@ -124,7 +124,7 @@ theorem A2Pair.chars_lvec (hP : A2Pair σ τ κ κ') {ψ : SL(3, L) →* ModGL T
     (hb : ψ (diagSL3 (lvec ζ e₀ e₁) (lvec_det ζ e₀ e₁)) = rootDiagUnit Tag.F4 b) (v : V4) :
     rootChar b v = ζ ^ (e₀ * (lab1 σ κ v + lab2 σ κ v) + e₁ * lab2 σ κ v) := by
   rw [hP.diag_chars hψ hb v]
-  simp only [lvec, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [lvec, Matrix.cons_val_zero, Matrix.cons_val_one]
   rw [← zpow_mul, ← zpow_mul, ← zpow_add]
 
 theorem zpow_eq_iff_dvd {ζ : Lˣ} {N : ℕ} (hζ : ∀ n : ℤ, ζ ^ n = 1 ↔ (N : ℤ) ∣ n) (x y : ℤ) :

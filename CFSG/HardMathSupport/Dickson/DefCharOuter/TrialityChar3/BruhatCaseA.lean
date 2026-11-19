@@ -16,18 +16,19 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [CharP K 3] in
 theorem bruhat_caseA {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
     (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
-    (hg : longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc * fieldActor (t := TwistTag.D4) σ σ g *
-      (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc)⁻¹ = g)
-    {w : WeylGroup TwistTag.D4.tag} (hw : weylTwist TwistTag.D4 w = w) {b u : ModGL TwistTag.D4.tag K}
+    (hg : longElt σ (Or.inr (Or.inr rfl)) c hc * fieldActor (t := TwistTag.D4) σ σ g *
+      (longElt σ (Or.inr (Or.inr rfl)) c hc)⁻¹ = g)
+    {w : WeylGroup TwistTag.D4.tag} (_hw : weylTwist TwistTag.D4 w = w) {b u : ModGL TwistTag.D4.tag K}
     (hb : b ∈ graphFixedBorel TwistTag.D4 K σ.toRingHom)
     (hu : u ∈ graphFixedInversionUnipotent TwistTag.D4 K σ.toRingHom w)
     (hgbu : (g : ModGL TwistTag.D4.tag K) =
       b * canonicalRep (coxeterSystem TwistTag.D4.tag) K w * u)
     (hinv : rootD ∈ inversionSet w) : False := by
   obtain ⟨z, hzdef⟩ : ∃ z : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
-      z = longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc := ⟨_, rfl⟩
+      z = longElt σ (Or.inr (Or.inr rfl)) c hc := ⟨_, rfl⟩
   rw [← hzdef] at hg
   have hzM : (z : ModGL TwistTag.D4.tag K) = pinnedX TwistTag.D4.tag K rootD c := by
     subst hzdef
@@ -94,13 +95,13 @@ theorem bruhat_caseA {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
       graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
     rw [huCdef]
     exact huP
-  have h0B : longElt hf hK σ hσ (Or.inl rfl) 0 (map_zero σ) = 1 :=
+  have h0B : longElt σ (Or.inl rfl) 0 (map_zero σ) = 1 :=
     Subtype.ext (pinnedX_zero TwistTag.D4.tag K rootB)
-  have h0C : longElt hf hK σ hσ (Or.inr (Or.inl rfl)) 0 (map_zero σ) = 1 :=
+  have h0C : longElt σ (Or.inr (Or.inl rfl)) 0 (map_zero σ) = 1 :=
     Subtype.ext (pinnedX_zero TwistTag.D4.tag K rootC)
-  have hfix : fieldActor (t := TwistTag.D4) σ σ uC = uC * (longElt hf hK σ hσ (Or.inl rfl) 0
-      (map_zero σ) * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) 0 (map_zero σ) *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) := by
+  have hfix : fieldActor (t := TwistTag.D4) σ σ uC = uC * (longElt σ (Or.inl rfl) 0
+      (map_zero σ) * longElt σ (Or.inr (Or.inl rfl)) 0 (map_zero σ) *
+        longElt σ (Or.inr (Or.inr rfl)) c hc) := by
     simp only [h0B, h0C, one_mul]
     apply Subtype.ext
     rw [coe_fieldActor, Subgroup.coe_mul, huCdef, ← hzdef]

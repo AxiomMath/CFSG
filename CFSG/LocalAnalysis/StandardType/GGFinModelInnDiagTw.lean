@@ -69,13 +69,13 @@ theorem ggFixGp_conj_innDiagU_twE6
   let S := (ggU .twistedE6 n f).K
   let ZS := Subgroup.center S
   let Cq := S ⧸ ZS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) F GGL :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : IsScalarTower (ZMod 2) F GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic F GGL :=
+  have : Algebra.IsAlgebraic F GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := F) (A := GGL)
-  haveI : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
+  have : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hσsurj : Function.Surjective (frobQ 2 f) :=
     Finite.surjective_of_injective (frobQ 2 f).injective
   let σE : F ≃+* F := RingEquiv.ofBijective (frobQ 2 f) ⟨(frobQ 2 f).injective, hσsurj⟩

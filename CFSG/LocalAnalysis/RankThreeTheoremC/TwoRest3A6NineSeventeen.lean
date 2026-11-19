@@ -40,7 +40,7 @@ theorem TwoRestG23Config.isAGLQ_centBase (hk : D1CaseTwoKFacts3 G) (h1014 : TwoR
   have hMN : M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer cfg.block.le).mp hnorm
   have he := hd.cfg.ext.toD1Escape
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hG2 : ∀ a ∈ centBase M R L hRM, a ≠ 1 → a ^ 3 = 1 →
       (∃ E : Subgroup G, E ≤ R ∧ IsElemAbelian 3 E ∧ Nat.card E = 27 ∧ a ∈ E) →
       Subgroup.normalizer (Subgroup.zpowers a : Set G) ≤ M := by
@@ -88,7 +88,7 @@ theorem TwoRestG23Config.isAGLQ_centBase (hk : D1CaseTwoKFacts3 G) (h1014 : TwoR
   have hΓ : rankThreeGamma 1 3 F ≤ M := TwoRest3A6.rankThreeGamma_le hF hFcard hNF
     fun a ha ha1 =>
       hG2 a (hFBE ha).1 ha1 (hF.2 a ha) ⟨E, hER, hE, by rw [hEcard]; norm_num, (hFBE ha).2⟩
-  exact ⟨hBR.trans hRM, P.isPGroup'.to_le (hBR.trans hRP),
+  exact ⟨hBR.trans hRM, P.isPGroup.to_le (hBR.trans hRP),
     Or.inr ⟨F, hFBE.trans inf_le_left, hF, hFcard, hΓ⟩⟩
 
 theorem TwoRestG23Config.kbar_facts (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRestTenFourteen G)
@@ -99,7 +99,7 @@ theorem TwoRestG23Config.kbar_facts (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRestTe
       (∃ x : Kbar, x ≠ 1 ∧ ∃ k : ℕ, x ^ 3 ^ k = 1) ∧ IsCaseTwoGroup 3 Kbar ∧
       d1Kappa 3 M H ≤ Nat.card Kbar := by
   have hd := cfg.data
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx : (centBase M R L hRM).relIndex R ≤ 3 := (block_facts hk cfg hRM).2
   obtain ⟨hKs, hKnab, -⟩ :=
     hd.cfg.red.isSimpleGroup_of_isCyclic hd.cfg.catalog cfg.component (hd.cyclic _ cfg.component)
@@ -132,7 +132,7 @@ theorem twoRestNineSeventeen_of_rankTwo (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRe
   have h2' := h2 P M H R Rbar z Kbar L hRM cfg
   rw [hJ] at h2' ⊢
   have hd := cfg.data
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx : (centBase M R L hRM).relIndex R ≤ 3 := (block_facts hk cfg hRM).2
   have h917 : Hyp917Ext 3 M H (centBase M R L hRM) Kbar :=
     hyp917Ext_of_caseTwoGroup h3 hother hk.schreier hkl hmod hk.out hk.seitzCyc hk.inv.toIn
@@ -193,7 +193,7 @@ theorem pRank_centBase_le_two {M R L : Subgroup G} (hRM : R ≤ M) (hR : IsPGrou
     (hq : Nonempty (↥(barM M L) ⧸ Subgroup.center ↥(barM M L) ≃* alternatingGroup (Fin 6)))
     (hM3 : Open.pRank 3 M ≤ 3) : Open.pRank 3 (centBase M R L hRM) ≤ 2 := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   obtain ⟨E, hEB, hE, hEc⟩ :=
@@ -253,12 +253,12 @@ theorem TwoRestG23Config.pRank_centBase_le_two {P : Sylow 3 G} {M H R : Subgroup
     {Kbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)} {L : Subgroup G}
     (cfg : TwoRestG23Config P M H R Rbar z Kbar L) (hRM : R ≤ M) :
     Open.pRank 3 (centBase M R L hRM) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd := cfg.data
   have hRP : R ≤ (P : Subgroup G) := hd.cfg.ext.toD1Escape.le_P
   have hG : Open.pRank 3 (⊤ : Subgroup G) ≤ 3 := by
     exact pRank_top_le_three hd.cfg.glob hd.cfg.loc.sigma hd.cfg.loc.isCoreMaxLocal
-  exact CFSG.LocalAnalysis.RankThreeTheoremC.pRank_centBase_le_two hRM (P.isPGroup'.to_le hRP)
+  exact CFSG.LocalAnalysis.RankThreeTheoremC.pRank_centBase_le_two hRM (P.isPGroup.to_le hRP)
     cfg.center cfg.quot ((CFSG.SectionRank.pRank_mono (by norm_num) le_top).trans hG)
 
 theorem factor_of_nineThree_card {p : ℕ} [Fact p.Prime] {M H N : Subgroup G}
@@ -271,8 +271,8 @@ theorem factor_of_nineThree_card {p : ℕ} [Fact p.Prime] {M H N : Subgroup G}
     ∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ y ∈ H ⊓ N, x = m * y := by
   obtain ⟨W, hW, J, φ, -, hWJ, hφs, hJper, hY₀⟩ :=
     exists_perfect_cover hKs hKnab hKp hKX hcov hcore
-  haveI := h93.normal
-  haveI := hKs
+  have := h93.normal
+  have := hKs
   set C := Subgroup.centralizer (JN : Set (N ⧸ primeComplementCore (G := N) p))
   have hCn : C.Normal := inferInstance
   have hCX : C ≤ d1X0 p M N := by
@@ -354,7 +354,7 @@ theorem aglRankTwoFactorAt_of_nineThree {p : ℕ} [Fact p.Prime] {M H B : Subgro
 theorem twoRestRankTwoFactor_of_nineThree (hk : D1CaseTwoKFacts3 G)
     (h1014 : TwoRestTenFourteen G) (h : TwoRestRankTwoNineThree G) : TwoRestRankTwoFactor G := by
   intro P M H R Rbar z Kbar L hRM cfg
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJ, hKs, hKnab, hKp, -, -⟩ := cfg.kbar_facts hk h1014 hRM
   have hB2 := cfg.pRank_centBase_le_two hRM
   have hat := h P M H R Rbar z Kbar L hRM cfg

@@ -165,7 +165,7 @@ theorem WongHyp.not_isConj_x_of_trivial [Finite G] (h : WongHyp t i₁.range i�
 
 theorem WongHyp.not_isConj_x_of_outer_one [Finite G] (h : WongHyp t i₁.range i₂.range)
     (hi₁ : Function.Injective i₁) (hi₂ : Function.Injective i₂) {n : G}
-    (hn : n ∈ centralizer ({t} : Set G))
+    (_hn : n ∈ centralizer ({t} : Set G))
     (hact : ∀ x, n⁻¹ * i₁ x * n = i₁ (deltaAut x) ∧ n⁻¹ * i₂ x * n = i₂ x) :
     ¬ IsConj t (i₁ hM * i₂ hM) := by
   intro hconj

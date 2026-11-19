@@ -93,7 +93,7 @@ theorem sec717OrbitOdd_of_typing (hCN : Sec7CommNStatement) (hTyp : Sec717LTypin
   have hRZ0 : ∀ r ∈ Rt M (LB M Q B) t, ∀ z ∈ Z0, r * z * r⁻¹ ∈ Z0 := fun r hr z hz =>
     (Subgroup.mem_normalizer_iff.mp
       (hZ0.mem_normalizer (fun ρ hρ x hx => hQn ρ (hRM hρ) x hx) hr) z).mp hz
-  haveI hZ0n : (Z0.subgroupOf L).Normal := ⟨fun x hx g => by
+  have hZ0n : (Z0.subgroupOf L).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hRZ0 g (hLR g.2) x hx⟩
   have hXcomm : ∀ a b : ↥L ⧸ Z0.subgroupOf L, a * b = b * a := by
@@ -109,8 +109,8 @@ theorem sec717OrbitOdd_of_typing (hCN : Sec7CommNStatement) (hTyp : Sec717LTypin
       group
     rw [key]
     exact hQZ0 (hL.2.2.2.2.1 _ (L.inv_mem b.2) _ (L.inv_mem a.2))
-  letI : CommGroup (↥L ⧸ Z0.subgroupOf L) := sec717CommGroup hXcomm
-  haveI hQn0 : (Q.subgroupOf Z0).Normal := ⟨fun x hx g => by
+  let : CommGroup (↥L ⧸ Z0.subgroupOf L) := sec717CommGroup hXcomm
+  have hQn0 : (Q.subgroupOf Z0).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hQn g (hRM (hZ0.le g.2)) x hx⟩
   have hYcomm : ∀ a b : ↥Z0 ⧸ Q.subgroupOf Z0, a * b = b * a := by
@@ -126,11 +126,11 @@ theorem sec717OrbitOdd_of_typing (hCN : Sec7CommNStatement) (hTyp : Sec717LTypin
       group
     rw [key]
     exact hZ0.comm_mem (Z0.inv_mem b.2) (hZ0.le (Z0.inv_mem a.2))
-  letI : CommGroup (↥Z0 ⧸ Q.subgroupOf Z0) := sec717CommGroup hYcomm
+  let : CommGroup (↥Z0 ⧸ Q.subgroupOf Z0) := sec717CommGroup hYcomm
   set ρ := sec717SecAct (Rt M (LB M Q B) t) L Z0 hRL hRZ0 with hρ
   obtain ⟨K, hKf, hKfin, hKZ, φ₀, hφr, hker, -⟩ := hp3
   obtain ⟨n0, -, hZn0, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
+  have : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
   have hmemN : ∀ h : ↥(Rt M (LB M Q B) t), φ₀ h = 1 ↔ (h : G) ∈ hc.CN t := by
     intro h
     rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]

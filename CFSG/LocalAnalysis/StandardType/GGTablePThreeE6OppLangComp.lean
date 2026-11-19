@@ -130,7 +130,7 @@ private theorem e6Opp_lang_firstHalf
     ext γ
     have hchi : (e6Chi v) (Multiplicative.ofAdd γ) =
         Multiplicative.ofAdd (∑ k, ((γ k : ℤ) : ZMod 3) * v k) := rfl
-    simp only [kernelRoots, Set.mem_setOf_eq, hchi, ofAdd_eq_one]
+    simp only [kernelRoots, Set.mem_ofPred_eq, hchi, ofAdd_eq_one]
   have hker : kernelRoots (rootCharHom a) = kernelRoots (e6Chi v) := by
     rw [(frobRootMap_e6_admissible S hT ω hω v hv).2, ← hker']
   have horbitE : ∀ Ψ' : Set (Fin Tag.E6.rank → ℤ), E6KerComponent v Ψ' →
@@ -198,7 +198,7 @@ theorem e6Opp_lang_rationalComponents_untw
       rationalLabel_typeA S Nat.prime_three hT hap h1 i hA hQSi
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos ?_]
+      rw [ite_eq_left ?_]
       rwa [horb1, Function.iterate_one]
     have htag : lab.tag = .A := htagInner hkind
     have hrank' : lab.rank = 5 := by rw [hrank, hr5]
@@ -281,7 +281,7 @@ private theorem e6NegTrans_componentOrbitLength (σ : Equiv.Perm (Fin Tag.E6.ran
   unfold componentOrbitLength
   congr 1
   ext k
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hpos, h⟩
     exact ⟨hpos, by rw [← e6NegTrans_image_iterate σ hneg hΨ k]; exact h⟩
@@ -401,7 +401,7 @@ theorem e6Opp_lang_rationalComponents_tw
               (compRank (componentRoots (rootCharHom a) i) + 1) := by
         rw [hr5r, hn30r]; norm_num
       unfold twistKind
-      rw [if_neg hnotInner, if_neg hnotExc, if_neg hnotTwoD, if_pos hsuN]
+      rw [ite_eq_right hnotInner, ite_eq_right hnotExc, ite_eq_right hnotTwoD, ite_eq_left hsuN]
     have hA : 1 ≤ compRank (componentRoots (rootCharHom a) i) ∧
         (componentRoots (rootCharHom a) i).ncard =
           compRank (componentRoots (rootCharHom a) i) *

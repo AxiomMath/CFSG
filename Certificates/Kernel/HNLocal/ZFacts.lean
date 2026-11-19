@@ -108,26 +108,26 @@ theorem w0J_ne_zJ : w0J ≠ zJ := F_ne (by norm_num) (by norm_num) (by norm_num)
   if g < 63 then wG g else if g < 77 then pcJ (g - 63) else if g = 77 then zJ else w0J
 
 theorem lm_odd (g : ℕ) : lm (2 * g + 1) = Mr g := by
-  rw [lm_eq, if_pos (by omega)]
+  rw [lm_eq, ite_eq_left (by omega)]
   congr 1
   omega
 
 theorem lm_even (g : ℕ) : lm (2 * g) = Mi g := by
-  rw [lm_eq, if_neg (by omega)]
+  rw [lm_eq, ite_eq_right (by omega)]
   congr 1
   omega
 
 theorem mat_E0 {g : ℕ} (hg : g < 79) : mat Dt (E0 g) = Mr g := by
   unfold E0
   by_cases h1 : g < 63
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact mat_wG g h1
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   by_cases h2 : g < 77
-  · rw [if_pos h2, mat_pcJ' (by omega)]
+  · rw [ite_eq_left h2, mat_pcJ' (by omega)]
     congr 1
     omega
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
   have hw : ∀ {k : ℕ} {a b g' : ℕ}, k < 127 → g' < 86 → WZL k = [2 * a + 1, 2 * b + 1] ++ [2 * g'] →
       a < 77 → 63 ≤ a → b < 77 → 63 ≤ b →
       mat Dt (pcJ (a - 63) * pcJ (b - 63)) = Mr g' := fun hk hg' hs ha1 ha2 hb1 hb2 => by
@@ -137,13 +137,13 @@ theorem mat_E0 {g : ℕ} (hg : g < 79) : mat Dt (E0 g) = Mr g := by
     congr 2 <;> omega
   by_cases h3 : g = 77
   · subst h3
-    rw [if_pos rfl, zJ_eq]
+    rw [ite_eq_left rfl, zJ_eq]
     exact hw (k := 61) (a := 72) (b := 74) (by norm_num) (by norm_num) (by decide +kernel)
       (by norm_num)
       (by norm_num) (by norm_num) (by norm_num)
   · have h4 : g = 78 := by omega
     subst h4
-    rw [if_neg (by norm_num), w0J_eq]
+    rw [ite_eq_right (by norm_num), w0J_eq]
     exact hw (k := 62) (a := 72) (b := 73) (by norm_num) (by norm_num) (by decide +kernel)
       (by norm_num)
       (by norm_num) (by norm_num) (by norm_num)
@@ -185,13 +185,13 @@ theorem mat_hZ : mat Dt hZ = Mr 83 := (rep84 83 (by norm_num)).choose_spec
 @[expose] def pcode (z : ℤ) : ℕ :=
   2 * (if z.natAbs = 64 then 85 else z.natAbs - 1) + (if 0 < z then 1 else 0)
 
-theorem mat_progZ {z : ℤ} (hz : z ≠ 0) (h63 : z.natAbs ≤ 63) : mat Dt (progZ z) = lm (pcode z) := by
+theorem mat_progZ {z : ℤ} (_hz : z ≠ 0) (h63 : z.natAbs ≤ 63) : mat Dt (progZ z) = lm (pcode z) := by
   unfold progZ pcode
-  rw [if_neg (by omega : ¬ z.natAbs = 64)]
+  rw [ite_eq_right (by omega : ¬ z.natAbs = 64)]
   have hw := mat_wG (z.natAbs - 1) (by omega)
   by_cases hp : 0 < z
-  · rw [if_pos hp, if_pos hp, lm_odd, hw]
-  · rw [if_neg hp, if_neg hp, Nat.add_zero, lm_even, mat_inv_of (by omega) hw]
+  · rw [ite_eq_left hp, ite_eq_left hp, lm_odd, hw]
+  · rw [ite_eq_right hp, ite_eq_right hp, Nat.add_zero, lm_even, mat_inv_of (by omega) hw]
 
 theorem gWord_ok : WZL 70 = hnGWord.map pcode ++ [2 * 85] ∧
     ∀ z ∈ hnGWord, z ≠ 0 ∧ z.natAbs ≤ 63 := by
@@ -225,7 +225,7 @@ theorem mat_wT : mat Dt wT = Mr 84 := by
   have h3 : (166 : ℕ) = 2 * 83 := rfl
   have hw := mat_E0 (g := 78) (by norm_num)
   unfold E0 at hw
-  rw [if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num)] at hw
+  rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num)] at hw
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
   rw [h1, h2, h3, lm_odd, lm_odd, lm_even, wT, CertificateChecks.KernelHN.mat_mul',
     CertificateChecks.KernelHN.mat_mul', mat_hZ, hw, mat_inv_of (by norm_num) mat_hZ, mul_assoc]
@@ -233,33 +233,33 @@ theorem mat_wT : mat Dt wT = Mr 84 := by
 theorem mat_E {g : ℕ} (hg : good g) : mat Dt (E g) = Mr g := by
   unfold E
   rcases hg with hg | ⟨h1, h2⟩
-  · rw [if_pos hg]
+  · rw [ite_eq_left hg]
     exact mat_E0 hg
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   by_cases h83 : g = 83
   · subst h83
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact mat_hZ
-  rw [if_neg h83]
+  rw [ite_eq_right h83]
   by_cases h84 : g = 84
   · subst h84
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact mat_wT
   have h85 : g = 85 := by omega
-  rw [if_neg h84, h85]
+  rw [ite_eq_right h84, h85]
   exact mat_gZ
 
 @[expose] noncomputable def elC (c : ℕ) : J Dt := if c % 2 = 1 then E (c / 2) else (E (c / 2))⁻¹
 
 theorem elC_odd (g : ℕ) : elC (2 * g + 1) = E g := by
   unfold elC
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   congr 1
   omega
 
 theorem elC_even (g : ℕ) : elC (2 * g) = (E g)⁻¹ := by
   unfold elC
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 2
   omega
 
@@ -280,33 +280,33 @@ theorem rel_E {k : ℕ} (hk : k < 127) {l : List ℕ} (hs : WZL k = l) (hl : ∀
 
 theorem E_wG {j : ℕ} (hj : j < 63) : E j = wG j := by
   unfold E E0
-  rw [if_pos (by omega), if_pos hj]
+  rw [ite_eq_left (by omega), ite_eq_left hj]
 
 theorem E_pc {k : ℕ} (hk : k < 14) : E (63 + k) = pcJ k := by
   unfold E E0
-  rw [if_pos (by omega), if_neg (by omega), if_pos (by omega)]
+  rw [ite_eq_left (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
   congr 1
   omega
 
 theorem E_77 : E 77 = zJ := by
   unfold E E0
-  rw [if_pos (by norm_num), if_neg (by norm_num), if_neg (by norm_num), if_pos rfl]
+  rw [ite_eq_left (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem E_78 : E 78 = w0J := by
   unfold E E0
-  rw [if_pos (by norm_num), if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num)]
+  rw [ite_eq_left (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
 
 theorem E_83 : E 83 = hZ := by
   unfold E
-  rw [if_neg (by norm_num), if_pos rfl]
+  rw [ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem E_84 : E 84 = wT := by
   unfold E
-  rw [if_neg (by norm_num), if_neg (by norm_num), if_pos rfl]
+  rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem E_85 : E 85 = gZ := by
   unfold E
-  rw [if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num)]
+  rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
 
 theorem rel2 {k a b : ℕ} (hk : k < 127) (hs : WZL k = [a, b]) (ha : good (a / 2))
     (hb : good (b / 2)) : elC a * elC b = 1 := by
@@ -689,13 +689,13 @@ theorem mat_topZ {z : ℤ} (hz : z ≠ 0) (h64 : z.natAbs = 64 ∨ z.natAbs ≤ 
     mat Dt (topZ z) = lm (pcode z) := by
   unfold topZ
   rcases h64 with h | h
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     unfold pcode
-    rw [if_pos h]
+    rw [ite_eq_left h]
     by_cases hp : 0 < z
-    · rw [if_pos hp, if_pos hp, lm_odd, mat_gZ]
-    · rw [if_neg hp, if_neg hp, Nat.add_zero, lm_even, mat_inv_of (by norm_num) mat_gZ]
-  · rw [if_pos h]
+    · rw [ite_eq_left hp, ite_eq_left hp, lm_odd, mat_gZ]
+    · rw [ite_eq_right hp, ite_eq_right hp, Nat.add_zero, lm_even, mat_inv_of (by norm_num) mat_gZ]
+  · rw [ite_eq_left h]
     exact mat_progZ hz h
 
 theorem word_eq {w : List ℤ} {g k : ℕ} (hk : k < 127) (hg : g < 63)

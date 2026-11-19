@@ -11,7 +11,7 @@ open CFSG CFSG.Assembly
 theorem ggRM_ainf_eq_sup {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} :
     ggAInf p B Bs x L D J = ggAutomizer L Bs ⊔ ⨆ S ∈ GGSecFiveNbrAutFamily p B Bs x D J, S := by
-  simp only [ggAInf, GGSecFiveNbrAutFamily, Set.mem_setOf_eq]
+  simp only [ggAInf, GGSecFiveNbrAutFamily, Set.mem_ofPred_eq]
   congr 1
   apply le_antisymm
   · refine iSup_le fun y => iSup_le fun K => iSup_le fun h => ?_
@@ -30,7 +30,7 @@ theorem ggRM_nbrs_of_family {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Su
   have hmem : ∀ (S : Subgroup (MulAut ↥Bs)), S ∈ 𝒮' →
       ∃ y K, GGNbr p B x D J y K ∧ S = ggAutomizer K Bs := by
     intro S hS
-    simpa only [GGSecFiveNbrAutFamily, Set.mem_setOf_eq] using h𝒮 hS
+    simpa only [GGSecFiveNbrAutFamily, Set.mem_ofPred_eq] using h𝒮 hS
   let yf : {S : Subgroup (MulAut ↥Bs) // S ∈ 𝒮'} → G :=
     fun S => Classical.choose (hmem S.1 S.2)
   let Kf : {S : Subgroup (MulAut ↥Bs) // S ∈ 𝒮'} → Subgroup G :=

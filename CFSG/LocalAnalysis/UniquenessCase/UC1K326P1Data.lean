@@ -13,11 +13,11 @@ theorem k326AtlasData_holds :
     K326AtlasData := by
   have hON : Nat.card CFSG.Blueprint.NativeSporadic.ON = 460815505920 := CFSG.Sporadic.ON.card_ON
   have hM : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card CFSG.Blueprint.NativeSporadic.M22 ≠ 0
       rw [hM]; norm_num)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card CFSG.Blueprint.NativeSporadic.ON ≠ 0
       rw [hON]; norm_num)

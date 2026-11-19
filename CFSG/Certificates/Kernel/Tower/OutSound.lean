@@ -168,8 +168,8 @@ theorem cntB_eq_card (n : Nat) (f : Nat → Bool) :
     rw [e, ih, Finset.range_add_one, Finset.filter_insert]
     cases hf : f n
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
-      simp only [cond_true]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
+      simp only [_root_.Bool.cond_true]
       omega
 
 variable {Y : Type*} [Group Y] {dec : Nat → Y}
@@ -253,7 +253,7 @@ theorem oRep_sound (M : IsModel (⊤ : Subgroup Y) 16384 mul2 dec) (D' : ExtData
     have hx : xr ∈ (centralizer {xr} : Subgroup (CycExt D')) := mem_centralizer_singleton_iff.2 rfl
     by_cases hb : p.2 = true
     · have e1 : e p = ⟨dec (l16 H p.1), false⟩ * xr := by
-        simp only [e, hb, if_true, xr, CycExt.mk_mul_mk]
+        simp only [e, hb, ite_true, xr, CycExt.mk_mul_mk]
         simp [CycExt.pw, CycExt.sq]
       rw [e1]
       exact Subgroup.mul_mem _ h0 hx
@@ -274,7 +274,7 @@ theorem oRep_sound (M : IsModel (⊤ : Subgroup Y) 16384 mul2 dec) (D' : ExtData
     obtain ⟨q, b⟩ := p
     obtain ⟨q', b'⟩ := p'
     cases b <;> cases b' <;> simp only [e, CycExt.mk.injEq, Bool.false_eq_true,
-      Bool.true_eq_false, if_false, if_true, and_false, and_true, mul_left_inj,
+      Bool.true_eq_false, ite_false, ite_true, and_false, and_true, mul_left_inj,
       Prod.mk.injEq] at he ⊢ <;> exact hcode hq hq' he
   have hcardE : (s.image e).card = 256 := by
     rw [Finset.card_image_of_injOn hinj, hscard]

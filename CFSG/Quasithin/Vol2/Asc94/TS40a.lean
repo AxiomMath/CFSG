@@ -32,6 +32,7 @@ structure Frame4 (G : Type) [Group G] (z : G) extends Frame3 G z where
 
 @[expose] def Frame2.J (F : Frame2 G z) : Subgroup G := F.A ⊔ F.A'
 
+omit [Finite G] in
 theorem Frame2.J_le_T (F : Frame2 G z) : F.J ≤ F.T := sup_le F.A_le_T F.A'_le_T
 
 theorem Frame2.isPGroup_J (F : Frame2 G z) : IsPGroup 2 F.J :=
@@ -78,6 +79,7 @@ theorem Frame2.normalizer_J_le (F : Frame2 G z) {x : G}
   exact ⟨Gen.mem_normalizer_iff_cj.2 (F.weaklyClosed_A.2 x hA),
     Gen.mem_normalizer_iff_cj.2 (F.weaklyClosed_A'.2 x hA')⟩
 
+omit [Finite G] in
 theorem Frame2.T_le_normalizer_J (F : Frame2 G z) : F.T ≤ Subgroup.normalizer (F.J : Set G) := by
   intro t ht
   rw [Gen.mem_normalizer_iff_cj]
@@ -103,6 +105,7 @@ theorem Frame2.T_le_normalizer_J (F : Frame2 G z) : F.T ≤ Subgroup.normalizer 
   rw [Subgroup.map_sup]
   exact congrArg₂ (· ⊔ ·) hA hA'
 
+omit [Finite G] in
 theorem Frame2.B_central (F : Frame2 G z) {b y : G} (hb : b ∈ F.A ⊓ F.A') (hy : y ∈ F.J) :
     b * y = y * b := by
   have hle : F.J ≤ Subgroup.centralizer ({b} : Set G) :=

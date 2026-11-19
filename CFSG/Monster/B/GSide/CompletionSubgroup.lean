@@ -280,7 +280,7 @@ theorem exists_sylow_two_unique_center
     have h' := hPcard
     rw [h, Subgroup.card_bot] at h'
     exact absurd h' (by norm_num)
-  obtain ⟨S, hS⟩ := Recog.StrongEmbedding.exists_sylow_eq hC (T₀.isPGroup'.map Ψ)
+  obtain ⟨S, hS⟩ := Recog.StrongEmbedding.exists_sylow_eq hC (T₀.isPGroup.map Ψ)
     (Subgroup.map_le_range Ψ _) hP1 hmax
   refine ⟨S, hS ▸ Subgroup.map_le_range Ψ _, hS ▸ Subgroup.mem_map_of_mem Ψ hxT₀, ?_, ?_⟩
   · intro s hs

@@ -73,7 +73,7 @@ theorem str83G4_fpf_D1_mod_q2
     intro z hz
     exact (d.hcomm y hy z hz).symm
   have hD2centD2 : d.D2 ≤ Subgroup.centralizer (d.D2 : Set G) := by
-    letI : CommGroup ↥d.D2 := hD2cyc.commGroup
+    let : CommGroup ↥d.D2 := hD2cyc.commGroup
     intro y hy
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
@@ -174,7 +174,7 @@ theorem str83G4_z2_inf_centralizer_d1
         (borelOf L1 S ⊔ borelOf L2 S) ⊔ S))).trans hB'
   have hS2 : IsPGroup 2 S := (str83G4_isSylowTwoOf_sup_left hfr').2.1
   have hsolvS : Group.IsSolvable ↥S := by
-    letI : Group.IsNilpotent ↥S := hS2.isNilpotent
+    let : Group.IsNilpotent ↥S := hS2.isNilpotent
     exact IsNilpotent.to_isSolvable
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hS2
   have hcop : Nat.Coprime (Nat.card ↥d.D1) (Nat.card ↥S) := by
@@ -372,7 +372,7 @@ theorem str83G4_x_eq_commutator_sup_z1
   have hZ2p : IsPGroup 2 (Z2 L1 L2 S) :=
     (pCoreOf_isPGroup 2 (P2 L1 L2 S)).to_le (omegaOneCenterOf_le (Q2 L1 L2 S))
   have hsolvZ2 : Group.IsSolvable ↥(Z2 L1 L2 S) := by
-    letI : Group.IsNilpotent ↥(Z2 L1 L2 S) := hZ2p.isNilpotent
+    let : Group.IsNilpotent ↥(Z2 L1 L2 S) := hZ2p.isNilpotent
     exact IsNilpotent.to_isSolvable
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ2p
   have hcop : Nat.Coprime (Nat.card ↥d.D1) (Nat.card ↥(Z2 L1 L2 S)) := by

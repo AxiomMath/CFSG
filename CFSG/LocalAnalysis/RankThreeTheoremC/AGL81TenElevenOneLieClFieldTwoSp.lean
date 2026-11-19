@@ -57,8 +57,8 @@ theorem three_le_pRank_sp4 {X K : Type} [Group X] [Finite X] [Field K] [Finite K
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI := hcyc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hcyc
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := StatedProj (StatedSp 2 K)
   set Ψ : MulAut X ≃* MulAut P := MulAut.congr e with hΨ
   have hΨconj : ∀ x : X, Ψ (MulAut.conj x) = MulAut.conj (e x) := fun x => by
@@ -75,7 +75,7 @@ theorem three_le_pRank_sp4 {X K : Type} [Group X] [Finite X] [Field K] [Finite K
   have hnot : ∀ τ : K ≃+* K, τ ≠ 1 → fieldAut 2 K τ ∉ inner P := fun τ hτ => by
     have := (spInner_mul_fieldAut_not_mem_inner_iff (1 : StatedSp 2 K) τ).2 hτ
     rwa [map_one, one_mul] at this
-  haveI := inner_normal P
+  have := inner_normal P
   obtain ⟨-, -, hN, hidx⟩ :=
     CFSG.ComponentClassification.CatalogueBSymplecticTwo.kernel_generation (K := K)
   have hodd : ∀ γ : MulAut P, ∀ k : ℕ, γ ^ 3 ^ k = 1 → γ ∈ spSemilinearAutGroup 2 K := by
@@ -182,9 +182,9 @@ theorem three_le_pRank_typeB2 {X : Type} [Group X] [Finite X] {d : TauCeti.Valid
   have hp : q.p = 2 := hd.1
   obtain ⟨_, K, _, _, hK, ⟨e'⟩⟩ := CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeB2 q hv e
   rw [hp] at hK
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have h3 : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     exact KFactProofs.Stroth.Bal3.I294Cross.not_three_dvd_pow Nat.prime_two (by norm_num)

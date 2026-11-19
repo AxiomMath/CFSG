@@ -155,7 +155,7 @@ theorem e1c_core_bot {G : Type*} [Group G] {θ : Subgroup G} {p : ℕ}
 theorem e1c_fit_two_bot {Θ : Type*} [Group Θ] [Finite Θ] (hcore : CFSG.pCore 2 Θ = ⊥)
     {V : Subgroup Θ} (hV2 : IsPGroup 2 V) (hVF : V ≤ CFSG.fittingSubgroup Θ) :
     ∀ v ∈ V, v = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV' : IsPGroup 2 (V.subgroupOf (CFSG.fittingSubgroup Θ)) :=
     hV2.comap_of_injective (CFSG.fittingSubgroup Θ).subtype
       (CFSG.fittingSubgroup Θ).subtype_injective
@@ -230,8 +230,8 @@ theorem e1_core {G : Type*} [Group G] [Finite G]
     (hxθ : x ∈ Subgroup.normalizer (θ : Set G)) (hxS : x ∈ Subgroup.normalizer (S : Set G))
     (hxS1 : ⁅S, Subgroup.zpowers x⁆ ≠ ⊥) : q = 5 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hUdef⟩ : ∃ U : Subgroup G, U = ⁅S, Subgroup.zpowers x⁆ := ⟨_, rfl⟩
   have hXS : Subgroup.zpowers x ≤ Subgroup.normalizer (S : Set G) :=
     Subgroup.zpowers_le.mpr hxS
@@ -258,7 +258,7 @@ theorem e1_core {G : Type*} [Group G] [Finite G]
         (Subgroup.zpowers x) hXS hcop
   obtain ⟨r, hr, hr3, u0, hu0U, p0, hp0P, hcomm⟩ :=
     e1c_exists_prime hθs hθ3 hO2 hUθ hU2 hU1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨P, hPdef⟩ : ∃ P : Subgroup G, P = CFSG.inSubgroup (CFSG.pCore r) θ := ⟨_, rfl⟩
   have hP2 : IsPGroup r P := by
     rw [hPdef]

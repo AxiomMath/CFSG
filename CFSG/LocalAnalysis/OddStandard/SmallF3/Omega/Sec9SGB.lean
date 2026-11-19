@@ -19,7 +19,7 @@ variable {G : Type} [Group G]
 theorem sec9g_centerIn_sq_eq_one [Finite G] {L : Subgroup G} (hL : IsOm6M L) {c : G}
     (hc : c ∈ centerIn L) (hc2 : c * c = 1) : c = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcL : c ∈ L := ((sec4_mem_centerIn_iff c).mp hc).1
   have hcorder : orderOf c = 2 := orderOf_eq_prime (by rwa [pow_two]) hne
   have hccent : c ∈ centralizer (L : Set G) := by
@@ -71,7 +71,7 @@ theorem asc82Sec8B_of (hM : Asc82Tab6M) : Asc82Sec8B := by
     rw [hzbc, hc1, mul_one]
     exact hb
   · intro b hb hb1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hb2 : orderOf b = 2 := orderOf_eq_prime (hB2 b hb) hb1
     exact hM.inv_one_class G L hLM z b hzL (hBL hb) hz2 hb2
 

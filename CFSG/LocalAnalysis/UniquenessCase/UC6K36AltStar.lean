@@ -51,7 +51,7 @@ end Alt36
 
 namespace Hyp36
 
-open Alt36 Odd
+open Alt36 _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -68,12 +68,12 @@ theorem rankThreeGamma_eq_top_of_alt (h : Hyp36 G M p E) {L : Subgroup G} [L.Nor
     {n : ℕ} (φ : ↥L ⧸ center ↥L ≃* alternatingGroup (Fin n)) (hn : 13 ≤ n) :
     ∃ S : Sylow 3 G, rankThreeGamma 1 3 (S : Subgroup G) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : center ↥L = ⊥ := h.center_eq_bot L hL.1.1 (by omega) φ
   set ψ : ↥L →* alternatingGroup (Fin n) := φ.toMonoidHom.comp (QuotientGroup.mk' (center ↥L)) with hψdef
   have hker : ψ.ker = center ↥L := by
     ext x
-    simp [ψ, MonoidHom.mem_ker]
+    simp [ψ]
   have hψi : Function.Injective ψ := (MonoidHom.ker_eq_bot_iff ψ).1 (hker.trans hZ)
   have hψs : Function.Surjective ψ := φ.surjective.comp (QuotientGroup.mk'_surjective _)
   set c : Fin 2 → alternatingGroup (Fin n) := fun i => tcyc hn (Fin.castLE (by norm_num) i) with hc

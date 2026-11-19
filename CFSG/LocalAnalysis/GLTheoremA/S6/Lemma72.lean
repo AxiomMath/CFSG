@@ -34,6 +34,7 @@ structure L72Single (p : ℕ) (D J K : Subgroup G) (a : G) : Prop where
   J_le : J ≤ K
   J_comp : GLAPComponent p (K ⊓ Subgroup.centralizer (D : Set G)) J
 
+omit [Finite G] in
 private theorem centralizer_eq_inf_of_eq_sup {D : Subgroup G} {a b : G}
     (hD : D = Subgroup.zpowers a ⊔ Subgroup.zpowers b) :
     Subgroup.centralizer (D : Set G) =
@@ -44,6 +45,7 @@ private theorem centralizer_eq_inf_of_eq_sup {D : Subgroup G} {a b : G}
   simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_union,
     Set.mem_singleton_iff, or_imp, forall_and, forall_eq]
 
+omit [Finite G] in
 private theorem mem_gLBConj_iff' {M : Subgroup G} {g x : G} : x ∈ GLBConj g M ↔ g * x * g⁻¹ ∈ M := by
   constructor
   · rintro ⟨y, hy, rfl⟩
@@ -51,6 +53,7 @@ private theorem mem_gLBConj_iff' {M : Subgroup G} {g x : G} : x ∈ GLBConj g M 
   · intro hx
     exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 private theorem closureIn_eq_iSup_gLBConj' (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   unfold closureIn
@@ -85,7 +88,7 @@ theorem l72_exists_Bprime {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y
       B' ≤ Subgroup.centralizer (altDxy x y : Set G) ∧
       CFSG.Open.pRank p B ≤ CFSG.Open.pRank p B' := by
   have hp := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpn : p ≤ n := by have := S.three_mul_le; omega
   obtain ⟨e, hycyc, -⟩ := S.cycle
   have hσc : ((e (QuotientGroup.mk (⟨y, S.y_mem⟩ : ↥L) : PQuot p L) : ↥(alternatingGroup (Fin n))) :
@@ -136,7 +139,7 @@ theorem l72_family_single {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y
     {J : Subgroup G} (hc : S6Ctx G p) (i112 : I112StarAt G p) (hne : AltNotWeakExcAt)
     (hB : IsSStarMax p B x L)
     (S : AltSetup p B x L n y J) (hn : 7 < n - p) {a b : G} (haD : a ∈ altDxy x y) (ha1 : a ≠ 1)
-    (hbD : b ∈ altDxy x y) (hb : b ∉ Subgroup.zpowers a)
+    (hbD : b ∈ altDxy x y) (_hb : b ∉ Subgroup.zpowers a)
     (hJ : GLAPComponent p (Subgroup.centralizer ({a} : Set G) ⊓
       Subgroup.centralizer ({b} : Set G)) J)
     {𝒞 : Set (Subgroup G)}
@@ -233,7 +236,7 @@ theorem l72_single_of_family {D J : Subgroup G} {a b : G} (hp : p.Prime)
 theorem exists_pair_of_card_sq (hp : p.Prime) {D : Subgroup G} (hD : Nat.card ↥D = p ^ 2) {a : G}
     (haD : a ∈ D) (ha1 : a ≠ 1) (hel : IsElemAbelian p D) :
     ∃ b ∈ D, b ∉ Subgroup.zpowers a ∧ D = Subgroup.zpowers a ⊔ Subgroup.zpowers b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hao : orderOf a = p := orderOf_eq_prime (hel.2 a haD) ha1
   have hz : Nat.card ↥(Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, hao]
   have hzD : Subgroup.zpowers a ≤ D := Subgroup.zpowers_le.2 haD
@@ -300,7 +303,7 @@ theorem l72_single {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {
 
 theorem genByPElts_of_simple (hp : p.Prime) {Y : Type} [Group Y] [Finite Y] {F : Subgroup Y}
     [IsSimpleGroup ↥F] (hpF : p ∣ Nat.card ↥F) : GenByPElts p F := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpF
   have hg1 : g ≠ 1 := by
     intro h
@@ -410,13 +413,13 @@ theorem exists_barI_barT_alt (hp : p.Prime) (hp2 : p ≠ 2) {M m₀ : ℕ} (h5 :
   let τ' : ↥(alternatingGroup (Fin M)) := ⟨τ, Equiv.Perm.mem_alternatingGroup.2 hτsign⟩
   have hτ'sq : τ' ^ 2 = 1 := Subtype.ext (by simpa using hτsq)
   have hτ'1 : τ' ≠ 1 := fun h => hτ1 (congrArg Subtype.val h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ'o : orderOf τ' = 2 := orderOf_eq_prime hτ'sq hτ'1
   have hTcard3 : 3 ≤ T.card := by omega
   have hTcard5 : 5 ≤ Nat.card (Fin m₀) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact h5
   obtain ⟨e⟩ := nonempty_altOn_equiv T hTcard
-  haveI : IsSimpleGroup (alternatingGroup (Fin m₀)) := alternatingGroup.isSimpleGroup hTcard5
-  haveI : IsSimpleGroup ↥(altOn T) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin m₀)) := alternatingGroup.isSimpleGroup hTcard5
+  have : IsSimpleGroup ↥(altOn T) := e.isSimpleGroup
   have hdvd : ∀ q : ℕ, q.Prime → q ≠ 2 → q ≤ m₀ → q ∣ Nat.card ↥(altOn T) := by
     intro q hq hq2 hqm
     rw [Nat.card_congr e.toEquiv]
@@ -448,7 +451,7 @@ theorem exists_barI_barT_alt (hp : p.Prime) (hp2 : p ≠ 2) {M m₀ : ℕ} (h5 :
       have h1 := hTmem u (hgs hu)
       have h2 := hτsupp hu'
       simp only [Finset.mem_insert, Finset.mem_singleton] at h2
-      rcases h2 with rfl | rfl | rfl | rfl <;> simp [a, b, c, d] at h1 <;> omega
+      rcases h2 with rfl | rfl | rfl | rfl <;> simp [a, b, c, d] at h1
     exact Subtype.ext hd.commute.eq
 
 theorem isPGroup_of_map_injective {A B : Type} [Group A] [Group B] (f : A →* B)
@@ -491,6 +494,7 @@ theorem exists_barI_barT {Q : Type} [Group Q] {M : ℕ} (e : Q ≃* ↥(alternat
 @[expose] def preimageMod (p : ℕ) (J : Subgroup G) (Tbar : Subgroup (PQuot p J)) : Subgroup G :=
   (Tbar.comap (QuotientGroup.mk' (GLAPPrimeCore p ↥J))).map J.subtype
 
+omit [Finite G] in
 private theorem mem_preimageMod_iff {J : Subgroup G} {Tbar : Subgroup (PQuot p J)} {x : G} :
     x ∈ preimageMod p J Tbar ↔ ∃ h : x ∈ J, (QuotientGroup.mk (⟨x, h⟩ : ↥J) : PQuot p J) ∈ Tbar := by
   unfold preimageMod
@@ -506,7 +510,7 @@ theorem exists_sylow_two_lift (J : Subgroup G) (Tbar : Subgroup (PQuot p J)) (hT
       ∀ U : Subgroup G, U ≤ preimageMod p J Tbar → IsPGroup 2 U →
         ∃ g ∈ preimageMod p J Tbar, U ≤ GLBConj g T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPJ : preimageMod p J Tbar ≤ J := Subgroup.map_subtype_le _
   set Ph := preimageMod p J Tbar with hPh
   let φ : ↥Ph →* PQuot p J := (QuotientGroup.mk' (GLAPPrimeCore p ↥J)).comp (Subgroup.inclusion hPJ)
@@ -523,7 +527,7 @@ theorem exists_sylow_two_lift (J : Subgroup G) (Tbar : Subgroup (PQuot p J)) (hT
       exact ⟨k, Subtype.ext (by simpa using hk)⟩
     exact ((S₀.mapSurjective hf).maximal_isPGroup.eq_of_le h1 le_top)
   refine ⟨(S₀ : Subgroup ↥Ph).map Ph.subtype, (Subgroup.map_subtype_le _).trans hPJ,
-    isPGroup_subgroup_map _ S₀.isPGroup', le_antisymm ?_ ?_, ?_⟩
+    isPGroup_subgroup_map _ S₀.isPGroup, le_antisymm ?_ ?_, ?_⟩
   · rintro _ ⟨j, hj, rfl⟩
     obtain ⟨s, hs, hsj⟩ := Subgroup.mem_map.1 (Subgroup.mem_subgroupOf.1 hj)
     have : Subgroup.inclusion hPJ s = j := Subtype.ext hsj
@@ -633,7 +637,7 @@ theorem exists_normalizer_lift (J : Subgroup G) (Ibar Tbar : Subgroup (PQuot p J
     · exact Subgroup.mul_mem _ (Subgroup.le_normalizer ht₀T) hqg
 
 theorem exists_pPart_lift (hp : p.Prime) (J : Subgroup G) {Ibar : Subgroup (PQuot p J)}
-    (hI : GenByPElts p Ibar) {N : Subgroup G} (hNJ : N ≤ J) (hN : imageMod p J N = Ibar) :
+    (hI : GenByPElts p Ibar) {N : Subgroup G} (_hNJ : N ≤ J) (hN : imageMod p J N = Ibar) :
     ∃ I : Subgroup G, I ≤ N ∧ GenByPElts p I ∧ imageMod p J I = Ibar := by
   classical
   subst hN
@@ -821,15 +825,15 @@ theorem l72_inner_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {X K : Subgroup G} {b : 
         5 ≤ N' - (x₀ : Equiv.Perm (Fin N')).support.card ∧
         p ∣ Nat.card ↥(altFix (x₀ : Equiv.Perm (Fin N'))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hq
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   have hN5 : 5 ≤ N' := by
     by_contra hlt
-    haveI : Group.IsSolvable (alternatingGroup (Fin N')) :=
+    have : Group.IsSolvable (alternatingGroup (Fin N')) :=
       alternatingGroup.isSolvable (by simpa using (by omega : N' ≤ 4))
-    haveI : Group.IsSolvable (PQuot p K) :=
+    have : Group.IsSolvable (PQuot p K) :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact Group.IsPerfect.not_isSolvable (PQuot p K) inferInstance
   obtain ⟨α, hαdef⟩ : ∃ α : MulAut (PQuot p K), α = barAut p K ⟨b, hb⟩ := ⟨_, rfl⟩
@@ -858,7 +862,7 @@ theorem l72_inner_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {X K : Subgroup G} {b : 
   rw [hIeq] at hnc
   exact not_not.1 fun h => hnc ((Nat.Prime.coprime_iff_not_dvd hp).2 h)
 
-theorem l72_root_of_fix (hp : p.Prime) (hp2 : p ≠ 2) {K J : Subgroup G} {N' m : ℕ} (hJK : J ≤ K)
+theorem l72_root_of_fix (hp : p.Prime) (_hp2 : p ≠ 2) {K J : Subgroup G} {N' m : ℕ} (hJK : J ≤ K)
     (e : PQuot p K ≃* ↥(alternatingGroup (Fin N'))) {x₀ : ↥(alternatingGroup (Fin N'))} (hm : 5 ≤ m)
     (hJa : IsAltPType p J m)
     (hF : (imageMod p K J).map e.toMonoidHom = altFix (x₀ : Equiv.Perm (Fin N')))
@@ -866,16 +870,16 @@ theorem l72_root_of_fix (hp : p.Prime) (hp2 : p ≠ 2) {K J : Subgroup G} {N' m 
     (hpd : p ∣ Nat.card ↥(altFix (x₀ : Equiv.Perm (Fin N')))) :
     IsRootAlt e (imageMod p K J) m ∧ J ⊓ GLAPPrimeCoreOf p K = GLAPPrimeCoreOf p J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ : ∃ k, N' - (x₀ : Equiv.Perm (Fin N')).support.card = k := ⟨_, rfl⟩
   have hk5 : 5 ≤ k := hk ▸ h5
   obtain ⟨eF⟩ := nonempty_altFix_equiv (x₀ : Equiv.Perm (Fin N')) hk
   have hkc : 5 ≤ Nat.card (Fin k) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hk5
-  haveI : IsSimpleGroup (alternatingGroup (Fin k)) := alternatingGroup.isSimpleGroup hkc
-  haveI : IsSimpleGroup ↥(altFix (x₀ : Equiv.Perm (Fin N'))) := eF.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin k)) := alternatingGroup.isSimpleGroup hkc
+  have : IsSimpleGroup ↥(altFix (x₀ : Equiv.Perm (Fin N'))) := eF.isSimpleGroup
   let eJ : ↥(imageMod p K J) ≃* ↥(altFix (x₀ : Equiv.Perm (Fin N'))) :=
     (Subgroup.equivMapOfInjective _ e.toMonoidHom e.injective).trans (MulEquiv.subgroupCongr hF)
-  haveI : IsSimpleGroup ↥(imageMod p K J) := eJ.isSimpleGroup
+  have : IsSimpleGroup ↥(imageMod p K J) := eJ.isSimpleGroup
   have hpJ : p ∣ Nat.card ↥(imageMod p K J) := by rw [Nat.card_congr eJ.toEquiv]; exact hpd
   obtain ⟨e1⟩ := hJa
   obtain ⟨e2⟩ := nonempty_pQuot_equiv_imageMod hp hJK
@@ -883,8 +887,8 @@ theorem l72_root_of_fix (hp : p.Prime) (hp2 : p ≠ 2) {K J : Subgroup G} {N' m 
   have eAm : ↥(alternatingGroup (Fin m)) ≃* ↥(alternatingGroup (Fin k)) :=
     e1.symm.trans (e2.trans (e3.trans (eJ.trans eF)))
   have hmk : m = k := by
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
-    haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
     have h1 : 2 * Nat.card (alternatingGroup (Fin m)) = m.factorial := by
       rw [two_mul_nat_card_alternatingGroup (α := Fin m), Nat.card_perm,
         Nat.card_eq_fintype_card (α := Fin m), Fintype.card_fin]
@@ -963,6 +967,7 @@ theorem l72_root_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {X K J : Subgroup G} {b :
   obtain ⟨hF, h5, hpd⟩ := hx₀ J hJ
   exact l72_root_of_fix hp hp2 (hJ.1.trans inf_le_left) e hm hJa hF h5 hpd
 
+omit [Finite G] in
 theorem imageMod_eq_top_of_sup {J K : Subgroup G} (hJK : J ≤ K)
     (hcov : J ⊔ GLAPPrimeCoreOf p K = K) : imageMod p K J = ⊤ := by
   rw [eq_top_iff]
@@ -1061,7 +1066,7 @@ theorem exists_alt_embedding_support {k N : ℕ} (hk : k = 5 ∨ 7 ≤ k)
     simp
 
 theorem isRootAlt_transport {Q₁ Q₂ : Type} [Group Q₁] [Group Q₂] {k N m₀ : ℕ} (hk : 7 ≤ k)
-    (hm : 3 ≤ m₀) (e₁ : Q₁ ≃* ↥(alternatingGroup (Fin k))) (e₂ : Q₂ ≃* ↥(alternatingGroup (Fin N)))
+    (_hm : 3 ≤ m₀) (e₁ : Q₁ ≃* ↥(alternatingGroup (Fin k))) (e₂ : Q₂ ≃* ↥(alternatingGroup (Fin N)))
     {H : Subgroup Q₂} (hH : IsRootAlt e₂ H k) (θ : Q₁ ≃* ↥H) {T : Subgroup Q₁}
     (hT : IsRootAlt e₁ T m₀) :
     IsRootAlt e₂ (T.map (H.subtype.comp θ.toMonoidHom)) m₀ := by
@@ -1106,6 +1111,7 @@ theorem isRootAlt_transport {Q₁ Q₂ : Type} [Group Q₁] [Group Q₂] {k N m�
     rw [himage, Set.ncard_image_of_injective _ hfinj]
     exact hT.2
 
+omit [Finite G] in
 theorem l72_equiv_of_kernel {J K : Subgroup G} (hJK : J ≤ K)
     (hker : J ⊓ GLAPPrimeCoreOf p K = GLAPPrimeCoreOf p J) :
     ∃ θ : PQuot p J ≃* ↥(imageMod p K J), ∀ j : ↥J,
@@ -1138,6 +1144,7 @@ theorem l72_equiv_of_kernel {J K : Subgroup G} (hJK : J ≤ K)
     (QuotientGroup.quotientMulEquivOfEq hρker.symm).trans (QuotientGroup.quotientKerEquivOfSurjective ρ hρ)
   exact ⟨θ, fun j => rfl⟩
 
+omit [Finite G] in
 theorem l72_transport {I J K : Subgroup G} {n m₀ : ℕ} (hI : I ≤ J) (hJ : J ≤ K) (hn : 6 < n - p)
     (hm : 3 ≤ m₀) (hSh : L72Shape p n J K) (eJ : PQuot p J ≃* ↥(alternatingGroup (Fin (n - p))))
     (hroot : IsRootAlt eJ (imageMod p J I) m₀) :
@@ -1167,7 +1174,8 @@ theorem l72_transport {I J K : Subgroup G} {n m₀ : ℕ} (hI : I ≤ J) (hJ : J
   rw [← this]
   exact (Set.ncard_le_ncard (Set.subset_univ _)).trans (by simp)
 
-theorem l72_imageMod_facts {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K) (hS2 : IsPGroup 2 S)
+omit [Finite G] in
+theorem l72_imageMod_facts {K I S : Subgroup G} (_hIK : I ≤ K) (_hSK : S ≤ K) (hS2 : IsPGroup 2 S)
     (hIS : I ≤ Subgroup.normalizer (S : Set G)) :
     IsPGroup 2 (imageMod p K S) ∧
       imageMod p K I ≤ Subgroup.normalizer ((imageMod p K S : Subgroup (PQuot p K)) : Set (PQuot p K)) := by
@@ -1198,6 +1206,7 @@ theorem l72_imageMod_facts {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K) 
       have h2 := key i⁻¹ (by simpa using I.inv_mem (Subgroup.mem_subgroupOf.1 hi)) _ hz
       simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem l72_comm_le_core {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K)
     (hcen : imageMod p K I ≤ Subgroup.centralizer ((imageMod p K S : Subgroup (PQuot p K)) :
       Set (PQuot p K))) : (⁅S, I⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p K := by
@@ -1258,6 +1267,7 @@ theorem eq_one_of_centMod_pElt (hp : p.Prime) {K : Subgroup G}
   exact orderOf_eq_one_iff.1
     (Nat.eq_one_of_dvd_coprimes hcop (orderOf_dvd_of_pow_eq_one hdp) hdvd)
 
+omit [Finite G] in
 theorem center_pQuot_eq_bot_of_equiv {K : Subgroup G} {N : ℕ} (hN : 4 ≤ N)
     (e : PQuot p K ≃* ↥(alternatingGroup (Fin N))) : Subgroup.center (PQuot p K) = ⊥ := by
   rw [eq_bot_iff]
@@ -1350,7 +1360,7 @@ theorem glaPLayer_inf_centralizer_ne_bot (hp : p.Prime) {K F : Subgroup G} (hFp 
     (hex : ∃ I : Subgroup (PQuot p K), GLAPComponent p (fixedBar p K F) I) :
     GLAPLayer p (K ⊓ Subgroup.centralizer (F : Set G)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨I, hI⟩ := hex
   have hKO : GLAPPrimeCoreOf p K ≤ K := Subgroup.map_subtype_le _
   have hfix : ∀ (k : G) (hk : k ∈ K),
@@ -1463,6 +1473,7 @@ theorem glaPLayer_inf_centralizer_ne_bot (hp : p.Prime) {K F : Subgroup G} (hFp 
   rw [hbot, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ Y'.subtype_injective] at hle
   exact hI₀0 hle
 
+omit [Finite G] in
 theorem fixedBar_sup_eq_centralizer {K C Z : Subgroup G} (hC : C ≤ centModSubgroup p K) (hZ : Z ≤ K) :
     fixedBar p K (C ⊔ Z) =
       Subgroup.centralizer ((imageMod p K Z : Subgroup (PQuot p K)) : Set (PQuot p K)) := by
@@ -1514,6 +1525,7 @@ theorem fixedBar_sup_eq_centralizer {K C Z : Subgroup G} (hC : C ≤ centModSubg
     obtain ⟨hfN, hfw⟩ := key f hf
     exact hfw
 
+omit [Finite G] in
 theorem exists_glaPComponent_centralizer_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G}
     {M : ℕ} (e : PQuot p K ≃* ↥(alternatingGroup (Fin M))) (P : Subgroup (PQuot p K))
     {τ : ↥(alternatingGroup (Fin M))} (hτP : e.symm τ ∈ P)
@@ -1551,7 +1563,7 @@ theorem exists_glaPComponent_centralizer_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {
 theorem l72_c1_fixedBar {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J : Subgroup G}
     {a : G} {K : Subgroup G} (h : L72Data p B x L n y J a K)
     (hDK : altDxy x y ≤ centModSubgroup p K)
-    (e : PQuot p J ≃* ↥(alternatingGroup (Fin (n - p)))) {z : G} (hzJ : z ∈ J) (hzo : orderOf z = p)
+    (e : PQuot p J ≃* ↥(alternatingGroup (Fin (n - p)))) {z : G} (hzJ : z ∈ J) (_hzo : orderOf z = p)
     (hz : IsPCycleMod p J (n - p) e z) :
     ∃ I : Subgroup (PQuot p K),
       GLAPComponent p (fixedBar p K (altDxy x y ⊔ Subgroup.zpowers z)) I := by
@@ -1608,7 +1620,7 @@ theorem l72_c1_F {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J 
       Nat.card ↥(altDxy x y ⊔ Subgroup.zpowers z) = p ^ 3 ∧
       GLAPLayer p (K ⊓ Subgroup.centralizer ((altDxy x y ⊔ Subgroup.zpowers z : Subgroup G) :
         Set G)) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨h.ctx.prime⟩
+  have : Fact p.Prime := ⟨h.ctx.prime⟩
   have hDel := h.setup.isElemAbelian_D
   have hzJ : z ∈ J := hEJ hzE
   have hzK : z ∈ K := h.single.J_le hzJ
@@ -1676,7 +1688,7 @@ theorem l72_c2_E {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J 
         IsPCycleMod p K (n + r * p) e z₂ ∧
         Equiv.Perm.Disjoint (permOfMod p K (n + r * p) e z₁) (permOfMod p K (n + r * p) e z₂) := by
   have hp := h.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 := h.setup.three_mul_le
   have hpM : p ≤ n + r * p := by omega
   have hMp : (n + r * p) / p = n / p + r := Nat.add_mul_div_right n r hp.pos
@@ -1716,7 +1728,7 @@ theorem l72_c2_Bprime {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
     IsElemAbelian p (E ⊔ Subgroup.zpowers a) ∧ Nat.card ↥(E ⊔ Subgroup.zpowers a) = Nat.card ↥E * p ∧
       E ⊔ Subgroup.zpowers a ≤ Subgroup.centralizer ({a} : Set G) ∧
       E ⊔ Subgroup.zpowers a ≤ Subgroup.normalizer (K : Set G) := by
-  haveI : Fact p.Prime := ⟨h.ctx.prime⟩
+  have : Fact p.Prime := ⟨h.ctx.prime⟩
   have hap : a ^ p = 1 := h.setup.isElemAbelian_D.2 a h.a_mem
   have hao : orderOf a = p := orderOf_eq_prime hap h.a_ne
   have hKa : K ≤ Subgroup.centralizer ({a} : Set G) := h.single.comp.1
@@ -1756,7 +1768,7 @@ theorem l72_c2_fixedBar {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y :
     {a : G} {K : Subgroup G} (h : L72Data p B x L n y J a K) {r : ℕ}
     (e : PQuot p K ≃* ↥(alternatingGroup (Fin (n + r * p)))) {z₁ z₂ : G}
     (hz₁ : IsPCycleMod p K (n + r * p) e z₁) (hz₂ : IsPCycleMod p K (n + r * p) e z₂)
-    (hz₁o : orderOf z₁ = p) (hz₂o : orderOf z₂ = p)
+    (_hz₁o : orderOf z₁ = p) (hz₂o : orderOf z₂ = p)
     (hdisj : Equiv.Perm.Disjoint (permOfMod p K (n + r * p) e z₁) (permOfMod p K (n + r * p) e z₂)) :
     ∃ I : Subgroup (PQuot p K), GLAPComponent p
       (fixedBar p K (Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂ ⊔ Subgroup.zpowers a)) I := by
@@ -1832,7 +1844,7 @@ theorem l72_c2_fixedBar {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y :
 
 theorem l72_c2_F {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J : Subgroup G}
     {a : G} {K : Subgroup G} (h : L72Data p B x L n y J a K) {r : ℕ}
-    (e : PQuot p K ≃* ↥(alternatingGroup (Fin (n + r * p)))) {E : Subgroup G} (hEK : E ≤ K)
+    (e : PQuot p K ≃* ↥(alternatingGroup (Fin (n + r * p)))) {E : Subgroup G} (_hEK : E ≤ K)
     (hEel : IsElemAbelian p E)
     {z₁ z₂ : G} (hz₁E : z₁ ∈ E) (hz₂E : z₂ ∈ E) (hz₁o : orderOf z₁ = p) (hz₂o : orderOf z₂ = p)
     (hz₁ : IsPCycleMod p K (n + r * p) e z₁) (hz₂ : IsPCycleMod p K (n + r * p) e z₂)
@@ -1841,7 +1853,7 @@ theorem l72_c2_F {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J 
       Nat.card ↥(Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂ ⊔ Subgroup.zpowers a) = p ^ 3 ∧
       GLAPLayer p (K ⊓ Subgroup.centralizer ((Subgroup.zpowers z₁ ⊔ Subgroup.zpowers z₂ ⊔
         Subgroup.zpowers a : Subgroup G) : Set G)) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨h.ctx.prime⟩
+  have : Fact p.Prime := ⟨h.ctx.prime⟩
   have hap : a ^ p = 1 := h.setup.isElemAbelian_D.2 a h.a_mem
   have hao : orderOf a = p := orderOf_eq_prime hap h.a_ne
   have hKa : K ≤ Subgroup.centralizer ({a} : Set G) := h.single.comp.1
@@ -1968,7 +1980,7 @@ theorem l72_exists_Bstar {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y 
       rw [hk]
       exact dvd_pow_self 2 hk0
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 h2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBpg : IsPGroup p B' := isPGroup_of_isElemAbelian hB'el
   have hBO : B' ≤ Subgroup.normalizer (O : Set G) :=
     hB'a.trans (le_normalizer_glaPPrimeCoreOf p Ca)
@@ -2005,7 +2017,7 @@ theorem lemma72_big (hc : S6Ctx G p) (hin : Lemma72Inputs G p) {B : Subgroup G} 
   set N := Subgroup.normalizer (T : Set G) with hNdef
   set C := pCoreOf 2 N ⊓ Subgroup.centralizer ({a} : Set G) with hCdef
   set S₀ := (⁅I, C⁆ : Subgroup G) with hS₀def
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC2 : IsPGroup 2 C :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N).to_le inf_le_left
   have hID : I ≤ Subgroup.centralizer (altDxy x y : Set G) := hIJ.trans (S.J_comp.1.trans inf_le_right)

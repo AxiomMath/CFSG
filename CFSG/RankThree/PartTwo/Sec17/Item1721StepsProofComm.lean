@@ -158,7 +158,7 @@ theorem exists_inv_mul_mem_thetaQuotCentralizer_of_inn {L : Subgroup G}
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hdvd
     have hp : IsPGroup 3 (Subgroup.zpowers q) :=
       IsPGroup.of_card (n := m) (by rw [Nat.card_zpowers, hm])
-    have hsup := hp.to_sup_of_normal_right' Sb.isPGroup' (Subgroup.zpowers_le.mpr hqN)
+    have hsup := hp.to_sup_of_normal_right' Sb.isPGroup (Subgroup.zpowers_le.mpr hqN)
     have heq := Sb.maximal_isPGroup.eq_of_le hsup le_sup_right
     exact heq ▸ (le_sup_left : Subgroup.zpowers q ≤ _) (Subgroup.mem_zpowers q)
   rw [hSb] at hqS

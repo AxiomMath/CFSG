@@ -11,12 +11,12 @@ namespace CFSG.RankThree.GF2n.Stroth80.Tim37
 open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 
 theorem orderOf_four_zmod_eleven : orderOf ((4 : ℕ) : ZMod 11) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem charP_two_of_card_eq_four {F : Type*} [Field F] [Finite F] (hF : Nat.card F = 4) :
     CharP F 2 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨p, hp, n, hpp, hcard⟩ := FiniteField.card' F
   have h4 : p ^ (n : ℕ) = 4 := by rw [← hcard, ← Nat.card_eq_fintype_card, hF]
   have hdvd : p ∣ 2 ^ 2 := by
@@ -32,8 +32,8 @@ theorem eq_one_of_pow_eleven_eq_one {F V : Type*} [Field F] [Finite F] [AddCommG
     (B : LinearMap.BilinForm F V) (hB : B.IsAlt) (hnd : B.Nondegenerate) {T : V ≃ₗ[F] V}
     (hiso : ∀ x y, B (T x) (T y) = B x y) (hT : T ^ 11 = 1) : T = 1 := by
   by_contra hne
-  haveI := charP_two_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have := charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hord : orderOf T = 11 := orderOf_eq_prime hT hne
   have hodd : Odd (orderOf ((Nat.card F : ℕ) : ZMod 11)) := by
     rw [hF, orderOf_four_zmod_eleven]
@@ -59,7 +59,7 @@ end
 
 theorem eleven37 : Eleven37Statement := by
   intro G _ _ M Q Z B _ hc hw hZ h11
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨k, γ, M₀, -, h⟩ := stroth_globalModelDataGF hc.hyp
   obtain ⟨φ, -, hφker, hφQ⟩ := exists_actionHom_H0 hc.hyp h
   have hK : Nat.card (GaloisField 2 k) = 4 := h.card.trans hZ

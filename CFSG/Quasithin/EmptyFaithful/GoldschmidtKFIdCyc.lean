@@ -30,7 +30,7 @@ theorem sylow_inf_center_eq_bot {L : Type*} [Group L] [Finite L] [Group.IsPerfec
       h1.symm.trans (hτ z)
     exact congrArg Subtype.val h2
   have hord : orderOf z ∣ (P : Subgroup L).index := orderOf_dvd_of_pow_eq_one hz1
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨z, hzP⟩
   have hk' : orderOf z = p ^ k := by
     rw [← Subgroup.orderOf_coe] at hk
     exact hk
@@ -53,7 +53,7 @@ theorem exists_noncyclic_sylow_quotient {L : Type*} [Group L] [Finite L] [Group.
     simpa using Subtype.ext (hEexp x x.2)
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
   let π : L →* L ⧸ Subgroup.center L := QuotientGroup.mk' (Subgroup.center L)
-  obtain ⟨Q, hQ⟩ := (P.isPGroup'.map π).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (P.isPGroup.map π).exists_le_sylow
   have hQc : IsCyclic (Q : Subgroup (L ⧸ Subgroup.center L)) := hcon Q
   have hrcyc : IsCyclic ((P : Subgroup L).map π) := by
     have : IsCyclic (((P : Subgroup L).map π).subgroupOf (Q : Subgroup (L ⧸ Subgroup.center L))) :=

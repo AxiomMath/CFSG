@@ -38,7 +38,7 @@ public theorem CFSG.section12_subgroup_characteristic_of_cyclic
     intro y hy
     have hKcard_pos : 0 < Nat.card K := Nat.card_pos
     have hcard_roots : Nat.card {y : H | y ^ Nat.card K = 1} ≤ Nat.card K := by
-      letI : Fintype H := Fintype.ofFinite H
+      let : Fintype H := Fintype.ofFinite H
       have hle := IsCyclic.card_pow_eq_one_le (α := H) (n := Nat.card K) hKcard_pos
       rw [Nat.card_eq_fintype_card]
       simpa [Fintype.card_subtype] using hle
@@ -105,7 +105,7 @@ private theorem CFSG.section12_lemma_10_5_nontrivial_pSubgroup_rank
     let e : (P : Subgroup M) ≃* section10AmbientSylowSubgroup M P :=
       Subgroup.equivMapOfInjective (f := M.subtype) (P : Subgroup M) M.subtype_injective
     exact e.isCyclic.mp hPcyc
-  haveI : IsCyclic (section10AmbientSylowSubgroup M P) := hPamb_cyc
+  have : IsCyclic (section10AmbientSylowSubgroup M P) := hPamb_cyc
   have hXGsub_char :
       (XG.subgroupOf (section10AmbientSylowSubgroup M P)).Characteristic :=
     section12_subgroup_characteristic_of_cyclic

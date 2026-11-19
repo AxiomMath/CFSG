@@ -163,7 +163,7 @@ private theorem exists_deleted_extension_of_surviving_independent
     by_cases hi : i ∈ J
     · exact Submodule.subset_span ⟨i, hi, rfl⟩
     · have hiS : i ∈ S := by
-        have hmem : i ∈ J ∪ S := by simpa [hunion] using Finset.mem_univ i
+        have hmem : i ∈ J ∪ S := by simp [hunion]
         exact (Finset.mem_union.mp hmem).resolve_left hi
       exact hSsub i hiS
   have hle : Submodule.span K (Set.range h) ≤ W := Submodule.span_le.mpr hrange
@@ -237,7 +237,7 @@ theorem e6_dependent_spanH_finrank_five
     (hpair : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hdep : ¬ LinearIndependent (ZMod 3) h) :
     Module.finrank (ZMod 3) (E6QTwo.spanH h) = 5 := by
-  haveI : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
   have hScard := E6QTwo.dependent_e6_span_card hpair hdep
   have hc := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := E6QTwo.spanH h)
   rw [Nat.card_zmod, hScard] at hc
@@ -382,7 +382,7 @@ theorem e6_outside_six_family
     rw [Submodule.span_le]
     rintro v ⟨i, hi, rfl⟩
     obtain ⟨j, hj, rfl⟩ := hi
-    exact Submodule.subset_span ⟨e6.symm j, by simp [H5]⟩
+    exact Submodule.subset_span ⟨e6.symm j, by simp⟩
   have hT5cardSet : Fintype.card (T5 : Set Λ) = 5 :=
     (Fintype.card_coe T5).trans hT5card
   have hT5imgCard : Fintype.card (Sum.inl '' (T5 : Set Λ) : Set (Λ ⊕ Λa)) = 5 := by
@@ -417,7 +417,7 @@ theorem e6_outside_six_family
     rw [Finset.card_union_of_disjoint]
     · rw [Finset.card_image_of_injective _ Sum.inl_injective, hT5card]
       simp
-    · simp [Finset.disjoint_singleton_right, hinr]
+    · simp [Finset.disjoint_singleton_right]
   refine ⟨s, hs, hTcard, ?_⟩
   simpa [T, T5, J, Finset.coe_union, Finset.coe_image, Finset.coe_singleton,
     Set.insert_comm] using hT6LI
@@ -491,7 +491,7 @@ theorem ggRes_iOne_of_fixed_finrank_two
     have heq' : (⟨a, a.2.1⟩ : Bs) = ⟨b, b.2.1⟩ := Additive.ofMul.injective heq
     exact Subtype.ext (congrArg (fun b : Bs => (b : G)) heq')
   have hcardW : Nat.card W = p ^ 2 := by
-    haveI : Module.Finite (ZMod p) W := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) W := Module.Finite.of_finite
     simpa only [Nat.card_zmod, W, hfix] using
       Module.natCard_eq_pow_finrank (K := ZMod p) (V := W)
   have hle : Nat.card C ≤ p ^ 2 := by
@@ -540,7 +540,7 @@ theorem ggRes_iOne_of_e6_exact_two_finrank_six
     (hgen : ggAutomizer J Bs = Subgroup.closure
       (Set.range (fun i : {i : Fin 6 // i ∉ S} => φ i))) :
     Bs ⊓ Subgroup.centralizer (J : Set G) = D := by
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hf := ggFixedSubmodule_e6_exact_two_finrank_add_four ι φ h α hlin hpair
     hS hc (ggAutomizer J Bs) hgen
   exact ggRes_iOne_of_fixed_finrank_two hH ι (by omega)
@@ -630,12 +630,12 @@ theorem ggResLeviDatumExact2_E6_iOne_of_card_six
   rcases hD with ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, ha1, ha3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfull, hother, hgenX, hgenY, hc, hgenJ⟩
-  letI := i1
-  letI := i2
-  letI := i5
-  letI := i6
-  letI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1
+  let := i2
+  let := i5
+  let := i6
+  let : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨e, he⟩ := htyp
   have hf := ggFixedSubmodule_e6_exact_two_finrank_add_four_reindex hCL e he ι
     (fun i => φ (Sum.inl i)) (fun i => h (Sum.inl i)) (fun i => α (Sum.inl i))
@@ -880,7 +880,7 @@ theorem ggResFix_automizer_J_fixedSet_eq_D {G : Type} [Group G] [Finite G]
     (hr3 : 3 ≤ r) :
     {b : Bs | ∀ φ ∈ ggAutomizer J Bs, φ b = b} = (D.subgroupOf Bs : Set Bs) := by
   ext b
-  rw [Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq]
   change (∀ φ ∈ ggAutomizer J Bs, φ b = b) ↔ (b : G) ∈ D
   exact ggResFix_automizer_J_eq_D hH hI1 θ hBs3 hLift hTorW hnb hr3 b
 
@@ -1515,7 +1515,7 @@ theorem ggResFix_automizer_J_eq_centralizer_E6_three
   have hM2 := largeEvenMarking_and_labelAll
     (S := fun l => l = lab)
     (P' := fun R _ I _ => GGTorusTorW 3 5 (ggTorM lab) 6
-      CartanMatrix.E₆ CoxeterMatrix.E₆ R I)
+      (CartanMatrix.E 6) CoxeterMatrix.E₆ R I)
     (fun l _ hl => by subst l; exact ggTBTorE6_holds lab hlab htag h3M)
     (fun _ _ _ _ _ _ h => h.1.1) hM1
   obtain ⟨_,l,hl,hraw⟩ := hM2
@@ -2282,12 +2282,12 @@ theorem GGResLeviDatumCard.dependent_A_or_E6
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   obtain ⟨κ, hrel, o, ho⟩ := Fintype.not_linearIndependent_iff.mp hsel
   have hker : ∃ κ : Λ → ZMod p, κ ≠ 0 ∧
       ∀ i, ∑ j, (CL i j : ZMod p) * κ j = 0 := by
@@ -2456,7 +2456,7 @@ theorem K_fixedLine_of_rankFive_nondegenerate
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hbV
   let k : ℤ := ZMod.cast c
   have hk : ((k : ℤ) : ZMod 3) = c := by
-    simpa [k] using ZMod.intCast_zmod_cast c
+    simp [k]
   have hc' : ((k : ZMod 3) • yV) = ι (Additive.ofMul b) := by
     simpa [hk] using hc
   have hc_int : k • yV = ι (Additive.ofMul b) := by
@@ -2687,7 +2687,7 @@ theorem false_of_all_added_inside_B5D5_raw
       h (Sum.inr a) ∈ E6QTwo.spanH (fun i : Fin 6 => h (Sum.inl (e6 i)))) :
     False := by
   classical
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let φK : ({i : Λ // i ∉ S} ⊕ Λa) → MulAut ↥Bs :=
     fun o => φ (o.map Subtype.val id)
   let hK : ({i : Λ // i ∉ S} ⊕ Λa) → V := fun o => h (o.map Subtype.val id)

@@ -56,7 +56,7 @@ theorem mem_primaryComponent_of_commute_linearSpecialBlock
       s ((g : Module.End k V) v) = (g : Module.End k V) (s v))
     {w : V} (hw : w ∈ primaryComponent (x : Module.End k V) h) :
     s w ∈ primaryComponent (x : Module.End k V) h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨f, v, hfw, hfv⟩ := exists_dual_eq_zero_eq_one hm ⟨w, hw⟩
   obtain ⟨g, hg, hgv⟩ := exists_mem_linearSpecialBlock_transvection hsq hh hfw
   have h1 : (g : Module.End k V) v = (v : V) + w := by
@@ -74,7 +74,7 @@ theorem exists_smul_of_commute_linearSpecialBlock
       s ((g : Module.End k V) v) = (g : Module.End k V) (s v)) :
     ∃ c : AdjoinRoot h, ∀ w : primaryComponent (x : Module.End k V) h,
       s (w : V) = ((c • w : primaryComponent (x : Module.End k V) h) : V) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hmem := fun w : primaryComponent (x : Module.End k V) h =>
     mem_primaryComponent_of_commute_linearSpecialBlock hsq hh hm s hs w.2
   let sW : primaryComponent (x : Module.End k V) h →+ primaryComponent (x : Module.End k V) h :=

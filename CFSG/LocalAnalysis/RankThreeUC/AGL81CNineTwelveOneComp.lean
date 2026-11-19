@@ -19,8 +19,8 @@ namespace IsPComponentIn
 variable {K L : Subgroup G}
 
 theorem isPerfect (hp : p.Prime) (hLK : IsPComponentIn p L K) : Group.IsPerfect ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥(L.subgroupOf K) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥(L.subgroupOf K) :=
     CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_perfect p (L.subgroupOf K)
       hLK.2
   exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hLK.1).toMonoidHom)
@@ -28,7 +28,7 @@ theorem isPerfect (hp : p.Prime) (hLK : IsPComponentIn p L K) : Group.IsPerfect 
 
 theorem isQuasisimple_quot (hp : p.Prime) (hLK : IsPComponentIn p L K) :
     CFSG.IsQuasisimple (↥L ⧸ CFSG.pPrimeCore p ↥L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple
     p (L.subgroupOf K) hLK.2
   let e := Subgroup.subgroupOfEquivOfLe hLK.1
@@ -38,7 +38,7 @@ theorem isQuasisimple_quot (hp : p.Prime) (hLK : IsPComponentIn p L K) :
 
 theorem closure_pElem_eq_top (hp : p.Prime) (hLK : IsPComponentIn p L K) :
     closure {y : ↥L | ∃ n : ℕ, orderOf y = p ^ n} = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Set ↥(L.subgroupOf K) := {x | ∃ n : ℕ, orderOf x = p ^ n}
   let T : Set ↥L := {y | ∃ n : ℕ, orderOf y = p ^ n}
   have htop : Subgroup.closure S = ⊤ := by
@@ -68,7 +68,7 @@ theorem isSubnormal_kSub_of_not_le (hL : ¬ pLayerIn p H ≤ M) :
     ((kSub p M H).subgroupOf H).IsSubnormal := by
   classical
   unfold kSub
-  rw [if_neg hL]
+  rw [ite_eq_right hL]
   let S : Set (Subgroup G) := {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
   let T : Set (Subgroup ↥H) := (fun K => K.subgroupOf H) '' S
   have hTsub : ∀ A ∈ T, A.IsSubnormal := by
@@ -107,7 +107,7 @@ theorem IsPComponentIn.isSubnormal_of_kSub {L : Subgroup G} (hL : ¬ pLayerIn p 
 
 private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C = (CFSG.pPrimeCore p ↥C).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -132,7 +132,7 @@ theorem isTwoPrimeComponentIn_of_le_center (hp : p.Prime) (hp2 : p ≠ 2)
     IsTwoPrimeComponentIn L H := by
   have hLH : L ≤ H := hLK.1.trans (kSub_le p M H)
   have hsn : (L.subgroupOf H).IsSubnormal := hLK.isSubnormal_of_kSub hL
-  haveI : Group.IsPerfect ↥L := IsPComponentIn.isPerfect hp hLK
+  have : Group.IsPerfect ↥L := IsPComponentIn.isPerfect hp hLK
   refine ⟨hLH, hsn, ?_, ?_⟩
   · let P : Type := ↥L ⧸ CFSG.pCore 2 ↥L
     have hPperf : Group.IsPerfect P := inferInstance
@@ -159,7 +159,7 @@ theorem isTwoPrimeComponentIn_of_le_center (hp : p.Prime) (hp2 : p ≠ 2)
         exact mul_mem ihx ihy
       · rw [← conj_inv]
         exact inv_mem ihx
-    haveI : N.Normal := hNnormal
+    have : N.Normal := hNnormal
     have hP2 : IsPGroup 2 (↥L ⧸ N) := by
       rw [IsPGroup.iff_orderOf]
       intro x
@@ -178,12 +178,12 @@ theorem isTwoPrimeComponentIn_of_le_center (hp : p.Prime) (hp2 : p ≠ 2)
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
       exact ⟨j, hj⟩
     have hsolv : Group.IsSolvable (↥L ⧸ N) := by
-      haveI := hP2.isNilpotent
+      have := hP2.isNilpotent
       infer_instance
     have hNtop : N = ⊤ := by
       have hsub : Subsingleton (↥L ⧸ N) := by
         by_contra h
-        haveI : Nontrivial (↥L ⧸ N) := not_subsingleton_iff_nontrivial.mp h
+        have : Nontrivial (↥L ⧸ N) := not_subsingleton_iff_nontrivial.mp h
         exact Group.IsPerfect.not_isSolvable (↥L ⧸ N) hsolv
       exact QuotientGroup.subsingleton_iff.mp hsub
     calc L = Subgroup.map L.subtype ⊤ :=

@@ -40,8 +40,8 @@ theorem burnsideF4r_G2_nonfused (hyp : HypF_4_31 .G2 f Gp M₁ M₂ β ε z) (hf
     ∃ v : ↥(M₁ ⊓ M₂), (v : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧ v ≠ 1 ∧ v * v = 1 ∧
       ¬ IsConj z (bM β ε v) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   have hf1 : 1 ≤ f := hyp.amalgam.model.2.1
   obtain rfl : f = 1 := by omega
   have hGp : Gp = ⊤ := burnsideF4m_top_G2two hyp.amalgam
@@ -52,9 +52,9 @@ theorem burnsideF4r_G2_nonfused (hyp : HypF_4_31 .G2 f Gp M₁ M₂ β ε z) (hf
       ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · have hcard' : Nat.card K = 2 := by simpa using hcard
-    haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+    have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard'])
     have h2 : (2 : K) = 0 := two_eq_zero_of_card_two hcard'
     have hk2 : ∀ c : K, c = 0 ∨ c = 1 := eq_zero_or_eq_one_of_card_two hcard'

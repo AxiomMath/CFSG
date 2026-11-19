@@ -41,7 +41,7 @@ theorem mulAutLinear_one {W : Type} [CommGroup W] [Module (ZMod 2) (Additive W)]
 
 @[expose] def mulAutLinearEquiv {W : Type} [CommGroup W] [Module (ZMod 2) (Additive W)]
     (a : MulAut W) : Additive W ≃ₗ[ZMod 2] Additive W :=
-  LinearEquiv.ofLinear (mulAutLinear a) (mulAutLinear a⁻¹)
+  LinearEquiv.ofLinearMap (mulAutLinear a) (mulAutLinear a⁻¹)
     (by rw [← Module.End.mul_eq_comp, ← mulAutLinear_mul, mul_inv_cancel, mulAutLinear_one]; rfl)
     (by rw [← Module.End.mul_eq_comp, ← mulAutLinear_mul, inv_mul_cancel, mulAutLinear_one]; rfl)
 
@@ -73,22 +73,22 @@ theorem exists_mulEquiv_specialLinear_of_lieModel
     ∃ (K : Type) (_ : Field K) (_ : Fintype K), Fintype.card K = 2 ∧
       Nonempty (Matrix.SpecialLinearGroup (Fin n) K ≃* ↥L) := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Finite (MulAut W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun a b h => MulEquiv.ext (congr_fun h))
   have hsc : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSL n 2 1 :=
     hlie.statedClassicalModel_of_ne_zero (by omega)
   simp only [StatedClassicalModel] at hsc
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hsc
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK2 : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card, hKcard, pow_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime hK2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime hK2
   have hunits : Fintype.card Kˣ = 1 := by
     rw [Fintype.card_units, hK2]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
   have hScal : StatedScalars (Fin n) K = ⊥ := by
     rw [StatedScalars, MonoidHom.range_eq_bot_iff]
     ext x
@@ -155,9 +155,9 @@ theorem center_specialLinear_eq_bot_of_card_two {K : Type} [Field K] [Fintype K]
   obtain ⟨r, hr, hrA⟩ := Matrix.SpecialLinearGroup.mem_center_iff.mp hA
   have hunits : Fintype.card Kˣ = 1 := by
     rw [Fintype.card_units, hK]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
   rcases isEmpty_or_nonempty (Fin n) with hn | hn
-  · haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin n) K) :=
+  · have : Subsingleton (Matrix.SpecialLinearGroup (Fin n) K) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     exact Subsingleton.elim A 1
   · have hr0 : r ≠ 0 := by
@@ -177,7 +177,7 @@ theorem isIrreducible_specialLinearRep {W : Type} [CommGroup W] [Finite W]
   rw [CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff]
   have hIrr : IsIrrOn L ⊤ ⊥ := hctx.2.2.2.2.2
   refine ⟨?_, ?_⟩
-  · haveI : Nontrivial W := by
+  · have : Nontrivial W := by
       have hne : (⊤ : Subgroup W) ≠ ⊥ := (ne_of_lt hIrr.1).symm
       obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
       exact ⟨(a : W), 1, fun h => ha (Subtype.ext h)⟩
@@ -240,16 +240,16 @@ private theorem w183_mem_fixV_zpowers {W : Type} [CommGroup W] (a : MulAut W) (u
     u ∈ fixV (Subgroup.zpowers a) ↔ a u = u := by
   rw [show u ∈ fixV (Subgroup.zpowers a) ↔
       Subgroup.zpowers a ≤ MulAction.stabilizer (MulAut W) u by
-    simp only [mem_fixV, SetLike.le_def, MulAction.mem_stabilizer_iff, MulAut.smul_def]]
+    simp only [mem_fixV, _root_.IsConcreteLE.le_iff, MulAction.mem_stabilizer_iff, MulAut.smul_def]]
   rw [Subgroup.zpowers_le, MulAction.mem_stabilizer_iff, MulAut.smul_def]
 
 theorem mQuot_fixV_zpowers_eq_finrank_range_sub_one {W : Type} [CommGroup W] [Finite W]
     [Module (ZMod 2) (Additive W)] (a : MulAut W) :
     E3.mQuot ⊤ (fixV (Subgroup.zpowers a)) =
       Module.finrank (ZMod 2) (LinearMap.range (mulAutLinear a - 1)) := by
-  haveI : Fintype (Additive W) := Fintype.ofFinite _
-  haveI : Fintype ↥(LinearMap.range (mulAutLinear a - 1)) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (Additive W) := Fintype.ofFinite _
+  have : Fintype ↥(LinearMap.range (mulAutLinear a - 1)) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : Additive W →ₗ[ZMod 2] ↥(LinearMap.range (mulAutLinear a - 1)) :=
     (mulAutLinear a - 1).codRestrict (LinearMap.range (mulAutLinear a - 1))
       (fun x => ⟨x, rfl⟩)

@@ -86,11 +86,11 @@ theorem f112ll_charTwoStab {L1 L2 S : Subgroup H} {m n : ℕ} (hF : F112HypW L1 
   let X := f112Gold L1 L2 S
   let Uv : Subgroup X.Universal := MulAction.stabilizer X.Universal v
   let E := f112EOdd L1 L2 S
-  haveI hUvfin : Finite Uv := finite_stabilizer X v
+  have hUvfin : Finite Uv := finite_stabilizer X v
   have hEn : (E.subgroupOf Uv).Normal := (f112ll_EOdd_normal hF hm hn h1 h2).subgroupOf Uv
   have hEq : E.subgroupOf Uv = (E ⊓ Uv).subgroupOf Uv := by
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   have hcharU : CharTwo Uv := f112_charTwo_stabilizer_of_hyp111R hR v
   have hcharSub : CharTwo ((E ⊓ Uv).subgroupOf Uv) := by
     have hHn : ((E ⊓ Uv).subgroupOf Uv).Normal := by rw [← hEq]; exact hEn
@@ -160,9 +160,9 @@ theorem f112ll_hyp30 {L1 L2 S : Subgroup H} {m n : ℕ} (hF : F112HypW L1 L2 S)
   minimal := f112ll_minimality hF hm hn h1 h2
   finite_stab := by
     intro v
-    haveI : Finite ↥(f112P1 L1 L2 S) := Subtype.finite
-    haveI : Finite ↥(f112P2 L1 L2 S) := Subtype.finite
-    haveI hfin : Finite (MulAction.stabilizer (f112Gold L1 L2 S).Universal v) :=
+    have : Finite ↥(f112P1 L1 L2 S) := Subtype.finite
+    have : Finite ↥(f112P2 L1 L2 S) := Subtype.finite
+    have hfin : Finite (MulAction.stabilizer (f112Gold L1 L2 S).Universal v) :=
       finite_stabilizer (f112Gold L1 L2 S) v
     rw [← MulAction.stabilizer_subgroupOf (f112EOdd L1 L2 S) v]
     exact Finite.of_injective

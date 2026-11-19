@@ -13,7 +13,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] {p N : ℕ} {Bs : Subgroup G}
 
-@[instance_reducible] noncomputable def ggNSLiePI2_moduleV (hp : p.Prime) [IsMulCommutative ↥Bs]
+@[instance_reducible] noncomputable def ggNSLiePI2_moduleV (_hp : p.Prime) [IsMulCommutative ↥Bs]
     (hexp : ∀ b : ↥Bs, b ^ p = 1) : Module (ZMod p) (Additive ↥Bs) :=
   AddCommGroup.zmodModule (n := p) (fun x => by
     refine Additive.rec ?_ x
@@ -22,7 +22,7 @@ variable {G : Type} [Group G] {p N : ℕ} {Bs : Subgroup G}
     rw [h, hexp b]
     rfl)
 
-@[expose] noncomputable def ggNSLiePI2_linearEquivOfMulAut (hp : p.Prime) [IsMulCommutative ↥Bs]
+@[expose] noncomputable def ggNSLiePI2_linearEquivOfMulAut (_hp : p.Prime) [IsMulCommutative ↥Bs]
     [Module (ZMod p) (Additive ↥Bs)] (t : MulAut ↥Bs) :
     Additive ↥Bs ≃ₗ[ZMod p] Additive ↥Bs :=
   let addEquiv : Additive ↥Bs ≃+ Additive ↥Bs := MulEquiv.toAdditive t

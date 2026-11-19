@@ -296,7 +296,7 @@ private theorem yElt_pow_three_l7y {L : Type} [Field L]
 private theorem exists_primitiveRoot_three_l7y {L : Type} [Field L] [IsAlgClosed L]
     (h3 : (3 : L) ≠ 0) :
     ∃ ζ : L, IsPrimitiveRoot ζ 3 :=
-  @HasEnoughRootsOfUnity.exists_primitiveRoot L _ 3
+  @HasEnoughRootsOfUnity.exists_isPrimitiveRoot L _ 3
     (@IsSepClosed.hasEnoughRootsOfUnity L _ 3 ⟨h3⟩ (inferInstance : IsSepClosed L))
 
 private theorem wordMat_triWord_sq_l7y :

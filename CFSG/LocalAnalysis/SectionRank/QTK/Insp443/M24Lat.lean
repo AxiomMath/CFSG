@@ -158,7 +158,7 @@ private theorem ne_top_of_card {R : Subgroup G₀} {n : ℕ}
 
 theorem eNorm_o :
     eNorm basis_o = Mo := by
-  haveI : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
+  have : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
   have hdvd : 322560 ∣ Nat.card (eNorm basis_o) := by
     rw [← card_Mo]
     exact Subgroup.card_dvd_of_le Mo_le
@@ -178,7 +178,7 @@ theorem o_le_Mo :
 
 theorem eNorm_s :
     eNorm basis_s = Ns := by
-  haveI : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
+  have : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
   have hdvd : 138240 ∣ Nat.card (eNorm basis_s) := by
     rw [← card_Ns]
     exact Subgroup.card_dvd_of_le Ns_le
@@ -216,7 +216,7 @@ private theorem eNorm_u5_le_normalizer_Qg :
 
 theorem eNorm_u5 :
     eNorm basis_u5 = Nq := by
-  haveI : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
+  have : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
   have hdvd : 21504 ∣ Nat.card (eNorm basis_u5) := by
     rw [← card_Nq]
     exact Subgroup.card_dvd_of_le Nq_le

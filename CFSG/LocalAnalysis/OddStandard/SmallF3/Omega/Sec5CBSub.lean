@@ -58,7 +58,7 @@ theorem sec5cb_pairs_sum :
     ((Pi.single 0 1 + Pi.single 1 1) + (Pi.single 2 1 + Pi.single 3 1) +
       (Pi.single 4 1 + Pi.single 5 1) : Fin 6 → ZMod 2) = fun _ => 1 := by
   funext x
-  fin_cases x <;> simp [Pi.single_apply]
+  fin_cases x <;> simp
 
 theorem sec5cb_inv_ones_of_pair (W : AddSubmonoid (Fin 6 → ZMod 2))
     (hW : ∀ σ ∈ alternatingGroup (Fin 6), ∀ v ∈ W, permVec σ v ∈ W) {i j : Fin 6} (hij : i ≠ j)
@@ -80,29 +80,29 @@ theorem sec5cb_add_swap {v : Fin 6 → ZMod 2} {i j k l : Fin 6} (hij : i ≠ j)
   have hsame : ∀ a b : ZMod 2, a = b → a + b = 0 := by decide
   have hs : ∀ x, (swap i j * swap k l).symm x = swap k l (swap i j x) := by
     intro x
-    simp [Equiv.Perm.mul_def, Equiv.symm_trans_apply, Equiv.symm_swap]
+    simp [Equiv.Perm.mul_def, Equiv.symm_swap]
   funext x
   simp only [Pi.add_apply, permVec, Function.comp_apply, hs]
   by_cases hxi : x = i
   · subst hxi
     rw [swap_apply_left, swap_apply_of_ne_of_ne (Ne.symm hkj) (Ne.symm hlj), hsum _ _ hv]
-    simp [Pi.single_apply, hij]
+    simp [hij]
   by_cases hxj : x = j
   · subst hxj
     rw [swap_apply_right, swap_apply_of_ne_of_ne (Ne.symm hki) (Ne.symm hli),
       add_comm, hsum _ _ hv]
-    simp [Pi.single_apply, Ne.symm hij]
+    simp [Ne.symm hij]
   rw [swap_apply_of_ne_of_ne hxi hxj]
   by_cases hxk : x = k
   · subst hxk
     rw [swap_apply_left, ← hvkl, hsame _ _ rfl]
-    simp [Pi.single_apply, hxi, hxj]
+    simp [hxi, hxj]
   by_cases hxl : x = l
   · subst hxl
     rw [swap_apply_right, hvkl, hsame _ _ rfl]
-    simp [Pi.single_apply, hxi, hxj]
+    simp [hxi, hxj]
   rw [swap_apply_of_ne_of_ne hxk hxl, hsame _ _ rfl]
-  simp [Pi.single_apply, hxi, hxj]
+  simp [hxi, hxj]
 
 theorem sec5cb_inv_ones (W : AddSubmonoid (Fin 6 → ZMod 2))
     (hW : ∀ σ ∈ alternatingGroup (Fin 6), ∀ v ∈ W, permVec σ v ∈ W) {v : Fin 6 → ZMod 2}

@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7a_V_ab_cen {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
     (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := by
   have hzd : Commute z d := y7a_d_cent h z (y7a_z_mem_A h)
@@ -24,7 +25,7 @@ private lemma y7a_V_ab_cen {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
     · exact hzd
     · exact hzd.symm
     · exact absurd rfl hab
-  haveI : IsMulCommutative ↥V := by
+  have : IsMulCommutative ↥V := by
     rw [h.hV]
     exact Subgroup.isMulCommutative_closure hpair
   intro v hv w hw
@@ -32,8 +33,8 @@ private lemma y7a_V_ab_cen {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
 private lemma y7a_isSylowIn_map_subtype_three_cen {V : Subgroup G} (P : Sylow 3 ↥V) :
     IsSylowIn 3 V ((P : Subgroup ↥V).map V.subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map V.subtype, ?_⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map V.subtype, ?_⟩
   have h := Subgroup.relIndex_map_map_of_injective (f := V.subtype)
     (P : Subgroup ↥V) (⊤ : Subgroup ↥V) V.subtype_injective
   rw [Subgroup.map_top V.subtype, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h

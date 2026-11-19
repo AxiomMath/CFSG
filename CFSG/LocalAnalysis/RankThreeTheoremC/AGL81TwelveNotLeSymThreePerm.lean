@@ -18,7 +18,7 @@ theorem pCore_perm_eq_bot {n : ℕ} (hn : 5 ≤ n) (p : ℕ) [hp : Fact p.Prime]
       (by rw [Subgroup.normalizer_eq_top (CFSG.pCore p (Perm (Fin n)))]; exact le_top) with h | h
   · exact h
   · exfalso
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := p) (G := Perm (Fin n)))
     have hdvd := Subgroup.card_dvd_of_le h
     have hA := two_mul_nat_card_alternatingGroup (α := Fin n)

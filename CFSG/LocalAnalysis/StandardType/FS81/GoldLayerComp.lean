@@ -51,7 +51,7 @@ theorem goldLayer_exists_odd_of_not_le {T : Subgroup Y}
       sup_le hT.1 (by simpa [Z] using Subgroup.zpowers_le.mpr hyL)
     have heq := hT.2.2 (T ⊔ Z) hle hsup le_sup_left
     have hy_sup : y ∈ T ⊔ Z :=
-      Subgroup.mem_sup_right (by simpa [Z] using Subgroup.mem_zpowers y)
+      Subgroup.mem_sup_right (by simp [Z])
     exact hyT (heq ▸ hy_sup)
   · rw [hord']
     exact hm

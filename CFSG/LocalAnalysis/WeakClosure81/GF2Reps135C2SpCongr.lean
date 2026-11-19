@@ -80,26 +80,26 @@ private lemma spDiagIdem_apply (K : Type) [Field K] (n r : ℕ) (i j : Fin n) :
 
 private lemma spDiagIdem_zero_zero {K : Type} [Field K] {m r : ℕ} (hr : 0 < r) :
     spDiagIdem K (m + 1) r 0 0 = 1 := by
-  rw [spDiagIdem_apply, if_pos rfl, if_pos (by simpa using hr)]
+  rw [spDiagIdem_apply, ite_eq_left rfl, ite_eq_left (by simpa using hr)]
 
 private lemma spDiagIdem_zero_succ {K : Type} [Field K] {d r : ℕ} (j : Fin d) :
     spDiagIdem K (d + 1) r 0 j.succ = 0 := by
-  rw [spDiagIdem_apply, if_neg (Fin.succ_ne_zero j).symm]
+  rw [spDiagIdem_apply, ite_eq_right (Fin.succ_ne_zero j).symm]
 
 private lemma spDiagIdem_succ_zero {K : Type} [Field K] {d r : ℕ} (i : Fin d) :
     spDiagIdem K (d + 1) r i.succ 0 = 0 := by
-  rw [spDiagIdem_apply, if_neg (Fin.succ_ne_zero i)]
+  rw [spDiagIdem_apply, ite_eq_right (Fin.succ_ne_zero i)]
 
 private lemma spDiagIdem_succ_succ {K : Type} [Field K] {d r : ℕ} (i j : Fin d) :
     spDiagIdem K (d + 1) (r + 1) i.succ j.succ = spDiagIdem K d r i j := by
   rw [spDiagIdem_apply, spDiagIdem_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     by_cases hi : i.val < r
-    · rw [if_pos hi, if_pos (by rw [Fin.val_succ]; omega)]
-    · rw [if_neg hi, if_neg (by rw [Fin.val_succ]; omega)]
-  · rw [if_neg h, if_neg fun hij => h (Fin.succ_injective d hij)]
+    · rw [ite_eq_left hi, ite_eq_left (by rw [Fin.val_succ]; omega)]
+    · rw [ite_eq_right hi, ite_eq_right (by rw [Fin.val_succ]; omega)]
+  · rw [ite_eq_right h, ite_eq_right fun hij => h (Fin.succ_injective d hij)]
 
 private lemma toMatrix_mkFinCons_eq_spDiagIdem_one {K : Type} {V : Type*} [Field K] [CharP K 2]
     [AddCommGroup V] [Module K V] {d : ℕ}
@@ -276,18 +276,18 @@ private lemma spHypIdem_zero (K : Type) [Field K] (n : ℕ) : spHypIdem K n 0 = 
 private lemma spHypIdem_zero_zero {K : Type} [Field K] (n j : ℕ) :
     spHypIdem K (n + 2) j 0 0 = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by rintro ⟨-, -, -, h⟩; exact h rfl)
+  exact ite_eq_right (by rintro ⟨-, -, -, h⟩; exact h rfl)
 
 private lemma spHypIdem_zero_one {K : Type} [Field K] (n j : ℕ) :
     spHypIdem K (n + 2) (j + 1) 0 (Fin.succ 0) = 1 := by
   rw [spHypIdem_apply]
-  exact if_pos ⟨by simp only [Fin.val_zero]; omega,
+  exact ite_eq_left ⟨by simp only [Fin.val_zero]; omega,
     by simp only [Fin.val_succ, Fin.val_zero]; omega, by simp, by simp⟩
 
 private lemma spHypIdem_zero_succ_succ {K : Type} [Field K] {n j : ℕ} (k : Fin n) :
     spHypIdem K (n + 2) (j + 1) 0 k.succ.succ = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by
+  exact ite_eq_right (by
     rintro ⟨-, -, h3, -⟩
     simp only [Fin.val_zero, Nat.zero_div, Fin.val_succ] at h3
     omega)
@@ -295,18 +295,18 @@ private lemma spHypIdem_zero_succ_succ {K : Type} [Field K] {n j : ℕ} (k : Fin
 private lemma spHypIdem_one_zero {K : Type} [Field K] (n j : ℕ) :
     spHypIdem K (n + 2) (j + 1) (Fin.succ 0) 0 = 1 := by
   rw [spHypIdem_apply]
-  exact if_pos ⟨by simp only [Fin.val_succ, Fin.val_zero]; omega,
+  exact ite_eq_left ⟨by simp only [Fin.val_succ, Fin.val_zero]; omega,
     by simp only [Fin.val_zero]; omega, by simp, by simp⟩
 
 private lemma spHypIdem_one_one {K : Type} [Field K] (n j : ℕ) :
     spHypIdem K (n + 2) (j + 1) (Fin.succ 0) (Fin.succ 0) = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by rintro ⟨-, -, -, h⟩; exact h rfl)
+  exact ite_eq_right (by rintro ⟨-, -, -, h⟩; exact h rfl)
 
 private lemma spHypIdem_one_succ_succ {K : Type} [Field K] {n j : ℕ} (k : Fin n) :
     spHypIdem K (n + 2) (j + 1) (Fin.succ 0) k.succ.succ = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by
+  exact ite_eq_right (by
     rintro ⟨-, -, h3, -⟩
     simp only [Fin.val_succ, Fin.val_zero] at h3
     omega)
@@ -314,7 +314,7 @@ private lemma spHypIdem_one_succ_succ {K : Type} [Field K] {n j : ℕ} (k : Fin 
 private lemma spHypIdem_succ_succ_zero {K : Type} [Field K] {n j : ℕ} (k : Fin n) :
     spHypIdem K (n + 2) (j + 1) k.succ.succ 0 = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by
+  exact ite_eq_right (by
     rintro ⟨-, -, h3, -⟩
     simp only [Fin.val_zero, Nat.zero_div, Fin.val_succ] at h3
     omega)
@@ -322,7 +322,7 @@ private lemma spHypIdem_succ_succ_zero {K : Type} [Field K] {n j : ℕ} (k : Fin
 private lemma spHypIdem_succ_succ_one {K : Type} [Field K] {n j : ℕ} (k : Fin n) :
     spHypIdem K (n + 2) (j + 1) k.succ.succ (Fin.succ 0) = 0 := by
   rw [spHypIdem_apply]
-  exact if_neg (by
+  exact ite_eq_right (by
     rintro ⟨-, -, h3, -⟩
     simp only [Fin.val_succ, Fin.val_zero] at h3
     omega)

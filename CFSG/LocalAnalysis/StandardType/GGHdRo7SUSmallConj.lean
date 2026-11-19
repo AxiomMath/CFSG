@@ -28,8 +28,7 @@ private lemma hdRo7SmConjAux_cx7Fun_invol (v : SMV 7) :
     hdRo7SmConjAux_cx7Fun (hdRo7SmConjAux_cx7Fun v) = v := by
   rw [hdRo7SmConjAux_cx7Fun_apply, hdRo7SmConjAux_cx7Fun_apply]
   ext i
-  simp only [Pi.add_apply, Finset.sum_add_distrib, Pi.smul_apply, smOnes, Pi.one_apply,
-    smul_eq_mul, mul_one, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  simp only [Pi.add_apply, Finset.sum_add_distrib, Pi.smul_apply, smOnes, smul_eq_mul, mul_one, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   ring_nf
   have h9 : (9 : ZMod 3) = 0 := by decide
   rw [h9, mul_zero, add_zero]
@@ -37,8 +36,7 @@ private lemma hdRo7SmConjAux_cx8Fun_invol (v : SMV 8) :
     hdRo7SmConjAux_cx8Fun (hdRo7SmConjAux_cx8Fun v) = v := by
   rw [hdRo7SmConjAux_cx8Fun_apply, hdRo7SmConjAux_cx8Fun_apply]
   ext i
-  simp only [Pi.sub_apply, Finset.sum_sub_distrib, Pi.smul_apply, smOnes, Pi.one_apply,
-    smul_eq_mul, mul_one, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  simp only [Pi.sub_apply, Finset.sum_sub_distrib, Pi.smul_apply, smOnes, smul_eq_mul, mul_one, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   ring_nf
   have h6 : (6 : ZMod 3) = 0 := by decide
   rw [h6, mul_zero, add_zero]
@@ -65,14 +63,14 @@ private lemma hdRo7SmConjAux_cx8_invol (v : SMV 8) :
 private lemma hdRo7SmConjAux_smDot_add_smul_ones_right {m : ℕ} (w v : SMV m) (c : ZMod 3) :
     smDot w (v + c • smOnes m) = smDot w v + c * (∑ i, w i) := by
   have h : (∑ x, w x * c) = (∑ x, w x) * c := by rw [Finset.sum_mul]
-  simp only [smDot, Pi.add_apply, Pi.smul_apply, smOnes, Pi.one_apply, smul_eq_mul, mul_one,
+  simp only [smDot, Pi.add_apply, Pi.smul_apply, smOnes, smul_eq_mul, mul_one,
     mul_add, Finset.sum_add_distrib]
   rw [h]
   ring
 private lemma hdRo7SmConjAux_smDot_add_smul_ones_left {m : ℕ} (w v : SMV m) (c : ZMod 3) :
     smDot (w + c • smOnes m) v = smDot w v + c * (∑ i, v i) := by
   have h : (∑ x, c * v x) = c * (∑ x, v x) := by rw [Finset.mul_sum]
-  simp only [smDot, Pi.add_apply, Pi.smul_apply, smOnes, Pi.one_apply, smul_eq_mul, mul_one,
+  simp only [smDot, Pi.add_apply, Pi.smul_apply, smOnes, smul_eq_mul, mul_one,
     add_mul, Finset.sum_add_distrib]
   rw [h]
 private lemma hdRo7SmConjAux_smDot_sub_smul_ones_right {m : ℕ} (w v : SMV m) (c : ZMod 3) :
@@ -114,7 +112,7 @@ private lemma hdRo7SmConjAux_cx7_perm (g : SMGL 7) (hg : SMIsPerm g) :
   have hgcx : g (hdRo7SmConjAux_cx7 v) = g v + (∑ j, v j) • smOnes 7 := by
     rw [hdRo7SmConjAux_cx7_apply, map_add, map_smul, hdRo7SmConjAux_perm_ones hg]
   rw [hgcx, hdRo7SmConjAux_cx7_apply]
-  simp only [Pi.add_apply, Pi.smul_apply, smOnes, Pi.one_apply, mul_one, Finset.sum_add_distrib,
+  simp only [Pi.add_apply, Pi.smul_apply, smOnes, Finset.sum_add_distrib,
     Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   rw [hdRo7SmConjAux_perm_sum hg v]
   ring_nf
@@ -129,7 +127,7 @@ private lemma hdRo7SmConjAux_cx8_perm (g : SMGL 8) (hg : SMIsPerm g) :
   have hgcx : g (hdRo7SmConjAux_cx8 v) = g v - (∑ j, v j) • smOnes 8 := by
     rw [hdRo7SmConjAux_cx8_apply, map_sub, map_smul, hdRo7SmConjAux_perm_ones hg]
   rw [hgcx, hdRo7SmConjAux_cx8_apply]
-  simp only [Pi.sub_apply, Pi.smul_apply, smOnes, Pi.one_apply, mul_one, Finset.sum_sub_distrib,
+  simp only [Pi.sub_apply, Pi.smul_apply, smOnes, Finset.sum_sub_distrib,
     Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   rw [hdRo7SmConjAux_perm_sum hg v]
   ring_nf
@@ -308,59 +306,59 @@ private lemma hdRo7SmConjAux_transport_wl {m : ℕ} (τ : SMGL m) {X Y : List (S
 private lemma hdRo7SmConjAux_cls7_A7a_A7b :
     SMClass (hdRo7SmConjAux_cx7 sm7A7a.1, hdRo7SmConjAux_cx7 sm7A7a.2) sm7A7b := by
   refine ⟨Equiv.ofBijective ![6,0,1,2,3,4,5] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7A7a, sm7A7b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7A7a, sm7A7b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_A7b_A7a :
     SMClass (hdRo7SmConjAux_cx7 sm7A7b.1, hdRo7SmConjAux_cx7 sm7A7b.2) sm7A7a := by
   refine ⟨Equiv.ofBijective ![1,2,3,4,5,6,0] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7A7b, sm7A7a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7A7b, sm7A7a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_D7a_D7b :
     SMClass (hdRo7SmConjAux_cx7 sm7D7a.1, hdRo7SmConjAux_cx7 sm7D7a.2) sm7D7b := by
   refine ⟨Equiv.ofBijective ![5,6,0,1,2,3,4] (by decide), 2, Or.inr rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7D7a, sm7D7b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7D7a, sm7D7b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_D7b_D7a :
     SMClass (hdRo7SmConjAux_cx7 sm7D7b.1, hdRo7SmConjAux_cx7 sm7D7b.2) sm7D7a := by
   refine ⟨Equiv.ofBijective ![2,3,4,5,6,0,1] (by decide), 2, Or.inr rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7D7b, sm7D7a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7D7b, sm7D7a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_B7a_B7b :
     SMClass (hdRo7SmConjAux_cx7 sm7B7a.1, hdRo7SmConjAux_cx7 sm7B7a.2) sm7B7b := by
   refine ⟨Equiv.ofBijective ![6,0,1,2,3,4,5] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7B7a, sm7B7b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7B7a, sm7B7b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_B7b_B7a :
     SMClass (hdRo7SmConjAux_cx7 sm7B7b.1, hdRo7SmConjAux_cx7 sm7B7b.2) sm7B7a := by
   refine ⟨Equiv.ofBijective ![1,2,3,4,5,6,0] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7B7b, sm7B7a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7B7b, sm7B7a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_E7a_E7b :
     SMClass (hdRo7SmConjAux_cx7 sm7E7a.1, hdRo7SmConjAux_cx7 sm7E7a.2) sm7E7b := by
   refine ⟨Equiv.ofBijective ![3,4,5,6,0,1,2] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7E7a, sm7E7b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7E7a, sm7E7b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls7_E7b_E7a :
     SMClass (hdRo7SmConjAux_cx7 sm7E7b.1, hdRo7SmConjAux_cx7 sm7E7b.2) sm7E7a := by
   refine ⟨Equiv.ofBijective ![4,5,6,0,1,2,3] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm7E7b, sm7E7a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx7_apply, smOnes, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm7E7b, sm7E7a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_A8a_A8b :
     SMClass (hdRo7SmConjAux_cx8 sm8A8a.1, hdRo7SmConjAux_cx8 sm8A8a.2) sm8A8b := by
   refine ⟨Equiv.ofBijective ![0,1,2,3,4,5,6,7] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8A8a, sm8A8b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8A8a, sm8A8b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_A8b_A8a :
     SMClass (hdRo7SmConjAux_cx8 sm8A8b.1, hdRo7SmConjAux_cx8 sm8A8b.2) sm8A8a := by
   refine ⟨Equiv.ofBijective ![0,1,2,3,4,5,6,7] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8A8b, sm8A8a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8A8b, sm8A8a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_D8a_D8b :
     SMClass (hdRo7SmConjAux_cx8 sm8D8a.1, hdRo7SmConjAux_cx8 sm8D8a.2) sm8D8b := by
   refine ⟨Equiv.ofBijective ![0,1,2,3,4,5,6,7] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8D8a, sm8D8b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8D8a, sm8D8b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_D8b_D8a :
     SMClass (hdRo7SmConjAux_cx8 sm8D8b.1, hdRo7SmConjAux_cx8 sm8D8b.2) sm8D8a := by
   refine ⟨Equiv.ofBijective ![0,1,2,3,4,5,6,7] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8D8b, sm8D8a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8D8b, sm8D8a]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_B8a_B8b :
     SMClass (hdRo7SmConjAux_cx8 sm8B8a.1, hdRo7SmConjAux_cx8 sm8B8a.2) sm8B8b := by
   refine ⟨Equiv.ofBijective ![7,0,1,2,3,4,5,6] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8B8a, sm8B8b]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8B8a, sm8B8b]; decide +kernel)
 private lemma hdRo7SmConjAux_cls8_B8b_B8a :
     SMClass (hdRo7SmConjAux_cx8 sm8B8b.1, hdRo7SmConjAux_cx8 sm8B8b.2) sm8B8a := by
   refine ⟨Equiv.ofBijective ![1,2,3,4,5,6,7,0] (by decide), 1, Or.inl rfl, ?_⟩
-  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, sm8B8b, sm8B8a]; decide +kernel)
+  intro i; fin_cases i <;> (simp only [hdRo7SmConjAux_cx8_apply, smOnes, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_one, sm8B8b, sm8B8a]; decide +kernel)
 
 
 private lemma hdRo7SmConjAux_map_D7a :

@@ -338,15 +338,15 @@ private theorem exists_prime_order_normalizes_sylow_five_of_unitriangular
   have hU2 : IsPGroup 2 (unitriangular 5 F) := by
     obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) 2 (n := 5) (by norm_num)
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hUT : (unitriangular 5 F).map π ≤ (T : Subgroup H) := by
-    have hp := (hU2.map π).to_sup_of_normal_left' T.isPGroup' hTU
+    have hp := (hU2.map π).to_sup_of_normal_left' T.isPGroup hTU
     have heq := (T.maximal_isPGroup.eq_of_le hp le_sup_right).symm
     rw [← heq]
     exact le_sup_left
   have hfield : ∀ e (he : e ∈ (T : Subgroup H)), fieldPart π hker (by norm_num) ⟨e, hTN he⟩ = 1 := by
     intro e he
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨e, he⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨e, he⟩
     apply CFSG.ComponentClassification.AutL2Facts.eq_one_of_two_power_ringAut Nat.prime_two hF hf _ k
     rw [← map_pow]
     have hepow : (⟨e, hTN he⟩ : rangeNormalizer π) ^ (2 ^ k) = 1 :=
@@ -382,7 +382,7 @@ theorem uc22s2114r4f_prime_dvd_card_normalizer_sylow_five_of_scalar_kernel
     q ∣ Nat.card (normalizer ((T : Subgroup H) : Set H)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_conj_normalizes_unitriangular π (by norm_num)
-    (T : Subgroup H) hTN T.isPGroup'
+    (T : Subgroup H) hTN T.isPGroup
   let α := MulAut.conj ((π x)⁻¹)
   let T' : Sylow 2 H := T.mapSurjective (f := α.toMonoidHom) α.surjective
   have hT' : (T' : Subgroup H) = (T : Subgroup H).map α.toMonoidHom :=

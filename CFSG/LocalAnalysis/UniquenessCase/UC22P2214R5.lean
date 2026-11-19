@@ -98,7 +98,7 @@ theorem two_pow_twelve_dvd_pair (D : Data G) {Ch : Choice2011 G}
     · obtain ⟨-, -, -, -, -, h3⟩ := CFSG.Blueprint.LieModel.admissible hSz
       rw [CFSG.LocalAnalysis.EvenBN.GMSK.card_of_lieModel_twistedB2 hSz, ← pow_mul]
       exact ((Nat.pow_dvd_pow 2 (by omega)).mul_right _).mul_right _
-  haveI : IsSimpleGroup ↥(mbarImage D.M c.V K) := by
+  have : IsSimpleGroup ↥(mbarImage D.M c.V K) := by
     rcases hK with ⟨-, hL, -⟩ | hSz
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
     · exact CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz

@@ -49,7 +49,7 @@ private theorem isMulCommutative_sylow_three_sl2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π := QuotientGroup.mk' (center (Matrix.SpecialLinearGroup (Fin 2) F))
   have hmap : IsPGroup 3 ((S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)).map π) :=
-    S.isPGroup'.map π
+    S.isPGroup.map π
   obtain ⟨Q, hQ⟩ := hmap.exists_le_sylow
   have : IsCyclic (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)) :=
     CFSG.RankThree.PartTwo.KFacts.isCyclic_sylow_three_psl2 h3 h4 Q
@@ -163,7 +163,7 @@ theorem exists_moved_abelian_of_g2_field
       (τ := .G2) (K := K) σ.toRingHom ![1, 0] A
   obtain ⟨S, hSab, hstable, a, ha, hmoved⟩ := exists_moved_abelian_of_sl2_field hK3 hK4 σ hσ
   let A := (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)).map ρ
-  have hAp : IsPGroup 3 A := S.isPGroup'.map ρ
+  have hAp : IsPGroup 3 A := S.isPGroup.map ρ
   have hAab : IsMulCommutative A := by
     let : IsMulCommutative (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)) := hSab
     exact Subgroup.map_isMulCommutative (S : Subgroup _) ρ

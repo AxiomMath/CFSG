@@ -18,7 +18,7 @@ theorem exists_isSylowIn_of_isAGLQ {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subg
     (he : D1Escape p P M H₁ R₁) {B N : Subgroup G} (hB : IsAGLQ p M B) (hBN : B ≤ N) :
     ∃ R : Subgroup G, B ≤ R ∧ R ≤ M ∧ CFSG.Quasithin.IsSylowIn p R N ∧
       Subgroup.normalizer (R : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨he.prime⟩
+  have : Fact p.Prime := ⟨he.prime⟩
   obtain ⟨R, hR, hBR⟩ := CFSG.Quasithin.exists_isSylowIn_ge p (le_inf hBN hB.1) hB.2.1
   have hRM : R ≤ M := hR.le.trans inf_le_right
   have hNR := normalizer_le_of_isAGLQ_escape he (isAGLQ_of_le hB hBR hRM hR.isPGroup)
@@ -40,7 +40,7 @@ theorem exists_sylow_d1X0_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Sub
         ∃ u ∈ (Rb : Subgroup (N ⧸ primeComplementCore (G := N) p)), u ∈ L ∧ orderOf u = p ∧
           ∃ c ∈ L, u * c ≠ c * u := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
@@ -83,22 +83,22 @@ theorem d1KBar_normal_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subgrou
     (he : D1Escape p P M H₁ R₁) {B N : Subgroup G} (hB : IsAGLQ p M B) (hBN : B ≤ N)
     (hK : d1KBar p M N ≠ ⊥) : (d1KBar p M N).Normal := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Rb, hRX₀, hNR, hC, hu⟩ := exists_sylow_d1X0_of_escape he hB hBN
   obtain ⟨L₀, hL₀, hL₀X⟩ := exists_component_of_d1KBar_ne_bot hK
   exact normal_sup_components_of_sylow Rb hNR
-    (le_normalizer_all_components hp he.ne_two Rb.isPGroup' hRX₀ hC hu hL₀ hL₀X)
+    (le_normalizer_all_components hp he.ne_two Rb.isPGroup hRX₀ hC hu hL₀ hL₀X)
 
 theorem pRank_d1PlusCore_le_one_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subgroup G}
     (he : D1Escape p P M H₁ R₁) {B N : Subgroup G} (hB : IsAGLQ p M B) (hBN : B ≤ N)
     (hK : d1KBar p M N ≠ ⊥) : CFSG.Open.pRank p (d1PlusCore p N (d1KBar p M N)) ≤ 1 := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   obtain ⟨Rb, -, -, hC, hu⟩ := exists_sylow_d1X0_of_escape he hB hBN
   obtain ⟨L₀, hL₀, hL₀X⟩ := exists_component_of_d1KBar_ne_bot hK
-  haveI := d1KBar_normal_of_escape he hB hBN hK
+  have := d1KBar_normal_of_escape he hB hBN hK
   set C := Subgroup.centralizer ((d1KBar p M N : Subgroup (N ⧸ O)) : Set (N ⧸ O)) with hCdef
   have hCn : C.Normal := inferInstance
   obtain ⟨u, huR, huL, hup, hunc⟩ := hu L₀ hL₀

@@ -341,7 +341,7 @@ theorem exists_isComponentOf_glBlockCentralizer_POmegaMinus (n : ℕ) {F : Type}
     have hYcore : Y ∈ CFSG.MatrixModel.isometryCore ⇑Q := by
       rw [CFSG.MatrixModel.isometryCore]
       exact Subgroup.subset_closure hYiso
-    letI : Bracket (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F)
+    let : Bracket (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F)
         (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) := commutatorElement
     have hcommut : ⁅Y, X⁆ ∈ CFSG.Open.StatedOmega ⇑Q := by
       change ⁅Y, X⁆ ∈

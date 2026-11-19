@@ -273,7 +273,7 @@ theorem toGL_gB0' (hC : ChevFacts) (k : Fin 4) :
   have hget : (CFSG.Quasithin.St84.G24DC.Native.gBN ()).getD k.val
       CFSG.Quasithin.St84.G24DC.Native.oneM = (CFSG.Quasithin.St84.G24DC.Native.gBN ())[k.val] := by
     unfold Array.getD
-    rw [dif_pos hk]
+    rw [dite_eq_left hk]
     rfl
   have hmem : (CFSG.Quasithin.St84.G24DC.Native.gBN ()).getD k.val
       CFSG.Quasithin.St84.G24DC.Native.oneM ∈ (CFSG.Quasithin.St84.G24DC.Native.gBN ()).toList := by
@@ -501,7 +501,7 @@ theorem cY_inv_mul_not_mem (hC : ChevFacts) {i j : Fin 4} (hij : i ≠ j) :
 
 theorem isPGroup_of_card_two_pow {H : Subgroup Y} {k : ℕ} (h : Nat.card H = 2 ^ k) :
     IsPGroup 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.of_card h
 
 theorem k2Y_inv (hC : ChevFacts) : k2Y⁻¹ = k2Y * k2Y :=

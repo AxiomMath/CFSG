@@ -54,7 +54,7 @@ theorem L34MSide.hasPrimeConstraint_of_l34 (hKZ : KFactMSideAlmostSimpleE27)
   have hER' : E = R := Subgroup.eq_of_le_of_card_ge hER (by rw [hEcard, hR27]; norm_num)
   have hRel : IsElemAbelian 3 R := hER' ▸ hEel
   set π := QuotientGroup.mk' (primeComplementCore (G := M) 3) with hπ
-  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
   have hR'P' : R.subgroupOf M ≤ (P : Subgroup G).subgroupOf M := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hRP (Subgroup.mem_subgroupOf.mp hx))
   have hT'R' : T.subgroupOf M ≤ R.subgroupOf M := fun x hx =>
@@ -233,7 +233,7 @@ theorem L34MSide.hasPrimeConstraint_of_l34 (hKZ : KFactMSideAlmostSimpleE27)
       _ = γ * (x₀ * (y : G)) * γ⁻¹ := by rw [e]
       _ = γ * x₀ * γ⁻¹ * (γ * (y : G) * γ⁻¹) := by group
   have h81 : 81 ∣ Nat.card (M ⧸ primeComplementCore (G := M) 3) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hk4 : 4 ≤ k := by
       by_contra hk4
       push Not at hk4

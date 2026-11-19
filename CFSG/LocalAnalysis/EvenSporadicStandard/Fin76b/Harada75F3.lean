@@ -55,7 +55,7 @@ theorem isCyclic_of_natCard_le_two {G : Type*} [Group G] [Finite G] (h : Nat.car
 theorem comm_of_mem_isCyclic {P : Type} [Group P] {C : Subgroup P} (hC : IsCyclic C) {a b : P}
     (ha : a ∈ C) (hb : b ∈ C) : a * b = b * a := by
   have := hC
-  letI := IsCyclic.commGroup (α := C)
+  let := IsCyclic.commGroup (α := C)
   exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : C) ⟨b, hb⟩)
 
 theorem relIndex_le_index_of_finite {P : Type} [Group P] [Finite P] (C H : Subgroup P) :

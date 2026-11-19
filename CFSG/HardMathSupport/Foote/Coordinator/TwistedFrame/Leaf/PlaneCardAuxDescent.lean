@@ -34,7 +34,7 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup τ}
 theorem g_mem_adjointGroup (D : LangLevi τ K w) : D.g ∈ adjointGroup τ D.L :=
   Pθ_le_adjointGroup τ D.L (Lθ_le_Pθ τ D.L D.g_mem)
 
-@[expose] abbrev fixedRootGroup (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ)) :
+abbrev fixedRootGroup (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ)) :
     Subgroup (ModGL τ D.L) :=
   rootSpan τ D.L S ⊓ twistedFixedPoints (canonicalRep (coxeterSystem τ) D.L w)
     (Units.map (entrywiseHom D.Fr))
@@ -68,7 +68,7 @@ theorem frame_equiv_fixed (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
     (MulAut.conj D.g⁻¹).toMonoidHom.comp
       ((baseChangeGL (algebraMap K D.L)).comp (D.frame S).subtype)
   have hψ : ∀ x : D.frame S, ψ x = D.g⁻¹ * baseChangeGL (algebraMap K D.L) (x : ModGL τ K) * D.g :=
-    fun x => by simp [ψ, MulAut.conj_apply]
+    fun x => by simp [ψ]
   have hψmem : ∀ x : D.frame S, ψ x ∈ P := by
     intro x
     refine Subgroup.mem_inf.2 ⟨?_, mem_twistedFixedPoints.2 ?_⟩
@@ -86,7 +86,7 @@ theorem frame_equiv_fixed (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
   have hsurj : Function.Surjective ψ' := by
     rintro ⟨y, hy⟩
     set P' : Subgroup (ModGL τ D.L) := P.map (MulAut.conj D.g).toMonoidHom with hP'
-    haveI hPfin : Finite P := hfin
+    have hPfin : Finite P := hfin
     have hP'fin : Finite P' :=
       Finite.of_equiv P (Subgroup.equivMapOfInjective P _ (MulAut.conj D.g).injective).toEquiv
     have hP'C : P' ≤ adjointGroup τ D.L := by
@@ -123,7 +123,7 @@ theorem frame_equiv_fixed (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
   exact ⟨MulEquiv.ofBijective ψ' ⟨hinj, hsurj⟩⟩
 
 theorem frame_card_dvd_of (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
-    (P₀ : Subgroup (ModGL τ D.L)) (hP₀ : P₀ ≤ fixedRootGroup D S) (hfin : Finite P₀)
+    (P₀ : Subgroup (ModGL τ D.L)) (hP₀ : P₀ ≤ fixedRootGroup D S) (_hfin : Finite P₀)
     (hrat : P₀.map (MulAut.conj D.g).toMonoidHom ≤ (adjEmb τ K D.L).range) :
     Nat.card ↥P₀ ∣ Nat.card ↥(D.frame S) := by
   classical
@@ -132,7 +132,7 @@ theorem frame_card_dvd_of (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
     (MulAut.conj D.g⁻¹).toMonoidHom.comp
       ((baseChangeGL (algebraMap K D.L)).comp (D.frame S).subtype)
   have hψ : ∀ x : D.frame S, ψ x = D.g⁻¹ * baseChangeGL (algebraMap K D.L) (x : ModGL τ K) * D.g :=
-    fun x => by simp [ψ, MulAut.conj_apply]
+    fun x => by simp [ψ]
   have hinj : Function.Injective ψ := by
     intro x y h
     rw [hψ, hψ] at h
@@ -193,7 +193,7 @@ theorem frame_card_dvd (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ))
     Nat.card ↥P₀ ∣ Nat.card ↥(D.frame S) := by
   refine frame_card_dvd_of D S P₀ hP₀ hfin ?_
   obtain ⟨hC, hF⟩ := conj_fixedRootGroup D S P₀ hP₀
-  haveI : Finite P₀ := hfin
+  have : Finite P₀ := hfin
   refine hrat _ (Finite.of_equiv P₀
     (Subgroup.equivMapOfInjective P₀ _ (MulAut.conj D.g).injective).toEquiv) hC hF ?_
   rw [← Subgroup.map_commutator, hperf]
@@ -207,7 +207,7 @@ theorem frame_card_dvd_pgroup (D : LangLevi τ K w) (S : Set (Fin τ.rank → �
     Nat.card ↥P₀ ∣ Nat.card ↥(D.frame S) := by
   refine frame_card_dvd_of D S P₀ hP₀ hfin ?_
   obtain ⟨hC, hF⟩ := conj_fixedRootGroup D S P₀ hP₀
-  haveI : Finite P₀ := hfin
+  have : Finite P₀ := hfin
   refine hrat _ (Finite.of_equiv P₀
     (Subgroup.equivMapOfInjective P₀ _ (MulAut.conj D.g).injective).toEquiv) hC hF ?_
   exact hpg.map _
@@ -218,7 +218,7 @@ theorem hrat_perfect {d : ℕ}
       (∀ x ∈ P, Units.map (entrywiseHom D.Fr) x = x) → ⁅P, P⁆ = P →
         P ≤ (adjEmb τ K D.L).range := by
   intro P hP hPC hPF hperf
-  haveI := hP
+  have := hP
   rw [adjEmb_range]
   exact (finite_fixed_subgroup_rational_perfect d hτ D.Fr D.hFr P hPC hPF).2.2 P le_rfl hperf
 
@@ -229,7 +229,7 @@ theorem hrat_pgroup {d : ℕ}
       (∀ x ∈ P, Units.map (entrywiseHom D.Fr) x = x) → IsPGroup p P →
         P ≤ (adjEmb τ K D.L).range := by
   intro P hP hPC hPF hpg
-  haveI := hP
+  have := hP
   rw [adjEmb_range]
   exact (finite_fixed_subgroup_rational_perfect d hτ D.Fr D.hFr P hPC hPF).2.1 p hp hp3 P le_rfl hpg
 
@@ -254,7 +254,7 @@ theorem card_unitarySet_int {Ω : Type} [Field Ω] [IsAlgClosed Ω] {ℓ f : ℕ
   have hinj : Function.Injective
       (GeneralLinearGroup.map K.subtype : GL (Fin n) K →* GL (Fin n) Ω) :=
     fun A B h => Units.ext (Matrix.map_injective K.subtype_injective (congrArg Units.val h))
-  haveI : CharP K ℓ := (RingHom.charP_iff K.subtype K.subtype_injective ℓ).mpr inferInstance
+  have : CharP K ℓ := (RingHom.charP_iff K.subtype K.subtype_injective ℓ).mpr inferInstance
   rw [← CFSG.GH74.GLS.Stage2.Bender.Thm1.mnSyl_image_SUid K.subtype hrange n (ℓ := ℓ) (f := f),
     Nat.card_image_of_injective hinj, SetLike.coe_sort_coe,
     SUid_eq_statedSU hKcard n]
@@ -331,7 +331,7 @@ theorem units_map_comp {L : Type} [Field L] (σ σ' : L →+* L) (g : ModGL τ L
 
 theorem frobenius_bijective' {K : Type} [Field K] [Finite K] (D : LangLevi τ K w) :
     Function.Bijective D.Fr := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   refine ⟨D.Fr.injective, fun y => ?_⟩
   obtain ⟨x, hx⟩ := IsAlgClosed.exists_pow_nat_eq y (Nat.card_pos : 0 < Nat.card K)
   exact ⟨x, by rw [D.hFr, hx]⟩
@@ -347,7 +347,7 @@ theorem UFrame.fixedRoot_unitary {K : Type} [Field K] [Finite K] {w : WeylGroup 
       ((ν, ℓ ^ f) ≠ (3, 2) → CFSG.IsQuasisimple ↥(fixedRootGroup D S) ∧
         Nat.card ↥(Subgroup.center ↥(fixedRootGroup D S)) = Nat.gcd ν (ℓ ^ f + 1)) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set n := canonicalRep (coxeterSystem τ) D.L w with hn
   have hnm : n ∈ monomialSubgroup τ D.L := canonicalRep_mem_monomialSubgroup D.L w
   have hwn : weylQuotientHom τ D.L ⟨n, hnm⟩ = w :=

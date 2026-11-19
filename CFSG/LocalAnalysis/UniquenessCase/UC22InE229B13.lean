@@ -13,6 +13,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem nonabelian_bar2 {M L : Subgroup G} (hL : L ∈ calC M) :
     ∃ x y : Bar2 L, x * y ≠ y * x := by
   by_contra h
@@ -23,10 +24,10 @@ private theorem nonabelian_bar2 {M L : Subgroup G} (hL : L ∈ calC M) :
     rw [Subgroup.mem_center_iff]
     intro y
     exact h y x
-  haveI : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
+  have : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
+  have : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)))
   exact hab (Subsingleton.elim a b)
 
@@ -43,7 +44,7 @@ theorem uc22ine229_exists_B₁_three_of_thin (hThin : PartTwo.ThinList13)
   have hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.Open.pRank r (⊤ : Subgroup (Bar2 Y)) ≤ 1 :=
     fun r hr hr2 => (uc22s206c_pRank_le Y hr hr2).trans (hthin r hr hr2)
   have hO2 : CFSG.pCore 2 (Bar2 Y) = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot
   have hs : IsSimpleGroup (Bar2 Y) :=
     (hThin (Bar2 Y) (CFSG.KCore.KGroupNonab.kGroupAllSimple CFSG.Assembly.inCatalog_isoInvariant

@@ -122,7 +122,7 @@ theorem smul_fAct {l : ℕ} (hl : l < P.C.nf) (x : PrL n) :
   congr 1
   refine List.map_congr_left fun p hp => ?_
   have h2 : Nat.blt p (Nat.mul n n) = true := by rw [Nat.blt_eq]; exact x.valid.2 p hp
-  simp only [clampF, h2, cond_true]
+  simp only [clampF, h2, _root_.Bool.cond_true]
 
 @[expose] def S : Subgroup Γ := Subgroup.closure {x | x ∈ P.els.take P.C.ns}
 

@@ -70,7 +70,7 @@ theorem rhoZ_Xsub_eq_one (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a 
   have hns : ¬ IsSymplecticType (threeResidualClass d₀) := fun hs =>
     not_isSymplecticType_DU (m := 4) (by norm_num) (by
       have := hs.image (φ₀ : ↥(threeResidualQuot d₀) →* U2 4)
-      rwa [MonoidHom.coe_coe, hφ₀] at this)
+      rwa [_root_.MonoidHom.coe_ofClass, hφ₀] at this)
   have hstep := derivedSeries_two_le_ker_rhoW S h h217 h3 hd₀R hd₀1 hns
   have hcW : commutator ↥(threeResidualQuot d₀) = ⊤ := commutator_eq_top_of_mulEquiv_U2_four φ₀
   have hW2 : derivedSeries ↥(threeResidualQuot d₀) 2 = ⊤ := by
@@ -226,7 +226,7 @@ theorem rhoLin_eq_self_of_finrank_le_five (S : Setting z E F) {a : G} {w : ℕ}
     norm_num
   have h1 : rhoLin S 1 = 1 := by simp [rhoLin]
   let π : ↥(Xsub S a) →* (↥U ≃ₗ[ZMod 2] ↥U) :=
-    { toFun := fun x => LinearEquiv.ofLinear
+    { toFun := fun x => LinearEquiv.ofLinearMap
         ((rhoLin S x : _ →ₗ[ZMod 2] _).restrict (hU x x.2))
         ((rhoLin S (x : Hbar z)⁻¹ : _ →ₗ[ZMod 2] _).restrict (hU _ (inv_mem x.2)))
         (LinearMap.ext fun u => Subtype.ext <| by

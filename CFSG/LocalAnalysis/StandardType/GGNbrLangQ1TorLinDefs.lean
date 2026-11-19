@@ -62,7 +62,7 @@ private theorem l02qt2_conj_std
   obtain ⟨hcc, hff, hfc, hδδ, hδc, hδf, -, -, -⟩ :=
     LinearFlag.standard_automorphism_transport (K := K) (n := d)
   rcases (by omega : ε = 0 ∨ ε = 1) with rfl | rfl
-  · simp only [pow_zero, mul_one, if_pos rfl]
+  · simp only [pow_zero, mul_one]
     calc (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ) * LinearFlag.conjAut d K X *
           (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ)⁻¹
         = LinearFlag.conjAut d K A *
@@ -74,7 +74,7 @@ private theorem l02qt2_conj_std
       _ = LinearFlag.conjAut d K
             (A * Matrix.GeneralLinearGroup.map (σ : K →+* K) X * A⁻¹) :=
             l02qt2_conjAut_mul_inv_eq A _
-  · simp only [pow_one, if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+  · simp only [pow_one, ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
     have hδinv : (LinearFlag.dualAut d K)⁻¹ = LinearFlag.dualAut d K :=
       inv_eq_of_mul_eq_one_right hδδ
     have hinv : (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ *
@@ -144,8 +144,8 @@ private theorem l02qt2_exists_conjAut {d : ℕ} (hd : 3 ≤ d)
       ψ (LinearFlag.conjAut d K M x) = LinearFlag.conjAut d K' g (ψ x) := by
   classical
   have hd0 : 0 < d := by omega
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite K'
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite K'
   have hcard' : Fintype.card K = Fintype.card K' := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcard
@@ -246,8 +246,8 @@ theorem toralLin_commute_datum {d m : ℕ} (hd : 3 ≤ d) (hm : 2 ≤ m) {K : Ty
     IsMulCommutative (E.comap (TableB.linConjAut (Fin d) K)) := by
   classical
   obtain ⟨d', K', hfieldK', hfinK', θ', hcomm⟩ := h
-  letI : Field K' := hfieldK'
-  letI : Finite K' := hfinK'
+  let : Field K' := hfieldK'
+  let : Finite K' := hfinK'
   have hdet := kgLangS1A_psl_typeDet (d := d) (d₁ := d') (m := m) (F₀ := K) (E := K')
     hd hm hK ((TypeA.recipeEquiv d K).symm.trans θ')
   obtain ⟨hdd, hcard⟩ := hdet

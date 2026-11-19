@@ -16,6 +16,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 theorem O_normal_M (t tau x₁ x₂ : G) : NormalIn (ctxO t tau x₁ x₂) (ctxM t tau x₁ x₂) :=
   ⟨CFSG.LieType.BorelTits.pCoreOf_le 2 (ctxM t tau x₁ x₂), fun _ hg _ hk =>
     (Subgroup.mem_normalizer_iff.mp
@@ -28,6 +29,7 @@ include hc
 
 theorem U_le_M : ctxU t tau x₁ x₂ lam ≤ ctxM t tau x₁ x₂ := hc.U_sylow.1
 
+omit [Finite G] hc in
 theorem O_le_U : ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam := le_sup_left
 
 theorem q_mem_U : t * lam ∈ ctxU t tau x₁ x₂ lam :=
@@ -94,7 +96,7 @@ theorem inv_mul_mem_O {a b : G} (ha : a ∈ ctxU t tau x₁ x₂ lam) (hb : b �
     (ha' : a ∉ ctxO t tau x₁ x₂) (hb' : b ∉ ctxO t tau x₁ x₂) : a⁻¹ * b ∈ ctxO t tau x₁ x₂ := by
   have hrel : (ctxO t tau x₁ x₂).relIndex (ctxU t tau x₁ x₂ lam) = 2 := by
     have h := Subgroup.relIndex_mul_card (H := ctxO t tau x₁ x₂) (K := ctxU t tau x₁ x₂ lam)
-    rw [inf_eq_left.mpr (O_le_U hc), card_U hc, hc.card_O] at h
+    rw [inf_eq_left.mpr (O_le_U), card_U hc, hc.card_O] at h
     have h9 : (2 : ℕ) ^ 9 = 2 * 2 ^ 8 := by norm_num
     rw [h9] at h
     exact Nat.mul_right_cancel (by norm_num) h
@@ -136,7 +138,7 @@ theorem exists_n_W : ∃ (W : Subgroup G) (n : G), IsSylowIn 2 W (ctxLO t tau x�
       (∀ x ∈ ctxU t tau x₁ x₂ lam, n₀ * x * n₀⁻¹ ∈ ctxU t tau x₁ x₂ lam) ∧
       n₀ ∉ ctxU t tau x₁ x₂ lam := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (S4B.eq_of_forall_normalizes h𝒮.2.1 hU𝒮 h)
   obtain ⟨n₀, hn₀𝒮, hn₀conj, hn₀U⟩ := hexists
   let φ : G →* G := MulAut.conj n₀

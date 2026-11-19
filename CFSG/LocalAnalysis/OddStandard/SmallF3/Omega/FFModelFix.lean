@@ -20,6 +20,7 @@ theorem ff_piOrth_not_mem_omega (hQ : Q.Nondegenerate) (hdim : Module.finrank (Z
     (hsgn : quadSign Q = 1) : piOrth Q ∉ omegaGroup hQ := by
   exact ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hsgn
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_fixSub_orthToSim (t : OGroup Q) :
     fixSub (simAct Q (orthToSim Q t)) = Subgroup.centralizer ({t} : Set (OGroup Q)) := by
   ext g
@@ -92,7 +93,7 @@ theorem ff_fixEquiv_sim (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
   exact ⟨MulEquiv.ofBijective f0 ⟨hinj, hsurj⟩, fun g => rfl⟩
 
 theorem ff_mem_ffFix_iff (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {t : OGroup Q} (htt : t * t = 1) (w : ↥(omegaProj hQ)) :
+    (hsgn : quadSign Q = 1) {t : OGroup Q} (_htt : t * t = 1) (w : ↥(omegaProj hQ)) :
     w ∈ ffFix hQ (by omega) (projOrthToProjSim Q (toProj Q t)) ↔
       ∃ g ∈ omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q)),
         toProj Q g = (w : ProjOrth Q) := by
@@ -100,7 +101,7 @@ theorem ff_mem_ffFix_iff (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   rw [hx, ff_mem_ffFix_sim_iff hQ hdim hsgn (orthToSim Q t) w, ff_fixSub_orthToSim]
 
 theorem ff_fixEquiv (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {t : OGroup Q} (htt : t * t = 1) :
+    (hsgn : quadSign Q = 1) {t : OGroup Q} (_htt : t * t = 1) :
     ∃ e : ↥(omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) ≃*
         ↥(ffFix hQ (by omega) (projOrthToProjSim Q (toProj Q t))),
       ∀ g, (((e g : ↥(ffFix hQ (by omega) (projOrthToProjSim Q (toProj Q t)))) :
@@ -115,7 +116,7 @@ theorem ff_mem_X_of_simple {G : Type} [Group G] (C E : Subgroup G) [Finite E] (h
     (hS : IsSimpleGroup ↥E) (hnc : ∃ a b : ↥E, a * b ≠ b * a) {w : G} (hw : w ∈ E)
     (hw2 : w * w = 1) : w ∈ twoPrimeRes (twoRes C) := by
   classical
-  haveI := hS
+  have := hS
   let S : Set ↥E := {g | Odd (orderOf g)}
   let K : Subgroup ↥E := Subgroup.closure S
   have hKnorm : K.Normal := by
@@ -139,13 +140,13 @@ theorem ff_mem_X_of_simple {G : Type} [Group G] (C E : Subgroup G) [Finite E] (h
       (n := Nat.card ↥E) Nat.card_pos.ne'
     by_cases hm1 : m = 1
     · have hp : IsPGroup 2 ↥E := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact IsPGroup.of_card (by rw [hcard, hm1, mul_one])
-      haveI : Group.IsNilpotent ↥E := hp.isNilpotent
+      have : Group.IsNilpotent ↥E := hp.isNilpotent
       obtain ⟨a, b, hab⟩ := hnc
       exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := ↥E)).mpr inferInstance a b)
     · obtain ⟨p, hp, hpm⟩ := Nat.exists_prime_and_dvd hm1
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hp2 : p ≠ 2 := by
         rintro rfl
         exact (Nat.not_even_iff_odd.mpr hm) (even_iff_two_dvd.mpr hpm)
@@ -158,7 +159,7 @@ theorem ff_mem_X_of_simple {G : Type} [Group G] (C E : Subgroup G) [Finite E] (h
       have := hS1 g hgS
       rw [this, orderOf_one] at hg
       exact hp.one_lt.ne hg
-  haveI := hKnorm
+  have := hKnorm
   have hKtop : K = ⊤ := (IsSimpleGroup.eq_bot_or_eq_top_of_normal K).resolve_left hKne
   have hall : ∀ x ∈ K, ((x : ↥E) : G) ∈ twoRes C := by
     intro x hx
@@ -188,7 +189,7 @@ theorem ff_mem_X_of_simple {G : Type} [Group G] (C E : Subgroup G) [Finite E] (h
 theorem ff_layerModel_congr {A B : Type} [Group A] [Group B] (e : A ≃* B)
     {t : CFSG.Open.StatedLieTag} {n k : ℕ} (h : LayerModel A t n k) : LayerModel B t n k := by
   obtain ⟨E, hE, hlie, hp⟩ := h
-  haveI hE' : (E.map e.toMonoidHom).Normal := hE.map e.toMonoidHom e.surjective
+  have hE' : (E.map e.toMonoidHom).Normal := hE.map e.toMonoidHom e.surjective
   refine ⟨E.map e.toMonoidHom, hE',
     CFSG.Blueprint.LieModel.of_mulEquiv (e.subgroupMap E) hlie, ?_⟩
   refine hp.of_surjective (QuotientGroup.map E (E.map e.toMonoidHom) e.toMonoidHom
@@ -199,7 +200,7 @@ theorem ff_layerModel_congr {A B : Type} [Group A] [Group B] (e : A ≃* B)
 
 theorem ff_solvable_congr {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (h : Group.IsSolvable A) : Group.IsSolvable B := by
-  haveI := h
+  have := h
   exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 
 end CFSG.OddStandard.SmallF3.Omega

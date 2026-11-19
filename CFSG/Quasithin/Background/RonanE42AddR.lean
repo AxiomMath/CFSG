@@ -15,22 +15,25 @@ variable {G : Type} [Group G] [Finite G]
 abbrev bk (T H : Subgroup G) : Subgroup G :=
   H ⊓ Subgroup.normalizer ((T ⊓ fStarPre H : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem fStarPre_le' (H : Subgroup G) : fStarPre H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem fStarPre_conj_mem (H : Subgroup G) :
     ∀ h ∈ H, ∀ x ∈ fStarPre H, h * x * h⁻¹ ∈ fStarPre H := by
   intro h hh x hx
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
-  haveI hFchar : (fStarMod H).Characteristic := by
+  have hFchar : (fStarMod H).Characteristic := by
     rw [fStarMod, CFSG.generalizedFitting_eq_componentClassification]
     exact CFSG.ComponentClassification.GeneralizedFitting.characteristic _
-  haveI : ((fStarMod H).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥H))).Normal :=
+  have : ((fStarMod H).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥H))).Normal :=
     Subgroup.Normal.comap inferInstance _
   refine Subgroup.mem_map.mpr ⟨⟨h, hh⟩ * y * ⟨h, hh⟩⁻¹,
     (inferInstance : ((fStarMod H).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥H))).Normal).conj_mem
       y hy _, ?_⟩
   simp
 
+omit [Finite G] in
 theorem sylow_of_le {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) : IsSylowIn 2 T H := by
   have hdiv : T.relIndex H ∣ T.relIndex ⊤ :=
     ⟨_, (Subgroup.relIndex_mul_relIndex T H ⊤ hTH le_top).symm⟩
@@ -38,11 +41,11 @@ theorem sylow_of_le {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) 
 
 theorem le_sup_bk {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) :
     H ≤ fStarPre H ⊔ bk T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := fStarPre H with hX
   have hXH : X ≤ H := fStarPre_le' H
   have hTH2 : IsSylowIn 2 T H := sylow_of_le hT hTH
-  haveI : Finite (Sylow 2 H) :=
+  have : Finite (Sylow 2 H) :=
     Finite.of_injective (fun P : Sylow 2 H => (P : Set H)) SetLike.coe_injective
   obtain ⟨PH, hPH⟩ : ∃ P : Sylow 2 H, (P : Subgroup H) = T.subgroupOf H :=
     ⟨hTH2.toSylow, IsSylowIn.coe_toSylow hTH2⟩
@@ -85,6 +88,7 @@ theorem le_sup_bk {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) :
   rw [hxe, sup_comm]
   exact Subgroup.mul_mem_sup hb hm'
 
+omit [Finite G] in
 theorem pCoreOf_conj_mem (H : Subgroup G) :
     ∀ h ∈ H, ∀ x ∈ pCoreOf 2 H, h * x * h⁻¹ ∈ pCoreOf 2 H := by
   intro h hh x hx
@@ -92,6 +96,7 @@ theorem pCoreOf_conj_mem (H : Subgroup G) :
   exact Subgroup.mem_map.mpr ⟨⟨h, hh⟩ * y * ⟨h, hh⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥H)).conj_mem y hy _, by simp⟩
 
+omit [Finite G] in
 theorem le_bk {T H : Subgroup G} (hTH : T ≤ H) : T ≤ bk T H := by
   intro t ht
   refine ⟨hTH ht, ?_⟩
@@ -110,6 +115,7 @@ theorem le_bk {T H : Subgroup G} (hTH : T ≤ H) : T ≤ bk T H := by
       rw [inv_inv] at this
       rw [e]; exact this
 
+omit [Finite G] in
 theorem inf_le_pCoreOf_bk {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) :
     T ⊓ fStarPre H ≤ pCoreOf 2 (bk T H) := by
   set B := bk T H

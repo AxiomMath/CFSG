@@ -36,20 +36,20 @@ theorem rf4_u3_level {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     ∀ I : Subgroup (ReeTag.F4.reeGamma K 1),
       GLAPComponent 3 (fixSubgroup (MulAut.conj y)) I → kLevel 3 (PSimple 3 I) ≤ 2 := by
   classical
-  haveI : Finite (ReeTag.F4.reeGamma K 1) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ReeTag.F4.reeGamma K 1) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU 1 K hK y hy
   have hF : Nat.card (GaloisField 2 (2 * (2 * 1 + 1))) = (2 ^ (2 * 1 + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by norm_num)]
     norm_num
-  haveI : Fintype (GaloisField 2 (2 * (2 * 1 + 1))) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * (2 * 1 + 1))) := Fintype.ofFinite _
   have hq := CFSG.RankThree.PartTwo.Sec8.Item87Proof.isQuasisimple_statedSU_three
     (F := GaloisField 2 (2 * (2 * 1 + 1))) (f := 2 * 1 + 1) hF (by norm_num)
   let H := StatedSU 3 (2 ^ (2 * 1 + 1)) (GaloisField 2 (2 * (2 * 1 + 1)))
   have hqO : CFSG.Open.IsQuasisimple ↥H :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple hq.1
-  haveI hPerf : Group.IsPerfect ↥H := ⟨hqO.1⟩
-  haveI hSimpProj : IsSimpleGroup (StatedProj H) :=
+  have hPerf : Group.IsPerfect ↥H := ⟨hqO.1⟩
+  have hSimpProj : IsSimpleGroup (StatedProj H) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU
       (GaloisField 2 (2 * (2 * 1 + 1))) 2 3 hF 3 (by norm_num) (by norm_num)
   have hZ := CFSG.LieType.Universal.Spin.center_eq_statedScalars_subgroupOf (H := H)
@@ -62,7 +62,7 @@ theorem rf4_u3_level {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     QuotientGroup.congr _ _ E (Subgroup.map_center_eq E)
   let eZ : (↥H ⧸ Subgroup.center ↥H) ≃* StatedProj H := QuotientGroup.quotientMulEquivOfEq hZ
   have hv := rf4_twistedA_valid
-  haveI hfact : Fact (Nat.Prime (TauCeti.ValidLieTypeIndex.characteristic
+  have hfact : Fact (Nat.Prime (TauCeti.ValidLieTypeIndex.characteristic
       ⟨TauCeti.LieTypeIndex.twistedA 2 rf4Q8, hv⟩)) :=
     ⟨by simpa [TauCeti.ValidLieTypeIndex.characteristic, rf4Q8] using Nat.prime_two⟩
   obtain ⟨eU⟩ := rf4_u3_stated_iso (c := TauCeti.ValidLieTypeIndex.characteristic
@@ -86,10 +86,10 @@ theorem rf4_u3_level {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
 theorem rf4_downLe_three (K : Type) [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     (hK : Nat.card K = 2 ^ (2 * 1 + 1)) (hk : kLevel 3 (ReeTag.F4.reeGamma K 1) ≤ 2) :
     DownLe 3 2 (ReeTag.F4.reeGamma K 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsimp : IsSimpleGroup (ReeTag.F4.reeGamma K 1) :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 le_rfl hK
-  haveI : Finite (ReeTag.F4.reeGamma K 1) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K 1) := Subtype.finite
   have hΓ := (CFSG.RankThree.LargeReeOrder.large_Ree_exact_native_order_and_prime_factor_exhaustion
     1 K hK).1
   have hdvd : 3 ∣ Nat.card (ReeTag.F4.reeGamma K 1) := by

@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {t : OGroup Q}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem q8_map_le_twoCoreIn {g : SL2F3 →* OGroup Q} {K : Subgroup (OGroup Q)}
     (hNK : q8SL.map g ≤ K) (hKg : ∀ k ∈ K, ∃ C : SL2F3, g C = k) :
     q8SL.map g ≤ twoCoreIn K := by

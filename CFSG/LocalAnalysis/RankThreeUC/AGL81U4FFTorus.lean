@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem eq_of_normal_closure {L Θ N : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L) (hΘL : Θ ≤ L)
     (hΘ : Θ ≠ ⊥) (hNL : N ≤ L) (hN : ∀ l ∈ L, ∀ x ∈ N, l * x * l⁻¹ ∈ N) (hΘN : Θ ≤ N) :
     N = L := by
@@ -22,7 +23,7 @@ theorem eq_of_normal_closure {L Θ N : Subgroup (MulAut V)} (hs : IsSimpleGroup 
   have hnorm : N'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hN g g.2 n hn⟩
-  haveI := hnorm
+  have := hnorm
   rcases hs.eq_bot_or_eq_top_of_normal N' with h | h
   · exfalso
     apply hΘ
@@ -37,6 +38,7 @@ theorem eq_of_normal_closure {L Θ N : Subgroup (MulAut V)} (hs : IsSimpleGroup 
     have : (⟨x, hx⟩ : ↥L) ∈ N' := by rw [h]; exact Subgroup.mem_top _
     exact this
 
+omit [Finite V] in
 theorem commV_le_of_commSub_le {L Θ : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L)
     (hna : ∃ a b : ↥L, a * b ≠ b * a) (hΘL : Θ ≤ L) (hΘ : Θ ≠ ⊥) {C : Subgroup V}
     (hCL : ∀ l ∈ L, ∀ x ∈ C, l x ∈ C) (hCΘ : commSub (commV L) Θ ≤ C) : commV L ≤ C := by
@@ -72,7 +74,6 @@ theorem commV_le_of_commSub_le {L Θ : Subgroup (MulAut V)} (hs : IsSimpleGroup 
     have e : (l * x * l⁻¹) u * u⁻¹ = l (x (l⁻¹ u) * (l⁻¹ u)⁻¹) := by
       apply cg_eq_of_add
       simp only [MulAut.mul_apply, map_mul, map_inv, ofMul_mul, ofMul_inv, MulAut.apply_inv_self]
-      try abel
     rw [e]
     exact hCL l hl _ (hx _ hu')
   have hΘN : Θ ≤ N := fun θ hθ =>
@@ -84,6 +85,7 @@ theorem commV_le_of_commSub_le {L Θ : Subgroup (MulAut V)} (hs : IsSimpleGroup 
   have hgN : g ∈ N := hNeq ▸ hg
   exact hgN.2 u hu
 
+omit [Finite V] in
 theorem forall_of_trans {L Θ : Subgroup (MulAut V)} {c : ℕ} {Θi : Fin c → Subgroup (MulAut V)}
     {w θ₀ : MulAut V} {π : Equiv.Perm (Fin c)} (hT : IsTorusData L c Θ Θi w θ₀ π)
     {P : Fin c → Prop} (i₀ : Fin c) (h₀ : P i₀) (hstep : ∀ i, P i → P (π i)) : ∀ i, P i := by
@@ -97,6 +99,7 @@ theorem forall_of_trans {L Θ : Subgroup (MulAut V)} {c : ℕ} {Θi : Fin c → 
     rw [pow_succ', Equiv.Perm.mul_apply]
     exact hstep _ ih
 
+omit [Finite V] in
 theorem iSup_univ_eq {c : ℕ} (f : Fin c → Subgroup V) :
     (⨆ i ∈ (Finset.univ : Finset (Fin c)), f i) = ⨆ i, f i :=
   le_antisymm (iSup₂_le fun i _ => le_iSup f i)

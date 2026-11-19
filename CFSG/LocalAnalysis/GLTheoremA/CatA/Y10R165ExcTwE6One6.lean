@@ -16,6 +16,7 @@ open CFSG.LieType.Chevalley
 
 variable {f p : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem trace_diag3_zeta (h2 : (2 : K) = 0) (ζ : Kˣ) :
     Matrix.trace ((diag3 ζ 1 1 : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       (ζ : K) + ((ζ⁻¹ : Kˣ) : K) := by
@@ -28,6 +29,7 @@ private theorem trace_diag3_zeta (h2 : (2 : K) = 0) (ζ : Kˣ) :
     rw [show (1 : K) + 1 + 1 + 1 = ((4 : ℕ) : K) by norm_num, h]
   linear_combination h4
 
+omit [Finite K] in
 private theorem trace_scalar_mul_diag3 (h2 : (2 : K) = 0) (c ζ : Kˣ) :
     Matrix.trace (((GeneralLinearGroup.scalar (Fin 6) c : GL (Fin 6) K) :
         Matrix (Fin 6) (Fin 6) K) *
@@ -36,6 +38,7 @@ private theorem trace_scalar_mul_diag3 (h2 : (2 : K) = 0) (c ζ : Kˣ) :
   rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, ← Matrix.smul_one_eq_diagonal,
     Matrix.smul_mul, Matrix.one_mul, Matrix.trace_smul, smul_eq_mul, trace_diag3_zeta h2]
 
+omit [Finite K] in
 private theorem add_inv_ne_zero (h2 : (2 : K) = 0) (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Kˣ}
     (hζ : orderOf ζ = p) : (ζ : K) + ((ζ⁻¹ : Kˣ) : K) ≠ 0 := by
   intro h0
@@ -51,6 +54,7 @@ private theorem add_inv_ne_zero (h2 : (2 : K) = 0) (hp : p.Prime) (hp2 : p ≠ 2
   have hpeq : 2 = p := (Nat.Prime.dvd_iff_eq Nat.prime_two hp.ne_one).mp hdvd
   omega
 
+omit [Finite K] in
 private theorem commute_zSU_of_mem_centralizer (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p]
     (hp : p.Prime) (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ)
     {G : ↥(gramSU h (C6 K))}
@@ -58,7 +62,7 @@ private theorem commute_zSU_of_mem_centralizer (h : UnitaryFieldData 2 f K) (p :
       Subgroup.centralizer ({zbar h p ζ hζ hζbar} : Set (primeFormP h (C6 K)))) :
     G * zSU h p ζ hζ hζbar = zSU h p ζ hζ hζbar * G := by
   have h2 : (2 : K) = 0 := by
-    haveI := h.charP
+    have := h.charP
     exact CharP.cast_eq_zero K 2
   set Z : ↥(gramSU h (C6 K)) := zSU h p ζ hζ hζbar with hZdef
   have hZ : (Z : GL (Fin 6) K) = diag3 ζ 1 1 := zSU_eq_diag3 h p hp ζ hζ hζbar
@@ -83,7 +87,7 @@ private theorem commute_zSU_of_mem_centralizer (h : UnitaryFieldData 2 f K) (p :
       _ = GeneralLinearGroup.scalar (Fin 6) c * (Z : GL (Fin 6) K) := by rw [hg]
   have htr := congrArg (fun g : GL (Fin 6) K => Matrix.trace
     ((g : Matrix (Fin 6) (Fin 6) K))) hmat
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val] at htr
+  simp only [Units.val_mul] at htr
   rw [hZ] at htr
   rw [Matrix.trace_units_conj (G : GL (Fin 6) K) ((diag3 ζ 1 1 :
       GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K), trace_diag3_zeta h2 ζ,
@@ -102,7 +106,8 @@ private theorem commute_zSU_of_mem_centralizer (h : UnitaryFieldData 2 f K) (p :
         (G : GL (Fin 6) K) := by group
     _ = (Z : GL (Fin 6) K) * (G : GL (Fin 6) K) := by rw [hmat]
 
-private theorem maps_U2_of_commute_diag3 (h2 : (2 : K) = 0) {G : GL (Fin 6) K} {a : Kˣ}
+omit [Finite K] in
+private theorem maps_U2_of_commute_diag3 (_h2 : (2 : K) = 0) {G : GL (Fin 6) K} {a : Kˣ}
     (ha1 : (a : K) ≠ 1) (hainv1 : ((a⁻¹ : Kˣ) : K) ≠ 1)
     (hG : G * diag3 a 1 1 = diag3 a 1 1 * G) {v : Fin 6 → K} (hv : v ∈ U2 K) :
     toLinLE K G v ∈ U2 K := by
@@ -127,7 +132,7 @@ private theorem maps_U2_of_commute_diag3 (h2 : (2 : K) = 0) {G : GL (Fin 6) K} {
       fin_cases i <;> simp_all
     constructor
     · have h := hentry i 0
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, hi1] at h
+      simp only [Matrix.cons_val_zero, hi1] at h
       have h' : (G : Matrix (Fin 6) (Fin 6) K) i 0 * ((a : K) - 1) = 0 := by
         linear_combination h
       exact (mul_eq_zero.mp h').resolve_right (sub_ne_zero.mpr ha1)
@@ -148,7 +153,7 @@ private theorem maps_U2_of_commute_diag3 (h2 : (2 : K) = 0) {G : GL (Fin 6) K} {
         (G : Matrix (Fin 6) (Fin 6) K) i 0 * x +
           (G : Matrix (Fin 6) (Fin 6) K) i 5 * y := by
       rw [Fin.sum_univ_six]
-      simp [e0, e5, Pi.single, Matrix.cons_val_zero, Matrix.cons_val_one, Fin.sum_univ_six]
+      simp [e0, e5, Pi.single]
     rw [hsum, hc.1, hc.2, zero_mul, zero_mul, add_zero]
   have hsum2 : toLinLE K G (x • e0 K + y • e5 K) =
       (toLinLE K G (x • e0 K + y • e5 K)) 0 • e0 K +
@@ -164,6 +169,7 @@ private theorem maps_U2_of_commute_diag3 (h2 : (2 : K) = 0) {G : GL (Fin 6) K} {
   exact Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
     (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
 
+omit [Finite K] in
 theorem QSU_conj_mem (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ)
     {G : ↥(gramSU h (C6 K))}
@@ -172,7 +178,7 @@ theorem QSU_conj_mem (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.P
     {x : ↥(gramSU h (C6 K))} (hx : x ∈ QSU h) :
     G * x * G⁻¹ ∈ QSU h := by
   have h2 : (2 : K) = 0 := by
-    haveI := h.charP
+    have := h.charP
     exact CharP.cast_eq_zero K 2
   have hcomm : G * zSU h p ζ hζ hζbar = zSU h p ζ hζ hζbar * G :=
     commute_zSU_of_mem_centralizer h p hp hp2 ζ hζ hζbar hG
@@ -209,6 +215,7 @@ theorem QSU_conj_mem (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.P
   rw [← LinearEquiv.mul_apply, mul_inv_cancel]
   rfl
 
+omit [Finite K] in
 theorem Qbar_conj_mem (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ)
     {g x : primeFormP h (C6 K)}

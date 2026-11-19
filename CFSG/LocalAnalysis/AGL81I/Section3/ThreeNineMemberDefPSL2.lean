@@ -120,7 +120,7 @@ theorem not_isBorelDLocal_psl_two {G : Type} [Group G] [Finite G] {p d f : ℕ} 
   rcases borel_overgroup_eq_borel_or_top hborel_le with hmax | htop
   · have hidx : Y''.index = Nat.card F + 1 := by
       rw [hmax]
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       have hcard : Nat.card F = Fintype.card F := Nat.card_eq_fintype_card
       rw [hcard, ← CFSG.GH74.GLS.IVK.L2Borel.normalizer_unipotent_eq h2]
       exact (CFSG.AGLEmbedding.KFactProofs.OneLieSylow.card_psl2_unipotent h2).2

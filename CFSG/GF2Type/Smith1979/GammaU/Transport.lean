@@ -258,7 +258,7 @@ theorem closure_conj {i : ℕ} {h : V12 ≃ₗ[ZMod 2] V12} (hh : NLMem i h)
   have hA : (MulAut.conj h).toMonoidHom '' {l | RowsSet (compOf i) l} =
       {l | RowsSet (compOf i) l} := by
     ext l
-    simp only [Set.mem_image, Set.mem_setOf_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     constructor
     · rintro ⟨l₀, hl₀, rfl⟩
       exact (hh.norm l₀).2 hl₀

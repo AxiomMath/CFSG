@@ -60,12 +60,12 @@ theorem fixed_normalized_invariant_sylow_intersection
     rintro actorElement element ⟨original, member, rfl⟩
     exact Subgroup.mem_map_of_mem subgroup.subtype
       ((invariant_sylow_subgroup_iff groupPrime internalSylow).mp internal_fixed actorElement original member)
-  have embedded_pgroup : IsPGroup groupPrime embedded := internalSylow.isPGroup'.map subgroup.subtype
+  have embedded_pgroup : IsPGroup groupPrime embedded := internalSylow.isPGroup.map subgroup.subtype
   obtain ⟨extendedSylow, extended_contains, extended_fixed⟩ := invariant_sylow_containing prime groupPrime
     prime_prime groupPrime_prime actor_pgroup coprime embedded embedded_pgroup embedded_invariant
   have extended_intersection : (extendedSylow : Subgroup GroupType) ⊓ subgroup = embedded := by
     have internal_pgroup : IsPGroup groupPrime ((extendedSylow : Subgroup GroupType).subgroupOf subgroup) :=
-      (extendedSylow.isPGroup'.to_le
+      (extendedSylow.isPGroup.to_le
         (show (extendedSylow : Subgroup GroupType) ⊓ subgroup ≤ extendedSylow from inf_le_left)).of_equiv
         ((Subgroup.subgroupOfEquivOfLe
           (show (extendedSylow : Subgroup GroupType) ⊓ subgroup ≤ subgroup from inf_le_right)).symm.trans
@@ -100,7 +100,7 @@ theorem fixed_normalized_invariant_sylow_intersection
       Subgroup.subgroupOf_map_subtype, conjugated_eq, conjugate_subgroup_card,
       Subgroup.card_map_of_injective subgroup.subtype_injective]
   have intersection_pgroup : IsPGroup groupPrime ((sylow : Subgroup GroupType).subgroupOf subgroup) :=
-    (sylow.isPGroup'.to_le
+    (sylow.isPGroup.to_le
       (show (sylow : Subgroup GroupType) ⊓ subgroup ≤ sylow from inf_le_left)).of_equiv
       ((Subgroup.subgroupOfEquivOfLe
         (show (sylow : Subgroup GroupType) ⊓ subgroup ≤ subgroup from inf_le_right)).symm.trans

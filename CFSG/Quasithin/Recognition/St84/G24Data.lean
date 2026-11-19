@@ -75,7 +75,7 @@ theorem charTwo_P_right {L1 L2 S : Subgroup G} (hR : Hyp111R L1 L2 S) :
 
 private theorem relIndex_bigB_left [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1)
-    (hD : G24LocalData L1 L2 S) :
+    (_hD : G24LocalData L1 L2 S) :
     (bigB L1 L2 S).relIndex (L1 ⊔ bigB L1 L2 S) = 5 := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hrel : (borelOf L1 S).relIndex L1 = 5 := by
@@ -87,7 +87,7 @@ private theorem relIndex_bigB_left [Finite G]
 
 private theorem relIndex_bigB_right [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h2 : VA5 L2)
-    (hD : G24LocalData L1 L2 S) :
+    (_hD : G24LocalData L1 L2 S) :
     (bigB L1 L2 S).relIndex (L2 ⊔ bigB L1 L2 S) = 5 := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hrel : (borelOf L2 S).relIndex L2 = 5 := by
@@ -175,8 +175,8 @@ private theorem exists_k_of_side [Finite G] {L P B Q : Subgroup G}
     (hBcard : Nat.card B = 2 ^ 12 * 3 ^ 2) (hQB : Q ≤ B) :
     ∃ k ∈ B, orderOf k = 3 ∧ k ∉ L ∧ ∀ x ∈ P, ⁅k, x⁆ ∈ Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQL : Q ≤ L := by rw [hQdef]; exact CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hQP : Q ≤ P := hQL.trans hLP
   have hidx : L.relIndex P = 3 := by
@@ -361,9 +361,9 @@ private theorem exists_k_of_side [Finite G] {L P B Q : Subgroup G}
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQC).toEquiv, hCcard] at hq
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hq.symm
   have hcommCC : ⁅C, C⁆ ≤ Q := by
-    haveI : IsCyclic (C ⧸ Q.subgroupOf C) := isCyclic_of_prime_card hCQcard
-    haveI : IsMulCommutative (C ⧸ Q.subgroupOf C) := IsCyclic.isMulCommutative
-    haveI := hQnC
+    have : IsCyclic (C ⧸ Q.subgroupOf C) := isCyclic_of_prime_card hCQcard
+    have : IsMulCommutative (C ⧸ Q.subgroupOf C) := IsCyclic.isMulCommutative
+    have := hQnC
     have hcomm : _root_.commutator ↥C ≤ Q.subgroupOf C :=
       (Subgroup.Normal.quotient_commutative_iff_commutator_le
         (N := Q.subgroupOf C)).mp inferInstance
@@ -488,7 +488,7 @@ theorem center_vertex_left [Finite G] {L1 L2 S : Subgroup G}
   have h3dvd : 3 ∣ Nat.card (borelOf L2 S) := by
     rw [hBcard2]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   have hxL : (x : G) ∈ L2 := F1.borelOf_le L2 S x.2
   have hxBig : (x : G) ∈ bigB L1 L2 S :=

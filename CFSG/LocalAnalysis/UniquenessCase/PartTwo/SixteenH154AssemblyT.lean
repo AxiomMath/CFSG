@@ -47,7 +47,7 @@ private theorem s16h_isComponentOf_map_mulEquiv_apply {A B : Type} [Group A] [Gr
 theorem s16h_hyp154_of_tensor (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
     (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L < gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)
@@ -70,7 +70,7 @@ theorem s16h_hyp154_of_tensor (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig
     Hyp154 D V₀ V L := by
   have hV := h.hyp151.isElemAbelian
   set Kb : Subgroup (MulAut (Vtil V₀ V hV)) := K.map (MulAut.conj g).toMonoidHom with hKbdef
-  haveI : Finite (MulAut (Vtil V₀ V hV)) :=
+  have : Finite (MulAut (Vtil V₀ V hV)) :=
     Finite.of_injective (fun e : MulAut (Vtil V₀ V hV) => (e : Vtil V₀ V hV → Vtil V₀ V hV))
       fun _ _ h => MulEquiv.ext (congrFun h)
   have h3K : 3 ∣ Nat.card ↥K := by
@@ -88,8 +88,8 @@ theorem s16h_hyp154_of_tensor (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h3
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h2
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h2
-  haveI := hKs
-  haveI hKbs : IsSimpleGroup ↥Kb := by
+  have := hKs
+  have hKbs : IsSimpleGroup ↥Kb := by
     rw [hKbdef]
     exact (K.equivMapOfInjective (MulAut.conj g).toMonoidHom
       (MulAut.conj g).injective).symm.isSimpleGroup

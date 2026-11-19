@@ -31,7 +31,7 @@ theorem omegaOneOf_sylow_eq_center (h : UnitaryFieldData 2 m K)
     rw [hZ, isotropicTransvectionGroup]
     refine (Subgroup.closure_le _).mpr ?_
     rintro g ⟨a, haL, c, hc, hg⟩
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     have hTR : isotropicTransvectionGroup h 3 L ≤ (R : Subgroup ↥(unitarySU 2 m K 3)) := by
       rw [← hZ]
       exact Subgroup.map_subtype_le _
@@ -57,8 +57,8 @@ theorem exists_sylow_omegaOneOf_eq_isotropicTransvectionGroup
     ∃ R : Sylow 2 ↥(unitarySU 2 m K 3),
       omegaOneOf (R : Subgroup ↥(unitarySU 2 m K 3)) =
         isotropicTransvectionGroup h 3 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := h.finite
   obtain ⟨R₀⟩ := Sylow.nonempty (p := 2) (G := ↥(unitarySU 2 m K 3))
   obtain ⟨L₀, hL₀, hZ₀, -⟩ := model3_unitary_center_eq_point h R₀
   obtain ⟨g, hg⟩ := model3U4_trans h ⟨L₀, hL₀⟩ ⟨L, hL⟩
@@ -73,13 +73,13 @@ theorem exists_sylow_omegaOneOf_eq_isotropicTransvectionGroup
     have h2 := congrArg Subtype.val hg
     rwa [SubMulAction.val_smul] at h2
   rw [Sylow.coe_mapSurjective (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).surjective R₀,
-    ← omegaOneOf_map_of_odd_ker (MulAut.conj g).toMonoidHom hodd R₀.isPGroup',
+    ← omegaOneOf_map_of_odd_ker (MulAut.conj g).toMonoidHom hodd R₀.isPGroup,
     omegaOneOf_sylow_eq_center h R₀, hZ₀, (unitary_point_conjugation h g hL₀).2.1, hg']
 
 theorem eq_of_isotropicTransvectionGroup_eq {L L' : Submodule K (Fin 3 → K)}
     (hL : L ∈ isotropicLines h 3) (hL' : L' ∈ isotropicLines h 3)
     (hTL : isotropicTransvectionGroup h 3 L = isotropicTransvectionGroup h 3 L') : L = L' := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨a, ha0, ha, hLa⟩ := exists_eq_span_of_mem_isotropicLines hL
   obtain ⟨a', ha'0, ha', hL'a'⟩ := exists_eq_span_of_mem_isotropicLines hL'
   have h1mem : (1 : K) ∈ h.traceZero := by
@@ -143,12 +143,12 @@ private theorem map_hypBorel_eq_pointStabilizer
 private theorem eq_hypUnitriangular_of_isPGroup_le_hypBorel
     {Q : Subgroup (hypSU h 1 1)} (hQ : IsPGroup 2 Q) (hQB : Q ≤ hypBorel h 1 1)
     (hQcard : Nat.card Q = (2 ^ m) ^ 3) : Q = hypUnitriangular h 1 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := h.finite
   have hU2 : IsPGroup 2 (hypUnitriangular h 1 1) := by
     obtain ⟨-, ⟨P, hP⟩, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hU2B : IsPGroup 2 ((hypUnitriangular h 1 1).subgroupOf (hypBorel h 1 1)) :=
     hU2.comap_subtype
   have hUnorm : ((hypUnitriangular h 1 1).subgroupOf (hypBorel h 1 1)).Normal :=
@@ -169,7 +169,7 @@ private theorem eq_hypUnitriangular_of_isPGroup_le_hypBorel
   have hU₁coe : (U₁ : Subgroup ↥(hypBorel h 1 1)) =
       (hypUnitriangular h 1 1).subgroupOf (hypBorel h 1 1) :=
     IsPGroup.toSylow_coe hU2B (Odd.not_two_dvd_nat hodd)
-  letI : Unique (Sylow 2 ↥(hypBorel h 1 1)) :=
+  let : Unique (Sylow 2 ↥(hypBorel h 1 1)) :=
     Sylow.unique_of_normal U₁ (by rw [hU₁coe]; exact hUnorm)
   have hQ2 : IsPGroup 2 (Q.subgroupOf (hypBorel h 1 1)) := hQ.comap_subtype
   obtain ⟨Q', hQ'⟩ := hQ2.exists_le_sylow
@@ -197,7 +197,7 @@ private theorem eq_of_isPGroup_le_map_hypBorel {L : Submodule K (Fin 3 → K)}
     (hSle : S ≤ MulAction.stabilizer ↥(unitarySU 2 m K 3) L)
     (hS'le : S' ≤ MulAction.stabilizer ↥(unitarySU 2 m K 3) L)
     (hScard : Nat.card S = (2 ^ m) ^ 3) (hS'card : Nat.card S' = (2 ^ m) ^ 3) : S = S' := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hS0 : S.map e.symm.toMonoidHom ≤ hypBorel h 1 1 := by
     intro x hx
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
@@ -262,7 +262,7 @@ theorem eq_of_sylow_le_pointStabilizer {L : Submodule K (Fin 3 → K)}
     (hS' : (S' : Subgroup ↥(unitarySU 2 m K 3)) ≤
       MulAction.stabilizer ↥(unitarySU 2 m K 3) L) : S = S' := by
   apply Sylow.ext
-  exact eq_of_isPGroup_le_pointStabilizer hL S.isPGroup' S'.isPGroup' hS hS'
+  exact eq_of_isPGroup_le_pointStabilizer hL S.isPGroup S'.isPGroup hS hS'
     (model3U4_card_sylow h S) (model3U4_card_sylow h S')
 
 theorem eq_of_omegaOneOf_sylow_eq (h : UnitaryFieldData 2 m K)
@@ -290,9 +290,9 @@ theorem exists_isotropic_sup_eq_top {L₁ L₂ : Submodule K (Fin 3 → K)}
     (h₁ : L₁ ∈ isotropicLines h 3) (h₂ : L₂ ∈ isotropicLines h 3) (hne : L₁ ≠ L₂) :
     ∃ L₃ ∈ isotropicLines h 3, L₁ ⊔ L₂ ⊔ L₃ = ⊤ := by
   classical
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   have hcard : Nat.card (Units.map h.normHom).ker = 2 ^ m + 1 :=
     h.card_ker_normUnits_and_surjective.1

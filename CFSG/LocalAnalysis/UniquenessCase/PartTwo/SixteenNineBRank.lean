@@ -39,10 +39,10 @@ theorem s16n9b_exists_index_fixV {W : Type*} [CommGroup W] [Finite W]
     {A : Subgroup (MulAut W)} (hA : IsElemAbelian p A) (hne : A ≠ ⊥) :
     ∃ Q : Subgroup (MulAut W), Q ≤ A ∧ Q.relIndex A = p ∧ p + 1 ≤ 2 ^ rk ↥(fixV Q) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p A := hA.isElementaryAbelian
-  haveI : IsMulCommutative A := hA.1
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).mpr hne
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p A := hA.isElementaryAbelian
+  have : IsMulCommutative A := hA.1
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).mpr hne
   have hcop : ¬ p ∣ Nat.card W := by
     rw [card_eq_two_pow_of_isPGroup (isPGroup_two_of_sq_eq_one hW)]
     intro hdvd
@@ -97,7 +97,7 @@ theorem s16n9b_exists_index_fixV {W : Type*} [CommGroup W] [Finite W]
     lt_of_le_of_ne hFA (fun heq => hXnotle (le_of_eq heq.symm))
   have hcardlt : Nat.card ↥(fixV A) < Nat.card ↥(fixV (B.map A.subtype)) :=
     Subgroup.card_lt_of_lt hlt
-  haveI hInv : CFSG.IsInvariant A W (fixV (B.map A.subtype)) := by
+  have hInv : CFSG.IsInvariant A W (fixV (B.map A.subtype)) := by
     have hQA : B.map A.subtype ≤ A := Subgroup.map_subtype_le B
     have step : ∀ (b : A) (x : W),
         x ∈ fixV (B.map A.subtype) → b • x ∈ fixV (B.map A.subtype) := by
@@ -158,7 +158,7 @@ theorem s16n9b_exists_noncyclic_fix (D : Data G) (hSg : UC6S846.SigmaStd D)
       D.k < rk ↥(fixV (barSub V₀ V h.isElemAbelian B)) := by
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hV := h.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀

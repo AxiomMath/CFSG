@@ -58,7 +58,7 @@ private theorem test_slBlock₃_permSL_last :
   have hsw : Equiv.swap (Fin.castLEEmb (by omega : 9 ≤ 12) ((⟨7, by norm_num⟩ : Fin 8).castSucc))
       (Fin.castLEEmb (by omega : 9 ≤ 12) ((⟨7, by norm_num⟩ : Fin 8).succ)) =
       Equiv.swap (⟨7, by norm_num⟩ : Fin 11).castSucc (⟨7, by norm_num⟩ : Fin 11).succ := by
-    congr 1 <;> exact Fin.ext rfl
+    congr 1
   rw [hsw, test_permSL_swap_adj 11 ⟨7, by norm_num⟩]
   congr 1
 
@@ -86,7 +86,7 @@ private theorem a11pGen_mem_zero {i j : Fin 9} (hij : i ≠ j) :
     SpecialLinearGroup.transvection hij (0 : F2) ∈ a11pGen := by
   have hzero : SpecialLinearGroup.transvection hij (0 : F2) = 1 := by
     apply Subtype.ext
-    simp [SpecialLinearGroup.transvection_coe, Matrix.transvection]
+    simp
   rw [hzero]
   exact one_mem _
 
@@ -262,7 +262,7 @@ private theorem test_transvection_ne_one {i j : Fin 9} (hij : i ≠ j) :
   intro h
   have hc := congrArg (fun g : SL 9 => (g : Matrix (Fin 9) (Fin 9) F2) i j) h
   rw [SpecialLinearGroup.transvection_coe] at hc
-  simp [Matrix.transvection] at hc
+  simp at hc
 
 private theorem test_hnt {G : Type} [Group G] (φ₃ : SL 9 →* G) (hφ : Function.Injective φ₃) :
     ∃ γ ∈ ggSupp (rootDatum 11 F2) (typeALeviJ 11 8),
@@ -298,13 +298,13 @@ private theorem test_fix_of {w : (coxeterMatrix (isFiniteType_A 11)).Group}
     · intro h
       by_cases hx : x = a
       · exact hx
-      · rw [if_neg hx] at h
+      · rw [ite_eq_right hx] at h
         by_cases hb : x = b
-        · rw [if_pos hb] at h; norm_num at h
-        · rw [if_neg hb] at h; norm_num at h
+        · rw [ite_eq_left hb] at h; norm_num at h
+        · rw [ite_eq_right hb] at h; norm_num at h
     · intro hx
       subst hx
-      rw [if_pos rfl, if_neg hab]
+      rw [ite_eq_left rfl, ite_eq_right hab]
       norm_num
   have eval_neg : ∀ x, toStd 11 γ x = -1 ↔ x = b := by
     intro x
@@ -314,13 +314,13 @@ private theorem test_fix_of {w : (coxeterMatrix (isFiniteType_A 11)).Group}
     · intro h
       by_cases hx : x = b
       · exact hx
-      · rw [if_neg hx] at h
+      · rw [ite_eq_right hx] at h
         by_cases ha : x = a
-        · rw [if_pos ha] at h; norm_num at h
-        · rw [if_neg ha] at h; norm_num at h
+        · rw [ite_eq_left ha] at h; norm_num at h
+        · rw [ite_eq_right ha] at h; norm_num at h
     · intro hx
       subst hx
-      rw [if_neg (Ne.symm hab), if_pos rfl]
+      rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl]
       norm_num
   constructor
   · exact (eval_one (π a)).mp (by
@@ -367,14 +367,14 @@ private theorem test_hcent {G : Type} [Group G] (φ₃ : SL 9 →* G)
         (show (⟨a.val, by omega⟩ : Fin 9) ≠ ⟨b.val, by omega⟩ from
           fun h => hab (Fin.ext (by simpa using congrArg Fin.val h))) (0 : F2) = 1 := by
       apply Subtype.ext
-      simp [SpecialLinearGroup.transvection_coe, Matrix.transvection]
+      simp
     rw [hzero, map_one]
     group
   · rw [h1]
     have htv : SpecialLinearGroup.transvection
         (show (⟨a.val, by omega⟩ : Fin 9) ≠ ⟨b.val, by omega⟩ from
           fun h => hab (Fin.ext (by simpa using congrArg Fin.val h))) (1 : F2) = tv9 a b := by
-      rw [tv9, dif_pos ⟨by omega, by omega, hab⟩]
+      rw [tv9, dite_eq_left ⟨by omega, by omega, hab⟩]
     rw [htv, mul_inv_eq_iff_eq_mul]
     exact hstab a b ha hb hab ((typeAWeylEquiv 11).symm w) hπa hπb
 
@@ -473,8 +473,7 @@ theorem a11PresentInput_holds :
     induction hs using Subgroup.closure_induction with
     | mem u hu =>
         rcases hu with ⟨t, rfl⟩ | rfl
-        · change ψ (slBlockHom₃ 8 F2 (slBlockHom 7 F2 t)) = φ₃ (slBlockHom 7 F2 t)
-          rw [show slBlockHom₃ 8 F2 (slBlockHom 7 F2 t) = slBlock84 t from rfl,
+        · rw [show slBlockHom₃ 8 F2 (slBlockHom 7 F2 t) = slBlock84 t from rfl,
             hext ⟨slBlock84 t, slBlock84_mem t⟩]
           change (typeALeviHom4 (φ₃.comp (slBlockHom 7 F2)))
             ⟨slBlock84 t, slBlock84_mem t⟩ = φ₃ (slBlockHom 7 F2 t)

@@ -23,7 +23,7 @@ theorem center_eq_bot_of_isSimpleGroup_of_not_prime_card {G : Type*} [Group G] [
 
 theorem center_eq_bot_of_mulEquiv_of_not_prime_card {N S : Type*} [Group N] [Group S]
     [IsSimpleGroup S] (e : N ≃* S) (h : ¬ (Nat.card S).Prime) : center N = ⊥ := by
-  haveI : IsSimpleGroup N := e.isSimpleGroup
+  have : IsSimpleGroup N := e.isSimpleGroup
   exact center_eq_bot_of_isSimpleGroup_of_not_prime_card (by
     rw [Nat.card_congr e.toEquiv]
     exact h)
@@ -31,7 +31,7 @@ theorem center_eq_bot_of_mulEquiv_of_not_prime_card {N S : Type*} [Group N] [Gro
 theorem center_eq_bot_of_lieModel {N : Type} [Group N] {t : CFSG.Open.StatedLieTag} {n p f : ℕ}
     (ht : t ∈ classicalTags) (hn : n ≠ 0) (h : LieModel N t n p f)
     (hp : ¬ (CFSG.EvenSmallLie.CatalogOrders.lieOrd t n (p ^ f)).Prime) : center N = ⊥ := by
-  haveI : IsSimpleGroup N := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags ht h
+  have : IsSimpleGroup N := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags ht h
   exact center_eq_bot_of_isSimpleGroup_of_not_prime_card (by
     rw [CFSG.Blueprint.LieModel.card_eq_lieOrd hn h]
     exact hp)
@@ -76,7 +76,7 @@ theorem center_eq_bot_of_isSporadic {N : Type} [Group N] {s : TauCeti.SporadicNa
     (hsimple : IsSimpleGroup (Carrier s)) (hcard : ¬ (Nat.card (Carrier s)).Prime)
     (h : IsSporadic N s) : center N = ⊥ := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (Carrier s) := hsimple
+  have : IsSimpleGroup (Carrier s) := hsimple
   exact center_eq_bot_of_mulEquiv_of_not_prime_card e hcard
 
 theorem center_eq_bot_of_isSporadic_m22 {N : Type} [Group N]

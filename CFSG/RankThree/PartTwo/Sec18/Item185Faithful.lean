@@ -24,11 +24,13 @@ variable {G : Type} [Group G] [Finite G]
 private def ActsTrivially (K : Subgroup G) (x : G) : Prop :=
   ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K
 
+omit [Finite G] in
 private theorem actsTrivially_iff_quotAct {K : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (K : Set G)) :
     ActsTrivially K x ↔ Sec19.SimsC198.quotAct K ⟨x, hx⟩ = 1 :=
   (Sec19.SimsC198.quotAct_eq_one_iff K ⟨x, hx⟩).symm
 
+omit [Finite G] in
 private theorem actsTrivially_mul {K : Subgroup G} {x y : G}
     (hx : x ∈ Subgroup.normalizer (K : Set G)) (hy : y ∈ Subgroup.normalizer (K : Set G))
     (h1 : ActsTrivially K x) (h2 : ActsTrivially K y) : ActsTrivially K (x * y) := by
@@ -38,6 +40,7 @@ private theorem actsTrivially_mul {K : Subgroup G} {x y : G}
   rw [e, map_mul, (actsTrivially_iff_quotAct hx).mp h1, (actsTrivially_iff_quotAct hy).mp h2,
     mul_one]
 
+omit [Finite G] in
 private theorem actsTrivially_inv {K : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (K : Set G)) (h : ActsTrivially K x) :
     ActsTrivially K x⁻¹ := by
@@ -46,6 +49,7 @@ private theorem actsTrivially_inv {K : Subgroup G} {x : G}
   have e : (⟨x⁻¹, hxi⟩ : Subgroup.normalizer (K : Set G)) = (⟨x, hx⟩)⁻¹ := rfl
   rw [e, map_inv, (actsTrivially_iff_quotAct hx).mp h, inv_one]
 
+omit [Finite G] in
 private theorem actsTrivially_conj {K : Subgroup G} {w x : G}
     (hw : w ∈ Subgroup.normalizer (K : Set G)) (hx : x ∈ Subgroup.normalizer (K : Set G))
     (h : ActsTrivially K x) : ActsTrivially K (w * x * w⁻¹) := by
@@ -60,6 +64,7 @@ private theorem actsTrivially_conj {K : Subgroup G} {w x : G}
 private abbrev oSub (K : Subgroup G) : Subgroup (Subgroup.normalizer (K : Set G)) :=
   (CFSG.Open.pCoreOf 2 K).subgroupOf (Subgroup.normalizer (K : Set G))
 
+omit [Finite G] in
 private theorem oSub_normal (K : Subgroup G) : (oSub K).Normal := by
   have hOKN : CFSG.Open.pCoreOf 2 K ≤ Subgroup.normalizer (K : Set G) :=
     (CFSG.LieType.BorelTits.pCoreOf_le 2 K).trans Subgroup.le_normalizer
@@ -68,21 +73,24 @@ private theorem oSub_normal (K : Subgroup G) : (oSub K).Normal := by
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hOKN).mpr hON
 
+omit [Finite G] in
 private theorem actImage_mono {K D D' : Subgroup G} (h : D ≤ D') :
     Sec19.SimsC198.actImage K D ≤ Sec19.SimsC198.actImage K D' := by
   intro φ hφ
   obtain ⟨d, hd, hdD, rfl⟩ := Sec19.SimsC198.mem_actImage hφ
   exact Subgroup.mem_map.mpr ⟨⟨d, hd⟩, Subgroup.mem_subgroupOf.mpr (h hdD), rfl⟩
 
+omit [Finite G] in
 private theorem le_of_isSylowOf_sub {p : ℕ} {P K : Subgroup G} (h : IsSylowOf p P K) :
     P ≤ K := by
   obtain ⟨Q, rfl⟩ := h
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem isPGroup_of_isSylowOf_top {p : ℕ} {P : Subgroup G} (h : IsSylowOf p P ⊤) :
     IsPGroup p P := by
   obtain ⟨Q, rfl⟩ := h
-  exact Q.isPGroup'.map (⊤ : Subgroup G).subtype
+  exact Q.isPGroup.map (⊤ : Subgroup G).subtype
 
 private theorem isSylowOf_map_hom_185 {X Y : Type} [Group X] [Group Y] [Finite X] {p : ℕ}
     [Fact p.Prime] {P K : Subgroup X} (h : IsSylowOf p P K) (f : X →* Y) :
@@ -112,7 +120,7 @@ private theorem exists_central_triv {K P : Subgroup G} (hP : IsPGroup 3 P)
     ∃ z : G, z ∈ P ∧ z ≠ 1 ∧ ActsTrivially K z ∧ orderOf z = 3 ∧
       ∀ g ∈ P, g * z = z * g := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent P := IsPGroup.isNilpotent hP
+  have : Group.IsNilpotent P := IsPGroup.isNilpotent hP
   let φ : P →* MulAut (K ⧸ CFSG.pCore 2 K) :=
     (Sec19.SimsC198.quotAct K).comp (Subgroup.inclusion hPK)
   have hxker : (⟨x, hxP⟩ : P) ∈ φ.ker := by
@@ -172,9 +180,9 @@ private theorem mem_of_central_order_three {A M : Subgroup G} (h : Sec18Std G A 
     · rw [Set.mem_singleton_iff.mp hx]
       exact hcomm y hy
     · rw [Set.mem_singleton_iff.mp hx, Set.mem_singleton_iff.mp hy]
-  haveI : IsMulCommutative (Subgroup.closure ((A : Set G) ∪ {z})) :=
+  have : IsMulCommutative (Subgroup.closure ((A : Set G) ∪ {z})) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
-  letI : CommGroup (Subgroup.closure ((A : Set G) ∪ {z})) := IsMulCommutative.instCommGroup
+  let : CommGroup (Subgroup.closure ((A : Set G) ∪ {z})) := IsMulCommutative.instCommGroup
   have hEc : ∀ x ∈ Subgroup.closure ((A : Set G) ∪ {z}),
       ∀ y ∈ Subgroup.closure ((A : Set G) ∪ {z}), x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm (⟨x, hx⟩ : Subgroup.closure ((A : Set G) ∪ {z}))
@@ -208,6 +216,7 @@ private theorem mem_of_central_order_three {A M : Subgroup G} (h : Sec18Std G A 
   rw [hAeq]
   exact Subgroup.subset_closure (Set.mem_union_right _ (Set.mem_singleton z))
 
+omit [Finite G] in
 private theorem exists_pow_mul_of_sup {A B : Subgroup G} {c : G}
     (hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hcA : c ∈ A) (hBA : B ≤ A)
     (hsup : A = Subgroup.zpowers c ⊔ B) (hc3 : orderOf c = 3) {z : G} (hzA : z ∈ A)
@@ -259,8 +268,8 @@ private theorem exists_centralizer_of_triv {K : Subgroup G} {c : G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) (hc3 : orderOf c = 3)
     (hcT : ActsTrivially K c) {k : G} (hk : k ∈ K) :
     ∃ e ∈ K, e * c = c * e ∧ e⁻¹ * k ∈ CFSG.Open.pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKN : K ≤ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer
   have hON : Subgroup.normalizer (K : Set G) ≤
       Subgroup.normalizer (CFSG.Open.pCoreOf 2 K : Set G) :=
@@ -268,7 +277,7 @@ private theorem exists_centralizer_of_triv {K : Subgroup G} {c : G}
   have hOp : IsPGroup 2 (CFSG.Open.pCoreOf 2 K) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K
   have hOK : CFSG.Open.pCoreOf 2 K ≤ K := CFSG.LieType.BorelTits.pCoreOf_le 2 K
-  haveI := oSub_normal K
+  have := oSub_normal K
   have hOp' : IsPGroup 2 (oSub K) := hOp.comap_subtype
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hOp'
   have hker : ¬ 3 ∣ Nat.card (QuotientGroup.mk' (oSub K)).ker := by
@@ -322,19 +331,19 @@ private theorem exists_centralizer_of_triv {K : Subgroup G} {c : G}
 
 private theorem oTwoP_three_le_center {X : Type} [Group X] [Finite X]
     (hq : CFSG.IsQuasisimple X) : Sec4.oTwoP 3 X ≤ Subgroup.center X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect X := hq.1
-  haveI := Sec4.oTwoP_normal 3 X
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect X := hq.1
+  have := Sec4.oTwoP_normal 3 X
   have hq' : CFSG.Open.IsQuasisimple X := ⟨Group.IsPerfect.commutator_eq_top, hq.2.1⟩
   have hnt : Nontrivial X := by
     obtain ⟨a, b, hab⟩ := hq.2.2
-    haveI : Nontrivial (X ⧸ Subgroup.center X) := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
+    have : Nontrivial (X ⧸ Subgroup.center X) := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
     exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hq'
       (Sec4.oTwoP 3 X) with h | h
   · exact h
   · exfalso
-    haveI : Group.IsSolvable (Sec4.oTwoP 3 X) := Sec4.isSolvable_oTwoP 3
+    have : Group.IsSolvable (Sec4.oTwoP 3 X) := Sec4.isSolvable_oTwoP 3
     have hXs : Group.IsSolvable X :=
       Group.isSolvable_of_surjective (f := (Sec4.oTwoP 3 X).subtype)
         (fun x => ⟨⟨x, by rw [h]; exact Subgroup.mem_top x⟩, rfl⟩)
@@ -351,8 +360,8 @@ private theorem false_of_triv_c {A M H : Subgroup G} {c : G} {P : Subgroup G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) (hc3 : orderOf c = 3)
     (hcT : ActsTrivially K c)
     (hfB : ∀ b ∈ A ⊓ inSubgroup perfectResidual H, ActsTrivially K b → b = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcA : c ∈ A := hC.planeQ8.mem
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hC.planeQ8.isElemAbelian.1.is_comm.comm (⟨x, hx⟩ : A) ⟨y, hy⟩)
@@ -426,8 +435,9 @@ private theorem false_of_triv_c {A M H : Subgroup G} {c : G} {P : Subgroup G}
   rw [hb0_one]
   simp
 
+omit [Finite G] in
 private theorem eq_one_of_centralized {A B K' : Subgroup G} {c : G}
-    (hBA : B ≤ A) (hsup : A = Subgroup.zpowers c ⊔ B)
+    (_hBA : B ≤ A) (hsup : A = Subgroup.zpowers c ⊔ B)
     (hK'c : ∀ k ∈ K', k * c = c * k)
     (hirr : Sec21.IsIrreducibleOn (Sec4.autIn K' B))
     (hquat : ∃ f : QuaternionGroup 2 →* Sec4.autIn K' A, Function.Injective f)
@@ -498,7 +508,7 @@ theorem faithful_P {A M H : Subgroup G} {c : G} {P : Subgroup G}
     ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1 := by
   intro x hxP hxT
   by_contra hx1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd : Sec18Std G A M := hC.toSec18H.toSec18Std
   have hP3 : IsPGroup 3 P := isPGroup_of_isSylowOf_top hC.sylow_G
   have hPW : P ≤ Subgroup.normalizer (A : Set G) := le_of_isSylowOf_sub hC.sylow_W
@@ -523,7 +533,7 @@ theorem faithful_P {A M H : Subgroup G} {c : G} {P : Subgroup G}
   have hzN : z ∈ Subgroup.normalizer (K : Set G) := hPK hzP
   have hAp3 : IsPGroup 3 A := Sec5.isPGroup_of_isElemAbelian hA.1
   have hAP : A ≤ P := by
-    haveI : (A.subgroupOf (Subgroup.normalizer (A : Set G))).Normal :=
+    have : (A.subgroupOf (Subgroup.normalizer (A : Set G))).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).mpr le_rfl
     exact SylowTop.le_of_isSylowOf Subgroup.le_normalizer hAp3 hC.sylow_W
   have hcomm : ∀ a ∈ A, z * a = a * z := fun a ha => (hzc a (hAP ha)).symm
@@ -599,12 +609,12 @@ theorem faithful_P {A M H : Subgroup G} {c : G} {P : Subgroup G}
   exact false_of_triv_c hC hK hBK hnc hΩ hcN hc3 hcT hfB
 
 theorem mem_of_inducesInner {A M H : Subgroup G} {c : G} {P : Subgroup G}
-    (hC : Ctx G A M H c P) {K : Subgroup G} (hK : K ∈ oTwoComponentsIn M)
+    (hC : Ctx G A M H c P) {K : Subgroup G} (_hK : K ∈ oTwoComponentsIn M)
     (hPK : P ≤ Subgroup.normalizer (K : Set G))
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1) :
     ∀ x ∈ P, InducesInnerMod x K (CFSG.Open.pCoreOf 2 K) → x ∈ K := by
   intro x hxP hind
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hxN, k, hk, hkx⟩ := hind
   have hkN : k ∈ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer hk
   have hON : Subgroup.normalizer (K : Set G) ≤
@@ -636,7 +646,7 @@ theorem mem_of_inducesInner {A M H : Subgroup G} {c : G} {P : Subgroup G}
   have hsylPK : IsSylowOf 3 P (P ⊔ K) := hC.sylow_G.of_le le_sup_left le_top
   have hsylI : IsSylowOf 3 (P ⊓ K) K :=
     hsylPK.inf_of_le_normalizer le_sup_right (sup_le hPK Subgroup.le_normalizer)
-  haveI : Finite (MulAut (K ⧸ CFSG.pCore 2 K)) :=
+  have : Finite (MulAut (K ⧸ CFSG.pCore 2 K)) :=
     Finite.of_injective
       (fun σ : MulAut (K ⧸ CFSG.pCore 2 K) => (σ : (K ⧸ CFSG.pCore 2 K) → (K ⧸ CFSG.pCore 2 K)))
       DFunLike.coe_injective

@@ -76,24 +76,31 @@ private def rootW : Subgroup (projectiveSL 3 F) where
     rintro _ ⟨a, rfl⟩
     exact ⟨a, (wP_inv a).symm⟩
 
+omit [Finite F] in
 private theorem rootX_mem (a : F) : xP a ∈ rootX (F := F) := ⟨a, rfl⟩
 
+omit [Finite F] in
 private theorem rootY_mem (a : F) : yP a ∈ rootY (F := F) := ⟨a, rfl⟩
 
+omit [Finite F] in
 private theorem rootW_mem (a : F) : wP a ∈ rootW (F := F) := ⟨a, rfl⟩
 
+omit [Finite F] in
 private theorem rootX_le_V1 : rootX (F := F) ≤ (V1 : Subgroup (projectiveSL 3 F)) := by
   rintro _ ⟨a, rfl⟩
   exact mem_V1.mpr ⟨a, 0, by rw [wP_zero, mul_one]⟩
 
+omit [Finite F] in
 private theorem rootY_le_V2 : rootY (F := F) ≤ (V2 : Subgroup (projectiveSL 3 F)) := by
   rintro _ ⟨b, rfl⟩
   exact mem_V2.mpr ⟨b, 0, by rw [wP_zero, mul_one]⟩
 
+omit [Finite F] in
 private theorem rootW_le_V1 : rootW (F := F) ≤ (V1 : Subgroup (projectiveSL 3 F)) := by
   rintro _ ⟨c, rfl⟩
   exact mem_V1.mpr ⟨0, c, by rw [xP_zero, one_mul]⟩
 
+omit [Finite F] in
 private theorem rootW_eq_Wg : rootW (F := F) = (Wg : Subgroup (projectiveSL 3 F)) := by
   ext x
   constructor
@@ -103,18 +110,21 @@ private theorem rootW_eq_Wg : rootW (F := F) = (Wg : Subgroup (projectiveSL 3 F)
     obtain ⟨c, hc⟩ := mem_Wg.mp hx
     exact ⟨c, hc.symm⟩
 
+omit [Finite F] in
 private theorem xP_injective {a b : F} (h : xP a = xP b) : a = b := by
   have h1 : xP (a + b) = 1 := by rw [xP_add, h, xP_mul_self]
   have h2 : a + b = 0 := (xP_eq_one_iff (a + b)).mp h1
   have h3 : a - b = 0 := by linear_combination h2 - CharTwo.add_self_eq_zero b
   exact sub_eq_zero.mp h3
 
+omit [Finite F] in
 private theorem yP_injective {a b : F} (h : yP a = yP b) : a = b := by
   have h1 : yP (a + b) = 1 := by rw [yP_add, h, yP_mul_self]
   have h2 : a + b = 0 := (yP_eq_one_iff (a + b)).mp h1
   have h3 : a - b = 0 := by linear_combination h2 - CharTwo.add_self_eq_zero b
   exact sub_eq_zero.mp h3
 
+omit [Finite F] in
 private theorem card_rootX : Nat.card (rootX (F := F)) = Nat.card F := by
   let e : F → rootX (F := F) := fun a => ⟨xP a, rootX_mem a⟩
   have he : Function.Bijective e := by
@@ -125,6 +135,7 @@ private theorem card_rootX : Nat.card (rootX (F := F)) = Nat.card F := by
       exact ⟨a, rfl⟩
   rw [← Nat.card_eq_of_bijective e he]
 
+omit [Finite F] in
 private theorem card_rootY : Nat.card (rootY (F := F)) = Nat.card F := by
   let e : F → rootY (F := F) := fun a => ⟨yP a, rootY_mem a⟩
   have he : Function.Bijective e := by
@@ -137,26 +148,31 @@ private theorem card_rootY : Nat.card (rootY (F := F)) = Nat.card F := by
 
 private noncomputable def v1Fst (v : V1 (F := F)) : F := Classical.choose (mem_V1.mp v.2)
 
+omit [Finite F] in
 private theorem v1Fst_spec (v : V1 (F := F)) :
     ∃ c : F, (v : projectiveSL 3 F) = xP (v1Fst v) * wP c :=
   Classical.choose_spec (mem_V1.mp v.2)
 
 private noncomputable def v1Snd (v : V1 (F := F)) : F := Classical.choose (v1Fst_spec v)
 
+omit [Finite F] in
 private theorem v1_eq (v : V1 (F := F)) :
     (v : projectiveSL 3 F) = xP (v1Fst v) * wP (v1Snd v) :=
   Classical.choose_spec (v1Fst_spec v)
 
+omit [Finite F] in
 private theorem v1Fst_eq_of_eq {v : V1 (F := F)} {a c : F}
     (h : (v : projectiveSL 3 F) = xP a * wP c) : v1Fst v = a := by
   have h2 : xP (v1Fst v) * wP (v1Snd v) = xP a * wP c := (v1_eq v).symm.trans h
   exact (xP_mul_wP_inj h2).1
 
+omit [Finite F] in
 private theorem v1Fst_one : v1Fst (1 : V1 (F := F)) = 0 := by
   refine v1Fst_eq_of_eq (a := 0) (c := 0) ?_
   rw [xP_zero, wP_zero, mul_one]
   rfl
 
+omit [Finite F] in
 private theorem v1Fst_mul (v w : V1 (F := F)) : v1Fst (v * w) = v1Fst v + v1Fst w := by
   refine v1Fst_eq_of_eq (a := v1Fst v + v1Fst w) (c := v1Snd v + v1Snd w) ?_
   calc ((v * w : V1) : projectiveSL 3 F) = (v : projectiveSL 3 F) * (w : projectiveSL 3 F) := rfl
@@ -170,6 +186,7 @@ private noncomputable def piX : V1 (F := F) →* Multiplicative F where
   map_one' := by rw [v1Fst_one]; rfl
   map_mul' v w := by rw [v1Fst_mul]; rfl
 
+omit [Finite F] in
 private theorem piX_eq_one_iff (v : V1 (F := F)) :
     piX v = 1 ↔ (v : projectiveSL 3 F) ∈ (Wg : Subgroup (projectiveSL 3 F)) := by
   constructor
@@ -188,26 +205,31 @@ private theorem piX_eq_one_iff (v : V1 (F := F)) :
 
 private noncomputable def v2Fst (v : V2 (F := F)) : F := Classical.choose (mem_V2.mp v.2)
 
+omit [Finite F] in
 private theorem v2Fst_spec (v : V2 (F := F)) :
     ∃ c : F, (v : projectiveSL 3 F) = yP (v2Fst v) * wP c :=
   Classical.choose_spec (mem_V2.mp v.2)
 
 private noncomputable def v2Snd (v : V2 (F := F)) : F := Classical.choose (v2Fst_spec v)
 
+omit [Finite F] in
 private theorem v2_eq (v : V2 (F := F)) :
     (v : projectiveSL 3 F) = yP (v2Fst v) * wP (v2Snd v) :=
   Classical.choose_spec (v2Fst_spec v)
 
+omit [Finite F] in
 private theorem v2Fst_eq_of_eq {v : V2 (F := F)} {a c : F}
     (h : (v : projectiveSL 3 F) = yP a * wP c) : v2Fst v = a := by
   have h2 : yP (v2Fst v) * wP (v2Snd v) = yP a * wP c := (v2_eq v).symm.trans h
   exact (yP_mul_wP_inj h2).1
 
+omit [Finite F] in
 private theorem v2Fst_one : v2Fst (1 : V2 (F := F)) = 0 := by
   refine v2Fst_eq_of_eq (a := 0) (c := 0) ?_
   rw [yP_zero, wP_zero, mul_one]
   rfl
 
+omit [Finite F] in
 private theorem v2Fst_mul (v w : V2 (F := F)) : v2Fst (v * w) = v2Fst v + v2Fst w := by
   refine v2Fst_eq_of_eq (a := v2Fst v + v2Fst w) (c := v2Snd v + v2Snd w) ?_
   calc ((v * w : V2) : projectiveSL 3 F) = (v : projectiveSL 3 F) * (w : projectiveSL 3 F) := rfl
@@ -221,6 +243,7 @@ private noncomputable def piY : V2 (F := F) →* Multiplicative F where
   map_one' := by rw [v2Fst_one]; rfl
   map_mul' v w := by rw [v2Fst_mul]; rfl
 
+omit [Finite F] in
 private theorem piY_eq_one_iff (v : V2 (F := F)) :
     piY v = 1 ↔ (v : projectiveSL 3 F) ∈ (Wg : Subgroup (projectiveSL 3 F)) := by
   constructor
@@ -246,7 +269,7 @@ private theorem eq_rootX_of_complement (V : Subgroup (projectiveSL 3 F))
     (hPw : ∀ c, hP * wP c * hP⁻¹ = wP (lam * c))
     (hlam : lam ≠ 1) (hVinv : ∀ v ∈ V, hP * v * hP⁻¹ ∈ V) :
     V = rootX (F := F) := by
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   let pV : V →* Multiplicative F := (piX (F := F)).comp (Subgroup.inclusion hVle)
   have hpV_one : ∀ v : V, pV v = 1 ↔ v = 1 := by
     intro v
@@ -267,12 +290,12 @@ private theorem eq_rootX_of_complement (V : Subgroup (projectiveSL 3 F))
     have h1 : pV (v * w⁻¹) = 1 := by
       rw [map_mul, map_inv, h, mul_inv_cancel]
     exact mul_inv_eq_one.mp ((hpV_one (v * w⁻¹)).mp h1)
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype (Multiplicative F) := Fintype.ofFinite (Multiplicative F)
+  have : Fintype V := Fintype.ofFinite V
+  have : Fintype (Multiplicative F) := Fintype.ofFinite (Multiplicative F)
   have hcard' : Nat.card V = Nat.card (Multiplicative F) := by
     rw [show Nat.card (Multiplicative F) = Nat.card F from rfl]
     exact hcard
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card V = Fintype.card (Multiplicative F) := by
     simpa [Nat.card_eq_fintype_card] using hcard'
   let e : V ≃ Multiplicative F := Fintype.equivOfCardEq hcardF
@@ -334,7 +357,7 @@ private theorem eq_rootY_of_complement (V : Subgroup (projectiveSL 3 F))
     (hPw : ∀ c, hP * wP c * hP⁻¹ = wP (lam * c))
     (hlam : lam ≠ 1) (hVinv : ∀ v ∈ V, hP * v * hP⁻¹ ∈ V) :
     V = rootY (F := F) := by
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   let pV : V →* Multiplicative F := (piY (F := F)).comp (Subgroup.inclusion hVle)
   have hpV_one : ∀ v : V, pV v = 1 ↔ v = 1 := by
     intro v
@@ -355,12 +378,12 @@ private theorem eq_rootY_of_complement (V : Subgroup (projectiveSL 3 F))
     have h1 : pV (v * w⁻¹) = 1 := by
       rw [map_mul, map_inv, h, mul_inv_cancel]
     exact mul_inv_eq_one.mp ((hpV_one (v * w⁻¹)).mp h1)
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype (Multiplicative F) := Fintype.ofFinite (Multiplicative F)
+  have : Fintype V := Fintype.ofFinite V
+  have : Fintype (Multiplicative F) := Fintype.ofFinite (Multiplicative F)
   have hcard' : Nat.card V = Nat.card (Multiplicative F) := by
     rw [show Nat.card (Multiplicative F) = Nat.card F from rfl]
     exact hcard
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card V = Fintype.card (Multiplicative F) := by
     simpa [Nat.card_eq_fintype_card] using hcard'
   let e : V ≃ Multiplicative F := Fintype.equivOfCardEq hcardF
@@ -413,6 +436,7 @@ private theorem eq_rootY_of_complement (V : Subgroup (projectiveSL 3 F))
     rwa [hzero a, wP_zero, mul_one] at hmem
   exact (Subgroup.eq_of_le_of_card_ge hXle (by rw [hcard, card_rootY])).symm
 
+omit [CharP F 2] in
 private theorem exists_unit_cube_ne_one (hq : 8 ≤ Nat.card F) :
     ∃ t : Fˣ, (t : F) ^ 3 ≠ 1 := by
   by_contra h
@@ -424,8 +448,8 @@ private theorem exists_unit_cube_ne_one (hq : 8 ≤ Nat.card F) :
     intro hp
     rw [hp, Polynomial.natDegree_zero] at hdeg
     omega
-  haveI : DecidableEq F := Classical.decEq F
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : DecidableEq F := Classical.decEq F
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   let S : Finset F := Finset.univ.image (fun t : Fˣ => (t : F))
   have hSsub : S.val ⊆ p.roots := by
     intro x hx
@@ -449,6 +473,7 @@ private theorem exists_unit_cube_ne_one (hq : 8 ≤ Nat.card F) :
     omega
   omega
 
+omit [CharP F 2] in
 private theorem exists_addEquiv_of_root_maps (B S : Subgroup (projectiveSL 3 F))
     (hSB : S ≤ B) (f : F → projectiveSL 3 F)
     (hf_zero : f 0 = 1) (hf_add : ∀ a b, f (a + b) = f a * f b)
@@ -521,20 +546,25 @@ private theorem exists_addEquiv_of_root_maps (B S : Subgroup (projectiveSL 3 F))
   intro a
   exact hl a
 
+omit [Finite F] in
 private theorem rootX_le_U : rootX (F := F) ≤ projUnitriangular 3 F :=
   rootX_le_V1.trans V1_le_U
 
+omit [Finite F] in
 private theorem rootY_le_U : rootY (F := F) ≤ projUnitriangular 3 F :=
   rootY_le_V2.trans V2_le_U
 
+omit [Finite F] in
 private theorem rootW_le_U : rootW (F := F) ≤ projUnitriangular 3 F :=
   rootW_le_V1.trans V1_le_U
 
+omit [Finite F] in
 private theorem conj_mem_rootX_of_mem_torus {h : projectiveSL 3 F}
     (hh : h ∈ torus3 F) {a : F} : h * xP a * h⁻¹ ∈ rootX (F := F) := by
   obtain ⟨t₁, t₂, rfl⟩ := mem_torus3.mp hh
   exact ⟨(t₁ : F) * (t₂ : F)⁻¹ * a, (dP_conj_xP t₁ t₂ a).symm⟩
 
+omit [Finite F] in
 private theorem conj_mem_rootY_of_mem_torus {h : projectiveSL 3 F}
     (hh : h ∈ torus3 F) {a : F} : h * yP a * h⁻¹ ∈ rootY (F := F) := by
   obtain ⟨t₁, t₂, rfl⟩ := mem_torus3.mp hh
@@ -544,6 +574,7 @@ private theorem map_conj_eq_self_of_mem {G : Type*} [Group G] {S : Subgroup G} {
     (hg : g ∈ S) : S.map (MulAut.conj g).toMonoidHom = S :=
   (Subgroup.mem_normalizer_iff_map_conj_eq).mp (Subgroup.le_normalizer hg)
 
+omit [Finite F] [CharP F 2] in
 private theorem map_subtype_injective {B : Subgroup (projectiveSL 3 F)}
     {S T : Subgroup ↥B} (h : S.map B.subtype = T.map B.subtype) : S = T := by
   ext x
@@ -582,7 +613,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
   have hWgleB : (Wg : Subgroup (projectiveSL 3 F)) ≤ B := by
     rw [← rootW_eq_Wg]
     exact rootW_le_U.trans hUB
-  haveI : Finite (projectiveSL 3 F) := inferInstance
+  have : Finite (projectiveSL 3 F) := inferInstance
   have hSylU : IsSylowTwoOf U B := by
     rw [hB]
     exact isSylowTwoOf_U_normalizer (F := F) (N :=
@@ -591,7 +622,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
     hSylU.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hUB).symm
   have hUN : UB.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).mpr (by rw [hB])
-  haveI : UB.Normal := hUN
+  have : UB.Normal := hUN
   have hF_le_U : (((UB.map σ.toMonoidHom).map B.subtype) : Subgroup (projectiveSL 3 F)) ≤ U := by
     have hFp : IsPGroup 2 (((UB.map σ.toMonoidHom).map B.subtype) :
         Subgroup (projectiveSL 3 F)) := (hUp.map σ.toMonoidHom).map B.subtype
@@ -669,7 +700,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
         have h1 : V1B.map σ.toMonoidHom = V2B := hEB_eq
         have hcomp : σ.symm.toMonoidHom.comp σ.toMonoidHom = MonoidHom.id ↥B := by
           ext x
-          simp only [MonoidHom.comp_apply, MonoidHom.id_apply, MulEquiv.coe_toMonoidHom]
+          simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
           change ((σ.symm (σ x) : ↥B) : projectiveSL 3 F) =
             ((x : ↥B) : projectiveSL 3 F)
           exact congrArg (fun z : ↥B => (z : projectiveSL 3 F)) (σ.symm_apply_apply x)
@@ -709,9 +740,9 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
       Set (projectiveSL 3 F)) := by
     rw [hB]
     exact normalizer_U_le_normalizer_V2
-  haveI : V1B.Normal :=
+  have : V1B.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hV1B).mpr hBN1
-  haveI : V2B.Normal :=
+  have : V2B.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hV2B).mpr hBN2
   have hEZ : Disjoint UB HB := by
     rw [Subgroup.disjoint_def]
@@ -742,8 +773,8 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
     rw [Subgroup.map_sup, hσU, htopσ] at h
     simpa [Y] using h
   have hUB_solv : Group.IsSolvable ↥UB := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥UB := hUp.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥UB := hUp.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hHBcomm : IsMulCommutative ↥HB := IsMulCommutative.of_comm (fun a b => by
     apply Subtype.ext
@@ -755,7 +786,7 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
     rw [ha, hb, ← map_mul, ← map_mul, dMat_mul, dMat_mul]
     congr 2 <;> rw [mul_comm])
   have hHB_solv : Group.IsSolvable ↥HB := by
-    haveI : IsMulCommutative ↥HB := hHBcomm
+    have : IsMulCommutative ↥HB := hHBcomm
     exact Group.isSolvable_of_comm fun a b => hHBcomm.is_comm.comm a b
   have hHnormU : HB ≤ Subgroup.normalizer (UB : Set ↥B) := by
     intro x hx
@@ -831,8 +862,8 @@ theorem exists_rootData_of_mulAut (hq : 8 ≤ Nat.card F)
   obtain ⟨⟨uE, yE⟩, huy⟩ := hcompUBY.2 g
   let uB : ↥B := (uE : ↥B)
   let yB : ↥B := (yE : ↥B)
-  have huE : uB ∈ UB := by simpa [uB] using uE.2
-  have hyY : yB ∈ Y := by simpa [yB] using yE.2
+  have huE : uB ∈ UB := by simp [uB]
+  have hyY : yB ∈ Y := by simp [yB]
   have huy' : uB * yB = g := by simpa [uB, yB] using huy
   have hconj_mul : MulAut.conj g = MulAut.conj uB * MulAut.conj yB := by
     ext x

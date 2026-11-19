@@ -85,7 +85,7 @@ theorem uc22r3e5c_mem_normalizer_T_inf {D : Data G} {L : Subgroup G} {a : G}
     (haL : a ∈ normalizer (L : Set G)) :
     a ∈ normalizer ((D.T ⊓ L : Subgroup G) : Set G) := by
   have hLmem : L ∈ conjSetOf D.M L :=
-    ⟨1, D.M.one_mem, by ext z; simp [MulAut.conj_apply]⟩
+    ⟨1, D.M.one_mem, by ext z; simp⟩
   have hXL : L ≤ conjClosure D.M L :=
     le_iSup₂_of_le (f := fun K (_ : K ∈ conjSetOf D.M L) => K) L hLmem le_rfl
   have hTXL : (D.T ⊓ conjClosure D.M L) ⊓ L = D.T ⊓ L := by
@@ -100,6 +100,7 @@ theorem uc22r3e5c_center_bar2_eq_bot {D : Data G} {L : Subgroup G} (hL : L ∈ c
   rw [u4x_center_eq_bot hL (Or.inr hSz)] at h
   exact (Subgroup.map_eq_bot_iff_of_injective _ e.injective).mp h
 
+omit [Finite G] in
 theorem uc22r3e5c_rhoL_pow_five {L : Subgroup G} {a : G} (haL : a ∈ normalizer (L : Set G))
     (ha5 : orderOf a = 5) : rhoL L ⟨a, haL⟩ ^ 5 = 1 := by
   rw [← map_pow]
@@ -110,6 +111,7 @@ theorem uc22r3e5c_rhoL_pow_five {L : Subgroup G} {a : G} (haL : a ∈ normalizer
     exact pow_orderOf_eq_one a
   rw [h1, map_one]
 
+omit [Finite G] in
 theorem uc22r3e5c_pow_five_of_conj_eq {L : Subgroup G} {s : Bar2 L} {ρ : MulAut (Bar2 L)}
     (hZ : Subgroup.center (Bar2 L) = ⊥) (hs : MulAut.conj s = ρ) (hρ : ρ ^ 5 = 1) :
     s ^ 5 = 1 :=
@@ -210,7 +212,7 @@ theorem uc22r3e5c_centralizes_x
 
 theorem uc22r3e5c_one_le_pRank_of_dvd_card {p : ℕ} (hp : p.Prime)
     {H : Subgroup G} (hdvd : p ∣ Nat.card H) : 1 ≤ CFSG.Open.pRank (G := G) p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) p hdvd
   have hcard : Nat.card ↥(Subgroup.zpowers g) = p := by
     rw [Nat.card_zpowers, hg]
@@ -232,7 +234,6 @@ theorem uc22r3e5c_dvd_card_bar2 {D : Data G} {Ch : Choice2011 G} (h15 : S21_15C 
     exact dvd_neg.mpr h
   have hdivN : p ∣ 2 ^ (2 * n) + 1 := by
     have h := hdiv
-    push_cast at h
     exact_mod_cast h
   have hcard := CFSG.Quasithin.card_of_isSz
     (CFSG.LocalAnalysis.WeakClosure81.isSz_iff_isSz.mp hSz)
@@ -274,6 +275,7 @@ theorem uc22r3e5c_two_le_pRank_barImage_x {D : Data G} {Ch : Choice2011 G}
   omega
 
 
+omit [Finite G] in
 theorem uc22r3e5c_exists_mul_of_mem_sup {X A : Subgroup G}
     (hsup : (X ⊓ centralizer (A : Set G)) ⊔ CFSG.Open.pCoreOf 2 X = X) {x : G} (hx : x ∈ X) :
     ∃ c ∈ X ⊓ centralizer (A : Set G), ∃ o ∈ CFSG.Open.pCoreOf 2 X, c * o = x := by
@@ -296,6 +298,7 @@ theorem uc22r3e5c_exists_mul_of_mem_sup {X A : Subgroup G}
   exact ⟨(c : G), Subgroup.mem_subgroupOf.mp hc, (o : G),
     (CFSG.mem_openPCoreOf_iff o).mpr ho, congrArg Subtype.val hco⟩
 
+omit [Finite G] in
 theorem uc22r3e5c_barImage_inf_centralizer {M X A : Subgroup G} (hXM : X ≤ M)
     (hsup : (X ⊓ centralizer (A : Set G)) ⊔ CFSG.Open.pCoreOf 2 X = X)
     (hOX : CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 M) :
@@ -317,6 +320,7 @@ theorem uc22r3e5c_barImage_inf_centralizer {M X A : Subgroup G} (hXM : X ≤ M)
       simpa only [Subgroup.coe_mul] using hco.symm
     rw [hm', map_mul, h1, mul_one]
 
+omit [Finite G] in
 theorem uc22r3e5c_barImage_le_map_top {M C : Subgroup G} (hCM : C ≤ M) :
     barImage M C ≤ (⊤ : Subgroup ↥C).map
       ((uc22p21cPi M).comp (Subgroup.inclusion hCM)) := by
@@ -333,7 +337,7 @@ theorem uc22r3e5c_two_le_pRank_centralizer
     (hp : p ∈ D.sig) :
     2 ≤ CFSG.Open.pRank p (conjClosure D.M L ⊓ centralizer (Subgroup.zpowers a : Set G)) := by
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hCX : CentralizesBar a (conjClosure D.M L) :=
     uc22r3e5c_centralizes_x h5 h1930 c hL hSz h5n haB ha5 haT
   have hcent : ∀ x ∈ Subgroup.zpowers a, CentralizesBar x (conjClosure D.M L) := fun x hx =>

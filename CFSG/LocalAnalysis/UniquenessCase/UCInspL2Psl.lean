@@ -54,7 +54,7 @@ theorem sl2_sq_of_cube (g : SL(2, K)) (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
       (-a ^ 2 * c - b * c ^ 2 - a * c * e - c * e ^ 2 + c) * hdet
   by_cases ht : a + e + 1 = 0
   · ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+    fin_cases i <;> fin_cases j <;> simp
     · linear_combination a * ht - hdet
     · linear_combination b * ht
     · linear_combination c * ht
@@ -132,7 +132,7 @@ theorem psl_exists_klein [Finite K] (h2 : (2 : K) ≠ 0) (D : Subgroup PSL(2, K)
     (hD : Nat.card D = 3) :
     ∃ S : Subgroup PSL(2, K), IsElemAbelian 2 S ∧ Nat.card S = 4 ∧
       D ≤ normalizer (S : Set PSL(2, K)) ∧ ⁅D, S⁆ = S := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hodd : Fintype.card K % 2 = 1 := by
     refine FiniteField.odd_card_of_char_ne_two fun h => h2 ?_
     have h' : ((2 : ℕ) : K) = 0 := (ringChar.spec K 2).2 (by rw [h])

@@ -66,8 +66,8 @@ theorem exists_theta
       CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.AutThreePowInner ↥S := by
   obtain ⟨r, q, hv, hrn, hq2, ⟨e⟩⟩ := exists_lieIndex_A hn hS
   subst hrn
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Group.IsPerfect ↥S := ⟨hq.1⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Group.IsPerfect ↥S := ⟨hq.1⟩
   let K := GaloisField q.p q.exponent
   have hpf : q.p ^ q.exponent = 2 := by
     have := hq2
@@ -209,7 +209,7 @@ theorem catalogIs_isLnA_of_vecAut {k : ℕ} (hk : 5 ≤ k) {X : Type} [Group X]
     (e : X ≃* VecAut k) : catalogIs X (isLnA k 2) := by
   obtain ⟨r, rfl⟩ : ∃ r, k = r + 1 := ⟨k - 1, by omega⟩
   let q : TauCeti.PrimePower := ⟨2, 1, Nat.prime_two, one_pos⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSL (r + 1) 2 1 := by
     refine ⟨Nat.prime_two, le_rfl, ?_, ?_, ?_⟩
     · omega
@@ -221,7 +221,7 @@ theorem catalogIs_isLnA_of_vecAut {k : ℕ} (hk : 5 ≤ k) {X : Type} [Group X]
       omega
   have hdup : ¬ (TauCeti.LieTypeIndex.A r q).IsDuplicateRepresentative := by
     rw [TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
-    rintro (⟨h1, -⟩ | ⟨h1, -⟩ | ⟨h1, -⟩ | h) <;> first | omega | exact absurd h (by simp)
+    rintro (⟨h1, -⟩ | ⟨h1, -⟩ | ⟨h1, -⟩ | h) <;> first | omega
   have hv : (TauCeti.LieTypeIndex.A r q).Valid :=
     CFSG.ClassicalModels.linearCatalog_index_valid (r + 1) 2 1 hadm hdup
   refine ⟨.lie ⟨.A r q, hv⟩, Or.inl ⟨rfl, by simp [q, TauCeti.PrimePower.card_def]⟩, ?_⟩
@@ -238,8 +238,8 @@ theorem catalogIs_isLnA_of_vecAut {k : ℕ} (hk : 5 ≤ k) {X : Type} [Group X]
 theorem pSimple_equiv {Ω : Type} [Group Ω] [Finite Ω] {K : Subgroup Ω}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hZ : Subgroup.center ↥K = ⊥) (h3 : 3 ∣ Nat.card ↥K) :
     Nonempty (PSimple 3 K ≃* ↥K) := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOne : GLAPPrimeCore 3 ↥K ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) :=
@@ -253,7 +253,7 @@ theorem pSimple_equiv {Ω : Type} [Group Ω] [Finite Ω] {K : Subgroup Ω}
 theorem card_ker_eq_three {Ω : Type} [Group Ω] [Finite Ω] {B : Subgroup Ω} {x : Ω} {m : ℕ}
     (φ : ↥B →* VecAut m) (hker : ∀ b : ↥B, φ b = 1 ↔ (b : Ω) ∈ Subgroup.zpowers x)
     (hBel : IsElemAbelian 3 B) (hxB : x ∈ B) (hx1 : x ≠ 1) : Nat.card φ.ker = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hordx : orderOf x = 3 := orderOf_eq_prime (hBel.2 x hxB) hx1
   have : φ.ker = (Subgroup.zpowers x).subgroupOf B := by
     ext b

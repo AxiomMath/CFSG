@@ -58,7 +58,7 @@ theorem good_mulF {a b : ℕ} (ha : Good a) (hb : Good b) : Good (mulF a b) := b
 theorem coe_ofCode {c : ℕ} (hc : Good c) :
     ((ofCode c : G) : Matrix (Fin 3) (Fin 3) (ZMod 3)) = toM c := by
   unfold ofCode
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   rfl
 
 theorem ofCode_oneC : ofCode oneC = 1 := by

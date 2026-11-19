@@ -50,7 +50,7 @@ theorem false_of_odd_uc6 [Fact p.Prime] (ρ : Representation (ZMod p) G V)
     (hpr : r ≠ p) (hqr : q ≠ r) (hq2 : q ≠ 2) (hr2 : r ≠ 2) (D : Subgroup G)
     (hD : Nat.card D = r) (hfix : fixV ρ D = ⊥) (Q : Subgroup G) (hQp : IsPGroup q Q)
     (hQne : Q ≠ ⊥) (hDQ : D ≤ normalizer (Q : Set G)) (hcomm : ⁅D, Q⁆ = Q) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let H : Subgroup G := Q ⊔ D
   have hQH : Q ≤ H := le_sup_left
   have hDH : D ≤ H := le_sup_right
@@ -83,18 +83,18 @@ theorem false_of_odd_uc6 [Fact p.Prime] (ρ : Representation (ZMod p) G V)
     rfl
   have hKR : K.IsComplement' R := Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul
   have hcardH : Nat.card ↥H = q ^ n * r := by
-    rw [← hKR.card_mul, hKcard, hRcard]
+    rw [← hKR.card_mul_card, hKcard, hRcard]
   have hsolv : Group.IsSolvable ↥H := by
-    haveI : Fact (IsPGroup q ↥K) := ⟨hQp.of_injective eK.toMonoidHom eK.injective⟩
-    haveI : Group.IsNilpotent ↥K := IsPGroup.isNilpotent (Fact.out : IsPGroup q ↥K)
-    haveI : Group.IsSolvable ↥K := inferInstance
+    have : Fact (IsPGroup q ↥K) := ⟨hQp.of_injective eK.toMonoidHom eK.injective⟩
+    have : Group.IsNilpotent ↥K := IsPGroup.isNilpotent (Fact.out : IsPGroup q ↥K)
+    have : Group.IsSolvable ↥K := inferInstance
     have hqcard : Nat.card (↥H ⧸ K) = r := by
       have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (s := K)
       rw [hcardH, hKcard] at h1
       exact Nat.eq_of_mul_eq_mul_left (pow_pos hq.pos n) (by rw [h1, mul_comm])
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : IsCyclic (↥H ⧸ K) := isCyclic_of_prime_card hqcard
-    haveI : Group.IsSolvable (↥H ⧸ K) := inferInstance
+    have : Fact r.Prime := ⟨hr⟩
+    have : IsCyclic (↥H ⧸ K) := isCyclic_of_prime_card hqcard
+    have : Group.IsSolvable (↥H ⧸ K) := inferInstance
     exact Group.isSolvable_of_ker_le_range K.subtype (QuotientGroup.mk' K)
       (by rw [QuotientGroup.ker_mk', K.range_subtype])
   have hodd : Odd (Nat.card ↥H) := by

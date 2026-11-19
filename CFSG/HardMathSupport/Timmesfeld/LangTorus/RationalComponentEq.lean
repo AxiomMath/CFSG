@@ -33,7 +33,7 @@ theorem commutator_eq_bot_of_isComponentOf_ne_of_finite {G : Type*} [Group G]
 theorem exists_eq_rationalComponent_of_isComponentOf
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ p : ℕ}
     (S : LangSetup τ L p₀) (hp : p.Prime) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
-    (hap : ∀ i, a i ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
+    (hap : ∀ i, a i ^ p = 1) (_h1 : rootDiagUnit τ a ≠ 1)
     (hTame : ∀ i : KernelComponent (rootCharHom a),
       CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) ∨
         Group.IsSolvable (rationalComponent S.ρ S.Γ (rootCharHom a) i))
@@ -55,9 +55,9 @@ theorem exists_eq_rationalComponent_of_isComponentOf
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 (hP hx)).1, (Subgroup.mem_inf.1 (hP hx)).2⟩
   have hPU : J ≤ rootSpan τ L (rootCharKernel a) :=
     perfect_le_rootSpan_kernel hp a hap hPX hperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
     (Set.finite_range _).to_subtype
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ L) :=
     fun O => rootSpan τ L O.1
@@ -102,7 +102,7 @@ theorem exists_eq_rationalComponent_of_isComponentOf
       rintro ⟨_, i, rfl⟩ hO
       exact (hTame i).resolve_left hO)
     hperf h3
-  haveI : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) := by
+  have : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) := by
     have := S.finite
     have hle : S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a} ≤ S.D.model :=
       inf_le_left.trans (Subgroup.commutator_le_self S.D.model)
@@ -150,7 +150,7 @@ theorem eq_rationalComponent_of_isComponentOf_of_le_rationalSpan
       (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) :=
     ⟨hRle, (CFSG.Open.IsSubnormal.iff_subgroupOf hRle).2 hRsub,
       ⟨hRq.1.commutator_eq_top, hRq.2.1⟩⟩
-  haveI : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) := by
+  have : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) := by
     have := S.finite
     have hmodel : S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a} ≤ S.D.model :=
       inf_le_left.trans (Subgroup.commutator_le_self S.D.model)

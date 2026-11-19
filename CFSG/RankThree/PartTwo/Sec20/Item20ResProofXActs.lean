@@ -51,7 +51,7 @@ theorem eq_one_of_mem_upperTriangular_of_pow_three (hq : Nat.card F % 3 = 2)
   obtain ⟨P, hP⟩ := LinearFlag.exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   have h2 : IsPGroup 2 (LinearFlag.unitriangular 3 F) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   obtain ⟨k, hk⟩ := h2 ⟨b, hbu⟩
   have hk' : b ^ (2 ^ k) = 1 := by
     have := congrArg Subtype.val hk
@@ -149,7 +149,7 @@ theorem exists_mem_mul_normalizer_of_isMaxParabolic (hq : Nat.card F % 3 = 2)
       CFSG.ABGLocalTools.IsSylowOf 2 (R : Subgroup (SpecialLinearGroup (Fin 3) F)) P := by
     intro R hRP
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hRP, R.isPGroup', fun h => R.not_dvd_index (h.trans
+    exact ⟨hRP, R.isPGroup, fun h => R.not_dvd_index (h.trans
       (Subgroup.relIndex_dvd_index_of_le hRP))⟩
   have hT₀P : (T₀ : Subgroup (SpecialLinearGroup (Fin 3) F)) ≤ P := Subgroup.le_normalizer.trans hT₀
   obtain ⟨p₀, hp₀, hU₀⟩ := Sec18.exists_map_conj_eq_of_isSylowOf (hsyl T₀ hT₀P) (hsyl U hUP)
@@ -164,7 +164,7 @@ theorem exists_mem_mul_normalizer_of_isMaxParabolic (hq : Nat.card F % 3 = 2)
       CFSG.ABGLocalTools.IsSylowOf 2 (R : Subgroup (SpecialLinearGroup (Fin 3) F)) ⊤ := by
     intro R
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, R.isPGroup', R.not_dvd_index⟩
+    exact ⟨le_top, R.isPGroup, R.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := Sec18.exists_map_conj_eq_of_isSylowOf (hsylTop U) (hsylTop Ut)
   rw [hUt] at hg
   set φ := MulAut.conj g with hφ

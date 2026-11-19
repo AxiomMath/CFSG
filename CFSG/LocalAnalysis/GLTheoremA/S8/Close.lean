@@ -42,6 +42,7 @@ theorem cfg_three (hc : S8Ctx G 3) (hin : Inputs8910 G 3) {x : G} {L : Subgroup 
   have hBsM : c.Bs ≤ M := c.Bs_le_normalizer.trans hNM
   exact hc.ctx.noGF2 rfl ⟨M, hM, extraspec_symplectic hS, c.Bs, c.hBs, hBsM⟩
 
+omit [Finite G] in
 theorem inf_cx_eq_cfgN {M R : Subgroup G} {x : G} (hNM : Subgroup.normalizer (R : Set G) ≤ M)
     (hR : R = pCoreOf 2 M ⊓ cx x) : M ⊓ cx x = cfgN x R := by
   apply le_antisymm
@@ -72,8 +73,8 @@ theorem isTwoLocal_ne_top (hsimple : IsSimpleGroup G) (hna : ∃ a b : G, a * b 
       intro g
       obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hP2) ⟨g, Subgroup.mem_top g⟩
       exact ⟨k, by simpa using hk⟩
-    haveI : Nontrivial G := hsimple.toNontrivial
-    haveI : Nontrivial (Subgroup.center G) := hG2.center_nontrivial
+    have : Nontrivial G := hsimple.toNontrivial
+    have : Nontrivial (Subgroup.center G) := hG2.center_nontrivial
     rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hc | hc
     · obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center G)
       apply hz
@@ -107,7 +108,7 @@ theorem five_transfer_component {M L N : Subgroup G} {x : G} (hxM : x ∈ M) (hx
       GLAPComponent 5 (cx (QuotientGroup.mk (⟨x, hxM⟩ : ↥M) : ↥M ⧸ GLAPPrimeCore 5 ↥M)) J' ∧
         catalogIs (PSimple 5 J') (sporIs .Co1) := by
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp5⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5⟩
   set x' : ↥M := ⟨x, hxM⟩ with hx'
   have hx5 : x ^ 5 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hx'5 : x' ^ 5 = 1 := Subtype.ext (by simpa using hx5)
@@ -157,7 +158,7 @@ theorem five_transfer_res {H : Type} [Group H] [Finite H] {y : H} (hy : orderOf 
       GLAPComponent 5 (cx (⟨y, hyY⟩ : ↥(oPrimeRes 5 H))) J'' ∧
       Nonempty (PSimple 5 J'' ≃* PSimple 5 J') := by
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp5⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5⟩
   set Y := oPrimeRes 5 H with hY
   have hYn : Y.Normal := Subgroup.normalClosure_normal
   have hy5 : y ^ 5 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
@@ -166,7 +167,7 @@ theorem five_transfer_res {H : Type} [Group H] [Finite H] {y : H} (hy : orderOf 
     obtain ⟨P⟩ := Sylow.nonempty (p := 5) (G := H)
     have hPY : (P : Subgroup H) ≤ Y := by
       intro g hg
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨g, hg⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨g, hg⟩
       refine Subgroup.subset_normalClosure ⟨k, ?_⟩
       have := pow_orderOf_eq_one (⟨g, hg⟩ : ↥(P : Subgroup H))
       rw [hk] at this
@@ -175,7 +176,7 @@ theorem five_transfer_res {H : Type} [Group H] [Finite H] {y : H} (hy : orderOf 
     rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
     exact Nat.Coprime.coprime_dvd_right h1
       ((Nat.Prime.coprime_iff_not_dvd hp5).2 (Sylow.not_dvd_index P))
-  haveI : (Y.subgroupOf ⊤).Normal := hYn.subgroupOf ⊤
+  have : (Y.subgroupOf ⊤).Normal := hYn.subgroupOf ⊤
   have hJY : J' ≤ Y := CFSG.HardMathSupport.Solomon.Coordinator.i183_le_of_coprime_index hp5 hJ' le_top hidx
   refine ⟨hyY, J'.subgroupOf Y, ?_, ?_, ?_⟩
   · rw [Subgroup.orderOf_mk]; exact hy

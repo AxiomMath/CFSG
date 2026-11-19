@@ -35,9 +35,9 @@ theorem LN_lt {NW : Nat → Nat → Nat} {l : Nat} (h : NV (NW (l / 2))) {q : Na
     LN NW l q < 524288 := by
   unfold LN
   by_cases hl : l % 2 = 0
-  · rw [if_pos hl]
+  · rw [ite_eq_left hl]
     exact pF_lt h hq
-  · rw [if_neg hl]
+  · rw [ite_eq_right hl]
     exact pR_lt h hq
 
 theorem wN_lt {NW : Nat → Nat → Nat} : ∀ (w : List Nat), WV NW w → ∀ q < 524288, wN NW w q < 524288

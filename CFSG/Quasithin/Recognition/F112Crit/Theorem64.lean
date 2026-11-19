@@ -54,7 +54,7 @@ theorem exists_mem_zpowers_sup_pCoreOf {K R : Subgroup G} (hRK : R ≤ K) (hR : 
   let f : ↥R →* oTwoQuot ↥K :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp (Subgroup.inclusion hRK)
   have hX : IsPGroup 2 ↥f.range := hR.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI := hcyc f.range hX
+  have := hcyc f.range hX
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥f.range)
   obtain ⟨r₀, hr₀⟩ : ∃ r₀ : ↥R, f r₀ = (g : oTwoQuot ↥K) := g.2
   refine ⟨(r₀ : G), r₀.2, fun r hr => ?_⟩
@@ -68,7 +68,7 @@ theorem exists_mem_zpowers_sup_pCoreOf {K R : Subgroup G} (hRK : R ≤ K) (hR : 
     (QuotientGroup.eq_one_iff _).1 hker
   have h2 := (mem_pCore_iff_mem_pCoreOf _).1 h1
   have e : (((r₀ ^ k)⁻¹ * ⟨r, hr⟩ : ↥R) : G) = ((r₀ : G) ^ k)⁻¹ * r := by
-    simp [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow]
+    simp [Subgroup.coe_mul]
   have h3 : ((r₀ : G) ^ k)⁻¹ * r ∈ pCoreOf 2 K := by
     rw [← e]; exact h2
   have h4 : r = (r₀ : G) ^ k * (((r₀ : G) ^ k)⁻¹ * r) := by group
@@ -102,6 +102,7 @@ open CosetGeom (graph stab ballStab nbrs sphere vtype γ₀ γ₁ Vv)
 
 namespace CritAmalgam
 
+omit [Finite G] in
 theorem ballStab_one_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) :
     ballStab 1 (γ₀ G₀ G₁ G₂) = CFSG.Quasithin.coreIn (G₁ ⊓ G₂) G₁ :=
   (CosetGeom.ballStab_one_γ₀ hc.amalgam.gen).1
@@ -166,7 +167,7 @@ theorem comm_mem_pCoreOf (hc : CritAmalgam G₀ G₁ G₂ T Z) {L : Subgroup G} 
       apply Subtype.ext
       have h1 : ((c ^ k * q : G)) = ((m : ↥G₁) : G) := hyq
       rw [← h1, ← hcNc, ← hqNq]
-      simp [Subgroup.coe_mul, Subgroup.coe_zpow]
+      simp [Subgroup.coe_mul]
     have hα : MulAut.conjNormal a₁ (⟨qN, hqN⟩ : ↥(CFSG.pCore 2 ↥G₁)) = ⟨qN, hqN⟩ := by
       apply Subtype.ext
       apply Subtype.ext
@@ -225,7 +226,7 @@ theorem conjClosure_le_ballStab_one (hc : CritAmalgam G₀ G₁ G₂ T Z) {L : S
     (hcyc : ∃ c ∈ pCoreOf 2 G₁, pCoreOf 2 G₁ ≤ Subgroup.zpowers c ⊔ pCoreOf 2 G₂) :
     conjClosure Z G₂ ≤ CosetGeom.ballStab 1 (CosetGeom.γ₀ G₀ G₁ G₂) := by
   by_contra hcon
-  obtain ⟨a, haA, haN⟩ := SetLike.not_le_iff_exists.mp hcon
+  obtain ⟨a, haA, haN⟩ := IsConcreteLE.not_le_iff_exists.mp hcon
   apply haN
   rw [hc.ballStab_one_eq]
   refine CFSG.Quasithin.mem_coreIn.2

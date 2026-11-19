@@ -107,13 +107,13 @@ theorem fr_normalizer_le_centralizer_cyclic_sylow {H : Type*} [Group H] [Finite 
     normalizer ((S : Subgroup H) : Set H) ≤ centralizer ((S : Subgroup H) : Set H) := by
   intro g hgN
   obtain ⟨c, m, hm, hcm, hmo, hpo⟩ := exists_orderOf_pow_eq p hp.out g
-  have hSp : IsPGroup p (S : Subgroup H) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup H) := S.isPGroup
   have hgmN : g ^ m ∈ normalizer ((S : Subgroup H) : Set H) := pow_mem hgN m
   have hW : IsPGroup p ↥(zpowers (g ^ m) ⊔ (S : Subgroup H)) :=
     IsPGroup.to_sup_of_normal_right' (IsPGroup.of_card (by rw [Nat.card_zpowers, hmo])) hSp
       (zpowers_le.mpr hgmN)
   have hSsyl : IsSylowOf p (S : Subgroup H) ⊤ :=
-    isSylowOf_iff.2 ⟨le_top, S.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, S.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact S.not_dvd_index⟩
   have hWS := hSsyl.eq_of_le le_sup_right le_top hW
@@ -138,7 +138,7 @@ theorem fr_normalizer_le_centralizer_cyclic_sylow {H : Type*} [Group H] [Finite 
   have h := mul_mem (zpow_mem hgpC a) (zpow_mem hgmC b)
   rwa [← hg] at h
 
-theorem fr_pComplement_le_primeCore [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x)
+theorem fr_pComplement_le_primeCore [Fact p.Prime] (_hG : FrobGlobal G) (hl : FrobLocal p P M x)
     {Y : Subgroup G}
     (hY : Y ≤ centralizer ({x} : Set G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G))
     (hYp : Nat.Coprime p (Nat.card Y)) :
@@ -174,7 +174,7 @@ theorem fr_pComplement_le_primeCore [Fact p.Prime] (hG : FrobGlobal G) (hl : Fro
           centralizer ((layerOf x : Subgroup G) : Set G) := by
       rintro _ ⟨s, -, rfl⟩
       exact ⟨by rw [centralizer_zpowers_eq]; exact s.2.1, s.2.2⟩
-    have hcyc := hl.cyclic _ hle (S.isPGroup'.map D.subtype)
+    have hcyc := hl.cyclic _ hle (S.isPGroup.map D.subtype)
     exact (Subgroup.equivMapOfInjective (S : Subgroup D) D.subtype D.subtype_injective).isCyclic.mpr
       hcyc
   have hNC : normalizer ((S : Subgroup D) : Set D) ≤ centralizer ((S : Subgroup D) : Set D) :=
@@ -187,7 +187,7 @@ theorem fr_pComplement_le_primeCore [Fact p.Prime] (hG : FrobGlobal G) (hl : Fro
   have hKc : K.IsComplement' (S : Subgroup D) := MonoidHom.ker_transferSylow_isComplement' S hNC
   have hpel : ∀ d : D, ¬ p ∣ orderOf d → d ∈ K := by
     intro d hd
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' (MonoidHom.transferSylow S hNC d)
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup (MonoidHom.transferSylow S hNC d)
     have hdvd : orderOf (MonoidHom.transferSylow S hNC d) ∣ orderOf d := orderOf_map_dvd _ d
     have hk0 : k = 0 := by
       by_contra hne

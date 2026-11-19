@@ -17,7 +17,7 @@ theorem false_of_transfer_simple (hG : IsSimpleGroup G) (hnab : ∃ g h : G, g *
     False := by
   obtain ⟨P, rfl⟩ := hS
   obtain ⟨N, -, hNn, hsq, huN⟩ := Quasithin.thompson_transfer_exists_normal_subgroup
-    (X := ⊤) le_top P.isPGroup' (by rw [relIndex_top_right]; exact P.not_dvd_index) hQS hQidx
+    (X := ⊤) le_top P.isPGroup (by rw [relIndex_top_right]; exact P.not_dvd_index) hQS hQidx
     (mem_top u) hu (fun x _ => hQu x)
   have hN : N.Normal :=
     normalizer_eq_top_iff.mp (top_le_iff.mp ((normal_subgroupOf_iff_le_normalizer le_top).mp hNn))

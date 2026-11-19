@@ -150,8 +150,8 @@ theorem card_fixed_le_of_semilinear {σ : S.K ≃+* S.K} (hσ : σ ≠ RingEquiv
     have hf1eq : f₁ = f₁' := mul_inv_eq_one.mp ha1
     have hf2eq : f₂ = f₂' := (mul_inv_eq_one.mp hb1).symm
     exact Prod.ext (Subtype.ext hf1eq) (Subtype.ext hf2eq)
-  haveI : Fintype S.K := Fintype.ofFinite S.K
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Fintype S.K := Fintype.ofFinite S.K
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
   have hle : Nat.card {w : W // g w = w} * Nat.card {w : W // g w = w} ≤
       Nat.card S.K ^ 2 * Nat.card S.K ^ 2 := by
     calc Nat.card {w : W // g w = w} * Nat.card {w : W // g w = w}

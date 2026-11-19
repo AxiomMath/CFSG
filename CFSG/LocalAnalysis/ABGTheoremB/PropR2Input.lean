@@ -23,7 +23,7 @@ private theorem isSylowOf_inf_oddCoreIn_of_maximal (hσ : σ.IsValid) {K U : Sub
     IsSylowOf σ.p (U ⊓ oddCoreIn K) (oddCoreIn K) := by
   have : Fact σ.p.Prime := ⟨hσ.p_prime⟩
   obtain ⟨⟨hUK, hUp, hDU, -⟩, hmax⟩ := hU
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hKO : K ≤ Subgroup.normalizer ((oddCoreIn K : Subgroup G) : Set G) :=
     le_normalizer_oddCoreIn K
   have hUodd : Odd (Nat.card U) := by

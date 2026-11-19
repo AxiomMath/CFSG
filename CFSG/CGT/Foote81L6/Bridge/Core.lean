@@ -44,9 +44,9 @@ theorem AT_comm_BT : ∀ x ∈ AT hn, ∀ y ∈ BT hn, x * y = y * x := by
 
 theorem conj_tT_AT : ∀ x ∈ AT hn, tT n * x * (tT n)⁻¹ ∈ AT hn := by
   intro x hx
-  have h := map_conj_dihedralLift_range_le _ (rAT n) (sAT n) (rAT_pow_qr hn) (sAT_mul_sAT hn)
+  have h := map_conj_dihedralLift_range_le _ (rAT n) (sAT n) (rAT_pow_qr) (sAT_mul_sAT hn)
     (sAT_conj_rAT hn) (tT n) (H := AT hn)
-    (by rw [tT_conj_rAT hn]; exact inv_mem (rAT_mem_AT hn))
+    (by rw [tT_conj_rAT]; exact inv_mem (rAT_mem_AT hn))
     (by rw [tT_conj_sAT hn]; exact mul_mem (pow_mem (rAT_mem_AT hn) _) (sAT_mem_AT hn))
   exact h ⟨x, hx, rfl⟩
 
@@ -96,7 +96,7 @@ theorem card_AT : Nat.card (AT hn) = 2 ^ (n - 1) := by
     DihedralGroup.nat_card, ← pow_succ', show n - 2 + 1 = n - 1 by omega]
 
 theorem B₀T_comm_B₁T : ∀ x ∈ B₀T hn, ∀ y ∈ B₁T hn, x * y = y * x := fun _ hx _ hy =>
-  commute_of_mem_dihedralLift_range _ _ _ _ _ _ (commute_ρ₀T_ρ₁T hn) (commute_ρ₀T_κ₁T hn)
+  commute_of_mem_dihedralLift_range _ _ _ _ _ _ (commute_ρ₀T_ρ₁T (n := n)) (commute_ρ₀T_κ₁T)
     (commute_κ₀T_ρ₁T hn) (commute_κ₀T_κ₁T hn) hx hy
 
 theorem b₀T_not_mem_B₁T : b₀T hn ∉ B₁T hn := by
@@ -114,7 +114,7 @@ theorem b₀T_not_mem_B₁T : b₀T hn ∉ B₁T hn := by
     rcases hν with rfl | rfl | rfl | rfl <;>
       simp only [Subgroup.coe_mul, coe_cP, coe_zP, PHat.c, PHat.zF, PHat.mul_x₁, PHat.mul_x₂,
         PHat.sw₁_zero, PHat.sw₂_zero, SD.mul_i, tw_zero, SD.z, SD.one_i, OneMemClass.coe_one,
-        PHat.one_x₁, PHat.one_x₂, add_zero, zero_add] at h1 h2
+        PHat.one_x₁, PHat.one_x₂, add_zero] at h1 h2
     · linear_combination -(h1 + h2) + hf_eq_two_mul_qr n
     · linear_combination -(h1 + h2) + hf_eq_two_mul_qr n - two_mul_hf n
     · linear_combination -(h1 + h2) + hf_eq_two_mul_qr n
@@ -249,17 +249,17 @@ theorem conj_tT_AB : ∀ x ∈ AT hn ⊔ BT hn, tT n * x * (tT n)⁻¹ ∈ AT hn
   exact hle ⟨x, hx, rfl⟩
 
 theorem orderOf_tT : orderOf (tT n) = 2 :=
-  orderOf_eq_prime (by rw [pow_two, tT_mul_tT hn]) (fun h => tT_not_mem hn (h ▸ one_mem _))
+  orderOf_eq_prime (by rw [pow_two, tT_mul_tT (n := n)]) (fun h => tT_not_mem hn (h ▸ one_mem _))
 
 theorem top_eq : (⊤ : Subgroup (TM n)) = AT hn ⊔ BT hn ⊔ zpowers (tT n) := by
   symm
   apply eq_top_of_card_eq
   have hnt : zpowers (tT n) ≤ normalizer ((AT hn ⊔ BT hn : Subgroup _) : Set (TM n)) :=
-    zpowers_le.2 (mem_normalizer_of_involution (tT_mul_tT hn) (conj_tT_AB hn))
+    zpowers_le.2 (mem_normalizer_of_involution (tT_mul_tT (n := n)) (conj_tT_AB hn))
   have hint : (AT hn ⊔ BT hn) ⊓ zpowers (tT n) = ⊥ := by
     rw [eq_bot_iff]
     rintro x ⟨hx, hxt⟩
-    rcases (mem_zpowers_of_mul_self_eq_one (tT_mul_tT hn)).1 hxt with rfl | rfl
+    rcases (mem_zpowers_of_mul_self_eq_one (tT_mul_tT (n := n))).1 hxt with rfl | rfl
     · exact one_mem _
     · exact absurd hx (tT_not_mem hn)
   rw [card_sup_of_le_normalizer hnt hint, card_sup_of_le_normalizer (BT_le_normalizer_AT hn)
@@ -279,7 +279,7 @@ theorem AT_sup_tT : AT hn ⊔ zpowers (tT n) = AtT hn := by
   apply dihedralLift_range_le
   · have h : ωtT n = tT n * ((rAT n)⁻¹ * sAT n) := by
       rw [sAT_eq hn, ← ωtT_mul_ωtT hn]
-      calc ωtT n = tT n * tT n * ωtT n := by rw [tT_mul_tT hn, one_mul]
+      calc ωtT n = tT n * tT n * ωtT n := by rw [tT_mul_tT (n := n), one_mul]
         _ = tT n * ((ωtT n * ωtT n)⁻¹ * (ωtT n * ωtT n * tT n * ωtT n)) := by group
     rw [h]
     exact mul_mem (mem_sup_right (mem_zpowers _))

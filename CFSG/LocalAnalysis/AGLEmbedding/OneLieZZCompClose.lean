@@ -146,7 +146,7 @@ theorem d1OneLieZZComp_of_comp (hK : KFactOneLie) (hT : KFactOneLieTorus)
   set T : Subgroup G := (T₀ : Subgroup ↥(d1PlusCore p H K)).map (d1PlusCore p H K).subtype
     with hT
   have hTN : T ≤ d1PlusCore p H K := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hTidx : ¬ 2 ∣ (T.subgroupOf (d1PlusCore p H K)).index := by
     rw [hT, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective (d1PlusCore p H K).subtype_injective]

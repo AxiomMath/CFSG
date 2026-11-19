@@ -64,13 +64,13 @@ private theorem exists_weight_basis_adapted
     constructor
     · intro i j hji
       have hzero := (b.mem_flag_iff_repr_eq_zero.mp (hv j)) i (by exact_mod_cast hji.le)
-      rw [map_sub, Finsupp.sub_apply, b.repr_self_apply, if_neg (by
+      rw [map_sub, Finsupp.sub_apply, b.repr_self_apply, ite_eq_right (by
         intro hij
         exact hji.ne (by simpa using hij)), sub_zero] at hzero
       exact hzero
     · intro i
       have hzero := (b.mem_flag_iff_repr_eq_zero.mp (hv i)) i le_rfl
-      rw [map_sub, Finsupp.sub_apply, b.repr_self_apply, if_pos rfl] at hzero
+      rw [map_sub, Finsupp.sub_apply, b.repr_self_apply, ite_eq_left rfl] at hzero
       exact sub_eq_zero.mp hzero
   let e : V ≃ₗ[k] V := Matrix.toLinearEquiv b A hA.isUnit_det
   have he (i) : e (b i) = v i := by

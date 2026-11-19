@@ -47,7 +47,7 @@ theorem sl2Fix_ne_top {B : Subgroup ↥(StatedSL 2 F)} (hB : B ≠ ⊥) : sl2Fix
     exact hb1 (Subtype.ext (Subtype.ext (Units.ext h)))
   apply sl2_fixed_ne_univ hM
   ext v
-  simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+  simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
   have : v ∈ sl2Fix B := by rw [htop]; trivial
   exact this b b.2
 
@@ -62,6 +62,7 @@ theorem card_le_of_ne_top {S : Submodule F (Fin 2 → F)} (hS : S ≠ ⊤) :
         Nat.pow_le_pow_right Nat.card_pos (by omega)
     _ = Nat.card F := pow_one _
 
+omit [Field F] [Finite F] in
 theorem card_vec2 : Nat.card (Fin 2 → F) = Nat.card F ^ 2 := by
   rw [Nat.card_fun, Nat.card_eq_fintype_card (α := Fin 2), Fintype.card_fin]
 
@@ -122,8 +123,8 @@ theorem sl2_card_le {n : ℕ} (hF : Nat.card F = 2 ^ n) (B : Subgroup ↥(Stated
 
 theorem exists_ne_zero_mem_sl2Fix {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n)
     (B : Subgroup ↥(StatedSL 2 F)) (hB : IsPGroup 2 B) : ∃ v : Fin 2 → F, v ≠ 0 ∧ v ∈ sl2Fix B := by
-  letI : MulAction B (Fin 2 → F) := MulAction.compHom (Fin 2 → F) (sl2Perm.comp B.subtype)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction B (Fin 2 → F) := MulAction.compHom (Fin 2 → F) (sl2Perm.comp B.subtype)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hB.card_modEq_card_fixedPoints (Fin 2 → F)
   have hev : 2 ∣ Nat.card (Fin 2 → F) := by
     rw [card_vec2, hF, ← pow_mul]
@@ -152,6 +153,7 @@ theorem exists_ne_zero_mem_sl2Fix {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 �
   have := Nat.le_of_dvd hpos h2
   omega
 
+omit [Finite F] in
 theorem card_sl2Fix_top : Nat.card (⊤ : Submodule F (Fin 2 → F)) = Nat.card F ^ 2 := by
   rw [← card_vec2]
   exact Nat.card_congr Submodule.topEquiv.toEquiv
@@ -172,12 +174,14 @@ theorem sl2_card_mul_fix_le {n : ℕ} (hF : Nat.card F = 2 ^ n) (B : Subgroup �
     mem_statedSL_of_det (by
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.det_transvection_of_ne i j hij c])⟩
 
+omit [Finite F] in
 theorem sl2Transvection_mulVec (i j : Fin 2) (hij : i ≠ j) (c : F) (v : Fin 2 → F) :
     (((sl2Transvection i j hij c : ↥(StatedSL 2 F)) : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) *ᵥ v
       = v + Pi.single i (c * v j) := by
   simp only [sl2Transvection, Matrix.GeneralLinearGroup.mkOfDetNeZero]
   exact CFSG.Quasithin.H.transvection_mulVec i j c v
 
+omit [Finite F] in
 theorem sl2_exists_decomp (y : Fin 2 → F) :
     ∃ (g₁ g₂ : ↥(StatedSL 2 F)) (u₁ u₂ : Fin 2 → F),
       y = ((((g₁ : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ u₁ - u₁) +
@@ -188,6 +192,7 @@ theorem sl2_exists_decomp (y : Fin 2 → F) :
   ext k
   fin_cases k <;> simp
 
+omit [Finite F] in
 theorem sl2_eq_one_of_fix {g : ↥(StatedSL 2 F)}
     (h : ∀ v : Fin 2 → F,
       (((g : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ v = v) : g = 1 := by

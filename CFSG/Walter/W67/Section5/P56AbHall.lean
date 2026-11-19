@@ -17,7 +17,7 @@ theorem exists_sylow_two_Nbar : ∃ S : Sylow 2 d.Nbar, IsCyclic S ∧ Nat.card 
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 d.Nbar))
   have hS : Nat.card S ≤ 2 := by
     have h := d.card_le_two_of_le_Nbar (Subgroup.map_subtype_le (S : Subgroup d.Nbar))
-      (S.isPGroup'.map _)
+      (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective d.Nbar.subtype_injective] at h
   refine ⟨S, ?_, hS⟩
   rcases Nat.lt_or_ge (Nat.card S) 2 with h | h

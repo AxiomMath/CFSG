@@ -29,6 +29,7 @@ section Gens
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem sgChk_mem (hκ : MCod K M κ) (hKH : K ≤ H) (hQK : Q ≤ K) {m : ℕ}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {gs ts : List ℕ} {p TP : ℕ}
     {pg pr pt ws : List ℕ} (hfr : frChk M m gs ts p pg pr pt TP 6 ws = true)

@@ -115,7 +115,7 @@ theorem chiLab_eq_inf {Y S S' D : Subgroup G} {ζ : GaloisField 2 n} {d₁ d₂ 
     have hwd : ∀ s' ∈ S', ∀ s ∈ S, β (s' * s) = β' s' := by
       intro s' hs' s hs
       have hx : ∃ u ∈ S', ∃ v ∈ S, s' * s = u * v := ⟨s', hs', s, hs, rfl⟩
-      simp only [β, dif_pos hx]
+      simp only [β, dite_eq_left hx]
       obtain ⟨hc', t, ht, hct⟩ := hx.choose_spec
       have hmem : hx.choose⁻¹ * s' ∈ S ⊓ S' := by
         refine ⟨?_, S'.mul_mem (S'.inv_mem hc') hs'⟩

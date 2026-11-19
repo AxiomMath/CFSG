@@ -124,7 +124,7 @@ private theorem violation_map_iff_of_injOn {p : ℕ} {A B : Type} [Group A] [Fin
 private theorem injOn_of_isPGroup_of_not_dvd_ker {G K : Type} [Group G] [Finite G] [Group K]
     {p : ℕ} (hp : p.Prime) (π : G →* K) (hker : ¬ p ∣ Nat.card π.ker) {U : Subgroup G}
     (hU : IsPGroup p U) : Set.InjOn π (U : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hU
   have hcop : Nat.Coprime (Nat.card U) (Nat.card π.ker) := by
     rw [hn]
@@ -143,7 +143,7 @@ namespace SylowDichotomyAt
 theorem of_normal_coprime_index {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (N : Subgroup G) [N.Normal] (hN : ¬ p ∣ N.index) (h : SylowDichotomyAt G p) :
     SylowDichotomyAt N p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : (Nat.card G).factorization p = (Nat.card N).factorization p := by
     rw [← Subgroup.card_mul_index N,
       Nat.factorization_mul Nat.card_pos.ne' Subgroup.index_ne_zero_of_finite]
@@ -167,7 +167,7 @@ theorem of_normal_coprime_index {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
   · exact of_factorization_le (by rw [← hcard]; exact h)
   ·
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p G))
-    have hQN : (Q : Subgroup G) ≤ N := hF _ Q.isPGroup'
+    have hQN : (Q : Subgroup G) ≤ N := hF _ Q.isPGroup
     have hmapQ : ((Q : Subgroup G).subgroupOf N).map N.subtype = (Q : Subgroup G) := by
       rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left hQN]
     refine of_abelian_full hp (A := (Q : Subgroup G).subgroupOf N) ?_ ?_
@@ -195,7 +195,7 @@ theorem of_normal_coprime_index {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
 theorem of_surjective_coprime_ker {G K : Type} [Group G] [Finite G] [Group K] [Finite K] {p : ℕ}
     (hp : p.Prime) (π : G →* K) (hπ : Function.Surjective π) (hker : ¬ p ∣ Nat.card π.ker)
     (h : SylowDichotomyAt G p) : SylowDichotomyAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : (Nat.card K).factorization p = (Nat.card G).factorization p := by
     rw [← Subgroup.card_ker_mul_card_of_surjective hπ,
       Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply,
@@ -204,7 +204,7 @@ theorem of_surjective_coprime_ker {G K : Type} [Group G] [Finite G] [Group K] [F
     injOn_of_isPGroup_of_not_dvd_ker hp π hker hU
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p G))
   have hQcard : Nat.card ((Q : Subgroup G).map π) = p ^ (Nat.card K).factorization p := by
-    rw [card_map_of_injOn π _ (hinj _ Q.isPGroup'), Q.card_eq_multiplicity, hcard]
+    rw [card_map_of_injOn π _ (hinj _ Q.isPGroup), Q.card_eq_multiplicity, hcard]
   rcases h with h | h | h | ⟨U, hU, hv⟩
   · exact of_factorization_le (by rw [hcard]; exact h)
   · exact of_abelian_full hp (A := (Q : Subgroup G).map π) (isMulCommutative_map_of_hom π (h Q))
@@ -212,7 +212,7 @@ theorem of_surjective_coprime_ker {G K : Type} [Group G] [Finite G] [Group K] [F
   · apply of_pRank_le
     let T : Sylow p K := Sylow.ofCard _ hQcard
     have hT : (T : Subgroup K) = (Q : Subgroup G).map π := Sylow.coe_ofCard _ _
-    rw [pRank_top_eq_of_sylow T, hT, pRank_map_of_injOn π _ (hinj _ Q.isPGroup'),
+    rw [pRank_top_eq_of_sylow T, hT, pRank_map_of_injOn π _ (hinj _ Q.isPGroup),
       ← pRank_top_eq_of_sylow Q]
     exact h
   · exact of_violation (hU.map π) ((violation_map_iff_of_injOn π U (hinj U hU)).2 hv)

@@ -38,7 +38,7 @@ theorem kerIn_eq_pCoreOf_of_index {H T M₂ C : Subgroup G} (hmp : MinParabolic 
     rw [hφ, QuotientGroup.ker_mk'] at this
     exact ⟨_, this, rfl⟩
   by_contra hne
-  haveI : Jb.Normal := by rw [hJbfr]; infer_instance
+  have : Jb.Normal := by rw [hJbfr]; infer_instance
   have hcardJb : Nat.card Jb = (P.subgroupOf J').index := by
     have e1 : (φ.domRestrict J').range = Jb := by rw [hJb]; exact MonoidHom.domRestrict_range J' φ
     have e2 : (φ.domRestrict J').ker = P.subgroupOf J' := by

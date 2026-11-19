@@ -16,7 +16,7 @@ private theorem factorization_card_GL_four_two :
     (Nat.card (GL (Fin 4) (ZMod 2))).factorization 2 = 6 := by
   rw [card_GL_four_two, Nat.factorization_def _ Nat.prime_two]
   have h : (20160 : ℕ) = 2 ^ 6 * 315 := by norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [h, padicValNat.mul (by norm_num) (by norm_num), padicValNat.prime_pow,
     padicValNat.eq_zero_of_not_dvd (by norm_num), add_zero]
 
@@ -34,7 +34,7 @@ theorem inf_stabSub_V1n_eq_inf_Lg {T : Subgroup (MulAut (PairN 4))}
 
 theorem card_inf_stabSub_V1n_of_isSylowIn {T : Subgroup (MulAut (PairN 4))}
     (hT : IsSylowIn 2 T (Mg 4)) : Nat.card ↥(T ⊓ stabSub (V1n 4)) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : ((Lg 4).subgroupOf (Mg 4)).Normal :=
     Subgroup.normal_of_index_eq_two (relIndex_Lg_Mg (by norm_num))
   have h := hT.inf_normal Lg_le_Mg hnorm

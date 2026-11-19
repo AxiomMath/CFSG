@@ -146,7 +146,7 @@ theorem level1
   cases dn5
   · exact ⟨x, hx, hxS, hx2, k, m, hk, hm, hmove, hd, hF,
       not_max_of_killAt_rep hp hTH₁ hH.TH_le hH.TH_max (mem_sup_left htS) hH.t_sq Φ₁
-        (t1Mul_zero _ _) hinv t1Gens_lt hG₁ hGt hchi (kRepsC_lt hcls) hrep hk1 rfl⟩
+        (t1Mul_zero _ _) t1Gens_lt hG₁ hGt hchi (kRepsC_lt hcls) hrep hk1 rfl⟩
   · exact (false_of_killAt_rep hp hTH₁ hH.TH_le hH.TH_max (mem_sup_left htS) hH.t_sq Φ₁
       (t1Mul_zero _ _) hinv t1Gens_lt hG₁ hGt hchi hrep hk1).elim
 

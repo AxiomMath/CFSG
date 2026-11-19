@@ -45,7 +45,7 @@ theorem fi_three_elt_mem (hNc : N ≤ Subgroup.center Y) (PS : Sylow 3 Y)
     apply (QuotientGroup.eq_one_iff _).1
     change QuotientGroup.mk' N (p⁻¹ * t) = 1
     rw [map_mul, map_inv, hpt, inv_mul_cancel]
-  obtain ⟨j, hj⟩ := PS.isPGroup' ⟨p, hp⟩
+  obtain ⟨j, hj⟩ := PS.isPGroup ⟨p, hp⟩
   have hpj : p ^ 3 ^ j = 1 := congrArg Subtype.val hj
   have hcomm : Commute p (p⁻¹ * t) := by
     have := Subgroup.mem_center_iff.1 (hNc hn) p
@@ -81,7 +81,7 @@ theorem fi_normalizer_R (hNc : N ≤ Subgroup.center Y) (PS : Sylow 3 Y)
     have hE2 : QuotientGroup.mk' N (y * h * y⁻¹) ∈ Ē := by
       rw [map_mul, map_mul, map_inv]
       exact (Subgroup.mem_normalizer_iff.1 hy _).1 hhE'
-    obtain ⟨k, hk⟩ := PS.isPGroup' ⟨h, hhP⟩
+    obtain ⟨k, hk⟩ := PS.isPGroup ⟨h, hhP⟩
     have hhk : h ^ 3 ^ k = 1 := congrArg Subtype.val hk
     have hconj : (y * h * y⁻¹) ^ 3 ^ k = 1 := by
       rw [conj_pow, hhk]
@@ -118,7 +118,7 @@ theorem fi_exists_rank_three (hNc : N ≤ Subgroup.center Y) (PS : Sylow 3 Y)
     rw [h1]
     exact Ē.one_mem⟩
   set Z : Subgroup ↥R := (N ⊓ (PS : Subgroup Y)).subgroupOf R with hZ
-  have hG : IsPGroup 3 ↥R := PS.isPGroup'.to_le inf_le_left
+  have hG : IsPGroup 3 ↥R := PS.isPGroup.to_le inf_le_left
   have hZc : Z ≤ Subgroup.center ↥R := fun x hx =>
     Subgroup.mem_center_iff.2 fun g => Subtype.ext
       (Subgroup.mem_center_iff.1 (hNc (Subgroup.mem_subgroupOf.1 hx).1) g.1)

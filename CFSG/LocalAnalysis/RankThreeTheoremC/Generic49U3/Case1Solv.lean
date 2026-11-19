@@ -19,13 +19,13 @@ private theorem isSolvable_inf_normalizer_of_isSylowOf_two {R YB : Subgroup G}
     Group.IsSolvable ↥(R ⊓ normalizer (YB : Set G)) := by
   have hYBN : YB ≤ R ⊓ normalizer (YB : Set G) := le_inf hYB.le Subgroup.le_normalizer
   have hNN : R ⊓ normalizer (YB : Set G) ≤ normalizer (YB : Set G) := inf_le_right
-  haveI hnorm : (YB.subgroupOf (R ⊓ normalizer (YB : Set G))).Normal :=
+  have hnorm : (YB.subgroupOf (R ⊓ normalizer (YB : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYBN).mpr hNN
   have hP2 : IsPGroup 2 (YB.subgroupOf (R ⊓ normalizer (YB : Set G))) :=
     hYB.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hYBN).symm
-  haveI : Group.IsNilpotent ↥(YB.subgroupOf (R ⊓ normalizer (YB : Set G))) :=
+  have : Group.IsNilpotent ↥(YB.subgroupOf (R ⊓ normalizer (YB : Set G))) :=
     hP2.isNilpotent
-  haveI : Group.IsSolvable ↥(YB.subgroupOf (R ⊓ normalizer (YB : Set G))) := inferInstance
+  have : Group.IsSolvable ↥(YB.subgroupOf (R ⊓ normalizer (YB : Set G))) := inferInstance
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 YB (R ⊓ normalizer (YB : Set G)) :=
     hYB.of_le hYBN inf_le_left
   have hnd : ¬ 2 ∣ (YB.subgroupOf (R ⊓ normalizer (YB : Set G))).index :=
@@ -33,7 +33,7 @@ private theorem isSolvable_inf_normalizer_of_isSylowOf_two {R YB : Subgroup G}
   have hodd : Odd (Nat.card (↥(R ⊓ normalizer (YB : Set G)) ⧸
       YB.subgroupOf (R ⊓ normalizer (YB : Set G)))) :=
     Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hnd)
-  haveI : Group.IsSolvable (↥(R ⊓ normalizer (YB : Set G)) ⧸
+  have : Group.IsSolvable (↥(R ⊓ normalizer (YB : Set G)) ⧸
       YB.subgroupOf (R ⊓ normalizer (YB : Set G))) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   exact Group.isSolvable_of_subgroup_quotient (YB.subgroupOf (R ⊓ normalizer (YB : Set G)))
 
@@ -53,7 +53,7 @@ private theorem isSolvable_of_le_normalizer_of_relIndex {p : ℕ} (hp : p.Prime)
     (hR : Group.IsSolvable ↥(R ⊓ L))
     (hprime : ∀ q : ℕ, q.Prime → q ∣ R.relIndex L → q = 2 ∨ q = p) :
     Group.IsSolvable ↥L := by
-  haveI hRLn : (R.subgroupOf L).Normal :=
+  have hRLn : (R.subgroupOf L).Normal :=
     ⟨fun n hn g => Subgroup.le_set_normalizer_iff.mp hLn (g : G) g.2 (n : G)
       (Subgroup.mem_subgroupOf.mp hn)⟩
   have hRLsolv : Group.IsSolvable ↥(R.subgroupOf L) := by
@@ -70,13 +70,13 @@ private theorem isSolvable_of_le_normalizer_of_relIndex {p : ℕ} (hp : p.Prime)
   have hfac : R.relIndex L =
       2 ^ (R.relIndex L).factorization 2 * p ^ (R.relIndex L).factorization p :=
     eq_pow_mul_pow_of_prime_dvd_two_p hn0 (Ne.symm hp2) hprime
-  haveI : Fintype (↥L ⧸ R.subgroupOf L) := Fintype.ofFinite _
+  have : Fintype (↥L ⧸ R.subgroupOf L) := Fintype.ofFinite _
   have hcardQ : Nat.card (↥L ⧸ R.subgroupOf L) = R.relIndex L := rfl
   have hcard : Fintype.card (↥L ⧸ R.subgroupOf L) =
       2 ^ (R.relIndex L).factorization 2 * p ^ (R.relIndex L).factorization p := by
     rw [Fintype.card_eq_nat_card, hcardQ]
     exact hfac
-  haveI hQ : Group.IsSolvable (↥L ⧸ R.subgroupOf L) :=
+  have hQ : Group.IsSolvable (↥L ⧸ R.subgroupOf L) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two hp
       (Ne.symm hp2) hcard
   exact Group.isSolvable_of_subgroup_quotient (R.subgroupOf L)

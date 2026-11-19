@@ -44,7 +44,7 @@ theorem caseNotA_false :
       ∀ x y : G, orderOf x = 2 → orderOf y = 2 → x ≠ y → x * y = y * x →
         centralizer ({x} : Set G) ⊔ centralizer ({y} : Set G) = ⊤ :=
     fun _ _ _ ⟨e⟩ _ _ hx hy hxy hc => ly_sup_centralizer_eq_top e hx hy hxy hc
-  haveI := hc.simple
+  have := hc.simple
   obtain ⟨n, hn⟩ := hc.toSolMinCEx.exists_isMaxAhatDeg
   have hK := sec6Lemma51 hc hn
   have hEn := sec6Entry_of_pumpUp hA hn (sec6PumpUpHolds X n hc hn hK)

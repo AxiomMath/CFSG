@@ -23,7 +23,7 @@ section Burnside
 
 theorem sq_dvd_card_of_noncyclic {G : Type} [Group G] {p : ℕ} (hp : p.Prime) (E : Subgroup G)
     [Finite ↥E] (hE : ∀ x ∈ E, x ^ p = 1) (hnc : ¬ IsCyclic ↥E) : p ^ 2 ∣ Nat.card ↥E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p ↥E := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE x x.2)⟩
@@ -31,7 +31,7 @@ theorem sq_dvd_card_of_noncyclic {G : Type} [Group G] {p : ℕ} (hp : p.Prime) (
   rcases n with _ | _ | n
   · exfalso
     apply hnc
-    haveI : Subsingleton ↥E := (Nat.card_eq_one_iff_unique.1 (by simpa using hn)).1
+    have : Subsingleton ↥E := (Nat.card_eq_one_iff_unique.1 (by simpa using hn)).1
     exact isCyclic_of_subsingleton
   · exact absurd (isCyclic_of_prime_card (by simpa using hn)) hnc
   · rw [hn]
@@ -41,10 +41,10 @@ theorem card_dvd_sub_of_fixedBy {E X : Type} [Group E] [Finite E] [MulAction E X
     {N f : ℕ} (hN : Nat.card X = N) (hfN : f ≤ N)
     (hf : ∀ g : E, g ≠ 1 → Nat.card ↥(MulAction.fixedBy X g) = f) : Nat.card E ∣ N - f := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : ∀ g : E, Fintype ↥(MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient E X) := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype X := Fintype.ofFinite X
+  have : ∀ g : E, Fintype ↥(MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient E X) := Fintype.ofFinite _
   have key := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group E X
   simp only [Fintype.card_eq_nat_card] at key
   rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ (1 : E))] at key
@@ -159,7 +159,7 @@ attribute [local instance] xAct'
 
 theorem atMostOne_or_fix (hOut : SporadicOuterLeTwo) (hG : GOK) (e : ↥GA) (he : orderOf e = 5) :
     AtMostOneCompAt 5 e ∨ (xFix (e : GL24)).ncard = 60 := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨c, h0 | h1 | h5⟩ := tabCo1_census hG e he
   · exact Or.inl (atMostOneCompAt_conj_back Nat.prime_five
       (atMostOneCompAt_of_shapeRkAt Nat.prime_five (tabCo1_fiveA hOut _ h0)))
@@ -169,8 +169,8 @@ theorem atMostOne_or_fix (hOut : SporadicOuterLeTwo) (hG : GOK) (e : ↥GA) (he 
 
 theorem tabCo1_plane (hOut : SporadicOuterLeTwo) (hG : GOK) (E : Subgroup ↥GA)
     (hE : IsElemAbelian 5 E) (hnc : ¬ IsCyclic ↥E) : ∃ e ∈ E, e ≠ 1 ∧ AtMostOneCompAt 5 e := by
-  haveI : Finite ↥GA := finite_GA
-  haveI : Finite ↥certX := certX_finite.to_subtype
+  have : Finite ↥GA := finite_GA
+  have : Finite ↥certX := certX_finite.to_subtype
   by_contra hcon
   apply hnc
   refine isCyclic_of_fixed_count (X := ↥certX) (N := 98280) (f := 60) Nat.prime_five E hE.2 ?_

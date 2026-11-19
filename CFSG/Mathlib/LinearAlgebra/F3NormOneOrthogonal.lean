@@ -62,5 +62,5 @@ theorem transpose_mul_self_of_dot_self_one_iff (M : Matrix ι ι (ZMod 3))
   by_cases hij : i = j
   · subst j
     simpa using hcol i
-  · simpa only [if_neg hij] using horth i j hij
+  · simpa only [ite_eq_right hij] using horth i j hij
 end Matrix

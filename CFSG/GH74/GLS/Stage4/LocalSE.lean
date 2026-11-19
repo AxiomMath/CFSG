@@ -20,7 +20,7 @@ theorem sylow_comm_of_psl2Model {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have : Finite (CFSG.Theory.Comparator.PSL2Model n) := Finite.of_equiv G e.toEquiv
-  have hT : IsPGroup 2 ((S : Subgroup G).map e.toMonoidHom) := S.isPGroup'.map e.toMonoidHom
+  have hT : IsPGroup 2 ((S : Subgroup G).map e.toMonoidHom) := S.isPGroup.map e.toMonoidHom
   obtain ⟨Q, hQ⟩ := hT.exists_le_sylow
   obtain ⟨f⟩ := CFSG.BenderSuzuki.External.huppert_II_8_2_a_sylow_equiv_additive hF Q
   refine ⟨⟨fun a b => ?_⟩⟩

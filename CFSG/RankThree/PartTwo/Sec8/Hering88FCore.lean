@@ -53,7 +53,7 @@ theorem inSubgroup_perfectResidual_eq_of_isoGTwoEven {Q : Type} [Group Q] [Finit
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K hK3
   have hqR : IsQuasisimple R := LocalCores.isQuasisimple_of_mulEquiv e.symm hq
-  haveI : Group.IsPerfect R := hqR.1
+  have : Group.IsPerfect R := hqR.1
   exact inSubgroup_perfectResidual_of_isPerfect (R := R) inferInstance
 
 theorem classB_core_c (h45 : Sec4.Item4_5) (hF : KF84Field)

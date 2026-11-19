@@ -62,7 +62,7 @@ theorem dih_card_mul_self_eq_zc_lt (hk : 2 ≤ k) :
     Nat.card {x : DihedralGroup (2 ^ k) // x * x = zc k} <
       Nat.card {x : DihedralGroup (2 ^ k) // x * x = 1} := by
   classical
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   let f : {x : DihedralGroup (2 ^ k) // x * x = zc k} → {x : DihedralGroup (2 ^ k) // x * x = 1} :=
     fun x => ⟨x.1 * sr 0, by
       obtain ⟨j, hj⟩ := dih_exists_r_of_mul_self_eq_zc (by omega) x.2
@@ -81,9 +81,9 @@ theorem dih_card_mul_self_eq_zc_lt (hk : 2 ≤ k) :
 
 theorem dih_card_mul_self_eq_zc_pos (hk : 2 ≤ k) :
     0 < Nat.card {x : DihedralGroup (2 ^ k) // x * x = zc k} := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   obtain ⟨u, hu⟩ := dih_exists_mul_self_eq_zc hk
-  haveI : Nonempty {x : DihedralGroup (2 ^ k) // x * x = zc k} := ⟨⟨u, hu⟩⟩
+  have : Nonempty {x : DihedralGroup (2 ^ k) // x * x = zc k} := ⟨⟨u, hu⟩⟩
   exact Nat.card_pos
 
 end Model
@@ -452,7 +452,7 @@ theorem prod_core [Finite H₂] (hAut : IsPGroup 2 (MulAut H₂)) (σ : MulAut (
     (hσ : Odd (orderOf σ)) (hc : ∀ c ∈ center H₂, σ (1, c) = (1, c))
     (h₁ : ∀ x : H₁, (σ (x, 1)).2 ∈ center H₂) (h₂ : ∀ y : H₂, (σ (1, y)).1 ∈ center H₁) :
     ∀ y : H₂, y⁻¹ * (σ (1, y)).2 ∈ center H₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let τ : H₂ →* H₂ := (MonoidHom.snd H₁ H₂).comp (σ.toMonoidHom.comp (MonoidHom.inr H₁ H₂))
   have hτ : ∀ y, τ y = (σ (1, y)).2 := fun y => rfl
   have hinj : Function.Injective τ := by
@@ -510,7 +510,7 @@ theorem prod_core [Finite H₂] (hAut : IsPGroup 2 (MulAut H₂)) (σ : MulAut (
     { carrier := {ρ | ∀ y, y⁻¹ * ρ y ∈ center H₂}
       mul_mem' := by
         intro ρ₁ ρ₂ hρ₁ hρ₂ y
-        simp only [Set.mem_setOf_eq] at hρ₁ hρ₂ ⊢
+        simp only [Set.mem_ofPred_eq] at hρ₁ hρ₂ ⊢
         rw [MulAut.mul_apply]
         have h3 := mulEquiv_apply_mem_center ρ₁ (hρ₂ y)
         have : ρ₂ y = y * (y⁻¹ * ρ₂ y) := by group
@@ -524,7 +524,7 @@ theorem prod_core [Finite H₂] (hAut : IsPGroup 2 (MulAut H₂)) (σ : MulAut (
         exact one_mem _
       inv_mem' := by
         intro ρ hρ y
-        simp only [Set.mem_setOf_eq] at hρ ⊢
+        simp only [Set.mem_ofPred_eq] at hρ ⊢
         have h := hρ (ρ⁻¹ y)
         rw [MulAut.apply_inv_self] at h
         have := inv_mem h
@@ -553,10 +553,10 @@ theorem conj_mem_center_mul {K : Type*} [Group K] (σ : MulAut K) {p q : K}
 theorem prod_dih_conj_mem_center {a b : ℕ} (e₁ : H₁ ≃* DihedralGroup (2 ^ a)) (ha : 1 ≤ a)
     (e₂ : H₂ ≃* DihedralGroup (2 ^ b)) (hb : 2 ≤ b) (σ : MulAut (H₁ × H₂))
     (hσ : Odd (orderOf σ)) (p : H₁ × H₂) : p⁻¹ * σ p ∈ center (H₁ × H₂) := by
-  haveI : NeZero (2 ^ a) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ b) := ⟨by positivity⟩
-  haveI : Finite H₁ := Finite.of_equiv _ e₁.symm.toEquiv
-  haveI : Finite H₂ := Finite.of_equiv _ e₂.symm.toEquiv
+  have : NeZero (2 ^ a) := ⟨by positivity⟩
+  have : NeZero (2 ^ b) := ⟨by positivity⟩
+  have : Finite H₁ := Finite.of_equiv _ e₁.symm.toEquiv
+  have : Finite H₂ := Finite.of_equiv _ e₂.symm.toEquiv
   suffices hsuff : (∀ x : H₁, ((x, 1) : H₁ × H₂)⁻¹ * σ (x, 1) ∈ center (H₁ × H₂)) ∧
       ∀ y : H₂, ((1, y) : H₁ × H₂)⁻¹ * σ (1, y) ∈ center (H₁ × H₂) by
     have hp : p = (p.1, 1) * (1, p.2) := by

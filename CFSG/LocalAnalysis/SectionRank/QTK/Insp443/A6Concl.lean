@@ -207,7 +207,7 @@ theorem KConfig.conclK_of_a6 {G : Type} [Group G] [Finite G] {L V MK : Subgroup 
     · exact hb
     · exact absurd (Subgroup.mem_center_iff.mp (ht ▸ Subgroup.mem_top y) x) hxy
   have hcommV : IsMulCommutative ↥V := h.elemAbelian.1
-  letI : IsMulCommutative ↥V := hcommV
+  let : IsMulCommutative ↥V := hcommV
   unfold ConclK
   refine Or.inl ⟨hq, Or.inr (Or.inr (Or.inr (Or.inl ⟨eQ⟩))), Or.inl ⟨⟨hcommV,
     isFFModule_autOn_of_involution ha ha2 hfix⟩, ?_, ?_, ?_, ?_⟩⟩

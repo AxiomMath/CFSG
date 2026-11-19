@@ -31,7 +31,7 @@ theorem sylow_map_invariant_of_isMinInv {M : Type} [Group M] [Finite M] {σ : Mu
     {N : Subgroup M} (hN : IsMinInv σ N) (hNab : IsMulCommutative ↥N) {r : ℕ} [Fact r.Prime]
     (R : Sylow r ↥N) :
     ∀ x ∈ (R : Subgroup ↥N).map N.subtype, σ x ∈ (R : Subgroup ↥N).map N.subtype := by
-  letI : IsMulCommutative ↥N := hNab
+  let : IsMulCommutative ↥N := hNab
   have hRchar : (R : Subgroup ↥N).Characteristic :=
     Sylow.characteristic_of_normal R (inferInstance : (R : Subgroup ↥N).Normal)
   intro x hx
@@ -48,15 +48,15 @@ theorem sylow_map_invariant_of_isMinInv {M : Type} [Group M] [Finite M] {σ : Mu
 theorem isPGroup_of_isMinInv_of_isMulCommutative {M : Type} [Group M] [Finite M]
     {σ : MulAut M} {N : Subgroup M} (hN : IsMinInv σ N) (hNab : IsMulCommutative ↥N) :
     ∃ r : ℕ, r.Prime ∧ IsPGroup r ↥N := by
-  letI : IsMulCommutative ↥N := hNab
-  haveI : N.Normal := hN.normal
+  let : IsMulCommutative ↥N := hNab
+  have : N.Normal := hN.normal
   have hNcard : 1 < Nat.card ↥N := (Subgroup.one_lt_card_iff_ne_bot N).mpr hN.ne_bot
   obtain ⟨r, hrprime, hrdiv⟩ := Nat.exists_prime_and_dvd hNcard.ne'
-  letI : Fact r.Prime := ⟨hrprime⟩
+  let : Fact r.Prime := ⟨hrprime⟩
   let R : Sylow r ↥N := Sylow.nonempty.some
   have hRchar : (R : Subgroup ↥N).Characteristic :=
     Sylow.characteristic_of_normal R (inferInstance : (R : Subgroup ↥N).Normal)
-  letI : (R : Subgroup ↥N).Characteristic := hRchar
+  let : (R : Subgroup ↥N).Characteristic := hRchar
   have hRnorm : ((R : Subgroup ↥N).map N.subtype).Normal := inferInstance
   have hRinv := sylow_map_invariant_of_isMinInv hN hNab R
   have hRne : (R : Subgroup ↥N) ≠ ⊥ := by
@@ -73,7 +73,7 @@ theorem isPGroup_of_isMinInv_of_isMulCommutative {M : Type} [Group M] [Finite M]
     · exact absurd h hR'ne
     · exact h
   refine ⟨r, hrprime, ?_⟩
-  have hRpg : IsPGroup r ↥((R : Subgroup ↥N).map N.subtype) := (R.isPGroup').map N.subtype
+  have hRpg : IsPGroup r ↥((R : Subgroup ↥N).map N.subtype) := (R.isPGroup).map N.subtype
   rwa [hR'eq] at hRpg
 
 theorem quotient_good_of_commSub_top {p : ℕ} {M : Type} [Group M] [Finite M] (σ : MulAut M)
@@ -122,7 +122,7 @@ theorem prime_dvd_card_eq_two_or_p {p : ℕ} {M : Type} [Group M] [Finite M] {N 
   rw [hprod] at hqdiv
   rcases hq.dvd_or_dvd hqdiv with hqQ | hqN
   · exact hQuot q hq hqQ
-  · letI : Fact r.Prime := ⟨hr⟩
+  · let : Fact r.Prime := ⟨hr⟩
     obtain ⟨n, hn⟩ := hrpg.exists_card_eq
     rw [hn] at hqN
     have hqr : q = r := Nat.prime_eq_prime_of_dvd_pow hq hr hqN
@@ -144,12 +144,12 @@ theorem k22p_of_commSub_top (hAb : ChiefAb) (hS1 : SimpleThreePrimeIsSz) (hS2 : 
       by_cases htriv : Nat.card M = 1
       · rw [htriv] at hqdiv
         exact (hq.not_dvd_one hqdiv).elim
-      · haveI : Nontrivial M := by
+      · have : Nontrivial M := by
           rw [← Finite.one_lt_card_iff_nontrivial]
           exact lt_of_le_of_ne (Nat.one_le_iff_ne_zero.mpr Nat.card_pos.ne') (Ne.symm htriv)
         obtain ⟨N, hN⟩ := exists_isMinInv σ
         by_cases hNab : IsMulCommutative ↥N
-        · letI : N.Normal := hN.normal
+        · let : N.Normal := hN.normal
           let hNmap := map_eq_of_pointwise_invariant σ N hN.invariant
           let σbar : MulAut (M ⧸ N) := quotientAutomorphism σ N hNmap
           obtain ⟨hGoodQuot, hcommQuot, hquotlt⟩ :=
@@ -170,7 +170,7 @@ theorem k22pAbs_of (hAb : ChiefAb) (hNon : ChiefNon) : K22pAbs := by
   let L : Subgroup M := commAct σ
   have hcomm : commSub σ = L := (commAct_eq_commSub σ).symm
   have hLn : L.Normal := commAct_normal σ
-  letI : L.Normal := hLn
+  let : L.Normal := hLn
   have hLinv : ∀ x ∈ L, σ x ∈ L := fun x hx => commAct_invariant σ hx
   let hLmap := map_eq_of_pointwise_invariant σ L hLinv
   let τ : MulAut L := CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism σ L hLmap

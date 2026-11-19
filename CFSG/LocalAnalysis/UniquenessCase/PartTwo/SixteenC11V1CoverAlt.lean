@@ -32,7 +32,7 @@ theorem s16c11_v1_cover_alt_odd {n : ℕ} (hn : Odd n) (h5 : 5 ≤ n) :
     rw [hcomm]
     exact Subgroup.mem_top z
   · obtain ⟨π, hπs, -, -, -, -, hsec, hker, β₀, hβs, hβk, hβe⟩ := h
-    haveI : IsSimpleGroup (FFModel.altDn n).Gam :=
+    have : IsSimpleGroup (FFModel.altDn n).Gam :=
       alternatingGroup.isSimpleGroup (by simpa using h5)
     have hπinj : Function.Injective π := by
       rw [← MonoidHom.ker_eq_bot_iff]

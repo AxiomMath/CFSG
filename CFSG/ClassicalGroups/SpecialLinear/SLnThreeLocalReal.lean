@@ -28,7 +28,7 @@ private theorem det_inverterMat (a b : K) :
 private theorem exists_inverter_coeffs [Finite K] (h3 : (3 : K) ≠ 0) :
     ∃ a b : K, a ^ 2 - a * b + b ^ 2 = -1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_cases h2 : ringChar K = 2
   · have h20 : (2 : K) = 0 := by
       have := (ringChar.spec K 2).mpr (by rw [h2])
@@ -107,7 +107,7 @@ private theorem exists_realizes_neg [Finite K] (h3 : (3 : K) ≠ 0) (hn : n = 6 
   by_cases hij : i = j
   · subst hij
     simpa using inverter_mul_blockPowGL T hT (Multiplicative.toAdd v i)
-  · simp [Function.update_of_ne hij, hij]
+  · simp [hij]
 
 private def blkPerm (σ : Equiv.Perm (Fin 3)) : Equiv.Perm Blk :=
   Equiv.prodCongrRight fun _ => σ⁻¹
@@ -154,11 +154,11 @@ theorem exists_conj_c₀ [Finite K] (h3 : (3 : K) ≠ 0) (hn : n = 6 ∨ n = 7)
 theorem three_ne_zero_of_natCard_mod_three [Finite K] (h : Nat.card K % 3 = 2) :
     (3 : K) ≠ 0 := by
   intro h3
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hdvd : ringChar K ∣ 3 := (ringChar.spec K 3).mp (by exact_mod_cast h3)
   have hne : ringChar K ≠ 1 := CharP.char_ne_one K (ringChar K)
   have hp : ringChar K = 3 := (Nat.prime_three.eq_one_or_self_of_dvd _ hdvd).resolve_left hne
-  haveI : CharP K 3 := hp ▸ ringChar.charP K
+  have : CharP K 3 := hp ▸ ringChar.charP K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 3
   rw [Nat.card_eq_fintype_card, hm] at h
   have : 3 ∣ 3 ^ (m : ℕ) := dvd_pow_self 3 m.ne_zero

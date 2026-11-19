@@ -142,14 +142,14 @@ theorem burnsideC56_tr_isA3Product (X L : Subgroup A) (s : ℕ) :
   unfold IsA3Product
   constructor
   · rintro ⟨K₁', hb1, ha1, h⟩
-    have hK₁ := burnsideC56_tr_eq_map_comap hf hb1.2.1
+    have hK₁ := burnsideC56_tr_eq_map_comap hb1.2.1
     rw [← hK₁] at hb1 ha1 h
     rw [burnsideC56_tr_isBlock2 hf] at hb1
     rw [burnsideC56_tr_isAltType hf] at ha1
     refine ⟨K₁'.comap f, hb1, ha1, ?_⟩
     rcases h with ⟨hs, hL⟩ | ⟨hs, K₂', hne, hb2, ha2, hc, hL⟩
     · exact Or.inl ⟨hs, (Subgroup.map_injective hf) hL⟩
-    · have hK₂ := burnsideC56_tr_eq_map_comap hf hb2.2.1
+    · have hK₂ := burnsideC56_tr_eq_map_comap hb2.2.1
       rw [← hK₂] at hne hb2 ha2 hc hL
       rw [burnsideC56_tr_isBlock2 hf] at hb2
       rw [burnsideC56_tr_isAltType hf] at ha2

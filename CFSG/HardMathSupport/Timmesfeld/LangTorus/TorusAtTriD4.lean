@@ -98,8 +98,8 @@ theorem langDescent_triD4 (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = (
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hrange := triEmb_range (K := K) (σ := σ) (L := L) hℓ hf hK hσ Fr hFr
   have hfix : D.fix = (triEmb K σ L).range := by
     rw [hrange]
@@ -109,7 +109,7 @@ theorem langDescent_triD4 (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = (
   obtain ⟨-, -, -, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ f hℓ hf K hK L 1
       (Or.inl rfl) σ.toRingHom (fun c => by rw [pow_one]; exact hσ c) Fr hFr
-  haveI := hsimple
+  have := hsimple
   have hperf := commutator_eq_top_of_simple_of_not_comm hnc
   have hperfI : ⁅(triEmb K σ L).range, (triEmb K σ L).range⁆ = (triEmb K σ L).range := by
     have h1 : (triEmb K σ L).range = Subgroup.map (triEmb K σ L) ⊤ := MonoidHom.range_eq_map _

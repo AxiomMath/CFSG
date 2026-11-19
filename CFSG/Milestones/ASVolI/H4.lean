@@ -405,7 +405,7 @@ private theorem h42_exists_single : ∀ a : Fin 3 → ZMod 2, a ≠ 0 →
 private theorem h42Col_mulVec_e0 (a c1 c2 : Fin 3 → ZMod 2) :
     Matrix.mulVec (h42Col a c1 c2) (Pi.single 0 1) = a := by
   funext i
-  fin_cases i <;> simp [h42Col, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply]
+  fin_cases i <;> simp [h42Col, Matrix.mulVec, dotProduct, Pi.single_apply]
 
 private theorem h42Col_transpose_mulVec (a c1 c2 b : Fin 3 → ZMod 2) :
     Matrix.mulVec (Matrix.transpose (h42Col a c1 c2)) b =
@@ -593,7 +593,7 @@ private theorem h42_cover (x y : Multiplicative (Fin 3 → ZMod 2)) (hv : (x, y)
         refine Or.inr (Or.inr ⟨pairHom (h42Gl _ hM), h42_pairHom_mem _, ?_⟩)
         rw [h42_act]
         simp only [b1, b2, h42_swap_apply, Prod.mk_mul_mk, mul_one, one_mul,
-          toAdd_ofAdd, toAdd_one, Matrix.mulVec_zero, h42Col_mulVec_e0, ofAdd_toAdd, hinv]
+          toAdd_ofAdd, h42Col_mulVec_e0, ofAdd_toAdd, hinv]
       · have hdot0 := h42_zmod2_eq_zero_of_ne_one _ hdot
         obtain ⟨c1, c2, hd, h1, h2⟩ := h42_exists_zero _ _ ha hb hdot0
         have hM : (h42Col (Multiplicative.toAdd x) c1 c2).det ≠ 0 := by rw [h42Col_det]; exact hd
@@ -606,7 +606,7 @@ private theorem h42_cover (x y : Multiplicative (Fin 3 → ZMod 2)) (hv : (x, y)
         refine Or.inr (Or.inl ⟨pairHom (h42Gl _ hM), h42_pairHom_mem _, ?_⟩)
         rw [h42_act]
         simp only [b1, b2, h42_swap_apply, Prod.mk_mul_mk, mul_one, one_mul,
-          toAdd_ofAdd, toAdd_one, Matrix.mulVec_zero, h42Col_mulVec_e0, ofAdd_toAdd, hinv]
+          toAdd_ofAdd, h42Col_mulVec_e0, ofAdd_toAdd, hinv]
 
 private theorem h42_dvd_relIndex (S : Subgroup (MulAut PV)) (hSP : S ≤ pairSL (ZMod 2)) :
     2 ∣ S.relIndex groupLT := by
@@ -661,14 +661,13 @@ private theorem h42_orbit_b1b2 :
     refine ⟨⟨pairHom (h42Gl _ hM), h42_pairHom_mem _⟩, ?_⟩
     show (pairHom (h42Gl _ hM)) (b1 0 * b2 1) = w
     rw [h42_act]
-    simp only [b1, b2, h42_swap_apply, Prod.mk_mul_mk, mul_one, one_mul, toAdd_ofAdd, toAdd_one,
-      h42Col_mulVec_e0, ofAdd_toAdd, hinv, Prod.mk.eta]
+    simp only [b1, b2, h42_swap_apply, Prod.mk_mul_mk, mul_one, one_mul, toAdd_ofAdd, h42Col_mulVec_e0, ofAdd_toAdd, hinv, Prod.mk.eta]
 
 private theorem h42_tc_b1b2 : IsTwoCentralVec groupLT (b1 0 * b2 1) := by
   classical
-  haveI : Fintype ↥groupLT := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit (↥groupLT) (b1 0 * b2 1)) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer (↥groupLT) (b1 0 * b2 1)) := Fintype.ofFinite _
+  have : Fintype ↥groupLT := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit (↥groupLT) (b1 0 * b2 1)) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer (↥groupLT) (b1 0 * b2 1)) := Fintype.ofFinite _
   have hcardorb : Nat.card (MulAction.orbit (↥groupLT) (b1 0 * b2 1)) = 21 := by
     rw [h42_orbit_b1b2, Nat.card_coe_set_eq, Set.ncard_coe_finset]
     decide
@@ -752,15 +751,18 @@ open CFSG.Quasithin.H.L3Nine CFSG.Quasithin.H.SU3 Matrix
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem h44_mulVec_two {h : Matrix (Fin 3) (Fin 3) K} (h0 : h 2 0 = 0) (h1 : h 2 1 = 0)
     {v : Fin 3 → K} (hv : v 2 = 0) : (h.mulVec v) 2 = 0 := by
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, h0, h1, hv]
 
+omit [Finite K] [CharP K 2] in
 private theorem h44_mulVec_one_two {h : Matrix (Fin 3) (Fin 3) K} (h0 : h 1 0 = 0)
     (h1 : h 2 0 = 0) {v : Fin 3 → K} (hv1 : v 1 = 0) (hv2 : v 2 = 0) :
     (h.mulVec v) 1 = 0 ∧ (h.mulVec v) 2 = 0 := by
   constructor <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, h0, h1, hv1, hv2]
 
+omit [Finite K] [CharP K 2] in
 private theorem h44_slStab_spW : slStab (spW K) = CFSG.Quasithin.RonanH44.stabW K := by
   ext g
   constructor
@@ -775,6 +777,7 @@ private theorem h44_slStab_spW : slStab (spW K) = CFSG.Quasithin.RonanH44.stabW 
     have hgi := inv_mem hg
     exact ⟨h44_mulVec_two hg.1 hg.2 hv2, h44_mulVec_two hgi.1 hgi.2 hv2⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem h44_slStab_spZ : slStab (spZ K) = CFSG.Quasithin.RonanH44.stabZ K := by
   ext g
   constructor
@@ -1069,9 +1072,9 @@ end H47
 private theorem mem_fixV_conjSubgroup {W : Type*} [CommGroup W] (B : Subgroup (MulAut W))
     (g : MulAut W) (v : W) : v ∈ fixV (conjSubgroup B g) ↔ g v ∈ fixV B := by
   have hinv : ∀ z : W, g (g⁻¹ z) = z := fun z => by
-    rw [← MulAut.mul_apply, mul_inv_cancel] <;> rfl
+    rw [← MulAut.mul_apply, mul_inv_cancel]; rfl
   have hinv' : ∀ z : W, g⁻¹ (g z) = z := fun z => by
-    rw [← MulAut.mul_apply, inv_mul_cancel] <;> rfl
+    rw [← MulAut.mul_apply, inv_mul_cancel]; rfl
   constructor
   · intro hv y hy
     have hmem : g⁻¹ * y * g ∈ conjSubgroup B g := by
@@ -1120,11 +1123,11 @@ private theorem conjSubgroup_mem_aSet {W : Type*} [CommGroup W] {k : ℕ}
 
 private theorem mulVec_e0_apply (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) (i : Fin 3) :
     Matrix.mulVec M (Pi.single 0 1) i = M i 0 := by
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply]
+  simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
 private theorem mulVec_e1_apply (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) (i : Fin 3) :
     Matrix.mulVec M (Pi.single 1 1) i = M i 1 := by
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply]
+  simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
 private theorem mulVec_e0_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     Matrix.mulVec M (Pi.single 0 1) = Pi.single 0 1 ↔
@@ -1135,11 +1138,11 @@ private theorem mulVec_e0_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     have h1 := congrFun h 1
     have h2 := congrFun h 2
     rw [mulVec_e0_apply] at h0 h1 h2
-    simp [Pi.single_apply] at h0 h1 h2
+    simp at h0 h1 h2
     exact ⟨h1, h2, h0⟩
   · rintro ⟨h1, h2, h0⟩
     ext i
-    fin_cases i <;> simp [mulVec_e0_apply, Pi.single_apply, h0, h1, h2]
+    fin_cases i <;> simp [mulVec_e0_apply, h0, h1, h2]
 
 private theorem vecMul_e2_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     Matrix.vecMul (Pi.single 2 1) M = Pi.single 2 1 ↔
@@ -1149,11 +1152,11 @@ private theorem vecMul_e2_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     have h0 := congrFun h 0
     have h1 := congrFun h 1
     have h2 := congrFun h 2
-    simp [Matrix.vecMul, dotProduct, Fin.sum_univ_three, Pi.single_apply] at h0 h1 h2
+    simp [Matrix.vecMul, dotProduct, Pi.single_apply] at h0 h1 h2
     exact ⟨h0, h1, h2⟩
   · rintro ⟨h0, h1, h2⟩
     ext j
-    fin_cases j <;> simp [Matrix.vecMul, dotProduct, Fin.sum_univ_three, Pi.single_apply, h0, h1, h2]
+    fin_cases j <;> simp [Matrix.vecMul, dotProduct, Pi.single_apply, h0, h1, h2]
 
 private theorem mulVec_e1_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     Matrix.mulVec M (Pi.single 1 1) = Pi.single 1 1 ↔
@@ -1164,11 +1167,11 @@ private theorem mulVec_e1_eq_iff (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     have h1 := congrFun h 1
     have h2 := congrFun h 2
     rw [mulVec_e1_apply] at h0 h1 h2
-    simp [Pi.single_apply] at h0 h1 h2
+    simp at h0 h1 h2
     exact ⟨h0, h2, h1⟩
   · rintro ⟨h0, h2, h1⟩
     ext i
-    fin_cases i <;> simp [mulVec_e1_apply, Pi.single_apply, h0, h1, h2]
+    fin_cases i <;> simp [mulVec_e1_apply, h0, h1, h2]
 
 private theorem mem_fstCoords_one {v : Fin 3 → ZMod 2} :
     v ∈ fstCoords 1 ↔ v 1 = 0 ∧ v 2 = 0 := by
@@ -1193,13 +1196,13 @@ private theorem mem_fstCoords_two {v : Fin 3 → ZMod 2} :
     · exact h2
 
 private theorem e0_mem_fstCoords_one : (Pi.single 0 1 : Fin 3 → ZMod 2) ∈ fstCoords 1 :=
-  mem_fstCoords_one.2 ⟨by simp [Pi.single_apply], by simp [Pi.single_apply]⟩
+  mem_fstCoords_one.2 ⟨by simp, by simp⟩
 
 private theorem e0_mem_fstCoords_two : (Pi.single 0 1 : Fin 3 → ZMod 2) ∈ fstCoords 2 :=
-  mem_fstCoords_two.2 (by simp [Pi.single_apply])
+  mem_fstCoords_two.2 (by simp)
 
 private theorem e1_mem_fstCoords_two : (Pi.single 1 1 : Fin 3 → ZMod 2) ∈ fstCoords 2 :=
-  mem_fstCoords_two.2 (by simp [Pi.single_apply])
+  mem_fstCoords_two.2 (by simp)
 
 private theorem stab_fstCoords_one (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     (hM : Matrix.mulVec M (Pi.single 0 1) = Pi.single 0 1)
@@ -1210,7 +1213,7 @@ private theorem stab_fstCoords_one (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     funext j
     fin_cases j <;> simp [h1, h2]
   rw [hv', Matrix.mulVec_smul, hM]
-  exact mem_fstCoords_one.2 ⟨by simp [Pi.single_apply], by simp [Pi.single_apply]⟩
+  exact mem_fstCoords_one.2 ⟨by simp, by simp⟩
 
 private theorem stab_fstCoords_two (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     (hM : Matrix.vecMul (Pi.single 2 1) M = Pi.single 2 1)
@@ -1220,7 +1223,7 @@ private theorem stab_fstCoords_two (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
   have key : dotProduct (Pi.single 2 1 : Fin 3 → ZMod 2) (Matrix.mulVec M v) =
       dotProduct (Pi.single 2 1 : Fin 3 → ZMod 2) v := by
     rw [Matrix.dotProduct_mulVec, hM]
-  simp [dotProduct, Fin.sum_univ_three, Pi.single_apply] at key
+  simp [dotProduct, Pi.single_apply] at key
   rw [key, hv]
 
 private theorem mem_parabSL_one (g : ↥SL32) :
@@ -1432,9 +1435,9 @@ private noncomputable def h48TauPow (c : ZMod 2) : MulAut WMod := if c = 0 then 
 
 private theorem h48_zmod2 : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
 
-private theorem h48TauPow_zero : h48TauPow 0 = 1 := if_pos rfl
+private theorem h48TauPow_zero : h48TauPow 0 = 1 := ite_eq_left rfl
 
-private theorem h48TauPow_one : h48TauPow 1 = tau := if_neg (by decide)
+private theorem h48TauPow_one : h48TauPow 1 = tau := ite_eq_right (by decide)
 
 private theorem h48_mul_cases (q : Multiplicative (ZMod 2)) :
     q = 1 ∨ q = Multiplicative.ofAdd 1 := by
@@ -1485,9 +1488,8 @@ private theorem h48Val_mul (x y : ↥SL32 ≀ᵣ Multiplicative (ZMod 2)) :
     rw [hx, hy]
   · simp [h48_rho_mul, h48TauPow_zero, ht1]
   · simp [h48_rho_mul, h48TauPow_zero, h48TauPow_one, ht1, mul_assoc]
-  · simp [h48_rho_mul, h48_tau_rho_swap, h48TauPow_zero, h48TauPow_one, ht, ht1, ht2, mul_assoc]
-  · simp [h48_rho_mul, h48_tau_rho_tau, h48TauPow_zero, h48TauPow_one, ht, ht1, ht2, mul_assoc,
-      tau_mul_self]
+  · simp [h48_rho_mul, h48_tau_rho_swap, h48TauPow_zero, h48TauPow_one, ht, ht2, mul_assoc]
+  · simp [h48_rho_mul, h48_tau_rho_tau, h48TauPow_zero, h48TauPow_one, ht, ht2, mul_assoc]
 
 private noncomputable def h48Hom : (↥SL32 ≀ᵣ Multiplicative (ZMod 2)) →* MulAut WMod where
   toFun := h48Val
@@ -1556,17 +1558,17 @@ private theorem h48_surjective : Function.Surjective h48HomGw := by
   obtain ⟨g, rfl | rfl⟩ := mem_norm_iff.1 hyn
   · refine ⟨⟨fun z => if z = 1 then g.1 else g.2, 1⟩, Subtype.ext ?_⟩
     show h48Val _ = rho g
-    simp [h48Val, h48TauPow_zero, h48_ne_ofAdd_one]
+    simp [h48Val, h48TauPow_zero]
   · refine ⟨⟨fun z => if z = 1 then g.1 else g.2, Multiplicative.ofAdd 1⟩, Subtype.ext ?_⟩
     show h48Val _ = rho g * tau
-    simp [h48Val, h48TauPow_one, h48_ne_ofAdd_one]
+    simp [h48Val, h48TauPow_one]
 
 private theorem h48_iso : Nonempty (↥Gw ≃* (↥SL32 ≀ᵣ Multiplicative (ZMod 2))) :=
   ⟨(MulEquiv.ofBijective h48HomGw ⟨h48_injective, h48_surjective⟩).symm⟩
 
 private theorem h48_maximal {P N : Subgroup ↥SL32} (hP : Nat.card ↥P = 24) (hPN : P ≤ N) :
     N = P ∨ N = ⊤ := by
-  haveI : Finite ↥SL32 := Nat.finite_of_card_ne_zero (by rw [card_SL32]; norm_num)
+  have : Finite ↥SL32 := Nat.finite_of_card_ne_zero (by rw [card_SL32]; norm_num)
   have h1 : Nat.card ↥P ∣ Nat.card ↥N := Subgroup.card_dvd_of_le hPN
   have h2 : Nat.card ↥N ∣ 168 := by
     have := Subgroup.card_subgroup_dvd_card N
@@ -1755,7 +1757,7 @@ private theorem h48_neg_self : ∀ a : ZMod 2, a + -a = 0 := by decide
 private theorem h48_tau_mul_inv (v : WMod) : tau v * v⁻¹ ∈ h48Alt := by
   refine h48_mem_Alt.2 ⟨fun i => ?_, fun i j => ?_⟩
   · simp only [toAdd_mul, toAdd_inv, toAdd_tau, Matrix.add_apply, Matrix.neg_apply,
-      Matrix.transpose_apply, Pi.add_apply, Pi.neg_apply]
+      Matrix.transpose_apply]
     exact h48_neg_self _
   · simp only [toAdd_mul, toAdd_inv, toAdd_tau, Matrix.add_apply, Matrix.neg_apply,
       Matrix.transpose_apply]
@@ -1766,19 +1768,19 @@ private theorem h48_tau_mul_inv_xw (i j : Fin 3) : tau (xw i j) * (xw i j)⁻¹ 
   simp only [toAdd_mul, toAdd_inv, toAdd_tau, xw, yw, toAdd_ofAdd]
   ext a b
   fin_cases i <;> fin_cases j <;> fin_cases a <;> fin_cases b <;>
-    simp [Matrix.single_apply] <;> decide
+    simp
 
 private theorem h48_yw01 : yw 0 1 ∈ h48Alt :=
-  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw, Matrix.single_apply],
-    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw, Matrix.single_apply]⟩
+  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw],
+    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw]⟩
 
 private theorem h48_yw02 : yw 0 2 ∈ h48Alt :=
-  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw, Matrix.single_apply],
-    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw, Matrix.single_apply]⟩
+  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw],
+    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw]⟩
 
 private theorem h48_yw12 : yw 1 2 ∈ h48Alt :=
-  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw, Matrix.single_apply],
-    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw, Matrix.single_apply]⟩
+  h48_mem_Alt.2 ⟨fun i => by fin_cases i <;> simp [yw, xw],
+    fun i j => by fin_cases i <;> fin_cases j <;> simp [yw, xw]⟩
 
 private theorem h48_alt_eq_prod (X : WMod) (hX : X ∈ h48Alt) :
     X = yw 0 1 ^ (Multiplicative.toAdd X 0 1).val * yw 0 2 ^ (Multiplicative.toAdd X 0 2).val *
@@ -1791,7 +1793,7 @@ private theorem h48_alt_eq_prod (X : WMod) (hX : X ∈ h48Alt) :
   have h20 := hs 2 0
   have h21 := hs 2 1
   fin_cases i <;> fin_cases j <;>
-    simp [yw, xw, ZMod.natCast_zmod_val, hd, h10, h20, h21]
+    simp [yw, xw, hd, h10, h20, h21]
 
 private theorem h48_alt_le_closure : h48Alt ≤ Subgroup.closure {yw 0 1, yw 0 2, yw 1 2} := by
   intro X hX
@@ -1869,7 +1871,7 @@ private theorem h48_card_alt : Nat.card ↥h48Alt = 8 := by
       ext i j
       fin_cases i <;> fin_cases j <;> simp [h48AltOf, hd, hs 1 0, hs 2 0, hs 2 1]
   rw [← Nat.card_congr (Equiv.ofBijective _ hf)]
-  simp [Nat.card_eq_fintype_card, Fintype.card_fun]
+  simp [Nat.card_eq_fintype_card]
 
 private theorem h48_rk_alt : rk ↥h48Alt = 3 := by
   unfold rk
@@ -1883,7 +1885,7 @@ private theorem h48_diag_prod (D : Fin 3 → ZMod 2) :
     rw [toAdd_ofAdd, toAdd_mul, toAdd_mul, toAdd_pow, toAdd_pow, toAdd_pow]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [xw, Matrix.diagonal_apply, ZMod.natCast_zmod_val]
+      simp [xw]
   rw [e]
   exact mul_mem (mul_mem (pow_mem (Subgroup.subset_closure (by simp)) _)
     (pow_mem (Subgroup.subset_closure (by simp)) _)) (pow_mem (Subgroup.subset_closure (by simp)) _)
@@ -1892,7 +1894,7 @@ private theorem h48_tau_xw_diag (i : Fin 3) : tau (xw i i) = xw i i := by
   apply Multiplicative.toAdd.injective
   show Matrix.transpose (Multiplicative.toAdd (xw i i)) = Multiplicative.toAdd (xw i i)
   ext a b
-  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [xw, Matrix.single_apply]
+  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [xw]
 
 private theorem h48_diag_le_fix : Subgroup.closure {xw 0 0, xw 1 1, xw 2 2} ≤
     fixV (Subgroup.zpowers tau) := by
@@ -1958,7 +1960,7 @@ private theorem h48_diag_le : Subgroup.closure {xw 0 0, xw 1 1, xw 2 2} ≤ h48D
   intro y hy
   rw [SetLike.mem_coe, h48_mem_Diag]
   rcases hy with rfl | rfl | rfl <;> intro i j hij <;> fin_cases i <;> fin_cases j <;>
-    simp_all [xw, Matrix.single_apply]
+    simp_all [xw]
 
 private theorem h48_alt_inf_diag : h48Alt ⊓ Subgroup.closure {xw 0 0, xw 1 1, xw 2 2} = ⊥ := by
   rw [eq_bot_iff]
@@ -2184,7 +2186,7 @@ private theorem h410_row0_prod (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
   simp only [toAdd_mul, toAdd_pow, toAdd_ofAdd, xw]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [h1, h2, Matrix.single_apply, ZMod.natCast_zmod_val]
+    simp [h1, h2]
 
 private theorem h410_row_mem (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     (h : ∀ j : Fin 3, M 1 j = 0 ∧ M 2 j = 0) :
@@ -2203,7 +2205,7 @@ private theorem h410_hset_prod (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
   simp only [toAdd_mul, toAdd_pow, toAdd_ofAdd, xw, yw]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [h11, h12, h21, h22, h02, Matrix.single_apply, ZMod.natCast_zmod_val]
+    simp [h11, h12, h21, h22, h02]
 
 private theorem h410_hset_mem (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     (h : M 1 1 = 0 ∧ M 1 2 = 0 ∧ M 2 1 = 0 ∧ M 2 2 = 0 ∧ M 0 2 = M 2 0) :
@@ -2406,7 +2408,6 @@ private theorem h410_conj_tau (u : MulAut WMod) (hu : u ∈ Gw) (hnL : u ∉ Lw0
     have hinv : (rho (g.1, 1))⁻¹ = rho (g.1⁻¹, 1) := by
       rw [← map_inv]
       congr 1
-      all_goals exact Prod.ext (by simp) (by simp)
     refine ⟨rho (g.1, 1), Subgroup.mem_sup_left ⟨(g.1, 1), rfl⟩, ?_⟩
     rw [hg, hinv, mul_assoc, tau_mul_rho, Prod.swap_prod_mk, ← mul_assoc, ← map_mul, e2]
 
@@ -2560,7 +2561,7 @@ private theorem h410_det_G2 : h410G2.det ≠ 0 := by decide
 private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hsq : ∀ x ∈ B, x * x = 1) : Nat.card B ≤ 4 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp : IsPGroup 2 B := fun g => ⟨1, by
     rw [show (2 : ℕ) ^ 1 = 2 from rfl, pow_two]
     exact Subtype.ext (by simpa using hsq g g.2)⟩
@@ -2570,7 +2571,7 @@ private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x
     rw [hk] at hlt h8 ⊢
     have hk4 : k < 4 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h16 : (16 : ℕ) ≤ 2 ^ k := by
         calc (16 : ℕ) = 2 ^ 4 := by norm_num
           _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
@@ -2578,7 +2579,7 @@ private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x
     interval_cases k <;> simp_all
   obtain ⟨b, hbB, hb1⟩ : ∃ b ∈ B, b ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : B = ⊥ := eq_bot_iff.2 fun x hx => Subgroup.mem_bot.2 (h x hx)
     rw [hbot, Subgroup.card_bot] at hB8
     norm_num at hB8
@@ -2633,7 +2634,7 @@ private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x
 
 private theorem h410_card_A_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
     (hAel : IsElemAbelian2 A) (htA : tau ∈ A) : Nat.card ↥A ≤ 8 := by
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   have hdec := h410_decomp hAG hAel.1 htA
   have hBcomm : ∀ x ∈ A.comap h410Diag, ∀ y ∈ A.comap h410Diag, x * y = y * x := by
     intro x hx y hy
@@ -2676,7 +2677,7 @@ private theorem h410_card_A_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
 
 private theorem h410_sum_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
     (hAel : IsElemAbelian2 A) (htA : tau ∈ A) : rk ↥A + rk ↥(fixV A) ≤ 7 := by
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   by_cases hex : ∃ c : ↥SL32, c ≠ 1 ∧ rho (c, c) ∈ A
   · obtain ⟨c, hc1, hcA⟩ := hex
     have hc : c * c = 1 := (h410_sq_pair (hAel.2 _ hcA)).1
@@ -2690,7 +2691,7 @@ private theorem h410_sum_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
     have hA8 := h410_card_A_le hAG hAel htA
     have hrA : rk ↥A ≤ 3 := h410_rk_le _ 3 (le_of_le_of_eq hA8 (by norm_num))
     omega
-  · push_neg at hex
+  · push Not at hex
     have hA_le : A ≤ Subgroup.zpowers tau := by
       intro a ha
       obtain ⟨c, hcA, hac | hac⟩ := h410_decomp hAG hAel.1 htA a ha
@@ -2712,7 +2713,7 @@ private theorem h410_sum_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
         exact Subgroup.mem_zpowers _
     have htau1 : tau ≠ 1 := fun h => tau_not_mem_img (by rw [h]; exact Subgroup.one_mem _)
     have htau2 : orderOf tau = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [sq]; exact tau_mul_self) htau1
     have hcardA : Nat.card ↥A ≤ 2 := by
       calc Nat.card ↥A ≤ Nat.card ↥(Subgroup.zpowers tau) := Subgroup.card_le_of_le hA_le
@@ -2742,7 +2743,7 @@ end WrH410
 theorem as_H_4_10 : H_4_10 := by
   unfold H_4_10
   have hord : orderOf (rho (t02, 1)) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime h410_rho_t1_sq h410_rho_t1_ne
   refine ⟨t02, hord, ?_, ?_, ⟨h410_conj_L1, h410_commV_row⟩, ?_, ?_⟩
   · intro v

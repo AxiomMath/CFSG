@@ -52,9 +52,9 @@ theorem mem_or_inv_mul_mem_or_mul_mem_of_relIndex_eq_three {P S : Subgroup G}
     (hSn : (S.subgroupOf P).Normal) (hSidx : S.relIndex P = 3) {y : G} (hyP : y ∈ P)
     (hyS : y ∉ S) {x : G} (hxP : x ∈ P) : x ∈ S ∨ y⁻¹ * x ∈ S ∨ y * x ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let N : Subgroup P := S.subgroupOf P
-  haveI : N.Normal := hSn
+  have : N.Normal := hSn
   let π : P →* P ⧸ N := QuotientGroup.mk' N
   have hcard : Nat.card (P ⧸ N) = 3 := by
     rw [← Subgroup.index_eq_card N]
@@ -77,7 +77,7 @@ theorem mem_or_inv_mul_mem_or_mul_mem_of_relIndex_eq_three {P S : Subgroup G}
     · exact h3
   have hzpcard : Nat.card (Subgroup.zpowers (π yP)) = 3 := by
     rw [Nat.card_zpowers, hord]
-  haveI : Finite ↥(Subgroup.zpowers (π yP)) :=
+  have : Finite ↥(Subgroup.zpowers (π yP)) :=
     (Nat.card_ne_zero.mp (by rw [hzpcard]; norm_num)).2
   have htop : Subgroup.zpowers (π yP) = ⊤ := by
     apply Subgroup.eq_top_of_card_eq

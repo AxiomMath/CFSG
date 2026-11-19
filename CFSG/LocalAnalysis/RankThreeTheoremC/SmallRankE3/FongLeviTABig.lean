@@ -36,7 +36,7 @@ theorem tABig_psu_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} 
       rcases Nat.lt_or_ge N 6 with hN6 | hN6
       ·
         obtain rfl : N = 5 := by omega
-        haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
         have h3 : 5 - 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup ↥K) := by
           rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 5) eF]
           exact psu_sub_two_le_pRank_of_dvd (ℓ := 5) (n := 5) (f := 2) (F := F)
@@ -67,13 +67,13 @@ theorem tABig_psu_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} 
               · have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h'
                 omega
             · exact hp5' ((Nat.prime_dvd_prime_iff_eq hp (by norm_num)).1 h)
-          haveI : IsSimpleGroup ↥K :=
+          have : IsSimpleGroup ↥K :=
             CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
           have hZ : Subgroup.center ↥K = ⊥ :=
             center_eq_bot_of_simple_of_two_le_pRank (ℓ := 5) (by norm_num) (by omega)
           exact false_of_not_dvd_card_outer S hZ hOut
       ·
-        haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
         have h4 : 4 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup ↥K) := by
           rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 5) eF]
           exact psu_four_le_pRank_of_dvd (ℓ := 5) (n := N) (f := 2) (F := F)
@@ -81,14 +81,14 @@ theorem tABig_psu_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} 
         exact tABig_pRank_false S (ℓ := 5) (by norm_num) (by norm_num) h4
     ·
       obtain ⟨ℓ, hℓp, hℓ2, hℓ5, hℓd⟩ := exists_prime_dvd_two_pow_add_one_ne_five hfe hf4
-      haveI : Fact ℓ.Prime := ⟨hℓp⟩
+      have : Fact ℓ.Prime := ⟨hℓp⟩
       have h4 : 4 ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup ↥K) := by
         rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hℓp.one_lt eF]
         exact psu_four_le_pRank_of_dvd (ℓ := ℓ) (n := N) (f := f) (F := F) hℓ2 hN (Or.inl hℓ5)
           hF hℓd
       exact tABig_pRank_false S hℓp hℓ2 h4
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥K) := by
       rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) eF]
       exact psu_four_le_pRank_of_dvd (ℓ := 3) (n := N) (f := f) (F := F) (by norm_num)

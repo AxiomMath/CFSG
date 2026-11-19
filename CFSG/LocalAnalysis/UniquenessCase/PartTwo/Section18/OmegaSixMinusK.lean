@@ -31,8 +31,8 @@ theorem exists_natCoords_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W]
         NatCoordsOmegaMinusOn H ⊤ (fun _ _ s _ => Subgroup.mem_top s) F b c ε ψ := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := hN
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hinj : Function.Injective π :=
     CFSG.Quasithin.FFModel.RealizesVia.injective_of_faithful
       (CFSG.Quasithin.FFModel.nat_faithful _) hπ

@@ -302,7 +302,7 @@ theorem uQ_facts :
 
 theorem card_centralizer_seven_three (x : NativeSporadic.B) (hx : orderOf x = 7) :
     (Nat.card (centralizer ({x} : Set NativeSporadic.B))).factorization 3 = 2 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have P := bSevenElem_parts
   have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
@@ -319,7 +319,7 @@ theorem card_centralizer_seven_three (x : NativeSporadic.B) (hx : orderOf x = 7)
 
 theorem bThreeB_seven_free :
     ¬ 7 ∣ Nat.card (centralizer ({phiB (t3 1)} : Set NativeSporadic.B)) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have P := bSevenElem_parts

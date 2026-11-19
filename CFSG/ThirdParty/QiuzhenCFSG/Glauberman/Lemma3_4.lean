@@ -128,7 +128,7 @@ public theorem bot_lt_fixedPoints {p : ℕ} [Fact p.Prime] {V : Type*} [AddCommG
   intro hbot
   -- `P` acts on `Multiplicative V` through `φ`.
   let φP : P →* MulAut (Multiplicative V) := φ.comp P.subtype
-  letI : MulAction P (Multiplicative V) := MulAction.compHom (Multiplicative V) φP
+  let : MulAction P (Multiplicative V) := MulAction.compHom (Multiplicative V) φP
   -- The two descriptions of the fixed set agree.
   have hfixeq : ((fixedPoints φ P : Subgroup (Multiplicative V)) : Set (Multiplicative V)) =
       MulAction.fixedPoints P (Multiplicative V) := by

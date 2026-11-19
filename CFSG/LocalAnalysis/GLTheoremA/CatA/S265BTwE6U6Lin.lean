@@ -53,9 +53,9 @@ theorem abelian_exp_three_of_commute_involution [Finite K] (hK : Nat.card K = 4)
   classical
   have hZ := scalarLike_scalars (V := V) hK
   have h2 : ∀ v : V, v + v = 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
       (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
     intro v
     rw [← two_smul K v, CharTwo.two_eq_zero, zero_smul]
@@ -137,7 +137,7 @@ theorem abelian_exp_three_of_commute_involution [Finite K] (hK : Nat.card K = 4)
     · rintro _ ⟨x, rfl⟩
       rw [← map_pow]
       exact hsc _ (hQ.2 x x.2)
-  haveI : Finite (W ≃ₗ[K] W) := finite_linearEquiv
+  have : Finite (W ≃ₗ[K] W) := finite_linearEquiv
   have hR : (∀ x ∈ R, ∀ y ∈ R, x * y = y * x) ∧ ∀ x ∈ R, x ^ 3 = 1 := by
     by_cases hab : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x
     · refine ⟨hab, fun x hx => ?_⟩

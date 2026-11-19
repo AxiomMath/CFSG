@@ -39,9 +39,9 @@ theorem typeLayer_reeGammaFieldAut_F4 (hD : LieSOutType T tm tf tN) {a b : ℕ} 
           (ReeTag.F4.reeGamma F a).subtype =
         (ReeTag.F4.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     TypeLayer T (ReeTag.F4.reeGammaFieldAut F a σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hk
   obtain ⟨eC⟩ := nonempty_fixSubgroup_reeGammaFieldAut_equiv σ hfix
@@ -50,7 +50,7 @@ theorem typeLayer_reeGammaFieldAut_F4 (hD : LieSOutType T tm tf tN) {a b : ℕ} 
     have hk2 : Nat.card ↥(fixSubfield σ) = 2 := by simpa using hk
     obtain ⟨c⟩ := nonempty_commutator_reeGamma_tits hk2
     obtain ⟨cc⟩ := nonempty_commutator_mulEquiv eC
-    haveI : Nontrivial titsD := titsD_simple.toNontrivial
+    have : Nontrivial titsD := titsD_simple.toNontrivial
     exact typeLayer_of_fixed_commutator_equiv _ (cc.trans c) titsD_simple
       (exists_noncomm_of_center_bot titsD_center) fun h => by
         have h1 := hD.card_eq h
@@ -65,7 +65,7 @@ theorem typeLayer_reeGamma_F4 (hD : LieSOutType T tm tf tN) {a : ℕ} (ha : 1 �
     [Field F] [Finite F] [CharP F ReeTag.F4.prime] (hK : Nat.card F = 2 ^ (2 * a + 1))
     (β' : MulAut ↥(ReeTag.F4.reeGamma F a)) (hβ3 : β' ^ 3 = 1)
     (hβinn : β' ∉ inner ↥(ReeTag.F4.reeGamma F a)) : TypeLayer T β' False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, β, hβord, hxβ⟩ := exists_conj_mul_reeGammaFieldAut_of_not_inner ha F hK β' hβ3 hβinn
   obtain ⟨g, hg⟩ := CFSG.RankThree.PartOne.RF4.largeRee_fieldAut_coset_conj a hK Nat.prime_three
     β hβord β' hβ3 ⟨x, hxβ⟩
@@ -87,7 +87,7 @@ theorem lieSOut_reeF4 (hD : LieSOutType T tm tf tN) : TypeOuterAt T Pc FamReeF4 
       have h := ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
       simpa only [TauCeti.LieTypeIndex.inStandardRange_iff] using h
     obtain ⟨F, _, _, _, hFcard, ⟨e'⟩⟩ := exists_equiv_reeGamma_F4 hR
-    haveI : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
+    have : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
     have hβ3 : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hβinn : MulAut.congr e' α ∉ inner ↥(ReeTag.F4.reeGamma F m) := fun hin =>
       not_mem_range_conj_of_not_mem_innAutDerived hα

@@ -56,7 +56,7 @@ theorem card_autIn_of_m12
   have hQ3 : IsPGroup 3 (((E ⊔ A) ⊓ L).subgroupOf L) :=
     (hctx.isPGroup_sup.to_le inf_le_left).comap_subtype
   obtain ⟨S, hQS⟩ := hQ3.exists_le_sylow
-  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup'
+  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup
   have hAbS : (A ⊓ L).subgroupOf L ≤ S :=
     (Subgroup.subgroupOf_mono L (inf_le_inf_right L le_sup_right)).trans hQS
   have hEbS : (E ⊓ L).subgroupOf L ≤ S :=

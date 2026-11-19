@@ -19,7 +19,7 @@ theorem isoLThreePi_of_model {X : Type} [Group X] {π : Bool} {p f : ℕ} [Fact 
     {F : Type} [Field F] (hF : PiField π p f F) (hq : ModThree π (p ^ f))
     (φ : X ≃* projImage (slPi π 3 (p ^ f) F)) :
     CFSG.RankThree.PartTwo.Sec4.IsoLThreePi X p f := by
-  haveI : Finite F := hF.finite
+  have : Finite F := hF.finite
   have hf : 0 < f := by
     have := hF.one_le
     omega

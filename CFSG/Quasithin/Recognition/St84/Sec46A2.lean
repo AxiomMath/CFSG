@@ -87,9 +87,9 @@ private theorem caseA_Z_zero_le_Q_inf (X : Setup Γ G)
   obtain ⟨d, hd⟩ := X.exists_hasB H 0
   have hbnd := X.hasB_zero_bounds H hd
   have hG2 : X.Z 0 ≤ X.Gi 2 :=
-    hZQ1.trans ((X.Q_le_Gi_adj 1).trans (by simpa using inf_le_right))
+    hZQ1.trans ((X.Q_le_Gi_adj 1).trans (by simp))
   have hGm2 : X.Z 0 ≤ X.Gi (-2) :=
-    hZQm1.trans ((X.Q_le_Gi_adj (-1)).trans (by simpa using inf_le_left))
+    hZQm1.trans ((X.Q_le_Gi_adj (-1)).trans (by simp))
   have hmem2 : (2 : ℤ) ∈ X.fixSet (X.Z 0) := (X.mem_fixSet_iff_le_Gi _ 2).mpr hG2
   have hmemm2 : (-2 : ℤ) ∈ X.fixSet (X.Z 0) := (X.mem_fixSet_iff_le_Gi _ (-2)).mpr hGm2
   rw [X.fixSet_Z 0 hd] at hmem2 hmemm2
@@ -270,7 +270,7 @@ private theorem inf_Q_neg_two_le_relCent (X : Setup Γ G)
     commutatorElement_eq_one_iff_mul_comm.mpr
       (Subgroup.mem_centralizer_iff.mp ((X.Z_le_center (-2)) hy).2 z hzQ)
   rw [hq1, hy1]
-  simpa using (centerOf (X.L 0)).one_mem
+  simp
 
 private theorem inf_Q_two_le_relCent (X : Setup Γ G)
     (hb : X.HasB 0 2) :
@@ -294,7 +294,7 @@ private theorem inf_Q_two_le_relCent (X : Setup Γ G)
     commutatorElement_eq_one_iff_mul_comm.mpr
       (Subgroup.mem_centralizer_iff.mp ((X.Z_le_center 2) hy).2 z hzQ)
   rw [hq1, hy1]
-  simpa using (centerOf (X.L 0)).one_mem
+  simp
 
 private theorem relIndex_inf_Q_neg_two_le (X : Setup Γ G)
     (hb : X.HasB 0 2) : (X.Z 0 ⊓ X.Q (-2)).relIndex (X.Z 0) ≤ 2 ^ X.n (-2) := by
@@ -321,7 +321,7 @@ private theorem relCent_neg_one_relIndex_le (X : Setup Γ G)
   have hdvd : (relCent (X.Z 0) (centerOf (X.L 0)) (X.edgeSylow (-1))).relIndex (X.Z 0) ∣
       (X.Z 0 ⊓ X.Q (-2)).relIndex (X.Z 0) :=
     Subgroup.relIndex_dvd_of_le_left (L := X.Z 0) hle
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   have hpos : 0 < (X.Z 0 ⊓ X.Q (-2)).relIndex (X.Z 0) := Nat.card_pos
   exact (Nat.le_of_dvd hpos hdvd).trans (X.relIndex_inf_Q_neg_two_le hb)
 
@@ -333,7 +333,7 @@ private theorem relCent_zero_relIndex_le (X : Setup Γ G)
   have hdvd : (relCent (X.Z 0) (centerOf (X.L 0)) (X.edgeSylow 0)).relIndex (X.Z 0) ∣
       (X.Z 0 ⊓ X.Q 2).relIndex (X.Z 0) :=
     Subgroup.relIndex_dvd_of_le_left (L := X.Z 0) hle
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   have hpos : 0 < (X.Z 0 ⊓ X.Q 2).relIndex (X.Z 0) := Nat.card_pos
   exact (Nat.le_of_dvd hpos hdvd).trans (X.relIndex_inf_Q_two_le hb)
 
@@ -707,7 +707,7 @@ private theorem centerOf_L_neg_one_le_commutator_Z_zero_Z_neg_two (X : Setup Γ 
 
 private theorem L_eq_oTwoRes_sup (X : Setup Γ G) :
     X.L 0 = oTwoRes (X.L 0) ⊔ X.edgeSylow 0 := by
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
   have hP : IsSylowTwoOf (X.edgeSylow 0) (X.L 0) := X.isSylowTwoOf_edgeSylow_L 0
   have hP' : IsSylowTwoOf ((X.edgeSylow 0).subgroupOf (X.L 0)) ⊤ := by
     refine F7.isSylowTwoOf_of_relIndex le_top ?_ ?_
@@ -772,7 +772,7 @@ private theorem L_zero_le_normalizer_Z_one_sup (X : Setup Γ G) (A : X.CaseA)
   have hb2 : X.HasB 2 2 :=
     (X.hasB_iff_of_even (i := 2) (j := 0) (by norm_num [Even]) 2).mpr hb
   let M : Subgroup G := X.Z 1 ⊔ X.Z 0
-  haveI hMfin : Finite ↥M :=
+  have hMfin : Finite ↥M :=
     finite_of_le_stabilizer X.hyp
       (sup_le (X.Z_le_Gi 1) (hb.Z_le_Gi (j := 1) (by norm_num)))
   have hcardM : ∀ g : G, Nat.card ↥(conjSub g M) = Nat.card ↥M := fun g =>
@@ -882,8 +882,8 @@ private theorem caseA_natPre_Z_zero (X : Setup Γ G)
         (relCent (X.Z 0) (centerOf (X.L 0)) (X.edgeSylow (-1))) = 2 ^ X.n 0 := by
   have H := A.hyp
   have hc := H.char
-  haveI hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   have hnormZ : X.L 0 ≤ Subgroup.normalizer (X.Z 0 : Set G) :=
     fun l hl => mem_normalizer_iff_conjSub.mpr (X.Z_normal 0 l (X.L_le_Gi 0 hl))
   have hnormC : X.L 0 ≤ Subgroup.normalizer (centerOf (X.L 0) : Set G) :=
@@ -937,7 +937,7 @@ private theorem caseA_natQuot_Z_zero (X : Setup Γ G)
     (A : X.CaseA) (hb : X.HasB 0 2) (hZ : X.Z 0 ≠ centerOf (X.L 0)) :
     NatQuot (X.L 0) (X.Z 0) (centerOf (X.L 0)) (X.n 0) := by
   have H := A.hyp
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
   obtain ⟨hpre, hline⟩ := X.caseA_natPre_Z_zero A hb hZ
   exact natQuot_of_two_pow_le (P := X.L 0) (L := X.L 0) (E := X.Z 0)
     (Z := centerOf (X.L 0)) (T := X.edgeSylow (-1)) (H.two_le_n 0) hpre
@@ -1023,7 +1023,7 @@ private theorem caseA_not_edgeSylow_neg_one_le
     ¬ X.edgeSylow (-1) ≤ X.edgeSylow 0 ⊔ X.Z 0 := by
   have H := A.hyp
   obtain ⟨hcardXm, hcardXp⟩ := X.caseA_card_commutator_Z_zero A hb hZ
-  haveI : Finite ↥(⁅X.Z 0, X.Z 2⁆) := finite_of_le_stabilizer X.hyp
+  have : Finite ↥(⁅X.Z 0, X.Z 2⁆) := finite_of_le_stabilizer X.hyp
     (((X.commutator_Z_zero_Z_two_le hb).trans inf_le_left).trans (X.Z_le_Gi 0))
   intro hle
   rw [sup_eq_left.mpr ((X.Z_le_Q 0).trans (X.Q_le_edgeSylow_left 0))] at hle
@@ -1082,7 +1082,7 @@ private theorem caseA_Z_zero_eq_sup_of_hasB_two
         ⁅X.Z (-1), X.Z 1⁆ ⊔ ⁅X.Z 0, X.Z (-2)⁆ := by
   have H := A.hyp
   have hc := H.char
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   obtain ⟨hntq, -, hXp_eq, -⟩ := X.caseA_commutator_Z_zero_eq_pCoreOf A hb hZ
   have hXm_ne : ⁅X.Z 0, X.Z (-2)⁆ ≠ ⊥ :=
     X.commutator_Z_zero_Z_neg_two_ne_bot H hb hntq
@@ -1240,9 +1240,9 @@ private theorem caseA_two_pow_le_relIndex_relCent
       relCent (X.Q 0) (X.Z 0) (X.edgeSylow (-1)) := sup_le hZm1rel hZ0rel
   have hrel_le_Gi : relCent (X.Q 0) (X.Z 0) (X.edgeSylow (-1)) ≤ X.Gi 0 :=
     (le_trans (fun g hg => hg.1) (X.Q_le_Gi 0))
-  haveI hRelFin : Finite ↥(relCent (X.Q 0) (X.Z 0) (X.edgeSylow (-1))) :=
+  have hRelFin : Finite ↥(relCent (X.Q 0) (X.Z 0) (X.edgeSylow (-1))) :=
     finite_of_le_stabilizer X.hyp hrel_le_Gi
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   have hpos : 0 < (X.Z 0).relIndex
       (relCent (X.Q 0) (X.Z 0) (X.edgeSylow (-1))) := Nat.card_pos
   rw [← hsuprel]
@@ -1343,7 +1343,7 @@ private theorem caseA_exists_chief_factor (X : Setup Γ G) (i : ℤ)
           C = B' ∨ C = A') ∧
         ¬ ⁅A', (X.L i).subgroupOf (X.Gi i)⁆ ≤ B' := by
   classical
-  haveI hHfin : Finite ↥(X.Gi i) := finite_of_le_stabilizer X.hyp (H := X.Gi i) le_rfl
+  have hHfin : Finite ↥(X.Gi i) := finite_of_le_stabilizer X.hyp (H := X.Gi i) le_rfl
   let H := ↥(X.Gi i)
   let XH : Subgroup H := (X.L i).subgroupOf (X.Gi i)
   let AH : Subgroup H := (X.Q i).subgroupOf (X.Gi i)
@@ -1367,7 +1367,7 @@ private theorem caseA_exists_chief_factor (X : Setup Γ G) (i : ℤ)
   have hxm : x ^ orderOf y = 1 := by
     refine Subtype.ext ?_
     rw [Subgroup.coe_pow, Subgroup.coe_one]
-    simpa [x] using pow_orderOf_eq_one y
+    simp [x]
   have hntH : ∃ a ∈ AH, x * a * x⁻¹ * a⁻¹ ∉ BH := by
     simpa [x, AH, BH, H] using
       X.caseA_exists_commutator_not_mem_subgroupOf i hyL heQ hne
@@ -1408,11 +1408,11 @@ private theorem caseA_relIndex_chief_le (X : Setup Γ G) (i : ℤ)
   have hVQ : V ≤ X.Q i := by
     rw [← hAHmap]
     exact Subgroup.map_mono hA'A
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi i)
-  haveI : Finite ↥(X.Z i) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi i)
-  haveI : Finite ↥W :=
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi i)
+  have : Finite ↥(X.Z i) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi i)
+  have : Finite ↥W :=
     finite_of_le_stabilizer X.hyp (H := W) ((hWV.trans hVQ).trans (X.Q_le_Gi i))
-  haveI : Finite ↥V := finite_of_le_stabilizer X.hyp (H := V) (hVQ.trans (X.Q_le_Gi i))
+  have : Finite ↥V := finite_of_le_stabilizer X.hyp (H := V) (hVQ.trans (X.Q_le_Gi i))
   have hposWQ : 0 < W.relIndex (X.Q i) := by
     have hdvd := Subgroup.relIndex_dvd_card (H := W) (K := X.Q i)
     exact Nat.pos_of_dvd_of_pos hdvd Nat.card_pos
@@ -1437,7 +1437,7 @@ private theorem two_pow_le_relIndex_Z_Q_of_odd (X : Setup Γ G) (i : ℤ) (hn : 
     (hnt : ∃ y ∈ X.L i, Odd (orderOf y) ∧ ∃ e ∈ X.Q i, ⁅e, y⁆ ∉ X.Z i) :
     2 ^ (2 * X.n i) ≤ (X.Z i).relIndex (X.Q i) := by
   classical
-  haveI hHfin : Finite ↥(X.Gi i) := finite_of_le_stabilizer X.hyp (H := X.Gi i) le_rfl
+  have hHfin : Finite ↥(X.Gi i) := finite_of_le_stabilizer X.hyp (H := X.Gi i) le_rfl
   let H := ↥(X.Gi i)
   let XH : Subgroup H := (X.L i).subgroupOf (X.Gi i)
   let AH : Subgroup H := (X.Q i).subgroupOf (X.Gi i)
@@ -1494,7 +1494,7 @@ private theorem caseA_n_zero_eq_n_one (X : Setup Γ G)
     have hm := Subgroup.relIndex_mul_card (H := X.Z 0) (K := X.Q 0)
     rw [inf_eq_left.mpr (X.Z_le_Q 0)] at hm
     have hQ0 := (X.caseA_card A).2 0
-    have hn01' : X.n (0 + 1) = X.n 1 := by simpa using X.n_add 0 1
+    have hn01' : X.n (0 + 1) = X.n 1 := by simp
     have hR : Nat.card ↥(X.Q 0) = 2 ^ (2 * X.n 0 + 3 * X.n 1) := by
       rw [hQ0, hn01']
     have hZ : Nat.card ↥(X.Z 0) = 2 ^ (2 * X.n 0 + X.n 1) := hZ0card
@@ -1536,15 +1536,15 @@ private theorem caseA_natQuot_Q_zero_of_hasB_two
     IsElemSec (X.Z 0) (X.Q 0) ∧ NatQuot (X.L 0) (X.Q 0) (X.Z 0) (X.n 0) := by
   have H := A.hyp
   have hn01 := X.caseA_n_zero_eq_n_one A hb hZ
-  haveI hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
-  haveI hQfin : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have hQfin : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   obtain ⟨-, -, -, hZ0card, -⟩ := X.caseA_Z_zero_eq_sup_of_hasB_two A hb hZ
   have h16 : (X.Z 0).relIndex (X.Q 0) = 2 ^ (2 * X.n 0) := by
     have hm := Subgroup.relIndex_mul_card (H := X.Z 0) (K := X.Q 0)
     rw [inf_eq_left.mpr (X.Z_le_Q 0)] at hm
     have hQ0 := (X.caseA_card A).2 0
-    have hn01' : X.n (0 + 1) = X.n 1 := by simpa using X.n_add 0 1
+    have hn01' : X.n (0 + 1) = X.n 1 := by simp
     have hR : Nat.card ↥(X.Q 0) = 2 ^ (2 * X.n 1 + 3 * X.n 1) := by
       rw [hQ0, hn01', hn01]
     have hZ : Nat.card ↥(X.Z 0) = 2 ^ (2 * X.n 1 + X.n 1) := by
@@ -1627,7 +1627,7 @@ private theorem caseA_Q_one_le_normalizer_sup (X : Setup Γ G) (A : X.CaseA)
       ⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ := by
     rw [conjSub_sup, hXpconj]
     exact sup_le hXmconj le_sup_right
-  haveI hNfin : Finite ↥(⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ : Subgroup G) :=
+  have hNfin : Finite ↥(⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ : Subgroup G) :=
     finite_of_le_stabilizer X.hyp (hNleZ0.trans (X.Z_le_Gi 0))
   exact Subgroup.eq_of_le_of_card_ge hle (le_of_eq (card_conjSub q _).symm)
 
@@ -1670,7 +1670,7 @@ private theorem caseA_Q_neg_one_le_normalizer_sup (X : Setup Γ G) (A : X.CaseA)
       ⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ := by
     rw [conjSub_sup, hXmconj]
     exact sup_le le_sup_left hXpconj
-  haveI hNfin : Finite ↥(⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ : Subgroup G) :=
+  have hNfin : Finite ↥(⁅X.Z 0, X.Z (-2)⁆ ⊔ ⁅X.Z 0, X.Z 2⁆ : Subgroup G) :=
     finite_of_le_stabilizer X.hyp (hNleZ0.trans (X.Z_le_Gi 0))
   exact Subgroup.eq_of_le_of_card_ge hle (le_of_eq (card_conjSub q _).symm)
 
@@ -1774,9 +1774,9 @@ private theorem caseA_false_of_hasB_two
     (X : Setup Γ G) (A : X.CaseA) (hb : X.HasB 0 2)
     (hZ : X.Z 0 ≠ centerOf (X.L 0)) : False := by
   have H := A.hyp
-  haveI hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
-  haveI hQfin : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
-  haveI hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
+  have hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have hQfin : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+  have hZfin : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 0)
   obtain ⟨hCL1, hCLm1, hZ0eq, hZ0card, -⟩ := X.caseA_Z_zero_eq_sup_of_hasB_two A hb hZ
   obtain ⟨hsecZQ, hnatZQ⟩ := X.caseA_natQuot_Q_zero_of_hasB_two A hb hZ
   have hcent := X.caseA_commutator_Z_zero_L_zero_le_sup A hb hCL1 hCLm1
@@ -1870,7 +1870,7 @@ private theorem caseA_not_edgeSylow_zero_le (X : Setup Γ G) (A : X.CaseA) :
   intro hle
   have hsup : X.edgeSylow 1 ⊔ X.Z 1 = X.edgeSylow 1 := sup_eq_left.mpr hZ1leS1
   rw [hsup] at hle
-  haveI hS1fin : Finite ↥(X.edgeSylow 1) :=
+  have hS1fin : Finite ↥(X.edgeSylow 1) :=
     finite_of_le_stabilizer X.hyp (H := X.edgeSylow 1)
       ((X.isSylowTwoOf_edgeSylow 1).1.trans inf_le_left)
   have hcard : Nat.card ↥(X.edgeSylow 0) = Nat.card ↥(X.edgeSylow 1) := by

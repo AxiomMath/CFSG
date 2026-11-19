@@ -21,7 +21,7 @@ private theorem isSimpleGroup_card_center_j3
   obtain ⟨β⟩ : Nonempty (Blueprint.NativeSporadic.Carrier .J3 ≃*
       (TauCeti.CFSGIndex.sporadic .J3).Group) := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   have := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI hs : IsSimpleGroup K :=
+  have hs : IsSimpleGroup K :=
     MulEquiv.isSimpleGroup (H := Blueprint.NativeSporadic.J3) (e.trans β.symm)
   have hcard : Nat.card K = 50232960 := by
     rw [Nat.card_congr (e.trans β.symm).toEquiv]
@@ -77,10 +77,10 @@ theorem centralizer_inn_le_j3
     Subgroup.centralizer (((T : Subgroup K).map (MulAut.conj : K →* MulAut K) :
       Subgroup (MulAut K)) : Set (MulAut K)) ≤
         (T : Subgroup K).map (MulAut.conj : K →* MulAut K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut K) := MulEquiv.finite_left
   obtain ⟨hs, hcard, hZ⟩ := isSimpleGroup_card_center_j3 hK
-  haveI := hs
+  have := hs
   have hinj := conj_injective_j3 hZ
   have hOR := kFactJ3OuterRank_closed CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   obtain ⟨hOut, -⟩ := hOR K hK
@@ -93,10 +93,10 @@ theorem centralizer_inn_le_j3
     · exact T.not_dvd_index h
     · have := Nat.le_of_dvd hpos h
       omega
-  let T₁ : Sylow 3 (MulAut K) := (T.isPGroup'.map (MulAut.conj : K →* MulAut K)).toSylow hidx
+  let T₁ : Sylow 3 (MulAut K) := (T.isPGroup.map (MulAut.conj : K →* MulAut K)).toSylow hidx
   have hne : Subgroup.normalizer ((T₁ : Subgroup (MulAut K)) : Set (MulAut K)) ≠ ⊤ := by
     intro htop
-    haveI : (T : Subgroup K).Normal := ⟨fun t ht k => by
+    have : (T : Subgroup K).Normal := ⟨fun t ht k => by
       have hk : MulAut.conj k ∈ Subgroup.normalizer
           ((T₁ : Subgroup (MulAut K)) : Set (MulAut K)) := htop ▸ Subgroup.mem_top _
       have h := (Subgroup.mem_normalizer_iff.mp hk (MulAut.conj t)).mp ⟨t, ht, rfl⟩
@@ -134,12 +134,12 @@ theorem eq_bot_of_normalizes_j3
     (T : Sylow 3 K) {V : Subgroup (MulAut K)} (hV : IsPGroup 2 V)
     (hTV : ∀ t ∈ (T : Subgroup K), MulAut.conj t ∈ Subgroup.normalizer (V : Set (MulAut K))) :
     V = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hZ⟩ := isSimpleGroup_card_center_j3 hK
   have hF := kFactJ3Sylow K hK T
   refine mulAut_eq_bot_of_sig hZ Nat.prime_three (T := T)
     (B := CFSG.Quasithin.centerOf (T : Subgroup K)) (Q := T) (fun b hb => hb.1) le_rfl
-    hF.center_elem.1.2 (hF.center_elem.2.trans (by norm_num)) T.isPGroup'
+    hF.center_elem.1.2 (hF.center_elem.2.trans (by norm_num)) T.isPGroup
     ?_ ?_ (centralizer_inn_le_j3 hK T) V
     (coprime_card_of_isPGroup Nat.prime_three Nat.prime_two (by norm_num) hV) hTV
   ·
@@ -157,7 +157,7 @@ theorem eq_bot_of_normalizes_j3
 theorem kFactNineThreeNoTwoAt_j3 :
     KFactNineThreeNoTwoAt 3 (.sporadic .J3) := by
   intro X _ _ K hK hiso _ T S hS hTS
-  haveI := hK
+  have := hK
   exact le_centralizer_of_aut (T := (T : Subgroup K).map K.subtype) (Subgroup.map_subtype_le _)
     (fun V hV hN => eq_bot_of_normalizes_j3 hiso T hV fun t ht => hN t ⟨t, ht, rfl⟩) hS hTS
 

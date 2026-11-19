@@ -35,7 +35,7 @@ theorem f4TwoNoNineteen_holds : KSF4Rank.F4TwoNoNineteen := by
     rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center F) with h | h
     · exact h
     · exfalso
-      haveI := hs.toNontrivial
+      have := hs.toNontrivial
       have hcomm : ⁅(⊤ : Subgroup F), (⊤ : Subgroup F)⁆ = ⊥ := by
         rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
         intro g _

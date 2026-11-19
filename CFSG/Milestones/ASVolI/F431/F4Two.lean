@@ -31,15 +31,15 @@ theorem burnsideF4m_F4Two_xi {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : f < 3) :
     Gp = ⊤ ∧ ∃ Ξ : E ≃* ↥twoF4M, (∀ y, Ξ y ∈ twoF4M1 ↔ y ∈ M₁) ∧
       (∀ y, Ξ y ∈ twoF4M2 ↔ y ∈ M₂) := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hyp4 := hyp.toHypF_4_4g
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ :=
     burnsideF4gF4Two_chart_F4tw hyp4
   have ha : a = 0 := by omega
   subst ha
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hKa : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hKa
   have hcen : Subgroup.center ↥(reeGroup K 0) = ⊥ := by

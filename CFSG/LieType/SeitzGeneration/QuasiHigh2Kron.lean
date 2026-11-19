@@ -14,6 +14,7 @@ section Pi
 
 variable {G : Type*} [Group G] {ι : Type*} [DecidableEq ι]
 
+omit [DecidableEq ι] in
 theorem pi_commutatorElement_apply (h h' : ι → G) (k : ι) : (⁅h, h'⁆) k = ⁅h k, h' k⁆ := by
   simp only [commutatorElement_def, Pi.mul_apply, Pi.inv_apply]
 
@@ -171,13 +172,13 @@ theorem blockMat_mulSingle {Q : Fin p → Matrix (Fin p) (Fin p) F} (hQ : OrthDe
     intro k
     by_cases hk : k = i
     · subst hk
-      rw [Pi.mulSingle_eq_same, if_pos rfl, ← kr_add_right]
+      rw [Pi.mulSingle_eq_same, ite_eq_left rfl, ← kr_add_right]
       congr 1
       abel
-    · rw [Pi.mulSingle_eq_of_ne hk, if_neg hk, add_zero]
+    · rw [Pi.mulSingle_eq_of_ne hk, ite_eq_right hk, add_zero]
   unfold blockMat
   rw [Finset.sum_congr rfl (fun k _ => h k), Finset.sum_add_distrib, Finset.sum_ite_eq',
-    if_pos (Finset.mem_univ _), ← kr_sum_left, hQ.sum_eq, kr_one]
+    ite_eq_left (Finset.mem_univ _), ← kr_sum_left, hQ.sum_eq, kr_one]
 
 @[expose] noncomputable def blockHom {Q : Fin p → Matrix (Fin p) (Fin p) F} (hQ : OrthDecomp Q) :
     (Fin p → SpecialLinearGroup (Fin p) F) →* GL (Fin (p * p)) F where
@@ -258,12 +259,12 @@ theorem shiftMat_mul_single (hp : 0 < p) (k : Fin p) :
       rw [Matrix.single_mul_apply_same 1 (shiftIdx hp b) (shiftIdx hp b) b (shiftMat p F),
         one_mul]
     · rw [Matrix.single_mul_apply_of_ne 1 (shiftIdx hp b) (shiftIdx hp b) a b ha (shiftMat p F),
-        shiftMat_apply hp, if_neg ha]
+        shiftMat_apply hp, ite_eq_right ha]
   · rw [Matrix.mul_single_apply_of_ne 1 k k a b hb (shiftMat p F)]
     by_cases ha : a = shiftIdx hp k
     · subst ha
       rw [Matrix.single_mul_apply_same 1 (shiftIdx hp k) (shiftIdx hp k) b (shiftMat p F),
-        one_mul, shiftMat_apply hp, if_neg]
+        one_mul, shiftMat_apply hp, ite_eq_right]
       intro h
       exact hb (shiftIdx_injective hp h).symm
     · rw [Matrix.single_mul_apply_of_ne 1 (shiftIdx hp k) (shiftIdx hp k) a b ha (shiftMat p F)]
@@ -336,12 +337,12 @@ theorem orthDecomp_fourierProj (hpF : (p : F) ≠ 0) {ε : F} (hε : IsPrimitive
     rw [h1]
     by_cases hab : a = b
     · subst hab
-      rw [(inv_pow_mul_pow_eq_one_iff hε a a).2 rfl, if_pos rfl]
+      rw [(inv_pow_mul_pow_eq_one_iff hε a a).2 rfl, ite_eq_left rfl]
       simp only [one_pow, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
         mul_one]
       exact inv_mul_cancel₀ hpF
     · rw [sum_fin_pow_root_eq_zero (root_pow_eq_one hεp _ _)
-        (fun h' => hab ((inv_pow_mul_pow_eq_one_iff hε b a).1 h').symm), if_neg hab, mul_zero]
+        (fun h' => hab ((inv_pow_mul_pow_eq_one_iff hε b a).1 h').symm), ite_eq_right hab, mul_zero]
 
 theorem fourierProj_zero [NeZero p] (ε : F) : fourierProj ε (0 : Fin p) = projF := by
   ext a b
@@ -353,7 +354,7 @@ theorem fourierProj_mul_shiftMat (hp : 0 < p) {ε : F} (hεp : ε ^ p = 1) (j : 
   have hεip : ε⁻¹ ^ p = 1 := by rw [inv_pow, hεp, inv_one]
   ext a b
   rw [Matrix.mul_apply, Finset.sum_eq_single (shiftIdx hp b)]
-  · rw [shiftMat_apply hp, if_pos rfl, mul_one, Matrix.smul_apply, fourierProj_apply,
+  · rw [shiftMat_apply hp, ite_eq_left rfl, mul_one, Matrix.smul_apply, fourierProj_apply,
       fourierProj_apply, smul_eq_mul]
     have h1 : ε⁻¹ ^ ((j : ℕ) * (shiftIdx hp b : ℕ)) =
         ε⁻¹ ^ (j : ℕ) * ε⁻¹ ^ ((j : ℕ) * (b : ℕ)) := by
@@ -363,7 +364,7 @@ theorem fourierProj_mul_shiftMat (hp : 0 < p) {ε : F} (hεp : ε ^ p = 1) (j : 
     rw [h1]
     ring
   · intro l _ hl
-    rw [shiftMat_apply hp, if_neg hl, mul_zero]
+    rw [shiftMat_apply hp, ite_eq_right hl, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 theorem shiftMat_mul_fourierProj (hp : 0 < p) {ε : F} (hεp : ε ^ p = 1) (hε0 : ε ≠ 0)
@@ -371,7 +372,7 @@ theorem shiftMat_mul_fourierProj (hp : 0 < p) {ε : F} (hεp : ε ^ p = 1) (hε0
   ext a b
   obtain ⟨l₀, hl₀⟩ := ((shiftIdx_injective hp).bijective_of_finite).2 a
   rw [Matrix.mul_apply, Finset.sum_eq_single l₀]
-  · rw [shiftMat_apply hp, if_pos hl₀.symm, one_mul, Matrix.smul_apply, fourierProj_apply,
+  · rw [shiftMat_apply hp, ite_eq_left hl₀.symm, one_mul, Matrix.smul_apply, fourierProj_apply,
       fourierProj_apply, smul_eq_mul]
     have h1 : ε ^ ((j : ℕ) * (a : ℕ)) = ε ^ (j : ℕ) * ε ^ ((j : ℕ) * (l₀ : ℕ)) := by
       rw [← hl₀, shiftIdx, mul_comm (j : ℕ), pow_mod_mul hεp, ← pow_add]
@@ -382,7 +383,7 @@ theorem shiftMat_mul_fourierProj (hp : 0 < p) {ε : F} (hεp : ε ^ p = 1) (hε0
     rw [h1]
     linear_combination (-(p : F)⁻¹ * ε ^ ((j : ℕ) * (l₀ : ℕ)) * ε⁻¹ ^ ((j : ℕ) * (b : ℕ))) * hj1
   · intro l _ hl
-    rw [shiftMat_apply hp, if_neg (fun h => hl (shiftIdx_injective hp (h.symm.trans hl₀.symm))),
+    rw [shiftMat_apply hp, ite_eq_right (fun h => hl (shiftIdx_injective hp (h.symm.trans hl₀.symm))),
       zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
@@ -471,8 +472,8 @@ theorem compMat_mulVec_single {c : F} {t : ℕ} (ht : t + 1 < p) :
   rw [mulVec_single_apply, compMat, Matrix.of_apply, Pi.single_apply]
   simp only [Nat.mod_eq_of_lt ht]
   by_cases ha : (a : ℕ) = t + 1
-  · rw [if_pos ha, if_neg (by omega), if_pos (Fin.ext ha)]
-  · rw [if_neg ha, if_neg (fun h => ha (by rw [h]))]
+  · rw [ite_eq_left ha, ite_eq_right (by omega), ite_eq_left (Fin.ext ha)]
+  · rw [ite_eq_right ha, ite_eq_right (fun h => ha (by rw [h]))]
 
 theorem compMat_pow_mulVec_single_zero {c : F} :
     ∀ (m : ℕ) (hm : m < p),
@@ -503,14 +504,14 @@ theorem exists_noncentral_twist {Cu : GL (Fin p) F} {c : F}
   have hvi : ((v⁻¹ : SpecialLinearGroup (Fin p) F) : Matrix (Fin p) (Fin p) F) *ᵥ e0 = e0 := by
     rw [hv, SpecialLinearGroup.transvection_inv, SpecialLinearGroup.transvection_coe,
       Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec]
-    have : e0 ⟨m, hm⟩ = 0 := by rw [he0, Pi.single_apply, if_neg (Ne.symm h0m)]
+    have : e0 ⟨m, hm⟩ = 0 := by rw [he0, Pi.single_apply, ite_eq_right (Ne.symm h0m)]
     rw [this, mul_zero]
     ext a
     simp
   have hvm : (v : Matrix (Fin p) (Fin p) F) *ᵥ em = em + e0 := by
     rw [hv, SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.one_mulVec,
       Matrix.single_mulVec]
-    have : em ⟨m, hm⟩ = 1 := by rw [hem, Pi.single_apply, if_pos rfl]
+    have : em ⟨m, hm⟩ = 1 := by rw [hem, Pi.single_apply, ite_eq_left rfl]
     rw [this, mul_one]
     rfl
   have key : (scalar (Fin p) r) *ᵥ em = em + e0 := by
@@ -519,7 +520,7 @@ theorem exists_noncentral_twist {Cu : GL (Fin p) F} {c : F}
       hvm]
   have h0 := congrFun key ⟨0, by omega⟩
   rw [Matrix.scalar_apply, Matrix.mulVec_diagonal, Pi.add_apply, hem, he0, Pi.single_apply,
-    Pi.single_apply, if_neg h0m, if_pos rfl, mul_zero, zero_add] at h0
+    Pi.single_apply, ite_eq_right h0m, ite_eq_left rfl, mul_zero, zero_add] at h0
   exact zero_ne_one h0
 
 end Twist
@@ -552,8 +553,8 @@ theorem coe_commutator_one_add {n : Type*} [Fintype n] [DecidableEq n]
   rw [commutatorElement_def, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_mul, hX, hY, hinv hX hA, hinv hY hB]
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.sub_mul, Matrix.mul_sub, Matrix.one_mul,
-    Matrix.mul_one, Matrix.mul_assoc, hA, hB, hBA, h1, h2, h3, h4, h5, Matrix.mul_zero,
-    Matrix.zero_mul, smul_zero, add_zero, zero_add, sub_zero, zero_sub]
+    Matrix.mul_one, Matrix.mul_assoc, hA, hB, hBA, Matrix.mul_zero,
+    add_zero]
   abel
 
 theorem single_mul_projF_mul_single (i k : Fin p) :
@@ -690,7 +691,7 @@ theorem eq_top_of_kron_families (hp3 : 3 ≤ p) (hpF : (p : F) ≠ 0) {ε : F}
   have hqs : ∀ N : Subgroup (SpecialLinearGroup (Fin p) F), N.Normal → ∀ a ∈ N,
       a ∉ Subgroup.center (SpecialLinearGroup (Fin p) F) → N = ⊤ := by
     intro N hN a haN ha
-    haveI := hN
+    have := hN
     exact eq_top_of_normal_of_not_mem_center hp3 haN ha
   have hαp := conjAutSL_pow_eq_one hCp
   have hα : ∀ m : ℕ, 0 < m → m < p → ∃ v : SpecialLinearGroup (Fin p) F,

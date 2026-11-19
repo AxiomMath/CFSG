@@ -81,27 +81,27 @@ theorem isShapeCentralizerFiveB_of_orb5E {G : Type} [Group G] [Finite G] {a z : 
     obtain ⟨i, hi⟩ := (hT4.partition s hsmem).cover x hx_sBase
     fin_cases i
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       exact absurd ((orderOf_eq_of_isConj hi.2).symm.trans h.orderOf_a) (by rw [hax5]; norm_num)
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       exact absurd ((orderOf_eq_of_isConj hi.2).symm.trans h.orderOf_z) (by rw [hax5]; norm_num)
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       have hcontra : orderOf ((a * x) ^ 2) = 2 := by rw [hi.2, hs_order]
       rw [h2ord] at hcontra
       norm_num at hcontra
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       have hcontra : orderOf ((a * x) ^ 2) = 2 :=
         (orderOf_eq_of_isConj hi.2).symm.trans h.orderOf_z
       rw [h2ord] at hcontra
       norm_num at hcontra
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       exact absurd (hi.2.symm.trans hax5) (by norm_num)
     · exfalso
-      simp only [sSet, Set.mem_setOf_eq] at hi
+      simp only [sSet] at hi
       have hcontra : orderOf ((a * x) ^ 3) = 2 := by rw [hi.2, hs_order]
       rw [h3ord] at hcontra
       norm_num at hcontra
@@ -112,19 +112,19 @@ theorem isShapeCentralizerFiveB_of_orb5E {G : Type} [Group G] [Finite G] {a z : 
     obtain ⟨i, hi⟩ := (hT6.partition s hsmem).cover x hx_tBase
     fin_cases i
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd ((orderOf_eq_of_isConj hi.2).symm.trans h.orderOf_a) (by rw [hax5]; norm_num)
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd ((orderOf_eq_of_isConj hi.2).symm.trans h.orderOf_z) (by rw [hax5]; norm_num)
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd (hi.2.symm.trans hax5) (by norm_num)
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd (hi.2.1.symm.trans hax5) (by norm_num)
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd (hi.2.1.symm.trans hax5) (by norm_num)
     ·
       exfalso
@@ -136,10 +136,10 @@ theorem isShapeCentralizerFiveB_of_orb5E {G : Type} [Group G] [Finite G] {a z : 
       rw [h20] at h240
       norm_num at h240
     ·
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact hi.2.2
     · exfalso
-      simp only [tSet, Set.mem_setOf_eq] at hi
+      simp only [tSet] at hi
       exact absurd (hi.2.1.symm.trans hax5) (by norm_num)
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

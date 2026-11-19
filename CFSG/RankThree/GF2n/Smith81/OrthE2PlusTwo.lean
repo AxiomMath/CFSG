@@ -20,6 +20,7 @@ section Natural
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem orth_natural_card (hc : Ctx M Q Z B) {t : G}
     (hNtCN : hc.CN t = Nt M (LB M Q B) t) {K : Type} [Field K] {ι : Type} [Fintype ι]
     [DecidableEq ι] {X : Subgroup (GL ι K)}
@@ -68,7 +69,7 @@ theorem orth_e2Natural_plus_two (h34 : Stroth34Statement) (h310 : Stroth310State
   rcases h310 G M Q Z B hc 4 hs.width hs.n_gt hs.noA2 hs.gen t hs.mem hs.notQ with
     hRL | ⟨K, fK, finK, hKq, hfam⟩
   · exact absurd hRL hRLB
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
   have hpos : 0 < Nat.card ↥(Nt M (LB M Q B) t) := Nat.card_pos
   rcases hfam with ⟨k, hk, hnat⟩ | ⟨k, hk, hnat⟩ | ⟨k, hk, hnat⟩ | ⟨k, b, c, hk, hirr, hnat⟩
   · exfalso
@@ -217,7 +218,7 @@ theorem orth_tensor_glue_cube [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : 
   have hLM : Lgen M (LB M Q B) ≤ M := Lgen_le hc.LB_le_M
   obtain ⟨K, hK, hKfin, γ, M₀, ρ, b, hS⟩ := tensorSetup_of_34 h34 G M Q Z B hc n hw hn hno hgen
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have h35 := (stroth_3_5 h34 hc hw hn hno hgen).2.1
   obtain ⟨θ, Ψ, π, hπr, hπk, hΨθ, hΨπ⟩ := hc.natural_transport hS ht hFZ hscal hnat
   have hcardA : Nat.card A = Nat.card Z * (Nat.card Z ^ 2 - 1) := by
@@ -352,8 +353,8 @@ theorem orth_tensor_glue_cube [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : 
     have h3 := hS.dim
     omega
   have hq := statedSL_quasisimple_of_card 2 F₂ le_rfl (by rw [hF₂card]; exact hc.hyp.q4)
-  haveI hSLperf : Group.IsPerfect ↥(StatedSL 2 F₂) := hq.1
-  haveI hApf : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := eA.symm.toMonoidHom)
+  have hSLperf : Group.IsPerfect ↥(StatedSL 2 F₂) := hq.1
+  have hApf : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := eA.symm.toMonoidHom)
     eA.symm.surjective
   have hAnonab : ∃ a b : A, a * b ≠ b * a := by
     obtain ⟨a', b', hab⟩ := hq.2.2
@@ -503,6 +504,7 @@ theorem orth_exists_ne_zero_one (K : Type) [Field K] [Finite K] (h : 4 ≤ Nat.c
   simp at this
   omega
 
+omit [Finite G] in
 theorem orth_exists_psi [(Q.subgroupOf M).Normal]
     [(Q.subgroupOf (Lgen M (LB M Q B))).Normal] (hc : Ctx M Q Z B) {A B' : Type} [Group A]
     [Group B'] (e : (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B))) ≃* A × B') :
@@ -537,19 +539,19 @@ theorem smith24E2PlusTwo_tensor (h34 : Stroth34Statement) (h310 : Stroth310State
             ActsAsTensor Q Z M₀ φ (x * s * x⁻¹) g' id := by
   classical
   have hc : Ctx M Q Z B := hcfg.ctx
-  haveI : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
+  have : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hw : Width Q Z 4 := by
     unfold Width
     rw [hE.2.1]
   have hn : 2 < 4 := by norm_num
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   obtain ⟨hN', A, B', _, _, hA, hB', ⟨e⟩⟩ := hE.2.2.2.2
-  haveI := hN'
+  have := hN'
   obtain ⟨ψ₀, hψ₀, hψ₀r⟩ := orth_exists_psi hc e
   obtain ⟨F₂, hF₂, hF₂fin, hF₂card, ⟨eA⟩⟩ := hA
   obtain ⟨KE, hKEf, hKEfin, hKE, ⟨eB₀⟩⟩ := hB'
-  haveI : CharP F₂ 2 := charP_two_of_card_eq_two_pow (hF₂card.trans hZ2)
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP F₂ 2 := charP_two_of_card_eq_two_pow (hF₂card.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have hF4 : 4 ≤ Nat.card F₂ := by rw [hF₂card]; exact hc.hyp.q4
   have hK4 : 4 ≤ Nat.card KE := by rw [hKE]; exact hc.hyp.q4
   obtain ⟨eB₁⟩ := statedOmega_plus_four_nonempty_equiv KE hK4
@@ -564,12 +566,12 @@ theorem smith24E2PlusTwo_tensor (h34 : Stroth34Statement) (h310 : Stroth310State
   have hNat := orth_e2Natural_plus_two h34 h310 hc hs hNtCN hKE hRN
   have hVU := orth_Vt_eq_Ut_plus_two h34 hc hs hNat
   obtain ⟨K', hF', hFin', hK'card, hnat⟩ := hNat
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
   have hq4 : 4 ≤ Nat.card K' := by rw [hK'card]; exact hc.hyp.q4
   have hcoe : ⇑(quadPlus 2 K') = StatedQuadPlus 2 K' :=
     CFSG.LieType.Universal.Spin.coe_quadPlus 2 K'
   obtain ⟨c, hc0, hc1⟩ := orth_exists_ne_zero_one K' hq4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have hnat' : NaturalRep (ι := Fin 2 ⊕ Fin 2) K' (StatedOmega ⇑(quadPlus 2 K'))
       (Rt M (LB M Q B) t') (Vt M (LB M Q B) B Z t') Z (hc.CN t') := by rw [hcoe]; exact hnat
   have hres := orth_tensor_glue_cube hc hw hn hno hgen h34 ht'LB ht'Q hVU

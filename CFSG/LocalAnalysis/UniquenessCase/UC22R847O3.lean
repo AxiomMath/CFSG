@@ -34,13 +34,13 @@ theorem r847OrderThree_dataOfSetup (hSE : StronglyEmbeddedFive)
     (S : RankThreeUC.Setup G) (hSg : UC6S846.SigmaStd (dataOfSetup hS S)) :
     R8107E3.R847OrderThree (dataOfSetup hS S) := by
   intro Y hY r X hXY hX p hp _ hs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYM : Y ≤ S.M := hY.1.le
   by_cases hsp3 : IsStronglyPEmbedded 3 S.M
   · exact hsp3.normalizer_le (fun h => by rw [h, Subgroup.card_bot] at hX; omega)
       (IsPGroup.of_card (n := 1) (by rw [hX, pow_one])) (hXY.trans hYM)
   obtain ⟨hpp, hp2⟩ := (dataOfSetup hS S).sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp5 : 5 ≤ p := R8107E3.five_le_of_mem_sig hSg hsp3 hY hp
   have hsp : IsStronglyPEmbedded p S.M :=
     UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hp

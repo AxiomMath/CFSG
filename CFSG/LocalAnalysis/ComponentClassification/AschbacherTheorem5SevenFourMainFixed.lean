@@ -190,7 +190,7 @@ theorem false_of_le_other (hin : SectionSevenBase) (hC : Counterexample G D 2 Ab
       omega
   have hfix : ∀ p ∈ (P : Subgroup (Abar i)), α p = p → p ∈ Z := by
     intro p hpP hαp
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨p, hpP⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hpP⟩
     have hpn : p ^ (2 ^ n) = 1 := congrArg Subtype.val hn
     obtain ⟨w, hwA, hwt, ⟨e, he⟩, hwp⟩ := hF.exists_lift_fixed i hαp hpn
     have hwY : (w : G) ∈ aschbacherThm5Preimage D (Abar i) ⊓
@@ -228,7 +228,7 @@ theorem false_of_le_other (hin : SectionSevenBase) (hC : Counterexample G D 2 Ab
     omega
   set β := restrictAut α (P : Subgroup (Abar i)) hPα
   have hβ : β ^ 2 = 1 := restrictAut_sq α hα _ hPα
-  obtain ⟨q, hq1, hβq⟩ := exists_fixed_ne_one P.isPGroup' β hβ
+  obtain ⟨q, hq1, hβq⟩ := exists_fixed_ne_one P.isPGroup β hβ
   have hZne : Z ≠ ⊥ := by
     intro hbot
     have hqZ : (q : Abar i) ∈ Z := hfix q q.2 (congrArg Subtype.val hβq)

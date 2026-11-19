@@ -54,8 +54,8 @@ theorem fh_fixedO3Free_psl2
     {Y : Type} [Group Y] [Finite Y] {f : ℕ}
     (h : LieModel Y .PSL 2 3 f) : FHFixedO3Free Y := by
   rcases h with ⟨-, hadm, F, hFld, hFin, hcard, ⟨e⟩⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
-  · letI : Field F := hFld
-    letI : Finite F := hFin
+  · let : Field F := hFld
+    let : Finite F := hFin
     obtain ⟨_hp, hf, -, _h2, h3⟩ := hadm
     have hf2 : 2 ≤ f := by
       by_contra hlt
@@ -80,12 +80,12 @@ theorem fh_fixedO3Free_psl2
     have hσ2' : σ ^ 2 = 1 := by rw [pow_two]; exact hσ2
     by_cases hσ1 : σ = 1
     · subst hσ1
-      haveI : IsSimpleGroup Y := hsimple
-      haveI : N.Normal := ⟨fun n hn g => by simpa using hnorm g rfl n hn⟩
+      have : IsSimpleGroup Y := hsimple
+      have : N.Normal := ⟨fun n hn g => by simpa using hnorm g rfl n hn⟩
       rcases Subgroup.Normal.eq_bot_or_eq_top N with hbot | htop
       · exact hbot
       · exfalso
-        haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
         obtain ⟨n, hn⟩ := hN3.exists_card_eq
         have hYN : Nat.card Y = 3 ^ n := by
           rw [← Subgroup.card_top (G := Y), ← htop, hn]
@@ -97,7 +97,7 @@ theorem fh_fixedO3Free_psl2
         have hNle : N ≤ fixedSubgroup Y σ := fun x hx => hfix x hx
         have hdvd : Nat.card N ∣ Nat.card ↥(fixedSubgroup Y σ) :=
           Subgroup.card_dvd_of_le hNle
-        haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
         obtain ⟨n, hn⟩ := hN3.exists_card_eq
         by_cases hn0 : n = 0
         · apply Subgroup.eq_bot_of_card_eq

@@ -14,7 +14,7 @@ theorem exists_normal_of_cover {X : Type} [Group X] [Finite X] (L : Subgroup X) 
     (hc : center (↥L ⧸ center ↥L) = ⊥) :
     ∃ N : Subgroup X, N.Normal ∧ N.index ∣ 6 ∧
       ∀ g : X, g ∈ N ↔ ∃ k ∈ L, ∀ l ∈ L, g * l * g⁻¹ = k * l * k⁻¹ := by
-  haveI : Nonempty (↥L ⧸ center ↥L) := ⟨1⟩
+  have : Nonempty (↥L ⧸ center ↥L) := ⟨1⟩
   let Inn : Subgroup (MulAut (↥L ⧸ center ↥L)) :=
     (MulAut.conj : (↥L ⧸ center ↥L) →* MulAut (↥L ⧸ center ↥L)).range
   let ψ : X →* MulAut (↥L ⧸ center ↥L) :=
@@ -28,7 +28,7 @@ theorem exists_normal_of_cover {X : Type} [Group X] [Finite X] (L : Subgroup X) 
     refine ⟨b q, ?_⟩
     ext x
     simp [MulAut.mul_apply, MulAut.conj_apply]
-  haveI : Inn.Normal := hInnNormal
+  have : Inn.Normal := hInnNormal
   have hcardInn : Nat.card Inn = Nat.card (↥L ⧸ center ↥L) := by
     have hinj : Function.Injective
         (MulAut.conj : (↥L ⧸ center ↥L) →* MulAut (↥L ⧸ center ↥L)) := by
@@ -87,8 +87,8 @@ theorem dvd_card_centralizer_quotient {K : Type} [Group K] [Finite K] {p : ℕ} 
     (hZ : ¬ p ∣ Nat.card (center K)) (k : K)
     (h : p ∣ Nat.card (centralizer ({k} : Set K))) :
     p ∣ Nat.card (centralizer ({(k : K ⧸ center K)} : Set (K ⧸ center K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥(centralizer ({k} : Set K)) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥(centralizer ({k} : Set K)) := Fintype.ofFinite _
   have hdvd : p ∣ Fintype.card ↥(centralizer ({k} : Set K)) := by
     simpa only [Nat.card_eq_fintype_card] using h
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card p hdvd

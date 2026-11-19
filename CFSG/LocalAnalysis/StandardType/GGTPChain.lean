@@ -405,7 +405,7 @@ private theorem ggTP_idx_image {g : Fin 5 → Mat6} {a : Fin 5 → ℕ}
   · rintro ⟨j, rfl⟩
     exact ⟨ha_lt j, j, (ha j).symm⟩
 
-private theorem ggTP_conjGenerates_of_cjGen {X : Finset Mat6} (hX : X ⊆ refl36)
+private theorem ggTP_conjGenerates_of_cjGen {X : Finset Mat6} (_hX : X ⊆ refl36)
     (h : CjGen (idx X)) : ConjGenerates refl36 X := by
   intro S hS hScl hXS
   have hSidx : idx S ⊆ Finset.range 36 := fun i hi => (Finset.mem_filter.mp hi).1

@@ -41,7 +41,7 @@ section Certs
 
 theorem seitzSimpleStmt_of_psu_three_three {S : Type} [Group S] [Finite S]
     (h : StatedClassicalModel S .PSU 3 3 1) : SeitzSimpleStmt S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : catalogIs S fU33 := catalogIs_of_psu_three_three h
   have hScard : Nat.card S = 6048 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three h
@@ -58,7 +58,7 @@ theorem seitzSimpleStmt_of_psu_three_three {S : Type} [Group S] [Finite S]
   · rw [hScard]
     norm_num
   · intro q hq hq2 E hE hbig U hU2 hUinv
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hEin : E ≤ (MulAut.conj : S →* MulAut S).range := by
       intro α hα
       have hαodd : Odd (orderOf α) := by

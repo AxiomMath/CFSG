@@ -19,23 +19,27 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ}
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (b : ↥B) : ↥L :=
   ⟨Classical.choose (hin b b.2), (Classical.choose_spec (hin b b.2)).1⟩
 
+omit [Finite X] in
 theorem kOf_spec {L B : Subgroup X}
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (b : ↥B) :
     ((kOf hin b : ↥L) : X)⁻¹ * (b : X) ∈ Subgroup.centralizer (L : Set X) :=
   (Classical.choose_spec (hin b b.2)).2
 
+omit [Finite X] in
 theorem mem_center_of_mem_centralizer {L : Subgroup X} {k : ↥L}
     (hk : (k : X) ∈ Subgroup.centralizer (L : Set X)) : k ∈ Subgroup.center ↥L := by
   rw [Subgroup.mem_center_iff]
   intro y
   exact Subtype.ext (Subgroup.mem_centralizer_iff.1 hk y y.2)
 
+omit [Finite X] in
 theorem mem_centralizer_of_mem_center {L : Subgroup X} {k : ↥L}
     (hk : k ∈ Subgroup.center ↥L) : (k : X) ∈ Subgroup.centralizer (L : Set X) := by
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
   exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hk ⟨y, hy⟩)
 
+omit [Finite X] in
 theorem mk_eq_of_inner {L : Subgroup X} {k k' : ↥L} {b : X}
     (hk : (k : X)⁻¹ * b ∈ Subgroup.centralizer (L : Set X))
     (hk' : (k' : X)⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) :
@@ -48,6 +52,7 @@ theorem mk_eq_of_inner {L : Subgroup X} {k k' : ↥L} {b : X}
   rw [e]
   exact Subgroup.mul_mem _ hk (Subgroup.inv_mem _ hk')
 
+omit [Finite X] in
 theorem mul_inner_mem {L : Subgroup X} {k k' a b : X} (hk' : k' ∈ L)
     (ha : k⁻¹ * a ∈ Subgroup.centralizer (L : Set X))
     (hb : k'⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) :
@@ -78,10 +83,12 @@ theorem mul_inner_mem {L : Subgroup X} {k k' a b : X} (hk' : k' ∈ L)
     rw [mk_eq_of_inner (kOf_spec hin (a * b)) h1]
     rfl
 
+omit [Finite X] in
 theorem barHom_apply {L B : Subgroup X}
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (b : ↥B) :
     barHom hin b = QuotientGroup.mk (kOf hin b) := rfl
 
+omit [Finite X] in
 theorem barHom_eq_one_iff {L B : Subgroup X}
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (b : ↥B) :
     barHom hin b = 1 ↔ (b : X) ∈ Subgroup.centralizer (L : Set X) := by
@@ -98,6 +105,7 @@ theorem barHom_eq_one_iff {L B : Subgroup X}
     rw [e]
     exact Subgroup.inv_mem _ (Subgroup.mul_mem _ (kOf_spec hin b) (Subgroup.inv_mem _ h))
 
+omit [Finite X] in
 theorem card_range_barHom_mul {L B : Subgroup X}
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) :
     Nat.card (barHom hin).range * Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set X)) =
@@ -115,6 +123,7 @@ theorem card_range_barHom_mul {L B : Subgroup X}
   rw [mul_comm]
   exact h1
 
+omit [Finite X] in
 theorem isElemAbelian_range_barHom {L B : Subgroup X} (hB : IsElemAbelian p B)
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) :
     IsElemAbelian p (barHom hin).range := by
@@ -131,6 +140,7 @@ theorem isElemAbelian_range_barHom {L B : Subgroup X} (hB : IsElemAbelian p B)
     have : a ^ p = 1 := Subtype.ext (by simpa using hB.2 a a.2)
     rw [this, map_one]
 
+omit [Finite X] in
 theorem range_barHom_le_centralizer {L B : Subgroup X} (hB : IsElemAbelian p B)
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (e : ↥B) :
     (barHom hin).range ≤ Subgroup.centralizer ({barHom hin e} : Set (↥L ⧸ Subgroup.center ↥L)) := by
@@ -535,6 +545,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem subgroupOf_inf_centralizer_eq {L : Subgroup X} {k : X} (hk : k ∈ L) :
     (L ⊓ Subgroup.centralizer ({k} : Set X)).subgroupOf L =
       fixSubgroup (MulAut.conj (⟨k, hk⟩ : ↥L)) := by
@@ -566,7 +577,7 @@ theorem transfer_barHom (hp : p.Prime) {L B : Subgroup X}
   exact ⟨hI, ⟨e0.trans eI⟩⟩
 
 theorem eq_of_transfer_barHom (hp : p.Prime) {L B : Subgroup X}
-    (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (e : ↥B)
+    (_hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (e : ↥B)
     {J₁ J₂ : Subgroup X}
     (hJ₁ : GLAPComponent p (L ⊓ Subgroup.centralizer ({(e : X)} : Set X)) J₁)
     (hJ₂ : GLAPComponent p (L ⊓ Subgroup.centralizer ({(e : X)} : Set X)) J₂)
@@ -734,7 +745,7 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ}
 theorem exists_card_sq (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E)
     (hE2 : 2 ≤ CFSG.Open.pRank p E) {x : X} (hx : x ∈ E) :
     ∃ D : Subgroup X, D ≤ E ∧ x ∈ D ∧ Nat.card D = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hE.2 x hx
   have h1 : Nat.card (Subgroup.zpowers x) ∣ p ^ 2 := by
     rw [Nat.card_zpowers]
@@ -750,7 +761,7 @@ theorem exists_card_sq (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E)
 theorem exists_jD (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
     (hD2 : CFSG.LocalAnalysis.GLTheoremA.KDChevDownQ p 2)
     (hSpM : CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.SporadicMultipliers)
-    (hOrd : SporadicOrdersTable) {name : TauCeti.SporadicName} (hpS : p ∣ sporOrd name)
+    (hOrd : SporadicOrdersTable) {name : TauCeti.SporadicName} (_hpS : p ∣ sporOrd name)
     (h12 : ¬ sporOrd name ∣ Nat.factorial 12)
     {L B J0 E D : Subgroup X} (hLK : CFSG.IsKGroup ↥L) (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hB : IsElemAbelian p B) (hBN : B ≤ Subgroup.normalizer (L : Set X))
@@ -798,7 +809,7 @@ theorem exists_jD (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
   · left
     have eZ : (↥J0 ⧸ Subgroup.center ↥J0) ≃* ↥J0 :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-    haveI hs0 : IsSimpleGroup ↥J0 := eZ.isSimpleGroup_congr.1 hq0.2
+    have hs0 : IsSimpleGroup ↥J0 := eZ.isSimpleGroup_congr.1 hq0.2
     have hnab0 : ∃ a b : ↥J0, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ :=
         CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq0
@@ -878,7 +889,7 @@ theorem false_of_co3P {x : ↥co3P} (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     (hdvd : 3 ^ 5 ∣ Nat.card (Subgroup.centralizer ({x} : Set ↥co3P)))
     {I : Subgroup ↥co3P} (hI : GLAPComponent 3 (Subgroup.centralizer ({x} : Set ↥co3P)) I) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : orderOf (x : Equiv.Perm (Fin 276)) = 3 := by
     have h1 : (x : Equiv.Perm (Fin 276)) ^ 3 = 1 := by
       have := congrArg Subtype.val hx3
@@ -951,7 +962,7 @@ theorem selfComp (hp : p.Prime) (hOrd : SporadicOrdersTable) {name : TauCeti.Spo
     (hname : IsSporType name (↥L ⧸ Subgroup.center ↥L)) :
     GLAPComponent p L L ∧ Nonempty (PSimple p L ≃* (TauCeti.CFSGIndex.sporadic name).Group) := by
   obtain ⟨eS⟩ := hname
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
   have hcardS : Nat.card (↥L ⧸ Subgroup.center ↥L) = sporOrd name :=
     (Nat.card_congr eS.toEquiv).trans (hOrd name)
   have hpLZ : p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := hcardS ▸ hpS
@@ -991,10 +1002,10 @@ theorem fiGood_iso : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → FiGoo
 
 theorem centShapeRk_fi24_fiGood :
     CentShapeRk 3 FiGood (fun _ _ => True) (NativeSporadic.Carrier .Fi24Prime) := by
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J :=
+  have : Finite ↥CFSG.Sporadic.Fi24.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have e : NativeSporadic.Fi24prime ≃* ↥CFSG.Sporadic.Fi24.J := CFSG.Sporadic.Fi24.fi24EquivJ
-  haveI : Finite NativeSporadic.Fi24prime := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite NativeSporadic.Fi24prime := Finite.of_equiv _ e.symm.toEquiv
   have hN : ∀ (T : Type) [Group T] [Finite T], IsSimpleGroup T → Nat.card T = 4952179814400 →
       FiGood T := fun _ _ _ _ h => Or.inl h
   have hG2 : ∀ (T : Type) [Group T] [Finite T], IsSimpleGroup T → Nat.card T = 4245696 →
@@ -1055,7 +1066,7 @@ theorem downStep_M (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
     (hI : GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) I) :
     P (PSimple 3 I) := by
   obtain ⟨bM⟩ := hBr .M
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hS.some.trans bM.symm).toEquiv
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hS.some.trans bM.symm).toEquiv
   exact Inputs2711c.pSimple_of_sporCensus Nat.prime_three (by norm_num) hOut bM
     (Good := fun T _ => CFSG.Yardstones.Md0ec50421ce4.catalogIs T
       (fun i => i = .sporadic .Fi24Prime ∨ i = .sporadic .Th))
@@ -1085,7 +1096,7 @@ theorem downStep_PMOne (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
   · exact downStep_M hOut hBr hcen isoInv_PMTwo (Or.inl (Or.inl ⟨MulEquiv.refl _⟩))
       (fun _ _ h => Or.inl h) hnab hM α hα I hI
   · obtain ⟨bF⟩ := hBr .Fi24Prime
-    haveI : Finite (NativeSporadic.Carrier .Fi24Prime) :=
+    have : Finite (NativeSporadic.Carrier .Fi24Prime) :=
       Finite.of_equiv _ (hF.some.trans bF.symm).toEquiv
     exact Inputs2711c.pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bF fiGood_iso
       (fun _ _ _ _ _ h => h) hFi isoInv_PMTwo (Or.inl (Or.inr (Or.inl ⟨MulEquiv.refl _⟩)))

@@ -15,7 +15,7 @@ theorem normalizer_D_inter_le_Y {I D P Y : Subgroup H} {p d : ℕ}
     (hhyp : ThreeTenHyp I D P Y p d) :
     Subgroup.normalizer (D : Set H) ⊓ (I ⊔ D) ≤ Y := by
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hdvd : d ∣ Nat.card D := by
     rcases hD.isPGroup.card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hDne

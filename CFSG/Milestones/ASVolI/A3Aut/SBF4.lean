@@ -23,7 +23,7 @@ theorem burnsideAut_not_isSolvable_of_isSimpleGroup {S : Type*} [Group S] [IsSim
       exact Subgroup.commutator_mem_commutator (Subgroup.mem_top x) (Subgroup.mem_top y)
     rw [hb, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
     exact hmem
-  · haveI : Group.IsPerfect S := ⟨ht⟩
+  · have : Group.IsPerfect S := ⟨ht⟩
     exact Group.IsPerfect.not_isSolvable S
 
 theorem burnsideAut_uSL_one_ne_one {K : Type*} [Field K] : uSL (1 : K) ≠ 1 := by
@@ -115,7 +115,7 @@ theorem burnsideAut_reeLocalBlock_not_isSolvable
       rw [hK]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
-    haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
+    have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
     have hR : (largeReeA1Hom K a).range ≤ F4.reeLocalBlock K a ⟨0, by decide⟩ :=
       (largeReeA1Hom_range hK).le
     refine burnsideAut_not_isSolvable_of_perfect_hom (largeReeA1Hom K a) (g := uSL 1) ?_ hR
@@ -125,7 +125,7 @@ theorem burnsideAut_reeLocalBlock_not_isSolvable
       burnsideAut_reeLocalBlock_one_eq ha hK
     rw [h2]
     obtain ⟨hs, hnc⟩ := LargeReeInvolution.isSimpleGroup_rankOneGroupTwo ha hK
-    haveI := hs
+    have := hs
     exact burnsideAut_not_isSolvable_of_isSimpleGroup hnc
 
 theorem burnsideAut_solvBorel_largeRee

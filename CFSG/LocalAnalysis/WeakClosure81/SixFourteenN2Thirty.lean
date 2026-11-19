@@ -36,7 +36,7 @@ theorem hGL_eq_scalar_of_smul {W : Type*} [CommGroup W] [Finite W]
     (hc0 : c ≠ 0) :
     hGL hw2 x hx3 hfix h hcomm hW =
       Matrix.GeneralLinearGroup.scalar (Fin 2) (Units.mk0 c hc0) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   have hcomm1 : (1 : MulAut W) * x = x * 1 := by group
   have hGL1 : hGL hw2 x hx3 hfix (1 : MulAut W) hcomm1 hW = 1 :=
@@ -50,10 +50,10 @@ theorem hGL_eq_scalar_of_smul {W : Type*} [CommGroup W] [Finite W]
       have h := hGaloisLinearEquiv_apply hw2 x hx3 hfix
         (h := (1 : MulAut W)) hcomm1 (b j)
       rw [hGaloisLinearEquiv_one hw2 x hx3 hfix hcomm1] at h
-      simpa using h.symm
+      simp
     rw [← hauto1, hcol1, hGL1]
     ext i
-    simp [Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply, Pi.single_apply, eq_comm]
+    simp [Matrix.one_apply, Pi.single_apply, eq_comm]
   apply Matrix.GeneralLinearGroup.ext
   intro i j
   have h1 : autAddHom h (b j) = c • b j := by
@@ -67,7 +67,7 @@ theorem hGL_eq_scalar_of_smul {W : Type*} [CommGroup W] [Finite W]
     rw [map_smul, hbasis j]
     ext i
     by_cases hij : i = j <;>
-      simp [Pi.smul_apply, Pi.single_apply, hij, smul_eq_mul]
+      simp [Pi.smul_apply, hij, smul_eq_mul]
   have hentry : (hGL hw2 x hx3 hfix h hcomm hW) i j = if i = j then c else 0 := by
     rw [← congrFun h2 i, h3]
     simp [Pi.single_apply]
@@ -109,14 +109,14 @@ theorem hGL_eq_one_imp_eq_one {W : Type*} [CommGroup W] [Finite W]
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
     {h : MulAut W} (hcomm : h * x = x * h)
     (h1 : hGL hw2 x hx3 hfix h hcomm hW = 1) : h = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   have hfixb : ∀ j : Fin 2,
       hGaloisLinearEquiv hw2 x hx3 hfix h hcomm (b j) = b j := by
     intro j
     rw [hGaloisLinearEquiv_apply hw2 x hx3 hfix h hcomm]
     rw [hGL_expansion hw2 x hx3 hfix hW hcomm j, h1]
-    simp [b, Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply]
+    simp [b, Matrix.one_apply]
   have hL : hGaloisLinearEquiv hw2 x hx3 hfix h hcomm = 1 := by
     apply b.ext'
     intro j
@@ -147,7 +147,7 @@ theorem false_of_card_thirty_of_transitive {W : Type*} [CommGroup W] [Finite W]
     (hcard : Nat.card H = 30) :
     False := by
   classical
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let C : Subgroup (MulAut W) := Subgroup.centralizer (X : Set (MulAut W))
   have hxX : x ∈ X := by
     rw [hxgen]
@@ -159,7 +159,7 @@ theorem false_of_card_thirty_of_transitive {W : Type*} [CommGroup W] [Finite W]
     rw [hH]
     exact hX_le hxX
   have hx2H : x ^ 2 ∈ H := H.pow_mem hxH 2
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨rH, hrordH⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥H) 5 (by rw [hcard]; norm_num)
   let r : MulAut W := rH
@@ -191,7 +191,7 @@ theorem false_of_card_thirty_of_transitive {W : Type*} [CommGroup W] [Finite W]
       hGaloisLinearEquiv hw2 x hx3 hfix (x ^ 2) hcommX2 v = c • v := by
     intro v
     exact (hGaloisLinearEquiv_apply_congr hw2 x hx3 hfix hcommX2 _ v).trans (hc v)
-  haveI : Nontrivial W :=
+  have : Nontrivial W :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hW]; norm_num)
   obtain ⟨v0, hv0⟩ := exists_ne (0 : Additive W)
   have hc0 : c ≠ 0 := by

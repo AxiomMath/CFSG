@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {d : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eq_one_of_fixes_subfield (hd : 3 ≤ d) (σ : K ≃+* K)
     {φ : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K))}
     (hφ : φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ)

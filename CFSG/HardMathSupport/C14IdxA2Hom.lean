@@ -293,9 +293,6 @@ private lemma isRoot_a2PairRoot {τ : Tag} {α β : Fin τ.rank → ℤ}
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all [a2PairRoot] <;>
     first
-    | exact ha
-    | exact hb
-    | exact hab
     | exact IsRoot.neg ha
     | exact IsRoot.neg hb
     | convert IsRoot.neg hab using 2
@@ -413,7 +410,7 @@ theorem exists_a2Hom_of_oddDerivPair
       · subst k
         have hil : i ≠ l := fun e => hex ⟨rfl, e.symm⟩
         have hpair := oddDerivPair_a2PairRoot_adjacent h i j l hij hkl hil
-        rw [if_pos rfl, commutatorElement_pinnedX_of_oddDerivPair h2 hpair, map_mul]
+        rw [ite_eq_left rfl, commutatorElement_pinnedX_of_oddDerivPair h2 hpair, map_mul]
         congr 1
         exact a2PairRoot_add α β i j l
       · by_cases hil : i = l
@@ -421,7 +418,7 @@ theorem exists_a2Hom_of_oddDerivPair
           have hkj : k ≠ j := fun e => hjk e.symm
           have hpair : OddDerivPair τ (a2PairRoot α β i j) (a2PairRoot α β k i) :=
             oddDerivPair_symm (oddDerivPair_a2PairRoot_adjacent h k i j hkl hij hkj)
-          rw [if_neg hjk, if_pos rfl,
+          rw [ite_eq_right hjk, ite_eq_left rfl,
             commutatorElement_pinnedX_of_oddDerivPair h2 hpair, map_neg, CharTwo.neg_eq, map_mul]
           congr 1
           rw [add_comm]
@@ -430,7 +427,7 @@ theorem exists_a2Hom_of_oddDerivPair
           have hne' : a2PairRoot α β i j ≠ -a2PairRoot α β k l := by
             intro e
             exact hfar.2 (by rw [e, neg_add_cancel])
-          rw [if_neg hjk, if_neg hil]
+          rw [ite_eq_right hjk, ite_eq_right hil]
           exact commutatorElement_eq_one_iff_commute.2
             (commute_pinnedX_of_oddDeriv (isRoot_a2PairRoot h i j hij)
               (isRoot_a2PairRoot h k l hkl) hne' hfar.1 (ι c) (ι d))

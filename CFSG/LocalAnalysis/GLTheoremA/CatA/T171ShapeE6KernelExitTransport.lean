@@ -61,7 +61,7 @@ theorem indAut_zpow {Γ : Type} [Group Γ] {p : ℕ} {J : Subgroup Γ} {a : Γ}
   unfold MI.indAut
   rw [← map_zpow]
   congr 1
-  exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+  exact Subtype.ext (by simp [zpow_neg])
 
 section Inner
 

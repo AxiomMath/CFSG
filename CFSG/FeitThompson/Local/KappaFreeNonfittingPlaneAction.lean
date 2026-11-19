@@ -99,9 +99,9 @@ theorem FTS_kappa_free_nonfitting_plane_action
   have hEnormA : E ≤ normalizer (A : Set G) := (h₄ G hGosm p M A E hosA hsc hAE).1
   have hnonab : ∃ S : Sylow p G, ¬ IsMulCommutative ↥(S : Subgroup G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEne : E ≠ ⊤ := fun h => hM.1 (top_le_iff.1 (h ▸ hEM))
-    haveI hsolvE : Group.IsSolvable ↥E := hG.isSolvable E hEne
+    have hsolvE : Group.IsSolvable ↥E := hG.isSolvable E hEne
     obtain ⟨F₁, F₂, F₃, hsplit, -⟩ := FNI_sigma_complement_three_factors h₁ G hGosm M E hsc
     have hQpi : IsPiSubgroup (tau1Primes M) (Q.subgroupOf E) :=
       isPiSubgroup_subgroupOf_of_natCard_prime hQE hqp hQcard hqτ₁
@@ -157,7 +157,7 @@ theorem FTS_kappa_free_nonfitting_plane_action
   have hApgE : IsPGroup p ↥(A.subgroupOf E) :=
     IsPGroup.of_card (n := 2) (by rw [Nat.card_congr (subgroupOfEquivOfLe hAE).toEquiv, hAcard])
   obtain ⟨S, hAS⟩ := hApgE.exists_le_sylow
-  haveI hDnE : ((⁅E, Q⁆ : Subgroup G).subgroupOf E).Normal :=
+  have hDnE : ((⁅E, Q⁆ : Subgroup G).subgroupOf E).Normal :=
     normal_subgroupOf_of_le_normalizer hDE hEnormD
   have hDpE : IsPGroup p ↥((⁅E, Q⁆ : Subgroup G).subgroupOf E) :=
     IsPGroup.of_card (by rw [Nat.card_congr (subgroupOfEquivOfLe hDE).toEquiv, hDcardk])

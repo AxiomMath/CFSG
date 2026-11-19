@@ -30,9 +30,9 @@ theorem fourFive_component_dichotomy {Q : Type} [Group Q] [Finite Q] {j : ℕ} (
   have hJU : J ≤ U := hJX.trans hXU
   have hUnorm : U ≤ Subgroup.normalizer (X : Set Q) :=
     hU ▸ sup_le Subgroup.le_normalizer (fourFive_le_normalizer_orbit hX)
-  haveI hXn : (X.subgroupOf U).Normal :=
+  have hXn : (X.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXU).mpr hUnorm
-  haveI hCn : (C.subgroupOf U).Normal := hC ▸ fourFive_normal_inf_centralizer hUnorm
+  have hCn : (C.subgroupOf U).Normal := hC ▸ fourFive_normal_inf_centralizer hUnorm
   have hCT : C ≤ T := fourFive_orbit_centralizer_le hT hN hJ hX hU hC
   have hXC : X ⊓ C = ⊥ := by
     refine eq_bot_iff.mpr fun x hx => ?_

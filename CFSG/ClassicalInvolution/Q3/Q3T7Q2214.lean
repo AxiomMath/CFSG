@@ -208,7 +208,7 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
   {K : Subgroup G}
 
 theorem centMembers_subset_exactFamily
-    (hcls : ∀ K ∈ Ω, ∃ z, Q3T8.Generic.IsClassicalMember K z) :
+    (_hcls : ∀ K ∈ Ω, ∃ z, Q3T8.Generic.IsClassicalMember K z) :
     centMembers Ω c ⊆ Q3T8.Asc77.ExactLayer.exactFamily Ω c := by
   rintro K ⟨hKΩ, hKc⟩
   have hcom : ∀ x ∈ K, c * x = x * c := fun x hx =>
@@ -647,7 +647,7 @@ end Perfect
 section Alpha
 
 theorem oddCore_commutes_of_alphaOf
-    [Finite G] (hΩ : ConjInvariant Ω) {c t : G} (hc1 : c ≠ 1)
+    (hΩ : ConjInvariant Ω) {c t : G} (hc1 : c ≠ 1)
     {A : Subgroup G} (hcA : c ∈ A) (htA : t ∈ A) (hα : alphaOf A = ⊥) {n : G}
     (hn : n ∈ oddCoreOf (Q3T8.Asc77.ExactLayer.exactLayer Ω c)) : n * t = t * n := by
   have hBN : ∀ b ∈ Subgroup.centralizer ({c} : Set G),

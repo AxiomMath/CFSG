@@ -19,7 +19,7 @@ private theorem beq_pkw_iff {w : Nat} (hw : n ≤ 2 ^ w) {σ τ : Equiv.Perm (Fi
   rw [Nat.beq_eq]
   exact ⟨pkw_inj hw, fun h => h ▸ rfl⟩
 
-private theorem letP_pkw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (vs ws : List (Equiv.Perm (Fin n))) (l : Int) :
+private theorem letP_pkw {wd : Nat} (_hn32 : n < 2 ^ 32) (_hw : n ≤ 2 ^ wd) (vs ws : List (Equiv.Perm (Fin n))) (l : Int) :
     letP (pkw wd (1 : Equiv.Perm (Fin n))) (vs.map (pkw wd)) (ws.map (pkw wd)) l =
       pkw wd (if 0 < l then vs.getD (l.natAbs - 1) 1 else ws.getD (l.natAbs - 1) 1) := by
   have hg : ∀ (L : List (Equiv.Perm (Fin n))) (k : Nat),
@@ -31,7 +31,7 @@ private theorem letP_pkw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (vs 
   · show getDN _ j _ = _
     have e : (Int.ofNat (j + 1)).natAbs - 1 = j := rfl
     have e' : (0 : Int) < Int.ofNat (j + 1) := Int.ofNat_succ_pos j
-    rw [getDN_eq, hg, if_pos e', e]
+    rw [getDN_eq, hg, ite_eq_left e', e]
   · show getDN _ k _ = _
     rw [getDN_eq, hg]
     simp
@@ -167,7 +167,7 @@ open CFSG.KS.KeyBfs
 variable {G : Array Table} {gg : Nat → Equiv.Perm (Fin n)} {Gp : List Nat}
 
 
-private theorem sim_inner_stepw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (hG : ∀ l < G.size, Rep n G[l]! (gg l)) {h j : Nat} {s : St}
+private theorem sim_inner_stepw {wd : Nat} (_hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (hG : ∀ l < G.size, Rep n G[l]! (gg l)) {h j : Nat} {s : St}
     {E : List Nat} {τ : Equiv.Perm (Fin n)} (hj : j < G.size)
     (hI : CInv n G.size (fun l y => compT n y G[l]!) (idT n)
       (fun T => ∃ σ : Equiv.Perm (Fin n), Rep n T σ) h j s)
@@ -205,12 +205,12 @@ private theorem sim_inner_stepw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w
   by_cases hc : s.1.contains (key n (compT n s.2.1[h]! G[j]!)) = true
   · simp only [hc, Bool.not_true, Bool.false_eq_true, ↓reduceIte] at e
     have e' : s' = (s.1, s.2.1, s.2.2.1, s.2.2.2) := (ForInStep.yield.inj e).symm
-    rw [e', if_pos (hmem.trans hc)]
+    rw [e', ite_eq_left (hmem.trans hc)]
     exact hS
   · have hc' : s.1.contains (key n (compT n s.2.1[h]! G[j]!)) = false := Bool.eq_false_iff.2 hc
     simp only [hc', Bool.not_false, ↓reduceIte] at e
     have e' := (ForInStep.yield.inj e).symm
-    rw [e', if_neg (by rw [hmem]; exact hc)]
+    rw [e', ite_eq_right (by rw [hmem]; exact hc)]
     refine ⟨by simp [hS.1], fun i hi σ hσ => ?_⟩
     change i < (s.2.1.push (compT n s.2.1[h]! G[j]!)).size at hi
     change Rep n (s.2.1.push (compT n s.2.1[h]! G[j]!))[i]! σ at hσ
@@ -248,7 +248,7 @@ private theorem sim_innerw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (h
       rw [he] at e
       refine ⟨s'', e, hI'', by omega, he'.trans he, ?_⟩
       have ht : Gp.take (j + 1) = Gp.take j ++ [Gp.getD j 0] := by
-        rw [List.take_succ, List.getElem?_eq_getElem (by omega),
+        rw [List.take_add_one, List.getElem?_eq_getElem (by omega),
           getD_eq_getElem' (show j < Gp.length by omega)]
         rfl
       rw [ht, clAdd_append, clAdd_cons', hGv j hj, pkw_mul hw hn32]
@@ -290,7 +290,7 @@ private theorem sim_outerw {wd : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ wd) (h
     · have hin := cinv_inner (good_step hG) hI a
       have hsim := sim_innerw hn32 hw hG hGp hGv hI a hS
       refine Or.inl ⟨_, by simp [outerBody, a], by omega, hin.1, _, hsim.1, ?_⟩
-      rw [← hE, show cap - j = cap - (j + 1) + 1 by omega, clRun_succ, if_pos (hS.1 ▸ a)]
+      rw [← hE, show cap - j = cap - (j + 1) + 1 by omega, clRun_succ, ite_eq_left (hS.1 ▸ a)]
     · refine Or.inr ⟨s, by simp [outerBody, show ¬ j < s.2.1.size by omega], ⟨j, hI⟩, ?_⟩
       rw [← hE, clRun_ge _ _ _ _ _ _ (by rw [hS.1]; exact a)]
       exact hS
@@ -487,8 +487,7 @@ theorem survF_sound_cond_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q :
   unfold survF at hF
   have hgi' : g ^ (Nat.sub mb 1) = g⁻¹ := hgi
   rw [powP_pkw hn32 hw, hgi'] at hF
-  simp only [pkw_mul hw hn32, slpP_pkw hn32 hw, exprsV_pkw hn32 hw, nIf_eq, bAnd_eq, bIf_eq, Bool.and_eq_true,
-    ordExP_pkw hn32 hw _ hmb, ordExP_pkw hn32 hw _ hr, ordExP_pkw hn32 hw _ hs, beq_pkw_iff hw] at hF
+  simp only [pkw_mul hw hn32, slpP_pkw hn32 hw, exprsV_pkw hn32 hw, nIf_eq, bIf_eq, ordExP_pkw hn32 hw _ hmb, ordExP_pkw hn32 hw _ hr, ordExP_pkw hn32 hw _ hs, beq_pkw_iff hw] at hF
   have hall : ∀ q : Bool, q = true ∨ q = false := fun q => by cases q <;> simp
   simp only [hp, Bool.not_true, Bool.false_or, Bool.or_eq_true, Bool.and_eq_true, Bool.not_eq_true']
   refine ⟨⟨tblSlp_ok hn32 ha hyg ds, ?_⟩, ?_⟩

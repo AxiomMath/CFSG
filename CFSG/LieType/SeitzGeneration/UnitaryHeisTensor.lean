@@ -157,8 +157,8 @@ theorem unitaryHeisTensorPlanesGU_holds :
   obtain ⟨α, hxα⟩ := hα
   obtain ⟨β, hyβ⟩ := hβ
   have hfin := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
   have hω3 : ω ^ 3 = 1 := hω.pow_eq_one
   have hω1 : ω ≠ 1 := hω.ne_one (by norm_num)
   have hωN : h.bar ω * ω = 1 := by

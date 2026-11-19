@@ -441,7 +441,7 @@ theorem s347_sylow
   obtain S₀ : Sylow 2 ↥T := default
   set P₀ : Subgroup G := (S₀ : Subgroup ↥T).map T.subtype with hP₀
   have hP₀T : P₀ ≤ T := Subgroup.map_subtype_le _
-  have hP₀p : IsPGroup 2 P₀ := S₀.isPGroup'.map T.subtype
+  have hP₀p : IsPGroup 2 P₀ := S₀.isPGroup.map T.subtype
   have hne : P₀ ≠ ⊥ := by
     intro hbot
     exact S₀.ne_bot_of_dvd_card h2

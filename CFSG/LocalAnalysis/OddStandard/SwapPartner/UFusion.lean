@@ -144,7 +144,7 @@ theorem exists_sq_z_mul (F : UFrame z ι ιd) {ρ : Perm (Fin 8)} (hs : sign ρ 
       _ = (z * ι τ₀) * ι (liftS8 ρ') := by rw [map_mul]; group
   exact u_exists_sq_of_isConj hconj.symm ⟨v, hv⟩
 
-theorem exists_sq_x₁_mul (F : UFrame z ι ιd) {ρ : Perm (Fin 8)} (hs : sign ρ = -1)
+theorem exists_sq_x₁_mul (_F : UFrame z ι ιd) {ρ : Perm (Fin 8)} (hs : sign ρ = -1)
     (h2 : ρ * ρ = 1) : ∃ w : G, w * w = ι τ₀ * ι (liftS8 ρ) := by
   have ha : liftS8 ρ * liftS8 ρ = 1 := by rw [← map_mul, h2, map_one]
   have hπ2 : (τ₀ * liftS8 ρ) * (τ₀ * liftS8 ρ) = 1 := by

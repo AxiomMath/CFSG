@@ -26,7 +26,7 @@ theorem stmt12_2_6_of_F4 (h1222 : Stmt12_2_2_F4) (h323 : Stmt3_2_3) : Stmt12_2_6
   ·
     have hLV : L ≤ Subgroup.normalizer (V : Set G) := hH.irrPlus.2.2.1
     have h2 : IsPGroup 2 ↥V := (CFSG.Quasithin.exists_sylow_of_quasithinIsSylowTwo hH.sylow).elim
-      fun S hS => (hS ▸ S.isPGroup').to_le hVT
+      fun S hS => (hS ▸ S.isPGroup).to_le hVT
     obtain ⟨M', hM', hVM'⟩ :=
       CFSG.Quasithin.exists_maxTwoLocal_ge (L := Subgroup.normalizer (V : Set G))
         ⟨V, hH.irrPlus.2.1, h2, rfl⟩

@@ -179,7 +179,7 @@ theorem kFactL2CentThreePrime_holds : KFactL2CentThreePrime := by
     rcases hTform with ⟨g, rfl⟩ | ⟨g, rfl⟩ | ⟨g, rfl⟩
     · exfalso
       have h2 : IsPGroup 2 ((P₂ : Subgroup P).map (MulAut.conj g).toMonoidHom) :=
-        P₂.isPGroup'.map _
+        P₂.isPGroup.map _
       obtain ⟨a, ha⟩ := h2 ⟨x', hxT⟩
       have hdvd : orderOf x' ∣ 2 ^ a := by
         rw [← Subgroup.orderOf_mk x' hxT]

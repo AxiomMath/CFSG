@@ -43,7 +43,7 @@ theorem kFactShape92NoFaithfulA5_holds : KFactShape92NoFaithfulA5 := by
   have hcomm : IsMulCommutative Q := ⟨⟨fun a b => Subtype.ext
     (CFSG.commute_of_sq_eq_one (hQ2 a a.2) (hQ2 b b.2) (hQ2 _ (Q.mul_mem a.2 b.2)))⟩⟩
   have hE : IsElemAbelian 2 Q := ⟨hcomm, hQ2⟩
-  haveI : CFSG.IsElementaryAbelian 2 Q :=
+  have : CFSG.IsElementaryAbelian 2 Q :=
     { toIsMulCommutative := hcomm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
         Subtype.ext (hQ2 a a.2) }
@@ -59,7 +59,7 @@ theorem kFactShape92NoFaithfulA5_holds : KFactShape92NoFaithfulA5 := by
     omega
   rcases hS with ⟨-, h3⟩ | hJ1 | ⟨p, f, hL⟩ | ⟨p, f, hq, hL⟩ | ⟨p, f, -, hL⟩
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact hQ1 (disjoint_self.mp
       (IsPGroup.disjoint_of_ne 2 3 (by norm_num) Q Q hQp (h3.to_subgroup Q)))
   ·

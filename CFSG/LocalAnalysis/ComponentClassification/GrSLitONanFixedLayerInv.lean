@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem onL_exists_involution_ne_onz :
     ∃ y ∈ onL, orderOf y = 2 ∧ y ≠ onz := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard8 : Nat.card omegaP = 8 := card_omegaP
   have homegaP_le : omegaP ≤ Pv := by
     rw [← omegaT_map]
@@ -30,7 +30,7 @@ theorem onL_exists_involution_ne_onz :
     simp at hcard8
   obtain ⟨e, he, he1⟩ := (Subgroup.bot_or_exists_ne_one omegaP).resolve_left hne
   have hePv : e ∈ Pv := homegaP_le he
-  haveI : CFSG.IsElementaryAbelian 2 omegaP := omegaP_elementary
+  have : CFSG.IsElementaryAbelian 2 omegaP := omegaP_elementary
   have he2 : e ^ 2 = 1 := elemPow_eq_one_of_isElementaryAbelian e he
   have hePv2 : orderOf (⟨e, hePv⟩ : Pv) = 2 := by
     rw [← Subgroup.orderOf_coe]
@@ -55,7 +55,7 @@ theorem onL_exists_involution_ne_onz :
   have hAelem : CFSG.IsElementaryAbelian 2 A :=
     CFSG.IsElementaryAbelian.map (p := 2) (A := omegaP) (MulAut.conj gp⁻¹).toMonoidHom
   have hA_le_cent : A ≤ Subgroup.centralizer ({onz} : Set (Equiv.Perm (Fin N))) := by
-    haveI : IsMulCommutative A := hAelem.toIsMulCommutative
+    have : IsMulCommutative A := hAelem.toIsMulCommutative
     intro y hy
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : A) (⟨onz, honzA⟩ : A))
@@ -97,7 +97,7 @@ theorem onL_exists_involution_ne_onz :
 theorem exists_involution_pLayer_centralizer_zP :
     ∃ y ∈ pLayer (Subgroup.centralizer ({zP} : Set Pv)) 2,
       orderOf y = 2 ∧ (y : Pv) ≠ zP := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y0, hy0L, hy02, hy0z⟩ := onL_exists_involution_ne_onz
   have hLq : IsQuasisimple (onL.subgroupOf onM) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe onL_le_M).symm
@@ -157,10 +157,10 @@ theorem exists_involution_gsFixedLayer_on
     {P : Subgroup G} (hON : IsSporadic (↥P ⧸ pPrimeCore 2 ↥P) .ONan) {x : G} (hxP : x ∈ P)
     (hx : orderOf x = 2) :
     ∃ y ∈ gsFixedLayer P x, orderOf y = 2 ∧ y ≠ x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U : Subgroup ↥P := pPrimeCore 2 ↥P
   have hUnorm : U.Normal := pPrimeCore_normal
-  haveI : U.Normal := hUnorm
+  have : U.Normal := hUnorm
   have hUodd : Odd (Nat.card U) :=
     Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := ↥P))
   let x' : ↥P := ⟨x, hxP⟩

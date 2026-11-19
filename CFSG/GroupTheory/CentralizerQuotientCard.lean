@@ -16,7 +16,7 @@ theorem card_centralizer_eq_card_inf_mul_card_quotient (p : ℕ) [Fact p.Prime]
     Nat.card (Subgroup.centralizer ({x} : Set G)) =
       Nat.card ↥(Subgroup.centralizer ({x} : Set G) ⊓ N) *
         Nat.card (Subgroup.centralizer ({(x : G ⧸ N)} : Set (G ⧸ N))) := by
-  haveI hT : Fact (IsPGroup p ↥(Subgroup.zpowers x)) := ⟨hx⟩
+  have hT : Fact (IsPGroup p ↥(Subgroup.zpowers x)) := ⟨hx⟩
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   have hmap : Subgroup.centralizer
         (((Subgroup.zpowers x).map q : Subgroup (G ⧸ N)) : Set (G ⧸ N)) =
@@ -39,7 +39,6 @@ theorem card_centralizer_eq_card_inf_mul_card_quotient (p : ℕ) [Fact p.Prime]
   let f : ↥C →* G ⧸ N := q.comp C.subtype
   have hrange : f.range = Subgroup.centralizer ({(x : G ⧸ N)} : Set (G ⧸ N)) := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-    change C.map q = _
     rw [show C = Subgroup.centralizer ((Subgroup.zpowers x : Subgroup G) : Set G) by
       rw [hcent]]
     rw [← hmap]

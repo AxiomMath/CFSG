@@ -26,7 +26,7 @@ theorem exists_fixed_range
   obtain ⟨u, hu⟩ := exists_ne (1 : S)
   have hdiv : 2 ∣ Fintype.card S := by
     rw [← Nat.card_eq_fintype_card]
-    exact (S.isPGroup'.dvd_orderOf hu).trans (orderOf_dvd_natCard u)
+    exact (S.isPGroup.dvd_orderOf hu).trans (orderOf_dvd_natCard u)
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card (p := 2) (G := S) hdiv
   let a : G := t.val.val
   have ha : a ∈ ambientSylow e S := ⟨t.val, t.property, rfl⟩

@@ -141,6 +141,7 @@ variable [Finite K] [CharP K 2] {M : Type uM} [AddCommGroup M] [Finite M] [Distr
 
 include hφ
 
+omit [Finite K] [CharP K 2] [Finite M] in
 theorem fixedSub_descend_Lom (hker : ∀ y ∈ φ.ker, ∀ a : M, y • a = a) {L : Subgroup Y}
     {u : ι → K} (hL : L.map φ = E.LomGL u) :
     @fixedSub (Gom Q) _ M _ (descendAction (viaMatrix X E.equiv φ hφ)
@@ -156,7 +157,7 @@ theorem stroth_2_1_ii_omegaMinus_of_hom {m : ℕ} (hm : 2 ≤ m) (h : IsMinus Q 
     {L₁ L₂ : Subgroup Y} (hL₁ : L₁.map φ = E.LomGL u) (hL₂ : L₂.map φ = E.LomGL u')
     (hdec : IsCompl (fixedSub M (L₁ : Set Y)) (fixedSub M (L₂ : Set Y))) :
     ∃ n : ℕ, Nat.card M = Nat.card K ^ (2 ^ m * n) := by
-  letI : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ)
+  let : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ)
     (viaMatrix_surjective φ hφ) (fun y hy a => by
       rw [ker_viaMatrix] at hy
       exact hker y hy a)
@@ -170,7 +171,7 @@ theorem stroth_2_1_ii_omegaPlus_of_hom {m : ℕ} (hm : 3 ≤ m) (h : IsPlus Q m)
     {L₁ L₂ : Subgroup Y} (hL₁ : L₁.map φ = E.LomGL u) (hL₂ : L₂.map φ = E.LomGL u')
     (hdec : IsCompl (fixedSub M (L₁ : Set Y)) (fixedSub M (L₂ : Set Y))) :
     ∃ n : ℕ, Nat.card M = Nat.card K ^ (2 ^ (m - 1) * n) := by
-  letI : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ)
+  let : DistribMulAction (Gom Q) M := descendAction (viaMatrix X E.equiv φ hφ)
     (viaMatrix_surjective φ hφ) (fun y hy a => by
       rw [ker_viaMatrix] at hy
       exact hker y hy a)
@@ -191,6 +192,7 @@ section Models
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem statedOmegaPlus_exists_mulVec_eq {m : ℕ} (hm : 3 ≤ m) {x y : Fin m ⊕ Fin m → K}
     (hx : x ≠ 0) (hy : y ≠ 0) (hxy : quadPlus m K x = quadPlus m K y) :
     ∃ A ∈ StatedOmega (StatedQuadPlus m K),

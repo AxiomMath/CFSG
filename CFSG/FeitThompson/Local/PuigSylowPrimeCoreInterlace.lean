@@ -131,9 +131,9 @@ theorem puig_pCore_sylow_interlace [Finite G] [Group.IsSolvable G] (hp : p.Prime
         ≤ (puigSubgroup (pCore p G)).map (pCore p G).subtype ∧
       (puigSubgroup (pCore p G)).map (pCore p G).subtype
         ≤ (puigSubgroup (S : Subgroup G)).map (S : Subgroup G).subtype := by
-  refine ⟨map_puigLower_le_map_puigLower_pCore hp hGodd hp' rfl S.isPGroup'
+  refine ⟨map_puigLower_le_map_puigLower_pCore hp hGodd hp' rfl S.isPGroup
       (pCore_le_sylow hp S), ?_, map_puigSubgroup_pCore_le_map_puigSubgroup hp hGodd hp' rfl
-      S.isPGroup' (pCore_le_sylow hp S)⟩
+      S.isPGroup (pCore_le_sylow hp S)⟩
   rw [puigSubgroup_eq_puigUpper]
   exact map_mono puigLower_le_puigUpper
 

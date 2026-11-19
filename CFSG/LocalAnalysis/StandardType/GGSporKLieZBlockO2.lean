@@ -82,8 +82,8 @@ private theorem l937z_bo_irreducible_GL {m : ℕ} {E : Type} [Field E]
     ext j
     by_cases hji : j = i
     · subst hji; simp [a, ei]
-    · simp only [Pi.add_apply, Pi.smul_apply, ei, Pi.single_eq_of_ne hji, mul_zero, add_zero, a,
-        hji, if_false]
+    · simp only [Pi.add_apply, Pi.smul_apply, ei, Pi.single_eq_of_ne hji, a,
+        hji, ite_false]
       rw [smul_eq_mul, smul_zero]
       field_simp [hi]
       ring
@@ -110,7 +110,7 @@ private theorem l937z_bo_irreducible_GL {m : ℕ} {E : Type} [Field E]
       rw [Matrix.mul_vecMulVec, Matrix.vecMulVec_mulVec]
       dsimp only [ei]
       rw [single_dotProduct]
-      simp [ej, hji, Ne.symm hji]
+      simp [ej, Ne.symm hji]
     have hN₂ei : N₂ *ᵥ ei = ej := by
       dsimp only [N₂]
       rw [Matrix.vecMulVec_mulVec]
@@ -139,7 +139,7 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
     (hW : ∀ g ∈ GUFull m Q E, ∀ v ∈ W, (g : Matrix (Fin m) (Fin m) E) *ᵥ v ∈ W) :
     W = ⊥ ∨ W = ⊤ := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   by_cases hbot : W = ⊥
   · exact Or.inl hbot
   right
@@ -155,7 +155,7 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
     nlinarith [hE]
   have hQne : Q ≠ 0 := by omega
   obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd (show Q + 1 ≠ 1 by omega)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd' : p ∣ Nat.card E - 1 := by
     rw [hE]
     refine hpdvd.trans ⟨Q - 1, ?_⟩
@@ -191,8 +191,8 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
     rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     ext a b
     by_cases hab : a = b
-    · subst hab; simp [Matrix.diagonal_apply, hd]
-    · simp [Matrix.diagonal_apply, hab]
+    · subst hab; simp [hd]
+    · simp [hab]
   let Dunit : GL (Fin m) E :=
     Units.mkOfMulEqOne D (Matrix.diagonal (fun k => (d k)⁻¹)) hD
   have hDmem : Dunit ∈ GUFull m Q E := by
@@ -207,9 +207,9 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
     · subst hab
       by_cases hai : a = i
       · subst hai
-        simp only [Matrix.diagonal_apply, if_true, d]
+        simp only [Matrix.diagonal_apply, ite_true, d]
         rw [← pow_succ, hμpow]
-      · simp [Matrix.diagonal_apply, d, hai]
+      · simp [d, hai]
     · rw [Matrix.diagonal_apply_ne _ hab, Matrix.diagonal_apply_ne _ hab]
   have hDw : D *ᵥ w ∈ W := hW Dunit hDmem w hwW
   have hDsub : (D - 1) *ᵥ w ∈ W := by
@@ -223,7 +223,7 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
     · subst hai
       simp [d, Pi.single_eq_same]
       ring
-    · simp [d, hai, Pi.single_eq_of_ne hai]
+    · simp [d, hai]
   have hmu_ne : ((μ : E) - 1) ≠ 0 := sub_ne_zero.mpr (fun h => hμne (Units.ext h))
   have hei : Pi.single i (1 : E) ∈ W := by
     rw [hDsub_eq] at hDsub
@@ -261,11 +261,11 @@ private theorem l937z_bo_irreducible_GU {m Q : ℕ} {E : Type} [Field E] [Finite
       ext k
       by_cases hk : k = j
       · subst hk
-        simp [σ, Equiv.swap_apply_def, hji]
+        simp [σ]
       · by_cases hk2 : k = i
         · subst hk2
-          simp [σ, Equiv.swap_apply_def, hji, hk]
-        · simp [σ, Equiv.swap_apply_def, hk, hk2, Pi.single_eq_of_ne hk]
+          simp [σ, hji, hk]
+        · simp [σ, Equiv.swap_apply_def, hk, hk2]
     have hmem := hW Punit hPmem _ hei
     change P *ᵥ Pi.single i (1 : E) ∈ W at hmem
     rw [hPei] at hmem
@@ -328,11 +328,11 @@ private theorem l937z_bo_fixedSpace_card_modEq {ι F : Type} [Fintype ι] [Decid
     [Finite F] (G : Subgroup (GL ι F)) :
     Nat.card (ι → F) ≡ Nat.card ↥(l937z_bo_fixedSpace G) [MOD 2] := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI actG : MulAction ↥G (ι → F) := MulAction.compHom (ι → F) G.subtype
-  letI actN : MulAction ↥(pCore 2 ↥G) (ι → F) :=
+  let : Fintype F := Fintype.ofFinite F
+  let actG : MulAction ↥G (ι → F) := MulAction.compHom (ι → F) G.subtype
+  let actN : MulAction ↥(pCore 2 ↥G) (ι → F) :=
     MulAction.compHom (ι → F) (pCore 2 ↥G).subtype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcong := IsPGroup.card_modEq_card_fixedPoints (p := 2)
       (pCore_isPGroup (p := 2) (G := ↥G)) (ι → F)
   have hcard : Nat.card ↥(l937z_bo_fixedSpace G)
@@ -362,7 +362,7 @@ private theorem l937z_bo_fixedSpace_ne_bot {ι F : Type} [Fintype ι] [Decidable
     norm_num at hEven
   have h2 : 1 < Nat.card ↥(l937z_bo_fixedSpace G) :=
     Nat.one_lt_iff_ne_zero_and_ne_one.mpr ⟨hpos.ne', hne1⟩
-  haveI : Fintype ↥(l937z_bo_fixedSpace G) := Fintype.ofFinite _
+  have : Fintype ↥(l937z_bo_fixedSpace G) := Fintype.ofFinite _
   have h2' : 1 < Fintype.card ↥(l937z_bo_fixedSpace G) := by
     rwa [← Nat.card_eq_fintype_card]
   obtain ⟨x, hx⟩ := Fintype.exists_ne_of_one_lt_card h2' (0 : ↥(l937z_bo_fixedSpace G))
@@ -399,8 +399,8 @@ private noncomputable def l937z_bo_subgroupCongr {G : Type} [Group G] {A B : Sub
 
 private theorem l937z_bo_pCore_eq_bot_of_isQuasisimple {G : Type} [Group G] [Finite G]
     (hQ : CFSG.IsQuasisimple G) (hZ : Subgroup.center G = ⊥) : pCore 2 G = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect G := hQ.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := hQ.1
   rw [eq_bot_iff]
   intro x hx
   rw [Subgroup.mem_bot]
@@ -410,15 +410,15 @@ private theorem l937z_bo_pCore_eq_bot_of_isQuasisimple {G : Type} [Group G] [Fin
     have hntq : Nontrivial (G ⧸ Subgroup.center G) := by
       obtain ⟨a, b, hab⟩ := hQ.2.2
       exact ⟨a, 1, fun h1 => hab (by rw [h1, one_mul, mul_one])⟩
-    haveI : Nontrivial G := by
-      haveI := hntq
+    have : Nontrivial G := by
+      have := hntq
       obtain ⟨y, hy⟩ := exists_ne (1 : G ⧸ Subgroup.center G)
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
       exact ⟨x, 1, fun h1 => hy (by simp [h1])⟩
     have e : ↥(pCore 2 G) ≃* G := (l937z_bo_subgroupCongr htop).trans Subgroup.topEquiv
-    haveI : Group.IsNilpotent ↥(pCore 2 G) := pCore_isNilpotent (p := 2) (G := G)
-    haveI : Group.IsNilpotent G := Group.nilpotent_of_mulEquiv e
-    haveI : Group.IsSolvable G := inferInstance
+    have : Group.IsNilpotent ↥(pCore 2 G) := pCore_isNilpotent (p := 2) (G := G)
+    have : Group.IsNilpotent G := Group.nilpotent_of_mulEquiv e
+    have : Group.IsSolvable G := inferInstance
     exact Group.IsPerfect.not_isSolvable G inferInstance
   · have hx' : x ∈ Subgroup.center G := hle hx
     rwa [hZ] at hx'
@@ -428,7 +428,7 @@ private noncomputable def l937z_bo_comapMulEquiv {G H : Type} [Group G] [Group H
   toFun x := ⟨e x.1, x.2⟩
   invFun y := ⟨e.symm y.1, by
     rw [Subgroup.mem_comap]
-    simpa using y.2⟩
+    simp⟩
   left_inv x := by ext; simp
   right_inv y := by ext; simp
   map_mul' x y := Subtype.ext (map_mul e x.1 y.1)
@@ -463,7 +463,7 @@ theorem pCore_two_GL_eq_bot {E : Type} [Field E] [Finite E] [CharP E 2] (m : ℕ
     pCore 2 (GL (Fin m) E) = ⊥ := by
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · exact l937z_bo_pCore_eq_bot_of_subsingleton
-  · letI : Fintype E := Fintype.ofFinite E
+  · let : Fintype E := Fintype.ofFinite E
     have htop := l937z_bo_pCore_eq_bot_of_irreducible (ι := Fin m) (F := E) (G := ⊤) ?_ ?_
     · exact l937z_bo_pCore_eq_bot_of_mulEquiv Subgroup.topEquiv htop
     · intro W hW
@@ -475,7 +475,7 @@ theorem pCore_two_StatedSp_eq_bot {K : Type} [Field K] [Finite K] [CharP K 2] (n
     pCore 2 ↥(StatedSp n K) = ⊥ := by
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · exact l937z_bo_pCore_eq_bot_of_subsingleton
-  · letI : Fintype K := Fintype.ofFinite K
+  · let : Fintype K := Fintype.ofFinite K
     refine l937z_bo_pCore_eq_bot_of_irreducible (ι := Fin n ⊕ Fin n) (F := K)
       (G := StatedSp n K) ?_ ?_
     · intro W hW
@@ -487,7 +487,7 @@ theorem pCore_two_GUFull_eq_bot {E : Type} [Field E] [Finite E] [CharP E 2] (m Q
     (hE : Nat.card E = Q ^ 2) : pCore 2 ↥(GUFull m Q E) = ⊥ := by
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · exact l937z_bo_pCore_eq_bot_of_subsingleton
-  · letI : Fintype E := Fintype.ofFinite E
+  · let : Fintype E := Fintype.ofFinite E
     refine l937z_bo_pCore_eq_bot_of_irreducible (ι := Fin m) (F := E) (G := GUFull m Q E) ?_ ?_
     · intro W hW
       exact l937z_bo_irreducible_GU hE W hW
@@ -498,14 +498,14 @@ theorem pCore_two_StatedOmega_eq_bot {ι K : Type} [Fintype ι] [DecidableEq ι]
     [CharP K 2] (Φ : QuadraticForm K (ι → K)) (hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate)
     (hd : Fintype.card ι = 0 ∨ 6 ≤ Fintype.card ι) : pCore 2 ↥(StatedOmega ⇑Φ) = ⊥ := by
   rcases hd with h0 | h6
-  · haveI : IsEmpty ι := Fintype.card_eq_zero_iff.mp h0
+  · have : IsEmpty ι := Fintype.card_eq_zero_iff.mp h0
     exact l937z_bo_pCore_eq_bot_of_subsingleton
-  · letI : Fintype K := Fintype.ofFinite K
-    haveI : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
+  · let : Fintype K := Fintype.ofFinite K
+    have : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
       Finite.of_injective
         (fun e : (ι → K) ≃ₗ[K] (ι → K) => (e : (ι → K) → (ι → K)))
         (fun _ _ h => LinearEquiv.ext (fun v => congrFun h v))
-    haveI : Finite ↥(CFSG.RankThree.Classical2.orthDerived Φ) :=
+    have : Finite ↥(CFSG.RankThree.Classical2.orthDerived Φ) :=
       Finite.of_injective
         (fun x : ↥(CFSG.RankThree.Classical2.orthDerived Φ) =>
           (x : (ι → K) ≃ₗ[K] (ι → K))) (fun a b h => Subtype.ext h)

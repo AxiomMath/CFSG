@@ -84,7 +84,7 @@ theorem false_of_two_natural_sl3 {W : Type} [CommGroup W] [Finite W] (hW : ∀ v
   obtain ⟨Q0, hQ0⟩ := LinearFlag.exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
   have hQ2 : IsPGroup 2 (LinearFlag.unitriangular 3 K) := by
     rw [← hQ0]
-    exact Q0.isPGroup'
+    exact Q0.isPGroup
   set e := specialLinearGroupEquivStatedSL 3 K with he
   obtain ⟨t, ht⟩ := Ml3.exists_conj_map_le_sylow hSΓ hJΓ hΓN (π.comp e.toMonoidHom)
     ((hreal 0).1.comp e.surjective) hQ2

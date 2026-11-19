@@ -141,9 +141,11 @@ variable {G : Type} [Group G] [Finite G] {P : Set (Subgroup G)} {k : ℕ} (I : A
 noncomputable def tw (α : Finset (Fin k)) (h : α.card = 4) (b : Bool) : Subgroup G :=
   (I.label_surj α h b).choose
 
+omit [Finite G] in
 theorem tw_mem (α : Finset (Fin k)) (h : α.card = 4) (b : Bool) : tw I α h b ∈ P :=
   (I.label_surj α h b).choose_spec.1
 
+omit [Finite G] in
 theorem tw_label (α : Finset (Fin k)) (h : α.card = 4) (b : Bool) :
     ((tw I α h b).subgroupOf (pSpan P)).map I.φ = memBar α h b :=
   (I.label_surj α h b).choose_spec.2
@@ -153,11 +155,13 @@ theorem tw_label (α : Finset (Fin k)) (h : α.card = 4) (b : Bool) :
 
 variable {I}
 
+omit [Finite G] in
 theorem eq_tw (hH : TL4.AECoverHyp I) {L : Subgroup G} (hL : L ∈ P) {α : Finset (Fin k)}
     {h : α.card = 4} {b : Bool} (hlab : (L.subgroupOf (pSpan P)).map I.φ = memBar α h b) :
     L = tw I α h b :=
   hH.label_inj L hL _ (tw_mem I α h b) (hlab.trans (tw_label I α h b).symm)
 
+omit [Finite G] in
 theorem tw_comm (hH : TL4.AECoverHyp I) (α : Finset (Fin k)) (h : α.card = 4) :
     ∀ x ∈ tw I α h true, ∀ y ∈ tw I α h false, x * y = y * x :=
   hH.twin_comm α h _ (tw_mem I α h true) _ (tw_mem I α h false) (tw_label I α h true)
@@ -181,11 +185,13 @@ theorem exists_tw_inv (hH : TL4.AECoverHyp I) (hk : 5 ≤ k) (α : Finset (Fin k
   subst huu
   exact ⟨u, hu, hu', _, hue⟩
 
+omit [Finite G] in
 theorem IsTL.congr_set {α β : Finset (Fin k)} (hαβ : α = β) {h : α.card = 4}
     {h' : β.card = 4} {x : ↥(pSpan P)} {e : AEQ k} (hx : IsTL I α h x e) : IsTL I β h' x e := by
   subst hαβ
   exact hx
 
+omit [Finite G] in
 theorem IsTL.mul (hH : TL4.AECoverHyp I) {α : Finset (Fin k)} {h : α.card = 4}
     {x y : ↥(pSpan P)} {e f : AEQ k} (hx : IsTL I α h x e) (hy : IsTL I α h y f) :
     IsTL I α h (x * y) (e * f) := by
@@ -199,6 +205,7 @@ theorem IsTL.mul (hH : TL4.AECoverHyp I) {α : Finset (Fin k)} {h : α.card = 4}
     _ = l₁ * (l₂ * l₁') * l₂' := by rw [hc]
     _ = l₁ * l₂ * (l₁' * l₂') := by group
 
+omit [Finite G] in
 theorem exists_isTL {α : Finset (Fin k)} {h : α.card = 4} {a b : AEQ k}
     (ha : a ∈ memBar α h true) (hb : b ∈ memBar α h false) : ∃ x, IsTL I α h x (a * b) := by
   rw [← tw_label I α h true] at ha
@@ -257,6 +264,7 @@ theorem IsTL.unique (hH : TL4.AECoverHyp I) (hk : 5 ≤ k) {α : Finset (Fin k)}
     rw [f₁, f₂]
     group
 
+omit [Finite G] in
 theorem mem_mul_of_mem_tw (hH : TL4.AECoverHyp I) {α : Finset (Fin k)} {h : α.card = 4}
     {c₁ c₂ : Bool} {a a' : G} (ha : a ∈ tw I α h c₁) (ha' : a' ∈ tw I α h c₂) :
     ∃ l ∈ tw I α h true, ∃ l' ∈ tw I α h false, a * a' = l * l' := by
@@ -266,6 +274,7 @@ theorem mem_mul_of_mem_tw (hH : TL4.AECoverHyp I) {α : Finset (Fin k)} {h : α.
   · exact ⟨a, ha, a', ha', rfl⟩
   · exact ⟨a * a', (tw I α h true).mul_mem ha ha', 1, (tw I α h false).one_mem, by rw [mul_one]⟩
 
+omit [Finite G] in
 theorem conjSub_tw (hH : TL4.AECoverHyp I) (g : ↥(pSpan P)) (α : Finset (Fin k))
     (h : α.card = 4) (b : Bool) : ∃ c : Bool, conjSub (g : G) (tw I α h b) =
       tw I (α.map (permQ k (I.φ g)).toEmbedding) (by rw [Finset.card_map]; exact h) c := by
@@ -273,6 +282,7 @@ theorem conjSub_tw (hH : TL4.AECoverHyp I) (g : ↥(pSpan P)) (α : Finset (Fin 
   refine ⟨c, eq_tw hH (hH.conj_mem _ (tw_mem I α h b) g g.2) ?_⟩
   rw [TL4.AECov.map_conjSub_eq I _ g, tw_label, hc]
 
+omit [Finite G] in
 theorem IsTL.conj (hH : TL4.AECoverHyp I) {α : Finset (Fin k)} {h : α.card = 4}
     {x : ↥(pSpan P)} {e : AEQ k} (hx : IsTL I α h x e) (g : ↥(pSpan P)) :
     IsTL I (α.map (permQ k (I.φ g)).toEmbedding) (by rw [Finset.card_map]; exact h)
@@ -455,14 +465,14 @@ theorem exists_pointLift (hH : TL4.AECoverHyp I) (hk : 5 ≤ k) (p₀ : Fin k) :
   intro p q hpq α h hpα hqα
   by_cases hp : p = p₀
   · have hq : q ≠ p₀ := fun e => hpq (hp.trans e.symm)
-    simp only [dif_pos hp, dif_neg hq, one_mul]
+    simp only [dite_eq_left hp, dite_eq_right hq, one_mul]
     rw [hp]
     exact hx q hq α h (hp ▸ hpα) hqα
   by_cases hq : q = p₀
-  · simp only [dif_neg hp, dif_pos hq, mul_one]
+  · simp only [dite_eq_right hp, dite_eq_left hq, mul_one]
     rw [hq, ePt_comm]
     exact hx p hp α h (hq ▸ hqα) hpα
-  simp only [dif_neg hp, dif_neg hq]
+  simp only [dite_eq_right hp, dite_eq_right hq]
   obtain ⟨β, hs, hβ⟩ := exists_four_superset (by omega) {p₀, p, q}
     (le_trans Finset.card_le_three (by norm_num))
   have hp₀β : p₀ ∈ β := hs (by simp)
@@ -601,6 +611,7 @@ theorem eq_or_eq_mul_allOnes {n : ℕ} {a b : Wr n} (h : mkQ n a = mkQ n b) :
 
 variable {G : Type} [Group G] [Finite G] {P : Set (Subgroup G)} {k : ℕ} {I : AEIdent P k}
 
+omit [Finite G] in
 theorem map_member_eq (hH : TL4.AECoverHyp I) (ψ : ↥(pSpan P) ≃* ↥(aeSub k))
     (hψ : ∀ x, mkQ k (ψ x : Wr k) = I.φ x) {L : Subgroup G} (hL : L ∈ P) {α : Finset (Fin k)}
     {h : α.card = 4} {b : Bool} (hlab : (L.subgroupOf (pSpan P)).map I.φ = memBar α h b) :
@@ -629,7 +640,7 @@ theorem map_member_eq (hH : TL4.AECoverHyp I) (ψ : ↥(pSpan P) ≃* ↥(aeSub 
       rw [← hyL]
       exact conj_mem_conjSub hl'
     refine ⟨ψ (y * ⟨l, hlX⟩ * y⁻¹), ⟨y * ⟨l, hlX⟩ * y⁻¹, Subgroup.mem_subgroupOf.mpr h1, rfl⟩, ?_⟩
-    simp only [Subgroup.coe_subtype, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_subtype, map_mul, map_inv]
     rfl
   have hyo := eq_or_eq_mul_allOnes (a := yOf (emb α h)) (b := (ψ y : Wr k))
     (by rw [hψ, hy]; rfl)
@@ -679,6 +690,7 @@ theorem ker_le_zSpan (hH : TL4.AECoverHyp I) (hk : 5 ≤ k) : I.φ.ker ≤ TL4.A
   refine (ker_permHom_elem hH hk).2 ?_
   rw [TL4.AECov.mem_ker_permHom, MonoidHom.mem_ker.mp hz, map_one]
 
+omit [Finite G] in
 theorem ker_eq_center (hk : 5 ≤ k) (I : AEIdent P k) :
     I.φ.ker = Subgroup.center ↥(pSpan P) := by
   refine le_antisymm I.ker_le fun z hz => ?_
@@ -722,7 +734,7 @@ theorem exists_vecLift (hH : TL4.AECoverHyp I) (hk : 5 ≤ k) :
     rw [hUdef, TL4.AECov.mem_ker_permHom, huφ, map_mul]
     rfl
   have hsq : ∀ p, u p * u p = 1 := fun p => (hU _ (huU p) _ (huU p)).2
-  letI : CommGroup ↥U :=
+  let : CommGroup ↥U :=
     { (inferInstance : Group ↥U) with mul_comm := fun a b => Subtype.ext (hU a a.2 b b.2).1 }
   set uA : Fin k → ↥U := fun p => ⟨u p, huU p⟩ with huA
   have hu2 : ∀ p, uA p * uA p = 1 := fun p => Subtype.ext (hsq p)

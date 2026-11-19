@@ -18,10 +18,10 @@ theorem le_of_perfect_of_solvable_quotient' {C : Type} [Group C] {J P : Subgroup
   let π : P →* C ⧸ J := (QuotientGroup.mk' J).comp P.subtype
   have hf : π.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥π.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-    haveI : Group.IsSolvable ↥π.range :=
+    have : Nontrivial ↥π.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Group.IsSolvable ↥π.range :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective _)
-    haveI : Group.IsPerfect ↥π.range := Group.IsPerfect.range _
+    have : Group.IsPerfect ↥π.range := Group.IsPerfect.range _
     exact Group.IsPerfect.not_isSolvable (↥π.range) inferInstance
   have hmem : π ⟨x, hx⟩ ∈ π.range := ⟨_, rfl⟩
   rw [hf, Subgroup.mem_bot] at hmem

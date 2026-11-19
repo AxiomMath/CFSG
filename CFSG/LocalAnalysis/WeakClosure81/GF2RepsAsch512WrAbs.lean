@@ -117,7 +117,7 @@ theorem not_exists_max_of_normalizers [Finite Y] {E : Subgroup Y} [E.Normal]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T₀ := (S : Subgroup Y) ⊓ E with hT₀
   have hST : (S : Subgroup Y) ≤ normalizer (T₀ : Set Y) := le_normalizer_inf_of_normal
-  have hS2 : IsPGroup 2 T₀ := S.isPGroup'.to_inf_left
+  have hS2 : IsPGroup 2 T₀ := S.isPGroup.to_inf_left
   have hNM : ∀ C : Subgroup Y, C ≤ T₀ → C ≠ ⊥ →
       normalizer (T₀ : Set Y) ≤ normalizer (C : Set Y) → normalizer (C : Set Y) ≤ M := by
     intro C hC hC1 hN
@@ -200,7 +200,7 @@ theorem not_exists_max_of_model [Finite Y] {E : Subgroup Y} [E.Normal] (hEs : Is
     exact absurd hA₀i (by norm_num)
   have hZ₀bot : Z₀ ≠ ⊥ := by
     have : Nontrivial ↥(P₀ : Subgroup K) := (nontrivial_iff_ne_bot _).mpr hP₀bot
-    have := P₀.isPGroup'.center_nontrivial
+    have := P₀.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : center ↥(P₀ : Subgroup K))
     intro hbot
     have hzZ : ((z : ↥P₀) : K) ∈ Z₀ := by

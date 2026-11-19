@@ -108,8 +108,8 @@ private theorem not_dvd_of_charP_two {ℓ f p : ℕ} (hℓ : ℓ.Prime) {K : Typ
   have hKne : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero f hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hKne
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero hKne
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hncard⟩ := FiniteField.card (K := K) 2
   have hKpow : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -128,11 +128,11 @@ theorem rankLE_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : Ty
     (he : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = e) :
     GGElemAbelianRankLE (twistedE6RootGroup K σ) p (degCountTw e) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKne : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero f hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hKne
+  have : Finite K := Nat.finite_of_card_ne_zero hKne
   have hpq : ¬ p ∣ ℓ ^ f := not_dvd_of_charP_two hℓ hK hp hp2
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
   intro E hE
@@ -199,7 +199,7 @@ theorem rankLE_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : Ty
               rw [hσ, hkcard]
             have hKk : Nat.card K = Nat.card (fixSubfield σ) ^ 2 := by
               rw [hK, hkcard]
-            haveI : Finite (fixSubfield σ) :=
+            have : Finite (fixSubfield σ) :=
               Finite.of_injective (fun x : fixSubfield σ => (x : K)) Subtype.val_injective
             have hfix : ∀ c : fixSubfield σ, σ (algebraMap (fixSubfield σ) K c) =
                 algebraMap (fixSubfield σ) K c := fun c => c.2
@@ -352,7 +352,7 @@ theorem exists_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : Ty
     (he : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = e) :
     GGExcElemAbelianExists (twistedE6RootGroup K σ) p (degCountTw e - 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : ¬ p ∣ ℓ ^ f := not_dvd_of_charP_two hℓ hK hp hp2
   by_cases h0 : degCountTw e = 0
   · refine ⟨⊥, CFSG.Open.isElemAbelian_bot p, ?_⟩

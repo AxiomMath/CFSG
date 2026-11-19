@@ -91,13 +91,13 @@ theorem pickGo_eq {X : Nat} (hX : cnM X = true)
     rw [pickGo, pickGoK]
     simp only [conj_eq hw hX]
     by_cases h4 : acc.length = 4
-    · rw [if_pos h4, if_pos h4]
-    · rw [if_neg h4, if_neg h4, hany]
+    · rw [ite_eq_left h4, ite_eq_left h4]
+    · rw [ite_eq_right h4, ite_eq_right h4, hany]
       by_cases ha : seen.any (fun y' => Nat.beq (cjM (nWK w) X) y' ||
           Nat.beq (cjM (nWK w) X) (pinvM y')) = true
-      · rw [if_pos ha, if_pos ha]
+      · rw [ite_eq_left ha, ite_eq_left ha]
         exact pickGo_eq hX hc ws hr seen acc hs
-      · rw [if_neg ha, if_neg ha]
+      · rw [ite_eq_right ha, ite_eq_right ha]
         have := pickGo_eq hX hc ws hr (cjM (nWK w) X :: seen) (w :: acc) (by
           intro y hy'
           rcases List.mem_cons.1 hy' with e | e
@@ -134,7 +134,7 @@ theorem beq_nat (k l : Nat) : (k == l) = Nat.beq k l := by
   · simp [Nat.eq_of_beq_eq_true h]
 
 theorem sepOK_of {X : Nat} (hX : okK X = true)
-    (hc : ∀ w ∈ candWords, okK (cjM (nWK w) X) = true) {ws : List (List Nat)}
+    (_hc : ∀ w ∈ candWords, okK (cjM (nWK w) X) = true) {ws : List (List Nat)}
     (hws : ∀ w ∈ ws, w ∈ candWords) (h : sepK X ws = true) : sepOK (unpack 136 8 X) ws = true := by
   obtain ⟨c1, c2, c3⟩ := okK_iff hX
   unfold sepK at h

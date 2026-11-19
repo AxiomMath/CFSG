@@ -26,13 +26,13 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.RankThreeCoreUniqueness.
       Subgroup.centralizer (barM X L : Set (↥X ⧸ CFSG.pCore 2 ↥X)) →
     ∀ v ∈ blockV S L, c * v = v * c
 
-@[expose] def CubeNStmt (side : ∀ {G : Type} [Group G] (X S L : Subgroup G), L ≤ X → Prop) :
+@[expose] def CubeNStmt (side : ∀ {G : Type} [Group G] (X _S L : Subgroup G), L ≤ X → Prop) :
     Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (X S L : Subgroup G), Open.IsKGroup ↥X → Asc81bHyp X S →
-    ∀ hL : IsWeakSBlock X S L, Nat.card (Subgroup.center ↥(barM X L)) = 3 →
+  ∀ (G : Type) [Group G] [Finite G] (X _S L : Subgroup G), Open.IsKGroup ↥X → Asc81bHyp X _S →
+    ∀ hL : IsWeakSBlock X _S L, Nat.card (Subgroup.center ↥(barM X L)) = 3 →
     Nonempty (↥(barM X L) ⧸ Subgroup.center ↥(barM X L) ≃* alternatingGroup (Fin 6)) →
-    side X S L hL.le →
-    ∀ a (ha : a ∈ X), a ∈ Subgroup.normalizer (S : Set G) →
+    side X _S L hL.le →
+    ∀ a (ha : a ∈ X), a ∈ Subgroup.normalizer (_S : Set G) →
       a ∈ Subgroup.normalizer (L : Set G) →
       (∃ k : ℕ, QuotientGroup.mk' (CFSG.pCore 2 ↥X) ⟨a, ha⟩ ^ 3 ^ k = 1) →
       QuotientGroup.mk' (CFSG.pCore 2 ↥X) ⟨a, ha⟩ ^ 3 ∈ barM X L →
@@ -84,7 +84,7 @@ theorem false_of_threeASix_cubeN {G : Type} [Group G] [Finite G] {P : Sylow 3 G}
     exact ⟨m, Subgroup.mem_subgroupOf.mp hm, rfl⟩
   have hinj : ∀ x y (hx : x ∈ (P : Subgroup G)) (hy : y ∈ (P : Subgroup G)),
       mk ⟨x, hPM hx⟩ = mk ⟨y, hPM hy⟩ → x = y := fun x y hx hy hxy =>
-    eq_of_mk_eq_of_three P.isPGroup' hPM hx hy hxy
+    eq_of_mk_eq_of_three P.isPGroup hPM hx hy hxy
   have hmkmul : ∀ x y (hx : x ∈ M) (hy : y ∈ M),
       mk ⟨x * y, M.mul_mem hx hy⟩ = mk ⟨x, hx⟩ * mk ⟨y, hy⟩ := fun x y hx hy => by
     rw [← map_mul]; rfl
@@ -93,7 +93,7 @@ theorem false_of_threeASix_cubeN {G : Type} [Group G] [Finite G] {P : Sylow 3 G}
     apply hinj _ _ (P.pow_mem hx 3) P.one_mem
     rw [show (⟨x ^ 3, hPM (P.pow_mem hx 3)⟩ : M) = ⟨x, hPM hx⟩ ^ 3 from rfl, map_pow, hx3]
     exact (map_one mk).symm
-  have hPb3 : IsPGroup 3 Pb := (P.isPGroup'.comap_subtype (K := M)).map _
+  have hPb3 : IsPGroup 3 Pb := (P.isPGroup.comap_subtype (K := M)).map _
   rcases hstr with ⟨y, hyR, hy3⟩ | ⟨a, haR, ha3w, ha31⟩
   ·
     have hyP := hR'P hyR
@@ -143,7 +143,7 @@ theorem false_of_threeASix_cubeN {G : Type} [Group G] [Finite G] {P : Sylow 3 G}
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H (hR'H haR)
   have haL : a ∈ Subgroup.normalizer (L : Set G) :=
     D1PhaseThree.mem_normalizer_of_threeASix h hThree hcyc hzM hz3 hCz hin hrk hL hZ hA6
-      (hPM haP) (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr haP))
+      (hPM haP) (P.isPGroup.to_le (Subgroup.zpowers_le.mpr haP))
   obtain ⟨k, hk⟩ := hPb3 ⟨ab, hmemPb a haP⟩
   have hpow : ∃ k : ℕ, ab ^ 3 ^ k = 1 := ⟨k, by simpa using congrArg Subtype.val hk⟩
   exact hab31 (hcubeN a (hPM haP) haS haL hpow hζA)

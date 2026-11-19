@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l49b_comm_inv {S : Set G} {g : G} (hg : ∀ s ∈ S, s * g = g * s) :
     ∀ s ∈ S, s * g⁻¹ = g⁻¹ * s := by
   intro s hs
@@ -20,6 +21,7 @@ private theorem l49b_comm_inv {S : Set G} {g : G} (hg : ∀ s ∈ S, s * g = g *
     _ = g⁻¹ * (s * g) * g⁻¹ := by rw [hg s hs]
     _ = g⁻¹ * s := by group
 
+omit [Finite G] in
 private theorem l49b_comm_conj {S : Set G} {g y : G} (hg : ∀ s ∈ S, s * g = g * s)
     (hy : ∀ s ∈ S, s * y = y * s) : ∀ s ∈ S, s * (g * y * g⁻¹) = g * y * g⁻¹ * s := by
   intro s hs
@@ -32,6 +34,7 @@ private theorem l49b_comm_conj {S : Set G} {g y : G} (hg : ∀ s ∈ S, s * g = 
     _ = g * y * (g⁻¹ * s) := by rw [h1]
     _ = g * y * g⁻¹ * s := by group
 
+omit [Finite G] in
 private theorem l49b_normalizer_centralizer {S : Set G} {c : G}
     (hc : c ∈ Subgroup.centralizer S) :
     c ∈ Subgroup.normalizer (Subgroup.centralizer S : Set G) := by
@@ -43,12 +46,14 @@ private theorem l49b_normalizer_centralizer {S : Set G} {c : G}
   have h := l49b_comm_conj (l49b_comm_inv hcS) hx
   rwa [show c⁻¹ * (c * x * c⁻¹) * c⁻¹⁻¹ = x by group] at h
 
+omit [Finite G] in
 private theorem l49b_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hA hB ⊢
   rw [gLBConj_inf, hA, hB]
 
+omit [Finite G] in
 private theorem l49b_centralizer_coe_sup (F Z : Subgroup G) :
     Subgroup.centralizer ((F ⊔ Z : Subgroup G) : Set G) =
       Subgroup.centralizer (F : Set G) ⊓ Subgroup.centralizer (Z : Set G) := by
@@ -65,10 +70,11 @@ private theorem l49b_centralizer_coe_sup (F Z : Subgroup G) :
         (fun z hz => Subgroup.mem_centralizer_singleton_iff.2 (h2 z hz))
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle hg)
 
+omit [Finite G] in
 private theorem l49b_le_glaPPrimeCoreOf {p : ℕ} {N K : Subgroup G} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set G)) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p K := by
-  haveI hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   have hcard : Nat.card (N.subgroupOf K) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNK).toEquiv
   have hle : N.subgroupOf K ≤ GLAPPrimeCore p ↥K := le_sSup ⟨hn, hcard ▸ hcop⟩
@@ -95,7 +101,7 @@ theorem glaPLayer_inf_centralizer_sup_ne_bot {p : ℕ} (hp : p.Prime) {C L A F Z
     (hZL : Z ≤ centModSubgroup p L)
     (hne : GLAPLayer p (closureIn L A ⊓ Subgroup.centralizer (F : Set G)) ≠ ⊥) :
     GLAPLayer p (closureIn L A ⊓ Subgroup.centralizer ((F ⊔ Z : Subgroup G) : Set G)) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := closureIn L A with hH
   set O : Subgroup G := GLAPPrimeCoreOf p C with hO
   set X : Subgroup G := H ⊓ Subgroup.centralizer (F : Set G) with hX
@@ -267,7 +273,7 @@ theorem card_le_card_inf_sup {p : ℕ} {B B' L E : Subgroup G} (hB : IsElemAbeli
 
 theorem exists_le_card_eq_pow {p : ℕ} (hp : p.Prime) {P : Subgroup G} (hP : IsPGroup p P)
     {n : ℕ} (h : p ^ n ≤ Nat.card P) : ∃ F : Subgroup G, F ≤ P ∧ Nat.card F = p ^ n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hnk : n ≤ k := by
     rw [hk] at h

@@ -95,9 +95,9 @@ theorem X3_facts [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (h
   have hB2B1 : herm σ (b 2) (b 1) = 0 := by simp [hf.bb]
   have hB2r : herm σ (b 2) (rr a b θ) = 1 := by simp [d4_herm_rr_right, hf.bb, hba]
   have hB2c2 : herm σ (b 2) (a 0 + σ θ • b 2) = 0 := by simp [hf.bb, hba]
-  have hrB0 : herm σ (rr a b θ) (b 0) = 1 := by simp [d4_herm_rr_left, hf.bb, hf.ab, hba]
-  have hrB2 : herm σ (rr a b θ) (b 2) = 1 := by simp [d4_herm_rr_left, hf.bb, hf.ab, hba]
-  have hrA0 : herm σ (rr a b θ) (a 0) = σ θ := by simp [d4_herm_rr_left, hf.aa, hf.bb, hba]
+  have hrB0 : herm σ (rr a b θ) (b 0) = 1 := by simp [d4_herm_rr_left, hf.bb, hf.ab]
+  have hrB2 : herm σ (rr a b θ) (b 2) = 1 := by simp [d4_herm_rr_left, hf.bb, hf.ab]
+  have hrA0 : herm σ (rr a b θ) (a 0) = σ θ := by simp [d4_herm_rr_left, hf.aa, hba]
   have hrr : herm σ (rr a b θ) (rr a b θ) = 0 := d4_rr_self hσ hf
   have hrc1 : herm σ (rr a b θ) (b 0 + b 2) = 0 := by
     rw [herm_add_right, hrB0, hrB2]
@@ -325,8 +325,7 @@ theorem dh5_generated_of_frame [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution
   have hv3 : v3 a b θ ≠ 0 := by
     intro h
     have h1 : herm σ (b 0) (v3 a b θ) = 1 := by
-      simp [v3, herm_add_right, herm_smul_right, hf.aa, hf.bb, hf.ab,
-        d4_herm_ba hσ.invol hf]
+      simp [v3, herm_add_right, herm_smul_right, hf.bb, d4_herm_ba hσ.invol hf]
     rw [h, herm_zero_right] at h1
     exact zero_ne_one h1
   have hv3i : herm σ (v3 a b θ) (v3 a b θ) = 0 := d4_v3_self hσ.invol hf

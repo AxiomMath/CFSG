@@ -16,10 +16,12 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem sec5b_K514_twoRes_le (H : Subgroup G) : twoRes H ≤ H := by
   rw [twoRes]
   exact (Subgroup.closure_le H).mpr fun _ hx => hx.1
 
+omit [Finite G] in
 private theorem sec5b_K514_orderOf_conj {x u : G} (hu : u * u = 1) (hu1 : u ≠ 1) :
     orderOf (x⁻¹ * u * x) = 2 := by
   have hu2 : orderOf u = 2 := orderOf_eq_prime (by rw [pow_two]; exact hu) hu1

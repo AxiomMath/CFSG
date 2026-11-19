@@ -90,7 +90,7 @@ theorem conj_four_dvd (hP : PerpHypR r n Y R S t)
     · left
       have hwK : w ∈ tightCore R := h ▸ hw
       have hle : tightCore R ⊓ (S₁ : Subgroup Y) = R₁ :=
-        hR₁.2.2 _ inf_le_left (S₁.isPGroup'.to_le inf_le_right)
+        hR₁.2.2 _ inf_le_left (S₁.isPGroup.to_le inf_le_right)
           (le_inf hR₁.1 hyp.hR.2.2)
       have : w ∈ tightCore R ⊓ (S₁ : Subgroup Y) := ⟨hwK, hg⟩
       rwa [hle] at this
@@ -99,11 +99,12 @@ theorem conj_four_dvd (hP : PerpHypR r n Y R S t)
         rw [Set.mem_singleton_iff] at h
         exact h ▸ hw
       have hle : K' ⊓ (S₁ : Subgroup Y) = R₂ :=
-        hR₂.2.2 _ inf_le_left (S₁.isPGroup'.to_le inf_le_right)
+        hR₂.2.2 _ inf_le_left (S₁.isPGroup.to_le inf_le_right)
           (le_inf hR₂.1 hyp.hR'.2.2)
       have : w ∈ K' ⊓ (S₁ : Subgroup Y) := ⟨hwK, hg⟩
       rwa [hle] at this
 
+omit [Finite Y] in
 theorem exists_order_four_of_isFAut {R' : Subgroup Y} {a : Y} (hF : IsFAut R' a) :
     ∃ w ∈ R', w * a = a * w ∧ orderOf w = 4 := by
   obtain ⟨haN, ha2, Q, R₀, hQ, hQq, hR₀, hcard⟩ := hF

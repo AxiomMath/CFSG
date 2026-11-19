@@ -331,8 +331,7 @@ theorem pCore_eq_center_of_simple_quot {L : Subgroup G} (hZ : IsPGroup 2 (Subgro
       have := (Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_two).mp
         (Nat.prime_three.dvd_of_dvd_pow h3)
       omega
-  · try with_reducible rfl
-    exact CFSG.LieType.BorelTits.le_pCore 2 inferInstance hZ
+  · exact CFSG.LieType.BorelTits.le_pCore 2 inferInstance hZ
 
 structure KnownFacts15122Types : Prop where
   alt7 : A318Exclusion (alternatingGroup (Fin 7))

@@ -55,8 +55,8 @@ private theorem sfaK14_card_sp6two {S : Type} [Group S] [Finite S] (hcat : catal
 
 theorem K14NotAlt_holds : K14NotAlt := by
   intro S _ m hm hcat ⟨e⟩
-  haveI : Finite S := Finite.of_equiv (alternatingGroup (Fin m)) e.toEquiv.symm
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Finite S := Finite.of_equiv (alternatingGroup (Fin m)) e.toEquiv.symm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hc : Nat.card S = Nat.factorial m / 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
   have hS : Nat.card S = 13685760 ∨ Nat.card S = 1451520 := by

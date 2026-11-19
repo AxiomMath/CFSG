@@ -51,9 +51,10 @@ private theorem orthDerived_le_orthogonalGroup' {F : Type} [Field F] {V : Type} 
 instance instFiniteOrthDerived : Finite ↥(orthDerived Q) :=
   haveI : Finite V := Module.finite_of_finite F
   haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
-    fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
+    fun _e₁ _e₂ h => LinearEquiv.ext (congrFun h)
   inferInstance
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_le_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) {T : Submodule F V} (hT : ∀ w ∈ T, Q w = 0) :
     finrank F T ≤ wittRank Q l := by
@@ -64,6 +65,7 @@ theorem finrank_le_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l 
   · by_contra hlt
     exact hplus ⟨T, by omega, hT⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isHypFamily_wittRank_aux1 {V' : Type} [AddCommGroup V'] [Module F V']
     {Q' : QuadraticForm F V'} {m : ℕ} {e f : Fin m → V'} (hef : IsHypFamily Q' e f)
     {φ : Q.IsometryEquiv Q'} :
@@ -80,6 +82,7 @@ private theorem exists_isHypFamily_wittRank_aux1 {V' : Type} [AddCommGroup V'] [
   · exact (hpol (f i) (f j)).trans (hef.polar_ff i j)
   · exact (hpol (e i) (f j)).trans (hef.polar_ef i j)
 
+omit [CharP F 2] in
 theorem exists_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) : ∃ e f : Fin (wittRank Q l) → V, IsHypFamily Q e f := by
   by_cases hl : l = 0
@@ -91,7 +94,7 @@ theorem exists_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegener
         fun i => i.elim0⟩⟩
   · have hl1 : 1 ≤ l := by omega
     by_cases hIp : IsPlusType Q
-    · have hwr : wittRank Q l = l := by rw [wittRank, if_pos hIp]
+    · have hwr : wittRank Q l = l := by rw [wittRank, ite_eq_left hIp]
       rw [hwr]
       obtain ⟨φ⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus (n := l) hQ hdim hIp
       have hfam : IsHypFamily (CFSG.LieType.Universal.Spin.quadPlus l F)
@@ -101,7 +104,7 @@ theorem exists_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegener
       exact ⟨fun k => φ.symm (Pi.single (Sum.inl k) 1),
         fun k => φ.symm (Pi.single (Sum.inr k) 1),
         exists_isHypFamily_wittRank_aux1 (φ := φ) hfam⟩
-    · have hwr : wittRank Q l = l - 1 := by rw [wittRank, if_neg hIp]
+    · have hwr : wittRank Q l = l - 1 := by rw [wittRank, ite_eq_right hIp]
       rw [hwr]
       rcases CFSG.GroupTheory.WeirSylow.exists_isometry_quadPlus_or_quadMinus (n := l) Q hQ hl1
         hdim with hplus | ⟨β, γ, -, ⟨φ⟩⟩
@@ -129,6 +132,7 @@ theorem exists_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegener
           fun k => φ.symm (Pi.single (Sum.inr (Sum.inl k)) 1),
           exists_isHypFamily_wittRank_aux1 (φ := φ) hfam⟩
 
+omit [CharP F 2] in
 theorem exists_finrank_three_singular (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) (hl : 4 ≤ l) :
     ∃ T : Submodule F V, finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0 := by
@@ -144,6 +148,7 @@ theorem exists_finrank_three_singular (hQ : (QuadraticMap.polarBilin Q).Nondegen
     (by rintro _ ⟨i, rfl⟩; exact hef.map_e _)
     (by rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩; exact hef.polar_ee _ _)
 
+omit [Finite F] in
 theorem eq_zero_of_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f) {v : V}
     (h1 : ∀ i, QuadraticMap.polar Q (e i) v = 0) (h2 : ∀ i, QuadraticMap.polar Q (f i) v = 0)
@@ -159,9 +164,9 @@ theorem eq_zero_of_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondeg
       have hpk : QuadraticMap.polar Q (f k) v = c k := by
         rw [← hc, CFSG.LocalAnalysis.ComponentInitial.polar_sum_smul_right Finset.univ c e (f k)]
         rw [Finset.sum_eq_single k]
-        · rw [QuadraticMap.polar_comm, hef.polar_ef, if_pos rfl, mul_one]
+        · rw [QuadraticMap.polar_comm, hef.polar_ef, ite_eq_left rfl, mul_one]
         · intro i _ hik
-          rw [QuadraticMap.polar_comm, hef.polar_ef, if_neg hik, mul_zero]
+          rw [QuadraticMap.polar_comm, hef.polar_ef, ite_eq_right hik, mul_zero]
         · intro hk; exact absurd (Finset.mem_univ k) hk
       have hk := h2 k
       rw [hpk] at hk
@@ -195,6 +200,7 @@ theorem eq_zero_of_isHypFamily_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondeg
   have hle := finrank_le_wittRank hQ hdim hT
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem exists_decomp_of_isHypFamily {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) (v : V) :
     ∃ w : V, (∀ j, QuadraticMap.polar Q (e j) w = 0) ∧ (∀ j, QuadraticMap.polar Q (f j) w = 0) ∧
       v = ∑ i, (QuadraticMap.polar Q v (f i) • e i + QuadraticMap.polar Q v (e i) • f i) + w := by
@@ -215,6 +221,7 @@ theorem exists_decomp_of_isHypFamily {m : ℕ} {e f : Fin m → V} (hef : IsHypF
   · rw [QuadraticMap.polar_sub_right, key]
     simp [hef.polar_ff, hfe, QuadraticMap.polar_comm (⇑Q) v (f j)]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsHypDiag.eq_of_isHypDiag {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     {c : Fin m → Fˣ} {g g' : V ≃ₗ[F] V} (hg : IsHypDiag Q e f c g) (hg' : IsHypDiag Q e f c g') :
     g = g' := by
@@ -230,6 +237,7 @@ theorem IsHypDiag.eq_of_isHypDiag {m : ℕ} {e f : Fin m → V} (hef : IsHypFami
     rw [map_add, map_smul, map_smul, hk.1 i, hk.2.1 i]
   rw [key g hg, key g' hg']
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_isHypDiag_mem_orthDerived_aux1 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ}
     (hcp : ∀ i, c i ^ p = 1) (j : Fin m) :
@@ -240,7 +248,7 @@ private theorem exists_isHypDiag_mem_orthDerived_aux1 {p : ℕ} (hp : p.Prime) (
       (∀ v, QuadraticMap.polar Q (e j) v = 0 → QuadraticMap.polar Q (f j) v = 0 →
         (h : V ≃ₗ[F] V) v = v) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hc : c j = 1
   · refine ⟨1, ?_, ?_, ?_, ?_⟩
     · simp [hc]
@@ -259,10 +267,10 @@ private theorem exists_isHypDiag_mem_orthDerived_aux1 {p : ℕ} (hp : p.Prime) (
       have hper_e : e i ∈ P.perp := by
         rw [HypPair.mem_perp]
         exact ⟨hef.polar_ee j i, by
-          rw [QuadraticMap.polar_comm, hef.polar_ef i j, if_neg hi]⟩
+          rw [QuadraticMap.polar_comm, hef.polar_ef i j, ite_eq_right hi]⟩
       have hper_f : f i ∈ P.perp := by
         rw [HypPair.mem_perp]
-        exact ⟨by rw [hef.polar_ef j i, if_neg (Ne.symm hi)], hef.polar_ff j i⟩
+        exact ⟨by rw [hef.polar_ef j i, ite_eq_right (Ne.symm hi)], hef.polar_ff j i⟩
       exact ⟨by
           change hypDiag P (c j : F) (Units.ne_zero (c j)) (e i) = e i
           exact hypDiag_apply_perp P _ _ hper_e,
@@ -272,6 +280,7 @@ private theorem exists_isHypDiag_mem_orthDerived_aux1 {p : ℕ} (hp : p.Prime) (
     · intro v hv1 hv2
       exact hypDiag_apply_perp P _ _ (HypPair.mem_perp.mpr ⟨hv1, hv2⟩)
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem exists_isHypDiag_mem_orthDerived {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} (hcp : ∀ i, c i ^ p = 1) :
     ∃ g : ↥(orthDerived Q), IsHypDiag Q e f c (g : V ≃ₗ[F] V) := by
@@ -320,6 +329,7 @@ theorem exists_isHypDiag_mem_orthDerived {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     ext i; simp
   rwa [hw] at hg
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isHypDiag_conj {m : ℕ} {e f : Fin m → V} {c : Fin m → Fˣ} {g h : V ≃ₗ[F] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) :
     IsHypDiag Q e f c (g * h * g⁻¹) ↔ IsHypDiag Q (fun i => g⁻¹ (e i)) (fun i => g⁻¹ (f i)) c h := by
@@ -366,6 +376,7 @@ theorem isHypDiag_conj {m : ℕ} {e f : Fin m → V} {c : Fin m → Fˣ} {g h : 
           exact hv2 i)
       rw [hc, this, g.apply_symm_apply]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isHypFamily_map {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) {g : V ≃ₗ[F] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) :
     IsHypFamily Q (fun i => g (e i)) (fun i => g (f i)) where
@@ -381,11 +392,12 @@ theorem isHypFamily_map {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) 
     (TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup hg (e i) (f j)).trans
       (hef.polar_ef i j)
 
+omit [CharP F 2] in
 private theorem card_le_pow_wittRank_aux1 (m p : ℕ) (hp : p.Prime) :
     Nat.card {u : Fin m → Fˣ // ∀ k, u k ^ p = 1} ≤ p ^ m := by
   classical
-  haveI : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F)) Units.val_injective
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F)) Units.val_injective
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   rw [Nat.card_congr (Equiv.subtypePiEquivPi (β := fun _ : Fin m => Fˣ)
         (p := fun _ v => v ^ p = 1)), Nat.card_pi]
   calc ∏ k : Fin m, Nat.card {v : Fˣ // v ^ p = 1}
@@ -403,9 +415,9 @@ theorem card_le_pow_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l
   · exact hle
   · exfalso
     have hcard : p ^ wittRank Q l ≤ Nat.card E := le_of_not_ge hle
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : IsMulCommutative E := hE.1
-    haveI : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F)) Units.val_injective
+    have : Fact p.Prime := ⟨hp⟩
+    have : IsMulCommutative E := hE.1
+    have : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F)) Units.val_injective
     obtain ⟨e, f, hef⟩ := exists_isHypFamily_wittRank hQ hdim
     obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
     have hexp : ∀ x : E, x ^ p = 1 := fun x =>
@@ -438,6 +450,7 @@ theorem card_le_pow_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l
     exact hle ((Nat.card_le_card_of_injective _ hinj).trans
       (card_le_pow_wittRank_aux1 (wittRank Q l) p hp))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux1 {m : ℕ} {e f : Fin m → V}
     {c c' : Fin m → Fˣ} {g : V ≃ₗ[F] V} (hef : IsHypFamily Q e f)
     (h1 : IsHypDiag Q e f c g) (h2 : IsHypDiag Q e f c' g) : c = c' := by
@@ -450,6 +463,7 @@ private theorem exists_subgroup_eq_torsionTorus_aux1 {m : ℕ} {e f : Fin m → 
     by_contra h
     exact he0 ((smul_eq_zero.mp heq).resolve_left h))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux2 {m : ℕ} {e f : Fin m → V}
     {c d : Fin m → Fˣ} {g h : V ≃ₗ[F] V} (hg : IsHypDiag Q e f c g)
     (hh : IsHypDiag Q e f d h) : IsHypDiag Q e f (c * d) (g * h) := by
@@ -466,6 +480,7 @@ private theorem exists_subgroup_eq_torsionTorus_aux2 {m : ℕ} {e f : Fin m → 
   · show g (h v) = v
     rw [hh.2.2 v hv1 hv2, hg.2.2 v hv1 hv2]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux3 {m : ℕ} {e f : Fin m → V} {c : Fin m → Fˣ}
     {g : V ≃ₗ[F] V} (hg : IsHypDiag Q e f c g) (n : ℕ) :
     IsHypDiag Q e f (c ^ n) (g ^ n) := by
@@ -475,6 +490,7 @@ private theorem exists_subgroup_eq_torsionTorus_aux3 {m : ℕ} {e f : Fin m → 
         ⟨fun i => by simp, fun i => by simp, fun v _ _ => rfl⟩)
   | succ n ih => simpa [pow_succ] using exists_subgroup_eq_torsionTorus_aux2 ih hg
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux4 {m : ℕ} {e f : Fin m → V} {c : Fin m → Fˣ}
     {g : V ≃ₗ[F] V} (hg : IsHypDiag Q e f c g) : IsHypDiag Q e f (c⁻¹) (g⁻¹) := by
   change IsHypDiag Q e f (c⁻¹) g.symm
@@ -503,13 +519,15 @@ private def exists_subgroup_eq_torsionTorus_aux5 (p : ℕ) {m : ℕ} (e f : Fin 
     exact ⟨c⁻¹, fun i => by rw [Pi.inv_apply, inv_pow, hc i, inv_one],
       by simpa only [Subgroup.coe_inv] using exists_subgroup_eq_torsionTorus_aux4 ha⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux6 {p : ℕ} {m : ℕ} {e f : Fin m → V}
     (g : ↥(orthDerived Q)) :
     g ∈ exists_subgroup_eq_torsionTorus_aux5 (Q := Q) p e f ↔
       InTorsionTorus Q p e f (g : V ≃ₗ[F] V) :=
   Iff.rfl
 
-private theorem exists_subgroup_eq_torsionTorus_aux7 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_subgroup_eq_torsionTorus_aux7 {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) :
     IsElemAbelian p (exists_subgroup_eq_torsionTorus_aux5 (Q := Q) p e f) := by
   refine ⟨IsMulCommutative.of_comm (fun a b => ?_), fun x hx => ?_⟩
@@ -533,12 +551,13 @@ private theorem exists_subgroup_eq_torsionTorus_aux7 {p : ℕ} (hp : p.Prime) (h
     simpa only [Subgroup.coe_pow, Subgroup.coe_one] using
       IsHypDiag.eq_of_isHypDiag hef h1 h2
 
+omit [FiniteDimensional F V] in
 private theorem exists_subgroup_eq_torsionTorus_aux8 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) :
     Nat.card (exists_subgroup_eq_torsionTorus_aux5 (Q := Q) p e f) = p ^ m := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let W : ↥(exists_subgroup_eq_torsionTorus_aux5 (Q := Q) p e f) → (Fin m → rootsOfUnity p F) :=
     fun g i => ⟨(Classical.choose ((exists_subgroup_eq_torsionTorus_aux6 g.1).1 g.2)) i,
       (Classical.choose_spec ((exists_subgroup_eq_torsionTorus_aux6 g.1).1 g.2)).1 i⟩
@@ -574,7 +593,8 @@ private theorem exists_subgroup_eq_torsionTorus_aux8 {p : ℕ} (hp : p.Prime) (h
     (IsPrimitiveRoot.iff_orderOf.2 hζ).card_rootsOfUnity'
   rw [hcard, Nat.card_fun, hroot, Nat.card_eq_fintype_card, Fintype.card_fin]
 
-theorem exists_subgroup_eq_torsionTorus (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ}
+omit [FiniteDimensional F V] in
+theorem exists_subgroup_eq_torsionTorus (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) :
     ∃ A₀ : Subgroup ↥(orthDerived Q), IsElemAbelian p A₀ ∧ Nat.card A₀ = p ^ m ∧
@@ -584,13 +604,14 @@ theorem exists_subgroup_eq_torsionTorus (hQ : (QuadraticMap.polarBilin Q).Nondeg
     exists_subgroup_eq_torsionTorus_aux8 hp hp2 hpq hef,
     fun g => exists_subgroup_eq_torsionTorus_aux6 g⟩
 
+omit [CharP F 2] in
 private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux1
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     (hV : 3 ≤ finrank F V) (i₀ : Fin m) :
     ∃ w : V, QuadraticMap.polar Q (e i₀) w = 0 ∧ w ∉ F ∙ e i₀ ∧
       eichler Q (e i₀) w ∈ orthDerived Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he0 : e i₀ ≠ 0 := hef.linearIndependent.ne_zero (Sum.inl i₀)
   have hf : (QuadraticMap.polarBilin Q) (e i₀) ≠ 0 := by
     intro h
@@ -610,7 +631,7 @@ private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux1
       rw [← heq, finrank_span_singleton he0]
     rw [h1] at hdim
     omega
-  obtain ⟨w, hwL, hwE⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨w, hwL, hwE⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hwL' : QuadraticMap.polar Q (e i₀) w = 0 := by
     simpa [LinearMap.mem_ker, QuadraticMap.polarBilin_apply_apply] using hwL
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
@@ -622,6 +643,7 @@ private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux1
     CFSG.SeitzReduction.OmegaPilot.eichler_mem_orthDerived_of_ne_zero_ne_one hQ
       (Units.ne_zero u) (by simpa using hu1) (e i₀) w⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux2 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) (i₀ : Fin m) {w : V} (hwL' : QuadraticMap.polar Q (e i₀) w = 0)
     (hwE : w ∉ F ∙ e i₀) (hEmem : eichler Q (e i₀) w ∈ orthDerived Q) :
@@ -650,6 +672,7 @@ private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux2 {m : ℕ} {e
     rw [Submodule.mem_span_singleton]
     exact ⟨_, hw_eq.symm⟩)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux3 {m : ℕ} (e : Fin m → V)
     (i₀ : Fin m) : IsPGroup 2 ((rootGroup Q (e i₀)).subgroupOf (orthDerived Q)) := by
   rw [isPGroup_iff_pow_pow_eq_one]
@@ -667,6 +690,7 @@ private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux3 {m : ℕ} (e
   apply Subtype.ext
   simpa using hxV
 
+omit [CharP F 2] in
 private theorem exists_isPGroup_two_normalized_by_torsionTorus_aux4 {m : ℕ} {e f : Fin m → V}
     {p : ℕ} (i₀ : Fin m) {g : ↥(orthDerived Q)}
     (hg : InTorsionTorus Q p e f (g : V ≃ₗ[F] V)) :
@@ -689,7 +713,7 @@ theorem exists_isPGroup_two_normalized_by_torsionTorus (hQ : (QuadraticMap.polar
     ∃ U : Subgroup ↥(orthDerived Q), U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ g : ↥(orthDerived Q),
       InTorsionTorus Q p e f (g : V ≃ₗ[F] V) → g ∈ Subgroup.normalizer (U : Set ↥(orthDerived Q)) := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   let i₀ : Fin m := 0
   obtain ⟨w, hwL', hwE, hEmem⟩ :=
     exists_isPGroup_two_normalized_by_torsionTorus_aux1 hQ hp hp2 hpq hef hV i₀
@@ -705,8 +729,8 @@ theorem exists_hypFamily_eq_torsionTorus (hQ : (QuadraticMap.polarBilin Q).Nonde
     ∃ e f : Fin (wittRank Q l) → V, IsHypFamily Q e f ∧
       ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative A := hA.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative A := hA.1
   obtain ⟨e, f, hef⟩ := exists_isHypFamily_wittRank hQ hdim
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
   have hexp : ∀ x : A, x ^ p = 1 := fun x =>
@@ -738,7 +762,7 @@ theorem glaTwoLocalRank_eq_wittRank (hQ : (QuadraticMap.polarBilin Q).Nondegener
     (hdim : finrank F V = 2 * l) (hl : 4 ≤ l) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F - 1) : GLATwoLocalRank p ↥(orthDerived Q) = wittRank Q l := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, f, hef⟩ := exists_isHypFamily_wittRank hQ hdim
   obtain ⟨A₀, hA₀, hcard₀, hmem₀⟩ := exists_subgroup_eq_torsionTorus hQ hp hp2 hpq hef
   have hm : 1 ≤ wittRank Q l := by

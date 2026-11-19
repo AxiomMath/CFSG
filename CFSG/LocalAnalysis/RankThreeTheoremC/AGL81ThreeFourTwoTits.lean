@@ -64,9 +64,9 @@ theorem eq_pairSide_of_le
   set L := pairSide pairData titsS k with hL
   have hLsimple : IsSimpleGroup ↥L := (isSimpleGroup_pairSide hc hk).1
   have hcardL : Nat.card ↥L = 5616 :=
-    (card_pairSide hS hSide (k := k) (by simp [pairData]; omega)).trans (sideOrder_getD hk).1
+    (card_pairSide hS hSide (k := k) (by simp; omega)).trans (sideOrder_getD hk).1
   have hcardM : Nat.card ↥(pairSide pairData titsS (k + 2)) = 11232 :=
-    (card_pairSide hS hSide (k := k + 2) (by simp [pairData]; omega)).trans (sideOrder_getD hk).2
+    (card_pairSide hS hSide (k := k + 2) (by simp; omega)).trans (sideOrder_getD hk).2
   have hcard2 : Nat.card ↥(pairSide pairData titsS (k + 2)) = 2 * Nat.card ↥L := by
     rw [hcardM, hcardL]
   have hJL : J ≤ L :=
@@ -101,7 +101,7 @@ theorem nonempty_mulEquiv_catL33_of_le_of_not_dvd_index
     (hH : H ≠ ⊤) (h3 : ¬ 3 ∣ H.index) (hJH : J ≤ H) (hJ1 : J ≠ ⊥) (hJp : ⁅J, J⁆ = J)
     (hJs : IsSubnormal J H) :
     Nonempty (↥J ≃* (TauCeti.CFSGIndex.lie threeFourTwoL33Index).Group) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : titsThreeCheck () = true := Certificates.certificate465005
   obtain ⟨hpair, -, -⟩ := titsThreeCheck_parts hc
   obtain ⟨hInv, hP, -, -, -, -, -, -⟩ := pairCheck_parts hpair
@@ -141,26 +141,26 @@ theorem nonempty_mulEquiv_catL33_of_le_of_not_dvd_index
 theorem threeFourTwoAt_titsD
     (d : TauCeti.ValidLieTypeIndex) (hd : d.1 = .tits)
     (e₀ : (TauCeti.CFSGIndex.lie d).Group ≃* ↥titsD) : ThreeFourTwoAt 3 ↥titsD := by
-  haveI : IsSimpleGroup ↥titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
+  have : IsSimpleGroup ↥titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
   have hnab : ∃ a b : ↥titsD, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥titsD := { (inferInstance : Group ↥titsD) with mul_comm := hc }
+    let : CommGroup ↥titsD := { (inferInstance : Group ↥titsD) with mul_comm := hc }
     have hq : (Nat.card ↥titsD).Prime := IsSimpleGroup.prime_card
     rw [CFSG.Sporadic.Schreier.Tits.card_titsD] at hq
     norm_num at hq
   have hout : Group.IsSolvable (Outer ↥titsD) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : IsPGroup 2 (Outer ↥titsD) :=
       IsPGroup.of_card (n := 1) (by rw [CFSG.Sporadic.Schreier.Tits.card_outer_titsD, pow_one])
-    haveI : Finite (Outer ↥titsD) := Nat.finite_of_card_ne_zero (by
+    have : Finite (Outer ↥titsD) := Nat.finite_of_card_ne_zero (by
       rw [CFSG.Sporadic.Schreier.Tits.card_outer_titsD]; norm_num)
-    haveI := h2.isNilpotent
+    have := h2.isNilpotent
     infer_instance
   refine threeFourTwoAt_of_forall_model inferInstance hnab hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn e hrk hC hcomp hER hE hEc hcore hRY hKY J hJ hne hJp hJs hQ
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup ↥titsD := (Y₀.subgroupOf K).map e.toMonoidHom with hHdef
   have hH : H ≠ ⊤ := by
     intro htop

@@ -109,7 +109,7 @@ private theorem l02qt3_component_lift_gl {N : ℕ} {K : Type} [Field K] [Finite 
 
 end Helpers
 
-theorem q1TorLin_component_lift {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K]
+theorem q1TorLin_component_lift {N : ℕ} (_hN : 2 ≤ N) {K : Type} [Field K] [Finite K]
     (g : GL (Fin N) K) (J₀ : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) K)))
     (hJ₀ : CFSG.Open.IsComponentOf J₀
       (ggAutFixedSubgroup (TableB.linConjAut (Fin N) K g))) :

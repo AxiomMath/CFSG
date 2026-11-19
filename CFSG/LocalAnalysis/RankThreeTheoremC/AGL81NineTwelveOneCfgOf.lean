@@ -38,7 +38,7 @@ theorem isTwoPrimeComponentIn_of_le_center' {p : ℕ} (hp : p.Prime) (hp2 : p �
   have hsn : (Y.subgroupOf H).IsSubnormal := by
     obtain ⟨_, _, h, _, _⟩ := hY.2
     exact h
-  haveI : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
+  have : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
   refine ⟨hYH, hsn, ?_, ?_⟩
   · let P : Type := ↥Y ⧸ CFSG.pCore 2 ↥Y
     have hPperf : Group.IsPerfect P := inferInstance
@@ -66,13 +66,13 @@ theorem agl81NineTwelveOneCfg_of (h31 : KFactThreeOne) (h75 : KFactSevenFive)
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp : p.Prime := he.prime
   have hp2 : p ≠ 2 := he.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYH : Y ≤ H := hY.1
-  haveI : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
+  have : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
   by_cases hc : CFSG.pPrimeCore p (↥Y ⧸ CFSG.pCore 2 ↥Y) ≤ center (↥Y ⧸ CFSG.pCore 2 ↥Y)
   · exact isTwoPrimeComponentIn_of_le_center' hp hp2 hY hc
   exfalso
-  haveI := hS.simple
+  have := hS.simple
   have hHtop : H ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hd.maxH.1
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p) with hπ

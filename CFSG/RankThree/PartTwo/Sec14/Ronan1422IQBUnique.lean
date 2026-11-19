@@ -107,7 +107,7 @@ theorem exists_invariant_sylow_of_three {A Q : Subgroup G} (hA : IsPGroup 3 A)
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, hS⟩ := CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime 3 r
     hA hQ (Q.normalizerMonoidHom.comp (Subgroup.inclusion hAQ))
-  refine ⟨(S : Subgroup Q).map Q.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _,
+  refine ⟨(S : Subgroup Q).map Q.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _,
     fun a ha => ?_, ?_⟩
   · rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     conv_rhs => rw [← hS ⟨a, ha⟩]
@@ -115,6 +115,7 @@ theorem exists_invariant_sylow_of_three {A Q : Subgroup G} (hA : IsPGroup 3 A)
     rfl
   · rw [Subgroup.card_map_of_injective Q.subtype_injective, Sylow.card_eq_multiplicity]
 
+omit [Finite G] in
 theorem mk_eq_of_mem_inSubgroup_theta {J : Subgroup G} {a b : G} (ha : a ∈ J) (hb : b ∈ J)
     (h : a⁻¹ * b ∈ inSubgroup (aschbacherSolvableCore 3) J) :
     ((⟨a, ha⟩ : ↥J) : ↥J ⧸ aschbacherSolvableCore 3 ↥J) =
@@ -215,7 +216,7 @@ theorem eq_of_mem_thetaComponentsIn_of_three_dvd {B : Subgroup G}
         have := orderOf_map_dvd (QuotientGroup.mk' θ₂) y
         rwa [hyo] at this
       have hdT : ∃ n : ℕ, orderOf (QuotientGroup.mk' θ₂ y) ∣ 2 ^ n := by
-        obtain ⟨n, hn⟩ := T.isPGroup' ⟨QuotientGroup.mk' θ₂ y, hy⟩
+        obtain ⟨n, hn⟩ := T.isPGroup ⟨QuotientGroup.mk' θ₂ y, hy⟩
         refine ⟨n, orderOf_dvd_of_pow_eq_one ?_⟩
         have := congrArg Subtype.val hn
         simpa using this

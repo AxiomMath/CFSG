@@ -132,7 +132,7 @@ theorem not_mem_rankThreePrimeCore {p : ℕ} [hp : Fact p.Prime] {Y : Subgroup G
 theorem mem_rankThreePrimeCore_of_mem_pPrimeCore {p : ℕ} [hp : Fact p.Prime] {M Y : Subgroup G}
     (hYM : Y ≤ M) {y : G} (hy : y ∈ Y)
     (hyp : (⟨y, hYM hy⟩ : ↥M) ∈ CFSG.pPrimeCore p ↥M) : y ∈ rankThreePrimeCore p Y := by
-  haveI : (CFSG.pPrimeCore p ↥M).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p ↥M).Normal := CFSG.pPrimeCore_normal
   set K₁ : Subgroup ↥Y := (CFSG.pPrimeCore p ↥M).comap (Subgroup.inclusion hYM) with hK₁
   have hle : K₁.map Y.subtype ≤ rankThreePrimeCore p Y := by
     show K₁.map Y.subtype ≤ relPPrimeCore p Y
@@ -161,8 +161,8 @@ theorem exists_component_of_section {p : ℕ} [hp : Fact p.Prime] {M Y : Subgrou
     ∃ C : CFSG.LocalCores.ComponentIndex (↥M ⧸ primeComplementCore (G := ↥M) p),
       (rankThreePrimeCore p Y).relIndex Y ∣ Nat.card C.1 := by
   classical
-  haveI hYn : ((rankThreePrimeCore p Y).subgroupOf Y).Normal := hsec.2.1
-  haveI hsimp : IsSimpleGroup (↥Y ⧸ (rankThreePrimeCore p Y).subgroupOf Y) :=
+  have hYn : ((rankThreePrimeCore p Y).subgroupOf Y).Normal := hsec.2.1
+  have hsimp : IsSimpleGroup (↥Y ⧸ (rankThreePrimeCore p Y).subgroupOf Y) :=
     L613.isSimpleGroup_quotient_of_section hsec
   let F : ↥Y →* (↥M ⧸ primeComplementCore (G := ↥M) p) :=
     (QuotientGroup.mk' (primeComplementCore (G := ↥M) p)).comp (Subgroup.inclusion hYM)
@@ -192,7 +192,7 @@ theorem kGL613b_of_facts
     (h313 : CFSG.LocalAnalysis.RankFourTheoremC.GL83NormalElementaryRankFour) : KGL613b := by
   intro G _ _ p P M x z hS hx hz hNPC Y hYM hzY hsec f hf hf2 hfp hfY
   have hp := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxM : x ∈ M := hx.mem_M hS
   have hzM : z ∈ M := hS.sylow_le hz.mem
   have hpl := plane63_of_situation hS hx hz
@@ -232,7 +232,7 @@ theorem kGL613b_of_facts
       have := L613.pRank_top_subtype (by norm_num : 1 < 3) M
       have h5 := hS.p_ge
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨Fh, hFh⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 M
     have hFhp : IsPGroup 3 Fh := hFh.isPGroup
     have h4' : 4 ≤ Open.pRank 3 Fh := by
@@ -245,8 +245,8 @@ theorem kGL613b_of_facts
   · have hf5 : 5 ≤ f := by
       by_contra hlt
       interval_cases f <;> simp_all <;> exact absurd hf (by norm_num)
-    haveI hYn : ((rankThreePrimeCore p Y).subgroupOf Y).Normal := hsec.2.1
-    haveI hsimp : IsSimpleGroup (↥Y ⧸ (rankThreePrimeCore p Y).subgroupOf Y) :=
+    have hYn : ((rankThreePrimeCore p Y).subgroupOf Y).Normal := hsec.2.1
+    have hsimp : IsSimpleGroup (↥Y ⧸ (rankThreePrimeCore p Y).subgroupOf Y) :=
       L613.isSimpleGroup_quotient_of_section hsec
     have hsecM : L613.IsSecOf (⊤ : Subgroup ↥M)
         (↥Y ⧸ (rankThreePrimeCore p Y).subgroupOf Y) :=

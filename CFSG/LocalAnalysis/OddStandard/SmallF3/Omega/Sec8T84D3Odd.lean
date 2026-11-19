@@ -33,7 +33,7 @@ theorem sec8t84y_conj {H H' : Subgroup G} {g : G} (hg : ∀ x ∈ H, g * x * g�
     ?_ ?_ ?_ ?_ hy
   · rintro x ⟨hxH, hxodd⟩
     exact sec8t84y_mem_of_odd (hg x hxH) (by rw [orderOf_conj']; exact hxodd)
-  · simpa using (Sec8T84Y H').one_mem
+  · simp
   · intro x y _ _ ihx ihy
     have hxy : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [hxy]
@@ -85,7 +85,7 @@ theorem sec8t84y_exists_mul [Finite G] {H K : Subgroup G}
     (hq : QuotEquivTo H K (alternatingGroup (Fin 6))) {x : G} (hx : x ∈ H) :
     ∃ k ∈ K, ∃ y ∈ Sec8T84Y H, x = k * y := by
   obtain ⟨φ, hφsurj, hφker⟩ := hq
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (α := Fin 6) (by rw [Nat.card_fin]; norm_num)
   let N : Subgroup (alternatingGroup (Fin 6)) := ((Sec8T84Y H).subgroupOf H).map φ
   have hNnormal : N.Normal := by
@@ -103,7 +103,7 @@ theorem sec8t84y_exists_mul [Finite G] {H K : Subgroup G}
       exact hmem
     · simp only [map_mul, map_inv]
   have hNne : N ≠ ⊥ := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card (G := alternatingGroup (Fin 6)) 5 (by
       rw [← Nat.card_eq_fintype_card, nat_card_alternatingGroup, Nat.card_fin]
       norm_num [Nat.factorial])
@@ -140,7 +140,7 @@ theorem sec8t84y_exists_mul [Finite G] {H K : Subgroup G}
     rw [hbot] at hmemN
     exact hφy (by simpa using hmemN)
   have hNtop : N = ⊤ := by
-    haveI : N.Normal := hNnormal
+    have : N.Normal := hNnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top N with hbot | htop
     · exact absurd hbot hNne
     · exact htop

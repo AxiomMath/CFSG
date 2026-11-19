@@ -17,10 +17,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
   carrier := {X | mat X 2 2 = 0}
   one_mem' := by simp [mat_one]
   mul_mem' {X Y} hX hY := by
-    simp only [Set.mem_setOf_eq] at hX hY ⊢
+    simp only [Set.mem_ofPred_eq] at hX hY ⊢
     simp [mat_mul, hX, hY]
   inv_mem' {X} hX := by
-    simp only [Set.mem_setOf_eq] at hX ⊢
+    simp only [Set.mem_ofPred_eq] at hX ⊢
     simp [mat_inv, hX]
 
 theorem mem_Hhyp {X : HMod n K} : X ∈ Hhyp n K ↔ mat X 2 2 = 0 := Iff.rfl
@@ -81,6 +81,7 @@ theorem fixV_le_Hhyp {B : Subgroup (MulAut (HMod n K))} (hK : Nat.card K = (2 ^ 
     · exact (mul_eq_zero.mp h12).resolve_left h1
   · exact (mul_eq_zero.mp h02).resolve_left h0
 
+omit [Finite K] in
 private theorem sq_eq_one_of_Q2 {g : SpecialLinearGroup (Fin 3) K} (hg : g ∈ Q2 K) :
     g ^ 2 = 1 := by
   obtain ⟨hgU, hg01⟩ := mem_Q2.mp hg
@@ -155,8 +156,7 @@ private theorem eq_one_of_fix_Hhyp (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2
       fin_cases i <;> fin_cases j <;> simp [conjM, bar_bar hK]
     have hX := h (mkH _ hM) (by simp [mat_mkH])
     have e := congrFun (congrFun (congrArg mat hX) 0) 0
-    simp [mat_rho, mat_mkH, tw, conjM, Matrix.mul_apply, Fin.sum_univ_three, g00, g10, g20,
-      hg01] at e
+    simp [mat_rho, mat_mkH, tw, conjM, Matrix.mul_apply, Fin.sum_univ_three, g00, hg01] at e
     apply ha
     simp only [map_mul]
     linear_combination e
@@ -173,8 +173,7 @@ private theorem eq_one_of_fix_Hhyp (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2
       fin_cases i <;> fin_cases j <;> simp [conjM, bar_bar hK]
     have hX := h (mkH _ hM) (by simp [mat_mkH])
     have e := congrFun (congrFun (congrArg mat hX) 1) 1
-    simp [mat_rho, mat_mkH, tw, conjM, Matrix.mul_apply, Fin.sum_univ_three, g11, g10, g21,
-      g20] at e
+    simp [mat_rho, mat_mkH, tw, conjM, Matrix.mul_apply, Fin.sum_univ_three, g11, g10] at e
     apply ha
     simp only [map_mul]
     linear_combination e

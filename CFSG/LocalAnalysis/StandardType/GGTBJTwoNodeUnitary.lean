@@ -98,7 +98,7 @@ theorem exists_diagonal_cover_of_large_unitary_side_of_cfg_of_rank
       (LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) F (2 ^ f))) := by
     have hrank : ggUnitaryTorusRank p (r + 1) = r - 2 := by
       rw [ggUnitaryTorusRank]
-      simp only [if_pos hpd]
+      simp only [ite_eq_left hpd]
       omega
     rw [← hrank]
     exact ggTorusLift_unitary (K := F) (n := f) (d := r + 1) (p := p)
@@ -345,9 +345,9 @@ theorem ggFrameDiagU_of_ggGamma_actsDiagU
       Matrix.GeneralLinearGroup.coe_scalar, coe_diagHom, Matrix.mul_diagonal]
     by_cases hij : i = j
     · subst j
-      simp only [τ, Matrix.scalar_apply, Matrix.diagonal_apply_eq, if_true, Units.val_mk0]
+      simp only [τ, Matrix.scalar_apply, Matrix.diagonal_apply_eq, ite_true, Units.val_mk0]
       field_simp [hne i0]
-    · simp only [Matrix.scalar_apply, hij, if_false, zero_mul,
+    · simp only [Matrix.scalar_apply, hij, ite_false, zero_mul,
         Matrix.diagonal_apply_ne _ hij]
   refine ⟨τ, hτnorm, ?_⟩
   intro s s' hs'

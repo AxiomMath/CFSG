@@ -168,9 +168,8 @@ private theorem omPlusRefl_true_apply {i j : Fin m} (hij : i < j)
   · rw [Function.update_of_ne hki]
     by_cases hkj : k = j
     · rw [hkj]
-      simp [Function.update_self, Function.comp_apply, Equiv.swap_apply_right, hki,
-        ne_of_lt hij, (ne_of_lt hij).symm]
-    · simp [Function.update_of_ne hkj, Function.comp_apply,
+      simp [Function.update_self, Equiv.swap_apply_right, (ne_of_lt hij).symm]
+    · simp [Function.comp_apply,
         Equiv.swap_apply_of_ne_of_ne hki hkj, hki, hkj]
 
 private theorem omPlusRefl_true_conj_apply {i j : Fin m} (hij : i < j)
@@ -182,13 +181,13 @@ private theorem omPlusRefl_true_conj_apply {i j : Fin m} (hij : i < j)
     SpCoord.permAut_apply, Function.comp_apply, Equiv.swap_inv, Function.update_apply]
   by_cases hkj : k = j
   · rw [hkj]
-    simp [Function.update_self, Function.comp_apply, Equiv.swap_apply_right,
+    simp [Equiv.swap_apply_right,
       ne_of_lt hij, (ne_of_lt hij).symm]
-  · rw [if_neg hkj]
+  · rw [ite_eq_right hkj]
     by_cases hki : k = i
     · rw [hki]
-      simp [Function.update_self, Function.comp_apply, Equiv.swap_apply_left, hkj]
-    · simp [Function.update_of_ne hkj, Function.comp_apply,
+      simp [Function.update_self, Function.comp_apply, Equiv.swap_apply_left]
+    · simp [Function.comp_apply,
         Equiv.swap_apply_of_ne_of_ne hki hkj, hki, hkj]
 
 private theorem omPlusRefl_mulSingle_apply {i j : Fin m} (hij : i < j) (s : Bool)
@@ -201,25 +200,22 @@ private theorem omPlusRefl_mulSingle_apply {i j : Fin m} (hij : i < j) (s : Bool
   · rw [omPlusRefl_false (p := p) (i := i) (j := j) hij, SpCoord.permAut_mulSingle]
     by_cases hki : k = i
     · rw [hki]
-      simp [Equiv.swap_apply_left, Bool.cond_false]
+      simp [Equiv.swap_apply_left]
     · by_cases hkj : k = j
       · rw [hkj]
-        simp [Equiv.swap_apply_right, hki, ne_of_lt hij, (ne_of_lt hij).symm,
-          Bool.cond_false]
+        simp [Equiv.swap_apply_right, (ne_of_lt hij).symm]
       · simp [Equiv.swap_apply_of_ne_of_ne hki hkj, hki, hkj]
   · rw [omPlusRefl_true (p := p) (i := i) (j := j) hij, MulAut.mul_apply, MulAut.mul_apply,
       SpCoord.permAut_mulSingle]
     by_cases hki : k = i
     · rw [hki]
       simp [Equiv.swap_apply_left, SpCoord.sgnAut_mulSingle_self, SpCoord.sgnAut_mulSingle_of_ne,
-        ne_of_lt hij, (ne_of_lt hij).symm, Pi.mulSingle_inv, Bool.cond_true]
+        (ne_of_lt hij).symm, Pi.mulSingle_inv]
     · by_cases hkj : k = j
       · rw [hkj]
         simp [Equiv.swap_apply_right, SpCoord.sgnAut_mulSingle_self,
-          SpCoord.sgnAut_mulSingle_of_ne, ne_of_lt hij, (ne_of_lt hij).symm, Pi.mulSingle_inv,
-          Bool.cond_true]
-      · simp [Equiv.swap_apply_of_ne_of_ne hki hkj, SpCoord.sgnAut_mulSingle_of_ne, hki, hkj,
-          Ne.symm hki, Ne.symm hkj, Pi.mulSingle_inv]
+          SpCoord.sgnAut_mulSingle_of_ne, ne_of_lt hij, (ne_of_lt hij).symm, Pi.mulSingle_inv]
+      · simp [Equiv.swap_apply_of_ne_of_ne hki hkj, SpCoord.sgnAut_mulSingle_of_ne, hki, hkj]
 
 theorem exists_mem_omPlusBlock_conj [CharP K 2] (hζ : ζ ^ p = 1) (x : OmPlusIdx m) :
     ∃ w ∈ omPlusBlock K x, ∀ f : Fin m → Multiplicative (ZMod p),
@@ -276,11 +272,11 @@ theorem exists_mem_omPlusBlock_conj [CharP K 2] (hζ : ζ ^ p = 1) (x : OmPlusId
         simp only [OmegaPilot.flipParam_apply, Function.comp_apply, Finset.mem_singleton]
         by_cases hki : k = i
         · rw [hki]
-          simp [Equiv.swap_apply_left, ne_of_lt hij, (ne_of_lt hij).symm, map_inv]
+          simp [Equiv.swap_apply_left, ne_of_lt hij, map_inv]
         · by_cases hkj : k = j
           · rw [hkj]
-            simp [Equiv.swap_apply_right, hki, ne_of_lt hij, (ne_of_lt hij).symm, map_inv]
-          · simp [Equiv.swap_apply_of_ne_of_ne hki hkj, hki, hkj, map_inv]
+            simp [Equiv.swap_apply_right, ne_of_lt hij, (ne_of_lt hij).symm, map_inv]
+          · simp [Equiv.swap_apply_of_ne_of_ne hki hkj, hki, hkj]
       calc (F * P * F⁻¹) * D * (F * P * F⁻¹)⁻¹
           = F * P * (F⁻¹ * D * F) * P⁻¹ * F⁻¹ := by group
         _ = F * P * OmegaPilot.diagOmega K m
@@ -402,7 +398,7 @@ theorem omPlusRefl_injective (hp : p.Prime) (hp2 : p ≠ 2) :
       (Pi.mulSingle i (ofAdd (1 : ZMod p))) =
       Pi.mulSingle j (cond s (ofAdd (1 : ZMod p))⁻¹ (ofAdd (1 : ZMod p))) := by
     intro s
-    rw [omPlusRefl_mulSingle_apply (p := p) (i := i) (j := j) hij, if_pos rfl]
+    rw [omPlusRefl_mulSingle_apply (p := p) (i := i) (j := j) hij, ite_eq_left rfl]
   have hR : ∀ s' : Bool, omPlusRefl p (⟨(i', j'), hij'⟩, s')
       (Pi.mulSingle i (ofAdd (1 : ZMod p))) =
       (if i = i' then Pi.mulSingle j' (cond s' (ofAdd (1 : ZMod p))⁻¹ (ofAdd (1 : ZMod p)))
@@ -415,22 +411,22 @@ theorem omPlusRefl_injective (hp : p.Prime) (hp2 : p ≠ 2) :
     φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h
   rw [hL s, hR s'] at hval
   by_cases hii : i = i'
-  · rw [if_pos hii] at hval
+  · rw [ite_eq_left hii] at hval
     obtain ⟨hjj, hss⟩ := mulSingle_cond_eq hp hp2 hval
     subst hii
     subst hjj
     subst hss
     exact Prod.ext (Subtype.ext rfl) rfl
-  · rw [if_neg hii] at hval
+  · rw [ite_eq_right hii] at hval
     by_cases hiji : i = j'
-    · rw [if_pos hiji] at hval
+    · rw [ite_eq_left hiji] at hval
       obtain ⟨hji, -⟩ := mulSingle_cond_eq hp hp2 hval
       have hlt : i < j := hij
       have hlt' : i' < j' := hij'
       have h1 : i < i' := by rw [hji] at hlt; exact hlt
       have h2 : i' < i := by rw [← hiji] at hlt'; exact hlt'
       exact absurd h1 (not_lt.mpr h2.le)
-    · rw [if_neg hiji] at hval
+    · rw [ite_eq_right hiji] at hval
       cases s
       · simp only [Bool.cond_false] at hval
         exact absurd (SpCoord.mulSingle_ofAdd_eq_iff one_ne_zero hval).1

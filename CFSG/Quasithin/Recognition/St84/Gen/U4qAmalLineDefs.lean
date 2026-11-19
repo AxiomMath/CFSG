@@ -13,15 +13,15 @@ variable {m : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 m K)
 @[expose] def u4Herm : Submodule h.fixedField (Matrix (Fin 2) (Fin 2) K) where
   carrier := {X | ∀ i j, h.bar (X i j) = X j i}
   add_mem' {X Y} hX hY := by
-    simp only [Set.mem_setOf_eq] at hX hY ⊢
+    simp only [Set.mem_ofPred_eq] at hX hY ⊢
     intro i j
     rw [Matrix.add_apply, map_add, hX i j, hY i j, Matrix.add_apply]
   zero_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro i j
     rw [Matrix.zero_apply, map_zero, Matrix.zero_apply]
   smul_mem' c X hX := by
-    simp only [Set.mem_setOf_eq] at hX ⊢
+    simp only [Set.mem_ofPred_eq] at hX ⊢
     intro i j
     have hc : h.bar (c : K) = c := (h.mem_fixedField).mp c.2
     change h.bar ((c : K) * X i j) = (c : K) * X j i
@@ -60,7 +60,7 @@ theorem bar_u4Omega_ne : h.bar (u4Omega h) ≠ u4Omega h :=
   Classical.choose_spec h.exists_bar_ne
 
 theorem u4Omega_add_bar_ne_zero : u4Omega h + h.bar (u4Omega h) ≠ 0 := by
-  haveI := h.charP
+  have := h.charP
   intro h0
   apply bar_u4Omega_ne h
   rw [eq_neg_of_add_eq_zero_right h0, CharTwo.neg_eq]
@@ -79,28 +79,28 @@ theorem u4Im_mul (z : K) : u4Im h z * (u4Omega h + h.bar (u4Omega h)) = z + h.ba
   div_mul_cancel₀ _ (u4Omega_add_bar_ne_zero h)
 
 theorem bar_u4Re (z : K) : h.bar (u4Re h z) = u4Re h z := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hb := u4Im_mul h z
   rw [u4Re, map_add, map_mul, bar_u4Im]
   linear_combination hb + (h.bar z - u4Im h z * u4Omega h) * h2
 
 theorem u4Re_add_u4Im_mul (z : K) : u4Re h z + u4Im h z * u4Omega h = z := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   rw [u4Re]
   linear_combination (u4Im h z * u4Omega h) * h2
 
 theorem u4Im_add_mul {a b : K} (ha : h.bar a = a) (hb : h.bar b = b) :
     u4Im h (a + b * u4Omega h) = b := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   rw [u4Im, div_eq_iff (u4Omega_add_bar_ne_zero h), map_add, map_mul, ha, hb]
   linear_combination a * h2
 
 theorem u4Re_add_mul {a b : K} (ha : h.bar a = a) (hb : h.bar b = b) :
     u4Re h (a + b * u4Omega h) = a := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   rw [u4Re, u4Im_add_mul h ha hb]
   linear_combination (b * u4Omega h) * h2
@@ -195,7 +195,7 @@ theorem coe_u4HermCoord_symm (v : Fin 4 → h.fixedField) :
     simp [Matrix.mul_add, Matrix.add_mul]
   map_smul' c X := by
     apply Subtype.ext
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
 
 theorem coe_u4TwistLin (A : Matrix (Fin 2) (Fin 2) K) (X : ↥(u4Herm h)) :
     ((u4TwistLin h A X : ↥(u4Herm h)) : Matrix (Fin 2) (Fin 2) K) =
@@ -256,13 +256,13 @@ theorem coe_u4TwistHom (A : GL (Fin 2) K) :
 @[expose] def u4DetFixGL : Subgroup (GL (Fin 2) K) where
   carrier := {A | h.bar (A : Matrix (Fin 2) (Fin 2) K).det = (A : Matrix (Fin 2) (Fin 2) K).det}
   mul_mem' {A B} hA hB := by
-    simp only [Set.mem_setOf_eq] at hA hB ⊢
+    simp only [Set.mem_ofPred_eq] at hA hB ⊢
     rw [Matrix.GeneralLinearGroup.coe_mul, Matrix.det_mul, map_mul, hA, hB]
   one_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [Matrix.GeneralLinearGroup.coe_one, Matrix.det_one, map_one]
   inv_mem' {A} hA := by
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     have e : ((A⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det *
         (A : Matrix (Fin 2) (Fin 2) K).det = 1 := by
       rw [← Matrix.det_mul, ← Matrix.GeneralLinearGroup.coe_mul, inv_mul_cancel,
@@ -297,7 +297,7 @@ theorem mem_u4Gamma2_iff {M : GL (Fin 4) h.fixedField} :
 
 theorem eq_one_of_forall_twist_eq {A : Matrix (Fin 2) (Fin 2) K} (hA : h.bar A.det = A.det)
     (hfix : ∀ X ∈ u4Herm h, A * X * (A.map h.bar)ᵀ = X) : A = 1 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have triple : ∀ (X : Matrix (Fin 2) (Fin 2) K) (i j : Fin 2), (A * X * (A.map h.bar)ᵀ) i j =
       A i 0 * X 0 0 * h.bar (A j 0) + A i 0 * X 0 1 * h.bar (A j 1) +

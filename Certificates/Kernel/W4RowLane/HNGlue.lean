@@ -33,7 +33,7 @@ private theorem wE_invK {G : Type} [Group G] (x y : G) :
     have hl : invL c < 4 := by unfold invL; split <;> omega
     rw [e, wE_append, wE_cons, wE_nil, one_mul, wE_cons,
       wE_invK x y u fun d hd => hu d (List.mem_cons_of_mem _ hd), mul_inv_rev]
-    simp only [fLn, if_pos hl, if_pos hc]
+    simp only [fLn, ite_eq_left hl, ite_eq_left hc]
     rw [f4_invL x y hc]
 
 private theorem p19 : Nat.Prime 19 := by norm_num

@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23ne_binaryNatural (M : Subgroup G) {V₀ V L : Subgroup G}
     (hV : IsElemAbelian 2 V) (hne : V₀ ≠ ⊥)
     (h : BinaryNaturalSL (lStar M V₀ V hV L) (wStar M V₀ V hV L) ⊥ 3 1) :

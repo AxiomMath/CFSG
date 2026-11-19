@@ -30,7 +30,7 @@ theorem sigRows_eq : sigRows (vorbit (digitsW CFSG.ONSchreier.Data.rootDigits))
   rw [getElem!_ofFn' hk]
   by_cases hb : k < 29
   · have hlen : CFSG.ONSchreier.Data.baseList.length = 29 := rfl
-    rw [if_pos (by rw [hlen]; exact hb), key_get (base_lt k hb),
+    rw [ite_eq_left (by rw [hlen]; exact hb), key_get (base_lt k hb),
       toV_wOfK (canon_key _ (base_lt k hb)), form_eq, comb_rowsV cm_list cm_canon]
     unfold SR
     rw [Nat.blt_eq.mpr hb]
@@ -41,7 +41,7 @@ theorem sigRows_eq : sigRows (vorbit (digitsW CFSG.ONSchreier.Data.rootDigits))
       rfl
     rw [e]
   · have hlen : CFSG.ONSchreier.Data.baseList.length = 29 := rfl
-    rw [if_neg (by rw [hlen]; exact hb)]
+    rw [ite_eq_right (by rw [hlen]; exact hb)]
     unfold SR
     have : Nat.blt k 29 = false := by
       cases e : Nat.blt k 29

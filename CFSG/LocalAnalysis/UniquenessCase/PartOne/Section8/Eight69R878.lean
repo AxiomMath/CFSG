@@ -154,7 +154,7 @@ private theorem normal_of_isComponentOf_of_center_eq_bot
     (X.subgroupOf K).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hcomp.1]
   by_contra hnot
-  simp only [SetLike.le_def, not_forall] at hnot
+  simp only [_root_.IsConcreteLE.le_iff, not_forall] at hnot
   obtain ⟨g, hgK, hgnorm⟩ := hnot
   set Xg : Subgroup G := X.map (MulAut.conj g).toMonoidHom with hXg
   have hKg : K.map (MulAut.conj g).toMonoidHom = K :=

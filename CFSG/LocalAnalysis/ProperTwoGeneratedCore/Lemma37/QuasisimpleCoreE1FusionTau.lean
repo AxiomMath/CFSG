@@ -230,7 +230,7 @@ theorem exists_oddCore_centralizer_e1EBar :
     refine le_antisymm (fun p hp => ?_) hP
     obtain ⟨k, hkN, hk⟩ := exists_conj_mem_sylow_of_le S''
       (hS''.symm ▸ d.map_le_normalizer_e1EBar) ((Subgroup.map_subtype_le _).trans hCN)
-      (P.isPGroup'.map C.subtype)
+      (P.isPGroup.map C.subtype)
     have h1 := hk _ (Subgroup.mem_map_of_mem C.subtype hp)
     rw [hS''] at h1
     have h2 := conj_mem_centralizer_of_mem_normalizer hkN p.2
@@ -263,7 +263,7 @@ theorem exists_oddCore_centralizer_e1EBar :
       refine ⟨⟨c, hc⟩, ?_, rfl⟩
       change (⟨c, hc⟩ : C) ∈ (MonoidHom.transferSylow P hNC).ker
       rw [MonoidHom.mem_ker]
-      obtain ⟨j, hj⟩ := P.isPGroup' (MonoidHom.transferSylow P hNC ⟨c, hc⟩)
+      obtain ⟨j, hj⟩ := P.isPGroup (MonoidHom.transferSylow P hNC ⟨c, hc⟩)
       have h1 := orderOf_dvd_of_pow_eq_one hj
       have h2 := (orderOf_map_dvd (MonoidHom.transferSylow P hNC) ⟨c, hc⟩).trans
         (dvd_of_eq (Subgroup.orderOf_mk c hc))

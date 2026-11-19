@@ -15,7 +15,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.AGLEmbedding CFSG.AGLEmbeddingD2
 open CFSG.Open (pCoreOf IsElemAbelian)
 
 theorem noSwap_of_psu_five {G : Type} [Group G] [Finite G] {M S L : Subgroup G}
-    (hL : IsWeakSBlock M S L)
+    (_hL : IsWeakSBlock M S L)
     (hpar : IsParabolicTwo (barM M L) (barM M (Subgroup.normalizer (S : Set G) ⊓ L)))
     (hsolv : BlockPLThreeSolv M S L)
     (hc : StatedClassicalModel (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) .PSU 5 2 1)
@@ -141,7 +141,7 @@ theorem noSwap_of_psu_five {G : Type} [Group G] [Finite G] {M S L : Subgroup G}
           rw [Subgroup.eq_bot_iff_forall]
           intro v hv
           obtain ⟨k, hk⟩ := hE3' ⟨v, (Subgroup.mem_inf.mp hv).1⟩
-          obtain ⟨m, hm⟩ := (Tb.isPGroup' (G := ↥Lb ⧸ Subgroup.center ↥Lb))
+          obtain ⟨m, hm⟩ := (Tb.isPGroup (G := ↥Lb ⧸ Subgroup.center ↥Lb))
             ⟨v, (Subgroup.mem_inf.mp hv).2⟩
           have h3' : orderOf v ∣ 3 ^ k :=
             orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)

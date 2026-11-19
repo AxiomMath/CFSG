@@ -84,7 +84,7 @@ theorem isE_self (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     exact hc.isE.2.2.1
   · exact Or.inl (E1.isE_eOne_of_isSolvable hc.isE (hc.isSolvable_K c))
 
-theorem cClos_le_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) (h162 : W3Thm162Gt2 G) :
+theorem cClos_le_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) (_h162 : W3Thm162Gt2 G) :
     E3.cClos V 1 D.T ≤ D.T ⊓ K := by
   have hAT := hc.le_T
   have hVg := E3.isElemAbelian_conjSubgroup c.setting.isElemAbelian g

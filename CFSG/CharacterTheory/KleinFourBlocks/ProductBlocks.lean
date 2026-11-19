@@ -165,7 +165,7 @@ theorem blockDefect_outer_of_blockDefect_bot (m : Ideal BlocksAlgInt) [hm : m.Is
       intro y hy
       obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hy
       refine Subgroup.mem_prod.mpr ⟨Subgroup.mem_top _, Subgroup.mem_bot.mpr ?_⟩
-      obtain ⟨n, hn⟩ := S'.isPGroup' ⟨s, hs⟩
+      obtain ⟨n, hn⟩ := S'.isPGroup ⟨s, hs⟩
       have hn1 : s ^ 2 ^ n = 1 := by
         have := congrArg (fun t : (S' : Subgroup (Subgroup.centralizer
           ({((1 : Z), z)} : Set (Z × L)))) => (t : Subgroup.centralizer

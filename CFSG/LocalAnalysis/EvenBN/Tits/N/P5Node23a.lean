@@ -155,7 +155,7 @@ theorem Hg_le_normalizer_Zz
 
 theorem Zz_card_four (hd : d.Hyp) (hz : d.S56Z0 z₀) (hinv : d.S56Z0Inv) :
     Nat.card (Zz d z₀) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz02 : z₀ * z₀ = 1 := hinv z₀ hz
   have hzt : d.t * d.z = d.z * d.t :=
     (mem_centralizer_singleton_iff.1 (hd.L_le d.z_mem)).symm

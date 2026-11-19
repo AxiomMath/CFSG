@@ -85,7 +85,7 @@ theorem sec312A_of_hyp (hp : d.CaseHyp) (k : d.Know11) : d.Sec312A := by
   intro κ _ _ hκ ψ
   have k10 : d.Know10 := k.toKnow10
   obtain ⟨S, hS, hP⟩ := sec312_exists_S hp
-  haveI hc : CharP κ 2 := sec312_charP hκ
+  have hc : CharP κ 2 := sec312_charP hκ
   have hkκ := sec312_card_eq hκ
   have hm : 2 ≤ 2 * f := by have := sec312_two_le hp; omega
   have hm3 : 2 * f ≠ 3 := by omega

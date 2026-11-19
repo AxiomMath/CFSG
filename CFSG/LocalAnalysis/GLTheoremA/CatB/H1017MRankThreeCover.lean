@@ -38,7 +38,7 @@ private theorem isElemAbelian_map_hom {X Y : Type} [Group X] [Group Y] {p : ℕ}
   · obtain ⟨_, x, hx, rfl⟩ := a
     obtain ⟨_, y, hy, rfl⟩ := b
     show f x * f y = f y * f x
-    haveI := hE.1
+    have := hE.1
     have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
     simp only [Subgroup.coe_mul] at this
     rw [← map_mul, ← map_mul, this]

@@ -61,7 +61,7 @@ theorem u_gens (x y z : ℤ) : Type321.action.φu (x • g0 + y • g1 + z • g
     intro i j
     fin_cases i <;> fin_cases j <;> simp [Type321.uM, uMat, ofCols_apply]
   simp only [huM]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]
 
 private theorem g1_cyc : g1 = (7 : ℤ) • Type321.action.φuv g0 + (4 : ℤ) • Type321.action.φt g0 +
     (1 : ℤ) • Type321.action.φuv (Type321.action.φt g0) := by
@@ -378,7 +378,7 @@ theorem u_gens (x y z : ℤ) : Type331.action.φu (x • g0 + y • g1 + z • g
     intro i j
     fin_cases i <;> fin_cases j <;> simp [Type331.uM, uMat, ofCols_apply]
   simp only [huM]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]
 
 private theorem g1_cyc : g1 = (3 : ℤ) • Type331.action.φuv g0 + (0 : ℤ) • Type331.action.φt g0 +
     (1 : ℤ) • Type331.action.φuv (Type331.action.φt g0) := by

@@ -31,7 +31,7 @@ theorem theorem4bIsSylowSubgroupOf_of_le
     (hPE : P ≤ E) (hED : E ≤ D) :
     theorem4bIsSylowSubgroupOf p P E := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PD, hP⟩
   let ED : Subgroup D := E.subgroupOf D
   have hPDle : (PD : Subgroup D) ≤ ED := by
@@ -78,7 +78,7 @@ theorem theorem4bIsSylowSubgroupOf_of_card_eq
     (hPsyl : theorem4bIsSylowSubgroupOf p P F)
     (hPD : P ≤ D) (hcard : Nat.card D = Nat.card F) :
     theorem4bIsSylowSubgroupOf p P D := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PF, hP⟩
   have hPcard : Nat.card P = p ^ (Nat.card F).factorization p := by
     rw [hP, Subgroup.card_map_of_injective F.subtype_injective]
@@ -101,7 +101,7 @@ theorem theorem4bIsSylowSubgroupOf_of_subgroup_card_eq
     (hPsyl : theorem4bIsSylowSubgroupOf p P E)
     (hQE : Q ≤ E) (hcard : Nat.card Q = Nat.card P) :
     theorem4bIsSylowSubgroupOf p Q E := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PE, hP⟩
   have hPcard : Nat.card P = p ^ (Nat.card E).factorization p := by
     rw [hP, Subgroup.card_map_of_injective E.subtype_injective]
@@ -185,7 +185,7 @@ theorem lemma73_transport_swap_between_sylows
       u ∈ Subgroup.normalizer (P : Set X) ∧
       u • alpha = beta ∧ u • beta = alpha := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨P₀, hP⟩
   rcases hQsyl with ⟨Q₀, hQ⟩
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq E P₀ Q₀
@@ -334,7 +334,7 @@ theorem lemma73_normalizer_not_le_of_not_sylow_F
       theorem4bSection7D]
     ac_rfl
   intro hnorm
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hPsylFM : theorem4bIsSylowSubgroupOf p P (F ⊓ M) := by
     rw [hFM]
     exact hPsylE

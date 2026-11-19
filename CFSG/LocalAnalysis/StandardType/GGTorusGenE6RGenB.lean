@@ -57,14 +57,14 @@ private theorem finite_fixModel_of_frob
     (hFr : ∀ c, Fr c = c ^ 2 ^ n) :
     Finite (CFSG.HardMathSupport.Timmesfeld.CrossChar.fixModel
       (τ := Tag.E6) (twistHom TwistTag.E6 Ω Fr)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     refine charP_of_card_eq_prime_pow (p := 2) (f := 2 * n) ?_
     rw [← Nat.card_eq_fintype_card, hK]
     ring_nf
-  haveI hcharΩ : CharP Ω 2 := (RingHom.charP_iff_charP (algebraMap K Ω) 2).1 hcharK
-  haveI hAlgClosed : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have hcharΩ : CharP Ω 2 := (RingHom.charP_iff_charP (algebraMap K Ω) 2).1 hcharK
+  have hAlgClosed : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hFr' : Fr = iterateFrobenius Ω 2 n := by
     refine RingHom.ext fun c => ?_
     rw [hFr, iterateFrobenius_def]
@@ -96,14 +96,14 @@ theorem tspec_exists_coroot_in_component
         baseChangeGL (τ := Tag.E6) (algebraMap K Ω) (u : ModGL TwistTag.E6.tag K) =
           g * TwE6Coroot.coroot α s * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     refine charP_of_card_eq_prime_pow (p := 2) (f := 2 * n) ?_
     rw [← Nat.card_eq_fintype_card, hK]
     ring_nf
-  haveI hcharΩ : CharP Ω 2 := (RingHom.charP_iff_charP (algebraMap K Ω) 2).1 hcharK
-  haveI hAlgClosed : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have hcharΩ : CharP Ω 2 := (RingHom.charP_iff_charP (algebraMap K Ω) 2).1 hcharK
+  have hAlgClosed : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let Φ : ModGL Tag.E6 Ω →* ModGL Tag.E6 Ω := twistHom TwistTag.E6 Ω Fr
   let Γ' : Subgroup (ModGL Tag.E6 Ω) :=
     ⁅CFSG.HardMathSupport.Timmesfeld.CrossChar.fixModel Φ,

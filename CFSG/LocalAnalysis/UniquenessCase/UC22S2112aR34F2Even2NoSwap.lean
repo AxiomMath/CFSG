@@ -117,7 +117,7 @@ private theorem uc22s2112r34_noswap_images {X : Type*} [Group X]
           Nat.card ((P.subgroupOf (normalizer (K : Set X))).map ρ) := by
       refine CFSG.Quasithin.H23P4.card_eq_mul_of_coe_eq_mul
         (CFSG.Quasithin.H23P4.coe_sup_eq_mul_of_mul_comm hYS) ?_
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       rw [hn]
       exact Nat.Coprime.pow_right n (Nat.coprime_two_right.2 hYo)
     rw [hd, hn] at hpd

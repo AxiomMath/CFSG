@@ -39,7 +39,7 @@ theorem not_forall_unitary_conj_frobenius_shift
     ext i j
     by_cases hij : i = j
     · subst j
-      fin_cases i <;> simp [map_pow, map_inv₀, hne, pow_two] <;> field_simp
+      fin_cases i <;> simp [map_inv₀, hne, pow_two]; field_simp
     · simp [Matrix.diagonal, hij]
   have hFix : stdUnitary sigma D = D := by
     have hb : sigma (w : L) = (((w⁻¹ : Lˣ) : L)) :=
@@ -66,7 +66,7 @@ theorem not_forall_unitary_conj_frobenius_shift
     | true =>
       change Matrix.trace ((stdUnitary eta D : SL(3, L)) : Matrix (Fin 3) (Fin 3) L) = (w : L) ^ (2 * 2 ^ k)
       rw [coe_stdUnitary, hInv eta, Matrix.diagonal_transpose, Matrix.trace_diagonal, Fin.sum_univ_three]
-      simp [CharTwo.add_self_eq_zero, heta, inv_pow, inv_inv, pow_mul]
+      simp [CharTwo.add_self_eq_zero, heta, pow_mul]
       rw [← pow_mul, ← pow_mul, Nat.mul_comm]
   intro h
   have hEq := congrArg (fun X : SL(3, L) => Matrix.trace (X : Matrix (Fin 3) (Fin 3) L))

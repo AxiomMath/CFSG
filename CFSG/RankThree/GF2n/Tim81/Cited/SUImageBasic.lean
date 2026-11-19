@@ -154,7 +154,7 @@ theorem natCard_of_mem {F : Type} [Field F] {σ : F ≃+* F}
     [Finite F] [CharP F 2] (hker : Φ.ker ≤ Subgroup.center (SU σ m))
     {A : Subgroup K} (hA : A ∈ Δ) : Nat.card A = Nat.card (traceZero σ) := by
   obtain ⟨v, T, hv, hvv, hT, rfl⟩ := exists_eq_map_of_mem hσ hm hΔ hA
-  haveI : Finite (SU σ m) :=
+  have : Finite (SU σ m) :=
     Finite.of_injective (SUExtras.mat σ m) (SUExtras.mat_injective (σ := σ) (n := m))
   have hP : IsPGroup 2 T :=
     (ModelRank.isPGroup_uRad (σ := σ) v).of_injective

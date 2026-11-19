@@ -22,8 +22,8 @@ theorem naturalThree_exists_dual_cocycle_not_coboundary
       d ∈ Z1 (Representation.dual ρQ) ∧
       d ∉ B1 (Representation.dual ρQ) := by
   obtain ⟨θ, β, hβ⟩ := JonesParshall.BinaryNaturalSL.intertwiner hnat
-  letI : Algebra (ZMod 2) (ZMod 2) := ZMod.algebra (ZMod 2) 2
-  letI : Module (ZMod 2) ((Fin 3) → ZMod 2) :=
+  let : Algebra (ZMod 2) (ZMod 2) := ZMod.algebra (ZMod 2) 2
+  let : Module (ZMod 2) ((Fin 3) → ZMod 2) :=
     @Pi.Function.module (Fin 3) (ZMod 2) (ZMod 2) _ _ (Algebra.toModule)
   let eQ : Q ≃ₗ[ZMod 2] ((Fin 3) → ZMod 2) := G11.addEquivToLinear β
   let psi := SLCover.psiEquiv 3 (ZMod 2)

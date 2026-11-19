@@ -35,10 +35,10 @@ theorem splitWSL_conj_HSL (a : Kˣ) : (WSL : SL2 K) * HSL a * WSL⁻¹ = HSL a�
 end SplitSL2
 
 theorem exists_order_p_inverting_sl2_split {K : Type} [Field K] [Finite K] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K - 1) :
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ Nat.card K - 1) :
     ∃ s n : SL2 K, orderOf s = p ∧ n * s * n⁻¹ = s⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨μ, hμo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) hpq
   have hμp : μ ^ p = 1 := by rw [← hμo]; exact pow_orderOf_eq_one μ
   have hμ1 : μ ≠ 1 := by
@@ -98,10 +98,10 @@ theorem frameScaleCoord_ofAdd [NeZero p] (u : ZMod p) (i : Fin N) (v : Fin N →
   rw [frameScaleCoord_apply]
   by_cases hji : j = i
   · subst hji
-    rw [if_pos rfl, Function.update_self, ← ofAdd_nsmul]
+    rw [ite_eq_left rfl, Function.update_self, ← ofAdd_nsmul]
     congr 1
     rw [nsmul_eq_mul, ZMod.natCast_zmod_val]
-  · rw [if_neg hji, Function.update_of_ne hji]
+  · rw [ite_eq_right hji, Function.update_of_ne hji]
 
 end FrameScale
 
@@ -117,7 +117,7 @@ theorem exists_frameTorus_of_commutingFrames {G₀ : Type} [Group G₀] {p N : �
         m i * e (Multiplicative.ofAdd v) * (m i)⁻¹ =
           e (Multiplicative.ofAdd (Function.update v i (u * v i))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hs_pow : s ^ p = 1 := by rw [← hs]; exact pow_orderOf_eq_one s
   have hpow : ∀ i : Fin N, (ρ i s) ^ p = 1 := fun i => by
     rw [← map_pow, hs_pow, map_one]
@@ -242,7 +242,7 @@ theorem frameScale_mem_normalizer_range {p N : ℕ} (u : ZMod p)
 end FrameScaleNormalizer
 
 theorem ggSCNoLine_of_sylowTorus_frameGen {G₀ : Type} [Group G₀] {p N : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (u : ZMod p) (hu : u ≠ 1) (s n : G₀) (hs : orderOf s = p)
+    (_hp2 : p ≠ 2) (u : ZMod p) (hu : u ≠ 1) (s n : G₀) (hs : orderOf s = p)
     (hn : n * s * n⁻¹ = s ^ u.val) (hZ : Disjoint (Subgroup.zpowers s) (Subgroup.center G₀))
     {R : Type} [Group R] [Finite R] (hT : SylowTorus R p N) (ρ : Fin N → G₀ →* R)
     (hρ : ∀ i, Function.Injective (ρ i))
@@ -250,8 +250,8 @@ theorem ggSCNoLine_of_sylowTorus_frameGen {G₀ : Type} [Group G₀] {p N : ℕ}
     (hmove : ∀ i : Fin N, ∃ j : Fin N, j ≠ i ∧ ∃ (g : R) (t : ZMod p), t ≠ 0 ∧
       g * ρ i s * g⁻¹ = ρ j (s ^ t.val)) (r : ℕ) : GGSCNoLine p r R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e, m, he_inj, he_single, hm_conj⟩ :=
     exists_frameTorus_of_commutingFrames hp u s n hs hn hZ ρ hρ hc
   let E : Subgroup R := e.range

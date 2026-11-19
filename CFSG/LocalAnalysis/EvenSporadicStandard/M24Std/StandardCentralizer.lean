@@ -139,7 +139,7 @@ theorem exists_isCyclic_sylow_of_card_le_two {Y : Type*} [Group Y] [Finite Y] {K
   refine ⟨S, isCyclic_of_card_dvd_prime (p := 2) ?_⟩
   have hS : Nat.card S ≤ 2 := by
     rw [← card_map_of_injective K.subtype_injective]
-    exact h _ (S.isPGroup'.map _) (map_subtype_le _)
+    exact h _ (S.isPGroup.map _) (map_subtype_le _)
   have h0 : 0 < Nat.card S := Nat.card_pos
   rcases Nat.lt_or_ge (Nat.card S) 2 with h1 | h1
   · rw [show Nat.card S = 1 by omega]

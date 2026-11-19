@@ -28,7 +28,7 @@ theorem J4_eq_bot_of_normalized_by_plane (E : Subgroup CFSG.Sporadic.J4.J)
     have := S0Sylow.not_dvd_index
     rwa [S0Sylow_coe] at this
   have hS0p : IsPGroup 2 S0 := by
-    have := S0Sylow.isPGroup'
+    have := S0Sylow.isPGroup
     rwa [S0Sylow_coe] at this
   have hCN : ∀ h ∈ H, (∀ n ∈ N, h * n = n * h) → h ∈ N := by
     intro h hh hc

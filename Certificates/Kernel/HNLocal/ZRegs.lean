@@ -44,9 +44,9 @@ theorem lm_eq (c : ℕ) : lm c = if c % 2 = 1 then Mr (c / 2) else Mi (c / 2) :=
   unfold lm Mr Mi
   rw [CertificateChecks.KernelWP.letC_div]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     rfl
-  · simp only [h, decide_false, if_false]
+  · simp only [h, decide_false, ite_false]
     change OM (RZ (Nat.add (Nat.succ 86) (c / 2))) = _
     rfl
 
@@ -115,7 +115,7 @@ theorem word_root {k g : ℕ} (hk : k < 127) (hg : g < 86) {u : List ℕ} (hu : 
     (u.map lm).prod = Mr g := by
   have h := word_one hk
   rw [hu, List.map_append, List.prod_append, List.map_singleton, List.prod_singleton,
-    lm_eq, if_neg (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
+    lm_eq, ite_eq_right (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
   have h2 : Mi g * Mr g = 1 := mul_comm_of_one (pair g hg)
   calc (u.map lm).prod = (u.map lm).prod * (Mi g * Mr g) := by rw [h2, mul_one]
     _ = Mr g := by rw [← mul_assoc, h, one_mul]
@@ -158,7 +158,6 @@ theorem mat_wG : ∀ j < 63, mat Dt (wG j) = Mr j := by
       rw [slpG_eq, mat_wordG, List.map_map]
       congr 1
       refine List.map_congr_left fun z hz => ?_
-      beta_reduce
       change _ = lm (slpCode z)
       rw [lm_eq]
       have hai := mat_inv_of (x := a Dt) (g := 0) (by norm_num) mat_a
@@ -169,25 +168,25 @@ theorem mat_wG : ∀ j < 63, mat Dt (wG j) = Mr j := by
       · simp [genG, slpCode, mat_b]
       · simp [genG, slpCode, hbi]
       · have hz2 : ¬ z.natAbs ≤ 2 := by omega
-        rw [if_neg hz2, if_pos h4]
+        rw [ite_eq_right hz2, ite_eq_left h4]
         have hk : slpCode z / 2 = z.natAbs - 3 := by
           unfold slpCode
-          rw [if_neg hz2]
+          rw [ite_eq_right hz2]
           split_ifs <;> omega
         rw [hk]
         have hg' := ih (z.natAbs - 3) h4 (by omega)
         by_cases hp : 0 < z
         · have hc : slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_pos hp]
+            rw [ite_eq_right hz2, ite_eq_left hp]
             omega
-          rw [if_pos hp, if_pos hc]
+          rw [ite_eq_left hp, ite_eq_left hc]
           exact hg'
         · have hc : ¬ slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_neg hp]
+            rw [ite_eq_right hz2, ite_eq_right hp]
             omega
-          rw [if_neg hp, if_neg hc]
+          rw [ite_eq_right hp, ite_eq_right hc]
           exact mat_inv_of (by omega) hg'
 
 theorem pc_el (k : ℕ) (hk : k < 14) :
@@ -213,7 +212,7 @@ theorem pcJ_mem (k : ℕ) : pcJ k ∈ QJ := by
 
 theorem mat_pcJ {k : ℕ} (hk : k < 14) : mat Dt (pcJ k) = OM (CFSG.KD.HNLocal.PC k) := by
   unfold pcJ
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   exact (pc_el k hk).choose_spec.2
 
 @[expose] noncomputable def nfJ (e : ℕ → ℕ) : J Dt :=
@@ -254,7 +253,7 @@ theorem nfV_bij : Function.Bijective nfV := by
   · obtain ⟨e, he, hy⟩ := nf_surj y.2
     refine ⟨fun i => ⟨e i, he i⟩, Subtype.ext ?_⟩
     have h1 : nfJ (fun j => if hj : j < 14 then (⟨e j, he j⟩ : Fin 2).val else 0) = nfJ e :=
-      nfJ_congr fun j hj => dif_pos hj
+      nfJ_congr fun j hj => dite_eq_left hj
     rw [hy]
     exact h1
   · rw [card_QJ, Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin, Fintype.card_fin]
@@ -264,9 +263,9 @@ theorem nf_inj {e e' : ℕ → ℕ} (he : ∀ i, e i < 2) (he' : ∀ i, e' i < 2
   intro i hi
   have hv : (fun j : Fin 14 => (⟨e j, he j⟩ : Fin 2)) = fun j => ⟨e' j, he' j⟩ := by
     have h1 : nfJ (fun j => if hj : j < 14 then (⟨e j, he j⟩ : Fin 2).val else 0) = nfJ e :=
-      nfJ_congr fun j hj => dif_pos hj
+      nfJ_congr fun j hj => dite_eq_left hj
     have h2 : nfJ (fun j => if hj : j < 14 then (⟨e' j, he' j⟩ : Fin 2).val else 0) = nfJ e' :=
-      nfJ_congr fun j hj => dif_pos hj
+      nfJ_congr fun j hj => dite_eq_left hj
     exact nfV_bij.1 (Subtype.ext (h1.trans (h.trans h2.symm)))
   exact congrArg Fin.val (congrFun hv ⟨i, hi⟩)
 
@@ -297,7 +296,7 @@ theorem rep_first {k g : ℕ} (hk : k < 127) {u : List ℕ} (hu : WZL k = (2 * g
   obtain ⟨x, hx⟩ := rep_word u h
   have h1 := word_one hk
   have e : (2 * g + 1) / 2 = g := by omega
-  rw [hu, List.map_cons, List.prod_cons, lm_eq, if_pos (by omega), e, ← hx] at h1
+  rw [hu, List.map_cons, List.prod_cons, lm_eq, ite_eq_left (by omega), e, ← hx] at h1
   have h2 : mat Dt x * mat Dt x⁻¹ = 1 := by
     rw [← CertificateChecks.KernelHN.mat_mul', mul_inv_cancel, CertificateChecks.KernelHN.mat_one']
   refine ⟨x⁻¹, ?_⟩

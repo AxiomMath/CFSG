@@ -16,7 +16,7 @@ theorem noCfgS429_on :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       Nonempty (S ≃* Blueprint.NativeSporadic.Carrier .ONan) → NoCfgS429 S := by
   intro S _ _ _ hna ⟨e⟩
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .ONan) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .ONan) := Finite.of_equiv S e.toEquiv
   refine noCfgS429_of_inner (center_eq_bot_of_simple_nonab hna)
     (not_three_dvd_outer_of_mulEquiv e inputs47Core_outON) ?_
   intro s hs

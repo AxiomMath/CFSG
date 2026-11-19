@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem mem_iff_conj_mem_of_eq {S : Subgroup G} {g : G} (h : conjSubgroup g S = S) (x : G) :
     x ∈ S ↔ g * x * g⁻¹ ∈ S := by
   have h1 : ∀ y : G, y ∈ conjSubgroup g S ↔ g⁻¹ * y * g ∈ S := fun y => mem_conjSubgroup
@@ -56,6 +57,7 @@ theorem Vt_conj_left {G : Type} [Group G] {M L B Z : Subgroup G} {g : G} (hg : g
     rw [h1]
     exact le_iSup₂_of_le (m * g⁻¹) (M.mul_mem hm (M.inv_mem hg)) (le_iSup_of_le hmem le_rfl)
 
+omit [Finite G] in
 theorem Ctx.CN_conj_left [Finite G] {M Q Z B : Subgroup G}
     (hc : Ctx M Q Z B) {g : G} (hg : g ∈ M) (s : G) :
     (hc.conj_of_mem hg).CN s = hc.CN s := by
@@ -68,6 +70,7 @@ theorem Ctx.CN_conj_left [Finite G] {M Q Z B : Subgroup G}
     (x ∈ Rt M (LB M Q B) s ∧ ∀ v ∈ Vt M (LB M Q B) B Z s, ⁅x, v⁆ ∈ Z)
   rw [Rt_conj_left hg, Vt_conj_left hg]
 
+omit [Finite G] in
 theorem Ctx.CN_conjM [Finite G] {M Q Z B : Subgroup G}
     (hc : Ctx M Q Z B) {g : G} (hg : g ∈ M) (t : G) :
     hc.CN (g * t * g⁻¹) = conjSubgroup g (hc.CN t) := by
@@ -97,6 +100,7 @@ theorem Ctx.CN_conjM [Finite G] {M Q Z B : Subgroup G}
     have h2 := (key x (g⁻¹ * v * g)).mpr (h _ hv)
     rwa [show g * (g⁻¹ * v * g) * g⁻¹ = v by group] at h2
 
+omit [Finite G] in
 theorem Sec8Hyp.congr_ctx [Finite G]
     {M Q Z B M' Q' Z' B' : Subgroup G}
     {hc : Ctx M Q Z B} {hc' : Ctx M' Q' Z' B'} (hM : M = M') (hQ : Q = Q') (hZ : Z = Z')
@@ -104,12 +108,14 @@ theorem Sec8Hyp.congr_ctx [Finite G]
   subst hM hQ hZ hB
   exact h
 
+omit [Finite G] in
 theorem Sec8Hyp.conjG [Finite G] {M Q Z B : Subgroup G}
     {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec8Hyp hc n t) (g : G) :
     Sec8Hyp (hc.conjBy g) n (g * t * g⁻¹) := by
   obtain ⟨m, hm, hsp⟩ := h.sp
   exact ⟨h.toSec5.conjG g, m, hm, hsp.conjG g⟩
 
+omit [Finite G] in
 theorem Sec8Hyp.conjM [Finite G] {M Q Z B : Subgroup G}
     {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec8Hyp hc n t) {g : G} (hg : g ∈ M) :
     Sec8Hyp (hc.conj_of_mem hg) n (g * t * g⁻¹) :=

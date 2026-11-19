@@ -46,23 +46,27 @@ private abbrev orbitSpan (K : Type) [Field K] (a : ℕ) : Submodule K (Fin 4 →
   Submodule.span K (Set.range fun γ : ↥(CFSG.Open.StatedSU 4 (2 ^ a) K) =>
     ((γ : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *ᵥ e0 K)
 
+omit [Finite K] in
 private theorem herm_e0 {σ : K ≃+* K} : herm σ (e0 K) (e0 K) = 0 := by
   simp only [e0, vec]
   rw [herm_single_add_single (by decide : (0 : Fin 4) ≠ 1)]
   rw [map_one, one_mul]
   exact CharTwo.add_self_eq_zero 1
 
+omit [Finite K] [CharP K 2] in
 private theorem e0_ne_zero : (e0 K : Fin 4 → K) ≠ 0 := by
   intro h
   have h' := congrFun h 0
   simp [e0, vec] at h'
 
+omit [Finite K] [CharP K 2] in
 private theorem vec_add_vec_ne_zero {i j : Fin 4} (hij : i ≠ j) (t : K) :
     vec K i 1 + vec K j t ≠ 0 := by
   intro h
   have h' := congrFun h i
   simp [vec, hij] at h'
 
+omit [Finite K] in
 private theorem mem_orbitSpan_of_iso {a : ℕ} {σ : K ≃+* K} (hσ : IsUnitaryInvolution σ)
     (hSU : ∀ g : SUid σ 4, (g : GL (Fin 4) K) ∈ CFSG.Open.StatedSU 4 (2 ^ a) K)
     {v : Fin 4 → K} (hv0 : v ≠ 0) (hv : herm σ v v = 0) : v ∈ orbitSpan K a := by
@@ -71,6 +75,7 @@ private theorem mem_orbitSpan_of_iso {a : ℕ} {σ : K ≃+* K} (hσ : IsUnitary
   refine Submodule.subset_span ⟨⟨(t : GL (Fin 4) K), hSU t⟩, ?_⟩
   simpa only [smul_def] using htv
 
+omit [Finite K] in
 private theorem single_mem_orbitSpan {a : ℕ} {σ : K ≃+* K} (hσ : IsUnitaryInvolution σ)
     (hSU : ∀ g : SUid σ 4, (g : GL (Fin 4) K) ∈ CFSG.Open.StatedSU 4 (2 ^ a) K)
     (j : Fin 4) : vec K j 1 ∈ orbitSpan K a := by
@@ -104,7 +109,7 @@ theorem span_orbit_statedSU_four {a : ℕ} (hK : Nat.card K = (2 ^ a) ^ 2) :
       ((γ : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *ᵥ
         (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K)) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let σ := CFSG.LieType.BorelTits.unitaryInvolution K 2 a
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hK
   have hSU : ∀ g : SUid σ 4, (g : GL (Fin 4) K) ∈ CFSG.Open.StatedSU 4 (2 ^ a) K := by

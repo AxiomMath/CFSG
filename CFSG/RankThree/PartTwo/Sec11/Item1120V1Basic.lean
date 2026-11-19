@@ -69,7 +69,7 @@ theorem zpow_eq_one_of_commute {a x : G} (ha3 : a ^ 3 = 1) (hax : a * x ≠ x * 
       _ = x * a := by group
 
 theorem centralizer_le_B (hr3 : ∃ n : ℕ, r ^ 3 ^ n = 1)
-    (hrB : r ∈ normalizer (B : Set G)) (haB : a ∈ normalizer (B : Set G))
+    (_hrB : r ∈ normalizer (B : Set G)) (haB : a ∈ normalizer (B : Set G))
     (hxB : x ∈ B) (hBc : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u)
     (ha3 : a ^ 3 = 1) (hax : a * x ≠ x * a)
     (hRdec : ∀ y ∈ R, ∃ k : ℤ, ∃ b ∈ B, y = r ^ k * b) (haR : a ∈ R)
@@ -268,7 +268,7 @@ variable {G : Type*} [Group G]
 
 @[expose] def cenMod (P V0 D : Subgroup G) (hD : ∀ q ∈ P, ∀ z ∈ D, q * z = z * q) : Subgroup G where
   carrier := {y | y ∈ P ∧ ∀ w ∈ V0, y * w * y⁻¹ * w⁻¹ ∈ D}
-  one_mem' := ⟨P.one_mem, fun w _ => by simpa using D.one_mem⟩
+  one_mem' := ⟨P.one_mem, fun w _ => by simp⟩
   mul_mem' := by
     rintro y z ⟨hyP, hy⟩ ⟨hzP, hz⟩
     refine ⟨P.mul_mem hyP hzP, fun w hw => ?_⟩

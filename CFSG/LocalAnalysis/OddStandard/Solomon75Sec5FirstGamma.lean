@@ -16,6 +16,7 @@ section Quotient
 
 variable {L : Type} [Group L] [Finite L] {N : Subgroup L} [N.Normal]
 
+omit [N.Normal] in
 private theorem fg_disjoint {S : Subgroup L} (hS : IsPGroup 2 S) (hN : Odd (Nat.card N)) :
     Disjoint S N := by
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hS
@@ -23,6 +24,7 @@ private theorem fg_disjoint {S : Subgroup L} (hS : IsPGroup 2 S) (hN : Odd (Nat.
   rw [hk]
   exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hN)
 
+omit [Finite L] in
 private theorem fg_injOn {S : Subgroup L} (hd : Disjoint S N) :
     Set.InjOn (QuotientGroup.mk' N) (S : Set L) := by
   intro x hx y hy hxy
@@ -32,6 +34,7 @@ private theorem fg_injOn {S : Subgroup L} (hd : Disjoint S N) :
   rw [hd.eq_bot] at h3
   exact inv_mul_eq_one.1 (Subgroup.mem_bot.1 h3)
 
+omit [Finite L] in
 private theorem fg_card_map {S : Subgroup L} (hd : Disjoint S N) :
     Nat.card (S.map (QuotientGroup.mk' N)) = Nat.card S :=
   (Nat.card_congr (Set.equivOfEq (Subgroup.coe_map _ _))).trans
@@ -229,6 +232,7 @@ private theorem fg_odd_card_core (A : Subgroup X) : Odd (Nat.card (pPrimeCore 2 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.coprime_two_left.mp pPrimeCore_coprime_card
 
+omit [Finite X] in
 private theorem fg_isElemAbelian_subgroupOf {K U : Subgroup X} (hU : Open.IsElemAbelian 2 U) :
     Open.IsElemAbelian 2 (U.subgroupOf K) := by
   rw [CoreAux.isElemAbelian_iff] at hU ⊢
@@ -319,6 +323,7 @@ private theorem fg_le_gam (h : Sec5Data X n z (zpowers z) S) {A P : Subgroup X}
   intro x hx
   exact ⟨⟨x, hP.1 hx⟩, h1 hx, rfl⟩
 
+omit [Finite X] in
 private theorem fg_map_conj_oddCore_cen (g b : X) :
     (oddCoreOf (cen b)).map (MulAut.conj g).toMonoidHom = oddCoreOf (cen (g * b * g⁻¹)) := by
   rw [CoreAux.cen_conj, CoreAux.oddCoreOf_map_equiv (MulAut.conj g) (cen b)]
@@ -357,7 +362,7 @@ private theorem fg_normalizer_le_Wgamma (A P : Subgroup X) :
   · intro hw
     have := fg_map_conj_Wgamma_le (Subgroup.inv_mem _ hy) ⟨y * w * y⁻¹, hw, rfl⟩
     have e : (MulAut.conj y⁻¹).toMonoidHom (y * w * y⁻¹) = w := by
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rwa [e] at this
 
 private theorem fg_cen_eq (h : Sec5Data X n z (zpowers z) S) {A₁ A₂ : Subgroup X}
@@ -752,7 +757,7 @@ theorem normalizer_Wgamma_ne_top
   intro hN
   have hnormW : (Wgamma A₂ P₂).Normal := ⟨fun w hw g =>
     (Subgroup.mem_normalizer_iff.1 (hN ▸ Subgroup.mem_top g) w).1 hw⟩
-  haveI := hnormW
+  have := hnormW
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Wgamma A₂ P₂) with hbot | htop
   · apply hkey
     intro u huP hu2 huz
@@ -765,7 +770,7 @@ theorem normalizer_Wgamma_ne_top
       exact hWM
     have hnormV : (W1V V U).Normal := ⟨fun w hw g =>
       (Subgroup.mem_normalizer_iff.1 (hNW ▸ Subgroup.mem_top g) w).1 hw⟩
-    haveI := hnormV
+    have := hnormV
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W1V V U) with hb | ht
     · apply hkey
       intro u huP hu2 huz
@@ -783,6 +788,7 @@ theorem normalizer_Wgamma_ne_top
       have h2 : 2 ∣ Nat.card X := h.orderOf_z ▸ orderOf_dvd_natCard z
       exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)
 
+omit [Finite X] in
 private theorem fg_map_conj_W1_le {A : Subgroup X} {y : X} (hy : y ∈ normalizer (A : Set X)) :
     (W1 A).map (MulAut.conj y).toMonoidHom ≤ W1 A := by
   unfold W1
@@ -800,6 +806,7 @@ private theorem fg_map_conj_W1_le {A : Subgroup X} {y : X} (hy : y ∈ normalize
     exact this
   exact le_iSup_of_le (y * b * y⁻¹) (le_iSup_of_le hyb (le_iSup_of_le hyb2 le_rfl))
 
+omit [Finite X] in
 private theorem fg_normalizer_le_W1 (A : Subgroup X) :
     normalizer (A : Set X) ≤ normalizer ((W1 A : Subgroup X) : Set X) := by
   intro y hy
@@ -811,7 +818,7 @@ private theorem fg_normalizer_le_W1 (A : Subgroup X) :
   · intro hw
     have := fg_map_conj_W1_le (Subgroup.inv_mem _ hy) ⟨y * w * y⁻¹, hw, rfl⟩
     have e : (MulAut.conj y⁻¹).toMonoidHom (y * w * y⁻¹) = w := by
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rwa [e] at this
 
 theorem normalizer_W1_ne_top
@@ -840,7 +847,7 @@ theorem normalizer_W1_ne_top
   intro htop
   have hnorm : (W1 A₁).Normal := ⟨fun w hw g =>
     (Subgroup.mem_normalizer_iff.1 (htop ▸ Subgroup.mem_top g) w).1 hw⟩
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W1 A₁) with hb | ht
   · exact hne_bot hb
   · apply hN

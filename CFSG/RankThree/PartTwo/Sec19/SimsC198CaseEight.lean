@@ -12,7 +12,7 @@ namespace CFSG.RankThree.PartTwo.Sec19.SimsC198
 theorem caseHolds_eight :
   CaseHolds Alt42Eight := by
   intro X _ _ hX c L 𝒟 hD h
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
   rcases h with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ |
     ⟨b, d, hbd, ⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exact absurd hD ((noLocalDatum_of_L52 e).noAutDatum c L 𝒟)

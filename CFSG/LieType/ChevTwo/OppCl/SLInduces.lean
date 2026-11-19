@@ -15,6 +15,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
 theorem semilinMap_apply (A : GL ι F) (σ : F ≃+* F) (v : ι → F) :
     semilinMap A σ v = Matrix.mulVec (A : Matrix ι ι F) (fun i => σ (v i)) := rfl
 
+omit [DecidableEq ι] in
 theorem map_mulVec_ringEquiv (σ : F ≃+* F) (M : Matrix ι ι F) (v : ι → F) :
     (fun i => σ (Matrix.mulVec M v i)) = Matrix.mulVec (M.map σ) (fun i => σ (v i)) := by
   funext i

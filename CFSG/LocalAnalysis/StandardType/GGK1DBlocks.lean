@@ -39,7 +39,7 @@ private lemma ggK1Db_lin_pow {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field
 
 private lemma ggK1Db_cast_ne_zero {p nf : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   intro hp0
   have h2dvd : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp hp0
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h2dvd).symm
@@ -72,10 +72,10 @@ private lemma ggK1Db_selfDual_card {p nf : ℕ} {K V : Type} [Field K] [Finite K
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     {h : K[X]} [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) :
-    ∃ hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nf (AdjoinRoot h),
+    ∃ _hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nf (AdjoinRoot h),
       h.natDegree = 2 ∧ Nat.card (AdjoinRoot h) = (2 ^ nf) ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
   have hmon : h.Monic := (mem_primaryFactors.mp hh).2.1
   have hdvdX : h ∣ X ^ p - 1 := hx.dvd_X_pow_sub_one hh
@@ -159,7 +159,7 @@ private lemma ggK1Db_kindOrbits_om_length (nf s : ℕ) (eps : Bool) :
     · have h3 : ¬ (s = 2 ∧ eps = true) := fun h => h2 h.1
       by_cases h4 : s = 3
       · subst h4; cases eps <;> simp [ggK1DCo_kindOrbits, ggMultV0]
-      · simp only [ggK1DCo_kindOrbits, if_neg h1, ggMultV0, h2, h4, if_false, if_neg h3]
+      · simp only [ggK1DCo_kindOrbits, ite_eq_right h1, ggMultV0, h2, h4, ite_false]
         cases eps <;> simp
 
 private lemma ggK1Db_kindOrbits_sl_length (nf s : ℕ) :
@@ -278,7 +278,7 @@ private theorem ggK1Db_om4Pair_spec {K V : Type} [Field K] [Finite K] [CharP K 2
     Nonempty ((ggK1Db_om4Pair hx hQ hT).1 ≃* Matrix.SpecialLinearGroup (Fin 2) K) ∧
     Nonempty ((ggK1Db_om4Pair hx hQ hT).2 ≃* Matrix.SpecialLinearGroup (Fin 2) K) := by
   unfold ggK1Db_om4Pair
-  rw [dif_pos ⟨hW, hplus⟩]
+  rw [dite_eq_left ⟨hW, hplus⟩]
   exact Classical.choose_spec (Classical.choose_spec (ggK1D_omega4_block hx hQ hT hW hplus))
 
 private lemma ggK1Db_tame_SL2 {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V]
@@ -290,11 +290,11 @@ private lemma ggK1Db_tame_SL2 {K V : Type} [Field K] [Finite K] [CharP K 2] [Add
   obtain ⟨e⟩ := hSL
   by_cases h4 : 4 ≤ Nat.card K
   · left
-    haveI hqs : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) K) :=
+    have hqs : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) K) :=
       CFSG.RankThree.CALinearPlane.isQuasisimple_SL_of_two_le (m := 2) (by norm_num) h4
     have hSqs : CFSG.IsQuasisimple ↥S := CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hqs
     have h2 : ⁅S, S⁆ = S := by
-      haveI : Group.IsPerfect ↥S := hSqs.1
+      have : Group.IsPerfect ↥S := hSqs.1
       rw [← Subgroup.map_subtype_commutator, Group.IsPerfect.commutator_eq_top, Subgroup.map_top,
         Subgroup.range_subtype]
     rw [h2]
@@ -310,8 +310,8 @@ private lemma ggK1Db_tame_SL2 {K V : Type} [Field K] [Finite K] [CharP K 2] [Add
         omega
       omega
     have hK2 : Nat.card K = 2 := by rw [hK, hnflt]; norm_num
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) := by
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) := by
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K
           (Or.inl hK2)
       exact Group.isSolvable_of_isSolvable_injective
@@ -340,7 +340,7 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
   let A : ↥Rep → Subgroup (V ≃ₗ[K] V) := fun r =>
     if (r : K[X]) = X - 1 then supportedBlock Q x (X - 1) ⊓ orthD
     else supportedBlock Q x (r : K[X])
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hQ0 : Q.polarBilin.Nondegenerate := ggK1Db_polarBilin_nondegenerate hx
   have hT0 := ggK1Db_exists_totallySingular_three (K := K) (V := V) hQ0 hdim
@@ -391,7 +391,7 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
     · have hk : kind r = ggK1DCo_Kind.om
           (if CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) then true else false)
           (Module.finrank K W / 2) := by
-        dsimp only [kind]; rw [if_pos hr]
+        dsimp only [kind]; rw [ite_eq_left hr]
       obtain ⟨s, hs⟩ := hrank
       have hlen0 := ggK1Db_kindOrbits_om_length nf (Module.finrank K W / 2)
         (if CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) then true else false)
@@ -408,9 +408,9 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       · simp [hp4, hr]
     · have hnc : ¬ ((r : K[X]) = X - 1 ∧ (Module.finrank K W = 4 ∧
           CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))) := fun h => hr h.1
-      rw [if_neg hnc]
+      rw [ite_eq_right hnc]
       dsimp only [blk, kind]
-      rw [if_neg hr]
+      rw [ite_eq_right hr]
       split_ifs
       · exact ggK1Db_kindOrbits_su_length nf _
       · exact ggK1Db_kindOrbits_sl_length nf _
@@ -420,16 +420,16 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
         CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))
     · have hspec := ggK1Db_om4Pair_spec hx hQ0 hT0 hc.2.1 hc.2.2
       have hAr : A r = supportedBlock Q x (X - 1) ⊓ orthD := by
-        dsimp only [A]; rw [if_pos hc.1]
+        dsimp only [A]; rw [ite_eq_left hc.1]
       have hj : sub r j = if (j : ℕ) = 0 then pair.1 else pair.2 := by
-        dsimp only [sub]; rw [if_pos hc]
+        dsimp only [sub]; rw [ite_eq_left hc]
       rw [hj, hAr]
       have hjoin' : pair.1 ⊔ pair.2 = supportedBlock Q x (X - 1) ⊓ orthD := hspec.2.2.1
       rw [← hjoin']
       split_ifs
       · exact le_sup_left
       · exact le_sup_right
-    · have hj : sub r j = A r := by dsimp only [sub]; rw [if_neg hc]
+    · have hj : sub r j = A r := by dsimp only [sub]; rw [ite_eq_right hc]
       rw [hj]
   have hsub_join' : ∀ r : ↥Rep, ⨆ j : Fin (blk r).length, sub r j = A r := by
     intro r
@@ -437,20 +437,20 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
     by_cases hc : (r : K[X]) = X - 1 ∧ (Module.finrank K W = 4 ∧
         CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))
     · have hspec := ggK1Db_om4Pair_spec hx hQ0 hT0 hc.2.1 hc.2.2
-      have hlen2 : (blk r).length = 2 := by rw [hlen r, if_pos hc]
+      have hlen2 : (blk r).length = 2 := by rw [hlen r, ite_eq_left hc]
       have hAr : A r = supportedBlock Q x (X - 1) ⊓ orthD := by
-        dsimp only [A]; rw [if_pos hc.1]
+        dsimp only [A]; rw [ite_eq_left hc.1]
       rw [hAr, ← hspec.2.2.1]
       refine sup_le ?_ ?_
       · have h0 : sub r ⟨0, by omega⟩ = pair.1 := by
-          dsimp only [sub]; rw [if_pos hc]; simp
+          dsimp only [sub]; rw [ite_eq_left hc]; simp
         rw [← h0]; exact le_iSup (fun j : Fin (blk r).length => sub r j) _
       · have h1 : sub r ⟨1, by omega⟩ = pair.2 := by
-          dsimp only [sub]; rw [if_pos hc]; simp
+          dsimp only [sub]; rw [ite_eq_left hc]; simp
         rw [← h1]; exact le_iSup (fun j : Fin (blk r).length => sub r j) _
-    · have hlen1 : (blk r).length = 1 := by rw [hlen r, if_neg hc]
+    · have hlen1 : (blk r).length = 1 := by rw [hlen r, ite_eq_right hc]
       have h0 : sub r ⟨0, by omega⟩ = A r := by
-        dsimp only [sub]; rw [if_neg hc]
+        dsimp only [sub]; rw [ite_eq_right hc]
       rw [← h0]; exact le_iSup (fun j : Fin (blk r).length => sub r j) _
   have hcomm_blocks : ∀ i j : ↥Rep, i ≠ j → ∀ a ∈ A i, ∀ b ∈ A j, Commute a b := by
     intro i j hij a ha b hb
@@ -503,10 +503,10 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
     by_cases hc : (r : K[X]) = X - 1 ∧ (Module.finrank K W = 4 ∧
         CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))
     · have hspec := ggK1Db_om4Pair_spec hx hQ0 hT0 hc.2.1 hc.2.2
-      have hlen2 : (blk r).length = 2 := by rw [hlen r, if_pos hc]
+      have hlen2 : (blk r).length = 2 := by rw [hlen r, ite_eq_left hc]
       have hj : ∀ jj : Fin (blk r).length,
           sub r jj = if (jj : ℕ) = 0 then pair.1 else pair.2 := by
-        intro jj; dsimp only [sub]; rw [if_pos hc]
+        intro jj; dsimp only [sub]; rw [ite_eq_left hc]
       have hjlt : (j : ℕ) < 2 := by have := j.2; omega
       have hjlt' : (j' : ℕ) < 2 := by have := j'.2; omega
       have hne : (j : ℕ) ≠ (j' : ℕ) := fun h => hjj' (Fin.ext h)
@@ -514,14 +514,14 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       rw [hj] at hb
       by_cases h0 : (j : ℕ) = 0
       · have h1 : ¬ (j' : ℕ) = 0 := fun h => hne (by omega)
-        rw [if_pos h0] at ha
-        rw [if_neg h1] at hb
+        rw [ite_eq_left h0] at ha
+        rw [ite_eq_right h1] at hb
         exact hspec.1 a ha b hb
       · have h1 : (j' : ℕ) = 0 := by omega
-        rw [if_neg h0] at ha
-        rw [if_pos h1] at hb
+        rw [ite_eq_right h0] at ha
+        rw [ite_eq_left h1] at hb
         exact (hspec.1 b hb a ha).symm
-    · have hlen1 : (blk r).length = 1 := by rw [hlen r, if_neg hc]
+    · have hlen1 : (blk r).length = 1 := by rw [hlen r, ite_eq_right hc]
       exfalso
       apply hjj'
       apply Fin.ext
@@ -540,7 +540,7 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
         exact iSup_le fun j => le_iSup (fun q : Σ i, Fin (blk i).length => sub q.1 q.2) ⟨r, j⟩
     rw [hsigma]
     have hAofne : ∀ (r : ↥Rep), (r : K[X]) ≠ X - 1 → A r = supportedBlock Q x r := by
-      intro r hr; dsimp only [A]; rw [if_neg hr]
+      intro r hr; dsimp only [A]; rw [ite_eq_right hr]
     by_cases hf : (X - 1 : K[X]) ∈ Rep
     · let i0 : ↥Rep := ⟨X - 1, hf⟩
       let N : Subgroup (V ≃ₗ[K] V) := ⨆ (r : ↥Rep) (_ : r ≠ i0), supportedBlock Q x r
@@ -600,7 +600,7 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
           (supportedBlock Q x (X - 1) ⊓ CFSG.RankThree.Classical2.orthDerived Q) ⊔ N := by
         rw [iSup_split_single (fun r : ↥Rep => A r) i0]
         congr 1
-        · dsimp only [A]; rw [if_pos rfl]
+        · dsimp only [A]; rw [ite_eq_left rfl]
         · exact iSup_congr fun r => iSup_congr fun hr => hAofne r (hne r hr)
       have hmod := ggK1Db_modular hsup hNle
       rw [hjoinA, hC]
@@ -625,10 +625,10 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       by_cases hc : (r : K[X]) = X - 1 ∧ (Module.finrank K W = 4 ∧
           CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))
       · have hspec := ggK1Db_om4Pair_spec hx hQ0 hT0 hc.2.1 hc.2.2
-        have hlen2 : (blk r).length = 2 := by rw [hlen r, if_pos hc]
+        have hlen2 : (blk r).length = 2 := by rw [hlen r, ite_eq_left hc]
         have hj' : ∀ jj : Fin (blk r).length,
             sub r jj = if (jj : ℕ) = 0 then pair.1 else pair.2 := by
-          intro jj; dsimp only [sub]; rw [if_pos hc]
+          intro jj; dsimp only [sub]; rw [ite_eq_left hc]
         have hjlt : (j : ℕ) < 2 := by have := j.2; omega
         by_cases h0 : (j : ℕ) = 0
         ·
@@ -637,8 +637,8 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
             have hne : (j' : ℕ) ≠ (j : ℕ) := fun h => hj'' (Fin.ext h)
             have hj'lt : (j' : ℕ) < 2 := by have := j'.2; omega
             have h1 : ¬ (j' : ℕ) = 0 := fun h => hne (by omega)
-            rw [hj' j', if_neg h1]
-          rw [hj' j, if_pos h0] at hg
+            rw [hj' j', ite_eq_right h1]
+          rw [hj' j, ite_eq_left h0] at hg
           have hd := hspec.2.1
           rw [Subgroup.disjoint_def] at hd
           exact hd hg (hother hg')
@@ -647,12 +647,12 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
             have hne : (j' : ℕ) ≠ (j : ℕ) := fun h => hj'' (Fin.ext h)
             have hj'lt : (j' : ℕ) < 2 := by have := j'.2; omega
             have h1 : (j' : ℕ) = 0 := by omega
-            rw [hj' j', if_pos h1]
-          rw [hj' j, if_neg h0] at hg
+            rw [hj' j', ite_eq_left h1]
+          rw [hj' j, ite_eq_right h0] at hg
           have hd := hspec.2.1
           rw [Subgroup.disjoint_def] at hd
           exact hd (hother hg') hg
-      · have hlen1 : (blk r).length = 1 := by rw [hlen r, if_neg hc]
+      · have hlen1 : (blk r).length = 1 := by rw [hlen r, ite_eq_right hc]
         have hbot : (⨆ (j' : Fin (blk r).length) (_ : j' ≠ j), sub r j') = ⊥ := by
           refine le_bot_iff.mp (iSup_le fun j' => iSup_le fun hj'' => ?_)
           exfalso
@@ -669,22 +669,22 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
         CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W))
     · have hspec := ggK1Db_om4Pair_spec hx hQ0 hT0 hc.2.1 hc.2.2
       have hsub : sub r j = if (j : ℕ) = 0 then pair.1 else pair.2 := by
-        dsimp only [sub]; rw [if_pos hc]
+        dsimp only [sub]; rw [ite_eq_left hc]
       have hSL : Nonempty (↥(sub r j) ≃* Matrix.SpecialLinearGroup (Fin 2) K) := by
         rw [hsub]
         by_cases h0 : (j : ℕ) = 0
-        · rw [if_pos h0]; exact hspec.2.2.2.1
-        · rw [if_neg h0]; exact hspec.2.2.2.2
+        · rw [ite_eq_left h0]; exact hspec.2.2.2.1
+        · rw [ite_eq_right h0]; exact hspec.2.2.2.2
       exact ggK1Db_tame_SL2 hnf hK hSL
-    · have hsub : sub r j = A r := by dsimp only [sub]; rw [if_neg hc]
+    · have hsub : sub r j = A r := by dsimp only [sub]; rw [ite_eq_right hc]
       rw [hsub]
       by_cases hr : (r : K[X]) = X - 1
       · have hA : A r = supportedBlock Q x (X - 1) ⊓ orthD := by
-          dsimp only [A]; rw [if_pos hr]
+          dsimp only [A]; rw [ite_eq_left hr]
         rw [hA]
         exact ggK1D_tame_fixed hx hQ0 hT0 (fun h => hc ⟨hr, h⟩)
       · have hA : A r = supportedBlock Q x (r : K[X]) := by
-          dsimp only [A]; rw [if_neg hr]
+          dsimp only [A]; rw [ite_eq_right hr]
         rw [hA]
         by_cases hself : reciprocalPolynomial (r : K[X]) = (r : K[X])
         · exact ggK1D_tame_selfDual hx hp hp2 hnf hK hdvd (hRep.1 r.2) hr hself.symm
@@ -708,26 +708,26 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       have hk : kind i = ggK1DCo_Kind.om
           (if CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) then true else false)
           (Module.finrank K W / 2) := by
-        dsimp only [kind]; rw [if_pos h]
+        dsimp only [kind]; rw [ite_eq_left h]
       rw [hk] at hm
       exact absurd hm (by simp)
     have hnot2 : ¬ reciprocalPolynomial (i : K[X]) = (i : K[X]) := by
       intro h
       have hk : kind i = ggK1DCo_Kind.su (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-        dsimp only [kind]; rw [if_neg hnot1, if_pos h]
+        dsimp only [kind]; rw [ite_eq_right hnot1, ite_eq_left h]
       rw [hk] at hm
       exact absurd hm (by simp)
     have hm' : m = primaryMultiplicity x.toLinearMap (i : K[X]) := by
       have hk : kind i = ggK1DCo_Kind.sl (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-        dsimp only [kind]; rw [if_neg hnot1, if_neg hnot2]
+        dsimp only [kind]; rw [ite_eq_right hnot1, ite_eq_right hnot2]
       rw [hk] at hm
       cases hm
       rfl
     have hne : (i : K[X]) ≠ reciprocalPolynomial (i : K[X]) := fun h => hnot2 h.symm
     have hA : A i = supportedBlock Q x (i : K[X]) := by
-      dsimp only [A]; rw [if_neg hnot1]
-    haveI : Fact (Irreducible (i : K[X])) := ⟨irreducible_of_mem_primaryFactors hi1⟩
-    haveI : Fintype (AdjoinRoot (i : K[X])) := Fintype.ofFinite _
+      dsimp only [A]; rw [ite_eq_right hnot1]
+    have : Fact (Irreducible (i : K[X])) := ⟨irreducible_of_mem_primaryFactors hi1⟩
+    have : Fintype (AdjoinRoot (i : K[X])) := Fintype.ofFinite _
     refine ⟨AdjoinRoot (i : K[X]), inferInstance, inferInstance, (i : K[X]), hi1, hne, ?_, hm',
       ?_⟩
     · rw [Fintype.card_eq_nat_card, Module.natCard_eq_pow_finrank (K := K),
@@ -745,25 +745,25 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       have hk : kind i = ggK1DCo_Kind.om
           (if CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) then true else false)
           (Module.finrank K W / 2) := by
-        dsimp only [kind]; rw [if_pos h]
+        dsimp only [kind]; rw [ite_eq_left h]
       rw [hk] at hm
       exact absurd hm (by simp)
     have hself' : (i : K[X]) = reciprocalPolynomial (i : K[X]) := by
       by_contra hne
       have hk : kind i = ggK1DCo_Kind.sl (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-        dsimp only [kind]; rw [if_neg hnot1, if_neg (fun h => hne h.symm)]
+        dsimp only [kind]; rw [ite_eq_right hnot1, ite_eq_right (fun h => hne h.symm)]
       rw [hk] at hm
       exact absurd hm (by simp)
     have hm' : m = primaryMultiplicity x.toLinearMap (i : K[X]) := by
       have hk : kind i = ggK1DCo_Kind.su (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-        dsimp only [kind]; rw [if_neg hnot1, if_pos hself'.symm]
+        dsimp only [kind]; rw [ite_eq_right hnot1, ite_eq_left hself'.symm]
       rw [hk] at hm
       cases hm
       rfl
     have hA : A i = supportedBlock Q x (i : K[X]) := by
-      dsimp only [A]; rw [if_neg hnot1]
-    haveI : Fact (Irreducible (i : K[X])) := ⟨irreducible_of_mem_primaryFactors hi1⟩
-    haveI : Fintype (AdjoinRoot (i : K[X])) := Fintype.ofFinite _
+      dsimp only [A]; rw [ite_eq_right hnot1]
+    have : Fact (Irreducible (i : K[X])) := ⟨irreducible_of_mem_primaryFactors hi1⟩
+    have : Fintype (AdjoinRoot (i : K[X])) := Fintype.ofFinite _
     obtain ⟨hU, hndeg2, hcard⟩ :=
       ggK1Db_selfDual_card hx hp hp2 hnf hK hdvd hi1 hnot1 hself'
     obtain ⟨d, H, hndeg, hroot, hH, hadd1, hadd2, hleft, hright, hsymm⟩ :=
@@ -808,15 +808,15 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       by_contra hne
       by_cases hself : reciprocalPolynomial (i : K[X]) = (i : K[X])
       · have hk2 : kind i = ggK1DCo_Kind.su (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-          dsimp only [kind]; rw [if_neg hne, if_pos hself]
+          dsimp only [kind]; rw [ite_eq_right hne, ite_eq_left hself]
         rw [hk2] at hm; exact absurd hm (by simp)
       · have hk2 : kind i = ggK1DCo_Kind.sl (primaryMultiplicity x.toLinearMap (i : K[X])) := by
-          dsimp only [kind]; rw [if_neg hne, if_neg hself]
+          dsimp only [kind]; rw [ite_eq_right hne, ite_eq_right hself]
         rw [hk2] at hm; exact absurd hm (by simp)
     have hk3 : kind i = ggK1DCo_Kind.om
         (if CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) then true else false)
         (Module.finrank K W / 2) := by
-      dsimp only [kind]; rw [if_pos hnot1]
+      dsimp only [kind]; rw [ite_eq_left hnot1]
     rw [hk3] at hm
     injection hm with heps hm2
     obtain ⟨s, hs⟩ := hrank
@@ -826,19 +826,19 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
         exact hm2
       omega
     have hA : A i = supportedBlock Q x (X - 1) ⊓ orthD := by
-      dsimp only [A]; rw [if_pos hnot1]
+      dsimp only [A]; rw [ite_eq_left hnot1]
     have hepsiff : (eps = true ↔
         CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W)) := by
       rw [← heps]
       by_cases hp : CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W)
-      · rw [if_pos hp]; exact ⟨fun _ => hp, fun _ => rfl⟩
-      · rw [if_neg hp]; exact ⟨fun h => absurd h (by simp), fun h => absurd h hp⟩
+      · rw [ite_eq_left hp]; exact ⟨fun _ => hp, fun _ => rfl⟩
+      · rw [ite_eq_right hp]; exact ⟨fun h => absurd h (by simp), fun h => absurd h hp⟩
     refine ⟨hfin, hepsiff, ?_, ?_, ?_, ?_⟩
     · intro hm3
       by_cases hp : eps = true
-      · rw [if_pos hp, hA]
+      · rw [ite_eq_left hp, hA]
         exact ggK1D_fixed_omega hx hQ0 hT0 hm3 hfin (hepsiff.mp hp)
-      · rw [if_neg hp, hA]
+      · rw [ite_eq_right hp, hA]
         exact ggK1D_fixed_omegaMinus hx hQ0 hT0 hm3 hfin (fun h => hp (hepsiff.mpr h))
     · intro hm2' hp j
       have hplus : CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W) := hepsiff.mp hp
@@ -847,11 +847,11 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       have hc : (i : K[X]) = X - 1 ∧ (Module.finrank K W = 4 ∧
           CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict W)) := ⟨hnot1, hfin4, hplus⟩
       have hsub : sub i j = if (j : ℕ) = 0 then pair.1 else pair.2 := by
-        dsimp only [sub]; rw [if_pos hc]
+        dsimp only [sub]; rw [ite_eq_left hc]
       rw [hsub]
       by_cases h0 : (j : ℕ) = 0
-      · rw [if_pos h0]; exact hspec.2.2.2.1
-      · rw [if_neg h0]; exact hspec.2.2.2.2
+      · rw [ite_eq_left h0]; exact hspec.2.2.2.1
+      · rw [ite_eq_right h0]; exact hspec.2.2.2.2
     · intro hm2' hp
       rw [hA]
       exact ggK1D_fixed_sl2 hx hQ0 hT0 hm2' hfin
@@ -860,7 +860,7 @@ theorem ggK1D_orthBlocks_abstract {K : Type} [Field K] [Finite K] {V : Type} [Ad
       rw [hA]
       exact ggK1D_fixed_abelian hx hQ0 hT0 hm1 hfin
 theorem ggK1D_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} (hx : x ^ p = 1) :
     OddOrderIsometry (CFSG.StandardType.TableBOrth.qPlusForm K r) p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)) := by
@@ -881,7 +881,7 @@ theorem ggK1D_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       exact hv w)
 
 theorem ggK1D_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} (hx : x ^ p = 1) :
     OddOrderIsometry (CFSG.StandardType.TableBOrth.qMinusForm K (r - 1) b c) p

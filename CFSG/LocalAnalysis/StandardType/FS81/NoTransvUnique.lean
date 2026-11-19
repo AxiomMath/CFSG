@@ -33,7 +33,7 @@ theorem sylowN1_of_forall_pow_mem {b₀ : G} {K E P₁ : Subgroup G}
   obtain ⟨T, hPT⟩ := hp'.exists_le_sylow
   have hTP : (T : Subgroup ↥(transvN1 b₀ K E)) ≤ P₁.subgroupOf (transvN1 b₀ K E) := by
     intro t ht
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     exact hsyl (t : G) t.2 k (by
       simpa using congrArg (fun z : ↥(transvN1 b₀ K E) => (z : G))
         (congrArg Subtype.val hk))
@@ -132,7 +132,7 @@ theorem exists_sylow_weaklyClosed (hE : IsElemAbelian 3 E) (hP : SylowN1 b₀ K 
     exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
   obtain ⟨Q, hQ⟩ := hP₁'.exists_le_sylow
   set S₁ := (Q : Subgroup NE).map NE.subtype with hS₁
-  have hS₁p : IsPGroup 3 S₁ := Q.isPGroup'.map _
+  have hS₁p : IsPGroup 3 S₁ := Q.isPGroup.map _
   have hS₁N : S₁ ≤ NE := Subgroup.map_subtype_le _
   have hPS₁ : P₁ ≤ S₁ := fun x hx => ⟨⟨x, hP₁N hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hES₁ : E ≤ S₁ := hP.E_le.trans hPS₁
@@ -149,7 +149,7 @@ theorem exists_sylow_weaklyClosed (hE : IsElemAbelian 3 E) (hP : SylowN1 b₀ K 
       refine lt_top_iff_ne_top.mpr fun htop => hne ?_
       exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hle
     obtain ⟨x, hxN, hxS⟩ :=
-      SetLike.exists_of_lt
+      IsConcreteLE.exists_of_lt
         ((Group.normalizerCondition_of_isNilpotent : NormalizerCondition ↥Q') _ hlt)
     have hxQ : (x : G) ∈ Q' := x.2
     have hxS₁ : ∀ s : G, s ∈ S₁ ↔ (x : G) * s * (x : G)⁻¹ ∈ S₁ := by

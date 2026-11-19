@@ -284,7 +284,7 @@ theorem single_of_sylow {L : Subgroup G} (hL : IsSolomonMember L)
     Nat.card_congr (Sol78.fusionZStarQuotOfCore e₀).toEquiv
   obtain ⟨P₁, hT₀P₁⟩ := (hT₀2.comap_subtype (K := coreActionKernel L)).exists_le_sylow
   set P₁' := (P₁ : Subgroup ↥(coreActionKernel L)).map (coreActionKernel L).subtype with hP₁'
-  have hP₁'2 : IsPGroup 2 P₁' := P₁.isPGroup'.map (coreActionKernel L).subtype
+  have hP₁'2 : IsPGroup 2 P₁' := P₁.isPGroup.map (coreActionKernel L).subtype
   have hP₁'Q : P₁' ≤ coreActionKernel L := map_subtype_le _
   have hT₀P₁' : T₀ ≤ P₁' := fun x hx => ⟨⟨x, hT₀Q hx⟩, hT₀P₁ (mem_subgroupOf.mpr hx), rfl⟩
   obtain ⟨Y₁, hY₁, hLY₁, hY₁card⟩ := single_of_le hLq hP₁'2 hP₁'Q hT₀P₁' hY₀ hLY₀ hY₀card
@@ -304,7 +304,7 @@ theorem star_of_isSolomonMember {L T : Subgroup G} (hL : IsSolomonMember L) (hT2
   obtain ⟨P, hTP⟩ := (hT2.comap_subtype (K := coreActionKernel L)).exists_le_sylow
   obtain ⟨Y, hY, hLY, -⟩ := single_of_sylow hL P
   set P' := (P : Subgroup ↥(coreActionKernel L)).map (coreActionKernel L).subtype with hP'
-  have hP2 : IsPGroup 2 P' := P.isPGroup'.map (coreActionKernel L).subtype
+  have hP2 : IsPGroup 2 P' := P.isPGroup.map (coreActionKernel L).subtype
   have hPQ : P' ≤ coreActionKernel L := map_subtype_le _
   have hTP' : T ≤ P' := fun x hx => ⟨⟨x, hTQ hx⟩, hTP (mem_subgroupOf.mpr hx), rfl⟩
   exact twoLayer_le_of_isPGroup hLq hP2 hPQ (hLY.trans (le_twoLayerIn_of_isTwoComponentIn hY))

@@ -63,7 +63,7 @@ theorem normalizer_le_of_three_le_pRank_sup_centralizer (hS : Setting G) (hU0 : 
   have hprime := sigmaA_prime p hp
   have hfact : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
-  have hQp : IsPGroup p Q := P.isPGroup'.to_le hQP
+  have hQp : IsPGroup p Q := P.isPGroup.to_le hQP
   by_cases hQc : IsCyclic Q
   ·
     obtain ⟨z, hzQ, -, hzord⟩ := exists_mem_centralizer_orderOf_eq hQp hQ
@@ -127,7 +127,7 @@ theorem le_of_two_le_pRank_of_largeObstruction_empty (hS : Setting G) (hD2 : The
       exact hempty
     exact normalizer_le_of_three_le_pRank_sup_centralizer hS hU0 h3 hM₃ hempty₃ hQP hQne hQ3
   intro R hRP hRe k hk hRc y hyR hy1 hyp hyM H' hH' hRH'
-  obtain ⟨z, hzP, hzc, hzord⟩ := exists_mem_centralizer_orderOf_eq P.isPGroup'
+  obtain ⟨z, hzP, hzc, hzord⟩ := exists_mem_centralizer_orderOf_eq P.isPGroup
     (fun h => hy1 (mem_bot.mp (h ▸ hRP hyR)))
   have hz1 : z ≠ 1 := fun h => hprime.one_lt.ne' (by rw [← hzord, h, orderOf_one])
   have hzp : z ^ p = 1 := by rw [← hzord]; exact pow_orderOf_eq_one z

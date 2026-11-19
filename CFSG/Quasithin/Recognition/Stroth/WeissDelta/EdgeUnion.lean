@@ -113,6 +113,7 @@ variable (H) in
     ⨆ z ∈ Γ.neighborSet y,
       fixingSubgroup H (Γ.neighborSet y) ⊓ fixingSubgroup H (Γ.neighborSet z)
 
+omit [GraphAction H Γ] in
 private theorem edgeUnion_eq_edgeX_sup (x y : V) :
     edgeUnion H Γ x y = edgeX (H := H) Γ x ⊔ edgeX (H := H) Γ y := by
   have hsecond : (⨆ z ∈ Γ.neighborSet y,
@@ -133,6 +134,7 @@ theorem edgeUnion_map_conj_eq (g : H) {x y : V} (hgx : g • x = x) (hgy : g •
   rw [edgeUnion_eq_edgeX_sup, Subgroup.map_sup, edgeX_map_conj g x, edgeX_map_conj g y,
     hgx, hgy]
 
+omit [GraphAction H Γ] in
 theorem edgeUnion_le_stabilizer
     (hK : ∀ z : V, FixingNeighbourhoodFixesVertex (H := H) (Γ := Γ) z) {x y : V}
     (hxy : Γ.Adj x y) :

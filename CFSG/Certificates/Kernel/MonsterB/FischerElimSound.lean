@@ -42,7 +42,7 @@ theorem insL_cons (t : Nat) (ts : List Nat) (p v : Nat) : insL (t :: ts) p v =
   · by_cases ht : t = 0
     · subst ht
       rfl
-    · rw [beq_zero_false ht, if_neg ht]
+    · rw [beq_zero_false ht, ite_eq_right ht]
       rfl
 
 theorem length_insL : ∀ (R : List Nat) (p v : Nat), (insL R p v).length = R.length
@@ -90,16 +90,16 @@ theorem invL_insL : ∀ (R : List Nat) (v : Nat), InvL R → v < 2 ^ R.length �
     rw [hp, insL_cons]
     have hv' : v < 2 ^ (ts.length + 1) := by simpa using hv
     by_cases hb : v.testBit ts.length
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       by_cases ht0 : t = 0
-      · rw [if_pos ht0]
+      · rw [ite_eq_left ht0]
         exact ⟨Or.inr ⟨ge_of_testBit hb, hv'⟩, hts⟩
-      · rw [if_neg ht0]
+      · rw [ite_eq_right ht0]
         have htb := ht.resolve_left ht0
         refine ⟨by rw [length_insL]; exact ht, ?_⟩
         have hx := xor_lt_of_testBit hv' htb.2 hb (testBit_of_bounds htb.1 htb.2)
         exact invL_insL ts _ hts hx
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       refine ⟨by rw [length_insL]; exact ht, ?_⟩
       exact invL_insL ts v hts (lt_of_testBit_false hv' (by simpa using hb))
 
@@ -128,26 +128,26 @@ theorem insertVec_eq : ∀ (R S : List Nat) (v fuel : Nat), InvL R → v < 2 ^ R
     rw [hp, insL_cons]
     have e1 : (t :: ts).reverse ++ S = ts.reverse ++ t :: S := by simp
     by_cases hb : v.testBit ts.length
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       have hge := ge_of_testBit hb
       have hlog := log2_of_bounds hge hv'
       have hv0 : v ≠ 0 := by
         have := Nat.one_le_two_pow (n := ts.length)
         omega
       have hlen : ts.reverse.length = ts.length := List.length_reverse
-      rw [e1, insertVec, if_neg hv0]
+      rw [e1, insertVec, ite_eq_right hv0]
       simp only [hlog]
       rw [← hlen, getD_mid]
       by_cases ht0 : t = 0
-      · rw [if_pos ht0, if_pos ht0, set_mid]
+      · rw [ite_eq_left ht0, ite_eq_left ht0, set_mid]
         simp
-      · rw [if_neg ht0, if_neg ht0]
+      · rw [ite_eq_right ht0, ite_eq_right ht0]
         have htb := ht.resolve_left ht0
         have hx := xor_lt_of_testBit hv' htb.2 hb (testBit_of_bounds htb.1 htb.2)
         have ih := insertVec_eq ts (t :: S) (v ^^^ t) f hts hx hf'
         rw [hlen, ih]
         simp
-    · rw [if_neg hb, e1]
+    · rw [ite_eq_right hb, e1]
       have hlt := lt_of_testBit_false hv' (by simpa using hb)
       have ih := insertVec_eq ts (t :: S) v (f + 1) hts hlt (by omega)
       rw [ih]
@@ -198,7 +198,7 @@ theorem nzL_eq : ∀ R : List Nat, nzL R = (R.map fun t => if t = 0 then 0 else 
     by_cases ht : t = 0
     · subst ht
       simp
-    · rw [beq_zero_false ht, if_neg ht]
+    · rw [beq_zero_false ht, ite_eq_right ht]
       change nzL ts + 1 = 1 + nzL ts
       omega
 

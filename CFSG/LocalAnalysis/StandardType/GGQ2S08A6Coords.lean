@@ -62,7 +62,7 @@ theorem ggQ2s08a6_coords {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
       fin_cases i <;> norm_num
     · intro k ih
       rw [hfstep k, map_sub, ih, M.pairing, hentry]
-      fin_cases i <;> fin_cases k <;> norm_num [CartanMatrix.A] <;> decide
+      fin_cases i <;> fin_cases k <;> norm_num [CartanMatrix.A]
   have hli_h : LinearIndependent (ZMod 3) h := by
     simpa [h, Function.comp_def] using hcoroot.comp e e.injective
   have hgroup : ∑ j : Fin 6, f j =
@@ -144,15 +144,15 @@ theorem ggQ2s08a6_coords {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     rw [M.simple_apply (e k) (f j), hfroot k j]
     by_cases h1 : j = k.castSucc
     · subst h1
-      rw [if_pos rfl, if_neg (Fin.castSucc_lt_succ.ne), Equiv.swap_apply_left]
+      rw [ite_eq_left rfl, ite_eq_right (Fin.castSucc_lt_succ.ne), Equiv.swap_apply_left]
       rw [hfstep k]
       module
     · by_cases h2 : j = k.succ
       · subst h2
-        rw [if_neg (Fin.castSucc_lt_succ.ne.symm), if_pos rfl, Equiv.swap_apply_right]
+        rw [ite_eq_right (Fin.castSucc_lt_succ.ne.symm), ite_eq_left rfl, Equiv.swap_apply_right]
         rw [hfstep k]
         module
-      · rw [if_neg h1, if_neg h2, sub_self, zero_smul, sub_zero,
+      · rw [ite_eq_right h1, ite_eq_right h2, sub_self, zero_smul, sub_zero,
             Equiv.swap_apply_of_ne_of_ne h1 h2]
   have hswap_b : ∀ (k : Fin 5) (j : Fin 6),
       ggLin (p := 3) M.model (M.simple (e k)) (b j) =

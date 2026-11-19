@@ -24,7 +24,7 @@ theorem false_of_forall_conj_mem_QG_of_mulEquiv_GL32 (hCorB : TimmesfeldCorBInpu
   have hN : (S.QG.subgroupOf S.M).Normal := by
     rw [hQG]
     exact S.normal
-  haveI : (S.QG.subgroupOf S.M).Normal := hN
+  have : (S.QG.subgroupOf S.M).Normal := hN
   let ee : (↥S.M ⧸ S.QG.subgroupOf S.M) ≃* GL (Fin 3) (ZMod 2) :=
     (QuotientGroup.quotientMulEquivOfEq hQG).trans (S.quotientEquivMbar.trans e)
   have hsimple : IsSimpleGroup (↥S.M ⧸ S.QG.subgroupOf S.M) :=

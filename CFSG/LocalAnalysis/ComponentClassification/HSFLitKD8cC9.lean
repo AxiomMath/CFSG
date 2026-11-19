@@ -210,7 +210,7 @@ theorem not_conj_of_large {R : X} (hR : R ∈ T.P)
     exact Subgroup.card_le_of_le hSy'
   have hCRSy : CR ≤ SyX := fun y hy => ⟨⟨y, hCRN hy⟩, hSy hy, rfl⟩
   have hSyXN : SyX ≤ N := map_subtype_le _
-  have hSyXp : IsPGroup 2 SyX := Sy.isPGroup'.map _
+  have hSyXp : IsPGroup 2 SyX := Sy.isPGroup.map _
   obtain ⟨c, hcSy, hcN, hcC⟩ : ∃ c ∈ SyX, c ∈ normalizer (CR : Set X) ∧ c ∉ CR := by
     set I := CR.subgroupOf SyX with hI
     have hIne : I ≠ ⊤ := by

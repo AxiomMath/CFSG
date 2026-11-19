@@ -110,9 +110,11 @@ variable {L G : Type*} [Group L] [Fintype L] [Group G] [Fintype G]
   {ν : Submodule.span ℤ (Set.range ξ) →+ virtualChars G}
   {θ Γ B : G → ℂ} {r : ℝ}
 
+omit [Finite ι] in
 theorem range_subset_indFam {H : Subgroup L} (hS : Set.range ξ = indFam H (Irr H \ {1})) :
     Set.range ξ ⊆ indFam H (Irr H) := hS ▸ indFam_mono H Set.sdiff_subset
 
+omit [Group L] [Fintype L] [Fintype G] [Finite ι] in
 theorem coherentImage_mem_span_Irr (k : ι) :
     coherentImage ξ ν k ∈ Submodule.span ℤ (Irr G) := by
   rw [coherentImage_apply]

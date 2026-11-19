@@ -140,7 +140,7 @@ theorem lexB_iff (a b c d : Nat) : lexB a b c d = true ↔ LexLt a b c d := by
   have e3 : Nat.blt b d = decide (b < d) := Bool.eq_iff_iff.2 (by rw [Nat.blt_eq, decide_eq_true_iff])
   unfold lexB LexLt
   rw [e1, e2, e3]
-  by_cases h1 : a < c <;> by_cases h2 : a = c <;> by_cases h3 : b < d <;> simp [h1, h2, h3] <;> omega
+  by_cases h1 : a < c <;> by_cases h2 : a = c <;> by_cases h3 : b < d <;> simp [h1, h2, h3]
 
 theorem tabsK_sound : ∀ {GW GT : List Nat}, tabsK GW GT = true →
     GW.length = GT.length ∧ ∀ j < GT.length, nthN GT j = tabW (nthN GW j)

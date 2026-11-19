@@ -150,7 +150,7 @@ theorem mul_comm_of_inf_centralizer_eq_bot [Finite G] {A : Subgroup G} {x : G}
 theorem exists_mul_centralizer_of_perfect {X M : Subgroup G} [Group.IsSolvable (Outer X)]
     (hM : ⁅M, M⁆ = M) (hMX : M ≤ normalizer (X : Set G)) {x : G} (hx : x ∈ M) :
     ∃ a ∈ X, ∃ c ∈ centralizer (X : Set G), x = a * c := by
-  haveI : Group.IsPerfect M := (Common.isPerfect_subgroup_iff_commutator_eq M).2 hM
+  have : Group.IsPerfect M := (Common.isPerfect_subgroup_iff_commutator_eq M).2 hM
   obtain ⟨a, ha⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
     (X.normalizerMonoidHom.comp (inclusion hMX)) ⟨x, hx⟩
   refine ⟨a, a.2, (a : G)⁻¹ * x, mem_centralizer_iff.2 fun g hg => ?_, by group⟩
@@ -194,14 +194,14 @@ theorem perfect_le_sup_of_le_normalizer (h : Setup G L f t) (d : TrialityD4Data 
     calc H = ⁅H, H⁆ := hp.symm
       _ ≤ _ := (commutator_mono hH hH).trans
         (PerfectLeSup.commutator_le_of_relIndex_eq_two h2)
-  haveI hsolvL : Group.IsSolvable (Outer L) := by
-    haveI := mulAutConj_range_normal (G := ↥L)
-    haveI : IsCyclic (Outer L) := d.isCyclic_quotient_range_conj
+  have hsolvL : Group.IsSolvable (Outer L) := by
+    have := mulAutConj_range_normal (G := ↥L)
+    have : IsCyclic (Outer L) := d.isCyclic_quotient_range_conj
     infer_instance
-  haveI hsolv₀ : Group.IsSolvable (Outer G₀) :=
+  have hsolv₀ : Group.IsSolvable (Outer G₀) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
   let e₂ : G₀ ≃* G₂ := Subgroup.equivMapOfInjective G₀ _ (MulAut.conj t).injective
-  haveI hsolv₂ : Group.IsSolvable (Outer G₂) :=
+  have hsolv₂ : Group.IsSolvable (Outer G₂) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e₂
   set C₀ : Subgroup G := centralizer (G₀ : Set G) ⊓ centralizer (G₂ : Set G) with hC₀
   have hmemG₂ : ∀ a ∈ G₀, t * a * t⁻¹ ∈ G₂ := fun a ha => ⟨a, ha, rfl⟩
@@ -546,7 +546,7 @@ theorem false_of_productConfig (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)
   have htt := h.t_mul_t
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
   obtain ⟨-, e, -⟩ := h.yamada_7_25 d hcomm hL
-  haveI hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
+  have hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
   have hLs : IsSimpleGroup L :=
     ((QuotientGroup.quotientMulEquivOfEq h.center_eq).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup

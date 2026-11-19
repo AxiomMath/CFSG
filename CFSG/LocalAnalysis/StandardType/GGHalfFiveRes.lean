@@ -150,7 +150,7 @@ theorem zeta5_eq : zeta5 = resGL 3 omegaScalar := by
   rw [resMat_apply]
   fin_cases i <;> fin_cases j <;> fin_cases i' <;> fin_cases j' <;>
     simp [Matrix.mul_apply, Fin.sum_univ_six, omegaBlock_apply,
-      Matrix.scalar_apply, Matrix.diagonal_apply, f4Eps_omega, finProdFinEquiv,
+      Matrix.scalar_apply, f4Eps_omega, finProdFinEquiv,
       Equiv.swap_apply_def]
 
 end CFSG.StandardType.GGHalf

@@ -18,7 +18,7 @@ open scoped MatrixGroups
 theorem l35OutSolvablePair : L35OutSolvablePair := by
   intro G _ _ T hSQ hFs hT hFT hP hTL
   set L := CFSG.generalizedFitting G with hL
-  haveI : Fact (Nat.Prime 5) := fact_prime_five
+  have : Fact (Nat.Prime 5) := fact_prime_five
   obtain ⟨e⟩ := E2P.Asc80.exists_equiv_psl3 (p := 5) hP
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := SecU1.L3I.exists_ne_comm_psl3 (p := 5)
@@ -27,7 +27,7 @@ theorem l35OutSolvablePair : L35OutSolvablePair := by
     simpa using h1
   have hAS := SecE3.almostSimple_generalizedFitting hFs hnab hT.2.1 hFT
   have hLn : L.Normal := hAS.normal
-  haveI := hLn
+  have := hLn
   have hSyl : IsSylowIn 2 (T ⊓ L) L :=
     B6.isSylowTwoOf_inf_normal hT le_top (by rw [Subgroup.normalizer_eq_top_iff.mpr hLn])
   obtain ⟨E, hE⟩ := exists_equiv_conj35 hSyl hP

@@ -21,7 +21,7 @@ theorem kMult3Ab_holds
     : KMult3Ab := by
   intro J _ _ hq hK hZ hrk T hT hΩ
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card (Subgroup.center J) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hZ
     have hk0 : k ≠ 0 := by

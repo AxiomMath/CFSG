@@ -23,10 +23,10 @@ theorem quadratic_map_sum_eq {W ι : Type*} [AddCommGroup W] [Module (ZMod 2) W]
   | insert a s hlt ih =>
     have ha : a ∉ s := fun h => lt_irrefl a (hlt a h)
     have hFa : (insert a s).filter (· < a) = s := by
-      rw [Finset.filter_insert, if_neg (lt_irrefl a), Finset.filter_true_of_mem hlt]
+      rw [Finset.filter_insert, ite_eq_right (lt_irrefl a), Finset.filter_true_of_mem hlt]
     have hFj : ∀ j ∈ s, (insert a s).filter (· < j) = s.filter (· < j) := by
       intro j hj
-      rw [Finset.filter_insert, if_neg (not_lt.mpr (hlt j hj).le)]
+      rw [Finset.filter_insert, ite_eq_right (not_lt.mpr (hlt j hj).le)]
     have hinner : ∑ j ∈ s, ∑ k ∈ (insert a s).filter (· < j), B (v k) (v j) =
         ∑ j ∈ s, ∑ k ∈ s.filter (· < j), B (v k) (v j) :=
       Finset.sum_congr rfl fun j hj => by rw [hFj j hj]

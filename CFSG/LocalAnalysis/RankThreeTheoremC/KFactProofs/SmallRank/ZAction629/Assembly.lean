@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem ccInv_conj_fix_zpowers {g u : K} (hgu : Commute g u) :
     ∀ x ∈ zpowers u, g * x * g⁻¹ = x := by
   intro x hx
@@ -23,6 +24,7 @@ theorem ccInv_conj_fix_zpowers {g u : K} (hgu : Commute g u) :
   calc g * u ^ k * g⁻¹ = u ^ k * g * g⁻¹ := by rw [(hgu.zpow_right k).eq]
     _ = u ^ k := mul_inv_cancel_right _ _
 
+omit [Finite K] in
 theorem ccInv_mem_normalizer_zpowers {g u : K} (hgu : Commute g u) :
     g ∈ normalizer ((zpowers u : Subgroup K) : Set K) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -38,10 +40,12 @@ theorem ccInv_mem_normalizer_zpowers {g u : K} (hgu : Commute g u) :
     rw [h1]
     exact hx
 
+omit [Finite K] in
 theorem ccInv_zpowers_le_normalizer {g u : K} (hgu : Commute g u) :
     zpowers g ≤ normalizer ((zpowers u : Subgroup K) : Set K) :=
   Subgroup.zpowers_le.mpr (ccInv_mem_normalizer_zpowers hgu)
 
+omit [Finite K] in
 theorem ccInv_centralizer_singleton_le {u : K} :
     centralizer ({u} : Set K) ≤ centralizer ((zpowers u : Subgroup K) : Set K) := by
   intro g hg
@@ -51,6 +55,7 @@ theorem ccInv_centralizer_singleton_le {u : K} :
   have hgu : Commute u g := hg u (Set.mem_singleton u)
   exact (hgu.zpow_left k).eq
 
+omit [Finite K] in
 theorem ccInv_centralizer_bot {c : K} (hcS : c ∈ S) (hc1 : c ≠ 1) (hzc : Commute z c)
     (hb : ∀ S₀ : Subgroup K, S₀ ≤ S → S₀ ≠ ⊥ → zpowers z ≤ normalizer (S₀ : Set K) →
       F ⊓ centralizer (S₀ : Set K) = ⊥) :
@@ -65,15 +70,18 @@ theorem ccInv_centralizer_bot {c : K} (hcS : c ∈ S) (hc1 : c ≠ 1) (hzc : Com
   rw [hb'] at hgC
   exact hgC
 
+omit [Finite K] in
 theorem Setup.t_mem_CC (h : Setup p d S z t) : t ∈ CC S z := by
   refine Subgroup.mem_inf.mpr ⟨Setup.RR_le h h.shape.t_mem, ?_⟩
   rw [Subgroup.mem_centralizer_iff]
   intro r hr
   exact h.shape.t_comm r hr
 
+omit [Finite K] in
 theorem Setup.isPGroup_CC (h : Setup p d S z t) : IsPGroup 2 (CC S z) :=
   IsPGroup.to_le h.two inf_le_left
 
+omit [Finite K] in
 theorem inv_t (h : Setup p d S z t) (hF : FData f F) (hNF : S ⊔ zpowers z ≤ normalizer (F : Set K))
     (hb : ∀ S₀ : Subgroup K, S₀ ≤ S → S₀ ≠ ⊥ → zpowers z ≤ normalizer (S₀ : Set K) →
       F ⊓ centralizer (S₀ : Set K) = ⊥) : ∀ a ∈ F, t * a * t⁻¹ = a⁻¹ := by
@@ -120,6 +128,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem centerEq_mem_zpowers_cases {u y : K} (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) (hy : y ∈ zpowers u) :
     y = 1 ∨ y = u := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -132,15 +141,18 @@ theorem centerEq_mem_zpowers_cases {u y : K} (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) (
   · right
     simp [h1]
 
+omit [Finite K] in
 theorem centerEq_zpowers_comm {R : Subgroup K} {u y : K} (hu : ∀ r ∈ R, r * u = u * r)
     (hy : y ∈ zpowers u) : ∀ r ∈ R, r * y = y * r := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   intro r hr
   exact (Commute.zpow_right (show Commute r u from hu r hr) k).eq
 
+omit [Finite K] in
 theorem centerEq_orderOf_two {u : K} (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) : orderOf u = 2 :=
   orderOf_eq_prime hu2 hu1
 
+omit [Finite K] in
 theorem Setup.center_eq (h : Setup p d S z t) : smallRankCenter (RR S z) = zpowers t := by
   unfold smallRankCenter
   ext y
@@ -151,11 +163,13 @@ theorem Setup.center_eq (h : Setup p d S z t) : smallRankCenter (RR S z) = zpowe
     refine Subgroup.mem_inf.mpr ⟨?_, Subgroup.mem_centralizer_iff.mpr (centerEq_zpowers_comm h.shape.t_comm hy)⟩
     exact Subgroup.zpowers_le.mpr h.shape.t_mem hy
 
+omit [Finite K] in
 theorem Setup.card_RR_inf_CC (h : Setup p d S z t) :
     Nat.card ↥(RR S z ⊓ CC S z : Subgroup K) = 2 := by
   rw [h.RR_inf_CC, Nat.card_zpowers]
   exact centerEq_orderOf_two h.shape.t_sq h.shape.t_ne
 
+omit [Finite K] in
 theorem Setup.center_inv (h : Setup p d S z t) (hF : FData f F)
     (hNF : S ⊔ zpowers z ≤ normalizer (F : Set K))
     (hb : ∀ S₀ : Subgroup K, S₀ ≤ S → S₀ ≠ ⊥ → zpowers z ≤ normalizer (S₀ : Set K) →
@@ -203,6 +217,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem fiveCard_comm_conj {i s a : K} (his : i * s = s * i) :
     i * a * i⁻¹ * s = s * (i * a * i⁻¹) ↔ a * s = s * a := by
   have hc : i⁻¹ * s * i = s := by
@@ -224,6 +239,7 @@ theorem fiveCard_comm_conj {i s a : K} (his : i * s = s * i) :
       _ = (s * i) * a * i⁻¹ := by rw [his]
       _ = s * (i * a * i⁻¹) := by group
 
+omit [Finite K] in
 theorem fiveCard_normalizer_inf {i s : K} (hiN : i ∈ normalizer (F : Set K)) (his : i * s = s * i) :
     i ∈ normalizer ((F ⊓ centralizer ({s} : Set K) : Subgroup K) : Set K) := by
   rw [Subgroup.mem_set_normalizer_iff] at hiN ⊢
@@ -264,7 +280,7 @@ theorem five_card (h : Setup 5 4 S z t) (hF : FData f F)
     (hrank : ∀ y ∈ S, y ^ 2 = 1 → y ≠ 1 → CFSG.Open.pRank f (F ⊓ centralizer ({y} : Set K)) ≤ 3)
     {i j r s : K} (hi : i ∈ RR S z) (hj : j ∈ RR S z) (hr : r ∈ RR S z) (hs : s ∈ RR S z)
     (hi2 : i ^ 2 = t) (hj2 : j ^ 2 = t) (hji : j * i * j⁻¹ = t * i)
-    (hr2 : r ^ 2 = t) (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) (hrs : r * s * r⁻¹ = t * s)
+    (_hr2 : r ^ 2 = t) (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) (hrs : r * s * r⁻¹ = t * s)
     (his : i * s = s * i) (hjs : j * s = s * j) : Nat.card F = f ^ 4 := by
   have hSN : S ≤ normalizer (F : Set K) := le_sup_left.trans hNF
   have hinv : ∀ a ∈ F, t * a * t⁻¹ = a⁻¹ := inv_t h hF hNF hb
@@ -326,6 +342,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem fiveCyc_conj_iff {g a s : K} (hgs : g * s = s * g) :
     a * s = s * a ↔ g * a * g⁻¹ * s = s * (g * a * g⁻¹) := by
   have hgi : g⁻¹ * s = s * g⁻¹ := by
@@ -347,6 +364,7 @@ theorem fiveCyc_conj_iff {g a s : K} (hgs : g * s = s * g) :
   · intro h
     exact mul_left_cancel (mul_right_cancel h)
 
+omit [Finite K] in
 theorem fiveCyc_mem_normalizer_inf {s g : K} (hg : g ∈ normalizer (F : Set K))
     (hgs : g * s = s * g) :
     g ∈ normalizer ((F ⊓ centralizer ({s} : Set K) : Subgroup K) : Set K) := by
@@ -367,12 +385,14 @@ theorem fiveCyc_FData_inf {s : K} (hF : FData f F)
     have := hF.prime.two_le
     nlinarith
 
+omit [Finite K] in
 theorem fiveCyc_comm_conj {c i a : K} (hci : c * i = i * c) :
     c * (i * a * i⁻¹) * c⁻¹ = i * (c * a * c⁻¹) * i⁻¹ := by
   calc c * (i * a * i⁻¹) * c⁻¹ = (c * i) * a * (c * i)⁻¹ := by group
     _ = (i * c) * a * (i * c)⁻¹ := by rw [hci]
     _ = i * (c * a * c⁻¹) * i⁻¹ := by group
 
+omit [Finite K] in
 theorem fiveCyc_act {F₁ : Subgroup K} {r c : K} {n : ℕ} (hF : FData f F)
     (hrN : r ∈ normalizer (F : Set K)) (hcr : c * r = r * c) (hF₁F : F₁ ≤ F)
     (hn : ∀ b ∈ F₁, c * b * c⁻¹ = b ^ n)
@@ -473,11 +493,13 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem threeCard_mem_CC {c : K} (hc : c ∈ CC S z) :
     c ∈ S ∧ ∀ r ∈ RR S z, r * c = c * r := by
   obtain ⟨hcS, hcC⟩ := Subgroup.mem_inf.mp hc
   exact ⟨hcS, fun r hr => Subgroup.mem_centralizer_iff.mp hcC r hr⟩
 
+omit [Finite K] in
 theorem threeCard_zpow_sq {u : K} (hu : u ^ 2 = 1) (k : ℤ) : (u ^ k) ^ 2 = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hu, one_zpow]
 
@@ -607,13 +629,14 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d f : ℕ} {S F : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem threeShape_comm_of_mem_CC {c r : K} (hc : c ∈ CC S z) (hr : r ∈ RR S z) : r * c = c * r :=
   Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hc).2 r hr
 
 theorem Setup.rankThreeIsQ8CentralCyclic_of_cyclic (h : Setup 3 2 S z t)
     (e : ↥(RR S z) ≃* QuaternionGroup 2) (hc : IsCyclic ↥(CC S z)) :
     ∃ n : ℕ, rankThreeIsQ8CentralCyclic S n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (Setup.isPGroup_CC h).exists_card_eq
   refine ⟨n, ?_⟩
   unfold rankThreeIsQ8CentralCyclic

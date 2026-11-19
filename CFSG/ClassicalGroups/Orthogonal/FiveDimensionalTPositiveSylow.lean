@@ -29,6 +29,7 @@ variable {K : Type} {V : Type*} [Field K] [Finite K] [AddCommGroup V] [Module K 
 private def planeForm : QuadraticForm K (Fin 2 → K) :=
   Matrix.toQuadraticForm' (1 : Matrix (Fin 2) (Fin 2) K)
 
+omit [Finite K] in
 private theorem toMatrix'_toLinEquiv (m : GL (Fin 2) K) :
     LinearMap.toMatrix' (((CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin 2) K) m).toLinearMap) =
       (m : Matrix (Fin 2) (Fin 2) K) := by
@@ -57,6 +58,7 @@ private def planeToQuadratic (h2 : (2 : K) ≠ 0) :
       rw [toMatrix'_toLinEquiv]
       exact hm)
 
+omit [Finite K] in
 private theorem planeToQuadratic_injective (h2 : (2 : K) ≠ 0) :
     Function.Injective (planeToQuadratic (K := K) h2) := by
   intro a b hab
@@ -65,6 +67,7 @@ private theorem planeToQuadratic_injective (h2 : (2 : K) ≠ 0) :
     (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K))) hab
   exact (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin 2) K).injective h
 
+omit [Finite K] in
 private theorem planeToQuadratic_surjective (h2 : (2 : K) ≠ 0) :
     Function.Surjective (planeToQuadratic (K := K) h2) := by
   intro e
@@ -114,30 +117,38 @@ private def negVec (F : FrameData Q) (i : Fin 2) : Uminus F :=
       fin_cases i <;> simp [negIdx]
     simp [tOp, F.t_e, h]⟩
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem negVec_val (F : FrameData Q) (i : Fin 2) :
     (negVec F i).val = F.e (negIdx i) := rfl
 
 private def negVecV (F : FrameData Q) (i : Fin 2) : V := F.e (negIdx i)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem negVecV_linearIndependent (F : FrameData Q) :
     LinearIndependent K (negVecV F) :=
   F.e.linearIndependent.comp (negIdx) (negIdx_injective)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem finrank_span_negVecV (F : FrameData Q) :
     Module.finrank K (Submodule.span K (Set.range (negVecV F))) = 2 := by
   rw [finrank_span_eq_card (negVecV_linearIndependent F), Fintype.card_fin]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem span_negVecV_le_Uminus (F : FrameData Q) :
     Submodule.span K (Set.range (negVecV F)) ≤ Uminus F := by
   refine Submodule.span_le.mpr ?_
   rintro x ⟨i, rfl⟩
   exact (negVec F i).2
 
+omit [Finite K] in
 private theorem span_negVecV_eq_Uminus (F : FrameData Q) :
     Submodule.span K (Set.range (negVecV F)) = Uminus F := by
   apply Submodule.eq_of_le_of_finrank_eq (span_negVecV_le_Uminus F)
   rw [finrank_span_negVecV, finrank_Uminus]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem range_negVecV (F : FrameData Q) :
     Set.range (negVecV F) = ({negVecV F 0, negVecV F 1} : Set V) := by
   ext x
@@ -151,6 +162,7 @@ private theorem range_negVecV (F : FrameData Q) :
 private def negCoords (F : FrameData Q) (u : Uminus F) : Fin 2 → K :=
   fun i => F.coord u.val (negIdx i)
 
+omit [FiniteDimensional K V] [Finite K] in
 private theorem negCoords_negVec (F : FrameData Q) (j : Fin 2) :
     negCoords F (negVec F j) = Pi.single j 1 := by
   ext i
@@ -160,11 +172,13 @@ private theorem negCoords_negVec (F : FrameData Q) (j : Fin 2) :
   · have h' : negIdx i ≠ negIdx j := fun e => h (negIdx_injective e)
     simp [h, h']
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem negCoords_add (F : FrameData Q) (u v : Uminus F) :
     negCoords F (u + v) = negCoords F u + negCoords F v := by
   ext i
   simp [negCoords, map_add, Pi.add_apply]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem negCoords_smul (F : FrameData Q) (a : K) (u : Uminus F) :
     negCoords F (a • u) = a • negCoords F u := by
   ext i
@@ -201,24 +215,33 @@ private def negCoordsEquiv (F : FrameData Q) :
     rw [negCoords_add, negCoords_smul, negCoords_smul, negCoords_negVec, negCoords_negVec]
     fin_cases i <;> simp [Pi.add_apply, Pi.smul_apply]
 
+omit [Finite K] in
 private theorem negCoordsEquiv_symm_apply (F : FrameData Q) (x : Fin 2 → K) :
     (negCoordsEquiv F).symm x = x 0 • negVec F 0 + x 1 • negVec F 1 := rfl
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem Q_negVec_zero (F : FrameData Q) : Q (negVec F 0).val = 1 := by
   rw [negVec_val]
   change Q (F.e 0) = 1
   exact F.norm 0 (by norm_num)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem Q_negVec_one (F : FrameData Q) : Q (negVec F 1).val = 1 := by
   rw [negVec_val]
   change Q (F.e 1) = 1
   exact F.norm 1 (by norm_num)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem polar_negVec (F : FrameData Q) :
     polar (⇑Q) (negVec F 0).val (negVec F 1).val = 0 := by
   rw [negVec_val, negVec_val]
   exact F.orth 1 0 (by norm_num) ▸ F.orth 0 1 (by norm_num)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem Q_add_negVec (F : FrameData Q) (a b : K) :
     Q (a • (negVec F 0).val + b • (negVec F 1).val) = a ^ 2 + b ^ 2 := by
   rw [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, QuadraticMap.map_smul Q,
@@ -226,13 +249,13 @@ private theorem Q_add_negVec (F : FrameData Q) (a b : K) :
     QuadraticMap.polar_smul_left Q, QuadraticMap.polar_smul_right Q, polar_negVec]
   ring
 
+omit [Finite K] in
 private theorem quadU_eq_planeForm (F : FrameData Q) :
     (Q.comp (Uminus F).subtype).comp (negCoordsEquiv F).symm.toLinearMap =
       planeForm (K := K) := by
   ext x
   change Q ((negCoordsEquiv F).symm x).val = planeForm x
   rw [negCoordsEquiv_symm_apply]
-  change Q ((x 0 • negVec F 0 + x 1 • negVec F 1 : Uminus F)).val = planeForm x
   rw [show (x 0 • negVec F 0 + x 1 • negVec F 1 : Uminus F).val =
       x 0 • (negVec F 0).val + x 1 • (negVec F 1).val from rfl]
   rw [Q_add_negVec]
@@ -290,6 +313,7 @@ theorem natCard_C0 (F : FrameData Q) (hodd : Odd (Nat.card K))
     natCard_Uminus_orthogonal F F.two_ne_zero hε hq hm]
   ring
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem negOrthogonal_mem_C0 (F : FrameData Q) :
     QuadraticMap.negOrthogonal Q ∈ FiveDimensionalTPositive.C0 F := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -298,6 +322,7 @@ theorem negOrthogonal_mem_C0 (F : FrameData Q) :
   intro v
   simp [QuadraticMap.coe_negOrthogonal, FrameData.tO]
 
+omit [Finite K] in
 theorem detC0_negOrthogonal (F : FrameData Q) :
     detC0 F ⟨QuadraticMap.negOrthogonal Q, negOrthogonal_mem_C0 F⟩ = -1 := by
   apply Units.ext
@@ -307,6 +332,7 @@ theorem detC0_negOrthogonal (F : FrameData Q) :
   rw [LinearMap.det_smul, LinearMap.det_id, Module.finrank_eq_card_basis F.e, mul_one]
   norm_num
 
+omit [Finite K] in
 theorem detC0_range (F : FrameData Q) :
     (detC0 F).range = rootsOfUnity 2 K := by
   have hle : (detC0 F).range ≤ rootsOfUnity 2 K := by
@@ -334,6 +360,7 @@ theorem detC0_range (F : FrameData Q) :
     rw [hrootscard, hzpcard]
   exact le_antisymm hle (by rw [← heq]; exact hzp)
 
+omit [Finite K] in
 theorem detC0_ker_index (F : FrameData Q) : (detC0 F).ker.index = 2 := by
   rw [Subgroup.index_ker, detC0_range F]
   exact TauCeti.card_rootsOfUnity_two F.two_ne_zero
@@ -364,16 +391,20 @@ theorem natCard_CSO (F : FrameData Q) (hodd : Odd (Nat.card K))
         Subgroup.card_map_of_injective (FiveDimensionalTPositive.C0 F).subtype_injective
     _ = 2 * m * Nat.card K * (Nat.card K ^ 2 - 1) := hker
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem betaBaseO_eq_map (F : FrameData Q) (D : Subgroup (O2 K)) :
     betaBaseO F D = (betaBase F D).map (Q.specialOrthogonalWithin).subtype := by
   rw [betaBaseO, betaBase, Subgroup.map_map]
   rfl
 
+omit [Finite K] in
 private theorem swapSubO_eq_map (F : FrameData Q) :
     swapSubO F = (swapSub F).map (Q.specialOrthogonalWithin).subtype := by
   rw [swapSubO, swapSub, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite K] in
 private theorem mem_wreathO_iff (F : FrameData Q) (D : Subgroup (O2 K))
     (x : TauCeti.QuadraticMap.orthogonalGroup Q) :
     x ∈ wreathO F D ↔
@@ -400,6 +431,7 @@ private theorem mem_wreathO_iff (F : FrameData Q) (D : Subgroup (O2 K))
     exact Subgroup.mul_mem _
       (Subgroup.mem_sup_left hb') (Subgroup.mem_sup_right hc')
 
+omit [Finite K] in
 theorem betaBaseO_le_C0 (F : FrameData Q) (D : Subgroup (O2 K)) :
     betaBaseO F D ≤ FiveDimensionalTPositive.C0 F := by
   rw [betaBaseO_eq_map]
@@ -408,17 +440,21 @@ theorem betaBaseO_le_C0 (F : FrameData Q) (D : Subgroup (O2 K)) :
   rw [Subgroup.mem_centralizer_singleton_iff]
   simpa [betaSOHom] using betaO_commute_tO F p.1 p.2
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem betaBaseO_le_SO (F : FrameData Q) (D : Subgroup (O2 K)) :
     betaBaseO F D ≤ Q.specialOrthogonalWithin := by
   rw [betaBaseO_eq_map]
   exact Subgroup.map_subtype_le _
 
+omit [Finite K] in
 private theorem orderOf_sO (F : FrameData Q) : orderOf F.sO = 2 := by
   have h := orderOf_injective (Q.specialOrthogonalWithin).subtype
     (Subgroup.subtype_injective _) F.sSO
   rw [show (Q.specialOrthogonalWithin).subtype F.sSO = F.sO from rfl] at h
   rw [h, orderOf_sSO F]
 
+omit [Finite K] in
 theorem wreathO_inf_C0 (F : FrameData Q) (D : Subgroup (O2 K)) :
     wreathO F D ⊓ FiveDimensionalTPositive.C0 F = betaBaseO F D := by
   apply le_antisymm
@@ -461,6 +497,8 @@ theorem wreathO_inf_C0 (F : FrameData Q) (D : Subgroup (O2 K)) :
   · intro x hx
     exact ⟨Subgroup.mem_sup_left hx, betaBaseO_le_C0 F D hx⟩
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem natCard_betaBaseO (F : FrameData Q) (D : Subgroup (O2 K)) {r : ℕ}
     (hD : Nat.card D = 2 ^ (r + 1)) :
     Nat.card (betaBaseO F D) = 2 ^ (2 * r + 2) := by
@@ -562,6 +600,7 @@ theorem isSylowOf_betaBaseO (F : FrameData Q) (hodd : Odd (Nat.card K))
     exact CFSG.GH74.SmallRanks.factorization_two_pow_mul_odd hodd_u
   exact CFSG.ABGLocalTools.isSylowOf_of_card hle (by rw [hBcard, hfact])
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem CSO_le_normalizer_CG (F : FrameData Q)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
@@ -639,6 +678,7 @@ private def e4W (F : FrameData Q) : Wplus F :=
     rw [Module.End.mem_eigenspace_iff]
     simp [tOp, F.t_e]⟩
 
+omit [Finite K] in
 private theorem diagBeta_val (F : FrameData Q) (d : O2 K) :
     ((diagBeta F d).val : V ≃ₗ[K] V) = F.beta d d := rfl
 
@@ -717,18 +757,22 @@ abbrev outerWitness (F : FrameData Q) (W : FiveDimensionalWreathData F) :
     TauCeti.QuadraticMap.orthogonalGroup Q :=
   F.betaO W.cD W.cD
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem outerWitness_mem_betaBaseO (F : FrameData Q) (D : Subgroup (O2 K)) (d : D) :
     F.betaO (d : O2 K) (d : O2 K) ∈ betaBaseO F D := by
   rw [betaBaseO]
   exact Subgroup.mem_map.mpr
     ⟨((d : O2 K), (d : O2 K)), ⟨d.property, d.property⟩, rfl⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem outerWitness_mem_G (F : FrameData Q)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) (d : O2 K) :
     F.betaO d d ∈ G :=
   hLG (betaO_diag_mem_derived F d)
 
+omit [Finite K] in
 theorem outerWitness_mem_inf (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
@@ -774,9 +818,9 @@ theorem diagAction_cD_not_mem_psl2Range (F : FrameData Q) (hodd : Odd (Nat.card 
   have hn : (Nat.card K : ℤ) + ε = 2 * (n : ℤ) := by
     rw [← hεeq]
     exact hn'
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hp, hF⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hF' : Nat.card K = ringChar K ^ (f : ℕ) := by
     simpa [Nat.card_eq_fintype_card] using hF
   have hdvd := CFSG.Glauberman.Dickson.psl2_orderOf_dvd
@@ -888,6 +932,7 @@ abbrev localC (F : FrameData Q) (W : FiveDimensionalWreathData F)
   localK F W G ⊓ Subgroup.centralizer (tPositiveDerived F :
     Set (TauCeti.QuadraticMap.orthogonalGroup Q))
 
+omit [Finite K] in
 theorem localX_le_G (F : FrameData Q)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
@@ -895,6 +940,7 @@ theorem localX_le_G (F : FrameData Q)
   intro x hx
   exact hLG (tPositiveDerived_le_commutator F hx)
 
+omit [Finite K] in
 theorem localK_le_C0 (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) :
     localK F W G ≤ FiveDimensionalTPositive.C0 F := by
@@ -902,6 +948,7 @@ theorem localK_le_C0 (F : FrameData Q) (W : FiveDimensionalWreathData F)
   intro x hx
   exact (betaBaseO_le_C0 F W.D) hx.1
 
+omit [Finite K] in
 theorem localK_le_CG (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
@@ -912,6 +959,7 @@ theorem localK_le_CG (F : FrameData Q) (W : FiveDimensionalWreathData F)
   · intro x hx
     exact ⟨hx.2, (betaBaseO_le_C0 F W.D) hx.1⟩
 
+omit [Finite K] in
 theorem localS_le_C0 (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) :
     localS F W G ≤ FiveDimensionalTPositive.C0 F := by
@@ -956,6 +1004,7 @@ theorem localS_sylowIn_K (F : FrameData Q) (hodd : Odd (Nat.card K))
     (localS_sylow_K F hodd W G hLG hGSO)
   exact ⟨h.1, h.2.1, h.2.2⟩
 
+omit [Finite K] in
 theorem localS_le_normalizer_X (F : FrameData Q) (hodd : Odd (Nat.card K))
     (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) :
@@ -1014,7 +1063,7 @@ theorem localPi_surjective (F : FrameData Q) (hodd : Odd (Nat.card K))
     (h3 : 3 < Nat.card K) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
-    (hGSO : G ≤ Q.specialOrthogonalWithin) :
+    (_hGSO : G ≤ Q.specialOrthogonalWithin) :
     Function.Surjective (localPi F hodd W G) := by
   let R := (localPi F hodd W G).range
   let J : Subgroup (CFSG.GorensteinWalter.PGL2 K) :=
@@ -1045,7 +1094,7 @@ theorem localPi_surjective (F : FrameData Q) (hodd : Odd (Nat.card K))
   exact htop
 
 theorem localPi_ker_isPGroup (F : FrameData Q) (hodd : Odd (Nat.card K))
-    (h3 : 3 < Nat.card K) (W : FiveDimensionalWreathData F)
+    (_h3 : 3 < Nat.card K) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
     (hGSO : G ≤ Q.specialOrthogonalWithin) :
@@ -1091,7 +1140,7 @@ theorem localC_le_S (F : FrameData Q) (hodd : Odd (Nat.card K))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
     (hGSO : G ≤ Q.specialOrthogonalWithin) :
     localC F W G ≤ localS F W G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSIn := localS_sylowIn_K F hodd W G hLG hGSO
   have hkerP := localPi_ker_isPGroup F hodd h3 W G hLG hGSO
   have hNle : (localPi F hodd W G).ker ≤
@@ -1126,7 +1175,8 @@ theorem localX_inf_localC_eq_bot (F : FrameData Q) (hodd : Odd (Nat.card K))
   have hxone : x = 1 := congrArg Subtype.val hx1
   simpa using hxone
 
-theorem localS_eq_P_inf_K (F : FrameData Q) (hodd : Odd (Nat.card K))
+omit [Finite K] in
+theorem localS_eq_P_inf_K (F : FrameData Q) (_hodd : Odd (Nat.card K))
     (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
@@ -1155,6 +1205,7 @@ theorem localS_eq_P_inf_K (F : FrameData Q) (hodd : Odd (Nat.card K))
     exact ⟨Subgroup.mem_sup_left hy.1, hy.2⟩
   exact le_antisymm hSlePK hPKleS
 
+omit [Finite K] in
 theorem localS_eq_P_inf_C0 (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (P : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))

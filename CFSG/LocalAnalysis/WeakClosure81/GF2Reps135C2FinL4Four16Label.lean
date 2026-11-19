@@ -44,10 +44,10 @@ theorem exists_hasTwistedLabel {K : Type} [Field K] [Fintype K] [CharP K 2] {f m
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   let k := AlgebraicClosure E
-  letI : Algebra K k :=
+  let : Algebra K k :=
     (CFSG.HardMathSupport.GuralnickMalle.nonempty_ringHom_algebraicClosure
       (K := E) (F₀ := K) (p := 2)).some.toAlgebra
-  letI : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
+  let : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
   obtain ⟨y₀, χ, J, ht, s₀, hs₀⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.top_exists_type (n := m) ρ hne
   have hsimp : IsSimpleRep (CFSG.Theory.Representation.extendScalars k (CFSG.endFieldRep ρ)) :=
@@ -73,7 +73,7 @@ theorem card_endField_le_of_hasTwistedLabel {K : Type} [Field K] [Fintype K] [Ch
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, _, _, _, _, y, χ, J, _, ht, hχ, _, _, _⟩ := hε
-  haveI : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
+  have : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)).Group) :=
     CFSG.LieType.RootSystem.finite_group
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)
@@ -117,7 +117,7 @@ theorem le_mul_card_node_of_hasTwistedLabel {K : Type} [Field K] [Fintype K] [Ch
   classical
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨k, _, _, _, _, y, χ, J, _, ht, hχ, _, _, _⟩ := hε
   have hb : bDigit ε i.succ ≠ 0 := by
     rintro h
@@ -126,7 +126,7 @@ theorem le_mul_card_node_of_hasTwistedLabel {K : Type} [Field K] [Fintype K] [Ch
   have hsplit : SplitOver k (curtisDatum m K 2).H := by
     have h := splitOver m K 2 k
     rwa [Subgroup.comap_id] at h
-  haveI : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
+  have : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)).Group) :=
     CFSG.LieType.RootSystem.finite_group
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)

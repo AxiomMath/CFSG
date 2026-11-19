@@ -34,7 +34,7 @@ private theorem caPair_betaStd_eq_single (m : ℕ) :
   ext i j
   rcases i with iA | iB | iC <;> rcases j with jA | jB | jC <;>
     simp [betaStd, coe_pairGL, CFSG.LieType.Steinberg.Sp.blockMat, betaTwo,
-      Matrix.one_apply, Matrix.single, Fin.ext_iff] <;> decide
+      Matrix.one_apply, Matrix.single, Fin.ext_iff]; decide
 
 private theorem caPair_betaStd_mulVec (m : ℕ) (x : BlkIdx 1 m → ZMod 2) :
     (betaStd m : Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2)) *ᵥ x =
@@ -44,7 +44,7 @@ private theorem caPair_betaStd_mulVec (m : ℕ) (x : BlkIdx 1 m → ZMod 2) :
   rw [caPair_betaStd_eq_single]
   simp only [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq]
   ext i
-  rcases i with iA | iB | iC <;> simp [Pi.add_apply, Pi.smul_apply, Fin.ext_iff]
+  rcases i with iA | iB | iC <;> simp [Pi.add_apply, Pi.smul_apply]
 
 private theorem caPair_hcoord {m : ℕ} (h : (BlkIdx 1 m → ZMod 2) →ₗ[ZMod 2] ZMod 2)
     (x : BlkIdx 1 m → ZMod 2) :
@@ -61,7 +61,7 @@ private theorem caPair_hcoord {m : ℕ} (h : (BlkIdx 1 m → ZMod 2) →ₗ[ZMod
     intro i
     rw [← Pi.single_smul]
     simp
-  simp only [hsingle, map_smul, smul_eq_mul, Fin.val_zero]
+  simp only [hsingle, map_smul, smul_eq_mul]
   ring
 
 private theorem caPair_uGL_mulVec {m : ℕ} (a : Matrix (Fin 1) (Fin m) (ZMod 2))
@@ -78,14 +78,11 @@ private theorem caPair_uGL_mulVec {m : ℕ} (a : Matrix (Fin 1) (Fin m) (ZMod 2)
   ext i
   rcases i with iA | iB | iC
   · fin_cases iA
-    simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, Fin.sum_univ_one,
-      dotProduct, mul_comm, mul_left_comm, mul_assoc, Matrix.one_apply]
+    simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, dotProduct, mul_comm, Matrix.one_apply]
     ring_nf
-  · simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, Fin.sum_univ_one,
-      dotProduct, mul_comm, mul_left_comm, mul_assoc, Matrix.one_apply]
+  · simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, dotProduct, mul_comm, Matrix.one_apply]
   · fin_cases iC
-    simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, Fin.sum_univ_one,
-      dotProduct, mul_comm, mul_left_comm, mul_assoc, Matrix.one_apply]
+    simp [uGL, uMat, blk, Matrix.mulVec, Fintype.sum_sum_type, dotProduct, mul_comm, Matrix.one_apply]
 
 private theorem caPair_uGL_mulVec_inl {m : ℕ} (a : Matrix (Fin 1) (Fin m) (ZMod 2))
     (b : Matrix (Fin m) (Fin 1) (ZMod 2)) (c : Matrix (Fin 1) (Fin 1) (ZMod 2))
@@ -204,7 +201,7 @@ private theorem caPair_f_mulVec_ne_zero {m : ℕ} (γ : GL (BlkIdx 1 m) (ZMod 2)
     intro x
     have hhJ : h (J x) = h x + f x * t := by
       rw [hJ_action, map_add, map_smul]
-      simp [t, smul_eq_mul, mul_comm]
+      simp [t, smul_eq_mul]
     calc B x = ((B⁻¹ * J * B) * J) x := by rw [hSJ]
       _ = (B⁻¹ * J * B) (J x) := by rw [LinearEquiv.mul_apply]
       _ = J x + h (J x) • v := hS (J x)
@@ -388,7 +385,7 @@ theorem exists_cent_conj_betaStd {m : ℕ} (β : GL (BlkIdx 1 m) (ZMod 2)) (hβ 
   have hgA : ∀ x : V, (gL x) (Sum.inl (0 : Fin 1)) = h x := by
     intro x
     rw [hgL_apply, caPair_uGL_mulVec_inl, caPair_hcoord h x, heA1]
-    simp only [a, c, one_mul]
+    simp only [a, c]
     rw [Finset.sum_congr rfl (fun j _ => by rw [mul_comm])]
     ring
   have hg_eA : gL eA = eA := by

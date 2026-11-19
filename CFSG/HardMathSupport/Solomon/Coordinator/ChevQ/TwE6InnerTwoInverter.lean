@@ -327,7 +327,7 @@ theorem exists_fixed_coroot_inverter {L : Type} [Field L] [IsAlgClosed L] {q : �
     have h2 := Subgroup.mem_map_of_mem (MulAut.conj (canonicalRep (coxeterSystem TwistTag.E6.tag) L
       Lang.E6Descent.twE6W0)).toMonoidHom h1
     rw [(canonical_weyl_root_transport TwistTag.E6.tag L).1 Lang.E6Descent.twE6W0 _ hS'] at h2
-    simp only [Set.image_image, Set.image_insert_eq, Set.image_singleton, hv, neg_neg] at h2
+    simp only [Set.image_insert_eq, Set.image_singleton, hv, neg_neg] at h2
     rw [Set.pair_comm] at h2
     exact h2
   obtain ⟨m, hm, hFm, hinv, hcen⟩ := exists_fixed_inverter_aux F' hFd hFn hFS hθ hβ hθβ

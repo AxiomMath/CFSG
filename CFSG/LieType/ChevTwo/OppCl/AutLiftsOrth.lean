@@ -43,8 +43,8 @@ section Aux
 variable (F : Type) [Field F] [Finite F] [CharP F 2]
 
 theorem exists_card_eq_two_pow_orth : ∃ f : ℕ, 1 ≤ f ∧ Nat.card F = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨e, -, he⟩ := FiniteField.card F 2
   exact ⟨e, e.pos, by rw [Nat.card_eq_fintype_card, he]⟩
 

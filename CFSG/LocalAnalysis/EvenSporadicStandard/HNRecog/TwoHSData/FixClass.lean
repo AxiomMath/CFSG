@@ -11,7 +11,7 @@ open Subgroup CFSG.Sporadic.SmallOddCore
 open CFSG.Sporadic.HeldB (fixCard fixCard_conj sum_fixCard_eq)
 
 theorem card_centralizer_mul_le {n : ℕ} (P : Subgroup (Equiv.Perm (Fin n))) (p₀ : Fin n)
-    (htrans : ∀ p : Fin n, ∃ g ∈ P, g p = p₀) {x : Equiv.Perm (Fin n)} (hx : x ∈ P)
+    (htrans : ∀ p : Fin n, ∃ g ∈ P, g p = p₀) {x : Equiv.Perm (Fin n)} (_hx : x ∈ P)
     (M : Finset (Equiv.Perm (Fin n)))
     (hM : ∀ y ∈ M, y ∈ conjClass P x ∧ y p₀ = p₀) :
     Nat.card ↥(P ⊓ centralizer ({x} : Set (Equiv.Perm (Fin n)))) * (n * M.card) ≤

@@ -109,9 +109,9 @@ theorem card_T46_eq :
     Nat.card T46 = 9196830720 := card_T46
 
 open CFSG.ComponentClassification.PSL3Four in
-@[expose] def betaF (i : Fin 42) : Fin 693 := ⟨beta[i.val]! % 693, Nat.mod_lt _ (by norm_num)⟩
+def betaF (i : Fin 42) : Fin 693 := ⟨beta[i.val]! % 693, Nat.mod_lt _ (by norm_num)⟩
 
-@[expose] def InOmega (x : Fin 693) : Prop := ∃ i : Fin 42, betaF i = x
+def InOmega (x : Fin 693) : Prop := ∃ i : Fin 42, betaF i = x
 
 open CFSG.ComponentClassification.PSL3Four in
 theorem lieModel_of_mulEquiv_S {H : Type} [Group H] (e' : H ≃* S) :

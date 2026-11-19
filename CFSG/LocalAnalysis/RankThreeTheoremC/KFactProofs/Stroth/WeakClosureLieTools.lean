@@ -21,7 +21,7 @@ variable {K : Type} [Group K] [Finite K] {p : ℕ}
 theorem WCOn.of_noncomm_pSubgroup [Fact p.Prime] {Q : Subgroup K} (hQ : IsPGroup p Q) {x y : K}
     (hx : x ∈ Q) (hy : y ∈ Q) (hxy : x * y ≠ y * x) : WCOn p K :=
   WCOn.of_not_isMulCommutative fun P =>
-    InnerAction.not_isMulCommutative_of_noncomm_pSubgroup hQ hx hy hxy P.isPGroup' P.not_dvd_index
+    InnerAction.not_isMulCommutative_of_noncomm_pSubgroup hQ hx hy hxy P.isPGroup P.not_dvd_index
 
 theorem WCOn.of_hom_noncomm [Fact p.Prime] {G : Type*} [Group G] (φ : G →* K) {Q : Subgroup G}
     (hQ : IsPGroup p Q) (hker : ∀ g ∈ Q, φ g = 1 → g = 1) {x y : G} (hx : x ∈ Q) (hy : y ∈ Q)
@@ -136,7 +136,7 @@ theorem NonscalarPPair.wcOn_statedProj [Fact p.Prime] [Finite F] {H : Subgroup (
 theorem NonscalarPPair.wcOn [Fact p.Prime] [Finite F] {H : Subgroup (GL ι F)} {K : Type}
     [Group K] [Finite K] (e : K ≃* CFSG.Open.StatedProj H) (h : NonscalarPPair p H) :
     WCOn p K := by
-  haveI : Finite (CFSG.Open.StatedProj H) := Finite.of_equiv K e.toEquiv
+  have : Finite (CFSG.Open.StatedProj H) := Finite.of_equiv K e.toEquiv
   exact WCOn.of_mulEquiv e h.wcOn_statedProj
 
 end Projective

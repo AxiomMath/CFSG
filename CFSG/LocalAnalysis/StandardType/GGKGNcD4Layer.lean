@@ -147,7 +147,7 @@ theorem rootSpan_inf_model_kgNotC_d4_of_layer
     {u : CFSG.LieType.Chevalley.WeylGroup τ}
     (hu : u ∈ CFSG.LieType.Chevalley.parabolicWeylGroup τ (CFSG.RankThree.PartOne.KE.d4Nodes τ))
     {π : Equiv.Perm (Fin τ.rank)}
-    (hlayer : ∀ (ℓ f : ℕ) [inst : Fact (Nat.Prime ℓ)] [inst_1 : CharP L ℓ],
+    (hlayer : ∀ (ℓ f : ℕ) [_inst : Fact (Nat.Prime ℓ)] [_inst_1 : CharP L ℓ],
       1 ≤ f →
         S.D.q = ℓ ^ f →
           ∀ (n : CFSG.Blueprint.Chevalley.ModGL τ L)

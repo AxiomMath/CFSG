@@ -45,7 +45,7 @@ theorem q16_card_M (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFSG.Open.
 
 theorem sylow_of_card_of_not_dvd {H : Subgroup G} {k : ℕ} (hH : Nat.card H = 2 ^ k)
     (hk : ¬ 2 ^ (k + 1) ∣ Nat.card G) : ∃ S : Sylow 2 G, (S : Subgroup G) = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG0 : Nat.card G ≠ 0 := Nat.card_pos.ne'
   have hdvd : 2 ^ k ∣ Nat.card G := hH ▸ Subgroup.card_subgroup_dvd_card H
   have hle : k ≤ (Nat.card G).factorization 2 :=
@@ -59,7 +59,7 @@ include D in
 theorem q16_false_of_not_dvd (hR : Nat.card ↥(Rc X) ≤ 2)
     (hQ : Nat.card ↥(CFSG.Open.pCoreOf 2 M) = 16) (hsurj : Function.Surjective C.θ)
     (h9 : ¬ 2 ^ 9 ∣ Nat.card G) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : Nat.card ↥M = 2 ^ 8 * 45 := by
     rw [q16_card_M hR hQ, MonoidHom.range_eq_top.2 hsurj, Subgroup.card_top, Nat.card_perm,
       Nat.card_eq_fintype_card, Fintype.card_fin]

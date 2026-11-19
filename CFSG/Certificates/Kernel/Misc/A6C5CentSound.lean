@@ -293,6 +293,7 @@ theorem nconj : m.ofMat (toM nL) * m.ofMat (toM g0L) * (m.ofMat (toM nL))⁻¹ =
   rw [e_mulL m (sN hb) (sG hb), e_mulL m sGG (sN hb), e_mulL m (sG hb) (sG hb)] at e
   rw [e, pow_two, mul_inv_cancel_right]
 
+omit hb in
 theorem nodup_of_pwB : ∀ L : List (List ℕ), (∀ x ∈ L, Cn x ∧ A6CSimMat (toM x)) →
     pwB L = true → (L.map fun x => m.ofMat (toM x)).Nodup
   | [], _, _ => List.nodup_nil
@@ -357,7 +358,7 @@ theorem a6c5_facts (hb : basic = true) (h0 : candA 0 = true) (h1 : candA 1 = tru
   refine ⟨g, m.ofMat (toM nL), hg5, hg1, nconj m hb, ?_, ?_⟩
   ·
     set L := els.map fun x => m.ofMat (toM x) with hL
-    have hnd : L.Nodup := nodup_of_pwB m hb els
+    have hnd : L.Nodup := nodup_of_pwB m els
       (fun x hx => by
         obtain ⟨i, -, j, -, rfl⟩ := els_form hx
         exact ⟨cn_mulL _ _, sim_el hb i j⟩) (basic_parts hb).2.2.2.2.2.2.2.2.2.2.1

@@ -93,12 +93,12 @@ theorem presFil_of_presPiece {F : Module.End K (V K)} (h : PresPiece F) : PresFi
   have e : F v = ∑ a ∈ v.support, F (Finsupp.single a (v a)) := by
     conv_lhs => rw [hsum]
     exact map_sum F _ _
-  rw [e, Finsupp.finset_sum_apply]
+  rw [e, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun a ha => ?_
   have hmem : Finsupp.single a (v a) ∈ Piece K (pr a theta) := by
     refine mem_Piece_iff.2 fun b' hb' => ?_
     have hab : ¬ (a = b') := fun hab => hb' (by rw [hab])
-    rw [Finsupp.single_apply, if_neg hab]
+    rw [Finsupp.single_apply, ite_eq_right hab]
   have hP := h (pr a theta) _ hmem
   exact mem_Piece_iff.1 hP b (fun h' => by have := hvi a ha; omega)
 
@@ -235,13 +235,13 @@ theorem xu_raises [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E
   refine mem_Fil_iff.2 fun b hb => ?_
   rw [Finsupp.sub_apply, xu_apply_coord hγ c v b]
   by_cases h : pr b γ = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hlt : pr (shift (-γ) b) theta < i := by
       rw [pr_shift_neg_theta hγ h]
       omega
     rw [mem_Fil_iff.1 hv _ hlt]
     ring
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     ring
 
 theorem xu_presPiece [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ)
@@ -252,13 +252,13 @@ theorem xu_presPiece [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot
   rw [xu_apply_coord hγ c v b]
   have hvb : v b = 0 := mem_Piece_iff.1 hv b hb
   by_cases h : pr b γ = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hsh : pr (shift (-γ) b) theta = pr b theta := by
       rw [pr_shift_neg_theta hγ h, hzero, sub_zero]
     have hv' : v (shift (-γ) b) = 0 :=
       mem_Piece_iff.1 hv (shift (-γ) b) (by rw [hsh]; exact hb)
     rw [hvb, hv', mul_zero, add_zero]
-  · rw [if_neg h, mul_zero, add_zero]
+  · rw [ite_eq_right h, mul_zero, add_zero]
     exact hvb
 
 theorem xu_mem_NN [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ)
@@ -385,7 +385,7 @@ theorem hwVec_V0 [CharP K 2] {g : ↥(e7Data_valid.minGroup K)} (h : endoE g w0 
   have hsingle : (Finsupp.single μ' 1 : V K) ∈ Piece K (pr μ' theta) := by
     refine mem_Piece_iff.2 fun b hb => ?_
     have hne : μ' ≠ b := fun hμb => hb (by rw [hμb])
-    rw [Finsupp.single_apply, if_neg hne]
+    rw [Finsupp.single_apply, ite_eq_right hne]
   have hz_piece : (u' : Module.End K (V K)) (Finsupp.single μ' 1) ∈ Piece K (pr μ' theta) :=
     hpp (pr μ' theta) _ hsingle
   have hz_ne : (u' : Module.End K (V K)) (Finsupp.single μ' 1) ≠ 0 := by

@@ -183,7 +183,7 @@ theorem exists_recipeConj {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 
     ∃ σ : K ≃+* K, (∀ c, σ c = c ^ 2 ^ n) ∧
       ∃ ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n,
         ∀ φ, φ ∈ (recipeConj σ ε).range ↔ φ ∈ TwE6Delta.RecipeI K n := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hσ : ∀ c, iterateFrobeniusEquiv K 2 n c = c ^ 2 ^ n := fun c => by
     rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨ε, hε⟩ := TwE6DD2.exists_recipeEquiv hn hK _ hσ

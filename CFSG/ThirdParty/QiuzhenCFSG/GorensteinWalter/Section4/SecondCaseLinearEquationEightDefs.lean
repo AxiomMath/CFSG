@@ -183,11 +183,11 @@ public theorem prime_order_subgroup_fixed_by_normalizer_of_cyclic
         { toFun := fun x => ⟨⟨x.1, x.2.1⟩, by
             apply Subtype.ext
             have hpow : ((⟨x.1, x.2.1⟩ ^ p : ↥C) : G) = x.1 ^ p := by
-              simpa using (map_pow (C.subtype) (⟨x.1, x.2.1⟩ : ↥C) p)
+              simp
             simpa [hpow] using x.2.2⟩
           invFun := fun a => ⟨(a.1 : G), ⟨a.1.2, by
             have hpow : ((a.1 ^ p : ↥C) : G) = (a.1 : G) ^ p := by
-              simpa using (map_pow (C.subtype) a.1 p)
+              simp
             have h1 : ((a.1 ^ p : ↥C) : G) = 1 := by
               simpa using congrArg (fun z : ↥C => (z : G)) a.2
             rw [← hpow]
@@ -221,7 +221,7 @@ public theorem prime_order_subgroup_fixed_by_normalizer_of_cyclic
   have hconj_pow (v x : G) : (v * x * v⁻¹) ^ p = v * (x ^ p) * v⁻¹ := by
     calc
       (v * x * v⁻¹) ^ p = (MulAut.conj v) (x ^ p) := by
-        simpa [MulAut.conj_apply] using (map_pow (MulAut.conj v).toMonoidHom x p)
+        simp [MulAut.conj_apply]
       _ = v * (x ^ p) * v⁻¹ := by rfl
   have hSinv (v : G) (hv : v ∈ Subgroup.normalizer (C : Set G)) :
       ∀ x : G, x ∈ S → v * x * v⁻¹ ∈ S := by
@@ -359,7 +359,7 @@ public theorem order_p_subgroups_card_of_order_p_sq_exponent_p
         exact hfib X
       _ = Nat.card S * (p - 1) := by
         rw [Finset.sum_const, nsmul_eq_mul, Nat.card_eq_fintype_card]
-        simpa [Finset.card_univ]
+        simp [Finset.card_univ]
   have hbij : Nat.card (Σ X : S, {x : A // f x = X}) = Nat.card A := by
     let e : (Σ X : S, {x : A // f x = X}) ≃ A :=
       { toFun := fun z => ⟨z.2.1.1, z.2.1.2⟩
@@ -417,7 +417,7 @@ public theorem conjugate_orbit_le_p_add_one
       have hback : (v : G)⁻¹ * (w : G) * (v : G) ∈ Q :=
         (Subgroup.mem_normalizer_iff.mp (hUleNQ v.2) ((v : G)⁻¹ * (w : G) * (v : G))).2 (by
           have hw' : (v : G) * ((v : G)⁻¹ * (w : G) * (v : G)) * (v : G)⁻¹ = (w : G) := by group
-          simpa [hw'] using w.2)
+          simp [hw'])
       have hc_comm : (z : G) * ((v : G)⁻¹ * (w : G) * (v : G)) =
           ((v : G)⁻¹ * (w : G) * (v : G)) * (z : G) := by
         have h := Subgroup.mem_center_iff.mp hz
@@ -689,7 +689,7 @@ public theorem conjugate_orbit_le_p_add_one
       _ = p * (p - 1) := (Nat.mul_sub_left_distrib p p 1).symm
   have hp3 : p ^ 3 - p = p * (p ^ 2 - 1) := by
     calc
-      p ^ 3 - p = p * p ^ 2 - p := by congr 1 <;> ring
+      p ^ 3 - p = p * p ^ 2 - p := by congr 1; ring
       _ = p * p ^ 2 - p * 1 := by simp
       _ = p * (p ^ 2 - 1) := (Nat.mul_sub_left_distrib p (p ^ 2) 1).symm
   have hle2 : p * (Nat.card C * (p - 1)) ≤ p * (p ^ 2 - 1) := by
@@ -950,7 +950,7 @@ public theorem secondCase_linear_omega_NU_P_le_NU_A
     prime_order_subgroup_fixed_by_normalizer_of_cyclic hK0cyc od.P0_le_K0
       od.hp_prime od.P0_card hvK0
   have hvJoin : v ∈ Subgroup.normalizer ((od.P ⊔ od.P0 : Subgroup G) : Set G) :=
-    Subgroup.normalizer_inf_normalizer_le_normalizer_sup od.P od.P0 ⟨hv.2, hvP0⟩
+    Subgroup.inf_normalizer_le_normalizer_sup od.P od.P0 ⟨hv.2, hvP0⟩
   simpa [od.A_eq] using hvJoin
 
 end CFSG.GorensteinWalter

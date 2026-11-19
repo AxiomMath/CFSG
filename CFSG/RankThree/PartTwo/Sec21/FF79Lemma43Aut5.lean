@@ -52,7 +52,7 @@ theorem is2El_conj_iff {M : Type*} [Group M] (g x : M) : Is2El (g * x * g⁻¹) 
     exact ⟨m, by rw [conj_pow, hm]; group⟩
 
 theorem center_G52 : Subgroup.center G52 = ⊥ := by
-  haveI := isSimpleGroup_G52
+  have := isSimpleGroup_G52
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G52) with h | h
   · exact h
   · exact absurd (fun a b => (Subgroup.mem_center_iff.1

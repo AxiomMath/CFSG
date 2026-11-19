@@ -119,7 +119,7 @@ theorem pumpUpTypeInput_holds :
         exact Or.inr (Or.inl ⟨rank, hrank, Or.inl hS⟩)
       · subst hD
         have hr3 : rank ≠ 3 := by omega
-        simp only [MarkedModel, markTag, markRank, markChar, markDeg, if_neg hr3] at hmS
+        simp only [MarkedModel, markTag, markRank, markChar, markDeg, ite_eq_right hr3] at hmS
         subst hn
         have hS : CFSG.Models.LieModel (K ⧸ Subgroup.center K) .POmegaPlus rank 2 1 :=
           CFSG.LocalAnalysis.GLTheoremA.I161aNames.lieModel_models_of_blueprint hmS
@@ -127,7 +127,7 @@ theorem pumpUpTypeInput_holds :
       · subst htwD
         have hr2 : rank ≠ 2 := by omega
         have hr3 : rank ≠ 3 := by omega
-        simp only [MarkedModel, markTag, markRank, markChar, markDeg, if_neg hr2, if_neg hr3] at hmS
+        simp only [MarkedModel, markTag, markRank, markChar, markDeg, ite_eq_right hr2, ite_eq_right hr3] at hmS
         subst hn
         have hS : CFSG.Models.LieModel (K ⧸ Subgroup.center K) .POmegaMinus rank 2 1 :=
           CFSG.LocalAnalysis.GLTheoremA.I161aNames.lieModel_models_of_blueprint hmS

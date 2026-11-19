@@ -22,7 +22,7 @@ theorem isSolvable_centralizer_of_orderOf_three_titsD {x : titsD} (hx : orderOf 
     Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set titsD)) := by
   obtain ⟨a, b, hcard, -⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Res417Seven.exists_card_centralizer_of_titsD hx
-  haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
+  have := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (p := 2) (q := 3) (a := a) (b := b) Nat.prime_two Nat.prime_three (by norm_num)
     (by rw [Nat.card_eq_fintype_card] at hcard; exact hcard)

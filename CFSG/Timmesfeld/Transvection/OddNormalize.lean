@@ -56,7 +56,7 @@ theorem conjSub_map_heis_eq (hFn : Nat.card F = (2 ^ n) ^ 2)
     exact mem_map_heis_of_conjSub_eq hFn hθk hθt hxr hxA hxpow
   have hcard_eq : Nat.card ↥(conjSub B g) = Nat.card ↥B :=
     Subgroup.card_map_of_injective (MulAut.conj g).injective
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hcardB]; positivity)
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hcardB]; positivity)
   show conjSub B g = B
   exact Subgroup.eq_of_le_of_card_ge hle hcard_eq.ge
 
@@ -89,7 +89,7 @@ theorem IsMaxFrame.conjSub_map_heis_sup_eq (h : TransvectionHyp H Δ) (hML : Mee
       (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hPi : conjSub (P i) g = P i :=
     hF.conjSub_eq_of_mem_frameResidue h.cls h.points hML hik hg hgP hgQ hgl
       (hF.toIsFrame.memP_frameResidue i)
@@ -187,7 +187,7 @@ theorem IsMaxFrame.eq_one_of_mem_map_heis_sup_of_conjSub_eq (h : TransvectionHyp
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k))
     (huQ : conjSub (Q k) u = Q k) : u = 1 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have huG : u ∈ rankTwoResidueGroup Δ P Q k i :=
     hF.toIsFrame.map_heis_sup_le_rankTwoResidueGroup hFn hθr hu
   have huP : conjSub (P k) u = P k :=
@@ -223,7 +223,7 @@ theorem IsMaxFrame.exists_mem_map_heis_sup_conjSub_eq (h : TransvectionHyp H Δ)
     ∃ u ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k), conjSub (Q k) u = X := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let U : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)
@@ -329,7 +329,7 @@ theorem IsMaxFrame.exists_mem_sup_forall_eq_commutatorElement (h : TransvectionH
         ∃ y ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
             (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
               shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k), x = ⁅y, t⁆ := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hn : 2 ≤ n := by
     by_contra hlt
     have h2 : 2 ^ n ≤ 2 := by
@@ -397,7 +397,7 @@ private theorem exists_mem_map_heis_sup_commute (h : TransvectionHyp H Δ)
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k),
       ∀ x ∈ P k ⊔ Q k, Commute (v⁻¹ * w) x := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let U : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)
@@ -473,7 +473,7 @@ private theorem conjSub_mem_map_heis_sup_facts (h : TransvectionHyp H Δ)
       conjSub (P k) (b * u * b⁻¹) = P k ∧
       (∀ C ∈ Δ, C ≠ P k → Commuting (P k) C → b * u * b⁻¹ ∈ lineStab Δ (P k) C) ∧
       (b * u * b⁻¹) ^ (2 ^ n) ^ 7 = 1 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let U : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)
@@ -502,7 +502,7 @@ private theorem conjSub_mem_map_heis_sup_facts (h : TransvectionHyp H Δ)
     intro C hC hCP hPC
     have hC' : conjSub C b⁻¹ ∈ Δ := h.cls.root.conjSub_mem hC b⁻¹
     have hCb : conjSub (conjSub C b⁻¹) b = C := by
-      simpa using Aux.conjSub_conjSub_inv C b⁻¹
+      simp
     have hC'P : conjSub C b⁻¹ ≠ P k := by
       intro h
       have h1 : C = P k := by
@@ -544,7 +544,7 @@ theorem IsMaxFrame.residueGroup_le_normalizer_map_heis_sup (h : TransvectionHyp 
       (((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
         (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
           shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) : Subgroup H) : Set H) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let U : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)
@@ -596,7 +596,7 @@ theorem IsMaxFrame.commutatorElement_mem_map_heis_sup (h : TransvectionHyp H Δ)
     ⁅x, b⁆ ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let U : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)
@@ -630,7 +630,7 @@ theorem IsMaxFrame.commutatorElement_mem_map_heis_sup_inf (h : TransvectionHyp H
       ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ' ⊔
         (shortRootGroup Δ (P i) (Q i) (Q k) (P k) ⊔
           shortRootGroup Δ (P i) (Q i) (P k) (Q k) ⊔ P i)) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let Uk : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
       (shortRootGroup Δ (P k) (Q k) (Q i) (P i) ⊔
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k)

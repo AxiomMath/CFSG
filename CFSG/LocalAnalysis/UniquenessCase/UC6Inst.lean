@@ -14,6 +14,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isStronglyPEmbedded_of_clause_one {M : Subgroup G} {p : ℕ} (hM : M ≠ ⊤)
     (hdvd : p ∣ Nat.card M)
     (h : ∀ g : G, g ∉ M → ¬ p ∣ Nat.card (M ⊓ uniqueFourConj g M : Subgroup G)) :

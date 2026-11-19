@@ -10,7 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec17.F174L3Aut.Ring
 
 theorem ringEquiv_pow_eq_one {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ}
     (hF : Fintype.card F = 2 ^ n) (τ : F ≃+* F) : τ ^ n = 1 := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hfin : Module.finrank (ZMod 2) F = n := by
     have h := Module.card_eq_pow_finrank (K := ZMod 2) (V := F)
     rw [ZMod.card, hF] at h
@@ -29,7 +29,7 @@ theorem ringEquiv_pow_eq_one {F : Type} [Field F] [Fintype F] [CharP F 2] {n : �
   have key : ∀ k : ℕ, ∀ y : F, (τ ^ k) y = (sigma ^ k) y := by
     intro k
     induction k with
-    | zero => intro y; first | rfl | simp only [pow_zero, RingAut.one_apply, AlgEquiv.one_apply]
+    | zero => intro y; first | rfl
     | succ k ih =>
       intro y
       rw [pow_succ, pow_succ, RingAut.mul_apply, AlgEquiv.mul_apply]

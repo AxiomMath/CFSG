@@ -42,7 +42,7 @@ structure Ctx13M (t : G) (L S : Subgroup G) (x₁ x₂ lam rho tau om : G) : Pro
 @[expose] def Ctx13KStmt : Prop :=
   ∀ {G : Type} [Group G] [Finite G]
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
-    (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho tau om),
+    (_hG : Sec4Glob G) (_hc : Ctx13M t L S x₁ x₂ lam rho tau om),
     Ctx13KFacts t x₁ x₂ lam rho tau om
 
 end CFSG.OddStandard.SmallF3.HarrisU33

@@ -22,7 +22,7 @@ private def baseIntertwining (e : Fin 4 ↪ X) (t : G)
     IntertwiningEmbeddings (X := X) t σ :=
   ⟨e, hbase⟩
 
-private def centralizerIntertwiningMulAction (t : G)
+@[instance_reducible] private def centralizerIntertwiningMulAction (t : G)
     (σ : Equiv.Perm (Fin 4)) :
     MulAction (Subgroup.centralizer ({t} : Set G))
       (IntertwiningEmbeddings (X := X) t σ) where
@@ -50,6 +50,7 @@ private def centralizerIntertwiningMulAction (t : G)
     (∀ i, u • e i = v • e i) →
     ∃ h : G, h ∈ MulAction.stabilizer G e ∧ h * u * h⁻¹ = v
 
+omit [Finite G] [Fintype X] in
 theorem centralizerCorrection_of_sameBaseInvolutionConjugacy
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X) (t : G) (σ : Equiv.Perm (Fin 4))
@@ -100,6 +101,7 @@ theorem centralizerCorrection_of_sameBaseInvolutionConjugacy
     rw [hi]
     exact hq i
 
+omit [Finite G] [Fintype X] in
 private theorem orbit_baseIntertwining_eq_univ
     (e : Fin 4 ↪ X) (t : G) (σ : Equiv.Perm (Fin 4))
     (hbase : ∀ i, t • e i = e (σ i))
@@ -107,7 +109,7 @@ private theorem orbit_baseIntertwining_eq_univ
     letI := centralizerIntertwiningMulAction (X := X) t σ
     MulAction.orbit (Subgroup.centralizer ({t} : Set G))
       (baseIntertwining e t σ hbase) = Set.univ := by
-  letI := centralizerIntertwiningMulAction (X := X) t σ
+  let := centralizerIntertwiningMulAction (X := X) t σ
   apply Set.eq_univ_iff_forall.mpr
   intro a
   obtain ⟨c, hc, hce⟩ := hcorrect a
@@ -169,17 +171,17 @@ private theorem centralizer_card_eq_intertwining_mul_baseCentralizer
   let C := Subgroup.centralizer ({t} : Set G)
   let I := IntertwiningEmbeddings (X := X) t σ
   let b := baseIntertwining e t σ hbase
-  letI := centralizerIntertwiningMulAction (X := X) t σ
-  letI : Fintype C := Fintype.ofFinite C
-  letI : Finite I := Finite.of_injective
+  let := centralizerIntertwiningMulAction (X := X) t σ
+  let : Fintype C := Fintype.ofFinite C
+  let : Finite I := Finite.of_injective
     (fun a : I => fun i => a.1 i) (by
       intro a d had
       apply Subtype.ext
       apply Function.Embedding.ext
       intro i
       exact congrFun had i)
-  letI : Fintype (MulAction.orbit C b) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer C b) := Fintype.ofFinite _
+  let : Fintype (MulAction.orbit C b) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer C b) := Fintype.ofFinite _
   have horbit : Nat.card (MulAction.orbit C b) = Nat.card I := by
     rw [orbit_baseIntertwining_eq_univ e t σ hbase hcorrect]
     exact Nat.card_congr (Equiv.Set.univ I)

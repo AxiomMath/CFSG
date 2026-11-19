@@ -144,7 +144,7 @@ theorem normal_of_quotient {T : Subgroup (M ⧸ CFSG.pPrimeCore 2 M)} (hT : T.No
     rw [h.factorization_two_quotient, hT4]; norm_num
   have hTp : IsPGroup 2 T := IsPGroup.of_card (n := 2) (by rw [hT4]; norm_num)
   have hPp : IsPGroup 2 ((P : Subgroup M).map (QuotientGroup.mk' O)) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   obtain ⟨R, hR⟩ := hPp.exists_le_sylow
   have hTR : T ≤ R := hTp.le_sylow_of_normal R
   have hTReq : T = R := Subgroup.eq_of_le_of_card_ge hTR (by
@@ -152,7 +152,7 @@ theorem normal_of_quotient {T : Subgroup (M ⧸ CFSG.pPrimeCore 2 M)} (hT : T.No
   have hmapT : (P : Subgroup M).map (QuotientGroup.mk' O) = T := by
     refine Subgroup.eq_of_le_of_card_ge (hTReq ▸ hR) ?_
     rw [hT4, h.card_map_sylow P]
-  refine normal_of_normal_map O odd_card_pPrimeCore P.isPGroup' (h.le_centralizer_core P) ?_
+  refine normal_of_normal_map O odd_card_pPrimeCore P.isPGroup (h.le_centralizer_core P) ?_
   rw [hmapT]
   exact hT
 

@@ -15,8 +15,8 @@ open scoped MatrixGroups
 theorem nk_s9c_caseB (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     (hConj : ∀ (X : Type) [Group X], IsPSL 3 2 1 X → ∀ a b : X, orderOf a = 2 → orderOf b = 2 →
       IsConj a b)
-    {E : Type} [Field E] [Finite E] [CharP E 2] (hE2 : Nat.card E = 2 ∨ Nat.card E = 4) {e d : ℕ} (he : 1 ≤ e)
-    (hE : Nat.card E = 2 ^ e)
+    {E : Type} [Field E] [Finite E] [CharP E 2] (hE2 : Nat.card E = 2 ∨ Nat.card E = 4) {e d : ℕ} (_he : 1 ≤ e)
+    (_hE : Nat.card E = 2 ^ e)
     (t : GL (Fin d) E) (ht : IsTransvectionK t)
     (K₀ : Subgroup (GL (Fin d) E)) (N : Subgroup (GL (Fin d) E))
     (hN : N = Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹})
@@ -98,7 +98,7 @@ theorem nk_s9c_caseB (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     hKs3 σ hσ hkerρ hK₀perf hnorm hQ
   have hran : ∀ x : K₀, P * ρK x * P⁻¹ ∈ (s9cJ hn).range := fun x =>
     (hPiff (ρK x)).mp ⟨⟨x, hKN x.2⟩, rfl⟩
-  haveI : Finite Ks := Nat.finite_of_card_ne_zero (by rw [s9c_card_of_IsPSL3 hKs3]; norm_num)
+  have : Finite Ks := Nat.finite_of_card_ne_zero (by rw [s9c_card_of_IsPSL3 hKs3]; norm_num)
   obtain ⟨θ, hθ, hθsurj, hθker⟩ := s9c_theta_of_card σ hσ (s9c_card_of_IsPSL3 hKs3) ρK hkerρ P
     (s9cJ hn) (s9cJ_injective hn) s9_card_SL3_F2 hran
   let φ : ZMod 2 →+* E := ZMod.castHom (dvd_refl 2) E
@@ -154,7 +154,7 @@ theorem nk_s9_chain_main (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     (t : GL (Fin d) E) (ht : IsTransvectionK t)
     (K₀ : Subgroup (GL (Fin d) E)) (htK : ∀ k ∈ K₀, t * k * t⁻¹ ∈ K₀)
     (hK₀N : K₀ ≤ Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹})
-    {Ks : Type} [Group Ks] (hKs : IsSimpleGroup Ks) (hna : ∃ a b : Ks, a * b ≠ b * a)
+    {Ks : Type} [Group Ks] (hKs : IsSimpleGroup Ks) (_hna : ∃ a b : Ks, a * b ≠ b * a)
     (hKs3 : IsPSL 3 2 1 Ks)
     (σ : K₀ →* Ks) (hσ : Function.Surjective σ)
     (hker : ∀ M : Subgroup K₀, M.Normal → M ≠ ⊤ → M ≤ σ.ker)
@@ -182,7 +182,7 @@ theorem nk_s9_chain_main (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     exact s9c_nontriv_unique t Y hmono u
       (fun j hj hJ => s9c_nontriv_line N t htN Y hYinv u hcov j hj hJ) i i₀ hi hi₀ hI hi₀nt
   · exfalso
-    push_neg at hcase
+    push Not at hcase
     have hpg : ∀ x : K₀, ∃ m : ℕ, x ^ (2 ^ m) = 1 := by
       intro x
       have hnil := s9c_flag_nilpotent r Y hY0 hYr (x : GL (Fin d) E)
@@ -191,7 +191,7 @@ theorem nk_s9_chain_main (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
       obtain ⟨m, hm⟩ := s9c_pow_two_eq_one (x : GL (Fin d) E) r hnil
       refine ⟨m, Subtype.ext ?_⟩
       simpa using hm
-    haveI : Finite Ks := Nat.finite_of_card_ne_zero (by rw [s9c_card_of_IsPSL3 hKs3]; norm_num)
+    have : Finite Ks := Nat.finite_of_card_ne_zero (by rw [s9c_card_of_IsPSL3 hKs3]; norm_num)
     exact s9c_false_of_pgroup σ hσ hpg (s9c_card_of_IsPSL3 hKs3)
 
 end CFSG.Quasithin.H13.L829NK

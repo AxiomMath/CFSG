@@ -22,6 +22,7 @@ variable {K : Type} [Field K] {M : Type} [AddCommGroup M] [Module (ZMod 2) M]
 @[expose] def stdCoord (φ : M ≃+ (Fin 4 → K)) : M ≃+ (Fin 2 ⊕ Fin 2 → K) :=
   φ.trans (LinearEquiv.funCongrLeft K K antiIdx).toAddEquiv
 
+omit [Module (ZMod 2) M] in
 theorem stdCoord_apply (φ : M ≃+ (Fin 4 → K)) (w : M) (j : Fin 2 ⊕ Fin 2) :
     stdCoord φ w j = φ w (antiIdx j) := rfl
 

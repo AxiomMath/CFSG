@@ -50,7 +50,7 @@ theorem kOutNormalSylow_three_of_kOutTwoGroup {K : Type} [Group K] [Finite K]
   have hle : (S : Subgroup (MulAut K)) ≤ (MulAut.conj : K →* MulAut K).range := by
     intro s hs
     obtain ⟨b, hb⟩ := h s
-    obtain ⟨a, ha⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨a, ha⟩ := S.isPGroup ⟨s, hs⟩
     have hs3 : s ^ (3 ^ a) = 1 := by
       have := congrArg Subtype.val ha
       simpa using this

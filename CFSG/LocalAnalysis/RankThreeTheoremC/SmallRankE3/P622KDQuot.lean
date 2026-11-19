@@ -18,14 +18,14 @@ theorem p622_quot_core {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Prime) 
     {D V M₀ : Subgroup A} {z : A} (hKD : CFSG.Open.IsKGroup ↥D) (hzord : orderOf z = p)
     (hzD : z ∈ normalizer (D : Set A)) (hpD : ¬ p ∣ Nat.card D)
     (hV : CFSG.ABGLocalTools.IsSylowOf 2 V D) (hzV : z ∈ normalizer (V : Set A))
-    (hM₀D : M₀ ≤ D)
+    (_hM₀D : M₀ ≤ D)
     (H1 : ∀ U : Subgroup A, U ≤ V → U ≠ ⊥ → z ∈ normalizer (U : Set A) →
       normalizer (U : Set A) ⊓ D ≤ M₀)
     (H2 : centralizer ({z} : Set A) ⊓ D ≤ M₀)
     (hEven : KFactFieldAutEvenAt p) (hOdd : KFactFieldAutOddAt p) :
     D ≤ M₀ ⊔ rankThreePrimeCore 2 D := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   have hzp : z ^ p = 1 := by rw [← hzord]; exact pow_orderOf_eq_one z
   obtain ⟨hOD, hDO, hOcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 2 D
@@ -55,7 +55,7 @@ theorem p622_quot_core {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Prime) 
   have hzO : z ∈ normalizer (O : Set A) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.mem_normalizer_rankThreePrimeCore 2 D hzD
   have hWN : W ≤ normalizer (O : Set A) := sup_le hDO (Subgroup.zpowers_le.mpr hzO)
-  haveI hN0 : (O.subgroupOf W).Normal :=
+  have hN0 : (O.subgroupOf W).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOW).mpr hWN
   have hpO : ¬ p ∣ Nat.card O := fun h => hpD (h.trans (Subgroup.card_dvd_of_le hOD))
   have hpN0 : ¬ p ∣ Nat.card (O.subgroupOf W) := by
@@ -253,7 +253,7 @@ theorem p622_quot_core {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Prime) 
     have hPTgt : P ≤ M₀ ⊔ O :=
       sup_le ((hU₁V.trans hVM0).trans le_sup_left) le_sup_right
     have hPsyl : CFSG.ABGLocalTools.IsSylowOf 2 U₁ P := by
-      haveI : (O.subgroupOf D).Normal :=
+      have : (O.subgroupOf D).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hOD).mpr hDO
       have hcopN : Nat.Coprime 2 (Nat.card (O.subgroupOf D)) := by
         rw [hcardO']

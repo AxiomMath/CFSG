@@ -37,7 +37,7 @@ theorem exists_apply_ne_apply_one_of_mem_Irr {X : Type*} [Group X] [Finite X] {�
   by_contra hcon
   simp only [not_exists, not_not] at hcon
   have h0 : cfInner θ (1 : X → ℂ) = 0 := by
-    rw [cfInner_eq_ite_of_mem_Irr hθ one_mem_Irr, if_neg hne]
+    rw [cfInner_eq_ite_of_mem_Irr hθ one_mem_Irr, ite_eq_right hne]
   rw [cfInner_def] at h0
   have hsum : ∑ x : X, θ x * conj ((1 : X → ℂ) x) = (Nat.card X : ℂ) * θ 1 := by
     simp only [Pi.one_apply, map_one, mul_one]
@@ -110,7 +110,7 @@ theorem cfInner_self_prodCharEtaColSum (hW : IsCyclicTIPair W W1 W2)
   nth_rewrite 2 [hW.prodCharEtaColSum_eq_sum (σ := ω) j]
   rw [cfInner_sum_right]
   have hterm : ∀ i : Irr ↥W1, cfInner (hW.prodCharEtaColSum ω j) (hW.prodCharEta ω i j) = 1 :=
-    fun i => by rw [hW.cfInner_prodCharEtaColSum_prodCharEta hω j i j, if_pos rfl]
+    fun i => by rw [hW.cfInner_prodCharEtaColSum_prodCharEta hω j i j, ite_eq_left rfl]
   rw [Finset.sum_congr rfl (fun i (_ : i ∈ Finset.univ) => hterm i), Finset.sum_const,
     Finset.card_univ, nsmul_eq_mul, mul_one, ← Nat.card_eq_fintype_card,
     card_Irr_eq_card_of_isMulCommutative]

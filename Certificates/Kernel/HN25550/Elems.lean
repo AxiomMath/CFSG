@@ -59,8 +59,8 @@ theorem runProg_tri : ∀ (P : List (ℕ × ℕ × ℕ)) (R : ℕ → List ℕ) 
     unfold updW
     by_cases hs : s = c
     · subst hs
-      rw [Function.update_self, if_pos rfl, hR, hR, ← wordEl_append, ht, wordEl_single]
-    · rw [Function.update_of_ne hs, if_neg hs, hR]
+      rw [Function.update_self, ite_eq_left rfl, hR, hR, ← wordEl_append, ht, wordEl_single]
+    · rw [Function.update_of_ne hs, ite_eq_right hs, hR]
 
 theorem progRunG_bpr : ∀ (P : List (Bool × ℕ × ℕ × ℕ)) (R : ℕ → List ℕ) (Gs : List ℕ)
     (regs : ℕ → JH), bprOK RW R P Gs = true → (∀ r, regs r = wordEl rEl (R r)) →
@@ -77,8 +77,8 @@ theorem progRunG_bpr : ∀ (P : List (Bool × ℕ × ℕ × ℕ)) (R : ℕ → L
     unfold updW
     by_cases hs : s = c
     · subst hs
-      rw [Function.update_self, if_pos rfl, hR, hR, ← wordEl_append, ht, wordEl_single]
-    · rw [Function.update_of_ne hs, if_neg hs, hR]
+      rw [Function.update_self, ite_eq_left rfl, hR, hR, ← wordEl_append, ht, wordEl_single]
+    · rw [Function.update_of_ne hs, ite_eq_right hs, hR]
   | (false, a, b, d) :: P, R, Gs, regs, h, hR, r => by
     simp only [bprOK] at h
     change progRunG (Function.update regs b (regs a)⁻¹) P r =
@@ -87,14 +87,14 @@ theorem progRunG_bpr : ∀ (P : List (Bool × ℕ × ℕ × ℕ)) (R : ℕ → L
     unfold updW
     by_cases hs : s = b
     · subst hs
-      rw [Function.update_self, if_pos rfl, hR, wordEl_invW]
-    · rw [Function.update_of_ne hs, if_neg hs, hR]
+      rw [Function.update_self, ite_eq_left rfl, hR, wordEl_invW]
+    · rw [Function.update_of_ne hs, ite_eq_right hs, hR]
 
 theorem rEl_zero : rEl 0 = aJ := by
-  rw [rEl_eq, if_pos rfl]
+  rw [rEl_eq, ite_eq_left rfl]
 
 theorem rEl_one : rEl 1 = bJ := by
-  rw [rEl_eq, if_neg (by norm_num), if_pos rfl]
+  rw [rEl_eq, ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem codeEl_one : codeEl rEl 1 = aJ := by
   have h := codeEl_odd (ρ := rEl) 0
@@ -109,11 +109,11 @@ theorem codeEl_three : codeEl rEl 3 = bJ := by
 theorem jRegs0_eq (r : ℕ) : jRegs0 r = wordEl rEl (r0 r) := by
   unfold jRegs0 r0
   by_cases h1 : r = 1
-  · rw [if_pos h1, if_pos h1, wordEl_single, codeEl_one]
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1, wordEl_single, codeEl_one]
+  · rw [ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : r = 2
-    · rw [if_pos h2, if_pos h2, wordEl_single, codeEl_three]
-    · rw [if_neg h2, if_neg h2]
+    · rw [ite_eq_left h2, ite_eq_left h2, wordEl_single, codeEl_three]
+    · rw [ite_eq_right h2, ite_eq_right h2]
       rfl
 
 theorem hj_len : HJ.length = 17 := beq_iff_eq.1 ties.2.2.2.1
@@ -186,8 +186,8 @@ theorem seedWordJ_eq (w : List ℕ) :
   refine List.map_congr_left fun l _ => ?_
   simp only [Function.comp_apply]
   by_cases h : l = 1
-  · rw [if_pos h, if_pos h, codeEl_one]
-  · rw [if_neg h, if_neg h, codeEl_three]
+  · rw [ite_eq_left h, ite_eq_left h, codeEl_one]
+  · rw [ite_eq_right h, ite_eq_right h, codeEl_three]
 
 theorem g6cJ_eq : g6cJ = rEl G6C := by
   obtain ⟨-, -, -, -, -, -, -, -, h1, h2, h3, h4, -⟩ := ties
@@ -217,17 +217,17 @@ theorem g6_eq {s : ℕ} (hs : s ∈ G6S) : g6 s = codeEl rEl (g6code G6S G6 s) :
   rcases hs with rfl | rfl | rfl | rfl
   · have := c6G_eq (k := 0) (by norm_num)
     rw [hC] at this
-    rw [g6, if_pos (by norm_num)]
+    rw [g6, ite_eq_left (by norm_num)]
     exact this
   · have := c6G_eq (k := 1) (by norm_num)
     rw [hC] at this
-    rw [g6, if_pos (by norm_num)]
+    rw [g6, ite_eq_left (by norm_num)]
     exact this
   · have := c6G_eq (k := 2) (by norm_num)
     rw [hC] at this
-    rw [g6, if_pos (by norm_num)]
+    rw [g6, ite_eq_left (by norm_num)]
     exact this
-  · rw [g6, if_neg (by norm_num)]
+  · rw [g6, ite_eq_right (by norm_num)]
     exact e6J_one
 
 theorem pr_parts : PW.length = 4 ∧ PR.length = 4 ∧ ∀ j < 4,
@@ -263,7 +263,7 @@ theorem g6F_coe {s : ℕ} (hs : s ∈ G6S) : ((g6F s : C6) : JH) = g6 s := by
   have hs12 : s < 12 := by
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hs
     omega
-  rw [g6F, dif_pos hs12]
+  rw [g6F, dite_eq_left hs12]
   rfl
 
 theorem pgen_eq {j : ℕ} (hj : j < 4) : ((pgen j : C6) : JH) = rEl (PR.getD j 0) := by

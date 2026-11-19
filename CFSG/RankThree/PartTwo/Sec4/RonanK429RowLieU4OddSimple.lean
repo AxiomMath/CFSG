@@ -15,32 +15,32 @@ theorem isSimpleGroup_of_isType429
     {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
     [Nontrivial X] (h : IsType429 X) : IsSimpleGroup X := by
   rcases h with ⟨p, e, hp, he, ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩⟩ | hA | hM | hM | hJ
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
+  · have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact φ.isSimpleGroup
   · by_cases hq2 : p ^ e = 2
     · exfalso
       obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp hq2
       have hs := Sec13.isSolvable_projSU_two
-      have hsolv : IsSolvable X :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+      have hsolv : Group.IsSolvable X :=
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       exact Group.IsPerfect.not_isSolvable X hsolv
-    · haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
+    · have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
         ⟨Fact.out, he, le_rfl, fun h => hq2 (Prod.mk.inj h).2⟩
       exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := hA
-    haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := hM
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
+    have : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
       CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := hM
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
+    have : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
       CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
     exact φ.isSimpleGroup
   · obtain ⟨φ⟩ := hJ
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+    have : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
     exact φ.isSimpleGroup
 
 @[expose] def NoCommNormalPair3 (X : Type*) [Group X] : Prop :=
@@ -74,12 +74,12 @@ theorem noCommNormalPair3_of_simple {X : Type*} [Group X] [Finite X] [Group.IsPe
   intro N₁ N₂ h₁ h₂ hc a ha ha1 ha3 b hb hb1 hb3
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup X := CFSG.pCore 2 X with hNdef
-  haveI hNn : N.Normal := CFSG.pCore_normal
-  haveI := hs
+  have hNn : N.Normal := CFSG.pCore_normal
+  have := hs
   have hM : ∀ M : Subgroup X, M.Normal → ∀ c ∈ M, c ≠ 1 → c ^ 3 = 1 →
       M.map (QuotientGroup.mk' N) = ⊤ := by
     intro M hMn c hc hc1 hc3
-    haveI : (M.map (QuotientGroup.mk' N)).Normal :=
+    have : (M.map (QuotientGroup.mk' N)).Normal :=
       hMn.map _ (QuotientGroup.mk'_surjective N)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map (QuotientGroup.mk' N)) with h | h
     · exfalso

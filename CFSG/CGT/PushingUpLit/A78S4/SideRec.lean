@@ -40,6 +40,7 @@ variable (hZ : Z ≠ ⊥)
 
 include hZ
 
+omit hZ in
 theorem trans : ∀ z ∈ Z, z ≠ 1 → ∀ z' ∈ Z, z' ≠ 1 →
     ∃ m ∈ Subgroup.normalizer (V : Set G), m * z * m⁻¹ = z' := by
   intro z hz hz1 z' hz' hz'1
@@ -69,7 +70,7 @@ theorem cent_of_cent₀
     (fun t ht => cj_eq_of_mem_normalizer_set (P.side₁.T_le_Z ht))
   have hC₀ := h0 z₀ hz₀ hz₀1 hz₀T
   intro z hz hz1
-  obtain ⟨m, hm, hmz⟩ := P.trans hZ z₀ hz₀ hz₀1 z hz hz1
+  obtain ⟨m, hm, hmz⟩ := P.trans z₀ hz₀ hz₀1 z hz hz1
   intro g hg
   have hg' : m⁻¹ * g * m ∈ Subgroup.centralizer ({z₀} : Set G) := by
     rw [Subgroup.mem_centralizer_singleton_iff] at hg ⊢
@@ -82,6 +83,7 @@ theorem cent_of_cent₀
   rw [e1]
   exact mul_mem (mul_mem hm h1) (inv_mem hm)
 
+omit hZ in
 theorem ti_of_cent
     (hcent : ∀ z ∈ Z, z ≠ 1 →
       Subgroup.centralizer ({z} : Set G) ≤ Subgroup.normalizer (V : Set G)) :
@@ -95,7 +97,7 @@ theorem ti_of_cent
   have hz'1 : g⁻¹ * z * g ≠ 1 := fun h1 => hz1 (by
     have : z = g * (g⁻¹ * z * g) * g⁻¹ := by group
     rw [this, h1]; group)
-  obtain ⟨m, hm, hmz⟩ := P.trans hZ _ hz' hz'1 z hz.1 hz1
+  obtain ⟨m, hm, hmz⟩ := P.trans _ hz' hz'1 z hz.1 hz1
   have hmg : m⁻¹ * g ∈ Subgroup.centralizer ({g⁻¹ * z * g} : Set G) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     have e1 : m * (g⁻¹ * z * g) * m⁻¹ = g * (g⁻¹ * z * g) * g⁻¹ := by rw [hmz]; group
@@ -263,6 +265,7 @@ theorem _root_.CFSG.CGT.PushingUpLit.A78.A78Cfg.s4_O2_M :
     exact hkP
   exact CGT6.le_oTwoIn_of_normal (hPT.trans le_sup_right) (cfg.hyg.sup₁.trans hnorm) hP2
 
+omit hZ in
 theorem _root_.CFSG.CGT.PushingUpLit.A78.A78Cfg.s4_cent_V :
     Subgroup.normalizer ((oTwoIn (L₁ ⊔ T) : Subgroup G) : Set G) ⊓
       Subgroup.centralizer ((oTwoIn (L₁ ⊔ T) : Subgroup G) : Set G) ≤ oTwoIn (L₁ ⊔ T) := by
@@ -345,13 +348,13 @@ theorem _root_.CFSG.CGT.PushingUpLit.A78.A78Cfg.sp4Side :
       T_inf_L := P.side₁.sylowJ.eq_of_le (le_inf P.side₁.J_le_T P.side₁.J_le_L) inf_le_right
         (P.side₁.pT.to_le inf_le_left)
       perfect := cfg.s4_perfect hZ
-      cent_V := cfg.s4_cent_V hZ
+      cent_V := cfg.s4_cent_V
       O2_M := cfg.s4_O2_M
       card_Z := P.card_Z hZ
       cent_z := hcent
       normalizer_Z := cfg.s4_normalizer_Z hZ
-      ti := P.ti_of_cent hZ hcent
-      trans := P.trans hZ }
+      ti := P.ti_of_cent hcent
+      trans := P.trans }
 
 end Cfg
 

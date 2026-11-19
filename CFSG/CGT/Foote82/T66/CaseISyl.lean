@@ -26,7 +26,7 @@ theorem isPGroup_zpowers_of_mul_self {Γ : Type*} [Group Γ] {a : Γ} (ha : a * 
 
 theorem exists_sylow_T₀ :
     ∃ T₀ : Sylow 2 (Perm (Fin (m + 6 + 2))), swap 0 1 ∈ T₀ ∧ swap 2 3 ∈ T₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : swap (0 : Fin (m + 6 + 2)) 1 * swap 2 3 = swap 2 3 * swap 0 1 := by
     refine (Equiv.Perm.Disjoint.commute ?_).eq
     intro x
@@ -92,11 +92,11 @@ theorem Hyp.syl_criterion (h : Hyp G L z v H₁ m ψ) (T₀ : Sylow 2 (Perm (Fin
     {Q : Subgroup (GLV V)} (hQG : Q ≤ G) (hQ2 : IsPGroup 2 Q)
     (hTQ : (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) ≤ Q) :
     Q = (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup (GLV V) := (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) with hTdef
   by_contra hne
   have hlt : T < Q := lt_of_le_of_ne hTQ (Ne.symm hne)
-  haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ2.isNilpotent
   set T' : Subgroup ↥Q := T.subgroupOf Q with hT'
   have hT'lt : T' < ⊤ := by
     refine lt_of_le_of_ne le_top fun he => ?_
@@ -105,7 +105,7 @@ theorem Hyp.syl_criterion (h : Hyp G L z v H₁ m ψ) (T₀ : Sylow 2 (Perm (Fin
     intro q hq
     have : (⟨q, hq⟩ : ↥Q) ∈ T' := by rw [he]; trivial
     exact Subgroup.mem_subgroupOf.1 this
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'lt)
+  obtain ⟨x, hxN, hxT⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'lt)
   set x₀ : GLV V := (x : GLV V) with hx₀
   have hx₀G : x₀ ∈ G := hQG x.2
   have hx₀T : x₀ ∉ T := fun h' => hxT (Subgroup.mem_subgroupOf.2 h')

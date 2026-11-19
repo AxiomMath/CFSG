@@ -136,8 +136,8 @@ theorem orth2_finrank_commSpace_ne_one (hK : Nat.card K = 2)
   have hQb1 : Q b = 1 := (card_two_cases hK (Q b)).resolve_left hQb
   have hcb1 : polar Q c b = 1 := (card_two_cases hK _).resolve_left hcb
   have hbc1 : polar Q b c = 1 := by rw [polar_comm]; exact hcb1
-  haveI : Invertible (Q c) := invertibleOfNonzero hQc
-  haveI : Invertible (Q b) := invertibleOfNonzero hQb
+  have : Invertible (Q c) := invertibleOfNonzero hQc
+  have : Invertible (Q b) := invertibleOfNonzero hQb
   set tc := TauCeti.QuadraticMap.reflection Q c with htc
   set tb := TauCeti.QuadraticMap.reflection Q b with htb
   have hGtc : G = tc :=

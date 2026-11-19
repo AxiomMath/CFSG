@@ -131,7 +131,7 @@ private theorem card_center_eq_one_of_multiplier_tits {K : Type} [Group K] [Fini
   have hcard : Nat.card (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) = 1 := by
     rw [Nat.card_congr eM.toEquiv]
     simp
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf
     (L := K) (X := K ⧸ Subgroup.center K) hQ' (MulEquiv.refl _)
@@ -152,7 +152,7 @@ private theorem pRank_three_le_two_of_forall_card_lt {G : Type} [Group G] [Finit
 private theorem pRank_three_commutator_reeFixed_F4_two_le {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (↥(commutator (reeFixed ReeTag.F4 K 0)))) ≤ 2 := by
-  haveI : Finite (reeFixed ReeTag.F4 K 0) :=
+  have : Finite (reeFixed ReeTag.F4 K 0) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.SectionRank.TitsOrder.Tits_card hK]
       norm_num)
@@ -187,7 +187,7 @@ private theorem rk2_pRank_le_derived_of_markedModel {K : Type} [Group K] [Finite
         CFSG.StandardType.markDeg] using hM
     have hZ : Nat.card (Subgroup.center K) = 1 :=
       card_center_eq_one_of_griess_psu33 hQ hMpsu
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hZ' : ¬ p ∣ Nat.card (Subgroup.center K) := by
       rw [hZ]
       intro hd
@@ -227,7 +227,7 @@ private theorem rk2_pRank_le_derived_of_markedModel {K : Type} [Group K] [Finite
         CFSG.StandardType.markDeg] using hM
     have hZ : Nat.card (Subgroup.center K) = 1 :=
       card_center_eq_one_of_multiplier_tits hQ hMtits
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hZ' : ¬ p ∣ Nat.card (Subgroup.center K) := by
       rw [hZ]
       intro hd

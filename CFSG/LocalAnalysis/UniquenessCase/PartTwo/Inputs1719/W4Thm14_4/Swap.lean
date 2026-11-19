@@ -58,8 +58,8 @@ private theorem component_eq_left_or_right_of_le_sup {W : Type*} [CommGroup W] [
     exact hKcomm a.1 a.2 b.1 hb
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hbot : commutator ↥K = ⊥ := (commutator_eq_bot_iff (G := ↥K)).mpr hKabel
-  haveI : _root_.IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-  haveI : Nontrivial ↥K :=
+  have : _root_.IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Nontrivial ↥K :=
     (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
   have htopbot : (⊤ : Subgroup ↥K) = ⊥ := by rw [← hq.1, hbot]
   exact top_ne_bot htopbot
@@ -365,7 +365,7 @@ theorem w4Thm14_4_swap (hKI : KInvolGen) (hKS : KSimpleGen2) (hPair : KA5PairIrr
         ·
           have hsimple₁ : IsSimpleGroup ↥L₁ := by
             obtain ⟨e⟩ := ha₁
-            haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+            have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
               alternatingGroup.isSimpleGroup (by simp)
             exact e.isSimpleGroup
           obtain ⟨y₁, hy₁, y₂, hy₂, hgen, hnc⟩ := hKS (MulAut W) L₁ (Or.inr ha₁)

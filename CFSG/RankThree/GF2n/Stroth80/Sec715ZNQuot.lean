@@ -153,7 +153,7 @@ theorem exists_quadModel_of_surjective (π : G → E) (c : G → K) (B : LinearM
   have hπH : ∀ a : ↥R, (a : G) ∈ N → πH (θ a) = π a := by
     intro a ha
     have hh : ∃ b : ↥R, (b : G) ∈ N ∧ θ b = θ a := ⟨a, ha, rfl⟩
-    simp only [πH, dif_pos hh]
+    simp only [πH, dite_eq_left hh]
     obtain ⟨hbN, hb⟩ := hh.choose_spec
     have hY := hθeq _ _ hb
     have hdN : ((hh.choose⁻¹ * a : ↥R) : G) ∈ N := hYN hY
@@ -164,7 +164,7 @@ theorem exists_quadModel_of_surjective (π : G → E) (c : G → K) (B : LinearM
   have hγH : ∀ a : ↥R, (a : G) ∈ Z0 → γH (θ a) = c a := by
     intro a ha
     have hh : ∃ b : ↥R, (b : G) ∈ Z0 ∧ θ b = θ a := ⟨a, ha, rfl⟩
-    simp only [γH, dif_pos hh]
+    simp only [γH, dite_eq_left hh]
     obtain ⟨hbZ, hb⟩ := hh.choose_spec
     have hY := hθeq _ _ hb
     have hdZ : ((hh.choose⁻¹ * a : ↥R) : G) ∈ Z0 := by
@@ -193,7 +193,7 @@ theorem exists_quadModel_of_surjective (π : G → E) (c : G → K) (B : LinearM
       exact ⟨a, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
   have hsplit : ∀ a : ↥R, (a : G) ∈ Zn → ∃ z : ↥R, (z : G) ∈ Z0 ∧ θ a = θ z := by
     intro a ha
-    haveI : (Y.subgroupOf R).Normal := by
+    have : (Y.subgroupOf R).Normal := by
       rw [← hθker]
       exact θ.normal_ker
     have hYR : Y ≤ R := hYN.trans hNR

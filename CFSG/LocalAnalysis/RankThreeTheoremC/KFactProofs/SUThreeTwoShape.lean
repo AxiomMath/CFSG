@@ -145,7 +145,7 @@ theorem Heis3Rel.S_mul_D_ne (h : Heis3Rel S D Z) (hZ : Z ≠ 1) : S * D ≠ D * 
 
 theorem card_heisSubgroup [Finite H] (hH : Nat.card H = 216) (h : Heis3Rel S D Z) (hZ : Z ≠ 1) :
     Nat.card (heisSubgroup h) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 (heisSubgroup h) := fun x => ⟨1, by
     apply Subtype.ext
     simpa using h.cube_of_mem x.2⟩
@@ -165,7 +165,7 @@ theorem card_heisSubgroup [Finite H] (hH : Nat.card H = 216) (h : Heis3Rel S D Z
     have hs := (Nat.card_eq_one_iff_unique.mp (by rw [hn]; norm_num)).1
     exact hnc fun a b => Subsingleton.elim _ _
   · exfalso
-    haveI : IsCyclic (heisSubgroup h) := isCyclic_of_prime_card (p := 3) (by rw [hn]; norm_num)
+    have : IsCyclic (heisSubgroup h) := isCyclic_of_prime_card (p := 3) (by rw [hn]; norm_num)
     exact hnc (isMulCommutative_iff.mp (IsCyclic.isMulCommutative))
   · exfalso
     exact hnc (isMulCommutative_iff.mp (IsPGroup.isMulCommutative_of_card_eq_prime_sq hn))
@@ -192,7 +192,7 @@ theorem Heis3Rel.F_mem_normalizer [Finite H] (h : Heis3Rel S D Z) {F : H}
 theorem heisSubgroup_normal [Finite H] (hH : Nat.card H = 216) (h : Heis3Rel S D Z) (hZ : Z ≠ 1)
     {F : H} (hFN : F ∈ Subgroup.normalizer (heisSubgroup h : Set H)) (hF : orderOf F = 4) :
     (heisSubgroup h).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E := heisSubgroup h with hE
   have hcE : Nat.card E = 27 := card_heisSubgroup hH h hZ
   set N := Subgroup.normalizer (E : Set H) with hNdef
@@ -345,7 +345,7 @@ theorem shape_of_relations [Finite H] (hH : Nat.card H = 216) (h : Heis3Rel S D 
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := F) (by simpa using hF2)
       (by simpa using hF4)
     simpa using this
-  haveI := heisSubgroup_normal hH h hZ (h.F_mem_normalizer hFS hFD) hord
+  have := heisSubgroup_normal hH h hZ (h.F_mem_normalizer hFS hFD) hord
   intro x hx
   refine h.cube_of_mem ?_
   have hle : Subgroup.closure {x : H | x ∈ (⊤ : Subgroup H) ∧ Odd (orderOf x)} ≤
@@ -397,7 +397,7 @@ theorem sF_mul_sS : OmegaData.sF o * OmegaData.sS o = OmegaData.sD o * OmegaData
 
 theorem sF_mul_sD : OmegaData.sF o * OmegaData.sD o = OmegaData.sS o ^ 2 * OmegaData.sF o := by
   apply su_ext
-  simp only [mat_mul, mat_pow, OmegaData.sS, OmegaData.sD, OmegaData.sF, mat_suMk, pow_two]
+  simp only [mat_mul, OmegaData.sS, OmegaData.sD, OmegaData.sF, mat_suMk, pow_two]
   exact mat_F_D o.hω o.h2
 
 theorem mat_F_F : (mF o.ω : Matrix (Fin 3) (Fin 3) K) * mF o.ω = mP := by
@@ -412,12 +412,12 @@ theorem mat_P_P : (mP : Matrix (Fin 3) (Fin 3) K) * mP = 1 := by
 
 theorem sF_sq : OmegaData.sF o ^ 2 = OmegaData.sP o := by
   apply su_ext
-  simp only [mat_pow, OmegaData.sF, OmegaData.sP, mat_suMk, pow_two]
+  simp only [OmegaData.sF, OmegaData.sP, mat_suMk, pow_two]
   exact mat_F_F o
 
 theorem sP_sq : OmegaData.sP o ^ 2 = 1 := by
   apply su_ext
-  simp only [mat_pow, OmegaData.sP, mat_suMk, pow_two, mat_one]
+  simp only [OmegaData.sP, pow_two, mat_one]
   exact mat_P_P
 
 theorem sP_ne_one : OmegaData.sP o ≠ 1 := by
@@ -435,8 +435,8 @@ theorem sF_four : OmegaData.sF o ^ 4 = 1 := by
   rw [show 4 = 2 * 2 from rfl, pow_mul, sF_sq, sP_sq]
 
 theorem card_SUg [Finite K] (hK : Nat.card K = 4) : Nat.card (SUg K) = 216 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
   have h2 := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 2) (f := 1)
     (by rw [hK]; norm_num)
   rw [pow_one] at h2

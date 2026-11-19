@@ -15,28 +15,31 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_repr_inl_of_neg {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u : V}
     (hu : ((fr.signChange (ffE8Hat Finset.univ) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = -u)
     (i : Fin 2) : fr.b.repr u (Sum.inl i) = 0 := by
   have h := congrArg (fun x => fr.b.repr x (Sum.inl i)) hu
   have hnot : (Sum.inl i : FFE8Idx) ∉ ffE8Hat Finset.univ := by simp [ffE8Hat]
-  simp only [fr.repr_signChange, hnot, if_false, map_neg, Finsupp.coe_neg, Pi.neg_apply] at h
+  simp only [fr.repr_signChange, hnot, ite_false, map_neg, Finsupp.coe_neg, Pi.neg_apply] at h
   revert h
   generalize fr.b.repr u (Sum.inl i) = c
   revert c
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_repr_inr_of_fix {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u : V}
     (hu : ((fr.signChange (ffE8Hat Finset.univ) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = u)
     (k : Fin 4) : fr.b.repr u (Sum.inr k) = 0 := by
   have h := congrArg (fun x => fr.b.repr x (Sum.inr k)) hu
   have hmem : (Sum.inr k : FFE8Idx) ∈ ffE8Hat Finset.univ := by simp [ffE8Hat]
-  simp only [fr.repr_signChange, hmem, if_true] at h
+  simp only [fr.repr_signChange, hmem, ite_true] at h
   revert h
   generalize fr.b.repr u (Sum.inr k) = c
   revert c
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_refl_neg {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
     (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u : V} [Invertible (Q u)] (hu : Q u = -ε)
     (ht : ((fr.signChange (ffE8Hat Finset.univ) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = -u) :
@@ -45,6 +48,7 @@ theorem ffE8Stab_refl_neg {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
   ffE8K1_refl_mem_normalizer hε fr hu (ffE8Stab_repr_inl_of_neg fr ht 0)
     (ffE8Stab_repr_inl_of_neg fr ht 1)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_refl_fix {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u : V}
     [Invertible (Q u)]
     (ht : ((fr.signChange (ffE8Hat Finset.univ) : OGroup Q) : V ≃ₗ[ZMod 3] V) u = u) :
@@ -52,6 +56,7 @@ theorem ffE8Stab_refl_fix {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u
       normalizer (ffE8Group fr : Set (OGroup Q)) :=
   ffE8K1_refl_mem_normalizer_perp fr (ffE8Stab_repr_inr_of_fix fr ht)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_reflection_apply {γ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ}
     (hγ : IsSimilitude Q γ μ) (w : V) [Invertible (Q w)] [Invertible (Q (γ w))] (y : V) :
     TauCeti.QuadraticMap.reflection Q (γ w) (γ y) =
@@ -70,6 +75,7 @@ theorem ffE8Stab_reflection_apply {γ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ}
   rw [TauCeti.QuadraticMap.reflection_apply, TauCeti.QuadraticMap.reflection_apply, map_sub,
     map_smul, hpol, hs]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_simAct_reflection {γ : simGroup Q} {μ : (ZMod 3)ˣ}
     (hγ : IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) μ) (w : V) [Invertible (Q w)]
     [Invertible (Q ((γ : V ≃ₗ[ZMod 3] V) w))] :
@@ -83,6 +89,7 @@ theorem ffE8Stab_simAct_reflection {γ : simGroup Q} {μ : (ZMod 3)ˣ}
     ← ffE8Stab_reflection_apply hγ w]
   simp [LinearEquiv.coe_inv]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_conj_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
     (fr' : PFrame Q FFE8Idx (ffE8Norm ε)) (fr : PFrame Q (Option (Fin 5)) ffC)
     (ht : fr'.signChange (ffE8Hat Finset.univ) = ffZ0p fr) {γ : simGroup Q} {μ : (ZMod 3)ˣ}
@@ -110,13 +117,13 @@ theorem ffE8Stab_conj_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
   have hsingle : ∀ i : Fin 5, fr.signChange {some i} ∈
       (normalizer (ffE8Group fr' : Set (OGroup Q))).comap (simAct Q γ).toMonoidHom := by
     refine Fin.lastCases ?_ (fun i' => ?_)
-    · haveI : Invertible (Q (fr.b (some (Fin.last 4)))) :=
+    · have : Invertible (Q (fr.b (some (Fin.last 4)))) :=
         invertibleOfNonzero (by rw [hone]; decide)
-      haveI : Invertible (Q ((γ : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.last 4))))) :=
+      have : Invertible (Q ((γ : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.last 4))))) :=
         invertibleOfNonzero (by rw [hQu]; exact hne)
       have hw : ((ffZ0p fr : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.last 4))) =
           fr.b (some (Fin.last 4)) := by
-        rw [ffZ0p, fr.signChange_basis, if_neg]
+        rw [ffZ0p, fr.signChange_basis, ite_eq_right]
         rw [mem_ffOpt_some]
         exact hlast
       show simAct Q γ (fr.signChange {some (Fin.last 4)}) ∈
@@ -124,13 +131,13 @@ theorem ffE8Stab_conj_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
       rw [ffOutFF6POmega_signChange_single_eq_reflection fr (some (Fin.last 4)),
         ffE8Stab_simAct_reflection hγ]
       exact ffE8Stab_refl_fix fr' (by rw [hzv, hcomm, hw])
-    · haveI : Invertible (Q (fr.b (some (Fin.castSucc i')))) :=
+    · have : Invertible (Q (fr.b (some (Fin.castSucc i')))) :=
         invertibleOfNonzero (by rw [hone]; decide)
-      haveI : Invertible (Q ((γ : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.castSucc i'))))) :=
+      have : Invertible (Q ((γ : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.castSucc i'))))) :=
         invertibleOfNonzero (by rw [hQu]; exact hne)
       have hw : ((ffZ0p fr : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b (some (Fin.castSucc i'))) =
           -fr.b (some (Fin.castSucc i')) := by
-        rw [ffZ0p, fr.signChange_basis, if_pos]
+        rw [ffZ0p, fr.signChange_basis, ite_eq_left]
         rw [mem_ffOpt_some]
         exact hlow i'
       show simAct Q γ (fr.signChange {some (Fin.castSucc i')}) ∈
@@ -142,15 +149,16 @@ theorem ffE8Stab_conj_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
   obtain ⟨J, hJn, -, rfl⟩ := hg
   exact ffE8K1_signChange_mem fr hsingle J hJn
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_ts_mem_normalizer {ε : ZMod 3} (fr' : PFrame Q FFE8Idx (ffE8Norm ε))
     (fr : PFrame Q (Option (Fin 5)) ffC)
     (ht : fr'.signChange (ffE8Hat Finset.univ) = ffZ0p fr) :
     ffTs fr ∈ normalizer
       (((ffE8Group fr').map (ffSim Q) : Subgroup (ProjSim Q)) : Set (ProjSim Q)) := by
-  haveI : Invertible (Q (fr.b none)) := invertibleOfNonzero (by rw [fr.norm]; decide)
+  have : Invertible (Q (fr.b none)) := invertibleOfNonzero (by rw [fr.norm]; decide)
   have hfix : ((fr'.signChange (ffE8Hat Finset.univ) : OGroup Q) : V ≃ₗ[ZMod 3] V)
       (fr.b none) = fr.b none := by
-    rw [ht, ffZ0p, fr.signChange_basis, if_neg (none_notMem_ffOpt _)]
+    rw [ht, ffZ0p, fr.signChange_basis, ite_eq_right (none_notMem_ffOpt _)]
   have hmem := ffE8Stab_refl_fix fr' hfix
   have hts : ffTs fr = ffSim Q (fr.signChange {none}) := rfl
   rw [hts, ffOutFF6POmega_signChange_single_eq_reflection fr none]

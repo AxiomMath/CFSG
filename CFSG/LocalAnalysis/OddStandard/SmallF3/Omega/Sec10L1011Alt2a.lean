@@ -106,7 +106,7 @@ private theorem sec1011a_pow_val_add {t : A} (ht : t * t = 1) (a b : ZMod 2) :
 
 theorem sec1011_phi6_hom (h : Sec1011Core B t K φ) (v w : Fin 6 → ZMod 2) :
     sec1011_phi6 t φ (v + w) = sec1011_phi6 t φ v * sec1011_phi6 t φ w := by
-  letI : CommGroup A := { ‹Group A› with mul_comm := h.comm }
+  let : CommGroup A := { ‹Group A› with mul_comm := h.comm }
   have hhom : φ (∑ i : Fin 5, (v + w) i.succ • sec1011_wfour i) =
       φ (∑ i : Fin 5, v i.succ • sec1011_wfour i)
         * φ (∑ i : Fin 5, w i.succ • sec1011_wfour i) := by
@@ -178,7 +178,7 @@ theorem sec1011_phi6_surj (h : Sec1011Core B t K φ) (a : A) : ∃ v, sec1011_ph
 theorem sec1011_phi6_ext (hcomm : ∀ a b : A, a * b = b * a) (f g : (Fin 6 → ZMod 2) → A)
     (hf : ∀ v w, f (v + w) = f v * f w) (hg : ∀ v w, g (v + w) = g v * g w)
     (hfg : ∀ i, f (Pi.single i 1) = g (Pi.single i 1)) : f = g := by
-  letI : CommGroup A := { ‹Group A› with mul_comm := hcomm }
+  let : CommGroup A := { ‹Group A› with mul_comm := hcomm }
   have hzero_f : f 0 = 1 := by
     have h := hf 0 0
     rw [add_zero] at h

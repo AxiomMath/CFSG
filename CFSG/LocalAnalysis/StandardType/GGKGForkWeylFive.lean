@@ -85,7 +85,7 @@ private theorem ggKGW5_M_ne_one : ggKGW5_M ≠ 1 := by
 
 private theorem ggKGW5_orderOf_c :
     orderOf ggKGW5_c = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply ggKGW5_Atw_injective
     have h : Atw (ggKGW5_c ^ 5) = (Atw ggKGW5_c) ^ 5 :=
@@ -195,7 +195,7 @@ private theorem ggKGW5_exists_conj
     (w : WeylGroup Tag.E6) (hw : orderOf w = 5) :
     ∃ y : WeylGroup Tag.E6, y⁻¹ * w * y ∈ Subgroup.zpowers ggKGW5_c := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hordc : orderOf ggKGW5_c = 5 := ggKGW5_orderOf_c
   have hcard : Nat.card (WeylGroup Tag.E6) = 51840 :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.card_weylGroup_E6
@@ -212,7 +212,7 @@ private theorem ggKGW5_exists_conj
     norm_num
   let Pc : Sylow 5 (WeylGroup Tag.E6) := Sylow.ofCard (Subgroup.zpowers ggKGW5_c) hcw
   let Pw : Sylow 5 (WeylGroup Tag.E6) := Sylow.ofCard (Subgroup.zpowers w) hww
-  haveI : MulAction.IsPretransitive (WeylGroup Tag.E6) (Sylow 5 (WeylGroup Tag.E6)) :=
+  have : MulAction.IsPretransitive (WeylGroup Tag.E6) (Sylow 5 (WeylGroup Tag.E6)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (WeylGroup Tag.E6) Pc Pw
   refine ⟨y, ?_⟩
@@ -236,7 +236,7 @@ private theorem ggKGW5_card_c
     Nat.card {a : Fin Tag.E6.rank → C // mactC (Atw ggKGW5_c) a = a} ≤ 5 ^ 3 := by
   rw [ggKGW5_Atw_c]
   change Nat.card {a : Fin 6 → C // mactC ggKGW5_M6 a = a} ≤ 5 ^ 3
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hle : Nat.card {a : Fin 6 → C // mactC ggKGW5_M6 a = a} ≤ Nat.card (C × C) := by
     refine Nat.card_le_card_of_injective (fun a => (a.1 1, a.1 5)) ?_
     intro a b hab
@@ -255,7 +255,7 @@ theorem weylE6_five_fixed
     {C : Type} [CommGroup C] (hC : Nat.card C = 5) {w : WeylGroup Tag.E6}
     (hw : orderOf w = 5) :
     Nat.card {a : Fin Tag.E6.rank → C // mactC (Atw w) a = a} ≤ 5 ^ 3 := by
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   obtain ⟨y, hy⟩ := ggKGW5_exists_conj w hw
   set h : WeylGroup Tag.E6 := y⁻¹ * w * y with hh_def
   have hh_mem : h ∈ Subgroup.zpowers ggKGW5_c := by rw [hh_def]; exact hy

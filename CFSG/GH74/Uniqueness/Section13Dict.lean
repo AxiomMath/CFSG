@@ -51,7 +51,7 @@ theorem A6.exists_dict {F : Subgroup X} {n e : ℕ} (hB : BenderSub Z M F n 3 e)
     ∃ Tb T, A6.Dict Z M F n e Tb T := by
   obtain ⟨Tb, hTb⟩ := hB.borel
   obtain ⟨Q, hQ⟩ := A6.exists_sylow_map_eq (center ↥F) Tb
-  refine ⟨Tb, (Q : Subgroup ↥F).map F.subtype, hB, hTb, map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+  refine ⟨Tb, (Q : Subgroup ↥F).map F.subtype, hB, hTb, map_subtype_le _, Q.isPGroup.map _, ?_⟩
   rw [A6.subgroupOf_map_subtype_eq]
   exact hQ
 

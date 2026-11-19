@@ -16,8 +16,8 @@ private theorem card_modEq_fixed_perm {α : Type*} [Finite α] (σ : Equiv.Perm 
     (h3 : σ ^ 3 = 1) :
     Nat.card α ≡ (Function.fixedPoints σ).ncard [MOD 3] := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype α := Fintype.ofFinite α
   let f : Function.End α := ⇑σ
   have hpow : ∀ k : ℕ, f ^ k = (⇑(σ ^ k) : Function.End α) := by
     intro k
@@ -38,7 +38,7 @@ theorem card_modEq_fixed (ρ : G) (hρ3 : ρ * ρ * ρ = 1) (C : Set G)
     (hC : ∀ x ∈ C, ρ * x * ρ⁻¹ ∈ C) :
     C.ncard ≡ {x ∈ C | ρ * x * ρ⁻¹ = x}.ncard [MOD 3] := by
   classical
-  haveI : Fintype ↥C := Fintype.ofFinite ↥C
+  have : Fintype ↥C := Fintype.ofFinite ↥C
   let f : ↥C → ↥C := fun x => ⟨ρ * x * ρ⁻¹, hC x x.2⟩
   have hfinj : Function.Injective f := by
     intro x y h

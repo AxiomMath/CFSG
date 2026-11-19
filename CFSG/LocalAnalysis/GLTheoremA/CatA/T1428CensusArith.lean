@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA
 
 theorem eq_of_pow_three_eq_pow_three {k : Type*} [Field k] [Finite k]
     (hcop : Nat.Coprime 3 (Nat.card k - 1)) {a b : k} (h : a ^ 3 = b ^ 3) : a = b := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   rcases eq_or_ne a 0 with rfl | ha
   · have hb : b = 0 := by
       have h3 : b ^ 3 = 0 := by rw [← h]; simp

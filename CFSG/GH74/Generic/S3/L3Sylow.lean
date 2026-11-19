@@ -35,13 +35,13 @@ theorem isMax_map_center (Q : Sylow 2 L) (hodd : Odd (Nat.card (center L))) :
           T ≤ (Q : Subgroup L).map (QuotientGroup.mk' (center L)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : L →* L ⧸ center L := QuotientGroup.mk' (center L) with hπ
-  refine ⟨Q.isPGroup'.map π, ?_⟩
+  refine ⟨Q.isPGroup.map π, ?_⟩
   have hinj : Function.Injective (π.comp (Q : Subgroup L).subtype) := by
     intro a b hab
     have h1 : π (a : L) = π (b : L) := hab
     have h2 : (a : L)⁻¹ * (b : L) ∈ center L := QuotientGroup.eq.1 h1
     have h3 : (a : L)⁻¹ * (b : L) ∈ (Q : Subgroup L) := Q.mul_mem (Q.inv_mem a.2) b.2
-    have h4 := eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup' hodd h3 h2
+    have h4 := eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup hodd h3 h2
     exact Subtype.ext (inv_mul_eq_one.1 h4)
   have hrange : (π.comp (Q : Subgroup L).subtype).range = (Q : Subgroup L).map π := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -94,7 +94,7 @@ theorem b_L3_sylow : B_L3_sylow := by
     intro q hq
     rw [← hQ]
     exact ⟨q, hq, rfl⟩
-  have hQ2 : IsPGroup 2 (Q : Subgroup ↥L) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup ↥L) := Q.isPGroup
   have hQZ : ∀ z : ↥L, z ∈ (Q : Subgroup ↥L) → z ∈ center ↥L → z = 1 :=
     fun z hzQ hzZ => eq_one_of_mem_pGroup_of_mem_center_odd hQ2 hodd hzQ hzZ
   have hπQ : ∀ a b : ↥L, a ∈ (Q : Subgroup ↥L) → b ∈ (Q : Subgroup ↥L) → π a = π b → a = b := by

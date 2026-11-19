@@ -56,9 +56,9 @@ theorem compsNormal_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) {K : Ty
   set C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC
   set J := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ)
     with hJdef
-  haveI : Finite C := Subtype.finite
+  have : Finite C := Subtype.finite
   have eJC : J.subgroupOf C ≃* J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJs : IsSimpleGroup (J.subgroupOf C) := eJC.isSimpleGroup
   have hJn : ∃ x y : J.subgroupOf C, x * y ≠ y * x := by
     by_contra hcon
@@ -85,7 +85,7 @@ theorem compsNormal_twE6_cat (q : TauCeti.PrimePower)
     CompsNormal ↥(fixSubgroup β) := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK

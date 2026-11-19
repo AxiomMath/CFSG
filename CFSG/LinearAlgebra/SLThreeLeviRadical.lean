@@ -30,12 +30,16 @@ variable {K : Type*} [Field K]
 
 @[expose] def blockd (M : Matrix (Fin 3) (Fin 3) K) : K := M 2 2
 
+omit [Field K] in
 @[simp] theorem blockb_apply (M : Matrix (Fin 3) (Fin 3) K) (i : Fin 2) :
     blockb M i = M i.castSucc 2 := rfl
+omit [Field K] in
 @[simp] theorem blockc_apply (M : Matrix (Fin 3) (Fin 3) K) (j : Fin 2) :
     blockc M j = M 2 j.castSucc := rfl
+omit [Field K] in
 @[simp] theorem blockd_apply (M : Matrix (Fin 3) (Fin 3) K) : blockd M = M 2 2 := rfl
 
+omit [Field K] in
 theorem blockMat_ulBlock_blockb_blockc_blockd (M : Matrix (Fin 3) (Fin 3) K) :
     blockMat (ulBlock M) (blockb M) (blockc M) (blockd M) = M := by
   ext i j
@@ -49,22 +53,31 @@ theorem blockMat_ulBlock_blockb_blockc_blockd (M : Matrix (Fin 3) (Fin 3) K) :
 
 @[expose] def emb2 (v : Fin 2 → K) : Fin 3 → K := ![v 0, v 1, 0]
 
+omit [Field K] in
 @[simp] theorem blockMat_apply_zero_zero (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 0 0 = A 0 0 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_zero_one (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 0 1 = A 0 1 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_zero_two (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 0 2 = b 0 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_one_zero (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 1 0 = A 1 0 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_one_one (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 1 1 = A 1 1 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_one_two (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 1 2 = b 1 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_two_zero (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 2 0 = c 0 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_two_one (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 2 1 = c 1 := rfl
+omit [Field K] in
 @[simp] theorem blockMat_apply_two_two (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     blockMat A b c d 2 2 = d := rfl
 
@@ -83,9 +96,9 @@ theorem blockMat_mul (A A' : Matrix (Fin 2) (Fin 2) K) (b b' : Fin 2 → K)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [blockMat, Matrix.mul_apply, Matrix.vecMulVec, Matrix.vecMul, Matrix.mulVec,
-      dotProduct, Fin.sum_univ_three, Fin.sum_univ_two] <;>
-    ring
+      dotProduct, Fin.sum_univ_three, Fin.sum_univ_two]
 
+omit [Field K] in
 theorem blockMat_transpose (A : Matrix (Fin 2) (Fin 2) K) (b c : Fin 2 → K) (d : K) :
     (blockMat A b c d)ᵀ = blockMat Aᵀ c b d := by
   ext i j
@@ -170,11 +183,11 @@ theorem emb2_eq_zero_iff {u : Fin 2 → K} : emb2 u = 0 ↔ u = 0 := by
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at hx hy ⊢
     rw [hx, hy, add_zero]
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq, Pi.smul_apply] at hx ⊢
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply] at hx ⊢
     rw [hx, smul_zero]
 
 @[expose] def stdR : Submodule K (Fin 3 → K) where
@@ -182,11 +195,11 @@ theorem emb2_eq_zero_iff {u : Fin 2 → K} : emb2 u = 0 ↔ u = 0 := by
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at hx hy ⊢
     exact ⟨by rw [hx.1, hy.1, add_zero], by rw [hx.2, hy.2, add_zero]⟩
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq, Pi.smul_apply] at hx ⊢
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply] at hx ⊢
     exact ⟨by rw [hx.1, smul_zero], by rw [hx.2, smul_zero]⟩
 
 @[simp] theorem mem_stdU {v : Fin 3 → K} : v ∈ stdU ↔ v 2 = 0 := Iff.rfl
@@ -198,6 +211,7 @@ theorem emb2_eq_zero_iff {u : Fin 2 → K} : emb2 u = 0 ↔ u = 0 := by
 @[expose] def lowerRadical : Subgroup (SL(3, K)) :=
   (unipotentRadical (stdR (K := K))).comap SpecialLinearGroup.toGL
 
+omit [Field K] in
 theorem blockMat_inj {A A' : Matrix (Fin 2) (Fin 2) K} {b b' c c' : Fin 2 → K} {d d' : K} :
     blockMat A b c d = blockMat A' b' c' d' ↔ A = A' ∧ b = b' ∧ c = c' ∧ d = d' := by
   constructor
@@ -294,8 +308,8 @@ theorem lowerElem_mul (c c' : Fin 2 → K) :
   · funext i
     simp
   · funext j
-    simp [Pi.add_apply, add_comm]
-  · simp [zero_dotProduct]
+    simp [Pi.add_apply]
+  · simp
 
 theorem upperElem_inv (b : Fin 2 → K) : (upperElem b)⁻¹ = upperElem (-b) := by
   apply inv_eq_of_mul_eq_one_right
@@ -348,7 +362,7 @@ theorem mem_upperRadical_iff {g : SL(3, K)} :
     · intro x
       show ((SpecialLinearGroup.toGL (upperElem b) : Matrix (Fin 3) (Fin 3) K) *ᵥ x - x) 2 = 0
       rw [SpecialLinearGroup.coe_GL_coe_matrix]
-      simp [upperElem, blockMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+      simp [upperElem, blockMat, dotProduct, Fin.sum_univ_three]
     · intro x hx
       simp only [mem_stdU] at hx
       rw [SpecialLinearGroup.coe_GL_coe_matrix]
@@ -400,10 +414,10 @@ theorem mem_lowerRadical_iff {g : SL(3, K)} :
       constructor
       · show ((SpecialLinearGroup.toGL (lowerElem c) : Matrix (Fin 3) (Fin 3) K) *ᵥ x - x) 0 = 0
         rw [SpecialLinearGroup.coe_GL_coe_matrix]
-        simp [lowerElem, blockMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        simp [lowerElem, blockMat, dotProduct, Fin.sum_univ_three]
       · show ((SpecialLinearGroup.toGL (lowerElem c) : Matrix (Fin 3) (Fin 3) K) *ᵥ x - x) 1 = 0
         rw [SpecialLinearGroup.coe_GL_coe_matrix]
-        simp [lowerElem, blockMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        simp [lowerElem, blockMat, dotProduct, Fin.sum_univ_three]
     · intro x hx
       rcases hx with ⟨hx0, hx1⟩
       rw [SpecialLinearGroup.coe_GL_coe_matrix]
@@ -475,7 +489,7 @@ theorem levi_transvection_zero_one (t : K) :
   simp only [Matrix.SpecialLinearGroup.coeMonoidHom_apply, embSL_coe_blockMat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blockMat, A, hdet, hdet2, Matrix.transvection, Matrix.single,
+    simp [blockMat, A, hdet2, Matrix.single,
       Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem levi_transvection_one_zero (t : K) :
@@ -511,7 +525,7 @@ theorem levi_transvection_one_zero (t : K) :
   simp only [Matrix.SpecialLinearGroup.coeMonoidHom_apply, embSL_coe_blockMat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blockMat, A, hdet, hdet2, Matrix.transvection, Matrix.single,
+    simp [blockMat, A, hdet2, Matrix.single,
       Matrix.SpecialLinearGroup.transvection_coe]
 
 @[expose] def negDiagElem : SL(3, K) :=

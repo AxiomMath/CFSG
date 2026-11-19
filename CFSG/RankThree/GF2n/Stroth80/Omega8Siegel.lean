@@ -29,11 +29,13 @@ open scoped Matrix
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem polar_quadPlus_eq (v w : Fin 4 ⊕ Fin 4 → K) :
     polar (quadPlus 4 K) v w =
       StatedQuadPlus 4 K (v + w) - StatedQuadPlus 4 K v - StatedQuadPlus 4 K w := by
   rw [QuadraticMap.polar, coe_quadPlus]
 
+omit [Finite K] [CharP K 2] in
 private theorem siegel_decomp {u w v₁ v₂ : Fin 4 ⊕ Fin 4 → K}
     (N : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K))
     (hNker : ∀ v, polar (quadPlus 4 K) v u = 0 → polar (quadPlus 4 K) v w = 0 → N v = 0)
@@ -58,6 +60,7 @@ private theorem siegel_decomp {u w v₁ v₂ : Fin 4 ⊕ Fin 4 → K}
   rw [sub_eq_iff_eq_add] at h1
   rw [h1, add_comm]
 
+omit [Finite K] in
 private theorem siegel_coeff {u w v₁ v₂ : Fin 4 ⊕ Fin 4 → K}
     (N : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K))
     (hNmem : ∀ v, N v ∈ Submodule.span K {u, w})
@@ -105,6 +108,7 @@ private theorem siegel_coeff {u w v₁ v₂ : Fin 4 ⊕ Fin 4 → K}
       smul_comm (polar (quadPlus 4 K) v w) m₂₁ u, ← smul_add, add_comm]
   exact hNv
 
+omit [Finite K] in
 private theorem siegel_endomorphism (u w : Fin 4 ⊕ Fin 4 → K)
     (hli : LinearIndependent K ![u, w])
     (N : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K))
@@ -127,6 +131,7 @@ private theorem siegel_endomorphism (u w : Fin 4 ⊕ Fin 4 → K)
   exact siegel_coeff N hNmem hBvNv hv₁u' hv₁w' hv₂u' hv₂w'
     (siegel_decomp N hNker hv₁u' hv₁w' hv₂u' hv₂w')
 
+omit [Finite K] [CharP K 2] in
 private theorem siegel_hBvNv {u w : Fin 4 ⊕ Fin 4 → K} (hu : quadPlus 4 K u = 0)
     (hw : quadPlus 4 K w = 0) (hBuw : polar (quadPlus 4 K) u w = 0)
     (g : StatedOmega (StatedQuadPlus 4 K))
@@ -155,6 +160,7 @@ private theorem siegel_hBvNv {u w : Fin 4 ⊕ Fin 4 → K} (hu : quadPlus 4 K u 
         (f := StatedQuadPlus 4 K) g.2 v
   rw [QuadraticMap.polar, ← hgv, hiso, hQN, sub_self, sub_zero]
 
+omit [Finite K] in
 theorem siegel_form (u w : Fin 4 ⊕ Fin 4 → K) (hli : LinearIndependent K ![u, w])
     (hu : StatedQuadPlus 4 K u = 0) (hw : StatedQuadPlus 4 K w = 0)
     (huw : StatedQuadPlus 4 K (u + w) = 0) (g : StatedOmega (StatedQuadPlus 4 K))
@@ -200,6 +206,7 @@ theorem siegel_form (u w : Fin 4 ⊕ Fin 4 → K) (hli : LinearIndependent K ![u
     rw [hNapply]; abel
   rw [hgv, hb v, polar_quadPlus_eq, polar_quadPlus_eq]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_statedOmega_line (u w : Fin 4 ⊕ Fin 4 → K) (hli : LinearIndependent K ![u, w])
     (hu : StatedQuadPlus 4 K u = 0) (hw : StatedQuadPlus 4 K w = 0)
     (huw : StatedQuadPlus 4 K (u + w) = 0) :
@@ -247,12 +254,14 @@ theorem exists_statedOmega_line (u w : Fin 4 ⊕ Fin 4 → K) (hli : LinearIndep
     rw [← hgw]
     exact LinearEquiv.symm_apply_apply (g₂ * g₁) w
 
+omit [Finite K] [CharP K 2] in
 private theorem conjPhi_reindex (A : StatedOmega (StatedQuadPlus 4 K))
     (z : Fin 4 ⊕ Fin 4 → K) :
     conjPhi A (reindexVectorEquiv (plusIndexEquiv 4) z) =
       ((A : GL (Fin 4 ⊕ Fin 4) K) : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ z := by
   simp only [conjPhi, LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply, toLinEquiv_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem conjPhi_symm_apply (A : StatedOmega (StatedQuadPlus 4 K))
     (v : Fin 4 ⊕ Fin 4 → K) :
     (conjPhi A).symm v = reindexVectorEquiv (plusIndexEquiv 4)
@@ -261,6 +270,7 @@ private theorem conjPhi_symm_apply (A : StatedOmega (StatedQuadPlus 4 K))
   rw [LinearEquiv.apply_symm_apply, conjPhi_reindex, ← toLinEquiv_apply]
   exact (LinearEquiv.apply_symm_apply _ v).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem eichlerC_reindex_plus (u w y : Fin 4 ⊕ Fin 4 → K) :
     AutOm.eichlerC (coordinateQuadPlus 4 K) (reindexVectorEquiv (plusIndexEquiv 4) u)
         (reindexVectorEquiv (plusIndexEquiv 4) w) (reindexVectorEquiv (plusIndexEquiv 4) y) =
@@ -271,6 +281,7 @@ private theorem eichlerC_reindex_plus (u w y : Fin 4 ⊕ Fin 4 → K) :
     reindexQuadraticForm_map, map_sub, map_sub, map_add, LinearEquiv.map_smul,
     LinearEquiv.map_smul, LinearEquiv.map_smul]
 
+omit [Finite K] in
 private theorem map_eichlerC_singular (A : StatedOmega (StatedQuadPlus 4 K)) (c : K)
     (z : Fin 4 ⊕ Fin 4 → K) :
     ((A : GL (Fin 4 ⊕ Fin 4) K) : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ
@@ -307,7 +318,7 @@ private theorem map_eichlerC_singular (A : StatedOmega (StatedQuadPlus 4 K)) (c 
     rw [QuadraticMap.map_smul, quadPlus_plusVec, smul_zero]
   simp only [Matrix.mulVec_add, Matrix.mulVec_sub, Matrix.mulVec_smul]
   rw [hQ0, polar_smul_right, smul_eq_mul]
-  simp only [smul_zero, zero_mul, zero_smul, add_zero]
+  simp only [zero_mul, zero_smul]
   rw [hpol z (plusVec 4 K 1 true), hpol z (plusVec 4 K 0 true), smul_add, smul_smul,
     smul_smul, smul_smul,
     mul_comm c (polar (quadPlus 4 K) z (plusVec 4 K 1 true))]

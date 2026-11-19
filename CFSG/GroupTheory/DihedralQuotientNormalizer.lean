@@ -35,7 +35,7 @@ theorem le_relPPrimeCore_of_normal_coprime (hp : p.Prime) {N H : Subgroup Γ}
   exact Subgroup.map_mono h
 
 theorem pPrimeCore_quotient_image_eq_bot (hp : p.Prime) {U H : Subgroup Γ} [hU : U.Normal]
-    (hUH : U ≤ H) (hUeq : U = CFSG.Open.relPPrimeCore p H) :
+    (_hUH : U ≤ H) (hUeq : U = CFSG.Open.relPPrimeCore p H) :
     CFSG.pPrimeCore p (H.map (QuotientGroup.mk' U)) = ⊥ := by
   classical
   have : Fact p.Prime := ⟨hp⟩
@@ -275,8 +275,8 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_pPrimeCore_quotient
     exact hbW hqb_Q
   exact ⟨b, hbH, hbord, R, hRH, hbR⟩
 
-theorem orderOf_eq_prime_mem_pCoreOf_of_cyclic_sylow {H : Subgroup Γ} (hH : H.Normal)
-    (hp : p.Prime) (hp2 : p ≠ 2)
+theorem orderOf_eq_prime_mem_pCoreOf_of_cyclic_sylow {H : Subgroup Γ} (_hH : H.Normal)
+    (hp : p.Prime) (_hp2 : p ≠ 2)
     (hcyc : ∀ P : Subgroup Γ, P ≤ H → IsPGroup p P → IsCyclic P)
     (hY : CFSG.Open.pCoreOf p H ≠ ⊥) {x : Γ} (hxH : x ∈ H) (hxord : orderOf x = p) :
     x ∈ CFSG.Open.pCoreOf p H := by
@@ -294,7 +294,7 @@ theorem orderOf_eq_prime_mem_pCoreOf_of_cyclic_sylow {H : Subgroup Γ} (hH : H.N
   have hpdvd : p ∣ Nat.card Y := by
     rw [hk]
     exact dvd_pow_self p hkpos.ne'
-  haveI : Fintype Y := Fintype.ofFinite Y
+  have : Fintype Y := Fintype.ofFinite Y
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card (G := Y) p (by
     simpa [Nat.card_eq_fintype_card] using hpdvd)
   let yΓ : Γ := (y : Γ)
@@ -321,7 +321,7 @@ theorem orderOf_eq_prime_mem_pCoreOf_of_cyclic_sylow {H : Subgroup Γ} (hH : H.N
   have hPcyc : IsCyclic (P : Subgroup H) := by
     let PΓ : Subgroup Γ := (P : Subgroup H).map H.subtype
     have hPΓcyc : IsCyclic PΓ := hcyc PΓ (by rintro _ ⟨z, -, rfl⟩; exact z.2)
-      (P.isPGroup'.map H.subtype)
+      (P.isPGroup.map H.subtype)
     have e : (P : Subgroup H) ≃* PΓ :=
       Subgroup.equivMapOfInjective (f := H.subtype) (P : Subgroup H) H.subtype_injective
     exact e.isCyclic.mpr hPΓcyc
@@ -396,7 +396,7 @@ theorem centralizer_pCoreOf_eq_pCoreOf_of_cyclic_sylow {H : Subgroup Γ} (hH : H
     intro P
     let PΓ : Subgroup Γ := (P : Subgroup C).map C.subtype
     have hPΓcyc : IsCyclic PΓ :=
-      hcyc PΓ (by rintro _ ⟨z, -, rfl⟩; exact hCleH z.2) (P.isPGroup'.map C.subtype)
+      hcyc PΓ (by rintro _ ⟨z, -, rfl⟩; exact hCleH z.2) (P.isPGroup.map C.subtype)
     have e : (P : Subgroup C) ≃* PΓ :=
       Subgroup.equivMapOfInjective (f := C.subtype) (P : Subgroup C) C.subtype_injective
     exact e.isCyclic.mpr hPΓcyc
@@ -465,7 +465,7 @@ theorem exists_orderOf_eq_prime_of_normal_pPrime_index_prime
     have h2 : Nat.card K * p = Nat.card X := by
       rw [← Subgroup.card_mul_index K, hidx]
     exact Nat.eq_of_mul_eq_mul_left Nat.card_pos (h1.trans h2.symm)
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card (G := C) p (by
     rw [← Nat.card_eq_fintype_card, hCcard])
   have hcXord : orderOf (c : X) = p := by
@@ -484,7 +484,7 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_pCore_ne_bot
     (hp : p.Prime) (hp2 : p ≠ 2)
     (π : Γ →* DihedralGroup p) (hπ : Function.Surjective π)
     (hcyc : ∀ P : Subgroup Γ, P ≤ π.ker → IsPGroup p P → IsCyclic P)
-    (hK : CFSG.Open.IsKGroup Γ)
+    (_hK : CFSG.Open.IsKGroup Γ)
     (hOp' : CFSG.Open.relPPrimeCore p π.ker = ⊥)
     {Q : Subgroup Γ} (hQ : CFSG.ABGLocalTools.IsSylowOf 2 Q π.ker) (hQne : Q ≠ ⊥)
     (hYne : CFSG.Open.pCoreOf p π.ker ≠ ⊥) :
@@ -515,7 +515,7 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_pCore_ne_bot
   have hKp : Nat.Coprime p (Nat.card K) := by
     rw [hp.coprime_iff_not_dvd]
     intro hpdvd
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨v, hvord⟩ := exists_prime_orderOf_dvd_card (G := K) p (by
       rwa [← Nat.card_eq_fintype_card])
     let u : Γ := (v : Γ)
@@ -679,7 +679,7 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_pCore_ne_bot
   intro hπe
   exact heH ((MonoidHom.mem_ker).mpr hπe)
 
-theorem abelian_minimal_normal_contradiction {H V : Subgroup Γ} (hH : H.Normal)
+theorem abelian_minimal_normal_contradiction {H V : Subgroup Γ} (_hH : H.Normal)
     (hp : p.Prime) (hOp' : CFSG.Open.relPPrimeCore p H = ⊥)
     (hYbot : CFSG.Open.pCoreOf p H = ⊥) (hVnormal : V.Normal) (hVleH : V ≤ H)
     (hVne : V ≠ ⊥) (hVmin : ∀ M : Subgroup Γ, M.Normal → M ≤ V → M = ⊥ ∨ M = V)
@@ -771,11 +771,11 @@ theorem minimal_normal_factors_p_dvd_and_unique {H V : Subgroup Γ} {r : ℕ}
     intro h
     have := congrArg Fin.val h
     simp [i0, j0] at this
-  haveI : Fintype (S i0) := Fintype.ofFinite _
+  have : Fintype (S i0) := Fintype.ofFinite _
   obtain ⟨a, haord⟩ := exists_prime_orderOf_dvd_card (G := S i0) p (by
     rw [← Nat.card_eq_fintype_card]
     exact hpdiv i0)
-  haveI : Fintype (S j0) := Fintype.ofFinite _
+  have : Fintype (S j0) := Fintype.ofFinite _
   obtain ⟨b, hbord⟩ := exists_prime_orderOf_dvd_card (G := S j0) p (by
     rw [← Nat.card_eq_fintype_card]
     exact hpdiv j0)
@@ -842,9 +842,9 @@ theorem minimal_normal_factors_p_dvd_and_unique {H V : Subgroup Γ} {r : ℕ}
   exact hp.ne_one h1
 
 theorem centralizer_eq_bot_of_minimal_normal_nonabelian {H V : Subgroup Γ}
-    (hp : p.Prime) (hp2 : p ≠ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2)
     (hcyc : ∀ P : Subgroup Γ, P ≤ H → IsPGroup p P → IsCyclic P)
-    (hVnormal : V.Normal) (hVleH : V ≤ H) (hVne : V ≠ ⊥)
+    (hVnormal : V.Normal) (hVleH : V ≤ H) (_hVne : V ≠ ⊥)
     (hVsimple : IsSimpleGroup V)
     (hnonab : ∃ a ∈ V, ∃ b ∈ V, a * b ≠ b * a)
     (hpdvd : p ∣ Nat.card V)
@@ -879,11 +879,11 @@ theorem centralizer_eq_bot_of_minimal_normal_nonabelian {H V : Subgroup Γ}
     simpa using congrArg Subtype.val hx1
   have hCnotp : ¬ p ∣ Nat.card C := by
     intro hpdvdC
-    haveI : Fintype C := Fintype.ofFinite C
+    have : Fintype C := Fintype.ofFinite C
     obtain ⟨u, huord⟩ := exists_prime_orderOf_dvd_card (G := C) p (by
       rw [← Nat.card_eq_fintype_card]
       exact hpdvdC)
-    haveI : Fintype V := Fintype.ofFinite V
+    have : Fintype V := Fintype.ofFinite V
     obtain ⟨v, hvord⟩ := exists_prime_orderOf_dvd_card (G := V) p (by
       rw [← Nat.card_eq_fintype_card]
       exact hpdvd)
@@ -989,7 +989,7 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_kfact
   classical
   have : Fact p.Prime := ⟨hp⟩
   have : J.Normal := hJnormal
-  haveI : Fintype J := Fintype.ofFinite J
+  have : Fintype J := Fintype.ofFinite J
   obtain ⟨v, hvord⟩ := exists_prime_orderOf_dvd_card (G := J) p (by
     rw [← Nat.card_eq_fintype_card]
     exact hpdvd)
@@ -1008,7 +1008,7 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_kfact
     exact hp.ne_one h1
   let PJΓ : Subgroup Γ := (P : Subgroup J).map J.subtype
   have hPJΓcyc : IsCyclic PJΓ :=
-    hcyc PJΓ (by rintro _ ⟨x, -, rfl⟩; exact hJleH x.2) (P.isPGroup'.map J.subtype)
+    hcyc PJΓ (by rintro _ ⟨x, -, rfl⟩; exact hJleH x.2) (P.isPGroup.map J.subtype)
   have hPJcyc : IsCyclic (P : Subgroup J) :=
     (Subgroup.equivMapOfInjective (f := J.subtype) (P : Subgroup J)
       J.subtype_injective).isCyclic.mpr hPJΓcyc
@@ -1378,15 +1378,12 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_dihedral
   let q : Γ →* Γ ⧸ U := QuotientGroup.mk' U
   let πbar : Γ ⧸ U →* DihedralGroup p :=
     QuotientGroup.lift U π (by
-      change U ≤ π.ker
       exact hUH)
   have hπbar : Function.Surjective πbar := by
     exact QuotientGroup.lift_surjective_of_surjective U π hπ (by
-      change U ≤ π.ker
       exact hUH)
   have hker : πbar.ker = H.map q := by
     rw [show πbar = QuotientGroup.lift U π (by
-      change U ≤ π.ker
       exact hUH) from rfl, QuotientGroup.ker_lift]
   have hOpbar : CFSG.Open.relPPrimeCore p πbar.ker = ⊥ := by
     rw [hker]
@@ -1418,7 +1415,6 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_dihedral
   have hybarH : ybar ∉ H.map q := by
     intro h
     apply hybarπ
-    change πbar ybar = 1
     rw [show πbar ybar = 1 ↔ ybar ∈ πbar.ker from MonoidHom.mem_ker.symm]
     rwa [hker]
   have hQbar : CFSG.ABGLocalTools.IsSylowOf 2 (Q.map q) πbar.ker := by
@@ -1457,7 +1453,6 @@ theorem exists_orderOf_eq_prime_mem_normalizer_of_dihedral
   have hebarH : ebar ∉ H.map q := by
     intro h
     apply hebarπ
-    change πbar ebar = 1
     rw [show πbar ebar = 1 ↔ ebar ∈ πbar.ker from MonoidHom.mem_ker.symm]
     rwa [hker]
   obtain ⟨b, hbH, hbord, R, hRsyl, hbR⟩ :=

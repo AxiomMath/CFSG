@@ -24,6 +24,7 @@ abbrev Dbar : Subgroup (↥K ⧸ Q.subgroupOf K) := (D.subgroupOf K).map (psi K 
 
 variable {K Q D}
 
+omit [Finite G] in
 theorem psi_comm_iff (x y : ↥K) :
     psi K Q x * psi K Q y = psi K Q y * psi K Q x ↔ (x : G) * y * (x : G)⁻¹ * (y : G)⁻¹ ∈ Q := by
   rw [← commutatorElement_eq_one_iff_mul_comm, commutatorElement_def, ← map_inv, ← map_inv,
@@ -31,20 +32,23 @@ theorem psi_comm_iff (x y : ↥K) :
     Subgroup.mem_subgroupOf]
   simp
 
+omit [Finite G] in
 theorem mem_Dbar {w : ↥K ⧸ Q.subgroupOf K} :
-    w ∈ Dbar K Q D ↔ ∃ (d : G) (hd : d ∈ D) (hdK : d ∈ K), psi K Q ⟨d, hdK⟩ = w := by
+    w ∈ Dbar K Q D ↔ ∃ (d : G) (_hd : d ∈ D) (hdK : d ∈ K), psi K Q ⟨d, hdK⟩ = w := by
   constructor
   · rintro ⟨x, hx, rfl⟩
     exact ⟨x, Subgroup.mem_subgroupOf.mp hx, x.2, rfl⟩
-  · rintro ⟨d, hd, hdK, rfl⟩
-    exact ⟨⟨d, hdK⟩, Subgroup.mem_subgroupOf.mpr hd, rfl⟩
+  · rintro ⟨d, _hd, hdK, rfl⟩
+    exact ⟨⟨d, hdK⟩, Subgroup.mem_subgroupOf.mpr _hd, rfl⟩
 
+omit [Finite G] in
 theorem psi_mem_Dbar {d : G} (hd : d ∈ D) (hdK : d ∈ K) : psi K Q ⟨d, hdK⟩ ∈ Dbar K Q D :=
   mem_Dbar.mpr ⟨d, hd, hdK, rfl⟩
 
+omit [Finite G] in
 theorem center_le_J {J : Subgroup G} (hJ : ∀ x, x ∈ J ↔ x ∈ D ∧ ∀ y ∈ D, x * y * x⁻¹ * y⁻¹ ∈ Q)
     (hDK : D ≤ K) (e : ↥(Dbar K Q D)) (he : e ∈ Subgroup.center ↥(Dbar K Q D)) :
-    ∃ (j : G) (hj : j ∈ J) (hjK : j ∈ K), psi K Q ⟨j, hjK⟩ = (e : ↥K ⧸ Q.subgroupOf K) := by
+    ∃ (j : G) (_hj : j ∈ J) (hjK : j ∈ K), psi K Q ⟨j, hjK⟩ = (e : ↥K ⧸ Q.subgroupOf K) := by
   obtain ⟨j, hjD, hjK, hje⟩ := mem_Dbar.mp e.2
   refine ⟨j, (hJ j).mpr ⟨hjD, fun y hy => ?_⟩, hjK, hje⟩
   have h := Subgroup.mem_center_iff.mp he ⟨psi K Q ⟨y, hDK hy⟩, psi_mem_Dbar hy (hDK hy)⟩
@@ -56,8 +60,9 @@ theorem center_le_J {J : Subgroup G} (hJ : ∀ x, x ∈ J ↔ x ∈ D ∧ ∀ y 
   have h2 := (psi_comm_iff ⟨j, hjK⟩ ⟨y, hDK hy⟩).mp h'.symm
   exact h2
 
+omit [Finite G] in
 theorem psi_mem_center {J : Subgroup G}
-    (hJ : ∀ x, x ∈ J ↔ x ∈ D ∧ ∀ y ∈ D, x * y * x⁻¹ * y⁻¹ ∈ Q) (hDK : D ≤ K) {j : G}
+    (hJ : ∀ x, x ∈ J ↔ x ∈ D ∧ ∀ y ∈ D, x * y * x⁻¹ * y⁻¹ ∈ Q) (_hDK : D ≤ K) {j : G}
     (hj : j ∈ J) (hjK : j ∈ K) :
     (⟨psi K Q ⟨j, hjK⟩, psi_mem_Dbar ((hJ j).mp hj).1 hjK⟩ : ↥(Dbar K Q D)) ∈
       Subgroup.center ↥(Dbar K Q D) := by
@@ -69,6 +74,7 @@ theorem psi_mem_center {J : Subgroup G}
   rw [← hye]
   exact (psi_comm_iff ⟨j, hjK⟩ ⟨y, hyK⟩).mpr (((hJ j).mp hj).2 y hyD) |>.symm
 
+omit [Finite G] in
 theorem psi_pow_eq_one_iff (x : ↥K) (n : ℕ) : psi K Q x ^ n = 1 ↔ (x : G) ^ n ∈ Q := by
   rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   rfl
@@ -99,10 +105,12 @@ theorem odd_card_center {J : Subgroup G}
   rw [hx1, orderOf_one] at hx
   omega
 
+omit [Finite G] in
 theorem psi_eq_one_of_mem {q : G} (hq : q ∈ Q) (hqK : q ∈ K) : psi K Q ⟨q, hqK⟩ = 1 := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   exact hq
 
+omit [Finite G] in
 theorem commutator_Dbar_eq_top {K0 : Subgroup G} (hK0K : K0 ≤ K) (hperf : ⁅K0, K0⁆ = K0)
     (hD : D = K0 ⊔ Q) (hQK : K ≤ Subgroup.normalizer (Q : Set G)) (hQleK : Q ≤ K) :
     commutator ↥(Dbar K Q D) = ⊤ := by

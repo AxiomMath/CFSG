@@ -20,7 +20,7 @@ namespace FiveTransitive.Degree24
 open MulAction SubMulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev FiveVector := Fin 4 → ZMod 5
+abbrev FiveVector := Fin 4 → ZMod 5
 
 @[expose] def fiveWeight (v : FiveVector) : ℕ :=
   (Finset.univ.filter fun i => v i ≠ 0).card
@@ -41,7 +41,7 @@ theorem five_hyperplane_weight_one_or_twenty_four_weight_two
       fiveDot c v = 0 ∧ fiveWeight v = 2).card = 24 ∧
       ∀ i, c i ≠ 0) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   by_cases hall : ∀ i, c i ≠ 0
   · right
     refine ⟨?_, hall⟩
@@ -128,7 +128,7 @@ private theorem five_submodule_weight_one_or_twenty_four_weight_two
       (Nat.card {w : W // fiveWeight w = 2} = 24 ∧
         ∀ i, ∃ w : W, w.1 i ≠ 0) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hWpow :=
     Module.natCard_eq_pow_finrank
       (K := ZMod 5) (V := W)
@@ -387,7 +387,7 @@ theorem subgroup_support_five_or_twenty_four_support_ten
       (Nat.card {r : R // r.1.support.card = 10} = 24 ∧
         Nat.card (MulAction.fixedPoints R X) = 4) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hRpGroup : IsPGroup 5 R :=
     IsPGroup.of_card (n := 3)
       (hRcard.trans (by norm_num))

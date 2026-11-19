@@ -14,6 +14,7 @@ section Principles
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.psu_range_le_of_perfect (h : A6Hyp σ D) {Q : Type} [Group Q]
     (φ : Q →* ↥(fixedSubgroup σ)) (hQ : commutator Q = ⊤) : φ.range ≤ D := by
   have hperf : ⁅φ.range, φ.range⁆ = φ.range := by
@@ -23,11 +24,13 @@ theorem A6Hyp.psu_range_le_of_perfect (h : A6Hyp σ D) {Q : Type} [Group Q]
     rw [h1, ← Subgroup.map_commutator, hQ]
   exact h.2.2 _ hperf
 
+omit [Finite S] in
 theorem A6Hyp.psu_card_range_dvd (h : A6Hyp σ D) {Q : Type} [Group Q]
     (φ : Q →* ↥(fixedSubgroup σ)) (hQ : commutator Q = ⊤) : Nat.card φ.range ∣ 360 := by
   have h3 := Subgroup.card_dvd_of_le (h.psu_range_le_of_perfect φ hQ)
   rwa [h.card_D] at h3
 
+omit [Finite S] in
 theorem A6Hyp.psu_central_quotient_dvd (h : A6Hyp σ D) {Q : Type} [Group Q]
     (φ : Q →* ↥(fixedSubgroup σ)) (hQ : commutator Q = ⊤) (hker : φ.ker ≤ Subgroup.center Q) :
     Nat.card (Q ⧸ Subgroup.center Q) ∣ 360 := by

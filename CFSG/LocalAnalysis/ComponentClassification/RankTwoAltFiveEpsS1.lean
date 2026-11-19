@@ -242,7 +242,7 @@ theorem outer_sup_ne_sylow (hGold : Asc76X.GoldschmidtTheoremA) (hGs : IsSimpleG
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hS₁2 : IsPGroup 2 (P ⊔ zpowers x : Subgroup G) := by
       rw [← hSS]
-      exact S.isPGroup'
+      exact S.isPGroup
     have hS₁idx : ¬ 2 ∣ (P ⊔ zpowers x).index := by
       rw [← hSS]
       exact S.not_dvd_index

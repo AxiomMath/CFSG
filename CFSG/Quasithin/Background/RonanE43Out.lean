@@ -16,6 +16,7 @@ open CFSG.Open CFSG.Quasithin CFSG.ComponentClassification CFSG.ComponentClassif
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_of_generalizedFitting {L : Subgroup G} (hLF : L = CFSG.generalizedFitting G) :
     L.Normal := by
   rw [hLF]
@@ -24,8 +25,8 @@ theorem normal_of_generalizedFitting {L : Subgroup G} (hLF : L = CFSG.generalize
 theorem index_dvd_card_outer {L : Subgroup G} (hLF : L = CFSG.generalizedFitting G)
     (hLq : CFSG.IsQuasisimple ↥L) :
     L.index ∣ Nat.card (Outer (↥L ⧸ Subgroup.center ↥L)) := by
-  haveI : L.Normal := normal_of_generalizedFitting hLF
-  haveI : Group.IsPerfect ↥L := hLq.1
+  have : L.Normal := normal_of_generalizedFitting hLF
+  have : Group.IsPerfect ↥L := hLq.1
   let π : ↥L →* ↥L ⧸ Subgroup.center ↥L := QuotientGroup.mk' _
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Subgroup.center ↥L := QuotientGroup.ker_mk' _

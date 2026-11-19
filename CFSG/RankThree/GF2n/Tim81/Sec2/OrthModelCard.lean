@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Setup.X7
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l))
 
+omit [Algebra (ZMod 2) F] in
 theorem card_frobFixSub (hF : Fintype.card F = 2 ^ (2 * l)) :
     Nat.card ↥(frobFixSub (F := F) l) = 2 ^ l := by
   have hl : 1 ≤ l := one_le_of_card hF
@@ -24,6 +25,7 @@ theorem card_frobFixSub (hF : Fintype.card F = 2 ^ (2 * l)) :
       right_inv := fun _ => rfl }
   exact (Nat.card_congr e).trans (card_frob_fixed (F := F) hl hF)
 
+omit [Algebra (ZMod 2) F] in
 theorem card_herm1101 (hF : Fintype.card F = 2 ^ (2 * l)) :
     Nat.card ↥(herm1101 l F) = 2 ^ l := by
   have e : ↥(herm1101 l F) ≃ ↥(frobFixSub (F := F) l) :=
@@ -40,6 +42,7 @@ theorem card_herm1101 (hF : Fintype.card F = 2 ^ (2 * l)) :
         rfl }
   rw [Nat.card_congr e, card_frobFixSub (hF := hF)]
 
+omit [Algebra (ZMod 2) F] in
 theorem card_herm11 (hF : Fintype.card F = 2 ^ (2 * l)) :
     Nat.card ↥(herm11 l F) = 2 ^ (3 * l) := by
   have e : ↥(herm11 l F) ≃ ↥(frobFixSub (F := F) l) × F :=

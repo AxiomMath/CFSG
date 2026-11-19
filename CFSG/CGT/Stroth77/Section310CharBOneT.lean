@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G] {F : StrothFrame G} {D : Subgroup G}
 
 namespace Stroth310One
 
+omit [Finite G] in
 theorem actsBy_of_rel34i {e : G} {N : ℕ} (hN : N = 4) (he : Rel34i dD e N)
     (hinv : ∀ v, diag4 τ.k 1 (diag4 τ.k 1 v) = v) : ActsBy dD e 1 := by
   subst hN
@@ -21,6 +22,7 @@ theorem actsBy_of_rel34i {e : G} {N : ℕ} (hN : N = 4) (he : Rel34i dD e N)
   · rw [he.a_conj]; show _ = (dD.a : G) ^ (5 : ℤ); group
   · rw [he.b_conj]; show _ = (dD.b : G) ^ (5 : ℤ); group
 
+omit [Finite G] in
 theorem actsBy_of_rel34inv_zero {e s : G} {p : ℕ} (he : Rel34inv dD e 0 s p)
     (hinv : ∀ v, diag4 τ.k 2 (diag4 τ.k 2 v) = v) : ActsBy dD e 2 := by
   refine actsBy_of_conj dD (d := ![-1, -1, -1]) rfl hinv ?_ ?_ ?_
@@ -28,6 +30,7 @@ theorem actsBy_of_rel34inv_zero {e s : G} {p : ℕ} (he : Rel34inv dD e 0 s p)
   · rw [he.a_conj]; show _ = (dD.a : G) ^ (-1 : ℤ); simp
   · rw [he.b_conj]; show _ = (dD.b : G) ^ (-1 : ℤ); simp
 
+omit [Finite G] in
 theorem actsBy_of_rel34inv_four {e s : G} {j p : ℕ} (hj : j = 4) (he : Rel34inv dD e j s p)
     (hinv : ∀ v, diag4 τ.k 3 (diag4 τ.k 3 v) = v) : ActsBy dD e 3 := by
   subst hj
@@ -36,6 +39,7 @@ theorem actsBy_of_rel34inv_four {e s : G} {j p : ℕ} (hj : j = 4) (he : Rel34in
   · rw [he.a_conj]; show _ = (dD.a : G) ^ (3 : ℤ); group
   · rw [he.b_conj]; show _ = (dD.b : G) ^ (3 : ℤ); group
 
+omit [Finite G] in
 theorem actsBy_of_mem_sup_zpowers {e x : G} {b : Fin 4} (he : ActsBy dD e b)
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (he2 : e * e ∈ D)
     (hx : x ∈ D ⊔ Subgroup.zpowers e) : ActsBy dD x 0 ∨ ActsBy dD x b := by
@@ -50,7 +54,7 @@ theorem hQ_of_sup_zpowers {e : G} {b : Fin 4} (hb : b ≠ 0) (he : ActsBy dD e b
     (hQR : Q ≤ D ⊔ Subgroup.zpowers e) (hQD : ¬ Q ≤ D) :
     ∃ q ∈ Q, ∃ b' : Fin 4, ActsBy dD q b' ∧
       ((b' = 1 ∧ D.relIndex Q ≤ 2) ∨ ((b' = 2 ∨ b' = 3) ∧ D.relIndex Q ≤ 4)) := by
-  obtain ⟨q, hqQ, hqD⟩ := SetLike.not_le_iff_exists.mp hQD
+  obtain ⟨q, hqQ, hqD⟩ := IsConcreteLE.not_le_iff_exists.mp hQD
   have hq := (mem_or_inv_mul_mem_of_mem_sup_zpowers heN he2 (hQR hqQ)).resolve_left hqD
   have hqb : ActsBy dD q b := by
     have h := he.mul_mem hq
@@ -63,6 +67,7 @@ theorem hQ_of_sup_zpowers {e : G} {b : Fin 4} (hb : b ≠ 0) (he : ActsBy dD e b
   · exact Or.inr ⟨Or.inl rfl, hi.trans (by norm_num)⟩
   · exact Or.inr ⟨Or.inr rfl, hi.trans (by norm_num)⟩
 
+omit [Finite G] in
 theorem actsBy_of_mem_tower {e f x : G} (he : ActsBy dD e 1) (hf : ActsBy dD f 2)
     (h21 : ∀ v, diag4 τ.k 2 (diag4 τ.k 1 v) = diag4 τ.k 3 v)
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (he2 : e * e ∈ D)
@@ -92,7 +97,7 @@ theorem hQ_of_tower {e f : G} (he : ActsBy dD e 1) (hf : ActsBy dD f 2)
       ((b' = 1 ∧ D.relIndex Q ≤ 2) ∨ ((b' = 2 ∨ b' = 3) ∧ D.relIndex Q ≤ 4)) := by
   by_cases hQe : Q ≤ D ⊔ Subgroup.zpowers e
   · exact hQ_of_sup_zpowers (b := 1) (by decide) he heN he2 hQe hQD
-  obtain ⟨q, hqQ, hqe⟩ := SetLike.not_le_iff_exists.mp hQe
+  obtain ⟨q, hqQ, hqe⟩ := IsConcreteLE.not_le_iff_exists.mp hQe
   have hq' := (mem_or_inv_mul_mem_of_mem_sup_zpowers hfN hf2 (hQR hqQ)).resolve_left hqe
   have hidx1 := relIndex_le_two_of_le_sup_zpowers hfN hf2 hQR
   have hidx2 := relIndex_le_two_of_le_sup_zpowers heN he2

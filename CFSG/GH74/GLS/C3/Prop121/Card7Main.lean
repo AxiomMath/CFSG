@@ -49,7 +49,7 @@ theorem card_centralizer_t
     rw [Nat.card_congr ι.toEquiv, card_Fgrp]
   have pf : PatternFacts G 7 := patternFacts_of_approx hn hap
   obtain ⟨SS, hSS⟩ := h.sylowS.isPGroup.exists_le_sylow
-  have hSeq : S = (SS : Subgroup G) := (h.sylowS.eq_of_le hSS le_top SS.isPGroup').symm
+  have hSeq : S = (SS : Subgroup G) := (h.sylowS.eq_of_le hSS le_top SS.isPGroup).symm
   have hcount := count_xtype hSyl hap x hx2 hcx SS
   rw [← hSeq] at hcount
   obtain ⟨QT, hQT⟩ := h.sylowT

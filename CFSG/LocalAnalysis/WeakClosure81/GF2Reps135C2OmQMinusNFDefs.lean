@@ -44,7 +44,7 @@ theorem omqnfPermA_zero {m r : ℕ} (h1 : 1 ≤ r) (h2 : 2 * r ≤ m) :
       (⟨0, by omega⟩ : Fin m).val + 1 < m := by
     show 0 < 2 * r ∧ 0 % 2 = 0 ∧ 0 + 1 < m
     omega
-  rw [if_pos h3]
+  rw [ite_eq_left h3]
 
 theorem omqnfPermA_one {m r : ℕ} (h1 : 1 ≤ r) (h2 : 2 * r ≤ m) :
     omqnfPermA m r ⟨1, by omega⟩ = ⟨0, by omega⟩ := by
@@ -58,7 +58,7 @@ theorem omqnfPermA_one {m r : ℕ} (h1 : 1 ≤ r) (h2 : 2 * r ≤ m) :
   have h4 : (⟨1, by omega⟩ : Fin m).val < 2 * r ∧ (⟨1, by omega⟩ : Fin m).val % 2 = 1 := by
     show 1 < 2 * r ∧ 1 % 2 = 1
     omega
-  rw [if_neg h3, if_pos h4]
+  rw [ite_eq_right h3, ite_eq_left h4]
   rfl
 
 theorem omqnfSignC_isSign (m j : ℕ) : SpIsSign (omqnfSignC m j) := by
@@ -71,7 +71,7 @@ theorem omqnfSignC_isSign (m j : ℕ) : SpIsSign (omqnfSignC m j) := by
 theorem omqnfSignC_zero {m j : ℕ} (h1 : 1 ≤ j) (h2 : j ≤ m) :
     omqnfSignC m j ⟨0, by omega⟩ = -1 := by
   unfold omqnfSignC
-  rw [if_pos (by show 0 < j; omega)]
+  rw [ite_eq_left (by show 0 < j; omega)]
 
 private theorem omqnfdf_filter_lt (m j : ℕ) (h : j ≤ m) :
     (Finset.univ.filter fun a : Fin m => a.val < j).card = j := by
@@ -149,10 +149,10 @@ theorem omqnf_support_card_A {m r : ℕ} (h : 2 * r ≤ m) :
       split_ifs <;> omega
     rcases x with a | a
     · rw [spMonoPerm_inl]
-      simp only [Pi.one_apply, if_true, ne_eq, Sum.inl.injEq, Sum.elim_inl, id_eq]
+      simp only [Pi.one_apply, ite_true, ne_eq, Sum.inl.injEq, Sum.elim_inl, id_eq]
       exact key a
     · rw [spMonoPerm_inr]
-      simp only [Pi.one_apply, if_true, ne_eq, Sum.inr.injEq, Sum.elim_inr, id_eq]
+      simp only [Pi.one_apply, ite_true, ne_eq, Sum.inr.injEq, Sum.elim_inr, id_eq]
       exact key a
   rw [hmoved]
   have := omqnfdf_card_sum (m := m) (fun a => a.val < 2 * r)

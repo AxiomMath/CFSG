@@ -20,9 +20,11 @@ variable {H : Type} [Group H] [Finite H] {K B : Subgroup H}
 
 abbrev Bo (K B : Subgroup H) : Subgroup H := B ⊓ Subgroup.centralizer (K : Set H)
 
+omit [Finite H] in
 theorem Bo_cent {s : H} (hs : s ∈ Bo K B) : ∀ k ∈ K, s * k = k * s := fun k hk =>
   (Subgroup.mem_centralizer_iff.1 (Subgroup.mem_inf.1 hs).2 k hk).symm
 
+omit [Finite H] in
 theorem big_sup (hKc : ∀ k ∈ K, (∀ y ∈ K, y * k = k * y) → k = 1) (hB : IsElemAbelian 3 B)
     {E : Subgroup H} (hEK : E ≤ K) (hE : IsElemAbelian 3 E) :
     IsElemAbelian 3 (E ⊔ Bo K B) ∧ Nat.card ↥(E ⊔ Bo K B) = Nat.card E * Nat.card (Bo K B) := by
@@ -40,6 +42,7 @@ theorem big_sup (hKc : ∀ k ∈ K, (∀ y ∈ K, y * k = k * y) → k = 1) (hB 
   rw [hinf, Subgroup.card_bot, mul_one] at h1
   exact h1
 
+omit [Finite H] in
 theorem core_all (hKc : ∀ k ∈ K, (∀ y ∈ K, y * k = k * y) → k = 1) (hB : IsElemAbelian 3 B)
     {E : Subgroup H} (hEK : E ≤ K) (hE : IsElemAbelian 3 E)
     (hlt : Nat.card B < Nat.card E * Nat.card (Bo K B))
@@ -49,6 +52,7 @@ theorem core_all (hKc : ∀ k ∈ K, (∀ y ∈ K, y * k = k * y) → k = 1) (hB
   rw [hPc] at this
   omega
 
+omit [Finite H] in
 theorem core_two (hKc : ∀ k ∈ K, (∀ y ∈ K, y * k = k * y) → k = 1) (hB : IsElemAbelian 3 B)
     {E : Subgroup H} (hEK : E ≤ K) (hE : IsElemAbelian 3 E) {W : Subgroup H} (hW2 : IsPGroup 2 W)
     (hWne : W ≠ ⊥) (hEW : E ≤ Subgroup.normalizer (W : Set H))

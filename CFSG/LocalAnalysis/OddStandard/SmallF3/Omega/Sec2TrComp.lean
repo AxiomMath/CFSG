@@ -13,7 +13,7 @@ open Subgroup
 variable {A P : Type} [Group A] [Group P] {ρ : A →* P}
 
 theorem isSubnormal_subgroupOf_of_normal_le {G : Type*} [Group G] {H K C : Subgroup G}
-    (hHK : H ≤ K) (hKC : K ≤ C) (hn : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H)
+    (hHK : H ≤ K) (_hKC : K ≤ C) (hn : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H)
     (hK : (K.subgroupOf C).IsSubnormal) : (H.subgroupOf C).IsSubnormal := by
   have hle : H.subgroupOf C ≤ K.subgroupOf C := fun x hx => hHK hx
   have hnorm : ((H.subgroupOf C).subgroupOf (K.subgroupOf C)).Normal := by

@@ -244,7 +244,7 @@ private theorem four_centralizer_sylow_prod_eq_one (hF : Nat.card F = (2 ^ f) ^ 
   have h2elem : ∀ x : ↥S, IsPGroup 2 (Subgroup.zpowers (x : K)) := by
     intro x
     have h1 : IsPGroup 2 (Subgroup.zpowers (x : ↥Y)) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.2 x.2)
+      S.isPGroup.to_le (Subgroup.zpowers_le.2 x.2)
     have h2 := h1.map Y.subtype
     rwa [MonoidHom.map_zpowers] at h2
   have hLift : ∀ x : ↥Y, ∃ (A : GL (Fin 4) F) (φ : F ≃+* F)
@@ -265,7 +265,7 @@ private theorem four_centralizer_sylow_prod_eq_one (hF : Nat.card F = (2 ^ f) ^ 
     rw [mul_assoc, hysv, ← mul_assoc, hysv, mul_assoc]
   have h2prod : IsPGroup 2 (Subgroup.zpowers ((v : K) * (w : K))) := by
     have h1 : IsPGroup 2 (Subgroup.zpowers ((v * w : ↥S) : ↥Y)) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.2 ((S : Subgroup ↥Y).mul_mem v.2 w.2))
+      S.isPGroup.to_le (Subgroup.zpowers_le.2 ((S : Subgroup ↥Y).mul_mem v.2 w.2))
     have h2 := h1.map Y.subtype
     rwa [MonoidHom.map_zpowers] at h2
   have h1 : (v : K) * (w : K) = 1 :=
@@ -338,12 +338,12 @@ private theorem four_centralizer_index_le_two (hF : Nat.card F = (2 ^ f) ^ 2) (h
     (hY : Y = Subgroup.centralizer (((T₀.map Ψ ⊔ T₃.map Ψ ⊔
       perpRoots Δ (T₀.map Ψ ⊔ T₃.map Ψ) : Subgroup K)) : Set K)) :
     (pPrimeCore 2 ↥Y).index ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Y) := Sylow.nonempty
   have hcard := four_centralizer_sylow_card hF hf hΨ hN hodd hs hord hT₀ hT₃ hΔ hhs hY S
   have hcyc : IsCyclic ↥S := by
     have hdvd : Nat.card ↥S ∣ 2 := by
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       have hk' : Nat.card ↥S = 2 ^ k := hk
       have hk1 : k ≤ 1 :=
         (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp (by rw [← hk']; exact hcard)
@@ -353,6 +353,7 @@ private theorem four_centralizer_index_le_two (hF : Nat.card F = (2 ^ f) ^ 2) (h
   rw [(cyclic_sylow_normal_odd_complement S hcyc).2.2.2.1.2.2.1]
   exact hcard
 
+omit [Finite K] in
 private theorem four_centralizer_line (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f)
     (hΨ : Function.Injective Ψ) (hN : Ψ.range.Normal)
     (hs : s ∈ lineSL (unitaryInvolution F 2 f) (Pi.single 0 1) (Pi.single 3 1))

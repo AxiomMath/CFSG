@@ -49,7 +49,7 @@ theorem eq_or_mul_of_sq {L : Subgroup Y} {t b y : Y} (hz : IsUniqueInvolution L 
       _ = t * b := by rw [h]
 
 theorem prod_cases {t b b' u y y' : Y} (ht2 : t * t = 1) (hu : u = b * b'⁻¹) (hut : t * u = u * t)
-    (hu2 : u * u = 1) (hy : y = b ∨ y = t * b) (hy' : y' = b' ∨ y' = t * b') :
+    (_hu2 : u * u = 1) (hy : y = b ∨ y = t * b) (hy' : y' = b' ∨ y' = t * b') :
     y * y'⁻¹ = u ∨ y * y'⁻¹ = t * u := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   rcases hy with rfl | rfl <;> rcases hy' with rfl | rfl
@@ -105,10 +105,10 @@ include d
 
 theorem hRcomm : Commutes d.D.F.ρ.R d.D.F.ρ'.R :=
   Sec6Gen.commutes_of_twin_of_isPGroup d.hΩ d.hKΩ d.hK'Ω d.hne.symm d.hz d.hz' d.hRK.1 d.hRK'.1
-    (d.D.S₀.isPGroup'.to_le (sup_le d.D.hρS d.D.hρ'S))
+    (d.D.S₀.isPGroup.to_le (sup_le d.D.hρS d.D.hρ'S))
 
 theorem T_isPGroup : IsPGroup 2 d.T :=
-  d.D.S₀.isPGroup'.to_le (sup_le d.D.hρS d.D.hρ'S)
+  d.D.S₀.isPGroup.to_le (sup_le d.D.hρS d.D.hρ'S)
 
 theorem T_sylow : IsSylow2In d.T (tightCore R ⊔ d.K') :=
   CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.T7A.isSylow2In_sup_of_twin d.hΩ d.hKΩ d.hK'Ω d.hne
@@ -132,7 +132,7 @@ theorem h16 (hr : 4 ≤ r) : ∀ J ∈ CoreAssembly.conjClass (tightCore R), ∀
 
 theorem U1_eq : Subgroup.zpowers d.D.x₁ = tightCore R ⊓ d.W := by
   have hKS : tightCore R ⊓ (d.D.S₀ : Subgroup Y) = d.D.F.ρ.R :=
-    d.hRK.2.2 _ inf_le_left (d.D.S₀.isPGroup'.to_le inf_le_right)
+    d.hRK.2.2 _ inf_le_left (d.D.S₀.isPGroup.to_le inf_le_right)
       (le_inf d.hRK.1 d.D.hρS)
   refine d.D.h₁.trans (le_antisymm (inf_le_inf_right _ d.hRK.1) ?_)
   intro x hx
@@ -142,7 +142,7 @@ theorem U1_eq : Subgroup.zpowers d.D.x₁ = tightCore R ⊓ d.W := by
 
 theorem U2_eq : Subgroup.zpowers d.D.x₂ = d.K' ⊓ d.W := by
   have hKS : d.K' ⊓ (d.D.S₀ : Subgroup Y) = d.D.F.ρ'.R :=
-    d.hRK'.2.2 _ inf_le_left (d.D.S₀.isPGroup'.to_le inf_le_right)
+    d.hRK'.2.2 _ inf_le_left (d.D.S₀.isPGroup.to_le inf_le_right)
       (le_inf d.hRK'.1 d.D.hρ'S)
   refine d.D.h₂.trans (le_antisymm (inf_le_inf_right _ d.hRK'.1) ?_)
   intro x hx

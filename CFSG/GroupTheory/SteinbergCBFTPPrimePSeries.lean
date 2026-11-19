@@ -90,7 +90,7 @@ theorem corePP'_eq_top_of_normal (hG : IsPiSeparable {q : Nat.Primes | q.val = p
   have hP₁ : (P : Subgroup G) ⊓ corePP'P p G ≤ coreP p G := by
     refine le_coreAbove_of (N' := ⊥) bot_le ?_
     rw [relIndex_bot_left]
-    exact isPrimeSetNumber_card_of_isPGroup (P.isPGroup'.to_le inf_le_left)
+    exact isPrimeSetNumber_card_of_isPGroup (P.isPGroup.to_le inf_le_left)
   have h1 : coreAbove {q : Nat.Primes | q.val = p} (corePP' p G) = corePP' p G := by
     change corePP'P p G = corePP' p G
     rw [corePP'P_eq_sup P]
@@ -131,7 +131,7 @@ theorem hasPSeries_sup_corePP' (P : Sylow p G) :
   · rw [relIndex_top_right]
     change IsPrimeSetNumber _ ((corePP' p G).relIndex K)
     rw [hK, relIndex_sup_right]
-    exact (isPrimeSetNumber_card_of_isPGroup P.isPGroup').dvd (relIndex_dvd_card _ _)
+    exact (isPrimeSetNumber_card_of_isPGroup P.isPGroup).dvd (relIndex_dvd_card _ _)
 
 end Structure
 

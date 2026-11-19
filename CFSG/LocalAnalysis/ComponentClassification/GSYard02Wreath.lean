@@ -25,7 +25,7 @@ private theorem commute_of_isKleinFour_gsy {X : Type} [Group X] {E : Subgroup X}
 private theorem exists_mem_ne_ne_gsy {X : Type} [Group X] {E : Subgroup X} (h4 : Nat.card E = 4)
     (y : X) : ∃ x ∈ E, x ≠ 1 ∧ x ≠ y := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hsub : (E : Set X) ⊆ {1, y} := fun x hx => by
     by_cases h1 : x = 1
     · exact Or.inl h1
@@ -80,7 +80,7 @@ theorem reflTransGen_commFourAdj_of_wreath {X : Type} [Group X] [Finite X] {S A 
     {τ z₁ c : X} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hAB1 : A ⊓ B = ⊥)
     (hτ : τ * τ = 1) (hτA : ∀ a ∈ A, τ * a * τ ∈ B) (hτB : ∀ b ∈ B, τ * b * τ ∈ A)
     (hS : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b ∨ s = a * b * τ)
-    (hAS : A ≤ S) (hBS : B ≤ S) (hτS : τ ∈ S)
+    (hAS : A ≤ S) (hBS : B ≤ S) (_hτS : τ ∈ S)
     (hz₁ : z₁ ∈ A) (hz₁2 : z₁ * z₁ = 1) (hz₁1 : z₁ ≠ 1) (hz₁c : ∀ a ∈ A, a * z₁ = z₁ * a)
     (hc : c ∈ A) (hc2 : c * c = 1) (hcz : c ≠ z₁) (hc1 : c ≠ 1)
     {E F : Subgroup X} (hE : IsKleinFour E) (hES : E ≤ S) (hF : IsKleinFour F) (hFS : F ≤ S) :

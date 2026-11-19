@@ -63,7 +63,7 @@ theorem exists_isInIHTVC_sp4_one {X T M K V : Subgroup G} (h : Hyp28 X T M V)
   have hMX : M ≤ X := hmp.maximal.1.le
   have hTM : T ≤ M := hmp.le
   have hVX : V ≤ X := h.le_H
-  haveI hKn : (K.subgroupOf X).Normal :=
+  have hKn : (K.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).mpr hXN
   have hTsyl : IsSylowTwoOf (T.subgroupOf X) ⊤ :=
     CFSG.Quasithin.Ch3E213M.P5.isSylowTwoOf_subgroupOf_top hmp.isSylow

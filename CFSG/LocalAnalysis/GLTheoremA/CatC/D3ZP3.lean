@@ -41,7 +41,7 @@ theorem common_split_two (hK2 : ringChar K ≠ 2) {m m' : ModGL Tag.D4 K}
     (hm2 : m * m = 1) (hm'2 : m' * m' = 1) (hcomm : m * m' = m' * m) :
     ∃ e : SL2 K, (ρ 2 e)⁻¹ * m * ρ 2 e ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) ∧
       (ρ 2 e)⁻¹ * m' * ρ 2 e ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨e₀, he₀⟩ := split_two hK2 hm hm2
   obtain ⟨e₀', he₀'⟩ := split_two hK2 hm' hm'2
   have hn₀ : (ρ 2 e₀)⁻¹ * m * ρ 2 e₀ ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) := by
@@ -115,7 +115,7 @@ theorem levi_key_two_pair (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4
     ∃ s ∈ parabolicLevi Tag.D4 K ({2} : Set (Fin Tag.D4.rank)),
       s⁻¹ * y * s ∈ borelGroup Tag.D4 K ∧ s⁻¹ * y' * s ∈ borelGroup Tag.D4 K ∧
         s⁻¹ * phiG g a σ ε s ∈ borelGroup Tag.D4 K := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {2} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inl rfl
   have hS := semiDirect_levi (K := K) J

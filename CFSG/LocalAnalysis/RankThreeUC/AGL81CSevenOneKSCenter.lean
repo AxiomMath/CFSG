@@ -17,11 +17,11 @@ theorem kFactCenterRankFive_holds : KFactCenterRankFive := by
     have hle : L' ≤ L := Subgroup.map_subtype_le _
     have heq : L'.subgroupOf L = Subgroup.center ↥L :=
       Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
-    haveI : (L'.subgroupOf L).Normal := heq ▸ inferInstance
+    have : (L'.subgroupOf L).Normal := heq ▸ inferInstance
     let e : (↥L ⧸ L'.subgroupOf L) ≃* (↥L ⧸ Subgroup.center ↥L) :=
       QuotientGroup.quotientMulEquivOfEq heq
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
-    haveI : IsSimpleGroup (↥L ⧸ L'.subgroupOf L) := e.isSimpleGroup
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+    have : IsSimpleGroup (↥L ⧸ L'.subgroupOf L) := e.isSimpleGroup
     have hnab : ∃ a b : ↥L ⧸ L'.subgroupOf L, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hL.1.2.2
       exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩

@@ -55,6 +55,7 @@ variable {W : Type} [CommGroup W] [Finite W] {L₁ L₂ : Subgroup (MulAut W)} {
   [Finite F] {β : W ≃* Multiplicative (Matrix (Fin 4) (Fin 4) F)}
   {ρ : ↥L₁ →* Matrix.GeneralLinearGroup (Fin 4) F} {σ : ↥L₂ →* Matrix.GeneralLinearGroup (Fin 4) F}
 
+omit [Finite W] in
 theorem exists_transpose_model (hF : Nat.card F = 2) (hM : IsMatModel L₁ L₂ β ρ σ)
     {t : MulAut W} (ht : t * t = 1) (ht₁ : L₂ = L₁.map (MulAut.conj t).toMonoidHom) :
     ∃ (β' : W ≃* Multiplicative (Matrix (Fin 4) (Fin 4) F))
@@ -263,6 +264,7 @@ theorem exists_transpose_model (hF : Nat.card F = 2) (hM : IsMatModel L₁ L₂ 
   rw [hβ' (t v), hform' v, hβ' v, Matrix.transpose_mul, hRinv]
   exact hstep _
 
+omit [Finite W] in
 theorem exists_congr_form (hF : Nat.card F = 2) (hM : IsMatModel L₁ L₂ β ρ σ) {t : MulAut W}
     (htr : ∀ v, Multiplicative.toAdd (β (t v)) = (Multiplicative.toAdd (β v))ᵀ)
     {a : MulAut W} (ha : L₁.map (MulAut.conj a).toMonoidHom = L₁) (hat : a * t = t * a) :

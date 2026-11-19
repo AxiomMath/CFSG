@@ -33,6 +33,7 @@ variable {m : ℕ}
 @[simp] theorem ug85_blk_succ_succ (ε : K) (A : Matrix (Fin m) (Fin m) K) (i j : Fin m) :
     ug85_blk ε A i.succ j.succ = A i j := rfl
 
+omit [Field K] in
 theorem ug85_ext {M N : Matrix (Fin (m + 1)) (Fin (m + 1)) K} (h00 : M 0 0 = N 0 0)
     (h01 : ∀ j : Fin m, M 0 j.succ = N 0 j.succ) (h10 : ∀ i : Fin m, M i.succ 0 = N i.succ 0)
     (h11 : ∀ i j : Fin m, M i.succ j.succ = N i.succ j.succ) : M = N := by
@@ -89,8 +90,7 @@ theorem ug85_row_zero (h : UnitaryFieldData ℓ f K) {M : Matrix (Fin (m + 1)) (
     have := congrFun (congrFun hM 0) 0
     simpa [Matrix.mul_apply, Fin.sum_univ_succ, ug83_adj_apply, h10] using this
   have hj := congrFun (congrFun hM j.succ) 0
-  simp [Matrix.mul_apply, Fin.sum_univ_succ, ug83_adj_apply, h10, Matrix.one_apply,
-    Fin.succ_ne_zero] at hj
+  simp [Matrix.mul_apply, Fin.sum_univ_succ, ug83_adj_apply, h10, Fin.succ_ne_zero] at hj
   rcases hj with hj | hj
   · exact hj
   · rw [hj, mul_zero] at h00

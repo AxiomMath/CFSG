@@ -42,7 +42,7 @@ theorem sp4Cross (hsyl₁ : IsSylowOf 2 T (Subgroup.normalizer (V : Set G)))
   have hnot := P.u_not_conj hZ hsyl₁ hS hTS ⟨s₀, hs₀, hs₀T⟩ hsyl₂ hcent₁ hcent₂
   have hnot₂ : ∀ u z : G, UType W V Z₂ Z u → (z ∈ Z₂ ∨ z ∈ Z) → z ≠ 1 → ∀ g : G,
       g⁻¹ * u * g ≠ z := fun u z hu hz hz1 g =>
-    hnot u z (P.symm.utype_symm hZ₂ hu) hz.symm hz1 g
+    hnot u z (CFSG.CGT.PushingUpLit.A78S4.S4Pair.utype_symm hu) hz.symm hz1 g
   exact
     { Z_le := P.side₁.Z_le_N.trans inf_le_right
       Z₂_le := P.Z₂_le_N.trans inf_le_left

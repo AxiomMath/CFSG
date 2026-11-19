@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {x₁ x₂ t a b c : G} {Wp F P M₂ M₃ U : Subgroup G}
 
+omit [Finite G] in
 private lemma fzc_sy3_mul_bc (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U)
     {f₁ f₂ : G} (hf₁ : f₁ ∈ F) (hf₂ : f₂ ∈ F) :
     ∃ f ∈ F, (f₁ * b) * (f₂ * c) = f * (b * c) := by
@@ -22,6 +23,7 @@ private lemma fzc_sy3_mul_bc (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃
   refine ⟨f₁ * (b * f₂ * b⁻¹), F.mul_mem hf₁ (hs.U_elem.2.2 b hbU f₂ hf₂), ?_⟩
   group
 
+omit [Finite G] in
 private lemma fzc_sy3_mul_bc_c (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U)
     {f₁ f₂ : G} (hf₁ : f₁ ∈ F) (hf₂ : f₂ ∈ F) :
     ∃ f ∈ F, (f₁ * (b * c)) * (f₂ * c) = f * b := by
@@ -44,6 +46,7 @@ private lemma fzc_sy3_mul_bc_c (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M�
       = (f₁ * ((b * c) * f₂ * (b * c)⁻¹) * (b * (c * c) * b⁻¹)) * b := by group
     _ = (f₁ * ((b * c) * f₂ * (b * c)⁻¹) * (b * t * b⁻¹)) * b := by rw [hc2]
 
+omit [Finite G] in
 private lemma fzc_sy3_coset_U (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {g : G}
     (hg : g ∈ U) : g ∈ F ∨ (∃ f ∈ F, g = f * b) ∨ (∃ f ∈ F, g = f * c) ∨
       (∃ f ∈ F, g = f * (b * c)) := by
@@ -55,6 +58,7 @@ private lemma fzc_sy3_coset_U (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M�
     · exact Or.inr (Or.inr (Or.inl ⟨f, hfF, by rw [hg, hp]⟩))
     · exact Or.inr (Or.inr (Or.inr ⟨f, hfF, by rw [hg, hp]; group⟩))
 
+omit [Finite G] in
 private lemma fzc_sy3_coset_notP (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {g : G}
     (hgU : g ∈ U) (hgP : g ∉ P) :
     (∃ f ∈ F, g = f * c) ∨ (∃ f ∈ F, g = f * (b * c)) := by
@@ -68,6 +72,7 @@ private lemma fzc_sy3_coset_notP (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ 
   · exact Or.inl ⟨f, hfF, hgc⟩
   · exact Or.inr ⟨f, hfF, hgbc⟩
 
+omit [Finite G] in
 private lemma fzc_sy3_coset_notM₂ (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {g : G}
     (hgU : g ∈ U) (hgM₂ : g ∉ M₂) :
     (∃ f ∈ F, g = f * b) ∨ (∃ f ∈ F, g = f * (b * c)) := by
@@ -81,6 +86,7 @@ private lemma fzc_sy3_coset_notM₂ (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M�
   · exact absurd (by rw [hgc]; exact M₂.mul_mem (hFM₂ hfF) hcM₂) hgM₂
   · exact Or.inr ⟨f, hfF, hgbc⟩
 
+omit [Finite G] in
 private lemma fzc_sy3_coset_notM₃ (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {g : G}
     (hgU : g ∈ U) (hgM₃ : g ∉ M₃) :
     (∃ f ∈ F, g = f * b) ∨ (∃ f ∈ F, g = f * c) := by
@@ -104,9 +110,9 @@ theorem fzc_sy3_rank (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) : S4
   · exact fzc_sy3_rank_M₂ hs X hXM₂
   by_cases hXM₃ : X ≤ M₃
   · exact fzc_sy3_rank_M₃ hs X hXM₃
-  obtain ⟨g₁, hg₁X, hg₁P⟩ := SetLike.not_le_iff_exists.mp hXP
-  obtain ⟨g₂, hg₂X, hg₂M₂⟩ := SetLike.not_le_iff_exists.mp hXM₂
-  obtain ⟨g₃, hg₃X, hg₃M₃⟩ := SetLike.not_le_iff_exists.mp hXM₃
+  obtain ⟨g₁, hg₁X, hg₁P⟩ := IsConcreteLE.not_le_iff_exists.mp hXP
+  obtain ⟨g₂, hg₂X, hg₂M₂⟩ := IsConcreteLE.not_le_iff_exists.mp hXM₂
+  obtain ⟨g₃, hg₃X, hg₃M₃⟩ := IsConcreteLE.not_le_iff_exists.mp hXM₃
   have hg₁U : g₁ ∈ U := hX hg₁X
   have hg₂U : g₂ ∈ U := hX hg₂X
   have hg₃U : g₃ ∈ U := hX hg₃X

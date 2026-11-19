@@ -62,7 +62,7 @@ private theorem mulVecLin_conj_hermTransvection_of_isom (hu : UnitaryFieldData 2
     hgi, hermTransvection_apply, ← hiso]
 
 theorem suConj_isotropicTransvectionGroup (hu : UnitaryFieldData 2 n K) (A : unitaryIsom3 hu)
-    {L : Submodule K (Fin 3 → K)} (hL : L ∈ isotropicLines hu 3) :
+    {L : Submodule K (Fin 3 → K)} (_hL : L ∈ isotropicLines hu 3) :
     (isotropicTransvectionGroup hu 3 L).map (suConj hu A).toMonoidHom =
       isotropicTransvectionGroup hu 3 ((A : GL (Fin 3) K) • L) := by
   rw [isotropicTransvectionGroup, MonoidHom.map_closure, isotropicTransvectionGroup]
@@ -111,9 +111,9 @@ private theorem eq_of_omegaOneOf_sylow_eq_psu (hu : UnitaryFieldData 2 n K)
     {S S' : Sylow 2 (unitaryPSU hu 3)}
     (hΩ : omegaOneOf (S : Subgroup (unitaryPSU hu 3)) =
       omegaOneOf (S' : Subgroup (unitaryPSU hu 3))) : S = S' := by
-  haveI : Finite K := hu.finite
-  haveI : Finite ↥(unitarySU 2 n K 3) := Subtype.finite
-  haveI : Finite (unitaryPSU hu 3) :=
+  have : Finite K := hu.finite
+  have : Finite ↥(unitarySU 2 n K 3) := Subtype.finite
+  have : Finite (unitaryPSU hu 3) :=
     Finite.of_surjective (unitaryProj hu 3) (unitaryProj_surjective hu 3)
   obtain ⟨R, hR⟩ := (sylowMapUnitaryProj_bijective hu).2 S
   obtain ⟨R', hR'⟩ := (sylowMapUnitaryProj_bijective hu).2 S'
@@ -127,11 +127,11 @@ private theorem eq_of_omegaOneOf_sylow_eq_psu (hu : UnitaryFieldData 2 n K)
       (omegaOneOf (R' : Subgroup ↥(unitarySU 2 n K 3))).map (unitaryProj hu 3) :=
     hΩR.trans (hΩ.trans hΩR'.symm)
   have h2R : IsPGroup 2 (omegaOneOf (R : Subgroup ↥(unitarySU 2 n K 3))) :=
-    R.isPGroup'.to_le (by
+    R.isPGroup.to_le (by
       rw [omegaOneOf]
       exact (Subgroup.closure_le _).mpr (fun x hx => hx.1))
   have h2R' : IsPGroup 2 (omegaOneOf (R' : Subgroup ↥(unitarySU 2 n K 3))) :=
-    R'.isPGroup'.to_le (by
+    R'.isPGroup.to_le (by
       rw [omegaOneOf]
       exact (Subgroup.closure_le _).mpr (fun x hx => hx.1))
   have hΩeq : omegaOneOf (R : Subgroup ↥(unitarySU 2 n K 3)) =
@@ -142,15 +142,15 @@ private theorem eq_of_omegaOneOf_sylow_eq_psu (hu : UnitaryFieldData 2 n K)
   have hRR' : R = R' := eq_of_omegaOneOf_sylow_eq hu hΩeq
   rw [← hR, ← hR', hRR']
 
-theorem smul_eq_of_normalizes_sylow (hu : UnitaryFieldData 2 n K) (hn : 2 ≤ n)
+theorem smul_eq_of_normalizes_sylow (hu : UnitaryFieldData 2 n K) (_hn : 2 ≤ n)
     (A : unitaryIsom3 hu) (S : Sylow 2 (unitaryPSU hu 3))
     (hS : ∀ x ∈ (S : Subgroup (unitaryPSU hu 3)),
       psuConj hu A x ∈ (S : Subgroup (unitaryPSU hu 3))) :
     ∃ L ∈ isotropicLines hu 3, (A : GL (Fin 3) K) • L = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := hu.finite
-  haveI : Finite ↥(unitarySU 2 n K 3) := Subtype.finite
-  haveI : Finite (unitaryPSU hu 3) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := hu.finite
+  have : Finite ↥(unitarySU 2 n K 3) := Subtype.finite
+  have : Finite (unitaryPSU hu 3) :=
     Finite.of_surjective (unitaryProj hu 3) (unitaryProj_surjective hu 3)
   obtain ⟨R, hR⟩ := (sylowMapUnitaryProj_bijective hu).2 S
   let T : Sylow 2 ↥(unitarySU 2 n K 3) :=
@@ -180,11 +180,11 @@ theorem smul_eq_of_normalizes_sylow (hu : UnitaryFieldData 2 n K) (hn : 2 ≤ n)
     exact ⟨0, by norm_num⟩
   have hΩS : (omegaOneOf (S : Subgroup (unitaryPSU hu 3))).map
       (psuConj hu A).toMonoidHom = omegaOneOf (S : Subgroup (unitaryPSU hu 3)) := by
-    rw [omegaOneOf_map_of_odd_ker (psuConj hu A).toMonoidHom hkerP S.isPGroup', hSmap]
+    rw [omegaOneOf_map_of_odd_ker (psuConj hu A).toMonoidHom hkerP S.isPGroup, hSmap]
   have hΩT : omegaOneOf (sylowMapUnitaryProj hu T : Subgroup (unitaryPSU hu 3)) =
       omegaOneOf (S : Subgroup (unitaryPSU hu 3)) := by
     rw [← omegaOneOf_map_sylowMapUnitaryProj hu T, hT,
-      ← omegaOneOf_map_of_odd_ker (suConj hu A).toMonoidHom hker R.isPGroup',
+      ← omegaOneOf_map_of_odd_ker (suConj hu A).toMonoidHom hker R.isPGroup,
       Subgroup.map_map, hcomp, ← Subgroup.map_map, hΩR, hΩS, ← hΩR]
   have hTS : sylowMapUnitaryProj hu T = S := eq_of_omegaOneOf_sylow_eq_psu hu hΩT
   have hTR : T = R := (sylowMapUnitaryProj_bijective hu).1 (hTS.trans hR.symm)
@@ -196,7 +196,7 @@ theorem smul_eq_of_normalizes_sylow (hu : UnitaryFieldData 2 n K) (hn : 2 ≤ n)
   obtain ⟨L, hL, hΩ⟩ := omegaOneOf_sylow_eq_isotropicTransvectionGroup R
   have hmapΩ : (omegaOneOf (R : Subgroup ↥(unitarySU 2 n K 3))).map
       (suConj hu A).toMonoidHom = omegaOneOf (R : Subgroup ↥(unitarySU 2 n K 3)) := by
-    rw [omegaOneOf_map_of_odd_ker (suConj hu A).toMonoidHom hker R.isPGroup', hRm]
+    rw [omegaOneOf_map_of_odd_ker (suConj hu A).toMonoidHom hker R.isPGroup, hRm]
   have hAL : (A : GL (Fin 3) K) • L ∈ isotropicLines hu 3 :=
     smul_mem_isotropicLines hu A hL
   have hU : isotropicTransvectionGroup hu 3 ((A : GL (Fin 3) K) • L) =

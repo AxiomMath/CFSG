@@ -71,6 +71,6 @@ theorem prime_regular_centralizer_product_brauerElementary {G : Type*} [Group G]
     (commutingSubgroupProductEquiv cyclic primary hcommute hdisjoint)
   · rw [Nat.card_zpowers]
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).mp hregular
-  · exact sylow.isPGroup'.map _
+  · exact sylow.isPGroup.map _
 
 end CFSG.TwoRankLowerBound.Helpers

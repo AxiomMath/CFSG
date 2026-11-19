@@ -16,17 +16,20 @@ section BarDown
 
 variable {H C : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
 
+omit [Finite G] in
 private theorem wc813pbd_barSub_mono {A B : Subgroup G} (hAB : A ≤ B) :
     barSub H φ A ≤ barSub H φ B := by
   change (A.subgroupOf H).map φ ≤ (B.subgroupOf H).map φ
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono H hAB)
 
+omit [Finite G] in
 private theorem wc813pbd_barPre_mono {A B : Subgroup Q} (hAB : A ≤ B) :
     barPre H φ A ≤ barPre H φ B := by
   intro g hg
   obtain ⟨hgH, hgA⟩ := mem_barPre.mp hg
   exact mem_barPre.mpr ⟨hgH, hAB hgA⟩
 
+omit [Finite G] in
 private theorem wc813pbd_mem_barSub_iff (hφ : IsBarMap H C φ) {L N : Subgroup G}
     (hCN : C ≤ N) (hLH : L ≤ H) (l : ↥L) :
     ((φ (Subgroup.inclusion hLH l) : Q) ∈ barSub H φ N) ↔ (l : G) ∈ N := by
@@ -45,6 +48,7 @@ private theorem wc813pbd_mem_barSub_iff (hφ : IsBarMap H C φ) {L N : Subgroup 
   · intro hlN
     exact mem_barSub.mpr ⟨Subgroup.inclusion hLH l, hlN, rfl⟩
 
+omit [Finite G] in
 private theorem wc813pbd_relIndex_barSub (hφ : IsBarMap H C φ) {A B : Subgroup G}
     (hCA : C ≤ A) (hBH : B ≤ H) (hAB : A ≤ B) :
     (barSub H φ A).relIndex (barSub H φ B) = A.relIndex B := by
@@ -61,6 +65,7 @@ private theorem wc813pbd_relIndex_barSub (hφ : IsBarMap H C φ) {A B : Subgroup
   change ((A.subgroupOf H).map φ).relIndex ((B.subgroupOf H).map φ) = A.relIndex B
   rw [Subgroup.relIndex_map_map, hsupA, hsupB, Subgroup.relIndex_subgroupOf hBH]
 
+omit [Finite G] in
 theorem barPre_barSub (hφ : IsBarMap H C φ) {X : Subgroup G} (hCX : C ≤ X) (hXH : X ≤ H) :
     barPre H φ (barSub H φ X) = X := by
   ext g
@@ -80,8 +85,9 @@ theorem barPre_barSub (hφ : IsBarMap H C φ) {X : Subgroup G} (hCX : C ≤ X) (
   · intro hgX
     exact ⟨hXH hgX, mem_barSub.mpr ⟨⟨g, hXH hgX⟩, hgX, rfl⟩⟩
 
+omit [Finite G] in
 theorem hasQuotShape_barSub (hφ : IsBarMap H C φ) {L N : Subgroup G} (hCN : C ≤ N)
-    (hNL : N ≤ L) (hLH : L ≤ H) {P : ∀ (X : Type) [Group X], Prop}
+    (_hNL : N ≤ L) (hLH : L ≤ H) {P : ∀ (X : Type) [Group X], Prop}
     (h : HasQuotShape L (N : Set G) P) :
     HasQuotShape (barSub H φ L) ((barSub H φ N : Subgroup Q) : Set Q) P := by
   obtain ⟨X, hX, ψ, hψ, hker, hP⟩ := h
@@ -129,6 +135,7 @@ theorem hasQuotShape_barSub (hφ : IsBarMap H C φ) {L N : Subgroup G} (hCN : C 
         simpa [ρ] using hy
       exact (hker l).mpr ((wc813pbd_mem_barSub_iff hφ hCN hLH l).mp hy')
 
+omit [Finite G] in
 theorem isComponentModN_barSub (hφ : IsBarMap H C φ) {N L : Subgroup G} (hCN : C ≤ N)
     (h : IsComponentModN N H L) :
     IsComponentModN (barSub H φ N) ⊤ (barSub H φ L) := by
@@ -144,6 +151,7 @@ theorem isComponentModN_barSub (hφ : IsBarMap H C φ) {N L : Subgroup G} (hCN :
     simpa [barSub, Subgroup.map_top_of_surjective φ hφ.surjective] using hmap
   · exact hasQuotShape_barSub hφ hCN hNL hLH hshape
 
+omit [Finite G] in
 theorem isMaxParabolicMod_barSub (hφ : IsBarMap H C φ) {N L P : Subgroup G} (hCN : C ≤ N)
     (hLH : L ≤ H) (h : IsMaxParabolicMod N L P) :
     IsMaxParabolicMod (barSub H φ N) (barSub H φ L) (barSub H φ P) := by
@@ -203,6 +211,7 @@ theorem isMaxParabolicMod_barSub (hφ : IsBarMap H C φ) {N L P : Subgroup G} (h
         hnorm (mem_barPre.mpr ⟨l.2, hyN⟩)
       exact mem_barSub.mpr ⟨l, hSnorm ⟨hlL, hl_norm⟩, rfl⟩
 
+omit [Finite G] in
 theorem actsOnDynkinMod_barSub (hφ : IsBarMap H C φ) {N L : Subgroup G} {t : G} (htH : t ∈ H)
     (hCN : C ≤ N) (hLH : L ≤ H) (h : ActsOnDynkinMod N L t) :
     ActsOnDynkinMod (barSub H φ N) (barSub H φ L) (φ ⟨t, htH⟩) := by
@@ -244,8 +253,7 @@ theorem actsOnDynkinMod_barSub (hφ : IsBarMap H C φ) {N L : Subgroup G} {t : G
       convert hx' using 1
       rw [map_inv]
       group
-  · intro l' hl'
-    intro heq
+  · intro l' hl' heq
     obtain ⟨l, hlL, rfl⟩ := mem_barSub.mp hl'
     have hgt : t⁻¹ * (l : G) ∈ H := H.mul_mem (H.inv_mem htH) l.2
     have heq' : barSub H φ (conjSubgroup P (t⁻¹ * (l : G))) = barSub H φ P := by

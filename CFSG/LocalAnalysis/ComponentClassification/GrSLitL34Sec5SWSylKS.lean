@@ -27,7 +27,7 @@ theorem l34Lemma43SylowStepKS_of_certs : L34Lemma43SylowStepKS := by
     refine lt_top_iff_ne_top.mpr fun htop => hQS fun q hq => ?_
     have : (⟨q, hq⟩ : Q) ∈ S.subgroupOf Q := by rw [htop]; exact mem_top _
     exact mem_subgroupOf.mp this
-  have hnil : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hconj : ∀ z ∈ S, (y : G) * z * (y : G)⁻¹ ∈ S := by
@@ -64,7 +64,7 @@ theorem l34Lemma43SylowStepKS_of_certs : L34Lemma43SylowStepKS := by
     rw [wGroup_map_conj, hFW] at h1
     exact mem_normalizer_iff_map_conj_eq.mpr h1
   have hQ' : IsPGroup 2 ↥(S ⊔ zpowers (y : G)) :=
-    Q.isPGroup'.to_le (sup_le hSQ (zpowers_le.mpr y.2))
+    Q.isPGroup.to_le (sup_le hSQ (zpowers_le.mpr y.2))
   have heq := hSM.eq_of_le le_sup_left (sup_le hSM.1 (zpowers_le.mpr hyM)) hQ'
   have hyS' : (y : G) ∈ S ⊔ zpowers (y : G) :=
     (le_sup_right : zpowers (y : G) ≤ S ⊔ zpowers (y : G)) (mem_zpowers (y : G))

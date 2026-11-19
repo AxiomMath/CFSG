@@ -73,7 +73,7 @@ theorem suConj_mem_T0sub (hD : RefData h ι l m D) {x : unitarySU 2 3 K 3} (hx :
   have hx' : x = toSU h ι A (T0_unit A hA) := mat_injective hxA
   rw [hx', mat_suConj_toSU h ι hD]
 
-theorem T0sub_le_comm (hι : Function.Injective ι) (hD : RefData h ι l m D) :
+theorem T0sub_le_comm (_hι : Function.Injective ι) (hD : RefData h ι l m D) :
     T0sub h ι ≤ u38Comm (T0sub h ι) (suConj h D) := by
   intro g hg
   obtain ⟨A, hA, hgA⟩ := hg
@@ -237,6 +237,7 @@ theorem mat_blk (hιs : ∀ y : K, σ y = y → ∃ a, ι a = y) {x : unitarySU 
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem eq_x0_or_x0i (hι : Function.Injective ι) (hιs : ∀ y : K, σ y = y → ∃ a, ι a = y)
     {x : unitarySU 2 3 K 3} (hxL : x ∈ leviSU3 (K := K) (2 ^ 3)) (hαx : suField h σ x = x)
     (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) :
@@ -270,6 +271,7 @@ theorem eq_x0_or_x0i (hι : Function.Injective ι) (hιs : ∀ y : K, σ y = y �
     apply mat_injective
     rw [hxm, hc, mat_toSU]
 
+omit [Finite K] in
 theorem T0sub_le_u38Two (hι : Function.Injective ι) (hισ : ∀ a, σ (ι a) = ι a) :
     T0sub h ι ≤ u38Two (suField h σ) := by
   intro g hg
@@ -281,9 +283,11 @@ theorem T0sub_le_u38Two (hι : Function.Injective ι) (hισ : ∀ a, σ (ι a) 
     simpa using h1
   exact Subgroup.subset_closure ⟨hfix, 3, h8⟩
 
+omit [Finite K] in
 theorem u38Two_le_fix (α : MulAut (unitarySU 2 3 K 3)) : u38Two α ≤ u38Fix α :=
   (Subgroup.closure_le _).mpr fun _ hy => hy.1
 
+omit [Finite K] in
 theorem p3_of_x0_or_x0i (hι : Function.Injective ι) (hισ : ∀ a, σ (ι a) = ι a)
     (hσ : orderOf σ = 3) {x : unitarySU 2 3 K 3}
     (hx : x = toSU h ι x0 x0_unit ∨ x = toSU h ι x0i x0i_unit) :
@@ -384,6 +388,7 @@ theorem p3_of_x0_or_x0i (hι : Function.Injective ι) (hισ : ∀ a, σ (ι a) 
         (card_u38Fix_suField h hσ) (card_P0sub h ι hι) hzG hj
     exact hQN (hP0Q hzP)
 
+omit [Finite K] in
 theorem u38Fix_suConj_eq (D : unitaryIsom3 h) :
     u38Fix (suConj h D) = suCentralizer (2 ^ 3) (D : GL (Fin 3) K) := by
   ext g

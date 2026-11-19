@@ -19,7 +19,7 @@ private lemma factorization_eq_one_of_dvd_not_sq {n p : ℕ} (hp : p.Prime) (hn 
 
 theorem sylow5_card_five {R : Type*} [Group R] [Finite R] (h5 : 5 ∣ Nat.card R)
     (h25 : ¬ 25 ∣ Nat.card R) (S : Sylow 5 R) : Nat.card S = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hn : Nat.card R ≠ 0 := fun h => h25 (by rw [h]; exact dvd_zero 25)
   have hfac : (Nat.card R).factorization 5 = 1 :=
     factorization_eq_one_of_dvd_not_sq (by norm_num : Nat.Prime 5) hn h5
@@ -30,7 +30,7 @@ theorem sylow5_card_five {R : Type*} [Group R] [Finite R] (h5 : 5 ∣ Nat.card R
 theorem sylow3_elem_nine {R : Type*} [Group R] [Finite R] (h9 : 9 ∣ Nat.card R)
     (h27 : ¬ 27 ∣ Nat.card R) (hno9 : ∀ r : R, r ^ 9 = 1 → r ^ 3 = 1) (S : Sylow 3 R) :
     CFSG.Open.IsElemAbelian 3 (S : Subgroup R) ∧ Nat.card S = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hn : Nat.card R ≠ 0 := fun h => h27 (by rw [h]; exact dvd_zero 27)
   have hfac : (Nat.card R).factorization 3 = 2 := by
     have hle1 : 2 ≤ (Nat.card R).factorization 3 :=
@@ -79,13 +79,13 @@ private lemma s828N_core {K R : Type} [Group K] [Finite K] [Group R] (ψ : K →
     (hno9 : ∀ r : R, r ^ 9 = 1 → r ^ 3 = 1) :
     ¬ 5 ∣ Nat.card ψ.ker ∧ ¬ 9 ∣ Nat.card ψ.ker ∧ (∃ f : K, f ^ 5 = 1 ∧ ψ f ≠ 1) ∧
       (∀ S : Sylow 3 K, ¬ IsCyclic (S : Subgroup K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite R := Finite.of_surjective ψ hψ
   obtain ⟨hperf, -⟩ := hq
-  haveI : Group.IsPerfect (K ⧸ O) := hperf
+  have : Group.IsPerfect (K ⧸ O) := hperf
   have hnot27R : ¬ 27 ∣ Nat.card R := (not_dvd_of_dvd_20160 hR).2
-  haveI hWn : (O.map ψ).Normal := Subgroup.Normal.map hOn ψ hψ
+  have hWn : (O.map ψ).Normal := Subgroup.Normal.map hOn ψ hψ
   have hWp : IsPGroup 2 (O.map ψ) := hOp.map ψ
   obtain ⟨n, hnW⟩ : ∃ n : ℕ, Nat.card (O.map ψ) = 2 ^ n := IsPGroup.iff_card.mp hWp
   have hcardRW : Nat.card R = Nat.card (R ⧸ O.map ψ) * Nat.card (O.map ψ) :=

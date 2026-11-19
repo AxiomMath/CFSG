@@ -35,12 +35,14 @@ private theorem s16w_isPGroup_of_sup_of_normal {A : Type*} [Group A] {p : ℕ}
   rw [pow_add p k m, pow_mul]
   exact hm'
 
+omit [Finite G] in
 private theorem s16w_barSub_sup {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {X Y : Subgroup G}
     (hX : X ≤ stabTil V₀ V) (hY : Y ≤ stabTil V₀ V) :
     barSub V₀ V hV (X ⊔ Y) = barSub V₀ V hV X ⊔ barSub V₀ V hV Y := by
   unfold barSub
   rw [Subgroup.subgroupOf_sup hX hY, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem s16w_map_subgroupOf_map_inclusion {A B Y : Subgroup G}
     (hYA : Y ≤ A) (hAB : A ≤ B) :
     (Y.subgroupOf A).map (Subgroup.inclusion hAB) = Y.subgroupOf B := by
@@ -60,7 +62,7 @@ theorem S16gRowCtx.exists_permuting_of_parabolic (h : S16gRowCtx D V₀ V L hV)
     (hJexp : ∀ x ∈ J, ∀ n : ℕ, x ^ 3 ^ n = 1 → x ^ 3 = 1) (ha : 2 ≤ a) :
     ∃ Y : Subgroup G, Y ≤ D.M ∧ IsPGroup 3 ↥Y ∧ Nat.card ↥Y = 3 ^ a ∧
       (∀ y ∈ Y, y ^ 3 = 1) ∧ ¬ IsCyclic ↥Y ∧ Permutes Y D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcov : ∃ Y : Subgroup G, Y ≤ D.M ∧ (Y.subgroupOf D.M).Normal ∧
       barSub V₀ V hV Y = lBar V₀ V hV L ∧
       IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M V₀ V) := h.cover_lBar hsimple hmult
@@ -75,7 +77,7 @@ theorem S16gRowCtx.exists_permuting_of_parabolic (h : S16gRowCtx D V₀ V L hV)
   have hYcNs : (Yc.subgroupOf S).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hYcS]
     exact hSM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hYcM).1 hYcN)
-  haveI := hYcNs
+  have := hYcNs
   let φ : ↥S →* MulAut (Vtil V₀ V hV) :=
     (barHom V₀ V hV hMst).comp (Subgroup.inclusion hSM)
   let T' : Subgroup ↥S := D.T.subgroupOf S

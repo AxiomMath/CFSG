@@ -20,9 +20,9 @@ theorem bal3ThreeSL3_of_tables (hGA : GriessAllModelsStatement)
   classical
   have hZ : Bal3ThreeCenter := bal3ThreeCenter_of_tables hGA hAlt hSpor
   intro X _ _ hcat P z D hred hz K hK huniq hfam
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     Subgroup.Normal.of_conjugate_fixed (fun g => huniq _ (isComponentOf_conj_smul hK g))
   have hPn : (P : Subgroup X) ≤ normalizer (K : Set X) := by
     rw [normalizer_eq_top]; exact le_top
@@ -61,7 +61,7 @@ theorem bal3ThreeSL3_of_tables (hGA : GriessAllModelsStatement)
     isSLThreePi_of_cover hGA hq hcard hfam
   have hrank2 : CFSG.Open.pRank 3 (⊤ : Subgroup K) ≤ 2 := pRank_le_two_of_isSLThreePi hmodel
   have hP81 : Nat.card (P : Subgroup X) = 81 :=
-    bal3MaxClassEightyOne X (P : Subgroup X) z D P.isPGroup' hred.ord hred.central hred.unique
+    bal3MaxClassEightyOne X (P : Subgroup X) z D P.isPGroup hred.ord hred.central hred.unique
       hred.le hred.elem hred.card hred.mem
       (fun y hy hyC => hred.mem_of_mem_inf_centralizer hy hyC) hred.rank
   have hzP : z ∈ (P : Subgroup X) := hred.le hred.mem
@@ -84,7 +84,7 @@ theorem bal3ThreeSL3_of_tables (hGA : GriessAllModelsStatement)
     exact not_isMulCommutative_inf (by norm_num) P hK hPn
       (hred.dvd_card_center_component hz hK hPn) ⟨⟨fun a b => Subtype.ext (hall a a.2 b b.2)⟩⟩
   have hT27 : 27 ≤ Nat.card T := by
-    have h := pow_three_le_card_of_not_commutative hp3 (P.isPGroup'.to_le hTP) hTnc
+    have h := pow_three_le_card_of_not_commutative hp3 (P.isPGroup.to_le hTP) hTnc
     norm_num at h
     exact h
   have hTdvd : Nat.card T ∣ 81 := hP81 ▸ Subgroup.card_dvd_of_le hTP

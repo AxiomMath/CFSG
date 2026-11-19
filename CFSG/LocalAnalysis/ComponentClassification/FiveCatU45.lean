@@ -55,7 +55,7 @@ theorem exists_inverting_of_section {Γ : Type*} [Group Γ] [Finite Γ]
     (φ : Γ →* alternatingGroup (Fin 9)) (hφ : Function.Surjective φ)
     (h49 : ¬ 49 ∣ Nat.card Γ) :
     ∃ g x : Γ, orderOf g = 7 ∧ x * g * x⁻¹ = g⁻¹ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7 : 7 ∣ Nat.card Γ := by
     have h1 : Nat.card (alternatingGroup (Fin 9)) ∣ Nat.card Γ :=
       Subgroup.card_dvd_of_surjective hφ
@@ -151,8 +151,8 @@ variable {K V : Type*} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Modul
 theorem finrank_ker_sub_one (hK : Nat.card K = 25) (hV : Module.finrank K V = 4)
     (A : V ≃ₗ[K] V) (hA7 : A ^ 7 = 1) (hA1 : A ≠ 1) :
     Module.finrank K (LinearMap.ker ((A : V →ₗ[K] V) - LinearMap.id)) = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite V := Module.finite_of_finite K
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite V := Module.finite_of_finite K
   set N : V →ₗ[K] V := (A : V →ₗ[K] V) - LinearMap.id
   have hNv : ∀ v, N v = A v - v := fun v => rfl
   have hord : orderOf A = 7 := orderOf_eq_prime hA7 hA1
@@ -214,7 +214,7 @@ theorem finrank_ker_sub_one (hK : Nat.card K = 25) (hV : Module.finrank K V = 4)
 
 theorem no_inverting_of_card_25 (hK : Nat.card K = 25) (hV : Module.finrank K V = 4)
     (A Q : V ≃ₗ[K] V) (hA7 : A ^ 7 = 1) (hA1 : A ≠ 1) (hQ : Q * A * Q⁻¹ = A⁻¹) : False := by
-  haveI : CharP K 5 := charP_five_of_card_25 hK
+  have : CharP K 5 := charP_five_of_card_25 hK
   have h2 : (2 : K) ≠ 0 := by
     intro h
     have := (CharP.cast_eq_zero_iff K 5 2).1 (by exact_mod_cast h)

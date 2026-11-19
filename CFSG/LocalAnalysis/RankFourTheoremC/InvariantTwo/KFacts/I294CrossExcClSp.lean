@@ -15,7 +15,7 @@ variable {K : Type} [Field K] [Finite K] {r p : ℕ}
 
 theorem crossExcCl_sylow_statedSp_split (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K - 1)
     (hr : r < p) (S : Sylow p (StatedSp r K)) : IsMulCommutative (S : Subgroup (StatedSp r K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Finite.card_pos
   have hpK : ¬ p ∣ Nat.card K := fun h => by
     have h1 : p ∣ 1 := by
@@ -48,7 +48,7 @@ theorem crossAtPrime_C_of_lt {r : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.C r q).Valid) {p : ℕ} (hrp : r < p) :
     CrossAtPrime ⟨.C r q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeC r q hv e
   have hdp' : q.p ≠ p := by simpa using hdp
   have hpK : ¬ p ∣ Nat.card K := by
@@ -60,7 +60,7 @@ theorem crossAtPrime_C_of_lt {r : ℕ} {q : TauCeti.PrimePower}
 theorem crossAtPrime_B2 {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.B 2 q).Valid)
     {p : ℕ} : CrossAtPrime ⟨.B 2 q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeB2 q hv e
   have hdp' : q.p ≠ p := by simpa using hdp
   have hpK : ¬ p ∣ Nat.card K := by
@@ -73,7 +73,7 @@ theorem crossAtPrime_B_even_of_lt {r : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.B r q).Valid) (hq : q.p = 2) (hr : 3 ≤ r) {p : ℕ} (hrp : r < p) :
     CrossAtPrime ⟨.B r q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even r q hv hq hr e
   have hdp' : q.p ≠ p := by simpa using hdp

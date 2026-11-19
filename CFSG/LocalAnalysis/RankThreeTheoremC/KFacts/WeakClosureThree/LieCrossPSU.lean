@@ -31,6 +31,7 @@ theorem two_le (hL : Nat.card L = (ℓ ^ f) ^ 2) : 2 ≤ ℓ ^ f := by
       _ = 1 := by norm_num
   omega
 
+omit [Finite L] in
 theorem mem_statedSU_iff (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (A : GL (Fin n) L) :
     A ∈ StatedSU n (ℓ ^ f) L ↔ (A : Matrix (Fin n) (Fin n) L).det = 1 ∧
@@ -39,7 +40,7 @@ theorem mem_statedSU_iff (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (h
 
 theorem exp_pos {q : ℕ} (hq2 : 2 ≤ q) (hq3 : ¬ 3 ∣ q) :
     1 ≤ padicValInt 3 ((-(q : ℤ)) ^ orderOf (-(q : ZMod 3)) - 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne0 : (-(q : ZMod 3)) ≠ 0 :=
     neg_ne_zero.2 (fun h => hq3 ((ZMod.natCast_eq_zero_iff q 3).1 h))
   have hepos : 0 < orderOf (-(q : ZMod 3)) := by
@@ -65,12 +66,13 @@ theorem exp_pos {q : ℕ} (hq2 : 2 ≤ q) (hq3 : ¬ 3 ∣ q) :
 @[expose] noncomputable def detGU (n q : ℕ) (L : Type) [Field L] : ↥(StatedGU n q L) →* Lˣ :=
   Matrix.GeneralLinearGroup.det.comp (StatedGU n q L).subtype
 
+omit [Finite L] in
 theorem detGU_val {q : ℕ} (g : ↥(StatedGU n q L)) :
     ((detGU n q L g : Lˣ) : L) = ((g : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det := rfl
 
 theorem subgroupOf_eq_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n) :
     (StatedSU n (ℓ ^ f) L).subgroupOf (StatedGU n (ℓ ^ f) L) = (detGU n (ℓ ^ f) L).ker := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   obtain ⟨f', hq, h⟩ := exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
   ext g
   rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker]
@@ -82,8 +84,8 @@ theorem subgroupOf_eq_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (
 
 theorem not_three_dvd_index (hL : Nat.card L = (ℓ ^ f) ^ 2) (h1 : ¬ 3 ∣ ℓ ^ f + 1) :
     ¬ 3 ∣ (detGU n (ℓ ^ f) L).ker.index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite L
   obtain ⟨f', hq, h⟩ := exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
   intro hdvd
   rw [Subgroup.index_ker] at hdvd
@@ -106,8 +108,8 @@ noncomputable def equivKer (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) 
 theorem threeLocal_of_not_dvd (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hq3 : ¬ 3 ∣ ℓ ^ f) (hn : 1 ≤ n) (h1 : ¬ 3 ∣ ℓ ^ f + 1) :
     ThreeLocal (StatedProj (StatedSU n (ℓ ^ f) L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   have hGU : ThreeLocal ↥(StatedGU n (ℓ ^ f) L) :=
     threeLocal_of_sigma (exp_pos (two_le hL) hq3) (fun P => sylow_GU (by decide) L hLc hq3 hn P)
@@ -187,7 +189,7 @@ theorem dichLieCross_PSU (hLie : LieOrderFormulasInput) : DichLieCrossAt .PSU :=
       exact DichThreeLieAt.of_mulEquiv e (ProjLin.dichThreeLieAt_three hζ _ (hdiag hζ h9 3)
         (PSUThree.permGL_mem hq0 _ (by rw [sign_finRotate]; decide)))
     ·
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hN : Nat.card K * Nat.gcd 3 (ℓ ^ f + 1) =
           CFSG.ComponentClassification.CatLeaf.lieOrderNumerator .PSU 3 (ℓ ^ f) :=
         (hLie K .PSU 3 ℓ f hadm hmodel).2.1

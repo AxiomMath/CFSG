@@ -159,21 +159,21 @@ theorem ggResI_std_back (e : Fin n ≃ Λ) (hCe : ∀ i j, CL (e i) (e j) = C i 
       | some l =>
         rw [hεl, hεs, ggGlueI_aL]
         by_cases hl : l = b
-        · rw [hl, hsb, if_neg hbc]
+        · rw [hl, hsb, ite_eq_right hbc]
           simp [ggResIGlue]
         · have hl' := hrow (e.symm l) (by rwa [e.apply_symm_apply])
           simp only [e.apply_symm_apply] at hl'
-          simp only [ggResIGlue, dif_neg hl, hl']
+          simp only [ggResIGlue, dite_eq_right hl, hl']
     | some l =>
       cases o' with
       | none =>
         rw [hεl, hεs, ggGlueI_La]
         by_cases hl : l = b
-        · rw [hl, hsb, if_neg hbc]
+        · rw [hl, hsb, ite_eq_right hbc]
           simp [ggResIGlue]
         · have hl' := hcol (e.symm l) (by rwa [e.apply_symm_apply])
           simp only [e.apply_symm_apply] at hl'
-          simp only [ggResIGlue, dif_neg hl, hl']
+          simp only [ggResIGlue, dite_eq_right hl, hl']
       | some l' =>
         rw [hεs, hεs, ggGlueI_LL, ← hCe, e.apply_symm_apply, e.apply_symm_apply]
         rfl
@@ -197,14 +197,14 @@ theorem ggResI_o2a_back (e : Fin n ≃ Λ) (hCe : ∀ i j, CL (e i) (e j) = C i 
     · exact Or.inr (Or.inr (by rw [← hib, ← h, e.apply_symm_apply]))
   rcases hic with hic | hic
   · refine ⟨⟨e j₀, hne j₀ h₀⟩, ⟨e j₁, hne j₁ h₁⟩, Or.inl ⟨rfl, rfl⟩, ?_, ?_, ?_⟩
-    · rw [hcol j₁ (hne j₁ h₁), if_neg (fun h => h01 (by rw [← hic, h]))]
-    · rw [hrow j₁ (hne j₁ h₁), if_neg (fun h => h01 (by rw [← hic, h]))]
-    · rw [hcol j₀ (hne j₀ h₀), hrow j₀ (hne j₀ h₀), if_pos hic.symm, if_pos hic.symm]
+    · rw [hcol j₁ (hne j₁ h₁), ite_eq_right (fun h => h01 (by rw [← hic, h]))]
+    · rw [hrow j₁ (hne j₁ h₁), ite_eq_right (fun h => h01 (by rw [← hic, h]))]
+    · rw [hcol j₀ (hne j₀ h₀), hrow j₀ (hne j₀ h₀), ite_eq_left hic.symm, ite_eq_left hic.symm]
       exact hbond
   · refine ⟨⟨e j₁, hne j₁ h₁⟩, ⟨e j₀, hne j₀ h₀⟩, Or.inr ⟨rfl, rfl⟩, ?_, ?_, ?_⟩
-    · rw [hcol j₀ (hne j₀ h₀), if_neg (fun h => h01 (by rw [h, hic]))]
-    · rw [hrow j₀ (hne j₀ h₀), if_neg (fun h => h01 (by rw [h, hic]))]
-    · rw [hcol j₁ (hne j₁ h₁), hrow j₁ (hne j₁ h₁), if_pos hic.symm, if_pos hic.symm]
+    · rw [hcol j₀ (hne j₀ h₀), ite_eq_right (fun h => h01 (by rw [h, hic]))]
+    · rw [hrow j₀ (hne j₀ h₀), ite_eq_right (fun h => h01 (by rw [h, hic]))]
+    · rw [hcol j₁ (hne j₁ h₁), hrow j₁ (hne j₁ h₁), ite_eq_left hic.symm, ite_eq_left hic.symm]
       exact hbond
 
 omit [Fact p.Prime] [Fintype Λ] [DecidableEq Λ] in
@@ -228,11 +228,11 @@ theorem ggResI_o2b_back (e : Fin n ≃ Λ) (hCe : ∀ i j, CL (e i) (e j) = C i 
     · exact Or.inr (Or.inl (by simp only; rw [← h, e.apply_symm_apply]))
     · exact Or.inr (Or.inr (Or.inl (by simp only; rw [← h, e.apply_symm_apply])))
     · exact Or.inr (Or.inr (Or.inr (by rw [← hib, ← h, e.apply_symm_apply])))
-  · rw [hcol j₁ (hne j₁ h₁), if_neg (Ne.symm h01)]
-  · rw [hrow j₁ (hne j₁ h₁), if_neg (Ne.symm h01)]
-  · rw [hcol j₂ (hne j₂ h₂), if_neg (Ne.symm h02)]
-  · rw [hrow j₂ (hne j₂ h₂), if_neg (Ne.symm h02)]
-  · rw [hcol ic (hne ic h₀), hrow ic (hne ic h₀), if_pos rfl, if_pos rfl]
+  · rw [hcol j₁ (hne j₁ h₁), ite_eq_right (Ne.symm h01)]
+  · rw [hrow j₁ (hne j₁ h₁), ite_eq_right (Ne.symm h01)]
+  · rw [hcol j₂ (hne j₂ h₂), ite_eq_right (Ne.symm h02)]
+  · rw [hrow j₂ (hne j₂ h₂), ite_eq_right (Ne.symm h02)]
+  · rw [hcol ic (hne ic h₀), hrow ic (hne ic h₀), ite_eq_left rfl, ite_eq_left rfl]
     exact hbond
 
 omit [Fintype Λ] [DecidableEq Λ] in

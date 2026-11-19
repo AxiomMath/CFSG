@@ -28,13 +28,13 @@ private lemma c8h_sz_facts {X : Type} [Group X] {n : ℕ} (hn : UC22.IsSz X n)
   obtain ⟨a, -, ⟨e⟩⟩ :=
     CFSG.LieType.Simplicity.exists_mulEquiv_suzukiMatrixGroup_of_suzukiModel hs
   refine ⟨?_, ⟨e.symm (CFSG.BenderSuzuki.lemma115_suzukiStandardElement a), ?_⟩⟩
-  · haveI : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_2b2_simplicity X 2 n hs).2
+  · have : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_2b2_simplicity X 2 n hs).2
     rcases (inferInstance : (Subgroup.center X).Normal).eq_bot_or_eq_top with h | h
     · exact h
     · exfalso
-      haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
-      haveI : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton (X ⧸ Subgroup.center X) :=
+      have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+      have : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
+      have : Subsingleton (X ⧸ Subgroup.center X) :=
         (QuotientGroup.quotientMulEquivOfEq h).injective.subsingleton
       exact not_subsingleton (X ⧸ Subgroup.center X) inferInstance
   · rw [MulEquiv.orderOf_eq, CFSG.BenderSuzuki.lemma115_suzuki_standard_order_five]
@@ -55,7 +55,7 @@ private theorem c8h_component_isSz {Γ : Type} [Group Γ] [Finite Γ] (hK : CFSG
     (hSz : Inputs1719.K_CatalogueThreePrimeSz) (h2 : CFSG.pCore 2 Γ = ⊥)
     {J : Subgroup Γ} (hJ : CFSG.Open.IsComponentOf J (CFSG.pPrimeCore 3 Γ)) :
     ∃ n : ℕ, UC22.IsSz ↥J n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3I : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 Γ) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
   have hJI : J ≤ CFSG.pPrimeCore 3 Γ := hJ.1
@@ -63,7 +63,7 @@ private theorem c8h_component_isSz {Γ : Type} [Group Γ] [Finite Γ] (hK : CFSG
     CFSG.Open.IsSubnormal.mathlib hJ.2.1 (Subgroup.Normal.isSubnormal inferInstance)
   have h3J : 3 ∉ UC22.piSet (⊤ : Subgroup ↥J) := by
     intro h
-    simp only [UC22.piSet, Set.mem_setOf_eq] at h
+    simp only [UC22.piSet, Set.mem_ofPred_eq] at h
     obtain ⟨-, hdvd⟩ := h
     rw [Subgroup.card_top] at hdvd
     exact h3I (hdvd.trans (Subgroup.card_dvd_of_le hJI))
@@ -86,7 +86,7 @@ theorem c8h_layer_components {Γ : Type} [Group Γ] [Finite Γ] (hK : IsKGroup �
   · intro J hJ
     exact c8h_component_isSz hK hSz h2 hJ
   · by_contra hcon
-    haveI : Finite (Subgroup Γ) := Finite.of_injective _ SetLike.coe_injective
+    have : Finite (Subgroup Γ) := Finite.of_injective _ SetLike.coe_injective
     obtain ⟨J₁, J₂, J₃, h₁, h₂, h₃, h12, h13, h23⟩ :=
       (Set.two_lt_ncard_iff (Set.toFinite _)).1 (not_le.1 hcon)
     obtain ⟨n₁, hn₁⟩ := c8h_component_isSz hK hSz h2 h₁

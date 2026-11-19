@@ -84,10 +84,10 @@ theorem qtwoDB42_frameCore_of_model {G : Type} [Group G] [Finite G] {Bs Y : Subg
       Subgroup.center ↥Y = ⊥ := by
   classical
   subst hY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : ∃ U : Submodule (ZMod 2) V, Module.finrank (ZMod 2) U = 3 ∧ ∀ u ∈ U, Q u = 0 :=
     CFSG.RankThree.PartOne.exists_threeSingular_of_dim Q hQ hd hdim
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have hZ : Subgroup.center ↥(orthDerived Q) = ⊥ :=
     CFSG.RankThree.PartOne.center_orthDerived_eq_bot hQ hT
   have hconj : ∀ u v : ↥(orthDerived Q), (∀ y, u * y * u⁻¹ = v * y * v⁻¹) → u = v := by
@@ -133,15 +133,15 @@ theorem qtwoDB42_frameCore_of_model {G : Type} [Group G] [Finite G] {Bs Y : Subg
   have hne' : ∃ b ∈ A, b ≠ 1 := by
     obtain ⟨b, hb⟩ := hne
     exact ⟨(β b : V ≃ₗ[ZMod 2] V), hβA b, fun h => hb (Subtype.ext h)⟩
-  have hpqF : 3 ∣ Nat.card (ZMod 2) + 1 := by simp [Nat.card_zmod]
+  have hpqF : 3 ∣ Nat.card (ZMod 2) + 1 := by simp
   obtain ⟨r, τ, Fframe, D, hDadd, hDmod, hDfin, c, θ, hτF, hτinj, hτrange, hfinD,
     hcpow, hcfix, hctwist, hcroot, hθinj, hθrange, hθact, hnorm, hswap, hdinv, hsign,
     hnoFixed, hexFixed⟩ :=
     OrthTorus.exists_torus_blocks (K := ZMod 2) (V := V) (Q := Q) (p := 3)
       (by norm_num) (Or.inr hpqF) hQ hT hAΩ hApow hAcomm hmax hne'
-  letI : AddCommGroup D := hDadd
-  letI : Module (ZMod 2) D := hDmod
-  letI : FiniteDimensional (ZMod 2) D := hDfin
+  let : AddCommGroup D := hDadd
+  let : Module (ZMod 2) D := hDmod
+  let : FiniteDimensional (ZMod 2) D := hDfin
   let Δ : OrthTorus.TBJOmData Q 3 A r :=
     { τ := τ
       F := Fframe

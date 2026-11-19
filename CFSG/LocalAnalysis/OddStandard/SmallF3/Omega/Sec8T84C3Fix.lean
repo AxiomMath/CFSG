@@ -40,15 +40,16 @@ theorem bv_le_of_invariant (F : Ctx V u H Bv) {W : Subgroup V}
     rw [← haeq]
     exact hW a ha w0 hw0W
 
+omit [Finite V] in
 theorem eq_one_of_fixed_of_mem_closure (hsq : ∀ v : V, v * v = 1) {Q : Subgroup (MulAut V)}
     (hodd : Odd (Nat.card Q)) {w : V} (hfix : ∀ q ∈ Q, q w = w)
     (hw : w ∈ Subgroup.closure {x : V | ∃ q ∈ Q, ∃ e : V, x = q e * e⁻¹}) : w = 1 := by
   classical
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by
+  have : Finite Q := Nat.finite_of_card_ne_zero (by
     intro h
     rw [h] at hodd
     exact absurd hodd (by decide))
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   let N : V →* V :=
     { toFun := fun v => ∏ σ : Q, (σ : MulAut V) v
       map_one' := by simp

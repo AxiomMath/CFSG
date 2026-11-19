@@ -80,8 +80,8 @@ open CFSG CFSG.Blueprint CFSG.ComponentClassification.OuterAutomorphisms
 theorem exists_not_comm_of_simple_not_prime {G : Type*} [Group G] [Finite G] [IsSimpleGroup G]
     (h : ¬ (Nat.card G).Prime) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcomm
-  push_neg at hcomm
-  letI : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcomm a b }
+  push Not at hcomm
+  let : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcomm a b }
   exact h IsSimpleGroup.prime_card
 
 theorem center_eq_bot_of_simple_nonabelian {G : Type*} [Group G] [IsSimpleGroup G]
@@ -196,8 +196,8 @@ theorem i1431SporRest_of_open
     (hB65 : NoOrder 65 NativeSporadic.B) (hM65 : NoOrder 65 NativeSporadic.M)
     (hB186 : NoOrder 186 NativeSporadic.B) (hM186 : NoOrder 186 NativeSporadic.M) :
     I1431SporRest :=
-  i1431SporRest_of_monster CFSG.Open.Open.monster_y443_derived_card
-    CFSG.Open.Open.monster_y443_derived_simple hB65 hM65 hB186 hM186
+  i1431SporRest_of_monster CFSG.Open.Thm.monster_y443_derived_card
+    CFSG.Open.Thm.monster_y443_derived_simple hB65 hM65 hB186 hM186
 
 end Monster
 

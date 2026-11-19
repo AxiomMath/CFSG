@@ -65,7 +65,7 @@ theorem eq_bot_of_normalized_of_facHJ {Γ : Type} [Group Γ]
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact ⟨(Subgroup.mem_normalizer_iff.mp (hUP w.2) x).mp hx.1,
       U.mul_mem (U.mul_mem w.2 hx.2) (U.inv_mem w.2)⟩
-  haveI := hn
+  have := hn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((P ⊓ U).subgroupOf U) with h | h
   · rwa [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_assoc, inf_idem] at h
   · exfalso

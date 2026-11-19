@@ -42,7 +42,7 @@ theorem exists_involution_commute_kAlpha (hset : Setting204 G A M L N c T i j P)
   have hD2 : IsPGroup 2 D := hR2.to_inf_left
   have hKR : kTwenty M c ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T) : Set G) :=
     le_sup_left.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _)
-  haveI := yAlpha_normal hX
+  have := yAlpha_normal hX
   have hKD : ∀ k ∈ kAlpha M X T c, ∀ d ∈ D, k * d * k⁻¹ ∈ D := by
     intro k hk d hd
     obtain ⟨k', hk', rfl⟩ := hk
@@ -83,8 +83,8 @@ theorem exists_involution_commute_kAlpha (hset : Setting204 G A M L N c T i j P)
     calc 2 ^ n ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hnle
       _ = 4 := by norm_num
   have hE1 : ∃ t ∈ E, orderOf t = 2 := by
-    haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hD
-    haveI : Nontrivial ↥(Subgroup.center ↥D) := hD2.center_nontrivial
+    have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hD
+    have : Nontrivial ↥(Subgroup.center ↥D) := hD2.center_nontrivial
     have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥D) := hD2.to_subgroup _
     obtain ⟨n', hn', hcard⟩ := hZ2.nontrivial_iff_card.mp inferInstance
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥D)) 2
@@ -126,16 +126,16 @@ theorem exists_involution_commute_kAlpha (hset : Setting204 G A M L N c T i j P)
   have hKTX : kTwenty M c ⊔ T ≤ X := fun x hx => hX.2 hx
   have hKY : kTwenty M c ≤ yTwenty X c :=
     Res6.kTwenty_le_yTwenty hset (le_sup_left.trans hKTX)
-  haveI hKperf : Group.IsPerfect ↥(kAlpha M X T c) := by
-    haveI := isPerfect_range_kToYAlpha hset hKY
+  have hKperf : Group.IsPerfect ↥(kAlpha M X T c) := by
+    have := isPerfect_range_kToYAlpha hset hKY
     have e₁ := (Subgroup.equivMapOfInjective _ (yAlpha M X T c).subtype
       (Subgroup.subtype_injective _)).trans (MulEquiv.subgroupCongr (map_range_kToYAlpha hKY))
     exact Group.IsPerfect.ofSurjective (f := e₁.toMonoidHom) e₁.surjective
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
-  haveI : Group.IsSolvable (Equiv.Perm ↥E) := Equiv.Perm.isSolvable hEcard
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsSolvable (Equiv.Perm ↥E) := Equiv.Perm.isSolvable hEcard
   have hρ : ρ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ρ.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Nontrivial ρ.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     exact Group.IsPerfect.not_isSolvable ρ.range inferInstance
   intro k hk
   have hk1 : ρ ⟨k, hk⟩ = 1 := by
@@ -187,9 +187,9 @@ theorem commute_of_inf_le_centralizer (hset : Setting204 G A M L N c T i j P)
   have hKTX : kTwenty M c ⊔ T ≤ X := fun x hx => hX.2 hx
   have hKY : kTwenty M c ≤ yTwenty X c :=
     Res6.kTwenty_le_yTwenty hset (le_sup_left.trans hKTX)
-  haveI := yAlpha_normal hX
+  have := yAlpha_normal hX
   have hKperf : Group.IsPerfect ↥(kAlpha M X T c) := by
-    haveI := isPerfect_range_kToYAlpha hset hKY
+    have := isPerfect_range_kToYAlpha hset hKY
     have e₁ := (Subgroup.equivMapOfInjective _ (yAlpha M X T c).subtype
       (Subgroup.subtype_injective _)).trans (MulEquiv.subgroupCongr (map_range_kToYAlpha hKY))
     exact Group.IsPerfect.ofSurjective (f := e₁.toMonoidHom) e₁.surjective
@@ -290,7 +290,7 @@ theorem meet_core (hset : Setting204 G A M L N c T i j P)
       ∀ z ∈ L, z ≠ 1 → (∀ l ∈ L, z * l = l * z) → False)
     (hD : rAlpha M X T c ⊓ yAlpha M X T c ≠ ⊥) :
     (p = 5 ∨ p = 7) ∧ CFSG.Open.pRank 2 (rAlpha M X T c) ≤ 1 := by
-  haveI := yAlpha_normal hX
+  have := yAlpha_normal hX
   have hinj := conjNormal_yAlpha_injective hX hnab
   have hK'perf := isPerfect_range_kToYAlpha hset hKY
   have hK'1 := range_kToYAlpha_ne_bot hset hKY
@@ -325,7 +325,7 @@ theorem meet_core (hset : Setting204 G A M L N c T i j P)
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact Subtype.ext (htK _ ((hK'mem y).mp hy))
   obtain ⟨φ, hφ⟩ := exists_surjective_kBar hset hKY
-  haveI := Res6.isSimpleGroup_of_setting204 hset
+  have := Res6.isSimpleGroup_of_setting204 hset
   obtain ⟨htK', hN, hLS⟩ := SL2Comp.sl2Comp_facts hp5 hI eS hK'S hK'perf hK'1 φ hφ
     hset.kType.symm
   have htKα : t ∈ kAlpha M X T c := (hK'mem t').mp htK'
@@ -425,13 +425,13 @@ theorem meet_core (hset : Setting204 G A M L N c T i j P)
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hI.quasisimple hnorm with htop | hc
     · exact Subgroup.subgroupOf_eq_top.mp htop
     · exfalso
-      haveI : Nontrivial ↥(kToYAlpha (T := T) hKY).range :=
+      have : Nontrivial ↥(kToYAlpha (T := T) hKY).range :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr hK'1
-      haveI : IsMulCommutative ↥(kToYAlpha (T := T) hKY).range := ⟨⟨fun a b => by
+      have : IsMulCommutative ↥(kToYAlpha (T := T) hKY).range := ⟨⟨fun a b => by
         have ha : (⟨a, hK'S a.2⟩ : ↥S) ∈ Subgroup.center ↥S := hc a.2
         have h := Subgroup.mem_center_iff.mp ha ⟨b, hK'S b.2⟩
         exact Subtype.ext (congrArg Subtype.val h).symm⟩⟩
-      haveI := hK'perf
+      have := hK'perf
       exact (Group.IsPerfect.not_isMulCommutative
         (G := ↥(kToYAlpha (T := T) hKY).range)) inferInstance
   exact ⟨hLS (le_antisymm hK'S hSK), hRk⟩
@@ -470,7 +470,7 @@ open AscBridge in
 theorem step204AscL3OddMeet_holds : Step204AscL3OddMeet := by
   intro G _ _ A M L N c T i j P hset X hX hXM hm hL2m hYK h hD
   obtain ⟨hs, hnab⟩ := isSimpleGroup_yAlpha hset hX hm
-  haveI := hs
+  have := hs
   have hKTX : kTwenty M c ⊔ T ≤ X := fun x hx => hX.2 hx
   have hKY : kTwenty M c ≤ yTwenty X c :=
     Res6.kTwenty_le_yTwenty hset (le_sup_left.trans hKTX)

@@ -22,8 +22,8 @@ theorem seitzTwoGen_of_family {K : Type} [Group K] [Finite K] {ι : Type} (QJ PJ
       ∃ V : Subgroup K, IsPGroup 2 ↥V ∧ (∀ α ∈ R, V.map α.toMonoidHom = V) ∧
         QJ j ⊔ V = ⊤) : SeitzTwoGen K := by
   intro q hq hq2 E hE ⟨U, hU0, hU2, hUinv⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hQn, hstab⟩ := exists_radSeq_stable (p := 2) hU2
   set Q : Subgroup K := radInf 2 U with hQ
   have hQ2 : IsPGroup 2 Q := by
@@ -80,7 +80,7 @@ theorem seitzTwoGen_of_family {K : Type} [Group K] [Finite K] {ι : Type} (QJ PJ
         (MulAut.conj g).toMonoidHom.comp ((MulAut.conj γ) α).toMonoidHom := by
       ext x
       simp only [MonoidHom.comp_apply, hγ, MulAut.conj_apply, MulEquiv.coe_toMonoidHom,
-        MulAut.mul_apply, MulAut.inv_apply, MulEquiv.symm_apply_apply]
+        MulAut.mul_apply, MulAut.inv_apply]
       rw [show (MulEquiv.symm (MulAut.conj g⁻¹)) x = g * x * g⁻¹ by
         simp [MulAut.conj_apply]]
       group
@@ -106,8 +106,7 @@ theorem seitzTwoGen_of_family {K : Type} [Group K] [Finite K] {ι : Type} (QJ PJ
         MonoidHom.id K := by
       ext x
       simp only [MonoidHom.comp_apply, MulAut.conj_apply, MonoidHom.id_apply,
-        MulEquiv.coe_toMonoidHom, MulAut.mul_apply, MulAut.inv_apply,
-        MulEquiv.symm_apply_apply]
+        MulEquiv.coe_toMonoidHom]
       group
     rw [hcomp, Subgroup.map_id]
   have hsup : Q ⊔ V.map (MulAut.conj g).toMonoidHom = ⊤ := by

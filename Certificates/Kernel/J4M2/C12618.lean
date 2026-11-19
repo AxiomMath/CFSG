@@ -25,7 +25,7 @@ theorem eta12K_eq (m : Nat) : eta12K m = pK m := by
   have hj' : j < 12 := List.mem_range.1 hj
   have e : gmK j = getN one qaL j := by
     unfold gmK
-    rw [if_pos hj']
+    rw [ite_eq_left hj']
     rfl
   rw [e]
 
@@ -93,7 +93,7 @@ theorem invChk_ok : invChk () = true := by
             Nat.beq_refl] at h1
           exact absurd h1 (by decide)
       rw [qNF0_rows, h1, h2]
-      simp [h0]
+      simp
 
 open CFSG.AGLEmbeddingD2.Wilson.NormalizerAction in
 theorem c12618 : invChk () = true := invChk_ok

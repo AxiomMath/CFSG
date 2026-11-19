@@ -121,7 +121,7 @@ theorem sp4_diag_mul_symE (i : Fin 3) (d : Fin 2 → K) :
     diagonal d * sp4SymE i * diagonal d =
       sp4CharQ i d • (sp4SymE i : Matrix (Fin 2) (Fin 2) K) := by
   fin_cases i <;> (ext a b; fin_cases a <;> fin_cases b <;>
-    simp [sp4SymE, sp4CharQ, diagonal_mul, mul_diagonal] <;> ring)
+    simp [sp4SymE, sp4CharQ, diagonal_mul, mul_diagonal]; try ring)
 
 theorem sp4CharQ_surj [CharP K 2] [Finite K] (i : Fin 3) (u : K) (hu : u ≠ 0) :
     ∃ τ : Fin 2 → Kˣ, sp4CharQ i (fun j => (τ j : K)) = u := by

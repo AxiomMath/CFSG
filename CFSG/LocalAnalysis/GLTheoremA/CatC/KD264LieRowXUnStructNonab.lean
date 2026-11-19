@@ -16,8 +16,8 @@ theorem card_le_of_nonab [Finite K] (hK : Nat.card K = 4) [FiniteDimensional K V
     {g h : V ≃ₗ[K] V} (hg : g ∈ Q) (hh : h ∈ Q) (hg3 : g ^ 3 = 1) (hgh : g * h ≠ h * g) :
     ∃ n : ℕ, 3 * n ≤ Module.finrank K V ∧ Nat.card Q ≤ 3 ^ (2 + (n + n / 2)) := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
-  haveI : Finite (eig g 1 ≃ₗ[K] eig g 1) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (eig g 1 ≃ₗ[K] eig g 1) := finite_linearEquiv
   have hZ := scalarLike_scalars (V := V) hK
   obtain ⟨ω, hω3, hω1, hω⟩ := exists_omega hK (hQ.1 g hg h hh) hgh
   obtain ⟨C, hCQ, hCg, hCcard⟩ := exists_centralizer_of_good hZ hQ hg

@@ -38,11 +38,11 @@ theorem conjSub_g_not_mem_fam : conjSub g K ∉ fam K (conjSub g (piGen π)) := 
   rwa [conjSub_inv_conjSub] at this
 
 theorem pi_subset_centMembers {u : G} (huX : ∀ x ∈ piGen π, x * u = u * x) :
-    ∀ M ∈ π, M ∈ gCentMembers (CoreAssembly.conjClass K₀) u := fun M hM =>
+    ∀ _M ∈ π, _M ∈ gCentMembers (CoreAssembly.conjClass K₀) u := fun _M hM =>
   CFSG.ClassicalInvolution.Generic.mem_centMembers_iff_commute.mpr
     ⟨S.mem_of_mem_pi hM, fun x hx => huX x (le_piGen hM hx)⟩
 
-theorem eight_le_of_secYu {m : ℕ} (hm : 6 ≤ m) (htw : S.TwinLab m)
+theorem eight_le_of_secYu {m : ℕ} (hm : 6 ≤ m) (_htw : S.TwinLab m)
     (J : AEIdent (fam K (conjSub g (piGen π))) m) {u : G}
     (hu' : u ∈ pSpan (fam K (conjSub g (piGen π)))) {a c : Fin m} (hac : a ≠ c)
     (hφu : J.φ ⟨u, hu'⟩ = AE.mkQ m (ofVec (TL4.pairVec a c)))

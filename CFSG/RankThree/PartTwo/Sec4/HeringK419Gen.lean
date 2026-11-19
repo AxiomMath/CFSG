@@ -32,7 +32,7 @@ theorem hasTwoWitness_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* 
 theorem hasTwoWitness_of_charTwoLocal {X : Type*} [Group X] [Finite X] (H : Subgroup X)
     (hH : H ⊓ Subgroup.centralizer (pCoreOf 2 H : Set X) ≤ pCoreOf 2 H) {k : X} (hkH : k ∈ H)
     (hk3 : k ^ 3 = 1) (hk1 : k ≠ 1) : HasTwoWitness k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : H ≤ Subgroup.normalizer (pCoreOf 2 H : Set X) := by
     have : (pCore 2 H).Characteristic := CFSG.LieType.BorelTits.pCore_characteristic 2
     exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H

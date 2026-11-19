@@ -30,7 +30,7 @@ theorem sec717L_naturalModule_of (hTyp : Sec717LTypingStatement) {G : Type} [Gro
         ψ (Additive.ofMul (QuotientGroup.mk ⟨(h : G) * a * (h : G)⁻¹, ha⟩)) =
           η h • ψ (Additive.ofMul (QuotientGroup.mk a)) := by
   classical
-  letI : CommGroup (↥L ⧸ Z0.subgroupOf L) := sec717CommGroup hXcomm
+  let : CommGroup (↥L ⧸ Z0.subgroupOf L) := sec717CommGroup hXcomm
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hQH : Q ≤ H0 M Z := hc.Q_le_H0'
@@ -53,8 +53,8 @@ theorem sec717L_naturalModule_of (hTyp : Sec717LTypingStatement) {G : Type} [Gro
     exact hφπ₁ ⟨(y : G), hyH⟩ x hx
   obtain ⟨η₁, hη₁s, hη₁k, θ₁, hθ₁s, hθ₁k, hθ₁e⟩ :=
     hTyp G M Q Z B hc n t hs hp3 Z0 hZ0 hZ0N hTI L hL hLn m γ M₀ hM φ hφπ
-  haveI := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 m) = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hM.card, hKZ]
   let σ : GaloisField 2 m ≃+* K := FiniteField.ringEquivOfCardEq hcard

@@ -103,7 +103,7 @@ theorem Pair.isSylowOf_normalizer (hp : Pair T z L) (hN : LNormal z L) :
     IsSylowOf 2 (T : Subgroup G) (normalizer (L : Set G)) := by
   have hTop : IsSylowOf 2 (T : Subgroup G) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   exact hTop.of_le (hp.le_normalizer hN) le_top
 
 theorem Pair.isSylowOf_TC (hp : Pair T z L) (hN : LNormal z L) (hS : IsStandardSubgroup L) :
@@ -196,7 +196,7 @@ theorem lemma1642_one (hp : Pair T z L) (hN : LNormal z L) (hS : IsStandardSubgr
   have hDeq : ((T : Subgroup G) ⊓ C) ⊓ normalizer (K' : Set G) =
       ((T : Subgroup G) ⊓ C) ⊓ normalizer (R : Set G) :=
     e2.eq_of_le hle1 (inf_le_inf_right _ (inf_le_right : (T : Subgroup G) ⊓ C ≤ C))
-      (T.isPGroup'.to_le (inf_le_left.trans inf_le_left))
+      (T.isPGroup.to_le (inf_le_left.trans inf_le_left))
   have hN_eq := hDeq.symm
   refine ⟨?_, ?_, e1, hN_eq, ?_, ?_⟩
   · rw [inf_comm]
@@ -219,7 +219,7 @@ theorem lemma1642_three (hp : Pair T z L) (hN : LNormal z L) (hS : IsStandardSub
     (hRT : R ≤ (T : Subgroup G)) : K' ⊓ (T : Subgroup G) = R :=
   hR.eq_of_le (le_inf (hR.le.trans inf_le_left) hRT)
     (inf_le_inf_left K' ((hp.le_normalizer hN).trans hS.2.2.2.1.ge))
-    (T.isPGroup'.to_le inf_le_right)
+    (T.isPGroup.to_le inf_le_right)
 
 theorem lemma1642_four (hp : Pair T z L) (hN : LNormal z L) (hS : IsStandardSubgroup L)
     (hK' : InDelta (centralizer (L : Set G)) K') :
@@ -238,14 +238,14 @@ theorem lemma1642_four (hp : Pair T z L) (hN : LNormal z L) (hS : IsStandardSubg
     exact hTN hx
   have hTtop : IsSylowOf 2 (T : Subgroup G) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   have hTgtop : IsSylowOf 2 (rightConjugate (T : Subgroup G) g₁) ⊤ :=
     isSylowOf_of_card le_top (by rw [rightConjugate_card, hTtop.card_eq])
   have hTgK' : IsSylowOf 2 (rightConjugate (T : Subgroup G) g₁) (normalizer (K' : Set G)) :=
     hTgtop.of_le hTg le_top
   obtain ⟨T', hT', hNT'⟩ := exists_isSylowOf_ge (N := normalizer (K' : Set G))
     (X := (T : Subgroup G) ⊓ normalizer (K' : Set G)) inf_le_right
-    (T.isPGroup'.to_le inf_le_left)
+    (T.isPGroup.to_le inf_le_left)
   obtain ⟨k, hk, hkconj⟩ := hTgK'.exists_mem_conj hT'
   have hT'eq : T' = rightConjugate (T : Subgroup G) (g₁ * k⁻¹) := by
     ext x

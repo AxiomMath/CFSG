@@ -57,11 +57,11 @@ theorem twE6PlaceNT_holds : TwE6PlaceNT := by
       (GGLiePartner.of_mem (⟨(a : X), hAG a.2⟩ : ↥G₀))
   obtain ⟨K, hKfield, hKfin, σ, κ, hKcard, hσ, eF, heF⟩ :=
     exists_twE6_model_of_theta hf hθinj hθrange
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   let k : Type := ↥(CFSG.LieType.Chevalley.fixSubfield σ)
-  letI : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
-  letI : Algebra k K := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
+  let : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
+  let : Algebra k K := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
   obtain ⟨x₀, hdata⟩ := rckExcCaseV_model_data_core hcore hVcfg hKcard hσ eF
   dsimp only at hdata
   obtain ⟨hk, hxD, hx0A0, hxord0, hWeq, hxcomp, hLf, c, Q, m, hQord, hQm1, hcx, hLimage, -, -⟩ :=

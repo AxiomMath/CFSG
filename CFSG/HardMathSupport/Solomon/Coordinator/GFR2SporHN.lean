@@ -282,7 +282,7 @@ theorem sporNoPumpup_HN
   have e0 : (TauCeti.CFSGIndex.sporadic .HN).Group ≃* NativeSporadic.HN := (hbr .HN).some.symm
   have hsimple : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .HN).Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ fam_hn_certified_simplicity.2 e0
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .HN).Group := Finite.of_equiv _ e0.symm.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic .HN).Group := Finite.of_equiv _ e0.symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [Nat.card_congr e0.toEquiv, card_HN]
     norm_num [sporOrd, orderHN]

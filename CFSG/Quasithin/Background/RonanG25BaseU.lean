@@ -14,19 +14,23 @@ section U
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {Γ : Type} [Group Γ]
 
+omit [Finite F] [CharP F 2] in
 theorem dualHom_entry (g : SL(3, F)) (i j : Fin 3) :
     (dualHom F 3 g).1 i j = (g⁻¹ : SL(3, F)).1 j i := by
   rw [dualHom_apply, slT_coe, Matrix.transpose_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem actUg_apply (g : SL(3, F)) (v : Fin 2 → F) :
     actUg g v = g.1 0 0 • (ablk (dualHom F 3 g) *ᵥ v) := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem ablk_mul_of_row {X Y : SL(3, F)} (hY1 : Y.1 0 1 = 0) (hY2 : Y.1 0 2 = 0) :
     ablk (X * Y) = ablk X * ablk Y := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [ablk, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_three, hY1, hY2]
 
+omit [Finite F] [CharP F 2] in
 theorem conj_tqv {g : SL(3, F)} (hg : g ∈ Pt (vE F 0)) (v : Fin 2 → F) :
     g * tqv v * g⁻¹ = tqv (actUg g v) := by
   obtain ⟨h, hh⟩ : ∃ h : SL(3, F), g⁻¹ = h := ⟨_, rfl⟩
@@ -58,10 +62,10 @@ theorem conj_tqv {g : SL(3, F)} (hg : g ∈ Pt (vE F 0)) (v : Fin 2 → F) :
     rw [dualHom_entry, hh]
   have hb : actUg g v 0 = g.1 0 0 * (h.1 1 1 * v 0 + h.1 2 1 * v 1) := by
     rw [actUg_apply]
-    simp [ablk, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hD]
+    simp [ablk, dotProduct, Fin.sum_univ_two, hD]
   have hc : actUg g v 1 = g.1 0 0 * (h.1 1 2 * v 0 + h.1 2 2 * v 1) := by
     rw [actUg_apply]
-    simp [ablk, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hD]
+    simp [ablk, dotProduct, Fin.sum_univ_two, hD]
   have key : g * tqv v = tqv (actUg g v) * g := by
     apply Subtype.ext
     simp only [tqv, Matrix.SpecialLinearGroup.coe_mul, tq_coe, hb, hc]
@@ -76,12 +80,15 @@ theorem conj_tqv {g : SL(3, F)} (hg : g ∈ Pt (vE F 0)) (v : Fin 2 → F) :
 @[expose] noncomputable def Umat (g : SL(3, F)) : Matrix (Fin 2) (Fin 2) F :=
   g.1 0 0 • ablk (dualHom F 3 g)
 
+omit [Finite F] [CharP F 2] in
 theorem Umat_mulVec (g : SL(3, F)) (v : Fin 2 → F) : Umat g *ᵥ v = actUg g v := by
   rw [Umat, Matrix.smul_mulVec, actUg_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem Umat_one : Umat (1 : SL(3, F)) = 1 := by
   simp [Umat, ablk_one]
 
+omit [Finite F] [CharP F 2] in
 theorem Umat_mul {g k : SL(3, F)} (hk : k ∈ Pt (vE F 0)) :
     Umat (g * k) = Umat g * Umat k := by
   obtain ⟨k10, k20⟩ := Pt_entries hk
@@ -110,11 +117,13 @@ theorem Umat_mul {g k : SL(3, F)} (hk : k ∈ Pt (vE F 0)) :
       map_one' := Subtype.ext (map_one ρ)
       map_mul' := fun x y => Subtype.ext (map_mul ρ x y) }
 
+omit [Finite F] [CharP F 2] in
 theorem betaU_coe (ρ : Γ →* SL(3, F)) (hρ : L1Rep ρ) (x : Γ) :
     ((betaU ρ hρ x : Matrix.GeneralLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       Umat (ρ x) :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem ablk_dualHom_blk (K : SL(2, F)) :
     ablk (dualHom F 3 (CFSG.Quasithin.SL3Model.blk K)) =
       ((K⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ := by
@@ -123,6 +132,7 @@ private theorem ablk_dualHom_blk (K : SL(2, F)) :
   fin_cases i <;> fin_cases j <;>
     simp [ablk, slT_coe, CFSG.Quasithin.SL3Model.blk_coe, Matrix.adjugate_fin_two]
 
+omit [Finite F] [CharP F 2] in
 theorem Umat_blk (K : SL(2, F)) :
     Umat (CFSG.Quasithin.SL3Model.blk K) = ((K⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ := by
   have h00 : (CFSG.Quasithin.SL3Model.blk K : Matrix (Fin 3) (Fin 3) F) 0 0 = 1 := by
@@ -130,10 +140,12 @@ theorem Umat_blk (K : SL(2, F)) :
   unfold Umat
   rw [h00, one_smul, ablk_dualHom_blk]
 
+omit [Finite F] [CharP F 2] in
 theorem dualHom_inv_coe (N : SL(2, F)) :
     (((dualHom F 2 N)⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ = N.1 := by
   rw [dualHom_apply, ← slT_inv, inv_inv, slT_coe, Matrix.transpose_transpose]
 
+omit [Finite F] [CharP F 2] in
 theorem actUg_blk (K : SL(2, F)) (v : Fin 2 → F) :
     actUg (CFSG.Quasithin.SL3Model.blk K) v =
       ((K⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ *ᵥ v := by

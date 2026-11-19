@@ -21,7 +21,7 @@ open CFSG.Open CFSG.Open.StatedAPI CFSG.Yardstones.Md0ec50421ce4
 private theorem orderA_two_eq (q : ℕ) :
     orderA 2 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) / Nat.gcd 3 (q - 1) := by
   have h : Finset.Icc 2 3 = ({2, 3} : Finset ℕ) := by decide
-  simp [orderA, h, Finset.prod_pair]
+  simp [orderA, h]
 
 private theorem ordTwistedA_two_eq {q : ℕ} (hq : 1 ≤ q) :
     ordTwistedA 2 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) / Nat.gcd 3 (q + 1) := by
@@ -89,7 +89,7 @@ private theorem ordTwistedA_two_gt_720 {q : ℕ} (hq : 4 ≤ q) : 720 < ordTwist
     le_trans (by norm_num : 721 ≤ 2163) (hmain.trans hdiv)
   omega
 
-theorem k1419ClsSympCard {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup X)
+theorem k1419ClsSympCard {X : Type} [Group X] [Finite X] (_hs : IsSimpleGroup X)
     (hc : catalogIs X l3u3Index) : 720 < Nat.card X := by
   obtain ⟨i, hi, ⟨e⟩⟩ := hc
   cases i with
@@ -127,7 +127,7 @@ theorem k1419ClsSympCard {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup X)
         have hq4' : 4 ≤ 2 ^ q.exponent := by
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) he2
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have hK : Nat.card (GaloisField q.p q.exponent) = 2 ^ q.exponent := by
           rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hp2]
         have hPSL : Nat.card X =
@@ -164,7 +164,7 @@ theorem k1419ClsSympCard {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup X)
         have hq4' : 4 ≤ 2 ^ q.exponent := by
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) he2
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have hm : CFSG.Assembly.LowTwoRank.StatedClassicalModel X .PSU 3 2 q.exponent := by
           rw [← hp2]
           exact CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv e

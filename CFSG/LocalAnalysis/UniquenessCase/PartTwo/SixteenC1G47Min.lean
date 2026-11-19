@@ -121,7 +121,7 @@ theorem s16c1_G47_min_inv {Hs : Type} [Group Hs] [Finite Hs] {q : ℕ} (hq : Odd
           exact h1.trans (h2.trans (h3.trans (h4.trans h5)))
         rw [hconj, hgoal]
         exact (⁅S, S⁆).mul_mem hk ((⁅S, S⁆).mul_mem hsZ htZ)
-      one_mem' := ⟨S.one_mem, by simpa using (⁅S, S⁆).one_mem⟩
+      one_mem' := ⟨S.one_mem, by simp⟩
       inv_mem' := fun {t} ht => by
         obtain ⟨htS, htZ⟩ := ht
         refine ⟨S.inv_mem htS, ?_⟩

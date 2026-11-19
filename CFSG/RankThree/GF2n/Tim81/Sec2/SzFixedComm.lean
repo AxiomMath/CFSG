@@ -32,6 +32,7 @@ variable {G : Type} [Group G]
 
 @[expose] def dotBilin : LinearMap.BilinForm k (κ → k) := dotProductBilin k k
 
+omit [DecidableEq κ] in
 theorem dotBilin_apply (x y : κ → k) : dotBilin x y = x ⬝ᵥ y := rfl
 
 theorem dotBilin_nondegenerate : dotBilin (k := k) (κ := κ).Nondegenerate := by
@@ -44,6 +45,7 @@ theorem dotBilin_nondegenerate : dotBilin (k := k) (κ := κ).Nondegenerate := b
   rw [dotProduct_comm]
   exact hy x
 
+omit [DecidableEq κ] in
 theorem dotBilin_transpose (M : Matrix κ κ k) (y x : κ → k) :
     dotBilin (M.mulVec y) x = dotBilin y (M.transpose.mulVec x) := by
   calc dotBilin (M.mulVec y) x = (M.mulVec y) ⬝ᵥ x := dotBilin_apply _ _

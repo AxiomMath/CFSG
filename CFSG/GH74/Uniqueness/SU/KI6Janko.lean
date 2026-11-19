@@ -13,7 +13,7 @@ open CFSG.ProperTwoGeneratedCore.Lemma37
 theorem canonicalStatement_all
     (G : Type) [Group G] [Finite G] : CanonicalStatement G :=
   fun hs hn S hr hc => by
-    haveI := hs
+    have := hs
     exact aschbacher_proper_two_generated_core G hn S hr hc
 
 theorem quasisimpleQuaternionCoreClassification_all

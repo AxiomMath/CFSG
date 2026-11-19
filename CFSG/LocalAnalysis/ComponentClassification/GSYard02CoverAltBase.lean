@@ -12,11 +12,11 @@ public import CFSG.Sporadic.Schreier.J4SSylowBase
 
 namespace CFSG.ComponentClassification.Sol76.Sig.GSYard02.CoverAltGroup
 
-@[expose] def treeAux {G : Type*} [Mul G] [One G] (gs : List G) : List G → List (ℕ × ℕ) → List G
+def treeAux {G : Type*} [Mul G] [One G] (gs : List G) : List G → List (ℕ × ℕ) → List G
   | acc, [] => acc
   | acc, (p, g) :: tr => treeAux gs (acc ++ [gs.getD g 1 * acc.getD p 1]) tr
 
-@[expose] def treeTab {G : Type*} [Mul G] [One G] (gs : List G) (tr : List (ℕ × ℕ)) : List G :=
+def treeTab {G : Type*} [Mul G] [One G] (gs : List G) (tr : List (ℕ × ℕ)) : List G :=
   treeAux gs [1] tr
 
 private theorem getD_mem_of {α : Type*} [One α] {P : α → Prop} (h1 : P 1) :
@@ -74,7 +74,7 @@ private theorem closure_le_treeTab {G : Type*} [Group G] (gs : List G) (tr : Lis
   | inv_mul_cancel g hg y _ ih => exact hcl y ih g⁻¹ (hinv g hg)
 
 theorem mem_closure_iff_mem_treeTab {G : Type*} [Group G] (gs : List G) (tr : List (ℕ × ℕ))
-    (hinv : ∀ g ∈ gs, g⁻¹ ∈ gs) (hnd : (treeTab gs tr).Nodup)
+    (hinv : ∀ g ∈ gs, g⁻¹ ∈ gs) (_hnd : (treeTab gs tr).Nodup)
     (hcl : ∀ x ∈ treeTab gs tr, ∀ g ∈ gs, g * x ∈ treeTab gs tr) (x : G) :
     x ∈ Subgroup.closure {g | g ∈ gs} ↔ x ∈ treeTab gs tr :=
   ⟨closure_le_treeTab gs tr hinv hcl x, fun hx =>
@@ -90,7 +90,7 @@ theorem card_closure_eq_length_treeTab {G : Type*} [Group G] (gs : List G) (tr :
   have hset : ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G) =
       ↑(treeTab gs tr).toFinset := by
     ext y
-    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_ofPred_eq]
     exact mem_closure_iff_mem_treeTab gs tr hinv hnd hcl y
   have h1 : Nat.card (Subgroup.closure {g | g ∈ gs}) =
       ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G).ncard := Nat.card_coe_set_eq _
@@ -121,7 +121,7 @@ theorem isKleinFour_closure_pair {G : Type*} [Group G] {a b : G} (ha : a * a = 1
     simp [pairTree, treeTab, treeAux]
   have hnd : (treeTab [a, b] pairTree).Nodup := by
     rw [hL]
-    simp [h1a, h1b, h1ab, ha1, hb1, hne, hne.symm, hab1, haab, hbab]
+    simp [h1a, h1b, h1ab, hne, haab, hbab]
   have hcl : ∀ x ∈ treeTab [a, b] pairTree, ∀ g ∈ [a, b],
       g * x ∈ treeTab [a, b] pairTree := by
     rw [hL]
@@ -163,12 +163,12 @@ theorem exists_pair_of_isKleinFour {G : Type*} [Group G] (Y : Subgroup G) (hY : 
     rwa [sq] at h
   have hcomm : ∀ x ∈ Y, ∀ y ∈ Y, x * y = y * x := fun x hx y hy =>
     FooteLit.commute_of_sq_eq_one hY2 hx hy
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY.card_four]; norm_num)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY.card_four]; norm_num)
   have hYcard : (Y : Set G).ncard = 4 :=
     (Nat.card_coe_set_eq (Y : Set G)).symm.trans hY.card_four
   obtain ⟨a, ha, ha1⟩ : ∃ a ∈ Y, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Y : Set G) ⊆ ({1} : Set G) := fun x hx =>
       Set.mem_singleton_iff.mpr (hcon x hx)
     have h1 := Set.ncard_le_ncard hsub
@@ -176,7 +176,7 @@ theorem exists_pair_of_isKleinFour {G : Type*} [Group G] (Y : Subgroup G) (hY : 
     omega
   obtain ⟨b, hb, hb1, hba⟩ : ∃ b ∈ Y, b ≠ 1 ∧ b ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Y : Set G) ⊆ ({1, a} : Set G) := by
       intro x hx
       by_cases hx1 : x = 1
@@ -205,7 +205,7 @@ theorem exists_pair_of_isKleinFour {G : Type*} [Group G] (Y : Subgroup G) (hY : 
 
 theorem sylow_two_of_card {G : Type*} [Group G] [Finite G] (S : Subgroup G) {k : ℕ}
     (hS : Nat.card S = 2 ^ k) (hodd : ¬ 2 ∣ S.index) : Nonempty (Sylow 2 G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨(IsPGroup.of_card hS).toSylow hodd⟩
 
 end CFSG.ComponentClassification.Sol76.Sig.GSYard02.CoverAltGroup
@@ -238,7 +238,7 @@ theorem exists_negE (hm : 2 ≤ m) : ∃ x : E (m + 2), ((x : H (m + 2)) : monom
   exact ⟨⟨⁅x, y⁆, commutator_mem_commutator (mem_top x) (mem_top y)⟩,
     commutator_dd h01 h02 h03 h12 h13 h23⟩
 
-@[expose] noncomputable def negE (hm : 2 ≤ m) : E (m + 2) := (exists_negE (m := m) hm).choose
+noncomputable def negE (hm : 2 ≤ m) : E (m + 2) := (exists_negE (m := m) hm).choose
 
 theorem coe_negE (hm : 2 ≤ m) :
     ((negE hm : H (m + 2)) : monomial (m + 2)) = negOne :=
@@ -268,7 +268,7 @@ theorem card_ker_psi_le (hm : 6 ≤ m) :
   have hperf : Group.IsPerfect (E (m + 2)) := E_isPerfect (by omega)
   have hAperf : Group.IsPerfect (alternatingGroup (Fin (m + 2))) :=
     ⟨commutator_alternatingGroup_eq_top (by simp; omega)⟩
-  haveI : Finite (RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
+  have : Finite (RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
     CFSG.RankThree.PerfectCover.finite_hopfMultiplier hAperf
   have hmap := RankThree.PerfectCover.map_hopfMultiplier_hopfLift (psi (m := m)) hψ hK
   have hcardM : Nat.card (RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin (m + 2)))) = 2 :=
@@ -284,14 +284,14 @@ theorem card_ker_psi_le (hm : 6 ≤ m) :
       rw [hmap]; exact y.2
     obtain ⟨x, hx, hfx⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hx⟩, Subtype.ext hfx⟩
-  haveI : Finite (psi (m := m)).ker := Finite.of_surjective g hg
+  have : Finite (psi (m := m)).ker := Finite.of_surjective g hg
   refine ⟨inferInstance, ?_⟩
   have := Nat.card_le_card_of_surjective g hg
   omega
 
 theorem card_ker_psi (hm : 6 ≤ m) : Nat.card (psi (m := m)).ker = 2 := by
   obtain ⟨hfin, hle⟩ := card_ker_psi_le hm
-  haveI := hfin
+  have := hfin
   have hne : (psi (m := m)).ker ≠ ⊥ := by
     intro h
     have hmem : negE (m := m) (by omega) ∈ (psi (m := m)).ker := by
@@ -316,7 +316,7 @@ theorem negE_sq (hm : 2 ≤ m) : negE (m := m) hm * negE (m := m) hm = 1 := by
 theorem ker_psi_eq (hm : 6 ≤ m) (x : E (m + 2)) (hx : psi x = 1) :
     x = 1 ∨ x = negE (m := m) (by omega) := by
   obtain ⟨hfin, _⟩ := card_ker_psi_le hm
-  haveI := hfin
+  have := hfin
   set g := negE (m := m) (by omega) with hg
   have hle : Subgroup.closure {g} ≤ (psi (m := m)).ker := by
     rw [Subgroup.closure_le]
@@ -365,10 +365,10 @@ theorem center_E_eq (hm : 6 ≤ m) : center (E (m + 2)) = (psi (m := m)).ker := 
 
 theorem finite_E (hm : 6 ≤ m) : Finite (E (m + 2)) := by
   obtain ⟨hfin, _⟩ := card_ker_psi_le hm
-  haveI := hfin
+  have := hfin
   have hψ : Function.Surjective (psi (m := m)) := psi_surjective (by omega)
   have e := QuotientGroup.quotientKerEquivOfSurjective (psi (m := m)) hψ
-  haveI : Finite (E (m + 2) ⧸ (psi (m := m)).ker) := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (E (m + 2) ⧸ (psi (m := m)).ker) := Finite.of_equiv _ e.toEquiv.symm
   exact Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := (psi (m := m)).ker)).symm
 
 theorem alternatingGroup_nonabelian {n : ℕ} (hn : 4 ≤ n) :
@@ -389,12 +389,12 @@ theorem isQuasisimple_E (hm : 6 ≤ m) : IsQuasisimple (E (m + 2)) := by
   refine ⟨E_isPerfect (m := m) (by omega), ?_⟩
   have hA : IsSimpleGroup (alternatingGroup (Fin (m + 2))) :=
     alternatingGroup.isSimpleGroup (by simp; omega)
-  haveI := hA
+  have := hA
   obtain ⟨a₀, b₀, hab₀⟩ := alternatingGroup_nonabelian (n := m + 2) (by omega)
-  haveI : Nontrivial (alternatingGroup (Fin (m + 2))) :=
+  have : Nontrivial (alternatingGroup (Fin (m + 2))) :=
     ⟨⟨a₀, b₀, fun h => hab₀ (by rw [h])⟩⟩
   have e := quotCenter_iso hm
-  haveI : Nontrivial (E (m + 2) ⧸ center (E (m + 2))) := e.toEquiv.nontrivial
+  have : Nontrivial (E (m + 2) ⧸ center (E (m + 2))) := e.toEquiv.nontrivial
   refine ⟨IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective, ?_⟩
   exact ⟨e.symm a₀, e.symm b₀, fun h => hab₀ (by have := congrArg e h; simpa using this)⟩
 
@@ -403,7 +403,7 @@ theorem card_center_E (hm : 6 ≤ m) : Nat.card (center (E (m + 2))) = 2 := by
   exact card_ker_psi hm
 
 theorem card_E (hm : 6 ≤ m) : Nat.card (E (m + 2)) = (m + 2).factorial := by
-  haveI := finite_E hm
+  have := finite_E hm
   have hψ : Function.Surjective (psi (m := m)) := psi_surjective (by omega)
   have e := QuotientGroup.quotientKerEquivOfSurjective (psi (m := m)) hψ
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (psi (m := m)).ker,
@@ -421,20 +421,20 @@ end Model3
 
 namespace SpinM
 
-@[expose] def Mdd {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (q : Q4) :
+def Mdd {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (q : Q4) :
     Matrix (Fin N) (Fin N) ℚ :=
   if q.1 = q.2.1 ∨ q.2.2.1 = q.2.2.2 then 1
   else (1 / 2 : ℚ) • ((Γ q.1 - Γ q.2.1) * (Γ q.2.2.1 - Γ q.2.2.2))
 
-@[expose] def Mw {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (w : Wd) :
+def Mw {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (w : Wd) :
     Matrix (Fin N) (Fin N) ℚ :=
   (w.map (Mdd Γ)).prod
 
-@[expose] def Mcomm {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (p : Wd × Wd) :
+def Mcomm {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (p : Wd × Wd) :
     Matrix (Fin N) (Fin N) ℚ :=
   Mw Γ p.1 * Mw Γ p.2 * Mw Γ (invW p.1) * Mw Γ (invW p.2)
 
-@[expose] def gensM {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (ps : List (Wd × Wd)) :
+def gensM {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (ps : List (Wd × Wd)) :
     List (Matrix (Fin N) (Fin N) ℚ) :=
   ps.map (Mcomm Γ) ++ ps.map fun p => Mcomm Γ (p.2, p.1)
 
@@ -447,11 +447,11 @@ open SpinNative (Mat ent ofF oneM zeroM addM subM smulM mulM prodM gensM closedB
 
 variable {N : ℕ}
 
-@[expose] def toMat (A : Mat N) : Matrix (Fin N) (Fin N) ℚ := Matrix.of fun i j => ent A i j
+def toMat (A : Mat N) : Matrix (Fin N) (Fin N) ℚ := Matrix.of fun i j => ent A i j
 
-@[expose] def Gm (Γ : ℕ → Mat N) : ℕ → Matrix (Fin N) (Fin N) ℚ := fun k => toMat (Γ k)
+def Gm (Γ : ℕ → Mat N) : ℕ → Matrix (Fin N) (Fin N) ℚ := fun k => toMat (Γ k)
 
-@[expose] def klTab (Γ : ℕ → Mat N) : List (Matrix (Fin N) (Fin N) ℚ) :=
+def klTab (Γ : ℕ → Mat N) : List (Matrix (Fin N) (Fin N) ℚ) :=
   CoverAltGroup.treeTab (SpinM.gensM (Gm Γ) pairsS10) treeS10
 
 theorem ent_ofF (f : Fin N → Fin N → ℚ) (i j : Fin N) : ent (ofF f) i j = f i j := by
@@ -479,19 +479,19 @@ theorem toMat_oneM : toMat (oneM N) = 1 := by
 
 theorem toMat_zeroM : toMat (zeroM N) = 0 := by
   ext i j
-  simp [zeroM, toMat_ofF, ent_ofF]
+  simp [zeroM, toMat_ofF]
 
 theorem toMat_addM (A B : Mat N) : toMat (addM A B) = toMat A + toMat B := by
   ext i j
-  simp [addM, toMat_ofF, toMat, ent_ofF]
+  simp [addM, toMat, ent_ofF]
 
 theorem toMat_subM (A B : Mat N) : toMat (subM A B) = toMat A - toMat B := by
   ext i j
-  simp [subM, toMat_ofF, toMat, ent_ofF]
+  simp [subM, toMat, ent_ofF]
 
 theorem toMat_smulM (c : ℚ) (A : Mat N) : toMat (smulM c A) = c • toMat A := by
   ext i j
-  simp [smulM, toMat_ofF, toMat, ent_ofF]
+  simp [smulM, toMat, ent_ofF]
 
 theorem foldl_skip (f g : Fin N → ℚ) (ks : List (Fin N)) (acc : ℚ) :
     ks.foldl (fun acc k => if f k = 0 then acc else acc + f k * g k) acc =
@@ -625,7 +625,7 @@ section Clifford
 
 variable {N : ℕ}
 
-@[expose] def GammaRel (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) : Prop :=
+def GammaRel (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) : Prop :=
   ∀ i < n, ∀ j < n, Γ i * Γ j + Γ j * Γ i = if i = j then (2 : ℚ) • (1 : Matrix (Fin N) (Fin N) ℚ) else 0
 
 theorem gamRelB_spec {n : ℕ} {Γ : ℕ → SpinNative.Mat N} (h : SpinNative.gamRelB Γ n = true) :
@@ -639,7 +639,7 @@ theorem gamRelB_spec {n : ℕ} {Γ : ℕ → SpinNative.Mat N} (h : SpinNative.g
   · rw [toMat_smulM, toMat_oneM] at h3; exact h3
   · rw [toMat_zeroM] at h3; exact h3
 
-@[expose] def gammaLin (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) :
+def gammaLin (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) :
     (Fin n → ℚ) →ₗ[ℚ] Matrix (Fin N) (Fin N) ℚ where
   toFun x := ∑ i : Fin n, x i • Γ i.val
   map_add' x y := by simp [add_smul, Finset.sum_add_distrib]
@@ -684,7 +684,7 @@ theorem gammaLin_mul_self {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h
   rw [hAA]
   exact smul_right_injective (Matrix (Fin N) (Fin N) ℚ) two_ne_zero hsum2
 
-@[expose] def cliffHom {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def cliffHom {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     CliffordAlgebra (CFSG.Alternating.Multipliers.Spin.sumSq n) →ₐ[ℚ] Matrix (Fin N) (Fin N) ℚ :=
   CliffordAlgebra.lift (CFSG.Alternating.Multipliers.Spin.sumSq n)
     ⟨gammaLin Γ n, fun x => by rw [sumSq_apply']; exact gammaLin_mul_self h x⟩
@@ -706,11 +706,11 @@ section Rep
 
 variable {N : ℕ}
 
-@[expose] def thetaH {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def thetaH {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     H n →* (Matrix (Fin N) (Fin N) ℚ)ˣ :=
   (Units.map (cliffHom h).toMonoidHom).comp ((monomial n).subtype.comp (H n).subtype)
 
-@[expose] def thetaE {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def thetaE {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     E n →* (Matrix (Fin N) (Fin N) ℚ)ˣ :=
   (thetaH h).comp (E n).subtype
 
@@ -765,7 +765,7 @@ theorem thetaE_injective (hm : 6 ≤ m) {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ
   have hA : IsSimpleGroup (alternatingGroup (Fin (m + 2))) :=
     alternatingGroup.isSimpleGroup (by simp; omega)
   have hxker : x ∈ θ.ker := MonoidHom.mem_ker.mpr hx
-  haveI := hM
+  have := hM
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (θ.ker.map (psi (m := m))) with hbot | htop
   · have hpx : psi x = 1 := by
       have hmem : psi x ∈ θ.ker.map (psi (m := m)) := Subgroup.mem_map_of_mem _ hxker
@@ -810,7 +810,7 @@ abbrev ValidQ (n : ℕ) (q : Q4) : Prop :=
 instance (n : ℕ) (q : Q4) : Decidable (ValidQ n q) := by
   unfold ValidQ; infer_instance
 
-@[expose] def ddH (n : ℕ) (q : Q4) : H n :=
+def ddH (n : ℕ) (q : Q4) : H n :=
   if h : ValidQ n q then
     have hab : (⟨q.1, h.1⟩ : Fin n) ≠ ⟨q.2.1, h.2.1⟩ := fun e => h.2.2.2.2.1 (congrArg Fin.val e)
     have hcd : (⟨q.2.2.1, h.2.2.1⟩ : Fin n) ≠ ⟨q.2.2.2, h.2.2.2.1⟩ :=
@@ -818,15 +818,15 @@ instance (n : ℕ) (q : Q4) : Decidable (ValidQ n q) := by
     ⟨dd hab hcd, subset_closure ⟨_, _, _, _, hab, hcd, rfl⟩⟩
   else 1
 
-@[expose] def wordH (n : ℕ) (X : Wd) : H n := (X.map (ddH n)).prod
+def wordH (n : ℕ) (X : Wd) : H n := (X.map (ddH n)).prod
 
-@[expose] def liftE (n : ℕ) (X Y : Wd) : E n :=
+def liftE (n : ℕ) (X Y : Wd) : E n :=
   ⟨⁅wordH n X, wordH n Y⁆, commutator_mem_commutator (mem_top _) (mem_top _)⟩
 
-@[expose] def gensE (n : ℕ) (ps : List (Wd × Wd)) : List (E n) :=
+def gensE (n : ℕ) (ps : List (Wd × Wd)) : List (E n) :=
   ps.map (fun p => liftE n p.1 p.2) ++ ps.map (fun p => liftE n p.2 p.1)
 
-@[expose] def thetaM (h : GammaRel Γ n) : E n →* Matrix (Fin N) (Fin N) ℚ :=
+def thetaM (h : GammaRel Γ n) : E n →* Matrix (Fin N) (Fin N) ℚ :=
   (Units.coeHom (Matrix (Fin N) (Fin N) ℚ)).comp (thetaE h)
 
 theorem thetaM_injective_of_thetaE {h : GammaRel Γ n} (hinj : Function.Injective (thetaE h)) :
@@ -854,12 +854,12 @@ theorem thetaH_ddH (h : GammaRel Γ n) (q : Q4) (hq : ValidQ n q) :
         CFSG.Alternating.Multipliers.Spin.r (⟨q.1, hq.1⟩ : Fin n) ⟨q.2.1, hq.2.1⟩ *
         CFSG.Alternating.Multipliers.Spin.r (⟨q.2.2.1, hq.2.2.1⟩ : Fin n) ⟨q.2.2.2, hq.2.2.2.1⟩) := by
     unfold ddH
-    rw [dif_pos hq]
+    rw [dite_eq_left hq]
     rfl
   have hne : ¬ (q.1 = q.2.1 ∨ q.2.2.1 = q.2.2.2) := fun h => h.elim hq.2.2.2.2.1 hq.2.2.2.2.2
   have hMdd : SpinM.Mdd Γ q = (1 / 2 : ℚ) • ((Γ q.1 - Γ q.2.1) * (Γ q.2.2.1 - Γ q.2.2.2)) := by
     unfold SpinM.Mdd
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   rw [hMdd, hdd, map_mul, map_mul, cliffHom_half, cliffHom_r', cliffHom_r']
   simp only [smul_mul_assoc, one_mul]
 
@@ -907,7 +907,7 @@ theorem ddH_swap (q : Q4) (hq : ValidQ n q) :
   apply inv_eq_of_mul_eq_one_right
   have hq' : ValidQ n (q.2.2.1, q.2.2.2, q.1, q.2.1) := validQ_swap hq
   unfold ddH
-  rw [dif_pos hq, dif_pos hq']
+  rw [dite_eq_left hq, dite_eq_left hq']
   have hab : (⟨q.1, hq.1⟩ : Fin n) ≠ ⟨q.2.1, hq.2.1⟩ := fun e => hq.2.2.2.2.1 (congrArg Fin.val e)
   have hcd : (⟨q.2.2.1, hq.2.2.1⟩ : Fin n) ≠ ⟨q.2.2.2, hq.2.2.2.1⟩ :=
     fun e => hq.2.2.2.2.2 (congrArg Fin.val e)
@@ -1092,10 +1092,10 @@ theorem wordsOK_spec {n : ℕ} {ps : List (Wd × Wd)} (h : wordsOK n ps = true) 
     simpa [ValidQ] using this
   exact ⟨fun q hq => key q (List.mem_append_left _ hq), fun q hq => key q (List.mem_append_right _ hq)⟩
 
-@[expose] def klP (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).1
-@[expose] def klQ (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.1
-@[expose] def klR (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.1
-@[expose] def klPar (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.2
+def klP (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).1
+def klQ (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.1
+def klR (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.1
+def klPar (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.2
 
 theorem normalCheck_spec {N n : ℕ} {Γ : ℕ → SpinNative.Mat N}
     (hC : SpinNative.normalCheck Γ n = true) :
@@ -1186,7 +1186,7 @@ theorem kleinCheck_spec {N n : ℕ} {Γ : ℕ → SpinNative.Mat N}
           (klTab Γ).getD j 1 * (klTab Γ).getD i 1) ∨
         ∃ k ∈ SpinNative.kleinS10, i ∈ [0, k.1, k.2.1, k.2.2.1] ∧ j ∈ [0, k.1, k.2.1, k.2.2.1]) := by
   simp only [SpinNative.kleinCheck, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
-    List.any_eq_true, List.mem_range] at hC
+    List.mem_range] at hC
   obtain ⟨⟨⟨⟨⟨⟨⟨ha, hw⟩, hcl⟩, hlen⟩, hK1⟩, hK2⟩, hK3⟩, hK4⟩ := hC
   obtain ⟨hnd, hcl'⟩ := closedB_spec_M hcl
   rw [← klTab_eq] at hnd
@@ -1214,7 +1214,7 @@ theorem kleinCheck_spec {N n : ℕ} {Γ : ℕ → SpinNative.Mat N}
     exact ⟨e1, e2, e3, e4, e5, e6, e7⟩
   · intro idx hidx
     have h := hK2 idx hidx
-    simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, and_assoc, or_assoc] at h
+    simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, and_assoc] at h
     rcases h with h0 | ⟨hpar, c1, c2, c3, c4⟩
     · exact Or.inl h0
     · refine Or.inr ⟨hpar, ?_, ?_, ?_, ?_⟩
@@ -1240,7 +1240,7 @@ theorem kleinCheck_spec {N n : ℕ} {Γ : ℕ → SpinNative.Mat N}
   · intro i hi j hj
     have h := hK4 i hi j hj
     simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_true_eq, decide_eq_false_iff_not,
-      List.any_eq_true, Bool.and_eq_true, or_assoc, and_assoc] at h
+      List.any_eq_true, Bool.and_eq_true, or_assoc] at h
     rcases h with h | h | ⟨k, hk, hik, hjk⟩
     · exact Or.inl h
     · refine Or.inr (Or.inl ?_)
@@ -1286,7 +1286,7 @@ theorem sylowFourJoined_normal (m : ℕ) (hm : 6 ≤ m) (hN : 0 < N) (Γ : ℕ �
     (hC : SpinNative.normalCheck Γ (m + 2) = true)
     (k : ℕ) (hk : Nat.card (E (m + 2)) = 2 ^ 7 * k) (hodd : ¬ 2 ∣ k) :
     SylowFourJoined (E (m + 2)) := by
-  haveI := finite_E hm
+  have := finite_E hm
   obtain ⟨hrel, hvS, hvA, hndS, hclS, he, hndA, hclA, hg, hh, hi⟩ := normalCheck_spec hC
   have hinj : Function.Injective (thetaM (n := m + 2) hrel) :=
     thetaM_injective_of_thetaE (thetaE_injective hm hrel hN)
@@ -1609,7 +1609,7 @@ theorem sylowFourJoined_klein (m : ℕ) (hm : 8 ≤ m) (hN : 0 < N) (Γ : ℕ �
     (hC : SpinNative.kleinCheck Γ (m + 2) = true)
     (k : ℕ) (hk : Nat.card (E (m + 2)) = 2 ^ 8 * k) (hodd : ¬ 2 ∣ k) :
     SylowFourJoined (E (m + 2)) := by
-  haveI := finite_E (by omega : 6 ≤ m)
+  have := finite_E (by omega : 6 ≤ m)
   obtain ⟨hrel, hps, hnd, hcl, hlen, hK1, hK2, hK3, hK4⟩ := kleinCheck_spec hC
   have hinj : Function.Injective (thetaM (n := m + 2) hrel) :=
     thetaM_injective_of_thetaE (thetaE_injective (by omega) hrel hN)
@@ -1650,7 +1650,7 @@ section Final
 theorem card_center_of_cover {Q : Type} [Group Q] [Finite Q] (hQ : IsQuasisimple Q)
     (hz : center Q ≠ ⊥) (h2 : IsPGroup 2 (center Q)) {n : ℕ} (hn : 5 ≤ n)
     (eQ : Q ⧸ center Q ≃* alternatingGroup (Fin n)) : Nat.card (center Q) = 2 := by
-  haveI : Group.IsPerfect Q := hQ.1
+  have : Group.IsPerfect Q := hQ.1
   let η : Q →* alternatingGroup (Fin n) := eQ.toMonoidHom.comp (QuotientGroup.mk' (center Q))
   have hη : Function.Surjective η := eQ.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : η.ker = center Q := by
@@ -1689,9 +1689,9 @@ theorem sylowFourJoined_of_cover {Q : Type} [Group Q] [Finite Q] (hquasi : IsQua
   have hzQ : Nat.card (center Q) = 2 := card_center_of_cover hquasi hz h2 (by omega) eQ
   have hGr : Nat.card (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) = 2 :=
     card_griess_alt (by omega)
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
     Nat.finite_of_card_ne_zero (by rw [hGr]; norm_num)
-  haveI := finite_E hm
+  have := finite_E hm
   obtain ⟨e⟩ := (RankThree.PerfectCover.hopf_central_cover_consequences
     (alternatingGroup (Fin (m + 2)))).2 (fun S => card_sylow_of_card_two hGr S) Q (E (m + 2))
     hquasi (isQuasisimple_E hm) hzQ (card_center_E hm) ⟨eQ⟩ (quotCenter_E hm)

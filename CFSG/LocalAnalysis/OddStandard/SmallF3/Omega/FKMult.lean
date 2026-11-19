@@ -82,12 +82,12 @@ theorem fk_mult_swap (φ : MulAut Spin₈) (A : V₈ ≃ₗ[𝔽₃] V₈) (μ :
   have c₂₃ : ∀ v, spinAction Q₄ h₂ (fkN3 v) = fkN3 (spinAction Q₄ h₂ v) := by
     intro v
     have h := LinearEquiv.congr_fun (fk_nodes_comm hh₂ hb) v
-    simp only [LinearEquiv.mul_apply, hx3, map_add, map_smul, one_smul] at h
+    simp only [LinearEquiv.mul_apply, hx3, map_add, one_smul] at h
     exact add_left_cancel h
   have c₃₂ : ∀ v, spinAction Q₄ h₃ (fkN2 v) = fkN2 (spinAction Q₄ h₃ v) := by
     intro v
     have h := LinearEquiv.congr_fun (fk_nodes_comm ha hh₃) v
-    simp only [LinearEquiv.mul_apply, hx2, map_add, map_smul, one_smul] at h
+    simp only [LinearEquiv.mul_apply, hx2, map_add, one_smul] at h
     exact (add_left_cancel h).symm
   have hμ' := fk_mult_core A (spinAction Q₄ h₂) (spinAction Q₄ h₃) fkN2 fkN3 μ ε₂ ε₃ hμ hA
     (map_spinAction Q₄ h₂) (map_spinAction Q₄ h₃) hε₂ hε₃ fkN2_mul_fkN3 hAN₂ hAN₃ c₂₃ c₃₂

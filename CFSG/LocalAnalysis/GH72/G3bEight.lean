@@ -17,8 +17,8 @@ theorem lemma_3_8 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁) :
       (𝔖.S : Subgroup G) ≤ C s → (𝔖.S : Subgroup G) ≤ C t → orderOf s = 2 → IsConj s t →
         s = t := by
   intro s hsS t htS hSs hSt hz2 hconj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 G) := 𝔖.S.finite_of_finiteIndex
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 G) := 𝔖.S.finite_of_finiteIndex
   obtain ⟨g, hg⟩ := isConj_iff.mp hconj
   have hs_cent_S : ∀ y ∈ (𝔖.S : Subgroup G), y * s = s * y := by
     intro y hy

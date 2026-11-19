@@ -33,7 +33,7 @@ theorem kFactSingleComponent_of_kdata (hMult : KDMultP5) (hFld : KDFieldP5) (h29
     (hLin : KD292LinUni) : KFactSingleComponent := by
   intro p X _ _ P x z hpl hU
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp5 := hpl.five_le
   have hp2 : p ≠ 2 := by omega
   have hYD := yData_of_plane63 hpl
@@ -97,7 +97,7 @@ theorem kFactSingleComponent_of_kdata (hMult : KDMultP5) (hFld : KDFieldP5) (h29
           hxord with h | ⟨N, hNn, hNidx⟩
       · have := hYD.rank_cent
         omega
-      · haveI := hNn
+      · have := hNn
         have hN : N = ⊤ := hYD.perf N (IsPGroup.of_card (n := 1)
           ((Subgroup.index_eq_card N).symm.trans (hNidx.trans (pow_one p).symm)))
         rw [hN, Subgroup.index_top] at hNidx
@@ -121,7 +121,7 @@ theorem kFactSingleComponent_of_kdata (hMult : KDMultP5) (hFld : KDFieldP5) (h29
         GLAPLayer p (centralizer ({d} : Set (X ⧸ D))) = ⊥ ∧
           GLAPPrimeCoreOf p (centralizer ({d} : Set (X ⧸ D))) = ⊥ := by
       intro d hd hd1
-      haveI := hLn
+      have := hLn
       exact h29 p hprime hp5 (X ⧸ D) L hsimp hnonab hcatL hnlu hC (by have := hYD.four_le; omega)
         ⟨(x : X ⧸ D), hxL, hxord, hYD.rank_cent⟩ d (hBL hd) hd1 (hBe.2 d hd)
     have hsig := signalizer_eq_bot_of_sc hprime hp2 hBe hYD.plane_card hYD.sc hC29

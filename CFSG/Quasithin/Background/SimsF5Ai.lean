@@ -29,7 +29,7 @@ theorem Q2Dot_inf_centralizer_coe :
         g = eJ J} := by
   ext g
   simp only [Subgroup.coe_inf, Set.mem_inter_iff, SetLike.mem_coe,
-    Subgroup.mem_centralizer_singleton_iff, Set.mem_setOf_eq]
+    Subgroup.mem_centralizer_singleton_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hq, hc⟩
     have hq' : g ∈ (Q2Dot : Set GL6) := hq
@@ -314,14 +314,14 @@ theorem ai_mulEquiv_E4S4 {E : Subgroup GL6} (hcard : Nat.card ↥E ≤ 96) {a b 
         _ = x * (x * y) * y := by rw [← hab]
         _ = (x * x) * (y * y) := by group
         _ = 1 := by rw [ha2, hb2, one_mul]
-  haveI : Nontrivial ↥Z :=
+  have : Nontrivial ↥Z :=
     ⟨⟨⟨a, Subgroup.mem_sup_left (Subgroup.mem_zpowers a)⟩, 1,
       fun h => ha1 (congrArg Subtype.val h)⟩⟩
   have hZexp : Monoid.exponent ↥Z = 2 := by
     rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
     intro g hg
     exact orderOf_eq_prime (by rw [pow_two]; exact Subtype.ext (hZsq g.1 g.2)) hg
-  haveI : IsKleinFour ↥Z := ⟨hZcard, hZexp⟩
+  have : IsKleinFour ↥Z := ⟨hZcard, hZexp⟩
   obtain ⟨eZ⟩ : Nonempty (↥Z ≃* Multiplicative (ZMod 2 × ZMod 2)) :=
     IsKleinFour.nonempty_mulEquiv
   let ψE : Equiv.Perm (Fin 4) →* ↥E := ψ.codRestrict E hψE
@@ -729,7 +729,7 @@ theorem ai_card_E1 : Nat.card ↥(EDot M1Dot) = 96 := by
   have : Nat.card (Multiplicative (ZMod 2 × ZMod 2)) = 4 := by
     rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod 2 × ZMod 2) ≃ ZMod 2 × ZMod 2),
       Nat.card_prod]
-    simp [Nat.card_zmod]
+    simp
   rw [this]
 
 @[expose] def aiP : Fin 8 → QuaternionGroup 2 × QuaternionGroup 2 :=
@@ -814,7 +814,7 @@ theorem ai_commSp_eq_span {g : GL6} {a b : V6}
 
 theorem ai_range_vec2 (a b : V6) : Set.range ![a, b] = {a, b} := by
   ext w
-  simp [Fin.exists_fin_two, eq_comm]
+  simp [eq_comm]
   tauto
 
 theorem ai_plane_props {a b : V6} (h4a : a 4 = 0 ∧ a 5 = 0) (h4b : b 4 = 0 ∧ b 5 = 0)
@@ -886,7 +886,7 @@ theorem Q1Dot_inf_centralizer_nonid :
         u * u = 1 ∧ commSp u ≤ V4plus ∧ Module.finrank (ZMod 3) (commSp u) = 2 ∧
         SignMinus (commSp u)} := by
   ext u
-  simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hu, hu1⟩
     obtain ⟨k, rfl⟩ := ai_mem_CQ1_iff.1 hu
@@ -1051,7 +1051,7 @@ theorem finrank_V3plus : Module.finrank (ZMod 3) V3plus = 3 := by
   have h := finrank_span_eq_card hli
   have hr : Set.range ![x1, x2, x6] = {x1, x2, x6} := by
     ext w
-    simp [Fin.exists_fin_succ, eq_comm]
+    simp
     tauto
   rw [hr] at h
   exact h
@@ -1342,8 +1342,8 @@ theorem ai_case_eq {h : GL6} (hM : h ∈ MDot) (hst : h ∈ aiFrStab) {c : ZMod 
     have := a0.trans a1.symm
     rw [mono_eJd_apply, mono_eJd_apply] at this
     by_cases h0J : (0 : Fin 6) ∈ J <;> by_cases h1J : (1 : Fin 6) ∈ J <;>
-      simp only [h0J, h1J, if_true, if_false] at this ⊢ <;>
-      first | exact absurd this (by decide) | simp
+      simp only [h0J, h1J, ite_true, ite_false] at this ⊢ <;>
+      first | exact absurd this (by decide)
   exact ⟨(mono_mem_Q2Dot_iff _).2 ⟨hM, J, rfl⟩,
     Subgroup.mem_centralizer_singleton_iff.2 ((ai_eJ_comm_iff J).2 h01)⟩
 

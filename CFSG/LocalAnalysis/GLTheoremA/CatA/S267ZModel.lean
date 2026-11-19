@@ -184,7 +184,7 @@ private theorem map_centralizer_singleton {M M' : Type} [Group M] [Group M'] (e 
     (Subgroup.centralizer ({r} : Set M)).map (e : M →* M') =
       Subgroup.centralizer ({e r} : Set M') := by
   ext y
-  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rw [← map_mul, ← map_mul, hx]
@@ -197,7 +197,7 @@ private theorem map_centralizer_singleton {M M' : Type} [Group M] [Group M'] (e 
 private theorem fixSubgroup_congr' {M M' : Type} [Group M] [Group M'] (e : M ≃* M') (α : MulAut M) :
     fixSubgroup (MulAut.congr e α) = (fixSubgroup α).map (e : M →* M') := by
   ext y
-  simp only [Subgroup.mem_map, mem_fixSubgroup, MulAut.congr_apply, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, mem_fixSubgroup, MulAut.congr_apply, _root_.MonoidHom.coe_ofClass]
   constructor
   · intro hy
     refine ⟨e.symm y, ?_, by simp⟩
@@ -282,7 +282,7 @@ private theorem centMod_pointwise {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} {
 
 private theorem isPGroup_center_of_core {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prime)
     (h : GLAPPrimeCore p H = ⊥) : IsPGroup p (Subgroup.center H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro z
   obtain ⟨a, m, hm, hn⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos z).ne' p hp.ne_one
   refine ⟨a, ?_⟩
@@ -433,7 +433,7 @@ theorem z1AutData_congr {p : ℕ} (hp : p.Prime) {M M' : Type} [Group M] [Group 
   · rw [← map_mul, hur, map_mul]
   · rw [hJ']
     rintro _ ⟨j, hj, rfl⟩
-    simp only [MonoidHom.coe_coe]
+    simp only [_root_.MonoidHom.coe_ofClass]
     rw [← map_mul, huJ j hj, map_mul]
 
 theorem z1AutData_conj {p : ℕ} (hp : p.Prime) {M : Type} [Group M] [Finite M] (h : MulAut M)
@@ -518,7 +518,7 @@ theorem z3Data_congr {p : ℕ} (hp : p.Prime) {M M' : Type} [Group M] [Group M']
   · simp [MulAut.congr_apply, huβ]
   · rw [hJ]
     rintro _ ⟨j, hj, rfl⟩
-    simp only [MonoidHom.coe_coe]
+    simp only [_root_.MonoidHom.coe_ofClass]
     rw [← map_mul, huJ j hj, map_mul]
 
 theorem z3Model_congr {p : ℕ} (hp : p.Prime) {M M' : Type} [Group M] [Group M'] [Finite M] [Finite M']
@@ -563,7 +563,7 @@ theorem z3Model_congr {p : ℕ} (hp : p.Prime) {M M' : Type} [Group M] [Group M'
     rwa [hE''] at h2
 
 theorem z1_of_model {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω] (S A : Subgroup Ω)
-    (hSn : S.Normal) (hZ : Subgroup.center ↥S = ⊥) (hA : IsElemAbelian p A)
+    (hSn : S.Normal) (_hZ : Subgroup.center ↥S = ⊥) (hA : IsElemAbelian p A)
     (hA4 : Nat.card A = p ^ 4) (hcyc : CycModSylow p S) (hM : Z1Model p ↥S) :
     Nat.card ↥(A ⊓ Subgroup.centralizer (S : Set Ω)) = p ∧
     ∃ a ∈ A, a ∉ S ⊔ Subgroup.centralizer (S : Set Ω) ∧
@@ -584,8 +584,8 @@ theorem z1_of_model {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω] 
             Subgroup.zpowers a ⊔ R ≤ Subgroup.normalizer (T : Set Ω)) ∧
           ∃ u ∈ S, u ≠ 1 ∧ u ^ 2 = 1 ∧ u * r = r * u ∧
             ∀ j ∈ GLAPLayer p (S ⊓ Subgroup.centralizer ({r} : Set Ω)), j * u = u * j := by
-  haveI := hSn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hSn
+  have : Fact p.Prime := ⟨hp⟩
   have hsi := S.subtype_injective
   obtain ⟨hcard, hEcard⟩ := card_inf_centralizer hp hA hA4 hcyc hM.1
   obtain ⟨α, hαE, hαn, hdat⟩ := hM.2 _ (hA.map (MulAut.conjNormal : Ω →* MulAut ↥S)) hEcard
@@ -690,8 +690,8 @@ theorem z3_of_model {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω] 
       (∃ T : Subgroup Ω, T ≤ S ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧ A ≤ Subgroup.normalizer (T : Set Ω)) ∧
       ∃ u ∈ S, u ≠ 1 ∧ u ^ 2 = 1 ∧ u * b = b * u ∧
         ∀ j ∈ GLAPLayer p (S ⊓ Subgroup.centralizer ({b} : Set Ω)), j * u = u * j := by
-  haveI := hSn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hSn
+  have : Fact p.Prime := ⟨hp⟩
   have hsi := S.subtype_injective
   set C := Subgroup.centralizer (S : Set Ω) with hCdef
   obtain ⟨hcard, hEcard⟩ := card_inf_centralizer hp hA hA4 hcyc hM.1
@@ -741,7 +741,7 @@ theorem z3_of_model {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω] 
   have hWcyc : IsCyclic W := hcyc W hWcent hWp
   have hWcomm : ∀ c ∈ W, ∀ c' ∈ W, c * c' = c' * c := by
     intro c hc c' hc'
-    letI := hWcyc.commGroup
+    let := hWcyc.commGroup
     exact congrArg Subtype.val (mul_comm (⟨c, hc⟩ : W) ⟨c', hc'⟩)
   set AM : Subgroup ↥S := (A ⊔ C).subgroupOf S with hAMdef
   have hAMmem : ∀ s : ↥S, s ∈ AM ↔ (s : Ω) ∈ A ⊔ C := fun s => Subgroup.mem_subgroupOf

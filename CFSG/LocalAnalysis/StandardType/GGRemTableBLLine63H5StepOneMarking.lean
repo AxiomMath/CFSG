@@ -24,7 +24,7 @@ theorem stepOne_of_marking
     (hBI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 n K 6))
       (LargeEvenGUSet (Fin 6) K (2 ^ n)),
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
-    {z : G} (hzL : z ∈ L) (hzc : ∀ l ∈ L, z * l = l * z) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
+    {z : G} (hzL : z ∈ L) (hzc : ∀ l ∈ L, z * l = l * z) (_hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     False := by
   have hKd : UnitaryFieldData 2 n K := CFSG.StandardType.TableBU.unitaryFieldData_of_card hK
     (by omega)

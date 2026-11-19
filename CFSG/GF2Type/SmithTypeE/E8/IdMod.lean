@@ -31,7 +31,7 @@ theorem nonempty_mulEquiv_of_lieModel {H : Type} [Group H] (h : LieModel H .E7 0
   CFSG.ClassicalInvolution.Upgrade.untwistedChevalleyModel_unique
     (h.chevalleyExceptionalModel (by decide)).2
     (CFSG.SignalizerFunctorTheorem.CatalogBridge.untwistedChevalleyModel_adjointGroup
-      (τ := .E7) (K := ZMod 2) (by simp [Nat.card_zmod]))
+      (τ := .E7) (K := ZMod 2) (by simp))
 
 @[expose] noncomputable def QAg : Subgroup ↥(adjointGroup .E7 (ZMod 2)) :=
   QA.comap (adjointGroup .E7 (ZMod 2)).subtype
@@ -230,7 +230,7 @@ theorem e7Y56_mem_W0 : (e7Y56 : Fin e7Data.d →₀ ZMod 2) ∈ W0 := by
   rw [mem_W0]
   intro b hb
   unfold e7Y56
-  rw [Finsupp.single_apply, if_neg]
+  rw [Finsupp.single_apply, ite_eq_right]
   intro h
   rw [← h] at hb
   revert hb
@@ -346,7 +346,7 @@ theorem IdBase.mem_Qa_iff_W0 (B : IdBase S h₀ ψ φ) (hw : S.width = 28) {b : 
       exact B.phi_cl_mem_W0 hx
     have heq : (S.clSub (S.QG ⊓ S.Qa h₀)).map
         (φ : S.Qt →ₗ[ZMod 2] (Fin e7Data.d →₀ ZMod 2)) = W0 := by
-      haveI : Module.Finite (ZMod 2) (Fin e7Data.d →₀ ZMod 2) := inferInstance
+      have : Module.Finite (ZMod 2) (Fin e7Data.d →₀ ZMod 2) := inferInstance
       refine Submodule.eq_of_le_of_finrank_le hle ?_
       rw [LinearEquiv.finrank_map_eq, B.finrank_clSub hw, finrank_W0]
     rw [← heq, Submodule.mem_map_equiv] at hW

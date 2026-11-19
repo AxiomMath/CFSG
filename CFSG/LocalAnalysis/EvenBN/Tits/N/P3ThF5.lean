@@ -48,8 +48,8 @@ theorem card_modEq_one_of_pow_five {V : Type*} [Group V] [Finite V] (x : MulAut 
     (hx5 : x ^ 5 = 1) (U : Subgroup V) (hxU : ∀ u ∈ U, x u ∈ U)
     (hfix : ∀ u ∈ U, x u = u → u = 1) : Nat.card U ≡ 1 [MOD 5] := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fintype U := Fintype.ofFinite U
   let f : Function.End U := fun u => ⟨x u, hxU u u.2⟩
   have hpow : ∀ (n : ℕ) (u : U), ((f ^ n) u : V) = (x ^ n) u := by
     intro n
@@ -70,7 +70,7 @@ theorem card_modEq_one_of_pow_five {V : Type*} [Group V] [Finite V] (x : MulAut 
   have h := Equiv.Perm.card_fixedPoints_modEq (p := 5) (n := 1) hf
   have hfp : Function.fixedPoints f = {1} := by
     ext u
-    simp only [Function.mem_fixedPoints, Function.IsFixedPt, Set.mem_singleton_iff]
+    simp only [Set.mem_singleton_iff]
     constructor
     · intro hu
       apply Subtype.ext
@@ -122,12 +122,12 @@ private theorem zmod_two_coord_aux :
 theorem fixed_vectors_of_frobenius20 {V : Type*} [CommGroup V] [Finite V]
     (hsq : ∀ a : V, a * a = 1)
     (W : Subgroup V) (hW : Nat.card W = 16)
-    (x y : MulAut V) (hx5 : x ^ 5 = 1) (hxW : ∀ w ∈ W, x w ∈ W) (hyW : ∀ w ∈ W, y w ∈ W)
+    (x y : MulAut V) (hx5 : x ^ 5 = 1) (hxW : ∀ w ∈ W, x w ∈ W) (_hyW : ∀ w ∈ W, y w ∈ W)
     (hxfpf : ∀ w ∈ W, x w = w → w = 1) (hyx : y * x * y⁻¹ = x ^ 3)
     (w₀ : V) (hw₀W : w₀ ∈ W) (hw₀1 : w₀ ≠ 1) (hw₀y : y w₀ = w₀) :
     ∀ w ∈ W, y w = w → w = 1 ∨ w = w₀ := by
   classical
-  letI : Module (ZMod 2) (Additive V) :=
+  let : Module (ZMod 2) (Additive V) :=
     AddCommGroup.zmodModule (n := 2) fun a => by
       rw [two_nsmul]
       exact hsq (Additive.toMul a)

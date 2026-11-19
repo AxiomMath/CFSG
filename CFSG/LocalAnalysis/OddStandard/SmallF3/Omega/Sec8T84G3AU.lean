@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G}
   {E Y1 Y2 T T1 T2 V1 V2 F1 F2 : Subgroup G}
 
+omit [Finite G] in
 private lemma sec8t84g_gu_map_cent (c : G ≃* G) (y : G) :
     (centralizer ({y} : Set G)).map c.toMonoidHom = centralizer ({c y} : Set G) := by
   ext x

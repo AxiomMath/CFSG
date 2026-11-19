@@ -13,6 +13,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma isElemAbelian_top_iff {X : Subgroup G} :
     IsElemAbelian 2 (⊤ : Subgroup X) ↔ IsElemAbelian 2 X := by
   constructor
@@ -25,21 +26,24 @@ private lemma isElemAbelian_top_iff {X : Subgroup G} :
       have hx2 := h.2 ⟨x, hx⟩ trivial
       simpa using congrArg (fun z : X => (z : G)) hx2
   · intro h
-    haveI := h.1
+    have := h.1
     refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
     · intro a b
       exact Subtype.ext (mul_comm' a.1 b.1)
     · intro x _
       exact Subtype.ext (h.2 (x : G) x.2)
 
+omit [Finite G] in
 private lemma isE_toSub {X : Subgroup G} (h : IsE 3 ↥X) :
     IsElemAbelian 2 X ∧ Nat.card X = 8 :=
   ⟨isElemAbelian_top_iff.mp h.1, by rw [h.2]; norm_num⟩
 
+omit [Finite G] in
 private lemma z_mem_S (fr : Frame G) : fr.z ∈ fr.S := by
   show fr.b₁ ^ 2 ∈ fr.S
   exact fr.S.pow_mem (Subgroup.subset_closure (by simp)) 2
 
+omit [Finite G] in
 private lemma F_le_S (fr : Frame G) : fr.F ≤ fr.S := by
   refine (Subgroup.closure_le fr.S).mpr ?_
   intro x hx
@@ -49,6 +53,7 @@ private lemma F_le_S (fr : Frame G) : fr.F ≤ fr.S := by
   · exact fr.S.mul_mem (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
   · exact z_mem_S fr
 
+omit [Finite G] in
 private lemma E_le_S (fr : Frame G) : fr.E ≤ fr.S := by
   refine (Subgroup.closure_le fr.S).mpr ?_
   intro x hx

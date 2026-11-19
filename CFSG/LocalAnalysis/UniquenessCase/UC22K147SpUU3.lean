@@ -54,8 +54,8 @@ theorem two_mul_le_of_commute [Finite G] [Finite V] (ρ : Representation (ZMod 2
       have := congrArg (fun T => ((T ⟨w, hw⟩ : W) : V)) (hcon ⟨y, hy⟩)
       exact this
     have hL1 : L ≠ ⊥ := by
-      haveI := hq.2
-      haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (center ↥L)).nontrivial
+      have := hq.2
+      have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (center ↥L)).nontrivial
       exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
     have htop := CFSG.LocalAnalysis.RankThreeUC.Section5.InvariantElemAbelianFixed.commSpace_eq_top_of_normal
       hρ hirr hLn hL1
@@ -86,7 +86,7 @@ theorem two_mul_le_of_not_commute [Finite V] (ρ : Representation (ZMod 2) G V)
     (hU : UnitaryFieldData 2 n K) (β : ↥L ⧸ center ↥L ≃* unitaryPSU hU 3) {t : G} (htt : t * t = 1)
     (hc : ∃ x ∈ L, t * x ≠ x * t) :
     2 * n ≤ Module.finrank (ZMod 2) (LinearMap.range ((ρ t : V →ₗ[ZMod 2] V) - 1)) := by
-  haveI := hLn
+  have := hLn
   let τ : MulAut ↥L := MulAut.conjNormal t
   have hτ : ∃ g : ↥L, τ g ≠ g := by
     obtain ⟨x, hx, hxt⟩ := hc
@@ -103,8 +103,8 @@ theorem two_mul_le_of_not_commute [Finite V] (ρ : Representation (ZMod 2) G V)
     show ρ t (ρ (g : G) v) = ρ (t * (g : G) * t⁻¹) (ρ t v)
     rw [← Module.End.mul_apply, ← map_mul, ← Module.End.mul_apply, ← map_mul, inv_mul_cancel_right]
   have hnt : ∃ g : ↥L, (ρ.comp L.subtype) g ≠ 1 := by
-    haveI := hq.2
-    haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (center ↥L)).nontrivial
+    have := hq.2
+    have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (center ↥L)).nontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥L)
     refine ⟨x, fun h1 => hx ?_⟩
     change ρ (x : G) = 1 at h1

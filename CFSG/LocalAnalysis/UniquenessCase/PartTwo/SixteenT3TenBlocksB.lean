@@ -49,8 +49,8 @@ theorem s16t_blk_hyperplane_blocks {T : Type} [CommGroup T] [Finite T]
     iSupIndep (fun B : s16t_blk_Hyp A p => fixV (B : Subgroup (MulAut T))) ∧
       ⨆ B : s16t_blk_Hyp A p, fixV (B : Subgroup (MulAut T)) = ⊤ := by
   classical
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
-  letI hComm : CommGroup ↥A :=
+  have : Finite (MulAut T) := MulEquiv.finite_left
+  let hComm : CommGroup ↥A :=
     { (inferInstance : Group ↥A) with
       mul_comm := fun a b => Subtype.ext (hAc a a.2 b b.2) }
   have hAp' : ∀ a : ↥A, a ^ p = 1 := fun a => Subtype.ext (by
@@ -95,7 +95,7 @@ theorem s16t_blk_hyperplane_blocks {T : Type} [CommGroup T] [Finite T]
           exact Subgroup.index_mul_card (C.1.subgroupOf A)
         have h2 : (C.1.subgroupOf A).index * Nat.card ↥C.1 = p * Nat.card ↥C.1 := by
           rw [h1, ← C.2.2.1, mul_comm]
-        haveI : Nonempty ↥C.1 := ⟨⟨1, C.1.one_mem⟩⟩
+        have : Nonempty ↥C.1 := ⟨⟨1, C.1.one_mem⟩⟩
         exact Nat.mul_right_cancel (Nat.card_pos (α := ↥C.1)) h2
       exact isCyclic_of_prime_card (p := p) (α := ↥A ⧸ C.1.subgroupOf A)
         (by rw [← Subgroup.index_eq_card, hindex]), by

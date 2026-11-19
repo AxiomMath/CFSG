@@ -129,7 +129,7 @@ theorem not_dvd_natCard_centralizer_range [Finite K] (F : Frame K) {p : ℕ} (hp
     (hp2 : p ≠ 2) (hdvd : p ∣ cardPlusPi (Nat.card K)) :
     ¬ p ∣ Nat.card (Subgroup.centralizer ((c₀ F).range : Set ↥(Omega7 K))) := by
   intro hpC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   have hndvd := not_dvd_cardMinusPi_of_dvd_cardPlusPi hp hp2 hq hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hpC
@@ -248,7 +248,7 @@ theorem exists_commuting_pair_centralizer_range [Finite K] (F : Frame K) {p : �
 theorem two_le_pRank_centralizer_range [Finite K] (F : Frame K) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hdvd : p ∣ cardMinusPi (Nat.card K)) :
     2 ≤ pRank p (Subgroup.centralizer ((c₀ F).range : Set ↥(Omega7 K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, y, hx, hy, hxp, hyp, hxy, hyx⟩ :=
     exists_commuting_pair_centralizer_range F hp hp2 hdvd
   exact CFSG.GroupTheory.two_le_pRank_of_commute hx hy hxp hyp hxy hyx

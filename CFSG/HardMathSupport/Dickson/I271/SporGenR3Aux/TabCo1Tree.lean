@@ -13,7 +13,7 @@ open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Co1Schreie
 theorem image_getD_lt {G : Type*} [Group G] (gens : List G) :
     (fun l => gens.getD l 1) '' {l | l < gens.length} = {g | g ∈ gens} := by
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨l, hl, rfl⟩
     rw [List.getD_eq_getElem _ _ hl]

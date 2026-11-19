@@ -78,7 +78,7 @@ private theorem exists_transvection_mem_specialBlock {hE : UnitaryFieldData ℓ
     rw [CFSG.LinearGroups.hermTransvection_apply]
 
 include H hself in
-theorem primaryComponent_le_closure_specialBlock (hℓ : ℓ ≠ 2) (hgood : IsGoodBlock hK x a) :
+theorem primaryComponent_le_closure_specialBlock (_hℓ : ℓ ≠ 2) (hgood : IsGoodBlock hK x a) :
     (primaryComponent (x : Module.End K V) (a : K[X])).toAddSubgroup ≤
       AddSubgroup.closure {w | ∃ g ∈ specialBlock B x (a : K[X]), ∃ v,
         (g : Module.End K V) v - v = w} := by

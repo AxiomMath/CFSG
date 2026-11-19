@@ -34,7 +34,7 @@ theorem isSylowTwoOf_of_forall_normalizer_le {T M : Subgroup G} (hTM : T ≤ M) 
     IsSylowTwoOf T M := by
   obtain ⟨Q, hQ⟩ := (hT.comap_subtype (K := M)).exists_le_sylow
   have hQM : (Q : Subgroup M).map M.subtype ≤ M := Subgroup.map_subtype_le _
-  have hQ2 : IsPGroup 2 ((Q : Subgroup M).map M.subtype) := Q.isPGroup'.map _
+  have hQ2 : IsPGroup 2 ((Q : Subgroup M).map M.subtype) := Q.isPGroup.map _
   have hTQ : T ≤ (Q : Subgroup M).map M.subtype := fun x hx => ⟨⟨x, hTM hx⟩, hQ hx, rfl⟩
   have hsyl : IsSylowTwoOf ((Q : Subgroup M).map M.subtype) M := by
     refine ⟨hQM, hQ2, ?_⟩
@@ -175,7 +175,7 @@ theorem D1Extremal.exists_extremal2 (h : D1Extremal p P M H R) :
   have hXK : X ≤ K := (hXH₁.trans inf_le_left).trans hH₁K
   have hcard : Nat.card ((Tp : Subgroup K).map K.subtype) = Nat.card R :=
     le_antisymm (h.extremal K hK.1 hKM hKrank _ (_root_.le_inf (Subgroup.map_subtype_le _) hTpM)
-      (Tp.isPGroup'.map K.subtype))
+      (Tp.isPGroup.map K.subtype))
       (hXR ▸ card_le_card_map_sylow Tp hX hXK)
   obtain ⟨TX, hTXle⟩ := (hX.comap_subtype (K := K)).exists_le_sylow
   have hXTX : X ≤ (TX : Subgroup K).map K.subtype := by

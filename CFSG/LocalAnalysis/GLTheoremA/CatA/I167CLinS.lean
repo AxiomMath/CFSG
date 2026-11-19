@@ -119,7 +119,7 @@ theorem i167CLin_tilde_basic {S : Type} [Group S] (hcen : Subgroup.center S = �
   refine ⟨?_, ?_, hα⟩
   · unfold IsElemAbelian
     refine ⟨?_, ?_⟩
-    · haveI : IsMulCommutative Bb := hBb.1
+    · have : IsMulCommutative Bb := hBb.1
       rw [isMulCommutative_iff]
       intro a b
       apply hinjψ'
@@ -167,10 +167,10 @@ theorem i167CLin_tilde_max {S : Type} [Group S] {Bb : Subgroup (MulAut S)} (hSc 
 
 private theorem i167CLin_tilde_centJ_aux1 {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 2) :
     (2 : K) = 0 := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime hcard
   exact_mod_cast CharP.cast_eq_zero K 2
 
 private theorem i167CLin_tilde_centJ_aux2 {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V]

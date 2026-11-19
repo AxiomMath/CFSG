@@ -59,7 +59,7 @@ theorem lemma42_routeW (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1
     exact Subgroup.mem_zpowers y
   obtain ⟨J, hJC, hCJ, hperf, hlt, hmin, hnot, Q, hQg, ψ, hψ, hker, hlist, -⟩ :=
     hClass p hp P M hM hfail hIH u hgen h5
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hz : Subgroup.center Q = ⊥ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.u3main_center_bot (CFSG.AGLEmbedding.glbPrimeCore_le p J)
       hperf hlt hmin ψ hψ hker

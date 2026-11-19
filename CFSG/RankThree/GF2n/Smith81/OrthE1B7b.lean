@@ -125,7 +125,7 @@ theorem b7b_of (hB1 : B1Statement) (hB6 : B6Statement) (hT : TripleStatement)
     have h0 : ((LB M Q B).subgroupOf S₁).index ≠ 0 := Subgroup.index_ne_zero_of_finite
     have h2 : ((LB M Q B).subgroupOf S₁).index ≤ 2 := hidx
     omega
-  haveI : ((LB M Q B).subgroupOf S₁).Normal := Subgroup.normal_of_index_eq_two hidx2
+  have : ((LB M Q B).subgroupOf S₁).Normal := Subgroup.normal_of_index_eq_two hidx2
   have hnLB : ∀ l ∈ LB M Q B, s * l * s⁻¹ ∈ LB M Q B := by
     intro l hl
     have := Subgroup.Normal.conj_mem (inferInstance : ((LB M Q B).subgroupOf S₁).Normal)

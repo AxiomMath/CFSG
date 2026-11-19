@@ -105,13 +105,13 @@ theorem foldl_img_testBit (m y : ℕ) (g : Array ℕ) : ∀ (L : List ℕ) (a : 
   | x :: L, a => by
     rw [List.foldl_cons, foldl_img_testBit m y g L, List.any_cons]
     by_cases hp : m.testBit x = true
-    · rw [if_pos hp, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    · rw [ite_eq_left hp, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
       by_cases h : appN g x = y
       · subst h
         simp [hp]
       · have h' : (appN g x == y) = false := beq_false_of_ne h
         simp [h, h']
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       simp [hp]
 
 theorem testBit_maskOf0 (L : List ℕ) (s : ℕ) : (maskOf 0 L).testBit s = L.contains s := by
@@ -149,16 +149,16 @@ theorem foldl_stepW : ∀ (L : List (List ℕ)), (∀ s ∈ L, PC s) →
     have hL' : ∀ s ∈ L, PC s := fun s hs => hL s (List.mem_cons_of_mem x hs)
     by_cases hm : memP t (maskOf 0 x) = true
     · have e1 : HJ12K.stepH (l.map (maskOf 0), h) (maskOf 0 x) = (l.map (maskOf 0), h) := by
-        simp only [HJ12K.stepH, id, hc, hm, if_true]
-      have e2 : stepW (l, t) x = (l, t) := by simp only [stepW, stepWK, hm, if_true]
+        simp only [HJ12K.stepH, id, hc, hm, ite_true]
+      have e2 : stepW (l, t) x = (l, t) := by simp only [stepW, stepWK, hm, ite_true]
       rw [e1, e2]
       exact foldl_stepW L hL' l h t hl hr
     · have hm' : memP t (maskOf 0 x) = false := by simpa using hm
       have e1 : HJ12K.stepH (l.map (maskOf 0), h) (maskOf 0 x) =
           ((x :: l).map (maskOf 0), h.insert (maskOf 0 x)) := by
-        simp only [HJ12K.stepH, id, hc, hm', Bool.false_eq_true, if_false, List.map_cons]
+        simp only [HJ12K.stepH, id, hc, hm', Bool.false_eq_true, ite_false, List.map_cons]
       have e2 : stepW (l, t) x = (x :: l, insP t (maskOf 0 x)) := by
-        simp only [stepW, stepWK, hm', Bool.false_eq_true, if_false]
+        simp only [stepW, stepWK, hm', Bool.false_eq_true, ite_false]
       rw [e1, e2]
       refine foldl_stepW L hL' (x :: l) _ _ ?_ ?_
       · intro s hs
@@ -335,7 +335,7 @@ theorem orb_sound (O : List (List ℕ)) (hO : Two.w1Orbit () = O.map (maskOf 0))
 theorem orbitOK45_of (h : ok45Orb = true) : Two.orbitOK45 () = true :=
   orb_sound orbW w1Orbit_eq.1 w1Orbit_eq.2 h
 
-theorem pOK_gen (gs S W : List ℕ) (om : ℕ) (hgs : ∀ g ∈ gs, g < 2 ^ 144) (hom : om < 2 ^ 144)
+theorem pOK_gen (gs S W : List ℕ) (om : ℕ) (hgs : ∀ g ∈ gs, g < 2 ^ 144) (_hom : om < 2 ^ 144)
     (hW : ∀ c ∈ W, c < 4096) (hst : memAll (ofListP (enumQ S)) gs = true)
     (h : pAt gs om W (enumQ gs) (maskOf 0 W) = true) :
     (Two.gensOKb (gs.map unpackA) &&
@@ -431,8 +431,8 @@ theorem maps_sound (cs : List ℕ) (hcs : PC cs) (x : ℕ) :
   rw [appN_A, bitQ_eq]
 
 theorem w5_gen (O : List (List ℕ)) (hO : Two.w1Orbit () = O.map (maskOf 0))
-    (hPO : ∀ s ∈ O, PC s) (gs ps : List ℕ) (hgs : ∀ g ∈ gs, g < 2 ^ 144)
-    (hps : ∀ g ∈ ps, g < 2 ^ 144)
+    (hPO : ∀ s ∈ O, PC s) (gs ps : List ℕ) (_hgs : ∀ g ∈ gs, g < 2 ^ 144)
+    (_hps : ∀ g ∈ ps, g < 2 ^ 144)
     (h : w5At ps ((O.filter inW5).map fun cs => (cs, maskOf 0 cs)) (enumQ gs) (ofListP (enumQ ps)) =
       true) :
     (let X := enumGrp (gs.map unpackA)

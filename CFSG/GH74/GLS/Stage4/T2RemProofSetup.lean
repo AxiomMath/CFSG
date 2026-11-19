@@ -109,8 +109,8 @@ theorem nonempty_equiv_of_conj {S S₀ : Subgroup G} {k : G} (h : ∀ x, x ∈ S
 theorem isSylowOf_C1 (S : Sylow 2 G) (hSz : ∀ s ∈ (S : Subgroup G), s * z = z * s) :
     IsSylowOf 2 (S : Subgroup G) (oPrimeResidualOf 2 (centralizer ({z} : Set G))) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hle := le_oPrimeResidualOf_centralizer S.isPGroup' hSz
-  refine (isSylowOf_iff).2 ⟨hle, S.isPGroup', ?_⟩
+  have hle := le_oPrimeResidualOf_centralizer S.isPGroup hSz
+  refine (isSylowOf_iff).2 ⟨hle, S.isPGroup, ?_⟩
   intro h
   exact S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hle))
 

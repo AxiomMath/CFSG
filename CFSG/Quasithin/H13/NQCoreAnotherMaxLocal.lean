@@ -138,7 +138,7 @@ theorem nq_original_configuration_has_another_maximal_two_local
       simpa [mul_assoc] using this
     · simp
   have hPT := mul_comm_of_decomposition hTE hOT h₁ h₂ hPE
-  have hPp : IsPGroup p P := (P₀.isPGroup'.map E.subtype).map L.subtype
+  have hPp : IsPGroup p P := (P₀.isPGroup.map E.subtype).map L.subtype
   set TS : Sylow 2 G := h.sylow.1.toSylow h.sylow.2 with hTS
   have hTSc : (TS : Subgroup G) = T := IsPGroup.toSylow_coe h.sylow.1 h.sylow.2
   have hcyc := NQCat.exact_uniqueness_models_have_cyclic_large_prime_sylow_products G

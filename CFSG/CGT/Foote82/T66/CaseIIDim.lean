@@ -14,9 +14,11 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 abbrev subOne (a : GLV V) : V →ₗ[ZMod 2] V := (a : V →ₗ[ZMod 2] V) - 1
 
+omit [Finite V] in
 theorem subOne_apply (a : GLV V) (w : V) : subOne a w = a w - w := by
   simp [subOne]
 
+omit [Finite V] in
 theorem commSpace_zpowers_eq_map {a : GLV V} (ha : a * a = 1) (U : Submodule (ZMod 2) V) :
     commSpace (Subgroup.zpowers a) U = U.map (subOne a) := by
   apply le_antisymm
@@ -36,10 +38,12 @@ theorem commSpace_zpowers_eq_map {a : GLV V} (ha : a * a = 1) (U : Submodule (ZM
     rw [subOne_apply]
     exact sub_mem_commSpace (Subgroup.mem_zpowers a) hu
 
+omit [Finite V] in
 theorem commSpace_zpowers_top_eq_range {a : GLV V} (ha : a * a = 1) :
     commSpace (Subgroup.zpowers a) ⊤ = LinearMap.range (subOne a) := by
   rw [commSpace_zpowers_eq_map ha, Submodule.map_top]
 
+omit [Finite V] in
 theorem map_subOne_conj (g a : GLV V) (U : Submodule (ZMod 2) V) :
     (U.map (g : V →ₗ[ZMod 2] V)).map (subOne (g * a * g⁻¹)) =
       (U.map (subOne a)).map (g : V →ₗ[ZMod 2] V) := by
@@ -48,6 +52,7 @@ theorem map_subOne_conj (g a : GLV V) (U : Submodule (ZMod 2) V) :
   ext w
   simp [subOne, mul_assoc]
 
+omit [Finite V] in
 theorem card_range_subOne_conj (g a : GLV V) :
     Nat.card ↥(LinearMap.range (subOne (g * a * g⁻¹))) =
       Nat.card ↥(LinearMap.range (subOne a)) := by
@@ -71,15 +76,17 @@ theorem finrank_eq_of_card_eq {W W' : Type*} [AddCommGroup W] [Module (ZMod 2) W
   rw [card_eq_two_pow_finrank, card_eq_two_pow_finrank] at h
   exact Nat.pow_right_injective le_rfl h
 
+omit [Finite V] in
 theorem range_eq_sup_of_isCompl {V₀ V₁ : Submodule (ZMod 2) V} (hc : IsCompl V₀ V₁)
     (f : V →ₗ[ZMod 2] V) :
     LinearMap.range f = V₀.map f ⊔ V₁.map f := by
   rw [← Submodule.map_top, ← hc.sup_eq_top, Submodule.map_sup]
 
+omit [Finite V] in
 theorem map_inf_map_eq_bot_of_isCompl {V₀ V₁ : Submodule (ZMod 2) V} (hc : IsCompl V₀ V₁)
     (f : V →ₗ[ZMod 2] V) (h₀ : V₀.map f ≤ V₀) (h₁ : V₁.map f ≤ V₁) :
     V₀.map f ⊓ V₁.map f = ⊥ :=
-  eq_bot_iff.2 fun w hw => hc.inf_eq_bot ▸ ⟨h₀ hw.1, h₁ hw.2⟩
+  eq_bot_iff.2 fun _w hw => hc.inf_eq_bot ▸ ⟨h₀ hw.1, h₁ hw.2⟩
 
 theorem finrank_range_eq_add {V₀ V₁ : Submodule (ZMod 2) V} (hc : IsCompl V₀ V₁)
     (f : V →ₗ[ZMod 2] V) (h₀ : V₀.map f ≤ V₀) (h₁ : V₁.map f ≤ V₁) :
@@ -90,6 +97,7 @@ theorem finrank_range_eq_add {V₀ V₁ : Submodule (ZMod 2) V} (hc : IsCompl V�
     ← range_eq_sup_of_isCompl hc f] at h
   exact h
 
+omit [Finite V] in
 theorem beta_mem_range {ι : Type} [Fintype ι] [DecidableEq ι] {W : Submodule (ZMod 2) V}
     (β : ↥W →+ (ι → ZMod 2)) {a : GLV V} (haW : ∀ w ∈ W, a w ∈ W) (M : Matrix ι ι (ZMod 2))
     (he : ∀ w : ↥W, β ⟨a w, haW w w.2⟩ = M.mulVec (β w)) {x : V} (hx : x ∈ W.map (subOne a))
@@ -98,7 +106,7 @@ theorem beta_mem_range {ι : Type} [Fintype ι] [DecidableEq ι] {W : Submodule 
   refine ⟨β ⟨w, hw⟩, ?_⟩
   have e : (⟨subOne a w, hxW⟩ : ↥W) = ⟨a w, haW w hw⟩ - ⟨w, hw⟩ := by
     apply Subtype.ext
-    simp [subOne_apply]
+    simp
   rw [e, map_sub, show β ⟨a w, haW w hw⟩ = M.mulVec (β ⟨w, hw⟩) from he ⟨w, hw⟩,
     Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
 
@@ -117,6 +125,7 @@ theorem map_smul_pi {A : Type*} [AddCommGroup A] [Module (ZMod 2) A] {ι : Type*
     funext i
     rw [one_mul]
 
+omit [Finite V] in
 theorem finrank_map_subOne_eq {ι : Type} [Fintype ι] [DecidableEq ι] {W : Submodule (ZMod 2) V}
     (β : ↥W →+ (ι → ZMod 2)) (hβ : Function.Bijective β) {a : GLV V}
     (haW : ∀ w ∈ W, a w ∈ W) (M : Matrix ι ι (ZMod 2))
@@ -148,7 +157,7 @@ theorem finrank_map_subOne_eq {ι : Type} [Fintype ι] [DecidableEq ι] {W : Sub
       show β ⟨subOne a w, _⟩ = y
       have e : (⟨subOne a w, hle _ hx⟩ : ↥W) = ⟨a w, haW w w.2⟩ - w := by
         apply Subtype.ext
-        simp [subOne_apply]
+        simp
       rw [e, map_sub, he, ← ht, Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
   exact (LinearEquiv.ofBijective f hf).finrank_eq
 
@@ -178,16 +187,17 @@ theorem map_V₁_le {a : GLV V} (ha : a ∈ H₁) :
   rw [subOne_apply]
   exact Submodule.sub_mem _ (c.invariant_V₁ a ha w hw) hw
 
+omit [Finite V] c in
 theorem map_V₁_eq {a h : GLV V} (hh : h ∈ HH G L v) :
     (fixedSpace (HH G L v)).map (subOne (a * h)) = (fixedSpace (HH G L v)).map (subOne a) := by
   ext w
   constructor
   · rintro ⟨x, hx, rfl⟩
     refine ⟨x, hx, ?_⟩
-    simp [subOne_apply, hx h hh]
+    simp [hx h hh]
   · rintro ⟨x, hx, rfl⟩
     refine ⟨x, hx, ?_⟩
-    simp [subOne_apply, hx h hh]
+    simp [hx h hh]
 
 theorem exists_beta (hs : CaseIISplit) :
     ∃ β : ↥(commSpace (HH G L v) ⊤) →+ (Fin 2 ⊕ Fin 2 ⊕ Fin 2 → ZMod 2),

@@ -44,10 +44,10 @@ theorem kf7_l2_case {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n)
     {L N : Subgroup X} (hLN : L.Normal) (hKL : genFittingFStar X ≤ L)
     (hshape : LieModel ↥L .PSL 2 p n) (hN : IsStronglyPEmbedded p N) :
     Group.IsSolvable ↥N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup X := genFittingFStar X with hKdef
   obtain ⟨hKs, -, hKn, hKC, -⟩ := kf7_setup hp hp2 hO hLN hKL hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLsimple : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hshape
   have hKLeqL : K = L := eq_of_le_of_normal_of_isSimpleGroup hKL hKs hLsimple

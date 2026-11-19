@@ -16,7 +16,7 @@ theorem isPGroup_of_forall_coprime {G : Type*} [Group G] [Finite G]
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_⟩
   intro r hr hdvd
   by_contra hrq
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := G) r hdvd
   have hcop : Nat.Coprime (orderOf x) q := by
     rw [hx]
@@ -29,6 +29,7 @@ theorem orderOf_conj_eq {G : Type*} [Group G] (g x : G) : orderOf (g * x * g⁻�
   have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
   simpa [MulAut.conj_apply] using this
 
+omit [Fact (Nat.Prime q)] in
 theorem eq_one_of_commute_of_orderOf_mul {G : Type*} [Group G] [Finite G] {x z : G}
     (hxz : Commute z x) (hz : ∃ k, orderOf z = q ^ k) (hx : Nat.Coprime (orderOf x) q)
     (hord : orderOf (z * x) = orderOf x) : z = 1 := by
@@ -131,7 +132,7 @@ theorem constrained_normalizer_of_le_core {H : Type*} [Group H] [Finite H] (M : 
       by_contra hcon
       push Not at hcon
       obtain ⟨o₀, ho₀, ho₀ne⟩ := hcon
-      haveI : Group.IsNilpotent ↥O := hOp.isNilpotent
+      have : Group.IsNilpotent ↥O := hOp.isNilpotent
       set D' : Subgroup ↥O := D.subgroupOf O with hD'
       have hlt : D' < ⊤ := by
         rw [lt_top_iff_ne_top]

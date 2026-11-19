@@ -16,12 +16,12 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma ggHAP_coeff_adj {r : ℕ} {i j : Fin r} (hne : i ≠ j)
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : CartanMatrix.A r i j = -1 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne, if_pos h]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne, ite_eq_left h]
 
 private lemma ggHAP_coeff_other {r : ℕ} {i j : Fin r} (hne : i ≠ j)
     (h1 : i.val + 1 ≠ j.val) (h2 : j.val + 1 ≠ i.val) : CartanMatrix.A r i j = 0 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne,
-    if_neg (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne,
+    ite_eq_right (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
 
 private noncomputable def ggHAP_refl {H : Type} [AddCommGroup H] [Module (ZMod 3) H] {r : ℕ}
     (h : Fin r → H) (α : Fin r → Module.Dual (ZMod 3) H) (hpair : ∀ i, α i (h i) = 2)

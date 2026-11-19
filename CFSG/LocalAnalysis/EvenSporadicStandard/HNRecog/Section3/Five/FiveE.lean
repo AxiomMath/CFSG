@@ -52,7 +52,7 @@ theorem orb5E_structure (hI : TwoHSInterface) (hU : U35Facts) {G : Type} [Group 
     (hx : x ∈ orb5E a a) :
     Nat.card ↥(Gxy a x) = 500 ∧ IsShapeFiveCubeByTwoTwo ↥(Gxy a x) ∧
       Gx (a * x) = Gxy a x ⊔ Subgroup.zpowers (a * x) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have ha2 : a * a = 1 := fiveE_mul_self_eq_one_of_orderOf_eq_two h.orderOf_a
   have hxa : IsConj a x := hx.1.1
   have hxord : orderOf x = 2 := by

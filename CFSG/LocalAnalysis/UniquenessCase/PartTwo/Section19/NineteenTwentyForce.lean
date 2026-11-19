@@ -103,7 +103,7 @@ theorem three_mem_piSet_of_subset_mul {A J : Subgroup G}
     exact hAodd.coprime_two_right.pow_right k
   have ha3 : a ^ 3 = 1 := by
     have hmem : a ^ 3 ∈ A ⊓ pCoreOf 2 J := ⟨A.pow_mem ha 3, ha3P⟩
-    rw [Subgroup.inf_eq_bot_of_coprime hcop] at hmem
+    rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))] at hmem
     exact (Subgroup.mem_bot).mp hmem
   have ha1 : a ≠ 1 := by
     rintro rfl
@@ -117,6 +117,7 @@ theorem three_mem_piSet_of_subset_mul {A J : Subgroup G}
     exact orderOf_eq_prime ha3 ha1
   exact ⟨Nat.prime_three, hord ▸ orderOf_dvd_natCard _⟩
 
+omit [Finite G] in
 theorem jzero_le_and_normal (M Dsub : Subgroup G) :
     S17.oUpperTwo (Opp 2 (Dsub ⊓ M)) ≤ Dsub ⊓ M ∧
       ((S17.oUpperTwo (Opp 2 (Dsub ⊓ M))).subgroupOf (Dsub ⊓ M)).Normal := by
@@ -336,7 +337,7 @@ theorem exists_sylow_normalizer_le_barOfInter (D : Data G) {V₀ V : Subgroup G}
           have hO' := (hπO _).mp hker
           have heq : (x : G) * a * (x : G)⁻¹ =
               (b : G) * ((b⁻¹ * (x * a' * x⁻¹) : ↥Dsub) : G) := by
-            simp only [ha', Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+            simp only [ha', Subgroup.coe_mul, Subgroup.coe_inv]
             group
           rw [heq]
           exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mp hb).1 hO'
@@ -450,6 +451,7 @@ theorem exists_normal_two_three {D : Data G} {Dsub J : Subgroup G}
     · left
       exact (Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp (hq.dvd_of_dvd_pow h2)
 
+omit [Finite G] in
 theorem three_dvd_card_bar2_of_iso {J : Subgroup G}
     (hJ : Nonempty (Bar2 J ≃* Multiplicative (ZMod 3)) ∨
       Nonempty (Bar2 J ≃* Multiplicative (ZMod 3 × ZMod 3))) : 3 ∣ Nat.card (Bar2 J) := by

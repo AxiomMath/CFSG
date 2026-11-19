@@ -31,6 +31,7 @@ private theorem mem_fixSub_zpowers_iff {V : Type} [AddCommGroup V] [Module (ZMod
         (by simpa only [MulAction.mem_stabilizer_iff, LinearEquiv.smul_def] using h)
     simpa only [MulAction.mem_stabilizer_iff, LinearEquiv.smul_def] using hle hg
 
+omit [Finite G] in
 private theorem fixSub_map_eRep [Fact (IsElemAbelian 2 (eSub V₀ X T))] {Y : Subgroup G}
     (hYX : Y ≤ X) :
     fixSub ((Y.subgroupOf X).map (eRep V₀ X T)) =
@@ -58,6 +59,7 @@ private theorem fixSub_map_eRep [Fact (IsElemAbelian 2 (eSub V₀ X T))] {Y : Su
     rw [eRep_apply, h]
     group
 
+omit [Finite G] in
 private theorem fixSub_zpowers_eRep [Fact (IsElemAbelian 2 (eSub V₀ X T))] (y : ↥X) :
     fixSub (Subgroup.zpowers (eRep V₀ X T y)) =
       CFSG.Goldschmidt.G2.sub (eSub V₀ X T)
@@ -89,7 +91,7 @@ theorem Hyp167.lt_mSub_of_inf_centralizer_eq_bot
     E3.mQuot V (U ⊔ V₀) < mSub V₀ := by
   have hV₀ : V₀ ≤ pCoreOf 2 H := hX.cex.hyp.h6.le.trans hVO
   have hE : IsElemAbelian 2 (eSub V₀ X T) := Hyp167.isElemAbelian_eSub h1 hS hV₀ hX
-  haveI : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨hE⟩
+  have : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨hE⟩
   have hB : conjSubgroup V₀ g ≤ X :=
     (E3.conjSubgroup_mono_left g hX.cex.hyp.h6.le).trans hX.mem.2.2.A_le
   have hBE : conjSubgroup V₀ g ⊓ eSub V₀ X T = ⊥ := by
@@ -171,7 +173,7 @@ theorem Hyp167.lt_mSub_of_inf_centralizer_eq_bot
     have hSp : (S : Subgroup (KerQuot M X)) ≤ pCoreOf 2 (kerQuotImg M X M) := by
       rw [hSB]
       exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
-        Subgroup.le_normalizer le_rfl S.isPGroup'
+        Subgroup.le_normalizer le_rfl S.isPGroup
     exact hAS.trans hSp
   have hIn : InCalAMod ρ (Min.min (E3.mQuot V (U ⊔ V₀) + mSub V₀)
       (mBar M V₀ V hX.cex.hyp.h6.elemAbelian))

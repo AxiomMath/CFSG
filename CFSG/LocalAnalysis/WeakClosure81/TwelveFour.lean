@@ -20,6 +20,7 @@ variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [F
   U ≠ ⊥ ∧ IsElemAbelian 2 U ∧
     ∀ D : Subgroup G, D ≤ U → D.relIndex U < 2 ^ i → fixSub (U.map ρ) = fixSub (D.map ρ)
 
+omit [Finite V] in
 private theorem b12_TwelveFour_exists_ne_one {ρ : G →* LGL 2 V} {B A : Subgroup G}
     {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) [Finite G] :
     ∃ a ∈ A, a ≠ 1 := by
@@ -28,14 +29,15 @@ private theorem b12_TwelveFour_exists_ne_one {ρ : G →* LGL 2 V} {B A : Subgro
     calc 1 < 2 := by norm_num
       _ = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) (by have := h.one_lt_m; omega)
-  haveI : Nontrivial A := Finite.one_lt_card_iff_nontrivial.1 hApos
+  have : Nontrivial A := Finite.one_lt_card_iff_nontrivial.1 hApos
   obtain ⟨⟨a, haA⟩, ha1⟩ := exists_ne (1 : A)
   exact ⟨a, haA, fun h' => ha1 (Subtype.ext h')⟩
 
+omit [Finite V] in
 theorem Setting12One.two_pow_succ_le_card {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m)
     {U : Subgroup G} (hAU : A ≤ U) (hU : InCalAMod ρ (m + 1) U) : 2 ^ (m + 1) ≤ Nat.card U := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   by_contra hlt
   push Not at hlt
   have hrel : (⊥ : Subgroup G).relIndex U < 2 ^ (m + 1) := by
@@ -60,7 +62,7 @@ theorem twelveFour
     (hZ : Module.finrank (ZMod 2) Z ≤ m) {U : Subgroup G} (hAU : A ≤ U)
     (hUO : U ≤ pCoreOf 2 B) : ¬ InCalAMod ρ (m + 1) U := by
   intro hU
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   have hm1 : 1 < m := h.one_lt_m
   have hcard : 2 ^ (m + 1) ≤ Nat.card U := h.two_pow_succ_le_card hAU hU
   obtain ⟨S, hSB⟩ := exists_sylow_of_isBorelIn h.borel

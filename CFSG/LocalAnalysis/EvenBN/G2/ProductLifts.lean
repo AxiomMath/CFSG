@@ -27,15 +27,16 @@ variable {G : Type*} [Group G] {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem sl2_not_isPGroup (hK4 : 4 ≤ Nat.card K) : ¬ IsPGroup 2 SL(2, K) := by
   intro hp
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
-  haveI := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
+  have := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent SL(2, K) := hp.isNilpotent
-  haveI : Group.IsSolvable SL(2, K) := inferInstance
+  have : Group.IsSolvable SL(2, K) := inferInstance
   have h1 := Group.IsSolvable.commutator_lt_top_of_nontrivial SL(2, K)
   rw [Group.IsPerfect.commutator_eq_top] at h1
   exact lt_irrefl _ h1
 
+omit [CharP K 2] in
 theorem factor_perfect {N M L Ast : Subgroup G} (hLN : L ≤ N) (hML : M ≤ L)
     (hN : ∀ x ∈ N, ∃ a ∈ Ast, ∃ m ∈ M, x = a * m) (hAM : Ast ⊓ M = ⊥)
     (hq : IsQuotientIso L M SL(2, K)) (hK4 : 4 ≤ Nat.card K) :
@@ -66,8 +67,8 @@ theorem factor_perfect {N M L Ast : Subgroup G} (hLN : L ≤ N) (hML : M ≤ L)
     have : l = Subgroup.inclusion hAL ⟨a, haL, ha⟩ * ⟨m, hML hm⟩ := Subtype.ext hlam
     simp only [ψ, MonoidHom.comp_apply, this, map_mul, hmker, mul_one]
   let e : A ≃* SL(2, K) := MulEquiv.ofBijective ψ ⟨hψinj, hψsurj⟩
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
-  haveI : Group.IsPerfect A :=
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
+  have : Group.IsPerfect A :=
     Group.IsPerfect.ofSurjective (f := (e.symm : SL(2, K) →* A)) e.symm.surjective
   have h2 := congrArg (Subgroup.map A.subtype) (Group.IsPerfect.commutator_eq_top (G := A))
   rwa [commutator_def, map_commutator, ← MonoidHom.range_eq_map, range_subtype] at h2
@@ -85,7 +86,7 @@ theorem pCoreOf_eq_inf {M L H : Subgroup G} (hM2 : IsPGroup 2 M)
     (hLM : L ≤ normalizer (M : Set G)) (hHL : H ≤ L) (hLH : L ≤ normalizer (H : Set G))
     (hq : IsQuotientIso L M SL(2, K)) (hK4 : 4 ≤ Nat.card K) :
     pCoreOf 2 H = H ⊓ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ ?_
   · set X : Subgroup G := pCoreOf 2 H with hX
     have hXH : X ≤ H := LieType.BorelTits.pCoreOf_le 2 H
@@ -93,11 +94,11 @@ theorem pCoreOf_eq_inf {M L H : Subgroup G} (hM2 : IsPGroup 2 M)
     have hLX : L ≤ normalizer (X : Set G) := fun g hg =>
       LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 H (hLH hg)
     obtain ⟨φ, hφ, hker⟩ := hq
-    haveI : (X.subgroupOf L).Normal := (normal_subgroupOf_iff_le_normalizer hXL).2 hLX
-    haveI := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
+    have : (X.subgroupOf L).Normal := (normal_subgroupOf_iff_le_normalizer hXL).2 hLX
+    have := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
     have hXp : IsPGroup 2 X := LieType.BorelTits.pCoreOf_isPGroup 2 H
     have hYp : IsPGroup 2 (X.subgroupOf L) := hXp.comap_subtype
-    haveI hnm : ((X.subgroupOf L).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+    have hnm : ((X.subgroupOf L).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
     have hmap : (X.subgroupOf L).map φ = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((X.subgroupOf L).map φ) with h | h
       · exact h
@@ -125,7 +126,7 @@ end Factor
 section Transfer
 
 theorem central_mem_commutator_of_perfect {Γ : Type*} [Group Γ] [Finite Γ]
-    (hΓ : Group.IsPerfect Γ) {Q : Subgroup Γ} (hQ : Odd Q.index) {z : Γ} (hzQ : z ∈ Q)
+    (hΓ : Group.IsPerfect Γ) {Q : Subgroup Γ} (hQ : Odd Q.index) {z : Γ} (_hzQ : z ∈ Q)
     (hzc : ∀ g : Γ, g * z = z * g) {e : ℕ} (hze : z ^ (2 ^ e) = 1) : z ∈ ⁅Q, Q⁆ := by
   classical
   let ϕ : Q →* Abelianization Q := Abelianization.of
@@ -164,10 +165,10 @@ theorem mem_commutator_sup_of_central_section {G : Type*} [Group G] [Finite G]
     (hperf : K ≤ ⁅K, K⁆ ⊔ Y) (hQ : CFSG.ABGLocalTools.IsSylowOf 2 Q K) {z : G} (hzQ : z ∈ Q)
     (hz : ∀ g ∈ K, ⁅z, g⁆ ∈ Y) : z ∈ ⁅Q, Q⁆ ⊔ Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hQK, hQ2, hQidx⟩ := (CFSG.ABGLocalTools.isSylowOf_iff (p := 2)).1 hQ
   have hzK : z ∈ K := hQK hzQ
-  haveI hYn : (Y.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hYK).2 hKY
+  have hYn : (Y.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hYK).2 hKY
   let π : K →* K ⧸ Y.subgroupOf K := QuotientGroup.mk' _
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Y.subgroupOf K := QuotientGroup.ker_mk' _
@@ -453,10 +454,11 @@ section Centralizer
 
 variable {G : Type*} [Group G] [Finite G] {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite G] [Finite K] in
 theorem le_pcore_of_centralizes {M L N Y : Subgroup G} (hLN : L ≤ N)
     (hNM : N ≤ normalizer (M : Set G)) (hNY : N ≤ normalizer (Y : Set G))
-    (hNL : N ≤ normalizer (L : Set G)) (hML : M ≤ L)
-    (hYB : Y ≤ ⁅L, L⁆ ⊓ M) (hq : IsQuotientIso L M SL(2, K)) (hK4 : 4 ≤ Nat.card K)
+    (hNL : N ≤ normalizer (L : Set G)) (_hML : M ≤ L)
+    (_hYB : Y ≤ ⁅L, L⁆ ⊓ M) (hq : IsQuotientIso L M SL(2, K)) (hK4 : 4 ≤ Nat.card K)
     (hBab : ∀ x ∈ ⁅L, L⁆ ⊓ M, ∀ y ∈ ⁅L, L⁆ ⊓ M, ⁅x, y⁆ ∈ Y)
     (hnc : ¬ ∀ b ∈ ⁅L, L⁆ ⊓ M, ∀ k ∈ ⁅L, L⁆, ⁅k, b⁆ ∈ Y) :
     ∀ k ∈ ⁅L, L⁆, (∀ y ∈ ⁅L, L⁆ ⊓ M, ⁅k, y⁆ ∈ Y) → k ∈ M := by
@@ -499,9 +501,9 @@ theorem le_pcore_of_centralizes {M L N Y : Subgroup G} (hLN : L ≤ N)
     have := key g⁻¹ (inv_mem hg) _ hx
     simpa [mul_assoc] using this
   obtain ⟨φ, hφ, hker⟩ := hq
-  haveI : (C.subgroupOf L).Normal := (normal_subgroupOf_iff_le_normalizer hCL).2 hLC
-  haveI := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
-  haveI hnm : ((C.subgroupOf L).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have : (C.subgroupOf L).Normal := (normal_subgroupOf_iff_le_normalizer hCL).2 hLC
+  have := Common.sl2_isSimpleGroup_of_charTwo (k := K) hK4
+  have hnm : ((C.subgroupOf L).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((C.subgroupOf L).map φ) with h | h
   · intro k hk hkc
     have hkC : k ∈ C := (hmemC k).2 ⟨hk, hkc⟩
@@ -950,7 +952,7 @@ theorem commutator_mul_mem {X : Subgroup G} {b b' m m' : G} (hb : b ∈ X) (hb' 
 
 theorem split_center {U Y B B' D P : Subgroup G}
     (hD : ∀ x ∈ D, ∃ b ∈ B, ∃ b' ∈ B', x = b * b')
-    (hUB' : U ≤ B') (hBB' : B ⊓ B' = U) (hBP : B ≤ P) (hB'P : B' ≤ P)
+    (hUB' : U ≤ B') (hBB' : B ⊓ B' = U) (hBP : B ≤ P) (_hB'P : B' ≤ P)
     (hBN : ∀ p ∈ P, ∀ x ∈ B, p * x * p⁻¹ ∈ B) (hB'N : ∀ p ∈ P, ∀ x ∈ B', p * x * p⁻¹ ∈ B')
     (hYD : Y ≤ D) (hDD : ∀ x ∈ D, ∀ y ∈ D, ⁅x, y⁆ ∈ U)
     (hBD : B ≤ D) (hB'D : B' ≤ D)
@@ -1116,7 +1118,7 @@ variable {G : Type} [Group G]
         (z * a * z⁻¹ * a⁻¹) * (a * (z * b * z⁻¹ * b⁻¹) * a⁻¹) := by group
     rw [e]
     exact mul_mem ha' ((mem_normalizer_iff.1 ha _).1 hb')
-  one_mem' := ⟨one_mem _, by simpa using one_mem U⟩
+  one_mem' := ⟨one_mem _, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, ha'⟩
     refine ⟨inv_mem ha, ?_⟩
@@ -1231,9 +1233,9 @@ theorem fixed_le_sup [Finite G] {X Z S T Y : Subgroup G} (hXZ : X ≤ normalizer
     (hSX : S ≤ normalizer (X : Set G)) (hSZ : S ≤ normalizer (Z : Set G))
     (hX2 : IsPGroup 2 X) (hSodd : Odd (Nat.card S)) (hCZ : Z ⊓ centralizer (S : Set G) ≤ Y)
     (hT : T ≤ X ⊔ Z) (hTS : T ≤ centralizer (S : Set G)) : T ≤ X ⊔ Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsolv : Group.IsSolvable X := by
-    haveI : Group.IsNilpotent X := hX2.isNilpotent
+    have : Group.IsNilpotent X := hX2.isNilpotent
     infer_instance
   have hcop : (Nat.card S).Coprime (Nat.card X) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := X)).1 hX2
@@ -1573,11 +1575,11 @@ theorem B₁t_le_P {B₁ : Subgroup G} (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ�
   (c.B₁t_le_D hB₁).trans c.D_le_P
 
 theorem B₁_conj {B₁ : Subgroup G} (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁⁆ : Subgroup G)) :
-    ∀ p ∈ P, ∀ x ∈ B₁, p * x * p⁻¹ ∈ B₁ := fun p hp x hx =>
+    ∀ _p ∈ P, ∀ x ∈ B₁, _p * x * _p⁻¹ ∈ B₁ := fun _p hp x hx =>
   (mem_normalizer_iff.1 (c.P_norm_B₁ hB₁ hp) x).1 hx
 
 theorem B₁t_conj {B₁ : Subgroup G} (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁⁆ : Subgroup G)) :
-    ∀ p ∈ P, ∀ x ∈ B₁ᵍ[t], p * x * p⁻¹ ∈ B₁ᵍ[t] := fun p hp x hx =>
+    ∀ _p ∈ P, ∀ x ∈ B₁ᵍ[t], _p * x * _p⁻¹ ∈ B₁ᵍ[t] := fun _p hp x hx =>
   (mem_normalizer_iff.1 (c.P_norm_B₁t hB₁ hp) x).1 hx
 
 theorem D_mul {B₁ : Subgroup G} (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁⁆ : Subgroup G)) :
@@ -1648,10 +1650,12 @@ theorem M_two : IsPGroup 2 M := c.P_two.to_le c.M_le_P
 theorem Y_le_Kp : Y ≤ ⁅Λ₂, Λ₂⁆ := by
   rw [← c.M_comm]; exact commutator_mono c.M_le_Λ₂ c.M_le_Λ₂
 
+omit [Finite G] [Field K] [Finite K] [CharP K 2] c in
 theorem Kp_le_Λ₂ : ⁅Λ₂, Λ₂⁆ ≤ Λ₂ := commutator_le.2 fun a ha b hb => by
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
 
+omit [Finite G] [Field K] [Finite K] [CharP K 2] c in
 theorem Λ₂_norm_Kp : Λ₂ ≤ normalizer ((⁅Λ₂, Λ₂⁆ : Subgroup G) : Set G) := fun g hg =>
   mem_normalizer_commutator_self (Subgroup.mem_normalizer_iff.2 fun x => by
     constructor <;> intro hx
@@ -1667,12 +1671,14 @@ theorem Λ₂_norm_Y : Λ₂ ≤ normalizer (Y : Set G) := c.Λ₂_le_N₂.trans
 
 theorem derived_eq : (⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ Y = ⁅Λ₂, Λ₂⁆ := sup_eq_left.2 c.Y_le_Kp
 
+omit [Finite G] [Field K] [Finite K] [CharP K 2] c in
 theorem conj_Kp : (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] = ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ := conj_commutator _ _ _
 
 theorem N₂_eq_sup : N₂ = ⁅Λ₂, Λ₂⁆ ⊔ (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] ⊔ W := by
   rw [← c.hat_sup, conj_sup, c.conj_W, sup_sup_sup_comm, sup_idem]
 
-theorem Kpt_le_Λ₂t : (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] ≤ Λ₂ᵍ[t] := conj_mono c.Kp_le_Λ₂ t
+omit [Finite G] [Field K] [Finite K] [CharP K 2] c in
+theorem Kpt_le_Λ₂t : (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] ≤ Λ₂ᵍ[t] := conj_mono CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂ t
 
 theorem Kp_comm' : ⁅(⁅Λ₂, Λ₂⁆ : Subgroup G), (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t]⁆ ≤ Y := by
   have := c.Kp_comm
@@ -1688,11 +1694,11 @@ theorem Y_le_Kpt : Y ≤ (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] := by
 
 theorem N₂_norm_Kp : N₂ ≤ normalizer ((⁅Λ₂, Λ₂⁆ : Subgroup G) : Set G) :=
   le_normalizer_of_sup c.N₂_eq_sup c.Kp_comm' c.Y_le_Kp
-    (c.W_le_M.trans c.M_le_Λ₂ |>.trans c.Λ₂_norm_Kp)
+    (c.W_le_M.trans c.M_le_Λ₂ |>.trans CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Λ₂_norm_Kp)
 
 theorem B₂_eq {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) :
     B₂ = ⁅Λ₂, Λ₂⁆ ⊓ M :=
-  hB₂.trans (pCoreOf_eq_inf c.M_two c.Λ₂_norm_M c.Kp_le_Λ₂ c.Λ₂_norm_Kp c.fac₂.quot c.K_four)
+  hB₂.trans (pCoreOf_eq_inf c.M_two c.Λ₂_norm_M CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂ CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Λ₂_norm_Kp c.fac₂.quot c.K_four)
 
 theorem B₂_le_Kp {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) :
     B₂ ≤ ⁅Λ₂, Λ₂⁆ := by rw [c.B₂_eq hB₂]; exact inf_le_left
@@ -1711,17 +1717,17 @@ theorem N₂_norm_B₂ {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, 
   rw [hB₂]; exact mem_normalizer_pCoreOf (c.N₂_norm_Kp hg)
 
 theorem B₂_conj {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) :
-    ∀ p ∈ P, ∀ x ∈ B₂, p * x * p⁻¹ ∈ B₂ := fun p hp x hx =>
+    ∀ _p ∈ P, ∀ x ∈ B₂, _p * x * _p⁻¹ ∈ B₂ := fun _p hp x hx =>
   (mem_normalizer_iff.1 (c.N₂_norm_B₂ hB₂ (c.P_le_N₂ hp)) x).1 hx
 
 theorem Z₂t_eq {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) :
     centerMod W (Λ₂ᵍ[t]) = B₂ ⊔ W := by
   rw [c.center_pcore]
-  have hHL : (⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ W ≤ Λ₂ := sup_le c.Kp_le_Λ₂ (c.W_le_M.trans c.M_le_Λ₂)
+  have hHL : (⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ W ≤ Λ₂ := sup_le CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂ (c.W_le_M.trans c.M_le_Λ₂)
   have hLH : Λ₂ ≤ normalizer (((⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ W : Subgroup G) : Set G) := fun g hg =>
-    mem_normalizer_sup (c.Λ₂_norm_Kp hg) (c.Λ₂_norm_W hg)
+    mem_normalizer_sup (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Λ₂_norm_Kp hg) (c.Λ₂_norm_W hg)
   rw [pCoreOf_eq_inf c.M_two c.Λ₂_norm_M hHL hLH c.fac₂.quot c.K_four, inf_comm,
-    dedekind c.W_le_M (c.Kp_le_Λ₂.trans c.Λ₂_norm_W), inf_comm M, ← c.B₂_eq hB₂]
+    dedekind c.W_le_M (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂.trans c.Λ₂_norm_W), inf_comm M, ← c.B₂_eq hB₂]
 
 theorem Z₂_eq {B₂ : Subgroup G} (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) :
     centerMod W Λ₂ = B₂ᵍ[t] ⊔ W := by
@@ -1852,11 +1858,11 @@ theorem D6' {B₁ B₂ : Subgroup G} (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁�
 
 theorem Kp_norm_Kpt : (⁅Λ₂, Λ₂⁆ : Subgroup G) ≤
     normalizer (((⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] : Subgroup G) : Set G) :=
-  le_normalizer_of_commutator_mem fun x hx y hy =>
+  le_normalizer_of_commutator_mem fun _x hx _y hy =>
     c.Y_le_Kpt (c.Kp_comm' (Subgroup.commutator_mem_commutator hx hy))
 
 theorem M_norm_Kpt : M ≤ normalizer (((⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] : Subgroup G) : Set G) :=
-  fun g hg => conj_normalizer_le (g := t) c.Λ₂_norm_Kp (c.M_le_Λ₂t hg)
+  fun _g hg => conj_normalizer_le (g := t) CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Λ₂_norm_Kp (c.M_le_Λ₂t hg)
 
 theorem N₂_dec : ∀ x ∈ N₂, ∃ k ∈ (⁅Λ₂, Λ₂⁆ : Subgroup G), ∃ k' ∈ (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t],
     ∃ w ∈ W, x = k * k' * w := by
@@ -1865,7 +1871,7 @@ theorem N₂_dec : ∀ x ∈ N₂, ∃ k ∈ (⁅Λ₂, Λ₂⁆ : Subgroup G), 
     rw [← c.N₂_eq_sup]; exact hx
   have hWN : W ≤ normalizer ((((⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t]) :
       Subgroup G) : Set G) := fun g hg =>
-    mem_normalizer_sup (c.Λ₂_norm_Kp (c.W_le_M.trans c.M_le_Λ₂ hg))
+    mem_normalizer_sup (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Λ₂_norm_Kp (c.W_le_M.trans c.M_le_Λ₂ hg))
       (c.M_norm_Kpt (c.W_le_M hg))
   obtain ⟨u, hu, w, hw, rfl⟩ := (mem_sup_iff_of_le_normalizer' hWN).1 hx'
   obtain ⟨k, hk, k', hk', rfl⟩ := (mem_sup_iff_of_le_normalizer c.Kp_norm_Kpt).1 hu
@@ -1876,7 +1882,7 @@ theorem not_centralizes {A₂ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast)
     ¬ ∀ b ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M, ∀ k ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆, ⁅k, b⁆ ∈ Y := by
   intro h
   have hBt : B₂ᵍ[t] = ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M := by
-    rw [c.B₂_eq hB₂, conj_inf, c.conj_M, c.conj_Kp]
+    rw [c.B₂_eq hB₂, conj_inf, c.conj_M, (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂))]
   have hMc : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ Y := fun x hx y hy => by
     have := Subgroup.commutator_mem_commutator hx hy
     rwa [c.M_comm, commutatorElement_def] at this
@@ -1896,9 +1902,9 @@ theorem not_centralizes {A₂ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast)
       mem_commSubgroup_iff.2 ⟨c.Λ₂_norm_W hg, hΛc g hg⟩
     have h2 : A₂ᵍ[t] ≤ commSubgroup W b := fun g hg => by
       have hgK : g ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ := by
-        rw [← c.conj_Kp]; exact conj_mono (c.A₂_le_Kp hA₂) t hg
-      refine mem_commSubgroup_iff.2 ⟨c.N₂_norm_W (c.Λ₂t_le_N₂ (c.Kpt_le_Λ₂t
-        (c.conj_Kp ▸ hgK))), ?_⟩
+        rw [← (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂))]; exact conj_mono (c.A₂_le_Kp hA₂) t hg
+      refine mem_commSubgroup_iff.2 ⟨c.N₂_norm_W (c.Λ₂t_le_N₂ (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kpt_le_Λ₂t
+        ((CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂)) ▸ hgK))), ?_⟩
       have hb' : b ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M := by rw [← hBt]; exact hb
       have h3 : g * b * g⁻¹ * b⁻¹ ∈ Y := by
         have := h b hb' g hgK
@@ -1927,15 +1933,15 @@ theorem B₁_le_Λ₂ {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ As
     (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁⁆ : Subgroup G))
     (hB₂ : B₂ = pCoreOf 2 (⁅Λ₂, Λ₂⁆ : Subgroup G)) : B₁ ≤ Λ₂ := by
   have hBt : B₂ᵍ[t] = ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M := by
-    rw [c.B₂_eq hB₂, conj_inf, c.conj_M, c.conj_Kp]
+    rw [c.B₂_eq hB₂, conj_inf, c.conj_M, (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂))]
   have hMc : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ Y := fun x hx y hy => by
     have := Subgroup.commutator_mem_commutator hx hy
     rwa [c.M_comm, commutatorElement_def] at this
   refine le_of_centralizes_mod (t := t) (Y := Y) (W := W) (N := N₂) (K₂ := ⁅Λ₂, Λ₂⁆)
     (B₂ := B₂) c.N₂_norm_Y c.N₂_dec ?_ ?_ ?_ (c.D6 hB₁ hB₂) ((c.B₁_le_P hB₁).trans c.P_le_N₂)
-    (c.Kp_le_Λ₂.trans c.Λ₂_le_N₂) (c.Kpt_le_Λ₂t.trans c.Λ₂t_le_N₂)
+    (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂.trans c.Λ₂_le_N₂) (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kpt_le_Λ₂t.trans c.Λ₂t_le_N₂)
     (conj_mono (c.B₂_le_Kp hB₂) t) ((c.B₂t_le_M hB₂).trans (c.M_le_Λ₂.trans c.Λ₂_le_N₂))
-    c.Kp_le_Λ₂ (c.W_le_M.trans c.M_le_Λ₂) ((c.B₂t_le_M hB₂).trans c.M_le_Λ₂)
+    CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂ (c.W_le_M.trans c.M_le_Λ₂) ((c.B₂t_le_M hB₂).trans c.M_le_Λ₂)
   · intro k hk y hy
     have := c.Kp_comm' (Subgroup.commutator_mem_commutator hk hy)
     rwa [commutatorElement_def] at this
@@ -1945,8 +1951,8 @@ theorem B₁_le_Λ₂ {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ As
       c.N₂_norm_Y).1 hw').2 n hn
     rwa [commutatorElement_def]
   · intro k' hk' h
-    have hk'' : k' ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ := by rw [← c.conj_Kp]; exact hk'
-    have hYB : Y ≤ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M := le_inf (c.conj_Kp ▸ c.Y_le_Kpt) c.Y_le_M
+    have hk'' : k' ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ := by rw [← (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂))]; exact hk'
+    have hYB : Y ≤ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M := le_inf ((CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.conj_Kp (t := t) (Λ₂ := Λ₂)) ▸ c.Y_le_Kpt) c.Y_le_M
     have hBab : ∀ x ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M, ∀ y ∈ ⁅Λ₂ᵍ[t], Λ₂ᵍ[t]⁆ ⊓ M, ⁅x, y⁆ ∈ Y :=
       fun x hx y hy => hMc x (mem_inf.1 hx).2 y (mem_inf.1 hy).2
     have key := le_pcore_of_centralizes (M := M) (L := Λ₂ᵍ[t]) (N := N₂) (Y := Y)
@@ -2268,7 +2274,7 @@ theorem M_eq_sup {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast)
   rw [← c.center_sup, c.Z₂_eq hB₂, c.Z₂t_eq hB₂]
   exact sup_le (sup_le le_sup_right hW) (sup_le le_sup_left hW)
 
-theorem Kp_le_N₂ : (⁅Λ₂, Λ₂⁆ : Subgroup G) ≤ N₂ := c.Kp_le_Λ₂.trans c.Λ₂_le_N₂
+theorem Kp_le_N₂ : (⁅Λ₂, Λ₂⁆ : Subgroup G) ≤ N₂ := CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂.trans c.Λ₂_le_N₂
 
 theorem Kp_inf_Kpt {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast)
     (hB₁ : B₁ = pCoreOf 2 (⁅Λ₁, Λ₁⁆ : Subgroup G))
@@ -2281,13 +2287,13 @@ theorem Kp_inf_Kpt {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast)
     c.sylow₂.inf_of_le_normalizer c.Kp_le_N₂ c.N₂_norm_Kp
   have hP₂ := c.P₂_eq hA₂ hB₁ hB₂
   have hsub : P ⊓ ⁅Λ₂, Λ₂⁆ ≤ B₁ ⊔ M := by
-    rw [← hP₂]; exact inf_le_inf_left P c.Kp_le_Λ₂
+    rw [← hP₂]; exact inf_le_inf_left P CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂
   have hQc : ⁅P ⊓ ⁅Λ₂, Λ₂⁆, P ⊓ ⁅Λ₂, Λ₂⁆⁆ ≤ B₁ ⊔ Y :=
     (commutator_mono hsub hsub).trans (commutator_sup_le_sup
       ((c.B₁_le_P hB₁).trans c.P_norm_M) (c.M_le_P.trans (c.P_norm_B₁ hB₁))
       (c.M_le_P.trans c.P_norm_Y) (by rw [c.M_comm]))
   have hle := inf_le_Y (t := t) c.t_sq (B := B₁) (W := W) (P := P) hE (c.W_le_M.trans c.M_le_P)
-    hQ c.Y_le_Kp (c.Kp_le_Λ₂.trans c.Λ₂_norm_Y) c.Kp_perfect' c.Kp_comm' hQc c.conj_Y
+    hQ c.Y_le_Kp (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kp_le_Λ₂.trans c.Λ₂_norm_Y) c.Kp_perfect' c.Kp_comm' hQc c.conj_Y
     (c.B₁Y_inf hB₁)
   exact le_antisymm hle (le_inf c.Y_le_Kp c.Y_le_Kpt)
 
@@ -2309,7 +2315,7 @@ theorem N₂_eq_sup' {A₂ B₁ B₂ : Subgroup G} (hA₂ : A₂ = Λ₂ ⊓ Ast
       _ = B₂ ⊔ B₂ᵍ[t] := (c.M_eq_sup hA₂ hB₁ hB₂).symm
       _ ≤ (⁅Λ₂, Λ₂⁆ : Subgroup G) ⊔ (⁅Λ₂, Λ₂⁆ : Subgroup G)ᵍ[t] :=
         sup_le_sup (c.B₂_le_Kp hB₂) (conj_mono (c.B₂_le_Kp hB₂) t)
-  refine le_antisymm ?_ (sup_le c.Kp_le_N₂ (c.Kpt_le_Λ₂t.trans c.Λ₂t_le_N₂))
+  refine le_antisymm ?_ (sup_le c.Kp_le_N₂ (CFSG.LocalAnalysis.EvenBN.G2.ProductLiftsAux.Cfg.Kpt_le_Λ₂t.trans c.Λ₂t_le_N₂))
   rw [c.N₂_eq_sup]
   exact sup_le le_rfl hW
 
@@ -2365,7 +2371,7 @@ theorem odd_J₃ : Odd (Nat.card J₃) :=
 theorem odd_J₄ : Odd (Nat.card J₄) :=
   c.J_odd.of_dvd_nat (Subgroup.card_dvd_of_le c.J₄_le)
 
-theorem M_inf_cen : M ⊓ centralizer (J₄ : Set G) ≤ Y := fun x hx =>
+theorem M_inf_cen : M ⊓ centralizer (J₄ : Set G) ≤ Y := fun _x hx =>
   c.cen_inf (mem_inf.2 ⟨mem_inf.2 ⟨c.M_le_Λ₂.trans c.Λ₂_le_N₂ (mem_inf.1 hx).1, (mem_inf.1 hx).2⟩,
     (mem_inf.1 hx).1⟩)
 

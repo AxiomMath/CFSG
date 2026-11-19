@@ -134,8 +134,7 @@ private theorem seven_mem_normalizer {G : Type} [Group G] [Finite G] {H : Subgro
 
 theorem o98Gen_of_inputs (hK35 : KFactThreeFiveInner)
     (hK37 : KFactThreeSevenTwoThree) : O98Gen := by
-  intro G _ _ hC M hM hσ hstrong
-  intro h3 Q hQM hQ hQc hΓ x _ hx hxQ hHM hO2 hO2M
+  intro G _ _ hC M hM hσ hstrong h3 Q hQM hQ hQc hΓ x _ hx hxQ hHM hO2 hO2M
   let H : Subgroup G := Subgroup.centralizer ({x} : Set G)
   obtain ⟨E, L, z, hred, hnine, hLc, hLM, hSL⟩ :=
     o98_red hC hM hσ h3 hQM hQ hQc hΓ hx hxQ (H := H) rfl hHM hO2 hO2M

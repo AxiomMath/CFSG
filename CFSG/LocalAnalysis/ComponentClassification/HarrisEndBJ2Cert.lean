@@ -59,7 +59,7 @@ theorem genOf_chain
       (RawSchreierDatum.ofArrays 315 (by norm_num) S k hk base hb W).originalSubgroup := by
   rw [ofArrays_originalSubgroup]
   refine congrArg Subgroup.closure (Set.ext fun g => ?_)
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, List.mem_map, List.mem_range]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_map, List.mem_range]
   constructor
   · rintro ⟨T, ⟨i, hi, rfl⟩, rfl⟩
     exact ⟨i, hi, (tp_arrTable_chain hc (by omega)).symm⟩

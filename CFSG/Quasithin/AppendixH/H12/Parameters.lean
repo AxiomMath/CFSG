@@ -66,10 +66,11 @@ private theorem orderOf_tU_w3 : orderOf (H12Cert.tU w3) = 3 := by
     exact (by decide +kernel : H12Cert.tW w3 ≠ H12Cert.one12)
       (decN_injOn (validN_evalW H12Cert.gG H12Cert.validN_gG w3) validN_oneN h1)
 
+omit [Finite G] in
 theorem mParam_eq_four
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) (hF : CFSG.generalizedFitting G = L)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) : E3.mParam ρ.range = 4 := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
+  have : Finite V := finite_of_faithIrr12 hρ
   have hV : ∀ v : V, v ^ 2 = 1 := hρ.1
   have hc : Nat.card V = 4096 := by rw [hρ.2.1]; norm_num
   have hM : Mhat22Twelve (L.map ρ) ⊤ ⊥ := mhat22Twelve_map hL hρ
@@ -141,10 +142,11 @@ theorem mParam_eq_four
       omega
   exact mParam_eq_of hOver ht0L ht0_ord ht0_rk hall
 
+omit [Finite G] in
 theorem betaH_eq_eight
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) (hF : CFSG.generalizedFitting G = L)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) : H.betaH ρ.range = 8 := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
+  have : Finite V := finite_of_faithIrr12 hρ
   have hV : ∀ v : V, v ^ 2 = 1 := hρ.1
   have hc : Nat.card V = 4096 := by rw [hρ.2.1]; norm_num
   have hM : Mhat22Twelve (L.map ρ) ⊤ ⊥ := mhat22Twelve_map hL hρ
@@ -213,8 +215,8 @@ theorem pRank_le_five_of_setting
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) (hF : CFSG.generalizedFitting G = L)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) : CFSG.Open.pRank 2 (⊤ : Subgroup G) ≤ 5 := by
   have hinj : Function.Injective ρ := injective_of_fitting hF hρ.2.2.1
-  haveI : Finite V := finite_of_faithIrr12 hρ
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite V := finite_of_faithIrr12 hρ
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hV : ∀ v : V, v ^ 2 = 1 := hρ.1
   have hM : Mhat22Twelve (L.map ρ) ⊤ ⊥ := mhat22Twelve_map hL hρ
   have hMN : ρ.range ≤
@@ -230,7 +232,7 @@ theorem params_clause
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) :
     E3.mParam ρ.range = 4 ∧ H.betaH ρ.range = 8 ∧ ¬ H.IsFOneModule ρ.range ∧
       CFSG.Open.pRank 2 (⊤ : Subgroup G) ≤ 5 := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
+  have : Finite V := finite_of_faithIrr12 hρ
   have hV : ∀ v : V, v ^ 2 = 1 := hρ.1
   have hM : Mhat22Twelve (L.map ρ) ⊤ ⊥ := mhat22Twelve_map hL hρ
   have hMN : ρ.range ≤

@@ -28,7 +28,7 @@ theorem finrank_eq_of_mParam_eq_add_two {F : Type} [Field F] [Fintype F] [CharP 
     (hLn : (L.subgroupOf X).Normal) (hirr : IsIrrOn L ⊤ ⊥) (φ : ↥L ≃* SL(2, F))
     (hm : E3.mParam X = n + 2) : Module.finrank (ZMod 2) W = 2 * n + 4 := by
   classical
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   obtain ⟨u, hu⟩ := exists_orderOf_eq_two_of_sl2 hLX φ
   have hevX : Even (Nat.card ↥X) :=
     even_iff_two_dvd.2 (hu ▸ orderOf_dvd_natCard u)
@@ -80,14 +80,14 @@ theorem k14_3Exc_holds :
   rcases hL2orSz with hL2 | hSz
   ·
     obtain ⟨F, _, _, hF, ⟨φ⟩⟩ := CFSG.Quasithin.Vol2.Ch11.OE2.exists_sl2_of_lieModel hL2
-    haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
-    haveI : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+    have : Fintype F := Fintype.ofFinite F
     have hF' : Fintype.card F = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hF]
     obtain ⟨W, _, _, _, ⟨θ⟩⟩ :=
       CFSG.QuasithinUnique.Setup.Layer.Actor.exists_binModel_of_binary (V := I) fun v => by
         rw [← pow_two]; exact hI v
-    haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
-    haveI : Fact (B45L2.repOf θ φ).IsIrreducible :=
+    have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+    have : Fact (B45L2.repOf θ φ).IsIrreducible :=
       ⟨B45L2.repOf_isIrreducible θ φ (isIrrSec_of_isIrrOn_top hirr)⟩
     have hdim := finrank_eq_of_mParam_eq_add_two hn hn4 hF' hI θ hLX hLn hirr φ hm
     obtain ⟨rfl, hD⟩ := sixtyFourDescent_of_finrank hn hn4 hF' (B45L2.repOf θ φ)

@@ -39,19 +39,19 @@ theorem coordHom_transvection {x y : ↥S} (hxy : x ≠ y) (c : F) :
     have h1 : (x' : Fin N) ≠ y' := fun h => hy' (h ▸ x'.2)
     have h2 : ¬ ((x : Fin N) = x' ∧ (y : Fin N) = y') := fun ⟨_, h⟩ => hy' (h ▸ hyS)
     simp only [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-      if_neg h1, if_neg h2, Matrix.zero_apply, add_zero]
+      ite_eq_right h1, ite_eq_right h2, Matrix.zero_apply, add_zero]
   · rw [Matrix.fromBlocks_apply₂₁, coordEquiv_inr, coordEquiv_inl]
     have hx' : (x' : Fin N) ∉ S := x'.2
     have h1 : (x' : Fin N) ≠ y' := fun h => hx' (h ▸ y'.2)
     have h2 : ¬ ((x : Fin N) = x' ∧ (y : Fin N) = y') := fun ⟨h, _⟩ => hx' (h ▸ hxS)
     simp only [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-      if_neg h1, if_neg h2, Matrix.zero_apply, add_zero]
+      ite_eq_right h1, ite_eq_right h2, Matrix.zero_apply, add_zero]
   · rw [Matrix.fromBlocks_apply₂₂, coordEquiv_inr, coordEquiv_inr]
     have hx' : (x' : Fin N) ∉ S := x'.2
     have h2 : ¬ ((x : Fin N) = x' ∧ (y : Fin N) = y') := fun ⟨h, _⟩ => hx' (h ▸ hxS)
     have h1 : ((x' : Fin N) = y') ↔ x' = y' := Subtype.ext_iff.symm
     simp only [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h1,
-      h2, if_false, add_zero]
+      h2, ite_false, add_zero]
 
 end Coord
 
@@ -94,7 +94,7 @@ theorem transvection_mem_leviM {x y : Fin (m + 1)} (hxy : x ≠ y) (hs : SameBlk
     have hsupp : ∀ k ∉ I, rootVec x y k = 0 := by
       intro k hk
       simp only [rootVec]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨h1, h2⟩
       have := (hs k hk).mp h1
       omega
@@ -113,7 +113,7 @@ theorem transvection_mem_leviM {x y : Fin (m + 1)} (hxy : x ≠ y) (hs : SameBlk
     have hsupp : ∀ k ∉ I, (-rootVec y x) k = 0 := by
       intro k hk
       simp only [rootVec, Pi.neg_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       · simp
       rintro ⟨h1, h2⟩
       have := (hs k hk).mpr (by omega)

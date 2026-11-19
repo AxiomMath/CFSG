@@ -88,7 +88,7 @@ theorem f3_ql {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [FiniteDimensional
     refine lt_of_le_of_ne hWV fun h => ?_
     rw [h] at hd
     omega
-  obtain ⟨x0, hx0V, hx0W⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x0, hx0V, hx0W⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hS : W ⊔ Submodule.span (ZMod 2) {x0} = V := by
     apply Submodule.eq_of_le_of_finrank_eq
     · exact sup_le hWV ((Submodule.span_singleton_le_iff_mem x0 V).2 hx0V)

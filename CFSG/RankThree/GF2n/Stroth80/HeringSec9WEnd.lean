@@ -51,7 +51,7 @@ theorem goodAll_of_five_four (h34 : Stroth34Statement) (h310 : Stroth310Statemen
         (isZConjugate_of_isConjB hc hC')).mp hC'F
     exact hfour C' _ hC' hFB hgoodC' hFC'
   ·
-    obtain ⟨u, hu, huZ⟩ := SetLike.not_le_iff_exists.mp hcase
+    obtain ⟨u, hu, huZ⟩ := IsConcreteLE.not_le_iff_exists.mp hcase
     exact good_of_mem_U₁_inf_QB hc hfour ha hb hFB hu.1 huZ hu.2
 
 end HS9

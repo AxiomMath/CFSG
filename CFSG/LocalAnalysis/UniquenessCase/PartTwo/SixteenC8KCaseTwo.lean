@@ -64,7 +64,7 @@ theorem c8k_alt_two_false (D : Data G) (hse : IsStronglyPEmbedded 3 D.M) (hu37 :
     hEX hS
     (zpowers (dH : Hbar9 H)) ((Subgroup.zpowers_le).mpr hdE) (by rw [Nat.card_zpowers, hdo])
   obtain ⟨n, hnN, k, hk⟩ := c8k_frattini_lift hdH3 hgD
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU1 : zpowers d ≠ ⊥ := by
     intro h
     have : d = 1 := by simpa using (Subgroup.zpowers_eq_bot.mp h)

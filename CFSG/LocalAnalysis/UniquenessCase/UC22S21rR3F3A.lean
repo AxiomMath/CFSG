@@ -16,6 +16,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_bar2_of_isSz {L : Subgroup G} {n : ℕ} (hSz : IsSz (Bar2 L) n) :
     Nat.card (Bar2 L) = ((2 ^ n) ^ 2 + 1) * (2 ^ n) ^ 2 * (2 ^ n - 1) := by
   obtain ⟨a, ha, rfl, ⟨e⟩⟩ :=
@@ -55,6 +56,7 @@ theorem uc22r3g_not_dvd_card {L : Subgroup G} {n q m : ℕ}
     ← Nat.pow_sub_one_gcd_pow_sub_one] at hg
   exact hqn (hg.trans (Nat.gcd_dvd_left _ _))
 
+omit [Finite G] in
 theorem uc22r3g_five_dvd_card {L : Subgroup G} {n : ℕ} (hSz : IsSz (Bar2 L) n) :
     5 ∣ Nat.card L := by
   obtain ⟨a, -, hn, -⟩ :=
@@ -75,8 +77,8 @@ theorem uc22r3g_exists_commute {L : Subgroup G} {b : G} {p q : ℕ} (hp : p.Prim
     (hq : q.Prime) (hbo : orderOf b = q) (hbL : b ∈ normalizer (L : Set G))
     (hqL : ¬ q ∣ Nat.card L) (hpL : p ∣ Nat.card L) (hrk : CFSG.Open.pRank p L ≤ 1)
     (hpq : p < q) : ∃ a ∈ L, orderOf a = p ∧ b * a = a * b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hBq : IsPGroup q (zpowers b) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hbo, pow_one])
   obtain ⟨Q, hQL, hQp, hQc, hBQ⟩ :=
@@ -107,6 +109,7 @@ theorem uc22r3g_exists_commute {L : Subgroup G} {b : G} {p q : ℕ} (hp : p.Prim
   · exact absurd (orderOf_eq_one_iff.1 h) hs1
   · exact ⟨s, hQL (zpowers_le.2 a₀.2 hs), h, hbs⟩
 
+omit [Finite G] in
 private theorem map_conj_eq_of_mem {L : Subgroup G} {g : G} (hg : g ∈ normalizer (L : Set G)) :
     L.map (MulAut.conj g).toMonoidHom = L :=
   mem_normalizer_iff_map_conj_eq.1 hg
@@ -114,9 +117,9 @@ private theorem map_conj_eq_of_mem {L : Subgroup G} {g : G} (hg : g ∈ normaliz
 private theorem exists_mem_T_map_eq {D : Data G} {L K : Subgroup G} (hne : K ≠ L)
     (hset : conjSetOf D.M L = {L, K}) : ∃ t ∈ D.T, L.map (MulAut.conj t).toMonoidHom = K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : SMul ↥D.M (Subgroup G) := ⟨fun a N => N.map (MulAut.conj (a : G)).toMonoidHom⟩
-  letI : MulAction ↥D.M (Subgroup G) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : SMul ↥D.M (Subgroup G) := ⟨fun a N => N.map (MulAut.conj (a : G)).toMonoidHom⟩
+  let : MulAction ↥D.M (Subgroup G) :=
     { one_smul := fun N => by
         show N.map (MulAut.conj ((1 : ↥D.M) : G)).toMonoidHom = N
         ext x
@@ -153,8 +156,8 @@ theorem uc22r3g_exists_swap_commute {D : Data G} {L K : Subgroup G} (hne : K ≠
     (hbL : b ∈ normalizer (L : Set G)) (hbK : b ∈ normalizer (K : Set G)) :
     ∃ t ∈ D.T, L.map (MulAut.conj t).toMonoidHom = K ∧ b * t = t * b := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t₀, ht₀, ht₀L⟩ := exists_mem_T_map_eq hne hset
   let S : Set G := {t | t ∈ D.T ∧ L.map (MulAut.conj t).toMonoidHom = K}
   have hS₁ : ∀ y ∈ S, t₀⁻¹ * y ∈ D.T ⊓ normalizer (L : Set G) := by

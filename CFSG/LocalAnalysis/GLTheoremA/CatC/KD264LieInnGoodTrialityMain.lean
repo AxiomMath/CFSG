@@ -151,7 +151,7 @@ theorem innGoodAt_trialityModel
       omega
     have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
       CFSG.LieType.Chevalley.center_graphFixedRootGroup_eq_bot σ.surjective
-    haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+    have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
     have hinner : ∀ β ∈ innAutDerived ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom),
         β ^ p = 1 → β ∈ inner ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
       fun β hβ _ => sup_le le_rfl
@@ -179,8 +179,8 @@ theorem lieInnGood_triality :
         TauCeti.PrimePower.card_def q, h2]
     obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eK⟩⟩ :=
       CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     exact innGoodAt_of_mulEquiv eK.symm (innGoodAt_trialityModel hK σ hσ hp hp2 hpq h3' _)
   | _ => exact absurd hP (by simp [isTrialityIdx])
 

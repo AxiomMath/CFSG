@@ -85,8 +85,8 @@ theorem ggTwE6ThreeRootKernelInput_of_rootKill (hRK : TwE6RootKill.RootKill) :
   obtain ⟨σ, hσ, ε, hρ⟩ := exists_recipeConj hn hK
   have hXr : X ≤ (recipeConj σ ε).range := fun φ hφ => (hρ φ).2 (hXI hφ)
   have hYr : Y ≤ (recipeConj σ ε).range := hYX.trans hXr
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h2 : ringChar K = 2 := ringChar.eq K 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=

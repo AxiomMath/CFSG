@@ -183,8 +183,8 @@ theorem genGL_commutes_genCommutes :
   decide +kernel
 
 theorem genGL_mem_D0 (k : Fin 9) : genGL k ∈ D0 E2 := by
-  have ha2 : a2 ∈ E2 := Subgroup.subset_closure (by simp [E2])
-  have hb2 : b2 ∈ E2 := Subgroup.subset_closure (by simp [E2])
+  have ha2 : a2 ∈ E2 := Subgroup.subset_closure (by simp)
+  have hb2 : b2 ∈ E2 := Subgroup.subset_closure (by simp)
   refine Subgroup.subset_closure ⟨genGL_mem_statedSp k, ?_⟩
   exact ⟨a2 ^ (genCommutes.getD k.val (0, 0)).1 * b2 ^ (genCommutes.getD k.val (0, 0)).2,
     Subgroup.mul_mem _ (Subgroup.pow_mem _ ha2 _) (Subgroup.pow_mem _ hb2 _),
@@ -197,8 +197,8 @@ theorem a2b2_ne_one : a2 * b2 ≠ 1 := by
   decide +kernel
 
 theorem tvGL_u0_mem_D0 : tvGL u0 ∈ D0 E2 := by
-  have ha2 : a2 ∈ E2 := Subgroup.subset_closure (by simp [E2])
-  have hb2 : b2 ∈ E2 := Subgroup.subset_closure (by simp [E2])
+  have ha2 : a2 ∈ E2 := Subgroup.subset_closure (by simp)
+  have hb2 : b2 ∈ E2 := Subgroup.subset_closure (by simp)
   exact Subgroup.subset_closure
     ⟨tvGL_mem_statedSp u0, a2 * b2, Subgroup.mul_mem _ ha2 hb2, a2b2_ne_one, tvGL_u0_commutes⟩
 

@@ -22,7 +22,7 @@ private lemma mem_pull {G Γ : Type} [Group G] [Group Γ] {N : Subgroup G}
     exact ⟨⟨x, h⟩, hh, rfl⟩
 
 private lemma quotEquivTo_pull {G Γ F : Type} [Group G] [Group Γ] [Group F]
-    {N P : Subgroup G} (hPN : P ≤ N) (κ : ↥N →* Γ) (M : Subgroup Γ)
+    {N P : Subgroup G} (_hPN : P ≤ N) (κ : ↥N →* Γ) (M : Subgroup Γ)
     (hker : ∀ x : ↥N, κ x = 1 ↔ (x : G) ∈ P)
     (hM : M ≤ κ.range) (hQ : QuotEquivTo M ⊥ F) :
     QuotEquivTo ((M.comap κ).map N.subtype) P F := by
@@ -100,10 +100,10 @@ theorem sec8X_of_wreathMod {G : Type} [Group G] [Finite G] (t : G) (E : Subgroup
   have hX2N : X2 ≤ N := Subgroup.map_subtype_le _
   have hmem1 : ∀ x : G, x ∈ X1 ↔ ∃ h : x ∈ N, κ ⟨x, h⟩ ∈ M1 := by
     intro x
-    simpa [X1, N] using mem_pull κ M1 x
+    simp [X1, N]
   have hmem2 : ∀ x : G, x ∈ X2 ↔ ∃ h : x ∈ N, κ ⟨x, h⟩ ∈ M2 := by
     intro x
-    simpa [X2, N] using mem_pull κ M2 x
+    simp [X2, N]
   have hc1 : C ≤ X1 := by
     intro c hc
     rw [hmem1 c]

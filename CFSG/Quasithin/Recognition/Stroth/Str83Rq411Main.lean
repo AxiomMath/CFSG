@@ -18,7 +18,7 @@ namespace Track
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
 theorem IsMaxArc.commutator_eq_bot
-    {a f : ℕ} (hfr : Frame L1 L2 S a f) (hrq : f ≠ 2 * a + 1) (hO4 : t.GT = t.K) {ε : ℤ}
+    {a f : ℕ} (hfr : Frame L1 L2 S a f) (hrq : f ≠ 2 * a + 1) (_hO4 : t.GT = t.K) {ε : ℤ}
     {n b₀ b₁ : ℕ} (h : t.IsMaxArc ε n) (h₀ : t.IsFixRadius ε b₀)
     (h₁ : t.IsFixRadius (ε + 1) b₁)
     (hle : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≤ t.Zv (ε + 1) ⊓ t.Zv (ε + 1 + b₁)) :

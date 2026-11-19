@@ -133,7 +133,7 @@ private theorem exists_rootDiagUnit_eq_on_f4LeviB3
     ∃ (t₁ : ModGL Tag.F4 L) (l' : Fin Tag.F4.rank → Lˣ),
       t₁ ∈ rootSpan Tag.F4 L (parabolicRoots Tag.F4 f4LeviB3) ∧
         t₁ = rootDiagUnit Tag.F4 l' ∧ ∀ j ∈ f4LeviB3, l j = l' j := by
-  obtain ⟨s, hs⟩ := IsAlgClosed.exists_eq_mul_self (((l 0 * l 2 : Lˣ) : L))
+  obtain ⟨s, hs⟩ := IsAlgClosed.isSquare (((l 0 * l 2 : Lˣ) : L))
   have hs0 : s ≠ 0 := by
     rintro h
     have hzero : (((l 0 * l 2 : Lˣ) : L)) = 0 := by rw [hs, h, mul_zero]
@@ -211,7 +211,7 @@ private theorem exists_rootDiagUnit_eq_on_f4LeviC3
     ∃ (t₁ : ModGL Tag.F4 L) (l' : Fin Tag.F4.rank → Lˣ),
       t₁ ∈ rootSpan Tag.F4 L (parabolicRoots Tag.F4 f4LeviC3) ∧
         t₁ = rootDiagUnit Tag.F4 l' ∧ ∀ j ∈ f4LeviC3, l j = l' j := by
-  obtain ⟨s, hs⟩ := IsAlgClosed.exists_eq_mul_self (((l 1 : Lˣ) : L))
+  obtain ⟨s, hs⟩ := IsAlgClosed.isSquare (((l 1 : Lˣ) : L))
   have hs0 : s ≠ 0 := by
     rintro h
     have hzero : (((l 1 : Lˣ) : L)) = 0 := by rw [hs, h, mul_zero]
@@ -291,7 +291,7 @@ private theorem exists_rootDiagUnit_eq_on_b2Levi
     ∃ (t₁ : ModGL Tag.F4 L) (l' : Fin Tag.F4.rank → Lˣ),
       t₁ ∈ rootSpan Tag.F4 L b2LeviRoots ∧
         t₁ = rootDiagUnit Tag.F4 l' ∧ ∀ j ∈ nodesTU, l j = l' j := by
-  obtain ⟨s, hs⟩ := IsAlgClosed.exists_eq_mul_self (((l 1 : Lˣ) : L))
+  obtain ⟨s, hs⟩ := IsAlgClosed.isSquare (((l 1 : Lˣ) : L))
   have hs0 : s ≠ 0 := by
     rintro h
     have hzero : (((l 1 : Lˣ) : L)) = 0 := by rw [hs, h, mul_zero]

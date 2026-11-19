@@ -28,8 +28,8 @@ private theorem spForm_isAlt : (spForm F n).IsAlt := by
   rw [spForm_apply, gram, Matrix.fromBlocks_mulVec]
   simp only [Matrix.zero_mulVec, Matrix.one_mulVec, add_zero, zero_add]
   rw [dotProduct, Fintype.sum_sum_type]
-  simp only [Function.comp_apply, dotProduct, Sum.elim_inl, Sum.elim_inr,
-    Matrix.neg_mulVec, Pi.neg_apply, one_mul]
+  simp only [Function.comp_apply, Sum.elim_inl, Sum.elim_inr,
+    Matrix.neg_mulVec, Pi.neg_apply]
   rw [← Finset.sum_add_distrib]
   apply Finset.sum_eq_zero
   intro k _

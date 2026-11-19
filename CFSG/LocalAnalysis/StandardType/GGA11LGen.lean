@@ -335,8 +335,8 @@ private theorem a11lg_permMatrix_apply (σ : Equiv.Perm (Fin 4)) (i j : Fin 4) :
   · rw [Pi.single_eq_same, one_mul, Function.comp_apply, Pi.single_apply] at h
     rw [h]
     by_cases hσ : σ i = j
-    · rw [if_pos hσ, if_pos (by rw [← hσ, Equiv.symm_apply_apply])]
-    · rw [if_neg hσ, if_neg (fun hh => hσ (by rw [← hh, Equiv.apply_symm_apply]))]
+    · rw [ite_eq_left hσ, ite_eq_left (by rw [← hσ, Equiv.symm_apply_apply])]
+    · rw [ite_eq_right hσ, ite_eq_right (fun hh => hσ (by rw [← hh, Equiv.apply_symm_apply]))]
   · intro k _ hk
     rw [Pi.single_eq_of_ne hk, zero_mul]
   · intro h
@@ -367,7 +367,7 @@ private theorem a11lg_monomial_mul_compIndicator {U : Finset (Fin 4)}
       by_contra hne
       apply h
       rw [hm_mat, Matrix.diagonal_mul, a11lg_permMatrix_apply (σ⁻¹),
-        if_neg (show ¬ (σ⁻¹) i = j from hne), mul_zero]
+        ite_eq_right (show ¬ (σ⁻¹) i = j from hne), mul_zero]
     have hiff : i ∈ U.image σ ↔ j ∈ U := by
       rw [← hij]
       constructor
@@ -378,8 +378,8 @@ private theorem a11lg_monomial_mul_compIndicator {U : Finset (Fin 4)}
       · intro hj
         exact Finset.mem_image.mpr ⟨σ.symm i, hj, by rw [Equiv.apply_symm_apply]⟩
     by_cases hj : j ∈ U
-    · rw [if_pos hj, if_pos (hiff.mpr hj)]
-    · rw [if_neg hj, if_neg (fun hh => hj (hiff.mp hh))]
+    · rw [ite_eq_left hj, ite_eq_left (hiff.mpr hj)]
+    · rw [ite_eq_right hj, ite_eq_right (fun hh => hj (hiff.mp hh))]
 
 
 private theorem a11lg_monomial_conj_coordBlockSL {U : Finset (Fin 4)}
@@ -735,7 +735,7 @@ private theorem a11lg_lin_not_mem {u : Fin 4 → (Fin 4 → ZMod 7)}
     (hspan : Submodule.span (ZMod 7) (Set.range u) = ⊤) :
     u 2 ∉ Submodule.span (ZMod 7)
       ({u 0 + u 1 + u 2 + u 3, u 3} : Set (Fin 4 → ZMod 7)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let hb : Basis (Fin 4) (ZMod 7) (Fin 4 → ZMod 7) :=
     basisOfTopLeSpanOfCardEqFinrank u (le_of_eq hspan.symm) (by simp)
   have hbi : ∀ i, hb i = u i := by
@@ -802,7 +802,7 @@ private theorem a11lg_span_range {G : Type} [Group G] {Bs : Subgroup G} {f : Fin
     | mem z hz =>
         obtain ⟨i, rfl⟩ := hz
         exact Submodule.subset_span (Set.mem_range_self i)
-    | zero => simpa using Submodule.zero_mem _
+    | zero => simp
     | add p q hp hq ihp ihq => rw [map_add]; exact Submodule.add_mem _ ihp ihq
     | neg p hp ihp => rw [map_neg]; exact Submodule.neg_mem _ ihp
   rw [Submodule.eq_top_iff']
@@ -877,7 +877,7 @@ private theorem a11lg_f2_not_mem {G : Type} [Group G] {Bs : Subgroup G} {f : Fin
 theorem a11LGenInput_holds
     : A11LGenInput := by
   intro hMp hLB G _ _ B Bs x L D J hR hA y K f n hnb hBs hfcomm hford hfcard hx hy hD hnL hnswap
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcfg : GGConfig 7 B Bs x L D J := hR.1
   have hInnL : GGInnerDiagOn Bs L := hR.2.2.1.1
   have hmodL : StatedClassicalModel (L ⧸ Subgroup.center L) .PSL 4 2 3 := hA.2.1
@@ -952,7 +952,7 @@ theorem a11LGenInput_holds
         rw [ht'eq]
         rfl
       rwa [hteq] at ht'
-  haveI : Nontrivial (GaloisField 2 3)ˣ :=
+  have : Nontrivial (GaloisField 2 3)ˣ :=
     ⟨1, ggSL9Zeta, by
       intro h
       have h2 := orderOf_ggSL9Zeta
@@ -975,11 +975,11 @@ theorem a11LGenInput_holds
       rcases p with p | p <;> rcases q with q | q
       · obtain rfl : p = 0 := Subsingleton.elim _ _
         obtain rfl : q = 0 := Subsingleton.elim _ _
-        rw [Matrix.fromBlocks_apply₁₁, Matrix.one_apply_eq, slLowerBlockEquiv_inl, if_pos rfl]
+        rw [Matrix.fromBlocks_apply₁₁, Matrix.one_apply_eq, slLowerBlockEquiv_inl, ite_eq_left rfl]
       · rw [Matrix.fromBlocks_apply₁₂, Matrix.zero_apply, slLowerBlockEquiv_inl,
-          slLowerBlockEquiv_inr, if_neg (fun h => Fin.succ_ne_zero q h.symm)]
+          slLowerBlockEquiv_inr, ite_eq_right (fun h => Fin.succ_ne_zero q h.symm)]
       · rw [Matrix.fromBlocks_apply₂₁, Matrix.zero_apply, slLowerBlockEquiv_inl,
-          slLowerBlockEquiv_inr, if_neg (fun h => Fin.succ_ne_zero p h)]
+          slLowerBlockEquiv_inr, ite_eq_right (fun h => Fin.succ_ne_zero p h)]
       · exfalso
         rcases hij with h | h
         · exact h (by fin_cases p <;> decide)

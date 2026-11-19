@@ -31,7 +31,7 @@ theorem exists_isElemAbelian_card_sq_of_mem {Y : Type*} [Group Y] [Finite Y] {p 
     (hdp : d ^ p = 1) :
     ∃ E : Subgroup Y, IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧ d ∈ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdord : orderOf d = p := orderOf_eq_prime hdp hd1
   have hzp : ∀ w : Y, w ^ p = 1 → IsElemAbelian p (Subgroup.zpowers w) := by
     intro w hw
@@ -74,10 +74,10 @@ theorem exists_isElemAbelian_card_sq_of_mem {Y : Type*} [Group Y] [Finite Y] {p 
   ·
     simp only [not_forall] at hdc
     obtain ⟨y0, hy0, hne⟩ := hdc
-    have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
-    haveI : Nontrivial (P : Subgroup Y) :=
+    have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
+    have : Nontrivial (P : Subgroup Y) :=
       ⟨⟨⟨d, hdP'⟩, 1, fun h => hd1 (congrArg Subtype.val h)⟩⟩
-    haveI := hPp.center_nontrivial
+    have := hPp.center_nontrivial
     have hZp : IsPGroup p (Subgroup.center (P : Subgroup Y)) := hPp.to_subgroup _
     obtain ⟨n, hn⟩ := hZp.exists_card_eq
     have hn0 : n ≠ 0 := by

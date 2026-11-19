@@ -47,7 +47,7 @@ theorem qtwoDB16_dSign_single {m : ℕ} {a b c : Fin m} (hca : c ≠ a) (hcb : c
     (Pi.basisFun_apply (ZMod 3) (Fin m) c).symm
   have hnot : ¬ (c = a ∨ c = b) := by tauto
   have hfix : dSign m a b (dBasis m c) = dBasis m c := by
-    rw [dSign_apply, if_neg hnot, one_smul]
+    rw [dSign_apply, ite_eq_right hnot, one_smul]
   rw [hsingle, hfix]
 
 theorem qtwoDB16_sum_dBasis_eq_one (m : ℕ) :
@@ -69,10 +69,11 @@ theorem qtwoDB16_dSign_one_apply (m : ℕ) (a b i : Fin m) :
       mul_one]
   · intro j _ hj
     rw [dSign_apply]
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, Ne.symm hj]
+    simp [dBasis, Pi.basisFun_apply, Ne.symm hj]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
+omit [Finite G] in
 theorem qtwoDB16_mem_span_of_mem_closure {P : Submodule (ZMod 3) (DVec m)}
     {a₁ a₂ : ↥Bs} (ha₁ : βL (Additive.ofMul a₁) ∈ P) (ha₂ : βL (Additive.ofMul a₂) ∈ P)
     {t : ↥Bs} (ht : (t : G) ∈ Subgroup.closure {(a₁ : G), (a₂ : G)}) :
@@ -169,7 +170,7 @@ theorem qtwoDB16_J_perfect (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε
       (CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution (p := 2) (f := 1)
         (by simpa using hbase.card_field))
       (by omega) (fun h => absurd h (by omega))
-  haveI : Group.IsPerfect (Su F0 2 1 (m - 1)) := hperf_su
+  have : Group.IsPerfect (Su F0 2 1 (m - 1)) := hperf_su
   let θ' : Su F0 2 1 (m - 1) →* ↥(qtwoDelJ ψ c) :=
     θ.codRestrict (qtwoDelJ ψ c) (fun u => hθrange.le (MonoidHom.mem_range.mpr ⟨u, rfl⟩))
   have hθ'surj : Function.Surjective θ' := by
@@ -202,7 +203,7 @@ theorem qtwoDB16_J_order_three (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L �
     have hdvd := Subgroup.card_dvd_of_le hle
     rw [Subgroup.card_top] at hdvd
     exact dvd_trans (by rw [h216]; norm_num) hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥(qtwoDelJ ψ c)) 3
     (by rw [hcard]; exact hdiv)
   refine ⟨(u : G), u.2, ?_, ?_⟩

@@ -58,7 +58,7 @@ theorem phi_smul_sub_neg_one_plus_torus (τ : StrothTypeIndex) (m : ℕ) (hm : 3
         ((2 : ℤ) ^ (m - 2)) • Torus.c (k := τ.k) = (2 ^ (m - 1) : ℕ) • Torus.c (k := τ.k) := by
   rw [map_zsmul, hφ, smul_smul, ← natCast_zsmul, ← sub_smul]
   funext i
-  fin_cases i <;> simp [Torus.c, gen, Pi.single_apply, zsmul_eq_mul]
+  fin_cases i <;> simp [Torus.c, gen, zsmul_eq_mul]
   rw [hkm]
   have hzero : ((2 : ZMod (2 ^ m)) ^ m) = 0 := by
     rw [show (2 : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) from by norm_num]

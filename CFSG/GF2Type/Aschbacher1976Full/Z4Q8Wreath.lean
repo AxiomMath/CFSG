@@ -15,6 +15,7 @@ def ex2 (c : Multiplicative (ZMod 2)) : ℕ := (Multiplicative.toAdd c).val
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_mod_four {u : G} (hu : u ^ 4 = 1) (n : ℕ) : u ^ (n % 4) = u ^ n := by
   conv_rhs => rw [← Nat.mod_add_div n 4, pow_add, pow_mul, hu, one_pow, mul_one]
 
@@ -52,18 +53,21 @@ namespace WData
 
 variable {u v s : G}
 
+omit [Finite G] in
 theorem s_pow_u (h : WData u v s) (a : ℕ) : s * u ^ a = v ^ a * s := by
   have e : s * u ^ a * s⁻¹ = (s * u * s⁻¹) ^ a := (conj_pow).symm
   rw [h.hsu] at e
   rw [← e]
   group
 
+omit [Finite G] in
 theorem s_pow_v (h : WData u v s) (a : ℕ) : s * v ^ a = u ^ a * s := by
   have e : s * v ^ a * s⁻¹ = (s * v * s⁻¹) ^ a := (conj_pow).symm
   rw [h.hsv] at e
   rw [← e]
   group
 
+omit [Finite G] in
 theorem uv_mul (h : WData u v s) (a b c d : ℕ) :
     u ^ a * v ^ b * (u ^ c * v ^ d) = u ^ (a + c) * v ^ (b + d) := by
   have hc : v ^ b * u ^ c = u ^ c * v ^ b := ((h.huv.pow_pow c b)).symm.eq
@@ -71,10 +75,12 @@ theorem uv_mul (h : WData u v s) (a b c d : ℕ) :
     _ = u ^ a * (u ^ c * v ^ b) * v ^ d := by rw [hc]
     _ = u ^ (a + c) * v ^ (b + d) := by rw [pow_add, pow_add]; group
 
+omit [Finite G] in
 theorem pow_s_mod (h : WData u v s) (c : ℕ) : s ^ c = s ^ (c % 2) := by
   conv_lhs => rw [← Nat.mod_add_div c 2]
   rw [pow_add, pow_mul, h.hs2, one_pow, mul_one]
 
+omit [Finite G] in
 theorem s_uv (h : WData u v s) (a b : ℕ) : s * (u ^ a * v ^ b) = u ^ b * v ^ a * s := by
   calc s * (u ^ a * v ^ b) = (s * u ^ a) * v ^ b := (mul_assoc _ _ _).symm
     _ = (v ^ a * s) * v ^ b := by rw [h.s_pow_u]
@@ -83,6 +89,7 @@ theorem s_uv (h : WData u v s) (a b : ℕ) : s * (u ^ a * v ^ b) = u ^ b * v ^ a
     _ = (v ^ a * u ^ b) * s := (mul_assoc _ _ _).symm
     _ = (u ^ b * v ^ a) * s := by rw [(h.huv.pow_pow b a).eq]
 
+omit [Finite G] in
 theorem uv_inv (h : WData u v s) (p q : ℕ) :
     u ^ p * v ^ q * (u ^ (3 * p) * v ^ (3 * q)) = 1 := by
   rw [h.uv_mul, show p + 3 * p = 4 * p by ring, show q + 3 * q = 4 * q by ring, pow_mul, pow_mul,
@@ -94,6 +101,7 @@ theorem ex2_one : ex2 1 = 0 := by decide
 
 theorem ex2_ofAdd_one : ex2 (Multiplicative.ofAdd 1) = 1 := by decide
 
+omit [Finite G] in
 theorem nf_one {u v s : G} (h : WData u v s) (p0 p1 q0 q1 e : ℕ) :
     u ^ (p0 + q0) * v ^ (p1 + q1) * s ^ e =
       (u ^ p0 * v ^ p1 * s ^ 0) * (u ^ q0 * v ^ q1 * s ^ e) := by
@@ -102,6 +110,7 @@ theorem nf_one {u v s : G} (h : WData u v s) (p0 p1 q0 q1 e : ℕ) :
     _ = u ^ p0 * v ^ p1 * (u ^ q0 * v ^ q1 * s ^ e) := by rw [mul_assoc]
     _ = (u ^ p0 * v ^ p1 * s ^ 0) * (u ^ q0 * v ^ q1 * s ^ e) := by rw [pow_zero, mul_one]
 
+omit [Finite G] in
 theorem nf_two {u v s : G} (h : WData u v s) (p0 p1 q0 q1 e : ℕ) :
     u ^ (p0 + q1) * v ^ (p1 + q0) * s ^ (1 + e) =
       (u ^ p0 * v ^ p1 * s ^ 1) * (u ^ q0 * v ^ q1 * s ^ e) := by
@@ -118,6 +127,7 @@ def wmap (u v s : G) (w : Multiplicative (ZMod (2 ^ 2)) ≀ᵣ Multiplicative (Z
   u ^ ex4 (w.left (Multiplicative.ofAdd 0)) * v ^ ex4 (w.left (Multiplicative.ofAdd 1)) *
     s ^ ex2 w.right
 
+omit [Finite G] in
 theorem wmap_mul {u v s : G} (h : WData u v s)
     (w1 w2 : Multiplicative (ZMod (2 ^ 2)) ≀ᵣ Multiplicative (ZMod 2)) :
     wmap u v s (w1 * w2) = wmap u v s w1 * wmap u v s w2 := by
@@ -129,12 +139,11 @@ theorem wmap_mul {u v s : G} (h : WData u v s)
   have h10 : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2))⁻¹ * Multiplicative.ofAdd 1 =
       Multiplicative.ofAdd 0 := by decide
   rcases hc with rfl | rfl
-  · simp only [wmap, RegularWreathProduct.mul_left, RegularWreathProduct.mul_right, inv_one,
-      one_mul, Pi.mul_apply, ex2_one]
+  · simp only [wmap, RegularWreathProduct.mul_left, RegularWreathProduct.mul_right, one_mul, Pi.mul_apply, ex2_one]
     rw [ex4_mul, ex4_mul, pow_mod_four h.hu4, pow_mod_four h.hv4]
     exact nf_one h _ _ _ _ _
   · simp only [wmap, RegularWreathProduct.mul_left, RegularWreathProduct.mul_right, Pi.mul_apply,
-      h01, h10, ex2_ofAdd_one]
+      ex2_ofAdd_one]
     rw [ex4_mul, ex4_mul, ex2_mul, ex2_ofAdd_one, pow_mod_four h.hu4, pow_mod_four h.hv4]
     rw [← WData.pow_s_mod h]
     exact nf_two h _ _ _ _ _
@@ -150,6 +159,7 @@ theorem ex2_eq_zero_iff : ∀ c : Multiplicative (ZMod 2), ex2 c = 0 → c = 1 :
 theorem mul_two_cases : ∀ x : Multiplicative (ZMod 2),
     x = Multiplicative.ofAdd 0 ∨ x = Multiplicative.ofAdd 1 := by decide
 
+omit [Finite G] in
 theorem wHom_injective {u v s : G} (h : WData u v s) : Function.Injective (wHom h) := by
   rw [injective_iff_map_eq_one]
   intro w hw
@@ -187,6 +197,7 @@ theorem wHom_injective {u v s : G} (h : WData u v s) : Function.Injective (wHom 
     rw [hinv]
     exact inv_eq_of_mul_eq_one_right (h.uv_inv _ _)
 
+omit [Finite G] in
 theorem wmap_mem {T : Subgroup G} {u v s : G} (hu : u ∈ T) (hv : v ∈ T) (hs : s ∈ T)
     (w : Multiplicative (ZMod (2 ^ 2)) ≀ᵣ Multiplicative (ZMod 2)) : wmap u v s w ∈ T := by
   unfold wmap

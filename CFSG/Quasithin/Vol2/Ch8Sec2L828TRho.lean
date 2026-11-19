@@ -17,10 +17,12 @@ section Rho
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem s828_I_norm_P (T L I : Subgroup G) [IsMulCommutative ↥(fsuV T I)] (h : G) :
+omit [Finite G] in
+theorem s828_I_norm_P (T _L I : Subgroup G) [IsMulCommutative ↥(fsuV T I)] (h : G) :
     ch82I (fsuV T I) h ≤ Subgroup.normalizer (pCoreOf 2 (ch82I (fsuV T I) h) : Set G) :=
   CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _
 
+omit [Finite G] in
 theorem s828_LU_norm_U (T L I : Subgroup G) [IsMulCommutative ↥(fsuV T I)] (h : G) :
     ch82LU L (ch82U (fsuV T I) h) ≤ Subgroup.normalizer (ch82U (fsuV T I) h : Set G) :=
   (perfectCore_le _).trans inf_le_right

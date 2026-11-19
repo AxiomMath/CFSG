@@ -186,22 +186,22 @@ private theorem card_nontrivial_spFlagLeviBlock_le_two {r : ℕ} {K : Type} [Fie
       · exact Subtype.ext (Fin.ext (by rw [hx0, hy0]))
       · have hxval : (f x : ℕ) = 0 := by
           dsimp only [f]
-          rw [if_pos hx0]
+          rw [ite_eq_left hx0]
           rfl
         have hyval : (f y : ℕ) = 1 := by
           dsimp only [f]
-          rw [if_neg hy0]
+          rw [ite_eq_right hy0]
           rfl
         have := congrArg Fin.val hxy
         omega
     · by_cases hy0 : (y.1 : ℕ) = 0
       · have hxval : (f x : ℕ) = 1 := by
           dsimp only [f]
-          rw [if_neg hx0]
+          rw [ite_eq_right hx0]
           rfl
         have hyval : (f y : ℕ) = 0 := by
           dsimp only [f]
-          rw [if_pos hy0]
+          rw [ite_eq_left hy0]
           rfl
         have := congrArg Fin.val hxy
         omega

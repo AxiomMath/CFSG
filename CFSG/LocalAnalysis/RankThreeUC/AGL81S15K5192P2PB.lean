@@ -33,7 +33,7 @@ private theorem mem_alternatingGroup_of_odd {α : Type*} [Fintype α] [Decidable
 private theorem alt_five_index_ne_three (H : Subgroup (alternatingGroup (Fin 5))) :
     H.index ≠ 3 := by
   intro h3
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hdvd := Subgroup.index_normalCore_dvd_factorial_index H
   rw [h3] at hdvd
   rcases H.normalCore_normal.eq_bot_or_eq_top with hb | ht
@@ -90,7 +90,7 @@ theorem alt_five_eq_top_or_eq_top_of_mul (H₁ H₂ : Subgroup (alternatingGroup
 private theorem le_of_isPGroup_of_odd_index {G : Type*} [Group G] [Finite G] {N H : Subgroup G}
     [N.Normal] (hN : IsPGroup 2 N) (hH : ¬ 2 ∣ H.index) : N ≤ H := by
   obtain ⟨Q⟩ : Nonempty (Sylow 2 H) := inferInstance
-  have hQ2 : IsPGroup 2 ((Q : Subgroup H).map H.subtype) := Q.isPGroup'.map H.subtype
+  have hQ2 : IsPGroup 2 ((Q : Subgroup H).map H.subtype) := Q.isPGroup.map H.subtype
   have hidx : ¬ 2 ∣ ((Q : Subgroup H).map H.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro hd

@@ -154,7 +154,7 @@ theorem maximal_regular_pair_is_sylow {group : Type*} [Group group] [Finite grou
     exact Subgroup.map_mono internal_contains
   have image_three : CFSG.OrderReductions.MaximalThreePoint.ThreePointPrime
       (points := Component group) prime image :=
-    ⟨sylow.isPGroup'.map (pairSubgroup first second).subtype,
+    ⟨sylow.isPGroup.map (pairSubgroup first second).subtype,
       pRegular_pair_sylow_three_fixed prime first second distinct regular sylow⟩
   exact ⟨sylow, (maximal.eq_of_le image_three subgroup_contains).symm⟩
 
@@ -194,7 +194,7 @@ theorem maximal_even_point_normalizer_regular {group : Type*} [Group group] [Fin
       (componentStabilizer first) odd_pair).mpr
     by_cases flip_inside : flip.val ∈ componentStabilizer first
     · have initial_prime : IsPGroup prime initial_image :=
-        initial_sylow.isPGroup'.map (pairSubgroup initial_first initial_second).subtype
+        initial_sylow.isPGroup.map (pairSubgroup initial_first initial_second).subtype
       have initial_odd : Odd (Nat.card initial_image) :=
         odd_pair.of_dvd_nat (Subgroup.card_dvd_of_le (initial_contains.trans subgroup_le))
       have orbit_count : Nat.card (MulAction.orbit initial_image flip) =

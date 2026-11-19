@@ -14,15 +14,15 @@ private theorem lieRowTD4_nonab {S : Type} [Group S] [IsSimpleGroup S]
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 
 theorem kdLieRowTD4Two_holds : KDLieRowTD4Two := by
   intro q hv hq
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple ⟨.trialityD4 q, hv⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hsimp
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hsimp
   have hcard : Nat.card (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group = 211341312 := by
     have h := lieOrderBridge_holds ⟨.trialityD4 q, hv⟩
       (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group ⟨MulEquiv.refl _⟩

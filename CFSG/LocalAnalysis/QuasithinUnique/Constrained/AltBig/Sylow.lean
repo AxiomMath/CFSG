@@ -11,9 +11,11 @@ open Equiv Equiv.Perm Subgroup
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem sylApplyInv (σ : Perm α) (z : α) : σ (σ⁻¹ z) = z := by
   rw [← Perm.mul_apply, mul_inv_cancel, Perm.one_apply]
 
+omit [Fintype α] [DecidableEq α] in
 theorem sylInvApply (σ : Perm α) (z : α) : σ⁻¹ (σ z) = z := by
   rw [← Perm.mul_apply, inv_mul_cancel, Perm.one_apply]
 
@@ -131,7 +133,7 @@ theorem swap_mul_swap_mem_sylPairSub (p : FpfInv α) (x y : α) :
 theorem exists_contained_of_sylow (hα : Even (Fintype.card α)) {T : Subgroup ↥(alternatingGroup α)}
     (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) :
     ∃ p : FpfInv α, p.Contained (T.map (alternatingGroup α).subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨p₀⟩ := exists_fpfInv hα
   obtain ⟨S, hBS⟩ := (isPGroup_two_sylPairSub p₀).exists_le_sylow
   have hidx : ¬ 2 ∣ T.index := by

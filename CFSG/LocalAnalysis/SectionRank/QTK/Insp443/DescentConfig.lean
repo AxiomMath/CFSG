@@ -69,7 +69,7 @@ theorem eq_bot_of_le_center_of_isCyclic_sylow {E : Type*} [Group E] [Finite E]
       exact hxy.symm
     have hcommS : ∀ a b : S, a * b = b * a := by
       intro a b
-      exact commutative_of_cyclic_center_quotient qS hqSker a b
+      exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center qS hqSker).is_comm.comm a b
     let : IsMulCommutative S := ⟨⟨hcommS⟩⟩
     let : CommGroup S := IsMulCommutative.instCommGroup
     let tr : E →* S := MonoidHom.transfer (MonoidHom.id S)
@@ -115,8 +115,8 @@ theorem KConf.kConfig_bar (h : KConf K L V MK) :
   let Z := Subgroup.center K
   let π : K →* K ⧸ Z := QuotientGroup.mk' Z
   change KConfig (K ⧸ Z) (L.map π) (V.map π) (MK.map π)
-  haveI hZnormal : Z.Normal := inferInstance
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hZnormal : Z.Normal := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
   have hker : π.ker ≤ Subgroup.center K := by rw [hπker]
@@ -139,7 +139,7 @@ theorem KConf.kConfig_bar (h : KConf K L V MK) :
       rw [hxord]
       exact hcop2.pow_right n
     have hone : orderOf x = 1 :=
-      Nat.Coprime.eq_one_of_dvd hcop (by simpa [hxord] using dvd_rfl)
+      Nat.Coprime.eq_one_of_dvd hcop (by simp [hxord])
     exact Subgroup.mem_bot.mpr (orderOf_eq_one_iff.mp hone)
   refine
     { ne_bot := ?_
@@ -177,7 +177,7 @@ theorem KConf.kConfig_bar (h : KConf K L V MK) :
       have hP2 : IsPGroup 2 P := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 A
       have hAnorm : A ≤ Subgroup.normalizer (L : Set K) :=
         sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer (L : Set K))
-      haveI hLsubA : (L.subgroupOf A).Normal :=
+      have hLsubA : (L.subgroupOf A).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer hAnorm
       have hPsupA : P ⊔ L ≤ A := sup_le hPleA le_sup_left
       have hpow : ∃ n, L.relIndex P = 2 ^ n := by
@@ -326,8 +326,8 @@ theorem KConf.inf_center_eq_bot (h : KConf K L V MK)
   let Z := Subgroup.center K
   let π : K →* K ⧸ Z := QuotientGroup.mk' Z
   let Z₀ : Subgroup ↥L := Z.subgroupOf L
-  haveI hZnormal : Z.Normal := inferInstance
-  haveI : Z₀.Normal := hZnormal.subgroupOf L
+  have hZnormal : Z.Normal := inferInstance
+  have : Z₀.Normal := hZnormal.subgroupOf L
   have hE : commutator ↥L = ⊤ :=
     Group.isPerfect_def.mp (Subgroup.isPerfect_iff.mpr h.perfect)
   have hZcenter : Z₀ ≤ Subgroup.center ↥L := by
@@ -379,7 +379,7 @@ theorem KConf.inf_center_eq_bot (h : KConf K L V MK)
     let Sbar : Sylow r (↥Lb ⧸ CFSG.pCore 2 ↥Lb) :=
       Sylow.mapSurjective (f := q) hqsurj R
     have hSbar : IsCyclic Sbar := hcyc r hrprime hrZ Sbar
-    have hR2 : IsPGroup r (R : Subgroup ↥Lb) := R.isPGroup'
+    have hR2 : IsPGroup r (R : Subgroup ↥Lb) := R.isPGroup
     have hO2_2 : IsPGroup 2 (CFSG.pCore 2 ↥Lb) :=
       CFSG.LieType.BorelTits.pCore_isPGroup 2
     have hcop : Nat.Coprime (Nat.card (R : Subgroup ↥Lb))

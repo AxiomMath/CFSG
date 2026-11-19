@@ -32,6 +32,7 @@ theorem s16g_pairGL_injective {a b : ι} (hab : a ≠ b) :
   · rw [← g3, ← g3', h']
   · rw [← g4, ← g4', h']
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem s16g_disjoint_pairs {a b c d : ι} (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c)
     (hbd : b ≠ d) : Disjoint ({a, b} : Set ι) {c, d} := by
   rw [Set.disjoint_left]

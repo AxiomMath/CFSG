@@ -289,7 +289,7 @@ theorem false_of_typeI
   have hTmax : ∀ P : Subgroup G, IsPGroup 2 P → T ≤ P → P = T := fun P hP hTP =>
     S.maximal_isPGroup.eq_of_ge hP hTP
   obtain ⟨P, hPmap, hmapV, hTK64, hVcomm, r, hrK, hrN, hrV, hrX⟩ :=
-    sylow_facts hKq e hZ2 hVK hV4 S.isPGroup' hTmax (hSA.trans hCAN) (hSA.trans hCAV) hVT
+    sylow_facts hKq e hZ2 hVK hV4 S.isPGroup hTmax (hSA.trans hCAN) (hSA.trans hCAV) hVT
   set TK := T ⊓ K with hTKdef
   have hrA : r ∈ Subgroup.centralizer (A : Set G) := mem_centralizer_of_decomp hdec hrK hrV
   obtain ⟨n, hnN, hnV⟩ : ∃ n ∈ Subgroup.normalizer (A : Set G),
@@ -319,7 +319,7 @@ theorem false_of_typeI
     have e1 : n * (n⁻¹ * g * n⁻¹⁻¹) * n⁻¹ = g := by group
     rwa [e1] at h2
   set T' := T.map (MulAut.conj n⁻¹).toMonoidHom with hT'def
-  have hT'2 : IsPGroup 2 T' := S.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := S.isPGroup.map _
   have hT'max : ∀ Q : Subgroup G, IsPGroup 2 Q → T' ≤ Q → Q = T' := by
     intro Q hQ hTQ
     have h1 : T ≤ Q.map (MulAut.conj n).toMonoidHom := by
@@ -444,7 +444,7 @@ theorem false_of_typeI
     rw [eq_bot_iff]
     intro x hx
     rw [Subgroup.mem_bot]
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx.1.1⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx.1.1⟩
     exact hX2 x hx.2.1.2 hx.1.2 k (by simpa using congrArg Subtype.val hk)
   rw [hCTZb, Subgroup.card_bot, mul_one] at h2
   have hCTTKb : CT ⊓ TKb = Y := by

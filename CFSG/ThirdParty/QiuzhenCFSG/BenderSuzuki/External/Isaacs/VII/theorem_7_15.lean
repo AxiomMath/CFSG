@@ -164,7 +164,7 @@ private theorem isaacs_7_15_equal_degree_extension_fields
   classical
   let n : Nat := Y.card
   have hn : 2 <= n := by simpa [n] using hcard
-  letI : NeZero n := ⟨by omega⟩
+  let : NeZero n := ⟨by omega⟩
   let e : Fin n ≃ Y := by
     simpa [n] using (Fintype.equivFin Y).symm
   let chi : Fin n -> ClassFunction N := fun i => (e i : ClassFunction N)
@@ -209,8 +209,8 @@ private theorem isaacs_7_15_equal_degree_extension_fields
   let basisExist3 := (Classical.choose_spec basisExist2).2
   let b := Classical.choose basisExist3
   have hb : forall i : iota, b i = targetChi i := Classical.choose_spec basisExist3
-  letI : Fintype iota := instIota
-  letI : DecidableEq iota := Classical.decEq iota
+  let : Fintype iota := instIota
+  let : DecidableEq iota := Classical.decEq iota
   let muBasis : iota -> ClassFunction G := fun i => ofConjClassFunction (targetChi i)
   have hmuBasis : IsIrreducibleCharacterBasis muBasis := by
     constructor

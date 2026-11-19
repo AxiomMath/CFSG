@@ -28,7 +28,7 @@ private lemma ennolaIdx_u33_label_odd
     (φ : X ⧸ Subgroup.center X ≃*
       (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) :
     (canonLabel lab).n = 1 := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) :=
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     (Y10GInnLin.ggHasLabel_of_hasLabel hX).2.1
   have hperf : commutator X = ⊤ := hX.1
   have h33 : StatedClassicalModel (X ⧸ Subgroup.center X) .PSU 3 3 1 :=

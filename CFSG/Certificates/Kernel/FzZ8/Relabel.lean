@@ -68,16 +68,16 @@ theorem addP_hi (p q : ℕ) : addP p q / 8 % 8 = (p / 8 % 8 + q / 8 % 8) % 8 := 
 
 theorem ap_addP (m : Mat) (p q : ℕ) : m.ap (addP p q) = addP (m.ap p) (m.ap q) := by
   apply eq_of_digits (ap_lt _ _) (addP_lt _ _)
-  · simp only [ap_lo, ap_hi, addP_lo, addP_hi]
+  · simp only [ap_lo, addP_lo, addP_hi]
     apply mod8
     simp only [Nat.cast_add, Nat.cast_mul, ZMod.natCast_mod]
     ring
-  · simp only [ap_lo, ap_hi, addP_lo, addP_hi]
+  · simp only [ap_hi, addP_lo, addP_hi]
     apply mod8
     simp only [Nat.cast_add, Nat.cast_mul, ZMod.natCast_mod]
     ring
 
-theorem inZ_iff {p : ℕ} (hp : p < 64) : inZ p = true ↔ addP p p = 0 := by
+theorem inZ_iff {p : ℕ} (_hp : p < 64) : inZ p = true ↔ addP p p = 0 := by
   unfold inZ addP
   simp only [Bool.and_eq_true, beq_iff_eq]
   omega

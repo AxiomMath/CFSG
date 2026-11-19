@@ -41,7 +41,7 @@ private theorem okAut_mem_halfTorus_of_psi_mem {G : Type} [Group G] {Bs K : Subg
 theorem ggOrthKStruct_automizer {G : Type} [Group G] [Finite G] {Bs K : Subgroup G} {n : ℕ}
     {ψ : SpecialLinearGroup (Fin (n + 1)) F2 →* G}
     (hψ : GGHalfTorusFrame Bs K (halfTorus n) ψ) (hn : 7 ≤ n)
-    (hprod : Bs = (halfTorus n).map ψ ⊔ (Bs ⊓ Subgroup.centralizer (K : Set G)))
+    (_hprod : Bs = (halfTorus n).map ψ ⊔ (Bs ⊓ Subgroup.centralizer (K : Set G)))
     (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (hΦ : IsTorusCoord n Φ) :
     ∀ σ ∈ ggAutomizer K Bs, ∃ h ∈ spSignedGroup ((n + 1) / 2) 3, InducesSigned K ψ Φ σ h := by
   intro σ hσ
@@ -51,7 +51,7 @@ theorem ggOrthKStruct_automizer {G : Type} [Group G] [Finite G] {Bs K : Subgroup
     ?_ ?_ ?_ ?_ hσ
   ·
     rintro σ hσ
-    simp only [ggInduced, Set.mem_setOf_eq] at hσ
+    simp only [ggInduced, Set.mem_ofPred_eq] at hσ
     rcases hσ with ⟨g, hgK, hgN, hσg⟩
     have hg_range : g ∈ ψ.range := by rw [hψ.range]; exact hgK
     obtain ⟨s, rfl⟩ := hg_range

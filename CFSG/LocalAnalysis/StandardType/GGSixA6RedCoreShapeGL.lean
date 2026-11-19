@@ -23,7 +23,7 @@ theorem gga6CharTwoLie_SL_toGL_range {E : Type} [Field E] [Finite E] [CharP E 2]
     GGA6CharTwoLie ↥(Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin m) E →* GL (Fin m) E).range := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨n, _hnprime, hncard⟩ := FiniteField.card E 2
   have hgood : 3 ≤ m ∨ 4 ≤ 2 ^ (n : ℕ) := by
     rcases hg.2 with h3 | ⟨s, hs⟩

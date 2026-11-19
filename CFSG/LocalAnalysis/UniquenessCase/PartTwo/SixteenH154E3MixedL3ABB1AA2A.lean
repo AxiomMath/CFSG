@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_e3_l3_commSub_top_eq_fixV_of_central
     {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hconc : Conc4_136W A t L)

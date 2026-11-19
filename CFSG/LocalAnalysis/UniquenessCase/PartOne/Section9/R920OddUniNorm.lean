@@ -83,7 +83,7 @@ theorem inf_L9_inf_I9_le_pCoreOf (S : Slice D L D₃ Y H q) :
   have hHI : H ≤ normalizer (F09.I9 H : Set G) :=
     CFSG.RankThree.GroupTheory.SteinbergBM.le_normalizer_inSubgroup_pPrimeCore 3 H
   set N : Subgroup ↥T := (F09.I9 H).subgroupOf T with hN
-  haveI : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (hTH.trans hHI)
+  have : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (hTH.trans hHI)
   have hN3 : ¬ 3 ∣ Nat.card N := by
     have h2 : Nat.card N ∣ Nat.card (F09.I9 H) := by
       rw [← Subgroup.card_map_of_injective T.subtype_injective, hN,

@@ -95,7 +95,7 @@ private lemma excPayG_pi_cent {G : Type} [Group G] {Bs X : Subgroup G}
   (hsplit (b : G) b.2).choose_spec.2
 
 private lemma excPayG_pi_unique {G : Type} [Group G] {Bs X : Subgroup G}
-    (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
+    (_hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
     (hZ : Subgroup.center ↥X = ⊥) {b : G} {x x' : X}
     (hx : (x : G) ∈ X) (hx' : (x' : G) ∈ X)
     (h : b * (x : G)⁻¹ ∈ Subgroup.centralizer (X : Set G))
@@ -132,7 +132,7 @@ private lemma excPayG_pi_one {G : Type} [Group G] {Bs X : Subgroup G}
     (x := excPayG_pi hsplit (1 : ↥Bs)) (x' := 1)
     ((excPayG_pi_mem hsplit (1 : ↥Bs)).1) (X.one_mem) ?_ ?_
   · exact excPayG_pi_cent hsplit (1 : ↥Bs)
-  · simpa using (Subgroup.centralizer (X : Set G)).one_mem
+  · simp
 
 private lemma excPayG_pi_mul {G : Type} [Group G] {Bs X : Subgroup G}
     (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
@@ -211,7 +211,7 @@ private lemma excPayG_weylAct_simple_pow
   rw [mul_pow, ha i, hinv, mul_one]
 
 private lemma excPayG_eta_conj_simple {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t}
-    {G : Type} [Group G] {Bs X : Subgroup G}
+    {G : Type} [Group G] {_Bs X : Subgroup G}
     (M : GGDatumModel t f p ht) (η : ↥X ≃* ↥M.D.Γ)
     (k : Fin (langTag t).rank) (g x : ↥X) {a : Fin (langTag t).rank → GGLˣ}
     (hg : (η g : ModGL (langTag t) GGL) =
@@ -238,13 +238,13 @@ private lemma excPayG_conj_mem_Bs_X {t : StatedLieTag} {p f : ℕ} {ht : GGExcFi
     (k : Fin (langTag t).rank) (g : ↥X)
     (hg : (η g : ModGL (langTag t) GGL) =
       canonicalRep (coxeterSystem (langTag t)) GGL (simple (langTag t) k))
-    {x : ↥X} (hxX : (x : G) ∈ X) (hxBs : (x : G) ∈ Bs)
+    {x : ↥X} (hxX : (x : G) ∈ X) (_hxBs : (x : G) ∈ Bs)
     {a : Fin (langTag t).rank → GGLˣ} (ha : ∀ i, a i ^ p = 1)
     (hx : (η x : ModGL (langTag t) GGL) = rootDiagUnit (langTag t) a) :
     ((g * x * g⁻¹ : ↥X) : G) ∈ Bs := by
   have hmemX : ((g * x * g⁻¹ : ↥X) : G) ∈ X :=
     X.mul_mem (X.mul_mem g.property hxX) (X.inv_mem g.property)
-  have heta := excPayG_eta_conj_simple (Bs := Bs) M η k g x hg hx
+  have heta := excPayG_eta_conj_simple (_Bs := Bs) M η k g x hg hx
   have ha' := excPayG_weylAct_simple_pow k a ha
   let hex : ∃ y : ↥X, (y : G) ∈ Bs ∧
       (η y : ModGL (langTag t) GGL) = rootDiagUnit (langTag t)
@@ -364,7 +364,7 @@ private lemma excPayG_conj_fix_iff_fwd {t : StatedLieTag} {p f : ℕ} {ht : GGEx
     rw [h4]
   have h6 : (η (g * xb * g⁻¹) : ModGL (langTag t) GGL) =
       rootDiagUnit (langTag t) (weylAct (simple (langTag t) k) a) :=
-    excPayG_eta_conj_simple (Bs := Bs) M η k g xb hg hxeta
+    excPayG_eta_conj_simple (_Bs := Bs) M η k g xb hg hxeta
   have h7 : rootDiagUnit (langTag t) (weylAct (simple (langTag t) k) a) =
       rootDiagUnit (langTag t) a := by
     rw [← h6, h5]
@@ -393,7 +393,7 @@ private lemma excPayG_conj_fix_iff_bwd {t : StatedLieTag} {p f : ℕ} {ht : GGEx
     (excPayG_weylAct_simple_eq_self_iff hp hp2 k a ha).mpr hk
   have h6 : (η (g * xb * g⁻¹) : ModGL (langTag t) GGL) =
       rootDiagUnit (langTag t) (weylAct (simple (langTag t) k) a) :=
-    excPayG_eta_conj_simple (Bs := Bs) M η k g xb hg hxeta
+    excPayG_eta_conj_simple (_Bs := Bs) M η k g xb hg hxeta
   have h5 : (η (g * xb * g⁻¹) : ModGL (langTag t) GGL) =
       (η xb : ModGL (langTag t) GGL) := by
     rw [h6, h8]
@@ -465,7 +465,7 @@ private lemma excPayG_fix_fwd {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} 
     · exact (excPayG_pi_mem hsplit b).1
     · exact x.property
     · exact excPayG_pi_cent hsplit b
-    · simpa using (Subgroup.centralizer (X : Set G)).one_mem
+    · simp
   have hxda : (η (excPayG_pi hsplit b) : ModGL (langTag t) GGL) =
       rootDiagUnit (langTag t) a := by
     rw [hpi]
@@ -485,7 +485,7 @@ private lemma excPayG_fix_bwd {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} 
         ∃ a : Fin (langTag t).rank → GGLˣ, (∀ i, a i ^ p = 1) ∧
           rootDiagUnit (langTag t) a = z)
     (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
-    (hZ : Subgroup.center ↥X = ⊥) (k : Fin (langTag t).rank) (g : ↥X)
+    (_hZ : Subgroup.center ↥X = ⊥) (k : Fin (langTag t).rank) (g : ↥X)
     (hg : (η g : ModGL (langTag t) GGL) =
       canonicalRep (coxeterSystem (langTag t)) GGL (simple (langTag t) k))
     (hgN : (g : G) ∈ Subgroup.normalizer (Bs : Set G))
@@ -540,7 +540,7 @@ private noncomputable def excPayG_tuple {t : StatedLieTag} {p f : ℕ} {ht : GGE
         ∃ a : Fin (langTag t).rank → GGLˣ, (∀ i, a i ^ p = 1) ∧
           rootDiagUnit (langTag t) a = z)
     (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
-    (k : Fin (langTag t).rank) (b : ↥Bs) : Fin (langTag t).rank → GGLˣ :=
+    (_k : Fin (langTag t).rank) (b : ↥Bs) : Fin (langTag t).rank → GGLˣ :=
   Classical.choose ((hη _).mp ⟨excPayG_pi hsplit b, (excPayG_pi_mem hsplit b).2, rfl⟩)
 
 private lemma excPayG_tuple_pow {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} {G : Type} [Group G]
@@ -639,7 +639,7 @@ private lemma excPayG_chi_fix_iff {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive
   rfl
 
 private lemma excPayG_chi_range {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} {G : Type} [Group G]
-    {Bs X : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2) (M : GGDatumModel t f p ht)
+    {Bs X : Subgroup G} (_hp : p.Prime) (_hp2 : p ≠ 2) (M : GGDatumModel t f p ht)
     (η : ↥X ≃* ↥M.D.Γ)
     (hη : ∀ z : ModGL (langTag t) GGL,
       (∃ x : ↥X, (x : G) ∈ Bs ∧ (η x : ModGL (langTag t) GGL) = z) ↔
@@ -669,7 +669,7 @@ private lemma excPayG_chi_range {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t
       · exact (excPayG_pi_mem hsplit b).1
       · exact x.property
       · exact excPayG_pi_cent hsplit b
-      · simpa using (Subgroup.centralizer (X : Set G)).one_mem
+      · simp
     refine ⟨b, ?_⟩
     have htuple : excPayG_tuple M η hη hsplit k b = a := by
       apply rootDiagUnit_injective
@@ -681,7 +681,7 @@ private lemma excPayG_chi_range {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t
 
 private lemma excPayG_card_rootsOfUnity {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     Nat.card (rootsOfUnity p GGL) = p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   exact IsPrimitiveRoot.card_rootsOfUnity' (IsPrimitiveRoot.iff_orderOf.2 (ggZeta_order p hp hp2))
 
 private lemma excPayG_card_ker {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} {G : Type} [Group G]
@@ -721,7 +721,7 @@ private noncomputable def excPayG_chi_fix_equiv {t : StatedLieTag} {p f : ℕ} {
     exact excPayG_chi_fix_iff hp hp2 M η hη hsplit hZ k g hg hgN b)
 
 private lemma excPayG_sq {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} {G : Type} [Group G]
-    {Bs X : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2) (M : GGDatumModel t f p ht)
+    {Bs X : Subgroup G} (_hp : p.Prime) (_hp2 : p ≠ 2) (M : GGDatumModel t f p ht)
     (η : ↥X ≃* ↥M.D.Γ)
     (hη : ∀ z : ModGL (langTag t) GGL,
       (∃ x : ↥X, (x : G) ∈ Bs ∧ (η x : ModGL (langTag t) GGL) = z) ↔
@@ -751,11 +751,11 @@ private lemma excPayG_sq {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t} {G : 
   obtain ⟨a, hap, hda⟩ := (hη _).mp ⟨xb, (excPayG_pi_mem hsplit b).2, rfl⟩
   have h1 : (η (g * xb * g⁻¹) : ModGL (langTag t) GGL) =
       rootDiagUnit (langTag t) (weylAct (simple (langTag t) k) a) :=
-    excPayG_eta_conj_simple (Bs := Bs) M η k g xb hg hda.symm
+    excPayG_eta_conj_simple (_Bs := Bs) M η k g xb hg hda.symm
   have h2 : (η (g * (g * xb * g⁻¹) * g⁻¹) : ModGL (langTag t) GGL) =
       rootDiagUnit (langTag t) (weylAct (simple (langTag t) k)
         (weylAct (simple (langTag t) k) a)) :=
-    excPayG_eta_conj_simple (Bs := Bs) M η k g (g * xb * g⁻¹) hg h1
+    excPayG_eta_conj_simple (_Bs := Bs) M η k g (g * xb * g⁻¹) hg h1
   rw [excPayG_weylAct_simple_simple] at h2
   have h3 : (g * (g * xb * g⁻¹) * g⁻¹ : ↥X) = xb :=
     η.injective (Subtype.ext (h2.trans hda))

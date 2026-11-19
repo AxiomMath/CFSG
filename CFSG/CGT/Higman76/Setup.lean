@@ -14,12 +14,15 @@ variable {G : Type} [Group G] [Finite G]
 
 def fourGroup (a b : G) : Subgroup G := Subgroup.closure ({a, b} : Set G)
 
+omit [Finite G] in
 theorem mem_fourGroup_left (a b : G) : a ∈ fourGroup a b :=
   Subgroup.subset_closure (Set.mem_insert a {b})
 
+omit [Finite G] in
 theorem mem_fourGroup_right (a b : G) : b ∈ fourGroup a b :=
   Subgroup.subset_closure (Set.mem_insert_of_mem a rfl)
 
+omit [Finite G] in
 theorem exists_conj_pair (S : Sylow 2 G) {a : G} (ha : orderOf a = 2) (haS : a ∈ S)
     (h2 : {x | x ∈ S ∧ IsConj a x}.ncard = 2) :
     ∃ b : G, b ≠ a ∧ b ∈ S ∧ IsConj a b ∧ orderOf b = 2 ∧
@@ -72,6 +75,7 @@ theorem exists_conj_pair (S : Sylow 2 G) {a : G} (ha : orderOf a = 2) (haS : a �
       rw [show y = a from hay.symm] at hzT
       simpa [or_comm] using hzT
 
+omit [Finite G] in
 theorem mul_comm_of_conj_pair (S : Sylow 2 G) {a b : G} (hb : orderOf b = 2)
     (haS : a ∈ S) (hbS : b ∈ S) (hne : a ≠ b)
     (hcl : ∀ x : G, x ∈ S → IsConj a x → x = a ∨ x = b) :
@@ -89,6 +93,7 @@ theorem mul_comm_of_conj_pair (S : Sylow 2 G) {a b : G} (hb : orderOf b = 2)
       simpa [mul_assoc, hb2] using this
     exact absurd (mul_left_cancel (hba.trans hb2.symm)) hne
 
+omit [Finite G] in
 theorem fourGroup_le {a b : G} {S : Subgroup G} (ha : a ∈ S) (hb : b ∈ S) :
     fourGroup a b ≤ S := by
   rw [fourGroup, Subgroup.closure_le]
@@ -101,6 +106,7 @@ theorem fourGroup_card {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hcomm : a * 
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hne : a ≠ b) : Nat.card (fourGroup a b) = 4 :=
   CFSG.GroupTheory.card_closure_pair_eq_four ha hb hcomm ha1 hb1 hne
 
+omit [Finite G] in
 theorem fourGroup_isElemAbelian {a b : G} (ha : a * a = 1) (hb : b * b = 1)
     (hcomm : a * b = b * a) : IsElemAbelian 2 (fourGroup a b) := by
   rw [fourGroup]
@@ -116,6 +122,7 @@ theorem fourGroup_isElemAbelian {a b : G} (ha : a * a = 1) (hb : b * b = 1)
     · simpa [pow_two] using ha
     · simpa [pow_two] using hb
 
+omit [Finite G] in
 theorem mul_not_conj (S : Sylow 2 G) {a b : G} (ha : orderOf a = 2) (hb : orderOf b = 2)
     (haS : a ∈ S) (hbS : b ∈ S) (hne : a ≠ b) (hcomm : a * b = b * a)
     (hcl : ∀ x : G, x ∈ S → IsConj a x → x = a ∨ x = b) :
@@ -155,15 +162,16 @@ theorem fourGroup_weakly_closed (S : Sylow 2 G) {a b : G} (hab : IsConj a b)
     have hxS : (MulAut.conj g⁻¹).toMonoidHom y ∈ S := hg hmem_map
     have hconj : IsConj a ((MulAut.conj g⁻¹).toMonoidHom y) := by
       rcases hyab with rfl | rfl
-      · exact isConj_iff.mpr ⟨g⁻¹, by simp [MulAut.conj_apply, mul_assoc]⟩
+      · exact isConj_iff.mpr ⟨g⁻¹, by simp [mul_assoc]⟩
       · exact IsConj.trans hab
-          (isConj_iff.mpr ⟨g⁻¹, by simp [MulAut.conj_apply, mul_assoc]⟩)
+          (isConj_iff.mpr ⟨g⁻¹, by simp [mul_assoc]⟩)
     rcases hcl _ hxS hconj with h | h
     · rw [h]; exact mem_fourGroup_left a b
     · rw [h]; exact mem_fourGroup_right a b
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
 
+omit [Finite G] in
 theorem normalClosure_fourGroup_eq_top {a b : G}
     (hgen : Subgroup.normalClosure ({a} : Set G) = ⊤) :
     Subgroup.normalClosure (fourGroup a b : Set G) = ⊤ := by

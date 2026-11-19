@@ -29,7 +29,7 @@ theorem subgroup_card_classification
       (Fintype.card X = 12 ∧ Nat.card P = 95040) ∨
       (Fintype.card X = 24 ∧ Nat.card P = 244823040) := by
   classical
-  letI : Fintype P := Fintype.ofFinite _
+  let : Fintype P := Fintype.ofFinite _
   have h5explicit :
       ∀ a b : Fin 5 → X, Function.Injective a → Function.Injective b →
         ∃ g : P, ∀ i, g • a i = b i := by

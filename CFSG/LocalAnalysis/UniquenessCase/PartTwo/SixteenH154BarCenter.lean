@@ -15,11 +15,11 @@ theorem s16h_not_dvd_card_center_bar2 {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K))
     (h1 : CFSG.Open.pRank 3 K ≤ 1) : ¬ 3 ∣ Nat.card (center (Bar2 K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKcyc : ∀ P : Sylow 3 ↥K, IsCyclic (P : Subgroup ↥K) := by
     intro P
     by_contra hnc
-    have hPmap : IsPGroup 3 ((P : Subgroup ↥K).map K.subtype) := P.isPGroup'.map K.subtype
+    have hPmap : IsPGroup 3 ((P : Subgroup ↥K).map K.subtype) := P.isPGroup.map K.subtype
     have hnc' : ¬ IsCyclic ↥((P : Subgroup ↥K).map K.subtype) := by
       intro hc
       refine hnc (isCyclic_of_surjective
@@ -43,7 +43,7 @@ theorem s16h_not_dvd_card_center_bar2 {K : Subgroup G}
     have hQmap : (Q : Subgroup J) = (P : Subgroup ↥K).map f₀ := by
       rw [← hP, Sylow.coe_mapSurjective hf₀s P]
     rw [hQmap]
-    haveI : IsCyclic ↥(P : Subgroup ↥K) := hKcyc P
+    have : IsCyclic ↥(P : Subgroup ↥K) := hKcyc P
     exact isCyclic_of_surjective (f₀.subgroupMap (P : Subgroup ↥K))
       (f₀.subgroupMap_surjective (P : Subgroup ↥K))
   have hperf : Group.IsPerfect (Bar2 K) := Group.isPerfect_def.2 hq.1

@@ -10,6 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF84.S3
 open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
+omit [Finite G] in
 private theorem zpowers_inter_pgroup_eq_one (p : ℕ) [Fact p.Prime] {P : Subgroup G}
     (hP : IsPGroup p P) {c y : G} (hc : ¬ p ∣ orderOf c) (hy : y ∈ Subgroup.zpowers c)
     (hyP : y ∈ P) : y = 1 := by
@@ -23,7 +24,7 @@ private theorem zpowers_inter_pgroup_eq_one (p : ℕ) [Fact p.Prime] {P : Subgro
   exact orderOf_eq_one_iff.1 (Nat.Coprime.eq_one_of_dvd h3 h2)
 
 theorem B_coprime_quot (p : ℕ) [Fact p.Prime] (Q N : Subgroup G) (a : G) (hQ : IsPGroup p Q)
-    (hN : N ≤ Q) (hNn : (N.subgroupOf Q).Normal) (haQ : a ∈ Nor Q) (haN : a ∈ Nor N)
+    (hN : N ≤ Q) (_hNn : (N.subgroupOf Q).Normal) (haQ : a ∈ Nor Q) (haN : a ∈ Nor N)
     (ha : ¬ p ∣ orderOf a) :
     ∀ q ∈ Q, (∃ n ∈ N, a * q * a⁻¹ = q * n) → ∃ q' ∈ Q ⊓ Cen a, ∃ n' ∈ N, q = q' * n' := by
   rintro q hq ⟨n₁, hn₁, hqa⟩
@@ -38,7 +39,7 @@ theorem B_coprime_quot (p : ℕ) [Fact p.Prime] (Q N : Subgroup G) (a : G) (hQ :
   have hN'n : (N.subgroupOf W).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.1 (hWN g.2) n.1).1 hn⟩
-  haveI := hN'n
+  have := hN'n
   have hb : q⁻¹ * a * q = n₁ * a := by
     have h := mul_inv_eq_iff_eq_mul.1 hqa
     calc q⁻¹ * a * q = q⁻¹ * (a * q) := by group

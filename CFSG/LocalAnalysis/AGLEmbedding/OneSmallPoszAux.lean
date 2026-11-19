@@ -167,7 +167,7 @@ theorem D1OneSmallData.le_centralizer_czElt (hd : D1OneSmallData p P M H R Rbar 
   have hKn : K.Normal := hd.cfg.red.normal_of_rankOne hd.comp hd.noncyclic
   have hRC : IsCyclic ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓
       Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) : Subgroup _) :=
-    hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup'.to_le inf_le_left)
+    hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup.to_le inf_le_left)
       inf_le_right
   obtain ⟨hzR, hzp, hzH, hzC⟩ := hz
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p)

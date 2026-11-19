@@ -242,7 +242,7 @@ theorem exists_mul_eq_heis {n ι : Type*} [Fintype n] [DecidableEq n] [Fintype �
     have hT' := congrFun (hTf (σ.symm i) j) x
     rw [← hf'] at hT'
     have hl : (A * Q) x (e (i, j)) = T (f' (e (i, j))) x := by
-      simp only [T, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply, Matrix.mul_apply,
+      simp only [T, Matrix.toLinAlgEquiv'_apply, Matrix.mul_apply,
         Matrix.mulVec, dotProduct, hQ]
     rw [hl, hT', Matrix.mul_apply]
     rw [Finset.sum_eq_single (e (i, j))]
@@ -262,7 +262,7 @@ theorem exists_mul_eq_heis {n ι : Type*} [Fintype n] [DecidableEq n] [Fintype �
     have hS' := congrFun (hSf (σ.symm i) j) x
     rw [← hf', ← hf'] at hS'
     have hl : (B * Q) x (e (i, j)) = S (f' (e (i, j))) x := by
-      simp only [S, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply, Matrix.mul_apply,
+      simp only [S, Matrix.toLinAlgEquiv'_apply, Matrix.mul_apply,
         Matrix.mulVec, dotProduct, hQ]
     rw [hl, hS', Matrix.mul_apply]
     rw [Finset.sum_eq_single (e (i, j + 1))]

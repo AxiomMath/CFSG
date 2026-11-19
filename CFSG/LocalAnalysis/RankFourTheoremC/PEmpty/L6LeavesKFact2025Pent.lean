@@ -21,7 +21,7 @@ theorem Min32.facts {R : Subgroup (Module.End k V)ˣ} {u : (Module.End k V)ˣ}
     (∀ x ∈ R, ∀ y ∈ R, x * y = y * x ∨ x * y = -(y * x)) ∧
     (∀ x ∈ R, x * x = 1 ∨ x * x = -1) ∧
     (∀ x ∈ R, (∀ y ∈ R, x * y = y * x) → x = 1 ∨ x = -1) := by
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
   obtain ⟨z, hz, hzV⟩ := h.center
   have hzn : (z : (Module.End k V)ˣ) = -1 := Units.ext (by rw [hzV]; simp)
   have horder : orderOf z = 2 := by rw [← Nat.card_zpowers, ← hz, h.isExtra.2.2.2]
@@ -72,7 +72,7 @@ theorem Min32.facts {R : Subgroup (Module.End k V)ˣ} {u : (Module.End k V)ˣ}
 theorem Min32.exists_involution {R : Subgroup (Module.End k V)ˣ} {u : (Module.End k V)ˣ}
     (h : Min32 R u) : ∃ s ∈ R, s * s = 1 ∧ s ≠ 1 ∧ s ≠ -1 := by
   classical
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
   obtain ⟨hm1, hcomm, hsq, hcen⟩ := h.facts
   by_contra hno
   push Not at hno
@@ -98,7 +98,7 @@ theorem Min32.exists_involution {R : Subgroup (Module.End k V)ˣ} {u : (Module.E
     · exact h1
   have hainv : a⁻¹ = -a := by
     rw [inv_eq_iff_mul_eq_one, mul_neg, ha2, neg_neg]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ε⟩ := nonempty_center_mulEquiv (D := R) (r := 2) h.isExtra.2.2.2
   have hZ : Subgroup.center R = commutator R := h.isExtra.2.1.symm
   let φ := commRight hZ ε (⟨a, haR⟩ : R)
@@ -163,16 +163,20 @@ variable {G : Type*} [Group G] [HasDistribNeg G]
 
 @[expose] def conjT (u s : G) (n : ℕ) : G := u ^ n * s * (u ^ n)⁻¹
 
+omit [HasDistribNeg G] in
 theorem conjT_zero (u s : G) : conjT u s 0 = s := by simp [conjT]
 
+omit [HasDistribNeg G] in
 theorem conjT_succ (u s : G) (n : ℕ) : conjT u s (n + 1) = u * conjT u s n * u⁻¹ := by
   simp only [conjT, pow_succ', mul_inv_rev]
   group
 
+omit [HasDistribNeg G] in
 theorem conjT_add_five {u : G} (hu5 : u ^ 5 = 1) (s : G) (n : ℕ) :
     conjT u s (n + 5) = conjT u s n := by
   simp [conjT, pow_add, hu5]
 
+omit [HasDistribNeg G] in
 theorem conj_mul (u x y : G) : u * (x * y) * u⁻¹ = (u * x * u⁻¹) * (u * y * u⁻¹) := by group
 
 theorem conj_neg (u x : G) : u * (-x) * u⁻¹ = -(u * x * u⁻¹) := by
@@ -181,6 +185,7 @@ theorem conj_neg (u x : G) : u * (-x) * u⁻¹ = -(u * x * u⁻¹) := by
 theorem conj_neg_one (u : G) : u * (-1 : G) * u⁻¹ = -1 := by
   rw [mul_neg_one, neg_mul, mul_inv_cancel]
 
+omit [HasDistribNeg G] in
 theorem mem_normalizer_of_five {u : G} (hu5 : u ^ 5 = 1) {T : Subgroup G}
     (h : ∀ y ∈ T, u * y * u⁻¹ ∈ T) : u ∈ Subgroup.normalizer (T : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -222,7 +227,7 @@ theorem list_prod_mul_eq (x : G) (p : G → Bool) (hp : ∀ a, p a = true ↔ a 
     rw [List.prod_cons, mul_assoc, ih hl, List.countP_cons]
     by_cases hc : a * x = x * a
     · have hpa : ¬ (p a = true) := fun h' => (hp a).mp h' hc
-      rw [if_neg hpa, add_zero]
+      rw [ite_eq_right hpa, add_zero]
       calc a * ((-1 : G) ^ List.countP p l * (x * l.prod))
           = (-1 : G) ^ List.countP p l * (a * (x * l.prod)) := by
             rw [← mul_assoc, ← neg_one_pow_mul_comm, mul_assoc]
@@ -230,7 +235,7 @@ theorem list_prod_mul_eq (x : G) (p : G → Bool) (hp : ∀ a, p a = true ↔ a 
             rw [← mul_assoc a x, hc, mul_assoc]
     · have hna : a * x = -(x * a) := ha.resolve_left hc
       have hpa : p a = true := (hp a).mpr hc
-      rw [if_pos hpa, pow_succ]
+      rw [ite_eq_left hpa, pow_succ]
       calc a * ((-1 : G) ^ List.countP p l * (x * l.prod))
           = (-1 : G) ^ List.countP p l * ((a * x) * l.prod) := by
             rw [← mul_assoc, ← neg_one_pow_mul_comm, mul_assoc, mul_assoc]
@@ -244,6 +249,7 @@ section Shift
 
 variable {G : Type*} [Group G] [HasDistribNeg G] {u s : G}
 
+omit [HasDistribNeg G] in
 theorem conjT_mod_five (hu5 : u ^ 5 = 1) (s : G) (n : ℕ) : conjT u s (n % 5) = conjT u s n := by
   conv_rhs => rw [← Nat.mod_add_div n 5]
   generalize n / 5 = q
@@ -251,6 +257,7 @@ theorem conjT_mod_five (hu5 : u ^ 5 = 1) (s : G) (n : ℕ) : conjT u s (n % 5) =
   | zero => simp
   | succ q ih => rw [Nat.mul_succ, ← add_assoc, conjT_add_five hu5, ih]
 
+omit [HasDistribNeg G] in
 theorem cm_add {n m : ℕ} (hc : conjT u s n * conjT u s m = conjT u s m * conjT u s n) (j : ℕ) :
     conjT u s (n + j) * conjT u s (m + j) = conjT u s (m + j) * conjT u s (n + j) := by
   induction j with
@@ -265,6 +272,7 @@ theorem an_add {n m : ℕ} (hc : conjT u s n * conjT u s m = -(conjT u s m * con
   | succ j ih =>
     rw [← add_assoc, ← add_assoc, conjT_succ, conjT_succ, ← conj_mul, ← conj_mul, ih, conj_neg]
 
+omit [HasDistribNeg G] in
 theorem cm_iff_succ (hu5 : u ^ 5 = 1) (n m : ℕ) :
     conjT u s n * conjT u s m = conjT u s m * conjT u s n ↔
       conjT u s (n + 1) * conjT u s (m + 1) = conjT u s (m + 1) * conjT u s (n + 1) := by
@@ -394,6 +402,7 @@ theorem sq2_anti (a b : G) (ha : a * a = 1) (hb : b * b = 1) (hab : b * a = -(a 
     _ = -((a * a) * (b * b)) := by rw [mul_neg, neg_mul]; group
     _ = -1 := by rw [ha, hb, one_mul]
 
+omit [HasDistribNeg G] in
 theorem sq2_comm (a b : G) (ha : a * a = 1) (hb : b * b = 1) (hab : b * a = a * b) :
     (a * b) * (a * b) = 1 := by
   calc (a * b) * (a * b) = a * (b * a) * b := by group
@@ -593,7 +602,7 @@ theorem Min32.exists_pent (h : Min32 R u) (hu5 : u ^ 5 = 1) :
           [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4]) := by
         have : List.countP (fun a => decide (a * conjT u s 0 ≠ conjT u s 0 * a))
             [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4] = 2 := by
-          simp [List.countP_cons, hd1, hd2, hd3, hd4]
+          simp [hd1, hd2, hd3, hd4]
         rw [this]; exact ⟨1, rfl⟩
       refine e_contra h hu5 hs hcnt ?_
       have hx : (conjT u s 0 * conjT u s 1) * (conjT u s 0 * conjT u s 1) = 1 :=
@@ -622,7 +631,7 @@ theorem Min32.exists_pent (h : Min32 R u) (hu5 : u ^ 5 = 1) :
           [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4]) := by
         have : List.countP (fun a => decide (a * conjT u s 0 ≠ conjT u s 0 * a))
             [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4] = 2 := by
-          simp [List.countP_cons, hd1, hd2, hd3, hd4]
+          simp [hd1, hd2, hd3, hd4]
         rw [this]; exact ⟨1, rfl⟩
       refine e_contra h hu5 hs hcnt ?_
       have hx : (conjT u s 0 * conjT u s 1) * (conjT u s 0 * conjT u s 1) = -1 :=
@@ -674,7 +683,7 @@ theorem Min32.exists_pent (h : Min32 R u) (hu5 : u ^ 5 = 1) :
           [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4]) := by
         have : List.countP (fun a => decide (a * conjT u s 0 ≠ conjT u s 0 * a))
             [conjT u s 1, conjT u s 2, conjT u s 3, conjT u s 4] = 4 := by
-          simp [List.countP_cons, hd 1 (by norm_num) (by norm_num),
+          simp [hd 1 (by norm_num) (by norm_num),
             hd 2 (by norm_num) (by norm_num), hd 3 (by norm_num) (by norm_num),
             hd 4 (by norm_num) (by norm_num)]
         rw [this]; exact ⟨2, rfl⟩

@@ -84,7 +84,6 @@ theorem permutesLines_of_normalizes {hU : UnitaryFieldData 2 f E} {v : Fin 3 →
       Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons] at hij ⊢
     all_goals first
-      | rfl
       | exact absurd hij hxx
       | exact absurd hij.symm hxx
       | exact absurd hij hx1

@@ -131,7 +131,7 @@ theorem omegaOneCenter_ne_bot (h : Hyp1281Two G T M L) : quasithinOmegaOneCenter
     have h4 := h.rank_two
     rw [hV, Subgroup.card_bot] at h4
     omega
-  exact quasithinOmegaOneCenter_ne_bot (hS ▸ S.isPGroup') hne
+  exact quasithinOmegaOneCenter_ne_bot (hS ▸ S.isPGroup) hne
 
 theorem not_le_centralizer (h : Hyp1281Two G T M L) :
     ¬ T ≤ Subgroup.centralizer (VZ T M : Set G) := by

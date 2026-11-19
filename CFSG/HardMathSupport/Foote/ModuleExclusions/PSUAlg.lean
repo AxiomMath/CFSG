@@ -19,26 +19,33 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] (fb : K 
 
 @[expose] def uHh (x y : ι → K) : K := uCj fb x ⬝ᵥ y
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uCj_smul (c : K) (x : ι → K) : uCj fb (c • x) = fb c • uCj fb x := by
   funext i; simp [uCj]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uCj_add (x y : ι → K) : uCj fb (x + y) = uCj fb x + uCj fb y := by
   funext i; simp [uCj]
 
+omit [DecidableEq ι] in
 theorem uHh_swap (hfb : ∀ x, fb (fb x) = x) (x y : ι → K) :
     uHh fb x y = fb (uHh fb y x) := by
   simp only [uHh, uCj, dotProduct, map_sum, map_mul, hfb]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
+omit [DecidableEq ι] in
 theorem uHh_smul_left (c : K) (x y : ι → K) : uHh fb (c • x) y = fb c * uHh fb x y := by
   simp [uHh, uCj_smul, smul_dotProduct]
 
+omit [DecidableEq ι] in
 theorem uHh_smul_right (c : K) (x y : ι → K) : uHh fb x (c • y) = c * uHh fb x y := by
   simp [uHh, dotProduct_smul]
 
+omit [DecidableEq ι] in
 theorem uHh_add_left (x y z : ι → K) : uHh fb (x + y) z = uHh fb x z + uHh fb y z := by
   simp [uHh, uCj_add, add_dotProduct]
 
+omit [DecidableEq ι] in
 theorem uHh_add_right (x y z : ι → K) : uHh fb x (y + z) = uHh fb x y + uHh fb x z := by
   simp [uHh, dotProduct_add]
 
@@ -49,11 +56,13 @@ theorem uHh_eq_zero_of_forall {x : ι → K} (h : ∀ y, uHh fb x y = 0) : x = 0
   have h2 : fb (x i) = 0 := by simpa [dotProduct, Pi.single_apply] using this
   simpa using (map_eq_zero_iff fb (RingHom.injective fb)).mp h2
 
+omit [DecidableEq ι] in
 theorem uCj_mulVec (A : Matrix ι ι K) (x : ι → K) :
     uCj fb (A *ᵥ x) = (A.map fb) *ᵥ uCj fb x := by
   funext i
   simp [uCj, Matrix.mulVec, dotProduct, map_sum, map_mul]
 
+omit [DecidableEq ι] in
 theorem uHh_mulVec_left (A : Matrix ι ι K) (x y : ι → K) :
     uHh fb (A *ᵥ x) y = uHh fb x ((A.map fb)ᵀ *ᵥ y) := by
   rw [uHh, uCj_mulVec, uHh]
@@ -70,20 +79,24 @@ theorem uCj_mulVec_vecMul {U : Matrix ι ι K} (hU : (U.map fb)ᵀ * U = 1) (b :
 @[expose] def uX (a b : ι → K) (α : K) : Matrix ι ι K :=
   α • vecMulVec a (uCj fb b) - fb α • vecMulVec b (uCj fb a)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uX_add (a b : ι → K) (α β : K) : uX fb a b (α + β) = uX fb a b α + uX fb a b β := by
   simp only [uX, map_add, add_smul]
   abel
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uX_mul_fixed (a b : ι → K) {r : K} (hr : fb r = r) (γ : K) :
     uX fb a b (r * γ) = r • uX fb a b γ := by
   simp only [uX, map_mul, hr, mul_smul, smul_sub]
 
+omit [DecidableEq ι] in
 theorem uX_mulVec (a b : ι → K) (α : K) (x : ι → K) :
     uX fb a b α *ᵥ x = (α * uHh fb b x) • a - (fb α * uHh fb a x) • b := by
   simp only [uX, Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.vecMulVec_mulVec,
     op_smul_eq_smul, smul_smul]
   rfl
 
+omit [DecidableEq ι] in
 theorem uX_mul_uX (a b a' b' : ι → K) (α β : K) :
     uX fb a b α * uX fb a' b' β =
       (α * β * uHh fb b a') • vecMulVec a (uCj fb b') -
@@ -91,15 +104,17 @@ theorem uX_mul_uX (a b a' b' : ι → K) (α β : K) :
       (fb α * β * uHh fb a a') • vecMulVec b (uCj fb b') +
       (fb α * fb β * uHh fb a b') • vecMulVec b (uCj fb a') := by
   simp only [uX, Matrix.sub_mul, Matrix.mul_sub, Matrix.smul_mul, Matrix.mul_smul,
-    vecMulVec_mul_vecMulVec, vecMulVec_smul, smul_vecMulVec, uHh, smul_smul]
+    vecMulVec_mul_vecMulVec, vecMulVec_smul, uHh, smul_smul]
   module
 
+omit [DecidableEq ι] in
 theorem uX_mul (a b : ι → K) (haa : uHh fb a a = 0) (hab : uHh fb a b = 0)
     (hba : uHh fb b a = 0) (hbb : uHh fb b b = 0) (α β : K) :
     uX fb a b α * uX fb a b β = 0 := by
   rw [uX_mul_uX, hbb, hba, haa, hab]
   simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uX_adj (hfb : ∀ x, fb (fb x) = x) (a b : ι → K) (α : K) :
     ((uX fb a b α).map fb)ᵀ = -uX fb a b α := by
   ext i j
@@ -135,13 +150,14 @@ theorem uX_eq_zero {a b : ι → K} (hli : LinearIndependent K ![a, b]) {α : K}
     exact h1)
   exact (mul_eq_zero.mp h2.1).resolve_right hx
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uX_smul_smul (hfb : ∀ x, fb (fb x) = x) (a b : ι → K) {r t : K} (h : r * fb t = -1)
     (α : K) : uX fb (r • a) (t • b) α = -uX fb a b α := by
   have h' : fb r * t = -1 := by
     have := congrArg fb h
     rw [map_mul, hfb, map_neg, map_one] at this
     exact this
-  simp only [uX, uCj_smul, vecMulVec_smul, smul_vecMulVec, smul_smul, smul_sub]
+  simp only [uX, uCj_smul, vecMulVec_smul, smul_vecMulVec, smul_smul]
   have e1 : α * (fb t * r) = -α := by rw [mul_comm (fb t), h]; ring
   have e2 : fb α * (fb r * t) = -fb α := by rw [h']; ring
   rw [e1, e2]
@@ -173,20 +189,25 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] (fb : K 
 @[expose] def uE (u w : ι → K) (α : K) : Matrix ι ι K :=
   1 + uX fb u w α + (2⁻¹ * uCc fb w α α) • uZ fb u
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem adj_add (N P : Matrix ι ι K) : ((N + P).map fb)ᵀ = (N.map fb)ᵀ + (P.map fb)ᵀ := by
   ext i j; simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem adj_smul (c : K) (N : Matrix ι ι K) : ((c • N).map fb)ᵀ = fb c • (N.map fb)ᵀ := by
   ext i j; simp
 
+omit [Fintype ι] in
 theorem adj_one : ((1 : Matrix ι ι K).map fb)ᵀ = 1 := by
   ext i j
   simp [Matrix.one_apply, eq_comm]
 
 omit [DecidableEq ι] in
+omit [Fintype ι] in
 theorem uX_zero (a b : ι → K) : uX fb a b 0 = 0 := by simp [uX]
 
 omit [DecidableEq ι] in
+omit [Fintype ι] in
 theorem uX_neg (a b : ι → K) (α : K) : uX fb a b (-α) = -uX fb a b α := by
   simp only [uX, map_neg, neg_smul]
   abel
@@ -194,11 +215,13 @@ theorem uX_neg (a b : ι → K) (α : K) : uX fb a b (-α) = -uX fb a b α := by
 variable {fb} {u w : ι → K} (huu : uHh fb u u = 0) (huw : uHh fb u w = 0) (hwu : uHh fb w u = 0)
 
 include huu huw hwu in
+omit [DecidableEq ι] in
 theorem uX_mul_uX_heis (α β : K) : uX fb u w α * uX fb u w β = uCc fb w α β • uZ fb u := by
   rw [uX_mul_uX, huu, huw, hwu]
   simp [uCc, uZ, uHh]
 
 include huu huw hwu in
+omit [DecidableEq ι] hwu in
 theorem uZ_mul_uX (α : K) : uZ fb u * uX fb u w α = 0 := by
   simp only [uZ, uX, Matrix.mul_sub, Matrix.mul_smul, vecMulVec_mul_vecMulVec]
   have h1 : uCj fb u ⬝ᵥ u = 0 := huu
@@ -206,6 +229,7 @@ theorem uZ_mul_uX (α : K) : uZ fb u * uX fb u w α = 0 := by
   simp [h1, h2]
 
 include huu huw hwu in
+omit [DecidableEq ι] huw in
 theorem uX_mul_uZ (α : K) : uX fb u w α * uZ fb u = 0 := by
   simp only [uZ, uX, Matrix.sub_mul, Matrix.smul_mul, vecMulVec_mul_vecMulVec]
   have h1 : uCj fb u ⬝ᵥ u = 0 := huu
@@ -213,6 +237,7 @@ theorem uX_mul_uZ (α : K) : uX fb u w α * uZ fb u = 0 := by
   simp [h1, h2]
 
 include huu in
+omit [DecidableEq ι] in
 theorem uZ_mul_uZ : uZ fb u * uZ fb u = 0 := by
   simp only [uZ, vecMulVec_mul_vecMulVec]
   have h1 : uCj fb u ⬝ᵥ u = 0 := huu
@@ -223,8 +248,8 @@ theorem uE_mul (α β : K) : uE fb u w α * uE fb u w β =
     1 + uX fb u w (α + β) +
       (2⁻¹ * uCc fb w α α + 2⁻¹ * uCc fb w β β + uCc fb w α β) • uZ fb u := by
   have hAB := uX_mul_uX_heis huu huw hwu α β
-  have hZB := uZ_mul_uX huu huw hwu β
-  have hAZ := uX_mul_uZ huu huw hwu α
+  have hZB := uZ_mul_uX huu huw β
+  have hAZ := uX_mul_uZ huu hwu α
   have hZZ := uZ_mul_uZ huu
   simp only [uE, Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul,
     Matrix.mul_smul, hAB, hZB, hAZ, hZZ, smul_zero, add_zero, uX_add, add_smul]
@@ -263,14 +288,16 @@ theorem uE_mul_of_comm (h2 : (2 : K) ≠ 0) {α β : K} (h : α * fb β = β * f
   simp
 
 include huu huw hwu in
+omit hwu in
 theorem uZ_mul_uE (α : K) : uZ fb u * uE fb u w α = uZ fb u := by
-  simp only [uE, Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul, uZ_mul_uX huu huw hwu,
+  simp only [uE, Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul, uZ_mul_uX huu huw,
     uZ_mul_uZ huu]
   simp
 
 include huu huw hwu in
+omit huw in
 theorem uE_mul_uZ (α : K) : uE fb u w α * uZ fb u = uZ fb u := by
-  simp only [uE, Matrix.add_mul, Matrix.one_mul, Matrix.smul_mul, uX_mul_uZ huu huw hwu,
+  simp only [uE, Matrix.add_mul, Matrix.one_mul, Matrix.smul_mul, uX_mul_uZ huu hwu,
     uZ_mul_uZ huu]
   simp
 
@@ -306,11 +333,13 @@ theorem eq_zero_of_uE_eq_scalar (hu0 : u ≠ 0) (hww : uHh fb w w ≠ 0) {α s :
   have := (smul_eq_zero.mp this).resolve_right hu0
   exact (mul_eq_zero.mp this).resolve_right hww
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem uZ_adj (hfb : ∀ x, fb (fb x) = x) (u : ι → K) : ((uZ fb u).map fb)ᵀ = uZ fb u := by
   ext i j
   simp [uZ, uCj, vecMulVec_apply, hfb, mul_comm]
 
 include huu huw hwu in
+omit huu huw hwu in
 theorem uE_adj (hfb : ∀ x, fb (fb x) = x) (α : K) : ((uE fb u w α).map fb)ᵀ = uE fb u w (-α) := by
   have hκ : fb (uHh fb w w) = uHh fb w w := (uHh_swap fb hfb w w).symm
   have hs : fb (2⁻¹ * uCc fb w α α) = 2⁻¹ * uCc fb w α α := by
@@ -326,11 +355,12 @@ theorem uE_adj (hfb : ∀ x, fb (fb x) = x) (α : K) : ((uE fb u w α).map fb)�
 include huu huw hwu in
 theorem uE_unitary (h2 : (2 : K) ≠ 0) (hfb : ∀ x, fb (fb x) = x) (α : K) :
     ((uE fb u w α).map fb)ᵀ * uE fb u w α = 1 := by
-  rw [uE_adj huu huw hwu hfb]
+  rw [uE_adj hfb]
   have := uE_mul_neg huu huw hwu h2 (-α)
   rwa [neg_neg] at this
 
 include huu huw hwu in
+omit huu huw hwu in
 theorem uE_anticomm_Z {U : Matrix ι ι K} (hU : (U.map fb)ᵀ * U = 1) {ε : K}
     (hu : U *ᵥ u = ε • u) (hε : ε * fb ε = 1) : U * uZ fb u = uZ fb u * U := by
   have h1 : U * vecMulVec u (uCj fb u) = vecMulVec (U *ᵥ u) (uCj fb (U *ᵥ u)) * U := by
@@ -353,6 +383,7 @@ theorem uHh_eigen_zero {U : Matrix ι ι K} (hU : (U.map fb)ᵀ * U = 1) {ε ε'
   have : (fb ε * ε' - 1) * uHh fb x y = 0 := by linear_combination h1
   exact (mul_eq_zero.mp this).resolve_left (sub_ne_zero.mpr h)
 
+omit [DecidableEq ι] in
 theorem li_of_eigen {M : Matrix ι ι K} {ε₁ ε₂ : K} (hne : ε₂ - ε₁ ≠ 0)
     {a b : ι → K} (ha0 : a ≠ 0) (hb0 : b ≠ 0) (ha : M *ᵥ a = ε₁ • a)
     (hb : M *ᵥ b = ε₂ • b) : LinearIndependent K ![a, b] := by

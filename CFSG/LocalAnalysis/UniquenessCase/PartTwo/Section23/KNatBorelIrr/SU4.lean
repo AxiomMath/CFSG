@@ -74,10 +74,10 @@ theorem su4_hypTransport_torusSL_mulVec {R : Matrix (Fin (2 * 2 + 0)) (HypIndex 
 end Helpers
 
 theorem hasRootSL2_statedSU {a : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = (2 ^ a) ^ 2) (ha : 1 ≤ a) :
+    (hK : Nat.card K = (2 ^ a) ^ 2) (_ha : 1 ≤ a) :
     HasRootSL2 (StatedSU 4 (2 ^ a) K) (Pi.single 0 1 + Pi.single 1 1) := by
   have h : UnitaryFieldData 2 a K := unitaryFieldDataOfCard hK
-  haveI : Finite (hypSU h 2 0) := finite_hypSU h
+  have : Finite (hypSU h 2 0) := finite_hypSU h
   obtain ⟨R, hR, he⟩ := KTabD.exists_isHypTransport_four h
   obtain ⟨U₀, hU₀⟩ := KAdjE.su4_exists_sylow_hypUnitriangular h
   refine hasRootSL2_of_leastParabolic (hypTransport h hR) U₀ (flagStabilizer h 2 0 {2}) (parP h)

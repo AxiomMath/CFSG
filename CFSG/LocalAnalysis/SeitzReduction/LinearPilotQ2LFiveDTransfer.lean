@@ -136,7 +136,7 @@ theorem not_two_dvd_index_of_fusion_control {M Q : Subgroup G} {t : G} (htQ : t 
   set T : Subgroup G := (T₀ : Subgroup M).map M.subtype with hTdef
   have hTM : T ≤ M := map_subtype_le _
   have hQT : Q ≤ T := fun q hq => ⟨⟨q, hQM hq⟩, hT₀ hq, rfl⟩
-  have hTp : IsPGroup 2 T := T₀.isPGroup'.map M.subtype
+  have hTp : IsPGroup 2 T := T₀.isPGroup.map M.subtype
   have hTmax : ∀ {P : Subgroup G}, IsPGroup 2 P → T ≤ P → P = T := by
     intro P hP hTP
     by_contra hne

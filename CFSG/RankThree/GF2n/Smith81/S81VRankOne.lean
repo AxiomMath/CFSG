@@ -78,6 +78,7 @@ theorem mem_V1 {β : V →ₗ[K] V →ₗ[K] K} {w : V} :
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem ρ_zero : D.ρ 0 = 1 := by
   have h := D.ρ_add 0 0
   rw [add_zero] at h
@@ -89,17 +90,21 @@ theorem ρ_mul_self (n : D.N) : D.ρ n * D.ρ n = 1 := by
     rw [← two_smul K n, CharTwo.two_eq_zero, zero_smul]
   rw [← D.ρ_add, h2, D.ρ_zero]
 
+omit [CharP K 2] in
 theorem ρ_comm (n m : D.N) : D.ρ n * D.ρ m = D.ρ m * D.ρ n := by
   rw [← D.ρ_add, ← D.ρ_add, add_comm]
 
+omit [CharP K 2] in
 theorem X_zero : D.X 0 = 1 := by
   simp [X, D.ρ_zero]
 
+omit [CharP K 2] in
 theorem X_add (s t : K) : D.X (s + t) = D.X s * D.X t := by
   simp only [X, add_smul, D.ρ_add]
 
 theorem X_mul_self (t : K) : D.X t * D.X t = 1 := D.ρ_mul_self _
 
+omit [CharP K 2] in
 theorem ρ_eq_ker_mul_X (n : D.N) :
     ∃ n' : D.N, D.τ n' = 0 ∧ D.ρ n = D.ρ n' * D.X (D.τ n) := by
   refine ⟨n - D.τ n • D.n₁, ?_, ?_⟩
@@ -107,6 +112,7 @@ theorem ρ_eq_ker_mul_X (n : D.N) :
   · show D.ρ n = D.ρ (n - D.τ n • D.n₁) * D.ρ (D.τ n • D.n₁)
     rw [← D.ρ_add, sub_add_cancel]
 
+omit [CharP K 2] in
 theorem a_mem_fix (g : D.Pg) {v : V} (hv : v ∈ D.fix) : D.a g v ∈ D.fix := by
   rw [mem_fix] at hv ⊢
   intro n
@@ -117,6 +123,7 @@ theorem a_mem_fix (g : D.Pg) {v : V} (hv : v ∈ D.fix) : D.a g v ∈ D.fix := b
     rw [← LinearEquiv.mul_apply, inv_mul_cancel, one_apply_aux]
   rw [h2, LinearEquiv.mul_apply, LinearEquiv.mul_apply, h3, hv]
 
+omit [CharP K 2] in
 theorem exists_scalar [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀ : V}
     (hv₀ : v₀ ∈ D.fix) (hv0 : v₀ ≠ 0) (g : D.Pg) : ∃ c : K, D.a g v₀ = c • v₀ := by
   have hmem : D.a g v₀ ∈ D.fix := D.a_mem_fix g hv₀
@@ -126,6 +133,7 @@ theorem exists_scalar [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀
   obtain ⟨c, hc⟩ := exists_smul_eq_of_finrank_eq_one hfix hne ⟨D.a g v₀, hmem⟩
   exact ⟨c, by simpa using (congrArg Subtype.val hc).symm⟩
 
+omit [CharP K 2] in
 theorem exists_char [Fintype K] [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀ : V}
     (hv₀ : v₀ ∈ D.fix) (hv0 : v₀ ≠ 0) :
     ∃ k : ℕ, ∀ c : Kˣ, D.a (D.d c) v₀ = (c : K) ^ k • v₀ := by
@@ -163,6 +171,7 @@ theorem exists_char [Fintype K] [FiniteDimensional K V] (hfix : finrank K D.fix 
     rw [← hm, hpow, ← hkK, Units.val_pow_eq_pow_val, pow_right_comm]
   rw [hχ c, hχc]
 
+omit [CharP K 2] in
 theorem torus_conj_X (c : Kˣ) (t : K) :
     D.a (D.d c) * D.X t * (D.a (D.d c))⁻¹ = D.X ((c : K) ^ 2 * t) := by
   have h1 : D.Ad (D.d c) (t • D.n₁) = ((c : K) ^ 2 * t) • D.n₁ := by

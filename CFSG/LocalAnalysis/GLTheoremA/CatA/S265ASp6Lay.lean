@@ -62,7 +62,7 @@ private theorem card_alt_six : Nat.card ↥(alternatingGroup (Fin 6)) = 360 := b
 private theorem exists_ne_comm_of_card {T : Type*} [Group T] [IsSimpleGroup T]
     (h : Nat.card T = 360) : ∃ a b : T, a * b ≠ b * a := by
   by_contra hcon
-  letI : CommGroup T :=
+  let : CommGroup T :=
     { (inferInstance : Group T) with
       mul_comm := fun a b => by_contra fun hab => hcon ⟨a, b, hab⟩ }
   have hp := (CommGroup.is_simple_iff_prime_card (α := T)).1 inferInstance
@@ -117,8 +117,8 @@ theorem Sp6Class.layer (hc : Sp6Class s s₀ m A₀ A₁) :
       CFSG.RankThree.CASymplecticSubfield.nonempty_commutator_mulEquiv_alternating (e₀.trans eS)
     have hn := commutator_normal_sup hc.commute
     rw [← hc.centralizer_eq] at hn
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup ↥⁅A₀, A₀⁆ := eA.isSimpleGroup
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥⁅A₀, A₀⁆ := eA.isSimpleGroup
     have hcard : Nat.card ↥⁅A₀, A₀⁆ = 360 := (Nat.card_congr eA.toEquiv).trans card_alt_six
     refine ⟨hn, ⟨eA⟩, ?_⟩
     refine CFSG.HardMathSupport.Solomon.Coordinator.le_glaPLayer_of_normal_simple Nat.prime_three
@@ -128,8 +128,8 @@ theorem Sp6Class.layer (hc : Sp6Class s s₀ m A₀ A₁) :
   ·
     have hsol : Group.IsSolvable ↥(Subgroup.centralizer ({s} : Set (StatedSp 3 (ZMod 2)))) := by
       rw [hc.centralizer_eq]
-      haveI := isSolvable_fixed hc (by omega)
-      haveI := isSolvable_unitary hc
+      have := isSolvable_fixed hc (by omega)
+      have := isSolvable_unitary hc
       exact isSolvable_sup hc.commute
     exact ⟨hsol, glaPLayer_eq_bot⟩
 

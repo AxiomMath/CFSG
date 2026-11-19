@@ -50,7 +50,7 @@ theorem goldschmidtTransferInput_holds :
     exists_sylow_centralizer (p := 2) (u := a) ⟨1, by rw [ha2, pow_one]⟩
   obtain ⟨x, hx⟩ := hDp.nonempty_fixed_point_of_prime_not_dvd_card (G ⧸ (S : Subgroup G))
     (Sylow.not_dvd_index S)
-  obtain ⟨ha'S, ha'ext⟩ := extremal_of_fixed S.isPGroup' hDC hDsyl haD hx
+  obtain ⟨ha'S, ha'ext⟩ := extremal_of_fixed S.isPGroup hDC hDsyl haD hx
   set t : G := x.out with ht
   set a' : G := t⁻¹ * a * t with ha'
   have ha'M : a' ∉ M := fun h => hM t h (isExtremalIn_of_thompson ha'S ha'ext)
@@ -78,7 +78,7 @@ theorem goldschmidtTransferInput_holds :
     by_cases hgM : g⁻¹ * a' * g ∈ M
     · exact Or.inl hgM
     · exact Or.inr (ThompsonIndexTwo.inv_mul_mem_of_not_mem hMidx ha'S hgS ha'M hgM)
-  rcases thompson_transfer_1515 (p := 2) S.isPGroup' (Sylow.not_dvd_index S) hQn hcyc ha'S
+  rcases thompson_transfer_1515 (p := 2) S.isPGroup (Sylow.not_dvd_index S) hQn hcyc ha'S
       ha'M hb hc with ⟨N, hNn, -, hNp, ha'N⟩ | ⟨g, hgM, hgext, -⟩
   · intro haO
     have h1 := hNn.conj_mem a (mem_of_mem_twoResidualOf_top hNn hNp haO) t⁻¹

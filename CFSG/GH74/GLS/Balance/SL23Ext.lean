@@ -262,7 +262,7 @@ theorem exists_w (P : Sylow 2 G) : ∃ w ∈ normalizer ((P : Subgroup G) : Set 
   have : G2.Normal := Subgroup.Normal.comap inferInstance E.π
   have hPG2 : (P : Subgroup G) ≤ G2 := by
     intro a ha
-    exact E.map_le_Q8 P.isPGroup' ⟨a, ha, rfl⟩
+    exact E.map_le_Q8 P.isPGroup ⟨a, ha, rfl⟩
   have hF := Sylow.normalizer_sup_eq_top' P hPG2
   obtain ⟨t, ht3, ht1⟩ := S3_exists_order_three
   obtain ⟨g, rfl⟩ := E.surj t

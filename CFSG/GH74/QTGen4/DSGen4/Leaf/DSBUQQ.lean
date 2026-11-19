@@ -63,8 +63,8 @@ theorem relIndex_inf_eq_relIndex_sup [Finite G] {H K : Subgroup G}
     simp [Subgroup.mem_subgroupOf]
   unfold Subgroup.relIndex
   rw [hsub]
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer h
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
+  have := Subgroup.normal_subgroupOf_of_le_normalizer h
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H K h).toEquiv
 
 theorem comm_closure {k : Set G} {Z : Subgroup G}
@@ -1010,7 +1010,7 @@ theorem leafDSBUQQ [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafDSBS3Vertex] [DSLeaf Lea
   have hrkpair : (∀ R : Subgroup G, IsPGroup 2 R → (dsFrattini R).relIndex R ≤ 16) ∧
       (∀ E : Subgroup G, IsElemAbelian 2 E → Nat.card E ≤ 16) := rank_bounds
   have hO : pCoreOf 2 L2 ≤ S := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hsub : pCoreOf 2 L2 ≤ L2 ⊔ bigB L1 L2 S :=
       (CFSG.LieType.BorelTits.pCoreOf_le 2 L2).trans le_sup_left
     have hN : L2 ⊔ bigB L1 L2 S ≤ Subgroup.normalizer ((pCoreOf 2 L2 : Subgroup G) : Set G) :=

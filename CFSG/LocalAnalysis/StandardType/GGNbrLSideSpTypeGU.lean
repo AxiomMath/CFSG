@@ -46,9 +46,9 @@ private noncomputable def typeGU_commutator_equiv_self {G : Type} [Group G] (A :
 private theorem typeGU_isSolvable_commutator_of_isSolvable_heldSU {r : ℕ} {E : Type} [Field E]
     {τ : E ≃+* E} {hτ : ∀ y, τ (τ y) = y} (h : Group.IsSolvable ↥(heldSU r E τ hτ)) :
     Group.IsSolvable ↥(commutator (heldGU r E τ hτ)) := by
-  haveI := h
+  have := h
   have hle := typeGU_commutator_le_heldSU (r := r) (E := E) (τ := τ) (hτ := hτ)
-  haveI : Group.IsSolvable ↥⁅(heldGU r E τ hτ : Subgroup (GL (Fin r) E)), heldGU r E τ hτ⁆ :=
+  have : Group.IsSolvable ↥⁅(heldGU r E τ hτ : Subgroup (GL (Fin r) E)), heldGU r E τ hτ⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   exact Group.isSolvable_of_surjective
@@ -73,14 +73,14 @@ theorem GGNbrLSideKit.lieModel_commutator_heldGU {n r : ℕ} {K E : Type} [Field
         (↥(commutator (heldGU r E τ hτ)) ⧸
           Subgroup.center ↥(commutator (heldGU r E τ hτ))) t m 2 n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEcard : Nat.card E = (2 ^ n) ^ 2 := by rw [hEc, hK]
   have hτn : ∀ x, τ x = x ^ 2 ^ n := fun x => by rw [hτQ x, hK]
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hEcard
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hEcard
   have hq_notsolv : ¬ Group.IsSolvable ↥(commutator (heldGU r E τ hτ)) := by
-    haveI : Nontrivial ↥(commutator (heldGU r E τ hτ)) :=
+    have : Nontrivial ↥(commutator (heldGU r E τ hτ)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hq
-    haveI : Group.IsPerfect ↥(commutator (heldGU r E τ hτ)) := hq.1
+    have : Group.IsPerfect ↥(commutator (heldGU r E τ hτ)) := hq.1
     exact Group.IsPerfect.not_isSolvable ↥(commutator (heldGU r E τ hτ))
   have hr2 : 2 ≤ r := by
     by_contra hlt
@@ -98,7 +98,7 @@ theorem GGNbrLSideKit.lieModel_commutator_heldGU {n r : ℕ} {K E : Type} [Field
     have hcard : Nat.card (StatedSU 3 (2 ^ 1) E) = 216 := by
       rw [CFSG.RankThree.PartTwo.Sec8.Item87Proof.card_statedSU_three_two hEcard31]
       norm_num
-    haveI hsol : Group.IsSolvable ↥(heldSU 3 E τ hτ) := by
+    have hsol : Group.IsSolvable ↥(heldSU 3 E τ hτ) := by
       rw [CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU hτQ, hK2]
       exact CFSG.LieType.SemisimpleCentralizers.Held.hct_isSolvable_of_natCard_eq
         (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two Nat.prime_three (by norm_num)

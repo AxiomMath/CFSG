@@ -40,7 +40,7 @@ theorem IsClassBMember.map_mulEquiv {L L' : Type} [Group L] [Group L'] (e : L �
       rwa [Subgroup.map_center_eq e]
     obtain ⟨x, hx, hxe⟩ := Subgroup.mem_map.mp hc'
     rwa [← e.injective hxe]
-  · haveI := h.perfect
+  · have := h.perfect
     exact Group.IsPerfect.ofSurjective (f := eJ.toMonoidHom) eJ.surjective
   · have := h.subnormal.map e.toMonoidHom
     rwa [ComponentClassification.GSThmB.OddQuot.map_centralizer_singleton_equiv] at this

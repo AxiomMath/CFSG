@@ -19,7 +19,7 @@ theorem exists_frobTensor_single_eq [CharP F 2] (a : ℕ) {u u' : ((↥({a} : Fi
     ∃ g : SL(2, F), frobTensor F F {a} g u = u' := by
   classical
   let a₀ : ↥({a} : Finset ℕ) := ⟨a, Finset.mem_singleton_self a⟩
-  haveI : Unique ↥({a} : Finset ℕ) :=
+  have : Unique ↥({a} : Finset ℕ) :=
     ⟨⟨a₀⟩, fun i => Subtype.ext (Finset.mem_singleton.mp i.2)⟩
   let e : (↥({a} : Finset ℕ) → Fin 2) ≃ Fin 2 := Equiv.funUnique _ _
   let col : ((↥({a} : Finset ℕ) → Fin 2) → F) → (Fin 2 → F) := fun w s => w (e.symm s)
@@ -41,7 +41,7 @@ theorem exists_frobTensor_single_eq [CharP F 2] (a : ℕ) {u u' : ((↥({a} : Fi
   have hc : col u ≠ 0 := fun h => hu (hcol (h.trans (by funext s; rfl)))
   have hc' : col u' ≠ 0 := fun h => hu' (hcol (h.trans (by funext s; rfl)))
   obtain ⟨g', hg'⟩ := D2.exists_sl_mulVec_eq hc hc'
-  haveI : ExpChar F 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar F 2 := ExpChar.prime Nat.prime_two
   let σ : F ≃+* F := iterateFrobeniusEquiv F 2 a
   have hσ : ∀ x, σ x = x ^ 2 ^ a := fun x => iterateFrobeniusEquiv_def F 2 a x
   refine ⟨D2.slMap σ.symm g', hcol ?_⟩
@@ -60,11 +60,11 @@ theorem six_dim_vanish [CharP F 2] {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 
     (hQsmul : ∀ (a : K) x, Q (a • x) = a ^ 2 * Q x) (hQρ : ∀ g x, Q (ρ g x) = Q x) :
     ∀ x, Q x = 0 := by
   classical
-  haveI : Finite X := Module.finite_of_finite K
+  have : Finite X := Module.finite_of_finite K
   have hn : 1 ≤ k * 3 := by omega
   obtain ⟨f, hf1, hDk, hb⟩ := exists_descent_gen (ρ := ρ) hk hn hF hnt
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : Module.Finite (EndRing ρ) X := Module.Finite.of_finite
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : Module.Finite (EndRing ρ) X := Module.Finite.of_finite
   let b := Module.finBasis (EndRing ρ) X
   obtain ⟨E₀, _, _, _, _, ιD₀, J₀, -, -, ⟨Φ₀⟩, -, -⟩ := hb b
   obtain ⟨ν, -⟩ := exists_ringHom_endRing b (algebraMap K F) ιD₀ Φ₀

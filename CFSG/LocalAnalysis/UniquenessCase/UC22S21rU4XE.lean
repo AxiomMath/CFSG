@@ -36,8 +36,8 @@ theorem u4x_mem_normalizer_right {Q : Type} [Group Q] [Finite Q] {p : ℕ} [Fact
     rw [show x * c * t * (x * c)⁻¹ * t⁻¹ = x * (c * t * c⁻¹ * t⁻¹ * (t * x⁻¹ * t⁻¹)) by group,
       e] at h2
     simpa only [mul_assoc] using h2
-  haveI := hXn
-  haveI := hCn
+  have := hXn
+  have := hCn
   obtain ⟨-, hb⟩ := u4x_mem_of_mul_mem hcomm hXC hS inferInstance (X.mul_mem hx hv) hu h1
   simpa using S.mul_mem hb ht
 
@@ -46,7 +46,7 @@ theorem u4x_exists_lift {M T : Subgroup G} (hTM : T ≤ M) (hOT : pCoreOf 2 M �
     (hcN : c ∈ normalizer (barImage M T : Set (Bar2 M))) (hc1 : c ≠ 1) {r : ℕ} (hr : r.Prime)
     (hcr : c ^ r = 1) :
     ∃ m : ↥M, (m : G) ∈ normalizer (T : Set G) ∧ orderOf m = r ∧ uc22p21cPi M m ∈ Y := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨m, rfl⟩ := uc22p21c_pi_surjective M c
   have hmN : (m : G) ∈ normalizer (T : Set G) := by
     have h := uc22ine229_mem_normalizer_barPreimage hcN
@@ -66,7 +66,7 @@ theorem u4x_mem_uniqueSet {D : Data G} {L : Subgroup G} (hLM : L ≤ D.M)
     (hA : ∀ A : Subgroup G, A ≤ L → Nat.card A = r → A ∈ uniqueSet D.M) {z : G}
     (hzM : z ∈ D.M) (hzo : orderOf z = r) (hN : normalizer (zpowers z : Set G) ≤ D.M) :
     zpowers z ∈ uniqueSet D.M := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine ⟨zpowers_le.2 hzM, fun g hg => ?_⟩
   have hz'M : g⁻¹ * z * g ∈ D.M := uc22p21c_mem_map_conj.1 (hg (mem_zpowers z))
   have hsc : SemiconjBy g (g⁻¹ * z * g) z := by
@@ -88,8 +88,8 @@ theorem u4x_mem_uniqueSet {D : Data G} {L : Subgroup G} (hLM : L ≤ D.M)
     rw [Subgroup.subgroupOf_eq_bot, disjoint_iff] at h
     rw [inf_comm, h, Subgroup.relIndex_bot_left] at h1
     exact h1 hrL
-  haveI : (L.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hRN
-  haveI : Group.IsNilpotent ↥R := hRp.isNilpotent
+  have : (L.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hRN
+  have : Group.IsNilpotent ↥R := hRp.isNilpotent
   obtain ⟨⟨a, haL, haZ⟩, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
   have ha1' : a ≠ 1 := fun h => ha1 (Subtype.ext h)
@@ -146,7 +146,7 @@ theorem false_of_ne_one (u : U4X D L K n) {Ch : Choice2011 G}
     (hc : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ∈ centralizer
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)))
     (hc1 : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, -, -, -, hX, hXn, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hbq : b ^ (2 ^ n - 1) = 1 := by rw [← hbo]; exact pow_orderOf_eq_one b
   have hβq : uc22p21cPi D.M ⟨b, c.hBM hb⟩ ^ (2 ^ n - 1) = 1 := by
@@ -155,7 +155,7 @@ theorem false_of_ne_one (u : U4X D L K n) {Ch : Choice2011 G}
   have hcq := u4x_pow_eq_one hcomm hx₀ hx₁ hc₀ hc₁ hβq hx₀q hx₁q
   have hxX : x₀ * x₁ ∈ barImage D.M L ⊔ barImage D.M K :=
     mul_mem (mem_sup_left hx₀) (mem_sup_right hx₁)
-  haveI := hXn
+  have := hXn
   have hcN : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ∈
       normalizer (barImage D.M D.T : Set (Bar2 D.M)) := by
     refine u4x_mem_normalizer_right (fun x hx y hy => Subgroup.mem_centralizer_iff.1 hy x hx)

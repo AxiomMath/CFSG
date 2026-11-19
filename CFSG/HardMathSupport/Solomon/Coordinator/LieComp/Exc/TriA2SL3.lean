@@ -152,13 +152,13 @@ private def utri : Subgroup SL(3, F) where
 variable {F}
 
 private theorem T01_mem_utri (c : F) : T01 c ∈ utri F := by
-  simp [utri, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [utri, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem T12_mem_utri (c : F) : T12 c ∈ utri F := by
-  simp [utri, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [utri, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem T02_mem_utri (c : F) : T02 c ∈ utri F := by
-  simp [utri, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [utri, Matrix.SpecialLinearGroup.transvection_coe]
 
 variable {G : Type} [Group G]
 
@@ -192,11 +192,11 @@ private theorem exists_hom_upper {P₁ P₂ P₃ : F → G} (h₁ : ∀ a b, P�
     rw [e01, e02, e12]
     exact (heis_mul h₁ h₂ h₃ hcomm h13 h23 _ _ _ _ _ _).symm
   · intro c
-    simp [T01, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, z₂, z₃]
+    simp [T01, Matrix.SpecialLinearGroup.transvection_coe, z₂, z₃]
   · intro c
-    simp [T12, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, z₁, z₃]
+    simp [T12, Matrix.SpecialLinearGroup.transvection_coe, z₁, z₃]
   · intro c
-    simp [T02, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, z₁, z₂]
+    simp [T02, Matrix.SpecialLinearGroup.transvection_coe, z₁, z₂]
 
 end Upper
 
@@ -269,28 +269,28 @@ private theorem embTop_upper (c : F) : embTop (sl2Upper c) = T01 c := by
   show (blkTop (sl2Upper c) : Matrix (Fin 3) (Fin 3) F) i j = _
   rw [coe_blkTop]
   fin_cases i <;> fin_cases j <;>
-    simp [coe_sl2Upper', Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [coe_sl2Upper', Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem embTop_lower (c : F) : embTop (sl2Lower c) = T10 c := by
   ext i j
   show (blkTop (sl2Lower c) : Matrix (Fin 3) (Fin 3) F) i j = _
   rw [coe_blkTop]
   fin_cases i <;> fin_cases j <;>
-    simp [coe_sl2Lower', Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [coe_sl2Lower', Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem embBot_upper (c : F) : embBot (sl2Upper c) = T12 c := by
   ext i j
   show (blkBot (sl2Upper c) : Matrix (Fin 3) (Fin 3) F) i j = _
   rw [coe_blkBot]
   fin_cases i <;> fin_cases j <;>
-    simp [coe_sl2Upper', Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [coe_sl2Upper', Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem embBot_lower (c : F) : embBot (sl2Lower c) = T21 c := by
   ext i j
   show (blkBot (sl2Lower c) : Matrix (Fin 3) (Fin 3) F) i j = _
   rw [coe_blkBot]
   fin_cases i <;> fin_cases j <;>
-    simp [coe_sl2Lower', Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [coe_sl2Lower', Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem exists_hom_range {G H K : Type} [Group G] [Group H] [Group K] (e : H →* K)
     (he : Function.Injective e) (θ : H →* G) :
@@ -476,7 +476,7 @@ private theorem mem_roots_iff (γ : Fin 2 → ℤ) :
       ext k
       fin_cases k <;> rfl
     rw [hγ]
-    fin_cases i <;> fin_cases j <;> simp [toStd, Pi.single_apply] at h0 h1 h2 hij ⊢ <;> omega
+    fin_cases i <;> fin_cases j <;> simp [toStd] at h0 h1 h2 hij ⊢ <;> omega
   · rintro (rfl | rfl | rfl | rfl | rfl | rfl)
     · exact ⟨0, 1, by decide, by funext a; fin_cases a <;> simp [toStd]⟩
     · exact ⟨1, 2, by decide, by funext a; fin_cases a <;> simp [toStd]⟩
@@ -498,7 +498,7 @@ private theorem refl_table :
       (Φ).refl 1 ![-1, -1] = ![-1, 0] := by
   simp only [refl_apply]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    (ext k; fin_cases k <;> simp [CartanMatrix.A, Fin.sum_univ_two, Pi.single_apply])
+    (ext k; fin_cases k <;> simp [CartanMatrix.A, Fin.sum_univ_two])
 
 private theorem pos_cases {γ : Fin 2 → ℤ} (h : γ ∈ (Φ).pos) :
     γ = ![1, 0] ∨ γ = ![0, 1] ∨ γ = ![1, 1] := by
@@ -595,22 +595,22 @@ private def Pf (γ : Fin 2 → ℤ) (g : SL(3, F)) : G :=
 variable {P₁ P₂ P₃ M₁ M₂ M₃}
 
 private theorem Pf_T01 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![1, 0] (T01 c) = P₁ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_T12 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![0, 1] (T12 c) = P₂ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_T02 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![1, 1] (T02 c) = P₃ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_T10 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![-1, 0] (T10 c) = M₁ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_T21 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![0, -1] (T21 c) = M₂ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_T20 (c : F) : Pf P₁ P₂ P₃ M₁ M₂ M₃ ![-1, -1] (T20 c) = M₃ c := by
-  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+  simp [Pf, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem Pf_weyl {ñ : Fin 2 → G}
     (w0P1 : ∀ c, ñ 0 * P₁ c * (ñ 0)⁻¹ = M₁ (-c)) (w0P2 : ∀ c, ñ 0 * P₂ c * (ñ 0)⁻¹ = P₃ c)
@@ -760,7 +760,7 @@ theorem exists_hom_sl3_of_frame {F : Type} [Field F] {G : Type} [Group G]
     (P₁ P₂ P₃ M₁ M₂ M₃ : F → G) (θ₁ θ₂ : SL(2, F) →* G)
     (hθ₁u : ∀ c, θ₁ (sl2Upper c) = P₁ c) (hθ₁l : ∀ c, θ₁ (sl2Lower c) = M₁ c)
     (hθ₂u : ∀ c, θ₂ (sl2Upper c) = P₂ c) (hθ₂l : ∀ c, θ₂ (sl2Lower c) = M₂ c)
-    (hP₃ : ∀ a b, P₃ (a + b) = P₃ a * P₃ b) (hM₃ : ∀ a b, M₃ (a + b) = M₃ a * M₃ b)
+    (hP₃ : ∀ a b, P₃ (a + b) = P₃ a * P₃ b) (_hM₃ : ∀ a b, M₃ (a + b) = M₃ a * M₃ b)
     (hcomm : ∀ u w, P₁ u * P₂ w * (P₁ u)⁻¹ * (P₂ w)⁻¹ = P₃ (u * w))
     (h13 : ∀ u w, P₁ u * P₃ w = P₃ w * P₁ u) (h23 : ∀ u w, P₂ u * P₃ w = P₃ w * P₂ u)
     (e1 : ∀ c, θ₁ W₂ * P₂ c * (θ₁ W₂)⁻¹ = P₃ c)

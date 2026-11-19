@@ -83,7 +83,7 @@ private theorem false_of_aniso_plane (hQ : (polarBilin Q).Nondegenerate)
     {P : Submodule F V} (hPW : P ≤ polarPerp Q (⨆ j, U j))
     (hP2 : Module.finrank F P = 2) (hPani : ∀ x ∈ P, Q x = 0 → x = 0) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPreg : (polarBilin (Q.comp P.subtype)).Nondegenerate := by
     refine CFSG.LocalAnalysis.ComponentInitial.finite_anisotropic_plane_regular
       (Q := Q.comp P.subtype) ?_ ?_
@@ -156,7 +156,7 @@ theorem exists_planeFrame_of_selfCentralizing (hQ : (QuadraticMap.polarBilin Q).
         (k + 1 = ℓ ∧ ∃ f f' : V, f ∈ polarPerp Q (⨆ j, U j) ∧ f' ∈ polarPerp Q (⨆ j, U j) ∧
           Q f = 0 ∧ Q f' = 0 ∧ QuadraticMap.polar Q f f' = 1)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdim6 : 6 ≤ Module.finrank F V := by omega
   have hreg : RegOn Q ⊤ := fun u _ h =>
     hQ.1 u fun w => by simpa [QuadraticMap.polarBilin_apply_apply] using h w Submodule.mem_top

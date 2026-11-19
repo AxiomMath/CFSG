@@ -17,7 +17,7 @@ theorem length_ppE_sq (x y : E) (p : Nat) : (ppE x y p p).length = p * p := by
   simp [ppE, mulLL, powers, Function.comp_def]
 
 theorem conj_into_pp {ι : E → Gp} (hM : Model ι) (hK : Nat.card (vSub hM) = 28800) {p : Nat}
-    [hp : Fact p.Prime] (hidx : ¬ p ∣ 28800 / (p * p)) (hpp : p * p ∣ 28800)
+    [hp : Fact p.Prime] (hidx : ¬ p ∣ 28800 / (p * p)) (_hpp : p * p ∣ 28800)
     {x y : E} (hx : validE x = true) (hy : validE y = true) (hxy : mulE x y = mulE y x)
     (hxp : powE x p = oneE) (hyp : powE y p = oneE) (hnd : (ppE x y p p).Nodup)
     {g : E} (hg : validE g = true) (hgp : powE g p = oneE) :
@@ -32,7 +32,7 @@ theorem conj_into_pp {ι : E → Gp} (hM : Model ι) (hK : Nat.card (vSub hM) = 
   obtain ⟨P, hP⟩ := FiveStdDiag.exists_pp_sub_gen hp0 hxy' hxp' hyp'
   have hPS : (P : Set Gp) = S ι (ppE x y p p) := by
     ext h
-    rw [SetLike.mem_coe, hP, hM.S_ppE hx hy, Set.mem_setOf_eq]
+    rw [SetLike.mem_coe, hP, hM.S_ppE hx hy, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, j, rfl⟩
       refine ⟨i % p, Nat.mod_lt _ hp0, j % p, Nat.mod_lt _ hp0, ?_⟩

@@ -80,7 +80,7 @@ theorem radRigid_of_untwistedModel_odd {S : Type} [Group S] {τ : Tag} {q f : �
       PCharData (adjointGroup τ K) q ⊤)
     (h : UntwistedChevalleyModel S τ (q ^ f)) : RadRigid q S := by
   obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := h
-  haveI : CharP K q := charP_of_natCard_eq hcard
+  have : CharP K q := charP_of_natCard_eq hcard
   have e' : S ≃* ↥(adjointGroup τ K) :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq
       (center_adjointGroup_eq_bot (τ := τ) (K := K))).trans QuotientGroup.quotientBot)
@@ -90,7 +90,7 @@ theorem radRigid_of_twistedE6Model {S : Type} [Group S] {q f : ℕ} [Fact q.Prim
     (h : TwistedChevalleyModel S .E6 (q ^ f)) : RadRigid q S := by
   obtain ⟨K, _, hfin, hK, σ', hσ', ⟨e⟩⟩ := h
   have hK2 : Nat.card K = (q ^ f) ^ 2 := hK
-  haveI : CharP K q := charP_of_natCard_eq (p := q) (f := f * 2) (by rw [hK2, pow_mul])
+  have : CharP K q := charP_of_natCard_eq (p := q) (f := f * 2) (by rw [hK2, pow_mul])
   obtain ⟨σ, hσ, -⟩ := finite_graph_field_parameter_fields TwistTag.E6 (Fact.out : q.Prime) hf K hK
   have hσeq : σ' = σ.toRingHom := RingHom.ext fun c => (hσ' c).trans (hσ c).symm
   subst hσeq
@@ -118,7 +118,7 @@ theorem radRigid_of_trialityD4Model {S : Type} [Group S] {q f : ℕ} [Fact q.Pri
     (hf : 1 ≤ f) (h : TwistedChevalleyModel S .D4 (q ^ f)) : RadRigid q S := by
   obtain ⟨K, _, hfin, hK, σ', hσ', ⟨e⟩⟩ := h
   have hK3 : Nat.card K = (q ^ f) ^ 3 := hK
-  haveI : CharP K q := charP_of_natCard_eq (p := q) (f := f * 3) (by rw [hK3, pow_mul])
+  have : CharP K q := charP_of_natCard_eq (p := q) (f := f * 3) (by rw [hK3, pow_mul])
   obtain ⟨σ, hσ, -⟩ := finite_graph_field_parameter_fields TwistTag.D4 (Fact.out : q.Prime) hf K hK
   have hσeq : σ' = σ.toRingHom := RingHom.ext fun c => (hσ' c).trans (hσ c).symm
   subst hσeq
@@ -138,13 +138,13 @@ theorem radRigid_of_trialityD4Model {S : Type} [Group S] {q f : ℕ} [Fact q.Pri
 
 theorem radRigid_of_reeG2Model {S : Type} [Group S] {f : ℕ}
     (h : ReeTitsModel S .twistedG2 3 f) : RadRigid 3 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hadm, a, hfa, K, _, hfin, hK, ⟨e⟩⟩ := h
   have hf3 : 3 ≤ f := hadm.2.2.2.2.2
   have ha1 : 1 ≤ a := by omega
   have hK' : Nat.card K = 3 ^ (2 * a + 1) := by rw [← hfa]; exact hK
-  haveI : CharP K 3 := charP_of_natCard_eq hK
-  haveI : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
+  have : CharP K 3 := charP_of_natCard_eq hK
+  have : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
   have e1 : DerivedCentralQuotient (reeFixedGroup .G2 K reeG2Perm
       fun i => if i ∈ reeG2Long then 3 ^ a else 3 ^ (a + 1)) ≃*
         DerivedCentralQuotient (ReeTag.G2.reeGamma K a) := by
@@ -152,13 +152,13 @@ theorem radRigid_of_reeG2Model {S : Type} [Group S] {f : ℕ}
     exact MulEquiv.refl _
   obtain ⟨E⟩ := ReeTag.nonempty_derivedCentralQuotient_mulEquiv_reeGamma_G2 (K := K) ha1 hK'
   have e' : S ≃* ReeTag.G2.reeGamma K a := (e.trans e1).trans E
-  haveI : Finite (ReeTag.G2.reeGamma K a) := finite_reeGamma
+  have : Finite (ReeTag.G2.reeGamma K a) := finite_reeGamma
   exact radRigid_of_pCharData_model e' ree_holds (ree_pCharData ha1 hK')
 
 theorem radRigid_exceptional_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S : Type} [Group S]
     {t : StatedLieTag} {f : ℕ} (ht : t ∈ chevalleyExceptionalTags)
     (h : ChevalleyExceptionalModel S t q f) : RadRigid q S := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hadm, hmodel⟩ := h
   have hf : 1 ≤ f := hadm.2.1
   simp only [chevalleyExceptionalTags, Finset.mem_insert, Finset.mem_singleton] at ht
@@ -169,7 +169,7 @@ theorem radRigid_exceptional_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S : T
     intro K _ _ _ hK
     by_cases h3 : q = 3
     · subst h3
-      haveI : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
+      have : CharP K ReeTag.G2.prime := inferInstanceAs (CharP K 3)
       exact pCharData_adjoint_top_of_outer ReeTag.G2.tag K 3 (g2_three_sq_mem hf hK)
         (fun J hJ α hfix hsq => g2_three_hOut hf hK hJ α hfix hsq)
     · have htop := diagonalFieldActors_eq_top_F4_G2 hq hq2 hf K hK .G2 (Or.inr ⟨rfl, h3⟩)

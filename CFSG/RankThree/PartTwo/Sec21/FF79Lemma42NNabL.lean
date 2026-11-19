@@ -15,7 +15,7 @@ variable {G : Type} [Group G] {Q L : Subgroup G} {b : G}
 
 theorem NHyp.isSimple (h : NHyp Q L b) : IsSimpleGroup L := by
   obtain ⟨φ⟩ := h.iso
-  haveI := isSimpleGroup_GL32_gh
+  have := isSimpleGroup_GL32_gh
   exact φ.isSimpleGroup
 
 theorem NHyp.card_L (h : NHyp Q L b) : Nat.card L = 168 := by
@@ -42,7 +42,7 @@ theorem NHyp.nonab_L (h : NHyp Q L b) : ∃ x y : L, x * y ≠ y * x := by
 
 theorem NHyp.centralizes_of_ne_one (h : NHyp Q L b) {l : G} (hl : l ∈ L) (hl1 : l ≠ 1)
     (hc : ∀ x ∈ Q, l * x = x * l) : Q ≤ Subgroup.centralizer (L : Set G) := by
-  haveI := h.isSimple
+  have := h.isSimple
   set K : Subgroup L := (L ⊓ Subgroup.centralizer (Q : Set G)).subgroupOf L with hK
   have hKn : K.Normal := ⟨fun k hk g => by
     rw [hK, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hk ⊢
@@ -73,8 +73,8 @@ theorem NHyp.centralizes_of_ne_one (h : NHyp Q L b) {l : G} (hl : l ∈ L) (hl1 
 
 theorem NHyp.eq_top_of_index_le_three (h : NHyp Q L b) (H : Subgroup L) (hi : H.index ≤ 3) :
     H = ⊤ := by
-  haveI := h.isSimple
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [h.card_L]; norm_num)
+  have := h.isSimple
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [h.card_L]; norm_num)
   rcases (Subgroup.normalCore_normal H).eq_bot_or_eq_top with hb | ht
   · exfalso
     have hinj : Function.Injective (MulAction.toPermHom L (L ⧸ H)) := by

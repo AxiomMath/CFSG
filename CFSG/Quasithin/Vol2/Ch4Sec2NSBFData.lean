@@ -30,6 +30,7 @@ section Comm
 
 variable {D : StdData G T L I K m k n j} {ρ : G → Matrix (Fin n) (Fin n) (ZMod 2)}
 
+omit [Finite G] in
 theorem comm_data (hρ : IsRho D ρ) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) {u v : G} (hu : u ∈ uZero I K)
     (hv : v ∈ uZero I K) :
@@ -49,6 +50,7 @@ noncomputable def Pfun (D : StdData G T L I K m k n j) (ρ : G → Matrix (Fin n
     (g : G) (Y : Fin j → Fin n → ZMod 2) : Matrix (Fin n) (Fin n) (ZMod 2) :=
   ρ (g⁻¹ * zEn D Y * g) + 1
 
+omit [Finite G] in
 theorem Pfun_mul_zero (hj : 0 < j) (hρ : IsRho D ρ) {g : G}
     (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (Y₁ Y₂ : Fin j → Fin n → ZMod 2) :
@@ -82,6 +84,7 @@ theorem Pfun_mul_zero (hj : 0 < j) (hρ : IsRho D ρ) {g : G}
   rw [actM_add_left, actM_one, ← hz₁c]
   exact tm_add_self _
 
+omit [Finite G] in
 theorem Pfun_add (hj : 0 < j) (hρ : IsRho D ρ) {g : G}
     (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (Y₁ Y₂ : Fin j → Fin n → ZMod 2) :
@@ -175,7 +178,7 @@ theorem exists_flipHyp (hn : 0 < n) (hj : 0 < j) (hIH : I ≤ H)
         have : g * (c₁ * c₂) * g⁻¹ = (g * c₁ * g⁻¹) * (g * c₂ * g⁻¹) := by group
         rw [this]
         exact mul_mem hgc₁ hgc₂
-      zero_mem' := ⟨1, one_mem _, by simpa using one_mem _, coG_one D⟩
+      zero_mem' := ⟨1, one_mem _, by simp, coG_one D⟩
       neg_mem' := by
         rintro _ ⟨c, hc, hgc, rfl⟩
         exact ⟨c, hc, hgc, (tm_neg_eq_self _).symm⟩ }

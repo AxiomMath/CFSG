@@ -11,7 +11,7 @@ open CFSG.StandardType
 
 private lemma c2slomqmex_pow_ne_zero {m : ℕ} (hm_odd : Odd m) (hm_gt : 1 < m) (u : ℕ) :
     (((2 ^ u : ℕ) : ZMod m)) ≠ 0 := by
-  haveI : Fact (1 < m) := ⟨hm_gt⟩
+  have : Fact (1 < m) := ⟨hm_gt⟩
   have hcop : Nat.Coprime (2 ^ u) m := Nat.Coprime.pow_left u hm_odd.coprime_two_left
   exact ((ZMod.isUnit_iff_coprime (2 ^ u) m).mpr hcop).ne_zero
 
@@ -25,7 +25,7 @@ private lemma c2slomqmex_digit_le {C u : ℕ} (h : Odd (Nat.choose C (2 ^ u))) :
 
 theorem omq_minus_exists_exception_weights {f : ℕ} (hf : 2 ≤ f) {m h : ℕ} (hm : m = 2 ^ f - 1)
     (hh : h = 2 ^ f + 1) {a : ZMod m} {d : ZMod h} {C : ℕ} (hC1 : 1 ≤ C) (hCQ : C < m * h)
-    (hpow : ∀ u : ℕ, C ≠ 2 ^ u) (hCa : (C : ZMod m) = 2 * a) (hCd : (C : ZMod h) = 2 * d)
+    (hpow : ∀ u : ℕ, C ≠ 2 ^ u) (hCa : (C : ZMod m) = 2 * a) (_hCd : (C : ZMod h) = 2 * d)
     {π : Equiv.Perm (Fin 3)} {s : Fin 3 → ℤ}
     (hA : (∀ c, s c = 1) ∧ π * π = 1 ∧ π 0 = 1 ∧ π 1 = 0) :
     ∃ j : ℕ, 0 < j ∧ j < C ∧ Odd (Nat.choose C j) ∧

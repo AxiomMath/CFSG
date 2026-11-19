@@ -112,7 +112,7 @@ theorem coe_commutator_sub_caseAG {X : Subgroup G} (a b : ↥X) :
 theorem caseA_core {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W₁ : Subgroup G} {v : G}
     (h : CFSG.Quasithin.H13.L827X.LBDefs.XiHyp T X K U V X₁ W₀ W₁ v)
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
-    {Λ : Subgroup G} (hKΛ : K ≤ Λ) (hTΛ : T ≤ Λ) (hΛN : Λ ≤ Subgroup.normalizer (X : Set G))
+    {Λ : Subgroup G} (hKΛ : K ≤ Λ) (_hTΛ : T ≤ Λ) (hΛN : Λ ≤ Subgroup.normalizer (X : Set G))
     (hΛW1 : Λ ≤ Subgroup.normalizer (W₁ : Set G))
     {τ : Λ →* (W ≃ₗ[ZMod 2] W)} {π : W₁ → W}
     (hR : ChiefRepProps Λ (pCoreOf 2 X) W₀ W₁ τ π) (hvΛ : v ∈ Λ)
@@ -144,7 +144,7 @@ theorem caseA_core {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W₁ : S
     intro w hw y hy
     have hyO : y ∈ pCoreOf 2 X := (sup_le hle le_rfl) hy
     exact comm_mem_W0_of_mem_O_caseAG hR hΛW1 (hOΛ hyO) hyO hw
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnc' : ¬ ⁅(⊤ : Subgroup ↥X), (⊤ : Subgroup ↥X)⁆ ≤ (pCoreOf 2 X).subgroupOf X :=
     fun h' => hnc ((commutator_top_le_subgroupOf_iff X).mp h')
   have hidx3 : (pCoreOf 2 X).relIndex X = p ^ 3 := by
@@ -239,7 +239,7 @@ theorem caseA_core {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W₁ : S
   let bΛ : Λ := ⟨(b : G), hbΛ⟩
   let zΛ : Λ := ⟨⁅(y : G), (b : G)⁆, hzΛ⟩
   let vΛ : Λ := ⟨v, hvΛ⟩
-  haveI : Nontrivial W := hR.1
+  have : Nontrivial W := hR.1
   have hAp : ((τ yΛ : W ≃ₗ[ZMod 2] W).toLinearMap) ^ p = 1 := by
     have hyp : ((yΛ ^ p : Λ) : G) ∈ pCoreOf 2 X := by
       rw [SubgroupClass.coe_pow]

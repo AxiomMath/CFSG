@@ -111,15 +111,15 @@ theorem isQuasisimple_of_simple_nonab' {J : Type*} [Group J] (hs : IsSimpleGroup
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩
 
 theorem noA5Comps_of_comm {H : Type} [Group H] (h : ∀ a b : H, a * b = b * a) : NoA5Comps H := by
-  letI : CommGroup H := { (inferInstance : Group H) with mul_comm := h }
-  haveI : Group.IsSolvable H := Group.isSolvable_of_comm h
+  let : CommGroup H := { (inferInstance : Group H) with mul_comm := h }
+  have : Group.IsSolvable H := Group.isSolvable_of_comm h
   exact noA5Comps_of_isSolvable
 
 theorem noA5Comps_reeGamma_F4 {b : ℕ} {k : Type} [Field k] [Finite k] [CharP k ReeTag.F4.prime]
     (hk : Nat.card k = 2 ^ (2 * b + 1)) : NoA5Comps ↥(ReeTag.F4.reeGamma k b) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag k) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma k b) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag k) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma k b) := Subtype.finite
   rcases Nat.eq_zero_or_pos b with rfl | hb
   · have hk2 : Nat.card k = 2 := by simpa using hk
     obtain ⟨hs, hnc, -⟩ := commutator_reeGamma_F4_zero_data hk2
@@ -130,7 +130,7 @@ theorem noA5Comps_reeGamma_F4 {b : ℕ} {k : Type} [Field k] [Finite k] [CharP k
     have hM60 : Nat.card ↥(commutator ↥(ReeTag.F4.reeGamma k 0)) ≠ 60 := by
       rw [Nat.card_congr (eT.trans e₃).toEquiv, CFSG.Sporadic.Schreier.Tits.card_titsD]
       norm_num
-    haveI := hs
+    have := hs
     refine noA5Comps_of_normal (commutator ↥(ReeTag.F4.reeGamma k 0))
       (isQuasisimple_of_simple_nonab' hs hnc) ?_ ?_
     · exact Group.isSolvable_of_comm fun a b => by
@@ -145,7 +145,7 @@ theorem noA5Comps_reeGamma_F4 {b : ℕ} {k : Type} [Field k] [Finite k] [CharP k
     · exact not_a5_of_center_eq_bot
         (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnc) hM60
   · by_cases hnc : ∃ x y : ↥(ReeTag.F4.reeGamma k b), x * y ≠ y * x
-    · haveI : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) :=
+    · have : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hk
       refine noA5Comps_of_simple hnc ?_
       have hord :=
@@ -172,8 +172,8 @@ theorem noA5_reeF4_outer (m : ℕ) (hv : (LieTypeIndex.reeF4 m).Valid) {S : Type
   have hR := CFSG.HardMathSupport.Timmesfeld.DefChar.lot_reeTitsModel_twistedF4_of_index m hv e0
   obtain ⟨-, a, ha, -, K, _, _, _, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.exists_mulEquiv_reeGamma hR
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hβ : MulAut.congr e x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hβ1 : MulAut.congr e x ≠ 1 := by
     intro h
@@ -188,8 +188,8 @@ theorem noA5_reeF4_outer (m : ℕ) (hv : (LieTypeIndex.reeF4 m).Valid) {S : Type
     rw [hy, InputsL33c.congr_conj_apply, MulEquiv.apply_symm_apply]
   · obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ :=
       exists_fixSubgroup_fieldAut_equiv' hK Nat.prime_three (by norm_num) σ hσ
-    haveI := hchar
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have := hchar
+    have : Finite (fixSubfield σ) := Subtype.finite
     have hF : NoA5Comps ↥(fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ)) :=
       NoA5Comps.of_mulEquiv eC (noA5Comps_reeGamma_F4 hkcard)
     have hN : NoA5Comps ↥(fixSubgroup (MulAut.congr e x)) :=

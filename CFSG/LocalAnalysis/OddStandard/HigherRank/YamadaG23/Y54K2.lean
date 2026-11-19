@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private abbrev f4f0 (s : Setting3 G L) : G := s.fr.a₁ * s.fr.a₂
 
+omit [Finite G] in
 private lemma mul_comm_of_conj_eq {a b : G} (h : a * b * a⁻¹ = b) : a * b = b * a := by
   calc
     a * b = a * b * a⁻¹ * a := by group
@@ -42,7 +43,7 @@ private noncomputable def f4rho (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
   MonoidHom.mk' (fun x => ⟨⁅(x : G), f4f0 c.s⁆,
       y54_C2_comm_V c hH (x : G) x.2 (f4f0 c.s) (f4f0_mem_C2 c hH)⟩)
     (fun a b => by
-      haveI : IsMulCommutative ↥(cen c.s.fr.B) := isMulCommutative_cen c.s
+      have : IsMulCommutative ↥(cen c.s.fr.B) := isMulCommutative_cen c.s
       apply Subtype.ext
       change ⁅((a : G) * (b : G)), f4f0 c.s⁆ =
         ⁅(a : G), f4f0 c.s⁆ * ⁅(b : G), f4f0 c.s⁆

@@ -165,7 +165,7 @@ theorem double_five_centralizer_card_le_fifty
       ∀ q : ℕ, q.Prime → (q = 2 ∨ q = 3) →
         ¬q ∣ Nat.card cycleMap.ker := by
     intro q hq hqCases hqdvd
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hvorder⟩ :=
       exists_prime_orderOf_dvd_card'
         (G := cycleMap.ker) q hqdvd
@@ -277,7 +277,7 @@ theorem sylow_five_eq_of_double_five_mem
     (huT : ((u.1 : S) : P) ∈ T) :
     S = T := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hTcard : Nat.card T = 25 := by
     calc
       Nat.card T = Nat.card S :=
@@ -345,7 +345,7 @@ theorem sylow_five_eq_of_double_five_mem
     exact hSylowMod
   have hSylowCard : Fintype.card (Sylow 5 C) = 1 := by
     omega
-  letI : Subsingleton (Sylow 5 C) :=
+  let : Subsingleton (Sylow 5 C) :=
     Fintype.card_le_one_iff_subsingleton.mp (by omega)
   apply Sylow.subtype_injective (N := C)
   exact Subsingleton.elim SC TC

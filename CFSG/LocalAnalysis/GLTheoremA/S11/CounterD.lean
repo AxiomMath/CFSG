@@ -23,7 +23,7 @@ theorem isS0_of_isGStar {p : ℕ} {B K : Subgroup G} {x : G} (hS : IsSTriple p B
   refine ⟨hS, ?_⟩
   have h5 : tripleLevel p B K = 5 := by
     unfold tripleLevel
-    rw [if_pos hG]
+    rw [ite_eq_left hG]
   have h1 : tripleLevel p B K ≤ dLevel G p := tripleLevel_le_dLevel hS
   have h2 : dLevel G p ≤ 5 := by
     refine csSup_le' ?_
@@ -55,7 +55,7 @@ theorem chev2_of_pumpRel (hc : S3Ctx G p) (hin : Chev2DownAt G p) (h183 : Input1
   have h2 : IsChevSimple 2 (PSimple p L') := h'
   show IsChevSimple 2 (PSimple p L)
   have hp := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := hrel.1
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hS.2.2
   have hS' := hrel.2.1
@@ -83,7 +83,7 @@ theorem chev2_of_pumpRel (hc : S3Ctx G p) (hin : Chev2DownAt G p) (h183 : Input1
   ·
     obtain ⟨e1⟩ := h1122 B' x' L' x hS'.1 hS'.2.1 hL'c hxB' hxN (Ipart p L x') hIdiag
     obtain ⟨hsimp, hnab⟩ := chev_pSimple_simple_nonabelian hp hL'c
-    haveI := hsimp
+    have := hsimp
     have hZ : Subgroup.center (PSimple p L') = ⊥ := chev_center_eq_bot_of_simple_nonabelian hnab
     have hcard : Nat.card (Subgroup.center (PQuot p (Ipart p L x'))) = 1 := by
       rw [Nat.card_congr (Subgroup.centerCongr e1).toEquiv, hZ]
@@ -129,6 +129,7 @@ theorem pump_chev2 (hsf : StageFacts G m) (hH : Hyp111 G m p B x L) (hc : CConf 
   have hSS : IsSStarMax p B' x' L' := ⟨hS0M, hcyc⟩
   exact ⟨B', x', L', hSS, hle, h8.1 B' x' L' hSS⟩
 
+omit [Finite G] in
 private theorem counterd_isPGroup_subgroupOf {q : ℕ} {H K : Subgroup G} (hH : IsPGroup q H) :
     IsPGroup q (H.subgroupOf K) := by
   intro g
@@ -142,9 +143,9 @@ private theorem counterd_isPGroup_subgroupOf {q : ℕ} {H K : Subgroup G} (hH : 
 theorem frattini_V {q : ℕ} (hq : q.Prime) {K V R : Subgroup G} (hVK : V ≤ K) (hVn : K ≤ Subgroup.normalizer (V : Set G))
     (hR : IsPGroup q R) (hRV : R ≤ V) (hRmax : ∀ Q : Subgroup G, IsPGroup q Q → Q ≤ V → R ≤ Q → Q = R) :
     K ≤ V ⊔ (Subgroup.normalizer (R : Set G) ⊓ K) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hNn : (V.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hVK).2 hVn
-  haveI := hNn
+  have := hNn
   let P : Sylow q ↥(V.subgroupOf K) :=
     { toSubgroup := (R.subgroupOf K).subgroupOf (V.subgroupOf K)
       maximal_isPGroup := by
@@ -198,9 +199,11 @@ theorem frattini_V {q : ℕ} (hq : q.Prime) {K V R : Subgroup G} (hVK : V ≤ K)
   rw [← hkG]
   exact mul_mem (le_sup_left (a := V) hyV) (le_sup_right (a := V) ⟨hzN, hzK⟩)
 
+omit [Finite G] in
 theorem commutator_core_le (p : ℕ) (K : Subgroup G) : (⁅K, GLAPPrimeCoreOf p K⁆ : Subgroup G) ≤ K :=
   commutator_le_of_le' le_rfl (Subgroup.map_subtype_le _)
 
+omit [Finite G] in
 theorem commutator_core_le_core (p : ℕ) (K : Subgroup G) :
     (⁅K, GLAPPrimeCoreOf p K⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p K := by
   rw [Subgroup.commutator_le]
@@ -210,6 +213,7 @@ theorem commutator_core_le_core (p : ℕ) (K : Subgroup G) :
     (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf p K hk) o).1 ho
   exact (GLAPPrimeCoreOf p K).mul_mem h1 ((GLAPPrimeCoreOf p K).inv_mem ho)
 
+omit [Finite G] in
 theorem core_le_oPPrimeP (p : ℕ) (K : Subgroup G) : GLAPPrimeCoreOf p K ≤ oPPrimeP p K := by
   rintro _ ⟨y, hy, rfl⟩
   refine ⟨y, ?_, rfl⟩
@@ -218,6 +222,7 @@ theorem core_le_oPPrimeP (p : ℕ) (K : Subgroup G) : GLAPPrimeCoreOf p K ≤ oP
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem le_normalizer_commutator_core {p : ℕ} {K F : Subgroup G} (hF : F ≤ Subgroup.normalizer (K : Set G)) :
     F ≤ Subgroup.normalizer ((⁅K, GLAPPrimeCoreOf p K⁆ : Subgroup G) : Set G) := by
   intro g hg
@@ -231,8 +236,8 @@ theorem le_normalizer_commutator_core {p : ℕ} {K F : Subgroup G} (hF : F ≤ S
 theorem eq_bot_of_forall_qpower {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {X K : Subgroup G}
     (hK : GLAPComponent p X K) (Y : Subgroup (PSimple p K)) [Y.Normal]
     (hY : ∀ s ∈ Y, ∃ n : ℕ, s ^ (q ^ n) = 1) : Y = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
+  have : Fact q.Prime := ⟨hq⟩
+  have : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y with hbot | htop
   · exact hbot
   · exfalso
@@ -242,7 +247,7 @@ theorem eq_bot_of_forall_qpower {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {X K :
         rw [htop]
         exact Subgroup.mem_top s
       exact hY s hs
-    haveI : Nontrivial (Subgroup.center (PSimple p K)) := IsPGroup.center_nontrivial hqgroup
+    have : Nontrivial (Subgroup.center (PSimple p K)) := IsPGroup.center_nontrivial hqgroup
     have hcenter := IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PSimple p K))
     obtain ⟨a, b, hab⟩ := S9.pSimple_nonabelian hp hK
     rcases hcenter with hc | hc
@@ -261,7 +266,7 @@ theorem eq_bot_of_forall_qpower {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {X K :
 private theorem counterd_not_dvd_relIndex {q : ℕ} (hq : q.Prime) {V R : Subgroup G} (hR : IsPGroup q R)
     (hRV : R ≤ V) (hRmax : ∀ Q : Subgroup G, IsPGroup q Q → Q ≤ V → R ≤ Q → Q = R) :
     ¬ q ∣ R.relIndex V := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hP⟩ := (counterd_isPGroup_subgroupOf (K := V) hR).exists_le_sylow
   have hmap : (P : Subgroup ↥V).map V.subtype = R := by
     refine hRmax _ (P.isPGroup.map _) (Subgroup.map_subtype_le _) ?_
@@ -284,6 +289,7 @@ private def counterd_conjAut {R : Subgroup G} {g : G} (hg : g ∈ Subgroup.norma
   right_inv r := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem counterd_conj_pow {R : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (R : Set G))
     (m : ℕ) (r : ↥R) : (((counterd_conjAut hg) ^ m) r : G) = g ^ m * (r : G) * (g ^ m)⁻¹ := by
   induction m generalizing r with
@@ -293,6 +299,7 @@ private theorem counterd_conj_pow {R : Subgroup G} {g : G} (hg : g ∈ Subgroup.
     show g ^ m * (g * (r : G) * g⁻¹) * (g ^ m)⁻¹ = g ^ (m + 1) * (r : G) * (g ^ (m + 1))⁻¹
     group
 
+omit [Finite G] in
 private theorem counterd_pow_centralizer {q : ℕ} {R : Subgroup G} {D : Subgroup ↥R}
     (hDfix : IsPGroup q (fixingSubgroup (MulAut ↥R) (D : Set ↥R))) {g : G}
     (hg : g ∈ Subgroup.normalizer (R : Set G)) (hgD : ∀ d ∈ D, g * (d : G) * g⁻¹ = d) :
@@ -313,10 +320,11 @@ private theorem counterd_pow_centralizer {q : ℕ} {R : Subgroup G} {D : Subgrou
   calc h * g ^ (q ^ n) = (g ^ (q ^ n) * h * (g ^ (q ^ n))⁻¹) * g ^ (q ^ n) := by rw [← key]
     _ = g ^ (q ^ n) * h := by group
 
+omit [Finite G] in
 private theorem counterd_factor {K V R : Subgroup G} (hVK : V ≤ K)
     (hVn : K ≤ Subgroup.normalizer (V : Set G)) (hfr : K ≤ V ⊔ (Subgroup.normalizer (R : Set G) ⊓ K))
     {k : G} (hk : k ∈ K) : ∃ v ∈ V, ∃ n ∈ Subgroup.normalizer (R : Set G) ⊓ K, v * n = k := by
-  haveI : (V.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hVK).2 hVn
+  have : (V.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hVK).2 hVn
   have hle : V ⊔ (Subgroup.normalizer (R : Set G) ⊓ K) ≤
       ((V.subgroupOf K) ⊔ ((Subgroup.normalizer (R : Set G) ⊓ K).subgroupOf K)).map K.subtype := by
     refine sup_le (fun v hv => ⟨⟨v, hVK hv⟩, Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.2 hv), rfl⟩) ?_
@@ -330,14 +338,14 @@ private theorem counterd_factor {K V R : Subgroup G} (hVK : V ≤ K)
   have h := congrArg Subtype.val hyz
   simpa using h
 
-theorem exists_R2 (h1810 : Input18_10) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hq2 : q ≠ 2)
+theorem exists_R2 (h1810 : Input18_10) (hp : p.Prime) (_hp2 : p ≠ 2) (hq : q.Prime) (hq2 : q ≠ 2)
     {X K V R : Subgroup G} (hX : CFSG.Open.IsKGroup ↥X) (hK : GLAPComponent p X K) (hVdef : V = ⁅K, GLAPPrimeCoreOf p K⁆) (hqV : q ∣ Nat.card V)
     (hR : IsPGroup q R) (hRV : R ≤ V) (hRmax : ∀ Q : Subgroup G, IsPGroup q Q → Q ≤ V → R ≤ Q → Q = R) :
     ∃ R₂ : Subgroup G, R₂ ≤ R ∧ R₂ ≠ ⊥ ∧ (∀ g ∈ Subgroup.normalizer (R : Set G), g ∈ Subgroup.normalizer (R₂ : Set G)) ∧
       (∀ g ∈ R₂, g ^ q = 1) ∧ ⁅R₂, R₂⁆ ≤ Subgroup.centralizer (R₂ : Set G) ∧
       K ⊓ Subgroup.normalizer (R : Set G) ⊓ Subgroup.centralizer (R₂ : Set G) ≤ oPPrimeP p K := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   subst hVdef
   have hKX : K ≤ X := hK.1
   have hKXg : CFSG.Open.IsKGroup ↥K :=
@@ -356,7 +364,7 @@ theorem exists_R2 (h1810 : Input18_10) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pr
     rintro rfl
     rw [Subgroup.relIndex_bot_left] at hRsyl
     exact hRsyl hqV
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hRne
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hRne
   have hCR : K ⊓ Subgroup.centralizer (R : Set G) ≤ oPPrimeP p K :=
     h1810 G K hKXg p hp hKK q hq R hqV hRV hR hRsyl
   obtain ⟨D, hDchar, hDne, hDcomm, hDexp, hDfix⟩ :=
@@ -459,7 +467,7 @@ theorem exists_R2 (h1810 : Input18_10) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pr
       rw [e]
       exact Subgroup.mem_map_of_mem pr (hC0conj n hnN c hc)
     let Ys : Subgroup (PSimple p K) := Y.map ps
-    haveI hYsn : Ys.Normal := Subgroup.Normal.map hYn ps hpss
+    have hYsn : Ys.Normal := Subgroup.Normal.map hYn ps hpss
     have hcen : ∀ c : ↥K, c ∈ C0 →
         ∃ n : ℕ, QuotientGroup.mk (c ^ (q ^ n)) ∈ Subgroup.center (PQuot p K) := by
       intro c hc
@@ -488,7 +496,7 @@ theorem exists_R2 (h1810 : Input18_10) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pr
 
 private theorem counterd_solv_of_card {H : Type} [Group H] [Finite H] {d p q a b : ℕ} (hd : Nat.card H = d)
     (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (hdpq : d = p ^ a * q ^ b) : Group.IsSolvable H := by
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [← Nat.card_eq_fintype_card, hd, hdpq])
 
@@ -536,7 +544,7 @@ private theorem counterd_core_inf_le {p : ℕ} (hp : p.Prime) {K J : Subgroup G}
     have h1 := (Subgroup.mem_normalizer_iff.1 hg (u : G)).1 hu.1
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact ⟨h1, J.mul_mem (J.mul_mem g.2 hu.2) (J.inv_mem g.2)⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card ((GLAPPrimeCoreOf p K ⊓ J).subgroupOf J)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_right : GLAPPrimeCoreOf p K ⊓ J ≤ J)).toEquiv]
     have h2 : Nat.card (GLAPPrimeCoreOf p K) = Nat.card (GLAPPrimeCore p ↥K) :=
@@ -549,6 +557,7 @@ private theorem counterd_core_inf_le {p : ℕ} (hp : p.Prime) {K J : Subgroup G}
   intro g hg
   exact ⟨⟨g, hg.2⟩, hsub (Subgroup.mem_subgroupOf.2 hg), rfl⟩
 
+omit [Finite G] in
 private theorem counterd_core_of_comm {p : ℕ} {K : Subgroup G} {a b : G} (ha : a ∈ K) (hb : b ∈ K)
     (h : (QuotientGroup.mk ⟨a, ha⟩ : PQuot p K) * QuotientGroup.mk ⟨b, hb⟩ =
       QuotientGroup.mk ⟨b, hb⟩ * QuotientGroup.mk ⟨a, ha⟩) :
@@ -569,7 +578,7 @@ private theorem counterd_comm_of_core {p : ℕ} (hp : p.Prime) {K J : Subgroup G
 theorem not_small_of_proper {p : ℕ} (hp : p.Prime) {X K J : Subgroup G} (hK : GLAPComponent p X K)
     (hJ : GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set G)) J) (hJK : ¬ K ≤ J ⊔ GLAPPrimeCoreOf p K) :
     Nat.card (PSimple p K) ≠ 60 ∧ Nat.card (PSimple p K) ≠ 168 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJK0 : J ≤ K := hJ.1.trans inf_le_left
   have hsK : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
   have hsJ : IsSimpleGroup (PSimple p J) := S9.isSimple_pSimple hp hJ
@@ -722,9 +731,9 @@ theorem three_le_pRank_R2 {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hq2 : q ≠
     have hπv : π ⟨v, hVK hv⟩ = 1 := (hker _).2 (hVoP hv)
     show π ⟨n, hNK hn⟩ = π k
     rw [hkvn, map_mul, hπv, one_mul]
-  haveI : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
+  have : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
   have hY : φ.ker.map πN = ⊥ := by
-    haveI hYn : (φ.ker.map πN).Normal := Subgroup.Normal.map inferInstance πN hπNs
+    have hYn : (φ.ker.map πN).Normal := Subgroup.Normal.map inferInstance πN hπNs
     refine eq_bot_of_forall_qpower hp hq hK _ ?_
     rintro s ⟨k, hk, rfl⟩
     have hact := (hφ k).1 (MonoidHom.mem_ker.1 hk)
@@ -754,7 +763,7 @@ theorem exists_sylow_normalized {q : ℕ} (hq : q.Prime) {F V : Subgroup G} (hF 
     (hFV : F ≤ Subgroup.normalizer (V : Set G)) :
     ∃ R : Subgroup G, IsPGroup q R ∧ R ≤ V ∧ (∀ Q : Subgroup G, IsPGroup q Q → Q ≤ V → R ≤ Q → Q = R) ∧
       F ≤ Subgroup.normalizer (R : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨H, hHdef⟩ : ∃ H : Subgroup G, H = F ⊔ V := ⟨_, rfl⟩
   have hVH : V ≤ H := by rw [hHdef]; exact le_sup_right
   have hFH : F ≤ H := by rw [hHdef]; exact le_sup_left
@@ -814,7 +823,7 @@ theorem exists_sylow_normalized {q : ℕ} (hq : q.Prime) {F V : Subgroup G} (hF 
 
 theorem isPGroup_sup_of_normalizes {q : ℕ} (hq : q.Prime) {F R : Subgroup G} (hF : IsPGroup q F) (hR : IsPGroup q R)
     (hFR : F ≤ Subgroup.normalizer (R : Set G)) : IsPGroup q ↥(F ⊔ R) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hF
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 hR
   have h1 := card_sup_mul_card_inf_of_le_normalizer (A := R) (B := F) hFR
@@ -825,9 +834,9 @@ theorem isPGroup_sup_of_normalizes {q : ℕ} (hq : q.Prime) {F R : Subgroup G} (
 theorem S_le_core_of_cover {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K V M S : Subgroup G} (hK : GLAPComponent p X K)
     (hVdef : V = ⁅K, GLAPPrimeCoreOf p K⁆) (hcov : K ≤ V ⊔ (M ⊓ K)) (hS : S ≤ pCoreOf 2 M ⊓ K) (hS2 : IsPGroup 2 S) :
     S ≤ GLAPPrimeCoreOf p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
+  have : IsSimpleGroup (PSimple p K) := S9.isSimple_pSimple hp hK
   obtain ⟨-, -, hzp, -⟩ := S9.pComponent_basic hp hK
   set π : ↥K →* PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K) with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -926,7 +935,7 @@ theorem core_le_core {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPCompo
 theorem exists_zpowers_sup {p : ℕ} (hp : p.Prime) {D : Subgroup G} {a : G} (hD : Nat.card D = p ^ 2)
     (hexp : ∀ g ∈ D, g ^ p = 1) (haD : a ∈ D) (ha1 : a ≠ 1) :
     ∃ a' ∈ D, D ≤ Subgroup.zpowers a ⊔ Subgroup.zpowers a' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf a = p := orderOf_eq_prime (hexp a haD) ha1
   have hZD : Subgroup.zpowers a ≤ D := Subgroup.zpowers_le.2 haD
   have hZcard : Nat.card (Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, hord]
@@ -936,7 +945,7 @@ theorem exists_zpowers_sup {p : ℕ} (hp : p.Prime) {D : Subgroup G} {a : G} (hD
     have h1 := Nat.pow_lt_pow_right hp.one_lt (show 1 < 2 by norm_num)
     rw [pow_one] at h1
     omega
-  obtain ⟨a', ha'D, ha'Z⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a', ha'D, ha'Z⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨a', ha'D, ?_⟩
   have hWD : Subgroup.zpowers a ⊔ Subgroup.zpowers a' ≤ D := sup_le hZD (Subgroup.zpowers_le.2 ha'D)
   have ha'W : a' ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers a' := Subgroup.mem_sup_right (Subgroup.mem_zpowers a')
@@ -968,7 +977,7 @@ theorem exists_maximal_pGroup {q : ℕ} {F W : Subgroup G} (hF : IsPGroup q F) (
   refine ⟨Fo, hFop, hFoW, hFFo, fun Q hQ hQW hFoQ => ?_⟩
   exact (Subgroup.eq_of_le_of_card_ge hFoQ (hmax Q ⟨hFFo.trans hFoQ, hQW, hQ⟩)).symm
 
-theorem V_coprime (hctx : ThmACtx G m) (hH : Hyp111 G m p B x L) (hc : CConf G p q B x L M D E F J a S K)
+theorem V_coprime (_hctx : ThmACtx G m) (hH : Hyp111 G m p B x L) (hc : CConf G p q B x L M D E F J a S K)
     (h1810 : Input18_10) (h3013 : I3013At G) (hKX : CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({a} : Set G)))
     (hK2 : IsChevSimple 2 (PSimple p K)) (hJK : ¬ K ≤ J ⊔ GLAPPrimeCoreOf p K)
     (hSc : ¬ S ≤ GLAPPrimeCoreOf p (Subgroup.centralizer ({a} : Set G)))
@@ -1041,7 +1050,7 @@ open scoped Pointwise in
 private theorem counterd_exists_conj_le_sylow {q : ℕ} (hq : q.Prime) (R : Sylow q G) {M : Subgroup G}
     (hRM : (R : Subgroup G) ≤ M) {P : Subgroup G} (hP : IsPGroup q P) (hPM : P ≤ M) :
     ∃ g ∈ M, ∀ x ∈ P, g * x * g⁻¹ ∈ (R : Subgroup G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let RM : Sylow q M :=
     { toSubgroup := (R : Subgroup G).subgroupOf M
       maximal_isPGroup := by
@@ -1076,16 +1085,16 @@ theorem counterd_weakCore_Fo_le_M_of_sylow {q : ℕ} (hq : q.Prime) {M Q Fo : Su
     exact h3.trans (S9.pRank_mono hq (sup_le_sup_left (inf_le_inf_right _ hFoQ) X))
   exact hgen.trans hΓ
 
-theorem weakCore_Fo_le_M (hq : q.Prime) (hH : Hyp111 G m p B x L) (hc : CConf G p q B x L M D E F J a S K)
+theorem weakCore_Fo_le_M (hq : q.Prime) (_hH : Hyp111 G m p B x L) (hc : CConf G p q B x L M D E F J a S K)
     {W Fo : Subgroup G}
-    (hW : W = F ⊔ K) (hFo : IsPGroup q Fo) (hFoW : Fo ≤ W) (hFoS : ∀ Q : Subgroup G, IsPGroup q Q → Q ≤ W → Fo ≤ Q → Q = Fo)
+    (_hW : W = F ⊔ K) (hFo : IsPGroup q Fo) (_hFoW : Fo ≤ W) (_hFoS : ∀ Q : Subgroup G, IsPGroup q Q → Q ≤ W → Fo ≤ Q → Q = Fo)
     (hFFo : F ≤ Fo) :
     ∀ X : Subgroup G, X ≤ Fo → 2 ≤ CFSG.Open.pRank q X →
       3 ≤ CFSG.Open.pRank q (X ⊔ (Fo ⊓ Subgroup.centralizer (X : Set G))) →
       Subgroup.normalizer (X : Set G) ⊓ W ≤ M := by
   intro X hXFo h2 h3
   obtain ⟨R, hRΓ⟩ := hc.red.sylow
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hFM : F ≤ M := hc.red.F_le.trans (inf_le_left.trans hc.red.L_le)
   have h3R : 3 ≤ CFSG.Open.pRank q (R : Subgroup G) := by
     rw [(CFSG.SectionRank.pRank_sylow R).1]

@@ -19,7 +19,7 @@ theorem le_stabSub_commV {P N : Subgroup (MulAut V)}
     | mem x hx =>
       obtain ⟨a, ha, v, rfl⟩ := hx
       have e : g (a v * v⁻¹) = ((g * a * g⁻¹) (g v)) * (g v)⁻¹ := by
-        simp [MulAut.mul_apply, MulAut.apply_inv_self]
+        simp [MulAut.mul_apply]
       rw [e]
       exact Subgroup.subset_closure ⟨g * a * g⁻¹, hN g hg a ha, g v, rfl⟩
     | one => simp

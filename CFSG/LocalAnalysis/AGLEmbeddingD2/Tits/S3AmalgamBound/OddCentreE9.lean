@@ -75,7 +75,7 @@ theorem card_center_dvd_cases
       ext g
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
         map_eq_one_iff e e.injective, ← MonoidHom.mem_ker, QuotientGroup.ker_mk']
-    haveI : Finite B := Finite.of_surjective p hp
+    have : Finite B := Finite.of_surjective p hp
     have hd := card_ker_dvd_hopfMultiplier p hp hker.le
     rw [hker, hm] at hd
     exact hd
@@ -118,7 +118,7 @@ theorem card_center_dvd_cases
 theorem kFactOddCentreE9 :
     KFactOddCentreE9 := by
   intro Y _ _ hq hodd hty
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
   have hbot : Nat.card (Subgroup.center Y) = 1 → Subgroup.center Y = ⊥ := fun h =>
     Subgroup.card_eq_one.mp h
   have hsix : Nat.card (Subgroup.center Y) ∣ 6 →

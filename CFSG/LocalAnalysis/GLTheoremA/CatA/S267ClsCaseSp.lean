@@ -88,6 +88,7 @@ theorem mem_blkSub_wt [Finite ↥Aε] (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p
     exact Finset.sum_congr rfl fun H hH =>
       apply_eq_of_mem_weightSpace (glRep Aε) (hx H hH) ⟨v, rfl⟩
 
+omit [IsMulCommutative ↥Aε] in
 theorem scalar_eq_one_of_isom [Finite ↥Aε] (hp : p.Prime) (hp2 : p ≠ 2)
     (hA : ∀ a : ↥Aε, a ^ p = 1) {J : Matrix ι ι K} (hAεβ : Aε ≤ isomGL (Matrix.toBilin' J))
     {U : Submodule K (ι → K)} (hU : U ≠ ⊥)
@@ -143,9 +144,9 @@ theorem false_of_finrank_two_of_card_mod [Finite K] (hp : p.Prime)
     apply hxm
     have h1 := congrArg (fun e : M ≃ₗ[K] M => ((e ⟨m, hm⟩ : M) : ι → K)) h
     simpa [hg, coe_resU_apply] using h1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime hgp hg1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let b := Module.finBasisOfFinrankEq K M hM
   let c : (M ≃ₗ[K] M) ≃ ((Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) :=
     { toFun := fun e => (b.equivFun.symm.trans e).trans b.equivFun
@@ -224,7 +225,7 @@ theorem finrank_ne_two_or [Finite K] (hp : p.Prime) (hp2 : p ≠ 2) (hpK : (p : 
   left
   have hp3 : p ≠ 3 := by
     rintro rfl
-    haveI : CharP K 3 :=
+    have : CharP K 3 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_three le_rfl (by rw [hK3, pow_one])
     exact hpK (by exact_mod_cast CharP.cast_eq_zero K 3)
@@ -265,7 +266,7 @@ theorem glaPLayer_blkI_inf_centralizer_ne_bot [Finite K] (hodd : Odd (Nat.card K
     · exact hW₂
     · exact hI H hH)
   have hxB := mem_blkSub_wt hp hA hpK hAεβ I' hxI'
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf (x : GL ι K) = p := orderOf_eq_prime
     (by simpa using congrArg Subtype.val (hA x))
     (fun h => hx (by rw [show x = 1 from Subtype.ext h]; exact H₀.1.one_mem))
@@ -452,7 +453,7 @@ theorem concA_sp_of_weights (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.Normal]
   have hexc := finrank_ne_two_or hp hp2 hpK hA hJ hJnd hAεβ H₀ hW₀ hx hx' hW₀U
   have hxI : ∀ H ∈ I, x ∈ H.1 := fun H hH => hx' H (fun h => hH₀ (h ▸ hH)) (hI H hH)
   have hxB := mem_blkSub_wt hp hA hpK hAεβ I hxI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf (x : GL (Fin r ⊕ Fin r) K) = p := orderOf_eq_prime
     (by simpa using congrArg Subtype.val (hA x))
     (fun h => hx (by rw [show x = 1 from Subtype.ext h]; exact H₀.1.one_mem))
@@ -501,7 +502,7 @@ theorem concA_sp_of_weights (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.Normal]
       · left
         have hp3 : p ≠ 3 := by
           rintro rfl
-          haveI : CharP (semilinearFixedSubfield Dat.σ) 3 :=
+          have : CharP (semilinearFixedSubfield Dat.σ) 3 :=
             CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
               Nat.prime_three le_rfl (by rw [h3, pow_one])
           apply hpK
@@ -523,7 +524,7 @@ theorem concA_sp (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.Normal]
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) :
     S267ConcA p S B := by
   classical
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have h2 : (2 : K) ≠ 0 := by
     intro h
@@ -545,9 +546,9 @@ theorem concA_sp (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.Normal]
     ⟨φ, hφS, hφk, hC, θ, hθ, hθel, hθk, hθ1, b, A, σ, hsplit'⟩
   have hHβ : StatedSp r K ≤ isomGL (Matrix.toBilin' (formJ r K)) := ModelGen.statedSp_le_isomGL
   obtain ⟨Aε, hle, hAε, hAεβ, hAε𝒮, hmax⟩ := exists_maximal_engine Dat hHβ
-  haveI : IsMulCommutative Aε := hAε.1
+  have : IsMulCommutative Aε := hAε.1
   have hA : ∀ a : ↥Aε, a ^ p = 1 := fun a => Subtype.ext (hAε.2 a a.2)
-  haveI : DecidableEq (Hyperplane ↥Aε p) := Classical.decEq _
+  have : DecidableEq (Hyperplane ↥Aε p) := Classical.decEq _
   have hAεH : Aε ≤ StatedSp r K := fun g hg => ModelGen.mem_statedSp_of_mem_isomGL (hAεβ hg)
   have heq := inf_eq_liftGroup hp hB hrank hBC hcore hZ hB4 h2 hpK Dat hHβ hle hAε hAεβ hAε𝒮
     hmax hA (fun _ _ _ _ _ _ _ _ _ => Or.inl (invol_mem_statedSp hp hA hpK hAεβ _))
@@ -563,7 +564,7 @@ theorem concA_sp (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.Normal]
     rintro s ⟨hF, rfl⟩ i v hv
     exact preserves_weightFamily_of_semilinear (glRep Aε) (Dat.σ : K →+* K) _
       (fun c v => ModelGen.semiMap_smul Dat.A Dat.σ c v) (h𝒮 _ ⟨hF, rfl⟩) i hv
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   set T : Finset (Hyperplane ↥Aε p) :=
     Finset.univ.filter fun H' => weightSpace (glRep Aε) H'.1 ≠ ⊥ with hTdef
   have hT : ∀ H' : Hyperplane ↥Aε p, H' ∈ T ↔ weightSpace (glRep Aε) H'.1 ≠ ⊥ := fun H' => by
@@ -723,7 +724,7 @@ theorem badClsAt_C (n : ℕ) (Q : TauCeti.PrimePower)
   intro p q hp hp2 hq hq2 hqp Ω _ _ _ S B hSn hperf hcore hchar ⟨e⟩ hB _ hrank hB4 hBC _ _
   rw [TauCeti.LieTypeIndex.characteristic_C] at hchar
   subst hchar
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.C n Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.C n Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hKc : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.C n Q, hv⟩) =
       Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
@@ -741,7 +742,7 @@ theorem badClsAt_B_two (Q : TauCeti.PrimePower)
   intro p q hp hp2 hq hq2 hqp Ω _ _ _ S B hSn hperf hcore hchar ⟨e⟩ hB _ hrank hB4 hBC hp3B _
   rw [TauCeti.LieTypeIndex.characteristic_B] at hchar
   subst hchar
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 2 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 2 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hKc : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 2 Q, hv⟩) =
       Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of

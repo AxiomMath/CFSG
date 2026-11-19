@@ -276,6 +276,7 @@ variable (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Surjective C.θ) {x :
   (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd {i, j})
 include hR hsurj hij hπ
 
+omit hsurj in
 theorem CMOf_eq_thetaPre :
     CMOf M x = C.thetaPre (setStab ({i, j} : Finset (Fin 6))) := by
   ext m
@@ -296,11 +297,12 @@ theorem CMOf_eq_thetaPre :
       exact SixS.barLen_barInd_pair hij
     exact D.comm_of_barAct_eq_len_two hR hx hl (m := ⟨m, hmM⟩) hfix
 
+omit hsurj in
 theorem thetaPre_le_TOf {F : Subgroup (Perm (Fin 6))}
     (hFs : F ≤ setStab ({i, j} : Finset (Fin 6)))
     (hFn : ∀ σ ∈ setStab ({i, j} : Finset (Fin 6)), ∀ f ∈ F, σ * f * σ⁻¹ ∈ F)
     (hFsq : ∀ f ∈ F, f * f = 1) : C.thetaPre F ≤ TOf M x := by
-  have hCM := D.CMOf_eq_thetaPre hR hsurj hx hij hπ
+  have hCM := D.CMOf_eq_thetaPre hR hx hij hπ
   have hle : C.thetaPre F ≤ CMOf M x := by
     rw [hCM]
     exact C.thetaPre_mono hFs
@@ -326,8 +328,9 @@ theorem thetaPre_le_TOf {F : Subgroup (Perm (Fin 6))}
     rw [pow_succ, mul_comm, pow_mul, pow_two]
     exact hj'
 
+omit hsurj in
 theorem T2_le_TOf : C.T2 i j ≤ TOf M x :=
-  D.thetaPre_le_TOf hR hsurj hx hij hπ SixS.zpowers_swap_le_setStab
+  D.thetaPre_le_TOf hR hx hij hπ SixS.zpowers_swap_le_setStab
     (fun σ hσ f hf => by
       rcases SixS.mem_zpowers_swap hf with rfl | rfl
       · rw [mul_one, mul_inv_cancel]
@@ -336,10 +339,11 @@ theorem T2_le_TOf : C.T2 i j ≤ TOf M x :=
         exact Subgroup.mem_zpowers _)
     (fun f hf => SixS.mul_self_of_mem_zpowers_swap hf)
 
+omit hsurj in
 theorem T1_le_TOf : C.T1 i j ≤ TOf M x :=
-  D.thetaPre_le_TOf hR hsurj hx hij hπ (SixS.klein4_le_setStab hij)
-    (fun σ hσ f hf => klein4_conj_mem (SixS.card_compl_pair hij) (mem_setStab_compl hσ) hf)
-    (fun f hf => ((mem_klein4_iff (SixS.card_compl_pair hij)).1 hf).2)
+  D.thetaPre_le_TOf hR hx hij hπ (SixS.klein4_le_setStab hij)
+    (fun _σ hσ _f hf => klein4_conj_mem (SixS.card_compl_pair hij) (mem_setStab_compl hσ) hf)
+    (fun _f hf => ((mem_klein4_iff (SixS.card_compl_pair hij)).1 hf).2)
 
 theorem thetaN_eq_sym :
     C.thetaN x = Subgroup.zpowers (swap i j) ⊔ klein4 ({i, j}ᶜ : Finset (Fin 6)) := by
@@ -349,7 +353,7 @@ theorem thetaN_eq_sym :
   have hJ := SixS.card_compl_pair hij
   have hτT : τ ∈ C.thetaN x := by
     obtain ⟨m, hm⟩ := hsurj τ
-    refine C.mem_thetaN.2 ⟨m, D.T2_le_TOf hR hsurj hx hij hπ (C.mem_thetaPre.2 ⟨m.2, ?_⟩), hm⟩
+    refine C.mem_thetaN.2 ⟨m, D.T2_le_TOf hR hx hij hπ (C.mem_thetaPre.2 ⟨m.2, ?_⟩), hm⟩
     rw [show (⟨(m : G), m.2⟩ : ↥M) = m from rfl, hm]
     exact Subgroup.mem_zpowers _
   have hKT : K ≤ C.thetaN x := D.klein4_le_thetaN_six hR hx (Finset.card_pair hij) hπ

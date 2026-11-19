@@ -75,7 +75,7 @@ theorem plane (hS : Sit G p P M) {x z : G} (hx : SmallRankPoint P M x)
   SmallRankPlane.of_situation hS.setting hS.situation hx hz
 
 theorem orderOf_point (hS : Sit G p P M) {x : G} (hx : SmallRankPoint P M x) : orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   exact orderOf_eq_prime hx.pow_eq_one hx.ne_one
 
 theorem pRank_centralizer_le (hS : Sit G p P M) {x : G} (hx : SmallRankPoint P M x) :
@@ -155,13 +155,13 @@ theorem three_rank_le (hS : Sit G p P M) :
 
 theorem eq_top_of_isPGroup_quotient (hS : Sit G p P M) (N : Subgroup M) [N.Normal]
     (hN : IsPGroup p (M ⧸ N)) : N = ⊤ := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   by_contra hNtop
   have hidx : 1 < N.index := by
     have h0 : N.index ≠ 0 := Subgroup.index_ne_zero_of_finite
     have h1 : N.index ≠ 1 := fun h => hNtop (Subgroup.index_eq_one.mp h)
     omega
-  haveI hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
+  have hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
   set π := QuotientGroup.mk' N with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' : Sylow p M := P.subtype hS.sylow_le with hP'
@@ -185,7 +185,7 @@ theorem eq_top_of_isPGroup_quotient (hS : Sit G p P M) (N : Subgroup M) [N.Norma
         MonoidHom.range_eq_top.mpr hπ]
     rw [← h2, eq_top_iff, ← himg]
     exact Subgroup.map_mono hPcomm
-  haveI : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
+  have : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
   exact Group.IsPerfect.not_isNilpotent (M ⧸ N) hN.isNilpotent
 
 end Sit
@@ -216,9 +216,9 @@ theorem Sit.plane65E3 {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS : Sit G p P
   pRank_eq := hS.pRank_eq
   rank_centralizer := hS.pRank_centralizer_le hx
   sylow_centralizer := by
-    haveI : Fact p.Prime := ⟨hS.prime⟩
+    have : Fact p.Prime := ⟨hS.prime⟩
     exact CFSG.ABGLocalTools.isSylowOf_iff.mpr
-      ⟨inf_le_right, (P.isPGroup').to_le inf_le_left, hx.sylow_centralizer⟩
+      ⟨inf_le_right, (P.isPGroup).to_le inf_le_left, hx.sylow_centralizer⟩
   perfect := fun N _ hN => hS.eq_top_of_isPGroup_quotient N hN
 
 @[expose] def KFactP65SingleE3 : Prop :=

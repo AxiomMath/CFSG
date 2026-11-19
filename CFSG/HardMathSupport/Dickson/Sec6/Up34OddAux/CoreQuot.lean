@@ -19,7 +19,7 @@ variable {X T : Type*} [Group X] [Group T]
 theorem up34_isSolvable_of_surjective_of_ker_le {A G Q : Type*} [Group A] [Group G] [Group Q]
     [Group.IsSolvable Q] (ψ : A →* Q) (φ : A →* G) (hφ : Function.Surjective φ)
     (hker : ψ.ker ≤ φ.ker) : Group.IsSolvable G := by
-  haveI : Group.IsSolvable (A ⧸ ψ.ker) :=
+  have : Group.IsSolvable (A ⧸ ψ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective ψ)
   exact Group.isSolvable_of_surjective
     (QuotientGroup.lift_surjective_of_surjective ψ.ker φ hφ hker)
@@ -59,6 +59,7 @@ end Helpers
 
 variable {X T : Type} [Group X] [Group T] [Finite X] [Finite T]
 
+omit [Finite X] [Finite T] in
 theorem perfect_le_map_iSup_of_centralQuotient (π : X →* T) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center X) (α : MulAut X) (β : MulAut T)
     (hαβ : ∀ x, π (α x) = β (π x)) {ι : Type*} (F : ι → Subgroup X)
@@ -72,7 +73,7 @@ theorem perfect_le_map_iSup_of_centralQuotient (π : X →* T) (hπ : Function.S
     le_map_fixSubgroup_of_perfect π hker α β hαβ hπ hPC hP
   have hDα : (⨆ i, F i) ≤ fixSubgroup α := iSup_le hFα
   have hMN : (⨆ i, F i).map π ≤ (fixSubgroup α).map π := Subgroup.map_mono hDα
-  haveI : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+  have : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
     up34_normal_map_subgroupOf_map π (up34_conj_mem_iSup F hFn)
   have hNM : Group.IsSolvable (↥((fixSubgroup α).map π) ⧸
       ((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)) := by
@@ -86,6 +87,7 @@ theorem perfect_le_map_iSup_of_centralQuotient (π : X →* T) (hπ : Function.S
     exact ⟨x, hψ x hx, rfl⟩
   exact perfect_le_of_solvable_quotient hMN hNM hPN hP
 
+omit [Finite X] in
 theorem noL34Layer_of_centralQuotient (π : X →* T) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center X) (α : MulAut X) (β : MulAut T)
     (hαβ : ∀ x, π (α x) = β (π x)) {ι : Type*} (F : ι → Subgroup X)
@@ -102,13 +104,13 @@ theorem noL34Layer_of_centralQuotient (π : X →* T) (hπ : Function.Surjective
     perfect_le_map_iSup_of_centralQuotient π hπ hker α β hαβ F hFα hFn ψ hψ hI.1
       (glaPComponent_perfect hI)
   have hNC : (fixSubgroup α).map π ≤ fixSubgroup β := map_fixSubgroup_le π hker α β hαβ
-  haveI hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
+  have hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
     normal_map_fixSubgroup π hker α β hαβ hπ
   have hGcomp : ∀ i, IsComponentOf ((F i).map π) (fixSubgroup β) := by
     intro i
     have hq : CFSG.IsQuasisimple ((F i).map π) :=
       CFSG.LocalCores.isQuasisimple_map (hFq i) π (up34_not_le_ker_of_isQuasisimple π hker (hFq i))
-    haveI : (((F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+    have : (((F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
       up34_normal_map_subgroupOf_map π (hFn i)
     exact isComponentOf_of_normal_normal (Subgroup.map_mono (hFα i)) hNC inferInstance hNn hq
   have hIq : CFSG.Open.IsQuasisimple ↥I := hcomp.2.2
@@ -138,7 +140,7 @@ theorem noL34Layer_of_centralQuotient (π : X →* T) (hπ : Function.Surjective
   have hGq : CFSG.Open.IsQuasisimple ↥((F i).map π) := (hGcomp i).2.2
   have hGp : ⁅(F i).map π, (F i).map π⁆ = (F i).map π := Subgroup.isPerfect_iff.1 ⟨hGq.1⟩
   have hGne : (F i).map π ≠ ⊥ := by
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial (isQuasisimple_of_open_up34 hGq)
+    have := CFSG.LocalCores.isQuasisimple_nontrivial (isQuasisimple_of_open_up34 hGq)
     exact (Subgroup.nontrivial_iff_ne_bot _).1 this
   have hGeq : (F i).map π = I :=
     Lemma510Ns.eq_of_isSubnormal_of_quasisimple hIq hGsn hGp hGne

@@ -174,7 +174,7 @@ theorem inf_centralizer_ne_bot_of_commutator_ne_bot [Finite J] [R.Normal] [H.Nor
     exact hp.one_lt.ne hPcard
   have hnil : Group.IsNilpotent ↥(H ⊔ Q) := by
     refine isNilpotent_of_isSolvable_of_le_normalizer hAE hPne
-      (fun x hx => normalizer_inf_normalizer_le_normalizer_sup H Q ⟨hPH hx, hPQ hx⟩) ?_
+      (fun x hx => inf_normalizer_le_normalizer_sup H Q ⟨hPH hx, hPQ hx⟩) ?_
     intro e he hne
     rw [centralizer_singleton_eq_of_natCard_eq_prime hp hPcard he hne]
     exact hfix

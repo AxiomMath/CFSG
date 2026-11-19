@@ -150,7 +150,6 @@ theorem recOK_spec (hL : 0 < L)
       (andB (Nat.blt p N) (andB (notB (bitB s p))
         (forceB (Nat.lor s (Nat.shiftLeft 1 p)) (recOK A L N J O)))))) = true at h
     rw [forceB_eq] at h
-    beta_reduce at h
     rw [forceB_eq] at h
     obtain ⟨h1, h⟩ := orb_andB h
     obtain ⟨h2, h⟩ := orb_andB h
@@ -237,7 +236,7 @@ theorem levelsOK_spec (hL : 0 < L)
     have hpick : ∀ q ∈ b :: ps, pick q ∈ FixK χ bs ∧ ((pick q).unop ⟨b, hb⟩).1 = q :=
       fun q hq => by
         have h := hreach q hq
-        simp only [pick, dif_pos h]
+        simp only [pick, dite_eq_left h]
         exact Classical.choose_spec h.2
     have hact : ∀ q, actOp (pick q)⁻¹ = (pick q).unop := fun q => by
       funext x

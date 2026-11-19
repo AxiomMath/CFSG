@@ -106,7 +106,7 @@ theorem topmost_factor_eq_bot
   have hCinfN : C ⊓ N = ⊥ := by
     rw [hCdef, inf_assoc, inf_comm (Subgroup.centralizer (D : Set H)) N, hC, inf_bot_eq]
   have hVC : V ≤ C := le_inf hVX (Subgroup.le_centralizer_iff.mp hDV)
-  letI : CommGroup ↥X := commGroupOfElemAbelian hXe
+  let : CommGroup ↥X := commGroupOfElemAbelian hXe
   have hcommX : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := by
     intro x hx y hy
     have h1 : (⟨x, hx⟩ : ↥X) * ⟨y, hy⟩ = ⟨y, hy⟩ * ⟨x, hx⟩ := mul_comm _ _

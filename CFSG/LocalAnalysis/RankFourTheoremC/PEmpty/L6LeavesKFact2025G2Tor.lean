@@ -94,7 +94,7 @@ theorem pgl_image_aux2 (hk : ringChar K ≠ 2) {M : Type*} [Group M] {X : Subgro
       have := hmul
       rw [hrange4, h8] at this
       omega
-    haveI : Nontrivial f.ker := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial f.ker := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨x, hx1⟩ := exists_ne (1 : f.ker)
     have hxM := hker (Subgroup.inclusion hR x) (hsq x) x.2
     rcases hxM with h | h

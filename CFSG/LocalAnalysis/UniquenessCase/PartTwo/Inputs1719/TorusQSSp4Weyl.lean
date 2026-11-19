@@ -34,10 +34,10 @@ theorem IsPermSp.inv {n : StatedSp 2 K} {π : Equiv.Perm (Fin 2 ⊕ Fin 2)} (hn 
     ext i j
     rw [Matrix.mul_apply, Finset.sum_eq_single (π⁻¹ j)]
     · rw [hn]
-      simp only [Q, Matrix.of_apply, if_true, mul_one, Matrix.one_apply, Equiv.Perm.inv_def,
+      simp only [Q, Matrix.of_apply, ite_true, mul_one, Matrix.one_apply, Equiv.Perm.inv_def,
         Equiv.apply_symm_apply]
     · intro b _ hb
-      simp only [Q, Matrix.of_apply, if_neg hb, mul_zero]
+      simp only [Q, Matrix.of_apply, ite_eq_right hb, mul_zero]
     · simp
   have h : (spMat n⁻¹) = Q := by
     calc (spMat n⁻¹) = (spMat n⁻¹) * ((spMat n) * Q) := by rw [hQ, Matrix.mul_one]
@@ -55,10 +55,10 @@ theorem IsPermSp.conj_apply {n : StatedSp 2 K} {π : Equiv.Perm (Fin 2 ⊕ Fin 2
   · rw [Matrix.mul_apply, Finset.sum_eq_single k, hn, hi]
     · simp [Equiv.Perm.inv_def]
     · intro b _ hb
-      rw [hn, if_neg (fun h => hb (π.injective h).symm), zero_mul]
+      rw [hn, ite_eq_right (fun h => hb (π.injective h).symm), zero_mul]
     · simp
   · intro b _ hb
-    rw [hi, if_neg (fun h => hb (by rw [h, Equiv.Perm.inv_def, Equiv.symm_apply_apply])),
+    rw [hi, ite_eq_right (fun h => hb (by rw [h, Equiv.Perm.inv_def, Equiv.symm_apply_apply])),
       mul_zero]
   · simp
 
@@ -71,9 +71,9 @@ theorem IsPermSp.mul {n m : StatedSp 2 K} {π σ : Equiv.Perm (Fin 2 ⊕ Fin 2)}
     (hn : IsPermSp n π) (hm : IsPermSp m σ) : IsPermSp (n * m) (π * σ) := by
   intro i j
   rw [spMat_mul, Matrix.mul_apply, Finset.sum_eq_single (σ j)]
-  · rw [hn, hm, if_pos rfl, mul_one, Equiv.Perm.mul_apply]
+  · rw [hn, hm, ite_eq_left rfl, mul_one, Equiv.Perm.mul_apply]
   · intro b _ hb
-    rw [hm, if_neg hb, mul_zero]
+    rw [hm, ite_eq_right hb, mul_zero]
   · simp
 
 section CharTwo
@@ -124,7 +124,7 @@ theorem IsPermSp.conj_torusHom_mem {n : StatedSp 2 K} {π : Equiv.Perm (Fin 2 �
     hcoe, hcoe]
   by_cases hkj : k = j
   · subst hkj
-    simp only [if_true]
+    simp only [ite_true]
     congr 1
     rcases hk : π k with i | i
     · simp only [Sum.elim_inl]
@@ -141,7 +141,7 @@ theorem IsPermSp.conj_torusHom_mem {n : StatedSp 2 K} {π : Equiv.Perm (Fin 2 �
         rw [h2] at this
         exact this
       rw [h1, hu, inv_inv]
-  · rw [if_neg (fun h => hkj (π.injective h)), if_neg hkj]
+  · rw [ite_eq_right (fun h => hkj (π.injective h)), ite_eq_right hkj]
 
 omit [CharP K 2] in
 theorem IsPermSp.torus_le_normalizer_map {n : StatedSp 2 K} {π : Equiv.Perm (Fin 2 ⊕ Fin 2)}
@@ -183,7 +183,7 @@ theorem spMat_inv_apply (h : StatedSp 2 K) (a b : Fin 2 ⊕ Fin 2) :
   have hJJ : J * J = 1 := by
     ext a b
     rw [Matrix.mul_apply, Finset.sum_eq_single b.swap]
-    · simp only [J, fromBlocks_J_apply, Sum.swap_swap, if_true, mul_one, Matrix.one_apply]
+    · simp only [J, fromBlocks_J_apply, Sum.swap_swap, ite_true, mul_one, Matrix.one_apply]
     · intro c _ hc
       simp [J, fromBlocks_J_apply, hc]
     · simp
@@ -206,13 +206,13 @@ theorem spMat_inv_apply (h : StatedSp 2 K) (a b : Fin 2 ⊕ Fin 2) :
     · intro c _ hc
       have hJ : J a c = 0 := by
         simp only [J, fromBlocks_J_apply]
-        exact if_neg fun h' => hc (by rw [h', Sum.swap_swap])
+        exact ite_eq_right fun h' => hc (by rw [h', Sum.swap_swap])
       rw [hJ, zero_mul]
     · simp
   · intro c _ hc
     have hJ : J c b = 0 := by
       simp only [J, fromBlocks_J_apply]
-      exact if_neg hc
+      exact ite_eq_right hc
     rw [hJ, mul_zero]
   · simp
 

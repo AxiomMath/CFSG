@@ -70,10 +70,10 @@ private theorem filter_pow_unpackM (CP AP : List ℕ)
   refine List.filter_congr fun x _ => ?_
   rw [Function.comp_apply, pow8_beq_one]
 
-private theorem gamE_zero : gamE 0 = D.h2L.map unpackM := by rw [gamE, if_pos rfl, h2E_eq]
+private theorem gamE_zero : gamE 0 = D.h2L.map unpackM := by rw [gamE, ite_eq_left rfl, h2E_eq]
 
 private theorem gamE_one : gamE 1 = D.omNL.map unpackM := by
-  rw [gamE, if_neg Nat.one_ne_zero, omNE_eq]
+  rw [gamE, ite_eq_right Nat.one_ne_zero, omNE_eq]
 
 macro "o3_cen_tac" gl:ident L:term:max p:term:max cl:ident al:ident : tactic => `(tactic| (
   rw [$gl:ident, cenI_eq _ _ _ _ (filter_comm_unpackM $L $p $cl (by decide +kernel))

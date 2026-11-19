@@ -28,7 +28,7 @@ theorem w16l_normalizer_preimage_le
     exact Subgroup.mem_map.mpr ⟨⟨s, hsH⟩, hmem, rfl⟩
   have hYC : Y ≤ Subgroup.centralizer (U : Set G) := hYH.trans hH.1.2.1
   by_contra hNM
-  obtain ⟨x, hxN, hxM⟩ := SetLike.not_le_iff_exists.mp hNM
+  obtain ⟨x, hxN, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp hNM
   have hYM : ¬ Y ≤ M := by
     intro hle
     exact hxM (Subgroup.mem_subgroupOf.mpr

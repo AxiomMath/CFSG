@@ -18,6 +18,7 @@ variable {Ω : Type} [Field Ω] [CharP Ω 2]
 
 namespace TwE6B
 
+omit [CharP Ω 2] in
 theorem eBarTuple_apply {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (j : Fin Tag.E6.rank) :
     eBarTuple ω j = if j = 3 then ω ^ 2 else 1 := by
   have h3z : ω ^ (3 : ℤ) = 1 := by simpa using hω3
@@ -53,6 +54,7 @@ theorem eBarTuple_apply {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (j : Fin Tag.E6.rank) :
     rw [h3z]
     simp
 
+omit [CharP Ω 2] in
 theorem rootChar_eBarTuple_eq_one_iff {ω : Ωˣ} (hω : orderOf ω = 3)
     (α : Fin Tag.E6.rank → ℤ) :
     rootChar (eBarTuple ω) α = 1 ↔ (3 : ℤ) ∣ α (3 : Fin Tag.E6.rank) := by
@@ -82,11 +84,13 @@ private theorem kernel_roots_orthogonal_check :
       (α + (-Pi.single (e6Index 5) 1)) ∉ rootFinset Tag.E6 := by
   decide +kernel
 
+omit [CharP Ω 2] in
 theorem parabolicRoots_support56_subset_kernelRoots {ω : Ωˣ} :
     parabolicRoots Tag.E6 support56 ⊆ rootCharKernel (eBarTuple ω) := by
   rintro α ⟨hα, hsupp⟩
   exact ⟨hα, (rootChar_eBar_of_mem_support56 (ω := ω) ⟨hα, hsupp⟩)⟩
 
+omit [CharP Ω 2] in
 theorem torusGroup_le_normalizer_subsystemGroup (A : Set (Fin Tag.E6.rank)) :
     torusGroup Tag.E6 Ω ≤
       Subgroup.normalizer (subsystemGroup Tag.E6 Ω A : Set (ModGL Tag.E6 Ω)) := by
@@ -118,6 +122,7 @@ theorem torusGroup_le_normalizer_subsystemGroup (A : Set (Fin Tag.E6.rank)) :
     rwa [show (rootDiagUnit Tag.E6 b)⁻¹ * (rootDiagUnit Tag.E6 b * g *
       (rootDiagUnit Tag.E6 b)⁻¹) * ((rootDiagUnit Tag.E6 b)⁻¹)⁻¹ = g by group] at h1
 
+omit [CharP Ω 2] in
 theorem toralRootGroup_le_normalizer_subsystemGroup56 {ω : Ωˣ} (hω : orderOf ω = 3) :
     toralRootGroup Tag.E6 Ω (eBarTuple ω) ≤
       Subgroup.normalizer (subsystemGroup Tag.E6 Ω support56 : Set (ModGL Tag.E6 Ω)) := by

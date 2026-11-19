@@ -66,7 +66,7 @@ theorem layerC5_eq_of_setting (h52a : Asc82Lemma52a) {G : Type} [Group G] [Finit
       obtain ⟨S, hS⟩ := hT₂p.exists_le_sylow
       have hScyc : IsCyclic ↥(S : Subgroup CC) := h52a G d I hs S
       have hT₂cyc : IsCyclic ↥(T₁.subgroupOf CC) := by
-        haveI : IsCyclic ↥(S : Subgroup CC) := hScyc
+        have : IsCyclic ↥(S : Subgroup CC) := hScyc
         exact Subgroup.isCyclic_of_le hS
       have hT₂rank : Group.rank ↥(T₁.subgroupOf CC) ≤ 1 :=
         rank_le_one_of_isCyclic hT₂cyc

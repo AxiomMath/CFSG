@@ -36,8 +36,8 @@ theorem rootCoord_rootElt {k : ℕ} (δ γ : UnitRoots Tag.D4 k) (c : K) :
   rw [pc_of_pos (UnitRoots.pos Tag.D4 δ)] at h
   rw [coe_rootElt, h]
   by_cases hγδ : γ = δ
-  · rw [if_pos hγδ, if_pos (congrArg Subtype.val hγδ)]
-  · rw [if_neg hγδ, if_neg (fun h => hγδ (Subtype.ext h))]
+  · rw [ite_eq_left hγδ, ite_eq_left (congrArg Subtype.val hγδ)]
+  · rw [ite_eq_right hγδ, ite_eq_right (fun h => hγδ (Subtype.ext h))]
 
 theorem rootElt_mem_unitN' {k : ℕ} (γ : UnitRoots Tag.D4 k) (c : K) : rootElt γ.1 c ∈ unitN Tag.D4 K k :=
   rootElt_mem_unitN ⟨γ.2.1, γ.2.2⟩ c
@@ -54,7 +54,7 @@ theorem layerAct_f_ne_zero' {α : MulAut ↥(adjointGroup Tag.D4 K)} {σ : K ≃
   have h1 := la.coord k δ x x.2
   rw [hαx, h0, zero_mul] at h1
   have h2 := rootCoord_rootElt (K := K) δ δ 1
-  rw [if_pos rfl] at h2
+  rw [ite_eq_left rfl] at h2
   rw [← hy] at h2
   rw [h2] at h1
   exact one_ne_zero h1
@@ -70,22 +70,22 @@ theorem LayerAct.unique' {α : MulAut ↥(adjointGroup Tag.D4 K)} {σ σ' : K �
       intro c
       have h1 := la.coord k δ _ (hx c)
       have h2 := la'.coord k δ _ (hx c)
-      rw [rootCoord_rootElt, if_pos rfl] at h1
+      rw [rootCoord_rootElt, ite_eq_left rfl] at h1
       rw [rootCoord_rootElt] at h2
       exact h1.symm.trans h2
     have hf0 := layerAct_f_ne_zero' la k δ
     have hr : la.r k δ = la'.r k δ := by
       by_contra hne
       have := e1 1
-      rw [if_neg hne, map_zero, mul_zero, map_one, mul_one] at this
+      rw [ite_eq_right hne, map_zero, mul_zero, map_one, mul_one] at this
       exact hf0 this
     have hf : la.f k δ = la'.f k δ := by
       have := e1 1
-      rw [if_pos hr, map_one, map_one, mul_one, mul_one] at this
+      rw [ite_eq_left hr, map_one, map_one, mul_one, mul_one] at this
       exact this
     refine ⟨hr, fun c => ?_⟩
     have := e1 c
-    rw [if_pos hr, ← hf] at this
+    rw [ite_eq_left hr, ← hf] at this
     exact mul_left_cancel₀ hf0 this
   exact ⟨fun k δ => (key k δ).1, RingEquiv.ext (key 0 (δA 0)).2⟩
 

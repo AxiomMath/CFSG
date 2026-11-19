@@ -422,7 +422,7 @@ private theorem r891Esub_sup_qSub : r891Esub ⊔ r891qSub = ⊤ := by
   rw [R891Card.r891card_SUg r891natCard_F4, hcard]
 
 private theorem r891Esub_inf_qSub : r891Esub ⊓ r891qSub = ⊥ := by
-  apply Subgroup.inf_eq_bot_of_coprime
+  apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
   rw [r891Esub_card, r891qSub_card]
   norm_num
 
@@ -1539,7 +1539,7 @@ private theorem r891E9_map (hF : Nat.card F = 4)
     norm_num
   obtain ⟨e⟩ := @CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_mulEquiv_z3_two
     ↥(E₀.map (r891Rho hF))
-    (CommGroup.mk (IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hcard32))
+    (CommGroup.mk ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard32).is_comm.comm))
     (inferInstance : Finite ↥(E₀.map (r891Rho hF))) h3 hcard
   exact ⟨e⟩
 

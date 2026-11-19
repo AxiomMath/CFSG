@@ -15,7 +15,8 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem inv_mod_w_props {N : Subgroup G} (hN : IsPGroup 2 N) {x ρ : G}
+omit [Finite G] in
+private theorem inv_mod_w_props {N : Subgroup G} (_hN : IsPGroup 2 N) {x ρ : G}
     (hx : x * x = 1) (hρ : orderOf ρ = 3)
     (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hinv : x * ρ * x⁻¹ * ρ ∈ N) :
     ∃ w : G, w = x * ρ * x⁻¹ * ρ⁻¹ ∧ x * w * x⁻¹ = w⁻¹ ∧
@@ -136,6 +137,7 @@ private theorem inv_mod_exists_w' {N : Subgroup G} (hN : IsPGroup 2 N) {x ρ w :
     exact (Subgroup.normalizer (N : Set G)).pow_mem hw_norm e
   exact ⟨w', hw'ord, by dsimp [w']; rw [← conj_pow, hwconj, inv_pow], hw'ρ, hw'_norm⟩
 
+omit [Finite G] in
 private theorem inv_mod_normalizer_mem {N : Subgroup G} {x ρ : G}
     (hx : x * x = 1) (hρ : orderOf ρ = 3)
     (hxN : ∀ n ∈ N, x * n * x⁻¹ ∈ N) (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) :
@@ -236,18 +238,18 @@ private theorem commute_inv_k_center (h : Tim79a.ParrottHyp z)
       ((sigma1Nine (z := z) D * σ₂ : ↥(H z)) : G)⁻¹)
     (hq : qH (z := z) D ⟨x, hxH⟩ * (s1A * s2A⁻¹) = (s1A * s2A⁻¹) * qH (z := z) D ⟨x, hxH⟩) :
     (let σH : ↥(H z) := sigma1Nine (z := z) D * σ₂⁻¹
-     let ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
+     let _ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
      let xH : ↥(H z) := ⟨x, hxH⟩
      let kH : ↥(H z) := σH⁻¹ * (xH * σH * xH⁻¹)
      (kH : G) ∈ centerIn (J z) ∧ (kH : G) ∈ J z) := by
   dsimp only
   let σH : ↥(H z) := sigma1Nine (z := z) D * σ₂⁻¹
-  let ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
+  let _ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
   let xH : ↥(H z) := ⟨x, hxH⟩
   let kH : ↥(H z) := σH⁻¹ * (xH * σH * xH⁻¹)
   have hcomm : Commute (sigma1Nine (z := z) D) σ₂ := hc₂.symm
-  have hσρ : Commute σH ρH := by
-    dsimp [σH, ρH]
+  have hσρ : Commute σH _ρH := by
+    dsimp [σH, _ρH]
     have h1 : Commute (sigma1Nine (z := z) D * σ₂⁻¹) (sigma1Nine (z := z) D) :=
       (Commute.refl (sigma1Nine (z := z) D)).mul_left hcomm.symm.inv_left
     have h2 : Commute (sigma1Nine (z := z) D * σ₂⁻¹) σ₂ :=
@@ -265,23 +267,23 @@ private theorem commute_inv_k_center (h : Tim79a.ParrottHyp z)
     group
   have hkJ : (kH : G) ∈ J z :=
     Subgroup.mem_subgroupOf.mp ((J_mem_iff D kH).mpr hqkH)
-  have hxρ : xH * ρH * xH⁻¹ = ρH⁻¹ := by
+  have hxρ : xH * _ρH * xH⁻¹ = _ρH⁻¹ := by
     apply Subtype.ext
-    simpa [xH, ρH] using hinv
-  have hxσρ' : Commute (xH * σH * xH⁻¹) ρH := by
+    simpa [xH, _ρH] using hinv
+  have hxσρ' : Commute (xH * σH * xH⁻¹) _ρH := by
     have h := hσρ.conj xH
     rw [hxρ] at h
     exact (Commute.inv_right_iff).mp h
-  have hkcommρ : Commute kH ρH := by
+  have hkcommρ : Commute kH _ρH := by
     dsimp [kH]
     exact hσρ.inv_left.mul_left hxσρ'
-  have hcent : (kH : G) ∈ centralizer ({((ρH : ↥(H z)) : G)} : Set G) :=
+  have hcent : (kH : G) ∈ centralizer ({((_ρH : ↥(H z)) : G)} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr (by
       have h := congrArg (fun z : ↥(H z) => (z : G)) hkcommρ.eq
       simpa using h)
   have hinf : (kH : G) ∈ J z ⊓ centralizer
       ({((sigma1Nine (z := z) D * σ₂ : ↥(H z)) : G)} : Set G) :=
-    Subgroup.mem_inf.mpr ⟨hkJ, by simpa [ρH] using hcent⟩
+    Subgroup.mem_inf.mpr ⟨hkJ, by simpa [_ρH] using hcent⟩
   have hkcenter : (kH : G) ∈ centerIn (J z) := by
     rwa [J_inf_centralizer_sigma1Nine_mul_eq_centerIn_J (z := z) D h hIII hσ₂ hq₂ hc₂] at hinf
   exact ⟨hkcenter, hkJ⟩
@@ -295,13 +297,13 @@ private theorem commute_inv_k_eq_one (h : Tim79a.ParrottHyp z)
       ((sigma1Nine (z := z) D * σ₂ : ↥(H z)) : G)⁻¹)
     (hq : qH (z := z) D ⟨x, hxH⟩ * (s1A * s2A⁻¹) = (s1A * s2A⁻¹) * qH (z := z) D ⟨x, hxH⟩) :
     (let σH : ↥(H z) := sigma1Nine (z := z) D * σ₂⁻¹
-     let ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
+     let _ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
      let xH : ↥(H z) := ⟨x, hxH⟩
      let kH : ↥(H z) := σH⁻¹ * (xH * σH * xH⁻¹)
      kH = 1) := by
   dsimp only
   let σH : ↥(H z) := sigma1Nine (z := z) D * σ₂⁻¹
-  let ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
+  let _ρH : ↥(H z) := sigma1Nine (z := z) D * σ₂
   let xH : ↥(H z) := ⟨x, hxH⟩
   let kH : ↥(H z) := σH⁻¹ * (xH * σH * xH⁻¹)
   have hσH3 : σH ^ 3 = 1 := by
@@ -311,7 +313,7 @@ private theorem commute_inv_k_eq_one (h : Tim79a.ParrottHyp z)
     rw [← h3]; exact pow_orderOf_eq_one σH
   have hdata : (kH : G) ∈ centerIn (J z) ∧ (kH : G) ∈ J z := by
     have h := commute_inv_k_center (z := z) D h hIII hσ₂ hq₂ hc₂ hxH hinv hq
-    simpa [σH, ρH, xH, kH] using h
+    simpa [σH, _ρH, xH, kH] using h
   obtain ⟨hkcenter, hkJ_mem⟩ := hdata
   have hconjZσ : conjZ z σH = 1 := by
     dsimp [σH]
@@ -344,7 +346,7 @@ private theorem commute_inv_k_eq_one (h : Tim79a.ParrottHyp z)
       rw [Subgroup.orderOf_mk, Subgroup.orderOf_coe, h3eq] at hn
       have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hn
       norm_num at h32
-  simpa [σH, ρH, xH, kH] using hkH1
+  simpa [σH, _ρH, xH, kH] using hkH1
 
 theorem commute_sigma1Nine_mul_inv_of_inv (h : Tim79a.ParrottHyp z)
     (hIII : ¬ ParrottEqualityBranch (z := z) (D := D) h)
@@ -376,7 +378,7 @@ theorem commute_sigma1Nine_mul_inv_of_inv (h : Tim79a.ParrottHyp z)
     _ = ((σH : ↥(H z)) : G) * x := by rw [hgconj]
 
 private theorem qH_eq_exists_Jconj_inv (h : Tim79a.ParrottHyp z)
-    (hIII : ¬ ParrottEqualityBranch (z := z) (D := D) h)
+    (_hIII : ¬ ParrottEqualityBranch (z := z) (D := D) h)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {x : G} (hxH : x ∈ H z) (hx : x * x = 1)

@@ -92,7 +92,7 @@ theorem odd_conjugates_construct_actual_reversal_overgroup (T : Sylow 2 G)
       ¬ X ⊓ normalizer (P : Set G) ≤ X ⊓ normalizer (U : Set G) := by
   classical
   set Y := normalizer (P : Set G) with hYdef
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le hPT
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le hPT
   have hTY : (T : Subgroup G) ≤ Y :=
     (normal_subgroupOf_iff_le_normalizer hPT).1 (normal_of_index_eq_two hTP)
   have hPY : P ≤ Y := le_normalizer
@@ -234,7 +234,7 @@ theorem odd_conjugates_construct_actual_reversal_overgroup (T : Sylow 2 G)
   have hsylX : IsSylowTwoOf P X := by
     refine ⟨hPX, hP2, ?_⟩
     obtain ⟨A, hA⟩ := (hP2.comap_of_injective X.subtype X.subtype_injective).exists_le_sylow
-    have hA₀2 : IsPGroup 2 ((A : Subgroup X).map X.subtype) := A.isPGroup'.map X.subtype
+    have hA₀2 : IsPGroup 2 ((A : Subgroup X).map X.subtype) := A.isPGroup.map X.subtype
     have hPA₀ : P ≤ (A : Subgroup X).map X.subtype := fun p hp => ⟨⟨p, hPX hp⟩, hA hp, rfl⟩
     have hA₀P : (A : Subgroup X).map X.subtype = P := by
       by_contra hne
@@ -250,7 +250,7 @@ theorem odd_conjugates_construct_actual_reversal_overgroup (T : Sylow 2 G)
   have htX : t ∉ X := by
     intro htX
     have htD : t ∈ D := hXY ▸ ⟨htX, htY⟩
-    exact htP (hsyl _ (le_inf hPT hPD) inf_le_right (T.isPGroup'.to_le inf_le_left) ⟨htT, htD⟩)
+    exact htP (hsyl _ (le_inf hPT hPD) inf_le_right (T.isPGroup.to_le inf_le_left) ⟨htT, htD⟩)
   have hDU : ¬ D ≤ normalizer (U : Set G) := by
     intro hDU
     have hconjN : ∀ g, t * g * t⁻¹ ∈ normalizer (U : Set G) →

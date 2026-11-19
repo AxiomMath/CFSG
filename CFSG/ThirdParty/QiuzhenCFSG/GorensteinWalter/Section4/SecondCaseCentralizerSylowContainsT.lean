@@ -47,7 +47,7 @@ public theorem secondCase_centralizer_sylow_contains_t
     change tM * x = x * tM
     apply Subtype.ext
     simpa [tM] using h.symm
-  letI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  let : Fact (Nat.Prime 2) := ⟨by decide⟩
   have htP : IsPGroup 2 (Subgroup.zpowers tM) := by
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_zpowers]

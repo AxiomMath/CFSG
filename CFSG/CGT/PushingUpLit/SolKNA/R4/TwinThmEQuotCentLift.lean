@@ -26,7 +26,7 @@ variable {r : ℕ} {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {N : 
 
 theorem quotCent_inf_sylow_eq {S : Sylow 2 G} {M R' : Subgroup G} (hR' : IsSylow2In R' M)
     (hR'S : R' ≤ (S : Subgroup G)) : M ⊓ (S : Subgroup G) = R' :=
-  hR'.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left (le_inf hR'.1 hR'S)
+  hR'.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left (le_inf hR'.1 hR'S)
 
 theorem MinCex.quotCent_sup_inf_eq_bot (c : MinCex r Ω K S R W H) (hN2 : IsPGroup 2 ↥N)
     (hNc : N ≤ Subgroup.center G) (hmeet : ∀ J ∈ Ω, J ⊓ N = ⊥) {M J R₁ R₂ : Subgroup G}

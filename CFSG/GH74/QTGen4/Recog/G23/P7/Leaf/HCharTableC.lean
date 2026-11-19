@@ -14,7 +14,7 @@ variable {G : Type} [Group G] (H : Subgroup G) (z : G) (hz : z ∈ H)
 
 theorem mem_specialD_iff (y : ↥H) : (y : G) ∈ specialD z H ↔ InD (⟨z, hz⟩ : ↥H) y := by
   unfold specialD InD
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   have h3 : (y : G) ^ 3 = 1 ↔ y ^ 3 = 1 := by
     rw [← Subgroup.coe_pow]
     exact OneMemClass.coe_eq_one
@@ -244,10 +244,10 @@ theorem hcharProps_of_tabHyp {G : Type} [Group G] [Fintype G] (H : Subgroup G) (
         refine Finset.filter_congr fun u _ => ?_
         refine and_congr_right fun _ => ?_
         by_cases hy : y = zH
-        · rw [if_pos ((hzG y).2 hy), if_pos hy]
+        · rw [ite_eq_left ((hzG y).2 hy), ite_eq_left hy]
           exact (hzG u).not
         · have hyG : ¬ (y : G) = z := fun e => hy ((hzG y).1 e)
-          rw [if_neg hyG, if_neg hy, Subtype.ext_iff]
+          rw [ite_eq_right hyG, ite_eq_right hy, Subtype.ext_iff]
           simp
       rw [e]
       exact_mod_cast hct
@@ -260,9 +260,9 @@ theorem hcharProps_of_tabHyp {G : Type} [Group G] [Fintype G] (H : Subgroup G) (
           (h.cls y) := by
       intro y
       by_cases hy : hcDfl (h.cls y) = true
-      · rw [if_pos ((hD y).2 hy), hcount y, psiFun_tab H h 0]
+      · rw [ite_eq_left ((hD y).2 hy), hcount y, psiFun_tab H h 0]
         simp [hy, TabHyp.tab]
-      · rw [if_neg (fun hm => hy ((hD y).1 hm))]
+      · rw [ite_eq_right (fun hm => hy ((hD y).1 hm))]
         simp [hy]
     rw [Finset.sum_congr rfl fun y _ => e2 y]
     refine (h.sum_cls (fun j : Fin 20 =>

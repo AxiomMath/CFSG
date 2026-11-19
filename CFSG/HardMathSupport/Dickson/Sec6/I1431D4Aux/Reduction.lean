@@ -40,7 +40,7 @@ section Generic
 theorem exists_not_mem_zpowers {P : Type} [Group P] [Finite P] {A : Subgroup (MulAut P)}
     {ψ : MulAut P} (hψ3 : ψ ^ 3 = 1) (hψ1 : ψ ≠ 1) (hcard : Nat.card A = 9) :
     ∃ η ∈ A, η ∉ Subgroup.zpowers ψ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hle : A ≤ Subgroup.zpowers ψ := hcon
@@ -100,6 +100,7 @@ section Reduction
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem rankOneRep_range_eq (i : Fin Tag.D4.rank) :
     (rankOneRep Tag.D4 K i).range = simplePosSubgroup Tag.D4 K i ⊔ simpleNegSubgroup Tag.D4 K i := by
   have hrange : (rankOneRep Tag.D4 K i).range = Subgroup.closure
@@ -121,6 +122,7 @@ theorem rankOneRep_range_eq (i : Fin Tag.D4.rank) :
       rw [rankOneRep_lower]
       exact Subtype.ext hc.symm
 
+omit [Finite K] in
 theorem exists_linear_conj (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) (ε : ℕ) :
     ∃ Φ : ModGL Tag.D4 K, ∀ x : adjointGroup Tag.D4 K,
       (((MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε)) x :
@@ -184,7 +186,7 @@ theorem normalizer_inner_conj {i : Fin Tag.D4.rank} {c : adjointGroup Tag.D4 K}
 
 theorem commutator_adjointD4_eq_top : commutator (adjointGroup Tag.D4 K) = ⊤ := by
   obtain ⟨hs, a, b, hab⟩ := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.isSimple_adjointD4 K
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator (adjointGroup Tag.D4 K)) with h | h
   · exfalso
     have : ⁅a, b⁆ ∈ commutator (adjointGroup Tag.D4 K) := Subgroup.commutator_mem_commutator
@@ -207,14 +209,14 @@ theorem pow_three_eq_one_of_conj {g : adjointGroup Tag.D4 K} (h : (MulAut.conj g
 
 theorem d4NoCfg_of_rootSL2 (hR : D4RootSL2) : D4NoCfg := by
   intro K _ _ hchar A ψ J q cfg hq hψ hA
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
   obtain ⟨g, rfl⟩ := hψ
   have hψ3 : (MulAut.conj g) ^ 3 = 1 := cfg.elemAbelian.2 _ cfg.mem
   have hg3 : g ^ 3 = 1 := pow_three_eq_one_of_conj hψ3
   have hg1 : g ≠ 1 := by
     rintro rfl
     exact cfg.ne_one (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   have hcomp : GLAPComponent 3 (Subgroup.centralizer ({g} : Set (adjointGroup Tag.D4 K))) J := by
     have := cfg.comp

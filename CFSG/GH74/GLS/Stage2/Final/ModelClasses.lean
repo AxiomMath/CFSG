@@ -79,7 +79,7 @@ theorem D_plus_conj {M : ModelData F} (hC : ClsFacts M) (h2 : (2 : F) ≠ 0) {a 
     obtain ⟨hb1, hbm⟩ := ne_one_of_trace_zero h2 htb
     exact hC.refl_D a b ha hb haa hbb ha1 ham hb1 hbm
 
-theorem D_minus_conj {M : ModelData F} (hC : ClsFacts M) (h2 : (2 : F) ≠ 0) {a b : GL (Fin 2) F}
+theorem D_minus_conj {M : ModelData F} (hC : ClsFacts M) (_h2 : (2 : F) ≠ 0) {a b : GL (Fin 2) F}
     (ha : a ∈ M.U2) (hb : b ∈ M.U2) (haa : a * a = -1) (hbb : b * b = -1) :
     ConjMod M (diagGL a b) (swapGL F * yGL F) := by
   have hc1 : ∀ x : GL (Fin 2) F, x * x = -1 → x * x = sc2 (-1 : Fˣ) := fun x h => by

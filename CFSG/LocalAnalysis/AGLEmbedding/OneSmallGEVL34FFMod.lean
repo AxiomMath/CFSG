@@ -221,7 +221,7 @@ theorem L34FF.eq_one_of_mk_eq_mul (hcenter : Subgroup.center K = ⊥) (hle : R �
   have ht₀1' : t₀ ≠ 1 := fun h => ht₀1 (Subtype.ext h)
   have hkT₁ : (⟨k, hk⟩ : K) ∈ (T₁ : Subgroup K) :=
     hloc.centralizer_le t₀ ht₀ ht₀1' ⟨k, hk⟩ (Subtype.ext (hkT t₀ ht₀).symm)
-  obtain ⟨b, hb⟩ := T₁.isPGroup' ⟨⟨k, hk⟩, hkT₁⟩
+  obtain ⟨b, hb⟩ := T₁.isPGroup ⟨⟨k, hk⟩, hkT₁⟩
   have hk3 : k ^ 3 ^ b = 1 := by
     have := congrArg (fun x : (T₁ : Subgroup K) => ((x : K) : H ⧸ primeComplementCore 3)) hb
     simpa using this

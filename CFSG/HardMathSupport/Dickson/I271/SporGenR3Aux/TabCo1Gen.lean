@@ -38,7 +38,7 @@ theorem conj_mem_zpowers_sup {g : Q} {L : Subgroup Q} (hcomm : ∀ l ∈ L, l * 
   intro h hh l hl
   exact (Subgroup.mem_normalizer_iff.1 (hle hh) l).1 hl
 
-theorem le_card_zpowers_sup {p : ℕ} (hp : p.Prime) {g : Q} (hg : orderOf g = p) {L : Subgroup Q}
+theorem le_card_zpowers_sup {p : ℕ} (_hp : p.Prime) {g : Q} (hg : orderOf g = p) {L : Subgroup Q}
     [Finite ↥(Subgroup.zpowers g ⊔ L)] (hcomm : ∀ l ∈ L, l * g = g * l)
     (hZ : ∀ l ∈ L, (∀ m ∈ L, m * l = l * m) → l = 1) :
     p * Nat.card ↥L ≤ Nat.card ↥(Subgroup.zpowers g ⊔ L) := by
@@ -123,17 +123,17 @@ theorem shapeRkAt_of_bound {p : ℕ} (hp : p.Prime)
     (hbound : Nat.card ↥(Subgroup.centralizer ({(x : G)} : Set G) ⊓ P) ≤ p * Nat.card ↥L)
     (hG : Good ↥L) (hR : Rk ↥L) : ShapeRkAt p Good Rk x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (x : G) = p := orderOf_eq_prime hxp hx1
   set C : Subgroup G := Subgroup.centralizer ({(x : G)} : Set G) ⊓ P with hC
   have hgC : (x : G) ∈ C := ⟨Subgroup.mem_centralizer_singleton_iff.2 rfl, x.2⟩
   have hKL : Subgroup.zpowers (x : G) ⊔ L ≤ C := sup_le (Subgroup.zpowers_le.2 hgC) hLC
   have hCP : C ≤ P := inf_le_right
-  haveI : Finite ↥C :=
+  have : Finite ↥C :=
     Finite.of_injective (Subgroup.inclusion hCP) (Subgroup.inclusion_injective hCP)
-  haveI : Finite ↥(Subgroup.zpowers (x : G) ⊔ L) :=
+  have : Finite ↥(Subgroup.zpowers (x : G) ⊔ L) :=
     Finite.of_injective (Subgroup.inclusion hKL) (Subgroup.inclusion_injective hKL)
-  haveI := hs
+  have := hs
   have hcomm : ∀ l ∈ L, l * (x : G) = (x : G) * l := fun l hl =>
     Subgroup.mem_centralizer_singleton_iff.1 (hLC hl).1
   have hZ : ∀ l ∈ L, (∀ m ∈ L, m * l = l * m) → l = 1 := by

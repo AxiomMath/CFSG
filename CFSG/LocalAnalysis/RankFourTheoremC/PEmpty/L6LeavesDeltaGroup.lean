@@ -38,6 +38,7 @@ theorem sylow_sup_normal_eq_top {p : ℕ} [hp : Fact p.Prime] (N : Subgroup K) [
     rw [hi, hi0, pow_zero]
   exact Subgroup.index_eq_one.mp h1
 
+omit [Finite K] in
 theorem centralizes_of_normalizer {p : ℕ} [Fact p.Prime] (N : Subgroup K) [N.Normal]
     (hN : Nat.Coprime p (Nat.card N)) (S : Sylow p K)
     (hSN : (S : Subgroup K) ⊔ N = ⊤)
@@ -48,7 +49,7 @@ theorem centralizes_of_normalizer {p : ℕ} [Fact p.Prime] (N : Subgroup K) [N.N
   have hbot : (S : Subgroup K) ⊓ N = ⊥ := by
     rw [eq_bot_iff]
     rintro g ⟨hgS, hgN⟩
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, hgS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨g, hgS⟩
     have hgk : g ^ p ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this
@@ -99,7 +100,7 @@ theorem hasNormalPComplement_of_normalizer_le {G : Type} [Group G] [Finite G] {p
     CFSG.HasNormalPComplement p G := by
   obtain ⟨M, hMn, hMp, hMidx, -, -, -, -, -, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement Q h
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp Q.isPGroup')
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp Q.isPGroup)
   have hpq : IsPGroup p (G ⧸ M) := by
     refine IsPGroup.of_card (n := n) ?_
     rw [← Subgroup.index_eq_card, hMidx]

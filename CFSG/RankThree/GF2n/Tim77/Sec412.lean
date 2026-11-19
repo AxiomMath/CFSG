@@ -402,7 +402,7 @@ theorem sec412_conj_involution {A : Subgroup G} {g b x : G} (hbb : b * b = 1)
 
 theorem sec412_sylow_setup [Finite G] {A S₀' : Subgroup G} (hA : IsElemAbelian 2 A)
     (hS₀ : IsPGroup 2 S₀') (hmax : ∀ T : Subgroup G, IsPGroup 2 T → S₀' ≤ T → T = S₀')
-    (hSN : S₀' ≤ normalizer (A : Set G)) {P : Subgroup G} (hP : IsPGroup 2 P) (hPA : A ≤ P) :
+    (hSN : S₀' ≤ normalizer (A : Set G)) {P : Subgroup G} (hP : IsPGroup 2 P) (_hPA : A ≤ P) :
     ∃ m : G, IsPGroup 2 (conjSubgroup m S₀') ∧
       (∀ T : Subgroup G, IsPGroup 2 T → conjSubgroup m S₀' ≤ T → T = conjSubgroup m S₀') ∧
       P ≤ conjSubgroup m S₀' ∧ conjSubgroup m A ≤ conjSubgroup m S₀' ∧

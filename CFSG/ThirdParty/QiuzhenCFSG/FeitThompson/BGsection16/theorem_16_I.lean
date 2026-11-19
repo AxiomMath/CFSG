@@ -324,7 +324,7 @@ public theorem CFSG.theorem_16_I :
           have hZcyc' : IsCyclic (K ⊔ Kstar : Subgroup G) := by
             change IsCyclic (section16ZSubgroup K Kstar)
             exact hZcyc
-          letI : IsCyclic (K ⊔ Kstar : Subgroup G) := hZcyc'
+          let : IsCyclic (K ⊔ Kstar : Subgroup G) := hZcyc'
           infer_instance
         exact section16_hatW_subset_normalizer_eq_of_ti
           (G := G) hTI hWcomm hW0ne

@@ -54,7 +54,7 @@ theorem r16_67a_bot (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D.s
   obtain ⟨S, hVS, hSM, hSyl⟩ := s1667_exists_sylow D hSg h61 h129 h159 hS hs hzV
   have hnsup := hc.not_le_sup_relPPrimeCore hg' hz
   have hKV := hgap hSg h1219 h61 h1217 h129 h159 V₀ V L hV hS hs h0 g hg hpre z hz2 hz
-  obtain ⟨t, ht, htK⟩ := SetLike.not_le_iff_exists.mp (hc.not_le_relPPrimeCore hg' hz)
+  obtain ⟨t, ht, htK⟩ := IsConcreteLE.not_le_iff_exists.mp (hc.not_le_relPPrimeCore hg' hz)
   have htH : t ∈ centralizer ({z} : Set G) :=
     hc.le_centralizer_of_eq_zpowers hz (Subgroup.mem_sup_left ht)
   obtain ⟨a, ha, h2, h3⟩ := hKF G (centralizer ({z} : Set G))

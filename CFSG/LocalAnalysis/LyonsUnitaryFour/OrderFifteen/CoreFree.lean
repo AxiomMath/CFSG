@@ -97,7 +97,7 @@ theorem sylow_normal_of_isSubnormal {p : ℕ} [Fact p.Prime] (P : Sylow p H)
     (hP : (P : Subgroup H).IsSubnormal) : (P : Subgroup H).Normal := by
   have htop : CFSG.pCore p (P : Subgroup H) = ⊤ := by
     apply le_antisymm le_top
-    exact le_sSup ⟨inferInstance, P.isPGroup'.of_equiv Subgroup.topEquiv.symm⟩
+    exact le_sSup ⟨inferInstance, P.isPGroup.of_equiv Subgroup.topEquiv.symm⟩
   have h := map_pCore_le_pCore_of_isSubnormal (p := p) hP
   rw [htop, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h
   have h2 : CFSG.pCore p H ≤ P := IsPGroup.le_sylow_of_normal CFSG.pCore_isPGroup P

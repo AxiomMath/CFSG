@@ -56,11 +56,13 @@ section Thm67
 
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
 
+omit [Finite X] in
 private theorem t67_isPCompIn {H L : Subgroup X} (h : Sec6KComp X n H L) : IsPCompIn 2 H L := by
   rcases h with ⟨⟨u, hu⟩, -⟩ | ⟨hM, -⟩
   · exact hu.2.2.1
   · exact hM.1
 
+omit [Finite X] in
 private theorem t67_le_of_sec6KComp {H L : Subgroup X} (h : Sec6KComp X n H L) : L ≤ H :=
   (t67_isPCompIn h).1
 
@@ -72,20 +74,25 @@ private theorem t67_subnormal {H L : Subgroup X} (h : Sec6KComp X n H L) :
     (L.subgroupOf H).IsSubnormal :=
   (isPComponent_two_iff.1 (t67_isPCompIn h).2).1
 
+omit [Finite X] in
 private theorem t67_le_K {H L : Subgroup X} (h : Sec6KComp X n H L) : L ≤ Sec6K X n H :=
   le_sSup (s := {L | Sec6KComp X n H L}) h
 
+omit [Finite X] in
 private theorem t67_le_M {H M : Subgroup X} (h : Sec6MComp X n H M) : M ≤ Sec6M X n H :=
   le_sSup (s := {M | Sec6MComp X n H M}) h
 
+omit [Finite X] in
 private theorem t67_le_A {H A : Subgroup X} (h : Sec5Comp X n H A) : A ≤ K0 X n H := by
   rw [K0_eq_sSup_sec5Comp]
   exact le_sSup (s := {A | Sec5Comp X n H A}) h
 
+omit [Finite X] in
 private theorem t67_A_le_K (H : Subgroup X) : K0 X n H ≤ Sec6K X n H := by
   rw [sec6K_eq]
   exact le_sup_left
 
+omit [Finite X] in
 private theorem t67_mem_centralizer_iff {H : Subgroup X} {z : X} :
     z ∈ centralizer (H : Set X) ↔ H ≤ cen z := by
   rw [mem_centralizer_iff]
@@ -127,6 +134,7 @@ private theorem t67_le_centralizer {H M J : Subgroup X} (hM : IsPCompIn 2 H M)
     J ≤ centralizer (M : Set X) :=
   fun _ hj => mem_centralizer_iff.2 fun _ hm => t67_commute hM hJ hne hO hm hj
 
+omit [Finite X] in
 private theorem t67_subnormal_mono {L D D' : Subgroup X} (hDD' : D ≤ D')
     (h : (L.subgroupOf D').IsSubnormal) : (L.subgroupOf D).IsSubnormal := by
   have h1 : L.subgroupOf D = (L.subgroupOf D').comap (Subgroup.inclusion hDD') := by
@@ -148,9 +156,11 @@ private theorem t67_piece_eq {L : Subgroup X} {y : X} (hq : IsTwoGenQuasi ↥L)
   rw [inf_of_le_left hy]
   exact t67_oTwo_eq hq
 
+omit [Finite X] in
 private theorem t67_piece_le {L : Subgroup X} {y : X} : sec6Piece L y ≤ L :=
   (oTwoPrimeOf_le _).trans inf_le_left
 
+omit [Finite X] in
 private theorem t67_exists_noncomm {L : Subgroup X} (hq : IsTwoGenQuasi ↥L) :
     ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a := by
   by_contra hno
@@ -166,6 +176,7 @@ private theorem t67_exists_noncomm {L : Subgroup X} (hq : IsTwoGenQuasi ↥L) :
     (↥L ⧸ pPrimeCore 2 ↥L) ⧸ center (↥L ⧸ pPrimeCore 2 ↥L))) h
   simpa only [QuotientGroup.mk_mul] using h2
 
+omit [Finite X] in
 private theorem t67_not_sec5_of_M (hT : Sec6T67Facts n) {H H' L : Subgroup X}
     (h5 : Sec5Comp X n H L) (hM : Sec6MComp X n H' L) : False := by
   have hdc := h5.2
@@ -174,9 +185,11 @@ private theorem t67_not_sec5_of_M (hT : Sec6T67Facts n) {H H' L : Subgroup X}
   rw [hcen, Subgroup.card_bot] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite X] in
 private theorem t67_K_le (H : Subgroup X) : Sec6K X n H ≤ H :=
   sSup_le fun _ hL => t67_le_of_sec6KComp hL
 
+omit [Finite X] in
 private theorem t67_M_le_K (H : Subgroup X) : Sec6M X n H ≤ Sec6K X n H := by
   rw [sec6K_eq]
   exact le_sup_right
@@ -192,7 +205,7 @@ private theorem t67_Mt_ne_bot (hS : Sec6Setting X n t) : Sec6M X n (cen t) ≠ �
 
 private theorem t67_not_top_le_cen (hS : Sec6Setting X n t) : ¬ (⊤ : Subgroup X) ≤ cen t := by
   intro h
-  haveI := hS.cex.simple
+  have := hS.cex.simple
   have hct : t ∈ center X :=
     mem_center_iff.2 fun g => mem_centralizer_singleton_iff.1 (h (mem_top g))
   have hbot : center X = ⊥ := by
@@ -206,6 +219,7 @@ private theorem t67_not_top_le_cen (hS : Sec6Setting X n t) : ¬ (⊤ : Subgroup
   rw [hct, orderOf_one] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite X] in
 private theorem t67_zStar_le (H : Subgroup X) : zStar H ≤ H := inf_le_left
 
 private theorem t67_oddL (hodd : oddCoreOf (Sec6K X n (cen t)) = ⊥) {L : Subgroup X}
@@ -263,6 +277,7 @@ private theorem t67_base_le_MQ (hT : Sec6T67Facts n) (hodd : oddCoreOf (Sec6K X 
     Sec6Base X n t ≤ Sec6M X n (cen t) ⊔ Sec6Q X n (cen t) :=
   sup_le le_sup_left (le_sup_of_le_right (t67_zStar_le_Q hT hodd))
 
+omit [Finite X] in
 private theorem t67_base_le_K : Sec6Base X n t ≤ Sec6K X n (cen t) :=
   sup_le (t67_M_le_K _) ((t67_zStar_le _).trans (t67_A_le_K _))
 
@@ -289,26 +304,31 @@ private theorem t67_K_le_of_Q (h61 : Sec6L61 X n t) {z : X} (hzQ : z ∈ Sec6Q X
 private def t67VE (n : ℕ) (E : Subgroup X) : Subgroup X :=
   ⨆ (y : X) (_ : y ∈ E) (_ : orderOf y = 2), Sec6K X n (cen y)
 
+omit [Finite X] in
 private theorem t67_le_VE {E : Subgroup X} {y : X} (hy : y ∈ E) (hy2 : orderOf y = 2) :
     Sec6K X n (cen y) ≤ t67VE n E :=
   le_iSup_of_le y (le_iSup_of_le hy (le_iSup_of_le hy2 le_rfl))
 
+omit [Finite X] in
 private theorem t67_VE_le {E W : Subgroup X}
     (h : ∀ y ∈ E, orderOf y = 2 → Sec6K X n (cen y) ≤ W) : t67VE n E ≤ W :=
   iSup_le fun y => iSup_le fun hy => iSup_le fun hy2 => h y hy hy2
 
+omit [Finite X] in
 private theorem t67_map_map_symm (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.symm.toMonoidHom).map φ.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.toMonoidHom.comp φ.symm.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem t67_map_symm_map (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.toMonoidHom).map φ.symm.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.symm.toMonoidHom.comp φ.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem t67VE_map_le (φ : X ≃* X) (E : Subgroup X) :
     (t67VE n E).map φ.toMonoidHom ≤ t67VE n (E.map φ.toMonoidHom) := by
   unfold t67VE
@@ -319,6 +339,7 @@ private theorem t67VE_map_le (φ : X ≃* X) (E : Subgroup X) :
   have hy2 : orderOf (φ x) = 2 := (MulEquiv.orderOf_eq φ x).trans hx2
   exact le_iSup_of_le (φ x) (le_iSup_of_le hy (le_iSup_of_le hy2 le_rfl))
 
+omit [Finite X] in
 private theorem t67VE_map (φ : X ≃* X) (E : Subgroup X) :
     (t67VE n E).map φ.toMonoidHom = t67VE n (E.map φ.toMonoidHom) := by
   refine le_antisymm (t67VE_map_le φ E) ?_
@@ -326,12 +347,14 @@ private theorem t67VE_map (φ : X ≃* X) (E : Subgroup X) :
       (t67VE_map_le (n := n) φ.symm (E.map φ.toMonoidHom))
   rwa [t67_map_map_symm, t67_map_symm_map] at h
 
+omit [Finite X] in
 private theorem t67_le_normalizer_of_VE {E V H : Subgroup X} (hH : H ≤ normalizer (E : Set X))
     (hE : t67VE n E = V) : H ≤ normalizer (V : Set X) := by
   intro g hg
   apply mem_normalizer_of_map_conj_eq
   rw [← hE, t67VE_map, map_conj_eq_of_mem_normalizer (hH hg)]
 
+omit [Finite X] in
 private theorem t67_normalizer_le_normalizer_Z (K : Subgroup X) :
     normalizer (K : Set X) ≤ normalizer ((K ⊓ centralizer (K : Set X) : Subgroup X) : Set X) := by
   intro g hg
@@ -355,19 +378,23 @@ private theorem t67_normalizer_le_normalizer_Z (K : Subgroup X) :
     have e2 : h * k = g⁻¹ * ((g * h * g⁻¹) * (g * k * g⁻¹)) * g := by group
     rw [e1, e2, this]
 
+omit [Finite X] in
 private theorem t67_pPrimeCore_eq_bot {L : Subgroup X} (h : pPrimeCoreOf 2 L = ⊥) :
     pPrimeCore 2 ↥L = ⊥ :=
   (Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective).1 h
 
+omit [Finite X] in
 private theorem t67_quotEquiv {L : Subgroup X} (h : pPrimeCoreOf 2 L = ⊥) :
     Nonempty (↥L ⧸ pPrimeCore 2 ↥L ≃* ↥L) :=
   ⟨(QuotientGroup.quotientMulEquivOfEq (t67_pPrimeCore_eq_bot h)).trans QuotientGroup.quotientBot⟩
 
+omit [Finite X] in
 private theorem t67_type_M {H M : Subgroup X} (hM : Sec6MComp X n H M)
     (hO : pPrimeCoreOf 2 M = ⊥) : IsSec6MType n ↥M := by
   obtain ⟨e⟩ := t67_quotEquiv hO
   exact hM.2.congr e
 
+omit [Finite X] in
 private theorem t67_dc_A {H A : Subgroup X} (hA : Sec5Comp X n H A) (hO : pPrimeCoreOf 2 A = ⊥) :
     IsDoubleCoverOfAlt ↥A n := by
   obtain ⟨e⟩ := t67_quotEquiv hO
@@ -376,7 +403,7 @@ private theorem t67_dc_A {H A : Subgroup X} (hA : Sec5Comp X n H A) (hO : pPrime
 private theorem t67_card_dc {K : Type} [Group K] [Finite K] {m : ℕ} (hm : 2 ≤ m)
     (h : IsDoubleCoverOfAlt K m) : Nat.card K = m.factorial := by
   obtain ⟨-, hc, ⟨e⟩⟩ := h
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (center K)
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin, hc] at h1
   rw [h1]
@@ -396,7 +423,7 @@ private theorem t67_exists_noncentral (hT : Sec6T67Facts n) {K : Type} [Group K]
 
 private theorem t67_center_eq_bot (hT : Sec6T67Facts n) {Q : Type} [Group Q] (hQ : IsSec6MType n Q)
     (hnc : ∃ a b : Q, a * b ≠ b * a) : center Q = ⊥ := by
-  haveI := hT.simple Q hQ
+  have := hT.simple Q hQ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center Q) with h | h
   · exact h
   · exfalso
@@ -427,6 +454,7 @@ private theorem t67_decomp (hodd : oddCoreOf (Sec6K X n (cen t)) = ⊥) {L : Sub
   rw [Subgroup.coe_mul_of_right_le_normalizer_left L _ (centralizer_le_normalizer _)] at hmem
   exact Set.mem_mul.1 hmem
 
+omit [Finite X] in
 private theorem t67_sq_of_decomp {L : Subgroup X} (hZ : L ⊓ centralizer (L : Set X) = ⊥)
     {m d y : X} (hm : m ∈ L) (hd : d ∈ Subgroup.centralizer (L : Set X)) (hy : m * d = y)
     (hy2 : y ^ 2 = 1) : m ^ 2 = 1 := by
@@ -442,10 +470,12 @@ private theorem t67_sq_of_decomp {L : Subgroup X} (hZ : L ⊓ centralizer (L : S
   rw [hZ, mem_bot] at h2
   exact h2
 
+omit [Finite X] in
 private theorem t67_sq_eq_one {y : X} (hy2 : orderOf y = 2) : y ^ 2 = 1 := by
   rw [← hy2]
   exact pow_orderOf_eq_one y
 
+omit [Finite X] in
 private theorem t67_map_cen_le {M : Subgroup X} {w : X} (hw : w ∈ M) :
     (centralizer ({⟨w, hw⟩} : Set ↥M)).map M.subtype ≤ M ⊓ cen w := by
   rintro _ ⟨y, hy, rfl⟩
@@ -503,6 +533,7 @@ private theorem t67_piece_inv (hT : Sec6T67Facts n) (hodd : oddCoreOf (Sec6K X n
   refine ⟨w, (u : ↥M), hwM, (u : ↥M).2, hw2, orderOf_eq_prime hu2' hu1, hne, huc'.symm,
     hpiece w hwM rfl (t67_sq_eq_one hw2), hpiece _ (u : ↥M).2 huc' hu2'⟩
 
+omit [Finite X] in
 private theorem t67_cenM_dc (hT : Sec6T67Facts n) {H M : Subgroup X} (hM : Sec6MComp X n H M)
     (hO : pPrimeCoreOf 2 M = ⊥) {w : X} (hwM : w ∈ M) (hw2 : orderOf w = 2) :
     IsDoubleCoverOfAlt ↥(M ⊓ cen w) n := by
@@ -543,6 +574,7 @@ private theorem t67_gen (hT : Sec6T67Facts n) (hC : Sec6CtrlAt X n t)
   exact sup_le_sup ((t67_map_cen_le hw).trans (t67_cenM_le_K hT hC hodd hM hw hw2))
     ((t67_map_cen_le hw').trans (t67_cenM_le_K hT hC hodd hM hw' hw2'))
 
+omit [Finite X] in
 private theorem t67_le_V {w : X} (hwM : w ∈ Sec6M X n (cen t)) (hw2 : orderOf w = 2) :
     Sec6K X n (cen w) ≤ sec6V X n t :=
   le_iSup_of_le w (le_iSup_of_le hwM (le_iSup_of_le hw2 le_rfl))
@@ -759,12 +791,13 @@ private theorem t67_K_le_of_pu (hT : Sec6T67Facts n) (hS : Sec6Setting X n t) (h
   obtain ⟨L, hL, rfl⟩ := t67_pu hT hS hK h61 hC h65 hodd hy hy2 hVy hF
   exact t67_piece_le.trans (t67_le_K hL)
 
+omit [Finite X] in
 private theorem t67_mem_normalizer_inf {A B : Subgroup X} {g : X}
     (hA : g ∈ normalizer (A : Set X)) (hB : g ∈ normalizer (B : Set X)) :
     g ∈ normalizer ((A ⊓ B : Subgroup X) : Set X) := by
   rw [mem_normalizer_iff] at hA hB ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at hA hB ⊢
+  simp only [Subgroup.mem_inf] at hA hB ⊢
   rw [hA h, hB h]
 
 private theorem t67_oddN_inf {V : Subgroup X} (hOV : oddCoreOf V = ⊥) :
@@ -799,6 +832,7 @@ private theorem t67_oddN_le_cen {V : Subgroup X} (hOV : oddCoreOf V = ⊥) :
   rw [t67_oddN_inf hOV, mem_bot] at h3
   exact (commutatorElement_eq_one_iff_mul_comm.1 h3).symm
 
+omit [Finite X] in
 private theorem t67_normal_cover {F D : Subgroup X} (hq : IsTwoGenQuasi ↥F) (hDF : D ≤ F)
     (hFD : F ≤ normalizer (D : Set X)) :
     F ≤ pPrimeCoreOf 2 F ⊔ D ∨ ∀ d ∈ D, ∀ f ∈ F, ⁅d, f⁆ ∈ pPrimeCoreOf 2 F := by
@@ -831,6 +865,7 @@ private theorem t67_normal_cover {F D : Subgroup X} (hq : IsTwoGenQuasi ↥F) (h
       rwa [← QuotientGroup.ker_mk' (pPrimeCore 2 ↥F), MonoidHom.mem_ker]
     exact ⟨_, h2, rfl⟩
 
+omit [Finite X] in
 private theorem t67_le_of_mul {F O D : Subgroup X} (hF : oTwoPrimeOf F = F) (hFOD : F ≤ O ⊔ D)
     (hDO : D ≤ normalizer (O : Set X)) (hOdd : Odd (Nat.card O))
     (hc : ∀ o ∈ O, ∀ d ∈ D, o * d = d * o) : F ≤ D := by
@@ -1019,11 +1054,13 @@ private theorem t67_R_le_base (hT : Sec6T67Facts n)
     refine sSup_le fun F hF => le_sup_of_le_left ?_
     exact t67_le_M ((hKN F (Or.inr hF)).2 hF)
 
+omit [Finite X] in
 private theorem t67_ne_one_of_orderOf {x : X} (hx : orderOf x = 2) : x ≠ 1 := fun h => by
   rw [h, orderOf_one] at hx
   exact absurd hx (by norm_num)
 
-private theorem t67_comm_central {g c h d : X} (hcg : Commute c g) (hch : Commute c h)
+omit [Finite X] in
+private theorem t67_comm_central {g c h d : X} (_hcg : Commute c g) (hch : Commute c h)
     (hcd : Commute c d) (hdg : Commute d g) : ⁅g * c, h * d⁆ = ⁅g, h⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have e1 : g * c * (h * d) * (g * c)⁻¹ * (h * d)⁻¹ =
@@ -1033,6 +1070,7 @@ private theorem t67_comm_central {g c h d : X} (hcg : Commute c g) (hch : Commut
   rw [e2, hdg.inv_right.eq]
   group
 
+omit [Finite X] in
 private theorem t67b_eq_one_of_sq {O : Subgroup X} (hO : Odd (Nat.card O)) {c : X} (hc : c ∈ O)
     (h2 : c ^ 2 = 1) : c = 1 := by
   have h1 : orderOf c ∣ 2 := orderOf_dvd_of_pow_eq_one h2
@@ -1040,6 +1078,7 @@ private theorem t67b_eq_one_of_sq {O : Subgroup X} (hO : Odd (Nat.card O)) {c : 
     Nat.Coprime.coprime_dvd_left (Subgroup.orderOf_dvd_natCard O hc) (Nat.coprime_two_right.2 hO)
   exact orderOf_eq_one_iff.1 (Nat.Coprime.eq_one_of_dvd h3 h1)
 
+omit [Finite X] in
 private theorem t67b_comm_of_mod {O : Subgroup X} (hO : Odd (Nat.card O)) {a w : X}
     (hw2 : w ^ 2 = 1) (hc : ⁅a, w⁆ ∈ O) (hcw : ⁅a, w⁆ * w = w * ⁅a, w⁆) : a * w = w * a := by
   have h1 : a * w * a⁻¹ = ⁅a, w⁆ * w := by rw [commutatorElement_def]; group
@@ -1079,6 +1118,7 @@ private theorem t67b_perfect {L : Subgroup X} (hq : IsTwoGenQuasi ↥L)
     (hle.trans fun g hg => mem_normalizer_pPrimeCoreOf_of_mem hg) (odd_card_oddCoreOf L)
     fun o ho d hd => (mem_centralizer_iff.1 (hOc ho) d (hle hd)).symm
 
+omit [Finite X] in
 private theorem t67b_cent {G Z : Subgroup X} {o : X} (hperf : ⁅G, G⁆ = G)
     (hZG : Z ≤ centralizer (G : Set X)) (hZle : Z ≤ G) (ho : ∀ g ∈ G, ⁅o, g⁆ ∈ Z) :
     o ∈ centralizer (G : Set X) := by
@@ -1169,6 +1209,7 @@ private theorem t67b_no5 (hA0 : K0 X n (cen t) = ⊥) {L : Subgroup X}
   rw [hLb, mem_bot] at hv
   exact t67_ne_one_of_orderOf hv2 hv
 
+omit [Finite X] in
 private theorem t67b_KM (hA0 : K0 X n (cen t) = ⊥) : Sec6K X n (cen t) = Sec6M X n (cen t) := by
   rw [sec6K_eq, hA0, bot_sup_eq]
 
@@ -1181,7 +1222,7 @@ private theorem t67b_Oc
         (t67_subnormal_mono (t67_K_le (cen t)) (t67_subnormal hL))
   exact (h1.trans hOZ).trans (Subgroup.centralizer_le (t67_le_K hL))
 
-private theorem t67b_decomp (hT : Sec6T67Facts n) (hA0 : K0 X n (cen t) = ⊥)
+private theorem t67b_decomp (hT : Sec6T67Facts n) (_hA0 : K0 X n (cen t) = ⊥)
     (hOZ : oddCoreOf (Sec6K X n (cen t)) ≤ centralizer (Sec6K X n (cen t) : Set X))
     {L : Subgroup X} (hM : Sec6MComp X n (cen t) L) {y : X} (hy : y ∈ Sec6K X n (cen t))
     (hy2 : y ^ 2 = 1) :
@@ -1236,6 +1277,7 @@ private theorem t67b_orderOf_mk {L : Subgroup X} {v : X} (hv : v ∈ L) (hv2 : o
   · rw [← MonoidHom.mem_ker, QuotientGroup.ker_mk'] at h
     exact t67b_not_mem_odd hv2 ⟨_, h, rfl⟩
 
+omit [Finite X] in
 private theorem t67b_comm_mem_odd {L : Subgroup X} {a v : ↥L}
     (h : QuotientGroup.mk' (pPrimeCore 2 ↥L) a * QuotientGroup.mk' (pPrimeCore 2 ↥L) v =
       QuotientGroup.mk' (pPrimeCore 2 ↥L) v * QuotientGroup.mk' (pPrimeCore 2 ↥L) a) :
@@ -1399,6 +1441,7 @@ private theorem t67b_gen (hT : Sec6T67Facts n) (hC : Sec6CtrlAt X n t)
     exact mul_mem (mul_mem (mul_mem hh1 hh2) (inv_mem hh1)) (inv_mem hh2)
   exact hLH.trans (sup_le_sup inf_le_right inf_le_right)
 
+omit [Finite X] in
 private theorem t67_Z_eq_bot' (hT : Sec6T67Facts n) {M : Subgroup X} (hty : IsSec6MType n ↥M)
     (hnc : ∃ a ∈ M, ∃ b ∈ M, a * b ≠ b * a) : M ⊓ centralizer (M : Set X) = ⊥ := by
   obtain ⟨a, ha, b, hb, hab⟩ := hnc
@@ -1410,6 +1453,7 @@ private theorem t67_Z_eq_bot' (hT : Sec6T67Facts n) {M : Subgroup X} (hty : IsSe
   rw [hc, mem_bot] at hxc
   exact mem_bot.2 (congrArg Subtype.val hxc)
 
+omit [Finite X] in
 private theorem t67_commutator_eq {A : Subgroup X} (h : Group.IsPerfect ↥A) : ⁅A, A⁆ = A := by
   have h1 := h.commutator_eq_top
   rw [_root_.commutator_def] at h1
@@ -1425,20 +1469,24 @@ section V2
 
 variable {M0 : Subgroup X}
 
+omit [Finite X] in
 private theorem t67_v2_le_normalizer_M0 (hMc : M0 ≤ centralizer (Sec6M X n (cen t) : Set X)) :
     Sec6M X n (cen t) ≤ normalizer (M0 : Set X) :=
   (le_centralizer_iff.1 hMc).trans (centralizer_le_normalizer _)
 
+omit [Finite X] in
 private theorem t67_v2_decomp (hMc : M0 ≤ centralizer (Sec6M X n (cen t) : Set X)) {v : X}
     (hv : v ∈ M0 ⊔ Sec6M X n (cen t)) : ∃ a ∈ M0, ∃ b ∈ Sec6M X n (cen t), a * b = v := by
   have hv' : v ∈ ((M0 ⊔ Sec6M X n (cen t) : Subgroup X) : Set X) := hv
   rw [Subgroup.coe_mul_of_right_le_normalizer_left _ _ (t67_v2_le_normalizer_M0 hMc)] at hv'
   exact Set.mem_mul.1 hv'
 
+omit [Finite X] in
 private theorem t67_v2_normal_Mt (hMc : M0 ≤ centralizer (Sec6M X n (cen t) : Set X)) :
     M0 ⊔ Sec6M X n (cen t) ≤ normalizer (Sec6M X n (cen t) : Set X) :=
   sup_le (hMc.trans (centralizer_le_normalizer _)) Subgroup.le_normalizer
 
+omit [Finite X] in
 private theorem t67_v2_normal_M0 (hMc : M0 ≤ centralizer (Sec6M X n (cen t) : Set X)) :
     M0 ⊔ Sec6M X n (cen t) ≤ normalizer (M0 : Set X) :=
   sup_le Subgroup.le_normalizer (t67_v2_le_normalizer_M0 hMc)
@@ -1508,7 +1556,7 @@ private theorem t67_v2_odd (hT : Sec6T67Facts n) (hS : Sec6Setting X n t) (hC : 
     have hAM := (t67_le_A hA').trans (t67_v2_A_le hT hS hC hodd hMc hVeq)
     exact ⟨a, hAM ha, b, hAM hb, hab⟩
   have hZ := t67_Z_eq_bot' hT hM0 hnc
-  haveI := hT.simple _ hM0
+  have := hT.simple _ hM0
   have hVM0 : sec6V X n t ≤ normalizer (M0 : Set X) := hVeq ▸ t67_v2_normal_M0 hMc
   have hM0V : M0 ≤ sec6V X n t := hVeq ▸ le_sup_left
   have hVO : sec6V X n t ≤ normalizer (oddCoreOf (sec6V X n t) : Set X) :=
@@ -1564,6 +1612,7 @@ private theorem t67_v2_odd (hT : Sec6T67Facts n) (hS : Sec6Setting X n t) (hC : 
   rw [hodd] at h
   exact le_bot_iff.1 h
 
+omit [Finite X] in
 private theorem t67_cen_dc (hT : Sec6T67Facts n) {M : Subgroup X} (hty : IsSec6MType n ↥M) {w : X}
     (hwM : w ∈ M) (hw2 : orderOf w = 2) : IsDoubleCoverOfAlt ↥(M ⊓ cen w) n := by
   have hdc := hT.cen ↥M hty ⟨w, hwM⟩ (by rw [Subgroup.orderOf_mk]; exact hw2)
@@ -1576,6 +1625,7 @@ private theorem t67_cen_dc (hT : Sec6T67Facts n) {M : Subgroup X} (hty : IsSec6M
     ((Subgroup.equivMapOfInjective _ M.subtype M.subtype_injective).trans
       (MulEquiv.subgroupCongr heq)) hdc
 
+omit [Finite X] in
 private theorem t67_cen_center (hT : Sec6T67Facts n) {M : Subgroup X} (hty : IsSec6MType n ↥M)
     {w : X} (hwM : w ∈ M) (hw2 : orderOf w = 2) {z : X} (hz : z ∈ M ⊓ cen w)
     (hzc : M ⊓ cen w ≤ cen z) : z = 1 ∨ z = w := by
@@ -1605,18 +1655,20 @@ private theorem t67_card_type {Q Q' : Type} [Group Q] [Group Q'] (h : IsSec6MTyp
   · omega
   · exact Nat.card_congr (e.trans e'.symm).toEquiv
 
+omit [Finite X] in
 private theorem t67_exists_A (hA : K0 X n (cen t) ≠ ⊥) : ∃ A, Sec5Comp X n (cen t) A := by
   by_contra hno
   apply hA
   rw [K0_eq_sSup_sec5Comp]
   exact sSup_eq_bot.2 fun A h => absurd ⟨A, h⟩ hno
 
+omit [Finite X] in
 private theorem t67_v2_pump_disj (hT : Sec6T67Facts n)
     (hMc : M0 ≤ centralizer (Sec6M X n (cen t) : Set X))
     {y : X} {F : Subgroup X} (hFM : Sec6MComp X n (cen y) F) (hOF : pPrimeCoreOf 2 F = ⊥)
     (hFV : F ≤ M0 ⊔ Sec6M X n (cen t)) (hnc : ¬ CentModOdd F t) :
     Disjoint (Sec6M X n (cen t)) F := by
-  haveI := hT.simple _ (t67_type_M hFM hOF)
+  have := hT.simple _ (t67_type_M hFM hOF)
   have hn : ((Sec6M X n (cen t)).subgroupOf F).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
@@ -1721,6 +1773,7 @@ private theorem t67_v2_K_le_V {w : X} (hw : w ∈ Sec6Base X n t) (hw2 : orderOf
       (t67_v2_hV hT hS hC hodd hA hMM hMc hVeq hm')).trans (t67_K_le_V hT hS hC hodd)
 
 include hT hS hK hC h65 hodd hA hM0 hMc hVeq in
+omit hK in
 private theorem t67_v2_exists_M0 : ∃ y0, orderOf y0 = 2 ∧ Sec6MComp X n (cen y0) M0 := by
   have htM0 := t67_v2_t_mem hT hS hC hodd hA hMc hVeq
   have hZ := t67_v2_Z hT hS hC hodd hA hMc hVeq hM0
@@ -1755,7 +1808,7 @@ private theorem t67_v2_exists_M0 : ∃ y0, orderOf y0 = 2 ∧ Sec6MComp X n (cen
     have hFV : F ≤ M0 ⊔ Sec6M X n (cen t) :=
       hVeq ▸ (t67_le_K (Or.inr hFM)).trans (t67_le_V hy0 hy02)
     have hdisj := t67_v2_pump_disj hT hMc hFM hOF hFV hnc
-    haveI := hT.simple _ (t67_type_M hFM hOF)
+    have := hT.simple _ (t67_type_M hFM hOF)
     rcases hL with hLA | hLM
     ·
       have hLy : L ≤ cen y0 := (t67_le_A hLA).trans
@@ -1788,7 +1841,7 @@ private theorem t67_v2_exists_M0 : ∃ y0, orderOf y0 = 2 ∧ Sec6MComp X n (cen
 include hT hS hK hC h65 hodd hA hM0 hMc hVeq in
 private theorem t67_v2_M0_le {w : X} (hw : w ∈ Sec6M X n (cen t)) (hw2 : orderOf w = 2) :
     M0 ≤ Sec6M X n (cen w) := by
-  obtain ⟨y0, -, hM0y⟩ := t67_v2_exists_M0 hT hS hK hC h65 hodd hA hM0 hMc hVeq
+  obtain ⟨y0, -, hM0y⟩ := t67_v2_exists_M0 hT hS hC h65 hodd hA hM0 hMc hVeq
   exact t67_le_M_of_cent hK hM0y hw2 (t67_mem_centralizer_iff.1 (le_centralizer_iff.1 hMc hw))
 
 include hT hS hK hC h65 hodd hA hM0 hMc hVeq in
@@ -1855,6 +1908,7 @@ private theorem t67_v2_exists_noncen {y : X} (hy : y ∈ Sec6M X n (cen t)) (hy2
   omega
 
 include hT hS hK hC h65 hodd hA hM0 hMM hMc hVeq in
+omit hS hK hA hM0 hMM in
 private theorem t67_v2_piece_A {y : X} (hy : y ∈ Sec6M X n (cen t)) (hy2 : orderOf y = 2)
     {M : Subgroup X} (hM : Sec6MComp X n (cen t) M) (hMy : ¬ M ≤ cen y) :
     sec6Piece M y ≤ K0 X n (cen y) := by
@@ -1896,7 +1950,7 @@ private theorem t67_v2_cen_le_M {y : X} (hy : y ∈ Sec6M X n (cen t)) (hy2 : or
   obtain ⟨M1, hM1, hM1y⟩ := t67_v2_exists_noncen hT hS hK hC h65 hodd hA hM0 hMM hMc hVeq hy hy2
   obtain ⟨w1, -, hw1M, -, hw12, -, -, -, hw1P, -⟩ := t67_piece_inv hT hodd hM1 hyK hy2
   have hw1A : w1 ∈ K0 X n (cen y) :=
-    t67_v2_piece_A hT hS hK hC h65 hodd hA hM0 hMM hMc hVeq hy hy2 hM1 hM1y hw1P
+    t67_v2_piece_A hT hC h65 hodd hMc hVeq hy hy2 hM1 hM1y hw1P
   have hw1Mt : w1 ∈ Sec6M X n (cen t) := t67_le_M hM1 hw1M
   have hVE : t67VE n (K0 X n (cen y)) = sec6V X n t := by
     refine le_antisymm (t67_VE_le fun w hw hw2 => t67_le_V
@@ -1913,13 +1967,14 @@ private theorem t67_v2_cen_le_M {y : X} (hy : y ∈ Sec6M X n (cen t)) (hy2 : or
         exact (t67_le_M_of_cent hK hM hw12 hMw).trans ((t67_M_le_K _).trans (t67_le_VE hw1A hw12))
       · obtain ⟨w, w', hwM, hw'M, hw2, hw2', hne, hc, hwP, hw'P⟩ :=
           t67_piece_inv hT hodd hM hyK hy2
-        have hwA := t67_v2_piece_A hT hS hK hC h65 hodd hA hM0 hMM hMc hVeq hy hy2 hM hMy hwP
-        have hw'A := t67_v2_piece_A hT hS hK hC h65 hodd hA hM0 hMM hMc hVeq hy hy2 hM hMy hw'P
+        have hwA := t67_v2_piece_A hT hC h65 hodd hMc hVeq hy hy2 hM hMy hwP
+        have hw'A := t67_v2_piece_A hT hC h65 hodd hMc hVeq hy hy2 hM hMy hw'P
         exact (t67_gen hT hC hodd hM hwM hw'M hw2 hw2' hne hc).trans
           (sup_le (t67_le_VE hwA hw2) (t67_le_VE hw'A hw2'))
   exact t67_le_normalizer_of_VE (K0_cen_normal n y) hVE
 
 include hT hS hC hodd hA hMc hVeq in
+omit hT hC hodd hMc hVeq in
 private theorem t67_v2_t_zStar : t ∈ zStar (K0 X n (cen t)) := by
   have htA := hS.central hA
   refine Subgroup.mem_inf.2 ⟨htA, Subgroup.le_normalizer htA,
@@ -1932,7 +1987,7 @@ include hT hS hK h61 hC h65 hodd hA hM0 hMM hMc hVeq in
 private theorem t67_v2_cen_le_mt {m : X} (hm : m ∈ Sec6M X n (cen t)) (hm2 : orderOf m = 2) :
     cen (m * t) ≤ normalizer (sec6V X n t : Set X) := by
   have htM0 := t67_v2_t_mem hT hS hC hodd hA hMc hVeq
-  have htZ := t67_v2_t_zStar hT hS hC hodd hA hMc hVeq
+  have htZ := t67_v2_t_zStar hS hA
   have hmt : m * t = t * m := mem_centralizer_iff.1 (hMc htM0) m hm
   have hyB : m * t ∈ Sec6Base X n t :=
     mul_mem (Subgroup.mem_sup_left hm) (Subgroup.mem_sup_right htZ)
@@ -2105,9 +2160,9 @@ theorem sec6Thm67_ne_top (hS : Sec6Setting X n t)
       M0 ⊓ Sec6M X n (cen t) = ⊥ ∧ M0 ≤ centralizer (Sec6M X n (cen t) : Set X) ∧
       sec6V X n t = M0 ⊔ Sec6M X n (cen t)) :
     normalizer (sec6V X n t : Set X) ≠ ⊤ := by
-  haveI := hS.cex.simple
+  have := hS.cex.simple
   intro htop
-  haveI hVn : (sec6V X n t).Normal := normalizer_eq_top_iff.1 htop
+  have hVn : (sec6V X n t).Normal := normalizer_eq_top_iff.1 htop
   have hMV : Sec6M X n (cen t) ≤ sec6V X n t := by
     rcases hV with hV | ⟨M0, -, -, -, hV⟩
     · rw [hV]
@@ -2119,7 +2174,7 @@ theorem sec6Thm67_ne_top (hS : Sec6Setting X n t)
   · rcases hV with hVK | ⟨M0, -, -, hM0c, hVM⟩
     · exact t67_not_top_le_cen hS (hVt ▸ hVK ▸ t67_K_le (cen t))
     ·
-      haveI hMn : (Sec6M X n (cen t)).Normal := by
+      have hMn : (Sec6M X n (cen t)).Normal := by
         refine normalizer_eq_top_iff.1 (eq_top_iff.2 ?_)
         rw [← hVt, hVM]
         exact sup_le (hM0c.trans (centralizer_le_normalizer _))
@@ -2136,6 +2191,7 @@ private theorem t67_oddN_inf_le (V : Subgroup X) :
   · exact normalizer_le_normalizer_pPrimeCoreOf _ (Subgroup.le_normalizer (hVN hv))
   · exact Odd.of_dvd_nat (odd_card_oddCoreOf _) (Subgroup.card_dvd_of_le inf_le_left)
 
+omit [Finite X] in
 private theorem t67_comm_mem_oddN_inf {V : Subgroup X} {o v : X}
     (ho : o ∈ oddCoreOf (normalizer (V : Set X))) (hv : v ∈ V) :
     ⁅o, v⁆ ∈ oddCoreOf (normalizer (V : Set X)) ⊓ V := by
@@ -2160,7 +2216,7 @@ private theorem t67_t_zStar (hS : Sec6Setting X n t) (hA : K0 X n (cen t) ≠ �
   rw [commutatorElement_eq_one_iff_mul_comm.2 (mem_centralizer_singleton_iff.1 hkt)]
   exact one_mem _
 
-private theorem t67b_main (hT : Sec6T67Facts n) (hS : Sec6Setting X n t) (hC : Sec6CtrlAt X n t)
+private theorem t67b_main (hT : Sec6T67Facts n) (_hS : Sec6Setting X n t) (hC : Sec6CtrlAt X n t)
     (h65 : Sec6L65 X n t) (hA0 : K0 X n (cen t) = ⊥)
     (hOZ : oddCoreOf (Sec6K X n (cen t)) ≤ centralizer (Sec6K X n (cen t) : Set X))
     (hV : sec6V X n t = Sec6K X n (cen t) ∨ ∃ M0 : Subgroup X, IsSec6MType n ↥M0 ∧
@@ -2200,7 +2256,7 @@ private theorem t67b_main (hT : Sec6T67Facts n) (hS : Sec6Setting X n t) (hC : S
       have hM0b : M0 ≤ ⊥ := by
         rw [← hMM]
         exact le_inf le_rfl ((hVeq ▸ le_sup_left : M0 ≤ sec6V X n t).trans hVM)
-      haveI := hT.simple _ hM0
+      have := hT.simple _ hM0
       obtain ⟨a, b, hab⟩ := exists_pair_ne ↥M0
       apply hab
       have ha : (a : X) = 1 := mem_bot.1 (hM0b a.2)

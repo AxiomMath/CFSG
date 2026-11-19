@@ -16,8 +16,8 @@ section Generic
 theorem rkBM_exists_sq {C : Type} [Group C] {p : ℕ} (hp : p.Prime) {E : Subgroup C}
     (hE : IsElemAbelian p E) {k : ℕ} (hk : 2 ≤ k) (hc : Nat.card E = p ^ k) :
     ∃ E₀ : Subgroup C, IsElemAbelian p E₀ ∧ Nat.card E₀ = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; exact pow_ne_zero _ hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; exact pow_ne_zero _ hp.ne_zero)
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥E) p (n := 2)
     (by rw [hc]; exact pow_dvd_pow p hk)
   have hcard : Nat.card ↥(K.map E.subtype) = p ^ 2 := by
@@ -45,7 +45,7 @@ theorem rkBM_rkAut_of_simple {C : Type} [Group C] [Finite C] {p : ℕ} (hp : p.P
   have hnab : ∃ a c : C, a * c ≠ c * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup C := { (inferInstance : Group C) with mul_comm := hcon }
+    let : CommGroup C := { (inferInstance : Group C) with mul_comm := hcon }
     have hpr := IsSimpleGroup.prime_card (α := C)
     rcases (Nat.dvd_prime hpr).1 hdvd with h | h
     · have := Nat.one_lt_pow two_ne_zero hp.one_lt
@@ -93,7 +93,7 @@ section HN
 
 theorem rkAut_HN_native (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges) :
     RkAut 5 NativeSporadic.HN := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : 5 ∣ Nat.card CFSG.Sporadic.HNSchreier.IJ := by
     rw [CFSG.Sporadic.HNOddCore.card_IJ]
     norm_num
@@ -130,9 +130,9 @@ theorem rkAut_HN_native (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges) :
   have hsimple : IsSimpleGroup ↥CFSG.Sporadic.HNSchreier.JH :=
     @MulEquiv.isSimpleGroup _ _ NativeSporadic.HN _ CFSG.Sporadic.HN.isSimpleGroup_HN
       CFSG.Sporadic.HNSchreier.hnEquivJ.symm
-  haveI : Finite NativeSporadic.HN :=
+  have : Finite NativeSporadic.HN :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.HN.card_HN]; norm_num)
-  haveI : Finite ↥CFSG.Sporadic.HNSchreier.JH :=
+  have : Finite ↥CFSG.Sporadic.HNSchreier.JH :=
     Finite.of_equiv NativeSporadic.HN CFSG.Sporadic.HNSchreier.hnEquivJ.toEquiv
   have hJ : RkAut 5 ↥CFSG.Sporadic.HNSchreier.JH :=
     @rkBM_rkAut_of_simple ↥CFSG.Sporadic.HNSchreier.JH

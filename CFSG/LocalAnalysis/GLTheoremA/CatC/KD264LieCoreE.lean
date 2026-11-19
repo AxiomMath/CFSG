@@ -59,7 +59,7 @@ private theorem kd264CoreGoal_of_trialityD4 {p : ℕ} {d : TauCeti.ValidLieTypeI
   have hm3 : 3 ≤ m := by have := h.four_le; omega
   have hm : m = 3 := le_antisymm hmle hm3
   refine Or.inr ⟨rfl, hbig, hm, rfl, ?_⟩
-  exact SetLike.not_le_iff_exists.mp hout
+  exact IsConcreteLE.not_le_iff_exists.mp hout
 
 private theorem kd264_false_of_good_element_lie {p : ℕ} {d : TauCeti.ValidLieTypeIndex}
     [Finite (TauCeti.CFSGIndex.lie d).Group]
@@ -188,8 +188,8 @@ private theorem kd264_false_of_good_element_cases {p : ℕ} (hBS : KD264BS p) (h
         exact hchar3 hch
     · have hle : Nat.card D' ≤ p := hAmb.1 n hn hlist h68 D' hD'elem
       exact not_le.2 (lt_self_pow₀ h.prime.one_lt one_lt_two) (hD'2.trans hle)
-  | sporadic s => exfalso; simpa [compRelC] using hrel
-  | cyclic a b => exfalso; simpa [compRelC] using hrel
+  | sporadic s => exfalso; simp [compRelC] at hrel
+  | cyclic a b => exfalso; simp [compRelC] at hrel
 
 private theorem kd264_false_of_good_element (hI : KD264LieInputs) {p : ℕ}
     (hPL : KD264PL p) (hBS : KD264BS p) (hAmb : KD264Amb p)
@@ -247,8 +247,8 @@ private theorem kd264_false_of_selfCentralizing_cases {p : ℕ} (hBS : KD264BS p
     · exact absurd ⟨q', hdq⟩ (kd264_not_alternating_two_of_lpEpsIdx hp5 hlp)
     · omega
   | alternating n hn => exact not_subRelC_alternating_of_lpEpsIdx hp5 hlp hrel
-  | sporadic s => exfalso; simpa [subRelC] using hrel
-  | cyclic a b => exfalso; simpa [subRelC] using hrel
+  | sporadic s => exfalso; simp [subRelC] at hrel
+  | cyclic a b => exfalso; simp [subRelC] at hrel
 
 private theorem kd264_false_of_selfCentralizing {p : ℕ} (hI : KD264LieInputs) (hBS : KD264BS p)
     {d : TauCeti.ValidLieTypeIndex} [Finite (TauCeti.CFSGIndex.lie d).Group]
@@ -287,7 +287,7 @@ private theorem kd264_false_of_selfCentralizing {p : ℕ} (hI : KD264LieInputs) 
     have hpow : p ^ m = p ^ 2 := by rw [← h.card, hAeq, hDcard]
     have h32 : m = 2 := Nat.pow_right_injective h.prime.two_le hpow
     omega
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.mp hAle
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.mp hAle
   have hbne : b ≠ 1 := by
     rintro rfl
     exact hbout (Subgroup.one_mem _)

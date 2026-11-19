@@ -64,28 +64,35 @@ variable {H : Type} [Group H] [Finite H]
     Subgroup (f112Gold L1 L2 S).Universal :=
   f112saHalpha L1 L2 S ⊔ pCoreOf 2 (f112saNalpha L1 L2 S)
 
+omit [Finite H] in
 theorem f112saLQ_le_range (L1 L2 S : Subgroup H) :
     f112saLQ L1 L2 S ≤ (f112Gold L1 L2 S).ofA.range :=
   Subgroup.map_le_range ((f112Gold L1 L2 S).ofA) _
 
+omit [Finite H] in
 theorem f112saQ1_le_LQ (L1 L2 S : Subgroup H) :
     f112saQ1 L1 L2 S ≤ f112saLQ L1 L2 S :=
   Subgroup.map_mono
     (Subgroup.subgroupOf_mono (f112P1 L1 L2 S) (le_sup_right : pCoreOf 2 _ ≤ _))
 
+omit [Finite H] in
 theorem f112saNalpha_le_range (L1 L2 S : Subgroup H) :
     f112saNalpha L1 L2 S ≤ (f112Gold L1 L2 S).ofA.range := inf_le_right
 
+omit [Finite H] in
 theorem f112saHalpha_le_Nalpha (L1 L2 S : Subgroup H) :
     f112saHalpha L1 L2 S ≤ f112saNalpha L1 L2 S := inf_le_left
 
+omit [Finite H] in
 theorem f112saHalpha_le_LQ (L1 L2 S : Subgroup H) :
     f112saHalpha L1 L2 S ≤ f112saLQ L1 L2 S := inf_le_right
 
+omit [Finite H] in
 theorem f112saNlocalA_le_Nalpha (L1 L2 S : Subgroup H) :
     f112saNlocalA L1 L2 S ≤ f112saNalpha L1 L2 S :=
   sup_le (f112saHalpha_le_Nalpha L1 L2 S) (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
 
+omit [Finite H] in
 theorem f112saNlocalA_le_E (L1 L2 S : Subgroup H) :
     f112saNlocalA L1 L2 S ≤ f112EOdd L1 L2 S :=
   (f112saNlocalA_le_Nalpha L1 L2 S).trans inf_le_left
@@ -128,7 +135,7 @@ theorem f112saLQ_le_normalizer_range {L1 L2 S : Subgroup H}
     (f112saLQ_normal_range hF)
 
 theorem f112saQ1_normal_LQ {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) :
+    (_hF : F112Hyp L1 L2 S) :
     ((f112saQ1 L1 L2 S).subgroupOf (f112saLQ L1 L2 S)).Normal := by
   let X := f112Gold L1 L2 S
   let P := f112P1 L1 L2 S
@@ -191,7 +198,7 @@ theorem f112sa_pCoreOf_LQ {L1 L2 S : Subgroup H}
   rfl
 
 theorem f112sa_ofA_mem_Halpha {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) {y : H} (hyL : y ∈ L1) (hy3 : orderOf y = 3) :
+    (_hF : F112Hyp L1 L2 S) (_h1 : VS3 L1) {y : H} (hyL : y ∈ L1) (hy3 : orderOf y = 3) :
     (f112Gold L1 L2 S).ofA ⟨y, Subgroup.mem_sup_left hyL⟩ ∈ f112saHalpha L1 L2 S := by
   let X := f112Gold L1 L2 S
   let y' : ↥(f112P1 L1 L2 S) := ⟨y, Subgroup.mem_sup_left hyL⟩

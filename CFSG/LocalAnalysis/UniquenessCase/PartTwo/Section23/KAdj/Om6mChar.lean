@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
   Matrix.GeneralLinearGroup.det.comp
     (orthBlockHom (minusTailForm K b c) om6m_orthCuts_zero_two 0)
 
+omit [Finite K] [CharP K 2] in
 private lemma om6m_orthCoefMat_tailDiag_D08 {t : Fin 2 → Kˣ}
     {k : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)} :
     orthCoefMat (A := Fin 2 → K) (tailDiag 2 t k) =
@@ -33,8 +34,9 @@ private lemma om6m_orthCoefMat_tailDiag_D08 {t : Fin 2 → Kˣ}
   by_cases h : j = i
   · subst h
     simp
-  · simp [h, Ne.symm h, Sum.inl.injEq]
+  · simp [Ne.symm h, Sum.inl.injEq]
 
+omit [Finite K] [CharP K 2] in
 private lemma om6m_orthBlockMat_tailDiag_D08 {t : Fin 2 → Kˣ}
     {k : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)} :
     orthBlockMat om6m_orthCuts_zero_two 0 (tailDiag 2 t k) =
@@ -43,6 +45,7 @@ private lemma om6m_orthBlockMat_tailDiag_D08 {t : Fin 2 → Kˣ}
   exact Matrix.submatrix_diagonal (fun i => (t i : K)) (orthBlockIdx om6m_orthCuts_zero_two 0)
     (orthBlockIdx_injective om6m_orthCuts_zero_two 0)
 
+omit [Finite K] [CharP K 2] in
 theorem coe_om6mChi_of_tailDiag {t : Fin 2 → Kˣ} {k : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)}
     {g : ↥(orthParab 2 (minusTailForm K b c) ![0, 2])}
     (hgd : ((g : ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c)))) :
@@ -57,6 +60,7 @@ theorem coe_om6mChi_of_tailDiag {t : Fin 2 → Kˣ} {k : (Fin 2 → K) ≃ₗ[K]
       ⟨orthBlockIdx_injective om6m_orthCuts_zero_two 0, by decide⟩
   rw [Function.Bijective.prod_comp hb (fun j : Fin 2 => (t j : K)), Fin.prod_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_orthResHom_tailDiag {t : Fin 2 → Kˣ} {k : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)}
     {g : ↥(orthParab 2 (minusTailForm K b c) ![0, 2])}
     (hgd : ((g : ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c)))) :
@@ -72,9 +76,9 @@ theorem om6m_isSolvable_orthogonalGroup_quadTail_zero (hirr : ∀ s : K, s ^ 2 +
     Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
       (quadTail 0 (minusTailForm K b c))) := by
   set O := TauCeti.QuadraticMap.orthogonalGroup (quadTail 0 (minusTailForm K b c))
-  haveI hder : Group.IsSolvable ↥(CFSG.AGLEmbedding.LeviBlock.orthResDer K b c 0) :=
+  have hder : Group.IsSolvable ↥(CFSG.AGLEmbedding.LeviBlock.orthResDer K b c 0) :=
     CFSG.AGLEmbedding.LeviBlock.isSolvable_orthResDer_zero hirr
-  haveI hder' : Group.IsSolvable ↥⁅O, O⁆ := hder
+  have hder' : Group.IsSolvable ↥⁅O, O⁆ := hder
   let e : ↥(commutator ↥O) ≃* ↥⁅O, O⁆ :=
     (Subgroup.equivMapOfInjective (commutator ↥O) O.subtype O.subtype_injective).trans
       (MulEquiv.subgroupCongr (Subgroup.map_subtype_commutator O))
@@ -90,8 +94,8 @@ theorem om6m_isSolvable_range_orthResHom (hirr : ∀ s : K, s ^ 2 + b * s + c �
   have hle : (orthResHom (minusTailForm K b c) om6m_orthCuts_zero_two).range ≤ O := by
     rintro x ⟨y, rfl⟩
     exact orthResHom_mem_orthogonalGroup om6m_orthCuts_zero_two y
-  letI : Group ↥O := Subgroup.toGroup O
-  haveI hO : Group.IsSolvable ↥O :=
+  let : Group ↥O := Subgroup.toGroup O
+  have hO : Group.IsSolvable ↥O :=
     om6m_isSolvable_orthogonalGroup_quadTail_zero (b := b) (c := c) hirr
   let f : ↥(orthResHom (minusTailForm K b c) om6m_orthCuts_zero_two).range →* ↥O :=
     Subgroup.inclusion hle

@@ -74,7 +74,7 @@ private theorem isExtraspecial_of_fi24Local (e : X ≃* G) {Q J : Subgroup G} {a
   have hM : ∀ T : Subgroup G, R0.map f ≤ T → T ≤ Q → A.map f ≤ Subgroup.normalizer (T : Set G) →
       ∀ s ∈ T, (∀ t ∈ T, s * t = t * s) → s ∈ (Subgroup.center ↥Q).map Q.subtype :=
     fun T hR0T hTQ hAT => radical_le_of_hyperplane_bound (p := 3) (k := 2) (by norm_num)
-      (fun j hj0 hj2 => by interval_cases j <;> decide) hQ rfl hB' hBQ hCB' hH
+      (fun j hj0 hj2 => by interval_cases j; decide) hQ rfl hB' hBQ hCB' hH
       (hZR0.trans hR0T) hTQ ((Subgroup.map_mono hBA).trans hAT)
   have h := (isExtraspecial_of_nondeg_chain hQ rfl hZR0
     (hU _ (hR0.map f) hR0M ((Subgroup.map_mono hBA).trans (hnorm R0 hAR0))) (hnorm R0 hAR0) hU'

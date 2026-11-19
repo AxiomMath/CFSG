@@ -174,14 +174,14 @@ theorem s13_exists_subgroup_of_dvd_card_bar {G : Type} [Group G] [Finite G] {L :
     ∃ X : Subgroup G, X ≤ L ∧ Nat.card X = r := by
   have hdvd : r ∣ Nat.card ↥L :=
     hrd.trans (Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥L))
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hdvd
   refine ⟨Subgroup.zpowers (x : G), Subgroup.zpowers_le.2 x.2, ?_⟩
   rw [Nat.card_zpowers, Subgroup.orderOf_coe, hx]
 
 theorem s13_exists_element_of_dvd {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) {p : ℕ}
     (hp : p.Prime) (hd : p ∣ Nat.card J) : ∃ s ∈ J, orderOf s = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
   exact ⟨x, x.2, by rwa [Subgroup.orderOf_coe]⟩
 

@@ -103,7 +103,7 @@ theorem exists_inv_zOne (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ (2 * m + 1))
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hb2 hb1, pow_one])
   obtain ⟨P, hP⟩ := hpg.exists_le_sylow
   have hS : IsSylowTwoOf (P : Subgroup (rankOneGroupTwo K m)) ⊤ :=
-    ⟨le_top, P.isPGroup', by
+    ⟨le_top, P.isPGroup, by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩
   have hinv := exists_inv_of_suzukiModel (by omega) hSz hS (hP (Subgroup.mem_zpowers b)) hb2 hb1

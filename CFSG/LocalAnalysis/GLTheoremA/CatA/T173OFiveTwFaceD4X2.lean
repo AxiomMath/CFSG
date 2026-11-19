@@ -35,7 +35,7 @@ private theorem d4Witness_rootChar_neg_eq_one_of_mem_pair {F : Type} [Field F] {
 private theorem d4_two_eq_zero_and_four_le_card {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) :
     (2 : F) = 0 ∧ 4 ≤ Nat.card F := by
-  haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
+  have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
   refine ⟨CharP.cast_eq_zero F 2, ?_⟩
   rw [hF]
   calc 4 = 2 ^ 2 := by norm_num
@@ -47,7 +47,7 @@ private theorem d4_orbitField_top_and_card {F : Type} [Field F] [Finite F] {n : 
     {a : Fin TwistTag.E6.foldedTag.rank} (hcard : (TwistTag.E6.orbit a).card = 2) :
     orbitField TwistTag.E6 F σ.toRingHom a = ⊤ ∧
       Nat.card (orbitField TwistTag.E6 F σ.toRingHom a) = Nat.card F := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hσ2 : ∀ c : F, σ (σ c) = c := by
     intro c
     rw [hσ, hσ, ← pow_mul]
@@ -275,16 +275,16 @@ private theorem d4ConjOrbitGroup_perfect {F : Type} [Field F] [Finite F]
     (hcardL : Nat.card (orbitField TwistTag.E6 F σ.toRingHom a) = Nat.card F)
     (h4F : 4 ≤ Nat.card F) :
     ⁅d4ConjOrbitGroup σ w a, d4ConjOrbitGroup σ w a⁆ = d4ConjOrbitGroup σ w a := by
-  haveI : Finite (orbitField TwistTag.E6 F σ.toRingHom a) := Subtype.finite
+  have : Finite (orbitField TwistTag.E6 F σ.toRingHom a) := Subtype.finite
   have hperfSL : Group.IsPerfect (SL2 (orbitField TwistTag.E6 F σ.toRingHom a)) := by
     apply CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
     rw [hcardL]
     exact h4F
-  haveI : Group.IsPerfect (SL2 (orbitField TwistTag.E6 F σ.toRingHom a)) := hperfSL
+  have : Group.IsPerfect (SL2 (orbitField TwistTag.E6 F σ.toRingHom a)) := hperfSL
   have hperfX : Group.IsPerfect (d4ConjOrbitGroup σ w a) :=
     Group.IsPerfect.ofSurjective (f := (d4ConjOrbitHom σ w a).rangeRestrict)
       (d4ConjOrbitHom σ w a).rangeRestrict_surjective
-  haveI : Group.IsPerfect (d4ConjOrbitGroup σ w a) := hperfX
+  have : Group.IsPerfect (d4ConjOrbitGroup σ w a) := hperfX
   exact Subgroup.commutator_eq_self
 
 private theorem d4ConjOrbitHom_uSL_one_eq {F : Type} [Field F] (σ : F ≃+* F)

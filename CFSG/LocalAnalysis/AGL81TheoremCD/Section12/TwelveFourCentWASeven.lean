@@ -161,6 +161,7 @@ private theorem sq_le_card_ker_of_elemAbelian_alternating_seven
       _ = Nat.card ψ.ker * Nat.card ψ.range := hprod.symm
   exact Nat.le_of_mul_le_mul_right hle Nat.card_pos
 
+omit [Finite G] in
 private theorem exists_mulAut_hom_and_barM_ker_le_centralizer
     {M L E : Subgroup G} (hEM : E ≤ M)
     (hEL : E ≤ Subgroup.normalizer (L : Set G)) :

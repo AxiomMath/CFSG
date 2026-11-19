@@ -82,19 +82,20 @@ private theorem qTwoNbrG2_conjNAut_mul_diag {d n : ℕ} {K : Type} [Field K]
 private theorem qTwoNbrG2_not_solvable {H : Type*} [Group H] (hH : CFSG.IsQuasisimple H) :
     ¬ Group.IsSolvable H := by
   obtain ⟨hperf, hsimple, -⟩ := hH
-  haveI : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
-  haveI : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
-  haveI : Group.IsPerfect H := hperf
+  have : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
+  have : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
+  have : Group.IsPerfect H := hperf
   exact Group.IsPerfect.not_isSolvable H
 
+omit [Finite G] in
 theorem qTwoNbr_fourBlock {p : ℕ} {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel p B Bs x L D J y K) :
     ggQTwoNbrBlockProp hM := by
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   have hcomp : IsComponentOf hM.Jbar
       (hM.Kbar ⊓ Subgroup.centralizer ({hM.xbar} : Set hM.Q)) :=
     (qTwoNbr_comp_transport hM).1

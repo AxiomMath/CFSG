@@ -41,7 +41,7 @@ theorem l34Graph_of_sylow
   have hsyl₁ : IsSylowOf 2 S₁ S := isSylowOf_of_card hS₁S (by rw [hfac, hS₁c]; norm_num)
   obtain ⟨s, hsS, hs⟩ := hsyl₀.exists_mem_conj hsyl₁
   let κ : Equiv.Perm (Fin 42) →* Equiv.Perm (Fin 42) := (MulAut.conj s⁻¹).toMonoidHom
-  have hκ : ∀ y, κ y = s⁻¹ * y * s := fun y => by simp [κ, MulAut.conj_apply]
+  have hκ : ∀ y, κ y = s⁻¹ * y * s := fun y => by simp [κ]
   have hκinj : Function.Injective κ := (MulAut.conj s⁻¹).injective
   have hsR : s ∈ R := S_le_R hsS
   have hκR : ∀ y ∈ R, κ y ∈ R := fun y hy => by

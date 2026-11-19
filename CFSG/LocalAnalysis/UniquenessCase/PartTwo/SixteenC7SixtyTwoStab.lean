@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16c7_card_of_bar2 {K : Subgroup G} (h : IsL3 (Bar2 K) 1) :
     ∃ a : ℕ, Nat.card K = 2 ^ a * 168 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).exists_card_eq
   refine ⟨a, ?_⟩
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥K)
@@ -39,8 +39,8 @@ theorem s16c7_exists_tensor_lift (D : Data G) (V : Subgroup G) (hV : IsElemAbeli
       V ⊓ centralizer (X : Set G) = Subgroup.zpowers z ∧
       CFSG.ABGLocalTools.IsSylowOf 3 X (K₁ ⊔ K₂) ∧
       ∀ j ∈ K₁ ⊔ K₂, j * z = z * j → ∃ x ∈ X, ∃ t ∈ D.T, j = x * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h𝓛M : K₁ ⊔ K₂ ≤ D.M := sup_le hK₁M hK₂M
   have h𝓛s : K₁ ⊔ K₂ ≤ stabTil ⊥ V := h𝓛M.trans hMs
   have hTs : D.T ≤ stabTil ⊥ V := D.sylowM.le.trans hMs

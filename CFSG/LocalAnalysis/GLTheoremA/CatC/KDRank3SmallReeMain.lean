@@ -17,10 +17,12 @@ section Transport
 
 variable {S T : Type} [Group S] [Group T] [Finite S] (e : S ≃* T)
 
+omit [Finite S] in
 theorem congr_conj (g : S) : MulAut.congr e (MulAut.conj g) = MulAut.conj (e g) := by
   ext t
   simp [MulAut.congr_apply, MulAut.conj_apply]
 
+omit [Finite S] in
 theorem congr_mem_inner_iff (f : MulAut S) :
     MulAut.congr e f ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner T ↔
       f ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner S := by
@@ -33,6 +35,7 @@ theorem congr_mem_inner_iff (f : MulAut S) :
   · rintro ⟨g, rfl⟩
     exact ⟨e g, (congr_conj e g).symm⟩
 
+omit [Finite S] in
 theorem map_inf_inner (E : Subgroup (MulAut S)) :
     E.map (MulAut.congr e).toMonoidHom ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner T =
       (E ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner S).map (MulAut.congr e).toMonoidHom := by
@@ -45,7 +48,7 @@ theorem map_inf_inner (E : Subgroup (MulAut S)) :
 
 theorem smallF2_transport (E : Subgroup (MulAut S))
     (h : SmallF2 T (E.map (MulAut.congr e).toMonoidHom)) : SmallF2 S E := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   intro W hW hWi hcent
   have hW' : IsPGroup 2 (W.map (MulAut.congr e).toMonoidHom) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hW
@@ -73,6 +76,7 @@ theorem smallF2_transport (E : Subgroup (MulAut S))
   exact (MulAut.congr e).injective (by rw [this, map_one])
 
 include e in
+omit [Finite S] in
 theorem kleinFour_transport (hK : KleinFour3 (CFSG.ComponentClassification.OuterAutomorphisms.inner T)) :
     KleinFour3 (CFSG.ComponentClassification.OuterAutomorphisms.inner S) := by
   intro g₁ g₂ k h₁ h₂ hs₁ hs₂ hn₁ hn₂ hne hc hkI hk3 hk1 hk2

@@ -183,7 +183,7 @@ theorem ffZ0s_hasType (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC
     rw [ffOpt_card]
     decide
   have hif : (if none ∈ ffOpt ({0, 1, 2, 3} : Finset (Fin 5)) then (-1 : ℤˣ) else 1) = 1 :=
-    if_neg (none_notMem_ffOpt ({0, 1, 2, 3} : Finset (Fin 5)))
+    ite_eq_right (none_notMem_ffOpt ({0, 1, 2, 3} : Finset (Fin 5)))
   rw [hcard] at h
   rw [hif] at h
   have hpow : (-1 : ℤˣ) ^ (4 / 2) = 1 := by decide

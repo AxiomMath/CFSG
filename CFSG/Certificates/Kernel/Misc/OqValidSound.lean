@@ -115,7 +115,7 @@ private theorem lane_lor_shift (w X y p k : ℕ) (hy : y < 2 ^ w) :
   · by_cases hk : k = p
     · subst hk
       simp [hi]
-    · have h0 : (if k = p then y else 0) = 0 := if_neg hk
+    · have h0 : (if k = p then y else 0) = 0 := ite_eq_right hk
       rw [h0]
       rcases lt_or_gt_of_ne hk with hkp | hkp
       · have h1 : w * (k + 1) ≤ w * p := Nat.mul_le_mul_left w hkp
@@ -153,7 +153,7 @@ private theorem tabK_eq (P : ℕ) : tabK P = packRec 6 (evV P) 64 := rfl
 
 private theorem lk_tabK (P : ℕ) {v : ℕ} (hv : v < 64) : lk (tabK P) v = evV P v := by
   unfold lk
-  rw [fld6_lane, tabK_eq, lane_packRec 6 _ 64 (fun i _ => evV_lt P i) v, if_pos hv]
+  rw [fld6_lane, tabK_eq, lane_packRec 6 _ 64 (fun i _ => evV_lt P i) v, ite_eq_left hv]
 
 private theorem compK_eq (A B : ℕ) : compK A B = packRec 6 (fun i => evV A (fld6 B i)) 6 := rfl
 
@@ -161,7 +161,7 @@ private theorem compK_unpack (A B : ℕ) :
     unpack6 (compK A B) = compT (unpack6 A) (unpack6 B) := by
   have h1 : ∀ i, i < 6 → fld6 (compK A B) i = evalV (unpack6 A) (fld6 B i) := by
     intro i hi
-    rw [fld6_lane, compK_eq, lane_packRec 6 _ 6 (fun i _ => evV_lt A _) i, if_pos hi, evV_eq]
+    rw [fld6_lane, compK_eq, lane_packRec 6 _ 6 (fun i _ => evV_lt A _) i, ite_eq_left hi, evV_eq]
   have h2 : unpack6 B = (List.range 6).map fun i => fld6 B i := by
     simp [unpack6, fld6_eq]
   have h3 : unpack6 (compK A B) = (List.range 6).map fun i => fld6 (compK A B) i := by
@@ -233,7 +233,7 @@ private theorem xp_eq (v : ℕ) : xp v = xpart v := by
 private theorem qK_eq (u : Bool) (v : ℕ) : qK (if u then 1 else 0) v = qOf u v := by
   unfold qK qOf
   rw [wp_eq, xp_eq, outK_eq, outK_eq, outK_eq]
-  cases u <;> simp [Nat.xor_assoc] <;> rfl
+  cases u <;> simp [Nat.xor_assoc]
 
 private theorem outer_lt (a b : ℕ) : outer a b < 512 := by
   have h1 : (b &&& 7) < 8 := by
@@ -312,19 +312,19 @@ private theorem bEntK_eq (u : Bool) (P : ℕ) {i j : ℕ} (hi : i < 3) (hj : j <
   rw [bEntK_letN, bEntK_letN, hd, hm]
   by_cases hij : i = j
   · subst hij
-    rw [Nat.beq_refl, if_pos rfl]
+    rw [Nat.beq_refl, ite_eq_left rfl]
     show qK (if u then 1 else 0) (evV P (4 ^ i)) = _
     rw [qK_eq, evV_eq]
   · have hb : Nat.beq i j = false := by
       cases h : Nat.beq i j
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hij
-    rw [hb, if_neg hij]
+    rw [hb, ite_eq_right hij]
     show Nat.xor (qK (if u then 1 else 0) (evV P (4 ^ i + 2 * 4 ^ j)))
       (Nat.xor (qK (if u then 1 else 0) (evV P (4 ^ i)))
         (Nat.mul (if u then 1 else 0) (qK (if u then 1 else 0) (evV P (2 * 4 ^ j))))) = _
     rw [qK_eq, qK_eq, qK_eq, evV_eq, evV_eq, evV_eq]
-    cases u <;> simp [Nat.xor_assoc] <;> rfl
+    cases u <;> simp [Nat.xor_assoc]
 
 private theorem bEntK_lt (u : Bool) (P k : ℕ) : bEntK (if u then 1 else 0) P k < 512 := by
   have h512 : (512 : ℕ) = 2 ^ 9 := by norm_num
@@ -345,7 +345,7 @@ private theorem bOfK_eq (u : ℕ) (P : ℕ) : bOfK u P = packRec 9 (bEntK u P) 9
 
 private theorem fld9_bOfK (u : Bool) (P : ℕ) {k : ℕ} (hk : k < 9) :
     fld9 (bOfK (if u then 1 else 0) P) k = (bOf u (unpack6 P)).getD k 0 := by
-  rw [fld9_lane, bOfK_eq, lane_packRec 9 _ 9 (fun i _ => bEntK_lt u P i) k, if_pos hk]
+  rw [fld9_lane, bOfK_eq, lane_packRec 9 _ 9 (fun i _ => bEntK_lt u P i) k, ite_eq_left hk]
   have hk' : k = 3 * (k / 3) + k % 3 := by omega
   conv_lhs => rw [hk']
   conv_rhs => rw [hk']
@@ -372,7 +372,7 @@ theorem validK_sound' (u : Bool) {P : ℕ} (h : validK (if u then 1 else 0) P = 
   unfold validT
   have hall' : (∀ x ∈ unpack6 P, x < 64) = True := eq_true hall
   simp only [hlen, hall', List.all_eq_true, List.mem_range, Bool.and_eq_true, beq_iff_eq,
-    decide_eq_true_eq, bne_iff_ne, ne_eq, true_and]
+    decide_eq_true_eq, true_and]
   refine ⟨fun v hv => ?_, fun v hv => ?_⟩
   · by_cases h0 : v = 0
     · simp [h0]
@@ -423,7 +423,7 @@ private theorem sgn_l (P : ℕ) (h : sgnK 0 P = true) : sgnOK false (unpack6 P) 
     by simp [imNr, List.range_succ, mkv]
   simp only [orB_iff, andB_iff, inNl, inNr, eqN_iff, wp_eq, xp_eq, evV_eq] at h'
   unfold sgnOK
-  simp only [Bool.false_eq_true, if_false, hNl, hNr]
+  simp only [Bool.false_eq_true, ite_false, hNl, hNr]
   simpa using h'
 
 theorem sgnK_sound' (u : Bool) {P : ℕ} (h : sgnK (if u then 1 else 0) P = true) :
@@ -432,7 +432,7 @@ theorem sgnK_sound' (u : Bool) {P : ℕ} (h : sgnK (if u then 1 else 0) P = true
   · exact sgn_l P h
   · have := sgn_u P h
     unfold sgnOK
-    simp only [if_true]
+    simp only [ite_true]
     rcases this with h | h <;> simp [h]
 
 end CFSG.KC.Misc.Oq

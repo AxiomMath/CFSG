@@ -41,15 +41,17 @@ section Step
 
 variable {T : Type*} [Group T] [Finite T] {z : T} [(zpowers z).Normal]
 
+omit [Finite T] [(zpowers z).Normal] in
 theorem card_quotient_zpowers (hz2 : z * z = 1) (hz1 : z ≠ 1) :
     Nat.card (T ⧸ zpowers z) * 2 = Nat.card T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf z = 2 := orderOf_eq_prime (by rwa [pow_two]) hz1
   have hcard : Nat.card (zpowers z) = 2 := by rw [Nat.card_zpowers, hord]
   have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (zpowers z)
   rw [hcard] at h
   exact h.symm
 
+omit [Finite T] in
 theorem mk_ne_one_of_ne {s : T} (hz2 : z * z = 1) (hs1 : s ≠ 1) (hsz : s ≠ z) :
     (QuotientGroup.mk s : T ⧸ zpowers z) ≠ 1 := by
   intro h
@@ -58,6 +60,7 @@ theorem mk_ne_one_of_ne {s : T} (hz2 : z * z = 1) (hs1 : s ≠ 1) (hsz : s ≠ z
   · exact hs1 h1
   · exact hsz hz
 
+omit [Finite T] in
 theorem mk_notMem_center (h32 : 32 ≤ Nat.card T) (hz2 : z * z = 1) (hz1 : z ≠ 1) {s : T}
     (h8 : Nat.card (centralizer ({s} : Set T)) ≤ 8) :
     (QuotientGroup.mk s : T ⧸ zpowers z) ∉ center (T ⧸ zpowers z) := by
@@ -121,13 +124,12 @@ theorem mk_centralizer_comm (hT : IsPGroup 2 T) (h32 : 32 ≤ Nat.card T) (hz2 :
       exact hcq.trans h8) hnc'
   have hsbar_center : sbar ∈ center R :=
     mem_center_of_card_center_centralizer_le_two hR hsbar hsbar1 (by
-      change Nat.card (center (centralizer ({sbar} : Set R))) ≤ 2
       exact hZ)
   have hnot : (QuotientGroup.mk s : T ⧸ zpowers z) ∉ center (T ⧸ zpowers z) :=
     mk_notMem_center h32 hz2 hz1 h8
   exact hnot (by simpa only [sbar, R] using hsbar_center)
 
-theorem lift_index_two (hz : z ∈ center T) (hz2 : z * z = 1) (hz1 : z ≠ 1)
+theorem lift_index_two (hz : z ∈ center T) (hz2 : z * z = 1) (_hz1 : z ≠ 1)
     (h16 : 16 ≤ Nat.card T) {M : Subgroup (T ⧸ zpowers z)} (hM : M.index = 2)
     (hcen : ∀ u ∈ M, u * u = 1 → u ≠ 1 →
       16 ≤ Nat.card (centralizer ({u} : Set (T ⧸ zpowers z)))) :

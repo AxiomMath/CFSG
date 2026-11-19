@@ -119,7 +119,7 @@ theorem wcSporadicAt_J1 [Finite (Carrier .J1)] :
 theorem wcOn_J3_three_of_equiv
     {K : Type} [Group K] [Finite K]
     (e : K ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) : WCOn 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine WCOn.of_not_isMulCommutative fun P hcomm => ?_
   obtain ⟨a, ha, b, hb, hab⟩ := (CFSG.AGLEmbedding.kFactJ3Sylow K ⟨e⟩ P).nonabelian
   exact hab (congrArg Subtype.val (hcomm.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩))
@@ -154,19 +154,19 @@ theorem wcSporadicAt_J4
   simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
-  · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+  · have : Fact (Nat.Prime 3) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.J4_sylow3_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   · exfalso; norm_num at hdvd
   · exfalso; norm_num at hdvd
-  · haveI : Fact (Nat.Prime 11) := ⟨hq⟩
+  · have : Fact (Nat.Prime 11) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.J4_sylow11_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   all_goals (exfalso; norm_num at hdvd)
 
 theorem wcOn_HS_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.HS] : WCOn 3 CFSG.Blueprint.NativeSporadic.HS := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   open CFSG.RankThree.Asc83Table CFSG.RankThree.Asc83Table.HS CFSG.SectionRank
     CFSG.SectionRank.Native CFSG.RankThree.Asc83Table.Native in
   obtain ⟨n, hn1, hn2⟩ := facts.conj_exists (spec2fr 20) hs_check (g := 7) (o := 8) (pp := 0)
@@ -193,14 +193,14 @@ theorem wcSporadicAt_HS
   rcases hmem with rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_HS_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.HS_sylow5_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   all_goals (exfalso; norm_num at hdvd)
 
 theorem wcOn_He_five
     [Finite (Carrier .He)] : WCOn 5 (Carrier .He) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, y, h, hx, hy, hxy, hcard, hhx, hhy⟩ := CFSG.SectionRank.He_sylow5_square_witness
   exact WCOn.of_square_witness hx hy hxy hcard
     (by
@@ -218,11 +218,11 @@ theorem wcSporadicAt_He
   simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
-  · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+  · have : Fact (Nat.Prime 3) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.He_sylow3_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   · exact wcOn_He_five
-  · haveI : Fact (Nat.Prime 7) := ⟨hq⟩
+  · have : Fact (Nat.Prime 7) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.He_sylow7_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   · exfalso; norm_num at hdvd
@@ -237,10 +237,10 @@ theorem wcSporadicAt_Ru
   simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
-  · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+  · have : Fact (Nat.Prime 3) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.Ru_sylow3_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ := CFSG.SectionRank.Ru_sylow5_cubic_witness
     exact WCOn.of_cubic hx hy hz hc
   all_goals (exfalso; norm_num at hdvd)

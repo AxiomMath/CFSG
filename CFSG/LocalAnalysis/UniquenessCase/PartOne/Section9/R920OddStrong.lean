@@ -18,11 +18,13 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (StronglyEmbeddedThree)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem L9_le_of_le {Y H : Subgroup G} (hYH : Y ≤ H) : F09.L9 Y H ≤ H := by
   refine iSup_le fun h => ?_
   rintro _ ⟨x, hx, rfl⟩
   exact H.mul_mem (H.mul_mem h.2 ((opp_le 3 Y).trans hYH hx)) (H.inv_mem h.2)
 
+omit [Finite G] in
 theorem le_normalizer_L9 (Y H : Subgroup G) : H ≤ normalizer (F09.L9 Y H : Set G) := by
   have key : ∀ g : ↥H, (F09.L9 Y H).map (MulAut.conj (g : G)).toMonoidHom ≤ F09.L9 Y H := by
     intro g
@@ -50,10 +52,10 @@ theorem exists_surjective_map_pPrimeCore_bar2 {p : ℕ} (hp : p.Prime) {H X : Su
     (hXH : X ≤ H) (hs : IsSimpleGroup (Bar2 X)) (hpX : p ∣ Nat.card (Bar2 X)) :
     ∃ f : ↥((X.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) →* Bar2 X,
       Function.Surjective f := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set I : Subgroup ↥H := CFSG.pPrimeCore p ↥H with hI
   set img := (X.subgroupOf H).map (QuotientGroup.mk' I) with himg
-  haveI hIn : I.Normal := CFSG.pPrimeCore_normal
+  have hIn : I.Normal := CFSG.pPrimeCore_normal
   have hmem : ∀ x : ↥X, (QuotientGroup.mk' I) (Subgroup.inclusion hXH x) ∈ img := fun x =>
     Subgroup.mem_map.2 ⟨Subgroup.inclusion hXH x, Subgroup.mem_subgroupOf.2 x.2, rfl⟩
   let ψ : ↥X →* ↥img :=
@@ -65,13 +67,13 @@ theorem exists_surjective_map_pPrimeCore_bar2 {p : ℕ} (hp : p.Prime) {H X : Su
   set π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set J : Subgroup ↥X := I.comap (Subgroup.inclusion hXH) with hJ
-  haveI hJn : J.Normal := hIn.comap _
+  have hJn : J.Normal := hIn.comap _
   have hJcard : Nat.card J ∣ Nat.card I :=
     Subgroup.card_comap_dvd_of_injective I (Subgroup.inclusion hXH)
       (Subgroup.inclusion_injective hXH)
   have hpI : ¬ p ∣ Nat.card I :=
     (hp.coprime_iff_not_dvd).mp (CFSG.pPrimeCore_coprime_card (G := ↥H) (p := p))
-  haveI : (J.map π).Normal := hJn.map π hπs
+  have : (J.map π).Normal := hJn.map π hπs
   have hker : ψ.ker ≤ π.ker := by
     have hψJ : ψ.ker = J := by
       ext x
@@ -105,7 +107,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 
 theorem two_le_pRank_inf_M (S : SliceCore D L D₃ Y H) (hK : 2 ≤ CFSG.Open.pRank 3 (F09.L9 Y H)) :
     2 ≤ CFSG.Open.pRank 3 (H ⊓ D.M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEX, hEcard, hEU⟩ := S.exists_order_three_le_opp
   obtain ⟨P, hP, -, hPM⟩ := S.exists_sylow_le_M hEX (IsPGroup.of_card (n := 1) (by simpa using hEcard)) hEU
   have hKP : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ F09.L9 Y H) (F09.L9 Y H) :=
@@ -127,7 +129,7 @@ theorem not_isSolvable_bar2_opp (S : SliceCore D L D₃ Y H) :
     ¬ Group.IsSolvable (Bar2 (Opp 3 Y)) := by
   intro hs
   obtain ⟨e⟩ := S.nonempty_bar2_L_opp_equiv
-  haveI : Group.IsSolvable (Bar2 L) :=
+  have : Group.IsSolvable (Bar2 L) :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact uc22p22a_qs_not_solvable S.L_mem.2.2 this
 
@@ -138,7 +140,7 @@ theorem pRank_L9_le_one_of_isStronglyPEmbedded (hK3 : StronglyEmbeddedThree)
   have hrM : 2 ≤ CFSG.Open.pRank 3 (H ⊓ D.M) := S.two_le_pRank_inf_M (by omega)
   have hHK : CFSG.Open.IsKGroup ↥H :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper D.standing.kProper S.H_ne_top
-  haveI hsolv : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
+  have hsolv : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))) :=
     (hK3 _ (CFSG.LocalAnalysis.GLTheoremB.isKGroup_quotient' hHK (CFSG.pPrimeCore 3 ↥H))
       (CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three)
@@ -149,12 +151,12 @@ theorem pRank_L9_le_one_of_isStronglyPEmbedded (hK3 : StronglyEmbeddedThree)
   have hle : ((Opp 3 Y).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) ≤
       ((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) :=
     Subgroup.map_mono (Subgroup.comap_mono (le_inf hXH S.opp_le_M))
-  haveI : Group.IsSolvable ↥(((Opp 3 Y).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))) :=
+  have : Group.IsSolvable ↥(((Opp 3 Y).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   obtain ⟨f, hf⟩ := exists_surjective_map_pPrimeCore_bar2 Nat.prime_three hXH
     S.isSimpleGroup_bar2_opp S.three_dvd_card_bar2_opp
-  exact S.not_isSolvable_bar2_opp (solvable_of_surjective hf)
+  exact S.not_isSolvable_bar2_opp (Group.isSolvable_of_surjective hf)
 
 end SliceCore
 

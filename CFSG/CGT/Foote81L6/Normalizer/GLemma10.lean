@@ -52,9 +52,9 @@ theorem normalizes_commZ (hHig : HigmanHyp) (hSylN : SylNInput (T : Subgroup G))
     (hmove : ∃ z ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁), p * z * p⁻¹ ≠ z)
     {F : Subgroup G} (hF : IsE64 (T : Subgroup G) F) {g : G} (hg : g ∈ normalizer (F : Set G)) :
     ∀ z ∈ commZ D p, g * z * g⁻¹ ∈ commZ D p := by
-  haveI : IsMulCommutative ↥F :=
+  have : IsMulCommutative ↥F :=
     ⟨⟨fun u v => Subtype.ext (TStruct.comm_of_mul_self hF.mul_self u.2 v.2)⟩⟩
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨Q, hQ⟩ := hSylN F hF
   obtain ⟨d₀, hd₀R, -, hd₀F, -, -⟩ := D.exists_d₀ hF
   obtain ⟨d₁, hd₁R, -, hd₁F, -, -⟩ := D.exists_d₁ hF
@@ -144,7 +144,7 @@ theorem exists_p (hsylZ : SylZInput D) {F : Subgroup G} (hF : IsE64 (T : Subgrou
     (hkv : NBar.ρ F k v ≠ v) :
     ∃ p : G, p ∈ normalizer (D.T₁ : Set G) ∧ Odd (orderOf p) ∧ p * v * p⁻¹ ≠ v := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁) with hZ
   have hZF : Z ≤ F := Z_le_E64 D hF
@@ -182,7 +182,7 @@ theorem exists_p (hsylZ : SylZInput D) {F : Subgroup G} (hF : IsE64 (T : Subgrou
   have hT₁'K : T₁' ≤ K := by
     rintro _ ⟨y, hy, rfl⟩
     exact hk₀K y (hT₁K hy)
-  have hT₁2 : IsPGroup 2 D.T₁ := T.isPGroup'.to_le D.T₁_le_T
+  have hT₁2 : IsPGroup 2 D.T₁ := T.isPGroup.to_le D.T₁_le_T
   have hP2 : IsPGroup 2 (T₁'.subgroupOf K) := (hT₁2.map _).comap_subtype
   obtain ⟨c, hc⟩ := exists_conj_mem_of_isPGroup P hP2
   set y : G := (c : G) * k₀ with hy
@@ -279,7 +279,7 @@ theorem lemma10 (hnA : ¬ StronglyInvolutionClosed D.A (T : Subgroup G))
     · exact hnAs
   have hconjA₀ : ∀ k' ∈ commZ D p, k' ≠ 1 → ∃ q : G, k' = q * D.a * q⁻¹ := by
     intro k' hk' hk'1
-    haveI := hF.finite
+    have := hF.finite
     have hV : ∀ w : ↥F, w * w = 1 := fun w => Subtype.ext (hF.mul_self w w.2)
     have hx3 := ρ_pbar_pow_three D hF hcomm hcube
     have hcardU := card_commZ D hF hcomm hcube hmove

@@ -14,19 +14,19 @@ theorem normalClosure_filter_ne_nil {m : ℕ} (ws : List (List (Fin m × Bool)))
   apply le_antisymm
   · apply Subgroup.normalClosure_mono
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map, List.mem_filter] at hr ⊢
+    simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_filter] at hr ⊢
     obtain ⟨w, ⟨hw, -⟩, rfl⟩ := hr
     exact ⟨w, hw, rfl⟩
   · apply Subgroup.normalClosure_le_normal
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hr
     obtain ⟨w, hw, rfl⟩ := hr
     by_cases h : w = []
     · subst h
       rw [← FreeGroup.one_eq_mk]
       exact one_mem _
     · apply Subgroup.subset_normalClosure
-      simp only [Set.mem_setOf_eq, List.mem_map, List.mem_filter]
+      simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_filter]
       exact ⟨w, ⟨hw, by simpa using h⟩, rfl⟩
 
 theorem PG_filter_ne_nil {m : ℕ} (ws : List (List (Fin m × Bool))) :
@@ -39,7 +39,7 @@ theorem PG_congr_mem {m : ℕ} {ws ws' : List (List (Fin m × Bool))} (h : ∀ w
   have e : {r : FreeGroup (Fin m) | r ∈ ws.map FreeGroup.mk} =
       {r : FreeGroup (Fin m) | r ∈ ws'.map FreeGroup.mk} := by
     ext r
-    simp only [Set.mem_setOf_eq, List.mem_map, h]
+    simp only [Set.mem_ofPred_eq, List.mem_map, h]
   unfold PG
   rw [e]
 

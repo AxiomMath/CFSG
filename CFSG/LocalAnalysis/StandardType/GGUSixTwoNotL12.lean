@@ -32,9 +32,9 @@ theorem not_nonempty_mulEquiv_psl12 (hK : Nat.card K = 4) {G : Type*} [Group G]
     {L : Subgroup G} (φ : L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
     ¬ Nonempty (G ≃* PSL(12, ZMod 2)) := by
   rintro ⟨eG⟩
-  letI addCommGroupV : AddCommGroup (Fin 12 → ZMod 2) := inferInstance
-  letI moduleV : Module (ZMod 2) (Fin 12 → ZMod 2) := inferInstance
-  letI finiteV : Finite (Fin 12 → ZMod 2) := inferInstance
+  let addCommGroupV : AddCommGroup (Fin 12 → ZMod 2) := inferInstance
+  let moduleV : Module (ZMod 2) (Fin 12 → ZMod 2) := inferInstance
+  let finiteV : Finite (Fin 12 → ZMod 2) := inferInstance
   let pslEquivSL : PSL(12, ZMod 2) ≃*
       Matrix.SpecialLinearGroup (Fin 12) (ZMod 2) :=
     (QuotientGroup.quotientMulEquivOfEq center_sl12_zmod2).trans QuotientGroup.quotientBot

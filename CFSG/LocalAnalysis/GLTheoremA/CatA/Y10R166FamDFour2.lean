@@ -15,7 +15,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
 section CertsLabelToModel
 
 theorem exists_mulEquiv_statedOmega_of_isLabel {K : Type} [Group K] [Finite K] {n : ℕ}
-    (hn : 2 ≤ n) (hK : HasLabel K (fun l : GLALabel => l = ⟨.D, 4, n⟩))
+    (_hn : 2 ≤ n) (hK : HasLabel K (fun l : GLALabel => l = ⟨.D, 4, n⟩))
     (hZ : Subgroup.center K = ⊥) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2),
       Nat.card F = 2 ^ n ∧ Nonempty (K ≃* StatedOmega (StatedQuadPlus 4 F)) := by
@@ -23,15 +23,15 @@ theorem exists_mulEquiv_statedOmega_of_isLabel {K : Type} [Group K] [Finite K] {
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus 4 2 n := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
       CFSG.StandardType.markRank, CFSG.StandardType.markChar, CFSG.StandardType.markDeg,
-      if_neg (by norm_num : (4 : ℕ) ≠ 3)] using hM
+      ite_eq_right (by norm_num : (4 : ℕ) ≠ 3)] using hM
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard' 
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard' 
   have hZΩ : Subgroup.center (StatedOmega (StatedQuadPlus 4 F)) =
       (StatedScalars (Fin 4 ⊕ Fin 4) F).subgroupOf (StatedOmega (StatedQuadPlus 4 F)) :=
     CFSG.LieType.Universal.Spin.center_statedOmega_quadPlus (by norm_num)
@@ -54,9 +54,10 @@ theorem exists_mulEquiv_statedOmega_of_isLabel {K : Type} [Group K] [Finite K] {
 
 end CertsLabelToModel
 
+omit [Finite F] in
 private theorem center_statedOmega_quadPlus_eq_bot {n : ℕ} (hn : 3 ≤ n) :
     Subgroup.center (StatedOmega (StatedQuadPlus n F)) = ⊥ := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   rw [CFSG.LieType.Universal.Spin.center_statedOmega_quadPlus hn]
   refine CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedOmega_eq_bot
     (Q := CFSG.LieType.Universal.Spin.quadPlus n F)
@@ -66,6 +67,7 @@ private theorem center_statedOmega_quadPlus_eq_bot {n : ℕ} (hn : 3 ≤ n) :
   rw [CFSG.LieType.Universal.Spin.coe_quadPlus]
   simp [StatedQuadPlus]
 
+omit [Finite F] [CharP F 2] in
 private theorem rootsOfUnity_mem_and_ne_one_of_orderOf {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {s : Fˣ} (hs : orderOf s = q) : s ∈ rootsOfUnity q F ∧ s ≠ 1 ∧ s * s ≠ 1 := by
   have hsμ : s ∈ rootsOfUnity q F := by
@@ -117,6 +119,7 @@ theorem evenRank_statedOmega_quadPlus_four {n : ℕ} (hn : 2 ≤ n)
   exact le_antisymm hup
     (four_le_evenRank_statedOmega_quadPlus hF4 hq hq2 hqdvd hFcard hn)
 
+omit [CharP F 2] in
 private theorem shape_statedOmega_quadPlus_four {n : ℕ} (hn : 2 ≤ n)
     (hFcard : Nat.card F = 2 ^ n)
     (he : 4 ≤ evenRank (StatedOmega (StatedQuadPlus 4 F))) :
@@ -294,7 +297,7 @@ theorem exists_concl166S_statedOmega_quadPlus_four {p n : ℕ} (hp : p.Prime) (h
     intro h
     subst h
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hqdvd)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd' : q ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) q hqdvd'
   exact ⟨q, concl166S_siegelTorus (F := F) hp hp2 hn hFcard hpvd hq hq2 hqdvd hs⟩
@@ -313,9 +316,9 @@ theorem i166On_famDFour_of_transport
     rk2_center_eq_bot_of_large hlab (Or.inr (Or.inl rfl)) hn
   obtain ⟨F, hfield, hfinite, hchar, hcard, ⟨e⟩⟩ :=
     exists_mulEquiv_statedOmega_of_isLabel (K := K) (n := s) hn hlab hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   exact htr e (exists_concl166S_statedOmega_quadPlus_four (F := F) hp hp2 hn hcard hpvd)
 
 theorem i166On_famD_of_transport

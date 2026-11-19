@@ -38,12 +38,14 @@ section FiniteCentralizer
 
 variable [IsAlgClosed k] (H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} k) [IsDomain H]
 
+omit [IsAlgClosed k] [IsDomain ↑H.obj] in
 theorem pointMap_one_eq (g : WithConv (H →ₐ[k] k)) :
     pointMap (A := H) (1 : H →ₐc[k] H) g = g := by
   rw [pointMap_apply]
   change toConv (g.ofConv.comp (AlgHom.id k H)) = g
   rw [AlgHom.comp_id, ofConv_toConv]
 
+omit [IsAlgClosed k] [IsDomain H] in
 theorem finite_centralizer_fibre (x : WithConv (H →ₐ[k] k))
     (hcentral : {h : WithConv (H →ₐ[k] k) | Commute h x}.Finite) :
     {s' : H →ₐ[k] k |
@@ -59,7 +61,7 @@ theorem finite_centralizer_fibre (x : WithConv (H →ₐ[k] k))
     rw [point_comp_twistOrbitCo, point_comp_twistOrbitCo, pointMap_one_eq, pointMap_one_eq,
       hconj]
     group
-  letI : Finite {g : WithConv (H →ₐ[k] k) // Commute g x} := hcentral.to_subtype
+  let : Finite {g : WithConv (H →ₐ[k] k) // Commute g x} := hcentral.to_subtype
   have hsurj : Function.Surjective toFib := by
     intro s
     let g : WithConv (H →ₐ[k] k) := toConv s.1
@@ -75,7 +77,7 @@ theorem finite_centralizer_fibre (x : WithConv (H →ₐ[k] k))
     refine ⟨⟨g, mul_inv_eq_iff_eq_mul.mp hconj⟩, ?_⟩
     apply Subtype.ext
     rfl
-  letI : Finite {g : WithConv (H →ₐ[k] k) // Commute g x} := hcentral.to_subtype
+  let : Finite {g : WithConv (H →ₐ[k] k) // Commute g x} := hcentral.to_subtype
   let toBase : {g : WithConv (H →ₐ[k] k) // Commute g x} → H →ₐ[k] k := fun g => g.1.ofConv
   have hrange : toBase '' Set.univ = {s' : H →ₐ[k] k | s'.comp f = x.ofConv.comp f} := by
     ext s
@@ -175,7 +177,7 @@ theorem isUnipotentPoint_of_finite_centralizer
       simp
     have h1eq : (1 : WithConv (H →ₐ[k] k)).ofConv (c i) = x.ofConv (c i) := by
       rw [hconst i]
-      simpa using (AlgHom.commutes ((1 : WithConv (H →ₐ[k] k)).ofConv) (x.ofConv (c i)))
+      simp
     calc
       (LinearMap.charpoly (basePointsRepresentation (H := H) V x)).coeff i =
           x.ofConv (c i) := (hc x i).symm

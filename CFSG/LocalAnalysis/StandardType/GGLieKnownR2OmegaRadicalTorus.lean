@@ -126,11 +126,9 @@ private theorem torus_siegelTorus_apply_e {K V : Type} [Field K] [AddCommGroup V
   have h2V' : ∀ x y : V, x + (x + y) = y := by
     intro x y; rw [← add_assoc, h2V, zero_add]
   simp only [torus_siegelTorus, LinearEquiv.mul_apply, map_add, map_smul, smul_add, smul_smul,
-    one_smul, torus_U1_apply_e, torus_U1_apply_e_one, torus_U1_apply_f h, torus_U1_apply_f' h,
-    torus_U1_apply_f'_one h, torus_U2_apply_e h, torus_U2_apply_e_one h, torus_U2_apply_f,
-    torus_U2_apply_f' h, torus_U2_apply_f'_one h, mul_inv_cancel₀ hl,
-    inv_mul_cancel₀ hl, mul_one, one_mul, h2V, h2V', add_assoc, add_comm, add_left_comm, add_zero,
-    zero_add]
+    one_smul, torus_U1_apply_e, torus_U1_apply_e_one, torus_U1_apply_f' h,
+    torus_U1_apply_f'_one h, torus_U2_apply_e h, torus_U2_apply_e_one h, torus_U2_apply_f' h, mul_inv_cancel₀ hl,
+    inv_mul_cancel₀ hl, h2V, h2V', add_comm, add_left_comm, add_zero]
 
 private theorem torus_siegelTorus_apply_e' {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') [CharP K 2] {l : K} (hl : l ≠ 0) :
@@ -140,11 +138,10 @@ private theorem torus_siegelTorus_apply_e' {K V : Type} [Field K] [AddCommGroup 
   have h2V' : ∀ x y : V, x + (x + y) = y := by
     intro x y; rw [← add_assoc, h2V, zero_add]
   simp only [torus_siegelTorus, LinearEquiv.mul_apply, map_add, map_smul, smul_add, smul_smul,
-    one_smul, torus_U1_apply_e, torus_U1_apply_e' h, torus_U1_apply_e'_one h,
-    torus_U1_apply_e_one, torus_U1_apply_f h, torus_U1_apply_f_one h, torus_U2_apply_e' h,
-    torus_U2_apply_e'_one h, torus_U2_apply_f, torus_U2_apply_f_one, mul_inv_cancel₀ hl,
-    inv_mul_cancel₀ hl, mul_one, one_mul, h2V, h2V', add_assoc, add_comm, add_left_comm, add_zero,
-    zero_add]
+    one_smul, torus_U1_apply_e' h, torus_U1_apply_e'_one h,
+    torus_U1_apply_f h, torus_U1_apply_f_one h, torus_U2_apply_e' h,
+    torus_U2_apply_e'_one h, torus_U2_apply_f, mul_inv_cancel₀ hl,
+    inv_mul_cancel₀ hl, h2V, h2V', add_comm, add_left_comm, add_zero]
 
 private theorem torus_siegelTorus_apply_f {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') [CharP K 2] {l : K} (hl : l ≠ 0) :
@@ -154,10 +151,9 @@ private theorem torus_siegelTorus_apply_f {K V : Type} [Field K] [AddCommGroup V
   have h2V' : ∀ x y : V, x + (x + y) = y := by
     intro x y; rw [← add_assoc, h2V, zero_add]
   simp only [torus_siegelTorus, LinearEquiv.mul_apply, map_add, map_smul, smul_add, smul_smul,
-    one_smul, torus_U1_apply_e, torus_U1_apply_e' h, torus_U1_apply_e'_one h,
+    one_smul, torus_U1_apply_e' h, torus_U1_apply_e'_one h,
     torus_U1_apply_f h, torus_U1_apply_f_one h, torus_U2_apply_e' h, torus_U2_apply_e'_one h,
-    torus_U2_apply_f, torus_U2_apply_f_one, mul_inv_cancel₀ hl, inv_mul_cancel₀ hl, mul_one,
-    one_mul, h2V, h2V', add_assoc, add_comm, add_left_comm, add_zero, zero_add]
+    torus_U2_apply_f, torus_U2_apply_f_one, mul_inv_cancel₀ hl, inv_mul_cancel₀ hl, h2V, h2V', add_comm, add_left_comm, add_zero]
 
 private theorem torus_siegelTorus_apply_f' {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') [CharP K 2] {l : K} (hl : l ≠ 0) :
@@ -169,8 +165,8 @@ private theorem torus_siegelTorus_apply_f' {K V : Type} [Field K] [AddCommGroup 
   simp only [torus_siegelTorus, LinearEquiv.mul_apply, map_add, map_smul, smul_add, smul_smul,
     one_smul, torus_U1_apply_e, torus_U1_apply_e_one, torus_U1_apply_f' h,
     torus_U1_apply_f'_one h, torus_U2_apply_e h, torus_U2_apply_e_one h, torus_U2_apply_f' h,
-    torus_U2_apply_f'_one h, mul_inv_cancel₀ hl, inv_mul_cancel₀ hl, mul_one, one_mul, h2V,
-    h2V', add_assoc, add_comm, add_left_comm, add_zero, zero_add]
+    torus_U2_apply_f'_one h, mul_inv_cancel₀ hl, inv_mul_cancel₀ hl, h2V,
+    h2V', add_comm, add_left_comm, add_zero]
 
 private theorem torus_siegelTorus_fixes {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (l : K) {w : V}

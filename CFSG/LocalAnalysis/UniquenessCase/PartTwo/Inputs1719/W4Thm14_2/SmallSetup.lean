@@ -32,16 +32,16 @@ theorem exists_rep_of_isSL3
         Module.finrank (ZMod 2) (LinearMap.range ((Layer.binPsi θ t).toLinearMap - 1)) =
           E3.mParam X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut I) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut I) :=
     Finite.of_injective (fun f : MulAut I => (f : I → I)) DFunLike.coe_injective
   obtain ⟨hq, hL3⟩ := hS
   obtain ⟨U, hUadd, hUmod, hUfin, ⟨θ⟩⟩ :=
     CFSG.QuasithinUnique.Setup.Layer.Actor.exists_binModel_of_binary (V := I)
       (fun v => by simpa [pow_two] using hI v)
-  letI : AddCommGroup U := hUadd
-  letI : Module (ZMod 2) U := hUmod
-  letI : Finite U := hUfin
+  let : AddCommGroup U := hUadd
+  let : Module (ZMod 2) U := hUmod
+  let : Finite U := hUfin
   have hirrSub : (subRep θ L).IsIrreducible := subRep_isIrreducible θ le_rfl hirr
   have hpCore : CFSG.pCore 2 ↥L = ⊥ :=
     CFSG.LocalAnalysis.RankThreeUC.Section5.pCore_eq_bot_of_faithful_irreducible 2
@@ -51,10 +51,10 @@ theorem exists_rep_of_isSL3
   obtain ⟨K, hKf, hKfin, hKchar, eK, α, hcardK, hαsurj, hαker, hαscal⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFlag.exists_cover_of_odd_center
       (Y := ↥L) hq hL3 hoddZ
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
+  let : Fintype K := Fintype.ofFinite K
   let ρ : Representation (ZMod 2) SL(3, K) U := (subRep θ L).comp α
   have hρapply : ∀ g u, ρ g u = Layer.binPsi θ ((α g : ↥L) : MulAut I) u := fun g u => rfl
   have hρirr : ρ.IsIrreducible := by

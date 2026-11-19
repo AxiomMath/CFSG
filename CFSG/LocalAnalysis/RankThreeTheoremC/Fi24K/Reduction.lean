@@ -29,7 +29,7 @@ theorem sylow_le_inf_sup_inf_centralizer_of_not_dvd {p : ℕ} [Fact p.Prime] {Y 
       ((R : Subgroup Y) ⊓ centralizer (K : Set Y)) := by
   have hp : p.Prime := Fact.out
   intro r hr
-  obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
   have hrn : r ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
   have hkey : ∃ k ∈ K, k⁻¹ * r ∈ centralizer (K : Set Y) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen.exists_inv_mul_mem_centralizer_of_not_dvd
@@ -87,7 +87,7 @@ theorem sylow_le_inf_sup_inf_centralizer_of_not_dvd {p : ℕ} [Fact p.Prime] {Y 
       exact IsPGroup.iff_card.mpr ⟨j, by rw [Nat.card_zpowers, hj]⟩
     have hsup : IsPGroup p
         ((Subgroup.zpowers (⟨k, hkK⟩ : ↥K) ⊔ (T' : Subgroup ↥K) : Subgroup ↥K)) :=
-      IsPGroup.to_sup_of_normal_right' hkp T'.isPGroup' (Subgroup.zpowers_le.mpr hkN')
+      IsPGroup.to_sup_of_normal_right' hkp T'.isPGroup (Subgroup.zpowers_le.mpr hkN')
     have heq : (Subgroup.zpowers (⟨k, hkK⟩ : ↥K) ⊔ (T' : Subgroup ↥K) : Subgroup ↥K) =
         (T' : Subgroup ↥K) :=
       T'.maximal_isPGroup.eq_of_ge hsup le_sup_right
@@ -116,13 +116,13 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
   have hp : p.Prime := Fact.out
   have hTnotcomm : ¬ IsMulCommutative ↥((R : Subgroup Y) ⊓ K) := by
     intro hcomm
-    letI : IsMulCommutative ↥((R : Subgroup Y) ⊓ K) := hcomm
+    let : IsMulCommutative ↥((R : Subgroup Y) ⊓ K) := hcomm
     obtain ⟨x, hx, y, hy, hxy⟩ := hTnc
     exact hxy (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥((R : Subgroup Y) ⊓ K))
       (⟨y, hy⟩ : ↥((R : Subgroup Y) ⊓ K))))
   have hTnotcyc : ¬ IsCyclic ↥((R : Subgroup Y) ⊓ K) := by
     intro hcyc
-    letI : IsCyclic ↥((R : Subgroup Y) ⊓ K) := hcyc
+    let : IsCyclic ↥((R : Subgroup Y) ⊓ K) := hcyc
     exact hTnotcomm IsCyclic.isMulCommutative
   have hTrank : CFSG.Open.pRank p ((R : Subgroup Y) ⊓ K) ≤ 2 := by
     refine CFSG.SectionRank.pRank_le hp.one_lt ?_
@@ -141,7 +141,7 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
       rw [hT, hj, hjeq]
     exact hTnotcomm (hFeq ▸ hFea.1)
   have hTp : IsPGroup p ↥((R : Subgroup Y) ⊓ K) :=
-    R.isPGroup'.to_le (inf_le_left : (R : Subgroup Y) ⊓ K ≤ (R : Subgroup Y))
+    R.isPGroup.to_le (inf_le_left : (R : Subgroup Y) ⊓ K ≤ (R : Subgroup Y))
   obtain ⟨E₀, hE₀T, hE₀ea, hE₀card⟩ :=
     CFSG.Quasithin.A1c.exists_isElemAbelian_card_sq hp2 hTp hTnotcyc
   have hE₀rank : CFSG.Open.pRank p E₀ = 2 := by
@@ -156,7 +156,7 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
       ∃ d ∈ ((R : Subgroup Y) ⊓ centralizer (K : Set Y)), orderOf d = p := by
     intro hDne
     have hDp : IsPGroup p ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) :=
-      R.isPGroup'.to_le
+      R.isPGroup.to_le
         (inf_le_left : (R : Subgroup Y) ⊓ centralizer (K : Set Y) ≤ (R : Subgroup Y))
     have hcardne : Nat.card ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) ≠ 1 :=
       fun h => hDne (Subgroup.eq_bot_of_card_eq _ h)
@@ -167,7 +167,7 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
     have hdvd : p ∣ Nat.card ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) := by
       rw [hm]
       exact dvd_pow_self p hm0
-    haveI : Fintype ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) := Fintype.ofFinite _
+    have : Fintype ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) := Fintype.ofFinite _
     have hdvd' : p ∣ Fintype.card ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) := by
       rwa [Nat.card_eq_fintype_card] at hdvd
     obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card p hdvd'
@@ -176,7 +176,7 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
   ·
     have h3c : 3 ≤ pRank p (R : Subgroup Y) := by
       rwa [CFSG.SectionRank.pRank_coe_eq_openPRank p (R : Subgroup Y)]
-    rw [if_pos h3c] at hcore
+    rw [ite_eq_left h3c] at hcore
     have hDne : ((R : Subgroup Y) ⊓ centralizer (K : Set Y)) ≠ ⊥ := by
       intro hDbot
       have hRT : (R : Subgroup Y) ≤ (R : Subgroup Y) ⊓ K := by
@@ -276,7 +276,7 @@ theorem exists_plane_normalizer_inf_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
   ·
     have h3c : ¬ 3 ≤ pRank p (R : Subgroup Y) := by
       rwa [CFSG.SectionRank.pRank_coe_eq_openPRank p (R : Subgroup Y)]
-    rw [if_neg h3c] at hcore
+    rw [ite_eq_right h3c] at hcore
     have hDbot : ((R : Subgroup Y) ⊓ centralizer (K : Set Y)) = ⊥ := by
       by_contra hDne
       obtain ⟨d, hdD, hdord⟩ := exists_d hDne

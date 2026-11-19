@@ -59,7 +59,7 @@ theorem SLSetting.exists_equivariant_of_isStar (hs : SLSetting Qf ρ)
     show (if hx : (g : Matrix (Fin (m' + 2)) (Fin (m' + 2)) K) *ᵥ
       (Pi.single (0 : Fin (m' + 2)) (1 : K) : Fin (m' + 2) → K) = 0 then 0
       else ρ (Classical.choose (exists_mulVec_single_zero_eq hx)) r) = ρ g r
-    rw [dif_neg hga]
+    rw [dite_eq_right hga]
     set g' := Classical.choose (exists_mulVec_single_zero_eq hga) with hg'def
     have hg' := Classical.choose_spec (exists_mulVec_single_zero_eq hga)
     have hfix : ((g'⁻¹ * g : SL(m' + 2, K)) : Matrix (Fin (m' + 2)) (Fin (m' + 2)) K) *ᵥ
@@ -150,7 +150,7 @@ private theorem linearIndependent_pair_data {c d : Fin (m' + 2) → K}
   exact ⟨hc, hd, fun μ h => (LinearIndependent.pair_iff' hc).mp hli μ h.symm,
     fun μ h => (LinearIndependent.pair_iff' hd).mp hli' μ h.symm⟩
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem SLSetting.axisInf_center_le_movedSpace_tvSL (hs : SLSetting Qf ρ)
     {c a : Fin (m' + 2) → K} (h : a ⬝ᵥ c = 0) (hc : c ≠ 0) (ha : a ≠ 0) :
     axisInf ((tvCenterSL c).map ρ) ≤ movedSpace (ρ (tvSL c a h)) :=

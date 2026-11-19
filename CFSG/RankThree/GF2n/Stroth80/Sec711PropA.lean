@@ -101,7 +101,7 @@ theorem n12_exists_not_commute
     have h := lag SC SB (by rw [hWsum, sup_comm SB SC]) hSCiso hSBiso w hw
       (fun s hs => (hmemW w).1 hw s (hle hs))
     rwa [sup_eq_right.2 hle] at h
-  obtain ⟨a₀, ha₀, ha₀V⟩ := SetLike.not_le_iff_exists.1 hSBV
+  obtain ⟨a₀, ha₀, ha₀V⟩ := IsConcreteLE.not_le_iff_exists.1 hSBV
   obtain ⟨x, hx, hxa⟩ : ∃ x ∈ X, x a₀ ≠ a₀ := by
     by_contra h
     push Not at h

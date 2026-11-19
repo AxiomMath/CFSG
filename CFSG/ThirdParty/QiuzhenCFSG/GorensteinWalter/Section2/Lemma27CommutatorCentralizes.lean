@@ -34,7 +34,7 @@ open scoped Pointwise commutatorElement
 then every commutator `[m,t]` centralizes `F(M)`. -/
 public theorem commutator_centralizes_fittingSubgroupOf_of_centralizes_inverts
     {G : Type u} [Group G] [Finite G]
-    (M : Subgroup G) (t : G) (htM : t ∈ M) (ht : IsInvolution t)
+    (M : Subgroup G) (t : G) (_htM : t ∈ M) (ht : IsInvolution t)
     (π : Set ℕ)
     (hAcent : t ∈ Subgroup.centralizer (piCoreOf (fittingSubgroupOf M) π : Set G))
     (hBinv : ∀ x : G, x ∈ (piCoreOf (fittingSubgroupOf M) πᶜ : Set G) →

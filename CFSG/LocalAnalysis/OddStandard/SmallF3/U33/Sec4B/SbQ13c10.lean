@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 theorem q13c_card_C_le (h : Q13Om t L S x₁ x₂ lam rho tau om) (hB : Q13Bs t x₁ x₂ lam tau) :
     ∀ 𝒮 : Subgroup G, IsPGroup 2 𝒮 → ctxU t tau x₁ x₂ lam ≤ 𝒮 →
       Nat.card ↥(𝒮 ⊓ centralizer ({t * lam} : Set G)) ≤ 2 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   suffices H : ∀ n, ∀ 𝒮 : Subgroup G, Nat.card 𝒮 = n → IsPGroup 2 𝒮 →
       ctxU t tau x₁ x₂ lam ≤ 𝒮 →
       Nat.card ↥(𝒮 ⊓ centralizer ({t * lam} : Set G)) ≤ 2 ^ 6 by
@@ -26,7 +26,7 @@ theorem q13c_card_C_le (h : Q13Om t L S x₁ x₂ lam rho tau om) (hB : Q13Bs t 
   by_cases hEq : ctxU t tau x₁ x₂ lam = 𝒮
   · rw [← hEq]
     exact le_of_eq (q13c_card_CU h hB)
-  · haveI : Finite (Subgroup G) :=
+  · have : Finite (Subgroup G) :=
       Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
     have hltU : ctxU t tau x₁ x₂ lam < 𝒮 := lt_of_le_of_ne hU hEq
     let s : Set (Subgroup G) := {K | ctxU t tau x₁ x₂ lam ≤ K ∧ K < 𝒮}

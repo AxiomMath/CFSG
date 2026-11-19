@@ -99,6 +99,7 @@ section Image
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
+omit [CharP K ℓ] in
 theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_e7 {ε : ℤ}
     (hε : ε = 1 ∨ ε = -1) (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
     {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
@@ -120,7 +121,7 @@ theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_e7 {ε : ℤ}
       ({(1 : Fin Tag.E7.rank), (3 : Fin Tag.E7.rank)} : Set _)) ⊓
         twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ Nat.card K := fun c => by
     rw [hK, iterateFrobenius_def]

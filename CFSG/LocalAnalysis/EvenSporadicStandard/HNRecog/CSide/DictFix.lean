@@ -12,6 +12,7 @@ open scoped commutatorElement
 variable {C : Type} [Group C] {Q : Subgroup C} [hQn : Q.Normal]
   [Module (ZMod 2) (Additive (Abelianization Q))]
 
+omit hQn [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma dictFix_centerOf_eq_map_center :
     centerOf Q = (Subgroup.center ↥Q).map Q.subtype := by
   ext x
@@ -30,11 +31,13 @@ private lemma dictFix_centerOf_eq_map_center :
     intro h hh
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hy ⟨h, hh⟩)
 
+omit hQn [Module (ZMod 2) (Additive (Abelianization Q))] in
 private lemma dictFix_card_centerOf (hE : IsExtraspecialPGroup 2 Q) :
     Nat.card ↥(centerOf Q) = 2 := by
   rw [dictFix_centerOf_eq_map_center, Subgroup.card_map_of_injective Q.subtype_injective,
     hE.2.2.2]
 
+omit hQn [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma dictFix_card_ker_of (hE : IsExtraspecialPGroup 2 Q) :
     Nat.card (Abelianization.of (G := Q)).ker = 2 := by
   rw [Abelianization.ker_of, hE.2.1, hE.2.2.2]
@@ -66,6 +69,7 @@ private def dictFix_fixedSubgroup (g : C) : Subgroup (Abelianization Q) where
     change conjLinEquiv hQn g (Additive.ofMul a⁻¹) = Additive.ofMul a⁻¹
     rw [ofMul_inv, map_neg, ha]
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma dictFix_conj_mem_centerOf (ρ : C) {z : C} (hz : z ∈ centerOf Q) :
     ρ * z * ρ⁻¹ ∈ centerOf Q := by
   obtain ⟨hzQ, hzc⟩ := Subgroup.mem_inf.mp hz
@@ -80,6 +84,7 @@ private lemma dictFix_conj_mem_centerOf (ρ : C) {z : C} (hz : z ∈ centerOf Q)
     _ = ρ * (z * (ρ⁻¹ * y * ρ)) * ρ⁻¹ := by rw [hcomm]
     _ = (ρ * z * ρ⁻¹) * y := by group
 
+omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 private lemma dictFix_centerOf_le_centralizer_singleton (hE : IsExtraspecialPGroup 2 Q) (ρ : C) :
     centerOf Q ≤ Subgroup.centralizer ({ρ} : Set C) := by
   intro z hz
@@ -106,9 +111,10 @@ private lemma dictFix_centerOf_le_centralizer_singleton (hE : IsExtraspecialPGro
     calc z * ρ = (ρ * z * ρ⁻¹) * ρ := by rw [← hval]
       _ = ρ * z := by group
 
+omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 private lemma dictFix_centerOf_le_inf_centralizer_singleton (hE : IsExtraspecialPGroup 2 Q)
     (ρ : C) : centerOf Q ≤ Q ⊓ Subgroup.centralizer ({ρ} : Set C) :=
-  fun z hz => Subgroup.mem_inf.mpr
+  fun _z hz => Subgroup.mem_inf.mpr
     ⟨(Subgroup.mem_inf.mp hz).1, dictFix_centerOf_le_centralizer_singleton hE ρ hz⟩
 
 theorem cSide_card_comm_eq [Finite Q] (hE : IsExtraspecialPGroup 2 Q) (g : C) :
@@ -145,8 +151,9 @@ theorem cSide_card_comm_eq [Finite Q] (hE : IsExtraspecialPGroup 2 Q) (g : C) :
     _ = 2 * Nat.card {v : Additive (Abelianization Q) // conjLinEquiv hQn g v = v} := by
         rw [hK]
 
+omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 theorem cSide_comm_mem_centerOf_iff_of_odd [Finite Q] (hE : IsExtraspecialPGroup 2 Q) {ρ : C}
-    (hρ : Odd (orderOf ρ)) {q : C} (hq : q ∈ Q) :
+    (hρ : Odd (orderOf ρ)) {q : C} (_hq : q ∈ Q) :
     ⁅q, ρ⁆ ∈ centerOf Q ↔ q ∈ Subgroup.centralizer ({ρ} : Set C) := by
   constructor
   · intro hz
@@ -203,7 +210,7 @@ theorem cSide_cent_eq_centerOf_iff [Finite Q] (hE : IsExtraspecialPGroup 2 Q) {�
       have h := cSide_card_cent_of_odd (Q := Q) hE hρ
       rw [congrArg (fun S : Subgroup C => Nat.card ↥S) heq, dictFix_card_centerOf hE] at h
       exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 2) (by simpa using h.symm)
-    haveI : Subsingleton {v : Additive (Abelianization Q) // conjLinEquiv hQn ρ v = v} :=
+    have : Subsingleton {v : Additive (Abelianization Q) // conjLinEquiv hQn ρ v = v} :=
       (Nat.card_eq_one_iff_unique.mp hcardF).1
     intro v hv
     have h0 : (⟨v, hv⟩ : {v // conjLinEquiv hQn ρ v = v}) = ⟨0, by simp⟩ :=
@@ -214,7 +221,7 @@ theorem cSide_cent_eq_centerOf_iff [Finite Q] (hE : IsExtraspecialPGroup 2 Q) {�
       refine Nat.card_eq_one_iff_exists.mpr ⟨⟨0, by simp⟩, ?_⟩
       intro y
       exact Subtype.ext (hfix y.1 y.2)
-    haveI : Finite ↥(Q ⊓ Subgroup.centralizer ({ρ} : Set C)) :=
+    have : Finite ↥(Q ⊓ Subgroup.centralizer ({ρ} : Set C)) :=
       Finite.of_injective (Subgroup.inclusion (inf_le_left : Q ⊓ _ ≤ Q))
         (Subgroup.inclusion_injective _)
     have hcard : Nat.card ↥(Q ⊓ Subgroup.centralizer ({ρ} : Set C)) = Nat.card ↥(centerOf Q) := by

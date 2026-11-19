@@ -48,7 +48,7 @@ theorem layer_centralizes_ne_bot {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω]
     exact Subtype.ext ((Subgroup.mem_bot.1 a'.2).trans (Subgroup.mem_bot.1 b'.2).symm)
   have hsub2 : Subsingleton (PQuot p (⊥ : Subgroup Ω) ⧸ Subgroup.center (PQuot p (⊥ : Subgroup Ω))) :=
     (QuotientGroup.mk_surjective).subsingleton
-  haveI := hQ2.2
+  have := hQ2.2
   exact (not_nontrivial_iff_subsingleton.2 hsub2) inferInstance
 
 end CFSG.LocalAnalysis.GLTheoremA.T263

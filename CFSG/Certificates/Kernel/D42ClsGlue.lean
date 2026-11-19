@@ -72,9 +72,9 @@ theorem exists_letter_of_mem_gens {M : Matrix (Fin 8) (Fin 8) GF8}
     · refine ⟨8 + a.toNat, by omega, ?_⟩
       have h1 : ¬ (8 + a.toNat < 8) := by omega
       have h2 : 8 + a.toNat < 16 := by omega
-      rw [letterMat, if_neg h1, if_pos h2, Nat.add_sub_cancel_left, ofNat'_toNat']
+      rw [letterMat, ite_eq_right h1, ite_eq_left h2, Nat.add_sub_cancel_left, ofNat'_toNat']
     · refine ⟨a.toNat, by omega, ?_⟩
-      rw [letterMat, if_pos ha, ofNat'_toNat']
+      rw [letterMat, ite_eq_left ha, ofNat'_toNat']
   · cases s
     · exact ⟨17, by norm_num, by simp [letterMat]⟩
     · exact ⟨16, by norm_num, by simp [letterMat]⟩

@@ -100,7 +100,7 @@ theorem hb_conj
     (hTS : ∀ t ∈ T, g⁻¹ * t * g ∈ stabUT) {z : V} (hz1 : z ≠ 1)
     (hzT : ∀ t ∈ T, ρ t z = z) :
     vZ ρ.range z ≤ commV (((trQ.subgroupOf AutPerm).map (MulAut.conj g).toMonoidHom).map ρ) := by
-  haveI : Finite V := Finite.of_equiv W11 e.symm.toEquiv
+  have : Finite V := Finite.of_equiv W11 e.symm.toEquiv
   have hinj : Function.Injective ρ := rho_injective ρ e hcompat
   obtain ⟨eg, heg⟩ : ∃ eg : V ≃* W11, eg = twistEquiv e rhoM24 g⁻¹ := ⟨_, rfl⟩
   have hcg : ∀ γ : ↥AutPerm, congrHom eg (ρ γ) = rho11 AutPerm le_rfl (g⁻¹ * γ * g) := by

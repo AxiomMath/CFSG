@@ -24,9 +24,9 @@ theorem ggTwoNodeSmallDepK_false (hOrbK : GGResCentBoundNbrInput) (hFix : GGTBFi
   classical
   obtain ⟨Λ, i1, i2, MK, CK, V, i3, i4, ι, φ, h, α, e, hMK, hWMK, hCK, hlin, hrefl, hpair, ⟨f, hf⟩,
     hclos⟩ := hXd
-  letI := i1; letI := i2; letI := i3; letI := i4
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let := i1; let := i2; let := i3; let := i4
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hdep : ¬ LinearIndependent (ZMod p) h :=
     ggXDatumA_dep_K hp2 hH hy hyK hfixK hN5 hpN e hMK hCK hlin hpair hclos
   let F : GGDepAFrame p N (fun i => h (e i)) (fun i => α (e i))

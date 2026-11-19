@@ -104,6 +104,7 @@ variable (hσ : σs.length = gens.length)
   (hg : ∀ j < gens.length, Rep (σs.getD j 1) (gens.getD j []))
 
 include hσ hg in
+omit hg in
 theorem gen_mem_of_lt {j : ℕ} (hj : j < gens.length) : σs.getD j 1 ∈ gen σs := by
   apply Subgroup.subset_closure
   show σs.getD j 1 ∈ σs
@@ -123,7 +124,7 @@ theorem exists_mem_rep_of_enumOK (h : enumOK gens elems par act = true) :
     rcases ht with rfl | ⟨⟨hp, hj⟩, heq⟩
     · exact ⟨1, Subgroup.one_mem _, h0 ▸ rep_one⟩
     · obtain ⟨g, hgS, hgr⟩ := ih _ hp (by omega)
-      refine ⟨σs.getD (par.getD i (0, 0)).2 1 * g, Subgroup.mul_mem _ (gen_mem_of_lt hσ hg hj) hgS,
+      refine ⟨σs.getD (par.getD i (0, 0)).2 1 * g, Subgroup.mul_mem _ (gen_mem_of_lt hσ hj) hgS,
         ?_⟩
       rw [heq]
       exact rep_mul (hg _ hj) hgr

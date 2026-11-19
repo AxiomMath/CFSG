@@ -147,7 +147,7 @@ theorem exists_borelData_p {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {P : Sy
   have hOcop : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup p Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup hOcop hQcp
   have hxQ : xC ∈ Qc := mem_subgroupOf.mpr ⟨h.mem, mem_centralizer_singleton_iff.2 rfl⟩
   have hKn : K.Normal := hf.red.normal

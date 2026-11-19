@@ -131,7 +131,7 @@ theorem exists_subgroup_stabilizer_family {G : Type} [Group G] {T L M : Subgroup
   have hN : (M.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hML).mpr
       (fun l hl => conjSub_eq_iff_mem_normalizer.mp (hnorm l hl))
-  haveI := hN
+  have := hN
   rcases hs.eq_bot_or_eq_top_of_normal (M.subgroupOf L) with h | h
   · exact hne (by
       have hdisj : M ⊓ L = ⊥ := disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp h)

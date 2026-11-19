@@ -29,14 +29,14 @@ theorem two_eq_zero_gf4 : (2 : GaloisField 2 2) = 0 := by
   exact_mod_cast CharP.cast_eq_zero (GaloisField 2 2) 2
 
 theorem pow_four_gf4 (x : GaloisField 2 2) : x ^ 4 = x := by
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have h := FiniteField.pow_card x
   rw [← Nat.card_eq_fintype_card, natCard_gf4] at h
   exact h
 
 theorem exists_omega : ∃ ω : GaloisField 2 2, ω ≠ 0 ∧ ω ≠ 1 := by
   classical
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   by_contra hcon
   have hcon' : ∀ ω : GaloisField 2 2, ω ≠ 0 → ω = 1 := fun ω h0 => by
     by_contra h1
@@ -105,10 +105,10 @@ theorem gf4Emb_omega : gf4Emb omega4 = rhoM := by
   fin_cases j
   · have h : omega4 * basisGF4 0 = basisGF4 1 := by
       rw [basisGF4_zero, basisGF4_one, mul_one]
-    fin_cases i <;> simp [h, rhoM, Module.Basis.repr_self, Finsupp.single_apply]
+    fin_cases i <;> simp [h, rhoM, Module.Basis.repr_self]
   · have h : omega4 * basisGF4 1 = basisGF4 1 + basisGF4 0 := by
       rw [basisGF4_zero, basisGF4_one, omega4_sq, add_comm]
-    fin_cases i <;> simp [h, rhoM, map_add, Module.Basis.repr_self, Finsupp.single_apply]
+    fin_cases i <;> simp [h, rhoM, map_add, Module.Basis.repr_self]
 
 theorem gf4Emb_injective : Function.Injective gf4Emb := gf4Emb.injective
 
@@ -166,7 +166,7 @@ theorem blockM_mul (Y Z : Matrix (Fin 3) (Fin 3) (GaloisField 2 2)) :
 
 theorem ros_apply (Y : Matrix (Fin 3) (Fin 3) (GaloisField 2 2)) (a c : Fin 3) (b d : Fin 2) :
     ros Y (finProdFinEquiv (a, b)) (finProdFinEquiv (c, d)) = gf4Emb (Y a c) b d := by
-  simp [ros, blockRingHom, blockM, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+  simp [ros, blockRingHom, blockM, Matrix.reindex_apply,
     Matrix.submatrix_apply]
 
 theorem ros_injective : Function.Injective ros := by
@@ -190,7 +190,7 @@ theorem ros_scalar_omega : ros (Matrix.diagonal fun _ => omega4) = rep3M := by
   by_cases hac : a = c
   · subst hac
     simp [gf4Emb_omega, rhoM]
-  · simp [hac, Matrix.diagonal_apply]
+  · simp [hac]
 
 theorem sum_fin6 (F : Fin 6 → ZMod 2) :
     ∑ k : Fin 6, F k = ∑ e : Fin 3, ∑ f : Fin 2, F (finProdFinEquiv (e, f)) := by

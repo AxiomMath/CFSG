@@ -25,7 +25,7 @@ theorem mem_omega₁_iff_of_comm {p : ℕ} [Group X]
 
 theorem card_omega₁_of_isCyclic {p : ℕ} [Group X] [Finite X] [IsCyclic X] :
     Nat.card (omega₁ X (p := p)) = (Nat.card X).gcd p := by
-  letI : CommGroup X := IsCyclic.commGroup
+  let : CommGroup X := IsCyclic.commGroup
   have hcomm : ∀ a b : X, a * b = b * a := fun a b => mul_comm a b
   have heq : omega₁ X (p := p) = MonoidHom.ker (powMonoidHom p : X →* X) := by
     ext y

@@ -46,7 +46,7 @@ private theorem psl34a_transfer {K G : Type} [Group K] [Group G] (e : K ≃* G)
     (E : CFSG.RankThree.Asc83Table.E9Basis G) (ha1 : E.a ≠ 1) (hb1 : E.b ≠ 1) :
     ∃ A B : Subgroup K, Nat.card A = 3 ∧ Nat.card B = 3 ∧
       A ≤ Subgroup.centralizer (B : Set K) ∧ A ⊓ B = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective e.symm.toMonoidHom := e.symm.injective
   refine ⟨(Subgroup.zpowers E.a).map e.symm.toMonoidHom,
     (Subgroup.zpowers E.b).map e.symm.toMonoidHom, ?_, ?_, ?_, ?_⟩

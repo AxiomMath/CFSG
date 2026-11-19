@@ -44,14 +44,14 @@ private theorem thirteen_cycle_centralizer_card_le
     rw [Nat.card_eq_fintype_card,
       Degree15.card_fixedBy_subgroup_perm,
       hcard, hgsupport]
-  letI : Nonempty F :=
+  let : Nonempty F :=
     Finite.card_pos_iff.mp (by omega)
   let y : F := Classical.choice inferInstance
   have hFnontrivial : Nontrivial F :=
     Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hFcard]
       norm_num)
-  letI : Nontrivial F := hFnontrivial
+  let : Nontrivial F := hFnontrivial
   let z : F := Classical.choose (exists_ne y)
   have hyz : y ≠ z :=
     (Classical.choose_spec (exists_ne y)).symm
@@ -398,7 +398,7 @@ theorem thirteen_not_dvd_card_of_not_alternating
     ¬13 ∣ Nat.card P := by
   classical
   intro h13
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 13 h13
   let C : Subgroup P :=
@@ -407,13 +407,13 @@ theorem thirteen_not_dvd_card_of_not_alternating
     thirteen_cycle_centralizer_card_le
       X P hcard h5 hnotAlt u huorder
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
   have hAcard :
       Fintype.card A * Nat.card C = Nat.card P := by
-    letI :
+    let :
         Fintype (MulAction.stabilizer (ConjAct P) u) :=
       Fintype.ofFinite _
     have hstabilizer :
@@ -471,13 +471,13 @@ theorem thirteen_not_dvd_card_of_not_alternating
     refine ⟨p, ?_⟩
     ext i
     exact hp i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
-  letI : Nonempty (Fin 5 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : Nonempty (Fin 5 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin,
         hcard]
       norm_num)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 5 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

@@ -73,7 +73,7 @@ theorem exists_le_rank_eq_sub_one (T : Sylow 2 G) (hT : IsMulCommutative (T : Su
     fun x hx y hy => congrArg Subtype.val (hT.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   set A := omegaOneOfComm 2 (T : Subgroup G) hcommT with hAdef
   have hAT : A ≤ T := omegaOneOfComm_le _ hcommT
-  have hAp : IsPGroup 2 A := T.isPGroup'.to_le hAT
+  have hAp : IsPGroup 2 A := T.isPGroup.to_le hAT
   have htA : t ∈ A := ⟨htT, by rw [← ht, pow_orderOf_eq_one]⟩
   have : Nontrivial A := by
     refine ⟨⟨⟨t, htA⟩, 1, fun h => ?_⟩⟩
@@ -82,7 +82,7 @@ theorem exists_le_rank_eq_sub_one (T : Sylow 2 G) (hT : IsMulCommutative (T : Su
     exact absurd ht (by norm_num)
   obtain ⟨B, hB⟩ := CFSG.SolvableHall.exists_index_eq_prime hAp
   exact ⟨B.map A.subtype, (Subgroup.map_subtype_le B).trans hAT,
-    rank_hyperplane T.isPGroup' hcommT B hB⟩
+    rank_hyperplane T.isPGroup hcommT B hB⟩
 
 theorem BenderCounterexample.exists_mem_benderM_ne_of_mem_benderM (hG : BenderCounterexample G)
     {t : G} (ht : orderOf t = 2) {H : Subgroup G} (hH : H ∈ benderM t) (T : Sylow 2 G)
@@ -142,7 +142,7 @@ theorem le_of_oddCoreOf_le {M H : Subgroup G} (hMA : IsAStar M)
     have h2 := h1 hx'
     rw [← Subgroup.mem_comap, Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at h2
     exact h2
-  have hT'O : (T' : Subgroup M) ≤ oStar M := le_oStar_of_isPGroup hMA T'.isPGroup'
+  have hT'O : (T' : Subgroup M) ≤ oStar M := le_oStar_of_isPGroup hMA T'.isPGroup
   have : (oStar M).Normal := oStar_normal
   have hfr := Sylow.normalizer_sup_eq_top' T' hT'O
   have htop : (⊤ : Subgroup M) ≤ H.subgroupOf M := by

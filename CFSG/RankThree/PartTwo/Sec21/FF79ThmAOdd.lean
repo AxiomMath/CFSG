@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem ff79_four_le_pRank {A H : Subgroup G} (hA : IsElemAb 3 4 A) (hAH : A ≤ H) :
     4 ≤ CFSG.Open.pRank 3 H := by
-  haveI := hA.1
+  have := hA.1
   refine le_csSup ⟨Nat.card G, ?_⟩ ⟨A, hAH, ⟨hA.1.toIsMulCommutative, ?_⟩, hA.2⟩
   · rintro k ⟨E, -, -, hE⟩
     have h1 : 3 ^ k ≤ Nat.card G := hE ▸ Subgroup.card_le_card_group E
@@ -40,6 +40,7 @@ theorem ff79_no_rank_four_in_two_local {W A : Subgroup G} (hW : W ≠ ⊥) (hW2 
       exact ff79_pRank_le_card H⟩ hmem
   omega
 
+omit [Finite G] in
 theorem ff79_le_normalizer_opp {N A : Subgroup G} (hA : A ≤ N) :
     A ≤ Nor (Opp 3 N) := by
   intro a ha
@@ -58,7 +59,7 @@ theorem ff79_le_normalizer_opp {N A : Subgroup G} (hA : A ≤ N) :
 theorem ff79_opp3_cenS_odd {A U : Subgroup G}
     (hA : IsElemAb 3 4 A) (hU : U ≤ A) (hr : localRank 3 G = 3) :
     Odd (Nat.card (Opp 3 (CenS U))) := by
-  haveI : IsElementaryAbelian 3 A := hA.1
+  have : IsElementaryAbelian 3 A := hA.1
   have hAN : A ≤ CenS U := by
     intro a ha u hu
     exact (hA.1.toIsMulCommutative.is_comm.comm ⟨u, hU hu⟩ ⟨a, ha⟩ |> congrArg Subtype.val)
@@ -74,7 +75,7 @@ theorem ff79_opp3_cenS_odd {A U : Subgroup G}
       Nat.prime_three Nat.prime_two A (Opp 3 (CenS U))
       (IsElementaryAbelian.isPGroup 3 A) (ff79_le_normalizer_opp hAN) hcop h2
   have hS2 : IsPGroup 2 (S.map (Opp 3 (CenS U)).subtype) :=
-    (S.isPGroup').map _
+    (S.isPGroup).map _
   exact ff79_no_rank_four_in_two_local hne hS2 hA hr hS
 
 end CFSG.RankThree.PartTwo.Sec21.FF79

@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_commutator_mem {A B : Subgroup G} {g : G}
     (hA : ∀ a ∈ A, g * a * g⁻¹ ∈ A) (hB : ∀ b ∈ B, g * b * g⁻¹ ∈ B) :
     ∀ n ∈ ⁅A, B⁆, g * n * g⁻¹ ∈ ⁅A, B⁆ := by
@@ -31,6 +32,7 @@ private lemma conj_commutator_mem {A B : Subgroup G} {g : G}
   rw [Subgroup.map_commutator] at hmem
   exact Subgroup.commutator_mono hA' hB' hmem
 
+omit [Finite G] in
 private lemma conj_zpowers_mem {g h : G} (hh : g * h * g⁻¹ = h⁻¹) :
     ∀ b ∈ zpowers h, g * b * g⁻¹ ∈ zpowers h := by
   have hle : (zpowers h).map (MulAut.conj g : G →* G) ≤ zpowers h := by

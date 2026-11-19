@@ -106,13 +106,13 @@ theorem exists_hom_fixSub_mu (h : A2Core σ d q)
   let Fx : Subgroup (adjointGroup d4 K) :=
     { carrier := {x | a2Conj σ d (x : ModGL TwistTag.D4.tag K) = x}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, a2Conj_mul] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, a2Conj_mul] at hx hy ⊢
         rw [hx, hy]
       one_mem' := by
-        simp only [Set.mem_setOf_eq, OneMemClass.coe_one]
+        simp only [Set.mem_ofPred_eq, OneMemClass.coe_one]
         exact a2Conj_one σ d
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at hx ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at hx ⊢
         rw [a2Conj_inv, hx] }
   have hfx : ∀ x, ψ x ∈ Fx :=
     forall_mem_of_transvections Fx ψ (fun c => by rw [h1]; exact fix_P1 h _ c.2)

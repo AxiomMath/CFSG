@@ -108,7 +108,7 @@ theorem s828N_Y (hE22 : E2.E22StatementC) (hE4 : E4_828)
     have hZs : Group.IsSolvable ↥(K ⊓ Subgroup.centralizer (U : Set G)) :=
       s828N_solvable_of_comm_le inf_le_left
         ((Subgroup.commutator_mono le_rfl inf_le_right).trans hcc)
-    haveI hZ'n : ((K ⊓ Subgroup.centralizer (U : Set G)).subgroupOf Y).Normal := by
+    have hZ'n : ((K ⊓ Subgroup.centralizer (U : Set G)).subgroupOf Y).Normal := by
       constructor
       intro z hz y
       rw [Subgroup.mem_subgroupOf] at hz ⊢
@@ -121,7 +121,7 @@ theorem s828N_Y (hE22 : E2.E22StatementC) (hE4 : E4_828)
           B6.le_normalizer_centralizer le_rfl
         have := (Subgroup.mem_normalizer_iff.mp (hNC hyU) (z : G)).mp hz.2
         simpa using this
-    haveI hZ's : Group.IsSolvable ↥((K ⊓ Subgroup.centralizer (U : Set G)).subgroupOf Y) := by
+    have hZ's : Group.IsSolvable ↥((K ⊓ Subgroup.centralizer (U : Set G)).subgroupOf Y) := by
       let fZ : ↥((K ⊓ Subgroup.centralizer (U : Set G)).subgroupOf Y) →*
           ↥(K ⊓ Subgroup.centralizer (U : Set G)) :=
         ⟨⟨fun z => ⟨((z : ↥Y) : G), Subgroup.mem_subgroupOf.mp z.2⟩, rfl⟩, fun a b => rfl⟩

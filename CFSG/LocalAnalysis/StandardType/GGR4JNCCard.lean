@@ -24,15 +24,15 @@ private theorem ncd_one_le_of_card {K : Type} [Field K] [Finite K] {n : ℕ}
 private theorem ncd_one_le_of_hasLabel_A {f : ℕ} {R : Type} [Group R]
     (h : GGHasLabel ⟨.A, 5, f⟩ R) : 1 ≤ f := by
   obtain ⟨K, hK, hKfin, hKcard, -⟩ := h
-  haveI := hK
-  haveI := hKfin
+  have := hK
+  have := hKfin
   exact ncd_one_le_of_card hKcard
 
 private theorem ncd_one_le_of_hasLabel_twA {f : ℕ} {R : Type} [Group R]
     (h : GGHasLabel ⟨.twA, 5, f⟩ R) : 1 ≤ f := by
   obtain ⟨K, hK, hKfin, hKcard, -⟩ := h
-  haveI := hK
-  haveI := hKfin
+  have := hK
+  have := hKfin
   have h2 : 1 ≤ 2 * f := by
     apply ncd_one_le_of_card (K := K) (n := 2 * f)
     rw [← pow_mul] at hKcard
@@ -47,8 +47,8 @@ private theorem ncd_one_le_of_hasLabel_twD {f : ℕ} {R : Type} [Group R]
       LargeEvenRecipeOmegaMinus 3 (2 ^ f) from rfl] at h
   unfold LargeEvenRecipeOmegaMinus at h
   obtain ⟨K, hK, hKfin, hKcard, -⟩ := h
-  haveI := hK
-  haveI := hKfin
+  have := hK
+  have := hKfin
   exact ncd_one_le_of_card hKcard
 
 private theorem ncd_core {G : Type} [Group G] [Finite G] {Bs J : Subgroup G}

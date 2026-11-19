@@ -37,7 +37,7 @@ theorem sec3_pocket_diag_transport {G : Type} [Group G] [Finite G] {v r : G} {D 
     exact ⟨⟨d, hd⟩, Subtype.ext (hψ ⟨d, hd⟩)⟩
   have hψker : ψ.ker = φ.ker := by
     ext d
-    simp [MonoidHom.mem_ker, ψ, Subtype.ext_iff]
+    simp [MonoidHom.mem_ker, ψ]
   have h2 : ∀ P : Subgroup ↥D, IsPGroup 2 ↥P → P ≤ ψ.ker → Nat.card ↥P ≤ 2 := by
     intro P hP hPker
     have hPc : P ≤ center ↥D := hψker ▸ hPker |>.trans hker

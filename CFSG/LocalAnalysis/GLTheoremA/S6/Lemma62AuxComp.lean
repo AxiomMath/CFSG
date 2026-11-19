@@ -22,6 +22,7 @@ noncomputable def phiC (p : ℕ) (C : Subgroup G) :
     ↥(Subgroup.normalizer (C : Set G)) →* MulAut (PSimple p C) :=
   (centerQuotientHom (PQuot p C)).comp (barAut p C)
 
+omit [Finite G] in
 theorem phiC_apply_mk (p : ℕ) (C : Subgroup G) (γ : ↥(Subgroup.normalizer (C : Set G))) (x : ↥C) :
     phiC p C γ (QuotientGroup.mk (QuotientGroup.mk x)) =
       QuotientGroup.mk (QuotientGroup.mk (C.normalizerMonoidHom γ x)) := by
@@ -30,6 +31,7 @@ theorem phiC_apply_mk (p : ℕ) (C : Subgroup G) (γ : ↥(Subgroup.normalizer (
   show QuotientGroup.mk (barAut p C γ (QuotientGroup.mk x)) = _
   rw [barAut_mk]
 
+omit [Finite G] in
 theorem phiC_inner (p : ℕ) {C : Subgroup G} (c : ↥C) (hc : (c : G) ∈ Subgroup.normalizer (C : Set G)) :
     phiC p C ⟨c, hc⟩ = MulAut.conj (QuotientGroup.mk (QuotientGroup.mk c) : PSimple p C) := by
   ext y
@@ -42,12 +44,12 @@ theorem phiC_inner (p : ℕ) {C : Subgroup G} (c : ↥C) (hc : (c : G) ∈ Subgr
         apply Subtype.ext
         rfl
       rw [this]
-      simp [map_mul, map_inv]
+      simp
 
 theorem phiC_eq_one_iff (hp : p.Prime) {X C : Subgroup G} (hC : GLAPComponent p X C) {g : G}
     (hg : g ∈ Subgroup.normalizer (C : Set G)) : phiC p C ⟨g, hg⟩ = 1 ↔ CentMod p C g := by
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hC
-  haveI : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
   rw [centMod_iff]
   constructor
   · intro h
@@ -95,7 +97,7 @@ theorem aut_two_group_trivial {P : Type*} [Group P] [Finite P] (hP : IsSimpleGro
     (hnorm : ∀ x : P, (MulAut.conj x : MulAut P) ∈ Subgroup.normalizer (Sg : Set (MulAut P))) :
     Sg = ⊥ := by
   let M : Subgroup P := Sg.comap (MulAut.conj : P →* MulAut P)
-  haveI hMn : M.Normal := ⟨fun m hm x => by
+  have hMn : M.Normal := ⟨fun m hm x => by
     show MulAut.conj (x * m * x⁻¹) ∈ Sg
     have h1 : (MulAut.conj x : MulAut P) * MulAut.conj m * (MulAut.conj x)⁻¹ ∈ Sg :=
       (Subgroup.mem_normalizer_iff.1 (hnorm x) _).1 hm
@@ -123,7 +125,7 @@ theorem aut_two_group_trivial {P : Type*} [Group P] [Finite P] (hP : IsSimpleGro
     have hall : ∀ x : P, (MulAut.conj x : MulAut P) ∈ Sg := fun x => by
       have : x ∈ M := hM ▸ Subgroup.mem_top x
       exact this
-    haveI : Nontrivial P := hP.toNontrivial
+    have : Nontrivial P := hP.toNontrivial
     have hcen : Subgroup.center P = ⊥ := by
       rcases hP.eq_bot_or_eq_top_of_normal (Subgroup.center P) with h | h
       · exact h
@@ -148,8 +150,8 @@ theorem aut_two_group_trivial {P : Type*} [Group P] [Finite P] (hP : IsSimpleGro
       rw [hcen, Subgroup.mem_bot] at h2
       exact (inv_mul_eq_one.1 h2).symm
     have hP2 : IsPGroup 2 P := IsPGroup.of_injective hSg f hf
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hP2.center_nontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hP2.center_nontrivial
     rw [hcen] at this
     exact (not_subsingleton_iff_nontrivial.2 inferInstance) (inferInstance : Subsingleton (⊥ : Subgroup P))
 
@@ -234,6 +236,7 @@ theorem centralizes_component (hp : p.Prime) {X C J S : Subgroup G} (hC : GLAPCo
   rw [hSg0, Subgroup.mem_bot] at h1
   exact centMod_iff.1 ((phiC_eq_one_iff hp hC hsN).1 h1)
 
+omit [Finite G] in
 theorem conj_mem_centModSubgroup {C : Subgroup G} {g m : G} (hg : g ∈ Subgroup.normalizer (C : Set G))
     (hm : m ∈ centModSubgroup p C) : g * m * g⁻¹ ∈ centModSubgroup p C := by
   refine ⟨Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hm.1) (Subgroup.inv_mem _ hg), fun l hl => ?_⟩
@@ -245,6 +248,7 @@ theorem conj_mem_centModSubgroup {C : Subgroup G} {g m : G} (hg : g ∈ Subgroup
   rw [e]
   exact (Subgroup.mem_normalizer_iff.1 (normalizer_le_normalizer_glaPPrimeCoreOf p C hg) _).1 h2
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centModSubgroup (p : ℕ) (C : Subgroup G) :
     Subgroup.normalizer (C : Set G) ≤ Subgroup.normalizer (centModSubgroup p C : Set G) := by
   intro g hg
@@ -254,6 +258,7 @@ theorem normalizer_le_normalizer_centModSubgroup (p : ℕ) (C : Subgroup G) :
   have := conj_mem_centModSubgroup (Subgroup.inv_mem _ hg) hh
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem comm_mem_of_forall_component {K S O : Subgroup G} {𝒞 : Set (Subgroup G)}
     (hK : (⨆ C ∈ 𝒞, C) = K) (hO : K ≤ Subgroup.normalizer (O : Set G))
     (h : ∀ C ∈ 𝒞, ∀ c ∈ C, ∀ s ∈ S, ⁅c, s⁆ ∈ O) : ∀ k ∈ K, ∀ s ∈ S, ⁅k, s⁆ ∈ O := by

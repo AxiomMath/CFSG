@@ -14,7 +14,7 @@ open CFSG.Open CFSG.SectionRank CFSG.GroupTheory.WeirSylow
 theorem pRank_wreath_cyclic {p : ℕ} (hp : p.Prime) [NeZero p] {P : Type*} [Group P] [Finite P]
     (hm : 1 ≤ pRank p (⊤ : Subgroup P)) :
     pRank p (⊤ : Subgroup (P ≀ᵣ Multiplicative (ZMod p))) = p * pRank p (⊤ : Subgroup P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact pRank_wreath (by rw [Fintype.card_multiplicative, ZMod.card]) hm
 
 theorem pRank_wreathTower {p : ℕ} [hp : Fact p.Prime] {a : ℕ} (ha : 1 ≤ a) :
@@ -37,8 +37,8 @@ theorem sum_getElem_mul_pow (p : ℕ) :
       (fun i : Fin (L.length + 1) => (d :: L)[i] * p ^ (i : ℕ))
     refine h.trans ?_
     rw [Nat.ofDigits_cons, ← sum_getElem_mul_pow p L, Finset.mul_sum]
-    simp only [Fin.val_zero, pow_zero, mul_one, List.getElem_cons_zero, Fin.val_succ,
-      List.getElem_cons_succ, pow_succ]
+    simp only [Fin.val_zero, pow_zero, mul_one, Fin.val_succ,
+      pow_succ]
     congr 1
     refine Finset.sum_congr rfl fun i _ => ?_
     have e : (d :: L)[i.succ] = L[i] := rfl

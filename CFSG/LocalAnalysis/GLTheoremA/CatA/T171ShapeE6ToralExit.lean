@@ -46,8 +46,8 @@ theorem isAlgebraic_of_ringEquiv_algebraMap {k K Ω : Type*} [Field k] [Field K]
 theorem twE6BigToralExit_of (h : TwE6W0TorusExit) : TwE6BigToralExit := by
   intro G _ _ L J A d b n K _ _ hn hK h3 hS θ E hE3 hEcard hEI hEd hEb
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have h3K : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     exact three_not_dvd_sq_two_pow_of_dvd_add_one h3
@@ -55,8 +55,8 @@ theorem twE6BigToralExit_of (h : TwE6W0TorusExit) : TwE6BigToralExit := by
   let Ω := AlgebraicClosure K
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let Φ : ↥(TwistedDiag.Rgrp Ω Fr) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     NoOffTwE6Three.rgrpConjAut hn hK σ hσ Fr hFr
@@ -125,8 +125,8 @@ theorem twE6BigToralExit_of (h : TwE6W0TorusExit) : TwE6BigToralExit := by
     Subgroup.mem_map.2 ⟨yd, hydE, rfl⟩
   have hxbĒ : ((yb : ↥(TwistedDiag.Rgrp Ω Fr)) : ModGL Tag.E6 Ω) ∈ Ē :=
     Subgroup.mem_map.2 ⟨yb, hybE, rfl⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Ē := Nat.finite_of_card_ne_zero (by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Ē := Nat.finite_of_card_ne_zero (by
     rw [hĒcard]
     exact (lt_of_lt_of_le (by norm_num) hEcard).ne')
   let H : Subgroup (ModGL Tag.E6 Ω) :=
@@ -202,14 +202,14 @@ theorem twE6BigToralExit_of (h : TwE6W0TorusExit) : TwE6BigToralExit := by
   have hXt : NoOffTwE6Three.IsToralE6 Ω X :=
     ⟨g, hg, fun x hx => hgT x (hXĒ hx)⟩
   let k := GaloisField 2 (2 * n)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype k := Fintype.ofFinite k
   have hcardk : Fintype.card k = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.LieType.Universal.card_galoisField_two_mul 2 n hn, hK]
   let τ : k ≃+* K := FiniteField.ringEquivOfCardEq hcardk
-  letI : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
-  haveI : IsAlgClosure k Ω :=
+  let : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
+  have : IsAlgClosure k Ω :=
     ⟨IsAlgClosure.isAlgClosed K,
       isAlgebraic_of_ringEquiv_algebraMap τ (fun x => rfl) (AlgebraicClosure.isAlgebraic K)⟩
   have h30 : (3 : Ω) ≠ 0 :=

@@ -25,6 +25,7 @@ theorem split_of_split16 {p : ℕ} {lab : GLALabel} (h : GLASplit16 p lab) (h1 :
     · exact absurd h h3
   · exact Or.inr (Or.inr (Or.inr h))
 
+omit [Finite G] in
 theorem splitInnerDiag_of_16 {p : ℕ} {B L : Subgroup G}
     (hrk : ∀ lab : GLALabel, LabelOf L lab → lab.tag ≠ .triD4 ∧ lab.tag ≠ .twB2 ∧ lab.tag ≠ .twF4)
     (h : SplitInnerDiagMarking16 p B L) : SplitInnerDiagMarking p B L := by

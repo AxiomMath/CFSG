@@ -32,7 +32,7 @@ theorem omWitData_pOrd : omWitData.pOrd = 3 ^ 6 := rfl
 
 theorem wit3_autT :
     ∀ a ∈ autT, a ≠ 1 → a ^ 3 = 1 → Wit3 omegaT a := by
-  haveI : Finite ↥autT := Nat.finite_of_card_ne_zero (by rw [card_autT]; norm_num)
+  have : Finite ↥autT := Nat.finite_of_card_ne_zero (by rw [card_autT]; norm_num)
   obtain ⟨P, hPA, hPcard, hP⟩ := Certificates.certificate428002.apply
     autT omegaT omWitData_gens_mem omWitData_gens_mem_omega
   exact wit3_all_of_sylow_sub autT omegaT P omegaT_le_autT
@@ -41,12 +41,12 @@ theorem wit3_autT :
 
 theorem listRow_omegaPlusT :
     ListRow ↥omegaT := by
-  haveI : Finite ↥omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
+  have : Finite ↥omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
   exact listRow_of_wit3_sub omegaT_le_autT wit3_autT
 
 theorem outerRow_omegaPlusT :
     OuterRow ↥omegaT := by
-  haveI : Finite ↥omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
+  have : Finite ↥omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
   refine outerRow_of_wit3_sub omegaT_le_autT (MulEquiv.ofBijective autConj autConj_bijective)
     ?_ wit3_autT
   intro y hy

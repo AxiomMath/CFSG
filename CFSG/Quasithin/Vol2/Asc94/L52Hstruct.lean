@@ -95,7 +95,7 @@ theorem cm_entries (x : Hc) :
       · subst hj
         exact hsub _ hne
       · have h := hc 0 j
-        rw [if_neg hj, if_pos rfl] at h
+        rw [ite_eq_right hj, ite_eq_left rfl] at h
         exact h.symm
     have hdet : (cm x).det = 1 := x.1.2
     have h0 : (cm x).det = 0 := Matrix.det_eq_zero_of_row_eq_zero 4 hrow
@@ -118,7 +118,7 @@ theorem cm_entries (x : Hc) :
       rw [Matrix.one_apply_eq, h44]
     · rw [Matrix.one_apply_ne (Ne.symm hj)]
       have h := hc 0 j
-      rw [if_neg hj, if_pos rfl] at h
+      rw [ite_eq_right hj, ite_eq_left rfl] at h
       exact h.symm
   exact ⟨hcol, hrow4⟩
 
@@ -143,7 +143,7 @@ theorem det_one_add_of_upper (N : Mt) (hup : ∀ i j : Fin 5, j ≤ i → N i j 
   · intro i j hij
     have hji : j ≤ i := le_of_lt hij
     have hne : i ≠ j := ne_of_gt hij
-    simp [Matrix.one_apply, hne, hup i j hji]
+    simp [hne, hup i j hji]
 
 theorem tt_comm_of (M : Mt) (hc : ∀ i : Fin 5, M i 0 = (1 : Mt) i 0)
     (hr : ∀ j : Fin 5, M 4 j = (1 : Mt) 4 j) : M * tt = tt * M := by
@@ -155,10 +155,10 @@ theorem tt_comm_of (M : Mt) (hc : ∀ i : Fin 5, M i 0 = (1 : Mt) i 0)
     subst hb
     simp
   · subst ha
-    simp [hb, Matrix.one_apply, Ne.symm hb]
+    simp [hb, Ne.symm hb]
   · subst hb
-    simp [ha, Matrix.one_apply]
-  · simp [ha, hb, Matrix.one_apply]
+    simp [ha]
+  · simp [ha, hb]
 
 @[expose] def unipH (N : Mt) (hup : ∀ i j : Fin 5, j ≤ i → N i j = 0) (hc0 : ∀ i : Fin 5, N i 0 = 0)
     (hr4 : ∀ j : Fin 5, N 4 j = 0) : Hc :=
@@ -328,8 +328,8 @@ theorem row_of_comm (x : Hc) {j : Fin 5} (hj : j ≠ 0)
   by_cases hb : b = j
   · subst hb
     simpa using h'
-  · rw [if_neg hb] at h'
-    rw [Matrix.one_apply, if_neg (Ne.symm hb)]
+  · rw [ite_eq_right hb] at h'
+    rw [Matrix.one_apply, ite_eq_right (Ne.symm hb)]
     exact h'
 
 theorem col_of_comm (x : Hc) {i : Fin 5} (hi : i ≠ 4)
@@ -348,8 +348,8 @@ theorem col_of_comm (x : Hc) {i : Fin 5} (hi : i ≠ 4)
   by_cases ha : a = i
   · subst ha
     simpa using h'.symm
-  · rw [if_neg ha] at h'
-    rw [Matrix.one_apply, if_neg ha]
+  · rw [ite_eq_right ha] at h'
+    rw [Matrix.one_apply, ite_eq_right ha]
     exact h'.symm
 
 theorem centralizer_U1 : Subgroup.centralizer (U1 : Set Hc) = U1 := by
@@ -446,7 +446,7 @@ theorem cm_entry_11 {x : Hc} (h2 : ∀ b : Fin 5, cm x 2 b = (1 : Mt) 2 b)
     have hcases : ∀ i j : Fin 5, j < i → (i = 1 ∧ j = 0) ∨ (i = 2 ∧ (j = 0 ∨ j = 1)) ∨
         (i = 3 ∧ (j = 0 ∨ j = 1 ∨ j = 2)) ∨ i = 4 := by decide
     rcases hcases i j hji with ⟨rfl, rfl⟩ | ⟨rfl, rfl | rfl⟩ | ⟨rfl, rfl | rfl | rfl⟩ | rfl <;>
-      simp [h2, h3, cm_col0, cm_row4, Matrix.one_apply, ne_of_gt hji]
+      simp [h2, h3, cm_col0, cm_row4, ne_of_gt hji]
   have hdet : (cm x).det = 1 := x.1.2
   have hup : (cm x).IsUpperTriangular := by
     intro i j hji
@@ -480,7 +480,7 @@ theorem Nfun_r4 (x : Hc) : ∀ j : Fin 5, Nfun x 4 j = 0 := by
 theorem Nfun_supp (x : Hc) : SuppIn SA (Nfun x) := by
   intro i j hij
   simp only [Nfun, Matrix.of_apply]
-  rw [if_neg hij]
+  rw [ite_eq_right hij]
 
 theorem mem_A1_mul_U1_of_centralizer {x : Hc}
     (hx : x ∈ Subgroup.centralizer ((A1 ⊓ U1 : Subgroup Hc) : Set Hc)) :
@@ -496,7 +496,7 @@ theorem mem_A1_mul_U1_of_centralizer {x : Hc}
   have key : 1 + Nfun x + Matrix.single 0 1 (cm x 0 1) = cm x := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Nfun, Matrix.single_apply, Matrix.one_apply, h2, h3, h11, cm_00, cm_col0, cm_row4]
+      simp [Nfun, h2, h3, h11, cm_col0, cm_row4]
   have ha : unipH (Nfun x) (Nfun_up x) (Nfun_c0 x) (Nfun_r4 x) ∈ A1 := by
     refine (mem_patSub hSA).2 ?_
     have e : (1 + Nfun x - 1 : Mt) = Nfun x := by abel
@@ -683,8 +683,8 @@ theorem paramN1_supp (v : Fin 4 → ZMod 2) : SuppIn S1 (paramN1 v) := by
       by_contra hj
       exact hij ⟨rfl, hj⟩
     subst hj
-    simp [paramN1, Matrix.single_apply]
-  · simp [paramN1, Matrix.single_apply, Ne.symm hi]
+    simp [paramN1]
+  · simp [paramN1, Ne.symm hi]
 
 @[expose] def idx4 : Fin 4 → Fin 5 := ![1, 2, 3, 4]
 
@@ -729,9 +729,9 @@ theorem card_U1 : Nat.card U1 = 16 := by
             revert j
             decide
           rcases hj4 with rfl | rfl | rfl | rfl <;>
-            simp [paramN1, Matrix.single_apply, idx4]
+            simp [paramN1, idx4]
       · rw [hxrow i j hi]
-        simp [paramN1, Matrix.single_apply, Ne.symm hi]
+        simp [paramN1, Ne.symm hi]
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
   simp [Nat.card_eq_fintype_card]
 
@@ -768,9 +768,9 @@ theorem U1_inf_U2 : U1 ⊓ U2 = Subgroup.zpowers zt := by
       by_cases hij : i = 0 ∧ j = 4
       · obtain ⟨rfl, rfl⟩ := hij
         rw [Matrix.add_apply, Matrix.one_apply_ne (by decide : (0 : Fin 5) ≠ 4), zero_add,
-          Matrix.single_apply, if_pos ⟨rfl, rfl⟩]
+          Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩]
       · rw [hoff i j hij, Matrix.add_apply, Matrix.single_apply,
-          if_neg (fun h => hij ⟨h.1.symm, h.2.symm⟩), add_zero]
+          ite_eq_right (fun h => hij ⟨h.1.symm, h.2.symm⟩), add_zero]
     have hc : cm x 0 4 = 0 ∨ cm x 0 4 = 1 := by
       have hz : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
       exact hz _
@@ -863,14 +863,14 @@ theorem phiK1_vecMul (x : Hc) : Matrix.vecMul (phiK1 x) (cm x) = sK1 x := by
 theorem NK1_supp (x : Hc) : SuppIn S1 (NK1 x) := by
   intro i j hij
   show (if i = 0 ∧ j ≠ 0 then phiK1 x j else 0) = 0
-  rw [if_neg hij]
+  rw [ite_eq_right hij]
 
 theorem NK1_row0 (x : Hc) (m : Fin 5) : NK1 x 0 m = phiK1 x m := by
   show (if (0 : Fin 5) = 0 ∧ m ≠ 0 then phiK1 x m else 0) = phiK1 x m
   by_cases hm : m = 0
   · subst hm
-    rw [if_neg (fun h => h.2 rfl), phiK1_zero]
-  · rw [if_pos ⟨rfl, hm⟩]
+    rw [ite_eq_right (fun h => h.2 rfl), phiK1_zero]
+  · rw [ite_eq_left ⟨rfl, hm⟩]
 
 theorem K1_decomp (x : Hc) : ∃ u ∈ U1, ∃ k ∈ K1, x = u * k := by
   refine ⟨unipOfS1 (NK1 x) (NK1_supp x), unipOfS1_mem _ _,
@@ -925,8 +925,8 @@ theorem blk_one : blk (1 : Mt) = 1 := by
   rw [blk_apply, Matrix.one_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, if_pos rfl]
-  · rw [if_neg hij, if_neg (fun h => hij (idx3_inj i j h))]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
+  · rw [ite_eq_right hij, ite_eq_right (fun h => hij (idx3_inj i j h))]
 
 theorem blk_mul (M N : Mt) (hM : ∀ i, M (idx3 i) 0 = 0) (hN : ∀ j, N 4 (idx3 j) = 0) :
     blk (M * N) = blk M * blk N := by
@@ -989,8 +989,8 @@ theorem mem_Qh_iff (x : Hc) : x ∈ Qh ↔ SuppIn SQ (cm x - 1) := by
         rw [Matrix.one_apply, sub_eq_zero, h1]
         by_cases hij' : i = j
         · subst hij'
-          rw [if_pos rfl, if_pos rfl]
-        · rw [if_neg hij', if_neg (fun h => hij' (idxB_inj i j hi hj h))]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
+        · rw [ite_eq_right hij', ite_eq_right (fun h => hij' (idxB_inj i j hi hj h))]
   · intro h
     apply MonoidHom.mem_ker.2
     apply Units.ext
@@ -1004,8 +1004,8 @@ theorem mem_Qh_iff (x : Hc) : x ∈ Qh ↔ SuppIn SQ (cm x - 1) := by
     rw [h1]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, if_pos rfl]
-    · rw [if_neg (fun h => hij (idx3_inj i j h)), if_neg hij]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right (fun h => hij (idx3_inj i j h)), ite_eq_right hij]
 
 instance isSimpleGroup_GL3 : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
   CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (by norm_num)
@@ -1018,15 +1018,15 @@ theorem emb_blk (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) : blk (emb A) = A := by
   rw [blk_apply]
   show (if inB (idx3 i) ∧ inB (idx3 j) then A (idxB (idx3 i)) (idxB (idx3 j)) else
     if idx3 i = idx3 j then 1 else 0) = A i j
-  rw [if_pos ⟨inB_idx3 i, inB_idx3 j⟩, idxB_idx3, idxB_idx3]
+  rw [ite_eq_left ⟨inB_idx3 i, inB_idx3 j⟩, idxB_idx3, idxB_idx3]
 
 theorem emb_col0 (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (i : Fin 5) : emb A i 0 = (1 : Mt) i 0 := by
   show (if inB i ∧ inB 0 then A (idxB i) (idxB 0) else if i = 0 then 1 else 0) = (1 : Mt) i 0
-  rw [if_neg (fun h => absurd h.2 (by decide)), Matrix.one_apply]
+  rw [ite_eq_right (fun h => absurd h.2 (by decide)), Matrix.one_apply]
 
 theorem emb_row4 (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (j : Fin 5) : emb A 4 j = (1 : Mt) 4 j := by
   show (if inB 4 ∧ inB j then A (idxB 4) (idxB j) else if 4 = j then 1 else 0) = (1 : Mt) 4 j
-  rw [if_neg (fun h => absurd h.1 (by decide)), Matrix.one_apply]
+  rw [ite_eq_right (fun h => absurd h.1 (by decide)), Matrix.one_apply]
 
 theorem emb_one : emb 1 = 1 := by
   ext i j
@@ -1035,12 +1035,12 @@ theorem emb_one : emb 1 = 1 := by
   by_cases hij : i = j
   · subst hij
     by_cases hi : inB i
-    · rw [if_pos ⟨hi, hi⟩, Matrix.one_apply_eq, Matrix.one_apply_eq]
-    · rw [if_neg (fun h => hi h.1), if_pos rfl, Matrix.one_apply_eq]
-  · rw [if_neg hij, Matrix.one_apply_ne hij]
+    · rw [ite_eq_left ⟨hi, hi⟩, Matrix.one_apply_eq, Matrix.one_apply_eq]
+    · rw [ite_eq_right (fun h => hi h.1), ite_eq_left rfl, Matrix.one_apply_eq]
+  · rw [ite_eq_right hij, Matrix.one_apply_ne hij]
     by_cases hi : inB i ∧ inB j
-    · rw [if_pos hi, Matrix.one_apply_ne (fun h => hij (idxB_inj i j hi.1 hi.2 h))]
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi, Matrix.one_apply_ne (fun h => hij (idxB_inj i j hi.1 hi.2 h))]
+    · rw [ite_eq_right hi]
 
 theorem emb_mul (A B : Matrix (Fin 3) (Fin 3) (ZMod 2)) : emb (A * B) = emb A * emb B := by
   ext i j
@@ -1122,11 +1122,11 @@ theorem isPGroup_Qh : IsPGroup 2 Qh := by
   exact Qh_pow_four g.2
 
 theorem pCore_eq_Qh : CFSG.pCore 2 Hc = Qh := by
-  haveI : Qh.Normal := MonoidHom.normal_ker piHom
+  have : Qh.Normal := MonoidHom.normal_ker piHom
   apply le_antisymm
   · apply sSup_le
     rintro K ⟨hKn, hKp⟩
-    haveI : (K.map piHom).Normal := hKn.map piHom piHom_surjective
+    have : (K.map piHom).Normal := hKn.map piHom piHom_surjective
     have hKmp : IsPGroup 2 (K.map piHom) := hKp.map piHom
     rcases Subgroup.Normal.eq_bot_or_eq_top (K.map piHom) with hbot | htop
     · intro k hk
@@ -1182,7 +1182,7 @@ theorem S1_sub_SQ : ∀ a b : Fin 5, S1 a b → SQ a b := by decide
 
 theorem S2_sub_SQ : ∀ a b : Fin 5, S2 a b → SQ a b := by decide
 
-theorem Dmat_supp (i : Fin 5) (hi : inB i) (p : Tri) : SuppIn (SDi i) (Dmat i p) := by
+theorem Dmat_supp (i : Fin 5) (_hi : inB i) (p : Tri) : SuppIn (SDi i) (Dmat i p) := by
   intro a b hab
   have h1 : ¬ (i = a ∧ (4 : Fin 5) = b) := fun h => hab (Or.inl ⟨h.1.symm, h.2.symm⟩)
   have h2 : ¬ ((0 : Fin 5) = a ∧ i = b) := fun h => hab (Or.inr (Or.inl ⟨h.1.symm, h.2.symm⟩))
@@ -1190,7 +1190,7 @@ theorem Dmat_supp (i : Fin 5) (hi : inB i) (p : Tri) : SuppIn (SDi i) (Dmat i p)
     fun h => hab (Or.inr (Or.inr ⟨h.1.symm, h.2.symm⟩))
   unfold Dmat
   rw [Matrix.add_apply, Matrix.add_apply, Matrix.single_apply, Matrix.single_apply,
-    Matrix.single_apply, if_neg h1, if_neg h2, if_neg h3]
+    Matrix.single_apply, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
   simp
 
 theorem inB_ne0 (i : Fin 5) (hi : inB i) : i ≠ 0 := by
@@ -1205,8 +1205,8 @@ theorem Dmat_i4 (i : Fin 5) (hi : inB i) (p : Tri) : Dmat i p i 4 = p.1 := by
   have hi0 := inB_ne0 i hi
   unfold Dmat
   rw [Matrix.add_apply, Matrix.add_apply, Matrix.single_apply, Matrix.single_apply,
-    Matrix.single_apply, if_pos ⟨rfl, rfl⟩, if_neg (fun h => hi0 h.1.symm),
-    if_neg (fun h => hi0 h.1.symm)]
+    Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, ite_eq_right (fun h => hi0 h.1.symm),
+    ite_eq_right (fun h => hi0 h.1.symm)]
   simp
 
 theorem Dmat_0i (i : Fin 5) (hi : inB i) (p : Tri) : Dmat i p 0 i = p.2.1 := by
@@ -1214,8 +1214,8 @@ theorem Dmat_0i (i : Fin 5) (hi : inB i) (p : Tri) : Dmat i p 0 i = p.2.1 := by
   have hi4 := inB_ne4 i hi
   unfold Dmat
   rw [Matrix.add_apply, Matrix.add_apply, Matrix.single_apply, Matrix.single_apply,
-    Matrix.single_apply, if_neg (fun h => hi0 h.1), if_pos ⟨rfl, rfl⟩,
-    if_neg (fun h => hi4 h.2.symm)]
+    Matrix.single_apply, ite_eq_right (fun h => hi0 h.1), ite_eq_left ⟨rfl, rfl⟩,
+    ite_eq_right (fun h => hi4 h.2.symm)]
   simp
 
 theorem Dmat_04 (i : Fin 5) (hi : inB i) (p : Tri) : Dmat i p 0 4 = p.2.2 := by
@@ -1223,8 +1223,8 @@ theorem Dmat_04 (i : Fin 5) (hi : inB i) (p : Tri) : Dmat i p 0 4 = p.2.2 := by
   have hi4 := inB_ne4 i hi
   unfold Dmat
   rw [Matrix.add_apply, Matrix.add_apply, Matrix.single_apply, Matrix.single_apply,
-    Matrix.single_apply, if_neg (fun h => hi0 h.1), if_neg (fun h => hi4 h.2),
-    if_pos ⟨rfl, rfl⟩]
+    Matrix.single_apply, ite_eq_right (fun h => hi0 h.1), ite_eq_right (fun h => hi4 h.2),
+    ite_eq_left ⟨rfl, rfl⟩]
   simp
 
 theorem Dmat_zero (i : Fin 5) : Dmat i (0, 0, 0) = 0 := by
@@ -1260,9 +1260,9 @@ theorem Dmat_mul_ne (i j : Fin 5) (hi : inB i) (hj : inB j) (hij : i ≠ j) (p q
   rcases inB_cases i hi with rfl | rfl | rfl <;> rcases inB_cases j hj with rfl | rfl | rfl <;>
     first
     | exact absurd rfl hij
-    | (ext a b <;> unfold Dmat <;>
+    | (ext a b; unfold Dmat;
         simp only [add_mul, mul_add, Matrix.mul_apply, Fin.sum_univ_five, Matrix.add_apply,
-          Matrix.single_apply] <;>
+          Matrix.single_apply];
         fin_cases a <;> fin_cases b <;> simp)
 
 @[expose] def unipD (i : Fin 5) (hi : inB i) (N : Mt) (hN : SuppIn (SDi i) N) : Hc :=
@@ -1408,7 +1408,7 @@ theorem zt_ne_one : zt ≠ 1 := by
   have h3 : (1 : Mt) 0 4 = 0 := Matrix.one_apply_ne (by decide)
   have h4 : tt 0 4 = 1 := by
     show (1 + Matrix.single 0 4 1 : Mt) 0 4 = 1
-    rw [Matrix.add_apply, h3, Matrix.single_apply, if_pos ⟨rfl, rfl⟩, zero_add]
+    rw [Matrix.add_apply, h3, Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, zero_add]
   rw [h4, h3] at h2
   exact one_ne_zero h2
 
@@ -1459,11 +1459,11 @@ theorem Qh_sum (x : Hc) (hx : x ∈ Qh) :
         decide
       rcases hb' with rfl | rfl | rfl | rfl <;>
         simp [Dmat_row0 1 (by decide), Dmat_row0 2 (by decide), Dmat_row0 3 (by decide), coefQ,
-          idx3, zmod2_sub_zero]
+          idx3]
     · have ha' := inB_cases a ha
       rcases ha' with rfl | rfl | rfl <;>
         simp [Dmat_col4 1 (by decide), Dmat_col4 2 (by decide), Dmat_col4 3 (by decide), coefQ,
-          idx3, zmod2_sub_zero]
+          idx3]
   · have h0 : ∀ k : Fin 3, Dmat (idx3 k) (coefQ x k) a b = 0 := fun k =>
       Dmat_supp (idx3 k) (inB_idx3 k) _ a b (fun hh => h (SDi_sub_SQ _ a b (inB_idx3 k) hh))
     rw [h0 0, h0 1, h0 2, add_zero, add_zero]
@@ -1546,7 +1546,7 @@ theorem Nu_supp (x : Hc) : SuppIn S1 (Nu x) := by
       exact hab ⟨rfl, hb⟩
     subst hb
     simp [Nu]
-  · simp [Nu, Matrix.single_apply, Ne.symm ha]
+  · simp [Nu, Ne.symm ha]
 
 theorem Nt_supp (x : Hc) : SuppIn S2 (Nt x) := by
   intro a b hab
@@ -1557,7 +1557,7 @@ theorem Nt_supp (x : Hc) : SuppIn S2 (Nt x) := by
       exact hab ⟨rfl, ha⟩
     subst ha
     simp [Nt]
-  · simp [Nt, Matrix.single_apply, hb, Ne.symm hb]
+  · simp [Nt, Ne.symm hb]
 
 theorem Nu_Nt_sum (x : Hc) (hx : x ∈ Qh) :
     Nu x + Nt x + Matrix.single 0 4 (cm x 1 4 * cm x 0 1 + cm x 2 4 * cm x 0 2 + cm x 3 4 * cm x 0 3)
@@ -1572,15 +1572,15 @@ theorem Nu_Nt_sum (x : Hc) (hx : x ∈ Qh) :
         revert b
         decide
       rcases hb' with rfl | rfl | rfl | rfl <;>
-        simp [Nu, Nt, Matrix.single_apply, zmod2_sub_zero, zmod2_add_add_self]
+        simp [Nu, Nt, zmod2_add_add_self]
     · have ha' := inB_cases a ha
       rcases ha' with rfl | rfl | rfl <;>
-        simp [Nu, Nt, Matrix.single_apply, zmod2_sub_zero, zmod2_add_add_self]
+        simp [Nu, Nt]
   · have h1 : Nu x a b = 0 := Nu_supp x a b (fun hh => h (S1_sub_SQ a b hh))
     have h2 : Nt x a b = 0 := Nt_supp x a b (fun hh => h (S2_sub_SQ a b hh))
     have h3 : Matrix.single 0 4 (cm x 1 4 * cm x 0 1 + cm x 2 4 * cm x 0 2 + cm x 3 4 * cm x 0 3)
         a b = 0 := by
-      rw [Matrix.single_apply, if_neg (fun hh => h (Or.inl ⟨hh.1.symm, by
+      rw [Matrix.single_apply, ite_eq_right (fun hh => h (Or.inl ⟨hh.1.symm, by
         rw [← hh.2]; decide⟩))]
     rw [h1, h2, h3, zero_add, zero_add]
     have := hS a b h
@@ -1591,7 +1591,7 @@ theorem Nu_mul_Nt (x : Hc) :
     Nu x * Nt x = Matrix.single 0 4 (cm x 1 4 * cm x 0 1 + cm x 2 4 * cm x 0 2 + cm x 3 4 * cm x 0 3) := by
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Nu, Nt, Matrix.mul_apply, Fin.sum_univ_five, Matrix.single_apply] <;> ring
+    simp [Nu, Nt, Matrix.mul_apply, Fin.sum_univ_five, Matrix.single_apply]; ring
 
 theorem Qh_mul_eq (x : Hc) (hx : x ∈ Qh) : (1 + Nu x) * (1 + Nt x) = cm x := by
   have e : (1 + Nu x) * (1 + Nt x) = 1 + (Nu x + Nt x + Matrix.single 0 4
@@ -1636,7 +1636,7 @@ theorem NuP_supp (f : Fin 3 → ZMod 2) (a : ZMod 2) (w : Fin 3 → ZMod 2) :
       exact hij ⟨rfl, hj⟩
     subst hj
     simp [NuP]
-  · simp [NuP, Matrix.single_apply, Ne.symm hi]
+  · simp [NuP, Ne.symm hi]
 
 theorem NtP_supp (w : Fin 3 → ZMod 2) : SuppIn S2 (NtP w) := by
   intro a b hab
@@ -1647,7 +1647,7 @@ theorem NtP_supp (w : Fin 3 → ZMod 2) : SuppIn S2 (NtP w) := by
       exact hab ⟨rfl, ha⟩
     subst ha
     simp [NtP]
-  · simp [NtP, Matrix.single_apply, hb, Ne.symm hb]
+  · simp [NtP, Ne.symm hb]
 
 @[expose] def phiQ (p : QPar) : Hc :=
   unipOfS1 (NuP p.1 p.2.1 p.2.2) (NuP_supp _ _ _) * unipOfS2 (NtP p.2.2) (NtP_supp _)
@@ -1662,7 +1662,7 @@ theorem NuP_mul_NtP (f : Fin 3 → ZMod 2) (a : ZMod 2) (w : Fin 3 → ZMod 2) :
     NuP f a w * NtP w = Matrix.single 0 4 (w 0 * f 0 + w 1 * f 1 + w 2 * f 2) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [NuP, NtP, Matrix.mul_apply, Fin.sum_univ_five, Matrix.single_apply] <;> ring
+    simp [NuP, NtP, Matrix.mul_apply, Fin.sum_univ_five, Matrix.single_apply]; ring
 
 theorem cm_phiQ_expand (p : QPar) :
     cm (phiQ p) = 1 + NuP p.1 p.2.1 p.2.2 + NtP p.2.2 +
@@ -1684,7 +1684,7 @@ theorem phiQ_inj : Function.Injective phiQ := by
   have e14 := congrFun (congrFun hc 1) 4
   have e24 := congrFun (congrFun hc 2) 4
   have e34 := congrFun (congrFun hc 3) 4
-  simp [NuP, NtP, Matrix.add_apply, Matrix.single_apply] at e01 e02 e03 e04 e14 e24 e34
+  simp [NuP, NtP, Matrix.add_apply] at e01 e02 e03 e04 e14 e24 e34
   have hf : f = f' := funext fun k => by
     fin_cases k
     exacts [e01, e02, e03]

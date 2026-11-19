@@ -74,7 +74,7 @@ theorem card_le_sixteen {G : Type} [Group G] {P : Subgroup G}
       exact orderOf_dvd_of_pow_eq_one h8'
     exact (Nat.pow_dvd_pow_iff_le_right (by norm_num)).mp hd
   rcases hP with ⟨m, hm, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩
-  · haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  · have : NeZero (2 ^ m) := ⟨by positivity⟩
     have hk := key (e.symm (DihedralGroup.r 1)) m
       (by rw [MulEquiv.orderOf_eq, DihedralGroup.orderOf_r_one])
     rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
@@ -96,7 +96,7 @@ theorem uniqueInv_of_isCyclic {G : Type} [Group G] [Finite G] {M : Subgroup G}
 
 theorem uniqueInv_of_quaternion {G : Type} [Group G] [Finite G] {M : Subgroup G} {n : ℕ}
     (e : M ≃* QuaternionGroup (2 ^ (n - 2))) : Sec622UniqueInv M := by
-  haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
   intro a ha b hb hao hbo
   have h := CFSG.GF2Type.Aschbacher1976Full.LeafUniqueInvolution.eq_of_orderOf_eq_two_of_quaternion
     e (a := ⟨a, ha⟩) (b := ⟨b, hb⟩) (by rwa [Subgroup.orderOf_mk])
@@ -133,7 +133,7 @@ theorem dihedral_shape (h : Sec622Bar G t u x) {L M : Subgroup G} [IsSimpleGroup
   have hM8 : Nat.card M ≤ 8 := by omega
   rcases hMshape with hcyc | ⟨m, hm, ⟨e⟩⟩ | ⟨n, -, ⟨e⟩⟩
   · exact (sec622_not_uniqueInv hnonab hM hinv (uniqueInv_of_isCyclic hcyc)).elim
-  · haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  · have : NeZero (2 ^ m) := ⟨by positivity⟩
     have hcard : Nat.card M = 2 * 2 ^ m := by
       rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
     have hm2 : m ≤ 2 := by
@@ -143,6 +143,7 @@ theorem dihedral_shape (h : Sec622Bar G t u x) {L M : Subgroup G} [IsSimpleGroup
     exact ⟨m, hm, hm2, ⟨e⟩, hM8⟩
   · exact (sec622_not_uniqueInv hnonab hM hinv (uniqueInv_of_quaternion e)).elim
 
+omit [Finite G] in
 theorem exists_sylow_dihedral {L M : Subgroup G} (hM : fusionIsSylowIn 2 M L) {m : ℕ}
     (e : M ≃* DihedralGroup (2 ^ m)) :
     ∃ S : Sylow 2 L, Nonempty ((S : Subgroup L) ≃* DihedralGroup (2 ^ m)) := by

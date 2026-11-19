@@ -54,11 +54,11 @@ theorem isPretransitive_of_card_nine_of_large_group_of_small_fixedBy
     (hKcard : 8 < Fintype.card K) :
     IsPretransitive K Y := by
   classical
-  letI : Nonempty Y := Fintype.card_pos_iff.mp (by omega)
-  letI (k : K) : Fintype (fixedBy Y k) := Fintype.ofFinite _
+  let : Nonempty Y := Fintype.card_pos_iff.mp (by omega)
+  let (k : K) : Fintype (fixedBy Y k) := Fintype.ofFinite _
   let Ω := orbitRel.Quotient K Y
-  letI : Fintype Ω := Fintype.ofFinite Ω
-  letI : Nonempty Ω :=
+  let : Fintype Ω := Fintype.ofFinite Ω
+  let : Nonempty Ω :=
     ⟨⟦Classical.choice (inferInstance : Nonempty Y)⟧⟩
   have hburnside :=
     sum_card_fixedBy_eq_card_orbits_mul_card_group K Y
@@ -105,9 +105,9 @@ theorem card_group_dvd_card_of_no_nontrivial_fixedPoints
     (hfixed : ∀ k : K, k ≠ 1 → Nat.card (fixedBy Y k) = 0) :
     Fintype.card K ∣ Fintype.card Y := by
   classical
-  letI (k : K) : Fintype (fixedBy Y k) := Fintype.ofFinite _
+  let (k : K) : Fintype (fixedBy Y k) := Fintype.ofFinite _
   let Ω := orbitRel.Quotient K Y
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hburnside :=
     sum_card_fixedBy_eq_card_orbits_mul_card_group K Y
   have hone :
@@ -139,7 +139,7 @@ theorem normal_subgroup_card_eq_one_or_degree_dvd
   classical
   by_cases hfixed : MulAction.fixedPoints N Y = Set.univ
   · left
-    letI : Subsingleton N := ⟨fun a b => by
+    let : Subsingleton N := ⟨fun a b => by
       apply Subtype.ext
       calc
         (a : H) = 1 := hfaithful a (fun y => by
@@ -157,7 +157,7 @@ theorem normal_subgroup_card_eq_one_or_degree_dvd
   · right
     have htransitive : MulAction.IsPretransitive N Y :=
       MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfixed
-    letI : MulAction.IsPretransitive N Y := htransitive
+    let : MulAction.IsPretransitive N Y := htransitive
     let y : Y := Classical.choice inferInstance
     have hOrbitCard :
         Fintype.card (MulAction.orbit N y) = Fintype.card Y := by

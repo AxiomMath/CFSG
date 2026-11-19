@@ -43,7 +43,7 @@ noncomputable abbrev projU : ↥(SG h) →* PU h := QuotientGroup.mk' _
 variable {h}
 
 variable (h) in
-theorem toSLU_injective : Function.Injective (toSLU h) := fun a b hab =>
+theorem toSLU_injective : Function.Injective (toSLU h) := fun _a _b hab =>
   Subtype.ext (Units.ext (congrArg (fun x : SpecialLinearGroup (Fin 3) K =>
     (x : Matrix (Fin 3) (Fin 3) K)) hab))
 
@@ -68,7 +68,7 @@ theorem eq_one_of_mem_blockU_of_projU_eq_one {I : Finset (Fin 3)} {i : Fin 3} (h
     {g : ↥(SG h)} (hg : g ∈ blockU h I) (h1 : projU h g = 1) : g = 1 := by
   obtain ⟨c, -, -, hc⟩ := projU_eq_one_iff.1 h1
   have hii := mem_blockU_iff.1 hg i i (Or.inl hi)
-  rw [hc, Matrix.GeneralLinearGroup.coe_scalar, scalar_apply, diagonal_apply_eq, if_pos rfl] at hii
+  rw [hc, Matrix.GeneralLinearGroup.coe_scalar, scalar_apply, diagonal_apply_eq, ite_eq_left rfl] at hii
   apply Subtype.ext
   rw [hc, show c = 1 from Units.ext hii, map_one]
   rfl

@@ -17,8 +17,8 @@ theorem nParam_J_le_two :
     nParam_centralizer_z0_le_two
 
 theorem clause_five_J4
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsSporadic .J4 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) ≤ 2 := by
   intro hL

@@ -49,7 +49,7 @@ theorem y2l_ker_conjNormal (hC : centralizer (M : Set X) = M) :
 theorem y2l_range_conjNormal [Finite X] (eM : M ≃* (Fin 3 → Multiplicative (ZMod 2)))
     (hC : centralizer (M : Set X) = M) (hidx : M.index = 168) :
     (MulAut.conjNormal : X →* MulAut M).range = ⊤ := by
-  haveI : Finite (MulAut M) := Nat.finite_of_card_ne_zero (by rw [y2l_card_mulAut eM]; norm_num)
+  have : Finite (MulAut M) := Nat.finite_of_card_ne_zero (by rw [y2l_card_mulAut eM]; norm_num)
   apply Subgroup.eq_top_of_card_eq
   rw [← Subgroup.index_ker, y2l_ker_conjNormal hC, hidx, y2l_card_mulAut eM]
 
@@ -137,7 +137,7 @@ theorem y2l_card_fix_le [Finite X] (eM : M ≃* (Fin 3 → Multiplicative (ZMod 
     exact y2l_T01_sq)
   have hcube : ([1, 1, 1].map x).prod ∈ M := hmem _ (by
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
-      Matrix.cons_val_one, Matrix.head_cons]
+      Matrix.cons_val_one]
     rw [← mul_assoc]
     exact y2l_pGL_cube)
   let δ : fixingSubgroup (MulAut X) (M : Set X) → Fin 2 → M := fun β l =>

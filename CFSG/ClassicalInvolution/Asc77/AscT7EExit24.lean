@@ -22,7 +22,7 @@ theorem exists_orderOf_four_mem_dGrp24 [IsSimpleGroup G] {K K' : Subgroup G} {S 
   obtain ⟨y, hyD, hy4⟩ := exists_mem_dGrp24_of_gt hyp hg h8R
   have hyS : y ∈ (S : Subgroup G) := hyD.1.2
   have hD2 : IsPGroup 2 ↥(Subgroup.zpowers y) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
   have hcard : 4 ≤ Nat.card ↥(Subgroup.zpowers y) := by rwa [Nat.card_zpowers]
   obtain ⟨d, hd, hd4⟩ := exists_orderOf_eq_four_of_isPGroup_of_isCyclic hD2 inferInstance hcard
   exact ⟨d, Subgroup.zpowers_le.mpr hyD hd, hd4⟩
@@ -46,7 +46,7 @@ theorem c24_10_of_g (h8 : C24_8 p f) (h9 : C24_9 p f) (hchain : C24_chain p f) {
     hyp.hR'.2.2 hz'
   have hxR' : x ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
     rw [← this]
     exact ⟨hxW.1, hyp.hWS hxW.2⟩
   obtain ⟨hsec, hgen⟩ := h8 G Ω K K' W S R R' z u hyp g hg d x hd hd4 ⟨hxR', hxW.2⟩ hx4

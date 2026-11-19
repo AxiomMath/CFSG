@@ -65,7 +65,7 @@ section Ree
 theorem l3u3Rank_reeF4 {S : Type} [Group S] {m : ℕ} (hv : (LieTypeIndex.reeF4 m).Valid)
     (e : S ≃* (CFSGIndex.lie ⟨.reeF4 m, hv⟩).Group) :
     innAutDerived S ≤ innerAut S ∧ RankLE2 3 S :=
-  ⟨fun β hβ => l3u3Rank_mem_inner_of_equiv e
+  ⟨fun _β hβ => l3u3Rank_mem_inner_of_equiv e
     (t6outreef4_innAutDerived_le_inner (reeTitsModel_cat_reeF4 hv)) hβ,
     RankLE2.of_mulEquiv e.symm
       (CFSG.HardMathSupport.Timmesfeld.CrossChar.rankLE2_three_cat_reeF4 hv)⟩

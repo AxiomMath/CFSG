@@ -153,7 +153,7 @@ theorem burnsideF46_point_idx_of_data (T : burnsideF45_TitsData c) (TH : TitsHyp
     rw [← hstw, Subgroup.inf_relIndex_right, burnsideF45_relIndex_stv, horb,
       Set.ncard_sdiff_singleton_of_mem (show q 1 ∈ CosetGeom.nbrs c.xv from hq1),
       ← Nat.card_coe_set_eq, T.card_nbrs_xv]
-  haveI hnorm : (Q.subgroupOf (stv c c.xv ⊓ stv c (q 1))).Normal := by
+  have hnorm : (Q.subgroupOf (stv c c.xv ⊓ stv c (q 1))).Normal := by
     refine ⟨fun n hn b => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     rw [hQk] at hn ⊢
@@ -218,7 +218,7 @@ theorem burnsideF46_Q_fix (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) {Y : Type} [G
     (c : Cpl M₁ M₂ Y) :
     (∀ w, c.graph.Adj c.xv w → Qx 2 ⊤ c ≤ stv c w) ∧
       (∀ w, c.graph.Adj c.lv w → Ql 2 ⊤ c ≤ stv c w) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hP := burnsideF45_parabolics hyp.toHypF_4_4g
   have hQle := burnsideF4b_pCoreOf_le Nat.prime_two hP
   exact ⟨fun w hw => burnsideF4b_Qx_le_stv 2 inferInstance hQle.1 c hw,
@@ -234,7 +234,7 @@ variable {E : Type} [Group E] {M₁ M₂ : Subgroup E}
 
 theorem burnsideF46_titsModel (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) :
     TitsModel (incl M₁ M₂) 6 := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have T := burnsideF45_titsData hyp
   obtain ⟨b₀, P⟩ := T.pt
   obtain ⟨lab, A⟩ := T.aff
@@ -246,7 +246,7 @@ theorem burnsideF46_titsModel (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) :
 
 theorem burnsideF46_q (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) :
     (RankTwoAmalgam.ofSubgroups M₁ M₂).qOne = 4 ∧ (RankTwoAmalgam.ofSubgroups M₁ M₂).qTwo = 2 := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have T := burnsideF45_titsData hyp
   exact ⟨T.qOne_eq, T.qTwo_eq⟩
 
@@ -254,7 +254,7 @@ theorem burnsideF46_iota_line_compl (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) :
     ∀ q ∈ GPath.nbPaths (incl M₁ M₂).graph (incl M₁ M₂).lv 8,
       IsComplementIn q.stabPath (Ql 2 ⊤ (incl M₁ M₂))
         (stv (incl M₁ M₂) (incl M₁ M₂).lv ⊓ stv (incl M₁ M₂) (q 1)) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   exact burnsideF46_line_compl_of_data (burnsideF45_titsData hyp) (burnsideF46_iota_Ql hyp)
     (burnsideF46_Q_fix hyp (incl M₁ M₂)).2
 
@@ -263,7 +263,7 @@ theorem burnsideF46_iota_point_idx (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) :
       (q.stabPath : Subgroup (incl M₁ M₂).G0) ⊓ Qx 2 ⊤ (incl M₁ M₂) = ⊥ ∧
         (Qx 2 ⊤ (incl M₁ M₂) ⊔ q.stabPath).relIndex
           (stv (incl M₁ M₂) (incl M₁ M₂).xv ⊓ stv (incl M₁ M₂) (q 1)) = 2 := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   exact burnsideF46_point_idx_of_data (burnsideF45_titsData hyp)
     ((burnsideF46_titsModel hyp).titsHyp (incl_faithful M₁ M₂)) (burnsideF46_iota_Qx hyp)
     (burnsideF46_Qx_le_stv (incl M₁ M₂) 2 ⊤) (burnsideF46_Q_fix hyp (incl M₁ M₂)).1

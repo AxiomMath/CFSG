@@ -319,9 +319,9 @@ theorem popN_bitsN (l : List Bool) : popN (bitsN l) l.length = (l.filter id).len
     have e2 : Nat.shiftRight (2 * bitsN l + cond b 1 0) 1 = bitsN l := by
       change (2 * bitsN l + cond b 1 0) >>> 1 = _
       rw [Nat.shiftRight_eq_div_pow]
-      cases b <;> simp <;> omega
+      cases b <;> simp; omega
     rw [List.length_cons, popN_succ, bitsN_cons, e1, e2, ih]
-    cases b <;> simp [List.filter_cons] <;> omega
+    cases b <;> simp; omega
 
 theorem bitsN_inj : ∀ {l₁ l₂ : List Bool}, l₁.length = l₂.length → bitsN l₁ = bitsN l₂ → l₁ = l₂
   | [], [], _, _ => rfl

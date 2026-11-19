@@ -38,7 +38,7 @@ theorem lomat_mul (a b a' b' : Fin 3 → K) (z z' : K) :
     lomat a b z * lomat a' b' z' = lomat (a + a') (b + b') (z + z' + dot3 b a') := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lomat, dot3, Matrix.mul_apply, Fin.sum_univ_five] <;> ring
+    simp [lomat, dot3, Matrix.mul_apply, Fin.sum_univ_five]; ring
 
 theorem lomat_zero : lomat (0 : Fin 3 → K) 0 0 = 1 := by
   ext i j
@@ -105,49 +105,49 @@ theorem tv10 (t : K) : Matrix.SpecialLinearGroup.transvection (show (1 : Fin 5) 
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv20 (t : K) : Matrix.SpecialLinearGroup.transvection (show (2 : Fin 5) ≠ 0 by decide) t =
     lo ![0, t, 0] 0 0 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv30 (t : K) : Matrix.SpecialLinearGroup.transvection (show (3 : Fin 5) ≠ 0 by decide) t =
     lo ![0, 0, t] 0 0 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv40 (t : K) : Matrix.SpecialLinearGroup.transvection (show (4 : Fin 5) ≠ 0 by decide) t =
     lo 0 0 t := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv41 (t : K) : Matrix.SpecialLinearGroup.transvection (show (4 : Fin 5) ≠ 1 by decide) t =
     lo 0 ![t, 0, 0] 0 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv42 (t : K) : Matrix.SpecialLinearGroup.transvection (show (4 : Fin 5) ≠ 2 by decide) t =
     lo 0 ![0, t, 0] 0 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem tv43 (t : K) : Matrix.SpecialLinearGroup.transvection (show (4 : Fin 5) ≠ 3 by decide) t =
     lo 0 ![0, 0, t] 0 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [lo, lomat, Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem transvection_mem_LoSG {i j : Fin 5} (hij : i ≠ j) (h : LowerPos i j) (t : K) :
     Matrix.SpecialLinearGroup.transvection hij t ∈ LoSG K := by
@@ -197,19 +197,19 @@ theorem class2_fails (a b : Fin 3 → K) (z : K) (hz : z ≠ 0) :
       z * (z - dot3 b a) := by
     rw [commutatorElement_def, U04_inv, lo_inv]
     simp [Matrix.SpecialLinearGroup.coe_mul, coe_U04, coe_lo, lomat, dot3, Matrix.mul_apply,
-      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] <;> ring
+      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]; ring
   have e1 : ((⁅U04 (1 : K), lo a b z⁆ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 1 = z * b 0 := by
     rw [commutatorElement_def, U04_inv, lo_inv]
     simp [Matrix.SpecialLinearGroup.coe_mul, coe_U04, coe_lo, lomat, dot3, Matrix.mul_apply,
-      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] <;> ring
+      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]; ring
   have e2 : ((⁅U04 (1 : K), lo a b z⁆ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 2 = z * b 1 := by
     rw [commutatorElement_def, U04_inv, lo_inv]
     simp [Matrix.SpecialLinearGroup.coe_mul, coe_U04, coe_lo, lomat, dot3, Matrix.mul_apply,
-      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] <;> ring
+      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]; ring
   have e3 : ((⁅U04 (1 : K), lo a b z⁆ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 3 = z * b 2 := by
     rw [commutatorElement_def, U04_inv, lo_inv]
     simp [Matrix.SpecialLinearGroup.coe_mul, coe_U04, coe_lo, lomat, dot3, Matrix.mul_apply,
-      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] <;> ring
+      Fin.sum_univ_five, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]; ring
   rw [e0] at h0
   rw [e1] at h1
   rw [e2] at h2
@@ -365,13 +365,13 @@ theorem exists_w (c : Fin 5 → K) (hc0 : c 0 = 0) :
     by_cases hpj : p = j
     · rw [hpj]; simp [hj4]
     · by_cases hp4 : p = 4
-      · rw [hp4]; simp [hj4, hj4.symm]
+      · rw [hp4]; simp [hj4.symm]
       · by_cases hp0 : p = 0
-        · rw [hp0]; simp [hc0, hj0, hj0.symm, hj4, hj4.symm]
+        · rw [hp0]; simp [hc0, hj0.symm]
         · first
-          | (simp [hpj, hp4, hp0, hcj]; done)
+          | (simp [hpj, hp4, hp0]; done)
           | (simp [hpj, hp4, hp0]; field_simp; ring)
-  · push_neg at hex
+  · push Not at hex
     have h1 : c 1 = 0 := hex 1 (by decide) (by decide)
     have h2 : c 2 = 0 := hex 2 (by decide) (by decide)
     have h3 : c 3 = 0 := hex 3 (by decide) (by decide)
@@ -388,13 +388,13 @@ theorem exists_rho (r : Fin 5 → K) (j : Fin 5) (hj0 : j ≠ 0) (hj4 : j ≠ 4)
     by simp, ?_⟩
   intro q
   by_cases hqj : q = j
-  · rw [hqj]; simp [hj0, hj0.symm]
+  · rw [hqj]; simp [hj0]
   · by_cases hq0 : q = 0
-    · rw [hq0]; simp [hj0, hj0.symm]
+    · rw [hq0]; simp [hj0.symm]
     · by_cases hq4 : q = 4
-      · rw [hq4]; simp [hr4, hj4, hj4.symm]
+      · rw [hq4]; simp [hr4, hj4.symm]
       · first
-        | (simp [hqj, hq0, hq4, hrj]; done)
+        | (simp [hqj, hq0, hq4]; done)
         | (simp [hqj, hq0, hq4]; field_simp; ring)
 
 theorem single_prod_zero (j : Fin 5) (u v : K) :
@@ -405,7 +405,7 @@ theorem single_prod_zero (j : Fin 5) (u v : K) :
 theorem single_prod_zero' (j : Fin 5) (hj : j ≠ 4) (u v : K) :
     (Matrix.single 4 j u : Matrix (Fin 5) (Fin 5) K) * Matrix.single 4 0 v = 0 := by
   ext p q
-  simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_five, hj, hj.symm]
+  simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_five, hj]
 
 theorem pure_typeA (D : Subgroup SL(5, K)) (M : SL(5, K)) (c r : Fin 5 → K) (r₀ : K)
     (hDM : ∀ g : SL(5, K), g ∈ D ↔ ∃ t : K, g = M * U04 t * M⁻¹)
@@ -416,9 +416,9 @@ theorem pure_typeA (D : Subgroup SL(5, K)) (M : SL(5, K)) (c r : Fin 5 → K) (r
   have hh : dotProduct (Pi.single j (1 : K)) w = 0 := by simp [hwj]
   refine ⟨Pm w (Pi.single j 1) hh, ?_, ?_, j, 0, hj0, Or.inl ⟨rfl, hj0, hj4⟩, ?_⟩
   · intro t
-    exact Pm_comm_U04 _ _ hh (by simp [Pi.single_apply, hj0.symm]) hw4 t
+    exact Pm_comm_U04 _ _ hh (by simp [hj0.symm]) hw4 t
   · intro t
-    exact Pm_comm_U40 _ _ hh (by simp [Pi.single_apply, hj4.symm]) hw0 t
+    exact Pm_comm_U40 _ _ hh (by simp [hj4.symm]) hw0 t
   · intro d hd
     obtain ⟨t, rfl⟩ := (hDM d).1 hd
     refine ⟨t * c j * r₀, t * c 4 * r₀, ?_⟩
@@ -435,7 +435,7 @@ theorem pure_typeA (D : Subgroup SL(5, K)) (M : SL(5, K)) (c r : Fin 5 → K) (r
     have hrB : r ᵥ* (((Pm w (Pi.single j 1) hh)⁻¹ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) = r := by
       rw [hB, coe_Pm, vecMul_Pm]
       have : dotProduct r w = 0 := by
-        simp [dotProduct, hr, Fin.sum_univ_five, hw0]
+        simp [dotProduct, hr, hw0]
       simp [this]
     have key : ((Pm w (Pi.single j 1) hh * (M * U04 t * M⁻¹) * (Pm w (Pi.single j 1) hh)⁻¹ :
         SL(5, K)) : Matrix (Fin 5) (Fin 5) K) =
@@ -492,9 +492,9 @@ theorem pure_typeB (D : Subgroup SL(5, K)) (M : SL(5, K)) (c r : Fin 5 → K) (j
   have hh : dotProduct (-ρ) (Pi.single j (1 : K)) = 0 := by simp [hρj]
   refine ⟨Pm (Pi.single j 1) (-ρ) hh, ?_, ?_, 4, j, hj4.symm, Or.inr ⟨rfl, hj0, hj4⟩, ?_⟩
   · intro t
-    exact Pm_comm_U04 _ _ hh (by simp [hρ0]) (by simp [Pi.single_apply, hj4.symm]) t
+    exact Pm_comm_U04 _ _ hh (by simp [hρ0]) (by simp [hj4.symm]) t
   · intro t
-    exact Pm_comm_U40 _ _ hh (by simp [hρ4]) (by simp [Pi.single_apply, hj0.symm]) t
+    exact Pm_comm_U40 _ _ hh (by simp [hρ4]) (by simp [hj0.symm]) t
   · intro d hd
     obtain ⟨t, rfl⟩ := (hDM d).1 hd
     refine ⟨t * c 4 * r j, t * c 4 * r 0, ?_⟩
@@ -539,8 +539,8 @@ theorem pure_typeB (D : Subgroup SL(5, K)) (M : SL(5, K)) (c r : Fin 5 → K) (j
             · rcases eq_or_ne q j with hqj | hqj
               · subst hqj
                 first
-                | (simp [hq, hq.symm, hj0, hj0.symm]; done)
-                | (simp [hq, hq.symm, hj0, hj0.symm]; ring)
+                | (simp [hq, hq.symm]; done)
+                | (simp [hq, hq.symm]; ring)
               · simp [hq, hq.symm, hqj, hqj.symm]
           · simp [hp, hp.symm]
       _ = (1 + Matrix.single 4 j (t * c 4 * r j)) * (1 + Matrix.single 4 0 (t * c 4 * r 0)) := by
@@ -598,14 +598,14 @@ theorem pure_of_dich (D : Subgroup SL(5, K)) (hlo : D ≤ LoSG K) (hnt : ∃ d �
   have e44 : c 4 * r 4 = 0 := by simpa [lomat] using hent 4 4
   have hcne : ∃ p, c p ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : ∀ p, (M : Matrix (Fin 5) (Fin 5) K) p 0 = 0 := fun p => by rw [← hc]; exact hcon p
     have h1 : ((M⁻¹ * M : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 0 0 = 1 := by simp
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply] at h1
     simp [hz] at h1
   have hrne : ∃ q, r q ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : ∀ q, ((M⁻¹ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 q = 0 :=
       fun q => by rw [← hr]; exact hcon q
     have h1 : ((M⁻¹ * M : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 4 = 1 := by simp
@@ -647,7 +647,7 @@ theorem pure_of_dich (D : Subgroup SL(5, K)) (hlo : D ≤ LoSG K) (hnt : ∃ d �
       · exact ⟨3, by decide, by decide, h⟩
     exact pure_typeB D M c r j hj0 hj4 hrj hr4 hcz hDM hconj
   ·
-    push_neg at hB
+    push Not at hB
     obtain ⟨hr1, hr2, hr3⟩ := hB
     have hr4 : r 4 = 0 := by
       by_contra h4

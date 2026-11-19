@@ -32,7 +32,7 @@ theorem exists_sylow_normalized_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime]
     have : Finite (MulAction.fixedPoints B (Sylow p H)) := inferInstance
     exact (Nat.card_pos_iff.1 (Nat.pos_of_ne_zero hne)).1
   refine ⟨(Q₀ : Subgroup H).map H.subtype, Subgroup.map_subtype_le _,
-    Q₀.isPGroup'.map _, fun n hn => ?_, ?_⟩
+    Q₀.isPGroup.map _, fun n hn => ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective H)]
     exact Q₀.pow_dvd_card_of_pow_dvd_card hn
   · rw [Subgroup.le_normalizer_iff]

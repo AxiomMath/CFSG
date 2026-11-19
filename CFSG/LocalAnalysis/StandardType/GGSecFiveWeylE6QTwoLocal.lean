@@ -22,7 +22,7 @@ private theorem isPGroup_torU {K : Type} [Field K] [Finite K] (hK : Nat.card K =
 private theorem not_isCyclic_torU {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ¬ IsCyclic (USixTwo.torU K) := by
   intro hcyc
-  haveI := hcyc
+  have := hcyc
   obtain ⟨ω, hω⟩ := USixTwo.exists_root_omega hK
   have hdvd : Monoid.exponent ↥(USixTwo.torU K) ∣ 3 :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
@@ -55,7 +55,7 @@ theorem exists_noncyclic_of_marking_twA5 {L : Subgroup G}
   have hπ : Function.Surjective π :=
     θ.surjective.comp (QuotientGroup.mk'_surjective _)
   have hnc : ∃ Q : Subgroup ↥L, IsPGroup 3 Q ∧ ¬ IsCyclic Q := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let P : Subgroup ↥L := (USixTwo.torU K).comap π
     have hPmap : P.map π = USixTwo.torU K := by
       rw [Subgroup.map_comap_eq, MonoidHom.range_eq_top.mpr hπ, top_inf_eq]
@@ -79,20 +79,19 @@ theorem exists_noncyclic_of_marking_twA5 {L : Subgroup G}
         IsPGroup.to_subgroup (isPGroup_torU hK4) ⊤
       first
         | exact ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K))).maximal_isPGroup.eq_of_le htop le_top
-        | exact ((Sylow.mapSurjective (f := φ) hφ Q : Sylow 3 ↥(USixTwo.torU K))).maximal_isPGroup.eq_of_ge htop le_top
     have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
       rw [← Sylow.coe_mapSurjective (f := φ) hφ Q]
       exact hQtop
-    refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup'.map P.subtype, ?_⟩
+    refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup.map P.subtype, ?_⟩
     intro hScyc
-    haveI : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
+    have : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
     have hQcyc : IsCyclic ↥Q :=
       isCyclic_of_injective
         (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
           (Subgroup.subtype_injective P)).toMonoidHom
         (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
           (Subgroup.subtype_injective P)).injective
-    haveI : IsCyclic ↥Q := hQcyc
+    have : IsCyclic ↥Q := hQcyc
     let ψ : ↥Q →* ↥(USixTwo.torU K) := φ.comp (Q : Subgroup ↥P).subtype
     have hψ : Function.Surjective ψ := by
       intro e
@@ -103,7 +102,7 @@ theorem exists_noncyclic_of_marking_twA5 {L : Subgroup G}
   obtain ⟨Q, hQp, hQnc⟩ := hnc
   refine ⟨Q.map L.subtype, Subgroup.map_subtype_le Q, hQp.map L.subtype, ?_⟩
   intro hcyc
-  haveI : IsCyclic (Q.map L.subtype) := hcyc
+  have : IsCyclic (Q.map L.subtype) := hcyc
   exact hQnc (isCyclic_of_injective
     (Subgroup.equivMapOfInjective Q L.subtype (Subgroup.subtype_injective L)).toMonoidHom
     (Subgroup.equivMapOfInjective Q L.subtype (Subgroup.subtype_injective L)).injective)

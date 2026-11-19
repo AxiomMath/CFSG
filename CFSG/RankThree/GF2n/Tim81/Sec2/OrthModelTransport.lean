@@ -30,6 +30,7 @@ theorem fieldAut_image_sylow (A : Subgroup SL(2, F))
 
 variable [Algebra (ZMod 2) F]
 
+omit [Finite W] in
 theorem fixedSub_fieldAut_mem {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     (A : Subgroup SL(2, F)) (w : W) :
@@ -44,6 +45,7 @@ theorem fixedSub_fieldAut_mem {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     rw [hβ]
     exact hw (fieldAut F j a) ⟨a, ha, rfl⟩
 
+omit [Finite W] in
 theorem IsOrthModule.card_fixedSub (hρ : IsOrthModule hF ρ) (A : Subgroup SL(2, F))
     (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l)) :
     Nat.card ↥(fixedSub ρ A) = 2 ^ l := by

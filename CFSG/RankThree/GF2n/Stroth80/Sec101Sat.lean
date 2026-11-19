@@ -27,6 +27,7 @@ private theorem not_le_sup_Z_of_mem_QB (hc : Ctx M Q Z B) {C E : Subgroup G}
   have hβ' : β ∈ Q ⊓ QB E := by rwa [hInf] at hβ
   exact hβ'.2
 
+omit [Finite G] in
 private theorem mem_centralizer_conj_of_forall_comm {E Z : Subgroup G} {ν β : G}
     (hνE : conjSubgroup ν E = Z) (hcomm : ∀ e ∈ E, β * e = e * β) :
     ν * β * ν⁻¹ ∈ Subgroup.centralizer (Z : Set G) := by
@@ -42,6 +43,7 @@ private theorem mem_centralizer_conj_of_forall_comm {E Z : Subgroup G} {ν β : 
   have h3 : ν * (β * (ν⁻¹ * z * ν)) * ν⁻¹ = (ν * β * ν⁻¹) * z := by group
   exact h1.trans (h2.trans h3)
 
+omit [Finite G] in
 private theorem exists_conj_Z_of_mem_root (hc : Ctx M Q Z B) {D : Subgroup G}
     (hD : IsRootB M B D) {β : G} (hβ : β ∈ D) (hβ1 : β ≠ 1) :
     ∃ g : G, ∃ z ∈ Z, z ≠ 1 ∧ g * z * g⁻¹ = β := by

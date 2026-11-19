@@ -31,7 +31,7 @@ instance {k : ℕ} (s : Fin k → ZMod 3) : Decidable (IsSign s) := by
 private theorem sum_coeff_mul (x v : Coords 7) :
     ∑ j : Fin 7, (if j = 0 then -v 0 else v j) * x j = d6Form x v := by
   rw [Fin.sum_univ_succ]
-  simp only [Fin.val_zero, if_true, Fin.succ_ne_zero, if_false]
+  simp only [ite_true, Fin.succ_ne_zero, ite_false]
   rw [d6Form]
   congr 1
   · ring
@@ -195,8 +195,7 @@ theorem isD6Root_single_add_single {i j : Fin 6} (hij : i ≠ j) :
   left
   constructor
   · exact wt_single_add_single (by simpa [Fin.succ_inj] using hij) one_ne_zero one_ne_zero
-  · simp [Pi.add_apply, Pi.single_eq_of_ne (Fin.succ_ne_zero _).symm,
-      Pi.single_eq_of_ne (Fin.succ_ne_zero _).symm]
+  · simp [Pi.add_apply]
 
 theorem isD6Root_single_sub_single {i j : Fin 6} (hij : i ≠ j) :
     IsD6Root (Pi.single i.succ (1 : ZMod 3) - Pi.single j.succ (1 : ZMod 3)) := by
@@ -204,8 +203,7 @@ theorem isD6Root_single_sub_single {i j : Fin 6} (hij : i ≠ j) :
   left
   constructor
   · exact wt_single_sub_single (by simpa [Fin.succ_inj] using hij) one_ne_zero one_ne_zero
-  · simp [Pi.sub_apply, Pi.single_eq_of_ne (Fin.succ_ne_zero _).symm,
-      Pi.single_eq_of_ne (Fin.succ_ne_zero _).symm]
+  · simp [Pi.sub_apply]
 
 private theorem single_decomp {i j : Fin 6} (hij : i ≠ j) :
     (Pi.single i.succ (1 : ZMod 3) : Coords 7) =
@@ -216,12 +214,12 @@ private theorem single_decomp {i j : Fin 6} (hij : i ≠ j) :
   · subst k
     have hkj : i.succ ≠ j.succ := fun h => hij (Fin.succ_inj.mp h)
     simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, Pi.single_eq_same,
-      Pi.single_eq_of_ne (Ne.symm hkj), Pi.single_eq_of_ne hkj]
+      Pi.single_eq_of_ne hkj]
     decide
   · by_cases hkj : k = j.succ
     · subst k
       have hik : i.succ ≠ j.succ := fun h => hij (Fin.succ_inj.mp h)
-      simp [hki, hik, Pi.add_apply, Pi.sub_apply]
+      simp [hki, Pi.add_apply, Pi.sub_apply]
     · simp [hki, hkj, Pi.add_apply, Pi.sub_apply]
 
 private theorem roots_span_top : Submodule.span (ZMod 3) {e : Coords 7 | IsD6Root e} = ⊤ := by
@@ -230,7 +228,7 @@ private theorem roots_span_top : Submodule.span (ZMod 3) {e : Coords 7 | IsD6Roo
   have hx : x = ∑ i : Fin 7, x i • (Pi.single i (1 : ZMod 3)) := by
     funext j
     rw [Finset.sum_apply]
-    simp [Pi.smul_apply, Pi.single_apply, Finset.sum_ite_eq', Finset.mem_univ]
+    simp [Pi.smul_apply, Pi.single_apply, Finset.mem_univ]
   rw [hx]
   apply Submodule.sum_mem
   intro i _
@@ -326,7 +324,7 @@ theorem card_evenFix0_le : Nat.card ↥(evenFix0 6) ≤ 23040 := by
     _ = 23040 := by norm_num
 
 theorem isConjLine_iff_isD6Root {G : Type} [Group G] [Finite G] {b₀ : G} {B : Basis3 G 7}
-    (hrec : RecOutD6 B b₀) (hb₀ : orderOf b₀ = 3) (hB0 : B.b 0 = b₀) (e : Coords 7) :
+    (hrec : RecOutD6 B b₀) (hb₀ : orderOf b₀ = 3) (_hB0 : B.b 0 = b₀) (e : Coords 7) :
     IsConjLine b₀ (B.line e) ↔ IsD6Root e := by
   by_cases he : e = 0
   · subst e
@@ -374,7 +372,7 @@ theorem exists_inv_mem_realized {G : Type} [Group G] [Finite G] {k : ℕ} {B : B
   exact ⟨M', ⟨g⁻¹, H.inv_mem hg, hM'⟩, hAM', hM'A⟩
 
 theorem isD6Root_mulVec_of_mem_realized {G : Type} [Group G] [Finite G] {b₀ : G}
-    {K E : Subgroup G} (hstd : StdLoc b₀ K E Row.D6) {B : Basis3 G 7}
+    {K E : Subgroup G} (_hstd : StdLoc b₀ K E Row.D6) {B : Basis3 G 7}
     (hB : Adapted B b₀ K E) (hrec : RecOutD6 B b₀)
     {A : Matrix (Fin 7) (Fin 7) (ZMod 3)} (hA : A ∈ B.realized ⊤) {e : Coords 7}
     (he : IsD6Root e) : IsD6Root (A *ᵥ e) := by

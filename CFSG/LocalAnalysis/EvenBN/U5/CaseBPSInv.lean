@@ -304,7 +304,7 @@ theorem sec52sinv_commutator_sup_eq (hB : d.CaseBHyp) (c : d.CaseBData)
   le_antisymm (sec52sinv_commutator_sup_le hB c)
     ((sec52sinv_commutator_W₂_J hB c h12).symm.le.trans (commutator_mono le_sup_left le_rfl))
 
-theorem sec52_sInv (hB : d.CaseBHyp) (c : d.CaseBData) (h11 : CaseBData.Sec52Sylow hB c)
+theorem sec52_sInv (hB : d.CaseBHyp) (c : d.CaseBData) (_h11 : CaseBData.Sec52Sylow hB c)
     (h12 : CaseBData.Sec52Factors hB c) :
     c.W₂.map (MulAut.conj d.s).toMonoidHom = c.W₂ := by
   have hsJ : d.s ∈ normalizer ((d.I ⊓ d.N₂ : Subgroup G) : Set G) :=

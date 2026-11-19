@@ -32,7 +32,7 @@ private theorem exists_fixed_of_orderOf_eq_prime {U : Type}
   let ρ : ↥(Subgroup.zpowers u) →* (U ≃ₗ[ZMod p] U) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod p) U).toMonoidHom.comp
       (Subgroup.subtype (Subgroup.zpowers u))
-  letI : DistribMulAction ↥(Subgroup.zpowers u) U := DistribMulAction.compHom U ρ
+  let : DistribMulAction ↥(Subgroup.zpowers u) U := DistribMulAction.compHom U ρ
   obtain ⟨v, hv0, hvfix⟩ := CFSG.Quasithin.SmithCurtis.exists_fixed_ne_of_zmod
     (M := U) (S := ↥(Subgroup.zpowers u)) hP
   refine ⟨v, hv0, ?_⟩
@@ -50,13 +50,15 @@ section NegOne
 variable {F : Type*} [Field F] [NeZero (2 : F)] {V : Type*} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V]
 
+omit [NeZero (2 : F)] [FiniteDimensional F V] in
 private theorem mapsTo_ker_of_comm (k q : Module.End F V) (h : k * q = q * k) :
     ∀ v ∈ LinearMap.ker q, k v ∈ LinearMap.ker q := by
   intro v hv
   rw [LinearMap.mem_ker] at hv ⊢
   rw [← Module.End.mul_apply, ← h, Module.End.mul_apply, hv, map_zero]
 
-theorem eq_neg_one_of_involution_of_no_invariant_line (hV : Module.finrank F V = 2)
+omit [FiniteDimensional F V] in
+theorem eq_neg_one_of_involution_of_no_invariant_line (_hV : Module.finrank F V = 2)
     (σ : (Module.End F V)ˣ) (hσ : σ ^ 2 = 1) (hσne : σ ≠ 1)
     (K : Subgroup (Module.End F V)ˣ) (hcomm : ∀ k ∈ K, σ * k = k * σ)
     (hinv : ∀ T : Submodule F V, (∀ k ∈ K, ∀ v ∈ T, (k : Module.End F V) v ∈ T) →
@@ -159,7 +161,7 @@ theorem exists_mulEquiv_sl2_of_no_invariant_line {V : Type} [AddCommGroup V]
       (∀ k ∈ K, ∀ v ∈ T, (k : Module.End (ZMod p) V) v ∈ T) → T = ⊤) :
     Nonempty (↥K ≃* SL(2, ZMod p)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite V := Module.finite_of_finite (ZMod p)
   have hVpos : 0 < Module.finrank (ZMod p) V := by omega
   have hpCore : CFSG.pCore p ↥K = ⊥ := by
     let ρ : ↥K →* (V ≃ₗ[ZMod p] V) :=
@@ -245,7 +247,7 @@ private theorem oPPrimeHull_le_commutator_of_sq_eq_one {G : Type*} [Group G] [Fi
   rwa [QuotientGroup.eq_one_iff] at hx1
 
 theorem isPerfect_of_isPerfect_quotient_of_central_exponent_two {G : Type*} [Group G]
-    [Finite G] {N : Subgroup G} [N.Normal] (hN : N ≤ Subgroup.center G)
+    [Finite G] {N : Subgroup G} [N.Normal] (_hN : N ≤ Subgroup.center G)
     (hNexp : ∀ n ∈ N, n * n = 1) (hquot : Group.IsPerfect (G ⧸ N))
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hgen : oPPrimeHull p (⊤ : Subgroup G) = ⊤) :
@@ -279,7 +281,7 @@ theorem isPerfect_of_isPerfect_quotient_of_central_exponent_two {G : Type*} [Gro
     rw [hgen] at hle
     rw [← _root_.commutator_def]
     exact top_le_iff.mp hle
-  haveI : Group.IsPerfect ↥(⊤ : Subgroup G) := Subgroup.isPerfect_iff.mpr hcomm
+  have : Group.IsPerfect ↥(⊤ : Subgroup G) := Subgroup.isPerfect_iff.mpr hcomm
   refine Group.IsPerfect.ofSurjective (f := Subgroup.topEquiv.toMonoidHom) ?_
   simpa using Subgroup.topEquiv.surjective
 private theorem split_ker_inf_eq_bot {p : ℕ} [Fact p.Prime] {W : Type} [AddCommGroup W]
@@ -308,7 +310,7 @@ private theorem split_ker_inf_eq_bot {p : ℕ} [Fact p.Prime] {W : Type} [AddCom
     simp only [Units.val_one, Module.End.one_apply] at h
     exact (coe_invariantRestrict_apply H U₂ hH₂ x ⟨v, hv⟩).symm.trans (congrArg Subtype.val h)
   rw [map_add, hu', hv']
-  simpa using (Module.End.one_apply (u + v)).symm
+  simp
 
 private theorem split_psi_ker {G K L : Type*} [Group G] [Group K]
     [Group L] (r : G →* K) (e : r.range ≃* L) :
@@ -405,7 +407,7 @@ private theorem exists_restrict_eq_neg_one {W : Type} [AddCommGroup W] [Module (
       exact (CFSG.Quasithin.A1c.sl2NegOne_comm (e (rU.rangeRestrict m))).symm
     have h := congrArg Subtype.val hm
     simpa [k] using h
-  haveI : NeZero (2 : ZMod p) := ⟨by
+  have : NeZero (2 : ZMod p) := ⟨by
     intro h
     have hdvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp h
     have hle : p ≤ 2 := Nat.le_of_dvd (by norm_num) hdvd
@@ -550,6 +552,7 @@ private theorem finrank_eq_two_and_isotropic_of_mem {W : Type} [AddCommGroup W]
   simp only [map_add, LinearMap.map_smul, LinearMap.add_apply, LinearMap.smul_apply,
     smul_eq_mul, h11, h12, h21, h22, mul_zero, add_zero]
 
+omit [Fact (Nat.Prime p)] in
 private theorem isElemAbelian_and_card_sup_zpowers {G : Type*} [Group G] {a b : G}
     (hab : a * b = b * a) (ha : orderOf a = p) (hb : orderOf b = p)
     (hdisj : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥) :
@@ -654,7 +657,7 @@ private theorem hasIsotropicPlaneGroup_of_elements {W : Type} [AddCommGroup W]
     fun e he u hu => hEfix he u hu⟩
 
 private theorem zpowers_inf_zpowers_eq_bot_of_mem {G : Type*} [Group G]
-    {N₁ N₂ : Subgroup G} (hN₁ : N₁.Normal) (hN₂ : N₂.Normal)
+    {N₁ N₂ : Subgroup G} (_hN₁ : N₁.Normal) (_hN₂ : N₂.Normal)
     (hdisj : N₁ ⊓ N₂ = ⊥) {a b : G} (ha : a ∈ N₁) (hb : b ∈ N₂) :
     Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
   rw [eq_bot_iff]
@@ -721,7 +724,7 @@ private theorem eq_bot_of_isPerfect_of_le_center {G : Type} [Group G] [Finite G]
     (hNcenter : N ≤ Subgroup.center G)
     {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {ψ : G →* SL(2, ZMod p)}
     (hψsurj : Function.Surjective ψ) (hψker : ψ.ker = N) : N = ⊥ := by
-  haveI := hperf
+  have := hperf
   have hPKQ : ⁅N, (⊤ : Subgroup G)⁆ ≤ ⊥ := by
     rw [Subgroup.commutator_le]
     intro a ha b hb
@@ -748,12 +751,12 @@ private theorem caseA {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     {W : Type} [AddCommGroup W] [Module (ZMod p) W] [Module.Finite (ZMod p) W]
     {B : LinearMap.BilinForm (ZMod p) W} {H : Subgroup (Module.End (ZMod p) W)ˣ}
     {U₁ U₂ : Submodule (ZMod p) W}
-    (hBalt : ∀ w : W, B w w = 0) (hH : oPPrimeHull p H = H)
-    (hU : IsCompl U₁ U₂) (hU₁ : Module.finrank (ZMod p) U₁ = 2)
-    (hU₂ : Module.finrank (ZMod p) U₂ = 2) (hB12 : ∀ u ∈ U₁, ∀ v ∈ U₂, B u v = 0)
+    (_hBalt : ∀ w : W, B w w = 0) (hH : oPPrimeHull p H = H)
+    (_hU : IsCompl U₁ U₂) (_hU₁ : Module.finrank (ZMod p) U₁ = 2)
+    (_hU₂ : Module.finrank (ZMod p) U₂ = 2) (_hB12 : ∀ u ∈ U₁, ∀ v ∈ U₂, B u v = 0)
     (hH₁ : ∀ x ∈ H, ∀ u ∈ U₁, (x : Module.End (ZMod p) W) u ∈ U₁)
     (hH₂ : ∀ x ∈ H, ∀ u ∈ U₂, (x : Module.End (ZMod p) W) u ∈ U₂)
-    (hno : ∀ T : Submodule (ZMod p) W, T ≠ ⊥ → (∀ u ∈ T, ∀ v ∈ T, B u v = 0) →
+    (_hno : ∀ T : Submodule (ZMod p) W, T ≠ ⊥ → (∀ u ∈ T, ∀ v ∈ T, B u v = 0) →
       ¬ ∀ x ∈ H, ∀ u ∈ T, (x : Module.End (ZMod p) W) u ∈ T)
     {e₁ : ↥(invariantRestrict H U₁ hH₁).range ≃* SL(2, ZMod p)}
     {e₂ : ↥(invariantRestrict H U₂ hH₂).range ≃* SL(2, ZMod p)}
@@ -761,7 +764,7 @@ private theorem caseA {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
       (invariantRestrict H U₁ hH₁).ker)
     (hψ₂ker : (e₂.toMonoidHom.comp (invariantRestrict H U₂ hH₂).rangeRestrict).ker =
       (invariantRestrict H U₂ hH₂).ker)
-    (hψ₁surj : Function.Surjective (e₁.toMonoidHom.comp
+    (_hψ₁surj : Function.Surjective (e₁.toMonoidHom.comp
       (invariantRestrict H U₁ hH₁).rangeRestrict))
     (hψ₂surj : Function.Surjective (e₂.toMonoidHom.comp
       (invariantRestrict H U₂ hH₂).rangeRestrict))
@@ -776,7 +779,7 @@ private theorem caseA {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
   let N₂ : Subgroup ↥H := r₁.ker
   let ψ₁ : ↥H →* SL(2, ZMod p) := e₁.toMonoidHom.comp r₁.rangeRestrict
   let ψ₂ : ↥H →* SL(2, ZMod p) := e₂.toMonoidHom.comp r₂.rangeRestrict
-  haveI : N₁.Normal := MonoidHom.normal_ker r₂
+  have : N₁.Normal := MonoidHom.normal_ker r₂
   have hp2 : p ≠ 2 := by omega
   have hψ₁ker : ψ₁.ker = N₂ := hψ₁ker
   have hψ₂ker : ψ₂.ker = N₁ := hψ₂ker
@@ -785,7 +788,7 @@ private theorem caseA {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
   obtain ⟨hN₁center, hN₁exp⟩ := le_center_and_mul_self_of_map_le_center (ψ := ψ₁)
     (by rw [hψ₁ker]; exact hdisj) hZ
   have hquotPerfect : Group.IsPerfect (↥H ⧸ N₁) := by
-    haveI : Group.IsPerfect (SL(2, ZMod p)) := CFSG.Quasithin.A1c.sl2_isPerfect hp5
+    have : Group.IsPerfect (SL(2, ZMod p)) := CFSG.Quasithin.A1c.sl2_isPerfect hp5
     have hq : ↥H ⧸ N₁ ≃* SL(2, ZMod p) :=
       (QuotientGroup.quotientMulEquivOfEq hψ₂ker).symm.trans
         (QuotientGroup.quotientKerEquivOfSurjective ψ₂ hψ₂surj)
@@ -809,7 +812,7 @@ private theorem caseB {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     {W : Type} [AddCommGroup W] [Module (ZMod p) W] [Module.Finite (ZMod p) W]
     {B : LinearMap.BilinForm (ZMod p) W} {H : Subgroup (Module.End (ZMod p) W)ˣ}
     {U₁ U₂ : Submodule (ZMod p) W}
-    (hBalt : ∀ w : W, B w w = 0) (hH : oPPrimeHull p H = H)
+    (hBalt : ∀ w : W, B w w = 0) (_hH : oPPrimeHull p H = H)
     (hU : IsCompl U₁ U₂) (hU₁ : Module.finrank (ZMod p) U₁ = 2)
     (hU₂ : Module.finrank (ZMod p) U₂ = 2) (hB12 : ∀ u ∈ U₁, ∀ v ∈ U₂, B u v = 0)
     (hH₁ : ∀ x ∈ H, ∀ u ∈ U₁, (x : Module.End (ZMod p) W) u ∈ U₁)
@@ -818,11 +821,11 @@ private theorem caseB {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
       ¬ ∀ x ∈ H, ∀ u ∈ T, (x : Module.End (ZMod p) W) u ∈ T)
     {e₁ : ↥(invariantRestrict H U₁ hH₁).range ≃* SL(2, ZMod p)}
     {e₂ : ↥(invariantRestrict H U₂ hH₂).range ≃* SL(2, ZMod p)}
-    (hψ₁ker : (e₁.toMonoidHom.comp (invariantRestrict H U₁ hH₁).rangeRestrict).ker =
+    (_hψ₁ker : (e₁.toMonoidHom.comp (invariantRestrict H U₁ hH₁).rangeRestrict).ker =
       (invariantRestrict H U₁ hH₁).ker)
     (hψ₂ker : (e₂.toMonoidHom.comp (invariantRestrict H U₂ hH₂).rangeRestrict).ker =
       (invariantRestrict H U₂ hH₂).ker)
-    (hψ₁surj : Function.Surjective (e₁.toMonoidHom.comp
+    (_hψ₁surj : Function.Surjective (e₁.toMonoidHom.comp
       (invariantRestrict H U₁ hH₁).rangeRestrict))
     (hψ₂surj : Function.Surjective (e₂.toMonoidHom.comp
       (invariantRestrict H U₂ hH₂).rangeRestrict))
@@ -858,8 +861,8 @@ private theorem caseB {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
       hdisj ht₁ ht₂
   have hpos₁ : 0 < Module.finrank (ZMod p) U₁ := by omega
   have hpos₂ : 0 < Module.finrank (ZMod p) U₂ := by omega
-  haveI : Nontrivial U₁ := Module.finrank_pos_iff.mp hpos₁
-  haveI : Nontrivial U₂ := Module.finrank_pos_iff.mp hpos₂
+  have : Nontrivial U₁ := Module.finrank_pos_iff.mp hpos₁
+  have : Nontrivial U₂ := Module.finrank_pos_iff.mp hpos₂
   obtain ⟨v₁, hv₁0, hv₁fix⟩ := exists_fixed_of_orderOf_eq_prime (p := p) (r₁ t₁) hto₁
   obtain ⟨v₂, hv₂0, hv₂fix⟩ := exists_fixed_of_orderOf_eq_prime (p := p) (r₂ t₂) hto₂
   have hv₁W : ((t₁ : (Module.End (ZMod p) W)ˣ) : Module.End (ZMod p) W) (v₁ : W) = v₁ := by
@@ -888,7 +891,7 @@ theorem sixThreeOneList_or_hasIsotropicPlaneGroup_of_planes {p : ℕ} [Fact p.Pr
       ¬ ∀ x ∈ H, ∀ u ∈ T, (x : Module.End (ZMod p) W) u ∈ T) :
     SixThreeOneList p (↥H ⧸ CFSG.pCore p ↥H) ∨ HasIsotropicPlaneGroup p B H := by
   classical
-  haveI : Finite W := Module.finite_of_finite (ZMod p)
+  have : Finite W := Module.finite_of_finite (ZMod p)
   have hp2 : p ≠ 2 := by omega
   let r₁ : ↥H →* (Module.End (ZMod p) U₁)ˣ := invariantRestrict H U₁ hH₁
   let r₂ : ↥H →* (Module.End (ZMod p) U₂)ˣ := invariantRestrict H U₂ hH₂

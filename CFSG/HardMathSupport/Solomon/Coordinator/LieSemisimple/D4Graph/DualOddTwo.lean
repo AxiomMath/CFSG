@@ -51,12 +51,12 @@ theorem A2Core.un_polarity_core_T {p f : ℕ} [Fact p.Prime] [CharP K p] (hp2 : 
   have hτ := un_isOpposition h φ hφ ε hεσ hcomm
   have hτe := un_tauX_tauX h φ ε hcomm hcommε
   have hBsolv : Group.IsSolvable ↥(unD h φ hφ).B := by
-    haveI := (d4RGD2 σ.toRingHom h.cube_apply).isSolvable_B
+    have := (d4RGD2 σ.toRingHom h.cube_apply).isSolvable_B
     let f₀ : ↥(unD h φ hφ).B →*
         ↥((⨆ i, hHat σ.toRingHom i) ⊔ posUnipotent (g2Shape (twistedX σ.toRingHom))) :=
       ((foldFix (a2Phi h φ)).subtype.comp (unD h φ hφ).B.subtype).codRestrict _
         (fun x => ((unD_spec h φ hφ).B x.1).1 x.2)
-    exact solvable_of_solvable_injective (f := f₀) fun a b hab => by
+    exact Group.isSolvable_of_isSolvable_injective (f := f₀) fun a b hab => by
       have h1 := congrArg Subtype.val hab
       exact Subtype.ext (Subtype.ext h1)
   refine un_final_T hp2 (by omega) (unD h φ hφ) hBsolv (unTauX h φ ε hcomm)
@@ -228,7 +228,7 @@ theorem perfectInLayer_minusToral {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     (hK : Nat.card K = (p ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (p ^ f))
     (s : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (hs : D4MinusToral p f hp K σ s) :
     PerfectInLayer (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI : Finite ↥(fixSubgroup (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) :=
+  have : Finite ↥(fixSubgroup (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) :=
     inferInstance
   refine perfectInLayer_of_noAbel_of_solvable_quotient _ ?_ ?_
   · intro N hN hc

@@ -13,6 +13,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticCoverFour (tauS)
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private theorem tauS_fst_eq_xC (b : F) :
     tauS b 0 0 = CFSG.Quasithin.H13.NQCat.Sp4.xC b := by
   apply CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.statedSp_ext
@@ -24,6 +25,7 @@ private theorem tauS_fst_eq_xC (b : F) :
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [CFSG.LocalAnalysis.ComponentInitial.SymplecticFour.sym2]
 
+omit [Finite F] [CharP F 2] in
 private theorem tauS_snd_eq_xAB (c : F) :
     tauS 0 c 0 = CFSG.Quasithin.H13.NQCat.Sp4.xAB c := by
   apply CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.statedSp_ext

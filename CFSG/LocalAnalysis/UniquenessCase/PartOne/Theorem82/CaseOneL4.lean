@@ -50,7 +50,7 @@ structure Case811L4 (c : Counterexample4 G) extends Case811Sylow c where
       3600 < Nat.card K ∧
       ∀ N : Subgroup G, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) → N = ⊥
   nonsolvable_a3 : ∃ K : Subgroup G,
-    K ≤ c.L ⊓ Subgroup.centralizer ({e Case811L4.vA3} : Set G) ∧ ¬ IsSolvable ↥K ∧
+    K ≤ c.L ⊓ Subgroup.centralizer ({e Case811L4.vA3} : Set G) ∧ ¬ Group.IsSolvable ↥K ∧
       ∀ N : Subgroup G, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) →
         N ≤ Subgroup.centralizer (K : Set G)
   sylow_a2 : ∃ Q : Subgroup G, A ≤ Q ∧ IsMulCommutative ↥Q ∧

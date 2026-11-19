@@ -26,6 +26,7 @@ variable {J E : Subgroup G} (D : ModDataE J E)
     Submodule (ZMod 2) D.W :=
   ⨆ x : {x : G // x ∈ J ∧ D.img (conjSubgroup V x) = B}, D.sp (conjSubgroup V₀ x.1)
 
+omit [Finite G] in
 theorem le_centralizer_of_img_eq_bot {S : Subgroup G} (hS : S ≤ J) (h : D.img S = ⊥) :
     S ≤ centralizer (E : Set G) := by
   intro s hs
@@ -33,6 +34,7 @@ theorem le_centralizer_of_img_eq_bot {S : Subgroup G} (hS : S ≤ J) (h : D.img 
   rw [h, Subgroup.mem_bot] at hmem
   simpa using (D.ρ_eq_one_iff ⟨s, hS hs⟩).1 hmem
 
+omit [Finite G] in
 theorem le_sup_of_img_eq {S₀ S : Subgroup G} (hS₀S : S₀ ≤ S) (hS : S ≤ J)
     (h : D.img S₀ = D.img S) : S ≤ S₀ ⊔ (S ⊓ centralizer (E : Set G)) := by
   intro s hs
@@ -55,6 +57,7 @@ end ModDataE
 
 section QuotientFixed
 
+omit [Finite G] in
 private theorem map_normalizerMonoidHom_subgroupOf {R K : Subgroup G}
     [(K.subgroupOf R).Normal] {y : Subgroup.normalizer (R : Set G)}
     (hy : (y : G) ∈ Subgroup.normalizer (K : Set G)) :
@@ -97,6 +100,7 @@ private noncomputable def conjQuotHom (R K T : Subgroup G) [(K.subgroupOf R).Nor
     simp only [Subgroup.coe_mul]
     group
 
+omit [Finite G] in
 private theorem conjQuotHom_mk (R K T : Subgroup G) [(K.subgroupOf R).Normal]
     (hTR : T ≤ Subgroup.normalizer (R : Set G)) (hTK : T ≤ Subgroup.normalizer (K : Set G))
     (t : T) (x : R) :
@@ -105,12 +109,13 @@ private theorem conjQuotHom_mk (R K T : Subgroup G) [(K.subgroupOf R).Normal]
         (Subgroup.mem_normalizer_iff.mp (hTR t.2) x).mp x.2⟩ : R) :
         R ⧸ K.subgroupOf R) := rfl
 
+omit [Finite G] in
 private theorem exists_nonidentity_fixed_coset {R K T : Subgroup G} [(K.subgroupOf R).Normal]
     [Finite (R ⧸ K.subgroupOf R)] (hev : 2 ∣ Nat.card (R ⧸ K.subgroupOf R))
     (hT : IsPGroup 2 T) (hTR : T ≤ Subgroup.normalizer (R : Set G))
     (hTK : T ≤ Subgroup.normalizer (K : Set G)) :
     ∃ x ∈ R, x ∉ K ∧ ∀ v ∈ T, x⁻¹ * (v * x * v⁻¹) ∈ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let _ : MulAction T (R ⧸ K.subgroupOf R) :=
     MulAction.compHom (R ⧸ K.subgroupOf R) (conjQuotHom R K T hTR hTK)
   have h1 : (1 : R ⧸ K.subgroupOf R) ∈ MulAction.fixedPoints T (R ⧸ K.subgroupOf R) := by
@@ -128,6 +133,7 @@ private theorem exists_nonidentity_fixed_coset {R K T : Subgroup G} [(K.subgroup
 
 end QuotientFixed
 
+omit [Finite G] in
 private theorem isSylowIn_img'' {J E : Subgroup G} (M : ModDataE J E) {T : Subgroup G}
     (hT : IsSylowIn 2 T J) : IsSylowIn 2 (M.img T) (M.img J) := by
   have hrelidx : (M.img T).relIndex (M.img J) = ((T.subgroupOf J) ⊔ M.ρ.ker).index := by
@@ -141,6 +147,7 @@ private theorem isSylowIn_img'' {J E : Subgroup G} (M : ModDataE J E) {T : Subgr
   rw [hrelidx]
   exact fun h => hT.not_dvd_relIndex (h.trans hdvd)
 
+omit [Finite G] in
 private theorem conjGenerated_conjSubgroup {M V₀ V : Subgroup G} (hgen : ConjGenerated M V₀ V)
     (g : G) : ConjGenerated (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) := by
   intro a ha ha0
@@ -230,7 +237,7 @@ private theorem conjSubgroup_V0_eq_of_img_eq (h152 : Thm152 G) (c : Cfg161 M V�
   have hd1' : (d : G) ≠ 1 := fun h => hd1 (Subtype.ext h)
   have hdx_mem : x⁻¹ * (d : G) * x ∈ conjSubgroup ⁅conjSubgroup V g, V⁆ x := by
     rw [mem_conjSubgroup_iff]
-    simpa [mul_assoc] using hdmem
+    simp [mul_assoc]
   have hdx_mem_y : x⁻¹ * (d : G) * x ∈ conjSubgroup ⁅conjSubgroup V g, V⁆ y :=
     hDconj ▸ hdx_mem
   have hdx_ne : x⁻¹ * (d : G) * x ≠ 1 := by
@@ -278,7 +285,7 @@ private theorem conjSubgroup_V0_eq_of_img_eq (h152 : Thm152 G) (c : Cfg161 M V�
 theorem inf_pCoreOf_img (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     (D : ModDataE (conjSubgroup M g) (conjSubgroup V g)) :
     D.img V ⊓ pCoreOf 2 (D.img (conjSubgroup M g)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVJ : V ≤ conjSubgroup M g := c.le_conjSubgroup h152
   have hV0V : V₀ ≤ V := c.hyp.h6.le
   have hJnormE : conjSubgroup M g ≤ Subgroup.normalizer (conjSubgroup V g : Set G) := by
@@ -327,7 +334,7 @@ theorem inf_pCoreOf_img (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     simpa only [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one] using h
   have hEab : IsElemAbelian 2 (conjSubgroup V g) :=
     E3.isElemAbelian_conjSubgroup c.hyp.h6.elemAbelian g
-  haveI : IsMulCommutative ↥(conjSubgroup V g) := hEab.1
+  have : IsMulCommutative ↥(conjSubgroup V g) := hEab.1
   have hev : 2 ∣ Nat.card (conjSubgroup V g ⧸
       (conjSubgroup V₀ g).subgroupOf (conjSubgroup V g)) := by
     rw [← Subgroup.index_eq_card]
@@ -375,7 +382,7 @@ theorem inf_pCoreOf_img (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     have hmul : D.ρ t (D.ι x⁻¹) - D.ι x⁻¹ = D.ι (t * x⁻¹ * t⁻¹ * x) := by
       rw [D.ρ_ι ⟨t, hT.le htT⟩ x⁻¹ ((conjSubgroup V g).inv_mem hxE), D.ι_inv hxE,
         D.ι_mul (t * x⁻¹ * t⁻¹) h1 x hxE]
-      simp only [Subgroup.coe_mk, Subgroup.coe_inv, Subgroup.coe_zpow, zpow_neg_one, sub_neg_eq_add]
+      simp only [Subgroup.coe_inv, sub_neg_eq_add]
     change D.ρ t (D.ι x⁻¹) - D.ι x⁻¹ ∈ D.sp (conjSubgroup V₀ g)
     rw [hmul]
     exact D.mem_sp.2 ⟨_, ⟨hmem, hmemE⟩, rfl⟩
@@ -438,7 +445,7 @@ theorem inf_pCoreOf_img (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
         have hjE : (j : G) * b * (j : G)⁻¹ ∈ conjSubgroup V g :=
           (Subgroup.mem_normalizer_iff.1 (hJnormE j.2) b).1 hbE
         rw [sub_eq_add_neg, D.ρ_ι j b hbE, ← D.ι_inv hbE]
-        simp only [Subgroup.coe_inv, Subgroup.coe_zpow, zpow_neg_one]
+        simp only [Subgroup.coe_inv]
         have hmul := D.ι_mul ((j : G) * b * (j : G)⁻¹) hjE b⁻¹
           ((conjSubgroup V g).inv_mem hbE)
         rw [← hmul]
@@ -461,7 +468,7 @@ theorem inf_pCoreOf_img (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     rw [hV0inf, Subgroup.mem_bot] at hinf
     calc b * (j : G) = (j * b * j⁻¹ * b⁻¹) * (b * (j : G)) := by rw [hinf]; group
       _ = (j : G) * b := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow, zpow_neg_one]
+            simp only [Subgroup.coe_inv]
             group
   have hjcent : (j : G) ∈ Subgroup.centralizer (conjSubgroup V g : Set G) :=
     Subgroup.mem_centralizer_iff.mpr fun b hb =>
@@ -497,7 +504,7 @@ theorem assumption131 (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     Assumption131 (D.img (conjSubgroup M g)) (D.conjImgFam V) (D.conjImgSpace V₀ V)
       (mRank (D.img V)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVJ : V ≤ conjSubgroup M g := c.le_conjSubgroup h152
   have hV0V : V₀ ≤ V := c.hyp.h6.le
   have hV0J : V₀ ≤ conjSubgroup M g := hV0V.trans hVJ
@@ -663,7 +670,7 @@ theorem assumption131 (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     have hcard : Nat.card (D.img (conjSubgroup V x)) = Nat.card (D.img V) := by
       have h1 := D.img_conj hVJ (⟨x⁻¹, (conjSubgroup M g).inv_mem hxJ⟩ :
         ↥(conjSubgroup M g))
-      simp only [Subgroup.coe_inv, Subgroup.coe_zpow, zpow_neg_one, inv_inv] at h1
+      simp only [inv_inv] at h1
       rw [← h1]
       exact card_cj (A := D.img V)
         (D.ρ (⟨x⁻¹, (conjSubgroup M g).inv_mem hxJ⟩ : ↥(conjSubgroup M g)))
@@ -674,7 +681,7 @@ theorem assumption131 (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     have himg : D.img (conjSubgroup V x) =
         cj (D.ρ (⟨x, hxJ⟩⁻¹ : ↥(conjSubgroup M g))) (D.img V) := by
       have h := D.img_conj hVJ (⟨x, hxJ⟩⁻¹ : ↥(conjSubgroup M g))
-      simp only [Subgroup.coe_inv, Subgroup.coe_zpow, zpow_neg_one, inv_inv] at h
+      simp only [Subgroup.coe_inv, inv_inv] at h
       exact h.symm
     have hX : cj (D.ρ (⟨x, hxJ⟩⁻¹ : ↥(conjSubgroup M g)))
         (pCoreOf 2 (D.img (conjSubgroup M g))) = pCoreOf 2 (D.img (conjSubgroup M g)) :=
@@ -743,7 +750,7 @@ theorem mRank_le (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
   simp only [mRank, card_cj]
   exact le_refl _
 
-theorem conjImgSpace_le_fixSub (h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
+theorem conjImgSpace_le_fixSub (_h152 : Thm152 G) (c : Cfg161 M V₀ V U g)
     (D : ModDataE (conjSubgroup M g) (conjSubgroup V g)) :
     ∀ B ∈ D.conjImgFam V, D.conjImgSpace V₀ V B ≤ fixSub B := by
   rintro B ⟨x, hxJ, rfl⟩

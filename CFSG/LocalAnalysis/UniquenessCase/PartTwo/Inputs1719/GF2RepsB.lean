@@ -73,8 +73,8 @@ variable {W : Type} [CommGroup W]
 @[expose] def W4Lem7_7 : Prop :=
   ∀ (W : Type) [CommGroup W] [Finite W], (∀ w : W, w ^ 2 = 1) →
     ∀ (Y K A : Subgroup (MulAut W)) (k : ℕ),
-      letI : Finite ↥K := Finite.of_injective (fun x : ↥K => ((x : MulAut W) : W → W))
-        (fun x y h => Subtype.ext (DFunLike.ext _ _ (congrFun h)))
+      letI : Finite ↥K := Finite.of_injective (fun _x : ↥K => ((_x : MulAut W) : W → W))
+        (fun _x _y h => Subtype.ext (DFunLike.ext _ _ (congrFun h)))
       IsComponentOf K Y → A ∈ E3.aSet k Y →
       (∀ n, Nonempty (ACandidate ↥K n) → n < k) → ⁅A, K⁆ = ⊥
 

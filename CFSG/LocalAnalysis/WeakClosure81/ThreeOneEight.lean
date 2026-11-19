@@ -68,7 +68,7 @@ theorem isE8L3_of_isElemAbelian {G : Type} [Group G] [Finite G] {K Q : Subgroup 
     (h1344 : Nat.card K = 1344) (hQK : Q ≤ K) (hQ : (Q.subgroupOf K).Normal)
     (hQe : IsElemAbelian 2 Q) (hQ8 : Nat.card Q = 8)
     (hCQ : K ⊓ Subgroup.centralizer (Q : Set G) ≤ Q) : IsE8L3 K := by
-  haveI : (Q.subgroupOf K).Normal := hQ
+  have : (Q.subgroupOf K).Normal := hQ
   have hV8 : Nat.card (Q.subgroupOf K) = 8 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQK).toEquiv, hQ8]
   have hC : Subgroup.centralizer ((Q.subgroupOf K : Subgroup ↥K) : Set ↥K) = Q.subgroupOf K :=

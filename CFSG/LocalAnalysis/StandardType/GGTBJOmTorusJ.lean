@@ -37,7 +37,7 @@ theorem ggTBJ_om_torusJNoncomm
       GGIsReflection p (ggConjAut A h₁) ∧ GGIsReflection p (ggConjAut A h₂) ∧
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨r, E, Δ, hE, σ, Θ, hψσ, hΘ, hWeyl, hfix⟩ :=
     ggTBJ_om_stdModel hp hp2 hbc hm hpq ψ₀ A hA
   have hQ : (QuadraticMap.polarBilin (TableBOrth.qMinusForm K m b c)).Nondegenerate :=

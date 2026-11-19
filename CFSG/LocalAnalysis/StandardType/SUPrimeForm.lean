@@ -96,7 +96,7 @@ theorem eq_of_mk_eq_of_mul_self_eq_one {F : Type} [Field F] [CharP F 2] {f : ℕ
     (h : UnitaryFieldData 2 f F) {n : ℕ} (hn : 1 ≤ n) {C : Matrix (Fin n) (Fin n) F}
     {a b : gramSU h C} (hab : (a : primeFormP h C) = b) (ha : a * a = 1) (hb : b * b = 1) :
     a = b := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   obtain ⟨c, -, -, hc⟩ :=
     (QuotientGroup.eq.mp hab : a⁻¹ * b ∈ normOneScalars h (gramSU h C) n)
   have hM : (a : GL (Fin n) F)⁻¹ * (b : GL (Fin n) F) =

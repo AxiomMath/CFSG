@@ -97,7 +97,7 @@ theorem ob5_zero_div_contra (c : S828Ctx T L I H h k)
       ((ch82U (fsuV T I) h).subgroupOf (fsuV T I))
       ((autOn (ch82LU L (ch82U (fsuV T I) h)) (fsuV T I) : Subgroup (MulAut ↥(fsuV T I))) :
         Set (MulAut ↥(fsuV T I)))) ≃+* F) : False := by
-  letI := ob5QBModule c
+  let := ob5QBModule c
   have hfr : Module.finrank (ZMod 2)
       (QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h)) = 4 := by
     have hpow := Module.natCard_eq_pow_finrank (K := ZMod 2)

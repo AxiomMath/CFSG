@@ -161,7 +161,7 @@ private theorem CFSG.section15_exists_msigma_sylow_eq_of_sylowSubgroupIn
     ∃ S : Sylow q.val (section10Msigma M),
       section10AmbientSylowSubgroup (section10Msigma M) S = Q := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let σ : Subgroup G := section10Msigma M
   rcases hQ with ⟨P, hPamb⟩
   let Qσ : Subgroup σ := Q.subgroupOf σ
@@ -170,7 +170,7 @@ private theorem CFSG.section15_exists_msigma_sylow_eq_of_sylowSubgroupIn
       rw [← hPamb]
       change IsPGroup q.val ((P : Subgroup M).map M.subtype)
       exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-        P.isPGroup' M.subtype
+        P.isPGroup M.subtype
     exact hQp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := Q) (K := σ) hQσ).symm
   obtain ⟨S, hQσ_le_S⟩ := IsPGroup.exists_le_sylow (G := σ) (p := q.val) hQσ_p
@@ -189,7 +189,7 @@ private theorem CFSG.section15_exists_msigma_sylow_eq_of_sylowSubgroupIn
   have hAmb_p : IsPGroup q.val (section10AmbientSylowSubgroup σ S) := by
     change IsPGroup q.val ((S : Subgroup σ).map σ.subtype)
     exact IsPGroup.map (p := q.val) (H := (S : Subgroup σ))
-      S.isPGroup' σ.subtype
+      S.isPGroup σ.subtype
   let R : Subgroup M := (section10AmbientSylowSubgroup σ S).subgroupOf M
   have hR_p : IsPGroup q.val R :=
     hAmb_p.of_equiv
@@ -265,8 +265,8 @@ private theorem CFSG.section15_theorem15_8_no_rankTwo_centralizes_K_core
     (hpq : p ≠ q) :
     False := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hσD : section10Msigma Mstar = ambientDerivedSubgroup Mstar :=
     section15_msigma_eq_ambientDerived_of_familyP1
       (G := G) (M := Mstar) (K := section14KStar M K)
@@ -276,7 +276,7 @@ private theorem CFSG.section15_theorem15_8_no_rankTwo_centralizes_K_core
     exact inf_le_left
   have hAp : IsPGroup p.val A := by
     rcases section15_rankTwo_elementary hA_Mstar with ⟨_hcard, hElem⟩
-    haveI : IsElementaryAbelian p.val A := hElem
+    have : IsElementaryAbelian p.val A := hElem
     exact IsElementaryAbelian.isPGroup p.val A
   have hAnoncyc : ¬ IsCyclic A :=
     section15_rankTwo_not_isCyclic (G := G) hA_Mstar
@@ -341,7 +341,7 @@ private theorem CFSG.section15_theorem15_8_no_rankTwo_centralizes_K_core
         change IsPGroup q.val
           ((S : Subgroup (section10Msigma Mstar)).map (section10Msigma Mstar).subtype)
         exact IsPGroup.map (p := q.val)
-          (H := (S : Subgroup (section10Msigma Mstar))) S.isPGroup'
+          (H := (S : Subgroup (section10Msigma Mstar))) S.isPGroup
           (section10Msigma Mstar).subtype
       exact section8_isPiSubgroup_singleton_of_isPGroup (G := G) hQp
     have hQunique : Q ∈ section9UniqueSubgroups G := by
@@ -424,8 +424,8 @@ private theorem CFSG.section15_theorem15_8_no_rankTwo_centralizes_K_of_ne_q
     (hAcentK : A ≤ Subgroup.centralizer (K : Set G)) :
     False := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hqcard : q.val = Nat.card K :=
     section15_theorem15_8_q_card_K
       (G := G) (M := M) (H := H) (K := K) (Mstar := Mstar) (U := U)
@@ -578,8 +578,8 @@ private theorem CFSG.section15_theorem15_8_rankTwo_in_H_inter_Mstar_prime_eq
     (hA : A ∈ section12RankTwoElementaryAbelianIn p (H ⊓ Mstar)) :
     p = q := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let D : Subgroup G := H ⊓ Mstar
   have hqcard : q.val = Nat.card K :=
     section15_theorem15_8_q_card_K
@@ -597,7 +597,7 @@ private theorem CFSG.section15_theorem15_8_rankTwo_in_H_inter_Mstar_prime_eq
   have hA_D : A ∈ section12RankTwoElementaryAbelianIn p D := by
     simpa [D] using hA
   rcases section12_rankTwo_elementary hA_D with ⟨_hAcard, hAelem⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   have hAnil : Group.IsNilpotent A :=
     IsPGroup.isNilpotent (p := p.val) (G := A) (h := hAp)
@@ -653,7 +653,7 @@ private theorem CFSG.section15_theorem15_8_rankTwo_in_H_inter_Mstar_isPGroup
       (U := U) (MFstar := MFstar) (A := A) (p := p) (q := q)
       hSituation hMFstar hqK hpτ2H hA
   rcases section12_rankTwo_elementary hA with ⟨_hAcard, hAelem⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   simpa [hpq] using hAp
 
@@ -813,7 +813,7 @@ private theorem CFSG.section15_tau2_empty_of_centralizer_U_not_le
     have hAE : A ≤ E := section15_rankTwo_le hA
     have hAsub_p : IsPGroup r.val (A.subgroupOf E) :=
       section15_rankTwo_subgroupOf_isPGroup (G := G) (M := E) hA
-    haveI : (U.subgroupOf E).Normal := hUnormE.2
+    have : (U.subgroupOf E).Normal := hUnormE.2
     have hAsub_le_Usub : A.subgroupOf E ≤ U.subgroupOf E :=
       section15_pSubgroup_le_normal_hall_of_prime_mem
         (R := E) (π := ((section14KappaPrimes M ∪ section10SigmaPrimes M)ᶜ))
@@ -850,8 +850,8 @@ private theorem CFSG.section15_isMulCommutative_of_surjective
   refine ⟨⟨fun x y => ?_⟩⟩
   rcases hf x with ⟨a, rfl⟩
   rcases hf y with ⟨b, rfl⟩
-  letI : IsMulCommutative A := hA
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : IsMulCommutative A := hA
+  let : CommGroup A := IsMulCommutative.instCommGroup
   simpa using congrArg f (mul_comm a b)
 
 omit [IsMinCE G] in
@@ -861,11 +861,11 @@ private theorem CFSG.section15_ambientDerived_le_pPrimeCore_map_of_nilpotent_pCo
     (hPcomm : IsMulCommutative (pCore p.val H)) :
     ambientDerivedSubgroup H ≤ (pPrimeCore p.val H).map H.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let P : Subgroup H := pCore p.val H
   let L : Subgroup H := pPrimeCore p.val H
   let qH : H →* H ⧸ L := QuotientGroup.mk' L
-  letI : Group.IsNilpotent H := hHnil
+  let : Group.IsNilpotent H := hHnil
   have hfit_top : fittingSubgroup H = ⊤ :=
     fitting_eq_top_of_nilpotent (G := H)
   have htop_le_PL : (⊤ : Subgroup H) ≤ P ⊔ L := by
@@ -919,7 +919,7 @@ private theorem CFSG.section15_theorem15_8_hasNonabelianSylow_q
     (hqK : q ∈ subgroupPrimeSet K) :
     section12HasNonabelianSylowSubgroup q G := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let σ : Subgroup G := section10Msigma Mstar
   let Kstar : Subgroup G := section14KStar M K
   have hSituationFull := hSituation
@@ -1059,7 +1059,7 @@ private theorem CFSG.section15_theorem15_8_hasNonabelianSylow_q
   have hQamb_p : IsPGroup q.val Qamb := by
     change IsPGroup q.val ((S : Subgroup σ).map σ.subtype)
     exact IsPGroup.map (p := q.val) (H := (S : Subgroup σ))
-      S.isPGroup' σ.subtype
+      S.isPGroup σ.subtype
   have hQamb_noncomm : ¬ IsMulCommutative Qamb := by
     intro hQamb_comm
     let e : (S : Subgroup σ) ≃* (S : Subgroup σ).map σ.subtype :=
@@ -1162,7 +1162,7 @@ private theorem CFSG.section15_theorem15_8_centralizer_U_not_le_M
     (hqK : q ∈ subgroupPrimeSet K) :
     ¬ Subgroup.centralizer (U : Set G) ≤ M := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let D : Subgroup G := H ⊓ Mstar
   have hSituationFull := hSituation
   have hqcard : q.val = Nat.card K :=

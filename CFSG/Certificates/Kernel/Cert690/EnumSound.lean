@@ -99,9 +99,9 @@ theorem enumOK_of {gs E : List ℕ} {P : List (ℕ × ℕ)} {S : List (ℕ × �
   unfold enumOK
   simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq, List.size_toArray,
     List.getElem!_toArray, List.all_eq_true, List.mem_range, Bool.or_eq_true, decide_eq_true_eq,
-    List.all_toArray, List.any_toArray, List.all_toArray', List.any_toArray', List.any_eq_true,
+    List.all_toArray', List.any_toArray', List.any_eq_true,
     hashSetOfArray_size,
-    hashSetOfArray_contains, List.toList_toArray, List.contains_iff_mem]
+    hashSetOfArray_contains, List.contains_iff_mem]
   refine ⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
   · simpa using hne
   · obtain ⟨e, E', rfl⟩ := List.exists_cons_of_ne_nil hne
@@ -143,9 +143,9 @@ theorem enumOK_of_bfs {gs E : List ℕ} {P : List (ℕ × ℕ)} {S : List (ℕ �
   unfold enumOK
   simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq, List.size_toArray,
     List.getElem!_toArray, List.all_eq_true, List.mem_range, Bool.or_eq_true, decide_eq_true_eq,
-    List.all_toArray, List.any_toArray, List.all_toArray', List.any_toArray', List.any_eq_true,
+    List.all_toArray', List.any_toArray', List.any_eq_true,
     hashSetOfArray_size,
-    hashSetOfArray_contains, List.toList_toArray, List.contains_iff_mem]
+    hashSetOfArray_contains, List.contains_iff_mem]
   refine ⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
   · simpa using hne
   · obtain ⟨e, E', rfl⟩ := List.exists_cons_of_ne_nil hne

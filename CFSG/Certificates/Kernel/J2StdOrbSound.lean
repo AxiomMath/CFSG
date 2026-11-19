@@ -33,7 +33,7 @@ theorem stepQ_spec {q x : Nat} (h : stepQ K B q x ≠ 0) :
   unfold stepQ at h ⊢
   rw [strictN_eq] at h ⊢
   cases hq : Nat.beq q 0 <;> cases h1 : Nat.blt x B <;> cases h2 : Nat.ble q (Nat.succ (K x)) <;>
-    rw [hq, h1, h2] at h <;> first | exact absurd rfl h | skip
+    rw [hq, h1, h2] at h <;> try exact absurd rfl h
   exact ⟨Nat.ne_of_beq_eq_false hq, Nat.blt_eq.mp h1, Nat.le_of_ble_eq_true h2, rfl⟩
 
 theorem foldQ_spec : ∀ (L : List Nat) (q : Nat), foldQ K B q L ≠ 0 →
@@ -98,7 +98,7 @@ theorem chunks_sound (Ls : List (Array Nat)) (hc : ∀ c < Ls.length, chunkOK K 
         intro e
         rw [e] at hf
         exact absurd hf (by decide)
-      rw [List.take_succ, List.getElem?_eq_getElem (by omega), Option.toList_some,
+      rw [List.take_add_one, List.getElem?_eq_getElem (by omega), Option.toList_some,
         List.flatMap_append, foldQ_append, ih (by omega), List.flatMap_singleton,
         ← getL_get Ls j (by omega), foldQ_last _ _ hne' hf', qPrev_succ, qOf]
   have h := key Ls.length le_rfl
@@ -132,7 +132,7 @@ theorem orbOK_of_chunks {W : Array Nat} {Ls : List (Array Nat)} {k : Nat} {ps : 
   subst hW
   have hmap : (Ls.flatMap Array.toList).map (fun w => keyAt ps (F w)) =
       (Ls.flatMap Array.toList).map K := List.map_congr_left fun w hw => hK w (hlt w hw)
-  simp only [orbOK, Bool.and_eq_true, beq_iff_eq, List.size_toArray, List.toList_toArray, hmap]
+  simp only [orbOK, Bool.and_eq_true, beq_iff_eq, List.size_toArray, hmap]
   refine ⟨⟨by rw [← hk, lenLs_eq], ?_⟩, hch⟩
   rw [List.all_toArray', List.all_eq_true]
   · exact fun x hx => decide_eq_true (hlt x hx)

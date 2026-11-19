@@ -65,7 +65,7 @@ theorem Std20Three.r10b_TX (d : Std20Three K K' J S R R' W V z t) (c8 : Concl20_
   have tw : Twin20 (CoreAssembly.conjClass K) K K' z (S : Subgroup G) V :=
     ⟨hΩ.conjInvariant, d.viol.hzK, d.twins, d.ne, d.hSz, d.hV, d.hVS, hV2⟩
   set T : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G) with hT
-  have hT2 : IsPGroup 2 ↥T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 ↥T := S.isPGroup.to_le inf_le_left
   have hTN : T ≤ Subgroup.normalizer (K : Set G) := inf_le_right
   have hRT : R ≤ T := le_inf d.hRS (d.hR.1.trans Subgroup.le_normalizer)
   have hVT : V ≤ T := le_inf d.hVS (d.hVW.trans d.late_W_le_N_K)

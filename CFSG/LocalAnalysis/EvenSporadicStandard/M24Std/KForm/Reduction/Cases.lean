@@ -23,7 +23,7 @@ theorem layer_equiv_of_central {Y B : Type} [Group Y] [Finite Y] [Group B] {B₀
     exact conj_mem_map_embA ζ hR.normal
       (Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_center_iff.1 htc d)) hb
   have hsimple : IsSimpleGroup ↥(B₀.map (embA ζ)) := by
-    haveI := hR.simple
+    have := hR.simple
     exact (Subgroup.equivMapOfInjective B₀ (embA ζ) (embA_injective ζ)).symm.isSimpleGroup
   have hnab : ∃ a ∈ B₀.map (embA ζ), ∃ b ∈ B₀.map (embA ζ), a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hR.nonab
@@ -65,7 +65,7 @@ theorem layer_equiv_of_central {Y B : Type} [Group Y] [Finite Y] [Group B] {B₀
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy'
     exact Commute.zpow_zpow_self t m n
   have h : egaLayer Y = B₀.map (embA ζ) := by
-    haveI := hnormal
+    have := hnormal
     exact egaLayer_eq_of_simple_normal (B₀.map (embA ζ)) hsimple hnab hC
   exact ⟨(MulEquiv.subgroupCongr h).trans
     (Subgroup.equivMapOfInjective B₀ (embA ζ) (embA_injective ζ)).symm⟩
@@ -84,7 +84,7 @@ theorem layer_cases {Y B : Type} [Group Y] [Finite Y] [Group B] {B₀ : Subgroup
       (Subgroup.equivMapOfInjective B₀ (embA ζ) (embA_injective ζ)).symm
     exact Or.inr (Or.inl ⟨(MulEquiv.subgroupCongr (egaLayer_eq_layer Y)).trans
       (φ.trans (MulEquiv.prodCongr ψ ψ))⟩)
-  · haveI := hF.normal
+  · have := hF.normal
     refine Or.inr (Or.inr ⟨S, hF.normal, hF.simple, hF.cent, ?_⟩)
     refine egaLayer_eq_of_simple_normal S hF.simple hF.nonab fun x hx y hy => ?_
     rw [hF.cent, Subgroup.mem_bot] at hx hy

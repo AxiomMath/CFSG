@@ -50,41 +50,67 @@ theorem Ctx411.vec_of_one_or_t {c : G} (h : c = 1 ∨ c = (t : G)) :
     rw [vecOf_of_mem t.2]
     exact C.het
 
-theorem Ctx411.S_le_cen_t : S ≤ Cen (t : G) := fun x hx =>
+omit C in
+include e in
+variable (e) in
+omit [Finite G] in
+theorem Ctx411.S_le_cen_t : S ≤ Cen (t : G) := fun _x hx =>
   Subgroup.mem_centralizer_singleton_iff.2 (S_comm' e hx t.2)
 
-theorem Ctx411.S_le_nor_T : S ≤ Nor (Op 2 (Cen (t : G))) := fun x hx =>
-  le_nor_op2 (Cen (t : G)) (C.S_le_cen_t hx)
+omit [Finite G] C in
+include e in
+variable (e) in
+theorem Ctx411.S_le_nor_T : S ≤ Nor (Op 2 (Cen (t : G))) := fun _x hx =>
+  le_nor_op2 (Cen (t : G)) ((CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_cen_t e) hx)
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.S_le_nor_Rs : S ≤ Nor (Rstar S (t : G)) := by
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
   intro y
   constructor
-  · exact fun hy => C.Rs_conj (Subgroup.le_normalizer hx) (C.S_le_cen_t hx) hy
+  · exact fun hy => CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj (Subgroup.le_normalizer hx) ((CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_cen_t e) hx) hy
   · intro hy
-    have := C.Rs_conj (Subgroup.le_normalizer (inv_mem hx)) (C.S_le_cen_t (inv_mem hx)) hy
+    have := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj (Subgroup.le_normalizer (inv_mem hx)) ((CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_cen_t e) (inv_mem hx)) hy
     simpa [mul_assoc] using this
 
+omit C in
+include e in
+variable (e) in
+omit [Finite G] in
 theorem Ctx411.isPGroup_S : IsPGroup 2 S := fun x =>
   ⟨1, by rw [pow_one, pow_two]; exact sq_S e x⟩
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.isPGroup_P : IsPGroup 2 (Op 2 (Cen (t : G)) ⊔ S : Subgroup G) :=
-  IsPGroup.to_sup_of_normal_left' (S3.Op_isPGroup 2 _) C.isPGroup_S C.S_le_nor_T
+  IsPGroup.to_sup_of_normal_left' (S3.Op_isPGroup 2 _) (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.isPGroup_S e) (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_nor_T e)
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.P_le_cen_t : (Op 2 (Cen (t : G)) ⊔ S : Subgroup G) ≤ Cen (t : G) :=
-  sup_le (S3.Op_le 2 _) C.S_le_cen_t
+  sup_le (S3.Op_le 2 _) (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_cen_t e)
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.mem_Q {x : G} (hx : x ∈ Rstar S (t : G) ⊔ S) :
     ∃ a ∈ Rstar S (t : G), ∃ σ ∈ S, a * σ = x := by
-  have h := Subgroup.coe_mul_of_right_le_normalizer_left (Rstar S (t : G)) S C.S_le_nor_Rs
+  have h := Subgroup.coe_mul_of_right_le_normalizer_left (Rstar S (t : G)) S (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_nor_Rs e)
   have : x ∈ (↑(Rstar S (t : G) ⊔ S) : Set G) := hx
   rw [h] at this
   exact Set.mem_mul.1 this
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.mem_P {x : G} (hx : x ∈ (Op 2 (Cen (t : G)) ⊔ S : Subgroup G)) :
     ∃ a ∈ Op 2 (Cen (t : G)), ∃ σ ∈ S, a * σ = x := by
-  have h := Subgroup.coe_mul_of_right_le_normalizer_left (Op 2 (Cen (t : G))) S C.S_le_nor_T
+  have h := Subgroup.coe_mul_of_right_le_normalizer_left (Op 2 (Cen (t : G))) S (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_nor_T e)
   have : x ∈ (↑(Op 2 (Cen (t : G)) ⊔ S : Subgroup G) : Set G) := hx
   rw [h] at this
   exact Set.mem_mul.1 this
@@ -94,9 +120,9 @@ theorem Ctx411.mem_R_iff_Zt {z : G} :
       ∀ q ∈ Rstar S (t : G) ⊔ S, z * q * z⁻¹ * q⁻¹ = 1 ∨ z * q * z⁻¹ * q⁻¹ = (t : G) := by
   constructor
   · intro hz
-    refine ⟨Subgroup.mem_sup_left (C.R_le_Rstar hz), ?_⟩
+    refine ⟨Subgroup.mem_sup_left (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rstar hz), ?_⟩
     intro q hq
-    obtain ⟨a, ha, σ, hσ, rfl⟩ := C.mem_Q hq
+    obtain ⟨a, ha, σ, hσ, rfl⟩ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.mem_Q e hq
     have hzS := (Subgroup.mem_inf.1 hz).1
     have hzT := (Subgroup.mem_inf.1 hz).2
     have hc : z * σ = σ * z := S_comm' e hzS hσ
@@ -106,10 +132,10 @@ theorem Ctx411.mem_R_iff_Zt {z : G} :
         _ = z * a * (z⁻¹ * σ) * σ⁻¹ * a⁻¹ := by rw [h1]
         _ = z * a * z⁻¹ * a⁻¹ := by group
     rw [h2]
-    exact eq_one_or_of_vec (e := e) C.het (C.comm_mem_S (C.R_le_Rstar hz) ha)
+    exact eq_one_or_of_vec (e := e) C.het (C.comm_mem_S (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rstar hz) ha)
       (C.comm_R_vec ha hzS hzT)
   · rintro ⟨hzQ, hz⟩
-    obtain ⟨r, hr, σ₀, hσ₀, rfl⟩ := C.mem_Q hzQ
+    obtain ⟨r, hr, σ₀, hσ₀, rfl⟩ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.mem_Q e hzQ
     have hrN := C.Rs_le_nor_S hr
     have hr1 : ψ ⟨r, hrN⟩ = 1 := by
       refine C.E_eq_one_of_move (C.psi_mem_E hr) (fun v => ?_)
@@ -199,11 +225,11 @@ theorem Ctx411.T_le_Rstar : Op 2 (Cen (t : G)) ≤ Rstar S (t : G) := by
     sup_le_sup_right inf_le_left S
   have hPQ : (Op 2 (Cen (t : G)) ⊔ S : Subgroup G) ≤ Rstar S (t : G) ⊔ S := by
     by_contra hne
-    obtain ⟨x, hx, hxn⟩ := exists_mem_nor_not_mem C.isPGroup_P hQP hne
+    obtain ⟨x, hx, hxn⟩ := exists_mem_nor_not_mem (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.isPGroup_P e) hQP hne
     obtain ⟨hxP, hxN⟩ := Subgroup.mem_inf.1 hx
-    have hxt : x ∈ Cen (t : G) := C.P_le_cen_t hxP
+    have hxt : x ∈ Cen (t : G) := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.P_le_cen_t e hxP
     have hxR := C.nor_R_of_nor_Q hxN hxt
-    obtain ⟨a, ha, σ, hσ, rfl⟩ := C.mem_P hxP
+    obtain ⟨a, ha, σ, hσ, rfl⟩ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.mem_P e hxP
     have hσR : σ ∈ Nor (S ⊓ Op 2 (Cen (t : G))) := by
       rw [Subgroup.mem_normalizer_iff]
       intro z
@@ -215,7 +241,7 @@ theorem Ctx411.T_le_Rstar : Op 2 (Cen (t : G)) ≤ Rstar S (t : G) := by
             group
           rw [this]
           exact (Subgroup.mem_inf.1 hz).1
-        · exact S3.Op_conj_mem 2 (Subgroup.le_normalizer (C.S_le_cen_t hσ))
+        · exact S3.Op_conj_mem 2 (Subgroup.le_normalizer ((CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.S_le_cen_t e) hσ))
             (Subgroup.mem_inf.1 hz).2
       · intro hz
         have h1 : σ * z * σ⁻¹ ∈ S := (Subgroup.mem_inf.1 hz).1
@@ -234,12 +260,12 @@ theorem Ctx411.T_le_Rstar : Op 2 (Cen (t : G)) ≤ Rstar S (t : G) := by
     exact hxn (Subgroup.mul_mem _ (Subgroup.mem_sup_left haRs) (Subgroup.mem_sup_right hσ))
   intro x hx
   have hxP : x ∈ (Op 2 (Cen (t : G)) ⊔ S : Subgroup G) := Subgroup.mem_sup_left hx
-  obtain ⟨r, hr, σ, hσ, hrσ⟩ := C.mem_Q (hPQ hxP)
+  obtain ⟨r, hr, σ, hσ, hrσ⟩ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.mem_Q e (hPQ hxP)
   have hσT : σ ∈ Op 2 (Cen (t : G)) := by
     have h1 : σ = r⁻¹ * x := by rw [← hrσ]; group
     rw [h1]
     exact mul_mem (inv_mem (Subgroup.mem_inf.1 hr).1) hx
-  have hσR : σ ∈ Rstar S (t : G) := C.R_le_Rstar (Subgroup.mem_inf.2 ⟨hσ, hσT⟩)
+  have hσR : σ ∈ Rstar S (t : G) := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rstar (Subgroup.mem_inf.2 ⟨hσ, hσT⟩)
   rw [← hrσ]
   exact mul_mem hr hσR
 

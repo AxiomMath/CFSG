@@ -23,8 +23,7 @@ theorem asc82Lemma514_of (h37 : Asc82Lemma37) (h513 : Asc82Lemma513) : Asc82Lemm
     exact (c.comm₃₄ a ha b hb).symm
   refine ⟨hAB, ?_, ?_⟩
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> simp only [Kfam5, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.cons_val_three]
+    fin_cases i <;> fin_cases j <;> simp only [Kfam5]
     · exact absurd rfl hij
     · exact c.comm
     · exact eq_bot_iff.mpr
@@ -54,8 +53,7 @@ theorem asc82Lemma514_of (h37 : Asc82Lemma37) (h513 : Asc82Lemma513) : Asc82Lemm
     · rw [Subgroup.commutator_comm]; exact hcomm23
     · exact absurd rfl hij
   · intro i
-    fin_cases i <;> simp only [Kfam5, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.cons_val_three]
+    fin_cases i <;> simp only [Kfam5]
     · exact c.iso₁
     · exact c.iso₂
     · exact c.iso₃

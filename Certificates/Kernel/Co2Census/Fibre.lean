@@ -27,6 +27,7 @@ theorem card_eq_sum_fib (π : M →* K) (P : M → Prop) (T : Finset K) (hT : �
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
   exact and_comm
 
+omit [Finite M] in
 theorem fib_conj (π : M →* K) (P : M → Prop) {u : M} (hu : ∀ y, P (u * y * u⁻¹) ↔ P y) (s : K) :
     fib π P (π u * s * (π u)⁻¹) = fib π P s := by
   unfold fib
@@ -51,6 +52,7 @@ theorem fib_conj (π : M →* K) (P : M → Prop) {u : M} (hu : ∀ y, P (u * y 
   inv_mem' := fun {a} ha y => by
     rw [← ha (a⁻¹ * y * a⁻¹⁻¹), show a * (a⁻¹ * y * a⁻¹⁻¹) * a⁻¹ = y by group]
 
+omit [Finite M] in
 theorem fib_conj_closure (π : M →* K) (P : M → Prop) {w : ℕ → M} {ngen : ℕ}
     (hw : ∀ l < ngen, ∀ y, P (w l * y * (w l)⁻¹) ↔ P y) {g : K}
     (hg : g ∈ gensSub (fun l => π (w l)) ngen) (s : K) :
@@ -65,6 +67,7 @@ theorem fib_conj_closure (π : M →* K) (P : M → Prop) {w : ℕ → M} {ngen 
     exact hw l hl
   exact fib_conj π P (hle hu) s
 
+omit [Finite M] in
 theorem fib_record (π : M →* K) (P : M → Prop) {w : ℕ → M} {step : ℕ → ℕ → ℕ} {ngen N : ℕ}
     {Pt IX : ℕ → ℕ} (hs : ConjSteps repK step ngen fun l => π (w l))
     (hw : ∀ l < ngen, ∀ y, P (w l * y * (w l)⁻¹) ↔ P y)
@@ -105,7 +108,7 @@ theorem card_query (π : M →* K) (P : M → Prop) {w : ℕ → M} {step : ℕ 
   let x : ℕ → K := fun i => if h : ∃ x, repK x (Pt i) then h.choose else 1
   have hx : ∀ i < N, repK (x i) (Pt i) := by
     intro i hi'
-    simp only [x, dif_pos (hex i hi')]
+    simp only [x, dite_eq_left (hex i hi')]
     exact (hex i hi').choose_spec
   have hxinj : Set.InjOn x (Finset.range N : Set ℕ) := by
     intro i hi' j hj e
@@ -132,6 +135,7 @@ theorem card_query (π : M →* K) (P : M → Prop) {w : ℕ → M} {step : ℕ 
   rw [Finset.sum_congr rfl (fun i hi' => by rw [(Finset.mem_filter.1 hi').2]),
     Finset.sum_const, smul_eq_mul, rootCount_eq hN, repK_fun (hx _ hk) hrep]
 
+omit [Finite M] in
 theorem fib_elt
     {elt : ℕ → ℕ → M} {π : M →* K}
     (hsurj : ∀ y, ∃ e < 512, ∃ n < 1451520, elt e n = y)

@@ -131,7 +131,7 @@ theorem mem_singArr {x : ℕ} : x ∈ singArr ↔ x < 4096 ∧ x ≠ 0 ∧ qf x 
   simp only [singArr, List.mem_toArray, List.mem_filter, List.mem_range, Bool.and_eq_true,
     bne_iff_ne, ne_eq, Bool.not_eq_true']
 
-theorem linePair_lineIdx {u w : ℕ} (hu : u < 4096) (hw : w < 4096)
+theorem linePair_lineIdx {u w : ℕ} (_hu : u < 4096) (hw : w < 4096)
     (h : lineIdx u w < 365211) : linePair (lineIdx u w) = (u, w) := by
   unfold lineIdx at h ⊢
   generalize hk : 4096 * u + w = k at h ⊢
@@ -146,7 +146,7 @@ theorem linePair_lineIdx {u w : ℕ} (hu : u < 4096) (hw : w < 4096)
     omega
   · have e : (if i < 365211 && lineKeys[i]! == k then i else 365211) = 365211 := by
       simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
     rw [e] at h
     exact absurd h (lt_irrefl _)
 

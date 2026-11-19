@@ -15,12 +15,15 @@ section Q14E
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem q14_Q_le_M (t x₁ x₂ rho : G) : l41Q t x₁ x₂ rho ≤ l41M t x₁ x₂ rho :=
   pCoreOf_two_le _
 
+omit [Finite G] in
 theorem q14_Q_isPGroup (t x₁ x₂ rho : G) : IsPGroup 2 (l41Q t x₁ x₂ rho) :=
   pCoreOf_two_isPGroup _
 
+omit [Finite G] in
 theorem q14_conj_Q {g : G} (hg : g ∈ l41M t x₁ x₂ rho) {q : G} (hq : q ∈ l41Q t x₁ x₂ rho) :
     g * q * g⁻¹ ∈ l41Q t x₁ x₂ rho :=
   pCoreOf_two_conj_mem hg hq
@@ -29,6 +32,7 @@ theorem q14_mem_normalizer_Q {g : G} (hg : g ∈ l41M t x₁ x₂ rho) :
     g ∈ normalizer ((l41Q t x₁ x₂ rho : Subgroup G) : Set G) :=
   mem_normalizer_of_conj_mem fun _ hq => q14_conj_Q hg hq
 
+omit [Finite G] in
 theorem q14_mem_normalizer_F {g : G} (hg : g ∈ l41M t x₁ x₂ rho) :
     g ∈ normalizer ((l41F t x₁ x₂ rho : Subgroup G) : Set G) := hg
 
@@ -57,6 +61,7 @@ theorem q14_normal_YQ (h : L41GPh10 t L S x₁ x₂ lam rho) :
     ((l41Y t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho)).Normal :=
   q14_normal_subgroupOf fun _ hq _ hn => (m13_normal_Y h).2 _ (q14_Q_le_M t x₁ x₂ rho hq) _ hn
 
+omit [Finite G] in
 theorem q14_normal_FQ (t x₁ x₂ rho : G) :
     ((l41F t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho)).Normal :=
   q14_normal_subgroupOf fun _ hq _ hn => q14_conj_F (q14_Q_le_M t x₁ x₂ rho hq) hn

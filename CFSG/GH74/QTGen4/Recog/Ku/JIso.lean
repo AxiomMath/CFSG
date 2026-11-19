@@ -194,6 +194,7 @@ theorem t_notMem_L2 [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA]
   rw [h1] at h6
   norm_num at h6
 
+omit [Finite G] in
 theorem le_maximal_of_Phi (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z)
     (Φ : ↥(oTwoUpper M ⊔ Ψ.L2) ≃* ↥(stabilizer M22 (0 : Fin 22)))
     (hΦ₁ : ∀ k : ↥(oTwoUpper M ⊔ Ψ.L2), (k : G) ∈ oTwoUpper M ↔ (Φ k : M22) ∈ m22TwoStab) :
@@ -205,7 +206,7 @@ theorem le_maximal_of_Phi (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P 
   · right
     have hex : ∃ y, y ∈ S ∧ y ∉ oTwoUpper M := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact heq (fun y hy => hc y hy)
     obtain ⟨y, hyS, hyL1⟩ := hex
     exact le_antisymm hSK (le_of_lt_L1 Φ hΦ₁ hS (hSK hyS) hyS hyL1)

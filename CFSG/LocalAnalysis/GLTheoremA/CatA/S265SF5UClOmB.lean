@@ -25,7 +25,7 @@ theorem false_of_component_orthDerived_five {K : Type} [Field K] [Finite K] {f e
     (hZ : Subgroup.center ↥J = ⊥) (h5 : 5 ∣ 2 ^ e + 1)
     (hcard : Nat.card J = ordTwistedA 4 (2 ^ e)) : False := by
   classical
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | hf
@@ -37,7 +37,7 @@ theorem false_of_component_orthDerived_five {K : Type} [Field K] [Finite K] {f e
     rcases Nat.eq_zero_or_pos e with rfl | he
     · norm_num at h5
     · exact he
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U, hU, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by have := Submodule.finrank_le U; omega)
   set ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=
@@ -68,7 +68,7 @@ theorem false_of_component_orthDerived_five {K : Type} [Field K] [Finite K] {f e
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.exists_component_dichotomy (p := 5) (by norm_num)
       (by norm_num) hQ hT (by rw [hchar]; norm_num) hx' J hJ
   ·
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hspecΩ : specialBlock Q xe h ≤ orthDerived Q :=
       specialBlock_le_orthDerived_of_perfect hq.1
         ((specialBlock_le_isometryCentralizer h).trans (fun _ hg => (Subgroup.mem_inf.mp hg).1))
@@ -87,9 +87,9 @@ theorem false_of_component_orthDerived_five {K : Type} [Field K] [Finite K] {f e
       obtain ⟨ℓ, k, hU, B, hBs, hBl, hrange⟩ :=
         CFSG.LocalAnalysis.GLTheoremA.KD264Lie.exists_selfDual_unitary_of_odd hx' (by decide) hh
           hne1 hself
-      haveI := hU.finite
-      haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-      haveI := hU.charP
+      have := hU.finite
+      have : Fact ℓ.Prime := ⟨hU.prime⟩
+      have := hU.charP
       have hℓ2 : ℓ = 2 := (ringChar.eq (AdjoinRoot h) ℓ).symm.trans
         ((Algebra.ringChar_eq K (AdjoinRoot h)).symm.trans hchar)
       subst hℓ2
@@ -125,13 +125,13 @@ theorem false_of_component_orthDerived_five {K : Type} [Field K] [Finite K] {f e
         (MulEquiv.ofBijective (specialToSL Q xe h)
           ⟨hx'.specialToSL_injective hh, hx'.specialToSL_surjective_paired hh hne⟩).trans
           (Matrix.SpecialLinearGroup.toLin_equiv bb).symm
-      haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+      have : Finite (AdjoinRoot h) := Module.finite_of_finite K
       exact hSL _ (f * h.natDegree) (AdjoinRoot h) hm
         (Nat.mul_pos hf (Fact.out : Irreducible h).natDegree_pos)
         (by rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h, hK, ← pow_mul])
         (eSL.symm.trans eJ)
   ·
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have hFΩ : F ≤ orthDerived Q := hFle.trans hx'.supportedFixedDerived_le_orthDerived
     let eF : ↥F ≃* ↥J :=
       (Subgroup.subgroupOfEquivOfLe hFΩ).symm.trans

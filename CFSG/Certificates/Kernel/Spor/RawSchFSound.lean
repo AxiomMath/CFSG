@@ -177,7 +177,7 @@ theorem fw_letter {n w kS BP l : Nat} {PS PSI : Nat → Nat} (hk : kS < 128)
   unfold tabP at htab
   rw [hasBit_eq] at htab
   by_cases hxk : x < kS
-  · rw [if_pos hxk, fixMask_testBit] at htab
+  · rw [ite_eq_left hxk, fixMask_testBit] at htab
     simp only [hxk, decide_true, Bool.true_and] at htab
     have hL : letterK PS PSI kS x = PS x := by
       unfold letterK
@@ -186,7 +186,7 @@ theorem fw_letter {n w kS BP l : Nat} {PS PSI : Nat → Nat} (hk : kS < 128)
     rw [hL]
     exact ⟨_, Subgroup.subset_closure ⟨x, hxk, htab, rfl⟩, (prep_fwG hp hxk).1⟩
   · have hx' : x - kS < kS := by omega
-    rw [if_neg hxk, fixMask_testBit, Nat.sub_eq] at htab
+    rw [ite_eq_right hxk, fixMask_testBit, Nat.sub_eq] at htab
     simp only [hx', decide_true, Bool.true_and] at htab
     have hL : letterK PS PSI kS x = PSI (x - kS) := by
       unfold letterK
@@ -368,7 +368,7 @@ theorem siftK_of_fwSift {n w kS nb BP : Nat} {PS PSI LR TR TRI : Nat → Nat} (h
       true := blt_true hk
     rw [siftK_succ]
     simp only [strictB_eq, bIf_eq]
-    rw [e, if_pos hk']
+    rw [e, ite_eq_left hk']
     simp only [Nat.add_eq]
     exact ih (l + 1) (by omega) _ _ (prep_pcomp (schP_lt32 hn24) (hTK _ hk).2 hG)
       (PF.pcomp_shr _ _ (schP_lt32 hn24) hw0) h

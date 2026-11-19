@@ -18,7 +18,7 @@ namespace MinCex193
 variable {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {X : Subgroup G}
 
 theorem odd_card_X (c : MinCex193 D V₀ V p X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 c.hyp.isPGroup
   rw [ha]
   exact Odd.pow (c.hyp.prime.odd_of_ne_two c.hyp.odd)
@@ -46,7 +46,7 @@ theorem not_comm_le_centralizerQuot (c : MinCex193 D V₀ V p X) (h : Hyp197 D V
         sup_le (by rw [Subgroup.commutator_comm]; exact hXA) (h.pCoreOf_le_centralizerQuot c)
 
 theorem mul_comm_of_comm_mem (c : MinCex193 D V₀ V p X) (h : Hyp197 D V X E F g) {x e : G}
-    (hxX : x ∈ X) (he : e ∈ E) (hxe : ⁅x, e⁆ ∈ F) : x * e = e * x := by
+    (hxX : x ∈ X) (_he : e ∈ E) (hxe : ⁅x, e⁆ ∈ F) : x * e = e * x := by
   set f : G := ⁅x, e⁆ with hf
   have hfF : f ∈ F := hxe
   have hxF : x * f = f * x := by
@@ -86,6 +86,7 @@ namespace ModData
 
 variable {H E F : Subgroup G} (M : ModData H E F)
 
+omit [Finite G] in
 theorem quadratic_module {A : Subgroup G} (hEn : H ≤ normalizer (E : Set G))
     (hq : ⁅⁅E, A⁆, A⁆ = ⊥) :
     ∀ a b : ↥H, (a : G) ∈ A → (b : G) ∈ A → ∀ w : M.W,

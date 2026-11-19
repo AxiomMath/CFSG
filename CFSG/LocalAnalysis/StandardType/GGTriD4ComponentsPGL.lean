@@ -54,7 +54,7 @@ theorem ggTriD4_pgu_clause {X : Type} [Group X] {C : Subgroup X} {n : ℕ} (hn :
     have hsolv : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ 1) F)) :=
       ggTriD4_pgu_two_solvable (n := 1) rfl hF
     have hsolvC : Group.IsSolvable ↥C := by
-      haveI := hsolv
+      have := hsolv
       exact Group.isSolvable_of_isSolvable_injective (f := E.toMonoidHom) E.injective
     exact (gffa2_false_of_solvable hsolvC hQ).elim
   · have hn2 : 2 ≤ n := by omega

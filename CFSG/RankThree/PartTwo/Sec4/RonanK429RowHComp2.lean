@@ -13,11 +13,11 @@ open CFSG.RankThree.PartTwo.KFacts
 theorem isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimple Q) :
     IsQuasisimple Q := by
   obtain ⟨hp, hs⟩ := h
-  haveI : Group.IsPerfect Q := ⟨hp⟩
+  have : Group.IsPerfect Q := ⟨hp⟩
   refine ⟨inferInstance, hs, ?_⟩
   by_contra hc
-  push_neg at hc
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hs.toNontrivial
+  push Not at hc
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hs.toNontrivial
   have hnc := Group.IsPerfect.not_isMulCommutative (Q ⧸ Subgroup.center Q)
   exact hnc ⟨⟨hc⟩⟩
 
@@ -67,9 +67,9 @@ theorem good429_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     (hRn : ∀ g ∈ C, ∀ r ∈ R, g * r * g⁻¹ ∈ R) (hR3 : IsPGroup 3 R)
     (hcent : Subgroup.centralizer (R : Set S) ⊓ C ≤ R) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R' : Subgroup C := R.subgroupOf C
   have hR'n : R'.Normal := normal_subgroupOf_of_forall_conj' hRn
   have hO : CFSG.pCore 2 C = ⊥ := by
@@ -77,12 +77,12 @@ theorem good429_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     have hO2 : IsPGroup 2 O := CFSG.pCore_isPGroup
     have hR'3 : IsPGroup 3 R' := hR3.of_equiv (Subgroup.subgroupOfEquivOfLe hRC).symm
     have hdisj : O ⊓ R' = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       obtain ⟨a, ha⟩ := hO2.exists_card_eq
       obtain ⟨b, hb⟩ := hR'3.exists_card_eq
       rw [ha, hb]
       exact Nat.Coprime.pow a b (by norm_num)
-    haveI := hR'n
+    have := hR'n
     have hcomm : ⁅O, R'⁆ = ⊥ := by
       rw [eq_bot_iff, ← hdisj]
       exact le_inf (Subgroup.commutator_le_left O R') (Subgroup.commutator_le_right O R')
@@ -121,19 +121,19 @@ theorem good429_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
     (hLt : Nat.card L ∉ typeOrders (Nat.card L) B)
     (hcent : ∀ g ∈ C, (∀ l ∈ L, l * g = g * l) → g ^ 3 = 1) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L' : Subgroup C := L.subgroupOf C
   have hL'n : L'.Normal := normal_subgroupOf_of_forall_conj' hLn
-  haveI := hL'n
+  have := hL'n
   have eL : L' ≃* L := Subgroup.subgroupOfEquivOfLe hLC
-  haveI : IsSimpleGroup L' := eL.isSimpleGroup
+  have : IsSimpleGroup L' := eL.isSimpleGroup
   have hO : CFSG.pCore 2 C = ⊥ := by
     set O := CFSG.pCore 2 C
     have hO2 : IsPGroup 2 O := CFSG.pCore_isPGroup
     have hOL : O ⊓ L' = ⊥ := by
       have hN : ((O ⊓ L').subgroupOf L').Normal := by
-        haveI : (O ⊓ L').Normal := inferInstance
+        have : (O ⊓ L').Normal := inferInstance
         exact Subgroup.normal_subgroupOf
       rcases hN.eq_bot_or_eq_top with h | h
       · rw [Subgroup.subgroupOf_eq_bot] at h
@@ -145,8 +145,8 @@ theorem good429_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
         have h2 : IsPGroup 2 L' := (hO2.to_le (le_trans h inf_le_left))
         have h2' : IsPGroup 2 L := h2.of_equiv eL
         obtain ⟨a, b, hab⟩ := hLna
-        haveI : Nontrivial L := ⟨⟨a * b, b * a, hab⟩⟩
-        haveI := h2'.center_nontrivial
+        have : Nontrivial L := ⟨⟨a * b, b * a, hab⟩⟩
+        have := h2'.center_nontrivial
         have hc : Subgroup.center L = ⊤ := by
           rcases (inferInstance : (Subgroup.center L).Normal).eq_bot_or_eq_top with hc | hc
           · exfalso
@@ -175,7 +175,7 @@ theorem good429_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
     have h1 : (⟨x, hx⟩ : O) = 1 := orderOf_eq_one_iff.mp (Nat.dvd_one.mp hord)
     exact Subgroup.mem_bot.mpr (congrArg Subtype.val h1)
   obtain ⟨hcomp, hK2⟩ := isComponent_subgroupOf_of_isType429 hKC hKs hT hO
-  haveI := nontrivial_of_isType429 hT
+  have := nontrivial_of_isType429 hT
   rcases CFSG.LocalCores.component_normal_subgroup hcomp hL'n with hle | hcomm
   · have hKL : K ≤ L := fun k hk => hle (show (⟨k, hKC hk⟩ : C) ∈ K.subgroupOf C from hk)
     have hsL : (K.subgroupOf L).IsSubnormal := isSubnormal_subgroupOf_of_le hLC hKL hKs
@@ -192,7 +192,7 @@ theorem good429_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
       subst hKeq
       have eQ : K ⧸ CFSG.pCore 2 K ≃* K :=
         (QuotientGroup.quotientMulEquivOfEq hK2).trans QuotientGroup.quotientBot
-      haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+      have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
       have hmem := card_mem_typeOrders (M := Nat.card K) (B := B) Nat.card_pos hB hT
         (by rw [Nat.card_congr eQ.toEquiv])
       rw [Nat.card_congr eQ.toEquiv] at hmem

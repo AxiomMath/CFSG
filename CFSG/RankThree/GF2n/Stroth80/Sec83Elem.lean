@@ -20,7 +20,7 @@ theorem sec83Fixed_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
     Sec83FixedStatement := by
   intro G _ _ M Q Z B hc n t r m K _ _ φ u u' hs hr hpts z hz hzL hzN hna
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
@@ -43,7 +43,7 @@ theorem sec83Fixed_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
   have hsec : SecHyp (Rt M (LB M Q B) t) (Sec8W1 M Q Z B t r) (Sec8V1 M Q Z B t r) :=
     SecHyp.of_isOppDecomp hcd hP hI
   obtain ⟨Mod, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hpts.ker hsec hb.2
-  haveI : Finite Mod := hκ.finite
+  have : Finite Mod := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hcd hLeR hL'eR
   have hzL' : φ ⟨z, hz⟩ ∈ LspGL m K u := by
     rw [← hpts.hL]
@@ -63,9 +63,9 @@ theorem sec83Fixed_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
 theorem sec83Type_of_nat : Sec83TypeStatement := by
   intro G _ _ M Q Z B hc n t r m K _ _ φ u u' hs hr hpts z hz hzL hzN
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   obtain ⟨κ, hκ⟩ := hpts.isSecMod
-  letI : DistribMulAction ↥(Rt M (LB M Q B) t) (Fin m ⊕ Fin m → K) := hpts.vecAct
+  let : DistribMulAction ↥(Rt M (LB M Q B) t) (Fin m ⊕ Fin m → K) := hpts.vecAct
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hnorm : ∀ ρ ∈ Rt M (LB M Q B) t, ∀ x ∈ Vt M (LB M Q B) B Z t,
       ρ * x * ρ⁻¹ ∈ Vt M (LB M Q B) B Z t := fun ρ hρ x hx =>
@@ -112,7 +112,7 @@ theorem sec83A2_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
     Sec83A2Statement := by
   intro G _ _ M Q Z B hc n t r m K _ _ φ u u' hs hr hpts z hz hzL hzN hna
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
@@ -135,7 +135,7 @@ theorem sec83A2_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
   have hsec : SecHyp (Rt M (LB M Q B) t) (Sec8W1 M Q Z B t r) (Sec8V1 M Q Z B t r) :=
     SecHyp.of_isOppDecomp hcd hP hI
   obtain ⟨Mod, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hpts.ker hsec hb.2
-  haveI : Finite Mod := hκ.finite
+  have : Finite Mod := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hcd hLeR hL'eR
   have hzL' : φ ⟨z, hz⟩ ∈ LspGL m K u := by
     rw [← hpts.hL]

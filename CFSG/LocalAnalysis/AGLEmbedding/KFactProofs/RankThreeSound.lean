@@ -44,11 +44,11 @@ theorem exists_mem_projTriples {p : ℕ} [Fact p.Prime] (cc : Fin 3 → ZMod p) 
   · by_cases h1 : cc 1 = 0
     · have h2 : cc 2 ≠ 0 := fun h2 => hcc (by ext k; fin_cases k <;> simp [h0, h1, h2])
       refine ⟨(cc 2)⁻¹, ?_⟩
-      simp [projTriples, mem_nonzeroTriples, h0, h1, inv_mul_cancel₀ h2, hv1, hp0, hp1, ZMod.val_lt]
+      simp [projTriples, mem_nonzeroTriples, h0, h1, inv_mul_cancel₀ h2, hv1, hp0, hp1]
     · refine ⟨(cc 1)⁻¹, ?_⟩
       simp [projTriples, mem_nonzeroTriples, h0, inv_mul_cancel₀ h1, hv1, hp0, hp1, ZMod.val_lt]
   · refine ⟨(cc 0)⁻¹, ?_⟩
-    simp [projTriples, mem_nonzeroTriples, inv_mul_cancel₀ h0, hv1, hp0, hp1, ZMod.val_lt]
+    simp [projTriples, mem_nonzeroTriples, inv_mul_cancel₀ h0, hv1, hp1, ZMod.val_lt]
 
 theorem pow_val_mul_of_pow {G : Type*} [Monoid G] {p : ℕ} {x : G} (hx : x ^ p = 1) (l c : ZMod p) :
     x ^ (l * c).val = (x ^ c.val) ^ l.val := by

@@ -13,7 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.hypPlane_symm_sp (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
+theorem Ctx.hypPlane_symm_sp (h34 : Stroth34Statement) (_hRoot : Stroth310RootStatement)
     (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t) (hsp : SpNat hc t)
     {r : G} (hr : r ∈ Rt M (LB M Q B) t)
     (hplane : HypPlane Q Z B (conjSubgroup r B) t) :

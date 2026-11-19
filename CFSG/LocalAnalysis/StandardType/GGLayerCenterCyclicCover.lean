@@ -279,7 +279,7 @@ theorem ggLayerCenterCyclic_of_model {p : ℕ} (hp : p.Prime) {R : Type} [Group 
   have hQtop : (Q : Subgroup (S.map q)) = ⊤ := Q.maximal_isPGroup.eq_of_le (hSqp.to_subgroup ⊤) le_top
   have hP'cyc : IsCyclic ((P : Subgroup T).map T.subtype) :=
     hmodel hα1 hαp hXcomp _ (by rintro _ ⟨t, -, rfl⟩; exact hTX t.2)
-      (by rintro _ ⟨t, -, rfl⟩; exact hTC t.2) (P.isPGroup'.map T.subtype)
+      (by rintro _ ⟨t, -, rfl⟩; exact hTC t.2) (P.isPGroup.map T.subtype)
   have hPcyc : IsCyclic (P : Subgroup T) :=
     isCyclic_of_surjective ((P : Subgroup T).equivMapOfInjective T.subtype
       T.subtype_injective).symm (MulEquiv.surjective _)

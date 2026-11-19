@@ -19,8 +19,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16h_two_le_pRank_of_isPOnePlusTwo {X : Type} [Group X] [Finite X]
     (h : IsPOnePlusTwo 3 X) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨hext, hcard, -⟩ := h
-  haveI : IsExtraspecial 3 X := hext
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsExtraspecial 3 X := hext
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hle
   have hle1 : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1 := by omega
   have hXp : IsPGroup 3 (⊤ : Subgroup X) :=
@@ -33,12 +33,12 @@ theorem s16h_two_le_pRank_of_isPOnePlusTwo {X : Type} [Group X] [Finite X]
   have hcycX : IsCyclic X := (Subgroup.topEquiv.isCyclic).mp hcyc
   have hnc : ¬ IsMulCommutative X := by
     intro hcomm
-    letI : IsMulCommutative X := hcomm
+    let : IsMulCommutative X := hcomm
     have htop : Subgroup.center X = ⊤ := Subgroup.center_eq_top
     have hsub : Subsingleton (X ⧸ Subgroup.center X) :=
       (QuotientGroup.subsingleton_iff (N := Subgroup.center X)).2 htop
     exact not_nontrivial_iff_subsingleton.mpr hsub hext.quotient_nontrivial
-  exact hnc (by haveI := hcycX; infer_instance)
+  exact hnc (by have := hcycX; infer_instance)
 
 private theorem s16h_v1Sub_eq_v0_of_odd_card (D : Data G) {V₀ V L : Subgroup G}
     (hV : IsElemAbelian 2 V) (hodd : Odd (Nat.card ↥(lBar V₀ V hV L))) :

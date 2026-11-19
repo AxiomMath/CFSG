@@ -27,9 +27,9 @@ theorem ssexc_not_L34_twoD {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (S : 
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
   obtain ⟨r, e, hr, hchar, hr5, he, hqe⟩ := ssexc_char_ge_five S h2
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     ssTw_finite_rationalComponent S i
   obtain ⟨hnin, h4, hcard⟩ := twoD_kind_unpack hk
   by_cases h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)

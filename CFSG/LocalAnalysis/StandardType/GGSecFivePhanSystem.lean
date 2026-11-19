@@ -51,7 +51,7 @@ theorem ggSecFivePhanSystem_of_prim
           L ⊔ ⨆ K ∈ 𝒦, K := by
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hsl : GGSimplyLaced M := hconn.1
   have hnsX : ∀ X : Subgroup G, (X = L ∨ X ∈ 𝒦) → ¬ GGSplitLie p X := by
@@ -75,10 +75,10 @@ theorem ggSecFivePhanSystem_of_prim
       _ ≤ ⊥ := iSup₂_le fun r hr => absurd ⟨r, hr.1, hr.2⟩ hne
   obtain ⟨F, hF, hFfin, θ, hchar, hθinj, hθrange, ⟨n₀, hn₀L, hn₀N, hn₀r⟩, -, hpF, -⟩ :=
     hRk1 G p B Bs x L D J 𝒦 hcfg hns ι M e hpres hle3 L (Or.inl rfl) r₀ hr₀A hr₀C
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  haveI : CharP F 2 := hchar
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFfin
+  have : CharP F 2 := hchar
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨m, -, hm⟩ := FiniteField.card F 2
   have hFcard : Nat.card F = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   have hL1r₀ : ggRankOnePerf Bs r₀ = ggRankOneIn L Bs r₀ := hL1X L (Or.inl rfl) r₀ hr₀A hr₀C

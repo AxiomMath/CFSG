@@ -65,7 +65,7 @@ theorem sylow_map_le_M {u : G} (hu : u ∈ S.QG) (hu1 : u ≠ 1) (huz : u ≠ S.
     (hT : S.QG ⊓ centralizer ({u} : Set G) ≤
       (T : Subgroup (centralizer ({u} : Set G))).map (centralizer ({u} : Set G)).subtype) :
     (T : Subgroup (centralizer ({u} : Set G))).map (centralizer ({u} : Set G)).subtype ≤ S.M :=
-  S.le_M_of_isPGroup_of_cqx_le hu hu1 huz hnc (T.isPGroup'.map _) hT
+  S.le_M_of_isPGroup_of_cqx_le hu hu1 huz hnc (T.isPGroup.map _) hT
 
 theorem exists_sylow_le_M {u : G} (hu : u ∈ S.QG) (hu1 : u ≠ 1) (huz : u ≠ S.z)
     (hnc : ¬ IsConj S.z u) : ∃ T : Sylow 2 (centralizer ({u} : Set G)),

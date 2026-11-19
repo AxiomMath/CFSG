@@ -25,11 +25,11 @@ theorem isSolvable_of_pRank_five_le_one (hSz : KFacts.KPSz)
     {M W N : Subgroup G} (hK : CFSG.IsKGroup ↥M) (hWM : W ≤ M) (hWp : Group.IsPerfect ↥W)
     (hNW : N ≤ W) (hNn : (N.subgroupOf W).Normal) (hN3 : ¬ 3 ∣ Nat.card N)
     (hθ : inSubgroup (aschbacherSolvableCore 3) W ≤ N) (h5 : 5 ∣ (N.subgroupOf W).index)
-    (hrk : CFSG.Open.pRank 5 W ≤ 1) : IsSolvable ↥N := by
+    (hrk : CFSG.Open.pRank 5 W ≤ 1) : Group.IsSolvable ↥N := by
   classical
   by_contra hns
   let F : Subgroup ↥W := aschbacherSolvableCore 3 ↥W
-  haveI hFnormal : F.Normal := aschbacherSolvableCore_normal 3 ↥W
+  have hFnormal : F.Normal := aschbacherSolvableCore_normal 3 ↥W
   let Y := ↥W ⧸ F
   let ρ : ↥W →* Y := QuotientGroup.mk' F
   let Nbar : Subgroup Y := (N.subgroupOf W).map ρ
@@ -43,7 +43,7 @@ theorem isSolvable_of_pRank_five_le_one (hSz : KFacts.KPSz)
     apply hns
     have hmap : (N.subgroupOf W).map ρ = ⊥ := hbot
     rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hmap
-    haveI : Group.IsSolvable F := hF_solv
+    have : Group.IsSolvable F := hF_solv
     have hsolvSub : Group.IsSolvable (N.subgroupOf W) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hmap)
     exact Group.isSolvable_of_isSolvable_injective
@@ -80,10 +80,10 @@ theorem isSolvable_of_pRank_five_le_one (hSz : KFacts.KPSz)
       rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', hcenter]
     have e := MulEquiv.ofBijective (QuotientGroup.mk' (Subgroup.center K))
       ⟨hinj, QuotientGroup.mk'_surjective _⟩
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hKcomp.1.2.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKcomp.1
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := hKcomp.1.2.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKcomp.1
     exact IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
-  haveI : IsSimpleGroup K := hsimp
+  have : IsSimpleGroup K := hsimp
   have hnab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hKcomp.1.2.2
     induction a using QuotientGroup.induction_on with
@@ -101,17 +101,17 @@ theorem isSolvable_of_pRank_five_le_one (hSz : KFacts.KPSz)
     obtain ⟨f, hf⟩ := hSz K hnab hcat hK3
     exact Sec16.KSL3PiNoSzProof.five_dvd_card_of_suzukiModel hf
   have key : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup Y) := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     by_cases hKN : K.Normal
     ·
-      haveI : K.Normal := hKN
+      have : K.Normal := hKN
       let C : Subgroup Y := Subgroup.centralizer (K : Set Y)
-      haveI hCnormal : C.Normal := Subgroup.normal_centralizer
-      haveI : Group.IsPerfect ↥W := hWp
-      haveI hYperf : Group.IsPerfect Y :=
+      have hCnormal : C.Normal := Subgroup.normal_centralizer
+      have : Group.IsPerfect ↥W := hWp
+      have hYperf : Group.IsPerfect Y :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' F)
           (QuotientGroup.mk'_surjective F)
-      haveI : Group.IsPerfect (⊤ : Subgroup Y) := Group.IsPerfect.top_iff.mpr hYperf
+      have : Group.IsPerfect (⊤ : Subgroup Y) := Group.IsPerfect.top_iff.mpr hYperf
       have hYsup : K ⊔ C = ⊤ := by
         rw [eq_top_iff]
         intro r _

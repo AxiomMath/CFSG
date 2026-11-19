@@ -132,7 +132,7 @@ theorem rawMarking_of_mem_e6Inndiag {S : Type} [Group S] (hZS : Subgroup.center 
       intro a
       have hq : QuotientGroup.quotientBot
           (QuotientGroup.quotientMulEquivOfEq hZS (QuotientGroup.mk a)) = a := by
-        rw [QuotientGroup.quotientMulEquivOfEq_mk, MulEquiv.apply_eq_iff_symm_apply,
+        rw [QuotientGroup.quotientMulEquivOfEq_mk, ← _root_.MulEquiv.eq_symm_apply,
           QuotientGroup.quotientBot_symm_apply]
       show ε (θ (QuotientGroup.quotientBot
         (QuotientGroup.quotientMulEquivOfEq hZS (QuotientGroup.mk a)))) = ε (θ a)
@@ -163,7 +163,7 @@ theorem upD42Chev2Out_e6 : UpD42Chev2Out (fun d => match d with | .E6 _ => True 
   cases d with
   | E6 q =>
     exfalso
-    haveI := hs
+    have := hs
     have hq2 : q.p = 2 := hc
     have hm := blueprintLieModel_E6 q hv e
     have hU : UntwistedChevalleyModel S .E6 (q.p ^ q.exponent) := by
@@ -189,8 +189,8 @@ theorem upD42Chev2Out_e6 : UpD42Chev2Out (fun d => match d with | .E6 _ => True 
       exact CFSG.StandardType.UpD42Inn.false_of_D41_component_list hs hnab
         CFSG.StandardType.E6TwoThree.ggE6TwoThreeComp_holds
         (by simp [CFSG.Assembly.LargeEvenInLambda2]) hmark hp.1 hp.2.1 hK hD
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two q.exponent_pos hFcard
       obtain ⟨σ, hσo, hpf, δ, hδ⟩ :=
         CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_conj_entrywise_of_not_mem_e6Inndiag
@@ -201,12 +201,12 @@ theorem upD42Chev2Out_e6 : UpD42Chev2Out (fun d => match d with | .E6 _ => True 
         have := (CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two
           q.exponent_pos hFcard σ).2
         rwa [hσo] at this
-      haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+      have : Finite ↥(fixSubfield σ) := Subtype.finite
       have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) .E6 2
           (q.exponent / 3) :=
         ⟨⟨Nat.prime_two, hd, rfl⟩, I923.untwisted_adjointGroup hcard⟩
       obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_e6_simplicity _ 2 (q.exponent / 3) hM
-      haveI := hsimp
+      have := hsimp
       have hZ : Subgroup.center ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) = ⊥ :=
         center_adjointGroup_eq_bot
       have hpump : UpD42Pumpup ↥(adjointGroup Tag.E6 F) (entrywiseAdjointAut Tag.E6 σ) := by

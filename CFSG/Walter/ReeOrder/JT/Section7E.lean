@@ -91,7 +91,7 @@ theorem isSolvable_centralizer_of_mem_F
       hN4 (h4.trans (Subgroup.card_dvd_of_le hCN))
     set CY := Subgroup.centralizer ({y} : Set G) with hCY
     obtain ⟨Sy⟩ : Nonempty (Sylow 2 CY) := inferInstance
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Sy.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Sy.isPGroup
     have hk1 : k ≤ 1 := by
       by_contra hk1
       apply hC4

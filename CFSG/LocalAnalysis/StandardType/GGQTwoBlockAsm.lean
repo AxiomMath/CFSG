@@ -50,12 +50,12 @@ private lemma qTwoChartAsm_disjoint_of_ne {N : ℕ} {I J : Finset (Fin N)}
 
 private lemma qTwoChartAsm_card_node (i : Fin n) :
     ({i.castSucc, i.succ} : Finset (Fin (n + 1))).card = 2 :=
-  qTwoChartAsm_card_pair (by simp only [Fin.coe_castSucc, Fin.val_succ]; omega)
+  qTwoChartAsm_card_pair (by simp only [Fin.val_castSucc, Fin.val_succ]; omega)
 
 private lemma qTwoChartAsm_card_edge {i k : Fin n} (hk : (k : ℕ) = (i : ℕ) + 1) :
     ({i.castSucc, i.succ, k.succ} : Finset (Fin (n + 1))).card = 3 := by
   refine qTwoChartAsm_card_three ?_ ?_ ?_
-  all_goals (simp only [Fin.coe_castSucc, Fin.val_succ]; omega)
+  all_goals (simp only [Fin.val_castSucc, Fin.val_succ]; omega)
 
 noncomputable def node (i : Fin n) : Subgroup G :=
   B.blk {i.castSucc, i.succ}
@@ -65,11 +65,11 @@ noncomputable def edge (i j : Fin n) : Subgroup G :=
 
 theorem edge_of_adj {i j : Fin n} (h : (j : ℕ) = (i : ℕ) + 1) :
     B.edge i j = B.blk {i.castSucc, i.succ, j.succ} :=
-  if_pos h
+  ite_eq_left h
 
 theorem edge_of_not_adj {i j : Fin n} (h : (j : ℕ) ≠ (i : ℕ) + 1) :
     B.edge i j = B.node i ⊔ B.node j :=
-  if_neg h
+  ite_eq_right h
 
 private lemma qTwoChartAsm_le_iSup_edge {a b : Fin n} (h : a < b) :
     B.edge a b ≤ ⨆ (i : Fin n) (j : Fin n) (_ : i < j), B.edge i j :=
@@ -132,7 +132,7 @@ private lemma qTwoChartAsm_blk_four_le_iSup_edge (hK : Nat.card K = 4) (hmN : m 
   have hBs : Bs.card = 3 := qTwoChartAsm_card_edge (i := a1) (k := a2) (by omega)
   have hc : a1.castSucc = a0.succ := by
     apply Fin.ext
-    simp only [Fin.coe_castSucc, Fin.val_succ]
+    simp only [Fin.val_castSucc, Fin.val_succ]
     omega
   have hunion : A ∪ Bs = {a0.castSucc, a0.succ, a1.succ, a2.succ} := by
     change ({a0.castSucc, a0.succ, a1.succ} : Finset (Fin (n + 1))) ∪
@@ -144,7 +144,7 @@ private lemma qTwoChartAsm_blk_four_le_iSup_edge (hK : Nat.card K = 4) (hmN : m 
   have hAB : (A ∪ Bs).card = 4 := by
     rw [hunion]
     refine qTwoChartAsm_card_four ?_ ?_ ?_ ?_ ?_ ?_
-    all_goals (simp only [Fin.coe_castSucc, Fin.val_succ]; omega)
+    all_goals (simp only [Fin.val_castSucc, Fin.val_succ]; omega)
   refine ⟨A ∪ Bs, hAB, ?_⟩
   have hsup : B.blk (A ∪ Bs) = B.edge a0 a1 ⊔ B.edge a1 a2 := by
     rw [B.edge_of_adj (by omega), B.edge_of_adj (by omega)]
@@ -178,7 +178,7 @@ theorem node_comm (hm : 4 ≤ m) (hmN : m ≤ n + 1) {i j : Fin n} (hij : (i : �
     intro x hx y hy
     simp only [Finset.mem_insert, Finset.mem_singleton] at hx hy
     rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;>
-      simp only [Fin.coe_castSucc, Fin.val_succ] <;> omega
+      simp only [Fin.val_castSucc, Fin.val_succ] <;> omega
   have hcard : (({i.castSucc, i.succ} : Finset (Fin (n + 1))) ∪
       {j.castSucc, j.succ}).card ≤ m := by
     calc (({i.castSucc, i.succ} : Finset (Fin (n + 1))) ∪ {j.castSucc, j.succ}).card
@@ -192,16 +192,16 @@ theorem node_comm (hm : 4 ≤ m) (hmN : m ≤ n + 1) {i j : Fin n} (hij : (i : �
 
 theorem edge_pair (hm : 3 ≤ m) (hmN : m ≤ n + 1) {i j : Fin n} (hij : (j : ℕ) = (i : ℕ) + 1) :
     UnitaryBlockStandardPair K 2 1 (B.edge i j) (B.node i) (B.node j) := by
-  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.coe_castSucc, Fin.val_succ]; omega)
+  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.val_castSucc, Fin.val_succ]; omega)
   have hab : i.castSucc ≠ i.succ := by
     intro h
     have h' : (i.castSucc : ℕ) = (i.succ : ℕ) := by rw [h]
-    rw [Fin.coe_castSucc, Fin.val_succ] at h'
+    rw [Fin.val_castSucc, Fin.val_succ] at h'
     omega
   have hac : i.castSucc ≠ j.succ := by
     intro h
     have h' : (i.castSucc : ℕ) = (j.succ : ℕ) := by rw [h]
-    rw [Fin.coe_castSucc, Fin.val_succ] at h'
+    rw [Fin.val_castSucc, Fin.val_succ] at h'
     omega
   have hbc : i.succ ≠ j.succ := by
     intro h
@@ -307,7 +307,7 @@ private theorem bam_fourEmb_three {n : ℕ} {i j k : Fin n} (hj : (j : ℕ) = (i
 private theorem bam_adj_sup (hK : Nat.card K = 4) (hm : 4 ≤ m) (hmN : m ≤ n + 1)
     {i j k : Fin n} (hj : (j : ℕ) = (i : ℕ) + 1) (hk : (k : ℕ) = (j : ℕ) + 1) :
     B.edge i j ⊔ B.edge j k = B.blk {i.castSucc, i.succ, j.succ, k.succ} := by
-  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.coe_castSucc, Fin.val_succ]; omega)
+  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.val_castSucc, Fin.val_succ]; omega)
   have hI : ({i.castSucc, i.succ, j.succ} : Finset (Fin (n + 1))).card = 3 :=
     qTwoChartAsm_card_edge hj
   have hJ : ({j.castSucc, j.succ, k.succ} : Finset (Fin (n + 1))).card = 3 :=
@@ -323,7 +323,7 @@ private theorem bam_adj_sup (hK : Nat.card K = 4) (hm : 4 ≤ m) (hmN : m ≤ n 
   have hIJ : U.card = 4 := by
     rw [hunion]
     refine qTwoChartAsm_card_four ?_ ?_ ?_ ?_ ?_ ?_
-    all_goals (simp only [Fin.coe_castSucc, Fin.val_succ]; omega)
+    all_goals (simp only [Fin.val_castSucc, Fin.val_succ]; omega)
   have hsup : B.edge i j ⊔ B.edge j k = B.blk U := by
     rw [B.edge_of_adj hj, B.edge_of_adj hk]
     exact B.sup_eq_of_card_three hK hmN hm hI hJ hIJ
@@ -342,8 +342,8 @@ private theorem bam_node_edge_images (hm : 4 ≤ m) {i j k : Fin n}
         (φ.comp (blockEmb K 2 1 m 4 0 (by omega))) = B.edge i j ∧
     (blockEmb3 K 2 1 3 1 (by norm_num)).range.map
         (φ.comp (blockEmb K 2 1 m 4 0 (by omega))) = B.edge j k := by
-  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.coe_castSucc, Fin.val_succ]; omega)
-  have hkc : k.castSucc = j.succ := Fin.ext (by rw [Fin.coe_castSucc, Fin.val_succ]; omega)
+  have hjc : j.castSucc = i.succ := Fin.ext (by rw [Fin.val_castSucc, Fin.val_succ]; omega)
+  have hkc : k.castSucc = j.succ := Fin.ext (by rw [Fin.val_castSucc, Fin.val_succ]; omega)
   have h01 : ({0, 1} : Finset (Fin 4)).map g =
       ({i.castSucc, i.succ} : Finset (Fin (n + 1))) := by simp [hg0, hg1]
   have h12 : ({1, 2} : Finset (Fin 4)).map g =
@@ -412,7 +412,7 @@ theorem node_farEdge (hm : 5 ≤ m) (hmN : m ≤ n + 1) {i j k : Fin n} (hk : (k
     intro x hx y hy
     simp only [Finset.mem_insert, Finset.mem_singleton] at hx hy
     rcases hx with rfl | rfl <;> rcases hy with rfl | rfl | rfl <;>
-      simp only [Fin.coe_castSucc, Fin.val_succ] <;> omega
+      simp only [Fin.val_castSucc, Fin.val_succ] <;> omega
   have hcard : (({i.castSucc, i.succ} : Finset (Fin (n + 1))) ∪
       {j.castSucc, j.succ, k.succ}).card ≤ m := by
     calc (({i.castSucc, i.succ} : Finset (Fin (n + 1))) ∪
@@ -468,7 +468,7 @@ theorem edge_farEdge (hm : 5 ≤ m) (hN : n = m ∨ (n = m + 1 ∧ 3 ∣ n + 1))
       intro x hx y hy
       simp only [Finset.mem_insert, Finset.mem_singleton] at hx hy
       rcases hx with rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl <;>
-        simp only [Fin.coe_castSucc, Fin.val_succ] <;> omega
+        simp only [Fin.val_castSucc, Fin.val_succ] <;> omega
     have hcard : (({i.castSucc, i.succ, k.succ} : Finset (Fin (n + 1))) ∪
         {j.castSucc, j.succ, l.succ}).card ≤ m := by
       calc (({i.castSucc, i.succ, k.succ} : Finset (Fin (n + 1))) ∪

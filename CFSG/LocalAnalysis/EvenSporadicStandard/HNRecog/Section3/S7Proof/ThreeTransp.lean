@@ -18,7 +18,7 @@ private theorem threeTransp_pow_two_ne_three (k : ℕ) : 2 ^ k ≠ 3 := by
   intro h
   have hle : k ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hlt
     norm_num at h4
     omega
@@ -76,7 +76,7 @@ theorem s7_three {a z x d e : G} (H : S7Hyps a z) (hx : x ∈ orb3A a a)
     (hd : d ∈ orb2A a a ∩ orb2A a x) (he : e ∈ orb2A a a ∩ orb2A a x) :
     (d * e) ^ 3 = 1 ∨ (d * e) ^ 2 = 1 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hne3, hne2⟩ := hne
   have H' : S7Hyps d z := H.of_isConj hd.1.1 (IsConj.refl z)
   have hd2 : d ^ 2 = 1 := s7_sq_of_isConj_a H hd.1.1

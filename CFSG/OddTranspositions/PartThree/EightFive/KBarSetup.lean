@@ -60,7 +60,7 @@ theorem setup_centSetBar_of_transitive (hS : Setup G D)
       obtain ⟨k, hk, hkx⟩ := htrans (x : G) hx
       exact isConj_iff.mpr ⟨⟨k, hk⟩, Subtype.ext hkx⟩
     · intro hx
-      rw [Set.mem_setOf_eq] at hx
+      rw [Set.mem_ofPred_eq] at hx
       rw [isConj_iff] at hx
       obtain ⟨c, hc⟩ := hx
       have hcG : (c : G) * u * (c : G)⁻¹ = (x : G) := congrArg Subtype.val hc

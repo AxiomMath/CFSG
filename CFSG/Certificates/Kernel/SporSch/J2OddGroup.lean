@@ -35,18 +35,22 @@ structure J2Data (G : Type*) [Group G] (a b u v x₇ y z : G) : Prop where
   c7 : ∀ k ∈ [1, 2, 3, 4, 5, 6], IsConj x₇ (x₇ ^ k)
   c15 : ∀ m ∈ [1, 2, 7, 11], IsConj y (y ^ m) ∨ IsConj z (y ^ m)
 
+omit [Finite G] in
 theorem mem_cent {x e : G} (h : e * x = x * e) : e ∈ centralizer ({x} : Set G) :=
   mem_centralizer_singleton_iff.2 h
 
+omit [Finite G] in
 theorem orderOf_dvd_cent {x e : G} (h : e * x = x * e) :
     orderOf e ∣ Nat.card (centralizer {x}) := by
   have := orderOf_dvd_natCard (⟨e, mem_cent h⟩ : centralizer ({x} : Set G))
   rwa [← Subgroup.orderOf_coe] at this
 
+omit [Finite G] in
 theorem isConj_conj (c x : G) : IsConj x (c * x * c⁻¹) := isConj_iff.2 ⟨c, rfl⟩
 
 theorem cent_pos (x : G) : 0 < Nat.card (centralizer ({x} : Set G)) := Nat.card_pos
 
+omit [Finite G] in
 theorem ord_conj {g h : G} (hc : IsConj g h) : orderOf g = orderOf h := by
   obtain ⟨c, rfl⟩ := isConj_iff.1 hc
   exact (orderOf_conj' c g).symm
@@ -54,6 +58,7 @@ theorem ord_conj {g h : G} (hc : IsConj g h) : orderOf g = orderOf h := by
 theorem pow_part {g : G} {e : ℕ} (he : e ∣ orderOf g) :
     orderOf (g ^ (orderOf g / e)) = e := orderOf_pow_orderOf_div (orderOf_pos g).ne' he
 
+omit [Finite G] in
 theorem conj_to {h r : G} {k : ℕ} (hc : IsConj r (h ^ k)) :
     ∃ c : G, (c * h * c⁻¹) ^ k = r := by
   obtain ⟨c, hc⟩ := isConj_iff.1 hc
@@ -61,6 +66,7 @@ theorem conj_to {h r : G} {k : ℕ} (hc : IsConj r (h ^ k)) :
   rw [conj_pow, ← hc]
   group
 
+omit [Finite G] in
 theorem eq_pow3_sq {x : G} (hx5 : orderOf x = 5) : x = (x ^ 2) ^ 3 := by
   rw [← pow_mul]
   nth_rw 1 [← pow_one x]
@@ -73,15 +79,19 @@ theorem divisors_4725 : ∀ d ∈ Nat.divisors 4725,
 variable {a b u v x₇ y z : G} (D : J2Data G a b u v x₇ y z)
 include D
 
+omit [Finite G] in
 theorem oa : orderOf a = 3 := by
   rw [D.ha, orderOf_pow_of_dvd (by norm_num) (by rw [D.oy]; norm_num), D.oy]
 
+omit [Finite G] in
 theorem ou : orderOf u = 5 := by
   rw [D.hu, orderOf_pow_of_dvd (by norm_num) (by rw [D.oy]; norm_num), D.oy]
 
+omit [Finite G] in
 theorem au : a * u = u * a := by
   rw [D.ha, D.hu, ← pow_add, ← pow_add, add_comm]
 
+omit [Finite G] in
 theorem dA : 540 ∣ Nat.card (centralizer ({a} : Set G)) := by
   obtain ⟨H, hc, hle, -⟩ := D.s3
   obtain ⟨e, he, hea⟩ := D.e4
@@ -96,6 +106,7 @@ theorem dA : 540 ∣ Nat.card (centralizer ({a} : Set G)) := by
     Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h2 h3
   exact Nat.Coprime.mul_dvd_of_dvd_of_dvd (m := 27) (n := 20) (by norm_num) h1 h4
 
+omit [Finite G] in
 theorem dB : 12 ∣ Nat.card (centralizer ({b} : Set G)) := by
   obtain ⟨H, hc, hle⟩ := D.k4
   have h1 := Subgroup.card_dvd_of_le hle
@@ -104,6 +115,7 @@ theorem dB : 12 ∣ Nat.card (centralizer ({b} : Set G)) := by
   rw [D.ob] at h2
   exact Nat.Coprime.mul_dvd_of_dvd_of_dvd (m := 4) (n := 3) (by norm_num) h1 h2
 
+omit [Finite G] in
 theorem dU : 150 ∣ Nat.card (centralizer ({u} : Set G)) := by
   obtain ⟨H, hc, hle, -⟩ := D.s5
   obtain ⟨t, ht, htu⟩ := D.t2
@@ -117,6 +129,7 @@ theorem dU : 150 ∣ Nat.card (centralizer ({u} : Set G)) := by
     Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h2 h3
   exact Nat.Coprime.mul_dvd_of_dvd_of_dvd (m := 25) (n := 6) (by norm_num) h1 h4
 
+omit [Finite G] in
 theorem dV : 25 ∣ Nat.card (centralizer ({v} : Set G)) := by
   obtain ⟨H, hc, hle⟩ := D.s5v
   have h1 := Subgroup.card_dvd_of_le hle
@@ -177,9 +190,11 @@ theorem seven {h : G} (he : orderOf h = 7) : IsConj x₇ h := by
     omega
   · exact (D.c7 i (by interval_cases i <;> simp)).trans hc
 
+omit [Finite G] in
 theorem ou2 : orderOf (u ^ 2) = 5 := by
   rw [Nat.Coprime.orderOf_pow (by rw [ou D]; norm_num), ou D]
 
+omit [Finite G] in
 theorem ov2 : orderOf (v ^ 2) = 5 := by
   rw [Nat.Coprime.orderOf_pow (by rw [D.ov]; norm_num), D.ov]
 
@@ -233,6 +248,7 @@ theorem no_mixed {g : G} {p : ℕ} (hg : orderOf g = p * 7) (hp : p = 3 ∨ p = 
     · exact keyc v (Or.inr (Or.inr (Or.inr rfl))) 1 (Or.inl rfl) (by simpa using hc)
     · exact keyc v (Or.inr (Or.inr (Or.inr rfl))) 2 (Or.inr ⟨rfl, D.ov⟩) hc
 
+omit [Finite G] in
 theorem prod_pow {k i : ℕ} (hk : k = 1 ∨ k = 2) (hi : i = 1 ∨ i = 2) :
     ∃ m ∈ [1, 2, 7, 11], (u ^ k) * (u ^ k) * (a ^ i)⁻¹ = y ^ m := by
   have hy : y ^ 15 = 1 := by

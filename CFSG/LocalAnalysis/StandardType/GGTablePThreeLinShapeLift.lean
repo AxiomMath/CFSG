@@ -198,7 +198,7 @@ theorem linShape_lift
       LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
           (fun h h' => (h' : GL (Fin N) K) = d * h * d⁻¹) δ' ∧
         d ^ 3 ∈ LargeEvenScalars (Fin N) K ∧ d ∉ LargeEvenScalars (Fin N) K := by
-  simp only [LargeEvenMatConjImage, Set.mem_setOf_eq, Set.mem_univ, true_and] at hδ'
+  simp only [LargeEvenMatConjImage, Set.mem_ofPred_eq, Set.mem_univ, true_and] at hδ'
   obtain ⟨d, hd⟩ := hδ'
   have hδ'3 : δ' ^ 3 = 1 := hR.elem.2 δ' hR.mem
   refine ⟨d, hd, ?_, ?_⟩

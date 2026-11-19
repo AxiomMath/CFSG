@@ -24,8 +24,8 @@ variable {Y : Type*} [Group Y]
 theorem exists_centralizes_order_three [Finite Y] {P A : Subgroup Y} (hP : IsPGroup 3 P)
     (h : P ≤ Subgroup.normalizer (A : Set Y)) (h3 : 3 ∣ Nat.card A) :
     ∃ y ∈ A, orderOf y = 3 ∧ ∀ x ∈ P, x * y * x⁻¹ = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI := conjAct P A h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let := conjAct P A h
   have hmod := hP.card_modEq_card_fixedPoints ↥A
   have hfix : Nat.card (MulAction.fixedPoints ↥P ↥A) =
       Nat.card ↥(A ⊓ Subgroup.centralizer (P : Set Y)) := by
@@ -134,7 +134,7 @@ theorem eq_or_commute_of_simple {K₀ W X : Subgroup Y} (hW : IsSimpleGroup ↥W
     (hX : IsSimpleGroup ↥X) (hWK : W ≤ K₀) (hXK : X ≤ K₀)
     (hWn : K₀ ≤ Subgroup.normalizer (W : Set Y)) (hXn : K₀ ≤ Subgroup.normalizer (X : Set Y)) :
     W = X ∨ ∀ w ∈ W, ∀ x ∈ X, w * x = x * w := by
-  haveI : (X.subgroupOf W).Normal := ⟨fun n hn g => by
+  have : (X.subgroupOf W).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hgX : (g : Y) ∈ Subgroup.normalizer (X : Set Y) := hXn (hWK g.2)
     have := (Subgroup.mem_normalizer_iff.1 hgX (n : Y)).1 hn
@@ -165,7 +165,7 @@ theorem eq_or_commute_of_simple {K₀ W X : Subgroup Y} (hW : IsSimpleGroup ↥W
     have hWX : W ≤ X := fun w hw => by
       have : (⟨w, hw⟩ : ↥W) ∈ X.subgroupOf W := by rw [htop]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.1 this
-    haveI : (W.subgroupOf X).Normal := ⟨fun n hn g => by
+    have : (W.subgroupOf X).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have hgW : (g : Y) ∈ Subgroup.normalizer (W : Set Y) := hWn (hXK g.2)
       have := (Subgroup.mem_normalizer_iff.1 hgW (n : Y)).1 hn

@@ -68,9 +68,10 @@ theorem CompSimple.inf_eq_bot {Γ : Type} [Group Γ] [Finite Γ] (h : CompSimple
   rw [h C hC, Subgroup.mem_bot] at hz
   exact Subgroup.mem_bot.mpr (congrArg Subtype.val hz)
 
+omit [Finite Γ] in
 theorem CompSimple.le_of_inf_ne_bot (h : CompSimple Γ) {C N : Subgroup Γ} (hC : IsComponent C)
     (hN : ∀ c ∈ C, ∀ n ∈ N, c * n * c⁻¹ ∈ N) (h0 : N ⊓ C ≠ ⊥) : C ≤ N := by
-  haveI := isSimpleGroup_of_center_eq_bot hC (h C hC)
+  have := isSimpleGroup_of_center_eq_bot hC (h C hC)
   have hnorm : ((N ⊓ C).subgroupOf C).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -88,6 +89,7 @@ theorem CompSimple.le_of_inf_ne_bot (h : CompSimple Γ) {C N : Subgroup Γ} (hC 
     exact (Subgroup.mem_subgroupOf.mp this).1
 
 
+omit [Finite Γ] in
 theorem CompSimple.eq_one_of_commutes (h : CompSimple Γ) {C : Subgroup Γ} (hC : IsComponent C)
     {a : Γ} (ha : a ∈ C) (hcomm : ∀ y ∈ C, y * a = a * y) : a = 1 := by
   have hz : (⟨a, ha⟩ : ↥C) ∈ Subgroup.center ↥C := by
@@ -97,6 +99,7 @@ theorem CompSimple.eq_one_of_commutes (h : CompSimple Γ) {C : Subgroup Γ} (hC 
   rw [h C hC, Subgroup.mem_bot] at hz
   exact congrArg Subtype.val hz
 
+omit [Finite Γ] in
 theorem CompSimple.le_of_mul_mem_of_comm (h : CompSimple Γ) {C N : Subgroup Γ}
     (hC : IsComponent C) (hN : ∀ c ∈ C, ∀ n ∈ N, c * n * c⁻¹ ∈ N) {a b : Γ} (ha : a ∈ C)
     (hb : ∀ c ∈ C, c * b = b * c) (hab : a * b ∈ N) (ha1 : a ≠ 1) : C ≤ N := by
@@ -129,6 +132,7 @@ theorem CompSimple.le_of_mul_mem (h : CompSimple Γ) {C D N : Subgroup Γ} (hC :
     (ha : a ∈ C) (hb : b ∈ D) (hab : a * b ∈ N) (ha1 : a ≠ 1) : C ≤ N :=
   h.le_of_mul_mem_of_comm hC hN ha (fun c hc => comm_of_ne_component hC hD hne c hc b hb) hab ha1
 
+omit [Finite Γ] in
 theorem exists_mul_of_mem_sup_of_commute {C D : Subgroup Γ}
     (hcomm : ∀ x ∈ C, ∀ y ∈ D, x * y = y * x) {x : Γ} (hx : x ∈ C ⊔ D) :
     ∃ a ∈ C, ∃ b ∈ D, x = a * b := by
@@ -195,6 +199,7 @@ theorem CompSimple.sup_inf_sup_eq_bot (h : CompSimple Γ) {C₁ C₂ C₃ C₄ :
   simp
 
 
+omit [Finite Γ] in
 theorem normalClosure_subgroupOf_eq_top_of_forall {X S : Subgroup Γ} (hSX : S ≤ X)
     (h : ∀ N : Subgroup Γ, (∀ c ∈ X, ∀ n ∈ N, c * n * c⁻¹ ∈ N) → S ≤ N → X ≤ N) :
     Subgroup.normalClosure ((S.subgroupOf X : Subgroup ↥X) : Set ↥X) = ⊤ := by
@@ -225,6 +230,7 @@ theorem sup_le_normalizer_of_commute {C D : Subgroup Γ}
   exact hy
 
 
+omit [Finite Γ] in
 theorem le_of_inf_ne_bot_of_simple {X N : Subgroup Γ} [IsSimpleGroup ↥X]
     (hN : ∀ c ∈ X, ∀ n ∈ N, c * n * c⁻¹ ∈ N) (h0 : N ⊓ X ≠ ⊥) : X ≤ N := by
   have hnorm : ((N ⊓ X).subgroupOf X).Normal := by
@@ -250,7 +256,7 @@ section Sylow
 theorem exists_conj_mem_sylow_of_isSubnormal {Γ : Type} [Group Γ] [Finite Γ] (S : Sylow 2 Γ)
     {Y : Subgroup Γ} (hY : Y.IsSubnormal) {y : Γ} (hy : y ∈ Y) (hy2 : ∃ k : ℕ, y ^ 2 ^ k = 1) :
     ∃ g ∈ Y, g⁻¹ * y * g ∈ (S : Subgroup Γ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal S hY
   obtain ⟨k, hk⟩ := hy2
   obtain ⟨z, hz⟩ : ∃ z : Y, (z : Γ) = y := ⟨⟨y, hy⟩, rfl⟩
@@ -298,15 +304,15 @@ theorem layer_le_of_not_centralizes {M₀ : Subgroup Γ} (hM₀ : M₀.Normal)
   sSup_le fun _ hC => component_le_of_not_centralizes hM₀ hno hC
 
 theorem compSimple_of_odd (hΓ : CFSG.pCore 2 Γ = ⊥) {Λ M₀ : Subgroup Γ} (hM₀ : M₀.Normal)
-    (hΛ : Λ ≤ M₀)
+    (_hΛ : Λ ≤ M₀)
     (hno : ∀ X : Subgroup Γ, CFSG.IsQuasisimple ↥X → ¬ ∀ x ∈ X, ∀ m ∈ M₀, x * m = m * x)
     (hodd : ∀ A : Subgroup Γ, A ≤ M₀ → Λ ≤ Subgroup.normalizer (A : Set Γ) →
       Odd (Nat.card A) → A = ⊥) : CompSimple Γ := by
   have hlay := CFSG.LocalCores.layer_characteristic (G := Γ)
   have hA : ((Subgroup.center (layer Γ)).map (layer Γ).subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
-  haveI := hA
-  haveI : Group.IsNilpotent ((Subgroup.center (layer Γ)).map (layer Γ).subtype) :=
+  have := hA
+  have : Group.IsNilpotent ((Subgroup.center (layer Γ)).map (layer Γ).subtype) :=
     (Group.isNilpotent_congr ((Subgroup.center (layer Γ)).equivMapOfInjective
       (layer Γ).subtype (layer Γ).subtype_injective)).mp inferInstance
   have hodd' : Odd (Nat.card ((Subgroup.center (layer Γ)).map (layer Γ).subtype)) :=

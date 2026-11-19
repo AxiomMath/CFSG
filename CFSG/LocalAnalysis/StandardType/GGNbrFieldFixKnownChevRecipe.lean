@@ -29,17 +29,17 @@ theorem chev_fixStd {τ : Tag} (hτ : τ = .F4 ∨ τ = .E7 ∨ τ = .E8) {K : T
             θ₀ := by
   obtain ⟨k, hkF, hkFin, hk, hE⟩ := chevFixGroup_recipe hτ hn hK hp hf hord
   obtain ⟨E⟩ := hE
-  letI : Field k := hkF
-  letI : Finite k := hkFin
+  let : Field k := hkF
+  let : Finite k := hkFin
   refine ⟨k, inferInstance, inferInstance, hk, ?_⟩
   have hq := chev_isQuasisimple hτ k
   obtain ⟨eR⟩ := centerQuot_chevGroup_equiv k τ
   have hsimple : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH τ.cartan k false)) := by
-    haveI : IsSimpleGroup (AdjointQuotient τ k) := hq.2.1
+    have : IsSimpleGroup (AdjointQuotient τ k) := hq.2.1
     exact eR.isSimpleGroup
   have hnab : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH τ.cartan k false), a * b ≠ b * a :=
     chev_fixStd_nonabelian eR.symm hq.2.2
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH τ.cartan k false)) := hsimple
+  have : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH τ.cartan k false)) := hsimple
   refine ⟨hsimple, hnab, ?_⟩
   let e : LargeEvenCenterQuot (LargeEvenChevH τ.cartan k false) ≃* ↥(ggFixSub f) :=
     (TableBExc.recipeEquiv τ k).trans E

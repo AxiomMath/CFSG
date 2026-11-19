@@ -12,14 +12,14 @@ theorem exists_lift_weyl {L' : Type} [Group L'] [Finite L'] {Z T : Subgroup L'}
     (hTA : ∀ a ∈ A, ∀ t ∈ T, a t = t) (n₀ : L') (hn₀ : ∀ a ∈ A, n₀ * (a n₀)⁻¹ ∈ T ⊔ Z) :
     ∃ z ∈ Z, ∀ a ∈ A, (n₀ * z) * (a (n₀ * z))⁻¹ ∈ T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun φ : MulAut L' => (φ : L' → L')) DFunLike.coe_injective
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  haveI hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
+  have hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
   have hdisj : Disjoint T Z := IsPGroup.disjoint_of_ne 3 2 (by norm_num) T Z hT3 hZ2
   have huniq : ∀ s ∈ T, ∀ z ∈ Z, ∀ s' ∈ T, ∀ z' ∈ Z, s * z = s' * z' → z = z' := by
     intro s hs z hz s' hs' z' hz' h
@@ -52,7 +52,7 @@ theorem exists_lift_weyl {L' : Type} [Group L'] [Finite L'] {Z T : Subgroup L'}
       group
     rw [e2] at e1
     exact huniq _ (hs _) _ (hz _) _ (T.mul_mem (hs a) (hs b)) _ (Z.mul_mem (hz a) hzb) e1
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with
       mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let zz : A → Z := fun a => ⟨z a, hz a⟩
@@ -146,7 +146,7 @@ theorem exists_lift_fixed {L' : Type} [Group L'] [Finite L'] {Z : Subgroup L'}
   classical
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  haveI hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
+  have hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ2
   set m := (2 ^ k) ^ 2 with hm
   have hmZ : ∀ z ∈ Z, z ^ m = 1 := by
@@ -262,7 +262,7 @@ theorem descent_noInvariantLine {L' R : Type} [Group L'] [Finite L'] [Group R]
   have hZc : Z ≤ Subgroup.center L' := fun z hz => hker hz.1
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZc hy) g
-  haveI hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
+  have hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
   have hZ2 : IsPGroup 2 Z := fun g => ⟨Nat.card L', Subtype.ext (by simpa using g.2.2)⟩
   have hAp : ∀ a ∈ A, a ^ 3 = 1 := hA.2
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
@@ -305,7 +305,7 @@ theorem descent_noInvariantLine {L' R : Type} [Group L'] [Finite L'] [Group R]
       have := hρ a l
       rw [ha, MulAut.one_apply] at this
       exact QuotientGroup.eq.mp this
-    letI : CommGroup Z :=
+    let : CommGroup Z :=
       { (inferInstance : Group Z) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
     let f : L' →* Z :=
       { toFun := fun l => ⟨l⁻¹ * a.1 l, hfixl l⟩
@@ -356,7 +356,7 @@ theorem descent_noInvariantLine {L' R : Type} [Group L'] [Finite L'] [Group R]
   have hodd : Odd (Nat.card ψ₁.ker) := by
     by_contra hne
     rw [Nat.not_odd_iff_even] at hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
     obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective x.1
     have hx2 : x.1 ^ 2 = 1 := by

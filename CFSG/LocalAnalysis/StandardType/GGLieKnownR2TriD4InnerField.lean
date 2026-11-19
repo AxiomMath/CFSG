@@ -244,7 +244,6 @@ theorem triD4_delta_fixes_k
     exact congrArg (fun u : fixedField σ.toRingHom => (u : K))
       (tfield_triD4C0Xtheta_injective σ h)
   have hdeltat : ∀ t : fixedField σ.toRingHom, σ (δ (t : K)) = δ (t : K) := fun t => by
-    change σ (δ (t : K)) = δ (t : K)
     rw [← ringEquiv_comm_of_finite σ δ (t : K)]
     exact congrArg δ (show σ (t : K) = (t : K) from t.2)
   have hT1 : ∀ t : fixedField σ.toRingHom,
@@ -286,15 +285,15 @@ theorem triD4_delta_eq_one_of_fixes_k
     (hK : Nat.card K = (2 ^ f) ^ 3) (hσ : ∀ c, σ c = c ^ (2 ^ f))
     {δ : K ≃+* K} (hfix : ∀ c : K, σ c = c → δ c = c)
     (h2 : ∃ n : ℕ, δ ^ 2 ^ n = 1) : δ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Semidihedral.FixedFieldData.characteristic_of_prime_power_card K Nat.prime_two hK3
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Module.Finite (ZMod 2) K := Module.Finite.of_finite
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Module.Finite (ZMod 2) K := Module.Finite.of_finite
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     change σ (σ (σ c)) = c
     rw [hσ (σ (σ c)), hσ (σ c), hσ c, ← pow_mul, ← pow_mul]
     have hexp : 2 ^ f * (2 ^ f * 2 ^ f) = Nat.card K := by

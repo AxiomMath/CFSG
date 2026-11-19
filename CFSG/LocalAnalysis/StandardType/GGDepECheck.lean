@@ -86,14 +86,14 @@ private lemma lr7ec_allVecs_three (n : Nat) (v : Fin n → ZMod 3) :
     rw [hl_def, List.mem_map] at ha
     obtain ⟨j, _, rfl⟩ := ha
     by_cases h : j < n
-    · rw [dif_pos h]; exact ZMod.val_lt _
-    · rw [dif_neg h]; omega
+    · rw [dite_eq_left h]; exact ZMod.val_lt _
+    · rw [dite_eq_right h]; omega
   have hl_getD : ∀ j : Fin n, l.getD j.val 0 = (v j).val := by
     intro j
     have hj : j.val < l.length := by rw [hl_len]; exact j.isLt
     rw [List.getD_eq_getElem l 0 hj]
     simp only [hl_def, List.getElem_map, List.getElem_range]
-    rw [dif_pos j.isLt]
+    rw [dite_eq_left j.isLt]
   have hl_toZ : ggDepANToZ 3 n l = v := by
     funext j
     rw [ggDepANToZ, hl_getD j, ZMod.natCast_zmod_val]
@@ -116,9 +116,9 @@ private lemma lr7ec_toZ_EH (i : Nat) (hi : i < 6) :
   rw [List.getD_eq_getElem (ggDepEH 3 i) 0 hjlen]
   simp only [ggDepEH, List.getElem_map, List.getElem_range]
   by_cases hj : j.val < 6
-  · rw [if_pos hj, ggDepEh, dif_pos hj]
+  · rw [ite_eq_left hj, ggDepEh, dite_eq_left hj]
     exact lr7ec_cartan_cast ⟨j.val, hj⟩ ⟨i, hi⟩
-  · rw [if_neg hj, ggDepEh, dif_neg hj]
+  · rw [ite_eq_right hj, ggDepEh, dite_eq_right hj]
     rfl
 
 private lemma lr7ec_toZ_EA (i : Nat) (hi : i < 6) :
@@ -130,8 +130,8 @@ private lemma lr7ec_toZ_EA (i : Nat) (hi : i < 6) :
   simp only [ggDepEA, List.getElem_map, List.getElem_range]
   rw [ggDepEα]
   by_cases h : j.val = i
-  · rw [if_pos h, if_pos h]; simp
-  · rw [if_neg h, if_neg h]; simp
+  · rw [ite_eq_left h, ite_eq_left h]; simp
+  · rw [ite_eq_right h, ite_eq_right h]; simp
 
 private lemma lr7ec_dot_alpha_self (i : Fin 6) :
     ggDepAdot (ggDepEα 3 i) (ggDepEh 3 i) = 2 := by
@@ -144,7 +144,7 @@ private lemma lr7ec_dot_alpha (p : Nat) (i : Fin 6) (v : GGDepAE p 7) :
   · simp [ggDepEα]
   · intro j _ hj
     simp only [ggDepEα]
-    rw [if_neg]
+    rw [ite_eq_right]
     · simp
     · intro hh; exact hj (Fin.ext hh)
   · intro h; exact absurd (Finset.mem_univ _) h
@@ -156,7 +156,7 @@ private lemma lr7ec_dot_ex (p : Nat) (v : GGDepAE p 7) :
   · simp [ggDepEx]
   · intro j _ hj
     simp only [ggDepEx]
-    rw [if_neg]
+    rw [ite_eq_right]
     · simp
     · intro hh; exact hj (Fin.ext hh)
   · intro h; exact absurd (Finset.mem_univ _) h
@@ -168,13 +168,13 @@ private lemma lr7ec_zmod_eq_of_lt {x y : Nat} (hx : x < 3) (hy : y < 3)
   exact h2
 
 private lemma lr7ec_gen_length1 {p : Nat} {ha aa : List Nat} (hha : ha.length = 7)
-    (haa : aa.length = 7) (g : Nat) : (ggDepEGen p ha aa g).1.length = 7 := by
+    (_haa : aa.length = 7) (g : Nat) : (ggDepEGen p ha aa g).1.length = 7 := by
   unfold ggDepEGen
   split_ifs with h
   · simp [ggDepEH]
   · exact hha
 
-private lemma lr7ec_gen_length2 {p : Nat} {ha aa : List Nat} (hha : ha.length = 7)
+private lemma lr7ec_gen_length2 {p : Nat} {ha aa : List Nat} (_hha : ha.length = 7)
     (haa : aa.length = 7) (g : Nat) : (ggDepEGen p ha aa g).2.length = 7 := by
   unfold ggDepEGen
   split_ifs with h
@@ -186,10 +186,10 @@ private lemma lr7ec_gen_dot {ha aa : List Nat} (hha : ha.length = 7)
     ggDepAdot (ggDepANToZ 3 7 (ggDepEGen 3 ha aa g).2)
       (ggDepANToZ 3 7 (ggDepEGen 3 ha aa g).1) = 2 := by
   by_cases h : g < 6
-  · simp only [ggDepEGen, if_pos h]
+  · simp only [ggDepEGen, ite_eq_left h]
     rw [lr7ec_toZ_EH g h, lr7ec_toZ_EA g h]
     exact lr7ec_dot_alpha_self ⟨g, h⟩
-  · simp only [ggDepEGen, if_neg h]
+  · simp only [ggDepEGen, ite_eq_right h]
     rw [← ggDepANDot_cast (p := 3) (N := 7) aa ha haa hha, hdot, ZMod.natCast_mod]
     rfl
 
@@ -200,10 +200,10 @@ private lemma lr7ec_gen_mem {ha aa : List Nat} (g : Nat) :
         ggDepARefl (ggDepEh 3 i) (ggDepEα 3 i)) ∪
         {ggDepARefl (ggDepANToZ 3 7 ha) (ggDepANToZ 3 7 aa)}) := by
   by_cases h : g < 6
-  · simp only [ggDepEGen, if_pos h]
+  · simp only [ggDepEGen, ite_eq_left h]
     rw [lr7ec_toZ_EH g h, lr7ec_toZ_EA g h]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, h⟩, rfl⟩)
-  · simp only [ggDepEGen, if_neg h]
+  · simp only [ggDepEGen, ite_eq_right h]
     exact Submonoid.subset_closure (Or.inr rfl)
 
 private lemma lr7ec_word_cons (p : Nat) (q : GGDepANPair) (g : Nat) (w : List Nat)
@@ -294,11 +294,11 @@ private lemma lr7ec_H_mem {ha : GGDepAE 3 7} (lh : List Nat) (hlh_len : lh.lengt
         rw [hp]
         by_cases hcc : c = c0.val
         · have hfin : (⟨c, hc⟩ : Fin 6) = c0 := Fin.ext hcc
-          rw [if_pos hfin, if_pos (beq_iff_eq.mpr hcc)]
+          rw [ite_eq_left hfin, ite_eq_left (beq_iff_eq.mpr hcc)]
           decide
         · have hfin : (⟨c, hc⟩ : Fin 6) ≠ c0 := by
             intro hh; exact hcc (congrArg Fin.val hh)
-          rw [if_neg hfin, if_neg (by simp [beq_iff_eq, hcc])]
+          rw [ite_eq_right hfin, ite_eq_right (by simp [beq_iff_eq, hcc])]
           rfl
       rw [show (c == b.val) = false by simp [hcb], hcoord]
       simp [show (3 - 1) % 3 = 2 by norm_num]
@@ -330,11 +330,11 @@ private lemma lr7ec_A_mem {aa : GGDepAE 3 7} (la : List Nat) (hla_len : la.lengt
         rw [hdotc, hp]
         by_cases hcc : c = c0.val
         · have hfin : (⟨c, hc⟩ : Fin 6) = c0 := Fin.ext hcc
-          rw [if_pos hfin, if_pos (beq_iff_eq.mpr hcc)]
+          rw [ite_eq_left hfin, ite_eq_left (beq_iff_eq.mpr hcc)]
           decide
         · have hfin : (⟨c, hc⟩ : Fin 6) ≠ c0 := by
             intro hh; exact hcc (congrArg Fin.val hh)
-          rw [if_neg hfin, if_neg (by simp [beq_iff_eq, hcc])]
+          rw [ite_eq_right hfin, ite_eq_right (by simp [beq_iff_eq, hcc])]
           rfl
       rw [show (c == b.val) = false by simp [hcb], hcoord]
       simp [show (3 - 1) % 3 = 2 by norm_num]
@@ -352,9 +352,9 @@ private lemma lr7ec_cases_apply (p b c0 mi ni : Nat) (wits : List GGDepANWit) (h
   simp only [ggDepECases] at h
   have h1 := List.all_eq_true.mp h ha hha
   have h2 := List.all_eq_true.mp h1 aa haa
-  rwa [if_pos hcond] at h2
+  rwa [ite_eq_left hcond] at h2
 
-private theorem lr7ec_witTest_sound (w : GGDepANWit) (hw : ggDepANWitValid 7 w = true)
+private theorem lr7ec_witTest_sound (w : GGDepANWit) (_hw : ggDepANWitValid 7 w = true)
     (ha aa : List Nat) (hha : ha.length = 7) (haa : aa.length = 7)
     (hdot : ggDepANDot 3 aa ha = 2 % 3) (ht : ggDepEWitTest 3 w ha aa = true) :
     ∃ g ∈ Submonoid.closure (Set.range (fun i : Fin 6 =>
@@ -431,7 +431,7 @@ theorem ggDepECheck_sound (data : GGDepANData) (h : ggDepECheck 3 data = true) :
   have h2 := List.all_eq_true.mp h1 c0.val hc0_mem
   have h3 := List.all_eq_true.mp h2 1 hmi_mem
   have h4 := List.all_eq_true.mp h3 1 hni_mem
-  rw [if_pos hpatB] at h4
+  rw [ite_eq_left hpatB] at h4
   cases hlook : data.lookup (b.val, c0.val, 1, 1) with
   | none => rw [hlook] at h4; simp at h4
   | some wits =>
@@ -447,15 +447,15 @@ theorem ggDepECheck_sound (data : GGDepANData) (h : ggDepECheck 3 data = true) :
       intro c hc
       rw [(hpairs c hc).2, hn]
       by_cases h : c = c0
-      · rw [if_pos h, if_pos h]; norm_num
-      · rw [if_neg h, if_neg h]
+      · rw [ite_eq_left h, ite_eq_left h]; norm_num
+      · rw [ite_eq_right h, ite_eq_right h]
     have hpairsA : ∀ c : Fin 6, c ≠ b →
         ggDepAdot αa (ggDepEh 3 c) = (if c = c0 then (-1 : ZMod 3) else 0) := by
       intro c hc
       rw [(hpairs c hc).1, hm]
       by_cases h : c = c0
-      · rw [if_pos h, if_pos h]; norm_num
-      · rw [if_neg h, if_neg h]
+      · rw [ite_eq_left h, ite_eq_left h]; norm_num
+      · rw [ite_eq_right h, ite_eq_right h]
     have hHa_filter := lr7ec_H_mem lh hlh_len hlh_lt hlh_toZ b c0 hpairsH
     have hAa_filter := lr7ec_A_mem la hla_len hla_lt hla_toZ b c0 hpairsA
     have hdotN : ggDepANDot 3 la lh = 2 % 3 := by

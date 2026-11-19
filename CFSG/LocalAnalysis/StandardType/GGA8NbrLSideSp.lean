@@ -176,27 +176,26 @@ private theorem a8ja_vecMul_signThree (v : Fin 4 → ZMod 7) :
   · change (v ᵥ* a8SignThree) 0 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (a8ja_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 0)
-    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four,
-      Matrix.diagonal, Fin.cons_zero]
+    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal, Fin.cons_zero]
   · change (v ᵥ* a8SignThree) 1 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (a8ja_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 1)
     rw [show (1 : Fin 4) = (0 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
   · change (v ᵥ* a8SignThree) 2 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (a8ja_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 2)
     rw [show (2 : Fin 4) = (1 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
   · change (v ᵥ* a8SignThree) 3 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (a8ja_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 3)
     rw [show (3 : Fin 4) = (2 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, a8ja_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
 
 private theorem a8ja_centralizer_inf_eq {G : Type} [Group G] {L D : Subgroup G} {x y e : G}
     {k : ℕ} (hD : D = Subgroup.closure ({x, y} : Set G)) (hy : y = e * x ^ k)
-    (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) (heL : e ∈ L) :
+    (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) (_heL : e ∈ L) :
     L ⊓ Subgroup.centralizer (D : Set G) = L ⊓ Subgroup.centralizer ({e} : Set G) := by
   apply le_antisymm
   · rintro l ⟨hlL, hlD⟩
@@ -361,7 +360,7 @@ theorem ggA8Nbr_lSideSp
     (hnb : GGNbr 7 B x D J y K)
     (hKm : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 9 2 1) :
     J ≤ K ∧ GGA8LSideB Bs D L J ⟨x, hcfg.tableB_facts.2.2.1⟩ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ψ, hψinj, hψrange⟩ := ggA8Nbr_spLift hInnL hmod
   have hxB : x ∈ Bs := hcfg.tableB_facts.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hcfg.tableB_facts.2.2.2.1

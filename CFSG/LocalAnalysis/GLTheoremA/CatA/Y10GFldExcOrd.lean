@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.Y10GField
 open CFSG.Assembly CFSG.LocalAnalysis.GLTheoremA.YS09Field CFSG.LocalAnalysis.GLTheoremA
 
 theorem dvd_of_chevField_order {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ} {K : Type} [Field K] [Finite K]
-    {n p : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) (hp : p.Prime)
+    {n p : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) (_hp : p.Prime)
     (H : Subgroup (LargeEvenChevGL A K)) (hH : ∀ σ : K ≃+* K, ∀ h ∈ H, chevAct A K σ h ∈ H)
     {f : MulAut (LargeEvenCenterQuot H)} (hf : f ∈ LargeEvenChevFieldImage A K H)
     (hord : orderOf f = p) : p ∣ n := by
@@ -44,7 +44,7 @@ theorem dvd_of_chevField_order {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ} {K : T
   obtain ⟨-, -, -, -, hcard, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
       (F := K) (p := 2) (n := n) Nat.prime_two hn hK
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
   have hdn : orderOf σ ∣ n := by
     rw [← hcard]
     exact orderOf_dvd_natCard σ

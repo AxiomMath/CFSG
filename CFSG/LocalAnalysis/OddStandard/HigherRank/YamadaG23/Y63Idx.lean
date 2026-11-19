@@ -32,7 +32,7 @@ theorem y63_idx_M (D : Data) (hM : D.MSpec) {A : Finset ℕ} (hA : A.card = 64)
   obtain ⟨-, -, -, -, -, -, hcrit⟩ := hM
   refine y63_crit_eq (List.nodup_range.filter _) (hcrit a (hlt a ha) (h4 a ha) hna) hA
     (fun b hb => ?_) (fun b hb c hc' => ?_)
-  · simp only [Data.D4, List.mem_filter, List.mem_range, Bool.and_eq_true, beq_iff_eq]
+  · simp only [List.mem_filter, List.mem_range, Bool.and_eq_true, beq_iff_eq]
     exact ⟨hlt b hb, h4 b hb, hc a ha b hb⟩
   · exact not_not.mpr (hc b hb c hc')
 
@@ -44,7 +44,7 @@ theorem y63_idx_U (D : Data) {k : ℕ} (hU : D.USpec k) {A : Finset ℕ} (hA : A
   obtain ⟨-, -, -, -, -, -, -, -, -, hcrit⟩ := hU
   refine y63_crit_eq (List.nodup_range.filter _) (hcrit a (hlt a ha) (hsq a ha) hna) hA
     (fun b hb => ?_) (fun b hb c hc' => ?_)
-  · simp only [Data.Dz, List.mem_filter, List.mem_range, decide_eq_true_eq]
+  · simp only [List.mem_filter, List.mem_range, decide_eq_true_eq]
     exact ⟨hlt b hb, hsq b hb, hc a ha b hb⟩
   · exact not_not.mpr (hc b hb c hc')
 

@@ -143,6 +143,7 @@ theorem f3_X0_le_N {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     f3X0 s ≤ f3N s :=
   f3X0_le_N_aux hH
 
+omit [Finite G] in
 private theorem mem_centralizer_of_fixes {V : Subgroup G} {z w : G}
     (hV : ∀ v ∈ V, v = 1 ∨ v = z ∨ v = w ∨ v = z * w)
     {y : G} (hyz : y * z * y⁻¹ = z) (hyw : y * w * y⁻¹ = w) :

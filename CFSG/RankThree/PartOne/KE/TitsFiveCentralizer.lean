@@ -237,7 +237,7 @@ theorem tits_card_le_two_of_isPGroup_le_centralizer {a : titsD} (ha : orderOf a 
 theorem tits_card_sylow_two_centralizer_le_two {a : titsD} (ha : orderOf a = 5)
     (R : Sylow 2 ↥(Subgroup.centralizer ({a} : Set titsD))) : Nat.card R ≤ 2 := by
   have hQ : IsPGroup 2 ((R : Subgroup ↥(Subgroup.centralizer ({a} : Set titsD))).map
-      (Subgroup.centralizer ({a} : Set titsD)).subtype) := R.isPGroup'.map _
+      (Subgroup.centralizer ({a} : Set titsD)).subtype) := R.isPGroup.map _
   have hle : (R : Subgroup ↥(Subgroup.centralizer ({a} : Set titsD))).map
       (Subgroup.centralizer ({a} : Set titsD)).subtype ≤
         Subgroup.centralizer ({a} : Set titsD) := by

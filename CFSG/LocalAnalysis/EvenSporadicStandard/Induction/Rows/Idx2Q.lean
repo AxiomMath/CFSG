@@ -38,7 +38,7 @@ theorem vPairs_nonempty_of_idx2Cover_of_mem {L K : Subgroup H} {u : H} (hu2 : or
   have huP : u' ∈ (P : Subgroup ↥Cu) := hP (mem_zpowers u')
   set S : Subgroup H := (P : Subgroup ↥Cu).map Cu.subtype with hS
   have hSCu : S ≤ Cu := Subgroup.map_subtype_le _
-  have hSp : IsPGroup 2 S := P.isPGroup'.map Cu.subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map Cu.subtype
   have hScard : Nat.card S = 2 ^ twoAdic Cu := by
     rw [hS, Subgroup.card_map_of_injective Cu.subtype_injective, P.card_eq_multiplicity]
     rfl

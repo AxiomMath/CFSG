@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G}
 
 namespace SylowInner
 
+omit [Finite G] in
 theorem sup_inf_le_inf_sup {P Q M : Subgroup G} (hQM : Q ≤ M)
     (hPQ : ((P ⊔ Q : Subgroup G) : Set G) = (P : Set G) * (Q : Set G)) :
     (P ⊔ Q) ⊓ M ≤ P ⊓ M ⊔ Q := by
@@ -43,6 +44,7 @@ theorem centralizer_le_normalizer_zpowers (c : G) :
     i).eq, mul_inv_cancel_right]
   exact Subgroup.zpow_mem_zpowers c i
 
+omit [Finite G] in
 theorem commutator_mem_pCoreOf_of_relIndex_eq_two {H M : Subgroup G} {s x : G}
     (hS : CFSG.Open.pCoreOf 2 (H ⊓ M) = Subgroup.zpowers s ⊔ CFSG.Open.pCoreOf 2 H)
     (hidx : (CFSG.Open.pCoreOf 2 H).relIndex (CFSG.Open.pCoreOf 2 (H ⊓ M)) = 2)

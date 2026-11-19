@@ -114,7 +114,7 @@ theorem tr_congr {n : Nat} {t : Table} {f g : Nat → Nat} (h : CFSG.KS.TW.TR n 
     (hfg : ∀ i < n, f i = g i) : CFSG.KS.TW.TR n t g :=
   ⟨h.1, fun i hi => by rw [← hfg i hi]; exact h.2 i hi⟩
 
-theorem right_inv_of_left {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < n) (hg : ∀ x < n, g x < n)
+theorem right_inv_of_left {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < n) (_hg : ∀ x < n, g x < n)
     (hgf : ∀ x < n, g (f x) = x) : ∀ y < n, f (g y) = y := by
   intro y hy
   let F : Fin n → Fin n := fun i => ⟨f i, hf i i.isLt⟩
@@ -179,7 +179,7 @@ theorem genTables_TR {z : Int} (hz : z.natAbs ≤ 2) (hz0 : z ≠ 0) :
   · exact tabOf_TR (by norm_num)
   · exact tabOf_TR (by norm_num)
   · have e : genTables orbLit (-2) = invT 31671 (tabOf 40) := by
-      rw [genTables, if_neg (by decide), if_neg (by decide), orbLit]
+      rw [genTables, ite_eq_right (by decide), ite_eq_right (by decide), orbLit]
     rw [e]
     exact invT_TR (by norm_num) (tabOf_TR (by norm_num)) fun i hi =>
       ⟨rng 41 (by norm_num) i hi, binv_right hi, binv_left hi⟩
@@ -236,21 +236,21 @@ theorem letter_step {j : Nat} (hj : j < 12) {L : Array Table} (H : LInv j L) :
     obtain ⟨hz0, hzj⟩ := hz z hzm
     unfold slpLetterT
     by_cases h2 : z.natAbs ≤ 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       exact genTables_TR h2 hz0
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have hj' : z.natAbs - 3 < j := by omega
       by_cases hp : 0 < z
-      · rw [if_pos hp]
+      · rw [ite_eq_left hp]
         have e : regZ z = 52 + 2 * (z.natAbs - 3) := by
           unfold regZ
-          rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos hp]
+          rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left hp]
         rw [e]
         exact hL _ (by omega)
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         have e : regZ z = 53 + 2 * (z.natAbs - 3) := by
           unfold regZ
-          rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg hp]
+          rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right hp]
         rw [e]
         have := hL (2 * (z.natAbs - 3) + 1) (by omega)
         unfold LL at this
@@ -307,7 +307,7 @@ theorem letters_take : ∀ j ≤ 12, LInv j (((chainWords ()).toList.take j).fol
     have hs : j < (chainWords ()).toList.length := by
       rw [Array.length_toList, words_data.1]
       omega
-    rw [List.take_succ, List.getElem?_eq_getElem hs, Option.toList_some, List.foldl_append,
+    rw [List.take_add_one, List.getElem?_eq_getElem hs, Option.toList_some, List.foldl_append,
       List.foldl_cons, List.foldl_nil]
     have e : (chainWords ()).toList[j] = (chainWords ())[j]! := by
       rw [Array.getElem_toList, getElem!_pos _ j (by rw [words_data.1]; omega)]

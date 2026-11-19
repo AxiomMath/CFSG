@@ -63,7 +63,7 @@ theorem map_oddCore {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) :
   rw [CFSG.oddCore, CFSG.oddCore, map_sSup_equiv]
   congr 1
   ext N
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨N', ⟨hN', hodd⟩, rfl⟩
     exact ⟨hN'.map _ e.surjective, by rwa [card_map_of_injective e.injective]⟩
@@ -89,7 +89,7 @@ theorem image_normal_two_pow_index {X Y : Type*} [Group X] [Group Y] (e : X ≃*
         {N : Subgroup X | N.Normal ∧ ∃ n : ℕ, N.index = 2 ^ n} =
       {N : Subgroup Y | N.Normal ∧ ∃ n : ℕ, N.index = 2 ^ n} := by
   ext N
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨N', ⟨hN', n, hn⟩, rfl⟩
     exact ⟨hN'.map _ e.surjective, n, (index_map_equiv N' e).trans hn⟩
@@ -333,7 +333,7 @@ variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 theorem isSylowOf_of_sylow_le (P : Sylow p G) {K : Subgroup G} (hPK : (P : Subgroup G) ≤ K) :
     ABGLocalTools.IsSylowOf p P K := by
   rw [ABGLocalTools.isSylowOf_iff]
-  refine ⟨hPK, P.isPGroup', fun h => P.not_dvd_index (h.trans ?_)⟩
+  refine ⟨hPK, P.isPGroup, fun h => P.not_dvd_index (h.trans ?_)⟩
   exact relIndex_dvd_index_of_le hPK
 
 end Sylow

@@ -37,7 +37,7 @@ theorem outer_involution_mulVec_dual (A : GL (Fin n) (ZMod 2))
     (A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
       (((dualGLn n A : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ a) = a := by
   have h1 := congrArg (fun e : MulAut (PairN n) => e (pairVec a 0)) h
-  simp only [MulAut.mul_apply, outer_apply_pairVec, Matrix.mulVec_zero, MulAut.one_apply] at h1
+  simp only [MulAut.mul_apply, MulAut.one_apply] at h1
   exact (pairVec_inj.mp h1).1
 
 theorem outer_involution_dual_mulVec (A : GL (Fin n) (ZMod 2))
@@ -45,7 +45,7 @@ theorem outer_involution_dual_mulVec (A : GL (Fin n) (ZMod 2))
     (((dualGLn n A : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
       ((A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ b)) = b := by
   have h1 := congrArg (fun e : MulAut (PairN n) => e (pairVec 0 b)) h
-  simp only [MulAut.mul_apply, outer_apply_pairVec, Matrix.mulVec_zero, MulAut.one_apply] at h1
+  simp only [MulAut.mul_apply, MulAut.one_apply] at h1
   exact (pairVec_inj.mp h1).2
 
 theorem exists_pairVec_of_mem_V1n {x : PairN n} (hx : x ∈ V1n n) :

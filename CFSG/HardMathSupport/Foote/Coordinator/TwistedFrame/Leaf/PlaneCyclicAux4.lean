@@ -71,9 +71,9 @@ theorem e6X₂_cyclic (K : Type) [Field K] [Finite K] (w : WeylGroup Tag.E6)
   classical
   subst hS
   obtain ⟨ℓ, hℓK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓp, hcard⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
+  have : Fact ℓ.Prime := ⟨hℓp⟩
   have hKcard : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hσ : ∀ c, D.Fr c = c ^ (ℓ ^ (f : ℕ)) := fun c => by rw [D.hFr, hKcard]
   set n : ModGL Tag.E6 D.L := canonicalRep (coxeterSystem Tag.E6) D.L w with hn
@@ -111,7 +111,7 @@ theorem e6X₂_cyclic (K : Type) [Field K] [Finite K] (w : WeylGroup Tag.E6)
           (e * D.Fr c) := fun i j hij => by
     obtain ⟨ε, hε, h⟩ := hpin (isRoot_chainRoot56 hij)
     exact ⟨ε, hε, fun c => by rw [h c, hw56 i j hij]; rfl⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hFrs : Function.Surjective D.Fr := fun y => by
     obtain ⟨x, hx⟩ := IsAlgClosed.exists_pow_nat_eq y (pow_pos hℓp.pos (f : ℕ))
     exact ⟨x, by rw [hσ, hx]⟩

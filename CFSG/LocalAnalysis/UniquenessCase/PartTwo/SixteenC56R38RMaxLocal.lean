@@ -49,7 +49,7 @@ theorem r38_centralizer_le_of_two_le_pRank (D : Data G) (h63 : UC6.R6_3 D)
     (hsp : IsStronglyPEmbedded 3 D.M) {v : G} (hv : v ^ 2 = 1) (hv1 : v ≠ 1)
     (hrk : 2 ≤ CFSG.Open.pRank 3 (D.M ⊓ centralizer ({v} : Set G))) :
     centralizer ({v} : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E', hE'le, hE'abel, hE'card⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (D.M ⊓ centralizer ({v} : Set G))
   have hE'leM : E' ≤ D.M := fun x hx => (hE'le hx).1

@@ -290,7 +290,7 @@ theorem sylow_two_quaternion (hodd : Odd (Nat.card F))
     ∃ n : ℕ, 3 ≤ n ∧ Nonempty
       ((P : Subgroup (SpecialLinearGroup (Fin 2) F)) ≃* QuaternionGroup (2 ^ (n - 2))) := by
   rcases CFSG.TwoRankLowerBound.Helpers.rank_one_two_group_cyclic_or_quaternion
-    (P : Subgroup (SpecialLinearGroup (Fin 2) F)) P.isPGroup'
+    (P : Subgroup (SpecialLinearGroup (Fin 2) F)) P.isPGroup
     ((CFSG.TwoRankLowerBound.Helpers.twoRank_subgroup_le _).trans (twoRank_le_one F hodd))
     with hcyclic | hquaternion
   · let : IsCyclic (P : Subgroup (SpecialLinearGroup (Fin 2) F)) := hcyclic

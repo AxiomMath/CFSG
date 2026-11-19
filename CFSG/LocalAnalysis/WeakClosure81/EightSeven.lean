@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ne_bot_of_two_le_card {A : Subgroup G} (h : 2 ≤ Nat.card A) : A ≠ ⊥ := by
   intro hbot
   rw [hbot, Subgroup.card_bot] at h
@@ -193,10 +194,10 @@ theorem eight_seven_of_isCalH0 {V H T : Subgroup G} {i k : ℕ} (hV7 : Hyp7 V)
 
 theorem eight_seven {V H T : Subgroup G} {i k : ℕ} (hV7 : Hyp7 V) (hH : IsCalH V H)
     (hT : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G)))
-    (hW : E3.wClos V 0 T ≠ V) (hrank : k + i < rk ↥V) (hHE : E1.InE k H)
+    (_hW : E3.wClos V 0 T ≠ V) (hrank : k + i < rk ↥V) (hHE : E1.InE k H)
     (hNE : ¬ IsCalH0 V H →
       E1.InE k (H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G)))
-    (hcond : CentralizersInM V H T ∨ NormalizersInM V H (E3.wClos V 0 T))
+    (_hcond : CentralizersInM V H T ∨ NormalizersInM V H (E3.wClos V 0 T))
     (h86 : ¬ IsCalH0 V H → H = (H ⊓ Subgroup.normalizer (V : Set G)) ⊔
         (H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G))) :
     H = (H ⊓ Subgroup.normalizer (V : Set G)) ⊔

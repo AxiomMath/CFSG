@@ -137,12 +137,12 @@ theorem tRow_replay {gens : Array (Array ℕ)} (hg : ∀ k < ng, gens[k]! = unpa
     unfold tK
     rw [hprod, hs.idx _ hw]
     by_cases hwc : W (ng * h + j) < c
-    · rw [if_pos hwc] at hne hle hmono ⊢
+    · rw [ite_eq_left hwc] at hne hle hmono ⊢
       rw [decide_eq_true hwc]
       exact ih (j + 1) c s (by omega) hhc hs ht hne hle
-    · rw [if_neg hwc] at hne hle hmono ⊢
+    · rw [ite_eq_right hwc] at hne hle hmono ⊢
       by_cases hn : W (ng * h + j) = c ∧ Pa c = h ∧ La c = j
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc', hpc, hlc⟩ := hn
         have hcN : c < 256 := by omega
         rw [decide_eq_false hwc, hwc']
@@ -153,7 +153,7 @@ theorem tRow_replay {gens : Array (Array ℕ)} (hg : ∀ k < ng, gens[k]! = unpa
         · exact ht i h0 hi
         · refine ⟨by omega, by omega, ?_⟩
           rw [hpc, hlc, hy, hwc']
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 theorem fold_idleT (n : ℕ) (gens : Array (Array ℕ)) :
@@ -163,7 +163,7 @@ theorem fold_idleT (n : ℕ) (gens : Array (Array ℕ)) :
     rw [List.range'_succ, List.foldl_cons]
     have e : tI n gens s h = s := by
       unfold tI
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     rw [e]
     exact fold_idleT n gens m (h + 1) s (by omega)
 
@@ -190,11 +190,11 @@ theorem tRun_replay {gens : Array (Array ℕ)} (hng : gens.size = ng)
       (by omega)
     rw [orbRunK_succ] at hr hmono
     by_cases hc : h < c
-    · rw [if_pos hc] at hr hmono
+    · rw [ite_eq_left hc] at hr hmono
       by_cases h0 : orbRowK W Pa La ng h ng 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : orbRowK W Pa La ng h ng 0 c ≤ 256 := by
           have := orbRunK_mono (W := W) (Pa := Pa) (La := La) (k := ng) fuel (h + 1)
             (orbRowK W Pa La ng h ng 0 c) (by rw [hr]; omega)
@@ -204,11 +204,11 @@ theorem tRun_replay {gens : Array (Array ℕ)} (hng : gens.size = ng)
         rw [List.range'_succ, List.foldl_cons]
         have e : tI n gens s h = (List.range' 0 ng).foldl (tK n gens h) s := by
           unfold tI
-          rw [if_pos (by rw [hs.esz]; exact hc), hng]
+          rw [ite_eq_left (by rw [hs.esz]; exact hc), hng]
         rw [e]
         obtain ⟨hs', ht'⟩ := tRow_replay hg hPP hGP hd hact ng 0 c s (by omega) hc hs ht h0 hle
         exact ih (h + 1) _ _ m' (by omega) hle hs' ht' hr
-    · rw [if_neg hc] at hr
+    · rw [ite_eq_right hc] at hr
       subst hr
       rw [fold_idleT n gens m h s (by rw [hs.esz]; omega)]
       exact ⟨hs, ht⟩

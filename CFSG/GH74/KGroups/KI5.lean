@@ -165,7 +165,7 @@ theorem ki5_parts
     set Z : Subgroup K := Subgroup.center K with hZdef
     let π : K →* K ⧸ Z := QuotientGroup.mk' Z
     have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z
-    have hT2 : IsPGroup 2 ((P : Subgroup K).map π) := P.isPGroup'.map π
+    have hT2 : IsPGroup 2 ((P : Subgroup K).map π) := P.isPGroup.map π
     have hTi : ¬ 2 ∣ ((P : Subgroup K).map π).index := fun h =>
       P.not_dvd_index (h.trans (Subgroup.index_map_dvd (P : Subgroup K) hπ))
     have hb2 := bender_of_equiv eP _ hT2 hTi

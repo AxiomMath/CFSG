@@ -26,6 +26,7 @@ structure SevenEightFrame (Lb Ob : Subgroup Q) (Db : Set Q) (vb : Q) : Prop wher
     (∀ a ∈ deltaSet Ob vb, (a * d) ^ 3 = 1)
   exists_pow_three : ∃ d ∈ Db, ∀ a ∈ deltaSet Ob vb, (a * d) ^ 3 = 1
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_braid {a d : Q} (ha : a * a = 1) (hd : d * d = 1)
     (h3 : (a * d) ^ 3 = 1) : a * d * a = d * a * d := by
   have hcube : a * d * a * d * a * d = 1 := by
@@ -40,33 +41,40 @@ private theorem seven_eight_core_q_braid {a d : Q} (ha : a * a = 1) (hd : d * d 
     _ = 1 * (d * a * d) := by rw [hcube]
     _ = d * a * d := one_mul _
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_mem_Lb_of_mem_Db {Lb Ob : Subgroup Q} {Db : Set Q}
     {vb : Q} (hF : SevenEightFrame Lb Ob Db vb) {d : Q} (hd : d ∈ Db) : d ∈ Lb := by
   rw [← hF.closure_eq]
   exact Subgroup.subset_closure hd
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_vb_mem_Lb {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) : vb ∈ Lb :=
   seven_eight_core_q_mem_Lb_of_mem_Db hF hF.mem
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_vb_mem_delta {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
-    (hF : SevenEightFrame Lb Ob Db vb) : vb ∈ deltaSet Ob vb :=
+    (_hF : SevenEightFrame Lb Ob Db vb) : vb ∈ deltaSet Ob vb :=
   ⟨1, Ob.one_mem, by rw [one_mul, inv_one, mul_one]⟩
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_vb_mul_self {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) : vb * vb = 1 :=
   hF.mul_self vb hF.mem
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_vb_inv {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) : vb⁻¹ = vb :=
   inv_eq_of_mul_eq_one_right (seven_eight_core_q_vb_mul_self hF)
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_map_conj_eq_self {Xb : Subgroup Q} {g : Q}
     (hg : g ∈ Subgroup.normalizer (Xb : Set Q)) :
     Xb.map (MulAut.conj g).toMonoidHom = Xb := by
   have h := (Subgroup.mem_normalizer_iff_map_conj_eq).mp hg
   simpa [MulEquiv.coe_toMonoidHom] using h
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_commutator_conj {Xb : Subgroup Q} {a g : Q}
     (hg : g ∈ Subgroup.normalizer (Xb : Set Q)) :
     ⁅Xb, Subgroup.zpowers (g * a * g⁻¹)⁆ =
@@ -79,11 +87,12 @@ private theorem seven_eight_core_q_commutator_conj {Xb : Subgroup Q} {a g : Q}
 
 private theorem seven_eight_core_q_odd_card {Xb : Subgroup Q} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hXp : IsPGroup p Xb) : Odd (Nat.card Xb) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hXp
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_eq_one_of_sq_eq_one {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb))
     {x : Q} (hx : x ∈ Xb) (hx2 : x ^ 2 = 1) : x = 1 := by
   have h1 : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one hx2
@@ -93,12 +102,14 @@ private theorem seven_eight_core_q_eq_one_of_sq_eq_one {Xb : Subgroup Q} (hodd :
   · rw [h] at h2
     exact absurd (even_iff_two_dvd.mpr h2) (Nat.not_even_iff_odd.mpr hodd)
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_commutator_self_le (Xb : Subgroup Q) : ⁅Xb, Xb⁆ ≤ Xb := by
   rw [Subgroup.commutator_le]
   intro g1 hg1 g2 hg2
   rw [commutatorElement_def]
   exact Xb.mul_mem (Xb.mul_mem (Xb.mul_mem hg1 hg2) (Xb.inv_mem hg1)) (Xb.inv_mem hg2)
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_commutator_le_of_mem_normalizer {Xb : Subgroup Q} {a : Q}
     (haX : a ∈ Subgroup.normalizer (Xb : Set Q)) : ⁅Xb, Subgroup.zpowers a⁆ ≤ Xb := by
   rw [Subgroup.commutator_le]
@@ -113,6 +124,7 @@ private theorem seven_eight_core_q_commutator_le_of_mem_normalizer {Xb : Subgrou
   rw [hc]
   exact Xb.mul_mem hg1 hconj
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_mem_normalizer_of_mem_deltaSet {Lb Ob : Subgroup Q}
     {Db : Set Q} {vb : Q} (hF : SevenEightFrame Lb Ob Db vb) {Xb : Subgroup Q}
     (hX : IsMinCommInvariant Lb Xb vb) {a : Q} (ha : a ∈ deltaSet Ob vb) :
@@ -123,6 +135,7 @@ private theorem seven_eight_core_q_mem_normalizer_of_mem_deltaSet {Lb Ob : Subgr
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (hX.normalizes hxL) (hX.normalizes hvL))
     (Subgroup.inv_mem _ (hX.normalizes hxL))
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_conj_mem_commutator {Xb : Subgroup Q} {a a' g : Q}
     (hg : g ∈ Subgroup.normalizer (Xb : Set Q)) (hga : g * a * g⁻¹ = a') {m : Q}
     (hm : m ∈ ⁅Xb, Subgroup.zpowers a⁆) :
@@ -133,6 +146,7 @@ private theorem seven_eight_core_q_conj_mem_commutator {Xb : Subgroup Q} {a a' g
   simpa [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using
     Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hm
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_mem_normalizer_commutator_of_commute {Xb : Subgroup Q}
     {a g : Q} (hg : g ∈ Subgroup.normalizer (Xb : Set Q)) (hcomm : g * a = a * g) :
     g ∈ Subgroup.normalizer (⁅Xb, Subgroup.zpowers a⁆ : Subgroup Q) := by
@@ -142,12 +156,14 @@ private theorem seven_eight_core_q_mem_normalizer_commutator_of_commute {Xb : Su
   rw [hga] at h
   simpa [MulEquiv.coe_toMonoidHom] using h.symm
 
+omit [Finite Q] in
 private theorem seven_eight_core_q_map_commute {M : Subgroup Q} {f : Q →* Q}
     (hab : ∀ m ∈ M, ∀ m' ∈ M, m * m' = m' * m) :
     ∀ m ∈ M.map f, ∀ m' ∈ M.map f, m * m' = m' * m := by
   rintro m ⟨m₀, hm₀, rfl⟩ m' ⟨m'₀, hm'₀, rfl⟩
   rw [← map_mul, ← map_mul, hab m₀ hm₀ m'₀ hm'₀]
 
+omit [Finite Q] in
 theorem SevenEightFrame.mul_self_and_mem_of_mem_deltaSet {Lb Ob : Subgroup Q} {Db : Set Q}
     {vb : Q} (hF : SevenEightFrame Lb Ob Db vb) {a : Q} (ha : a ∈ deltaSet Ob vb) :
     a * a = 1 ∧ a ∈ Lb := by
@@ -160,6 +176,7 @@ theorem SevenEightFrame.mul_self_and_mem_of_mem_deltaSet {Lb Ob : Subgroup Q} {D
       _ = 1 := by rw [hv2]; group
   · exact Lb.mul_mem (Lb.mul_mem hxL hvL) (Lb.inv_mem hxL)
 
+omit [Finite Q] in
 theorem SevenEightFrame.mul_mem_of_mem_deltaSet {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) {a a' : Q} (ha : a ∈ deltaSet Ob vb)
     (ha' : a' ∈ deltaSet Ob vb) : a * a' ∈ Ob := by
@@ -187,6 +204,7 @@ theorem SevenEightFrame.mul_mem_of_mem_deltaSet {Lb Ob : Subgroup Q} {Db : Set Q
   rw [key]
   exact hprod
 
+omit [Finite Q] in
 theorem SevenEightFrame.exists_conj_eq_of_pow_three {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) {d : Q} (hd : d ∈ Db)
     (h3 : ∀ a ∈ deltaSet Ob vb, (a * d) ^ 3 = 1) : ∃ y ∈ Lb, d = y * vb * y⁻¹ := by
@@ -207,6 +225,7 @@ theorem SevenEightFrame.exists_conj_eq_of_pow_three {Lb Ob : Subgroup Q} {Db : S
   calc d = (vb * d) * vb * (d * vb) := hfinal.symm
     _ = (vb * d) * vb * (vb * d)⁻¹ := by rw [hvdinv]
 
+omit [Finite Q] in
 theorem SevenEightFrame.ncard_conj_le {Lb Ob : Subgroup Q} {Db : Set Q} {vb : Q}
     (hF : SevenEightFrame Lb Ob Db vb) {d : Q} (hd : d ∈ Db)
     (h3 : ∀ a ∈ deltaSet Ob vb, (a * d) ^ 3 = 1) :
@@ -559,8 +578,7 @@ theorem SevenEightFrame.isMulCommutative_and_iSup_eq {Lb Ob Xb : Subgroup Q} {Db
           _ = (y1 * y2) * xa := (mul_assoc _ _ _).symm
     · intro y hy
       rw [one_mul, mul_one]
-    · intro x1 x2 h1 h2
-      intro y hy
+    · intro x1 x2 h1 h2 y hy
       calc (x1 * x2) * y = x1 * (x2 * y) := mul_assoc _ _ _
         _ = x1 * (y * x2) := by rw [h2 y hy]
         _ = (x1 * y) * x2 := (mul_assoc _ _ _).symm

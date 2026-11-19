@@ -15,7 +15,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 private theorem addEquiv_imgSub_smul {ι G Kg K' : Type} [Group G] [Field Kg] [Field K']
-    {Q Z V : Subgroup G} {γ : G → Kg} (M₀ : Tim79.QuadModel Q Z Kg γ) (hVQ : V ≤ Q)
+    {Q Z V : Subgroup G} {γ : G → Kg} (M₀ : Tim79.QuadModel Q Z Kg γ) (_hVQ : V ≤ Q)
     (hS : ∀ (c : Kg) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V)
     [(Z.subgroupOf V).Normal] (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K'))
     (θ : Kg ≃+* K')
@@ -110,12 +110,12 @@ private theorem exists_mem_centralizer_action
     (r₀ : ↥(Rt M (LB M Q B) t))
     (hr₀ : φ' r₀ = Matrix.SpecialLinearGroup.toGL (A.map θ)) :
     ∃ (r : G) (hr : r ∈ Rt M (LB M Q B) t ⊓ Subgroup.centralizer ({t} : Set G))
-      (hrH0 : r ∈ H0 M Z), φ' ⟨r, hr.1⟩ = Matrix.SpecialLinearGroup.toGL (A.map θ) := by
+      (_hrH0 : r ∈ H0 M Z), φ' ⟨r, hr.1⟩ = Matrix.SpecialLinearGroup.toGL (A.map θ) := by
   have hQR : Q ≤ Rt M (LB M Q B) t := by rw [h102]; exact le_sup_left
   have hQNR : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQR).mpr
       (fun x hx => hc.hyp.Q_normal.2 (hc.Rt_le_M t hx))
-  haveI := hQNR
+  have := hQNR
   obtain ⟨q₀, hq₀Q, rC, hrC, hq₀rC⟩ := exists_mul_mem_inf_centralizer h102 r₀.2
   have hrCH0 : rC ∈ H0 M Z := hc.Rt_le_H0 t hrC.1
   have hq₀R : q₀ ∈ Rt M (LB M Q B) t := hc.Q_le_Rt htLB hq₀Q
@@ -135,6 +135,7 @@ private theorem exists_mem_centralizer_action
     rw [hrCeq, map_mul, map_inv, hφ'q₀, inv_one, one_mul, hr₀]
   exact ⟨rC, hrC, hrCH0, hφ'rC⟩
 
+omit [Finite G] in
 private theorem apply_basis_eq_sum
     (hc : Ctx M Q Z B) {m : ℕ} {t : G}
     {K K' : Type} [Field K] [Field K']
@@ -208,7 +209,7 @@ private theorem apply_basis_eq_sum
         refine Finset.sum_congr rfl fun i _ => ?_
         rw [← Pi.single_smul', smul_eq_mul, mul_one]
       _ = θ (A k j) := by
-        simpa using Finset.sum_pi_single k (fun i : Fin m => θ (A i j)) Finset.univ
+        simp
       _ = ((Matrix.SpecialLinearGroup.toGL (A.map θ) : GL (Fin m) K') :
           Matrix (Fin m) (Fin m) K') k j := by
         simp [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
@@ -234,10 +235,10 @@ theorem SLMNat.exists_basis_statedSL (h34 : Stroth34Statement)
   have hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V :=
     fun c e he => hc.smul_mem_img_Vt hM t c he
   obtain ⟨K', fK', finK', hK', hrep⟩ := hm
-  letI := fK'
-  letI := finK'
+  let := fK'
+  let := finK'
   obtain ⟨φ', hφ'range, hφ'ker, hRV, hZnorm, ψ, hψ⟩ := hrep
-  haveI := hZnorm
+  have := hZnorm
   have hcard : Nat.card K = Nat.card K' := hM.card.trans hK'.symm
   have hX : AddCommutantScalar (StatedSL m K') := addCommutantScalar_statedSL hm2
   have hlin : ∀ r ∈ R, ∃ T : M₀.E →ₗ[K] M₀.E,
@@ -245,7 +246,7 @@ theorem SLMNat.exists_basis_statedSL (h34 : Stroth34Statement)
     intro r hr
     exact ⟨(φ ⟨r, hc.Rt_le_H0 t hr⟩ : M₀.E →ₗ[K] M₀.E),
       fun x hx => hφπ ⟨r, hc.Rt_le_H0 t hr⟩ x hx⟩
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
   obtain ⟨θ, hθ⟩ := exists_ringEquiv_natural hcard M₀ (hc.Vt_le_Q t) hX hS hlin φ' hφ'range hRV ψ hψ
   obtain ⟨Ψ, hΨ⟩ := exists_addEquiv_imgSub M₀ (hc.Vt_le_Q t) hS ψ
   have hΨsmul : ∀ (c : K) (e : ↥(imgSub M₀ V hS)), Ψ (c • e) = θ c • Ψ e :=

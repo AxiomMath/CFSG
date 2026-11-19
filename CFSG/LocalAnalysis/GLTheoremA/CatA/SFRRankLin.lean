@@ -39,7 +39,7 @@ theorem ofSubmodules_pow_three {a : V ≃ₗ[ZMod 2] V} (h3 : a ^ 3 = 1) {W : Su
 
 theorem inv2_zpowers [Finite V] {a : V ≃ₗ[ZMod 2] V} {W : Submodule (ZMod 2) V}
     (hW : ∀ x ∈ W, a x ∈ W) : Inv2 (Subgroup.zpowers a) W := by
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) fun f g h => LinearEquiv.ext
       (congrFun h)
   have hpow : ∀ k : ℕ, ∀ x ∈ W, (a ^ k) x ∈ W := by
@@ -114,18 +114,18 @@ theorem exists_plane [FiniteDimensional (ZMod 2) V] {a : V ≃ₗ[ZMod 2] V} (h3
       ∃ H : Subgroup (P ≃ₗ[ZMod 2] P), IsElemAbelian 3 H ∧ Nat.card H = 3 ∧
         ∀ g ∈ H, g * a.ofSubmodules P P (map_eq_of_inv h3 hP) =
           a.ofSubmodules P P (map_eq_of_inv h3 hP) * g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2V : ∀ v : V, v + v = 0 := add_self_eq_zero'
   by_cases hfix : ∀ x : V, a x = x
   ·
-    haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+    have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
     obtain ⟨y, hy⟩ := exists_ne (0 : V)
     have hlt : Submodule.span (ZMod 2) {y} < ⊤ := by
       refine lt_top_iff_ne_top.2 fun htop => ?_
       have h1 := finrank_span_singleton (K := ZMod 2) hy
       rw [htop, finrank_top] at h1
       omega
-    obtain ⟨z, -, hz⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨z, -, hz⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hli : LinearIndependent (ZMod 2) ![y, z] := by
       rw [LinearIndependent.pair_iff' hy]
       intro c hc
@@ -219,9 +219,9 @@ theorem exists_elemAb_commute (n : ℕ) :
     · intro t ht
       rw [Subgroup.mem_bot.1 ht, one_mul, mul_one]
   push Not at h2
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   obtain ⟨P, hPinv, hP2, H, hH, hHc, hHa⟩ := exists_plane h3 (hn ▸ h2)
-  haveI : Fintype (Subgroup.zpowers a) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers a) := Fintype.ofFinite _
   have hodd : Odd (Fintype.card (Subgroup.zpowers a)) := by
     rw [Fintype.card_eq_nat_card, Nat.card_zpowers]
     rcases (Nat.dvd_prime Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one h3) with h | h
@@ -261,9 +261,9 @@ theorem exists_elemAb81_commute [FiniteDimensional (ZMod 2) V] (hn : 8 ≤ finra
     (a : V ≃ₗ[ZMod 2] V) (h3 : a ^ 3 = 1) :
     ∃ E : Subgroup (V ≃ₗ[ZMod 2] V), E ≤ Subgroup.centralizer {a} ∧ IsElemAbelian 3 E ∧
       Nat.card E = 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) fun f g h => LinearEquiv.ext
       (congrFun h)
   obtain ⟨m, hm, T, hT, hTc, hTa⟩ := exists_elemAb_commute _ V rfl a h3

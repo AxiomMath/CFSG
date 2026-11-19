@@ -61,19 +61,19 @@ theorem genericOrders_bounds (t : StatedLieTag) (n p f : ℕ) (h1 : t ≠ .PSL) 
     1 ≤ (genericOrders t n p f).1 ∧ (genericOrders t n p f).1 ≤ 4 ∧
       1 ≤ (genericOrders t n p f).2 ∧ (genericOrders t n p f).2 ≤ 4 := by
   unfold genericOrders
-  cases t <;> first | exact absurd rfl h1 | exact absurd rfl h2 | skip
+  cases t <;> try first | exact absurd rfl h1 | exact absurd rfl h2
   all_goals dsimp only
-  all_goals first
+  all_goals try first
     | exact ⟨(gcd_bounds _ _ (by norm_num) (by norm_num)).1,
         (gcd_bounds _ _ (by norm_num) (by norm_num)).2, by norm_num, by norm_num⟩
-    | skip
-  all_goals first
+
+  all_goals try first
     | (split_ifs
        · norm_num
        · norm_num
        · exact ⟨(gcd_bounds _ _ (by norm_num) (by norm_num)).1,
            (gcd_bounds _ _ (by norm_num) (by norm_num)).2, by norm_num, by norm_num⟩)
-    | skip
+
   all_goals norm_num
 
 theorem card_generic_exceptional (t : StatedLieTag) (n p f : ℕ) :

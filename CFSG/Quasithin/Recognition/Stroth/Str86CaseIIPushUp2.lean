@@ -129,9 +129,9 @@ private theorem pu_X_sup_Q2 {L1 L2 S : Subgroup G}
     (le_sup_left : L2 ≤ P2 L1 L2 S).trans (le_normalizer_pCoreOf 2 (P2 L1 L2 S))
   have hQ2subnorm : ((Q2 L1 L2 S).subgroupOf Lhat).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hQ2norm
-  letI := hQ2subnorm
+  let := hQ2subnorm
   have hsub : (Q2 L1 L2 S).subgroupOf L2 = pCore 2 ↥L2 := pu_pCoreOf_subgroupOf hF
-  letI : ((Q2 L1 L2 S).subgroupOf L2).Normal :=
+  let : ((Q2 L1 L2 S).subgroupOf L2).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hL2NQ2
   let e : oTwoQuot ↥L2 ≃* (↥Lhat ⧸ (Q2 L1 L2 S).subgroupOf Lhat) :=
     (QuotientGroup.quotientMulEquivOfEq hsub).symm.trans
@@ -146,7 +146,7 @@ private theorem pu_X_sup_Q2 {L1 L2 S : Subgroup G}
   have hHnorm : H.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXQ2_le_Lhat).mpr hXQ2norm
   have hmapnorm : (H.map π).Normal := hHnorm.map π hπsurj
-  letI := hmapnorm
+  let := hmapnorm
   have hS_le_XQ2 : S ≤ X ⊔ Q2 L1 L2 S := by
     have hX : P ≤ X := le_conjClosure P (P2 L1 L2 S)
     intro s hs
@@ -213,7 +213,7 @@ private theorem pu_D2_le_X {L1 L2 S : Subgroup G}
     hLhat_le_P2.trans (le_normalizer_conjClosure P (P2 L1 L2 S))
   have hsubnorm : (X.subgroupOf Lhat).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hX_le_Lhat).mpr hXnormLhat
-  letI := hsubnorm
+  let := hsubnorm
   have hidx : ∃ k : ℕ, (X.subgroupOf Lhat).index = 2 ^ k := by
     have hrel : (X.subgroupOf Lhat).index = (X ⊓ Q2 L1 L2 S).relIndex (Q2 L1 L2 S) := by
       have h := (CFSG.GroupTheory.relIndex_sup_eq_relIndex_inf_of_le_normalizer
@@ -236,10 +236,10 @@ private theorem pu_D2_le_X {L1 L2 S : Subgroup G}
   exact Subgroup.mem_subgroupOf.mp hmem
 
 private theorem pu_PM_eq_X_inf_S {L1 L2 S : Subgroup G}
-    (hF : F112HypW L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    (hB2 : VBig L2) (h2 : VL2 L2) {P : Subgroup G} (hPS : P ≤ S)
+    (hF : F112HypW L1 L2 S) (_hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
+    (_hB2 : VBig L2) (_h2 : VL2 L2) {P : Subgroup G} (hPS : P ≤ S)
     (hPB : bigB L1 L2 S ≤ Subgroup.normalizer (P : Set G))
-    (hPQ : ¬ P ≤ Q2 L1 L2 S) (hPQ2S : P ⊔ Q2 L1 L2 S = S) :
+    (_hPQ : ¬ P ≤ Q2 L1 L2 S) (hPQ2S : P ⊔ Q2 L1 L2 S = S) :
     P ⊔ (conjClosure P (P2 L1 L2 S) ⊓ Q2 L1 L2 S) =
       conjClosure P (P2 L1 L2 S) ⊓ S := by
   let X : Subgroup G := conjClosure P (P2 L1 L2 S)
@@ -295,7 +295,7 @@ private theorem pu_PM_sylow {L1 L2 S : Subgroup G}
     have hQ2subnorm : ((Q2 L1 L2 S).subgroupOf Lhat).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr
         (hLhat_le_P2.trans (le_normalizer_pCoreOf 2 (P2 L1 L2 S)))
-    letI := hQ2subnorm
+    let := hQ2subnorm
     let Yq : Type := ↥Lhat ⧸ (Q2 L1 L2 S).subgroupOf Lhat
     let πL : ↥Lhat →* Yq := QuotientGroup.mk' ((Q2 L1 L2 S).subgroupOf Lhat)
     have hU_sylow : IsSylowTwoOf
@@ -344,6 +344,7 @@ private theorem pu_PM_sylow {L1 L2 S : Subgroup G}
       exact hU_odd
     simpa only [Subgroup.relIndex, M, X] using hodd
 
+omit [Finite G] in
 private theorem pu_elemAbelian_of_transitive_conj {V D : Subgroup G}
     (hVne : V ≠ ⊥) (hV2 : IsPGroup 2 V)
     (htrans : ∀ x ∈ V, x ≠ 1 → ∀ y ∈ V, y ≠ 1 →
@@ -351,7 +352,7 @@ private theorem pu_elemAbelian_of_transitive_conj {V D : Subgroup G}
     IsElemAbelian 2 V := by
   classical
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hVne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf).mp hV2 z
   have hk0 : k ≠ 0 := by
     intro h0
@@ -411,7 +412,7 @@ private theorem pu_elemAbelian_of_transitive_conj {V D : Subgroup G}
     simpa using congrArg Subtype.val (hsq (⟨x, hx⟩ : ↥V))
 
 private theorem pu_Qcard {L1 L2 S : Subgroup G}
-    (hF : F112HypW L1 L2 S) (hB2 : VBig L2) (h2 : VL2 L2) {n : ℕ}
+    (hF : F112HypW L1 L2 S) (_hB2 : VBig L2) (_h2 : VL2 L2) {n : ℕ}
     (hn2 : 2 ≤ n) (hL2 : IsL2Quot n (oTwoQuot ↥L2)) :
     2 < Nat.card (((S ⊓ L2).subgroupOf L2).map
       (QuotientGroup.mk' (pCore 2 ↥L2))) := by
@@ -494,7 +495,7 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
   let Qimg : Subgroup K := (S2.subgroupOf L2).map π
   have hRM : R ≤ X := inf_le_left.trans hPX
   have hRn : X ≤ Subgroup.normalizer (R : Set G) := hX_le_P2.trans hP2NR
-  haveI hRsubnorm : (R.subgroupOf X).Normal :=
+  have hRsubnorm : (R.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRM).mpr hRn
   let Y : Type := ↥X ⧸ (R.subgroupOf X)
   let q : ↥X →* Y := QuotientGroup.mk' (R.subgroupOf X)
@@ -580,7 +581,7 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
     have hbPsub : bX ∈ P.subgroupOf X := Subgroup.mem_subgroupOf.mpr hb
     have haV : q aX ∈ V := Subgroup.mem_map.mpr ⟨aX, haPsub, rfl⟩
     have hbV : q bX ∈ V := Subgroup.mem_map.mpr ⟨bX, hbPsub, rfl⟩
-    letI : IsMulCommutative ↥V := hVab.1
+    let : IsMulCommutative ↥V := hVab.1
     have hcommV : (⟨q aX, haV⟩ : ↥V) * ⟨q bX, hbV⟩ =
         ⟨q bX, hbV⟩ * ⟨q aX, haV⟩ :=
       (IsMulCommutative.is_comm (M := ↥V)).comm _ _
@@ -639,11 +640,11 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
       simpa using (Subgroup.mem_normalizer_iff.mp
         (hP2NR ((P2 L1 L2 S).inv_mem haP2)) ⁅a,z⁆).mp hza
   have hcardVgt : 2 < Nat.card V := by
-    letI : (R.subgroupOf P).Normal :=
+    let : (R.subgroupOf P).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hPX.trans hRn)
-    letI : (Q.subgroupOf P).Normal :=
+    let : (Q.subgroupOf P).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hP_NQ
-    letI : (Q.subgroupOf S).Normal :=
+    let : (Q.subgroupOf S).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hS_le_P2.trans hP2NQ)
     let φP : ↥P →* Y := q.comp (Subgroup.inclusion hPX)
     have hφPker : φP.ker = R.subgroupOf P := by
@@ -681,7 +682,7 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
       constructor
       · intro hx; exact hx.2
       · intro hx; exact ⟨x.2, hx⟩
-    letI : (Q.subgroupOf (P ⊔ Q)).Normal :=
+    let : (Q.subgroupOf (P ⊔ Q)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (sup_le hP_NQ (Subgroup.le_normalizer : Q ≤ Subgroup.normalizer (Q : Set G)))
     have hcardA : Nat.card (↥P ⧸ Q.subgroupOf P) =
@@ -691,9 +692,9 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
         (QuotientGroup.quotientInfEquivProdNormalizerQuotient P Q hP_NQ).toEquiv
     have hS2NQ : S2 ≤ Subgroup.normalizer (Q : Set G) :=
       (inf_le_right : S2 ≤ L2).trans hL2NQ
-    letI : (Q.subgroupOf S2).Normal :=
+    let : (Q.subgroupOf S2).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hS2NQ
-    letI : (Q.subgroupOf (S2 ⊔ Q)).Normal :=
+    let : (Q.subgroupOf (S2 ⊔ Q)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (sup_le hS2NQ (Subgroup.le_normalizer : Q ≤ Subgroup.normalizer (Q : Set G)))
     have hcardB : Nat.card (↥S ⧸ Q.subgroupOf S) =
@@ -751,7 +752,7 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
     rw [hcardV, hRQ, hcardA, hcardB, hcardC]
     exact pu_Qcard hF hB2 ⟨n, hL2n⟩ hn2 hL2n
   have hX_le_KR : X ≤ ⁅X,X⁆ ⊔ R := by
-    letI : Fintype ↥V := Fintype.ofFinite _
+    let : Fintype ↥V := Fintype.ofFinite _
     obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hVne
     have hcardV' : 2 < Fintype.card ↥V := by
       rwa [← Nat.card_eq_fintype_card]
@@ -898,7 +899,7 @@ theorem str86_pu_sylow {L1 L2 S : Subgroup G}
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
       have hmapX : Subgroup.map (↑(MulAut.conj g)) X = X :=
         Subgroup.mem_normalizer_iff_map_conj_eq.mp (hP2NX hg)
-      simpa [Subgroup.map_commutator, hmapX]
+      simp [Subgroup.map_commutator, hmapX]
     have hK'norm : P2 L1 L2 S ≤ Subgroup.normalizer
         (((⁅X,X⁆ : Subgroup G) ⊔ R : Subgroup G) : Set G) :=
       F1.le_normalizer_sup hXXnorm hP2NR

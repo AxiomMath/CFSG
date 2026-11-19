@@ -21,7 +21,7 @@ theorem Cfg8.card_N_le (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     Nat.card ↥(normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G)) ≤ 125 * 372000 := by
   have hE : Nat.card ↥(EE v t w₁ X₁) = 125 := by rw [c.E_card c.b86]; norm_num
   have h := card_le_mul_normalizer_of_five (normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G))
-    (EE v t w₁ X₁) (XB t X₁) le_rfl hE (c.E_pow c.b86) c.X2_le_E c.card_X2
+    (EE v t w₁ X₁) (XB t X₁) le_rfl hE (c.E_pow c.b86) CFSG.GH74.GLS.LU.Local.Five.Cfg.X2_le_E c.card_X2
   rw [inf_eq_right.mpr c.NG_X2_le_N] at h
   have h2 := c.card_NX2_le
   omega

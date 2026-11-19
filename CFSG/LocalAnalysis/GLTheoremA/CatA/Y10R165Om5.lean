@@ -36,7 +36,7 @@ theorem not_isPlusType_of_fixedPointFree_odd [Finite F] [CharP F 2]
     ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q := by
   intro hplus
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxne : x ≠ 1 := by
     intro h
     have hzero : ∀ v : W, v = 0 := fun v => hfree v (by rw [h]; rfl)

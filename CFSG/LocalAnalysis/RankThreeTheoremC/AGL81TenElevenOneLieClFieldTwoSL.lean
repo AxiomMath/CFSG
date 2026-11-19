@@ -31,16 +31,17 @@ theorem spE_mul (v w : Fin 2 → ZMod 3) : (spE v : Matrix _ _ K) * spE w = spE 
   funext i
   rw [← cb_add', ← cb_add]
 
+omit [CharP K 2] in
 theorem spE_zero : (spE 0 : Matrix _ _ K) = 1 := by
   simp +decide [spE, ca, cb, cd, ← fromBlocks_one]
 
 theorem spE_mem (v : Fin 2 → ZMod 3) :
     (spE v : Matrix _ _ K)ᵀ * fromBlocks 0 1 (-1) 0 * spE v = fromBlocks 0 1 (-1) 0 := by
   simp only [spE, fromBlocks_transpose, diagonal_transpose, fromBlocks_multiply,
-    diagonal_mul_diagonal, Matrix.zero_mul, Matrix.mul_zero, Matrix.one_mul, Matrix.mul_one,
+    diagonal_mul_diagonal, Matrix.mul_zero, Matrix.mul_one,
     Matrix.neg_mul, Matrix.mul_neg, zero_add, add_zero]
   congr 1 <;> ext i j <;> by_cases h : i = j <;>
-    simp [diagonal_apply, Matrix.one_apply, h, mul_comm]
+    simp [Matrix.one_apply, h, mul_comm]
   · linear_combination (det_eq (K := K) (v j))
   · linear_combination -(det_eq (K := K) (v j))
 
@@ -50,6 +51,7 @@ theorem spE_det (v : Fin 2 → ZMod 3) : (spE v : Matrix _ _ K).det = 1 :=
       by rw [spE_mul, neg_add_cancel, spE_zero]⟩)
     (CFSG.Open.StatedAPI.mem_statedSp_iff.2 (spE_mem v))
 
+omit [CharP K 2] in
 theorem spE_map (τ : K ≃+* K) (v : Fin 2 → ZMod 3) : (spE v : Matrix _ _ K).map τ = spE v := by
   have h1 := fun x => (map_c τ x).1
   have h2 := fun x => (map_c τ x).2.1
@@ -68,6 +70,7 @@ theorem blk_mul (r : ℕ) (v w : Fin 2 → ZMod 3) :
   simp only [blk, submatrix_mul_equiv, fromBlocks_multiply, spE_mul, Matrix.mul_zero,
     Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one]
 
+omit [CharP K 2] in
 theorem blk_zero (r : ℕ) : (blk r 0 : Matrix _ _ K) = 1 := by
   simp only [blk, spE_zero, fromBlocks_one, submatrix_one_equiv]
 
@@ -92,7 +95,7 @@ theorem projSlE_injective (r : ℕ) :
       change blk r v.toAdd (eL r (Sum.inl (Sum.inl i))) (eL r (Sum.inl (Sum.inr i))) = _
       simp [blk, spE]
     rw [← h1, hc]
-    simp [scalar_apply, diagonal_apply_ne _ hne]
+    simp [scalar_apply]
   exact Multiplicative.toAdd.injective (funext fun i => cb_eq_zero (h0 i))
 
 theorem map_slE (r : ℕ) (τ : K ≃+* K) (v : Multiplicative (Fin 2 → ZMod 3)) :
@@ -128,8 +131,8 @@ theorem three_le_pRank_psl {X K A : Type} [Group X] [Finite X] [Field K] [Finite
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI := hcyc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hcyc
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := projectiveSL m K
   set Ψ : MulAut X ≃* MulAut P := MulAut.congr e with hΨ
   have hΨconj : ∀ x : X, Ψ (MulAut.conj x) = MulAut.conj (e x) := fun x => by
@@ -153,7 +156,7 @@ theorem three_le_pRank_psl {X K A : Type} [Group X] [Finite X] [Field K] [Finite
       rw [pow_zero, mul_one, map_one, one_mul, hY]
     exact hτ (CFSG.ComponentClassification.OddSelector.eq_of_conjAut_eq_normalForm hm
       (Nat.zero_le 1) h1).1
-  haveI := inner_normal P
+  have := inner_normal P
   have hdecomp : ∀ γ : MulAut X, ∀ k : ℕ, γ ^ 3 ^ k = 1 →
       γ ∉ (MulAut.conj : X →* MulAut X).range →
       ∃ (B : GL (Fin m) K) (φ : K ≃+* K), Ψ γ = conjAut m K B * fieldAut m K φ ∧
@@ -256,9 +259,9 @@ theorem three_le_pRank_sl {X K : Type} [Group X] [Finite X] [Field K] [Finite K]
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hcop : (Nat.card Kˣ).Coprime (4 + r) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
     exact (coprime_twenty_of_odd hn).coprime_dvd_right (by interval_cases r <;> norm_num)

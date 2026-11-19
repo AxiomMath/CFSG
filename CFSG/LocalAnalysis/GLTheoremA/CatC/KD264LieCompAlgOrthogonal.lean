@@ -47,8 +47,8 @@ theorem range_centerQuotientHom_comp_le_innAutDerived {P G : Type*} [Group P] [G
 theorem eq_X_sub_one_or_X_sq_add_X_add_one_of_dvd_X_pow_three_sub_one {K : Type} [Field K]
     [Finite K] (hK8 : Nat.card K = 8) {h : K[X]} (hirr : Irreducible h) (hmon : h.Monic)
     (hdvd : h ∣ X ^ 3 - 1) : h = X - 1 ∨ h = X ^ 2 + X + 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [Fintype.card_eq_nat_card, hK8]; norm_num)
   have h3 : ¬ 3 ∣ Nat.card K - 1 := by rw [hK8]; norm_num
   have hirr₀ : Irreducible (X ^ 2 + X + 1 : K[X]) :=
@@ -81,7 +81,7 @@ theorem primaryFactor_eq_X_sq_add_X_add_one_of_card_eq_eight {K V : Type} [Field
 theorem exists_component_dichotomy {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    (hT : ∃ U : Submodule K V, Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0) (hpℓ : p ≠ ringChar K)
+    (_hT : ∃ U : Submodule K V, Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0) (_hpℓ : p ≠ ringChar K)
     {x : ↥(orthDerived Q)} (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (J : Subgroup (ProjOrthDerived Q))
     (hJ : CFSG.Open.IsComponentOf J (centralizerImage Q (x : V ≃ₗ[K] V))) :
@@ -157,7 +157,7 @@ theorem exists_component_dichotomy {K V : Type} [Field K] [Finite K] [AddCommGro
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact CFSG.HardMathSupport.Dickson.Sec6.OrthBlocks.perfect_le_of_le_sup_solvable
       hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
@@ -216,10 +216,10 @@ private theorem blockComponent_fixed_pow_three {K V : Type} [Field K] [Finite K]
       simpa [pow_succ, LinearEquiv.mul_apply] using this
     change yW (yW (yW v)) = v
     by_cases haX : a = X - 1
-    · rw [hyW_apply a ha v hv, if_pos haX, hyW_apply a ha (y v) hyv, if_pos haX,
-        hyW_apply a ha (y (y v)) hyvv, if_pos haX, hy3v]
-    · rw [hyW_apply a ha v hv, if_neg haX, hyW_apply a ha v hv, if_neg haX,
-        hyW_apply a ha v hv, if_neg haX]
+    · rw [hyW_apply a ha v hv, ite_eq_left haX, hyW_apply a ha (y v) hyv, ite_eq_left haX,
+        hyW_apply a ha (y (y v)) hyvv, ite_eq_left haX, hy3v]
+    · rw [hyW_apply a ha v hv, ite_eq_right haX, hyW_apply a ha v hv, ite_eq_right haX,
+        hyW_apply a ha v hv, ite_eq_right haX]
   exact LinearEquiv.ext fun v => by
     have := congrArg (fun f : V →ₗ[K] V => f v) hmap
     simpa using this
@@ -241,14 +241,14 @@ private theorem blockComponent_fixed_inv_apply {K V : Type} [Field K] [Finite K]
     apply_mem_primaryComponent_of_mem_centralizer (Subgroup.mem_inf.mp (inv_mem hy)).2 hv
   by_cases haX : a = X - 1
   · apply yW.injective
-    rw [if_pos haX]
+    rw [ite_eq_left haX]
     change yW (yW.symm v) = yW (y.symm v)
-    rw [yW.apply_symm_apply, hyW_apply a ha (y.symm v) hyinv, if_pos haX]
+    rw [yW.apply_symm_apply, hyW_apply a ha (y.symm v) hyinv, ite_eq_left haX]
     exact (y.apply_symm_apply v).symm
   · apply yW.injective
-    rw [if_neg haX]
+    rw [ite_eq_right haX]
     change yW (yW.symm v) = yW v
-    rw [yW.apply_symm_apply, hyW_apply a ha v hv, if_neg haX]
+    rw [yW.apply_symm_apply, hyW_apply a ha v hv, ite_eq_right haX]
 
 private theorem blockComponent_fixed_conj_eq {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
@@ -279,12 +279,12 @@ private theorem blockComponent_fixed_conj_eq {K V : Type} [Field K] [Finite K] [
     · have hfmem : f (y⁻¹ v) ∈ primaryComponent x.toLinearMap a :=
         apply_mem_primaryComponent_of_mem_centralizer hc hyinv
       change y (f (y⁻¹ v)) = yW (f (yW⁻¹ v))
-      rw [hyWinv_apply a ha v hv, if_pos haX, hyW_apply a ha (f (y⁻¹ v)) hfmem, if_pos haX]
+      rw [hyWinv_apply a ha v hv, ite_eq_left haX, hyW_apply a ha (f (y⁻¹ v)) hfmem, ite_eq_left haX]
     · have hfv : f (y⁻¹ v) = y⁻¹ v := by
         refine apply_eq_of_mem_supportedBlock hf ha haX ?_ hyinv
         rwa [reciprocalPolynomial_X_sub_one]
       have hyWinv : yW⁻¹ v ∈ primaryComponent x.toLinearMap a := by
-        rw [hyWinv_apply a ha v hv, if_neg haX]; exact hv
+        rw [hyWinv_apply a ha v hv, ite_eq_right haX]; exact hv
       have hfW : f (yW⁻¹ v) = yW⁻¹ v := by
         refine apply_eq_of_mem_supportedBlock hf ha haX ?_ hyWinv
         rwa [reciprocalPolynomial_X_sub_one]
@@ -299,7 +299,7 @@ private theorem blockComponent_fixed_conj_eq {K V : Type} [Field K] [Finite K] [
 theorem centerQuotientHom_mem_innAutDerived_of_fixedFactor {K V : Type} [Field K] [Finite K]
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V}
     {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q 3 x) (hK8 : Nat.card K = 8)
-    (hlist : FixedLayerListed Q x) {F : Subgroup (V ≃ₗ[K] V)} (hFq : CFSG.IsQuasisimple ↥F)
+    (hlist : FixedLayerListed Q x) {F : Subgroup (V ≃ₗ[K] V)} (_hFq : CFSG.IsQuasisimple ↥F)
     (hFle : F ≤ supportedFixedDerived Q x)
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal)
     (J : Subgroup (ProjOrthDerived Q))
@@ -338,7 +338,7 @@ theorem centerQuotientHom_mem_innAutDerived_of_fixedFactor {K V : Type} [Field K
     CFSG.HardMathSupport.Timmesfeld.CrossChar.orth3_mem_supportedFixedDerived hx
       Nat.prime_three (by norm_num) (by rw [hK8]; norm_num) hlist.1 hyWblock hyW3
   have hPperf : commutator ↥P = ⊤ := by
-    haveI : Group.IsPerfect ↥P :=
+    have : Group.IsPerfect ↥P :=
       CFSG.RankThree.PartOne.KCOrthComm.isPerfect_supportedFixedDerived hx
         (by rw [hK8]; norm_num) hlist.1
     exact Group.IsPerfect.commutator_eq_top
@@ -565,7 +565,7 @@ theorem exists_sesqSUConjData {K V : Type*} [Field K] [Finite K] [AddCommGroup V
   have hleQ : specialBlock Q xe h ≤ TauCeti.QuadraticMap.orthogonalGroup Q := fun g hg =>
     (Subgroup.mem_inf.mp (specialBlock_le_isometryCentralizer h hg)).1
   have hleOrth : specialBlock Q xe h ≤ orthDerived Q := by
-    haveI : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
+    have : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
     calc specialBlock Q xe h = ⁅specialBlock Q xe h, specialBlock Q xe h⁆ :=
           (Subgroup.commutator_eq_self).symm
       _ ≤ orthDerived Q := Subgroup.commutator_mono hleQ hleQ
@@ -616,8 +616,8 @@ theorem exists_sesqSUConjData {K V : Type*} [Field K] [Finite K] [AddCommGroup V
     rw [h3] at h2
     obtain ⟨z, hz, hze⟩ := Subgroup.mem_map.mp h2
     exact (e.symm.trans e₀).injective hze ▸ hz
-  haveI : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
-  haveI : Group.IsPerfect ↥(sesqSpecialUnitaryGroup B) :=
+  have : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
+  have : Group.IsPerfect ↥(sesqSpecialUnitaryGroup B) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hSUperf : commutator ↥(sesqSpecialUnitaryGroup B) = ⊤ :=
     Group.IsPerfect.commutator_eq_top

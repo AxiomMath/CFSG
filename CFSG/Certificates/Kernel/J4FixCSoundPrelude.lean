@@ -53,11 +53,11 @@ theorem pairRep_evalW {gs : List J} {GP GIP : List ℕ}
     refine pairRep_mul ?_ (pairRep_evalW hG hGI w)
     unfold letE letP
     by_cases h : c % 2 = 0
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have e : Nat.beq (Nat.mod c 2) 0 = true := by rw [Nat.beq_eq]; exact h
       rw [e]
       exact hG _
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have e : Nat.beq (Nat.mod c 2) 0 = false :=
         Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
       rw [e]

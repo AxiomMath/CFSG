@@ -33,6 +33,7 @@ section Vocab
 variable {G : Type} [Group G] [Finite G]
   {d : Data G} {z₀ : G}
 
+omit [Finite G] in
 theorem p21_alpha_zpow {g : G} (hg : g ∈ Ig d) (k : ℤ) : alpha d (g ^ k) = alpha d g ^ k := by
   have h := congrArg (fun y : ↥(Ialpha d) => (y : MulAut ↥(Ws d))) (map_zpow (alphaHom d) ⟨g, hg⟩ k)
   simp only [Subgroup.coe_zpow, alphaHom_coe] at h
@@ -53,8 +54,8 @@ theorem p21_isPGroup_Xg (hd : d.Hyp) : IsPGroup 5 (Xg d) :=
 theorem p21_centralizer_Xs (hd : d.Hyp) (h19 : Node19 d z₀) (h19b : Node19b d z₀) :
     Ws d ⊓ centralizer ((img d (Xg d) : Subgroup (MulAut ↥d.s56V)) : Set (MulAut ↥d.s56V)) =
       ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, -, -, he3, -⟩ := h19
   have hP : IsPGroup 2 (W0s d) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (Ks d)
   have hX : IsPGroup 5 (img d (Xg d)) := isPGroup_imgIn d.s56V (p21_isPGroup_Xg hd)

@@ -100,7 +100,7 @@ theorem step153PushU33R_of_inputs
   · obtain ⟨φ⟩ := hM12
     rw [Nat.card_congr φ.toEquiv, KFacts.KS14.card_nativeM12] at hdvd
     exact absurd hdvd (by norm_num)
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+  · have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
     have h := hsimple this hA10
     rw [card_alternatingGroup_ten] at h
     omega

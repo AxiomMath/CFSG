@@ -16,7 +16,7 @@ theorem suzM_elemAbelianLt :
     ElemAbelianLt ↥suzM (2 ^ 10) := by
   intro E hE
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ι : ↥suzM →* ↥suzT := Subgroup.inclusion suzM_le_suzT
   let F : Subgroup ↥suzT := E.map ι
   have hFcard : Nat.card F = Nat.card E :=

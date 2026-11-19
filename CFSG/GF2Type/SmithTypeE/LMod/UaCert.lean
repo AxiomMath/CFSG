@@ -29,7 +29,7 @@ theorem uaFacts : UaFacts := by
   have h := uaCheck_holds
   simp only [chkUa, Bool.and_eq_true, beq_iff_eq, Array.all_eq_true', List.all_eq_true,
     List.mem_range, decide_eq_true_eq, bne_iff_ne, ne_eq, Bool.or_eq_true, Bool.not_eq_true',
-    Array.any_eq_true', Array.all_eq_false', beq_eq_false_iff_ne, List.any_eq_true] at h
+    Array.any_eq_true', Array.all_eq_false', List.any_eq_true] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨hs1, hs2⟩, hug⟩, huc⟩, hcomm⟩, hword⟩, hfaith⟩, hcent⟩, honly⟩ := h
   refine ⟨hs1, hs2, fun j hj => ?_, fun k hk => (huc k hk).1, fun k hk => (huc k hk).2,
     hcomm, hword, fun a ha ha0 => (hfaith a ha).resolve_left ha0, fun q hq H => ?_,

@@ -144,21 +144,21 @@ theorem wedgeDer_add {R : Type*} [CommRing R] (X Y : Matrix (Fin 4) (Fin 4) R) :
   ext I J
   fin_cases I <;> fin_cases J <;>
     simp [wedgeDer, compound2, pair6, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ] <;> ring
+      Matrix.cons_val_zero, Matrix.cons_val_one] <;> ring
 
 theorem wedgeDer_smul {R : Type*} [CommRing R] (s : R) (X : Matrix (Fin 4) (Fin 4) R) :
     wedgeDer (s • X) = s • wedgeDer X := by
   ext I J
   fin_cases I <;> fin_cases J <;>
     simp [wedgeDer, compound2, pair6, Matrix.smul_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ] <;> ring
+      Matrix.cons_val_zero, Matrix.cons_val_one] <;> ring
 
 theorem wedgeDer_one {R : Type*} [CommRing R] [CharP R 2] :
     wedgeDer (1 : Matrix (Fin 4) (Fin 4) R) = 0 := by
   ext I J
   fin_cases I <;> fin_cases J <;>
     simp [wedgeDer, compound2, pair6, Matrix.one_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val_succ, CharTwo.neg_eq, CharTwo.add_self_eq_zero]
+      Matrix.cons_val_one, CharTwo.neg_eq, CharTwo.add_self_eq_zero]
 
 theorem wedgeDer_conj {R : Type*} [CommRing R] (g g' X : Matrix (Fin 4) (Fin 4) R)
     (hgg' : g * g' = 1) :
@@ -203,7 +203,7 @@ private lemma wedgeDer_zero {R : Type*} [CommRing R] :
   ext I J
   fin_cases I <;> fin_cases J <;>
     simp [wedgeDer, compound2, pair6, Matrix.one_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val_succ]
+      Matrix.cons_val_one]
 
 private lemma psiM_zero {R : Type*} [CommRing R] :
     psiM (0 : Matrix (Fin 4) (Fin 4) R) = 0 := by
@@ -230,7 +230,7 @@ private lemma wedgeDer_sub {R : Type*} [CommRing R] (X Y : Matrix (Fin 4) (Fin 4
   ext I J
   fin_cases I <;> fin_cases J <;>
     simp [wedgeDer, compound2, pair6, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ] <;> ring
+      Matrix.cons_val_zero, Matrix.cons_val_one] <;> ring
 
 private lemma psiM_sub {R : Type*} [CommRing R] (X Y : Matrix (Fin 4) (Fin 4) R) :
     psiM (X - Y) = psiM X - psiM Y := by
@@ -534,11 +534,11 @@ theorem theta101_thPos (h : LocValid1 true false true) (k : Type*) [Field k] [Ch
   simp only [Matrix.sum_apply, Matrix.smul_apply, Matrix.map_apply]
   refine (Finset.sum_eq_single j ?_ ?_).trans ?_
   · intro c _ hcj
-    rw [thetaF2_thPos c j, if_neg hcj]
+    rw [thetaF2_thPos c j, ite_eq_right hcj]
     simp
   · intro hj
     exact absurd (Finset.mem_univ j) hj
-  · rw [thetaF2_thPos j j, if_pos rfl]
+  · rw [thetaF2_thPos j j, ite_eq_left rfl]
     simp
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Lem14_6.McClurg

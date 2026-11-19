@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b15_W15ElevenFourB_conj_inf_centralizer {V : Subgroup G} {m xr : G}
     (hm : m ∈ Subgroup.normalizer (V : Set G)) :
     V ⊓ centralizer ({m⁻¹ * xr * m} : Set G) =
@@ -151,7 +152,7 @@ theorem exists_B (c : Cfg1511 M V₀ V U S H P Q₀ p)
       Nat.card ↥B = Nat.card ↥(v1Sub15 V₀ U) ∧ ¬ U ≤ centralizer (B : Set G) ∧
       ∀ x ∈ B, x ≠ 1 → V ⊓ centralizer ({x} : Set G) ≤ centralizer (B : Set G) := by
   classical
-  obtain ⟨g, hgC, hgM⟩ := SetLike.not_le_iff_exists.1 c.cex.not_le
+  obtain ⟨g, hgC, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 c.cex.not_le
   obtain ⟨y₀, hy₀ne⟩ :=
     Subgroup.ne_bot_iff_exists_ne_one.1 (c.cex.v1Sub15_ne_bot c.std)
   set y : G := (y₀ : G) with hydef

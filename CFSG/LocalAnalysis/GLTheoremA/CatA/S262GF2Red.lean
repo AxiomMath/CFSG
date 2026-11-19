@@ -57,11 +57,11 @@ theorem e9Good_of_good3 {T : Type} [Group T] (h : Good3 T) : E9Good T := by
   intro A hA h9
   have hpos : 0 < Nat.card A := by omega
   obtain ⟨hne, hfin⟩ := Nat.card_pos_iff.mp hpos
-  haveI := hfin
+  have := hfin
   have hnt : Nontrivial A := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     omega
-  haveI := hnt
+  have := hnt
   obtain ⟨a, ha, ha1⟩ := A.exists_ne_one_of_nontrivial
   exact ⟨a, ha, ha1, h a ha1 (hA.2 a ha)⟩
 
@@ -242,7 +242,7 @@ theorem family_of_not_list (d : TauCeti.ValidLieTypeIndex)
   | reeG2 m =>
     exfalso
     have h3 : 3 = 2 := by
-      simpa [LieTypeIndex.characteristic_reeG2] using hchar
+      simp [LieTypeIndex.characteristic_reeG2] at hchar
     omega
   | reeF4 m =>
     exfalso

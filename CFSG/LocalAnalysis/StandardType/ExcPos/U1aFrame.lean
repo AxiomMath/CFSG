@@ -147,7 +147,7 @@ theorem nonempty_excLangFrame_of_toral_of
     have hspec := Classical.choose_spec (hcoord (b : X) hb)
     have hcb : coord (b : X) = Classical.choose (hcoord (b : X) hb) := by
       show (if he : (b : X) ∈ D then Classical.choose (hcoord (b : X) he) else 1) = _
-      rw [dif_pos hb]
+      rw [dite_eq_left hb]
     rw [hcb]
     simpa using hspec
   have hcoordpow : ∀ e ∈ D, ∀ i, coord e i ^ p = 1 := by

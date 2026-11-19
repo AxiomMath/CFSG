@@ -26,8 +26,8 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ : ℕ}
 
 theorem perfectInLayer_conj_statedSp {p : ℕ} (hℓ : 1 ≤ ℓ) (hp : p.Prime) (hp2 : p ≠ 2)
     (x : ↥(StatedSp ℓ F)) (hx : x ^ p = 1) : PerfectInLayer (MulAut.conj x) := by
-  haveI : NeZero ℓ := ⟨by omega⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : NeZero ℓ := ⟨by omega⟩
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, _, hcard⟩ := FiniteField.card F 2
   have hcard' : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcard]
@@ -51,6 +51,7 @@ theorem le_stdLayer_of_perfect {p : ℕ} (hℓ : 1 ≤ ℓ) (hp : p.Prime) (hp2 
   have h := perfectInLayer_conj_statedSp hℓ hp hp2 x hx X (by rwa [hfix]) hXp
   simpa [stdLayer, hfix] using h
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_spEmbed_pairMap_permSp_swap {j₁ j₂ : Fin ℓ}
     (hσ : Function.Injective (pairMap j₁ j₂)) :
     spEnd (spEmbed (pairMap j₁ j₂) hσ
@@ -68,7 +69,7 @@ private theorem spEnd_spEmbed_pairMap_permSp_swap {j₁ j₂ : Fin ℓ}
     rw [himage, spIncl_apply]
     simp
   · have hsingle : (Pi.single (Sum.inl j₂) (1 : F) : Fin ℓ ⊕ Fin ℓ → F) a = 0 := by
-      rw [Pi.single_apply, if_neg ha]
+      rw [Pi.single_apply, ite_eq_right ha]
     rw [hsingle]
     by_cases hmem : a ∈ Set.range (Sum.map (pairMap j₁ j₂) (pairMap j₁ j₂))
     · obtain ⟨x, rfl⟩ := hmem
@@ -83,6 +84,7 @@ private theorem spEnd_spEmbed_pairMap_permSp_swap {j₁ j₂ : Fin ℓ}
       have hne : a ≠ Sum.inl j₁ := fun h => hmem ⟨Sum.inl 0, by rw [h]; simp [pairMap]⟩
       simp [hne]
 
+omit [Finite F] [CharP F 2] in
 theorem exists_perfect_le_centralizer_diagSp (hF : 4 ≤ Nat.card F) {j₁ j₂ : Fin ℓ}
     (hj : j₁ ≠ j₂) :
     ∃ X : Subgroup ↥(StatedSp ℓ F), ⁅X, X⁆ = X ∧
@@ -119,6 +121,7 @@ theorem exists_perfect_le_centralizer_diagSp (hF : 4 ≤ Nat.card F) {j₁ j₂ 
         (CFSG.SeitzReduction.SymplecticPilot.permSp F (Equiv.swap (0 : Fin 2) 1)),
       ⟨_, rfl⟩, spEnd_spEmbed_pairMap_permSp_swap hσ⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem mat_eq_diagonal_of_preserves_lines {k : ↥(StatedSp ℓ F)}
     (h : ∀ b : Fin ℓ ⊕ Fin ℓ, ∃ c : F, spEnd k (Pi.single b 1) = c • Pi.single b 1) :
     mat ℓ F k = Matrix.diagonal (fun b => mat ℓ F k b b) := by
@@ -131,9 +134,10 @@ private theorem mat_eq_diagonal_of_preserves_lines {k : ↥(StatedSp ℓ F)}
     exact this
   rcases eq_or_ne i j with hij | hij
   · subst hij
-    rw [Matrix.diagonal_apply, if_pos rfl]
-  · rw [hcol, Matrix.diagonal_apply, if_neg hij, if_neg hij, mul_zero]
+    rw [Matrix.diagonal_apply, ite_eq_left rfl]
+  · rw [hcol, Matrix.diagonal_apply, ite_eq_right hij, ite_eq_right hij, mul_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem mul_comm_of_forall_preserves_lines {K : Subgroup ↥(StatedSp ℓ F)}
     (h : ∀ k ∈ K, ∀ b : Fin ℓ ⊕ Fin ℓ, ∃ c : F,
       spEnd k (Pi.single b 1) = c • Pi.single b 1) :
@@ -149,6 +153,7 @@ theorem mul_comm_of_forall_preserves_lines {K : Subgroup ↥(StatedSp ℓ F)}
     exact mul_comm _ _
   rw [hfun]
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_diagSp_single_inl (t : Fin ℓ → Fˣ) (i : Fin ℓ) :
     spEnd (CFSG.SeitzReduction.SymplecticPilot.diagSp F ℓ t) (Pi.single (Sum.inl i) 1) =
       (t i : F) • Pi.single (Sum.inl i) 1 := by
@@ -158,8 +163,9 @@ private theorem spEnd_diagSp_single_inl (t : Fin ℓ → Fˣ) (i : Fin ℓ) :
   by_cases ha : a = Sum.inl i
   · subst ha
     simp
-  · rw [if_neg ha, Pi.smul_apply, Pi.single_eq_of_ne ha, smul_zero]
+  · rw [ite_eq_right ha, Pi.smul_apply, Pi.single_eq_of_ne ha, smul_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_diagSp_single_inr (t : Fin ℓ → Fˣ) (i : Fin ℓ) :
     spEnd (CFSG.SeitzReduction.SymplecticPilot.diagSp F ℓ t) (Pi.single (Sum.inr i) 1) =
       ((t i)⁻¹ : F) • Pi.single (Sum.inr i) 1 := by
@@ -169,8 +175,9 @@ private theorem spEnd_diagSp_single_inr (t : Fin ℓ → Fˣ) (i : Fin ℓ) :
   by_cases ha : a = Sum.inr i
   · subst ha
     simp
-  · rw [if_neg ha, Pi.smul_apply, Pi.single_eq_of_ne ha, smul_zero]
+  · rw [ite_eq_right ha, Pi.smul_apply, Pi.single_eq_of_ne ha, smul_zero]
 
+omit [Finite F] in
 private theorem inv_ne_self_of_ne_one {t : Fˣ} (ht : t ≠ 1) : t⁻¹ ≠ t := by
   intro h
   have hsq : t * t = 1 := by simpa [h] using mul_inv_cancel t
@@ -183,6 +190,7 @@ private theorem inv_ne_self_of_ne_one {t : Fˣ} (ht : t ≠ 1) : t⁻¹ ≠ t :=
     · rwa [CharTwo.neg_eq] at h1
   exact ht (Units.ext h1)
 
+omit [Finite F] in
 private theorem spEnd_single_inl_eq_smul_of_mem {K : Subgroup ↥(StatedSp ℓ F)}
     {t : Fin ℓ → Fˣ}
     (hKd : K ≤ Subgroup.centralizer
@@ -213,6 +221,7 @@ private theorem spEnd_single_inl_eq_smul_of_mem {K : Subgroup ↥(StatedSp ℓ F
     simp
   · simp [hx]
 
+omit [Finite F] in
 private theorem spEnd_single_inr_eq_smul_of_mem {K : Subgroup ↥(StatedSp ℓ F)}
     {t : Fin ℓ → Fˣ}
     (hKd : K ≤ Subgroup.centralizer
@@ -243,6 +252,7 @@ private theorem spEnd_single_inr_eq_smul_of_mem {K : Subgroup ↥(StatedSp ℓ F
     simp
   · simp [hx]
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_single_inl_apply_ne_zero {k : ↥(StatedSp ℓ F)} {i : Fin ℓ}
     (hke : spEnd k (Pi.single (Sum.inl i) 1) =
       ((spEnd k (Pi.single (Sum.inl i) 1)) (Sum.inl i)) • Pi.single (Sum.inl i) 1) :
@@ -254,6 +264,7 @@ private theorem spEnd_single_inl_apply_ne_zero {k : ↥(StatedSp ℓ F)} {i : Fi
   rw [hz, map_zero] at hleft
   exact (Pi.single_ne_zero_iff.mpr (one_ne_zero : (1 : F) ≠ 0)) hleft.symm
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_single_inr_apply_ne_zero {k : ↥(StatedSp ℓ F)} {i : Fin ℓ}
     (hkf : spEnd k (Pi.single (Sum.inr i) 1) =
       ((spEnd k (Pi.single (Sum.inr i) 1)) (Sum.inr i)) • Pi.single (Sum.inr i) 1) :
@@ -275,7 +286,7 @@ theorem fixes_plane_of_perfect
     ∀ k ∈ K, spEnd k (Pi.single (Sum.inl i) 1) = Pi.single (Sum.inl i) 1 ∧
       spEnd k (Pi.single (Sum.inr i) 1) = Pi.single (Sum.inr i) 1 := by
   classical
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKp
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKp
   intro k hk
   have hke := spEnd_single_inl_eq_smul_of_mem hKd hpl hti hk
   have hkf := spEnd_single_inr_eq_smul_of_mem hKd hpl hti hk
@@ -317,6 +328,7 @@ theorem fixes_plane_of_perfect
       simpa [χ] using this
     rw [hkf, h1, one_smul]
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_diagSp_eq_self_of_mem_stdPlane {s : Fin ℓ → Fˣ} {i : Fin ℓ} (hsi : s i = 1)
     {v : Fin ℓ ⊕ Fin ℓ → F} (hv : v ∈ stdPlane F ℓ i) :
     spEnd (CFSG.SeitzReduction.SymplecticPilot.diagSp F ℓ s) v = v := by
@@ -324,6 +336,7 @@ private theorem spEnd_diagSp_eq_self_of_mem_stdPlane {s : Fin ℓ → Fˣ} {i : 
   rw [map_add, map_smul, map_smul, spEnd_diagSp_single_inl, spEnd_diagSp_single_inr]
   simp [hsi]
 
+omit [Finite F] [CharP F 2] in
 theorem diagSp_mem_centralizer_of_fixes {K : Subgroup ↥(StatedSp ℓ F)}
     (hpl : ∀ k ∈ K, ∀ i, spEnd k (Pi.single (Sum.inl i) 1) ∈ stdPlane F ℓ i ∧
       spEnd k (Pi.single (Sum.inr i) 1) ∈ stdPlane F ℓ i)

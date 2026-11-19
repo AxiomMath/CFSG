@@ -59,7 +59,7 @@ theorem mul_neg_SL (A B : SL(2, F)) : A * (-B) = -(A * B) := by
 
 theorem neg_neg_SL (A : SL(2, F)) : -(-A) = A := by
   ext i j
-  simp [Matrix.SpecialLinearGroup.coe_neg]
+  simp
 
 theorem exists_quaternion_relations [Fintype F] (hF : ringChar F ≠ 2) :
     ∃ i j w z : SL(2, F), z ^ 2 = 1 ∧ z ≠ 1 ∧ i ^ 2 = z ∧ j ^ 2 = z ∧ j * i * j⁻¹ = i⁻¹ ∧
@@ -84,7 +84,7 @@ theorem exists_quaternion_relations [Fintype F] (hF : ringChar F ≠ 2) :
 theorem false_of_odd_prime_dvd [Fintype F] {r ℓ : ℕ} (hr : r.Prime) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (hcard : Fintype.card F = r) (hℓr : ℓ ∣ r - 1)
     (hcyc : ∀ H : Subgroup SL(2, F), Nat.card H = r * ℓ → IsCyclic H) : False := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hdvd : ℓ ∣ Nat.card Fˣ := by
     rw [Nat.card_units, Nat.card_eq_fintype_card, hcard]
     exact hℓr
@@ -106,7 +106,7 @@ theorem false_of_odd_prime_dvd [Fintype F] {r ℓ : ℕ} (hr : r.Prime) (hℓ : 
     have := Nat.le_of_dvd (by omega) hℓr
     omega
   have hinf : A ⊓ B = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (by rw [hA, hB]; exact (Nat.coprime_primes hr hℓ).2 hlt.ne')
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hA, hB]; exact (Nat.coprime_primes hr hℓ).2 hlt.ne')))
   have hnorm : B ≤ Subgroup.normalizer (A : Set SL(2, F)) := by
     intro b hb
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
@@ -121,7 +121,7 @@ theorem false_of_odd_prime_dvd [Fintype F] {r ℓ : ℕ} (hr : r.Prime) (hℓ : 
   have hsup : Nat.card (A ⊔ B : Subgroup SL(2, F)) = r * ℓ :=
     (CFSG.GH74.Uniqueness.Bender.card_sup_eq_mul_of_le_normalizer hnorm hinf).trans
       (by rw [hA, hB])
-  haveI := hcyc _ hsup
+  have := hcyc _ hsup
   have huH : unip (1 : F) ∈ (A ⊔ B : Subgroup SL(2, F)) := Subgroup.mem_sup_left (unip_mem_unipSL 1)
   have htH : t ∈ (A ⊔ B : Subgroup SL(2, F)) := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
   have hcomm := congrArg Subtype.val

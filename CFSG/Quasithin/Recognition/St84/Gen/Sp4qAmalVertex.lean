@@ -46,6 +46,7 @@ private noncomputable def conjEnd (L : Subgroup G) (p : ℕ) :
     simp only [Subgroup.coe_mul]
     group
 
+omit [Finite G] in
 private theorem conjEnd_apply (L : Subgroup G) (p : ℕ) (x : ↥L) (u : ↥(pCoreOf p L)) :
     conjEnd L p x (Additive.ofMul u) =
       Additive.ofMul ⟨x * u * x⁻¹, PCoreSection.conj_mem_pCoreOf x.2 u.2⟩ := rfl
@@ -54,6 +55,7 @@ section
 
 variable {L S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem exists_conjAction
     (hQ : IsElemAbelian 2 (pCoreOf 2 L))
     (α : ↥L →* SL(2, GaloisField 2 f)) (hαsurj : Function.Surjective α)
@@ -66,7 +68,7 @@ private theorem exists_conjAction
   let F := GaloisField 2 f
   let Q := pCoreOf 2 L
   let V := Additive ↥Q
-  haveI hQcomm : IsMulCommutative ↥Q := hQ.1
+  have hQcomm : IsMulCommutative ↥Q := hQ.1
   let φ : ↥L →* AddMonoid.End V := conjEnd L 2
   have hker_le : α.ker ≤ φ.ker := by
     intro x hx
@@ -105,6 +107,7 @@ private theorem exists_conjAction
     exact conjEnd_apply L 2 x v.toMul
   exact ⟨ρ, hρ'⟩
 
+omit [Finite G] in
 private theorem exists_lin2_action
     (hQ : IsElemAbelian 2 (pCoreOf 2 L))
     (α : ↥L →* SL(2, GaloisField 2 f)) (hαsurj : Function.Surjective α)
@@ -166,8 +169,8 @@ private theorem exists_lin2_action
     rw [show v = Additive.ofMul v.toMul from (ofMul_toMul v).symm]
     have hzero : β (eU v.toMul) = 1 := by
       have h := hv
-      simp only [β', MonoidHom.coe_toAdditiveLeft, Function.comp_apply, βQ,
-        MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe] at h
+      simp only [β', βQ,
+        MulEquiv.toMonoidHom_eq_coe] at h
       exact Multiplicative.toAdd.injective h
     have hmem : eU v.toMul ∈ (blockZ L).subgroupOf (blockU L) := by
       rw [← hβker]
@@ -187,6 +190,7 @@ private theorem exists_lin2_action
       _ = (v.toMul : G) := by rw [MulEquiv.subgroupCongr_symm_apply]
   exact ⟨ρ, β', hβ'surj, hβ'ρ, hβ'ker, hρ⟩
 
+omit [Finite G] in
 private theorem eq_top_of_fixed_commutators
     (hU : blockU L = pCoreOf 2 L)
     (α : ↥L →* SL(2, GaloisField 2 f))
@@ -355,8 +359,8 @@ private theorem exists_o3Coord_of_lin2 (hf : 2 ≤ f)
       apply Subtype.ext
       simpa using hv
     rw [hv', ofMul_one]
-  haveI hQcomm : IsMulCommutative ↥Q := hQ.1
-  haveI : Finite V := inferInstanceAs (Finite (Additive ↥Q))
+  have hQcomm : IsMulCommutative ↥Q := hQ.1
+  have : Finite V := inferInstanceAs (Finite (Additive ↥Q))
   obtain ⟨γ, hγ, -⟩ := exists_o3Coord (F := F) hF4 hV2 hcardV ρ β' hβ'surj hβ'ρ hβ'ker hgen hC'
   refine ⟨γ, ?_⟩
   intro x v

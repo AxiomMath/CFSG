@@ -53,6 +53,7 @@ section KleinFour
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_eq_bot_of_isKleinFour {B K : Subgroup G} (hB : IsKleinFour B) (hK : Odd (Nat.card K)) :
     B ⊓ K = ⊥ :=
   eq_bot_of_le_of_isKleinFour hB inf_le_left (hK.of_dvd_nat (card_dvd_of_le inf_le_right))

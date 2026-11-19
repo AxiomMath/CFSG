@@ -20,13 +20,13 @@ theorem eq_bot_of_isPGroup_of_normalized_hypSU (h : UnitaryFieldData 2 f K) (hε
     {T : Subgroup (GL (HypIndex s ε) K)} (hT : IsPGroup 2 T)
     (hSN : ∀ B : hypSU h s ε, ∀ t ∈ T, (B : GL (HypIndex s ε) K) * t *
       (B : GL (HypIndex s ε) K)⁻¹ ∈ T) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   rcases isEmpty_or_nonempty (HypIndex s ε) with hι | ⟨⟨i₀⟩⟩
   · refine (Subgroup.eq_bot_iff_forall _).2 fun t _ => ?_
     exact Units.ext (Matrix.ext fun i => (hι.false i).elim)
-  haveI : Nonempty (HypIndex s ε) := ⟨i₀⟩
+  have : Nonempty (HypIndex s ε) := ⟨i₀⟩
   let W : Submodule K (HypIndex s ε → K) :=
     { carrier := {v | ∀ t ∈ T, (t : Matrix (HypIndex s ε) (HypIndex s ε) K) *ᵥ v = v}
       add_mem' := fun {a b} ha hb t ht => by rw [Matrix.mulVec_add, ha t ht, hb t ht]
@@ -46,7 +46,7 @@ theorem eq_bot_of_isPGroup_of_normalized_hypSU (h : UnitaryFieldData 2 f K) (hε
   have hWtop : W = ⊤ := by
     rcases Nat.eq_zero_or_pos s with rfl | hs
     ·
-      haveI hsub : Subsingleton (HypIndex 0 ε) := subsingleton_hypIndex (by omega)
+      have hsub : Subsingleton (HypIndex 0 ε) := subsingleton_hypIndex (by omega)
       obtain ⟨i, hi⟩ : ∃ i, w₀ i ≠ 0 := by
         by_contra hall
         push Not at hall
@@ -102,8 +102,8 @@ variable {f : ℕ} {K : Type} [Field K] {t s ε : ℕ}
 theorem le_ker_uniLeviHom_of_normal_isPGroup (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
     {I : Finset ℕ} (hI : IsTopCut I t) (R : Subgroup ↥(flagStabilizer h (t + s) ε ↑I))
     [R.Normal] (hR : IsPGroup 2 R) : R ≤ (uniLeviHom (s := s) h hε hI).ker := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   intro r hr
   rw [MonoidHom.mem_ker]
   funext j

@@ -158,9 +158,9 @@ theorem f5Mat_reflArr (v : Array ℕ) : f5Mat (reflArr v) = reflMat (decode v) :
   rw [getElem!_pos (reflArr v) _ hk]
   simp only [reflArr, Array.getElem_ofFn]
   have h1 : (⟨(4 * (a : ℕ) + (b : ℕ)) / 4, by omega⟩ : Fin 4) = a := by
-    apply Fin.ext; simp only [Fin.val_mk]; omega
+    apply Fin.ext; simp only; omega
   have h2 : (⟨(4 * (a : ℕ) + (b : ℕ)) % 4, by omega⟩ : Fin 4) = b := by
-    apply Fin.ext; simp only [Fin.val_mk]; omega
+    apply Fin.ext; simp only; omega
   rw [h1, h2]
   exact ZMod.natCast_zmod_val _
 

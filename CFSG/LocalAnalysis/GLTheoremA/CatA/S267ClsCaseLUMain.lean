@@ -99,6 +99,7 @@ theorem good_wtU_lu [Finite K] (hp : p.Prime) (hpK : (p : K) ≠ 0) (hβ : β = 
     exact eq_zero_of_mem_weightSpace_of_fixed (glRep Aε) hp hA hpK
       (hx H₀ (Finset.mem_singleton_self _)) hm hfix
 
+omit [Finite Ω] in
 theorem layer_field_lu [Finite K] (hp : p.Prime) (hpK : (p : K) ≠ 0)
     (hβ : β = 0 ∨ β.SeparatingLeft) (Dat : ClsInner p S B H β) {Aε : Subgroup (GL ι K)}
     [IsMulCommutative Aε] (hA : ∀ a : ↥Aε, a ^ p = 1) (hAεβ : Aε ≤ isomGL β)
@@ -327,11 +328,11 @@ theorem concl_lu [Nonempty ι] [Finite K] (hp : p.Prime) [hSn : S.Normal]
   classical
   obtain ⟨Aε, hAε, hle, hAεβ, hAε𝒮, hmax, hcap, hscalMax, hdec⟩ :=
     exists_engine_lu hp hB hrank hBC hcore hZ h4 h2 hpK Dat hHβ hdetH hG6
-  haveI : IsMulCommutative ↥Aε := hAε.1
+  have : IsMulCommutative ↥Aε := hAε.1
   have hA : ∀ a : ↥Aε, a ^ p = 1 := fun a => Subtype.ext (by simpa using hAε.2 a a.2)
   have hmaxE : IsMaxElem β (glRep Aε) p (fieldSet Dat) :=
     isMaxElem_of_maximal β (fieldSet Dat) Aε hAε hAεβ hAε𝒮 hmax
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   have hρ : IsIsomRep β (glRep Aε) := isIsomRep_glRep hAεβ
   have h𝒮 : ∀ s ∈ fieldSet Dat, ∀ a v, s (glRep Aε a v) = glRep Aε a (s v) := by
     intro s hs a v

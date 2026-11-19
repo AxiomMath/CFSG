@@ -133,7 +133,7 @@ theorem isNeighborOf_iff {p : ℕ} {B : Subgroup G} {x : G} {L : Subgroup G} {y 
     GLAIsNeighborOf p B x L y J ↔ ∃ D K : Subgroup G, Nbr12 p B x L D K y J :=
   ⟨fun ⟨hs, D, K, hstd, hnb⟩ => ⟨D, K, ⟨hs, hstd, hnb⟩⟩, fun ⟨D, K, h⟩ => ⟨h.shat, D, K, h.std, h.nb⟩⟩
 
-@[expose] def NoNbr12 (p : ℕ) (B : Subgroup G) (x : G) (L D K : Subgroup G) : Prop :=
+@[expose] def NoNbr12 (p : ℕ) (B : Subgroup G) (x : G) (_L D K : Subgroup G) : Prop :=
   ∀ (y : G) (J : Subgroup G), ¬ (GLASHat p B y J ∧ GLANeighbor p x y J D K)
 
 end CFSG.LocalAnalysis.GLTheoremA

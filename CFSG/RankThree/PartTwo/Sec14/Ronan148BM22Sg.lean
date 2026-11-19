@@ -16,7 +16,7 @@ theorem closure_sg : closure {g | g ∈ sg} = P0 ⊔ V 0 := by
   apply le_antisymm
   · rw [closure_le]
     intro g hg
-    simp only [sg, List.mem_cons, List.mem_nil_iff, or_false, Set.mem_setOf_eq] at hg
+    simp only [sg, List.mem_cons, List.mem_nil_iff, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl | rfl | rfl
     · exact mem_sup_left X_mem_P0
     · exact mem_sup_left Y_mem_P0

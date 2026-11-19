@@ -246,7 +246,7 @@ lemma exists_equiv_of_iso_counts
         (∑ i, if Nonempty (g j ≅ f i) then 1 else 0) = 0 := by
       apply Finset.sum_eq_zero
       intro i _
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       rcases h with ⟨e⟩
       exact @IsEmpty.false (f i ≅ g j) (h_none i) e.symm
@@ -254,7 +254,7 @@ lemma exists_equiv_of_iso_counts
     have h_rhs_pos :
         1 ≤ ∑ x : κ, if Nonempty (g j ≅ g x) then 1 else 0 := by
       rw [Finset.sum_eq_add_sum_sdiff_singleton_of_mem]
-      · rw [if_pos ⟨Iso.refl _⟩]
+      · rw [ite_eq_left ⟨Iso.refl _⟩]
         exact Nat.le_add_right 1 _
       · simp
 

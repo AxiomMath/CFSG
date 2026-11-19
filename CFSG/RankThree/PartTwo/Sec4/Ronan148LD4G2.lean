@@ -88,10 +88,10 @@ section Excl
 theorem kf138TrialityG2Excl : KF138TrialityG2Excl := by
   intro n hn hn1 h3n K _ _ hK σ hσ α hstd Y hYα hYsn hYp π hπ hker
   have hn0 : 1 ≤ n := by omega
-  haveI : Finite (ProjGenLinGroup (Fin 3) (GaloisField 2 (2 * n))) :=
+  have : Finite (ProjGenLinGroup (Fin 3) (GaloisField 2 (2 * n))) :=
     Finite.of_surjective _ ProjGenLinGroup.mk_surjective
   have hK3 : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK3
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK3
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨eG⟩ := nonempty_fixedPoints_fieldActor_mulEquiv_g2 (σ := σ) hK2
   have hk : Nat.card (fixSubfield σ) = 2 ^ n := card_fixSubfield_of_cube hn0 hK hσ
@@ -101,7 +101,7 @@ theorem kf138TrialityG2Excl : KF138TrialityG2Excl := by
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
   have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card (fixSubfield σ) hk3
   have hZ : Subgroup.center ↥(adjointGroup .G2 (fixSubfield σ)) = ⊥ := center_adjointGroup_eq_bot
-  haveI : IsSimpleGroup ↥(adjointGroup .G2 (fixSubfield σ)) :=
+  have : IsSimpleGroup ↥(adjointGroup .G2 (fixSubfield σ)) :=
     CFSG.LieType.Simplicity.isSimpleGroup_of_mulEquiv hq
       ((QuotientGroup.quotientBot).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm))
   have hE0 : autFix (fieldActor (t := TwistTag.D4) σ σ) =
@@ -133,7 +133,7 @@ theorem kf138TrialityG2Excl : KF138TrialityG2Excl := by
     (MulEquiv.subgroupCongr hα').trans
       (((autFix (fieldActor (t := TwistTag.D4) σ σ)).equivMapOfInjective β.toMonoidHom
         β.injective).symm.trans ((MulEquiv.subgroupCongr hE0).trans eG))
-  haveI hsE : IsSimpleGroup ↥(autFix α) := eE.isSimpleGroup
+  have hsE : IsSimpleGroup ↥(autFix α) := eE.isSimpleGroup
   have hEcard : Nat.card ↥(autFix α) = CFSG.Open.ordG2 (2 ^ n) := by
     rw [Nat.card_congr eE.toEquiv, CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hk]
   have hYE : Y ≤ autFix α := fun y hy => mem_autFix.mpr (hYα y hy)
@@ -158,10 +158,10 @@ theorem kf138TrialityG2Excl : KF138TrialityG2Excl := by
         rw [h]; exact Subgroup.mem_top _
       exact this
     have eY : ↥Y ≃* ↥(autFix α) := MulEquiv.subgroupCongr hYeq
-    haveI : IsSimpleGroup ↥Y := eY.isSimpleGroup
+    have : IsSimpleGroup ↥Y := eY.isSimpleGroup
     have hYcard : Nat.card ↥Y = CFSG.Open.ordG2 (2 ^ n) := by
       rw [Nat.card_congr eY.toEquiv, hEcard]
-    haveI : π.ker.Normal := MonoidHom.normal_ker π
+    have : π.ker.Normal := MonoidHom.normal_ker π
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with hk' | hk'
     · have hinj : Function.Injective π := (MonoidHom.ker_eq_bot_iff π).mp hk'
       have := Nat.card_le_card_of_injective _ hinj

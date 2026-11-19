@@ -41,16 +41,19 @@ section Conj
 
 variable {h : X}
 
+omit [Finite X] in
 theorem conj_mul_self (ht2 : t * t = 1) : (h⁻¹ * t * h) * (h⁻¹ * t * h) = 1 := by
   calc (h⁻¹ * t * h) * (h⁻¹ * t * h) = h⁻¹ * (t * t) * h := by group
     _ = 1 := by rw [ht2]; group
 
+omit [Finite X] in
 theorem conj_ne_one (ht1 : t ≠ 1) : h⁻¹ * t * h ≠ 1 := by
   intro e
   apply ht1
   have : t = h * (h⁻¹ * t * h) * h⁻¹ := by group
   rw [this, e]; group
 
+omit [Finite X] in
 theorem conj_normalizes (hh : h ∈ Y) (htn : ∀ y ∈ Y, t * y * t⁻¹ ∈ Y) :
     ∀ y ∈ Y, (h⁻¹ * t * h) * y * (h⁻¹ * t * h)⁻¹ ∈ Y := by
   intro y hy
@@ -62,6 +65,7 @@ theorem conj_normalizes (hh : h ∈ Y) (htn : ∀ y ∈ Y, t * y * t⁻¹ ∈ Y)
   rw [e]
   exact h2
 
+omit [Finite X] in
 theorem conj_outer (hh : h ∈ Y) (hout : ¬ ∃ y ∈ Y, ∀ z ∈ Y, t * z * t⁻¹ = y * z * y⁻¹) :
     ¬ ∃ y ∈ Y, ∀ z ∈ Y, (h⁻¹ * t * h) * z * (h⁻¹ * t * h)⁻¹ = y * z * y⁻¹ := by
   rintro ⟨y, hy, hyz⟩
@@ -73,6 +77,7 @@ theorem conj_outer (hh : h ∈ Y) (hout : ¬ ∃ y ∈ Y, ∀ z ∈ Y, t * z * t
     _ = h * (y * (h⁻¹ * w * h) * y⁻¹) * h⁻¹ := by rw [this]
     _ = (h * y * h⁻¹) * w * (h * y * h⁻¹)⁻¹ := by group
 
+omit [Finite X] in
 theorem conj_centralizer (hh : h ∈ Y) (ht2 : t * t = 1)
     (hcent : centralizer ({t} : Set X) = (Y ⊓ centralizer ({t} : Set X)) ⊔ zpowers t) :
     centralizer ({h⁻¹ * t * h} : Set X) =
@@ -127,15 +132,15 @@ theorem gomi1P_facts (hO : standardComponentOddCore X = ⊥) (ht : orderOf t = 2
     omega
   have htn' : ∀ y ∈ Y, t * y * t⁻¹ ∈ Y := fun y hy => (mem_normalizer_iff.mp htn y).mp hy
   obtain ⟨M⟩ := nonempty_frobModel hY ht2 htn' hout
-  letI := M.field
-  haveI := M.fin
-  haveI := M.charP
+  let := M.field
+  have := M.fin
+  have := M.charP
   have ht2₁ := conj_mul_self (t := t) (h := M.h) ht2
   have ht1₁ := conj_ne_one (t := t) (h := M.h) ht1
   have htn₁ := conj_normalizes M.h_mem htn'
   have hout₁ := conj_outer M.h_mem hout
   have hcent₁ := conj_centralizer M.h_mem ht2 hcent
-  haveI hYs : IsSimpleGroup Y :=
+  have hYs : IsSimpleGroup Y :=
     (CFSG.LieType.Simplicity.fam_classical_converse ↥Y
       ⟨.PSp, 2, 2, 2, CFSG.GH74.statedClassicalModel_of_lieModel (by norm_num) hY⟩).2.2
   have hYcard : Nat.card Y = 979200 :=

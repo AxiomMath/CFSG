@@ -18,7 +18,7 @@ theorem atypeOK_U42
     ATypeOK 3 T := by
   have hT : Nat.card T = 25920 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.Co2Smith.card_QP45
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   exact atypeOK_of_card hb hT (by norm_num) (by norm_num)
     (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)
 
@@ -28,7 +28,7 @@ theorem atypeOK_L28
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.L28.equiv_psl_P
   have hT : Nat.card T = 504 :=
     (Nat.card_congr (e.trans e1.symm).toEquiv).trans CFSG.GH74.KGroups.L28.card_psl_GF8
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   exact atypeOK_of_card hb hT (by norm_num) (by norm_num)
     (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)
 
@@ -95,7 +95,7 @@ theorem co3_centShapeRk_level (hb : CFSG.HardMathSupport.Solomon.Coordinator.Lie
   obtain ⟨hXB3, -, hXBm, -⟩ := caseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 276)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 276)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -127,7 +127,7 @@ theorem arow_Co3_three
     (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     I1415Row .Co3 3 := by
   have e : CFSG.Blueprint.NativeSporadic.Co3 ≃* ↥co3P := co3PermEquiv
-  haveI : IsSimpleGroup ↥co3P :=
+  have : IsSimpleGroup ↥co3P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co3.isSimpleGroup_Co3 e.symm
   have hc : Nat.card ↥co3P = 495766656000 :=
     (Nat.card_congr e.toEquiv).symm.trans CFSG.Sporadic.Co3.card_Co3
@@ -176,7 +176,7 @@ theorem co2_centShapeRk_level (hb : CFSG.HardMathSupport.Solomon.Coordinator.Lie
   obtain ⟨hXB3, -, hXBm, -⟩ := co2CaseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 2300)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 2300)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -206,7 +206,7 @@ theorem arow_Co2_three
     (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     I1415Row .Co2 3 := by
   have e : CFSG.Blueprint.NativeSporadic.Co2 ≃* ↥co2P := co2PermEquiv
-  haveI : IsSimpleGroup ↥co2P :=
+  have : IsSimpleGroup ↥co2P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co2.isSimpleGroup_Co2 e.symm
   have hc : Nat.card ↥co2P = 42305421312000 :=
     (Nat.card_congr e.toEquiv).symm.trans CFSG.Sporadic.Co2.card_Co2
@@ -236,7 +236,7 @@ theorem shapeRkAt_xP' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBri
   refine shapeRkAt_of_subgroup_data_solvable Nat.prime_three
     atypeThree_of_equiv (fun _ _ _ _ _ h => h) fi22P xP lSub ?_
     lSub_normalized_cent isSimpleGroup_lSub nonabelian_lSub ?_ hcore (m := 6) ?_ (by norm_num)
-    (atypeOK_of_card hb (N := 3265920) (by rw [card_lSub] <;> norm_num) (by norm_num) (by norm_num)
+    (atypeOK_of_card hb (N := 3265920) (by rw [card_lSub]) (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)) trivial
   · intro l hl
     exact Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 (lSub_comm_x l hl),
@@ -257,7 +257,7 @@ open CFSG.Sporadic.Fi22 CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 
 theorem shapeRkAt_xRep_three' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) : ShapeRkAt 3 ATypeThree (fun _ _ => True) (xRep 3) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hOP : OPrimeCoreTrivialAt 3 ↥fi22P :=
     @OPrimeCoreTrivialAt.of_mulEquiv 3 ↥fi22P _ ↥CFSG.Sporadic.Fi22.J inferInstance eJP.symm oPrimeCoreTrivialAt_Fi22J
   have hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥ :=
@@ -296,8 +296,8 @@ theorem shapeRkAt_xRep' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderB
 
 theorem centShapeRk_J_level (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     CentShapeRk 3 ATypeThree (fun _ _ => True) CFSG.Sporadic.Fi22.J := by
-  haveI := finite_J_tab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J_tab
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hk3
   have hord : orderOf k = 3 := orderOf_eq_prime hk3 hk1

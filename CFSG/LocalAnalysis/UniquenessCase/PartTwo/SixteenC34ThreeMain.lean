@@ -31,7 +31,7 @@ theorem s16c34_isDirectProdOfConj_self {A : Type*} [Group A] (X N : Subgroup A)
       simpa using this
   have hset : conjSet X N = {X} := by
     ext Y
-    simp only [conjSet, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [conjSet, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨n, hn, rfl⟩
       exact hmap n hn

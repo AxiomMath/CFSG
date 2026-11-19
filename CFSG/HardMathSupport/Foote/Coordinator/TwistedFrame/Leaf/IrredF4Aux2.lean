@@ -66,13 +66,13 @@ theorem exists_root_pow {L : Type} [Field L] [IsAlgClosed L] (m : ℕ) (hm : 2 �
   linear_combination hc
 
 theorem odd_card (hodd : ringChar K ≠ 2) : Odd (Nat.card K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hn]
   exact (hp.eq_two_or_odd'.resolve_left hodd).pow
 
 theorem natCast_card_eq_zero (L : Type) [Field L] [Algebra K L] : ((Nat.card K : ℕ) : L) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h : ((Nat.card K : ℕ) : K) = 0 := by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.cast_card_eq_zero K
@@ -99,7 +99,7 @@ theorem sigma_fixed_rational (D : LangLevi Tag.F4 K wF) {x : ModGL Tag.F4 D.L}
     (hx : x ∈ adjointGroup Tag.F4 D.L) (hfix : SigFixed D x) :
     ∃ x₀ ∈ adjointGroup Tag.F4 K,
       baseChangeGL (algebraMap K D.L) x₀ = D.g * x * D.g⁻¹ := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hg : D.g ∈ adjointGroup Tag.F4 D.L := parabolicLevi_le_adjointGroup _ _ _ D.g_mem
   have hxh : D.g * x * D.g⁻¹ ∈ adjointGroup Tag.F4 D.L := mul_mem (mul_mem hg hx) (inv_mem hg)
   obtain ⟨x₀, hx₀, hb⟩ := Subgroup.mem_map.1
@@ -172,7 +172,7 @@ theorem frame_S₂_le_Lθ (D : LangLevi Tag.F4 K wF) :
 theorem exists_sigmaFixed_single (D : LangLevi Tag.F4 K wF) {γ : Fin Tag.F4.rank → ℤ}
     (hγ : IsRoot Tag.F4 γ) (hwγ : wF • γ = γ) (hK : 3 ≤ Nat.card K) :
     ∃ T : Finset D.L, 3 ≤ T.card ∧ ∀ t ∈ T, SigFixed D (pinnedX Tag.F4 D.L γ t) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ε, hε, hconj⟩ := exists_canonicalRep_mul_pinnedX_mul_inv D.L wF hγ
   have hε0 : ε ≠ 0 := fun h => by rw [h] at hε; simp at hε
   obtain ⟨T, hT, hTe⟩ := exists_finset_pow_eq (L := D.L) (Nat.card K) (by omega)
@@ -191,7 +191,7 @@ theorem exists_sigmaFixed_pair (D : LangLevi Tag.F4 K wF) {δ₁ δ₂ γ : Fin 
     ∃ (e : D.L) (A : Finset D.L), e ≠ 0 ∧ 2 * Nat.card K + 2 < A.card ∧
       ∀ a ∈ A, ∃ c : D.L, SigFixed D (pinnedX Tag.F4 D.L γ c * pinnedX Tag.F4 D.L δ₁ a *
         pinnedX Tag.F4 D.L δ₂ (e * a ^ Nat.card K)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ε₁, hε₁, h₁c⟩ := exists_canonicalRep_mul_pinnedX_mul_inv D.L wF h₁
   obtain ⟨ε₂, hε₂, h₂c⟩ := exists_canonicalRep_mul_pinnedX_mul_inv D.L wF h₂
   obtain ⟨ε₃, hε₃, h₃c⟩ := exists_canonicalRep_mul_pinnedX_mul_inv D.L wF hγ

@@ -79,14 +79,14 @@ theorem exists_mem_sylow_inf_orderOf {p : ℕ} [hp : Fact p.Prime] {K : Type} [G
     intro h
     exact P.ne_bot_of_dvd_card hdvd
       ((Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).mp h)
-  obtain ⟨z, hz, hzo, -⟩ := RankOneSylow.exists_central_orderOf T.isPGroup' hne
+  obtain ⟨z, hz, hzo, -⟩ := RankOneSylow.exists_central_orderOf T.isPGroup hne
   exact ⟨z, hz, hzo⟩
 
 theorem narrowGamma_eq_top_of_mulEquiv_prod {p : ℕ} (hp : p.Prime) {K D : Type} [Group K]
     [Finite K] [Group D] (e : K ≃* D × D) (hpD : p ∣ Nat.card D) (T : Sylow p K) :
     narrowGamma p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite D := Finite.of_injective (fun d => e.symm (d, 1))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite D := Finite.of_injective (fun d => e.symm (d, 1))
     (fun a b h => by simpa using e.symm.injective h)
   set D₁ : Subgroup K := (Subgroup.prod ⊤ ⊥ : Subgroup (D × D)).comap e.toMonoidHom with hD₁
   set D₂ : Subgroup K := (Subgroup.prod ⊥ ⊤ : Subgroup (D × D)).comap e.toMonoidHom with hD₂
@@ -94,8 +94,8 @@ theorem narrowGamma_eq_top_of_mulEquiv_prod {p : ℕ} (hp : p.Prime) {K D : Type
     simp [hD₁, Subgroup.mem_prod]
   have hm₂ : ∀ k, k ∈ D₂ ↔ (e k).1 = 1 := fun k => by
     simp [hD₂, Subgroup.mem_prod]
-  haveI : D₁.Normal := Subgroup.normal_comap _
-  haveI : D₂.Normal := Subgroup.normal_comap _
+  have : D₁.Normal := Subgroup.normal_comap _
+  have : D₂.Normal := Subgroup.normal_comap _
   have hcomm : ∀ a ∈ D₁, ∀ b ∈ D₂, a * b = b * a := fun a ha b hb => by
     apply e.injective
     rw [map_mul, map_mul]
@@ -178,7 +178,7 @@ theorem kFactTenFourteenNarrow_of_gamma
     (hG : KFactTenFourteenNarrowGamma) :
     KFactTenFourteenNarrow := by
   intro p Y _ _ K Y₀ R c hp hp2 hKn hL hZ hKY hc hco hR3 hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcK : c ∉ K := fun hcK => by
     have h1 : (⟨c, hcK⟩ : K) ∈ Subgroup.center K :=
       Subgroup.mem_center_iff.mpr fun g => Subtype.ext (Subgroup.mem_center_iff.mp hc g)
@@ -186,7 +186,7 @@ theorem kFactTenFourteenNarrow_of_gamma
     have : c = 1 := congrArg Subtype.val h1
     exact hp.one_lt.ne' (by rw [← hco, this, orderOf_one])
   have hzc : Subgroup.zpowers c ≤ Subgroup.center Y := Subgroup.zpowers_le.mpr hc
-  haveI : (Subgroup.zpowers c).Normal := ⟨fun n hn g => by
+  have : (Subgroup.zpowers c).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_center_iff.mp (hzc hn) g, mul_inv_cancel_right]
     exact hn⟩
   have hcR : c ∈ (R : Subgroup Y) :=

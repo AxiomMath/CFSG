@@ -120,15 +120,17 @@ section Conf
 variable (hs : szOK 820 10 = true)
 include hs
 
+omit hs in
 theorem conjT_tb {g x : Nat} (hg : Cn 820 10 g) (hx : Cn 820 10 x) :
     conjT 820 (tb 820 10 g) (tb 820 10 g) (tb 820 10 x) = tb 820 10 (cpP 820 10 g x) := by
   unfold conjT cpP
   rw [compT_tb hg hx, compT_tb (cn_pp hg hx) hg]
 
+omit hs in
 theorem cpOf_tb {t c : Nat} (ht : Cn 820 10 t) (hc : Cn 820 10 c) :
     cpOf (tb 820 10 t) (tb 820 10 c) = tb 820 10 (cpP 820 10 t c) := by
   unfold cpOf
-  exact conjT_tb hs ht hc
+  exact conjT_tb ht hc
 
 theorem relFree_tb {y c c' : Nat} (hy : Cn 820 10 y) (hc : Cn 820 10 c) (hc' : Cn 820 10 c') :
     relFree (tb 820 10 y) (tb 820 10 c) (tb 820 10 c') = relFreeP 820 10 y c c' := by
@@ -143,14 +145,14 @@ theorem relFree_tb {y c c' : Nat} (hy : Cn 820 10 y) (hc : Cn 820 10 c) (hc' : C
 theorem candOK_tb {t y c : Nat} (ht : Cn 820 10 t) (hy : Cn 820 10 y) (hc : Cn 820 10 c) :
     candOK (tb 820 10 t) (tb 820 10 y) (tb 820 10 c) = candP 820 10 t y c := by
   unfold candOK candP
-  rw [cpOf_tb hs ht hc, ordTest3_tb hs hc, commTT_tb hc (cn_cp ht hc),
+  rw [cpOf_tb ht hc, ordTest3_tb hs hc, commTT_tb hc (cn_cp ht hc),
     commTT_tb hy (cn_cp ht hc), relFree_tb hs hy hc (cn_cp ht hc)]
 
 theorem kOK_tb {t c k : Nat} (ht : Cn 820 10 t) (hc : Cn 820 10 c) (hk : Cn 820 10 k) :
     kOK (tb 820 10 t) (tb 820 10 c) (tb 820 10 k) = kP 820 10 t c k := by
   unfold kOK kP
-  rw [cpOf_tb hs ht hc, cpOf_tb hs ht hk, involOK_tb hs hk, commTT_tb hk (cn_cp ht hc),
-    commTT_tb hk (cn_cp ht hk), conjT_tb hs hk hc, compT_tb (cn_cp hk hc) hc, idT_tb hs,
+  rw [cpOf_tb ht hc, cpOf_tb ht hk, involOK_tb hs hk, commTT_tb hk (cn_cp ht hc),
+    commTT_tb hk (cn_cp ht hk), conjT_tb hk hc, compT_tb (cn_cp hk hc) hc, idT_tb hs,
     tblEq_tb (cn_pp (cn_cp hk hc) hc) (cn_id hs)]
   rfl
 
@@ -215,6 +217,7 @@ theorem solList_tb {d : CaseData} {t y : Nat} (ht : Cn 820 10 t) (hy : Cn 820 10
     List.map_map, List.map_map]
   rfl
 
+omit hs in
 theorem cent5Of_tb {d : CaseData} {t : Nat} (ht : Cn 820 10 t) (hT : d.Tt = tb 820 10 t)
     (hE : yEnum d = Array.ofFn (n := N) fun i => tb 820 10 (Y i.val)) {c k : Nat}
     (hc : Cn 820 10 c) (hk : Cn 820 10 k) :
@@ -225,7 +228,7 @@ theorem cent5Of_tb {d : CaseData} {t : Nat} (ht : Cn 820 10 t) (hT : d.Tt = tb 8
   refine List.filter_congr fun i hi => ?_
   have hi' := hY i (List.mem_range.1 hi)
   simp only [Function.comp_apply]
-  rw [cpOf_tb hs ht hc, cpOf_tb hs ht hk, commTT_tb hi' hc, commTT_tb hi' (cn_cp ht hc),
+  rw [cpOf_tb ht hc, cpOf_tb ht hk, commTT_tb hi' hc, commTT_tb hi' (cn_cp ht hc),
     commTT_tb hi' hk, commTT_tb hi' (cn_cp ht hk)]
 
 end Conf

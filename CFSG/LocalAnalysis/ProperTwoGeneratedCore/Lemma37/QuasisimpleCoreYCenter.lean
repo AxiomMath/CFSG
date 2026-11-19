@@ -88,7 +88,7 @@ theorem false_of_mem_center_sq
     CFSG.Assembly.LowTwoRank.two_le_twoRank _ hnonab (hL.even_card_quotient hc)
   have hne2 : CFSG.Open.twoRank (L ⧸ Subgroup.center L) ≠ 2 := fun h => by
     have heq := rankTwoCoverStatement L hperf hZ2 hne hZc hsimple h
-    exact hSc (isCyclic_of_forall_eq_of_central S.isPGroup' (fun a _ b _ ha hb => heq a b ha hb)
+    exact hSc (isCyclic_of_forall_eq_of_central S.isPGroup (fun a _ b _ ha hb => heq a b ha hb)
       hcS (fun r _ => Subgroup.mem_center_iff.mp hcZ r) hc4)
   have h3 : 3 ≤ CFSG.Open.pRank 2 (Ss : Subgroup (L ⧸ Subgroup.center L)) := by
     rw [CFSG.ProperTwoGeneratedCore.sylow_two_rank_eq]

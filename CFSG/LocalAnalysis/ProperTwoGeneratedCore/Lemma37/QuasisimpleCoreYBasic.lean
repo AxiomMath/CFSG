@@ -104,7 +104,7 @@ theorem even_card_quotient (hL : OneComponent Y e v L) (hc : BaseConfig Y e) :
     push Not at hall
     have := hL.center_isCyclic
     exact hSc (Subgroup.isCyclic_of_le (show (S : Subgroup L) ≤ Subgroup.center L from hall))
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hsS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hsS⟩
   have hsn : (QuotientGroup.mk' (Subgroup.center L) s) ^ 2 ^ n = 1 := by
     rw [← map_pow, show s ^ 2 ^ n = 1 from by simpa using congrArg Subtype.val hn, map_one]
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hsn)

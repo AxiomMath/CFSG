@@ -21,13 +21,13 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
   carrier := {v | Multiplicative.toAdd v 2 = 0}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, toAdd_mul, Pi.add_apply] at *
+    simp only [Set.mem_ofPred_eq, toAdd_mul, Pi.add_apply] at *
     rw [ha, hb]
     simp
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, toAdd_inv, Pi.neg_apply] at *
+    simp only [Set.mem_ofPred_eq, toAdd_inv, Pi.neg_apply] at *
     rw [ha]
     decide
 

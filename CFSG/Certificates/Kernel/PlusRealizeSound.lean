@@ -284,16 +284,16 @@ theorem nsq3 : ¬IsSquare (3 : ZMod 5) := by
 
 theorem signB_spec {π : Bool} {n : Nat} (h : signB π n = true) :
     ((n : Nat) : ZMod 5) ≠ 0 ∧ (IsSquare ((n : Nat) : ZMod 5) ↔ π = true) := by
-  cases π <;> simp only [signB, cond_true, cond_false, Bool.or_eq_true, Nat.beq_eq] at h <;>
+  cases π <;> simp only [signB, _root_.Bool.cond_true, Bool.cond_false, Bool.or_eq_true, Nat.beq_eq] at h <;>
     rcases h with rfl | rfl
   · exact ⟨by decide, by simp [nsq2]⟩
   · exact ⟨by decide, by simp [nsq3]⟩
-  · exact ⟨by decide, by simp [sq1]⟩
+  · exact ⟨by decide, by simp⟩
   · exact ⟨by decide, by simp [sq4]⟩
 
 theorem signB_of {π : Bool} {n : Nat} (h0 : 0 < n) (h5' : n < 5)
     (h : IsSquare ((n : Nat) : ZMod 5) ↔ π = true) : signB π n = true := by
-  interval_cases n <;> cases π <;> simp_all [signB, sq1, sq4, nsq2, nsq3]
+  interval_cases n <;> cases π <;> simp_all [signB, sq4, nsq2, nsq3]
 
 theorem vecA_toList (A : Array (Array Nat)) (hA : A.size = 60) (i : Fin 60) :
     (A[(i : Nat)]!).toList = (VSof A)[(i : Nat)]'(by simp [VSof, hA]) := by
@@ -326,6 +326,7 @@ theorem signProp_of : signProp π := by
 theorem form_ne (i : Fin 60) : fiveForm 3 true (vecD π i) (vecD π i) ≠ 0 :=
   (signProp_of hv hA hs i).1
 
+omit hv hA hs in
 theorem f5Mat_MA (i : Fin 60) : f5Mat (MA π i) = reflMat (vecD π i) := f5Mat_reflArr _
 
 theorem reflMat_sq (i : Fin 60) : reflMat (vecD π i) * reflMat (vecD π i) = 1 :=
@@ -335,7 +336,7 @@ theorem reflMat_sq (i : Fin 60) : reflMat (vecD π i) * reflMat (vecD π i) = 1 
 
 theorem validA_MA (i : Fin 60) : f5ValidA (MA π i) = true := by
   have hu : IsUnit (f5Mat (MA π i)) := by
-    rw [f5Mat_MA hv hA hs i]
+    rw [f5Mat_MA i]
     exact ⟨⟨_, _, reflMat_sq hv hA hs i, reflMat_sq hv hA hs i⟩, rfl⟩
   have hd : ((f5DetZ (MA π i) : Int) : ZMod 5) ≠ 0 := by
     rw [← f5Mat_det]
@@ -347,7 +348,7 @@ theorem validA_MA (i : Fin 60) : f5ValidA (MA π i) = true := by
 
 theorem inv_MA (i : Fin 60) : f5EqA (f5MulA (MA π i) (MA π i)) f5IdA = true := by
   apply f5EqA_of_mat_eq
-  rw [f5Mat_mulA, f5Mat_idA, f5Mat_MA hv hA hs i]
+  rw [f5Mat_mulA, f5Mat_idA, f5Mat_MA i]
   exact reflMat_sq hv hA hs i
 
 theorem distinct_MA (hd : distOK (VSof A) = true) {i j : Fin 60} (hij : i ≠ j) :
@@ -355,7 +356,7 @@ theorem distinct_MA (hd : distOK (VSof A) = true) {i j : Fin 60} (hij : i ≠ j)
   rw [Bool.eq_false_iff]
   intro h
   have hm := f5Mat_eq_of_eqA h
-  rw [f5Mat_MA hv hA hs, f5Mat_MA hv hA hs] at hm
+  rw [f5Mat_MA, f5Mat_MA] at hm
   obtain ⟨a, b, c, d, ei, _⟩ := sign_at hA hs i
   obtain ⟨e, f, g, k, ej, _⟩ := sign_at hA hs j
   have di : vecD π i = dv4 a b c d := by rw [vecD, hv i]; exact decode_of_toList ei
@@ -402,7 +403,7 @@ theorem table_MA (hT : tabOK (VSof A) (VSof plusTable) = true)
     (hzR : plusTable.size = 60) (i j : Fin 60) :
     f5EqA (f5MulA (f5MulA (MA π i) (MA π j)) (MA π i)) (MA π (TA i j)) = true := by
   apply f5EqA_of_mat_eq
-  rw [f5Mat_mulA, f5Mat_mulA, f5Mat_MA hv hA hs, f5Mat_MA hv hA hs, f5Mat_MA hv hA hs]
+  rw [f5Mat_mulA, f5Mat_mulA, f5Mat_MA, f5Mat_MA, f5Mat_MA]
   have hLi : (i : Nat) < (VSof A).length := by simp [VSof, hA]
   have hTi : (i : Nat) < (VSof plusTable).length := by simp [VSof, hzR]
   have hrow : ((VSof plusTable)[(i : Nat)]).length = 60 := by
@@ -512,6 +513,7 @@ theorem matProp_of (hd : distOK (VSof A) = true) (hT : tabOK (VSof A) (VSof plus
   · rw [getElem_toArray_ofFn_MA, getElem_toArray_ofFn_MA]
     exact distinct_MA hv hA hs hd hij
 
+omit hs in
 theorem coverProp_of (hc : covOK π (VSof A) = true) : coverProp π := by
   intro v hq hsq
   have hv' : v = dv4 (v 0).val (v 1).val (v 2).val (v 3).val := by
@@ -570,6 +572,6 @@ theorem realizeCheck_of (hzT : plusSquareVecs.size = 60) (hzF : plusNonsquareVec
   simp only [realizeCheck, Bool.and_eq_true, decide_eq_true_eq]
   exact ⟨⟨⟨⟨⟨signProp_of hvT hzT hsT, signProp_of hvF hzF hsF⟩,
     matProp_of hvT hzT hsT hdT htT hR hzR⟩, matProp_of hvF hzF hsF hdF htF hR hzR⟩,
-    coverProp_of hvT hzT hsT hcT⟩, coverProp_of hvF hzF hsF hcF⟩
+    coverProp_of hvT hzT hcT⟩, coverProp_of hvF hzF hcF⟩
 
 end CFSG.KC.PlusRealizeK

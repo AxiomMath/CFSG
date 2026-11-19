@@ -100,7 +100,7 @@ theorem eq_of_fix_sylow (hσ : ∀ z, σ (σ z) = z) {P : Subgroup (Perm (Fin 6)
   have hcard : Nat.card (Perm (Fin 6)) = 720 := by
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]; rfl
   have hle9 : ∀ Q : Sylow 3 (Perm (Fin 6)), Nat.card Q ≤ 9 := fun Q => by
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
     have hdvd := Subgroup.card_subgroup_dvd_card (Q : Subgroup (Perm (Fin 6)))
     rw [hk, hcard] at hdvd
     rw [hk]

@@ -102,7 +102,7 @@ theorem exists_perfect_fixSubgroup_of_pow_eq_one_of_lt {p : ℕ} (hp : p.Prime) 
     ∃ Q : Subgroup (projectiveSL n k),
       Q ≤ fixSubgroup (conjAut n k X) ∧ ⁅Q, Q⁆ = Q ∧ p ∣ Nat.card Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd hp hpq
   have hXmem : X ∈ Subgroup.zpowers X := Subgroup.mem_zpowers X
   obtain ⟨P, hP⟩ := exists_conj_diagonal_of_exponent_prime (n := n) (p := p) ⟨ζ, hζ⟩
@@ -185,7 +185,7 @@ theorem innGoodAt_projectiveSL {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ
     {k : Type} [Field k] [Finite k] {q : TauCeti.PrimePower} (hcard : Nat.card k = q.card)
     (hpq : p ≠ q.p) (h32 : ¬ (p = 3 ∧ q.card = 2)) :
     InnGoodAt p (.A (n - 1) q) (projectiveSL n k) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro D hD hcardD hDle
   have hDl : D ≤ linearAutGroup n k :=
     hDle.trans (innAutDerived_projectiveSL_le_linearAutGroup hn)
@@ -255,7 +255,7 @@ theorem lieInnGood_linear : LieInnGood isLinearIdx := by
     have hpq : p ≠ q.p := by
       rw [TauCeti.LieTypeIndex.characteristic_A] at hpc
       exact hpc
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let k := GaloisField q.p q.exponent
     have hcard : Nat.card k = q.card := by
       dsimp only [k]

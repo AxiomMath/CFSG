@@ -23,7 +23,7 @@ theorem exists_isPGroup_ne_bot_normalizer {G : Type*} [Group G] [Finite G] {Y E 
   obtain ⟨P, hP⟩ := hE3.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 Y) h3
   let T : Subgroup G := (P : Subgroup Y).map Y.subtype
   have hTle : T ≤ Y := Subgroup.map_subtype_le (P : Subgroup Y)
-  have hT2 : IsPGroup 2 T := (P.isPGroup').map Y.subtype
+  have hT2 : IsPGroup 2 T := (P.isPGroup).map Y.subtype
   have h2T : 2 ∣ Nat.card T := by
     rw [Subgroup.card_map_of_injective Y.subtype_injective]
     exact Sylow.dvd_card_of_dvd_card P hY2

@@ -44,7 +44,7 @@ open Certificates.MaxD2Perm
   kw := 12
   PT := r32 PT
   FS := FS
-  KS := KS
+  KSt := KS
   RB := RB
   H := H
   CN := r32 CN

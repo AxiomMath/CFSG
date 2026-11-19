@@ -40,7 +40,6 @@ theorem s95s_eq_ulu (g : SL(2, K)) (hg : (g : Matrix (Fin 2) (Fin 2) K) 1 0 ≠ 
     first
     | ring1
     | linear_combination -hdet
-    | linear_combination hdet
 
 theorem s95s_sl2_induction [CharP K 2] {P : SL(2, K) → Prop} (hu : ∀ a, P (uSL a))
     (hl : ∀ b, P (lSL b)) (hm : ∀ g h, P g → P h → P (g * h)) (g : SL(2, K)) : P g := by

@@ -85,7 +85,7 @@ theorem orthE1_not_dvd_minus {q : ℤ} (hq : 4 ≤ q)
   nlinarith [sq_nonneg q]
 
 theorem noA2All_of_caseE1_of_not_caseVI [Finite G]
-    {M Q Z B : Subgroup G} (hc : Cfg M Q Z B) {t : G} (ht : CtxD4 M Q Z B t) (hE : CaseE1 M Q Z B t)
+    {M Q Z B : Subgroup G} (hc : Cfg M Q Z B) {t : G} (_ht : CtxD4 M Q Z B t) (hE : CaseE1 M Q Z B t)
     (hVI : ¬ CaseVI M Q Z (Lgen M (LB M Q B))) : NoA2All M Q Z := by
   obtain ⟨hQ, hNt, hR⟩ := hE
   have hq4 : 4 ≤ Nat.card Z := hc.ctx.hyp.q4
@@ -120,11 +120,11 @@ theorem noA2All_of_caseE1_of_not_caseVI [Finite G]
     push_cast at hZ
     rcases hR with ⟨hNR, K₂, fK₂, finK₂, hK₂, ⟨eR⟩⟩ | ⟨hNR, K₂, fK₂, finK₂, hK₂, b, c, hirr, ⟨eR⟩⟩
     ·
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       rw [orthE1_card_plus hK₂ hq4 eR, hSc] at hZ
       exact orthE1_not_dvd_plus (by exact_mod_cast hq4) hZ
     ·
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       rw [orthE1_card_minus hK₂ hirr eR, hSc] at hZ
       exact orthE1_not_dvd_minus (by exact_mod_cast hq4) hZ
   ·

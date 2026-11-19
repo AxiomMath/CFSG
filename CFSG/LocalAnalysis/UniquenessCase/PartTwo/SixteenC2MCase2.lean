@@ -14,8 +14,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem s16c2m_case2_invFix (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hc : Counterex16 D V₀ V L hV) (hV0 : V₀ ≠ ⊥)
+theorem s16c2m_case2_invFix (D : Data G) (_h1217 : R1217 D) {V₀ V L : Subgroup G}
+    (hV : IsElemAbelian 2 V) (hc : Counterex16 D V₀ V L hV) (_hV0 : V₀ ≠ ⊥)
     (h2 : Case168_2 D V₀ V hV L) : s16n9bInvFix (Mbar D.M V₀ V hV) 3 3 := by
   obtain ⟨L₀, J₀, J₁, F, hLX, hKX, hKL, hK, hdir, hle, hE₀, hE₁, hfam⟩ :=
     s16c2m_setting D hc h2
@@ -26,7 +26,7 @@ theorem s16c2m_case2_invFix (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup 
   · have hcard : Nat.card ↥(lBar V₀ V hV L) = Nat.card ↥L₀ :=
       (SeitzReduction.LinearPilot.card_of_lieModel_PSL_two hL).trans
         (SeitzReduction.LinearPilot.card_of_lieModel_PSL_two hL₀).symm
-    haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+    have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
     have hLeq : lBar V₀ V hV L = L₀ := Subgroup.eq_of_le_of_card_ge hle hcard.ge
     rw [← hLeq] at hdir
     have hT := s16c1610_isTensorS3L2_of_sum_natural hm3 hK hL hdir hsum

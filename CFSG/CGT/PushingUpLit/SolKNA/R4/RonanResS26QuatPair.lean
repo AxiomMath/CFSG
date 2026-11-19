@@ -21,7 +21,7 @@ theorem quatPair_a_pow {n : ℕ} (i : ZMod (2 * n)) (k : ℕ) :
 theorem quatPair_a_pow_n {n : ℕ} [NeZero n] (i : ZMod (2 * n))
     (ho : orderOf (a i : QuaternionGroup n) = 2 * n) :
     (a i : QuaternionGroup n) ^ n = a (n : ZMod (2 * n)) := by
-  haveI : NeZero (2 * n) := ⟨by have := NeZero.ne n; omega⟩
+  have : NeZero (2 * n) := ⟨by have := NeZero.ne n; omega⟩
   have hi : (n : ZMod (2 * n)) * i = ((n * i.val : ℕ) : ZMod (2 * n)) := by
     rw [Nat.cast_mul, ZMod.natCast_zmod_val]
   rw [quatPair_a_pow, hi]
@@ -89,7 +89,7 @@ theorem exists_quat_pair_of_mem {G : Type*} [Group G] {Q : Subgroup G} {r : ℕ}
       _ ≤ 2 ^ (r - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
   have h2 : 2 ^ (r - 1) = 2 * 2 ^ (r - 2) := by
     rw [show r - 1 = (r - 2) + 1 by omega, pow_succ, mul_comm]
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   exact quatPair_aux h4 e huQ (hou.trans h2)
 
 end CFSG.CGT.PushingUpLit.SolKNA.R4.RonanRes

@@ -62,7 +62,7 @@ theorem ObstructionSetting.exists_isPlaneDiagonal (hS : ObstructionSetting G)
     hS.exists_mem_normalizer_not_mem_centralizer hD1 hp hext hPD hDab hCM
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   have hnord : ∃ k : ℕ, n ^ (p ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨b₁, hb₁, hnw⟩ := exists_transvection_exponent hDe hDc hzD hz1 hnord hnN hnz hnC hwD hwz
   set n₂ : G := x * n * x⁻¹ with hn₂def
@@ -110,7 +110,7 @@ theorem ObstructionSetting.exists_isPlaneDiagonal (hS : ObstructionSetting G)
   have hM : (!![0, ν; -(ν⁻¹), 0] * !![0, -1; -((-1 : ZMod p)⁻¹), 0] :
       Matrix (Fin 2) (Fin 2) (ZMod p)) = !![ν, 0; 0, ν⁻¹] := by
     ext i k
-    fin_cases i <;> fin_cases k <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hν0] <;> field_simp
+    fin_cases i <;> fin_cases k <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   rw [hM] at hg'
   obtain ⟨g', hg'N, hg'act⟩ : ∃ g' : G, g' ∈ normalizer (D : Set G) ∧
       PlaneActs p z w g' !![ν, 0; 0, ν⁻¹] :=

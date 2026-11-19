@@ -10,9 +10,11 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G}
 
-theorem commutator_le_self_aux : ⁅K, K⁆ ≤ K := Subgroup.commutator_le.2 fun g₁ h₁ g₂ h₂ =>
+omit [Finite G] in
+theorem commutator_le_self_aux : ⁅K, K⁆ ≤ K := Subgroup.commutator_le.2 fun _g₁ h₁ _g₂ h₂ =>
   mul_mem (mul_mem (mul_mem h₁ h₂) (inv_mem h₁)) (inv_mem h₂)
 
+omit [Finite G] in
 theorem commutator_perfect (hK : IsTypeLnq 2 2 2 K) :
     Group.IsPerfect ↥⁅K, K⁆ := by
   rw [Subgroup.isPerfect_iff]
@@ -38,6 +40,7 @@ theorem commutator_perfect (hK : IsTypeLnq 2 2 2 K) :
     rw [e]
     exact Subgroup.commutator_mem_commutator hk₁ hk₂
 
+omit [Finite G] in
 theorem commutator_typeLnq (hK : IsTypeLnq 2 2 2 K) :
     IsTypeLnq 2 2 2 ⁅K, K⁆ := by
   let φ : ↥⁅K, K⁆ →* ↥K ⧸ Subgroup.center ↥K :=

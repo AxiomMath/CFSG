@@ -33,7 +33,7 @@ private theorem s16t_l4g_exists_gl4 {v : Fin 4 → Fin 4 → ZMod 2}
     funext j i
     rfl
   have hA : IsUnit A := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hcol]
     exact h
   refine ⟨hA.unit, fun j => ?_⟩
   rw [show ((hA.unit : Matrix.GeneralLinearGroup (Fin 4) (ZMod 2)) :

@@ -13,8 +13,8 @@ open CFSG CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.ComponentInitial
 
 theorem linearOuterResidual_holds : LinearOuterResidual := by
   intro p hp hp2 X _ _ L _ hC hE m q hv hm ⟨e⟩ hφ hq1 x hx
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hn3 : 3 ≤ m + 1 := by omega
   have hcardK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]

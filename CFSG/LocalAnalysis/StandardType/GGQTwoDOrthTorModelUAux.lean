@@ -37,7 +37,7 @@ theorem qtwoStdWin_range_equiv_statedSU (hK : Nat.card K = 4) (m a len : ℕ)
     (h : a + len ≤ m + 1) :
     Nonempty (↥(qtwoStdWin (F := F) (K := K) m a len h).range ≃*
       ↥(StatedSU len (2 ^ 1) K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   refine ⟨(MulEquiv.ofBijective
     (qtwoStdWin (F := F) (K := K) m a len h).rangeRestrict
@@ -49,8 +49,8 @@ theorem qtwoStdWin_range_equiv_statedSU (hK : Nat.card K = 4) (m a len : ℕ)
 
 theorem plh_pmoc_eq_zero_or_one (hF : Nat.card F = 2) (a : F) : a = 0 ∨ a = 1 := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (α := F) (by rw [hF]; norm_num)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := Nat.finite_of_card_ne_zero (α := F) (by rw [hF]; norm_num)
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F ≤ 2 := by rw [← Nat.card_eq_fintype_card, hF]
   have h : (Finset.univ : Finset F) = {0, 1} := Finset.univ_of_card_le_two hcard
   have ha : a ∈ (Finset.univ : Finset F) := Finset.mem_univ a
@@ -75,7 +75,7 @@ theorem plh_torStdM_eq_smul_of_mem_V₁ (ζ : normOne (unitaryInvolution K 2 1))
 
 theorem plh_torE₁_isKLinear (E : QuadExt F K (unitaryInvolution K 2 1))
     (hF : Nat.card F = 2) {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1)
-    (m a : ℕ) (ha : a ≤ m + 1)
+    (m a : ℕ) (_ha : a ≤ m + 1)
     {g : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)}
     (hg : g ∈ torE₁ (Qn E (m + 1)) (torStdM ζ m a)) :
     ∀ (c : K) (x : Fin (m + 1) → K), g (c • x) = c • g x := by
@@ -359,19 +359,19 @@ theorem plh_suEndN_mem_win_of_fix (m a : ℕ) (ha : a ≤ m + 1)
       · have hj_out : ¬ (a ≤ j.val ∧ j.val < a + b) := by omega
         have hij : i ≠ j := fun h => hj (h ▸ hi)
         rw [blockMat_apply_of_not_mem_right A i hj_out, hcol j (by omega) i, Matrix.one_apply,
-          if_neg hij]
+          ite_eq_right hij]
     · have hi_out : ¬ (a ≤ i.val ∧ i.val < a + b) := by omega
       by_cases hj : a ≤ j.val
       · have hj_in : a ≤ j.val ∧ j.val < a + b := ⟨hj, hj_lt⟩
         have hij : i ≠ j := fun h => hi (h ▸ hj)
         rw [blockMat_apply_of_not_mem_left A hi_out j, hrow i (by omega) j, Matrix.one_apply,
-          if_neg hij]
+          ite_eq_right hij]
       · by_cases hij : i = j
         · subst hij
           rw [blockMat_apply_of_not_mem_left A hi_out i, hrow i (by omega) i, Matrix.one_apply,
-            if_pos rfl]
+            ite_eq_left rfl]
         · rw [blockMat_apply_of_not_mem_left A hi_out j, hrow i (by omega) j, Matrix.one_apply,
-            if_neg hij]
+            ite_eq_right hij]
   have huniA : conjTr (unitaryInvolution K 2 1) A * A = 1 := by
     refine blockMat_injective hb' ?_
     rw [blockMat_mul hb', ← conjTr_blockMat, ← hMeq, huni, blockMat_one]
@@ -416,7 +416,7 @@ theorem plh_commutator_le_range_suEndN (E : QuadExt F K (unitaryInvolution K 2 1
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hDnorm (Subgroup.le_normalizer))
   have hHN : (U.subgroupOf (D ⊔ U)) ⊔ (D.subgroupOf (D ⊔ U)) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (le_sup_right : U ≤ D ⊔ U) (le_sup_left : D ≤ D ⊔ U)]
-    simpa [sup_comm] using Subgroup.subgroupOf_self (U ⊔ D)
+    simp [sup_comm]
   have hHcomm : IsMulCommutative (D.subgroupOf (D ⊔ U)) := by
     rw [isMulCommutative_iff]
     intro x y
@@ -429,7 +429,7 @@ theorem plh_commutator_le_range_suEndN (E : QuadExt F K (unitaryInvolution K 2 1
     show (x : ↥(D ⊔ U)).1 * (y : ↥(D ⊔ U)).1 =
       (y : ↥(D ⊔ U)).1 * (x : ↥(D ⊔ U)).1
     rw [← htx, ← hty, ← map_mul, ← map_mul, mul_comm]
-  haveI := hUnorm
+  have := hUnorm
   have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
     (N := U.subgroupOf (D ⊔ U)) (H := D.subgroupOf (D ⊔ U)) hHN
   have hmap : ⁅D ⊔ U, D ⊔ U⁆ ≤ U := by

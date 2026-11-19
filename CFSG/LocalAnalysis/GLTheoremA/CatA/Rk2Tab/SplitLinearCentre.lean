@@ -65,7 +65,7 @@ theorem quotient_conj_diag {n : ℕ} [Fintype F] (H : Subgroup (GL (Fin n) F))
 private def diagStatedSLHom (n : ℕ) : prodOneUnits F n →* StatedSL n F where
   toFun v := ⟨torusDiag (v : Fin n → Fˣ), torusDiag_mem_SL (mem_prodOneUnits.mp v.2)⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' v w := Subtype.ext (map_mul (torusDiag (K := F)) _ _)
+  map_mul' _v _w := Subtype.ext (map_mul (torusDiag (K := F)) _ _)
 
 private noncomputable def linearDeltaStated (n : ℕ) :
     prodOneUnits F n →* StatedProj (StatedSL n F) :=
@@ -133,14 +133,14 @@ theorem rk2_split_low_A {K : Type} [Group K] [Finite K] {lab : GLALabel}
       (by simp [CFSG.StandardType.markRank, htag])
       (by simp [CFSG.StandardType.markChar, htag])
       (by simp [CFSG.StandardType.markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcardF
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hpq' : p ∣ Nat.card F - 1 := by rw [hcardF]; exact hpq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by
     rw [Nat.card_units]; exact hpq')
   let k := lab.rank - 1

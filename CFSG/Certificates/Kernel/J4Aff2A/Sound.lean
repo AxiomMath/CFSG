@@ -91,7 +91,7 @@ theorem testBit_sxFold (t : ℕ) : ∀ (l : List ℕ) (a : ℕ),
 theorem etaCode_row0
     (c : ℕ) : (etaCode c).rows[0]?.getD 0 % 2 = 1 := by
   have h00 := burnsideJ4NP_rho_col0 (Eg_le_Hj (eta_mem_Eg 11 le_rfl c)) 0
-  rw [if_pos rfl, burnsideJ4NP_rho_eta, burnsideJ4NP_codeMat,
+  rw [ite_eq_left rfl, burnsideJ4NP_rho_eta, burnsideJ4NP_codeMat,
     CFSG.Sporadic.SmallF2.rowsMatrix_apply, CFSG.Sporadic.SmallF2.toVecD_apply, Fin.val_zero] at h00
   by_contra hc
   have h0 : ((etaCode c).rows[0]?.getD 0).testBit 0 = false := by
@@ -152,7 +152,7 @@ theorem treeTest_etaCode_iff
     omega
   have hbit : burnsideJ4NP_treeTest (etaCode c) = (sxOf zMasks).testBit (etaCode c).transl := by
     unfold burnsideJ4NP_treeTest burnsideJ4NP_affine2AWith
-    rw [hin, if_pos rfl, sxOf_testBit zMasks _ htr]
+    rw [hin, ite_eq_left rfl, sxOf_testBit zMasks _ htr]
     rfl
   rw [hbit, sxOf, testBit_sxFold, Nat.zero_testBit, Bool.false_or, List.any_eq_true]
   simp only [beq_iff_eq]

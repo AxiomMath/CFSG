@@ -41,7 +41,7 @@ theorem crossAt_of_on_compl {d : TauCeti.ValidLieTypeIndex} {S : ℕ → Prop} (
     · exact hab p hp hp5 hSp hdp L hs hiso
   · by_cases hSp : S p
     · exact h.2 p hp hp5 hSp hdp L hs hiso hn h3 y hy
-    · haveI : Fact p.Prime := ⟨hp⟩
+    · have : Fact p.Prime := ⟨hp⟩
       exact three_le_pRank_centralizer_of_sylow_abelian
         (fun P => hab p hp hp5 hSp hdp L hs hiso P) h3 (hy ▸ pow_orderOf_eq_one y)
 
@@ -61,7 +61,7 @@ theorem crossSylowAbelianOn_unitary_small {m : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedA m q).Valid) :
     CrossSylowAbelianOn ⟨.twistedA m q, hv⟩ (fun p => ¬ UnitaryLarge m q p) := by
   intro p hp hp5 hlarge hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv e
   have hdp' : q.p ≠ p := by simpa using hdp

@@ -29,7 +29,7 @@ theorem comm_of_centralizes_conj_of_sylow_comm {G : Type*} [Group G] [Finite G] 
     (hP'x : ∀ q ∈ P', q * (g₀ * x * g₀⁻¹) = (g₀ * x * g₀⁻¹) * q) :
     ∀ q₁ ∈ P', ∀ q₂ ∈ P', q₁ * q₂ = q₂ * q₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q'' : Subgroup G := P'.map (MulAut.conj g₀⁻¹).toMonoidHom with hQ''
   have hQ''C : Q'' ≤ C := by
     rintro _ ⟨q, hq, rfl⟩
@@ -85,9 +85,9 @@ theorem exists_noncomm_pGroup_centralizing_outer {K : Type} [Field K] [Finite K]
     ∃ P' : Subgroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom), IsPGroup 3 P' ∧
       (∀ q ∈ P', q * d = d * q) ∧ ¬ (∀ q₁ ∈ P', ∀ q₂ ∈ P', q₁ * q₂ = q₂ * q₁) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have h3 : ∀ c : K, σ (σ (σ c)) = c := fun c => by
     have : Fintype K := Fintype.ofFinite K
     rw [hσ, hσ, hσ, ← pow_mul, ← pow_mul,
@@ -152,8 +152,8 @@ theorem exists_noncomm_pGroup_centralizing_outer {K : Type} [Field K] [Finite K]
     have h2 : orderOf y₀ ≤ 3 := orderOf_le_of_pow_eq_one (by norm_num) hy₀3
     omega
   refine ⟨P', hP'p, ?_, hnab⟩
-  haveI : Nontrivial P' := Finite.one_lt_card_iff_nontrivial.1 (by omega)
-  haveI : Nontrivial (Subgroup.center P') := hP'p.center_nontrivial
+  have : Nontrivial P' := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial (Subgroup.center P') := hP'p.center_nontrivial
   obtain ⟨⟨y, hyc⟩, hy1⟩ := exists_ne (1 : Subgroup.center P')
   have hycomm : ∀ q ∈ P', q * (y : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) =
       (y : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) * q := fun q hq => by
@@ -201,10 +201,10 @@ theorem oddPCoreInClosure_triality_three_even_aux {K : Type} [Field K] [Finite K
     (hx : orderOf x = 3) (C : Subgroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (hC : ∀ c, c ∈ C ↔ c * x = x * c) : OddPCoreInClosure 3 ↥C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
-  haveI : Finite C := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite C := Subtype.finite
   have h3 : ∀ c : K, σ (σ (σ c)) = c := fun c => by
     have : Fintype K := Fintype.ofFinite K
     rw [hσ, hσ, hσ, ← pow_mul, ← pow_mul,
@@ -257,7 +257,7 @@ theorem oddPCoreInClosure_triality_three_even_aux {K : Type} [Field K] [Finite K
       rw [hA, Subgroup.map_map]
     rw [this]
     exact (Subgroup.map_mono hPR).trans (Subgroup.le_normalizer_map _)
-  have hAp : IsPGroup 3 A := P.isPGroup'.map φ
+  have hAp : IsPGroup 3 A := P.isPGroup.map φ
   obtain ⟨x₀, hx₀, J, hJ, hAJ⟩ := exists_conj_le_graphFixedParabolicLevi TwistTag.D4 (r := 2)
     (p := 3) (by norm_num) σ hσ3 hAX hAp hRX hR2' hR'ne hAR
   obtain ⟨ia, haJ⟩ := exists_subset_singleton_of_ne_univ hJ

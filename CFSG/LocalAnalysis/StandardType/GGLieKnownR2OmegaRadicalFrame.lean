@@ -93,8 +93,7 @@ private theorem frame_movedSpace_eq {K V : Type} [Field K] [AddCommGroup V] [Mod
     rintro x (rfl | rfl)
     · have hb₂ : eichler Q P.e P'.e P'.f - P'.f = -P.e := by
         rw [eichler_apply P.Q_e h.ee]
-        simp only [polar_comm Q P'.f P.e, h.ef, P'.polar_fe, P'.Q_e, mul_zero, mul_one,
-          add_zero, zero_smul, one_smul]
+        simp only [polar_comm Q P'.f P.e, h.ef, P'.polar_fe, P'.Q_e, mul_zero, add_zero, zero_smul, one_smul]
         abel
       have hmem : -P.e ∈ Submodule.span K
           {w : V | ∃ g ∈ siegelGroup Q P.e P'.e, ∃ v, g v - v = w} :=
@@ -103,7 +102,7 @@ private theorem frame_movedSpace_eq {K V : Type} [Field K] [AddCommGroup V] [Mod
       simpa using Submodule.neg_mem _ hmem
     · have hb₁ : eichler Q P.e P'.e P.f - P.f = P'.e := by
         rw [eichler_apply P.Q_e h.ee]
-        simp only [P.polar_fe, h.fe, P'.Q_e, mul_one, mul_zero, add_zero, zero_smul, one_smul]
+        simp only [P.polar_fe, h.fe, P'.Q_e, mul_one, add_zero, zero_smul, one_smul]
         abel
       exact Submodule.subset_span
         ⟨eichler Q P.e P'.e, Subgroup.subset_closure ⟨1, by rw [one_smul]⟩, P.f, hb₁⟩
@@ -160,14 +159,13 @@ private theorem frame_eichler_span_pair {K V : Type} [Field K] [AddCommGroup V] 
     ring
   have huw : polar Q (α • P.e + β • P'.e) (γ • P.e + δ • P'.e) = 0 := by
     simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq,
-      P.polar_ee, P'.polar_ee, h.ee, polar_comm Q P'.e P.e, mul_zero, zero_mul, add_zero]
+      P.polar_ee, P'.polar_ee, h.ee, polar_comm Q P'.e P.e, mul_zero, add_zero]
   have hw : polar Q P.e ((α * δ - β * γ) • P'.e) = 0 := by
     rw [polar_smul_right_eq, h.ee, mul_zero]
   refine LinearEquiv.ext fun x => ?_
   rw [eichler_apply hu huw, eichler_apply P.Q_e hw]
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul, polar_add_right, polar_add_left,
-    polar_smul_right_eq, polar_smul_left_eq, P.Q_e, P'.Q_e, P.polar_ee, P'.polar_ee, h.ee,
-    polar_comm Q P'.e P.e, mul_zero, zero_mul, add_zero, zero_smul, smul_smul]
+  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul, polar_add_right, polar_smul_right_eq, polar_smul_left_eq, P.Q_e, P'.Q_e, h.ee,
+    mul_zero, add_zero, smul_smul]
   module
 
 private theorem frame_eichler_mem_siegelGroup {K V : Type} [Field K] [AddCommGroup V]

@@ -22,7 +22,7 @@ theorem minpoly_eq_of_pow_eq {K A : Type*} [Field K] [Ring A] [Algebra K A] [Non
 theorem det_eq_of_pow_eq {K : Type*} [Field K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K}
     (hζ : ∀ b : K, b ^ p ≠ ζ) {M : Matrix (Fin p) (Fin p) K}
     (hM : M ^ p = scalar (Fin p) ζ) : M.det = ζ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hM' : M ^ p = algebraMap K (Matrix (Fin p) (Fin p) K) ζ := by
     rw [hM]; rfl
   have hmin := minpoly_eq_of_pow_eq hp hζ hM'
@@ -34,7 +34,7 @@ theorem det_eq_of_pow_eq {K : Type*} [Field K] {p : ℕ} (hp : p.Prime) (hp2 : p
     eq_of_monic_of_dvd_of_natDegree_le (monic_X_pow_sub_C ζ hp.ne_zero) (Matrix.charpoly_monic M)
       hdvd (by rw [hdeg, natDegree_X_pow_sub_C])
   have h0 : (X ^ p - C ζ).coeff 0 = -ζ := by
-    rw [coeff_sub, coeff_X_pow, coeff_C_zero, if_neg hp.ne_zero.symm, zero_sub]
+    rw [coeff_sub, coeff_X_pow, coeff_C_zero, ite_eq_right hp.ne_zero.symm, zero_sub]
   rw [Matrix.det_eq_sign_charpoly_coeff, heq, h0, Fintype.card_fin,
     Odd.neg_one_pow (hp.odd_of_ne_two hp2), neg_mul, one_mul, neg_neg]
 
@@ -42,15 +42,15 @@ theorem scalar_of_commute {K : Type*} [Field K] [Finite K] {p : ℕ} (hp : p.Pri
     (hpK : p ∣ Nat.card K - 1) {ζ : K} (hζ : ∀ b : K, b ^ p ≠ ζ)
     {A M : Matrix (Fin p) (Fin p) K} (hM : M ^ p = scalar (Fin p) ζ) (hA : A ^ p = 1)
     (hAM : A * M = M * A) : ∃ μ : K, A = scalar (Fin p) μ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ωu, hωu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ωu p := by
     rw [← hωu]
     exact IsPrimitiveRoot.orderOf ωu
   have hprim : IsPrimitiveRoot (ωu : K) p :=
     hprimU.map_of_injective (f := Units.coeHom K) Units.val_injective
-  haveI : NeZero (p : K) := hprim.neZero'
+  have : NeZero (p : K) := hprim.neZero'
   obtain ⟨P, Q, u, hPQ, hQP, hAP⟩ := exists_eigenbasis_matrix A
     (top_le_span_eigenvectors A hprim hp.pos (NeZero.ne _) hA)
   set i0 : Fin p := ⟨0, hp.pos⟩ with hi0
@@ -84,7 +84,7 @@ theorem scalar_of_commute {K : Type*} [Field K] [Finite K] {p : ℕ} (hp : p.Pri
     rw [hmemW] at hw ⊢
     rw [Matrix.toLin'_apply, Matrix.mulVec_mulVec, hAM, ← Matrix.mulVec_mulVec, hw,
       Matrix.mulVec_smul]
-  haveI : Nontrivial W := ⟨⟨⟨v, hvW⟩, 0, fun h => hv0 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial W := ⟨⟨⟨v, hvW⟩, 0, fun h => hv0 (congrArg Subtype.val h)⟩⟩
   let BW : Module.End K W := (Matrix.toLin' M).restrict hinv
   have hBW : BW ^ p = algebraMap K (Module.End K W) ζ := by
     have h1 : (Matrix.toLin' M) ^ p = algebraMap K (Module.End K (Fin p → K)) ζ := by
@@ -120,7 +120,7 @@ theorem scalar_of_commute {K : Type*} [Field K] [Finite K] {p : ℕ} (hp : p.Pri
   by_cases hij : i = j
   · subst hij
     simpa using h2
-  · simp only [hij, if_false]
+  · simp only [hij, ite_false]
     simpa [Pi.single_apply, hij] using h2
 
 end I294OD

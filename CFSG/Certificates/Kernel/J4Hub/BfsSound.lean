@@ -24,7 +24,7 @@ private theorem land255 (x : Nat) : x &&& 255 = x % 256 := by
 
 private theorem land1 (x : Nat) : x &&& 1 = x % 2 := by
   have := Nat.and_two_pow_sub_one_eq_mod x 1
-  simpa using this
+  simp
 
 private theorem sr_eq (x n : Nat) : Nat.shiftRight x n = x / 2 ^ n := Nat.shiftRight_eq_div_pow x n
 

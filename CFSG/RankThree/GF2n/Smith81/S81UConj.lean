@@ -64,8 +64,8 @@ private theorem s81u_layer_quot_map {G' : Type} [Group G'] (e : G ≃* G') {M Q 
         ((S.map e.toMonoidHom).subgroupOf (M.map e.toMonoidHom)).map
           (QuotientGroup.mk' ((Q.map e.toMonoidHom).subgroupOf (M.map e.toMonoidHom))) := by
   obtain ⟨hN, hL⟩ := h
-  haveI := hN
-  haveI hN' := s81u_normal_map e hN
+  have := hN
+  have hN' := s81u_normal_map e hN
   refine ⟨hN', ?_⟩
   have h1 := s81u_bar_map e M Q S
   unfold bar at h1

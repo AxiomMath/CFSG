@@ -125,11 +125,11 @@ private theorem g2mmn_eq_gmmn_of_two {n : ℕ} (hp : p = 2) (f : Module.Basis (F
   have hsign : (fun i => if i = i₀ then (-1 : (ZMod p)ˣ) else 1) = 1 := by
     funext i
     by_cases hi' : i = i₀
-    · rw [if_pos hi']
+    · rw [ite_eq_left hi']
       exact Units.ext (by
         rw [Units.val_neg, Units.val_one]
         exact (ZMod.neg_one_eq_one_iff (n := p)).mpr (Or.inr hp))
-    · rw [if_neg hi']; rfl
+    · rw [ite_eq_right hi']; rfl
   apply le_antisymm
   · rw [g2mmn, Subgroup.closure_le]
     rintro x hx
@@ -182,7 +182,7 @@ private theorem zs4d_exists_enum {m : ℕ} (hm : l = m + 1) (i : Fin l) :
   subst hm
   refine ⟨i.succAbove, Fin.succAbove_right_injective, ?_, fun τ => ?_⟩
   · ext j
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, rfl⟩
       exact Fin.succAbove_ne i k
@@ -208,7 +208,7 @@ private theorem zs4d_twist_apply_of_ne (f : Module.Basis (Fin l) (ZMod p) U) {a 
 private theorem zs4d_sign_apply_of_ne (f : Module.Basis (Fin l) (ZMod p) U) {j k : Fin l}
     (hjk : j ≠ k) :
     diagMap p f (fun m => if m = k then (-1 : (ZMod p)ˣ) else 1) (f j) = f j := by
-  rw [diagMap_apply_basis, if_neg hjk, Units.val_one, one_smul]
+  rw [diagMap_apply_basis, ite_eq_right hjk, Units.val_one, one_smul]
 
 private theorem zs4d_ne_of_swap_eq {a b k : Fin l} (hab : a ≠ b) (h : Equiv.swap a b k = k) :
     k ≠ a ∧ k ≠ b := by
@@ -232,7 +232,7 @@ private theorem zs4d_twist_fix_ne (f : Module.Basis (Fin l) (ZMod p) U) {a b i :
 private theorem zs4d_sign_fix_ne (hp : p ≠ 2) (f : Module.Basis (Fin l) (ZMod p) U) {k i : Fin l}
     (h : diagMap p f (fun m => if m = k then (-1 : (ZMod p)ˣ) else 1) (f i) = f i) : k ≠ i := by
   rintro rfl
-  rw [diagMap_apply_basis, if_pos rfl] at h
+  rw [diagMap_apply_basis, ite_eq_left rfl] at h
   have h1 : ((-1 : (ZMod p)ˣ) : ZMod p) = 1 := zs4d_eq_one_of_smul_eq f h
   rw [Units.val_neg, Units.val_one] at h1
   exact zs4d_neg_one_ne_one hp h1
@@ -484,7 +484,7 @@ private theorem zs4d_sep (hp : p ≠ 2) (f : Module.Basis (Fin l) (ZMod p) U) {j
       simp [pairUnit]
     · rw [diagMap_apply_basis]
       show ((if b = a then ζ else if b = b then ζ⁻¹ else 1 : (ZMod p)ˣ) : ZMod p) • f b = _
-      rw [if_neg (Ne.symm hab), if_pos rfl]
+      rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl]
   · refine ⟨diagMap p f (fun j => if j = a then (-1 : (ZMod p)ˣ) else 1),
       diagMap_signMap_mem_g2mmn f hi ζ a, zs4d_sign_apply_of_ne f (Ne.symm hai),
       fun k => ⟨_, diagMap_apply_basis f _ k⟩, ((-1 : (ZMod p)ˣ) : ZMod p), 1, ?_, ?_, ?_, ?_⟩
@@ -492,7 +492,7 @@ private theorem zs4d_sep (hp : p ≠ 2) (f : Module.Basis (Fin l) (ZMod p) U) {j
       exact zs4d_neg_one_ne_one hp
     · rw [Units.val_neg, Units.val_one]
       exact zs4d_neg_one_ne_one hp
-    · rw [diagMap_apply_basis, if_pos rfl]
+    · rw [diagMap_apply_basis, ite_eq_left rfl]
     · rw [one_smul]
       exact zs4d_sign_apply_of_ne f (Ne.symm hab)
 
@@ -572,12 +572,12 @@ private theorem zs4d_splitSupport_stab (hp : p ≠ 2) (f : Module.Basis (Fin l) 
 
 private theorem zs4d_pairUnit_left (a b : Fin l) (c : (ZMod p)ˣ) : pairUnit p a b c a = c := by
   unfold pairUnit
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem zs4d_pairUnit_right {a b : Fin l} (hab : a ≠ b) (c : (ZMod p)ˣ) :
     pairUnit p a b c b = c⁻¹ := by
   unfold pairUnit
-  rw [if_neg (Ne.symm hab), if_pos rfl]
+  rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl]
 
 private theorem zs4d_exists_orderOf_five (f : Module.Basis (Fin l) (ZMod p) U)
     {δ : Fin l → (ZMod p)ˣ} (h : orderOf (diagMap p f δ) = 5) : ∃ k, orderOf (δ k) = 5 := by
@@ -746,7 +746,7 @@ private theorem zs4d_gmmn_le (hi : j₀ ≠ j₁) (hX : movedGroup X = gmmn p e 
   · rw [Set.mem_singleton_iff.mp h, ← zs4d_pairUnit_comp hsinj]
     refine zs4d_diag_mem hg ?_ ?_
     · show (if i = s k₀ then ζ else if i = s k₁ then ζ⁻¹ else 1) = 1
-      rw [if_neg (Ne.symm (hsi k₀)), if_neg (Ne.symm (hsi k₁))]
+      rw [ite_eq_right (Ne.symm (hsi k₀)), ite_eq_right (Ne.symm (hsi k₁))]
     · rw [hX]
       exact diagMap_pairUnit_mem_gmmn e hi (hsinj.ne hk) (Subgroup.mem_zpowers ζ)
 
@@ -762,13 +762,13 @@ private theorem zs4d_g2mmn_le (hi : j₀ ≠ j₁) (hX : movedGroup X = g2mmn p 
   rintro _ (⟨τ, rfl⟩ | rfl | rfl)
   · exact zs4d_permMap_mem (Or.inr hX) hg hext τ
   · rw [← zs4d_sign_comp hsinj]
-    refine zs4d_diag_mem hg (if_neg (Ne.symm (hsi k₀))) ?_
+    refine zs4d_diag_mem hg (ite_eq_right (Ne.symm (hsi k₀))) ?_
     rw [hX]
     exact diagMap_signMap_mem_g2mmn e hi ζ (s k₀)
   · rw [← zs4d_pairUnit_comp hsinj]
     refine zs4d_diag_mem hg ?_ ?_
     · show (if i = s k₀ then ζ else if i = s k₁ then ζ⁻¹ else 1) = 1
-      rw [if_neg (Ne.symm (hsi k₀)), if_neg (Ne.symm (hsi k₁))]
+      rw [ite_eq_right (Ne.symm (hsi k₀)), ite_eq_right (Ne.symm (hsi k₁))]
     · rw [hX]
       exact diagMap_pairUnit_mem_g2mmn e hi (hsinj.ne hk)
         (Subgroup.subset_closure (Set.mem_insert _ _))

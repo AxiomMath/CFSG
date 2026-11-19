@@ -16,6 +16,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem conj_zg {w0 : G} (hw0S : w0 ∈ S) (hw0Q : w0 ∉ Q) :
     w0 * (g * z * g⁻¹) * w0⁻¹ = z * (g * z * g⁻¹) := by
   set z' := g * z * g⁻¹ with hz'
@@ -115,6 +116,7 @@ theorem V_le_of_normal {N : Subgroup G} (hNQ : N ≤ Q) (hN1 : N ≠ ⊥)
     rw [hwu] at this
     exact hZN (hz'N this)
 
+omit [Finite G] in
 theorem no_sq_eq_z {m : G} (hm : m ∈ conjSub g M) : m * m ≠ z := by
   intro hmz
   have hm0 : g⁻¹ * m * g ∈ M := mem_conjSub.mp hm
@@ -153,11 +155,14 @@ theorem no_sq_eq_z {m : G} (hm : m ∈ conjSub g M) : m * m ≠ z := by
   rw [h.hZZ, Subgroup.mem_bot] at hzg
   exact h.hz1 hzg
 
+omit [Finite G] in
 theorem Tb_normal : P ≤ Subgroup.normalizer ((M ⊓ conjSub g M : Subgroup G) : Set G) :=
   VertT.P_le_normalizer_T h.vh h.hMS h.hg h.hyg h.hyS
 
+omit [Finite G] in
 theorem Tb_le_Q : M ⊓ conjSub g M ≤ Q := VertT.T_le_Q h.vh h.hMS h.hg h.hyg h.hyS
 
+omit [Finite G] in
 theorem comm_Tb_V {t v : G} (ht : t ∈ M ⊓ conjSub g M) (hv : v ∈ Z ⊔ conjSub g Z) :
     t * v = v * t := by
   have h1 := Subgroup.commutator_mem_commutator ht hv
@@ -166,6 +171,7 @@ theorem comm_Tb_V {t v : G} (ht : t ∈ M ⊓ conjSub g M) (hv : v ∈ Z ⊔ con
     _ = v * t := by rw [h1, one_mul]
 
 omit h in
+omit [Finite G] in
 theorem le_normalizer_of_comm {H L : Subgroup G} (hc : ∀ x ∈ H, ∀ a ∈ L, x * a = a * x) :
     H ≤ Subgroup.normalizer (L : Set G) := by
   intro x hx
@@ -184,6 +190,7 @@ theorem le_normalizer_of_comm {H L : Subgroup G} (hc : ∀ x ∈ H, ∀ a ∈ L,
     rw [e2] at this
     rwa [← this] at ha
 
+omit [Finite G] in
 theorem X0V_normal :
     P ≤ Subgroup.normalizer
       (((D ⊓ (M ⊓ conjSub g M)) ⊔ (Z ⊔ conjSub g Z) : Subgroup G) : Set G) := by
@@ -247,6 +254,7 @@ theorem X0V_normal :
   rw [← VertT.sup_conjSub_S h.vh h.hg h.hyg h.hyS]
   exact sup_le hS hSg
 
+omit [Finite G] in
 theorem N1_le :
     ⁅Q, (D ⊓ (M ⊓ conjSub g M)) ⊔ (Z ⊔ conjSub g Z)⁆ ≤ D ⊓ (M ⊓ conjSub g M) := by
   set Tb := M ⊓ conjSub g M with hTb
@@ -276,6 +284,7 @@ theorem N1_le :
   have hqa : q * a * q⁻¹ ∈ X0 := (Subgroup.mem_normalizer_iff.mp (hQX hq) a).mp ha
   exact X0.mul_mem hqa (X0.inv_mem ha)
 
+omit [Finite G] in
 theorem N1_normal :
     P ≤ Subgroup.normalizer
       ((⁅Q, (D ⊓ (M ⊓ conjSub g M)) ⊔ (Z ⊔ conjSub g Z)⁆ : Subgroup G) : Set G) := by

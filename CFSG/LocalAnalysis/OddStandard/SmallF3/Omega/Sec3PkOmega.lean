@@ -70,9 +70,9 @@ theorem exists_isI4PlusIn_of_isOmegaStar {X : Type} [Group X] {n : ℕ} {ε : �
     (hX : IsOmegaStar X n ε) (hn : 5 ≤ n) :
     ∃ q : X, IsI4PlusIn (⊤ : Subgroup X) q := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, -, ⟨e⟩⟩ := hX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨q, hq⟩ := exists_isI4PlusIn_omegaProj hQ (by omega)
   refine ⟨e.symm q, ?_⟩
   exact isI4PlusIn_top_map_mulEquiv e.symm hq
@@ -81,9 +81,9 @@ theorem exists_isI4PlusIn_of_isOmegaCover {X : Type} [Group X] {n : ℕ} {ε : �
     (hX : IsOmegaCover X n ε) (hn : 5 ≤ n) :
     ∃ q : X, IsI4PlusIn (⊤ : Subgroup X) q := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, -, ⟨e⟩⟩ := hX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨q, hq⟩ := exists_isI4PlusIn_omegaGroup hQ (by omega)
   refine ⟨e.symm q, ?_⟩
   exact isI4PlusIn_top_map_mulEquiv e.symm hq

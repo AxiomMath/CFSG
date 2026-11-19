@@ -49,20 +49,20 @@ theorem chain_V (hρ : L1Rep ρ) :
   have hrest : ModChain F (actV ρ) (lineSub F) ⊤ 1 0 :=
     ModChain.natural hQ.1 hQ.2 (ModChain.refl ⊤ (aInv_top _))
   by_cases h : 2 < Nat.card F
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ModChain.additional hV.1 (hV.2.2 h) hrest
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ModChain.central hV.1 (hV.2.1 (card_eq_two_of_not_two_lt h)) hrest
 
 theorem chain_piV_lines (hρ : L1Rep ρ) (r : ℕ) :
     ModChain F (piAct r (actV ρ)) ⊥ (piPow r (lineSub F)) 0 (if 2 < Nat.card F then r else 0) := by
   have hV := V_line hρ
   by_cases h : 2 < Nat.card F
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h1 := ModChain.pi_additional hV.1 (hV.2.2 h) r
     rw [piPow_bot] at h1
     exact h1
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have h1 := ModChain.pi_central (F := F) hV.1 (hV.2.1 (card_eq_two_of_not_two_lt h)) r
     rw [piPow_bot] at h1
     exact h1
@@ -84,11 +84,11 @@ theorem chain_piVd_up (hρ : L1Rep ρ) (s : ℕ) :
       (if 2 < Nat.card F then s else 0) := by
   have hQ := Vd_quot hρ
   by_cases h : 2 < Nat.card F
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h1 := ModChain.pi_additional hQ.1 (hQ.2.2 h) s
     rw [piPow_top] at h1
     exact h1
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have h1 := ModChain.pi_central (F := F) hQ.1 (hQ.2.1 (card_eq_two_of_not_two_lt h)) s
     rw [piPow_top] at h1
     exact h1

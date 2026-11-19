@@ -167,7 +167,7 @@ theorem lapT_fld (m : Nat) : ∀ y < 16, fldT (lapT m) y = lap m y := by
     rcases hv with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
       rfl | rfl | rfl <;> (try simp only [xor_eq']) <;>
       repeat (first | apply xor_lt16 | assumption | norm_num)) y (by simp; omega)]
-  interval_cases y <;> simp [lap_eq, Nat.testBit_eq_decide_div_mod_eq, xor_eq']
+  interval_cases y <;> simp [lap_eq, Nat.testBit_eq_decide_div_mod_eq]
 
 theorem mulC_eq (a b : Nat) : mulC a b = aff a (b % 16) + 16 * (lap (a / 16) (nib (b / 16) 0) +
     16 * (lap (a / 16) (nib (b / 16) 1) + 16 * (lap (a / 16) (nib (b / 16) 2) +

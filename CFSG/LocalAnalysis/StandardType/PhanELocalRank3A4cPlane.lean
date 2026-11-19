@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] in
 private theorem plh_eq_zero_of_smul_add_smul {u v : Fin 4 → K}
     (huv : finrank K ↥(Submodule.span K {u, v}) = 2) {a b : K}
     (h : a • u + b • v = 0) : a = 0 ∧ b = 0 := by
@@ -54,6 +55,7 @@ private theorem plh_eq_zero_of_smul_add_smul {u v : Fin 4 → K}
     have hfin : finrank K ↥(Submodule.span K ({u, v} : Set (Fin 4 → K))) ≤ 1 :=
       le_trans (Submodule.finrank_mono (hle_u hb)) (finrank_span_singleton_le_one u)
     omega
+omit [Finite K] [CharP K 2] in
 private theorem plh_inf_span_pair_eq_bot {u v : Fin 4 → K}
     {S : Submodule K (Fin 4 → K)} (huS : u ∉ S) (hvS : v ∉ S ⊔ Submodule.span K {u}) :
     S ⊓ Submodule.span K ({u, v} : Set (Fin 4 → K)) = ⊥ := by
@@ -81,6 +83,7 @@ private theorem plh_inf_span_pair_eq_bot {u v : Fin 4 → K}
   rw [ha0, zero_smul] at hab
   exact hab.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_finrank_sup_span_eq_three {u : Fin 4 → K} (hu0 : u ≠ 0)
     {S : Submodule K (Fin 4 → K)} (hS : finrank K S = 2) (huS : u ∉ S) :
     finrank K ↥(S ⊔ Submodule.span K {u}) = 3 := by
@@ -101,7 +104,7 @@ private theorem plh_finrank_sup_span_eq_three {u : Fin 4 → K} (hu0 : u ≠ 0)
   rw [hdisj, finrank_bot, add_zero, hS, finrank_span_singleton hu0] at hfr
   omega
 private theorem plh_finrank_inf_sgS_sup_le_two (hK : Nat.card K = (2 ^ f) ^ 2)
-    {u : Fin 4 → K} (hu0 : u ≠ 0) (hu_real : sgv K f 4 u = u)
+    {u : Fin 4 → K} (hu0 : u ≠ 0) (_hu_real : sgv K f 4 u = u)
     {L : Submodule K (Fin 4 → K)} (hL2 : finrank K L = 2)
     (hLdisj : L ⊓ sgS K f 4 L = ⊥) (huL : u ∉ L) :
     finrank K ↥((L ⊔ Submodule.span K {u}) ⊓
@@ -147,7 +150,7 @@ private theorem plh_realVecs_card (hK : Nat.card K = (2 ^ f) ^ 2)
     (T : Submodule K (Fin 4 → K)) (hT : sgS K f 4 T = T) :
     (plh_realVecs (K := K) (f := f) T).card = (2 ^ f) ^ finrank K T := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h1 : (plh_realVecs (K := K) (f := f) T).card =
       Nat.card {v : Fin 4 → K // sgv K f 4 v = v ∧ v ∈ T} := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -163,7 +166,7 @@ private theorem plh_realVecs_card_le (hK : Nat.card K = (2 ^ f) ^ 2)
     (plh_realVecs (K := K) (f := f) T).card ≤
       (2 ^ f) ^ finrank K ↥(T ⊓ sgS K f 4 T) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h1 : (plh_realVecs (K := K) (f := f) T).card =
       Nat.card {v : Fin 4 → K // sgv K f 4 v = v ∧ v ∈ T} := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -185,7 +188,7 @@ theorem exists_real_plane (hK : Nat.card K = (2 ^ f) ^ 2)
       (∀ R ∈ Rs, R ⊓ Submodule.span K {u, v} = ⊥) ∧
       (∀ L ∈ Ls, L ⊓ Submodule.span K {u, v} = ⊥) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set Rl : Finset (Fin 4 → K) := plh_realVecs (K := K) (f := f) ⊤ with hRl
   have hRl_card : Rl.card = (2 ^ f) ^ 4 := by
     rw [hRl, plh_realVecs_card (K := K) (f := f) hK ⊤ sgS_top, finrank_top,

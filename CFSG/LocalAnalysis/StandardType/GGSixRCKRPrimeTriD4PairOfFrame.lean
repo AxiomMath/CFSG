@@ -166,9 +166,9 @@ theorem rckFrameCoverPair_triD4_of_frame
   obtain ⟨r, hr, hY, Ξ, hΞeq, z, hzΨ, γ, hγΨ, hpairpos, hpairneg⟩ := hF
   obtain ⟨F, hFld, hFfin, σ, ι, hTri, hιinj, hιrange, hιUpos, hιUneg, hstablepos, hstableneg⟩ :=
     triD4_model_in_adjD4 hh hr
-  letI : Field F := hFld
-  letI : Finite F := hFfin
-  haveI : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hTri
+  let : Field F := hFld
+  let : Finite F := hFfin
+  have : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hTri
   have hσ3 : ∀ c, σ (σ (σ c)) = c := TwistedD4.sigma_three_of_card hTri.2.1 hTri.2.2
   have hq2 : 2 ≤ 2 ^ h := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
@@ -260,7 +260,7 @@ theorem rckFrameCoverPair_triD4_of_frame
   have hφ_range_R : φ.range = rationalComponent S.ρ S.Γ (rootCharHom a) i := by
     have hPperf : ⁅φ.range, φ.range⁆ = φ.range := by
       have htop : ⁅(⊤ : Subgroup M.K), (⊤ : Subgroup M.K)⁆ = ⊤ := by
-        haveI : Group.IsPerfect M.K := hperfM
+        have : Group.IsPerfect M.K := hperfM
         rw [← commutator_def]
         exact Group.IsPerfect.commutator_eq_top
       calc ⁅φ.range, φ.range⁆

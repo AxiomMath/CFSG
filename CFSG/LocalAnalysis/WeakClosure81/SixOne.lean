@@ -10,12 +10,14 @@ open CFSG.Quasithin CFSG.Open CFSG.LocalAnalysis.UniquenessCase.PartTwo Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem propN_mono {M V : Subgroup G} {P Q : Subgroup G → Prop} {n m : ℕ}
     (hPQ : ∀ Z : Subgroup G, P Z → Q Z) (hnm : n ≤ m) :
     propN P n M V ⊆ propN Q m M V := by
   rintro U ⟨hUV, t, ht, hk, W, hWV, hWn, hUW, hWt, hP⟩
   exact ⟨hUV, t, ht, hk, W, hWV, hWn.trans hnm, hUW, hWt, hPQ (commElt W t) hP⟩
 
+omit [Finite G] in
 private theorem propB_imp_propD {M Z : Subgroup G} (h : PropB M Z) : PropD M Z := by
   intro z hz hzC
   apply h
@@ -25,6 +27,7 @@ private theorem propB_imp_propD {M Z : Subgroup G} (h : PropB M Z) : PropD M Z :
   subst hy
   exact hz
 
+omit [Finite G] in
 theorem betaN_anti {M V : Subgroup G} {n m : ℕ} (hnm : n ≤ m) :
     betaN m M V ≤ betaN n M V := by
   unfold betaN
@@ -42,6 +45,7 @@ theorem gammaN_anti {M V : Subgroup G} {n m : ℕ} (hnm : n ≤ m) :
       (by simpa only [calCn] using
         propN_mono (P := PropC M) (Q := PropC M) (fun _ h => h) hnm (by simpa only [calCn] using hU)))
 
+omit [Finite G] in
 theorem deltaN_anti {M V : Subgroup G} {n m : ℕ} (hnm : n ≤ m) :
     deltaN m M V ≤ deltaN n M V := by
   unfold deltaN
@@ -51,6 +55,7 @@ theorem deltaN_anti {M V : Subgroup G} {n m : ℕ} (hnm : n ≤ m) :
       (by simpa only [calDn] using
         propN_mono (P := PropD M) (Q := PropD M) (fun _ h => h) hnm (by simpa only [calDn] using hU)))
 
+omit [Finite G] in
 theorem deltaN_le_betaN {M V : Subgroup G} (n : ℕ) : deltaN n M V ≤ betaN n M V := by
   unfold deltaN betaN
   refine le_iInf fun U => le_iInf fun hU => ?_
@@ -106,14 +111,15 @@ private theorem mParam_autI_le_mQuot_of_mem_propN {V M : Subgroup G}
 private theorem mParam_autI_le_iInf_propN {V M : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : M ≤ Subgroup.normalizer (V : Set G))
     (P : Subgroup G → Prop) (n : ℕ) :
-    (E3.mParam (autI hV M) : ℕ∞) ≤ ⨅ U ∈ propN P n M V, (E3.mQuot V U : ℕ∞) :=
-  le_iInf fun U => le_iInf fun hU => mParam_autI_le_mQuot_of_mem_propN hV hM P n hU
+    (E3.mParam (autI hV M) : ℕ∞) ≤ ⨅ _U ∈ propN P n M V, (E3.mQuot V _U : ℕ∞) :=
+  le_iInf fun _U => le_iInf fun hU => mParam_autI_le_mQuot_of_mem_propN hV hM P n hU
 
 theorem mParam_autI_le_betaN {V M : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : M ≤ Subgroup.normalizer (V : Set G)) (n : ℕ) :
     (E3.mParam (autI hV M) : ℕ∞) ≤ betaN n M V := by
   simpa only [betaN, calBn] using mParam_autI_le_iInf_propN hV hM (PropB M) n
 
+omit [Finite G] in
 private theorem autI_eq_autI_top_of_normalizer_eq {V M : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : Subgroup.normalizer (V : Set G) = M) :
     autI hV M = autI hV ⊤ := by

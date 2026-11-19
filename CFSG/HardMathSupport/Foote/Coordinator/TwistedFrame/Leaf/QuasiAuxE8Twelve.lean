@@ -30,12 +30,12 @@ theorem isQuasisimple_fixedRoot_D4 (v : WeylGroup Tag.E8) {S : Set (Fin Tag.E8.r
     CFSG.IsQuasisimple ↥(D.fixedRoot S) := by
   classical
   subst hS
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : D.Fr = iterateFrobenius D.L p (m : ℕ) :=
     RingHom.ext fun c => by rw [D.hFr, hcard', iterateFrobenius_def]

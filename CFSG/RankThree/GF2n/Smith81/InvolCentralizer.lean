@@ -12,10 +12,10 @@ open scoped Matrix
 
 variable {K : Type} [Field K]
 
-@[expose] abbrev involNilOne (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
+abbrev involNilOne (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
   !![0, 0, 0, 1; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0]
 
-@[expose] abbrev involNilTwo (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
+abbrev involNilTwo (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
   !![0, 0, 1, 0; 0, 0, 0, 1; 0, 0, 0, 0; 0, 0, 0, 0]
 
 @[expose] def involOfCols (p : Fin 4 → Fin 4 → K) : Matrix (Fin 4) (Fin 4) K :=
@@ -62,7 +62,7 @@ theorem involIndepTriple {V : Type} [AddCommGroup V] [Module K V] {w p r : V} (h
 theorem involExists_mulVec_ne_zero {N : Matrix (Fin 4) (Fin 4) K} (hN : N ≠ 0) :
     ∃ x : Fin 4 → K, N *ᵥ x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hN
   ext i j
   have := congrFun (h (Pi.single j 1)) i
@@ -106,11 +106,11 @@ theorem involNormalForm {N : Matrix (Fin 4) (Fin 4) K} (hNN : N * N = 0) (hN : N
       intro i
       fin_cases i <;> simp [h0, h1, h2, h3]
     have hunit : IsUnit (involOfCols ![w, v, x, y]) :=
-      Matrix.linearIndependent_cols_iff_isUnit.mp hind
+      Matrix.linearIndependent_col_iff_isUnit.mp hind
     refine ⟨involOfCols ![w, v, x, y], hunit, Or.inr (key _ _ fun j => ?_)⟩
     fin_cases j <;> simp [involNilTwo, hxw, hyv, hw2, hv2, Fin.sum_univ_four]
   ·
-    push_neg at hB
+    push Not at hB
     have hrange : LinearMap.range (Matrix.mulVecLin N) = Submodule.span K {w} := by
       apply le_antisymm
       · rintro _ ⟨y, rfl⟩
@@ -135,7 +135,7 @@ theorem involNormalForm {N : Matrix (Fin 4) (Fin 4) K} (hNN : N * N = 0) (hN : N
           Module.finrank K (LinearMap.ker (Matrix.mulVecLin N)) := by rw [heq]
       rw [finrank_span_singleton hw, hfin] at h1
       omega
-    obtain ⟨p1, hp1W, hp1⟩ := SetLike.exists_of_lt hlt1
+    obtain ⟨p1, hp1W, hp1⟩ := _root_.IsConcreteLE.exists_of_lt hlt1
     have hp1N : N *ᵥ p1 = 0 := (hmemW p1).mp hp1W
     have hsub2 : Submodule.span K {w, p1} ≤ LinearMap.ker (Matrix.mulVecLin N) := by
       rw [Submodule.span_le]
@@ -158,7 +158,7 @@ theorem involNormalForm {N : Matrix (Fin 4) (Fin 4) K} (hNN : N * N = 0) (hN : N
           Module.finrank K (LinearMap.ker (Matrix.mulVecLin N)) := by rw [heq]
       rw [hfin] at h1
       omega
-    obtain ⟨p2, hp2W, hp2⟩ := SetLike.exists_of_lt hlt2
+    obtain ⟨p2, hp2W, hp2⟩ := _root_.IsConcreteLE.exists_of_lt hlt2
     have hp2N : N *ᵥ p2 = 0 := (hmemW p2).mp hp2W
     have hind : LinearIndependent K ![w, p1, p2, x] := by
       rw [Fintype.linearIndependent_iff]
@@ -174,7 +174,7 @@ theorem involNormalForm {N : Matrix (Fin 4) (Fin 4) K} (hNN : N * N = 0) (hN : N
       intro i
       fin_cases i <;> simp [hc3, h0, h1, h2]
     have hunit : IsUnit (involOfCols ![w, p1, p2, x]) :=
-      Matrix.linearIndependent_cols_iff_isUnit.mp hind
+      Matrix.linearIndependent_col_iff_isUnit.mp hind
     refine ⟨involOfCols ![w, p1, p2, x], hunit, Or.inl (key _ _ fun j => ?_)⟩
     fin_cases j <;> simp [involNilOne, hxw, hp1N, hp2N, hw2, Fin.sum_univ_four]
 
@@ -252,8 +252,7 @@ theorem involBlkTwo_mul {g h : Matrix (Fin 4) (Fin 4) K}
   obtain ⟨h20, h21, h30, h31, -⟩ := involPatTwo hh
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [involBlkTwo, Matrix.mul_apply, Fin.sum_univ_four, Fin.sum_univ_two, g20, g21, g30,
-      g31, h20, h21, h30, h31]
+    simp [involBlkTwo, Matrix.mul_apply, Fin.sum_univ_four, Fin.sum_univ_two, h20, h21, h30, h31]
 
 theorem involPow_four_eq_one {R : Type} [Ring R] {G : R} (h2 : (2 : R) = 0)
     (h : (G - 1) ^ 4 = 0) : G ^ 4 = 1 := by
@@ -426,13 +425,13 @@ theorem involTwo_pow_four [CharP K 2] (Y : Subgroup (GL (Fin 4) K))
   have hE : ((x : Matrix (Fin 4) (Fin 4) K) - 1) * ((x : Matrix (Fin 4) (Fin 4) K) - 1) = 0 := by
     apply involSq_zero_of_shape
     · intro i
-      fin_cases i <;> simp [Matrix.sub_apply, Matrix.one_apply, hx00, hB10, p20, p30, hx11]
+      fin_cases i <;> simp [Matrix.sub_apply, hx00, hB10, p20, p30]
     · intro i
-      fin_cases i <;> simp [Matrix.sub_apply, Matrix.one_apply, hB01, hx11, p21, p31]
+      fin_cases i <;> simp [Matrix.sub_apply, hB01, hx11, p21, p31]
     · intro j
-      fin_cases j <;> simp [Matrix.sub_apply, Matrix.one_apply, p20, p21, hx22, hx23]
+      fin_cases j <;> simp [Matrix.sub_apply, p20, p21, hx22, hx23]
     · intro j
-      fin_cases j <;> simp [Matrix.sub_apply, Matrix.one_apply, p30, p31, hx32, hx33]
+      fin_cases j <;> simp [Matrix.sub_apply, p30, p31, hx32, hx33]
   have h4 : ((x : Matrix (Fin 4) (Fin 4) K) - 1) ^ 4 = 0 := by
     have e : ((x : Matrix (Fin 4) (Fin 4) K) - 1) ^ 4 =
         ((x : Matrix (Fin 4) (Fin 4) K) - 1) ^ 2 * ((x : Matrix (Fin 4) (Fin 4) K) - 1) ^ 2 := by
@@ -461,7 +460,7 @@ theorem involKernelSplit {H : Type} [Group H] (Y : Subgroup (GL (Fin 4) K)) (ψ 
 
 theorem involCard_GL_two [Finite K] :
     Nat.card (GL (Fin 2) K) = (Nat.card K ^ 2 - 1) * (Nat.card K ^ 2 - Nat.card K) := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Matrix.card_GL_field 2, Fin.prod_univ_two, Nat.card_eq_fintype_card]
   simp
 

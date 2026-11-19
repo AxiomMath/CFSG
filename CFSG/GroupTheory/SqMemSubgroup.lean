@@ -14,7 +14,7 @@ variable {Γ : Type*} [Group Γ]
 def sqMemSubgroup (I : Subgroup Γ)
     (hI : ∀ a b : Γ, a * b * a⁻¹ * b⁻¹ ∈ I) : Subgroup Γ where
   carrier := {a | a ^ 2 ∈ I}
-  one_mem' := by simpa using I.one_mem
+  one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
     change (a * b) ^ 2 ∈ I

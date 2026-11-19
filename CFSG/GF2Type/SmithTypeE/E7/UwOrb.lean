@@ -67,13 +67,13 @@ theorem opp_iff_fB {i j : ℕ} (hi : i < 75735) (hj : j < 75735) :
   have h := fModel_wtV hi hj
   rw [wtV, wtV, fModel_decode] at h
   by_cases ho : Opp i j
-  · rw [if_pos ho] at h
+  · rw [ite_eq_left ho] at h
     refine ⟨fun _ => ?_, fun _ => ho⟩
     cases hb : fB (wt i) (wt j)
     · rw [hb] at h
       exact absurd h (by decide)
     · rfl
-  · rw [if_neg ho] at h
+  · rw [ite_eq_right ho] at h
     constructor
     · intro h'
       exact absurd h' ho

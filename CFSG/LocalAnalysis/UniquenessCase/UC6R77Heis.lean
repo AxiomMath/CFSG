@@ -34,7 +34,7 @@ theorem exists_mem_scalar_of_card_sq {p r : ℕ} [hr : Fact r.Prime] (hp : p.Pri
   obtain ⟨W, _, _, _, π, ρ, hs⟩ := P65N2.exists_elemSec (f := r) (Y := X) (M := ⁅X, X⁆)
     (G := P) hle hMn (fun x hx y hy => commutator_mem_commutator hx hy)
     (fun x hx => by rw [hexp x hx]; exact one_mem _) hPX (fun g hg => hNX g (hPX hg))
-  haveI : Finite W := Module.finite_of_finite (ZMod r)
+  have : Finite W := Module.finite_of_finite (ZMod r)
   have hW : Module.finrank (ZMod r) W = 2 := by
     have h := hs.card_eq hle
     rw [hXcard, Module.natCard_eq_pow_finrank (K := ZMod r) (V := W), Nat.card_zmod] at h
@@ -54,7 +54,7 @@ theorem exists_mem_scalar_of_card_sq {p r : ℕ} [hr : Fact r.Prime] (hp : p.Pri
       hpr hX hle hMn hfr (by rw [pow_one]; exact hPel.2 a a.2) (hPX a.2) (hNX a (hPX a.2)) htriv
       x hx).symm
   set R := ((P65N2.actEquiv ρ).comp (inclusion (le_refl P))).range with hR
-  haveI : Finite R := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
+  have : Finite R := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
   have hRcard : p ^ 2 ≤ Nat.card R := Nat.le_of_mul_le_mul_right
     (hPc.trans (P65N2.card_le_of_range (P65N2.actEquiv ρ) le_rfl hker le_rfl)) Nat.card_pos
   have hRc : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x := by
@@ -69,7 +69,7 @@ theorem exists_mem_scalar_of_card_sq {p r : ℕ} [hr : Fact r.Prime] (hp : p.Pri
     (fun x hx y hy => ⟨1, fun v => by simp [hRc x hx y hy]⟩)
     (fun x hx => ⟨1, fun v => by simp [hRp x hx]⟩)
   rw [hW, show 2 - 1 = 1 from rfl, pow_one] at hsc
-  haveI : Nontrivial {x : R // ∃ a : ZMod r, ∀ v, (x : W ≃ₗ[ZMod r] W) v = a • v} :=
+  have : Nontrivial {x : R // ∃ a : ZMod r, ∀ v, (x : W ≃ₗ[ZMod r] W) v = a • v} :=
     Finite.one_lt_card_iff_nontrivial.mp (lt_of_lt_of_le hp.one_lt
       (Nat.le_of_mul_le_mul_left ((pow_two p).symm.le.trans (hRcard.trans hsc)) hp.pos))
   obtain ⟨⟨x, a, hxa⟩, hx1⟩ := exists_ne (⟨1, 1, fun v => by simp⟩ :

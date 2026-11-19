@@ -87,7 +87,7 @@ theorem sylow_le_pCore_of_centralize_normal {X : Type*} [Group X] [Finite X] {p 
       obtain ⟨R₀⟩ : Nonempty (Sylow q.1.1 Rt) := inferInstance
       set R : Subgroup X := (R₀ : Subgroup Rt).map Rt.subtype
       have hRRt : R ≤ Rt := Subgroup.map_subtype_le _
-      have hRq : IsPGroup q.1.1 R := R₀.isPGroup'.map _
+      have hRq : IsPGroup q.1.1 R := R₀.isPGroup.map _
       have hxRt : x ∈ Subgroup.normalizer (Rt : Set X) := Subgroup.le_normalizer_of_normal
         (Subgroup.mem_top x)
       obtain ⟨y, hyRt, hyx⟩ := exists_mul_mem_normalizer_of_sylow R₀ hxRt
@@ -160,7 +160,7 @@ theorem sylow_le_pCore_of_centralize_normal {X : Type*} [Group X] [Finite X] {p 
     exact Subgroup.mem_bot.mp (hle hmem)
   intro x hxP
   have hx : IsPGroup p (Subgroup.zpowers x) := by
-    have := P.isPGroup'.to_le ((Subgroup.zpowers_le).mpr hxP)
+    have := P.isPGroup.to_le ((Subgroup.zpowers_le).mpr hxP)
     exact this
   have := key x hx
   rw [← QuotientGroup.ker_mk' U, MonoidHom.mem_ker]

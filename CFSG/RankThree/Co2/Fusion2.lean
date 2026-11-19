@@ -159,7 +159,7 @@ theorem dvd_card_orbitM {x : G} (hx : x ∈ h.JG) (hx1 : x ≠ 1) : 11 ∣ Nat.c
   have hKM : K ≤ h.M := by rw [Subgroup.zpowers_le]; exact hsM
   have hcl : ∀ k ∈ K, ∀ y ∈ h.orbitM x, k * y * k⁻¹ ∈ h.orbitM x := fun k hk y hy =>
     h.orbitM_trans hy ⟨k, hKM hk, rfl⟩
-  letI : MulAction K (h.orbitM x) :=
+  let : MulAction K (h.orbitM x) :=
     { smul := fun k y => ⟨(k : G) * y * (k : G)⁻¹, hcl k k.2 y y.2⟩
       one_smul := fun y => by apply Subtype.ext; change (1 : G) * y * 1⁻¹ = y; group
       mul_smul := fun k l y => by
@@ -203,7 +203,7 @@ theorem piece_subset_orbitM {c : ℕ} {x y y' : G} (hy : y ∈ h.piece c) (hy' :
     (hyx : y ∈ h.orbitM x) : y' ∈ h.orbitM x := by
   obtain ⟨j, hj, hcj, rfl⟩ := hy
   obtain ⟨j', hj', hcj', rfl⟩ := hy'
-  haveI := h.finite
+  have := h.finite
   obtain ⟨m, hm, e⟩ := exists_normalizer_conj_of_mem_J hj hj' (hcj.symm.trans hcj')
   refine h.orbitM_trans hyx ⟨((h.φ.symm m : h.H) : G), ?_, ?_⟩
   · apply mem_normalizer_of_conj_mem
@@ -293,6 +293,7 @@ theorem piece_finite (c : ℕ) : (h.piece c).Finite := by
   have := h.finite
   exact Set.toFinite _
 
+omit [Group G] in
 theorem card_union_of_disjoint {A B : Set G} (hd : ∀ y, y ∈ A → y ∈ B → False)
     (hA : A.Finite) (hB : B.Finite) : Nat.card ↥(A ∪ B) = Nat.card A + Nat.card B := by
   rw [Nat.card_coe_set_eq, Nat.card_coe_set_eq, Nat.card_coe_set_eq]

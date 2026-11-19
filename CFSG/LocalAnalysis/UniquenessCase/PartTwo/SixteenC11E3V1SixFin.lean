@@ -28,7 +28,7 @@ theorem s1611e3_six_finite_check {K : Subgroup (SixE6 × SixE6)} (hK : K = ⊥ �
     ∃ B : Subgroup (MulAut (SixE6 × SixE6)), B ≤ E ∧ E3.mQuot E B < 2 ∧
       sixFixMod K B ≠ sixFixMod K E := by
   obtain ⟨h2, h4, h8, hle⟩ := sixFinCheck_of hK
-  haveI : Finite ↥E := inferInstance
+  have : Finite ↥E := inferInstance
   obtain ⟨n, hn⟩ := hEab.isPGroup.exists_card_eq
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h
@@ -46,7 +46,7 @@ theorem s1611e3_six_finite_check {K : Subgroup (SixE6 × SixE6)} (hK : K = ⊥ �
     refine ⟨⊥, bot_le, ?_, h2 E hEG hEab hc⟩
     have hcard : Nat.card ↥E =
         2 * Nat.card ↥(⊥ : Subgroup (MulAut (SixE6 × SixE6))) := by
-      simp [hc, Subgroup.card_bot]
+      simp [hc]
     exact s1611e3_mQuot_lt_two_of_card bot_le hcard
   · subst hn_eq
     have hc : Nat.card ↥E = 4 := by rw [hn]; norm_num

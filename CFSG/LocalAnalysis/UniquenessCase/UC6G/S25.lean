@@ -47,7 +47,7 @@ theorem K_eq_map_normalClosure :
       (Subgroup.subset_normalClosure (show (⟨z, m.Z_le_M hz⟩ : ↥m.M) ∈ m.Z.subgroupOf m.M from hz))
       _
   · rw [Subgroup.map_le_iff_le_comap]
-    haveI : (m.K.comap m.M.subtype).Normal :=
+    have : (m.K.comap m.M.subtype).Normal :=
       ⟨fun n hn g => by
         have := m.conj_mem_K g.2 (show (n : G) ∈ m.K from hn)
         show ((g * n * g⁻¹ : ↥m.M) : G) ∈ m.K

@@ -147,8 +147,8 @@ private theorem burnsideF429_L3_comap_nativeParabolic (q : ℕ) (K : Type) [Fiel
     subst hS
     simp only [burnsideF4d_Y1_coordinateSpace_flag]
   cases b
-  · exact key _ 1 (by ext p; simp [flagOne] <;> omega)
-  · exact key _ 2 (by ext p; simp [flagTwo] <;> omega)
+  · exact key _ 1 (by ext p; simp [flagOne])
+  · exact key _ 2 (by ext p; simp [flagTwo]; omega)
 
 noncomputable def burnsideF429_L3_Psi {f : ℕ} {H : Type} [Group H]
     (marking : ClassicalRoots.Marking .L3 2 f H) : projectiveSL 3 marking.field ≃* H :=
@@ -208,8 +208,8 @@ theorem burnsideF429_c2c_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) {T :
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) {t : E} (htT : t ∈ T)
     (htS : t ∉ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (htt : t * t = 1) :
     hyp.toHypF_4_4g.chart.IsFieldInv t := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have htG : t ∉ Gp := fun h => htS (by rw [← burnsideF429_T_inf_Gp hyp hT]; exact ⟨htT, h⟩)
   have htM : t ∈ M₁ ⊓ M₂ := hT.1 htT
   have hf1 : 1 ≤ f := hyp.model.2.1
@@ -224,11 +224,11 @@ theorem burnsideF429_c2c_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) {T :
       cases c <;> first | rfl | exact absurd hk (by decide)
     obtain ⟨-, hpts, hlns, -, -⟩ := hfits
     have hK : Nat.card mk.field = 2 ^ f := by simpa using mk.field_card
-    haveI : CharP mk.field 2 := burnsideF4gSp_charP_of_card hK
+    have : CharP mk.field 2 := burnsideF4gSp_charP_of_card hK
     set Ψ := burnsideF429_L3_Psi mk with hΨ
     have e0 := burnsideF429_L3_parabolic mk false
     have e1 := burnsideF429_L3_parabolic mk true
-    simp only [Bool.false_eq_true, if_false, if_true] at e0 e1
+    simp only [Bool.false_eq_true, ite_false, ite_true] at e0 e1
     have h₁ : M₁.subgroupOf Gp = ((Q3 mk.field 0).map (proj 3 mk.field)).map Ψ.toMonoidHom := by
       rw [← e0]
       exact burnsideF429_subgroupOf_eq_of_inf (hm.2.1.trans hpts)

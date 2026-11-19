@@ -126,7 +126,7 @@ theorem ggQ2s08a6_refl
     obtain ⟨f, hfli, hfsum, hfperm, hfeven, hfmono⟩ := hRO
     have hΛ : Fintype.card M.Λ = 5 := (Fintype.card_congr e).symm.trans (Fintype.card_fin 5)
     have hdim : Module.finrank (ZMod 3) M.V = 6 := by rw [hShape.2.2.2.1, hΛ]
-    haveI : Module.Finite (ZMod 3) M.V := Module.finite_of_finrank_eq_succ hdim
+    have : Module.Finite (ZMod 3) M.V := Module.finite_of_finrank_eq_succ hdim
     have hli : LinearIndependent (ZMod 3) (fun j => κ.symm (f j)) :=
       hfli.map' κ.symm.toLinearMap κ.symm.ker
     refine ggQ2s08_roPrime_six hLB hP hRig hS hCav M hShape hMark hLab hWeyl

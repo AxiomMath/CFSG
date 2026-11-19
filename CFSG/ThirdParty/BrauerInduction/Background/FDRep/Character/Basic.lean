@@ -148,7 +148,7 @@ variable {G : Type v} [Monoid G]
 lemma char_eq_zero_of_IsZero {V : FDRep k G} (hV : Limits.IsZero V) :
     V.character = 0 := by
   ext g
-  haveI : Subsingleton V := FDRep.subsingleton_of_IsZero hV
+  have : Subsingleton V := FDRep.subsingleton_of_IsZero hV
   have hρ : V.ρ g = 0 := by
     ext x
     apply Subsingleton.elim
@@ -194,14 +194,14 @@ lemma char_biproduct_option {ι : Type*} [Finite ι]
 /-- The character of a finite biproduct is the sum of the characters of its components. -/
 lemma char_biproduct {ι : Type} [Fintype ι] (f : ι → FDRep k G) :
     (Limits.biproduct f).character = ∑ i, (f i).character := by
-  haveI : Limits.HasFiniteBiproducts (FDRep k G) := inferInstance
+  have : Limits.HasFiniteBiproducts (FDRep k G) := inferInstance
   revert f
   refine Fintype.induction_empty_option
     (P := fun (α : Type) _ => ∀ g : α → FDRep k G,
       (Limits.biproduct g).character = ∑ i, (g i).character)
     ?_ ?_ ?_ ι
   · intro α β _ e hα g
-    letI : Fintype α := Fintype.ofEquiv β e.symm
+    let : Fintype α := Fintype.ofEquiv β e.symm
     let i : Limits.biproduct (g ∘ e) ≅ Limits.biproduct g :=
       Limits.biproduct.reindex e g
     rw [← char_eq_of_iso i]

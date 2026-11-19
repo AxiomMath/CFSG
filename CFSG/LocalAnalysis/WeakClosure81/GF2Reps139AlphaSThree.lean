@@ -30,7 +30,7 @@ theorem Std139.alpha_not_symplectic_three (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std1
   have hx_ord3 : orderOf x = 3 := orderOf_eq_prime hx3 hxne
   have h3n : 3 ≤ n := by omega
   have hxX : x ∈ X := by rw [hxgen]; exact Subgroup.mem_zpowers x
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   have hcent : Subgroup.centralizer (K : Set (MulAut W)) = Subgroup.zpowers x := by
     rw [← hxgen]
     exact Std139.alpha_centralizer hw2 S h3n hK hirr

@@ -24,10 +24,10 @@ theorem normal_subgroupOf_of_le_normalizer {Y N : Subgroup G}
 theorem eq_top_of_isPerfect_of_isSolvable_quotient {Y : Type*} [Group Y] [Finite Y]
     (hYp : Group.IsPerfect Y) (M : Subgroup Y) [M.Normal] (hs : Group.IsSolvable (Y ⧸ M)) :
     M = ⊤ := by
-  haveI : Group.IsPerfect (Y ⧸ M) :=
+  have : Group.IsPerfect (Y ⧸ M) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' M) (QuotientGroup.mk'_surjective M)
-  haveI := hs
-  haveI := CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
+  have := hs
+  have := CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
     (G := Y ⧸ M)
   rw [eq_top_iff]
   intro y _
@@ -43,9 +43,9 @@ theorem le_of_le_normalizer_of_isQuasisimple {Y N Y0 : Subgroup G}
   set θ : Subgroup Y := aschbacherSolvableCore 3 Y with hθ
   obtain ⟨hθs, hθc, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥Y) Nat.prime_three
-  haveI : θ.Characteristic := hθc
+  have : θ.Characteristic := hθc
   set M : Subgroup Y := N.subgroupOf Y with hM
-  haveI hMn : M.Normal := normal_subgroupOf_of_le_normalizer hYN
+  have hMn : M.Normal := normal_subgroupOf_of_le_normalizer hYN
   set π := QuotientGroup.mk' θ with hπ
   have hMπ : (M.map π).Normal := hMn.map π (QuotientGroup.mk'_surjective θ)
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hYq hMπ with htop | hcen
@@ -55,7 +55,7 @@ theorem le_of_le_normalizer_of_isQuasisimple {Y N Y0 : Subgroup G}
       rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
       exact h.symm
     have hsolv : Group.IsSolvable (↥Y ⧸ M) := by
-      haveI := hθs
+      have := hθs
       refine Group.isSolvable_of_surjective (f := (QuotientGroup.mk' M).comp θ.subtype) ?_
       rw [← MonoidHom.range_eq_top, MonoidHom.range_comp, Subgroup.range_subtype]
       have h1 : (M ⊔ θ).map (QuotientGroup.mk' M) = ⊤ := by
@@ -78,8 +78,8 @@ theorem le_of_le_normalizer_of_isQuasisimple {Y N Y0 : Subgroup G}
       rw [this]
       exact Subgroup.one_mem _
     have hRs : Group.IsSolvable R := by
-      haveI := hθs
-      haveI : Group.IsSolvable (Subgroup.center (↥Y ⧸ θ)) := by
+      have := hθs
+      have : Group.IsSolvable (Subgroup.center (↥Y ⧸ θ)) := by
         exact Group.isSolvable_of_comm fun a b =>
           Subtype.ext ((Subgroup.mem_center_iff.mp b.2) a)
       refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hθR)
@@ -94,11 +94,11 @@ theorem le_of_le_normalizer_of_isQuasisimple {Y N Y0 : Subgroup G}
       rw [hR, Subgroup.mem_comap]
       apply hcen
       exact ⟨y, Subgroup.mem_subgroupOf.mpr (hY0N (Subgroup.mem_subgroupOf.mp hy)), rfl⟩
-    haveI := hRs
+    have := hRs
     have h1 : Group.IsSolvable (Y0.subgroupOf Y) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hY0R)
         (Subgroup.inclusion_injective _)
-    haveI := h1
+    have := h1
     exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hY0Y).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hY0Y).surjective
 
@@ -109,18 +109,18 @@ theorem range_eq_bot_of_coprime {Q H : Type*} [Group Q] [Group H] [Finite Q]
       Subgroup.center (Q ⧸ aschbacherSolvableCore 3 Q)))
     (ψ : Q →* H) {S : Subgroup H} (hS : Nat.Coprime 3 (Nat.card S)) (hψS : ψ.range ≤ S) :
     ψ.range = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set θ : Subgroup Q := aschbacherSolvableCore 3 Q with hθ
   obtain ⟨hθs, hθc, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Q) Nat.prime_three
-  haveI : θ.Characteristic := hθc
+  have : θ.Characteristic := hθc
   set K0 := ψ.ker with hK0
   obtain ⟨T⟩ : Nonempty (Sylow 3 Q) := inferInstance
   have hTK : (T : Subgroup Q) ≤ K0 := by
     have hTS : (T : Subgroup Q).map ψ ≤ S := by
       rintro _ ⟨t, -, rfl⟩
       exact hψS ⟨t, rfl⟩
-    obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
     have h1 : Nat.card ((T : Subgroup Q).map ψ) ∣ 3 ^ n := hn ▸ Subgroup.card_map_dvd (T : Subgroup Q) ψ
     have h2 : Nat.card ((T : Subgroup Q).map ψ) ∣ Nat.card S := Subgroup.card_dvd_of_le hTS
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp h1
@@ -135,7 +135,7 @@ theorem range_eq_bot_of_coprime {Q H : Type*} [Group Q] [Group H] [Finite Q]
     rw [Subgroup.map_eq_bot_iff] at h5
     exact h5
   set π := QuotientGroup.mk' θ with hπ
-  haveI : K0.Normal := MonoidHom.normal_ker ψ
+  have : K0.Normal := MonoidHom.normal_ker ψ
   have hKπ : (K0.map π).Normal := (inferInstance : K0.Normal).map π (QuotientGroup.mk'_surjective θ)
   have htop : K0.map π = ⊤ := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hKπ with h | h
@@ -159,7 +159,7 @@ theorem range_eq_bot_of_coprime {Q H : Type*} [Group Q] [Group H] [Finite Q]
     rw [htop, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
     exact h.symm
   have hsolv : Group.IsSolvable (Q ⧸ K0) := by
-    haveI := hθs
+    have := hθs
     refine Group.isSolvable_of_surjective (f := (QuotientGroup.mk' K0).comp θ.subtype) ?_
     rw [← MonoidHom.range_eq_top, MonoidHom.range_comp, Subgroup.range_subtype]
     have h1 : (K0 ⊔ θ).map (QuotientGroup.mk' K0) = ⊤ := by
@@ -203,6 +203,7 @@ theorem thetaComponents_sup_eq_or_commutator_le {K1 K2 : Subgroup C}
     rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at this
     exact this
 
+omit [Finite C] in
 theorem le_normalizer_of_normal_of_le {N H : Subgroup C} (hN : N.Normal) (hNH : N ≤ H) :
     N ≤ Subgroup.normalizer (H : Set C) := by
   intro t ht
@@ -237,7 +238,7 @@ theorem normalClosure_le_normalizer {K : Subgroup C} (hK : K ∈ thetaComponents
       Subgroup.normalizer ((K ⊔ aschbacherSolvableCore 3 C : Subgroup C) : Set C) := by
   set θ := aschbacherSolvableCore 3 C with hθ
   obtain ⟨-, hθc, -, -⟩ := solvable_prime_complement_core_characterization (H := C) Nat.prime_three
-  haveI : θ.Normal := by haveI := hθc; infer_instance
+  have : θ.Normal := by have := hθc; infer_instance
   have hθN : θ ≤ Subgroup.normalizer ((K ⊔ θ : Subgroup C) : Set C) :=
     le_normalizer_of_normal_of_le inferInstance le_sup_right
   have hconj : ∀ g : C, K.map (MulAut.conj g).toMonoidHom ≤
@@ -270,7 +271,7 @@ theorem normalClosure_le_normalizer {K : Subgroup C} (hK : K ∈ thetaComponents
           have hxi : x⁻¹ ∈ K.map (MulAut.conj g).toMonoidHom := Subgroup.inv_mem _ hx
           have hcomm : x⁻¹ * k * x⁻¹⁻¹ * k⁻¹ ∈ θ := hc (Subgroup.commutator_mem_commutator hxi hk)
           have e : (MulAut.conj x⁻¹).toMonoidHom k = (x⁻¹ * k * x⁻¹⁻¹ * k⁻¹) * k := by
-            simp [MulAut.conj_apply]
+            simp
           rw [e]
           exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hcomm) (Subgroup.mem_sup_left hk)
         · rintro _ ⟨t, ht, rfl⟩
@@ -282,7 +283,7 @@ theorem normalClosure_le_normalizer {K : Subgroup C} (hK : K ∈ thetaComponents
         exact hmap ⟨h, hh, by simp [MulAut.conj_apply]⟩
       · intro hh
         have hmem : h ∈ (K ⊔ θ).map (MulAut.conj x⁻¹).toMonoidHom :=
-          ⟨x * h * x⁻¹, hh, by simp [MulAut.conj_apply, mul_assoc]⟩
+          ⟨x * h * x⁻¹, hh, by simp [mul_assoc]⟩
         exact hmap' hmem
   rw [Subgroup.normalClosure, Subgroup.closure_le]
   intro z hz
@@ -303,12 +304,12 @@ theorem normalClosure_le_normalizer {K : Subgroup C} (hK : K ∈ thetaComponents
 theorem not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q]
     (hq : IsQuasisimple (Q ⧸ aschbacherSolvableCore 3 Q)) : ¬ Group.IsSolvable Q := by
   intro hs
-  haveI := hs
+  have := hs
   obtain ⟨hp, hsimp, a, b, hab⟩ := hq
-  haveI : Group.IsSolvable (Q ⧸ aschbacherSolvableCore 3 Q) :=
+  have : Group.IsSolvable (Q ⧸ aschbacherSolvableCore 3 Q) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect (Q ⧸ aschbacherSolvableCore 3 Q) := hp
-  haveI := CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
+  have : Group.IsPerfect (Q ⧸ aschbacherSolvableCore 3 Q) := hp
+  have := CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
     (G := Q ⧸ aschbacherSolvableCore 3 Q)
   apply hab
   have : Subsingleton ((Q ⧸ aschbacherSolvableCore 3 Q) ⧸
@@ -330,7 +331,7 @@ theorem le_sup_theta_of_le {K Y Y0 N L0 : Subgroup C} (hK : K ∈ thetaComponent
   set θ := aschbacherSolvableCore 3 C with hθ
   set Kθ := K ⊔ θ with hKθ
   set E := Subgroup.normalClosure (Kθ : Set C) with hE
-  haveI hEn : E.Normal := Subgroup.normalClosure_normal
+  have hEn : E.Normal := Subgroup.normalClosure_normal
   have hKθE : Kθ ≤ E := Subgroup.le_normalClosure
   have hENm : E ≤ Subgroup.normalizer (Kθ : Set C) := normalClosure_le_normalizer hK
   have hY0s : ¬ Group.IsSolvable Y0 := not_isSolvable_of_isQuasisimple hY0q
@@ -351,7 +352,7 @@ theorem le_sup_theta_of_le {K Y Y0 N L0 : Subgroup C} (hK : K ∈ thetaComponent
   set Nm := Subgroup.normalizer (Kθ : Set C) with hNm
   have hY0Nm : Y0 ≤ Nm := hY0E.trans hENm
   have hKθNm : Kθ ≤ Nm := Subgroup.le_normalizer
-  haveI hKθn : (Kθ.subgroupOf Nm).Normal := Subgroup.normal_in_normalizer
+  have hKθn : (Kθ.subgroupOf Nm).Normal := Subgroup.normal_in_normalizer
   have hY0Kθ : Y0 ≤ Kθ := by
     set ψ : Y0 →* ↥Nm ⧸ Kθ.subgroupOf Nm :=
       (QuotientGroup.mk' (Kθ.subgroupOf Nm)).comp (Subgroup.inclusion hY0Nm) with hψ
@@ -421,7 +422,6 @@ theorem card_center_quot_of_mulEquiv {P Q : Type*} [Group P] [Group Q] (e : P �
 
 end Transport
 
-variable [Finite G]
 
 theorem le_sup_theta_centralizer {d : G} {K Yd YB N L0 : Subgroup G}
     (hK : K ∈ thetaComponentsAt 3 d) (hYdC : Yd ≤ Subgroup.centralizer ({d} : Set G))

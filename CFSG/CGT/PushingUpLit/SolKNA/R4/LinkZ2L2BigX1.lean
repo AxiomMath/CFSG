@@ -20,7 +20,7 @@ section Cit3
 variable {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
   {J : Subgroup Y} {u : Y} {R₀ T₀ : Subgroup Y} {P : Sylow 2 Y}
 
-theorem Z2SetR.innerModOdd_t_t (hs : Z2SetR r n R S t J u R₀ T₀ P) :
+theorem Z2SetR.innerModOdd_t_t (_hs : Z2SetR r n R S t J u R₀ T₀ P) :
     InnerModOdd (linkLayer R t) t := by
   refine innerModOdd_of_actsTriv fun z hz => ?_
   have hzt : t * z = z * t :=
@@ -34,7 +34,7 @@ theorem Z2SetR.innerModOdd_t_u (hs : Z2SetR r n R S t J u R₀ T₀ P) :
     ⟨⟨hs.hu.mem, Subgroup.mem_centralizer_singleton_iff.mpr hs.tu_comm.symm⟩,
       Balance.isPGroup_zpowers_of_mul_self_eq_one hs.u2⟩), actsLike_refl _ u⟩
 
-theorem Z2SetR.innerModOdd_u_u (hs : Z2SetR r n R S t J u R₀ T₀ P) :
+theorem Z2SetR.innerModOdd_u_u (_hs : Z2SetR r n R S t J u R₀ T₀ P) :
     InnerModOdd (linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u) u := by
   refine innerModOdd_of_actsTriv fun z hz => ?_
   have hzu : u * z = z * u :=
@@ -51,7 +51,7 @@ theorem Z2SetR.innerModOdd_u_t (hs : Z2SetR r n R S t J u R₀ T₀ P) :
       Subgroup.mem_centralizer_singleton_iff.mpr hs.tu_comm⟩,
       Balance.isPGroup_zpowers_of_mul_self_eq_one hs.t2⟩), actsLike_refl _ t⟩
 
-theorem Z2SetR.innerModOdd_t_of_mem_omegaNbr (hs : Z2SetR r n R S t J u R₀ T₀ P) {y : Y}
+theorem Z2SetR.innerModOdd_t_of_mem_omegaNbr (_hs : Z2SetR r n R S t J u R₀ T₀ P) {y : Y}
     (hyA : y ∈ edgeCent (P : Subgroup Y) t u) {L : Subgroup Y}
     (hL : L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R))
     (hy : IsUniqueInvolution L y) : InnerModOdd (linkLayer R t) y := by
@@ -61,7 +61,7 @@ theorem Z2SetR.innerModOdd_t_of_mem_omegaNbr (hs : Z2SetR r n R S t J u R₀ T�
   rw [mul_inv_cancel]
   exact Subgroup.one_mem _
 
-theorem Z2SetR.innerModOdd_u_of_mem_omegaNbr (hs : Z2SetR r n R S t J u R₀ T₀ P) {y : Y}
+theorem Z2SetR.innerModOdd_u_of_mem_omegaNbr (_hs : Z2SetR r n R S t J u R₀ T₀ P) {y : Y}
     (hyA : y ∈ edgeCent (P : Subgroup Y) t u) {L : Subgroup Y}
     (hL : L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) J)
     (hy : IsUniqueInvolution L y) :
@@ -79,7 +79,7 @@ theorem Z2SetR.isSylow2In_edgeCent_t (hs : Z2SetR r n R S t J u R₀ T₀ P) :
   have ht := hs.large.datum.isUniqueInvolution_core
   have hTF := TightLargeHypR.typeRFam hs.large
   have hA2 : IsPGroup 2 ↥(edgeCent (P : Subgroup Y) t u) :=
-    P.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+    P.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hT₀A : T₀ ≤ edgeCent (P : Subgroup Y) t u := fun x hx =>
     ⟨⟨hs.hT₀P hx, S1916.normalizer_le_centralizer_of_isUniqueInvolution ht (hs.hT₀N hx)⟩,
       hTF.le_centralizer hs.hJ.1 hs.hu (hs.hT₀.1 hx)⟩
@@ -101,8 +101,8 @@ theorem Z2SetR.isSylow2In_edgeCent_t (hs : Z2SetR r n R S t J u R₀ T₀ P) :
     inf_le_left.trans inf_le_right
   refine ⟨hAt, hA2, fun V hVt hV2 hAV => ?_⟩
   have hVJ : ∀ v ∈ V, conjSub v J = J := by
-    letI := act _ hAt
-    letI := act V hVt
+    let := act _ hAt
+    let := act V hVt
     have hFA : MulAction.fixedPoints ↥(edgeCent (P : Subgroup Y) t u)
         ↥(omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R)) = {⟨J, hs.hJ⟩} := by
       ext J'

@@ -149,8 +149,8 @@ open scoped commutatorElement
 
 private theorem exists_mem_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {E : Subgroup G} (hE : IsPGroup p E) (hne : E ≠ ⊥) : ∃ z ∈ E, z ≠ 1 ∧ z ^ p = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
   have hdvd : p ∣ Nat.card ↥E := by
     rcases hE.card_eq_or_dvd with h | h
     · exact absurd h (Finite.one_lt_card (α := ↥E)).ne'
@@ -303,7 +303,7 @@ theorem goodA_all_abelian (hK : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp 
     by_cases hTits : catalogIs S (onLie (· = TauCeti.LieTypeIndex.tits))
     · apply goodA_subtype_top_of_centFix
       intro P hP hPp
-      haveI := hT S hTits p hp hp2 (Subgroup.zpowers z) (isElemAbelian_zpowers hzp)
+      have := hT S hTits p hp hp2 (Subgroup.zpowers z) (isElemAbelian_zpowers hzp)
         (by rw [Ne, Subgroup.zpowers_eq_bot]; exact hz1)
       have hPz : P ≤ I142.centFix (Subgroup.zpowers z) := by
         intro x hx

@@ -81,13 +81,13 @@ theorem locIdx_fold {n : ℕ} {pts : Array (Array ℕ)}
       · subst him; simp
       · have hne : eltKey n pts[m]! ≠ eltKey n pts[i]! := fun he =>
           him (hkey i (by omega) m (by omega) he.symm)
-        simp only [beq_iff_eq, hne, if_false]
+        simp only [beq_iff_eq, hne, ite_false]
         exact ih1 i (by omega)
     · rw [Std.HashMap.getElem?_insert] at hkv
       by_cases hk : eltKey n pts[m]! = k
-      · simp only [beq_iff_eq, hk, if_true, Option.some.injEq] at hkv
+      · simp only [beq_iff_eq, hk, ite_true, Option.some.injEq] at hkv
         subst hkv; exact ⟨by omega, hk⟩
-      · simp only [beq_iff_eq, hk, if_false] at hkv
+      · simp only [beq_iff_eq, hk, ite_false] at hkv
         have := ih2 k v hkv
         exact ⟨by omega, this.2⟩
 
@@ -126,10 +126,10 @@ theorem locCov_inv {n : ℕ} {pts : Array (Array ℕ)} {reps : Array LocRep} :
       rw [Std.HashMap.get?_eq_getElem?, Std.HashMap.getElem?_insert] at hpv
       by_cases hp : (ix, it) = p
       · subst hp
-        simp only [beq_self_eq_true, if_true, Option.some.injEq] at hpv
+        simp only [beq_self_eq_true, ite_true, Option.some.injEq] at hpv
         subst hpv
         exact ⟨List.mem_range.1 hri, List.mem_range.1 hsi, h1, h2⟩
-      · simp only [beq_iff_eq, hp, if_false] at hpv
+      · simp only [beq_iff_eq, hp, ite_false] at hpv
         exact hm' p v (by rwa [Std.HashMap.get?_eq_getElem?])
     next => exact hm'
   · unfold CovInv

@@ -29,8 +29,7 @@ theorem s313a_sq_eq_one_of_fixed {k : Type*} [Field k] (h2 : (2 : k) = 0)
     Matrix.exists_mulVec_eq_zero_iff.1 ⟨v, hv, hker⟩
   rw [Matrix.det_fin_two] at hd0 hdet
   simp only [Matrix.sub_apply, Matrix.one_apply_eq, Matrix.one_apply_ne, ne_eq,
-    Fin.zero_eq_one_iff, Fin.one_eq_zero_iff, OfNat.ofNat_ne_one, not_false_eq_true, sub_zero,
-    zero_sub] at hd0
+    Fin.zero_eq_one_iff, Fin.one_eq_zero_iff, OfNat.ofNat_ne_one, not_false_eq_true, sub_zero] at hd0
   set a := (M : Matrix (Fin 2) (Fin 2) k) 0 0 with ha
   set b := (M : Matrix (Fin 2) (Fin 2) k) 0 1 with hb
   set c := (M : Matrix (Fin 2) (Fin 2) k) 1 0 with hc
@@ -40,7 +39,7 @@ theorem s313a_sq_eq_one_of_fixed {k : Type*} [Field k] (h2 : (2 : k) = 0)
   apply Subtype.ext
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   · linear_combination hdet - a * hda + (b * c) * h2
   · linear_combination b * had
   · linear_combination c * had
@@ -93,7 +92,7 @@ def s313a_fixModSubgroup {G : Type*} [Group G] (F W : Subgroup G) (x : G) : Subg
     rw [e]
     exact h1
 
-theorem s313a_normal_subgroupOf_of_comm {G : Type*} [Group G] {F W : Subgroup G} (hWF : W ≤ F)
+theorem s313a_normal_subgroupOf_of_comm {G : Type*} [Group G] {F W : Subgroup G} (_hWF : W ≤ F)
     (hFcomm : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a) : (W.subgroupOf F).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [mem_subgroupOf] at hn ⊢
@@ -137,7 +136,7 @@ theorem s313a_exists_conj_mul_inv_mem {G : Type*} [Group G] [Finite G] {F W J : 
     {x : G} (hxF : x ∈ F) (hxW : x ∉ W) {y : G} (hyF : y ∈ F) (hyW : y ∉ W) :
     ∃ j ∈ J, (j * x * j⁻¹) * y⁻¹ ∈ W := by
   classical
-  haveI hN : (W.subgroupOf F).Normal := s313a_normal_subgroupOf_of_comm hWF hFcomm
+  have hN : (W.subgroupOf F).Normal := s313a_normal_subgroupOf_of_comm hWF hFcomm
   have hcard' := @hcard hN
   let Φ : J → {z : F ⧸ W.subgroupOf F // z ≠ 1} := fun j =>
     ⟨(QuotientGroup.mk (⟨j * x * j⁻¹, (mem_normalizer_iff.1 (hJF j.2) x).1 hxF⟩ : F) :
@@ -256,49 +255,61 @@ variable (hp : d.CaseHyp) (k12 : d.Know12) {S : Subgroup G} (hS : IsSylowOf 2 S 
   (hP : d.P ≤ S)
 include hp k12 hS hP
 
+omit [Finite G] hp hS hP in
 theorem s313a_L₁_eq : d.L₁ = d.D ⊔ d.M₁ := k12.s9_3.1
 
-theorem s313a_M₁_le_L₁ : d.M₁ ≤ d.L₁ := (s313a_L₁_eq hp k12 hS hP) ▸ le_sup_right
+omit [Finite G] hp hS hP in
+theorem s313a_M₁_le_L₁ : d.M₁ ≤ d.L₁ := (s313a_L₁_eq k12) ▸ le_sup_right
 
+omit [Finite G] hp in
 theorem s313a_centerIn_D : CFSG.centerIn d.D = d.F := (k12.s9_2 S hS hP).2.2.2.1
 
+omit [Finite G] hp in
 theorem s313a_F_le_D : d.F ≤ d.D := by
-  rw [← s313a_centerIn_D hp k12 hS hP]
+  rw [← s313a_centerIn_D k12 hS hP]
   exact inf_le_left
 
+omit [Finite G] hp in
 theorem s313a_D_le_centralizer_F : d.D ≤ centralizer (d.F : Set G) := by
-  rw [← s313a_centerIn_D hp k12 hS hP]
+  rw [← s313a_centerIn_D k12 hS hP]
   intro x hx
   exact mem_centralizer_iff.2 fun z hz =>
     (mem_centralizer_iff.1 (Subgroup.mem_inf.1 hz).2 x hx).symm
 
+omit [Finite G] hp in
 theorem s313a_mul_self_mem_F : ∀ x ∈ d.D, x * x ∈ d.F := (k12.s9_2 S hS hP).2.2.2.2
 
 theorem s313a_L₁_le_normalizer_F : d.L₁ ≤ normalizer (d.F : Set G) := by
-  rw [← s313a_centerIn_D hp k12 hS hP]
+  rw [← s313a_centerIn_D k12 hS hP]
   exact hp.hyp.L₁_le_normalizer_D.trans (normalizer_le_normalizer_centerIn _)
 
+omit [Finite G] hp in
 theorem s313a_S_eq : S = d.E ⊔ d.D := (k12.s9_1 S hS hP).1
 
-theorem s313a_D_le_S : d.D ≤ S := (s313a_S_eq hp k12 hS hP).symm ▸ le_sup_right
+omit [Finite G] hp in
+theorem s313a_D_le_S : d.D ≤ S := (s313a_S_eq k12 hS hP).symm ▸ le_sup_right
 
 theorem s313a_t_mem_normalizer_S : d.t ∈ normalizer (S : Set G) := by
-  rw [s313a_S_eq hp k12 hS hP]
+  rw [s313a_S_eq k12 hS hP]
   exact Common.mem_normalizer_sup (hp.hyp.t_mem_normalizer_E_caseB hp.gms)
     hp.hyp.t_mem_normalizer_D
 
+omit [Finite G] hp in
 theorem s313a_W_le_F : d.W ≤ d.F := by
   have h1 := (k12.s10_1 S hS hP).2.2.1.1
   calc d.W ≤ d.W ⊔ (S ⊓ centralizer (d.I₆ : Set G)) := le_sup_left
     _ = d.F := h1.symm
 
+omit [Finite G] hp in
 theorem s313a_isSylowOf_S_M₁ : IsSylowOf 2 (S ⊓ d.M₁) d.M₁ := (k12.s10_2 S hS hP).1.2
 
+omit [Finite G] hp in
 theorem s313a_S_eq_D_sup : S = d.D ⊔ (S ⊓ d.M₁) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, h12⟩ := k12.s10_1 S hS hP
   rw [← (k12.s10_2 S hS hP).1.1]
   exact h12.1
 
+omit hp in
 theorem s313a_mem_normalizer_W {g : G} (hg : g ∈ normalizer (S : Set G)) :
     g ∈ normalizer (d.W : Set G) := by
   have := s313a_mem_normalizer_Z₂ hg
@@ -309,42 +320,49 @@ section S313aPsi
 variable {k : Type} [Field k] [Fintype k] (ψ : d.M₁ ≃* SL(2, k) × SL(2, k))
 include hp k12 hS hP
 
+omit [Fintype k] [Finite G] hp hS hP in
 theorem s313a_X_le_L₁ : Common.prodFactorOne ψ ≤ d.L₁ :=
-  (Common.prodFactorOne_le ψ).trans (s313a_M₁_le_L₁ hp k12 hS hP)
+  (Common.prodFactorOne_le ψ).trans (s313a_M₁_le_L₁ k12)
 
+omit [Fintype k] [Finite G] hp hS hP in
 theorem s313a_X_le_Kc : Common.prodFactorOne ψ ≤ d.Kc (Common.prodFactorOne ψ) := by
   rw [d.Kc_eq_normalClosureIn]
-  exact le_normalClosureIn (s313a_X_le_L₁ hp k12 hS hP ψ)
+  exact le_normalClosureIn (s313a_X_le_L₁ k12 ψ)
 
+omit [Fintype k] hS hP in
 theorem s313a_X_le_normalizer_D : Common.prodFactorOne ψ ≤ normalizer (d.D : Set G) :=
-  (s313a_X_le_L₁ hp k12 hS hP ψ).trans hp.hyp.L₁_le_normalizer_D
+  (s313a_X_le_L₁ k12 ψ).trans hp.hyp.L₁_le_normalizer_D
 
+omit [Fintype k] hS hP in
 theorem s313a_L₁_le_normalizer_D_sup_X :
     d.L₁ ≤ normalizer ((d.D ⊔ Common.prodFactorOne ψ : Subgroup G) : Set G) := by
-  rw [s313a_L₁_eq hp k12 hS hP]
+  rw [s313a_L₁_eq k12]
   refine sup_le (fun x hx => le_normalizer (mem_sup_left hx)) fun m hm => ?_
   exact Common.mem_normalizer_sup (hp.hyp.L₁_le_normalizer_D
-    (s313a_M₁_le_L₁ hp k12 hS hP hm)) (Common.le_normalizer_prodFactorOne ψ hm)
+    (s313a_M₁_le_L₁ k12 hm)) (Common.le_normalizer_prodFactorOne ψ hm)
 
+omit [Fintype k] hS hP in
 theorem s313a_Kc_le_D_sup_X : d.Kc (Common.prodFactorOne ψ) ≤ d.D ⊔ Common.prodFactorOne ψ := by
   rw [d.Kc_eq_normalClosureIn]
-  exact normalClosureIn_le le_sup_right (s313a_L₁_le_normalizer_D_sup_X hp k12 hS hP ψ)
+  exact normalClosureIn_le le_sup_right (s313a_L₁_le_normalizer_D_sup_X hp k12 ψ)
 
+omit [Fintype k] in
 theorem s313a_Uc_eq :
     d.Uc S (Common.prodFactorOne ψ) = d.D ⊔ (Common.prodFactorOne ψ ⊓ S) := by
   have e : d.D ⊔ d.Kc (Common.prodFactorOne ψ) = d.D ⊔ Common.prodFactorOne ψ :=
-    le_antisymm (sup_le le_sup_left (s313a_Kc_le_D_sup_X hp k12 hS hP ψ))
-      (sup_le_sup_left (s313a_X_le_Kc hp k12 hS hP ψ) _)
+    le_antisymm (sup_le le_sup_left (s313a_Kc_le_D_sup_X hp k12 ψ))
+      (sup_le_sup_left (s313a_X_le_Kc k12 ψ) _)
   rw [Uc, e, inf_comm]
-  exact sup_inf_eq_of_le (s313a_D_le_S hp k12 hS hP) (s313a_X_le_normalizer_D hp k12 hS hP ψ)
+  exact sup_inf_eq_of_le (s313a_D_le_S k12 hS hP) (s313a_X_le_normalizer_D hp k12 ψ)
 
+omit [Finite G] hp in
 theorem s313a_commutatorElement_mem_F {a b : G} (ha : a ∈ d.D) (hb : b ∈ d.D) :
     a * b * a⁻¹ * b⁻¹ ∈ d.F := by
-  have h1 := s313a_mul_self_mem_F hp k12 hS hP _ (mul_mem ha hb)
-  have h2 := s313a_mul_self_mem_F hp k12 hS hP _ ha
-  have h3 := s313a_mul_self_mem_F hp k12 hS hP _ hb
+  have h1 := s313a_mul_self_mem_F k12 hS hP _ (mul_mem ha hb)
+  have h2 := s313a_mul_self_mem_F k12 hS hP _ ha
+  have h3 := s313a_mul_self_mem_F k12 hS hP _ hb
   have hcomm : Commute b (a * a)⁻¹ :=
-    (Commute.inv_right (mem_centralizer_iff.1 (s313a_D_le_centralizer_F hp k12 hS hP hb) _ h2).symm)
+    (Commute.inv_right (mem_centralizer_iff.1 (s313a_D_le_centralizer_F k12 hS hP hb) _ h2).symm)
   have e : a * b * a⁻¹ * b⁻¹ = (a * b) * (a * b) * ((a * a)⁻¹ * (b * b)⁻¹) := by
     calc a * b * a⁻¹ * b⁻¹ = a * b * a * ((a * a)⁻¹ * b) * (b * b)⁻¹ := by group
       _ = a * b * a * (b * (a * a)⁻¹) * (b * b)⁻¹ := by rw [hcomm.eq]
@@ -352,12 +370,13 @@ theorem s313a_commutatorElement_mem_F {a b : G} (ha : a ∈ d.D) (hb : b ∈ d.D
   rw [e]
   exact mul_mem h1 (mul_mem (inv_mem h2) (inv_mem h3))
 
+omit [Finite G] hp hS hP in
 theorem s313a_eq_one_of_mem_X (hk : Fintype.card k = (2 ^ f) ^ 2) {x : G}
     (hx : x ∈ Common.prodFactorOne ψ)
     (htriv : ∀ a ∈ d.D, a⁻¹ * (x * a * x⁻¹) ∈ d.F) : x = 1 := by
   obtain ⟨-, -, hN⟩ := k12.s12 k inferInstance inferInstance hk ψ
   exact hN.eq_one (Subgroup.mem_inf.2 ⟨Common.prodFactorOne_le ψ hx,
-    s313a_X_le_Kc hp k12 hS hP ψ hx⟩) fun a ha => htriv a (Subgroup.mem_inf.1 ha).2
+    s313a_X_le_Kc k12 ψ hx⟩) fun a ha => htriv a (Subgroup.mem_inf.1 ha).2
 
 theorem s313a_centerIn_Uc (hk : Fintype.card k = (2 ^ f) ^ 2) :
     CFSG.centerIn (d.Uc S (Common.prodFactorOne ψ)) =
@@ -367,56 +386,61 @@ theorem s313a_centerIn_Uc (hk : Fintype.card k = (2 ^ f) ^ 2) :
   · rintro z ⟨hzU, hzc⟩
     obtain ⟨e, he, x, hx, rfl⟩ :=
       exists_mul_of_mem_sup_of_le_normalizer
-        (inf_le_left.trans (s313a_X_le_normalizer_D hp k12 hS hP ψ)) hzU
+        (inf_le_left.trans (s313a_X_le_normalizer_D hp k12 ψ)) hzU
     have hcD : ∀ a ∈ d.D, a * (e * x) = (e * x) * a := fun a ha =>
       mem_centralizer_iff.1 hzc a (mem_sup_left ha)
     have hx1 : x = 1 := by
-      refine s313a_eq_one_of_mem_X hp k12 hS hP ψ hk (Subgroup.mem_inf.1 hx).1 fun a ha => ?_
+      refine s313a_eq_one_of_mem_X k12 ψ hk (Subgroup.mem_inf.1 hx).1 fun a ha => ?_
       have e1 : x * a * x⁻¹ = e⁻¹ * a * e := by
         calc x * a * x⁻¹ = e⁻¹ * ((e * x) * a) * (e * x)⁻¹ * e := by group
           _ = e⁻¹ * (a * (e * x)) * (e * x)⁻¹ * e := by rw [← hcD a ha]
           _ = e⁻¹ * a * e := by group
       rw [e1]
-      have := s313a_commutatorElement_mem_F hp k12 hS hP (inv_mem ha) (inv_mem he)
+      have := s313a_commutatorElement_mem_F k12 hS hP (inv_mem ha) (inv_mem he)
       rw [inv_inv, inv_inv] at this
       simpa only [mul_assoc] using this
     subst hx1
     simp only [mul_one] at hcD hzc ⊢
     refine Subgroup.mem_inf.2 ⟨?_, mem_centralizer_iff.2 fun y hy =>
       mem_centralizer_iff.1 hzc y (mem_sup_right hy)⟩
-    rw [← s313a_centerIn_D hp k12 hS hP]
+    rw [← s313a_centerIn_D k12 hS hP]
     exact ⟨he, mem_centralizer_iff.2 fun a ha => by simpa using hcD a ha⟩
   · rintro z ⟨hzF, hzc⟩
-    refine ⟨mem_sup_left (s313a_F_le_D hp k12 hS hP hzF), mem_centralizer_iff.2 fun y hy => ?_⟩
+    refine ⟨mem_sup_left (s313a_F_le_D k12 hS hP hzF), mem_centralizer_iff.2 fun y hy => ?_⟩
     have hle : d.D ⊔ (Common.prodFactorOne ψ ⊓ S) ≤ centralizer ({z} : Set G) := sup_le
       (fun a ha => mem_centralizer_singleton_iff.2
-        (mem_centralizer_iff.1 (s313a_D_le_centralizer_F hp k12 hS hP ha) z hzF).symm)
+        (mem_centralizer_iff.1 (s313a_D_le_centralizer_F k12 hS hP ha) z hzF).symm)
       (fun a ha => mem_centralizer_singleton_iff.2 (mem_centralizer_iff.1 hzc a ha))
     exact mem_centralizer_singleton_iff.1 (hle hy)
 
+omit k12 hS hP in
 theorem s313a_two_eq_zero (hk : Fintype.card k = (2 ^ f) ^ 2) : (2 : k) = 0 := by
   have hd := hp.hyp
   refine GMSK.two_eq_zero_of_card (n := 2 * f) (by have := hd.two_le; omega) ?_
   rw [hk, ← pow_mul, mul_comm]
 
+omit k12 hS hP [Field k] in
 theorem s313a_four_le_card (hk : Fintype.card k = (2 ^ f) ^ 2) : 4 ≤ Fintype.card k := by
   have hd := hp.hyp
   have h1 : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hd.two_le
   rw [hk]
   nlinarith
 
+omit k12 hS hP in
 theorem s313a_isSimpleGroup_X (hk : Fintype.card k = (2 ^ f) ^ 2) :
     IsSimpleGroup (Common.prodFactorOne ψ) := by
-  haveI : IsSimpleGroup SL(2, k) := GMSK.sl2_isSimpleGroup (s313a_two_eq_zero hp k12 hS hP hk)
-    (s313a_four_le_card hp k12 hS hP hk)
+  have : IsSimpleGroup SL(2, k) := GMSK.sl2_isSimpleGroup (s313a_two_eq_zero hp hk)
+    (s313a_four_le_card hp hk)
   exact (Common.prodFactorOneEquiv ψ).isSimpleGroup
 
+omit [Finite G] hp k12 hS hP [Fintype k] in
 theorem s313a_exists_mul_ne_X :
     ∃ x y : Common.prodFactorOne ψ, x * y ≠ y * x := by
   obtain ⟨x, y, hxy⟩ := GMSK.sl2_exists_mul_ne (K := k)
   exact ⟨(Common.prodFactorOneEquiv ψ).symm x, (Common.prodFactorOneEquiv ψ).symm y,
     fun e => hxy (by simpa using congrArg (Common.prodFactorOneEquiv ψ) e)⟩
 
+omit hS hP in
 theorem s313a_map_conj_t_X (hk : Fintype.card k = (2 ^ f) ^ 2) :
     (Common.prodFactorOne ψ).map (MulAut.conj d.t).toMonoidHom = Common.prodFactorTwo ψ := by
   have hd := hp.hyp
@@ -439,7 +463,7 @@ theorem s313a_map_conj_t_X (hk : Fintype.card k = (2 ^ f) ^ 2) :
     refine ⟨_, h1, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
-  have hXs := s313a_isSimpleGroup_X hp k12 hS hP ψ hk
+  have hXs := s313a_isSimpleGroup_X hp ψ hk
   have hZs : IsSimpleGroup Z :=
     (Subgroup.equivMapOfInjective X (MulAut.conj d.t).toMonoidHom (MulAut.conj d.t).injective).symm.isSimpleGroup
   have hcardZ : Nat.card Z = Nat.card X := Prelim.card_map_conj X d.t
@@ -450,14 +474,14 @@ theorem s313a_map_conj_t_X (hk : Fintype.card k = (2 ^ f) ^ 2) :
     intro hZX
     obtain ⟨-, h2, -⟩ := k12.s12 k inferInstance inferInstance hk ψ
     have hXF : X ≤ d.F := by
-      have hXK : X ≤ d.F ⊔ d.Kc X := (s313a_X_le_Kc hp k12 hS hP ψ).trans le_sup_right
+      have hXK : X ≤ d.F ⊔ d.Kc X := (s313a_X_le_Kc k12 ψ).trans le_sup_right
       have hXKt : X ≤ d.F ⊔ (d.Kc X).map (MulAut.conj d.t).toMonoidHom :=
         calc X = Z := hZX.symm
           _ ≤ (d.Kc X).map (MulAut.conj d.t).toMonoidHom :=
-            map_mono (s313a_X_le_Kc hp k12 hS hP ψ)
+            map_mono (s313a_X_le_Kc k12 ψ)
           _ ≤ d.F ⊔ (d.Kc X).map (MulAut.conj d.t).toMonoidHom := le_sup_right
       exact h2 ▸ le_inf hXK hXKt
-    obtain ⟨x, y, hxy⟩ := s313a_exists_mul_ne_X hp k12 hS hP ψ
+    obtain ⟨x, y, hxy⟩ := s313a_exists_mul_ne_X ψ
     exact hxy (Subtype.ext (Prelim.mul_comm_of_mem (hd.isElementaryAbelian_F hp.gms)
       (hXF x.2) (hXF y.2)))
   have hnorm : (X.subgroupOf Z).Normal := by
@@ -509,24 +533,26 @@ theorem s313a_map_conj_t_X (hk : Fintype.card k = (2 ^ f) ^ 2) :
       · rw [h1, Subgroup.mem_bot] at hcen
         exact congrArg Subtype.val hcen
       · exfalso
-        obtain ⟨a, b, hab⟩ := s313a_exists_mul_ne_X hp k12 hS hP ψ
+        obtain ⟨a, b, hab⟩ := s313a_exists_mul_ne_X ψ
         have : a ∈ Subgroup.center X := by rw [h1]; trivial
         exact hab (Subgroup.mem_center_iff.1 this b).symm
     rw [hx1, one_mul]
     exact hy₁
   exact Subgroup.eq_of_le_of_card_ge hZY (by rw [hcardZ, hcardXY])
 
+omit [Fintype k] hp in
 theorem s313a_isSylowOf_X_inf_S :
     IsSylowOf 2 (Common.prodFactorOne ψ ⊓ S) (Common.prodFactorOne ψ) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have h1 := (s313a_isSylowOf_S_M₁ hp k12 hS hP).inf_of_le_normalizer
+  have h1 := (s313a_isSylowOf_S_M₁ k12 hS hP).inf_of_le_normalizer
     (Common.prodFactorOne_le ψ) (Common.le_normalizer_prodFactorOne ψ)
   rwa [inf_assoc, inf_eq_right.2 (Common.prodFactorOne_le ψ), inf_comm] at h1
 
+omit [Fintype k] hp in
 theorem s313a_isSylowOf_Y_inf_S :
     IsSylowOf 2 (Common.prodFactorTwo ψ ⊓ S) (Common.prodFactorTwo ψ) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have h1 := (s313a_isSylowOf_S_M₁ hp k12 hS hP).inf_of_le_normalizer
+  have h1 := (s313a_isSylowOf_S_M₁ k12 hS hP).inf_of_le_normalizer
     (Common.prodFactorTwo_le ψ) (Common.le_normalizer_prodFactorTwo ψ)
   rwa [inf_assoc, inf_eq_right.2 (Common.prodFactorTwo_le ψ), inf_comm] at h1
 
@@ -534,7 +560,7 @@ theorem s313a_map_conj_t_X_inf_S (hk : Fintype.card k = (2 ^ f) ^ 2) :
     (Common.prodFactorOne ψ ⊓ S).map (MulAut.conj d.t).toMonoidHom =
       Common.prodFactorTwo ψ ⊓ S := by
   rw [Subgroup.map_inf_eq _ _ _ (MulAut.conj d.t).injective,
-    s313a_map_conj_t_X hp k12 hS hP ψ hk,
+    s313a_map_conj_t_X hp k12 ψ hk,
     map_conj_eq_of_mem_normalizer (s313a_t_mem_normalizer_S hp k12 hS hP)]
 
 theorem s313a_card_F_Y_eq (hk : Fintype.card k = (2 ^ f) ^ 2) :
@@ -546,8 +572,9 @@ theorem s313a_card_F_Y_eq (hk : Fintype.card k = (2 ^ f) ^ 2) :
     Prelim.inf_centralizer_map_conj hp.hyp.t_mem_normalizer_F, Prelim.card_map_conj]
 
 theorem s313a_M₁_le_normalizer_F : d.M₁ ≤ normalizer (d.F : Set G) :=
-  (s313a_M₁_le_L₁ hp k12 hS hP).trans (s313a_L₁_le_normalizer_F hp k12 hS hP)
+  (s313a_M₁_le_L₁ k12).trans (s313a_L₁_le_normalizer_F hp k12 hS hP)
 
+omit k12 hS hP [Fintype k] in
 theorem s313a_F_inf_centralizer_X_inf_centralizer_Y :
     d.F ⊓ centralizer (Common.prodFactorOne ψ : Set G) ⊓
       centralizer (Common.prodFactorTwo ψ : Set G) = ⊥ := by
@@ -599,9 +626,9 @@ theorem s313a_pair (hk : Fintype.card k = (2 ^ f) ^ 2)
   have key := sl2_pair_module_small hkm (by omega : 2 ≤ 2 * f) (by omega : 2 * f ≠ 3)
     (hd.isElementaryAbelian_F hp.gms) hcardF (Common.prodFactorOneEquiv ψ)
     (Common.prodFactorTwoEquiv ψ) hXF hYF hcomm
-    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp k12 hS hP ψ)
-    (s313a_isSylowOf_X_inf_S hp k12 hS hP ψ) hP' hPP'
-    (s313a_isSylowOf_Y_inf_S hp k12 hS hP ψ) hQ' hQQ'
+    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp ψ)
+    (s313a_isSylowOf_X_inf_S k12 hS hP ψ) hP' hPP'
+    (s313a_isSylowOf_Y_inf_S k12 hS hP ψ) hQ' hQQ'
     (s313a_card_F_Y_eq hp k12 hS hP ψ hk).symm hle'
   obtain ⟨-, hUU', hUU, -, -, -, -, ⟨θ, hθ, hθr⟩, ⟨θ', hθ', hθ'r⟩⟩ := key
   exact ⟨P', hP'.le, hUU', hUU, ⟨θ, hθ, hθr⟩, ⟨θ', hθ', hθ'r⟩⟩
@@ -614,7 +641,7 @@ theorem s313a_free (hk : Fintype.card k = (2 ^ f) ^ 2)
     s313a_pair hp k12 hS hP ψ hk hle
   set U := d.F ⊓ centralizer ((Common.prodFactorOne ψ ⊓ S : Subgroup G) : Set G) with hU
   set U' := d.F ⊓ centralizer (P' : Set G) with hU'
-  have h2 := s313a_two_eq_zero hp k12 hS hP hk
+  have h2 := s313a_two_eq_zero hp hk
   have hFcomm : ∀ {v w : G}, v ∈ d.F → w ∈ d.F → v * w = w * v := fun {v w} hv hw =>
     Prelim.mul_comm_of_mem (hp.hyp.isElementaryAbelian_F hp.gms) hv hw
   have hUc : ∀ x ∈ U, ∀ y ∈ U', x * y = y * x := fun x hx y hy => hFcomm hx.1 hy.1
@@ -663,12 +690,13 @@ theorem s313a_free (hk : Fintype.card k = (2 ^ f) ^ 2)
     · exact h
   rw [hu1, hu'1, one_mul]
 
+omit [Fintype k] hp in
 theorem s313a_S_inf_M₁_eq :
     S ⊓ d.M₁ = (Common.prodFactorOne ψ ⊓ S) ⊔ (Common.prodFactorTwo ψ ⊓ S) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hX := s313a_isSylowOf_X_inf_S hp k12 hS hP ψ
-  have hY := s313a_isSylowOf_Y_inf_S hp k12 hS hP ψ
-  have hM := s313a_isSylowOf_S_M₁ hp k12 hS hP
+  have hX := s313a_isSylowOf_X_inf_S k12 hS hP ψ
+  have hY := s313a_isSylowOf_Y_inf_S k12 hS hP ψ
+  have hM := s313a_isSylowOf_S_M₁ k12 hS hP
   have hcomm : ∀ x ∈ Common.prodFactorOne ψ ⊓ S, ∀ y ∈ Common.prodFactorTwo ψ ⊓ S, x * y = y * x :=
     fun x hx y hy => (mem_centralizer_iff.1
       (Common.prodFactorOne_le_centralizer ψ (Subgroup.mem_inf.1 hx).1) y
@@ -706,7 +734,7 @@ theorem s313a_J (hk : Fintype.card k = (2 ^ f) ^ 2) :
   have hkm : Nat.card k = 2 ^ (2 * f) := by
     rw [Nat.card_eq_fintype_card, hk, ← pow_mul, mul_comm]
   obtain ⟨J, hJY, hJQ, hJc⟩ := s313a_exists_J hkm (by omega : 1 ≤ 2 * f)
-    (Common.prodFactorTwoEquiv ψ) (s313a_isSylowOf_Y_inf_S hp k12 hS hP ψ)
+    (Common.prodFactorTwoEquiv ψ) (s313a_isSylowOf_Y_inf_S k12 hS hP ψ)
   have hpos : 0 < 2 ^ (2 * f) := by positivity
   have hk2 : 2 ≤ 2 ^ (2 * f) := by
     calc 2 = 2 ^ 1 := by norm_num
@@ -716,13 +744,13 @@ theorem s313a_J (hk : Fintype.card k = (2 ^ f) ^ 2) :
     have hjY := hJY hj
     have hjQ := hJQ hj
     have hD : j ∈ normalizer (d.D : Set G) := hd.L₁_le_normalizer_D
-      ((s313a_M₁_le_L₁ hp k12 hS hP) (Common.prodFactorTwo_le ψ hjY))
+      ((s313a_M₁_le_L₁ k12) (Common.prodFactorTwo_le ψ hjY))
     have hP₀ : j ∈ normalizer ((Common.prodFactorOne ψ ⊓ S : Subgroup G) : Set G) :=
       Subgroup.centralizer_le_normalizer _
         (centralizer_le (SetLike.coe_subset_coe.2 inf_le_left)
           (Common.prodFactorTwo_le_centralizer ψ hjY))
     have := Common.mem_normalizer_sup hD (Common.mem_normalizer_sup hP₀ hjQ)
-    rw [← s313a_S_inf_M₁_eq hp k12 hS hP ψ, ← s313a_S_eq_D_sup hp k12 hS hP] at this
+    rw [← s313a_S_inf_M₁_eq k12 hS hP ψ, ← s313a_S_eq_D_sup k12 hS hP] at this
     exact this
   · rw [hJc, hkm]
     obtain ⟨m, hm⟩ : ∃ m, 2 ^ (2 * f) = 2 * m := ⟨2 ^ (2 * f - 1), by
@@ -744,9 +772,9 @@ theorem sec313Trans_of_hyp (hp : d.CaseHyp) (k : d.Know12) : d.Sec313Trans := by
   have hJF : J ≤ normalizer (d.F : Set G) :=
     hJY.trans ((Common.prodFactorTwo_le ψ).trans hFN)
   have hJW : J ≤ normalizer (d.W : Set G) := fun j hj =>
-    s313a_mem_normalizer_W hp k hS hP (hJS hj)
+    s313a_mem_normalizer_W k hS hP (hJS hj)
   refine ⟨J, hJodd, le_inf (le_inf hJS hJF) hJW, ?_⟩
-  have hWF : d.W ≤ d.F := s313a_W_le_F hp k hS hP
+  have hWF : d.W ≤ d.F := s313a_W_le_F k hS hP
   have hFcomm : ∀ a ∈ d.F, ∀ b ∈ d.F, a * b = b * a := fun a ha b hb =>
     Prelim.mul_comm_of_mem (hd.isElementaryAbelian_F hp.gms) ha hb
   have hFcard : Nat.card d.F = 2 ^ (f * 8) := by

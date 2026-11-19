@@ -28,6 +28,7 @@ structure L73Final (B : Subgroup G) (a : G) (K J I Sg : Subgroup G) : Prop where
   J8 : Nonempty (↥(imageMod 3 K J) ≃* ↥(alternatingGroup (Fin 8)))
   I7 : Nonempty (↥(imageMod 3 K I) ≃* ↥(alternatingGroup (Fin 7)))
 
+omit [Finite G] in
 private theorem y5x_mem_normalizer_centralizer {S : Set G} {b : G} (hb : ∀ s ∈ S, s * b = b * s) :
     b ∈ Subgroup.normalizer (Subgroup.centralizer S : Set G) := by
   have key : ∀ (c : G), (∀ s ∈ S, s * c = c * s) →
@@ -62,8 +63,8 @@ private theorem y5x_mem_normalizer_centralizer {S : Set G} {b : G} (hb : ∀ s �
     have e : b⁻¹ * (b * h * b⁻¹) * b⁻¹⁻¹ = h := by group
     rwa [e] at h1
 
-theorem l73_B_norm_K (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
-    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) (hn : n = 10 ∨ n = 11)
+theorem l73_B_norm_K (_hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
+    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) (_hn : n = 10 ∨ n = 11)
     (hyB : y ∈ B) {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L n y J a K T I Sg) :
     B ≤ Subgroup.normalizer (K : Set G) := by
   have hBel : IsElemAbelian 3 B := (IsSStarMax.bmax hB).1
@@ -111,9 +112,9 @@ private theorem y5x_inf_le_primeCore {I K : Subgroup G} (hIK : I ≤ K) [IsSimpl
     intro h k hh hk
     have hN := Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf 3 K (hIK hk)) h
     exact ⟨I.mul_mem (I.mul_mem hk hh.1) (I.inv_mem hk), hN.1 hh.2⟩
-  haveI := hnormal
+  have := hnormal
   have hbot : imageMod 3 I (I ⊓ GLAPPrimeCoreOf 3 K) = ⊥ := by
-    haveI : (imageMod 3 I (I ⊓ GLAPPrimeCoreOf 3 K)).Normal :=
+    have : (imageMod 3 I (I ⊓ GLAPPrimeCoreOf 3 K)).Normal :=
       Subgroup.Normal.map hnormal _ (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (imageMod 3 I (I ⊓ GLAPPrimeCoreOf 3 K)) with h | h
     · exact h
@@ -135,25 +136,25 @@ private theorem y5x_inf_le_primeCore {I K : Subgroup G} (hIK : I ≤ K) [IsSimpl
   exact (imageMod_eq_bot_iff hMI).1 hbot
 
 theorem l73_imageMod_alt {B : Subgroup G} {x : G} {L : Subgroup G} {y : G} {J : Subgroup G}
-    (S : AltSetup 3 B x L 11 y J) {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L 11 y J a K T I Sg)
-    (hK : L72Single 3 (altDxy x y) J K a)
+    (_S : AltSetup 3 B x L 11 y J) {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L 11 y J a K T I Sg)
+    (_hK : L72Single 3 (altDxy x y) J K a)
     (hJ8 : Nonempty (↥(imageMod 3 K J) ≃* ↥(alternatingGroup (Fin 8)))) :
     Nonempty (↥(imageMod 3 K I) ≃* ↥(alternatingGroup (Fin 7))) := by
   have hIJ : I ≤ J := C.ti.I_le_J
   have hIK : I ≤ K := hIJ.trans C.J_le_K
   have hI7 : Nonempty (PQuot 3 I ≃* ↥(alternatingGroup (Fin 7))) := C.ti.I_alt
   obtain ⟨eP⟩ := hI7
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (PQuot 3 I) := MulEquiv.isSimpleGroup eP
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (PQuot 3 I) := MulEquiv.isSimpleGroup eP
   have hcardP : Nat.card (PQuot 3 I) = 2520 := by
     rw [Nat.card_congr eP.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     rfl
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   obtain ⟨eJ⟩ := hJ8
   have hcardJ : Nat.card ↥(imageMod 3 K J) = 20160 := by
     rw [Nat.card_congr eJ.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     rfl
-  haveI : IsSimpleGroup ↥(imageMod 3 K J) := MulEquiv.isSimpleGroup eJ
+  have : IsSimpleGroup ↥(imageMod 3 K J) := MulEquiv.isSimpleGroup eJ
   have hMO := y5x_inf_le_primeCore hIK (by rw [hcardP]; norm_num)
   let ι : ↥I →* PQuot 3 K := (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K)).comp (Subgroup.inclusion hIK)
   have hιrange : imageMod 3 K I = ι.range := by
@@ -244,17 +245,19 @@ theorem l73_imageMod_alt {B : Subgroup G} {x : G} {L : Subgroup G} {y : G} {J : 
       apply Subgroup.eq_of_le_of_card_ge (imageMod_mono hIJ)
       rw [hcardJ, hcardrel]
     have eI : ↥(imageMod 3 K I) ≃* ↥(alternatingGroup (Fin 8)) := (MulEquiv.subgroupCongr hEq).trans eJ
-    haveI : IsSimpleGroup ↥(imageMod 3 K I) := MulEquiv.isSimpleGroup eI
+    have : IsSimpleGroup ↥(imageMod 3 K I) := MulEquiv.isSimpleGroup eI
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρ.ker with h | h
     · have h1 : Nat.card ↥ρ.ker = 1 := Subgroup.card_eq_one.2 h
       omega
     · have h1 : Nat.card ↥ρ.ker = Nat.card ↥(imageMod 3 K I) := by rw [h, Subgroup.card_top]
       omega
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq_s6 (g : G) :
     Subgroup.centralizer ((Subgroup.zpowers g : Subgroup G) : Set G) = Subgroup.centralizer ({g} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 theorem centralizer_sup_eq (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -293,7 +296,7 @@ theorem l73_layer_CD (hc : S6Ctx G 3) (i182 : I182At G) {B : Subgroup G} {x : G}
 theorem l73_layer_KD (hc : S6Ctx G 3) (i182 : I182At G) {B : Subgroup G} {x : G} {L : Subgroup G}
     {n : ℕ} {y : G} {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) {a : G}
     {K : Subgroup G} (haD : a ∈ altDxy x y) (hKsn : IsSubnormal K (Subgroup.centralizer ({a} : Set G)))
-    (hJK : J ≤ K) (hJc : GLAPComponent 3 (K ⊓ Subgroup.centralizer (altDxy x y : Set G)) J) :
+    (_hJK : J ≤ K) (hJc : GLAPComponent 3 (K ⊓ Subgroup.centralizer (altDxy x y : Set G)) J) :
     GLAPLayer 3 (K ⊓ Subgroup.centralizer (altDxy x y : Set G)) = J := by
   have hp := hc.prime
   have hCD : Subgroup.centralizer (altDxy x y : Set G) ≤ Subgroup.centralizer ({a} : Set G) :=
@@ -307,6 +310,7 @@ theorem l73_layer_KD (hc : S6Ctx G 3) (i182 : I182At G) {B : Subgroup G} {x : G}
       ≤ GLAPLayer 3 (Subgroup.centralizer (altDxy x y : Set G)) := glaPLayer_le_of_isSubnormal hp hsn
     _ = J := l73_layer_CD hc i182 hB S
 
+omit [Finite G] in
 theorem normalizer_outer_hom (p : ℕ) (L : Subgroup G) :
     ∃ f : ↥(Subgroup.normalizer (L : Set G)) →*
         CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot p L),
@@ -358,6 +362,7 @@ theorem normalizer_outer_hom (p : ℕ) (L : Subgroup G) :
       exact hn
     exact hH g hg g.2
 
+omit [Finite G] in
 theorem card_outer_pQuot_dvd_four {p n : ℕ} {L : Subgroup G} (hL : IsAltPType p L n) (hn : 5 ≤ n) :
     Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot p L)) ∣ 4 := by
   obtain ⟨e⟩ := hL
@@ -365,20 +370,21 @@ theorem card_outer_pQuot_dvd_four {p n : ℕ} {L : Subgroup G} (hL : IsAltPType 
   rwa [← Nat.card_congr
     (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv] at h4
 
+omit [Finite G] in
 theorem perfect_le_sup_centMod {L P : Subgroup G} {n : ℕ} (hL : IsAltPType 3 L n) (hn : 5 ≤ n)
     (hPN : P ≤ Subgroup.normalizer (L : Set G)) (hperf : ⁅P, P⁆ = P) :
     P ≤ L ⊔ centModSubgroup 3 L := by
   obtain ⟨f, hf⟩ := normalizer_outer_hom 3 L
   have h4 := card_outer_pQuot_dvd_four hL hn
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) :=
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) :=
     Nat.finite_of_card_ne_zero (fun h0 => by rw [h0] at h4; omega)
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) := by
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) := by
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (h4.trans (by norm_num : 4 ∣ 2 ^ 2))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent (CFSG.ComponentClassification.OuterAutomorphisms.Outer (PQuot 3 L)) :=
       (IsPGroup.of_card hk).isNilpotent
     infer_instance
-  haveI : Group.IsSolvable (↥(Subgroup.normalizer (L : Set G)) ⧸ f.ker) :=
+  have : Group.IsSolvable (↥(Subgroup.normalizer (L : Set G)) ⧸ f.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective f)
   have hP' : ⁅P.subgroupOf (Subgroup.normalizer (L : Set G)), P.subgroupOf (Subgroup.normalizer (L : Set G))⁆ =
       P.subgroupOf (Subgroup.normalizer (L : Set G)) := by
@@ -391,6 +397,7 @@ theorem perfect_le_sup_centMod {L P : Subgroup G} {n : ℕ} (hL : IsAltPType 3 L
   rw [hf] at h1
   exact Subgroup.mem_subgroupOf.1 h1
 
+omit [Finite G] in
 theorem card_eq_card_autBar_mul (p : ℕ) {L A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (L : Set G)) :
     Nat.card ↥A = Nat.card ↥(CFSG.HardMathSupport.Solomon.LocalBalance.autBar p A L) *
       Nat.card ↥(A ⊓ centModSubgroup p L : Subgroup G) := by
@@ -430,7 +437,7 @@ theorem exists_lift_elemAbelian_centralizing {K F E : Subgroup G} (hF3 : IsPGrou
       imageMod 3 K E' = imageMod 3 K E := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hFN : F ≤ Subgroup.normalizer (K : Set G) := fun g hg => (mem_centModSubgroup.1 (hFK hg)).1
   have hfix : ∀ (q : PQuot 3 K) (d : G) (hd : d ∈ F),
       CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 K ⟨d, hFN hd⟩ q = q := by
@@ -484,14 +491,14 @@ theorem l73_rank_Cx (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {
     ∀ E : Subgroup G, E ≤ Subgroup.centralizer ({x} : Set G) → IsElemAbelian 3 E → Nat.card ↥E ≤ 3 ^ 4 := by
   intro E hEx hE
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hn5 : 5 ≤ n := by have := S.seven_lt; omega
   have hN : E ≤ Subgroup.normalizer (L : Set G) := hEx.trans (l73_Cx_le_normalizer hc hB)
   obtain ⟨eL⟩ := S.alt
   have hZ : Subgroup.center (PQuot 3 L) = ⊥ := center_pQuot_eq_bot_of_equiv (by omega) eL
   have f : PSimple 3 L ≃* ↥(alternatingGroup (Fin n)) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans (QuotientGroup.quotientBot.trans eL)
-  haveI : Group.IsPerfect (PQuot 3 L) :=
+  have : Group.IsPerfect (PQuot 3 L) :=
     CFSG.HardMathSupport.Timmesfeld.Balance.Alt.isPerfect_barOf (IsSStarMax.component hB)
   have hcard := card_eq_card_autBar_mul 3 hN
   have hA : IsElemAbelian 3 (CFSG.HardMathSupport.Solomon.LocalBalance.autBar 3 E L) :=
@@ -507,7 +514,7 @@ theorem l73_rank_Cx (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {
     (IsSStarMax.cycMod hB) (E ⊓ centModSubgroup 3 L) (fun g hg => centMod_iff.2 (Subgroup.mem_inf.1 hg).2)
       (isPGroup_of_isElemAbelian hS'el)
   have hS'card : Nat.card ↥(E ⊓ centModSubgroup 3 L : Subgroup G) ≤ 3 := by
-    haveI := hS'cyc
+    have := hS'cyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(E ⊓ centModSubgroup 3 L : Subgroup G))
     have hgord : orderOf g = Nat.card ↥(E ⊓ centModSubgroup 3 L : Subgroup G) :=
       orderOf_eq_card_of_forall_mem_zpowers hg
@@ -548,7 +555,7 @@ theorem l73_exists_cycle_c (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgro
   · exact hBel.2 _ (hEB hgE)
   · have hperm : permOfMod 3 J 8 eJ (g : G) = permOfQ eJ (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J) g) := by
       unfold permOfQ permOfMod
-      rw [dif_pos g.2]
+      rw [dite_eq_left g.2]
       rfl
     rw [hperm]
     exact hqc
@@ -578,7 +585,7 @@ theorem layer_cent_three_cycle {Q : Type} [Group Q] [Finite Q] (e : Q ≃* ↥(a
       have := congrArg e hz'
       simpa using this
   rw [hC] at h1
-  haveI := AltDown.nontrivial_of_glaPComponent hp h1
+  have := AltDown.nontrivial_of_glaPComponent hp h1
   intro hbot
   have hle : Subgroup.map e.symm.toMonoidHom (altFix ((e q : ↥(alternatingGroup (Fin 8))) : Equiv.Perm (Fin 8))) ≤
       GLAPLayer 3 (Subgroup.centralizer ({q} : Set Q)) := le_sSup h1
@@ -599,7 +606,7 @@ theorem l73_layer_cent_cycle_ne_bot {J : Subgroup G} (eJ : PQuot 3 J ≃* ↥(al
   refine layer_cent_three_cycle eJ (q := modOf 3 J c hcJ) ?_ h1.symm
   have hperm : permOfQ eJ (modOf 3 J c hcJ) = permOfMod 3 J 8 eJ c := by
     unfold permOfQ permOfMod modOf
-    rw [dif_pos hcJ]
+    rw [dite_eq_left hcJ]
   rw [hperm]
   exact hcyc
 
@@ -656,6 +663,7 @@ theorem l73_isGStar_K (hc : S6Ctx G 3) (i182 : I182At G) {B : Subgroup G} {x : G
   rw [hbot] at h2
   exact le_bot_iff.1 h2
 
+omit [Finite G] in
 private theorem y5x_mem_primeCore_iff {K : Subgroup G} (z : ↥K) :
     z ∈ GLAPPrimeCore 3 ↥K ↔ (z : G) ∈ GLAPPrimeCoreOf 3 K := by
   constructor
@@ -665,10 +673,12 @@ private theorem y5x_mem_primeCore_iff {K : Subgroup G} (z : ↥K) :
     have hwz' : w = z := Subtype.ext hwz
     exact hwz' ▸ hw
 
+omit [Finite G] in
 private theorem y5x_conj_mem_primeCore {K : Subgroup G} {h o : G} (hh : h ∈ K)
     (ho : o ∈ GLAPPrimeCoreOf 3 K) : h * o * h⁻¹ ∈ GLAPPrimeCoreOf 3 K :=
   (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf 3 K hh) o).1 ho
 
+omit [Finite G] in
 private theorem y5x_mk_comm {K : Subgroup G} {g k : G} (hg : g ∈ K) (hk : k ∈ K)
     (h : g * k * g⁻¹ * k⁻¹ ∈ GLAPPrimeCoreOf 3 K) :
     (QuotientGroup.mk ⟨g, hg⟩ : PQuot 3 K) * QuotientGroup.mk ⟨k, hk⟩ =
@@ -680,6 +690,7 @@ private theorem y5x_mk_comm {K : Subgroup G} {g k : G} (hg : g ∈ K) (hk : k �
   have h2 := y5x_conj_mem_primeCore (K.inv_mem hgk) (Subgroup.inv_mem _ h)
   rwa [inv_inv] at h2
 
+omit [Finite G] in
 private theorem y5x_mem_primeCore_of_centMod {K : Subgroup G} (hK : Subgroup.center (PQuot 3 K) = ⊥)
     {k : G} (hkK : k ∈ K) (hkc : k ∈ centModSubgroup 3 K) : k ∈ GLAPPrimeCoreOf 3 K := by
   obtain ⟨-, hc⟩ := hkc
@@ -693,6 +704,7 @@ private theorem y5x_mem_primeCore_of_centMod {K : Subgroup G} (hK : Subgroup.cen
   rw [hK, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hmem
   exact (y5x_mem_primeCore_iff ⟨k, hkK⟩).1 hmem
 
+omit [Finite G] in
 private theorem y5x_le_normalizer_of_comm {B H : Subgroup G} (hB : ∀ b ∈ B, ∀ c ∈ B, b * c = c * b)
     (hHB : H ≤ B) : B ≤ Subgroup.normalizer (H : Set G) := by
   intro b hb
@@ -718,21 +730,21 @@ private theorem y5x_le_normalizer_of_comm {B H : Subgroup G} (hB : ∀ b ∈ B, 
 
 theorem l73_rank_one (hc : S6Ctx G 3) (i106 : I106L62At G) {B : Subgroup G} {x : G} {L : Subgroup G}
     {y : G} {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L 11 y J) {a : G}
-    {K T I Sg : Subgroup G} (C : L73Ctx B x L 11 y J a K T I Sg) (hL62 : IsL62Type 3 K) :
+    {K T I Sg : Subgroup G} (_C : L73Ctx B x L 11 y J a K T I Sg) (hL62 : IsL62Type 3 K) :
     ∀ F : Subgroup G, F ≤ centModSubgroup 3 K ⊓ Subgroup.centralizer ({a} : Set G) →
       IsElemAbelian 3 F → Nat.card ↥F ≤ 3 := by
   intro F hF hFel
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center (PQuot 3 K) = ⊥ := hL62.2
   have hFK : F ≤ centModSubgroup 3 K := fun f hf => (Subgroup.mem_inf.1 (hF hf)).1
   have hF3 : IsPGroup 3 F := isPGroup_of_isElemAbelian hFel
-  haveI : IsMulCommutative ↥F := hFel.1
+  have : IsMulCommutative ↥F := hFel.1
   obtain ⟨E, U, hEK, hEel, hEcard, hUK, hU2, hUnot, hEN⟩ := (i106 K hL62).2
   obtain ⟨E', hE'C, hE'el, hE'im⟩ := exists_lift_elemAbelian_centralizing hF3 hFK hEK hEel
   have hE'K : E' ≤ K := fun e he => (Subgroup.mem_inf.1 (hE'C he)).1
-  haveI : IsMulCommutative ↥E' := hE'el.1
+  have : IsMulCommutative ↥E' := hE'el.1
   have hFE' : ∀ e ∈ E', ∀ f ∈ F, e * f = f * e := fun e he f hf =>
     ((Subgroup.mem_centralizer_iff.1 (Subgroup.mem_inf.1 (hE'C he)).2) f hf).symm
   have hE'C' : E' ≤ Subgroup.centralizer (F : Set G) := fun e he =>
@@ -900,7 +912,7 @@ theorem l73_B_eq_K (hc : S6Ctx G 3) (i106 : I106L62At G) (i71 : I71L62At G) {B :
     {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L 11 y J a K T I Sg) (hL62 : IsL62Type 3 K)
     (hBK : B ≤ Subgroup.normalizer (K : Set G)) : IsDirectZpowersInf B a K := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hBel : IsElemAbelian 3 B := (IsSStarMax.bmax hB).1
   have hBcomm : ∀ b ∈ B, ∀ c ∈ B, b * c = c * b :=
     fun b hb c hc' => isElemAbelian_commute hBel hb hc'
@@ -977,7 +989,7 @@ theorem l73_B_eq_K (hc : S6Ctx G 3) (i106 : I106L62At G) (i71 : I71L62At G) {B :
     rw [Subgroup.normal_subgroupOf_iff le_sup_right]
     intro h k hh hk
     exact (Subgroup.mem_normalizer_iff.1 (hBKN hk) h).1 hh
-  haveI := hKn
+  have := hKn
   have hsupTop : B.subgroupOf (B ⊔ K) ⊔ K.subgroupOf (B ⊔ K) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
   have hdec : ∀ X : ↥(B ⊔ K), ∃ b ∈ B.subgroupOf (B ⊔ K), ∃ z ∈ K.subgroupOf (B ⊔ K),

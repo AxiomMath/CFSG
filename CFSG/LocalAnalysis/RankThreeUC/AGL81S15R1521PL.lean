@@ -88,6 +88,7 @@ theorem exists_L34Config_of_sylow_aux_isSylowOf_map {P K : Subgroup G} (ψ : G �
   · rintro ⟨hle, hP, hdvd⟩
     exact ⟨hle, hP.map ψ.toMonoidHom, hdvd⟩
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_quotEquiv {T R : Subgroup G} {Q : Type} [Group Q]
     (ψ : G ≃* G) (h : QuotEquiv T R Q) :
     QuotEquiv (T.map ψ.toMonoidHom) (R.map ψ.toMonoidHom) Q := by
@@ -106,10 +107,11 @@ theorem exists_L34Config_of_sylow_aux_quotEquiv {T R : Subgroup G} {Q : Type} [G
       have : r = t := ψ.injective (hrt.trans hty.symm)
       subst this
       exact hr
-  haveI : ((R.map ψ.toMonoidHom).subgroupOf (T.map ψ.toMonoidHom)).Normal :=
+  have : ((R.map ψ.toMonoidHom).subgroupOf (T.map ψ.toMonoidHom)).Normal :=
     hmap ▸ hn.map e.toMonoidHom e.surjective
   exact ⟨this, ⟨(QuotientGroup.congr (R.subgroupOf T) _ e hmap).symm.trans f⟩⟩
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_quaternion {A T : Subgroup G} (ψ : G ≃* G)
     (h : ∃ Q : Subgroup (MulAut ↥A),
       Q ≤ (T.subgroupOf (Subgroup.normalizer (A : Set G))).map A.normalizerMonoidHom ∧
@@ -135,6 +137,7 @@ theorem exists_L34Config_of_sylow_aux_quaternion {A T : Subgroup G} (ψ : G ≃*
   show ψ (n : G) * ψ a * (ψ (n : G))⁻¹ = ψ ((n : G) * ψ.symm (ψ a) * (n : G)⁻¹)
   simp
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_map_symm (ψ : G ≃* G) (K : Subgroup G) :
     (K.map ψ.toMonoidHom).map ψ.symm.toMonoidHom = K := by
   rw [Subgroup.map_map]
@@ -142,6 +145,7 @@ theorem exists_L34Config_of_sylow_aux_map_symm (ψ : G ≃* G) (K : Subgroup G) 
     MonoidHom.ext fun x => by simp
   rw [this, Subgroup.map_id]
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_maximal {A R : Subgroup G} (ψ : G ≃* G)
     (h : IsMaxInvariantTwo A R) :
     IsMaxInvariantTwo (A.map ψ.toMonoidHom) (R.map ψ.toMonoidHom) := by
@@ -164,6 +168,7 @@ theorem exists_L34Config_of_sylow_aux_maximal {A R : Subgroup G} (ψ : G ≃* G)
       rwa [MulEquiv.symm_symm] at this
     rw [← h4, h3]
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_perm {A T : Subgroup G} (ψ : G ≃* G)
     (h : (A : Set G) * (T : Set G) = (T : Set G) * (A : Set G)) :
     ((A.map ψ.toMonoidHom : Subgroup G) : Set G) * ((T.map ψ.toMonoidHom : Subgroup G) : Set G) =
@@ -171,6 +176,7 @@ theorem exists_L34Config_of_sylow_aux_perm {A T : Subgroup G} (ψ : G ≃* G)
   simp only [Subgroup.coe_map]
   rw [← Set.image_mul, ← Set.image_mul, h]
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_transitive {A T : Subgroup G} (ψ : G ≃* G)
     (h : ∀ a ∈ A, a ≠ 1 → ∀ b ∈ A, b ≠ 1 →
       ∃ t ∈ T ⊓ Subgroup.normalizer (A : Set G), t * a * t⁻¹ = b) :
@@ -186,6 +192,7 @@ theorem exists_L34Config_of_sylow_aux_transitive {A T : Subgroup G} (ψ : G ≃*
   · show ψ t * ψ a * (ψ t)⁻¹ = ψ b
     rw [← map_inv, ← map_mul, ← map_mul, hta]
 
+omit [Finite G] in
 theorem exists_L34Config_of_sylow_aux_solvable {M R H' : Subgroup G} (ψ : G ≃* G)
     (hM : M.map ψ.toMonoidHom = M)
     (h : Group.IsSolvable ↥(H' ⊓ M ⊓ Subgroup.normalizer (R : Set G))) :
@@ -356,7 +363,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem sigmaM_eq_five_aux_dvd_barO2 {J : Subgroup X} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : p ∣ Nat.card J) : p ∣ Nat.card ↥(barO2 J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p h
   have hy : orderOf (x : X) = p := by rw [Subgroup.orderOf_coe]; exact hx
   have hne : QuotientGroup.mk' (CFSG.pCore 2 X) (x : X) ≠ 1 := by
@@ -486,7 +493,7 @@ theorem sigmaM_eq_seven_aux_dvd {L : Subgroup X} (hL : IsC2 L) {p : ℕ} (hp : p
   have h1 := sigmaM_eq_five_aux_dvd_barO2 hp hp2 h
   have h2 := sigmaM_eq_seven_aux_card_sup S hCS
   rw [hsup] at h2
-  obtain ⟨K, hK, hpK⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 (h1.trans h2)
+  obtain ⟨K, hK, hpK⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 (h1.trans h2)
   obtain ⟨x, rfl⟩ := hconj K hK
   rw [barO2_map_conj, Subgroup.card_map_of_injective (MulAut.conj _).injective] at hpK
   exact hpK

@@ -18,8 +18,8 @@ theorem card_le_two_mul_card_inf_of_mem_or {K C : Subgroup G} {y₁ : G} (hy₁ 
   have hf : Function.Injective f := by
     intro a b hab
     by_cases ha : (a : G) ∈ C <;> by_cases hb : (b : G) ∈ C <;>
-      simp only [f, ha, hb, dif_pos, dif_neg, not_false_eq_true, Sum.inl.injEq, Sum.inr.injEq,
-        reduceCtorEq, Subtype.mk.injEq, mul_right_inj] at hab
+      simp only [f, ha, hb, dite_eq_left, dite_eq_right, not_false_eq_true, Sum.inl.injEq, Sum.inr.injEq,
+        reduceCtorEq] at hab
     · exact Subtype.ext (congrArg (fun z : (K ⊓ C : Subgroup G) => (z : G)) hab)
     · exact Subtype.ext (mul_left_cancel
         (congrArg (fun z : (K ⊓ C : Subgroup G) => (z : G)) hab))

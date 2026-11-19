@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, Subgroup.closure_le]
   intro y hy
@@ -69,7 +70,7 @@ private theorem fourGrp_inf_centralizer_rho (hc : Ctx11 t L S x₁ x₂ lam rho 
 
 private theorem card_closure_tt (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     Nat.card ↥(closure ({t, tau} : Set G)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht2 : t ^ 2 = 1 := by
     rw [← hc.hyp.ord_t]
     exact pow_orderOf_eq_one t
@@ -166,8 +167,8 @@ theorem l12_Q_inf_tt (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
 
 theorem l12_R_eq (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     ctxR t tau x₁ x₂ = ctxQ t tau x₁ x₂ rho ⊔ closure {t, tau} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrhoM : rho ∈ ctxM t tau x₁ x₂ := (l12_rho_lam_mem_M hc).1
   have hRX : (zpowers rho : Subgroup G) ≤
       normalizer ((ctxR t tau x₁ x₂ : Subgroup G) : Set G) := by
@@ -260,7 +261,7 @@ theorem l12_CQ_t (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
         rw [ctxW, hc.l43]
         exact Subgroup.mem_sup_left hh'
       have hcomm : k' * h' = h' * k' := by
-        haveI : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
+        have : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
         have := mul_comm' (⟨k', hk'W⟩ : ↥(ctxW t x₁ x₂)) (⟨h', hh'W⟩ : ↥(ctxW t x₁ x₂))
         simpa using congrArg Subtype.val this
       rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
@@ -276,7 +277,7 @@ theorem l12_CQ_t (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
       rw [ctxW]
       exact Subgroup.mem_sup_right hb
     have hcomm_ab : a * b = b * a := by
-      haveI : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
+      have : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
       have := mul_comm' (⟨a, haW⟩ : ↥(ctxW t x₁ x₂)) (⟨b, hbW⟩ : ↥(ctxW t x₁ x₂))
       simpa using congrArg Subtype.val this
     have hx_eq : x = b * (a * k) := by
@@ -307,7 +308,7 @@ theorem l12_CQ_t (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     have htW : t ∈ ctxW t x₁ x₂ := by
       rw [ctxW, hc.l43]
       exact Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
-    haveI : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
+    have : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
     have := mul_comm' (⟨b, hbW⟩ : ↥(ctxW t x₁ x₂)) (⟨t, htW⟩ : ↥(ctxW t x₁ x₂))
     simpa using congrArg Subtype.val this
 

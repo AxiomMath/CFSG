@@ -13,8 +13,8 @@ theorem mem_E_of_commute_mod_N
     {t : H} (ht : t ^ 3 ∈ N) (hcomm : ∀ e ∈ E, e * t * e⁻¹ * t⁻¹ ∈ N) :
     ∃ e ∈ E, e⁻¹ * t ∈ N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup H := (N ⊔ E) ⊔ Subgroup.zpowers t
   have hNM : N ≤ M := le_trans le_sup_left le_sup_left
   have hEM : E ≤ M := le_trans le_sup_right le_sup_left
@@ -24,7 +24,7 @@ theorem mem_E_of_commute_mod_N
   let N' : Subgroup M := N.subgroupOf M
   let E' : Subgroup M := E.subgroupOf M
   let T' : Subgroup M := (Subgroup.zpowers t).subgroupOf M
-  haveI : N'.Normal := inferInstance
+  have : N'.Normal := inferInstance
   have hN'2 : IsPGroup 2 N' := by
     change IsPGroup 2 (N.subgroupOf M)
     rw [← Subgroup.comap_subtype]
@@ -131,7 +131,7 @@ theorem mem_E_of_commute_mod_N
       · rw [Set.mem_singleton_iff] at hb'
         subst b
         exact Commute.refl _
-  haveI hQcomm : IsMulCommutative (M ⧸ N') := by
+  have hQcomm : IsMulCommutative (M ⧸ N') := by
     have hcommk : IsMulCommutative (Subgroup.closure k) :=
       Subgroup.isMulCommutative_closure hkcomm
     rw [htop] at hcommk
@@ -175,7 +175,7 @@ theorem mem_E_of_commute_mod_N
   obtain ⟨S, hES⟩ := hE'3.exists_le_sylow
   let Ssub : Subgroup M := (S : Subgroup M)
   have hES' : E' ≤ Ssub := hES
-  have hS3 : IsPGroup 3 Ssub := S.isPGroup'
+  have hS3 : IsPGroup 3 Ssub := S.isPGroup
   have hdisj : Disjoint Ssub N' :=
     IsPGroup.disjoint_of_ne 3 2 (by norm_num) Ssub N' hS3 hN'2
   have hdisj_bot : Ssub ⊓ N' = ⊥ := disjoint_iff.mp hdisj
@@ -215,7 +215,7 @@ theorem mem_E_of_commute_mod_N
     exact Subtype.ext (by simpa using hxinf)
   have hbij : Function.Bijective qS :=
     hqS_inj.bijective_of_nat_card_le (by rw [hcard_eq])
-  haveI hScomm : IsMulCommutative Ssub :=
+  have hScomm : IsMulCommutative Ssub :=
     IsMulCommutative.of_comm fun a b => hqS_inj (by rw [map_mul, map_mul, mul_comm'])
   obtain ⟨y, hy⟩ := hbij.2 (q tM)
   have hyq : q (y : M) = q tM := hy

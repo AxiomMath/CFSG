@@ -478,7 +478,7 @@ theorem burnsideF48s_g22c_conjJ_injective : Function.Injective burnsideF48s_g22c
     _ = g * x := by rw [e]
 
 theorem burnsideF48s_g22c_conjJ_bijective : Function.Bijective burnsideF48s_g22c_conjJ := by
-  haveI : Finite (MulAut ↥u33J) :=
+  have : Finite (MulAut ↥u33J) :=
     Finite.of_injective (fun α : MulAut ↥u33J => (α : ↥u33J → ↥u33J)) fun _ _ h =>
       MulEquiv.ext fun x => congrFun h x
   refine burnsideF48s_g22c_conjJ_injective.bijective_of_nat_card_le ?_
@@ -486,7 +486,7 @@ theorem burnsideF48s_g22c_conjJ_bijective : Function.Bijective burnsideF48s_g22c
   exact card_mulAut_u33Pres_le
 
 theorem burnsideF48s_g22c_commutator_J : ⁅u33J, u33J⁆ = u33J := by
-  haveI := isSimpleGroup_u33J
+  have := isSimpleGroup_u33J
   have htop : ⁅(⊤ : Subgroup ↥u33J), (⊤ : Subgroup ↥u33J)⁆ = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (⁅(⊤ : Subgroup ↥u33J), (⊤ : Subgroup ↥u33J)⁆) with h | h
@@ -513,11 +513,11 @@ theorem burnsideF48s_g22c_J_eq_commutator :
         = ⁅u33J.subgroupOf burnsideF48s_g22X, u33J.subgroupOf burnsideF48s_g22X⁆ := hp.symm
       _ ≤ ⁅(⊤ : Subgroup ↥burnsideF48s_g22X), (⊤ : Subgroup ↥burnsideF48s_g22X)⁆ :=
           Subgroup.commutator_mono le_top le_top
-  · haveI : (u33J.subgroupOf burnsideF48s_g22X).Normal := burnsideF48s_g22c_J_normal
+  · have : (u33J.subgroupOf burnsideF48s_g22X).Normal := burnsideF48s_g22c_J_normal
     have hc2 : Nat.card (↥burnsideF48s_g22X ⧸ u33J.subgroupOf burnsideF48s_g22X) = 2 := by
       rw [← Subgroup.index_eq_card, burnsideF48s_g22c_index_J]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hcyc : IsCyclic (↥burnsideF48s_g22X ⧸ u33J.subgroupOf burnsideF48s_g22X) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hcyc : IsCyclic (↥burnsideF48s_g22X ⧸ u33J.subgroupOf burnsideF48s_g22X) :=
       isCyclic_of_prime_card hc2
     have hcomm : commutator ↥burnsideF48s_g22X ≤ u33J.subgroupOf burnsideF48s_g22X := by
       rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
@@ -526,10 +526,10 @@ theorem burnsideF48s_g22c_J_eq_commutator :
 
 theorem burnsideF48s_g22c_complete (α : MulAut ↥burnsideF48s_g22X) :
     ∃ m : ↥burnsideF48s_g22X, ∀ x : ↥burnsideF48s_g22X, α x = m * x * m⁻¹ := by
-  haveI hchar : (u33J.subgroupOf burnsideF48s_g22X).Characteristic := by
+  have hchar : (u33J.subgroupOf burnsideF48s_g22X).Characteristic := by
     rw [burnsideF48s_g22c_J_eq_commutator]
     infer_instance
-  haveI : (u33J.subgroupOf burnsideF48s_g22X).Normal := burnsideF48s_g22c_J_normal
+  have : (u33J.subgroupOf burnsideF48s_g22X).Normal := burnsideF48s_g22c_J_normal
   let e0 : ↥(u33J.subgroupOf burnsideF48s_g22X) ≃* ↥u33J :=
     Subgroup.subgroupOfEquivOfLe burnsideF48s_g22c_J_le
   obtain ⟨m, hm⟩ := burnsideF48s_g22c_conjJ_bijective.2
@@ -606,12 +606,12 @@ theorem burnsideF48s_g22c_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
       ((M₁ = burnsideF48s_g22P1.map θ.toMonoidHom ∧ M₂ = burnsideF48s_g22P2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48s_g22P2.map θ.toMonoidHom ∧
           M₂ = burnsideF48s_g22P1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, fK, finK, hK, marking, -, -⟩ := burnsideF4gG2Two_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
   let ε₀ : ↥burnsideF48s_g22X ≃* ↥Gp :=
     (MulEquiv.ofBijective burnsideF48s_g22c_conjJ burnsideF48s_g22c_conjJ_bijective).trans

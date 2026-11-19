@@ -211,7 +211,7 @@ theorem exists_normal_E9_of_type {S : Type} [Group S] [Finite S] (hS : IsPGroup 
     (C : Subgroup S) [C.Normal] (hC : ¬ IsCyclic C) :
     ∃ D : Subgroup S, D ≤ C ∧ D.Normal ∧ Nat.card D = 9 ∧ (∀ x ∈ D, x ^ 3 = 1) ∧
       ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hDC, hDn, hDcard, hDexp, hDcomm⟩ :=
     exists_normal_elementary_sq_of_not_isCyclic (p := 3) (by norm_num) hS C hC
   exact ⟨D, hDC, hDn, hDcard.trans (by norm_num), hDexp, hDcomm⟩
@@ -220,10 +220,10 @@ theorem exists_normal_E9 {P N : Subgroup G} (hP : IsPGroup 3 P) (hNP : N ≤ P)
     (hnorm : P ≤ normalizer (N : Set G)) (hnc : ¬ IsCyclic N) :
     ∃ E : Subgroup G, E ≤ N ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       P ≤ normalizer (E : Set G) := by
-  haveI hCn : (N.subgroupOf P).Normal :=
+  have hCn : (N.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hnorm
   have hC : ¬ IsCyclic (N.subgroupOf P) := fun h => by
-    haveI := h
+    have := h
     exact hnc (isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hNP).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hNP).surjective)
   obtain ⟨D, hDC, hDn, hDcard, hDexp, hDcomm⟩ :=
@@ -258,8 +258,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem IsOmegaCentral.mem_of_normal {P N : Subgroup G} {z : G} (hP : IsPGroup 3 P)
     (hz : IsOmegaCentral P z) (hNP : N ≤ P) (hnorm : P ≤ normalizer (N : Set G))
     (hN1 : N ≠ ⊥) : z ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
   have hN' : (N.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).mpr hnorm
   have hN'1 : N.subgroupOf P ≠ ⊥ := by
@@ -308,20 +308,21 @@ theorem IsOmegaCentral.mem_of_normal {P N : Subgroup G} {z : G} (hP : IsPGroup 3
     exact Subgroup.mem_zpowers z
   exact (Subgroup.zpowers_le.mpr hgN) hzg
 
+omit [Finite G] in
 theorem pCore_le_sylow (P : Sylow 3 G) : CFSG.pCore 3 G ≤ (P : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal (p := 3) (G := G)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal (p := 3) (G := G)
   exact IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := 3) (G := G)) P
 
 theorem le_center_of_normal_pGroup {K : Type} [Group K] [Finite K]
     (hK : CFSG.Open.IsQuasisimple K) (N : Subgroup K) [N.Normal] (hN : IsPGroup 3 N) :
     N ≤ center K := by
   obtain ⟨hcomm, hsimple⟩ := hK
-  haveI : Nontrivial (K ⧸ Subgroup.center K) := hsimple.toNontrivial
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial (K ⧸ Subgroup.center K) := hsimple.toNontrivial
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set f : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' (Subgroup.center K)
   have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective (Subgroup.center K)
-  haveI hMn : (N.map f).Normal := Subgroup.Normal.map inferInstance f hfsurj
+  have hMn : (N.map f).Normal := Subgroup.Normal.map inferInstance f hfsurj
   rcases hsimple.eq_bot_or_eq_top_of_normal (N.map f) with hbot | htop
   ·
     intro n hn
@@ -372,6 +373,7 @@ section PGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commute_of_inf_le_center {L O : Subgroup G} [L.Normal] [O.Normal]
     (hL : CFSG.Open.IsQuasisimple ↥L) (hLO : ∀ g ∈ L, g ∈ O → ∀ l ∈ L, l * g = g * l) :
     ∀ l ∈ L, ∀ o ∈ O, l * o = o * l := by
@@ -427,11 +429,11 @@ section PGroups
 variable {G : Type} [Group G] [Finite G]
 
 theorem three_le_pRank_centralizer_of_unipotent {x z : G} {V : Subgroup G}
-    (hx : x ^ 3 = 1) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) (hV : IsElemAbelian 3 V)
+    (hx : x ^ 3 = 1) (_hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) (hV : IsElemAbelian 3 V)
     (hV27 : Nat.card V = 27) (hzV : ∀ v ∈ V, z * v = v * z)
-    (hxV : x ∈ normalizer (V : Set G)) (hcomm : ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ zpowers z) :
+    (_hxV : x ∈ normalizer (V : Set G)) (hcomm : ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ zpowers z) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set G)) := by
-  clear hz1 hxV
+  clear _hz1 _hxV
   have hVcomm : ∀ a b : V, a * b = b * a := fun a b => hV.1.is_comm.comm a b
   have hVcommG : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := fun v hv w hw =>
     congrArg Subtype.val (hVcomm ⟨v, hv⟩ ⟨w, hw⟩)
@@ -742,16 +744,16 @@ section PGroups
 variable {G : Type} [Group G] [Finite G]
 
 theorem IsOmegaCentral.commutator_mem {P E : Subgroup G} {z : G} (hP : IsPGroup 3 P)
-    (hz : IsOmegaCentral P z) (hEP : E ≤ P) (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9)
+    (hz : IsOmegaCentral P z) (_hEP : E ≤ P) (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9)
     (hzE : z ∈ E) (hnorm : P ≤ normalizer (E : Set G)) :
     ∀ g ∈ P, ∀ e ∈ E, g * e * g⁻¹ * e⁻¹ ∈ zpowers z := by
   intro g hg e he
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a b : E, a * b = b * a := fun a b => hE.1.is_comm.comm a b
   let _ : CommGroup E := { (inferInstance : Group E) with mul_comm := hcomm }
   let N : Subgroup E := (zpowers z).subgroupOf E
-  haveI hNn : N.Normal := Subgroup.normal_of_comm N
+  have hNn : N.Normal := normal_of_isMulCommutative N
   let ρ : ↥P →* MulAut ↥E := E.normalizerMonoidHom.comp (Subgroup.inclusion hnorm)
   have hρapp : ∀ (γ : ↥P) (a : ↥E), ((ρ γ a : E) : G) = (γ : G) * (a : G) * (γ : G)⁻¹ :=
     fun _ _ => rfl
@@ -786,7 +788,7 @@ theorem IsOmegaCentral.commutator_mem {P E : Subgroup G} {z : G} (hP : IsPGroup 
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup N
     rw [hE9, hNcard] at h
     omega
-  haveI : IsCyclic (↥E ⧸ N) := isCyclic_of_prime_card (p := 3) hQcard
+  have : IsCyclic (↥E ⧸ N) := isCyclic_of_prime_card (p := 3) hQcard
   have hAut : Nat.card (MulAut (↥E ⧸ N)) = 2 := by
     rw [IsCyclic.card_mulAut, hQcard, Nat.totient_prime Nat.prime_three]
   obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp hP) ⟨g, hg⟩

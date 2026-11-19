@@ -32,6 +32,7 @@ theorem succ_zero_eq_zero_of_mem_flagStabilizer_one {g : SpecialLinearGroup (Fin
 @[expose] def leviBlockOne (M : Matrix (Fin 3) (Fin 3) K) : Matrix (Fin 2) (Fin 2) K :=
   Matrix.of fun a b => M (Fin.succ a) (Fin.succ b)
 
+omit [Field K] in
 theorem leviBlockOne_apply (M : Matrix (Fin 3) (Fin 3) K) (a b : Fin 2) :
     leviBlockOne M a b = M (Fin.succ a) (Fin.succ b) := by
   rw [leviBlockOne, Matrix.of_apply]
@@ -120,20 +121,20 @@ section SurjectiveOne
 
 theorem blockDiagOne_zero_zero (a : K) (A : Matrix (Fin 2) (Fin 2) K) :
     blockDiagOne a A 0 0 = a := by
-  rw [blockDiagOne, Matrix.of_apply, dif_pos rfl, if_pos rfl]
+  rw [blockDiagOne, Matrix.of_apply, dite_eq_left rfl, ite_eq_left rfl]
 
 theorem blockDiagOne_succ_succ (a : K) (A : Matrix (Fin 2) (Fin 2) K) (i j : Fin 2) :
     blockDiagOne a A (Fin.succ i) (Fin.succ j) = A i j := by
-  rw [blockDiagOne, Matrix.of_apply, dif_neg (Fin.succ_ne_zero i),
-    dif_neg (Fin.succ_ne_zero j), Fin.pred_succ, Fin.pred_succ]
+  rw [blockDiagOne, Matrix.of_apply, dite_eq_right (Fin.succ_ne_zero i),
+    dite_eq_right (Fin.succ_ne_zero j), Fin.pred_succ, Fin.pred_succ]
 
 theorem blockDiagOne_succ_zero (a : K) (A : Matrix (Fin 2) (Fin 2) K) (i : Fin 2) :
     blockDiagOne a A (Fin.succ i) 0 = 0 := by
-  rw [blockDiagOne, Matrix.of_apply, dif_neg (Fin.succ_ne_zero i), dif_pos rfl]
+  rw [blockDiagOne, Matrix.of_apply, dite_eq_right (Fin.succ_ne_zero i), dite_eq_left rfl]
 
 theorem blockDiagOne_zero_succ (a : K) (A : Matrix (Fin 2) (Fin 2) K) (j : Fin 2) :
     blockDiagOne a A 0 (Fin.succ j) = 0 := by
-  rw [blockDiagOne, Matrix.of_apply, dif_pos rfl, if_neg (Fin.succ_ne_zero j)]
+  rw [blockDiagOne, Matrix.of_apply, dite_eq_left rfl, ite_eq_right (Fin.succ_ne_zero j)]
 
 theorem det_blockDiagOne (a : K) (A : Matrix (Fin 2) (Fin 2) K) :
     (blockDiagOne a A).det = a * A.det := by
@@ -192,7 +193,7 @@ theorem last_eq_zero_of_mem_flagStabilizer_two {g : SpecialLinearGroup (Fin 3) K
     refine Pi.single_eq_of_ne ?_ 1
     intro h
     have := congrArg Fin.val h
-    simp only [Fin.val_castSucc, Fin.val_ofNat] at this
+    simp only [Fin.val_castSucc] at this
     omega
   have hmem : mulVecLin (g : Matrix (Fin 3) (Fin 3) K) (Pi.single (Fin.castSucc c) 1) ∈
       flagSpace 3 K 2 := by
@@ -204,6 +205,7 @@ theorem last_eq_zero_of_mem_flagStabilizer_two {g : SpecialLinearGroup (Fin 3) K
 @[expose] def leviBlockTwo (M : Matrix (Fin 3) (Fin 3) K) : Matrix (Fin 2) (Fin 2) K :=
   Matrix.of fun a b => M (Fin.castSucc a) (Fin.castSucc b)
 
+omit [Field K] in
 theorem leviBlockTwo_apply (M : Matrix (Fin 3) (Fin 3) K) (a b : Fin 2) :
     leviBlockTwo M a b = M (Fin.castSucc a) (Fin.castSucc b) := by
   rw [leviBlockTwo, Matrix.of_apply]
@@ -293,11 +295,11 @@ section SurjectiveTwo
 
 theorem blockDiagTwo_two_two (A : Matrix (Fin 2) (Fin 2) K) (a : K) :
     blockDiagTwo A a 2 2 = a := by
-  rw [blockDiagTwo, Matrix.of_apply, dif_pos rfl, if_pos rfl]
+  rw [blockDiagTwo, Matrix.of_apply, dite_eq_left rfl, ite_eq_left rfl]
 
 theorem blockDiagTwo_two_castSucc (A : Matrix (Fin 2) (Fin 2) K) (a : K) (j : Fin 2) :
     blockDiagTwo A a 2 (Fin.castSucc j) = 0 := by
-  rw [blockDiagTwo, Matrix.of_apply, dif_pos rfl, if_neg]
+  rw [blockDiagTwo, Matrix.of_apply, dite_eq_left rfl, ite_eq_right]
   intro h
   have h1 : (Fin.castSucc j : Fin 3).val = 2 := by rw [h]; rfl
   rw [show (Fin.castSucc j : Fin 3).val = j.val from rfl] at h1
@@ -305,7 +307,7 @@ theorem blockDiagTwo_two_castSucc (A : Matrix (Fin 2) (Fin 2) K) (a : K) (j : Fi
 
 theorem blockDiagTwo_castSucc_two (A : Matrix (Fin 2) (Fin 2) K) (a : K) (i : Fin 2) :
     blockDiagTwo A a (Fin.castSucc i) 2 = 0 := by
-  rw [blockDiagTwo, Matrix.of_apply, dif_neg, dif_pos rfl]
+  rw [blockDiagTwo, Matrix.of_apply, dite_eq_right, dite_eq_left rfl]
   intro h
   have h1 : (Fin.castSucc i : Fin 3).val = 2 := by rw [h]; rfl
   rw [show (Fin.castSucc i : Fin 3).val = i.val from rfl] at h1
@@ -313,8 +315,8 @@ theorem blockDiagTwo_castSucc_two (A : Matrix (Fin 2) (Fin 2) K) (a : K) (i : Fi
 
 theorem blockDiagTwo_castSucc_castSucc (A : Matrix (Fin 2) (Fin 2) K) (a : K) (i j : Fin 2) :
     blockDiagTwo A a (Fin.castSucc i) (Fin.castSucc j) = A i j := by
-  rw [blockDiagTwo, Matrix.of_apply, dif_neg, dif_neg]
-  · congr 1 <;> exact Fin.ext rfl
+  rw [blockDiagTwo, Matrix.of_apply, dite_eq_right, dite_eq_right]
+  · congr 1
   · intro h
     have h1 : (Fin.castSucc j : Fin 3).val = 2 := by rw [h]; rfl
     rw [show (Fin.castSucc j : Fin 3).val = j.val from rfl] at h1

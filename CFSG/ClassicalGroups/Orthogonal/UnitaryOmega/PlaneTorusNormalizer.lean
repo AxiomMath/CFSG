@@ -711,10 +711,10 @@ private theorem normPlaneTorus_phi_toAdd {m p : ℕ} [Fact p.Prime]
         (Multiplicative.ofAdd 1)) (π i)) ^ (Multiplicative.toAdd (t i)).val else 1 := by
     intro j
     by_cases hj : j = i
-    · rw [hj, if_pos rfl,
+    · rw [hj, ite_eq_left rfl,
         show t i = Multiplicative.ofAdd (Multiplicative.toAdd (t i)) from rfl, hgen]
       rfl
-    · rw [if_neg hj, show t j = Multiplicative.ofAdd (Multiplicative.toAdd (t j)) from rfl, hgen]
+    · rw [ite_eq_right hj, show t j = Multiplicative.ofAdd (Multiplicative.toAdd (t j)) from rfl, hgen]
       have hne : π i ≠ π j := fun h => hj (π.injective h).symm
       have h1 : φ (Pi.mulSingle (M := fun _ => Multiplicative (ZMod p)) j
           (Multiplicative.ofAdd 1)) (π i) = 1 := by
@@ -723,8 +723,8 @@ private theorem normPlaneTorus_phi_toAdd {m p : ℕ} [Fact p.Prime]
       rw [h1, one_pow]
   rw [hprod, Finset.prod_apply,
     Finset.prod_eq_single_of_mem i (Finset.mem_univ i)
-      (fun j _ hji => by rw [hfac j, if_neg hji]),
-    hfac i, if_pos rfl, toAdd_pow, nsmul_eq_mul, ZMod.natCast_zmod_val, mul_comm]
+      (fun j _ hji => by rw [hfac j, ite_eq_right hji]),
+    hfac i, ite_eq_left rfl, toAdd_pow, nsmul_eq_mul, ZMod.natCast_zmod_val, mul_comm]
 
 
 private theorem normPlaneTorus_phi_mul {m p : ℕ} [Fact p.Prime] (hm : 2 ≤ m)
@@ -783,7 +783,7 @@ private theorem qTwo_swap_mem_orthogonalGroup
       TauCeti.QuadraticMap.orthogonalGroup (Qn E 2) := by
   refine TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr fun x => ?_
   rw [Qn_apply, Qn_apply, Fin.sum_univ_two, Fin.sum_univ_two]
-  simp [LinearEquiv.funCongrLeft_apply, LinearMap.funLeft, Equiv.swap_apply_def]
+  simp [LinearEquiv.funCongrLeft_apply, LinearMap.funLeft]
   ring
 
 private theorem qTwo_exists_axis_formula
@@ -911,7 +911,7 @@ theorem normPlaneTorus_normalizes_of_fixes_anchor
         g * normPlaneTorus E (by decide : 2 ≤ 2) (by decide : 3 ∣ 2 ^ 1 + 1) χ u * g⁻¹ =
           normPlaneTorus E (by decide : 2 ≤ 2) (by decide : 3 ∣ 2 ^ 1 + 1) χ u' := by
   classical
-  haveI : FiniteDimensional F K :=
+  have : FiniteDimensional F K :=
     FiniteDimensional.of_finrank_pos (by rw [E.finrank_eq]; norm_num)
   have hKcard : Nat.card K = Nat.card F ^ 2 := by
     rw [Module.natCard_eq_pow_finrank (K := F) (V := K), E.finrank_eq]

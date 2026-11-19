@@ -57,7 +57,7 @@ theorem finrank_vtSub (hS : IsTensorSetup hc n M₀ ρ b) {t : G} (ht : t ∈ LB
 
 theorem finrank_wsub (hS : IsTensorSetup hc n M₀ ρ b) {t : G} (ht : t ∈ LB M Q B)
     (hp : OmegaPlusNat hc t 4) (hn : n = 16) : Module.finrank K ↥(wsub hS t) = 24 := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   rw [wsub_eq_orthogonal hS t, LinearMap.BilinForm.finrank_orthogonal
     (bilin_nondegenerate_isRefl (M₀ := M₀)).1, hS.dim, finrank_vtSub hS ht hp, hn]
 

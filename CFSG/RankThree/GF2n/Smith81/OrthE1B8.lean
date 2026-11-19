@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {M Q : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
 omit [Finite G] in
-theorem comm_bar {S T : Subgroup G} (hSM : S ≤ M) (hTM : T ≤ M)
+theorem comm_bar {S T : Subgroup G} (_hSM : S ≤ M) (_hTM : T ≤ M)
     (h : ∀ a ∈ S, ∀ b ∈ T, ⁅a, b⁆ ∈ Q) :
     ∀ x ∈ bar M Q S, ∀ y ∈ bar M Q T, x * y = y * x := by
   intro x hx y hy
@@ -76,11 +76,12 @@ theorem isPerfect_quot (hQM : Q ≤ M) (h : ⁅M, M⁆ ⊔ Q = M) :
   rw [map_mul, hq1, mul_one]
   exact hmem
 
+omit [Finite G] in
 theorem bar_simple_nonab {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) {q n : ℕ}
     (hS : QuotSat S Q (IsSLModel 2 q)) (hq : q = 2 ^ n) (h4 : 4 ≤ q) :
     IsSimpleGroup ↥(bar M Q S) ∧ ∃ x ∈ bar M Q S, ∃ y ∈ bar M Q S, x * y ≠ y * x := by
   obtain ⟨hN, hX⟩ := hS
-  haveI := hN
+  have := hN
   obtain ⟨hcard, hsimp, hcen⟩ := b2_sl_facts hX hq h4
   obtain ⟨hN', ⟨e⟩⟩ := quotMulEquivBar (M := M) hQS hSM
   refine ⟨(MulEquiv.isSimpleGroup_congr e).mp hsimp, ?_⟩
@@ -187,7 +188,7 @@ theorem fitting_bar (hF : M1FittingTrivialStatement) {M Q Z B : Subgroup G} {t :
   have hnil : QuotSat A' Q (fun W _ => Group.IsNilpotent W) := by
     obtain ⟨hN, ⟨e⟩⟩ := quotMulEquivBar (M := L) hQA' hA'L
     refine ⟨hN, ?_⟩
-    haveI := hAnil
+    have := hAnil
     exact Group.nilpotent_of_mulEquiv (e.trans (MulEquiv.subgroupCongr hbar)).symm
   have hA'Q := hF G M Q Z B t hH A' hQA' hA'L hnorm hnil
   rw [eq_bot_iff]
@@ -223,7 +224,7 @@ theorem b8_of (hW : CFSG.Walter.WalterModelsForm) (hWL : KFacts.WalterListLargeS
   have hQLg : Q ≤ Lg := hQLb.trans hLbLg
   have hQnorm : Lg ≤ Subgroup.normalizer (Q : Set G) :=
     fun s hs => hc.hyp.Q_normal.2 (hLgM hs)
-  haveI hQN : (Q.subgroupOf Lg).Normal :=
+  have hQN : (Q.subgroupOf Lg).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQLg).mpr hQnorm
   obtain ⟨hLE, hE0Lg, hNormE, -⟩ := hB6 G M Q Z B t hH D
   have hperf : ⁅Lg, Lg⁆ ⊔ Q = Lg := hB7a G M Q Z B t hH ⟨D⟩

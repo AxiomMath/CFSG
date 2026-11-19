@@ -59,7 +59,7 @@ theorem mid_mul {x y : SL(4, F4)} (hx : Shape x) (hy : Shape y) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [mid, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_four,
-      Fin.sum_univ_two, hx1, hx2, hx3, hx4, hx5, hy1, hy2, hy3, hy4, hy5]
+      Fin.sum_univ_two, hx4, hx5, hy1, hy2]
 
 theorem lam_mid_pow {T : Subgroup SL(4, F4)} (hT : ∀ y ∈ T, Shape y) {x : SL(4, F4)} (hx : x ∈ T)
     (n : ℕ) : (x ^ n) 0 0 = (x 0 0) ^ n ∧ mid (x ^ n) = (mid x) ^ n := by
@@ -145,7 +145,7 @@ theorem le_PK_of_pGroup {T : Subgroup SL(4, F4)} (hT : IsPGroup 2 T)
     obtain ⟨k, hk⟩ := hT ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   by_contra hTP
-  obtain ⟨τ, hτT, hτP⟩ := SetLike.not_le_iff_exists.1 hTP
+  obtain ⟨τ, hτT, hτP⟩ := IsConcreteLE.not_le_iff_exists.1 hTP
   obtain ⟨kτ, hkτ⟩ := hpow τ hτT
   have hlam : τ 0 0 = 1 := lam_eq_one hsh hτT hkτ
   have hbb : mid τ * mid τ = 1 := mid_sq_eq_one hsh hτT hkτ

@@ -149,7 +149,7 @@ theorem exists_hStar_le_centralizer [Finite G] (T : Sylow 2 G) {M : Subgroup G} 
       rw [(hge.zpow_right m).eq, mul_inv_cancel_right]
       exact hy
     have hE2 : IsPGroup 2 E := by
-      obtain ⟨k, hk⟩ := T.isPGroup' ⟨e, heT⟩
+      obtain ⟨k, hk⟩ := T.isPGroup ⟨e, heT⟩
       have hxk : x ^ 2 ^ k = 1 := Subtype.ext (by
         have := congrArg Subtype.val hk
         simpa using this)

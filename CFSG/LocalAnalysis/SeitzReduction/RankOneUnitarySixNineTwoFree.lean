@@ -144,7 +144,7 @@ theorem mem_szT₁_of_mem_normalizer_of_card_sylow (h : U3Start G L f t T)
     have hdvd : orderOf y ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hyk
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
-  have hR := IsPGroup.to_sup_of_normal_left' Q.isPGroup' hZ (zpowers_le.mpr hyN)
+  have hR := IsPGroup.to_sup_of_normal_left' Q.isPGroup hZ (zpowers_le.mpr hyN)
   have heq := Q.maximal_isPGroup.eq_of_ge hR le_sup_left
   have hyQ : y ∈ (Q : Subgroup L) := by
     rw [← heq]

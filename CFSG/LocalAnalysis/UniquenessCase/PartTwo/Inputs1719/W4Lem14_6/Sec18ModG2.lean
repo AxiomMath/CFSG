@@ -28,10 +28,10 @@ theorem k146ModG2_holds :
     ((LieModel.chevalleyExceptional_iff (t := .G2) (p := 2) (f := n) (by decide)).1 hG2).2
   obtain ⟨hn2, K, hfield, hfin, hchar, hKcard, ⟨e⟩⟩ :=
     CFSG.Quasithin.B42G2Id.exists_cayleyGroup_of_chevalleyExceptionalModel hCE
-  letI := hfield
-  letI := hfin
-  letI := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hfield
+  let := hfin
+  let := hchar
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hKcard]
   have hZ : Subgroup.center ↥S = ⊥ := by
     obtain ⟨c, hc0, hc1⟩ := CFSG.Quasithin.B42G2Id.exists_ne_zero_ne_one_of_three_le (K := K)
@@ -72,10 +72,10 @@ theorem k146ModG2_holds :
   have hnormS : N ≤ Subgroup.normalizer (S : Set (MulAut U)) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).mp hNnorm
   have hneN : ∃ t ∈ N, orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨l, hl⟩ := exists_prime_orderOf_dvd_card' (G := ↥S) 2 (even_iff_two_dvd.mp hevenS)
     exact ⟨(l : MulAut U), hSN l.2, by rw [Subgroup.orderOf_coe]; exact hl⟩
-  letI : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
+  let : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
   let θ : U ≃* Multiplicative (Additive U) := CFSG.Quasithin.SmithD37.theta
   let ρS : ↥S →* (Additive U ≃ₗ[ZMod 2] Additive U) :=
     (CFSG.Quasithin.SmithD37.autLin hU).toMonoidHom.comp S.subtype
@@ -96,7 +96,7 @@ theorem k146ModG2_holds :
     have h := hV (e ⟨l, hl⟩) u hu
     rwa [hπ, MulEquiv.symm_apply_apply] at h
   have hntW : Nontrivial (Additive U) := by
-    obtain ⟨x, -, hx1⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨x, -, hx1⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨Additive.ofMul x, 0, fun h => hx1 (by simpa using congrArg Additive.toMul h)⟩
   have hπinj : Function.Injective πL := by
     intro g g' h
@@ -107,7 +107,7 @@ theorem k146ModG2_holds :
     exact e.symm.injective h2
   have hntπ : ∃ g, π g ≠ 1 := by
     have hq : 1 < Nat.card K := by rw [hKcard]; exact Nat.one_lt_two_pow (by omega)
-    haveI : Nontrivial ↥(CFSG.Quasithin.Explicit.cayleyGroup K) :=
+    have : Nontrivial ↥(CFSG.Quasithin.Explicit.cayleyGroup K) :=
       Thm14_5.nontrivial_cayleyGroup hq
     obtain ⟨g, hg⟩ := exists_ne (1 : ↥(CFSG.Quasithin.Explicit.cayleyGroup K))
     refine ⟨g, fun h => hg (hπinj ?_)⟩
@@ -119,7 +119,7 @@ theorem k146ModG2_holds :
     exact h1
   have hFact : Fact (Representation.IsIrreducible π) :=
     ⟨(CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff π).mpr ⟨hntW, hirrW⟩⟩
-  letI := hFact
+  let := hFact
   rcases CFSG.Quasithin.B42G2F.natural_or_large_displacement (ρ := π) hKf (by omega) hntπ with
     ⟨φ, hφ⟩ | hdisp
   · have hnat : G2Natural S ⊤ ⊥ n := by

@@ -158,7 +158,7 @@ private theorem exists_conj_eq_of_odd_normalizer
       · have h := (MulEquiv.orderOf_eq (MulAut.conj x).symm y).symm
         rwa [h] at hyodd
       · exact MulEquiv.apply_symm_apply (MulAut.conj x) y
-  haveI hHN_normal : (H.subgroupOf N).Normal :=
+  have hHN_normal : (H.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hN_le_normalizer_H
   have hquot : IsPGroup 2 (N ⧸ H.subgroupOf N) := by
     rw [isPGroup_iff_pow_pow_eq_one]
@@ -234,7 +234,7 @@ theorem lemma_3_1_of_odd {G : Type*} [Group G] [Finite G] (𝔖 : Sec3Setting G)
     (hodd : ∀ (D D₁ D₂ B : Subgroup G) (u : G), DDDecomp D D₁ D₂ → B ≤ D → IsE16 B →
       u ∈ Subgroup.normalizer (D : Set G) → Odd (orderOf u) →
       u ∈ Subgroup.normalizer (B : Set G))
-    (A B : Subgroup G) (hAS : A ≤ 𝔖.S) (hBS : B ≤ 𝔖.S) (hA : IsE16 A) (hB : IsE16 B)
+    (A B : Subgroup G) (hAS : A ≤ 𝔖.S) (hBS : B ≤ 𝔖.S) (_hA : IsE16 A) (hB : IsE16 B)
     (g : G) (hg : A.map (MulAut.conj g).toMonoidHom = B) :
     ∃ s ∈ (𝔖.S : Subgroup G), A.map (MulAut.conj s).toMonoidHom = B := by
   have hAeq : B.map (MulAut.conj g⁻¹).toMonoidHom = A := by

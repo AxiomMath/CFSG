@@ -384,7 +384,7 @@ public theorem fstar_center_qCoreOf_fitting_centralizes_fitting
       y⁻¹ * z = y⁻¹ * (z * y * y⁻¹) := by group
       _ = y⁻¹ * (y * z * y⁻¹) := by rw [hcomm]
       _ = z * y⁻¹ := by group
-  · simpa using (show 1 * z = z * 1 by simp)
+  · simp
   · intro y w _ _ hy' hw'
     calc
       (y * w) * z = y * (w * z) := by group
@@ -408,7 +408,7 @@ public theorem fstar_qCoreOf_fitting_ne_bot_of_mem_primesOfOrder
   let P : Sylow p (↥F) := Classical.choice Sylow.nonempty
   have hPnormal : (P : Subgroup (↥F)).Normal :=
     Group.IsNilpotent.sylow_normal (G := ↥F) inferInstance p P
-  have hPp : IsPGroup p (P : Subgroup (↥F)) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup (↥F)) := P.isPGroup
   have hPle : (P : Subgroup (↥F)) ≤ pCore p (↥F) := le_sSup ⟨hPnormal, hPp⟩
   have hpdiv : p ∣ Nat.card (↥F) := by
     have hpf : p ∈ (Nat.card (↥F)).primeFactors := by simpa [primesOfOrder] using hpF
@@ -430,9 +430,9 @@ public theorem fstar_center_qCoreOf_fitting_le_qCoreOf_S
     {G : Type u} [Group G] [Finite G]
     (A S : Subgroup G)
     (hSF : S ≤ generalizedFittingSubgroupOf A)
-    (hSsub : (S.subgroupOf (generalizedFittingSubgroupOf A)).IsSubnormal)
+    (_hSsub : (S.subgroupOf (generalizedFittingSubgroupOf A)).IsSubnormal)
     (hCS : generalizedFittingSubgroupOf A ⊓ Subgroup.centralizer (S : Set G) ≤ S)
-    (p : ℕ) (hp : p.Prime) (hpF : p ∈ primesOfOrder (fittingSubgroupOf A)) :
+    (p : ℕ) (hp : p.Prime) (_hpF : p ∈ primesOfOrder (fittingSubgroupOf A)) :
     (Subgroup.center (↥(qCoreOf (fittingSubgroupOf A) p))).map
       (qCoreOf (fittingSubgroupOf A) p).subtype ≤ qCoreOf S p := by
   let F : Subgroup G := fittingSubgroupOf A
@@ -650,11 +650,11 @@ public theorem fstar_componentLayerOf_isNormalIn {G : Type u} [Group G]
       exact Subgroup.mem_sSup_of_mem
         (fstar_isComponentOf_conjugateSubgroup_of_mem E.2 a ha)
         (by
-          exact Subgroup.mem_map.mpr ⟨y, hyE, by simp [conjugateSubgroup]⟩)
+          exact Subgroup.mem_map.mpr ⟨y, hyE, by simp⟩)
     refine Subgroup.closure_induction'' hgen ?_ ?_ ?_ he
     · intro x hx
       simpa [mul_assoc] using (componentLayerOf A).inv_mem (hgen x hx)
-    · simpa using (componentLayerOf A).one_mem
+    · simp
     · intro x y _hx _hy hx' hy'
       simpa [mul_assoc, mul_left_comm, mul_right_comm] using
         (componentLayerOf A).mul_mem hx' hy'
@@ -680,7 +680,7 @@ public theorem fstar_generalizedFittingSubgroupOf_isNormalIn
     refine Subgroup.closure_induction'' hgen ?_ ?_ ?_ hx
     · intro y hy
       simpa [mul_assoc] using (generalizedFittingSubgroupOf A).inv_mem (hgen y hy)
-    · simpa using (generalizedFittingSubgroupOf A).one_mem
+    · simp
     · intro y z _ _ hy' hz'
       simpa [mul_assoc, mul_left_comm, mul_right_comm] using
         (generalizedFittingSubgroupOf A).mul_mem hy' hz'
@@ -873,7 +873,7 @@ public theorem fstar_centerFitting_le_selfCentralizingSubnormal
     {G : Type u} [Group G] [Finite G]
     (A S : Subgroup G)
     (hSF : S ≤ generalizedFittingSubgroupOf A)
-    (hSsub : (S.subgroupOf (generalizedFittingSubgroupOf A)).IsSubnormal)
+    (_hSsub : (S.subgroupOf (generalizedFittingSubgroupOf A)).IsSubnormal)
     (hCS : generalizedFittingSubgroupOf A ⊓ Subgroup.centralizer (S : Set G) ≤ S) :
     (Subgroup.center (↥(fittingSubgroupOf A))).map (fittingSubgroupOf A).subtype ≤ S := by
   let F : Subgroup G := fittingSubgroupOf A

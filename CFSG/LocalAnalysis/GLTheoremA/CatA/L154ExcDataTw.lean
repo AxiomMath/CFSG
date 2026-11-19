@@ -122,7 +122,7 @@ theorem excTw_tag_of_marking {p : ℕ} {Ω : Type} [Group Ω] {S : Subgroup Ω} 
     (hexc : K1419E.ExcStated t) (htg : ∀ lab : GLALabel, markTag lab = t → lab.tag = tg)
     (hm : ∃ f, LieModel (PSimple p S) t 0 2 f) : lab.tag = tg := by
   obtain ⟨hperf, hsimple⟩ := Y10F.hasLabel_isQuasisimple hlab
-  haveI : IsSimpleGroup (PSimple p S) := hsimple
+  have : IsSimpleGroup (PSimple p S) := hsimple
   exact excTw_tag_of_hasLabel ggLabelRigidInput_holds this
     (exists_mul_ne_mul_centerQuot_of_perfect hperf inferInstance) hexc htg hm
     (Y10F.hasLabel_centerQuot hlab)
@@ -198,6 +198,7 @@ section FieldAut
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem excTw_pow_sq_apply {φ : K ≃+* K} (hφ : ∀ c, φ c = c ^ 2) (k : ℕ) (c : K) :
     (φ ^ k) c = c ^ (2 ^ k) := by
   induction k with
@@ -559,7 +560,7 @@ theorem excTwE6_raw_of_label {lab : GLALabel} (htag : lab.tag = .twE6) (hn : 1 �
   subst htag
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at h ⊢
   obtain ⟨K, instF, instFin, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -582,7 +583,7 @@ theorem excTriD4_raw_of_label {lab : GLALabel} (htag : lab.tag = .triD4) (hn : 1
   subst htag
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at h ⊢
   obtain ⟨K, instF, instFin, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

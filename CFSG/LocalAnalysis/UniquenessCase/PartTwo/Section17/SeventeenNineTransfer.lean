@@ -46,7 +46,7 @@ theorem nonempty_bar2_mulEquiv_K1 {D : Data G} {L : Subgroup G}
 
 theorem isSylowOf_Tbar {D : Data G} :
     CFSG.ABGLocalTools.IsSylowOf 2 (Tbar9 D) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
   have hidx : (D.T.subgroupOf D.M).index = D.T.relIndex D.M := by
@@ -96,7 +96,7 @@ theorem lie_three_of_q {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
 theorem odd_card_center_K1Nine {D : Data G} {L : Subgroup G}
     (hL : L ∈ calC D.M) :
     Odd (Nat.card (Subgroup.center ↥(K1Nine D L))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK1sub : (K1Nine D L).IsSubnormal := (isComponent_K1 hL).2
   have hK1Open : CFSG.Open.IsSubnormal (K1Nine D L) ⊤ :=
     CFSG.Quasithin.A3.subnormal_top_iff.mpr hK1sub
@@ -159,8 +159,8 @@ theorem exists_permutes_three_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ 
           ¬ IsCyclic ↥E ∧ Permutes E S) :
     ∃ X : Subgroup G, X ≤ D.M ∧ X ≠ ⊥ ∧ IsPGroup 3 ↥X ∧ (∀ x ∈ X, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥X ∧ Permutes X D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hZ := odd_card_center_K1Nine hL
   have hS : IsPGroup 2 (S1Nine D L) :=
@@ -168,7 +168,7 @@ theorem exists_permutes_three_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ 
   have hSK : S1Nine D L ≤ Subgroup.normalizer (K1Nine D L : Set (Mbar9 D)) := inf_le_right
   have hSyl := isSylowOf_S1_inf_K1 hL
   let hCnorm := CFSG.GroupTheory.twoQuotientC_normal hSK
-  letI : (CFSG.GroupTheory.twoQuotientC (K1Nine D L) (S1Nine D L)).Normal := hCnorm
+  let : (CFSG.GroupTheory.twoQuotientC (K1Nine D L) (S1Nine D L)).Normal := hCnorm
   let Y := CFSG.GroupTheory.twoQuotientY (K1Nine D L) (S1Nine D L) hCnorm
   let KY := CFSG.GroupTheory.twoQuotientKY (K1Nine D L) (S1Nine D L) hCnorm
   let SY := CFSG.GroupTheory.twoQuotientSY (K1Nine D L) (S1Nine D L) hCnorm
@@ -224,7 +224,7 @@ theorem exists_permutes_three_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ 
     exact hEne (le_bot_iff.mp hEbot)
   have hXbarNcyc : ¬ IsCyclic ↥Xbar := by
     intro hcyc
-    letI := hcyc
+    let := hcyc
     exact hEncyc (isCyclic_of_injective (Subgroup.inclusion hEXbar)
       (Subgroup.inclusion_injective hEXbar))
   have hTsub2 : IsPGroup 2 (D.T.subgroupOf D.M) :=
@@ -262,9 +262,9 @@ theorem exists_permutes_three_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ 
   · intro hcyc
     have hPcyc : IsCyclic ↥P := by
       let e := Subgroup.equivMapOfInjective P D.M.subtype Subtype.val_injective
-      letI := hcyc
+      let := hcyc
       exact isCyclic_of_surjective e.symm e.symm.surjective
-    letI := hPcyc
+    let := hPcyc
     exact hXbarNcyc (isCyclic_of_surjective eP eP.surjective)
   ·
     have hDT : ((D.T.subgroupOf D.M).map D.M.subtype : Set G) = (D.T : Set G) :=

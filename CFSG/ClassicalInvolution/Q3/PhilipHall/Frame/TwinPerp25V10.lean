@@ -197,7 +197,7 @@ theorem caseB {c₁ c₂ : G} (Λ₁ : Lay Ω K K' W S R R' z t u₁ u₂ c₁) 
   classical
   obtain ⟨A, A', z', ⟨fr⟩, hKA, hK'A'⟩ := exists_frame_at Λ₂ hno hL
   have hF : Nat.card (GaloisField 3 1) = 3 := Q3T7P25.natCard_gf3
-  haveI : Finite (GaloisField 3 1) := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite (GaloisField 3 1) := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   obtain ⟨r⟩ := EndL.Q8.nonempty_ringEquiv hF
   have h2F : (2 : GaloisField 3 1) ≠ 0 := M.two_ne_zero_gf 1 (by norm_num)
   have hRX : R ≤ layerX Ω c₂ := Λ₂.R_le

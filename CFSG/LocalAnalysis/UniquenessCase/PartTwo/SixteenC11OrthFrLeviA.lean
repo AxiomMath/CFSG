@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Open Subgroup
 open scoped Matrix
 
-def s16c11_fr_bound3 {m : ℕ} (hm : m = 3 ∨ m = 4) : 3 ≤ m := by
+theorem s16c11_fr_bound3 {m : ℕ} (hm : m = 3 ∨ m = 4) : 3 ≤ m := by
   rcases hm with rfl | rfl <;> decide
 
 @[expose] def s16c11_fr_emb (m : ℕ) (hm : 3 ≤ m) : S16C11FrIdx (m - 2) → S16C11FrIdx m
@@ -24,12 +24,12 @@ def s16c11_fr_bound3 {m : ℕ} (hm : m = 3 ∨ m = 4) : 3 ≤ m := by
 @[expose] def s16c11_fr_B (m : ℕ) (h : 3 ≤ m) (i : Fin 2) : S16C11FrIdx m :=
   Sum.inr (Sum.inl ⟨i.1, by omega⟩)
 
-@[expose] def s16c11_fr_A_inj {m : ℕ} (hm : 3 ≤ m) : Function.Injective (s16c11_fr_A m hm) := by
+theorem s16c11_fr_A_inj {m : ℕ} (hm : 3 ≤ m) : Function.Injective (s16c11_fr_A m hm) := by
   intro a i h
   rw [s16c11_fr_A, s16c11_fr_A, Sum.inl.injEq, Fin.mk.injEq] at h
   exact Fin.ext h
 
-@[expose] def s16c11_fr_B_inj {m : ℕ} (hm : 3 ≤ m) : Function.Injective (s16c11_fr_B m hm) := by
+theorem s16c11_fr_B_inj {m : ℕ} (hm : 3 ≤ m) : Function.Injective (s16c11_fr_B m hm) := by
   intro a i h
   rw [s16c11_fr_B, s16c11_fr_B, Sum.inr.injEq, Sum.inl.injEq, Fin.mk.injEq] at h
   exact Fin.ext h
@@ -160,8 +160,8 @@ theorem s16c11_fr_Q_add_Eb {m : ℕ} (hm : m = 3 ∨ m = 4) (v : S16C11FrVec m) 
     ring
 
 theorem s16c11_fr_Q_zero {m : ℕ} : S16C11FrQ m (0 : S16C11FrVec m) = 0 := by
-  simp only [S16C11FrQ, StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.zero_apply,
-    mul_zero, zero_mul, add_zero, Finset.sum_const_zero]
+  simp only [S16C11FrQ, StatedQuadMinus, Pi.zero_apply,
+    mul_zero, add_zero, Finset.sum_const_zero]
   ring
 
 theorem s16c11_fr_Q_Eb {m : ℕ} (hm : m = 3 ∨ m = 4) (i : Fin 2) :
@@ -380,30 +380,30 @@ theorem s16c11_fr_part_left (m : ℕ) (hm : 3 ≤ m) :
     Function.LeftInverse (s16c11_fr_partInv m hm) (s16c11_fr_partFwd m hm) := by
   rintro ((i | (j | k)) | (a | b))
   · simp only [s16c11_fr_partFwd, s16c11_fr_partInv, s16c11_fr_emb]
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
     simp
   · simp only [s16c11_fr_partFwd, s16c11_fr_partInv, s16c11_fr_emb]
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
     simp
   · rfl
   · simp only [s16c11_fr_partFwd, s16c11_fr_partInv, s16c11_fr_A]
-    rw [dif_pos a.2]
+    rw [dite_eq_left a.2]
   · simp only [s16c11_fr_partFwd, s16c11_fr_partInv, s16c11_fr_B]
-    rw [dif_pos b.2]
+    rw [dite_eq_left b.2]
 
 theorem s16c11_fr_part_right (m : ℕ) (hm : 3 ≤ m) :
     Function.RightInverse (s16c11_fr_partInv m hm) (s16c11_fr_partFwd m hm) := by
   rintro (i | (j | k))
   · by_cases h : i.1 < 2
-    · simp only [s16c11_fr_partInv, dif_pos h, s16c11_fr_partFwd, s16c11_fr_A]
-    · simp only [s16c11_fr_partInv, dif_neg h, s16c11_fr_partFwd, s16c11_fr_emb]
+    · simp only [s16c11_fr_partInv, dite_eq_left h, s16c11_fr_partFwd, s16c11_fr_A]
+    · simp only [s16c11_fr_partInv, dite_eq_right h, s16c11_fr_partFwd, s16c11_fr_emb]
       apply congrArg Sum.inl
       apply Fin.ext
       show (i.1 - 2) + 2 = i.1
       omega
   · by_cases h : j.1 < 2
-    · simp only [s16c11_fr_partInv, dif_pos h, s16c11_fr_partFwd, s16c11_fr_B]
-    · simp only [s16c11_fr_partInv, dif_neg h, s16c11_fr_partFwd, s16c11_fr_emb]
+    · simp only [s16c11_fr_partInv, dite_eq_left h, s16c11_fr_partFwd, s16c11_fr_B]
+    · simp only [s16c11_fr_partInv, dite_eq_right h, s16c11_fr_partFwd, s16c11_fr_emb]
       apply congrArg (fun z => Sum.inr (Sum.inl z))
       apply Fin.ext
       show (j.1 - 2) + 2 = j.1
@@ -549,12 +549,12 @@ theorem s16c11_fr_hat_row_A_eval {m : ℕ} (hm : m = 3 ∨ m = 4)
   · simp only [s16c11_fr_diag, Matrix.fromBlocks_apply₂₂, Matrix.fromBlocks_apply₁₁,
       Matrix.one_apply]
     by_cases hia : i = a
-    · rw [if_pos hia]
+    · rw [ite_eq_left hia]
       rw [s16c11_fr_part_inr_inl,
         show s16c11_fr_A m (s16c11_fr_bound3 hm) a =
           s16c11_fr_A m (s16c11_fr_bound3 hm) i from
         congrArg (s16c11_fr_A m (s16c11_fr_bound3 hm)) hia.symm, Pi.single_eq_same]
-    · rw [if_neg hia]
+    · rw [ite_eq_right hia]
       rw [s16c11_fr_part_inr_inl,
         Pi.single_eq_of_ne (s16c11_fr_A_ne (s16c11_fr_bound3 hm) (fun h => hia h.symm))]
   · simp only [s16c11_fr_diag, Matrix.fromBlocks_apply₂₂, Matrix.fromBlocks_apply₁₂,
@@ -580,12 +580,12 @@ theorem s16c11_fr_hat_row_B_eval {m : ℕ} (hm : m = 3 ∨ m = 4)
   · simp only [s16c11_fr_diag, Matrix.fromBlocks_apply₂₂, Matrix.fromBlocks_apply₂₂,
       Matrix.one_apply]
     by_cases hib : i = b
-    · rw [if_pos hib]
+    · rw [ite_eq_left hib]
       rw [s16c11_fr_part_inr_inr,
         show s16c11_fr_B m (s16c11_fr_bound3 hm) b =
           s16c11_fr_B m (s16c11_fr_bound3 hm) i from
         congrArg (s16c11_fr_B m (s16c11_fr_bound3 hm)) hib.symm, Pi.single_eq_same]
-    · rw [if_neg hib]
+    · rw [ite_eq_right hib]
       rw [s16c11_fr_part_inr_inr,
         Pi.single_eq_of_ne (s16c11_fr_B_ne (s16c11_fr_bound3 hm) (fun h => hib h.symm))]
 
@@ -605,12 +605,12 @@ theorem s16c11_fr_hat_col_A {m : ℕ} (hm : m = 3 ∨ m = 4)
   · simp only [s16c11_fr_diag, Matrix.fromBlocks_apply₂₂, Matrix.fromBlocks_apply₁₁,
       Matrix.one_apply]
     by_cases hai : a = i
-    · rw [if_pos hai]
+    · rw [ite_eq_left hai]
       rw [s16c11_fr_part_inr_inl,
         show s16c11_fr_A m (s16c11_fr_bound3 hm) a =
           s16c11_fr_A m (s16c11_fr_bound3 hm) i from
         congrArg (s16c11_fr_A m (s16c11_fr_bound3 hm)) hai, Pi.single_eq_same]
-    · rw [if_neg hai]
+    · rw [ite_eq_right hai]
       rw [s16c11_fr_part_inr_inl,
         Pi.single_eq_of_ne (s16c11_fr_A_ne (s16c11_fr_bound3 hm) hai)]
   · simp only [s16c11_fr_diag, Matrix.fromBlocks_apply₂₂, Matrix.fromBlocks_apply₂₁,

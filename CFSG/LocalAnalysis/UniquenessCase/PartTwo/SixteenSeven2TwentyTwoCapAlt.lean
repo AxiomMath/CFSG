@@ -17,7 +17,7 @@ theorem s16c167_transv_unique_alt {W : Type} [CommGroup W] [Finite W] (hW : ∀ 
     (hE : AlternatingNatural L E ⊥ n) {x y : MulAut W}
     (hxL : L.map (MulAut.conj x).toMonoidHom = L) (hyL : L.map (MulAut.conj y).toMonoidHom = L)
     (hxE : E.map x.toMonoidHom = E) (hyE : E.map y.toMonoidHom = E)
-    {H : Subgroup W} (hHE : H ≤ E) (hH : E3.mQuot E H = 1)
+    {H : Subgroup W} (_hHE : H ≤ E) (hH : E3.mQuot E H = 1)
     (hxH : ∀ e ∈ H, x e = e) (hyH : ∀ e ∈ H, y e = e)
     (hxT : ∀ e ∈ E, x e * e⁻¹ ∈ H) (hyT : ∀ e ∈ E, y e * e⁻¹ ∈ H) :
     (∀ e ∈ E, x e = e) ∨ (∀ e ∈ E, y e = e) ∨ (∀ e ∈ E, x e = y e) := by

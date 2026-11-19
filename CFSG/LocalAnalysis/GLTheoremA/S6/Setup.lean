@@ -67,12 +67,12 @@ theorem commutator_commutator_eq_of_isPGroup (hp : p.Prime) {B T : Subgroup G}
     (hB : IsPGroup p B) (hT : IsPGroup 2 T) (hp2 : p ≠ 2) (hBT : B ≤ Subgroup.normalizer (T : Set G)) :
     (⁅(⁅T, B⁆ : Subgroup G), B⁆ : Subgroup G) = ⁅T, B⁆ := by
   refine i321UsedAt_holds p hp T B ?_ hBT ?_
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   · intro N hNB hNn hNidx
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hidx : (N.subgroupOf B).index ∣ Nat.card B := Subgroup.index_dvd_card _
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hB
     rw [hn] at hidx
@@ -106,7 +106,7 @@ theorem pow_four_le_card_of_bmax (hc : S6Ctx G p) {B : Subgroup G} (hB : GLAIsBm
 
 theorem exists_pow_eq_one_noncomm_of_component (hp : p.Prime) (hp2 : p ≠ 2) {X K : Subgroup G}
     (hK : GLAPComponent p X K) : ∃ w ∈ K, w ^ p = 1 ∧ ∃ k ∈ K, k * w ≠ w * k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : ↥K →* PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥K)) := CFSG.pPrimeCore_coprime_card
   obtain ⟨yb, hyord, hycen⟩ :=

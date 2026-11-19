@@ -43,22 +43,22 @@ theorem w₃_sq : ((DihedralGroup.r 1, DihedralGroup.r 1, 1) : D8D8E4) ^ 2 = w�
 theorem w₁_ne_w₂ : w₁ ≠ w₂ := by decide +kernel
 
 theorem card_one : Nat.card {x : D8D8E4 // x ^ 2 = 1} = 144 := by
-  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
+  let : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₁ : Nat.card {x : D8D8E4 // x ^ 2 = w₁} = 48 := by
-  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
+  let : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₂ : Nat.card {x : D8D8E4 // x ^ 2 = w₂} = 48 := by
-  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
+  let : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 
 theorem card_w₃ : Nat.card {x : D8D8E4 // x ^ 2 = w₃} = 16 := by
-  letI : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
+  let : Fintype (Multiplicative (ZMod 2)) := inferInstanceAs (Fintype (ZMod 2))
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide +kernel
 

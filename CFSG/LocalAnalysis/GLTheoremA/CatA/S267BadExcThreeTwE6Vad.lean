@@ -98,9 +98,9 @@ theorem exists_conj_eq_of_le_twInndiag {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
     (hY : IsElemAbelian 3 Y) (hXc : Nat.card X = 3 ^ 6) (hYc : Nat.card Y = 3 ^ 6) :
     ∃ γ ∈ twistedE6Inn K σ ⊔ twistedE6Diag K σ, Y.map (MulAut.conj γ).toMonoidHom = X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6InndiagGL K σ) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6InndiagGL K σ) := Subtype.finite
   set φ := twistedE6InndiagConj K σ with hφdef
   set ψ := twInndiagHom K σ with hψdef
   have hφ : Function.Injective φ := twistedE6InndiagConj_injective hℓ hf hK σ hσ
@@ -133,7 +133,7 @@ theorem exists_conj_eq_of_le_twInndiag {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
   have hce : IsElemAbelian 3 (Y'.map c) := CFSG.StandardType.TableB.isElemAbelian_map hY'e c
   have hK3 : 3 ∣ Nat.card K - 1 := by rw [hK]; exact three_dvd_sq_sub_one_of_not_dvd h3
   have heq : X'.map ψ = (Y'.map c).map ψ :=
-    E6One.eq_of_le_of_isPGroup hK3 (P.isPGroup'.map ψ)
+    E6One.eq_of_le_of_isPGroup hK3 (P.isPGroup.map ψ)
       ((Subgroup.map_le_range _ _).trans (range_twInndiagHom_le K σ))
       ((Subgroup.map_le_range _ _).trans (range_twInndiagHom_le K σ))
       (Subgroup.map_mono hXP) (Subgroup.map_mono hYP)

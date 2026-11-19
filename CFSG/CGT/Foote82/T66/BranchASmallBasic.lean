@@ -37,7 +37,7 @@ theorem conjSg_mul (g h : Γ) (H : Subgroup Γ) : conjSg (g * h) H = conjSg g (c
 
 theorem conjSg_one (H : Subgroup Γ) : conjSg 1 H = H := by
   ext x
-  simp [mem_conjSg]
+  simp
 
 theorem conjSg_conjSg_inv (g : Γ) (H : Subgroup Γ) : conjSg g (conjSg g⁻¹ H) = H := by
   rw [← conjSg_mul, mul_inv_cancel, conjSg_one]
@@ -100,7 +100,7 @@ theorem conjSg_centralizer_singleton (g t : Γ) :
 theorem mem_normalizer_conjSg {g x : Γ} {H : Subgroup Γ} :
     x ∈ Subgroup.normalizer (conjSg g H : Set Γ) ↔
       g⁻¹ * x * g ∈ Subgroup.normalizer (H : Set Γ) := by
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe, mem_conjSg]
+  simp only [Subgroup.mem_normalizer_iff, mem_conjSg]
   constructor
   · intro hx y
     have := hx (g * y * g⁻¹)
@@ -183,7 +183,7 @@ theorem commSpace_conjSg (g : GLV V) (K : Subgroup (GLV V)) (U : Submodule (ZMod
   rw [Submodule.map_span]
   congr 1
   ext w
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨k', ⟨k, hk, rfl⟩, u', ⟨u, hu, rfl⟩, rfl⟩
     refine ⟨k u - u, ⟨k, hk, u, hu, rfl⟩, ?_⟩
@@ -225,6 +225,7 @@ end CommSpace
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G L : Subgroup (GLV V)} {z : GLV V}
 
+omit [Finite V] in
 private theorem eq_bot_of_le_center {A B : Subgroup (GLV V)} (hperf : ⁅A, A⁆ = A)
     (hc' : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hAB : A ≤ B) : A = ⊥ := by
   have h : ⁅A, A⁆ = ⊥ := by
@@ -280,6 +281,7 @@ theorem irrTilde : HasIrrTildeV L := hc.setup.irrTilde
 
 theorem irr : IsIrr G ⊤ := hc.setup.irr
 
+omit [Finite V] hc in
 theorem centralizer_zpowers : Subgroup.centralizer ((Subgroup.zpowers z : Subgroup (GLV V)) :
     Set (GLV V)) = Subgroup.centralizer ({z} : Set (GLV V)) := by
   ext x
@@ -293,7 +295,7 @@ theorem centralizer_zpowers : Subgroup.centralizer ((Subgroup.zpowers z : Subgro
 
 theorem component : IsComponentOf L (G ⊓ Subgroup.centralizer ({z} : Set (GLV V))) := by
   have h := hc.setup.component
-  rwa [hc.centralizer_zpowers] at h
+  rwa [Hyp.centralizer_zpowers] at h
 
 theorem z_mem_centralizer : z ∈ Subgroup.centralizer (L : Set (GLV V)) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -311,10 +313,11 @@ theorem z_ne_one : z ≠ 1 := by
   rw [h, orderOf_one] at this
   exact absurd this (by norm_num)
 
+omit [Finite V] hc in
 theorem conjSg_G {g : GLV V} (hg : g ∈ G) : conjSg g G = G := conjSg_of_mem hg
 
 theorem conjSg_L_le {g : GLV V} (hg : g ∈ G) : conjSg g L ≤ G := by
-  rw [← hc.conjSg_G hg]
+  rw [← Hyp.conjSg_G hg]
   exact conjSg_mono hc.L_le
 
 theorem conj_z_mem {g : GLV V} (hg : g ∈ G) : g * z * g⁻¹ ∈ G :=
@@ -326,7 +329,7 @@ theorem orderOf_conj_z (g : GLV V) : orderOf (g * z * g⁻¹) = 2 := by
 theorem component_conj {g : GLV V} (hg : g ∈ G) :
     IsComponentOf (conjSg g L) (G ⊓ Subgroup.centralizer ({g * z * g⁻¹} : Set (GLV V))) := by
   have h := isComponentOf_conjSg g hc.component
-  rwa [conjSg_inf, hc.conjSg_G hg, conjSg_centralizer_singleton] at h
+  rwa [conjSg_inf, Hyp.conjSg_G hg, conjSg_centralizer_singleton] at h
 
 theorem conj_z_mem_centralizer (g : GLV V) :
     g * z * g⁻¹ ∈ Subgroup.centralizer (conjSg g L : Set (GLV V)) := by
@@ -360,7 +363,7 @@ theorem component_of_inv_conj {g t : GLV V} (hg : g ∈ G) (htG : t ∈ G) (ht :
   have h3 : g⁻¹ * t * g ∈ Subgroup.centralizer (L : Set (GLV V)) :=
     mem_centralizer_conjSg.1 htc
   have h := isComponentOf_conjSg g (hc.conf.std.component_of_inv _ h1 h2 h3)
-  rwa [conjSg_inf, hc.conjSg_G hg, conjSg_centralizer_singleton,
+  rwa [conjSg_inf, Hyp.conjSg_G hg, conjSg_centralizer_singleton,
     show g * (g⁻¹ * t * g) * g⁻¹ = t by group] at h
 
 theorem normalizer_of_centralizer {g t : GLV V} (hg : g ∈ G) (htG : t ∈ G) (ht : orderOf t = 2)
@@ -523,7 +526,7 @@ theorem mem_normalizer_of_Dz {g : GLV V} (hg : g ∈ G) (hne : g * z * g⁻¹ �
 theorem exists_Dz : ∃ g ∈ G, g * z * g⁻¹ ≠ z ∧ (g * z * g⁻¹) * z = z * (g * z * g⁻¹) := by
   by_contra hcon
   push Not at hcon
-  letI : Fintype ↥G := Fintype.ofFinite _
+  let : Fintype ↥G := Fintype.ofFinite _
   set t : ↥G := ⟨z, hc.z_mem⟩ with ht
   have ht1 : t ≠ 1 := fun h => hc.z_ne_one (congrArg Subtype.val h)
   have ht2 : t * t = 1 := Subtype.ext hc.z_mul_z

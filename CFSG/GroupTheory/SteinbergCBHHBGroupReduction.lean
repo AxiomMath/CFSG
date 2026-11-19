@@ -116,7 +116,7 @@ theorem exists_invariant_qsubgroup_not_centralized {X : Type*} [Group X] [Finite
       subst hqp
       have hT1 : t = 1 := by
         have h1 : orderOf t ∣ Nat.card N := orderOf_dvd_natCard t
-        obtain ⟨k, hk⟩ := (T.isPGroup' ⟨t, ht⟩)
+        obtain ⟨k, hk⟩ := (T.isPGroup ⟨t, ht⟩)
         have h2 : orderOf t ∣ q ^ k := by
           rw [← Subgroup.orderOf_mk t ht]
           exact orderOf_dvd_of_pow_eq_one hk
@@ -130,7 +130,7 @@ theorem exists_invariant_qsubgroup_not_centralized {X : Type*} [Group X] [Finite
           exact (dvd_pow_self q (by omega)).trans h1
       rw [hT1]
       simp
-    · have hSq : IsPGroup q S := (T.isPGroup').map N.subtype
+    · have hSq : IsPGroup q S := (T.isPGroup).map N.subtype
       have := hcon q hq hqp S hSq hxS (t : X) ⟨t, ht, rfl⟩
       exact this
   have hH : (centralizer ({z} : Set X)).comap N.subtype = ⊤ := by

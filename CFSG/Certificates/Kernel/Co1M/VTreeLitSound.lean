@@ -252,7 +252,7 @@ theorem vtLit_sound {Gr : Array (Array Nat)} {Rs : List (List Nat)} {rm : Nat}
     intro hi
     rw [hAl] at hi
     unfold vtreePointOK
-    simp only [toArray_getElem!, Bool.and_eq_true, decide_eq_true_iff, Array.size_map]
+    simp only [toArray_getElem!, Bool.and_eq_true, decide_eq_true_iff]
     rcases i with _ | k
     · refine ⟨by rw [hA, vptsK]; simpa using _hroot, by simp [hA, vptsK]⟩
     · have hk : k < chs.flatten.length := by omega
@@ -269,7 +269,7 @@ theorem vtLit_sound {Gr : Array (Array Nat)} {Rs : List (List Nat)} {rm : Nat}
       refine ⟨?_, ?_⟩
       · rw [h3]
         exact vecMulN_lt _ (hlt _ h2) _
-      · simp only [Nat.add_one_ne_zero, beq_iff_eq, if_false, Bool.and_eq_true,
+      · simp only [Nat.add_one_ne_zero, beq_iff_eq, ite_false, Bool.and_eq_true,
           decide_eq_true_iff, beq_iff_eq]
         exact ⟨⟨h1, by rw [hGtd, Array.size_map]; exact h2⟩, h3⟩
   unfold vtreeOK

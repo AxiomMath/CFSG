@@ -43,7 +43,7 @@ private noncomputable def ggAutActU {G : Type} [Group G] (H B : Subgroup G) :
     intro b
     apply Subtype.ext
     rw [ggConjAut_apply, MulAut.mul_apply, ggConjAut_apply, ggConjAut_apply]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
 
 private theorem ggAutActU_apply {G : Type} [Group G] (H B : Subgroup G)

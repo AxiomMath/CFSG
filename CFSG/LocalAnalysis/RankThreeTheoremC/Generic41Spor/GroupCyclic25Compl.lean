@@ -52,9 +52,9 @@ theorem complement_conj_of_cyclic25 {R : Type} [Group R] (S : Subgroup R) (hS : 
     (hR : ∀ r : R, ∃ s ∈ S, ∃ i : ℕ, r = s * u ^ i)
     {w : R} (hw5 : w ^ 5 = 1) (hwS : w ∉ S) :
     ∃ s ∈ S, ∃ j : ℕ, 0 < j ∧ j < 5 ∧ s * w * s⁻¹ = u ^ j := by
-  haveI : IsCyclic S := hcyc
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
-  haveI : Fintype S := Fintype.ofFinite S
+  have : IsCyclic S := hcyc
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  have : Fintype S := Fintype.ofFinite S
   obtain ⟨g, hgsurj⟩ := exists_zpow_surjective S
   have hg : ∀ x : S, x ∈ Subgroup.zpowers g := fun x =>
     Subgroup.mem_zpowers_iff.mpr (hgsurj x)

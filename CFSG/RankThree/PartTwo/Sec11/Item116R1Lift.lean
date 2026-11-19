@@ -27,9 +27,9 @@ theorem exists_perfect_lift_normalizer_sylow {G : Type*} [Group G] [Finite G]
       K₁ ⊔ θ = K ⊔ θ := by
   have hMθ : K ⊔ θ ≤ Subgroup.normalizer (θ : Set G) := (sup_le hKH hθH).trans hHθ
   have hKθ : K ≤ Subgroup.normalizer (θ : Set G) := le_sup_left.trans hMθ
-  haveI hθM : (θ.subgroupOf (K ⊔ θ)).Normal :=
+  have hθM : (θ.subgroupOf (K ⊔ θ)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hMθ
-  haveI hQfin : Finite (↥(K ⊔ θ) ⧸ θ.subgroupOf (K ⊔ θ)) := inferInstance
+  have hQfin : Finite (↥(K ⊔ θ) ⧸ θ.subgroupOf (K ⊔ θ)) := inferInstance
   have hSθp : IsPGroup p (S.subgroupOf θ) := hSp.comap_subtype
   obtain ⟨P, hP⟩ : ∃ P : Sylow p θ, (P : Subgroup θ) = S.subgroupOf θ :=
     ⟨hSθp.toSylow hSidx, rfl⟩
@@ -53,7 +53,7 @@ theorem exists_perfect_lift_normalizer_sylow {G : Type*} [Group G] [Finite G]
         ⟨mul_mem (inv_mem ((le_sup_right : θ ≤ K ⊔ θ) hx)) hg, hxg⟩
     exact ⟨x, hx, x⁻¹ * g, he, (mul_inv_cancel_left x g).symm⟩
   have hQperf : Group.IsPerfect (↥(K ⊔ θ) ⧸ θ.subgroupOf (K ⊔ θ)) := by
-    haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKperf
+    have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKperf
     refine Group.IsPerfect.ofSurjective (f := (QuotientGroup.mk' (θ.subgroupOf (K ⊔ θ))).comp
       (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ θ))) ?_
     intro q
@@ -113,7 +113,7 @@ theorem exists_perfect_lift_normalizer_sylow {G : Type*} [Group G] [Finite G]
   refine ⟨K₁, ?_, ?_, ?_, ?_⟩
   · exact hK₁E.trans (hEM.trans (sup_le hKH hθH))
   · exact hK₁E.trans hEN
-  · haveI : Group.IsPerfect (CFSG.perfectResidual ↥E) :=
+  · have : Group.IsPerfect (CFSG.perfectResidual ↥E) :=
       (CFSG.perfect_residual_characterization (G := ↥E)).2.2.1
     have hp : Group.IsPerfect ↥K₁ := by
       rw [hK₁]
@@ -127,7 +127,7 @@ theorem exists_perfect_lift_normalizer_sylow {G : Type*} [Group G] [Finite G]
 
 theorem not_centralizes_of_mem_sup {G : Type*} [Group G] [Finite G] {θ K₁ S : Subgroup G}
     (hK₁θ : K₁ ≤ Subgroup.normalizer (θ : Set G)) (hK₁S : K₁ ≤ Subgroup.normalizer (S : Set G))
-    (hSθ : S ≤ θ) (hθ3 : ¬ 3 ∣ Nat.card θ) {d : G} (hd : d ∈ K₁ ⊔ θ)
+    (_hSθ : S ≤ θ) (hθ3 : ¬ 3 ∣ Nat.card θ) {d : G} (hd : d ∈ K₁ ⊔ θ)
     (hdS : d ∈ Subgroup.normalizer (S : Set G)) (hd3 : d ^ 3 = 1)
     (hnt : ∃ s ∈ S, d * s * d⁻¹ ≠ s) :
     ∃ k ∈ K₁, ∃ s ∈ S, k * s * k⁻¹ ≠ s := by
@@ -202,6 +202,7 @@ theorem isSimpleGroup_of_component_center_bot {X : Type*} [Group X] {J : Subgrou
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   exact e.symm.isSimpleGroup
 
+omit [Finite G] in
 theorem isSimple_quotient_of_map_eq {a : G} {K₁ : Subgroup G}
     (hK₁a : K₁ ≤ Subgroup.centralizer ({a} : Set G))
     [((inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G))).subgroupOf
@@ -259,11 +260,13 @@ namespace CFSG.RankThree.PartTwo.Sec11
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem theta_centralizer_le_centralizer {a : G} :
     inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)) ≤
       Subgroup.centralizer ({a} : Set G) :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem mem_theta_centralizer_iff {a : G} (y : CAt a) :
     (y : G) ∈ inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)) ↔
       y ∈ aschbacherSolvableCore 3 (CAt a) :=
@@ -346,6 +349,7 @@ theorem inf_sup_theta_eq {a : G} {K K' : Subgroup G}
     exact (mem_theta_centralizer_iff ⟨g, hgC⟩).mpr h2
   · exact le_inf le_sup_right le_sup_right
 
+omit [Finite G] in
 theorem commutator_le_theta_of_map_commutator_eq_bot {a : G} {K₁ K₂ : Subgroup G}
     (h1 : K₁ ≤ Subgroup.centralizer ({a} : Set G)) (h2 : K₂ ≤ Subgroup.centralizer ({a} : Set G))
     (hc : ⁅(K₁.subgroupOf (Subgroup.centralizer ({a} : Set G))).map

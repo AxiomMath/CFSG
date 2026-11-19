@@ -50,7 +50,7 @@ theorem L143Row.of_nine_dvd [Finite S] {x : S} (hx3 : x ^ 3 = 1)
 
 theorem L143Rows.of_sylow [Finite S] (P : Sylow 3 S)
     (h : ∀ x ∈ (P : Subgroup S), x ^ 3 = 1 → x ≠ 1 → L143Row x) : L143Rows S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx3 hx1
   have hpg : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by

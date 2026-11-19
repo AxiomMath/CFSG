@@ -249,10 +249,8 @@ theorem q8d8_exists {S : Subgroup Γ} (h : CFSG.LocalAnalysis.RankThreeTheoremC.
       exact (Nat.card_congr e).trans hAB
     have hA8 : Nat.card ↥A = 8 := by
       rw [Nat.card_congr eA.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
-      all_goals norm_num
     have hB8 : Nat.card ↥B = 8 := by
       rw [Nat.card_congr eB.toEquiv, Nat.card_eq_fintype_card, DihedralGroup.card]
-      all_goals norm_num
     have hprod : Nat.card (↥A × ↥B) = 64 := by
       rw [Nat.card_prod, hA8, hB8]
     have hquot : Nat.card ((↥A × ↥B) ⧸ φ.ker) = Nat.card ↥S :=

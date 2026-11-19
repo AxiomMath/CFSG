@@ -21,6 +21,7 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.LieType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {k : ℕ} {U : Fin k → Submodule F V}
 
+omit [CharP F 2] in
 private theorem orthDerived_eq_elementaryGroup_minus_six_aux1 {Q : QuadraticForm F V}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 6) :
     elementaryGroup Q ≤ orthDerived Q := by
@@ -143,6 +144,7 @@ theorem eichlerGroupOn_eq_map_orthDerived {W : Submodule F V} (hW : PolarNondegO
     rw [hE] at ha
     exact OrthNS.extU_mem_eichlerGroupOn hW ha
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem conj_mem_eichlerGroupOn {W : Submodule F V} {g : V ≃ₗ[F] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgW : ∀ x ∈ W, g x ∈ W)
     {y : V ≃ₗ[F] V} (hy : y ∈ eichlerGroupOn Q W) : g * y * g⁻¹ ∈ eichlerGroupOn Q W := by
@@ -186,6 +188,7 @@ theorem orthDerived_le_iSup_specialBlock (hQ : (QuadraticMap.polarBilin Q).Nonde
   exact eichler_mem_iSup_specialBlock hk hU hp hp2 hpq hd hmaps hfix hh hh1 hUh u
     (by rw [htop]; exact Submodule.mem_top) w (by rw [htop]; exact Submodule.mem_top)
 
+omit [Finite F] [CharP F 2] in
 private theorem specialBlock_le_eichlerGroupOn_aux1 (hU : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     {h : F[X]} (hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x)
     (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
@@ -206,6 +209,7 @@ private theorem specialBlock_le_eichlerGroupOn_aux1 (hU : IsPlaneSystem Q U) {d 
   rw [hr0, add_zero]
   exact hw
 
+omit [CharP F 2] in
 private theorem specialBlock_le_eichlerGroupOn_aux2 (hU : IsPlaneSystem Q U) (hp : p.Prime)
     (hpq : p ∣ Nat.card F + 1) {d : V ≃ₗ[F] V} (hd : OddOrderIsometry Q p d) {h : F[X]}
     (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
@@ -244,7 +248,7 @@ private theorem specialBlock_le_eichlerGroupOn_aux3 (hk : 3 ≤ k) {W : Submodul
     (hmapsW : ∀ g : ↥(specialBlock Q d h), ∀ x ∈ W, (g : V ≃ₗ[F] V) x ∈ W)
     (hfixperp : ∀ g : ↥(specialBlock Q d h), ∀ x ∈ polarPerp Q W, (g : V ≃ₗ[F] V) x = x) :
     specialBlock Q d h ≤ eichlerGroupOn Q W := by
-  haveI : Group.IsPerfect ↥(specialBlock Q d h) := hperf
+  have : Group.IsPerfect ↥(specialBlock Q d h) := hperf
   let φ : ↥(specialBlock Q d h) →* (W ≃ₗ[F] W) :=
     MonoidHom.mk' (fun g => restrictEquiv W (g : V ≃ₗ[F] V)
       (fun u hu => hmapsW g u hu) (fun u hu => by simpa using hmapsW g⁻¹ u hu))
@@ -284,8 +288,8 @@ private theorem specialBlock_le_eichlerGroupOn_aux3 (hk : 3 ≤ k) {W : Submodul
   rwa [hagree] at heich
 
 theorem specialBlock_le_eichlerGroupOn (hk : 3 ≤ k) (hU : IsPlaneSystem Q U) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {d : V ≃ₗ[F] V} (hd : OddOrderIsometry Q p d)
-    (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x)
+    (_hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {d : V ≃ₗ[F] V} (hd : OddOrderIsometry Q p d)
+    (_hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x)
     {h : F[X]} (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
     (hUh : ∀ j, U j ≤ primaryComponent d.toLinearMap h)
     (hperf : Group.IsPerfect ↥(specialBlock Q d h)) :
@@ -389,7 +393,7 @@ private theorem catalogIs_pSimple_top_orthDerived_minus_three_aux3 {f p : ℕ} {
       ↥(StatedSU 4 (2 ^ f) E) ⧸ Subgroup.center ↥(StatedSU 4 (2 ^ f) E) :=
     QuotientGroup.congr _ _ (Subgroup.topEquiv (G := ↥(StatedSU 4 (2 ^ f) E)))
       (Subgroup.map_center_eq (Subgroup.topEquiv (G := ↥(StatedSU 4 (2 ^ f) E))))
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hK : Fintype.card E = (2 ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hE
@@ -404,7 +408,7 @@ private theorem catalogIs_pSimple_top_orthDerived_minus_three_aux3 {f p : ℕ} {
 
 theorem catalogIs_pSimple_top_orthDerived_minus_three {R : QuadraticForm F V}
     (hR : (QuadraticMap.polarBilin R).Nondegenerate) (hdim : Module.finrank F V = 6)
-    (hminus : ¬ IsPlusType R) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
+    (hminus : ¬ IsPlusType R) (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
     catalogIs (PSimple p (⊤ : Subgroup ↥(orthDerived R))) (isOmMA 3 (Nat.card F)) := by
   classical
   obtain ⟨f, -, hf⟩ := exists_natCard_eq_two_pow F
@@ -416,8 +420,8 @@ theorem catalogIs_pSimple_top_orthDerived_minus_three {R : QuadraticForm F V}
     exact hminus ⟨U, by rw [hU, hdim], hcon⟩
   obtain ⟨E, hEfield, hEfin, hEcard, ⟨θ⟩⟩ :=
     CFSG.SeitzReduction.OmegaPilot.nonempty_orthDerived_mulEquiv_statedSU_of_six hf hR hdim hts
-  letI instE : Field E := hEfield
-  letI instFin : Finite E := hEfin
+  let instE : Field E := hEfield
+  let instFin : Finite E := hEfin
   have hθ : ↥(orthDerived R) ≃* ↥(StatedSU 4 (2 ^ f) E) := θ
   have hcatSU := catalogIs_pSimple_top_orthDerived_minus_three_aux3 hEcard hp hpq'
   let e := (Subgroup.topEquiv (G := ↥(orthDerived R))).trans

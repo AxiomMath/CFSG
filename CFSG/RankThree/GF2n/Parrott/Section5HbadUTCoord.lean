@@ -29,7 +29,7 @@ theorem spinVecToV_hbadCoord (h : Tim79a.ParrottHyp z) (P : GL8) {k : G} (hk : k
     spinVecToV h P (hbadCoord h P k) = QuotientV.pi z ⟨k, hk⟩ := by
   classical
   unfold hbadCoord
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   apply (mulEquivV h).injective
   apply Multiplicative.toAdd.injective
   rw [toAdd_mulEquivV_spinVecToV, Matrix.mulVec_mulVec, ← Units.val_mul, mul_inv_cancel,

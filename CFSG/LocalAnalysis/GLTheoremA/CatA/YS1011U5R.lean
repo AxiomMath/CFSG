@@ -40,7 +40,7 @@ theorem mem_conjImage_of_pow_five {n : ℕ} (F : Type) [Field F] [Finite F] (hn 
   obtain ⟨-, -, -, -, hAut, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
       Nat.prime_two (by omega) hcard2
-  haveI : Finite (F ≃+* F) := Nat.finite_of_card_ne_zero (by rw [hAut]; omega)
+  have : Finite (F ≃+* F) := Nat.finite_of_card_ne_zero (by rw [hAut]; omega)
   have h5 : Θ φ ^ 5 = 1 := by rw [← map_pow, hφ, map_one]
   have hd5 : orderOf (Θ φ) ∣ 5 := orderOf_dvd_of_pow_eq_one h5
   have hd2n : orderOf (Θ φ) ∣ 2 * n := by
@@ -102,9 +102,9 @@ theorem card_mulAut_u4two {S : Type} [Group S] (h : catalogIs S S9.isU4two) :
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 3) 2 (by norm_num)
       (Or.inr (Or.inl ⟨by rw [Nat.card_eq_fintype_card, ZMod.card], le_rfl⟩))
   have hsimple : IsSimpleGroup S := by
-    haveI := hPS
+    have := hPS
     exact MulEquiv.isSimpleGroup eS
-  haveI := hsimple
+  have := hsimple
   have hS : Nat.card S = 25920 := by
     rw [Nat.card_congr (eS.trans CFSG.GH74.Exceptional.psp43EquivU2).toEquiv,
       CFSG.GH74.Exceptional.card_U2_four]
@@ -180,7 +180,7 @@ theorem eq_three_of_sq_dvd {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hN : N = 
 
 theorem rank_holds (G : Type) [Group G] [Finite G] : RankAutSmallAt G := by
   intro p X K A hp hp2 hK hsmall hAN hA hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Subgroup G := Subgroup.normalizer (K : Set G)
   let H : Subgroup N := A.subgroupOf N
   let ψ : H →* MulAut (PSimple p K) := (chevAut p K).comp H.subtype

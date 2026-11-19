@@ -48,15 +48,15 @@ private theorem pRank_le_of_sylow_inf [Fact p.Prime] (R : Sylow p X) {L : Subgro
 theorem agl81SevenFourTwoComp_of (hSch : KFactCatalogSchreier) (h713 : SevenOneThreeRankTwo) :
     AGL81SevenFourTwoComp := by
   intro X _ _ p hp hp2 hX hcore P h3 L hL hnc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hH
   set Y := CFSG.layer X ⊔ GLBWeakCore p (P : Subgroup X) with hYdef
   have hWY : GLBWeakCore p (P : Subgroup X) ≤ Y := le_sup_right
   have hEY : CFSG.layer X ≤ Y := le_sup_left
   have hPY : (P : Subgroup X) ≤ Y := (subgroup_le_weakCore_of_rank p hp _ h3).trans hWY
   obtain ⟨hEL, hQ2⟩ := layer_eq_of_component hp hp2 hcore P hH hL hnc
-  haveI := CFSG.LocalCores.layer_characteristic (G := X)
-  haveI hEn : (CFSG.layer X).Normal := inferInstance
+  have := CFSG.LocalCores.layer_characteristic (G := X)
+  have hEn : (CFSG.layer X).Normal := inferInstance
   set Q : Subgroup X := (P : Subgroup X) ⊓ CFSG.layer X with hQdef
   have hQP : Q ≤ P := inf_le_left
   have hPQ : (P : Subgroup X) ≤ Subgroup.normalizer (Q : Set X) :=

@@ -65,7 +65,7 @@ theorem even_card_of_noncyclic_sylow {G : Type u} [Group G] [Finite G]
     (hnc : ∀ U : Sylow 2 G, ¬ IsCyclic U) : Even (Nat.card G) := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 G := Classical.choice Sylow.nonempty
-  rcases P.isPGroup'.card_eq_or_dvd with hone | htwo
+  rcases P.isPGroup.card_eq_or_dvd with hone | htwo
   · have : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hone).1
     exact (hnc P (inferInstance : IsCyclic P)).elim
   · exact even_iff_two_dvd.mpr (htwo.trans (Subgroup.card_subgroup_dvd_card P.toSubgroup))
@@ -76,7 +76,7 @@ theorem normal_odd_index_sylow_presentation {G : Type u} [Group G] [Finite G]
     ∃ (SU : Sylow 2 U) (eU : SemidihedralGroup n ≃* SU),
       SU.toSubgroup.map U.subtype = S.toSubgroup ∧
         ∀ x, ((eU x : U) : G) = (e x : G) := by
-  have hSU : S.toSubgroup ≤ U := le_of_isPGroup_of_odd_index hodd S.isPGroup'
+  have hSU : S.toSubgroup ≤ U := le_of_isPGroup_of_odd_index hodd S.isPGroup
   let SU := sylowOfOddIndex hodd S hSU
   have hSUdef : SU.toSubgroup = S.toSubgroup.subgroupOf U :=
     coe_sylowOfOddIndex hodd S hSU

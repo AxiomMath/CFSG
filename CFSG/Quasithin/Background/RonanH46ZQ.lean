@@ -12,6 +12,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem QZs_entries {g : SL(3, K)} (hg : g ∈ QZs K) :
     (g : Matrix (Fin 3) (Fin 3) K) 0 0 = 1 ∧ (g : Matrix (Fin 3) (Fin 3) K) 1 1 = 1 ∧
       (g : Matrix (Fin 3) (Fin 3) K) 2 2 = 1 ∧ (g : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 ∧
@@ -22,11 +23,13 @@ theorem QZs_entries {g : SL(3, K)} (hg : g ∈ QZs K) :
   have x12 : (g : Matrix (Fin 3) (Fin 3) K) 1 2 = 0 := hg.2
   exact ⟨x00, x11, x22, x10, x20, x21, x12⟩
 
+omit [Finite K] [CharP K 2] in
 theorem QZs_le_perfZ : QZs K ≤ perfZ K := by
   intro g hg
   obtain ⟨h00, -, -, h10, h20, -, -⟩ := QZs_entries hg
   exact ⟨h10, h20, h00⟩
 
+omit [Finite K] [CharP K 2] in
 theorem exists_QZs (s₀ s₁ : K) :
     ∃ g ∈ QZs K, (g : Matrix (Fin 3) (Fin 3) K) 0 1 = s₀ ∧
       (g : Matrix (Fin 3) (Fin 3) K) 0 2 = s₁ := by
@@ -35,8 +38,9 @@ theorem exists_QZs (s₀ s₁ : K) :
     mul_mem (Subgroup.subset_closure ⟨s₀, Or.inl rfl⟩)
       (Subgroup.subset_closure ⟨s₁, Or.inr rfl⟩), ?_, ?_⟩ <;>
   simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.SpecialLinearGroup.transvection_coe, Matrix.transvection, Matrix.single_apply]
+    Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem QZs_blk_eq_one {g : SL(3, K)} (hg : g ∈ QZs K) :
     blkMatZ (g : Matrix (Fin 3) (Fin 3) K) = 1 := by
   obtain ⟨-, h11, h22, -, -, h21, h12⟩ := QZs_entries hg
@@ -70,7 +74,7 @@ theorem QZ_act_corner (hK : Nat.card K = (2 ^ n) ^ 2) {g : SL(3, K)} (hg : g ∈
   simp [Fin.sum_univ_two]
   ring
 
-theorem card_V1z (hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card ↥(V1z 1 K) = 2 := by
+theorem card_V1z (_hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card ↥(V1z 1 K) = 2 := by
   have hbar : ∀ x : K, bar 1 x = x ^ 2 := fun x => by
     rw [CFSG.Quasithin.H.SU3.bar_apply, pow_one]
   have hsq : ∀ x : K, x ^ 2 = x → x = 0 ∨ x = 1 := fun x h => by
@@ -81,12 +85,12 @@ theorem card_V1z (hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card ↥(V1z 1 K) = 2 := 
   have hH : (conjM 1 (Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : K)))ᵀ =
       Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : K) := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [conjM, Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp [conjM]
   have hE : mkH (n := 1) (Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : K)) hH ∈ V1z 1 K := by
     intro i j hij
     have hij' : ¬ (0 = i ∧ 0 = j) := fun h => hij ⟨h.1.symm, h.2.symm⟩
     rw [mat_mkH]
-    simp [Matrix.single_apply, hij']
+    simp [hij']
   rw [Nat.card_eq_two_iff]
   refine ⟨1, ⟨mkH (n := 1) (Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : K)) hH, hE⟩, ?_, ?_⟩
   · intro h
@@ -120,12 +124,12 @@ theorem card_V1z (hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card ↥(V1z 1 K) = 2 := 
         simpa using h1
       · have hij' : ¬ (0 = i ∧ 0 = j) := fun h => hij ⟨h.1.symm, h.2.symm⟩
         rw [X.2 i j hij]
-        simp [Matrix.single_apply, hij']
+        simp [hij']
 
 theorem rk_V1z (hK : Nat.card K = (2 ^ 1) ^ 2) : rk ↥(V1z 1 K) = 1 := by
   unfold rk
   rw [card_V1z hK]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact padicValNat_self
 
 end CFSG.Quasithin.RonanH46

@@ -14,6 +14,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qo_layer_conj {X : Subgroup G} {x y : G} (hx : x ∈ X) (hy : y ∈ rankThreeLayer X) :
     x * y * x⁻¹ ∈ rankThreeLayer X := by
   have hX : X.map (MulAut.conj x).toMonoidHom = X :=
@@ -31,7 +32,7 @@ theorem uc22p22qo_ident_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 
   have hpσ : p ∈ D.sig := by
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   have hpP : p.Prime := hfact.out
   have hp2 : p ≠ 2 := by omega
   set X : Subgroup G := centralizer (P₀ : Set G) with hX
@@ -39,7 +40,7 @@ theorem uc22p22qo_ident_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 
   have hEX : E ≤ X := uc22p22q_layer_le X
   have hXE : X ≤ normalizer (E : Set G) := fun x hx =>
     uc22p22qk_mem_normalizer fun y hy => uc22p22qo_layer_conj hx hy
-  haveI hEn : (E.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEX).2 hXE
+  have hEn : (E.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEX).2 hXE
   have h25 : 5 ≤ p ^ n := (by omega : 5 ≤ p).trans (Nat.le_self_pow (by omega) p)
   have hLie : LieModel ↥E .PSL 2 p n :=
     Or.inl ⟨by decide, CFSG.Assembly.LowTwoRank.statedClassicalModel_psl_two_of_mulEquiv _ p n h25 e⟩
@@ -66,7 +67,7 @@ theorem uc22p22qo_ident_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 
   have hSM : P ⊓ E ≤ D.M := inf_le_left.trans hH.sylow.le
   have hNS : normalizer ((P ⊓ E : Subgroup G) : Set G) ≤ D.M :=
     uc22p22q_normalizer_le_of_noncyclic D h61 hpσ hSM hH.sylow.isPGroup.to_inf_left hnc
-  haveI := hsolv
+  have := hsolv
   have hsolvN : Group.IsSolvable ↥(X ⊓ normalizer ((P ⊓ E : Subgroup G) : Set G)) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (inf_le_right.trans hNS))
       (Subgroup.inclusion_injective _)
@@ -84,7 +85,7 @@ theorem uc22p22qo_ident_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 
     have h3 : p < p ^ 2 := by nlinarith [hpP.two_le]
     have h4 : p ^ n ≤ Nat.card ↥E := Nat.le_of_dvd hq'.pos hdvd
     omega
-  haveI := uc22p22qn_isPerfect_of_simple hnc'
+  have := uc22p22qn_isPerfect_of_simple hnc'
   have hperf : ⁅E, E⁆ = E := Subgroup.isPerfect_iff.1 inferInstance
   exact le_antisymm (uc22p22qn_infty_le hq) (uc22p22qn_le_infty hEX hperf)
 

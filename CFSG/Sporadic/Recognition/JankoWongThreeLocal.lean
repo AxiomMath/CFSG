@@ -253,7 +253,7 @@ theorem exists_sylow_image (S : Setup G) (x t : S.H) (htx : t ∈ centralizer ({
     exact (isPGroup_two_zpowers hz'2).le_sylow_of_normal Q_E (Subgroup.mem_zpowers z')
   have ht'Q : t' ∈ (Q_E : Subgroup C) := hQt (Subgroup.mem_zpowers t')
   refine ⟨((Q_E : Subgroup C).map C.subtype).map S.H.subtype, ?_, ?_, ?_, ?_, ?_⟩
-  · exact (Q_E.isPGroup'.map C.subtype).map S.H.subtype
+  · exact (Q_E.isPGroup.map C.subtype).map S.H.subtype
   · rintro q ⟨e, ⟨c, hc, rfl⟩, rfl⟩
     have := Subgroup.mem_centralizer_singleton_iff.mp c.2
     exact congrArg Subtype.val this
@@ -272,7 +272,7 @@ theorem sylow_card_eq_of_max {C A : Subgroup G} (hA : IsPGroup 2 A) (hAC : A ≤
     hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAC).symm
   obtain ⟨T', hT'⟩ := hA'.exists_le_sylow
   set B : Subgroup G := (T' : Subgroup C).map C.subtype with hB
-  have hBp : IsPGroup 2 B := T'.isPGroup'.map C.subtype
+  have hBp : IsPGroup 2 B := T'.isPGroup.map C.subtype
   have hBC : B ≤ C := by
     rintro _ ⟨c, -, rfl⟩; exact c.2
   have hAB : A ≤ B := by
@@ -481,7 +481,7 @@ theorem not_centralizer_le_H (S : Setup G) {x : S.H} (hx3 : x ^ 3 = 1)
   have hXcomm := IsPGroup.isMulCommutative_of_card_eq_prime_sq hXcard
   set XG : Subgroup G := (X : Subgroup (centralizer ({(t : G)} : Set G))).map
     (centralizer ({(t : G)} : Set G)).subtype with hXG
-  have hXGp : IsPGroup 3 XG := X.isPGroup'.map _
+  have hXGp : IsPGroup 3 XG := X.isPGroup.map _
   have hXGcard : Nat.card XG = 9 := by
     rw [hXG, Subgroup.card_map_of_injective (Subgroup.subtype_injective _), hXcard]; norm_num
   have hxX : (⟨(x : G), hxC⟩ : centralizer ({(t : G)} : Set G)) ∈ (X : Subgroup _) :=

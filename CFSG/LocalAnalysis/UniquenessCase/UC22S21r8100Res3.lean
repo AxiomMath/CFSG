@@ -36,6 +36,7 @@ variable {G : Type} [Group G] [Finite G]
     r ∣ 2 ^ s - 1 → p ∈ D.sig → 0 < k → n = 2 ^ k * p →
     (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)] → IsStronglyPEmbedded r D.M
 
+omit [Finite G] in
 theorem uc22r8100r3_shape_of_eq {L : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hcong : (IsL2 (Bar2 L) p ∧ (2 : ℤ) ^ p ≡ -1 [ZMOD (p : ℤ)]) ∨
       (IsSz (Bar2 L) p ∧ (2 : ℤ) ^ (2 * p) ≡ -1 [ZMOD (p : ℤ)])) :
@@ -149,7 +150,7 @@ theorem r8101U_gt_of_inputs
     {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D Ch) (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M) (h614 : UC6.R6_14 D)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p) (h847 : F08.R847 D)
-    (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl) :
+    (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) :
     H1930 D → ∀ _ : Ctx21 D Ch, 3 < evenRank G → ∀ L ∈ calC D.M,
       (conjSetOf D.M L).ncard = 2 → ∀ A : Subgroup G, A ≤ L →
         (IsL2 (Bar2 L) 3 ∧ D.sig = {3} ∧ Nat.card A = 7) ∨
@@ -178,7 +179,7 @@ theorem s21_22U4Exc_gt_of_inputs
     {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D Ch) (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M) (h614 : UC6.R6_14 D)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p) (h847 : F08.R847 D)
-    (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl)
+    (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl)
     (hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n) :
     H1930 D → ∀ c : Ctx21 D Ch, ∀ H₁ ∈ hSet D.T D.M, ∀ H₂ ∈ hSet D.T D.M, c.L0 ≤ H₁ ⊓ H₂ →
       (∀ X : Subgroup G, X ≤ D.M → D.T ≤ X → F12.InF 1 (⊤ : Subgroup (Bar2 X)) →
@@ -210,7 +211,7 @@ theorem s21_22U4BC_of_r8100Res3
     {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D Ch) (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
-    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl)
+    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl)
     (hn3H : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n) (hres : R8100Res3 D) : S21_22U4BC D Ch := by
   rintro h1930 c H₁ hH₁ H₂ hH₂ hL hfX hS1 hU3 he L hLC hc2 ⟨n, -, hLS⟩
   have hout : ∀ p ∈ D.sig, (IsL2 (Bar2 L) 3 ∧ p = 3) ∨ (IsSz (Bar2 L) 5 ∧ p = 5) :=

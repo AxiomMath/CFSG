@@ -18,12 +18,12 @@ open scoped commutatorElement MatrixGroups
 variable {G : Type} [Group G] [Finite G] {M V A B : Subgroup G} {h : G} {n f : ℕ}
 
 theorem oOf_inf_p0Of (M V X : Subgroup G) (h : G) : oOf M h ⊓ p0Of M V X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (p0Of M V X) :=
     (inSubgroup_pCore_two M).1.to_le
       ((inf_le_left : p0Of M V X ≤ Pc M V).trans inf_le_left)
   obtain ⟨k, hk⟩ := h2.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hk]
   exact (Nat.coprime_two_left.mpr (Sec7.odd_card_oOf M h)).symm.pow_right k
 
@@ -47,13 +47,13 @@ theorem commutator_oOf_p0 (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
   have hx' : x ∈ oOf M h ⊓ p0Of M V (A ⊔ B) := ⟨hleO hx, hleP0 hx⟩
   rwa [hbot] at hx'
 
-private theorem le_oOf_of_complement_odd {M V : Subgroup G} {h : G} {T OT : Subgroup G}
+private theorem le_oOf_of_complement_odd {M _V : Subgroup G} {h : G} {T OT : Subgroup G}
     (hOTR : OT ≤ rOf M h) (hOTT : OT ≤ T)
     (hRT : rOf M h ≤ Subgroup.normalizer (T : Set G))
     (hOTmem : ∀ x ∈ T, x ∈ OT ↔ Odd (orderOf x)) :
     OT ≤ oOf M h := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOTsub : (OT.subgroupOf (rOf M h)).Normal := by
     refine ⟨fun x hx r => ?_⟩
     have hxOT : (x : G) ∈ OT := Subgroup.mem_subgroupOf.mp hx
@@ -91,7 +91,7 @@ theorem rOf_inf_cenOf_p0Of_eq (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
       IsPGroup 2 (Subgroup.zpowers y) → y ∈ V) :
     rOf M h ⊓ cenOf (p0Of M V (A ⊔ B)) = oOf M h ⊔ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hS1, -, -, -, -, -, -, -, -, -⟩ := h72 A B h hD
   set P0 : Subgroup G := p0Of M V (A ⊔ B) with hP0
   set R : Subgroup G := rOf M h with hR
@@ -124,7 +124,7 @@ theorem rOf_inf_cenOf_p0Of_eq (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
     CFSG.GroupTheory.exists_complement_of_central_sylow_two hVT
       hS.sec5.toRootHyp.toHyp.isPGroup_V hcent hidx
   have hOTleO : OT ≤ O :=
-    le_oOf_of_complement_odd (M := M) (V := V) (h := h) (T := T) (OT := OT)
+    le_oOf_of_complement_odd (M := M) (_V := V) (h := h) (T := T) (OT := OT)
       (hOTT.trans inf_le_left) hOTT hRT hOTmem
   refine le_antisymm ?_ ?_
   · intro x hx
@@ -142,8 +142,8 @@ private theorem exists_fixed_secMk_of_isPGroup_quotient
     (hnt : 1 < Nat.card (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A)) :
     ∃ e : E, (e : H) ∉ A ∧ ∀ u : H, secRep E A u (secMk E A e) = secMk E A e := by
   classical
-  haveI : O.Normal := hOn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : O.Normal := hOn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := H ⧸ O
   let ρ : Representation (ZMod 2) Q (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A) :=
     QuotientGroup.lift O (secRep E A) hker
@@ -160,9 +160,9 @@ private theorem exists_fixed_secMk_of_isPGroup_quotient
     obtain ⟨i, -, hi⟩ :=
       (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hzpow)
     exact ⟨i, hi⟩
-  haveI : Nontrivial (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A) :=
+  have : Nontrivial (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A) :=
     Finite.one_lt_card_iff_nontrivial.mp hnt
-  haveI : Module.Finite (ZMod 2) (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A) :=
+  have : Module.Finite (ZMod 2) (CFSG.Timmesfeld.Bridge.RootMany.SecMod E A) :=
     Module.Finite.of_finite
   obtain ⟨v, hvne, hvfix⟩ :=
     CFSG.RankThree.OddKernel.exists_ne_zero_fixed (p := 2) hQ2 ρ
@@ -248,7 +248,7 @@ private theorem one_lt_card_secMod_p0 (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 
     refine le_trans (by norm_num : 2 ≤ 2 ^ 4) ?_
     exact (Nat.pow_le_pow_left hq2 4).trans
       (Nat.pow_le_pow_right (show 0 < Nat.card V by positivity) h4)
-  haveI : (V.subgroupOf U).Normal :=
+  have : (V.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hVP0.trans hP0U)).mpr
       (hUR.trans (inf_le_left.trans hS.sec5.toRootHyp.toHyp.le_normalizer))
   have hES : IsElemSection (P0.subgroupOf U) (V.subgroupOf U) :=
@@ -260,7 +260,7 @@ private theorem one_lt_card_secMod_p0 (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 
       sq := fun x hx => by
         rw [Subgroup.mem_subgroupOf]
         exact hS5 (x : G) (Subgroup.mem_subgroupOf.mp hx) }
-  haveI : Fact (IsElemSection (P0.subgroupOf U) (V.subgroupOf U)) := ⟨hES⟩
+  have : Fact (IsElemSection (P0.subgroupOf U) (V.subgroupOf U)) := ⟨hES⟩
   exact one_lt_card_secMod_of_card _ _ hcard hq
 
 private theorem secHyp_Op_p'p (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
@@ -296,7 +296,7 @@ private theorem exists_fixed_secMk_Op_p'p (hS : Sec7Hyp M V n f) (h72 : Sec7.Stm
       ((e : G) ∉ V) ∧
       ∀ u : ↥(inSubgroup (Op_p'p 2) (rOf M h)), ⁅(u : G), (e : G)⁻¹⁆ ∈ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P0 : Subgroup G := p0Of M V (A ⊔ B) with hP0
   set R : Subgroup G := rOf M h with hR
   set O : Subgroup G := oOf M h with hO
@@ -304,9 +304,9 @@ private theorem exists_fixed_secMk_Op_p'p (hS : Sec7Hyp M V n f) (h72 : Sec7.Stm
   have hsec : SecHyp U P0 P0 V := secHyp_Op_p'p hS h72 hD
   let E : Subgroup ↥U := P0.subgroupOf U
   let A' : Subgroup ↥U := V.subgroupOf U
-  haveI : E.Normal := hsec.normal_E
-  haveI : A'.Normal := hsec.normal_A
-  haveI : Fact (IsElemSection E A') := ⟨hsec.isElemSection⟩
+  have : E.Normal := hsec.normal_E
+  have : A'.Normal := hsec.normal_A
+  have : Fact (IsElemSection E A') := ⟨hsec.isElemSection⟩
   have hKcent : O.subgroupOf U ≤ Subgroup.centralizer (E : Set ↥U) := by
     intro k hk
     exact Subgroup.mem_centralizer_iff.mpr fun e he => Subtype.ext
@@ -624,7 +624,7 @@ theorem generalizedFitting_quot_rOf_eq_pCore (hS : Sec7Hyp M V n f) (h72 : Sec7.
     generalizedFitting (↥(rOf M h) ⧸ pPrimeCore 2 ↥(rOf M h)) =
       pCore 2 (↥(rOf M h) ⧸ pPrimeCore 2 ↥(rOf M h)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hS1, -, -, -, -, -, -, -, -, -⟩ := h72 A B h hD
   set P0 : Subgroup G := p0Of M V (A ⊔ B) with hP0
   set R : Subgroup G := rOf M h with hR
@@ -657,8 +657,8 @@ theorem generalizedFitting_quot_rOf_eq_pCore (hS : Sec7Hyp M V n f) (h72 : Sec7.
     have hyOV' : y ∈ O.subgroupOf R ⊔ V.subgroupOf R := by
       rw [← Subgroup.subgroupOf_sup hOR hVR]
       exact Subgroup.mem_subgroupOf.mpr hyOV
-    letI := hOn
-    letI := hVn
+    let := hOn
+    let := hVn
     obtain ⟨oR, hoR, vR, hvR, hy_eqR⟩ :=
       (Subgroup.mem_sup_of_normal_left (s := O.subgroupOf R)
         (t := V.subgroupOf R)).mp hyOV'
@@ -685,7 +685,7 @@ theorem maximal_V_elemAbelian_rOf (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V 
     Maximal (fun U' : Subgroup G => U' ≤ rOf M h ∧
       rOf M h ≤ Subgroup.normalizer (U' : Set G) ∧ Assembly.IsElemAbelian 2 U') V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hS1, -, hS3, -, -, -, -, -, -, -⟩ := h72 A B h hD
   set P0 : Subgroup G := p0Of M V (A ⊔ B) with hP0
   set R : Subgroup G := rOf M h with hR

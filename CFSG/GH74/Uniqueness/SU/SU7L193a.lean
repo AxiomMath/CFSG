@@ -155,7 +155,7 @@ theorem core_le_O (hKI3 : K.KI3) (hc : Ctx19 S U M V x z A B R) {F : Subgroup G}
         rw [hb'] at ht ⊢
         exact hFn.conj_mem t ht y
       have hP2 : IsPGroup 2 ↥(barImage M (Tsub S U)) :=
-        (Bar.isPGroup_subgroupOf (S.isPGroup'.to_le Base.T_le_S) M).map _
+        (Bar.isPGroup_subgroupOf (S.isPGroup.to_le Base.T_le_S) M).map _
       have hCP : ∀ y : Mbar M, (∀ t ∈ barImage M (Tsub S U), y * t = t * y) →
           y ∈ barImage M (Tsub S U) := by
         intro y hy

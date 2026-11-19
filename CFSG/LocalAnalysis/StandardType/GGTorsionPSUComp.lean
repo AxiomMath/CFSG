@@ -92,7 +92,7 @@ private theorem tpu_psu_model {Q : Type} [Group Q] {E : Type} [Field E] [Fintype
     (g : ↥(CFSG.Open.StatedSU m (2 ^ f) E) →* Q) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center ↥(CFSG.Open.StatedSU m (2 ^ f) E)) :
     CFSG.Open.StatedClassicalModel (Q ⧸ Subgroup.center Q) CFSG.Open.StatedLieTag.PSU m 2 f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card E = (2 ^ f) ^ 2 := by rw [Nat.card_eq_fintype_card]; exact hE
   obtain ⟨hQ, hZ⟩ :=
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := f) hF hm hne
@@ -158,18 +158,18 @@ theorem ggTorsion_psu_components {m n : ℕ} (hn : 1 ≤ n) (hm : 2 ≤ m) (hm2 
     ⟨F, hFf, hFt, -, hcF, h4, g, hg, hker⟩ |
     ⟨E, hEf, hEt, m', -, hcE, hm3, hne, g, hg, hker⟩ |
     ⟨E, hEf, hEt, m', -, hcE, hm2', h4, g, hg, hker⟩
-  · letI : Field F := hFf
-    letI : Fintype F := hFt
+  · let : Field F := hFf
+    let : Fintype F := hFt
     exact ⟨CFSG.Open.StatedLieTag.PSL, 2, n * d',
       CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv eJT.symm
         (tpu_psl_model (m := 2) (f := n * d') hnd le_rfl h4 hcF g hg hker)⟩
-  · letI : Field E := hEf
-    letI : Fintype E := hEt
+  · let : Field E := hEf
+    let : Fintype E := hEt
     exact ⟨CFSG.Open.StatedLieTag.PSU, m', n * d',
       CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv eJT.symm
         (tpu_psu_model (f := n * d') hnd hm3 hne hcE g hg hker)⟩
-  · letI : Field E := hEf
-    letI : Fintype E := hEt
+  · let : Field E := hEf
+    let : Fintype E := hEt
     exact ⟨CFSG.Open.StatedLieTag.PSL, m', 2 * (n * d'),
       CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv eJT.symm
         (tpu_psl_model (m := m') (f := 2 * (n * d')) (by omega) hm2' h4 hcE g hg hker)⟩

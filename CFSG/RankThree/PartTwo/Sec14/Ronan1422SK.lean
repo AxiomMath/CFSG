@@ -18,7 +18,8 @@ theorem isPerfect_alternatingGroup_six : Group.IsPerfect (alternatingGroup (Fin 
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       norm_num [Nat.factorial])).1
 
-theorem isPerfect_of_quot {K R : Subgroup G} (hRK : R ≤ K)
+omit [Finite G] in
+theorem isPerfect_of_quot {K R : Subgroup G} (_hRK : R ≤ K)
     (f : ↥K →* alternatingGroup (Fin 6)) (hf : Function.Surjective f)
     (hker : f.ker = R.subgroupOf K) (hRc : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x)
     (hR2 : IsPGroup 2 R) {d e : G} (hdK : d ∈ K) (heK : e ∈ K) (hd3 : d ^ 3 = 1)
@@ -119,6 +120,7 @@ theorem isPerfect_of_quot {K R : Subgroup G} (hRK : R ≤ K)
   rw [this]
   exact mul_mem hδ (hRD (hker ▸ hker'))
 
+omit [Finite G] in
 theorem conj_mem_of_quot {K R : Subgroup G} (f : ↥K →* alternatingGroup (Fin 6))
     (hker : f.ker = R.subgroupOf K) {k r : G} (hk : k ∈ K) (hr : r ∈ R) (hrK : r ∈ K) :
     k * r * k⁻¹ ∈ R := by
@@ -128,6 +130,7 @@ theorem conj_mem_of_quot {K R : Subgroup G} (f : ↥K →* alternatingGroup (Fin
   rw [hker, Subgroup.mem_subgroupOf] at h1
   exact h1
 
+omit [Finite G] in
 theorem cent_le_of_quot {K R B : Subgroup G} (hRK : R ≤ K)
     (f : ↥K →* alternatingGroup (Fin 6)) (hf : Function.Surjective f)
     (hker : f.ker = R.subgroupOf K) (hRc : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x) (hR1 : R ≠ ⊥)

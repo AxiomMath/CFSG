@@ -27,44 +27,44 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
 theorem pathRoot_up {r : ℕ} (e : Fin m → Fin r) (k : Fin m) :
     pathRoot e k.castSucc k.succ = Pi.single (e k) 1 := by
   unfold pathRoot
-  rw [if_pos k.castSucc_lt_succ]
+  rw [ite_eq_left k.castSucc_lt_succ]
   refine (Fintype.sum_eq_single k ?_).trans ?_
   · intro b hb
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro ⟨h1, h2⟩
       simp only [Fin.val_castSucc, Fin.val_succ] at h1 h2
       exact hb (Fin.ext (by omega)))]
-  · rw [if_pos (show k.castSucc.val ≤ k.val ∧ k.val < k.succ.val from
+  · rw [ite_eq_left (show k.castSucc.val ≤ k.val ∧ k.val < k.succ.val from
       ⟨le_rfl, by simp [Fin.val_succ]⟩)]
 
 theorem pathRoot_down {r : ℕ} (e : Fin m → Fin r) (k : Fin m) :
     pathRoot e k.succ k.castSucc = -Pi.single (e k) 1 := by
   unfold pathRoot
-  rw [if_neg (not_lt.mpr k.castSucc_lt_succ.le)]
+  rw [ite_eq_right (not_lt.mpr k.castSucc_lt_succ.le)]
   congr 1
   refine (Fintype.sum_eq_single k ?_).trans ?_
   · intro b hb
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro ⟨h1, h2⟩
       simp only [Fin.val_castSucc, Fin.val_succ] at h1 h2
       exact hb (Fin.ext (by omega)))]
-  · rw [if_pos (show k.castSucc.val ≤ k.val ∧ k.val < k.succ.val from
+  · rw [ite_eq_left (show k.castSucc.val ≤ k.val ∧ k.val < k.succ.val from
       ⟨le_rfl, by simp [Fin.val_succ]⟩)]
 
 theorem kapMat_tv_coll [CharP Fld 2] (ρ : Equiv.Perm (Fin (m + 1))) (hρ : ∀ i, ρ (ρ i) = i)
     (p q : Fin (m + 1)) (c : Fld) :
     kapMat θ false (permSL ρ) (tv Fld p q c) = tv Fld (ρ p) (ρ q) (θ c) := by
   unfold kapMat
-  rw [if_neg (by decide : ¬((false : Bool) = true))]
-  simp only [MonoidHom.comp_apply, MulAut.conj_apply]
+  rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
+  simp only [MonoidHom.comp_apply]
   exact permSL_conj_map_tv θ ρ hρ p q c
 
 theorem kapMat_tv_pol [CharP Fld 2] (ρ : Equiv.Perm (Fin (m + 1))) (hρ : ∀ i, ρ (ρ i) = i)
     (p q : Fin (m + 1)) (c : Fld) :
     kapMat θ true (permSL ρ) (tv Fld p q c) = tv Fld (ρ q) (ρ p) (θ c) := by
   unfold kapMat
-  rw [if_pos (rfl : (true : Bool) = true)]
-  simp only [MonoidHom.comp_apply, MulAut.conj_apply]
+  rw [ite_eq_left (rfl : (true : Bool) = true)]
+  simp only [MonoidHom.comp_apply]
   exact permSL_conj_sigma_tv θ ρ hρ p q c
 
 include PC in
@@ -87,11 +87,11 @@ theorem hP_of_perm [CharP Fld 2] (L : SLPath M m) {v : W} {π : Fin D.rank → F
       kappa_single hct F M PC (hπ k hk) c]
     obtain ⟨k', hk', hρ'⟩ := hperm k hk
     cases pol
-    · rw [if_neg (by decide : ¬((false : Bool) = true))] at hρ'
+    · rw [ite_eq_right (by decide : ¬((false : Bool) = true))] at hρ'
       rw [kapMat_tv_coll ρ hρ, hρ'.1, hρ'.2,
         L.tv_eq k'.castSucc k'.succ k'.castSucc_lt_succ.ne (θ c),
         pathRoot_up L.e k', hk']
-    · rw [if_pos (rfl : (true : Bool) = true)] at hρ'
+    · rw [ite_eq_left (rfl : (true : Bool) = true)] at hρ'
       rw [kapMat_tv_pol ρ hρ, hρ'.1, hρ'.2,
         L.tv_eq k'.castSucc k'.succ k'.castSucc_lt_succ.ne (θ c),
         pathRoot_up L.e k', hk']
@@ -100,11 +100,11 @@ theorem hP_of_perm [CharP Fld 2] (L : SLPath M m) {v : W} {π : Fin D.rank → F
       kappa_neg_single hct F M PC (hπ k hk) c]
     obtain ⟨k', hk', hρ'⟩ := hperm k hk
     cases pol
-    · rw [if_neg (by decide : ¬((false : Bool) = true))] at hρ'
+    · rw [ite_eq_right (by decide : ¬((false : Bool) = true))] at hρ'
       rw [kapMat_tv_coll ρ hρ, hρ'.1, hρ'.2,
         L.tv_eq k'.succ k'.castSucc k'.castSucc_lt_succ.ne.symm (θ c),
         pathRoot_down L.e k', hk']
-    · rw [if_pos (rfl : (true : Bool) = true)] at hρ'
+    · rw [ite_eq_left (rfl : (true : Bool) = true)] at hρ'
       rw [kapMat_tv_pol ρ hρ, hρ'.1, hρ'.2,
         L.tv_eq k'.succ k'.castSucc k'.castSucc_lt_succ.ne.symm (θ c),
         pathRoot_down L.e k', hk']

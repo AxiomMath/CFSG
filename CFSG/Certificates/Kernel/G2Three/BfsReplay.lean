@@ -44,7 +44,7 @@ theorem step_mono {mul : List ℕ → List ℕ → List ℕ} {gens : List (List 
 theorem inner_step {mul : List ℕ → List ℕ → List ℕ} {gens : List (List ℕ)} {E : Array (List ℕ)}
     {P : Array (ℕ × ℕ)} {C POS : ℕ → ℕ} {h s i : ℕ}
     (hd : ∀ t < E.size, ∀ t' < E.size, E.getD t [] = E.getD t' [] → t = t')
-    (hPs : P.size + 1 = E.size) (hsl : s < gens.length)
+    (hPs : P.size + 1 = E.size) (_hsl : s < gens.length)
     (hs : StepOK mul gens E P C POS h s i) (hh : h < C i) (hc : C i ≤ E.size)
     {st : Array (List ℕ) × Array (ℕ × ℕ) × Std.HashMap (List ℕ) Unit} (hst : BInv E P (C i) st) :
     BInv E P (C (i + 1))
@@ -60,7 +60,7 @@ theorem inner_step {mul : List ℕ → List ℕ → List ℕ} {gens : List (List
   rw [hy]
   rcases Nat.lt_or_eq_of_le hp1 with hlt | heq
   · have hin : st.2.2.contains (E.getD (POS i) []) = true := (e3 _).2 ⟨POS i, hlt, rfl⟩
-    rw [if_pos hin, hp5 hlt]
+    rw [ite_eq_left hin, hp5 hlt]
     exact ⟨e1, e2, e3⟩
   · have hout : st.2.2.contains (E.getD (POS i) []) = false := by
       cases hm : st.2.2.contains (E.getD (POS i) [])
@@ -69,7 +69,7 @@ theorem inner_step {mul : List ℕ → List ℕ → List ℕ} {gens : List (List
         have := hd t (by omega) (POS i) hp2 he
         omega
     obtain ⟨hc1, hc2⟩ := hp4 heq
-    rw [if_neg (by rw [hout]; exact Bool.false_ne_true), hc1]
+    rw [ite_eq_right (by rw [hout]; exact Bool.false_ne_true), hc1]
     refine ⟨?_, ?_, fun y => ?_⟩ <;> dsimp only
     · rw [e1, heq, Array.extract_succ_right (by omega) (by omega)]
       congr 1
@@ -149,7 +149,7 @@ theorem head_step {mul : List ℕ → List ℕ → List ℕ} {gens : List (List 
     simp
     omega
   by_cases hh : h < st.1.size
-  · rw [if_pos hh]
+  · rw [ite_eq_left hh]
     have hlen : gens.toArray.size = gens.length := List.size_toArray
     rw [hlen]
     have key : ∀ s ≤ gens.length, BInv E P (C (h * gens.length + s))
@@ -168,7 +168,7 @@ theorem head_step {mul : List ℕ → List ℕ → List ℕ} {gens : List (List 
         exact inner_step hd hPs (by omega) (hs s (by omega)) hlt
           (((hmono s (by omega)).1).trans hc) (ih (by omega))
     exact key gens.length le_rfl
-  · rw [if_neg hh]
+  · rw [ite_eq_right hh]
     have key : ∀ s ≤ gens.length, C (h * gens.length + s) = C (h * gens.length) := by
       intro s hs'
       induction s with

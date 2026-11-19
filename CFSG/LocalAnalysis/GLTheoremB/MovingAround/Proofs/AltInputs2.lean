@@ -33,17 +33,20 @@ noncomputable def oSet (ω : MulAction.orbitRel.Quotient E α) : Set α :=
 
 variable {E}
 
+omit [Fintype α] [DecidableEq α] in
 theorem oStab_index (ω : MulAction.orbitRel.Quotient E α) :
     (oStab E ω).index = Nat.card (oSet E ω) := by
   rw [Nat.card_coe_set_eq]
   exact MulAction.index_stabilizer E (oRep E ω)
 
+omit [DecidableEq α] in
 theorem sum_card_oSet :
     ∑ ω : MulAction.orbitRel.Quotient E α, Nat.card (oSet E ω) = Fintype.card α := by
   rw [← Nat.card_eq_fintype_card, Nat.card_congr (MulAction.selfEquivSigmaOrbits E α),
     Nat.card_sigma]
   rfl
 
+omit [Fintype α] [DecidableEq α] in
 theorem index_inf_oStab_le (s : Finset (MulAction.orbitRel.Quotient E α)) :
     (s.inf (oStab E)).index ≤ ∏ ω ∈ s, (oStab E ω).index := by
   classical
@@ -53,6 +56,7 @@ theorem index_inf_oStab_le (s : Finset (MulAction.orbitRel.Quotient E α)) :
     rw [Finset.inf_insert, Finset.prod_insert ha]
     exact (Subgroup.index_inf_le).trans (Nat.mul_le_mul_left _ ih)
 
+omit [DecidableEq α] in
 theorem inf_oStab_eq_bot (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) :
     (Finset.univ : Finset (MulAction.orbitRel.Quotient E α)).inf (oStab E) = ⊥ := by
   rw [eq_bot_iff]
@@ -69,6 +73,7 @@ theorem inf_oStab_eq_bot (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) :
   rw [Subgroup.mem_bot]
   exact Subtype.ext (Equiv.ext hfix)
 
+omit [Fintype α] [DecidableEq α] in
 theorem mem_oSet_mk {E : Subgroup (Equiv.Perm α)} (y : α) :
     y ∈ oSet E (Quotient.mk (MulAction.orbitRel E α) y) := by
   exact MulAction.mem_orbit_symm.1
@@ -76,6 +81,7 @@ theorem mem_oSet_mk {E : Subgroup (Equiv.Perm α)} (y : α) :
 
 end Orbits
 
+omit [DecidableEq α] in
 theorem exists_exponents_o {p : ℕ} [hp : Fact p.Prime] (E : Subgroup (Equiv.Perm α))
     (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) {m : ℕ}
     (hm : Nat.card E = p ^ m) :
@@ -248,7 +254,7 @@ theorem exists_pcyc {p : ℕ} [hp : Fact p.Prime] (hp3 : 3 ≤ p) {E : Subgroup 
   · exact Or.inr ((hxw _ (hJω j)).2.2.1 (e.symm i).1 hne y hy)
   · exact Or.inl ((hxw _ (hJω i)).2.2.2 y hy)
 
-theorem closure_pcyc {p : ℕ} [hp : Fact p.Prime] {k : ℕ} {x : Fin k → Perm α}
+theorem closure_pcyc {p : ℕ} [_hp : Fact p.Prime] {k : ℕ} {x : Fin k → Perm α}
     (hx : ∀ i, PCyc p (x i)) (hdisj : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (x i) (x j)) :
     Nat.card (Subgroup.closure (Set.range x)) = p ^ k ∧
       IsElemAbelian p (Subgroup.closure (Set.range x)) := by
@@ -312,6 +318,7 @@ theorem closure_pcyc {p : ℕ} [hp : Fact p.Prime] {k : ℕ} {x : Fin k → Perm
     exact pow_orderOf_eq_one _
 
 
+omit [Fintype α] [DecidableEq α] in
 theorem fixOut_closure {U : Finset α} {S : Set (Equiv.Perm α)}
     (hS : ∀ g ∈ S, ∀ x, x ∉ U → g x = x) :
     ∀ g ∈ Subgroup.closure S, ∀ x, x ∉ U → g x = x := by
@@ -327,6 +334,7 @@ theorem fixOut_closure {U : Finset α} {S : Set (Equiv.Perm α)}
     rw [Equiv.Perm.inv_eq_iff_eq]
     exact (hx z hz).symm
 
+omit [Fintype α] in
 theorem mapsTo_of_fixOut {U : Finset α} {g : Equiv.Perm α} (hg : ∀ x, x ∉ U → g x = x) {x : α}
     (hx : x ∈ U) : g x ∈ U := by
   by_contra h
@@ -336,7 +344,7 @@ theorem mapsTo_of_fixOut {U : Finset α} {g : Equiv.Perm α} (hg : ∀ x, x ∉ 
 
 theorem pow_dvd_factorial_le_one {p m : ℕ} (hp : p.Prime) (h : p ^ m ∣ p.factorial) : m ≤ 1 := by
   by_contra hm
-  push_neg at hm
+  push Not at hm
   have h2 : p ^ 2 ∣ p.factorial := (Nat.pow_dvd_pow p (by omega : 2 ≤ m)).trans h
   have hpf : p.factorial = p * (p - 1).factorial := (Nat.mul_factorial_pred hp.ne_zero).symm
   rw [hpf, pow_two] at h2
@@ -468,7 +476,7 @@ theorem pcycle_mem_zpowers {p : ℕ} [hp : Fact p.Prime] {P : Subgroup (Equiv.Pe
     have hUlt : U.card < 2 * p := by omega
     have hUgt : p < U.card := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hSU : c.support ⊆ U := Finset.subset_union_left
       have hTU : d.support ⊆ U := Finset.subset_union_right
       have hUS : c.support = U := Finset.eq_of_subset_of_card_le hSU (by rw [hc.2]; exact hcon)
@@ -490,7 +498,7 @@ theorem exists_meet {p k : ℕ} (hp : 2 ≤ p) {x : Fin k → Equiv.Perm α} {y 
     (hxd : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (x i) (x j))
     (hk : Fintype.card α < (k + 1) * p) : ∃ i, ∃ z, z ∈ y.support ∧ z ∈ (x i).support := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hdisjS : ∀ i ∈ (Finset.univ : Finset (Fin k)), ∀ j ∈ (Finset.univ : Finset (Fin k)),
       i ≠ j → Disjoint (x i).support (x j).support := fun i _ j _ hij =>
     Equiv.Perm.disjoint_iff_disjoint_support.1 (hxd i j hij)
@@ -635,7 +643,7 @@ theorem core_of_hom {p n : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {X : Type} [
       hinjP Q hQ _ (Q.mul_mem hx (Q.inv_mem hy)) (by rw [map_mul, map_inv, hxy, mul_inv_cancel])
     exact mul_inv_eq_one.1 h1
   obtain ⟨S, hQS⟩ := IsPGroup.exists_le_sylow hQ
-  have hSQ : S.toSubgroup = Q := hmax S.toSubgroup S.isPGroup' hQS
+  have hSQ : S.toSubgroup = Q := hmax S.toSubgroup S.isPGroup hQS
   obtain ⟨E₀, hE₀A, hE₀ab, hE₀card⟩ := AltInputs.core_exists (α := Fin n) hp2
   rw [Fintype.card_fin] at hE₀card
   set W : Subgroup X := E₀.comap Φ with hWdef
@@ -671,7 +679,7 @@ theorem core_of_hom {p n : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {X : Type} [
     refine isPGroup_of_pow_forall R ?_
     intro g hg
     obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.1 hg
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     have hk' : t ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact ⟨k, by rw [← map_pow, hk', map_one]⟩
   have hRcard : Nat.card R = p ^ (n / p) := by
@@ -767,7 +775,7 @@ namespace Lemma118T
 
 theorem Input10_5K_holds : Input10_5K := by
   intro G _ _ p n hp hp2 K hK P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hK
   let Φ : K →* Equiv.Perm (Fin n) :=
     (alternatingGroup (Fin n)).subtype.comp

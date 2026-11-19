@@ -207,7 +207,7 @@ private theorem satisfiesFpExplicit_of_pStable_pConstrained {p : ℕ} [Fact p.Pr
     exact (inferInstance : (ZJ (G := Gbar) (Sbar : Subgroup Gbar)).Normal)
   let Z : Subgroup G := (zjCharacteristicFunctor p).K (S : Subgroup G)
   have hq_inj : Function.Injective (q.comp (S : Subgroup G).subtype) :=
-    quotient_pPrimeCore_subgroupMap_injective (G := G) (H := (S : Subgroup G)) S.isPGroup'
+    quotient_pPrimeCore_subgroupMap_injective (G := G) (H := (S : Subgroup G)) S.isPGroup
   have hZbar_map : (ZJ (G := Gbar) (Sbar : Subgroup Gbar) : Subgroup Gbar) = Z.map q := by
     change (zjCharacteristicFunctor p).K ((S : Subgroup G).map q) = Z.map q
     exact K_commutes_of_injective_on (zjCharacteristicFunctor p) q (S : Subgroup G) hq_inj
@@ -225,7 +225,7 @@ private theorem satisfiesFpExplicit_of_pStable_pConstrained {p : ℕ} [Fact p.Pr
   have hZ_le_S : Z ≤ (S : Subgroup G) := (zjCharacteristicFunctor p).K_le (S : Subgroup G)
   have hS_M_disjoint : Disjoint (S : Subgroup G) M := by
     apply Subgroup.disjoint_of_coprime_natCard
-    rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact (pPrimeCore_coprime_card (G := G) (p := p)).pow_left n
   have hS_inf_M : (S : Subgroup G) ⊓ M = ⊥ := by
@@ -426,7 +426,7 @@ private theorem theoremC_of_nontrivial {p : ℕ} [Fact p.Prime] {G : Type*} [Gro
   let K := zjCharacteristicFunctor p
   let X : Subgroup G := Subgroup.closure V
   have hWleS : X ≤ (S : Subgroup G) := (Subgroup.closure_le (K := (S : Subgroup G))).mpr hVleS
-  have hWp : IsPGroup p X := IsPGroup.to_le S.isPGroup' hWleS
+  have hWp : IsPGroup p X := IsPGroup.to_le S.isPGroup hWleS
   let N : Subgroup G := Subgroup.normalizer (X : Set G)
   let NK : Subgroup G := Subgroup.normalizer ((K.K (S : Subgroup G) : Subgroup G) : Set G)
   have hS_le_NK : (S : Subgroup G) ≤ NK := sylow_le_normalizer_K K S

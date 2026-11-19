@@ -23,8 +23,8 @@ theorem close16_lbar_isAlt (hS : Close16Setting D V L hV) : IsAlt ↥(lBar ⊥ V
 theorem close16_lbar_not_commutative (hS : Close16Setting D V L hV) :
     ¬ IsMulCommutative ↥(lBar ⊥ V hV L) := by
   intro hc
-  haveI : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
-  haveI : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
+  have : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
+  have : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
   have hp : (Nat.card ↥(lBar ⊥ V hV L)).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
   rw [close16_card_lbar hS] at hp
   exact (by norm_num : ¬ Nat.Prime 20160) hp

@@ -52,6 +52,7 @@ theorem rankAux_mem_center_of_conj_eq_one {y : K} (h : MulAut.conj y = 1) :
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem rankAux_eq_one_of_mem_center {p : ℕ} (hZ : Nat.Coprime p (Nat.card (Subgroup.center K)))
     {z : K} (hz : z ∈ Subgroup.center K) (hzp : z ^ p = 1) : z = 1 := by
   have h1 : orderOf z ∣ p := orderOf_dvd_of_pow_eq_one hzp
@@ -60,6 +61,7 @@ theorem rankAux_eq_one_of_mem_center {p : ℕ} (hZ : Nat.Coprime p (Nat.card (Su
     Nat.Coprime.coprime_dvd_left h1 hZ
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd h3 h2)
 
+omit [Finite K] in
 theorem rankAux_mem_zpowers_of_conj {p : ℕ} (hZ : Nat.Coprime p (Nat.card (Subgroup.center K)))
     {y k : K} (hyp : y ^ p = 1) (hkp : k ^ p = 1) (hyk : Commute y k)
     (h : MulAut.conj y ∈ Subgroup.zpowers (MulAut.conj k)) : y ∈ Subgroup.zpowers k := by
@@ -81,6 +83,7 @@ theorem rankAux_zpow_pow_eq_one {G : Type*} [Group G] {p : ℕ} {α : G} (hα : 
     (α ^ i) ^ p = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hα, one_zpow]
 
+omit [Finite K] in
 theorem rankAux_conj_ne_one {p : ℕ} (hp : p.Prime)
     (hZ : Nat.Coprime p (Nat.card (Subgroup.center K))) {y : K} (hy : orderOf y = p) :
     MulAut.conj y ≠ 1 := by
@@ -95,18 +98,18 @@ theorem rankAux_fix_outer {p : ℕ} (hp : p.Prime)
     (α : MulAut K) (hα : α ^ p = 1) (hin : α ∉ (MulAut.conj : K →* MulAut K).range) :
     ∃ y : K, y ^ p = 1 ∧ α y = y ∧ MulAut.conj y ∉ Subgroup.zpowers α := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hnc : ∀ y : K, orderOf y = p → MulAut.conj y ≠ 1 := fun y hy => rankAux_conj_ne_one hp hZ hy
   have hα1 : α ≠ 1 := fun h => hin ⟨1, by rw [map_one, h]⟩
   have hαo : orderOf α = p := orderOf_eq_prime hα hα1
   let F : Subgroup K :=
     { carrier := {y | α y = y}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul] at ha hb ⊢
         rw [ha, hb]
       one_mem' := map_one α
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, map_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, map_inv] at ha ⊢
         rw [ha] }
   have hPG : IsPGroup p (Subgroup.zpowers α) := by
     intro g
@@ -154,7 +157,7 @@ theorem rankAux_fix {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (α : MulAut K) (hα : α ^ p = 1) :
     ∃ y : K, y ^ p = 1 ∧ α y = y ∧ MulAut.conj y ∉ Subgroup.zpowers α := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hnc : ∀ y : K, orderOf y = p → MulAut.conj y ≠ 1 := fun y hy => rankAux_conj_ne_one hp hZ hy
   have hpK : p ∣ Nat.card K := by
     by_contra h
@@ -190,10 +193,10 @@ theorem rankAux_fix {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hko : orderOf k = p := orderOf_eq_prime hkp hk1
     obtain ⟨P, hP⟩ := (isElemAbelian_zpowers hkp).isPGroup.exists_le_sylow
     have hkP : k ∈ P := hP (Subgroup.mem_zpowers k)
-    haveI : Nontrivial P := ⟨⟨⟨k, hkP⟩, 1, fun h => hk1 (congrArg Subtype.val h)⟩⟩
-    haveI := P.isPGroup'.center_nontrivial
+    have : Nontrivial P := ⟨⟨⟨k, hkP⟩, 1, fun h => hk1 (congrArg Subtype.val h)⟩⟩
+    have := P.isPGroup.center_nontrivial
     obtain ⟨n, hn, hcard⟩ :=
-      (IsPGroup.nontrivial_iff_card (P.isPGroup'.to_subgroup (Subgroup.center P))).mp
+      (IsPGroup.nontrivial_iff_card (P.isPGroup.to_subgroup (Subgroup.center P))).mp
         inferInstance
     have hpZ : p ∣ Nat.card (Subgroup.center P) := by
       rw [hcard]
@@ -226,7 +229,7 @@ theorem rankAux_fix {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         push Not at hcon
         apply hS P
         refine CFSG.RankThree.PartTwo.Sec16.SuzukiSectionProof.isCyclic_of_card_pow_eq_one_le hp2
-          P.isPGroup' ?_
+          P.isPGroup ?_
         calc Nat.card {x : P // x ^ p = 1}
             ≤ Nat.card (Subgroup.zpowers k) := by
               refine Nat.card_le_card_of_injective
@@ -248,11 +251,11 @@ end GroupTheory
 theorem rankAux_not_isCyclic_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {E : Subgroup G} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) (P : Sylow p G) :
     ¬ IsCyclic P := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   intro hcyc
   obtain ⟨Q, hQ⟩ := (IsPGroup.of_card hEc).exists_le_sylow
-  haveI : IsCyclic Q := isCyclic_of_surjective (P.equiv Q) (P.equiv Q).surjective
-  haveI : IsCyclic E := Subgroup.isCyclic_of_le hQ
+  have : IsCyclic Q := isCyclic_of_surjective (P.equiv Q) (P.equiv Q).surjective
+  have : IsCyclic E := Subgroup.isCyclic_of_le hQ
   have h1 := IsCyclic.exponent_eq_card (α := E)
   have h2 : Monoid.exponent E ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by simpa using hE.2 x x.2)
@@ -264,7 +267,7 @@ theorem rankAux_not_isCyclic_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} (h
 theorem rankAux_not_isCyclic_sylow_of_surjective {K G : Type*} [Group K] [Group G] [Finite K]
     {p : ℕ} (hp : p.Prime) {f : K →* G} (hf : Function.Surjective f)
     (hG : ∀ Q : Sylow p G, ¬ IsCyclic Q) (P : Sylow p K) : ¬ IsCyclic P := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   intro hc
   apply hG (P.mapSurjective hf)
   exact isCyclic_of_surjective (f.subgroupMap P) (f.subgroupMap_surjective P)
@@ -281,7 +284,7 @@ theorem bal207RankAut_of_parts (hSyl : Bal207RankSyl) (hZ : Bal207RankCenter)
       exact (Nat.Prime.coprime_iff_not_dvd hp).2 fun h => hU62 ⟨rfl, hu, h⟩
     · exact hZ p K hp hq hK hu
   obtain ⟨d, hd, ⟨e⟩⟩ := hK
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   obtain ⟨E, hE, hEc⟩ := hSyl p d hd fun h => hsz ⟨h.1, d, h.2, ⟨e⟩⟩
   have hS : ∀ P : Sylow p K, ¬ IsCyclic P := by
     refine rankAux_not_isCyclic_sylow_of_surjective hp
@@ -388,7 +391,7 @@ theorem bal207Rank_of_aut (h : Bal207RankAut) : Bal207Rank := by
   exfalso
   have hBel : IsElemAbelian p B := hSC.2.1
   obtain ⟨A, hAB, hAC, hAsup⟩ := rankAux_exists_complement (K := K) hp hBel
-  haveI := hcyc A hAB hAC hAsup
+  have := hcyc A hAB hAC hAsup
   obtain ⟨x, hxA⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top A).mp inferInstance
   have hxB : x ∈ B := hAB (hxA ▸ Subgroup.mem_zpowers x)
   have hxN : x ∈ Subgroup.normalizer (K : Set X) := hBN hxB

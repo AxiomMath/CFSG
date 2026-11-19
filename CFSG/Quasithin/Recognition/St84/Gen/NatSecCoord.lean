@@ -50,12 +50,13 @@ private lemma normalizer_relCent_of_le {E Z A L : Subgroup G}
     (hLZ : L ≤ Subgroup.normalizer (Z : Set G))
     (hLA : L ≤ Subgroup.normalizer (A : Set G)) :
     L ≤ Subgroup.normalizer (relCent E Z A : Set G) :=
-  fun l hl => mem_normalizer_relCent (hLE hl) (hLZ hl) (hLA hl)
+  fun _l hl => mem_normalizer_relCent (hLE hl) (hLZ hl) (hLA hl)
 
 private lemma isElemSec_of_le_of_le {Y Z E : Subgroup G} (hZY : Z ≤ Y) (hYE : Y ≤ E)
     (hsec : IsElemSec Z E) : IsElemSec Y E :=
   ⟨hYE, hsec.2.1.trans hZY, fun e he => hZY (hsec.2.2 e he)⟩
 
+omit [Finite ↥L] in
 theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     {α : ↥L →* SL(2, F)} (hα : Function.Surjective α)
     (hker : α.ker = (pCoreOf 2 L).subgroupOf L)
@@ -94,7 +95,7 @@ theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     obtain ⟨x, rfl⟩ := hs.proj_surjective w
     rw [← map_pow, hs.proj_eq_one_iff]
     simpa using hs.sq x x.2
-  letI : Module (ZMod 2) (Additive hs.W) := zmod2ModuleOfExp hsq
+  let : Module (ZMod 2) (Additive hs.W) := zmod2ModuleOfExp hsq
   let ρ : Representation (ZMod 2) SL(2, F) (Additive hs.W) := linAutHom.comp σ
   have hρ_apply : ∀ (g : SL(2, F)) (w : hs.W),
       ρ g (Additive.ofMul w) = Additive.ofMul (σ g w) := fun g w =>
@@ -142,7 +143,7 @@ theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
   have hBelemB : CFSG.Open.IsElemAbelian 2 B := by
     rw [← hS]
     exact hBelem
-  haveI : CFSG.IsElementaryAbelian 2 B :=
+  have : CFSG.IsElementaryAbelian 2 B :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 2 B).mpr hBelemB
   have hBcardF' : Nat.card B = Nat.card F := by
     rw [← hS]
@@ -157,7 +158,7 @@ theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
       calc 1 < 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
     omega
-  haveI : Finite hs.W := Finite.of_surjective hs.proj hs.proj_surjective
+  have : Finite hs.W := Finite.of_surjective hs.proj hs.proj_surjective
   let Fix : Subgroup hs.W :=
     { carrier := {w | ∀ b ∈ B, ρ b (Additive.ofMul w) = Additive.ofMul w}
       one_mem' := by
@@ -220,8 +221,8 @@ theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     rw [hWcard]
     calc 1 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (2 * n) := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Finite (Additive hs.W) := inferInstance
-  haveI : Nontrivial (Additive hs.W) := Finite.one_lt_card_iff_nontrivial.mp hWbig
+  have : Finite (Additive hs.W) := inferInstance
+  have : Nontrivial (Additive hs.W) := Finite.one_lt_card_iff_nontrivial.mp hWbig
   have hfixcard' : 2 ^ n ≤
       Nat.card {w : Additive hs.W // ∀ a ∈ B, ρ a w = w} := by
     rw [hfixcardEq]
@@ -274,6 +275,7 @@ theorem isNatSecOf_of_two_pow_le (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
       _ = (α ℓ : Matrix (Fin 2) (Fin 2) F).mulVec
             (Multiplicative.toAdd (β u)) := rfl
 
+omit [Finite ↥L] [Finite ↥E] [Fintype F] [CharP F 2] in
 private lemma sq_sub_one_eq_zero_of_trivial_on_relCent (hs : IsSec L Z E)
     [Module (ZMod 2) (Additive hs.W)]
     {α : ↥L →* SL(2, F)} (hα : Function.Surjective α)
@@ -323,6 +325,7 @@ private lemma sq_sub_one_eq_zero_of_trivial_on_relCent (hs : IsSec L Z E)
   rw [hstep, hfixY]
   simp
 
+omit [Finite ↥L] [CharP F 2] in
 private lemma false_of_trivial_on_relCent (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     (hs : IsSec L Z E) {α : ↥L →* SL(2, F)} (hα : Function.Surjective α)
     (hker : α.ker = (pCoreOf 2 L).subgroupOf L)
@@ -348,19 +351,19 @@ private lemma false_of_trivial_on_relCent (hn : 2 ≤ n) (hF : Fintype.card F = 
     obtain ⟨x, rfl⟩ := hs.proj_surjective w
     rw [← map_pow, hs.proj_eq_one_iff]
     simpa using hs.sq x x.2
-  letI : Module (ZMod 2) (Additive hs.W) := zmod2ModuleOfExp hsq
+  let : Module (ZMod 2) (Additive hs.W) := zmod2ModuleOfExp hsq
   let ρ : Representation (ZMod 2) SL(2, F) (Additive hs.W) := linAutHom.comp σ
   have hρ_apply : ∀ (g : SL(2, F)) (w : hs.W),
       ρ g (Additive.ofMul w) = Additive.ofMul (σ g w) := fun g w => autLin_apply (σ g) w
-  haveI : Finite hs.W := Finite.of_surjective hs.proj hs.proj_surjective
-  haveI : Finite (Additive hs.W) := inferInstance
+  have : Finite hs.W := Finite.of_surjective hs.proj hs.proj_surjective
+  have : Finite (Additive hs.W) := inferInstance
   have hquad : ∀ g : SL(2, F), (ρ g - 1) ^ 2 = 0 := fun g =>
     sq_sub_one_eq_zero_of_trivial_on_relCent hs hα hρ_apply hσ hEZ htriv g
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Group.IsPerfect SL(2, F) :=
+  have : Group.IsPerfect SL(2, F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
   have hodd : ∀ g : SL(2, F), Odd (orderOf g) → ρ g = 1 := fun g hg =>
     eq_one_of_sq_sub_one_eq_zero_of_odd_order ρ hg (hquad g)
@@ -419,7 +422,7 @@ private lemma two_pow_le_relIndex_relCent (hn : 1 ≤ n)
     obtain ⟨e, he, l, hl, hxl⟩ :=
       CFSG.Quasithin.F53Push.mem_sup_of_le_normalizer (hL.trans inf_le_left) hx
     exact ⟨⟨⟨e, he⟩, ⟨l, hl⟩⟩, Subtype.ext hxl.symm⟩
-  haveI : Finite ↥H := hHfin
+  have : Finite ↥H := hHfin
   let V' : Subgroup ↥H := E.subgroupOf H
   let Z' : Subgroup ↥H := (relCent E Z L).subgroupOf H
   have hsec' : IsElemSec Z' V' := by
@@ -525,13 +528,13 @@ theorem isNatSecOf_of_two_pow_le_of_nontrivial (hn : 2 ≤ n)
       (fun l hl e he => h l hl e he) hnt
   have hYle : 2 ^ (2 * n) ≤ Y.relIndex E :=
     two_pow_le_relIndex_relCent (by omega) hq hsec hL hcore hntY
-  haveI : Finite ↥Y :=
+  have : Finite ↥Y :=
     Finite.of_injective (Subgroup.inclusion hYE) (Subgroup.inclusion_injective hYE)
   have hYpos : 0 < Y.relIndex E := by
-    haveI : Finite (↥E ⧸ Y.subgroupOf E) := inferInstance
+    have : Finite (↥E ⧸ Y.subgroupOf E) := inferInstance
     exact Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (G := ↥E) (H := Y.subgroupOf E))
   have hZpos : 0 < Z.relIndex Y := by
-    haveI : Finite (↥Y ⧸ Z.subgroupOf Y) := inferInstance
+    have : Finite (↥Y ⧸ Z.subgroupOf Y) := inferInstance
     exact Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (G := ↥Y) (H := Z.subgroupOf Y))
   have hrel : Z.relIndex Y * Y.relIndex E = Z.relIndex E :=
     Subgroup.relIndex_mul_relIndex (H := Z) (K := Y) (L := E) hZY hYE
@@ -565,7 +568,7 @@ theorem exists_isNatSecOf_of_two_pow_le (hn : 2 ≤ n)
   classical
   obtain ⟨α, hα, hker, -⟩ :=
     CFSG.GroupTheory.exists_SL2_hom_map_sylowTwo_eq_upperUnipotent hq hT
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)

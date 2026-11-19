@@ -24,8 +24,8 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2BAA_isPGroup_zpowers
     (hp7 : p = 7) (hm : rk ↥(wTil V₀ V hV L) = 6)
     (hbad : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)))
-    (P : Subgroup (MulAut (Vtil V₀ V hV))) (hPM : P ≤ Mbar D.M V₀ V hV)
-    (hnorm : (P.subgroupOf (Mbar D.M V₀ V hV)).Normal)
+    (P : Subgroup (MulAut (Vtil V₀ V hV))) (_hPM : P ≤ Mbar D.M V₀ V hV)
+    (_hnorm : (P.subgroupOf (Mbar D.M V₀ V hV)).Normal)
     (hrk : IsElemAbelianOfRank 7 3 ↥P)
     (hmax : ∀ Q : Subgroup (MulAut (Vtil V₀ V hV)), Q ≤ Mbar D.M V₀ V hV →
       IsPGroup 7 ↥Q → Q ≤ P)

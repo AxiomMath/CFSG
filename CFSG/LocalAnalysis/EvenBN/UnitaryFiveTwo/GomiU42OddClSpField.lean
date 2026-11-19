@@ -20,6 +20,7 @@ section NegIsometry
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [Module.Finite K V]
 
+omit [Finite K] in
 theorem exists_isometry_conj_eq_neg (B : BilinForm K V) (hB : B.IsAlt) (hBnd : B.Nondegenerate)
     (sigma : K ≃+* K) (hsigma : sigma ^ 2 = 1) (hne : sigma ≠ 1) (h2 : (2 : K) ≠ 0)
     (tau0 : V ≃+ V) (mu lambda b c : Kˣ) (hsemi : ∀ a x, tau0 (a • x) = sigma a • tau0 x)
@@ -34,7 +35,7 @@ theorem exists_isometry_conj_eq_neg (B : BilinForm K V) (hB : B.IsAlt) (hBnd : B
   have hs := normalizedOperator_semilinear sigma tau0 b hsemi
   have hf := normalized_form_identity sigma B tau0 mu b c hform hc
   have hT := normalizedOperator_involutive sigma tau0 lambda b hsemi hsquare hb
-  haveI hWfin : Module.Finite (fixedSubfield K sigma) (fixedSubspace sigma T hs) := by
+  have hWfin : Module.Finite (fixedSubfield K sigma) (fixedSubspace sigma T hs) := by
     obtain ⟨e, d', hd'⟩ := exists_fixedSpace_basis sigma hsigma hne h2 T hT hs
     exact Module.Finite.of_basis d'
   set B0 := descendedBilinear sigma T hs B c hf with hB0def
@@ -75,8 +76,8 @@ theorem exists_isometry_conj_eq_neg (B : BilinForm K V) (hB : B.IsAlt) (hBnd : B
     show B0 (h (bs i)) (h (bs j)) = ν • B0 (bs i) (bs j)
     rw [hbi i, hbi j]
     rcases i with i | i <;> rcases j with j | j
-    · simp [w, hll, Units.smul_def]
-    · simp [w, νu, Units.smul_def, mul_comm]
+    · simp [w, hll]
+    · simp [w, νu, Units.smul_def]
     · simp [w, νu, Units.smul_def]
     · simp [w, νu, Units.smul_def, hrr]
   set ĥ := extendFixedEquiv sigma hsigma hne h2 T hT hs h with hĥdef
@@ -91,7 +92,7 @@ theorem exists_isometry_conj_eq_neg (B : BilinForm K V) (hB : B.IsAlt) (hBnd : B
       extendFixedEquiv_fixed sigma hsigma hne h2 T hT hs h ⟨e j, he j⟩
     have key := congrArg (fun a : fixedSubfield K sigma => (a : K))
       (LinearMap.congr_fun₂ hh ⟨e i, he i⟩ ⟨e j, he j⟩)
-    simp only [LinearMap.BilinForm.comp_apply, LinearMap.coe_coe, LinearMap.smul_apply,
+    simp only [LinearMap.BilinForm.comp_apply, LinearMap.smul_apply,
       smul_eq_mul, hB0def] at key
     push_cast at key
     simp only [descendedBilinear_apply] at key
@@ -109,7 +110,7 @@ theorem exists_isometry_conj_eq_neg (B : BilinForm K V) (hB : B.IsAlt) (hBnd : B
     rw [mem_isometryGroup_iff]
     intro x y
     have h1 := LinearMap.congr_fun₂ hBh x y
-    simp only [LinearMap.BilinForm.comp_apply, LinearMap.coe_coe, LinearMap.smul_apply,
+    simp only [LinearMap.BilinForm.comp_apply, LinearMap.smul_apply,
       smul_eq_mul] at h1
     have h1' : B (ĥ x) (ĥ y) = (ι ^ 2)⁻¹ * B x y := h1
     simp only [hg_apply, map_smul, LinearMap.smul_apply, smul_eq_mul]

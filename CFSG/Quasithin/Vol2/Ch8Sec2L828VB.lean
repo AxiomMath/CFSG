@@ -41,7 +41,7 @@ private theorem sylow822VB_card_two_of_dihedral {X : Type} [Group X] [Finite X] 
     (hm : Odd m) (hm1 : 1 < m) (e : X ≃* DihedralGroup m) {T : Subgroup X}
     (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) : Nat.card T = 2 := by
   have hm0 : m ≠ 0 := by omega
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   have hXcard : Nat.card X = 2 * m := by
     rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
   have h2 : (2 * m).factorization 2 = 1 := by
@@ -58,9 +58,9 @@ private theorem sylow822VB_card_two_of_dihedral {X : Type} [Group X] [Finite X] 
 
 private theorem sylow822VB_card_sylowCenter_of_card_two {X : Type} [Group X] {T : Subgroup X}
     (hT : Nat.card T = 2) : Nat.card (sylowCenter T) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic T := isCyclic_of_prime_card hT
-  letI : CommGroup T := IsCyclic.commGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic T := isCyclic_of_prime_card hT
+  let : CommGroup T := IsCyclic.commGroup
   have heq : sylowCenter T = T := by
     ext z
     rw [CFSG.ComponentClassification.AschbacherToolkit.Bender.mem_sylowCenter]
@@ -81,8 +81,8 @@ private theorem sylow822VB_core {G : Type} [Group G] [Finite G]
       Subgroup.centralizer (CFSG.Quasithin.E2.star M J (T ⊓ J) :
         Set (CFSG.Quasithin.E2.StarQuot M J))) :
     padicValNat 2 ((V ⊓ pCoreOf 2 J).relIndex V) = k := by
-  haveI : Finite (CFSG.Quasithin.E2.StarQuot M J) := CFSG.Quasithin.E2P.finite_starQuot M J
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (CFSG.Quasithin.E2.StarQuot M J) := CFSG.Quasithin.E2P.finite_starQuot M J
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : CFSG.QuasithinUnique.IsSylowTwoOf (CFSG.Quasithin.E2.star M J (T ⊓ J)) ⊤ := by
     have h1 := CFSG.Quasithin.E2P.isSylowTwoOf_map_hom hSyl (CFSG.Quasithin.E2P.starMap M J)
     rw [MonoidHom.range_eq_top.mpr (CFSG.Quasithin.E2P.starMap_surjective M J)] at h1

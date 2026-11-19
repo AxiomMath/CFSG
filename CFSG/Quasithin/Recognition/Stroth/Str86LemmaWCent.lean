@@ -24,7 +24,7 @@ private theorem eq_bot_of_isPGroup_le_commutator
     (hC : A ⊓ Subgroup.centralizer (T : Set G) ≤ Subgroup.centralizer ({y} : Set G)) :
     I = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI2 : IsPGroup 2 I :=
     (CFSG.Goldschmidt.G75.isPGroup_of_isElemAbelian hA).to_le hIA
   have hWinf : W ⊓ Subgroup.centralizer ({y} : Set G) = ⊥ := by
@@ -45,7 +45,6 @@ private theorem eq_bot_of_isPGroup_le_commutator
     rw [MulAction.mem_fixedPoints]
     intro t
     apply Subtype.ext
-    change ((t • (1 : ↥I) : ↥I) : G) = ((1 : ↥I) : G)
     rw [hψ]
     simp
   obtain ⟨b, hbfix, hbne⟩ :=
@@ -68,9 +67,10 @@ private theorem eq_bot_of_isPGroup_le_commutator
     exact Subgroup.mem_inf.mpr ⟨hbW, hbCy⟩
   exact hbne (Subtype.ext (Subgroup.mem_bot.mp hbBot)).symm
 
+omit [Finite G] in
 private theorem le_normalizer_commutator_zpowers_of_trivial_mod
     {A H Q S : Subgroup G} {w : G}
-    (hA : IsElemAbelian 2 A) (hw : w ∈ Subgroup.normalizer (A : Set G))
+    (_hA : IsElemAbelian 2 A) (hw : w ∈ Subgroup.normalizer (A : Set G))
     (hS : S ≤ Subgroup.normalizer (A : Set G))
     (hQ : Q ≤ Subgroup.centralizer (A : Set G)) (hSH : S ≤ H)
     (htriv : ∀ x ∈ H, w * x * w⁻¹ * x⁻¹ ∈ Q) :

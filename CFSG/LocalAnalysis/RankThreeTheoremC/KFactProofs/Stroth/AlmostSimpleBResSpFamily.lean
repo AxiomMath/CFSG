@@ -24,13 +24,13 @@ theorem chevTwoOuterFixesPair_sp : ChevTwoOuterFixesPair LieIndexSp := by
   obtain ⟨d, hv⟩ := d
   cases d with
   | B r q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hq2 : q.p = 2 := hchar
     have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
     have hr2 : 2 ≤ r := hrange.1
-    haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
-    haveI : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.B r q, hv⟩) 2 := by
+    have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
+    have : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.B r q, hv⟩) 2 := by
       have h0 : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.B r q, hv⟩)
         (TauCeti.ValidLieTypeIndex.characteristic ⟨.B r q, hv⟩) := inferInstance
       have e1 : TauCeti.ValidLieTypeIndex.characteristic ⟨.B r q, hv⟩ = 2 := by
@@ -46,13 +46,13 @@ theorem chevTwoOuterFixesPair_sp : ChevTwoOuterFixesPair LieIndexSp := by
         (e.trans (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj r q hv
           hq2 (by omega))) hα hαp
   | C r q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hq2 : q.p = 2 := hchar
     have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
     have hr3 : 3 ≤ r := hrange.1
-    haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
-    haveI : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.C r q, hv⟩) 2 := by
+    have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
+    have : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.C r q, hv⟩) 2 := by
       have h0 : CharP (TauCeti.ValidLieTypeIndex.fixedField ⟨.C r q, hv⟩)
         (TauCeti.ValidLieTypeIndex.characteristic ⟨.C r q, hv⟩) := inferInstance
       have e1 : TauCeti.ValidLieTypeIndex.characteristic ⟨.C r q, hv⟩ = 2 := by

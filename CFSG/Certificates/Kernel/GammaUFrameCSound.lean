@@ -84,7 +84,7 @@ theorem frT_congr {E E' : Nat → Nat} {Lc : List (Array ℕ)} (hF : FrT E Lc)
 theorem comm_bif {g h : Nat} (H : ∀ v, linP g (linP h v) = linP h (linP g v)) (b : Bool) (v : V12) :
     linP g (linP (bif b then h else idP) v) = linP (bif b then h else idP) (linP g v) := by
   cases b
-  · simp only [cond_false, linP_idP]
+  · simp only [Bool.cond_false, linP_idP]
   · exact H v
 
 theorem comm_subQ {g : Nat} : ∀ {L : List Nat}, (∀ h ∈ L, ∀ v, linP g (linP h v) = linP h (linP g v)) →
@@ -296,21 +296,21 @@ theorem repAt_spec {TH NA NN2 : Nat} {HM : List Nat} {TB CG LT PT : Nat} {CM : L
   unfold recOK at hok
   unfold covers at hcv
   cases h0 : Nat.beq (nthD 0 (nthD [] rc 0) 0) 0
-  · rw [h0, cond_false] at hok hcv
+  · rw [h0, Bool.cond_false] at hok hcv
     have hc' : nthD 0 (nthD [] rc 0) 1 = c := Nat.eq_of_beq_eq_true hcv
     cases h1 : Nat.beq (nthD 0 (nthD [] rc 0) 0) 1
-    · rw [h1, cond_false, Bool.and_eq_true] at hok
+    · rw [h1, Bool.cond_false, Bool.and_eq_true] at hok
       refine Or.inr fun F hF => d2uR_spec hok.2 hTH (fun e he => ?_) hLi hHM hH
       unfold letU
       by_cases hlt : e < NN2
-      · rw [bltT hlt, cond_true]
+      · rw [bltT hlt, _root_.Bool.cond_true]
         exact hNle F e hlt
-      · rw [bltF hlt, cond_false, hc']
+      · rw [bltF hlt, Bool.cond_false, hc']
         obtain ⟨V, hV, hVr⟩ := hCG c hc (e - NN2) (by omega)
         exact ⟨_, Subgroup.mem_sup_right (conj_mem hF hVr), hW.mul (hV.mul hWi')⟩
-    · rw [h1, cond_true] at hok
+    · rw [h1, _root_.Bool.cond_true] at hok
       exact Or.inl (eqR_spec hok hW hWi hLi (by rw [hc']; exact hLc c hc))
-  · rw [h0, cond_true] at hok hcv
+  · rw [h0, _root_.Bool.cond_true] at hok hcv
     refine Or.inr fun F hF => d1R_spec hok (fun e he => ?_) hLi hLT
     have he64 : nthD 0 (nthD [] rc 0) 1 < 64 := by
       unfold d1R at hok
@@ -318,9 +318,9 @@ theorem repAt_spec {TH NA NN2 : Nat} {HM : List Nat} {TB CG LT PT : Nat} {CM : L
       exact hok.1.1.1
     unfold letD
     by_cases hlt : e < NN2
-    · rw [bltT hlt, cond_true]
+    · rw [bltT hlt, _root_.Bool.cond_true]
       exact hNle F e hlt
-    · rw [bltF hlt, cond_false]
+    · rw [bltF hlt, Bool.cond_false]
       have hpe := pcOK_spec hpc he64 hc (Nat.eq_of_beq_eq_true hcv)
       obtain ⟨V, hV, hVr⟩ := row_of_frT (hLc c hc)
         (Nat.mod_lt (nthD 0 (nthD [] rc 0) 1) (by norm_num : 0 < 32))

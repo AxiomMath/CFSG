@@ -14,7 +14,7 @@ theorem gomiOdd_two_ne_zero {K : Type} [Field K] [Finite K] (h : Odd (Nat.card K
     (2 : K) ≠ 0 := by
   intro h2
   have hne : (1 : K) ≠ 0 := one_ne_zero
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : addOrderOf (1 : K) = 2 :=
     addOrderOf_eq_prime (by simpa using h2) hne
   have hdvd : addOrderOf (1 : K) ∣ Nat.card K := addOrderOf_dvd_natCard _

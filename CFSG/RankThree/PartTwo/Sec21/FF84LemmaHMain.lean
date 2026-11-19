@@ -29,7 +29,7 @@ theorem higman_comm [Finite K] [IsSimpleGroup K] (e : K ≃* A5) :
   | _ n ih =>
   intro S _ _ ρ hn h3 hρ
   by_cases hS : Subsingleton S
-  · intro u v; haveI := hS; exact Subsingleton.elim (u * v) (v * u)
+  · intro u v; have := hS; exact Subsingleton.elim (u * v) (v * u)
   have hnt : Nontrivial S := not_subsingleton_iff_nontrivial.1 hS
   obtain ⟨y, hy3, hy1⟩ := exists_order_three e
   have hα3 : ρ y ^ 3 = 1 := by rw [← map_pow, hy3, map_one]
@@ -44,8 +44,8 @@ theorem higman_comm [Finite K] [IsSimpleGroup K] (e : K ≃* A5) :
   have hnil : Group.IsNilpotent S :=
     CFSG.RankThree.PartOne.MB3.isNilpotent_of_fixedPointFree_prime (ρ y)
       (by rw [hord]; exact Nat.prime_three) (hρ y hy3 hy1)
-  haveI := hnil
-  haveI : Nontrivial (Subgroup.center S) :=
+  have := hnil
+  have : Nontrivial (Subgroup.center S) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 (Group.IsNilpotent.center_ne_bot S)
   have hZinv : ∀ k : K, ∀ a ∈ Subgroup.center S, ρ k a ∈ Subgroup.center S := by
     intro k a ha
@@ -108,7 +108,7 @@ theorem higman_abstract [Finite K] [IsSimpleGroup K] (e : K ≃* A5) {S : Type} 
   have hpow2 : Nat.card S = 2 ^ (Nat.card S).primeFactorsList.length := by
     apply Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne'
     intro p hp hpd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := S) p hpd
     have : orderOf u ∣ 2 := by
       rw [orderOf_dvd_iff_pow_eq_one, pow_two]; exact hsq u
@@ -121,7 +121,7 @@ theorem higman_abstract [Finite K] [IsSimpleGroup K] (e : K ≃* A5) {S : Type} 
     show (e.symm z5) ^ 5 = 1
     rw [← map_pow, this, map_one]
   have hfix := fixed_five_eq_one e hρ hA (fun a _ => hsq a)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hα : ρ z ^ 5 = 1 := by rw [← map_pow, hz5, map_one]
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime (ρ z) hα
   have hone : Nat.card {x : S // ρ z x = x} = 1 := by

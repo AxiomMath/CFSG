@@ -73,7 +73,7 @@ theorem aut_eq_one_ree (hK : Nat.card K = 3 ^ (2 * a + 1))
   obtain ⟨w, hw, hbr⟩ := ree_bruhat hK
   have hUp : IsPGroup 3 ↥(ReeModel.stdU a K) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   exact aut_eq_one_of_bruhat b hb hNU hUp hfix hw hbr (ree_core hK)
 
 theorem e1Core_ree_native (hK : Nat.card K = 3 ^ (2 * a + 1))
@@ -100,7 +100,7 @@ theorem e1Core_ree_native (hK : Nat.card K = 3 ^ (2 * a + 1))
     · exact absurd h hM.1
     · exact h
   have hbS : ∀ x ∈ (S : Subgroup ↥(ReeTag.G2.reeGamma K a)), b x = x :=
-    hR S S.isPGroup' (Subgroup.le_normalizer.trans hS) hMN.le
+    hR S S.isPGroup (Subgroup.le_normalizer.trans hS) hMN.le
   set b' : MulAut ↥(ReeTag.G2.reeGamma K a) :=
     (e' : MulAut ↥(ReeTag.G2.reeGamma K a)) * b * (e' : MulAut ↥(ReeTag.G2.reeGamma K a))⁻¹
     with hb'

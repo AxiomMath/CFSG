@@ -66,7 +66,7 @@ theorem classInvOkK_sound {n : ℕ} {B : List ℕ} {p : ℕ} (hp : p.Prime) {a b
     have hpow : rep a b c ^ p = 1 :=
       eq_of_keyOf_eq hB (H.pow_mem (hrep c hc) p) H.one_mem hp1
     have hne : rep a b c ≠ 1 := fun h1 => hp2 (by rw [h1])
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hpow hne
   · rw [← List.map_congr_left (fun c _ => fixCntL_eq (rep a b c))]
     exact hnodup

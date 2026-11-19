@@ -178,7 +178,7 @@ theorem mem_normalizer_pCoreOf {A : Subgroup G} {g : G} (hg : g ∈ normalizer (
 
 theorem le_normalizer_pCoreOf (A : Subgroup G) :
     A ≤ normalizer ((pCoreOf 2 A : Subgroup G) : Set G) := by
-  haveI : ((pCoreOf 2 A).subgroupOf A).Normal := by
+  have : ((pCoreOf 2 A).subgroupOf A).Normal := by
     have : (pCoreOf 2 A).subgroupOf A = CFSG.pCore 2 ↥A :=
       Subgroup.comap_map_eq_self_of_injective A.subtype_injective _
     rw [this]
@@ -311,13 +311,15 @@ theorem sylow_prod {P N A B W : Subgroup G} (hP : IsSylowOf 2 P N) (hN : A ⊔ B
     exact Nat.eq_of_mul_eq_mul_right (by positivity) h1
   rw [hcardP, hTcard]
 
+omit [Finite G] in
 theorem pow_relIndex_mem {M P : Subgroup G} (hPM : P ≤ M) (hMP : M ≤ normalizer (P : Set G))
     {g : G} (hg : g ∈ M) : g ^ P.relIndex M ∈ P := by
-  haveI : (P.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hPM).2 hMP
+  have : (P.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hPM).2 hMP
   have h := Subgroup.pow_index_mem (P.subgroupOf M) (⟨g, hg⟩ : M)
   rw [Subgroup.mem_subgroupOf] at h
   exact h
 
+omit [Finite G] in
 theorem mem_normalizer_of_pow_mem {K K' : Subgroup G} (hne : K ≠ K') {g : G}
     (hK : K.map (MulAut.conj g).toMonoidHom = K ∨ K.map (MulAut.conj g).toMonoidHom = K')
     (hK' : K'.map (MulAut.conj g).toMonoidHom = K ∨ K'.map (MulAut.conj g).toMonoidHom = K')
@@ -403,9 +405,9 @@ theorem exists_centralizer_mul {M P J : Subgroup G} (hPM : P ≤ M) (hP2 : IsPGr
     (hcomm : ∀ m ∈ M, ∀ j ∈ J, m * j * m⁻¹ * j⁻¹ ∈ P) {m : G} (hm : m ∈ M) :
     ∃ z ∈ M ⊓ centralizer (J : Set G), ∃ p ∈ P, m = z * p := by
   have hJP : J ≤ normalizer (P : Set G) := hJM.trans hMP
-  letI : MulDistribMulAction J P := Subgroup.conjMulDistribMulActionOfLeNormalizer J P hJP
+  let : MulDistribMulAction J P := Subgroup.conjMulDistribMulActionOfLeNormalizer J P hJP
   have hsolv : Group.IsSolvable P := by
-    haveI : Group.IsNilpotent P := hP2.isNilpotent
+    have : Group.IsNilpotent P := hP2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card J) (Nat.card P) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := P)).1 hP2
@@ -517,7 +519,7 @@ theorem mem_zs_succ {S : Subgroup Q} {i : ℕ} {y : Q} :
 theorem le_normalizer_zs (S : Subgroup Q) (j : ℕ) : S ≤ normalizer (zs S j : Set Q) := by
   have h : (zs S j).subgroupOf S = Subgroup.upperCentralSeries ↥S j :=
     Subgroup.comap_map_eq_self_of_injective S.subtype_injective _
-  haveI : ((zs S j).subgroupOf S).Normal := by
+  have : ((zs S j).subgroupOf S).Normal := by
     rw [h]
     infer_instance
   exact Subgroup.le_normalizer_of_normal_subgroupOf (zs_le S j)
@@ -695,7 +697,7 @@ theorem mem_upperCenterMod_succ {N A : Subgroup G} (hNA : N ≤ A) {i : ℕ} {x 
     rw [e, map_mul, map_mul, map_mul, map_inv, map_inv] at hzs
     exact hzs
 
-theorem le_upperCenterMod {N A : Subgroup G} (hNA : N ≤ A) (i : ℕ) :
+theorem le_upperCenterMod {N A : Subgroup G} (_hNA : N ≤ A) (i : ℕ) :
     N ≤ upperCenterMod N A i :=
   NormalizerQuotient.le_lift _
 
@@ -806,7 +808,7 @@ theorem mem_normalizer_sup {A B : Subgroup G} {x : G} (hA : x ∈ normalizer (A 
 theorem eq_ker_or_eq_top {X S : Type*} [Group X] [Group S] [IsSimpleGroup S] (φ : X →* S)
     (hφ : Function.Surjective φ) (M : Subgroup X) [hM : M.Normal] (hker : φ.ker ≤ M) :
     M = φ.ker ∨ M = ⊤ := by
-  haveI : (M.map φ).Normal := hM.map φ hφ
+  have : (M.map φ).Normal := hM.map φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map φ) with h | h
   · left
     refine le_antisymm (fun x hx => ?_) hker
@@ -927,7 +929,7 @@ theorem exists_sq_eq [Finite F] [CharP F 2] (ν : Fˣ) : ∃ μ : Fˣ, μ ^ 2 = 
 theorem exists_unit_sq_ne_one [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F) :
     ∃ μ : Fˣ, (μ : F) ^ 2 ≠ 1 := by
   have h : 1 < Nat.card Fˣ := by rw [Nat.card_units]; omega
-  haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.1 h
+  have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.1 h
   obtain ⟨ν, hν⟩ := exists_ne (1 : Fˣ)
   obtain ⟨μ, rfl⟩ := exists_sq_eq ν
   refine ⟨μ, fun h1 => hν ?_⟩
@@ -1064,7 +1066,7 @@ theorem exists_qupData [Finite F] [CharP F 2] (hiso : IsQuotientIso K D SL(2, F)
       rw [← Subgroup.mem_comap, hc]
       exact Iff.rfl
     rw [h1, hg]
-    simp [MulAut.conj_apply]
+    simp
 
 end QupData
 
@@ -1089,6 +1091,7 @@ structure Sl2Pair (F : Type) [Field F] [Finite F] (N D K K' : Subgroup G) : Prop
 
 variable {F : Type} [Field F] [Finite F] {N D K K' : Subgroup G}
 
+omit [Finite G] in
 theorem Sl2Pair.symm (hS : Sl2Pair F N D K K') : Sl2Pair F N D K' K where
   charTwo := hS.charTwo
   four_le := hS.four_le
@@ -1137,17 +1140,20 @@ theorem right_le_normalizer (hS : Sl2Pair F N D K K') : K' ≤ normalizer (K : S
 
 end SL2Aux
 
+omit [Finite G] in
 theorem Sl2Pair.le_normalizer (hS : Sl2Pair F N D K K') : N ≤ normalizer (K : Set G) := by
   rw [← hS.sup_eq]
   exact sup_le Subgroup.le_normalizer (SL2Aux.right_le_normalizer hS)
 
 namespace SL2Aux
 
+omit [Finite G] in
 theorem le_normalizer_D (hS : Sl2Pair F N D K K') : N ≤ normalizer (D : Set G) := by
   intro n hn
   have := le_normalizer_inf K K' ⟨hS.le_normalizer hn, hS.symm.le_normalizer hn⟩
   rwa [hS.inf_eq] at this
 
+omit [Finite F] in
 theorem eq_one_of_forall_comm [CharP F 2] (g : SL(2, F)) (h : ∀ s : SL(2, F), s * g = g * s) :
     g = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
@@ -1164,8 +1170,8 @@ theorem eq_one_of_forall_comm [CharP F 2] (g : SL(2, F)) (h : ∀ s : SL(2, F), 
 
 omit [Finite G] in
 theorem D_ne_left (hS : Sl2Pair F N D K K') : D ≠ K := by
-  haveI := hS.charTwo
-  haveI := sl2_isSimpleGroup_of_charTwo hS.four_le
+  have := hS.charTwo
+  have := sl2_isSimpleGroup_of_charTwo hS.four_le
   obtain ⟨φ, hφ, hker⟩ := hS.isoK
   intro hDK
   obtain ⟨s, hs⟩ := exists_ne (1 : SL(2, F))
@@ -1177,10 +1183,10 @@ theorem D_ne_left (hS : Sl2Pair F N D K K') : D ≠ K := by
 omit [Finite G] in
 theorem eq_or_eq_left (hS : Sl2Pair F N D K K') {L : Subgroup G} (hDL : D ≤ L) (hLK : L ≤ K)
     (hKL : K ≤ normalizer (L : Set G)) : L = D ∨ L = K := by
-  haveI := hS.charTwo
-  haveI := sl2_isSimpleGroup_of_charTwo hS.four_le
+  have := hS.charTwo
+  have := sl2_isSimpleGroup_of_charTwo hS.four_le
   obtain ⟨φ, hφ, hker⟩ := hS.isoK
-  haveI : (L.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hLK).2 hKL
+  have : (L.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hLK).2 hKL
   have hker' : φ.ker ≤ L.subgroupOf K := by
     rw [hker]
     intro x hx
@@ -1196,7 +1202,7 @@ theorem eq_or_eq_left (hS : Sl2Pair F N D K K') {L : Subgroup G} (hDL : D ≤ L)
 omit [Finite G] in
 theorem mem_D_of_comm (hS : Sl2Pair F N D K K') {k : G} (hk : k ∈ K)
     (h : ∀ x ∈ K, k * x * k⁻¹ * x⁻¹ ∈ D) : k ∈ D := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   obtain ⟨φ, hφ, hker⟩ := hS.isoK
   refine (map_eq_one_iff hker ⟨k, hk⟩).1 ?_
   apply eq_one_of_forall_comm
@@ -1208,6 +1214,7 @@ theorem mem_D_of_comm (hS : Sl2Pair F N D K K') {k : G} (hk : k ∈ K)
       = (φ ⟨k, hk⟩ * φ x * (φ ⟨k, hk⟩)⁻¹ * (φ x)⁻¹)⁻¹ * (φ ⟨k, hk⟩ * φ x) := by group
     _ = φ ⟨k, hk⟩ * φ x := by rw [h1]; simp
 
+omit [Finite G] in
 theorem mem_right_of_comm (hS : Sl2Pair F N D K K') {n : G} (hn : n ∈ N)
     (h : ∀ x ∈ K, n * x * n⁻¹ * x⁻¹ ∈ D) : n ∈ K' := by
   have hn' : n ∈ K ⊔ K' := hS.sup_eq ▸ hn
@@ -1225,6 +1232,7 @@ theorem mem_right_of_comm (hS : Sl2Pair F N D K K') {n : G} (hn : n ∈ N)
 
 end SL2Aux
 
+omit [Finite G] in
 theorem Sl2Pair.ne (hS : Sl2Pair F N D K K') : K ≠ K' := by
   intro h
   apply SL2Aux.D_ne_left hS
@@ -1287,7 +1295,7 @@ theorem Sl2Pair.conj_factor (hS : Sl2Pair F N D K K') {g : G} (hgN : g ∈ norma
 
 theorem Sl2Pair.relIndex_sylow (hS : Sl2Pair F N D K K') {P : Subgroup G}
     (hP : IsSylowOf 2 P N) (hDP : D ≤ P) : D.relIndex (P ⊓ K) = Nat.card F := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   obtain ⟨φ, hφ, hker⟩ := hS.isoK
   have hDK := SL2Aux.D_le_left hS
   have hA : IsSylowOf 2 (P ⊓ K) K :=
@@ -1348,10 +1356,11 @@ theorem right_mem_normalizer_inf (hS : Sl2Pair F N D K K') {P : Subgroup G} (hDP
 
 theorem exists_qupData_sylow (hS : Sl2Pair F N D K K') {P : Subgroup G} (hP : IsSylowOf 2 P N)
     (hDP : D ≤ P) : ∃ ψ : K →* SL2 F, QupData F D K (P ⊓ K) ψ := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   exact exists_qupData hS.isoK (le_inf hDP (D_le_left hS)) inf_le_right
     (hS.relIndex_sylow hP hDP)
 
+omit [Finite G] in
 theorem factor_mem_normalizer_left (hS : Sl2Pair F N D K K') {P : Subgroup G} (hDP : D ≤ P)
     {k k' : G} (hk' : k' ∈ K') (hm : k * k' ∈ N ⊓ normalizer (P : Set G)) :
     k ∈ normalizer ((P ⊓ K : Subgroup G) : Set G) := by
@@ -1360,6 +1369,7 @@ theorem factor_mem_normalizer_left (hS : Sl2Pair F N D K K') {P : Subgroup G} (h
   have h2 := right_mem_normalizer_inf hS hDP hk'
   simpa using mul_mem h1 (inv_mem h2)
 
+omit [Finite G] in
 theorem factor_mem_normalizer_right (hS : Sl2Pair F N D K K') {P : Subgroup G} (hDP : D ≤ P)
     {k k' : G} (hk : k ∈ K) (hm : k * k' ∈ N ⊓ normalizer (P : Set G)) :
     k' ∈ normalizer ((P ⊓ K' : Subgroup G) : Set G) := by
@@ -1372,7 +1382,7 @@ theorem claim_left (hS : Sl2Pair F N D K K') {P W : Subgroup G} (hP : IsSylowOf 
     (hDP : D ≤ P) (hDW : D ≤ W) (hWP : W ≤ P) (hPeq : P = (P ⊓ K) ⊔ (P ⊓ K'))
     (hinv : N ⊓ normalizer (P : Set G) ≤ normalizer (W : Set G)) :
     ¬ W ≤ P ⊓ K' → P ⊓ K ≤ W := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   obtain ⟨ψ, hψ⟩ := exists_qupData_sylow hS hP hDP
   intro hWA'
   obtain ⟨w, hwW, hwA'⟩ := Set.not_subset.1 hWA'
@@ -1571,7 +1581,7 @@ theorem delta_facts {N Q S : Subgroup G} {t : G}
 theorem commutator_le_of_sup_of_comm {U R F : Subgroup G} (hRU : R ≤ U)
     (hUR : U ≤ normalizer (R : Set G)) (hFU : F ≤ U) (hRF : R ≤ normalizer (F : Set G))
     (hsup : U ≤ R ⊔ F) (hFF : ∀ a ∈ F, ∀ b ∈ F, a * b * a⁻¹ * b⁻¹ ∈ R) : ⁅U, U⁆ ≤ R := by
-  haveI : (R.subgroupOf U).Normal := (normal_subgroupOf_iff_le_normalizer hRU).2 hUR
+  have : (R.subgroupOf U).Normal := (normal_subgroupOf_iff_le_normalizer hRU).2 hUR
   let φ : ↥U →* ↥U ⧸ R.subgroupOf U := QuotientGroup.mk' _
   have hφ : ∀ x : ↥U, φ x = 1 ↔ (x : G) ∈ R := fun x => by
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -1619,8 +1629,8 @@ theorem mem_of_fixed_mod [Finite G] {U R F J : Subgroup G}
     rw [hn]
     exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.2 hJ)
   have hR2 : IsPGroup 2 R := hU2.to_le hRU
-  haveI : Group.IsNilpotent ↥U := hU2.isNilpotent
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsNilpotent ↥U := hU2.isNilpotent
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
   obtain ⟨c, hc, n, hn, rfl⟩ := exists_mem_inf_centralizer_mul_of_coprime hRU hUR hJU hJR
     inferInstance (hcop U hU2) hx hfixx
   have hcR : c ∈ R := by
@@ -1805,21 +1815,24 @@ section D1Facts
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem xBar_normal {q : ℕ} (d : TrialityD4Data L q) (t : G) : (xBar d t).Normal :=
   Subgroup.normalClosure_normal
 
+omit [Finite G] in
 theorem nOneBar_normal {q : ℕ} (d : TrialityD4Data L q) (t : G) : (nOneBar d t).Normal := by
-  haveI := xBar_normal d t
-  haveI : (CFSG.perfectResidual ↥(xBar d t)).Characteristic :=
+  have := xBar_normal d t
+  have : (CFSG.perfectResidual ↥(xBar d t)).Characteristic :=
     CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic
   unfold nOneBar
   infer_instance
 
+omit [Finite G] in
 theorem normalizer_D₅_le_normalizer_nOne {q : ℕ} (d : TrialityD4Data L q) (t : G) :
     normalizer ((yamadaD₅ d t : Subgroup G) : Set G) ≤
       normalizer ((nOne d t : Subgroup G) : Set G) := by
   intro g hg
-  haveI := nOneBar_normal d t
+  have := nOneBar_normal d t
   rw [mem_normalizer_iff]
   intro y
   have hgn : ∀ z : G, z ∈ normalizer ((yamadaD₅ d t : Subgroup G) : Set G) ↔
@@ -1856,12 +1869,15 @@ theorem normalizer_D₅_le_normalizer_nOne {q : ℕ} (d : TrialityD4Data L q) (t
     have := (nOneBar_normal d t).conj_mem _ hyN (NormalizerQuotient.proj (yamadaD₅ d t) ⟨g, hg⟩)⁻¹
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem J₆_map_le_cLV {q : ℕ} (d : TrialityD4Data L q) : d.J₆.map L.subtype ≤ cLV d :=
   Subgroup.map_mono inf_le_right
 
+omit [Finite G] in
 theorem jSixBar_le_kBar {q : ℕ} (d : TrialityD4Data L q) (t : G) : jSixBar d t ≤ kBar d t :=
   NormalizerQuotient.bar_mono (J₆_map_le_cLV d)
 
+omit [Finite G] in
 theorem four_le_card_Γ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) : 4 ≤ Nat.card d.Γ := by
   rw [d.card_Γ]
   have h1 : 4 ≤ 2 ^ f := by
@@ -1873,9 +1889,9 @@ theorem four_le_card_Γ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) : 4 ≤ Na
 theorem kBar_le_nOneBar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hp : ProductHyp h d) : kBar d t ≤ nOneBar d t := by
   obtain ⟨-, -, ⟨⟨e⟩, -⟩, -⟩ := D1_centralizer_tbar h d hp
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) d.Γ) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) d.Γ) :=
     sl2_isPerfect (four_le_card_Γ d hp.two_le)
-  haveI : Group.IsPerfect ↥(kBar d t) :=
+  have : Group.IsPerfect ↥(kBar d t) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hperf : ⁅kBar d t, kBar d t⁆ = kBar d t := Subgroup.isPerfect_iff.1 inferInstance
   have hkx : kBar d t ≤ xBar d t := fun x hx => Subgroup.subset_normalClosure hx
@@ -1900,6 +1916,7 @@ theorem P_le_nOne (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produ
   exact ⟨h.yamadaP_le_normalizer_yamadaD₅ d hp.layer hx,
     pBar_le_nOneBar h d hp (NormalizerQuotient.proj_mem_bar hx)⟩
 
+omit [Finite G] in
 theorem N1Factor.le_normalizer_conj (d : TrialityD4Data L (2 ^ f)) {K₁ : Subgroup G}
     (hK₁ : IsN1Factor d t K₁) : K₁ᵍ[t] ≤ normalizer ((K₁ : Subgroup G) : Set G) := by
   refine le_normalizer_of_commutator_mem fun x hx y hy => ?_
@@ -1907,6 +1924,7 @@ theorem N1Factor.le_normalizer_conj (d : TrialityD4Data L (2 ^ f)) {K₁ : Subgr
   rw [Subgroup.commutator_comm] at h1
   exact hK₁.D₅_le (hK₁.comm_le h1)
 
+omit [Finite G] in
 theorem N1Factor.card_nOne [Finite G] (d : TrialityD4Data L (2 ^ f)) {K₁ : Subgroup G}
     (hK₁ : IsN1Factor d t K₁) :
     Nat.card (nOne d t) = Nat.card (yamadaD₅ d t) *
@@ -1970,6 +1988,7 @@ theorem jZeroG_le_nOne (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : 
     exact ⟨x, d.J₀_le_J₆ hx, rfl⟩
   exact NormalizerQuotient.proj_mem_bar (X := d.J₆.map L.subtype) hj6
 
+omit [Finite G] in
 theorem odd_card_jZeroG {q : ℕ} (d : TrialityD4Data L q) :
     Odd (Nat.card (jZeroG d : Subgroup G)) := by
   show Odd (Nat.card (d.J₀.map L.subtype : Subgroup G))
@@ -2329,6 +2348,7 @@ theorem F1_one_b (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
       (P_le_normalizer_K₁ h d hp hK₁ hpow)
   exact Subgroup.mem_inf.2 ⟨hgK₁, mem_normalizer_commutator hgK₁⟩
 
+omit [Finite G] in
 theorem kFour_le_kTwo (d : TrialityD4Data L (2 ^ f)) (K : Subgroup G) :
     kFour d t K ≤ kTwo d t K := by
   have hcl : ⁅kTwo d t K, kTwo d t K⁆ ≤ kTwo d t K :=
@@ -2967,7 +2987,7 @@ theorem F2_Q₁M₆ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Pro
   have hqE' : qOne d t K₁ ≤ E' := by
     intro x hx
     have hq2 : IsPGroup 2 (qOne d t K₁) := hSyl2.isPGroup.to_le hqP
-    haveI : Group.IsNilpotent (qOne d t K₁) := hq2.isNilpotent
+    have : Group.IsNilpotent (qOne d t K₁) := hq2.isNilpotent
     have hcop : Nat.Coprime (Nat.card (jZeroG d : Subgroup G)) (Nat.card (qOne d t K₁)) := by
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(qOne d t K₁))).1 hq2
       rw [hn]

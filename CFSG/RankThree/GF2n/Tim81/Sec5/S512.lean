@@ -98,6 +98,7 @@ private theorem exists_torus_card {M V : Subgroup G} (hroot : RootHyp M V)
         _ ≤ 2 ^ (2 * l) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
 
+omit [Finite G] in
 private theorem exists_mem_H₁_piK_eq {V H H₁ : Subgroup G} (hH₁ : H₁ ≤ H)
     (hsup : kOf V H ⊔ H₁ = H) {z : ↥H} :
     ∃ h₁ : ↥H₁, piK V H (Subgroup.inclusion hH₁ h₁) = piK V H z := by
@@ -139,7 +140,7 @@ private theorem isPGroup_ker_comp_piK {M V H H₁ : Subgroup G} (hroot : RootHyp
         ψ.injective (by simpa using hy)
       exact (piK_eq_one_iff _).mp hpi
     · intro hy
-      simp only [MonoidHom.comp_apply, MonoidHom.mem_ker]
+      simp only [MonoidHom.comp_apply]
       rw [(piK_eq_one_iff _).mpr hy, map_one]
   rw [h1]
   have hK2 : IsPGroup 2 ((kOf V H).subgroupOf H) :=
@@ -151,7 +152,7 @@ private theorem exists_lift_torus {M V : Subgroup G} (hroot : RootHyp M V)
     {H : Subgroup G} {h₀ : G} (hSh : Sec45Shape M V H h₀)
     {F : Type} [Field F] [Fintype F] [CharP F 2] {l : ℕ}
     {hl : Fintype.card F = 2 ^ (2 * l)}
-    {ψ : HBar V H ≃* SL(2, F)} (hw : Sec45ShapeWith M V H F l hl ψ)
+    {ψ : HBar V H ≃* SL(2, F)} (_hw : Sec45ShapeWith M V H F l hl ψ)
     {H₁ : Subgroup G} (hH₁ : H₁ ≤ H) (hsup : kOf V H ⊔ H₁ = H)
     {T : Subgroup SL(2, F)} (hTodd : Odd (Nat.card T)) :
     ∃ R : Subgroup G, R ≤ H₁ ∧ Nat.card R = Nat.card T ∧
@@ -179,8 +180,8 @@ private theorem exists_lift_torus {M V : Subgroup G} (hroot : RootHyp M V)
   · have h1 : (imgK V H RG).map ψ.toMonoidHom = R.map ε := by
       ext y
       constructor
-      · rintro ⟨w, hw, rfl⟩
-        obtain ⟨x, hx, rfl⟩ := mem_imgK_iff.mp hw
+      · rintro ⟨w, _hw, rfl⟩
+        obtain ⟨x, hx, rfl⟩ := mem_imgK_iff.mp _hw
         obtain ⟨r, hr, heq⟩ := Subgroup.mem_map.mp hx
         refine Subgroup.mem_map.mpr ⟨r, hr, ?_⟩
         have hx' : x = ⟨(r : G), hH₁ r.2⟩ := Subtype.ext heq.symm
@@ -242,11 +243,11 @@ private theorem mem_xOf_of_mem_inf_Pc_kOf_centralizer {M V : Subgroup G} (hroot 
   have hAcard : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = Fintype.card F := by
     simpa [CGT.Timmesfeld75.conjSubgroup_one] using hsyl.2
   have hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H) := hSh.isElemAbelian hroot
-  haveI hmodW : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmodW : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hSh.quotModHyp hroot
-  haveI hKnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
-  haveI hmodK : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
+  have hKnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hmodK : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
   have hσ : Sec2.IsNatSumModule (repSec hs hs.comm SL(2, F) ψ) :=
     hw.natSum hs (inferInstance : Module (ZMod 2) (SecMod hs))
   intro m hm hmC
@@ -296,7 +297,7 @@ private theorem inf_xOf_centralizer_eq_bot {M V : Subgroup G} (hroot : RootHyp M
     Tim79a.xOf V H ⊓ Subgroup.centralizer (R : Set G) = ⊥ := by
   classical
   have hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H) := hSh.isElemAbelian hroot
-  haveI hmodW : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmodW : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW hW ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)
@@ -315,7 +316,7 @@ private theorem inf_xOf_centralizer_eq_bot {M V : Subgroup G} (hroot : RootHyp M
     have h4 := hroot.four_le_card
     rw [hw.card_V] at h4
     omega
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hfix := horth.fixedSub_eq_bot_of_torus hl2 hA2 hAcard hTN hTcard
   have hfixed : fixedSub (repW hW ψ) T =
       subW hW (Tim79a.xOf V H ⊓ Subgroup.centralizer (R : Set G)) := by
@@ -345,9 +346,9 @@ private theorem exists_torus_lift (hS : Sec5Hyp M V) {h : G}
   have hroot := hS.toRootHyp
   have hSh : Sec45Shape M V (hOf M V h) h := hS.shape hU'
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSh.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   obtain ⟨T, hTN, hTcardF, hTodd, hTne⟩ := exists_torus_card hroot hSh hw
   have hTcard : Nat.card T = 2 ^ (2 * l) - 1 := by
     rw [hTcardF, hl]

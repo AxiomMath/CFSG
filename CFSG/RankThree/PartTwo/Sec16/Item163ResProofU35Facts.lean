@@ -36,7 +36,7 @@ theorem facts (h : Sec15R G A c L) (hY : Y ∈ scriptY0Star A (lB A))
       (∀ σ : MulAut ↥L, (∀ k : ↥L, (k : G) ∈ Y ⊓ L → σ k = k) → σ = 1) := by
   obtain ⟨⟨inst5, ⟨φU⟩⟩, ⟨φY⟩, hcov, -, -, hLs, -⟩ := hC
   have hD := h.toSec13Data
-  haveI := inst5
+  have := inst5
   set U := ↥(projSU 3 5 1) with hUdef
   have hUcard : Nat.card U = 126000 := Proof1515.card_projSU_three_five
   have : Finite U := Nat.finite_of_card_ne_zero (by rw [hUcard]; norm_num)
@@ -110,8 +110,8 @@ theorem pCoreOf_inf_centralizer_c_eq_bot (h : Sec15R G A c L)
       (hQ2.to_inf_left (K := K)).of_equiv
         (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
     have hKsimple : IsSimpleGroup ↥K := by
-      haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : Nontrivial ↥K := φK.surjective.nontrivial
+      have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : Nontrivial ↥K := φK.surjective.nontrivial
       exact IsSimpleGroup.isSimpleGroup_of_surjective φK.symm.toMonoidHom φK.symm.surjective
     have hnonab : ∃ a b : ↥K, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ : ∃ a b : alternatingGroup (Fin 7), a * b ≠ b * a := by
@@ -136,7 +136,7 @@ theorem pCoreOf_inf_centralizer_c_eq_bot (h : Sec15R G A c L)
       have := congrArg φK h
       simpa using this
     have hRbot : (Q ⊓ K).subgroupOf K = ⊥ := by
-      haveI := hRnorm
+      have := hRnorm
       exact CFSG.eq_bot_of_normal_isPGroup_of_isSimpleGroup hnonab hR2
     rw [← Subgroup.map_subgroupOf_eq_of_le (inf_le_right : Q ⊓ K ≤ K), hRbot,
       Subgroup.map_bot]
@@ -151,7 +151,7 @@ theorem pCoreOf_inf_centralizer_c_eq_bot (h : Sec15R G A c L)
       have h1 : k * p * k⁻¹ ∈ Q :=
         (Subgroup.mem_normalizer_iff.mp (hYQn hkY) p).mp hpQ
       have h3 : p * (k * p * k⁻¹)⁻¹ ∈ Q := Q.mul_mem hpQ (Q.inv_mem h1)
-      convert h3 using 1 <;> group
+      convert h3 using 1; group
     have hcommL : p * k * p⁻¹ * k⁻¹ ∈ L := by
       have hpC : p ∈ Subgroup.centralizer ({c} : Set G) := (hPdef ▸ hp).2
       have hpN : p ∈ Subgroup.normalizer (L : Set G) :=
@@ -245,7 +245,7 @@ theorem exists_a (h : Sec15R G A c L) (hY : Y ∈ scriptY0Star A (lB A))
     intro a ha
     refine Subgroup.mem_normalizer_iff.mpr fun y => ⟨fun hy => hconjQw a ha y hy, fun hy => ?_⟩
     have h := hconjQw a⁻¹ (A.inv_mem ha) (a * y * a⁻¹) hy
-    convert h using 1 <;> group
+    convert h using 1; group
   have gen : ∀ X : Subgroup G, X ≠ ⊥ → IsPGroup 2 X → A ≤ Subgroup.normalizer (X : Set G) →
       ∃ B : Subgroup G, B ≤ A ∧ Nat.card B = 9 ∧ X ⊓ Subgroup.centralizer (B : Set G) ≠ ⊥ := by
     intro X hXne hX2 hAX
@@ -404,10 +404,10 @@ theorem xA_le_centralizer (h : Sec15R G A c L) (hY : Y ∈ scriptY0Star A (lB A)
       Subtype.ext (pow_orderOf_eq_one x)
     rw [h1, map_one]
   obtain ⟨inst5, ⟨φU⟩⟩ := hC.1
-  haveI := inst5
+  have := inst5
   have hUcard : Nat.card ↥(projSU 3 5 1) = 126000 := Proof1515.card_projSU_three_five
-  haveI : Finite ↥(projSU 3 5 1) := Nat.finite_of_card_ne_zero (by rw [hUcard]; norm_num)
-  haveI : Nontrivial ↥(projSU 3 5 1) :=
+  have : Finite ↥(projSU 3 5 1) := Nat.finite_of_card_ne_zero (by rw [hUcard]; norm_num)
+  have : Nontrivial ↥(projSU 3 5 1) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hUcard]; norm_num)
   obtain ⟨ψL⟩ := Res163.nonempty_mulEquiv_of_isSimpleGroup hLs φU
   let ψ : ↥L ≃* Res3U35.PU5 := ψL.trans Res3U35.equivPU
@@ -433,7 +433,7 @@ theorem xA_le_centralizer (h : Sec15R G A c L) (hY : Y ∈ scriptY0Star A (lB A)
     intro y hy
     have hyE : g⁻¹ * y * g ∈ E := by
       rw [hg (g⁻¹ * y * g)]
-      convert hy using 1 <;> group
+      convert hy using 1; group
     have h1 := hσfixE _ hyE
     change MulAut.conj (MulAut.conj g) σ' y = y
     simp only [MulAut.mul_apply, MulAut.inv_apply, MulAut.conj_apply, MulAut.conj_symm_apply]
@@ -625,7 +625,7 @@ theorem le_pPrimeCoreOf (h : Sec15R G A c L) (hY : Y ∈ scriptY0Star A (lB A))
     have hOn : (O.subgroupOf C).Normal := by
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer hOleC, hOdef]
       exact le_normalizer_pPrimeCoreOf 3 C
-    haveI := hOn
+    have := hOn
     obtain ⟨o, ho, x, hx, hox⟩ := Subgroup.mem_sup_of_normal_left.mp hySup
     have hoO : (o : G) ∈ O := Subgroup.mem_subgroupOf.mp ho
     have hxOA : (x : G) ∈ OA := Subgroup.mem_subgroupOf.mp hx

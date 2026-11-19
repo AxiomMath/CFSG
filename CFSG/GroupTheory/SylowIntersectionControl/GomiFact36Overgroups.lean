@@ -121,7 +121,7 @@ theorem gomiTwoOvergroups_sl3 (K : Type) [Field K] [Finite K] [CharP K 2] :
     rw [CFSG.QuasithinUnique.Vol2Native.A312L.upperTriangular_eq_flagStabilizer_full]
     congr 1
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     omega
   rcases CFSG.Quasithin.H13.L3318.overgroups_three hNP.le with h | h | h | h
   · exact absurd h hPt.ne

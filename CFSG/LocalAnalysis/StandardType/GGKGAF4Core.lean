@@ -120,14 +120,14 @@ theorem ggF4_image_component {L' R : Type} [Group L'] [Group R] (ψ : L' →* R)
       exact Subgroup.mem_center_iff.mpr fun y => by
         obtain ⟨x, rfl⟩ := hsurj y
         rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp hj x]
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
   have e1 : ↥J ⧸ φ.ker ≃* ↥(J.map ψ) ⧸ Subgroup.center ↥(J.map ψ) :=
     QuotientGroup.quotientKerEquivOfSurjective φ hsurjφ
   have e2 : ↥J ⧸ Subgroup.center ↥J ≃* ↥J ⧸ φ.ker :=
     QuotientGroup.quotientMulEquivOfEq hkerφ.symm
   have e : ↥J ⧸ Subgroup.center ↥J ≃*
       ↥(J.map ψ) ⧸ Subgroup.center ↥(J.map ψ) := e2.trans e1
-  haveI hperfJ : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ.2.2.1
+  have hperfJ : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ.2.2.1
   have hperfect : commutator ↥(J.map ψ) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := ψJ) hsurj).commutator_eq_top
   have hsimple : IsSimpleGroup (↥(J.map ψ) ⧸ Subgroup.center ↥(J.map ψ)) :=
@@ -243,7 +243,7 @@ theorem ggF4CentAt_of_core {p f : ℕ} {R : Type} [Group R] {I : Set (MulAut R)}
       intro r
       obtain ⟨l, rfl⟩ := hψ r
       have h := congrArg (fun m : MulAut L' => ψ (m l)) hea
-      simp only [Equiv.Perm.mul_apply, MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv] at h
+      simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv] at h
       simpa [mul_assoc] using h
     have hc : (ψ v * ψ u)⁻¹ * (ψ u * ψ v) ∈ Subgroup.center R := by
       rw [Subgroup.mem_center_iff]

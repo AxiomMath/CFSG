@@ -45,7 +45,7 @@ theorem conj_diag_tv {i j : Fin 3} (hij : i ≠ j) (d : Fin 3 → Fˣ) (t : F) :
   ext a b
   simp only [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.add_apply, Matrix.one_apply,
     Matrix.single_apply]
-  fin_cases a <;> fin_cases b <;> fin_cases i <;> fin_cases j <;> simp_all [Fin.sum_univ_three] <;>
+  fin_cases a <;> fin_cases b <;> fin_cases i <;> fin_cases j <;> simp_all <;>
     ring_nf
 
 theorem field_tv {i j : Fin 3} (hij : i ≠ j) (σ : F ≃+* F) (t : F) :
@@ -90,8 +90,8 @@ theorem tv_pow_char {i j : Fin 3} (hij : i ≠ j) (t : F) :
 
 theorem coprime_ringChar_three [Finite F] (h3 : 3 ∣ Nat.card F - 1) : Nat.Coprime (ringChar F) 3 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F (ringChar F) := ringChar.charP F
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F (ringChar F) := ringChar.charP F
   obtain ⟨n, hn, hcard⟩ := FiniteField.card F (ringChar F)
   rw [Nat.coprime_primes hn Nat.prime_three]
   rintro h

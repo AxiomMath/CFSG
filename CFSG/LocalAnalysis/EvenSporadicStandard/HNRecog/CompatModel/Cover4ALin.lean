@@ -26,7 +26,7 @@ theorem End_sum_fixed {σ : V →ₗ[ZMod 2] V} (h5 : σ ^ 5 = 1) (x : V) :
   have h5x : (σ ^ 5) x = x := by rw [h5]; rfl
   simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty, zero_add, map_add,
     End_apply_pow_succ, pow_zero, Module.End.one_apply, h5x]
-  simp only [zero_add, pow_one, h5x]
+  simp only [pow_one]
   abel
 
 theorem End_sum_of_fixed {σ : V →ₗ[ZMod 2] V} {x : V} (hx : σ x = x) :
@@ -67,7 +67,7 @@ theorem cover_lin (β : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2)
     rw [hTapp, hTapp]
     simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty, zero_add, e,
       pow_zero, Module.End.one_apply, h5x]
-    simp only [zero_add, pow_one, h5x]
+    simp only [pow_one]
     abel
   have hTσpow : ∀ (i : ℕ) x, T ((σ ^ i) x) = T x := by
     intro i

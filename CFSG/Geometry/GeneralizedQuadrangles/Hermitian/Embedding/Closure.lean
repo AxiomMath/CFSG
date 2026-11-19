@@ -25,7 +25,7 @@ theorem card_field_eq_of_isProjGQ (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
     (hι : IsProjGQ c ι A) : Fintype.card K = s := by
   classical
   obtain ⟨L, hL⟩ := exists_line hP hT c
-  haveI : FiniteDimensional K (ι L) :=
+  have : FiniteDimensional K (ι L) :=
     Module.finite_of_finrank_pos (by rw [hι.finrank_line L hL]; norm_num)
   let B := {M : Submodule K W // ⊥ ≤ M ∧ M ≤ ι L ∧
     finrank K M = finrank K (⊥ : Submodule K W) + 1}
@@ -59,7 +59,7 @@ theorem card_field_eq_of_isProjGQ (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
       exact hinv M
   have hN : Nat.card {x : V // Γ.Adj L x} = s + 1 := by
     change (Γ.neighborSet L).ncard = s + 1
-    rw [ncard_neighborSet, hdeg L, if_neg (by rw [hL]; decide)]
+    rw [ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL]; decide)]
   rw [hbij, hcard] at hN
   omega
 
@@ -74,7 +74,7 @@ theorem sq_mul_eq_mul_pow (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   have hp1 : finrank K (ι p) = 1 := hι.finrank_point p hp
   let H : Submodule K W := perpSpan c ι p
   have hHA : H ≤ A := perpSpan_le_ambient hι p
-  haveI : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
+  have : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
   have hHdim : finrank K H + 1 = finrank K A := finrank_perpSpan_add_one hP hT hι hp
   have hA2 : 2 ≤ finrank K A := by
     have hle : ι p ≤ H := submodule_le_perpSpan ⟨hp, by simp⟩
@@ -104,23 +104,23 @@ theorem sq_mul_eq_mul_pow (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   have hdimS : ∀ T : S, finrank K T.1 = 2 := by
     intro T
     rw [T.2.2.2.1, hp1]
-  haveI : Finite A := Module.finite_of_finite K
-  haveI hfinSub : Finite {T : Submodule K W // T ≤ A} := by
-    haveI : Finite (Submodule K A) :=
+  have : Finite A := Module.finite_of_finite K
+  have hfinSub : Finite {T : Submodule K W // T ≤ A} := by
+    have : Finite (Submodule K A) :=
       Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
     exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
-  haveI : Finite B1 :=
+  have : Finite B1 :=
     Finite.of_injective (fun T : B1 => (⟨T.1, T.2.2.1⟩ : {T : Submodule K W // T ≤ A}))
       (fun _ _ h => Subtype.ext (Subtype.mk.inj h))
-  haveI : Finite B2 :=
+  have : Finite B2 :=
     Finite.of_injective (fun T : B2 => (⟨T.1, T.2.2.1.trans hHA⟩ : {T : Submodule K W // T ≤ A}))
       (fun _ _ h => Subtype.ext (Subtype.mk.inj h))
-  haveI : Finite S :=
+  have : Finite S :=
     Finite.of_injective (fun T : S => (⟨T.1, T.2.2.1⟩ : {T : Submodule K W // T ≤ A}))
       (fun _ _ h => Subtype.ext (Subtype.mk.inj h))
   have hfiber : ∀ T : S, Nat.card {w : Opp // ι w.1 ≤ T.1} = ℓ := by
     intro T
-    haveI : FiniteDimensional K T.1 := Submodule.finiteDimensional_of_le T.2.2.1
+    have : FiniteDimensional K T.1 := Submodule.finiteDimensional_of_le T.2.2.1
     have hT2 : finrank K T.1 = 2 := hdimS T
     have hTline : ∀ L, c L = 1 → ι L ≠ T.1 := by
       intro L hL hLeq
@@ -191,15 +191,15 @@ theorem sq_mul_eq_mul_pow (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       ⟨Tw, ⟨le_sup_left, hTwA, ⟨by rw [hTw2, hp1], hTwH⟩⟩⟩
     refine Nat.card_eq_one_iff_exists.mpr ⟨⟨TwS, le_sup_right⟩, ?_⟩
     rintro ⟨T, hwT⟩
-    haveI : FiniteDimensional K T.1 := Submodule.finiteDimensional_of_le T.2.2.1
+    have : FiniteDimensional K T.1 := Submodule.finiteDimensional_of_le T.2.2.1
     apply Subtype.ext
     apply Subtype.ext
     exact (Submodule.eq_of_le_of_finrank_eq (sup_le T.2.1 hwT)
       (by rw [hTw2, hdimS T])).symm
   have hdouble : Nat.card Opp * 1 = Nat.card S * ℓ := by
     classical
-    letI : Fintype Opp := Fintype.ofFinite Opp
-    letI : Fintype S := Fintype.ofFinite S
+    let : Fintype Opp := Fintype.ofFinite Opp
+    let : Fintype S := Fintype.ofFinite S
     let r : Opp → S → Prop := fun w T => ι w.1 ≤ T.1
     have hm : ∀ w : Opp, (Finset.univ.bipartiteAbove r w).card = 1 := by
       intro w
@@ -211,7 +211,7 @@ theorem sq_mul_eq_mul_pow (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
         using hfiber T
     have h := Finset.card_mul_eq_card_mul (r := r) (s := (Finset.univ : Finset Opp))
       (t := (Finset.univ : Finset S)) (fun w _ => hm w) (fun T _ => hn T)
-    simp only [Finset.card_univ, Nat.card_eq_fintype_card] at h
+    simp only [Finset.card_univ] at h
     simpa only [Nat.card_eq_fintype_card] using h
   have hOpp : Nat.card Opp = s ^ 2 * t := by
     rw [show Nat.card Opp = ({w : V | Γ.dist p w = 4}).ncard from
@@ -372,9 +372,9 @@ theorem iSup_traceSet_eq_perpSpan_inf (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
         simpa [SimpleGraph.dist_comm] using u.2.2.le⟩
   have hxA : perpSpan c ι x ≤ A := perpSpan_le_ambient hι x
   have hyA : perpSpan c ι y ≤ A := perpSpan_le_ambient hι y
-  haveI : FiniteDimensional K (perpSpan c ι x) := Submodule.finiteDimensional_of_le hxA
-  haveI : FiniteDimensional K (perpSpan c ι y) := Submodule.finiteDimensional_of_le hyA
-  haveI : FiniteDimensional K D :=
+  have : FiniteDimensional K (perpSpan c ι x) := Submodule.finiteDimensional_of_le hxA
+  have : FiniteDimensional K (perpSpan c ι y) := Submodule.finiteDimensional_of_le hyA
+  have : FiniteDimensional K D :=
     Submodule.finiteDimensional_of_le (hDle.trans (inf_le_left.trans hxA))
   have hyH : ι y ≤ perpSpan c ι y := submodule_le_perpSpan ⟨hy0, by simp⟩
   have hHne : perpSpan c ι x ≠ perpSpan c ι y := by
@@ -392,7 +392,7 @@ theorem iSup_traceSet_eq_perpSpan_inf (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
     perpSpan_sup_eq_of_not_le hP hT hι hx hyA hnotle
   have hxdim := finrank_perpSpan_add_one hP hT hι hx
   have hydim := finrank_perpSpan_add_one hP hT hι hy0
-  haveI : FiniteDimensional K ↥(perpSpan c ι x ⊓ perpSpan c ι y) :=
+  have : FiniteDimensional K ↥(perpSpan c ι x ⊓ perpSpan c ι y) :=
     Submodule.finiteDimensional_of_le inf_le_left
   have hinf3 : finrank K ↥(perpSpan c ι x ⊓ perpSpan c ι y) = 3 := by
     have h := Submodule.finrank_sup_add_finrank_inf_eq
@@ -400,7 +400,7 @@ theorem iSup_traceSet_eq_perpSpan_inf (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
     rw [hsup, h5] at h
     omega
   have htracecard : (traceSet Γ x y).ncard = t + 1 := by
-    rw [ncard_trace hP hxy, hdeg x, if_pos hx]
+    rw [ncard_trace hP hxy, hdeg x, ite_eq_left hx]
   have htrace3 : 3 ≤ (traceSet Γ x y).ncard := by
     have := two_le_t hP hT c hdeg
     omega
@@ -470,12 +470,12 @@ theorem exists_not_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   by_contra h
   push Not at h
   let B := {T : Submodule K W // X ≤ T ∧ T ≤ A ∧ finrank K T = finrank K X + 1}
-  haveI : Finite A := Module.finite_of_finite K
-  haveI hfinSub : Finite {T : Submodule K W // T ≤ A} := by
-    haveI : Finite (Submodule K A) :=
+  have : Finite A := Module.finite_of_finite K
+  have hfinSub : Finite {T : Submodule K W // T ≤ A} := by
+    have : Finite (Submodule K A) :=
       Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
     exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
-  haveI : Finite B :=
+  have : Finite B :=
     Finite.of_injective (fun T : B => (⟨T.1, T.2.2.1⟩ : {T : Submodule K W // T ≤ A}))
       (fun _ _ h => Subtype.ext (Subtype.mk.inj h))
   let f : {z : V // c z = 0} → B := fun z =>

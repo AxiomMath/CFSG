@@ -139,7 +139,7 @@ private theorem psl2_reflected_torus_card_of_reflected
     exact Subgroup.map_equiv_normalizer_eq R e
   have hUsup_map : (U ⊔ Subgroup.zpowers w).map e.toMonoidHom =
       T ⊔ Subgroup.zpowers s := by
-    simpa [T, s, e, Subgroup.map_sup, MonoidHom.map_zpowers,
+    simp [T, s, e, Subgroup.map_sup, MonoidHom.map_zpowers,
       MulAut.conj_apply]
   have hNt : Subgroup.normalizer (Zt : Set (PSL2 K)) =
       T ⊔ Subgroup.zpowers s := by
@@ -175,12 +175,12 @@ private theorem psl2_reflected_torus_card_of_reflected
             (⟨t, htT⟩ : T) * (⟨x, hx⟩ : T) := by
           calc
             (⟨x, hx⟩ : T) * (⟨t, htT⟩ : T) = a ^ n * a ^ m := by
-              simpa [hn, hm]
+              simp [hn, hm]
             _ = a ^ (n + m) := by rw [zpow_add]
             _ = a ^ (m + n) := by rw [add_comm]
             _ = a ^ m * a ^ n := by rw [zpow_add]
             _ = (⟨t, htT⟩ : T) * (⟨x, hx⟩ : T) := by
-              simpa [← hm, ← hn]
+              simp [← hm, ← hn]
         simpa using congrArg Subtype.val hab
       · rw [Subgroup.zpowers_le]
         rw [Subgroup.mem_centralizer_singleton_iff]

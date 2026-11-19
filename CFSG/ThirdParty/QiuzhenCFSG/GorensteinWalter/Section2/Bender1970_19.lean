@@ -686,8 +686,7 @@ public theorem bender1970_1_9_centralizer_pGroup
   have hP : ∀ d : ℕ, P d := by
     intro d
     refine Nat.strong_induction_on d ?_
-    intro d ih
-    intro U V hVU hUp hVp hC hd
+    intro d ih U V hVU hUp hVp hC hd
     let W : Subgroup G := U ⊓ Subgroup.normalizer (V : Set G)
     have hVW : V ≤ W := by
       intro v hv

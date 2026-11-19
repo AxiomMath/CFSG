@@ -87,7 +87,7 @@ private theorem exists_abelian_of_sylow {S : Type} [Group S] [Finite S] {p e : �
   obtain ⟨hsd, hwr⟩ := CFSG.GH74.GLS.IVK.Proofs2.ivk_4_4b S ε p e hp hp2 hL P
   by_cases hmod : ((p ^ e : ℕ) : ℤ) ≡ ε [ZMOD 4]
   · obtain ⟨m, -, ⟨f⟩⟩ := hwr hmod
-    haveI := CFSG.Wreathed.base_is_abelian (2 ^ m)
+    have := CFSG.Wreathed.base_is_abelian (2 ^ m)
     let g : ↥P →* CFSG.Wreathed.Wreath (2 ^ m) := f.toMonoidHom
     refine ⟨(CFSG.Wreathed.baseSubgroup (2 ^ m)).comap g, fun a ha b hb => ?_, ?_⟩
     · apply f.injective

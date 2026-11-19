@@ -19,7 +19,7 @@ theorem i196_of_facts
     (hC2 : I196ChevCard p) :
     I196At G p := by
   intro hp hp2 X J B _hX hJ hchev hB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hL : LieQConstrained p := lieQConstrained_odd hp hp2
   have hcases := isChevCases_innerAut hp hp2 hK hchev hC1.1

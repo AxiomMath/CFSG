@@ -86,7 +86,7 @@ public theorem theorem_12_6_irreducible_of_frobenius
       Section6.inducedKernelFamily (H.subgroupOf L) ⊥ S :=
     theorem_12_6_inducedKernelFamily_bot_of_hypothesis12 L H S R τ h12_1
   rcases hfrob with ⟨_hHL, hHnorm, _Rcomp, hcomp, _hHne, _hRne, hcent⟩
-  haveI : (H.subgroupOf L).Normal := hHnorm
+  have : (H.subgroupOf L).Normal := hHnorm
   exact Section6.theorem_6_8_inducedKernelFamily_irreducible_of_frobenius_complement
     hSbot hcomp hcent
 
@@ -299,7 +299,7 @@ public theorem theorem_12_6_theorem_6_8_hypothesis_of_TI
   rcases hfrob with ⟨_hHLf, hHnormf, Rcomp, hcomp, hHne, hRne, hcent⟩
   have h12_1' : hypothesis_12_1_data L H S R τ :=
     ⟨hmax, hMF, hTypeI, hS, hτ⟩
-  haveI : (H.subgroupOf L).Normal := hHnormf
+  have : (H.subgroupOf L).Normal := hHnormf
   refine ⟨Rcomp, ⊥, ⊥, ?_⟩
   refine ⟨?hsemi, ?hodd, hHne, ?hnil, ?hTI68, ?hSbot, ?hTind, Or.inl ?hfrob6⟩
   · exact
@@ -450,7 +450,7 @@ public theorem theorem_12_6_equal_degree_of_rank_two
       Section6.inducedKernelFamily (H.subgroupOf L) ⊥ S :=
     theorem_12_6_inducedKernelFamily_bot_of_hypothesis12 L H S R τ h12_1'
   have hKcomm : IsMulCommutative (H.subgroupOf L) := by
-    letI : IsMulCommutative H := hrank.1
+    let : IsMulCommutative H := hrank.1
     refine IsMulCommutative.mk <| Std.Commutative.mk <| fun a b => ?_
     apply Subtype.ext
     apply Subtype.ext
@@ -540,7 +540,7 @@ public theorem theorem_12_6_hypothesis_6_4_of_exponent_case
       Section6.frobeniusQuotientWithKernel
         (H.subgroupOf L) ⁅H.subgroupOf L, H.subgroupOf L⁆ := by
     rcases hfrob with ⟨_hHLf, hHnormf, Rcomp, hcomp, _hHneF, hRne, hcent⟩
-    haveI : (H.subgroupOf L).Normal := hHnormf
+    have : (H.subgroupOf L).Normal := hHnormf
     have hcentElem :
         ∀ r : Rcomp, r ≠ 1 →
           elementCentralizerIn (H.subgroupOf L) (r : L) = ⊥ := by
@@ -559,7 +559,7 @@ public theorem theorem_12_6_hypothesis_6_4_of_exponent_case
       Section6.nilpotentQuotient (⊥ : Subgroup L) (H.subgroupOf L) :=
     Section6.theorem_6_8_nilpotentQuotient_bot (H.subgroupOf L) _hHnorm hnilLocal
   have hsolvLocal : Group.IsSolvable (H.subgroupOf L) := by
-    letI : Group.IsNilpotent (H.subgroupOf L) := hnilLocal
+    let : Group.IsNilpotent (H.subgroupOf L) := hnilLocal
     exact IsNilpotent.to_isSolvable
   have h61 :
       Section6.hypothesis_6_1_statement (H.subgroupOf L) S τ :=
@@ -726,7 +726,7 @@ public theorem theorem_12_6_quotient_exponent_eq_card_of_typeF
       rw [isZGroup_iff]
       intro p hp P
       exact hcycSylow ⟨p, hp⟩ P
-    letI : IsZGroup U := hZU
+    let : IsZGroup U := hZU
     exact (IsZGroup.exponent_eq_card U).symm
   have hcompLocal : (H.subgroupOf L).IsComplement' (U.subgroupOf L) :=
     section12ComplementIn_left_normal_isComplement' hcomp hHnorm
@@ -783,7 +783,7 @@ public theorem theorem_12_6_coherent_of_exponent_case
   have hF' : Section8.typeFData L H U U1 U0 :=
     ⟨hsolvL, hoddL, hMF, hHne, hHLt, hUne, hcomp, hU1leU,
       hU1comm, hU1norm, hcent, hU0leU, hexpU0, hfrobU0⟩
-  haveI : (H.subgroupOf L).Normal :=
+  have : (H.subgroupOf L).Normal :=
     section16MFSubgroup_subgroupOf_normal hMF
   have hquot_exp_card :
       Monoid.exponent (L ⧸ H.subgroupOf L) =
@@ -796,7 +796,7 @@ public theorem theorem_12_6_coherent_of_exponent_case
   have hp_mem_H : pp ∈ subgroupPrimeSet H := by
     have hH_ne_bot : H ≠ ⊥ := ne_of_gt hHne
     have hπH : subgroupPrimeSet H = ({pp} : Set Nat.Primes) := by
-      haveI : Fact p.Prime := ⟨hpprime⟩
+      have : Fact p.Prime := ⟨hpprime⟩
       have hp_eq : (⟨p, Fact.out⟩ : Nat.Primes) = pp := Subtype.ext rfl
       simpa [pp, hp_eq] using
         section8_subgroupPrimeSet_eq_singleton_of_isPGroup_ne_bot
@@ -843,7 +843,7 @@ public theorem theorem_12_6_coherent_of_exponent_case
       have hp_mem_single : pp ∈ ({qq} : Set Nat.Primes) := by
         have hH_ne_bot : H ≠ ⊥ := ne_of_gt hHne
         have hπH : subgroupPrimeSet H = ({qq} : Set Nat.Primes) := by
-          haveI : Fact q.Prime := ⟨hqprime⟩
+          have : Fact q.Prime := ⟨hqprime⟩
           simpa [qq] using
             section8_subgroupPrimeSet_eq_singleton_of_isPGroup_ne_bot
               (G := G) (p := q) (H := H) hqH hH_ne_bot

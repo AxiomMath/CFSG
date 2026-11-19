@@ -40,13 +40,13 @@ theorem s16c34_thirteen_k_of_large_s (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hs : 7 ≤ s15 D.M V₀ V hV L) : D.k = 1 := by
   classical
   have hpf := h.hyp151.hyp125.pairFacts
-  haveI hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
   obtain ⟨n, hsn, Xbar, hXnorm, hXel, hXcard, hXc⟩ :=
     s15_Thirteen_exists_xbar D h1217 h.hyp151 hV hL hγ
   have hn6 : 6 ≤ n := by omega
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp151.hyp125
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (F11.O2p 3 D.M)
   have hO2p_le : F11.O2p 3 D.M ≤ D.M := by
     rw [F11.O2p]
@@ -88,7 +88,7 @@ theorem s16c34_thirteen_gamma_two (D : Data G) (hSg : UC6S846.SigmaStd D)
       obtain ⟨p, hp⟩ := hSg.nonempty
       have hpp := D.sig_prime p hp
       have hpf := h.hyp151.hyp125.pairFacts
-      haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+      have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
         WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
       have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp151.hyp125
       obtain ⟨-, h1p⟩ := h1111 V₀ V hH11 p hp

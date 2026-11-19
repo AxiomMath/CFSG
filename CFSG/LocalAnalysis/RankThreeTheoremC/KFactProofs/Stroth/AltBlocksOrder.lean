@@ -20,7 +20,7 @@ theorem factorization_factorial_of_lt_sq {p n : ℕ} (hp : p.Prime) (hn : n < p 
 theorem factorization_card_alternatingGroup_fin {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hn2 : 2 ≤ n) (hn : n < p ^ 2) :
     (Nat.card (alternatingGroup (Fin n))).factorization p = n / p := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
   have h2 : 2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
     rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_fin]
   have hA : Nat.card (alternatingGroup (Fin n)) ≠ 0 := by

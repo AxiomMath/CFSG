@@ -41,7 +41,7 @@ end Conj
 
 theorem geom_sum_modEq {p ρ : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hρ : ρ ≡ 1 [MOD p]) :
     (∑ k ∈ range p, ρ ^ k) ≡ p [MOD p ^ 2] := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hρ1 : 1 ≤ ρ := by
     by_contra h
     have h0 : ρ = 0 := by omega
@@ -100,7 +100,7 @@ theorem comm_of_pow_eq_one {G : Type*} [Group G] [Finite G] {p m : ℕ} (hp : p.
   · have hg1 : g = 1 := by simpa using hg
     subst hg1
     simp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨r, hr⟩ : ∃ r : ℕ, d * g * d⁻¹ = g ^ r := by
     obtain ⟨r, hr⟩ := (mem_powers_iff_mem_zpowers).mpr hdg
     exact ⟨r, hr.symm⟩

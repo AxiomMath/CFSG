@@ -10,23 +10,30 @@ namespace Config
 
 variable {X : Type*} [Group X] (C : Config X) [hN : C.A.Normal]
 
+omit hN in
 theorem ev_011 : C.ev (0, 1, 1) = C.x * C.y := by
   simp [ev, show (1 : ZMod 4).val = 1 from rfl]
 
+omit hN in
 theorem ev_003 : C.ev (0, 0, 3) = C.y⁻¹ := by
   rw [y_inv_eq]; simp [ev, show (3 : ZMod 4).val = 3 from rfl]
 
+omit hN in
 theorem ev_031 : C.ev (0, 3, 1) = C.x⁻¹ * C.y := by
   rw [x_inv_eq]; simp [ev, show (3 : ZMod 4).val = 3 from rfl, show (1 : ZMod 4).val = 1 from rfl]
 
+omit hN in
 theorem ev_032 : C.ev (0, 3, 2) = C.x⁻¹ * C.y ^ 2 := by
   rw [x_inv_eq]; simp [ev, show (3 : ZMod 4).val = 3 from rfl, show (2 : ZMod 4).val = 2 from rfl]
 
+omit hN in
 theorem ρ_t_inv : C.ρ * C.t * C.ρ⁻¹ = C.uv := by rw [← C.hρuv]; group
 
+omit hN in
 theorem ρ_conj_uvt : C.ρ⁻¹ * (C.uv * C.t) * C.ρ = C.uv := by
   rw [conj_mul_eq, C.hρuv, C.hρt, ← mul_assoc, ← C.huvt, mul_assoc, ← pow_two, C.ht2, mul_one]
 
+omit hN in
 theorem ρ_uv_inv : C.ρ * C.uv * C.ρ⁻¹ = C.uv * C.t := by
   calc C.ρ * C.uv * C.ρ⁻¹ = C.ρ * (C.ρ⁻¹ * (C.uv * C.t) * C.ρ) * C.ρ⁻¹ := by rw [ρ_conj_uvt]
     _ = C.uv * C.t := by group
@@ -69,6 +76,7 @@ theorem act_sq {s : X} {vq : Co} (hq : s * s = C.ev vq) : C.act s vq = vq := by
   apply C.act_eq_of
   rw [← hq]; group
 
+omit hN in
 theorem ρ_comm_sq {s : X} (hρ : C.ρ⁻¹ * s * C.ρ = s) {vq : Co} (hq : s * s = C.ev vq) :
     fρ vq = vq := by
   apply C.ev_injective

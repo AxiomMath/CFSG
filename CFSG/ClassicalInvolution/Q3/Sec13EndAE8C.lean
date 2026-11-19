@@ -113,7 +113,7 @@ theorem ae8c_e1_act_zero_or_one (σ : Equiv.Perm (Fin 6)) {k : Fin 6 → ZMod 2}
 theorem ae8c_e1_conj_ofVec (a : AE.Wr 6) (x : Fin 6 → ZMod 2) :
     a * AE.Wr.ofVec x * a⁻¹ = AE.Wr.ofVec (ae8c_e1_act a.perm x) := by
   refine AE.Wr.ext (funext fun i => ?_) ?_
-  · simp only [AE.Wr.mul_vec, AE.Wr.inv_vec, AE.Wr.mul_perm, AE.Wr.inv_perm, AE.Wr.ofVec,
+  · simp only [AE.Wr.mul_vec, AE.Wr.inv_vec, AE.Wr.mul_perm, AE.Wr.ofVec,
       mul_one, Equiv.apply_symm_apply, ae8c_e1_act]
     exact ae8c_e1_zmod2_cancel _ _
   · simp [AE.Wr.mul_perm, AE.Wr.inv_perm, AE.Wr.ofVec]
@@ -209,6 +209,7 @@ theorem ae8c_e1_ofPerm_mem (σ : Equiv.Perm (Fin 6)) (hσ : Equiv.Perm.sign σ =
     AE.Wr.ofPerm σ ∈ AE.aeSub 6 :=
   AE.mem_aeSub.mpr ⟨by simp [AE.Wr.wsum, AE.Wr.ofPerm], by simpa [AE.Wr.ofPerm] using hσ⟩
 
+omit [Finite G] in
 theorem ae8c_e1_exists_psi_ofPerm (c : Chart Ω u) (σ : Equiv.Perm (Fin 6))
     (hσ : Equiv.Perm.sign σ = 1) :
     ∃ z : ↥(pSpan (Generic.centMembers Ω u)), (c.ψ z : AE.Wr 6) = AE.Wr.ofPerm σ :=
@@ -231,17 +232,20 @@ theorem ae8c_e1_eq_one_of_comm {Y M : Type} [Group Y] [Group M] (hY : commutator
     exact Subgroup.mem_top y
   exact (MonoidHom.mem_ker).mp (hle hy)
 
+omit [Finite G] in
 theorem ae8c_e1_inv_comm {w d : G} (h : w * d = d * w) : w * d⁻¹ = d⁻¹ * w := by
   calc w * d⁻¹ = d⁻¹ * (d * w) * d⁻¹ := by group
     _ = d⁻¹ * (w * d) * d⁻¹ := by rw [h]
     _ = d⁻¹ * w := by group
 
+omit [Finite G] in
 theorem ae8c_e1_comm_of_T {T b : G} (hT : T = 1 ∨ T = u) (hb : b * u = u * b) :
     T * b = b * T := by
   rcases hT with rfl | rfl
   · simp
   · exact hb.symm
 
+omit [Finite G] in
 theorem ae8c_e1_comm_mul_aux {d a b Ta Tb : G} (hda : d * a * d⁻¹ = a * Ta)
     (hdb : d * b * d⁻¹ = b * Tb) (hcomm : Ta * b = b * Ta) :
     (a * b)⁻¹ * (d * (a * b) * d⁻¹) = Ta * Tb := by
@@ -259,6 +263,7 @@ theorem ae8c_e1_zGroup_comm (H : End18.Hyp Ω) {a b : G} (ha : a ∈ zGroup Ω)
 theorem ae8c_e1_zGroup_sq (H : End18.Hyp Ω) {a : G} (ha : a ∈ zGroup Ω) : a * a = 1 :=
   H.endHyp.zGroup_mul_self H.perp9 a ha
 
+omit [Finite G] in
 theorem ae8c_e1_zGroup_conj (H : End18.Hyp Ω) (g : G) {x : G} (hx : x ∈ zGroup Ω) :
     g * x * g⁻¹ ∈ zGroup Ω := by
   have hx' : x ∈ Subgroup.closure {v : G | ∃ L ∈ Ω, IsUniqueInvolution L v} := hx
@@ -286,12 +291,14 @@ theorem ae8c_e1_comm_u (c : Chart Ω u) (H : End18.Hyp Ω) {d : G} (hd : d ∈ z
     d * u = u * d :=
   ae8c_e1_zGroup_comm H hd (ae8c_e1_u_mem c H)
 
+omit [Finite G] in
 theorem ae8c_e1_Y_comm_u {y : G} (hy : y ∈ pSpan (Generic.centMembers Ω u)) :
     y * u = u * y := by
   have hC : pSpan (Generic.centMembers Ω u) ≤ Subgroup.centralizer ({u} : Set G) :=
     pSpan_le fun _ hL => hL.2
   exact Subgroup.mem_centralizer_singleton_iff.mp (hC hy)
 
+omit [Finite G] in
 theorem ae8c_e1_conjSub_centMembers (H : End18.Hyp Ω) {d : G} (hdu : d * u = u * d)
     {L : Subgroup G} (hL : L ∈ Generic.centMembers Ω u) :
     conjSub d L ∈ Generic.centMembers Ω u := by
@@ -325,17 +332,20 @@ open scoped Classical in
 @[expose] noncomputable def ae8c_e1_nu (c : Chart Ω u) (g : G) : Fin 6 → ZMod 2 :=
   if h : g ∈ pSpan (Generic.centMembers Ω u) then (c.ψ ⟨g, h⟩ : AE.Wr 6).vec else 0
 
+omit [Finite G] in
 theorem ae8c_e1_nu_Y (c : Chart Ω u) {y : G} (hy : y ∈ pSpan (Generic.centMembers Ω u)) :
     ae8c_e1_nu c y = (c.ψ ⟨y, hy⟩ : AE.Wr 6).vec := by
   unfold ae8c_e1_nu
-  rw [dif_pos hy]
+  rw [dite_eq_left hy]
 
+omit [Finite G] in
 theorem ae8c_e1_psi_eq (c : Chart Ω u) {y : G} (hy : y ∈ pSpan (Generic.centMembers Ω u))
     (hperm : (c.ψ ⟨y, hy⟩ : AE.Wr 6).perm = 1) :
     (c.ψ ⟨y, hy⟩ : AE.Wr 6) = AE.Wr.ofVec (ae8c_e1_nu c y) := by
   rw [ae8c_e1_nu_Y c hy]
   exact AE.Wr.ext rfl hperm
 
+omit [Finite G] in
 theorem ae8c_e1_nu_sum (c : Chart Ω u) {y : G} (hy : y ∈ pSpan (Generic.centMembers Ω u)) :
     ∑ i, ae8c_e1_nu c y i = 0 := by
   rw [ae8c_e1_nu_Y c hy]
@@ -346,6 +356,7 @@ theorem ae8c_e1_perm_of_mem (c : Chart Ω u) (H : End18.Hyp Ω) {y : G}
     (c.ψ ⟨y, hy⟩ : AE.Wr 6).perm = 1 :=
   (Chart.mem_zGroup_iff c H ⟨y, hy⟩).mp hyD
 
+omit [Finite G] in
 theorem ae8c_e1_nu_mul (c : Chart Ω u) {a b : G} (ha : a ∈ pSpan (Generic.centMembers Ω u))
     (hb : b ∈ pSpan (Generic.centMembers Ω u)) (hperm : (c.ψ ⟨a, ha⟩ : AE.Wr 6).perm = 1) :
     ae8c_e1_nu c (a * b) = ae8c_e1_nu c a + ae8c_e1_nu c b := by
@@ -357,8 +368,9 @@ theorem ae8c_e1_nu_mul (c : Chart Ω u) {a b : G} (ha : a ∈ pSpan (Generic.cen
     rfl
   rw [key]
   funext i
-  simp [AE.Wr.mul_vec, hperm] <;> rfl
+  simp [AE.Wr.mul_vec, hperm]; rfl
 
+omit [Finite G] in
 theorem ae8c_e1_perm_conj (c : Chart Ω u) {y a : G} (hy : y ∈ pSpan (Generic.centMembers Ω u))
     (ha : a ∈ pSpan (Generic.centMembers Ω u)) (hperm : (c.ψ ⟨a, ha⟩ : AE.Wr 6).perm = 1)
     (hyay : y * a * y⁻¹ ∈ pSpan (Generic.centMembers Ω u)) :
@@ -368,6 +380,7 @@ theorem ae8c_e1_perm_conj (c : Chart Ω u) {y a : G} (hy : y ∈ pSpan (Generic.
   rw [hYe, map_mul, map_mul, map_inv]
   simp [AE.Wr.mul_perm, AE.Wr.inv_perm, hperm]
 
+omit [Finite G] in
 theorem ae8c_e1_nu_conj (c : Chart Ω u) {y a : G} (hy : y ∈ pSpan (Generic.centMembers Ω u))
     (ha : a ∈ pSpan (Generic.centMembers Ω u)) (hperm : (c.ψ ⟨a, ha⟩ : AE.Wr 6).perm = 1) :
     ae8c_e1_nu c (y * a * y⁻¹) =
@@ -546,17 +559,19 @@ open scoped Classical in
   if d ∈ pSpan (Generic.centMembers Ω u) then ae8c_e1_nu c d
   else e₁ + ae8c_e1_nu c (d₀⁻¹ * d)
 
+omit [Finite G] in
 theorem ae8c_e1_E_of_mem (c : Chart Ω u) (d₀ : G) (e₁ : Fin 6 → ZMod 2) {d : G}
     (hd : d ∈ pSpan (Generic.centMembers Ω u)) :
     ae8c_e1_E c d₀ e₁ d = ae8c_e1_nu c d := by
   unfold ae8c_e1_E
-  rw [if_pos hd]
+  rw [ite_eq_left hd]
 
+omit [Finite G] in
 theorem ae8c_e1_E_of_not_mem (c : Chart Ω u) (d₀ : G) (e₁ : Fin 6 → ZMod 2) {d : G}
     (hd : d ∉ pSpan (Generic.centMembers Ω u)) :
     ae8c_e1_E c d₀ e₁ d = e₁ + ae8c_e1_nu c (d₀⁻¹ * d) := by
   unfold ae8c_e1_E
-  rw [if_neg hd]
+  rw [ite_eq_right hd]
 
 theorem ae8c_e1_E_mul (c : Chart Ω u) (H : End18.Hyp Ω) {d₀ : G} (hd₀ : d₀ ∈ zGroup Ω)
     (e₁ : Fin 6 → ZMod 2)
@@ -1066,7 +1081,7 @@ theorem mem_normalizer_iff (H : End18.Hyp Ω) {L : Subgroup G}
       intro t ht
       obtain ⟨x, hx, hxt⟩ := hII t (by rw [heqB]; exact ht)
       have hIIIx := hIII x hx
-      rw [if_neg hodd] at hIIIx
+      rw [ite_eq_right hodd] at hIIIx
       rw [hxt]
       exact hIIIx
     have hEq : AE.memBar α h b = AE.memBar α h (!b) :=
@@ -1079,7 +1094,7 @@ theorem mem_normalizer_iff (H : End18.Hyp Ω) {L : Subgroup G}
       intro t ht
       obtain ⟨x, hx, hxt⟩ := hII t ht
       have hIIIx := hIII x hx
-      rw [if_pos hev] at hIIIx
+      rw [ite_eq_left hev] at hIIIx
       rw [hxt]
       exact hIIIx
     have hEq : AE.memBar α' h' b' = AE.memBar α h b :=
@@ -1088,11 +1103,13 @@ theorem mem_normalizer_iff (H : End18.Hyp Ω) {L : Subgroup G}
     have hLL : conjSub (d : G) L = L := c.label_inj _ hL'P L hL (hlab'.trans hlab.symm)
     exact (ae8c_e2_normalizer_iff (d : G) L).mpr hLL
 
+omit [Finite G] in
 theorem ae8c_co_u {c : Chart Ω u} (co : Coords c) (hu : u ∈ zGroup Ω) (cu : u ∈ pSpan
     (Generic.centMembers Ω u)) : (co.e ⟨u, hu⟩).toAdd = fun _ => 1 := by
   rw [co.vec ⟨u, hu⟩ ⟨u, cu⟩ rfl, c.u_eq]
   rfl
 
+omit [Finite G] in
 theorem ae8c_co_of_inv {c : Chart Ω u} (co : Coords c) {α : Finset (Fin 6)} {h : α.card = 4}
     {w : G} (hw : w ∈ zGroup Ω) (hwY : w ∈ pSpan (Generic.centMembers Ω u))
     (hψ : ((c.ψ ⟨w, hwY⟩ : AE.aeSub 6) : AE.Wr 6) = AE.zOf (AE.emb α h)) :
@@ -1103,6 +1120,7 @@ theorem ae8c_co_of_inv {c : Chart Ω u} (co : Coords c) {α : Finset (Fin 6)} {h
   · simp [AE.zOf_vec_apply, AE.range_emb, hi]
   · simp [AE.zOf_vec_apply, AE.range_emb, hi]
 
+omit [Finite G] in
 theorem ae8c_mem_normalizer_of_comm {S : Subgroup G} {g : G}
     (h : ∀ k ∈ S, k * g = g * k) : g ∈ Subgroup.normalizer (S : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1128,7 +1146,7 @@ theorem ae8c_twin_out (H : End18.Hyp Ω) (c : Chart Ω u) {R : Subgroup G}
     (hR : R ∈ Generic.centMembers Ω u) :
     ∃ L ∈ twinSet Ω R, L ∉ Generic.centMembers Ω u := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨α, h, b, hlab⟩ := c.label R hR
   obtain ⟨L₁, hL₁P, hlab₁⟩ := c.label_surj α h true
   obtain ⟨L₂, hL₂P, hlab₂⟩ := c.label_surj α h false
@@ -1178,7 +1196,7 @@ theorem ae8c_conj_mul_of_member (H : End18.Hyp Ω) (c : Chart Ω u) {R : Subgrou
     exact huR.2
   obtain ⟨k₀, hk₀L, hk₀⟩ : ∃ k₀ ∈ L, k₀ * u ≠ u * k₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hLP (Generic.mem_centMembers_iff_commute.mpr ⟨hLΩ, hcon⟩)
   have huP : u ∈ pCore 2 G := H.endHyp.zGroup_le_pCore huD
   have hcm : u * k₀ * u⁻¹ * k₀⁻¹ ∈ L ⊓ pCore 2 G := by
@@ -1228,15 +1246,16 @@ theorem ae8c_wt2_conj (H : End18.Hyp Ω) {c : Chart Ω u} (co : Coords c)
     show v i = 1 + (if i ∈ α then 1 else 0)
     rcases hcases (v i) with hvi | hvi
     · have hi : i ∈ α := by simp [hαdef, hvi]
-      rw [if_pos hi, hvi]
+      rw [ite_eq_left hi, hvi]
       decide
     · have hi : i ∉ α := by simp [hαdef, hvi]
-      rw [if_neg hi, hvi]
+      rw [ite_eq_right hi, hvi]
       decide
   have hx' : x = ⟨u, huD⟩ * ⟨w, hwD⟩ := co.e.injective key
   rw [hx']
   rfl
 
+omit [Finite G] in
 theorem ae8c_eq_one_of_wt_zero {c : Chart Ω u} (co : Coords c) {x : ↥(zGroup Ω)}
     (h : wt (co.e x).toAdd = 0) : x = 1 := by
   have hv : (co.e x).toAdd = 0 := by
@@ -1250,6 +1269,7 @@ theorem ae8c_eq_one_of_wt_zero {c : Chart Ω u} (co : Coords c) {x : ↥(zGroup 
   rw [hv]
   rfl
 
+omit [Finite G] in
 theorem ae8c_eq_u_of_wt_six {c : Chart Ω u} (co : Coords c) (hu : u ∈ zGroup Ω)
     {x : ↥(zGroup Ω)} (h : wt (co.e x).toAdd = 6) : (x : G) = u := by
   have hv : (co.e x).toAdd = fun _ => 1 := by
@@ -1362,9 +1382,11 @@ theorem ae8c_double_count {G : Type} [Group G] [Finite G] (Ω : Set (Subgroup G)
   rw [Set.ncard_eq_toFinset_card D hDf, Set.ncard_eq_toFinset_card Ω hΩf]
   linarith [key]
 
+omit [Finite G] in
 theorem ae8c_conj_eq_iff (g x y : G) : g * x * g⁻¹ = g * y * g⁻¹ ↔ x = y :=
   ⟨fun h => mul_left_cancel (mul_right_cancel h), fun h => by rw [h]⟩
 
+omit [Finite G] in
 theorem ae8c_centMembers_conj (hΩ : ConjInvariant Ω) (g a : G) :
     (Generic.centMembers Ω (g * a * g⁻¹)).ncard = (Generic.centMembers Ω a).ncard := by
   have hinj : Function.Injective (fun J : Subgroup G => conjSub g J) := by
@@ -1410,19 +1432,23 @@ def ae8c_Ds (u : G) : Set G := {x | ∃ g : G, x = g * u * g⁻¹}
 noncomputable def ae8c_xv {c : Chart Ω u} (co : Coords c) (v : Fin 6 → ZMod 2) : ↥(zGroup Ω) :=
   co.e.symm (Multiplicative.ofAdd v)
 
+omit [Finite G] in
 theorem ae8c_co_xv {c : Chart Ω u} (co : Coords c) (v : Fin 6 → ZMod 2) :
     (co.e (ae8c_xv co v)).toAdd = v := by
   simp [ae8c_xv]
 
+omit [Finite G] in
 theorem ae8c_xv_co {c : Chart Ω u} (co : Coords c) (x : ↥(zGroup Ω)) :
     ae8c_xv co (co.e x).toAdd = x := by
   simp [ae8c_xv]
 
+omit [Finite G] in
 theorem ae8c_xv_inj {c : Chart Ω u} (co : Coords c) {v w : Fin 6 → ZMod 2}
     (h : (ae8c_xv co v : G) = ae8c_xv co w) : v = w := by
   have h' : ae8c_xv co v = ae8c_xv co w := Subtype.ext h
   rw [← ae8c_co_xv co v, ← ae8c_co_xv co w, h']
 
+omit [Finite G] in
 theorem ae8c_exists_xv {c : Chart Ω u} (co : Coords c) {x : G} (hx : x ∈ zGroup Ω) :
     ∃ v : Fin 6 → ZMod 2, (ae8c_xv co v : G) = x := by
   refine ⟨(co.e ⟨x, hx⟩).toAdd, ?_⟩
@@ -1430,6 +1456,7 @@ theorem ae8c_exists_xv {c : Chart Ω u} (co : Coords c) {x : G} (hx : x ∈ zGro
     simp [ae8c_xv]
   exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem ae8c_exists_y {c : Chart Ω u} {σ : Equiv.Perm (Fin 6)} (hσ : Equiv.Perm.sign σ = 1) :
     ∃ y : ↥(pSpan (Generic.centMembers Ω u)), (c.ψ y : AE.Wr 6).perm = σ := by
   have hmem : AE.Wr.ofPerm σ ∈ AE.aeSub 6 := by
@@ -1477,6 +1504,7 @@ theorem ae8c_arith (A1 A3 A5 B1 B3 B5 c : ℕ) (hc : c ≤ 7)
     subst_vars <;> omega
 
 open scoped Classical in
+omit [Finite G] in
 theorem ae8c_ncard_coords {c : Chart Ω u} (co : Coords c) (S : Set G) (hS : S ⊆ zGroup Ω) :
     S.ncard = (Finset.univ.filter fun v : Fin 6 → ZMod 2 => (ae8c_xv co v : G) ∈ S).card := by
   classical
@@ -1501,15 +1529,18 @@ theorem ae8c_ncard_coords {c : Chart Ω u} (co : Coords c) (S : Set G) (hS : S �
       ext v
       simp
 
+omit [Finite G] in
 theorem ae8c_Ds_conj (g : G) {x : G} (hx : x ∈ ae8c_Ds u) : g * x * g⁻¹ ∈ ae8c_Ds u := by
   obtain ⟨h, rfl⟩ := hx
   exact ⟨g * h, by group⟩
 
+omit [Finite G] in
 theorem ae8c_Ds_sub (H : End18.Hyp Ω) (hu : u ∈ zGroup Ω) :
     ae8c_Ds u ⊆ zGroup Ω := by
   rintro x ⟨g, rfl⟩
   exact ae8c_conj_zGroup H.endHyp.thmD.hyp.conjInvariant g hu
 
+omit [Finite G] in
 theorem ae8c_comm_transfer (g j d : G) :
     (g * j * g⁻¹) * d = d * (g * j * g⁻¹) ↔ j * (g⁻¹ * d * g) = (g⁻¹ * d * g) * j := by
   have e1 : (g * j * g⁻¹) * d = g * (j * (g⁻¹ * d * g)) * g⁻¹ := by group
@@ -1544,6 +1575,7 @@ theorem ae8c_Zs_double (H : End18.Hyp Ω) : 4 * (ae8c_Zs Ω).ncard = Ω.ncard :=
 noncomputable def ae8c_cnt (u : G) (J : Subgroup G) : ℕ :=
   {d | d ∈ ae8c_Ds u ∧ ∀ j ∈ J, j * d = d * j}.ncard
 
+omit [Finite G] in
 theorem ae8c_cnt_conj (H : End18.Hyp Ω) {J J' : Subgroup G} (hJ : J ∈ Ω) (hJ' : J' ∈ Ω) :
     ae8c_cnt u J = ae8c_cnt u J' := by
   obtain ⟨g, hg⟩ := H.endHyp.thmD.trans J hJ J' hJ'
@@ -1576,6 +1608,7 @@ theorem ae8c_cnt_conj (H : End18.Hyp Ω) {J J' : Subgroup G} (hJ : J ∈ Ω) (hJ
       exact key
   rw [himg, Set.ncard_image_of_injective _ (fun a b h => (ae8c_conj_eq_iff g a b).mp h)]
 
+omit [Finite G] in
 theorem ae8c_coord_perm {c : Chart Ω u} (co : Coords c) (H : End18.Hyp Ω) (S : Set G)
     (hS : ∀ x ∈ S, ∀ g : G, g * x * g⁻¹ ∈ S)
     {σ : Equiv.Perm (Fin 6)} (hσ : Equiv.Perm.sign σ = 1) {v w : Fin 6 → ZMod 2}
@@ -1599,6 +1632,7 @@ theorem ae8c_coord_perm {c : Chart Ω u} (co : Coords c) (H : End18.Hyp Ω) (S :
   rw [hmem]
   exact hS _ hv _
 
+omit [Finite G] in
 theorem ae8c_Zs_class {c : Chart Ω u} (co : Coords c) (H : End18.Hyp Ω) {v w : Fin 6 → ZMod 2}
     (hvw : wt v = wt w) (hv : (ae8c_xv co v : G) ∈ ae8c_Zs Ω) :
     (ae8c_xv co w : G) ∈ ae8c_Zs Ω := by
@@ -1608,6 +1642,7 @@ theorem ae8c_Zs_class {c : Chart Ω u} (co : Coords c) (H : End18.Hyp Ω) {v w :
   obtain ⟨L, hL, hz⟩ := hx
   exact ae8c_conj_Z H.endHyp.thmD.hyp.conjInvariant (g := g) ⟨L, hL, hz⟩
 
+omit [Finite G] in
 theorem ae8c_Ds_class {c : Chart Ω u} (co : Coords c) (H : End18.Hyp Ω) {v w : Fin 6 → ZMod 2}
     (hvw : wt v = wt w) (hv : (ae8c_xv co v : G) ∈ ae8c_Ds u) :
     (ae8c_xv co w : G) ∈ ae8c_Ds u := by
@@ -1676,7 +1711,8 @@ theorem ae8c_Zs_Ds_disj (H : End18.Hyp Ω) (c : Chart Ω u) {x : G}
   obtain ⟨L, hL, hz⟩ := hZ
   exact ae8c_conj_u_not_Z H c g ⟨L, hL, hz⟩
 
-theorem ae8c_Zs_sub (H : End18.Hyp Ω) : ae8c_Zs Ω ⊆ zGroup Ω := by
+omit [Finite G] in
+theorem ae8c_Zs_sub (_H : End18.Hyp Ω) : ae8c_Zs Ω ⊆ zGroup Ω := by
   rintro x ⟨L, hL, hz⟩
   exact ae8c_mem_zGroup hL hz
 
@@ -1783,7 +1819,7 @@ theorem ae8c_classes (H : End18.Hyp Ω) (hu : SectData Ω u) {c : Chart Ω u} (c
       (ae8c_Zs_class co H (hk.trans hk'.symm) ((hZmem v).mp hv))
     exact ae8c_Zs_Ds_disj H c ((hZmem w).mp hwZ) ((hDmem w).mp hw)
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, C0, C1, C2, C3, C4, C5, C6,
-    hpz0, hpz2, hpz4, hpz6, hqz0, hqz2, hqz4, hqz6, if_true, if_false, zero_add] at hZcard hDcard
+    hpz0, hpz2, hpz4, hpz6, hqz0, hqz2, hqz4, hqz6, ite_true, ite_false, zero_add] at hZcard hDcard
   set P1 := ∃ v ∈ Zc, wt v = 1 with hP1def
   set P3 := ∃ v ∈ Zc, wt v = 3 with hP3def
   set P5 := ∃ v ∈ Zc, wt v = 5 with hP5def
@@ -1988,6 +2024,7 @@ private lemma ae8c_e89_good_one_add (v : Fin 6 → ZMod 2) (hv : ae8c_e89_good v
 private lemma ae8c_e89_good_one : ae8c_e89_good (1 : Fin 6 → ZMod 2) := by
   decide
 
+omit [Finite G] in
 private lemma ae8c_e89_mem_zGroup {c : Chart Ω u} {co : Coords c} (cl : Classes co) {x : G}
     (hx : x ∈ Delta u) : x ∈ zGroup Ω := by
   obtain ⟨h, -⟩ := (cl.u_class x).1 hx
@@ -1999,6 +2036,7 @@ private noncomputable def ae8c_e89_coord {c : Chart Ω u} {co : Coords c} (cl : 
 
 private abbrev ae8c_e89_adj (x y : ↥(Delta u)) : Prop := (x : G) * (y : G) ∈ Delta u
 
+omit [Finite G] in
 private lemma ae8c_e89_adj_iff {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     (y₁ y₂ : ↥(Delta u)) :
     ae8c_e89_adj y₁ y₂ ↔ ae8c_e89_good (ae8c_e89_coord cl y₁ + ae8c_e89_coord cl y₂) := by
@@ -2021,11 +2059,13 @@ private lemma ae8c_e89_adj_iff {c : Chart Ω u} {co : Coords c} (cl : Classes co
     rw [key hm]
     exact hg
 
+omit [Finite G] in
 private lemma ae8c_e89_coord_good {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     (y : ↥(Delta u)) : ae8c_e89_good (ae8c_e89_coord cl y) := by
   obtain ⟨_, hg⟩ := (cl.u_class (y : G)).1 y.2
   exact hg
 
+omit [Finite G] in
 private lemma ae8c_e89_coord_inj {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     {y₁ y₂ : ↥(Delta u)} (h : ae8c_e89_coord cl y₁ = ae8c_e89_coord cl y₂) : y₁ = y₂ := by
   unfold ae8c_e89_coord at h
@@ -2033,6 +2073,7 @@ private lemma ae8c_e89_coord_inj {c : Chart Ω u} {co : Coords c} (cl : Classes 
   have h2 : (y₁ : G) = (y₂ : G) := congrArg (fun z : ↥(zGroup Ω) => (z : G)) h1
   exact Subtype.ext h2
 
+omit [Finite G] in
 private lemma ae8c_e89_coord_surj {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     {v : Fin 6 → ZMod 2} (hv : ae8c_e89_good v) :
     ∃ y : ↥(Delta u), ae8c_e89_coord cl y = v := by
@@ -2045,6 +2086,7 @@ private lemma ae8c_e89_coord_surj {c : Chart Ω u} {co : Coords c} (cl : Classes
     exact hv
   exact ⟨⟨(z : G), hmem⟩, hzv⟩
 
+omit [Finite G] in
 private lemma ae8c_e89_card_filter {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     [Fintype ↥(Delta u)] (P : (Fin 6 → ZMod 2) → Prop) [DecidablePred P] :
     (Finset.univ.filter fun y : ↥(Delta u) => P (ae8c_e89_coord cl y)).card =
@@ -2064,6 +2106,7 @@ private lemma ae8c_e89_card_filter {c : Chart Ω u} {co : Coords c} (cl : Classe
     rw [hy]
     exact hv'.2
 
+omit [Finite G] in
 private lemma ae8c_e89_card_delta {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     [Fintype ↥(Delta u)] : (Finset.univ : Finset ↥(Delta u)).card = 28 := by
   calc (Finset.univ : Finset ↥(Delta u)).card
@@ -2116,6 +2159,7 @@ private lemma ae8c_e89_Loc_map {D : Type*} [DecidableEq D] (adj : D → D → Pr
       ((hσ _ _).1 (by simpa using hab'))
     exact σ.symm.injective h1
 
+omit [Finite G] in
 private lemma ae8c_e89_Loc_base {c : Chart Ω u} {co : Coords c} (cl : Classes co)
     [Fintype ↥(Delta u)] [DecidableEq ↥(Delta u)] {x0 : ↥(Delta u)}
     (hx0 : ae8c_e89_coord cl x0 = 1) : ae8c_e89_Loc ae8c_e89_adj x0 := by
@@ -2174,6 +2218,7 @@ private lemma ae8c_e89_Loc_base {c : Chart Ω u} {co : Coords c} (cl : Classes c
     apply ae8c_e89_coord_inj cl
     rw [hd, hd', ← h1, h2]
 
+omit [Finite G] in
 private lemma ae8c_e89_conj_iff (k x : G) : k * x * k⁻¹ ∈ Delta u ↔ x ∈ Delta u := by
   constructor
   · rintro ⟨g, hg⟩
@@ -2187,6 +2232,7 @@ private lemma ae8c_e89_conj_iff (k x : G) : k * x * k⁻¹ ∈ Delta u ↔ x ∈
 private noncomputable def ae8c_e89_conjEquiv (k : G) : ↥(Delta u) ≃ ↥(Delta u) :=
   Equiv.subtypeEquiv (MulAut.conj k).toEquiv (fun a => (ae8c_e89_conj_iff k a).symm)
 
+omit [Finite G] in
 private lemma ae8c_e89_conjEquiv_adj (k : G) (a b : ↥(Delta u)) :
     ae8c_e89_adj (ae8c_e89_conjEquiv k a) (ae8c_e89_conjEquiv k b) ↔ ae8c_e89_adj a b := by
   have e1 : ((ae8c_e89_conjEquiv k a : ↥(Delta u)) : G) = k * (a : G) * k⁻¹ := rfl
@@ -2197,19 +2243,19 @@ private lemma ae8c_e89_conjEquiv_adj (k : G) (a b : ↥(Delta u)) :
     group]
   exact ae8c_e89_conj_iff k _
 
-theorem Delta.ncard_eq (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c} (cl : Classes co) :
+theorem Delta.ncard_eq (_H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c} (cl : Classes co) :
     (Delta u).ncard = 28 := by
   classical
-  letI : Fintype ↥(Delta u) := Fintype.ofFinite _
+  let : Fintype ↥(Delta u) := Fintype.ofFinite _
   rw [← Nat.card_coe_set_eq, Nat.card_eq_fintype_card, ← Finset.card_univ]
   exact ae8c_e89_card_delta cl
 
-theorem exists_pairs (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c} (cl : Classes co) :
+theorem exists_pairs (_H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c} (cl : Classes co) :
     ∃ E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2},
       ∀ x y : ↥(Delta u), (x ≠ y ∧ ((x : G) * y) ∈ Delta u) ↔
         (x ≠ y ∧ ((E x : Finset (Fin 8)) ∩ (E y : Finset (Fin 8))).Nonempty) := by
   classical
-  letI : Fintype ↥(Delta u) := Fintype.ofFinite _
+  let : Fintype ↥(Delta u) := Fintype.ofFinite _
   obtain ⟨x0, hx0⟩ := ae8c_e89_coord_surj cl ae8c_e89_good_one
   have hsymm : ∀ a b : ↥(Delta u), ae8c_e89_adj a b → ae8c_e89_adj b a := by
     intro a b h

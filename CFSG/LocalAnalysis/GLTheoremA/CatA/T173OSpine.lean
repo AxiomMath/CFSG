@@ -95,7 +95,7 @@ private lemma mem_normalizer_of_perfect_piImg {Ω : Type} [Group Ω] [Finite Ω]
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKS).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKS).symm.surjective
   let H : Subgroup ↥S := (K.subgroupOf S).map (MulAut.conj s).toMonoidHom
-  haveI : Group.IsPerfect ↥(K.subgroupOf S) := hKsub
+  have : Group.IsPerfect ↥(K.subgroupOf S) := hKsub
   have hHperf : Group.IsPerfect ↥H := Group.IsPerfect.map (MulAut.conj s).toMonoidHom
   have hHle : H ≤ K.subgroupOf S ⊔ Subgroup.center ↥S := by
     rintro _ ⟨k, hk, rfl⟩

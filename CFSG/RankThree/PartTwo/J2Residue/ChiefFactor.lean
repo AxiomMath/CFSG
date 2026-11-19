@@ -36,7 +36,7 @@ private theorem le_pCore_of_isPGroup_of_le_fittingSubgroup {H : Type*} [Group H]
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S hSn
   have hmapn : ((S : Subgroup F).map F.subtype).Normal := inferInstance
   have hle : (S : Subgroup F).map F.subtype ≤ CFSG.pCore p H :=
-    le_sSup ⟨hmapn, S.isPGroup'.map _⟩
+    le_sSup ⟨hmapn, S.isPGroup.map _⟩
   intro x hx
   exact hle ⟨⟨x, hDF hx⟩, hS hx, rfl⟩
 
@@ -127,8 +127,8 @@ theorem exists_chiefFactor {G : Type} [Group G] [Finite G] {Θ U Y : Subgroup G}
   have hO2 : CFSG.pCore 2 ↥Θ = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ Θ.subtype_injective).mp hΘ2
   obtain ⟨r, hr, hr3, hrU⟩ := exists_prime_not_le_centralizer_pCoreOf hΘs hΘ3 hO2 hUΘ hU2 hU
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr5 : 5 ≤ r := by
     have hr4 : r ≠ 4 := by
       rintro rfl
@@ -147,7 +147,7 @@ theorem exists_chiefFactor {G : Type} [Group G] [Finite G] {Θ U Y : Subgroup G}
     apply hrU
     rw [← Subgroup.commutator_eq_bot_iff_le_centralizer, Subgroup.commutator_comm]
     exact le_bot_iff.mp h
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun K : Subgroup G => (K : Set G)) SetLike.coe_injective
   let s₂ : Set (Subgroup G) :=
     {K | K ≤ P ∧ H ≤ Subgroup.normalizer (K : Set G) ∧ ¬ ⁅P, U⁆ ≤ K}

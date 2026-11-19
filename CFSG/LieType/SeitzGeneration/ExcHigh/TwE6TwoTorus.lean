@@ -56,7 +56,7 @@ variable (σ : K →+* K)
 theorem not_dvd_card_ker_torusG {p : ℕ} (hp : p.Prime) (h3 : p ≠ 3) :
     ¬ p ∣ Nat.card (torusG σ).ker := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have h3' : x ^ 3 = 1 := Subtype.ext (torusG_ker_pow_three σ x.2)
   have : p ∣ 3 := hx ▸ orderOf_dvd_of_pow_eq_one h3'
@@ -160,7 +160,7 @@ theorem exists_conj_le_frame_torusG {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤
       (t : ↥(normOne σ.toRingHom) × ↥(normOne σ.toRingHom)),
       Commute (torusG σ.toRingHom t) (frameHom σ.toRingHom i A) := fun i A t =>
     torusG_commute_frame _ (frameHom_mem_rootPair σ.toRingHom) t i A
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hpq' : p ∣ Nat.card (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) + 1 := by
     rw [hkcard]; exact hpq
   refine exists_conj_le_frame_torus (frameHom σ.toRingHom) (frameHom_injective σ.toRingHom)

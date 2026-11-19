@@ -39,7 +39,7 @@ private lemma l62_pRank_two_of_commuting {G : Type} [Group G] [Finite G] {a b : 
   obtain ⟨hE, hcard⟩ := cl_step hEa hdc hb3 hbn
   have hza : Nat.card (Subgroup.zpowers a) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime ha3 ha1]
-  exact CFSG.SectionRank.le_pRank (by norm_num) le_top hE (by rw [hcard, hza] <;> norm_num)
+  exact CFSG.SectionRank.le_pRank (by norm_num) le_top hE (by rw [hcard, hza]; norm_num)
 
 theorem l62_two_le_pRank_alternating (n : ℕ) (hn : 6 ≤ n) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (alternatingGroup (Fin n))) := by

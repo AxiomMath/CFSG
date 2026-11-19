@@ -30,9 +30,9 @@ theorem card_eq_of_surjective {A : Type*} [Group A] [Finite A] {F₁ F₂ : Type
     ext x
     simp only [Subgroup.mem_inf, MonoidHom.mem_ker]
     refine ⟨fun hx => ⟨?_, hx.2⟩, fun hx => ⟨?_, hx.2⟩⟩
-    · obtain ⟨e, he⟩ := S.isPGroup' ⟨x, hx.2⟩
+    · obtain ⟨e, he⟩ := S.isPGroup ⟨x, hx.2⟩
       exact (hk x ⟨e, by simpa using congrArg Subtype.val he⟩).1 hx.1
-    · obtain ⟨e, he⟩ := S.isPGroup' ⟨x, hx.2⟩
+    · obtain ⟨e, he⟩ := S.isPGroup ⟨x, hx.2⟩
       exact (hk x ⟨e, by simpa using congrArg Subtype.val he⟩).2 hx.1
   have h4 : Nat.card F₁ ^ 4 = Nat.card F₂ ^ 4 := by
     rw [← hcard h₁, ← hcard h₂, ← Subgroup.relIndex_ker, ← Subgroup.relIndex_ker,

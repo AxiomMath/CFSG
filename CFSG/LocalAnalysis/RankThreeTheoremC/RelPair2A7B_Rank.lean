@@ -56,7 +56,7 @@ theorem not_invariantTwoMaximalWithin_of_module {p : ℕ}
     hd.ext.exists_mem_normalizer_not_mem_centralizer hS hD1 hp hd.not_le_normalizer hDab hCD
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   have hnord : ∃ k : ℕ, n ^ (3 ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨e, heD, hez⟩ : ∃ e ∈ D, e ∉ zpowers z := by
     by_contra h

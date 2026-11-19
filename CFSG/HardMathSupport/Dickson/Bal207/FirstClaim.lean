@@ -36,8 +36,8 @@ theorem ringEquiv_eq_one (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2) (hf : f
     {φ : K ≃+* K} {r : ℕ} (hr : Nat.Coprime 3 r) (hφr : φ ^ r = 1) {c : K} (hc : c ^ 3 = 1)
     (hc1 : c ≠ 1) (hφ : φ c = c) : φ = 1 := by
   subst hℓ
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨j, -, hj⟩ := CFSG.GH74.GLS.Stage2.OddAut.exists_frobenius_pow Nat.prime_two
     (by have := h.one_le; omega) h.card φ
   have hj2 : 2 ∣ j := by
@@ -209,7 +209,7 @@ theorem eq_bot_of_omegaOne (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2) (hf :
       have h4 : (A : GL (Fin n) K) * glAut φ d =
           Matrix.GeneralLinearGroup.scalar (Fin n) t * d * A := by
         rw [ht]
-        simp only [hdU', Subgroup.coe_mul, Subgroup.coe_inv, coe_primeFormFieldU, Subgroup.coe_mk]
+        simp only [hdU', Subgroup.coe_mul, Subgroup.coe_inv, coe_primeFormFieldU]
         group
       refine ⟨(t : K), fun i j => ?_⟩
       have h5 := congrArg (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K) i j) h4

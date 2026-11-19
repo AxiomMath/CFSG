@@ -110,6 +110,7 @@ theorem center_map_eq (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) [Xbar.Norm
   apply Subgroup.eq_of_le_of_card_ge hle
   rw [hZh3, Nat.card_zpowers, orderOf_eq_prime (hA3 abar hset.mem_A) hset.ne_one]
 
+omit [Finite G] in
 theorem commute_abar (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) (m : G) :
     m * abar = abar * m := by
   have htop : (⊤ : Subgroup G) ≤ Subgroup.centralizer ({abar} : Set G) := by
@@ -119,6 +120,7 @@ theorem commute_abar (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) (m : G) :
     exact congrArg Subtype.val (hset.isElemAbelian.1.is_comm.comm ⟨e, he⟩ ⟨abar, hset.mem_A⟩)
   exact Subgroup.mem_centralizer_singleton_iff.mp (htop (Subgroup.mem_top m))
 
+omit [Finite G] in
 theorem exists_inner
     (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) [Xbar.Normal] (ψ : ↥Xbar ≃* GM)
     (hcen : (Subgroup.center ↥Xbar).map Xbar.subtype = Subgroup.zpowers abar) (m : G) :
@@ -167,7 +169,7 @@ theorem exists_gens (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     have := Subgroup.card_le_of_le hle
     rw [hset.card_A, ha3] at this
     norm_num at this
-  obtain ⟨e₁, he₁A, he₁⟩ := SetLike.not_le_iff_exists.mp hnle1
+  obtain ⟨e₁, he₁A, he₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnle1
   have he₁1 : e₁ ≠ 1 := fun h => he₁ (h ▸ one_mem _)
   have hB₁A : Subgroup.zpowers abar ⊔ Subgroup.zpowers e₁ ≤ Abar :=
     sup_le (Subgroup.zpowers_le.mpr hset.mem_A) (Subgroup.zpowers_le.mpr he₁A)
@@ -177,7 +179,7 @@ theorem exists_gens (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     have := Subgroup.card_le_of_le hle
     rw [hset.card_A, hB₁9] at this
     norm_num at this
-  obtain ⟨e₂, he₂A, he₂⟩ := SetLike.not_le_iff_exists.mp hnle2
+  obtain ⟨e₂, he₂A, he₂⟩ := IsConcreteLE.not_le_iff_exists.mp hnle2
   have he₂1 : e₂ ≠ 1 := fun h => he₂ (h ▸ one_mem _)
   refine ⟨e₁, he₁A, e₂, he₂A,
     (Subgroup.eq_of_le_of_card_ge (sup_le hB₁A (Subgroup.zpowers_le.mpr he₂A)) ?_).symm⟩
@@ -199,7 +201,7 @@ theorem le_X
     rw [hP, Subgroup.mem_subgroupOf]
     exact ⟨fun h => h.1, fun h => ⟨h, x.2⟩⟩
   have hexp : ∀ p ∈ (P : Subgroup ↥Xbar), p ^ 3 = 1 := fun p hp => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     exact Sec13.ON134.pow_three_eq_one ψ (k := k) (by simpa using congrArg Subtype.val hk)
   have hcomm : ∀ p ∈ (P : Subgroup ↥Xbar), ∀ q ∈ (P : Subgroup ↥Xbar),
       ⁅p, q⁆ ∈ Subgroup.center ↥Xbar := fun p hp q hq => comm_mem_center ψ P hp hq
@@ -236,7 +238,7 @@ theorem le_X
       refine Subgroup.mem_normalizer_fintype fun y hy => ?_
       rw [← hx y]
       exact hAP e he y hy
-    have hsup := hxp.to_sup_of_normal_right' P.isPGroup' hN
+    have hsup := hxp.to_sup_of_normal_right' P.isPGroup hN
     rw [← P.maximal_isPGroup.eq_of_ge hsup le_sup_right]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hind : ∀ e ∈ Abar, ∃ C : Subgroup ↥(P : Subgroup ↥Xbar), C.index ≤ 3 ∧
@@ -373,7 +375,7 @@ theorem Y_eq_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) [hXn : Xbar.Norma
     simp only [Subgroup.coe_mul]
     rw [← hk]
     exact (Commute.zpow_left (commute_abar hset (y : G)).symm k).eq
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     have h := hNc n hn g
     have e : g * n * g⁻¹ = n := by rw [← h]; group
     rw [e]
@@ -519,7 +521,7 @@ theorem ks1411HJCoreON :
     KS1411HJCoreON := by
   intro G _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST _
   exfalso
-  haveI := HJInner.normal_X hset
+  have := HJInner.normal_X hset
   obtain ⟨ψ⟩ := Sec13.ON134.nonempty_equiv_model hset.perfect hX
   have hcen := center_map_eq hset hX.1
   have hinn := exists_inner hset ψ hcen

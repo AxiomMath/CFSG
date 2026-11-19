@@ -84,10 +84,10 @@ private theorem zd1_pairing_sum {m : ℕ} {B : LinearMap.BilinForm (ZMod 3) U}
           apply Finset.sum_congr rfl
           intro i _
           rw [Finset.sum_eq_single i]
-          · rw [if_pos rfl]
+          · rw [ite_eq_left rfl]
             ring
           · intro j _ hji
-            rw [if_neg (Ne.symm hji), mul_zero, mul_zero]
+            rw [ite_eq_right (Ne.symm hji), mul_zero, mul_zero]
           · intro hi
             exact absurd (Finset.mem_univ i) hi
 
@@ -99,10 +99,10 @@ private theorem zd1_exists_isometry_of_orthonormal {m : ℕ}
   have horth : B.iIsOrtho u := by
     rw [LinearMap.BilinForm.iIsOrtho_def]
     intro i j hij
-    rw [hgram i j, if_neg hij]
+    rw [hgram i j, ite_eq_right hij]
   have hli : LinearIndependent (ZMod 3) u :=
     LinearMap.BilinForm.linearIndependent_of_iIsOrtho horth (fun i => by
-      rw [hgram i i, if_pos rfl]
+      rw [hgram i i, ite_eq_left rfl]
       decide)
   have hcard : Fintype.card (Fin m) = Module.finrank (ZMod 3) U := by
     rw [Fintype.card_fin, hfin]
@@ -174,9 +174,9 @@ theorem exists_isometry_of_mulEquiv_R3_diagF3_one (hn : 3 ≤ Module.finrank (ZM
     intro i j
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hu_norm i
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       have hmk : Commute (QuotientGroup.mk (s := Subgroup.center ↥A) (t i))
         (QuotientGroup.mk (s := Subgroup.center ↥A) (t j)) := by
         rw [ht_mk i, ht_mk j]

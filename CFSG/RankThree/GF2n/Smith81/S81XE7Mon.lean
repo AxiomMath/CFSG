@@ -81,6 +81,7 @@ section CharTwo
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 private theorem mon_rootOp_sigma {n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
     {ρ : (Fin (Tag.rank .E7) → ℤ) → (Fin (Tag.rank .E7) → ℤ)} (h : IsMon n σ ρ)
     {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ) (a : Fin e7Data.d) :
@@ -97,11 +98,11 @@ theorem IsMon.pr_neg_one_iff {n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
   constructor
   · intro h2
     by_contra h1
-    rw [if_pos h2, if_neg h1, map_zero] at hmain
+    rw [ite_eq_left h2, ite_eq_right h1, map_zero] at hmain
     exact Finsupp.single_ne_zero.2 (one_ne_zero : (1 : K) ≠ 0) hmain
   · intro h1
     by_contra h2
-    rw [if_neg h2, if_pos h1, h.weight] at hmain
+    rw [ite_eq_right h2, ite_eq_left h1, h.weight] at hmain
     exact Finsupp.single_ne_zero.2 (one_ne_zero : (1 : K) ≠ 0) hmain.symm
 
 theorem IsMon.pr_eq {n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
@@ -131,7 +132,7 @@ theorem IsMon.shift_eq {n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
   have hγ' := h.isRoot γ hγ
   have hmain := mon_rootOp_sigma h hγ a
   have hp : pr (σ a) (ρ γ) = -1 := (h.pr_neg_one_iff hγ a).2 ha
-  rw [rootOp_single (K := K) hγ' (σ a), if_pos hp, rootOp_single (K := K) hγ a, if_pos ha,
+  rw [rootOp_single (K := K) hγ' (σ a), ite_eq_left hp, rootOp_single (K := K) hγ a, ite_eq_left ha,
     h.weight] at hmain
   exact (Finsupp.single_left_injective (one_ne_zero : (1 : K) ≠ 0) hmain).symm
 
@@ -189,8 +190,8 @@ theorem IsMon.nm (i : Fin (Tag.rank .E7)) :
   · change e7Data_valid.endo K (e7Data_valid.nm K i) (Finsupp.single a 1) = _
     rw [e7Data_valid.endo_nm, e7Data_valid.nOp_single (R := K)]
     by_cases h : e7Data.wt a i = 1
-    · rw [if_pos h, ← Finsupp.single_neg, CharTwo.neg_eq]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, ← Finsupp.single_neg, CharTwo.neg_eq]
+    · rw [ite_eq_right h]
   · obtain ⟨σ', hσ', hc⟩ := e7Data_valid.nm_conj_xm (k := K) hγ i
     have hσ1 : σ' = 1 := by
       rcases hσ' with h1 | h1

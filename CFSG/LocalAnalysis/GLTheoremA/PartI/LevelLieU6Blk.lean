@@ -15,9 +15,9 @@ open CFSG.RankThree.PartOne.KCUnitaryModel (idGram)
 
 theorem perfect_hom_trivial {J G : Type} [Group J] [Group G] [Group.IsPerfect J]
     [Group.IsSolvable G] (φ : J →* G) (x : J) : φ x = 1 := by
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
-  haveI : Group.IsSolvable φ.range := solvable_of_solvable_injective φ.range.subtype_injective
-  haveI : Subsingleton φ.range := by
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsSolvable φ.range := Group.isSolvable_of_isSolvable_injective φ.range.subtype_injective
+  have : Subsingleton φ.range := by
     by_contra h
     rw [not_subsingleton_iff_nontrivial] at h
     exact Group.IsPerfect.not_isSolvable φ.range inferInstance
@@ -50,7 +50,7 @@ theorem sum_blk {n : ℕ} (d : Fin n → F4) (c : F4) (f : Fin n → F4) (hf : �
   exact hx (hf x h)
 
 theorem blkM_mul {n : ℕ} (d : Fin n → F4) (c : F4) {M N : Matrix (Fin n) (Fin n) F4}
-    (hM : ∀ i j, d i ≠ d j → M i j = 0) (hN : ∀ i j, d i ≠ d j → N i j = 0) :
+    (hM : ∀ i j, d i ≠ d j → M i j = 0) (_hN : ∀ i j, d i ≠ d j → N i j = 0) :
     blkM d c (M * N) = blkM d c M * blkM d c N := by
   ext i j
   simp only [blkM, Matrix.mul_apply]
@@ -143,7 +143,7 @@ theorem blkPi_injective (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal 
 theorem det_blk_of_perfect (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d)
     {J : Subgroup M6} (hJ : J ≤ CenD D) (hperf : ⁅J, J⁆ = J) (c : F4) {u : M6} (hu : u ∈ J) :
     (blkM d c (mM6 u)).det = 1 := by
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   let φ : ↥J →* F4ˣ :=
     (Matrix.GeneralLinearGroup.det).comp ((blkHom hD c).comp (Subgroup.inclusion hJ))
   have h := perfect_hom_trivial φ ⟨u, hu⟩
@@ -153,7 +153,7 @@ theorem det_blk_of_perfect (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagon
 theorem blk_eq_one_of_small (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d)
     {J : Subgroup M6} (hJ : J ≤ CenD D) (hperf : ⁅J, J⁆ = J) (c : F4)
     (hc : Fintype.card (Blk d c) ≤ 3) {u : M6} (hu : u ∈ J) : blkHom hD c ⟨u, hJ hu⟩ = 1 := by
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   let e := Fintype.equivFin (Blk d c)
   have hmem : ∀ x : ↥J, reindexGL e (blkHom hD c ⟨x.1, hJ x.2⟩) ∈
       StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4 := by
@@ -166,7 +166,7 @@ theorem blk_eq_one_of_small (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diago
         (M6_unitary x.1))
   let ψ : ↥J →* ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4) :=
     ((reindexGL e).comp ((blkHom hD c).comp (Subgroup.inclusion hJ))).codRestrict _ hmem
-  haveI := isSolvable_statedSU_le_three _ hc
+  have := isSolvable_statedSU_le_three _ hc
   have h := perfect_hom_trivial ψ ⟨u, hu⟩
   have h1 : reindexGL e (blkHom hD c ⟨u, hJ hu⟩) = 1 := congrArg Subtype.val h
   exact reindexGL_injective e (by rw [h1, map_one])
@@ -178,7 +178,7 @@ theorem eq_bot_of_perfect_of_small (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matri
   have h : (⟨u, hJ hu⟩ : ↥(CenD D)) = 1 := by
     apply blkPi_injective hD
     funext c
-    simp only [MonoidHom.pi_apply, map_one, Pi.one_apply]
+    simp only [MonoidHom.pi_apply, map_one]
     exact blk_eq_one_of_small hD hJ hperf c (hcnt c) hu
   exact congrArg Subtype.val h
 

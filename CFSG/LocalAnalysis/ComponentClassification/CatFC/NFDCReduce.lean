@@ -144,8 +144,8 @@ theorem nfdc_reduce {X : Type} [Group X] [Finite X] {K B : Subgroup X} {t : X} {
         IsComponent D ∧ Nonempty (↥D ≃* alternatingGroup (Fin k)) := by
   have _ := hk
   obtain ⟨hBq, -, ⟨eB⟩⟩ := hB
-  haveI hperf : Group.IsPerfect ↥K := hKq.1
-  haveI hsimple : IsSimpleGroup (↥K ⧸ center ↥K) := hKq.2.1
+  have hperf : Group.IsPerfect ↥K := hKq.1
+  have hsimple : IsSimpleGroup (↥K ⧸ center ↥K) := hKq.2.1
   obtain ⟨α, hα⟩ : ∃ α : MulAut ↥K, ∀ x : ↥K, ((α x : ↥K) : X) = t * x * t⁻¹ :=
     ⟨K.normalizerMonoidHom ⟨t, htK⟩, fun x =>
       Subgroup.normalizerMonoidHom_apply_apply_coe K ⟨t, htK⟩ x⟩
@@ -171,13 +171,13 @@ theorem nfdc_reduce {X : Type} [Group X] [Finite X] {K B : Subgroup X} {t : X} {
     have hα1 : α = 1 := onCenterQuotient_eq_one_imp α hτ1
     have hfix : ∀ y : ↥K, (y : X) ∈ centralizer ({t} : Set X) := fun y =>
       (nfdc_fixed_iff α hα y).1 (by rw [hα1]; rfl)
-    haveI hnormal : (nfdcMap hBK).range.Normal :=
+    have hnormal : (nfdcMap hBK).range.Normal :=
       ⟨fun a ha c => by
         obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (center ↥K) c
         exact nfdc_range_conj_mem hBK hBn' (hfix y) ha⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (nfdcMap hBK).range with h | h
     · exfalso
-      haveI := CFSG.LocalCores.isQuasisimple_nontrivial hq
+      have := CFSG.LocalCores.isQuasisimple_nontrivial hq
       exact (Subgroup.nontrivial_iff_ne_bot _).1 this h
     · exact ⟨(Subgroup.topEquiv (G := ↥K ⧸ center ↥K)).symm.trans
         ((MulEquiv.subgroupCongr h.symm).trans eR)⟩

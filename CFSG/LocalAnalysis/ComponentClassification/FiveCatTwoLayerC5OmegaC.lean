@@ -19,7 +19,7 @@ open LocalAnalysis.ComponentInitial CatalogueBOrthogonalFourSplit
 
 theorem specialRho_neg_one_one_ne_one {K : Type} [Field K] (h2 : (2 : K) ≠ 0) :
     (specialRho (K := K)).comp (MonoidHom.inl _ _) (-1) ≠ 1 := by
-  haveI : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
+  have : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
   intro h
   have h1 := congrArg (fun g : DeterminantIsometries K =>
     g.val (1 : Matrix (Fin 2) (Fin 2) K)) h
@@ -32,7 +32,7 @@ theorem specialRho_neg_one_one_ne_one {K : Type} [Field K] (h2 : (2 : K) ≠ 0) 
 
 theorem specialRho_one_neg_one_ne_one {K : Type} [Field K] (h2 : (2 : K) ≠ 0) :
     (specialRho (K := K)).comp (MonoidHom.inr _ _) (-1) ≠ 1 := by
-  haveI : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
+  have : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
   intro h
   have h1 := congrArg (fun g : DeterminantIsometries K =>
     g.val (1 : Matrix (Fin 2) (Fin 2) K)) h
@@ -45,18 +45,18 @@ theorem specialRho_one_neg_one_ne_one {K : Type} [Field K] (h2 : (2 : K) ≠ 0) 
 
 theorem neg_one_mem_center_SL {K : Type} [Field K] :
     (-1 : SL(2, K)) ∈ center SL(2, K) := by
-  haveI : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
+  have : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
   rw [Matrix.SpecialLinearGroup.mem_center_iff]
   refine ⟨-1, by norm_num, ?_⟩
   ext i j
   by_cases hij : i = j <;>
-    simp [hij, Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply]
+    simp [hij, Matrix.scalar_apply]
 
 theorem exists_central_involution_of_neg_one {K : Type} [Field K] {H G : Type} [Group H] [Group G]
     (g : SL(2, K) →* H) (e : H ≃* G) (hne : g (-1) ≠ 1) :
     ∃ z ∈ g.range.map e.toMonoidHom, (∀ y ∈ g.range.map e.toMonoidHom, z * y = y * z) ∧
       z * z = 1 ∧ z ≠ 1 := by
-  haveI : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
+  have : Fact (Even (Fintype.card (Fin 2))) := ⟨by decide⟩
   refine ⟨e (g (-1)), Subgroup.mem_map.2 ⟨g (-1), ⟨-1, rfl⟩, rfl⟩, ?_, ?_, ?_⟩
   · rintro _ ⟨_, ⟨t, rfl⟩, rfl⟩
     change e (g (-1)) * e (g t) = e (g t) * e (g (-1))

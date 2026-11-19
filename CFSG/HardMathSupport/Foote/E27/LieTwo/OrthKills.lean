@@ -85,7 +85,7 @@ theorem false_of_omega_cover {X : Type} [Group X] [Finite X] {K R T : Subgroup X
     (hBJ : B₀ ≤ (StatedOmega Q).subgroupOf (OrthN Q))
     (hBab : ∀ x ∈ B₀, ∀ y ∈ B₀, x * y = y * x)
     (hcov : ∀ s ∈ S₀, s ^ 3 = 1 → s ≠ 1 → ∃ x : ↥(OrthN Q), x * s * x⁻¹ ∈ B₀) : False := by
-  haveI : Finite ↥(OrthN Q) := inferInstance
+  have : Finite ↥(OrthN Q) := inferInstance
   let J := (StatedOmega Q).subgroupOf (OrthN Q)
   let φ : ↥K ≃* ↥J := e.trans (Subgroup.subgroupOfEquivOfLe (statedOmega_le_OrthN Q)).symm
   have hcardJ : Nat.card ↥J = 3 ^ k * n := by
@@ -119,7 +119,7 @@ section O10m
 theorem E27Config.false_of_omegaMinus_five (h : E27Config X K R T z) (hz : z ∈ K)
     (hcl : StatedClassicalModel (↥K) .POmegaMinus 5 2 1) : False := by
   obtain ⟨e⟩ := nonempty_mulEquiv_omegaMinus hcl
-  haveI : Finite ↥(StatedOmega (StatedQuadMinus 5 (ZMod 2) 1 1)) := Finite.of_equiv ↥K e.toEquiv
+  have : Finite ↥(StatedOmega (StatedQuadMinus 5 (ZMod 2) 1 1)) := Finite.of_equiv ↥K e.toEquiv
   obtain ⟨S, hS, hprop⟩ := Certificates.certificate131005
   have hcard : Nat.card ↥(StatedOmega (StatedQuadMinus 5 (ZMod 2) 1 1)) =
       3 ^ 6 * 34314649600 := by

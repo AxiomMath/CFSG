@@ -43,10 +43,10 @@ theorem pCore_sup_pComplCore_eq_top (hp : p.Prime) (G : Type*) [Group G] [Finite
   have hQn : (Q : Subgroup G).Normal := sylow_normal_of_isNilpotent Q
   by_cases hqp : q = p
   · subst hqp
-    exact le_trans (le_pCore hp hQn Q.isPGroup') le_sup_left
+    exact le_trans (le_pCore hp hQn Q.isPGroup) le_sup_left
   · refine le_trans ?_ le_sup_right
     rw [pComplCore_eq_piCore]
-    exact le_piCore hQn (isPiSubgroup_compl_of_isPGroup hq hqp Q.isPGroup')
+    exact le_piCore hQn (isPiSubgroup_compl_of_isPGroup hq hqp Q.isPGroup)
 
 theorem natCard_eq_pow_factorization_of_le [Finite X] (hp : p.Prime) {P K : Subgroup X}
     (hPK : P ≤ K) (hP : Nat.card P = p ^ (Nat.card X).factorization p) :

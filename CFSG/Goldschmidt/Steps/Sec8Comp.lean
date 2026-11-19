@@ -116,7 +116,7 @@ theorem normalClosureIn_eq_of_isComponentOf (h31 : S_G31) (hset : GoldSetting G 
   have hAL := le_of_isComponentOf h31 hS hset.elem h4 hL
   have hLM := G73.isComponentOf_of_normalClosureIn hL
   have hnot := G73.not_inf_le_centralizer h31 hS hset.elem hL
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hset.le
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hset.le
   have hMN : M ≤ Subgroup.normalizer (L : Set G) := by
     intro m hm
     rw [← Walter.map_conj_eq_iff_mem_normalizer]

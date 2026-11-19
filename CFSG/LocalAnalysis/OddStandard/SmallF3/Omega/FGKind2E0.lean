@@ -50,7 +50,7 @@ instance fg_kind2_E0_normal (hQ : Q.Nondegenerate) {g : OGroup Q} (hgg : g * g =
   exact hcalc.symm
 
 theorem fg_kind2_finrank_fixSp (hdim : Module.finrank (ZMod 3) V = 6) {g : OGroup Q}
-    (hgg : g * g = 1) {α : ℤˣ} (hty : invType g = (1, α)) :
+    (_hgg : g * g = 1) {α : ℤˣ} (hty : invType g = (1, α)) :
     Module.finrank (ZMod 3) (fixSp g) = 5 := by
   have hcdim : Module.finrank (ZMod 3) (commSp g) = 1 := congrArg Prod.fst hty
   have h := finrank_fixSp_add_finrank_commSp (Q := Q) g

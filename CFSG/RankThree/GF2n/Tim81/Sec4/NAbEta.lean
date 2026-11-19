@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
 namespace RootHyp
 
+omit [Finite G] in
 private theorem xOf_le_of_le_of_le_normalizer {E : Subgroup G} (hVE : V ≤ E)
     (hN : H ≤ Subgroup.normalizer (E : Set G)) : Tim79a.xOf V H ≤ E := by
   refine iSup_le fun U => iSup_le fun hU => ?_
@@ -67,6 +68,7 @@ variable [(W₀.subgroupOf (Tim79a.xOf V H)).Normal]
 variable [Module (ZMod 2) (SecMod hs)]
 variable (hKsec : ∀ k ∈ kOf V H, ∀ n ∈ Tim79a.xOf V H, k * n * k⁻¹ * n⁻¹ ∈ W₀)
 
+omit [Finite G] [(W₀.subgroupOf (Tim79a.xOf V H)).Normal] in
 private theorem hKsec_of_hyp : ∀ k ∈ kOf V H, ∀ n ∈ Tim79a.xOf V H, k * n * k⁻¹ * n⁻¹ ∈ W₀ := by
   intro k hk n hn
   have hcomm : n * k = k * n :=
@@ -296,6 +298,7 @@ private theorem quad_repSec
   rw [LinearMap.comp_apply, LinearMap.sub_apply, Module.End.one_apply]
   exact sub_eq_zero.mpr (CFSG.QuasithinUnique.Setup.X7.mem_fixedSub.mp hfix a ha)
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 private theorem map_subSec_conj {y : G} (hyH : y ∈ H) (E : Subgroup G) :
     (subSec hs E).map (repSec hs hKsec SL(2, F) ψ (ψ (piK V H ⟨y, hyH⟩))) =
       subSec hs (conjSubgroup y E) := by
@@ -371,6 +374,7 @@ theorem isNatSumModule_repSec
 
 end C15Aux
 
+omit [Finite G] in
 private theorem subSec_V_le_fixedSub_secPc
     {W₀ : Subgroup G} (hs : QuotMod.Hyp H (Tim79a.xOf V H) W₀)
     [(W₀.subgroupOf (Tim79a.xOf V H)).Normal]
@@ -503,6 +507,7 @@ private theorem map_invariant_subSec_V
   exact Sec2.sup_map_invariant_of_isNatSumModule (repSec hs hKsec SL(2, F) ψ) hρ hA2 hAcard
     hUA hUN hψnotN
 
+omit [Finite G] in
 private theorem subSec_sup_sup_conj_eq
     {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H)
     (hs : QuotMod.Hyp H (Tim79a.xOf V H) W₀)
@@ -592,8 +597,8 @@ theorem eq_sup_sup_conj_of_isNatSumModule
       conj₀ := by
         intro g hg n hn
         exact (Subgroup.mem_normalizer_iff.mp (hN hg) n).mp hn }
-  haveI hNorm : (W₀.subgroupOf (Tim79a.xOf V H)).Normal := hs.normal
-  haveI hMod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hsq
+  have hNorm : (W₀.subgroupOf (Tim79a.xOf V H)).Normal := hs.normal
+  have hMod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hsq
   let hKsec : ∀ k ∈ kOf V H, ∀ n ∈ Tim79a.xOf V H, k * n * k⁻¹ * n⁻¹ ∈ W₀ :=
     hKsec_of_hyp
   obtain ⟨y, hyH, hPy, hVy, hHy⟩ := h.exists_mem_conj_eq_of_eq_sup hPH hH
@@ -766,9 +771,9 @@ theorem exists_orth_and_card_of_nonabelian
   have hW₀K'' : W₀ ≤ ⁅kOf V H, kOf V H⁆ := hW₀K'.trans inf_le_right
   obtain ⟨F, hField, hFint, hCharP, -, ⟨ψ⟩⟩ :=
     exists_sl2_of_nonabelian h hPH hVH hH hnM hK hnab hL hW₀ hN hW₀ne hmin
-  letI := hField
-  letI := hFint
-  letI := hCharP
+  let := hField
+  let := hFint
+  let := hCharP
   have hW0le : W₀ ≤ (Pc M V ⊓ W₀) ⊔ conjSubgroup h₀ V := by
     have h1 := eq_sup_inf_of_minimal (h := h) (hPH := hPH) (hVH := hVH) (hH := hH)
       (hnM := hnM) (hW₀ := hW₀) (hN := hN) (hW₀ne := hW₀ne) (hmin := hmin)

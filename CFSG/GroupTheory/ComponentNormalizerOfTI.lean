@@ -351,9 +351,9 @@ theorem le_normalizer_of_isComponent_of_centralizer_le {V K : Subgroup X}
       have h2 : w⁻¹ * (c (k : X)) * w = c (MulAut.conj w (k : X)) := by
         calc w⁻¹ * (c (k : X)) * w =
             ((MulAut.conj w) * c) (k : X) := by
-              simp [MulAut.conj_apply, hw_inv, MulAut.coe_mul]
+              simp [MulAut.conj_apply, hw_inv]
           _ = (c * (MulAut.conj w)) (k : X) := by rw [hconj_comm.symm]
-          _ = c (MulAut.conj w (k : X)) := by simp [MulAut.coe_mul]
+          _ = c (MulAut.conj w (k : X)) := by simp
       calc w⁻¹ * φ k * w
           = (w⁻¹ * (k : X) * w) * (w⁻¹ * (c (k : X)) * w) := by
               rw [show φ k = (k : X) * c (k : X) from rfl]
@@ -424,14 +424,14 @@ theorem le_normalizer_of_isComponent_of_centralizer_le {V K : Subgroup X}
           simp [κ, MulAut.conj_apply, kK]
         have hzval : (↑((κ kK)⁻¹ * kK) : X) = w * k⁻¹ * w * k := by
           rw [show (↑((κ kK)⁻¹ * kK) : X) = ((κ kK : ↥K) : X)⁻¹ * k from rfl, hκ]
-          simp only [mul_inv_rev, inv_inv, hw_inv]
+          simp only [mul_inv_rev, hw_inv]
           group
         have hEq : ⁅k, w⁆ = k * (↑((κ kK)⁻¹ * kK) : X) * k⁻¹ := by
           rw [commutatorElement_def, hzval, hw_inv]
           group
         rw [hEq]
         exact hconj
-      haveI : Group.IsPerfect ↥K := hK.1.1
+      have : Group.IsPerfect ↥K := hK.1.1
       have hwcent : w ∈ Subgroup.centralizer (K : Set X) :=
         CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.mem_centralizer_of_comm_mem_Zsub hwN hcommZ
       have hK_cent_w : K ≤ Subgroup.centralizer ({w} : Set X) := by

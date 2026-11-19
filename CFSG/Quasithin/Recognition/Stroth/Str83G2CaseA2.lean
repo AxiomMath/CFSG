@@ -23,6 +23,7 @@ variable {L1 L2 S : Subgroup G} {a : ℕ}
 @[expose] def str83CaseAR0 (L1 L2 S : Subgroup G) (w : G) : Subgroup G :=
   str83CaseAR L1 L2 S ⊓ conjugate (str83CaseAR L1 L2 S) w
 
+omit [Finite G] in
 private theorem caseA_R_eq_centralizer (F : Str83CaseAFrame L1 L2 S a) :
     str83CaseAR L1 L2 S =
       Q2 L1 L2 S ⊓ Subgroup.centralizer (Z1 L1 L2 S : Set G) := by
@@ -37,6 +38,7 @@ private theorem caseA_R_eq_centralizer (F : Str83CaseAFrame L1 L2 S a) :
     _ = (S ⊓ Subgroup.centralizer (Z1 L1 L2 S : Set G)) ⊓ Q2 L1 L2 S := by rw [inf_assoc]
     _ = Q1 L1 L2 S ⊓ Q2 L1 L2 S := by rw [F.hF6]
 
+omit [Finite G] in
 private theorem conjugate_centralizer_eq (V : Subgroup G) (w : G) :
     conjugate (Subgroup.centralizer (V : Set G)) w =
       Subgroup.centralizer ((conjugate V w : Subgroup G) : Set G) := by
@@ -85,12 +87,13 @@ private theorem caseA_conjugate_R_eq_centralizer
           Subgroup.centralizer ((conjugate (Z1 L1 L2 S) D.w : Subgroup G) : Set G) from by
         simpa [conjugate] using conjugate_centralizer_eq (Z1 L1 L2 S) D.w]
 
+omit [Finite G] in
 private theorem centralizer_sup_eq (V W : Subgroup G) :
     Subgroup.centralizer ((V ⊔ W : Subgroup G) : Set G) =
       Subgroup.centralizer (V : Set G) ⊓ Subgroup.centralizer (W : Set G) := by
   rw [Subgroup.sup_eq_closure, Subgroup.centralizer_closure]
   ext x
-  simp only [Subgroup.mem_centralizer_iff, Subgroup.mem_inf, Set.mem_setOf_eq, SetLike.mem_coe,
+  simp only [Subgroup.mem_centralizer_iff, Subgroup.mem_inf, SetLike.mem_coe,
     Set.mem_union]
   constructor
   · intro h
@@ -190,6 +193,7 @@ theorem str83_caseA_R0_normal
     (CFSG.Quasithin.normalizer_le_normalizer_centralizer
       (Z1 L1 L2 S ⊔ conjugate (Z1 L1 L2 S) D.w))
 
+omit [Finite G] in
 private theorem caseA_R0_le_R (w : G) : str83CaseAR0 L1 L2 S w ≤ str83CaseAR L1 L2 S :=
   inf_le_left
 
@@ -250,12 +254,12 @@ theorem str83_caseA_chiefStep_noncentral
     D14.le_normalizer_of_isNormalIn hstep.2.1
   let A : Type := ↥D.D2
   let G₁ : Type := ↥N
-  haveI : Subgroup.Normalizes D.D2 N := ⟨hD2H.trans hHN⟩
-  letI : MulDistribMulAction A G₁ :=
+  have : Subgroup.Normalizes D.D2 N := ⟨hD2H.trans hHN⟩
+  let : MulDistribMulAction A G₁ :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer D.D2 N (hD2H.trans hHN)
   let Lsub : Subgroup G₁ := L.subgroupOf N
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := hNQ2.trans (hQ2H.trans hHL)
-  haveI : Lsub.Normal :=
+  have : Lsub.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNL
   have hLinv : CFSG.IsInvariant A G₁ Lsub := by
     apply CFSG.SolvableHall.isInvariant_of_forall_smul_mem
@@ -267,9 +271,9 @@ theorem str83_caseA_chiefStep_noncentral
     (pCoreOf_isPGroup 2 (P2 L1 L2 S)).to_le hLQ2
   have hLp : IsPGroup 2 ↥Lsub :=
     hLp0.of_equiv (Subgroup.subgroupOfEquivOfLe hstep.2.2.1.le).symm
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥Lsub := hLp.isNilpotent
-  haveI : Group.IsSolvable ↥Lsub := inferInstance
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥Lsub := hLp.isNilpotent
+  have : Group.IsSolvable ↥Lsub := inferInstance
   obtain ⟨k, hk⟩ := hLp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card A) (Nat.card ↥Lsub) := by
     rw [hk]
@@ -322,7 +326,7 @@ theorem str83_caseA_chiefStep_noncentral
       have hmem : (⟨x, hx⟩ : G₁) ∈ Lsub := by rw [h]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hmem
     exact (lt_irrefl N) (lt_of_le_of_lt hNL hstep.2.2.1)
-  haveI : Nontrivial (G₁ ⧸ Lsub) := QuotientGroup.nontrivial_iff.mpr hLsub_ne_top
+  have : Nontrivial (G₁ ⧸ Lsub) := QuotientGroup.nontrivial_iff.mpr hLsub_ne_top
   rw [htop, hbot] at hlift
   exact top_ne_bot hlift
 
@@ -434,7 +438,7 @@ private theorem caseA_Q1_relIndex_S
   exact relIndex_pCoreOf_sylow_sz F.ha e F.hF.1.h1.sylow
 
 theorem str83_caseA_R_relIndex_Q2
-    (F : Str83CaseAFrame L1 L2 S a) (D : Str83CaseAData F) :
+    (F : Str83CaseAFrame L1 L2 S a) (_D : Str83CaseAData F) :
     (str83CaseAR L1 L2 S).relIndex (Q2 L1 L2 S) = (2 ^ (2 * a + 1)) ^ 2 := by
   have hSP1 : S ≤ P1 L1 L2 S :=
     (le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right
@@ -564,7 +568,7 @@ private theorem caseA_single_factor_false
     F.hQ2S.trans hSNQ1
   have hQ2NR : Q2 L1 L2 S ≤ Subgroup.normalizer (str83CaseAR L1 L2 S : Set G) :=
     Subgroup.le_normalizer_inf hQ2NQ1 (Subgroup.le_normalizer (H := Q2 L1 L2 S))
-  haveI : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NR
   have hQcomm : IsMulCommutative
       (↥(Q2 L1 L2 S) ⧸ (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S)) := by
@@ -579,15 +583,15 @@ private theorem caseA_single_factor_false
     ext x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, str83CaseAR, Subgroup.mem_inf]
     exact ⟨fun hx => ⟨hx, x.2⟩, fun hx => hx.1⟩
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NQ1
-  haveI : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hSNQ1
   have hQ2Q1NQ1 : Q2 L1 L2 S ⊔ Q1 L1 L2 S ≤
       Subgroup.normalizer (Q1 L1 L2 S : Set G) := by
     rw [sup_comm, F.hT2]
     exact hSNQ1
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2Q1NQ1
   let eY : ↥(Q2 L1 L2 S ⊔ Q1 L1 L2 S) ≃* ↥S :=
     MulEquiv.subgroupCongr (by rw [sup_comm, F.hT2])
@@ -616,7 +620,7 @@ private theorem caseA_single_factor_false
         hQ2NQ1).trans e3)
   have hScomm : IsMulCommutative (↥S ⧸ (Q1 L1 L2 S).subgroupOf S) :=
     CFSG.QuasiDihedralFusion.isMulCommutative_of_mulEquiv eQR hQcomm
-  haveI : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hSNQ1
   have hszcomm : IsMulCommutative (szSbar L1 L2 S) :=
     szSbar_comm_of_quotient_comm F hScomm

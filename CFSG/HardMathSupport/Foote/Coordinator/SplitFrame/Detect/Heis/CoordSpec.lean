@@ -142,7 +142,7 @@ theorem prodX_single (L : List (Fin τ.rank → ℤ)) (hnd : L.Nodup) {β : Fin 
       rw [Pi.single_eq_same, prodX_eq_one, mul_one]
       intro γ hγ
       have hγα : γ ≠ α := fun e => hα (e ▸ hγ)
-      simp [Pi.single_apply, hγα]
+      simp [hγα]
     · rw [Pi.single_eq_of_ne h, pinnedX_zero, one_mul]
       exact ih hndl ((List.mem_cons.1 hβ).resolve_left fun e => h e.symm)
 
@@ -300,11 +300,11 @@ theorem coordFn_prodX {L : List (Fin τ.rank → ℤ)} (hnd : L.Nodup)
     coordFn L (prodX L c) β = if β ∈ Deg1 τ then c β else 0 := by
   unfold coordFn
   by_cases hβ : β ∈ Deg1 τ
-  · rw [if_pos hβ, if_pos hβ]
+  · rw [ite_eq_left hβ, ite_eq_left hβ]
     have h : ∃ c', prodX L c' = prodX L c := ⟨c, rfl⟩
-    rw [dif_pos h]
+    rw [dite_eq_left h]
     exact pinnedX_list_prod_injective L hnd hpos _ _ h.choose_spec β (hD β hβ)
-  · rw [if_neg hβ, if_neg hβ]
+  · rw [ite_eq_right hβ, ite_eq_right hβ]
 
 end CoordAux
 
@@ -344,19 +344,19 @@ theorem exists_heisCoord : ∃ coord : ModGL τ K → (Fin τ.rank → ℤ) → 
     rw [hsingle β (hD β hβ) c]
     funext γ
     by_cases hγ : γ ∈ Deg1 τ
-    · rw [if_pos hγ]
-    · rw [if_neg hγ]
+    · rw [ite_eq_left hγ]
+    · rw [ite_eq_right hγ]
       have hγβ : γ ≠ β := fun e => hγ (e ▸ hβ)
-      simp [Pi.single_apply, hγβ]
+      simp [hγβ]
   have h_high : ∀ c : K, CoordAux.coordFn L (pinnedX τ K (highRoot τ) c) = 0 := by
     intro c
     rw [hsingle _ hθL c]
     funext γ
     by_cases hγ : γ ∈ Deg1 τ
-    · rw [if_pos hγ]
+    · rw [ite_eq_left hγ]
       have hγθ : γ ≠ highRoot τ := CoordAux.Deg1.ne_highRoot hγ
-      simp [Pi.single_apply, hγθ]
-    · rw [if_neg hγ]
+      simp [hγθ]
+    · rw [ite_eq_right hγ]
       rfl
   have h_mul : ∀ q ∈ Qθ τ K, ∀ q' ∈ Qθ τ K,
       CoordAux.coordFn L (q * q') = CoordAux.coordFn L q + CoordAux.coordFn L q' := by
@@ -402,7 +402,7 @@ theorem exists_heisCoord : ∃ coord : ModGL τ K → (Fin τ.rank → ℤ) → 
     funext β
     rw [hcoord, Pi.add_apply, hcoord, hcoord]
     by_cases hβ : β ∈ Deg1 τ
-    · rw [if_pos hβ, if_pos hβ, if_pos hβ]
+    · rw [ite_eq_left hβ, ite_eq_left hβ, ite_eq_left hβ]
       exact hd₁ β ((hmem₁ β).2 hβ)
     · simp [hβ]
   have h_eq0 : ∀ q ∈ Qθ τ K, CoordAux.coordFn L q = 0 ↔ q ∈ Uθ τ K := by
@@ -412,7 +412,7 @@ theorem exists_heisCoord : ∃ coord : ModGL τ K → (Fin τ.rank → ℤ) → 
     · intro h0
       have hc0 : ∀ α ∈ L₁, c α = 0 := fun α hα => by
         have := congrFun h0 α
-        rw [hcoord, if_pos ((hmem₁ α).1 hα)] at this
+        rw [hcoord, ite_eq_left ((hmem₁ α).1 hα)] at this
         exact this
       have : CoordAux.prodX L c = pinnedX τ K (highRoot τ) (c (highRoot τ)) := by
         rw [hL, CoordAux.prodX_append, CoordAux.prodX_eq_one hc0, one_mul,
@@ -433,8 +433,8 @@ theorem exists_heisCoord : ∃ coord : ModGL τ K → (Fin τ.rank → ℤ) → 
     funext β
     rw [hcoord]
     by_cases hβ : β ∈ Deg1 τ
-    · rw [if_pos hβ]
-    · rw [if_neg hβ, hf β hβ]
+    · rw [ite_eq_left hβ]
+    · rw [ite_eq_right hβ, hf β hβ]
   have h_comm : ∀ q ∈ Qθ τ K, ∀ β ∈ Deg1 τ, ∀ c : K,
       (∀ γ, CoordAux.coordFn L q γ ≠ 0 → γ + β ∉ rootFinset τ) →
         q * pinnedX τ K β c = pinnedX τ K β c * q := by
@@ -444,7 +444,7 @@ theorem exists_heisCoord : ∃ coord : ModGL τ K → (Fin τ.rank → ℤ) → 
     rcases List.mem_append.1 ((hL ▸ hα : α ∈ L₁ ++ [highRoot τ])) with h | h
     · have hαD : α ∈ Deg1 τ := (hmem₁ α).1 h
       have hnz : CoordAux.coordFn L (CoordAux.prodX L c) α ≠ 0 := by
-        rw [hcoord, if_pos hαD]
+        rw [hcoord, ite_eq_left hαD]
         exact hc0
       exact CoordAux.commute_pinnedX_of_not_isRoot_add hαD hβ (hcomm α hnz) (c α) b
     · have : α = highRoot τ := List.mem_singleton.1 h

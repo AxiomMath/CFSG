@@ -62,13 +62,14 @@ theorem q15_card_quot (h : L41GPh10 t L S x₁ x₂ lam rho) : Nat.card (q15T t 
   change 512 = Nat.card (q15T t x₁ x₂ rho) * 16 at hcard
   omega
 
+omit [Finite G] in
 theorem q15_quot_isPGroup : IsPGroup 2 (q15T t x₁ x₂ rho) :=
   (q14_Q_isPGroup t x₁ x₂ rho).to_quotient
     ((l41Y t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho))
 
 theorem q15_orderOf_tbar (h : L41GPh10 t L S x₁ x₂ lam rho) :
     orderOf (q15Tbar h.toL41GPh8) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ ?_
   · have ht2 : (⟨t, q14_t_mem_Q h.toL41GPh8⟩ : ↥(l41Q t x₁ x₂ rho)) ^ 2 = 1 := by
       apply Subtype.ext
@@ -132,7 +133,7 @@ theorem q15_alpha_ne_one (h : L41GPh10 t L S x₁ x₂ lam rho) : q15Alpha h ≠
 
 theorem q15_alpha_order (h : L41GPh10 t L S x₁ x₂ lam rho) :
     ∃ n : ℕ, orderOf (q15Alpha h) = 3 ^ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine ⟨1, ?_⟩
   have h3 : orderOf (q15Alpha h) = 3 :=
     orderOf_eq_prime (q15_alpha_cube h) (q15_alpha_ne_one h)

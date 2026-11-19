@@ -324,7 +324,7 @@ theorem q1RToralTransfer_DTwD_low :
     obtain ⟨hn1, h3le⟩ := hΛ
     have h3 : rank = 3 := by omega
     dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos h3] at hQ ⊢
+    rw [ite_eq_left h3] at hQ ⊢
     obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
     let : Field K := fieldK
     let : Finite K := finiteK
@@ -386,7 +386,7 @@ theorem q1RToralTransfer_DTwD_low :
     by_cases hr2 : rank = 2
     ·
       dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-      rw [if_pos hr2] at hQ ⊢
+      rw [ite_eq_left hr2] at hQ ⊢
       obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
       let : Field K := fieldK
       let : Finite K := finiteK
@@ -436,7 +436,7 @@ theorem q1RToralTransfer_DTwD_low :
     ·
       have hr3 : rank = 3 := by omega
       dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-      rw [if_neg hr2, if_pos hr3] at hQ ⊢
+      rw [ite_eq_right hr2, ite_eq_left hr3] at hQ ⊢
       obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
       let : Field K := fieldK
       let : Finite K := finiteK

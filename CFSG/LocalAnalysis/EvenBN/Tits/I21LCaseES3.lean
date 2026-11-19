@@ -38,7 +38,7 @@ theorem E25Data.finite_dim (D : E25Data J x K₁ K₂ V₁ V₂) : Module.Finite
   Module.finite_of_finrank_pos (by rw [D.dim]; norm_num)
 
 theorem E25Data.dim₂ (D : E25Data J x K₁ K₂ V₁ V₂) : finrank (ZMod 2) V₂ = 4 := by
-  haveI := D.finite_dim
+  have := D.finite_dim
   have h1 := Submodule.finrank_add_eq_of_isCompl D.compl
   have h2 := D.dim
   have h3 := D.dim₁
@@ -63,7 +63,7 @@ theorem E25Data.swap (D : E25Data J x K₁ K₂ V₁ V₂) : E25Data J x K₂ K�
   fix₂ := D.fix₁
 
 theorem E25Data.comm (D : E25Data J x K₁ K₂ V₁ V₂) : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h : Nat.card J = 5 ^ 2 := by rw [D.card]; norm_num
   have := IsPGroup.isMulCommutative_of_card_eq_prime_sq h
   intro a ha b hb
@@ -96,7 +96,7 @@ theorem E25Data.equivProd (D : E25Data J x K₁ K₂ V₁ V₂) : Nonempty (J �
 
 theorem caseES_mulEquiv_zmod_five {K : Type*} [Group K] (hK : Nat.card K = 5) :
     Nonempty (K ≃* Multiplicative (ZMod 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact ⟨mulEquivOfPrimeCardEq hK (by rw [Nat.card_eq_fintype_card]; exact ZMod.card 5)⟩
 
 theorem E25Data.equivZMod (D : E25Data J x K₁ K₂ V₁ V₂) :
@@ -298,12 +298,12 @@ theorem caseES_card_nonzero_four [Module.Finite (ZMod 2) V] (W : Submodule (ZMod
   have h2 : (W : Set V).ncard = 16 := by
     rw [← Nat.card_coe_set_eq]
     exact h1
-  rw [Nat.card_coe_set_eq, Set.ncard_diff_singleton_of_mem (by simp), h2]
+  rw [Nat.card_coe_set_eq, Set.ncard_sdiff_singleton_of_mem (by simp), h2]
 
 theorem E25Data.card_centralizer_dvd (D : E25Data J x K₁ K₂ V₁ V₂) :
     Nat.card (centralizer (J : Set (V ≃ₗ[ZMod 2] V))) ∣ 225 := by
-  haveI := D.finite_dim
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have := D.finite_dim
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   set A := centralizer (J : Set (V ≃ₗ[ZMod 2] V))
   have hAx : ∀ a ∈ A, x * a = a * x := fun a ha => mem_centralizer_iff.mp ha x D.mem_x
   let X : SubMulAction A (V × V) :=

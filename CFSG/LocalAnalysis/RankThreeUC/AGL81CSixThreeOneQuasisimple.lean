@@ -155,7 +155,7 @@ private theorem exists_spGram_basis {p : ℕ} [Fact p.Prime] {W : Type} [AddComm
   rw [BilinForm.toMatrix_apply, Module.Basis.unitsSMul_apply, Module.Basis.unitsSMul_apply,
     Units.smul_def, Units.smul_def, BilinForm.smul_left, BilinForm.smul_right, hJ]
   rcases i with i | i <;> rcases j with j | j <;>
-    simp [d, Matrix.J, CFSG.RankThree.SubgroupLists.spGram, Matrix.fromBlocks, smul_eq_mul]
+    simp [d, Matrix.J, CFSG.RankThree.SubgroupLists.spGram, Matrix.fromBlocks]
 
 private theorem spForm_equivFun_eq {p : ℕ} [Fact p.Prime] {W : Type} [AddCommGroup W]
     [Module (ZMod p) W] {B : LinearMap.BilinForm (ZMod p) W}
@@ -169,7 +169,7 @@ private theorem spForm_equivFun_eq {p : ℕ} [Fact p.Prime] {W : Type} [AddCommG
     intro i
     funext j
     rw [Pi.basisFun_apply, Module.Basis.equivFun_self]
-    by_cases h : i = j <;> simp [h, Pi.single_apply]
+    by_cases h : i = j <;> simp [h]
   let B' : BilinForm (ZMod p) (Fin 2 ⊕ Fin 2 → ZMod p) := BilinForm.congr bs.equivFun B
   have hmat : BilinForm.toMatrix (Pi.basisFun (ZMod p) (Fin 2 ⊕ Fin 2)) B' =
       CFSG.RankThree.SubgroupLists.spGram 2 (ZMod p) := by
@@ -212,7 +212,7 @@ private theorem exists_coordinates_of_basis {p : ℕ} [Fact p.Prime] {W : Type} 
     intro i
     funext j
     rw [Pi.basisFun_apply, Module.Basis.equivFun_self]
-    by_cases h : i = j <;> simp [h, Pi.single_apply]
+    by_cases h : i = j <;> simp [h]
   have hspB : ∀ u v : W, CFSG.RankThree.SubgroupLists.spForm 2 (ZMod p) (c u) (c v) =
       B u v := spForm_equivFun_eq hbs
   have hτc : ∀ (x : (Module.End (ZMod p) W)ˣ) (v : W),
@@ -318,7 +318,7 @@ theorem isExtNotation_of_perfect_of_central {X : Type} [Group X] [Finite X]
   refine ⟨N, inferInstance, ?_, ⟨e⟩, ?_⟩
   · simpa using hNcard
   · rintro ⟨H, hH, hinf, hsup⟩
-    haveI : H.Normal := hH
+    have : H.Normal := hH
     have hle : commutator X ≤ H := by
       rw [commutator_def, Subgroup.commutator_le]
       intro x _ y _
@@ -345,7 +345,7 @@ private theorem card_sl_two_zmod_five : Nat.card (SL(2, ZMod 5)) = 120 := by
   norm_num
 
 private theorem card_sl_two_nine : Nat.card (SL(2, GaloisField 3 2)) = 720 := by
-  letI : Fintype (GaloisField 3 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   have hK : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
     norm_num
@@ -355,7 +355,7 @@ private theorem card_sl_two_nine : Nat.card (SL(2, GaloisField 3 2)) = 720 := by
 theorem isExtNotation_sl_two_nine :
     IsExtNotation (fun B _ => Nonempty (B ≃* alternatingGroup (Fin 6)))
       (fun B _ => Nat.card B = 2) (SL(2, GaloisField 3 2)) := by
-  letI : Fintype (GaloisField 3 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   have hK : Nat.card (GaloisField 3 2) = 9 := by
     rw [GaloisField.card 3 2 (by norm_num)]
     norm_num
@@ -375,7 +375,7 @@ private theorem sl2Diag_neg_one_image {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p))}
     (hirr : IsIrreducibleOn G) (e : G ≃* SL(2, GaloisField p 2)) :
     (G.subtype.comp e.symm.toMonoidHom) (sl2Diag (-1)) = -1 := by
-  letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField p 2) := Fintype.ofFinite _
   have hK : ringChar (GaloisField p 2) ≠ 2 := by
     rw [ringChar.eq (GaloisField p 2) p]
     exact hp2
@@ -406,7 +406,7 @@ theorem neg_one_mem_of_sl2 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
 
 private theorem exists_nonsquare_unit {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     ∃ μ : (GaloisField p 2)ˣ, μ ^ (p ^ 2 / 2) = -1 := by
-  letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField p 2) := Fintype.ofFinite _
   have hK : ringChar (GaloisField p 2) ≠ 2 := by
     rw [ringChar.eq (GaloisField p 2) p]
     exact hp2
@@ -430,7 +430,7 @@ private theorem sl2_upper_elemAbelian {p : ℕ} [Fact p.Prime]
     ∃ F : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p)),
       F = (ι.comp (sl2UpperHom (GaloisField p 2))).range ∧ F ≤ G ∧ IsPGroup p F ∧
       ¬ IsCyclic F ∧ F ≠ ⊥ ∧ CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ 2 := by
-  letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField p 2) := Fintype.ofFinite _
   have hA : Nat.card (Multiplicative (GaloisField p 2)) = p ^ 2 := by
     change Nat.card (GaloisField p 2) = p ^ 2
     rw [GaloisField.card p 2 (by norm_num)]
@@ -460,7 +460,7 @@ private theorem sl2_upper_elemAbelian {p : ℕ} [Fact p.Prime]
   exact ⟨F, rfl, hFG, hFq, hFc, hF1, hFelem, hFcard⟩
 
 private theorem sl2_normalizer_element {p : ℕ} [Fact p.Prime]
-    {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p))}
+    {_G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p))}
     {ι : SL(2, GaloisField p 2) →* GL (Fin 2 ⊕ Fin 2) (ZMod p)}
     {μ : (GaloisField p 2)ˣ} (hμN : μ ^ (p ^ 2 / 2) = -1)
     (hz : ι (sl2Diag (-1)) = -1) :
@@ -497,13 +497,13 @@ private theorem sl2_normalizer_element {p : ℕ} [Fact p.Prime]
 
 theorem exists_pgroup_of_sl2 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p))}
-    (hGS : G ≤ CFSG.Open.StatedSp 2 (ZMod p)) (hirr : IsIrreducibleOn G)
+    (_hGS : G ≤ CFSG.Open.StatedSp 2 (ZMod p)) (hirr : IsIrreducibleOn G)
     (e : G ≃* SL(2, GaloisField p 2)) :
     ∃ F : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p)), F ≤ G ∧ IsPGroup p F ∧ ¬ IsCyclic F ∧
       F ≠ ⊥ ∧ CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ 2 ∧
       ∃ h ∈ G, h ∈ Subgroup.normalizer (F : Set (GL (Fin 2 ⊕ Fin 2) (ZMod p))) ∧
         h ^ (p ^ 2 / 2) = -1 := by
-  letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField p 2) := Fintype.ofFinite _
   let ι : SL(2, GaloisField p 2) →* GL (Fin 2 ⊕ Fin 2) (ZMod p) :=
     G.subtype.comp e.symm.toMonoidHom
   have hιi : Function.Injective ι := fun a b h =>
@@ -513,7 +513,7 @@ theorem exists_pgroup_of_sl2 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   obtain ⟨μ, hμN⟩ := exists_nonsquare_unit hp2
   obtain ⟨F, hF, hFG, hFq, hFc, hF1, hFelem, hFcard⟩ :=
     sl2_upper_elemAbelian (p := p) (ι := ι) hιi hιP
-  obtain ⟨hhF, hhN⟩ := sl2_normalizer_element (G := G) (μ := μ) hμN hz
+  obtain ⟨hhF, hhN⟩ := sl2_normalizer_element (_G := G) (μ := μ) hμN hz
   refine ⟨F, hFG, hFq, hFc, hF1, hFelem, hFcard, ι (sl2Diag μ), hιP _, ?_, hhN⟩
   rw [hF]
   exact hhF
@@ -731,7 +731,7 @@ theorem sixThreeOneList_or_isotropic_of_quasisimple {p : ℕ} [Fact p.Prime] (hp
         B ((g : Module.End (ZMod p) W) u) ((g : Module.End (ZMod p) W) v) = B u v) → g ∈ H := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite W := (Module.finite_iff_finite (R := ZMod p) (M := W)).mp inferInstance
+  have : Finite W := (Module.finite_iff_finite (R := ZMod p) (M := W)).mp inferInstance
   obtain ⟨c, τ, hspB, hτc, hSp⟩ := exists_symplecticCoordinates hW B hBnd hBalt
   let G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p)) := H.map τ.toMonoidHom
   have hGS : G ≤ CFSG.Open.StatedSp 2 (ZMod p) := by
@@ -747,7 +747,7 @@ theorem sixThreeOneList_or_isotropic_of_quasisimple {p : ℕ} [Fact p.Prime] (hp
   have hHne : H ≠ ⊥ := by
     intro hbot
     obtain ⟨a, b, hab⟩ := hq.2.2
-    haveI : Subsingleton ↥H := by rw [hbot]; infer_instance
+    have : Subsingleton ↥H := by rw [hbot]; infer_instance
     exact hab (Subsingleton.elim (a * b) (b * a))
   have hpdvdG : p ∣ Nat.card ↥G := by
     have hpdvdH : p ∣ Nat.card ↥H := dvd_card_of_oPPrimeHull_of_ne_bot hH hHne

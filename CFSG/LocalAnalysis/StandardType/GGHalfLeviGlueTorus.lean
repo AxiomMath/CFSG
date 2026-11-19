@@ -87,7 +87,7 @@ private lemma exists_eq_mul_slLower2Hom {m : ℕ}
         exact ⟨s, rfl⟩
       exact commute_omegaBlock_slOn (k := ⟨0, by omega⟩)
         (by constructor <;>
-          (simp only [Set.mem_setOf_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
+          (simp only [Set.mem_ofPred_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
     have hmem : omegaBlock (m + 1 + 1) ⟨0, by omega⟩ ∈
         Subgroup.centralizer
           ({slLower2Hom m s} : Set (SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) := by
@@ -138,7 +138,7 @@ private lemma exists_eq_mul_slUpper2Hom {m : ℕ}
         rw [← range_slUpper2Hom m]
         exact ⟨s, rfl⟩
       exact commute_omegaBlock_slOn (k := ⟨m + 1, by omega⟩)
-        (by constructor <;> (simp only [Set.mem_setOf_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
+        (by constructor <;> (simp only [Set.mem_ofPred_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
     have hmem : omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ ∈
         Subgroup.centralizer
           ({slUpper2Hom m s} : Set (SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) := by

@@ -38,13 +38,13 @@ theorem coord_theta (ξ : Cube K) (I : Set.powersetCard (Fin 6) 3) :
     coord K (theta σ ξ) (cmpl I) = σ (coord K ξ I) := by
   rw [theta_apply]
   unfold coord
-  simp only [map_sum, map_smul, Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.smul_apply,
+  simp only [map_sum, map_smul, _root_.Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply,
     Module.Basis.repr_self, smul_eq_mul]
   rw [Finset.sum_eq_single I]
-  · simp [Finsupp.single_apply]
+  · simp
   · intro J _ hJ
     have : cmpl J ≠ cmpl I := fun h => hJ (cmpl_injective h)
-    simp [Finsupp.single_apply, this]
+    simp [this]
   · intro h; exact absurd (Finset.mem_univ I) h
 
 theorem theta_smul (c : K) (ξ : Cube K) : theta σ (c • ξ) = σ c • theta σ ξ := by
@@ -76,7 +76,7 @@ abbrev Idx : Type := Set.powersetCard (Fin 6) 3
 theorem coord_rho (g : GL (Fin 6) K) (ξ : Cube K) (I : Idx) :
     coord K (rho K g ξ) I = ∑ J, cmat g I J * coord K ξ J := by
   conv_lhs => rw [← (cubeBasis K).sum_repr ξ]
-  simp only [map_sum, map_smul, coord, cmat, smul_eq_mul, Finsupp.coe_finset_sum,
+  simp only [map_sum, map_smul, coord, cmat, smul_eq_mul, _root_.Finsupp.coe_finsetSum,
     Finset.sum_apply, Finsupp.smul_apply]
   refine Finset.sum_congr rfl fun J _ => ?_
   rw [mul_comm]
@@ -187,7 +187,7 @@ theorem Pm_apply_cmpl (I : Idx) : (Pm : Matrix Idx Idx K) I (cmpl I) = 1 := by s
 theorem Pm_mul_apply (M : Matrix Idx Idx K) (I J : Idx) :
     (Pm * M * Pm : Matrix Idx Idx K) I J = M (cmpl I) (cmpl J) := by
   simp only [Matrix.mul_apply, Pm]
-  simp [cmpl_cmpl]
+  simp
   rw [Finset.sum_eq_single (cmpl J)]
   · simp [cmpl_cmpl]
   · intro x _ hx
@@ -301,7 +301,7 @@ theorem bmat_I012 : bmat (K := K) I012 (cmpl I012) = 1 := by
   have h3 : (Matrix.of (Fin.append (fun s : Fin 3 => e K (![0, 1, 2] s))
       (fun s : Fin 3 => e K (![3, 4, 5] s))) : Matrix (Fin 6) (Fin 6) K) = 1 := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Fin.append, Fin.addCases, e, Pi.single_apply]
+    fin_cases i <;> fin_cases j <;> simp [Fin.append, Fin.addCases, e]
   rw [h3, Matrix.det_one]
 
 theorem bmat_eq_Pm [CharP K 2] : (bmat : Matrix Idx Idx K) = Pm := by
@@ -326,7 +326,7 @@ theorem beta_eq_sum [CharP K 2] (ξ η : Cube K) :
     rw [bmat_eq_zero hb, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
-theorem beta_theta [CharP K 2] (hσ : ∀ c, σ (σ c) = c) (ξ η : Cube K) :
+theorem beta_theta [CharP K 2] (_hσ : ∀ c, σ (σ c) = c) (ξ η : Cube K) :
     beta K (theta σ ξ) (theta σ η) = σ (beta K ξ η) := by
   rw [beta_eq_sum, beta_eq_sum, map_sum]
   refine Fintype.sum_equiv cmplEquiv _ _ fun a => ?_
@@ -386,7 +386,7 @@ theorem beta_mem_fixed [CharP K 2] (hσ : ∀ c, σ (σ c) = c) {ξ η : Cube K}
   rw [hξ, hη] at h
   exact h.symm
 
-theorem beta_nondeg_Wsub [CharP K 2] (hσ : IsUnitaryInvolution σ) {w : Cube K} (hw : w ∈ Wsub σ)
+theorem beta_nondeg_Wsub [CharP K 2] (hσ : IsUnitaryInvolution σ) {w : Cube K} (_hw : w ∈ Wsub σ)
     (h : ∀ w' ∈ Wsub σ, beta K w w' = 0) : w = 0 := by
   have hall : ∀ η : Cube K, beta K w η = 0 := by
     intro η

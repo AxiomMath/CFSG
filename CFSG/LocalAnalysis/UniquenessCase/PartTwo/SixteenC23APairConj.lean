@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23a_commElt_conj (W : Subgroup G) (t g : G) :
     commElt (conjSubgroup W g) t = conjSubgroup (commElt W (g * t * g⁻¹)) g := by
   apply le_antisymm
@@ -31,11 +32,13 @@ private theorem c23a_commElt_conj (W : Subgroup G) (t g : G) :
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       group
 
+omit [Finite G] in
 private theorem c23a_mSub_conjSubgroup (A : Subgroup G) (g : G) :
     mSub (conjSubgroup A g) = mSub A := by
   unfold mSub rk
   rw [E3.card_conjSubgroup]
 
+omit [Finite G] in
 private theorem c23a_centralizer_singleton_conj (w g : G) :
     conjSubgroup (Subgroup.centralizer ({g * w * g⁻¹} : Set G)) g =
       Subgroup.centralizer ({w} : Set G) := by
@@ -54,6 +57,7 @@ private theorem c23a_centralizer_singleton_conj (w g : G) :
       _ = g * (w * x) * g⁻¹ := by rw [h]
       _ = (g * w * g⁻¹) * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem c23a_mul_comm_conj {t y g : G}
     (h : (g * t * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * t * g⁻¹)) :
     t * y = y * t := by
@@ -63,6 +67,7 @@ private theorem c23a_mul_comm_conj {t y g : G}
       _ = g * (y * t) * g⁻¹ := by group
   exact mul_left_cancel (mul_right_cancel h')
 
+omit [Finite G] in
 private theorem c23a_mQuot_conj {M V W W' : Subgroup G} (g : G)
     (hrank : ∀ E : Subgroup G, E ≤ M → IsElemAbelian 2 E →
       (∀ e ∈ E, e ∈ normalizer (W : Set G)) → (∀ e ∈ E, ∀ y ∈ W', e * y = y * e) →
@@ -102,6 +107,7 @@ private theorem c23a_mQuot_conj {M V W W' : Subgroup G} (g : G)
     rwa [E3.conjSubgroup_inv_conj E g, E3.conjSubgroup_centralizer V g] at h
   rwa [hq]
 
+omit [Finite G] in
 theorem c23a_pair_conj {M V W W' : Subgroup G} (g : G) (h : C23APair M V W W') :
     C23APair (conjSubgroup M g) (conjSubgroup V g) (conjSubgroup W g) (conjSubgroup W' g) := by
   refine

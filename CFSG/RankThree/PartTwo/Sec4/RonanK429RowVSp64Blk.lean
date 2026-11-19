@@ -105,7 +105,7 @@ theorem mem_range_leviSp_of_commute {c : Kˣ} (hc : (c : K) ≠ ((c⁻¹ : Kˣ) 
   have hsp := (mem_statedSp_iff (g := (h : GL (Fin 3 ⊕ Fin 3) K))).mp h.2
   rw [← spMat, ← hM, hMblk, fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply] at hsp
   simp only [Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add, Matrix.transpose_zero,
-    Matrix.mul_one, Matrix.one_mul] at hsp
+    Matrix.mul_one] at hsp
   have hPQ : Pᵀ * Q = 1 := by
     have := congrArg Matrix.toBlocks₁₂ hsp
     simpa using this
@@ -217,7 +217,7 @@ theorem spTorus_eq_prod (a : Fin 3 → Kˣ) :
   rw [lam_sl2Diag, lam_sl2Diag, lam_sl2Diag, ← map_mul, ← map_mul]
   congr 1
   funext j
-  fin_cases j <;> simp [Pi.mulSingle_apply]
+  fin_cases j <;> simp
 
 theorem conj_lam_lam (i j : Fin 3) (g : Matrix.SpecialLinearGroup (Fin 2) K) :
     lam i sl2W * lam j g * (lam i sl2W)⁻¹ =
@@ -236,7 +236,7 @@ theorem flip_conj_torusHom (i : Fin 3) (a : Fin 3 → Kˣ) :
         (lam i sl2W * x * (lam i sl2W)⁻¹) * (lam i sl2W * y * (lam i sl2W)⁻¹) *
           (lam i sl2W * z * (lam i sl2W)⁻¹) := fun x y z => by group
   rw [spTorus_eq_prod, spTorus_eq_prod, hconj, conj_lam_lam, conj_lam_lam, conj_lam_lam]
-  fin_cases i <;> simp [hw, Function.update_apply]
+  fin_cases i <;> simp [hw]
 
 end RowV
 

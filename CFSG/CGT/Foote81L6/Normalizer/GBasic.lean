@@ -93,11 +93,13 @@ theorem π_eq_of_inv_mul_mem (x y : ↥(normalizer (F : Set G))) (h : (x : G)⁻
   rw [map_mul, map_inv, inv_mul_eq_one] at h1
   exact h1
 
+omit [IsMulCommutative ↥F] in
 theorem ρ_π_eq_self_iff (x : ↥(normalizer (F : Set G))) (v : ↥F) :
     NBar.ρ F (NBar.π F x) v = v ↔ (x : G) * v * (x : G)⁻¹ = v := by
   rw [← NBar.ρ_π F x v]
   exact ⟨fun h => congrArg Subtype.val h, fun h => Subtype.ext h⟩
 
+omit [IsMulCommutative ↥F] in
 theorem ρ_ne_one_of_not_mem {m : ℕ} (D : FooteCore G T m n) (hF : IsE64 T F)
     (x : ↥(normalizer (F : Set G))) (hxT : (x : G) ∈ T) (hxF : (x : G) ∉ F) :
     NBar.ρ F (NBar.π F x) ≠ 1 := by
@@ -207,14 +209,14 @@ theorem π_mem_of_mem_T₁ [Finite G] {d₀ d₁ : G}
       _ = w₁ * r * w₁⁻¹ := by rw [e1, mul_inv_cancel_right]
   obtain ⟨-, -, hB₀, hB₁⟩ := D.E64_decomp hF
   have hR₀ : w₀ ∈ D.B₀ ⊓ normalizer ((F ⊓ D.B₀ : Subgroup G) : Set G) := by
-    haveI : Finite ↥(F ⊓ D.B₀) := Nat.finite_of_card_ne_zero (by rw [hB₀.2.2]; norm_num)
+    have : Finite ↥(F ⊓ D.B₀) := Nat.finite_of_card_ne_zero (by rw [hB₀.2.2]; norm_num)
     refine mem_inf.2 ⟨hw₀, TStruct.mem_normalizer_of_forall_conj_mem fun r hr => ?_⟩
     obtain ⟨hrF, hrB⟩ := mem_inf.1 hr
     rw [← hconj₀ r hrB]
     exact mem_inf.2 ⟨(mem_normalizer_iff.1 x.2 r).1 hrF,
       by rw [hconj₀ r hrB]; exact mul_mem (mul_mem hw₀ hrB) (inv_mem hw₀)⟩
   have hR₁ : w₁ ∈ D.B₁ ⊓ normalizer ((F ⊓ D.B₁ : Subgroup G) : Set G) := by
-    haveI : Finite ↥(F ⊓ D.B₁) := Nat.finite_of_card_ne_zero (by rw [hB₁.2.2]; norm_num)
+    have : Finite ↥(F ⊓ D.B₁) := Nat.finite_of_card_ne_zero (by rw [hB₁.2.2]; norm_num)
     refine mem_inf.2 ⟨hw₁, TStruct.mem_normalizer_of_forall_conj_mem fun r hr => ?_⟩
     obtain ⟨hrF, hrB⟩ := mem_inf.1 hr
     rw [← hconj₁ r hrB]
@@ -234,7 +236,7 @@ theorem π_mem_of_mem_T₁ [Finite G] {d₀ d₁ : G}
       exact NBar.π_eq_one_of_mem F (fun u hu v hv =>
         congrArg Subtype.val (mul_comm (⟨u, hu⟩ : ↥F) ⟨v, hv⟩)) _ hw₀F
     · right
-      haveI : Finite ↥(D.B₀ ⊓ normalizer ((F ⊓ D.B₀ : Subgroup G) : Set G)) :=
+      have : Finite ↥(D.B₀ ⊓ normalizer ((F ⊓ D.B₀ : Subgroup G) : Set G)) :=
         Nat.finite_of_card_ne_zero (by rw [D.card_R₀ hF]; norm_num)
       have hle : F ⊓ D.B₀ ≤ D.B₀ ⊓ normalizer ((F ⊓ D.B₀ : Subgroup G) : Set G) :=
         le_inf inf_le_right le_normalizer
@@ -248,7 +250,7 @@ theorem π_mem_of_mem_T₁ [Finite G] {d₀ d₁ : G}
       exact NBar.π_eq_one_of_mem F (fun u hu v hv =>
         congrArg Subtype.val (mul_comm (⟨u, hu⟩ : ↥F) ⟨v, hv⟩)) _ hw₁F
     · right
-      haveI : Finite ↥(D.B₁ ⊓ normalizer ((F ⊓ D.B₁ : Subgroup G) : Set G)) :=
+      have : Finite ↥(D.B₁ ⊓ normalizer ((F ⊓ D.B₁ : Subgroup G) : Set G)) :=
         Nat.finite_of_card_ne_zero (by rw [D.card_R₁ hF]; norm_num)
       have hle : F ⊓ D.B₁ ≤ D.B₁ ⊓ normalizer ((F ⊓ D.B₁ : Subgroup G) : Set G) :=
         le_inf inf_le_right le_normalizer

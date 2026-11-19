@@ -19,8 +19,8 @@ theorem F10.k108X_of_k108H207 (hK : F10.K108H207) {Gh : Type} [Group Gh] [Finite
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) (hX : (Nat.card X).Prime) (hXodd : Odd (Nat.card X))
     (hXT : Permutes X T) (hSX : S ⊔ X = ⊤) (hTM : T ≤ M) (hXM : X ≤ M)
     (hstar : ∀ g : Gh, (∀ x ∈ X, g⁻¹ * x * g ∈ M) → g ∈ M) : S ≤ M := by
-  haveI : Fact (Nat.card X).Prime := ⟨hX⟩
-  haveI hcyc : IsCyclic ↥X := isCyclic_of_prime_card (p := Nat.card X) rfl
+  have : Fact (Nat.card X).Prime := ⟨hX⟩
+  have hcyc : IsCyclic ↥X := isCyclic_of_prime_card (p := Nat.card X) rfl
   exact hK Gh S hSn hS hnab hC hshape T X ⟨hT, inferInstance, hXodd, hXT, fun p hp _ =>
     (CFSG.SectionRank.pRank_le_one_of_isCyclic hp hcyc).trans (by norm_num)⟩ hSX X M le_rfl hX hXodd
     hTM hXM hstar
@@ -41,7 +41,7 @@ theorem uc22p22r_le_of_k108H207 (hK : F10.K108H207) {K X T' M : Subgroup G} {x :
   have hXq : Nat.card X = q := by rw [hX, Nat.card_zpowers, hxo]
   have hXc := uc22p22r_zpowers_comm (x := x)
   rw [← hX] at hXc
-  haveI hSn : (uc22p22rS K X hXK).Normal := uc22p22rS_normal hXK
+  have hSn : (uc22p22rS K X hXK).Normal := uc22p22rS_normal hXK
   have hker : ∀ n : ↥(K ⊔ X), uc22p22rPi K X hXK n = 1 → (n : G) ∈ M := fun n hn =>
     uc22p22r_ker_le hXK hXc hKq hXM hZ h0 n ((uc22p22rPi_eq_one_iff hXK n).1 hn)
   have hxX : x ∈ X := hX ▸ Subgroup.mem_zpowers x
@@ -112,9 +112,9 @@ theorem uc22p22r_fix108h_of_k108H207 (D : Data G) (hK : F10.K108H207) (h201 : S2
   by_contra hcon
   have hXH : X ≤ H := hXHM.trans inf_le_left
   have hXM : X ≤ D.M := hXHM.trans inf_le_right
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcyc : IsCyclic ↥X := isCyclic_of_prime_card hXq
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcyc : IsCyclic ↥X := isCyclic_of_prime_card hXq
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   set x : G := (g : G) with hxdef
   have hX : X = Subgroup.zpowers x := by

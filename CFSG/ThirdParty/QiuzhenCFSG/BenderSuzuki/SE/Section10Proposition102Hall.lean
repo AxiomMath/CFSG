@@ -63,7 +63,7 @@ public theorem proposition102_normalComplement_subtype_isComplement
     exact le_sup_right
   have hKnormal : (K.subgroupOf D).Normal := by
     simpa using hcomp.normal_in_M
-  letI : (K.subgroupOf D).Normal := hKnormal
+  let : (K.subgroupOf D).Normal := hKnormal
   have hdisj : Disjoint (K.subgroupOf D) (C.subgroupOf D) := by
     rw [Subgroup.disjoint_def]
     intro x hxK hxC
@@ -253,7 +253,7 @@ public theorem proposition102_part_b_hall_D
   have hcardN : Nat.card N = Nat.card (pPrimeCore p D) := by
     rw [hN_eq_core, Subgroup.card_map_of_injective D.subtype_injective]
   have hp : p.Prime := by simpa [p] using d.choice.p_prime
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hcop_pN : Nat.Coprime p (Nat.card N) := by
     rw [hcardN]
     exact pPrimeCore_coprime_card
@@ -325,7 +325,7 @@ public theorem proposition102_hall_ambient_of_local_normal
     (hSupport : ∀ q : Nat.Primes, q ∈ subgroupPrimeSet H →
       q.val ∣ Nat.card (Subgroup.closure (peterfalviKSet D t))) :
     IsHallSubgroup (subgroupPrimeSet H) H := by
-  letI : (H.subgroupOf D).Normal := hNormal
+  let : (H.subgroupOf D).Normal := hNormal
   apply proposition102_hall_of_subgroupOf_and_ambient_sylows hHD hHallD
   intro q hq
   obtain ⟨Q, hQbase⟩ :=
@@ -335,7 +335,7 @@ public theorem proposition102_hall_ambient_of_local_normal
     simpa [hD] using hQbase
   let QD : Subgroup D := (Q : Subgroup X).subgroupOf D
   have hQDp : IsPGroup q.val QD :=
-    Q.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hQD).symm
+    Q.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hQD).symm
   have hQDle : QD ≤ H.subgroupOf D :=
     section12_pSubgroup_le_normal_hall_of_prime_mem hHallD hq hQDp
   refine ⟨Q, ?_⟩
@@ -374,7 +374,7 @@ public theorem proposition102_part_b_hall_X
   let H : Subgroup X := (derivedSubgroup E).map E.subtype
   have hLocal : Proposition102HallLocalData D E t := by
     simpa [D, E] using proposition102_part_b_hall_D
-      (D := D) hW (by simpa [D] using (inf_le_left : D ≤ M)) d d106 hA
+      (D := D) hW (by simp [D]) d d106 hA
   have hHD : H ≤ D := by
     exact (Subgroup.map_subtype_le (derivedSubgroup E)).trans inf_le_right
   exact proposition102_hall_ambient_of_local_normal hM ht htM d83 h42

@@ -59,7 +59,7 @@ theorem act_data (hn : n ≤ 32) (eG nG : List (Perm (Fin n)))
   let τ : Perm (Fin n) → Perm (Fin 16) := fun g =>
     if h : g ∈ Subgroup.closure {g | g ∈ nG} then (e.toMonoidHom.comp ψ) ⟨g, h⟩ else 1
   have hτ : ∀ (g : Perm (Fin n)) (hg : g ∈ Subgroup.closure {g | g ∈ nG}),
-      τ g = (e.toMonoidHom.comp ψ) ⟨g, hg⟩ := fun g hg => dif_pos hg
+      τ g = (e.toMonoidHom.comp ψ) ⟨g, hg⟩ := fun g hg => dite_eq_left hg
   refine ⟨e, nG.map τ, hidx, ?_, ?_⟩
   · rw [List.map_map]
     refine List.map_congr_left fun g hg => ?_
@@ -69,7 +69,7 @@ theorem act_data (hn : n ≤ 32) (eG nG : List (Perm (Fin n)))
   · refine (range_eq_closure nG (e.toMonoidHom.comp ψ)).trans ?_
     congr 1
     ext t
-    simp only [Set.mem_setOf_eq, List.mem_map]
+    simp only [Set.mem_ofPred_eq, List.mem_map]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact ⟨g, hg, hτ g (Subgroup.subset_closure hg)⟩

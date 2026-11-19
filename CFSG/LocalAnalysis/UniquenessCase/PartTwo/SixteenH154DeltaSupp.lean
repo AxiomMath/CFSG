@@ -33,12 +33,12 @@ theorem s16h_dc_card_of_elem {X : Type*} [Group X] {p n : ℕ}
   have h1 : Nat.card X = Nat.card (Multiplicative (Fin n → ZMod p)) := Nat.card_congr e.toEquiv
   rw [h1, show Nat.card (Multiplicative (Fin n → ZMod p)) = Nat.card (Fin n → ZMod p) from rfl,
     Nat.card_fun]
-  simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+  simp [Nat.card_eq_fintype_card, Fintype.card_fin]
 
 theorem s16h_dc_pow_val_add {X : Type*} [Group X] {p : ℕ} (hp : p.Prime) {x : X}
     (hx : x ^ p = 1) (a b : ZMod p) :
     x ^ (a + b).val = x ^ a.val * x ^ b.val := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmod : (a + b).val ≡ a.val + b.val [MOD p] := by
     rw [ZMod.val_add]
     exact Nat.mod_modEq _ _
@@ -181,7 +181,7 @@ theorem s16h_dc_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p r : ℕ}
     (Subgroup.closure_le L).mpr (by rintro _ ⟨k, rfl⟩; exact hv k)
   let x : Fin s → ↥(Subgroup.closure (Set.range v)) := fun k =>
     ⟨v k, Subgroup.subset_closure ⟨k, rfl⟩⟩
-  haveI hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
+  have hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
     IsMulCommutative.of_comm fun a b => by
       refine Subtype.ext ?_
       rw [Subgroup.coe_mul, Subgroup.coe_mul]
@@ -273,7 +273,7 @@ theorem s16h_dc_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p r : ℕ}
           (v k) ^ (d k).val := by simp [x]
       rwa [hcoe] at h1
     have hdvd := s16h_dc_dvd_of_pow_mem_centSub hE hp (hv k) (hmem k) hcent
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hval0 : (d k).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt (d k))
     exact hkmem ((ZMod.val_eq_zero (d k)).mp hval0)
   have hinj : Function.Injective φ := by
@@ -287,7 +287,7 @@ theorem s16h_dc_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p r : ℕ}
   have hcard : Nat.card (Multiplicative (Fin s → ZMod p)) = p ^ s := by
     rw [show Nat.card (Multiplicative (Fin s → ZMod p)) = Nat.card (Fin s → ZMod p) from rfl,
       Nat.card_fun]
-    simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+    simp [Nat.card_eq_fintype_card, Fintype.card_fin]
   simpa [hcard] using hle
 
 theorem s16h_dc_supp_not_singleton [Finite W] {A L : Subgroup (MulAut W)} {Wsub : Subgroup W}

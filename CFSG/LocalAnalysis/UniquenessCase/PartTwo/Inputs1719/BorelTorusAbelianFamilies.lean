@@ -260,7 +260,7 @@ theorem k_BorelSimple_chevalley_aux {τ : Tag} {K : Type} [Field K] [Finite K] [
 
 theorem k_BorelSimple_untwisted_chevalley_aux
     {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ}
-    (hcard : Nat.card K = 2 ^ f)
+    (_hcard : Nat.card K = 2 ^ f)
     {Y : Type} [Group Y] [Finite Y] (e : Y ≃* AdjointQuotient τ K)
     (S : Subgroup Y) (hS : IsSylowTwoOf S ⊤) :
     IsMulCommutative (normalizerQuotient S) := by
@@ -319,7 +319,7 @@ theorem k_BorelSimple_E8 :
   exact k_BorelSimple_untwisted_chevalley hmodel.2 S hS
 
 theorem k_BorelSimple_suzuki_aux {a : ℕ} {K : Type} [Field K] [Finite K]
-    (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
+    (_ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     IsMulCommutative (normalizerQuotient (suzukiU a K)) := by
   obtain ⟨-, hTcomm, -, hTN, hUT, hBUT, -, -⟩ := suzuki_borel_structure (a := a) hK
   have hN : Subgroup.normalizer (suzukiU a K : Set (suzukiGroup a K)) = suzukiB a K :=
@@ -354,7 +354,7 @@ theorem k_BorelSimple_twistedB2 : KBorelSimple .twistedB2 := by
   have hUsyl : IsSylowTwoOf (suzukiU a K) ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     · rw [← hP]
       rw [show ((P : Subgroup (suzukiGroup a K)).subgroupOf ⊤).index =
         (P : Subgroup (suzukiGroup a K)).index from Subgroup.relIndex_top_right _]
@@ -398,7 +398,7 @@ theorem genericOrders_eq_one_of_mem_oddMultiplierFreeTags
     rw [h2]
   · simp [CFSG.Open.StatedLieAdmissible] at hadm
   · simp only [CFSG.Blueprint.Multiplier.genericOrders]
-    rw [if_pos (Nat.even_pow.2 ⟨even_two, by omega⟩)]
+    rw [ite_eq_left (Nat.even_pow.2 ⟨even_two, by omega⟩)]
   · simp only [CFSG.Blueprint.Multiplier.genericOrders]
     congr 1
     have hm : 1 ≤ m := by
@@ -686,7 +686,7 @@ theorem isMulCommutative_of_simple_of_centerTwo_at (t : CFSG.Open.StatedLieTag)
     (hsimple : KBorelSimple t)
     (hZ2 : IsPGroup 2 (Subgroup.center K))
     (hL : LieModel (K ⧸ Subgroup.center K) t m 2 f)
-    (hq : CFSG.Open.IsQuasisimple K)
+    (_hq : CFSG.Open.IsQuasisimple K)
     (S : Subgroup K) (hS : IsSylowTwoOf S ⊤) :
     IsMulCommutative (normalizerQuotient S) := by
   have hZle : Subgroup.center K ≤ S :=

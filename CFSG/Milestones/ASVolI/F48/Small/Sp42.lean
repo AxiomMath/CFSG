@@ -148,9 +148,9 @@ theorem burnsideF48s_sp42_aut_inner (ψ : S6 ≃* S6) (h1 : ∀ x, ψ x ∈ S6G1
 theorem burnsideF48s_sp42_Gp_top {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 2 1 Gp M₁ M₂)
     (hP : IsLieParabolics 2 Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂)) : Gp = ⊤ := by
-  haveI : Gp.Normal := hyp.normal
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Gp.Normal := hyp.normal
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, K, hK, hKf, hc, he⟩ := hyp.model
   obtain ⟨ε₀⟩ := nonempty_mulEquiv_S6_of_isSp42 (W := ↥Gp) ⟨K, hK, hKf, by simpa using hc, he⟩
   obtain ⟨ε, -, hε⟩ := burnsideF48_identify ε₀.symm burnsideF48s_sp42_isLieParabolics hP
@@ -264,7 +264,7 @@ theorem burnsideF48s_sp42_core {Y : Type} [Group Y] (f₁ : ↥S6G1 →* Y) (f�
       · simp [yL, h4, LB]
       · have hT : burnsideF48s_sp42L l.1 ∈ S6G1 ⊓ S6G2 := ⟨hL1' _ h4, hL2' _ h3⟩
         have := h12 _ hT
-        simp only [yL, LA, LB, h4, h3, if_false, dif_neg, not_false_eq_true]
+        simp only [yL, LA, LB, h4, h3, ite_false, dite_eq_right, not_false_eq_true]
         exact this
   have hrelY : ∀ s ∈ burnsideF48s_sp42RelA ++ burnsideF48s_sp42RelB,
       burnsideF48s_ev yL (burnsideF48s_sp42Word s) = 1 := by
@@ -360,10 +360,10 @@ theorem burnsideF48s_sp42_core {Y : Type} [Group Y] (f₁ : ↥S6G1 →* Y) (f�
   by_cases hj1 : j = 1
   swap
   · exfalso
-    rw [if_neg hj1] at hcardP
+    rw [ite_eq_right hj1] at hcardP
     omega
   subst hj1
-  rw [if_pos rfl] at hcardP
+  rw [ite_eq_left rfl] at hcardP
   have hdS : ∀ w ∈ burnsideF48s_sp42Ws 1, burnsideF48s_ev burnsideF48s_sp42L w = 1 := by
     intro w hw
     rcases List.mem_append.1 hw with h | h
@@ -534,8 +534,8 @@ section Main
 
 theorem burnsideF48s_small_Sp4_two (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .Sp4 2 1 Gp M₁ M₂) : F48Concl .Sp4 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hGp := burnsideF48s_sp42_Gp_top hyp hP

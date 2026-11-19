@@ -36,7 +36,7 @@ theorem kernelTrivialAt_of_cubic {X : Type} [Group X] [Finite X] {p : ℕ} [Fact
     exact CFSG.SectionRank.OddCover.cubic_extraspecial_sylow_central_kernel π hπ hC hxp hyp hz1
       hzx hzy hQ hS hhx hhy hhz hdet P
   · have hP : IsPGroup p (⊤ : Subgroup ↥π.ker) := hker.of_equiv Subgroup.topEquiv.symm
-    exact disjoint_top.1 (IsPGroup.disjoint_of_ne r p hrp _ _ P.isPGroup' hP)
+    exact disjoint_top.1 (IsPGroup.disjoint_of_ne r p hrp _ _ P.isPGroup hP)
 
 theorem sporCaseThreePrimeData_of_noncomm {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     (h4 : ¬ p ^ 4 ∣ Nat.card X) (hn : HasNoncommPair p X) (hk : KernelTrivialAt X p) :

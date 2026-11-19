@@ -11,27 +11,32 @@ open Subgroup Equiv Equiv.Perm
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G} {x : G}
 
+omit [Finite G] in
 private theorem mul_self_eq_one_of_eq_tau0 (hx : x = ι τ₀) : x * x = 1 := by
   rw [hx, ← map_mul, τ₀_mul_self, map_one]
 
+omit [Finite G] in
 private theorem ne_one_of_eq_tau0 (hC : CentData z ι) (hx : x = ι τ₀) : x ≠ 1 := by
   intro h1
   have h2 : τ₀ = 1 := hC.inj (by rw [← hx, h1, map_one])
   have h3 : (9 : Fin 10) = 8 := by
     have h := congrArg (fun f : Perm (Fin 10) => f 8) h2
     rw [τ₀_apply_eight] at h
-    simpa using h
+    simp at h
   exact absurd h3 (by decide)
 
+omit [Finite G] in
 private theorem not_isConj_z_of_eq_tau0 (hN : NoSwapConj z ι) (hx : x = ι τ₀) :
     ¬ IsConj z x := by
   rw [hx]
   exact (hN τ₀ isSwap_τ₀).1
 
+omit [Finite G] in
 private theorem mk_selfC_eq_one :
     (QuotientGroup.mk (selfC x) : TwoSec x) = 1 :=
   (QuotientGroup.eq_one_iff (selfC x)).2 (Subgroup.mem_zpowers (selfC x))
 
+omit [Finite G] in
 private theorem zbar_mul_self (hC : CentData z ι) (hx : x = ι τ₀) :
     zbar hC hx * zbar hC hx = 1 := by
   have h : (⟨z, z_mem_centralizer_of_eq hC hx⟩ : ↥(centralizer ({x} : Set G))) *
@@ -42,6 +47,7 @@ private theorem zbar_mul_self (hC : CentData z ι) (hx : x = ι τ₀) :
         (⟨z, z_mem_centralizer_of_eq hC hx⟩ : ↥(centralizer ({x} : Set G))) = 1
   rw [← map_mul, h, map_one]
 
+omit [Finite G] in
 private theorem sigmaX_mul_self_of_isSwap (hx : x = ι τ₀) {ρ : Perm (Fin 8)}
     (hρ : ρ.IsSwap) : sigmaX (ι := ι) hx ρ * sigmaX (ι := ι) hx ρ = 1 := by
   obtain ⟨a, b, _hab, hρab⟩ := hρ

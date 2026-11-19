@@ -95,7 +95,7 @@ theorem o1pp_core_facts {G : Type} [Group G] [Finite G] (x zn : G) :
   · have : Nat.card (O1ppCore x zn) = Nat.card (LargeEvenPPrimeCore 3 H) :=
       card_map_of_injective H.subtype_injective
     rw [this]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact CFSG.pPrimeCore_coprime_card
 
 theorem o1pp_X_facts {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} {x zn : G}
@@ -166,8 +166,8 @@ theorem prop_10_10_not_component {G : Type} [Group G] [Finite G] {B L X Xk Tk : 
   obtain ⟨hXs, -, h3⟩ := o1pp_X_facts hU h
   have hXO : X ≤ normalizer (O : Set G) := le_trans h.X_le hHO
   have hXObot : X ⊓ O = ⊥ := by
-    haveI := hXs
-    haveI := normal_subgroupOf_of_le_normalizer hXO
+    have := hXs
+    have := normal_subgroupOf_of_le_normalizer hXO
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.subgroupOf X) with h' | h'
     · rw [subgroupOf_eq_bot] at h'
       exact disjoint_iff.1 h'.symm

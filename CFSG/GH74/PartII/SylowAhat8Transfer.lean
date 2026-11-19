@@ -162,7 +162,7 @@ theorem exists_normal_index_two_of_sylAhat8 (S : Sylow 2 Y) (e : SylAhat8 ≃* �
     have hox : orderOf x = 2 := orderOf_eq_prime (by rw [sq, hxx]) hx1
     omega
   obtain ⟨g, hgU, -, hgp, hgidx⟩ := CFSG.EvenSporTransfer.exists_extremal_conj_of_thompson
-    S.isPGroup' S.not_dvd_index hUS hUidx hxS hxU hmin hno
+    S.isPGroup S.not_dvd_index hUS hUidx hxS hxU hmin hno
   set y : Y := g⁻¹ * x * g with hydef
   let Cy : Subgroup Y := centralizer {y}
   let P₀ : Sylow 2 ↥Cy :=
@@ -173,7 +173,7 @@ theorem exists_normal_index_two_of_sylAhat8 (S : Sylow 2 Y) (e : SylAhat8 ≃* �
       MulAut.conj_apply, mul_left_inj, mul_right_inj] at h
     exact Subtype.ext h
   have hQp : IsPGroup 2 ↥(((S : Subgroup Y) ⊓ centralizer {x}).comap φ) :=
-    S.isPGroup'.to_inf_left.comap_of_injective φ hφ
+    S.isPGroup.to_inf_left.comap_of_injective φ hφ
   obtain ⟨P₁, hQP₁⟩ := hQp.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥Cy) P₁ P₀
   set k : Y := (c : Y) * g⁻¹ with hkdef

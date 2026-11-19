@@ -109,15 +109,15 @@ theorem g24_aut_card_le :
     exact hcard1
   have hN1 : (testClass b (b 0) (T 1)).ncard ≤ 1024 := by
     have := (hlevel 1 le_rfl (by norm_num)).2
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     rwa [hTi 1 (by norm_num)]
   have hN2 : (testClass b (b 0) (T 2)).ncard ≤ 60 := by
     have := (hlevel 2 (by norm_num) (by norm_num)).2
-    rw [if_neg (by norm_num), if_pos rfl] at this
+    rw [ite_eq_right (by norm_num), ite_eq_left rfl] at this
     rwa [hTi 2 (by norm_num)]
   have hN3 : (testClass b (b 0) (T 3)).ncard ≤ 2 := by
     have := (hlevel 3 (by norm_num) (by norm_num)).2
-    rw [if_neg (by norm_num), if_neg (by norm_num)] at this
+    rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num)] at this
     rwa [hTi 3 (by norm_num)]
   calc Nat.card (MulAut ↥twoBD) ≤ _ := hbound
     _ ≤ 4095 * 1024 * 60 * 2 := by

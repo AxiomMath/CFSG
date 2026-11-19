@@ -22,7 +22,7 @@ theorem sl5_mem_center_iff {x : SL5} : x ∈ Subgroup.center SL5 ↔ x = 1 ∨ x
     · right
       ext i j
       rw [← hrx, Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one]
-      fin_cases i <;> fin_cases j <;> simp <;> rfl
+      fin_cases i <;> fin_cases j <;> simp
   · rintro (rfl | rfl)
     · exact Subgroup.one_mem _
     · exact Subgroup.mem_center_iff.mpr fun g => by rw [mul_neg_one, neg_one_mul]

@@ -211,7 +211,7 @@ private theorem sum_val_image {e : ℕ} (A : Finset (Fin e)) {M : Type*} [AddCom
 
 theorem S_digits (m : ℕ) (x : ZMod (2 ^ (2 * m + 1) - 1)) :
     S (2 * m + 1) (digits (2 * m + 1) x) = x := by
-  haveI : NeZero (2 ^ (2 * m + 1) - 1) :=
+  have : NeZero (2 ^ (2 * m + 1) - 1) :=
     ⟨by have h : 1 ≤ 2 ^ (2 * m + 1) := Nat.one_le_two_pow; omega⟩
   have hlt : x.val < 2 ^ (2 * m + 1) := by
     have h1 : x.val < 2 ^ (2 * m + 1) - 1 := ZMod.val_lt x
@@ -233,7 +233,7 @@ theorem digits_S (m : ℕ) {A : Finset (Fin (2 * m + 1))} (hA : A ≠ Finset.uni
   have hlt : s < 2 ^ (2 * m + 1) - 1 := by
     obtain ⟨j0, hj0⟩ : ∃ j0 : Fin (2 * m + 1), j0 ∉ A := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA (Finset.eq_univ_of_forall h)
     have hdisj : Disjoint A ({j0} : Finset (Fin (2 * m + 1))) := by
       rw [Finset.disjoint_singleton_right]; exact hj0

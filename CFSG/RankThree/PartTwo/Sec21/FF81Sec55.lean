@@ -55,27 +55,32 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace S55
 
+omit [Finite G] in
 theorem elemAb_comm {k : ℕ} {H : Subgroup G} (h : IsElemAb 2 k H) :
     ∀ x ∈ H, ∀ y ∈ H, x * y = y * x := by
-  haveI := h.1
+  have := h.1
   intro x hx y hy
   exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := ↥H)).comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 theorem elemAb_sq {k : ℕ} {H : Subgroup G} (h : IsElemAb 2 k H) : ∀ x ∈ H, x * x = 1 := by
-  haveI := h.1
+  have := h.1
   intro x hx
   rw [← sq]; exact CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
 
+omit [Finite G] in
 theorem le_cenS_sup {A C D : Subgroup G} (h₁ : A ≤ CenS C) (h₂ : A ≤ CenS D) :
     A ≤ CenS (C ⊔ D) :=
   Subgroup.le_centralizer_iff.mpr
     (sup_le (Subgroup.le_centralizer_iff.mp h₁) (Subgroup.le_centralizer_iff.mp h₂))
 
+omit [Finite G] in
 theorem cenS_symm {A C : Subgroup G} (h : A ≤ CenS C) : C ≤ CenS A :=
   Subgroup.le_centralizer_iff.mp h
 
-theorem comm_of_le_cenS {A C : Subgroup G} (h : A ≤ CenS C) : ∀ x ∈ A, ∀ y ∈ C, x * y = y * x :=
-  fun x hx y hy => (Subgroup.mem_centralizer_iff.mp (h hx) y hy).symm
+omit [Finite G] in
+theorem comm_of_le_cenS {A C : Subgroup G} (h : A ≤ CenS C) : ∀ _x ∈ A, ∀ y ∈ C, _x * y = y * _x :=
+  fun _x hx y hy => (Subgroup.mem_centralizer_iff.mp (h hx) y hy).symm
 
 theorem sup_comm_sq {A B : Subgroup G} (hc : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
@@ -213,8 +218,8 @@ theorem FF81Sec5.conc5_5_of_big (hS : Nat.card (Op 2 (Cen s₀)) = 2 ^ 15)
       hprod.trans (hw.symm.le.trans (Nat.mul_le_mul_left _ hpow))
     have := Nat.mul_le_mul_left (Nat.card Z) hi
     omega
-  haveI : CFSG.IsElementaryAbelian 2 ↥Z := CFSG.IsElementaryAbelian.two_of_forall_mul_self hZc hZ2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CFSG.IsElementaryAbelian 2 ↥Z := CFSG.IsElementaryAbelian.two_of_forall_mul_self hZc hZ2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨C, hC⟩ := CFSG.IsElementaryAbelian.exists_isCompl 2 ↥Z (Subgroup.zpowers ⟨s₀, hs₀Z⟩)
   set S₀ := C.map Z.subtype with hS₀
   have hS₀Z : S₀ ≤ Z := Subgroup.map_subtype_le C

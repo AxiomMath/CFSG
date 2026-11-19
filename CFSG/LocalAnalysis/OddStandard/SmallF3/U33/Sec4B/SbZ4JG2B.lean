@@ -38,6 +38,7 @@ theorem le_of_map_le {U U' : Subgroup X} (hU : U ≤ P) (hU' : U' ≤ P)
 theorem card_map {U : Subgroup X} (hU : U ≤ P) : Nat.card (U.map (z4iπ N)) = Nat.card U :=
   z4i_card_map N h.odd (h.isPGroup.to_le hU)
 
+omit [Finite X] in
 theorem map_commutator : (⁅P, P⁆).map (z4iπ N) = ⁅Vh, Vh⁆ := by
   rw [Subgroup.map_commutator, h.map_eq]
 

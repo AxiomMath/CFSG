@@ -167,7 +167,7 @@ namespace MonAux
 
 theorem conj_inv_mem_D5 {g : G12} (h : ∀ d ∈ D5, g * d * g⁻¹ ∈ D5) :
     ∀ d ∈ D5, g⁻¹ * d * g ∈ D5 := by
-  haveI : Finite D5 := Finite.of_surjective
+  have : Finite D5 := Finite.of_surjective
     (fun c : {c : Fin 6 → ZMod 3 // ∑ i, c i = 0} => (⟨diagE c.1, c.1, c.2, rfl⟩ : D5))
     (fun ⟨_, c, hc, hg⟩ => ⟨⟨c, hc⟩, Subtype.ext hg.symm⟩)
   intro d hd
@@ -203,8 +203,8 @@ theorem exists_plane_of_normalizes {g : G12} (hg : g ∈ gammaU)
   refine ⟨j, mem_plane_iff_pr.2 fun l hl => ?_⟩
   by_contra hl0
   obtain ⟨c, hcj, hcl, hcsum⟩ : ∃ c : Fin 6 → ZMod 3, c j = 1 ∧ c l = 2 ∧ ∑ t, c t = 0 :=
-    ⟨fun t => if t = j then 1 else if t = l then 2 else 0, if_pos rfl,
-      (if_neg hl).trans (if_pos rfl), sum_clash j l hl.symm⟩
+    ⟨fun t => if t = j then 1 else if t = l then 2 else 0, ite_eq_left rfl,
+      (ite_eq_right hl).trans (ite_eq_left rfl), sum_clash j l hl.symm⟩
   obtain ⟨m, hm⟩ := key c hcsum
   have h1 := congrArg (fun y => pr y j) hm
   have h2 := congrArg (fun y => pr y l) hm

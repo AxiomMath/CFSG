@@ -52,8 +52,8 @@ theorem TransferVertexLin.of_isLin2Type_of_card {E : Subgroup H} {f : ℕ}
   classical
   have hlin : IsLin2Type (oTwoPrime E) f := hL
   obtain ⟨F, hFld, hFt, hFcard, -, -, -, β, hβs, -, -⟩ := hL
-  letI := hFld
-  letI := hFt
+  let := hFld
+  let := hFt
   have hFcard' : Nat.card F = 2 ^ f := by
     rw [Nat.card_eq_fintype_card, hFcard]
   have hcod : Nat.card (Multiplicative (Fin 2 → F)) = 2 ^ (2 * f) := by

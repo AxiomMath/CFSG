@@ -22,7 +22,7 @@ private lemma exists_conj_eq_or_inv_mul_of_secProp_perm3 {Γ : Type} [Group Γ] 
     {k : Γ} (hkN : k ∈ N) (hk3 : k ^ 3 = 1) (hkK : k ∈ normalizer (K : Set Γ)) :
     ∀ n ∈ N, ∃ b ∈ K, n * k * n⁻¹ = k * b ∨ n * k * n⁻¹ = k⁻¹ * b := by
   obtain ⟨hKn, ⟨e⟩⟩ := h
-  haveI := hKn
+  have := hKn
   let φ : ↥N →* Equiv.Perm (Fin 3) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (K.subgroupOf N))
   have hker : ∀ x : ↥N, φ x = 1 ↔ (x : Γ) ∈ K := by
@@ -73,7 +73,7 @@ theorem f3_exists_k {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   change ∃ k ∈ normIn L s.fr.B, IsPGroup 3 (zpowers k) ∧ k ∉ zL L at h3d
   obtain ⟨k₀, hk₀N, hk₀p, hk₀zL⟩ := h3d
   have hk₀1 : k₀ ≠ 1 := by simpa [hzL] using hk₀zL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card ↥(zpowers k₀) := by
     rw [Nat.card_zpowers, ← Subgroup.orderOf_mk k₀ (Subgroup.mem_zpowers k₀)]
     exact hk₀p.dvd_orderOf (by

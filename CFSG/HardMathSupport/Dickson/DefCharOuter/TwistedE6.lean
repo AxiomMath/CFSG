@@ -54,7 +54,7 @@ open CFSG.LieType.Chevalley CFSG.Blueprint CFSG.Blueprint.Chevalley
 
 theorem perfectInLayer_twistedE6_outer (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedE6 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
@@ -110,7 +110,7 @@ theorem perfectInLayer_twistedE6_outer (q : TauCeti.PrimePower)
       rw [commutatorElement_def]
       exact (fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ha hb)
         ((fixSubgroup δ).inv_mem ha)) ((fixSubgroup δ).inv_mem hb)
-  haveI hJnorm : ((J.subgroupOf (twistedE6RootGroup K σ)).subgroupOf (fixSubgroup δ)).Normal := by
+  have hJnorm : ((J.subgroupOf (twistedE6RootGroup K σ)).subgroupOf (fixSubgroup δ)).Normal := by
     rw [← hder']
     have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup δ) (fixSubgroup δ)
     rwa [sup_idem] at h

@@ -21,7 +21,7 @@ theorem false_of_mem_center_of_perfect {X : Type*} [Group X] [Finite X] {p : ℕ
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hxp, pow_one])
   obtain ⟨P, hP⟩ := hxP.exists_le_sylow
   have heq : Subgroup.zpowers x = (P : Subgroup X) :=
-    Subgroup.eq_of_le_of_card_ge hP (by rw [Nat.card_zpowers, hxp]; exact hS _ P.isPGroup')
+    Subgroup.eq_of_le_of_card_ge hP (by rw [Nat.card_zpowers, hxp]; exact hS _ P.isPGroup)
   have hPc : (P : Subgroup X) ≤ Subgroup.center X := by
     rw [← heq]
     exact Subgroup.zpowers_le.mpr hx

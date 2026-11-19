@@ -100,7 +100,7 @@ theorem commute_rootGroup_zero_two {s t : Fin (Tag.rank .F4) → ℤ}
     rw [hroot, ← mem_rootFinset] at hmem
     have h := f4_root_support_zero_two_check _ hmem
     rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;>
-      simp [h10, h20, h30, h12, h13, h23, h20.symm] at h <;> omega
+      simp [h10, h20, h30, h12, h20.symm] at h <;> omega
 
 theorem commute_levi_zero_two :
     ∀ x ∈ Lv K {0}, ∀ y ∈ Lv K {2}, Commute x y := by

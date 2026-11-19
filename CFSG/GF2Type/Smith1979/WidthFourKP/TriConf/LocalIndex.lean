@@ -54,9 +54,9 @@ theorem ncard_singV_eq_nine (D : S2Data S M1) (hw : S.width = 4)
   have hsplit : {v : Vt S D.g D.t | v ≠ 0 ∧ D.QV v = 0}.ncard + 1 = 10 := by
     have h1 : {v : Vt S D.g D.t | v ≠ 0 ∧ D.QV v = 0} = {v | D.QV v = 0} \ {0} := by
       ext v
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
       exact ⟨fun ⟨hv0, hvQ⟩ => ⟨hvQ, hv0⟩, fun ⟨hvQ, hv0⟩ => ⟨hv0, hvQ⟩⟩
-    rw [h1, Set.ncard_diff_singleton_add_one (show (0 : Vt S D.g D.t) ∈ {v | D.QV v = 0}
+    rw [h1, Set.ncard_sdiff_singleton_add_one (show (0 : Vt S D.g D.t) ∈ {v | D.QV v = 0}
       from map_zero D.QV), hcard]
   omega
 

@@ -34,7 +34,7 @@ theorem negIsom_conj {S₀ : FormSpace K K} (hS₀ : IsQuadSpace S₀) (g : S₀
 
 private theorem swap_polar_smul {V : Type} [AddCommGroup V] [Module K V] (c : K)
     (Q : QuadraticForm K V) (x y : V) : polar (c • Q) x y = c * polar Q x y := by
-  simp only [polar, QuadraticMap.smul_apply, smul_eq_mul]
+  simp only [polar, _root_.smul_apply, smul_eq_mul]
   ring
 
 private theorem swap_parallelogram {V : Type} [AddCommGroup V] [Module K V]
@@ -128,16 +128,16 @@ theorem swap_mul_negIsom_mem_commutator (hK : (2 : K) ≠ 0) [Finite K] {S₀ : 
     · rintro ⟨W, hW, hWs⟩
       refine ⟨W, hW, fun x hx => ?_⟩
       have h := hWs x hx
-      rw [QuadraticMap.smul_apply, smul_eq_mul] at h
+      rw [_root_.smul_apply, smul_eq_mul] at h
       exact (mul_eq_zero.1 h).resolve_left (inv_ne_zero hK)
     · rintro ⟨W, hW, hWs⟩
       refine ⟨W, hW, fun x hx => ?_⟩
-      rw [QuadraticMap.smul_apply, smul_eq_mul, hWs x hx, mul_zero]
+      rw [_root_.smul_apply, smul_eq_mul, hWs x hx, mul_zero]
   obtain ⟨e⟩ := nonempty_isometry_of_isPlusType_iff hQ'nd hnd hdim hdim hPlus
   obtain ⟨τ, hτ⟩ : ∃ τ : S₀.V ≃ₗ[K] S₀.V, ∀ v, Q₀ (τ v) = (2 : K)⁻¹ * Q₀ v := by
     refine ⟨e.toLinearEquiv, fun v => ?_⟩
     have h := e.map_app v
-    rw [QuadraticMap.smul_apply, smul_eq_mul] at h
+    rw [_root_.smul_apply, smul_eq_mul] at h
     exact h
   have hE : swapBlockEquiv hK τ ∈ (FormSpace.pi fun _ : Fin 2 => S₀).isom := by
     refine mem_formIsometryGroup.2 fun x y => ?_

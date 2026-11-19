@@ -26,7 +26,7 @@ theorem false_of_cyclic_quotient (h : Setup G L f t) (d : TrialityD4Data L (2 ^ 
     exact sup_le (ncs_le_normalizer_yamadaP h d hlay) le_normalizer
   have hPB : yamadaP d t ≤ B := le_sup_left.trans hQB
   have htB : t ∈ B := hQB (mem_sup_right (mem_zpowers t))
-  haveI hPnorm : ((yamadaP d t).subgroupOf B).Normal :=
+  have hPnorm : ((yamadaP d t).subgroupOf B).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hBN
   obtain ⟨x, hxB, hBx⟩ := hcyc
   have hxN : x ∈ normalizer (yamadaP d t : Set G) := hBN hxB

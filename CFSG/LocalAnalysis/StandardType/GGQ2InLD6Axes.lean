@@ -19,11 +19,11 @@ private def qd6a_U0 : Submodule (ZMod 3) V7 where
   zero_mem' := rfl
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy
+    simp only [Set.mem_ofPred_eq] at hx hy
     simp [Pi.add_apply, hx, hy]
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq] at hx
+    simp only [Set.mem_ofPred_eq] at hx
     simp [hx]
 
 private lemma qd6a_Usp_le_U0 : qd6a_Usp ≤ qd6a_U0 := by
@@ -105,8 +105,7 @@ private lemma qd6a_T_hvec_mem (T : V7 ≃ₗ[ZMod 3] V7)
   have hsh : simpleD6 i (hvec i) = -hvec i := by
     funext k
     have hy : ∀ y : ZMod 3, y - 2 * y = -y := by decide
-    simpa [simpleD6, Module.reflection_apply, avec_hvec, Pi.sub_apply, Pi.smul_apply,
-      smul_eq_mul] using hy (hvec i k)
+    simp [simpleD6]
   have happ : (T * simpleD6 i * T⁻¹) (T (hvec i)) = -T (hvec i) := by
     simp [hsh]
   rw [happ] at hQ
@@ -170,7 +169,7 @@ private def qd6a_stabAxis : Subgroup (V7 ≃ₗ[ZMod 3] V7) where
   one_mem' := by ext x; simp
   mul_mem' := by
     intro g h hg hh
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     have hcoe : (⇑(g * h) : V7 → V7) = ⇑g ∘ ⇑h :=
       funext (fun x => LinearEquiv.mul_apply g h x)
     calc (g * h) '' (qd6a_axisF : Set V7) = (⇑g ∘ ⇑h) '' (qd6a_axisF : Set V7) := by
@@ -180,7 +179,7 @@ private def qd6a_stabAxis : Subgroup (V7 ≃ₗ[ZMod 3] V7) where
       _ = (qd6a_axisF : Set V7) := hg
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     ext x; constructor
     · intro hx
       obtain ⟨y, hy, rfl⟩ := hx
@@ -213,7 +212,7 @@ private lemma qd6a_orb_axis_ncard_le (a : Fin 6) : (qd6a_orb (epsVec a)).ncard �
 
 private lemma qd6a_can_mem_orb (c : Fin 6 → ZMod 3) :
     qd6a_toVec (qd6a_can c) ∈ qd6a_orb (qd6a_toVec c) := by
-  simp only [qd6a_orb, Set.mem_setOf_eq]
+  simp only [qd6a_orb, Set.mem_ofPred_eq]
   refine ⟨qd6a_applyWord (qd6a_normWord c), qd6a_applyWord_mem _, ?_⟩
   rw [qd6a_can, qd6a_applyWord_toVec]
 
@@ -261,7 +260,7 @@ private lemma qd6a_thirteen_le_orb (u : V7) (hu0 : u 0 = 0) (hune : u ≠ 0)
 
 theorem axis_of_normalizer (T : V7 ≃ₗ[ZMod 3] V7)
     (hT : ∀ g : V7 ≃ₗ[ZMod 3] V7, g ∈ W6 ↔ T * g * T⁻¹ ∈ W6)
-    (hT0 : T e0 ∈ Submodule.span (ZMod 3) {e0}) (a : Fin 6) :
+    (_hT0 : T e0 ∈ Submodule.span (ZMod 3) {e0}) (a : Fin 6) :
     ∃ b : Fin 6, ∃ t : ZMod 3, (t = 1 ∨ t = -1) ∧ T (epsVec a) = t • epsVec b := by
   have hTepsU : T (epsVec a) ∈ qd6a_Usp :=
     qd6a_T_mem_Usp T hT _ (qd6a_epsVec_mem_Usp a)

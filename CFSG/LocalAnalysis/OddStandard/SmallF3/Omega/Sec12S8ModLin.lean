@@ -11,6 +11,7 @@ open Polynomial
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 theorem sec12S8Mod_lin_decomp (c : W ≃ₗ[ZMod 2] W) (hc3 : c ^ 3 = 1) (e : W) :
     ∃ x y : W, c x = x ∧ c (c y) + c y + y = 0 ∧ e = x + y := by
   have hc3' : c * c * c = 1 := by
@@ -39,6 +40,7 @@ theorem sec12S8Mod_lin_decomp (c : W ≃ₗ[ZMod 2] W) (hc3 : c ^ 3 = 1) (e : W)
         _ = e := by simp [sec12S8Mod_charTwo]
     exact hxy.symm
 
+omit [Finite W] in
 theorem sec12S8Mod_lin_card_D (hW : Nat.card W = 2 ^ 8) (c : W ≃ₗ[ZMod 2] W) (hc3 : c ^ 3 = 1)
     (hc16 : Nat.card {v : W // c v = v} = 16) :
     Nat.card {y : W // c (c y) + c y + y = 0} = 16 := by
@@ -107,7 +109,7 @@ theorem sec12S8Mod_lin_orbit (g : W ≃ₗ[ZMod 2] W) (hg5 : g ^ 5 = 1)
     (hgfix : ∀ v : W, g v = v → v = 0) (S : Submodule (ZMod 2) W) (hS : ∀ v ∈ S, g v ∈ S) :
     Nat.card S % 5 = 1 := by
   classical
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   let f : Function.End S := fun v => ⟨g v, hS v v.2⟩
   have hf5 : f ^ 5 = 1 := by
     funext v
@@ -127,14 +129,14 @@ theorem sec12S8Mod_lin_orbit (g : W ≃ₗ[ZMod 2] W) (hg5 : g ^ 5 = 1)
       · intro hv
         subst hv
         apply Subtype.ext
-        simp [f]
+        simp
     have hcard : Fintype.card (Function.fixedPoints (f : S → S)) =
         Fintype.card ({0} : Set S) :=
       Fintype.card_congr (Equiv.subtypeEquivRight (fun v => by
         show v ∈ Function.fixedPoints (f : S → S) ↔ v ∈ ({0} : Set S)
         rw [hset]))
     simpa using hcard
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (α := S) (f := f) (p := 5) (n := 1) hf5
   rw [hfix] at hmod
   rw [Nat.ModEq] at hmod
@@ -211,7 +213,7 @@ theorem sec12S8Mod_lin_cyclic (hW : Nat.card W = 2 ^ 8) (g c : W ≃ₗ[ZMod 2] 
     simpa using AddSubgroup.card_dvd_of_le (Submodule.toAddSubgroup_mono hSD)
   have hSne1 : Nat.card S ≠ 1 := by
     intro h1
-    haveI : Subsingleton S := (Finite.card_le_one_iff_subsingleton).mp (le_of_eq h1)
+    have : Subsingleton S := (Finite.card_le_one_iff_subsingleton).mp (le_of_eq h1)
     have hzero : (⟨d, hdS⟩ : S) = 0 := Subsingleton.elim _ _
     exact hd0 (congrArg Subtype.val hzero)
   obtain ⟨k, hk4, hk⟩ :=
@@ -237,8 +239,8 @@ theorem sec12S8Mod_lin_cyclic (hW : Nat.card W = 2 ^ 8) (g c : W ≃ₗ[ZMod 2] 
   have heD : e ∈ D := (hDmem e).mpr he
   have hSD_eq : S = D := by
     classical
-    letI : Fintype S := Fintype.ofFinite S
-    letI : Fintype D := Fintype.ofFinite D
+    let : Fintype S := Fintype.ofFinite S
+    let : Fintype D := Fintype.ofFinite D
     apply SetLike.coe_injective
     apply Set.eq_of_subset_of_card_le hSD
     have hle : Fintype.card D ≤ Fintype.card S := by
@@ -250,6 +252,7 @@ theorem sec12S8Mod_lin_cyclic (hW : Nat.card W = 2 ^ 8) (g c : W ≃ₗ[ZMod 2] 
   obtain ⟨p, hp⟩ := hSrange heS
   exact ⟨p, hp.symm.trans (hφ p)⟩
 
+omit [Finite W] in
 theorem sec12S8Mod_lin_frob (g : Module.End (ZMod 2) W) (q : (ZMod 2)[X]) :
     (aeval g q) ^ 4 = aeval (g ^ 4) q := by
   have hexp : ∀ f : (ZMod 2)[X], expand (ZMod 2) 2 f = f ^ 2 := by
@@ -292,7 +295,7 @@ theorem sec12S8Mod_lin (hW : Nat.card W = 2 ^ 8) (g c w : W ≃ₗ[ZMod 2] W) (h
   have hc4 : c ^ 4 = c := by
     rw [show (4 : ℕ) = 3 + 1 from rfl, pow_add, hc3, one_mul, pow_one]
   have hDcard := sec12S8Mod_lin_card_D hW c hc3 hc16
-  haveI : Nontrivial {y : W // c (c y) + c y + y = 0} :=
+  have : Nontrivial {y : W // c (c y) + c y + y = 0} :=
     (Finite.one_lt_card_iff_nontrivial).mp (by rw [hDcard]; decide)
   obtain ⟨dsub, hdne⟩ :=
     exists_ne (⟨0, by simp⟩ : {y : W // c (c y) + c y + y = 0})
@@ -368,7 +371,7 @@ theorem sec12S8Mod_lin (hW : Nat.card W = 2 ^ 8) (g c w : W ≃ₗ[ZMod 2] W) (h
       | zero => simpa using hx
       | succ m ih =>
           have hstep : (c ^ (m + 1)) x = c ((c ^ m) x) := by
-            simp [pow_succ', Module.End.mul_apply]
+            simp [pow_succ']
           rw [hstep]
           exact hDc _ ih
     have hstep : c⁻¹ x = aeval (G ^ 4) q x := by

@@ -74,20 +74,20 @@ theorem phi_eq_conjOf_iff (s : G) (hs : s ∈ normalizer (L : Set G)) (y : ProjO
 include hL in
 theorem invCent_of_inducesTypeSome (r : ℕ) (α : ℤˣ) (N : ℕ)
     (hN : ∀ (W : Type) [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMod 3) W]
-      (R : QuadraticForm (ZMod 3) W) (hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
+      (R : QuadraticForm (ZMod 3) W) (_hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
       quadSign R = 1 → ∀ x : ProjOrth R, x * x = 1 → x ≠ 1 →
         (HasType x r α ↔ Nat.card (Subgroup.centralizer ({x} : Set (ProjOrth R))) = N))
     {s : G} (h : InducesTypeSome L s 5 1 r α) :
     ∃ hs : s ∈ normalizer (L : Set G), InvCent N (F.φ ⟨s, hs⟩) := by
-  obtain ⟨W, i1, i2, i3, R, hR, e, x, hdim, hσ, ⟨hs, hind⟩, y, rfl, hy⟩ := h
-  have hbot := center_eq_bot F hR hdim e
-  have key : ∀ l : ↥L, ((modelEquiv hbot hR e (PspFrame.conjL ⟨s, hs⟩ l) : omegaProj hR) :
-      ProjOrth R) = y * (modelEquiv hbot hR e l : ProjOrth R) * y⁻¹ := by
+  obtain ⟨W, i1, i2, i3, R, _hR, e, x, hdim, hσ, ⟨hs, hind⟩, y, rfl, hy⟩ := h
+  have hbot := center_eq_bot F _hR hdim e
+  have key : ∀ l : ↥L, ((modelEquiv hbot _hR e (PspFrame.conjL ⟨s, hs⟩ l) : omegaProj _hR) :
+      ProjOrth R) = y * (modelEquiv hbot _hR e l : ProjOrth R) * y⁻¹ := by
     intro l
     have h1 := hind l (PspFrame.conjL ⟨s, hs⟩ l) rfl
     rw [projSimAct_projOrthToProjSim] at h1
     exact h1
-  have hphi := (phi_eq_conjOf_iff hL F hR (modelEquiv hbot hR e) s hs y).2 key
+  have hphi := (phi_eq_conjOf_iff hL F _hR (modelEquiv hbot _hR e) s hs y).2 key
   have hyy : y * y = 1 := hasType_mul_self hy
   have hy1 : y ≠ 1 := hy.1
   refine ⟨hs, F.mem_A _, ?_, ?_, ?_⟩
@@ -95,39 +95,39 @@ theorem invCent_of_inducesTypeSome (r : ℕ) (α : ℤˣ) (N : ℕ)
   · rw [hphi]
     intro h1
     apply hy1
-    apply conjHom_injective hL F hR (modelEquiv hbot hR e) hdim hσ
-    exact h1.trans (conjOf_one hL F hR (modelEquiv hbot hR e)).symm
-  · rw [hphi, ← natCard_centralizer_eq hL F hR (modelEquiv hbot hR e) hdim hσ y]
-    exact (hN W R hR hdim hσ y hyy hy1).1 hy
+    apply conjHom_injective hL F _hR (modelEquiv hbot _hR e) hdim hσ
+    exact h1.trans (conjOf_one hL F _hR (modelEquiv hbot _hR e)).symm
+  · rw [hphi, ← natCard_centralizer_eq hL F _hR (modelEquiv hbot _hR e) hdim hσ y]
+    exact (hN W R _hR hdim hσ y hyy hy1).1 hy
 
 include hL in
 theorem inducesTypeSome_of_invCent (r : ℕ) (α : ℤˣ) (N : ℕ)
     (hN : ∀ (W : Type) [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMod 3) W]
-      (R : QuadraticForm (ZMod 3) W) (hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
+      (R : QuadraticForm (ZMod 3) W) (_hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
       quadSign R = 1 → ∀ x : ProjOrth R, x * x = 1 → x ≠ 1 →
         (HasType x r α ↔ Nat.card (Subgroup.centralizer ({x} : Set (ProjOrth R))) = N))
     {s : G} (hs : s ∈ normalizer (L : Set G)) (h : InvCent N (F.φ ⟨s, hs⟩)) :
     InducesTypeSome L s 5 1 r α := by
-  obtain ⟨W, i1, i2, i3, R, hR, hdim, hσ, ⟨e⟩⟩ := exists_model_five hL
-  have hbot := center_eq_bot F hR hdim e
+  obtain ⟨W, i1, i2, i3, R, _hR, hdim, hσ, ⟨e⟩⟩ := exists_model_five hL
+  have hbot := center_eq_bot F _hR hdim e
   obtain ⟨hA, hsq, hne, hcnt⟩ := h
-  obtain ⟨y, hy⟩ := exists_conjOf_eq hL F hR (modelEquiv hbot hR e) hdim hσ hA
+  obtain ⟨y, hy⟩ := exists_conjOf_eq hL F _hR (modelEquiv hbot _hR e) hdim hσ hA
   have hyy : y * y = 1 := by
-    apply conjHom_injective hL F hR (modelEquiv hbot hR e) hdim hσ
-    show conjOf hL F hR (modelEquiv hbot hR e) (y * y) =
-      conjOf hL F hR (modelEquiv hbot hR e) 1
+    apply conjHom_injective hL F _hR (modelEquiv hbot _hR e) hdim hσ
+    show conjOf hL F _hR (modelEquiv hbot _hR e) (y * y) =
+      conjOf hL F _hR (modelEquiv hbot _hR e) 1
     rw [conjOf_mul, conjOf_one, hy]
     exact hsq
   have hy1 : y ≠ 1 := by
     rintro rfl
     rw [conjOf_one] at hy
     exact hne hy.symm
-  have hty : HasType y r α := (hN W R hR hdim hσ y hyy hy1).2 (by
-    rw [natCard_centralizer_eq hL F hR (modelEquiv hbot hR e) hdim hσ y, hy]
+  have hty : HasType y r α := (hN W R _hR hdim hσ y hyy hy1).2 (by
+    rw [natCard_centralizer_eq hL F _hR (modelEquiv hbot _hR e) hdim hσ y, hy]
     exact hcnt)
-  refine ⟨W, i1, i2, i3, R, hR, e, projOrthToProjSim R y, hdim, hσ, ⟨hs, ?_⟩, y, rfl, hty⟩
+  refine ⟨W, i1, i2, i3, R, _hR, e, projOrthToProjSim R y, hdim, hσ, ⟨hs, ?_⟩, y, rfl, hty⟩
   intro l l' hl'
-  have h1 := (phi_eq_conjOf_iff hL F hR (modelEquiv hbot hR e) s hs y).1 hy.symm l
+  have h1 := (phi_eq_conjOf_iff hL F _hR (modelEquiv hbot _hR e) s hs y).1 hy.symm l
   rw [projSimAct_projOrthToProjSim]
   have h2 : l' = PspFrame.conjL ⟨s, hs⟩ l := Subtype.ext hl'
   rw [h2]
@@ -136,7 +136,7 @@ theorem inducesTypeSome_of_invCent (r : ℕ) (α : ℤˣ) (N : ℕ)
 include hL in
 theorem inducesTypeSome_iff (r : ℕ) (α : ℤˣ) (N : ℕ)
     (hN : ∀ (W : Type) [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMod 3) W]
-      (R : QuadraticForm (ZMod 3) W) (hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
+      (R : QuadraticForm (ZMod 3) W) (_hR : R.Nondegenerate), Module.finrank (ZMod 3) W = 5 →
       quadSign R = 1 → ∀ x : ProjOrth R, x * x = 1 → x ≠ 1 →
         (HasType x r α ↔ Nat.card (Subgroup.centralizer ({x} : Set (ProjOrth R))) = N))
     (s : G) :

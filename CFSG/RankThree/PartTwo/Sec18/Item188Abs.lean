@@ -127,7 +127,7 @@ theorem mem_normalizer_inf {G : Type*} [Group G] {K L : Subgroup G} {g : G}
     g ∈ Subgroup.normalizer ((K ⊓ L : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hK hL ⊢
   intro y
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hK y) (hL y)
 
 theorem centralizes_of_thompson_AxB {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.Prime]
@@ -181,7 +181,7 @@ theorem le_centralizer_of_fix_order_three {X : Type*} [Group X] [Finite X] {U T 
     (hU : IsPGroup 3 U) (hT : IsPGroup 2 T) (hTU : T ≤ Subgroup.normalizer (U : Set X))
     (hfix : ∀ t ∈ T, ∀ u : X, u ∈ U → u ^ 3 = 1 → t * u * t⁻¹ = u) :
     T ≤ Subgroup.centralizer (U : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : T →* MulAut U := U.normalizerMonoidHom.comp (Subgroup.inclusion hTU)
   have hφ : ∀ (t : T) (u : U), ((φ t u : U) : X) = (t : X) * (u : X) * (t : X)⁻¹ := fun t u =>
     Subgroup.normalizerMonoidHom_apply_apply_coe U (Subgroup.inclusion hTU t) u
@@ -211,8 +211,8 @@ theorem eq_bot_of_isPGroup_two {X : Type*} [Group X] [Finite X] {Q A T : Subgrou
     (hA : IsPGroup 3 A) (hQA : Q ≤ Subgroup.normalizer (A : Set X))
     (hA3 : ∀ x ∈ Q, x ^ 3 = 1 → (∀ a ∈ A, a * x = x * a) → x ∈ A)
     (hT : IsPGroup 2 T) (hAT : A ≤ Subgroup.normalizer (T : Set X)) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNQ : ∀ g : X, g ∈ Subgroup.normalizer (Q : Set X) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.mpr hQn]
     exact Subgroup.mem_top g

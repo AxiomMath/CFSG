@@ -100,7 +100,7 @@ theorem represents_tupleOfWord : ∀ {ω : List ℕ}, (∀ i ∈ ω, i < 6) →
     have h := represents_tupleImage e6Certificate_check ih ⟨i, hi⟩
     rw [← himg] at h
     have hw : toFinWord3 (τ := .E6) (i :: ω) = ⟨i, hi⟩ :: toFinWord3 ω := by
-      simp only [toFinWord3, List.filterMap_cons, dif_pos hi]
+      simp only [toFinWord3, List.filterMap_cons, dite_eq_left hi]
     rw [hw, CoxeterSystem.wordProd_cons]
     exact h
 

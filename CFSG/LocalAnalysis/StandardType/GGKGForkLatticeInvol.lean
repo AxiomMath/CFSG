@@ -27,7 +27,7 @@ private theorem ggKGLi_sq_sub_one {m : ℕ} (v : Matrix (Fin m) (Fin m) ℤ) (hv
   rw [h, hv2]
   ext i j
   simp only [Matrix.sub_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply,
-    Pi.sub_apply, Pi.add_apply, smul_eq_mul]
+    smul_eq_mul]
   ring
 
 private theorem ggKGLi_sub_one_ne_zero {m p : ℕ} (hp : p.Prime) (hm : 1 ≤ m)
@@ -44,7 +44,7 @@ private theorem ggKGLi_sub_one_ne_zero {m p : ℕ} (hp : p.Prime) (hm : 1 ≤ m)
     refine Nat.card_congr (Equiv.subtypeUnivEquiv fun x => ?_)
     exact Matrix.one_mulVec x
   have hpm : Nat.card (Fin m → ZMod p) = p ^ m := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     rw [Nat.card_pi]
     simp only [Nat.card_eq_fintype_card, ZMod.card]
     rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
@@ -59,8 +59,8 @@ private theorem ggKGLi_minors_mod_p {m p : ℕ} (hp : p.Prime) (hm : 1 ≤ m)
       (v.map (Int.castRingHom (ZMod p))).mulVec x = x} = p ^ (m - 1)) :
     ∀ a b i j : Fin m,
       (p : ℤ) ∣ (v - 1) a i * (v - 1) b j - (v - 1) a j * (v - 1) b i := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let ū : Matrix (Fin m) (Fin m) (ZMod p) := (v - 1).map (Int.castRingHom (ZMod p))
   have hū : ū = v.map (Int.castRingHom (ZMod p)) - 1 := by
     simp only [ū]
@@ -140,7 +140,7 @@ private theorem ggKGLi_cauchyBinet2 {m : ℕ} (A B : Matrix (Fin m) (Fin m) ℤ)
         - (∑ k, ∑ l, A a k * A b l * (B k j * B l i))
         - (∑ k, ∑ l, A a l * A b k * (B k i * B l j))
         + (∑ k, ∑ l, A a l * A b k * (B k j * B l i)) := by
-    simp only [mul_sub, sub_mul, Finset.sum_sub_distrib, Finset.sum_add_distrib]
+    simp only [mul_sub, sub_mul, Finset.sum_sub_distrib]
     ring
   have hS3 : (∑ k, ∑ l, A a l * A b k * (B k i * B l j))
       = (∑ k, ∑ l, A a k * A b l * (B k j * B l i)) := by
@@ -418,7 +418,7 @@ private theorem ggKGLi_lambda_w {m : ℕ} (u : Matrix (Fin m) (Fin m) ℤ) (w l 
     push Not at h
     exact hu_ne (by ext a i; exact h a i)
   have hthis := congrFun (congrFun h0 a) i
-  simp only [Matrix.smul_apply, Pi.zero_apply, smul_eq_mul] at hthis
+  simp only [Matrix.smul_apply, smul_eq_mul] at hthis
   have hz : l ⬝ᵥ w + 2 = 0 := (mul_eq_zero.mp hthis).resolve_right hi
   linarith
 

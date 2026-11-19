@@ -94,7 +94,7 @@ theorem exists_elemAbelian_of_commuting_moving {ι : Type} [Fintype ι] {r : ℕ
     rw [← Subgroup.closure_iUnion]
     congr 1
     ext x
-    simp [Set.mem_iUnion, Set.mem_range, Set.mem_singleton_iff, eq_comm]
+    simp [Set.mem_range, eq_comm]
   have hTle : T ≤ H := by
     rw [show T = f.range from rfl, MonoidHom.noncommPiCoprod_range]
     rw [show (⨆ i, (φ i).range) = ⨆ i, Hcyc i from by simp [φ]]

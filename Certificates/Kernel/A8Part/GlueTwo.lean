@@ -23,7 +23,7 @@ noncomputable def dec (c : ℕ) : Perm (Fin 8) :=
   if h : ∃ σ : Perm (Fin 8), wcode 4 σ = c then h.choose else 1
 
 theorem dec_code {c : ℕ} (h : ∃ σ : Perm (Fin 8), wcode 4 σ = c) : wcode 4 (dec c) = c := by
-  rw [dec, dif_pos h]
+  rw [dec, dite_eq_left h]
   exact h.choose_spec
 
 theorem dec_code' {K : Subgroup (Perm (Fin 8))} {c : ℕ} (h : ∃ σ ∈ K, wcode 4 σ = c) :

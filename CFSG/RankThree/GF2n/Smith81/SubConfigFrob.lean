@@ -19,7 +19,7 @@ theorem killsAbelian_of_surjective {R X : Type} [Group R] [Group X] (hX : Group.
   intro A _ hA f hf p
   obtain ⟨x, rfl⟩ := hs p
   have hker : N₀ ≤ (f.comp s).ker := fun y hy => hf _ (hN₀ y hy)
-  haveI := hX
+  have := hX
   have h1 := Stroth80.hom_eq_one_of_perfect_of_comm hA
     ((QuotientGroup.lift N₀ (f.comp s) hker).comp e.symm.toMonoidHom) (e (QuotientGroup.mk x))
   simpa using h1
@@ -79,7 +79,7 @@ theorem centralizes_of_semilinAct_of_kills {N Y P C : Subgroup G} (hS : SemilinA
     rw [← h1, one_mul]
     rfl
   let sgm : ↥N →* (K ≃+* K) := MonoidHom.mk' σ hσmul
-  haveI : IsMulCommutative (K ≃+* K) := (Stroth80.isCyclic_ringEquiv K).isMulCommutative
+  have : IsMulCommutative (K ≃+* K) := (Stroth80.isCyclic_ringEquiv K).isMulCommutative
   have hσ1 : ∀ (p : G) (hp : p ∈ P), σ ⟨p, hPN hp⟩ = 1 := fun p hp =>
     hP _ (fun a b => Std.Commutative.comm (op := (· * ·)) a b)
       (sgm.comp (Subgroup.inclusion hPN)) (fun p' hp' => (htriv _ hp').2) ⟨p, hp⟩

@@ -39,7 +39,7 @@ private theorem a8jg_mat_spPerm_block (π : Equiv.Perm (Fin 3)) :
   ext a b
   rcases a with i | i <;> rcases b with j | j <;>
     simp [a8jg_signedPerm_false_inv_inl, a8jg_signedPerm_false_inv_inr, Matrix.fromBlocks,
-      a8jg_permMatrix_apply, Pi.single_apply, eq_comm]
+      Pi.single_apply, eq_comm]
 
 private theorem a8jg_enum_univ :
     (CoordSp.enum (Finset.univ : Finset (Fin 3)) : Fin 3 → Fin 3) = id := by
@@ -72,7 +72,7 @@ private theorem a8jg_eBlock_spPerm (π : Equiv.Perm (Fin 3)) :
 private theorem a8jg_perm_mem_classHom_univ (π : Equiv.Perm (Fin 3)) :
     CoordSp.spPerm (F := GaloisField 2 3) (fun _ => false) π ∈
       (CoordSp.classHom (F := GaloisField 2 3) (Finset.univ : Finset (Fin 3))).range := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hsp : CoordSp.spClass (fun _ : Fin 3 => (1 : ZMod 7)) (1 : ZMod 7) =
       (Finset.univ : Finset (Fin 3)) := by
     ext i
@@ -89,8 +89,8 @@ private theorem a8jg_perm_mem_classHom_univ (π : Equiv.Perm (Fin 3)) :
 
 private theorem a8jg_order73_SL3 :
     ∃ s : Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 3), orderOf s = 73 := by
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 73) := ⟨by norm_num⟩
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 73) := ⟨by norm_num⟩
   have h73 : 73 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 3)) := by
     rw [Matrix.card_SL_field (𝔽 := GaloisField 2 3) 3]
     have hq : Fintype.card (GaloisField 2 3) = 8 := by

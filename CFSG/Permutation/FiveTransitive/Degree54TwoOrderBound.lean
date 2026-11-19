@@ -22,7 +22,7 @@ theorem sylow_card_le_five_twelve
   by_cases h32 : ∃ y : X, Nat.card (orbit Q y) = 32
   · obtain ⟨y,hy⟩ := h32
     obtain ⟨⟨x,hx,himage⟩,_,_⟩ := Degree54TwoOrbitStructure.regular_orbit_data P hcard h5 hnotAlt s hs S
-    have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+    have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
     have hQfixed : Nat.card (fixedPoints Q X) = 6 := by
       rw [← FixedNormalizerAction.fixed_eq Q]
       exact (Degree54TwoEntrance.fixed_six_and_image P hcard h5 hnotAlt s hs S).1

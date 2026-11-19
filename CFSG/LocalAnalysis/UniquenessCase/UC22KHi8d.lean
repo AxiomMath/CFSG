@@ -81,21 +81,21 @@ theorem commutator_eq_self_of_isL2Ev {X : Type} [Group X] {Y : Subgroup X} {n : 
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨a, -, ha⟩ : ∃ a ∈ (Finset.univ : Finset F), a ∉ ({0, 1, -1} : Finset F) :=
     Finset.exists_mem_notMem_of_card_lt_card (by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       exact lt_of_le_of_lt Finset.card_le_three (by omega))
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at ha
   obtain ⟨ha0, ha1, ha2⟩ := ha
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) := by
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) := by
     refine ⟨Matrix.SL2.commutator_eq_top ha0 fun h => ?_⟩
     rcases sq_eq_one_iff.mp h with h | h
     · exact ha1 h
     · exact ha2 h
   set e' : Matrix.SpecialLinearGroup (Fin 2) F ≃* ↥Y :=
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).trans e.symm with he'
-  haveI : Group.IsPerfect ↥Y := Group.IsPerfect.ofSurjective (f := e'.toMonoidHom) e'.surjective
+  have : Group.IsPerfect ↥Y := Group.IsPerfect.ofSurjective (f := e'.toMonoidHom) e'.surjective
   exact Subgroup.isPerfect_iff.1 inferInstance
 
 theorem six_lt_card_of_isL2Ev {X : Type} [Group X] {n : ℕ} (hX : IsL2Ev X n) (hn : 2 ≤ n) : 6 < Nat.card X := by
@@ -186,7 +186,7 @@ theorem ker_le_of_rad118 (D : Data G) {Y : Subgroup (MBar D.M D.U)} {n : ℕ} (h
     {K : Subgroup G} (hKR : K ≤ rad118 D) (hKp : ⁅K, K⁆ = K) (himg : mbarImage D.M D.U K = Y) :
     K ⊓ centralizer (D.U : Set G) ≤ pCoreOf 2 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := uc22p22xf_hV D
   have hKM : K ≤ D.M := hKR.trans (rad118_le_M D)
   have hMQ : D.M ≤ normalizer ((pCoreOf 2 D.M : Subgroup G) : Set G) :=
@@ -251,13 +251,13 @@ theorem ker_le_of_rad118 (D : Data G) {Y : Subgroup (MBar D.M D.U)} {n : ℕ} (h
     have hxQ : (⟨QuotientGroup.mk ⟨x, hxM⟩, hQle ⟨⟨x, hxM⟩, hx, rfl⟩⟩ : ↥Y) ∈ Qb := ⟨⟨x, hxM⟩, hx, rfl⟩
     rw [hbot, Subgroup.mem_bot] at hxQ
     exact (uc22br_gt_mk_eq_one_iff hV ⟨x, hxM⟩).1 (congrArg Subtype.val hxQ)
-  haveI hP'n : ((pCoreOf 2 D.M ⊓ K).subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKQ
-  haveI hA'n : ((K ⊓ centralizer (D.U : Set G)).subgroupOf K).Normal := by
+  have hP'n : ((pCoreOf 2 D.M ⊓ K).subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKQ
+  have hA'n : ((K ⊓ centralizer (D.U : Set G)).subgroupOf K).Normal := by
     rw [← hker]
     exact πK.normal_ker
   have hPA : (pCoreOf 2 D.M ⊓ K).subgroupOf K ≤ (K ⊓ centralizer (D.U : Set G)).subgroupOf K := fun x hx =>
     ⟨x.2, hQC hx⟩
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKp
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKp
   have hZc : ((K ⊓ centralizer (D.U : Set G)).subgroupOf K).map
       (QuotientGroup.mk' ((pCoreOf 2 D.M ⊓ K).subgroupOf K)) ≤
         Subgroup.center (↥K ⧸ (pCoreOf 2 D.M ⊓ K).subgroupOf K) := by
@@ -300,7 +300,7 @@ theorem kLift_isKLift (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3 :
     (h51 : S22_5_1 D Ch) (h118U : C118 D ⊥ D.U) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ}
     {Nb : Fin m → Subgroup (MBar D.M D.U)} (hNb : NbarSplit D Nb) (i : Fin m) {n : ℕ}
     (hn : IsL2Ev ↥(Nb i) n) (hn3 : 3 ≤ n) : KLift D (Nb i) (kLift D (Nb i)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := uc22p22xf_hV D
   have hYp := commutator_eq_self_of_isL2Ev hn (by omega)
   have himg := kLift_image D h118U hYp

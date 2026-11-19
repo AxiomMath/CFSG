@@ -132,7 +132,7 @@ theorem Sylow_scalar_Frattini_outer_field_section {G Ω : Type*} [Group G] [Fini
       (r.comp (ρ.comp r).ker.subtype).codRestrict _ hmem
     have hι : Function.Injective ι := fun x y h =>
       Subtype.ext (hinj (congrArg Subtype.val h))
-    exact (CFSG.GroupTheory.frattini_automorphism_kernel U.isPGroup').2.of_injective ι hι
+    exact (CFSG.GroupTheory.frattini_automorphism_kernel U.isPGroup).2.of_injective ι hι
   have hle : χ.ker ≤ (ρ.comp r).ker.map φ := by
     intro x hx
     obtain ⟨α, rfl⟩ := hφ x

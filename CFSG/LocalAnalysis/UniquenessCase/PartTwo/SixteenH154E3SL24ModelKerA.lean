@@ -10,7 +10,7 @@ open CFSG.GH74.KGroups
 
 lemma s16h_orth3Act_radical (γ : Matrix.GeneralLinearGroup (Fin 2) GF4) (z : GF4) :
     orth3Act γ (0, 0, z) = (0, 0, z) := by
-  simp only [orth3Act, mul_zero, add_zero, zero_add]
+  simp only [orth3Act, mul_zero, add_zero]
 
 lemma s16h_orth3Scal_apply (μ : GF4) (hμ : μ ≠ 0) (x y z : GF4) :
     orth3Scal μ hμ (Multiplicative.ofAdd (x, y, z)) =

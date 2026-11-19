@@ -32,7 +32,7 @@ theorem ggNEE_largeEvenLabelAll_model_excPlus
       · have h11 : 11 ≤ p := ExcFramesHalf.eleven_le_of_dvd_two_pow_add_one hp hp2 hpn
           (fun h3 => h35 (Or.inl h3)) (fun h5 => h35 (Or.inr h5))
         exact excPlusFrameModel_large (Or.inl rfl) hp h11 K hpq (fun Fr hFr X hX hXC hXF => by
-          haveI := hX
+          have := hX
           exact finite_fixed_le_map_adjointGroup_E7 Fr hFr X hXC hXF)
     refine ⟨K, inferInstance, inferInstance, hK, hQ', ?_⟩
     have := ggExcPlusWeylModelSCr_of_frameModel (Or.inl rfl) hp hp2 K hframe
@@ -47,7 +47,7 @@ theorem ggNEE_largeEvenLabelAll_model_excPlus
       · have h11 : 11 ≤ p := ExcFramesHalf.eleven_le_of_dvd_two_pow_add_one hp hp2 hpn
           (fun h3 => h35 (Or.inl h3)) (fun h5 => h35 (Or.inr h5))
         exact excPlusFrameModel_large (Or.inr rfl) hp h11 K hpq (fun Fr hFr X hX hXC hXF => by
-          haveI := hX
+          have := hX
           exact Subgroup.relIndex_eq_one.1 (Nat.dvd_one.1
             (CFSG.RankThree.PartOne.KE.finite_fixed_subgroup_rational_perfect (τ := .E8) (K := K)
               (L := AlgebraicClosure K) 1 (Or.inr (Or.inr ⟨rfl, rfl⟩)) Fr hFr X hXC hXF).1))

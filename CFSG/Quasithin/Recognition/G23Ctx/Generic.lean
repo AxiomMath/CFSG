@@ -53,7 +53,7 @@ theorem fpf_inverts [Finite G] {N : Subgroup G} {t : G} (ht : t * t = 1)
 theorem exists_mem_center_of_normalizes [Finite G] {T P : Subgroup G} (hT : IsPGroup 2 T)
     (hP : P ≠ ⊥) (hPT : P ≤ T) (hn : ∀ t ∈ T, ∀ p ∈ P, t * p * t⁻¹ ∈ P) :
     ∃ p ∈ P, p ≠ 1 ∧ ∀ t ∈ T, t * p = p * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : IsPGroup 2 P := hT.to_le hPT
   let _ : MulAction T P :=
     { smul := fun g o => ⟨(g : G) * o * (g : G)⁻¹, hn g g.2 o o.2⟩
@@ -84,7 +84,7 @@ theorem exists_mem_center_of_normalizes [Finite G] {T P : Subgroup G} (hT : IsPG
 
 theorem exists_involution_of_even [Finite G] {N : Subgroup G} (h : ¬ Odd (Nat.card N)) :
     ∃ t ∈ N, t ≠ 1 ∧ t * t = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card N := by
     rcases Nat.even_or_odd (Nat.card N) with he | ho
     · exact even_iff_two_dvd.mp he
@@ -105,8 +105,8 @@ theorem exists_involution_of_even [Finite G] {N : Subgroup G} (h : ¬ Odd (Nat.c
 theorem exists_conj_mem_sylow [Finite G] {T : Subgroup G} (hT : quasithinIsSylowTwo T) {t : G}
     (ht : t * t = 1) : ∃ g : G, g * t * g⁻¹ ∈ T := by
   obtain ⟨hT1, hT2⟩ : IsPGroup 2 T ∧ ¬ 2 ∣ T.index := hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 G) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 G) :=
     Finite.of_injective (fun Q : Sylow 2 G => (Q : Set G)) SetLike.coe_injective
   have hord : orderOf t ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact ht)
   have htZ : IsPGroup 2 (Subgroup.zpowers t) :=
@@ -147,8 +147,8 @@ theorem sylow_of_card_eq [Finite G] {S T : Subgroup G} (hT : quasithinIsSylowTwo
 theorem exists_conj_eq_of_card [Finite G] {S T : Subgroup G} (hT : quasithinIsSylowTwo T)
     (hS : IsPGroup 2 S) (hcard : Nat.card S = Nat.card T) :
     ∃ g : G, ∀ x : G, x ∈ T ↔ g⁻¹ * x * g ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 G) := finite_sylow_two
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 G) := finite_sylow_two
   have hS' : IsPGroup 2 S ∧ ¬ 2 ∣ S.index := sylow_of_card_eq hT hS hcard
   have hT' : IsPGroup 2 T ∧ ¬ 2 ∣ T.index := hT
   obtain ⟨PS, hPS⟩ : ∃ P : Sylow 2 G, (P : Subgroup G) = S := ⟨hS.toSylow hS'.2, rfl⟩
@@ -176,7 +176,7 @@ theorem exists_conj_eq_of_card [Finite G] {S T : Subgroup G} (hT : quasithinIsSy
 theorem sylow_of_normalizer_le [Finite G] {H T : Subgroup G} (hTH : T ≤ H)
     (hT : quasithinIsSylowTwo (T.subgroupOf H)) (hN : Subgroup.normalizer (T : Set G) ≤ H) :
     quasithinIsSylowTwo T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 (T.subgroupOf H) ∧ ¬ 2 ∣ (T.subgroupOf H).index := hT
   have hT2 : IsPGroup 2 T :=
     hT'.1.of_injective (Subgroup.subgroupOfEquivOfLe hTH).symm.toMonoidHom
@@ -188,9 +188,9 @@ theorem sylow_of_normalizer_le [Finite G] {H T : Subgroup G} (hTH : T ≤ H)
       refine lt_top_iff_ne_top.mpr (fun htop => hne ?_)
       exact le_antisymm hTP (Subgroup.subgroupOf_eq_top.mp htop)
     have hnc : NormalizerCondition (P : Subgroup G) := by
-      haveI := P.isPGroup.isNilpotent
+      have := P.isPGroup.isNilpotent
       exact Group.normalizerCondition_of_isNilpotent
-    obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (hnc _ hlt)
+    obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hlt)
     have hxP : (x : G) ∈ (P : Subgroup G) := x.2
     have hxT' : (x : G) ∉ T := fun h => hxT (Subgroup.mem_subgroupOf.mpr h)
     have hxiff := Subgroup.mem_normalizer_iff.mp hxN
@@ -227,10 +227,10 @@ theorem sylow_of_normalizer_le [Finite G] {H T : Subgroup G} (hTH : T ≤ H)
 
 theorem frattini_sylow [Finite G] {N T : Subgroup G} (hN : N.Normal) (hT : quasithinIsSylowTwo T)
     (hTN : T ≤ N) : ∀ g : G, ∃ n ∈ N, ∃ x ∈ Subgroup.normalizer (T : Set G), g = n * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 T ∧ ¬ 2 ∣ T.index := hT
   obtain ⟨P, hPT⟩ : ∃ P : Sylow 2 G, (P : Subgroup G) = T := ⟨hT'.1.toSylow hT'.2, rfl⟩
-  haveI : Finite (Sylow 2 N) := finite_sylow_two
+  have : Finite (Sylow 2 N) := finite_sylow_two
   have hPN : (P : Subgroup G) ≤ N := by
     rw [hPT]
     exact hTN
@@ -256,8 +256,8 @@ theorem le_of_surj_simple {M V N : Subgroup G} {S : Type*} [Group S] [IsSimpleGr
   have hmemker : ∀ x : M, θ x = 1 ↔ (x : G) ∈ V := by
     intro x
     rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]
-  haveI : (N.subgroupOf M).Normal := inferInstance
-  haveI hKn : ((N.subgroupOf M).map θ).Normal := Subgroup.Normal.map this θ hθ
+  have : (N.subgroupOf M).Normal := inferInstance
+  have hKn : ((N.subgroupOf M).map θ).Normal := Subgroup.Normal.map this θ hθ
   rcases Subgroup.Normal.eq_bot_or_eq_top ((N.subgroupOf M).map θ) with hbot | htop
   · exfalso
     have hu' : (⟨u, huM⟩ : M) ∈ N.subgroupOf M := Subgroup.mem_subgroupOf.mpr huN

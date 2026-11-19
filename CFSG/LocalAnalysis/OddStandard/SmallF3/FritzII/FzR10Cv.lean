@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ : Subgroup G}
 variable (D : FzRNum t x₁ x₂ lam rho tau T₂)
 
+omit [Finite G] in
 private theorem fzrAux_f_zero (f : ℕ → Bool)
     (hadd : ∀ x y, x < 512 → y < 512 → f ((fzrPar D).e x y) = xor (f x) (f y)) :
     f 0 = false := by
@@ -48,11 +49,13 @@ private noncomputable def fzrKer (f : ℕ → Bool)
     refine ⟨k, hk, ?_, hkmu⟩
     cases hfk : f k <;> simp [hfk] at hh ⊢
 
+omit [Finite G] in
 private theorem fzrAux_mem_ker (f : ℕ → Bool)
     (hadd : ∀ x y, x < 512 → y < 512 → f ((fzrPar D).e x y) = xor (f x) (f y))
     {g : G} : g ∈ fzrKer D f hadd ↔
       ∃ n, n < 512 ∧ f n = false ∧ fzrMu D n = g := Iff.rfl
 
+omit [Finite G] in
 private theorem fzrAux_mu_mem_iff (f : ℕ → Bool)
     (hadd : ∀ x y, x < 512 → y < 512 → f ((fzrPar D).e x y) = xor (f x) (f y))
     {n : ℕ} (hn : n < 512) : fzrMu D n ∈ fzrKer D f hadd ↔ f n = false := by
@@ -64,12 +67,14 @@ private theorem fzrAux_mu_mem_iff (f : ℕ → Bool)
   · intro hfn
     exact ⟨n, hn, hfn, rfl⟩
 
+omit [Finite G] in
 private theorem fzrAux_ker_le (f : ℕ → Bool)
     (hadd : ∀ x y, x < 512 → y < 512 → f ((fzrPar D).e x y) = xor (f x) (f y)) :
     fzrKer D f hadd ≤ T₂ := by
   rintro g ⟨n, hn, hf, rfl⟩
   exact fzrMu_mem D n
 
+omit [Finite G] in
 private theorem fzrAux_relIndex (f : ℕ → Bool)
     (hadd : ∀ x y, x < 512 → y < 512 → f ((fzrPar D).e x y) = xor (f x) (f y))
     (hf : f (fzrPar D).tI = true) : (fzrKer D f hadd).relIndex T₂ = 2 := by
@@ -89,7 +94,7 @@ private theorem fzrAux_relIndex (f : ℕ → Bool)
   rw [hbM, hbtM, hadd n 64 hn (by norm_num)]
   rw [(fzrPar_nums D).1] at hf
   rw [hf]
-  cases hn' : f n <;> simp [hn', xor_def]
+  cases hn' : f n <;> simp [xor_def]
 
 theorem fzr_th_cover [IsSimpleGroup G] (h : Ctx t L S x₁ x₂ lam rho tau) (hT : FzSylow T₂)
     (f : ℕ → Bool)

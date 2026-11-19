@@ -59,7 +59,7 @@ theorem sylFusionWitness_of_mcert {sA sB : String} {n : ℕ} {prog : List Op}
     exact (mul_inv_eq_iff_eq_mul.1 e).symm
   have hg := regUnit_conj Sp h cN fN oZ (hasOrd_append oXY (hasOrd_wordPow oZ k))
   rw [wordUnit_append, wordUnit_wordPow, hz] at hg
-  simp only [wordUnit_cons, wordUnit_nil, mul_one, ← mul_assoc] at hg
+  simp only [wordUnit_cons, wordUnit_nil, mul_one] at hg
   refine ⟨x, y, regUnit Sp h rn, hx, hy, comm cX fX, comm cY fY, ?_, a, b, k, ha, hb, hk, hab, hg⟩
   have hne := regUnit_ne Sp h nZ oZ (hasOrd_nil C)
   rwa [hz, wordUnit_nil] at hne

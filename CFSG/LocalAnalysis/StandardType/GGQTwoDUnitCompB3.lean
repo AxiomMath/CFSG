@@ -127,13 +127,13 @@ namespace CFSG.StandardType.QTwo
 open CFSG
 open CFSG.Open
 
-theorem qtwoDB7_diag_torus {Y : Type} [Group Y] [Finite Y] {τ : Y} (hτ : τ ^ 3 = 1)
+theorem qtwoDB7_diag_torus {Y : Type} [Group Y] [Finite Y] {τ : Y} (_hτ : τ ^ 3 = 1)
     {A : Subgroup Y} (hA : CFSG.IsComponent A)
     (h01 : A ≠ A.map (MulAut.conj τ).toMonoidHom)
     (h02 : A ≠ A.map (MulAut.conj (τ ^ 2)).toMonoidHom)
     (h12 : A.map (MulAut.conj τ).toMonoidHom ≠ A.map (MulAut.conj (τ ^ 2)).toMonoidHom)
     {Jb : Type} [Group Jb] (hJnab : ∃ a b : Jb, a * b ≠ b * a)
-    (φ : ↥A →* Jb) (hφ : Function.Surjective φ) (hker : φ.ker ≤ Subgroup.center ↥A)
+    (φ : ↥A →* Jb) (hφ : Function.Surjective φ) (_hker : φ.ker ≤ Subgroup.center ↥A)
     {r : ℕ} (hT : GGTorusLift 3 r (Jb ⧸ Subgroup.center Jb)) :
     ∃ E U : Subgroup Y, U ≠ ⊥ ∧ IsPGroup 2 U ∧ E ≤ Subgroup.normalizer (U : Set Y) ∧
       CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ (3 * r) := by
@@ -144,7 +144,7 @@ theorem qtwoDB7_diag_torus {Y : Type} [Group Y] [Finite Y] {τ : Y} (hτ : τ ^ 
     obtain ⟨a, b, hab⟩ := hJnab
     have ha : a ∈ Subgroup.center Jb := by rw [htop]; exact Subgroup.mem_top a
     exact hab (Subgroup.mem_center_iff.mp ha b).symm
-  haveI := hJbnt
+  have := hJbnt
   let ψ : ↥A →* Jb ⧸ Subgroup.center Jb :=
     (QuotientGroup.mk' (Subgroup.center Jb)).comp φ
   have hψ : Function.Surjective ψ := by

@@ -22,7 +22,7 @@ theorem exists_cbar_A7_in_D {x t : G} {K J B D : Subgroup G} (hlt : PumpUpLT 2 x
     (hDB : D ≤ B) (hDK : D ≤ K) (hDel : CFSG.IsElementaryAbelian 2 ↥D) (hD4 : Nat.card D = 4)
     (hD6 : Set.ncard {i : Fin 7 | ∃ d ∈ D, ∃ hd : d ∈ K,
       ((eA (QuotientGroup.mk (⟨d, hd⟩ : ↥K)) : alternatingGroup (Fin 7)) : Equiv.Perm (Fin 7)) i ≠ i} = 6) :
-    ∃ (V : Subgroup G) (hVB : V ≤ B) (b : G) (hbB : b ∈ B) (hbD : b ∈ D),
+    ∃ (V : Subgroup G) (hVB : V ≤ B) (b : G) (hbB : b ∈ B) (_hbD : b ∈ D),
       Nat.card B = 2 * Nat.card V ∧
       ∃ c : kBar J, Nat.Prime (orderOf c) ∧ Odd (orderOf c) ∧
         (∀ v (hv : v ∈ V), barAct J ⟨v, hBJ (hVB hv)⟩ c = c) ∧
@@ -166,7 +166,7 @@ theorem exists_cbar_A7_in_D {x t : G} {K J B D : Subgroup G} (hlt : PumpUpLT 2 x
   obtain ⟨bb, hbb⟩ : b' ∈ Dp := hb'Dp
   let bbB : ↥B := bb.1
   have hbbB : θ bbB = b' := by simpa [bbB] using hbb
-  have hbD : (bbB : G) ∈ D := Subgroup.mem_subgroupOf.1 bb.2
+  have _hbD : (bbB : G) ∈ D := Subgroup.mem_subgroupOf.1 bb.2
   have hc'A : c' ∈ alternatingGroup (Fin 7) :=
     mem_alternatingGroup_of_odd_orderOf (by rw [hc'3]; decide)
   have hc'cent : ∀ w ∈ V', w * c' = c' * w := fun w hw =>
@@ -213,7 +213,7 @@ theorem exists_cbar_A7_in_D {x t : G} {K J B D : Subgroup G} (hlt : PumpUpLT 2 x
       change cN.symm (α' ⟨g, hg⟩) = 1
       rw [hα, map_one]
     exact hVback ⟨g, hg⟩ (by rw [hθ]; exact V'.one_mem)
-  refine ⟨V, hVB, (bbB : G), bbB.2, hbD, hVcard, Φ.symm ⟨c', hc'A⟩, ?_, ?_, ?_, ?_, hcore, hker⟩
+  refine ⟨V, hVB, (bbB : G), bbB.2, _hbD, hVcard, Φ.symm ⟨c', hc'A⟩, ?_, ?_, ?_, ?_, hcore, hker⟩
   · rw [hcord]; exact Nat.prime_three
   · rw [hcord]; decide
   · intro v hv

@@ -71,7 +71,7 @@ theorem exists_eq_conj_of_reflClass [FiniteDimensional (ZMod 2) V]
     exact (eq_of_reflect_eq hnd hv h2 (hπ1 u hu)).symm
   obtain ⟨b, hbS, hbspan, hbli⟩ := exists_linearIndependent (ZMod 2) {u : V | Q u = 1}
   have hbtop : ⊤ ≤ Submodule.span (ZMod 2) (Set.range ((↑) : b → V)) := by
-    rw [Subtype.range_coe_subtype, Set.setOf_mem_eq, hbspan, hspan]
+    rw [Subtype.range_coe_subtype, Set.ofPred_mem_eq, hbspan, hspan]
   let bas : Basis b (ZMod 2) V := Basis.mk hbli hbtop
   have hbas : ∀ i, bas i = (i : V) := fun i => Basis.mk_apply hbli hbtop i
   let g₀ : V →ₗ[ZMod 2] V := bas.constr (ZMod 2) fun i => π (i : V)

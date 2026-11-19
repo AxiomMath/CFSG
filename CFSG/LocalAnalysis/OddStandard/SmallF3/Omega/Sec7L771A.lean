@@ -123,7 +123,7 @@ theorem sec7l771_card_A_b [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76)
   let B' : Subgroup ↥A := B.subgroupOf A
   have hBA : B ≤ A := sec7l77_B_le_A hc
   have hcommA := sec7l78_A_comm_sq h36 h76 hP hc
-  haveI : IsMulCommutative ↥A :=
+  have : IsMulCommutative ↥A :=
     isMulCommutative_iff.mpr fun a b => Subtype.ext (hcommA.1 a.1 a.2 b.1 b.2)
   have htA : t ∈ A := sec7l78_t_mem_A hc
   have hsA : g⁻¹ * t * g ∈ A := sec7l78_s_mem_A hP h36 hc
@@ -237,7 +237,7 @@ theorem sec7l771_card_A_b [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76)
     rw [ht_eq] at hmem
     exact htB hmem
   have h4 : 4 ≤ B'.index := by
-    letI : Fintype (↥A ⧸ B') := Fintype.ofFinite _
+    let : Fintype (↥A ⧸ B') := Fintype.ofFinite _
     rw [Subgroup.index_eq_card, Nat.card_eq_fintype_card]
     let f : Fin 4 → ↥A ⧸ B' :=
       ![q ⟨1, A.one_mem⟩, q ⟨t, htA⟩, q ⟨g⁻¹ * t * g, hsA⟩,

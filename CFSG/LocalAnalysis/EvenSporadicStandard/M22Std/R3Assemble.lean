@@ -182,7 +182,7 @@ theorem OuterSituation.false_of_outerWr [IsSimpleGroup G]
         Subgroup.mem_sup_left (Subgroup.mem_zpowers zb)
       have := Subgroup.mul_mem _ (Subgroup.inv_mem _ hzbmem) hmem
       rwa [inv_mul_cancel_left] at this
-  obtain ⟨hOC1, hFC⟩ := hOC (Pb : Subgroup (Xbar L1)) Pb.isPGroup' Pb.not_dvd_index hzbPb yb0
+  obtain ⟨hOC1, hFC⟩ := hOC (Pb : Subgroup (Xbar L1)) Pb.isPGroup Pb.not_dvd_index hzbPb yb0
     hyb0P hyb02 hy0B hyb0C hyb0S
   have hfus : ∀ w ∈ P, w * w = 1 → w ∉ P ⊓ preimageX L1 B → IsConj z w →
       ∃ s ∈ P, w = s⁻¹ * z * s := by

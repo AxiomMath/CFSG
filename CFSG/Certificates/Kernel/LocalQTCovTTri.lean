@@ -78,7 +78,7 @@ private theorem xorR_bitList (F : List Nat) (ks : Nat → List Nat) {e : Nat}
   | succ e ih =>
     rw [bitList]
     by_cases hb : r.testBit e
-    · rw [if_pos hb, xorR_append, ih (fun i hi => hks i (by omega)), hks e (by omega)]
+    · rw [ite_eq_left hb, xorR_append, ih (fun i hi => hks i (by omega)), hks e (by omega)]
       apply Nat.eq_of_testBit_eq
       intro j
       rw [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow,
@@ -91,7 +91,7 @@ private theorem xorR_bitList (F : List Nat) (ks : Nat → List Nat) {e : Nat}
       · by_cases hje : j = e
         · subst j
           have hlow := Nat.testBit_lt_two_pow (Nat.mod_lt r (Nat.two_pow_pos e))
-          simp [hlow, hb]
+          simp [hb]
         · have hge : e < j := by omega
           have h1 := mod_two_pow_testBit_false r (e + 1) j (by omega)
           have h2 := mod_two_pow_testBit_false r e j (by omega)
@@ -99,8 +99,8 @@ private theorem xorR_bitList (F : List Nat) (ks : Nat → List Nat) {e : Nat}
           have hle' : ¬ j ≤ e := by omega
           have hje' : e ≠ j := by omega
           simp [hj', hle', hje']
-    · rw [if_neg hb, xorR_append, ih (fun i hi => hks i (by omega))]
-      simp only [xorR, List.foldr_nil, Nat.xor_zero]
+    · rw [ite_eq_right hb, xorR_append, ih (fun i hi => hks i (by omega))]
+      simp only [xorR, Nat.xor_zero]
       apply Nat.eq_of_testBit_eq
       intro j
       rw [Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
@@ -111,7 +111,7 @@ private theorem xorR_bitList (F : List Nat) (ks : Nat → List Nat) {e : Nat}
       · by_cases hje : j = e
         · subst j
           have hlow := Nat.testBit_lt_two_pow (Nat.mod_lt r (Nat.two_pow_pos e))
-          simp [hlow, hb]
+          simp [hb]
         · have hge : e < j := by omega
           have hj' : ¬ j < e := by omega
           have hle' : ¬ j ≤ e := by omega
@@ -130,7 +130,7 @@ private theorem xor_mod_two_pow (x e : Nat) (hx : x >>> e = 1) :
     have hxdiv : x / 2 ^ e = 1 := by
       simpa [Nat.shiftRight_eq_div_pow] using hx
     have hdm := Nat.div_add_mod x (2 ^ e)
-    simp only [hxdiv, one_mul] at hdm
+    simp only [hxdiv] at hdm
     have hr := Nat.mod_lt x (Nat.two_pow_pos e)
     omega
   by_cases hj : j < e
@@ -138,7 +138,7 @@ private theorem xor_mod_two_pow (x e : Nat) (hx : x >>> e = 1) :
     simp [hj, hje]
   · by_cases hje : j = e
     · subst j
-      simp [Nat.testBit_lt_two_pow (Nat.mod_lt x (Nat.two_pow_pos e)), hxbit]
+      simp [hxbit]
     · have hge : e < j := by omega
       have hxfalse : x.testBit j = false := by
         apply Nat.testBit_lt_two_pow
@@ -148,7 +148,7 @@ private theorem xor_mod_two_pow (x e : Nat) (hx : x >>> e = 1) :
         exact Nat.lt_of_lt_of_le (Nat.mod_lt x (Nat.two_pow_pos e))
           (Nat.pow_le_pow_right (n := 2) (by norm_num) (i := e) (j := j) (by omega))
       have hje' : ¬ e = j := by omega
-      simp [hj, hje, hge, hxfalse, hrfalse, hje']
+      simp [hj, hxfalse, hje']
 
 theorem tri_pow (F : List Nat) (H : List (List Nat))
     (hH : triT (rowsG F) H = true) :

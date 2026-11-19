@@ -67,7 +67,7 @@ theorem Pmat_symp (h2 : (2 : F) ≠ 0) : (Pmat F)ᵀ * gram F 2 * Pmat F = gram 
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [Pmat, gram, Matrix.fromBlocks, Matrix.mul_apply, Fintype.sum_sum_type,
       Matrix.one_apply, Matrix.transpose_apply]
-  all_goals first | ring1 | linear_combination h22 | linear_combination -h22
+  all_goals first | linear_combination h22 | linear_combination -h22
 
 @[expose] noncomputable def Pel (h2 : (2 : F) ≠ 0) : StatedSp 2 F :=
   ofSymplecticMat (Pmat F) (Pmat_symp h2)
@@ -129,7 +129,7 @@ theorem Pel_mul_dB (h2 : (2 : F) ≠ 0) :
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [rT, rTmat, Pmat, rho0, rho1, Matrix.fromBlocks, Matrix.mul_apply, Fintype.sum_sum_type,
       Matrix.diagonal_apply, mat_ofSymplecticMat]
-  all_goals first | ring1 | linear_combination h22
+  all_goals linear_combination h22
 
 theorem kron2_comm_rT (A : SL(2, F)) : kron2 A * rT = rT * kron2 A := by
   apply mat_injective

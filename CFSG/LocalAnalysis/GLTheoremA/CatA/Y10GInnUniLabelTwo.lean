@@ -38,8 +38,8 @@ theorem exists_quot_heldSU_two_equiv_psl {E : Type} [Field E] [Finite E] {m : �
       Nonempty (heldSU 2 E τ' hτ' ⧸ Subgroup.center (heldSU 2 E τ' hτ') ≃*
         StatedProj (StatedSL 2 k)) := by
   have h2 : (2 : E) = 0 := two_eq_zero_of_card hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
   let k : Type := ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 m)
   have hk : Nat.card k = 2 ^ m :=
     CFSG.LieType.Steinberg.card_fixedSubfield (F := E) (p := 2) (f := m) hE

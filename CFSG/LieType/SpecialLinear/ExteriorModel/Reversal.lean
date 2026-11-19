@@ -124,12 +124,12 @@ theorem minor_permMatrix_conj (h2 : (2 : R) = 0) (σ : Equiv.Perm (Fin m))
     · have hu : u = permImage σ r := by
         apply Subtype.ext
         simpa only [coe_permImage, Finset.map_eq_image, Equiv.coe_toEmbedding] using h.symm
-      rw [if_pos h, if_pos hu]
+      rw [ite_eq_left h, ite_eq_left hu]
     · have hu : u ≠ permImage σ r := by
         intro hh
         exact h (by
           simp only [hh, coe_permImage, Finset.map_eq_image, Equiv.coe_toEmbedding])
-      rw [if_neg h, if_neg hu]
+      rw [ite_eq_right h, ite_eq_right hu]
   have hPt : ∀ v : Set.powersetCard (Fin m) n,
       minor (σ.permMatrix R)ᵀ v t = if v = permImage σ t then 1 else 0 := by
     intro v

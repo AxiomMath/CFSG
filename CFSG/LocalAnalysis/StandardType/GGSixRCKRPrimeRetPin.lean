@@ -102,7 +102,7 @@ private theorem rckPn_L_iform_self
     rw [Finset.sum_eq_single k]
     · simp [e]
     · intro b _ hb
-      simp [e, Pi.smul_apply, Pi.single_eq_of_ne, hb]
+      simp [e, Pi.smul_apply, hb]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   have hL : rckPn_L β x = ∑ i : Fin Tag.E6.rank, x i • u i := rfl
@@ -149,7 +149,7 @@ theorem rckE6_pinCanon
       Ψ.range = rootSpan τ K (rootsOfFam β Set.univ) ∧
       Ψ.ker ≤ Subgroup.center ↥(e6Data_valid.minGroup k) := by
   classical
-  haveI : CharP k 2 := (RingHom.charP_iff_charP (e : k →+* K) 2).2 inferInstance
+  have : CharP k 2 := (RingHom.charP_iff_charP (e : k →+* K) 2).2 inferInstance
   let Φ : CFSG.LieType.Steinberg.RootSystem (Fin Tag.E6.rank) :=
     CFSG.LieType.Steinberg.RootSystem.ofCartan (e6Datum k).isFiniteType (e6Datum k).divisible
   have hΦ : Φ.roots = {γ | IsRoot Tag.E6 γ} := roots_eq (τ := .E6) isFiniteType_cartan_E6
@@ -198,9 +198,9 @@ theorem rckE6_pinCanon
       rw [hcomm]
       by_cases hr : IsRoot τ (rckPn_L β α + rckPn_L β δ)
       · have hmem : α + δ ∈ Φ.roots := hiff.mp hr
-        rw [if_pos hr, if_pos hmem, rckPn_L_add β α δ, map_mul]
+        rw [ite_eq_left hr, ite_eq_left hmem, rckPn_L_add β α δ, map_mul]
       · have hmem : α + δ ∉ Φ.roots := fun h => hr (hiff.mpr h)
-        rw [if_neg hr, if_neg hmem]
+        rw [ite_eq_right hr, ite_eq_right hmem]
   have hsl : ∀ α ∈ Φ.roots, ∀ β ∈ Φ.roots, α + β ≠ 0 →
       ∀ p ∈ CFSG.LieType.Steinberg.expPairs Φ α β, p = (1, 1) := by
     intro α hα β hβ hne p hp
@@ -214,12 +214,12 @@ theorem rckE6_pinCanon
     have hβ' : IsRoot Tag.E6 β := by rwa [hΦ] at hβ
     by_cases hr : IsRoot Tag.E6 (α + β)
     · obtain ⟨σ, hσ, hcomm⟩ := (e6Data_valid.commutator_xm k hα' hβ' hne).1 hr
-      rw [if_pos (by rw [hΦ]; exact hr), hcomm]
+      rw [ite_eq_left (by rw [hΦ]; exact hr), hcomm]
       congr 1
       rcases hσ with h | h
       · rw [h, one_mul]
       · rw [h, CharTwo.neg_eq, one_mul]
-    · rw [if_neg (by rw [hΦ]; exact hr)]
+    · rw [ite_eq_right (by rw [hΦ]; exact hr)]
       exact (e6Data_valid.commutator_xm k hα' hβ' hne).2 hr c d
   have hO : Nonempty (CFSG.LieType.Steinberg.CommOrder Φ) := e6_nonempty_commOrder k
   have hx : CFSG.LieType.Steinberg.PresentationB (Φ := Φ) (e6Data_valid.xm k) :=

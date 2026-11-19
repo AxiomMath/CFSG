@@ -79,7 +79,7 @@ theorem f4data_of_isU3 {G : Type}
     simpa [Z, CFSG.GH74.Uniqueness.Bender.rootCenter, CFSG.GH74.Uniqueness.Bender.borel]
       using hcore.normalizer_rootCenter_le
   have hSyl : IsSylowIn 2 (S : Subgroup G) (⊤ : Subgroup G) := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hCKD : CentralKData (S : Subgroup G) Z :=
@@ -88,7 +88,7 @@ theorem f4data_of_isU3 {G : Type}
 
 theorem exists_sylow_eq_of_isSylowIn_top {M : Type} [Group M] [Finite M] {S : Subgroup M}
     (hS : IsSylowIn 2 S (⊤ : Subgroup M)) : ∃ P : Sylow 2 M, (P : Subgroup M) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hS.isPGroup.toSylow ?_, IsPGroup.toSylow_coe _ _⟩
   have := hS.not_dvd_relIndex
   rwa [Subgroup.relIndex_top_right] at this

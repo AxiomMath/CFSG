@@ -16,7 +16,7 @@ attribute [-instance] instCommGroupOfIsSimpleGroupOfIsNilpotent
 theorem qHyp_symp {G : Type} [Group G] {D : Set G}
     (hP : Pair G D) (hZ : Subgroup.center G = ⊥) (hS : IsSimpleGroup (commutator G))
     (hna : ∃ a b : commutator G, a * b ≠ b * a)
-    {m : ℕ} (hm : 2 ≤ m)
+    {m : ℕ} (_hm : 2 ≤ m)
     {b : LinearMap.BilinForm (ZMod 2) (Fin (2 * m) → ZMod 2)}
     (hskew : ∀ x, b x x = 0) (hnd : ∀ x, (∀ y, b x y = 0) → x = 0)
     (hM : fischerLinearModel D

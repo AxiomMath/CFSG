@@ -59,7 +59,7 @@ theorem sec7WVGe_of (h34 : Stroth34Statement) (hW : Sec7WVOrderStatement)
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hVW : Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := hd.1.trans hd.2.1
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hchi := card_mul_card_of_isChiIso
@@ -83,7 +83,7 @@ theorem sec7WVGe_of (h34 : Stroth34Statement) (hW : Sec7WVOrderStatement)
     have hsecWV : SecHyp (Rt M (LB M Q B) t) (Wt Q (Vt M (LB M Q B) B Z t))
         (Vt M (LB M Q B) B Z t) := SecHyp.of_isOppDecomp hd hWn hVn
     obtain ⟨Y, iY, iD, κ, hκ, hkerY⟩ := exists_sectionModule_ker hker hsecWV hNW
-    haveI : Finite Y := hκ.finite
+    have : Finite Y := hκ.finite
     have hdec := isCompl_fixedSub_of_isOppDecomp hWn hκ hd hLR hL2R
     have hWcard := natCard_eq_of_isSecMod hVW hκ
     have hYcard : Nat.card Y = Nat.card K ^ 4 := by

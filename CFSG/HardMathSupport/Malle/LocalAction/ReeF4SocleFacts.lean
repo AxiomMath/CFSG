@@ -58,7 +58,7 @@ theorem pRank_le_two_of_isPGroup {K : Type}
   · rintro k ⟨E, hEP, hE, hk⟩
     have hEp : IsPGroup 5 E := hP.to_le hEP
     obtain ⟨S, hES⟩ := hEp.exists_le_sylow
-    obtain ⟨f⟩ := hsh (S : Subgroup K) S.isPGroup' S.not_dvd_index
+    obtain ⟨f⟩ := hsh (S : Subgroup K) S.isPGroup S.not_dvd_index
     have hcard : Nat.card E ≤ 5 ^ 2 := by
       let g : E → {v : Fin 2 → Multiplicative (ZMod (5 ^ 2)) // v ^ 5 = 1} := fun x =>
         ⟨f ⟨x, hES x.2⟩, by

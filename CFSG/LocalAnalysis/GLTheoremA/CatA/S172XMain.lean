@@ -32,7 +32,7 @@ theorem nonempty_model_of_cfg {G₀ : Type} [Group G₀] {m p : ℕ} {QS : TauCe
     (hR : LiftableRank p G₀ m) {Ω : Type} [Group Ω] [Finite Ω] {S B D K : Subgroup Ω} {x : Ω}
     (hcfg : Cfg172 p S B D K x) (hBin : ∀ b ∈ B, b ∈ S ⊔ Subgroup.centralizer (S : Set Ω))
     (hS : catalogIs (PSimple p S) QS) : Nonempty (S172Model S B G₀) := by
-  haveI := hR.nontrivial
+  have := hR.nontrivial
   obtain ⟨e⟩ := hθ _ hS
   exact S172Model.nonempty_of_pSimple_equiv hcfg.normal hcfg.qs hBin e
 
@@ -62,7 +62,7 @@ theorem card_img_eq_prime [Finite Ω] {p : ℕ} {D K : Subgroup Ω} {x : Ω}
     (hcfg : Cfg172 p S B D K x) {D' : Subgroup Ω} (hD'B : D' ≤ B) (hxD' : x ∈ D')
     (hcard : Nat.card D' = p ^ 2) : Nat.card (M.img D') = p := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := M.card_img_mul_card_inf hD'B
   rw [inf_centralizer_eq_zpowers_of_cfg hcfg hD'B hxD', Nat.card_zpowers,
     orderOf_eq_prime (hcfg.elem.2 x hcfg.mem) hcfg.ne_one, hcard] at h1
@@ -75,7 +75,7 @@ theorem exists_isE2_img_eq [Finite Ω] {p : ℕ} {D K : Subgroup Ω} {x : Ω} (h
     ∃ D₁ : Subgroup Ω, D₁ ≤ B ∧ (∀ b ∈ B, b ∈ Subgroup.centralizer (S : Set Ω) → b ∈ D₁) ∧
       M.img D₁ = Subgroup.zpowers y ∧ IsElemAbelian p D₁ ∧ Nat.card D₁ = p ^ 2 ∧ x ∈ D₁ := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyr : Subgroup.zpowers y ≤ M.β.range := Subgroup.zpowers_le.2 hy
   have hxD₁ : x ∈ M.preimg (Subgroup.zpowers y) :=
     M.centralizer_le_preimg _ x hcfg.mem ((hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x))
@@ -95,7 +95,7 @@ theorem exists_layer_data [Finite Ω] {p : ℕ} {D K : Subgroup Ω} {x : Ω} (hc
       M.β.range ⊓ Subgroup.centralizer
         (GLALayer (Subgroup.centralizer ({d} : Set G₀)) : Set G₀) = Subgroup.zpowers d := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hDB, hDe, hDc, hxmem, hKeq, hKc, hDK⟩ := hcfg.std
   obtain ⟨d, hd⟩ := exists_zpowers_eq_of_card_eq_prime (p := p) (M.card_img_eq_prime hcfg hDB hxmem hDc)
   have hdr : d ∈ M.β.range := M.img_le_range D (hd ▸ Subgroup.mem_zpowers d)
@@ -123,7 +123,7 @@ theorem exist_of_model_of_mem_sup {G₀ : Type} [Group G₀] {m p : ℕ}
     ∃ D₁ K₁ : Subgroup Ω, GLAStdSubPre p B x S D₁ K₁ ∧ catalogIs (PSimple p K₁) Q₁ ∧
       catalogIs (PSimple p (GLALayer (S ⊓ cs (D ⊔ D₁)))) Q₂ := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨M⟩ := nonempty_model_of_cfg hθ hR hcfg hBin hS
   have hBb := M.isElemAbelian_range_β hcfg.elem
   obtain ⟨d, hdr, hd, hLd, hCd⟩ := M.exists_layer_data hcfg hK
@@ -154,7 +154,7 @@ theorem false_of_modelSolvable_of_mem_sup {G₀ : Type} [Group G₀] {m p : ℕ}
     (hBin : ∀ b ∈ B, b ∈ S ⊔ Subgroup.centralizer (S : Set Ω))
     (hS : catalogIs (PSimple p S) QS) (hK : catalogIs (PSimple p K) QK) : False := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨M⟩ := nonempty_model_of_cfg hθ hR hcfg hBin hS
   have hBb := M.isElemAbelian_range_β hcfg.elem
   obtain ⟨d, hdr, hd, hLd, hCd⟩ := M.exists_layer_data hcfg hK
@@ -166,7 +166,7 @@ theorem false_of_modelSolvable_of_mem_sup {G₀ : Type} [Group G₀] {m p : ℕ}
     rw [hEc, hDc] at h1
     have := Nat.pow_lt_pow_right hp.one_lt (show 2 < 3 by norm_num)
     omega
-  obtain ⟨e', he'E, he'D⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨e', he'E, he'D⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have heB : e' ∈ B := hEB he'E
   have hed : M.β ⟨e', heB⟩ ∉ Subgroup.zpowers d := by
     intro h
@@ -181,7 +181,7 @@ theorem false_of_modelSolvable_of_mem_sup {G₀ : Type} [Group G₀] {m p : ℕ}
     · exact M.mem_img.2 ⟨⟨e', heB⟩, he'E, rfl⟩
   have hle : M.csImg E ≤ Subgroup.centralizer ({d, M.β ⟨e', heB⟩} : Set G₀) :=
     (M.csImg_le_centralizer_img E).trans (Subgroup.centralizer_le hsub)
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({d, M.β ⟨e', heB⟩} : Set G₀)) := hsolv
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({d, M.β ⟨e', heB⟩} : Set G₀)) := hsolv
   have hKc' : IsComponentOf (GLALayer (S ⊓ cs D)) (S ⊓ cs D) := by
     rw [← hKeq]
     exact hKc

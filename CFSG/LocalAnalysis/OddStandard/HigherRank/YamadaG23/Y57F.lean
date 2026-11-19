@@ -33,7 +33,7 @@ private lemma ker_pow_pi {ι : Type*} [Fintype ι] {A : ι → Type*} [∀ i, Co
   simp only [MonoidHom.mem_ker, Subgroup.mem_pi, Set.mem_univ, true_implies,
     powMonoidHom_apply]
   rw [funext_iff]
-  simp [MonoidHom.mem_ker, powMonoidHom_apply]
+  simp
 
 private lemma card_ker_pow_pi {ι : Type*} [Fintype ι] {A : ι → Type*} [∀ i, CommGroup (A i)]
     (k : ℕ) :
@@ -58,11 +58,11 @@ theorem y57_caseB_homocyclic (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (htd : c.s.t *
   have hMY : M ≤ f4Y c.s := hM.2.1
   have hcomm : ∀ m ∈ M, ∀ m' ∈ M, m * m' = m' * m := y57_M3_comm c hH
   have hsq : ∀ m ∈ M, m ^ 2 = f3phi c.s m := y57_caseB_sq c hH htd
-  haveI : IsMulCommutative ↥M :=
+  have : IsMulCommutative ↥M :=
     isMulCommutative_iff.mpr fun a b => Subtype.ext (hcomm a.1 a.2 b.1 b.2)
   obtain ⟨ι, hι, n, hn_gt, ⟨e⟩⟩ := CommGroup.equiv_prod_multiplicative_zmod_of_finite ↥M
-  letI := hι
-  haveI : ∀ i, NeZero (n i) := fun i => NeZero.of_gt (hn_gt i)
+  let := hι
+  have : ∀ i, NeZero (n i) := fun i => NeZero.of_gt (hn_gt i)
   have hF_card : Nat.card ↥(c.s.fr.F) = 8 := by
     have h := (y54_F_isE3 hH).2
     norm_num at h
@@ -183,7 +183,7 @@ theorem y57_caseB_homocyclic (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (htd : c.s.t *
     have he_le : ∀ i, e i ≤ 2 := by intro i; simp only [e]; split <;> norm_num
     have he2 : ∀ i, e i = 2 := by
       by_contra h
-      push_neg at h
+      push Not at h
       obtain ⟨i₀, hi₀⟩ := h
       have hlt := Finset.sum_lt_sum (s := Finset.univ) (f := e) (g := fun _ : ι => (2 : ℕ))
         (fun i _ => he_le i) ⟨i₀, Finset.mem_univ i₀, lt_of_le_of_ne (he_le i₀) hi₀⟩

@@ -33,7 +33,7 @@ theorem isSylowOf_top (h117 : Item117) (h : Data G A c L a R Y d x s r g e)
   set S := (Q : Subgroup N).map N.subtype with hS
   have hPS : P ≤ S := fun y hy => ⟨⟨y, hPN hy⟩, hQ (Subgroup.mem_subgroupOf.mpr hy), rfl⟩
   have hSN : S ≤ N := Subgroup.map_subtype_le _
-  have hS3 : IsPGroup 3 S := Q.isPGroup'.map N.subtype
+  have hS3 : IsPGroup 3 S := Q.isPGroup.map N.subtype
   have hSd : S ≤ Subgroup.centralizer ({d} : Set G) := by
     intro y hy
     obtain ⟨k, hk⟩ := hS3 ⟨y, hy⟩

@@ -25,7 +25,7 @@ theorem exists_elemAbelian_central (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (
       ∀ e ∈ E, ∀ l ∈ L₂, e * l * e⁻¹ * l⁻¹ ∈ pCoreOf 2 L₂ := by
   let Y : Subgroup G := F08.CentOverO2 P (L₁ ⊔ L₂)
   let X₁ : Subgroup G := X ⊓ L₁
-  haveI : IsMulCommutative X := (isElemAbelian_X h).1
+  have : IsMulCommutative X := (isElemAbelian_X h).1
   have hYP : Y ≤ P := fun y hy => (mem_centOverO2_iff.mp hy).1
   have hY3 : IsPGroup 3 Y := hP.to_le hYP
   have hYX : Y ≤ centralizer (X : Set G) := centOverO2_le_centralizer h hP hXP
@@ -46,8 +46,8 @@ theorem exists_elemAbelian_central (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (
       _ = (x₀ * x) * (x₀⁻¹ * p) := by group
       _ = (x * x₀) * (x₀⁻¹ * p) := by rw [← hxx₀]
       _ = x * (x₀ * (x₀⁻¹ * p)) := by group
-  haveI hYnt : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hY
-  haveI hZnt : Nontrivial ↥(Subgroup.center Y) :=
+  have hYnt : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hY
+  have hZnt : Nontrivial ↥(Subgroup.center Y) :=
     IsPGroup.center_nontrivial (p := 3) (hG := hY3)
   have h3dvd : 3 ∣ Nat.card ↥(Subgroup.center Y) := by
     rcases IsPGroup.card_eq_or_dvd (p := 3) (G := ↥(Subgroup.center Y))
@@ -103,7 +103,7 @@ theorem exists_elemAbelian_central (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (
       (hE_C.trans (Subgroup.centralizer_le (show (E : Set G) ⊆ (P : Set G) from hE_P)))
   refine ⟨E, le_inf hE_P hE_C, ⟨hE_comm, ?_⟩, ?_, ?_⟩
   · intro e he
-    haveI : IsMulCommutative E := hE_comm
+    have : IsMulCommutative E := hE_comm
     have he' : e ∈ (X₁ : Set G) * (Subgroup.zpowers z : Set G) := by
       rw [← Subgroup.coe_mul_of_right_le_normalizer_left X₁ (Subgroup.zpowers z) hzpN]
       exact he
@@ -158,15 +158,15 @@ theorem normalizer_le_of_acts_trivially (h : Hyp141 D L₁ L₂ X) (h1422 : Thm1
     intro hNt
     have hNt' : normalizer (W : Set G) = ⊤ := hNt
     have hWnormal : W.Normal := Subgroup.normalizer_eq_top_iff.mp hNt'
-    haveI : W.Normal := hWnormal
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : W.Normal := hWnormal
+    have : IsSimpleGroup G := D.standing.simple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal W with hbot | htop
     · exact hW1 hbot
     · exfalso
       have htopPG : IsPGroup p (⊤ : Subgroup G) := htop ▸ hW
       have hPG : IsPGroup p G := htopPG.of_equiv Subgroup.topEquiv
-      haveI : Fact p.Prime := ⟨hp⟩
-      haveI : Group.IsNilpotent G := IsPGroup.isNilpotent hPG
+      have : Fact p.Prime := ⟨hp⟩
+      have : Group.IsNilpotent G := IsPGroup.isNilpotent hPG
       obtain ⟨a, b, hab⟩ := D.standing.nonab
       exact hab (mul_comm a b)
   rcases eq_top_or_exists_le_coatom N with hNt | ⟨A, hA, hNA⟩

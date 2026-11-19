@@ -79,7 +79,7 @@ theorem card_sup_eq_mul_of_commute (A B : Subgroup G)
 
 theorem isMulCommutative_of_card_two (A : Subgroup G) (h : Nat.card A = 2) :
     IsMulCommutative A := by
-  haveI : IsCyclic A := isCyclic_of_prime_card (p := 2) h
+  have : IsCyclic A := isCyclic_of_prime_card (p := 2) h
   infer_instance
 
 theorem commute_of_mem_of_isMulCommutative {A : Subgroup G}
@@ -140,7 +140,7 @@ theorem le_centralizer_sup_of_commute_both {A B C : Subgroup G}
 theorem centerIn_sup_eq_sup_center {T F : Subgroup G}
     (hTT : ∀ t ∈ T, ∀ t' ∈ T, Commute t t')
     (hTF : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
-    (hdisj : T ⊓ F = ⊥) :
+    (_hdisj : T ⊓ F = ⊥) :
     centerIn (T ⊔ F) = T ⊔ (Subgroup.center F).map F.subtype := by
   have hTcentral : T ≤ Subgroup.centralizer ((T ⊔ F : Subgroup G) : Set G) :=
     le_centralizer_sup_of_commute_both hTF hTT hTF

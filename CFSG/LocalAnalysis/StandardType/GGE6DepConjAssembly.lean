@@ -23,6 +23,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem gensAll_realized_top {Bs L K : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6}
     (hL : ∀ m ∈ closureL, ∃ φ ∈ ggAutomizer L Bs, ActsAs ι φ m) {s t u w : ZMod 3}
     (hK : ∃ φ ∈ ggAutomizer K Bs, ActsAs ι φ (gensAll s t u w 6)) :

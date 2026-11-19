@@ -249,14 +249,14 @@ private theorem T46Ctx.letters_TP {UL : List Nat} {UP : Nat} {GP LP : List Nat}
   · have hj : j < 53 := by omega
     have e1 : 2 * j / 2 = j := by omega
     have e2 : 2 * j % 2 = 0 := by omega
-    rw [if_pos e2, e1, t46_wd_get (by omega)]
+    rw [ite_eq_left e2, e1, t46_wd_get (by omega)]
     obtain ⟨hw, hA, -, -⟩ := hlet j hj
     rw [hA]
     exact hc.tp_word hw
   · have hj : j < 53 := by omega
     have e1 : (2 * j + 1) / 2 = j := by omega
     have e2 : ¬ (2 * j + 1) % 2 = 0 := by omega
-    rw [if_neg e2, e1, t46_wd_get (by omega)]
+    rw [ite_eq_right e2, e1, t46_wd_get (by omega)]
     obtain ⟨hw, hA, hB, hAB⟩ := hlet j hj
     have hTP := hc.tp_word hw
     rw [← hA] at hTP
@@ -409,9 +409,9 @@ private theorem t46_tp_xy {U : Array Nat} {xw yw : List Int} {X Y : Nat}
     (G := fun z => fd 10 (if z = 1 then X else Y)) (w.map Int.ofNat) fun z _ => by
       unfold xyGenG
       by_cases h : z = 1
-      · simp only [h, if_true]
+      · simp only [h, ite_true]
         exact hX.1
-      · simp only [h, if_false]
+      · simp only [h, ite_false]
         exact hY.1
   have hfold : ∀ (w : List Nat) (x : Nat),
       (w.map Int.ofNat).foldr (fun z => fd 10 (if z = 1 then X else Y)) x =
@@ -424,7 +424,7 @@ private theorem t46_tp_xy {U : Array Nat} {xw yw : List Int} {X Y : Nat}
       by_cases h : z = 1
       · simp [h]
       · have : ¬ (Int.ofNat z = 1) := fun hc => h (Int.ofNat.inj hc)
-        simp [h, this]
+        simp [h]
   have hv : ∀ x < 693, w.foldr (fun z y => fd 10 (if z = 1 then X else Y) y) x < 693 :=
     fun x hx => by
       have h1 : (w.map Int.ofNat).foldr (fun z => fd 10 (if z = 1 then X else Y)) x < 693 :=

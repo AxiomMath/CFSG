@@ -56,7 +56,7 @@ private theorem caseB_r_eq_four_or_eight (X : Setup Γ G) {r : ℕ} (H : X.Sec4H
   obtain ⟨m, hm⟩ := h4dvd
   omega
 
-private theorem caseB_eight_sup_eq_edgeSylow (X : Setup Γ G) (H : X.Sec4Hyp s 8)
+private theorem caseB_eight_sup_eq_edgeSylow (X : Setup Γ G) (_H : X.Sec4Hyp s 8)
     (hd₁ : X.HasB 1 3) (hZ2 : X.HasB 2 2) (hZ4 : X.HasB 4 2) (hZ1Gi3 : X.Z 1 ≤ X.Gi 3)
     (hZ1Gi4 : X.Z 1 ≤ X.Gi 4) (hZ2Gi3 : X.Z 2 ≤ X.Gi 3) (hZ2Gi4 : X.Z 2 ≤ X.Gi 4)
     (hZ4Gi2 : X.Z 4 ≤ X.Gi 2) (hZ4Gi3 : X.Z 4 ≤ X.Gi 3) :
@@ -391,8 +391,8 @@ private theorem not_r4_b2 (X : Setup Γ G) {r : ℕ} (H : X.Sec4Hyp s r) {d₀ d
   have hd2 : X.HasB 2 d₀ := by
     refine (X.hasB_iff_of_even (i := (2 : ℤ)) (j := 0) ?_ d₀).mpr hd₀
     norm_num
-  haveI : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2) (X.Z_le_Gi 2)
-  haveI : Finite ↥(X.L 2) := finite_of_le_stabilizer X.hyp (H := X.L 2) (X.L_le_Gi 2)
+  have : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2) (X.Z_le_Gi 2)
+  have : Finite ↥(X.L 2) := finite_of_le_stabilizer X.hyp (H := X.L 2) (X.L_le_Gi 2)
   have hZ2arc : X.Z 2 ≤ X.arcStab 0 ((4 : ℕ) : ℤ) := by
     refine X.le_arcStab_of_fixSet ?_
     intro k hk
@@ -411,7 +411,7 @@ private theorem not_r4_b2 (X : Setup Γ G) {r : ℕ} (H : X.Sec4Hyp s r) {d₀ d
     · have h4 : Nat.card (pCoreOf 2 (X.arcStab 0 (4 : ℕ))) = 2 ^ X.n 0 := by
         have h := (X.pCoreOf_arcStab_r H 0 hbot).1
         simpa using h
-      haveI : Finite ↥(pCoreOf 2 (X.arcStab 0 (4 : ℕ))) :=
+      have : Finite ↥(pCoreOf 2 (X.arcStab 0 (4 : ℕ))) :=
         finite_of_le_stabilizer X.hyp (H := pCoreOf 2 (X.arcStab 0 (4 : ℕ)))
           ((CFSG.LieType.BorelTits.pCoreOf_le 2 (X.arcStab 0 (4 : ℕ))).trans
             (X.arcStab_le_Gi_left (show (0 : ℤ) < 4 by norm_num)))

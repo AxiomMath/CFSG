@@ -266,11 +266,11 @@ theorem fibre_card_eq [Finite G] {M T : Subgroup G} (hM : G23Two M) (hTM : T ≤
   · subst hu1
     have h0 : ¬ ((1 : SL(3, ZMod 2)) ∈ (T.subgroupOf M).map θ ∧
         (1 : SL(3, ZMod 2)) * 1 = 1 ∧ (1 : SL(3, ZMod 2)) ≠ 1) := fun h => h.2.2 rfl
-    rw [if_pos rfl, if_neg h0, add_zero]
+    rw [ite_eq_left rfl, ite_eq_right h0, add_zero]
     exact card_fibre_one hM hTM hT2 hTidx θ hθk
-  · rw [if_neg hu1, zero_add]
+  · rw [ite_eq_right hu1, zero_add]
     by_cases hQ : u ∈ (T.subgroupOf M).map θ ∧ u * u = 1
-    · rw [if_pos ⟨hQ.1, hQ.2, hu1⟩]
+    · rw [ite_eq_left ⟨hQ.1, hQ.2, hu1⟩]
       obtain ⟨m, hmT', hm⟩ := Subgroup.mem_map.mp hQ.1
       have htT : (m : G) ∈ T := Subgroup.mem_subgroupOf.mp hmT'
       have htu : thG θ (m : G) = u := by
@@ -280,7 +280,7 @@ theorem fibre_card_eq [Finite G] {M T : Subgroup G} (hM : G23Two M) (hTM : T ≤
       rw [← htu]
       exact fibre_card_four hM hTM hT2 hTidx θ hθk htT hyM hyy (by rw [htu, hyu])
         (by rw [hyu]; exact hu1)
-    · rw [if_neg (fun h => hQ ⟨h.1, h.2.1⟩)]
+    · rw [ite_eq_right (fun h => hQ ⟨h.1, h.2.1⟩)]
       have hempty : IsEmpty {g : G // (g ∈ T ∧ g * g = 1 ∧ g ≠ 1) ∧ thG θ g = u} := by
         refine ⟨?_⟩
         rintro ⟨g, ⟨⟨hgT, hgg, _⟩, hgu⟩⟩

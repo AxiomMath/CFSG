@@ -21,8 +21,8 @@ set_option linter.unusedSectionVars false
 theorem M2.twin_false_u4Ne3 {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y}
     {S : Sylow 2 R} {t : Y} (hP : PerpHypS n Y R S t)
     (hF : SmallU4Ne3 ↥(genFittingFStar Y)) : False := by
-  haveI := hP.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := hP.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot hP.core.nonab
   obtain ⟨p, f, hp, hp2, hf, h8, h3, hm⟩ := hF

@@ -105,7 +105,7 @@ theorem ggF_fixLine {N r : ℕ} {T : Fin N → Vector (ZMod p) (N + 1)} {h : Fin
     intro s
     induction s using Fin.lastCases with
     | last =>
-      simp only [hRl, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+      simp only [hRl, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
         hw, hy0, mul_one, sub_self]
     | cast s =>
       simp only [hRx, hw, mul_sub, Finset.sum_sub_distrib, hαv s, zero_sub, neg_eq_zero]

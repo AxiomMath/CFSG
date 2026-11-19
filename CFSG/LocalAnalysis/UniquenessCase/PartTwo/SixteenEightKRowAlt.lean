@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
 theorem s16k_false_of_altNatural (h : S16gRowCtx D V₀ V L hV)
-    (hGA : CFSG.Open.GriessAllModelsStatement) {n : ℕ} (hA : UC22.IsAlt ↥(lBar V₀ V hV L) n)
+    (_hGA : CFSG.Open.GriessAllModelsStatement) {n : ℕ} (hA : UC22.IsAlt ↥(lBar V₀ V hV L) n)
     (hN : AlternatingNatural (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n) : False := by
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty

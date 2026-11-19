@@ -45,7 +45,7 @@ theorem isComponentOf_zeroBlk {n s r : ℕ}
       (Subgroup.centralizer ({SLNS.nsSL ε det_rootMat_phi3 k} :
         Set (SpecialLinearGroup (Fin (n + 1)) F2))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   have hprim : IsPrimitiveRoot (AdjoinRoot.root phi3) 3 :=
     root_isPrimitiveRoot Nat.prime_three natCast_three_ne_zero phi3_dvd_cyclotomic
   have hal := centComp_aligned (k := k) hk
@@ -59,7 +59,7 @@ theorem isComponentOf_zeroBlk {n s r : ℕ}
     · exact h
     · exfalso
       rw [h] at hi
-      exact (one_ne_zero : (1 : ZMod 3) ≠ 0) (by simpa using hi)
+      exact (one_ne_zero : (1 : ZMod 3) ≠ 0) (by simp at hi)
   have hZle : zeroBlk ε k ≤ C₀ := by
     intro M hM
     rw [hC₀, Subgroup.mem_centralizer_singleton_iff]
@@ -80,7 +80,7 @@ theorem isComponentOf_zeroBlk {n s r : ℕ}
     have hJ : 3 ≤ (zeroCoords ε (fun i => (k i : ZMod 3))).card := by
       rw [card_zeroCoords ε k hk]
       exact h3
-    haveI : Finite F2 := inferInstance
+    have : Finite F2 := inferInstance
     have hSL : CFSG.IsQuasisimple
         (SpecialLinearGroup (Fin (zeroCoords ε (fun i => (k i : ZMod 3))).card) F2) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple
@@ -100,7 +100,7 @@ theorem isComponentOf_classBlk {n s r : ℕ}
       (Subgroup.centralizer ({SLNS.nsSL ε det_rootMat_phi3 k} :
         Set (SpecialLinearGroup (Fin (n + 1)) F2))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   have hprim : IsPrimitiveRoot (AdjoinRoot.root phi3) 3 :=
     root_isPrimitiveRoot Nat.prime_three natCast_three_ne_zero phi3_dvd_cyclotomic
   have hal := centComp_aligned (k := k) hk
@@ -114,13 +114,13 @@ theorem isComponentOf_classBlk {n s r : ℕ}
       rcases hk i with h | h
       · exfalso
         rw [h] at hi
-        exact (zero_ne_one : (0 : ZMod 3) ≠ 1) (by simpa using hi)
+        exact (zero_ne_one : (0 : ZMod 3) ≠ 1) (by simp at hi)
       · exact h
     have hj1 : k j = 1 := by
       rcases hk j with h | h
       · exfalso
         rw [h] at hj
-        exact (zero_ne_one : (0 : ZMod 3) ≠ 1) (by simpa using hj)
+        exact (zero_ne_one : (0 : ZMod 3) ≠ 1) (by simp at hj)
       · exact h
     rw [hi1, hj1]
   have hKC : classBlk ε k ≤ C₀ := by
@@ -140,7 +140,7 @@ theorem isComponentOf_classBlk {n s r : ℕ}
   have hQs : CFSG.Assembly.IsQuasisimple (classBlk ε k) := by
     refine (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native
       ↥(classBlk ε k)).2 ?_
-    haveI : Finite (AdjoinRoot phi3) := finite_adjoinRoot
+    have : Finite (AdjoinRoot phi3) := finite_adjoinRoot
     have hS2 : 2 ≤ (classSet (fun i => (k i : ZMod 3)) 1).card := by
       rw [card_classSet k hk]
       exact h2

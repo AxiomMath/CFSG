@@ -34,7 +34,7 @@ theorem e81_facts {Z : G} (hZ : φ Z = pkMat (RB regZ)) :
         ∃ E : Subgroup G, E ≤ Q ∧ CFSG.Open.IsElemAbelian 3 E ∧ 81 ≤ Nat.card E ∧ s ∈ E ∧
           Z ∈ E := by
   have hk := CFSG.KD.ThS.k0
-  have hreg := regs_elem hφ ha hb
+  have hreg := regs_elem ha hb
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 ch17305L
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 hL
   obtain ⟨hpr, -⟩ := Dce.andB_iff.1 hL

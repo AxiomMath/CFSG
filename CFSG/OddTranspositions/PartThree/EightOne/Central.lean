@@ -23,7 +23,7 @@ theorem not_mem_of_isBenderGroup_quotient {X : Type} [Group X] [Finite X] {D : S
     · exact h
     · exact absurd huE (h u hu)
   have hEtop : E = ⊤ := hS.eq_top_of_subset E hDsub
-  haveI : Nontrivial (X ⧸ E) := (IsBenderGroup.isSimpleGroup hB).toNontrivial
+  have : Nontrivial (X ⧸ E) := (IsBenderGroup.isSimpleGroup hB).toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (X ⧸ E)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective E a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective E b

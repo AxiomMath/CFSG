@@ -20,12 +20,15 @@ def mulSub (A C : Subgroup G) (hn : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈
     rintro _ ⟨a, ha, c, hc, rfl⟩
     exact ⟨c⁻¹ * a⁻¹ * c⁻¹⁻¹, hn c⁻¹ (inv_mem hc) a⁻¹ (inv_mem ha), c⁻¹, inv_mem hc, by group⟩
 
+omit [Finite G] in
 theorem le_mulSub_left {A C : Subgroup G} {hn : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A} :
     A ≤ mulSub A C hn := fun a ha => ⟨a, ha, 1, one_mem _, by simp⟩
 
+omit [Finite G] in
 theorem le_mulSub_right {A C : Subgroup G} {hn : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A} :
     C ≤ mulSub A C hn := fun c hc => ⟨1, one_mem _, c, hc, by simp⟩
 
+omit [Finite G] in
 theorem coprime_mulSub {A C : Subgroup G} (hn : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A) {p : ℕ}
     (hA : Nat.Coprime p (Nat.card A)) (hC : Nat.Coprime p (Nat.card C)) :
     Nat.Coprime p (Nat.card (mulSub A C hn)) := by
@@ -63,7 +66,7 @@ theorem S41_first (h23 : FF84_2_3) (h : FF84Sec4 b L B K b₁ b₂)
     (hA : A8Model L) :
     ∀ d ∈ Cen (b * b₁), ∃ y ∈ Opp 3 (Cen (b * b₁)),
       ∃ n ∈ Cen (b * b₁) ⊓ Nor (Subgroup.closure ({b, b₁} : Set G)), d = y * n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D₀, hDD, hnorm, hrel, -, hsyl⟩ := S41_D0 h
   have hne : D₀ ≠ ⊤ := by
     intro htop
@@ -89,7 +92,7 @@ theorem S41_first (h23 : FF84_2_3) (h : FF84Sec4 b L B K b₁ b₂)
 
 theorem S41_second (h23 : FF84_2_3) (h : FF84Sec4 b L B K b₁ b₂)
     (hA : A8Model L) : Opp 3 (Cen b) ≤ Opp 3 (Cen (b * b₁)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfirst := S41_first h23 h hA
   set D := Cen (b * b₁) with hD
   set Y := Opp 3 D with hY

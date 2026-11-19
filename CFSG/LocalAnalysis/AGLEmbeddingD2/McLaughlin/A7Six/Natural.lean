@@ -48,6 +48,7 @@ theorem commutator_self_of_alt7 {G : Type*} [Group G] {L : Subgroup G}
     have : (⟨x, hx⟩ : ↥L) ∈ ⁅L, L⁆.subgroupOf L := h ▸ Subgroup.mem_top _
     exact this
 
+omit [Finite X] in
 theorem commutator_trivial_of_central {W K C : Subgroup X}
     (hKc : ∀ k ∈ K, ∀ m ∈ ⁅W, K⁆, k * m = m * k)
     (hab : ∀ a ∈ ⁅W, K⁆, ∀ b ∈ ⁅W, K⁆, a * b = b * a)
@@ -133,6 +134,7 @@ theorem commutator_trivial_of_central {W K C : Subgroup X}
   calc k₀ * w * k₀⁻¹ = k₀ * w * k₀⁻¹ * w⁻¹ * w := by group
     _ = w := by rw [h2, one_mul]
 
+omit [Finite X] in
 theorem le_commutator_sup_gnC (L : Subgroup (X ⧸ gnC T)) (eL : ↥L ≃* alternatingGroup (Fin 7)) :
     L.comap (QuotientGroup.mk' (gnC T)) ≤
       ⁅L.comap (QuotientGroup.mk' (gnC T)), L.comap (QuotientGroup.mk' (gnC T))⁆ ⊔ gnC T := by

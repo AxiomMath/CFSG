@@ -38,12 +38,12 @@ variable {G : Type} [Group G] [Finite G]
         calMOf K = {D.M}) →
     (mBar D.M V₀ V h.hyp125.isElemAbelian : ℕ∞) ≤ fIndexMax Δ + 1
 
-@[expose] def R18_3At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
+@[expose] def R18_3At (D : Data G) (V₀ V : Subgroup G) (_p : ℕ) (L : Subgroup G) : Prop :=
   IsAlt (Bar2 L) 5 → V₀ = ⊥ →
     UniqueMax D.M (D.M ⊓ normalizer (F12.Wi 1 D.T V : Set G)) →
     UniqueMax D.M (L ⊔ F12.Wi 1 D.T V)
 
-@[expose] def R18_4At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
+@[expose] def R18_4At (_D : Data G) (_V₀ _V : Subgroup G) (_p : ℕ) (L : Subgroup G) : Prop :=
   ¬ IsAlt (Bar2 L) 5
 
 @[expose] def R18_8At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
@@ -131,8 +131,8 @@ variable {G : Type} [Group G] [Finite G]
     (h : Hyp18 D V₀ V p L) : Prop :=
   R18_14_1At D V₀ V p L h ∧ R18_14_2At D V₀ V p L h ∧ R18_14_3At D V₀ V p L h
 
-@[expose] def R18_15At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
-  ∀ (v : G) (hv : v ∈ V), v ≠ 1 → p ∈ piSet (D.M ⊓ centralizer ({v} : Set G))
+@[expose] def R18_15At (D : Data G) (_V₀ V : Subgroup G) (p : ℕ) (_L : Subgroup G) : Prop :=
+  ∀ (v : G) (_hv : v ∈ V), v ≠ 1 → p ∈ piSet (D.M ⊓ centralizer ({v} : Set G))
 
 @[expose] def R18_16_1At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
     (h : Hyp18 D V₀ V p L) : Prop :=
@@ -174,17 +174,17 @@ variable {G : Type} [Group G] [Finite G]
     (h : Hyp18 D V₀ V p L) : Prop :=
   P18_13_2 D V₀ V p L h 1
 
-@[expose] def R18_23At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
+@[expose] def R18_23At (D : Data G) (_V₀ V : Subgroup G) (_p : ℕ) (_L : Subgroup G) : Prop :=
   centralizer (F12.Ci 2 D.T V : Set G) ≤ D.M
 
-@[expose] def R18_24At (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V) : Prop :=
+@[expose] def R18_24At (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V) : Prop :=
   1 < mSub V₀
 
 @[expose] def R18_24 (D : Data G) : Prop :=
   ∀ (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V), R18_24At D V₀ V hV
 
-@[expose] def R18_24Of1669At (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V)
-    (hm : MBarGT D.M V₀ V 3) : Prop :=
+@[expose] def R18_24Of1669At (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V)
+    (_hm : MBarGT D.M V₀ V 3) : Prop :=
   1 < mSub V₀
 
 @[expose] def R18_24Of1669 (D : Data G) : Prop :=

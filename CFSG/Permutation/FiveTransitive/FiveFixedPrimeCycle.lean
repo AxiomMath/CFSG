@@ -82,7 +82,7 @@ theorem alternatingGroup_le_of_prime_dvd_card
     (hpdiv : p ∣ Nat.card P) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' p hpdiv
   by_contra hnotAlt
@@ -93,7 +93,7 @@ theorem alternatingGroup_le_of_prime_dvd_card
       X P hp hpSeven (by norm_num) hcard h5 hnotAlt
         u huorder
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
@@ -144,13 +144,13 @@ theorem alternatingGroup_le_of_prime_dvd_card
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
-  letI : Nonempty (Fin 5 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : Nonempty (Fin 5 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin,
         hcard]
       exact Nat.descFactorial_pos.mpr (by omega))
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 5 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

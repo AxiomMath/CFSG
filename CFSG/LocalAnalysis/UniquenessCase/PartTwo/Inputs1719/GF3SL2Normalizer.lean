@@ -24,7 +24,7 @@ theorem card_sylow_two_sl2 (hF : Nat.card F % 8 = 3) (P : Sylow 2 SL(2, F)) :
   have hq16 : Nat.card F % 16 = 3 ∨ Nat.card F % 16 = 11 := by omega
   have hq2' : (Nat.card F ^ 2 - 1) % 16 = 8 := by
     have hq2 : Nat.card F ^ 2 % 16 = 9 := by
-      rcases hq16 with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+      rcases hq16 with h | h <;> rw [Nat.pow_mod, h]
     obtain ⟨k, hk⟩ : ∃ k, Nat.card F ^ 2 = 16 * k + 9 :=
       ⟨Nat.card F ^ 2 / 16, by have := Nat.div_add_mod (Nat.card F ^ 2) 16; omega⟩
     have hk' : Nat.card F ^ 2 - 1 = 16 * k + 8 := by omega

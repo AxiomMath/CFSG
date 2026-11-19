@@ -50,7 +50,7 @@ theorem exists_mul_eq_of_norm_eq_one {G : Type*} [Group G] {V D P : Subgroup G} 
     (hδ : ∀ v ∈ V, α v * v⁻¹ ∈ P) (hPN : ∀ c ∈ V ⊓ P, c * α c * α (α c) = 1)
     {u : G} (huV : u ∈ V) (hu : u * α u * α (α u) = 1) :
     ∃ d ∈ V ⊓ D, ∃ c ∈ V ⊓ P, d * c = u := by
-  letI : CommGroup V := { (inferInstance : Group V) with
+  let : CommGroup V := { (inferInstance : Group V) with
     mul_comm := fun x y => Subtype.ext (hcomm x x.2 y y.2) }
   let σ : V →* V :=
     MonoidHom.mk' (fun v => ⟨α v, hαV v v.2⟩) (fun a b => Subtype.ext (map_mul α (a : G) b))
@@ -98,7 +98,7 @@ theorem norm_mul_of_comm {G : Type*} [Group G] {T : Subgroup G}
     (hTab : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (φ : MulAut G) (hφT : ∀ t ∈ T, φ t ∈ T)
     {a b : G} (ha : a ∈ T) (hb : b ∈ T) :
     a * b * φ (a * b) * φ (φ (a * b)) = a * φ a * φ (φ a) * (b * φ b * φ (φ b)) := by
-  haveI : IsMulCommutative T := ⟨⟨fun x y => Subtype.ext (hTab x x.2 y y.2)⟩⟩
+  have : IsMulCommutative T := ⟨⟨fun x y => Subtype.ext (hTab x x.2 y y.2)⟩⟩
   have key : ((⟨a, ha⟩ : T) * ⟨b, hb⟩) * (⟨φ a, hφT a ha⟩ * ⟨φ b, hφT b hb⟩) *
       (⟨φ (φ a), hφT _ (hφT a ha)⟩ * ⟨φ (φ b), hφT _ (hφT b hb)⟩) =
       ((⟨a, ha⟩ : T) * ⟨φ a, hφT a ha⟩ * ⟨φ (φ a), hφT _ (hφT a ha)⟩) *
@@ -231,7 +231,7 @@ theorem toralOn_false_of_leaves
     rw [← h1, map_mul, map_mul, map_inv, hαj']
   have hαV : ∀ v ∈ V, α v ∈ V := fun v hv =>
     (hV _).2 ⟨hαT v (hVT v hv), by rw [← map_pow, hV3 v hv, map_one]⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfixV : ∀ E : Subgroup (Om8 K), E ≤ V → (∀ e ∈ E, α e = e) → Nat.card E ≤ 3 ^ 2 :=
     fun E hEV hEfix => NbrGraphD4.card_le_nine_of_not_mem hα3 hα
       ⟨⟨⟨fun x y => Subtype.ext (hcommT _ (hVT _ (hEV x.2)) _ (hVT _ (hEV y.2)))⟩⟩,

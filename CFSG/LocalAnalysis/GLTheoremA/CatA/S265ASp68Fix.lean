@@ -49,7 +49,7 @@ theorem QUNL.map_eq_one_of_sp68 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subg
     (hDI : ∀ c ∈ Dgrp b x, α c ∈ (MulAut.conj : StatedProj (StatedSp 3 K) →* MulAut _).range →
       α c = 1) :
     ∀ t ∈ T, α t = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := h.cfg.elem
   have hconj : Function.Injective (MulAut.conj : StatedProj (StatedSp 3 K) →* MulAut _) :=
     CFSG.RankThree.CASymplecticSubfield.conj_injective_of_center_eq_bot

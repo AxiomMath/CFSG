@@ -8,6 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec14.Ronan148B
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comap_symm_eq_map (σ : MulAut G) (H : Subgroup G) :
     H.comap σ.symm.toMonoidHom = H.map σ.toMonoidHom := by
   rw [Subgroup.comap_equiv_eq_map_symm', MulEquiv.symm_symm]

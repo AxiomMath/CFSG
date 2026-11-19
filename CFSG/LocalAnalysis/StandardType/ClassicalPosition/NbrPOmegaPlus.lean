@@ -314,7 +314,7 @@ private lemma nbrpom_eichler_ne_one (k f : ℕ)
 private theorem nbrpom_siegel_shortElm (k f : ℕ)
     (R' : Subgroup (spinGroup (Spin.quadPlus (k + 3) (GaloisField 2 f))))
     (a₁ a₂ : (Fin (k + 3) ⊕ Fin (k + 3)) → GaloisField 2 f)
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
     (hQ₁ : (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₁ = 0)
     (hQ₂ : (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₂ = 0)
     (horth : QuadraticMap.polar (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₁ a₂ = 0)
@@ -384,18 +384,18 @@ private lemma nbrpom_mem_glBlockCentralizer
 
 private theorem nbrpom_blockDegree_selfDual
     (k f : ℕ) (S' : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
-    (hSU' : ∀ s ∈ S',
+    (_hSU' : ∀ s ∈ S',
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS' : ∀ s ∈ S', ∀ s' ∈ S', Commute s s')
     (hodd' : ∀ s ∈ S', Odd (orderOf s))
     (K' R' : Subgroup (ggU .POmegaPlus (k + 3) f).K)
     (ε eK : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
-    (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
+    (_hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
       (LinearMap.toMatrix₂' (GaloisField 2 f)
         (QuadraticMap.polarBilin (Spin.quadPlus (k + 3) (GaloisField 2 f))))
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) ε)
     (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
-    (heKε : eK * ε = eK)
+    (_heKε : eK * ε = eK)
     (hK'ε : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) S' ε :
         Subgroup (ggU .POmegaPlus (k + 3) f).K),
@@ -438,12 +438,12 @@ private theorem nbrpom_blockDegree_dualPair
     (hodd' : ∀ s ∈ S', Odd (orderOf s))
     (K' R' : Subgroup (ggU .POmegaPlus (k + 3) f).K)
     (ε eK : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
-    (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
+    (_hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
       (LinearMap.toMatrix₂' (GaloisField 2 f)
         (QuadraticMap.polarBilin (Spin.quadPlus (k + 3) (GaloisField 2 f))))
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) ε)
     (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
-    (heKε : eK * ε = eK)
+    (_heKε : eK * ε = eK)
     (hK'ε : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) S' ε :
         Subgroup (ggU .POmegaPlus (k + 3) f).K),
@@ -617,7 +617,7 @@ private theorem nbrpom_hnm_minusFour
     (k f : ℕ) (S' : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     (K' R' : Subgroup (ggU .POmegaPlus (k + 3) f).K)
     (eK : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
-    (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
+    (_heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
     (hK'e : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) S' eK :
         Subgroup (ggU .POmegaPlus (k + 3) f).K),
@@ -629,7 +629,7 @@ private theorem nbrpom_hnm_minusFour
       (LinearMap.toMatrix₂' (GaloisField 2 f)
         (QuadraticMap.polarBilin (Spin.quadPlus (k + 3) (GaloisField 2 f)))) eK = eK)
     (a₁ a₂ : (Fin (k + 3) ⊕ Fin (k + 3)) → GaloisField 2 f)
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
     (hQ₁ : (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₁ = 0)
     (hQ₂ : (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₂ = 0)
     (horth : QuadraticMap.polar (Spin.quadPlus (k + 3) (GaloisField 2 f)) a₁ a₂ = 0)
@@ -917,13 +917,13 @@ private lemma nbrpomx_finrank_range_add_of_orth {ι F : Type*} [Fintype ι] [Dec
   have hp : LinearMap.range (Matrix.toLin' a) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' a y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      ha.eq, hba, Matrix.zero_mulVec, add_zero]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      ha.eq, hba, add_zero]
   have hq : LinearMap.range (Matrix.toLin' b) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' b y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      hb.eq, hab, Matrix.zero_mulVec, zero_add]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      hb.eq, hab, zero_add]
   have hsup : LinearMap.range (Matrix.toLin' (a + b)) =
       LinearMap.range (Matrix.toLin' a) ⊔ LinearMap.range (Matrix.toLin' b) := by
     refine le_antisymm ?_ (sup_le hp hq)
@@ -996,7 +996,7 @@ private lemma nbrpomx_longRoot_mem_roots_univ {U : Type} [Group U] (D : Universa
 
 private lemma nbrpomx_mem_sup_central {U : Type} [Group U] {K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) {x : U} : x ∈ K ⊔ Z ↔ ∃ k ∈ K, ∃ z ∈ Z, k * z = x := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   exact Subgroup.mem_sup_of_normal_right
 
 private lemma nbrpomx_commutatorElement_mul_central_left {U : Type} [Group U]
@@ -1028,7 +1028,7 @@ private lemma nbrpomx_commutator_sup_central_le {U : Type} [Group U] {K Z : Subg
 
 private lemma nbrpomx_perfect_le_of_le_sup_center {U : Type} [Group U] {J K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) (hle : J ≤ K ⊔ Z) (hperf : commutator ↥J = ⊤) : J ≤ K := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hmap2 : Subgroup.map (Subgroup.subtype J) (commutator ↥J) = ⁅J, J⁆ := by
     have hc : commutator ↥J = ⁅(⊤ : Subgroup ↥J), ⊤⁆ := rfl
     rw [hc, Subgroup.map_commutator]
@@ -1068,11 +1068,11 @@ private lemma nbrpomx_mul_e_eq_smul {ι F : Type} [Fintype ι] [DecidableEq ι] 
     {A : Subalgebra F (Matrix ι ι F)} {e : Matrix ι ι F} (he : IsPrimIdemIn A e)
     (hdeg : blockDegree A e < 2) : ∀ a ∈ A, ∃ c : F, a * e = c • e := by
   let M : Submodule F (Matrix ι ι F) := (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
-  have heM : e ∈ M := ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+  have heM : e ∈ M := ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   have hfin : Module.finrank F M = 1 := by omega
@@ -1404,12 +1404,12 @@ private theorem nbrpomx_J_omega
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (hodd : ∀ s ∈ S, Odd (orderOf s))
-    (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
+    (_hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
         IsGLLift (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) ψ s d) →
       s ∈ S)
-    (hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
+    (_hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)))))
     (hJ'map : J'.map ψ = J)
     (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
@@ -1536,12 +1536,12 @@ private theorem nbrpomx_J_su
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (hodd : ∀ s ∈ S, Odd (orderOf s))
-    (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
+    (_hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
         IsGLLift (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) ψ s d) →
       s ∈ S)
-    (hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
+    (_hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)))))
     (hJ'map : J'.map ψ = J)
     (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
@@ -1647,12 +1647,12 @@ private theorem nbrpomx_J_sl
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (hodd : ∀ s ∈ S, Odd (orderOf s))
-    (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
+    (_hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
         IsGLLift (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))) ψ s d) →
       s ∈ S)
-    (hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
+    (_hJ'comp : IsComponentOf J' ((Subgroup.centralizer S).comap
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)))))
     (hJ'map : J'.map ψ = J)
     (heJ : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J)
@@ -1972,7 +1972,7 @@ private theorem nbrpomx_neighbourBlockData
             _ = (Spin.spinMatrix (Spin.quadPlus (k + 3) F)) 1 := (map_one _).symm)
         exact Subgroup.mem_bot.mpr hu1
       have hnt : Nontrivial ↥J' := by
-        haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ'comp.2.2.2
+        have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ'comp.2.2.2
         exact (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
       exact (Subgroup.nontrivial_iff_ne_bot J').mp hnt hJ'bot
     · exact heq
@@ -2024,8 +2024,8 @@ private lemma nbrpomx_notSU {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
     (hdegJ : blockDegree (Algebra.adjoin F (Units.val '' S)) e_J < 2)
     (hdeg' : 2 ≤ blockDegree (Algebra.adjoin F (Units.val '' S')) e') : False := by
   obtain ⟨Kf, hKf, hKa, hKfin, π, hπs, hπk, -⟩ := exists_blockField (S := S') hS' hodd' he'
-  letI : Field Kf := hKf
-  letI : Algebra F Kf := hKa
+  let : Field Kf := hKf
+  let : Algebra F Kf := hKa
   have hfield := nbrpomx_blockField_inv π hπs hπk
   have hAA' : Algebra.adjoin F (Units.val '' S') ≤ Algebra.adjoin F (Units.val '' S) :=
     Algebra.adjoin_mono (Set.image_mono hSe)
@@ -2221,7 +2221,7 @@ private theorem nbrpomx_ne_one
   have hG_eq : BlkC k f S ε = BlkC k f S' ε := le_antisymm hge hle
   have hK'blockS : IsComponentOf K' ⁅BlkC k f S ε, BlkC k f S ε⁆ :=
     hG_eq.symm ▸ hK'block
-  haveI : Finite (UK k f) :=
+  have : Finite (UK k f) :=
     Finite.of_injective (ρm k f) (nbrpom_spinMatrix_injective (GaloisField 2 f) (k + 3))
   have hJK'' : J' = K' :=
     CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le hJ'ε hK'blockS hJK'
@@ -2388,7 +2388,7 @@ private theorem nbrpomx_ne_two
   have hG_eq : BlkC k f S ε = BlkC k f S' ε := le_antisymm hge hle
   have hK'blockS : IsComponentOf K' ⁅BlkC k f S ε, BlkC k f S ε⁆ :=
     hG_eq.symm ▸ hK'block
-  haveI : Finite (UK k f) :=
+  have : Finite (UK k f) :=
     Finite.of_injective (ρm k f) (nbrpom_spinMatrix_injective (GaloisField 2 f) (k + 3))
   have hJK'' : J' = K' :=
     CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le hJ'ε hK'blockS hJK'
@@ -2504,7 +2504,7 @@ private theorem nbrpomx_ne_dual
   have hSe' : (Subgroup.centralizer S).comap (ρm k f) ≤
       (Subgroup.centralizer S').comap (ρm k f) :=
     Subgroup.comap_mono (Subgroup.centralizer_le hSe)
-  haveI : Finite (UK k f) :=
+  have : Finite (UK k f) :=
     Finite.of_injective (ρm k f) (nbrpom_spinMatrix_injective (GaloisField 2 f) (k + 3))
   have hK'compS : IsComponentOf K' ((Subgroup.centralizer S).comap (ρm k f)) :=
     IsComponentOf.of_le_of_le hK'comp hK'H hSe'
@@ -2534,7 +2534,7 @@ private theorem nbrpomx_stdSylow_eq_upperUnipotent {F : Type*} [Field F] :
 private theorem nbrpomx_eq_top_of_stdSylow_le {F : Type*} [Field F]
     {A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)} (hperf : commutator ↥A = ⊤)
     (hU : CFSG.Quasithin.SL2Sylow.stdSylow F ≤ A) : A = ⊤ := by
-  haveI : Group.IsPerfect ↥A := ⟨hperf⟩
+  have : Group.IsPerfect ↥A := ⟨hperf⟩
   by_cases hle : A ≤ CFSG.Quasithin.SL2Sylow.borel F
   · exfalso
     have hne1 : CFSG.Quasithin.SL2Sylow.upperElt (1 : F) ≠ 1 := by
@@ -2543,11 +2543,11 @@ private theorem nbrpomx_eq_top_of_stdSylow_le {F : Type*} [Field F]
         apply CFSG.Quasithin.SL2Sylow.upperElt_injective
         rw [h, CFSG.Quasithin.SL2Sylow.upperElt_zero]
       exact one_ne_zero h0
-    haveI : Nontrivial ↥A :=
+    have : Nontrivial ↥A :=
       (Subgroup.nontrivial_iff_exists_ne_one A).mpr
         ⟨CFSG.Quasithin.SL2Sylow.upperElt (1 : F),
           hU (CFSG.Quasithin.SL2Sylow.upperElt_mem_stdSylow 1), hne1⟩
-    haveI : Group.IsSolvable ↥A :=
+    have : Group.IsSolvable ↥A :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     exact Group.IsPerfect.not_isSolvable ↥A inferInstance
@@ -2574,7 +2574,7 @@ private theorem nbrpomx_eq_top_of_conj_stdSylow_le {F : Type*} [Field F]
     {A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)} (hperf : commutator ↥A = ⊤)
     (v : Matrix.SpecialLinearGroup (Fin 2) F)
     (hU : ∀ x ∈ CFSG.Quasithin.SL2Sylow.stdSylow F, v * x * v⁻¹ ∈ A) : A = ⊤ := by
-  haveI : Group.IsPerfect ↥A := ⟨hperf⟩
+  have : Group.IsPerfect ↥A := ⟨hperf⟩
   let e : Matrix.SpecialLinearGroup (Fin 2) F ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     MulAut.conj v⁻¹
   have hU1 : CFSG.Quasithin.SL2Sylow.stdSylow F ≤ A.map e.toMonoidHom := by
@@ -2583,7 +2583,7 @@ private theorem nbrpomx_eq_top_of_conj_stdSylow_le {F : Type*} [Field F]
     show (MulAut.conj v⁻¹) (v * x * v⁻¹) = x
     rw [MulAut.conj_apply]
     group
-  haveI : Group.IsPerfect ↥(A.map e.toMonoidHom) :=
+  have : Group.IsPerfect ↥(A.map e.toMonoidHom) :=
     Group.IsPerfect.map (H := A) (f := e.toMonoidHom)
   have hmap : A.map e.toMonoidHom = ⊤ :=
     nbrpomx_eq_top_of_stdSylow_le (A := A.map e.toMonoidHom)
@@ -2595,7 +2595,7 @@ private theorem nbrpomx_eq_top_of_conj_stdSylow_le {F : Type*} [Field F]
   exact htop.symm
 
 private theorem nbrpomx_plus_four
-    (k f : ℕ) (hf : 1 ≤ f) (ι : (ggU .PSL 2 f).K →* UK k f)
+    (k f : ℕ) (_hf : 1 ≤ f) (ι : (ggU .PSL 2 f).K →* UK k f)
     (hιcent : ∀ y, ι y ∈ Subgroup.center (UK k f) → y ∈ Subgroup.center (ggU .PSL 2 f).K)
     (β : Fin (ggU .PSL 2 f).D.rank → ℤ) (hβ : β ∈ (ggU .PSL 2 f).D.roots)
     (u : (ggU .PSL 2 f).K) (J' : Subgroup (UK k f)) (hperf : commutator ↥J' = ⊤)
@@ -2619,10 +2619,10 @@ private theorem nbrpomx_plus_four
     exact Subgroup.mem_bot.mp hyc
   have hHperf : commutator ↥H = ⊤ := by
     have e : ↥H ≃* ↥(H.map ι) := Subgroup.equivMapOfInjective H ι hιinj
-    haveI : Group.IsPerfect ↥(H.map ι) := by
+    have : Group.IsPerfect ↥(H.map ι) := by
       rw [hmap]
       exact ⟨hperf⟩
-    haveI : Group.IsPerfect ↥H :=
+    have : Group.IsPerfect ↥H :=
       Group.IsPerfect.ofSurjective (f := (e.symm : ↥(H.map ι) →* ↥H))
         (EquivLike.surjective e.symm)
     exact Group.IsPerfect.commutator_eq_top (G := ↥H)
@@ -2696,7 +2696,7 @@ private theorem nbrpomx_K_model
     (hS' : ∀ s ∈ S', ∀ s'' ∈ S', Commute s s'') (hodd' : ∀ s ∈ S', Odd (orderOf s))
     (K' R' : Subgroup (UK k f)) (ε' e' : Mx k f)
     (hε' : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f)) (Gm k f) (AdS f S') ε')
-    (he' : IsPrimIdemIn (AdS f S') e') (he'ε' : e' * ε' = e')
+    (he' : IsPrimIdemIn (AdS f S') e') (_he'ε' : e' * ε' = e')
     (hsplit' : e' = ε' ∨ (e' ≠ ε' ∧ Fadj k f e' ≠ e' ∧ ε' = e' + Fadj k f e'))
     (hK'ε' : IsComponentOf K' ⁅BlkC k f S' ε', BlkC k f S' ε'⁆) (hR'K' : R' ≤ K')
     (hgeo : ∃ a₁ a₂ : Ix k → GaloisField 2 f, a₁ ≠ 0 ∧ a₂ ≠ 0 ∧
@@ -2844,7 +2844,7 @@ private theorem nbrpomx_K_omega
     (hSU : ∀ s ∈ S, s ∈
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
@@ -2866,8 +2866,8 @@ private theorem nbrpomx_K_omega
         Subgroup (ggU .POmegaPlus (k + 3) f).K)⁆)
     (hcase : e_J = ε ∧
       blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J < 2)
-    (t' : StatedLieTag) (mJ : ℕ) (βJ : Fin (ggU t' mJ f).D.rank → ℤ)
-    (ht' : t' = .POmegaPlus ∨ t' = .POmegaMinus) (hmJ : 3 ≤ mJ)
+    (t' : StatedLieTag) (mJ : ℕ) (_βJ : Fin (ggU t' mJ f).D.rank → ℤ)
+    (_ht' : t' = .POmegaPlus ∨ t' = .POmegaMinus) (_hmJ : 3 ≤ mJ)
     (hrankJ : Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e_J)) = 2 * mJ)
     (R Rm : Subgroup X) (hR : R ≤ J)
@@ -2961,7 +2961,7 @@ private theorem nbrpomx_K_su
     (hcase : e_J = ε ∧
       2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J ∧
       blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J < 4)
-    (m'J : ℕ) (βJ : Fin (ggU .PSU m'J f).D.rank → ℤ)
+    (m'J : ℕ) (_βJ : Fin (ggU .PSU m'J f).D.rank → ℤ)
     (hrankJ : Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e_J)) = 2 * m'J)
     (R Rm : Subgroup X) (hR : R ≤ J)
@@ -3042,7 +3042,7 @@ private theorem nbrpomx_K_omega_sl
     (hSU : ∀ s ∈ S, s ∈
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
@@ -3064,7 +3064,7 @@ private theorem nbrpomx_K_omega_sl
         Subgroup (ggU .POmegaPlus (k + 3) f).K)⁆)
     (hcase : e_J = ε ∧
       blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J < 2)
-    (kJ : ℕ) (βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ)
+    (kJ : ℕ) (_βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ)
     (hrankJ : Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e_J)) = 2 * (kJ + 1))
     (R Rm : Subgroup X) (hR : R ≤ J)
@@ -3135,7 +3135,7 @@ private theorem nbrpomx_K_sl
     (hSU : ∀ s ∈ S, s ∈
       (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     (hfull : ∀ s : GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f),
       s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range →
       (∃ d ∈ D,
@@ -3163,7 +3163,7 @@ private theorem nbrpomx_K_sl
           (LinearMap.toMatrix₂' (GaloisField 2 f)
             (QuadraticMap.polarBilin (Spin.quadPlus (k + 3) (GaloisField 2 f)))) e_J ∧
         blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e_J < 2)
-    (kJ : ℕ) (βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ)
+    (kJ : ℕ) (_βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ)
     (hrankJ : Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e_J)) = kJ + 1)
     (R Rm : Subgroup X) (hR : R ≤ J)

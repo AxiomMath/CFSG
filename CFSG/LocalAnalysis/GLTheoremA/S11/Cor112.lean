@@ -24,6 +24,7 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p q : ℕ} {B : Subgroup G} {x : G} {L : Subgroup G}
 
+omit [Finite G] in
 private theorem cor112_mem_zpowers_sup {K : Subgroup G} {x : G} (hK : ∀ c ∈ K, x * c = c * x)
     {b : G} (hb : b ∈ Subgroup.zpowers x ⊔ K) : ∃ k : ℤ, ∃ c ∈ K, b = x ^ k * c := by
   have hc : ∀ c ∈ K, ∀ l : ℤ, c * x ^ l = x ^ l * c := fun c hcK l =>
@@ -48,10 +49,12 @@ private theorem cor112_mem_zpowers_sup {K : Subgroup G} {x : G} (hK : ∀ c ∈ 
   obtain ⟨k, c, hcK, hbk⟩ := hle hb
   exact ⟨k, c, hcK, hbk⟩
 
+omit [Finite G] in
 private theorem cor112_zpow_pow_eq_one {x : G} {p : ℕ} (hxp : x ^ p = 1) (k : ℤ) :
     (x ^ k) ^ p = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hxp, one_zpow]
 
+omit [Finite G] in
 private theorem cor112_mem_normalizer_of_comm {S : Subgroup G} {x : G}
     (hS : ∀ s ∈ S, x * s = s * x) : x ∈ Subgroup.normalizer (S : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -72,7 +75,7 @@ private theorem cor112_mem_normalizer_of_comm {S : Subgroup G} {x : G}
 private theorem cor112_inf_zpowers_eq_bot {p : ℕ} (hp : p.Prime) {x : G} {E L : Subgroup G}
     (hxp : x ^ p = 1) (hx1 : x ≠ 1) (hxn : x ∉ L) (hEL : E ≤ L) :
     E ⊓ Subgroup.zpowers x = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   rintro y ⟨hyE, hyz⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hyz
@@ -93,6 +96,7 @@ private theorem cor112_inf_zpowers_eq_bot {p : ℕ} (hp : p.Prime) {x : G} {E L 
     exact Subgroup.mem_zpowers x
   exact hxn (Subgroup.zpowers_le.2 (hEL hyE) hx)
 
+omit [Finite G] in
 private theorem cor112_transport {p : ℕ} {L : Subgroup G} (T₀ E₀ : Subgroup ↥L) (hT₀ : T₀ ≠ ⊥)
     (hT₀2 : IsPGroup 2 T₀) (hE₀N : E₀ ≤ Subgroup.normalizer (T₀ : Set ↥L))
     (hE₀a : IsElemAbelian p E₀) :
@@ -122,6 +126,7 @@ private theorem cor112_transport {p : ℕ} {L : Subgroup G} (T₀ E₀ : Subgrou
     · obtain ⟨a₀, ha₀, ha⟩ := Subgroup.mem_map.1 ha
       rw [← ha, ← map_pow, hE₀a.2 a₀ ha₀, map_one]
 
+omit [Finite G] in
 private theorem cor112_isElemAbelian_sup {p : ℕ} {K : Subgroup G} {x : G} (hK : IsElemAbelian p K)
     (hxK : ∀ c ∈ K, x * c = c * x) (hxp : x ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers x ⊔ K) := by
@@ -143,6 +148,7 @@ private theorem cor112_isElemAbelian_sup {p : ℕ} {K : Subgroup G} {x : G} (hK 
     rw [((show Commute x c from hxK c hc).zpow_left k).mul_pow p, cor112_zpow_pow_eq_one hxp k,
       hK.2 c hc, one_mul]
 
+omit [Finite G] in
 private theorem cor112_glaPLayer_gLBConj (p : ℕ) (g : G) (X : Subgroup G) :
     GLAPLayer p (GLBConj g X) = GLBConj g (GLAPLayer p X) := by
   refine CFSG.LocalAnalysis.GLTheoremB.gLBConj_eq_of_forall_ge (F := GLAPLayer p)
@@ -162,6 +168,7 @@ private theorem cor112_two_dvd_card_of_quasisimple {K : Type} [Group K] [Finite 
   have : Group.IsPerfect K := ⟨hK.1⟩
   exact Group.IsPerfect.not_isSolvable K ‹_›
 
+omit [Finite G] in
 theorem mem_normalizer_glaPLayer {p : ℕ} {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLAPLayer p X : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq, ← cor112_glaPLayer_gLBConj, gLBConj_eq_of_mem_normalizer hg]
@@ -196,7 +203,7 @@ theorem le_twoLocalRank_sub {q r : ℕ} (hq : q.Prime) {L S E : Subgroup G} (hSL
 theorem rank_add_one_le {p : ℕ} (hp : p.Prime) {L : Subgroup G} {x : G} {X : Subgroup G} (hL : GLAPComponent p X L)
     (hxL : L ≤ Subgroup.centralizer ({x} : Set G)) (hxp : x ^ p = 1) (hx1 : x ≠ 1) (hxn : x ∉ L) :
     GLATwoLocalRank p ↥L + 1 ≤ GLATwoLocalRank p ↥(Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : 2 ∣ Nat.card ↥L := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (GLAPPrimeCore p ↥L)]
     exact Dvd.dvd.mul_right (cor112_two_dvd_card_of_quasisimple
@@ -299,7 +306,7 @@ theorem cor112_indep {m p : ℕ} (hctx : ThmACtx G m) (hsf : StageFacts G m) (h1
   have hH := rquad_hyp hsf hR
   have hp : p.Prime := hH.prime
   have hp2 : p ≠ 2 := hH.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hnoZ, hinner⟩ := h161 p hp hp2 L hH.isChev2 hns
   have hin : ∀ b ∈ B, InducesInnerMod p L b := hinner B hH.elem hH.idiag
   have hcyc : CycModSylow p L := hR.2.1.2
@@ -324,7 +331,7 @@ theorem cor112_indep {m p : ℕ} (hctx : ThmACtx G m) (hsf : StageFacts G m) (h1
     omega
   have hex : ∃ T : Subgroup G, T ≤ L ∧ IsPGroup 2 T ∧ B ⊓ L ≤ Subgroup.normalizer (T : Set G) ∧ T ≠ ⊥ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hcomm
     have : nGen (B ⊓ L) L = ⊥ := by
       unfold nGen

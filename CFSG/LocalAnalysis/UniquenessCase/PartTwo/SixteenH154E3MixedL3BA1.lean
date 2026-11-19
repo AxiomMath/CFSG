@@ -23,22 +23,22 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_l3_three_ne_bot_dim_le_three
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
-    (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
-    (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (_hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
-    (hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
@@ -50,8 +50,8 @@ theorem s16h_e3_l3_three_ne_bot_dim_le_three
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) ≤ 3 := by
   obtain ⟨hsl, hsum⟩ := hL3
   obtain ⟨K₀, hK₀f, hK₀fin, hK₀card, ⟨e⟩⟩ := hsl
-  letI := hK₀f
-  haveI : Group.IsPerfect ↥(StatedSL 3 K₀) :=
+  let := hK₀f
+  have : Group.IsPerfect ↥(StatedSL 3 K₀) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K₀
   have hperf : Group.IsPerfect ↥(lBar ⊥ V h.hyp151.isElemAbelian L) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -78,8 +78,8 @@ theorem s16h_e3_l3_three_ne_bot_dim_le_three
       (N := fun H U Z => BinaryNaturalSL H U Z 3 1) (k := 3) (c := 1)
       (fun I hI => by
         obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hI
-        letI := hKf
-        letI := hKfin
+        let := hKf
+        let := hKfin
         exact ⟨FFModel.nat (StatedSL 3 K),
           s16h_e3_l3_three_ne_bot_boundCover (by simpa using hKcard),
           hreal, s16fh_commSub_sup_nat (by norm_num) hreal⟩) hsum

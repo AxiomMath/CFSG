@@ -15,7 +15,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.LieType.Universal CFSG.LieType.RootSystem
 open CFSG.Open (StatedLieTag StatedLieAdmissible)
 
 theorem irg_hasLabel_classical
-    {X : Type} [Group X] {J : Subgroup X} (hqs : CFSG.Assembly.IsQuasisimple ↥J)
+    {X : Type} [Group X] {J : Subgroup X} (_hqs : CFSG.Assembly.IsQuasisimple ↥J)
     {t : StatedLieTag} {n g : ℕ} (ht : t = .PSL ∨ t = .PSU ∨ t = .PSp ∨ t = .POmegaPlus ∨
       t = .POmegaMinus) (hn : RCKNormalizedModel t n g) (φ : (ggU t n g).K →* X)
     (hr : φ.range = J) (hk : φ.ker ≤ Subgroup.center (ggU t n g).K) :
@@ -42,7 +42,7 @@ theorem irg_hasLabel_classical
     obtain ⟨-, K, hF, hfin, hcard, ⟨e⟩⟩ := hcls
     show GGHasLabel ⟨.D, n, g⟩ _
     unfold GGHasLabel LargeEvenRawDatum
-    rw [if_neg (by omega : ¬ n = 3)]
+    rw [ite_eq_right (by omega : ¬ n = 3)]
     exact ⟨K, hF, hfin, hcard, ⟨e⟩⟩
   ·
     have h4 : 4 ≤ n := hn.2.2.2
@@ -51,7 +51,7 @@ theorem irg_hasLabel_classical
     have h3 : ¬ n = 3 := by omega
     show GGHasLabel ⟨.twD, n, g⟩ _
     simp only [GGHasLabel, LargeEvenRawDatum]
-    rw [if_neg h2, if_neg h3]
+    rw [ite_eq_right h2, ite_eq_right h3]
     simp only [LargeEvenRecipeOmegaMinus]
     exact ⟨K, hF, hfin, hcard, b, c, hirr, ⟨e.trans (omegaMinusProjEquiv n b c).symm⟩⟩
 

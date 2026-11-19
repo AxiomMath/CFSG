@@ -85,6 +85,7 @@ include hCE H hNo C ht ht1 hVQ hΩ hN h6 hpol hX hE hsing
     RbarFix S g t →* Equiv.Perm (Delta S g t) :=
   (permDelta S g t).comp (Subgroup.inclusion (inf_le_right : RbarFix S g t ≤ NLbar S g))
 
+omit hCE hNo hΩ hN h6 hpol hE hsing C ht1 hVQ in
 theorem range_thetaRbarFix : (thetaRbarFix H.conj_mem t).range = omegaStab Q hQ (aV ht) := by
   ext w
   constructor
@@ -107,6 +108,7 @@ theorem range_thetaRbarFix : (thetaRbarFix H.conj_mem t).range = omegaStab Q hQ 
       simpa using this
     exact ⟨⟨r, hr, Rbar_le_Mbar hr, hrN⟩, LinearEquiv.ext fun v => Subtype.ext (hrw v).symm⟩
 
+omit hCE hNo hΩ hN h6 hpol C ht1 hVQ in
 theorem ker_psiRbarFix_le (hcl : Subgroup.closure (Delta S g t) = S.Lbar g) :
     (psiRbarFix S g t).ker ≤ (pointRadical Q (aV ht)).comap (thetaRbarFix H.conj_mem t) := by
   intro r hr
@@ -117,7 +119,7 @@ theorem ker_psiRbarFix_le (hcl : Subgroup.closure (Delta S g t) = S.Lbar g) :
   have ha0 := aV_ne_zero H ht
   have ha := CaseIClosure.Q_aV_eq_zero H ht hsing
   have hθmem : thetaRbarFix H.conj_mem t r ∈ omegaStab Q hQ (aV ht) := by
-    rw [← range_thetaRbarFix hCE H hNo C ht ht1 hVQ hΩ hN h6 hpol hX hE hsing]
+    rw [← range_thetaRbarFix H ht hX]
     exact ⟨r, rfl⟩
   obtain ⟨hθΩ, hθa⟩ := mem_omegaStab.mp hθmem
   refine mem_pointRadical_of_commute hQ ha0 ha (omegaGroup_le Q hQ hθΩ) hθa ?_
@@ -149,9 +151,9 @@ theorem alt_le_image_of_form (hΔ : (Delta S g t).ncard = 6) :
   set x₀ : Delta S g t := ⟨t, mem_Delta_self S g t⟩ with hx₀
   have h60 : 60 ∣ Nat.card (psiRbarFix S g t).range := by
     have hdvd := Subgroup.index_dvd_of_le
-      (ker_psiRbarFix_le hCE H hNo C ht ht1 hVQ hΩ hN h6 hpol hX hE hsing hcl)
+      (ker_psiRbarFix_le H ht hX hE hsing hcl)
     rw [Subgroup.index_ker, Subgroup.index_comap,
-      range_thetaRbarFix hCE H hNo C ht ht1 hVQ hΩ hN h6 hpol hX hE hsing] at hdvd
+      range_thetaRbarFix H ht hX] at hdvd
     have h := Subgroup.relIndex_mul_card (H := pointRadical Q (aV ht))
       (K := omegaStab Q hQ (aV ht))
     rw [inf_of_le_left (pointRadical_le_omegaStab hQ ha0 ha), card_pointRadical hQ ha0 ha, h6,

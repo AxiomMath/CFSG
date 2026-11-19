@@ -103,7 +103,7 @@ theorem allHit_spec (t : Nat) (X Q : PL Nat) : ∀ S : List Nat, allHit t X Q S 
     ∀ s ∈ S, 0 < eqP (natOps t) Q (atLane t X s)
   | [], _ => by simp
   | s :: S, h => by
-    change Bool.and' (Nat.blt 0 (eqP (natOps t) Q (atLane t X s))) (allHit t X Q S) = true at h
+    change _root_.Bool.and (Nat.blt 0 (eqP (natOps t) Q (atLane t X s))) (allHit t X Q S) = true at h
     rw [and'_eq, Bool.and_eq_true, Nat.blt_eq] at h
     intro s' hs'
     rcases List.mem_cons.1 hs' with rfl | hs'
@@ -144,13 +144,14 @@ theorem codes_dc : codes = (List.range 82944).map (dcG G) :=
 theorem lane_dc {c : Nat} (hc : c < 82944) : laneOf c (ofIx (lanePl G)) = ofCd (dcG G c) :=
   lane_lanes hG (gb_of hg) hc
 
+omit hg in
 theorem getD_G (k : Nat) (hk : k < 648) : G.getD k 0 = G[k]'(by omega) := by
   simp only [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega : k < G.length),
     Option.getD_some]
 
 theorem dc_inj {c d : Nat} (hc : c < 82944) (hd : d < 82944) (h : dcG G c = dcG G d) : c = d := by
-  have hgc := getD_G hg hG (c % 648) (Nat.mod_lt _ (by norm_num))
-  have hgd := getD_G hg hG (d % 648) (Nat.mod_lt _ (by norm_num))
+  have hgc := getD_G hG (c % 648) (Nat.mod_lt _ (by norm_num))
+  have hgd := getD_G hG (d % 648) (Nat.mod_lt _ (by norm_num))
   have bc : G[c % 648]'(by rw [hG]; exact Nat.mod_lt _ (by norm_num)) < 2 ^ 18 :=
     gb_of hg _ (List.getElem_mem _)
   have bd : G[d % 648]'(by rw [hG]; exact Nat.mod_lt _ (by norm_num)) < 2 ^ 18 :=
@@ -212,7 +213,7 @@ theorem sl_eq {S : List Nat} (h : slOK G S = true) : sl = S.map (dcG G) := by
   unfold slOK at h
   rw [and'_eq, Bool.and_eq_true, frc_eqL, lanesK_eq] at h
   obtain ⟨hinc, h2⟩ := h
-  simp only [mulK_frc, and'_eq, Bool.and_eq_true] at h2
+  simp only [mulK_frc, Bool.and_eq_true] at h2
   obtain ⟨ha, hh, hc⟩ := h2
   have hSb := incB_lt hinc
   have hA : ∀ c ∈ S, isInv (dcG G c) = true ∧ (dcG G c).m ≠ I3 := by

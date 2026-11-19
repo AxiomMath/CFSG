@@ -36,18 +36,18 @@ theorem card_elemAbelian_lt
     {N : ℕ} (hN : 1000 ≤ N) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E : Subgroup (ModGL τ L)}
     [Finite E] (hE : IsElemAbelian p E) : Nat.card E < p ^ N := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpL : (p : L) ≠ 0 := by
     intro h
     have h2 : 2 ∣ p := (CharP.cast_eq_zero_iff L 2 p).1 h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h2).symm
-  haveI : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero (p : L) := ⟨hpL⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   let F : E →* Module.End L (RootModule τ L) :=
     (Units.coeHom (Module.End L (RootModule τ L))).comp (Subgroup.subtype E)
   have hcomm : ∀ i j : E, Commute (F i) (F j) := by
     intro i j
-    haveI : IsMulCommutative ↥E := hE.1
+    have : IsMulCommutative ↥E := hE.1
     change F i * F j = F j * F i
     rw [← map_mul, ← map_mul, mul_comm' i j]
   have hpow : ∀ i : E, F i ^ p = 1 := by
@@ -116,7 +116,7 @@ theorem nontoralMinRank_eq_of_nonTorsion
   cases τ <;> simp_all [nontoralMinRank]
 
 theorem ratPts_le_endPow
-                                      {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {Φ : ModGL τ L →* ModGL τ L} {n : ℕ} (hn : 1 ≤ n) :
+                                      {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {Φ : ModGL τ L →* ModGL τ L} {n : ℕ} (_hn : 1 ≤ n) :
     ratPts τ L Φ ≤ ratPts τ L (endPow Φ n) := by
   intro g hg
   rw [ratPts, Subgroup.mem_inf] at hg ⊢
@@ -165,8 +165,8 @@ theorem exc_lang_frame_of_toral
   let F₀ : ModGL τ L →* ModGL τ L := frobTwistGL τ L 2 e Q
   have hSt : IsSteinbergEndZ τ L (2 ^ e) F₀ := isSteinbergEndZ_frobTwistGL 2 e hQ
   have hleF0 : ratPts τ L F₀ ≤ ratPts τ L (endPow F₀ p) := ratPts_le_endPow hp.one_le
-  haveI hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
-  haveI hfinF0 : Finite ↥(ratPoints F₀) :=
+  have hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
+  have hfinF0 : Finite ↥(ratPoints F₀) :=
     Finite.of_injective (Subgroup.inclusion hleF0) (Subgroup.inclusion_injective hleF0)
   obtain ⟨w, g₀, hg₀, hlang, hmap⟩ :=
     hM2 τ (isExcTag τ) L e he F₀ hSt hfinF0 p hp hp2 E hEF hEab htoral
@@ -219,10 +219,10 @@ theorem exc_lang_frame
   have hSt : IsSteinbergEndZ τ L (2 ^ e) F₀ := isSteinbergEndZ_frobTwistGL 2 e hQ
   have hleF0 : ratPts τ L F₀ ≤ ratPts τ L (endPow F₀ p) := ratPts_le_endPow hp.one_le
   have hE_le : E ≤ ratPts τ L (endPow F₀ p) := hEF.trans hleF0
-  haveI hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
-  haveI hfinE : Finite E :=
+  have hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
+  have hfinE : Finite E :=
     Finite.of_injective (Subgroup.inclusion hE_le) (Subgroup.inclusion_injective hE_le)
-  haveI hfinF0 : Finite ↥(ratPoints F₀) :=
+  have hfinF0 : Finite ↥(ratPoints F₀) :=
     Finite.of_injective (Subgroup.inclusion hleF0) (Subgroup.inclusion_injective hleF0)
   have hcard : Nat.card E < p ^ nontoralMinRank τ p :=
     card_elemAbelian_lt (N := nontoralMinRank τ p)
@@ -556,8 +556,8 @@ theorem exc_frame_power
 theorem exc_frame_norm
     {τ : Tag} {L : Type} [Field L]
     [IsAlgClosed L] [CharP L 2] {ι : Type} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (h3 : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 → p ≠ 3) (h3D : τ = .D4 → p ≠ 3)
-    (h5 : τ = .E8 → p ≠ 5) [Finite ι] {e : ℕ} (he : 1 ≤ e) {Q : ModGL τ L}
+    (_h3 : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 → p ≠ 3) (_h3D : τ = .D4 → p ≠ 3)
+    (_h5 : τ = .E8 → p ≠ 5) [Finite ι] {e : ℕ} (he : 1 ≤ e) {Q : ModGL τ L}
     (hQ : IsDiagramTwistMatrix τ L Q) (w : WeylGroup τ) (a : ι → Fin τ.rank → Lˣ)
     (ha : ∀ i j, a i j ^ p = 1)
     (hfix : ∀ i, twFw τ L e Q w (rootDiagUnit τ (a i)) = rootDiagUnit τ (a i))
@@ -604,7 +604,7 @@ theorem exc_frame_central
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {ι : Type} (hIdx : ExcIdxFrobInput) (hBor : ExcBorelInput) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2)
-    (h3 : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 → p ≠ 3) (h3D : τ = .D4 → p ≠ 3)
+    (h3 : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 → p ≠ 3) (_h3D : τ = .D4 → p ≠ 3)
     (h5 : τ = .E8 → p ≠ 5) [Finite ι] {e : ℕ} (he : 1 ≤ e) {Q : ModGL τ L}
     (hQ : IsDiagramTwistMatrix τ L Q) (w : WeylGroup τ) (a : ι → Fin τ.rank → Lˣ)
     (ha : ∀ i j, a i j ^ p = 1)
@@ -640,14 +640,14 @@ theorem exc_frame_central
   have hstruct := central_structure hBor a
   have hstab := central_stability hp hp2 h3 h5 a ha hQT hQτ hfix'
   have hlang := central_lang hBor hp.one_le a he hQfr hQτ hstab.2.1 hstab.2.2
-  haveI hfinW : Finite ↥(ratPts τ L (endPow (twFw τ L e Q w) p)) := hfin
+  have hfinW : Finite ↥(ratPts τ L (endPow (twFw τ L e Q w) p)) := hfin
   have hfix_le : F₀.eqLocus (MonoidHom.id (adjointGroup τ L)) ≤
       (endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup τ L)) := by
     intro g hg
     show endPow F₀ p g = g
     rw [endPow_apply]
     exact Function.iterate_fixed hg p
-  haveI hfinFix : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup τ L))) := by
+  have hfinFix : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup τ L))) := by
     let g : ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup τ L))) →
         ↥(ratPts τ L (endPow (twFw τ L e Q w) p)) := fun x =>
       ⟨(x : adjointGroup τ L), by
@@ -704,7 +704,7 @@ theorem exc_frame_central
     Finite.of_injective (Subgroup.inclusion hfix_le) (Subgroup.inclusion_injective hfix_le)
   have hidx : IdxConclusion p a F₀ :=
     hIdx τ L p hp hp2 a e he Q' hQT hQτ F₀ hF0coe hstab.1 hfinF0 hcoroot
-  haveI hZS : Finite ↥(Z ⊓ S) := hstruct.2.2.2.2.2
+  have hZS : Finite ↥(Z ⊓ S) := hstruct.2.2.2.2.2
   have hprop := prop43_abstract hp hp2 F₀ M Z S E hstruct.1 hstruct.2.1 hstruct.2.2.1
     hstruct.2.2.2.1 hstruct.2.2.2.2.1 hstab.1 hstab.2.1 hstab.2.2 hlang.1 hlang.2
     hEM hsat0prop hidx
@@ -895,7 +895,7 @@ private lemma eF4_pCent_mem_iff
     (c : Γ ≃* Γ') {G : Subgroup Γ} {E : Subgroup Γ} {G' : Subgroup Γ'} {E' : Subgroup Γ'}
     (hG : ∀ g, g ∈ G ↔ c g ∈ G') (hE : ∀ g, g ∈ E ↔ c g ∈ E') (u : Γ) :
     c u ∈ pCent p G' E' ↔ u ∈ pCent p G E := by
-  simp only [pCent, Set.mem_setOf_eq]
+  simp only [pCent, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨huG', hcent', hk⟩
     refine ⟨(hG u).mpr huG', ?_, ?_⟩
@@ -960,7 +960,7 @@ theorem excAlgGeoStd_of_frame
       exact hEfix x hx
   obtain ⟨w, h, a, hh, hEa, hF, -⟩ :=
     exc_lang_frame hM1 hM2 hL hp hp2 h3 h5 he hQ hfin hEab hEF
-  haveI hfinE : Finite E :=
+  have hfinE : Finite E :=
     Finite.of_injective (Subgroup.inclusion hEG) (Subgroup.inclusion_injective hEG)
   have ha : ∀ i j, a i j ^ p = 1 := by
     intro x j

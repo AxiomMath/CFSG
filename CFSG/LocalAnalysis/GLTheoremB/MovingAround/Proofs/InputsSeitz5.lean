@@ -110,7 +110,7 @@ theorem pRank_three_mulAut_le_two_of_tits
   obtain ⟨d0, hv⟩ := d
   simp only at hd
   subst hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.SectionRank.pRank_le (by norm_num) fun E _ hE => ?_
   by_contra hlt
   push Not at hlt
@@ -150,7 +150,7 @@ theorem pRank_five_mulAut_le_two_of_suzuki
   refine (CFSG.LocalAnalysis.RankFourTheoremC.pRank_mulAut_le_add_pRank_outer Nat.prime_five hZ).trans ?_
   have h1 : CFSG.Open.pRank 5 (⊤ : Subgroup S) ≤ 1 :=
     CFSG.QuasithinUnique.Id2519.pRank_le_one_suzuki hS Nat.prime_five (by norm_num)
-  haveI hcyc : IsCyclic (Outer S) :=
+  have hcyc : IsCyclic (Outer S) :=
     (CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} S 2 _ hS).1.1
   have h2 : CFSG.Open.pRank 5 (⊤ : Subgroup (Outer S)) ≤ 1 :=
     CFSG.LocalAnalysis.RankFourTheoremC.pRank_le_one_of_isCyclic Nat.prime_five inferInstance
@@ -188,7 +188,7 @@ theorem le_glbCore_of_index (h2 : KFactSeitzRankTwo) (h3 : Seitz2310CubeSimple)
     (hsmall : p ^ (CFSG.Open.pRank p B - 2) * Nat.card (cen B K) < Nat.card (stab B K))
     (d : TauCeti.ValidLieTypeIndex) (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hpd : p ≠ d.1.characteristic) : K ≤ GLBCore p 2 B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3le : p ^ 3 * Nat.card (cen B K) ≤ Nat.card (stab B K) :=
     (Nat.mul_le_mul_right _ (Nat.pow_le_pow_right hp.pos (by omega))).trans
       (InputsSeitz3.pow_succ_mul_le hp hB hsmall)
@@ -248,7 +248,7 @@ theorem input23_19ChevCore_of_res (h2 : KFactSeitzRankTwo)
     (h3 : Seitz2310CubeSimple) (hR : InputsSeitz3.SeitzQuasiHigh) (hRes : Input23_19ExcRes) :
     InputsSeitz.Input23_19ChevCore := by
   intro X _ _ hKX p hp hp2 hcore B hB hB4 hrk K hK hch haut
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBcard : Nat.card B = p ^ CFSG.Open.pRank p B := GL83.PiGen.card_eq_pow_pRank hB
   by_cases hsmall : Nat.card (stab B K) ≤ p ^ (CFSG.Open.pRank p B - 2) * Nat.card (cen B K)
   · exact InputsSeitz.le_glbCore_of_card_stab_le hp hB hK 2 (CFSG.Open.pRank p B - 2) (by omega)
@@ -354,7 +354,7 @@ theorem rank3CuResExc_of_res (h2 : KFactSeitzRankTwo) (h3 : Seitz2310CubeSimple)
   have h139b' := h139b
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hB4 : 4 ≤ CFSG.Open.pRank 3 B := Claims1310.pRank_B_eq h ▸ h.standing.four_le
   rcases htype with ⟨n, hA⟩ | ⟨i, ⟨e⟩, hi3, hexc, hrest⟩

@@ -60,19 +60,19 @@ open CFSG.RankThree.SubgroupLists (spForm spForm_apply spForm_self spTrans spTra
   left_inv x := by
     funext j
     rcases j with k | k <;> by_cases h : k = i <;>
-      simp only [h, if_true, if_false] <;> ring_nf <;> simp [CharTwo.two_eq_zero]
+      simp only [h, ite_true, ite_false]; ring_nf; simp [CharTwo.two_eq_zero]
   right_inv x := by
     funext j
     rcases j with k | k <;> by_cases h : k = i <;>
-      simp only [h, if_true, if_false] <;> ring_nf <;> simp [CharTwo.two_eq_zero]
+      simp only [h, ite_true, ite_false]; ring_nf; simp [CharTwo.two_eq_zero]
   map_add' x y := by
     funext j
     rcases j with k | k <;> by_cases h : k = i <;>
-      simp only [h, if_true, if_false, Pi.add_apply] <;> ring_nf <;> simp [CharTwo.two_eq_zero]
+      simp only [h, ite_true, ite_false, Pi.add_apply]; ring_nf
   map_smul' c x := by
     funext j
     rcases j with k | k <;> by_cases h : k = i <;>
-      simp only [h, if_true, if_false, Pi.smul_apply, smul_eq_mul, RingHom.id_apply] <;> ring_nf
+      simp only [h, ite_true, ite_false, Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring_nf
 
 theorem planeThreeLin_apply_inl {s : ℕ} (i k : Fin s) (x : Fin s ⊕ Fin s → F) :
     planeThreeLin (F := F) s i x (Sum.inl k) =
@@ -89,11 +89,11 @@ theorem planeThreeLin_isometry {s : ℕ} (i : Fin s) (x y : Fin s ⊕ Fin s → 
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases h : j = i
   · rw [h]
-    simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, if_pos rfl, if_true]
+    simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, ite_true]
     rw [CharTwo.sub_eq_add, CharTwo.sub_eq_add]
     have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
     linear_combination (x (Sum.inr i) * y (Sum.inr i)) * h2
-  · simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, if_neg h]
+  · simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, ite_eq_right h]
 
 @[expose] noncomputable def planeThree (s : ℕ) (i : Fin s) : StatedSp s F :=
   ⟨Matrix.GeneralLinearGroup.toLin.symm
@@ -162,13 +162,11 @@ theorem planeThree_pow_three {s : ℕ} (i : Fin s) :
     (planeThreeLin (F := F) s i x)) = x
   funext j
   rcases j with k | k <;> by_cases h : k = i <;>
-    simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, h, if_true, if_false]
+    simp only [planeThreeLin_apply_inl, planeThreeLin_apply_inr, h, ite_true, ite_false]
   all_goals first
-    | rfl
     | (linear_combination x (Sum.inr i) * (CharTwo.two_eq_zero : (2 : F) = 0))
     | (linear_combination (x (Sum.inl i) + x (Sum.inr i)) *
         (CharTwo.two_eq_zero : (2 : F) = 0))
-    | (linear_combination x (Sum.inl i) * (CharTwo.two_eq_zero : (2 : F) = 0))
 
 theorem planeThree_ne_one {s : ℕ} (i : Fin s) : planeThree (F := F) s i ≠ 1 := by
   intro h
@@ -193,13 +191,7 @@ theorem planeThree_commute {s : ℕ} {i j : Fin s} (hij : i ≠ j) :
   funext k
   rcases k with k | k <;> by_cases h : k = i <;> by_cases h' : k = j <;>
     simp only [LinearEquiv.mul_apply, planeThreeLin_apply_inl, planeThreeLin_apply_inr, h, h',
-      hij, Ne.symm hij, if_true, if_false]
-  all_goals first
-    | rfl
-    | (linear_combination x (Sum.inr i) * (CharTwo.two_eq_zero : (2 : F) = 0))
-    | (linear_combination x (Sum.inl i) * (CharTwo.two_eq_zero : (2 : F) = 0))
-    | (linear_combination (x (Sum.inl i) + x (Sum.inr i)) *
-        (CharTwo.two_eq_zero : (2 : F) = 0))
+      hij, Ne.symm hij, ite_true, ite_false]
 
 theorem planeThree_single_inl {s : ℕ} (i : Fin s) :
     planeThreeMat (F := F) s i *ᵥ Pi.single (Sum.inl i) 1 = Pi.single (Sum.inr i) 1 := by
@@ -208,11 +200,11 @@ theorem planeThree_single_inl {s : ℕ} (i : Fin s) :
   · rw [planeThree_apply_inl]
     by_cases h : k = i
     · subst h; simp
-    · rw [if_neg h]; simp [Pi.single_apply, h, Ne.symm h]
+    · rw [ite_eq_right h]; simp [h]
   · rw [planeThree_apply_inr]
     by_cases h : k = i
     · subst h; simp
-    · rw [if_neg h]; simp [Pi.single_apply, h, Ne.symm h]
+    · rw [ite_eq_right h]; simp [h]
 
 theorem planeThree_sq_single_inl {s : ℕ} (i : Fin s) :
     planeThreeMat (F := F) s i ^ 2 *ᵥ Pi.single (Sum.inl i) 1 =
@@ -223,11 +215,11 @@ theorem planeThree_sq_single_inl {s : ℕ} (i : Fin s) :
   · rw [planeThree_apply_inl]
     by_cases h : k = i
     · subst h; simp
-    · rw [if_neg h]; simp [Pi.single_apply, h, Ne.symm h]
+    · rw [ite_eq_right h]; simp [h]
   · rw [planeThree_apply_inr]
     by_cases h : k = i
     · subst h; simp
-    · rw [if_neg h]; simp [Pi.single_apply, h, Ne.symm h]
+    · rw [ite_eq_right h]; simp [h]
 
 theorem planeThree_apply_single_inl_of_ne {s : ℕ} {i j : Fin s} (hij : i ≠ j) :
     planeThreeMat (F := F) s j *ᵥ Pi.single (Sum.inl i) 1 = Pi.single (Sum.inl i) 1 := by
@@ -236,13 +228,13 @@ theorem planeThree_apply_single_inl_of_ne {s : ℕ} {i j : Fin s} (hij : i ≠ j
   · rw [planeThree_apply_inl]
     by_cases hm : m = j
     · subst hm
-      simp [Pi.single_apply, Ne.symm hij]
+      simp [Ne.symm hij]
     · simp [Pi.single_apply, hm]
   · rw [planeThree_apply_inr]
     by_cases hm : m = j
     · subst hm
-      simp [Pi.single_apply, Ne.symm hij]
-    · simp [Pi.single_apply, hm]
+      simp [Ne.symm hij]
+    · simp [hm]
 
 end PlaneThree
 

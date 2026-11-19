@@ -119,7 +119,7 @@ theorem tw1w_rootSL2_WSL_mem_rationalSpan
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ}
     (S : LangSetup Tag.E6 L p₀) (hq2 : S.D.q = 2) (hAlg : S.IsAlgebraic)
     (hρ : ∀ γ, S.ρ γ = -γ) {a : Fin Tag.E6.rank → Lˣ}
-    (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
+    (_hT : rootDiagUnit Tag.E6 a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     {δ : Fin Tag.E6.rank → ℤ} (hδ : δ ∈ componentRoots (rootCharHom a) i) :
     rootSL2 Tag.E6 L δ WSL ∈ rationalSpan S.ρ S.Γ (rootCharHom a) i := by
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i

@@ -13,17 +13,19 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma isPGroup_of_isElemAbelian' {p : ℕ} {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian p A) : IsPGroup p A := by
   intro x
   exact ⟨1, by rw [pow_one]; exact Subtype.ext (by simpa using hA.2 (x : G) x.2)⟩
 
+omit [Finite G] in
 private lemma isElemAbelian_of_le' {p : ℕ} {E E₀ : Subgroup G}
     (hE₀ : CFSG.Open.IsElemAbelian p E₀) (hEE₀ : E ≤ E₀) :
     CFSG.Open.IsElemAbelian p E := by
   refine ⟨IsMulCommutative.of_comm fun x y => Subtype.ext ?_,
     fun x hx => hE₀.2 x (hEE₀ hx)⟩
-  haveI : IsMulCommutative ↥E₀ := hE₀.1
+  have : IsMulCommutative ↥E₀ := hE₀.1
   exact congrArg (Subtype.val : ↥E₀ → G) (mul_comm' (⟨(x : G), hEE₀ x.2⟩ : ↥E₀)
     (⟨(y : G), hEE₀ y.2⟩ : ↥E₀))
 
@@ -57,7 +59,7 @@ theorem l17_card_W_le (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {W : Subgroup 
   by_contra hle
   have hlt : 4 < Nat.card W := Nat.lt_of_not_le hle
   have hW2 : IsPGroup 2 W := isPGroup_of_isElemAbelian' hWe
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hW2.exists_card_eq
   have hk3 : 3 ≤ k := by
     by_contra h

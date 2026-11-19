@@ -87,8 +87,8 @@ theorem Std139.lemmaK (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
       rw [hfixK']
       exact Subgroup.mem_top w
     simpa using mem_fixV.mp hw r hr
-  haveI hnt : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'comp.2.2.2.toNontrivial
-  haveI hsub : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
+  have hnt : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'comp.2.2.2.toNontrivial
+  have hsub : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
     rw [hK'bot]
     infer_instance
   exact (not_subsingleton (↥K' ⧸ Subgroup.center ↥K')) hsub

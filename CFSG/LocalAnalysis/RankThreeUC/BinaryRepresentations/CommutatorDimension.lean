@@ -21,7 +21,7 @@ theorem dimension_formula [Finite G] [Module.Finite (ZMod 2) V]
     (hfix : Module.finrank (ZMod 2) ↥(U ⊓ fixedSpace ρ X) = m) :
     Module.finrank (ZMod 2) ↥(commOn ρ X U) = m * (p - 1) := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hcard : (Fintype.card X : ZMod 2) = 1 := by
     rw [← Nat.card_eq_fintype_card, hX, ZMod.natCast_eq_one_iff_odd]
     exact hp.odd_of_ne_two hp2
@@ -41,7 +41,7 @@ theorem dimension_formula [Finite G] [Module.Finite (ZMod 2) V]
   let f : U →ₗ[ZMod 2] V := (∑ x : X, (ρ x : V →ₗ[ZMod 2] V)).comp U.subtype
   have hf : ∀ u : U, f u = ∑ x : X, ρ x (u : V) := by
     intro u
-    simp [f, LinearMap.sum_apply]
+    simp [f]
   have hker : Submodule.map U.subtype (LinearMap.ker f) = commOn ρ X U := by
     apply le_antisymm
     · rintro w ⟨v, hv, rfl⟩

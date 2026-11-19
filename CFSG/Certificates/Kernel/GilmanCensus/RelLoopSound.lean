@@ -20,7 +20,7 @@ theorem grpLoop_fold (n : Nat) (AR : Array IVec) (rho : Array Nat) :
     Nat.add_sub_cancel, Nat.div_one]
   rw [forIn_yield (fun st i => grpStep st (rrA n rho AR i, i)) _ (fun i st => by
     unfold grpStep rrA
-    split <;> rename_i h <;> simp only [h, ↓reduceIte, Bool.false_eq_true] <;> rfl)]
+    split <;> rename_i h <;> simp only <;> rfl)]
   rfl
 
 theorem map_range_getD {α β : Type} (f : α → β) (d : α) (L : List α) :
@@ -129,7 +129,7 @@ theorem relF_eq (n : Nat) (A : Array (Array Int)) (AR : Array IVec) (grp : Array
     ((#[#[1, 0, 0, 0, 0, 1], #[0, 0, 1, 0, 1, 0], #[0, 1, 0, 0, 0, 0],
       #[0, 0, 0, 1, 0, 0]] : Array (Array Nat)).map (relFA n A AR grp)).toList =
       relEmbK.map (relFK n (LLI A) ((LLI AR).getD (grp.toList.getD 0 0) [])) := by
-  simp only [Array.toList_map, List.toList_toArray, List.map_cons, List.map_nil, relFA_eq, relEmbK]
+  simp only [Array.toList_map, List.map_cons, List.map_nil, relFA_eq, relEmbK]
 
 theorem relHA_eq (AR : Array IVec) (rr : IVec) (grp : Array Nat) :
     (relHA AR rr grp).toList = relHK (LLI AR) rr.toList grp.toList := by
@@ -141,7 +141,7 @@ theorem relHA_eq (AR : Array IVec) (rr : IVec) (grp : Array Nat) :
     · rfl
     · rw [getRowI, getElem!_eq_getD_toList]
   unfold relHA relHK
-  simp only [List.toList_toArray, getElem!_eq_getD_toListI, hh, imod3_eq]
+  simp only [getElem!_eq_getD_toListI, hh, imod3_eq]
 
 theorem rel_eq (n : Nat) (A B : Array (Array Int)) (AR : Array IVec) (dk : DK)
     (Al Bl : List (List Int)) (hA : LLI A = Al) (hB : LLI B = Bl) (hAR : LLI AR = toI dk.AR)

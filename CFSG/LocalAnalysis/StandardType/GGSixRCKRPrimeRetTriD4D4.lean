@@ -70,10 +70,10 @@ theorem twistKind_eq_exc_of_triD4Shape
       omega
     rwa [hfun] at h2
   unfold twistKind
-  rw [if_neg (show ¬ twistInner (componentRoots (rootCharHom a) i)
+  rw [ite_eq_right (show ¬ twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (rootCharHom a) i)]) from hni)]
-  rw [if_pos (Or.inr ⟨h4, h24, hni2⟩)]
+  rw [ite_eq_left (Or.inr ⟨h4, h24, hni2⟩)]
 
 
 theorem exists_phi_eq_twistHom_D4 {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
@@ -219,10 +219,10 @@ theorem rckRetTriD4_D4_of_pair (hP : RCKPairTriD4) (S : LangSetup Tag.D4 GGL 5)
     exact Subgroup.one_mem _
   have hperfmodel : Group.IsPerfect ↥S.D.model := by
     obtain ⟨Fr, hFr, hΦ⟩ := exists_phi_eq_twistHom_D4 (L := GGL) (p := 5) S hniroots
-    haveI : CharP GGL 2 :=
+    have : CharP GGL 2 :=
       charP_of_injective_algebraMap (algebraMap (ZMod 2) GGL).injective 2
     exact CFSG.LocalAnalysis.GLTheoremA.T171Sh.excTri_D4_perfect_model S hFr hΦ
-  haveI hperfI : Group.IsPerfect ↥S.D.model := hperfmodel
+  have hperfI : Group.IsPerfect ↥S.D.model := hperfmodel
   have hΓ : S.Γ = S.D.model := by
     change ⁅S.D.model, S.D.model⁆ = S.D.model
     exact Subgroup.commutator_eq_self

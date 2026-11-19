@@ -24,9 +24,9 @@ private theorem exists_omegaMinus_model {K : Type} [Group K] (hZ : center K = �
           (CFSG.LieType.Universal.Spin.quadMinus 6 F b c) := by
   obtain ⟨-, F, _, _, hF, b, c, hirr, ⟨e⟩⟩ := h
   have hF2 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hF])
   have hcoe := CFSG.LieType.Universal.Spin.coe_quadMinus 6 F b c
   have hv : ∃ v, (CFSG.LieType.Universal.Spin.quadMinus 6 F b c) v ≠ 0 := by
@@ -54,7 +54,7 @@ private theorem inner_of_card_outer_dvd_two {L : Type*} [Group L] [Finite L]
     (hL : Nat.card (Outer L) ∣ 2) {ζ : MulAut L} (hζ : ζ ^ 3 = 1) {Q : Subgroup (MulAut L)}
     (hQ : Nat.card Q = 4) (hζQ : ζ ∈ normalizer (Q : Set (MulAut L)))
     (hfpf : ∀ q ∈ Q, ζ * q * ζ⁻¹ = q → q = 1) : ζ ∈ inner L ∧ Q ≤ inner L := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun e : MulAut L => (e : L → L)) fun a b h => MulEquiv.ext (congrFun h)
   set π := QuotientGroup.mk' (inner L)
   have hπ : ∀ g, π g = 1 ↔ g ∈ inner L := fun g => QuotientGroup.eq_one_iff g
@@ -156,17 +156,17 @@ theorem pumpUpOmegaMinusTwelveInput_holds :
   have hzΩ : φ z ∈ CFSG.RankThree.Classical2.orthDerived Q' := hrange ▸ ⟨z, rfl⟩
   have hrangeΩ : ∀ k : K, φ k ∈ CFSG.RankThree.Classical2.orthDerived Q' := fun k =>
     hrange ▸ ⟨k, rfl⟩
-  haveI := hWs
+  have := hWs
   obtain ⟨h2, htr⟩ := twelve_orth_fixed_two hF hV hQnd hzΩ hz3 hz1 hWc hcomp
   have hWkcl : StatedClassicalModel Wk .PSU 4 2 1 := by
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.Wk_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
+  have : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
   have hWkc : Nat.card Wk = 25920 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_four_two hWkcl
   let eWk : Wk ≃* Wk.map φ := Wk.equivMapOfInjective φ hφ
-  haveI : IsSimpleGroup (Wk.map φ) := MulEquiv.isSimpleGroup eWk.symm
+  have : IsSimpleGroup (Wk.map φ) := MulEquiv.isSimpleGroup eWk.symm
   have hWkc' : Nat.card (Wk.map φ) = 25920 := by rw [← Nat.card_congr eWk.toEquiv, hWkc]
   have hWkW : Wk.map φ ≤ W.map φ := Subgroup.map_mono h.Wk_le
   have hzW : ∀ x ∈ W, z * x = x * z := fun x hx => by
@@ -182,7 +182,7 @@ theorem pumpUpOmegaMinusTwelveInput_holds :
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.W_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
+  have : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
   have hWcK : Nat.card W = 13685760 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hWcl
   have hWZK : Subgroup.center W = ⊥ :=
@@ -211,9 +211,9 @@ theorem pumpUpOmegaMinusTwelveInput_holds :
         have hξ1 : ξ = 1 := by rw [hξ', hw1', one_mul, hzj, h0, zpow_zero, map_one]
         have hnorm : ∀ g : K, g ∈ normalizer (PQ : Set K) := fun g =>
           mem_normalizer_comap_conj (h.ξ_norm g (by rw [hξ1]; rfl))
-        haveI : PQ.Normal := ⟨fun p hp g => (mem_normalizer_iff.1 (hnorm g) p).1 hp⟩
-        haveI : IsSimpleGroup (K ⧸ center K) := h.quasi.2
-        haveI : IsSimpleGroup K := MulEquiv.isSimpleGroup eK
+        have : PQ.Normal := ⟨fun p hp g => (mem_normalizer_iff.1 (hnorm g) p).1 hp⟩
+        have : IsSimpleGroup (K ⧸ center K) := h.quasi.2
+        have : IsSimpleGroup K := MulEquiv.isSimpleGroup eK
         rcases (inferInstance : PQ.Normal).eq_bot_or_eq_top with hb | ht
         · rw [hb, Subgroup.card_bot] at hPQcard
           norm_num at hPQcard

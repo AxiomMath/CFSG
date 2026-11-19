@@ -82,8 +82,7 @@ theorem ggQ2s08_big_roExit_of_facts [Finite G] (hLB : GGLBalanceInput) (hP : GGS
             simp only [Pi.smul_apply, Pi.neg_apply, smul_eq_mul]
             first
               | exact neg_one_mul _
-              | rw [neg_one_mul]
-              | ring_nf))
+))
       exact hH.stab_mem a (hRA haR) hfix
   have hD' : ∀ g' : M.V ≃ₗ[ZMod 3] M.V, GGQ2S08MonoEven f g' →
       ∃ (k : G) (φ : MulAut ↥Bs), GGQ2Ind Bs k φ ∧

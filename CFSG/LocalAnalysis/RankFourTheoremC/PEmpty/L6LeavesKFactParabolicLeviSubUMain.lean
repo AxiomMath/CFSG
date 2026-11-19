@@ -63,7 +63,7 @@ theorem leviAt_hypPSU (h : UnitaryFieldData 2 f K) {r : ℕ} (hr : 1 ≤ r) (hε
     (hBJ : hypBorel h r ε ≤ K₀.comap (hypProj h r ε)) : LeviAt K₀ p := by
   intro hB hp h5 hrank1 hpar hne hsyl
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hnd : ¬ p ∣ Nat.card K - 1 := fun hd =>
     absurd hrank1 (by have := hrank p hp (by omega) hd; omega)
   obtain ⟨c, hc, hc0⟩ := exists_mem_traceZero_ne_zero' h
@@ -116,8 +116,8 @@ theorem leviAt_hypPSU (h : UnitaryFieldData 2 f K) {r : ℕ} (hr : 1 ≤ r) (hε
 theorem leviSubAt_hypPSU (h : UnitaryFieldData 2 f K) {r : ℕ} (hr : 1 ≤ r) (hε : ε ≤ 1)
     (hrank : ∀ q : ℕ, q.Prime → q ≠ 2 → q ∣ Nat.card K - 1 →
       2 ≤ CFSG.Open.pRank q (⊤ : Subgroup (hypPSU h r ε))) : LeviSubAt (hypPSU h r ε) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := h.finite
   obtain ⟨T₀, hT₀⟩ := (unitary_order_and_Sylow h hr hε).2.2.2.2.1
   refine leviSubAt_of_standard_sylow T₀ fun K₀ p hN => leviAt_hypPSU h hr hε hrank K₀ p ?_
   intro b hb

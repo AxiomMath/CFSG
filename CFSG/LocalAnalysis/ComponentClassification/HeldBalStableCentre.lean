@@ -53,7 +53,7 @@ theorem centreTwoPartLe_two_of_classical (hGA : TBLit.GriessMultipliersAllModels
   have hdvd := L34Facts.EvenCover.card_center_dvd_tableOrder hq
     (L34Facts.EvenCover.griessRow_of_classical hGA hmodel hτ)
   have hT := (Subgroup.card_subgroup_dvd_card (T : Subgroup (center L))).trans hdvd
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup' : IsPGroup 2 T)
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup : IsPGroup 2 T)
   by_contra hlt
   have hk2 : 2 ≤ k := by
     by_contra hk2

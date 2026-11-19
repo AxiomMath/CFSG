@@ -132,7 +132,7 @@ def KGOTwoPSLLeviInput (m : ℕ) (K : Type) [Field K] [Finite K] [CharP K 2] (hm
         c = 1
 
 theorem pCoreOf_le_range_of_rootInv {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hm : 3 ≤ m) (hbig : 4 ≤ m ∨ 4 ≤ Nat.card K)
+    (hm : 3 ≤ m) (_hbig : 4 ≤ m ∨ 4 ≤ Nat.card K)
     {Q : Subgroup (projectiveSL (m + 1) K)}
     (hCx : Subgroup.centralizer {rootInvPSL m K (by omega)} = Q ⊔ leviFullPSL m K (by omega))
     (hLQ : leviFullPSL m K (by omega) ≤ Subgroup.normalizer (Q : Set (projectiveSL (m + 1) K)))
@@ -241,7 +241,7 @@ theorem ggRootCentOTwoTag_PSL_of
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by have := hadm.2.2.1; omega⟩
   have hm2 : 2 ≤ m := hrank
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ (ψ : SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f) →* G),
       ψ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f)) →
       Subgroup.centralizer (ψ.range : Set G) = ⊥ →
@@ -339,7 +339,7 @@ theorem ggRootCentOTwoTag_PSL_of
               have hcardu : Nat.card (Units (GaloisField 2 1)) = 1 := by
                 rw [Nat.card_units, GaloisField.card 2 1 (by norm_num)]
                 norm_num
-              haveI : Subsingleton (Units (GaloisField 2 1)) :=
+              have : Subsingleton (Units (GaloisField 2 1)) :=
                 (Nat.card_eq_one_iff_unique.mp hcardu).1
               have hdet : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
               rw [← Matrix.GeneralLinearGroup.val_det_apply, hdet]

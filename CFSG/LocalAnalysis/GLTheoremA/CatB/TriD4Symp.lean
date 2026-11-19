@@ -55,7 +55,7 @@ private theorem layer_componentsNoD4_statedSp {r : ℕ} (hr : 3 ≤ r) {K : Type
   have ht3 : t ^ 3 = 1 := by
     obtain ⟨hsimple, hperf⟩ := CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj
       (r := r) (k := K) (by omega) (fun h => absurd h.1 (by omega))
-    haveI := hsimple
+    have := hsimple
     have hnc : ∃ u v : StatedProj (StatedSp r K), u * v ≠ v * u := by
       by_contra h
       push Not at h
@@ -75,7 +75,7 @@ theorem triD4NoB_holds : TriD4NoB := by
     exact hc
   obtain ⟨r, hr, hne, hcard, ⟨eP⟩⟩ :=
     KD264Lie.exists_mulEquiv_statedProj_of_isSymplecticIdx (d := d) (by rw [hd]; exact Or.inr hp)
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hr3 : 3 ≤ r := by
     by_contra h
     exact hne ⟨by omega, hf⟩

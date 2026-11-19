@@ -149,7 +149,7 @@ theorem exists_sylow_eq_of_maximal [Finite G] (S : Sylow 2 G) {t : G}
   have hP₀p : IsPGroup 2 (P₀.subgroupOf F) :=
     hP₀.of_equiv (Subgroup.subgroupOfEquivOfLe hP₀F).symm
   obtain ⟨T, hT⟩ := hP₀p.exists_le_sylow
-  have hTp : IsPGroup 2 ((T : Subgroup F).map F.subtype) := T.isPGroup'.map _
+  have hTp : IsPGroup 2 ((T : Subgroup F).map F.subtype) := T.isPGroup.map _
   obtain ⟨S', hS'⟩ := hTp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S S'
   have hmemS : ∀ x ∈ (T : Subgroup F).map F.subtype, g⁻¹ * x * g ∈ (S : Subgroup G) := by

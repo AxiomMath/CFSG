@@ -16,6 +16,7 @@ section KronSingle
 variable {k : Type*} [Field k] {ι : Type*} [Fintype ι] [DecidableEq ι]
   (κ : ι → Type*) [∀ i, Fintype (κ i)] [∀ i, DecidableEq (κ i)]
 
+omit [DecidableEq ι] in
 theorem kronDep_single (i₀ : ι) (z : (i : ι) → Matrix (κ i) (κ i) k)
     (hz : ∀ i, i ≠ i₀ → Subsingleton (κ i) ∧ z i = 1) (x y : (i : ι) → κ i) :
     kronDep κ z x y = z i₀ (x i₀) (y i₀) := by
@@ -35,12 +36,13 @@ theorem kronDep_single (i₀ : ι) (z : (i : ι) → Matrix (κ i) (κ i) k)
     by_cases h : i = i₀
     · subst h
       simp
-    · haveI := hs i h
+    · have := hs i h
       simp only [h, dite_false]
       exact Subsingleton.elim _ _
   right_inv y := by
     simp
 
+omit [Fintype ι] [(i : ι) → Fintype (κ i)] [(i : ι) → DecidableEq (κ i)] in
 theorem singleEquiv_symm_apply (i₀ : ι) [∀ i, Nonempty (κ i)]
     (hs : ∀ i, i ≠ i₀ → Subsingleton (κ i)) (y : κ i₀) :
     (singleEquiv κ i₀ hs).symm y i₀ = y := by
@@ -119,7 +121,7 @@ theorem amb_comm_of_z_zero {fs : List FK} (S : LocSpec fs) (hz : S.z = 0) (g : S
   rw [hzk] at h
   rw [h]
   ext x y
-  simp [Matrix.vecMulVec_apply]
+  simp
 
 @[expose] noncomputable def locRN (k : Type*) [Field k] [CharP k 2] :
     SL(4, k) →* Matrix (Fin 4) (Fin 4) k := locR true false false k
@@ -205,6 +207,7 @@ theorem Tmod_single_N (l : Lbl n) (i₀ : Fin n) (hz : ∀ i, i ≠ i₀ → l.Z
   rw [he, hB]
   rfl
 
+omit [CharP E 2] in
 theorem repS_twist (i₀ : ℕ) (g : SU4 K n) :
     repS E (twistHom n (frobTw K E i₀) g) =
       (antidiag 4 : Matrix (Fin 4) (Fin 4) E) *

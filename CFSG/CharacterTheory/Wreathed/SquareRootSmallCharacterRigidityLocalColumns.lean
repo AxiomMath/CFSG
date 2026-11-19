@@ -69,7 +69,7 @@ theorem cyclic_two_principal_column_values_norm {G : Type} [Group G] [Fintype G]
           (basis.representation χ).character u = (N.index : ℂ) := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : NeZero (2 ^ r) := ⟨pow_ne_zero _ (by decide)⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot ℂ (2 ^ r)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot ℂ (2 ^ r)
   obtain ⟨hbmem, hbindep, hd⟩ := principal_singleton_integral_basis localBasis ideal
     localPrincipal hlocalPrincipal N hN hquotient
   obtain ⟨U, _, _, _, _, _, _, hvalues, _, hgram, _⟩ :=

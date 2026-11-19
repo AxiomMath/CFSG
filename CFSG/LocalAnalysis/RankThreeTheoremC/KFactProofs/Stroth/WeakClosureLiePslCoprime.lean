@@ -41,9 +41,9 @@ theorem wcOn_projSL_of_not_dvd_sub_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
     rw [hord]
     simp
   have hrpos : 0 < r := Nat.pos_of_ne_zero hr0
-  haveI : NeZero e := ⟨he.ne'⟩
-  haveI : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F _⟩
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero e := ⟨he.ne'⟩
+  have : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F _⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := CFSG.GroupTheory.WeirSylow.exists_units_orderOf_eq
     (L := FiniteField.Extension F (ringChar F) e) (d := p ^ a)
     (by rwa [FiniteField.natCard_extension])
@@ -77,7 +77,7 @@ theorem wcOn_projSL_of_not_dvd_sub_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
         Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card, ← pow_mul, mul_comm]
     by_cases hr1 : r = 1
     · subst hr1
-      haveI : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
+      have : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
         isCyclic_of_surjective (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm
           (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm.surjective
       exact wcOn_of_range_cyclic (liftSL T hdet1) hΨ hcard

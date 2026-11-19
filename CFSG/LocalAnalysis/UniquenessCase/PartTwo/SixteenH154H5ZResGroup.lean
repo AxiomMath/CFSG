@@ -54,7 +54,7 @@ private theorem s16h_zresGroup_stab_fixV {L : Subgroup (MulAut W)} :
   exact ⟨fun hu => by have := hxinvZ (x u) hu; simpa using this, hxZ u⟩
 
 theorem s16h_H5_zcondGroup_of_world {W : Type} [CommGroup W] [Finite W]
-    {A L : Subgroup (MulAut W)} {t : MulAut W} (hc : s16h_H5Cfg A L t)
+    {A L : Subgroup (MulAut W)} {t : MulAut W} (_hc : s16h_H5Cfg A L t)
     (hW : s16h_L3World (autSub (A ⊓ Subgroup.normalizer (L : Set (MulAut W))) (commSub ⊤ L))
       (autSub L (commSub ⊤ L))) :
     s16h_ZCondGroup ↥(autSub (A ⊓ Subgroup.normalizer (L : Set (MulAut W)))
@@ -95,7 +95,7 @@ theorem s16h_H5_zcondGroup_of_world {W : Type} [CommGroup W] [Finite W]
     obtain ⟨n, hn⟩ := hy
     exact ⟨n, Subtype.ext hn⟩
   obtain ⟨P, hP, ρ, hkerρ, hρ⟩ := s16h_L3World_group hW
-  letI := hP
+  let := hP
   let ρ' : ↥N →* P := ρ.comp res
   have hρ'range : ρ'.range = ρ.range := by
     change (ρ.comp res).range = ρ.range

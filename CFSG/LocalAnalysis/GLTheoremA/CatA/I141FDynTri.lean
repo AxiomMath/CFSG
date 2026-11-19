@@ -91,7 +91,7 @@ theorem notG2_trialityModel
     {J : Subgroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)}
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) : NotG2LieType 2 ↥J := by
   classical
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hpq : p ≠ q.p := by rw [hq2]; exact hp2
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=

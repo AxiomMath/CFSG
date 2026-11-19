@@ -21,7 +21,7 @@ theorem div_shiftS {q : ℕ} (hq : 0 < q) (s t : ℕ) : shiftS q s t / q = s / q
   unfold shiftS
   rw [Nat.mul_add_div hq, Nat.div_eq_of_lt (Nat.mod_lt _ hq), Nat.add_zero]
 
-theorem mod_shiftS {q : ℕ} (hq : 0 < q) (s t : ℕ) : shiftS q s t % q = (s % q + t) % q := by
+theorem mod_shiftS {q : ℕ} (_hq : 0 < q) (s t : ℕ) : shiftS q s t % q = (s % q + t) % q := by
   unfold shiftS
   rw [Nat.mul_add_mod, Nat.mod_mod]
 
@@ -206,7 +206,7 @@ theorem foldl_base (w : List ℕ) (hw : ∀ c ∈ w, c < 2 * mb) (s : ℕ) :
   | cons c w ih =>
     rw [List.foldl_cons, walkS_cons, ih (fun c' h => hw c' (List.mem_cons_of_mem _ h))]
     unfold δc
-    rw [if_pos (hw c List.mem_cons_self)]
+    rw [ite_eq_left (hw c List.mem_cons_self)]
 
 section Hyp
 
@@ -244,13 +244,13 @@ theorem walkS_expand (hmac : ∀ w ∈ mac, ∀ c ∈ w, c < 2 * mb) (hL : L = 2
     have hc := hw c List.mem_cons_self
     rw [expandW, List.flatMap_cons, ← expandW, walkS_append, walkS_cons]
     by_cases hb : 2 * mb ≤ c
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       obtain ⟨i, rfl⟩ : ∃ i, c = 2 * mb + i := ⟨c - 2 * mb, by omega⟩
       have hi : i < mac.length := by omega
       have hm := List.getElem_mem hi
       rw [Nat.add_sub_cancel_left, List.getD_eq_getElem _ _ hi, stepS_mac hq hpt hs hi]
       exact ih hw' _ (walkS_lt hq hpt _ (hmac _ hm) hs)
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       have hc' : c < 2 * mb := by omega
       exact ih hw' _ (stepS_lt hq hpt hs hc')
 
@@ -261,6 +261,7 @@ theorem walkS_chk (hmac : ∀ w ∈ mac, ∀ c ∈ w, c < 2 * mb) (hL : L = 2 * 
   rw [← (walkS_expand hq hpt hmac hL wt.1 hwL s hs).1, ← shiftS_eq hq s, walkS_shiftS A hq,
     (cpOK_spec (hpt _ hp)).2.2 wt hwt, ← shiftS_base hq _ _ ht, shiftS_comm hq]
 
+omit hpt in
 theorem zcode_add {c : ℕ} : (zcode q mb zs c + zcode q mb zs (invCode c)) % q = 0 := by
   have hq' : ∀ z, (z % q + (q - z % q) % q) % q = 0 := by
     intro z
@@ -278,9 +279,9 @@ theorem zcode_add {c : ℕ} : (zcode q mb zs c + zcode q mb zs (invCode c)) % q 
         | true => exact absurd (Nat.eq_of_beq_eq_true hb) h
       rw [this]; simp [h]]
   by_cases h : c % 2 = 0
-  · rw [if_pos h, if_pos h, if_neg (by omega), show (c + 1) / 2 = c / 2 by omega]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_right (by omega), show (c + 1) / 2 = c / 2 by omega]
     exact hq' _
-  · rw [if_neg h, if_neg h, if_pos (by omega), show (c - 1) / 2 = c / 2 by omega, Nat.add_comm]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_left (by omega), show (c - 1) / 2 = c / 2 by omega, Nat.add_comm]
     exact hq' _
 
 theorem δc_live {s : ℕ} (hs : s < q * N) (c : ℕ) : δc A q mb L zs s c < q * N := by
@@ -289,7 +290,7 @@ theorem δc_live {s : ℕ} (hs : s < q * N) (c : ℕ) : δc A q mb L zs s c < q 
   · exact stepS_lt hq hpt hs ‹_›
   · exact shiftS_lt hq ((Nat.div_lt_iff_lt_mul hq).2 (by rw [Nat.mul_comm N q]; exact hs)) _
 
-theorem δc_inv {s : ℕ} (hs : s < q * N) {c : ℕ} (hc : c < 2 * M) (hmb : mb ≤ M) :
+theorem δc_inv {s : ℕ} (hs : s < q * N) {c : ℕ} (_hc : c < 2 * M) (_hmb : mb ≤ M) :
     δc A q mb L zs (δc A q mb L zs s c) (invCode c) = s := by
   have hp : s / q < N := (Nat.div_lt_iff_lt_mul hq).2 (by rw [Nat.mul_comm N q]; exact hs)
   have hic : invCode c = if c % 2 = 0 then c + 1 else c - 1 := by
@@ -305,12 +306,12 @@ theorem δc_inv {s : ℕ} (hs : s < q * N) {c : ℕ} (hc : c < 2 * M) (hmb : mb 
   by_cases hb : c < 2 * mb
   · have hb' : invCode c < 2 * mb := by rw [hic]; split <;> omega
     unfold δc
-    rw [if_pos hb, if_pos hb', ← shiftS_eq hq s, stepS_shiftS A hq, stepS_shiftS A hq,
+    rw [ite_eq_left hb, ite_eq_left hb', ← shiftS_eq hq s, stepS_shiftS A hq, stepS_shiftS A hq,
       ((cpOK_spec (hpt _ hp)).1 c hb).2]
   · have hb' : ¬ invCode c < 2 * mb := by rw [hic]; split <;> omega
     unfold δc
-    rw [if_neg hb, if_neg hb', shiftS_shiftS hq]
-    exact shiftS_of_mod s _ (zcode_add hq hpt)
+    rw [ite_eq_right hb, ite_eq_right hb', shiftS_shiftS hq]
+    exact shiftS_of_mod s _ (zcode_add hq)
 
 end Hyp
 
@@ -391,11 +392,11 @@ theorem expandW_lt (hmac : ∀ w ∈ mac, ∀ c ∈ w, c < 2 * mb) (w : List ℕ
   rw [expandW, List.mem_flatMap] at hc
   obtain ⟨d, hd, hcd⟩ := hc
   by_cases hb : 2 * mb ≤ d
-  · rw [if_pos hb] at hcd
+  · rw [ite_eq_left hb] at hcd
     have hi : d - 2 * mb < mac.length := by have := hw d hd; omega
     rw [List.getD_eq_getElem _ _ hi] at hcd
     exact hmac _ (List.getElem_mem hi) c hcd
-  · rw [if_neg hb, List.mem_singleton] at hcd
+  · rw [ite_eq_right hb, List.mem_singleton] at hcd
     omega
 
 theorem letterCode_ge {l : Fin M × Bool} (hl : mb ≤ l.1.val) : 2 * mb ≤ letterCode l := by
@@ -457,7 +458,7 @@ theorem covAct_sound (ws : List (List (Fin M × Bool))) (hq : 0 < q)
     simp only [shG, hact, MulOpposite.unop_op, shPerm_apply, List.map_cons, List.map_nil,
       List.foldl_cons, List.foldl_nil, hδ]
     unfold δc
-    rw [if_neg (Nat.not_lt.mpr (letterCode_ge hl)), zl_letter hl]
+    rw [ite_eq_right (Nat.not_lt.mpr (letterCode_ge hl)), zl_letter hl]
   have hdecomp : ∀ u : List (Fin M × Bool),
       φ (FreeGroup.mk u) = φ (FreeGroup.mk (projB mb u)) * shG hq (zsum q mb zs u) := by
     intro u
@@ -472,12 +473,12 @@ theorem covAct_sound (ws : List (List (Fin M × Bool))) (hq : 0 < q)
         simp [zsum]
       by_cases hl : l.1.val < mb
       · have hp : projB mb (l :: u) = l :: projB mb u := by
-          simp [projB, List.filter_cons, hl]
+          simp [projB, hl]
         have hzl : zl q mb zs l = 0 := by simp [zl, hl]
         rw [hsplit u, map_mul, ih, hp, hsplit (projB mb u), map_mul, mul_assoc, hz, hzl,
           Nat.zero_add]
       · have hp : projB mb (l :: u) = projB mb u := by
-          simp [projB, List.filter_cons, hl]
+          simp [projB, hl]
         rw [hsplit u, map_mul, ih, hp, hcent l (by omega), ← mul_assoc, hcomm, mul_assoc, shG_mul,
           hz]
   have hchkφ : ∀ wt ∈ chk, ∀ v : List (Fin M × Bool),
@@ -538,7 +539,7 @@ theorem covAct_sound (ws : List (List (Fin M × Bool))) (hq : 0 < q)
     intro r hr
     have e : FreeGroup.lift (fun i => φ (FreeGroup.of i)) = φ :=
       FreeGroup.ext_hom _ _ fun i => FreeGroup.lift_apply_of
-    simp only [Set.mem_setOf_eq, List.mem_map] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hr
     obtain ⟨u, hu, rfl⟩ := hr
     rw [e]
     exact hrel u hu
@@ -546,7 +547,7 @@ theorem covAct_sound (ws : List (List (Fin M × Bool))) (hq : 0 < q)
   rw [PresentedGroup.toGroup.of]
   have := hcent (g, true) hg
   rw [show FreeGroup.mk [(g, true)] = FreeGroup.of g from rfl] at this
-  rw [this, zl, if_neg (Nat.not_lt.mpr hg : ¬ (g, true).1.val < mb), if_pos rfl, shG,
+  rw [this, zl, ite_eq_right (Nat.not_lt.mpr hg : ¬ (g, true).1.val < mb), ite_eq_left rfl, shG,
     shPerm_mod]
 
 theorem dvd_orderOf_of_covAct (ws : List (List (Fin M × Bool))) (hqp : q.Prime) (hN : 0 < N)

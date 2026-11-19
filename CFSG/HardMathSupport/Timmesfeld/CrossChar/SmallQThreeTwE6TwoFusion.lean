@@ -272,7 +272,7 @@ theorem twE6TwoFusion_holds : TwE6TwoFusion := by
     have hax' : a = torV ω (subLin (τ := Tag.E6) e6InnerVec y₀) := by rw [hy₀]; exact hax
     obtain ⟨k, hk, hSk, hKk, ⟨y₃, hy₃G, hy₃⟩, ⟨g₃, hg₃G, hg₃⟩⟩ :=
       twE6Two_exists_finite_subfield_descent (K := K) {(ω : AlgebraicClosure K)} hyG hg0C
-    haveI : Finite k := hk
+    have : Finite k := hk
     have hωk : (ω : AlgebraicClosure K) ∈ k := hSk _ (Finset.mem_singleton_self _)
     obtain ⟨ω₃, hω₃⟩ : ∃ ω₃ : kˣ, Units.map k.subtype.toMonoidHom ω₃ = ω :=
       ⟨Units.mk0 ⟨(ω : AlgebraicClosure K), hωk⟩
@@ -305,7 +305,7 @@ theorem twE6TwoFusion_holds : TwE6TwoFusion := by
       twE6Two_exists_finite_subfield_descent (K := K)
         (Finset.univ.image fun i => ((u i : (AlgebraicClosure K)ˣ) : AlgebraicClosure K))
         hyG hg0C
-    haveI : Finite k := hk
+    have : Finite k := hk
     obtain ⟨u₃, hu₃⟩ := exists_units_descent k u fun i =>
       hSk _ (Finset.mem_image_of_mem _ (Finset.mem_univ i))
     have hua : (fun j => Units.map k.subtype.toMonoidHom (e6RootParams u₃ j)) = a := by

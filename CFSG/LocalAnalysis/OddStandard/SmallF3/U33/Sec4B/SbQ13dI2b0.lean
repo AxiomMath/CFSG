@@ -60,6 +60,7 @@ lemma q13dI2b_om_tau_om (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     _ = (om * om) * tau := by group
     _ = tau := by rw [h.om_sq, one_mul]
 
+omit [Finite G] in
 lemma q13dI2b_inv_comm {x y : G} (h : x * y = y * x) : x⁻¹ * y = y * x⁻¹ := by
   have h1 : x⁻¹ * y * x = y := by
     calc x⁻¹ * y * x = x⁻¹ * (y * x) := by group
@@ -104,7 +105,7 @@ lemma q13dI2b_conj_cases (h : Q13Om t L S x₁ x₂ lam rho tau om)
     rw [q13dI2b_lam_tauom h hlo, q13dI2b_t_tauom h] at hgen
     exact hgen
 
-lemma q13dI2b_mem_cent_of_conj (h : Q13Om t L S x₁ x₂ lam rho tau om) {a : G}
+lemma q13dI2b_mem_cent_of_conj (_h : Q13Om t L S x₁ x₂ lam rho tau om) {a : G}
     (hconj : (t * lam) * a * (t * lam)⁻¹ = a) :
     a ∈ centralizer ({t * lam} : Set G) := by
   rw [Subgroup.mem_centralizer_singleton_iff]

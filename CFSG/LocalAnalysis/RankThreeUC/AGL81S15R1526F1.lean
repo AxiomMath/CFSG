@@ -35,7 +35,7 @@ theorem pRank_ge_of_commute {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Pr
     (hone : ∀ i, i < m → 1 ≤ CFSG.Open.pRank p (A i))
     (hZ : ∀ i, i < m → ∀ x ∈ A i, orderOf x = p → (∀ a ∈ A i, a * x = x * a) → False) :
     ∀ n : ℕ, n ≤ m → n ≤ CFSG.Open.pRank p ((Finset.range n).sup A) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro n
   induction n with
   | zero => intro _; simp
@@ -59,7 +59,7 @@ theorem pRank_ge_of_commute {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Pr
       have h1 : 1 < Nat.card E := by
         rw [hEcard]
         exact Nat.one_lt_pow hne hp.one_lt
-      haveI := Finite.one_lt_card_iff_nontrivial.1 h1
+      have := Finite.one_lt_card_iff_nontrivial.1 h1
       obtain ⟨⟨x, hxE⟩, hx1⟩ := exists_ne (1 : ↥E)
       have hxp : x ^ p = 1 := hEA.2 x hxE
       have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
@@ -76,17 +76,17 @@ theorem no_central_prime_of_perfect {K : Type} [Group K] [Finite K] {p : ℕ} (h
     (hp2 : p ≠ 2) (hperf : Group.IsPerfect K)
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ 1) {z : K} (hz : orderOf z = p)
     (hzc : z ∈ Subgroup.center K) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzp : IsPGroup p (Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz, pow_one])
   obtain ⟨P, hzP⟩ := hzp.exists_le_sylow
   have hcyc : IsCyclic (P : Subgroup K) := by
     by_contra hnc
     obtain ⟨E, -, hE, hcard⟩ :=
-      CFSG.Goldschmidt.G63.exists_isElemAbelian_card_sq hp hp2 P.isPGroup' hnc
+      CFSG.Goldschmidt.G63.exists_isElemAbelian_card_sq hp hp2 P.isPGroup hnc
     have := CFSG.SectionRank.le_pRank hp.one_lt (le_top : E ≤ ⊤) hE hcard
     omega
-  haveI : IsMulCommutative (P : Subgroup K) := inferInstance
+  have : IsMulCommutative (P : Subgroup K) := inferInstance
   have hzPm : z ∈ (P : Subgroup K) := hzP (Subgroup.mem_zpowers z)
   have hT := MonoidHom.transfer_eq_pow (MonoidHom.id (P : Subgroup K)) z (fun k g₀ hk => by
     have hc := Subgroup.mem_center_iff.1 (Subgroup.pow_mem (Subgroup.center K) hzc k) g₀⁻¹
@@ -96,7 +96,7 @@ theorem no_central_prime_of_perfect {K : Type} [Group K] [Finite K] {p : ℕ} (h
       rw [_root_.commutator_def, Subgroup.commutator_le]
       intro g₁ _ g₂ _
       rw [MonoidHom.mem_ker, map_commutatorElement]
-      simp [commutatorElement_def, mul_comm]
+      simp [commutatorElement_def]
     have : z ∈ commutator K := by
       rw [hperf.commutator_eq_top]
       exact Subgroup.mem_top z
@@ -113,7 +113,7 @@ theorem no_central_prime_of_perfect {K : Type} [Group K] [Finite K] {p : ℕ} (h
 theorem pRank_map_eq_of_ker {H D : Type} [Group H] [Group D] [Finite H] [Finite D] {p : ℕ}
     (hp : p.Prime) (φ : H →* D) (hker : ¬ p ∣ Nat.card φ.ker) (U : Subgroup H) :
     CFSG.Open.pRank p (U.map φ) = CFSG.Open.pRank p U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_antisymm (CFSG.RankThree.PartTwo.Sec4.pRank_map_le_of_not_dvd hp φ hker U) ?_
   obtain ⟨E, hEU, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt U
   have hEp : IsPGroup p E := IsPGroup.iff_card.2 ⟨_, hcard⟩
@@ -126,7 +126,7 @@ theorem pRank_map_eq_of_ker {H D : Type} [Group H] [Group D] [Finite H] [Finite 
     have h2 : (e : H) ∈ E ⊓ φ.ker := ⟨e.2, h1⟩
     rw [hbot, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
-  haveI := hE.1
+  have := hE.1
   refine CFSG.SectionRank.le_pRank_of_injective hp.one_lt (fun a b => mul_comm' a b)
     (fun a => Subtype.ext (hE.2 _ a.2)) hcard _ hinj ?_
   rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -168,7 +168,7 @@ theorem orderSeven_mem_normalizer {H : Type} [Group H] [Finite H] {I : Subgroup 
     (hIc : CFSG.IsPComponent 7 I) (hI1 : CFSG.Open.pRank 7 I = 1)
     (hH6 : CFSG.Open.pRank 7 (⊤ : Subgroup H) ≤ 6) {e : H} (he : orderOf e = 7) :
     e ∈ Subgroup.normalizer (I : Set H) := by
-  haveI hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : Nat.Prime 7 := hF7.out
   by_contra hne
   obtain ⟨K, hKc, hIsub, hmap, hmin⟩ := id hIc
@@ -255,12 +255,12 @@ theorem exists_mul_mem_normalizer_sylow {X : Type} [Group X] [Finite X] {I Q : S
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q I) {e : X}
     (heN : e ∈ Subgroup.normalizer (I : Set X)) :
     ∃ j ∈ I, e * j ∈ Subgroup.normalizer (Q : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q', rfl⟩ := hQ
   let Γ : Subgroup X := Subgroup.normalizer (I : Set X)
   have hIΓ : I ≤ Γ := Subgroup.le_normalizer
   let N : Subgroup ↥Γ := I.subgroupOf Γ
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIΓ).2 le_rfl
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIΓ).2 le_rfl
   let e₀ : ↥N ≃* ↥I := Subgroup.subgroupOfEquivOfLe hIΓ
   have hsurj : Function.Surjective e₀.symm.toMonoidHom := e₀.symm.surjective
   let P'' : Sylow 3 ↥N := Q'.mapSurjective hsurj
@@ -340,8 +340,8 @@ theorem exists_order_seven_normalizer {X : Type} [Group X] [Finite X] {I Q C : S
 
 theorem card_modEq_fixed_seven {S : Type} [Finite S] (f : S → S) (hf : ∀ x, f^[7] x = x) :
     Nat.card S ≡ Nat.card {x : S | f x = x} [MOD 7] := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI := Fintype.ofFinite S
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have := Fintype.ofFinite S
   classical
   have key := Equiv.Perm.card_fixedPoints_modEq (α := S) (f := (f : Function.End S)) (p := 7)
     (n := 1) (by
@@ -358,7 +358,7 @@ theorem card_modEq_fixed_seven {S : Type} [Finite S] (f : S → S) (hf : ∀ x, 
 
 theorem mulAut_eq_one_of_card_le {Z : Type} [Group Z] [Finite Z] (hZ : IsPGroup 3 Z)
     (hcard : Nat.card Z ≤ 3 ^ 5) {β : MulAut Z} (hβ : β ^ 7 = 1) : β = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpow : ∀ (n : ℕ) (z : Z), (⇑β)^[n] z = (β ^ n) z := by
     intro n
     induction n with
@@ -400,14 +400,14 @@ theorem mulAut_eq_one_of_pRank_le_two {P : Type} [Group P] [Finite P] (hP : IsPG
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup P) ≤ 2) {α : MulAut P} (hα : α ^ 7 = 1) :
     α = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hnt : Nontrivial P
   swap
   · rw [not_nontrivial_iff_subsingleton] at hnt
     exact MulEquiv.ext fun x => Subsingleton.elim _ _
   obtain ⟨D, hDc, -, hDexp, -, -, hker⟩ :=
     CFSG.SectionRank.Ccomm.supercritical_witness (by norm_num : (3 : ℕ) ≠ 2) hP
-  haveI := hDc
+  have := hDc
   have hDp : IsPGroup 3 D := hP.to_subgroup D
   have hDexp' : ∀ x : D, x ^ 3 = 1 := fun x =>
     Subtype.ext (by rw [Subgroup.coe_pow, hDexp x x.2, Subgroup.coe_one])
@@ -434,7 +434,7 @@ theorem mulAut_eq_one_of_pRank_le_two {P : Type} [Group P] [Finite P] (hP : IsPG
 theorem exists_order_seven_not_mem {X : Type} [Group X] [Finite X] {C I : Subgroup X}
     (hC : 2 ≤ CFSG.Open.pRank 7 C) (hI1 : CFSG.Open.pRank 7 I ≤ 1) :
     ∃ e ∈ C, orderOf e = 7 ∧ e ∉ I := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEC, hE, hcard⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 7) C
   by_contra hcon
   push Not at hcon
@@ -504,7 +504,7 @@ theorem two_le_pRank_centralizer_final {X : Type} [Group X] [Finite X] {L Q : Su
     (hQ3 : IsPGroup 3 Q) (hQC : Q ≤ cMHat L) {y : X} (hy7 : orderOf y = 7) (hyC : y ∈ cMHat L)
     (hyQ : y ∈ Subgroup.centralizer (Q : Set X)) :
     2 ≤ CFSG.Open.pRank 7 (Subgroup.centralizer (Q : Set X)) := by
-  haveI hF3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hF3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN7 : ¬ 7 ∣ Nat.card (CFSG.pCore 2 X) := pRank_barO2_eq_aux_notDvdCard (by norm_num) (by norm_num)
   have hN3 : ¬ 3 ∣ Nat.card (CFSG.pCore 2 X) := pRank_barO2_eq_aux_notDvdCard (by norm_num) (by norm_num)
   let π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X)
@@ -597,7 +597,7 @@ theorem two_le_pRank_centralizer_of_pComponent_le_six (hKSML3 : KSML3) {T : Subg
     have := Subgroup.card_map_dvd L (toStar T)
     rw [hL.2, h168] at this
     exact (by norm_num : 7 ∣ 168).trans this
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨ℓ, hℓ⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 7 hdvd
   exact two_le_pRank_centralizer_final hZ ℓ.2 (by rw [Subgroup.orderOf_coe]; exact hℓ) hQ3
     (hQ.le.trans hI) hy7 hyC hyQ

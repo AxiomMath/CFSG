@@ -50,7 +50,7 @@ theorem uc22s2112l3p_false_of_invertSplit (hIS : L3InvertSplit) {D : Data G} (h1
     (hfaith : ∀ b ∈ c.B0, CentralizesBar b L → b = 1)
     (hMN : D.M ≤ normalizer (L : Set G)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   have hBM : c.B0 ≤ D.M := c.hBM
   have hTM : D.T ≤ D.M := D.sylowM.le
@@ -113,7 +113,7 @@ theorem uc22s2112l3p_false_of_invertSplit (hIS : L3InvertSplit) {D : Data G} (h1
     have h := congrArg Subtype.val (hBab.is_comm.comm ⟨(x' : G), hx'⟩ ⟨(y' : G), hy'⟩)
     exact h
   have hcard : Nat.card ↥(B'.map θ) = Nat.card ↥c.B0 := by
-    rw [← MonoidHom.restrict_range B' θ, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
+    rw [← MonoidHom.domRestrict_range B' θ, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBM).toEquiv
   have hperm : ((B'.map θ : Subgroup _) : Set (MulAut (BarInf L))) *
       ((T'.map θ : Subgroup _) : Set (MulAut (BarInf L))) =
@@ -147,7 +147,7 @@ theorem uc22s2112l3p_false_of_invertSplit (hIS : L3InvertSplit) {D : Data G} (h1
     exact (Nat.not_even_iff_odd.2 hBo) (even_iff_two_dvd.2 hdvd)
   have hdvdK := uc22s2112l3p_card_dvd_of_fixes hL.2.2 (hMN d₀.2) hd₀p hd₀2 hKperf hdK
   obtain ⟨r, hr, hrd, hrM⟩ := h149 L hL p hp hp2 hX
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvd' : r ∣ Nat.card ↥(L ⊓ centralizer ({(d₀ : G)} : Set G)) :=
     hrd.trans (by rw [← hKcard]; exact hdvdK)
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' r hdvd'

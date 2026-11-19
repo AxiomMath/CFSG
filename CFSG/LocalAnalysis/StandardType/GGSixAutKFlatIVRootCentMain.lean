@@ -16,6 +16,7 @@ section Congr
 
 variable {X : Type*} [Group X] [Finite X] (p : ℕ) [Fact p.Prime]
 
+omit [Finite X] [Fact (Nat.Prime p)] in
 theorem ggPComponent_subgroupOf_congr {A B B' : Subgroup X} (h : B = B')
     (hc : CFSG.IsPComponent p (A.subgroupOf B)) : CFSG.IsPComponent p (A.subgroupOf B') := by
   subst h
@@ -44,7 +45,7 @@ theorem ggItem5_gen (hS1' : GGStructSOnePrimeRoot) {p : ℕ} (hp : p.Prime) (hp2
     (hker : ∀ w : ↥(ggRCSImg r E ⊔ K), π w = 1 →
       (w : GGRCSNbar r) ∈ Subgroup.centralizer (K : Set (GGRCSNbar r))) :
     GGHypRestIVFlat p (((ggRCSImg r E).subgroupOf (ggRCSImg r E ⊔ K)).map π) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hx hx1 C hC
   have hx' := Subgroup.mem_map.mp hx
   obtain ⟨ē, hē, hēx⟩ := hx'

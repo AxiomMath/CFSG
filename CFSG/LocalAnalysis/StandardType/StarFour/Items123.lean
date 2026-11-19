@@ -52,7 +52,7 @@ theorem items_of_whole {P : Type} [CommGroup P] (η : P →* SpecialLinearGroup 
     have hfin : Module.finrank F (Fin (fr.m i) → fr.E i) =
         fr.m i * Module.finrank F (fr.E i) := by
       rw [Module.finrank_pi_fintype]
-      simp [Finset.sum_const, nsmul_eq_mul]
+      simp [Finset.sum_const]
     rw [hfin] at hle
     exact (Nat.mul_le_mul_right _ hm).trans hle
   have h1 : ∀ t, fr.blockPi i (fr.idx1 i hm2) (fr.blockIota i (fr.idx0 i hm2) t) = 0 :=

@@ -69,7 +69,7 @@ theorem nk_fork_contra {Q : Type} [Group Q] (Ks Vs Ms : Subgroup Q) [hKn : Ks.No
     (hstar : ∀ a ∈ Vs, ∀ b ∈ Ks, (a * b * a⁻¹ * b⁻¹) ^ 3 = 1 ∨ (a * b * a⁻¹ * b⁻¹) ^ 4 = 1 ∨
       (a * b * a⁻¹ * b⁻¹) ^ 5 = 1)
     (hIn : UIn ↥Ks) (hOut : UOut ↥Ks (Ms.subgroupOf Ks)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, haV, haK, ha1⟩ := nk_fork_inner Ks Vs Ms hVsq hVne hMV hcent hOut
   obtain ⟨hconj, z, g, hz, hzg⟩ := hIn
   set ak : ↥Ks := ⟨a, haK⟩ with hak
@@ -113,7 +113,7 @@ theorem nk_fork_contra {Q : Type} [Group Q] (Ks Vs Ms : Subgroup Q) [hKn : Ks.No
 
 theorem center_eq_bot_of_simple_nonab {X : Type} [Group X] (hs : IsSimpleGroup X)
     (hna : ∃ a b : X, a * b ≠ b * a) : Subgroup.center X = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
@@ -133,7 +133,7 @@ theorem nk_fork_star_data {G : Type} [Group G] [Finite G] {H T M K V : Subgroup 
         Subgroup.normalizer ((E2.star (H ⊓ M) H V : Subgroup (E2.StarQuot (H ⊓ M) H)) :
           Set (E2.StarQuot (H ⊓ M) H)) ∧
       ∀ y : E2.StarQuot (H ⊓ M) H, (∀ x ∈ E2.star (H ⊓ M) H K, y * x = x * y) → y = 1 := by
-  haveI hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   have hVs : IsElemAbelian 2 (E2.star (H ⊓ M) H V) := isElemAbelian_star_cs5 hVH hVe
   refine ⟨fun a ha => ?_, ?_, ?_, ?_⟩
   · have := hVs.2 a ha
@@ -150,7 +150,7 @@ theorem nk_fork_star_data {G : Type} [Group G] [Finite G] {H T M K V : Subgroup 
       isPGroup_starQuot_quotient_cs5 hT.2.1 hHK hTK
     have hO2 : ∀ N : Subgroup (E2.StarQuot (H ⊓ M) H), N.Normal → IsPGroup 2 N → N = ⊥ :=
       fun N hN hN2 => by
-        haveI := hN
+        have := hN
         exact normal_twoGroup_starQuot_eq_bot_cs5 hT hTM N hN2
     exact eq_one_of_centralizes_normal_cs5 (center_eq_bot_of_simple_nonab hs hna) hYX hO2
 
@@ -166,7 +166,7 @@ theorem nk_fork_star {G : Type} [Group G] [Finite G] {H T M K V : Subgroup G}
     (hIn : UIn ↥(E2.star (H ⊓ M) H K))
     (hOut : UOut ↥(E2.star (H ⊓ M) H K)
       ((E2.star (H ⊓ M) H ((H ⊓ M) ⊓ K)).subgroupOf (E2.star (H ⊓ M) H K))) : False := by
-  haveI hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   obtain ⟨hVsq, hVne, hMV, hcent⟩ := nk_fork_star_data hT hTM hHK hTK hs hna hVH hVe hVJ hP7
   exact nk_fork_contra (E2.star (H ⊓ M) H K) (E2.star (H ⊓ M) H V)
     (E2.star (H ⊓ M) H ((H ⊓ M) ⊓ K)) hVsq hVne hMV hcent hstar hIn hOut
@@ -181,7 +181,7 @@ theorem nk_fork_inner_star {G : Type} [Group G] [Finite G] {H T M K V : Subgroup
     (hOut : UOut ↥(E2.star (H ⊓ M) H K)
       ((E2.star (H ⊓ M) H ((H ⊓ M) ⊓ K)).subgroupOf (E2.star (H ⊓ M) H K))) :
     ∃ a ∈ E2.star (H ⊓ M) H V, a ∈ E2.star (H ⊓ M) H K ∧ a ≠ 1 := by
-  haveI hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hKn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   obtain ⟨hVsq, hVne, hMV, hcent⟩ := nk_fork_star_data hT hTM hHK hTK hs hna hVH hVe hVJ hP7
   exact nk_fork_inner (E2.star (H ⊓ M) H K) (E2.star (H ⊓ M) H V)
     (E2.star (H ⊓ M) H ((H ⊓ M) ⊓ K)) hVsq hVne hMV hcent hOut

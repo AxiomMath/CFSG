@@ -220,10 +220,10 @@ theorem cartan_term (i : Fin Tag.F4.rank) (b : Fin 52) (hb : (b : ℕ) < 4) :
       lvec R (if cartanOdd b i then [4 + rIdx (Pi.single i 1)] else []) := by
   by_cases hodd : (Tag.cartan Tag.F4 ⟨b, hb⟩ i).natAbs % 2 = 1
   · have hc : cartanOdd b i = true := by simp [cartanOdd, hb, hodd]
-    rw [hc, if_pos rfl, natCast_eq_ite, if_pos hodd, mul_one, one_smul,
+    rw [hc, ite_eq_left rfl, natCast_eq_ite, ite_eq_left hodd, mul_one, one_smul,
       rootVec_eq_lvec (isRoot_single Tag.F4 i)]
   · have hc : cartanOdd b i = false := by simp [cartanOdd, hb, hodd]
-    rw [hc, natCast_eq_ite, if_neg hodd, zero_mul, zero_smul]
+    rw [hc, natCast_eq_ite, ite_eq_right hodd, zero_mul, zero_smul]
     simp [lvec_nil]
 
 theorem xOp_one_single (i : Fin Tag.F4.rank) (b : Fin 52) :
@@ -273,8 +273,8 @@ theorem xOp_one_single (i : Fin Tag.F4.rank) (b : Fin 52) :
           (isRoot_string hk i h1 h2 m).2 ⟨by omega, by exact_mod_cast hmu⟩
         rw [one_pow, mul_one, natCast_eq_ite]
         by_cases hodd : (Nat.choose (Tag.F4.stringData.down ((b : ℕ) - 4) i + m) m) % 2 = 1
-        · rw [if_pos hodd, if_pos hodd, one_smul, rootVec_eq_lvec hroot]
-        · rw [if_neg hodd, if_neg hodd, zero_smul, lvec_nil]
+        · rw [ite_eq_left hodd, ite_eq_left hodd, one_smul, rootVec_eq_lvec hroot]
+        · rw [ite_eq_right hodd, ite_eq_right hodd, zero_smul, lvec_nil]
 
 
 theorem cartan_term_y (i : Fin Tag.F4.rank) (b : Fin 52) (hb : (b : ℕ) < 4) :
@@ -282,10 +282,10 @@ theorem cartan_term_y (i : Fin Tag.F4.rank) (b : Fin 52) (hb : (b : ℕ) < 4) :
       lvec R (if cartanOdd b i then [4 + rIdx (-Pi.single i 1)] else []) := by
   by_cases hodd : (Tag.cartan Tag.F4 ⟨b, hb⟩ i).natAbs % 2 = 1
   · have hc : cartanOdd b i = true := by simp [cartanOdd, hb, hodd]
-    rw [hc, if_pos rfl, natCast_eq_ite, if_pos hodd, mul_one, one_smul,
+    rw [hc, ite_eq_left rfl, natCast_eq_ite, ite_eq_left hodd, mul_one, one_smul,
       rootVec_eq_lvec (isRoot_neg_single Tag.F4 i)]
   · have hc : cartanOdd b i = false := by simp [cartanOdd, hb, hodd]
-    rw [hc, natCast_eq_ite, if_neg hodd, zero_mul, zero_smul]
+    rw [hc, natCast_eq_ite, ite_eq_right hodd, zero_mul, zero_smul]
     simp [lvec_nil]
 
 theorem yOp_one_single (i : Fin Tag.F4.rank) (b : Fin 52) :
@@ -336,7 +336,7 @@ theorem yOp_one_single (i : Fin Tag.F4.rank) (b : Fin 52) :
           rwa [neg_smul, ← sub_eq_add_neg] at this
         rw [one_pow, mul_one, natCast_eq_ite]
         by_cases hodd : (Nat.choose (Tag.F4.stringData.up ((b : ℕ) - 4) i + m) m) % 2 = 1
-        · rw [if_pos hodd, if_pos hodd, one_smul, rootVec_eq_lvec hroot]
-        · rw [if_neg hodd, if_neg hodd, zero_smul, lvec_nil]
+        · rw [ite_eq_left hodd, ite_eq_left hodd, one_smul, rootVec_eq_lvec hroot]
+        · rw [ite_eq_right hodd, ite_eq_right hodd, zero_smul, lvec_nil]
 
 end CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.F4Adjoint

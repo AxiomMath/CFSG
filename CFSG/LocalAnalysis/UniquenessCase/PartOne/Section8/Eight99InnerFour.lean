@@ -87,8 +87,9 @@ theorem r899_inner_of_le_normalizer {M K : Subgroup G} (hMK : M ≤ normalizer (
     congr 1
   rwa [h2] at h1
 
-theorem r899_exists_centralizesBar_of_inner {K : Subgroup G} {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hZ : center (Bar2 K) = ⊥)
+omit [Finite G] in
+theorem r899_exists_centralizesBar_of_inner {K : Subgroup G} {p : ℕ} (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (hZ : center (Bar2 K) = ⊥)
     (hle : ∀ Q : Subgroup (Bar2 K), IsElemAbelian p Q → Nat.card Q ≤ p)
     {B : Subgroup G} (hB : IsElemAbelian p B) (hBN : B ≤ normalizer (K : Set G))
     (hinn : ∀ b (hb : b ∈ B),

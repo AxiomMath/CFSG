@@ -42,12 +42,12 @@ theorem centralizer_eq_of_zpowers_eq {G : Type*} [Group G] {a b : G}
     ← zpowers_eq_closure, ← zpowers_eq_closure, h]
 
 theorem not_dvd_27_of_cover {Y R : Type*} [Group Y] [Finite Y] [Group R] {Z Y' : Subgroup Y}
-    [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (hZY' : Z ≤ Y') (hZ2 : Nat.card Z = 2)
+    [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (_hZY' : Z ≤ Y') (hZ2 : Nat.card Z = 2)
     (φ : Y' ⧸ Z.subgroupOf Y' ≃* R)
     (hR : ∀ s : R, orderOf s = 7 → ¬ 27 ∣ Nat.card (centralizer ({s} : Set R)))
     {y : Y} (hy : orderOf y = 7) : ¬ 27 ∣ Nat.card (centralizer ({y} : Set Y)) := by
   intro h27
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := centralizer ({y} : Set Y)) 3
     (n := 3) (by norm_num; exact h27)
   set T : Subgroup Y := K.map (centralizer ({y} : Set Y)).subtype with hTdef
@@ -121,8 +121,8 @@ theorem not_dvd_27_stdGroup :
   have hp3 : ¬ 7 ^ 3 ∣ Nat.card Rgrp := by
     rw [CFSG.LieType.Chevalley.C2E6Std.card_stdGroup]
     norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite Rgrp := rgrp_finite
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Rgrp := rgrp_finite
   obtain ⟨x₀, y₀, hx₀, hy₀, hc, hind, h0, hi⟩ := sylow_seven_fusion
   refine CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSeven.forall_of_sylow_elementary hp3
     hx₀ hy₀ hc hind ({rep7A, rep7B} : Set Rgrp) ?_ ?_
@@ -155,9 +155,9 @@ theorem not_dvd_27_card_centralizer (hT3 : BabyTableIII) {α x : NativeSporadic.
     (hα : BabyInv 0 α) (hx : orderOf x = 7)
     (hle : centralizer ({x} : Set NativeSporadic.B) ≤ centralizer ({α} : Set NativeSporadic.B)) :
     ¬ 27 ∣ Nat.card (centralizer ({x} : Set NativeSporadic.B)) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam hT3 hα
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤

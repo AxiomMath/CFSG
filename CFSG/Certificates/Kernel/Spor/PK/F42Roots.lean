@@ -292,9 +292,9 @@ private theorem idxR_rec (RC : List ℕ) (v : ℕ) (i : ℕ) :
       rw [ih (Nat.succ i)]
       have hx' : ¬ v = x := fun e => hx e.symm
       by_cases hv : v ∈ xs
-      · simp [hv, hx, hx', List.idxOf_cons]
-        omega
       · simp [hv, hx, hx']
+        omega
+      · simp [hv, hx']
 
 private theorem idxR_eq_rec (RC : List ℕ) (v : ℕ) : idxR RC v =
     (List.rec (motive := fun _ => Nat → Nat) (fun _ => 48)
@@ -305,7 +305,7 @@ private theorem idxR_eq (hRC : RC.length = 48) (v : ℕ) : idxR RC v = RC.idxOf 
   rw [idxR_eq_rec, idxR_rec]
   by_cases hv : v ∈ RC
   · simp [hv]
-  · rw [if_neg hv, List.idxOf_eq_length hv, hRC]
+  · rw [ite_eq_right hv, List.idxOf_eq_length hv, hRC]
 
 private theorem idxOf_congr {α β : Type} [BEq α] [LawfulBEq α] [BEq β] [LawfulBEq β]
     (a0 : α) (b0 : β) (x : α) (y : β) :

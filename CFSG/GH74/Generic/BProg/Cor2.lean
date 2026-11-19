@@ -127,7 +127,7 @@ theorem exists_sylow_two_ge_of_commute {B : Subgroup G} (hBel : IsElementaryAbel
     exact this
   obtain ⟨R, hR⟩ := hy'p.exists_le_sylow
   have hNR : B.subgroupOf C ≤ R := IsPGroup.le_sylow_of_normal hNp R
-  have hPy : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup'.map _
+  have hPy : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup.map _
   obtain ⟨P, hP⟩ := hPy.exists_le_sylow
   refine ⟨P, fun b hb => hP ⟨⟨b, hBC hb⟩, hNR (Subgroup.mem_subgroupOf.2 hb), rfl⟩,
     hP ⟨y', hR (Subgroup.mem_zpowers y'), rfl⟩⟩
@@ -144,7 +144,7 @@ theorem prop93 (hG : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a) {M :
   obtain ⟨n, φ, hφ⟩ := exists_hom_cyclic_of_not_mem_derived M hyM hny
   obtain ⟨hBM, hBel, -⟩ := hB.1
   obtain ⟨P, hBP, hyP⟩ := exists_sylow_two_ge_of_commute hBel hy2 hyB
-  have hPM : (P : Subgroup G) ≤ M := hc P B P.isPGroup' hB hBP
+  have hPM : (P : Subgroup G) ≤ M := hc P B P.isPGroup hB hBP
   have hysq : y * y = 1 := by
     have := pow_orderOf_eq_one y
     rwa [hy2, pow_two] at this
@@ -220,7 +220,7 @@ theorem prop93 (hG : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a) {M :
       IsExtremalIn 2 (P : Subgroup G) (g⁻¹ * y * g) →
         g⁻¹ * y * g ∈ Q ∨ y⁻¹ * (g⁻¹ * y * g) ∈ Q :=
     fun g h1 h2' => Or.inr (hfus g h1 h2')
-  rcases thompson_transfer_1515 (p := 2) P.isPGroup' P.not_dvd_index hQn
+  rcases thompson_transfer_1515 (p := 2) P.isPGroup P.not_dvd_index hQn
       hcyc hyP huQ hb hc with ⟨N, hN, hcycN, -, hyN⟩ | ⟨g, hgQ, hgext, -⟩
   ·
     rcases hG.eq_bot_or_eq_top_of_normal N with h0 | h0

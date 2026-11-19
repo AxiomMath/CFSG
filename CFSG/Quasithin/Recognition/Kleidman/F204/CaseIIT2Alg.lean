@@ -56,6 +56,7 @@ theorem le_of_le_sup_commutator {Q M H : Subgroup G} (hQ : IsPGroup 2 Q) (hMQ : 
   have := key n
   rwa [hn, sup_bot_eq] at this
 
+omit [Finite G] in
 theorem conj_mem_commutator {A B : Subgroup G} {g : G} (hA : ∀ x ∈ A, g * x * g⁻¹ ∈ A)
     (hB : ∀ x ∈ B, g * x * g⁻¹ ∈ B) {x : G} (hx : x ∈ ⁅A, B⁆) : g * x * g⁻¹ ∈ ⁅A, B⁆ := by
   induction hx using Subgroup.closure_induction with

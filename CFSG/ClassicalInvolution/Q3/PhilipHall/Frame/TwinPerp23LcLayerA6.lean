@@ -11,15 +11,15 @@ open scoped commutatorElement
 
 private theorem la6_perfect {K : Type*} [Group K] (e : K ≃* alternatingGroup (Fin 6)) :
     Group.IsPerfect K := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem la6_isQuasisimple {K : Type*} [Group K] (e : K ≃* alternatingGroup (Fin 6)) :
     CFSG.Open.IsQuasisimple K := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup K := e.isSimpleGroup
-  haveI : Group.IsPerfect K := la6_perfect e
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup K := e.isSimpleGroup
+  have : Group.IsPerfect K := la6_perfect e
   have hcen : Subgroup.center K = ⊥ := by
     refine (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center K)).resolve_right fun h => ?_
     have : IsMulCommutative K := Subgroup.center_eq_top_iff.mp h
@@ -50,7 +50,7 @@ private theorem la6_inv_conj {G : Type*} [Group G] {a : G} (ha3 : a ^ 3 = 1) {S 
   exact h _ (h x hx)
 
 private theorem la6_comm_mul {G : Type*} [Group G] {r r' d d' : G}
-    (h1 : Commute r d) (h2 : Commute r d') (h3 : Commute r' d) (h4 : Commute r' d')
+    (_h1 : Commute r d) (h2 : Commute r d') (h3 : Commute r' d) (_h4 : Commute r' d')
     (h5 : Commute d d') :
     r * d * (r' * d') * (r * d)⁻¹ * (r' * d')⁻¹ = r * r' * r⁻¹ * r'⁻¹ := by
   have e1 : r * d * (r' * d') = r * r' * (d * d') := h3.symm.mul_mul_mul_comm r d'
@@ -125,7 +125,7 @@ private theorem la6_normalizes {G : Type*} [Group G] {L A : Subgroup G} {a : G}
     · show a * ⁅x, y⁆ * a⁻¹ ∈ A
       rw [hxy]
       exact hAr
-  haveI := hperf
+  have := hperf
   have hAK : A ≤ K := by
     calc A = ⁅A, A⁆ := Subgroup.commutator_eq_self.symm
       _ ≤ K := hcomm

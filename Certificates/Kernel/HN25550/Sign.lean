@@ -125,7 +125,7 @@ theorem pathK_cons {i : ℕ} (hi : i < 1024) (hi0 : 0 < i) :
     pathK EP.PL i i = labOf EP.PL i :: pathK EP.PL (parOf EP.PL i) (parOf EP.PL i) := by
   obtain ⟨hp, -, -⟩ := tree_parts.2 i hi hi0
   obtain ⟨i', rfl⟩ : ∃ i', i = i' + 1 := ⟨i - 1, by omega⟩
-  rw [pathK_succ, if_neg (by omega), pathK_fuel _ (by omega) i' (by omega)]
+  rw [pathK_succ, ite_eq_right (by omega), pathK_fuel _ (by omega) i' (by omega)]
 
 theorem pathK_lt : ∀ i < 1024, ∀ j ∈ pathK EP.PL i i, j < 4 := by
   intro i
@@ -179,7 +179,7 @@ theorem wordVal_succ {G : Type*} [Group G] (g : ℕ → G) (l : List ℕ) :
   induction l with
   | nil => rfl
   | cons s l ih =>
-    rw [List.map_cons, wordVal_cons, ih, List.map_cons, List.prod_cons, if_pos (by omega)]
+    rw [List.map_cons, wordVal_cons, ih, List.map_cons, List.prod_cons, ite_eq_left (by omega)]
     congr 2
 
 theorem tab_gen {j : ℕ} (hj : j < 4) : TabRep gensP[j]! (phi6 (pgen j)) := by
@@ -236,7 +236,7 @@ theorem mem_mul_iff (x y : C6) : phi6 (x * y) ∈ Dsub ↔ (phi6 x ∈ Dsub ↔ 
 theorem prod_mem_iff {α : Type*} (x : α → C6) (b : α → ℕ) :
     ∀ l : List α, (∀ a ∈ l, (phi6 (x a) ∈ Dsub ↔ b a % 2 = 0)) →
       (phi6 (l.map x).prod ∈ Dsub ↔ (l.map b).sum % 2 = 0)
-  | [], _ => by simp [Subgroup.one_mem]
+  | [], _ => by simp
   | a :: l, h => by
     rw [List.map_cons, List.prod_cons, mem_mul_iff, h a List.mem_cons_self,
       prod_mem_iff x b l fun a' ha' => h a' (List.mem_cons_of_mem _ ha'), List.map_cons,
@@ -292,7 +292,7 @@ theorem pgen_mem_iff {j : ℕ} : phi6 (pgen j) ∈ Dsub ↔ PP.getD j 0 % 2 = 0 
   simp only [List.getD_eq_getElem?_getD, List.getElem?_map]
   cases PW[j]? with
   | none => simp
-  | some w => simp [Nat.mod_mod]
+  | some w => simp
 
 theorem node_mem_iff (i : ℕ) : phi6 (nodeEl i) ∈ Dsub ↔ parK PP (pathK EP.PL i i) = 0 := by
   rw [nodeEl, prod_mem_iff pgen (fun j => PP.getD j 0) _ fun j _ => pgen_mem_iff, parK_eq]
@@ -448,7 +448,7 @@ theorem s1 (t : C6) (htJ : (t : JH) = aJ) (ht1 : phi6 t = 1)
     (sq_of_ker_gen (sq_of htJ) (comm_of htJ _) (hker _ hk) (conj_sq (comm_of htJ) hg2))
 
 theorem codeEl_zero_gen {G : Type*} [Group G] (ρ : ℕ → G) : codeEl ρ 0 = (ρ 0)⁻¹ := by
-  rw [codeEl, if_neg (by norm_num), Nat.zero_div]
+  rw [codeEl, ite_eq_right (by norm_num), Nat.zero_div]
 
 theorem sq_of_word_gen {G : Type*} [Group G] (ρ : ℕ → G) (u : List ℕ)
     (h : wordEl ρ (List.append u (List.append u [0])) = 1) : wordEl ρ u * wordEl ρ u = ρ 0 := by

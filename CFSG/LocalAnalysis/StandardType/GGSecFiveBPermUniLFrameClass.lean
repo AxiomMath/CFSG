@@ -82,12 +82,12 @@ private theorem GGSecFiveBPermUniLFrame.two_le_card_diagClass
       (LinTorus.diagClass S δ i)).map ψ = ⊥ := by
     rw [GGSecFiveBPermUniLFrame.blockSU_eq_bot_of_card_le_one hK hcard, Subgroup.map_bot]
   have hJbot : J = ⊥ := le_bot_iff.mp (hiJ.trans (le_of_eq hbot))
-  haveI : Subsingleton ↥J := by
+  have : Subsingleton ↥J := by
     rw [hJbot]
     exact ⟨fun x y => Subtype.ext (by
       rw [Subgroup.mem_bot.mp x.2, Subgroup.mem_bot.mp y.2])⟩
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJq.2.toNontrivial
-  haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := inferInstance
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJq.2.toNontrivial
+  have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := inferInstance
   exact not_subsingleton _ ‹Subsingleton (↥J ⧸ Subgroup.center ↥J)›
 
 private theorem diagClass_eq_of_inter_nonempty {F : Type} [Field F] {G : Type} [Group G]
@@ -115,7 +115,7 @@ private theorem GGSecFiveBPermUniLFrame.blockSU_diagClass_le_of_layer
     (hK : UnitaryFieldData 2 f K) (hf : 2 ≤ f)
     (hker : ψ.ker ≤ Subgroup.center ↥(unitarySU 2 f K (m + 1)))
     (hδ : ∀ e ∈ S, (e, diagHom (m + 1) (δ e)) ∈ SUTorus.suPairs ψ)
-    (hJ : IsComponentOf J (ψ.range ⊓ Subgroup.centralizer S))
+    (_hJ : IsComponentOf J (ψ.range ⊓ Subgroup.centralizer S))
     (hJL : J = LargeEvenLayer (ψ.range ⊓ Subgroup.centralizer S))
     {i : Fin (m + 1)} (h2 : 2 ≤ (LinTorus.diagClass S δ i).card) :
     (TableBUE.blockSU (K := K) (n := f) (LinTorus.diagClass S δ i)).map ψ ≤ J := by
@@ -183,14 +183,14 @@ private theorem GGSecFiveBPermUniLFrame.mem_of_forall_coord_eq
     {i₀ : Fin (m + 1)}
     (hJI : J = (TableBUE.blockSU (K := K) (n := f) (LinTorus.diagClass S δ i₀)).map ψ) :
     ∀ i j : Fin (m + 1), i ≠ j →
-      (∀ (d : G) (hd : d ∈ S), δ d i = δ d j) →
+      (∀ (d : G) (_hd : d ∈ S), δ d i = δ d j) →
         i ∈ LinTorus.diagClass S δ i₀ ∧ j ∈ LinTorus.diagClass S δ i₀ := by
   intro i j hij heta
   have hiC : i ∈ LinTorus.diagClass S δ i := LinTorus.self_mem_diagClass S δ i
   have hjC : j ∈ LinTorus.diagClass S δ i := by
     rw [LinTorus.mem_diagClass]
-    intro d hd
-    exact (heta d hd).symm
+    intro d _hd
+    exact (heta d _hd).symm
   have hC2 : 2 ≤ (LinTorus.diagClass S δ i).card := by
     have hsub : ({i, j} : Finset (Fin (m + 1))) ⊆ LinTorus.diagClass S δ i := by
       intro k hk
@@ -219,18 +219,18 @@ private theorem GGSecFiveBPermUniLFrame.false_of_n_eq_zero
     (hF : GGSecFiveBPermUniLFrame Bs X eta π σ χ) {D J : Subgroup G}
     (hJ : IsComponentOf J (X ⊓ Subgroup.centralizer (D : Set G))) (hn : n = 0) : False := by
   subst hn
-  haveI : Subsingleton ↥(unitarySU 2 f K 0) :=
+  have : Subsingleton ↥(unitarySU 2 f K 0) :=
     ⟨fun a b => Subtype.ext (Units.ext (Matrix.ext fun i _ => Fin.elim0 i))⟩
   have hσ1 : σ = 1 := MonoidHom.ext fun g => by
     rw [MonoidHom.one_apply, show g = 1 from Subsingleton.elim g 1, map_one]
   have hX : X = ⊥ := hF.1.symm.trans (MonoidHom.range_eq_bot_iff.mpr hσ1)
   have hJbot : J = ⊥ := le_bot_iff.mp (by simpa [hX] using hJ.1)
-  haveI : Subsingleton ↥J := by
+  have : Subsingleton ↥J := by
     rw [hJbot]
     exact ⟨fun x y => Subtype.ext (by
       rw [Subgroup.mem_bot.mp x.2, Subgroup.mem_bot.mp y.2])⟩
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
-  haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := inferInstance
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+  have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := inferInstance
   exact not_subsingleton _ ‹Subsingleton (↥J ⧸ Subgroup.center ↥J)›
 
 theorem GGSecFiveBPermUniLFrame.mem_centralizer_map_blockSU_of_const
@@ -241,7 +241,7 @@ theorem GGSecFiveBPermUniLFrame.mem_centralizer_map_blockSU_of_const
   classical
   cases n with
   | zero =>
-    haveI : Subsingleton ↥(unitarySU 2 f K 0) :=
+    have : Subsingleton ↥(unitarySU 2 f K 0) :=
       ⟨fun a b => Subtype.ext (Units.ext (Matrix.ext fun i _ => Fin.elim0 i))⟩
     have hσ1 : σ = 1 := MonoidHom.ext fun g => by
       rw [MonoidHom.one_apply, show g = 1 from Subsingleton.elim g 1, map_one]
@@ -277,7 +277,7 @@ theorem GGSecFiveBPermUniLFrame.exists_eq_map_blockSU_of_layer [Finite G] [Finit
       intro e he
       have heB : e ∈ Bs := hD he
       have h := hF.suPairs_diagHom (⟨e, heB⟩ : ↥Bs)
-      simpa [δ, dif_pos heB] using h
+      simpa [δ, dite_eq_left heB] using h
     have hker : σ.ker ≤ Subgroup.center ↥(unitarySU 2 f K (m + 1)) := hF.ker_le_center
     obtain ⟨i, hiJ⟩ := SUTorus.exists_le_map_blockSU (ψ := σ) (m := m) hK hp hpq hker hδ hJ
     let I : Finset (Fin (m + 1)) := LinTorus.diagClass (D : Set G) δ i
@@ -295,12 +295,12 @@ theorem GGSecFiveBPermUniLFrame.exists_eq_map_blockSU_of_layer [Finite G] [Finit
         LinTorus.mem_diagClass.mp (by simpa [I] using hi') d hd
       have hj : δ d j' = δ d i :=
         LinTorus.mem_diagClass.mp (by simpa [I] using hj') d hd
-      exact hF.2.2.1 (by simpa [δ, dif_pos (hD hd)] using hi.trans hj.symm)
+      exact hF.2.2.1 (by simpa [δ, dite_eq_left (hD hd)] using hi.trans hj.symm)
     · intro i j hij heta
       have hδij : ∀ (d : G) (hd : d ∈ (D : Set G)), δ d i = δ d j := by
         intro d hd
         have h := congrArg χ (heta d hd)
-        simpa [δ, dif_pos (hD hd)] using h
+        simpa [δ, dite_eq_left (hD hd)] using h
       exact GGSecFiveBPermUniLFrame.mem_of_forall_coord_eq
         (S := (D : Set G)) hK hf hker hδ hJ hJL (by simpa [I] using hJI) i j hij hδij
 
@@ -499,7 +499,7 @@ theorem GGSecFiveBPermUniLFrame.exists_eq_map_blockSU_of_layer_two [Finite G] [F
       intro e he
       have heB : e ∈ Bs := hD he
       have h := hF.suPairs_diagHom (⟨e, heB⟩ : ↥Bs)
-      simpa [δ, dif_pos heB] using h
+      simpa [δ, dite_eq_left heB] using h
     have hker : σ₁.ker ≤ Subgroup.center ↥(unitarySU 2 1 K (m + 1)) := hF.ker_le_center
     obtain ⟨i, hiJ⟩ := SUTorus.exists_le_map_blockSU (ψ := σ₁) (m := m) hK hp hpq hker hδ hJ
     let I : Finset (Fin (m + 1)) := LinTorus.diagClass (D : Set G) δ i
@@ -519,12 +519,12 @@ theorem GGSecFiveBPermUniLFrame.exists_eq_map_blockSU_of_layer_two [Finite G] [F
         LinTorus.mem_diagClass.mp (by simpa [I] using hi') d hd
       have hj : δ d j' = δ d i :=
         LinTorus.mem_diagClass.mp (by simpa [I] using hj') d hd
-      exact hF.2.2.1 (by simpa [δ, dif_pos (hD hd)] using hi.trans hj.symm)
+      exact hF.2.2.1 (by simpa [δ, dite_eq_left (hD hd)] using hi.trans hj.symm)
     · intro i' hi' j heta
       refine LinTorus.mem_diagClass.mpr fun d hd => ?_
       have h1 : δ d j = δ d i' := by
         have h := congrArg χ (heta d hd)
-        simpa [δ, dif_pos (hD hd)] using h
+        simpa [δ, dite_eq_left (hD hd)] using h
       have h2 : δ d i' = δ d i :=
         LinTorus.mem_diagClass.mp (by simpa [I] using hi') d hd
       exact h1.trans h2
@@ -613,19 +613,19 @@ theorem GGSecFiveBPermUniLFrame.layer_eq_map_blockSU_two [Finite G] [Finite K] [
       intro e he
       have heB : e ∈ Bs := hD he
       have h := hF.suPairs_diagHom (⟨e, heB⟩ : ↥Bs)
-      simpa [δ, dif_pos heB] using h
+      simpa [δ, dite_eq_left heB] using h
     have hker : σ₁.ker ≤ Subgroup.center ↥(unitarySU 2 1 K (m + 1)) := hF.ker_le_center
     have hsmallδ : ∀ T : Finset (Fin (m + 1)), 4 ≤ T.card →
         (∀ e ∈ (D : Set G), ∀ a ∈ T, ∀ b ∈ T, δ e a = δ e b) → T ⊆ I := by
       intro T hT hconstT
       apply hsmall T hT
       intro d hd a ha b hb
-      exact hF.2.2.1 (by simpa [δ, dif_pos (hD hd)] using hconstT d hd a ha b hb)
+      exact hF.2.2.1 (by simpa [δ, dite_eq_left (hD hd)] using hconstT d hd a ha b hb)
     let C : Finset (Fin (m + 1)) := LinTorus.diagClass (D : Set G) δ i
     have hIC : I ⊆ C := fun j hj =>
       LinTorus.mem_diagClass.mpr fun d hd => by
         have h := congrArg χ (hconst d hd j hj i hiI)
-        simpa [δ, dif_pos (hD hd)] using h
+        simpa [δ, dite_eq_left (hD hd)] using h
     have hC4 : 4 ≤ C.card := hI4.trans (Finset.card_le_card hIC)
     have hconstC : ∀ e ∈ (D : Set G), ∀ a ∈ C, ∀ b ∈ C, δ e a = δ e b :=
       fun e he a ha b hb =>

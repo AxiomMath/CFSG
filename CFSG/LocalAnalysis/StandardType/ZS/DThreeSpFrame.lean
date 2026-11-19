@@ -134,7 +134,7 @@ private lemma list_prod_spT_apply {V : Type} [AddCommGroup V] [Module (ZMod 2) V
 private lemma repr_basis_inr_self {m : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     {e : Basis (Fin m ⊕ Fin m) (ZMod 2) V} (ii : Fin 4 → Fin m) :
     e.repr (e (Sum.inr (ii 0))) (Sum.inr (ii 0)) = 1 := by
-  rw [Module.Basis.repr_self_apply, if_pos rfl]
+  rw [Module.Basis.repr_self_apply, ite_eq_left rfl]
 
 private lemma f0_ne_zero {m : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     {e : Basis (Fin m ⊕ Fin m) (ZMod 2) V} (ii : Fin 4 → Fin m) :
@@ -186,11 +186,11 @@ private lemma apply_f0_basis {m : ℕ}
       ∀ k : Fin 4, k ≠ 0 → b (e (Sum.inr (ii 0))) (e (Sum.inl (ii k))) = 0 := by
   constructor
   · have h := hpairs (ii 0) (ii 0)
-    rw [if_pos rfl] at h
+    rw [ite_eq_left rfl] at h
     rwa [CFSG.LargeExtraspecial.OrthoF2.isAlt_symm (f := b) halt] at h
   · intro k hk
     have h := hpairs (ii k) (ii 0)
-    rw [if_neg (fun hik => hk (hii hik)),
+    rw [ite_eq_right (fun hik => hk (hii hik)),
       CFSG.LargeExtraspecial.OrthoF2.isAlt_symm (f := b) halt] at h
     exact h
 

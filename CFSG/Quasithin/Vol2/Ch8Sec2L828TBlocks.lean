@@ -242,7 +242,7 @@ theorem exists_hom_gl2' (Γ : Set (AddMonoid.End E)) (K : Type*) [Field K]
 
 theorem eq_diag_of_matrix_scalar (Γ : Set (AddMonoid.End E)) (K : Type*) [Field K]
     (κ : Subring.centralizer Γ ≃+* K) {X : Type*} [Group X] (ρ : X →* AddMonoid.End (E × E))
-    (hρ : ∀ x, ∀ γ ∈ Γ, ρ x * diagEnd γ = diagEnd γ * ρ x)
+    (_hρ : ∀ x, ∀ γ ∈ Γ, ρ x * diagEnd γ = diagEnd γ * ρ x)
     (f : X →* Matrix.GeneralLinearGroup (Fin 2) K)
     (hf : ∀ (x : X) (i j : Fin 2), ∃ hmem : blockMat (ρ x) i j ∈ Subring.centralizer Γ,
         κ ⟨blockMat (ρ x) i j, hmem⟩ = ((f x : Matrix.GeneralLinearGroup (Fin 2) K) :
@@ -261,20 +261,20 @@ theorem eq_diag_of_matrix_scalar (Γ : Set (AddMonoid.End E)) (K : Type*) [Field
   have hh : (f x : Matrix (Fin 2) (Fin 2) K) i j + (f x' : Matrix (Fin 2) (Fin 2) K) i j =
       if i = j then τ else 0 := by
     rw [← Matrix.add_apply, h]
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   have hsum : κ ⟨blockMat (ρ x) i j + blockMat (ρ x') i j, Subring.add_mem _ ha hb⟩ =
       κ ⟨blockMat (ρ x) i j, ha⟩ + κ ⟨blockMat (ρ x') i j, hb⟩ :=
     map_add κ ⟨blockMat (ρ x) i j, ha⟩ ⟨blockMat (ρ x') i j, hb⟩
   rw [ka, kb] at hsum
   by_cases hij : i = j
-  · rw [if_pos hij]
-    rw [if_pos hij] at hh
+  · rw [ite_eq_left hij]
+    rw [ite_eq_left hij] at hh
     have hk : κ ⟨blockMat (ρ x) i j + blockMat (ρ x') i j, Subring.add_mem _ ha hb⟩ =
         κ (κ.symm τ) := by
       rw [hsum, hh, κ.apply_symm_apply]
     exact congrArg Subtype.val (κ.injective hk)
-  · rw [if_neg hij]
-    rw [if_neg hij] at hh
+  · rw [ite_eq_right hij]
+    rw [ite_eq_right hij] at hh
     have hk : κ ⟨blockMat (ρ x) i j + blockMat (ρ x') i j, Subring.add_mem _ ha hb⟩ = κ 0 := by
       rw [hsum, hh, map_zero]
     exact congrArg Subtype.val (κ.injective hk)

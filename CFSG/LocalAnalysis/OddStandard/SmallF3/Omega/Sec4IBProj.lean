@@ -89,7 +89,7 @@ private noncomputable def sec4I_evenVecEquiv :
 
 theorem sec4I_card_isEvenVec : Nat.card {v : Fin 7 → ZMod 2 // IsEvenVec v} = 2 ^ 6 := by
   rw [Nat.card_congr sec4I_evenVecEquiv, Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun]
+  simp
 
 theorem sec4I_vecWeight_cases {v : Fin 7 → ZMod 2} (hv : IsEvenVec v) (h0 : v ≠ 0) :
     vecWeight v = 2 ∨ vecWeight v = 4 ∨ vecWeight v = 6 := by
@@ -154,6 +154,7 @@ theorem sec4I_perm_eq_one_of_fix (σ : Equiv.Perm (Fin 7))
   rw [hval] at hzero
   exact one_ne_zero hzero
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IT_ones (fr : Sec4IFrame Q) : sec4IT fr sec4IOnes = piOrth Q := by
   apply sec4I_ogroup_ext fr
   intro i
@@ -164,29 +165,35 @@ theorem sec4IT_ones (fr : Sec4IFrame Q) : sec4IT fr sec4IOnes = piOrth Q := by
 @[expose] noncomputable def sec4IPsi (fr : Sec4IFrame Q) (v : Fin 7 → ZMod 2) : ProjOrth Q :=
   toProj Q (sec4IT fr v)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_zero (fr : Sec4IFrame Q) : sec4IPsi fr 0 = 1 := by
   unfold sec4IPsi
   rw [sec4IT_zero, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_add (fr : Sec4IFrame Q) (v w : Fin 7 → ZMod 2) :
     sec4IPsi fr (v + w) = sec4IPsi fr v * sec4IPsi fr w := by
   unfold sec4IPsi
   rw [sec4IT_add, map_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_mul_self (fr : Sec4IFrame Q) (v : Fin 7 → ZMod 2) :
     sec4IPsi fr v * sec4IPsi fr v = 1 := by
   unfold sec4IPsi
   rw [← map_mul, sec4IT_mul_self, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_comm (fr : Sec4IFrame Q) (v w : Fin 7 → ZMod 2) :
     sec4IPsi fr v * sec4IPsi fr w = sec4IPsi fr w * sec4IPsi fr v := by
   rw [← sec4IPsi_add fr v w, ← sec4IPsi_add fr w v, add_comm]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_add_ones (fr : Sec4IFrame Q) (v : Fin 7 → ZMod 2) :
     sec4IPsi fr (v + sec4IOnes) = sec4IPsi fr v := by
   unfold sec4IPsi
   rw [sec4IT_add, sec4IT_ones, map_mul, toProj_piOrth, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_eq_iff (fr : Sec4IFrame Q) (v w : Fin 7 → ZMod 2) :
     sec4IPsi fr v = sec4IPsi fr w ↔ v = w ∨ v = w + sec4IOnes := by
   have hTV : (sec4IT fr v)⁻¹ = sec4IT fr v := by
@@ -227,6 +234,7 @@ theorem sec4IPsi_eq_iff (fr : Sec4IFrame Q) (v w : Fin 7 → ZMod 2) :
           _ = sec4IOnes := add_zero _
       rw [h, hvw, sec4IT_ones]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_injOn (fr : Sec4IFrame Q) {v w : Fin 7 → ZMod 2} (hv : IsEvenVec v)
     (hw : IsEvenVec w) (h : sec4IPsi fr v = sec4IPsi fr w) : v = w := by
   rcases (sec4IPsi_eq_iff fr v w).mp h with rfl | hvw
@@ -234,6 +242,7 @@ theorem sec4IPsi_injOn (fr : Sec4IFrame Q) {v w : Fin 7 → ZMod 2} (hv : IsEven
   · rw [hvw] at hv
     exact absurd hv (sec4I_not_isEvenVec_add_ones hw)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_ne_one (fr : Sec4IFrame Q) {v : Fin 7 → ZMod 2} (hv : IsEvenVec v)
     (h0 : v ≠ 0) : sec4IPsi fr v ≠ 1 := by
   intro h
@@ -254,14 +263,17 @@ theorem sec4IPsi_ne_one (fr : Sec4IFrame Q) {v : Fin 7 → ZMod 2} (hv : IsEvenV
     refine ⟨v, hv, ?_⟩
     exact (inv_eq_of_mul_eq_one_right (sec4IPsi_mul_self fr v)).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_sec4IB0_iff (fr : Sec4IFrame Q) {x : ProjOrth Q} :
     x ∈ sec4IB0 fr ↔ ∃ v, IsEvenVec v ∧ sec4IPsi fr v = x :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_mem_sec4IB0 (fr : Sec4IFrame Q) {v : Fin 7 → ZMod 2} (hv : IsEvenVec v) :
     sec4IPsi fr v ∈ sec4IB0 fr :=
   ⟨v, hv, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IB0_card (fr : Sec4IFrame Q) : Nat.card (sec4IB0 fr) = 2 ^ 6 := by
   let f : {v : Fin 7 → ZMod 2 // IsEvenVec v} → sec4IB0 fr :=
     fun v => ⟨sec4IPsi fr v.1, sec4IPsi_mem_sec4IB0 fr v.2⟩
@@ -279,6 +291,7 @@ theorem sec4IB0_card (fr : Sec4IFrame Q) : Nat.card (sec4IB0 fr) = 2 ^ 6 := by
         (Nat.card_congr (Equiv.ofBijective f ⟨hf_inj, hf_surj⟩)).symm
     _ = 2 ^ 6 := sec4I_card_isEvenVec
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IB0_isElemAbelian (fr : Sec4IFrame Q) :
     CFSG.Open.IsElemAbelian 2 (sec4IB0 fr) := by
   constructor

@@ -70,7 +70,7 @@ theorem gomiChevRadicalTop_of_quotient_center {X : Type} [Group X] [Finite X]
       Subgroup (X ⧸ center X)) : Set (X ⧸ center X)) ≤
       P.map (QuotientGroup.mk' (center X)) := by
     rw [Sylow.coe_mapSurjective, ← map_comap_eq_self_of_surjective hπ (normalizer _),
-      ← LieType.BorelTits.normalizer_eq_comap_normalizer_map (center X) le_rfl hZ S.isPGroup']
+      ← LieType.BorelTits.normalizer_eq_comap_normalizer_map (center X) le_rfl hZ S.isPGroup]
     exact map_mono hSP
   have hPt : P.map (QuotientGroup.mk' (center X)) ≠ ⊤ := by
     intro h'

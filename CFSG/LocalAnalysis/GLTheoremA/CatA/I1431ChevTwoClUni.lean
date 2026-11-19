@@ -26,7 +26,7 @@ theorem false_of_twistedA_high (hGA : CFSG.Open.GriessAllModelsStatement)
   have h3K : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 := exists_prime_orderOf_dvd_card' 3 h3K
   obtain ⟨ρ, hρ⟩ := exists_suHom_to_cover hGA h hC e0 (by omega) h2
     (QuotientGroup.mk' (Subgroup.center Y)) (QuotientGroup.mk'_surjective _)

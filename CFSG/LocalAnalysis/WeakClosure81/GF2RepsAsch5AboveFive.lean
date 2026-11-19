@@ -26,7 +26,7 @@ theorem asch5_11AS_of_aboveFive
     (h54 : Asch5_4) (h412 : Asch4_12ASAboveFive)
     (hPS : Asch5_PSp4Three) : Asch5_11AS :=
   asch5_11AS_of_shapes h54
-    (fun p hp hp5 => shapeInEAS_psp4_aboveFive h412 hp hp5) hPS
+    (fun _p hp hp5 => shapeInEAS_psp4_aboveFive h412 hp hp5) hPS
 
 section
 

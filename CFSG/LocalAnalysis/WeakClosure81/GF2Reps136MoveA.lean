@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊔ B) := by
   intro x hx u hu
@@ -24,12 +25,14 @@ private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup 
   rw [map_mul]
   exact Subgroup.mul_mem_sup (hA x hx a ha) (hB x hx b hb)
 
+omit [Finite W] in
 private theorem w1369_stableUnder_inf {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊓ B) := by
   intro x hx u hu
   obtain ⟨huA, huB⟩ := Subgroup.mem_inf.mp hu
   exact Subgroup.mem_inf.mpr ⟨hA x hx u huA, hB x hx u huB⟩
 
+omit [Finite W] in
 private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   apply le_antisymm
@@ -49,6 +52,7 @@ private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
       (Subgroup.subset_closure ⟨x, hx, b, hb, rfl⟩)
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem w1369_stableUnder_fixV (X : Subgroup (MulAut W)) : StableUnder X (fixV X) := by
   intro x hx u hu
   rw [mem_fixV] at hu ⊢
@@ -57,6 +61,7 @@ private theorem w1369_stableUnder_fixV (X : Subgroup (MulAut W)) : StableUnder X
     _ = u := hu (z * x) (X.mul_mem hz hx)
     _ = x u := (hu x hx).symm
 
+omit [Finite W] in
 private theorem w1369_commSub_fixV_bot (X : Subgroup (MulAut W)) : commSub (fixV X) X = ⊥ :=
   commSub_eq_bot_iff.mpr le_rfl
 
@@ -66,12 +71,14 @@ structure Move136 (Y : Subgroup (MulAut W)) (t : MulAut W) (L : Subgroup (MulAut
   hI : I ∈ irrSet L
   hmove : I.map t.toMonoidHom ≠ I
 
+omit [Finite W] in
 private theorem w1369_mul_self {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {I : Subgroup W} (S : Move136 Y t L I) : t * t = 1 := by
   have h := pow_orderOf_eq_one t
   rw [S.ctx.std.t2] at h
   simpa [pow_two] using h
 
+omit [Finite W] in
 theorem move_conj_irr {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)}
     {I : Subgroup W} (S : Move136 Y t L I) :
     I.map t.toMonoidHom ∈ irrSet L ∧ (I.map t.toMonoidHom).map t.toMonoidHom = I ∧
@@ -88,11 +95,12 @@ theorem move_conj_irr {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (Mu
   refine ⟨hmem, ?_, hItstab⟩
   rw [Subgroup.map_map, hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 theorem move_symm {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)}
     {I : Subgroup W} (S : Move136 Y t L I) : Move136 Y t L (I.map t.toMonoidHom) :=
   ⟨S.ctx, (move_conj_irr S).1, fun h => S.hmove (((move_conj_irr S).2.1) ▸ h).symm⟩
 
-theorem move_inter (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
+theorem move_inter (_hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {I : Subgroup W} (S : Move136 Y t L I) :
     I ⊓ I.map t.toMonoidHom ≤ fixV L := by
   obtain ⟨-, -, hItstab⟩ := move_conj_irr S
@@ -121,6 +129,7 @@ theorem move_inter (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
       Subgroup.eq_of_le_of_card_ge hIle (le_of_eq hcard)
     exact S.hmove hEq.symm
 
+omit [Finite W] in
 private theorem w1369_mQuot_eq_rk_sect (I Z : Subgroup W) :
     E3.mQuot I Z = rk ↥(⊤ : Subgroup (Sect I Z)) := by
   rw [CFSG.Quasithin.rk_top]
@@ -166,13 +175,14 @@ private theorem w1369_eq_of_le_of_mQuot_eq (hw2 : ∀ w : W, w ^ 2 = 1) {A B I :
   have hB2 : IsPGroup 2 ↥B := (CFSG.Quasithin.isPGroup_two_of_sq_eq_one hw2).to_subgroup B
   exact (E3.mQuot_eq_zero_iff hB2 hAB).mp h0
 
+omit [Finite W] in
 private theorem w1369_fix_mod_le {L : Subgroup (MulAut W)} {I : Subgroup W} (hI : I ∈ irrSet L)
     {a : W} (ha : a ∈ I) (h : ∀ l ∈ L, l a * a⁻¹ ∈ fixV L) : a ∈ fixV L := by
   obtain ⟨hIcomm, hIlt, hIstab, -, hirr⟩ := hI
   set Z : Subgroup W := I ⊓ fixV L with hZ
   let X : Subgroup W :=
     { carrier := {x | x ∈ I ∧ ∀ l ∈ L, l x * x⁻¹ ∈ fixV L}
-      one_mem' := ⟨I.one_mem, fun l _ => by simpa using (fixV L).one_mem⟩
+      one_mem' := ⟨I.one_mem, fun l _ => by simp⟩
       mul_mem' := fun {x y} hx hy =>
         ⟨I.mul_mem hx.1 hy.1, fun l hl => by
           have h1 : l (x * y) * (x * y)⁻¹ = (l x * x⁻¹) * (l y * y⁻¹) := by
@@ -294,6 +304,7 @@ theorem move_rank (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : Mu
     exact himage_le
   exact ⟨hmQuot3, hCt_eq, hmap_eq, hjoin⟩
 
+omit [Finite W] in
 private theorem w1369_zpowers_mem_of_mem {U : Subgroup W} {t : MulAut W} (ht2 : t * t = 1)
     (ht : ∀ u ∈ U, t u ∈ U) : ∀ x ∈ Subgroup.zpowers t, ∀ u ∈ U, x u ∈ U := by
   intro x hx u hu

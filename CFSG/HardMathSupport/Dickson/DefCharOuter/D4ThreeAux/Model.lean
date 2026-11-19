@@ -28,7 +28,7 @@ theorem perfectInLayer_of_fieldType (α : MulAut (adjointGroup Tag.D4 K)) (hα3 
     (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1)
     (hσ1 : σ ≠ 1) (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
     PerfectInLayer α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ :=
     exists_frobenius_of_cube Nat.prime_three hf K hK σ hσ3 hσ1
@@ -63,7 +63,7 @@ theorem perfectInLayer_of_graphFieldType (α : MulAut (adjointGroup Tag.D4 K)) (
     (hε0 : ε ≠ 0) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     PerfectInLayer α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, T, he, hef, hT, hσT⟩ :=

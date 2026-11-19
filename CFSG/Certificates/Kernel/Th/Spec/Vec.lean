@@ -60,17 +60,17 @@ theorem cmin_eq (a b : ℕ) : cmin a b = if a < b then a else b := by
   unfold cmin
   by_cases h : a < b
   · have : Nat.blt a b = true := by simpa [Nat.blt_eq] using h
-    rw [this, if_pos h]
+    rw [this, ite_eq_left h]
   · have : Nat.blt a b = false := Bool.eq_false_iff.2 (by simpa [Nat.blt_eq] using h)
-    rw [this, if_neg h]
+    rw [this, ite_eq_right h]
 
 theorem cmax_eq (a b : ℕ) : cmax a b = if a < b then b else a := by
   unfold cmax
   by_cases h : a < b
   · have : Nat.blt a b = true := by simpa [Nat.blt_eq] using h
-    rw [this, if_pos h]
+    rw [this, ite_eq_left h]
   · have : Nat.blt a b = false := Bool.eq_false_iff.2 (by simpa [Nat.blt_eq] using h)
-    rw [this, if_neg h]
+    rw [this, ite_eq_right h]
 
 theorem canon2_eq {u v : ℕ} (hu : u < 2 ^ 256) (hv : v < 2 ^ 256) :
     canon2 u v = cmin u (cmin v (u ^^^ v)) + 2 ^ 256 *

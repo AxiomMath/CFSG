@@ -58,7 +58,7 @@ private lemma no_root_sq_add_sq {K : Type} [Field K] [Finite K] (hK : Nat.card K
     · exact Or.inl hx0
     · exact Or.inr ((hu x hx0).trans (hu 1 one_ne_zero).symm)
   rcases hx ω with rfl | rfl
-  · exact (one_ne_zero : (1 : K) ≠ 0) (by simpa using hω)
+  · exact (one_ne_zero : (1 : K) ≠ 0) (by simp at hω)
   · exact h3 (by rw [show (3 : K) = 1 ^ 2 + 1 + 1 by norm_num]; exact hω)
 
 private lemma not_isPlusType_grng {K : Type} [Field K] [Finite K] [CharP K 2]

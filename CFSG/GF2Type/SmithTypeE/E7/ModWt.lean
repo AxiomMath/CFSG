@@ -27,8 +27,8 @@ theorem wt7_forIn_flag (q : Nat → Bool) (b : Bool) (L : List Nat) :
     simp only [List.forIn_cons, List.any_cons]
     by_cases ha : q a = true
     · simp [ha]
-    · simp only [ha, if_false, Bool.false_or] at ih ⊢
-      simp [ha, ih]
+    · simp only [ha, Bool.false_or] at ih ⊢
+      simp [ih]
 
 theorem wt7_mf7All_eq (n : Nat) (p : Nat → Bool) :
     mf7All n p = !((List.range' 0 n).any fun i => !p i) := by
@@ -37,8 +37,8 @@ theorem wt7_mf7All_eq (n : Nat) (p : Nat → Bool) :
     Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
   simp only [wt7_forIn_flag, pure_bind]
   by_cases hA : (List.range' 0 n).any (fun i => !p i) = true
-  · simp [hA] <;> rfl
-  · simp [hA] <;> rfl
+  · simp [hA]; rfl
+  · simp [hA]; rfl
 
 theorem wt7_mf7Any_eq (n : Nat) (p : Nat → Bool) :
     mf7Any n p = (List.range' 0 n).any p := by
@@ -47,13 +47,13 @@ theorem wt7_mf7Any_eq (n : Nat) (p : Nat → Bool) :
     Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
   simp only [wt7_forIn_flag, pure_bind]
   by_cases hA : (List.range' 0 n).any p = true
-  · simp [hA] <;> rfl
-  · simp [hA] <;> rfl
+  · simp [hA]; rfl
+  · simp [hA]; rfl
 
 theorem wt7_all_iff (n : Nat) (p : Nat → Bool) :
     mf7All n p = true ↔ ∀ i < n, p i = true := by
   rw [wt7_mf7All_eq]
-  simp [List.any_eq_true, List.mem_range'_1]
+  simp [List.mem_range'_1]
 
 theorem wt7_any_iff (n : Nat) (p : Nat → Bool) :
     mf7Any n p = true ↔ ∃ i < n, p i = true := by
@@ -150,7 +150,7 @@ theorem exists_adj7 {i : Nat} (hi : i < 75735) :
     ∃ j < 75735, adjW i j = true ∧ wt j ≠ wt i :=
   wt7_check_wt.2.2 i hi
 
-theorem wt_ne_xor7 {i j : Nat} (hi : i < 75735) (hj : j < 75735)
+theorem wt_ne_xor7 {i j : Nat} (_hi : i < 75735) (_hj : j < 75735)
     (h : adjW i j = false) : ∀ k < 75735, wt k ≠ wt i ^^^ wt j := by
   intro k hk heq
   have h1 : wtIdx (wt i ^^^ wt j) < 75735 := by

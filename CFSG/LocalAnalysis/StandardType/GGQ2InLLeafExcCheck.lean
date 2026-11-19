@@ -100,8 +100,7 @@ private theorem sum_fin_eq_dotZ (r h : List ℤ) :
     | nil => simp [dotZ]
     | cons b bs =>
       rw [List.length_cons, Fin.sum_univ_succ]
-      simp only [List.getD_cons_zero, List.getD_cons_succ, Fin.val_zero, Fin.val_succ,
-        Nat.zero_add]
+      simp only [List.getD_cons_zero, List.getD_cons_succ, Fin.val_zero, Fin.val_succ]
       rw [ih bs]
       rfl
 
@@ -133,11 +132,11 @@ private theorem pairing_eq_zero_of_left_nil {m : Fin 6} {i j : Root m}
   by_cases hm : m.val = 3
   · have hi' : (tabF 2).getD i.val [] = [] := by simpa [ptabF, hm] using hi
     unfold pairing
-    rw [if_pos hm, hi']
+    rw [ite_eq_left hm, hi']
     simp
   · have hi' : (tabF m).getD i.val [] = [] := by simpa [ptabF, hm] using hi
     unfold pairing
-    rw [if_neg hm]
+    rw [ite_eq_right hm]
     change (∑ k : Fin (dim m), ((tabF m).getD i []).getD k 0 *
       ((tabH m).getD j []).getD k 0) = 0
     rw [hi']
@@ -148,11 +147,11 @@ private theorem pairing_eq_zero_of_right_nil {m : Fin 6} {i j : Root m}
   by_cases hm : m.val = 3
   · have hj' : (tabH 2).getD j.val [] = [] := by simpa [ptabH, hm] using hj
     unfold pairing
-    rw [if_pos hm, hj']
+    rw [ite_eq_left hm, hj']
     simp
   · have hj' : (tabH m).getD j.val [] = [] := by simpa [ptabH, hm] using hj
     unfold pairing
-    rw [if_neg hm]
+    rw [ite_eq_right hm]
     change (∑ k : Fin (dim m), ((tabF m).getD i []).getD k 0 *
       ((tabH m).getD j []).getD k 0) = 0
     rw [hj']
@@ -202,12 +201,12 @@ private theorem cols_getElem! (t : List (List ℤ)) (N d j : ℕ) :
 private theorem col_val (t : List (List ℤ)) (N j i : ℕ) (hi : i < N) :
     (col t N j).val i = ((mod3 ((t.getD i []).getD j 0) : ℕ) : ZMod 3) := by
   unfold col
-  rw [ofFnS_eq, V.val_ofFn, if_pos hi]
+  rw [ofFnS_eq, V.val_ofFn, ite_eq_left hi]
 
 private theorem vec_val (d : ℕ) (l : List ℕ) (j : ℕ) (hj : j < d) :
     (vec d l).val j = (l.getD j 0 : ZMod 3) := by
   unfold vec
-  rw [ofFnS_eq, V.val_ofFn, if_pos hj]
+  rw [ofFnS_eq, V.val_ofFn, ite_eq_left hj]
 
 private theorem testBit_zeroMask_combS (m : Fin 6) (t : List (List ℤ)) (l : List ℕ)
     {i : ℕ} (hi : i < nroots m) :
@@ -220,11 +219,11 @@ private theorem testBit_zeroMask_combS (m : Fin 6) (t : List (List ℤ)) (l : Li
     intro j
     rw [cols_getElem!]
     by_cases hj : j < dim m
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       unfold col
       rw [ofFnS_eq]
       exact V.wf_ofFn _ _
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       exact V.wf_zero
   have hr : (vec (dim m) l).wf = true := by
     unfold vec
@@ -237,7 +236,7 @@ private theorem testBit_zeroMask_combS (m : Fin 6) (t : List (List ℤ)) (l : Li
         (l.getD j 0 : ZMod 3) := by
     apply Finset.sum_congr rfl
     intro j hj
-    rw [vec_val _ _ _ (List.mem_range.1 hj), cols_getElem!, if_pos (List.mem_range.1 hj),
+    rw [vec_val _ _ _ (List.mem_range.1 hj), cols_getElem!, ite_eq_left (List.mem_range.1 hj),
       col_val _ _ _ _ hi, natCast_mod3, mul_comm]
   rw [hsum]
 

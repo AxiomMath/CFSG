@@ -53,7 +53,7 @@ theorem core_odd_overgroup {m : ℕ} (hm : 9 ≤ m) (hmodd : Odd m)
         structure_component_odd p (by simpa using hm) (by simpa using hmodd) hYA hB hcomp hmove
       exact ⟨k, by simpa using hkm, ⟨hKe.symm.trans ek⟩⟩
   · refine ⟨3, by omega, ?_⟩
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact ⟨mulEquivOfPrimeCardEq h3 nat_card_alt_three⟩
 
 end CFSG.QuasithinUnique.L246C127.AltBig

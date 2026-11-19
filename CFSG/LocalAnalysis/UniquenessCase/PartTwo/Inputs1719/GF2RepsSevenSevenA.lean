@@ -39,7 +39,7 @@ theorem nonempty_acandidate_aParam_self [Finite W] {K Y : Subgroup (MulAut W)} [
   exact nonempty_aCandidate_of_surjective hKq hW K hLn hLq e.toMonoidHom e.surjective
 
 theorem w4Lem7_7_two_le [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {Y K A : Subgroup (MulAut W)}
-    {k : ℕ} [Finite ↥K] (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
+    {k : ℕ} [Finite ↥K] (hK : IsComponentOf K Y) (_hA : A ∈ E3.aSet k Y)
     (hlt : ∀ n, Nonempty (ACandidate ↥K n) → n < k) : 2 ≤ k := by
   have h2prime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2

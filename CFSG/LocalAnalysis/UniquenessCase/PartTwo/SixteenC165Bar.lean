@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
     (hM : M ≤ stabTil V₀ V) : ↥M →* MulAut (Vtil V₀ V hV) :=
   (actTil V₀ V hV).comp (Subgroup.inclusion hM)
 
+omit [Finite G] in
 theorem range_barHom (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {M : Subgroup G}
     (hM : M ≤ stabTil V₀ V) : (barHom V₀ V hV hM).range = barSub V₀ V hV M := by
   unfold barHom barSub
@@ -115,6 +116,7 @@ theorem sup_inf_cTilde_eq_of_disjoint_barSub
   rw [hmap_lhs, hmap_rhs] at hmap_eq
   exact hmap_eq
 
+omit [Finite G] in
 theorem barHom_fix_iff (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {M : Subgroup G}
     (hM : M ≤ stabTil V₀ V) (y : ↥M) (x : IntMod V hV) :
     barHom V₀ V hV hM y (mkTil V₀ V hV x) = mkTil V₀ V hV x ↔
@@ -125,7 +127,7 @@ theorem barHom_fix_iff (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {M : Subgr
 
 theorem isPGroup_two_subgroupOf_sylow (D : Data G) :
     IsPGroup 2 ↥(D.T.subgroupOf D.M) ∧ ¬ 2 ∣ (D.T.subgroupOf D.M).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hP, hdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 D.sylowM
   exact ⟨hP.comap_subtype, hdvd⟩
 
@@ -149,7 +151,7 @@ theorem exists_omegaModel_bar {D : Data G} (h3 : R16_3_2 D) {V₀ V L : Subgroup
 theorem exists_isElemAbelian_subgroupOf_of_le_pRank {M : Subgroup G} {p k : ℕ} (hp : p.Prime)
     (h : k ≤ CFSG.Open.pRank p M) :
     ∃ E : Subgroup ↥M, IsElemAbelian p E ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, hAM, hAel, hAcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp M
   have hdvd : p ^ k ∣ Nat.card A := by
     rw [hAcard]
@@ -161,9 +163,9 @@ theorem exists_isElemAbelian_subgroupOf_of_le_pRank {M : Subgroup G} {p k : ℕ}
     Subgroup.card_map_of_injective A.subtype_injective, hK]
 
 theorem card_le_of_isElemAbelian_le_subgroupOf {M C : Subgroup G} {p : ℕ} (hp : p.Prime)
-    (hC : CFSG.Open.pRank p C ≤ 1) (hCM : C ≤ M) {E : Subgroup ↥M} (hE : IsElemAbelian p E)
+    (hC : CFSG.Open.pRank p C ≤ 1) (_hCM : C ≤ M) {E : Subgroup ↥M} (hE : IsElemAbelian p E)
     (hEC : E ≤ C.subgroupOf M) : Nat.card E ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hE.isPGroup.exists_card_eq
   have hle : E.map M.subtype ≤ C := by
     rintro _ ⟨x, hx, rfl⟩

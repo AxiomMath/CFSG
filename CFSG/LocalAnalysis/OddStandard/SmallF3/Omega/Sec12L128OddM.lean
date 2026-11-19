@@ -64,10 +64,10 @@ private lemma closure_Sodd_normal : (Subgroup.closure Sodd).Normal := by
   refine ⟨fun n hn g => ?_⟩
   induction hn using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (conj_mem_Sodd g hx)
-  | one => simpa using Subgroup.one_mem (Subgroup.closure Sodd)
+  | one => simp
   | mul x y hx hy ihx ihy =>
       have hxy : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by
-        simpa [MulAut.conj_apply] using map_mul (MulAut.conj g) x y
+        simp
       rw [hxy]
       exact Subgroup.mul_mem _ ihx ihy
   | inv x hx ih =>
@@ -79,7 +79,7 @@ private lemma closure_Sodd_normal : (Subgroup.closure Sodd).Normal := by
 theorem sec128_model_oddNormal_bot
     (N : Subgroup (Multiplicative (ZMod 2) × ↥(alternatingGroup (Fin 5)))) [N.Normal]
     (hN : Odd (Nat.card N)) : N = ⊥ := by
-  haveI hNmap : (N.map pi2).Normal := (inferInstance : N.Normal).map pi2 pi2_surjective
+  have hNmap : (N.map pi2).Normal := (inferInstance : N.Normal).map pi2 pi2_surjective
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map pi2) with hbot | htop
   · rw [Subgroup.eq_bot_iff_forall]
     intro n hn
@@ -129,7 +129,7 @@ theorem sec128_model_oTwo_le
     rw [h, orderOf_one] at ha3
     exact absurd ha3 (by norm_num)
   have hcomap_top : (Subgroup.closure Sodd).comap iota2 = ⊤ := by
-    haveI : ((Subgroup.closure Sodd).comap iota2).Normal := closure_Sodd_normal.comap iota2
+    have : ((Subgroup.closure Sodd).comap iota2).Normal := closure_Sodd_normal.comap iota2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Subgroup.closure Sodd).comap iota2) with
       h | h
     · rw [h] at ha3mem
@@ -150,7 +150,7 @@ theorem sec128_model_oTwo_le
     rw [← pow_two, ← ha2, pow_orderOf_eq_one]
   have hPall : ∀ a : Alt5, iota2 a ∈ P := by
     have hcomapP : P.comap iota2 = ⊤ := by
-      haveI : (P.comap iota2).Normal := (inferInstance : P.Normal).comap iota2
+      have : (P.comap iota2).Normal := (inferInstance : P.Normal).comap iota2
       have ha2mem : a2 ∈ P.comap iota2 := by
         show iota2 a2 ∈ P
         refine hP' (iota2 a2) (hAall a2) ?_

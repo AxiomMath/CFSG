@@ -37,10 +37,10 @@ theorem listRecAnd_iff {α : Type} (f : α → Bool) : ∀ l : List α,
     rw [bAnd_eq, Bool.and_eq_true, listRecAnd_iff f l, List.forall_mem_cons]
 
 theorem listHead_of (F : ℕ → Bool) : ∀ c : List ℕ,
-    List.rec (motive := fun _ => Bool) false (fun x _ _ => F x) c = true →
+    List.rec (motive := fun _ => Bool) false (fun _x _ _ => F _x) c = true →
       c ≠ [] ∧ F (hdL c) = true
   | [], h => (Bool.false_ne_true h).elim
-  | x :: _, h => ⟨List.cons_ne_nil _ _, h⟩
+  | _x :: _, h => ⟨List.cons_ne_nil _ _, h⟩
 
 theorem hdL_mem : ∀ {c : List ℕ}, c ≠ [] → hdL c ∈ c
   | [], h => (h rfl).elim
@@ -82,7 +82,7 @@ theorem distB_spec : ∀ {ms : List ℕ}, distB ms = true → ms.Pairwise (· �
   | [], _ => List.Pairwise.nil
   | m :: ms, h => by
     change bAnd(List.rec (motive := fun _ => Bool) true (fun m' _ ih2 =>
-      bAnd(Bool.not' (Nat.beq m m'), ih2)) ms, distB ms) = true at h
+      bAnd(not (Nat.beq m m'), ih2)) ms, distB ms) = true at h
     rw [bAnd_eq, Bool.and_eq_true, listRecAnd_iff] at h
     refine List.Pairwise.cons (fun m' hm' he => ?_) (distB_spec h.2)
     have := h.1 m' hm'
@@ -109,6 +109,7 @@ theorem testBit_lstM_lt {l : List ℕ} (hl : ∀ x ∈ l, x < 128) {k : ℕ}
 
 variable {G : Type} [Group G] {elt : ℕ → G}
 
+omit [Group G] in
 theorem eq_of_mset_eq (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {m₁ m₂ : ℕ}
     (h₁ : ∀ k, m₁.testBit k = true → k < 128) (h₂ : ∀ k, m₂.testBit k = true → k < 128)
     (h : mset elt m₁ = mset elt m₂) : m₁ = m₂ := by
@@ -191,7 +192,7 @@ theorem z2d8K_sound {X c g1 g2 R : ℕ} (hc : c < 128) (hg1 : g1 < 128) (hg2 : g
   unfold z2d8K at h
   rw [bAnd_eq, Bool.and_eq_true, strictB_eq, strictB_eq] at h
   obtain ⟨hcl, h⟩ := h
-  simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, not'_eq, Bool.not_eq_true'] at h
+  simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Bool.not_eq_true'] at h
   obtain ⟨h0, hq, hX, hn, hcen, hd8⟩ := h
   have hgs : ∀ g ∈ [g1, g2], g < 128 := by simp [hg1, hg2]
   set D := closK C [g1, g2] R

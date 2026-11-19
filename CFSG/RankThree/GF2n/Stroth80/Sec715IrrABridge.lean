@@ -50,8 +50,8 @@ theorem endScalar4_of (hEnd : Omega8EndScalarStatement) (h310chi : Stroth310ChiS
     ∀ T : L₄ →ₗ[K] L₄, (∀ x, T ∘ₗ (ρ₄ x : L₄ →ₗ[K] L₄) = (ρ₄ x : L₄ →ₗ[K] L₄) ∘ₗ T) →
       ∃ c : K, T = c • LinearMap.id := by
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
-  haveI : FiniteDimensional K L₄ :=
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : FiniteDimensional K L₄ :=
     Module.finite_of_finrank_pos (by rw [hD.finrank₄]; norm_num)
   have h4 : 4 ≤ Nat.card K := hS.card ▸ hc.hyp.q4
   exact hEnd K h4 _ φ₈ hφr L₄ ρ₄ (configAData_ker_trivial h310chi h52a hS hs hr φ₈ hφk hD).2
@@ -77,13 +77,13 @@ theorem trialityFacts_of (hTri : Omega8TrialityStatement) (h310chi : Stroth310Ch
     (hD : ConfigAData hS hs.toSec5.mem ρ₃ ρ₄ eM eN μ q₃ q₄ φ ψ κ) :
     TrialityFacts q₃ q₄ μ := by
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
-  haveI : FiniteDimensional K L₃ :=
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : FiniteDimensional K L₃ :=
     Module.finite_of_finrank_pos (by rw [hD.finrank₃]; norm_num)
-  haveI : FiniteDimensional K L₄ :=
+  have : FiniteDimensional K L₄ :=
     Module.finite_of_finrank_pos (by rw [hD.finrank₄]; norm_num)
-  haveI : Nontrivial L₃ := Module.nontrivial_of_finrank_pos (by rw [hD.finrank₃]; norm_num)
-  haveI : Nontrivial L₄ := Module.nontrivial_of_finrank_pos (by rw [hD.finrank₄]; norm_num)
+  have : Nontrivial L₃ := Module.nontrivial_of_finrank_pos (by rw [hD.finrank₃]; norm_num)
+  have : Nontrivial L₄ := Module.nontrivial_of_finrank_pos (by rw [hD.finrank₄]; norm_num)
   have h4 : 4 ≤ Nat.card K := hS.card ▸ hc.hyp.q4
   obtain ⟨htr₃, htr₄⟩ := configAData_ker_trivial h310chi h52a hS hs hr φ₈ hφk hD
   set β : L₃ →ₗ[K] L₄ →ₗ[K] (Fin 4 ⊕ Fin 4 → K) :=

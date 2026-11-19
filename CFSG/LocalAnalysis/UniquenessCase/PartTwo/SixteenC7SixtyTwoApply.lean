@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Commute
 
+omit [Finite G] in
 theorem s16c7_mul_comm_of_mem_normalizer {V X : Subgroup G} {z n : G} (hz1 : z ≠ 1)
     (hz2 : z ^ 2 = 1) (hCX : V ⊓ centralizer (X : Set G) = Subgroup.zpowers z) (hzV : z ∈ V)
     (hnV : n ∈ normalizer (V : Set G)) (hnX : n ∈ normalizer (X : Set G)) :

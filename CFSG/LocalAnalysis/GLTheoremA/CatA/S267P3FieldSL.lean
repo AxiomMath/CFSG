@@ -25,7 +25,7 @@ variable {K : Type} [Field K]
 
 theorem c3Mat_rel : (c3Mat : Matrix (Fin 2) (Fin 2) K) * c3Mat + c3Mat + 1 = 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [c3Mat, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [c3Mat]
 
 theorem map_c3 (f : K →+* K) :
     Matrix.SpecialLinearGroup.map f (c3 : SpecialLinearGroup (Fin 2) K) = c3 := by
@@ -113,8 +113,8 @@ abbrev fixField (σ : K ≃+* K) : Subfield K := RingHom.eqLocusField σ.toRingH
 theorem ringChar_le_card_fixField (σ : K ≃+* K) : ringChar K ≤ Nat.card (fixField σ) := by
   classical
   have hp := CharP.prime_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set f := ZMod.castHom (dvd_refl (ringChar K)) K with hf
   have hfix : ∀ a, σ (f a) = f a := fun a => by
     have := RingHom.ext_zmod (σ.toRingHom.comp f) f
@@ -125,6 +125,7 @@ theorem ringChar_le_card_fixField (σ : K ≃+* K) : ringChar K ≤ Nat.card (fi
   calc ringChar K = Nat.card (ZMod (ringChar K)) := (Nat.card_zmod _).symm
     _ ≤ Nat.card (fixField σ) := Nat.card_le_card_of_injective g hg
 
+omit [Finite K] in
 theorem exists_sl_map_eq {ι : Type} [Fintype ι] [DecidableEq ι] (E : Subfield K)
     (B : SpecialLinearGroup ι K) (h : ∀ i j, (B : Matrix ι ι K) i j ∈ E) :
     ∃ B' : SpecialLinearGroup ι E, Matrix.SpecialLinearGroup.map E.subtype B' = B := by
@@ -199,7 +200,7 @@ theorem FieldData.layer_of_Gl_eq_top (D : FieldData K μ) (hGl : D.Gl = ⊤) (hK
     change blk μ (c3, 1) = 1 at h1
     exact c3_ne_one (congrArg Prod.fst (blk_injective (h1.trans (map_one _).symm)))
   have h3 : 3 ∣ Nat.card ↥D.Glσ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← orderOf_eq_prime hg₀3 hg₀1]
     exact orderOf_dvd_natCard g₀
   exact CFSG.LocalAnalysis.GLTheoremA.glaPLayer_ne_bot_of_block Nat.prime_three le_rfl hq
@@ -287,7 +288,7 @@ theorem modelB_projectiveSL {n : ℕ} (hn : n = 4 ∨ n = 5) {K : Type} [Field K
   obtain ⟨x, hx⟩ := exists_apply_ne hσ1
   have hp := CharP.prime_ringChar K
   have hK5 : 5 ≤ ringChar K := hp.five_le_of_ne_two_of_ne_three hK2 hK3
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   have hcast : ∀ m : ℕ, m.Prime → ringChar K ≠ m → ((m : ℕ) : K) ≠ 0 := fun m hm hne h =>
     hne ((Nat.prime_dvd_prime_iff_eq hp hm).1 ((CharP.cast_eq_zero_iff K (ringChar K) m).1 h))
   have h3 : (3 : K) ≠ 0 := by exact_mod_cast hcast 3 Nat.prime_three hK3

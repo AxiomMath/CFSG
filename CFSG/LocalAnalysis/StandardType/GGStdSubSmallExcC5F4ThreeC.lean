@@ -24,10 +24,10 @@ theorem isSolvable_centralizer_of_trace_eq_zero {K : Type} [Field K] [Finite K] 
       ((x : ModGL Tag.F4 K) : Module.End K (RootModule Tag.F4 K)) = 0) :
     Group.IsSolvable (Subgroup.centralizer ({x} : Set (adjointGroup .F4 K))) := by
   classical
-  haveI : Finite (adjointGroup Tag.F4 K) := by
+  have : Finite (adjointGroup Tag.F4 K) := by
     have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
     infer_instance
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, a, ι, g, hSq, hT, hap, h1, hinj, hrange, hda, hconj, hTame⟩ :=
     exists_langSetup_F4_conj (by rw [hK]; norm_num) (by rw [hK]; norm_num) x hx

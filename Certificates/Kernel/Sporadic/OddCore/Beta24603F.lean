@@ -233,7 +233,7 @@ theorem cayP_spec {k : ℕ} (hk : k < 1080) : canonK 6 3 (mask 3) (6 * 3) (B2460
   · rw [bIf_eq] at h3
     by_cases h0 : Nat.beq k 0 = true
     · exact Or.inl (Nat.eq_of_beq_eq_true h0)
-    · rw [if_neg h0] at h3
+    · rw [ite_eq_right h0] at h3
       exact Or.inr (Nat.eq_of_beq_eq_true h3)
   · rw [bIf_eq, bIf_eq] at h5
     cases e : Nat.beq (B24603L k) 181896 <;> cases f : kerI k <;> simp_all
@@ -332,7 +332,7 @@ theorem TK_eq_iff {a b : ℕ} (ha : a < 1080) (hb : b < 1080) :
     · rfl
     · exact absurd (hRep.kinj a ha b hb (tblEq_hkey h)) e
 
-theorem TK_lane {j X : ℕ} (hX : canonK 6156 13 (mask 13) (6156 * 13) X = true)
+theorem TK_lane {j X : ℕ} (_hX : canonK 6156 13 (mask 13) (6156 * 13) X = true)
     (h : laneEqK B24603Col 6156 13 8191 j X = true) : TK j = ⟪X⟫ := by
   apply Array.ext (by rw [TK, colT_size]; simp [tabT, unpack])
   intro i h1 _
@@ -356,9 +356,9 @@ theorem ker_eq {k : ℕ} (hk : k < 1080) :
   change (tblEq 6156 (TK k) (TK 0) || _ || _) = _
   rw [TK_eq_iff hk (by norm_num), TK_eq_iff hk hk1, TK_eq_iff hk hk2]
   unfold kerI
-  simp only [bIf_eq, Nat.beq_eq, decide_eq_true_eq]
+  simp only [bIf_eq, Nat.beq_eq]
   by_cases e0 : k = 0 <;> by_cases e1 : k = lane16 (B24603Bk 0) 0 <;>
-    by_cases e2 : k = lane16 (B24603Bk 0) 1 <;> simp [e0, e1, e2, Nat.beq_eq] <;>
+    by_cases e2 : k = lane16 (B24603Bk 0) 1 <;> simp [e0, e1, e2];
     exact Bool.eq_false_iff.2 fun h => e2 (Nat.eq_of_beq_eq_true h)
 
 theorem facts24603a : j3BetaOK = true := by

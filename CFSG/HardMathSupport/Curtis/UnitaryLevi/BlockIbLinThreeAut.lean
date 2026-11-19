@@ -49,6 +49,7 @@ theorem blk_pow {M : Matrix (Fin 3) (Fin 3) K} (hM : LZ M) (m : ℕ) : blk (M ^ 
   | zero => simpa using blk_one
   | succ m ih => rw [pow_succ, pow_succ, blk_mul (hM.pow m), ih]
 
+omit [Field K] in
 theorem blk_map (M : Matrix (Fin 3) (Fin 3) K) (f : K → K) :
     blk (M.map f) = (blk M).map f := by
   ext i j; simp [blk]
@@ -226,6 +227,7 @@ section Analyze
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem LZ_of_rel (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp : ⁅Dt, Dt⁆ = Dt)
     (hDQ : Dt ≤ stabilizer (flagSpace 3 K 1)) {b : ℕ} (hb1 : 1 ≤ b)
     {st : SpecialLinearGroup (Fin 3) K} (hst : st ∈ Dt) (hord : orderOf (proj 3 K st) = 3 ^ b)
@@ -264,6 +266,7 @@ theorem LZ_of_rel (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp : ⁅Dt, D
   · simpa using congrFun hzero 0
   · simpa using congrFun hzero 1
 
+omit [Finite K] [CharP K 2] in
 theorem blk_rel (Dt : Subgroup (SpecialLinearGroup (Fin 3) K))
     (hDQ : Dt ≤ stabilizer (flagSpace 3 K 1)) (A : GL (Fin 3) K) (σ : K ≃+* K)
     (hA : LZ (A : Matrix (Fin 3) (Fin 3) K))
@@ -276,6 +279,7 @@ theorem blk_rel (Dt : Subgroup (SpecialLinearGroup (Fin 3) K))
   rw [blk_mul hA, blk_mul (LZ_of_mem_stabilizer (hDQ hg)), blk_map (K := K)] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 theorem det_blk_ne_zero (A : GL (Fin 3) K) (hA : LZ (A : Matrix (Fin 3) (Fin 3) K)) :
     (blk (A : Matrix (Fin 3) (Fin 3) K)).det ≠ 0 := by
   intro h
@@ -283,6 +287,7 @@ theorem det_blk_ne_zero (A : GL (Fin 3) K) (hA : LZ (A : Matrix (Fin 3) (Fin 3) 
   rw [h, mul_zero] at hd
   exact (Matrix.isUnit_iff_isUnit_det _).1 A.isUnit |>.ne_zero hd
 
+omit [Finite K] [CharP K 2] in
 theorem fixed_pow {σ : K ≃+* K} {x : K} (h : σ x = x) (k : ℕ) : (σ ^ k) x = x := by
   induction k with
   | zero => rfl
@@ -310,7 +315,7 @@ theorem not_three_dvd_orderOf (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hD
   have htr : σ M.trace = M.trace := by
     have h1 : (M.map σ).trace = σ M.trace := by simp [Matrix.trace]
     rw [← h1, hMσ, Matrix.trace_mul_comm, ← mul_assoc, Matrix.mul_nonsing_inv _ hdetA, one_mul]
-  haveI : Finite (K ≃+* K) := Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
+  have : Finite (K ≃+* K) := Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
     DFunLike.coe_injective
   have hm : 0 < orderOf σ := orderOf_pos σ
   set m := orderOf σ with hmdef
@@ -340,6 +345,7 @@ theorem map_toMonoidHom_mul' {G : Type*} [Group G] (α β : MulAut G) (H : Subgr
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_coordImage' {n : ℕ} (σ : K ≃+* K) (W : Submodule K (Fin n → K)) :
     Module.finrank K (coordImage σ W) = Module.finrank K W := by
   let j : W ≃+ coordImage σ W :=
@@ -354,6 +360,7 @@ theorem finrank_coordImage' {n : ℕ} (σ : K ≃+* K) (W : Submodule K (Fin n �
     simp [j])
   rw [Module.finrank, Module.finrank, h]
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_map_mulVecLin' {n : ℕ} (A : GL (Fin n) K) (W : Submodule K (Fin n → K)) :
     Module.finrank K (W.map (mulVecLin (A : Matrix (Fin n) (Fin n) K))) = Module.finrank K W := by
   have hinj : Function.Injective (mulVecLin (A : Matrix (Fin n) (Fin n) K)) :=
@@ -405,12 +412,15 @@ section Scalar
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem map_one_ringEquiv (M : Matrix (Fin 3) (Fin 3) K) : M.map (⇑(1 : K ≃+* K)) = M := by
   ext i j; rfl
 
+omit [Finite K] [CharP K 2] in
 theorem map_one_ringEquiv2 (M : Matrix (Fin 2) (Fin 2) K) : M.map (⇑(1 : K ≃+* K)) = M := by
   ext i j; rfl
 
+omit [Finite K] in
 theorem exists_noncomm_blk (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp : ⁅Dt, Dt⁆ = Dt)
     (hDQ : Dt ≤ stabilizer (flagSpace 3 K 1)) {b : ℕ} (hb1 : 1 ≤ b)
     {st : SpecialLinearGroup (Fin 3) K} (hst : st ∈ Dt) (hord : orderOf (proj 3 K st) = 3 ^ b) :
@@ -465,6 +475,7 @@ theorem exists_noncomm_blk (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp :
   have := Nat.le_of_dvd (by norm_num) this
   omega
 
+omit [Finite K] in
 theorem scalar_of_rel (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp : ⁅Dt, Dt⁆ = Dt)
     (hDQ : Dt ≤ stabilizer (flagSpace 3 K 1)) {b : ℕ} (hb1 : 1 ≤ b)
     {st : SpecialLinearGroup (Fin 3) K} (hst : st ∈ Dt) (hord : orderOf (proj 3 K st) = 3 ^ b)
@@ -491,6 +502,7 @@ section Main
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem fieldAut_mul_conjAut (σ : K ≃+* K) (A : GL (Fin 3) K) :
     fieldAut 3 K σ * conjAut 3 K A =
       conjAut 3 K (GeneralLinearGroup.map (σ : K →+* K) A) * fieldAut 3 K σ := by
@@ -499,6 +511,7 @@ theorem fieldAut_mul_conjAut (σ : K ≃+* K) (A : GL (Fin 3) K) :
       = fieldAut 3 K σ * conjAut 3 K A * (fieldAut 3 K σ)⁻¹ * fieldAut 3 K σ := by group
     _ = _ := by rw [h]
 
+omit [Finite K] [CharP K 2] in
 theorem pow_conj_field (A : GL (Fin 3) K) (σ : K ≃+* K) (m : ℕ) :
     ∃ B : GL (Fin 3) K, (conjAut 3 K A * fieldAut 3 K σ) ^ m =
       conjAut 3 K B * fieldAut 3 K (σ ^ m) := by
@@ -522,7 +535,7 @@ theorem exists_conj_of_fixes (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp
     (hJ : (projStabilizer (flagSpace 3 K 1)).map α.toMonoidHom = projStabilizer (flagSpace 3 K 1))
     (hfix : ∀ g ∈ Dt, α (proj 3 K g) = proj 3 K g) :
     ∃ B : GL (Fin 3) K, α = conjAut 3 K B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, σ, ε, hε, hαeq⟩ := (automorphism_generation (K := K) (n := 3) le_rfl).2 α
   have hε0 : ε = 0 := by
     rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hε with h | h
@@ -536,7 +549,7 @@ theorem exists_conj_of_fixes (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp
   rw [pow_zero, mul_one] at hαeq
   have hrel := rel_of_fixes Dt hDp A σ α hαeq hfix
   have hn3 := not_three_dvd_orderOf Dt hDp hDQ hb hb1 hst hord A σ hrel
-  haveI : Finite (K ≃+* K) := Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
+  have : Finite (K ≃+* K) := Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
     DFunLike.coe_injective
   set m := orderOf σ with hm
   obtain ⟨B₁, hB₁⟩ := pow_conj_field A σ m
@@ -562,6 +575,7 @@ theorem exists_conj_of_fixes (Dt : Subgroup (SpecialLinearGroup (Fin 3) K)) (hDp
     rw [h1, pow_add, pow_mul, hαk, one_pow, one_mul, pow_one]
   exact this.symm
 
+omit [Finite K] [CharP K 2] in
 theorem shape_facts (B : GL (Fin 3) K) (hLZ : LZ (B : Matrix (Fin 3) (Fin 3) K)) {μ : K}
     (hblk : blk (B : Matrix (Fin 3) (Fin 3) K) = μ • 1) :
     (B : Matrix (Fin 3) (Fin 3) K) 1 1 = μ ∧ (B : Matrix (Fin 3) (Fin 3) K) 2 2 = μ ∧
@@ -583,14 +597,15 @@ theorem shape_facts (B : GL (Fin 3) K) (hLZ : LZ (B : Matrix (Fin 3) (Fin 3) K))
   · intro h0
     apply hu
     rw [hdet, h0]
-    simp [Matrix.det_fin_two]
+    simp
 
 theorem three_dvd_card_sq_sub_one : 3 ∣ Nat.card K ^ 2 - 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hf, ← pow_mul, mul_comm, pow_mul]
   simpa using Nat.sub_dvd_pow_sub_pow 4 1 f
 
+omit [Finite K] [CharP K 2] in
 theorem conjAut_scalar (c : Kˣ) :
     conjAut 3 K (Matrix.GeneralLinearGroup.scalar (Fin 3) c) = 1 := by
   simp [conjAut, CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation_scalar]
@@ -652,7 +667,7 @@ theorem cyclic_of_fixing_perfect (D : Subgroup (projectiveSL 3 K)) (hDp : ⁅D, 
       obtain ⟨hC10, hC20⟩ := hLZC
       apply Units.ext
       simp only [Units.val_mul, Units.val_mk0, Subgroup.coe_mul, Units.val_mul,
-        Matrix.mul_apply, Fin.sum_univ_three, hB10, hB20, hB12, hB21, hC10, hC20, hC12, hC21]
+        Matrix.mul_apply, Fin.sum_univ_three, hB10, hB12, hC10, hC20, hC21]
       simp only [mul_zero, zero_mul, add_zero, zero_add]
       rw [div_mul_div_comm])
   have hχval : ∀ B : G, ((χ B : Kˣ) : K) =
@@ -685,7 +700,7 @@ theorem cyclic_of_fixing_perfect (D : Subgroup (projectiveSL 3 K)) (hDp : ⁅D, 
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h12, h21, h22, ← h11, ← heq, sq] <;>
         (try linear_combination (B.1 : Matrix (Fin 3) (Fin 3) K) 0 0 *
-          (B.1 : Matrix (Fin 3) (Fin 3) K) 0 1 * h2') <;>
+          (B.1 : Matrix (Fin 3) (Fin 3) K) 0 1 * h2');
         (try linear_combination (B.1 : Matrix (Fin 3) (Fin 3) K) 0 0 *
           (B.1 : Matrix (Fin 3) (Fin 3) K) 0 2 * h2')
     have hsq : (conjAut 3 K B.1) ^ 2 = 1 := by
@@ -700,7 +715,7 @@ theorem cyclic_of_fixing_perfect (D : Subgroup (projectiveSL 3 K)) (hDp : ⁅D, 
       have := Nat.dvd_gcd hdvd2 hdvd3
       rwa [hcop] at this
     exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 this)
-  haveI : IsCyclic (χ.range) := inferInstance
+  have : IsCyclic (χ.range) := inferInstance
   have hsurjχ : Function.Surjective χ.rangeRestrict := χ.rangeRestrict_surjective
   let ψ : χ.range →* U := MonoidHom.liftOfRightInverse χ.rangeRestrict
     (Function.surjInv hsurjχ) (Function.rightInverse_surjInv hsurjχ) ⟨c, by

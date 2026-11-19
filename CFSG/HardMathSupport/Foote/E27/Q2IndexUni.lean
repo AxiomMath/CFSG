@@ -196,7 +196,7 @@ theorem E27Config.false_of_primeFormP_four {E : Type} [Field E] {p f : ℕ} (hp 
     unfold ordTwistedA; decide +kernel
   have hZ : Nat.card (Uni.Zsc hU 4) ≤ 1 := by
     rw [Uni.Zsc_eq_bot_of_coprime hU (by norm_num), Subgroup.card_bot]
-  have hPp : IsPGroup 3 (P : Subgroup (Equiv.Perm (Fin 4))) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup (Equiv.Perm (Fin 4))) := P.isPGroup
   obtain ⟨hSp, hS, -, -, -, -, -⟩ :=
     Uni.monomial_data_of_pgroup hU (by norm_num) (P : Subgroup (Equiv.Perm (Fin 4))) hPp 1 hZ
   have hSge : 3 ^ 4 ≤ Nat.card (Uni.Smono hU 4 (P : Subgroup (Equiv.Perm (Fin 4)))) := by

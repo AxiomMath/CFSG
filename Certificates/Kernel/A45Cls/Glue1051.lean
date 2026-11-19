@@ -371,17 +371,17 @@ theorem q_normal_of {c : P45} (hcz : PRep 45 6 czP c) (hczi : PRep 45 6 cziP c�
   have hs : ∀ g ∈ cg '' {k | k < 3}, ∀ x ∈ {x : P45 | c * x * c⁻¹ ∈ Q0},
       g * x * g⁻¹ ∈ {x : P45 | c * x * c⁻¹ ∈ Q0} := by
     rintro _ ⟨k, hk, rfl⟩ x hx
-    rw [Set.mem_setOf_eq] at hx ⊢
+    rw [Set.mem_ofPred_eq] at hx ⊢
     have h' := hgen k hk (c * x * c⁻¹) hx
     have e : c * cg k * c⁻¹ * (c * x * c⁻¹) * (c * cg k * c⁻¹)⁻¹ =
         c * (cg k * x * (cg k)⁻¹) * c⁻¹ := by group
     rw [e] at h'
     exact h'
   have hx : c⁻¹ * q * c ∈ {x : P45 | c * x * c⁻¹ ∈ Q0} := by
-    rw [Set.mem_setOf_eq, show c * (c⁻¹ * q * c) * c⁻¹ = q by group]
+    rw [Set.mem_ofPred_eq, show c * (c⁻¹ * q * c) * c⁻¹ = q by group]
     exact hq
   have h' := conj_closed_A hs _ (hcent y hy) _ hx
-  rw [Set.mem_setOf_eq,
+  rw [Set.mem_ofPred_eq,
     show c * (c⁻¹ * y * c * (c⁻¹ * q * c) * (c⁻¹ * y * c)⁻¹) * c⁻¹ = y * q * y⁻¹ by group] at h'
   exact h'
 

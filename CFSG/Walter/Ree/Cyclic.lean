@@ -36,7 +36,7 @@ theorem reeGamma_isCyclic_sylow
   have he : orderOf (Nat.card K : ZMod p) = 6 :=
     Cyclic.orderOf_eq_six Fact.out (hK ▸ dvd_pow_self 3 (by omega)) hp
   refine Cyclic.isCyclic_of_isPGroup_of_finrank_lt (K := K) (W := ReeTag.G2.shortModule K)
-    P.isPGroup' ρ hρ ?_
+    P.isPGroup ρ hρ ?_
   rw [he, ReeTag.finrank_shortModule]
   decide
 

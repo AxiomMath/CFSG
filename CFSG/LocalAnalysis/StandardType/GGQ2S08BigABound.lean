@@ -14,7 +14,7 @@ private theorem ggQ2s08ab_card_bs (M : GGQ2LDatum 3 Bs L x) {n : ℕ}
     (κ : M.V ≃ₗ[ZMod 3] Vn n) : Nat.card ↥Bs = 3 ^ n := by
   have hV : Nat.card M.V = 3 ^ n := by
     rw [Nat.card_congr κ.toEquiv]
-    simp [Vn, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
+    simp [Vn]
   calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := rfl
     _ = Nat.card M.V := Nat.card_congr M.model.toEquiv
     _ = 3 ^ n := hV

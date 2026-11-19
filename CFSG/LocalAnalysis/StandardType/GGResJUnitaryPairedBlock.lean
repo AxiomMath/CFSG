@@ -295,7 +295,7 @@ private theorem prod_sgnAut_list_apply {p r : ℕ} (L : List (Fin r)) (hL : L.No
         rw [Function.update_self, ih hl]
         simp [ha]
       · rw [Function.update_of_ne hja, ih hl]
-        simp [hja, ha]
+        simp [hja]
 
 private theorem conj_list_prod_sgnAut {G : Type} [Group G] {p r : ℕ}
     (τ : (Fin r → Multiplicative (ZMod p)) →* G) (w : Fin r → G)
@@ -327,13 +327,13 @@ private theorem inversion_of_signed_frame {G : Type} [Group G] {p r : ℕ} (hp :
       w * τ f * w⁻¹ = τ (SpCoord.sgnAut (p := p) i f)) :
     ∃ s : G, ∀ x ∈ E, s * x * s⁻¹ = x⁻¹ := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hk : k = r := by
     have hcardM : Nat.card (Multiplicative (ZMod p)) = p := by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
     have h1 : Nat.card (Fin k → Multiplicative (ZMod p)) = p ^ k := by
       rw [Nat.card_pi]
-      simp [hcardM]
+      simp
     have hcard_k : Nat.card E = p ^ k := by
       rw [← hτrange]
       exact (Nat.card_congr (MonoidHom.ofInjective hτinj).toEquiv).symm.trans h1
@@ -350,7 +350,7 @@ private theorem inversion_of_signed_frame {G : Type} [Group G] {p r : ℕ} (hp :
   obtain ⟨f, rfl⟩ := hx
   have hprod : ((L.map fun i => SpCoord.sgnAut (p := p) i).prod f) = f⁻¹ := by
     funext j
-    rw [prod_sgnAut_list_apply L hLnodup f j, if_pos (hLmem j)]
+    rw [prod_sgnAut_list_apply L hLnodup f j, ite_eq_left (hLmem j)]
     rfl
   rw [conj_list_prod_sgnAut τ w (fun i f => hw' i f) L f, hprod, map_inv]
 
@@ -442,7 +442,7 @@ private theorem GGResHyp.exists_opposite_unitary_setup
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n d r ε : ℕ) (lab : LargeEvenLabel),
       Nonempty (OppositeUnitarySetup hH hMark F n d r ε lab) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBs : IsElemAbelian 3 Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs := hH.1.2.1.2.2.2
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
@@ -472,9 +472,9 @@ private theorem GGResHyp.exists_opposite_unitary_setup
     θ, φ, hU, A, ρ, hN, hAGU, hAiso, hφsurj, hφker, hφquot, hAprime, hAproj, hYact, hAρ⟩ :=
     CFSG.StandardType.GGInnerDiagOnLabel.exists_general_unitary_cover_actors
       hMarkGood hSgood
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  haveI : CharP F 2 := hU.charP
+  let : Field F := hF
+  let : Finite F := hFfin
+  have : CharP F 2 := hU.charP
   have hpqF : 3 ∣ 2 ^ f - 1 := by simpa [hf] using hSlab'.2.2
   have hf1 : 1 ≤ f := by omega
   let r : ℕ := d / 2
@@ -525,7 +525,7 @@ private theorem GGResHyp.exists_opposite_unitary_setup
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [Matrix.diagonal_apply, hij]
+    · simp [hij]
   have hPerf : Group.IsPerfect ↥(unitarySU 2 f F d) := by
     simpa [unitarySU] using
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := f) hFcard hd3 hnq
@@ -707,7 +707,7 @@ private theorem GGResHyp.exists_opposite_unitary_setup
       Nat.card_congr (Equiv.ofBijective (ggAutomizerGammaHom hN0) ⟨hinjGamma, hsurjGamma⟩)
     have hcV : Nat.card (Fin k → Multiplicative (ZMod 3)) = 3 ^ k := by
       rw [Nat.card_pi]
-      simp [Nat.card_fin, Nat.card_zmod]
+      simp
     have hcardA_k : Nat.card A0 = 3 ^ k := by
       rw [← Nat.card_congr Θ.toEquiv]
       exact hcV
@@ -770,13 +770,13 @@ theorem GGResHyp.exists_opposite_unitary_signedModel
       ∃ (d : ℕ), d = lab.rank + 1 ∧ (d = 2 * r ∨ d = 2 * r + 1) ∧
         Nat.card (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range = 3 ^ r := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F, hF, hFfin, n, d, r, ε, lab, hne⟩ :=
     GGResHyp.exists_opposite_unitary_setup hH hMark
   let setup : OppositeUnitarySetup hH hMark F n d r ε lab := Classical.choice hne
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : CharP F 2 := setup.instCharP
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : CharP F 2 := setup.instCharP
   have hε1 : ε ≤ 1 := setup.hε
   have hdr : d = 2 * r + ε := setup.hdr
   have hd2r : d = 2 * r ∨ d = 2 * r + 1 := by
@@ -794,13 +794,13 @@ theorem GGResHyp.exists_inversion_mem_ggTorusWeylAut_of_opposite_unitary_marking
     ∃ Φ ∈ ggTorusWeylAut 3 (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range,
       ∀ a : ↥(ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range, Φ a = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F, hF, hFfin, n, d, r, ε, lab, hne⟩ :=
     GGResHyp.exists_opposite_unitary_setup hH hMark
   let setup : OppositeUnitarySetup hH hMark F n d r ε lab := Classical.choice hne
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : CharP F 2 := setup.instCharP
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : CharP F 2 := setup.instCharP
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   let φU : unitarySU 2 n F d →* ↥J := setup.φ
   let A0 : Subgroup (MulAut ↥J) := setup.A0
@@ -927,7 +927,7 @@ theorem GGResHyp.actual_J_not_opposite_unitary_for_A3
     (hMark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .twA ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (GGResHyp.not_exists_inversion_mem_ggTorusWeylAut_of_lineJDatum_A3 hH rfl hD)
     (GGResHyp.exists_inversion_mem_ggTorusWeylAut_of_opposite_unitary_marking hH hMark)
 
@@ -939,7 +939,7 @@ theorem GGResHyp.actual_J_not_opposite_unitary_for_A2
     (hMark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .twA ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA2 : 2 ≤ Nat.card (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range :=
     (by norm_num : 2 ≤ 3 ^ 2).trans (GGResHyp.sq_le_card_gamma_J hH)
   exact (not_exists_inversion_mem_ggTorusWeylAut_of_lineJDatum_A2

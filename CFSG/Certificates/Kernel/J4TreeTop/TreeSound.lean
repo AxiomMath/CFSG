@@ -80,12 +80,12 @@ theorem treeOK_spec {par : ℕ → ℕ → ℕ} {n Y : ℕ} {es : List (ℕ × �
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   refine ⟨(incrFrom_sorted 0 _ h1).1, fun e he => ?_⟩
   have he2 := h2 e he
-  simp only [Bool.and_eq_true, Nat.blt_eq] at he2
+  simp only [Nat.blt_eq] at he2
   obtain ⟨⟨hx, hd⟩, hc⟩ := he2
   refine ⟨hx, fun h0 => ?_, fun h0 => ?_⟩
-  · rw [if_pos h0] at hc
+  · rw [ite_eq_left h0] at hc
     exact Nat.eq_of_beq_eq_true hc
-  · rw [if_neg h0, Nat.blt_eq] at hc
+  · rw [ite_eq_right h0, Nat.blt_eq] at hc
     refine ⟨hc, ?_⟩
     have hk := subS_spec _ _ _ h3 (keyOf (par e.2.2 e.1) (e.2.1 - 1)) (by
       rw [mem_msort]
@@ -96,7 +96,7 @@ theorem treeOK_spec {par : ℕ → ℕ → ℕ} {n Y : ℕ} {es : List (ℕ × �
       exact List.mem_map.mpr ⟨e, List.mem_filter.mpr ⟨he, by simp [hb]⟩, rfl⟩)
     obtain ⟨e', he', hkey⟩ := List.mem_map.mp hk
     have hd' := h2 e' he'
-    simp only [Bool.and_eq_true, Nat.blt_eq] at hd'
+    simp only [Nat.blt_eq] at hd'
     unfold keyOf at hkey
     refine ⟨e', he', ?_, ?_⟩ <;> omega
 

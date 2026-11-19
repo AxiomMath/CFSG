@@ -80,7 +80,7 @@ theorem arcStab_eq_GT (hs : IsSingularity Γ G s) (hev : Even s) (m : ℤ) :
       X.arcStab (m - (j : ℤ)) (m - (j : ℤ) + (s : ℤ)) := by
     intro j
     induction j with
-    | zero => simpa using le_refl (X.arcStab m (m + (s : ℤ)))
+    | zero => simp
     | succ j ih =>
       have heq := X.arcStab_eq_extend hs hev (m - (j : ℤ))
       refine ih.trans ?_
@@ -90,7 +90,7 @@ theorem arcStab_eq_GT (hs : IsSingularity Γ G s) (hev : Even s) (m : ℤ) :
       X.arcStab (m + (j : ℤ)) (m + (j : ℤ) + (s : ℤ)) := by
     intro j
     induction j with
-    | zero => simpa using le_refl (X.arcStab m (m + (s : ℤ)))
+    | zero => simp
     | succ j ih =>
       have heq := X.arcStab_eq_extend hs hev (m + (j : ℤ))
       refine ih.trans ?_
@@ -528,8 +528,8 @@ theorem card_S_of_four (hs : IsSingularity Γ G 4) (hn0 : X.n 0 = 2) (hn1 : X.n 
     norm_num
   rw [hcastn] at hcardA1
   rw [hcardA1] at hK
-  haveI : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
-  haveI : Nonempty ↥X.K := ⟨⟨1, X.K.one_mem⟩⟩
+  have : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
+  have : Nonempty ↥X.K := ⟨⟨1, X.K.one_mem⟩⟩
   have hKpos : 0 < Nat.card ↥X.K := Nat.card_pos
   rw [mul_comm (2 ^ 6) (Nat.card ↥X.K)] at hK
   exact Nat.eq_of_mul_eq_mul_left hKpos hK
@@ -640,7 +640,7 @@ theorem four_le_card_Q_inf_centralizer (hc : CharTwoStab (V := V) (G := G))
   have hcard : Nat.card ↥(X.Q 0 ⊓ X.Q 1) = 2 ^ 2 := X.card_Q_inf_of_four hc hs hn0 hn1
   have h4 : Nat.card ↥(X.Q 0 ⊓ X.Q 1) = 4 := by rw [hcard]; norm_num
   rcases hi with rfl | rfl
-  · haveI : Finite ↥(X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G)) :=
+  · have : Finite ↥(X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G)) :=
       finite_of_le_stabilizer X.hyp (H := X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G))
         (inf_le_left.trans (X.Q_le_Gi 0))
     have hle : X.Q 0 ⊓ X.Q 1 ≤ X.Q 0 ⊓ Subgroup.centralizer (X.S : Set G) :=
@@ -649,7 +649,7 @@ theorem four_le_card_Q_inf_centralizer (hc : CharTwoStab (V := V) (G := G))
       (Subgroup.inclusion_injective hle)
     rw [h4] at h
     exact h
-  · haveI : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G)) :=
+  · have : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G)) :=
       finite_of_le_stabilizer X.hyp (H := X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G))
         (inf_le_left.trans (X.Q_le_Gi 1))
     have hle : X.Q 1 ⊓ X.Q 0 ≤ X.Q 1 ⊓ Subgroup.centralizer (X.S : Set G) :=

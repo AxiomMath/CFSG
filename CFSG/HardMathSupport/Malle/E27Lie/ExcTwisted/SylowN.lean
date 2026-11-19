@@ -33,6 +33,7 @@ theorem card_graphFixedRootGroup_E6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤
   refine (Nat.div_eq_of_eq_mul_left (Nat.gcd_pos_of_pos_left _ (by norm_num)) ?_).symm
   ring
 
+omit [Finite K] in
 theorem card_graphFixedRootMonomial_E6 (σ : K →+* K) :
     Nat.card (graphFixedRootMonomial TwistTag.E6 K σ) =
       Nat.card (graphFixedRootTorus TwistTag.E6 K σ) * 1152 := by

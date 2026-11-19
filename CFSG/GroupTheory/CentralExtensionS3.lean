@@ -15,7 +15,7 @@ theorem ker_inf_commutator_eq_bot_of_zgroup
     (pi : E →* H) (hker : pi.ker ≤ center E) : pi.ker ⊓ commutator E = ⊥ := by
   refine CFSG.Walter.W67.inf_commutator_eq_bot hker ?_
   intro q hq _
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hP⟩ := CFSG.GH74.Uniqueness.exists_sylow_isMulCommutative_of_ker_le_center
     pi hker (fun Q => IsZGroup.isZGroup q hq Q)
   exact ⟨inferInstance, P, hP⟩
@@ -24,7 +24,7 @@ theorem card_commutator_eq_three_of_central_extension
     {E : Type} [Group E] [Finite E] (pi : E →* Equiv.Perm (Fin 3))
     (hpi : Function.Surjective pi) (hker : pi.ker ≤ center E) :
     Nat.card (commutator E) = 3 := by
-  letI : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
+  let : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
     have hcard : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
       rw [Nat.card_perm, Nat.card_fin]
       decide
@@ -125,7 +125,7 @@ theorem commutator_not_le_center_of_central_extension
       _ ≤ center (Equiv.Perm (Fin 3)) := Subgroup.map_center_le_center hpi
       _ = ⊥ := hcenter)
   have hle : commutator E ≤ pi.ker := (Subgroup.map_eq_bot_iff _).mp hmap
-  letI : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
+  let : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
     have hcard : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
       rw [Nat.card_perm, Nat.card_fin]
       decide

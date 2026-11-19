@@ -37,7 +37,7 @@ private theorem map_oddCore_mulEquiv {Q Q' : Type} [Group Q] [Group Q'] (e : Q �
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -49,7 +49,7 @@ theorem oddCore_le_center_of_pocket [Finite G] {X : Subgroup G} (hX : CFSG.IsQua
     (hKy : K ≤ centralizer ({y} : Set G)) (hsub : (K.subgroupOf M).IsSubnormal) :
     oddCore ↥K ≤ Subgroup.center ↥K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let a : ↥X := ⟨y, hyX⟩
   let N : Subgroup ↥X := oddCore ↥X
   let C : Subgroup ↥X := Subgroup.centralizer ({a} : Set ↥X)
@@ -108,7 +108,7 @@ theorem oddCore_le_center_of_pocket [Finite G] {X : Subgroup G} (hX : CFSG.IsQua
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
     · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
-  haveI : Fact (IsPGroup 2 ↥(Subgroup.zpowers a)) := ⟨hTp⟩
+  have : Fact (IsPGroup 2 ↥(Subgroup.zpowers a)) := ⟨hTp⟩
   have hNodd : Odd (Nat.card N) := odd_card_oddCore' ↥X
   have hcop : Nat.Coprime 2 (Nat.card N) := Nat.coprime_two_left.mpr hNodd
   have hcent_zp : Subgroup.centralizer (Subgroup.zpowers a : Set ↥X) = C := by

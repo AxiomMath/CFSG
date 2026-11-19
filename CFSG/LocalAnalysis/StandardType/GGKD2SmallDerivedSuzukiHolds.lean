@@ -47,8 +47,8 @@ private lemma ltrke2_card_of_label_A13 {X : Type} [Group X]
   unfold GGHasLabel at h
   simp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at h
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e0⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   rw [Nat.card_congr e0.toEquiv]
   have hStated : Nat.card (LargeEvenProj (LargeEvenSLGroup (Fin 2) K)) =
       Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := by
@@ -71,8 +71,8 @@ private lemma ltrke2_not_seven_dvd_of_label_twF4der
   unfold GGHasLabel at h
   simp only [LargeEvenRawDatum, LargeEvenRecipeTwF4] at h
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e0⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hTits : CFSG.Blueprint.ReeTitsModel
       (LargeEvenCenterQuot (LargeEvenTwF4H 0 K)) .Tits 2 1 :=
     ⟨⟨Nat.prime_two, le_rfl, rfl, rfl, rfl⟩, 0, rfl,
@@ -89,8 +89,8 @@ private lemma ltrke2_not_three_dvd_of_label_twB2
   unfold GGHasLabel at h
   simp only [LargeEvenRawDatum, LargeEvenRecipeSuzuki] at h
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e0⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨e1⟩ := CFSG.LocalAnalysis.GLTheoremA.FQ.nonempty_szQuot_equiv ha hKcard
   have hmodel : CFSG.Blueprint.SuzukiModel R 2 (2 * ((n - 1) / 2) + 1) :=
     ⟨rfl, (n - 1) / 2, ha, K, hKf, hKfin, rfl, hKcard, ⟨e0.trans e1⟩⟩

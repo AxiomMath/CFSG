@@ -50,7 +50,7 @@ theorem lift_powWord (g : Fin 7 → G) (u : List (Fin 7 × Bool)) (n : ℕ) :
     FreeGroup.lift g (FreeGroup.mk (powWord u n)) =
       (FreeGroup.lift g (FreeGroup.mk u)) ^ n := by
   rw [lift_mk_prod, lift_mk_prod, powWord, List.map_flatten, List.prod_flatten]
-  simp [List.map_map, Function.comp_def, List.map_const', List.prod_replicate]
+  simp [List.prod_replicate]
 
 theorem lift_yInvPow (g : Fin 7 → G) (k : ℕ) :
     FreeGroup.lift g (FreeGroup.mk (yInvPow k)) = ((g 0)⁻¹) ^ k := by
@@ -113,7 +113,7 @@ theorem relFacts3 {g : Fin 7 → G}
   · have h := rel_apply' hrel (r := [(0, false), (5, true), (0, false), (5, true)])
       (by simp [j3WordsRest])
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h
-    simp only [Bool.false_eq_true, ↓reduceIte, mul_one] at h
+    simp only [Bool.false_eq_true, ↓reduceIte] at h
     have h1 : g 5 * (g 0)⁻¹ * g 5 = g 0 := by
       calc g 5 * (g 0)⁻¹ * g 5 = g 0 * ((g 0)⁻¹ * (g 5 * ((g 0)⁻¹ * g 5))) := by group
         _ = g 0 := by rw [h]; simp
@@ -124,14 +124,14 @@ theorem relFacts3 {g : Fin 7 → G}
   · have h := rel_apply' hrel (r := [(0, true), (3, true), (0, false), (3, true)])
       (by simp [j3WordsRest])
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h
-    simp only [Bool.false_eq_true, ↓reduceIte, ↓reduceIte, mul_one, mul_assoc] at h
+    simp only [Bool.false_eq_true, ↓reduceIte, ↓reduceIte] at h
     exact comm_of_rel' he3 (by simpa [mul_assoc] using h)
   · have h19 := rel_apply' hrel (r := [(6, true), (0, true), (6, true), (2, true)])
       (by simp [j3WordsRest])
     have h20 := rel_apply' hrel (r := [(6, false), (6, false), (0, false), (2, true)])
       (by simp [j3WordsRest])
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h19 h20
-    simp only [Bool.false_eq_true, ↓reduceIte, mul_one] at h19 h20
+    simp only [Bool.false_eq_true, ↓reduceIte] at h19 h20
     have hB : (g 0)⁻¹ * g 2 = g 6 * g 6 := by
       have h1 := inv_mul_eq_iff_eq_mul.mp h20
       have h2 := inv_mul_eq_iff_eq_mul.mp (show (g 6)⁻¹ * ((g 0)⁻¹ * g 2) = g 6 * 1 from by

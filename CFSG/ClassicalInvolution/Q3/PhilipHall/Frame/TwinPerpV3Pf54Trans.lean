@@ -88,6 +88,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem quaternion_center_sq : ∀ q : QuaternionGroup 2, (∀ r : QuaternionGroup 2, q * r = r * q) → q ^ 2 = 1 := by
   decide +kernel
 
+omit [Finite Y] in
 theorem sq_eq_one_of_central {K : Subgroup Y} (hq8 : Nonempty (↥K ≃* QuaternionGroup 2)) {c : Y}
     (hc : c ∈ K) (hcen : ∀ y ∈ K, c * y = y * c) : c * c = 1 := by
   obtain ⟨q⟩ := hq8

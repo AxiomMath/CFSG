@@ -47,6 +47,7 @@ variable [Finite G] {L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2
     Multiplicative (Fin 2 → Fin 3 → F) →* Multiplicative (Fin 3 → F) :=
   AddMonoidHom.toMultiplicative (Pi.evalAddMonoidHom (fun _ => Fin 3 → F) i)
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_comm_mem_U {Q : Subgroup G} {dual : Bool} {k : ℕ}
     (h2 : IsSumOfNaturalModulesVia L Q (centerOf Q) α dual k) {x y : G} (hx : x ∈ Q)
     (hy : y ∈ Q) : x * y * x⁻¹ * y⁻¹ ∈ centerOf Q := by
@@ -57,6 +58,7 @@ theorem burnsideC135_comm_mem_U {Q : Subgroup G} {dual : Bool} {k : ℕ}
   rw [hβk, Subgroup.mem_subgroupOf] at h1
   exact h1
 
+omit [Finite G] [Fintype F] in
 theorem burnsideC135_sq_mem_U {Q : Subgroup G} {dual : Bool} {k : ℕ}
     (h2 : IsSumOfNaturalModulesVia L Q (centerOf Q) α dual k) {x : G} (hx : x ∈ Q) :
     x * x ∈ centerOf Q := by
@@ -71,12 +73,14 @@ theorem burnsideC135_sq_mem_U {Q : Subgroup G} {dual : Bool} {k : ℕ}
   rw [hβk, Subgroup.mem_subgroupOf] at h1
   exact h1
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_slNat_ker (hα : IsModO2Surj L α) : (slNat α).ker = CFSG.pCore 2 ↥L := by
   rw [← hα.2]
   ext l
   simp only [MonoidHom.mem_ker, slNat, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
     MulEquiv.map_eq_one_iff]
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_dualSplit_of_case3 (hα : IsModO2Surj L α) {Q : Subgroup G}
     (h1 : IsSumOfNaturalModulesVia L (centerOf Q) ⊥ α false 1)
     (h2 : IsSumOfNaturalModulesVia L Q (centerOf Q) α true 2) :
@@ -99,11 +103,11 @@ theorem burnsideC135_dualSplit_of_case3 (hα : IsModO2Surj L α) {Q : Subgroup G
   let K : Fin 2 → Subgroup (Multiplicative (Fin 2 → Fin 3 → F)) := fun i =>
     { carrier := {v | Multiplicative.toAdd v i = 0}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [toAdd_mul, Pi.add_apply, ha, hb, add_zero]
       one_mem' := rfl
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [toAdd_inv, Pi.neg_apply, ha, neg_zero] }
   let W : Fin 2 → Subgroup G := fun i => ((K i).comap β).map Q.subtype
   have hmemW : ∀ i (g : G), g ∈ W i ↔ ∃ h : g ∈ Q, Multiplicative.toAdd (β ⟨g, h⟩) i = 0 := by

@@ -76,11 +76,11 @@ theorem dvd_card_centralizer_std_weight_three [Finite K] (h3 : (3 : K) ≠ 0) {p
       ({c₀ (isCubeRootBlock_cubeRootBlockStd h3) (Multiplicative.ofAdd ![1, 1, 1])} :
         Set (StatedSp 3 K))) := by
   by_cases hq : Nat.card K % 3 = 1
-  · rw [if_pos hq] at hpq
+  · rw [ite_eq_left hq] at hpq
     obtain ⟨ω, -, hω⟩ := cubeRootBlockStd_eq_cubeRootDiag h3 hq
     exact dvd_card_centralizer_c₀_weight_three_of_dvd_add_one
       (isCubeRootBlock_cubeRootBlockStd h3) hω hp hpq
-  · rw [if_neg hq] at hpq
+  · rw [ite_eq_right hq] at hpq
     exact dvd_card_centralizer_c₀_weight_three_of_dvd_sub_one
       (isCubeRootBlock_cubeRootBlockStd h3) hp hpq
 

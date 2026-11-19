@@ -55,7 +55,7 @@ theorem posJ_spec
   obtain ⟨i, hi, hit⟩ := hf.inv t htL hne hinv
   have hex : ∃ i, i < 191 ∧ Acts g (ivt KK i) := ⟨i, hi, hit ▸ hgt⟩
   unfold posJ
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact Nat.find_spec hex
 
 theorem posJ_of_acts

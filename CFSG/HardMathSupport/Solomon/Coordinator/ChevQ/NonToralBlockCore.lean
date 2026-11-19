@@ -295,7 +295,7 @@ end Monomial
 theorem nonToralBlockCore_holds : NonToralBlockCore := by
   intro τ hτ K _ _ Fr hFr ι a B b ω hω m x hm hx
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hωS := image_eq_of_cyc (familyKernel a) B.blk B.sub B.cover ω hω
   have hz : IsMonoAt (monomialElt τ (AlgebraicClosure K) b ω) ω := by
     have h := isMonoAt_mul (isMonoAt_rootDiagUnit b)

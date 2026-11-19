@@ -17,9 +17,11 @@ namespace TwoPTwoIrred
 
 variable {K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem nineFrattini_le (X : Subgroup G) : nineFrattini X ≤ X :=
   Subgroup.map_subtype_le (frattini ↥X)
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_nineFrattini (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤ Subgroup.normalizer (nineFrattini X : Set G) :=
   CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (K := frattini ↥X)
@@ -37,6 +39,7 @@ theorem eq_of_sup_nineFrattini_eq {Z X : Subgroup G} (hZX : Z ≤ X)
   rw [← MonoidHom.range_eq_map]
   exact Subgroup.range_subtype X
 
+omit [Finite G] in
 theorem inf_sup_le_frattiniR {N X K : Subgroup G} (hXK : X ≤ K)
     (hZleΦ : X ⊓ (N ⊔ pCoreOf 2 K) ≤ nineFrattini X) :
     (N ⊔ pCoreOf 2 K) ⊓ (pCoreOf 2 K ⊔ X) ≤ nineFrattiniR K X := by

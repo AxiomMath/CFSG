@@ -76,7 +76,7 @@ theorem mem_zpowers_cube {G : Type*} [Group G] {x y : G} (hx : x ^ 3 = 1)
   interval_cases r
   · left; simp
   · right; left; simp
-  · right; right; simp [zpow_natCast, pow_two]
+  · right; right; simp [pow_two]
 
 theorem mem_sup_zpowers {G : Type*} [Group G] {A : Subgroup G} {ξ : G}
     (hξ : ξ ∈ Subgroup.normalizer (A : Set G)) {x : G} (hx : x ∈ A ⊔ Subgroup.zpowers ξ) :

@@ -121,7 +121,7 @@ theorem exists_scriptQZero_lift {A B C YB : Subgroup G} {c : G} {L : Subgroup G}
         have h1 := hB.2
         have h2 := hB'.2
         omega))
-      obtain ⟨d', hd'B', hd'B⟩ := SetLike.not_le_iff_exists.mp hnle
+      obtain ⟨d', hd'B', hd'B⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
       have hAB : A ≤ B ⊔ Subgroup.zpowers d' :=
         le_sup_zpowers_of_not_mem h.isE27' hB (hB'.1 hd'B') hd'B
       intro x hx
@@ -166,6 +166,7 @@ theorem exists_scriptQZero_lift {A B C YB : Subgroup G} {c : G} {L : Subgroup G}
   have := congrArg Subtype.val hw
   simpa [commutatorElement_def] using this
 
+omit [Finite G] in
 private theorem map_conj_eq_self {H : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) : H.map (MulAut.conj g).toMonoidHom = H := by
   ext x
@@ -196,6 +197,7 @@ private theorem aschbacherSolvableCore_le_pPrimeCore {H : Type*} [Group H] [Fini
   have : (aschbacherSolvableCore 3 H).Normal := Subgroup.normal_of_characteristic _
   exact le_sSup ⟨inferInstance, (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hθ3⟩
 
+omit [Finite G] in
 private theorem le_of_le_sup_of_le_sup {YB YB' O θ Q : Subgroup G}
     (hYBO : YB ≤ Subgroup.normalizer (O : Set G)) (hYB'O : YB' ≤ Subgroup.normalizer (O : Set G))
     (hcomm : ⁅YB, YB'⁆ ≤ O) (hθO : θ ≤ O) (hYBθ : YB ⊓ O ≤ θ)

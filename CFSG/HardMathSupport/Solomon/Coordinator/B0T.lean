@@ -52,7 +52,7 @@ theorem inputB0T_holds : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.Inp
   set T : Subgroup G := (P : Subgroup (⁅Δ, B⁆ : Subgroup G)).map (⁅Δ, B⁆ : Subgroup G).subtype
     with hT
   have hTE : T ≤ ⁅Δ, B⁆ := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := P.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := P.isPGroup.map _
   have hBT : B ≤ Subgroup.normalizer (T : Set G) := fun b hb =>
     Subgroup.mem_normalizer_fintype fun n hn => by
       obtain ⟨x, hx, rfl⟩ := hn

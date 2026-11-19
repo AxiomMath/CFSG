@@ -26,7 +26,7 @@ theorem linear_weak_closure_normalizing_conjugates_centralize [Finite G] {p : �
     (A B : Subgroup G) (hA : ∃ a : G, A = MulAut.conj a⁻¹ • V)
     (hB : ∃ b : G, B = MulAut.conj b⁻¹ • V) (hBA : B ≤ normalizer (A : Set G)) :
     ⁅A, B⁆ = ⊥ := by
-  have hVp : IsPGroup p V := T.isPGroup'.to_le hVT
+  have hVp : IsPGroup p V := T.isPGroup.to_le hVT
   have key : ∀ c : G, MulAut.conj c⁻¹ • V ≤ normalizer (V : Set G) →
       ∀ v ∈ V, ∀ x ∈ MulAut.conj c⁻¹ • V, v * x = x * v := by
     intro c hc

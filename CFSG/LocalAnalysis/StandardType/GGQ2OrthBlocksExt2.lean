@@ -135,7 +135,7 @@ theorem plane_tau_form (hK : Nat.card K = 2) (hζ : Function.Injective ζ)
   have h : zetaMat ζ k * zetaMat ζ k + zetaMat ζ k = 1 := by
     rw [zetaMat]
     have := SpBlocks.zeta_mul_self_add hK hζ k
-    rwa [if_neg hk] at this
+    rwa [ite_eq_right hk] at this
   obtain ⟨h01, h10, hsum⟩ := entries_of_sq_add_self hK h
   have h00 : zetaMat ζ k 0 0 = 1 + zetaMat ζ k 1 1 := by
     calc zetaMat ζ k 0 0
@@ -237,7 +237,7 @@ theorem planeQ_eq_spForm_tau_of_support (hK : Nat.card K = 2)
     by_cases hj : j ∈ PlaneRaw.Code.extSupport (liftV t δ e)
     · have hjt : (j : ℕ) < t := lt_of_mem_extSupport_liftV t δ hj
       have hej : liftV t δ e j ≠ 0 := (PlaneRaw.mem_extSupport _ _).mp hj
-      rw [if_pos hjt, tau_mulVec_inl, tau_mulVec_inr]
+      rw [ite_eq_left hjt, tau_mulVec_inl, tau_mulVec_inr]
       exact (plane_tau_form (ζ := ζ) hK hζ hej _ _).symm
     · have h0 := hw j hj
       rw [h0.1, h0.2]

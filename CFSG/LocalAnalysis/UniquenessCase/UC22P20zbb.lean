@@ -14,7 +14,7 @@ section Aux
 
 theorem uc22pwtb_mem_oPi {Y : Type} [Group Y] {E : Subgroup Y} (hE : IsMulCommutative E) {α : Set ℕ}
     {x : Y} (hx : x ∈ E) (hα : ∀ p : ℕ, p.Prime → p ∣ orderOf x → p ∈ α) : x ∈ oPi α E := by
-  haveI := hE
+  have := hE
   have hz : zpowers x ≤ oPi α E := by
     refine le_iSup₂_of_le (zpowers x) ⟨?_, inferInstance, ?_⟩ le_rfl
     · rw [Subgroup.zpowers_le]
@@ -33,7 +33,7 @@ variable {X Γ : Type} [Group X] [Group Γ]
 theorem uc22pwtb_exists_sylow [Finite X] {U A₁ : Subgroup X}
     (hUsyl : CFSG.ABGLocalTools.IsSylowOf 2 (U ⊓ A₁) A₁) :
     ∃ U' : Sylow 2 ↥A₁, (U' : Subgroup ↥A₁) = (U ⊓ A₁).subgroupOf A₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hUp, hUidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hUsyl
   exact ⟨(hUp.comap_subtype (K := A₁)).toSylow hUidx, rfl⟩
 
@@ -60,7 +60,7 @@ theorem uc22pwt_elem_of_E [Finite X] {ρ : Γ →* MulAut X} {τ : Γ} {U A₁ A
     (hwgen : normalizer (((U ⊓ A₁).subgroupOf A₁ : Subgroup ↥A₁) : Set ↥A₁) ⊔ Subgroup.zpowers w = ⊤) :
     ∃ (h w₁ : X) (m a b : ℕ), UC22pwtElem C h w₁ m a b {p : ℕ | p.Prime ∧ p ∣ 2 ^ m' - 1} ∧
       (∀ p : ℕ, p.Prime → (p ∣ m ↔ p ∣ 2 ^ n - 1)) ∧ ∃ h₀ : ↥A₁, h₀ ∈ E ∧ (h₀ : X) = h := by
-  haveI := hEcyc
+  have := hEcyc
   obtain ⟨h₀, hh₀⟩ := IsCyclic.exists_generator (α := ↥E)
   have hord : orderOf h₀ = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hh₀
   have hE_eq : E = zpowers ((h₀ : ↥E) : ↥A₁) := by

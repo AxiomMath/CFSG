@@ -28,6 +28,7 @@ private def w16g_phi2 (q : MulAut W) : W →* W where
 private def w16g_P (q : MulAut W) (u : W) : W :=
   (q ^ 6) u * (q ^ 5) u * (q ^ 4) u * (q ^ 3) u * (q ^ 2) u * q u * u
 
+omit [Finite W] in
 private theorem w16g_phi2_equiv {q x : MulAut W} (hxq : Commute x q) (u : W) :
     w16g_phi2 q (x u) = x (w16g_phi2 q u) := by
   have h3 : Commute x (q ^ 3) := hxq.pow_right 3
@@ -40,6 +41,7 @@ private theorem w16g_phi2_equiv {q x : MulAut W} (hxq : Commute x q) (u : W) :
         rw [← MulAut.mul_apply, h2.eq.symm, MulAut.mul_apply]]
   rw [← map_mul, ← map_mul]
 
+omit [Finite W] in
 private theorem w16g_P_fix {q : MulAut W} (hq7 : q ^ 7 = 1) (u : W) :
     q (w16g_P q u) = w16g_P q u := by
   have h7 : (q ^ 7) u = u := by rw [hq7, MulAut.one_apply]
@@ -63,6 +65,7 @@ private theorem w16g_P_fix {q : MulAut W} (hq7 : q ^ 7 = 1) (u : W) :
     (q ^ 6) u * (q ^ 5) u * (q ^ 4) u * (q ^ 3) u * (q ^ 2) u * q u * u
   ac_rfl
 
+omit [Finite W] in
 private theorem w16g_P_mem {X : Subgroup (MulAut W)} {U₀ : Subgroup W}
     (hIrr : IsIrrOn X U₀ ⊥) {q : MulAut W} (hqX : q ∈ X) :
     ∀ u ∈ U₀, w16g_P q u ∈ U₀ := by
@@ -74,6 +77,7 @@ private theorem w16g_P_mem {X : Subgroup (MulAut W)} {U₀ : Subgroup W}
   exact U₀.mul_mem (U₀.mul_mem (U₀.mul_mem (U₀.mul_mem (U₀.mul_mem
     (U₀.mul_mem (hk 6) (hk 5)) (hk 4)) (hk 3)) (hk 2)) hq) hu
 
+omit [Finite W] in
 private theorem w16g_phi1_phi2 (hW : ∀ w : W, w * w = 1) (q : MulAut W) (u : W) :
     w16g_phi1 q (w16g_phi2 q u) = w16g_P q u := by
   have h33 : (q ^ 3) ((q ^ 3) u) = (q ^ 6) u := by
@@ -99,6 +103,7 @@ private theorem w16g_phi1_phi2 (hW : ∀ w : W, w * w = 1) (q : MulAut W) (u : W
     _ = (q ^ 6) u * (q ^ 5) u * (q ^ 4) u * (q ^ 3) u * (q ^ 2) u * q u * u := by
           ac_rfl
 
+omit [Finite W] in
 private theorem w16g_triple_transfer_sec {X : Subgroup (MulAut W)} {U₀ V₁ : Subgroup W}
     {a b : MulAut W} (ha : a ∈ X) (hb : b ∈ X)
     (h₀ : ∀ w ∈ U₀, a w * b w * w = 1) (hsec : SecIsoOn X V₁ ⊥ U₀ ⊥) :
@@ -123,6 +128,7 @@ private theorem w16g_triple_transfer_sec {X : Subgroup (MulAut W)} {U₀ V₁ : 
   have h1 : ((⟨a z, haz⟩ * ⟨b z, hbz⟩ * ⟨z, hz⟩ : ↥V₁) : W) = 1 := (hβone _).mp harg
   simpa using h1
 
+omit [Finite W] in
 private theorem w16g_mem_fixV_of_cubic {q : MulAut W} {u : W}
     (h1 : (q ^ 3) u * q u * u = 1) (h2 : (q ^ 3) u * (q ^ 2) u * u = 1) :
     u ∈ fixV (Subgroup.zpowers q) := by
@@ -137,6 +143,7 @@ private theorem w16g_mem_fixV_of_cubic {q : MulAut W} {u : W}
     exact h
   exact mem_fixV_zpowers_iff_apply.mpr hu.symm
 
+omit [Finite W] in
 theorem s13_triple_transfer {X : Subgroup (MulAut W)} {U₀ : Subgroup W} {a b : MulAut W}
     (ha : a ∈ X) (hb : b ∈ X) (h₀ : ∀ w ∈ U₀, a w * b w * w = 1) :
     ∀ w ∈ s13IsoSum X U₀, a w * b w * w = 1 := by
@@ -237,6 +244,7 @@ theorem s13_seven_annihilator (hW : ∀ w : W, w * w = 1) {X : Subgroup (MulAut 
     exact s13_triple_transfer (X := X) (U₀ := U₀) (a := q ^ 3) (b := q ^ 2)
       (X.pow_mem hqX 3) (X.pow_mem hqX 2) h
 
+omit [Finite W] in
 theorem s13_seven_inverted_false {q s : MulAut W} (hsq : s * q * s⁻¹ = q⁻¹) {U : Subgroup W}
     (hsU : U.map s.toMonoidHom = U) (hfix : U ⊓ fixV (Subgroup.zpowers q) = ⊥)
     (hann : (∀ w ∈ U, (q ^ 3) w * q w * w = 1) ∨ (∀ w ∈ U, (q ^ 3) w * (q ^ 2) w * w = 1)) :

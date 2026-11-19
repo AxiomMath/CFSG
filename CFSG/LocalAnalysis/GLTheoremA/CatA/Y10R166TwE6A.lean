@@ -35,7 +35,7 @@ theorem twE6D5_ncard : twE6D5.ncard = 40 := by
   have h : ((rootFinset Tag.E6).filter (fun α => α 0 = 0)).card = 40 := by decide +kernel
   have h2 : twE6D5 = ↑((rootFinset Tag.E6).filter (fun α => α 0 = 0)) := by
     ext α
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, twE6D5]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, twE6D5]
     rw [mem_rootFinset]
   rw [h2, Set.ncard_coe_finset, h]
 
@@ -51,8 +51,8 @@ theorem rootChar_twE6omega1Tuple {K : Type} [Field K] (ζ : Kˣ) (v : Fin Tag.E6
   · intro h
     exact absurd (Finset.mem_univ (0 : Fin Tag.E6.rank)) h
 
-theorem kernelRoots_omega1 {K : Type} [Field K] {q : ℕ} (hq : q.Prime) {ζ : Kˣ}
-    (hζq : ζ ^ q = 1) (hζ1 : ζ ≠ 1) :
+theorem kernelRoots_omega1 {K : Type} [Field K] {q : ℕ} (_hq : q.Prime) {ζ : Kˣ}
+    (_hζq : ζ ^ q = 1) (hζ1 : ζ ≠ 1) :
     kernelRoots (rootCharHom (twE6omega1Tuple ζ)) = twE6D5 := by
   have hone : ζ ^ (1 : ℕ) ≠ 1 := by simpa using hζ1
   ext γ

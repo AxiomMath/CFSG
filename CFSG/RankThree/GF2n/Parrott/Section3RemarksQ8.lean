@@ -590,8 +590,8 @@ theorem eq_or_eq_of_quaternion_of_fixedPointFree {P Q₁ Q₂ : Subgroup G}
   have hle : Q ≤ Q₁ ∨ Q ≤ Q₂ := by
     by_contra hcon
     obtain ⟨h₁, h₂⟩ := not_or.mp hcon
-    obtain ⟨a, haQ, ha₁⟩ := SetLike.not_le_iff_exists.mp h₁
-    obtain ⟨b, hbQ, hb₂⟩ := SetLike.not_le_iff_exists.mp h₂
+    obtain ⟨a, haQ, ha₁⟩ := IsConcreteLE.not_le_iff_exists.mp h₁
+    obtain ⟨b, hbQ, hb₂⟩ := IsConcreteLE.not_le_iff_exists.mp h₂
     have ha₂ : a ∈ Q₂ := (hunion a haQ).resolve_left ha₁
     have hb₁ : b ∈ Q₁ := (hunion b hbQ).resolve_right hb₂
     rcases hunion (a * b) (Q.mul_mem haQ hbQ) with h | h

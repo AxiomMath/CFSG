@@ -27,7 +27,7 @@ theorem exists_normalizer_of_not_sylow {H : Type*} [Group H] [Finite H] {P : Sub
       rw [htop]
       exact Subgroup.mem_top _
     exact this
-  have : Group.IsNilpotent ↥(S : Subgroup H) := IsPGroup.isNilpotent S.isPGroup'
+  have : Group.IsNilpotent ↥(S : Subgroup H) := IsPGroup.isNilpotent S.isPGroup
   obtain ⟨s, hsn, hsH⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨(s : H), ?_, fun hs => hsH hs, ?_⟩
@@ -48,7 +48,7 @@ theorem exists_normalizer_of_not_sylow {H : Type*} [Group H] [Finite H] {P : Sub
         rwa [h3] at h2
       have h1 : s * (⟨y, hyS⟩ : ↥(S : Subgroup H)) * s⁻¹ ∈ P.subgroupOf (S : Subgroup H) := hy
       exact (Subgroup.mem_normalizer_iff.mp hsn _).mpr h1
-  · obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') s
+  · obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) s
     refine ⟨k, ?_⟩
     rw [← Subgroup.orderOf_coe] at hk
     exact hk

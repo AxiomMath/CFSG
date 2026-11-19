@@ -118,12 +118,12 @@ private theorem natCard_fixedSub_eq_of_equiv
       exact h1
     exact e.toLinearEquiv.injective h2
 
+omit [Finite W] [Fact ρ.IsIrreducible] in
 private theorem smul_mem_commSub_X7 (Z : Subgroup G) (d : EndRing ρ) {w : W}
     (hw : w ∈ commSub ρ Z) :
     d • w ∈ commSub ρ Z := by
   classical
   change w ∈ (⨆ a : G, ⨆ (_ : a ∈ Z), LinearMap.range (ρ a - 1)) at hw
-  change d • w ∈ commSub ρ Z
   refine Submodule.iSup_induction (fun a : G => ⨆ (_ : a ∈ Z), LinearMap.range (ρ a - 1))
     (motive := fun w => d • w ∈ commSub ρ Z) hw ?_ ?_ ?_
   · intro a x hx
@@ -137,10 +137,10 @@ private theorem smul_mem_commSub_X7 (Z : Subgroup G) (d : EndRing ρ) {w : W}
         have h := (repD ρ a).map_smul d u
         simpa [repD_apply] using h
       simp only [LinearMap.sub_apply, Module.End.one_apply, hd, smul_sub]
-    · simpa using Submodule.zero_mem (commSub ρ Z)
+    · simp
     · intro x y hx hy
       simpa [smul_add] using Submodule.add_mem (commSub ρ Z) hx hy
-  · simpa using Submodule.zero_mem (commSub ρ Z)
+  · simp
   · intro x y hx hy
     simpa [smul_add] using Submodule.add_mem (commSub ρ Z) hx hy
 
@@ -218,11 +218,11 @@ private theorem map_commSubK_of_equiv
         refine Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem ha ?_)
         refine LinearMap.mem_range.mpr ⟨e v, ?_⟩
         simp only [LinearMap.sub_apply, Module.End.one_apply, map_sub, equiv_apply]
-      · simpa using Submodule.zero_mem _
+      · simp
       · intro x y hx hy
         rw [map_add]
         exact Submodule.add_mem _ hx hy
-    · simpa using Submodule.zero_mem _
+    · simp
     · intro x y hx hy
       rw [map_add]
       exact Submodule.add_mem _ hx hy
@@ -318,9 +318,9 @@ private theorem finrank_fixedSub_dualMat_eq_baseChange {m : ℕ}
   let Y : Z → Matrix (Fin m) (Fin m) D := fun z => (RD (z : G) - 1)ᵀ
   let KD := {x : Fin m → D // ∀ z : Z, (Y z).mulVec x = 0}
   let KE := {x : Fin m → E // ∀ z : Z, ((RE (z : G) - 1)ᵀ).mulVec x = 0}
-  letI : Algebra D E := ιD.toAlgebra
+  let : Algebra D E := ιD.toAlgebra
   let f : ℕ := Module.finrank D E
-  haveI : Finite D := finite_endRing ρ
+  have : Finite D := finite_endRing ρ
   have hfpos : 0 < f := by
     have : Module.Finite D E := Module.Finite.of_finite; exact Module.finrank_pos
   have hbase_ge : 2 ≤ Nat.card D := by
@@ -342,17 +342,17 @@ private theorem finrank_fixedSub_dualMat_eq_baseChange {m : ℕ}
   have hRE : ∀ g, RE g = (CFSG.QuasithinUnique.Setup.SL2Modules.matRep b g).map ιD :=
     fun g => by simp only [RE, MonoidHom.comp_apply, hRD g]; rfl
   have hdual := natCard_fixedSub_dualMat_eq_of_map (b := b) (ιD := ιD) (R := R) Φ RE hRE Z
-  haveI : Finite ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
+  have : Finite ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
       (CFSG.QuasithinUnique.Setup.X7.dualMat RD)) Z) := Subtype.finite
-  haveI : Module.Finite D ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
+  have : Module.Finite D ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
       (CFSG.QuasithinUnique.Setup.X7.dualMat RD)) Z) := Module.Finite.of_finite
   have hKDpow : Nat.card KD = Nat.card D ^
       Module.finrank D (fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
         (CFSG.QuasithinUnique.Setup.X7.dualMat RD)) Z) := by
     rw [← hKD]; exact Module.natCard_eq_pow_finrank
-  haveI : Finite ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
+  have : Finite ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
       (CFSG.QuasithinUnique.Setup.X7.dualMat R)) Z) := Subtype.finite
-  haveI : Module.Finite E ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
+  have : Module.Finite E ↥(fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
       (CFSG.QuasithinUnique.Setup.X7.dualMat R)) Z) := Module.Finite.of_finite
   have hEpow : Nat.card (fixedSub (CFSG.QuasithinUnique.Setup.X7.matRep
         (CFSG.QuasithinUnique.Setup.X7.dualMat R)) Z) = Nat.card E ^
@@ -375,7 +375,7 @@ theorem natCard_commSub_mul_natCard_fixedSub_dualMat {m : ℕ}
   let D := EndRing ρ
   let RD : G →* Matrix (Fin m) (Fin m) D :=
     CFSG.QuasithinUnique.Setup.SL2Modules.matRep b
-  haveI : Finite D := finite_endRing ρ
+  have : Finite D := finite_endRing ρ
   have hcardSD : Nat.card (commSub ρ Z) =
       Nat.card D ^ Module.finrank D (commSubK
         (CFSG.QuasithinUnique.Setup.X7.matRep RD) Z) := by
@@ -456,12 +456,12 @@ theorem isSzNatural_of_commSub_card_lt
   obtain ⟨d, hd1, hDcard, hdesc⟩ := sz_descent (a := a) (K := K) hK hnt
   let b := Module.finBasis (EndRing ρ) W
   obtain ⟨E, hEfield, hEfin, hEchar, ιK, ιD, A, hAne, hA, hrest⟩ := hdesc b
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
-  letI : Algebra K E := ιK.toAlgebra
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
+  let : Algebra K E := ιK.toAlgebra
   obtain ⟨⟨Φ⟩, hshift, hdimW⟩ := hrest
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
+  have : Finite (EndRing ρ) := finite_endRing ρ
   have hWcard : Nat.card W = Nat.card (EndRing ρ) ^ (4 ^ A.card) := by
     rw [natCard_eq_pow_finrank (ρ := ρ), hdimW]
   have hdual : ∀ g : ↥(suzukiGroup a K),

@@ -48,7 +48,7 @@ theorem n12l3_conj_eq_of_H0 {G : Type} [Group G] {M Z : Subgroup G} {g : G}
 
 theorem n12l3_Z_le_W {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (hc : Ctx M Q Z B) (t : G) : Z ≤ Wt Q (Vt M (LB M Q B) B Z t) :=
-  fun z hz => ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun v hv =>
+  fun _z hz => ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun _v hv =>
     (hc.hyp.toHyp79.V_central hz (hc.Vt_le_Q t hv)).symm⟩
 
 theorem n12l3_Wt_le_Q {G : Type} [Group G] (Q V : Subgroup G) : Wt Q V ≤ Q :=
@@ -56,10 +56,10 @@ theorem n12l3_Wt_le_Q {G : Type} [Group G] (Q V : Subgroup G) : Wt Q V ≤ Q :=
 
 theorem n12l3_secHyp {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (hc : Ctx M Q Z B) {R : Subgroup G} (hRM : R ≤ M) : SecHyp R Q Z :=
-  ⟨hc.Z_le_Q, fun x hx y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
-    fun x hx => hc.hyp.toHyp79.sq_mem_V hx,
-    fun r hr x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM hr)) x).mp hx,
-    fun r hr x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hRM hr)) x).mp hx⟩
+  ⟨hc.Z_le_Q, fun _x hx _y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
+    fun _x hx => hc.hyp.toHyp79.sq_mem_V hx,
+    fun _r hr _x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM hr)) _x).mp hx,
+    fun _r hr _x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hRM hr)) _x).mp hx⟩
 
 theorem n12l3_comm_mem_W {G : Type} [Group G] [Finite G] {R Q Z V W : Subgroup G} {t : G}
     (hSec : SecHyp R Q Z) (hchi : IsChiIso Q R W V Z t) (hVQ : V ≤ Q) (hZW : Z ≤ W)

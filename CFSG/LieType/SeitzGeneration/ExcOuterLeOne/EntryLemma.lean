@@ -72,7 +72,7 @@ theorem weyl_step_explicit (i : Fin τ.rank) {α : Fin τ.rank → ℤ} (hα : I
       · have h := weylElt_hVec (R := K) i j 1
         have e : Finsupp.single (Sum.inl j) c = c • hVec τ K j := by simp [hVec]
         rw [e, map_smul, h]
-        simp [hVec, Finsupp.single_apply]
+        simp [hVec]
       · have e : Finsupp.single (Sum.inr ⟨β, hβ⟩) c = c • rootVec τ K β := by
           simp [rootVec_eq_single hβ]
         rw [e, map_smul, weylElt_rootVec i 1 hβ]
@@ -83,7 +83,7 @@ theorem weyl_step_explicit (i : Fin τ.rank) {α : Fin τ.rank → ℤ} (hα : I
             have := congrArg (reflect τ i) h'
             rwa [reflect_reflect, reflect_reflect] at this)
           simp [rootVec_eq_single hβ, rootVec_eq_single (IsRoot.reflect i hβ),
-            rootVec_eq_single (IsRoot.reflect i hα), Finsupp.single_apply, hne, hβα]
+            hne, hβα]
 
 theorem weyl_step {R : Subgroup ↥(adjointGroup τ K)}
     (hw : ∀ i : Fin τ.rank,
@@ -644,7 +644,7 @@ theorem vanishSub_invariant (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .
   exact hxS.1 z hz
 
 theorem vanishSub_rootCoord (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {k : Subfield K}
-    (h3 : 3 ≤ Nat.card k) {R : Subgroup ↥(adjointGroup τ K)}
+    (_h3 : 3 ≤ Nat.card k) {R : Subgroup ↥(adjointGroup τ K)}
     (hrat : ∀ γ : Fin τ.rank → ℤ, IsRoot τ γ → ∀ c ∈ k, xPar (rootOperatorFamily τ) γ c ∈ R)
     {θ : Fin τ.rank → ℤ} (hθ : IsMaxHeightRoot τ θ) {z : RootModule τ K}
     (hz : z ∈ vanishSub R (negLabel hθ.1)) {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β)
@@ -673,7 +673,7 @@ theorem xPar_neg_coord_formula {θ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ) :
       have := congrFun h' j
       simp at this
     simp [rootVec_eq_single (isRoot_single τ j), rootVec_eq_single (isRoot_neg_single τ j), hVec,
-      Finsupp.single_apply, hne]
+      hne]
   | @reflect i v hv ih =>
     obtain ⟨u, hu, hform⟩ := ih
     obtain ⟨ε, hε, hconj⟩ := weylElement_xPar_conj (F := rootOperatorFamily τ) (K := K) i hv
@@ -755,7 +755,7 @@ theorem eq_one_of_sub_mem_vanishSub (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 �
       rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, map_sub, this]
     rw [e]
     exact hinv h _ (hy _)⟩
-  haveI := isSimpleGroup_adjointGroup_of_type (K := K) hτ
+  have := isSimpleGroup_adjointGroup_of_type (K := K) hτ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · have hxN : x ∈ N := hx
     rw [h] at hxN
@@ -775,7 +775,7 @@ theorem eq_one_of_sub_mem_vanishSub (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 �
         simp only [height, Pi.neg_apply, Finset.sum_neg_distrib] at h3'
         simp only [height] at this
         omega
-      simp [Finsupp.single_apply, hne]
+      simp [hne]
     simpa [hv] using h2
 
 theorem three_le_card_fixSubfield [Finite K] (σ : K ≃+* K)
@@ -785,11 +785,11 @@ theorem three_le_card_fixSubfield [Finite K] (σ : K ≃+* K)
   · have h2 : 2 ≤ Nat.card (fixSubfield σ) := Finite.one_lt_card
     by_contra hlt
     have hc : Nat.card (fixSubfield σ) = 2 := by omega
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype (fixSubfield σ) := Fintype.ofFinite _
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype (fixSubfield σ) := Fintype.ofFinite _
     obtain ⟨n, hℓ, -⟩ := FiniteField.card K (ringChar K)
-    haveI : CharP K (ringChar K) := ringChar.charP K
-    haveI : CharP (fixSubfield σ) (ringChar K) :=
+    have : CharP K (ringChar K) := ringChar.charP K
+    have : CharP (fixSubfield σ) (ringChar K) :=
       ((fixSubfield σ).subtype.charP_iff Subtype.val_injective _).2 inferInstance
     obtain ⟨m, -, hm⟩ := FiniteField.card (fixSubfield σ) (ringChar K)
     rw [Nat.card_eq_fintype_card] at hc

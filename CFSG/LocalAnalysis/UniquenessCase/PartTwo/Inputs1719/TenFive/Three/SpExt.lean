@@ -177,7 +177,7 @@ theorem exists_frame_inv_ext (hr : 3 ≤ r) (h2 : (2 : K) ≠ 0) (A : GL (Fin r 
   have h4lt : Submodule.span K
       ({e0, e1, a *ᵥ e0, a *ᵥ e1} : Set (Fin r ⊕ Fin r → K)) < ⊤ :=
     span_four_lt_top hr e0 e1 (a *ᵥ e0) (a *ᵥ e1)
-  obtain ⟨c2, -, hc2⟩ := (SetLike.lt_iff_le_and_exists.mp h4lt).2
+  obtain ⟨c2, -, hc2⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp h4lt).2
   obtain ⟨e2, he2orth, he2val⟩ :=
     exists_spForm_sep (S := {e0, e1, a *ᵥ e0, a *ᵥ e1}) (c := c2) hc2
   have he2ne : e2 ≠ 0 := by

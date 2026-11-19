@@ -13,7 +13,7 @@ variable {K : Type} [Group K] [Finite K] {n : ℕ}
 
 theorem card_sylow_two (h : BenderType K n 1 1) :
     Nat.card (Sylow 2 K) = 2 ^ n + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨t, hc⟩ := h.exists_benderCore Q
   rw [Sylow.card_eq_index_normalizer Q]
@@ -36,11 +36,11 @@ theorem sylow_card_comm (h : BenderType K n 1 1) (P : Sylow 2 K) :
 
 theorem sylow_inf_eq_bot (h : BenderType K n 1 1) {P Q : Sylow 2 K}
     (hPQ : P ≠ Q) : (P : Subgroup K) ⊓ (Q : Subgroup K) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨tP, hcP⟩ := h.exists_benderCore P
   have hV2 : IsPGroup 2 ((P : Subgroup K) ⊓ (Q : Subgroup K) : Subgroup K) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have hVP : ((P : Subgroup K) ⊓ (Q : Subgroup K) : Subgroup K) ≤ borel (P : Subgroup K) :=
     inf_le_left.trans (le_borel _)
   have hN : normalizer (((P : Subgroup K) ⊓ (Q : Subgroup K) : Subgroup K) : Set K) ≤
@@ -53,7 +53,7 @@ theorem sylow_inf_eq_bot (h : BenderType K n 1 1) {P Q : Sylow 2 K}
       exact (sylow_card_comm h Q).2 v (Subgroup.mem_inf.mp hv).2 x hxQ
     exact hN (Subgroup.centralizer_le_normalizer _ hxC)
   have hle : (Q : Subgroup K) ≤ (P : Subgroup K) := by
-    have := Q.isPGroup'.inf_normalizer_sylow P
+    have := Q.isPGroup.inf_normalizer_sylow P
     rw [inf_eq_left.mpr hQN] at this
     exact this.le.trans inf_le_right
   exact hPQ (Sylow.ext (Q.maximal_isPGroup.eq_of_le P.isPGroup hle).symm)
@@ -62,12 +62,12 @@ theorem eq_top_of_sylow_le (h : BenderType K n 1 1) (P : Sylow 2 K)
     (J : Subgroup K) (hPJ : (P : Subgroup K) ≤ J) (hJ : ¬ J ≤ normalizer (P : Set K)) :
     J = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup K := h.isSimple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup K := h.isSimple
   have hcardP := (sylow_card_comm h P).1
   obtain ⟨j, hjJ, hjP⟩ : ∃ j ∈ J, j ∉ normalizer (P : Set K) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hJ hcon
   set P' : Sylow 2 K := j • P with hP'
   have hP'ne : P' ≠ P := fun h' => hjP (Sylow.smul_eq_iff_mem_normalizer.mp h')
@@ -89,7 +89,7 @@ theorem eq_top_of_sylow_le (h : BenderType K n 1 1) (P : Sylow 2 K)
     have h4 : (v : K)⁻¹ * u ∈ (P : Subgroup K) :=
       Subgroup.mul_mem _ (Subgroup.inv_mem _ v.2) u.2
     have h5 : (v : K)⁻¹ * u ∈ (P : Subgroup K) ⊓ (P' : Subgroup K) := by
-      rw [← P.isPGroup'.inf_normalizer_sylow P']
+      rw [← P.isPGroup.inf_normalizer_sylow P']
       exact ⟨h4, h3⟩
     rw [sylow_inf_eq_bot h hP'ne.symm, Subgroup.mem_bot] at h5
     exact Subtype.ext (inv_mul_eq_one.mp h5).symm

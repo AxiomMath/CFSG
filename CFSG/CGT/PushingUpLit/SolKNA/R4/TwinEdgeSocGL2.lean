@@ -133,7 +133,7 @@ theorem soc_mem_scalar_of_mem_comap {K : Type} [Field K] [Finite K] {H : Subgrou
     (hrange : π.range = Subgroup.centralizer ({z} : Set F)) (hk : CubeKer π)
     (hcs : SLCentScalar H) {F₀ : Type} [Field F₀] [Finite F₀] (hF₀ : ringChar F₀ ≠ 2)
     (h4 : 4 ≤ Nat.card F₀) (eJ : slPart H ≃* SL(2, F₀))
-    {N P : Subgroup F} (hN : N ≤ Subgroup.centralizer ({z} : Set F))
+    {N P : Subgroup F} (_hN : N ≤ Subgroup.centralizer ({z} : Set F))
     (hNn : Subgroup.centralizer ({z} : Set F) ≤ Subgroup.normalizer (N : Set F))
     (hP : CFSG.ClassicalInvolution.Asc77.IsSylow2In P N) (hPc : IsCyclic P) {m : H}
     (hm : π m ∈ N) : ∃ c : Kˣ, (m : GL (Fin 2) K) = Matrix.GeneralLinearGroup.scalar (Fin 2) c := by
@@ -153,7 +153,7 @@ theorem soc_mem_scalar_of_mem_comap {K : Type} [Field K] [Finite K] {H : Subgrou
     soc_isCyclic_of_le_comap hk hP hPc (by rw [← hM]; exact hV) hp
   have hnot : ¬ slPart H ≤ M := by
     intro hle
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨Q⟩ : Nonempty (Sylow 2 M) := inferInstance
     have hS : CFSG.ABGLocalTools.IsSylowOf 2 ((Q : Subgroup M).map M.subtype) M := ⟨Q, rfl⟩
     have hSp : IsPGroup 2 ↥((Q : Subgroup M).map M.subtype) := Q.isPGroup.map M.subtype
@@ -201,7 +201,7 @@ theorem soc_exists_cyclic_of_gl2 {K : Type} [Field K] [Finite K] {H : Subgroup (
       (MonoidHom.mem_range.mpr ⟨c, hc.symm⟩)⟩, hm⟩
 
 theorem socleCyc4_of_gl2 {F : Type} [Group F] [Finite F] {K : Type} [Field K] [Finite K]
-    {z : F} (hz : orderOf z = 2) {H : Subgroup (GL (Fin 2) K)} (π : H →* F)
+    {z : F} (_hz : orderOf z = 2) {H : Subgroup (GL (Fin 2) K)} (π : H →* F)
     (hrange : π.range = Subgroup.centralizer ({z} : Set F)) (hk : CubeKer π)
     (hcs : SLCentScalar H) {F₀ : Type} [Field F₀] [Finite F₀] (hF₀ : ringChar F₀ ≠ 2)
     (h4 : 4 ≤ Nat.card F₀) (eJ : slPart H ≃* SL(2, F₀)) :

@@ -73,7 +73,7 @@ private def stabPerf_Lhom : SpecialLinearGroup (Fin 2) F →* SpecialLinearGroup
     intro i j
     fin_cases i <;> fin_cases j <;>
       simp [coe_stabPerf_Lel, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-        Fin.sum_univ_two, Fin.sum_univ_three] <;> ring
+        Fin.sum_univ_two, Fin.sum_univ_three]
 
 private theorem stabPerf_Lhom_apply (X : SpecialLinearGroup (Fin 2) F) :
     stabPerf_Lhom X = stabPerf_Lel X := rfl
@@ -83,7 +83,7 @@ private theorem stabPerf_exists_mulVec_e0_of_zero_ne {v : Fin 3 → F} (hv : v 0
   refine ⟨⟨!![1 / v 0, 0, 0; -v 1, v 0, 0; -v 2 / v 0, 0, 1], ?_⟩, ?_⟩
   · simp [Matrix.det_fin_three, hv]
   · ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, hv] <;> field_simp <;>
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, hv]; field_simp;
       ring
 
 private theorem stabPerf_exists_mulVec_e0 {w : Fin 3 → F} (hw : w ≠ 0) :
@@ -214,13 +214,11 @@ private theorem stabPerf_commutator_Uel {a : F} (ha0 : a ≠ 0) {u v : Fin 2 →
     apply Matrix.SpecialLinearGroup.ext
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.SpecialLinearGroup.coe_mul, coe_stabPerf_Dl, coe_stabPerf_Uel,
-        Matrix.mul_fin_three]
+      simp [Matrix.SpecialLinearGroup.coe_mul, coe_stabPerf_Dl, coe_stabPerf_Uel]
     all_goals first
       | linear_combination a * hu0 - u 0 * hinv
       | linear_combination -(a * hu0 - u 0 * hinv)
       | linear_combination a⁻¹ * hu1 - u 1 * hinv
-      | linear_combination -(a⁻¹ * hu1 - u 1 * hinv)
   rw [commutatorElement_def, hmul]
   group
 

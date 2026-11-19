@@ -35,7 +35,7 @@ theorem exists_lift_a5_cv {X Y : Type} [Group X] [Group Y] (f : X →* Y) (hf : 
     (hker : ∀ x ∈ f.ker, ∃ n : ℕ, x ^ (2 ^ n) = 1)
     (φ : X →* alternatingGroup (Fin 5)) (hφ : Function.Surjective φ) :
     ∃ ψ : Y →* alternatingGroup (Fin 5), Function.Surjective ψ ∧ ∀ x, ψ (f x) = φ x := by
-  haveI hN₀n : (f.ker.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have hN₀n : (f.ker.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
   have hN₀2 : ∀ a ∈ f.ker.map φ, ∃ n : ℕ, a ^ (2 ^ n) = 1 := by
     intro a ha
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 ha

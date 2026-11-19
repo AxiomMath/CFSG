@@ -16,7 +16,7 @@ open Subgroup
 theorem index_ne_two_of_commutator_eq_top {E : Type*} [Group E] (hE : _root_.commutator E = ⊤)
     (N : Subgroup E) : N.index ≠ 2 := by
   intro hN
-  haveI : N.Normal := Subgroup.normal_of_index_eq_two hN
+  have : N.Normal := Subgroup.normal_of_index_eq_two hN
   have hcard : Nat.card (E ⧸ N) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hN

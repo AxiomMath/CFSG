@@ -47,7 +47,7 @@ theorem eq_three_or_five_of_dvd {p k : ℕ} (hp : p.Prime) (hmod : p ^ k % 8 = 3
       by_contra hlt
       have h5 : 5 ^ 2 ∣ 20158709760 := (pow_dvd_pow 5 (by omega)).trans hq
       norm_num at h5
-    interval_cases k <;> revert hmod hdvd <;> norm_num
+    interval_cases k; revert hmod hdvd; norm_num
   · have hk2 : k ≤ 2 := by
       by_contra hlt
       have h5 : 7 ^ 3 ∣ 20158709760 := (pow_dvd_pow 7 (by omega)).trans hq
@@ -57,7 +57,7 @@ theorem eq_three_or_five_of_dvd {p k : ℕ} (hp : p.Prime) (hmod : p ^ k % 8 = 3
       by_contra hlt
       have h5 : 31 ^ 2 ∣ 20158709760 := (pow_dvd_pow 31 (by omega)).trans hq
       norm_num at h5
-    interval_cases k <;> revert hmod hdvd <;> norm_num
+    interval_cases k; revert hmod hdvd; norm_num
 
 theorem nonempty_mulEquiv_perm_four_of_pgl2 {L K : Type} [Group L] [Field K] [Finite K]
     (e : L ≃* PGL2 K) (hK : Nat.card K = 3) : Nonempty (L ≃* Equiv.Perm (Fin 4)) := by

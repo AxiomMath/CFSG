@@ -32,7 +32,7 @@ theorem isCharacteristicP_x_and_pCoreOf_ne_bot {A : Subgroup G} {c : G} {L : Sub
     (h : Sec14Std G A c L) (h149 : Item149 A (lB A)) {X K Y M T : Subgroup G}
     (hC : Ctx155 A X K Y M T) (hIX : delta A (lB A) M ≤ Subgroup.normalizer (X : Set G)) :
     IsCharacteristicP 2 ↥X ∧ CFSG.Open.pCoreOf 2 X ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hMchar, hME⟩ := charTwo_and_le_normalizer_oPrimeResidualOf h h149 hC
   have hEI : oPrimeResidualOf 3 (delta A (lB A) M) ≤ delta A (lB A) M :=
     Sec14.oPrimeResidualOf_le_self 3 _
@@ -44,11 +44,11 @@ theorem isCharacteristicP_x_and_pCoreOf_ne_bot {A : Subgroup G} {c : G} {L : Sub
   refine ⟨hXchar, ?_⟩
   have hX4 : X ∈ Sec15.scriptY4 A (lB A) := hC.res ▸ hC.isY.2.1
   have hq := hX4.2.2.2
-  haveI : Nontrivial ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X)) :=
+  have : Nontrivial ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X)) :=
     hq.2.1.toNontrivial
-  haveI : Nontrivial (↥X ⧸ CFSG.pCore 2 ↥X) :=
+  have : Nontrivial (↥X ⧸ CFSG.pCore 2 ↥X) :=
     (QuotientGroup.mk_surjective (s := Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X))).nontrivial
-  haveI : Nontrivial ↥X := (QuotientGroup.mk_surjective (s := CFSG.pCore 2 ↥X)).nontrivial
+  have : Nontrivial ↥X := (QuotientGroup.mk_surjective (s := CFSG.pCore 2 ↥X)).nontrivial
   exact Sec15.pCoreOf_ne_bot_of_pCore_ne_bot (Sec15.pCore_ne_bot_of_isCharacteristicP hXchar)
 
 theorem eq_normalizer_x_of_le {A : Subgroup G} {c : G} {L : Subgroup G}
@@ -57,7 +57,7 @@ theorem eq_normalizer_x_of_le {A : Subgroup G} {c : G} {L : Subgroup G}
     (hMX : M ≤ Subgroup.normalizer (X : Set G)) :
     M = Subgroup.normalizer (X : Set G) ∧
       M = Subgroup.normalizer (CFSG.Open.pCoreOf 2 X : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX2 := (isCharacteristicP_x_and_pCoreOf_ne_bot h h149 hC hIX).2
   have hMX' : M = Subgroup.normalizer (X : Set G) := Sec15.eq_normalizer_of_le hC.mem_m.1 hMX hX2
   refine ⟨hMX', Sec15.eq_normalizer_of_le hC.mem_m.1

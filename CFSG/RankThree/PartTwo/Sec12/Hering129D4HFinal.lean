@@ -32,10 +32,10 @@ theorem exists_conj_zStd {ζ : (AlgebraicClosure X)ˣ} (hζ : orderOf ζ = 3)
     (hgG : g ∈ adjointGroup TwistTag.D4.tag (AlgebraicClosure X)) {c : C0 σ}
     (hc : threeSixEmb' (AlgebraicClosure X) X σ g c = rootDiagUnit TwistTag.D4.tag (tup ζ gT)) :
     ∃ γ₀ : C0 σ, γ₀ * c * γ₀⁻¹ = zStd P := by
-  haveI := P.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := AlgebraicClosure X with hL
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   have hζ3 := pow_three_of_orderOf hζ
   have hσ3 : σ ^ 3 = 1 := P.sigma_pow_three
   obtain ⟨k', hk', hzk⟩ := exists_conj_dA_of_mem_short hσ3 hζ (zStd_mem P) (zStd_pow_three P)
@@ -81,7 +81,7 @@ include P hFr hε hqε hζ hgG hFg
 
 theorem cE_mem_threeSixTorus :
     rootDiagUnit TwistTag.D4.tag (tup ζ gT) ∈ threeSixTorus L Fr ε := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
   have hgT : gT = vecV 1 0 := by decide
   rw [hgT]
   exact mem_threeSixTorus_tup_vec hFr hε hqε (pow_three_of_orderOf hζ) 1 0
@@ -98,9 +98,9 @@ theorem isSLThreePiAt_R_ge2 (hn : 2 ≤ n) {c : C0 σ}
     (hA : IsThreeA c (2 ^ n)) :
     Sec4.IsSLThreePiAt ↥(threeSixSingularR L X σ Fr ε vT g) (2 ^ n) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq2 : ε = 1 ∨ 2 < 2 ^ n := Or.inr (lt_of_lt_of_le (by norm_num)
     (Nat.pow_le_pow_right (by norm_num) hn))
   obtain ⟨hcomm, hquasi, -⟩ := threeSix_singular_three (ℓ := 2) Nat.prime_two (by decide)
@@ -118,7 +118,7 @@ theorem isSLThreePiAt_R_ge2 (hn : 2 ≤ n) {c : C0 σ}
         Subgroup.centralizer ({c} : Set (C0 σ))) ≤ _
       rw [top_inf_eq]
       exact inSubgroup_perfectResidual_le_commutator' _
-    · haveI := hquasi.1
+    · have := hquasi.1
       exact le_inSubgroup_perfectResidual_of_isPerfect hRle hquasi.1
   exact isSLThreePiAt_congr (MulEquiv.subgroupCongr hres) hA.2.2
 
@@ -128,8 +128,8 @@ theorem isSLThreePiAt_R_one (hn1 : n = 1) (hε1 : ε = -1) {c : C0 σ}
   classical
   subst hn1
   subst hε1
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, U, hU, ⟨e⟩⟩ := threeSix_unitary_model_two (ℓ := 2) (f := 1) Nat.prime_two
     (by decide) le_rfl X P.card σ P.frob L Fr hFr g hgG hFg (tup ζ gT)
     (cE_mem_threeSixTorus P hFr hε hqε hζ hgG hFg) (orderOf_rootDiagUnit_tup_gT hζ) vT
@@ -177,16 +177,16 @@ theorem conj_mem_commutator_centralizer {G : Type} [Group G] [Finite G] {c z t �
     exact centralizer_conj_eq_map γ₀⁻¹ z
   rw [hcent, ← Subgroup.map_commutator]
   refine Subgroup.mem_map.2 ⟨t, ht, ?_⟩
-  simp [MulAut.conj_apply]
+  simp
 
 theorem kf_d4_hess : KF_D4_HESS := by
   classical
   intro n X _ _ σ P
-  haveI := P.charP
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := AlgebraicClosure X with hL
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   have h3 : ¬ 3 ∣ 2 ^ n := fun h => by
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
     omega

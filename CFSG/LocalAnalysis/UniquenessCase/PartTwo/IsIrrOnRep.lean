@@ -19,7 +19,7 @@ theorem isIrreducible_repOf_restrictAut {V : Type*} [CommGroup V] {Γ : Type*} [
   classical
   rw [isIrreducible_iff]
   refine ⟨?_, fun U hU => ?_⟩
-  · obtain ⟨v, hvJ, hv⟩ := SetLike.exists_of_lt hJ.1
+  · obtain ⟨v, hvJ, hv⟩ := _root_.IsConcreteLE.exists_of_lt hJ.1
     refine ⟨0, Additive.ofMul ⟨v, hvJ⟩, fun h => hv ?_⟩
     have h1 : (⟨v, hvJ⟩ : ↥J) = 1 := Additive.ofMul.injective (by simpa using h.symm)
     exact Subgroup.mem_bot.mpr (by simpa using congrArg Subtype.val h1)

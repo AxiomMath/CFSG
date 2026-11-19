@@ -50,14 +50,14 @@ end Models
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
 theorem odd_card_center_of_normal (h : Hyp36 G M p E) (L : Subgroup G) [L.Normal] :
     Odd (Nat.card (Subgroup.center ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ a ∈ centerOf L, ∀ b ∈ centerOf L, a * b = b * a := fun a ha b hb =>
     ((mem_centerOf.1 ha).2 b (mem_centerOf.1 hb).1).symm
   let T : Subgroup G :=
@@ -73,7 +73,7 @@ theorem odd_card_center_of_normal (h : Hyp36 G M p E) (L : Subgroup G) [L.Normal
       inv_mem' := by
         rintro a ⟨ha, ha2⟩
         have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
-        rw [Set.mem_setOf_eq, hai]
+        rw [Set.mem_ofPred_eq, hai]
         exact ⟨ha, ha2⟩ }
   have hT2 : IsPGroup 2 T := fun x => ⟨1, Subtype.ext (by
     rw [pow_one, sq, Subgroup.coe_mul, Subgroup.coe_one]
@@ -102,9 +102,9 @@ theorem exists_sylow_normalizes (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] 
     ∃ S : Sylow p K, ∀ g ∈ (S : Subgroup K), MulAut.conj g ∈
       normalizer (((pCoreOf 2 M).map (psi L φ) : Subgroup (MulAut K)) : Set (MulAut K)) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup' hEP
+  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup hEP
   obtain ⟨R, hRP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hL.2
   let S : Sylow p K :=
     (R.mapSurjective (f := QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)).mapSurjective
@@ -131,8 +131,8 @@ theorem concl_of_projectiveSL
     (φ : ↥L ⧸ Subgroup.center ↥L ≃* projectiveSL 3 F4) : K36Concl M p := by
   classical
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk : Nat.card F4 = 4 := CFSG.RankThree.PartTwo.KFacts.L34.card_galoisField_two_two
   have hσ : ∀ a : F4, frobeniusEquiv F4 2 a = a ^ 2 := fun a => frobeniusEquiv_apply F4 2 a
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
@@ -241,7 +241,7 @@ theorem concl_of_projectiveSL
     rw [hk1, hk2, hy, hτy, MulEquiv.symm_apply_apply, map_mul, map_mul, map_inv]
     group
   have hodd := h.odd_card_center_of_normal L
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   obtain ⟨Φ, hΦs, -, hΦZ⟩ := CFSG.QuasithinUnique.Ch1.exists_cover_map_of_odd_splitting
     (H := SL(3, F4)) (D := scalars 3 F4) hodd φ (fun E _ _ π hπ hcen hoddk => by
       obtain ⟨s, hs, -⟩ :=
@@ -275,7 +275,7 @@ theorem concl_of_l34
   obtain ⟨x, hv⟩ := d
   simp only at hd
   subst hd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact h.concl_of_projectiveSL hp hL hLM hne
     (φ.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 _ hv).trans pslEquiv))
 

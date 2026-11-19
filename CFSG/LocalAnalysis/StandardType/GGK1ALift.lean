@@ -110,9 +110,9 @@ theorem ggK1A_exists_lift {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   classical
   by_cases hN0 : N = 0
   · subst hN0
-    haveI : Subsingleton (↥(LargeEvenSLGroup (Fin 0) K)) :=
+    have : Subsingleton (↥(LargeEvenSLGroup (Fin 0) K)) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim (a : GL (Fin 0) K) b)⟩
-    haveI : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin 0) K)) :=
+    have : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin 0) K)) :=
       ⟨fun a b => by
         obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective
           ((LargeEvenScalars (Fin 0) K).subgroupOf (LargeEvenSLGroup (Fin 0) K)) a
@@ -121,7 +121,7 @@ theorem ggK1A_exists_lift {p nf N : ℕ} {K : Type} [Field K] [Finite K]
         rw [Subsingleton.elim x y]⟩
     exact ⟨1, by simp, MulEquiv.ext (fun _ => Subsingleton.elim _ _)⟩
   have hN1 : 1 ≤ N := Nat.one_le_iff_ne_zero.mpr hN0
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   let θ := TypeA.recipeEquiv N K
   obtain ⟨B, hB⟩ := TypeA.congr_recipeEquiv_mem hφ
   have hBpconj : conjAut N K (B ^ p) = 1 := by
@@ -302,14 +302,14 @@ theorem ggK1A_uni_exists_lift {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     have := Finite.one_lt_card (α := K)
     omega
   let h : UnitaryFieldData 2 nf K := TableBU.unitaryFieldData_of_card hK hnf1
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   by_cases hNle : N ≤ 1
   ·
     interval_cases N
     ·
-      haveI : Subsingleton (↥(LargeEvenSUGroup (Fin 0) K (2 ^ nf))) :=
+      have : Subsingleton (↥(LargeEvenSUGroup (Fin 0) K (2 ^ nf))) :=
         ⟨fun a b => Subtype.ext (Subsingleton.elim (a : GL (Fin 0) K) b)⟩
-      haveI : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin 0) K (2 ^ nf))) :=
+      have : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin 0) K (2 ^ nf))) :=
         ⟨fun a b => by
           obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective
             ((LargeEvenScalars (Fin 0) K).subgroupOf (LargeEvenSUGroup (Fin 0) K (2 ^ nf))) a
@@ -318,11 +318,11 @@ theorem ggK1A_uni_exists_lift {p nf N : ℕ} {K : Type} [Field K] [Finite K]
           rw [Subsingleton.elim x y]⟩
       exact ⟨1, by simp, MulEquiv.ext (fun _ => Subsingleton.elim _ _)⟩
     ·
-      haveI : Subsingleton (↥(LargeEvenSUGroup (Fin 1) K (2 ^ nf))) :=
+      have : Subsingleton (↥(LargeEvenSUGroup (Fin 1) K (2 ^ nf))) :=
         ⟨fun a b => Subtype.ext
           ((ggK1Al_su_one h (a : GL (Fin 1) K) a.2).trans
             (ggK1Al_su_one h (b : GL (Fin 1) K) b.2).symm)⟩
-      haveI : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin 1) K (2 ^ nf))) :=
+      have : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin 1) K (2 ^ nf))) :=
         ⟨fun a b => by
           obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective
             ((LargeEvenScalars (Fin 1) K).subgroupOf (LargeEvenSUGroup (Fin 1) K (2 ^ nf))) a

@@ -23,11 +23,13 @@ private theorem e15b_involution_mem {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen �
   hz.mem_of_le hUK (Sec6Gen.isPGroup_of_mem_USet hΩ hU)
     (by have := e15b_four_le hΩ hU; omega)
 
+omit [Finite G] in
 private theorem e15b_uset_of_mem_eta {Ω : Set (Subgroup G)} {η : Set (Subgroup G)}
     (hη : η ∈ etaG Ω) {V : Subgroup G} (hV : V ∈ η) : V ∈ USet Ω := by
   obtain ⟨S₀, hS₀, -⟩ := hη
   exact (hS₀.1 hV).1
 
+omit [Finite G] in
 private theorem e15b_isSylow2In_self {K : Subgroup G} (hK : IsPGroup 2 K) : IsSylow2In K K :=
   ⟨le_rfl, hK, fun _ hV' _ hKV' => le_antisymm hV' hKV'⟩
 
@@ -71,7 +73,7 @@ theorem twin_le_oTwoCore (h : EndHyp Ω) {K K' : Subgroup G} {z : G} (s : TwinSi
   exact ⟨TC.Thin.le_pCoreOf_centralizer h.thmD.hyp h.thmD.two s.mem s.isInv,
     TC.Thin.le_pCoreOf_centralizer h.thmD.hyp h.thmD.two hK'Ω hzK'⟩
 
-theorem exists_choice (h : EndHyp Ω) (h9 : Perp9 Ω) {K K' : Subgroup G} {z : G}
+theorem exists_choice (h : EndHyp Ω) (_h9 : Perp9 Ω) {K K' : Subgroup G} {z : G}
     (s : TwinSit Ω K K' z) :
     ∃ W ∈ WSet Ω, z ∈ W ∧ K ∈ DSet Ω W ∧
       ∃ J ∈ Ω, J ∈ DSet Ω W ∧ J ∈ omegaStarNbr Ω K ∧ J ∉ twinSet Ω K ∧

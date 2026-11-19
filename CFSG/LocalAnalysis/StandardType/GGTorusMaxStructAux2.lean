@@ -37,7 +37,7 @@ theorem tmStruct_concrete
   set T : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup τ K) := (TableBExcTwoTB.tE K F).range with hT
   set N : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup τ K) :=
     Subgroup.normalizer (T : Set (CFSG.Blueprint.Chevalley.adjointGroup τ K)) with hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := FiniteField.Extension K 2 2 with hL
   have h3dvd : 3 ∣ Nat.card L - 1 := TableBExcTwoFusion.three_dvd_natCard_ext_sub_one hK
   have hV : Nat.card (torusPow τ L 3) = 3 ^ τ.rank :=
@@ -56,7 +56,7 @@ theorem tmStruct_concrete
     (MulAut.conj G⁻¹).toMonoidHom.comp (ι.comp T.subtype)
   have hΨ_coe : ∀ y : T, Ψ y = G⁻¹ * ι (y : CFSG.Blueprint.Chevalley.adjointGroup τ K) * G := by
     intro y
-    simp [Ψ, MulAut.conj_apply]
+    simp [Ψ]
   have hΨinj : Function.Injective Ψ := by
     intro x y hxy
     apply Subtype.ext
@@ -130,7 +130,7 @@ theorem tmStruct_concrete
   have hΘ_apply : ∀ (w : WeylGroup τ) (x : T),
       φ (Θ w x) = ExcWeylOuter.torusMulAut τ 3 w (φ x) := by
     intro w x
-    simp only [Θ, MonoidHom.comp_apply, MulAut.congr_apply]
+    simp only [Θ, MonoidHom.comp_apply]
     simp
   have hΘinj : Function.Injective Θ := by
     rw [injective_iff_map_eq_one]
@@ -206,7 +206,7 @@ theorem tmStruct_concrete
     constructor
     · intro hx
       rw [← hTV]
-      exact ⟨ι x, ⟨x, hx, rfl⟩, by simp [MulAut.conj_apply]⟩
+      exact ⟨ι x, ⟨x, hx, rfl⟩, by simp⟩
     · intro hx
       rw [← hTV] at hx
       obtain ⟨_, ⟨y, hy, rfl⟩, hyx⟩ := hx
@@ -388,7 +388,6 @@ theorem tmStruct_concrete
           group
         first
           | exact hcomm
-          | exact hcomm.symm
       rwa [hcent] at h2
     · intro hg
       have hmem : (g : CFSG.Blueprint.Chevalley.adjointGroup τ K) ∈
@@ -408,7 +407,6 @@ theorem tmStruct_concrete
             (x : CFSG.Blueprint.Chevalley.adjointGroup τ K) *
               (g : CFSG.Blueprint.Chevalley.adjointGroup τ K) := by
           first
-            | exact hc
             | exact hc.symm
         rw [hcomm]
         group

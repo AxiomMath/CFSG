@@ -74,13 +74,13 @@ theorem bMat_mul_bInv {t w : k} (ht : t ≠ 0) (hw : w ≠ 0) (h2 : (2 : k) ≠ 
     bMat t w * bInv t w = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [bMat, bInv, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    field_simp <;> ring
+    field_simp; ring
 
 theorem bInv_mul_bMat {t w : k} (ht : t ≠ 0) (hw : w ≠ 0) (h2 : (2 : k) ≠ 0) :
     bInv t w * bMat t w = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [bMat, bInv, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    field_simp <;> ring
+    field_simp; ring
 
 @[expose] def phiHom (F : Subfield k) {t w : k} (ht : t ≠ 0) (hw : w ≠ 0) (h2 : (2 : k) ≠ 0) :
     Matrix.SpecialLinearGroup (Fin 2) F →* Matrix.SpecialLinearGroup (Fin 2) k where
@@ -125,7 +125,7 @@ theorem tauMat_fixed_aux (ε : k ≃+* k) {κ : kˣ} {t : k} (ht : t ≠ 0) (hκ
   simp only [bMat, bInv, tauMat, Matrix.mul_fin_two, hκi, hκ]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [map_add, map_mul, map_div₀, map_sub, map_neg, ha, hb, hc, hd, hεw, h2ε] <;>
+    simp [map_add, map_mul, map_div₀, map_neg, ha, hb, hc, hd, hεw, h2ε] <;>
     field_simp <;> ring
 
 theorem sl2Lower_inv' (a : k) : (sl2Lower a)⁻¹ = sl2Lower (-a) := by
@@ -167,7 +167,7 @@ theorem coe_phiHom_diagSL (F : Subfield k) {t w : k} (ht : t ≠ 0) (hw : w ≠ 
   rw [hN]
   simp only [bMat, bInv, Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp <;> field_simp; ring
 
 theorem exists_finset_card_four_subfield {p : ℕ} [CharP k p] (hp5 : 5 ≤ p) (F : Subfield k) :
     ∃ s : Finset ↥F, s.card = 4 := by

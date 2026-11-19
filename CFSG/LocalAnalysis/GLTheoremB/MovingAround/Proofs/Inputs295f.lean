@@ -83,7 +83,7 @@ theorem kys_stdUnitary_kysDiagSL (σ : L →+* L) (r : L) (hr : r ^ 3 = 1) (hσr
   · simp
   · simpa using hσr
   · simp only [Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons, Fin.reduceFinMk,
-      Fin.isValue, map_pow]
+      map_pow]
     rw [← mul_pow, hσr, one_pow]
 
 theorem kys_stdUnitary_kysCycSL (σ : L →+* L) : stdUnitary σ (kysCycSL : SL(3, L)) = kysCycSL := by
@@ -113,7 +113,7 @@ theorem kys_exists_lang_frame_conj (hT : rootDiagUnit τ ta ∈ S.D.torus)
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π b) (π a))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       ∃ z ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom ta)),
@@ -362,7 +362,7 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure (isPSolvable_of_le
 theorem kys_not_isMulCommutative_of_simple {G : Type} [Group G] (hs : IsSimpleGroup G)
     (h9 : 9 ∣ Nat.card G) : ¬ IsMulCommutative G := by
   intro hc
-  letI : CommGroup G := { (inferInstance : Group G) with mul_comm := hc.is_comm.comm }
+  let : CommGroup G := { (inferInstance : Group G) with mul_comm := hc.is_comm.comm }
   have hp : (Nat.card G).Prime := IsSimpleGroup.prime_card
   rcases hp.eq_one_or_self_of_dvd 9 h9 with h | h
   · norm_num at h
@@ -376,7 +376,7 @@ theorem kys_not_isPSolvable_of_simple {G : Type} [Group G] [Finite G] (hs : IsSi
 
 theorem kys_isPSolvable_of_surjective {A B : Type} [Group A] [Group B] [Finite A] (f : A →* B)
     (hf : Function.Surjective f) (h : IsPSolvable 3 A) : IsPSolvable 3 B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : IsPSolvable 3 ↥(⊤ : Subgroup A) := isPSolvable_of_mulEquiv Subgroup.topEquiv.symm h
   have h2 := isPSolvable_map f h1
   rw [Subgroup.map_top_of_surjective f hf] at h2
@@ -388,7 +388,7 @@ theorem kys_not_isPSolvable_of_quotient {G : Type} [Group G] [Finite G] (N : Sub
 
 theorem kys_isPSolvable_of_le {X : Type} [Group X] {N Y : Subgroup X} [Finite N]
     (hN : IsPSolvable 3 ↥N) (hYN : Y ≤ N) : IsPSolvable 3 ↥Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : IsPSolvable 3 ↥(⊤ : Subgroup ↥N) := isPSolvable_of_mulEquiv Subgroup.topEquiv.symm hN
   have h2 : IsPSolvable 3 ↥(Y.subgroupOf N) := isPSolvable_of_le h1 le_top
   exact isPSolvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hYN) h2
@@ -421,9 +421,9 @@ theorem kys_not_isPSolvable_of_equiv_trialityD4 {G : Type} [Group G] {q : TauCet
   have hcard : Nat.card (CFSG.LieType.SeitzGeneration.Cat ⟨.trialityD4 q, hv⟩) =
       CFSG.Open.ordTrialityD4 (2 ^ 1) := CFSG.Timmesfeld.card_chevalleyExceptionalModel_two hm
   obtain ⟨hfin, hsimp⟩ := CFSG.LieType.SeitzGeneration.finite_isSimpleGroup_cat_trialityD4 hv
-  haveI := hfin
-  haveI := hsimp
-  haveI : Finite G := Finite.of_equiv _ e.symm.toEquiv
+  have := hfin
+  have := hsimp
+  have : Finite G := Finite.of_equiv _ e.symm.toEquiv
   refine kys_not_isPSolvable_of_simple e.isSimpleGroup ?_
   rw [Nat.card_congr e.toEquiv]
   change 9 ∣ Nat.card (CFSG.LieType.SeitzGeneration.Cat ⟨.trialityD4 q, hv⟩)
@@ -437,7 +437,7 @@ section Finite
 
 theorem kys_finite_of_le_Gamma {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
     (S : LangSetup τ L p) {H : Subgroup (ModGL τ L)} (hH : H ≤ S.Γ) : Finite H := by
-  haveI := S.finite
+  have := S.finite
   have hΓM : S.Γ ≤ S.D.model := by
     change ⁅S.D.model, S.D.model⁆ ≤ S.D.model
     rw [Subgroup.commutator_le]
@@ -477,7 +477,7 @@ theorem kys_not_isPSolvable_rationalComponent_d4 (D : TwE6LineLang K σ q h)
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) := by
   classical
   obtain ⟨hℓ2, he1⟩ := kys_char_two_of_q_two D hq2
-  haveI := kys_finite_rationalComponent D i
+  have := kys_finite_rationalComponent D i
   have hall : (kernelRoots (rootCharHom D.a)).ncard = 24 := by
     have := D.hker
     omega
@@ -488,8 +488,8 @@ theorem kys_not_isPSolvable_rationalComponent_d4 (D : TwE6LineLang K σ q h)
     intro γ hγ
     rw [hker] at hγ ⊢
     exact outer_rho_mem_kernelRoots D.S D.hT hγ
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) := D.hchar
   have h3q : 3 ∣ ringChar K ^ D.e + 1 := by
     rw [hℓ2, he1]
     norm_num
@@ -552,7 +552,7 @@ theorem kys_not_isPSolvable_rationalComponent_a2out (D : TwE6LineLang K σ q h)
     (i : KernelComponent (rootCharHom D.a)) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) := by
   obtain ⟨hℓ2, he1⟩ := kys_char_two_of_q_two D hq2
-  haveI := kys_finite_rationalComponent D i
+  have := kys_finite_rationalComponent D i
   have hmodel := kys_rationalComponent_psu_model D hdim (by rw [hq2]) hout i
   rw [hℓ2, he1, one_mul] at hmodel
   exact kys_not_isPSolvable_of_quotient _ (kys_not_isPSolvable_psu_three_eight hmodel)

@@ -69,7 +69,7 @@ theorem maximalPrimeMotion_normalizer_class_pair_flips
     have hm := Subgroup.map_mono (f := B.subtype) hMQinternal
     rw [Subgroup.map_subgroupOf_eq_of_le hMB] at hm
     exact hm
-  have hQp : IsPGroup p QG := Q.isPGroup'.map B.subtype
+  have hQp : IsPGroup p QG := Q.isPGroup.map B.subtype
   have hQB : QG ≤ B := Subgroup.map_subtype_le _
   obtain ⟨q, hq, hqa, _, hqnorm, hqmotion⟩ := pair_specified_sylow_flip
     h S hzS hzcenter a b hab p hp Q
@@ -113,7 +113,7 @@ theorem maximalPrimeMotion_normalizer_class_pair_flips
     exact hh
   have hMR : M ≤ RG := hMltU.le.trans hUR
   have hRN : RG ≤ N := Subgroup.map_subtype_le _
-  have hRp : IsPGroup p RG := R.isPGroup'.map N.subtype
+  have hRp : IsPGroup p RG := R.isPGroup.map N.subtype
   let sN : N := ⟨s, hsM⟩
   have hsNorder : orderOf sN = 2 := (Subgroup.orderOf_coe sN).symm.trans
     (order_two_of_mem_pointClass h.distinguished_order hs)

@@ -30,18 +30,23 @@ variable {G : Subgroup (GLV V)} (φ : ↥G ≃* Perm (Fin 9))
 
 noncomputable abbrev tr (σ : Perm (Fin 9)) : GLV V := ((φ.symm σ : ↥G) : GLV V)
 
+omit [Finite V] in
 theorem tr_mul (σ τ : Perm (Fin 9)) : tr φ (σ * τ) = tr φ σ * tr φ τ := by
   simp [tr, map_mul]
 
+omit [Finite V] in
 theorem tr_one : tr φ 1 = 1 := by simp [tr]
 
+omit [Finite V] in
 theorem tr_inv (σ : Perm (Fin 9)) : tr φ σ⁻¹ = (tr φ σ)⁻¹ := by simp [tr, map_inv]
 
+omit [Finite V] in
 theorem tr_apply_self (g : ↥G) : tr φ (φ g) = (g : GLV V) := by simp [tr]
 
 noncomputable abbrev P (i j : Fin 9) : Submodule (ZMod 2) V :=
   commSpace (Subgroup.zpowers (tr φ (swap i j))) ⊤
 
+omit [Finite V] in
 theorem commSpace_tr_conj (σ τ : Perm (Fin 9)) :
     commSpace (Subgroup.zpowers (tr φ (σ * τ * σ⁻¹))) ⊤ =
       conjSub (tr φ σ) (commSpace (Subgroup.zpowers (tr φ τ)) ⊤) := by
@@ -49,10 +54,12 @@ theorem commSpace_tr_conj (σ τ : Perm (Fin 9)) :
     CFSG.Quasithin.C58.G64D.commSpace_zpowers_eq_range,
     CFSG.Quasithin.C58.G64D.datum_range_dl_conj]
 
+omit [Finite V] in
 theorem P_conj (σ : Perm (Fin 9)) (i j : Fin 9) :
     P φ (σ i) (σ j) = conjSub (tr φ σ) (P φ i j) := by
   rw [P, swap_apply_apply, commSpace_tr_conj]
 
+omit [Finite V] in
 theorem P_self (i : Fin 9) : P φ i i = ⊥ := by
   rw [P, swap_self, ← Equiv.Perm.one_def, tr_one, Subgroup.zpowers_one_eq_bot,
     commSpace_eq_bot_iff]
@@ -61,13 +68,16 @@ theorem P_self (i : Fin 9) : P φ i i = ⊥ := by
   rw [hk]
   rfl
 
+omit [Finite V] in
 theorem P_comm (i j : Fin 9) : P φ i j = P φ j i := by
   rw [P, P, swap_comm]
 
+omit [Finite V] in
 theorem apply_sub_mem (a : GLV V) (u : V) :
     a u - u ∈ commSpace (Subgroup.zpowers a) ⊤ :=
   sub_mem_commSpace (Subgroup.mem_zpowers a) Submodule.mem_top
 
+omit [Finite V] in
 theorem P_le_sup (j k : Fin 9) : P φ j k ≤ P φ 0 j ⊔ P φ 0 k := by
   by_cases hjk : j = k
   · rw [hjk, P_self]
@@ -94,9 +104,11 @@ theorem P_le_sup (j k : Fin 9) : P φ j k ≤ P φ 0 j ⊔ P φ 0 k := by
 
 noncomputable abbrev U0 : Submodule (ZMod 2) V := ⨆ j, P φ 0 j
 
+omit [Finite V] in
 theorem P_le_U0 (i j : Fin 9) : P φ i j ≤ U0 φ :=
   (P_le_sup φ i j).trans (sup_le (le_iSup (fun j => P φ 0 j) i) (le_iSup (fun j => P φ 0 j) j))
 
+omit [Finite V] in
 theorem invariant_U0 : Invariant G (U0 φ) := by
   intro g hg u hu
   have hgσ : g = tr φ (φ ⟨g, hg⟩) := (tr_apply_self φ ⟨g, hg⟩).symm
@@ -111,6 +123,7 @@ theorem invariant_U0 : Invariant G (U0 φ) := by
   have hle : U0 φ ≤ (U0 φ).comap (g : V →ₗ[ZMod 2] V) := iSup_le fun j v hv => key j v hv
   exact hle hu
 
+omit [Finite V] in
 theorem apply_eq_of_U0_eq_bot (h : U0 φ = ⊥) (σ : Perm (Fin 9)) (v : V) : tr φ σ v = v := by
   let K : Subgroup (Perm (Fin 9)) :=
     { carrier := {σ | ∀ v, tr φ σ v = v}
@@ -139,6 +152,7 @@ theorem apply_eq_of_U0_eq_bot (h : U0 φ = ⊥) (σ : Perm (Fin 9)) (v : V) : tr
   exact hσ v
 
 variable {φ} in
+omit [Finite V] in
 theorem apply_eq_of_mem_P02
     (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g : GLV V) w = w)
     {σ : Perm (Fin 9)} (hσ : σ ∈ altOn S7) (hσ2 : σ 2 = 2) {w : V} (hw : w ∈ P φ 0 2) :
@@ -181,17 +195,20 @@ theorem apply_eq_of_mem_P02
   map_smul' c x := by
     simp only [Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum, RingHom.id_apply]
 
+omit [Finite V] in
 theorem theta_apply (w : V) (x : Fin 9 → ZMod 2) :
     theta φ w x = ∑ k, x k • tr φ (gk k) w := rfl
 
+omit [Finite V] in
 theorem theta_ev (w : V) (k : Fin 9) : theta φ w (ev k) = tr φ (gk k) w := by
   rw [theta_apply, Finset.sum_eq_single k]
   · simp [ev]
   · intro b _ hb
-    simp [ev, Pi.single_apply, hb]
+    simp [ev, hb]
   · simp
 
 variable {φ} in
+omit [Finite V] in
 theorem tr_gk (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g : GLV V) w = w)
     {σ : Perm (Fin 9)} (hσ : σ ∈ altOn S7) {k : Fin 9} (hk : k ∈ S7f) {w : V}
     (hw : w ∈ P φ 0 2) : tr φ σ (tr φ (gk k) w) = tr φ (gk (σ k)) w := by
@@ -215,6 +232,7 @@ theorem tr_gk (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g 
   rw [← LinearEquiv.mul_apply, ← tr_mul, e, tr_mul, LinearEquiv.mul_apply, hfix]
 
 variable {φ} in
+omit [Finite V] in
 theorem theta_equivariant (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g : GLV V) w = w)
     {σ : Perm (Fin 9)} (hσ : σ ∈ altOn S7) {w : V} (hw : w ∈ P φ 0 2)
     {x : Fin 9 → ZMod 2} (hx0 : x 0 = 0) (hx1 : x 1 = 0) :
@@ -237,6 +255,7 @@ theorem theta_equivariant (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P
   rw [← Equiv.sum_comp σ (fun k => x (σ⁻¹ k) • tr φ (gk k) w)]
   simp
 
+omit [Finite V] in
 theorem P_eq_conj {k : Fin 9} (hk : k ∈ S7f) : P φ 0 k = conjSub (tr φ (gk k)) (P φ 0 2) := by
   have h := P_conj φ (gk k) 0 2
   rwa [gk_zero, gk_two hk] at h
@@ -247,20 +266,23 @@ theorem ev_add_mem_E7 {a b : Fin 9} (ha : a ∈ S7f) (hb : b ∈ S7f) : ev a + e
   · simp [ev_apply, Ne.symm ha.1, Ne.symm hb.1]
   · simp [ev_apply, Ne.symm ha.2, Ne.symm hb.2]
   · simp only [Pi.add_apply, Finset.sum_add_distrib, ev, Finset.sum_pi_single', Finset.mem_univ,
-      if_true]
+      ite_true]
     decide
 
 noncomputable abbrev Lsub : Subgroup (GLV V) := ((altOn S7).comap φ.toMonoidHom).map G.subtype
 
+omit [Finite V] in
 theorem tr_mem_L {σ : Perm (Fin 9)} (hσ : σ ∈ altOn S7) : tr φ σ ∈ Lsub φ :=
   ⟨φ.symm σ, by simpa using hσ, rfl⟩
 
+omit [Finite V] in
 theorem exists_eq_tr_of_mem_L {l : GLV V} (hl : l ∈ Lsub φ) :
     ∃ σ ∈ altOn S7, l = tr φ σ := by
   obtain ⟨g, hg, rfl⟩ := hl
   exact ⟨φ g, hg, (tr_apply_self φ g).symm⟩
 
 variable {φ} in
+omit [Finite V] in
 theorem map_theta_le (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g : GLV V) w = w)
     {w : V} (hw : w ∈ P φ 0 2) : E7.map (theta φ w) ≤ commSpace (Lsub φ) ⊤ := by
   classical
@@ -288,6 +310,7 @@ theorem map_theta_le (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0
   exact sub_mem_commSpace (tr_mem_L φ hσ) Submodule.mem_top
 
 variable {φ} in
+omit [Finite V] in
 theorem commSpace_le_iSup (hα : ∀ g : ↥G, φ g ∈ altOn S7 → ∀ w ∈ P φ 0 1, (g : GLV V) w = w)
     (hU : U0 φ = ⊤) :
     commSpace (Lsub φ) ⊤ ≤ ⨆ w : ↥(P φ 0 2), E7.map (theta φ (w : V)) := by

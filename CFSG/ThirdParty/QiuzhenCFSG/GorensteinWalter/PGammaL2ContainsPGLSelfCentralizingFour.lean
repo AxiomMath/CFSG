@@ -69,8 +69,8 @@ private theorem normal_index_two_of_normal_index_four
     ∃ N : Subgroup G, N.Normal ∧ N.index = 2 := by
   classical
   rcases hN4 with ⟨N4, hN4, hindex4⟩
-  letI : N4.Normal := hN4
-  letI : Fintype (G ⧸ N4) := N4.fintypeQuotientOfFiniteIndex
+  let : N4.Normal := hN4
+  let : Fintype (G ⧸ N4) := N4.fintypeQuotientOfFiniteIndex
   have hcardQ : Nat.card (G ⧸ N4) = 4 := by
     rw [← N4.index_eq_card, hindex4]
   have h2dvd : 2 ∣ Fintype.card (G ⧸ N4) := by
@@ -243,7 +243,7 @@ private theorem pslLayer_kleinFour_normalizer_not_cPrime
         n ^ 2 ∉ Subgroup.centralizer
           (ZP : Set (↥(pGammaL2PSLRange K))) := by
   let P := pGammaL2PSLRange K
-  letI : Finite (↥P) :=
+  let : Finite (↥P) :=
     Finite.of_surjective (pGammaL2PSLRangeEquiv K)
       (pGammaL2PSLRangeEquiv K).surjective
   have hPd : HasDihedralSylowTwo (↥P) :=
@@ -300,28 +300,28 @@ public theorem pGammaL2_contains_pgl_of_selfCentralizing_four
     (hN : cPrime Z = (Subgroup.normalizer (Z : Set A) : Set A)) :
     pGammaL2PGLRange K ≤ A := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite (PGL2 K) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
-  letI : Finite (K ≃+* K) :=
+  let : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (by
       intro e f hef
       ext x
       exact congrFun hef x)
-  letI : Finite (PGammaL2 K) :=
+  let : Finite (PGammaL2 K) :=
     Finite.of_injective (fun x : PGammaL2 K => (x.left, x.right)) (by
       intro x y hxy
       exact SemidirectProduct.ext
         (congrArg Prod.fst hxy) (congrArg Prod.snd hxy))
-  letI : Finite A := inferInstance
+  let : Finite A := inferInstance
   have hodd : Odd (Nat.card
       (pGammaL2FieldProjection K A).range) :=
     pGammaL2_field_projection_range_odd_of_dihedral K hK hcard A hPSL hAd
   let L : Subgroup A := pGammaL2LinearKernel K A
   have hLindexOdd : Odd L.index :=
     pGammaL2LinearKernel_index_odd K A hodd
-  haveI : L.Normal := pGammaL2LinearKernel_normal K A
+  have : L.Normal := pGammaL2LinearKernel_normal K A
   have hZleL : Z ≤ L :=
     twoGroup_le_normal_of_odd_index L hLindexOdd Z hZ
   rcases linearKernel_image_eq_psl_or_pgl hK A hPSL with hMpsl | hMpgl

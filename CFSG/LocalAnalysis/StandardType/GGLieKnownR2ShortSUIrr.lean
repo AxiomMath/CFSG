@@ -225,7 +225,7 @@ private lemma suFramePhi_surjective {F : Type} [Field F] [Finite F] [CharP F 2] 
   · change (suH hc n).β w' z = y 0
     rw [hz]
     simp only [(suH hc n).add_right, (suH hc n).smul_right, suFrame_w'v hfr, suFrame_w'w hfr,
-      suFrame_w'v' hfr, suFrame_w'w' hfr, mul_zero, mul_one, zero_add, add_zero]
+      suFrame_w'v' hfr, suFrame_w'w' hfr, mul_zero, mul_one, add_zero]
   · change (suH hc n).β v' z = y 1
     rw [hz]
     simp only [(suH hc n).add_right, (suH hc n).smul_right, suFrame_v'v hfr, suFrame_v'w hfr,
@@ -542,7 +542,7 @@ private lemma su_exists_fixed_ne_zero_ne_one {F : Type} [Field F] [Finite F] [Ch
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = Nat.card Fˣ := orderOf_eq_card_of_forall_mem_zpowers hg
   have hcard : Nat.card Fˣ = (2 ^ f) ^ 2 - 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hc]
   set q := 2 ^ f with hq
   have hq4 : 4 ≤ q := by
@@ -843,7 +843,7 @@ private lemma suThetaU_sep {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     refine LinearMap.ext fun x => ?_
     apply Subtype.ext
     rw [LinearMap.sub_apply, Submodule.coe_sub, hT₁eq x, suDecomp_point hfr T x, irra_tv_coe]
-    simp only [Submodule.coe_add, Submodule.coe_smul, one_mul, LinearMap.smul_apply, smul_eq_mul]
+    simp only [one_mul, LinearMap.smul_apply, smul_eq_mul]
     have h1 : (t * suCompV (hc := hc) T x) • v + suCompW (hc := hc) T x • w -
         (suCompV (hc := hc) T x • v + suCompW (hc := hc) T x • w) =
         (t * suCompV (hc := hc) T x - suCompV (hc := hc) T x) • v := by
@@ -878,7 +878,7 @@ private lemma suThetaU_sep {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       rw [LinearMap.sub_apply]
       apply Subtype.ext
       rw [Submodule.coe_sub, suDecomp_point hfr T x, irra_tw_coe]
-      simp only [Submodule.coe_add, Submodule.coe_smul, irra_tv_coe]
+      simp only [irra_tv_coe]
       abel
     rw [htw]
     exact hsubtv
@@ -1038,7 +1038,7 @@ private lemma exists_eq_beta_of_functional {F : Type} [Field F] [Finite F] [Char
   have hcard : Nat.card (W →ₗ[F] F) = Nat.card W := by
     rw [Module.natCard_eq_pow_finrank (K := F) (V := W →ₗ[F] F),
       Module.natCard_eq_pow_finrank (K := F) (V := W), Subspace.dual_finrank_eq]
-  haveI hfin : Finite (W →ₗ[F] F) :=
+  have hfin : Finite (W →ₗ[F] F) :=
     Finite.of_injective (fun g : W →ₗ[F] F => (g : W → F))
       (fun g₁ g₂ h => LinearMap.ext fun z => congrFun h z)
   have hsurj : Function.Surjective Ψ :=

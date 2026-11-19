@@ -33,8 +33,8 @@ theorem natCast_three_ne_zero {K L : Type} [Field K] [Finite K] [Field L] [Algeb
     rw [← map_natCast (algebraMap K L)] at h0
     exact (map_eq_zero_iff _ (algebraMap K L).injective).1 h0
   have hdvd : ringChar K ∣ 3 := (ringChar.spec K 3).1 hK0
-  haveI := ringChar.charP K
-  haveI : Fintype K := Fintype.ofFinite K
+  have := ringChar.charP K
+  have : Fintype K := Fintype.ofFinite K
   have hne : ringChar K ≠ 0 := CharP.char_ne_zero_of_finite K (ringChar K)
   have hp : (ringChar K).Prime := (CharP.char_is_prime_or_zero K (ringChar K)).resolve_right hne
   have h3 : ringChar K = 3 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 hdvd
@@ -62,10 +62,10 @@ theorem zpow_eq_of_emod {G : Type*} [Group G] {x : G} (hx : orderOf x = 3) {m n 
 
 theorem exists_cube_root_langLevi (K : Type) [Field K] [Finite K] (hnd : ¬ 3 ∣ Nat.card K)
     (D : LangLevi TwClass.f4Six.tag K TwClass.f4Six.w) : ∃ ω : D.Lˣ, orderOf ω = 3 := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hne3 : ((3 : ℕ) : D.L) ≠ 0 := natCast_three_ne_zero (K := K) hnd
-  haveI : NeZero ((3 : ℕ) : D.L) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot D.L 3
+  have : NeZero ((3 : ℕ) : D.L) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot D.L 3
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   obtain ⟨ω, hωζ⟩ : ∃ ω : D.Lˣ, (ω : D.L) = ζ := ⟨hζu.unit, hζu.unit_spec⟩
   refine ⟨ω, ?_⟩
@@ -80,7 +80,7 @@ theorem f4TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 =
         D.g * rootDiagUnit TwClass.f4Six.tag (Pi.mulSingle (⟨1, by decide⟩ : Fin
           TwClass.f4Six.tag.rank) ω) * D.g⁻¹ ∧
       z ≠ 1 ∧ z ^ 3 = 1 ∧ ∃ X : Subgroup (adjointGroup TwClass.f4Six.tag K), ClosingFrameAt z X := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.f4Six.tag.rank := ⟨1, by decide⟩ with hi₁
   set a : Fin TwClass.f4Six.tag.rank → D.Lˣ := Pi.mulSingle i₁ ω with ha
   have hchar : ∀ α : Fin TwClass.f4Six.tag.rank → ℤ, rootChar a α = ω ^ (α i₁) := by
@@ -106,7 +106,7 @@ theorem f4TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 =
     by_cases hi : i = i₁
     · have hai : a i = ω := by rw [hi]; simp [ha]
       have h2 : m % 3 = 2 := by
-        rw [if_pos (show i = ⟨1, by decide⟩ from hi)] at hm
+        rw [ite_eq_left (show i = ⟨1, by decide⟩ from hi)] at hm
         exact hm
       rw [hai]
       refine (zpow_eq_of_emod hω3 (n := 1) ?_).trans (zpow_one ω)
@@ -114,7 +114,7 @@ theorem f4TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 =
       norm_num
     · have hai : a i = 1 := by rw [ha]; exact Pi.mulSingle_eq_of_ne hi _
       have h0 : m % 3 = 0 := by
-        rw [if_neg (show ¬ i = ⟨1, by decide⟩ from hi)] at hm
+        rw [ite_eq_right (show ¬ i = ⟨1, by decide⟩ from hi)] at hm
         exact hm
       rw [hai]
       refine (zpow_eq_of_emod hω3 (n := 0) ?_).trans (zpow_zero ω)
@@ -239,15 +239,15 @@ theorem f4TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 =
       exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
     · refine nonsolvable_frameIn hle ?_
       intro hs
-      haveI := hs
-      haveI h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective
+      have := hs
+      have h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
           (le_sup_right : TwClass.f4Six.X₂ D ≤ TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D))
       obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-      haveI : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-      exact (IsSolvable.commutator_lt_top_of_nontrivial
+      have : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+      exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
         (↥(TwClass.f4Six.X₂ D))).ne hperf.commutator_eq_top
     · exact closing_of_twFrameClosing hle (twClosing_f4Six K h3 D)
     · exact normalizerSolvable_of_twFrame hle (twNormalizer_f4Six K hKq D)

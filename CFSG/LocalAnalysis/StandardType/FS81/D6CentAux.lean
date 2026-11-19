@@ -41,7 +41,7 @@ theorem b₀_mem_inf_centralizer (hKC : K ≤ Subgroup.centralizer ({b₀} : Set
   · exact Subgroup.mem_centralizer_iff.mpr (fun k hk =>
       (Subgroup.mem_centralizer_iff.mp (hKC hk) b₀ (by simp)).symm)
 
-private theorem d6_inf_centralizer_inf_eq_bot (hKC : K ≤ Subgroup.centralizer ({b₀} : Set G))
+private theorem d6_inf_centralizer_inf_eq_bot (_hKC : K ≤ Subgroup.centralizer ({b₀} : Set G))
     (hKz : Subgroup.center K = ⊥) :
     (Subgroup.centralizer ({b₀} : Set G) ⊓ Subgroup.centralizer (K : Set G)) ⊓ K = ⊥ := by
   rw [eq_bot_iff]
@@ -214,7 +214,7 @@ private theorem d6Cube {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgrou
 
 private theorem d6Card {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup G}
     (hstd : StdLoc b₀ K E Row.D6) {B : Basis3 G (Row.D6.n + 1)} (hB : Adapted B b₀ K E)
-    (hrec : RecOut Row.D6 B b₀)
+    (_hrec : RecOut Row.D6 B b₀)
     (hN : ∀ n ∈ Subgroup.normalizer (E : Set G), n * b₀ * n⁻¹ ∈ Subgroup.zpowers b₀) :
     Nat.card ↥(B.realized ⊤) ≤
       2 * Nat.card ↥(B.realized (Subgroup.centralizer ({b₀} : Set G))) := by

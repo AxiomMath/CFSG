@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_mem_theta_of_two_pow {L : Subgroup G}
     (hθodd : Odd (Nat.card ((aschbacherSolvableCore 3 L).map L.subtype))) {x : G}
     (hx : x ∈ (aschbacherSolvableCore 3 L).map L.subtype) {k : ℕ} (hxk : x ^ 2 ^ k = 1) :
@@ -151,7 +152,7 @@ theorem exists_B0_syl {L : Subgroup G} {a b c : G}
       rw [hx] at this
       simpa using congrArg Subtype.val this
     have hl3 : l ^ 3 = 1 := Subtype.ext (by simpa [hlx] using hx3)
-    have hql3 : (⟨q l, hlT⟩ : T) ^ 3 = 1 := Subtype.ext (by simpa [← map_pow, hl3])
+    have hql3 : (⟨q l, hlT⟩ : T) ^ 3 = 1 := Subtype.ext (by simp [← map_pow, hl3])
     obtain ⟨k, hk⟩ := hT2 ⟨q l, hlT⟩
     have hq1 : (⟨q l, hlT⟩ : T) = 1 := by
       have h1 : orderOf (⟨q l, hlT⟩ : T) ∣ 3 := orderOf_dvd_of_pow_eq_one hql3

@@ -151,7 +151,7 @@ theorem three_dvd_card_of_isL2Odd {X : Type} [Group X] {p : ℕ} (hp : 3 < p)
     have hne : p % 3 ≠ 0 := fun h0 => hnot (Nat.dvd_of_mod_eq_zero h0)
     omega
   have hsq : p ^ 2 % 3 = 1 := by
-    rcases hmod with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hmod with h | h <;> rw [Nat.pow_mod, h]
   have h3p : 3 ∣ p ^ 2 - 1 :=
     Nat.dvd_of_mod_eq_zero (Nat.sub_mod_eq_zero_of_mod_eq (by simpa using hsq))
   have h2 := CFSG.LocalAnalysis.UniquenessCase.UC6.N588.two_mul_ordA_one hpodd
@@ -162,7 +162,7 @@ theorem three_dvd_card_of_isL2Odd {X : Type} [Group X] {p : ℕ} (hp : 3 < p)
 
 theorem three_dvd_card_of_isJ1 {X : Type} [Group X] (h : IsJ1 X) :
     3 ∣ Nat.card X := by
-  haveI : Finite X := finite_of_isJ1 h
+  have : Finite X := finite_of_isJ1 h
   rw [(kJ1_holds X h).1]
   norm_num
 
@@ -191,7 +191,7 @@ private theorem j1_prime_eq_seven_or_eleven_or_nineteen {p : ℕ} (hp : p.Prime)
 
 theorem not_isL2_of_isJ1 {X : Type} [Group X] {n : ℕ} (h : IsJ1 X) :
     ¬ IsL2 X n := by
-  haveI : Finite X := finite_of_isJ1 h
+  have : Finite X := finite_of_isJ1 h
   intro hL2
   have hJcard : Nat.card X = 175560 := (kJ1_holds X h).1
   have hn1 : 1 ≤ n := hL2.admissible.2.1
@@ -219,14 +219,14 @@ theorem not_isL2_of_isJ1 {X : Type} [Group X] {n : ℕ} (h : IsJ1 X) :
 
 theorem not_isSz_of_isJ1 {X : Type} [Group X] {n : ℕ} (h : IsJ1 X) :
     ¬ IsSz X n := by
-  haveI : Finite X := finite_of_isJ1 h
+  have : Finite X := finite_of_isJ1 h
   intro hSz
   exact CFSG.LocalAnalysis.EvenBN.GMSK.not_three_dvd_card_of_lieModel_twistedB2 hSz
     (three_dvd_card_of_isJ1 h)
 
 theorem not_isL2Odd_of_isJ1 {X : Type} [Group X] {p : ℕ} (hp : 5 < p)
     (h : IsJ1 X) : ¬ IsL2Odd X p := by
-  haveI : Finite X := finite_of_isJ1 h
+  have : Finite X := finite_of_isJ1 h
   intro hL
   have hpprime : p.Prime := hL.admissible.1
   have hpodd : Odd p := hpprime.odd_of_ne_two (by omega)
@@ -275,10 +275,10 @@ private theorem sixteen_dvd_card_of_isSU3 {X : Type} [Group X] {n : ℕ} (h : Is
 
 theorem j1NotSp4SU3 : J1NotSp4SU3 := by
   intro X _ h
-  haveI : Finite X := finite_of_isJ1 h
+  have : Finite X := finite_of_isJ1 h
   have hdata := kJ1_holds X h
   have hcard : Nat.card X = 175560 := hdata.1
-  haveI : IsSimpleGroup X := hdata.2.1
+  have : IsSimpleGroup X := hdata.2.1
   have hprime : ¬ (Nat.card X).Prime := by
     rw [hcard]
     norm_num
@@ -288,7 +288,7 @@ theorem j1NotSp4SU3 : J1NotSp4SU3 := by
     · exfalso
       have hcomm : ∀ a b : X, a * b = b * a := fun a b =>
         Subgroup.mem_center_iff.mp (hZ ▸ Subgroup.mem_top b) a
-      letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hcomm }
+      let : CommGroup X := { (inferInstance : Group X) with mul_comm := hcomm }
       exact hprime (Group.is_simple_iff_prime_card.mp inferInstance)
   refine ⟨hZ, ?_, ?_⟩
   · intro n hsp

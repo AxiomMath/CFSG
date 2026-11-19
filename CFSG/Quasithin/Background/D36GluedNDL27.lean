@@ -53,7 +53,7 @@ theorem sec_card_eight (e : ↥L₀ ≃* L3.Γ) (hu : rk ↥U - rk ↥(U ⊓ U')
       rw [← QuotientGroup.mk_pow, this]
       rfl
   let ρ : L3.Γ →* MulAut (Sec U (U ⊓ fixV L₀)) := (glueSecAct S.stab hZ).comp e.symm.toMonoidHom
-  letI : MulDistribMulAction L3.Γ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ ρ
+  let : MulDistribMulAction L3.Γ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ ρ
   have hsmul : ∀ (g : L3.Γ) (x : Sec U (U ⊓ fixV L₀)), g • x = glueSecAct S.stab hZ (e.symm g) x :=
     fun _ _ => rfl
   have hfix : ∀ x : Sec U (U ⊓ fixV L₀), (∀ g : L3.Γ, g • x = x) → x = 1 := fun x hx =>

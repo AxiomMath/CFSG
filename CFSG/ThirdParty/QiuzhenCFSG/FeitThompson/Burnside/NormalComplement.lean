@@ -33,5 +33,5 @@ public theorem CFSG.exists_normal_coprime_subgroup_and_pgroup_quotient_of_sylow_
     exact (Nat.Prime.coprime_iff_not_dvd (Fact.out : Nat.Prime p)).2 hnot
   · have hcomp' : (S : Subgroup G).IsComplement' N := hcomp.symm
     let e : G ⧸ N ≃* (S : Subgroup G) := hcomp'.QuotientMulEquiv
-    exact IsPGroup.of_injective (hG := by simpa using S.isPGroup')
+    exact IsPGroup.of_injective (hG := by simpa using S.isPGroup)
       (ϕ := e.toMonoidHom) e.injective

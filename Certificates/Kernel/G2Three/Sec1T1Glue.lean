@@ -142,6 +142,7 @@ theorem gen1_mem {s : ℕ} : gen1 m s ∈ g23H m := by
     rw [e]
     exact one_mem _
 
+omit [Finite G] in
 private theorem getD_mem {K : Subgroup G} {acc : List G} (h : ∀ x ∈ acc, x ∈ K) (i : ℕ) :
     acc.getD i 1 ∈ K := by
   rw [List.getD_eq_getElem?_getD]
@@ -149,6 +150,7 @@ private theorem getD_mem {K : Subgroup G} {acc : List G} (h : ∀ x ∈ acc, x �
   | none => exact K.one_mem
   | some x => exact h x (List.mem_of_getElem? hx)
 
+omit [Finite G] in
 private theorem mem_fold (K : Subgroup G) :
     ∀ (ds : List (ℕ × ℕ)) (acc : List G), (∀ x ∈ acc, x ∈ K) → ∀ x ∈ ds.foldl stepU acc, x ∈ K
   | [], _, h => h
@@ -297,8 +299,8 @@ theorem H_le_cent_z : g23H m ≤ centralizer ({(frameOf m).z} : Set G) := by
   intro x hx
   exact mem_centralizer_singleton_iff.mpr (z_comm_gen m x hx).symm
 
-theorem H_cent_z : ∀ h ∈ g23H m, h * (frameOf m).z = (frameOf m).z * h :=
-  fun h hh => mem_centralizer_singleton_iff.mp (H_le_cent_z m hh)
+theorem H_cent_z : ∀ _h ∈ g23H m, _h * (frameOf m).z = (frameOf m).z * _h :=
+  fun _h hh => mem_centralizer_singleton_iff.mp (H_le_cent_z m hh)
 
 theorem uE1_a1a2 : uE1 m 12 = (frameOf m).a₁ * (frameOf m).a₂ := by
   rw [← rl' m 4 5 6 12 (by quickRfl), uE1_a1, uE1_a2]
@@ -333,7 +335,7 @@ theorem basis3 {X Gd SRT SRI : ℕ → ℕ} (hG : ∀ s < 3, Gd s < 37)
 theorem image3 {Gd : ℕ → ℕ} {a b c : ℕ} (h0 : Gd 0 = a) (h1 : Gd 1 = b) (h2 : Gd 2 = c) :
     (fun s => uE1 m (Gd s)) '' {s | s < 3} = {uE1 m a, uE1 m b, uE1 m c} := by
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨s, hs, rfl⟩
     interval_cases s
@@ -531,6 +533,7 @@ theorem K_comm : ∀ u ∈ (frameOf m).K₁, ∀ v ∈ (frameOf m).K₂, u * v =
   intro u hu v hv
   exact (mem_centralizer_iff.mp (h2 hv) u hu)
 
+omit [Finite G] in
 theorem u_order3 {u : G} (h1 : u * (u * u) = 1) (hne : u ≠ 1) : orderOf u = 3 := by
   refine orderOf_eq_prime ?_ hne
   rw [pow_succ, pow_two, mul_assoc]
@@ -566,6 +569,7 @@ theorem u2_order : orderOf (frameOf m).u₂ = 3 := by
     rwa [uE1_seven, mul_one, mul_one, uE1_u2] at this
   exact u_order3 h hne
 
+omit [Finite G] in
 theorem inv_zpowers {h u : G} (hu : u * (u * u) = 1) (hh : h * u = (u * u) * h) :
     ∀ y ∈ zpowers u, h * y * h⁻¹ = y⁻¹ := by
   have hinv : u⁻¹ = u * u := (eq_inv_of_mul_eq_one_right hu).symm
@@ -597,7 +601,7 @@ theorem r1KG : R1K1G 0 = 0 ∧ R1K1G 1 = 1 ∧ R1K2G 0 = 2 ∧ R1K2G 1 = 3 :=
 theorem image2 {Gd : ℕ → ℕ} {a b : ℕ} (h0 : Gd 0 = a) (h1 : Gd 1 = b) :
     (fun s => uE1 m (Gd s)) '' {s | s < 2} = {uE1 m a, uE1 m b} := by
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨s, hs, rfl⟩
     interval_cases s
@@ -637,6 +641,7 @@ theorem card_K2 : Nat.card (frameOf m).K₂ = 24 := by
   rw [← K2_eq]
   exact (tabK2 m).2.1
 
+omit [Finite G] in
 theorem sylow3_of_card {K X : Subgroup G} (hXK : X ≤ K) (hK : Nat.card K = 24)
     (hX : Nat.card X = 3) : IsSylowIn 3 K X := by
   refine ⟨hXK, IsPGroup.of_card (n := 1) (by rw [hX]; norm_num), ?_⟩
@@ -847,6 +852,7 @@ theorem Q2_le_K2 : closure {(frameOf m).a₂, (frameOf m).b₂} ≤ (frameOf m).
   · rw [SFrame.K₂]
     exact subset_closure (by simp)
 
+omit [Finite G] in
 theorem sylow2_of_card {K Q : Subgroup G} (hQK : Q ≤ K) (hK : Nat.card K = 24)
     (hQ : Nat.card Q = 8) : IsSylowIn 2 K Q := by
   refine ⟨hQK, IsPGroup.of_card (n := 3) (by rw [hQ]; norm_num), ?_⟩
@@ -906,7 +912,7 @@ theorem S_eq : closure ((fun s => uE1 m (R1SG s)) '' {s | s < 5}) = (frameOf m).
   have e : (fun s => uE1 m (R1SG s)) '' {s | s < 5} = {(frameOf m).a₁, (frameOf m).b₁,
       (frameOf m).a₂, (frameOf m).b₂, (frameOf m).h₀} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨s, hs, rfl⟩
       interval_cases s
@@ -929,7 +935,7 @@ theorem A_eq : closure ((fun s => uE1 m (R1AG s)) '' {s | s < 4}) = (frameOf m).
   have e : (fun s => uE1 m (R1AG s)) '' {s | s < 4} = {(frameOf m).a₁, (frameOf m).b₁,
       (frameOf m).a₂, (frameOf m).b₂} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨s, hs, rfl⟩
       interval_cases s
@@ -1009,7 +1015,7 @@ theorem centIn_H_cen_B : centIn (g23H m) (cen (frameOf m).B) = (frameOf m).B := 
     (k := 1) (hi := 9) (fun _ _ => enc_uE1 m (by norm_num)) (by norm_num)
   have e1 : (fun _ => uE1 m 13) '' {s : ℕ | s < 1} = {uE1 m 13} := by
     ext x
-    simp [eq_comm]
+    simp
   rw [e1, Nat.eq_of_beq_eq_true r1_cB, uE1_b1b2] at h
   have e : centIn (g23H m) (cen (frameOf m).B) =
       g23H m ⊓ centralizer ({(frameOf m).b₁ * (frameOf m).b₂} : Set G) := by
@@ -1179,7 +1185,7 @@ theorem tabS' : TabOf m.ρ R1S 64 ((frameOf m).S : Set G) := by
   exact (tabS m).1
 
 theorem S_le_normIn_S : (frameOf m).S ≤ normIn (g23H m) (frameOf m).S :=
-  fun x hx => ⟨S_le_H m hx, (frameOf m).S.le_normalizer hx⟩
+  fun _x hx => ⟨S_le_H m hx, (frameOf m).S.le_normalizer hx⟩
 
 theorem normIn_H_S : normIn (g23H m) (frameOf m).S = (frameOf m).S := by
   have h := r1_conjS
@@ -1241,7 +1247,7 @@ theorem B_eq : closure ((fun s => uE1 m (R1BG s)) '' {s | s < 4}) = (frameOf m).
   rw [← T5Glue.B_eq m]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨s, hs, rfl⟩
     exact ⟨s, hs, (e s hs).symm⟩
@@ -1428,7 +1434,7 @@ theorem E_pos {u : G} (hu : u ∈ (frameOf m).E) (hz : u ∉ (frameOf m).Z) :
     rintro rfl
     have e1 := (tabE m).2.2 0 (by norm_num)
     have hp : pwG (fun s => uE1 m (R1EG s)) 3 0 = 1 := by
-      simp only [pwG, Nat.zero_testBit, Bool.false_eq_true, if_false]
+      simp only [pwG, Nat.zero_testBit, Bool.false_eq_true, ite_false]
       rfl
     rw [hp] at e1
     exact hz (by rw [enc_unique m.inj hce e1]; exact one_mem _)
@@ -1583,7 +1589,7 @@ theorem pE_mul (c d : ℕ) : pE m c * pE m d = pE m (c ^^^ d) :=
   pwG_mul (E_gens m).1 (E_gens m).2 c d
 
 theorem pE_zero : pE m 0 = 1 := by
-  simp only [pE, pwG, Nat.zero_testBit, Bool.false_eq_true, if_false]
+  simp only [pE, pwG, Nat.zero_testBit, Bool.false_eq_true, ite_false]
   rfl
 
 theorem pE_inv (c : ℕ) : (pE m c)⁻¹ = pE m c := by
@@ -2012,7 +2018,7 @@ theorem E_sylow : ∀ T : Subgroup G, IsSylowIn 3 (normIn (g23H m) (frameOf m).E
 theorem z_central_T1 {g : G} (hg : g ∈ g23T1 m) : g * (frameOf m).z = (frameOf m).z * g :=
   mem_centralizer_singleton_iff.mp (T1_le_cent m hg).2
 
-theorem comm_cases {y g : G} (hy : y ∈ g23T1 m) (hg : g ∈ g23T1 m) (h : ⁅y, g⁆ ∈ (frameOf m).Z) :
+theorem comm_cases {y g : G} (hy : y ∈ g23T1 m) (_hg : g ∈ g23T1 m) (h : ⁅y, g⁆ ∈ (frameOf m).Z) :
     g * y = y * g ∨ g * y = y * (frameOf m).z * g := by
   have hzy : y * (frameOf m).z = (frameOf m).z * y := z_central_T1 m hy
   rw [commutatorElement_def] at h

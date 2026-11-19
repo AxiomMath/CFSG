@@ -84,7 +84,7 @@ theorem sr630_exists_sylow (hS : Setting G)
     SmallRankPlane.of_situation hS hf.situation hf.point hf.central
   have hPx : IsSylowOf p ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
       (centralizer ({x} : Set G)) :=
-    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup'.to_inf_left, hf.point.sylow_centralizer⟩
+    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup.to_inf_left, hf.point.sylow_centralizer⟩
   have hrank : CFSG.Open.pRank p (centralizer ({x} : Set G)) ≤ 2 := by
     by_contra h
     push Not at h

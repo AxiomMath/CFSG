@@ -14,28 +14,34 @@ open Subgroup SylowEnd CFSG.GroupTheory Matrix
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
   {S A B Aa D Q : Subgroup G} {z b : G}
 
+omit [Finite G] in
 private theorem w_apply_apply (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (x : VSub hD) : w (w x) = w x :=
   congrArg (fun e : AddMonoid.End (VSub hD) => e x) hww
 
+omit [Finite G] in
 private theorem one_add_w_apply (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD))
     (x : VSub hD) : (1 + w) x = x + w x := rfl
 
+omit [Finite G] in
 private theorem one_add_w_eq_zero_of_w_eq_self (hD : DHyp A Aa t D)
     {w : AddMonoid.End (VSub hD)} {x : VSub hD} (hx : w x = x) : (1 + w) x = 0 := by
   change x + w x = 0
   rw [hx, VSub.add_self_apply hD]
 
+omit [Finite G] in
 private theorem one_add_w_eq_self_of_w_eq_zero (hD : DHyp A Aa t D)
     {w : AddMonoid.End (VSub hD)} {x : VSub hD} (hx : w x = 0) : (1 + w) x = x := by
   change x + w x = x
   rw [hx, add_zero]
 
+omit [Finite G] in
 private theorem w_one_add_self (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (x : VSub hD) : w ((1 + w) x) = 0 := by
   change w (x + w x) = 0
   rw [map_add, w_apply_apply hD hww, VSub.add_self_apply]
 
+omit [Finite G] in
 private theorem w_vConj_apply (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)} {n : G}
     (hn : n ∈ wComm hD w) (x : VSub hD) : w (vConj hD n x) = vConj hD n (w x) := by
   calc w (vConj hD n x) = (w * vConj hD n) x := by
@@ -45,15 +51,18 @@ private theorem w_vConj_apply (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
 
 private def dFun (f σ : G) : G := f⁻¹ * σ * f * σ⁻¹
 
+omit [Finite G] in
 private theorem dFun_eq (f σ : G) : dFun f σ = f⁻¹ * (σ * f * σ⁻¹) := by
   simp only [dFun]
   group
 
+omit [Finite G] in
 private theorem dFun_mul (f σ τ : G) :
     dFun f (σ * τ) = dFun f σ * (σ * dFun f τ * σ⁻¹) := by
   simp only [dFun]
   group
 
+omit [Finite G] in
 private theorem dFun_mem_omega1 (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} {f : G} (hf : f ∈ Q) (hf2 : f ^ 2 ∈ wKer hD w)
     {σ : G} (hσ : σ ∈ wreathN₁ hD Q w) : dFun f σ ∈ omega1 D hD.comm := by
@@ -78,6 +87,7 @@ private def dSub (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {w : AddMonoid.End (
     {f : G} (hf : f ∈ Q) (hf2 : f ^ 2 ∈ wKer hD w) (σ : ↥(wreathN₁ hD Q w)) : VSub hD :=
   AbelianSub.mk (dFun f σ.1) (dFun_mem_omega1 hD hQ hf hf2 σ.2)
 
+omit [Finite G] in
 private theorem dSub_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} {f : G} (hf : f ∈ Q) (hf2 : f ^ 2 ∈ wKer hD w)
     (σ τ : ↥(wreathN₁ hD Q w)) :
@@ -90,6 +100,7 @@ private theorem dSub_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     dFun f (σ : G) * ((σ : G) * dFun f (τ : G) * (σ : G)⁻¹)
   rw [dFun_mul]
 
+omit [Finite G] in
 private theorem one_add_w_vConj (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) {σ : G} (hσ : σ ∈ wreathN₁ hD Q w) (x : VSub hD) :
     (1 + w) (vConj hD σ x) = (1 + w) x := by
@@ -116,6 +127,7 @@ private theorem one_add_w_vConj (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD
     exact one_add_w_eq_self_of_w_eq_zero hD (w_one_add_self hD hww x)
   rw [h1, h2, zero_add]
 
+omit [Finite G] in
 private theorem psi_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {f : G} (hf : f ∈ Q)
     (hf2 : f ^ 2 ∈ wKer hD w) (σ τ : ↥(wreathN₁ hD Q w)) :
@@ -123,6 +135,7 @@ private theorem psi_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
       (1 + w) (dSub hD hQ hf hf2 σ) + (1 + w) (dSub hD hQ hf hf2 τ) := by
   rw [dSub_mul, map_add, one_add_w_vConj hD hww σ.2]
 
+omit [Finite G] in
 private theorem psi_one (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} {f : G} (hf : f ∈ Q)
     (hf2 : f ^ 2 ∈ wKer hD w) :
@@ -143,6 +156,7 @@ private theorem nsmul_eq_self_of_odd {M : Type*} [AddMonoid M] (h2 : ∀ x : M, 
     rw [show 2 * (k + 1) + 1 = 2 * k + 1 + 2 by ring, add_nsmul, ih,
       show (2 : ℕ) • x = 0 by rw [two_nsmul, h2], add_zero]
 
+omit [Finite G] in
 private theorem psi_odd (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {f : G} (hf : f ∈ Q)
     (hf2 : f ^ 2 ∈ wKer hD w) (x : ↥(wreathN₁ hD Q w)) (hodd : Odd (orderOf x)) :
@@ -181,6 +195,7 @@ private def psiKer (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     rw [mul_inv_cancel, psi_one hD hQ hf hf2, hσ, zero_add] at h
     exact h.symm
 
+omit [Finite G] in
 private theorem psi_eq_zero_of_mem_wreathP₁ (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {f : G} (hf : f ∈ Q)
     (hf2 : f ^ 2 ∈ wKer hD w) {σ : G} (hσ : σ ∈ wreathP₁ hD Q w) :
@@ -194,6 +209,7 @@ private theorem psi_eq_zero_of_mem_wreathP₁ (hD : DHyp A Aa t D) (hQ : QHyp L 
   obtain ⟨y, hy, rfl⟩ := hle hσ
   exact ⟨y.2, hy⟩
 
+omit [Finite G] in
 theorem wKer_le_wreathE₂ (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hQ : QHyp L A D t Q) : wKer hD w ≤ wreathE₂ hD Q w := by
   intro v hv
@@ -202,6 +218,7 @@ theorem wKer_le_wreathE₂ (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
   intro x hx
   exact (wreathP₁_le_wreathN₁ hD Q w hx).2 v hv |>.symm
 
+omit [Finite G] in
 theorem wreathP₁_comm_mem_wFix (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (hQ : QHyp L A D t Q) {f : G} (hf : f ∈ Q) (hf2 : f ^ 2 ∈ wKer hD w)
     {σ : G} (hσ : σ ∈ wreathP₁ hD Q w) : f⁻¹ * σ * f * σ⁻¹ ∈ wFix hD w := by
@@ -215,6 +232,7 @@ theorem wreathP₁_comm_mem_wFix (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub h
   refine (mem_wFix_iff_exists hD w).2 ⟨dSub hD hQ hf hf2 ⟨σ, hσN⟩, rfl, hwx⟩
 
 
+omit [Finite G] in
 private theorem c₁_one (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     {c₁ : G → (Fin 4 → ZMod 2)} (hc₁ : IsCoord (wFix hD w) c₁) : c₁ 1 = 0 := by
   have h := hc₁.mul 1 (wFix hD w).one_mem 1 (wFix hD w).one_mem
@@ -339,12 +357,14 @@ theorem wreathE₂_inf_omega1 (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
   exact hv₂
 
 
+omit [Finite G] in
 private theorem inv_eq_self_of_mem_omega1 (hD : DHyp A Aa t D) {v : G}
     (hv : v ∈ omega1 D hD.comm) : v⁻¹ = v := by
   refine inv_eq_of_mul_eq_one_right ?_
   rw [← pow_two]
   exact hv.2
 
+omit [Finite G] in
 private theorem c₁_mul_mul (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     {c₁ : G → (Fin 4 → ZMod 2)} (hc₁ : IsCoord (wFix hD w) c₁) {x y z : G}
     (hx : x ∈ wFix hD w) (hy : y ∈ wFix hD w) (hz : z ∈ wFix hD w) :
@@ -356,6 +376,7 @@ private def kappa (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (c₁ : G → (Fin 4 → ZMod 2)) (σ : ↥(wreathN₁ hD Q w)) : Fin 4 → ZMod 2 :=
   c₁ ((w (dSub hD hQ hf hf2 σ)).val)
 
+omit [Finite G] in
 private theorem kappa_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {f : G} (hf : f ∈ Q)
     (hf2 : f ^ 2 ∈ wKer hD w) {c₁ : G → (Fin 4 → ZMod 2)}
@@ -380,6 +401,7 @@ private theorem kappa_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     val_vConj_apply hD (QHyp.mem_normalizer_omega1 hD hQ σ.2.1.1) (w (dSub hD hQ hf hf2 τ)),
     hρ₁ σ _ hFixτ]
 
+omit [Finite G] in
 private theorem kappa_ker (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {f : G} (hf : f ∈ Q)
@@ -444,6 +466,7 @@ private theorem kappa_ker (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
   rw [hwzero, AbelianSub.val_zero]
   exact c₁_one hD hc₁
 
+omit [Finite G] in
 theorem exists_mul_mem_wreathE₂ (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (hQ : QHyp L A D t Q) (hq4 : ∀ q ∈ Q, q ^ 4 = 1)
     (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
@@ -555,6 +578,7 @@ theorem exists_mul_mem_wreathE₂ (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub 
     _ = (f * a) * x := by rw [hconj]
 
 
+omit [Finite G] in
 theorem exists_mem_wreathE₂_sq_eq (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (hQ : QHyp L A D t Q) (hq4 : ∀ q ∈ Q, q ^ 4 = 1)
     (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)

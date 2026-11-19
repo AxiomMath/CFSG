@@ -71,7 +71,7 @@ theorem agl81FourSixteenAt_holds
     (h85 : Asc81bEightFive) (h93 : Asc81bNineThree) (hNX : NoXBlockFor G)
     (h98 : AGL81NineEightFour G) : AGL81FourSixteenAt G := by
   intro hS P M H Q K L W a₀ x hd _ _ _ D hDM hD hDc
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hGA := CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
   obtain ⟨hp, hp2, hyps, -, hLn, hrk, hdvd, hrkW, a, hap, haJ, hnon⟩ :=
     hd.blockFieldIndexW_hyps hS h85 h93 hNX h98
@@ -86,10 +86,10 @@ theorem agl81FourSixteenAt_holds
     exact h1
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   set N := barM M L with hNdef
-  haveI hNn : N.Normal := hLn.map π (QuotientGroup.mk'_surjective _)
+  have hNn : N.Normal := hLn.map π (QuotientGroup.mk'_surjective _)
   set C := centralizer (N : Set (↥M ⧸ CFSG.pCore 2 ↥M)) with hCdef
   have hN2 : ¬ 5 ∣ Nat.card (CFSG.pCore 2 ↥M) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (CFSG.pCore_isPGroup (p := 2) (G := ↥M))
     rw [hk]
     intro h
@@ -129,7 +129,7 @@ theorem agl81FourSixteenAt_holds
       exact FieldIndexW.false_of_twistedA_card_four 5 hCP' d e hdq (by norm_num) hq4 hrk hrkW hap
         haJ hnon
   set D' : Subgroup ↥M := D.subgroupOf M
-  haveI := hD.1
+  have := hD.1
   have hD' : IsElemAbelian 5 D' := by
     refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
     · change ((a : ↥M) : G) * ((b : ↥M) : G) = ((b : ↥M) : G) * ((a : ↥M) : G)

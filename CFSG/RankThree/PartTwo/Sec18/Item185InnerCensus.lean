@@ -38,7 +38,7 @@ theorem noE27_projSL_two_of_ne_three {p e : ℕ} [Fact p.Prime] (hp3 : p ≠ 3) 
 
 theorem noE27_projSL_two_three_of_le_two {e : ℕ} (he1 : 1 ≤ e) (he2 : e ≤ 2) :
     NoE27 (projSL 2 (GaloisField 3 e)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine Sec4.RonanK429.noE27_of_not_dvd ?_
   have hφ : Nat.card (projSL 2 (GaloisField 3 e)) =
       Nat.card (CFSG.Assembly.LowTwoRank.StatedProj
@@ -60,7 +60,7 @@ theorem four_le_pRank_projSL_two_three {e : ℕ} (he : 4 ≤ e) :
 
 theorem noE27_projSL_three_three : NoE27 (projSL 3 (GaloisField 3 1)) := by
   intro D hD
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 1) = 3 := by
     rw [GaloisField.card 3 1 (by norm_num)]
     norm_num
@@ -86,7 +86,7 @@ theorem noE27_projSL_three_three : NoE27 (projSL 3 (GaloisField 3 1)) := by
 
 theorem noE27_projSU_three_three : NoE27 (projSU 3 3 1) := by
   intro D hD
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := CFSG.RankThree.PartTwo.Sec19.Step1919EndProof.pRank_three_le_of_mulEquiv_projSU
     (MulEquiv.refl (projSU 3 3 1))
   have hD3 := CFSG.SectionRank.le_pRank (by norm_num) (le_top : D ≤ ⊤) hD.1
@@ -265,7 +265,7 @@ theorem innerCase_six (hJ3 : NoInnerData (Sec4.Spor .J3)) : InnerCase Alt42Six :
   intro X _ _ hX A B c hd hP
   obtain ⟨s, hs, ⟨φ⟩⟩ := hP
   have hq := hd.quotient hX
-  haveI : Finite (Sec4.Spor s) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (Sec4.Spor s) := Finite.of_equiv _ φ.toEquiv
   simp only [Sec4.sporadics42, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·

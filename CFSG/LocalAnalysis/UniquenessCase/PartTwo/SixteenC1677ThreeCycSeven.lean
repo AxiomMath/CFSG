@@ -85,7 +85,7 @@ theorem s168e3_cyc7_main [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.car
     {A L : Subgroup (MulAut W)} {t x : MulAut W} (hLx : L = Subgroup.zpowers x)
     (hxo : orderOf x = 7) (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L)
     (hfpf : ∀ w : W, x w = w → w = 1) (ht : t ∈ A) (hinv : t * x * t⁻¹ = x⁻¹) {q : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqm : 2 ≤ CFSG.Open.pRank q A) :
+    (hq : q.Prime) (_hq2 : q ≠ 2) (hqm : 2 ≤ CFSG.Open.pRank q A) :
     ∃ K : Subgroup (MulAut W), Conc4_136W A t K ∧ IsCyclicOrd ↥K 7 ∧ rk ↥(commSub ⊤ K) = 3 ∧
       Set.ncard {X : Subgroup (MulAut W) | ∃ φ ∈ A, X = K.map (MulAut.conj φ).toMonoidHom} = 2 ∧
       ∀ r : ℕ, r.Prime → r ≠ 2 → r ≠ 7 → CFSG.Open.pRank r A < 2 := by
@@ -177,7 +177,7 @@ theorem s168e3_cyc7_main [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.car
   have hBcard : Nat.card ↥B = 49 := by rw [hBC, hCcard]
   have hBp : IsPGroup 7 ↥B := IsPGroup.of_card (n := 2) (by rw [hBcard]; norm_num)
   have hBc : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     intro a ha b hb
     simpa using CFSG.Quasithin.commutative_of_card_le_prime_sq hBp
       (by rw [hBcard]; norm_num) ⟨a, ha⟩ ⟨b, hb⟩
@@ -196,7 +196,7 @@ theorem s168e3_cyc7_main [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.car
     rw [show K = B ⊓ centSub W₂ from rfl, hBC]
     exact hb
   have hKc : IsCyclicOrd ↥K 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     exact ⟨isCyclic_of_prime_card hKcard, hKcard⟩
   have hKB : K ≤ B := fun k hk => (Subgroup.mem_inf.mp hk).1
   have hKcent : K ≤ centSub W₂ := fun k hk => (Subgroup.mem_inf.mp hk).2

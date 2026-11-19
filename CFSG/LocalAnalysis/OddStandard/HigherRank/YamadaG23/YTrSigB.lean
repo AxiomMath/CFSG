@@ -15,6 +15,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem pres11_iff (fr : Frame G) : Pres11 fr ↔ (GFrame.ofFrame fr).P11 := Iff.rfl
 
 theorem lf_sigma (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))

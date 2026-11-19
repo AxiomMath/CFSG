@@ -58,7 +58,7 @@ private lemma cube_roots_distinct {K : Type} [Field K] [CharP K 2] {ω : K}
     exact h3 h3zero
   have hω0 : ω ≠ 0 := by
     intro h0
-    have h : (1 : K) = 0 := by simpa [h0] using hω
+    have h : (1 : K) = 0 := by simp [h0] at hω
     exact one_ne_zero h
   have h1ω2 : (1 : K) ≠ ω ^ 2 := by
     intro h
@@ -90,7 +90,7 @@ private lemma pow_eq_one_of_mem_eigenspace {K : Type} [Field K] {n : ℕ}
 private lemma hermitian_orthogonal_of_eigen {K : Type} [Field K] {q n : ℕ}
     (hq3 : 3 ∣ q + 1) {d : GL (Fin n) K}
     (hd : IsHermIsometry q (d : Matrix (Fin n) (Fin n) K))
-    {μ ν : K} (hμ3 : μ ^ 3 = 1) (hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν)
+    {μ ν : K} (hμ3 : μ ^ 3 = 1) (_hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν)
     {v w : Fin n → K} (hv : v ∈ cubeEigen d μ) (hw : w ∈ cubeEigen d ν) :
     ∑ i, v i ^ q * w i = 0 := by
   have hv' : (d : Matrix (Fin n) (Fin n) K) *ᵥ v = μ • v := by
@@ -127,7 +127,7 @@ private lemma hermitian_orthogonal_of_eigen {K : Type} [Field K] {q n : ℕ}
   exact (mul_eq_zero.mp hzero).resolve_left hne
 
 theorem uni_cube_eigen {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
-    (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1)
+    (_hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1)
     {d : GL (Fin n) K} (hd : IsHermIsometry q (d : Matrix (Fin n) (Fin n) K)) (hd3 : d ^ 3 = 1) :
     (∀ μ ν : K, μ ^ 3 = 1 → ν ^ 3 = 1 → μ ≠ ν → ∀ v ∈ cubeEigen d μ, ∀ w ∈ cubeEigen d ν,
         ∑ i, v i ^ q * w i = 0) ∧
@@ -198,7 +198,7 @@ theorem uni_cube_eigen {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
         simpa using Polynomial.X_pow_sub_one_splits hprim
       have hsplit : (minpoly K g).Splits :=
         Polynomial.Splits.of_dvd hXsplit hXne hgmin_dvd
-      haveI : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
+      have : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
       have hint : IsIntegral K g := IsIntegral.of_finite K g
       have hdeg : (minpoly K g).degree ≠ 0 := ne_of_gt (minpoly.degree_pos hint)
       obtain ⟨μ, hμroot⟩ := hsplit.exists_eval_eq_zero hdeg
@@ -209,7 +209,7 @@ theorem uni_cube_eigen {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
       have hxapp : g x = μ • x := Module.End.HasEigenvector.apply_eq_smul hx
       have hxapp' : M (x : Fin n → K) = μ • (x : Fin n → K) := by
         have := congrArg (fun y : U => (y : Fin n → K)) hxapp
-        simpa [g, LinearMap.restrict_coe_apply] using this
+        simpa [g, _root_.LinearMap.coe_restrict_apply] using this
       have hvμ : (x : Fin n → K) ∈ M.eigenspace μ :=
         Module.End.mem_eigenspace_iff.mpr hxapp'
       have hxv0 : (x : Fin n → K) ≠ 0 := by

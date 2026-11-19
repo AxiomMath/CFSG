@@ -121,7 +121,7 @@ theorem comm_mem_of_gens {s : Set G} {N : Subgroup G}
     | one =>
       intro b _
       rw [commutatorElement_def]
-      simpa using N.one_mem
+      simp
     | mul x y hx hy ihx ihy =>
       intro b hb
       have e : ⁅x * y, b⁆ = x * ⁅y, b⁆ * x⁻¹ * ⁅x, b⁆ := by
@@ -141,7 +141,7 @@ theorem comm_mem_of_gens {s : Set G} {N : Subgroup G}
   | mem y hy => exact h1 a ha y hy
   | one =>
     rw [commutatorElement_def]
-    simpa using N.one_mem
+    simp
   | mul y z hy hz ihy ihz =>
     have e : ⁅a, y * z⁆ = ⁅a, y⁆ * (y * ⁅a, z⁆ * y⁻¹) := by
       simp only [commutatorElement_def]
@@ -229,7 +229,7 @@ theorem maxElemAbelian_quo (hNX : N ≤ X) {K₁ K₂ : Subgroup G}
       ∀ Y' : Subgroup (X ⧸ N.subgroupOf X), Y ≤ Y' → Y' ≤ ⊤ → IsElemAbelian 2 Y' → Y' = Y} =
       {quo X N K₁, quo X N K₂} := by
   ext Y
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, le_top, true_and,
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, le_top, true_and,
     forall_const]
   constructor
   · rintro ⟨hEA, hmax⟩

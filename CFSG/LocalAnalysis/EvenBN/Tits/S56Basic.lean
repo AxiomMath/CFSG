@@ -112,7 +112,7 @@ theorem Hyp.s56_centralizer_A (hd : d.Hyp) :
     IsPGroup 2 (centralizer (d.A : Set G)) ∧
       ((d.ρ.range = titsD.subgroupOf titsA ∧ Nat.card (centralizer (d.A : Set G)) = 2 ^ 6) ∨
        (d.ρ.range = ⊤ ∧ Nat.card (centralizer (d.A : Set G)) ≤ 2 ^ 7)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hE32, hAt, hAelem, hA64, hAL⟩ := hd.A_facts
   rcases hd.centralizer_A with ⟨hr, hC⟩ | ⟨hr, hC⟩
   · rw [hC]

@@ -109,7 +109,7 @@ theorem w16g_commSub_eq_of_commSub_le (hW : ∀ w : W, w * w = 1) {t : MulAut W}
     rw [commSub, Subgroup.closure_le]
     rintro _ ⟨x, hx, w, -, rfl⟩
     exact (hPK hx).2.2 w
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPodd : Odd (Nat.card P) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 3)).mp hP3
     rw [hn]

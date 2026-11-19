@@ -21,12 +21,14 @@ private theorem zmod3_mul_self_eq_one (x : ZMod 3) (hx : x ≠ 0) : x * x = 1 :=
   revert x
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem repr_apply_of_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     (g : V ≃ₗ[ZMod 3] V) (ε : Fin n → ZMod 3)
     (hg : ∀ m, g (b m) = ε m • b m) (w : V) (j : Fin n) :
     b.repr (g w) j = ε j * b.repr w j :=
   b.repr_apply_of_apply_basis (f := (g : V →ₗ[ZMod 3] V)) (a := ε) hg w j
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9t_scalar_of_commute {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     {Ft : Subgroup (OGroup Q)} (hb : IsEvenFrame b Ft) (hn : 3 ≤ n) {σ : V ≃ₗ[ZMod 3] V}
     (hσ : ∀ g ∈ Ft, σ * (g : V ≃ₗ[ZMod 3] V) = (g : V ≃ₗ[ZMod 3] V) * σ) (i : Fin n) :
@@ -57,7 +59,7 @@ theorem sec9t_scalar_of_commute {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
         hεj, one_mul]
     have h2 : b.repr ((g : V ≃ₗ[ZMod 3] V) (σ (b i))) j = -b.repr (σ (b i)) j := by
       rw [hgw, map_neg]
-      simpa using map_neg (Finsupp.lapply j) (b.repr (σ (b i)))
+      simp
     have heq : b.repr (σ (b i)) j = -b.repr (σ (b i)) j := h1.symm.trans h2
     have hsum : b.repr (σ (b i)) j + b.repr (σ (b i)) j = 0 := by
       rw [← eq_neg_iff_add_eq_zero]
@@ -74,7 +76,7 @@ theorem sec9t_scalar_of_commute {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
       rw [map_smul, b.repr_self]
       simp
     · rw [hzero j hji, map_smul, b.repr_self]
-      simp [Finsupp.smul_apply, Finsupp.single_eq_of_ne hji]
+      simp [Finsupp.single_eq_of_ne hji]
   refine ⟨b.repr (σ (b i)) i, ?_, heq⟩
   intro hx0
   have hwne : σ (b i) ≠ 0 := by
@@ -83,6 +85,7 @@ theorem sec9t_scalar_of_commute {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
   apply hwne
   rw [heq, hx0, zero_smul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9t_multiplier_eq_one {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ c) {w : V} {x : ZMod 3} (hx : x ≠ 0) (hw : σ w = x • w)
     (hQw : Q w ≠ 0) : c = 1 := by
@@ -93,6 +96,7 @@ theorem sec9t_multiplier_eq_one {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
   refine mul_right_cancel₀ hQw ?_
   simpa using h1.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9t_exists_signs {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     {σ : V ≃ₗ[ZMod 3] V} (hx : ∀ i, ∃ x : ZMod 3, x ≠ 0 ∧ σ (b i) = x • b i) :
     ∃ T : Finset (Fin n), ∀ i, σ (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i := by
@@ -100,9 +104,9 @@ theorem sec9t_exists_signs {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
   let T : Finset (Fin n) := Finset.univ.filter (fun i => σ (b i) = (-1 : ZMod 3) • b i)
   refine ⟨T, fun i => ?_⟩
   by_cases hi : i ∈ T
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     exact (Finset.mem_filter.mp hi).2
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     obtain ⟨x, hx0, hxeq⟩ := hx i
     rcases zmod3_ne_zero_eq_one_or_neg_one x hx0 with hx1 | hxneg
     · rw [hxeq, hx1, one_smul]

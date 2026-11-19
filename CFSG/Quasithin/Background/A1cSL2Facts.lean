@@ -135,13 +135,13 @@ theorem eq_one_or_eq_sl2NegOne_of_mem_center {g : SL(2, ZMod p)}
     apply Subtype.ext
     rw [← hrg, hr1]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [sl2NegOne, Matrix.scalar_apply] <;> rfl
+    fin_cases i <;> fin_cases j <;> simp [sl2NegOne, Matrix.scalar_apply]
 
 theorem sl2NegOne_mem_center : sl2NegOne p ∈ Subgroup.center (SL(2, ZMod p)) := by
   refine Matrix.SpecialLinearGroup.mem_center_iff.2 ⟨-1, ?_, ?_⟩
   · rw [Fintype.card_fin]; exact neg_one_sq
   · ext i j
-    fin_cases i <;> fin_cases j <;> simp [sl2NegOne, Matrix.scalar_apply] <;> rfl
+    fin_cases i <;> fin_cases j <;> simp [sl2NegOne, Matrix.scalar_apply]
 
 theorem sl2NegOne_comm (g : SL(2, ZMod p)) : g * sl2NegOne p = sl2NegOne p * g :=
   Subgroup.mem_center_iff.1 sl2NegOne_mem_center g

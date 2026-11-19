@@ -25,7 +25,7 @@ theorem s16c1c_conj_mem_omega {g x : V₀ ≃ₗ[ZMod 2] V₀} (hg : g ∈ O₀ 
 
 private theorem s16c1c_conj_apply {g₀ x : V₀ ≃ₗ[ZMod 2] V₀} (v : V₀) :
     x (g₀ v) = g₀ ((MulAut.conj g₀⁻¹) x v) := by
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem s16c1c_transfer_trans {g₀ x : V₀ ≃ₗ[ZMod 2] V₀} {w : V₀} (hw : w ≠ 0)
     (h1 : ∀ u, (MulAut.conj g₀⁻¹) x u - u = 0 ∨ (MulAut.conj g₀⁻¹) x u - u = w)
@@ -37,7 +37,7 @@ private theorem s16c1c_transfer_trans {g₀ x : V₀ ≃ₗ[ZMod 2] V₀} {w : V
   refine ⟨g₀ w, fun h => hw (g₀.injective (by simpa using h)), ?_, ?_⟩
   · intro u
     have hsub : x u - u = g₀ ((MulAut.conj g₀⁻¹) x (g₀.symm u) - g₀.symm u) := by
-      simpa using hkey (g₀.symm u)
+      simp
     rcases h1 (g₀.symm u) with h | h
     · left; rw [hsub, h, map_zero]
     · right; rw [hsub, h]
@@ -95,7 +95,7 @@ theorem s16c1c_transPair {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
   obtain ⟨g₀, hg₀O, hconj⟩ := s16c1c_exists_conj_mem_T hE'O hp
   set ψ : (V₀ ≃ₗ[ZMod 2] V₀) →* (V₀ ≃ₗ[ZMod 2] V₀) :=
     (MulAut.conj g₀⁻¹).toMonoidHom with hψdef
-  have hψ : ∀ x, ψ x = g₀⁻¹ * x * g₀ := fun x => by simp [hψdef, MulAut.conj_apply]
+  have hψ : ∀ x, ψ x = g₀⁻¹ * x * g₀ := fun x => by simp [hψdef]
   have hψinj : Function.Injective ψ := (MulAut.conj g₀⁻¹).injective
   let P : Subgroup (V₀ ≃ₗ[ZMod 2] V₀) := E'.map ψ
   have hcardP : Nat.card P = 16 := by

@@ -13,6 +13,7 @@ namespace L6364
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem inf_centModSubgroup_eq_zpowers {B L : Subgroup G} {x : G} (hx : x ∈ B)
     (h : CentModEqZpowers p B L x) : B ⊓ centModSubgroup p L = Subgroup.zpowers x := by
   ext b
@@ -23,13 +24,15 @@ theorem inf_centModSubgroup_eq_zpowers {B L : Subgroup G} {x : G} (hx : x ∈ B)
     have hbB : b ∈ B := Subgroup.zpowers_le.2 hx hb
     exact ⟨hbB, centMod_iff.1 ((h b hbB).2 hb)⟩
 
+omit [Finite G] in
 theorem card_inf_centModSubgroup (hp : p.Prime) {B L : Subgroup G} {x : G}
     (hB : IsElemAbelian p B) (hx : x ∈ B) (hx1 : x ≠ 1) (h : CentModEqZpowers p B L x) :
     Nat.card ↥(B ⊓ centModSubgroup p L) = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [inf_centModSubgroup_eq_zpowers hx h, Nat.card_zpowers]
   exact orderOf_eq_prime (hB.2 x hx) hx1
 
+omit [Finite G] in
 theorem isDirectZpowersInf_of_cent {B L : Subgroup G} {x : G} (hx : x ∈ B)
     (h : CentModEqZpowers p B L x) (hsup : B = (B ⊓ centModSubgroup p L) ⊔ (B ⊓ L))
     (hinf : (B ⊓ centModSubgroup p L) ⊓ (B ⊓ L) = ⊥) : IsDirectZpowersInf B x L := by
@@ -39,7 +42,7 @@ theorem isDirectZpowersInf_of_cent {B L : Subgroup G} {x : G} (hx : x ∈ B)
 theorem pRank_eq_of_card (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B) {k : ℕ}
     (hk : Nat.card B = p ^ k) : CFSG.Open.pRank p B = k :=
   le_antisymm
-    (CFSG.SectionRank.pRank_le hp.one_lt fun E hEB _ => hk ▸ Subgroup.card_le_of_le hEB)
+    (CFSG.SectionRank.pRank_le hp.one_lt fun _E hEB _ => hk ▸ Subgroup.card_le_of_le hEB)
     (CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB hk)
 
 theorem glaPLayer_sup_eq (hp : p.Prime) {L B : Subgroup G} (hL : GLAPComponent p L L)
@@ -48,7 +51,7 @@ theorem glaPLayer_sup_eq (hp : p.Prime) {L B : Subgroup G} (hL : GLAPComponent p
   set X := L ⊔ B with hX
   have hLX : L ≤ X := le_sup_left
   have hXN : X ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBL
-  haveI hnorm : (L.subgroupOf X).Normal :=
+  have hnorm : (L.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).2 hXN
   have hsub : IsSubnormal L X := IsSubnormal.step hLX hnorm (IsSubnormal.refl X)
   have hLXc : GLAPComponent p X L := glaPComponent_of_isSubnormal' hp hsub hL
@@ -74,9 +77,9 @@ theorem glaPLayer_sup_eq (hp : p.Prime) {L B : Subgroup G} (hL : GLAPComponent p
     intro J hJ
     have hJX : J ≤ X := hJ.1
     let ρ : ↥J →* ↥X ⧸ L.subgroupOf X := π.comp (Subgroup.inclusion hJX)
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
-    haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
-    haveI := Fact.mk hp
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
+    have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+    have := Fact.mk hp
     have hnil : Group.IsNilpotent ↥ρ.range := (hYp.to_subgroup ρ.range).isNilpotent
     have hsub1 : Subsingleton ↥ρ.range := by
       by_contra h

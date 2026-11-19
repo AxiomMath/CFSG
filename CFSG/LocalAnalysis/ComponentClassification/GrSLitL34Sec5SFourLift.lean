@@ -27,17 +27,17 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
     ∃ E H : Subgroup G, E ≤ P ∧ IsKleinFour E ∧ H ≤ P ∧ ⁅H, H⁆ = H ∧
       (∀ f ∈ E, f ≠ 1 → H ≤ gsFixedLayer P f) ∧
       ∀ N : Subgroup G, N ≤ P → (N.subgroupOf P).Normal → H ≤ N → N = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsKleinFour ↥E₀ := hE₀
-  haveI : IsMulCommutative ↥E₀ := IsKleinFour.isMulCommutative
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsKleinFour ↥E₀ := hE₀
+  have : IsMulCommutative ↥E₀ := IsKleinFour.isMulCommutative
   let U : Subgroup ↥P := pPrimeCore 2 ↥P
   have hUnorm : U.Normal := pPrimeCore_normal
-  haveI : U.Normal := hUnorm
+  have : U.Normal := hUnorm
   have hUodd : Odd (Nat.card U) := Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2))
   let π : ↥P →* (↥P ⧸ U) := QuotientGroup.mk' U
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective U
   have hπodd : ¬ 2 ∣ Nat.card π.ker := GSThmB.OddQuot.not_two_dvd_card_ker (H := ↥P)
-  haveI : IsSimpleGroup (↥P ⧸ U) := hsimp
+  have : IsSimpleGroup (↥P ⧸ U) := hsimp
   have hE₀elem : IsElemTwo E₀ := by
     refine ⟨fun x hx y hy => setLike_mul_comm hx hy,
       fun x hx => ?_⟩
@@ -49,7 +49,7 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
   have hE'card4 : Nat.card E' = 4 := hE'card.trans hE₀.card_four
   have hE'p : IsPGroup 2 E' :=
     IsPGroup.of_card (n := 2) (by rw [hE'card4]; norm_num)
-  haveI hE'nontriv : Nontrivial ↥E' := by
+  have hE'nontriv : Nontrivial ↥E' := by
     rw [← Finite.one_lt_card_iff_nontrivial, hE'card4]
     norm_num
   have hE'exp : Monoid.exponent ↥E' = 2 := by
@@ -146,7 +146,7 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
     have hker : ¬ 2 ∣ Nat.card g.ker := by
       have hker_eq : g.ker = (π.domRestrict D).ker := by
         ext x
-        simp only [g, MonoidHom.mem_ker, MonoidHom.codRestrict_apply, Subtype.ext_iff, Subgroup.coe_one, map_one]
+        simp only [g, MonoidHom.mem_ker, MonoidHom.codRestrict_apply, Subtype.ext_iff, Subgroup.coe_one]
       rw [hker_eq]
       exact GSThmB.OddQuot.not_two_dvd_card_ker_domRestrict π hπodd D
     have hLmap : (pLayer ↥D 2).map g = pLayer ↥Cbar 2 :=
@@ -208,7 +208,7 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
   · intro N hNP hNnorm hHN
     set N₀ : Subgroup ↥P := N.subgroupOf P with hN₀
     have hN₀norm : N₀.Normal := by rw [hN₀]; exact hNnorm
-    haveI : N₀.Normal := hN₀norm
+    have : N₀.Normal := hN₀norm
     have hmapNnorm : (N₀.map π).Normal := hN₀norm.map π hπsurj
     have hH'leN₀ : H' ≤ N₀ := by
       intro x hx
@@ -251,10 +251,10 @@ theorem exists_kleinFour_perfect_of_layer {P : Subgroup G} (hperf : ⁅P, P⁆ =
       exact MonoidHom.range_eq_top.mp hrange
     have hqodd : Odd (Nat.card (↥P ⧸ N₀)) :=
       Odd.of_dvd_nat hUodd (Subgroup.card_dvd_of_surjective (f := gU) hgU)
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
     have hPperf : ⁅(⊤ : Subgroup ↥P), (⊤ : Subgroup ↥P)⁆ = ⊤ := Subgroup.commutator_eq_self
     have hqperf : ⁅(⊤ : Subgroup (↥P ⧸ N₀)), (⊤ : Subgroup (↥P ⧸ N₀))⁆ = ⊤ := by
-      haveI : Group.IsPerfect (↥P ⧸ N₀) := Group.IsPerfect.instQuotientSubgroup
+      have : Group.IsPerfect (↥P ⧸ N₀) := Group.IsPerfect.instQuotientSubgroup
       exact Subgroup.commutator_eq_self
     have hqodd' : Odd (Nat.card (⊤ : Subgroup (↥P ⧸ N₀))) := by
       simpa only [Subgroup.card_top] using hqodd

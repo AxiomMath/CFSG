@@ -36,7 +36,7 @@ theorem slTwoAt_of_le_hatAut [Finite K] [CharP K 2] {n : ℕ} (hK : Nat.card K =
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
     (Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_le hXp le_top
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
-  have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := Q₀.isPGroup.map _
   have hPX : P.map κ = X := by
     have hcomp : κ.comp Y.subtype = X.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hP, Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,

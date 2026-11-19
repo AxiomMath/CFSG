@@ -108,7 +108,7 @@ theorem ggNSPosPA_permAutHom_eq_one {G : Type} [Group G] [Finite G] {p : ℕ}
   have hvcast : ∀ m : Fin n, (v m : ZMod p) =
       (if m = a then 1 else 0) + (if m = b then (p - 1 : ZMod p) else 0) := by
     intro m
-    by_cases h1 : m = a <;> by_cases h2 : m = b <;> simp_all [v, hpb]
+    by_cases h1 : m = a <;> by_cases h2 : m = b <;> simp_all [v]
   have hconst : ∀ i, (v (σ⁻¹ i) : ZMod p) - (v i : ZMod p) =
       (v (σ⁻¹ a) : ZMod p) - (v a : ZMod p) := by
     intro i
@@ -153,10 +153,10 @@ theorem ggNSPosPA_permAutHom_eq_one {G : Type} [Group G] [Finite G] {p : ℕ}
     simp
   have hgamma_a : (v (σ⁻¹ a) : ZMod p) - (v a : ZMod p) = -2 := by
     have h1 : (v (σ⁻¹ a) : ZMod p) = -1 := by
-      rw [hsa, hvcast b, if_neg hba, if_pos rfl]
-      simp [hpb]
+      rw [hsa, hvcast b, ite_eq_right hba, ite_eq_left rfl]
+      simp
     have h2 : (v a : ZMod p) = 1 := by
-      rw [hvcast a, if_pos rfl, if_neg (Ne.symm hba)]
+      rw [hvcast a, ite_eq_left rfl, ite_eq_right (Ne.symm hba)]
       simp
     rw [h1, h2]; ring
   have hgamma_0 : (v (σ⁻¹ i0) : ZMod p) - (v i0 : ZMod p) = 0 := by
@@ -168,9 +168,9 @@ theorem ggNSPosPA_permAutHom_eq_one {G : Type} [Group G] [Finite G] {p : ℕ}
         have h2 := congrArg σ hcon
         simpa [hb_sigma] using h2)
     have h1 : (v (σ⁻¹ i0) : ZMod p) = 0 := by
-      rw [hvcast (σ⁻¹ i0), if_neg hsi0a, if_neg hsi0b]; simp
+      rw [hvcast (σ⁻¹ i0), ite_eq_right hsi0a, ite_eq_right hsi0b]; simp
     have h2 : (v i0 : ZMod p) = 0 := by
-      rw [hvcast i0, if_neg hia, if_neg hib]; simp
+      rw [hvcast i0, ite_eq_right hia, ite_eq_right hib]; simp
     rw [h1, h2]; ring
   have hcontra : (-2 : ZMod p) = 0 := by
     have hh := hconst i0

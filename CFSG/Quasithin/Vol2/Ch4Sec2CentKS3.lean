@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_sup_S3 {K A : Subgroup G} {g : G}
     (hK : g ∈ Subgroup.normalizer (K : Set G)) (hA : g ∈ Subgroup.normalizer (A : Set G)) {x : G}
     (hx : x ∈ K ⊔ A) : g * x * g⁻¹ ∈ K ⊔ A := by
@@ -24,6 +25,7 @@ private theorem conj_mem_sup_S3 {K A : Subgroup G} {g : G}
       exact (le_sup_right : A ≤ K ⊔ A) ((Subgroup.mem_normalizer_iff.mp hA a).mp ha)
   exact hle hx
 
+omit [Finite G] in
 private theorem normalizer_sup_S3 {K A : Subgroup G} {g : G}
     (hK : g ∈ Subgroup.normalizer (K : Set G)) (hA : g ∈ Subgroup.normalizer (A : Set G)) :
     g ∈ Subgroup.normalizer ((K ⊔ A : Subgroup G) : Set G) := by
@@ -38,7 +40,7 @@ private theorem normalizer_sup_S3 {K A : Subgroup G} {g : G}
 
 private theorem charP_two_of_card_S3 {F : Type} [Field F] [Fintype F] {n : ℕ}
     (hF : Fintype.card F = 2 ^ n) : CharP F 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow hF
 
 private theorem eq_one_of_sq_eq_one_S3 {F : Type} [Field F] [CharP F 2] {r : F}
@@ -62,7 +64,7 @@ private theorem center_sl2_eq_bot_S3 {F : Type} [Field F] [CharP F 2] :
 
 private theorem isSimpleGroup_sl2_S3 {F : Type} [Field F] [Finite F] [CharP F 2]
     (h4 : 4 ≤ Nat.card F) : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     (CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable h4).1
   have hinj : Function.Injective
       (QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F))) := by
@@ -72,7 +74,7 @@ private theorem isSimpleGroup_sl2_S3 {F : Type} [Field F] [Finite F] [CharP F 2]
 
 private theorem isSimpleGroup_statedSL2_S3 {F : Type} [Field F] [Finite F] [CharP F 2]
     (h4 : 4 ≤ Nat.card F) : IsSimpleGroup ↥(StatedSL 2 F) := by
-  haveI := isSimpleGroup_sl2_S3 h4
+  have := isSimpleGroup_sl2_S3 h4
   exact (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).symm.isSimpleGroup
 
 theorem le_of_mem_sup_of_ne_one {H K Y : Subgroup G}
@@ -85,8 +87,8 @@ theorem le_of_mem_sup_of_ne_one {H K Y : Subgroup G}
   have hAK : pCoreOf 2 H ≤ Subgroup.normalizer (K : Set G) :=
     (CFSG.LieType.BorelTits.pCoreOf_le 2 H).trans hKN
   have hAsolv : Group.IsSolvable ↥(pCoreOf 2 H) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥(pCoreOf 2 H) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥(pCoreOf 2 H) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).isNilpotent
     infer_instance
   have hXN : H ≤ Subgroup.normalizer ((K ⊔ pCoreOf 2 H : Subgroup G) : Set G) := by
@@ -102,8 +104,8 @@ theorem le_of_mem_sup_of_ne_one {H K Y : Subgroup G}
     rw [Nat.card_eq_fintype_card, hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : CharP F 2 := charP_two_of_card_S3 hF
-  haveI : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL2_S3 h4
+  have : CharP F 2 := charP_two_of_card_S3 hF
+  have : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL2_S3 h4
   have hMn : (N₁.map ρ).Normal := Subgroup.Normal.map hN₁ ρ hρ
   have hy₀N : (⟨y₀, hy₀Y⟩ : ↥Y) ∈ N₁ := Subgroup.mem_subgroupOf.mpr hy₀
   have hMne : N₁.map ρ ≠ ⊥ := by
@@ -124,7 +126,7 @@ theorem le_of_mem_sup_of_ne_one {H K Y : Subgroup G}
   set Y₁ : Subgroup G := (K ⊔ pCoreOf 2 H) ⊓ Y
   have hWsolv : Group.IsSolvable ↥W := by
     have hkS : Group.IsSolvable ↥(ρ.ker) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have : Group.IsNilpotent ↥(ρ.ker) := hρ2.isNilpotent
       infer_instance
     have e := ρ.ker.equivMapOfInjective Y.subtype Y.subtype_injective

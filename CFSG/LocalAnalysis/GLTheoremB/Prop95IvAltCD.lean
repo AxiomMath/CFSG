@@ -29,7 +29,7 @@ private lemma isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasi
     rw [map_commutatorElement, commutatorElement_def,
       hab ((QuotientGroup.mk' (Subgroup.center Q)) x), mul_inv_cancel_right, mul_inv_cancel]
   rw [hcomm] at hle
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, b, hne⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -69,7 +69,7 @@ private lemma perm_eq_one_of_comm_alt {n : ℕ} (hn : 4 ≤ n) (g : Equiv.Perm (
 
 private lemma two_mul_card_alt (n : ℕ) (hn : 2 ≤ n) :
     2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [two_mul_nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_perm,
     Fintype.card_fin]
 
@@ -97,12 +97,12 @@ private lemma card_alt_ge {m : ℕ} (hm : 5 ≤ m) : 60 ≤ Nat.card (alternatin
 private lemma false_of_alt_four_simple {G : Type*} [Group G] {n : ℕ} (hn : n = 4)
     (e : G ≃* alternatingGroup (Fin n)) (hs : IsSimpleGroup G) : False := by
   subst hn
-  haveI : IsSimpleGroup (alternatingGroup (Fin 4)) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 4)) := e.symm.isSimpleGroup
   have hsolv : Group.IsSolvable (alternatingGroup (Fin 4)) :=
     alternatingGroup.isSolvable (by simp)
   have hcomm : ∀ a b : alternatingGroup (Fin 4), a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.2 hsolv
-  letI : CommGroup (alternatingGroup (Fin 4)) :=
+  let : CommGroup (alternatingGroup (Fin 4)) :=
     { (inferInstance : Group (alternatingGroup (Fin 4))) with mul_comm := hcomm }
   have hp := CommGroup.is_simple_iff_prime_card.1 (inferInstance : IsSimpleGroup (alternatingGroup (Fin 4)))
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at hp
@@ -118,7 +118,7 @@ private lemma alt_six_nonabelian : ∃ a b : alternatingGroup (Fin 6), a * b ≠
 
 private lemma quasisimple_of_alt_six_quotient {K : Type*} [Group K] (hperf : commutator K = ⊤)
     (e : (K ⧸ Subgroup.center K) ≃* alternatingGroup (Fin 6)) : CFSG.IsQuasisimple K := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨Group.isPerfect_def.mpr hperf, e.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := alt_six_nonabelian
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -255,7 +255,7 @@ theorem not_concl28c_of_hyp28Two {X : Type} [Group X] (W K S : Subgroup X) [W.No
     Hyp28Two W K S → Concl28c W K S → False := by
   rintro ⟨-, -, -, -, n₂, e₂, hT⟩ ⟨e, ⟨V, hV, hact⟩, -⟩
   have hcard : Nat.card (inducedAutGroup (bar W S) (bar W K)) = 2 := hT.1
-  haveI : Finite (inducedAutGroup (bar W S) (bar W K)) :=
+  have : Finite (inducedAutGroup (bar W S) (bar W K)) :=
     Nat.finite_of_card_ne_zero (by omega)
   have hsurj : ∀ y : ↥(alternatingGroup (Fin 7)), ∃ a : ↥(bar W K),
       e (QuotientGroup.mk a) = y := by
@@ -329,7 +329,7 @@ theorem alt_hyp28Four (hM : AltSixSevenCentre) (h : IvSetting m p M D L)
     hM 6 (Or.inl rfl) ↥(tl M L) hperfT ⟨eT⟩
   have hodd : ¬ 2 ∣ Nat.card (Subgroup.center ↥(tl M L)) := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hzc : (z : ↥(tl M L)) ∈ Subgroup.center ↥(tl M L) := z.2
     have hHn : (Subgroup.zpowers (z : ↥(tl M L))).Normal := by
@@ -355,7 +355,7 @@ theorem alt_hyp28Four (hM : AltSixSevenCentre) (h : IvSetting m p M D L)
       Nat.card (Subgroup.center ↥(tl M L)) = 3 := by
     generalize Nat.card (Subgroup.center ↥(tl M L)) = c at hdvd hodd ⊢
     have hc6 : c ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd
-    interval_cases c <;> first | omega | (norm_num at hdvd hodd)
+    interval_cases c <;> first | omega
   have hS2 : Nat.card (inducedAutGroup (bar (CFSG.pCore 2 ↥M) ((gammaD D).subgroupOf M))
       (bar (CFSG.pCore 2 ↥M) (L.subgroupOf M))) = 2 :=
     (card_inducedAutGroup_tl_eq_bar h hΓM hΓN).trans hcard
@@ -374,13 +374,13 @@ theorem not_concl28abc_of_hyp28Four {X : Type} [Group X] (W K S : Subgroup X) [W
     apply hone.2.1
     rcases hK with h6 | h6
     · obtain ⟨φ6⟩ := h6
-      haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
         Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
       have hperf : commutator (↥(bar W K)) = ⊤ :=
         Group.isPerfect_def.1
           (Group.IsPerfect.ofSurjective (f := φ6.symm.toMonoidHom) φ6.symm.surjective)
-      haveI : IsSimpleGroup (↥(bar W K)) := φ6.isSimpleGroup
+      have : IsSimpleGroup (↥(bar W K)) := φ6.isSimpleGroup
       have hZ : Subgroup.center ↥(bar W K) = ⊥ := by
         rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center ↥(bar W K)) with hb | ht
         · exact hb
@@ -409,7 +409,7 @@ theorem not_concl28abc_of_hyp28Four {X : Type} [Group X] (W K S : Subgroup X) [W
           Nat.card_congr φ6.toEquiv
         have h3 : (6 : ℕ).factorial = 720 := by decide
         omega
-      haveI : Finite ↥(bar W K) := Nat.finite_of_card_ne_zero (by omega)
+      have : Finite ↥(bar W K) := Nat.finite_of_card_ne_zero (by omega)
       have hQ : Nat.card (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) = 2520 := by
         have h1 := two_mul_card_alt 7 (by norm_num)
         have h2 : Nat.card (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) =

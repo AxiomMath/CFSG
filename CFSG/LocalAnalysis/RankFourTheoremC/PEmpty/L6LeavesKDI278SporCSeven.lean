@@ -46,8 +46,8 @@ theorem kdSporC_Fi24_seven
         hKout).le
   have hcen : Subgroup.center ↥CFSG.Sporadic.Fi24.J = ⊥ :=
     kdSporC_center_eq_bot_of_equiv f (kdSporC_center_eq_bot hC)
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv ↥K f.toEquiv
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv ↥K f.toEquiv
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hbal := kdSporC_balance_of_sevenModel fi7_sevenModel hcen hJout
   exact @kdSporC_eq_bot_of_model 7 (by norm_num) Z _ K _ hC ↥CFSG.Sporadic.Fi24.J
     (Subgroup.toGroup CFSG.Sporadic.Fi24.J) f hbal _ _ hB hBc hBW hW
@@ -80,8 +80,8 @@ theorem kdSporC_ON_seven
     Nat.le_of_dvd two_pos CFSG.Sporadic.SteinbergBI.card_outer_Pv_dvd_two
   have hcen : Subgroup.center ↥CFSG.ONSchreier.Pv = ⊥ :=
     kdSporC_center_eq_bot_of_equiv f (kdSporC_center_eq_bot hC)
-  haveI : Finite ↥CFSG.ONSchreier.Pv := Finite.of_equiv ↥K f.toEquiv
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite ↥CFSG.ONSchreier.Pv := Finite.of_equiv ↥K f.toEquiv
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hbal := kdSporC_balance_of_sevenModel on7_sevenModel hcen hPout
   exact kdSporC_eq_bot_of_model (by norm_num : Nat.Prime 7) hC f hbal hB hBc hBW hW
 

@@ -114,7 +114,7 @@ theorem exists_core_centralizer_tqU (hm : 5 ≤ m) {v : Fin m → K} (hv0 : v �
       rw [Pi.single_eq_same, Pi.zero_apply] at this
       exact one_ne_zero this
     have hc3 : c ^ 3 = 1 := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have := FiniteField.pow_card_sub_one_eq_one c hc0
       rwa [show Fintype.card K = 4 by rw [← Nat.card_eq_fintype_card, card_K]; rfl] at this
     have h3 : suEquiv m ζ ^ 3 = 1 := ext_smul frob fun x => by
@@ -125,8 +125,8 @@ theorem exists_core_centralizer_tqU (hm : 5 ≤ m) {v : Fin m → K} (hv0 : v �
   have hJ : 3 ≤ ({i, j}ᶜ : Finset (Fin m)).card := by
     rw [Finset.card_compl, Finset.card_pair_eq_two_iff.2 hij, Fintype.card_fin]
     omega
-  haveI : Finite K := hK.finite
-  haveI : Finite (unitarySU 2 1 K m) := inferInstance
+  have : Finite K := hK.finite
+  have : Finite (unitarySU 2 1 K m) := inferInstance
   obtain ⟨h1, h2, h3, h4, h5⟩ := coreW_spec hij hJ
   have key := map_coreProperties Φ hsurj hker hodd (tvTransSU_mul_self hij)
     (tvTransSU_ne_one hij) h1 h2 h3 h4 h5

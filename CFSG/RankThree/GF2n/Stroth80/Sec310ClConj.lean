@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem iSup_conj_reindex (M L X : Subgroup G) (t m₀ : G) (hm₀ : m₀ ∈ M) :
     (⨆ (m : G) (_ : m ∈ M) (_ : t ∈ conjSubgroup m (conjSubgroup m₀ L)),
         conjSubgroup m (conjSubgroup m₀ X)) =
@@ -30,6 +31,7 @@ theorem iSup_conj_reindex (M L X : Subgroup G) (t m₀ : G) (hm₀ : m₀ ∈ M)
     rw [key L]
     exact ht
 
+omit [Finite G] in
 theorem rt_vt_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     Rt M (LB M Q (conjSubgroup m B)) t = Rt M (LB M Q B) t ∧
       Vt M (LB M Q (conjSubgroup m B)) (conjSubgroup m B) Z t = Vt M (LB M Q B) B Z t := by
@@ -38,6 +40,7 @@ theorem rt_vt_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     unfold Vt
     rw [iSup_conj_reindex M _ _ t m hm]⟩
 
+omit [Finite G] in
 theorem sec5Hyp_conj (hc : Ctx M Q Z B) {n : ℕ} {t m : G} (hm : m ∈ M) (hs : Sec5Hyp hc n t)
     (ht : t ∈ conjSubgroup m (LB M Q B)) : Sec5Hyp (hc.conj_of_mem hm) n t where
   width := hs.width
@@ -53,6 +56,7 @@ section ImgJoin
 
 variable {QF V : Subgroup G} {K : Type} [Field K] {γ : G → K}
 
+omit [Finite G] in
 theorem quadModel_img_iSup (M₀ : Tim79.QuadModel QF V K γ) {ι : Sort*} (S : ι → Subgroup G)
     (hS : ∀ i, S i ≤ QF) : M₀.img (⨆ i, S i) = ⨆ i, M₀.img (S i) := by
   apply le_antisymm
@@ -62,6 +66,7 @@ theorem quadModel_img_iSup (M₀ : Tim79.QuadModel QF V K γ) {ι : Sort*} (S : 
     exact ((M₀.mem_lift).mp (hle hx)).2
   · exact iSup_le fun i => M₀.img_mono (le_iSup S i)
 
+omit [Finite G] in
 theorem quadModel_img_sup (M₀ : Tim79.QuadModel QF V K γ) {S T : Subgroup G} (hS : S ≤ QF)
     (hT : T ≤ QF) :
     M₀.img (S ⊔ T) = M₀.img S ⊔ M₀.img T := by
@@ -70,7 +75,8 @@ theorem quadModel_img_sup (M₀ : Tim79.QuadModel QF V K γ) {S T : Subgroup G} 
     le_iSup_of_le true le_rfl⟩)) (iSup_le (Bool.forall_bool.mpr ⟨le_iSup_of_le false le_rfl,
     le_iSup_of_le true le_rfl⟩))
 
-theorem quadModel_img_center_eq_bot (M₀ : Tim79.QuadModel QF V K γ) (hV : V ≤ QF) :
+omit [Finite G] in
+theorem quadModel_img_center_eq_bot (M₀ : Tim79.QuadModel QF V K γ) (_hV : V ≤ QF) :
     M₀.img V = ⊥ := by
   refine eq_bot_iff.mpr ?_
   rintro _ ⟨x, hx, hxQ, rfl⟩
@@ -78,6 +84,7 @@ theorem quadModel_img_center_eq_bot (M₀ : Tim79.QuadModel QF V K γ) (hV : V �
 
 end ImgJoin
 
+omit [Finite G] in
 theorem Ctx.img_Vt_eq (hc : Ctx M Q Z B) (t : G) {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) :
     M₀.img (Vt M (LB M Q B) B Z t) =

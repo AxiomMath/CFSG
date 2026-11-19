@@ -31,7 +31,7 @@ private theorem IsMaxArc.pCoreOf_le_Gw_left {a f : ℕ}
     {t : Track L1 L2 S} {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n)
     (hfr : Frame L1 L2 S a f) :
     pCoreOf 2 (t.Gw ε (ε + n)) ≤ pCoreOf 2 (t.Gw ε (ε + 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 2 ≤ n := IsMaxArc.two_le t hfr h
   exact t.le_pCoreOf_Gw (u := ε) (w := ε + 1) hfr (by omega) (pCoreOf_isPGroup 2 _)
     ((pCoreOf_le 2 _).trans
@@ -41,19 +41,21 @@ private theorem IsMaxArc.pCoreOf_le_Gw_right {a f : ℕ}
     {t : Track L1 L2 S} {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n)
     (hfr : Frame L1 L2 S a f) :
     pCoreOf 2 (t.Gw ε (ε + n)) ≤ pCoreOf 2 (t.Gw (ε + n - 1) (ε + n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 2 ≤ n := IsMaxArc.two_le t hfr h
   exact t.le_pCoreOf_Gw (u := ε + n - 1) (w := ε + n) hfr (by omega)
     (pCoreOf_isPGroup 2 _)
     ((pCoreOf_le 2 _).trans
       (win_mono (a := ε) (b := ε + n) (a' := ε + n - 1) (b' := ε + n) (by omega) le_rfl))
 
+omit [Finite G] in
 private theorem IsMaxArc.K_le_normalizer_pCoreOf {a f : ℕ}
-    {t : Track L1 L2 S} {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n)
-    (hfr : Frame L1 L2 S a f) :
+    {t : Track L1 L2 S} {ε : ℤ} {n : ℕ} (_h : t.IsMaxArc ε n)
+    (_hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (pCoreOf 2 (t.Gw ε (ε + n)) : Set G) :=
   (t.K_le_Gw ε (ε + n)).trans (le_normalizer_pCoreOf 2 _)
 
+omit [Finite G] in
 private theorem IsMaxArc.K_le_normalizer_omegaOneCenterOf
     {a f : ℕ} {t : Track L1 L2 S} {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n)
     (hfr : Frame L1 L2 S a f) :
@@ -89,7 +91,7 @@ private theorem IsMaxArc.card_omegaOneCenterOf_left {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     Nat.card (omegaOneCenterOf (pCoreOf 2 (t.Gw ε (ε + n)))) =
       if Even ε then 2 ^ (2 * a + 1) else 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := pCoreOf 2 (t.Gw ε (ε + n)) with hQ
   set W : Subgroup G := omegaOneCenterOf Q with hW
   have hQp : IsPGroup 2 Q := pCoreOf_isPGroup 2 _
@@ -172,7 +174,7 @@ theorem IsMaxArc.card_pCoreOf_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) {e : ℤ}
     (he : e = ε ∨ e = ε + n) :
     Nat.card (pCoreOf 2 (t.Gw ε (ε + n))) ≤ if Even e then (2 ^ (2 * a + 1)) ^ 2 else 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases he with he | he
   · subst e
     rw [h.card_eq_relIndex_Qv hfr (v := ε) (Or.inl rfl)]
@@ -187,7 +189,7 @@ theorem IsMaxArc.mem_omegaOneCenterOf {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) {x : G}
     (hx : x ∈ pCoreOf 2 (t.Gw ε (ε + n))) (hx2 : x ^ 2 = 1) :
     x ∈ omegaOneCenterOf (pCoreOf 2 (t.Gw ε (ε + n))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQR : pCoreOf 2 (t.Gw ε (ε + n)) ≤ pCoreOf 2 (t.Gw ε (ε + 1)) :=
     h.pCoreOf_le_Gw_left hfr
   have hxroot : x ∈ t.rootOmega ε := by
@@ -211,7 +213,7 @@ theorem IsMaxArc.omegaOneCenterOf_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) {X : Subgroup G}
     (hXQ : X ≤ pCoreOf 2 (t.Gw ε (ε + n))) (hX : X ≠ ⊥) (hXK : t.K ≤ normalizer (X : Set G)) :
     omegaOneCenterOf (pCoreOf 2 (t.Gw ε (ε + n))) ≤ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := pCoreOf 2 (t.Gw ε (ε + n)) with hQ
   set W : Subgroup G := omegaOneCenterOf Q with hW
   have hQp : IsPGroup 2 Q := pCoreOf_isPGroup 2 _
@@ -316,13 +318,13 @@ theorem IsMaxArc.even {a f : ℕ} (hfr : Frame L1 L2 S a f)
   have hqr : 2 ^ (2 * a + 1) = 2 ^ f := by
     by_cases he : Even ε
     · have hne : ¬ Even (ε + n) := fun h' => Int.not_even_iff_odd.mpr (he.add_odd hoddZ) h'
-      rw [if_pos he] at hleft
-      rw [if_neg hne] at hright
+      rw [ite_eq_left he] at hleft
+      rw [ite_eq_right hne] at hright
       exact hleft.symm.trans hright
     · have hoddε : Odd ε := Int.not_even_iff_odd.mp he
       have hne : Even (ε + n) := hoddε.add_odd hoddZ
-      rw [if_neg he] at hleft
-      rw [if_pos hne] at hright
+      rw [ite_eq_right he] at hleft
+      rw [ite_eq_left hne] at hright
       exact hright.symm.trans hleft
   exact hrq (Nat.pow_right_injective le_rfl hqr).symm
 

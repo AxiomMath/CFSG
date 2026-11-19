@@ -36,20 +36,20 @@ public theorem CFSG.corollary_12_10_e
   have hEM : E ≤ M := hcomp.2.1
   have hE2E : E₂ ≤ E := (section12_E2_hall_in_E hE12Hall hE2Hall).1
   -- Solvability
-  have hM_solv : IsSolvable M :=
+  have hM_solv : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
-  have hE_solv : IsSolvable E :=
+  have hE_solv : Group.IsSolvable E :=
     IsMinCE.proper_subgroups_solvable E (lt_top_iff_ne_top.2 (by
       intro hEtop; have htop_le_M : (⊤ : Subgroup G) ≤ M := by simpa [hEtop] using hEM
       exact hM.1 (top_le_iff.mp htop_le_M)))
   -- PUnit instances
-  letI : MulDistribMulAction PUnit.{1} M :=
+  let : MulDistribMulAction PUnit.{1} M :=
     { smul := fun _ m => m
       one_smul := by intro m; rfl
       mul_smul := by intro a b m; rfl
       smul_mul := by intro a m n; rfl
       smul_one := by intro a; rfl }
-  letI : MulDistribMulAction PUnit.{1} E :=
+  let : MulDistribMulAction PUnit.{1} E :=
     { smul := fun _ e => e
       one_smul := by intro e; rfl
       mul_smul := by intro a b e; rfl
@@ -300,13 +300,13 @@ public theorem CFSG.corollary_12_10_e
   have hp_mem : p ∈ subgroupPrimeSet (Subgroup.zpowers x₂) := by
     dsimp [subgroupPrimeSet]; exact hp_card
   have hpτ2 : p ∈ section12Tau2Primes M := hx₂_π hp_mem
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   -- Get A ∈ E_p^2(E) and conjugate into E₂
   rcases section12_exists_rankTwo_in_E_of_tau2 hM
       ⟨hcomp, hE12Hall, hE1Hall, hE2Hall, hE3Hall⟩ hpτ2 with ⟨A, hA⟩
   have hA_E : A ≤ E := section12_rankTwo_le hA
   rcases section12_rankTwo_elementary hA with ⟨hAcard, hAelem⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hA_p : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   -- A is a τ₂(M)-subgroup of E; conjugate into E₂
   have hcard_Asub : Nat.card (A.subgroupOf E) = Nat.card A :=
@@ -325,7 +325,7 @@ public theorem CFSG.corollary_12_10_e
   rcases exists_conj_eq_of_isHallSubgroup_of_solvable hE_solv hHAhall hHallE2 with ⟨h : E, hh⟩
   set hG : G := (h : G)
   let A' : Subgroup G := A.map (MulAut.conj hG).toMonoidHom
-  haveI : IsElementaryAbelian p.val A' :=
+  have : IsElementaryAbelian p.val A' :=
     IsElementaryAbelian.map (p := p.val) (A := A) (MulAut.conj hG).toMonoidHom
   have hA'_E2 : A' ≤ E₂ := by
     intro y hy

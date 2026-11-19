@@ -45,7 +45,7 @@ theorem not_dvd_five_fixer
   have hA9 : 9 ∣ Nat.card A := by
     rw [hAc]
     exact T.pow_dvd_card_of_pow_dvd_card (n := 2) hC9
-  have hA : IsPGroup 3 A := T.isPGroup'.map C.subtype
+  have hA : IsPGroup 3 A := T.isPGroup.map C.subtype
   have hAC : A ≤ C := by rintro a ⟨c,hc,rfl⟩; exact c.property
   have hcomm (a : A) (q : Q) : a.val * q.val = q.val * a.val :=
     (Subgroup.mem_centralizer_iff.mp (hAC a.property) q.val q.property).symm
@@ -64,7 +64,7 @@ theorem not_dvd_five_fixer
     have hu3 : 3 ∣ orderOf u := hu ▸ ha3
     exact Degree72ThreeFree.not_dvd_five_fixer P hcard h5 hnotAlt t htc
       (hu3.trans (orderOf_dvd_natCard u))
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 11 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hn : Nat.card X < 11 ^ 2 := by rw [Nat.card_eq_fintype_card,hcard]; decide
   have hdiv := CentralizerFreeExterior.card_dvd_complement Q A 4 hcomm
     (fun x hx => by rw [Degree72LargePrimeOrbitSize.card_eq_prime 11 (by decide) hQ hn x hx]; decide) hfix

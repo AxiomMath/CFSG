@@ -249,12 +249,12 @@ theorem burnsideJ4NP_is2A_iff_coord
   · subst he0
     rw [burnsideJ4NP_Kel_zero, mul_one] at hne ⊢
     have hc0 : c ≠ 0 := fun h => hne (by rw [h, eta_zero])
-    rw [burnsideJ4NP_isConj_z0_iff hc hc0, burnsideJ4NP_is2APc, if_pos rfl,
+    rw [burnsideJ4NP_isConj_z0_iff hc hc0, burnsideJ4NP_is2APc, ite_eq_left rfl,
       List.contains_iff_mem]
   · obtain ⟨y, hy⟩ := burnsideJ4NP_classOf_isSome hF hc he he0 hsq
     obtain ⟨x, hx, hxe, hyx, m, hm, hmy⟩ := burnsideJ4NP_classOf_spec hy
     obtain ⟨hconj, hn0, hn⟩ := burnsideJ4NP_isConj_of_class hF he hsq hx hxe hyx hm hmy
-    rw [burnsideJ4NP_is2APc, if_neg he0, hy]
+    rw [burnsideJ4NP_is2APc, ite_eq_right he0, hy]
     dsimp only
     rw [List.contains_iff_mem, ← burnsideJ4NP_isConj_z0_iff hn (by omega)]
     exact ⟨fun h => hconj.trans h, fun h => hconj.symm.trans h⟩

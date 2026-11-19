@@ -159,7 +159,7 @@ theorem KY_smul_of_mem {α : Type*} [MulAction S24 α] {Γ : Subgroup S24} {τ :
 theorem map_congrHom_rImg {V W : Type*} [CommGroup V] [CommGroup W] {Γ : Subgroup S24}
     (ρ : ↥Γ →* MulAut V) (ρ' : ↥Γ →* MulAut W) (e : V ≃* W) (τ : ↥Γ)
     (h : ∀ γ : ↥Γ, CFSG.Quasithin.H.congrHom e (ρ γ) = ρ' (τ⁻¹ * γ * τ)) {A : Subgroup S24}
-    (hA : A ≤ Γ) :
+    (_hA : A ≤ Γ) :
     (rImg ρ A).map (CFSG.Quasithin.H.congrHom e) = rImg ρ' (conjSubg ((τ : S24)⁻¹) A) := by
   let c : ↥Γ →* ↥Γ :=
     { toFun := fun γ => ⟨(τ : S24)⁻¹ * (γ : S24) * (τ : S24),

@@ -156,7 +156,7 @@ theorem mem_zpowers_of_mem_thetaQuotCentralizer {E K L T : Subgroup G} {c e : G}
     (hEdec : E = Subgroup.zpowers c ⊔ (E ⊓ L))
     (hU : Subgroup.normalizer (E : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (hLH : Subgroup.normalizer (Subgroup.zpowers c : Set G) ≤ Subgroup.normalizer (L : Set G))
-    (hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) (heL : e ∉ L)
+    (_hc3 : c ^ 3 = 1) (he3 : e ^ 3 = 1) (heL : e ∉ L)
     (hce : Subgroup.zpowers c ⊓ Subgroup.zpowers e = ⊥)
     (hCK : ∀ a ∈ E, a ∈ Sec4.thetaQuotCentralizer K → a ∈ Subgroup.zpowers e)
     (hCL : ∀ a ∈ E, a ∈ Sec4.thetaQuotCentralizer L → a ∈ Subgroup.zpowers c)
@@ -196,8 +196,8 @@ theorem mem_zpowers_of_mem_thetaQuotCentralizer {E K L T : Subgroup G} {c e : G}
     intro g
     obtain ⟨k, hk⟩ := hT ⟨(g : G), hXT g.2⟩
     exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hXp
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hXp
   have hRE : ∀ r ∈ R, r ∈ E := by
     intro r0 hr0
     by_contra hr0E
@@ -214,7 +214,7 @@ theorem mem_zpowers_of_mem_thetaQuotCentralizer {E K L T : Subgroup G} {c e : G}
       Group.normalizerCondition_of_isNilpotent (G := ↥X) (E.subgroupOf X) hHtop
     obtain ⟨y, hyN, hyH⟩ :
         ∃ y ∈ Subgroup.normalizer ((E.subgroupOf X : Subgroup X) : Set X), y ∉ E.subgroupOf X :=
-      SetLike.not_le_iff_exists.mp (fun h => lt_irrefl _ (lt_of_lt_of_le hlt h))
+      IsConcreteLE.not_le_iff_exists.mp (fun h => lt_irrefl _ (lt_of_lt_of_le hlt h))
     have hyE : (y : G) ∈ Subgroup.normalizer (E : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro g

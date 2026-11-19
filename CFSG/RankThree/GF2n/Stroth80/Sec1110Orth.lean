@@ -101,7 +101,7 @@ theorem exists_eq_smul_polarBilin_quadPlus_of_invariant
     have hne : (Pi.single (Sum.inl (0 : Fin 3)) (1 : K) : Fin 3 ⊕ Fin 3 → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 3))
-      simpa using this
+      simp at this
     exact hne (hB'nd _ fun w => hzero _ w)
   exact ⟨c, hc0, fun u w => by rw [hBrel u w]; rfl⟩
 
@@ -202,7 +202,7 @@ theorem eq_smul_of_polarBilin_eq_smul_of_statedOmega_invariant [Finite K] [CharP
     exact sqrt.injective h
   ext v
   have h := hDzero v
-  simp only [D, QuadraticMap.smul_apply, smul_eq_mul] at h
+  simp only [D] at h
   exact sub_eq_zero.mp h
 
 end OrthogonalHelpers
@@ -212,7 +212,7 @@ section Main
 variable {G : Type} [Group G] [Finite G]
 variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
-theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 ≤ n)
+theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (_hw : Width Q Z n) (_hn : 2 ≤ n)
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀) {X₁ X₂ : Subgroup G} (hX₂ : X₂ = Q) (hX₁ : X₁ = Z)
     (nat : NaturalRep (ι := Fin 3 ⊕ Fin 3) K (StatedOmega (StatedQuadPlus 3 K))
@@ -224,13 +224,13 @@ theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q 
       (XbarPre M Q Z B) Q Z (XbarPreCenter M Q Z B) := by
     simpa [hX₂, hX₁] using nat
   obtain ⟨n₀, k₀, hnZ, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n₀) (by
       rw [← Nat.card_eq_fintype_card, hD.card, hnZ])
   obtain ⟨φ₀, hφrange, hφker, hact⟩ := nat'
   obtain ⟨hnorm, hZnorm, ψ, hψ⟩ := hact
-  haveI := hZnorm
+  have := hZnorm
   have hcentral : ∀ g : ↥(XbarPre M Q Z B), ∀ z ∈ Z,
       (g : G) * z * (g : G)⁻¹ = z := by
     intro g z hz
@@ -272,9 +272,9 @@ theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q 
     exact (Nat.mul_left_cancel hZpos heq).symm
   obtain ⟨ιmap, hιmap_apply, hιmap_inj⟩ :=
     exists_Vt_transport (M₀ := M₀) (V := Q) (le_refl Q) ψ
-  haveI : Finite M₀.E := Module.finite_of_finite K
-  haveI : Fintype M₀.E := Fintype.ofFinite _
-  haveI : Fintype (Fin 3 ⊕ Fin 3 → K) := Fintype.ofFinite _
+  have : Finite M₀.E := Module.finite_of_finite K
+  have : Fintype M₀.E := Fintype.ofFinite _
+  have : Fintype (Fin 3 ⊕ Fin 3 → K) := Fintype.ofFinite _
   have hcardF : Fintype.card (Fin 3 ⊕ Fin 3 → K) = Fintype.card M₀.E := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcardι.symm
@@ -302,7 +302,7 @@ theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q 
   have hlin : ∀ r ∈ XbarPre M Q Z B, ∃ T : M₀.E →ₗ[K] M₀.E,
       ∀ x ∈ Q, M₀.π (r * x * r⁻¹) = T (M₀.π x) :=
     fun r hr => ⟨Tof ⟨r, hr⟩, hTofπ ⟨r, hr⟩⟩
-  haveI : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
   obtain ⟨θ, hθ⟩ := exists_ringEquiv_natural (K' := K) (V := Q) rfl M₀ (le_refl Q)
     (addCommutantScalar_statedOmegaPlus (m := 3) (K := K) (by norm_num)) hS hlin φ₀ hφrange
     hnorm ψ hψ
@@ -344,7 +344,7 @@ theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q 
     rw [MonoidHom.range_comp, hφrange,
       map_statedOmega θ.symm (statedQuadPlus_comp (K := K) (n := 3) θ.symm)]
   have hφ'ker : φ'.ker = (XbarPreCenter M Q Z B).subgroupOf (XbarPre M Q Z B) := by
-    simpa [φ', hφker] using MonoidHom.ker_mulEquiv_comp φ₀ (glCongr θ.symm)
+    simp [φ', hφker]
   have hact₀ : ∀ (g : ↥(XbarPre M Q Z B)) (x : G), x ∈ Q →
       e₀ (M₀.π ((g : G) * x * (g : G)⁻¹)) =
         ((φ' g : GL (Fin 3 ⊕ Fin 3) K) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) *ᵥ
@@ -451,7 +451,7 @@ theorem orthogonalModuleRep_of_chain (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q 
     intro v
     have hQ₂v : M₀.Qf v = c * quadPlus 3 K (e₀ v) := by
       have h := congrArg (fun Q => Q (e₀ v)) hQ₂
-      simpa [Q₂, Tim79.QuadModel.toQuadraticForm_apply, QuadraticMap.smul_apply,
+      simpa [Q₂, Tim79.QuadModel.toQuadraticForm_apply, _root_.smul_apply,
         smul_eq_mul] using h
     have hq : quadPlus 3 K (e₀ v) = c⁻¹ * M₀.Qf v := by
       rw [hQ₂v, ← mul_assoc, inv_mul_cancel₀ hc0, one_mul]

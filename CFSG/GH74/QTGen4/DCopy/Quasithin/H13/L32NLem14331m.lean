@@ -141,7 +141,7 @@ theorem caseI_index_F4 (h1434 : Lemma1434One_F4) (Xc : CaseI_F4 T L V g D e)
     · exact ⟨21, b' + 3, Or.inr rfl, by decide, by rw [hb', h, pow_add]; ring⟩
 
   obtain ⟨S, hS⟩ := hAm.sylow
-  have hS2 : IsPGroup 2 ↥(g1bar T L V l e ⊓ g2bar T L V l e) := hS ▸ S.isPGroup'
+  have hS2 : IsPGroup 2 ↥(g1bar T L V l e ⊓ g2bar T L V l e) := hS ▸ S.isPGroup
   have hSi : ¬ 2 ∣ (g1bar T L V l e ⊓ g2bar T L V l e).index := hS ▸ S.not_dvd_index
   have hsyl : IsSylowTwoOf (g1bar T L V l e ⊓ g2bar T L V l e) ⊤ :=
     ⟨le_top, hS2, by rwa [← Subgroup.relIndex, Subgroup.relIndex_top_right]⟩

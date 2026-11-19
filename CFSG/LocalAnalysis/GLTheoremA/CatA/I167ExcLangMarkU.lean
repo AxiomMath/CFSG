@@ -21,7 +21,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 private theorem excLang_untw_marking_aux_pow {τ : Tag} {K : Type} [Field K] [Finite K]
     (hK2 : Nat.card K = 2) {p : ℕ} {w : CFSG.StandardType.RecipeExcLang.inndiagGroup τ K}
     (h : (CFSG.StandardType.RecipeExcLang.inndiagConj τ K w) ^ p = 1) : w ^ p = 1 := by
-  haveI : Subsingleton Kˣ := by
+  have : Subsingleton Kˣ := by
     have h1 : Nat.card Kˣ = 1 := by rw [Nat.card_units K, hK2]
     exact (Nat.card_eq_one_iff_unique.mp h1).1
   obtain ⟨b, j, hj, hw⟩ := w.2
@@ -83,7 +83,7 @@ private theorem excLang_untw_marking_aux0 {p : ℕ} {Ω : Type} [Group Ω] {X : 
     {k : DefChar.LieFamily} {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
     (hperfX : commutator ↥X = ⊤) (hxp : x ^ p = 1)
     (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)
-    {τ : Tag} (hτ : τ = excTag k) {K : Type} [Field K] [Finite K] (hK : Nat.card K = qc.card)
+    {τ : Tag} (_hτ : τ = excTag k) {K : Type} [Field K] [Finite K] (hK : Nat.card K = qc.card)
     (θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (adjointGroup τ K))
     (φ₀ : MulAut (CFSG.Assembly.LargeEvenCenterQuot (adjointGroup τ K)))
     (hφ₀ : φ₀ ∈ CFSG.StandardType.RecipeExcLang.markIDImage (IsRoot τ) K (adjointGroup τ K))
@@ -143,15 +143,15 @@ private theorem excLang_untw_marking_aux0b {p : ℕ} {Ω : Type} [Group Ω] {X :
       (∀ c, (φx c : ModGL (excTag k) K) = h * c * h⁻¹) ∧
       LargeEvenInduces θ (indRel p X x) φx := by
   have hcard : Nat.card K = 2 ^ qc.exponent := by rw [hK, TauCeti.PrimePower.card_def, hqc]
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
-  haveI : Group.IsPerfect ↥X := ⟨hperfX⟩
-  haveI : Group.IsPerfect (PQuot p X) :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+  have : Group.IsPerfect ↥X := ⟨hperfX⟩
+  have : Group.IsPerfect (PQuot p X) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (GLAPPrimeCore p ↥X))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect (PSimple p X) :=
+  have : Group.IsPerfect (PSimple p X) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p X)))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect ↥(adjointGroup τ K) :=
+  have : Group.IsPerfect ↥(adjointGroup τ K) :=
     Group.IsPerfect.ofSurjective (f := θ.toMonoidHom) θ.surjective
   subst hτ
   exact ⟨K, inferInstance, inferInstance, θ, φx, h, inferInstance, hK,
@@ -159,9 +159,9 @@ private theorem excLang_untw_marking_aux0b {p : ℕ} {Ω : Type} [Group Ω] {X :
 
 private theorem excLang_untw_marking_aux1 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {X : Subgroup Ω} {x : Ω} {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
-    {hv : (LocalTwo.excIndex .F4 qc).Valid} (hX : CFSG.Open.IsQuasisimple ↥X)
+    {hv : (LocalTwo.excIndex .F4 qc).Valid} (_hX : CFSG.Open.IsQuasisimple ↥X)
     (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex .F4 qc, hv⟩))
-    (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)
+    (_hxp : x ^ p = 1) (_hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (_hcm : ¬ CentMod p X x)
     (hinn : InnDiagOn p (Subgroup.zpowers x) X) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K)
       (θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (adjointGroup .F4 K))
@@ -210,9 +210,9 @@ private theorem excLang_untw_marking_aux1 {p : ℕ} {Ω : Type} [Group Ω] [Fini
 
 private theorem excLang_untw_marking_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {X : Subgroup Ω} {x : Ω} {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
-    {hv : (LocalTwo.excIndex .E6 qc).Valid} (hX : CFSG.Open.IsQuasisimple ↥X)
+    {hv : (LocalTwo.excIndex .E6 qc).Valid} (_hX : CFSG.Open.IsQuasisimple ↥X)
     (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex .E6 qc, hv⟩))
-    (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)
+    (_hxp : x ^ p = 1) (_hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (_hcm : ¬ CentMod p X x)
     (hinn : InnDiagOn p (Subgroup.zpowers x) X) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K)
       (θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (adjointGroup .E6 K))
@@ -261,9 +261,9 @@ private theorem excLang_untw_marking_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Fini
 
 private theorem excLang_untw_marking_aux3 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {X : Subgroup Ω} {x : Ω} {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
-    {hv : (LocalTwo.excIndex .E7 qc).Valid} (hX : CFSG.Open.IsQuasisimple ↥X)
+    {hv : (LocalTwo.excIndex .E7 qc).Valid} (_hX : CFSG.Open.IsQuasisimple ↥X)
     (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex .E7 qc, hv⟩))
-    (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)
+    (_hxp : x ^ p = 1) (_hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (_hcm : ¬ CentMod p X x)
     (hinn : InnDiagOn p (Subgroup.zpowers x) X) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K)
       (θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (adjointGroup .E7 K))
@@ -312,9 +312,9 @@ private theorem excLang_untw_marking_aux3 {p : ℕ} {Ω : Type} [Group Ω] [Fini
 
 private theorem excLang_untw_marking_aux4 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {X : Subgroup Ω} {x : Ω} {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
-    {hv : (LocalTwo.excIndex .E8 qc).Valid} (hX : CFSG.Open.IsQuasisimple ↥X)
+    {hv : (LocalTwo.excIndex .E8 qc).Valid} (_hX : CFSG.Open.IsQuasisimple ↥X)
     (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex .E8 qc, hv⟩))
-    (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)
+    (_hxp : x ^ p = 1) (_hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (_hcm : ¬ CentMod p X x)
     (hinn : InnDiagOn p (Subgroup.zpowers x) X) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K)
       (θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (adjointGroup .E8 K))
@@ -398,7 +398,7 @@ private theorem excLang_untw_marking_aux_case {p : ℕ} {X : Subgroup Ω} {x : �
       excLang_untw_marking_aux0 (τ := .E8) (k := .E8) hqc hX.1 hxp hxN hcm rfl hK θ₀ φ₀ hφ₀ hix₀
     exact excLang_untw_marking_aux0b (k := .E8) hqc hX.1 hK rfl hhp hh1 hbc hconj hind
 
-theorem excLang_untw_marking {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup Ω} {x : Ω} {k : DefChar.LieFamily}
+theorem excLang_untw_marking {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) {X : Subgroup Ω} {x : Ω} {k : DefChar.LieFamily}
     (hk : k = .F4 ∨ k = .E6 ∨ k = .E7 ∨ k = .E8) {qc : TauCeti.PrimePower} (hqc : qc.p = 2)
     {hv : (LocalTwo.excIndex k qc).Valid} (hX : CFSG.Open.IsQuasisimple ↥X)
     (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex k qc, hv⟩)) (hxp : x ^ p = 1)

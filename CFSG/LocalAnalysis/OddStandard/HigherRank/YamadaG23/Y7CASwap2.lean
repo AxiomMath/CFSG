@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →* MulAut M}
   {t : Γ} {J Q P M6 M7 K : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem y7c_phi_ker_central (hcomm : ∀ a ∈ K, ∀ b ∈ conjSub t K, a * b = b * a) (k : ↥K)
     (hk : y7cPhi t K hcomm k = 1) : ∀ k' ∈ K, (k : Γ) * k' = k' * (k : Γ) := by
   have hat : t * (k : Γ) * t⁻¹ ∈ conjSub t K := y7c_mul_mem_conjSub (g := t) k.2

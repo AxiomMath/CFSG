@@ -20,7 +20,7 @@ theorem Config.exists_mulEquiv_psl225
       Subgroup.centralizer (L : Set G) = ⊥ ∧ Nonempty (L ≃* PSL225) := by
   classical
   obtain ⟨L, hLn, hL2, hzL, hK₁L, hDL, hdih, hab⟩ := hQ.exists_index_two h48
-  haveI := hLn
+  have := hLn
   obtain ⟨eK⟩ := hQ.K₁_A5
   have hdihL : HasDihedralSylowTwo L := fun S => ⟨2, by norm_num, hdih S⟩
   have hGW := CFSG.GorensteinWalter.gorensteinWalter L hdihL
@@ -70,7 +70,7 @@ theorem Config.isO4Minus5Pair
     IsO4Minus5Pair G D := by
   obtain ⟨L, hLn, hL2, hzL, hK₁L, hDL, hCL, ⟨eL⟩⟩ := hQ.exists_mulEquiv_psl225 h48
   obtain ⟨hz2, -, -, -, -, -⟩ := hQ.z_facts
-  haveI := hLn
+  have := hLn
   exact isO4Minus5Pair_of_mulEquiv_psl225 hL2 eL hCL hz2 hzL hK₁L hQ.K₁_A5 hQ.K₁_comm
     hQ.setup.isClass (fun d hd => hQ.mul_self_of_mem_D hd) hDL
 

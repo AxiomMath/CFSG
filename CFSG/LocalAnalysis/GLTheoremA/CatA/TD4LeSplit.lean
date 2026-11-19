@@ -21,10 +21,10 @@ theorem two_part_centralizer_le_cube (h : Std e K σ) (hQ : 2 ^ e % 3 = 1) (z : 
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     2 ^ (Nat.card (Subgroup.centralizer ({z} : Set ↥𝐂))).factorization 2 ≤ (2 ^ e) ^ 3 := by
   classical
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥𝐂 := inferInstance
-  haveI := h.charP_two
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥𝐂 := inferInstance
+  have := h.charP_two
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem TwistTag.D4.tag).length
   refine two_part_centralizer_le ((graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom).subgroupOf 𝐂)
     ((graphFixedRootTorus TwistTag.D4 K σ.toRingHom).subgroupOf 𝐂)

@@ -18,7 +18,7 @@ theorem y7a_M6_comm_le_V1 (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fa
     ⁅M6 c.e, M6 c.e⁆ ≤ V1 c.e := by
   have h := c.y7acfg hH
   have hLFA := lfactsA_of_setting hH.hS hH.hZ c.s
-  haveI := y7a_Z_normal_A c hH
+  have := y7a_Z_normal_A c hH
   obtain ⟨_, _, _, hP⟩ := y7a_reg_data c hH hF
   obtain ⟨f, _, _, _, hker⟩ := y7a_mod_hom c hH hF hP
   have hcommA : _root_.commutator ↥c.s.fr.A ≤ c.s.fr.Z.subgroupOf c.s.fr.A := by
@@ -26,7 +26,7 @@ theorem y7a_M6_comm_le_V1 (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fa
     intro a _ b _
     rw [Subgroup.mem_subgroupOf]
     simpa [commutatorElement_def] using hLFA.comm_A (a : G) a.2 (b : G) b.2
-  haveI : IsMulCommutative (↥c.s.fr.A ⧸ c.s.fr.Z.subgroupOf c.s.fr.A) :=
+  have : IsMulCommutative (↥c.s.fr.A ⧸ c.s.fr.Z.subgroupOf c.s.fr.A) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcommA
   have hM6' : ⁅M6 c.e, M6 c.e⁆ ≤ AV1 c.e := by
     rw [Subgroup.commutator_le]

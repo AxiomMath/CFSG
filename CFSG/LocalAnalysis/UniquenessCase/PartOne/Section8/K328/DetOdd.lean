@@ -2496,7 +2496,7 @@ private theorem k328domo_H_contra {K : Type} [Field K] [Finite K] {p f : ℕ} [F
     have hM : (zY : Matrix (Fin 8) (Fin 8) E) = 1 :=
       (LinearEquiv.injective (Matrix.toLin' : Matrix (Fin 8) (Fin 8) E ≃ₗ[E]
         ((Fin 8 → E) →ₗ[E] (Fin 8 → E)))) h'
-    have hz1 : zY = 1 := Subtype.eq hM
+    have hz1 : zY = 1 := _root_.Subtype.ext hM
     rw [hz1, orderOf_one] at hzYord
     omega
   have heig_ex : Module.End.eigenspace (Matrix.toLin' (zY : Matrix (Fin 8) (Fin 8) E)) ω ≠ ⊥ ∨
@@ -3214,7 +3214,7 @@ private theorem k328dom7_H_contra {K : Type} [Field K] [Finite K] {p f : ℕ} [F
     have hM : (zY : Matrix (Fin 7) (Fin 7) E) = 1 :=
       (LinearEquiv.injective (Matrix.toLin' : Matrix (Fin 7) (Fin 7) E ≃ₗ[E]
         ((Fin 7 → E) →ₗ[E] (Fin 7 → E)))) h'
-    have hz1 : zY = 1 := Subtype.eq hM
+    have hz1 : zY = 1 := _root_.Subtype.ext hM
     rw [hz1, orderOf_one] at hzYord
     omega
   have heig_ex : Module.End.eigenspace (Matrix.toLin' (zY : Matrix (Fin 7) (Fin 7) E)) ω ≠ ⊥ ∨

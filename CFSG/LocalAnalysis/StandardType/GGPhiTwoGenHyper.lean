@@ -52,7 +52,7 @@ private theorem ggPhiTwoHyper_card_ker_sum (p : ℕ) [Fact p.Prime] {r : ℕ} (h
     rw [Nat.card_eq_fintype_card, ZMod.card]
   have h2 : Nat.card (Fin r → ZMod p) = p ^ r := by
     rw [Nat.card_fun]
-    simp [Nat.card_zmod]
+    simp
   rw [h1, h2] at hcard
   have h3 : Nat.card {t : Fin r → ZMod p // ∑ j, α j * t j = 0}
       = Nat.card f.toAddMonoidHom.ker := by

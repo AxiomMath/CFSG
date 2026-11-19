@@ -119,7 +119,7 @@ theorem card_parP (h : UnitaryFieldData 2 m K) :
 
 theorem lv_prod_ix (g : Ix → K) : ∏ a, g a = g ie1 * g ie2 * g if1 * g if2 := by
   simp only [Fintype.prod_sum_type, Fin.prod_univ_two, Finset.univ_eq_empty, Finset.prod_empty,
-    one_mul, mul_one, ie1, ie2, if1, if2]
+    one_mul, ie1, ie2, if1, if2]
   ring
 
 theorem lv_diag_gram (h : UnitaryFieldData 2 m K) (d : Ix → K)
@@ -130,7 +130,7 @@ theorem lv_diag_gram (h : UnitaryFieldData 2 m K) (d : Ix → K)
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [diagonal_apply, hij, Ne.symm hij]
+    · simp [hij, Ne.symm hij]
   rw [hT]
   ext i j
   rw [mul_diagonal, diagonal_mul, hypGram_apply]
@@ -197,7 +197,7 @@ theorem lv_exists_fixed_root (h : UnitaryFieldData 2 m K) {p : ℕ} [Fact p.Prim
     exact Units.ext (Subtype.ext h1)
 
 theorem hypSU_two_le_pRank_of_dvd_sub (h : UnitaryFieldData 2 m K) {p : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ m - 1) :
+    (_hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ m - 1) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (hypSU h 2 0)) := by
   obtain ⟨l, hlbar, hl0, hlp, hl1⟩ := lv_exists_fixed_root h hdvd
   obtain ⟨x, hx⟩ := lv_exists_diag_mem h
@@ -279,7 +279,7 @@ theorem lv_levMat_comm_torMat (B : Matrix (Fin 2) (Fin 2) K) (α : K) :
   ext i j
   rw [mul_apply, sum_ix, mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [levMat_apply, torMat, torDiag, diagonal_apply] <;> ring
+    simp [levMat_apply, torMat, torDiag] <;> ring
 
 theorem lv_levHom_ie1 (h : UnitaryFieldData 2 m K)
     (B : Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :
@@ -293,14 +293,14 @@ theorem lv_torElt_ie1 (h : UnitaryFieldData 2 m K) {α : K} (hα : h.bar α * α
   simp [torMat, torDiag]
 
 theorem hypSU_two_le_pRank_of_dvd_add (h : UnitaryFieldData 2 m K) {p : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ m + 1) :
+    (_hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ m + 1) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (hypSU h 2 0)) := by
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have := h.finite
-  haveI : Finite h.fixedField := inferInstance
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) := by
+  have : Finite h.fixedField := inferInstance
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) := by
     classical
-    haveI := Fintype.ofFinite h.fixedField
+    have := Fintype.ofFinite h.fixedField
     infer_instance
   have hdvdU : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card, show 2 ^ (2 * m) = (2 ^ m) ^ 2 by rw [← pow_mul, mul_comm]]
@@ -371,10 +371,10 @@ theorem hypSU_parP2_levi (h : UnitaryFieldData 2 m K) (hm : 2 ≤ m) {p : ℕ} (
     (hzP : z ∈ parP2 h) :
     LeviSec p (parP2 h) z ∧ LeviHom (parP2 h) (Matrix.SpecialLinearGroup (Fin 2) K) := by
   classical
-  haveI := h.finite
-  haveI := h.charP
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have := h.charP
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYle : leviY (parP2 h) ≤ parH2 h := perfectCore_parP2_le_parH2 h
   have hYge : parH2 h ≤ leviY (parP2 h) :=
     (parH2_le_radQ2_sup h).trans

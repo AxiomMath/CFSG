@@ -39,7 +39,7 @@ private lemma card_stabilizer_conj_le_three {G : Type*} [Group G] [Finite G]
       CFSG.Open.pRank 3 (P ⊓ centralizer ({v} : Set G)) < 2)
     (d : ↥D) (hd : d ≠ 1) :
     Nat.card (MulAction.stabilizer ↥P d) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rw [stabilizer_conj_eq_subgroupOf_inf_centralizer d]
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe
     (inf_le_left : P ⊓ Subgroup.centralizer ({(d : G)} : Set G) ≤ P)).toEquiv]
@@ -82,20 +82,19 @@ theorem exists_ne_one_two_le_pRank_of_card_le_sixteen {G : Type*} [Group G] [Fin
       CFSG.Open.pRank 3 (P ⊓ centralizer ({v} : Set G)) < 2 := by
     intro v hvD hvne
     exact not_le.mp fun h2 => hcon v ⟨hvD, hvne, h2⟩
-  haveI : Subgroup.Normalizes P D := ⟨hDn⟩
+  have : Subgroup.Normalizes P D := ⟨hDn⟩
   let Ω : SubMulAction ↥P ↥D :=
     { carrier := {d | d ≠ 1}
       smul_mem' := by
-        intro c d hd
-        intro h
+        intro c d hd h
         exact hd (by
           have h1 : c • d = c • (1 : ↥D) := by rw [h, MulDistribMulAction.smul_one]
           exact smul_left_cancel c h1) }
-  haveI : Fintype ↥P := Fintype.ofFinite _
-  haveI : Fintype ↥D := Fintype.ofFinite _
-  haveI : Fintype Ω := Fintype.ofFinite _
-  haveI : Fintype (Quotient (MulAction.orbitRel ↥P Ω)) := Fintype.ofFinite _
-  haveI : ∀ b : Ω, Fintype (MulAction.stabilizer ↥P b) := fun b => Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite _
+  have : Fintype ↥D := Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite _
+  have : Fintype (Quotient (MulAction.orbitRel ↥P Ω)) := Fintype.ofFinite _
+  have : ∀ b : Ω, Fintype (MulAction.stabilizer ↥P b) := fun b => Fintype.ofFinite _
   have hΩ : Fintype.card Ω = Nat.card D - 1 := by
     have e : Ω ≃ {d : ↥D // d ≠ 1} :=
       { toFun := fun x => ⟨x.1, x.2⟩
@@ -104,7 +103,7 @@ theorem exists_ne_one_two_le_pRank_of_card_le_sixteen {G : Type*} [Group G] [Fin
         right_inv := fun y => rfl }
     calc Fintype.card Ω = Fintype.card {d : ↥D // d ≠ 1} := Fintype.card_congr e
       _ = Fintype.card ↥D - Fintype.card {d : ↥D // d = 1} := by
-            simpa using (Fintype.card_subtype_compl (fun d : ↥D => d = 1))
+            simp
       _ = Fintype.card ↥D - 1 := by rw [Fintype.card_subtype_eq]
       _ = Nat.card D - 1 := by rw [Nat.card_eq_fintype_card]
   have h9Ω : 9 ∣ Fintype.card Ω := by

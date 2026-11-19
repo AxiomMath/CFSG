@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Quasithin.G11 CFSG.RankThree.PartTwo CFSG.PGLModel
 
 namespace CaseII
 
-theorem commutator_le_of_relIndex_two {Γ : Type*} [Group Γ] {X C : Subgroup Γ} (hXC : X ≤ C)
+theorem commutator_le_of_relIndex_two {Γ : Type*} [Group Γ] {X C : Subgroup Γ} (_hXC : X ≤ C)
     (h : X.relIndex C = 2) : ⁅C, C⁆ ≤ X := by
   rw [Subgroup.commutator_le]
   intro a ha b hb
@@ -40,6 +40,7 @@ theorem card_alternatingGroup_six : Nat.card ↥(alternatingGroup (Fin 6)) = 360
     ↥H₁ →* GL I6 (ZMod 2) :=
   (orthogonalMinus 2 (ZMod 2) 1 1).subtype.comp ψ.toMonoidHom
 
+omit [Finite V] in
 theorem psiGL_injective : Function.Injective (psiGL ψ) :=
   (orthogonalMinus 2 (ZMod 2) 1 1).subtype_injective.comp ψ.injective
 
@@ -89,7 +90,7 @@ theorem XL_le : XL L ψ ≤ omegaMinusTwo 2 ⊓ Subgroup.centralizer
     Subtype.ext (c.comm_z hℓL)
   have he := congrArg (psiGL ψ) e
   rw [map_mul, map_mul] at he
-  exact ⟨(c.mem_H_iff hℓ₁).1 (c.L_le_H hℓL), Subgroup.mem_centralizer_singleton_iff.2 he⟩
+  exact ⟨(c.mem_H_iff hℓ₁).1 (CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hℓL), Subgroup.mem_centralizer_singleton_iff.2 he⟩
 
 theorem XL_eq (hG1 : CaseIIG1) :
     ⁅omegaMinusTwo 2 ⊓ Subgroup.centralizer

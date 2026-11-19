@@ -34,8 +34,8 @@ theorem linK_comp (y : List ℕ) : ∀ (P : List ℕ) (k : ℕ),
   | p :: P, k => by
     rw [linK_cons, List.map_cons, linK_cons, linK_xor, linK_comp y P]
     by_cases h : k.testBit 0 = true
-    · rw [if_pos h, if_pos h]
-    · rw [if_neg h, if_neg h, linK_zero]
+    · rw [ite_eq_left h, ite_eq_left h]
+    · rw [ite_eq_right h, ite_eq_right h, linK_zero]
 
 theorem linK_append : ∀ (l z : List ℕ) (v c : ℕ), v < 2 ^ l.length →
     linK (l ++ z) (v + 2 ^ l.length * c) = linK l v ^^^ linK z c
@@ -66,8 +66,8 @@ theorem foldl_filter_xor (p : ℕ → Bool) (f : ℕ → ℕ) : ∀ (l : List �
   | i :: l, acc => by
     rw [List.filter_cons, List.foldr_cons]
     by_cases h : p i = true
-    · rw [if_pos h, if_pos h, List.foldl_cons, foldl_filter_xor p f l, Nat.xor_assoc]
-    · rw [if_neg h, if_neg h, foldl_filter_xor p f l, Nat.zero_xor]
+    · rw [ite_eq_left h, ite_eq_left h, List.foldl_cons, foldl_filter_xor p f l, Nat.xor_assoc]
+    · rw [ite_eq_right h, ite_eq_right h, foldl_filter_xor p f l, Nat.zero_xor]
 
 theorem qdLin_eq_linK (y0 y1 y2 y3 y4 y5 k : ℕ) :
     qdLin [y0, y1, y2, y3, y4, y5] k = linK [y0, y1, y2, y3, y4, y5] k := by
@@ -241,7 +241,7 @@ theorem body_sound {T a1 b1 a2 b2 a3 b3 : ℕ} (hlt : ∀ a ∈ [a1, b1, a2, b2,
 
 theorem fxv_zero {c : ℕ} (h : fxv c = 0) : c = 1 := by
   unfold fxv at h
-  split_ifs at h with h0 h1 <;> omega
+  split_ifs at h with h0 h1; omega
 
 theorem mem_plK_of [hc : Fact (covK = true)] {p : ℕ × ℕ} (hp : p ∈ qdPairs) : p ∈ plK := by
   unfold qdPairs at hp

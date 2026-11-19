@@ -31,7 +31,7 @@ theorem le_of_isComponent_of_fixedSubgroupOf_le (σ : MulAut Y)
     (hσ : σ ^ 3 = 1) {W T J : Subgroup Y} (hfix : fixedSubgroupOf σ ≤ W)
     (hT : IsSylowOf 2 T ⊤) (hTW : T ≤ W) (hJ : CFSG.IsComponent J) (hZ : center J = ⊥)
     {n : ℕ} (hSz : CFSG.Blueprint.SuzukiModel J 2 n) : J ≤ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ :=
     CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.YCfg.isSylowOf_inf_isSubnormal_top hT hJ.2
   have hQT : ∀ a ∈ (Q : Subgroup J), (a : Y) ∈ T ⊓ J := fun a ha => hQ ▸ mem_map_of_mem _ ha
@@ -109,6 +109,7 @@ end Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCore_I9_eq_bot (p : ℕ) {H : Subgroup G} (hO : pCoreOf p H = ⊥) :
     CFSG.pCore p (I9 H) = ⊥ := by
   have h := CFSG.GroupTheory.pCoreOf_le_pCoreOf_of_le_normalizer p (map_subtype_le _ :
@@ -121,10 +122,10 @@ theorem rankThreeLayer_I9_le
     (hRI : IsSylowOf 2 (R ⊓ I9 H) (I9 H)) (hRM : R ≤ M) (hD₃H : D₃ ≤ H)
     (hD₃ : Nat.card D₃ = 3) (hCD : centralizer (D₃ : Set G) ≤ M) :
     rankThreeLayer (I9 H) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hIH : I9 H ≤ H := map_subtype_le _
-  haveI : IsCyclic D₃ := isCyclic_of_prime_card hD₃
+  have : IsCyclic D₃ := isCyclic_of_prime_card hD₃
   obtain ⟨d, hd⟩ := IsCyclic.exists_generator (α := ↥D₃)
   have hd3 : (d : G) ^ 3 = 1 := by
     have h : d ^ Nat.card D₃ = 1 := pow_card_eq_one'

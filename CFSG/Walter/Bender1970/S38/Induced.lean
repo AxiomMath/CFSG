@@ -38,7 +38,7 @@ theorem card_eq_two_and_four
   set Tg := (T : Subgroup G) with hTg
   set W := Tg ⊓ Subgroup.centralizer (K : Set G) with hW
   set Q := Tg ⊓ K with hQ
-  have hWQb := inf_inf_eq_bot T.isPGroup' hKQ
+  have hWQb := inf_inf_eq_bot T.isPGroup hKQ
   have hHQ : ∀ h ∈ H, h ∈ Subgroup.normalizer (Tg : Set G) → ∀ v ∈ Q, h * v * h⁻¹ ∈ Q :=
     fun h hh hhT v hv => ⟨(Subgroup.mem_normalizer_iff.mp hhT v).mp hv.1,
       (Subgroup.mem_normalizer_iff.mp (hKN hh) v).mp hv.2⟩

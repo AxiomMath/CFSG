@@ -29,7 +29,7 @@ private theorem a6_eq5159 : a6check (elemsT QA) (elemsT QP) = A6B.a6C := by
   rw [elemsT_eq_elemsC, elemsT_eq_elemsC, a6check.eq_1, A6B.a6C.eq_1]
   simp only [wit.eq_1, evenOrd.eq_1, A6B.witC.eq_1, A6B.evenOrdC.eq_1, Function.comp_def,
     List.all_map, List.any_map, List.filter_map, ev_mul', ev_inv', orderIs_ev, one_eq_ev, ne_eq,
-    ev_eq_iff, decide_ev_eq, o1, o2, o3, o4, o5]
+    ev_eq_iff, o1, o2, o3, o4, o5]
 
 open CFSG.GH74.KGroups CFSG.GH74.KGroups.A6 CFSG.GH74.GLS.C3.Layer1.EndN.A6 in
 theorem certificate5159 : a6check (elemsT QA) (elemsT QP) = true := by

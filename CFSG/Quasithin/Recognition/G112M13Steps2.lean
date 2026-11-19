@@ -81,7 +81,7 @@ theorem stepLtM {Q : ConclPred} (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 
   have hHΓ : normalClosure Γ L ≤ Γ := h108.H_le
   have hNorm := normalClosure_normal Γ L
   have hfaithH : FaithfulOn (normalClosure Γ L) I := props_faithful c.props
-  haveI : IsSimpleGroup ↥(normalClosure Γ L) := hf.simple_H
+  have : IsSimpleGroup ↥(normalClosure Γ L) := hf.simple_H
   obtain ⟨φ', β, hsurj, hker, hequ⟩ := hperm
   have hxI : ∀ x : ↥X, conjSub (x : GLV V) I = I := fun x => c.invariantX.conjSub_eq x.2
   let rx : ↥X → GLV ↥I := fun x => restrictEquiv (x : GLV V) I (hxI x)
@@ -174,7 +174,7 @@ theorem stepLtM {Q : ConclPred} (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 
       (Subgroup.mem_centralizer_iff.1 hp.2 h hh).symm
   have hFit : genFittingFitting ↥Γ =
       (Γ ⊓ Subgroup.centralizer (normalClosure Γ L : Set (GLV V))).subgroupOf Γ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine fitting_eq_centralizer hHΓ hNorm hf.simple_H
       (not_isNilpotent_of_simple_card_360 _ hf.card_H) ?_
     exact (IsPGroup.of_card (p := 3) (n := 1) (by rw [hf.card_C]; norm_num)).isNilpotent
@@ -186,7 +186,7 @@ theorem stepLtM {Q : ConclPred} (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 
     rw [hPC] at hp
     exact hf.inverts (x₁ : GLV V) x₁.2 hx₁H p hp
   have hMΓ : E ⊔ P ≤ Γ := sup_le (hEH ▸ hHΓ) (hPC ▸ inf_le_left)
-  haveI : Finite ↥(E ⊔ P) :=
+  have : Finite ↥(E ⊔ P) :=
     Finite.of_injective (Subgroup.inclusion hMΓ) (Subgroup.inclusion_injective hMΓ)
   have hM1080 : 1080 ≤ Nat.card ↥(E ⊔ P) := by
     have := card_mul_le_card_sup E P hEP
@@ -194,10 +194,10 @@ theorem stepLtM {Q : ConclPred} (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 
     omega
   have hxM : (x₁ : GLV V) ∉ E ⊔ P := by
     intro hmem
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hPcyc : IsCyclic ↥P := isCyclic_of_prime_card hPcard
     have hPcomm : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p := fun p hp q hq => by
-      letI := hPcyc.commGroup
+      let := hPcyc.commGroup
       exact congrArg Subtype.val (mul_comm (⟨p, hp⟩ : ↥P) ⟨q, hq⟩)
     have hle : E ⊔ P ≤ Subgroup.centralizer (P : Set (GLV V)) := by
       refine sup_le (fun e he => ?_) (fun p hp => ?_)
@@ -300,11 +300,11 @@ theorem stepLtM {Q : ConclPred} (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 
     let U : Submodule (ZMod 2) V :=
       { carrier := {w | p w = w}
         add_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [map_add, ha, hb]
         zero_mem' := map_zero p
         smul_mem' := fun a w hw => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [map_smul, hw] }
     have hUinv : Invariant (normalClosure Γ L) U := by
       intro h hh u hu

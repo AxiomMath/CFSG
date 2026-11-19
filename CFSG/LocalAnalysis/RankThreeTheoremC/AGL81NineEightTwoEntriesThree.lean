@@ -23,12 +23,12 @@ theorem kFactNineThreeNoTwoAt_of_model {p : ℕ} (hp : p.Prime) {i : TauCeti.CFS
     (h : ∀ V : Subgroup (MulAut M), IsPGroup 2 V →
       B₀.map (MulAut.conj : M →* MulAut M) ≤ Subgroup.normalizer (V : Set (MulAut M)) → V = ⊥) :
     KFactNineThreeNoTwoAt p i := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro X _ _ K hK ⟨e⟩ _ T S hS hTS
-  haveI := hK
+  have := hK
   obtain ⟨eM⟩ := hM
   obtain ⟨T₀, hBT₀⟩ := hB₀.exists_le_sylow
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (e.trans eM.symm) T₀.isPGroup'
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (e.trans eM.symm) T₀.isPGroup
     T₀.not_dvd_index T
   set ψ : MulAut K ≃* MulAut M := MulAut.congr Φ.symm with hψ
   have hψc : ∀ r : M, ψ (MulAut.conj (Φ r)) = MulAut.conj r := by
@@ -78,10 +78,10 @@ theorem kFactNineThreeNoTwoAt_sp62 {d : TauCeti.ValidLieTypeIndex}
     KFactNineThreeNoTwoAt 3 (.lie d) := by
   obtain ⟨e⟩ := KFactProofs.nonempty_catGroup_equiv_H6 d hd
   have hZ : Subgroup.center H6 = ⊥ := by
-    haveI : IsSimpleGroup (StatedProj (StatedSp 3 (ZMod 2))) :=
+    have : IsSimpleGroup (StatedProj (StatedSp 3 (ZMod 2))) :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 2) 3 (by norm_num)
         (Or.inr (Or.inr ⟨Nat.card_zmod 2, le_rfl⟩))
-    haveI : IsSimpleGroup H6 := CFSG.AGLEmbedding.KFactProofs.Sp62Local.eProj.symm.isSimpleGroup
+    have : IsSimpleGroup H6 := CFSG.AGLEmbedding.KFactProofs.Sp62Local.eProj.symm.isSimpleGroup
     exact Item434Spor.center_eq_bot_of_simple (by rw [card_H6]; norm_num)
   have hinj := conj_injective_of_center_eq_bot hZ
   have hf := wreathFacts_zH
@@ -130,7 +130,7 @@ open CFSG.Sporadic.Schreier.Tits CFSG.RankThree.PartTwo.Sec4.Item434RemTits
 theorem kFactNineThreeNoTwoAt_titsThree
     {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tits) :
     KFactNineThreeNoTwoAt 3 (.lie d) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d1, hv⟩ := d
   change d1 = _ at hd
   subst hd

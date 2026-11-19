@@ -47,8 +47,7 @@ theorem exists_omqnfRealizes_of_signedPerm {m : ℕ} (π : Equiv.Perm (Fin m)) {
       · rw [mul_one, mul_inv_cancel]
       · funext c
         have e : (Equiv.swap k a).symm c = Equiv.swap k a c := by rw [Equiv.symm_swap]
-        simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply, Pi.one_apply, mul_one, one_mul, e,
-          Equiv.Perm.inv_def, Equiv.symm_swap, Equiv.Perm.coe_one, id_eq]
+        simp only [Pi.one_apply, mul_one, one_mul, Equiv.Perm.inv_def, Equiv.symm_swap]
         unfold spSgn
         have hiff : Equiv.swap k a c = k ↔ c = a := by
           rw [Equiv.swap_apply_eq_iff, Equiv.swap_apply_left]
@@ -62,7 +61,7 @@ theorem exists_omqnfRealizes_of_signedPerm {m : ℕ} (π : Equiv.Perm (Fin m)) {
         obtain ⟨w', hw'⟩ := hsgn a
         refine ⟨w' * w, (hw'.mul hw).congr (mul_one 1) ?_⟩
         funext c
-        simp only [Equiv.Perm.one_apply, Pi.one_apply]
+        simp only [Equiv.Perm.one_apply]
         unfold spSgnOn spSgn
         by_cases hca : c = a
         · subst hca
@@ -72,7 +71,7 @@ theorem exists_omqnfRealizes_of_signedPerm {m : ℕ} (π : Equiv.Perm (Fin m)) {
     obtain ⟨w₂, h₂⟩ := hsign (Finset.univ.filter fun a => s a = -1)
     refine ⟨w₁ * w₂, (h₁.mul h₂).congr (mul_one π) ?_⟩
     funext c
-    simp only [Equiv.Perm.one_apply, Pi.one_apply, mul_one]
+    simp only [Pi.one_apply, mul_one]
     unfold spSgnOn
     rcases hs c with h | h <;> simp [h]
 

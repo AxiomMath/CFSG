@@ -26,7 +26,7 @@ private theorem exists_mem_dvd_of_prime_dvd_lcm {q : ℕ} (hq : q.Prime) (s : Mu
 private theorem false_of_commute_of_coprime_six {s t : Equiv.Perm (Fin 7)} (hs3 : s ^ 3 = 1)
     (hs1 : s ≠ 1) {m : ℕ} (ht : t ^ m = 1) (hm : Nat.Coprime m 6) (ht1 : t ≠ 1)
     (hst : Commute s t) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hos : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   have hn6 : Nat.Coprime (orderOf t) 6 :=
     Nat.Coprime.coprime_dvd_left (orderOf_dvd_of_pow_eq_one ht) hm
@@ -81,7 +81,7 @@ private theorem false_of_commute_of_coprime_six {s t : Equiv.Perm (Fin 7)} (hs3 
 
 theorem res3NoDatumA7_holds : Res3NoDatumA7 := by
   rintro J _ _ _ hq ⟨e⟩ c g V U hd
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj 7
     (by norm_num) (by norm_num)
   let ε : Equiv.Perm (Fin 7) ≃* MulAut (alternatingGroup (Fin 7)) := MulEquiv.ofBijective _ hbij

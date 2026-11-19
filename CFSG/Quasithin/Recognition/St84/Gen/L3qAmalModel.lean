@@ -52,6 +52,7 @@ private def v2Hom : Multiplicative (Fin 2 → F) →* ↥(V2 : Subgroup (project
     simp only [Pi.add_apply]
     rw [V2_mul]
 
+omit [Finite F] in
 private theorem v2Hom_injective : Function.Injective (v2Hom (F := F)) := by
   intro v w h
   have h' : yP (Multiplicative.toAdd v 1) * wP (Multiplicative.toAdd v 0) =
@@ -62,6 +63,7 @@ private theorem v2Hom_injective : Function.Injective (v2Hom (F := F)) := by
   funext i
   fin_cases i <;> simp [hb, hc]
 
+omit [Finite F] in
 private theorem v2Hom_surjective : Function.Surjective (v2Hom (F := F)) := by
   rintro ⟨g, hg⟩
   obtain ⟨b, c, rfl⟩ := mem_V2.mp hg
@@ -75,6 +77,7 @@ private def v2Equiv : Multiplicative (Fin 2 → F) ≃* ↥(V2 : Subgroup (proje
 private def vecV2 : ↥(V2 : Subgroup (projectiveSL 3 F)) ≃* Multiplicative (Fin 2 → F) :=
   (v2Equiv (F := F)).symm
 
+omit [Finite F] in
 private theorem vecV2_apply (b c : F) :
     vecV2 (⟨yP b * wP c, mem_V2.mpr ⟨b, c, rfl⟩⟩ :
       ↥(V2 : Subgroup (projectiveSL 3 F))) = Multiplicative.ofAdd ![c, b] := by
@@ -97,6 +100,7 @@ private def v1Hom : Multiplicative (Fin 2 → F) →* ↥(V1 : Subgroup (project
     simp only [Pi.add_apply]
     rw [V1_mul]
 
+omit [Finite F] in
 private theorem v1Hom_injective : Function.Injective (v1Hom (F := F)) := by
   intro v w h
   have h' : xP (Multiplicative.toAdd v 0) * wP (Multiplicative.toAdd v 1) =
@@ -107,6 +111,7 @@ private theorem v1Hom_injective : Function.Injective (v1Hom (F := F)) := by
   funext i
   fin_cases i <;> simp [ha, hc]
 
+omit [Finite F] in
 private theorem v1Hom_surjective : Function.Surjective (v1Hom (F := F)) := by
   rintro ⟨g, hg⟩
   obtain ⟨a, c, rfl⟩ := mem_V1.mp hg
@@ -120,6 +125,7 @@ private def v1Equiv : Multiplicative (Fin 2 → F) ≃* ↥(V1 : Subgroup (proje
 private def vecV1 : ↥(V1 : Subgroup (projectiveSL 3 F)) ≃* Multiplicative (Fin 2 → F) :=
   (v1Equiv (F := F)).symm
 
+omit [Finite F] in
 private theorem vecV1_apply (a c : F) :
     vecV1 (⟨xP a * wP c, mem_V1.mpr ⟨a, c, rfl⟩⟩ :
       ↥(V1 : Subgroup (projectiveSL 3 F))) = Multiplicative.ofAdd ![a, c] := by
@@ -127,6 +133,7 @@ private theorem vecV1_apply (a c : F) :
   apply Subtype.ext
   simp [v1Equiv, v1Hom]
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_yP_wP_Q3_one {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 1) (b c : F) :
     proj 3 F M * (yP b * wP c) * (proj 3 F M)⁻¹ =
@@ -146,6 +153,7 @@ private theorem conj_yP_wP_Q3_one {M : Matrix.SpecialLinearGroup (Fin 3) F}
         rw [hy, hw]
     _ = _ := by rw [V2_mul]
 
+omit [Finite F] in
 private theorem conj_xP_wP_Q3_zero {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 0) (a c : F) :
     proj 3 F M * (xP a * wP c) * (proj 3 F M)⁻¹ =
@@ -174,8 +182,7 @@ private def blk2SL (A : GL (Fin 2) F) : Matrix.SpecialLinearGroup (Fin 3) F :=
       mul_inv_cancel₀ (Matrix.GeneralLinearGroup.det A).ne_zero
     rw [Matrix.det_fin_three]
     simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-      Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-      zero_mul, sub_self, add_zero]
+      mul_zero, sub_zero, zero_mul, add_zero]
     rw [← hA, Matrix.det_fin_two] at hd
     rw [← hA, Matrix.det_fin_two (A : Matrix (Fin 2) (Fin 2) F)]
     linear_combination hd⟩
@@ -191,8 +198,7 @@ private def blk1SL (A : GL (Fin 2) F) : Matrix.SpecialLinearGroup (Fin 3) F :=
       mul_inv_cancel₀ (Matrix.GeneralLinearGroup.det A).ne_zero
     rw [Matrix.det_fin_three]
     simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-      Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-      zero_mul, sub_self, add_zero]
+      mul_zero, sub_zero, zero_mul, add_zero]
     rw [← hA, Matrix.det_fin_two] at hd
     rw [← hA, Matrix.det_fin_two (A : Matrix (Fin 2) (Fin 2) F)]
     linear_combination hd⟩
@@ -210,7 +216,7 @@ private def blk2Hom : GL (Fin 2) F →* Matrix.SpecialLinearGroup (Fin 3) F wher
         ((blk2SL B : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blk2SL, Matrix.mul_apply, Fin.sum_univ_three, map_mul, mul_inv] <;> ring
+      simp [blk2SL, Matrix.mul_apply, Fin.sum_univ_three, map_mul]; ring
 
 private def blk1Hom : GL (Fin 2) F →* Matrix.SpecialLinearGroup (Fin 3) F where
   toFun := blk1SL
@@ -225,7 +231,7 @@ private def blk1Hom : GL (Fin 2) F →* Matrix.SpecialLinearGroup (Fin 3) F wher
         ((blk1SL B : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blk1SL, Matrix.mul_apply, Fin.sum_univ_three, map_mul, mul_inv] <;> ring
+      simp [blk1SL, Matrix.mul_apply, Fin.sum_univ_three, map_mul]; ring
 
 private def lev2Hom : GL (Fin 2) F →* projectiveSL 3 F :=
   (proj 3 F).comp blk2Hom
@@ -236,6 +242,7 @@ private def lev1Hom : GL (Fin 2) F →* projectiveSL 3 F :=
 private def q1Delta (M : Matrix.SpecialLinearGroup (Fin 3) F) : F :=
   M.1 0 0 * M.1 1 1 - M.1 0 1 * M.1 1 0
 
+omit [Finite F] [CharP F 2] in
 private theorem q1Delta_ne_zero {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ Q3 F 1) :
     q1Delta M ≠ 0 := by
   obtain ⟨h20, h21⟩ := mem_Q3_one_iff.mp hM
@@ -243,18 +250,18 @@ private theorem q1Delta_ne_zero {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : 
   intro h
   have hd' : M.1 2 2 * q1Delta M = 1 := hd
   rw [h] at hd'
-  have h01 : (0 : F) = 1 := by simpa using hd'
+  have h01 : (0 : F) = 1 := by simp at hd'
   exact zero_ne_one h01
 
 private def q1ActionMat (M : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 2) (Fin 2) F :=
   !![q1Delta M * M.1 0 0, q1Delta M * M.1 0 1;
      q1Delta M * M.1 1 0, q1Delta M * M.1 1 1]
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q1ActionMat (M : Matrix.SpecialLinearGroup (Fin 3) F) :
     (q1ActionMat M).det = q1Delta M ^ 3 := by
   simp only [q1ActionMat, q1Delta, Matrix.det_fin_two, Matrix.of_apply,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, Matrix.head_cons,
-    Matrix.tail_cons]
+    Matrix.cons_val_zero, Matrix.cons_val_one]
   ring
 
 private def q1ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
@@ -263,6 +270,7 @@ private def q1ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
     rw [det_q1ActionMat]
     exact pow_ne_zero 3 (q1Delta_ne_zero hM))
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q1ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
     (hM : M ∈ Q3 F 1) :
     Matrix.GeneralLinearGroup.det (q1ActionGL M hM) =
@@ -272,11 +280,13 @@ private theorem det_q1ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
   change (q1ActionMat M).det = q1Delta M ^ 3
   exact det_q1ActionMat M
 
+omit [Finite F] [CharP F 2] in
 private theorem q1ActionGL_mem (M : Matrix.SpecialLinearGroup (Fin 3) F)
     (hM : M ∈ Q3 F 1) : q1ActionGL M hM ∈ cubeDetGL F := by
   rw [cubeDetGL, Subgroup.mem_comap, MonoidHom.mem_range]
   exact ⟨Units.mk0 (q1Delta M) (q1Delta_ne_zero hM), (det_q1ActionGL M hM).symm⟩
 
+omit [Finite F] in
 private theorem actsByMatrix_q1_mat {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 1) :
     ActsByMatrix vecV2 (proj 3 F M) (q1ActionMat M) := by
@@ -291,7 +301,7 @@ private theorem actsByMatrix_q1_mat {M : Matrix.SpecialLinearGroup (Fin 3) F}
   have hyeq : y = ⟨yP b' * wP c', mem_V2.mpr ⟨b', c', rfl⟩⟩ := by
     apply Subtype.ext
     rw [hyval, conj_yP_wP_Q3_one hM b c]
-    simp only [Subtype.coe_mk, q1Delta, hb', hc']
+    simp only [q1Delta, hb', hc']
   rw [hx, hyeq, vecV2_apply, vecV2_apply]
   change ![c', b'] = q1ActionMat M *ᵥ ![c, b]
   funext i
@@ -299,6 +309,7 @@ private theorem actsByMatrix_q1_mat {M : Matrix.SpecialLinearGroup (Fin 3) F}
     simp [q1ActionMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hb', hc']
   all_goals ring
 
+omit [Finite F] in
 private theorem actsByMatrix_q1 {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 1) :
     ActsByMatrix vecV2 (proj 3 F M)
@@ -308,6 +319,7 @@ private theorem actsByMatrix_q1 {M : Matrix.SpecialLinearGroup (Fin 3) F}
 private def q0Delta (M : Matrix.SpecialLinearGroup (Fin 3) F) : F :=
   M.1 0 0
 
+omit [Finite F] [CharP F 2] in
 private theorem q0Delta_ne_zero {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ Q3 F 0) :
     q0Delta M ≠ 0 := by
   obtain ⟨h10, h20⟩ := mem_Q3_zero_iff.mp hM
@@ -315,20 +327,20 @@ private theorem q0Delta_ne_zero {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : 
   intro h
   have hd' : q0Delta M * (M.1 1 1 * M.1 2 2 - M.1 1 2 * M.1 2 1) = 1 := hd
   rw [h] at hd'
-  have h01 : (0 : F) = 1 := by simpa using hd'
+  have h01 : (0 : F) = 1 := by simp at hd'
   exact zero_ne_one h01
 
 private def q0ActionMat (M : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 2) (Fin 2) F :=
   !![q0Delta M ^ 2 * M.1 2 2, q0Delta M ^ 2 * M.1 2 1;
      q0Delta M ^ 2 * M.1 1 2, q0Delta M ^ 2 * M.1 1 1]
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q0ActionMat {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 0) : (q0ActionMat M).det = q0Delta M ^ 3 := by
   obtain ⟨h10, h20⟩ := mem_Q3_zero_iff.mp hM
   have hd := det_V1 h10 h20
   simp only [q0ActionMat, q0Delta, Matrix.det_fin_two, Matrix.of_apply,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, Matrix.head_cons,
-    Matrix.tail_cons]
+    Matrix.cons_val_zero, Matrix.cons_val_one]
   linear_combination (M.1 0 0 ^ 3) * hd
 
 private def q0ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
@@ -337,6 +349,7 @@ private def q0ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
     rw [det_q0ActionMat hM]
     exact pow_ne_zero 3 (q0Delta_ne_zero hM))
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q0ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
     (hM : M ∈ Q3 F 0) :
     Matrix.GeneralLinearGroup.det (q0ActionGL M hM) =
@@ -346,11 +359,13 @@ private theorem det_q0ActionGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
   change (q0ActionMat M).det = q0Delta M ^ 3
   exact det_q0ActionMat hM
 
+omit [Finite F] [CharP F 2] in
 private theorem q0ActionGL_mem (M : Matrix.SpecialLinearGroup (Fin 3) F)
     (hM : M ∈ Q3 F 0) : q0ActionGL M hM ∈ cubeDetGL F := by
   rw [cubeDetGL, Subgroup.mem_comap, MonoidHom.mem_range]
   exact ⟨Units.mk0 (q0Delta M) (q0Delta_ne_zero hM), (det_q0ActionGL M hM).symm⟩
 
+omit [Finite F] in
 private theorem actsByMatrix_q0_mat {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 0) :
     ActsByMatrix vecV1 (proj 3 F M) (q0ActionMat M) := by
@@ -365,14 +380,14 @@ private theorem actsByMatrix_q0_mat {M : Matrix.SpecialLinearGroup (Fin 3) F}
   have hyeq : y = ⟨xP a' * wP c', mem_V1.mpr ⟨a', c', rfl⟩⟩ := by
     apply Subtype.ext
     rw [hyval, conj_xP_wP_Q3_zero hM a c]
-    simp only [Subtype.coe_mk, q0Delta, ha', hc']
+    simp only [q0Delta, ha', hc']
   rw [hx, hyeq, vecV1_apply, vecV1_apply]
   change ![a', c'] = q0ActionMat M *ᵥ ![a, c]
   funext i
   fin_cases i <;>
     simp [q0ActionMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two, ha', hc']
-  all_goals ring
 
+omit [Finite F] in
 private theorem actsByMatrix_q0 {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 0) :
     ActsByMatrix vecV1 (proj 3 F M)
@@ -386,6 +401,7 @@ private def q1BlockGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
       rw [Matrix.det_fin_two]
       exact q1Delta_ne_zero hM)
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q1BlockGL {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 1) :
     ((Matrix.GeneralLinearGroup.det (q1BlockGL M hM) : Fˣ) : F) = q1Delta M := by
@@ -393,6 +409,7 @@ private theorem det_q1BlockGL {M : Matrix.SpecialLinearGroup (Fin 3) F}
   rw [Matrix.det_fin_two]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem q1_bottom_right {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 1) : M.1 2 2 = (q1Delta M)⁻¹ := by
   obtain ⟨h20, h21⟩ := mem_Q3_one_iff.mp hM
@@ -400,10 +417,12 @@ private theorem q1_bottom_right {M : Matrix.SpecialLinearGroup (Fin 3) F}
   have hd' : q1Delta M * M.1 2 2 = 1 := by rw [mul_comm]; exact hd
   exact eq_inv_of_mul_eq_one_right hd'
 
+omit [Finite F] [CharP F 2] in
 private theorem q1Delta_blk2SL (A : GL (Fin 2) F) :
     q1Delta (blk2SL A) = ((Matrix.GeneralLinearGroup.det A : Fˣ) : F) := by
   simp [q1Delta, blk2SL, Matrix.det_fin_two]
 
+omit [Finite F] [CharP F 2] in
 private theorem q1ActionMat_blk2SL (A : GL (Fin 2) F) :
     q1ActionMat (blk2SL A) =
       ((Matrix.GeneralLinearGroup.det A : Fˣ) : F) • (A : Matrix (Fin 2) (Fin 2) F) := by
@@ -413,18 +432,21 @@ private theorem q1ActionMat_blk2SL (A : GL (Fin 2) F) :
   fin_cases i <;> fin_cases j <;>
     simp [blk2SL, Matrix.smul_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem coe_blk2SL (A : GL (Fin 2) F) :
     ((blk2SL A : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       !![(A : Matrix (Fin 2) (Fin 2) F) 0 0, (A : Matrix (Fin 2) (Fin 2) F) 0 1, 0;
         (A : Matrix (Fin 2) (Fin 2) F) 1 0, (A : Matrix (Fin 2) (Fin 2) F) 1 1, 0;
         0, 0, ((Matrix.GeneralLinearGroup.det A : Fˣ) : F)⁻¹] := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem coe_yMat_mul_wMat (b c : F) :
     ((yMat b * wMat c : Matrix.SpecialLinearGroup (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) = yM b * wM c := by
   rw [Matrix.SpecialLinearGroup.coe_mul]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem q1_decomp {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ Q3 F 1) :
     M = yMat (M.1 1 2 * q1Delta M) * wMat (M.1 0 2 * q1Delta M) *
       blk2SL (q1BlockGL M hM) := by
@@ -435,7 +457,7 @@ private theorem q1_decomp {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ 
   rw [Matrix.SpecialLinearGroup.coe_mul, coe_yMat_mul_wMat, coe_blk2SL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [q1BlockGL, det_q1BlockGL hM, h22, h20, h21, yM, wM,
+    simp [q1BlockGL, h22, h20, h21, yM, wM,
       Matrix.mul_apply, Fin.sum_univ_three]
   all_goals simp only [q1Delta] at hΔ0 ⊢
   all_goals field_simp [hΔ0]
@@ -445,15 +467,18 @@ private def unit1Mat (a c : F) : Matrix.SpecialLinearGroup (Fin 3) F :=
     rw [Matrix.det_mul]
     simp [xM, wM, Matrix.det_fin_three]⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem unit1Mat_eq (a c : F) :
     unit1Mat a c = xMat a * wMat c :=
   Subtype.ext rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem proj_unit1Mat (a c : F) :
     proj 3 F (unit1Mat a c) = xP a * wP c := by
   rw [unit1Mat_eq, map_mul]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem coe_unit1Mat (a c : F) :
     ((unit1Mat a c : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       xM a * wM c := rfl
@@ -468,10 +493,11 @@ private def q0BlockGL (M : Matrix.SpecialLinearGroup (Fin 3) F)
         have hd' : q0Delta M * (M.1 1 1 * M.1 2 2 - M.1 1 2 * M.1 2 1) = 1 := hd
         exact eq_inv_of_mul_eq_one_right hd'
       simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val, Matrix.head_cons, Matrix.tail_cons]
+        Matrix.cons_val_one]
       rw [hdet]
       exact inv_ne_zero (q0Delta_ne_zero hM))
 
+omit [Finite F] [CharP F 2] in
 private theorem det_q0BlockGL {M : Matrix.SpecialLinearGroup (Fin 3) F}
     (hM : M ∈ Q3 F 0) :
     ((Matrix.GeneralLinearGroup.det (q0BlockGL M hM) : Fˣ) : F) = (q0Delta M)⁻¹ := by
@@ -482,10 +508,10 @@ private theorem det_q0BlockGL {M : Matrix.SpecialLinearGroup (Fin 3) F}
     exact eq_inv_of_mul_eq_one_right hd'
   change (!![M.1 1 1, M.1 1 2; M.1 2 1, M.1 2 2] : Matrix (Fin 2) (Fin 2) F).det =
     (q0Delta M)⁻¹
-  simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.cons_val, Matrix.head_cons, Matrix.tail_cons]
+  simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
   exact hdet
 
+omit [Finite F] [CharP F 2] in
 private theorem coe_blk1SL (A : GL (Fin 2) F) :
     ((blk1SL A : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       !![((Matrix.GeneralLinearGroup.det A : Fˣ) : F)⁻¹, 0, 0;
@@ -509,9 +535,10 @@ private theorem swapMat_smul {F : Type} [Field F] (c : F) (X : Matrix (Fin 2) (F
 private theorem swapMat_det {F : Type} [Field F] (X : Matrix (Fin 2) (Fin 2) F) :
     (swapMat X).det = X.det := by
   simp only [swapMat, Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val, Matrix.head_cons, Matrix.tail_cons]
+    Matrix.cons_val_one]
   ring
 
+omit [Finite F] [CharP F 2] in
 private theorem q0ActionMat_blk1SL (A : GL (Fin 2) F) :
     q0ActionMat (blk1SL A) =
       (((Matrix.GeneralLinearGroup.det A : Fˣ) : F)⁻¹) ^ 2 •
@@ -520,6 +547,7 @@ private theorem q0ActionMat_blk1SL (A : GL (Fin 2) F) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.smul_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem q0_decomp {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ Q3 F 0) :
     M = blk1SL (q0BlockGL M hM) *
       unit1Mat (M.1 0 1 * (q0Delta M)⁻¹) (M.1 0 2 * (q0Delta M)⁻¹) := by
@@ -533,7 +561,7 @@ private theorem q0_decomp {M : Matrix.SpecialLinearGroup (Fin 3) F} (hM : M ∈ 
   rw [Matrix.SpecialLinearGroup.coe_mul, coe_blk1SL, coe_unit1Mat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [q0BlockGL, det_q0BlockGL hM, h00, h10, h20, xM, wM,
+    simp [q0BlockGL, h00, h10, h20, xM, wM,
       Matrix.mul_apply, Fin.sum_univ_three]
   all_goals
     have hM00 : M.1 0 0 ≠ 0 := hΔ0
@@ -604,6 +632,7 @@ private theorem V1_sup_range_lev1 :
       mul_mem hD (Subgroup.mem_sup_left h1)
     exact mul_mem hDa (Subgroup.mem_sup_left h2)
 
+omit [Finite F] in
 private theorem range_lev2_inf_V2 :
     (lev2Hom (F := F)).range ⊓ (V2 : Subgroup (projectiveSL 3 F)) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -623,7 +652,7 @@ private theorem range_lev2_inf_V2 :
       _ = u := by rw [mul_assoc, mul_inv_cancel, mul_one]
   have h1' : yP (q1Delta M * M.1 1 1) * wP (q1Delta M * M.1 0 1) = yP 1 := by
     have h := conj_yP_wP_Q3_one hM 1 0
-    simp only [q1Delta, mul_one, mul_zero, add_zero, wP_zero, one_mul] at h ⊢
+    simp only [q1Delta, mul_one, mul_zero, add_zero, wP_zero] at h ⊢
     rw [← h]
     exact hcomm (yP 1) (mem_V2.mpr ⟨1, 0, by rw [wP_zero, mul_one]⟩)
   have h1'' : yP (q1Delta M * M.1 1 1) * wP (q1Delta M * M.1 0 1) =
@@ -633,7 +662,7 @@ private theorem range_lev2_inf_V2 :
   obtain ⟨h11, h01⟩ := yP_wP_inj h1''
   have h0' : yP (q1Delta M * M.1 1 0) * wP (q1Delta M * M.1 0 0) = yP 0 * wP 1 := by
     have h := conj_yP_wP_Q3_one hM 0 1
-    simp only [q1Delta, mul_one, mul_zero, zero_mul, add_zero, zero_add, yP_zero,
+    simp only [q1Delta, mul_one, mul_zero, zero_add, yP_zero,
       one_mul] at h ⊢
     rw [← h]
     exact hcomm (wP 1) (mem_V2.mpr ⟨0, 1, by rw [yP_zero, one_mul]⟩)
@@ -686,6 +715,7 @@ private theorem range_lev2_inf_V2 :
     rfl
   · simpa [hMdef] using hMmat
 
+omit [Finite F] in
 private theorem range_lev1_inf_V1 :
     (lev1Hom (F := F)).range ⊓ (V1 : Subgroup (projectiveSL 3 F)) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -705,7 +735,7 @@ private theorem range_lev1_inf_V1 :
       _ = u := by rw [mul_assoc, mul_inv_cancel, mul_one]
   have h1' : xP (q0Delta M ^ 2 * M.1 2 2) * wP (q0Delta M ^ 2 * M.1 1 2) = xP 1 := by
     have h := conj_xP_wP_Q3_zero hM 1 0
-    simp only [q0Delta, mul_one, mul_zero, zero_mul, add_zero, wP_zero, one_mul] at h ⊢
+    simp only [q0Delta, mul_one, mul_zero, add_zero, wP_zero] at h ⊢
     rw [← h]
     exact hcomm (xP 1) (mem_V1.mpr ⟨1, 0, by rw [wP_zero, mul_one]⟩)
   have h1'' : xP (q0Delta M ^ 2 * M.1 2 2) * wP (q0Delta M ^ 2 * M.1 1 2) =
@@ -716,7 +746,7 @@ private theorem range_lev1_inf_V1 :
   have h0' : xP (q0Delta M ^ 2 * M.1 2 1) * wP (q0Delta M ^ 2 * M.1 1 1) =
       xP 0 * wP 1 := by
     have h := conj_xP_wP_Q3_zero hM 0 1
-    simp only [q0Delta, mul_one, mul_zero, zero_mul, add_zero, zero_add, xP_zero,
+    simp only [q0Delta, mul_one, mul_zero, zero_add, xP_zero,
       one_mul] at h ⊢
     rw [← h]
     exact hcomm (wP 1) (mem_V1.mpr ⟨0, 1, by rw [xP_zero, one_mul]⟩)
@@ -802,7 +832,6 @@ private theorem linAction_ln :
       rw [q1ActionMat_blk2SL A, hdetA, hAval]
       ext i j
       simp [Matrix.smul_apply]
-      all_goals field_simp [e.ne_zero]
     have hM : blk2SL A ∈ Q3 F 1 :=
       mem_Q3_one_iff.mpr ⟨by simp [blk2SL], by simp [blk2SL]⟩
     refine ⟨lev2Hom A, range_lev2_le_Ln (MonoidHom.mem_range.mpr ⟨A, rfl⟩), ?_⟩
@@ -846,7 +875,6 @@ private theorem linAction_pt :
       rw [hAval, swapMat_smul, swapMat_swapMat]
       ext i j
       simp [Matrix.smul_apply]
-      all_goals field_simp [e.ne_zero]
     have hM : blk1SL A ∈ Q3 F 0 :=
       mem_Q3_zero_iff.mpr ⟨by simp [blk1SL], by simp [blk1SL]⟩
     refine ⟨lev1Hom A, range_lev1_le_Pt (MonoidHom.mem_range.mpr ⟨A, rfl⟩), ?_⟩
@@ -857,10 +885,7 @@ theorem isLinSemidirect_Ln :
     IsLinSemidirect (Ln F) (V2 : Subgroup (projectiveSL 3 F)) (cubeDetGL F) where
   le := Subgroup.le_normalizer
   normal := by
-    simpa [Ln] using (Subgroup.le_normalizer :
-      (V2 : Subgroup (projectiveSL 3 F)) ≤
-        Subgroup.normalizer ((V2 : Subgroup (projectiveSL 3 F)) :
-          Set (projectiveSL 3 F)))
+    simp [Ln]
   cent := by
     have h : CharTwo (Ln F) :=
       (CFSG.QuasithinUnique.Borel252.L3.borelData_L3 (F := F)).charTwo₂
@@ -873,10 +898,7 @@ theorem isLinSemidirect_Pt :
     IsLinSemidirect (Pt F) (V1 : Subgroup (projectiveSL 3 F)) (cubeDetGL F) where
   le := Subgroup.le_normalizer
   normal := by
-    simpa [Pt] using (Subgroup.le_normalizer :
-      (V1 : Subgroup (projectiveSL 3 F)) ≤
-        Subgroup.normalizer ((V1 : Subgroup (projectiveSL 3 F)) :
-          Set (projectiveSL 3 F)))
+    simp [Pt]
   cent := by
     have h : CharTwo (Pt F) :=
       (CFSG.QuasithinUnique.Borel252.L3.borelData_L3 (F := F)).charTwo₁

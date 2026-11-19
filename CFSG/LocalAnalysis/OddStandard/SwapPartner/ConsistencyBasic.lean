@@ -10,7 +10,7 @@ open Subgroup Equiv Equiv.Perm CFSG.OddStandard.AltStdSec.SwapPattern
 
 variable {G : Type} [Group G] {z : G} {ι : Perm (Fin 10) →* G}
 
-theorem isConj_ι_iff (hC : CentData z ι) {σ σ' : Perm (Fin 10)} (h : IsConj σ σ') :
+theorem isConj_ι_iff (_hC : CentData z ι) {σ σ' : Perm (Fin 10)} (h : IsConj σ σ') :
     IsConj z (ι σ) ↔ IsConj z (ι σ') := by
   have hι : IsConj (ι σ) (ι σ') := ι.map_isConj h
   constructor

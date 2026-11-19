@@ -36,6 +36,7 @@ variable [CharP K 2]
 
 abbrev nodeQ2 : Fin (Tag.rank .E7) := ⟨1, by decide⟩
 
+omit [CharP K 2] in
 theorem d0Lam_mem (c : Kˣ) :
     (e7Data_valid.hm K nodeQ2 c : (Module.End K (V K))ˣ) ∈ Lam K := by
   have hα : (Pi.single nodeQ2 (1 : ℤ) : Fin (Tag.rank .E7) → ℤ) ∈ Perp := by
@@ -64,6 +65,7 @@ theorem d0Lam_mem (c : Kˣ) :
 
 variable {K}
 
+omit [CharP K 2] in
 private theorem hm_apply_single' (i : Fin (Tag.rank .E7)) (c : Kˣ) (a : Fin e7Data.d) :
     (((e7Data_valid.hm K i c : ↥(e7Data_valid.minGroup K)) : (Module.End K (V K))ˣ) :
         Module.End K (V K)) (Finsupp.single a 1) =

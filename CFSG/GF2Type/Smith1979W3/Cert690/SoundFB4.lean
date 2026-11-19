@@ -27,7 +27,7 @@ theorem pglF7Of_facts {D : PGLData} (h : pglF7Of D = true) :
     ∀ k ∈ D.elems.toList, k ∈ D.elems0.toList ∨
       (mapsIntoList k vPlusVecs vStarVecs = true ∧
         mapsIntoList k vStarVecs vPlusVecs = true) := by
-  simp only [pglF7Of, Array.all_eq_true, Bool.and_eq_true] at h
+  simp only [pglF7Of, Array.all_eq_true] at h
   intro k hk
   rw [Array.mem_toList_iff] at hk
   obtain ⟨i, hi, rfl⟩ := Array.mem_iff_getElem.mp hk
@@ -36,7 +36,7 @@ theorem pglF7Of_facts {D : PGLData} (h : pglF7Of D = true) :
   · left
     exact Array.mem_toList_iff.mpr (Array.contains_iff_mem.mp hc)
   · right
-    rw [if_neg hc] at hk'
+    rw [ite_eq_right hc] at hk'
     exact Bool.and_eq_true_iff.mp hk'
 
 theorem map_spanOfList_le_of_mapsInto {g : V₀ ≃ₗ[ZMod 2] V₀} {c : ℕ} {S : List ℕ}
@@ -98,8 +98,8 @@ theorem map_VStar_le_VPlus_of_mapsInto {g : V₀ ≃ₗ[ZMod 2] V₀} {c : ℕ}
     apply_vec_of_hasCode hg n]
   exact Submodule.subset_span ⟨Code.act c n, hmap n hn, rfl⟩
 
-theorem KPGL0_preserves {D : PGLData} (hK0 : EnumCert kPGL0Gens D.elems0.toList)
-    (h5 : pglF5Of D = true) (h6 : pglF6Of D = true) :
+theorem KPGL0_preserves {D : PGLData} (_hK0 : EnumCert kPGL0Gens D.elems0.toList)
+    (_h5 : pglF5Of D = true) (h6 : pglF6Of D = true) :
     ∀ g ∈ KPGL0, VPlus.map (g : V₀ →ₗ[ZMod 2] V₀) = VPlus ∧
       VStar.map (g : V₀ →ₗ[ZMod 2] V₀) = VStar := by
   intro g hg

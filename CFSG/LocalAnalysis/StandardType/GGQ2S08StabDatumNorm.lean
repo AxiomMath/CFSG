@@ -115,7 +115,7 @@ theorem ggQ2s08x1p_norm {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
       exact (Subgroup.mem_centralizer_iff.mp hzC) (y : G) y.2
     have hb'z : Commute (b' : G) z := hZ (b' : G) b'.2 ⟨z, hzL⟩ hzcen
     have hb'x : Commute (b' : G) x := by
-      haveI : IsMulCommutative ↥Bs := hBs.1
+      have : IsMulCommutative ↥Bs := hBs.1
       show (b' : G) * x = x * (b' : G)
       exact congrArg Subtype.val (mul_comm' b' (⟨x, hxB⟩ : ↥Bs))
     have hb'd : Commute (b' : G) d := by
@@ -178,7 +178,7 @@ theorem ggQ2s08x1p_norm {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
       exact Subgroup.inv_mem _ hl
     have h := key l⁻¹ hl_inv ((l : G) * b * (l : G)⁻¹) hb
     rw [Subgroup.coe_inv] at h
-    convert h using 1 <;> group
+    convert h using 1; group
 
 end CFSG.StandardType
 

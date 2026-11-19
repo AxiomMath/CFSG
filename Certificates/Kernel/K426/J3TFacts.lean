@@ -76,7 +76,7 @@ theorem gen_le : Subgroup.closure (Set.range fun j : Fin 5 => permOfArr 6156 j3S
     GJ := by
   rw [Subgroup.closure_le]
   rintro _ ⟨j, rfl⟩
-  exact S_mem_Gen J3KT.hd j.val (by simpa [j3StrongArrs] using j.2)
+  exact S_mem_Gen J3KT.hd j.val (by simp [j3StrongArrs])
 
 theorem gp_mem {k : Nat} (hk : k < 40) : gp k ∈ GJ := by
   have hS : j3StrongArrs.size = 5 := PJ3Check.binds.2.2.2.1
@@ -164,11 +164,11 @@ theorem treeD : TreeOK 2 360 TD.P TD.L := treeOK_of fun i hi h0 => by
   rwa [CFSG.KC.HeLoc.beq_zero_false h0] at h
 
 theorem hmul : ∀ a ∈ GJ, ∀ b ∈ GJ, (a * b ∈ GJ ↔ (a ∈ GJ ↔ b ∈ GJ)) :=
-  fun a ha b hb => iff_of_true (GJ.mul_mem ha hb) (iff_of_true ha hb)
+  fun _a ha _b hb => iff_of_true (GJ.mul_mem ha hb) (iff_of_true ha hb)
 
-theorem hfaith : ∀ x ∈ GJ, ∀ y ∈ GJ, (x ∈ GJ ↔ y ∈ GJ) →
-    (∀ b (hb : b ∈ bs), (x ⟨b, bs_lt b hb⟩ : Nat) = y ⟨b, bs_lt b hb⟩) → x = y :=
-  fun x hx y hy _ h => eq_of_base hx hy h
+theorem hfaith : ∀ _x ∈ GJ, ∀ _y ∈ GJ, (_x ∈ GJ ↔ _y ∈ GJ) →
+    (∀ b (hb : b ∈ bs), (_x ⟨b, bs_lt b hb⟩ : Nat) = _y ⟨b, bs_lt b hb⟩) → _x = _y :=
+  fun _x hx _y hy _ h => eq_of_base hx hy h
 
 theorem q0_iff {gpk : Nat → Equiv.Perm (Fin 6156)} {m : Nat} (h : ∀ k < m, gpk k ∈ GJ) :
     ∀ k < m, (gpk k ∈ GJ ↔ q0 k = 0) := fun k hk => iff_of_true (h k hk) rfl
@@ -612,9 +612,9 @@ theorem letter_facts (a : Fin 2 × Bool) :
   have hk : 37 + a.1.val < 40 := by omega
   rw [dgens_get ha]
   cases a.2
-  · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true, (inv_k hk).1]
+  · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true, (inv_k hk).1]
     exact ⟨rep_gpi hk, hgi hk, GJ.inv_mem (gp_mem hk)⟩
-  · rw [if_pos rfl, if_pos rfl]
+  · rw [ite_eq_left rfl, ite_eq_left rfl]
     exact ⟨rep_gp hk, hg hk, gp_mem hk⟩
 
 theorem wordD_facts (w : List (Fin 2 × Bool)) :

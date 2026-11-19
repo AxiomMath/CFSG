@@ -33,7 +33,7 @@ theorem threeSolvInv_of_locA {Γ : Type} [Group Γ] [Finite Γ] {A L : Subgroup 
     rintro σ hσ _ ⟨v, hv, rfl⟩
     exact hVinv σ hσ v hv
   obtain ⟨a, -, haN, -, hle⟩ := hloc V h3 hmap
-  haveI := isSolvable_inSubgroup_theta (Res5Types.fixSubgroup (L3PGL.sigmaOf L haN))
+  have := isSolvable_inSubgroup_theta (Res5Types.fixSubgroup (L3PGL.sigmaOf L haN))
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 @[expose] def KF148SigGenL3 : Prop :=

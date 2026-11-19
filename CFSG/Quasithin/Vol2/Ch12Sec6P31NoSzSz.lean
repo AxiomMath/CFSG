@@ -24,7 +24,7 @@ theorem odd_card_center_of_normal [Finite Y]
           rw [(hb.2.1 a ha.1).mul_pow 2, ha.2.2, hb.2.2, one_mul]⟩
       inv_mem' := fun {a} ha => ⟨N.inv_mem ha.1, fun n hn => (ha.2.1 n hn).inv_right, by
           rw [inv_pow, ha.2.2, inv_one]⟩ }
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     refine ⟨fun z hz g => ⟨hN.conj_mem z hz.1 g, fun n hn => ?_, ?_⟩⟩
     · have hn' : g⁻¹ * n * g ∈ N := by simpa using hN.conj_mem n hn g⁻¹
       have h1 : g⁻¹ * n * g * z = z * (g⁻¹ * n * g) := hz.2.1 _ hn'
@@ -45,7 +45,7 @@ theorem odd_card_center_of_normal [Finite Y]
     rcases Nat.even_or_odd (Nat.card ↥(Subgroup.center ↥N)) with he | ho
     · exact even_iff_two_dvd.1 he
     · exact absurd ho hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥N)) 2 h2
   have hz2 : (((z : ↥N) : Y)) ^ 2 = 1 := by
     have h1 := pow_orderOf_eq_one z

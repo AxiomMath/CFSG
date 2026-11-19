@@ -14,8 +14,8 @@ open scoped commutatorElement
 
 private theorem s16h_cx_isElemAbelian_of_card_eq_prime {A : Type*} [Group A] {p : ℕ}
     (hp : p.Prime) {H : Subgroup A} (hH : Nat.card ↥H = p) : IsElemAbelian p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic ↥H := isCyclic_of_prime_card hH
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic ↥H := isCyclic_of_prime_card hH
   refine ⟨inferInstance, ?_⟩
   intro x hx
   have h := pow_card_eq_one' (G := ↥H) (x := ⟨x, hx⟩)
@@ -32,7 +32,7 @@ theorem s16h_closure_of_le_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : 
       IsElemAbelian p X ∧ Nat.card ↥X =
         p ^ Set.ncard {X : Subgroup A | ∃ q ∈ Mb, X = Lb.map (MulAut.conj q).toMonoidHom} := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Set (Subgroup A) := {X : Subgroup A | ∃ q ∈ Mb, X = Lb.map (MulAut.conj q).toMonoidHom}
   let X0 : Subgroup A := sSup S
   let Hm : Subgroup A := ⁅Mb, Mb⁆
@@ -46,7 +46,7 @@ theorem s16h_closure_of_le_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : 
   have hSfin : S.Finite := by
     rw [hS_range]
     exact Set.finite_range (fun q : Mb => Lb.map (MulAut.conj (q : A)).toMonoidHom)
-  haveI : Fintype ↥S := hSfin.fintype
+  have : Fintype ↥S := hSfin.fintype
   have hcard_mem : ∀ ω : ↥S, Nat.card ↥(ω : Subgroup A) = p := by
     intro ω
     obtain ⟨q, hq, hqeq⟩ := ω.2
@@ -91,15 +91,14 @@ theorem s16h_closure_of_le_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : 
   have hcomm_same : ∀ ω : ↥S, ∀ x ∈ (ω : Subgroup A), ∀ y ∈ (ω : Subgroup A),
       x * y = y * x := by
     intro ω x hx y hy
-    haveI := (hmemEA ω).1
+    have := (hmemEA ω).1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(ω : Subgroup A)) ⟨y, hy⟩)
   have hX0comm : ∀ x ∈ X0, ∀ y ∈ X0, x * y = y * x := by
     intro x hx
     have hx' : x ∈ ⨆ ω : ↥S, (ω : Subgroup A) := hX0eq ▸ hx
     refine Subgroup.iSup_induction (C := fun v => ∀ y ∈ X0, v * y = y * v)
       (fun ω : ↥S => (ω : Subgroup A)) hx' ?_ ?_ ?_
-    · intro ω z hzω
-      intro y hy
+    · intro ω z hzω y hy
       have hy' : y ∈ ⨆ ω' : ↥S, (ω' : Subgroup A) := hX0eq ▸ hy
       refine Subgroup.iSup_induction (C := fun w => z * w = w * z)
         (fun ω' : ↥S => (ω' : Subgroup A)) hy' ?_ ?_ ?_
@@ -152,7 +151,7 @@ theorem s16h_closure_of_le_commutator {A : Type*} [Group A] [Finite A] {Mb Lb : 
       rw [hX0eq]
       exact le_iSup (fun ω : ↥S => (ω : Subgroup A))
         ⟨Lb.map (MulAut.conj (q * m)).toMonoidHom, q * m, Mb.mul_mem hq hm, rfl⟩ hzmem
-    · simpa using X0.one_mem
+    · simp
     · intro a b iha ihb
       rw [show q * (a * b) * q⁻¹ = (q * a * q⁻¹) * (q * b * q⁻¹) from by group]
       exact X0.mul_mem iha ihb

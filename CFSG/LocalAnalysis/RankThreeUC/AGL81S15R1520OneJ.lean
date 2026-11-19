@@ -14,7 +14,7 @@ theorem pRank_pComponent_le_one_of_compositionFactor {X : Type} [Group X] [Finit
     (hS : ∀ (S : Type) [Group S] [Finite S], CFSG.Quasithin.E1.IsCompositionFactor X S →
       ¬ Group.IsSolvable S → CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 1)
     {I : Subgroup X} (hI : CFSG.IsPComponent p I) : CFSG.Open.pRank p I ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hK, hIsub, hIK, -⟩ := hI
   subst hIK
   set π := QuotientGroup.mk' (CFSG.pPrimeCore p X)
@@ -38,8 +38,8 @@ theorem pRank_pComponent_le_one_of_compositionFactor {X : Type} [Group X] [Finit
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)).symm
   by_contra hgt
   push Not at hgt
-  haveI : Group.IsPerfect ↥(I.map π) := hK.1.1
-  haveI : IsSimpleGroup (↥(I.map π) ⧸ Subgroup.center ↥(I.map π)) := hK.1.2.1
+  have : Group.IsPerfect ↥(I.map π) := hK.1.1
+  have : IsSimpleGroup (↥(I.map π) ⧸ Subgroup.center ↥(I.map π)) := hK.1.2.1
   have h2 := two_le_pRank_quotient_center (K := ↥(I.map π)) hp hp2 (by omega)
   have hns : ¬ Group.IsSolvable (↥(I.map π) ⧸ Subgroup.center ↥(I.map π)) := fun hs => by
     obtain ⟨a, b, hab⟩ := hK.1.2.2
@@ -48,7 +48,7 @@ theorem pRank_pComponent_le_one_of_compositionFactor {X : Type} [Group X] [Finit
   have hθ : Function.Surjective θ := (QuotientGroup.mk'_surjective _).comp hψ
   have hBI : (θ.ker.map I.subtype).subgroupOf I = θ.ker :=
     Subgroup.comap_map_eq_self_of_injective I.subtype_injective _
-  haveI : ((θ.ker.map I.subtype).subgroupOf I).Normal := by
+  have : ((θ.ker.map I.subtype).subgroupOf I).Normal := by
     rw [hBI]
     infer_instance
   let e := (QuotientGroup.quotientMulEquivOfEq hBI).trans

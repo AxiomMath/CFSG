@@ -127,7 +127,7 @@ theorem comap_center_eq_of_central_cover {A B : Type*} [Group A] [Group B] (f : 
         rw [← map_commutatorElement, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
         exact hk (hcomm y)
       exact (commutatorElement_eq_one_iff_mul_comm.mp h1).symm
-    haveI : Group.IsPerfect A := hA
+    have : Group.IsPerfect A := hA
     have hbot := Group.IsPerfect.center_quotient_center_eq_bot A
     have hx1 : QuotientGroup.mk' (center A) x = 1 := by
       rw [← Subgroup.mem_bot, ← hbot]
@@ -175,7 +175,7 @@ theorem isQuasisimple_of_central_cover {A B : Type*} [Group A] [Group B]
     (hA : Group.IsPerfect A) (hB : IsQuasisimple B) : IsQuasisimple A := by
   obtain ⟨e⟩ := nonempty_quotient_center_equiv_of_central_cover f hf hk hA
   refine ⟨hA, ?_, ?_⟩
-  · haveI := hB.2.1
+  · have := hB.2.1
     exact e.isSimpleGroup
   · obtain ⟨a, b, hab⟩ := hB.2.2
     exact ⟨e.symm a, e.symm b, fun h => hab (by
@@ -194,20 +194,20 @@ theorem not_two_dvd_card_ker_of_full_cover {A B : Type} [Group A] [Group B] [Fin
     card_center_of_central_cover f hf hk hA
   have hZ : Open.fusionZStar B = center B := fusionZStar_eq_center_of_pPrimeCore_eq_bot hO
   have h1 := Center47.card_center_dvd_card_griessHopfMultiplier hAq
-  haveI : Finite (Open.griessHopfMultiplier (B ⧸ center B)) := by
-    haveI : Group.IsPerfect B := hB.1
-    haveI : Group.IsPerfect (B ⧸ center B) :=
+  have : Finite (Open.griessHopfMultiplier (B ⧸ center B)) := by
+    have : Group.IsPerfect B := hB.1
+    have : Group.IsPerfect (B ⧸ center B) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (center B))
         (QuotientGroup.mk'_surjective _)
-    haveI : Finite (RankThree.PerfectCover.hopfMultiplier (B ⧸ center B)) :=
+    have : Finite (RankThree.PerfectCover.hopfMultiplier (B ⧸ center B)) :=
       RankThree.PerfectCover.finite_hopfMultiplier inferInstance
     exact Finite.of_equiv (RankThree.PerfectCover.hopfMultiplier (B ⧸ center B))
       (RankThree.PerfectCover.hopfMultiplierEquivGriess (B ⧸ center B)).symm.toEquiv
-  haveI : Nonempty (Open.griessHopfMultiplier (B ⧸ center B)) := ⟨1⟩
-  haveI : Finite (Open.griessHopfMultiplier (A ⧸ center A)) :=
+  have : Nonempty (Open.griessHopfMultiplier (B ⧸ center B)) := ⟨1⟩
+  have : Finite (Open.griessHopfMultiplier (A ⧸ center A)) :=
     Finite.of_equiv (Open.griessHopfMultiplier (B ⧸ center B))
       (LieType.Steinberg.CentralExt.griessHopfMultiplierCongr e).symm.toEquiv
-  haveI : Nonempty (Open.griessHopfMultiplier (A ⧸ center A)) := ⟨1⟩
+  have : Nonempty (Open.griessHopfMultiplier (A ⧸ center A)) := ⟨1⟩
   have h1v : Nat.factorization (Nat.card ↥(center A)) 2 ≤
       Nat.factorization (Nat.card (Open.griessHopfMultiplier (A ⧸ center A))) 2 :=
     (Nat.factorization_le_iff_dvd (d := Nat.card ↥(center A))
@@ -305,7 +305,7 @@ theorem exists_involution_lift {A B : Type} [Group A] [Group B] (ρ : A →* B)
     intro h
     apply hb_ne
     rw [← hρu, h, map_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨a₀ ^ Nat.card ρ.ker, orderOf_eq_prime hu2 hu_ne_one, hρu⟩
 
 theorem HasCleanFullClassBMember.lift {L Q : Type} [Group L] [Finite L] [Group Q] [Finite Q]
@@ -315,7 +315,7 @@ theorem HasCleanFullClassBMember.lift {L Q : Type} [Group L] [Finite L] [Group Q
   have hJ'perf : ⁅J', J'⁆ = J' := Subgroup.isPerfect_iff.mp hJ.perfect
   obtain ⟨J, hJle, hJnorm, hJperf, hJmap⟩ := exists_perfect_cover_subgroup π hπ J' hJ'perf
   obtain ⟨ρ, hρs, hρπ, hρk⟩ := exists_hom_of_map_eq π hk hJmap
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
   have hodd : ¬ 2 ∣ Nat.card ρ.ker :=
     not_two_dvd_card_ker_of_full_cover ρ hρs hρk inferInstance hqs hO hpart
   let b : ↥J' := ⟨ū, hJ.mem⟩

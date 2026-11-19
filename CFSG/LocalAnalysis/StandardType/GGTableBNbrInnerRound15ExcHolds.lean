@@ -147,7 +147,7 @@ private theorem rowTwE6Add_input :
     have h2 := hp.two_le
     have h4 : p ≠ 4 := fun h => by subst h; exact absurd hp (by norm_num)
     omega
-  have hr : TwE6Delta.liftRank p = 5 := if_neg hp3
+  have hr : TwE6Delta.liftRank p = 5 := ite_eq_right hp3
   have hlift := largeEvenLabelAll_torusLift_twE6Add hp hlab ⟨ht, hpn⟩
   rw [hr] at hlift
   have hnbr : LargeEvenLabelAll lab fun R _ I _ => GGTorusNbrSCr p 5 R I :=

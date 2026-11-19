@@ -164,6 +164,7 @@ theorem card_fixS_conj (c g : G) :
     calc ((c * g * c⁻¹) • c • j) = c • g • j := by simp [mul_smul]
       _ = c • j := by rw [hj]
 
+omit [Fintype Ω] in
 theorem card_modEq_filter {p : ℕ} [Fact p.Prime] {y : G} (hy : y ^ p = 1) (S : Finset Ω)
     (hS : ∀ i ∈ S, y • i ∈ S) :
     S.card ≡ (S.filter fun i => y • i = i).card [MOD p] := by
@@ -188,16 +189,14 @@ theorem card_modEq_filter {p : ℕ} [Fact p.Prime] {y : G} (hy : y ^ p = 1) (S :
   rw [Fintype.card_subtype]
   refine (Finset.card_bij (fun (x : S) _ => x.1) ?_ ?_ ?_).symm
   · intro x hx
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.mem_fixedPoints,
-      Function.IsFixedPt] at hx
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
     exact Finset.mem_filter.2 ⟨x.2, congrArg Subtype.val hx⟩
   · intro a _ b _ h
     exact Subtype.ext h
   · intro i hi
     obtain ⟨hiS, hiy⟩ := Finset.mem_filter.1 hi
     refine ⟨⟨i, hiS⟩, ?_, rfl⟩
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.mem_fixedPoints,
-      Function.IsFixedPt]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     exact Subtype.ext hiy
 
 theorem smul_mem_fixS {x s : G} (hxs : x * s = s * x) {i : Ω}

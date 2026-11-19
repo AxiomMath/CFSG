@@ -72,7 +72,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_one_hundred
       Nat.card (fixingSubgroup P s) = 8100) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -92,7 +92,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_one_hundred
       (fixingSubgroup P s).index = 5100480
     omega
   have hHindexCard := H.index_mul_card
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -166,7 +166,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_one_hundred
       Nat.card H = 8100 := by
         simpa only [H] using hHcard
       _ = 25 * 324 := by norm_num
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq
       (p := 5) (by
         rw [hScard]
@@ -241,7 +241,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_one_hundred
   have hrDvd : r ∣ 480 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrel :
       r * N.index = C.index := by

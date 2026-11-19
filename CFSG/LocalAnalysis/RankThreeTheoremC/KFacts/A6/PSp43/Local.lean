@@ -54,7 +54,7 @@ theorem card_gen_words {ws : List (List (Fin 45))} {elems : List Tab} {par : Lis
 theorem gen_words_le_P (ws : List (List (Fin 45))) : gen (ws.map wperm) ≤ P := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq, List.mem_map] at hg
+  simp only [Set.mem_ofPred_eq, List.mem_map] at hg
   obtain ⟨w, -, rfl⟩ := hg
   exact wperm_mem w
 
@@ -149,6 +149,7 @@ section SylowTools
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] in
 theorem card_subgroupOf_of_le {H S : Subgroup G} (h : S ≤ H) :
     Nat.card (S.subgroupOf H) = Nat.card S :=
   Nat.card_congr (subgroupOfEquivOfLe h).toEquiv
@@ -160,6 +161,7 @@ theorem pCoreOf_le_of_card {H S : Subgroup G} (hSH : S ≤ H)
   rintro _ ⟨y, hy, rfl⟩
   exact h1 hy
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem le_pCoreOf_of_normal {H N : Subgroup G} (hNH : N ≤ H) (hp : IsPGroup p N)
     (hn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) : N ≤ CFSG.Open.pCoreOf p H := by
   have hnor : (N.subgroupOf H).Normal := ⟨fun n hn' g => by
@@ -214,7 +216,7 @@ theorem gen_le_normalizer_E {gs : List (List (Fin 45))} (hN : normB gs Eelems = 
     gen (gs.map wperm) ≤ normalizer (E : Set (Equiv.Perm (Fin 45))) := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq, List.mem_map] at hg
+  simp only [Set.mem_ofPred_eq, List.mem_map] at hg
   obtain ⟨w, hw, rfl⟩ := hg
   exact mem_normalizer_of_conj_mem' E _ fun x hx => conj_mem_E_of_normB hN hw hx
 

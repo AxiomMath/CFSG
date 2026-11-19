@@ -113,7 +113,7 @@ theorem su_map_mem {d q : ℕ} {K : Type} [Field K] (σ : K ≃+* K) (h : GL (Fi
       ((A : Matrix (Fin d) (Fin d) K).map (· ^ q))ᵀ * (A : Matrix (Fin d) (Fin d) K) = 1}
     (Matrix.GeneralLinearGroup.map σ.toRingHom) (fun s hs => Subgroup.subset_closure ?_) hh
   obtain ⟨h1, h2⟩ := hs
-  simp only [Set.mem_setOf_eq, coe_glMap]
+  simp only [Set.mem_ofPred_eq, coe_glMap]
   refine ⟨?_, ?_⟩
   · calc ((s : Matrix (Fin d) (Fin d) K).map σ).det = σ ((s : Matrix (Fin d) (Fin d) K).det) :=
           (RingHom.map_det σ.toRingHom _).symm
@@ -152,7 +152,7 @@ theorem sp_map_mem {m : ℕ} {K : Type} [Field K] (σ : K ≃+* K) (h : GL (Fin 
 
 theorem quadPlus_map {m : ℕ} {K : Type} [Field K] (σ : K ≃+* K) (x : Fin m ⊕ Fin m → K) :
     CFSG.Open.StatedQuadPlus m K (fun i => σ (x i)) = σ (CFSG.Open.StatedQuadPlus m K x) := by
-  simp [CFSG.Open.StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, map_sum, map_mul]
+  simp [CFSG.Open.StatedQuadPlus, map_sum, map_mul]
 
 theorem isometry_map_mem {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] (σ : K ≃+* K)
     (Q : (ι → K) → K) (hQ : ∀ x : ι → K, Q (fun i => σ (x i)) = σ (Q x)) (h : GL ι K)
@@ -193,7 +193,7 @@ theorem szGens_map {a : ℕ} {K : Type} [Field K] (σ : K ≃+* K) {M : Matrix (
     rw [Matrix.diagonal_map (map_zero σ)]
     congr 1
     funext i
-    fin_cases i <;> simp [map_pow, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
+    fin_cases i <;> simp [map_pow, Units.val_inv_eq_inv_val, map_inv₀]
   · refine Or.inr (Or.inr ?_)
     ext i j
     fin_cases i <;> fin_cases j <;> simp
@@ -204,7 +204,7 @@ theorem sz_map_mem {a : ℕ} {K : Type} [Field K] (σ : K ≃+* K) (h : GL (Fin 
   unfold LargeEvenSzGroup at hh ⊢
   refine closure_stable {g : GL (Fin 4) K | (g : Matrix (Fin 4) (Fin 4) K) ∈ LargeEvenSzGens a K}
     (Matrix.GeneralLinearGroup.map σ.toRingHom) (fun s hs => Subgroup.subset_closure ?_) hh
-  rw [Set.mem_setOf_eq, coe_glMap]
+  rw [Set.mem_ofPred_eq, coe_glMap]
   exact szGens_map σ hs
 
 theorem recLinear_closed {d N : ℕ} (Q : LargeEvenRawCont) (h : LargeEvenRecipeLinear d N Q) :
@@ -246,7 +246,7 @@ theorem recSuzuki_closed {a : ℕ} (Q : LargeEvenRawCont) (h : LargeEvenRecipeSu
 
 theorem charP_two_of_card_two_pow {K : Type} [Field K] [Finite K] {j : ℕ}
     (hK : Nat.card K = 2 ^ j) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
   rw [← Nat.card_eq_fintype_card, hK] at hcard
   have hdvd : p ∣ 2 ^ j := by
@@ -277,7 +277,7 @@ theorem recOmegaMinus_closed {n j : ℕ} (hn4 : 4 ≤ n) (Q : LargeEvenRawCont)
     (h : LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) Q) :
     LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) (ClosedCont Q) := by
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   exact ⟨K, hF, hfin, hK, b, c, hirr, ⟨hQ, fun f hf N _ => phiQ_pow_closed hn4 hirr hf N⟩⟩
 
 section Chev
@@ -383,7 +383,7 @@ theorem entrywise_ring_one (x : Module.End K (LargeEvenChevModule A K)) :
   intro b
   rw [entrywise_single_one]
   ext y
-  simp [Finsupp.mapRange_apply]
+  simp
 
 theorem chevAct_one (g : LargeEvenChevGL A K) : chevAct A K 1 g = g := by
   apply Units.ext

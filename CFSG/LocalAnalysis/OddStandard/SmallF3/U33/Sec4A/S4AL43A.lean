@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_sq_eq_one {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g * g = 1 := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
@@ -23,7 +24,7 @@ private lemma mem_zpowers_sq_eq_one {z g : G} (hz : z * z = 1) (hg : g ∈ zpowe
 
 theorem card_twoCore_cases (h : Hyp G t L) :
     Nat.card (twoCore t) = 2 ∨ Nat.card (twoCore t) = 4 ∨ 8 ≤ Nat.card (twoCore t) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 2) (twoCore_isPGroup t)
   have hne : Nat.card (twoCore t) ≠ 1 := by
     intro h1
@@ -53,7 +54,7 @@ theorem twoCore_eq_zpowers_of_card_eq_two (h : Hyp G t L) (hP : Nat.card (twoCor
 
 theorem exists_sq_root_of_four_le_card (h : Hyp G t L) (hP : 4 ≤ Nat.card (twoCore t)) :
     ∃ c ∈ twoCore t, c * c = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 2) (twoCore_isPGroup t)
   have hk2 : 2 ≤ k := by
     by_contra hlt
@@ -62,14 +63,14 @@ theorem exists_sq_root_of_four_le_card (h : Hyp G t L) (hP : 4 ≤ Nat.card (two
     rw [hk] at hP
     norm_num at hle
     omega
-  haveI : Fintype (twoCore t) := Fintype.ofFinite _
+  have : Fintype (twoCore t) := Fintype.ofFinite _
   have hdvd : 4 ∣ Fintype.card (twoCore t) := by
     rw [← Nat.card_eq_fintype_card, hk]
     obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le hk2
     refine ⟨2 ^ j, ?_⟩
     rw [pow_add]
     ring
-  haveI : IsCyclic (twoCore t) := h.isCyclic
+  have : IsCyclic (twoCore t) := h.isCyclic
   have hcount := IsCyclic.card_orderOf_eq_totient (α := twoCore t) (d := 4) hdvd
   let s : Finset (twoCore t) := Finset.univ.filter (fun x => orderOf x = 4)
   have hs : s.card = 2 := by
@@ -93,7 +94,7 @@ theorem exists_sq_root_of_four_le_card (h : Hyp G t L) (hP : 4 ≤ Nat.card (two
 
 theorem exists_fourth_root_of_eight_le_card (h : Hyp G t L) (hP : 8 ≤ Nat.card (twoCore t)) :
     ∃ p ∈ twoCore t, p ^ 4 = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 2) (twoCore_isPGroup t)
   have hk3 : 3 ≤ k := by
     by_contra hlt
@@ -102,14 +103,14 @@ theorem exists_fourth_root_of_eight_le_card (h : Hyp G t L) (hP : 8 ≤ Nat.card
     rw [hk] at hP
     norm_num at hle
     omega
-  haveI : Fintype (twoCore t) := Fintype.ofFinite _
+  have : Fintype (twoCore t) := Fintype.ofFinite _
   have hdvd : 8 ∣ Fintype.card (twoCore t) := by
     rw [← Nat.card_eq_fintype_card, hk]
     obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le hk3
     refine ⟨2 ^ j, ?_⟩
     rw [pow_add]
     ring
-  haveI : IsCyclic (twoCore t) := h.isCyclic
+  have : IsCyclic (twoCore t) := h.isCyclic
   have hcount := IsCyclic.card_orderOf_eq_totient (α := twoCore t) (d := 8) hdvd
   let s : Finset (twoCore t) := Finset.univ.filter (fun x => orderOf x = 8)
   have hs : s.card = 4 := by
@@ -134,7 +135,7 @@ theorem exists_fourth_root_of_eight_le_card (h : Hyp G t L) (hP : 8 ≤ Nat.card
 theorem not_commute_tau_of_sq_eq_t (h : Ctx t L S x₁ x₂ lam rho tau) (h2 : 2 ∣ S.index)
     {c : G} (hc : c ∈ twoCore t) (hct : c * c = t) : tau * c ≠ c * tau := by
   intro hcomm
-  haveI : IsCyclic (twoCore t) := h.hyp.isCyclic
+  have : IsCyclic (twoCore t) := h.hyp.isCyclic
   have hPS : twoCore t ≤ S := by rw [h.S_eq]; exact le_sup_left
   have hcS : c ∈ S := hPS hc
   have hP_cent : twoCore t ≤ centralizer ({c} : Set G) := by
@@ -215,7 +216,7 @@ theorem not_commute_tau_of_sq_eq_t (h : Ctx t L S x₁ x₂ lam rho tau) (h2 : 2
 
 theorem tau_conj_eq_inv_of_sq_eq_t (h : Ctx t L S x₁ x₂ lam rho tau) (h2 : 2 ∣ S.index)
     {c : G} (hc : c ∈ twoCore t) (hct : c * c = t) : tau * c * tau⁻¹ = c⁻¹ := by
-  haveI : IsCyclic (twoCore t) := h.hyp.isCyclic
+  have : IsCyclic (twoCore t) := h.hyp.isCyclic
   have htauH : tau ∈ invCent t := h.toCtx0.le_invCent h.tau_mem
   have htau_comm : tau * t = t * tau := mem_invCent_iff.mp htauH
   have hdP : tau * c * tau⁻¹ ∈ twoCore t := twoCore_conj_mem t htauH hc

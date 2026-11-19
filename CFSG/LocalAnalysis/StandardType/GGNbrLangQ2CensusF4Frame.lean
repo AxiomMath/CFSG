@@ -12,7 +12,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Steinberg.Adjoint
 
 
 theorem q2cF4_no_frame_five {σ : Fin 5 → Fin 5 → Fin Tag.F4.rank → ℤ} {κ : ℤ} (hκ : κ ≠ 0)
-    (hneg : ∀ i j, σ j i = -σ i j) (hadd : ∀ i j k, σ i j + σ j k = σ i k)
+    (_hneg : ∀ i j, σ j i = -σ i j) (hadd : ∀ i j k, σ i j + σ j k = σ i k)
     (hnorm : ∀ a b, a ≠ b → iform (σ a b) (σ a b) = 2 * κ) : False := by
   let γ : Fin 4 → Fin Tag.F4.rank → ℤ := ![σ 0 1, σ 1 2, σ 2 3, σ 3 4]
   have e02 : σ 0 2 = γ 0 + γ 1 := by
@@ -84,7 +84,6 @@ theorem q2cF4_no_frame_five {σ : Fin 5 → Fin 5 → Fin Tag.F4.rank → ℤ} {
     ext k l
     fin_cases k <;> fin_cases l <;>
       simp only [G, C, Matrix.smul_apply, Matrix.of_apply, Matrix.cons_val',
-        Matrix.cons_val_zero, Matrix.cons_val_succ, Matrix.head_cons, Matrix.cons_val,
         Matrix.empty_val', Matrix.cons_val_fin_one] <;>
       simp [h00, h11, h22, h33, h01, h12, h23, h02, h13, h03, h10, h21, h32, h20, h31, h30]
         <;> ring

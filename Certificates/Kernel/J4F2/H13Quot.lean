@@ -141,7 +141,7 @@ theorem diag12_bits : ∀ i < 112, ∀ j < 112,
   intro i _ j _
   unfold diag12
   by_cases h : i < 12
-  · rw [if_pos h, Nat.testBit_two_pow]
+  · rw [ite_eq_left h, Nat.testBit_two_pow]
     apply Bool.eq_iff_iff.mpr
     simp [h]
   · simp [h]

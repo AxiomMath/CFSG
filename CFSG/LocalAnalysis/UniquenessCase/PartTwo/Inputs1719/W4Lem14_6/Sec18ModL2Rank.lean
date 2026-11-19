@@ -23,10 +23,11 @@ variable {U : Type} [CommGroup U] [Finite U]
 private def f2Canon (hU : ∀ u : U, u ^ 2 = 1) : U ≃* Multiplicative (F2Vec U hU) where
   toFun u := Multiplicative.ofAdd (Additive.ofMul u)
   invFun w := Additive.toMul (Multiplicative.toAdd w)
-  left_inv u := rfl
-  right_inv w := rfl
-  map_mul' u v := rfl
+  left_inv _u := rfl
+  right_inv _w := rfl
+  map_mul' _u _v := rfl
 
+omit [Finite U] in
 private theorem autRepOfG_eq_repOf {S : Subgroup (MulAut U)} {F : Type} [Field F]
     (hU : ∀ u : U, u ^ 2 = 1) (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F) :
     CFSG.Quasithin.B45Mat.Ind.autRepOfG hU φ = B45L2.repOf (f2Canon hU) φ :=
@@ -36,8 +37,8 @@ private theorem rkIdx_fixV_zpowers_eq_finrank {hU : ∀ u : U, u ^ 2 = 1} (t : M
     rkIdx (fixV (Subgroup.zpowers t)) =
       rk U - Module.finrank (ZMod 2) (LinearMap.ker (B45Mat.M22.autRep hU t - 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
   have hpt : (CFSG.QuasithinUnique.Setup.Layer.binPsi (f2Canon hU) t).toLinearMap =
       B45Mat.M22.autRep hU t := by
     ext w
@@ -50,6 +51,7 @@ private theorem rkIdx_fixV_zpowers_eq_finrank {hU : ∀ u : U, u ^ 2 = 1} (t : M
   have hrn := LinearMap.finrank_range_add_finrank_ker (B45Mat.M22.autRep hU t - 1)
   omega
 
+omit [Finite U] in
 private theorem exists_autRepOfG_ne_one {S : Subgroup (MulAut U)} {F : Type} [Field F]
     (hU : ∀ u : U, u ^ 2 = 1) (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F) :
     ∃ g, B45Mat.Ind.autRepOfG hU φ g ≠ 1 := by
@@ -77,11 +79,12 @@ private theorem timmesfeld_trichotomy {S : Subgroup (MulAut U)} {F : Type} [Fiel
     fun a ha => UC22.K147L2Fac.mul_self_of_mem_rootSub ha
   have hAr : Nat.card (UC22.K147L2Fac.rootSub F) = 2 ^ n :=
     UC22.K147L2Fac.natCard_rootSub.trans hF
-  haveI : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
+  have : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
     ⟨isIrreducible_autRepOfG hU φ hirr⟩
   exact CFSG.RankThree.GF2n.Tim81.Sec2.isNaturalModule_or_isOrthModule_or_of_card_lt
     hn hF (B45Mat.Ind.autRepOfG hU φ) hnt (UC22.K147L2Fac.rootSub F) hA2 hAr hcard
 
+omit [Finite U] in
 private theorem exists_tau_of_normalizer {S N : Subgroup (MulAut U)} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hU : ∀ u : U, u ^ 2 = 1) (hirr : IsIrrOn S ⊤ ⊥)
     (hSN : S ≤ N) (hNormal : (S.subgroupOf N).Normal)
@@ -151,8 +154,8 @@ private theorem involution_trichotomy {S N : Subgroup (MulAut U)} {F : Type} [Fi
         CFSG.RankThree.GF2n.Tim81.Sec2.IsOrthModule hs (B45Mat.Ind.autRepOfG hU φ)) ∨
     (∃ l, n = 2 * l ∧ 3 * l ≤ rkIdx (fixV (Subgroup.zpowers t))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
   have ht2 : t ^ 2 = 1 := by rw [← hto, pow_orderOf_eq_one]
   have ht1 : t ≠ 1 := by
     rintro rfl
@@ -234,6 +237,7 @@ private theorem mParam_ge_of_rank {S N : Subgroup (MulAut U)} {F : Type} [Field 
   · have hk3l := hk3 l hnl
     omega
 
+omit [Finite U] in
 private theorem autRep_comm_of_mem_centralizer {S : Subgroup (MulAut U)} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hU : ∀ u : U, u ^ 2 = 1)
     (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F)
@@ -259,6 +263,7 @@ private noncomputable def centralizerToEndRing {S : Subgroup (MulAut U)} {F : Ty
       (B45Mat.M22.autRep hU (c : MulAut U))).mpr
         (autRep_comm_of_mem_centralizer hU φ c.2))
 
+omit [Finite U] in
 private theorem centralizerToEndRing_coe {S : Subgroup (MulAut U)} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hU : ∀ u : U, u ^ 2 = 1)
     (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F)
@@ -270,6 +275,7 @@ private theorem centralizerToEndRing_coe {S : Subgroup (MulAut U)} {F : Type} [F
     (B45Mat.Ind.autRepOfG hU φ) (B45Mat.M22.autRep hU (c : MulAut U))).mpr
       (autRep_comm_of_mem_centralizer hU φ c.2))
 
+omit [Finite U] in
 private theorem centralizerToEndRing_injective {S : Subgroup (MulAut U)} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hU : ∀ u : U, u ^ 2 = 1)
     (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F) :
@@ -289,13 +295,14 @@ private theorem centralizerToEndRing_injective {S : Subgroup (MulAut U)} {F : Ty
   have := congrArg (F2Vec.toV (V := U) hU) this
   simpa [B45Mat.M22.autRep_apply, F2Vec.toV_ofV] using this
 
+omit [Finite U] in
 private theorem centralizerToEndRing_ne_zero {S : Subgroup (MulAut U)} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hU : ∀ u : U, u ^ 2 = 1) (hirr : IsIrrOn S ⊤ ⊥)
     (φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) F)
     (c : ↥(Subgroup.centralizer (S : Set (MulAut U)))) :
     centralizerToEndRing hU φ c ≠ 0 := by
   intro h0
-  obtain ⟨x0, -, hx0⟩ := SetLike.exists_of_lt hirr.1
+  obtain ⟨x0, -, hx0⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
   have hx1 : x0 ≠ 1 := by simpa using hx0
   have h1 : B45Mat.M22.autRep hU (c : MulAut U) (F2Vec.ofV (V := U) hU x0) = 0 := by
     rw [← centralizerToEndRing_coe hU φ c]
@@ -315,11 +322,11 @@ private theorem card_centralizer_le_endRing {S : Subgroup (MulAut U)} {F : Type}
       Nat.card (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
         (B45Mat.Ind.autRepOfG hU φ)) - 1 := by
   classical
-  letI : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
-  haveI hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
-  haveI hEndFin : Finite (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
+  let : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
+  have hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
+  have hEndFin : Finite (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
       (B45Mat.Ind.autRepOfG hU φ)) := CFSG.QuasithinUnique.Setup.SL2Modules.finite_endRing _
-  haveI : Fintype (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
+  have : Fintype (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
       (B45Mat.Ind.autRepOfG hU φ)) := Fintype.ofFinite _
   have hcompl : Nat.card {ψ : CFSG.QuasithinUnique.Setup.SL2Modules.EndRing
       (B45Mat.Ind.autRepOfG hU φ) // ψ ≠ 0} =
@@ -358,14 +365,14 @@ private theorem card_centralizer_dvd_three {S : Subgroup (MulAut U)} {F : Type} 
     Nat.card ↥(Subgroup.centralizer (S : Set (MulAut U))) ∣ 3 := by
   have hle := card_centralizer_le_endRing hU hirr φ
   rw [hEnd] at hle
-  haveI : Nontrivial U := by
-    obtain ⟨x, -, hx1⟩ := SetLike.exists_of_lt hirr.1
+  have : Nontrivial U := by
+    obtain ⟨x, -, hx1⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨x, 1, fun h => hx1 (by simpa using h)⟩
   obtain ⟨k, hk⟩ := CFSG.QuasithinUnique.Setup.X5.centralizer_odd
     (fun u => by simpa [sq] using hU u) S (fun J hJ => hirr.2.2.2 J hJ bot_le le_top)
   have hcases : Nat.card ↥(Subgroup.centralizer (S : Set (MulAut U))) = 1 ∨
       Nat.card ↥(Subgroup.centralizer (S : Set (MulAut U))) = 3 := by omega
-  rcases hcases with h | h <;> rw [h] <;> norm_num
+  rcases hcases with h | h <;> rw [h]; norm_num
 
 private theorem semilinear_finrank_bound {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     [Finite W] {F : Type} [Field F] [Fintype F] [CharP F 2]
@@ -380,7 +387,7 @@ private theorem semilinear_finrank_bound {W : Type} [AddCommGroup W] [Module (ZM
     Module.finrank (ZMod 2) W ≤ 2 * (Module.finrank (ZMod 2) W -
       Module.finrank (ZMod 2) (LinearMap.ker (a - 1))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have haa : ∀ w, a (a w) = w := fun w => by
     rw [← Module.End.mul_apply, ha2, Module.End.one_apply]
   have hττ : ∀ g, τ (τ g) = g := fun g => hρ (by
@@ -500,10 +507,10 @@ private theorem outer_linear_conclusion {U : Type} [CommGroup U] [Finite U]
     (hbig : 16 ≤ rk U) :
     rk U = 16 ∧ Subgroup.centralizer (S : Set (MulAut U)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
-  letI : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
-  haveI hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
+  have hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)
@@ -514,7 +521,7 @@ private theorem outer_linear_conclusion {U : Type} [CommGroup U] [Finite U]
     rw [orderOf_one] at hto
     norm_num at hto
   have hnt := exists_autRepOfG_ne_one hU φ
-  haveI : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
+  have : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
     ⟨isIrreducible_autRepOfG hU φ hirr⟩
   set ρ : Representation (ZMod 2) (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n))
       (F2Vec U hU) := B45Mat.Ind.autRepOfG hU φ with hρdef
@@ -581,7 +588,7 @@ private theorem outer_linear_conclusion {U : Type} [CommGroup U] [Finite U]
     apply Units.ext
     rw [haUinv, Units.val_mul, Units.val_mul, haU, hρU_val, hρU_val, hτ g, mul_assoc, ha2,
       mul_one]
-  haveI hE : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers aU) :=
+  have hE : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers aU) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (by rw [pow_two, haU2])
   have hAN : Subgroup.zpowers aU ≤
       Subgroup.normalizer (ρU.range : Set (Module.End (ZMod 2) (F2Vec U hU))ˣ) := by
@@ -734,10 +741,10 @@ theorem k146ModL2_of_setup {U : Type} [CommGroup U] [Finite U]
       (n = 6 ∧ rk U = 16 ∧ 8 ≤ E3.mParam N ∧
         Nat.card (Subgroup.centralizer (S : Set (MulAut U))) ∣ 3) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
-  letI : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
-  haveI hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Module (ZMod 2) (F2Vec U hU) := F2Vec.instModule hU
+  have hWfin : Finite (F2Vec U hU) := inferInstanceAs (Finite (Additive U))
   obtain ⟨e⟩ := CFSG.SeitzReduction.RankOne.nonempty_mulEquiv_psl2_of_lieModel hL2
   let φ : ↥S ≃* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n) :=
     e.trans CFSG.Walter.psl2MulEquivSL2OfCharTwo
@@ -798,7 +805,7 @@ theorem k146ModL2_of_setup {U : Type} [CommGroup U] [Finite U]
         exact Nat.pow_right_injective le_rfl h
       have hk2 : k ≤ 2 := by omega
       have hk1 : 1 ≤ k := by omega
-      haveI : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
+      have : Fact (B45Mat.Ind.autRepOfG hU φ).IsIrreducible :=
         ⟨isIrreducible_autRepOfG hU φ hirr⟩
       have hA2 : ∀ a ∈ UC22.K147L2Fac.rootSub (GaloisField 2 n), a * a = 1 :=
         fun a ha => UC22.K147L2Fac.mul_self_of_mem_rootSub ha

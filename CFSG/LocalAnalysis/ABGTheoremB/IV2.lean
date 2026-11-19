@@ -437,7 +437,7 @@ private theorem le_N_of_le_ON {X : Subgroup G} (hX : X ≤ σ.ON) : X ≤ σ.N :
 omit [Finite G] in
 private theorem isPGroup_two_of_le_S {A : Subgroup G} (hA : A ≤ (σ.S : Subgroup G)) :
     IsPGroup 2 A :=
-  σ.S.isPGroup'.to_le hA
+  σ.S.isPGroup.to_le hA
 
 private theorem isPGroup_two_zpowers_x (hσ : σ.IsValid) :
     IsPGroup 2 (Subgroup.zpowers σ.x) :=
@@ -667,7 +667,7 @@ theorem constrained_of_centralizer_le (hσ : σ.IsValid) (hII : σ.NStructure) {
     (hC : σ.N ⊓ Subgroup.centralizer (R : Set G) ≤ solvRadIn σ.N) : σ.Constrained r := by
   have : Fact r.Prime := ⟨hr⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨R', hR', hSR'⟩ := exists_isSylowOf_normalized_of_odd hr σ.S.isPGroup'
+  obtain ⟨R', hR', hSR'⟩ := exists_isSylowOf_normalized_of_odd hr σ.S.isPGroup
     ((σ.S_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
   obtain ⟨g, hgO, hgR⟩ := exists_conj_eq_of_isSylowOf hR hR'
   have hgN : g ∈ σ.N := σ.ON_le_N hgO

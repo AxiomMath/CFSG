@@ -20,8 +20,8 @@ theorem exists_sevenElement_centralizing_D_aux_fixed {X : Type} [Group X] [Finit
     (hAY : A ≤ Y) {x : X} (hxY : x ∈ Y) (hcomm : ∀ a ∈ A, x⁻¹ * (a * x * a⁻¹) ∈ N) :
     ∃ y ∈ Y, x⁻¹ * y ∈ N ∧ ∀ a ∈ A, a * y = y * a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ω : Set X := {y | y ∈ Y ∧ x⁻¹ * y ∈ N}
   have hmem : ∀ (a : ↥A) (y : ↥Ω), (a : X) * (y : X) * (a : X)⁻¹ ∈ Ω := by
     rintro ⟨a, ha⟩ ⟨y, hyY, hyN⟩
@@ -32,7 +32,7 @@ theorem exists_sevenElement_centralizing_D_aux_fixed {X : Type} [Group X] [Finit
     show x⁻¹ * (a * y * a⁻¹) ∈ N
     rw [h3]
     exact N.mul_mem h1 h2
-  letI : MulAction ↥A ↥Ω :=
+  let : MulAction ↥A ↥Ω :=
     { smul := fun a y => ⟨(a : X) * y * (a : X)⁻¹, hmem a y⟩
       one_smul := fun y => Subtype.ext (by
         show ((1 : ↥A) : X) * (y : X) * ((1 : ↥A) : X)⁻¹ = y
@@ -65,7 +65,7 @@ theorem exists_sevenElement_centralizing_D_aux_fixed {X : Type} [Group X] [Finit
 theorem exists_sevenElement_centralizing_D_aux_sevenPart {X : Type} [Group X] {N : Subgroup X}
     [N.Normal] (hN : IsPGroup 2 N) {x y : X} (hx : orderOf x = 7) (hxy : x⁻¹ * y ∈ N) :
     ∃ k : ℕ, orderOf (y ^ k) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hπ : (QuotientGroup.mk' N) y = (QuotientGroup.mk' N) x :=
     ((QuotientGroup.eq (a := x) (b := y)).2 hxy).symm
   have hx7 : x ^ 7 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
@@ -189,10 +189,10 @@ theorem exists_sevenElement_centralizing_D_aux_main (hKOut : KOut) {L : Subgroup
     (hAQ : A ≤ Subgroup.normalizer (Q : Set X))
     (h2 : 2 ≤ CFSG.Open.pRank 7 (Subgroup.centralizer (Q : Set X))) :
     ∃ x : X, orderOf x = 7 ∧ (∀ y ∈ Q, x * y = y * x) ∧ ∀ a ∈ A, x * a = a * x := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEle, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7) h2
-  haveI : (barO2 L).Normal :=
+  have : (barO2 L).Normal :=
     hLn.map (QuotientGroup.mk' (CFSG.pCore 2 X)) (QuotientGroup.mk'_surjective _)
   have hEN : ∀ e ∈ E, QuotientGroup.mk' (CFSG.pCore 2 X) e ∈
       Subgroup.normalizer ((barO2 L : Subgroup (X ⧸ CFSG.pCore 2 X)) : Set (X ⧸ CFSG.pCore 2 X)) := by
@@ -246,6 +246,7 @@ section OddNormalizer
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem normal_I_of_noncyclic_aux_isPComponent_conj {C I : Subgroup X} [C.Normal] (g : X)
     (hIC : I ≤ C) (hI : CFSG.IsPComponent 7 (I.subgroupOf C)) :
     conjSub g I ≤ C ∧ CFSG.IsPComponent 7 ((conjSub g I).subgroupOf C) := by
@@ -265,6 +266,7 @@ theorem normal_I_of_noncyclic_aux_isPComponent_conj {C I : Subgroup X} [C.Normal
   rintro _ ⟨a, ha, rfl⟩
   simpa [MulAut.conj_apply] using ‹C.Normal›.conj_mem a (hIC ha) g
 
+omit [Finite X] in
 theorem mem_normalizer_I_of_odd_order_aux_conj_mul (g h : X) (H : Subgroup X) :
     conjSub g (conjSub h H) = conjSub (g * h) H := by
   unfold conjSub
@@ -273,6 +275,7 @@ theorem mem_normalizer_I_of_odd_order_aux_conj_mul (g h : X) (H : Subgroup X) :
   ext y
   simp [mul_assoc]
 
+omit [Finite X] in
 theorem mem_normalizer_I_of_odd_order_aux_coset {I : Subgroup X} {g g' : X}
     (h : conjSub g I = conjSub g' I) : g⁻¹ * g' ∈ Subgroup.normalizer (I : Set X) := by
   apply mem_normalizer_iff_map_conj_eq.2

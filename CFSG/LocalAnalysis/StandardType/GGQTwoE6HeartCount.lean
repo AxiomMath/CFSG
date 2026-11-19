@@ -21,7 +21,7 @@ theorem repL_length (t : ℕ) : (Certificates.E6Heart.repL t).length = 6 := by
 
 theorem repL_injective {s t : ℕ} (hs : s < 243) (ht : t < 243)
     (h : Certificates.E6Heart.repL s = Certificates.E6Heart.repL t) : s = t := by
-  simp only [Certificates.E6Heart.repL, List.cons.injEq, List.nil_eq, true_and,
+  simp only [Certificates.E6Heart.repL, List.cons.injEq, true_and,
     and_true] at h
   omega
 
@@ -126,12 +126,12 @@ theorem goodAt_spec (t : ℕ) (h : Certificates.E6Heart.goodAt t = true) :
   refine ⟨hclosed, ?_, ?_⟩
   · intro hq i hi
     have hB0 := hB
-    rw [if_pos (by simp [beq_iff_eq, hq])] at hB0
+    rw [ite_eq_left (by simp [hq])] at hB0
     rw [List.all_eq_true] at hB0
     simpa only [decide_eq_true_eq] using hB0 _ (List.mem_map.mpr ⟨i, hi, rfl⟩)
   · intro hq
     have hB0 := hB
-    rw [if_neg (by simp [beq_iff_eq, hq])] at hB0
+    rw [ite_eq_right (by simp [beq_iff_eq, hq])] at hB0
     rw [Bool.and_eq_true] at hB0
     obtain ⟨hD, hE⟩ := hB0
     refine ⟨?_, ?_⟩

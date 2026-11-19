@@ -139,7 +139,7 @@ private theorem exists_real_bridge_low_family
           (hxa.symm.trans hxc)
       rw [hBx, map_zero, mul_zero]
   ·
-    rw [isOrthogonal_iff, hβη, if_neg hj₀]
+    rw [isOrthogonal_iff, hβη, ite_eq_right hj₀]
 
 private theorem reciprocalTypeThreeLowFamilyBound_residual
     (_h₁ : _root_.CFSG.FeitThompson.Statements.FCH_type_p_actual_bridge_remainder.{u})

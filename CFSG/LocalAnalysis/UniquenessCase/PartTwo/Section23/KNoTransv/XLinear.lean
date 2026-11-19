@@ -67,7 +67,7 @@ private theorem quotient_center_of_isSLn {X : Type} [Group X] {n k : ℕ} (hn : 
   have hsimple : IsSimpleGroup (StatedProj (StatedSL n K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hSC
   refine ⟨?_, ?_⟩
-  · haveI := hsimple
+  · have := hsimple
     exact hE.isSimpleGroup
   · rw [Nat.card_congr hE.toEquiv,
       (CFSG.Timmesfeld.card_statedClassicalModel_two hSC).1 rfl]
@@ -86,11 +86,11 @@ theorem quotient_center_of_isL2 {X : Type} [Group X] {k : ℕ} (hX : IsL2 X k) :
     have hcomm : ∀ a b : X, a * b = b * a := fun a b => by
       by_contra hne
       exact h ⟨a, b, hne⟩
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     have hprime : (Nat.card X).Prime := (Group.is_simple_iff_prime_card (α := X)).mp hS
     rw [hcard] at hprime
     exact not_prime_ordA_one_two_pow hk hprime
-  haveI := hS
+  have := hS
   exact quotient_center_simple_and_card (center_eq_bot_of_isSimpleGroup hnonab) hcard
 
 theorem quotient_center_of_isSLn_three {X : Type} [Group X] {k : ℕ} (hX : IsSLn X 3 k)

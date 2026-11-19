@@ -27,7 +27,7 @@ theorem exists_fixed_and_inverted {E : Type*} [CommGroup E] (hE3 : ∀ e : E, e 
   exact ⟨e₁, e₂, he₁, he₂, hfix, hinv⟩
 
 theorem exists_reflection_of_dihedral {E : Type*} [CommGroup E] [Finite E]
-    (hE3 : ∀ e : E, e ^ 3 = 1) (hE9 : Nat.card E = 9) (ρ : DihedralGroup 6 →* MulAut E)
+    (hE3 : ∀ e : E, e ^ 3 = 1) (_hE9 : Nat.card E = 9) (ρ : DihedralGroup 6 →* MulAut E)
     (hρ : Odd (Nat.card ρ.ker)) :
     ∃ d : DihedralGroup 6, ∃ e₁ e₂ : E, e₁ ≠ 1 ∧ e₂ ≠ 1 ∧ ρ d e₁ = e₁ ∧ ρ d e₂ = e₂⁻¹ := by
   have hsr0 : (DihedralGroup.sr 0 : DihedralGroup 6) ^ 2 = 1 := sr_sq_eq_one 0

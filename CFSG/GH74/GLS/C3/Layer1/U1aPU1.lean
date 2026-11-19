@@ -38,7 +38,7 @@ theorem isSolvable_normalizer_sylow_two (P : Sylow 2 G) :
   set N := normalizer ((P : Subgroup G) : Set G) with hN
   have hPN : (P : Subgroup G) ≤ N := le_normalizer
   have hP : Group.IsSolvable ↥(P : Subgroup G) := by
-    have := P.isPGroup'.isNilpotent
+    have := P.isPGroup.isNilpotent
     infer_instance
   have hT : Group.IsSolvable ↥((P : Subgroup G).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (subgroupOfEquivOfLe hPN).toMonoidHom)
@@ -59,7 +59,7 @@ section Main
 
 variable {G : Type} [Group G] [Finite G] {M L N W Q T : Subgroup G}
 
-theorem pu1_claimU_of_sylow [Finite G] {Q W M : Subgroup G}
+theorem pu1_claimU_of_sylow {Q W M : Subgroup G}
     (hQ : IsSylowOf 2 Q W) (hWM : W ≤ M)
     (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ g : G, g⁻¹ * x * g ∈ M → g ∈ M)
     {x : G} (hx : x ∈ W) (hx2 : orderOf x = 2) {g : G} (hg : g⁻¹ * x * g ∈ M) : g ∈ M := by
@@ -71,8 +71,9 @@ theorem pu1_claimU_of_sylow [Finite G] {Q W M : Subgroup G}
   have h3 : c * (c⁻¹ * g) ∈ M := M.mul_mem (hWM hc) h2
   simpa using h3
 
+omit [Finite G] in
 theorem pu1_mem_W_of_normal {W M : Subgroup G}
-    (hWM : W ≤ M)
+    (_hWM : W ≤ M)
     (hWnorm : ∀ m ∈ M, ∀ w ∈ W, m * w * m⁻¹ ∈ W)
     (huniq : ∀ w ∈ W, orderOf w = 2 → ∀ g : G, g⁻¹ * w * g ∈ M → g ∈ M)
     {z : G} (hz : z ∈ pu1Z W) (hzM : z ∈ M) : z ∈ W := by
@@ -87,6 +88,7 @@ theorem pu1_mem_W_of_normal {W M : Subgroup G}
   have e : h * (h⁻¹ * z * h) * h⁻¹ = z := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem pu1_centralizer_le_of_mem_normal {W M : Subgroup G}
     (hWM : W ≤ M)
     (huniq : ∀ w ∈ W, orderOf w = 2 → ∀ g : G, g⁻¹ * w * g ∈ M → g ∈ M)
@@ -102,6 +104,7 @@ theorem pu1_centralizer_le_of_mem_normal {W M : Subgroup G}
   rw [hc']
   exact hWM hw
 
+omit [Finite G] in
 theorem pu1_centralizer_le_of_normal {W M : Subgroup G}
     (hWM : W ≤ M)
     (hWnorm : ∀ m ∈ M, ∀ w ∈ W, m * w * m⁻¹ ∈ W)
@@ -142,6 +145,7 @@ theorem pu1_centralizer_le_of_normal {W M : Subgroup G}
     rwa [e] at h1
   exact pu1_centralizer_le_of_mem_normal hWM huniq huW hu2
 
+omit [Finite G] in
 theorem pu1_productDisconnected_of_normal {W M : Subgroup G}
     (hMproper : M ≠ ⊤)
     (hWM : W ≤ M)
@@ -159,7 +163,7 @@ theorem pu1_productDisconnected_of_normal {W M : Subgroup G}
   · intro u hu huM
     exact pu1_centralizer_le_of_normal hWM hWnorm huniq hu huM
 
-theorem pu1_false_of_normal_even_of_corZD [Finite G]
+theorem pu1_false_of_normal_even_of_corZD
     (hCor : S_CorZD) (hG : IsSimpleGroup G) (hnon : ∃ a b : G, a * b ≠ b * a)
     {M W : Subgroup G}
     (hMproper : M ≠ ⊤)
@@ -181,17 +185,17 @@ theorem pu1_claimU (S : Setup M L N W Q T)
   pu1_claimU_of_sylow S.sylowQ S.W_le hU hx hx2 hg
 
 theorem pu1_mem_W (S : Setup M L N W Q T)
-    (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ g : G, g⁻¹ * x * g ∈ M → g ∈ M)
+    (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ _g : G, _g⁻¹ * x * _g ∈ M → _g ∈ M)
     {z : G} (hz : z ∈ pu1Z W) (hzM : z ∈ M) : z ∈ W :=
   pu1_mem_W_of_normal S.W_le S.W_norm
-    (fun w hw hw2 g hg => pu1_claimU S hU hw hw2 hg) hz hzM
+    (fun _w hw hw2 _g hg => pu1_claimU S hU hw hw2 hg) hz hzM
 
 theorem pu1_centralizer_le (S : Setup M L N W Q T)
-    (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ g : G, g⁻¹ * x * g ∈ M → g ∈ M)
+    (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ _g : G, _g⁻¹ * x * _g ∈ M → _g ∈ M)
     {u : G} (hu : u ∈ productInvolutions (pu1Z W)) (huM : u ∈ M) :
     centralizer ({u} : Set G) ≤ M :=
   pu1_centralizer_le_of_normal S.W_le S.W_norm
-    (fun w hw hw2 g hg => pu1_claimU S hU hw hw2 hg) hu huM
+    (fun _w hw hw2 _g hg => pu1_claimU S hU hw hw2 hg) hu huM
 
 theorem pu1_productDisconnected (S : Setup M L N W Q T)
     (hU : ∀ x ∈ Q, orderOf x = 2 → ∀ g : G, g⁻¹ * x * g ∈ M → g ∈ M) :

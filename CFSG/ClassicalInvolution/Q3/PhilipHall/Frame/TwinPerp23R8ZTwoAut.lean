@@ -78,6 +78,7 @@ theorem ker_invariant (σ : Q ≃* Q) {x : Q} (hx : x ∈ D.φ.ker) : σ x ∈ D
 
 variable [Finite Q]
 
+omit [Finite Q] in
 theorem exists_wr (σ : Q ≃* Q)
     (hσ : ∀ L ∈ Φ, L.map σ.toMonoidHom ∈ Φ) : ∃ w : Wr 6, D.Acts σ w := by
   let f : Q →* ↥D.φ.range := D.φ.rangeRestrict.comp σ.toMonoidHom
@@ -120,6 +121,7 @@ theorem exists_wr (σ : Q ≃* Q)
   rw [hσ'app] at this
   exact this
 
+omit [Finite Q] in
 theorem exists_rho {Γ : Type*} [Group Γ] (α : Γ →* (Q ≃* Q))
     (hα : ∀ g : Γ, ∀ L ∈ Φ, L.map (α g).toMonoidHom ∈ Φ) :
     ∃ ρ : Γ →* Equiv.Perm (Fin 6), ∀ g : Γ,
@@ -141,6 +143,7 @@ theorem exists_rho {Γ : Type*} [Group Γ] (α : Γ →* (Q ≃* Q))
         have := D.acts_perm_unique (hw (g * h)) h1
         simpa [mul_perm] using this }, fun g => ⟨w g, rfl, hw g⟩⟩
 
+omit [Finite Q] in
 theorem sign_eq_one_of_inner (q₀ : Q) {w : Wr 6} (hw : D.Acts (fun x => q₀ * x * q₀⁻¹) w) :
     Equiv.Perm.sign w.perm = 1 := by
   have hq : D.φ q₀ ∈ TwinThinPf8.Hn 6 := by
@@ -153,6 +156,7 @@ theorem sign_eq_one_of_inner (q₀ : Q) {w : Wr 6} (hw : D.Acts (fun x => q₀ *
   rw [D.acts_perm_unique hw hAct]
   exact ha.2
 
+omit [Finite Q] in
 theorem exists_inner_perm (s : Equiv.Perm (Fin 6)) (hs : Equiv.Perm.sign s = 1) :
     ∃ q₀ : Q, D.Acts (fun x => q₀ * x * q₀⁻¹) (ofPerm s) := by
   have hmem : mkQ 6 (ofPerm s) ∈ D.φ.range := by

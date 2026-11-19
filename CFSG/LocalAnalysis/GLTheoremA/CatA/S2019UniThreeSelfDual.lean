@@ -40,8 +40,7 @@ theorem heis_comp (h11 : Hf f₁ f₁ = 0) {u u' : W} (hu : Hf u f₁ = 0) (hu' 
     (β β' : E) :
     heis Hf f₁ u β ∘ₗ heis Hf f₁ u' β' = heis Hf f₁ (u + u') (β + β' - Hf u u') := by
   refine LinearMap.ext fun w => ?_
-  simp only [LinearMap.comp_apply, heis_apply, map_add, map_sub, map_smul, smul_eq_mul,
-    LinearMap.add_apply, h11, hu, hu', mul_zero, add_zero, sub_zero]
+  simp only [LinearMap.comp_apply, heis_apply, map_add, map_sub, map_smul, LinearMap.add_apply, h11, hu, hu', mul_zero]
   module
 
 theorem heis_isometry (hHf : ∀ v w, σ (Hf v w) = Hf w v) (h11 : Hf f₁ f₁ = 0) {u : W}
@@ -51,7 +50,7 @@ theorem heis_isometry (hHf : ∀ v w, σ (Hf v w) = Hf w v) (h11 : Hf f₁ f₁ 
   have e1 : Hf v u = σ (Hf u v) := (hHf u v).symm
   have e2 : Hf v f₁ = σ (Hf f₁ v) := (hHf f₁ v).symm
   simp only [heis_apply, map_add, map_sub, LinearMap.map_smulₛₗ₂, map_smul, LinearMap.add_apply,
-    LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, h11, hu, hu1, map_mul, mul_zero,
+    LinearMap.sub_apply, smul_eq_mul, h11, hu, hu1, map_mul, mul_zero,
     add_zero, sub_zero, e1, e2]
   linear_combination (σ (Hf f₁ v) * Hf f₁ w) * hβ
 
@@ -93,7 +92,7 @@ theorem heis_inj_left (hHf : ∀ v w, σ (Hf v w) = Hf w v) {u₀ z : W} (hu₀ 
   have hu₀1 : Hf u₀ f₁ = 0 := by rw [← hHf f₁ u₀, hu₀, map_zero]
   have e := congrArg (Hf u₀) (LinearMap.congr_fun h z)
   simp only [heis_apply, map_add, map_sub, map_smul, smul_eq_mul, LinearMap.map_smulₛₗ₂,
-    LinearMap.sub_apply, LinearMap.smul_apply, hz1, hz0, hu₀1, mul_zero, zero_mul, one_mul,
+    hz1, hz0, hu₀1, mul_zero, one_mul,
     add_zero, zero_add, sub_zero] at e
   exact mul_right_cancel₀ hc₀ (by linear_combination e)
 
@@ -254,18 +253,18 @@ theorem exists_pGroup_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B x) 
         (((u : LinearMap.GeneralLinearGroup K V) : Module.End K V) - 1) ^ 2 = 0 := by
   classical
   subst hℓ
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
-  haveI := hK.finite
-  haveI : CharP K 3 := hK.charP
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot (a : K[X])) 3 :=
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have := hK.finite
+  have : CharP K 3 := hK.charP
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot (a : K[X])) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (a : K[X]))).injective 3
   obtain ⟨hE, -, -, Hf, hHf, -, -, ⟨e, he⟩, φ, hφ, -⟩ :=
     (selfDualPrimaryBlock H a hself).unitaryForm
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W →ₗ[AdjoinRoot (a : K[X])] W) := Finite.of_injective _ LinearMap.coe_injective
-  haveI : Finite (LinearMap.GeneralLinearGroup (AdjoinRoot (a : K[X])) W) :=
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W →ₗ[AdjoinRoot (a : K[X])] W) := Finite.of_injective _ LinearMap.coe_injective
+  have : Finite (LinearMap.GeneralLinearGroup (AdjoinRoot (a : K[X])) W) :=
     Finite.of_injective _ Units.val_injective
   have hm : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
   have hHf' : ∀ v w, hE.bar (Hf v w) = Hf w v := hHf.eq
@@ -278,11 +277,11 @@ theorem exists_pGroup_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B x) 
   have h11 : Hf f₁ f₁ = 0 := by
     have e1 : μ * hE.bar μ = -1 := hμ
     simp only [hf₁, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, map_smul, he,
-      if_neg h01, if_neg h01.symm, ↓reduceIte, smul_eq_mul, mul_zero, mul_one, add_zero, zero_add]
+      ite_eq_right h01, ite_eq_right h01.symm, ↓reduceIte, smul_eq_mul, mul_zero, mul_one, add_zero, zero_add]
     linear_combination e1
   have hf₁0 : Hf f₁ (e i0) = 1 := by
     simp only [hf₁, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, he, ↓reduceIte,
-      if_neg h01.symm, smul_eq_mul, mul_zero, add_zero]
+      ite_eq_right h01.symm, smul_eq_mul, mul_zero, add_zero]
   have hf₁ne : f₁ ≠ 0 := fun h0 => by
     rw [h0, map_zero, LinearMap.zero_apply] at hf₁0
     exact zero_ne_one hf₁0
@@ -295,10 +294,10 @@ theorem exists_pGroup_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B x) 
       have h02 : i0 ≠ i2 := fun h => by simpa [i0, i2] using congrArg Fin.val h
       have h12 : i1 ≠ i2 := fun h => by simpa [i1, i2] using congrArg Fin.val h
       have hu₀ : Hf f₁ (e i2) = 0 := by
-        simp only [hf₁, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, he, if_neg h02,
-          if_neg h12, smul_eq_mul, mul_zero, add_zero]
-      have hc1 : Hf (e i2) (e i2) = 1 := by rw [he, if_pos rfl]
-      have hz0 : Hf (e i2) (e i0) = 0 := by rw [he, if_neg h02.symm]
+        simp only [hf₁, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, he, ite_eq_right h02,
+          ite_eq_right h12, smul_eq_mul, mul_zero, add_zero]
+      have hc1 : Hf (e i2) (e i2) = 1 := by rw [he, ite_eq_left rfl]
+      have hz0 : Hf (e i2) (e i0) = 0 := by rw [he, ite_eq_right h02.symm]
       refine ⟨e i2, hu₀, Or.inl (by rw [hc1]; exact one_ne_zero), ?_⟩
       have h3 : (3 : AdjoinRoot (a : K[X])) = 0 := by exact_mod_cast CharP.cast_eq_zero _ 3
       have hcond : ∀ α : AdjoinRoot (a : K[X]),
@@ -453,7 +452,7 @@ theorem exists_pGroup_specialBlock_three (H : UnitaryPrimaryData hK.bar B x) (h�
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · exact exists_pGroup_specialBlock_selfDual H hℓ a hself ha hfacts
   · subst hℓ
-    haveI : CharP K 3 := hK.charP
+    have : CharP K 3 := hK.charP
     have hq : 2 ≤ 3 ^ f := le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) hK.one_le)
     obtain ⟨P, h1, h2, h3, h4, h5⟩ :=
       exists_pGroup_specialBlock_paired H a (Ne.symm hself) ha.1 hq hfacts

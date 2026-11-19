@@ -219,7 +219,7 @@ theorem q8d8_card_inf_centralizer {Bg : Type} [Group Bg] [Finite Bg] (V :
     (∀ s : ↥V, c * (s : Bg) * c⁻¹ = (s : Bg) → s ∈ Subgroup.center ↥V) ∧
       ∀ w ∈ Subgroup.center ↥V, c * (w : Bg) * c⁻¹ = (w : Bg) := by
   have hzc : z ∈ Subgroup.center ↥V := hz ▸ Subgroup.mem_zpowers z
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hV2 : IsPGroup 2 ↥V := IsPGroup.of_card (n := 5) (hcard.trans (by norm_num))
   have hcn : c ∈ Subgroup.normalizer (V : Set Bg) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance]
@@ -335,8 +335,8 @@ theorem q8d8_isQ8D8 {Bg : Type} [Group Bg] [Finite Bg] (V : Subgroup Bg) [V.Norm
     (hperf : commutator Bg = ⊤) :
     ∃ Q E : Subgroup ↥V, Nonempty (↥Q ≃* QuaternionGroup 2) ∧ Nonempty (↥E ≃* DihedralGroup 4) ∧
       (∀ q ∈ Q, ∀ e ∈ E, q * e = e * q) ∧ Q ⊔ E = ⊤ ∧ Nat.card ↥(Q ⊓ E) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hVe, hVc⟩ := hV
   have hcard : Nat.card ↥V = 32 := by rw [hVc]; norm_num
   have hS : CFSG.IsExtraspecialPGroup 2 ↥V := CFSG.isExtraspecialPGroup_iff_isExtraspecial.mpr hVe

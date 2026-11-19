@@ -21,7 +21,7 @@ theorem card_le_orbit (H : Subgroup (Equiv.Perm α)) [Finite H] (a : α) (s : Fi
   have hr : ∀ g ∈ H, r (g a) ∈ H ∧ r (g a) a = g a := by
     intro g hg
     have h : ∃ g' ∈ H, g' a = g a := ⟨g, hg, rfl⟩
-    simp only [r, dif_pos h]
+    simp only [r, dite_eq_left h]
     exact h.choose_spec
   let F : H → s × S := fun g =>
     (⟨g.1 a, hs g.1 g.2⟩, ⟨(r (g.1 a))⁻¹ * g.1, hS _ (H.mul_mem (H.inv_mem (hr g.1 g.2).1) g.2)

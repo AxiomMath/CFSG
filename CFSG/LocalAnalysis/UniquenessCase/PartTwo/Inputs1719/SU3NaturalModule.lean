@@ -40,6 +40,7 @@ noncomputable instance instFiniteSK {X : Subgroup (MulAut W)} {n : ℕ}
     (S : CNatModStructSU3 W X n) : W ≃* StdMod (Fin 3) S.K :=
   Subgroup.topEquiv.symm.trans S.e
 
+omit [Finite W] in
 theorem su3NatEquiv_apply {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W X n)
     (w : W) : su3NatEquiv S w = S.e ⟨w, Subgroup.mem_top w⟩ := rfl
 
@@ -74,6 +75,7 @@ theorem natImage_smul_comm {K : Type} [Field K] {Γ : Subgroup (GL (Fin 3) K)}
     c • (g w * w⁻¹) = g (c • w) * (c • w)⁻¹ := by
   rw [smul_mul', smul_inv', ← natImage_smul hg c w]
 
+omit [Finite W] in
 theorem natImageX_eq {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W X n) :
     natImageX S = natImage (StatedSU 3 (2 ^ n) S.K) := by
   apply le_antisymm
@@ -86,7 +88,7 @@ theorem natImageX_eq {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W
     change (natAut (StatedSU 3 (2 ^ n) S.K) ⟨A, hA⟩) (su3NatEquiv S w') =
       (MulAut.congr (su3NatEquiv S) x) (su3NatEquiv S w')
     rw [MulAut.congr_apply]
-    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulAut.mul_apply]
+    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     rw [su3NatEquiv_apply, su3NatEquiv_apply]
     have h := hAact w' (Subgroup.mem_top w') (Subgroup.mem_top (x w'))
     rw [h]
@@ -100,22 +102,24 @@ theorem natImageX_eq {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W
     change (MulAut.congr (su3NatEquiv S) x) (su3NatEquiv S w') =
       (natAut (StatedSU 3 (2 ^ n) S.K) ⟨A, hA⟩) (su3NatEquiv S w')
     rw [MulAut.congr_apply]
-    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulAut.mul_apply]
+    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     rw [su3NatEquiv_apply, su3NatEquiv_apply]
     have h := hxact w' (Subgroup.mem_top w') (Subgroup.mem_top (x w'))
     rw [h]
     rfl
 
+omit [Finite W] in
 theorem one_le_of_cardK {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W X n) :
     1 ≤ n := by
   have h2 : 2 ≤ Nat.card S.K := by
-    haveI : Fintype S.K := Fintype.ofFinite S.K
+    have : Fintype S.K := Fintype.ofFinite S.K
     exact Nat.succ_le_of_lt (by simpa using (Fintype.one_lt_card (α := S.K)))
   rcases Nat.eq_zero_or_pos n with h | h
   · rw [S.cardK, h] at h2
     norm_num at h2
   · exact h
 
+omit [Finite W] in
 theorem charP_cardK {X : Subgroup (MulAut W)} {n : ℕ} (S : CNatModStructSU3 W X n) :
     CharP S.K 2 := by
   exact CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (F := S.K) (n := 2 * n)
@@ -140,11 +144,11 @@ theorem rank_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hXN : X ≤ Subgroup.normalizer (L : Set (MulAut W)))
     (hA : A ≤ X) :
     CFSG.Open.pRank 2 A ≤ n + 1 := by
-  haveI : Finite (MulAut W) := inferInstance
+  have : Finite (MulAut W) := inferInstance
   obtain ⟨S⟩ := hL
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  have : CharP S.K 2 := charP_cardK S
   have hn : 1 ≤ n := one_le_of_cardK S
   let e := MulAut.congr (su3NatEquiv S)
   have hL' : L.map e.toMonoidHom = natImage (StatedSU 3 (2 ^ n) S.K) := natImageX_eq S
@@ -173,9 +177,9 @@ theorem linear_rank_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hA : A ≤ X) :
     CFSG.Open.pRank 2 (A ⊓ L) ≤ n := by
   obtain ⟨S⟩ := hL
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  have : CharP S.K 2 := charP_cardK S
   have hn : 1 ≤ n := one_le_of_cardK S
   let e := MulAut.congr (su3NatEquiv S)
   have hL' : L.map e.toMonoidHom = natImage (StatedSU 3 (2 ^ n) S.K) := natImageX_eq S
@@ -203,15 +207,16 @@ theorem linear_rank_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.pRank_map_mulEquiv (by norm_num) e (A ⊓ L)
   omega
 
+omit [Finite W] in
 theorem index_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hL : CNatModSU3 W L n)
     (hXN : X ≤ Subgroup.normalizer (L : Set (MulAut W)))
     (hA : A ≤ X) (hAel : IsElemAbelian 2 A) :
     Nat.card ↥A ≤ 2 * Nat.card ↥(A ⊓ L) := by
   obtain ⟨S⟩ := hL
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  have : CharP S.K 2 := charP_cardK S
   have hn : 1 ≤ n := one_le_of_cardK S
   let e := MulAut.congr (su3NatEquiv S)
   have hL' : L.map e.toMonoidHom = natImage (StatedSU 3 (2 ^ n) S.K) := natImageX_eq S
@@ -258,7 +263,7 @@ theorem nontrivial_comm_of_natNorm {K : Type} [Field K] [Finite K] [CharP K 2] {
     commSub (fixV (A ⊓ natImage (StatedSU 3 (2 ^ n) K))) A ≠ ⊥ := by
   let Γ := StatedSU 3 (2 ^ n) K
   have hΓ := SU3.hasScalarCommutant' hn hK
-  obtain ⟨a, haA, haL⟩ := SetLike.not_le_iff_exists.1 hAnL
+  obtain ⟨a, haA, haL⟩ := IsConcreteLE.not_le_iff_exists.1 hAnL
   have haN : a ∈ natNorm Γ := hXN (hAX haA)
   have ha2 : a ^ 2 = 1 := hAel.2 a haA
   have hal : a ∉ linSub := by
@@ -355,15 +360,16 @@ theorem nontrivial_comm_of_natNorm {K : Type} [Field K] [Finite K] [CharP K 2] {
   rw [hbot] at hmem
   exact hau (mul_inv_eq_one.1 (Subgroup.mem_bot.1 hmem))
 
+omit [Finite W] in
 theorem nontrivial_comm_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hL : CNatModSU3 W L n)
     (hXN : X ≤ Subgroup.normalizer (L : Set (MulAut W)))
     (hA : A ≤ X) (hAel : IsElemAbelian 2 A) (hAnL : ¬ A ≤ L) :
     commSub (fixV (A ⊓ L)) A ≠ ⊥ := by
   obtain ⟨S⟩ := hL
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  have : CharP S.K 2 := charP_cardK S
   have hn : 1 ≤ n := one_le_of_cardK S
   let e := MulAut.congr (su3NatEquiv S)
   let Γ := StatedSU 3 (2 ^ n) S.K
@@ -439,7 +445,7 @@ theorem not_quadratic_of_natNorm {K : Type} [Field K] [Finite K] [CharP K 2] {n 
   let Γ := StatedSU 3 (2 ^ n) K
   have hΓ := SU3.hasScalarCommutant' hn hK
   intro hquad
-  obtain ⟨a, haA, haL⟩ := SetLike.not_le_iff_exists.1 hAnL
+  obtain ⟨a, haA, haL⟩ := IsConcreteLE.not_le_iff_exists.1 hAnL
   have haN : a ∈ natNorm Γ := hXN (hAX haA)
   have ha2 : a ^ 2 = 1 := hAel.2 a haA
   have hal : a ∉ linSub := by
@@ -488,6 +494,7 @@ theorem isQuadratic_map {V W : Type*} [CommGroup V] [CommGroup W] (e : V ≃* W)
   rw [IsQuadratic, IsQuadratic, commV_map_congr_equiv, fixV_map_congr_equiv]
   exact Subgroup.map_le_map_iff_of_injective e.injective
 
+omit [Finite W] in
 theorem not_quadratic_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hL : CNatModSU3 W L n)
     (hXN : X ≤ Subgroup.normalizer (L : Set (MulAut W)))
@@ -495,9 +502,9 @@ theorem not_quadratic_of_cNatModSU3 {X L A : Subgroup (MulAut W)} {n : ℕ}
     (hAnz : A ⊓ L ≠ ⊥) :
     ¬ IsQuadratic A := by
   obtain ⟨S⟩ := hL
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  have : CharP S.K 2 := charP_cardK S
   have hn : 1 ≤ n := one_le_of_cardK S
   let e := MulAut.congr (su3NatEquiv S)
   let Γ := StatedSU 3 (2 ^ n) S.K

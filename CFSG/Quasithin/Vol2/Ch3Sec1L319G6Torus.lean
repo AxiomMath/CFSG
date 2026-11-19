@@ -180,7 +180,7 @@ theorem exists_torus_of_natBlock_pow {V : Type} [CommGroup V] {H Q : Subgroup (M
     ∃ d ∈ H, d ∈ Subgroup.normalizer (Q : Set (MulAut V)) ∧ d ^ p = 1 ∧
       ∀ v ∈ U, (∀ q ∈ Q, q v = v) → d v = v → v = 1 := by
   obtain ⟨K, instK, instF, hK, π, β, hπs, hβ, hβeq⟩ := hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hact : ∀ (γ : SpecialLinearGroup (Fin 2) K) (u : ↥U),
       β ⟨((π γ : ↥H) : MulAut V) (u : V), hUinv _ (π γ).2 _ u.2⟩ =
         Multiplicative.ofAdd ((γ : Matrix (Fin 2) (Fin 2) K).mulVec (Multiplicative.toAdd (β u))) :=

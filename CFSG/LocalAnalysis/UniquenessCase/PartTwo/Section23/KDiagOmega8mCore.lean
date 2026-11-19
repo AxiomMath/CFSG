@@ -50,6 +50,7 @@ theorem omegaTailSylow_coe [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
       omegaTailU K b c := by
   rw [omegaTailSylow, IsPGroup.toSylow_coe]
 
+omit [Finite K] in
 theorem omegaTail_normalizer_U (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Subgroup.normalizer ((omegaTailU K b c : Subgroup (omegaTailE K b c)) :
         Set (omegaTailE K b c)) =
@@ -60,12 +61,14 @@ theorem omegaTail_normalizer_U (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   simpa [omegaTailU, omegaTailBorel, omegaTailE, omegaTailQ] using
     (normalizer_tailUnipotent (r := 3) (qA := minusTailForm K b c) hani hA)
 
+omit [Finite K] in
 theorem omegaTailParabolic_eq_stabilizer (i : Fin 3) :
     omegaTailParabolic (K := K) b c i =
       MulAction.stabilizer (omegaTailE K b c) (omegaTailFlag (K := K) i) := by
   rw [omegaTailParabolic, MulAction.stabilizer_subgroupOf]
 
-theorem omegaTail_borel_le_parabolic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (i : Fin 3) :
+omit [Finite K] in
+theorem omegaTail_borel_le_parabolic (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (i : Fin 3) :
     (omegaTailBorel K b c).subgroupOf (omegaTailE K b c) ≤
       omegaTailParabolic (K := K) b c i := by
   intro x hx
@@ -80,6 +83,7 @@ theorem omegaTail_borel_le_parabolic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
 def omegaTailMissing (M : Subgroup (omegaTailE K b c)) : Set (Fin 3) :=
   {i | omegaTailN (K := K) b c a₀ i ∉ M}
 
+omit [Finite K] in
 theorem omegaTail_overgroup_eq_iInf' (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     {M : Subgroup (omegaTailE K b c)}
     (hB : (omegaTailBorel K b c).subgroupOf (omegaTailE K b c) ≤ M) :
@@ -91,6 +95,7 @@ section Overgroups
 
 
 
+omit [Finite K] in
 theorem omegaTail_le_parabolic_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     {M : Subgroup (omegaTailE K b c)}
     (hB : (omegaTailBorel K b c).subgroupOf (omegaTailE K b c) ≤ M) (i : Fin 3) :
@@ -104,6 +109,7 @@ theorem omegaTail_le_parabolic_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (
     rw [hM]
     exact iInf₂_le_of_le i hni le_rfl
 
+omit [Finite K] in
 theorem omegaTail_iInf_le_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     (J J' : Set (Fin 3)) :
     (⨅ i ∈ J, omegaTailParabolic (K := K) b c i) ≤
@@ -125,6 +131,7 @@ theorem omegaTail_iInf_le_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀
     refine le_iInf₂ fun i hi => ?_
     exact iInf₂_le_of_le i (hJ hi) le_rfl
 
+omit [Finite K] in
 theorem omegaTail_iInf_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     {J : Set (Fin 3)} (hJ : J.Nonempty) :
     (⨅ i ∈ J, omegaTailParabolic (K := K) b c i) ≠ ⊤ := by
@@ -138,6 +145,7 @@ theorem omegaTail_iInf_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀
     Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 hmem k) hk
   exact (omegaTail_weylElt_mem_parabolic (K := K) b c hirr a₀ ha₀ k k).1 hPk rfl
 
+omit [Finite K] in
 theorem omegaTail_exists_missing (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     {M : Subgroup (omegaTailE K b c)}
     (hB : (omegaTailBorel K b c).subgroupOf (omegaTailE K b c) ≤ M) (hM : M ≠ ⊤) :
@@ -151,6 +159,7 @@ theorem omegaTail_exists_missing (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha
   rw [omegaTail_overgroup_eq_iInf (K := K) b c hirr a₀ ha₀ M hB, hJ]
   simp
 
+omit [Finite K] in
 theorem omegaTail_parabolic_maximal (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (ha₀ : a₀ ≠ 0)
     (i : Fin 3) :
     ∀ M' : Subgroup (omegaTailE K b c),
@@ -190,6 +199,7 @@ theorem omegaTail_parabolic_maximal (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) 
           subst hk
           exact le_rfl
 
+omit [Finite K] in
 theorem omegaTail_iInf_singleton (i : Fin 3) :
     (⨅ k ∈ ({i} : Set (Fin 3)), omegaTailParabolic (K := K) b c k) =
       omegaTailParabolic (K := K) b c i := by
@@ -201,6 +211,7 @@ theorem omegaTail_iInf_singleton (i : Fin 3) :
     subst hk
     exact le_rfl
 
+omit [Finite K] in
 theorem omegaTail_exists_parabolic_of_maximal (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (ha₀ : a₀ ≠ 0) {M : Subgroup (omegaTailE K b c)}
     (hB : (omegaTailBorel K b c).subgroupOf (omegaTailE K b c) ≤ M) (hM : M ≠ ⊤)
@@ -217,9 +228,9 @@ theorem omegaTail_exists_parabolic_of_maximal (hirr : ∀ s : K, s ^ 2 + b * s +
       by_contra hji
       set J : Set (Fin 3) := omegaTailMissing (K := K) (b := b) (c := c) (a₀ := a₀) M with hJ
       set J' : Set (Fin 3) := J \ {j} with hJ'
-      have hJ'sub : J' ⊆ J := Set.diff_subset
+      have hJ'sub : J' ⊆ J := Set.sdiff_subset
       have hJ'ne : J'.Nonempty :=
-        ⟨i, Set.mem_diff _ |>.2 ⟨hi, by simpa using fun h => hji h.symm⟩⟩
+        ⟨i, Set.mem_sdiff _ |>.2 ⟨hi, by simpa using fun h => hji h.symm⟩⟩
       have hle : M ≤ ⨅ k ∈ J', omegaTailParabolic (K := K) b c k := by
         calc M = ⨅ k ∈ J, omegaTailParabolic (K := K) b c k := hMeq
           _ ≤ ⨅ k ∈ J', omegaTailParabolic (K := K) b c k :=
@@ -228,7 +239,7 @@ theorem omegaTail_exists_parabolic_of_maximal (hirr : ∀ s : K, s ^ 2 + b * s +
         intro heq
         have hsub : J ⊆ J' :=
           (omegaTail_iInf_le_iff (K := K) (a₀ := a₀) hirr ha₀ J' J).1 (by rw [heq, hMeq])
-        exact (Set.mem_diff j).1 (hsub hj) |>.2 (by simp)
+        exact (Set.mem_sdiff j).1 (hsub hj) |>.2 (by simp)
       have htop : (⨅ k ∈ J', omegaTailParabolic (K := K) b c k) = ⊤ := by
         rcases hmax _ (le_iInf₂ fun k _ => omegaTail_borel_le_parabolic (K := K) hirr k) hle
           with h | h
@@ -270,7 +281,6 @@ theorem omegaTail_parabolic_index (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (i
       Nat.card (singularSubspaces (quadTail 3 (minusTailForm K b c)) (i.val + 1))
     exact index_stabilizer_eq_card hani hA hk hW
   rw [hidx]
-  push_cast
   rw [card_singularSubspaces_tail (A := Fin 2 → K) (qA := minusTailForm K b c) (r := 3) hani hreg hk]
   simp [tailCount]
 
@@ -359,7 +369,7 @@ theorem omegaTail_map_eq_of_normalizer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
       have h := (MulEquiv.mapSubgroup θ).map_rel_iff (a := M)
         (b := omegaTailParabolic (K := K) b c i)
       simpa only [MulEquiv.coe_mapSubgroup, hfix i] using h
-    simp only [omegaTailMissing, Set.mem_setOf_eq]
+    simp only [omegaTailMissing, Set.mem_ofPred_eq]
     rw [← hiff1, ← hiff2, hleiff]
   calc M.map θ.toMonoidHom
       = ⨅ i ∈ omegaTailMissing (K := K) (b := b) (c := c) (a₀ := a₀) (M.map θ.toMonoidHom),
@@ -380,9 +390,9 @@ theorem kDiag_omegaTail [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) 
         Subgroup.normalizer (P : Set (omegaTailE K b c)) →
       ∀ x ∈ P, θ x ∈ P := by
   intro θ S hSθ P hPpar hSP x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSP' : (S : Subgroup (omegaTailE K b c)) ≤ P :=
-    hPpar.le_of_le_normalizer S.isPGroup' hSP
+    hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNSP : Subgroup.normalizer ((S : Subgroup (omegaTailE K b c)) :
       Set (omegaTailE K b c)) ≤ P := hPpar.normalizer_le S hSP'
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (omegaTailE K b c)

@@ -41,6 +41,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 local notation "X" => pinnedX Tag.G2 K
 
+omit [CharP K 2] in
 theorem g2N_mem_parabolicRadical_zero_iff {A B C D E F : K} :
     g2N A B C D E F ∈ parabolicRadical Tag.G2 K {i0} ↔ B = 0 := by
   constructor
@@ -237,9 +238,11 @@ theorem zBCoord_apply {z : ↥(Model.Y K)} {E F : K}
 
 @[expose] def torusJ4Hom : Kˣ →* ModGL Tag.G2 K := dTHom.comp (MonoidHom.inr Kˣ Kˣ)
 
+omit [CharP K 2] in
 theorem torusJ4Hom_apply (t : Kˣ) : torusJ4Hom t = dT (K := K) 1 t :=
   rfl
 
+omit [CharP K 2] in
 theorem range_torusJ4Hom : (torusJ4Hom (K := K)).range = Model.J₄ K := by
   ext h
   constructor
@@ -263,15 +266,19 @@ theorem range_torusJ4Hom : (torusJ4Hom (K := K)).range = Model.J₄ K := by
 
 abbrev rhoLeviB : SL2 K →* ModGL Tag.G2 K := simpleRootSL2 Tag.G2 K g2ia
 
+omit [CharP K 2] in
 theorem rhoLeviB_uSL (s : K) : rhoLeviB (uSL s) = X g2a s := by
   rw [simpleRootSL2_uSL, xUnit_g2ia]
 
+omit [CharP K 2] in
 theorem rhoLeviB_vSL (s : K) : rhoLeviB (vSL s) = X g2na s := by
   rw [simpleRootSL2_vSL, yUnit_g2ia]
 
+omit [CharP K 2] in
 theorem range_rhoLeviB : (rhoLeviB (K := K)).range = Model.leviB K :=
   range_simpleRootSL2 g2ia
 
+omit [CharP K 2] in
 theorem commute_rhoLeviB_torusJ4Hom (g : SL2 K) (t : Kˣ) :
     Commute (rhoLeviB g) (torusJ4Hom t) := by
   have ht : torusJ4Hom t ∈ Model.J₄ K := by
@@ -285,12 +292,15 @@ theorem commute_rhoLeviB_torusJ4Hom (g : SL2 K) (t : Kˣ) :
 @[expose] def leviBHom : SL2 K × Kˣ →* ModGL Tag.G2 K :=
   MonoidHom.noncommCoprod rhoLeviB torusJ4Hom commute_rhoLeviB_torusJ4Hom
 
+omit [CharP K 2] in
 theorem leviBHom_apply (p : SL2 K × Kˣ) : leviBHom p = rhoLeviB p.1 * torusJ4Hom p.2 :=
   rfl
 
+omit [CharP K 2] in
 theorem leviBHom_uSL (s : K) : leviBHom (uSL s, 1) = X g2a s := by
   rw [leviBHom_apply, rhoLeviB_uSL, map_one, mul_one]
 
+omit [CharP K 2] in
 theorem range_leviBHom : (leviBHom (K := K)).range = Model.leviB K ⊔ Model.J₄ K := by
   rw [leviBHom, MonoidHom.noncommCoprod_range, range_rhoLeviB, range_torusJ4Hom]
 
@@ -343,7 +353,7 @@ theorem rhoLeviB_conj_radB (g : SL2 K) (A C D E F : K) : ∃ A' C' D' E' F' : K,
         h₁, rhoLeviB_uSL, h₂]
     · rw [sp4RadMat_mul, ← Matrix.mulVec_mulVec, ← e₁, sp4RadMat_mulVec]
       ext i
-      fin_cases i <;> simp [coe_uSL, CharTwo.add_sq, mul_pow] <;> ring
+      fin_cases i <;> simp [coe_uSL, CharTwo.add_sq, mul_pow]
   | hv s g ih =>
     intro A C D E F
     obtain ⟨A₁, C₁, D₁, E₁, F₁, h₁, e₁⟩ := ih A C D E F
@@ -355,8 +365,9 @@ theorem rhoLeviB_conj_radB (g : SL2 K) (A C D E F : K) : ∃ A' C' D' E' F' : K,
         h₁, rhoLeviB_vSL, h₂]
     · rw [sp4RadMat_mul, ← Matrix.mulVec_mulVec, ← e₁, sp4RadMat_mulVec]
       ext i
-      fin_cases i <;> simp [coe_vSL, CharTwo.add_sq, mul_pow] <;> ring
+      fin_cases i <;> simp [coe_vSL, CharTwo.add_sq, mul_pow]; ring
 
+omit [CharP K 2] in
 theorem torusJ4Hom_conj_g2N (t : Kˣ) (A C D E F : K) :
     torusJ4Hom t * g2N A 0 C D E F * (torusJ4Hom t)⁻¹ =
       g2N (t * A) 0 (t * C) (t ^ 2 * D) (t ^ 3 * E) (t ^ 3 * F) := by
@@ -378,6 +389,7 @@ theorem radBCoord_conj_leviBHom (p : SL2 K × Kˣ) (x y : ↥(Model.M K))
   ext i
   fin_cases i <;> simp [mul_pow]
 
+omit [CharP K 2] in
 theorem torusJ4Hom_conj_Y (t : Kˣ) (E F : K) :
     torusJ4Hom t * g2N 0 0 0 0 E F * (torusJ4Hom t)⁻¹ = g2N 0 0 0 0 (t ^ 3 * E) (t ^ 3 * F) := by
   rw [torusJ4Hom_conj_g2N]
@@ -440,6 +452,7 @@ theorem zBCoord_sq (x : ↥(Model.M K)) (hx : (x : ModGL Tag.G2 K) ^ 2 ∈ Model
   ext i
   fin_cases i <;> simp <;> ring
 
+omit [CharP K 2] in
 theorem leviB_sup_J₄_le_parabolicLevi :
     Model.leviB K ⊔ Model.J₄ K ≤ parabolicLevi Tag.G2 K {i0} := by
   refine sup_le ((Subgroup.closure_le _).2 ?_) (inf_le_left.trans (torusGroup_le_parabolicLevi _))

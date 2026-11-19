@@ -77,9 +77,9 @@ theorem frame_factor_le_hyperClosure {K : Type} [Field K] [Finite K]
       (adjointGroup Tag.E8 K).subtype := by
   classical
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   obtain ⟨Φ, b, hΦ, hΦρ⟩ := exists_frame_aut hcard' D v hπ
   obtain ⟨hεz, M₀, M₁, ζ, c₀, c₁, hζ, hε₀, hε₁, hcomm, h₀, h₁⟩ := hs

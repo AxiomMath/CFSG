@@ -32,7 +32,7 @@ private theorem option_map_map_apply (π σ : Equiv.Perm (Fin k)) (o : Option (F
     (o.map σ).map π = o.map (π * σ) := by
   cases o with
   | none => rfl
-  | some j => simp [Equiv.Perm.mul_apply]
+  | some j => simp
 
 private theorem option_map_inv_apply (π : Equiv.Perm (Fin k)) (o : Option (Fin k)) :
     (o.map π).map π.symm = o := by

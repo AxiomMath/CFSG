@@ -64,46 +64,49 @@ private theorem hasWGen_of_nineThreeFour {M H L : Subgroup G}
   rw [wSup_eq_bot_of_not_hasWGen hW, Subgroup.index_bot] at hodd
   exact hodd (two_dvd_card_hat_of_threeASix hPNL hZ hS4)
 
+omit [Finite G] in
 private theorem hasWGen_of_nineThreeSix {M H L : Subgroup G}
     (h6 : NineThreeSix M (pCoreOf 2 H) L)
     (hQ : CFSG.pCore 2 (↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L)) ⧸
       CFSG.pCore 2 ↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L))) = ⊥)
-    (hLq : Open.IsQuasisimple ↥(barM M L)) (hL : IsWeakSBlock M (pCoreOf 2 H) L) :
+    (hLq : Open.IsQuasisimple ↥(barM M L)) (_hL : IsWeakSBlock M (pCoreOf 2 H) L) :
     HasWGen (↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L)) ⧸
       CFSG.pCore 2 ↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L))) := by
   obtain ⟨-, n, ⟨eL⟩, ⟨e⟩⟩ := h6
   refine hasWGen_of_mulEquiv_perm e hQ ?_
   by_contra hn
-  haveI : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hLq.2.toNontrivial
+  have : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hLq.2.toNontrivial
   exact not_nontrivial_alternatingGroup_of_le_two (m := 2 * n) (by omega) eL.injective.nontrivial
 
+omit [Finite G] in
 private theorem hasWGen_of_nineThreeSeven {M H L : Subgroup G}
     (h7 : NineThreeSeven M (pCoreOf 2 H) L)
     (hQ : CFSG.pCore 2 (↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L)) ⧸
       CFSG.pCore 2 ↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L))) = ⊥)
-    (hLq : Open.IsQuasisimple ↥(barM M L)) (hL : IsWeakSBlock M (pCoreOf 2 H) L) :
+    (hLq : Open.IsQuasisimple ↥(barM M L)) (_hL : IsWeakSBlock M (pCoreOf 2 H) L) :
     HasWGen (↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L)) ⧸
       CFSG.pCore 2 ↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L))) := by
   obtain ⟨-, n, ⟨eL⟩, ⟨e⟩⟩ := h7
   refine hasWGen_of_mulEquiv_perm e hQ ?_
   by_contra hn
   rcases (show n = 0 ∨ n = 1 by omega) with rfl | rfl
-  · haveI : Nontrivial ↥(barM M L) := by
+  · have : Nontrivial ↥(barM M L) := by
       have := hLq.2.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
     exact not_nontrivial_alternatingGroup_of_le_two (m := 4 * 0) (by omega)
       eL.injective.nontrivial
-  · haveI : Nontrivial ↥(barM M L) := by
+  · have : Nontrivial ↥(barM M L) := by
       have := hLq.2.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
-    haveI : Group.IsSolvable ↥(alternatingGroup (Fin (4 * 1))) :=
+    have : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
+    have : Group.IsSolvable ↥(alternatingGroup (Fin (4 * 1))) :=
       subgroup_solvable_of_solvable _
     have hsol : Group.IsSolvable ↥(barM M L) :=
-      solvable_of_solvable_injective (f := eL.toMonoidHom) eL.injective
-    haveI : Group.IsPerfect ↥(barM M L) := ⟨hLq.1⟩
+      Group.isSolvable_of_isSolvable_injective (f := eL.toMonoidHom) eL.injective
+    have : Group.IsPerfect ↥(barM M L) := ⟨hLq.1⟩
     exact Group.IsPerfect.not_isSolvable (↥(barM M L)) hsol
 
+omit [Finite G] in
 private theorem hasWGen_of_nineThreeEight {M H L : Subgroup G}
     (h8 : NineThreeEight M (pCoreOf 2 H) L) :
     HasWGen (↥(barM M (Subgroup.normalizer (pCoreOf 2 H : Set G) ⊓ L)) ⧸
@@ -162,7 +165,7 @@ theorem cZero_inf_nonempty_of_twelveCtx
     {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} (h : TwelveCtx G M p Q H) {L : Subgroup G}
     (hL : L ∈ weakBlockSet M H) (hA7 : ¬ NineThreeFive M L) :
     (cZero (H ⊓ L)).Nonempty := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hT : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hK : Open.IsKGroup ↥M :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper h.cstar.kProper
@@ -199,7 +202,7 @@ private theorem three_dvd_card_of_nineThreeThree {M H L : Subgroup G}
     (hK : Open.IsKGroup ↥M) (h85 : Asc81bEightFive)
     (hNX : CFSG.AGLEmbeddingD2.NoXBlockFor G) (hA : Asc81bHyp M (pCoreOf 2 H))
     (hL : IsWeakSBlock M (pCoreOf 2 H) L)
-    (hNS : normalizer (pCoreOf 2 H : Set G) ⊓ L = H ⊓ L)
+    (_hNS : normalizer (pCoreOf 2 H : Set G) ⊓ L = H ⊓ L)
     (hPP : barM M (H ⊓ L) = blockPL M (pCoreOf 2 H) L)
     (hC'ne : C' ≠ ⊥) (hC'p : ⁅C', C'⁆ = C') (hCsn : C'.IsSubnormal) :
     3 ∣ Nat.card C' := by
@@ -232,6 +235,7 @@ private theorem three_dvd_card_of_nineThreeThree {M H L : Subgroup G}
     · exact tr (hA6 ⟨e⟩)
     · exact tr (hA8 ⟨e⟩)
 
+omit [Finite G] in
 private theorem three_dvd_card_of_nineThreeFour {M H L : Subgroup G}
     {C' : Subgroup ↥(barM M (H ⊓ L))}
     (h4 : NineThreeFour M (pCoreOf 2 H) L)
@@ -245,7 +249,7 @@ private theorem three_dvd_card_of_nineThreeFour {M H L : Subgroup G}
     rw [mem_subgroupOf] at hy ⊢
     exact hy.2
   set eP := (Subgroup.subgroupOfEquivOfLe hPL').symm
-  exact (hsolv (solvable_of_solvable_injective (f := eP.toMonoidHom) eP.injective)).elim
+  exact (hsolv (Group.isSolvable_of_isSolvable_injective (f := eP.toMonoidHom) eP.injective)).elim
 
 private theorem three_dvd_card_of_nineThreeFive {M H L : Subgroup G}
     {C' : Subgroup ↥(barM M (H ⊓ L))}
@@ -395,7 +399,7 @@ theorem three_dvd_card_oUpperTwo_of_twelveCtx
     {p : ℕ} {Q H : Subgroup G} (h : TwelveCtx G M p Q H) {L : Subgroup G}
     (hL : L ∈ weakBlockSet M H) {I : Subgroup G} (hI : I ∈ cZero (H ⊓ L)) :
     3 ∣ Nat.card (CFSG.ComponentClassification.AS76b.oUpperTwo I) := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hT : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hK : Open.IsKGroup ↥M :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper h.cstar.kProper

@@ -93,7 +93,7 @@ theorem fzl_Wtau_act (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCo
     have hle : ctxW t x₁ x₂ ⊔ zpowers tau ≤ Subgroup.centralizer ({z} : Set G) := by
       refine sup_le (fun w hw => ?_) (Subgroup.zpowers_le.mpr ?_)
       · rw [Subgroup.mem_centralizer_singleton_iff]
-        haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+        have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
         exact congrArg Subtype.val
           (mul_comm' (⟨w, hw⟩ : ctxW t x₁ x₂) ⟨z, hzW⟩)
       · rw [Subgroup.mem_centralizer_singleton_iff]
@@ -161,7 +161,7 @@ theorem fzl_Wtau_act (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCo
     intro w hw
     refine ⟨Subgroup.mem_sup_left hw, Or.inl ?_⟩
     intro v hv
-    haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+    have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
     have hcomm : w * v = v * w := congrArg Subtype.val
       (mul_comm' (⟨w, hw⟩ : ctxW t x₁ x₂) ⟨v, hv⟩)
     rw [hcomm]; group

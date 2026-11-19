@@ -51,7 +51,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 
 private theorem p_dvd_card_of_isPComponentIn {H Y : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hY : IsPComponentIn p Y H) : p ∣ Nat.card Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Kc, hKc, -, hmap, -⟩ := hY.2
   have hres : CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual p Y = ⊤ :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff p Y H hY.1).mp
@@ -72,6 +72,7 @@ private theorem p_dvd_card_of_isPComponentIn {H Y : Subgroup G} {p : ℕ} (hp : 
   have hKnt : Nontrivial ↥Kc := CFSG.LocalCores.isQuasisimple_nontrivial hKc.1
   exact (Subgroup.nontrivial_iff_ne_bot Kc).mp hKnt hKbot
 
+omit [Finite G] in
 private theorem exists_mulEquiv_map_pCore {K Y : Subgroup G} (hYK : Y ≤ K)
     (hYF : Y ⊓ pCoreOf 2 K = pCoreOf 2 Y) :
     Nonempty ((↥Y ⧸ CFSG.pCore 2 ↥Y) ≃*
@@ -125,18 +126,20 @@ private theorem isComponent_map_pCore {K Y : Subgroup G} (hYK : Y ≤ K)
     exact ((hp.dvd_mul).mp hprod).resolve_right hO2_notdvd
   exact hcard.symm ▸ hquot_dvd
 
+omit [Finite G] in
 private theorem isSubnormal_of_isPComponentIn_kSub (hL : ¬ pLayerIn p H ≤ M)
     {Y : Subgroup G} (hY : IsPComponentIn p Y H) (hYM : ¬ Y ≤ M) :
     CFSG.Open.IsSubnormal Y (kSub p M H) := by
   have hKKdef : kSub p M H = sSup {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hYK_le : Y ≤ kSub p M H := hKKdef.symm ▸ le_sSup ⟨hY, hYM⟩
   have hYsnH : CFSG.Open.IsSubnormal Y H :=
     (CFSG.Open.IsSubnormal.iff_subgroupOf hY.1).mpr hY.2.choose_spec.2.1
   have hinf := hYsnH.inf_of_le (kSub_le p M H)
   rwa [inf_eq_left.mpr hYK_le] at hinf
 
+omit [Finite G] in
 private theorem pCoreOf_inter_eq_of_isPComponentIn (hL : ¬ pLayerIn p H ≤ M)
     {Y : Subgroup G} (hY : IsPComponentIn p Y H) (hYM : ¬ Y ≤ M) :
     Y ⊓ pCoreOf 2 (kSub p M H) = pCoreOf 2 Y := by
@@ -145,7 +148,7 @@ private theorem pCoreOf_inter_eq_of_isPComponentIn (hL : ¬ pLayerIn p H ≤ M)
   have hKKdef : KK = sSup {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
     change kSub p M H = sSup {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hYK_le : Y ≤ KK := hKKdef.symm ▸ le_sSup ⟨hY, hYM⟩
   have hYsnK : CFSG.Open.IsSubnormal Y KK := isSubnormal_of_isPComponentIn_kSub hL hY hYM
   have hO2Y_le_F : pCoreOf 2 Y ≤ F :=
@@ -172,6 +175,7 @@ private theorem pCoreOf_inter_eq_of_isPComponentIn (hL : ¬ pLayerIn p H ≤ M)
       2 (Y ⊓ F) Y inf_le_left hYF_normal hYF2
   · exact le_inf (CFSG.RankThreeEvenClassification.Helpers.pCoreOf_le 2 Y) hO2Y_le_F
 
+omit [Finite G] in
 private theorem commutator_le_pCoreOf_of_subgroupOf_le {K Y P : Subgroup G}
     (hYK : Y ≤ K) (hPK : P ≤ K)
     (h : ⁅Y.subgroupOf K, P.subgroupOf K⁆ ≤ CFSG.pCore 2 ↥K) :
@@ -192,7 +196,7 @@ private theorem commutator_le_pCoreOf_of_component_map {K Y P : Subgroup G} {p :
       (QuotientGroup.mk' (CFSG.pCore 2 ↥K))))
     (hYbar_pdvd : p ∣ Nat.card ((Y.subgroupOf K).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥K))))
-    (hP : P = relPPrimeCore p K) (hp : p.Prime)
+    (_hP : P = relPPrimeCore p K) (hp : p.Prime)
     (hPcop : Nat.Coprime p (Nat.card P))
     (hPK_normal : (P.subgroupOf K).Normal) :
     ⁅Y, P⁆ ≤ pCoreOf 2 K := by
@@ -222,13 +226,13 @@ private theorem commutator_le_pCoreOf_of_isPComponentIn
     (hL : ¬ pLayerIn p H ≤ M) (hp3 : p ≠ 3) {Y : Subgroup G}
     (hY : IsPComponentIn p Y H) (hYM : ¬ Y ≤ M) :
     ⁅Y, relPPrimeCore p (kSub p M H)⁆ ≤ pCoreOf 2 (kSub p M H) := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   let KK := kSub p M H
   let P : Subgroup G := relPPrimeCore p KK
   have hKKdef : KK = sSup {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
     change kSub p M H = sSup {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hYK_le : Y ≤ KK := hKKdef.symm ▸ le_sSup ⟨hY, hYM⟩
   have hYsnK : CFSG.Open.IsSubnormal Y KK := isSubnormal_of_isPComponentIn_kSub hL hY hYM
   have hYsn : (Y.subgroupOf KK).IsSubnormal :=
@@ -264,7 +268,7 @@ private theorem kSub_perfect (h : TwelveCtx G M p Q H) (hL : ¬ pLayerIn p H ≤
   have hKdef : K = sSup S := by
     rw [hK]
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   refine le_antisymm (Subgroup.commutator_le_of_le le_rfl le_rfl) ?_
   rw [hKdef]
   refine sSup_le fun Y hY => ?_
@@ -286,7 +290,7 @@ theorem TwelveCtx.kSub_perfect_and_commutator_le (h : TwelveCtx G M p Q H)
   have hKdef : K = sSup S := by
     rw [hK]
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hgen : ∀ Y ∈ S, ⁅Y, relPPrimeCore p K⁆ ≤ pCoreOf 2 K := fun Y hY =>
     commutator_le_pCoreOf_of_isPComponentIn h h912 hL hp3 hY.1 hY.2
   have hKN : K ≤ Subgroup.normalizer (pCoreOf 2 K : Set G) := by

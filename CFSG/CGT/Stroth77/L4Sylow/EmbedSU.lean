@@ -27,7 +27,7 @@ theorem embed_map_pow_transpose_mul (hq0 : q ≠ 0) (hq : 2 ^ n ∣ q + 1) (a : 
   ext i j
   rw [Matrix.mul_apply, Matrix.one_apply]
   simp only [Matrix.transpose_apply, Matrix.map_apply, embed_apply_apply, ite_pow,
-    zero_pow hq0, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    zero_pow hq0, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp only [(a.right : Perm (Fin 4)).injective.eq_iff]
   split_ifs with h
   · exact hy _

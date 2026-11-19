@@ -38,9 +38,11 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 private theorem V_le_Y_of_data : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
 
-private theorem V_le_Q_of_data : V ≤ Q := fun x hx => h.Y_le_Q (h.V_le_Y_of_data hx)
+omit [Finite H] in
+private theorem V_le_Q_of_data : V ≤ Q := fun _x hx => h.Y_le_Q (h.V_le_Y_of_data hx)
 
 variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
@@ -59,9 +61,9 @@ theorem Mc_comm_rho_mem_V {m : H} (hm : m ∈ Mc) :
   have hm'' : ρ⁻¹ * m * ρ ∈ Mc := by
     rw [← heq]
     exact h.Mc_conj_rho hMh hMc hm'
-  have hmMh : m ∈ Mh := h.Mc_le_Mh hMh hMc hm
-  have hm'Mh : ρ * m * ρ⁻¹ ∈ Mh := h.Mc_le_Mh hMh hMc hm'
-  have hm''Mh : ρ⁻¹ * m * ρ ∈ Mh := h.Mc_le_Mh hMh hMc hm''
+  have hmMh : m ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm
+  have hm'Mh : ρ * m * ρ⁻¹ ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm'
+  have hm''Mh : ρ⁻¹ * m * ρ ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm''
   have hnQ : m * (ρ * m * ρ⁻¹) * (ρ⁻¹ * m * ρ) ∈ Q := by
     have h1 := ((hMc m).mp hm).2
     rwa [zjNorm] at h1
@@ -95,12 +97,12 @@ theorem Mc_comm_rho_mem_V {m : H} (hm : m ∈ Mc) :
 
 theorem Mc_comm_mem_V {a b : H} (ha : a ∈ Mc) (hb : b ∈ Mc) : a * b * a⁻¹ * b⁻¹ ∈ V := by
   by_cases haQ : a ∈ Q
-  · have h1 : b * a * b⁻¹ * a⁻¹ ∈ V := h.Mh_comm_Q hMh (h.Mc_le_Mh hMh hMc hb) haQ
+  · have h1 : b * a * b⁻¹ * a⁻¹ ∈ V := h.Mh_comm_Q hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hb) haQ
     have h2 : a * b * a⁻¹ * b⁻¹ = (b * a * b⁻¹ * a⁻¹)⁻¹ := by group
     rw [h2]
     exact V.inv_mem h1
   · have hG₀ : ∀ m ∈ Mc, ∀ v ∈ V, m * v * m⁻¹ = v :=
-      fun m hm v hv => h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hm) hv
+      fun m hm v hv => h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm) hv
     obtain ⟨D, hDmem, _⟩ := h.exists_comm_subgroup hG₀ a
     have hQMc : Q ≤ Mc := h.Q_le_Mc hMh hMc
     have haD : a ∈ D := by
@@ -119,7 +121,7 @@ theorem Mc_comm_mem_V {a b : H} (ha : a ∈ Mc) (hb : b ∈ Mc) : a * b * a⁻¹
       intro q hq
       rw [hDmem q]
       refine ⟨hQMc hq, ?_⟩
-      have h1 : a * q * a⁻¹ * q⁻¹ ∈ V := h.Mh_comm_Q hMh (h.Mc_le_Mh hMh hMc ha) hq
+      have h1 : a * q * a⁻¹ * q⁻¹ ∈ V := h.Mh_comm_Q hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc ha) hq
       have h2 : q * a * q⁻¹ * a⁻¹ = (a * q * a⁻¹ * q⁻¹)⁻¹ := by group
       rw [h2]
       exact V.inv_mem h1
@@ -140,7 +142,7 @@ theorem Mc_mul_sq {a b : H} (ha : a ∈ Mc) (hb : b ∈ Mc) :
     a * b * (a * b) = (b * a * b⁻¹ * a⁻¹) * (a * a) * (b * b) := by
   set c : H := b * a * b⁻¹ * a⁻¹ with hcdef
   have hcV : c ∈ V := by rw [hcdef]; exact h.Mc_comm_mem_V hMh hMc hb ha
-  have hcent : a * c * a⁻¹ = c := h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc ha) hcV
+  have hcent : a * c * a⁻¹ = c := h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc ha) hcV
   have hca : a * c = c * a := by
     calc a * c = (a * c * a⁻¹) * a := by group
       _ = c * a := by rw [hcent]
@@ -157,7 +159,7 @@ theorem Mc_sq_central {m x : H} (hm : m ∈ Mc) (hx : x ∈ Mc) : m * m * x = x 
   have hcV : c ∈ V := by rw [hcdef]; exact h.Mc_comm_mem_V hMh hMc hm hx
   have hcY : c ∈ Y := h.V_le_Y_of_data hcV
   have hcc : c * c = 1 := h.Y_sq c hcY
-  have hcent : m * c * m⁻¹ = c := h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hm) hcV
+  have hcent : m * c * m⁻¹ = c := h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm) hcV
   have hmc : m * c = c * m := by
     calc m * c = (m * c * m⁻¹) * m := by group
       _ = c * m := by rw [hcent]
@@ -175,7 +177,7 @@ theorem Mc_sq_central {m x : H} (hm : m ∈ Mc) (hx : x ∈ Mc) : m * m * x = x 
 theorem exists_sq_subgroup {K : Subgroup H} (hVK : V ≤ K) :
     ∃ D : Subgroup H, ∀ m, m ∈ D ↔ m ∈ Mc ∧ m * m ∈ K := by
   refine ⟨{ carrier := {m | m ∈ Mc ∧ m * m ∈ K}
-            one_mem' := ⟨Mc.one_mem, by simpa using K.one_mem⟩
+            one_mem' := ⟨Mc.one_mem, by simp⟩
             mul_mem' := ?_
             inv_mem' := ?_ }, fun m => Iff.rfl⟩
   · rintro a b ⟨haMc, haK⟩ ⟨hbMc, hbK⟩
@@ -222,7 +224,7 @@ theorem Mc_sq_dichotomy :
       intro hc
       exact hmQ (h.mem_Q_of_mem_Mc_cent_Y hMh hMc hm hc)
     have hfix : m * (m * m) * m⁻¹ = m * m := by group
-    exact h.Mh_cent_Y hMh (h.Mc_le_Mh hMh hMc hm) hmC hmY hfix
+    exact h.Mh_cent_Y hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm) hmC hmY hfix
 
 end ZJData
 

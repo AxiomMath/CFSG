@@ -23,7 +23,7 @@ theorem eq_one_of_mem_of_odd {H : Type*} [Group H] {O : Subgroup H} (hO : Odd (N
 
 theorem isSylowOf_top {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime] (S : Sylow p X) :
     IsSylowOf p (S : Subgroup X) ⊤ :=
-  isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+  isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
 
 theorem exists_conj_mem_of_isSylowOf' {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     {K S P : Subgroup X} (hS : IsSylowOf p S K) (hPK : P ≤ K) (hP : IsPGroup p P) :
@@ -97,7 +97,7 @@ theorem mem_of_sq_eq_one_of_mem_normalClosure (hG : Goldschmidt1974) {X : Type} 
   obtain ⟨a, haA, hax⟩ := hxA
   have hy : a⁻¹ * x' ∈ O := QuotientGroup.eq.mp hax
   have haA' : (a : X) ∈ A := mem_subgroupOf.mp haA
-  obtain ⟨k, hk⟩ := (S.isPGroup') ⟨(a : X)⁻¹ * x, mul_mem (inv_mem (hAS haA')) hxS⟩
+  obtain ⟨k, hk⟩ := (S.isPGroup) ⟨(a : X)⁻¹ * x, mul_mem (inv_mem (hAS haA')) hxS⟩
   have hk' : (a⁻¹ * x') ^ 2 ^ k = 1 := Subtype.ext (by simpa [hx'] using congrArg Subtype.val hk)
   have h1 := eq_one_of_mem_of_odd (odd_card_goldschmidtOddCore M) hy hk'
   have hxa : x' = a := by rw [← mul_inv_cancel_left a x', h1, mul_one]

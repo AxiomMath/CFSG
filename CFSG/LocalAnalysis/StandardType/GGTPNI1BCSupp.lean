@@ -59,20 +59,20 @@ theorem tpbcc_prime_ne_zero {K : Type} [Field K] [CharP K 2] {p : ℕ} (hp : p.P
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
 
 theorem tpbcc_component_eq_derived {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n)
-    {K : Type} [Field K] [Finite K] (hchar : CharP K 2) (hK : Nat.card K = 2 ^ n)
+    {K : Type} [Field K] [Finite K] (hchar : CharP K 2) (_hK : Nat.card K = 2 ^ n)
     {x : StatedSp (m + 1) K} {J : Subgroup (StatedSp (m + 1) K)}
-    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (hprojinj : Function.Injective (proj (m + 1) K))
+    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (_hprojinj : Function.Injective (proj (m + 1) K))
     (hxp : x ^ p = 1) (hJ : CFSG.Assembly.IsComponentOf J (Subgroup.centralizer {x})) :
     ∃ O : reciprocalOrbits (spEnd x),
       J = ⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ := by
   classical
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   let e : StatedSp (m + 1) K ≃* StatedProj (StatedSp (m + 1) K) :=
     MulEquiv.ofBijective (proj (m + 1) K)
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo (r := m + 1))
   let A : reciprocalOrbits (spEnd x) → Subgroup (StatedSp (m + 1) K) :=
     fun O => spSupported x (O : Set K[X])
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   have hcent : (Subgroup.centralizer ({x} : Set (StatedSp (m + 1) K))).map e.toMonoidHom =
       Subgroup.centralizer ({e x} : Set (StatedProj (StatedSp (m + 1) K))) :=
@@ -166,17 +166,17 @@ private theorem tpbcA_no_labelIso_of_tags {t t' : LargeEvenLieTag}
   · exact h4 (congrArg LargeEvenLabel.tag h.1)
   · exact h6 (congrArg LargeEvenLabel.tag h.1)
 
-theorem tpbcc_support_eq_fixed {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm : 3 ≤ m)
-    (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hchar : CharP K 2) (hK : Nat.card K = 2 ^ n)
+theorem tpbcc_support_eq_fixed {p m n : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (hm : 3 ≤ m)
+    (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (_hchar : CharP K 2) (_hK : Nat.card K = 2 ^ n)
     {x : StatedSp (m + 1) K} {J : Subgroup (StatedSp (m + 1) K)}
-    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (hprojinj : Function.Injective (proj (m + 1) K))
-    (hxp : x ^ p = 1) (hJ : CFSG.Assembly.IsComponentOf J (Subgroup.centralizer {x}))
+    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (_hprojinj : Function.Injective (proj (m + 1) K))
+    (_hxp : x ^ p = 1) (hJ : CFSG.Assembly.IsComponentOf J (Subgroup.centralizer {x}))
     (O : reciprocalOrbits (spEnd x))
     (hJO : J = ⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆)
     (hlab : GGHasLabel ⟨.C, m, n⟩ (↥J ⧸ Subgroup.center ↥J)) :
     (O : Set K[X]) = {X - 1} := by
   classical
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := _hchar
   obtain ⟨h, hh, hO⟩ := O.2
   have hOset : (O : Set K[X]) = ({h, reciprocalPolynomial h} : Set K[X]) := hO.symm
   have hΛC : LargeEvenInLambda2 ⟨.C, m, n⟩ := by
@@ -193,8 +193,8 @@ theorem tpbcc_support_eq_fixed {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm 
     have hSD : SpSelfDualBlock 2 n p x ⟨h, hh⟩ := H.selfDual ⟨h, hh⟩ h1 hself
     obtain ⟨d, hd, hpd, σ, hσpow, hσne, hσσ, hσroot, hHf1, hE, hEbar, Hf, hHfsym, hHfsep,
       htrace, he, φ, hφ⟩ := hSD.exists_half
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    haveI : Finite (AdjoinRoot h) := hE.finite
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Finite (AdjoinRoot h) := hE.finite
     let τ : AdjoinRoot h ≃+* AdjoinRoot h :=
       RingEquiv.ofBijective hE.bar (Function.Involutive.bijective hE.bar_bar)
     have hτ : ∀ y, τ (τ y) = y := fun y => hE.bar_bar y
@@ -264,8 +264,8 @@ theorem tpbcc_support_eq_fixed {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm 
     have hne : (h : K[X]) ≠ reciprocalPolynomial h := fun e => hself e.symm
     have hP : SpPairedBlock 2 n p x ⟨h, hh⟩ := H.paired ⟨h, hh⟩ hne
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite K
     have hqA : CFSG.Assembly.IsQuasisimple
         ↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ := by
       rw [← hJO]; exact hJ.2.2

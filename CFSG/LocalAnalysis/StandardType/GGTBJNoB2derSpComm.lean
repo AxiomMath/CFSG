@@ -52,8 +52,7 @@ private lemma l48sC_spRep_mul_inv_apply {K : Type} [Field K] [Finite K] [CharP K
     have h' : (SmallRule.spRep a * SmallRule.spRep a⁻¹ :
         (Module.End K (Fin r ⊕ Fin r → K))ˣ) = 1 := by
       simpa only [map_inv] using mul_inv_cancel (SmallRule.spRep a)
-    simpa using congrArg (fun u : (Module.End K (Fin r ⊕ Fin r → K))ˣ =>
-      (u : Module.End K (Fin r ⊕ Fin r → K))) h'
+    simp
   rw [← Module.End.mul_apply, h]
   simp
 
@@ -67,8 +66,7 @@ private lemma l48sC_spRep_inv_mul_apply {K : Type} [Field K] [Finite K] [CharP K
     have h' : (SmallRule.spRep a⁻¹ * SmallRule.spRep a :
         (Module.End K (Fin r ⊕ Fin r → K))ˣ) = 1 := by
       simpa only [map_inv] using inv_mul_cancel (SmallRule.spRep a)
-    simpa using congrArg (fun u : (Module.End K (Fin r ⊕ Fin r → K))ˣ =>
-      (u : Module.End K (Fin r ⊕ Fin r → K))) h'
+    simp
   rw [← Module.End.mul_apply, h]
   simp
 
@@ -145,7 +143,7 @@ private lemma l48sC_spRep_mem_P {K : Type} [Field K] [Finite K] [CharP K 2]
 private lemma l48sC_eq_zero_or_one {K : Type*} [Field K] [Finite K]
     (hK : Nat.card K = 2) (a : K) : a = 0 ∨ a = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K ≤ 2 := by rw [← Nat.card_eq_fintype_card]; omega
   have hmem : a ∈ ({0, 1} : Finset K) := by
     rw [← Finset.univ_of_card_le_two (R := K) hcard]

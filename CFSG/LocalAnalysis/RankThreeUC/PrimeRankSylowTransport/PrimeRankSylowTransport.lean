@@ -18,7 +18,7 @@ theorem pRank_le_of_le {p : ℕ} (hp : p.Prime) {H K : Subgroup G} (h : H ≤ K)
 
 theorem pRank_sylow {p : ℕ} (hp : p.Prime) {P M : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P M) : CFSG.Open.pRank p P = CFSG.Open.pRank p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQ⟩ := hP
   refine le_antisymm ?_ ?_
   · refine pRank_le_of_le hp ?_
@@ -41,7 +41,7 @@ theorem pRank_sylow {p : ℕ} (hp : p.Prime) {P M : Subgroup G}
       rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at h1
       rw [← hQ]
       refine ⟨(MulAut.conj g)⁻¹ • ⟨y, hyM⟩, h1, ?_⟩
-      simp [f, MulAut.conj_apply, mul_assoc]
+      simp [f, mul_assoc]
     have hAb : IsElemAbelian p (E.map f) := CFSG.SectionRank.isElemAbelian_map hEA f
     have hc : Nat.card (E.map f) = p ^ CFSG.Open.pRank p M := by
       rw [Subgroup.card_map_of_injective hf, hcard]

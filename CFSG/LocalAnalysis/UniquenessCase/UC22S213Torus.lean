@@ -43,16 +43,16 @@ private theorem uc22s213_g2_rank_sylow {X : Type} [Group X] [Finite X] {p f r : 
     (h : LieModel X .G2 0 p f) (hr : r.Prime) (hr3 : 3 < r) (hrd : r ∣ p ^ f - 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) ∧
       ∀ P : Sylow r X, IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup .G2
     (h.chevalleyExceptionalModel (by decide)).2
-  haveI := Finite.of_equiv X e.toEquiv
+  have := Finite.of_equiv X e.toEquiv
   obtain ⟨h2, hab⟩ := PartOne.Section8.two_le_pRank_and_sylow_abelian_adjointGroup_G2 hr hr3
     (by rw [hK]; exact hrd)
   refine ⟨(CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e).symm ▸ h2, fun P => ?_⟩
   obtain ⟨Q⟩ : Nonempty (Sylow r (CFSG.Blueprint.Chevalley.adjointGroup .G2 K)) := inferInstance
   obtain ⟨eQ⟩ := CFSG.GroupTheory.WeirSylow.nonempty_sylow_mulEquiv_sylow_of_mulEquiv e Q P
-  haveI := hab Q
+  have := hab Q
   exact IsMulCommutative.of_comm fun x y => eQ.symm.injective (by
     rw [map_mul, map_mul]
     exact mul_comm' _ _)
@@ -87,7 +87,7 @@ theorem uc22s213_not_centralizesBar_of_torus (hS : Standing4 G) (hU : uniqueFour
       (PartOne.Section8.pRank_five_eq_two_of_lieModel_tits hX).ge
       (fun P => ⟨⟨fun x y => Subtype.ext
         (CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.BT.FinCyc.comm_of_not_dvd Nat.prime_five
-          P.isPGroup' h53 x x.2 y y.2)⟩⟩)
+          P.isPGroup h53 x x.2 y y.2)⟩⟩)
       (PartOne.Section8.not_five_dvd_card_outer_of_lieModel_tits hX) ?_
     rw [hcard]
     norm_num

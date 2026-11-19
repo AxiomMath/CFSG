@@ -217,8 +217,8 @@ theorem exists_odd_fixedPointFree_modelBase [Finite H] (hn : 2 ≤ n) (S : Sylow
   · intro u hu hfix
     by_contra hu1
     have hu2 : IsPGroup 2 (Subgroup.zpowers u) :=
-      (S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr hu).trans (modelBase_le_sylow S e)))
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp (S.isPGroup'.to_le (modelBase_le_sylow S e))
+      (S.isPGroup.to_le ((Subgroup.zpowers_le.mpr hu).trans (modelBase_le_sylow S e)))
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp (S.isPGroup.to_le (modelBase_le_sylow S e))
       ⟨u, hu⟩
     rw [Subgroup.orderOf_mk] at hk
     have hk0 : k ≠ 0 := by

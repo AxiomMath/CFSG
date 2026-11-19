@@ -14,7 +14,7 @@ theorem perfect_rank_one_Sylow_quaternion {G : Type*} [Group G] [Finite G] [Grou
   have hS : CFSG.pRank 2 (S : Subgroup G) ≤ 1 := by
     rw [(CFSG.SectionRank.pRank_sylow S).2]
     exact hr
-  rcases (pgroup_rank_one_classification Nat.prime_two S.isPGroup').1 hS with hcyc | ⟨-, n, hn, he⟩
+  rcases (pgroup_rank_one_classification Nat.prime_two S.isPGroup).1 hS with hcyc | ⟨-, n, hn, he⟩
   · exact absurd hcyc (perfect_even_sylow_noncyclic hG S)
   · exact ⟨n, hn, he⟩
 

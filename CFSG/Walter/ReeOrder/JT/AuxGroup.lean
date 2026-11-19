@@ -86,7 +86,7 @@ theorem isSolvable_of_not_four_dvd {X : Type*} [Group X] [Finite X]
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Sy⟩ : Nonempty (Sylow 2 X) := inferInstance
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Sy.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Sy.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra hk1
     apply h4

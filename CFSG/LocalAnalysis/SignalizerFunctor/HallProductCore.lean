@@ -32,7 +32,7 @@ theorem sylow_lift_of_coprime_index (prime : ℕ) (prime_prime : prime.Prime)
   have index_not_dvd : ¬ prime ∣ embedded.index := by
     rw [Subgroup.index_map_subtype]
     exact prime_prime.not_dvd_mul sylow.not_dvd_index (prime_prime.coprime_iff_not_dvd.mp index_coprime)
-  have pgroup : IsPGroup prime embedded := sylow.isPGroup'.map subgroup.subtype
+  have pgroup : IsPGroup prime embedded := sylow.isPGroup.map subgroup.subtype
   exact ⟨pgroup.toSylow index_not_dvd, IsPGroup.toSylow_coe _ _⟩
 
 theorem hall_product_orders (prime : ℕ) (prime_prime : prime.Prime)
@@ -138,7 +138,7 @@ theorem hall_product_normalized_complement_le_core
         let : Fact prime.Prime := ⟨prime_prime⟩
         let sylow : Sylow prime target := Classical.choice inferInstance
         have trivial : (sylow : Subgroup target) = ⊥ := by
-          rcases sylow.isPGroup'.card_eq_or_dvd with cardinality | divides
+          rcases sylow.isPGroup.card_eq_or_dvd with cardinality | divides
           · exact (Subgroup.eq_bot_iff_card _).mpr cardinality
           · exact (prime_prime.coprime_iff_not_dvd.mp target_coprime
               (divides.trans (sylow : Subgroup target).card_subgroup_dvd_card)).elim
@@ -147,7 +147,7 @@ theorem hall_product_normalized_complement_le_core
           groupPrime_prime factor target factor_pgroup normalized target_coprime
         have embedded_le := hall_product_normalized_prime_subgroup_le_complement prime groupPrime prime_prime
           groupPrime_prime distinct complement factor ((sylow : Subgroup target).map target.subtype)
-          orders.2.2.1 factor_pgroup whole (sylow.isPGroup'.map target.subtype) normalized_sylow
+          orders.2.2.1 factor_pgroup whole (sylow.isPGroup.map target.subtype) normalized_sylow
         refine ⟨sylow, ?_⟩
         intro element member
         exact embedded_le (Subgroup.mem_map_of_mem target.subtype member)

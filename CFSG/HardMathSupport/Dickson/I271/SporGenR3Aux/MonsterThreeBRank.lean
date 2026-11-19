@@ -36,7 +36,7 @@ section Glue
 
 
 theorem card_dvd_monsterOrder_gmat (J : Subgroup Gmat) : Nat.card J ∣ monsterOrder := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have hG : Nat.card Gmat = monsterOrder := CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder
   exact hG ▸ Subgroup.card_subgroup_dvd_card J
 
@@ -45,7 +45,7 @@ theorem commutator_mem_zpowers {g h : Gmat} (hg : g ∈ QQ) (hh : h ∈ QQ) :
   tbCommData.bcomm_mem hg hh
 
 theorem pow_three_mem_zpowers {g : Gmat} (hg : g ∈ QQ) : g ^ 3 ∈ Subgroup.zpowers tbw := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have h1 : (⟨g, hg⟩ : QQ) ^ 3 ∈ tbCommData.coordHom.ker := by
     rw [MonoidHom.mem_ker, map_pow]
     exact multiplicative_pow_eq_one _
@@ -55,7 +55,7 @@ theorem pow_three_mem_zpowers {g : Gmat} (hg : g ∈ QQ) : g ^ 3 ∈ Subgroup.zp
 theorem not_beta1 (hOut : SporadicOuterLeTwo) (hRank : LieOuterRank)
     (hKG : CFSG.Open.IsKGroup Gmat) (hsyl : SylFact) (hirr : irrCheck () = true)
     {J : Subgroup Gmat} (hJ : M3Beta1 J) : False := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have S := m3Setup hsyl hirr
   obtain ⟨hJc, -, hQN, hker, -⟩ := hJ
   have hQc : Nat.card QQ = 3 ^ (12 + 1) := by
@@ -70,7 +70,7 @@ theorem not_beta2a (hGA : GriessAllModelsStatement) (hb : LieOrderBridge)
     (hOut : SporadicOuterLeTwo) (hOrd : SporadicOrdersTable) (hKG : CFSG.Open.IsKGroup Gmat)
     (hsyl : SylFact) (hirr : irrCheck () = true) {J : Subgroup Gmat}
     (hJ : M3Beta2a J) : False := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have S := m3Setup hsyl hirr
   obtain ⟨hJc, hQJ, -, hXN, hCeq, hZ, h20, -⟩ := hJ
   have hperf : commutator ↥J = ⊤ := hJc.2.2.1

@@ -22,8 +22,8 @@ theorem ys03_strongBal_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 5 �
     (hpn : p ∣ n) (h73 : ¬ (p = 3 ∧ n = 7)) {S : Type} [Group S] (hS : IsSimpleGroup S)
     (hnc : ∃ a b : S, a * b ≠ b * a) (e : S ≃* alternatingGroup (Fin n)) : StrongBalAt p S := by
   intro X _ _ K B hcore hcomp ⟨eK⟩ hB hBN
-  haveI := hS
-  haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+  have := hS
+  have : IsSimpleGroup ↥K := eK.isSimpleGroup
   have hncK : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eK.symm a, eK.symm b, fun h => hab (eK.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -53,7 +53,7 @@ theorem ys03_two_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 5 ≤ n)
     (hS : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a) (e : S ≃* alternatingGroup (Fin n))
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hcardS : Nat.card S = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
   rcases hk with ⟨rfl, rfl | rfl⟩ | ⟨rfl, rfl⟩

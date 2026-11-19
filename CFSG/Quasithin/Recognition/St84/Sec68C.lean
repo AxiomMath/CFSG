@@ -264,8 +264,8 @@ theorem commutator_V2_Q_two_le (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤
   have hZ2M : X.Z 2 ≤ X.V2 ⊔ X.Q 2 := hZ2V.trans hV2M
   set M : Subgroup G := X.V2 ⊔ X.Q 2 with hM
   have hMle : M ≤ X.Gi 2 := sup_le hV2le (X.Q_le_Gi 2)
-  haveI hfinM : Finite ↥M := finite_of_le_stabilizer X.hyp hMle
-  haveI hQ2normal : ((X.Q 2).subgroupOf M).Normal :=
+  have hfinM : Finite ↥M := finite_of_le_stabilizer X.hyp hMle
+  have hQ2normal : ((X.Q 2).subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hMle.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 2)))
   have h1 : ⁅X.Z 1, X.Q 2⁆ ≤ X.Z 2 :=
@@ -482,7 +482,7 @@ private theorem commutator_Q_zero_Q_zero_le_A (hc : CharTwoStab (V := V) (G := G
   exact X.A.mul_mem (hsq' (a * b) ((X.Q 0).mul_mem ha hb)) hcA
 
 private theorem Ki_zero_le_normalizer_Q_zero_inf (j : ℤ) :
-    X.Ki 0 ≤ Subgroup.normalizer ((X.Q 0 ⊓ X.Q j : Subgroup G) : Set G) := fun k hk =>
+    X.Ki 0 ≤ Subgroup.normalizer ((X.Q 0 ⊓ X.Q j : Subgroup G) : Set G) := fun _k hk =>
   Subgroup.inf_normalizer_le_normalizer_inf
     ⟨CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0) (X.L_le_Gi 0 hk.2),
       CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi j) (X.K_le_Gi j hk.1)⟩
@@ -608,15 +608,15 @@ private theorem relCent_le_Q_zero (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 
   have hQ0comm : ⁅X.Q 0, X.Q 0⁆ ≤ X.A :=
     X.commutator_Q_zero_Q_zero_le_A hc hn0 hs hodd h5 hX hGT hreg
   have hCnorm := X.L_zero_le_normalizer_relCent hA
-  haveI hCN : ((relCent (X.L 0) X.A (X.Q 0)).subgroupOf (X.L 0)).Normal :=
+  have hCN : ((relCent (X.L 0) X.A (X.Q 0)).subgroupOf (X.L 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hCnorm
   let π : ↥(X.L 0) →* (↥(X.L 0) ⧸ (X.Q 0).subgroupOf (X.L 0)) :=
     QuotientGroup.mk' ((X.Q 0).subgroupOf (X.L 0))
   let Cbar : Subgroup (↥(X.L 0) ⧸ (X.Q 0).subgroupOf (X.L 0)) :=
     ((relCent (X.L 0) X.A (X.Q 0)).subgroupOf (X.L 0)).map π
-  haveI hCbarN : Cbar.Normal :=
+  have hCbarN : Cbar.Normal :=
     Subgroup.Normal.map hCN π (QuotientGroup.mk'_surjective _)
-  haveI hsimple := X.isSimpleGroup_quot_L_zero hn0
+  have hsimple := X.isSimpleGroup_quot_L_zero hn0
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Cbar with hbot | htop
   · have hCsub_le : (relCent (X.L 0) X.A (X.Q 0)).subgroupOf (X.L 0) ≤
         (X.Q 0).subgroupOf (X.L 0) := by
@@ -871,9 +871,9 @@ private theorem Ki_zero_inf_fixSet_neg_one_le_fixSet_one :
     calc (y⁻¹ * n * (y⁻¹)⁻¹) • w = y⁻¹ • (n • (y • w)) := by simp [mul_smul]
       _ = y⁻¹ • (y • w) := by rw [hnfix]
       _ = w := by simp
-  haveI : Finite ↥(X.Ki 0) :=
+  have : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (fun x hx => X.L_le_Gi 0 hx.2)
-  haveI : IsCyclic ↥(X.Ki 0) := X.isCyclic_Ki 0
+  have : IsCyclic ↥(X.Ki 0) := X.isCyclic_Ki 0
   have hcard : Nat.card ↥(N.subgroupOf (X.Ki 0)) =
       Nat.card ↥((conjSub y⁻¹ N).subgroupOf (X.Ki 0)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNle).toEquiv,
@@ -1114,7 +1114,7 @@ theorem fixedPointFree_Ki_zero (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     ∀ x ∈ X.Q 0, (∀ k ∈ X.Ki 0, ⁅x, k⁆ ∈ X.A) → x ∈ X.A := by
   intro x hxQ hxcomm
-  haveI : Finite ↥(X.Ki 0) :=
+  have : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (fun x hx => X.L_le_Gi 0 hx.2)
   have hcard : Nat.card ↥(X.Ki 0) = 2 ^ X.n 0 - 1 := X.card_Ki 0
   have h3 : 3 ≤ Nat.card ↥(X.Ki 0) := by
@@ -1136,7 +1136,7 @@ theorem Q_eq_commutator_sup (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.
   have hA : X.Gi 0 ≤ Subgroup.normalizer (X.A : Set G) :=
     X.Gi_zero_le_normalizer_A hc hn0 hs hodd h5 hX hGT hreg
   have hAQ0 : X.A ≤ X.Q 0 := X.A_le_Q_zero
-  haveI : Finite ↥(X.Ki 0) :=
+  have : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (fun x hx => X.L_le_Gi 0 hx.2)
   have hcard : Nat.card ↥(X.Ki 0) = 2 ^ X.n 0 - 1 := X.card_Ki 0
   have hne : X.Ki 0 ≠ ⊥ := by
@@ -1154,7 +1154,7 @@ theorem Q_eq_commutator_sup (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.
     intro r hr hkr
     apply X.fixedPointFree_of_mem_Ki_zero hc hn0 hs hodd h5 hX hGT hreg hk hkne r hr
     simpa [commutatorElement_inv] using (X.A).inv_mem hkr
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
   have hkQ : k ∈ Subgroup.normalizer (X.Q 0 : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0) hkG0
   have hex := exists_commutator_mul_of_fixedPointFree hAQ0

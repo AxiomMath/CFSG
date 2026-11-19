@@ -116,7 +116,7 @@ theorem ggSixA6InsideF4_of_rank (hL : GGF4TwoLocalRankInput) {X : Type} [Group X
         ∀ U : Subgroup X, U ≤ L → IsPGroup 2 U → B ≤ Subgroup.normalizer (U : Set X) → U = ⊥
 
 theorem ggSixA6InsideF4Psi_of_rank (hL : GGF4TwoLocalRankInput) : GGSixA6InsideF4Psi :=
-  fun X _ _ n ψ G₀ B L D J x hadm hrank hrange hker hperf hlie hZ hBG hBe hB4 hLG _ _ _ _ _ =>
+  fun _X _ _ _n ψ G₀ B _L _D _J _x hadm hrank hrange hker hperf hlie hZ hBG hBe hB4 hLG _ _ _ _ _ =>
     Or.inr fun U hUL hU2 hBU =>
       ggSixA6InsideF4_of_rank hL ψ G₀ B U hadm hrank hrange hker hperf hlie hZ hBG (hUL.trans hLG)
         hBe hB4 hU2 hBU

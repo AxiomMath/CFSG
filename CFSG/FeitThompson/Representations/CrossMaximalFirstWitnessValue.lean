@@ -174,7 +174,7 @@ theorem cfInner_dadeMapFun_sub_star_coherentImage (hodd : Odd (Nat.card ↥L))
   rw [← hueq, hν.inner_eq g ⟨ξ k₀, Submodule.subset_span hζS⟩]
   change cfInner (ξ k₀ - star (ξ k₀)) (ξ k₀) = 1
   rw [cfInner_sub_left, cfInner_self_of_mem_Irr hζIrr,
-    cfInner_eq_ite_of_mem_Irr hstarIrr hζIrr, if_neg hne, sub_zero]
+    cfInner_eq_ite_of_mem_Irr hstarIrr hζIrr, ite_eq_right hne, sub_zero]
 
 theorem coherentImage_mem_signedRootBlock (hodd : Odd (Nat.card ↥L))
     (hD : IsDadeData L (ambientCoreCentralizerSupport H) J)
@@ -190,7 +190,7 @@ theorem coherentImage_mem_signedRootBlock (hodd : Odd (Nat.card ↥L))
   set η := dadeRoot L (ambientCoreCentralizerSupport H) J (ξ k₀) with hη
   have hstarIrr : star η ∈ Irr G := star_mem_Irr hηIrr
   have horth : cfInner η (star η) = 0 := by
-    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, if_neg (fun hc => hηne hc.symm)]
+    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, ite_eq_right (fun hc => hηne hc.symm)]
   have hsub : cfInner (η - star η) (coherentImage ξ ν k₀) = 1 := by
     rw [← hηeq]
     exact cfInner_dadeMapFun_sub_star_coherentImage hodd hD hS hν hτ hζIrr hζ1
@@ -239,6 +239,7 @@ variable {G : Type*} [Group G] [Fintype G] {L₁ L₂ : Subgroup G} [Fintype ↥
   {τ : charSpanZero (Set.range ξ) →+ virtualChars G}
   {ν : Submodule.span ℤ (Set.range ξ) →+ virtualChars G} {k₀ : ι}
 
+omit [Fintype ↥L₁] [Fintype ↥L₂] [H₁.Normal] [H₂.Normal] [Finite ι] in
 theorem dadeAverage_eq_self_of_le_map
     (hD₁ : IsDadeData L₁ (ambientCoreCentralizerSupport H₁) J₁)
     (hconst : ∀ y : ↥L₂, y ∉ H₂ → ∀ u : ↥L₂, u ∈ H₂ →

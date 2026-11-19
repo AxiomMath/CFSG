@@ -129,7 +129,7 @@ theorem sylowAutTrivial_of_overgroups [IsSimpleGroup S] (hnc : ∃ x y : S, x * 
     · have hP2 : IsPGroup 2 S := by
         have h' : IsPGroup 2 ↥(⊤ : Subgroup S) := by
           rw [← h]
-          exact P₀.isPGroup'
+          exact P₀.isPGroup
         exact h'.of_equiv (Subgroup.topEquiv (G := S))
       obtain ⟨x, y, hxy⟩ := hnc
       have : Nontrivial S := ⟨⟨x, y, fun h => hxy (by rw [h])⟩⟩
@@ -140,7 +140,7 @@ theorem sylowAutTrivial_of_overgroups [IsSimpleGroup S] (hnc : ∃ x y : S, x * 
   have hSN : IsSylowTwoOf P N := isSylowTwoOf_of_le hSyl hPN
   have hcore : pCoreOf 2 N = P :=
     le_antisymm (EscapingLocal.pCoreOf_le_of_isSylowTwoOf hSN)
-      (CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPN le_rfl P₀.isPGroup')
+      (CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPN le_rfl P₀.isPGroup)
   obtain ⟨s, rfl⟩ := mem_inner_of_odd_of_card hcen hcard α hα
   have hsC : s ∈ Subgroup.centralizer (P : Set S) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -155,7 +155,7 @@ theorem sylowAutTrivial_of_overgroups [IsSimpleGroup S] (hnc : ∃ x y : S, x * 
       exact ⟨hsN, hsC⟩
     have := hCh this
     rwa [hcore] at this
-  obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨s, hsP⟩
+  obtain ⟨k, hk⟩ := P₀.isPGroup ⟨s, hsP⟩
   have hsk : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hpow : (MulAut.conj s) ^ 2 ^ k = 1 := by rw [← map_pow, hsk, map_one]
   have hdvd : orderOf (MulAut.conj s) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hpow

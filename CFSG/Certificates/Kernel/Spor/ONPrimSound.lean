@@ -141,7 +141,7 @@ theorem prim_sound {w k : Nat}
     by_contra hf
     have hle : primAt TT UU R n y ≤ ∑ y ∈ Finset.range n, primAt TT UU R n y :=
       Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_range.2 hy)
-    rw [hsum, primAt_eq, if_neg hf] at hle
+    rw [hsum, primAt_eq, ite_eq_right hf] at hle
     exact absurd primSizesP_lt (Nat.not_lt.2 hle)
   have hsp := fun y hy => primOK_spec (hall y hy)
   have hperm' : ∀ x < n, TT 2 x < n ∧ TT 3 x < n := fun x hx => ⟨(hperm x hx).1, (hperm x hx).2.2.1⟩
@@ -194,7 +194,7 @@ theorem prim_sound {w k : Nat}
   have hsum' : ∑ y ∈ Finset.range n, 2 ^ (17 * labOf (R y)) = primSizesP := by
     rw [← hsum]
     refine Finset.sum_congr rfl fun y hy => ?_
-    rw [primAt_eq, if_pos (hall y (Finset.mem_range.1 hy))]
+    rw [primAt_eq, ite_eq_left (hall y (Finset.mem_range.1 hy))]
   rw [hcnt, primSizesP_eq] at hsum'
   simp only [Finset.sum_range_succ, Finset.sum_range_zero] at hsum'
   have hle : ∀ i, ((Finset.range n).filter fun y => labOf (R y) = i).card < 131072 := fun i =>

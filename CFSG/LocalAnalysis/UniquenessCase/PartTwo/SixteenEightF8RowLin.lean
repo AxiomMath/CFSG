@@ -22,14 +22,14 @@ theorem S16gRowCtx.false_of_binaryNaturalSL (h : S16gRowCtx D V₀ V L hV)
     (hN : BinaryNaturalSL (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n 3) : False := by
   obtain ⟨K, hF, hFin, hK, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
   by_cases hn : n ≤ 1
   · exact s16g_not_isQuasisimple_of_realizes_comm
       (fun x _ y _ => s16g_mul_comm_of_card_le_one (by rw [Fintype.card_fin]; omega) x y) hR
       h.quasi
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   have hp : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
@@ -68,15 +68,15 @@ theorem S16gRowCtx.false_of_natSp (h : S16gRowCtx D V₀ V L hV)
     (hN : NatSpn (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n 3) : False := by
   obtain ⟨hev, K, hF, hFin, hK, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
   generalize hm : n / 2 = m at hR
   by_cases hm0 : m = 0
   · subst hm0
     exact s16g_not_isQuasisimple_of_realizes_comm
       (fun x _ y _ => s16g_mul_comm_of_card_le_one (by simp) x y) hR h.quasi
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   have hp : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2

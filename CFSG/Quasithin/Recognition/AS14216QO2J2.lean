@@ -50,8 +50,8 @@ theorem isQ8D8_facts {Q : Subgroup G} (hq : IsQ8D8 ↥Q) :
 theorem pCoreOf_le_pCoreOf_of_isQ8D8 {X K1 : Subgroup G} (hKX : K1 ≤ X)
     (hXK : X ≤ Subgroup.normalizer (K1 : Set G)) (hct : CharTwo X)
     (hq : IsQ8D8 ↥(pCoreOf 2 X)) (h5 : 5 ∣ Nat.card K1) : pCoreOf 2 X ≤ pCoreOf 2 K1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set Q := pCoreOf 2 X with hQdef
   have hQX : Q ≤ X := pCoreOf_le 2 X
   have hXQ : X ≤ Subgroup.normalizer (Q : Set G) := le_normalizer_pCoreOf 2 X

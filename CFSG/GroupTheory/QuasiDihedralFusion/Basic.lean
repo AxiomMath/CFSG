@@ -122,7 +122,7 @@ theorem relIndex_dvd_index_of_normal_right (S K : Subgroup H) [K.Normal] :
 omit [Finite H] in
 theorem isPGroup_inf_normal {p : ℕ} (S : Sylow p H) (K : Subgroup H) :
     IsPGroup p ((S : Subgroup H).subgroupOf K) :=
-  S.isPGroup'.comap_subtype
+  S.isPGroup.comap_subtype
 
 theorem not_dvd_relIndex_of_normal {p : ℕ} [Fact p.Prime] (S : Sylow p H) (K : Subgroup H)
     [K.Normal] : ¬ p ∣ ((S : Subgroup H).subgroupOf K).index := by
@@ -263,7 +263,7 @@ theorem exists_focal_kernel (S : Sylow 2 H) :
       ← CFSG.Semidihedral.FocalTransfer.conjugatePairFocal_eq_derived_subgroupOf S]
     rfl
   refine ⟨_, inferInstance, hindex, ?_, ?_⟩
-  · obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  · obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
     have hdvd : ((commutator H).subgroupOf (S : Subgroup H)).index ∣ 2 ^ a := by
       rw [← ha]
       exact Subgroup.index_dvd_card _
@@ -285,7 +285,7 @@ theorem hasNormalPComplement_of_cyclic_kernel (S : Sylow 2 H) (K : Subgroup H) [
   · rw [Subgroup.card_map_of_injective K.subtype_injective]
     exact Nat.coprime_two_left.mpr hodd
   · obtain ⟨k, hk⟩ := hK
-    obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := a + k) ?_
     change N.index = 2 ^ (a + k)
     rw [Subgroup.index_map_subtype, hidx, ha, hk, pow_add]

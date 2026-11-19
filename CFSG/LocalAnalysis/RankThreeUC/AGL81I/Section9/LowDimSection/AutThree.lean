@@ -96,7 +96,7 @@ theorem false_of_mulAut_three {C : Type} [Group C] [Finite C] (hC : IsPGroup 3 C
     (ψ : ↥G →* S) (hψ : Function.Surjective ψ) : False := by
   set f := (quotient (Subgroup.center C)).comp G.subtype
   have hK : f.ker.map ψ = ⊥ := map_eq_bot_of_isSolvable hS hψ (MonoidHom.normal_ker f)
-    (isSolvable_of_comm (ker_quotient_mul_comm hZ hG))
+    (_root_.Group.isSolvable_of_comm (ker_quotient_mul_comm hZ hG))
   have hle : ψ.ker.index ∣ f.ker.index :=
     Subgroup.index_dvd_of_le ((Subgroup.map_eq_bot_iff _).1 hK)
   have hSidx : ψ.ker.index = Nat.card S := by

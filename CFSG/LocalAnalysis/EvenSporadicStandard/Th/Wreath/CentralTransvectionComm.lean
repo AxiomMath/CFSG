@@ -74,7 +74,7 @@ private lemma ut_factor {M : M4} (hM : ∀ i j : Fin 4, j < i → M i j = 0)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply, Matrix.one_apply,
-      hM, hd, h2, h4] <;>
+      hM, hd] <;>
     first
       | linear_combination -CharTwo.add_self_eq_zero (M 0 1 * M 1 2)
       | linear_combination -CharTwo.add_self_eq_zero (M 1 2 * M 2 3)
@@ -109,6 +109,7 @@ private lemma IsRep.mul_inv {c : G → (Fin 4 → ZMod 2)} {A : Subgroup G} {r :
 private def Good (L A B : Subgroup G) (ζ n : G) : Prop :=
   n ∈ L ∧ (∀ a ∈ A, n * a * n⁻¹ ∈ A) ∧ ζ * n * ζ⁻¹ * n⁻¹ ∈ B
 
+omit [Finite G] in
 private lemma Good.one (L A B : Subgroup G) (ζ : G) : Good L A B ζ 1 := by
   refine ⟨L.one_mem, fun a ha => by simpa using ha, ?_⟩
   simp
@@ -160,8 +161,10 @@ private lemma conj_mul_inv_mem_Aa (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A
 
 private def P (Aa : Subgroup G) (ζ n : G) : Prop := ζ * n * ζ⁻¹ * n⁻¹ ∈ Aa
 
+omit [Finite G] in
 private lemma P.one (Aa : Subgroup G) (ζ : G) : P Aa ζ 1 := by simp [P]
 
+omit [Finite G] in
 private lemma mul_mem_Aa_iff (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
     {x y : G} (hx : x ∈ B) (hy : y ∈ B) : x * y ∈ Aa ↔ (x ∈ Aa ↔ y ∈ Aa) := by
   constructor
@@ -258,7 +261,7 @@ private lemma Good.of_mem_B (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
   rwa [e]
 
 private lemma Good.of_isRep {c : G → (Fin 4 → ZMod 2)} (W : ThLocalIn L S A B z)
-    (W2 : ThLocalIn2 B A Aa b) (hc : IsCoord A c) {ζ n : G} (hζ : ζ ∈ S)
+    (_W2 : ThLocalIn2 B A Aa b) (hc : IsCoord A c) {ζ n : G} (hζ : ζ ∈ S)
     (hnL : n ∈ L) (hnA : ∀ a ∈ A, n * a * n⁻¹ ∈ A) (hζM : IsRep A c ζ E) {M : M4}
     (hnM : IsRep A c n M) (hcomm : E * M = M * E) : Good L A B ζ n := by
   have hζL : ζ ∈ L := W.S_le hζ
@@ -326,6 +329,7 @@ private lemma P.of_same_isRep {c : G → (Fin 4 → ZMod 2)} (W : ThLocalIn L S 
   rw [hs_eq, P.mul_iff W W2 hu hbetagood]
   simp [hbetaP]
 
+omit [Finite G] in
 private lemma lift_coeff {c : G → (Fin 4 → ZMod 2)} {i j : Fin 4} {ζ n : G}
     (hn : Good L A B ζ n) (hPn : P Aa ζ n)
     (hnM : IsRep A c n (1 + Matrix.single i j 1)) (a : ZMod 2) :

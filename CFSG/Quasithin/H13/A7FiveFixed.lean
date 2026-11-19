@@ -166,7 +166,7 @@ variable {G : Type} [Group G]
 theorem nat_card_sylow_two_of_card_sixty {H : Type*} [Group H] [Finite H] (hH : Nat.card H = 60)
     (P : Sylow 2 H) : Nat.card P = 4 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have h1 := (P : Subgroup H).index_mul_card
   rw [hH, hk] at h1
   have h2 := P.not_dvd_index

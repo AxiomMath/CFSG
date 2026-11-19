@@ -85,6 +85,7 @@ theorem not_eltHyp_vecDelta (h3C : GGF4TwoThreeCSolv K) (D : Subgroup (adjointGr
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem exists_mulEquiv_nodeElt_eq_vecE0 :
     ∃ α : adjointGroup .F4 K ≃* adjointGroup .F4 K,
       α (nodeElt K) = TableBF4Two.torus3 K vecE0 := by

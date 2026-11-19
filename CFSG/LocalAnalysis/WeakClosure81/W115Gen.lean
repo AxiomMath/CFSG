@@ -120,7 +120,7 @@ theorem w115_even_rkIdx_fixV_of_commute {W : Type} [CommGroup W] [Finite W]
     (hfpf : ∀ w : W, z w = w → w = 1) (hzs : z * s = s * z) :
     Even (rkIdx (fixV (Subgroup.zpowers s))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : z ^ (3 ^ 1) = 1 := by simpa using hz
   have hbotz : CFSG.EvenSporadicStandard.HSStd.Zassenhaus.A6A6.fixSub z = ⊥ := by
     rw [eq_bot_iff]
@@ -236,7 +236,7 @@ theorem w116_ten_le_rk {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 
     (hSp : IsSpor (↥L ⧸ Subgroup.center ↥L) .M22) : 10 ≤ rk W := by
   have hcard : Nat.card ↥L = 3 * 443520 := w116_card_cover hZ hSp
   have h11 : 11 ∣ Nat.card ↥L := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 11 h11
   have hx' : orderOf (x : MulAut W) = 11 := by rw [Subgroup.orderOf_coe, hx]
   exact w115_ten_le_rk hW (y := (x : MulAut W)) (by rw [hx'])

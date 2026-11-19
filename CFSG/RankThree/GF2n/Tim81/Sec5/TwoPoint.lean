@@ -54,6 +54,7 @@ theorem mem_normalizer_kOf_of_conj_eq {V H : Subgroup G} {b y : G}
   rw [conjSubgroup_inf, ← centralizer_conjSubgroup_eq,
     conjSubgroup_xOf_eq_of_conj_eq hbH hy hby, hbH]
 
+omit [Finite G] in
 theorem hBarConj_map_imgK {V H : Subgroup G} {b : G}
     (hbH : b ∈ Subgroup.normalizer (H : Set G))
     (hbK : b ∈ Subgroup.normalizer (kOf V H : Set G)) {X : Subgroup G} (hX : X ≤ H) :
@@ -84,6 +85,7 @@ theorem hBarConj_map_imgK {V H : Subgroup G} {b : G}
       show b * (b⁻¹ * (x : G) * b) * b⁻¹ = (x : G)
       group
 
+omit [Finite G] in
 theorem hBarConj_mul {V H : Subgroup G} {b c : G}
     (hbH : b ∈ Subgroup.normalizer (H : Set G)) (hbK : b ∈ Subgroup.normalizer (kOf V H : Set G))
     (hcH : c ∈ Subgroup.normalizer (H : Set G)) (hcK : c ∈ Subgroup.normalizer (kOf V H : Set G)) :
@@ -97,6 +99,7 @@ theorem hBarConj_mul {V H : Subgroup G} {b c : G}
   show (b * c) * (z : G) * (b * c)⁻¹ = b * (c * (z : G) * c⁻¹) * b⁻¹
   group
 
+omit [Finite G] in
 theorem hBarConj_one {V H : Subgroup G} :
     hBarConj (V := V) (H := H) (Subgroup.one_mem _) (Subgroup.one_mem _) = 1 := by
   refine MulEquiv.ext fun y => ?_
@@ -109,6 +112,7 @@ theorem hBarConj_one {V H : Subgroup G} :
   show (1 : G) * (z : G) * (1 : G)⁻¹ = (z : G)
   group
 
+omit [Finite G] in
 theorem hBarConj_of_mem {V H : Subgroup G} {b : G} (hb : b ∈ H) :
     hBarConj (Subgroup.le_normalizer hb) (le_normalizer_kOf V H hb) =
       MulAut.conj (piK V H ⟨b, hb⟩) := by
@@ -118,6 +122,7 @@ theorem hBarConj_of_mem {V H : Subgroup G} {b : G} (hb : b ∈ H) :
   rw [← map_mul, ← map_inv, ← map_mul]
   congr 1
 
+omit [Finite G] in
 private theorem piK_conj_eq_of_commutator_mem_kOf {V H : Subgroup G} {u x : G}
     (huH : u ∈ Subgroup.normalizer (H : Set G))
     (hxH : x ∈ H) (hux : ⁅u, x⁆ ∈ kOf V H) :
@@ -127,11 +132,11 @@ private theorem piK_conj_eq_of_commutator_mem_kOf {V H : Subgroup G} {u x : G}
   have hdiv : (⟨u * x * u⁻¹, (Subgroup.mem_normalizer_iff.mp huH x).1 hxH⟩ /
       ⟨x, hxH⟩ : ↥H) = ⟨⁅u, x⁆, kOf_le V H hux⟩ := by
     apply Subtype.ext
-    simp only [div_eq_mul_inv, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-      commutatorElement_def]
+    simp only [div_eq_mul_inv, Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
   rw [hdiv]
   exact Subgroup.mem_subgroupOf.mpr hux
 
+omit [Finite G] in
 private theorem hBarConj_eq_self_of_mem_imgK_Pc {u : G}
     (huP : ∀ p ∈ Pc M V, ⁅u, p⁆ ∈ kOf V H)
     (huH : u ∈ Subgroup.normalizer (H : Set G))
@@ -142,6 +147,7 @@ private theorem hBarConj_eq_self_of_mem_imgK_Pc {u : G}
   rw [hBarConj_piK]
   exact piK_conj_eq_of_commutator_mem_kOf huH z.2 (huP (z : G) hz)
 
+omit [Finite G] in
 private theorem hBarConj_mem_imgK_conj {u : G}
     (huPc : u ∈ Subgroup.normalizer
       (CGT.Timmesfeld75.conjSubgroup h₀ (Pc M V) : Set G))
@@ -197,9 +203,9 @@ private theorem hBarConj_eq_one_of_mem_normalizer (h : RootHyp M V) (hS : Sec45S
     hBarConj huH huK = 1 := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   let θ : MulAut (HBar V H) := hBarConj huH huK
   let Θ : MulAut (SL(2, F)) := ψ.symm.trans (θ.trans ψ)
   have hΘ_apply : ∀ x : HBar V H, Θ (ψ x) = ψ (θ x) := by

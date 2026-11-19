@@ -192,10 +192,10 @@ private theorem CFSG.section13_corollary_13_11_normalIn_of_prime_le_E1
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) hM hE).1
   have hNormE₁_le_NormX :
       Subgroup.normalizer (E₁ : Set G) ≤ Subgroup.normalizer (X : Set G) := by
-    letI : IsCyclic E₁ := hE₁cyc
+    let : IsCyclic E₁ := hE₁cyc
     have hXchar : (X.subgroupOf E₁).Characteristic :=
       section12_subgroup_characteristic_of_cyclic (X.subgroupOf E₁)
-    letI : (X.subgroupOf E₁).Characteristic := hXchar
+    let : (X.subgroupOf E₁).Characteristic := hXchar
     have hmap : (X.subgroupOf E₁).map E₁.subtype = X :=
       Subgroup.map_subgroupOf_eq_of_le hX.1
     simpa [hmap] using
@@ -234,10 +234,10 @@ private theorem CFSG.section13_corollary_13_11_normalIn_of_prime_le_E3
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) hM hE).2
   have hNormE₃_le_NormX :
       Subgroup.normalizer (E₃ : Set G) ≤ Subgroup.normalizer (X : Set G) := by
-    letI : IsCyclic E₃ := hE₃cyc
+    let : IsCyclic E₃ := hE₃cyc
     have hXchar : (X.subgroupOf E₃).Characteristic :=
       section12_subgroup_characteristic_of_cyclic (X.subgroupOf E₃)
-    letI : (X.subgroupOf E₃).Characteristic := hXchar
+    let : (X.subgroupOf E₃).Characteristic := hXchar
     have hmap : (X.subgroupOf E₃).map E₃.subtype = X :=
       Subgroup.map_subgroupOf_eq_of_le hX.1
     simpa [hmap] using

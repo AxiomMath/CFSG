@@ -47,7 +47,7 @@ private theorem Gxyz_eq_inf' {G : Type} [Group G] (a t x : G) :
   simp only [mem_Gxyz, mem_Gxy, Subgroup.mem_inf]
   tauto
 
-theorem five_odd_core_prime (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : G}
+theorem five_odd_core_prime (_hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : G}
     (h : IsF5Type a z) (hCent : FiveCentFacts a z) (hS7 : S7Facts a z) (hGam : GammaFacts a z)
     {ρ : G} (hρ : ρ ∈ Gx a) (h5 : orderOf ρ = 5) (hshape : IsShapeCentralizerFiveB ↥(Gxy a ρ))
     {N : Subgroup G} (hNK : N ≤ Gx ρ) (hNn : (N.subgroupOf (Gx ρ)).Normal)
@@ -75,7 +75,7 @@ theorem five_odd_core_prime (hI : TwoHSInterface) {G : Type} [Group G] [Finite G
     have heq : (Gx ρ ⊓ Gx a : Subgroup G) = Gxy a ρ := by rw [inf_comm, ← Gxy_eq_inf]
     rw [heq, hcard100]
     exact hpnot100
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨σ, hσN, hσord, hσinv⟩ :=
     exists_inverted_element (K := Gx ρ) (N := N) hNK hNn hodd haK ha2 hpN hC
   set x : G := σ * a * σ⁻¹ with hx_def
@@ -167,7 +167,7 @@ theorem five_odd_core_prime (hI : TwoHSInterface) {G : Type} [Group G] [Finite G
   have hcardS : Nat.card ↥(s7Set a z x 0) = 21 :=
     Nat.eq_of_mul_eq_mul_right (by norm_num : 0 < 240) (by rw [hcount])
   have hnot5 : ¬ 5 ∣ Nat.card ↥(s7Set a z x 0) := by rw [hcardS]; norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcl : ∀ c ∈ s7Set a z x 0, ρ * c * ρ⁻¹ ∈ s7Set a z x 0 :=
     fun c hc => hSorbit.conj_mem ρ hρxy c hc
   obtain ⟨t, htS, hρt⟩ := exists_commute_of_card_not_dvd (p := 5) h5 hcl hnot5

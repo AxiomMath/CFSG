@@ -21,8 +21,8 @@ theorem s16h_H5_natNorm_statedSL_two_eight_elemAbelian_le_q
     (hDN : D ≤ natNorm (StatedSL 2 K)) (hD : IsElemAbelian q D) :
     Nat.card D ≤ q := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact q.Prime := ⟨hq⟩
   have hΓ : HasScalarCommutant (StatedSL 2 K) := hasScalarCommutant_statedSL (by norm_num)
   have hAut : Nat.card (K ≃+* K) = 3 := by
     have h := (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic
@@ -132,8 +132,8 @@ theorem s16h_H5_row_SL2_eight_one_aux {W : Type} [CommGroup W] [Finite W]
   have hcard := card_autSub_mul (A := E) (U := commSub (⊤ : Subgroup W) L) hEU
   obtain ⟨K, hKf, hKfin, hKcard, D, hDN, hD, hDcard⟩ :=
     s16h_H5_row_SL2_eight_bridge hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hle : Nat.card ↥(autSub E (commSub ⊤ L)) ≤ q := by
     rw [← hDcard]
     exact s16h_H5_natNorm_statedSL_two_eight_elemAbelian_le_q hKcard hq hq2 hq3 hq7 hDN hD
@@ -149,7 +149,7 @@ theorem s16h_H5_semilinear_three_fix {K : Type} [Field K] [Finite K]
     (hg : IsSemilinear g σ) (hσ : σ ≠ 1) (hg3 : g ^ 3 = 1) :
     ∃ v : StdMod (Fin 2) K, v ≠ 1 ∧ g v = v := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hAut : Nat.card (K ≃+* K) = 3 := by
     have h := (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic
       (p := 2) (n := 3) Nat.prime_two K (by rw [hK]; norm_num)).1
@@ -203,7 +203,7 @@ private theorem s16h_H5E8_normalizer_le_stabSub_commSub {W : Type} [CommGroup W]
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5E8_le_stabSub_commSub {W : Type} [CommGroup W]
-    (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5E8_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_H5E8_le_stabSub_fixV {W : Type} [CommGroup W]
@@ -276,23 +276,23 @@ private theorem s16h_H5E8_autSec_le_normalizer {W : Type} [CommGroup W]
 private theorem s16h_H5E8_isPerfect_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Group.IsPerfect X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem s16h_H5E8_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : IsSimpleGroup X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -304,21 +304,21 @@ private theorem s16h_H5E8_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finit
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 2) (by norm_num)
       (Or.inr hK2) (Or.inr hK3)
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
   exact e.isSimpleGroup
 
 private theorem s16h_H5E8_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := s16h_H5E8_isSimpleGroup_of_isSLn_two hm h
-  haveI : Group.IsPerfect X := s16h_H5E8_isPerfect_of_isSLn_two hm h
+  have : IsSimpleGroup X := s16h_H5E8_isSimpleGroup_of_isSLn_two hm h
+  have : Group.IsPerfect X := s16h_H5E8_isPerfect_of_isSLn_two hm h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -326,7 +326,7 @@ private theorem s16h_H5E8_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finit
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 private theorem s16h_H5E8_matHom_range {K : Type} [Field K] :
@@ -344,7 +344,7 @@ theorem s16h_H5_row_SL2_eight_bridge_strong {W : Type} [CommGroup W] [Finite W]
     {A L : Subgroup (MulAut W)}
     {t : MulAut W} (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : Nat.card K = 8)
       (e : Sec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) ≃* StdMod (Fin 2) K)
@@ -356,12 +356,12 @@ theorem s16h_H5_row_SL2_eight_bridge_strong {W : Type} [CommGroup W] [Finite W]
       IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_H5E8_finite_mulAut
+  have : Finite (MulAut W) := s16h_H5E8_finite_mulAut
   obtain ⟨hSL, hNat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard3, hreal⟩ := hNat
   have hKcard : Nat.card K = 8 := by rw [hKcard3]; norm_num
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcenter : Subgroup.center ↥L = ⊥ := s16h_H5E8_center_eq_bot_of_isSLn_two (by norm_num) hSL
   have hfaith : L ⊓ centSec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = ⊥ :=
     s16h_H5_faithful_on_quotient hc hcenter
@@ -425,11 +425,11 @@ theorem s16h_H5_row_SL2_eight_bridge_strong {W : Type} [CommGroup W] [Finite W]
 
 theorem s16h_H5_natNorm_statedSL_two_eight_not_lin {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 8) {D : Subgroup (MulAut (StdMod (Fin 2) K))}
-    (hDN : D ≤ natNorm (CFSG.Assembly.LowTwoRank.StatedSL 2 K)) (hD : IsElemAbelian 3 D)
+    (_hDN : D ≤ natNorm (CFSG.Assembly.LowTwoRank.StatedSL 2 K)) (hD : IsElemAbelian 3 D)
     (hcard : Nat.card D = 9) : ¬ D ≤ linSub (ι := Fin 2) (K := K) := by
   intro hDlin
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hrange : D ≤ (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K)).range := by
     rw [s16h_H5E8_matHom_range]
     exact hDlin
@@ -468,7 +468,7 @@ theorem s16h_H5_natNorm_statedSL_two_eight_not_lin {K : Type} [Field K] [Finite 
     rw [Fintype.card_eq_nat_card, hK]
   have hring : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hring ▸ ringChar.charP K
+  have : CharP K 2 := hring ▸ ringChar.charP K
   have hmodel : StatedClassicalModel (StatedSL 2 K) .PSL 2 2 3 := by
     refine ⟨by norm_num [StatedLieAdmissible], K, inferInstance, inferInstance,
       by rw [hK]; norm_num, ?_⟩
@@ -489,7 +489,7 @@ theorem s16h_H5_eigenvector_seven_of_lin {K : Type} [Field K] [Finite K]
     ∃ (A : GL (Fin 2) K) (v : Fin 2 → K),
       v ≠ 0 ∧ A ≠ 1 ∧ matHom A ∈ D ∧ A • v = v := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let Dlin : Subgroup (GL (Fin 2) K) :=
     D.comap (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K))
   have hrange : D ≤ (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K)).range := by
@@ -500,13 +500,13 @@ theorem s16h_H5_eigenvector_seven_of_lin {K : Type} [Field K] [Finite K]
   have hcardDlin : Nat.card Dlin = 49 := by
     rw [← Subgroup.card_map_of_injective
       (f := (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K))) matHom_injective, hmap, hcard]
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hpgD : IsPGroup 7 D := CFSG.Open.IsElemAbelian.isPGroup hD
   have hpg : IsPGroup 7 Dlin :=
     hpgD.of_equiv ((Subgroup.equivMapOfInjective Dlin
       (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K)) matHom_injective).trans
         (MulEquiv.subgroupCongr hmap)).symm
-  letI : Fintype Dlin := Fintype.ofFinite Dlin
+  let : Fintype Dlin := Fintype.ofFinite Dlin
   have hcardK : Fintype.card K = 8 := by rwa [Fintype.card_eq_nat_card]
   have hnot : ¬ 7 ∣ Nat.card (ℙ K (Fin 2 → K)) := by
     rw [Projectivization.card_of_finrank_two (k := K) (V := Fin 2 → K) (by simp)]
@@ -600,7 +600,7 @@ theorem s16h_H5_eigenvector_seven_of_lin {K : Type} [Field K] [Finite K]
 
 private theorem s16h_H5E8_sq_eq_one_of_mem_of_card_le_two {W : Type} [Group W] [Finite W]
     {Z : Subgroup W} (hZ : Nat.card Z ≤ 2) {z : W} (hz : z ∈ Z) : z ^ 2 = 1 := by
-  haveI : Nonempty Z := ⟨⟨z, hz⟩⟩
+  have : Nonempty Z := ⟨⟨z, hz⟩⟩
   have hpos : 1 ≤ Nat.card Z := Nat.card_pos
   have hcases : Nat.card Z = 1 ∨ Nat.card Z = 2 := by omega
   rcases hcases with h1 | h2
@@ -654,8 +654,8 @@ theorem s16h_H5_row_SL2_eight_fix_aux {W : Type} [CommGroup W] [Finite W]
     · rw [hq7]; norm_num
   obtain ⟨K, hKf, hKfin, hKcard, e, D, hDeq, hmapL, hDnorm, hDab, hDcard⟩ :=
     s16h_H5_row_SL2_eight_bridge_strong hc h hqprime hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hEN : E ≤ normalizer (L : Set (MulAut W)) := fun x hx => (mem_inf.mp (hE hx)).2
   have hEU : E ≤ stabSub U := fun x hx =>
     s16h_H5E8_normalizer_le_stabSub_commSub (hEN hx)

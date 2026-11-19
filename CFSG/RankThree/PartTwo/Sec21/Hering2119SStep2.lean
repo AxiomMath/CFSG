@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] (D : Subgroup G) [Fact (IsElem3 D)]
 @[expose] noncomputable def imgY (Y : Subgroup G) : Subgroup (Vec D ≃ₗ[F3] Vec D) :=
   (Y.subgroupOf (Subgroup.normalizer (D : Set G))).map (conjLinHom D)
 
+omit [Finite G] in
 theorem mem_imgY {Y : Subgroup G} {g : Vec D ≃ₗ[F3] Vec D} :
     g ∈ imgY D Y ↔ ∃ n : Subgroup.normalizer (D : Set G), (n : G) ∈ Y ∧ conjLinHom D n = g := by
   constructor
@@ -28,10 +29,12 @@ theorem mem_imgY {Y : Subgroup G} {g : Vec D ≃ₗ[F3] Vec D} :
   · rintro ⟨n, hn, rfl⟩
     exact ⟨n, hn, rfl⟩
 
+omit [Finite G] in
 theorem epsE_apply (n : Subgroup.normalizer (D : Set G)) (v : Vec D) :
     conjLinHom D n v = v + epsE D n v := by
   simp [epsE]
 
+omit [Finite G] in
 theorem toD_epsE (n : Subgroup.normalizer (D : Set G)) (v : Vec D) :
     ((Vec.toD (epsE D n v) : D) : G) =
       (n : G) * (Vec.toD v : D) * (n : G)⁻¹ * ((Vec.toD v : D) : G)⁻¹ := by
@@ -53,7 +56,7 @@ structure LinFacts (M Y : Subgroup G) (n : Subgroup.normalizer (D : Set G)) : Pr
 theorem line_lin {M Y : Subgroup G} {e : G} (hD81 : Nat.card D = 81) (h : LineAbs D M Y e) :
     LinFacts D M Y ⟨e, h.heN⟩ := by
   classical
-  haveI : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
+  have : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
   have hD : IsElem3 D := Fact.out
   set N : Subgroup G := Subgroup.normalizer (D : Set G) with hNdef
   let ρ : N →* (Vec D ≃ₗ[F3] Vec D) := conjLinHom D
@@ -140,7 +143,7 @@ theorem line_lin {M Y : Subgroup G} {e : G} (hD81 : Nat.card D = 81) (h : LineAb
     have hv : ρ eN (ρ n v) = ρ n (ρ eN v) := by
       have := congrArg (fun f : Vec D ≃ₗ[F3] Vec D => f v) hcu
       exact this.symm
-    simp only [ε, epsE, LinearMap.sub_apply, LinearEquiv.coe_coe, LinearMap.id_apply, map_sub]
+    simp only [epsE, LinearMap.sub_apply, LinearEquiv.coe_coe, LinearMap.id_apply, map_sub]
     rw [hv]
   · intro w w' hw hw' hw0 hw'0
     have hwM := (hmemR w).mp hw
@@ -216,29 +219,36 @@ theorem bound_lin {M Y : Subgroup G} {e : G} (h : LineAbs D M Y e) :
   have h1 : Nat.card X * Nat.card (S ⊓ ρ.ker : Subgroup N) ≤ Nat.card S := hcard
   nlinarith
 
+omit [Finite G] [Fact (IsElem3 D)] in
 theorem vec_card (hD81 : Nat.card D = 81) : Nat.card (Vec D) = 81 := by
   rw [← hD81]
   exact Nat.card_congr (Additive.toMul)
 
+omit [Finite G] in
 theorem imgY_le_range (Y : Subgroup G) : imgY D Y ≤ (conjLinHom D).range := by
   rintro _ ⟨n, -, rfl⟩
   exact ⟨n, rfl⟩
 
+omit [Finite G] in
 theorem imgY_mono {S Y : Subgroup G} (h : S ≤ Y) : imgY D S ≤ imgY D Y := by
   rintro _ ⟨n, hn, rfl⟩
   exact ⟨n, Subgroup.mem_subgroupOf.mpr (h (Subgroup.mem_subgroupOf.mp hn)), rfl⟩
 
+omit [Finite G] in
 theorem imgY_isPGroup {p : ℕ} {S : Subgroup G} (hS : IsPGroup p S) : IsPGroup p (imgY D S) :=
   (hS.comap_subtype (K := Subgroup.normalizer (D : Set G))).map _
 
+omit [Finite G] in
 theorem toD_conj2 (n m : Subgroup.normalizer (D : Set G)) (v : Vec D) :
     ((Vec.toD (conjLinHom D n (conjLinHom D m v)) : D) : G) =
       (n : G) * ((m : G) * (Vec.toD v : D) * (m : G)⁻¹) * (n : G)⁻¹ := by
   rw [toD_conjLinHom, toD_conjLinHom]
 
+omit [Finite G] in
 theorem toD_neg_coe (v : Vec D) : ((Vec.toD (-v) : D) : G) = ((Vec.toD v : D) : G)⁻¹ := by
   rw [Vec.toD_neg]; rfl
 
+omit [Finite G] in
 theorem lin_sq {M : Subgroup G} (n : Subgroup.normalizer (D : Set G))
     (h : ∀ m ∈ M, (n : G) * ((n : G) * m * (n : G)⁻¹) * (n : G)⁻¹ = m⁻¹) (w : Vec D)
     (hw : ((Vec.toD w : D) : G) ∈ M) : conjLinHom D n (conjLinHom D n w) = -w := by
@@ -247,6 +257,7 @@ theorem lin_sq {M : Subgroup G} (n : Subgroup.normalizer (D : Set G))
   rw [toD_conj2, toD_neg_coe]
   exact h _ hw
 
+omit [Finite G] in
 theorem lin_anti {M : Subgroup G} (n m : Subgroup.normalizer (D : Set G))
     (h : ∀ x ∈ M, (n : G) * ((m : G) * x * (m : G)⁻¹) * (n : G)⁻¹ =
       ((m : G) * ((n : G) * x * (n : G)⁻¹) * (m : G)⁻¹)⁻¹) (w : Vec D)
@@ -264,7 +275,7 @@ theorem quat_of_line {M Y : Subgroup G} {e : G} (hD81 : Nat.card D = 81) (h : Li
       ∀ k ∈ imgY D Y, (∃ y ∈ q8 (conjLinHom D a) (conjLinHom D b), k * conjLinHom D a = y * k) ∧
         (∃ y ∈ q8 (conjLinHom D a) (conjLinHom D b), k * conjLinHom D b = y * k) := by
   classical
-  haveI : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
+  have : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
   obtain ⟨S, hS2, hSY, hSe, a, ha, b, hb, hra, hrb, hrab⟩ := h.quat
   have lf := line_lin D hD81 h
   let aN : Subgroup.normalizer (D : Set G) := ⟨a, h.hYN (hSY ha)⟩
@@ -292,6 +303,7 @@ theorem pow_eps {V : Type*} [AddCommGroup V] [Module F3 V] (g : V ≃ₗ[F3] V)
     rw [add_smul, one_smul]
     abel
 
+omit [Finite G] in
 theorem sq_on_D (n : Subgroup.normalizer (D : Set G))
     (h : ∀ v, conjLinHom D n (conjLinHom D n v) = -v) :
     ∀ x ∈ D, (n : G) * ((n : G) * x * (n : G)⁻¹) * (n : G)⁻¹ = x⁻¹ := by
@@ -300,6 +312,7 @@ theorem sq_on_D (n : Subgroup.normalizer (D : Set G))
   simp only [toD_conj2, toD_neg_coe, Vec.toD_ofD] at h1
   exact h1
 
+omit [Finite G] in
 theorem anti_on_D (n m : Subgroup.normalizer (D : Set G))
     (h : ∀ v, conjLinHom D n (conjLinHom D m v) = -conjLinHom D m (conjLinHom D n v)) :
     ∀ x ∈ D, (n : G) * ((m : G) * x * (m : G)⁻¹) * (n : G)⁻¹ =
@@ -309,6 +322,7 @@ theorem anti_on_D (n m : Subgroup.normalizer (D : Set G))
   simp only [toD_conj2, toD_neg_coe, Vec.toD_ofD] at h1
   exact h1
 
+omit [Finite G] in
 theorem comm_on_D (n m : Subgroup.normalizer (D : Set G))
     (h : ∀ v, conjLinHom D n (conjLinHom D m v) = conjLinHom D m (conjLinHom D n v)) :
     ∀ x ∈ D, (n : G) * ((m : G) * x * (m : G)⁻¹) * (n : G)⁻¹ =
@@ -338,8 +352,8 @@ theorem step2_abs {D M₀ M₁ Y₀ Y₁ : Subgroup G} {e₀ e₁ : G} (hD : IsE
       (∀ x ∈ D, a₁ * (c₁ * x * c₁⁻¹) * a₁⁻¹ = c₁ * (a₁ * x * a₁⁻¹) * c₁⁻¹) ∧
       (∀ x ∈ D, b₁ * (c₁ * x * c₁⁻¹) * b₁⁻¹ = c₁ * (b₁ * x * b₁⁻¹) * c₁⁻¹) := by
   classical
-  haveI : Fact (IsElem3 D) := ⟨hD⟩
-  haveI : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
+  have : Fact (IsElem3 D) := ⟨hD⟩
+  have : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
   set N : Subgroup G := Subgroup.normalizer (D : Set G) with hNdef
   let ρ : N →* (Vec D ≃ₗ[F3] Vec D) := conjLinHom D
   obtain ⟨S₀, a, b, hS₀2, hS₀Y, hS₀e, haS, hbS, hQ₀, hnorm₀⟩ := quat_of_line D hD81 h₀

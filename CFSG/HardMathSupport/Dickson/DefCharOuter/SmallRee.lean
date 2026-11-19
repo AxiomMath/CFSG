@@ -17,7 +17,7 @@ open scoped commutatorElement
 
 private theorem isQuasisimple_of_simple_nonab {L : Type*} [Group L] (hs : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) : CFSG.IsQuasisimple L := by
-  haveI := hs
+  have := hs
   have hc : Subgroup.center L = ⊥ := by
     rcases (inferInstance : (Subgroup.center L).Normal).eq_bot_or_eq_top with h | h
     · exact h
@@ -65,7 +65,7 @@ private theorem perfectInLayer_of_commutator_simple {S : Type*} [Group S] [Finit
   have hNn : (N.subgroupOf C).Normal := by rw [hNC]; infer_instance
   refine CFSG.HardMathSupport.Dickson.SuzukiReeB.perfectInLayer_of_normal_quasisimple β
     (N := N) (Subgroup.map_subtype_le _) hNn ?_ ?_
-  · haveI := hsC
+  · have := hsC
     have hsN : IsSimpleGroup ↥N := eN'.symm.isSimpleGroup
     have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
       obtain ⟨x, y, hxy⟩ := hncC
@@ -96,13 +96,13 @@ private theorem perfectInLayer_reeGamma_outer {a : ℕ} (ha : 1 ≤ a) (K : Type
     (hin : β ∉ (MulAut.conj : ReeTag.G2.reeGamma K a →* MulAut (ReeTag.G2.reeGamma K a)).range) :
     PerfectInLayer β := by
   have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, δ, σ, hσord, hδ, -⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.small_Ree_odd_prime_field_descent a ha K hK hp hp2 β
       hβ hin
   obtain ⟨b, -, hbcard, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK hp hp2 hσord
-  haveI := hchar
+  have := hchar
   obtain ⟨hs, hnc, -⟩ :=
     CFSG.ComponentClassification.CatalogueBSmallRee.small_Ree_whole_group_p_components b
       (fixSubfield σ) hbcard
@@ -137,7 +137,7 @@ theorem lieDefCharOuter_suzukiReeTits
     (idx : TauCeti.ValidLieTypeIndex)
     (hfam : CFSG.Yardstones.Md42047359a2a.lieFamily idx.1 =
         CFSG.Yardstones.Md42047359a2a.LieFamily.suzukiReeTits)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = idx.1.characteristic)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :

@@ -16,7 +16,7 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 theorem u38_centralizer_facts {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G}
     {L : Subgroup G} {a b : G} {X : Subgroup G} {n : ℕ} (h : Sec8Pair G A c L a b X n)
     (h3 : IsUnitaryTwo (L ⧸ aschbacherSolvableCore 3 L) 3)
-    (haN : a ∈ Subgroup.normalizer (L : Set G)) (ha3 : a ^ 3 = 1) :
+    (_haN : a ∈ Subgroup.normalizer (L : Set G)) (ha3 : a ^ 3 = 1) :
     Nat.card (barCentralizer (Subgroup.zpowers a) L) = 216 ∧
       (∃ u ∈ barCentralizer (Subgroup.zpowers a) L, u ^ 4 = 1 ∧ u ^ 2 ≠ 1) ∧
       Group.IsPerfect (L ⧸ aschbacherSolvableCore 3 L) := by
@@ -92,7 +92,7 @@ theorem u38_centralizer_facts {G : Type} [Group G] [Finite G] {A : Subgroup G} {
 theorem u38_pair_data (h45 : Sec4.Item4_5) {G : Type} [Group G] [Finite G] {A : Subgroup G}
     {c : G} {L : Subgroup G} {a b : G} {X : Subgroup G} {n : ℕ} (h : Sec8Pair G A c L a b X n)
     (h3 : IsUnitaryTwo (L ⧸ aschbacherSolvableCore 3 L) 3) :
-    ∃ (haN : a ∈ Subgroup.normalizer (L : Set G)) (hbN : b ∈ Subgroup.normalizer (L : Set G)),
+    ∃ (_haN : a ∈ Subgroup.normalizer (L : Set G)) (hbN : b ∈ Subgroup.normalizer (L : Set G)),
       a ^ 3 = 1 ∧ b ^ 3 = 1 ∧ a * b = b * a ∧ InducesOuterTheta a L ∧
       Nat.card (barCentralizer (Subgroup.zpowers a) L) = 216 ∧
       (∃ u ∈ barCentralizer (Subgroup.zpowers a) L, u ^ 4 = 1 ∧ u ^ 2 ≠ 1) ∧
@@ -116,13 +116,13 @@ theorem u38_pair_data (h45 : Sec4.Item4_5) {G : Type} [Group G] [Finite G] {A : 
   have hAL : A ≤ Subgroup.normalizer (L : Set G) :=
     Sec11.le_normalizer_of_isPGroup_of_le_centralizer h45 h.toTheoremFourHyp hc3 hc1 hAp hAcC L
       h.mem_thetaComponentsAt
-  have haN := hAL haA
+  have _haN := hAL haA
   have hbN := hAL hbA
   have haL : InducesOuterTheta a L := by
     rcases h.inducesStdKind with hk | hk
     · exact KFacts.InducesStdKind.inducesOuterTheta L hk (by decide)
     · exact KFacts.InducesStdKind.inducesOuterTheta L hk (by decide)
-  obtain ⟨hCa, hu4, hperf⟩ := u38_centralizer_facts h h3 haN ha3
+  obtain ⟨hCa, hu4, hperf⟩ := u38_centralizer_facts h h3 _haN ha3
   have hn1 : 1 ≤ n := h.isGammaIndex.2.2.1
   have hU3n := isUnitaryTwo_three_mul_of_isGammaIndex h.isGammaIndex h3
   have hn : n = 1 := by
@@ -138,7 +138,7 @@ theorem u38_pair_data (h45 : Sec4.Item4_5) {G : Type} [Group G] [Finite G] {A : 
     rw [← hK504, KFacts.imageModTheta_perfectResidual_centralizer_eq hbN
       ⟨1, by rw [pow_one]; exact hb3⟩]
     exact Subgroup.card_dvd_of_le (Subgroup.map_subtype_le _)
-  refine ⟨haN, hbN, ha3, hb3, hAc a haA b hbA, haL, hCa, hu4, ?_, ?_, ?_⟩
+  refine ⟨_haN, hbN, ha3, hb3, hAc a haA b hbA, haL, hCa, hu4, ?_, ?_, ?_⟩
   · intro h1
     have hL := Item812Res11.card_imageModTheta_eq_of_trivial hbN hb3 h1 hperf
     rw [hK504] at hL

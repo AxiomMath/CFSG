@@ -17,9 +17,9 @@ theorem fstar_eq_of_isSimpleGroup_of_centralizer_eq_bot {H X : Subgroup G} (hXH 
     (hnab : ¬ ∀ x ∈ X, ∀ y ∈ X, x * y = y * x)
     (hC : H ⊓ Subgroup.centralizer (X : Set G) = ⊥) : Fstar H = X := by
   let N : Subgroup ↥H := X.subgroupOf H
-  haveI : N.Normal := hX
-  haveI : IsSimpleGroup ↥X := hsimple
-  haveI : IsSimpleGroup ↥N := (Subgroup.subgroupOfEquivOfLe hXH).isSimpleGroup
+  have : N.Normal := hX
+  have : IsSimpleGroup ↥X := hsimple
+  have : IsSimpleGroup ↥N := (Subgroup.subgroupOfEquivOfLe hXH).isSimpleGroup
   have hnc : ∃ x y : ↥N, x * y ≠ y * x := by
     by_contra h
     apply hnab

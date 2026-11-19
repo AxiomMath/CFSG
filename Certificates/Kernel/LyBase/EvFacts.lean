@@ -86,8 +86,8 @@ theorem wG_uExp {Ut : List ℤ} (hUt : ∀ l ∈ Ut, l ≠ 0 ∧ l.natAbs ≤ 4)
     rw [e, Ly0.wG_append, ih fun l' hl' => hUt l' (List.mem_cons_of_mem _ hl'), wordG_cons']
     congr 1
     by_cases h : 0 < l
-    · rw [if_pos h, wordLetter_of_pos _ h, Ly0.uG_def]
-    · rw [if_neg h, wordLetter_of_not_pos _ h, Ly0.uG_def,
+    · rw [ite_eq_left h, wordLetter_of_pos _ h, Ly0.uG_def]
+    · rw [ite_eq_right h, wordLetter_of_not_pos _ h, Ly0.uG_def,
         Ly0.wG_invW Ly0.gens0 fun m hm => (Ly0.uWords_mem _ (by omega) m hm).1]
 
 theorem txExp_range {t : List (Fin 5 × Bool)} (ht : ∀ l ∈ t, l.1.val < 4) :
@@ -113,9 +113,9 @@ theorem wG_txExp {t : List (Fin 5 × Bool)} (ht : ∀ l ∈ t, l.1.val < 4) :
       lift_mk_single]
     congr 1
     by_cases h : l.2 = true
-    · rw [if_pos h, if_pos h, txP_def]
+    · rw [ite_eq_left h, ite_eq_left h, txP_def]
       rfl
-    · rw [if_neg h, if_neg h, Ly0.wG_invW Ly0.gens0 fun m hm => (Glue.txWords_getD_range hl m hm).1,
+    · rw [ite_eq_right h, ite_eq_right h, Ly0.wG_invW Ly0.gens0 fun m hm => (Glue.txWords_getD_range hl m hm).1,
         txP_def]
       rfl
 

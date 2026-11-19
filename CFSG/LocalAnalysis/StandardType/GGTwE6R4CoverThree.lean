@@ -48,7 +48,7 @@ private theorem c2_exists_conj {n : ℕ} {K : Type} [Field K] [Finite K]
     (hY₁6 : Nat.card Y₁ = 3 ^ 6) :
     ∃ β : MulAut (TwE6Delta.RecipeR K n),
       ∀ y ∈ Y, ∃ y₁ ∈ Y₁, MulAut.conj β y₁ = y := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef
@@ -87,15 +87,15 @@ private theorem c2_torus (h5 : GGTwE6ThreeNoRankSixInput) {n : ℕ} (hn : 1 ≤ 
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1)
     (h9 : ¬ 9 ∣ 2 ^ n + 1)
     {q : twistedE6Group 2 n →* TwE6Delta.RecipeR K n}
-    (hq : Function.Surjective q)
+    (_hq : Function.Surjective q)
     (hqk : q.ker ≤ Subgroup.center (twistedE6Group 2 n)) :
     ∃ E : Subgroup (twistedE6Group 2 n), IsElemAbelian 3 E ∧
       ∃ Y₁ : Subgroup (MulAut (TwE6Delta.RecipeR K n)), IsElemAbelian 3 Y₁ ∧
         (↑Y₁ : Set (MulAut (TwE6Delta.RecipeR K n))) ⊆ TwE6Delta.RecipeI K n ∧
         Nat.card Y₁ = 3 ^ 6 ∧ ∀ u, MulAut.conj (q u) ∈ Y₁ → u ∈ E := by
   obtain ⟨E, hE, hEcard⟩ := TwE6Lang.exists_isElemAbelian_twistedE6 hn Nat.prime_three h3
-  haveI := TwE6DD2.finite_twistedE6Group n
-  haveI := TwE6Delta.finite_mulAut_recipeR hK
+  have := TwE6DD2.finite_twistedE6Group n
+  have := TwE6Delta.finite_mulAut_recipeR hK
   have hqk3 : Nat.card q.ker ∣ 3 :=
     (Subgroup.card_dvd_of_le hqk).trans (TwE6DD2.card_center_dvd_three hn)
   have hrange : (q.domRestrict E).range = E.map q := by

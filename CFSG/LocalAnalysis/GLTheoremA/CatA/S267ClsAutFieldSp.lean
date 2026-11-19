@@ -73,6 +73,7 @@ section Field
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite Ω] [S.Normal] in
 theorem outPChain_sp (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) (h2 : (2 : K) ≠ 0)
     (e : ↥S ≃* StatedProj (StatedSp r K)) : OutPChain p ↥S := by
   rcases (show r = 2 ∨ 3 ≤ r by omega) with rfl | hr3
@@ -81,6 +82,7 @@ theorem outPChain_sp (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) (h2 : (2 : K)
   · exact (CFSG.RankThree.PartOne.OutStructure.outPNice_StatedSp_odd hr3 hp
       hp2).toChain.of_mulEquiv e
 
+omit [Finite Ω] in
 theorem exists_fieldAct_sp (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hℓ2 : ℓ ≠ 2) (φ : ↥(StatedSp r K) →* Ω)
     (hφS : φ.range = S)
@@ -88,8 +90,8 @@ theorem exists_fieldAct_sp (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) {ℓ f 
     (hbp : b ^ p = 1) (hbN : b ∉ S ⊔ Subgroup.centralizer (S : Set Ω)) :
     ∃ (A : GL (Fin r ⊕ Fin r) K) (σ : K ≃+* K), A ∈ gsp r K ∧ FieldAct p φ b A σ ∧
       FormRel (Matrix.toBilin' (formJ r K)) A σ := by
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : NeZero r := ⟨by omega⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   set e := coverProjEquiv φ hφS hφk with he
   set β := transAut e b with hβ
   have h2 : (2 : K) ≠ 0 := by
@@ -141,6 +143,7 @@ theorem exists_fieldAct_sp (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) {ℓ f 
       toBilin'_mulVec_mulVec, hmA', map_smul, LinearMap.smul_apply, LinearMap.smul_apply,
       smul_eq_mul, ← mul_assoc, ← Units.val_mul, inv_mul_cancel, Units.val_one, one_mul]
 
+omit [Finite Ω] in
 theorem exists_clsData_sp (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) (hr : 2 ≤ r) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hℓ2 : ℓ ≠ 2) (e : PSimple p S ≃* StatedProj (StatedSp r K))
@@ -159,7 +162,7 @@ theorem exists_clsData_sp (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore 
             ∃ (A : GL (Fin r ⊕ Fin r) K) (σ : K ≃+* K), A ∈ gsp r K ∧ FieldAct p φ b A σ ∧
               FormRel (Matrix.toBilin' (formJ r K)) A σ ∧
               ∀ x, semiConj A σ ((θ x : ↥(StatedSp r K)) : GL (Fin r ⊕ Fin r) K) = θ x) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have h2 : (2 : K) ≠ 0 := by
     have : CharP K ℓ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK

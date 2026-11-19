@@ -30,17 +30,17 @@ theorem unitary_block_is_L2 {s N : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
       primaryMultiplicity (x : Module.End K (Fin N → K)) (a.1 : K[X]) = 2 ∧
       s * (a.1 : K[X]).natDegree = r := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ s := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : s ≠ 0) h.prime.one_lt
     omega
   obtain ⟨g, hg, hker⟩ := exists_surjective_specialBlock hq H a T haT
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin N → K)) := finite_gl_of_unitaryFieldData h
-  haveI : Finite ↥(specialBlock (idForm h N) x (a.1 : K[X])) := inferInstance
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin N → K)) := finite_gl_of_unitaryFieldData h
+  have : Finite ↥(specialBlock (idForm h N) x (a.1 : K[X])) := inferInstance
   have hd : 1 ≤ (a.1 : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.1.2)
   have hsd : 1 ≤ s * (a.1 : K[X]).natDegree := Nat.mul_pos h.one_le hd
-  haveI : Finite ↥T := inferInstance
+  have : Finite ↥T := inferInstance
   have hkerT : ∀ {G : Type} [Group G] (e : G ≃* ↥(specialBlock (idForm h N) x (a.1 : K[X]))),
       (g.comp e.toMonoidHom).ker ≤ Subgroup.center G := by
     intro G _ e z hz
@@ -52,8 +52,8 @@ theorem unitary_block_is_L2 {s N : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
       ⟨hself, hm2, F, hF, hFt, -, hcardF, h4, ⟨e⟩⟩ |
       ⟨hself, hm3, E, hE, hEt, m, -, hcardE, hm, hne, ⟨e⟩⟩ |
       ⟨hself, E, hE, hEt, m, -, hcardE, hm2, h4, ⟨e⟩⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     have hperf : commutator (Matrix.SpecialLinearGroup (Fin 2) F) = ⊤ :=
       (CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F
         (by rw [Nat.card_eq_fintype_card]; exact h4)).commutator_eq_top
@@ -63,8 +63,8 @@ theorem unitary_block_is_L2 {s N : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
     exact ⟨hself, hm2, eq_of_SL_two_centerQuot_isL2n (E := F) hsd hcF hperf
       (g.comp e.symm.toMonoidHom) (hg.comp e.symm.surjective) hkerF hr hL⟩
   · exfalso
-    letI : Field E := hE
-    letI : Fintype E := hEt
+    let : Field E := hE
+    let : Fintype E := hEt
     obtain ⟨r', rfl⟩ : ∃ r', m = r' + 1 := ⟨m - 1, by omega⟩
     have hperf := (suFactorFacts_holds E (r' + 1) (2 ^ (s * (a.1 : K[X]).natDegree)) hcardE hm
       hne).perfect
@@ -73,8 +73,8 @@ theorem unitary_block_is_L2 {s N : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
       (by omega) hsd hne (by rw [Nat.card_eq_fintype_card, hcardE]) hperf
       (g.comp e.symm.toMonoidHom) (hg.comp e.symm.surjective) hkerE hr hL
   · exfalso
-    letI : Field E := hE
-    letI : Fintype E := hEt
+    let : Field E := hE
+    let : Fintype E := hEt
     have hperf := (slFactorFacts_holds E m hm2 (fun _ => h4)).perfect
     have hkerE := hkerT e.symm
     exact false_of_SL_centerQuot_isL2n_even (E := E) (e := 2 * (s * (a.1 : K[X]).natDegree))
@@ -174,7 +174,7 @@ private theorem uni_three_components {ℓ s N : ℕ} (hℓ : ℓ = 2) {K : Type}
         M = T₁ ∨ M = T₂ ∨ M = T₃ := by
   subst hℓ
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ s := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : s ≠ 0) h.prime.one_lt
     omega

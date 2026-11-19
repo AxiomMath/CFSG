@@ -28,9 +28,9 @@ theorem isOmegaMinus_four_one_le_and_card {X : Type} [Group X] {n : ℕ} (h : Is
     1 ≤ n ∧ Nat.card X = (2 ^ n) ^ 2 * ((2 ^ n) ^ 4 - 1) := by
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, hR⟩ := h
   change Nonempty (X ≃* StatedProj (StatedOmega (StatedQuadMinus 2 K b c))) at hR
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   obtain ⟨e⟩ := hR
   have hn : 1 ≤ n := by
     by_contra hlt

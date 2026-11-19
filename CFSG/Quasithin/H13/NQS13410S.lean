@@ -209,7 +209,7 @@ theorem exists_conj_eq [Finite G] (C : L3Coords K X) {T : Subgroup G}
   have hB2 : IsPGroup 2 ↥l3B := IsPGroup.of_card (n := 3) (by rw [card_l3B]; norm_num)
   obtain ⟨QB, hBQ⟩ := hB2.exists_le_sylow
   have hQB : (QB : Subgroup L3.Γ) = l3B := by
-    obtain ⟨k, hk⟩ := QB.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := QB.isPGroup.exists_card_eq
     have hdvd : Nat.card ↥(QB : Subgroup L3.Γ) ∣ 168 :=
       card_l3Γ ▸ Subgroup.card_subgroup_dvd_card _
     rw [hk] at hdvd

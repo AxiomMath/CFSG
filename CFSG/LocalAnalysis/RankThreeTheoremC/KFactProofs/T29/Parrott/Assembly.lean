@@ -134,7 +134,7 @@ theorem centRankAt_of_rankTwo (h2a : OuterFixedE9) (h2b : InnerFusionE9)
     CentRankAt d := by
   refine centRankAt_of_parts (fun X _ _ L hLn _ _ he hC hX x hx hxL => ?_)
     (fun K _ _ he => h2a d hch (Or.inl hd) K he)
-  haveI := hLn
+  have := hLn
   obtain ⟨y, hy, hyL⟩ := exists_outer_of_noE27 hX (noE27Index_of_isRankTwoIndex d hch hd ↥L he)
   have hy3 : y ^ 3 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hα3 : (MulAut.conjNormal y : MulAut ↥L) ^ 3 = 1 := by rw [← map_pow, hy3, map_one]

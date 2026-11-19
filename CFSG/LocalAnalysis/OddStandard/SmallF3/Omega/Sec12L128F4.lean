@@ -14,9 +14,9 @@ theorem sec128_no_central_three {G : Type} [Group G] [Finite G] (V : Subgroup G)
     (c : MulAut ↥V) (hcZ : c ∈ Z) (hcen : ∀ z ∈ Z, z * c = c * z) (hc3 : c ^ 3 = 1)
     (hc1 : c ≠ 1) (hfpf : ∀ v : ↥V, c v = v → v = 1) : False := by
   classical
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := hV.1.1.is_comm.comm }
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) fun x => by
     have h : x.toMul ^ 2 = 1 := by
       apply Subtype.ext
       simpa using hV.1.2 x.toMul x.toMul.2
@@ -35,7 +35,7 @@ theorem sec128_no_central_three {G : Type} [Group G] [Finite G] (V : Subgroup G)
         apply LinearEquiv.ext
         intro v
         apply Additive.ext
-        simp [mul_assoc] }
+        simp }
   let ρ : ↥Z →* (Additive ↥V ≃ₗ[ZMod 2] Additive ↥V) := ρ₀.comp Z.subtype
   let c' : ↥Z := ⟨c, hcZ⟩
   refine sec128_F4_central_three (W := Additive ↥V) (hW := hV.2) (Z := ↥Z) (hZ := hZ)

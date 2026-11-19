@@ -87,7 +87,7 @@ theorem l154d4_e6_of_form (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
   have key : LargeEvenMarking ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)
       fun lab _ _ _ _ _ => lab.tag = .E6 ∨ lab.tag = .twE6 := by
     rcases hstd.hπ with h1 | h1
-    · haveI : Finite (frobeniusFixedField L 2 f) := finite_frobeniusFixedField hf
+    · have : Finite (frobeniusFixedField L 2 f) := finite_frobeniusFixedField hf
       have hL := hstd.stdLayer_eq_map_of_one (f := f) h1
       rw [hL, Subgroup.map_map] at hX
       have hj : Function.Injective ((MulAut.conj g).toMonoidHom.comp
@@ -96,8 +96,8 @@ theorem l154d4_e6_of_form (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
       rw [hX] at hqi ⊢
       exact largeEvenMarking_mono (fun _ _ _ _ _ _ h => Or.inl h)
         (l154td4_e6_marking_inner hf (card_frobeniusFixedField_pow hf) hj hqi)
-    · haveI : Finite (K2 L 2 f) := finite_frobeniusFixedField (by omega)
-      haveI := certificate123_of_kernel
+    · have : Finite (K2 L 2 f) := finite_frobeniusFixedField (by omega)
+      have := certificate123_of_kernel
       have hL := hstd.stdLayer_eq_range_of_rho (f := f) h1
       have hpsi : psi2 τ L 2 f = (baseChangeGL (frobeniusFixedField L 2 (2 * f)).subtype).comp
           (e6Iota τ L f) := rfl

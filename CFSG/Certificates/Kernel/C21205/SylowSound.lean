@@ -90,7 +90,7 @@ theorem testBit_transLoop (c q : ℕ) :
     rcases lt_trichotomy q n with h | rfl | h
     · have h1 : ¬ q ≥ n := by omega
       simp [h, h1, show q < n + 1 by omega]
-    · simp [Nat.testBit_and, Nat.testBit_shiftRight]
+    · simp
     · have h1 : ¬ q < n := by omega
       have h2 : ¬ q < n + 1 := by omega
       have h3 : (1 : ℕ).testBit (q - n) = false :=
@@ -255,7 +255,7 @@ theorem exists_conj_rep_of_sylowK (h : sylowK PQ i0 ng G R PD CJ = true) (τ : S
   set k := fld (fld CJ 74 i) 2 0
   have hk : k < 4 := fld_lt _ 2 0
   have hr := hreps k hk
-  simp only [Bool.and_eq_true, Nat.beq_eq, isSpK_eq, mulK_eq] at hr
+  simp only [isSpK_eq, mulK_eq] at hr
   obtain ⟨ρ, hρ, -⟩ := exists_rep hr.2 hr.2 hr.1
   have e : y * μ = μ * ρ := Rep.unique (rep_mulK hyi hμ) (hconj ▸ rep_mulK hμ hρ)
   refine ⟨k, hk, ρ, hρ, g * μ, ?_⟩

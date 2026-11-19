@@ -126,7 +126,7 @@ private theorem eq_one_of_mem_of_mem_of_odd {A K : Subgroup G} (hA : IsPGroup 2 
 
 private theorem isSylowOf_of_sylow_le [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylow p G)
     {K : Subgroup G} (hPK : (P : Subgroup G) ≤ K) : IsSylowOf p (P : Subgroup G) K :=
-  isSylowOf_iff.mpr ⟨hPK, P.isPGroup', fun hdvd =>
+  isSylowOf_iff.mpr ⟨hPK, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPK))⟩
 
 private theorem eq_top_of_commutator_mem_of_ker_le {L Q : Type*} [Group L] [Group Q]
@@ -277,7 +277,7 @@ private theorem centerOf_sylow_eq_centerOf_D (hσ : σ.IsValid) (hN : σ.NStruct
       have h := (S₂ : Subgroup G).mul_mem ((S₂ : Subgroup G).inv_mem (hZS₂ hz'Z)) hzS₂
       rwa [inv_mul_cancel_left] at h
     change z' * m ∈ Z
-    rw [eq_one_of_mem_of_mem_of_odd S₂.isPGroup' σ.odd_card_ON hmS₂ hm, mul_one]
+    rw [eq_one_of_mem_of_mem_of_odd S₂.isPGroup σ.odd_card_ON hmS₂ hm, mul_one]
     exact hz'Z
   have hnZ : n ∈ Subgroup.normalizer (Z : Set G) :=
     mem_normalizer_of_conj_mem fun z hz => hb (ha z hz)
@@ -496,7 +496,7 @@ theorem qgroup_constraint_criterion_of (hσ : σ.IsValid) (hN : σ.NStructure)
   have hZH : Z ≤ H := inf_le_left.trans hDH
   obtain ⟨P₂, hP₂⟩ := σ.exists_sylow_two_le_inf_L hσ (σ.L_subset_mul_ON hσ hN hDH hcov)
   have hP₂H : (P₂ : Subgroup G) ≤ H := hP₂.trans inf_le_left
-  have hD2 : IsPGroup 2 (σ.D.subgroupOf H) := (σ.S.isPGroup'.to_le σ.D_le_S).comap_subtype
+  have hD2 : IsPGroup 2 (σ.D.subgroupOf H) := (σ.S.isPGroup.to_le σ.D_le_S).comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hD2.exists_le_sylow
   set S₀ := (Q₀ : Subgroup H).map H.subtype with hS₀
   have hS₀H : IsSylowOf 2 S₀ H := ⟨Q₀, rfl⟩

@@ -13,6 +13,7 @@ open CFSG.QuasithinUnique.Vol2Native.A312L.PermLat
 variable {R : Type} [Mul R] [One R] [DecidableEq R] [Hashable R]
 
 omit [One R] in
+omit [DecidableEq R] [Hashable R] in
 private theorem aux_hashr_mem_map (gens : List R) (x y : R) :
     y ∈ gens.map (x * ·) ↔ ∃ g ∈ gens, y = x * g := by
   constructor

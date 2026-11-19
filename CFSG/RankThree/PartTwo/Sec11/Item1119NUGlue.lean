@@ -2,7 +2,7 @@ module
 
 public import CFSG.RankThree.PartTwo.Sec11.Item1119SymToolNumbers
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.NumberTheory.Multiplicity
 
 public section

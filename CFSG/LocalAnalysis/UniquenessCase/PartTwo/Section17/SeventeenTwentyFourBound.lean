@@ -85,7 +85,7 @@ theorem irr_rank_twelve_of_caseTwo_J2
     · intro hY'
       rw [Set.mem_singleton_iff] at hY'
       subst hY'
-      exact ⟨1, Mb.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+      exact ⟨1, Mb.one_mem, by ext x; simp⟩
   have hsup : supConjSet K Mb = K := by
     simp only [supConjSet, hconj, Set.mem_singleton_iff, iSup_iSup_eq_left]
   have hZbot : Z = ⊥ := by

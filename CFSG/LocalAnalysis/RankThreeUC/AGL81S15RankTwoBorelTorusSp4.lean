@@ -21,7 +21,7 @@ private theorem unipotent_isSylowTwoOf_top {K : Type} [Field K] [Finite K] [Char
   have hPcoe : (P : Subgroup (StatedSp 2 K)) = SymplecticFlag.unipotent 2 K := hP
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hPcoe]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [show ((SymplecticFlag.unipotent 2 K).subgroupOf ⊤).index
         = (SymplecticFlag.unipotent 2 K).index from Subgroup.relIndex_top_right _,
       ← hPcoe]
@@ -64,7 +64,7 @@ theorem hasBorelTorus_statedSp_two {F : Type} [Field F] [Finite F] [CharP F 2] {
     {U : Subgroup ↥(CFSG.Open.StatedSp 2 F)} (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     HasBorelTorus ↥(CFSG.Open.StatedSp 2 F) q U := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcardq : q ∣ Nat.card Fˣ := by
     rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' q hcardq
@@ -75,7 +75,7 @@ theorem hasBorelTorus_statedSp_two {F : Type} [Field F] [Finite F] [CharP F 2] {
   have hET : E ≤ SymplecticTorusWeyl.torus 2 F := by
     rintro _ ⟨t, -, rfl⟩
     exact SymplecticTorusWeyl.torusHom_mem_torus t
-  haveI hPcomm : IsMulCommutative P := by
+  have hPcomm : IsMulCommutative P := by
     refine IsMulCommutative.of_comm fun a b => Subtype.ext ?_
     funext i
     exact mul_comm (a.1 i) (b.1 i)

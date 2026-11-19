@@ -68,8 +68,8 @@ theorem exists_ref_le_orbSub
       ∃ d ∈ heAutGroup, ∃ m, ∀ bw ∈ refW m, d * elt bw * d⁻¹ ∈ orbSub y' τ := by
     intro τ hτ y' hy' hmv he' hcm
     obtain ⟨d, hd, h5 | h7⟩ := Certificates.certificate7222 τ hτ y' hy' hmv he' hcm
-    · exact ⟨d, hd, 0, by rw [refW, if_pos rfl]; exact h5⟩
-    · exact ⟨d, hd, 1, by rw [refW, if_neg one_ne_zero]; exact h7⟩
+    · exact ⟨d, hd, 0, by rw [refW, ite_eq_left rfl]; exact h5⟩
+    · exact ⟨d, hd, 1, by rw [refW, ite_eq_right one_ne_zero]; exact h7⟩
   rcases involution_conj_cases ht ht2 with ⟨c, hc, htc⟩ | ⟨c, hc, htc⟩
   · exact exists_ref_of_conj hc htc hy hmove he hcomm (hcls _ List.mem_cons_self)
   · exact exists_ref_of_conj hc htc hy hmove he hcomm

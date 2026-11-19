@@ -1294,7 +1294,7 @@ theorem ggResCentBoundNbr_three_of_F4
       MulAction.stabilizer (MulAut Bs) (⟨y,hy⟩ : Bs)) ≤
         (3-1) * 6 * Nat.card (ggAutomizer K Bs) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : ∀ hN : Bs ≤ Subgroup.normalizer (K : Set G),
       3 ^ 4 ≤ Nat.card (ggGamma K hN).range := fun hN =>
     ggF4Three_rank_of_marking
@@ -1315,8 +1315,8 @@ theorem ggResCentBoundNbr_three_of_F4
       have h37 : 3 = 7 := hrow.1
       omega
   obtain ⟨Λ,hΛf,hΛd,M,C,V,hVadd,hVmod,ι,φ,h,a,hM,hC,hlin,hrefl,hpair,⟨f,hf⟩,hcl⟩ := hD
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have h3 : 3 ≤ Fintype.card Λ := by
     by_contra hn
     have h12 := ggWeylTypeData_card_le_twelve_of_rank_le_two
@@ -1375,7 +1375,7 @@ theorem ggResCentBoundNbr_three_of_twE6
       MulAction.stabilizer (MulAut Bs) (⟨y,hy⟩ : Bs)) ≤
         (3-1) * 6 * Nat.card (ggAutomizer K Bs) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMark := largeEvenMarking_and_labelAll
     (S := fun lab => GGTableBTwE6ThreeLabel 3 lab)
     (P' := fun R _ I _ => GGE6ThreeModelSCr R I)
@@ -1401,8 +1401,8 @@ theorem ggResCentBoundNbr_three_of_twE6
       have : 3 = 7 := hrow.1
       omega
   obtain ⟨Λ,hΛf,hΛd,M,C,V,hVadd,hVmod,ι,φ,h,a,hM,hC,hlin,hrefl,hpair,⟨f,hf⟩,hcl⟩ := hDat
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hker3 : Module.finrank (ZMod 3) (LinearMap.pi a).ker ≤ 3 :=
     ggResJ_rootKernel_finrank_le_three ι φ h a hlin hrefl hcl hfix
       ((card_bstar_inf_centralizer_le hH.1 hH.2.2.2.2.1).trans (by norm_num : 3^2 ≤ 3^3))
@@ -1612,7 +1612,7 @@ theorem card_range_ggGamma_le_pow_of_reflections
       (b : G) ∈ Subgroup.centralizer (K : Set G)) :
     Nat.card (ggGamma K hN).range ≤ p ^ Fintype.card Λ := by
   classical
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
   let F := (LinearMap.pi a).ker
   let f0 : F → ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) := fun v =>
     ⟨(Additive.toMul (ι.symm v.1) : Bs), by
@@ -1757,7 +1757,7 @@ theorem ggResCentBoundNbr_three_of_linearNs
       MulAction.stabilizer (MulAut Bs) (⟨y,hy⟩ : Bs)) ≤
         (3-1) * 6 * Nat.card (ggAutomizer K Bs) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMark := largeEvenMarking_and_labelAll
     (S := fun lab => GGTableBNbrInnerLinearNsLabel 3 lab)
     (P' := fun R _ I _ => GGTorusNoFixSC 3 0 R I)
@@ -1775,8 +1775,8 @@ theorem ggResCentBoundNbr_three_of_linearNs
       have : 3 = 7 := hrow.1
       omega
   obtain ⟨Λ,hΛf,hΛd,M,C,V,hVadd,hVmod,ι,φ,h,a,hM,hC,hlin,hrefl,hpair,⟨f,hf⟩,hcl⟩ := hDat
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hDiag : ∀ i, a i (h i) = 2 := by
     intro i
     rw [hpair,hC.1]
@@ -1823,7 +1823,7 @@ theorem ggResCentBoundNbr_three_of_E6_two
       MulAction.stabilizer (MulAut Bs) (⟨y,hy⟩ : Bs)) ≤
         (3-1) * 6 * Nat.card (ggAutomizer K Bs) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMark := largeEvenMarking_and_labelAll
     (S := fun lab => GGE6TwoThreeLabel 3 lab)
     (P' := fun R _ I _ => ∃ r, GGTorusLift 3 r R ∧ GGTorusNoFix 3 r R I)
@@ -1843,8 +1843,8 @@ theorem ggResCentBoundNbr_three_of_E6_two
       have : 3 = 7 := hrow.1
       omega
   obtain ⟨Λ,hΛf,hΛd,M,C,V,hVadd,hVmod,ι,φ,h,a,hM,hC,hlin,hrefl,hpair,⟨f,hf⟩,hcl⟩ := hDat
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hDiag : ∀ i, a i (h i) = 2 := by
     intro i
     rw [hpair,hC.1]
@@ -1910,7 +1910,7 @@ theorem ggResCentBoundNbr_three_of_twE6_sub
       MulAction.stabilizer (MulAut Bs) (⟨y,hy⟩ : Bs)) ≤
         (3-1) * 6 * Nat.card (ggAutomizer K Bs) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMark := largeEvenMarking_and_labelAll
     (S := fun lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n - 1)
     (P' := fun R _ I _ => GGTorusLift 3 4 R ∧ GGTorusNoFixSC 3 4 R I)
@@ -1927,8 +1927,8 @@ theorem ggResCentBoundNbr_three_of_twE6_sub
       have : 3 = 7 := hrow.1
       omega
   obtain ⟨Λ,hΛf,hΛd,M,C,V,hVadd,hVmod,ι,φ,h,a,hM,hC,hlin,hrefl,hpair,⟨f,hf⟩,hcl⟩ := hDat
-  letI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hDiag : ∀ i, a i (h i) = 2 := by
     intro i
     rw [hpair,hC.1]
@@ -1945,7 +1945,7 @@ theorem GGResHyp.false_of_e6_two_seven
     {y : G} {K : Subgroup G} (hH : GGResHyp 7 B Bs x L D J y K)
     (hK : GGHasLabel ⟨.E6, 0, 1⟩ (K ⧸ Subgroup.center K)) : False := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hcfg := hH.1
   have hnb : GGNbr 7 B x D J y K := hH.2.2.2.2.1
   have hM : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.E6, 0, 1⟩) 7 Bs K :=

@@ -41,7 +41,7 @@ theorem nonempty_j4_equiv (hbr : SporadicBridges) :
   ⟨((CFSG.Sporadic.J4.seedEquiv CFSG.Sporadic.J4.j4Facts.mat).symm.trans (hbr .J4).some)⟩
 
 theorem sporL3DownInner_J4 (hbr : SporadicBridges) : SporL3DownInner .J4 := by
-  haveI : Finite ↥CFSG.Sporadic.J4.J := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥CFSG.Sporadic.J4.J := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.J4.card_J CFSG.Sporadic.J4.j4Facts]; norm_num)
   have h1 := @sporL3DownInner_of_comp .J4 ↥CFSG.Sporadic.J4.J inferInstance inferInstance
     (nonempty_j4_equiv hbr)

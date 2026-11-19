@@ -53,7 +53,7 @@ theorem sk_spec (h : skOK R = true) {i k j : ℕ} (hi : i < 65) (hk : k < 65) (h
   have h1 := allF_spec h hi
   simp only [force_eq] at h1
   have h3 := allF_spec h1 hk
-  simp only [force_eq, bOr_eq, bNot_eq, Bool.or_eq_true, Bool.not_eq_true'] at h3
+  simp only [bOr_eq, bNot_eq, Bool.or_eq_true, Bool.not_eq_true'] at h3
   rcases h3 with h3 | h3 | h3
   · exact absurd (Nat.eq_of_beq_eq_true h3) hik
   · rw [hc, Nat.beq_refl] at h3
@@ -167,17 +167,17 @@ theorem secondKind_of (hR : rowsOK R = true) (hI : invOK R = true) (hQ : quandle
   rw [ent, ent, ent]
   by_cases hac : (a : ℕ) = c
   · simp [hac]
-  rw [if_neg (by simpa using hac)]
+  rw [ite_eq_right (by simpa using hac)]
   by_cases hcom : ln (R a) c = c
   swap
-  · rw [if_neg (by simpa using hcom)]
-  rw [if_pos (by simpa using hcom)]
+  · rw [ite_eq_right (by simpa using hcom)]
+  rw [ite_eq_left (by simpa using hcom)]
   by_cases hab : ln (R a) b = b
   · simp [hab]
-  rw [if_neg (by simpa using hab)]
+  rw [ite_eq_right (by simpa using hab)]
   by_cases hcb : ln (R c) b = b
   · simp [hcb]
-  rw [if_neg (by simpa using hcb)]
+  rw [ite_eq_right (by simpa using hcb)]
   split_ifs with hcond
   swap
   · rfl

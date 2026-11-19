@@ -226,7 +226,7 @@ theorem invSub_eq (hsc : SubspacesComplete) (hlt : ∀ s ∈ subspaceCodes, ∀ 
     invSubspaces (ms Bc) = (Ls.map vs).toFinset := by
   obtain ⟨h1, h2⟩ := hc
   ext W
-  simp only [invSubspaces, Finset.mem_filter, List.mem_toFinset, List.mem_map, mem_ms]
+  simp only [invSubspaces, Finset.mem_filter, List.mem_toFinset, List.mem_map]
   constructor
   · rintro ⟨hW, hinv⟩
     unfold subspaces at hW
@@ -290,8 +290,7 @@ theorem kAc_lt {a b : ℕ} (ha : a < 65536) (hb : b < 65536) : ∀ c ∈ kAc a b
   intro c hc
   simp only [kAc, List.mem_cons, List.not_mem_nil, or_false] at hc
   rcases hc with rfl | rfl | rfl | rfl
-  · change id4 < 65536
-    decide
+  · decide
   · exact ha
   · exact hb
   · exact mul4F_lt _ _
@@ -299,7 +298,7 @@ theorem kAc_lt {a b : ℕ} (ha : a < 65536) (hb : b < 65536) : ∀ c ∈ kAc a b
 theorem klein_eq (a b : ℕ) : klein (ofCode a) (ofCode b) = ms (kAc a b) := by
   simp [klein, kAc, ms, mul4F_ofCode, ofCode_id4]
 
-theorem kleinC_of {a b : ℕ} (ha : a < 65536) (hb : b < 65536)
+theorem kleinC_of {a b : ℕ} (_ha : a < 65536) (_hb : b < 65536)
     (h : IsKlein (ofCode a) (ofCode b)) : KleinC a b := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   refine ⟨fun e => h1 (by rw [e, ofCode_id4]), fun e => h2 (by rw [e, ofCode_id4]),

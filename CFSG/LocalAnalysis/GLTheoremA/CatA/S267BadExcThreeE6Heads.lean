@@ -29,8 +29,8 @@ theorem card_le_three_pow_six_E6_of_mod_two (hS : S.Normal) (hperf : ⁅S, S⁆ 
     (hB : IsElemAbelian 3 B) (hBC : Nat.card ↥(B ⊓ centModSubgroup 3 S) = 3) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K % 3 = 2) (eX : ↥(adjointGroup .E6 K) ≃* PSimple 3 S) :
     Nat.card B ≤ 3 ^ (4 + 2) := by
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_E6_three K (by omega)
   exact card_le_pow_add_two_of_hom Nat.prime_three hS hperf hB hBC eX center_adjointGroup_eq_bot Θ
     hΘ fun F hF => card_le_pow_four_E6_three_of_mod_two hK hF

@@ -20,7 +20,7 @@ variable {A : Type} [Group A] {p : ℕ}
 
 theorem burnsideF411_oPPrime_mono_aux (p : ℕ) {P Q : Subgroup A} (h : P ≤ Q) :
     oPPrime p P ≤ oPPrime p Q :=
-  Subgroup.closure_mono fun x hx => ⟨h hx.1, hx.2⟩
+  Subgroup.closure_mono fun _x hx => ⟨h hx.1, hx.2⟩
 
 theorem burnsideF411_trans_of_c6_xv (hp : p.Prime) {P₁ P₂ : Subgroup A} (hgen : P₁ ⊔ P₂ = ⊤)
     (hc : ∀ w₁ ∈ CosetGeom.nbrs (incl P₁ P₂).xv \ {(incl P₁ P₂).lv},

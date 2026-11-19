@@ -72,7 +72,7 @@ theorem card_mul_index_subgroupOf {H K : Subgroup G} (hKH : K ≤ H) :
     Nat.card K * (K.subgroupOf H).index = Nat.card H := by
   rw [← (K.subgroupOf H).card_mul_index, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKH).toEquiv]
 
-theorem mem_of_coprime_index [Finite G] {H K : Subgroup G} (hKH : K ≤ H)
+theorem mem_of_coprime_index [Finite G] {H K : Subgroup G} (_hKH : K ≤ H)
     (hn : (K.subgroupOf H).Normal) {u : G} (hu : u ∈ H) {m : ℕ} (hum : u ^ m = 1)
     (hcop : Nat.Coprime m (K.subgroupOf H).index) : u ∈ K := by
   have : (K.subgroupOf H).Normal := hn

@@ -27,18 +27,18 @@ theorem exists_twLangData_ennola {K : Type} [Field K] [Finite K] {n : ℕ}
     subst h0
     norm_num at h3
   obtain ⟨D, hc⟩ := exists_twLangData_of_twNormTwo' hK hσ h3 hAI hA hcard hU
-  haveI : CharP K 2 := charP_two_of_card_sq hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : ((2 ^ n : ℕ) : ZMod 3) = -1 := by
     have h0 : ((2 ^ n + 1 : ℕ) : ZMod 3) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 h3
     push_cast at h0 ⊢
     exact eq_neg_of_add_eq_zero_left h0
-  haveI : NeZero ((3 : ℕ) : K) := ⟨fun h => by
+  have : NeZero ((3 : ℕ) : K) := ⟨fun h => by
     have h' := (CharP.cast_eq_zero_iff K 2 3).1 h
     norm_num at h'⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ 3 :=
     ⟨_, IsPrimitiveRoot.isUnit_unit (by norm_num) hζ0⟩
   have hlog : ∀ x ∈ A, ∃ y : Fin TwistTag.E6.tag.rank → ZMod 3,

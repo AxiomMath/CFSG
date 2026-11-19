@@ -14,6 +14,7 @@ section Bridge
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 private lemma s9rPsi_s9P1 {A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)}
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ}
     (σ : Module.End A X ≃+* E) (ε : W ≃ₗ[A] (Fin d → ↥X)) (F : Module.End A W) :
@@ -38,7 +39,7 @@ theorem s9r_bridge (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
   obtain ⟨F, hFdef⟩ : ∃ F : Module.End A W,
       F = ((s9rHom A G' hG' x : W ≃ₗ[A] W) : Module.End A W) := ⟨_, rfl⟩
   have hF : ∀ w, F w = (x : W ≃ₗ[ZMod 2] W) w := fun w => by
-    rw [hFdef] <;> rfl
+    rw [hFdef]; rfl
   have hval : ((s9rPhi A σ ε G' hG' x : GL (Fin d) E) : Matrix (Fin d) (Fin d) E) =
       s9rPsi σ ε F := by
     rw [s9rPhi_val, hFdef]

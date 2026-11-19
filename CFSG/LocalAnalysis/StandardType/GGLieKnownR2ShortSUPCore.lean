@@ -14,7 +14,7 @@ open CFSG.Open CFSG.StandardType CFSG.LieType.BorelTits CFSG.LieType.Universal.U
 private lemma su_exists_ne_zero_ne_one {F : Type} [Field F] [Finite F] {f : ℕ}
     (hc : Nat.card F = (2 ^ f) ^ 2) : ∃ μ : F, μ ≠ 0 ∧ μ ≠ 1 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard4 : 4 ≤ Nat.card F := by
     have hf1 : 1 ≤ f := by
       by_contra h
@@ -228,7 +228,7 @@ theorem pCoreOf_normalizer_suPair_le_suStabRad {F : Type} [Field F] [Finite F] [
     unfold suStabRad
     rw [mem_rad]
     exact ⟨fun w _ => by simp, fun v _ => by simp⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hR2 : IsPGroup 2 R := GGRootNorm.isPGroup_pCoreOf N
     have hnorm : N ≤ Subgroup.normalizer (R : Set ↥(SU (unitaryInvolution F 2 f) n)) :=
       GGRootNorm.le_normalizer_pCoreOf N
@@ -255,7 +255,7 @@ theorem pCoreOf_normalizer_suPair_le_suStabRad {F : Type} [Field F] [Finite F] [
       have h1 : (suH hc n).β v w' = 1 := hfr.1
       rw [h0, (suH hc n).β_zero_left] at h1
       exact zero_ne_one h1
-    haveI : Nontrivial (Fin n → F) := ⟨⟨v, 0, hvne⟩⟩
+    have : Nontrivial (Fin n → F) := ⟨⟨v, 0, hvne⟩⟩
     have hd1 : 1 ≤ Module.finrank F (Fin n → F) := Module.finrank_pos
     set W : Submodule F (Fin n → F) :=
       isoSeq (suH hc n) (natRep (SU (unitaryInvolution F 2 f) n)) R

@@ -40,11 +40,13 @@ abbrev IsMinimalLModuleMod {D : Subgroup G} {τ : StrothTypeIndex}
     (dD : StrothWeakTypeData D τ) (C : Subgroup G) : Prop :=
   dD.IsMinimalLModule C
 
+omit [Finite G] in
 theorem IsMinimalLModuleMod.d_lt {D : Subgroup G} {τ : StrothTypeIndex}
     {dD : StrothWeakTypeData D τ} {C : Subgroup G} (h : IsMinimalLModuleMod dD C) :
     D < C :=
   h.1
 
+omit [Finite G] in
 theorem IsMinimalLModuleMod.le_normalizer {D : Subgroup G} {τ : StrothTypeIndex}
     {dD : StrothWeakTypeData D τ} {C : Subgroup G} (h : IsMinimalLModuleMod dD C) :
     dD.L ≤ Subgroup.normalizer C :=
@@ -56,7 +58,7 @@ theorem le_sylow_of_le_strothR {X : StrothAmbient G} {Z : StrothDatum X} {C : Su
 
 theorem isPGroup_of_le_strothR {X : StrothAmbient G} {Z : StrothDatum X} {C : Subgroup G}
     (hCR : C ≤ strothR X Z.D) : IsPGroup 2 C :=
-  X.S.isPGroup'.to_le (le_sylow_of_le_strothR hCR)
+  X.S.isPGroup.to_le (le_sylow_of_le_strothR hCR)
 
 theorem exists_card_eq_pow_two {X : StrothAmbient G} {Z : StrothDatum X} {C : Subgroup G}
     (hCR : C ≤ strothR X Z.D) : ∃ k : ℕ, Nat.card C = 2 ^ k :=
@@ -91,7 +93,7 @@ theorem card_D_of_tau_t100 {X : StrothAmbient G} {Z : StrothDatum X} {m : ℕ}
   rwa [hnum] at h
 
 theorem stroth_3_1 (X : StrothAmbient G) {m : ℕ} (Z : StrothDatum X)
-    (hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G) (hDC : Z.D ≤ C)
+    (_hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G) (hDC : Z.D ≤ C)
     (hCR : C ≤ strothR X Z.D) (hmin : IsMinimalLModuleMod Z.dataD C)
     (hle : (Z.D.subgroupOf C).index ≤ 4)
     (hne : (Z.D.subgroupOf C).index ≠ 4) :

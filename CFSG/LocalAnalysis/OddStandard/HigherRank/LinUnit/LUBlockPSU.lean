@@ -18,8 +18,8 @@ open CFSG.RankThree.PartOne.KCUnitaryModel (idGram idForm idForm_isSymm idForm_s
 
 theorem exists_sq_eq_neg_one_of_card_nine {K : Type} [Field K] (hK : Nat.card K = 9) :
     ∃ ζ : K, ζ ^ 2 = -1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hsq : IsSquare (-1 : K) := by
     rw [FiniteField.isSquare_neg_one_iff, ← Nat.card_eq_fintype_card, hK]
     norm_num

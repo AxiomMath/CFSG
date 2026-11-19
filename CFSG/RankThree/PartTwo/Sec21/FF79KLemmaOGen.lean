@@ -13,11 +13,11 @@ open scoped _root_.Classical
 
 theorem nonempty_centerQuot_a5 {K : Type} [Group K] (e : K ≃* alternatingGroup (Fin 5)) :
     Nonempty ((K ⧸ Subgroup.center K) ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup K := e.isSimpleGroup
   have hnc : ¬ ∀ a b : K, a * b = b * a := by
     intro h
-    letI : CommGroup K := { ‹Group K› with mul_comm := h }
+    let : CommGroup K := { ‹Group K› with mul_comm := h }
     have := IsSimpleGroup.prime_card (α := K)
     have h60 : Nat.card K = 60 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]

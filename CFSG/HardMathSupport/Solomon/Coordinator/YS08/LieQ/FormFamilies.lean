@@ -18,7 +18,7 @@ variable (F : Type) [Field F] [Finite F] [CharP F 2]
 
 theorem radRigid_PSp (r : ℕ) (hr : 2 ≤ r) (hF : 4 ≤ Nat.card F ∨ 3 ≤ r) :
     RadRigid 2 (StatedProj (StatedSp r F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hE1, hE2⟩ := ea_Sp r F
   have hdim : 4 ≤ Module.finrank F (Fin r ⊕ Fin r → F) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
@@ -35,17 +35,17 @@ theorem radRigid_PSp (r : ℕ) (hr : 2 ≤ r) (hF : 4 ≤ Nat.card F ∨ 3 ≤ r
       (fun c => rfl) hdim (fun U hU => hU) (fun U _ v _ => trivial) (natRep_injective _) hE1
       (Or.inl hE2) (hflag_iso (spForm r F) (natRep (StatedSp r F))) (fun g h => h))
   intro p hp hp2 R hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine autLift_of_induced _ (semiIso_one _) (fun _ _ => semiIso_mul _)
     (fun _ => semiIso_inv _) p R hR ?_
   rcases le_or_gt 3 r with h3 | h3
-  · exact induced_PSp F p hp2 r h3 R hR
+  · exact induced_PSp F p r h3 R hR
   · obtain rfl : r = 2 := by omega
     exact induced_PSp_two F p hp2 (hF.resolve_right (by omega)) R hR
 
 theorem radRigid_PSU (f : ℕ) (hK : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (hn : 4 ≤ n) :
     RadRigid 2 (StatedProj (StatedSU n (2 ^ f) F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hE1, hE2⟩ := ea_SU F f hK n
   have hdim : 4 ≤ Module.finrank F (Fin n → F) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
@@ -65,13 +65,13 @@ theorem radRigid_PSU (f : ℕ) (hK : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (hn : 4
       (fun U hU v hv => hU hv v hv) (natRep_injective _) hE1 (Or.inl hE2)
       (hflag_iso _ _) (fun g h => h))
   intro p hp hp2 R hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact autLift_of_induced _ (semiIso_one _) (fun _ _ => semiIso_mul _) (fun _ => semiIso_inv _)
-    p R hR (induced_PSU F p hp2 f hK n (by omega) (Or.inr hn) R hR)
+    p R hR (induced_PSU F p f hK n (by omega) (Or.inr hn) R hR)
 
 theorem radRigid_POmegaPlus (n : ℕ) (hn : 5 ≤ n) :
     RadRigid 2 (StatedProj (StatedOmega (StatedQuadPlus n F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : ∀ (h : StatedOmega (StatedQuadPlus n F)) (v : Fin n ⊕ Fin n → F),
       (quadPlusForm n F).Q (natRep (StatedOmega (StatedQuadPlus n F)) h v) =
         (quadPlusForm n F).Q v := fun h v => by
@@ -105,18 +105,18 @@ theorem radRigid_POmegaPlus (n : ℕ) (hn : 5 ≤ n) :
       (Or.inr hdim) (hflag_sing (quadPlusForm n F) _)
       (fun g hg => FS.semiIso_polar (quadPlusForm n F) hg.1 hg.2))
   intro p hp hp2 R hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine autLift_of_induced _ ⟨one_mem _, semiIsoQ_one _⟩
     (fun a b ha hb => ⟨mul_mem ha.1 hb.1, semiIsoQ_mul _ ha.2 hb.2⟩)
     (fun a ha => ⟨inv_mem ha.1, semiIsoQ_inv _ ha.2⟩) p R hR ?_
   intro α hα
-  obtain ⟨s, hs, hsQ, hind⟩ := induced_POmegaPlus F p hp2 n hn R hR α hα
+  obtain ⟨s, hs, hsQ, hind⟩ := induced_POmegaPlus F p n hn R hR α hα
   exact ⟨s, hs, ⟨hs, hsQ⟩, hind⟩
 
 theorem radRigid_POmegaMinus (n : ℕ) (hn : 4 ≤ n) (b c : F)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     RadRigid 2 (StatedProj (StatedOmega (StatedQuadMinus n F b c))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : ∀ (h : StatedOmega (StatedQuadMinus n F b c))
       (v : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F),
       (quadMinusForm n F b c hirr).Q (natRep (StatedOmega (StatedQuadMinus n F b c)) h v) =
@@ -155,12 +155,12 @@ theorem radRigid_POmegaMinus (n : ℕ) (hn : 4 ≤ n) (b c : F)
       (Or.inr hdim) (hflag_sing (quadMinusForm n F b c hirr) _)
       (fun g hg => FS.semiIso_polar (quadMinusForm n F b c hirr) hg.1 hg.2))
   intro p hp hp2 R hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine autLift_of_induced _ ⟨one_mem _, semiIsoQ_one _⟩
     (fun a b ha hb => ⟨mul_mem ha.1 hb.1, semiIsoQ_mul _ ha.2 hb.2⟩)
     (fun a ha => ⟨inv_mem ha.1, semiIsoQ_inv _ ha.2⟩) p R hR ?_
   intro α hα
-  obtain ⟨s, hs, hsQ, hind⟩ := induced_POmegaMinus F p hp2 n hn b c hirr R hR α hα
+  obtain ⟨s, hs, hsQ, hind⟩ := induced_POmegaMinus F p n hn b c hirr R hR α hα
   exact ⟨s, hs, ⟨hs, hsQ⟩, hind⟩
 
 end Families

@@ -71,7 +71,7 @@ private theorem spNT_natMap_diag {n : ℕ} (hn : 2 ≤ n) (φ : K →+* k) (t : 
   by_cases h : a = Sum.inl (⟨0, by omega⟩ : Fin n)
   · subst h
     simp [Pi.smul_apply]
-  · rw [Matrix.diagonal_apply, if_neg h, Pi.smul_apply, Pi.single_apply, if_neg h]
+  · rw [Matrix.diagonal_apply, ite_eq_right h, Pi.smul_apply, Pi.single_apply, ite_eq_right h]
     simp
 
 omit [Finite K] in
@@ -81,7 +81,7 @@ private theorem spNT_natMap_weyl {n : ℕ} (hn : 2 ≤ n) (φ : K →+* k) (i : 
       if i.val = 0 then Pi.single (Sum.inl (⟨1, by omega⟩ : Fin n)) (1 : k)
       else Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k) := by
   by_cases hi : i.val = 0
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have hi0 : i = ⟨0, by omega⟩ := Fin.ext hi
     rw [hi0]
     have h0 : (⟨0, by omega⟩ : Fin n).val + 1 < n := by show 0 + 1 < n; omega
@@ -98,7 +98,7 @@ private theorem spNT_natMap_weyl {n : ℕ} (hn : 2 ≤ n) (φ : K →+* k) (i : 
     abel_nf
     ext a
     simp [CharTwo.two_eq_zero]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     by_cases hshort : i.val + 1 < n
     · rw [CFSG.LieType.Universal.Symplectic.SpExtras.weylRep_eq_short hshort]
       rw [show (-1 : K) = 1 from CharTwo.neg_eq 1]
@@ -140,7 +140,7 @@ private theorem spNT_natMap_hecke {n : ℕ} (hn : 2 ≤ n) (hK : 4 ≤ Nat.card 
   have hcard : (Fintype.card K : k) = 0 := natCast_card_eq_zero_charTwo
   have hsum : ∑ c : K, φ c = 0 := sum_additive_eq_zero hK' φ.toAddMonoidHom
   by_cases hi : i.val = 0
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have hterm : ∀ c : K, matRep (matMap φ (mat n K)) (elt (simpleIdx i) c)
         (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin n)) (1 : k)) =
         Pi.single (Sum.inl (⟨1, by omega⟩ : Fin n)) (1 : k) +
@@ -151,7 +151,7 @@ private theorem spNT_natMap_hecke {n : ℕ} (hn : 2 ≤ n) (hK : 4 ≤ Nat.card 
     rw [Finset.sum_congr rfl (fun c _ => hterm c), Finset.sum_add_distrib, Finset.sum_const,
       Finset.card_univ, ← Finset.sum_smul, ← Nat.cast_smul_eq_nsmul k, hcard, hsum]
     simp
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hterm : ∀ c : K, matRep (matMap φ (mat n K)) (elt (simpleIdx i) c)
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) =
         Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k) := by

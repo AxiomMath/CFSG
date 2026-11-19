@@ -118,6 +118,7 @@ theorem exists_glaPLayer_of_card_ge_27 (hK : Nat.card K = 2) {A : Subgroup (adjo
     exact glaPLayer_centralizer_ne_bot_of_mulEquiv Nat.prime_three (α.trans β.symm)
       (glaPLayer_centralizer_nodeElt hK)
 
+omit [Finite K] in
 theorem torus3_rank_data :
     IsElemAbelian 3 (TableBF4Two.torus3 K).range ∧ Nat.card (TableBF4Two.torus3 K).range = 3 ^ 3 ∧
       orderOf (TableBF4Two.rootInv K) = 2 ∧
@@ -128,6 +129,7 @@ theorem torus3_rank_data :
     orderOf_eq_prime TableBF4Two.rootInv_sq TableBF4Two.rootInv_ne_one,
     SmallExc.F4Two.range_torus3_le_centralizer_rootInv⟩
 
+omit [Finite K] in
 theorem tE_rank_data : IsElemAbelian 3 (tE K).range ∧ Nat.card (tE K).range = 3 ^ 4 :=
   ⟨KD264Lie.X1F4.isElemAbelian_range_tE, KD264Lie.X1F4.card_range_tE⟩
 

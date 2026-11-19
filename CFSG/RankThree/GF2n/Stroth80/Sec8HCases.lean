@@ -84,8 +84,8 @@ theorem sec8_caseB (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     exact hl
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, hhyp, hBiff, hψ, nn, γ, M₀, hglob, θ, hθ⟩ :=
     sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ :=
     sec8_exists_codim_one h310chi h53.1 hc hs hr hglob
   have hV₁K : ∀ (c : GaloisField 2 nn) (e : M₀.E), e ∈ M₀.img (Sec8V1 M Q Z B t r) →

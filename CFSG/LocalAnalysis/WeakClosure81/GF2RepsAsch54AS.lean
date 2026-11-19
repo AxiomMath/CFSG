@@ -52,7 +52,7 @@ theorem centralizer_innAutOf_subgroupOf_eq_bot {L₀ : Type} [Group L₀] (hZ : 
 theorem solvableRadical_eq_bot_of_simple_normal {Q : Type} [Group Q] [Finite Q]
     {L : Subgroup Q} [L.Normal] (hLs : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a)
     (hC : centralizer (L : Set Q) = ⊥) : CFSG.solvableRadical Q = ⊥ := by
-  haveI := hLs
+  have := hLs
   have hL : CFSG.IsComponent L :=
     ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).1,
       Subgroup.Normal.isSubnormal inferInstance⟩
@@ -66,7 +66,7 @@ theorem solvableRadical_eq_bot_of_simple_normal {Q : Type} [Group Q] [Finite Q]
 
 theorem perfectCore_top_le_of_isSolvable_quot {Q : Type} [Group Q] [Finite Q] (N : Subgroup Q)
     [N.Normal] (hq : Group.IsSolvable (Q ⧸ N)) : perfectCore (⊤ : Subgroup Q) ≤ N := by
-  haveI := hq
+  have := hq
   have h1 : perfectCore (⊤ : Subgroup (Q ⧸ N)) = ⊥ :=
     (isSolvable_iff_perfectCore_eq_bot _).mp inferInstance
   have h2 := map_perfectCore (QuotientGroup.mk' N) (⊤ : Subgroup Q)

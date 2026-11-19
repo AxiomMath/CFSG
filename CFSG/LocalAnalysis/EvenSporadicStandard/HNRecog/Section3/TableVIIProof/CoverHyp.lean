@@ -10,11 +10,13 @@ open CFSG.EvenSporadicStandard.HNRecog Equiv
 
 variable {Y : Type*} [Group Y] [Finite Y] {w : Y} {π : Y →* Perm (Fin 5)}
 
+omit [Finite Y] in
 private lemma tableVII_cover_hyp_zpowers_normal (hC : TableVIICover Y w π) :
     (Subgroup.zpowers w).Normal :=
   Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr
     (Subgroup.mem_center_iff.mpr (fun g => (tableVII_cover_central hC g).symm)))
 
+omit [Finite Y] in
 private lemma tableVII_cover_hyp_zpowers_card (hC : TableVIICover Y w π) :
     Nat.card (Subgroup.zpowers w) = 2 := by
   rw [Nat.card_zpowers w, orderOf_eq_prime hC.sq hC.ne_one]
@@ -37,7 +39,7 @@ theorem tableVII_cover_sylow (hC : TableVIICover Y w π) (S : Sylow 2 Y) :
       tableVII_cover_hyp_factorization]
     norm_num
   have hleS : Subgroup.zpowers w ≤ (S : Subgroup Y) := by
-    letI : (Subgroup.zpowers w).Normal := tableVII_cover_hyp_zpowers_normal hC
+    let : (Subgroup.zpowers w).Normal := tableVII_cover_hyp_zpowers_normal hC
     exact IsPGroup.le_sylow_of_normal
       (IsPGroup.of_card (p := 2) (n := 1) (by
         rw [tableVII_cover_hyp_zpowers_card hC]; norm_num)) S
@@ -103,9 +105,10 @@ theorem tableVII_cover_sylow (hC : TableVIICover Y w π) (S : Sylow 2 Y) :
     · subst hw'
       refine ⟨?_, hC.sq⟩
       rw [centerOf, Subgroup.mem_inf]
-      exact ⟨hleS (by simpa using Subgroup.npow_mem_zpowers w 1),
+      exact ⟨hleS (by simp),
         Subgroup.mem_centralizer_iff.mpr (fun h _ => (tableVII_cover_central hC h).symm)⟩
 
+omit [Finite Y] in
 theorem tableVII_cover_normal (hC : TableVIICover Y w π) (N : Subgroup Y) (hN : N.Normal)
     (hne : N ≠ ⊥) : w ∈ N := by
   by_contra hwN
@@ -126,7 +129,7 @@ theorem tableVII_cover_normal (hC : TableVIICover Y w π) (N : Subgroup Y) (hN :
       (f := π.domRestrict N) hinj
     rw [Subgroup.map_top, MonoidHom.domRestrict_range, Subgroup.card_top] at h
     exact h
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
   obtain ⟨n, hnN, hn1⟩ := Subgroup.exists_ne_one_of_nontrivial N
   have hπn_mem : π n ∈ N.map π := Subgroup.mem_map.mpr ⟨n, hnN, rfl⟩
   have hπn_ne : π n ≠ 1 := by
@@ -173,12 +176,12 @@ theorem tableVII_cover_normal (hC : TableVIICover Y w π) (N : Subgroup Y) (hN :
     · right; rw [hN60] at h; omega
     · left; rw [hN120] at h; omega
   have hcomm : IsMulCommutative (Y ⧸ N) := by
-    letI : N.Normal := hN
+    let : N.Normal := hN
     rcases hq_card with h2 | h4
     · exact (isCyclic_of_prime_card (p := 2) h2).isMulCommutative
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [h4]; norm_num)
   have hcomm_le : commutator Y ≤ N := by
-    letI : N.Normal := hN
+    let : N.Normal := hN
     exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hcomm
   exact hwN (hcomm_le (hC.le_comm (by simpa only [zpow_one] using Subgroup.zpow_mem_zpowers w 1)))
 

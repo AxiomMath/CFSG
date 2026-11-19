@@ -14,6 +14,7 @@ section One
 
 variable {V Γ : Type*} [Group V] [Finite V] [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem one_sided (ρ : Γ →* MulAut V) (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * v = 1)
     {Γ₁ Γ₂ U₁ : Subgroup Γ} (e₁ : ↥Γ₁ ≃* SL(2, F4))
     (hcommΓ : ∀ a ∈ Γ₁, ∀ b ∈ Γ₂, a * b = b * a) (hU₁ : U₁ ≤ Γ₁)
@@ -96,6 +97,7 @@ section Two
 
 variable {V Γ : Type*} [Group V] [Finite V] [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem quad_gen_of_split (ρ : Γ →* MulAut V) (hc : ∀ a b : V, a * b = b * a)
     (hV : ∀ v : V, v * v = 1) {Γ₁ Γ₂ U₁ U₂ : Subgroup Γ} (e₁ : ↥Γ₁ ≃* SL(2, F4))
     (e₂ : ↥Γ₂ ≃* SL(2, F4)) (hcommΓ : ∀ a ∈ Γ₁, ∀ b ∈ Γ₂, a * b = b * a)
@@ -119,7 +121,7 @@ theorem quad_gen_of_split (ρ : Γ →* MulAut V) (hc : ∀ a b : V, a * b = b *
       (∀ u ∈ U₂, ∀ v : V, ρ u v * v⁻¹ ∈ ModSplit.fixSub ρ (U₁ ⊔ U₂)) ∧
       (∀ c ∈ ModSplit.fixSub ρ (U₁ ⊔ U₂), ∃ u₁ ∈ U₁, ∃ u₂ ∈ U₂, ∃ v₁ v₂ : V,
         c = (ρ u₁ v₁ * v₁⁻¹) * (ρ u₂ v₂ * v₂⁻¹)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V₁ := ModSplit.fixSub ρ Γ₁ with hV₁
   set V₂ := ModSplit.fixSub ρ Γ₂ with hV₂
   have hnorm : ∀ A B : Subgroup V, A ≤ normalizer (B : Set V) := fun A B a _ =>

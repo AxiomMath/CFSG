@@ -14,6 +14,7 @@ section Lin
 
 variable {K E : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [FiniteDimensional K E] in
 theorem jx_bilin_symm (B : LinearMap.BilinForm K E) (hK2 : (2 : K) = 0) (halt : ∀ e, B e e = 0)
     (a b : E) : B a b = B b a := by
   have h := halt (a + b)

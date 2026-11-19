@@ -89,6 +89,7 @@ theorem thompsonJ_eq_of_le {Q T : Subgroup G} (hQT : Q ≤ T) (hJ : thompsonJ T 
   · exact iSup₂_le fun A hA => le_iSup₂_of_le A ((key A).mp hA) le_rfl
   · exact iSup₂_le fun A hA => le_iSup₂_of_le A ((key A).mpr hA) le_rfl
 
+omit [Finite G] in
 theorem normal_thompsonJ {Q : Subgroup G} (hQ : Q.Normal) : (thompsonJ Q).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hmap : (thompsonJ Q).map (MulAut.conj g).toMonoidHom ≤ thompsonJ Q := by
@@ -319,13 +320,13 @@ theorem _root_.CFSG.RankThree.S4Free.F2Host.pResidual_le_centralizer_or_not_le_o
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hι.admissible.sylow
   have hOT : oTwo X ≤ ι.range := hP ▸ (isPGroup_oTwo X).le_sylow_of_normal P
-  have hS2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup'
+  have hS2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup
   have hSi : ¬ 2 ∣ ι.range.relIndex ⊤ := by
     rw [Subgroup.relIndex_top_right, ← hP]
     exact P.not_dvd_index
-  haveI : IsMulCommutative U := hUel.1
+  have : IsMulCommutative U := hUel.1
   have hAel : IsElemAbelian 2 (U.map ι) := CFSG.RankThree.S4Free.isElemAbelian_map hUel ι
-  haveI : IsMulCommutative (U.map ι) := hAel.1
+  have : IsMulCommutative (U.map ι) := hAel.1
   have hAN : ι.range ≤ normalizer ((U.map ι : Subgroup X) : Set X) :=
     range_le_normalizer_map ι hU.1
   have hAgt : AGt (autOn ι.range (U.map ι)) ⊤ 1 := by
@@ -359,7 +360,7 @@ theorem _root_.CFSG.RankThree.S4Free.F2Host.pResidual_le_centralizer_or_not_le_o
         obtain ⟨a', ha', hca⟩ := Group.mem_conjugatesOfSet_iff.mp ha
         obtain ⟨g, rfl⟩ := isConj_iff.mp hca
         rw [conj_pow, hAel.2 a' ha', mul_one, mul_inv_cancel]
-    haveI : IsMulCommutative Y := hYel.1
+    have : IsMulCommutative Y := hYel.1
     have hYO : Y ≤ oTwo X := normalClosure_le_normal hUO
     have hYn : Y.Normal := normalClosure_normal
     have hYN : (⊤ : Subgroup X) ≤ normalizer (Y : Set X) := fun x _ => by

@@ -199,7 +199,7 @@ theorem exists_sectionModule {G : Type} [Group G] [Finite G] {Λ W₀ W₁ : Sub
     (hab : ∀ x ∈ W₁, ∀ y ∈ W₁, x * y * x⁻¹ * y⁻¹ ∈ W₀) (hsq : ∀ x ∈ W₁, x * x ∈ W₀) :
     ∃ (W : Type) (_ : AddCommGroup W) (_ : Module (ZMod 2) W) (_ : Finite W),
       Nonempty (SectionModule Λ W₀ W₁ W) := by
-  haveI : ElemAbelianSectionLNc W₀ W₁ := ⟨hab, hsq⟩
+  have : ElemAbelianSectionLNc W₀ W₁ := ⟨hab, hsq⟩
   refine ⟨Additive (↥W₁ ⧸ W₀.subgroupOf W₁), inferInstance, inferInstance, inferInstance, ⟨?_⟩⟩
   exact
     { π := piQ_LNc
@@ -270,7 +270,7 @@ theorem irreducible_of_chief (hlt : W₀ < W₁)
       B = W₀ ∨ B = W₁) :
     Nontrivial W ∧
       ∀ P : Submodule (ZMod 2) W, (∀ y : ↥Λ, ∀ w ∈ P, S.ρ y w ∈ P) → P = ⊥ ∨ P = ⊤ := by
-  obtain ⟨g, hgW₁, hgW₀⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g, hgW₁, hgW₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hne : toW_LNc (S.π ⟨g, hgW₁⟩) ≠ 0 := by
     intro h
     exact hgW₀ ((S.ker _).mp (ofMul_eq_zero.mp h))

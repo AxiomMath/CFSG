@@ -10,7 +10,7 @@ public section
 namespace CFSG.StandardType.E6ThreeModel
 
 theorem e6ThreeModel_holds : GGE6ThreeModelInput :=
-  ⟨fun _ _ _ n hn hK h3 => e6ThreeModel_holds_E ggAbelianLift n hn hK h3,
-    fun _ _ _ n hn hK h3 => e6ThreeModel_holds_T hn hK ggAbelianLift h3⟩
+  ⟨fun _ _ _ _n hn hK h3 => e6ThreeModel_holds_E ggAbelianLift _n hn hK h3,
+    fun _ _ _ _n hn hK h3 => e6ThreeModel_holds_T hn hK ggAbelianLift h3⟩
 
 end CFSG.StandardType.E6ThreeModel

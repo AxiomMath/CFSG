@@ -87,7 +87,7 @@ private theorem ocFusionAux_isPGroup_quotient (hp2 : p ≠ 2) (S : Sylow p K)
       group
     have hα1 : α = 1 :=
       CFSG.HardMathSupport.Timmesfeld.ComponentBalance.mulAut_eq_one_of_coprime_of_fix_omega
-        (P := ↥Q) hp2 (S.isPGroup'.to_le hQS) hαcop hfix
+        (P := ↥Q) hp2 (S.isPGroup.to_le hQS) hαcop hfix
     have hzker : (⟨z, hzN⟩ : Subgroup.normalizer (Q : Set K)) ∈
         Q.normalizerMonoidHom.ker := by
       rw [MonoidHom.mem_ker]
@@ -191,10 +191,10 @@ theorem isAlperinSubgroup_eq_of_omega_central (hp2 : p ≠ 2) (S : Sylow p K)
     intro htop
     exact hne (le_antisymm hQS (Subgroup.subgroupOf_eq_top.mp htop))
   have hHlt : Q.subgroupOf (S : Subgroup K) < ⊤ := lt_top_iff_ne_top.mpr hHne
-  have hnil : Group.IsNilpotent (↥(S : Subgroup K)) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (↥(S : Subgroup K)) := S.isPGroup.isNilpotent
   have hnc : NormalizerCondition (↥(S : Subgroup K)) :=
     @Group.normalizerCondition_of_isNilpotent (↥(S : Subgroup K)) _ hnil
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt (hnc _ hHlt)
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hHlt)
   have hxNorm : (x : K) ∈ Subgroup.normalizer (Q : Set K) := by
     have hxsub : x ∈ (Subgroup.normalizer (Q : Set K)).subgroupOf (S : Subgroup K) := by
       rw [Subgroup.subgroupOf_normalizer_eq hQS]

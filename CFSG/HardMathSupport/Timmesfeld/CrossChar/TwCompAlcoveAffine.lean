@@ -39,14 +39,14 @@ theorem alcoveValue_extRoot_none (hK : K.Facts) (p : ℕ) (μ : Fin τ.rank → 
   have hne : ¬ ∀ j, 0 ≤ (K.extRoot none : Fin τ.rank → ℤ) j := by
     have _ := hK.θ_pos
     simpa [extRoot] using not_nonneg_neg_theta (K := K)
-  rw [alcoveValue, if_neg hne, extRoot, neg_dotProduct]
+  rw [alcoveValue, ite_eq_right hne, extRoot, neg_dotProduct]
   ring
 
 theorem alcoveValue_extRoot_some (p : ℕ) (μ : Fin τ.rank → ℤ) (j : Fin τ.rank) :
     alcoveValue p μ (K.extRoot (some j)) = μ j := by
   have hnn : ∀ k, 0 ≤ (K.extRoot (some j) : Fin τ.rank → ℤ) k := by
     simpa [extRoot] using single_nonneg j
-  rw [alcoveValue, if_pos hnn, extRoot, single_dotProduct, one_mul, add_zero]
+  rw [alcoveValue, ite_eq_left hnn, extRoot, single_dotProduct, one_mul, add_zero]
 
 private theorem not_nonneg_neg_of_nonneg {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ)
     (hpos : ∀ j, 0 ≤ γ j) : ¬ ∀ j, 0 ≤ (-γ : Fin τ.rank → ℤ) j := by
@@ -63,14 +63,14 @@ theorem alcoveValue_add_neg (p : ℕ) (μ : Fin τ.rank → ℤ) {γ : Fin τ.ra
     (hγ : IsRoot τ γ) : alcoveValue p μ γ + alcoveValue p μ (-γ) = p := by
   by_cases hpos : ∀ j, 0 ≤ γ j
   · have hneg : ¬ ∀ j, 0 ≤ (-γ : Fin τ.rank → ℤ) j := not_nonneg_neg_of_nonneg hγ hpos
-    rw [alcoveValue, if_pos hpos, alcoveValue, if_neg hneg, neg_dotProduct]
+    rw [alcoveValue, ite_eq_left hpos, alcoveValue, ite_eq_right hneg, neg_dotProduct]
     ring
   · have hneg : ∀ j, 0 ≤ (-γ : Fin τ.rank → ℤ) j := by
       rcases IsRoot.nonneg_or_nonpos hγ with h | h
       · exact absurd h hpos
       · intro j
         simpa using h j
-    rw [alcoveValue, if_neg hpos, alcoveValue, if_pos hneg, neg_dotProduct]
+    rw [alcoveValue, ite_eq_right hpos, alcoveValue, ite_eq_left hneg, neg_dotProduct]
     ring
 
 private theorem dotProduct_nonneg {γ μ : Fin τ.rank → ℤ} (hγ : ∀ j, 0 ≤ γ j)
@@ -92,13 +92,13 @@ private theorem alcoveValue_bounds (hK : K.Facts) {p : ℕ} {μ : Fin τ.rank �
     0 ≤ alcoveValue p μ γ ∧ alcoveValue p μ γ ≤ p := by
   rcases IsRoot.nonneg_or_nonpos hγ with hpos | hneg
   · obtain ⟨h0, hle⟩ := dotProduct_bounds (K := K) hK hμ hγ hpos
-    have hv : alcoveValue p μ γ = γ ⬝ᵥ μ := by rw [alcoveValue, if_pos hpos, add_zero]
+    have hv : alcoveValue p μ γ = γ ⬝ᵥ μ := by rw [alcoveValue, ite_eq_left hpos, add_zero]
     rw [hv]
     exact ⟨h0, hle⟩
   · have hpos' : ∀ j, 0 ≤ (-γ) j := fun j => by simpa using hneg j
     obtain ⟨h0, hle⟩ := dotProduct_bounds (K := K) hK hμ (IsRoot.neg hγ) hpos'
     have hvneg : alcoveValue p μ (-γ) = (-γ) ⬝ᵥ μ := by
-      rw [alcoveValue, if_pos hpos', add_zero]
+      rw [alcoveValue, ite_eq_left hpos', add_zero]
     have hsum := alcoveValue_add_neg p μ hγ
     rw [hvneg] at hsum
     constructor <;> linarith
@@ -115,9 +115,9 @@ private theorem alcoveValue_sub_dot (p : ℕ) (μ γ : Fin τ.rank → ℤ) :
     alcoveValue p μ γ - γ ⬝ᵥ μ = (p : ℤ) * (if ∀ j, 0 ≤ γ j then 0 else 1) := by
   rw [alcoveValue]
   by_cases h : ∀ j, 0 ≤ γ j
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     ring
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     ring
 
 private theorem alcoveValue_add_sub (p : ℕ) (μ x y : Fin τ.rank → ℤ) :
@@ -250,9 +250,9 @@ private theorem indicator_eq_zero_or_one (z : Fin τ.rank → ℤ) :
       (if ∀ j, 0 ≤ z j then (0 : ℤ) else 1) = 1 := by
   by_cases h : ∀ j, 0 ≤ z j
   · left
-    rw [if_pos h]
+    rw [ite_eq_left h]
   · right
-    rw [if_neg h]
+    rw [ite_eq_right h]
 
 private theorem nonpos_of_indicator_eq_one {z : Fin τ.rank → ℤ} (hz : IsRoot τ z)
     (h : (if ∀ j, 0 ≤ z j then (0 : ℤ) else 1) = 1) : ∀ j, z j ≤ 0 := by
@@ -288,7 +288,7 @@ private theorem not_decomposable_extRoot_some {p : ℕ} (hp : 0 < p) {μ : Fin �
     rw [hsum] at hval
     exact hval)
   have hIsum : (if ∀ k, 0 ≤ (ε₁ + ε₂) k then (0 : ℤ) else 1) = 0 := by
-    rw [← hsum, if_pos (by simpa [extRoot] using single_nonneg j)]
+    rw [← hsum, ite_eq_left (by simpa [extRoot] using single_nonneg j)]
   have hI12 : (if ∀ k, 0 ≤ ε₁ k then (0 : ℤ) else 1) +
       (if ∀ k, 0 ≤ ε₂ k then (0 : ℤ) else 1) = 0 := by
     linarith
@@ -319,7 +319,7 @@ private theorem not_decomposable_extRoot_none (hK : K.Facts) {p : ℕ} (hp : 0 <
     rw [hsum] at hval
     exact hval)
   have hIsum : (if ∀ k, 0 ≤ (ε₁ + ε₂) k then (0 : ℤ) else 1) = 1 := by
-    rw [← hsum, if_neg]
+    rw [← hsum, ite_eq_right]
     simpa [extRoot] using not_nonneg_neg_theta (K := K)
   have hI12 : (if ∀ k, 0 ≤ ε₁ k then (0 : ℤ) else 1) +
       (if ∀ k, 0 ≤ ε₂ k then (0 : ℤ) else 1) = 1 := by
@@ -360,11 +360,11 @@ private theorem decomposable_of_not_extRoot (hK : K.Facts)
     · have hγeq : γ = (γ - Pi.single j 1) + Pi.single j 1 := by abel
       conv_lhs => rw [hγeq]
       refine (alcoveValue_add_eq_iff hp μ (γ - Pi.single j 1) (Pi.single j 1)).2 ?_
-      have h1 : (if ∀ k, 0 ≤ γ k then (0 : ℤ) else 1) = 0 := by rw [if_pos hpos]
+      have h1 : (if ∀ k, 0 ≤ γ k then (0 : ℤ) else 1) = 0 := by rw [ite_eq_left hpos]
       have h2 : (if ∀ k, 0 ≤ (γ - Pi.single j 1 : Fin τ.rank → ℤ) k then (0 : ℤ) else 1) = 0 := by
-        rw [if_pos hnn]
+        rw [ite_eq_left hnn]
       have h3 : (if ∀ k, 0 ≤ (Pi.single j 1 : Fin τ.rank → ℤ) k then (0 : ℤ) else 1) = 0 := by
-        rw [if_pos (single_nonneg j)]
+        rw [ite_eq_left (single_nonneg j)]
       rw [← hγeq, h1, h2, h3]
       ring
   · have hγnot : ¬ ∀ j, 0 ≤ γ j := by
@@ -389,10 +389,10 @@ private theorem decomposable_of_not_extRoot (hK : K.Facts)
     · have hγeq : γ = x + Pi.single j 1 := by rw [hxeq]; abel
       conv_lhs => rw [hγeq]
       refine (alcoveValue_add_eq_iff hp μ x (Pi.single j 1)).2 ?_
-      have h1 : (if ∀ k, 0 ≤ γ k then (0 : ℤ) else 1) = 1 := by rw [if_neg hγnot]
-      have h2 : (if ∀ k, 0 ≤ x k then (0 : ℤ) else 1) = 1 := by rw [if_neg hxnot]
+      have h1 : (if ∀ k, 0 ≤ γ k then (0 : ℤ) else 1) = 1 := by rw [ite_eq_right hγnot]
+      have h2 : (if ∀ k, 0 ≤ x k then (0 : ℤ) else 1) = 1 := by rw [ite_eq_right hxnot]
       have h3 : (if ∀ k, 0 ≤ (Pi.single j 1 : Fin τ.rank → ℤ) k then (0 : ℤ) else 1) = 0 := by
-        rw [if_pos (single_nonneg j)]
+        rw [ite_eq_left (single_nonneg j)]
       rw [← hγeq, h1, h2, h3]
       ring
 

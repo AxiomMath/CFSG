@@ -44,7 +44,7 @@ theorem exists_unique_involution_of_rank_one_sylow (G : Type*) [Group G] [Finite
       (sylow.ne_bot_of_dvd_card (even_iff_two_dvd.mp heven))
   obtain ⟨involution, horder, hunique⟩ :=
     exists_unique_involution_of_rank_one_two_group (sylow : Subgroup G)
-      sylow.isPGroup' ((twoRank_subgroup_le _).trans hrank)
+      sylow.isPGroup ((twoRank_subgroup_le _).trans hrank)
   refine ⟨involution, involution.property,
     (Subgroup.orderOf_coe involution).trans horder, ?_⟩
   intro other hmember hother

@@ -35,7 +35,7 @@ theorem exists_lift_of_commute {K V : Type} [Field K] [Finite K] [AddCommGroup V
         centralizerImage Q (x : V ≃ₗ[K] V) ∧
       (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haord : orderOf a = p := orderOf_eq_prime ha ha1
   obtain ⟨-, -, -, -, -, -, -, -, hlift⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
@@ -67,12 +67,12 @@ theorem compAlgInnerAt_projOrthDerived_eight {K V : Type} [Field K] [Finite K]
     (hT : ∃ U : Submodule K V, Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0)
     (hK8 : Nat.card K = 8) : CompAlgInnerAt (ProjOrthDerived Q) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [Fintype.card_eq_nat_card, hK8]; norm_num)
   have hring : ringChar K = 2 := ringChar.eq (R := K) 2
   have h3ℓ : 3 ≠ ringChar K := by rw [hring]; norm_num
-  haveI : Nontrivial V := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hT
+  have : Nontrivial V := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hT
   have hZ := CFSG.RankThree.PartOne.KCOrthogonalModel.center_projOrthDerived_eq_bot hQ hT
   intro β hβmem hβ3 hβ1 J hJ e he hiso γ hγmem hγ3 hβγ hR hγstab
   obtain ⟨a, ha3, rfl⟩ := exists_pow_eq_one_of_mem_inner hZ hR.1 hβ3
@@ -93,7 +93,7 @@ theorem compAlgInnerAt_projOrthDerived_eight {K V : Type} [Field K] [Finite K]
   rcases exists_component_dichotomy Nat.prime_three (by norm_num) hQ hT h3ℓ hx J hJ with
     ⟨h, hh, hne, hq, hJeq⟩ | ⟨hlist, F, hFq, hFle, hFn, hJeq⟩
   · have hself := (primaryFactor_eq_X_sq_add_X_add_one_of_card_eq_eight hx hK8 hh hne).2
-    haveI : Fact (Irreducible h) :=
+    have : Fact (Irreducible h) :=
       ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hh⟩
     have hq' : CFSG.Open.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h) :=
       ⟨hq.1.commutator_eq_top, hq.2.1⟩
@@ -125,8 +125,8 @@ theorem compAlgInnerAt_of_statedClassicalModel_eight
     CompAlgInnerAt G := by
   obtain ⟨K, hfield, hfinite, V, _, _, _, Q, hQ, hT, hcard, -, ⟨e⟩⟩ :=
     exists_projOrth_model_card ht hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hK8 : Nat.card K = 8 := by rw [hcard, h8]
   exact compAlgInnerAt_of_mulEquiv e.symm
     (compAlgInnerAt_projOrthDerived_eight hQ hT hK8)
@@ -136,9 +136,9 @@ theorem compAlgAt_pomegaPlus_eight {n ℓ f : ℕ} {G : Type}
     (hn : 5 ≤ n) (h8 : ℓ ^ f = 8) : CompAlgAt G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  let := hfield
+  let := hfinite
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   have hM : CFSG.Open.StatedClassicalModel (matrixProjectiveDerived (coordinateQuadPlus n K))
       .POmegaPlus n ℓ f :=
@@ -160,10 +160,10 @@ theorem compAlgAt_pomegaMinus_eight {n ℓ f : ℕ} {G : Type}
     (h8 : ℓ ^ f = 8) : CompAlgAt G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn1 : 1 ≤ n := by have := hadm.2.2; omega
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   have hM : CFSG.Open.StatedClassicalModel
       (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) .POmegaMinus n ℓ f :=

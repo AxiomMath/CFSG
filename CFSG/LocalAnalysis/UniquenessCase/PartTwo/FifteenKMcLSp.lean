@@ -60,11 +60,11 @@ private theorem s15k_mclsp_map_eq {W : Type} [CommGroup W] {J : Subgroup (MulAut
     TauCeti.BilinForm.isIsometry_iff_toMatrix b, hmat, hb, TauCeti.GLSymplectic.mem_iff']
 
 theorem s15k_mcl_sp {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R : Subgroup W}
-    (D : McRep J R) (hev : Even (Module.finrank (ZMod 2) D.V))
+    (D : McRep J R) (_hev : Even (Module.finrank (ZMod 2) D.V))
     (h2 : 2 ≤ Module.finrank (ZMod 2) D.V) (f : LinearMap.BilinForm (ZMod 2) D.V)
     (hnd : f.Nondegenerate) (halt : f.IsAlt) (h : D.ρ.range = bilinIsometryGroup f) :
     (∃ n : ℕ, 2 ≤ n ∧ BinaryNaturalSL J R ⊥ n 1) ∨ (∃ n : ℕ, 4 ≤ n ∧ NatSpn J R ⊥ n 1) := by
-  haveI : FiniteDimensional (ZMod 2) D.V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) D.V := Module.Finite.of_finite
   obtain ⟨m, b, hd, hb⟩ := exists_symplectic_basis f halt hnd
   have hmap := s15k_mclsp_map_eq D f b hb
   by_cases hm : m = 1

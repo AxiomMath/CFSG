@@ -444,7 +444,7 @@ theorem fittingSubgroup_eq (h : Order72 G) (P : Sylow 3 G) :
   have := h.subsingleton_sylow_three
   have hn : (P : Subgroup G).Normal := Sylow.normal_of_subsingleton P
   have hPle : (P : Subgroup G) ≤ CFSG.fittingSubgroup G :=
-    le_sSup ⟨hn, P.isPGroup'.isNilpotent⟩
+    le_sSup ⟨hn, P.isPGroup.isNilpotent⟩
   refine le_antisymm (fun x hx => ?_) hPle
   by_contra hxP
   have h2 := h.two_dvd_orderOf_of_not_mem P hxP

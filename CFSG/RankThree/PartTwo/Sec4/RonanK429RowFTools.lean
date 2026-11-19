@@ -23,7 +23,7 @@ theorem exists_conj_commute_of_dvd {r : ℕ} (hr : r.Prime) {y : G} (hy : orderO
     (hr2 : ¬ r ^ 2 ∣ Nat.card G) {s : G}
     (hdvd : r ∣ Nat.card (Subgroup.centralizer ({s} : Set G))) :
     ∃ x : G, (x⁻¹ * s * x) * y = y * (x⁻¹ * s * x) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer ({s} : Set G)) r hdvd
   have hgs : (g : G) * s = s * g := Subgroup.mem_centralizer_singleton_iff.mp g.2
   have hg' : orderOf (g : G) = r := by rw [Subgroup.orderOf_coe, hg]
@@ -122,15 +122,17 @@ section Perfect
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem Good429.of_perfect_le {C D : Subgroup S} (hDC : D ≤ C)
     (h : ∀ K : Subgroup S, K ≤ C → Group.IsPerfect K → K ≤ D) (hD : Good429 D) : Good429 C := by
   intro K hKC hKp hKs hT
   have hKD : K ≤ D := h K hKC hKp
   exact hD K hKD hKp (isSubnormal_subgroupOf_of_le hDC hKD hKs) hT
 
+omit [Finite S] in
 theorem le_of_commutator_mem {C D K : Subgroup S}
     (hcomm : ∀ a ∈ C, ∀ b ∈ C, ⁅a, b⁆ ∈ D) (hKC : K ≤ C) (hKp : Group.IsPerfect K) : K ≤ D := by
-  haveI := hKp
+  have := hKp
   rw [← Subgroup.commutator_eq_self (H := K)]
   exact Subgroup.commutator_le.mpr fun a ha b hb => hcomm a (hKC ha) b (hKC hb)
 
@@ -160,7 +162,7 @@ section A8
 
 theorem pCore_two_eq_bot_of_simple {D : Type*} [Group D] [Finite D] [IsSimpleGroup D]
     (hD : ¬ IsPGroup 2 D) : CFSG.pCore 2 D = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (inferInstance : (CFSG.pCore 2 D).Normal).eq_bot_or_eq_top with h | h
   · exact h
   · exfalso
@@ -234,7 +236,7 @@ theorem not_isType429_quot_of_simple_20160 {D : Type} [Group D] [Finite D] [IsSi
     (hD : Nat.card D = 20160) (h6 : ∃ g : D, orderOf g = 6) :
     ¬ IsType429 (D ⧸ CFSG.pCore 2 D) := by
   intro hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ¬ IsPGroup 2 D := by
     intro hp
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp
@@ -258,13 +260,13 @@ theorem good429_of_prod
     (f : C →* H₁) (g : C →* H₂) (hinj : ∀ x : C, f x = 1 → g x = 1 → x = 1)
     (hf : Nat.card f.range < 2520) (hg : Nat.card g.range < 2520) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   set T := K ⧸ CFSG.pCore 2 K
-  haveI : Group.IsPerfect T := inferInstance
-  haveI := isSimpleGroup_of_isType429 hT
+  have : Group.IsPerfect T := inferInstance
+  have := isSimpleGroup_of_isType429 hT
   have hT2520 : 2520 ≤ Nat.card T := le_card_of_isType429 hT
-  haveI : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
-  haveI : Finite g.range := Finite.of_surjective _ g.rangeRestrict_surjective
+  have : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
+  have : Finite g.range := Finite.of_surjective _ g.rangeRestrict_surjective
   set fK : K →* H₁ := f.comp (Subgroup.inclusion hKC)
   set gK : K →* H₂ := g.comp (Subgroup.inclusion hKC)
   set π : K →* T := QuotientGroup.mk' (CFSG.pCore 2 K)

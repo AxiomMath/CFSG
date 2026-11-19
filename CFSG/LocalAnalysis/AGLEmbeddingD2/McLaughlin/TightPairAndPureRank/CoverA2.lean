@@ -20,11 +20,12 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
     (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
 
 include hct hext in
+omit [Finite K] in
 theorem rankOne_le_parabolic (i : Fin D.rank) :
     haveI := cartan_borel_weylN_normal hct hext
     rankOne D.rootGroup i ≤ parabolic (borel D H) (weylN n H) {((⟨n i, n_mem_weylN i⟩ :
       weylN n H) : WeylGroup (borel D H) (weylN n H))} := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   have hBN := isBNPair_borel_weylN hct hext
   set B := borel D H with hB
   set N := weylN n H with hN
@@ -34,7 +35,7 @@ theorem rankOne_le_parabolic (i : Fin D.rank) :
   have hnP : n i ∈ parabolic B N {s} := by
     rw [hBN.mem_parabolic_iff hJS]
     exact ⟨s, Subgroup.subset_closure rfl,
-      mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp [hB]⟩⟩
+      mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp⟩⟩
   intro g hg
   have hα : (Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=
     (RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i
@@ -48,11 +49,12 @@ theorem rankOne_le_parabolic (i : Fin D.rank) :
 
 
 include hct hext in
+omit [Finite K] in
 theorem parabolic_single_eq (i : Fin D.rank) :
     haveI := cartan_borel_weylN_normal hct hext
     parabolic (borel D H) (weylN n H) {((⟨n i, n_mem_weylN i⟩ : weylN n H) :
       WeylGroup (borel D H) (weylN n H))} = borel D H ⊔ rankOne D.rootGroup i := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   have hBN := isBNPair_borel_weylN hct hext
   set s : WeylGroup (borel D H) (weylN n H) :=
     ((⟨n i, n_mem_weylN i⟩ : weylN n H) : WeylGroup (borel D H) (weylN n H)) with hs
@@ -77,11 +79,12 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
     (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
 
 include hct hext in
-theorem simpleRefl_ne {i j : Fin D.rank} (hij : i ≠ j) (hAji : D.cartan j i = -1) :
+omit [Finite K] in
+theorem simpleRefl_ne {i j : Fin D.rank} (hij : i ≠ j) (_hAji : D.cartan j i = -1) :
     haveI := cartan_borel_weylN_normal hct hext
     ((⟨n i, n_mem_weylN i⟩ : weylN n H) : WeylGroup (borel D H) (weylN n H)) ≠
       ((⟨n j, n_mem_weylN j⟩ : weylN n H) : WeylGroup (borel D H) (weylN n H)) := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   intro h
   have hker := cartan_borel_weylN_eq_ker hct hext
   have h1 : weylNHom hct hext ⟨n i, n_mem_weylN i⟩ = weylNHom hct hext ⟨n j, n_mem_weylN j⟩ := by
@@ -96,7 +99,8 @@ theorem simpleRefl_ne {i j : Fin D.rank} (hij : i ≠ j) (hAji : D.cartan j i = 
   simp at h3
 
 include hct in
-theorem braid_three {i j : Fin D.rank} (hij : i ≠ j) (hAij : D.cartan i j = -1)
+omit [Finite K] in
+theorem braid_three {i j : Fin D.rank} (_hij : i ≠ j) (hAij : D.cartan i j = -1)
     (hAji : D.cartan j i = -1) : n i * n j * n i = n j * n i * n j := by
   have hb := hct.braid i j
   have h1 : (-1 : ℤ) * -1 = 1 := by norm_num
@@ -110,7 +114,7 @@ theorem not_nine_dvd_card_rankOne_sup (hH : ∀ k, H k = ⊥) (hU2 : IsPGroup 2 
       ∃ a ∈ rankOne D.rootGroup i, ∃ b ∈ rankOne D.rootGroup i, a * b ≠ b * a)
     {i j : Fin D.rank} (hij : i ≠ j) (hAij : D.cartan i j = -1) (hAji : D.cartan j i = -1) :
     ¬ 9 ∣ Nat.card ↥(rankOne D.rootGroup i ⊔ rankOne D.rootGroup j) := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   have hBN := isBNPair_borel_weylN hct hext
   have hBU : borel D H ≤ posUnipotent D :=
     sup_le (iSup_le fun j => (hH j).le.trans bot_le) le_rfl

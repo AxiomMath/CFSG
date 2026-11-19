@@ -41,7 +41,7 @@ theorem quadMinus_eq {m n : ℕ} (e : (Fin m ⊕ Fin m ⊕ Fin 2) ≃ Fin n) (U 
   have h1 : ∀ x : ZMod 2, x * x = x := by decide
   have h2 : ∀ x : ZMod 2, x ^ 2 = x := by decide
   simp [CFSG.MatrixModel.minusQuadCore, Fintype.sum_sum_type, umM, Fin.sum_univ_two]
-  simp only [mul_add, h1, h2]
+  simp only [mul_add, h1]
   ring
 
 theorem quadPlus_eq {r n : ℕ} (e : (Fin r ⊕ Fin r) ≃ Fin n) (U : ℕ)
@@ -126,7 +126,7 @@ theorem tc_glue (hn : 0 < n) {m N c0 nF : ℕ} {G Y Yi E Tr Ss Lf F Fm Pw : ℕ 
     if h : j < m then ⟨(g₀ j : GL ι (ZMod 2)), (hg₀ j h).2⟩ else 1
   have hg : ∀ j < m, matOmK Q e (g j) = pkMat n (G j) := by
     intro j hj
-    simp only [g, dif_pos hj]
+    simp only [g, dite_eq_left hj]
     exact (hg₀ j hj).1
   have hρ := matOmK_injective Q e
   have hone := pkMat_oneF2 n
@@ -159,7 +159,7 @@ theorem kill_glue {m N k nR : ℕ} {G Y Yi E Tr Ss Lf W Rp Cm : ℕ → ℕ} (hN
     if h : j < m then ⟨(g₀ j : GL ι (ZMod 2)), (hg₀ j h).2⟩ else 1
   have hg : ∀ j < m, matOmK Q e (g j) = pkMat n (G j) := by
     intro j hj
-    simp only [g, dif_pos hj]
+    simp only [g, dite_eq_left hj]
     exact (hg₀ j hj).1
   have hρ := matOmK_injective Q e
   have hone := pkMat_oneF2 n

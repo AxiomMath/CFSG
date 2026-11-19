@@ -21,7 +21,7 @@ theorem exists_l2Wreath_class_of_not_isSimpleGroup_minimalNormal
       ∀ u ∈ D, ∃ i j : Fin n, i ≠ j ∧ (Φ u).right = Equiv.swap i j ∧
         (∀ k, k ≠ i → k ≠ j → (Φ u).left k = 1) ∧
         (Φ u).left j = ((Φ u).left i)⁻¹ := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   obtain ⟨W⟩ := nonempty_wreathData hC.setup hrad hM hMns
   have hcent : Subgroup.centralizer (M : Set G) = ⊥ :=
     centralizer_eq_bot_of_minimal hC.setup hrad hM

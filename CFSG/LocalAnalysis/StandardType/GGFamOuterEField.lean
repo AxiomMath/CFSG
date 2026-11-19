@@ -121,7 +121,7 @@ theorem langFamRatFieldSL_outerE
           (fun α => v • α) '' parabolicRoots Tag.E7 (e6Nodes Tag.E7) := by
         rw [← hsel, hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7
           (J := e6Nodes Tag.E7) (by decide)
-          (fun k => by simp only [e6Nodes, Set.mem_setOf_eq]; revert k; decide)]
+          (fun k => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert k; decide)]
       exact fam_ratFieldSL_of_e6_pin S (famCharHom a) i v hpin hΨρ hout hq
     · exfalso
       apply hout
@@ -152,7 +152,7 @@ theorem langFamRatFieldSL_outerE
           (fun α => v • α) '' parabolicRoots Tag.E8 (e6Nodes Tag.E8) := by
         rw [← hsel, hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8
           (J := e6Nodes Tag.E8) (by decide)
-          (fun k => by simp only [e6Nodes, Set.mem_setOf_eq]; revert k; decide)]
+          (fun k => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert k; decide)]
       exact fam_ratFieldSL_of_e6_pin S (famCharHom a) i v hpin hΨρ hout hq
     · exfalso
       apply hout

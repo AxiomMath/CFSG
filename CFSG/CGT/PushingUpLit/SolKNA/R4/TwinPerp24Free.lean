@@ -73,7 +73,7 @@ theorem closure_pair_cases {a b : Y} (ha : a * a = 1) (hb : b * b = 1) (hab : a 
   | one => left; rfl
   | mul x y _ _ h1 h2 =>
     rcases h1 with h1 | h1 | h1 | h1 <;> rcases h2 with h2 | h2 | h2 | h2 <;> rw [h1, h2] <;>
-      simp only [mul_assoc, ha, hb, ha', hb', hba, hba', one_mul, mul_one, true_or, or_true]
+      simp only [mul_assoc, ha, hb, ha', hba, hba', one_mul, mul_one, true_or, or_true]
   | inv x _ h =>
     rcases h with h | h | h | h <;> rw [h]
     · left; simp
@@ -158,7 +158,7 @@ theorem oddCore_le_centralizer_sup (h : PerpHypR r n Y R S t) (h2 : TwinPerp.Two
   intro x hx
   exact Subgroup.mem_centralizer_singleton_iff.mp (hle hx)
 
-theorem alphaOf_odd_of_oddCore_bot (hr : 4 ≤ r) (h : PerpHypR r n Y R S t) (h2 : TwinPerp.TwoTwins R)
+theorem alphaOf_odd_of_oddCore_bot (_hr : 4 ≤ r) (h : PerpHypR r n Y R S t) (h2 : TwinPerp.TwoTwins R)
     {W : Subgroup Y} (hW : W ∈ WSet (CoreAssembly.conjClass (tightCore R))) (htW : t ∈ W)
     (hS4 : MuIsoS4 (CoreAssembly.conjClass (tightCore R)) W)
     (hnc : ¬ TwinPerp.WCentralNontrivial W) (hK : oddCoreIn (tightCore R) = ⊥) {g : Y}

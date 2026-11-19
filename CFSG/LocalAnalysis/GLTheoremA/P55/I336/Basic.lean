@@ -37,7 +37,7 @@ theorem cyclic_or_quaternion {Y : Subgroup G} (hY2 : IsPGroup 2 Y)
 theorem isCyclic_of_isMulCommutative {Y X : Subgroup G} (hY2 : IsPGroup 2 Y)
     (h : ∀ U : Subgroup G, U ≤ Y → IsElemAbelian 2 U → Nat.card U ≤ 2) (hXY : X ≤ Y)
     (hX : IsMulCommutative X) : IsCyclic X := by
-  haveI : IsMulCommutative (X.subgroupOf Y) :=
+  have : IsMulCommutative (X.subgroupOf Y) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (by
       have := hX.is_comm.comm ⟨a.1, a.2⟩ ⟨b.1, b.2⟩
       simpa using congrArg Subtype.val this))⟩⟩
@@ -45,6 +45,7 @@ theorem isCyclic_of_isMulCommutative {Y X : Subgroup G} (hY2 : IsPGroup 2 Y)
     ↥Y hY2 (twoRank_le_one h) (X.subgroupOf Y)
   exact (Subgroup.subgroupOfEquivOfLe hXY).isCyclic.mp hc
 
+omit [Finite G] in
 theorem le_normalizer_of_forall_mem {B S : Subgroup G} (h : ∀ g ∈ B, ∀ y ∈ S, g * y * g⁻¹ ∈ S) :
     B ≤ Subgroup.normalizer (S : Set G) := by
   intro g hg
@@ -54,6 +55,7 @@ theorem le_normalizer_of_forall_mem {B S : Subgroup G} (h : ∀ g ∈ B, ∀ y �
   have := h g⁻¹ (B.inv_mem hg) _ hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mul_conj_comm {a d x : G} (had : a * d = d * a) (hxa : a * x = x * a) :
     a * (d * x * d⁻¹) = d * x * d⁻¹ * a := by
   have hinv : a * d⁻¹ = d⁻¹ * a := by
@@ -68,18 +70,19 @@ theorem mul_conj_comm {a d x : G} (had : a * d = d * a) (hxa : a * x = x * a) :
     _ = d * x * (d⁻¹ * a) := by rw [hinv]
     _ = d * x * d⁻¹ * a := by group
 
+omit [Finite G] in
 theorem exists_fixed_mem_coset {p : ℕ} (hp : p.Prime) {A N : Subgroup G} (hA : IsPGroup p A)
     (hAN : A ≤ Subgroup.normalizer (N : Set G)) (hN : ¬ p ∣ Nat.card N) {y : G}
     (hy : ∀ a ∈ A, y⁻¹ * (a * y * a⁻¹) ∈ N) :
     ∃ n ∈ N, y * n ∈ Subgroup.centralizer (A : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : ∀ (a : A) (n : N), y⁻¹ * ((a : G) * (y * n) * (a : G)⁻¹) ∈ N := by
     intro a n
     have e : y⁻¹ * ((a : G) * (y * n) * (a : G)⁻¹) =
         (y⁻¹ * (a * y * (a : G)⁻¹)) * (a * n * (a : G)⁻¹) := by group
     rw [e]
     exact N.mul_mem (hy a a.2) ((Subgroup.mem_normalizer_iff.mp (hAN a.2) n).mp n.2)
-  letI : MulAction A N :=
+  let : MulAction A N :=
     { smul := fun a n => ⟨y⁻¹ * ((a : G) * (y * n) * (a : G)⁻¹), hmem a n⟩
       one_smul := fun n => Subtype.ext (by
         show y⁻¹ * (((1 : A) : G) * (y * n) * ((1 : A) : G)⁻¹) = n
@@ -100,6 +103,7 @@ theorem exists_fixed_mem_coset {p : ℕ} (hp : p.Prime) {A N : Subgroup G} (hA :
   calc a * (y * n) = a * (y * n) * a⁻¹ * a := by group
     _ = y * n * a := by rw [h3]
 
+omit [Finite G] in
 theorem conjAut_pow_eq_one {X : Subgroup G} {d : G} (hd : d ∈ Subgroup.normalizer (X : Set G))
     {n : ℕ} (hdn : d ^ n = 1) : (X.normalizerMonoidHom ⟨d, hd⟩) ^ n = 1 := by
   rw [← map_pow]
@@ -111,13 +115,14 @@ theorem cyclic_two_group_centralized {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X
     (hX2 : IsPGroup 2 X) (hXc : IsCyclic X) {d : G}
     (hd : d ∈ Subgroup.normalizer (X : Set G)) (hdp : d ^ p = 1) {x : G} (hx : x ∈ X) :
     d * x * d⁻¹ = x := by
-  haveI := hXc
+  have := hXc
   have hodd : Odd p := hp.eq_two_or_odd'.resolve_left hp2
   have h1 := CFSG.LocalAnalysis.GorensteinLyons.mulAut_eq_one_of_odd hX2 hodd
     (conjAut_pow_eq_one hd hdp)
   have h2 := congrArg (fun f : MulAut ↥X => ((f ⟨x, hx⟩ : ↥X) : G)) h1
   simpa using h2
 
+omit [Finite G] in
 theorem centralized_of_isPGroup_mulAut {p : ℕ} (hp2 : p ≠ 2) (hp : p.Prime) {Y : Subgroup G}
     (hA : IsPGroup 2 (MulAut ↥Y)) {d : G} (hd : d ∈ Subgroup.normalizer (Y : Set G))
     (hdp : d ^ p = 1) {y : G} (hy : y ∈ Y) : d * y * d⁻¹ = y := by
@@ -153,7 +158,7 @@ theorem quat_of_action {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y D : Subgroup 
     have h2 := congrArg (fun f : MulAut ↥Y => ((f ⟨y, hy⟩ : ↥Y) : G)) h1
     apply hne
     simpa [hσ] using h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf σ = p := orderOf_eq_prime hσp hσ1
   have hdvd : p ∣ Nat.card (MulAut ↥Y) := hord ▸ orderOf_dvd_natCard σ
   have hp3 : p = 3 := by
@@ -174,6 +179,7 @@ theorem quat_of_action {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y D : Subgroup 
           (MulAut.congr e).symm
       exact hne (centralized_of_isPGroup_mulAut hp2 hp hA hdn (hD.2 d hd) hy)
 
+omit [Finite G] in
 theorem card_mul_eq_of_index_eq {p : ℕ} {D₀ D : Subgroup G} (h : D₀ ≤ D)
     (hi : (D₀.subgroupOf D).index = p) : Nat.card D₀ * p = Nat.card D := by
   have h1 := Subgroup.card_mul_index (D₀.subgroupOf D)
@@ -184,7 +190,7 @@ theorem card_mul_eq_of_index_eq {p : ℕ} {D₀ D : Subgroup G} (h : D₀ ≤ D)
 
 theorem abelian_le_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T D : Subgroup G}
     (hT : IsPGroup 2 T) (hD : IsElemAbelian p D) (hDne : D ≠ ⊥)
-    (hDT : D ≤ Subgroup.normalizer (T : Set G))
+    (_hDT : D ≤ Subgroup.normalizer (T : Set G))
     (hrk : ∀ D₀ : Subgroup G, D₀ ≤ D → Nat.card D₀ * p = Nat.card D →
       (⁅T ⊓ Subgroup.centralizer (D₀ : Set G), D⁆ : Subgroup G) ≠ ⊥ →
       ∀ U : Subgroup G, U ≤ T ⊓ Subgroup.centralizer (D₀ : Set G) → IsElemAbelian 2 U →

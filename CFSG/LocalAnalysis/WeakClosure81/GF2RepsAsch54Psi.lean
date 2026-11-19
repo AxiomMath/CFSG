@@ -154,7 +154,7 @@ theorem oInf_top_eq_bot {Q : Type} [Group Q] [Finite Q] (h : CFSG.solvableRadica
   set N : Subgroup Q := (CFSG.solvableRadical ↥(⊤ : Subgroup Q)).map (⊤ : Subgroup Q).subtype
   have hsurj : Function.Surjective (⊤ : Subgroup Q).subtype := fun x => ⟨⟨x, trivial⟩, rfl⟩
   have hNn : N.Normal := Subgroup.Normal.map inferInstance _ hsurj
-  haveI : Group.IsSolvable ↥(CFSG.solvableRadical ↥(⊤ : Subgroup Q)) :=
+  have : Group.IsSolvable ↥(CFSG.solvableRadical ↥(⊤ : Subgroup Q)) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hNs : Group.IsSolvable ↥N :=
     Group.isSolvable_of_surjective

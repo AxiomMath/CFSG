@@ -56,13 +56,13 @@ private theorem mulVec_upper (t : F) (v : Fin 3 → F) :
     (!![1, 0, t; 0, 1, t ^ 2; 0, 0, 1] : Matrix (Fin 3) (Fin 3) F).mulVec v =
       ![v 0 + t * v 2, v 1 + t ^ 2 * v 2, v 2] := by
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec, Fin.sum_univ_three]
+  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec]
 
 private theorem mulVec_lower (v : Fin 3 → F) :
     (!![1, 1, 0; 0, 1, 0; 0, 1, 1] : Matrix (Fin 3) (Fin 3) F).mulVec v =
       ![v 0 + v 1, v 1, v 1 + v 2] := by
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec, Fin.sum_univ_three]
+  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec]
 
 private theorem second_coord_eq_zero_of_conj (c : Sp4VertexCoord L S F) {b : ↥L}
     {x : ↥(pCoreOf 2 L)}
@@ -76,8 +76,7 @@ private theorem second_coord_eq_zero_of_conj (c : Sp4VertexCoord L S F) {b : ↥
   rw [hvx] at heq
   rw [sp4RadMat_of_upper hb, mulVec_upper] at heq
   have h1 := congrFun heq 1
-  simp only [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons, Matrix.tail_cons,
-    one_pow, one_mul] at h1
+  simp only [Matrix.cons_val_one, Matrix.cons_val_zero, one_pow, one_mul] at h1
   have h2 : Multiplicative.toAdd (c.γ x) 1 + Multiplicative.toAdd (c.γ x) 2 =
       Multiplicative.toAdd (c.γ x) 1 + 0 := by simpa using h1.symm
   exact add_left_cancel h2
@@ -155,7 +154,7 @@ theorem Sp4VertexCoord.commutator (c : Sp4VertexCoord L S F) {s : ↥L} {t : F}
     _ = ![t * Multiplicative.toAdd (c.γ x) 2, t ^ 2 * Multiplicative.toAdd (c.γ x) 2, 0] := by
           rw [sp4RadMat_of_upper hs, mulVec_upper]
           funext i
-          fin_cases i <;> simp [Pi.sub_apply] <;> ring
+          fin_cases i <;> simp [Pi.sub_apply]
 
 theorem Sp4VertexCoord.mem_blockZ_iff (c : Sp4VertexCoord L S F)
     (hU : blockU L = pCoreOf 2 L) (x : ↥(pCoreOf 2 L)) :

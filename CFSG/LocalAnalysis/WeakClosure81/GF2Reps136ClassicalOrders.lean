@@ -44,7 +44,7 @@ private theorem w1369_card_statedSL_ne_168 {K : Type} [Field K] [Finite K]
         Nat.card_eq_one_iff_exists.mpr ⟨1, fun y => Subsingleton.elim y 1⟩
       rw [h1]; norm_num
     · have h1 : Nat.card (StatedSL 1 K) = 1 := by
-        letI := Fintype.ofFinite K
+        let := Fintype.ofFinite K
         rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field]
         have hq : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
         rw [hq, show (2 : ℕ) - 1 = 1 by norm_num, Nat.div_one]
@@ -72,8 +72,8 @@ private theorem w1369_card_statedSL_ne_168 {K : Type} [Field K] [Finite K]
       simpa [Finset.card_univ, Fintype.card_fin, ← pow_mul, Nat.mul_comm] using this
     have hcard : Nat.card (StatedSL m K) = ∏ i : Fin m, (2 ^ m - 2 ^ (i : ℕ)) := by
       rw [CFSG.Open.StatedAPI.card_statedSL]
-      letI := Fintype.ofFinite K
-      haveI : NeZero m := ⟨by omega⟩
+      let := Fintype.ofFinite K
+      have : NeZero m := ⟨by omega⟩
       rw [Matrix.card_SL_field]
       have hq : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
       rw [hq, show (2 : ℕ) - 1 = 1 by norm_num, Nat.div_one]
@@ -132,7 +132,7 @@ private theorem w1369_card_alternatingGroup_ne_168 (n : ℕ) :
 private theorem w1369_quadMinus_one_ne_168 {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card (StatedProj (StatedOmega (StatedQuadMinus 1 K b c))) ≠ 168 := by
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hK, pow_one])
   have hle : Nat.card (StatedProj (StatedOmega (StatedQuadMinus 1 K b c))) ≤
       Nat.card (CFSG.MatrixModel.isometryCore (StatedQuadMinus 1 K b c)) :=
@@ -153,7 +153,7 @@ private theorem w1369_quadMinus_one_ne_168 {K : Type} [Field K] [Finite K]
 private theorem w1369_card_statedProj_statedOmega_quadPlus_ne_168 {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) (k : ℕ) :
     Nat.card (StatedProj (StatedOmega (StatedQuadPlus k K))) ≠ 168 := by
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hK, pow_one])
   rcases k with _ | _ | _ | k
   · have h1 : Nat.card (StatedProj (StatedOmega (StatedQuadPlus 0 K))) = 1 :=
@@ -188,7 +188,7 @@ private theorem w1369_card_statedProj_statedOmega_quadPlus_ne_168 {K : Type} [Fi
       have h3 : Nat.card (StatedProj (StatedOmega (StatedQuadPlus 3 K))) = 20160 := by
         rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedOmega
           (CFSG.LieType.Universal.Spin.coe_quadPlus 3 K) hv]
-        letI := Fintype.ofFinite K
+        let := Fintype.ofFinite K
         have hcardF : Fintype.card K = Fintype.card (ZMod 2) := by
           rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK]; norm_num
         let φ : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hcardF
@@ -211,7 +211,7 @@ private theorem w1369_card_statedProj_statedOmega_quadPlus_ne_168 {K : Type} [Fi
 private theorem w1369_card_statedProj_statedOmega_quadMinus_ne_168 {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (k : ℕ) :
     Nat.card (StatedProj (StatedOmega (StatedQuadMinus k K b c))) ≠ 168 := by
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hK, pow_one])
   rcases k with _ | _ | _ | _ | k
   · change Nat.card (StatedProj (StatedOmega (StatedQuadMinus 1 K b c))) ≠ 168
@@ -242,8 +242,8 @@ private theorem w1369_card_statedProj_statedOmega_quadMinus_ne_168 {K : Type} [F
     obtain ⟨F, hFfield, hFfinite, hFcard, ⟨eF⟩⟩ :=
       CFSG.RankThree.GF2n.Stroth80.exists_statedOmega_quadMinus_three_mulEquiv
         (K := K) (b := b) (c := c) (f := 1) (by rw [hK]; norm_num) hirr
-    letI := hFfield
-    letI := hFfinite
+    let := hFfield
+    let := hFfinite
     rw [Nat.card_congr eF.toEquiv]
     have hdvd : Nat.card (StatedProj (StatedSU 4 (2 ^ 1) F)) ∣
         Nat.card (StatedSU 4 (2 ^ 1) F) :=
@@ -269,8 +269,8 @@ theorem w1369_card_sl_eq_168 {X : Type} [Group X] {m : ℕ} (h : IsSLn X m 1)
     (hX : Nat.card X = 168) : m = 3 := by
   unfold IsSLn at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   have hcard : Nat.card (StatedSL m K) = 168 :=
     (Nat.card_congr e.toEquiv).symm.trans hX
@@ -281,8 +281,8 @@ theorem w1369_card_sp_ne_168 {X : Type} [Group X] {n : ℕ} (h : IsSpn X n 1) :
     Nat.card X ≠ 168 := by
   unfold IsSpn at h
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   rw [Nat.card_congr e.toEquiv]
   exact w1369_card_statedSp_ne_168 hK2 (n / 2)
@@ -291,8 +291,8 @@ theorem w1369_card_omegaPlus_ne_168 {X : Type} [Group X] {n : ℕ} (h : IsOmegaP
     Nat.card X ≠ 168 := by
   unfold IsOmegaPlus at h
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   rw [Nat.card_congr e.toEquiv]
   exact w1369_card_statedProj_statedOmega_quadPlus_ne_168 hK2 (n / 2)
@@ -301,8 +301,8 @@ theorem w1369_card_omegaMinus_ne_168 {X : Type} [Group X] {n : ℕ} (h : IsOmega
     Nat.card X ≠ 168 := by
   unfold IsOmegaMinus at h
   obtain ⟨-, K, hKfield, hKfinite, b, c, hKcard, hirr, ⟨e⟩⟩ := h
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   rw [Nat.card_congr e.toEquiv]
   exact w1369_card_statedProj_statedOmega_quadMinus_ne_168 hK2 hirr (n / 2)

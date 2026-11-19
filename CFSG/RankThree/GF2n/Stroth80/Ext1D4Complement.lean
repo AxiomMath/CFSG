@@ -22,7 +22,7 @@ variable {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq ι] [DecidableEq
   carrier := {v | ∀ i, b.repr v (Sum.inl i) = (L *ᵥ fun j => b.repr v (Sum.inr j)) i}
   add_mem' := by
     intro u v hu hv i
-    simp only [Set.mem_setOf_eq, map_add, Finsupp.add_apply] at *
+    simp only [Set.mem_ofPred_eq, map_add, Finsupp.add_apply] at *
     rw [hu i, hv i, ← Pi.add_apply (L *ᵥ _), ← mulVec_add]
     rfl
   zero_mem' := by
@@ -33,15 +33,17 @@ variable {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq ι] [DecidableEq
     rfl
   smul_mem' := by
     intro c v hv i
-    simp only [Set.mem_setOf_eq, map_smul, Finsupp.smul_apply, smul_eq_mul] at *
+    simp only [Set.mem_ofPred_eq, map_smul, Finsupp.smul_apply, smul_eq_mul] at *
     rw [hv i]
     have : (fun j => c * b.repr v (Sum.inr j)) = c • fun j => b.repr v (Sum.inr j) := rfl
     rw [this, mulVec_smul, Pi.smul_apply, smul_eq_mul]
 
+omit [Fintype ι] [DecidableEq ι] [DecidableEq κ] in
 theorem mem_graphSub (b : Module.Basis (ι ⊕ κ) K E) (L : Matrix ι κ K) (v : E) :
     v ∈ graphSub b L ↔
       ∀ i, b.repr v (Sum.inl i) = (L *ᵥ fun j => b.repr v (Sum.inr j)) i := Iff.rfl
 
+omit [DecidableEq ι] [DecidableEq κ] in
 theorem isCompl_graphSub (b : Module.Basis (ι ⊕ κ) K E) (L : Matrix ι κ K) {A : Submodule K E}
     (hA : ∀ v, v ∈ A ↔ ∀ j, b.repr v (Sum.inr j) = 0) : IsCompl A (graphSub b L) := by
   refine ⟨Submodule.disjoint_def.2 fun v hvA hvC => ?_, codisjoint_iff.2 ?_⟩
@@ -85,6 +87,7 @@ theorem graphSub_invariant (b : Module.Basis (ι ⊕ κ) K E) (L : Matrix ι κ 
   simp only [Sum.elim_inl] at h1
   rw [h1, h2]
 
+omit [DecidableEq ι] [DecidableEq κ] in
 theorem fromBlocks_ext_mul (P : Matrix ι ι K) (Q : Matrix ι κ K) (P' : Matrix κ κ K)
     (R : Matrix ι ι K) (S : Matrix ι κ K) (R' : Matrix κ κ K) :
     fromBlocks P Q 0 P' * fromBlocks R S 0 R' =

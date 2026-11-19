@@ -86,7 +86,7 @@ open CFSG.ComponentClassification.TBLit (GriessMultipliersAllModels)
 theorem seitzHyperGamma_eq_top_of_invP'Pair {K : Type*} [Group K] [Finite K]
     (hperf : commutator K = ⊤) {p : ℕ} (hp : p.Prime) {E : Subgroup (MulAut K)}
     (hE : IsElemAbelian p E) (hE1 : E ≠ ⊥) (h : InvP'Pair p E) : seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨H₁, H₂, hp₁, hp₂, hs₁, hs₂, hgen⟩ := h
   refine seitzHyperGamma_eq_top_of_p'Subgroups hperf hE hE1 {H₁, H₂} ?_ ?_ ?_
   · rintro H (rfl | hH)
@@ -154,15 +154,15 @@ theorem seitzHyperGamma_eq_top_of_uDiagGU {K : Type} [Group K] [Finite K]
   classical
   obtain ⟨ℓ, f, n, Kf, _, h, θ, hn, hpq, hq, hD, hcomm, hpow⟩ := hU
   have hfin := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP Kf ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   set κ := primeFormConjHom h (idGram Kf (n + 1)) with hκ
   set E' := E.map (modelAut θ) with hE'def
   have hinj := modelAut_injective hperf θ
   have hE'a : IsElemAbelian p E' := CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _
   have hcard' : Nat.card E' = p ^ 3 := by rw [Subgroup.card_map_of_injective hinj, hcard]
-  haveI : Finite E' :=
+  have : Finite E' :=
     Nat.finite_of_card_ne_zero (by rw [hcard']; exact pow_ne_zero 3 hp.ne_zero)
   have hq4 : 4 ≤ ℓ ^ f := by
     have h2 : 2 ≤ ℓ ^ f := le_trans h.prime.two_le (Nat.le_self_pow (by have := h.one_le; omega) ℓ)
@@ -191,7 +191,7 @@ theorem seitzHyperGamma_eq_top_of_uDiagGU {K : Type} [Group K] [Finite K]
     rw [h1]
     exact Dvd.intro_left _ rfl
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_dvd_natCard_sub_one hdvdK
-  haveI : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
+  have : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
   obtain ⟨P, hP⟩ :=
     CFSG.RankThree.PartOne.Q1327C.exists_unitary_conj_diag_m h hζ dvd_rfl Eh hGcomm hGpow
   let Pg : GL (Fin (n + 1)) Kf := (P : GL (Fin (n + 1)) Kf)
@@ -272,11 +272,11 @@ theorem seitzHyperGamma_eq_top_of_uDiagGU {K : Type} [Group K] [Finite K]
     ε.toMonoidHom.comp (blockEmb2 Kf ℓ f n i)
   let g : Fin n → (Su Kf ℓ f 2 →* K ⧸ Subgroup.center K) := fun i =>
     θ.symm.toMonoidHom.comp ((toPU h (n + 1)).comp (φ.toMonoidHom.comp (ι i)))
-  haveI : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf) :=
+  have : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf) :=
     CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two h.card_eq_sq hq4
   let ε₂ : Su Kf ℓ f 2 ≃* CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf :=
     MulEquiv.subgroupCongr (SUid_eq_statedSU h.card_eq_sq 2)
-  haveI : Group.IsPerfect (Su Kf ℓ f 2) :=
+  have : Group.IsPerfect (Su Kf ℓ f 2) :=
     Group.IsPerfect.ofSurjective (f := ε₂.symm.toMonoidHom) ε₂.symm.surjective
   refine seitzHyperGamma_eq_top_of_perfect hperf (Set.range fun i => (g i).range) ?_ ?_ ?_
   · rintro _ ⟨i, rfl⟩
@@ -402,7 +402,7 @@ theorem linearDiag_of_standard {K : Type*} [Group K] {m : ℕ} {q : TauCeti.Prim
       E.map (modelAut (standardLinearModel e)) ≤
         linearAutGroup (m + 1) (GaloisField q.p q.exponent)) :
     LinearDiag p E := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hn : 3 ≤ m + 1 := by
     have := Nat.le_of_dvd (by omega) hpm
     have := hp.two_le
@@ -432,7 +432,7 @@ variable {G : Type*} [Group G]
 
 theorem exists_hyperplane_of_ne_bot {p : ℕ} (hp : p.Prime) {F : Subgroup G} [Finite F]
     (hF : IsElemAbelian p F) (hF1 : F ≠ ⊥) : ∃ H ≤ F, H.relIndex F = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := (isPGroup_of_isElemAbelian hF).exists_card_eq
   have ha1 : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with rfl | h

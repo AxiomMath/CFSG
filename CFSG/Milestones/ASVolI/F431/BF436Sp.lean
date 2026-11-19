@@ -122,7 +122,7 @@ theorem burnsideF4m_spU1_ff {A : StatedSp 2 F} (hA : A ∈ burnsideF4m_spU1 F) (
   simp only [Matrix.mul_apply, Matrix.transpose_apply, Fintype.sum_sum_type,
     CFSG.Quasithin.H13.U4Par.spJ, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
     Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.one_apply,
-    Matrix.neg_apply, mul_zero, zero_mul, add_zero, zero_add, Fin.sum_univ_two] at hs
+    Matrix.neg_apply, mul_zero, add_zero, zero_add, Fin.sum_univ_two] at hs
   simp only [(he _ _).1, (he _ _).2] at hs
   fin_cases i <;> fin_cases j <;> simpa using hs
 
@@ -135,7 +135,7 @@ theorem burnsideF4m_spU1_sq [CharP F 2] {A : StatedSp 2 F} (hA : A ∈ burnsideF
   rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_apply, Fintype.sum_sum_type]
   rcases a with i | i <;> rcases b with j | j <;>
     simp only [Fin.sum_univ_two, (he _ _).1, (he _ _).2, hf, Subgroup.coe_one, Units.val_one,
-      Matrix.one_apply, Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq, if_false] <;>
+      Matrix.one_apply, Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq, ite_false] <;>
     fin_cases i <;> fin_cases j <;> simp [CharTwo.add_self_eq_zero]
 
 theorem burnsideF4m_spU1_isPGroup [CharP F 2] : IsPGroup 2 (burnsideF4m_spU1 F) := by
@@ -152,7 +152,7 @@ theorem burnsideF4m_spU1_le_Q0 : burnsideF4m_spU1 F ≤ Q2 F 0 := by
     have he := burnsideF4m_spU1_entries hB
     rcases b with i | i
     · have hi : i ≠ 0 := fun h => hb (by rw [h])
-      rw [(he i 0).1, if_neg hi]
+      rw [(he i 0).1, ite_eq_right hi]
     · exact (he i 0).2
   exact CFSG.Quasithin.H13.U4Par.mem_Q2_zero_of_col (hcol A hA)
     (hcol A⁻¹ ((burnsideF4m_spU1 F).inv_mem hA))

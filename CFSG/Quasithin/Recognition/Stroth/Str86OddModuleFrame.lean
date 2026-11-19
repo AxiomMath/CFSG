@@ -67,8 +67,8 @@ theorem str86_card_fixedSub_image {L1 L2 S D : Subgroup G} {m : ℕ} {W : Subgro
       Nat.card ↥(W ⊓ Subgroup.centralizer (D : Set G)) := by
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let P : Subgroup ↥H := D.subgroupOf H
   have hPsub : (P.map H.subtype : Subgroup G) = D := by
     rw [show P = D.subgroupOf H from rfl, Subgroup.map_subgroupOf_eq_of_le hD]
@@ -99,8 +99,8 @@ theorem str86_mem_fixedSub_image_iff {L1 L2 S D : Subgroup G} {m : ℕ} {W : Sub
       (w : G) ∈ Subgroup.centralizer (D : Set G) := by
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let P : Subgroup ↥H := D.subgroupOf H
   have hPsub : (P.map H.subtype : Subgroup G) = D := by
     rw [show P = D.subgroupOf H from rfl, Subgroup.map_subgroupOf_eq_of_le hD]
@@ -221,6 +221,7 @@ theorem str86_exists_bigB_lift {L1 L2 S : Subgroup G} {m : ℕ}
     exact Subgroup.mem_inf.mpr ⟨hP2, hNinf⟩
   · simpa only [QuotientGroup.mk'_apply] using hq
 
+omit [Finite G] in
 private theorem h4_conj_mem_conjClosure {Z H : Subgroup G} {c : G}
     (hcH : c ∈ Subgroup.normalizer (H : Set G))
     (hcZ : c ∈ Subgroup.normalizer (Z : Set G)) {x : G}
@@ -233,7 +234,7 @@ private theorem h4_conj_mem_conjClosure {Z H : Subgroup G} {c : G}
     rw [show c * (h * z * h⁻¹) * c⁻¹ =
       (c * h * c⁻¹) * (c * z * c⁻¹) * (c * h * c⁻¹)⁻¹ by group]
     exact mem_conjClosure hh' hz'
-  | one => simpa using (conjClosure Z H).one_mem
+  | one => simp
   | mul x y _ _ ihx ihy =>
     rw [show c * (x * y) * c⁻¹ = (c * x * c⁻¹) * (c * y * c⁻¹) by group]
     exact (conjClosure Z H).mul_mem ihx ihy
@@ -345,7 +346,7 @@ theorem str86_relIndex_inf_q1_le {L1 L2 S : Subgroup G} {k : ℕ}
     hqLh hT hAS (fun a ha => by
       rw [hQcore]
       have hsq := hA.2 a ha
-      simpa [hsq] using (Q1 L1 L2 S).one_mem)
+      simp [hsq])
   rwa [hQcore] at h
 
 theorem str86_conj_z2_index_le {L1 L2 S : Subgroup G}

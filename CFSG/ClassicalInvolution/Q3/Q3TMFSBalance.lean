@@ -108,7 +108,7 @@ theorem typeABExcluded_of_solvBalance (h : SolvableL2PrimeBalance) :
   have hQres : ∀ x ∈ (Q : Subgroup L),
       (x : Y) ∈ oPrimeResidualOf 2 (L ⊔ oddCoreIn C) := by
     intro x hx
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
     have hxV : (x : Y) ∈ L ⊔ oddCoreIn C := (le_sup_left : L ≤ L ⊔ oddCoreIn C) x.2
     have hk' : (x : Y) ^ 2 ^ k = 1 := by
       have := congrArg (fun q : (Q : Subgroup L) => ((q : L) : Y)) hk

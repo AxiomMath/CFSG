@@ -39,7 +39,7 @@ theorem s16h_sl4_engine_b_false_of_permuting_three
     (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
       wSub ⊥ V h.hyp151.isElemAbelian L ⊓ Subgroup.centralizer (L : Set G))
-    {Y : Subgroup G} (hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y) (hYexp : ∀ y ∈ Y, y ^ 3 = 1)
+    {Y : Subgroup G} (hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y) (_hYexp : ∀ y ∈ Y, y ^ 3 = 1)
     (hYnc : ¬ IsCyclic ↥Y) (hperm : Permutes Y D.T)
     (hno3 : ∀ r ∈ (Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G),
       orderOf r ≠ 3) : False := by

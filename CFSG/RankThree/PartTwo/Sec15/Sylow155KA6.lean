@@ -52,7 +52,7 @@ theorem mem_of_normalizes [Finite G] [IsSimpleGroup G] (hG : Nat.card G = 360) {
       (apply_mem_iff_of_finite (MulAut.conj g) hg x).symm
   have hNtop : Subgroup.normalizer (L : Set G) ≠ ⊤ := by
     intro htop
-    haveI : L.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : L.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L with h | h
     · rw [h, Subgroup.card_bot] at hL
       omega
@@ -265,7 +265,7 @@ theorem exists_involution_of_normalizes {b : P10} (hb : b ∈ A6Models.autA6)
     (hbL : ∀ l ∈ L, DoubleA3.conjAut ⟨b, hb⟩ l ∈ L) :
     ∃ l ∈ L, (b * (l : P10)) * (b * (l : P10)) = 1 ∧
       ∃ x ∈ A6Models.psl29, x ≠ 1 ∧ x ^ 3 = 1 ∧ (b * (l : P10)) * x = x * (b * (l : P10)) := by
-  haveI : IsSimpleGroup ↥A6Models.psl29 :=
+  have : IsSimpleGroup ↥A6Models.psl29 :=
     CFSG.EvenSporadicStandard.HSStd.Zassenhaus.ONan.isSimpleGroup_psl29
   obtain ⟨l, hlL, hsq, x, hx1, hx3, hxα⟩ :=
     exists_involutory_coset card_psl29 hL (DoubleA3.conjAut ⟨b, hb⟩) hbL
@@ -292,7 +292,7 @@ theorem exists_mem_of_mem_m10 {b : P10} (hb : b ∈ A6Models.m10)
     {L : Subgroup ↥A6Models.psl29} (hL : Nat.card L = 60)
     (hbL : ∀ l ∈ L, DoubleA3.conjAut ⟨b, m10_le_autA6 hb⟩ l ∈ L) :
     ∃ g ∈ L, (g : P10) = b := by
-  haveI : IsSimpleGroup ↥A6Models.psl29 :=
+  have : IsSimpleGroup ↥A6Models.psl29 :=
     CFSG.EvenSporadicStandard.HSStd.Zassenhaus.ONan.isSimpleGroup_psl29
   obtain ⟨l, hlL, hsq, -⟩ := exists_involution_of_normalizes (m10_le_autA6 hb) hL hbL
   have hu : b * (l : P10) ∈ A6Models.m10 :=

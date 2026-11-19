@@ -66,7 +66,7 @@ theorem exists_elemAbelian_sq_of_mem_calC_ne {X L L' A : Subgroup G} {n r : ℕ}
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥L')
     rw [show Nat.card ↥L' = Nat.card (Bar2 L') * Nat.card ↥(CFSG.pCore 2 ↥L') from h]
     exact dvd_mul_of_dvd_left hrdvdBar _
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
   obtain ⟨b, hbL', hbcent, hborder⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Item422Proof.exists_orderOf_eq_mem_centralizer
       (IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hAcard)) hAL' hrdvdL
@@ -140,7 +140,7 @@ theorem exists_mem_uniqueSet_of_isL2_ne {D : Data G} {V₀ V : Subgroup G} {n r 
     rw [hmap, Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective, hAcard]
   have hBgroup : IsPGroup r B :=
     IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hBcard)
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
   obtain ⟨P, hP, hBP⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC6.exists_isSylowOf_ge (K := D.M) hBM hBgroup
   have hrankEq : CFSG.Open.pRank r P = CFSG.Open.pRank r D.M :=
@@ -172,7 +172,7 @@ theorem exists_mem_uniqueSet_of_isL2_ne {D : Data G} {V₀ V : Subgroup G} {n r 
     have hcommA : ∀ a ∈ A, (g * e * g⁻¹) * a = a * (g * e * g⁻¹) := by
       intro a ha
       have hbB : g⁻¹ * a * g ∈ B :=
-        Subgroup.mem_map.mpr ⟨a, ha, by simp [MulAut.conj_apply]⟩
+        Subgroup.mem_map.mpr ⟨a, ha, by simp⟩
       have hcomm := Subgroup.mem_centralizer_iff.mp (hEcent he) (g⁻¹ * a * g) hbB
       calc (g * e * g⁻¹) * a = g * (e * (g⁻¹ * a * g)) * g⁻¹ := by group
         _ = g * ((g⁻¹ * a * g) * e) * g⁻¹ := by rw [hcomm]

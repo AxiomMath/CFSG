@@ -193,7 +193,7 @@ theorem scalar_of_stationary_factorizations [Finite G] [IsSimpleGroup G]
       (Subgroup.centralizer_le_normalizer _)
   obtain ⟨Q0s, hPDQ0, hTQ0⟩ := exists_invariant_sylow_containing hell T RD
     ((PD0s : Subgroup D).map D.subtype) hT2 hRDodd hTRD
-    ((Subgroup.map_subtype_le _).trans le_sup_right) (PD0s.isPGroup'.map _) hTPD0
+    ((Subgroup.map_subtype_le _).trans le_sup_right) (PD0s.isPGroup.map _) hTPD0
   obtain ⟨c, hc, hPQ⟩ := invariant_pgroup_le_fixed_conjugate_sylow hell T RD P hT2 hTRD
     hRDodd Q0s hTQ0 (hPR.trans le_sup_left) hPp hTP
   have hcD : c ∈ D :=
@@ -203,7 +203,7 @@ theorem scalar_of_stationary_factorizations [Finite G] [IsSimpleGroup G]
   set Q := ((Q0s : Subgroup RD).map RD.subtype).map (MulAut.conj c).toMonoidHom with hQdef
   have hPDeq : PD = ((PD0s : Subgroup D).map D.subtype).map (MulAut.conj c).toMonoidHom :=
     map_subtype_smul_sylow D PD0s ⟨c, hcD⟩
-  have hQp : IsPGroup ell Q := (Q0s.isPGroup'.map _).map _
+  have hQp : IsPGroup ell Q := (Q0s.isPGroup.map _).map _
   have hPDQ : PD ≤ Q := by
     rw [hPDeq]
     exact Subgroup.map_mono hPDQ0

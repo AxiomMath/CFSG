@@ -25,7 +25,7 @@ theorem kFactTenNineWCGammaL34 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ hL S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hq2, hqe, hv, ⟨e0⟩⟩ := hL
   have hm := CFSG.Models.lieModel_A 2 q hv e0
   rw [hq2, hqe] at hm
@@ -35,7 +35,7 @@ theorem kFactTenNineWCGammaL34 :
     rw [Nat.card_congr e.toEquiv, card_group L34.QP L34.QP_ok, L34.QP_valid.2]
   have h9 : ∀ T : Sylow 3 K, Nat.card (T : Subgroup K) = 9 := by
     intro T
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have hmul := (T : Subgroup K).card_mul_index
     rw [hk, hK] at hmul
     have hidx := T.not_dvd_index

@@ -57,7 +57,7 @@ theorem natCard_conjBy (Y : Subgroup G) (g : G) : Nat.card ↥(conjBy Y g) = Nat
 
 theorem conjBy_le_conjBy_iff {X Y : Subgroup G} {g : G} :
     conjBy X g ≤ conjBy Y g ↔ X ≤ Y := by
-  simp only [SetLike.le_def, mem_conjBy]
+  simp only [_root_.IsConcreteLE.le_iff, mem_conjBy]
   refine ⟨fun h x hx => ?_, fun h _ hx => h hx⟩
   have hx' : g * (g⁻¹ * x * g) * g⁻¹ ∈ X := by simpa [mul_assoc] using hx
   simpa [mul_assoc] using h hx'

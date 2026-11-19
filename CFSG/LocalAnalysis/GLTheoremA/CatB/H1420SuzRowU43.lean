@@ -41,10 +41,10 @@ theorem typeHyp3_u43 : BMType.TypeHyp3 (S8.isU4of 3) 3265920 where
   card T _ _ h := card_eq_of_isU4of_three h
   aut T _ _ h := by
     obtain ⟨e⟩ := nonempty_equiv_X₀_of_isU4of_three h
-    haveI : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
-    haveI : Finite (MulAut T) :=
+    have : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
+    have : Finite (MulAut T) :=
       Finite.of_injective (fun f : MulAut T => (f : T → T)) (fun f g h => DFunLike.coe_injective h)
-    haveI : Finite (Outer T) := Finite.of_surjective _ QuotientGroup.mk_surjective
+    have : Finite (Outer T) := Finite.of_surjective _ QuotientGroup.mk_surjective
     have hle : Nat.card (Outer T) ≤ 8 := by
       rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
       exact CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.u43_inn_index_le

@@ -57,13 +57,16 @@ variable {Y : Type*} [Group Y] {Q : Type*} [Group Q] [Fintype Q] [DecidableEq Q]
 private def conjEmb (ρ : Q →* Y) (K : Subgroup Y) (x : Q) : K →* Y :=
   (MulAut.conj (ρ x)).toMonoidHom.comp K.subtype
 
+omit [Fintype Q] [DecidableEq Q] in
 private theorem conjEmb_apply (ρ : Q →* Y) (K : Subgroup Y) (x : Q) (k : K) :
     conjEmb ρ K x k = ρ x * k * (ρ x)⁻¹ := rfl
 
+omit [Fintype Q] [DecidableEq Q] in
 private theorem conjEmb_injective (ρ : Q →* Y) (K : Subgroup Y) (x : Q) :
     Function.Injective (conjEmb ρ K x) :=
   (MulAut.conj (ρ x)).injective.comp K.subtype_injective
 
+omit [Fintype Q] [DecidableEq Q] in
 private theorem conjEmb_one (ρ : Q →* Y) (K : Subgroup Y) (k : K) : conjEmb ρ K 1 k = k := by
   simp [conjEmb_apply]
 
@@ -84,6 +87,7 @@ private def shiftHom (K : Type*) [Group K] (q : Q) : (Q → K) →* (Q → K) wh
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Fintype Q] in
 private theorem shiftHom_mulSingle {K : Type*} [Group K] (q x : Q) (k : K) :
     shiftHom K q (Pi.mulSingle x k) = Pi.mulSingle (q * x) k := by
   funext y
@@ -115,10 +119,12 @@ private theorem wreathHom_mulSingle (hc : ConjComm ρ K) (x : Q) (k : K) :
   rw [wreathHom_apply]
   simp [prodHom_mulSingle]
 
+omit [DecidableEq Q] in
 private theorem prodHom_range (hc : ConjComm ρ K) :
     (prodHom hc).range = ⨆ x : Q, (conjEmb ρ K x).range :=
   MonoidHom.noncommPiCoprod_range (conjEmb ρ K)
 
+omit [DecidableEq Q] in
 private theorem prodHom_injective (hK : ∀ z ∈ K, (∀ y ∈ K, z * y = y * z) → z = 1)
     (hc : ConjComm ρ K) : Function.Injective (prodHom hc) := by
   refine MonoidHom.injective_noncommPiCoprod_of_iSupIndep (conjEmb ρ K) ?_ (conjEmb_injective ρ K)
@@ -204,7 +210,7 @@ theorem exists_wreath_equiv {Y : Type*} [Group Y] [Finite Y] (p : ℕ) [Fact p.P
     ∃ e : ↥(kstar p a K ⊔ Subgroup.zpowers a) ≃* RegularWreathProduct ↥K (Multiplicative (ZMod p)),
       RegularWreathProduct.rightHom
         (e ⟨a, Subgroup.mem_sup_right (Subgroup.mem_zpowers a)⟩) = Multiplicative.ofAdd (1 : ZMod p) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let ρ : Multiplicative (ZMod p) →* Y := zpHom p a ha
   have hρ_apply : ∀ q, ρ q = a ^ (Multiplicative.toAdd q).val := fun _ => rfl
   have hc : ConjComm ρ K := by

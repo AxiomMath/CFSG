@@ -45,7 +45,7 @@ private theorem suBlock_det_frobenius (F : Type) [Field F] [Fintype F] (K : Type
     [Algebra F K] [Finite K] :
     LinearMap.det (FiniteField.frobeniusAlgHom F K).toLinearMap =
       (-1 : F) ^ (Module.finrank F K - 1) := by
-  haveI : Module.Finite F K := Module.Finite.of_finite
+  have : Module.Finite F K := Module.Finite.of_finite
   set φ := (FiniteField.frobeniusAlgHom F K).toLinearMap with hφ
   have hn : 0 < Module.finrank F K := Module.finrank_pos
   have hmin : minpoly F φ = Polynomial.X ^ Module.finrank F K - 1 :=
@@ -74,6 +74,7 @@ private theorem suBlock_det_frobeniusEquiv (F : Type) [Field F] [Fintype F] (K :
     LinearMap.ext fun x => congrFun (FiniteField.coe_frobeniusAlgEquivOfAlgebraic F K) x
   rw [hlin, suBlock_det_frobenius F K]
 
+omit [Fintype L] in
 private theorem suBlock_twist_apply {N : Type} [Field N] [Algebra L N]
     (φ' : Nˣ →* Nˣ) (u : Nˣ) (v : N × N) :
     twistUnitsHom L N φ' u v = ((u : N) * v.1, (((φ' u)⁻¹ : Nˣ) : N) * v.2) :=
@@ -91,7 +92,7 @@ theorem exists_suBlock_odd {q : ℕ} (hq : Fintype.card L = q ^ 2) (hqf : q = p�
   have hp : Fact p₀.Prime := ⟨h.prime⟩
   have hqpos : 0 < q := suBlock_q_pos hq
   have hepos : 0 < e := by obtain ⟨j, hj⟩ := he; omega
-  haveI : NeZero e := ⟨hepos.ne'⟩
+  have : NeZero e := ⟨hepos.ne'⟩
   let M := FiniteField.Extension L p₀ e
   have hMcard : Nat.card M = (q ^ e) ^ 2 := by
     rw [FiniteField.natCard_extension, Nat.card_eq_fintype_card, hq, ← pow_mul, ← pow_mul,
@@ -196,7 +197,7 @@ theorem exists_suBlock_even {q : ℕ} (hq : Fintype.card L = q ^ 2) (hqf : q = p
   have hLc : CharP L p₀ := h.charP
   have hp : Fact p₀.Prime := ⟨h.prime⟩
   have hqpos : 0 < q := suBlock_q_pos hq
-  haveI : NeZero k := ⟨hk.ne'⟩
+  have : NeZero k := ⟨hk.ne'⟩
   let N := FiniteField.Extension L p₀ k
   have hNcard : Nat.card N = q ^ (2 * k) := by
     rw [FiniteField.natCard_extension, Nat.card_eq_fintype_card, hq, ← pow_mul]

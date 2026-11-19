@@ -212,7 +212,7 @@ theorem ev_from (h : LetOK N n LS LSi) : ∀ (w : List (Fin n × Bool)) (acc : L
     rfl
 
 theorem val_range (h : LetOK N n LS LSi) : Val N (List.range N) :=
-  ⟨List.length_range, fun e he => lt_of_lt_of_le (List.mem_range.1 he) h.hN⟩
+  ⟨List.length_range, fun _e he => lt_of_lt_of_le (List.mem_range.1 he) h.hN⟩
 
 theorem val_ev (h : LetOK N n LS LSi) (w : List (Fin n × Bool)) :
     Val N (burnsideF48s_eEvL N LS LSi w) :=
@@ -339,7 +339,7 @@ theorem eCandOK_ev (h : LetOK N n LS LSi) (P1 P2 K T U V W : List (List (Fin n �
   simp only [burnsideF48s_eCandOK, candK, uvwK, allA_eq, anyA_eq, orB_eq, notB_eq, andB_eq,
     List.all_map, List.any_map, Function.comp_def, List.length_map, eNorm_ev h, Bool.or_assoc,
     Bool.and_assoc,
-    contains_compL_ev h, contains_ev h, beq_ev h, beq_getD_ev h]
+    contains_compL_ev h, contains_ev h, beq_getD_ev h]
 
 end Words
 

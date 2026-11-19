@@ -24,7 +24,7 @@ theorem false_of_twoE (hT : TwoE X) {A : Subgroup X} (hA : IsElemAbelian 2 A)
     have := hA.2 (x : X) x.2
     exact Subtype.ext (by simpa using this)
   obtain ⟨P, hAP⟩ := hAp.exists_le_sylow
-  have hat := hT.exists_at P.isPGroup' P.not_dvd_index
+  have hat := hT.exists_at P.isPGroup P.not_dvd_index
   obtain ⟨Ea, Eb, -, -, hEaP, hEbP, hne, hEa, hEb, hca, hcb, hcl, -, -, -, -⟩ := hat
   obtain ⟨j, hj⟩ := hAp.exists_card_eq
   have hj5 : 5 ≤ j := by

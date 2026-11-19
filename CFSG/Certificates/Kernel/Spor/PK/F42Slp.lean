@@ -19,7 +19,7 @@ theorem refK_eq (F I : List ℕ) (c : ℕ) :
   rw [nthV_eq, nthV_eq]
   by_cases h : c % 2 = 0
   · have hb : Nat.beq (Nat.mod c 2) 0 = true := by rw [Nat.beq_eq]; exact h
-    rw [if_pos h]
+    rw [ite_eq_left h]
     show Bool.rec (motive := fun _ => Nat) _ _ (Nat.beq (Nat.mod c 2) 0) = _
     rw [hb]
     rfl
@@ -27,7 +27,7 @@ theorem refK_eq (F I : List ℕ) (c : ℕ) :
       cases hh : Nat.beq (Nat.mod c 2) 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hh) h
-    rw [if_neg h]
+    rw [ite_eq_right h]
     show Bool.rec (motive := fun _ => Nat) _ _ (Nat.beq (Nat.mod c 2) 0) = _
     rw [hb]
     rfl
@@ -130,9 +130,9 @@ theorem refVal_refOfCode (vals : Array Pair) (c : ℕ) :
     refVal vals (refOfCode c) = if c % 2 = 0 then vals[c / 2]! else (vals[c / 2]!).swap := by
   unfold refVal refOfCode
   by_cases h : c % 2 = 0
-  · rw [if_pos h, if_pos h, if_pos (Int.natCast_nonneg _), Int.toNat_natCast]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_left (Int.natCast_nonneg _), Int.toNat_natCast]
   · have e : (-(-((c / 2 : ℕ) : ℤ) - 1) - 1) = ((c / 2 : ℕ) : ℤ) := by omega
-    rw [if_neg h, if_neg h, if_neg (by omega), e, Int.toNat_natCast]
+    rw [ite_eq_right h, ite_eq_right h, ite_eq_right (by omega), e, Int.toNat_natCast]
 
 private theorem push_getElem!_lt {α : Type _} [Inhabited α] (xs : Array α) (x : α) {k : ℕ}
     (hk : k < xs.size) : (xs.push x)[k]! = xs[k]! := by
@@ -168,14 +168,14 @@ theorem F42NodeRel.ref_spec {F I : List ℕ} {vals : Array Pair} {n : ℕ} (h : 
   have h4 := mul52_comm_of_inv h1 h2 h3
   have h5 := h.fst_pk (c / 2) hlt
   by_cases hc2 : c % 2 = 0
-  · rw [if_pos hc2, if_pos hc2]
+  · rw [ite_eq_left hc2, ite_eq_left hc2]
     exact ⟨h1, h2, h3, h4, h5⟩
-  · rw [if_neg hc2, if_neg hc2]
+  · rw [ite_eq_right hc2, ite_eq_right hc2]
     have h6 := h.snd_pk (c / 2) hlt (hodd (by omega))
     exact ⟨h2, h1, h4, h3, h6⟩
 
 theorem F42NodeRel.ref_xor {F I : List ℕ} {vals : Array Pair} {n : ℕ} (h : F42NodeRel F I vals n)
-    {c : ℕ} (hc : refOK F I n c = true) (hc' : refOK F I n (Nat.xor c 1) = true) :
+    {c : ℕ} (_hc : refOK F I n c = true) (hc' : refOK F I n (Nat.xor c 1) = true) :
     refK F I (Nat.xor c 1) = pk52 (refVal vals (refOfCode c)).2 := by
   have h1 := (h.ref_spec hc').2.2.2.2
   rw [h1]
@@ -191,12 +191,12 @@ theorem F42NodeRel.ref_xor {F I : List ℕ} {vals : Array Pair} {n : ℕ} (h : F
   · have h' : ¬ (Nat.xor c 1 % 2 = 0) := by
       have := hm.2 (by omega)
       omega
-    rw [if_neg h', if_pos hc2, hd]
+    rw [ite_eq_right h', ite_eq_left hc2, hd]
     rfl
   · have h' : Nat.xor c 1 % 2 = 0 := by
       have : ¬ (Nat.xor c 1 % 2 = 1) := fun hh => (hm.1 hh) (by omega)
       omega
-    rw [if_pos h', if_neg hc2, hd]
+    rw [ite_eq_left h', ite_eq_right hc2, hd]
     rfl
 
 theorem nodeRel_start {cA cB F I : List ℕ} (hst : startK cA cB F I = true)

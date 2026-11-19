@@ -15,7 +15,7 @@ variable {Γ : Type*} [Group Γ] [Finite Γ]
 theorem exists_conj_mem_sylow_mb4 {N S : Subgroup Γ} {t : Γ} (htN : t ∈ N) (ht : t ^ 2 = 1)
     (hSN : S ≤ N) (hS : IsPGroup 2 ↥S) (hidx : ¬ 2 ∣ (S.subgroupOf N).index) :
     ∃ n ∈ N, n * t * n⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let t' : ↥N := ⟨t, htN⟩
   have ht' : t' ^ 2 = 1 := Subtype.ext (by simpa using ht)
   have hT : IsPGroup 2 ↥(Subgroup.zpowers t') := by
@@ -25,7 +25,7 @@ theorem exists_conj_mem_sylow_mb4 {N S : Subgroup Γ} {t : Γ} (htN : t ∈ N) (
     apply Subtype.ext
     show (t' ^ n) ^ (2 ^ 1) = 1
     rw [pow_one, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-    simp [← pow_two, ht']
+    simp [ht']
   obtain ⟨P, hP⟩ := hT.exists_le_sylow
   have hS' : IsPGroup 2 ↥(S.subgroupOf N) := hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
   let P' : Sylow 2 ↥N := hS'.toSylow hidx
@@ -47,6 +47,7 @@ section Quot
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem normal_subgroupOf_mb4 {C K : Subgroup Γ} (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K) :
     (K.subgroupOf C).Normal where
   conj_mem := by
@@ -62,7 +63,7 @@ theorem card_quot_mb4 {C K : Subgroup Γ} (hKC : K ≤ C) [(K.subgroupOf C).Norm
 theorem eq_of_le_of_isPGroup_mb4 {C K X : Subgroup Γ} (hKC : K ≤ C)
     (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K) (hcard : Nat.card C = 3 * Nat.card K)
     (hXC : X ≤ C) (hX : IsPGroup 2 ↥X) (hXc : Nat.card X = Nat.card K) : X = K := by
-  haveI := normal_subgroupOf_mb4 hKn
+  have := normal_subgroupOf_mb4 hKn
   have hQ := card_quot_mb4 hKC hcard
   have hKX : X ≤ K := by
     intro x hx
@@ -87,7 +88,7 @@ theorem inv_mod_of_generator_mb4 {C K : Subgroup Γ} {t z : Γ} (hKC : K ≤ C)
     (htK : ∀ k ∈ K, t * k * t⁻¹ ∈ K) (htC : ∀ c ∈ C, t * c * t⁻¹ ∈ C) (hzC : z ∈ C)
     (hz3 : z ^ 3 = 1) (hzK : z ∉ K) (hinv : t * z * t⁻¹ * z ∈ K) :
     ∀ c ∈ C, t * c * t⁻¹ * c ∈ K := by
-  haveI := normal_subgroupOf_mb4 hKn
+  have := normal_subgroupOf_mb4 hKn
   have hQ := card_quot_mb4 hKC hcard
   let α : ↥C →* ↥C := MonoidHom.codRestrict
     (((MulAut.conj t).toMonoidHom).comp C.subtype) C (fun c => by
@@ -107,7 +108,7 @@ theorem inv_mod_of_generator_mb4 {C K : Subgroup Γ} {t z : Γ} (hKC : K ≤ C)
     intro h
     exact hzK (Subgroup.mem_subgroupOf.1
       ((QuotientGroup.eq_one_iff (N := K.subgroupOf C) (⟨z, hzC⟩ : ↥C)).1 h))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf zb = 3 := orderOf_eq_prime hzb3 hzb1
   have htop : Subgroup.zpowers zb = ⊤ := by
     apply Subgroup.eq_top_of_card_eq

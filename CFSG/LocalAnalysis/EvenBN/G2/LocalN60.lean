@@ -108,6 +108,7 @@ variable
   {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G} {K : Type} [Field K]
   [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem J_comm_t (h : Setup G L f t) (d : G2Data L K) {j : G} (hj : j ∈ d.J) : j * t = t * j :=
   mem_centralizer_singleton_iff.1
     (Subgroup.mem_inf.1 (h.J_le_centralizer_inf_normalizer_S d hj)).1
@@ -140,15 +141,15 @@ theorem eq_one_of_mem_yamadaU₁_of_forall_J₃ (hW : CFSG.Walter.WalterOrderFor
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) {x : G}
     (hx : x ∈ yamadaU₁ d t) (hfix : ∀ j ∈ d.J₃, j * x = x * j) : x = 1 :=
   h.eq_one_of_mem_yamadaU₁_of_forall d hK hQ.doubling
-    (T := (d.J₃ : Set G)) (fun k hk => J_comm_t h d (Setup.J₃_le_J d hk))
-    (fun y hy hy' => eq_one_of_mem_U_of_forall_J₃ hW h d hK hQ hy hy') hx hfix
+    (T := (d.J₃ : Set G)) (fun _k hk => J_comm_t h d (Setup.J₃_le_J d hk))
+    (fun _y hy hy' => eq_one_of_mem_U_of_forall_J₃ hW h d hK hQ hy hy') hx hfix
 
 theorem eq_one_of_mem_yamadaU₁_of_forall_J₄ (hW : CFSG.Walter.WalterOrderForm)
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (h8 : 8 ≤ Nat.card K) {x : G}
     (hx : x ∈ yamadaU₁ d t) (hfix : ∀ j ∈ d.J₄, j * x = x * j) : x = 1 :=
   h.eq_one_of_mem_yamadaU₁_of_forall d hK (h.doublingFacts_of_eight d hK h8)
-    (T := (d.J₄ : Set G)) (fun k hk => J_comm_t h d (Setup.J₄_le_J d hk))
-    (fun y hy hy' => eq_one_of_mem_U_of_forall_J₄ hW h d hK h8 hy hy') hx hfix
+    (T := (d.J₄ : Set G)) (fun _k hk => J_comm_t h d (Setup.J₄_le_J d hk))
+    (fun _y hy hy' => eq_one_of_mem_U_of_forall_J₄ hW h d hK h8 hy hy') hx hfix
 
 theorem mem_S_of_mem_yamadaP_of_commute (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) {x : G}
@@ -399,8 +400,8 @@ theorem yamada_5_60_J₄_acts (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L 
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     d.J₄ ≤ normalizer (yamadaM₆ d t : Set G) ∧ d.J₄ ≤ normalizer (yamadaP d t : Set G) ∧
       ⁅yamadaP d t, d.J₄⁆ ≤ yamadaM₆ d t :=
-  ⟨fun j hj => h.J_le_normalizer_yamadaM₆ hW d hK hQ (J₄_le_J d hj),
-    fun j hj => h.J_le_normalizer_yamadaP hW d hK hQ (J₄_le_J d hj),
+  ⟨fun _j hj => h.J_le_normalizer_yamadaM₆ hW d hK hQ (J₄_le_J d hj),
+    fun _j hj => h.J_le_normalizer_yamadaP hW d hK hQ (J₄_le_J d hj),
     N60.commutator_yamadaP_J₄_le hW h d hK hQ⟩
 
 theorem yamada_5_60_J₄ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G2Data L K)

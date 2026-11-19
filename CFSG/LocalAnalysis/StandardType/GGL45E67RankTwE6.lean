@@ -153,7 +153,7 @@ private theorem card_closure_three_pow_of_test_last {G : Type} [Group G]
         by_cases hk : k = j
         · subst hk; simp [rest]
         · have hkj : k ≠ Fin.last 3 := fun h => hk (h.trans hj.symm)
-          simp [rest, Function.update, hk, hzero k hkj]
+          simp [rest, hk, hzero k hkj]
       have hrest1 : Multiplicative.ofAdd rest = 1 := by rw [hrest0]; rfl
       rw [hrest1, map_one, mul_one] at hrel
       have hpow : p j ^ (v j).val = 1 := by
@@ -190,7 +190,6 @@ private theorem rootSL2_uSL_mem_C0
     (hβ : IsRoot .E6 β) (hρ : permLattice TwistTag.E6.perm β = β) {c : K}
     (hc : σ c = c) :
     rootSL2 .E6 K β (uSL c) ∈ graphFixedRootGroup TwistTag.E6 K σ := by
-  change rootSL2 .E6 K β (uSL c) ∈ graphFixedRootGroup TwistTag.E6 K σ
   rw [CFSG.LieType.Chevalley.E6GraphInvolution.rootSL2_uSL_of_two
     (τ := .E6) (E := K) (CharP.cast_eq_zero K 2) β c]
   exact pinnedX_mem_graphFixedRootGroup_of_fixed σ hβ hρ hc
@@ -200,7 +199,6 @@ private theorem rootSL2_vSL_mem_C0
     (hβ : IsRoot .E6 β) (hρ : permLattice TwistTag.E6.perm β = β) {c : K}
     (hc : σ c = c) :
     rootSL2 .E6 K β (vSL c) ∈ graphFixedRootGroup TwistTag.E6 K σ := by
-  change rootSL2 .E6 K β (vSL c) ∈ graphFixedRootGroup TwistTag.E6 K σ
   rw [CFSG.LieType.Chevalley.E6GraphInvolution.rootSL2_vSL_of_two
     (τ := .E6) (E := K) (CharP.cast_eq_zero K 2) hβ c]
   refine pinnedX_mem_graphFixedRootGroup_of_fixed σ (IsRoot.neg hβ) ?_ ?_
@@ -264,7 +262,7 @@ private theorem S_sq {K : Type} [Field K] (h2 : (2 : K) = 0) :
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two, h2]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 private theorem HSL_pow_three {K : Type} [Field K] (ω : Kˣ) (hω3 : ω ^ 3 = 1) :
     (HSL ω : SL2 K) ^ 3 = 1 := by
@@ -287,7 +285,7 @@ private theorem S_D_sq {K : Type} [Field K] (h2 : (2 : K) = 0) (ω : Kˣ) :
     S_coe h2, coe_HSL, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two, h2]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 private theorem map_S {K : Type} [Field K] (δ : K ≃+* K) :
     Matrix.SpecialLinearGroup.map δ.toRingHom (uSL 1 * vSL 1 * uSL 1 : SL2 K) =
@@ -313,7 +311,7 @@ private theorem three_dvd_card_units {K : Type} {n : ℕ}
 
 private theorem exists_omega {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) : ∃ ω : Kˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact three_dvd_card_units hK
@@ -378,7 +376,7 @@ private theorem delta_omega {K : Type} [Field K] [Finite K] {ω : Kˣ} (hω : or
     intro c
     have h := congrArg (fun e : K ≃+* K => e c) hδ
     simpa [pow_succ, mul_assoc] using h
-  haveI : IsCyclic Kˣ := inferInstance
+  have : IsCyclic Kˣ := inferInstance
   let y := Units.map δ.toMonoidHom ω
   have hy : y = Units.map δ.toMonoidHom ω := rfl
   have hmap : orderOf y = 3 := by
@@ -426,7 +424,7 @@ private theorem twE6Q_isPGroup
   refine Monoid.exponent_dvd_of_forall_pow_eq_one ?_
   rintro ⟨x, hx⟩
   apply Subtype.ext
-  simp only [Subgroup.coe_pow, Subgroup.coe_one, Subgroup.coe_mk]
+  simp only [Subgroup.coe_pow, Subgroup.coe_one]
   apply Subtype.ext
   change ((x : ModGL .E6 K) ^ 2 = 1)
   have hxroot : (x : ModGL .E6 K) ∈
@@ -497,7 +495,7 @@ private theorem ggL45E67Config_fieldActor_twE6_even
     (hK : Nat.card K = (2 ^ n) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
     {δ : K ≃+* K} (hδ : δ ^ 3 = 1) (hne : Even n) :
     GGL45E67Config (fieldActor (t := TwistTag.E6) σ δ) 4 := by
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   obtain ⟨ω, hω⟩ := exists_omega hK
   have hω3 : ω ^ 3 = 1 := omega_pow_three hω
@@ -705,12 +703,12 @@ private theorem sigma_sq_eq_id {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) {σ : K ≃+* K}
     (hσ : ∀ c, σ c = c ^ 2 ^ n) : ∀ c, σ (σ c) = c := by
   intro c
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [hσ, hσ, ← pow_mul]
   have hcard : 2 ^ n * 2 ^ n = Nat.card K := by
     rw [hK, pow_two]
   rw [hcard]
-  simpa [Nat.card_eq_fintype_card] using FiniteField.pow_card c
+  simp [Nat.card_eq_fintype_card]
 
 private theorem frameTorusElt_pow_three
     {K : Type} [Field K]
@@ -829,7 +827,7 @@ private theorem h_ne_one
   have hω2 : ω ^ 2 = 1 := Units.ext (by simpa using hval.symm)
   have hdvd : 3 ∣ 2 := by
     have := orderOf_dvd_of_pow_eq_one hω2
-    simpa [hω] using this
+    simp [hω] at this
   norm_num at hdvd
 
 private theorem twE6Odd_vSL_one_sq {K : Type} [Field K] (h2 : (2 : K) = 0) :
@@ -1146,7 +1144,7 @@ private theorem ggL45E67Config_fieldActor_twE6_odd
     (hK : Nat.card K = (2 ^ n) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
     {δ : K ≃+* K} (hδ : δ ^ 3 = 1) (hno : Odd n) :
     GGL45E67Config (fieldActor (t := TwistTag.E6) σ δ) 4 := by
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   obtain ⟨ω, hω⟩ := exists_omega hK
   have hω3 : ω ^ 3 = 1 := omega_pow_three hω
@@ -1202,7 +1200,6 @@ private theorem ggL45E67Config_fieldActor_twE6_odd
       rw [← map_mul]
     · rw [ha_last, hb_last, hp_last]
       apply Subtype.ext
-      change (wC * (wC * hC) : ↥C0).1 = hC.1
       rw [Subgroup.coe_mul, Subgroup.coe_mul]
       exact twE6Odd_w_mul_wh (σ := σ.toRingHom)
   have ha2 : ∀ i, a i ^ 2 = 1 := by
@@ -1452,7 +1449,7 @@ theorem ggL45E67Config_twE6Recipe
     ∀ f ∈ LargeEvenChevFieldImage (LargeEvenCartanE 6) K (TwE6Delta.RecipeH K n),
       orderOf f = 3 → GGL45E67Config f 4 := by
   intro f hf hord
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ n :=
     ⟨iterateFrobeniusEquiv K 2 n, fun c => by
       rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]⟩

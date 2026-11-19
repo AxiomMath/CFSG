@@ -32,7 +32,7 @@ theorem nfG_cons (g : M) (L : List M) (n : ℕ) :
 theorem nfG_zero : ∀ L : List M, nfG L 0 = 1
   | [] => rfl
   | g :: L => by
-    rw [nfG_cons, Nat.zero_div, nfG_zero L, if_neg (by decide), one_mul]
+    rw [nfG_cons, Nat.zero_div, nfG_zero L, ite_eq_right (by decide), one_mul]
 
 theorem nfG_map {N : Type*} [Monoid N] (f : M →* N) :
     ∀ (L : List M) (n : ℕ), nfG (L.map f) n = f (nfG L n)
@@ -72,10 +72,10 @@ theorem mem_nfSet_cons {g x : M} {L : List M} :
     · exact Or.inl (one_mul _)
   · rintro ⟨s, ⟨m, hm, rfl⟩, rfl | rfl⟩
     · refine ⟨2 * m, by rw [List.length_cons, pow_succ]; omega, ?_⟩
-      rw [nfG_cons, if_neg (by omega), Nat.mul_div_cancel_left _ two_pos, one_mul]
+      rw [nfG_cons, ite_eq_right (by omega), Nat.mul_div_cancel_left _ two_pos, one_mul]
     · refine ⟨2 * m + 1, by rw [List.length_cons, pow_succ]; omega, ?_⟩
       have e : (2 * m + 1) / 2 = m := by omega
-      rw [nfG_cons, if_pos (by omega), e]
+      rw [nfG_cons, ite_eq_left (by omega), e]
 
 theorem nfSet_mul : ∀ {L : List M}, PcRel L → ∀ x ∈ nfSet L, ∀ y ∈ nfSet L, x * y ∈ nfSet L
   | [], _, x, ⟨_, _, hx⟩, y, ⟨_, _, hy⟩ => by
@@ -123,7 +123,7 @@ theorem nfG_two_pow_mul : ∀ (k : ℕ) (L : List M) (m : ℕ), nfG L (2 ^ k * m
   | k + 1, g :: L, m => by
     rw [nfG_cons, List.drop_succ_cons, ← nfG_two_pow_mul k L m]
     have e : 2 ^ (k + 1) * m = 2 * (2 ^ k * m) := by ring
-    rw [e, if_neg (by rw [Nat.mul_mod_right]; decide), Nat.mul_div_cancel_left _ two_pos, one_mul]
+    rw [e, ite_eq_right (by rw [Nat.mul_mod_right]; decide), Nat.mul_div_cancel_left _ two_pos, one_mul]
 
 theorem pcRel_of (gs : List M)
     (hsq : ∀ i < gs.length, ∃ m < 2 ^ gs.length, 2 ^ (i + 1) ∣ m ∧
@@ -262,13 +262,13 @@ private theorem nc2m_get (c : Lay) (F : List ℕ → ℕ) : ∀ (gs us : List �
       dsimp only
       congr 1
       refine List.map_congr_left fun u _ => ?_
-      rw [nc2m_vecN_cons, if_neg h]
+      rw [nc2m_vecN_cons, ite_eq_right h]
     · have h : n % 2 = 1 := Nat.eq_of_beq_eq_true hb
       dsimp only
       rw [List.map_map]
       congr 1
       refine List.map_congr_left fun u _ => ?_
-      rw [Function.comp_apply, nc2m_vecN_cons, if_pos h]
+      rw [Function.comp_apply, nc2m_vecN_cons, ite_eq_left h]
 
 private theorem nc2m_vecN_sound (c : Lay) (hc : c.ok = true) : ∀ {gs : List ℕ},
     (∀ g ∈ gs, Canon c.p c.d c.w g) → ∀ (n : ℕ) {u : ℕ}, SecS.VCanon c.p c.d c.w u →
@@ -283,11 +283,11 @@ private theorem nc2m_vecN_sound (c : Lay) (hc : c.ok = true) : ∀ {gs : List �
     have hgs : ∀ g' ∈ gs, Canon c.p c.d c.w g' := fun g' h' => hg g' (List.mem_cons_of_mem _ h')
     rw [nc2m_vecN_cons, List.map_cons, nfG_cons]
     by_cases h : n % 2 = 1
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       obtain ⟨h1, h2⟩ := SecS.vec_sound c hc hu hg0
       obtain ⟨h3, h4⟩ := nc2m_vecN_sound c hc hgs (n / 2) h1
       exact ⟨h3, by rw [h4, h2, Matrix.vecMul_vecMul]⟩
-    · rw [if_neg h, if_neg h, one_mul]
+    · rw [ite_eq_right h, ite_eq_right h, one_mul]
       exact nc2m_vecN_sound c hc hgs (n / 2) hu
 
 private theorem nc2m_nfL (c : Lay) (hc : c.ok = true) : ∀ {gs : List ℕ},
@@ -304,10 +304,10 @@ private theorem nc2m_nfL (c : Lay) (hc : c.ok = true) : ∀ {gs : List ℕ},
     rw [e, List.map_cons, nfG_cons]
     cases hb : Nat.beq (n % 2) 1
     · have h : ¬ n % 2 = 1 := Nat.ne_of_beq_eq_false hb
-      rw [if_neg h, one_mul]
+      rw [ite_eq_right h, one_mul]
       exact ⟨h1, h2⟩
     · have h : n % 2 = 1 := Nat.eq_of_beq_eq_true hb
-      rw [if_pos h]
+      rw [ite_eq_left h]
       cases hb2 : Nat.beq (n / 2) 0
       · obtain ⟨h3, h4⟩ := SecS.mul_sound c hc hg0 h1
         exact ⟨h3, by dsimp only; rw [h4, h2]⟩

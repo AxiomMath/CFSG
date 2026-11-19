@@ -16,7 +16,7 @@ section Row28One
 theorem not_isPSolvable_barO2_of_pComponent_aux1 {A B : Type} [Group A] [Finite A] [Group B]
     (f : A →* B) (hf : Function.Surjective f) (hA : CFSG.HallHigman.IsPSolvable 7 A) :
     CFSG.HallHigman.IsPSolvable 7 B := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hT : CFSG.HallHigman.IsPSolvable 7 ↥(⊤ : Subgroup A) :=
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal.isPSolvable_of_mulEquiv
       Subgroup.topEquiv.symm hA
@@ -28,29 +28,29 @@ theorem not_isPSolvable_barO2_of_pComponent_aux1 {A B : Type} [Group A] [Finite 
 theorem not_isPSolvable_barO2_of_pComponent_aux2 {Q : Type} [Group Q] [Finite Q]
     (hq : CFSG.IsQuasisimple Q) (h7 : 7 ∣ Nat.card (Q ⧸ Subgroup.center Q)) :
     ¬ CFSG.HallHigman.IsPSolvable 7 Q := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro hps
   obtain ⟨-, hsimple, a, b, hab⟩ := hq
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
   have hps2 : CFSG.HallHigman.IsPSolvable 7 (Q ⧸ Subgroup.center Q) :=
     not_isPSolvable_barO2_of_pComponent_aux1 (QuotientGroup.mk' (Subgroup.center Q))
       (QuotientGroup.mk'_surjective _) hps
   let e : (↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) ⧸
       (⊥ : Subgroup ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)))) ≃* (Q ⧸ Subgroup.center Q) :=
     QuotientGroup.quotientBot.trans Subgroup.topEquiv
-  haveI : IsSimpleGroup (↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) ⧸
+  have : IsSimpleGroup (↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) ⧸
       (⊥ : Subgroup ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)))) := MulEquiv.isSimpleGroup e
   have h := hps2 ⊤ Subgroup.IsSubnormal.top ⊥ inferInstance
   rw [Subgroup.index_bot, Subgroup.card_top] at h
   rcases h with h | h
-  · haveI : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_prime_card (p := 7) h
+  · have : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_prime_card (p := 7) h
     exact hab (mul_comm a b)
   · exact absurd (Nat.Coprime.eq_one_of_dvd h h7) (by norm_num)
 
 theorem not_isPSolvable_barO2_of_pComponent_aux3 {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y}
     (hL : CFSG.IsPComponent 7 L) :
     ¬ CFSG.HallHigman.IsPSolvable 7 (↥L ⧸ CFSG.pPrimeCore 7 ↥L) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hq := CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple
     7 L hL
   exact not_isPSolvable_barO2_of_pComponent_aux2 hq
@@ -118,6 +118,7 @@ section Row28Two
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem transfer_centralizer_aux1 (M : Subgroup G) (Q : Subgroup ↥M) :
     (Subgroup.centralizer (Q : Set ↥M)).map M.subtype =
       M ⊓ Subgroup.centralizer ((Q.map M.subtype : Subgroup G) : Set G) := by

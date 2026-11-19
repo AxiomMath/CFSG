@@ -35,9 +35,9 @@ theorem isUnit_wordTwo (ha : IsUnit a) (hb : IsUnit b) : ∀ w : List Bool, IsUn
     rw [wordTwo_cons]
     refine IsUnit.mul ?_ (isUnit_wordTwo ha hb w)
     cases l
-    · rw [if_neg Bool.false_ne_true]
+    · rw [ite_eq_right Bool.false_ne_true]
       exact hb
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact ha
 
 theorem commute_wordTwo {x : M} (ha : Commute x a) (hb : Commute x b) :
@@ -49,9 +49,9 @@ theorem commute_wordTwo {x : M} (ha : Commute x a) (hb : Commute x b) :
     rw [wordTwo_cons]
     refine Commute.mul_right ?_ (commute_wordTwo ha hb w)
     cases l
-    · rw [if_neg Bool.false_ne_true]
+    · rw [ite_eq_right Bool.false_ne_true]
       exact hb
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact ha
 
 theorem map_wordTwo {N : Type*} [Monoid N] (f : M →* N) (w : List Bool) :
@@ -138,9 +138,9 @@ theorem mul_wordTwo_comm {x a b : Matrix n n R} (ha : x * a = a * x) (hb : x * b
   | l :: w => by
     have hl : x * (if l then a else b) = (if l then a else b) * x := by
       cases l
-      · rw [if_neg Bool.false_ne_true]
+      · rw [ite_eq_right Bool.false_ne_true]
         exact hb
-      · rw [if_pos rfl]
+      · rw [ite_eq_left rfl]
         exact ha
     rw [wordTwo_cons, ← Matrix.mul_assoc, hl, Matrix.mul_assoc, mul_wordTwo_comm ha hb w,
       Matrix.mul_assoc]

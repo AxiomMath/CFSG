@@ -32,12 +32,12 @@ theorem p3At_A_of_seven_le {n : ℕ} (hn : 7 ≤ n) {Q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.A n Q).Valid) : P3At ⟨_, hv⟩ := by
   intro q Ω _ _ S B H hchar ⟨e⟩
   exfalso
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set F := GaloisField Q.p Q.exponent with hFdef
   have hFcard : Nat.card F = Q.card := by
     rw [hFdef, GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   have hQq : Q.p = q := (TauCeti.LieTypeIndex.characteristic_A n Q).symm.trans hchar
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨E⟩ := CFSG.Adapters.CatalogueFieldBridges.nonempty_projectiveSL_mulEquiv_lie (k := F) Q hv
     hFcard
   have hab : ∀ i : Fin 4, (⟨2 * i, by omega⟩ : Fin (n + 1)) ≠ ⟨2 * i + 1, by omega⟩ := fun i =>
@@ -67,7 +67,7 @@ theorem p3At_twistedA_of_seven_le {n : ℕ} (hn : 7 ≤ n) {Q : TauCeti.PrimePow
   set d : TauCeti.ValidLieTypeIndex := ⟨.twistedA n Q, hv⟩ with hd
   set p := d.characteristic with hpdef
   set f := d.fieldExponent with hfdef
-  haveI : Fact p.Prime := ⟨d.characteristic_prime⟩
+  have : Fact p.Prime := ⟨d.characteristic_prime⟩
   have hfQ : f = Q.exponent := TauCeti.LieTypeIndex.fieldExponent_twistedA n Q
   have hpq : p = q := hchar
   have hf1 : 1 ≤ f := by rw [hfQ]; exact Q.exponent_pos
@@ -75,8 +75,8 @@ theorem p3At_twistedA_of_seven_le {n : ℕ} (hn : 7 ≤ n) {Q : TauCeti.PrimePow
   have hK : UnitaryFieldData p f K := ⟨Fact.out, hf1, GaloisField.card p (2 * f) (by omega)⟩
   set e₁ := e.trans (CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj n Q hv)
   obtain ⟨F, _, _, hFc, ⟨e₂⟩⟩ := CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.kaU4S3_exists_su2_equiv hK
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hFc])
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hFc])
   have hJ : ∀ i : Fin 4, ({⟨2 * i, by omega⟩, ⟨2 * i + 1, by omega⟩} : Finset (Fin (n + 1))).card =
       2 := fun i => Finset.card_pair (Fin.ne_of_val_ne (by simp))
   choose ι hι hrange using fun i : Fin 4 =>

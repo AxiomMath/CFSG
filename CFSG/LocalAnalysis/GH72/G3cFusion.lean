@@ -139,7 +139,7 @@ theorem normalizer_le_normalizer_inf_right (hpf : HasProductFusion 𝔖.S₁ �
 theorem isSylowOf_S {K : Subgroup G} (hSK : (𝔖.S : Subgroup G) ≤ K) :
     ABGLocalTools.IsSylowOf 2 (𝔖.S : Subgroup G) K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ABGLocalTools.isSylowOf_iff.2 ⟨hSK, 𝔖.S.isPGroup', fun h => ?_⟩
+  refine ABGLocalTools.isSylowOf_iff.2 ⟨hSK, 𝔖.S.isPGroup, fun h => ?_⟩
   exact 𝔖.S.not_dvd_index (h.trans (relIndex_dvd_index_of_le hSK))
 
 theorem exists_mem_normalizer_conj_eq {A : Subgroup G} (hAS : A ≤ 𝔖.S) (hA : IsE16 A)

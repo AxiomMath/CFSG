@@ -60,7 +60,7 @@ private theorem e12_le_centralizer {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω
 private theorem e12_insert_eq {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) (X : Subgroup G) :
     insert X (omegaStarNbr Ω X) = (omegaStarNbr Ω X \ omegaNbr Ω X) ∪ KPerp Ω X := by
   ext Y
-  simp only [Set.mem_insert_iff, Set.mem_union, Set.mem_diff, KPerp]
+  simp only [Set.mem_insert_iff, Set.mem_union, Set.mem_sdiff, KPerp]
   constructor
   · rintro (rfl | hY)
     · exact Or.inr (Or.inl rfl)
@@ -72,6 +72,7 @@ private theorem e12_insert_eq {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) (X 
     · exact Or.inl rfl
     · exact Or.inr (Q3T6.Mu.omegaNbr_subset_omegaStarNbr hΩ X hY)
 
+omit [Finite G] in
 private theorem e12_conjSub_eGroup_le {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) (g : G)
     {K : Subgroup G} : conjSub g (eGroup Ω K) ≤ eGroup Ω (conjSub g K) := by
   have hle : eGroup Ω K ≤ (eGroup Ω (conjSub g K)).comap (MulAut.conj g).toMonoidHom := by
@@ -92,6 +93,7 @@ namespace EndHyp
 variable {Ω : Set (Subgroup G)} (h : EndHyp Ω)
 include h
 
+omit [Finite G] h in
 theorem eGroup_le_zGroup {K : Subgroup G} (hK : K ∈ Ω) : eGroup Ω K ≤ zGroup Ω := by
   unfold eGroup zGroup
   refine Subgroup.closure_mono ?_
@@ -100,15 +102,18 @@ theorem eGroup_le_zGroup {K : Subgroup G} (hK : K ∈ Ω) : eGroup Ω K ≤ zGro
   · exact ⟨K, hK, by rw [← hJ]; exact hu⟩
   · exact ⟨J, hJ.1, hu⟩
 
+omit [Finite G] h in
 theorem mem_eGroup_of_isUniqueInvolution {K : Subgroup G} {z : G}
     (hz : IsUniqueInvolution K z) : z ∈ eGroup Ω K :=
   Subgroup.subset_closure ⟨K, Set.mem_insert _ _, hz⟩
 
+omit [Finite G] h in
 theorem mem_eGroup_of_mem_omegaStarNbr {K J : Subgroup G} (hJ : J ∈ omegaStarNbr Ω K) {u : G}
     (hu : IsUniqueInvolution J u) : u ∈ eGroup Ω K :=
   Subgroup.subset_closure ⟨J, Set.mem_insert_of_mem _ hJ, hu⟩
 
-theorem eGroup_conj {K : Subgroup G} (hK : K ∈ Ω) (g : G) :
+omit [Finite G] in
+theorem eGroup_conj {K : Subgroup G} (_hK : K ∈ Ω) (g : G) :
     eGroup Ω (conjSub g K) = conjSub g (eGroup Ω K) := by
   refine le_antisymm ?_ (e12_conjSub_eGroup_le h.thmD.hyp.conjInvariant g)
   have h' := e12_conjSub_eGroup_le h.thmD.hyp.conjInvariant g⁻¹ (K := conjSub g K)
@@ -117,6 +122,7 @@ theorem eGroup_conj {K : Subgroup G} (hK : K ∈ Ω) (g : G) :
         (conjSub_conjSub_inv g _).symm
     _ ≤ conjSub g (eGroup Ω K) := conjSub_mono h'
 
+omit [Finite G] in
 theorem card_eGroup_eq {K L : Subgroup G} (hK : K ∈ Ω) (hL : L ∈ Ω) :
     Nat.card (eGroup Ω K) = Nat.card (eGroup Ω L) := by
   obtain ⟨g, rfl⟩ := h.thmD.trans K hK L hL
@@ -132,7 +138,7 @@ theorem eGroup_eq_of_mem_twinSet {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ 
   unfold eGroup
   rw [hset]
 
-theorem eGroup_eq_of_dstarAdj (h9 : Perp9 Ω) {K J : Subgroup G} (hK : K ∈ Ω)
+theorem eGroup_eq_of_dstarAdj (_h9 : Perp9 Ω) {K J : Subgroup G} (hK : K ∈ Ω)
     (hKJ : dstarAdj Ω K J) (h4 : Nat.card (eGroup Ω K) = 4) : eGroup Ω J = eGroup Ω K := by
   obtain ⟨hJ, hadj⟩ := hKJ
   by_cases hT : J ∈ twinSet Ω K
@@ -148,10 +154,10 @@ theorem eGroup_eq_of_dstarAdj (h9 : Perp9 Ω) {K J : Subgroup G} (hK : K ∈ Ω)
     intro hzt
     apply hT
     exact ⟨hJ, z, hz, by rw [hzt]; exact ht⟩
-  have hzK : z ∈ eGroup Ω K := h.mem_eGroup_of_isUniqueInvolution hz
-  have htK : t ∈ eGroup Ω K := h.mem_eGroup_of_mem_omegaStarNbr hJK ht
-  have hzJ : z ∈ eGroup Ω J := h.mem_eGroup_of_mem_omegaStarNbr hKJ' hz
-  have htJ : t ∈ eGroup Ω J := h.mem_eGroup_of_isUniqueInvolution ht
+  have hzK : z ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution hz
+  have htK : t ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hJK ht
+  have hzJ : z ∈ eGroup Ω J := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hKJ' hz
+  have htJ : t ∈ eGroup Ω J := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution ht
   have hcard : 4 ≤ Nat.card (Subgroup.closure ({z, t} : Set G)) :=
     e12_four_le_card (Subgroup.subset_closure (Set.mem_insert _ _))
       (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _)))
@@ -180,12 +186,12 @@ theorem zGroup_eq_eGroup_of_card_eq_four (h9 : Perp9 Ω) {K : Subgroup G} (hK : 
         rw [heb]
         exact h4
       exact ⟨hbc.1, (h.eGroup_eq_of_dstarAdj h9 hbΩ hbc h4b).trans heb⟩
-  refine le_antisymm ?_ (h.eGroup_le_zGroup hK)
+  refine le_antisymm ?_ (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup hK)
   unfold zGroup
   refine (Subgroup.closure_le _).mpr ?_
   rintro u ⟨L, hL, hu⟩
   obtain ⟨-, heq⟩ := key L (h.star K hK L hL)
-  have hu' := h.mem_eGroup_of_isUniqueInvolution hu
+  have hu' := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution (Ω := Ω) hu
   rw [heq] at hu'
   exact hu'
 
@@ -211,7 +217,7 @@ private theorem e12_exists_wSet_involution {K : Subgroup G} (hK : K ∈ Ω) {z :
   obtain ⟨t, ht⟩ := Sec6Gen.exists_uniqueInvolution h.thmD.hyp hJ
   obtain ⟨w, hwU, hww⟩ :=
     CFSG.ClassicalInvolution.Asc77.T3.exists_sq_eq_of_cyclic ht hUJ hcyc hU2 h4
-  refine ⟨W, hW, hzW, t, ?_, h.mem_eGroup_of_mem_omegaStarNbr hJs ht, ht.ne_one, ?_⟩
+  refine ⟨W, hW, hzW, t, ?_, CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hJs ht, ht.ne_one, ?_⟩
   · rw [← hww]
     exact W.mul_mem (hUW hwU) (hUW hwU)
   · intro htz
@@ -222,16 +228,16 @@ private theorem e12_exists_wSet_involution {K : Subgroup G} (hK : K ∈ Ω) {z :
 
 theorem eight_le_card_eGroup (h9 : Perp9 Ω) {K : Subgroup G} (hK : K ∈ Ω) :
     8 ≤ Nat.card (eGroup Ω K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := Sec6Gen.exists_uniqueInvolution h.thmD.hyp hK
   obtain ⟨W, hW, hzW, t, htW, htE, ht1, htz⟩ := h.e12_exists_wSet_involution hK hz
-  have hzE : z ∈ eGroup Ω K := h.mem_eGroup_of_isUniqueInvolution hz
+  have hzE : z ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution hz
   have h4le : 4 ≤ Nat.card (eGroup Ω K) :=
     e12_four_le_card hzE htE hz.sq hz.ne_one ht1 htz.symm
   by_contra hlt
   have hP : IsPGroup 2 (eGroup Ω K) :=
     (CFSG.pCore_isPGroup (p := 2) (G := G)).to_le
-      ((h.eGroup_le_zGroup hK).trans h.zGroup_le_pCore)
+      ((CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup hK).trans h.zGroup_le_pCore)
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have h4 : Nat.card (eGroup Ω K) = 4 := by
     have hn3 : n < 3 := by

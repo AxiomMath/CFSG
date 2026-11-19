@@ -65,7 +65,7 @@ private theorem s16t3_central_pElement {E : Type*} [Group E] [Finite E] {p : ℕ
     hperf P (hZ hzZ) hzP'
   let f : (P : Subgroup E) →* E ⧸ Z := (QuotientGroup.mk' Z).comp (P : Subgroup E).subtype
   have hpR : IsPGroup p f.range :=
-    P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := hpR.exists_card_eq
   have hdvd : p ^ k ∣ Nat.card (E ⧸ Z) := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hker : f.rangeRestrict.ker ≤ center (P : Subgroup E) := by
@@ -77,7 +77,7 @@ private theorem s16t3_central_pElement {E : Type*} [Group E] [Finite E] {p : ℕ
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hZ hxZ) g)
   have hcyc1 : IsCyclic f.range → z = 1 := by
     intro hcyc
-    have hPab := commutative_of_cyclic_center_quotient f.rangeRestrict hker
+    have hPab := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f.rangeRestrict hker).is_comm.comm
     have hbot : commutator (P : Subgroup E) = ⊥ := by
       rw [_root_.commutator, Subgroup.commutator_eq_bot_iff_le_centralizer]
       intro a _ b _
@@ -100,7 +100,7 @@ private theorem s16t3_central_pElement {E : Type*} [Group E] [Finite E] {p : ℕ
   rw [hk2'] at hk
   have hexp : Monoid.exponent f.range = p :=
     (not_isCyclic_iff_exponent_eq_prime hp.out hk).1 hcyc
-  have hRab := IsPGroup.commutative_of_card_eq_prime_sq (p := p) hk
+  have hRab := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hk).is_comm.comm
   have hpowc : ∀ x : (P : Subgroup E), x ^ p ∈ center (P : Subgroup E) := by
     intro x
     apply hker
@@ -149,7 +149,7 @@ theorem s16t3_kernel_pElement {Y : Type*} [Group Y] [Finite Y] (hperf : commutat
     rw [hperf, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective O),
       MonoidHom.range_eq_top.2 (QuotientGroup.mk'_surjective O)] at h
     rw [_root_.commutator, ← h]
-  haveI : (N.map (QuotientGroup.mk' O)).Normal :=
+  have : (N.map (QuotientGroup.mk' O)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective O)
   have hcard : Nat.card ((Y ⧸ O) ⧸ N.map (QuotientGroup.mk' O)) = Nat.card (Y ⧸ N) :=
     Nat.card_congr (QuotientGroup.quotientQuotientEquivQuotient O N hON).toEquiv

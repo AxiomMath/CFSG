@@ -53,8 +53,8 @@ end Quasi
 open CFSG.LieType.Multipliers.U43 in
 theorem ctypeOK_U43 (hb : LieOrderBridge) {T : Type} [Group T] (e : T ≃* X₀) : CTypeOK 3 T := by
   have hc : Nat.card T = 3265920 := by rw [Nat.card_congr e.toEquiv]; exact card_X₀
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  exact CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.ctypeOK_of_card hb (N := 3265920) (by rw [hc] <;> norm_num) (by norm_num) (by norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  exact CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.ctypeOK_of_card hb (N := 3265920) (by rw [hc]) (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)
 
 section Entries
@@ -84,7 +84,7 @@ theorem ccompOK_xA (hb : LieOrderBridge) : CCompOK 3 (⟨fuseXA, fuseXA_mem⟩ :
   have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
   refine ccompOK_of_centralizer_equiv e hq ?_ ?_ (ctypeOK_U43 hb eT)
   · have h3 : IsPGroup 3 ↥(Subgroup.zpowers (⟨fuseXA, aX_mem⟩ : ↥aSub)) := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
     exact h3.of_equiv (MulEquiv.subgroupCongr hcen.symm)
   · exact ⟨3265920, by rw [card_aSub]⟩
@@ -95,9 +95,9 @@ theorem ccompOK_y (hb : LieOrderBridge) : CCompOK 3 (⟨yPerm, yPerm_mem⟩ : �
   obtain ⟨hder, hEcard⟩ := Esub_derived
   obtain ⟨eE⟩ := nonempty_mulEquiv_Esub_alt6
   have hEC : Esub ≤ Subgroup.closure (permsA 1782 (cGens (levels ()))) := hCeq ▸ Esub_le_C
-  haveI hs : IsSimpleGroup ↥Esub :=
+  have hs : IsSimpleGroup ↥Esub :=
     @MulEquiv.isSimpleGroup _ _ _ _ (alternatingGroup.isSimpleGroup (by simp)) eE
-  haveI : Finite ↥Esub := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite ↥Esub := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hnab : ∃ a b : ↥Esub, a * b ≠ b * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hEcard]; norm_num)
   have hsh : ShapeRkAt 3 CTypeThree (fun _ _ => True) (⟨yPerm, yPerm_mem⟩ : ↥suzM) := by

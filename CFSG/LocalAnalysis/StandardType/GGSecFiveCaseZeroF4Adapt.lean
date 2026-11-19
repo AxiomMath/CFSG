@@ -160,7 +160,7 @@ private lemma ggCZAdapt_repr_eq_phi {b : Module.Basis (Fin 4) (ZMod p) V} (hd : 
     rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply, hb j, hd i j]
     rcases eq_or_ne i j with h | h
     · subst h; simp
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   rw [← Module.Basis.coord_apply, hcoord]
 
 theorem GGCZDual.exists_basis (hd : GGCZDual e φ) (h4 : Module.finrank (ZMod p) V = 4) :
@@ -197,14 +197,14 @@ private lemma permMap_swap_apply (hd : GGCZDual e φ) (hb : ∀ i, b i = e i)
     simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply, hb]
     by_cases hki : k = i
     · rw [hki, Equiv.swap_apply_left]
-      simp only [hd i i, hd j i, if_neg (Ne.symm hij), if_true, one_smul]
+      simp only [hd i i, hd j i, ite_eq_right (Ne.symm hij), ite_true, one_smul]
       module
     · by_cases hkj : k = j
       · rw [hkj, Equiv.swap_apply_right]
-        simp only [hd i j, hd j j, if_neg hij, if_true, one_smul]
+        simp only [hd i j, hd j j, ite_eq_right hij, ite_true, one_smul]
         module
       · rw [Equiv.swap_apply_of_ne_of_ne hki hkj]
-        simp only [hd i k, hd j k, if_neg (Ne.symm hki), if_neg (Ne.symm hkj), sub_self,
+        simp only [hd i k, hd j k, ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj), sub_self,
           zero_smul, sub_zero]
   change (ZS.permMap p b (Equiv.swap i j) : V →ₗ[ZMod p] V) v = _
   rw [hL]
@@ -244,10 +244,10 @@ private lemma diagMap_sgn_apply (hd : GGCZDual e φ) (hb : ∀ i, b i = e i) (i 
       LinearMap.smul_apply, smul_eq_mul, hb]
     by_cases hki : k = i
     · rw [hki]
-      simp only [hd i i, if_true, mul_one, Units.val_neg, Units.val_one]
+      simp only [hd i i, ite_true, mul_one, Units.val_neg, Units.val_one]
       module
-    · rw [if_neg hki]
-      simp only [hd i k, if_neg (Ne.symm hki), mul_zero, zero_smul, sub_zero,
+    · rw [ite_eq_right hki]
+      simp only [hd i k, ite_eq_right (Ne.symm hki), mul_zero, zero_smul, sub_zero,
         Units.val_one, one_smul]
   change (ZS.diagMap p b (fun j => if j = i then -1 else 1) : V →ₗ[ZMod p] V) v = _
   rw [hL]
@@ -317,7 +317,7 @@ private lemma ggCZHalfRefl_mem (hp2 : p ≠ 2) (hd : GGCZDual e φ) :
 private lemma ggCZHalfForm_e_one (hd : GGCZDual e φ) :
     ggCZHalfForm (p := p) φ (e 1) = -((2 : ZMod p)⁻¹) := by
   rw [ggCZHalfForm_apply, Finset.sum_eq_single 1]
-  · simp only [hd 1 1, ggCZHalfW, if_true, mul_neg, mul_one]
+  · simp only [hd 1 1, ggCZHalfW, ite_true, mul_neg, mul_one]
   · intro k _ hk
     simp [hd k 1, hk]
   · intro h
@@ -385,7 +385,7 @@ theorem ggCZWF4_exists_not_monomial (hp2 : p ≠ 2) (hd : GGCZDual e φ) (hb : �
       decide
     · exact fun hk => h hk.symm
   have hzero : b.repr (ggCZHalfRefl hp2 hd (b 1)) k = 0 := by
-    rw [hrepr k, if_neg (Ne.symm hkne)]
+    rw [hrepr k, ite_eq_right (Ne.symm hkne)]
   exact hnz k hzero
 
 private def ggCZSignVec (i : Fin 4) : Fin 4 → (ZMod p)ˣ :=
@@ -509,7 +509,7 @@ private lemma ggCZB3_signed_swap (hp2 : p ≠ 2) {i j : Fin 4} {ε : ZMod p} (hi
         · rw [hkj]
           simp [Ne.symm hij]
         · simp [hki, hkj]
-    simp only [if_neg hneg]
+    simp only [ite_eq_right hneg]
     rw [hd]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (ggCZB3_sgn hi) (ggCZB3_sgn hj)) hperm
 
@@ -519,13 +519,13 @@ private lemma RD_indices_ne_three (hd : GGCZDual e φ) (hb : ∀ i, b i = e i)
     (hrw : ∀ v, r v = v - (φ i v - ε * φ j v) • (e i - ε • e j))
     (hfix : r (b 3) = b 3) : i ≠ 3 ∧ j ≠ 3 := by
   have hcoord : φ 3 (r (b 3)) = 1 := by
-    rw [hfix, hb 3, hd 3 3, if_pos rfl]
+    rw [hfix, hb 3, hd 3 3, ite_eq_left rfl]
   constructor
   · intro hi
     subst hi
     have hzero : φ 3 (r (b 3)) = 0 := by
-      simp only [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3, hd 3 j, if_neg hij,
-        hd j 3, if_neg (Ne.symm hij), if_true]
+      simp only [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3, hd 3 j, ite_eq_right hij,
+        hd j 3, ite_eq_right (Ne.symm hij), ite_true]
       ring
     rw [hzero] at hcoord
     exact one_ne_zero hcoord.symm
@@ -533,7 +533,7 @@ private lemma RD_indices_ne_three (hd : GGCZDual e φ) (hb : ∀ i, b i = e i)
     subst hj
     have hzero : φ 3 (r (b 3)) = 0 := by
       simp only [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3, hd 3 i,
-        if_neg (Ne.symm hij), hd i 3, if_neg hij, if_true]
+        ite_eq_right (Ne.symm hij), hd i 3, ite_eq_right hij, ite_true]
       rcases hε with rfl | rfl <;> ring
     rw [hzero] at hcoord
     exact one_ne_zero hcoord.symm
@@ -546,7 +546,7 @@ private lemma ggCZB3_of_S (hp2 : p ≠ 2) (hd : GGCZDual e φ) (hb : ∀ i, b i 
     intro hi
     subst hi
     have hcoord : φ 3 (r (b 3)) = 1 := by
-      rw [hfix, hb 3, hd 3 3, if_pos rfl]
+      rw [hfix, hb 3, hd 3 3, ite_eq_left rfl]
     have hzero : φ 3 (r (b 3)) = -1 := by
       simp only [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3]
       norm_num
@@ -559,9 +559,9 @@ private lemma ggCZB3_of_S (hp2 : p ≠ 2) (hd : GGCZDual e φ) (hb : ∀ i, b i 
     rw [hb k, hrw (e k)]
     by_cases hki : k = i
     · rw [hki]
-      simp only [hd i i, ggCZSignVec, if_true]
+      simp only [hd i i, ggCZSignVec, ite_true]
       module
-    · rw [hd i k, if_neg (Ne.symm hki)]
+    · rw [hd i k, ite_eq_right (Ne.symm hki)]
       simp [ggCZSignVec, hki]
   rw [hr_eq]
   exact ggCZB3_sgn hi3
@@ -584,14 +584,14 @@ private lemma ggCZB3_of_RD (hp2 : p ≠ 2) (hd : GGCZDual e φ) (hb : ∀ i, b i
     rw [hrw (e k)]
     by_cases hki : k = i
     · rw [hki, Equiv.swap_apply_left]
-      simp only [hd i i, hd j i, if_neg (Ne.symm hij)]
+      simp only [hd i i, hd j i, ite_eq_right (Ne.symm hij)]
       rcases hε with rfl | rfl <;> simp [hneg]
     · by_cases hkj : k = j
       · rw [hkj, Equiv.swap_apply_right]
-        simp only [hd i j, hd j j, if_neg hij]
+        simp only [hd i j, hd j j, ite_eq_right hij]
         rcases hε with rfl | rfl <;> simp [hneg]
       · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, hd i k, hd j k,
-          if_neg (Ne.symm hki), if_neg (Ne.symm hkj)]
+          ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj)]
         simp [hki, hkj]
   rw [hr_eq]
   exact ggCZB3_signed_swap hp2 hij hε hi3 hj3
@@ -603,9 +603,9 @@ private lemma ggCZ_not_H (hp2 : p ≠ 2) (hd : GGCZDual e φ) (hb : ∀ i, b i =
   have hw3 : w 3 * w 3 = 1 := by
     rcases hw 3 with h | h <;> rw [h] <;> ring
   have hcoord : φ 3 (r (b 3)) = 1 := by
-    rw [hfix, hb 3, hd 3 3, if_pos rfl]
+    rw [hfix, hb 3, hd 3 3, ite_eq_left rfl]
   have hzero : φ 3 (r (b 3)) = 1 - (2 : ZMod p)⁻¹ := by
-    rw [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3, if_pos rfl,
+    rw [hb 3, hrw (e 3), map_sub, map_smul, hd 3 3, ite_eq_left rfl,
       sum_weight_phi_e hd w 3, phi_weight_sum hd w 3, smul_eq_mul]
     rw [show (2 : ZMod p)⁻¹ * w 3 * w 3 = 2⁻¹ by
       calc (2 : ZMod p)⁻¹ * w 3 * w 3 = 2⁻¹ * (w 3 * w 3) := by ring

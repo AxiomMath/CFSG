@@ -133,7 +133,7 @@ theorem e6_root_pair_stabilizer_eq {K : Type} [Field K] [IsAlgClosed K] [CharP K
       hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
         ((CharP.cast_eq_zero_iff K 2 p).1 h)).symm
     have : NeZero (p : K) := ⟨hpK⟩
-    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K p
+    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K p
     exact ⟨(hζ₀.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.mp (by
       rw [IsUnit.unit_spec]
       exact hζ₀)⟩
@@ -256,7 +256,7 @@ theorem isConnectedAlgebraicSubgroup_e6_root_pair_stabilizer
     rw [hT0]
     congr 1
     ext g
-    simp only [hCl, Set.mem_iUnion, Set.mem_range, Set.mem_setOf_eq, Subtype.exists]
+    simp only [hCl, Set.mem_iUnion, Set.mem_range, Set.mem_ofPred_eq, Subtype.exists]
     constructor
     · rintro ⟨j, hj, c, rfl⟩
       exact ⟨j, hj, c, rfl⟩

@@ -13,7 +13,7 @@ open scoped commutatorElement Matrix
 
 theorem sec717_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (h : Nat.card K = 2 ^ n) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨m, hp, hm⟩ := FiniteField.card K (ringChar K)
   have hpK : Nat.card K = ringChar K ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -72,7 +72,7 @@ theorem sec717Inv_of_parts (h51 : Stroth51Statement)
   rw [h4] at hk
   obtain ⟨K, hKf, hKfin, hKZ, φ, hφr, hker, -⟩ := hp3c
   obtain ⟨n0, -, hZn0, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
+  have : CharP K 2 := sec717_charP_two (n := n0) (by rw [hKZ, hZn0])
   by_cases h0 : A = Z0
   · exact Or.inl h0
   by_cases hN : A = hc.CN t
@@ -88,7 +88,7 @@ theorem sec717Inv_of_parts (h51 : Stroth51Statement)
     exact (Subgroup.eq_of_le_of_card_ge hZA hle).symm
   have hk_le : k ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply hN
     apply Subgroup.eq_of_le_of_card_ge hAN
     have h8 : Nat.card Z ^ 8 ≤ Nat.card Z ^ (4 * k) :=

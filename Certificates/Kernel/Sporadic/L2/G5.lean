@@ -291,7 +291,7 @@ theorem actV_W {g gi : Array Nat} {G GI : Nat} (hg : P g G) (hgi : P gi GI) {j v
       · exact ⟨2, by norm_num, by rw [hC.1, fp_unpack, ← h3'.2 (Q3AG.nbeq_false e1)]; rfl⟩
   obtain ⟨k, hk, hfk⟩ := key
   unfold actV
-  rw [if_neg (by omega), show 2835 + j - 2835 = j by omega, fpConj_eq, hfk,
+  rw [ite_eq_right (by omega), show 2835 + j - 2835 = j by omega, fpConj_eq, hfk,
     vIdx_get hw kSortT hj' hk]
   omega
 

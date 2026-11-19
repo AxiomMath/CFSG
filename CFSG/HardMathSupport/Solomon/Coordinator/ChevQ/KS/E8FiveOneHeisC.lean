@@ -129,7 +129,7 @@ theorem g2_mem_sylowW : e8FiveG2 ∈ sylowW := Subgroup.subset_closure (by simp)
 theorem heisReduction_holds : HeisReduction := by
   intro K _ _ h5 ω hω E hE hc hEN hW
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨yA, hyAE, hyAN, hyA⟩ := mem_wImg.1
     (show e8FiveG1 ^ 4 ∈ wImg K E by rw [hW]; exact g1_pow4_mem_sylowW)
   obtain ⟨yB, hyBE, hyBN, hyB⟩ := mem_wImg.1

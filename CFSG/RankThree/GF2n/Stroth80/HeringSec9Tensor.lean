@@ -58,7 +58,7 @@ theorem exists_vecMulVec_of_det_eq_zero
       · intro h
         exact hq (by simpa using congrFun h 1)
       · ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, hq, hdq]
+        fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, hdq]
     ·
       have hsp : s * p = r * q := by
         rw [mul_comm s p, mul_comm r q]
@@ -74,7 +74,7 @@ theorem exists_vecMulVec_of_det_eq_zero
       · intro h
         exact hp (by simpa using congrFun h 0)
       · ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, hp, hs, hdp]
+        fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, hs, hdp]
 
 theorem eq_smul_of_fixed_by_stabilizer {w₀ w : Fin 2 → K} (hw₀ : w₀ ≠ 0)
     (h : ∀ g : Matrix.SpecialLinearGroup (Fin 2) K,
@@ -225,30 +225,33 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem isSimpleGroup_sl2 (h4 : 4 ≤ Nat.card K) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := by
-  haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl h4)
+  have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl h4)
   exact (MulEquiv.isSimpleGroup_congr (specialLinearGroupEquivStatedSL 2 K)).mpr this
 
 theorem exists_not_comm_sl2 (h4 : 4 ≤ Nat.card K) :
     ∃ a b : Matrix.SpecialLinearGroup (Fin 2) K, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl h4)
+  have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl h4)
   have hq := statedSL_quasisimple_of_card 2 K le_rfl h4
-  exact not_isSolvable_of_isQuasisimple hq (isSolvable_of_comm fun a b => by
+  exact not_isSolvable_of_isQuasisimple hq (_root_.Group.isSolvable_of_comm fun a b => by
     have := h ((specialLinearGroupEquivStatedSL 2 K).symm a)
       ((specialLinearGroupEquivStatedSL 2 K).symm b)
     simpa [← map_mul] using congrArg (specialLinearGroupEquivStatedSL 2 K) this)
 
+omit [Finite K] [CharP K 2] in
 theorem leftF_le_range : leftF K ≤ (rho' K).range := by
   rintro _ ⟨A, rfl⟩
   exact ⟨(A, 1), rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem rho'_inl_apply (A : Matrix.SpecialLinearGroup (Fin 2) K) (X : Matrix (Fin 2) (Fin 2) K) :
     rho' K (A, 1) X = (A : Matrix (Fin 2) (Fin 2) K) * X := by
   have h1 : rho' K (A, 1) X = (specialRho (A, 1)).val X := rfl
   rw [h1, specialRho_apply]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem rho'_inr_apply (B : Matrix.SpecialLinearGroup (Fin 2) K) (X : Matrix (Fin 2) (Fin 2) K) :
     rho' K (1, B) X =
       X * ((B⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) := by
@@ -256,6 +259,7 @@ theorem rho'_inr_apply (B : Matrix.SpecialLinearGroup (Fin 2) K) (X : Matrix (Fi
   rw [h1, specialRho_apply]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem natural_module_data
     {H : Subgroup (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)}
     (hH : H = leftF K ∨ H = rightF K) {u₀ : Matrix (Fin 2) (Fin 2) K} (hdet : u₀.det = 0)
@@ -295,12 +299,12 @@ theorem eq_leftF_or_rightF (h4 : 4 ≤ Nat.card K)
     (hle₁ : H₁ ≤ (rho' K).range) (hle₂ : H₂ ≤ (rho' K).range) (h1 : H₁ ≠ ⊥) (h2 : H₂ ≠ ⊥)
     (hc : ∀ x ∈ H₁, ∀ y ∈ H₂, x * y = y * x) :
     (H₁ = leftF K ∧ H₂ = rightF K) ∨ (H₁ = rightF K ∧ H₂ = leftF K) := by
-  haveI := isSimpleGroup_sl2 (K := K) h4
+  have := isSimpleGroup_sl2 (K := K) h4
   have hρ := rho'_injective (K := K)
-  haveI hN₁ : (H₁.comap (rho' K)).Normal := ⟨fun n hn g => by
+  have hN₁ : (H₁.comap (rho' K)).Normal := ⟨fun n hn g => by
     have := hn₁ (rho' K g) ⟨g, rfl⟩ (rho' K n) hn
     simpa [← map_mul, ← map_inv] using this⟩
-  haveI hN₂ : (H₂.comap (rho' K)).Normal := ⟨fun n hn g => by
+  have hN₂ : (H₂.comap (rho' K)).Normal := ⟨fun n hn g => by
     have := hn₂ (rho' K g) ⟨g, rfl⟩ (rho' K n) hn
     simpa [← map_mul, ← map_inv] using this⟩
   have hbot : ∀ H : Subgroup (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K),

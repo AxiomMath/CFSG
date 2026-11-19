@@ -106,7 +106,7 @@ theorem comp_of_adj_pt {x u y w : G ⧸ c.G1} (hxu : c.Delta.Adj x u) (hyu : c.D
   ⟨⟨hxu, hyu⟩, ⟨hxw, hyw⟩, SimpleGraph.Adj.reachable huw⟩
 
 theorem exists_fix_conj_E (hI : Sec7Inputs) (hJ : HypJ4 G z) {x u y y' : G ⧸ c.G1}
-    {L M : G ⧸ c.G2} (hLu : c.OnL u L) (hLx : c.OnL x L) (hMu : c.OnL u M) (hMy : c.OnL y M)
+    {L M : G ⧸ c.G2} (hLu : c.OnL u L) (hLx : c.OnL x L) (_hMu : c.OnL u M) (hMy : c.OnL y M)
     (hM3 : M ∈ c.deltaAt 3 u L) (hy'M : c.OnL y' M) (hxu : x ≠ u) (hyu : y ≠ u)
     (hy'u : y' ≠ u) :
     ∃ e : G, e • u = u ∧ e • x = x ∧ e • y' = y ∧ ∀ n, c.OnL u n → e • n = n := by

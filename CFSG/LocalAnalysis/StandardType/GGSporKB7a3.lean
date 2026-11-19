@@ -38,7 +38,7 @@ private theorem gk3_le_of_not_central {W : Type} [Group W] {J N : Subgroup W}
     · simpa using hNn (g : W) g.2 (m : W) hmN
     · simpa using J.mul_mem (J.mul_mem g.2 hmJ) (J.inv_mem g.2)
   set π := QuotientGroup.mk' (Subgroup.center ↥J) with hπ
-  haveI hπn : (M.map π).Normal := hMn.map π (QuotientGroup.mk'_surjective _)
+  have hπn : (M.map π).Normal := hMn.map π (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (M.map π) with hbot | htop
   · exfalso
     obtain ⟨m, hm, j, hj, hne⟩ := hnc
@@ -183,7 +183,7 @@ theorem ggSporK_B7a3 {W : Type} [Group W] [Finite W] (hb : BSevenCentAbelian W) 
   have hab := hb E hE hEcard
   have hcomm : ∀ a b : ↥J, a * b = b * a := fun a b =>
     Subtype.ext (hab a (hJE a a.2) b (hJE b b.2))
-  haveI := hq.2
+  have := hq.2
   obtain ⟨q, hq1⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective q
   apply hq1

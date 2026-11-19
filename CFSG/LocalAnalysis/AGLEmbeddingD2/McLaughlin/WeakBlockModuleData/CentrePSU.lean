@@ -39,7 +39,7 @@ theorem kFactBlockCentreRankTwoPSU_proved (hG : GriessAllModelsStatement) :
   have hcard := card_inf_centralizer_eq_card_center (barM M L)
   have h3 : 3 ∣ Nat.card (Subgroup.center ↥(barM M L)) := by rw [← hcard]; exact hZ
   have hperfY : Group.IsPerfect (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := by
-    haveI : Group.IsPerfect ↥(barM M L) := ⟨hperfX⟩
+    have : Group.IsPerfect ↥(barM M L) := ⟨hperfX⟩
     exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥(barM M L)))
       (QuotientGroup.mk'_surjective _)
   have hYc := center_eq_bot_of_mulEquiv_lie hperfY e0

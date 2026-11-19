@@ -24,9 +24,9 @@ theorem sl2_of_lieModel {G : Type} [Group G] {n : ℕ} (hL : LieModel G .PSL 2 2
       have : n = 0 := by omega
       rw [this, pow_zero] at hK
       omega
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := n)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := n)
       (by rw [← Nat.card_eq_fintype_card, hK])
     refine ⟨K, hKf, hKfin, hchar, hK, ⟨?_⟩⟩
     let e' : G ≃* StatedSL 2 K ⧸ (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) := e
@@ -71,8 +71,8 @@ theorem twist_injective (K : Type) [Field K] [ExpChar K 2] (i : ℕ) :
 
 theorem exists_gen_of_card_three {G : Type} [Group G] (D : Subgroup G) (hD : Nat.card D = 3) :
     ∃ d : G, D = Subgroup.zpowers d ∧ d ^ 3 = 1 ∧ d ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic D := isCyclic_of_prime_card hD
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic D := isCyclic_of_prime_card hD
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := D)
   refine ⟨(g : G), ?_, ?_, ?_⟩
   · apply le_antisymm
@@ -86,7 +86,7 @@ theorem exists_gen_of_card_three {G : Type} [Group G] (D : Subgroup G) (hD : Nat
     simpa using congrArg Subtype.val h
   · intro h1
     have hg1 : g = 1 := Subtype.ext h1
-    haveI : Subsingleton D := ⟨fun a b => by
+    have : Subsingleton D := ⟨fun a b => by
       obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 (hg a)
       obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 (hg b)
       rw [← hi, ← hj, hg1]

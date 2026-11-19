@@ -35,7 +35,7 @@ theorem FF81Basis.mem_opp_of_mem_cen_inf (hB : FF81Basis b L B b₁ b₂ b₃) {
     intro g _
     refine Subgroup.mem_centralizer_iff.mpr fun h hh => ?_
     have hp := hpow h (by
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨h, hh⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨h, hh⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩)
     exact Subtype.ext (hcentral h h.2 g g.2 hp)
   set φ := MonoidHom.transferSylow P hPc
@@ -50,7 +50,7 @@ theorem FF81Basis.mem_opp_of_mem_cen_inf (hB : FF81Basis b L B b₁ b₂ b₃) {
       exact Nat.Coprime.coprime_dvd_right (orderOf_dvd_natCard _) hcop
     · intro hd
       have hpd : orderOf (φ d) ∣ orderOf d := orderOf_map_dvd φ d
-      obtain ⟨k, hk⟩ := P.isPGroup' (φ d)
+      obtain ⟨k, hk⟩ := P.isPGroup (φ d)
       have hpk : orderOf (φ d) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
       have hc : Nat.Coprime (orderOf (φ d)) (orderOf d) :=
         (Nat.Coprime.pow_left k hd).coprime_dvd_left hpk
@@ -96,10 +96,10 @@ theorem FF81Basis.opp_comm (hB : FF81Basis b L B b₁ b₂ b₃) {o l : G}
     rw [Opp, CFSG.inSubgroup, Subgroup.card_map_of_injective (Cen b).subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
   have hOL : Opp 3 (Cen b) ⊓ L = ⊥ := by
-    haveI : IsSimpleGroup L :=
+    have : IsSimpleGroup L :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1
         hB.hyp.model
-    haveI : ((Opp 3 (Cen b) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
+    have : ((Opp 3 (Cen b) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨inSubgroup_conj_mem hON (hB.hyp.hLC g.2) hn.1,
         L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩⟩
@@ -126,6 +126,7 @@ theorem FF81Basis.opp_comm (hB : FF81Basis b L B b₁ b₂ b₃) {o l : G}
   calc o * l = o * l * o⁻¹ * l⁻¹ * (l * o) := by group
     _ = l * o := by rw [h1, one_mul]
 
+omit [Finite G] in
 theorem mem_normalizer_sup_inf {R T L : Subgroup G} {g : G} (hR : g ∈ Nor R) (hT : g ∈ Nor T)
     (hL : g ∈ Nor L) : g ∈ Nor ((R ⊔ T) ⊓ L) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hR hT hL ⊢

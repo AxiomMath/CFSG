@@ -18,8 +18,9 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_factor6 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
-    (hE : EmbConclusion φ t i) (hK : SixKConclusion φ t i) (f7 : FF7Concl φ t i) :
+    (hE : EmbConclusion φ t i) (_hK : SixKConclusion φ t i) (f7 : FF7Concl φ t i) :
     FF8FactorConcl n φ t i 5 := by
   intro v₀ hv2 hvC hvF hn h1 h0 _
   have hcard := ffTorus_card_K hS hn
@@ -174,7 +175,7 @@ theorem sixFF_ff8_factor6 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ 
     · exact (mem_normalizer_iff.mp (hY₃NC₁ hy) m).mp hm
     · rw [hC₁Y₃]
       exact hcY₃
-  haveI := (f7.2.2.1 5).choose_spec
+  have := (f7.2.2.1 5).choose_spec
   exact ffBridge_scalar_section_two hcard μ' hv2 hfrob' h1 h0 (Dstar φ t i ⊔ Y₂) le_sup_left hC₁S
     hμ'S hμ'C₁ hμ'D hc₂ hc₃
 

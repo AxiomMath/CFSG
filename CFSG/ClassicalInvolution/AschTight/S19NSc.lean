@@ -76,7 +76,7 @@ theorem exists_gens [IsSimpleGroup G] (hdT : Sec19DataT p f K z S W L t V) :
   obtain ⟨-, -, -, hcycV, -⟩ := hdT.memV
   obtain ⟨u, hu⟩ := S19B.exists_zpowers_eq_of_isCyclic hcycU
   obtain ⟨v, hv⟩ := S19B.exists_zpowers_eq_of_isCyclic hcycV
-  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup'.to_le (inf_le_right.trans hd.hWS)
+  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup.to_le (inf_le_right.trans hd.hWS)
   obtain ⟨n, hn⟩ := hU2.exists_card_eq
   have huo : orderOf u = 2 ^ n := by rw [← Nat.card_zpowers, hu, hn]
   have hvo : orderOf v = 2 ^ n := by

@@ -78,7 +78,7 @@ theorem posOf_at {t : ℕ} (ht : t < 729) : posOf (uAt t) = t := by
   have hs : t < uElems.size := by rw [uTable.1]; exact ht
   have hf : found uElems uIdx (uAt t) = true := found_indexMap.2 ⟨t, hs, rfl⟩
   unfold posOf
-  rw [if_pos hf]
+  rw [ite_eq_left hf]
   have hsome := indexMap_isSome hs
   cases hm : (indexMap uElems).get? (uElems.getD t []) with
   | none => rw [hm] at hsome; cases hsome

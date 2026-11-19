@@ -127,7 +127,7 @@ theorem nfQ_mul (h : QRel m q z) (a b : QV) : nfQ q z a * nfQ q z b = nfQ q z (m
     fun i => pow_pow_assoc (q i)
   have zq := h.zq_assoc
   unfold nfQ mulQ
-  simp only [mul_assoc, w01, w02, w03, w12, w13, w23, zz, qq, zq, ← pow_add]
+  simp only [mul_assoc, w01, w02, w03, w12, w13, w23, qq, zq, ← pow_add]
   rw [pow_mod_five (h.q5 0) (a.a0 + b.a0), pow_mod_five (h.q5 1) (a.a1 + b.a1),
     pow_mod_five (h.q5 2) (a.a2 + b.a2), pow_mod_five (h.q5 3) (a.a3 + b.a3), pow_mod_five h.z5]
   congr 6
@@ -151,7 +151,7 @@ theorem map_nfQ (h : QRel m q z) {f : G →* G} {A : QAct} (h0 : f (q 0) = nfQ q
 @[expose] def conjInv (g : G) : G →* G := (MulAut.conj g⁻¹).toMonoidHom
 
 theorem conjInv_apply (g y : G) : conjInv g y = g⁻¹ * y * g := by
-  simp [conjInv, MulAut.conj_apply]
+  simp [conjInv]
 
 theorem conj_nfQ (h : QRel m q z) {g : G} {A : QAct} (h0 : g⁻¹ * q 0 * g = nfQ q z A.r0)
     (h1 : g⁻¹ * q 1 * g = nfQ q z A.r1) (h2 : g⁻¹ * q 2 * g = nfQ q z A.r2)

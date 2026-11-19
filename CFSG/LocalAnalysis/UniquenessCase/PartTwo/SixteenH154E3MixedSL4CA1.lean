@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 open scoped Pointwise
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_map_subgroupOf_map_inclusion {A B Y : Subgroup G}
     (hYA : Y ≤ A) (hAB : A ≤ B) :
     (Y.subgroupOf A).map (Subgroup.inclusion hAB) = Y.subgroupOf B := by

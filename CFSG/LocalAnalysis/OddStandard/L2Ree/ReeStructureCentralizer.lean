@@ -23,7 +23,7 @@ theorem exists_centralizer_eq_prod_of_odd_out (h : StdHyp G L)
     (hZ : center L = ⊥) :
     ∃ M : Subgroup G, L ≤ M ∧ (L.subgroupOf M).Normal ∧ Odd (L.relIndex M) ∧
       centralizer ({t} : Set G) = M ⊔ zpowers t ∧ Disjoint M (zpowers t) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := centralizer ({t} : Set G) with hHdef
   have hHN : H ≤ normalizer (L : Set G) := by
     rw [hHdef]
@@ -61,7 +61,7 @@ theorem exists_centralizer_eq_prod_of_odd_out (h : StdHyp G L)
   have hNnormal : N.Normal := by
     change (L.subgroupOf H).Normal
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   let Q := ↥H ⧸ N
   have hQ_L : Nat.card Q = L.relIndex H := by
     show Nat.card (↥H ⧸ N) = L.relIndex H

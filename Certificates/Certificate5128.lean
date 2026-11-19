@@ -44,7 +44,7 @@ theorem certificate5128 : (QP.check = true ∧ QP.orderCertificate = 29120)
       rw [QP, QA, certificate_originalSubgroup, certificate_originalSubgroup, Subgroup.closure_le]
       intro g hg
       apply Subgroup.subset_closure
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg ⊢
       rcases hg with rfl | rfl <;> simp
     have hgen : QP.original.toList = [ev (cOf pa), ev (cOf pb)] := by
       rw [ev_cOf, ev_cOf, QP, certificate_original]

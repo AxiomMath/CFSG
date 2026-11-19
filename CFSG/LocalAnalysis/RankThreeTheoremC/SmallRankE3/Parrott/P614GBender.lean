@@ -48,7 +48,7 @@ theorem isSylowOf_zpowers (c : Ctx M B H S K z) :
     intro g hg
     exact ⟨⟨g, hZY hg⟩, hQ₀ hg, rfl⟩
   have hcard : Nat.card ((Q₀ : Subgroup ↥Y).map Y.subtype) ≤ Nat.card (zpowers z) := by
-    have h1 := c.card_le_of_le_pre hQY (Q₀.isPGroup'.map Y.subtype)
+    have h1 := c.card_le_of_le_pre hQY (Q₀.isPGroup.map Y.subtype)
     have h2 : Nat.card (zpowers c.zbar) = Nat.card (zpowers z) := by
       rw [Nat.card_zpowers, Nat.card_zpowers, c.orderOf_zbar, c.z_order]
     exact h1.trans h2.le
@@ -97,6 +97,7 @@ theorem normalizer_zbar_le (c : Ctx M B H S K z) :
 @[expose] noncomputable def rbar (K S : Subgroup G) : Subgroup (Kbar K) :=
   (S.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))
 
+omit [Finite G] in
 theorem mk_mem_rbar {K S : Subgroup G} {k : G} (hk : k ∈ K) (hkS : k ∈ S) :
     (QuotientGroup.mk ⟨k, hk⟩ : Kbar K) ∈ rbar K S :=
   ⟨⟨k, hk⟩, mem_subgroupOf.mpr hkS, rfl⟩
@@ -118,7 +119,7 @@ theorem rho_mem_rbar (c : Ctx M B H S K z) {n : G} (hn : n ∈ H)
 
 theorem rbar_ne_bot (c : Ctx M B H S K z) (hR : pCoreOf 2 H < kRad H S K) :
     rbar K S ≠ ⊥ := by
-  obtain ⟨r, hrR, hrO⟩ := SetLike.exists_of_lt hR
+  obtain ⟨r, hrR, hrO⟩ := _root_.IsConcreteLE.exists_of_lt hR
   obtain ⟨hrS, hrKO⟩ := mem_inf.mp hrR
   rw [← SetLike.mem_coe, coe_mul_of_left_le_normalizer_right K (pCoreOf 2 H)
     (c.K_le.trans c.H_le_normalizer_core)] at hrKO
@@ -157,7 +158,7 @@ theorem false_of_bender (c : Ctx M B H S K z) (hTI : KFactBenderTI) (hGen : KFac
       rw [← Sylow.coe_mapSurjective hsurj, ← hT']
     rw [this]
     exact mem_map_of_mem _ hu
-  have hpre := c.pre_le_S (U := (T : Subgroup (Kbar K))) T.isPGroup'
+  have hpre := c.pre_le_S (U := (T : Subgroup (Kbar K))) T.isPGroup
     (fun s hs => hinv s (c.S_le hs) (le_normalizer hs))
     (fun b hb => hinv b (c.B_le hb) (c.B_le_normalizer_S hb))
   have hTR : (T : Subgroup (Kbar K)) ≤ rbar K S := by
@@ -182,7 +183,7 @@ theorem false_of_bender (c : Ctx M B H S K z) (hTI : KFactBenderTI) (hGen : KFac
     simpa [mul_assoc] using h1
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup (Kbar K)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [relIndex_top_right]
     exact T.not_dvd_index
   have hcard : Nat.card (zpowers c.zbar) = 3 := by rw [Nat.card_zpowers, c.orderOf_zbar]

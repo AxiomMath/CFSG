@@ -168,8 +168,8 @@ theorem map_le_normalizer_map {G H : Type*} [Group G] [Group H] (f : G →* H) {
 
 theorem input7_12_2_of_chev2 (hKD : Chev2KDOut) : Input7_12_2 := by
   intro p hp hp2 Y _ _ hq hY W B' hW hB hN
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   have hnonab := Prop1116Design.not_isCommutative_barQuot Y hq
   have hperf : commutator Y = ⊤ := hq.1
   have hchev := isChevTwo_of_isChevSimple_two hY
@@ -189,8 +189,8 @@ theorem input7_12_2_of_chev2 (hKD : Chev2KDOut) : Input7_12_2 := by
 
 theorem input19_20_1_of_chev2 (hCore : Chev2CoreCent) : Input19_20_1 := by
   intro p hp hp2 Y _ _ hq hY R hR
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   have hnonab := Prop1116Design.not_isCommutative_barQuot Y hq
   have hperf : commutator Y = ⊤ := hq.1
   have hchev := isChevTwo_of_isChevSimple_two hY

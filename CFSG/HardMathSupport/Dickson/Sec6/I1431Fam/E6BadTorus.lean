@@ -71,6 +71,7 @@ theorem rootChar_simple_eq_one_of_isogeny_eq_one (u : Fin Tag.E6.rank → Fˣ)
   have h2 := eltElement_injective (simpleRoot Tag.E6 i) h1
   exact Units.ext (by simpa using h2.symm)
 
+omit [Finite F] in
 theorem rootChar_simple_zeta3Pi (ζ : Fˣ) (hζ : orderOf ζ = 3)
     (x : Multiplicative (Fin Tag.E6.rank → ZMod 3)) (i : Fin Tag.E6.rank) :
     ExceptionalCover.rootChar F (Pi.single i 1 : Fin Tag.E6.rank → ℤ) (zeta3Pi ζ hζ x) =
@@ -145,7 +146,7 @@ theorem card_multiplicative_pi_zmod_three :
     Nat.card (Multiplicative (Fin Tag.E6.rank → ZMod 3)) = 3 ^ 6 := by
   rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin Tag.E6.rank → ZMod 3) ≃ _)]
   rw [Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
   rfl
 
 theorem three_pow_five_le_card_image (ζ : Fˣ) (hζ : orderOf ζ = 3) :
@@ -223,6 +224,7 @@ theorem e6_even_witness (h2 : (2 : F) = 0) (ζ : Fˣ) (hζ : orderOf ζ = 3) :
 
 @[expose] noncomputable def e6Inv0 : Fin Tag.E6.rank → Fˣ := Pi.mulSingle e6Node0 (-1)
 
+omit [Finite F] in
 theorem e6Inv0_sq : (e6Inv0 : Fin Tag.E6.rank → Fˣ) ^ 2 = (1 : Fin Tag.E6.rank → Fˣ) := by
   ext k
   by_cases hk : k = e6Node0
@@ -287,7 +289,7 @@ theorem e6_exists_torus_witness (h3 : 3 ∣ Nat.card F - 1) :
       IsElemAbelian 3 E ∧ 3 ^ 5 ≤ Nat.card (E.map (e6Isogeny F)) ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧
       E.map (e6Isogeny F) ≤ Subgroup.normalizer (U : Set (adjointGroup Tag.E6 F)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Fˣ, orderOf ζ = 3 := by
     have : 3 ∣ Nat.card Fˣ := by rw [Nat.card_units]; exact h3
     exact exists_prime_orderOf_dvd_card' 3 this

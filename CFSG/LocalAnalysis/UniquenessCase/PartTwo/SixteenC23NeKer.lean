@@ -40,6 +40,7 @@ theorem c23ne_bar2_of_calC {M V₀ V K : Subgroup G} (hV : IsElemAbelian 2 V)
     exact WeakClosure81.mem_cTilde_mul_inv hV (hMs.trans (stabTil_le_normalizer V₀ V)) hxc hv
   exact ⟨⟨x, hxK⟩, h2 hx, rfl⟩
 
+omit [Finite G] in
 private theorem c23ne_le_of_isSubnormal {A B : Subgroup G} (h : IsSubnormal A B) : A ≤ B := by
   induction h with
   | refl => exact le_rfl
@@ -53,12 +54,12 @@ theorem c23ne_centralizes_V₀ {K V₀ : Subgroup G} (hK : ⁅K, K⁆ = K) (hV�
     rw [card_eq_two_pow_mSub (IsElemAbelian.isPGroup hV₀)]
     calc 2 ^ mSub V₀ ≤ 2 ^ 2 := pow_le_pow_right' (by norm_num) hr
       _ = 4 := by norm_num
-  haveI : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable (α := ↥V₀) hcard
-  haveI : Group.IsSolvable (MulAut ↥V₀) :=
+  have : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable (α := ↥V₀) hcard
+  have : Group.IsSolvable (MulAut ↥V₀) :=
     Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm ↥V₀)
       (fun _ _ h => MulEquiv.toEquiv_injective h)
   have hperfK : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hK
-  haveI : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.2 hperfK
+  have : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.2 hperfK
   have hperf : Group.IsPerfect ↥ψ.range := by
     have hmap := Group.IsPerfect.map (f := ψ) (H := ⊤)
     rw [Subgroup.map_top] at hmap
@@ -79,8 +80,7 @@ theorem c23ne_centralizes_V₀ {K V₀ : Subgroup G} (hK : ⁅K, K⁆ = K) (hV�
     exact Subgroup.mem_bot.1 hmem
   have hfix : ψ ⟨k, hk⟩ ⟨v, hv⟩ = ⟨v, hv⟩ := by rw [h1]; rfl
   have hval : ((ψ ⟨k, hk⟩ ⟨v, hv⟩ : ↥V₀) : G) = k * v * k⁻¹ := by
-    simpa [ψ, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
-      Subgroup.normalizerMonoidHom_apply_apply_coe V₀ (Subgroup.inclusion hn ⟨k, hk⟩) ⟨v, hv⟩
+    simp [ψ, MonoidHom.comp_apply, Subgroup.coe_inclusion]
   have hkv : k * v * k⁻¹ = v :=
     hval.symm.trans (congrArg Subtype.val hfix)
   have hmul : k * v = v * k := by
@@ -127,7 +127,7 @@ theorem c23ne_ker_eq {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hMs : M �
     have hcard : Nat.card ↥ψ.range = 168 := card_eq_of_isL3 hY
     have hPbot : (CFSG.pCore 2 ↥K).map ψ.rangeRestrict = ⊥ := by
       by_contra hne
-      haveI : ((CFSG.pCore 2 ↥K).map ψ.rangeRestrict).Normal :=
+      have : ((CFSG.pCore 2 ↥K).map ψ.rangeRestrict).Normal :=
         Subgroup.Normal.map inferInstance ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
       have hNp : IsPGroup 2 ((CFSG.pCore 2 ↥K).map ψ.rangeRestrict) :=
         IsPGroup.map CFSG.pCore_isPGroup ψ.rangeRestrict
@@ -209,7 +209,7 @@ theorem c23ne_ker_eq {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hMs : M �
       · exact (sup_le (hpCore hK₁M hL₁) (hpCore hK₂M hL₂)) hx
       · exact (sup_le ((CFSG.LieType.BorelTits.pCoreOf_le 2 K₁).trans le_sup_left)
           ((CFSG.LieType.BorelTits.pCoreOf_le 2 K₂).trans le_sup_right)) hx
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp1 : IsPGroup 2 (pCoreOf 2 K₁) :=
       CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K₁
     have hp2 : IsPGroup 2 (pCoreOf 2 K₂) :=

@@ -36,7 +36,7 @@ theorem wedge2_mul (A B : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R) :
 theorem wedge2_smul (c : R) (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R) :
     wedge2 (c • A) = (c ^ 2) • wedge2 A := by
   ext p q
-  simp only [wedge2, Matrix.of_apply, Matrix.smul_apply, smul_eq_mul, Matrix.smul_of]
+  simp only [wedge2, Matrix.of_apply, Matrix.smul_apply, smul_eq_mul]
   ring
 
 theorem wedge2_one : wedge2 (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R) = 1 := by
@@ -139,25 +139,24 @@ theorem wedgeCoord_mul_wedgeBasis :
     (wedgeCoord * wedgeBasis : Matrix (Fin 5) (Fin 5) R) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wedgeCoord, wedgeBasis, Matrix.mul_apply, Fin.sum_univ_succ, Matrix.one_apply]
+    simp [wedgeCoord, wedgeBasis, Matrix.mul_apply, Fin.sum_univ_succ]
 
 theorem wedgeBasis_mul_wedgeCoord :
     (wedgeBasis * wedgeCoord : Matrix (Fin 6) (Fin 6) R) = 1 - wedgeLast * wedgeEps := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wedgeCoord, wedgeBasis, wedgeLast, wedgeEps, Matrix.mul_apply, Fin.sum_univ_succ,
-      Matrix.one_apply]
+    simp [wedgeCoord, wedgeBasis, wedgeLast, wedgeEps, Matrix.mul_apply, Fin.sum_univ_succ]
 
 theorem wedgeEps_mul_wedgeBasis : (wedgeEps * wedgeBasis : Matrix (Fin 1) (Fin 5) R) = 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;>
+  fin_cases i; fin_cases j <;>
     simp [wedgeEps, wedgeBasis, Matrix.mul_apply, Fin.sum_univ_succ]
 
 theorem wedgeBasis_gram :
     (wedgeBasisᵀ * wedgeGram * wedgeBasis : Matrix (Fin 5) (Fin 5) R) = quadGram5 R := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wedgeBasis, wedgeGram, quadGram5, Matrix.mul_apply, Fin.sum_univ_succ] <;> ring
+    simp [wedgeBasis, wedgeGram, quadGram5, Matrix.mul_apply, Fin.sum_univ_succ]; ring
 
 theorem wedgeEps_mul_wedge2 {A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R} {μ : R}
     (h : Aᵀ * wedgeJ R * A = μ • wedgeJ R) :
@@ -171,7 +170,7 @@ theorem wedgeEps_mul_wedge2 {A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R} {
   simp [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.fromBlocks, Matrix.one_apply] at e01 e23 e02
   simp [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.fromBlocks, Matrix.one_apply] at e13 e03 e12
   ext i q
-  fin_cases i <;> fin_cases q <;>
+  fin_cases i; fin_cases q <;>
     simp [wedgeEps, wedge2, wedgeFst, wedgeSnd, Matrix.mul_apply, Fin.sum_univ_succ]
   · linear_combination e01
   · linear_combination e23
@@ -200,7 +199,7 @@ theorem wedge2_apply_zero_zero (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R
 theorem wedgeRestrict_apply_zero_zero (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R) :
     wedgeRestrict A 0 0 = wedge2 A 0 0 := by
   rw [wedgeRestrict, Matrix.mul_apply]
-  simp only [Fin.sum_univ_six, Matrix.mul_apply, Fin.sum_univ_five]
+  simp only [Fin.sum_univ_six, Matrix.mul_apply]
   simp [wedgeCoord, wedgeBasis]
 
 theorem wedgeRestrict_mul (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) R)

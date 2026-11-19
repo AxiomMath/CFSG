@@ -67,7 +67,7 @@ end Bridge
 
 theorem ggIsReflection_iff_ggLinRefl
     {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {Bs : Subgroup G}
-    {V : Type} [AddCommGroup V] [Module (ZMod p) V] [Finite V] (hp2 : p ≠ 2)
+    {V : Type} [AddCommGroup V] [Module (ZMod p) V] [Finite V] (_hp2 : p ≠ 2)
     (ι : Additive ↥Bs ≃+ V) (φ : MulAut ↥Bs) :
     GGIsReflection p φ ↔ GGLinRefl (ggLin (p := p) ι φ) := by
   rw [ggIsReflection_iff ι φ]

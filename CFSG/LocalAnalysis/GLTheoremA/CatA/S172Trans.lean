@@ -176,7 +176,7 @@ theorem cfg172_of_field [Finite G] {p : ℕ} {B L D K : Subgroup G} {x : G} (hp 
     hH ▸ sup_le Subgroup.le_normalizer (IsSStarMax.normalizes hS)
   have hBel : IsElemAbelian p B := (IsSStarMax.bmax hS).1
   have hBcard : Nat.card B = p ^ GLATwoLocalRank p G := (IsSStarMax.bmax hS).2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine
     { prime := hp
       odd := hp2
@@ -234,7 +234,7 @@ theorem isE3_sup_of_ne [Finite G] {p : ℕ} (hp : p.Prime) {B D D₁ : Subgroup 
     (hB : IsElemAbelian p B) (hDB : D ≤ B) (hD₁B : D₁ ≤ B) (hD : Nat.card D = p ^ 2)
     (hD₁ : Nat.card D₁ = p ^ 2) (hxD : x ∈ D) (hxD₁ : x ∈ D₁) (hx1 : x ≠ 1) (hne : D ≠ D₁) :
     IsE3 p B (D ⊔ D₁) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsup : D ⊔ D₁ ≤ B := sup_le hDB hD₁B
   refine ⟨hsup, isElemAbelian_mono hB hsup, ?_⟩
   have hN : D₁ ≤ Subgroup.normalizer (D : Set G) := fun d hd =>

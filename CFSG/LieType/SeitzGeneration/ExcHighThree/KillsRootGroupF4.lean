@@ -77,7 +77,7 @@ theorem kill_core_of (hcyc : KillsCycleShape τ)
           ((D.c * y * D.c⁻¹ : adjointGroup τ K) : ModGL τ K) * uL := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL τ (AlgebraicClosure K),

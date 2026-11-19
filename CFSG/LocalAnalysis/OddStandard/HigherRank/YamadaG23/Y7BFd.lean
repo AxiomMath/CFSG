@@ -55,8 +55,7 @@ private lemma y7bfd_S_eq (s : Setting3 G L) :
   rw [SFrame.S, SFrame.A, ← Subgroup.closure_union]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-    or_false, false_or]
+  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
 theorem y7b_CF (hH : F33Hyp s e) :

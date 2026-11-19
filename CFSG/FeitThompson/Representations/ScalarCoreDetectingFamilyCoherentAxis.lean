@@ -193,6 +193,7 @@ variable {M : Type u} [Group M] {Kbar : Subgroup M} (e : S.amb ≃* M)
 noncomputable def grpMulEquivOfIso : S.scalar.grp ≃* ↥Kbar :=
   S.coreMulEquiv.trans ((MulEquiv.subgroupMap e S.core).trans (MulEquiv.subgroupCongr hK))
 
+omit [Finite U] in
 @[simp] theorem coe_grpMulEquivOfIso_apply (x : S.scalar.grp) :
     ((S.grpMulEquivOfIso e hK x : ↥Kbar) : M) = e (inl x) := by
   change ((MulEquiv.subgroupCongr hK (MulEquiv.subgroupMap e S.core (S.coreMulEquiv x))) : M) = _
@@ -200,6 +201,7 @@ noncomputable def grpMulEquivOfIso : S.scalar.grp ≃* ↥Kbar :=
   change e ((S.coreMulEquiv x : S.amb)) = _
   rw [S.coe_coreMulEquiv_apply]
 
+omit [Finite U] in
 theorem grpMulEquivOfIso_symm_eq {x : S.scalar.grp} {y : ↥Kbar} (h : (y : M) = e (inl x)) :
     (S.grpMulEquivOfIso e hK).symm y = x := by
   refine (MulEquiv.symm_apply_eq _).2 (Subtype.ext ?_).symm
@@ -216,6 +218,7 @@ theorem mem_core_iff_mem_Kbar (z : S.amb) : z ∈ S.core ↔ e z ∈ Kbar := by
 noncomputable def transportChar (θ : S.scalar.grp → ℂ) : ↥Kbar → ℂ :=
   θ ∘ (S.grpMulEquivOfIso e hK).symm
 
+omit [Finite U] in
 theorem transportChar_apply (θ : S.scalar.grp → ℂ) {x : S.scalar.grp} {y : ↥Kbar}
     (h : (y : M) = e (inl x)) : S.transportChar e hK θ y = θ x := by
   rw [transportChar, Function.comp_apply, S.grpMulEquivOfIso_symm_eq e hK h]

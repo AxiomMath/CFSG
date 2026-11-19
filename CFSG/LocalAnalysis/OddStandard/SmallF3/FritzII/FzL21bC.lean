@@ -173,7 +173,7 @@ private theorem fzl_21b_concrete (N : Type) [Group N] (φ : N →* MulAut fz21b_
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup N₀
     rw [hNq, hN₀] at h
     omega
-  haveI : Finite N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
+  have : Finite N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
   have hcenter : N₀ ≤ Subgroup.center N := by
     intro n hn
     by_cases hn1 : n = 1
@@ -234,7 +234,7 @@ private theorem fzl_21b_concrete (N : Type) [Group N] (φ : N →* MulAut fz21b_
       rw [show A = V' ⊔ K6 from rfl, Subgroup.map_sup, hπV']
     rw [hsup]
     apply Subgroup.eq_top_of_card_eq
-    haveI : fz21b_V.Normal := fz21b_V_normal
+    have : fz21b_V.Normal := fz21b_V_normal
     rw [fz21b_card_sup fz21b_V (K6.map π)
       (Subgroup.le_normalizer_of_normal (H := fz21b_V) (K := K6.map π)) hK6disjV,
       fz21b_V_card, hπK6card, hcardSigma]

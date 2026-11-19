@@ -514,7 +514,7 @@ private theorem base_piColumn_conjugate_self_pf58
     (h45a : Section4Scratch.theorem_4_5_a_statement K piChar xChar) :
     Section1.conjugateCharacter (Section4Scratch.piColumn piChar j0) =
       Section4Scratch.piColumn piChar j0 := by
-  haveI : K.Normal := normal_K_of_hypothesis_4_2_pf58 h42
+  have : K.Normal := normal_K_of_hypothesis_4_2_pf58 h42
   have h43b_full := h43b
   rcases h43b with ⟨_hσmap, hsign, _hirr, _hdistinct, _hind, _hSigma⟩
   have hprin : Section1.conjugateCharacter (Section1.principalCharacter K) =

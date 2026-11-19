@@ -36,8 +36,8 @@ private theorem tbS_mem_closure_singleton_eq {E : Type} [Group E] {g t : E}
 
 private theorem tbS_refl_ne_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {φ : MulAut ↥Bs} (hr : GGIsReflection p φ) : φ ≠ 1 := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
   rintro rfl
   obtain ⟨-, hc⟩ := hr
   simp only [MulAut.one_apply] at hc
@@ -246,7 +246,7 @@ private theorem tbS_permAut_swap_mem {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m
     (hQ : ∀ j : {j : Fin m // m - k ≤ j.val},
       (if h : j.1.val + 1 < m then permAut (p := p) (Equiv.swap j.1 ⟨j.1.val + 1, h⟩)
         else sgnAut (p := p) j.1) ∈ Q)
-    {a b : Fin m} (ha : m - k ≤ a.val) (hb : m - k ≤ b.val) (hab : a ≠ b) :
+    {a b : Fin m} (ha : m - k ≤ a.val) (hb : m - k ≤ b.val) (_hab : a ≠ b) :
     permAut (p := p) (Equiv.swap a b) ∈ Q := by
   classical
   let Tl := Finset.univ.filter (fun i : Fin m => m - k ≤ i.val)
@@ -285,7 +285,7 @@ private theorem tbS_permAut_swap_mem {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m
     have hif : (if h : j'.1.val + 1 < m then
         permAut (p := p) (Equiv.swap j'.1 ⟨j'.1.val + 1, h⟩) else sgnAut (p := p) j'.1) =
         permAut (p := p) (Equiv.swap a' ⟨a'.val + 1, hlt⟩) := by
-      rw [dif_pos hlt]
+      rw [dite_eq_left hlt]
     rw [hif] at hQj
     have hb'eq : (⟨a'.val + 1, hlt⟩ : Fin m) = b' := by
       apply Fin.ext
@@ -294,7 +294,7 @@ private theorem tbS_permAut_swap_mem {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m
     exact hQj
   exact hle (Subgroup.mem_map_of_mem (tbS_permAutHom p m) hmem)
 
-private theorem tbS_closure_last_le_signedSupported {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m) :
+private theorem tbS_closure_last_le_signedSupported {p m k : ℕ} (_hk : 1 ≤ k) (_hkm : k ≤ m) :
     Subgroup.closure (Set.range fun j :
         {j : Fin m // j ∉ Finset.univ.filter (fun i : Fin m => i.val < m - k)} =>
       (if h : j.1.val + 1 < m then permAut (p := p) (Equiv.swap j.1 ⟨j.1.val + 1, h⟩)
@@ -307,14 +307,14 @@ private theorem tbS_closure_last_le_signedSupported {p m k : ℕ} (hk : 1 ≤ k)
   rintro σ ⟨j, rfl⟩
   have hjT : m - k ≤ j.1.val := by
     have h := j.2
-    simp only [T, Finset.mem_filter, Finset.mem_univ, true_and] at h
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
     omega
   have hjTl : j.1 ∈ Tl := by
     simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and]
     exact hjT
   by_cases hlt : j.1.val + 1 < m
   · simp only []
-    rw [dif_pos hlt]
+    rw [dite_eq_left hlt]
     have hsuccTl : (⟨j.1.val + 1, hlt⟩ : Fin m) ∈ Tl := by
       simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and]
       omega
@@ -325,7 +325,7 @@ private theorem tbS_closure_last_le_signedSupported {p m k : ℕ} (hk : 1 ≤ k)
         rw [show (⟨j.1.val + 1, hlt⟩ : Fin m).val = j.1.val + 1 from rfl] at hh
         omega, rfl⟩)
   · simp only []
-    rw [dif_neg hlt]
+    rw [dite_eq_right hlt]
     exact Subgroup.subset_closure (Or.inl ⟨j.1, hjTl, rfl⟩)
 
 private theorem tbS_signedSupported_last_le_closure {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m) :
@@ -360,13 +360,13 @@ private theorem tbS_signedSupported_last_le_closure {p m k : ℕ} (hk : 1 ≤ k)
     have hltm : ¬ (⟨m - 1, by omega⟩ : Fin m).val + 1 < m := by
       rw [show (⟨m - 1, by omega⟩ : Fin m).val = m - 1 from rfl]
       omega
-    simpa only [dif_neg hltm] using hmem
+    simpa only [dite_eq_right hltm] using hmem
   rw [signedSupportedAut, Subgroup.closure_le]
   rintro σ (hσ | hσ)
   · rcases hσ with ⟨i, hiTl, rfl⟩
     have hiTl' : m - k ≤ i.val := by
       have h := hiTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     have hperm : permAut (p := p) (Equiv.swap i (⟨m - 1, by omega⟩ : Fin m)) ∈ Q := by
       by_cases hi : i = (⟨m - 1, by omega⟩ : Fin m)
@@ -386,11 +386,11 @@ private theorem tbS_signedSupported_last_le_closure {p m k : ℕ} (hk : 1 ≤ k)
   · rcases hσ with ⟨a, haTl, b, hbTl, hab, rfl⟩
     have haTl' : m - k ≤ a.val := by
       have h := haTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     have hbTl' : m - k ≤ b.val := by
       have h := hbTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     exact tbS_permAut_swap_mem hk hkm hQ haTl' hbTl' hab
 
@@ -470,8 +470,8 @@ theorem ggTBJTypeB_sideDatum_signedSupported {G : Type} [Group G] [Finite G] {p 
         (Or.inr ⟨a, Finset.mem_univ a, b, Finset.mem_univ b, hab, rfl⟩)
   obtain ⟨V, hV, hVmod, ι, φ, h, α, C, hMC, hlin, hrefl, hpair, ⟨f, hf⟩, hclos, hφeq⟩ :=
     exists_typeB_datum_of_signedAut hp2 hm hBs Θ hX
-  letI : AddCommGroup V := hV
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hV
+  let : Module (ZMod p) V := hVmod
   let u : MulAut ↥Bs := liftBs Θ P
   have hu : u ∈ ggAutomizer X Bs := by
     rw [hX]
@@ -546,7 +546,7 @@ theorem ggTBJTypeB_sideDatum_signedSupported {G : Type} [Group G] [Finite G] {p 
   have hRC : GGReflConjSimple p (ggAutomizer J Bs)
       (fun j : {j : Fin m // j ∉ T} => φ' j.1) := by
     by_cases hk1' : k = 1
-    · haveI : Nonempty {j : Fin m // j ∉ T} :=
+    · have : Nonempty {j : Fin m // j ∉ T} :=
         ⟨⟨⟨m - 1, by omega⟩, by
           simp only [T, Finset.mem_filter, Finset.mem_univ, true_and]
           omega⟩⟩
@@ -601,8 +601,8 @@ theorem ggTBJTypeB_sideDatum_signedSupported {G : Type} [Group G] [Finite G] {p 
           exact hpair' i.1 j.1
         rw [hmap, ← Int.cast_det CJ]
         exact fun h0 => hdetne ((ZMod.intCast_zmod_eq_zero_iff_dvd _ p).mp h0)
-      haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-      haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+      have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+      have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
       have hclosed : GGReflClosed (fun j : Λ => ggLin (p := p) ι (φ' j.1)) :=
         ggReflClosed_of_indep (p := p) hp2 hFT hCJ (fun j : Λ => h' j.1)
           (fun j : Λ => α' j.1) (fun i j => hpair' i.1 j.1) hind

@@ -41,7 +41,7 @@ theorem card_le_card_ker_pow {A E : Type} [Group A] [Finite A] [Group E] {p : �
 theorem exists_pow_pPow_map_eq {A B : Type} [Group A] [Finite A] [Group B] {p : ℕ} (hp : p.Prime)
     (f : A →* B) (x : A) (hfx : orderOf (f x) = p) :
     ∃ k : ℕ, (∃ a : ℕ, orderOf (x ^ k) = p ^ a) ∧ f (x ^ k) = f x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, m, hpm, hxm⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos x).ne' p hp.ne_one
   have hcop : m.Coprime (orderOf (f x)) := by
     rw [hfx]
@@ -88,13 +88,13 @@ theorem four_le_pRank_of_layer {Y Z : Type} [Group Y] [Finite Y] [Group Z] (f : 
     (hNind : iSupIndep N) (s : Fin 4 → Z) (hs : ∀ j, s j ∈ N j) (hs3 : ∀ j, orderOf (s j) = 3) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R : Subgroup Y := CFSG.pCore 2 Y with hRdef
   set π : Y →* Y ⧸ R := QuotientGroup.mk' R with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective R
-  haveI hKn : (f.ker.map π).Normal := (MonoidHom.normal_ker f).map π hπs
+  have hKn : (f.ker.map π).Normal := (MonoidHom.normal_ker f).map π hπs
   have hKs : Group.IsSolvable ↥(f.ker.map π) := by
-    haveI := hsolv
+    have := hsolv
     exact Group.isSolvable_of_surjective (π.subgroupMap_surjective f.ker)
   have hKZ : f.ker.map π ≤ Subgroup.center (Y ⧸ R) :=
     (CFSG.SectionRank.semisimple_solvable_quotient hlayer (f.ker.map π) hKs).1
@@ -184,7 +184,7 @@ theorem four_le_pRank_of_layer {Y Z : Type} [Group Y] [Finite Y] [Group Z] (f : 
       have : (powHomOfComm hAcomm 3) a = 1 := ha
       exact congrArg Subtype.val this
   have hR3 : ¬ 3 ∣ Nat.card R := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := Y)))
     rw [hk]
     intro h

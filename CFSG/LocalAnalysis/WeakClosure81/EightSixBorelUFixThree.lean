@@ -42,28 +42,32 @@ open CFSG.LinearGroups
 
 variable {m n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem borel86_uft_add_self_eq_zero_vec (h : UnitaryFieldData 2 n F) (w : Fin m → F) :
     w + w = 0 := by
   funext i
-  haveI := h.charP
+  have := h.charP
   exact CharTwo.add_self_eq_zero (w i)
 
+omit [Finite F] in
 private theorem borel86_uft_add_eq_zero_iff_vec (h : UnitaryFieldData 2 n F) {p z : Fin m → F} :
     p + z = 0 ↔ p = z := by
   constructor
   · intro hpz
     funext i
-    haveI := h.charP
+    have := h.charP
     exact CharTwo.add_eq_zero.mp (congrFun hpz i)
   · intro hpz
     rw [hpz]
     exact borel86_uft_add_self_eq_zero_vec h z
 
+omit [Finite F] in
 private theorem borel86_uft_bar_comp_mulVec (h : UnitaryFieldData 2 n F)
     (M : Matrix (Fin m) (Fin m) F) (w : Fin m → F) :
     h.bar ∘ (M *ᵥ w) = M.map h.bar *ᵥ (h.bar ∘ w) :=
   funext fun i => RingHom.map_mulVec h.bar M w i
 
+omit [Finite F] in
 private theorem borel86_uft_phi_phi (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (hAA : (A : Matrix (Fin m) (Fin m) F) * (A : Matrix (Fin m) (Fin m) F).map h.bar = 1)
     (w : Fin m → F) :
@@ -74,6 +78,7 @@ private theorem borel86_uft_phi_phi (h : UnitaryFieldData 2 n F) {A : GL (Fin m)
   funext i
   simp [Function.comp_apply, h.bar_bar]
 
+omit [Finite F] in
 private theorem borel86_uft_phi_add (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (a b : Fin m → F) :
     (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ (a + b)) =
@@ -82,6 +87,7 @@ private theorem borel86_uft_phi_add (h : UnitaryFieldData 2 n F) {A : GL (Fin m)
   rw [show h.bar ∘ (a + b) = h.bar ∘ a + h.bar ∘ b by
     funext i; simp [Function.comp_apply, map_add], Matrix.mulVec_add]
 
+omit [Finite F] in
 private theorem borel86_uft_phi_smul (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (c : F) (a : Fin m → F) :
     (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ (c • a)) =
@@ -90,6 +96,7 @@ private theorem borel86_uft_phi_smul (h : UnitaryFieldData 2 n F) {A : GL (Fin m
     funext i; simp [Function.comp_apply, Pi.smul_apply, smul_eq_mul, map_mul],
     Matrix.mulVec_smul]
 
+omit [Finite F] in
 theorem borel86_uft_mulVec_eq_smul_of_sq (h : UnitaryFieldData 2 n F) {σ : F ≃+* F}
     (hσ : ∀ c, σ c = h.bar c) {A : GL (Fin m) F}
     {α : MulAut (StatedProj (StatedSU m (2 ^ n) F))}
@@ -100,7 +107,7 @@ theorem borel86_uft_mulVec_eq_smul_of_sq (h : UnitaryFieldData 2 n F) {σ : F �
     ∃ ν : F, ((A : Matrix (Fin m) (Fin m) F) * (A : Matrix (Fin m) (Fin m) F).map h.bar) *ᵥ u =
       ν • u := by
   classical
-  haveI := h.charP
+  have := h.charP
   have hm : 1 ≤ m := by
     by_contra hlt
     push Not at hlt
@@ -156,8 +163,7 @@ theorem borel86_uft_mulVec_eq_smul_of_sq (h : UnitaryFieldData 2 n F) {σ : F �
       _ = 1 := by rw [hN2', mul_one, mul_inv_cancel]
   have hN₀2 : N₀ * N₀ = 1 := by
     refine mul_self_eq_one_of_val (x := N₀) (M := (B * (N : GL (Fin m) F) * B⁻¹).val) ?_ ?_
-    · change (N₀ : GL (Fin m) F).val = _
-      rw [hN₀]
+    · rw [hN₀]
     · have h := congrArg (fun g : GL (Fin m) F => (g : Matrix (Fin m) (Fin m) F)) hconj
       rw [Units.val_mul, Units.val_one] at h
       exact h
@@ -216,6 +222,7 @@ theorem borel86_uft_mulVec_eq_smul_of_sq (h : UnitaryFieldData 2 n F) {σ : F �
     ← mul_assoc]
   exact (eq_mul_inv_iff_mul_eq₀ hwj).mpr hcol
 
+omit [Finite F] in
 theorem borel86_uft_mul_map_bar_eq_one (h : UnitaryFieldData 2 n F) (hm : 2 ≤ m)
     {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
@@ -223,7 +230,7 @@ theorem borel86_uft_mul_map_bar_eq_one (h : UnitaryFieldData 2 n F) (hm : 2 ≤ 
       ((A : Matrix (Fin m) (Fin m) F) * (A : Matrix (Fin m) (Fin m) F).map h.bar) *ᵥ u = ν • u) :
     (A : Matrix (Fin m) (Fin m) F) * (A : Matrix (Fin m) (Fin m) F).map h.bar = 1 := by
   classical
-  haveI := h.charP
+  have := h.charP
   have hAt : (A : Matrix (Fin m) (Fin m) F)ᵀ * (A : Matrix (Fin m) (Fin m) F).map h.bar = 1 := by
     have h := congrArg Matrix.transpose hA
     simpa [Matrix.transpose_mul, Matrix.transpose_transpose, Matrix.transpose_one] using h
@@ -293,6 +300,7 @@ theorem borel86_uft_mul_map_bar_eq_one (h : UnitaryFieldData 2 n F) (hm : 2 ≤ 
     exact CharTwo.add_eq_zero.mp (mul_self_eq_zero.mp hz)
   rw [hB1, hlam1, one_smul]
 
+omit [Finite F] in
 theorem borel86_uft_mul_map_bar_eq_one_of_sq (h : UnitaryFieldData 2 n F) (hm : 2 ≤ m)
     {σ : F ≃+* F} (hσ : ∀ c, σ c = h.bar c) {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
@@ -305,6 +313,7 @@ theorem borel86_uft_mul_map_bar_eq_one_of_sq (h : UnitaryFieldData 2 n F) (hm : 
   borel86_uft_mul_map_bar_eq_one h hm hA fun _ hu huu =>
     borel86_uft_mulVec_eq_smul_of_sq h hσ hα hα2 hu huu
 
+omit [Finite F] in
 theorem borel86_uft_eq_smul_of_isotropic_orth (h : UnitaryFieldData 2 n F) {u v : Fin 3 → F}
     (hv : v ≠ 0) (huu : hform h.bar u u = 0) (hvv : hform h.bar v v = 0)
     (hvu : hform h.bar v u = 0) : ∃ c : F, u = c • v := by
@@ -316,13 +325,14 @@ theorem borel86_uft_eq_smul_of_isotropic_orth (h : UnitaryFieldData 2 n F) {u v 
     (stdHermForm_isSymm h 3) (stdHermForm_separatingLeft h 3) hv hhvv hhvu hhuu
   exact ⟨c, hc⟩
 
+omit [Finite F] in
 theorem borel86_uft_exists_decomp (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (hAA : (A : Matrix (Fin m) (Fin m) F) * (A : Matrix (Fin m) (Fin m) F).map h.bar = 1)
     {θ : F} (hθ : h.bar θ ≠ θ) (v : Fin m → F) :
     ∃ x y : Fin m → F, (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ x) = x ∧
       (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ y) = y ∧ v = x + θ • y := by
   classical
-  haveI := h.charP
+  have := h.charP
   let φ : (Fin m → F) → (Fin m → F) := fun w => (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ w)
   have hφφ : ∀ w, φ (φ w) = w := fun w => borel86_uft_phi_phi h hAA w
   have hφadd : ∀ a b, φ (a + b) = φ a + φ b := fun a b => borel86_uft_phi_add h a b
@@ -352,7 +362,7 @@ theorem borel86_uft_exists_decomp (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F
         _ = (φ v + v) + (v + φ v) := by rw [hsy]
         _ = 0 := by
             funext i
-            haveI := h.charP
+            have := h.charP
             exact CharTwo.add_eq_zero.mpr (add_comm ((φ v) i) (v i))
     exact (borel86_uft_add_eq_zero_iff_vec h).mp hzero
   refine ⟨x, y, ?_, ?_, ?_⟩
@@ -361,6 +371,7 @@ theorem borel86_uft_exists_decomp (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F
   · show v = (v + θ • y) + θ • y
     rw [add_assoc, borel86_uft_add_self_eq_zero_vec h (θ • y), add_zero]
 
+omit [Finite F] in
 theorem borel86_uft_bar_hform_of_fix (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
     {x y : Fin m → F} (hx : (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ x) = x)
@@ -374,6 +385,7 @@ theorem borel86_uft_bar_hform_of_fix (h : UnitaryFieldData 2 n F) {A : GL (Fin m
     simp only [hform, dotProduct, Function.comp_apply, map_sum, map_mul, h.bar_bar]
   exact h2.symm.trans h1.symm
 
+omit [Finite F] in
 theorem borel86_uft_exists_not_mem_span (a b : Fin 3 → F) :
     ∃ v : Fin 3 → F, ∀ x y : F, v ≠ x • a + y • b := by
   classical
@@ -404,6 +416,7 @@ theorem borel86_uft_exists_not_mem_span (a b : Fin 3 → F) :
     rwa [hcoe] at h₁
   omega
 
+omit [Finite F] in
 theorem borel86_uft_false (h : UnitaryFieldData 2 n F) {A : GL (Fin 3) F}
     (hA : ((A : Matrix (Fin 3) (Fin 3) F).map h.bar)ᵀ * (A : Matrix (Fin 3) (Fin 3) F) = 1)
     (hAA : (A : Matrix (Fin 3) (Fin 3) F) * (A : Matrix (Fin 3) (Fin 3) F).map h.bar = 1)
@@ -412,7 +425,7 @@ theorem borel86_uft_false (h : UnitaryFieldData 2 n F) {A : GL (Fin 3) F}
       (A : Matrix (Fin 3) (Fin 3) F) *ᵥ (h.bar ∘ u) = u → (G : GL (Fin 3) F).val *ᵥ u = u) :
     False := by
   classical
-  haveI := h.charP
+  have := h.charP
   let φ : (Fin 3 → F) → (Fin 3 → F) := fun w => (A : Matrix (Fin 3) (Fin 3) F) *ᵥ (h.bar ∘ w)
   let Q : (Fin 3 → F) → F := fun w => hform h.bar w w
   let r : (Fin 3 → F) → F := fun w => Q w ^ 2 ^ (n - 1)

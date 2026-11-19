@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.F112R
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem vSzBig_or_vU3Big_of_isSzU3Quot {L : Subgroup G} {q : ℕ}
     (h : IsSzU3Quot (oTwoQuot ↥L) q) : VSzBig L ∨ VU3Big L := by
   rcases h with ⟨a, ha, -, he⟩ | ⟨n, hn, -, F, hFld, hFin, hF, he⟩

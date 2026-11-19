@@ -42,14 +42,14 @@ theorem char3Good_fixSubgroup_fieldActor {f : ℕ} (hf : 1 ≤ f) {K : Type} [Fi
     (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f)) :
     Char3Good ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
   classical
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have hs := isSimpleGroup_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ
   have hnab := nonabelian_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ
   obtain ⟨hchev, -, -⟩ := ExcTriClassA.chevFacts_fixSubgroup_fieldActor_D4 Nat.prime_three
     (by norm_num) hf hK σ hσ
   have hcard : Nat.card (fixSubfield σ) = 3 ^ f :=
     CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_three hf hK σ hσ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hG2 := isEmpty_alt6_adjointGroup_G2 Nat.prime_three (by norm_num) hf hcard
   let e := ExcTriClassA.fixSubgroupFieldActorEquivG2 Nat.prime_three (by norm_num) hf hK σ hσ
   exact Char3Good.of_simple hnab hchev ⟨fun x => hG2.false (e.symm.trans x)⟩
@@ -61,7 +61,7 @@ theorem char3Good_fixSubgroup_trialityD4 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Fi
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :
     Char3Good ↥(fixSubgroup β) := by
   classical
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
   exact three_of_classes_gen hf hK σ hσ (fun γ => Char3Good ↥(fixSubgroup γ))
     (fun ε γ h => Char3Good.of_conj_aut ε γ h) (fun γ h => Char3Good.of_inv γ h)
     (char3Good_fixSubgroup_fieldActor hf hK σ hσ)
@@ -77,8 +77,8 @@ theorem lieCompExport_char3_outer_trialityD4 :
   intro S _ _ _ _ q hv hq3 ⟨e⟩ β hβ3 hout
   classical
   obtain ⟨f, hf, K, _, _, σ, hK, hσ, ⟨e₁⟩⟩ := exc_exists_graphFixed_of_tauCeti q hv e hq3
-  haveI : CharP K 3 := exc_charP_three_of_card K hK
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : CharP K 3 := exc_charP_three_of_card K hK
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv S e₁.toEquiv
   refine lieCompExport_or_noThreeComponents_of_char3Good β
     (Char3Good.of_mulEquiv (fixSubgroupCongrEquiv e₁ β) ?_)

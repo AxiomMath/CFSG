@@ -104,16 +104,16 @@ theorem sec122_section {V B Y : Subgroup G} {φ : (Fin 5 → ZMod 2) → G} {f :
     show (a : G) * b = b * a
     rw [← hvx, ← hwy, ← hperm.1 v w hv hw, ← hperm.1 w v hw hv]
     exact congrArg φ (add_comm v w)
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
-  letI : CommGroup ↥B :=
+  let : CommGroup ↥B :=
     { (inferInstance : Group ↥B) with mul_comm := hBcomm }
   let φB : (Fin 5 → ZMod 2) → ↥B := fun v =>
     if hv : IsEvenVec v then ⟨φ v, hφB v hv⟩ else 1
   have hφBv : ∀ v, IsEvenVec v → (φB v : G) = φ v := by
     intro v hv
     dsimp only [φB]
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
   have hex : ∀ σ : Equiv.Perm (Fin 5), ∃ y ∈ Y, σ ∈ alternatingGroup (Fin 5) →
       ∀ v, IsEvenVec v → y * φ v * y⁻¹ = φ (permVec σ v) := by
     intro σ

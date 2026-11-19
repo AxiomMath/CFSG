@@ -37,6 +37,7 @@ end Classif
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_unmatched_le_four {S L : Subgroup G} {d : ℕ} (θ : ↥(L ⊔ S) →* Perm (Fin d))
     (hS2 : IsPGroup 2 S)
     (hsh : ∀ A : Subgroup G, IsMaxElemAbelian S A →

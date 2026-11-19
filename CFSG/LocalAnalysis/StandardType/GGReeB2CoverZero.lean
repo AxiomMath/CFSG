@@ -14,7 +14,7 @@ namespace CFSG.StandardType.ReeB2Fixed
 private def E (e : ℕ) (p : Fin e) : ZMod (2 ^ e - 1) :=
   2 ^ (p : ℕ) * R e
 
-private theorem two_pow_e_eq_one (e : ℕ) (he : Odd e) :
+private theorem two_pow_e_eq_one (e : ℕ) (_he : Odd e) :
     (2 : ZMod (2 ^ e - 1)) ^ e = 1 := by
   have hsub : ((2 ^ e - 1 : ℕ) : ZMod (2 ^ e - 1)) = 0 := ZMod.natCast_self _
   have hsplit : (2 ^ e : ℕ) = (2 ^ e - 1) + 1 := by
@@ -37,7 +37,7 @@ private theorem two_pow_succσ (e : ℕ) (he : Odd e) (p : Fin e) :
   rw [hval, ← pow_eq_pow_mod ((p : ℕ) + (e + 1) / 2) (two_pow_e_eq_one e he)]
   rw [pow_add]
 
-private theorem succσ_injective (e : ℕ) (he : Odd e) [NeZero e] :
+private theorem succσ_injective (e : ℕ) (_he : Odd e) [NeZero e] :
     Function.Injective (succσ e) := by
   intro a b hab
   have hmod : ((a : ℕ) + (e + 1) / 2) % e = ((b : ℕ) + (e + 1) / 2) % e := by
@@ -113,9 +113,9 @@ private theorem cJ_mem_units (e : ℕ) (J : Finset (Fin e)) (p : Fin e) :
     cJ e J p ∈ units e := by
   unfold cJ
   by_cases h : succσ e p ∈ J
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp [units]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp [units]
 
 private theorem sum_cJ_mul_eq_zero (e : ℕ) (he : Odd e) [NeZero e] (J : Finset (Fin e))
@@ -126,14 +126,14 @@ private theorem sum_cJ_mul_eq_zero (e : ℕ) (he : Odd e) [NeZero e] (J : Finset
     intro p hp
     have hsp : succσ e p ∈ J := (Finset.mem_filter.mp hp).2
     unfold cJ E R
-    rw [if_pos hsp]
+    rw [ite_eq_left hsp]
     ring
   have hJ2 : ∀ p ∈ J.filter (fun p => succσ e p ∉ J),
       cJ e J p * 2 ^ (p : ℕ) = E e p + E e (succσ e p) := by
     intro p hp
     have hsp : succσ e p ∉ J := (Finset.mem_filter.mp hp).2
     unfold cJ
-    rw [if_neg hsp, one_mul, E_add_E_succσ e he p]
+    rw [ite_eq_right hsp, one_mul, E_add_E_succσ e he p]
   have h1 : ∑ p ∈ J.filter (fun p => succσ e p ∈ J), cJ e J p * 2 ^ (p : ℕ)
       = ∑ p ∈ J.filter (fun p => succσ e p ∈ J), E e p :=
     Finset.sum_congr rfl (fun p hp => hJ1 p hp)
@@ -178,7 +178,7 @@ private theorem sum_cJ_mul_eq_zero (e : ℕ) (he : Odd e) [NeZero e] (J : Finset
 
 theorem zero_mem_lam_of_cover (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (J : Finset (Fin e))
     (hJ : ∀ p, p ∈ J ∨ succσ e p ∈ J) : (0 : ZMod (2 ^ e - 1)) ∈ Lam e J := by
-  haveI : NeZero e := ⟨by omega⟩
+  have : NeZero e := ⟨by omega⟩
   exact ⟨cJ e J, fun p _ => cJ_mem_units e J p,
     (sum_cJ_mul_eq_zero e he J hJ).symm⟩
 

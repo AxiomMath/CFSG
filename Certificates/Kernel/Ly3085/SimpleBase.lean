@@ -31,7 +31,7 @@ theorem J_eq_JS [LySeed] : J = JS := by
   change Subgroup.closure {gA, gB} = Subgroup.closure _
   congr 1
   ext g
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | rfl)
     · exact Or.inl rfl

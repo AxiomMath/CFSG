@@ -12,7 +12,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem IsPairAt.conjClosure_sup_kerMOf_eq {M X A : Subgroup G} (h : IsPairAt M X A)
-    (hA : IsElemAbelian 2 A) : conjClosure A X ⊔ kerMOf M X = X := by
+    (_hA : IsElemAbelian 2 A) : conjClosure A X ⊔ kerMOf M X = X := by
   have hNX : conjClosure A X ≤ X :=
     conjClosure_le fun g hg z hz => X.mul_mem (X.mul_mem hg (h.A_le hz)) (X.inv_mem hg)
   have hKX : kerMOf M X ≤ X := kerMOf_le_group M X

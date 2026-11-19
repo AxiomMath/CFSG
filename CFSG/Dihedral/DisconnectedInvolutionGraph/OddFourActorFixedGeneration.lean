@@ -25,7 +25,7 @@ theorem odd_two_group_action_commuting_involutions_fixed_generate [Finite G]
     fun hdiv => (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hdiv)
   obtain ⟨sylow, hinvariant⟩ := coprime_pgroup_exists_invariant_sylow 2 prime hpgroup hcoprime
   let _ := invariantSubgroupAction (sylow : Subgroup G) hinvariant
-  have _ : Group.IsNilpotent (sylow : Subgroup G) := sylow.isPGroup'.isNilpotent
+  have _ : Group.IsNilpotent (sylow : Subgroup G) := sylow.isPGroup.isNilpotent
   have hsylowOdd : Odd (Nat.card (sylow : Subgroup G)) :=
     hodd.of_dvd_nat (sylow : Subgroup G).card_subgroup_dvd_card
   have hgenerated := nilpotent_odd_commuting_involutions_fixed_generate hsylowOdd

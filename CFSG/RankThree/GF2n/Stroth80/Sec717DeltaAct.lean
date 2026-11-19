@@ -15,14 +15,17 @@ variable {K E X : Type} [Field K] [AddCommGroup E] [Module K E] [FiniteDimension
     (x : X) : ↥(B.orthogonal T) →ₗ[K] E :=
   (opm (φ x)).comp (B.orthogonal T).subtype
 
+omit [FiniteDimensional K E] in
 theorem deltaP_apply (x : X) (w : ↥(B.orthogonal T)) :
     deltaP B φ T x w = opm (φ x) (w : E) := rfl
 
+omit [FiniteDimensional K E] in
 theorem deltaP_one : deltaP B φ T 1 = 0 := by
   refine LinearMap.ext fun w => ?_
   rw [deltaP_apply, map_one, LinearMap.zero_apply, opm_apply]
   simp
 
+omit [FiniteDimensional K E] in
 theorem deltaP_mul (D : Sec717LayerData B φ V Nb Rb T) {x y : X} (hx : x ∈ Nb) (hy : y ∈ Nb) :
     deltaP B φ T (x * y) = deltaP B φ T x + deltaP B φ T y := by
   refine LinearMap.ext fun w => ?_
@@ -45,9 +48,11 @@ theorem deltaP_eq_zero_iff (D : Sec717LayerData B φ V Nb Rb T) {x : X}
     ↥(B.orthogonal T) →ₗ[K] ↥(B.orthogonal T) :=
   (φ g : E →ₗ[K] E).restrict fun w hw => D.Rb_P g hg w hw
 
+omit [FiniteDimensional K E] in
 theorem resP_apply (D : Sec717LayerData B φ V Nb Rb T) {g : X} (hg : g ∈ Rb)
     (w : ↥(B.orthogonal T)) : (resP D hg w : E) = φ g (w : E) := rfl
 
+omit [FiniteDimensional K E] in
 theorem deltaP_conj (D : Sec717LayerData B φ V Nb Rb T) {r : X} (hr : r ∈ Rb) (x : X) :
     deltaP B φ T (r * x * r⁻¹) =
       (φ r : E →ₗ[K] E) ∘ₗ deltaP B φ T x ∘ₗ resP D (Rb.inv_mem hr) := by
@@ -56,6 +61,7 @@ theorem deltaP_conj (D : Sec717LayerData B φ V Nb Rb T) {r : X} (hr : r ∈ Rb)
     resP_apply]
   rfl
 
+omit [FiniteDimensional K E] in
 theorem deltaP_conj_of_mem_Nb (D : Sec717LayerData B φ V Nb Rb T) {n x : X} (hn : n ∈ Nb)
     (hx : x ∈ Nb) : deltaP B φ T (n * x * n⁻¹) = deltaP B φ T x := by
   refine LinearMap.ext fun w => ?_
@@ -83,6 +89,7 @@ variable {L : Subgroup X}
     obtain ⟨l', hl', h⟩ := hΔ l hl c
     exact ⟨l', hl', LinearMap.ext fun w => h w w.2⟩
 
+omit [FiniteDimensional K E] in
 theorem mem_deltaSub (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
     {l : X} (hl : l ∈ L) : deltaP B φ T l ∈ deltaSub D hLN hΔ := ⟨l, hl, rfl⟩
@@ -100,12 +107,14 @@ theorem mem_deltaSub (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     apply Subtype.ext
     exact deltaP_mul D (hLN l.2) (hLN l'.2)
 
+omit [FiniteDimensional K E] in
 theorem deltaHom_coe (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
     (l : ↥L) :
     ((Multiplicative.toAdd (deltaHom D hLN hΔ l) : ↥(deltaSub D hLN hΔ)) :
       ↥(B.orthogonal T) →ₗ[K] E) = deltaP B φ T l := rfl
 
+omit [FiniteDimensional K E] in
 theorem deltaHom_surjective (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w) :
     Function.Surjective (deltaHom D hLN hΔ) := by
@@ -156,14 +165,17 @@ theorem card_deltaSub_mul [Finite X] (D : Sec717LayerData B φ V Nb Rb T) (hLN :
     refine LinearMap.ext fun w => ?_
     simp only [LinearMap.comp_apply, LinearMap.smul_apply, map_smul, RingHom.id_apply]
 
+omit [FiniteDimensional K E] in
 theorem conjL_apply (D : Sec717LayerData B φ V Nb Rb T) {r : X} (hr : r ∈ Rb)
     (f : ↥(B.orthogonal T) →ₗ[K] E) (w : ↥(B.orthogonal T)) :
     conjL D hr f w = φ r (f (resP D (Rb.inv_mem hr) w)) := rfl
 
+omit [FiniteDimensional K E] in
 theorem conjL_deltaP (D : Sec717LayerData B φ V Nb Rb T) {r : X} (hr : r ∈ Rb) (x : X) :
     conjL D hr (deltaP B φ T x) = deltaP B φ T (r * x * r⁻¹) :=
   (deltaP_conj D hr x).symm
 
+omit [FiniteDimensional K E] in
 theorem conjL_mul (D : Sec717LayerData B φ V Nb Rb T) {r s : X} (hr : r ∈ Rb) (hs : s ∈ Rb)
     (f : ↥(B.orthogonal T) →ₗ[K] E) :
     conjL D (Rb.mul_mem hr hs) f = conjL D hr (conjL D hs f) := by
@@ -174,6 +186,7 @@ theorem conjL_mul (D : Sec717LayerData B φ V Nb Rb T) {r s : X} (hr : r ∈ Rb)
     rw [resP_apply, resP_apply, resP_apply, mul_inv_rev, map_mul, LinearEquiv.mul_apply]
   rw [conjL_apply, conjL_apply, conjL_apply, e, map_mul, LinearEquiv.mul_apply]
 
+omit [FiniteDimensional K E] in
 theorem conjL_one (D : Sec717LayerData B φ V Nb Rb T) (f : ↥(B.orthogonal T) →ₗ[K] E) :
     conjL D Rb.one_mem f = f := by
   refine LinearMap.ext fun w => ?_
@@ -184,6 +197,7 @@ theorem conjL_one (D : Sec717LayerData B φ V Nb Rb T) (f : ↥(B.orthogonal T) 
   rw [conjL_apply, e, map_one]
   rfl
 
+omit [FiniteDimensional K E] in
 theorem conjL_mem (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hRL : ∀ r ∈ Rb, ∀ l ∈ L, r * l * r⁻¹ ∈ L)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
@@ -203,7 +217,7 @@ theorem conjL_mem (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hRL : ∀ r ∈ Rb, ∀ l ∈ L, r * l * r⁻¹ ∈ L)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w) :
     ↥Rb →* (↥(deltaSub D hLN hΔ) ≃ₗ[K] ↥(deltaSub D hLN hΔ)) where
-  toFun r := LinearEquiv.ofLinear (deltaRepLin D hLN hRL hΔ r.2)
+  toFun r := LinearEquiv.ofLinearMap (deltaRepLin D hLN hRL hΔ r.2)
     (deltaRepLin D hLN hRL hΔ (Rb.inv_mem r.2))
     (LinearMap.ext fun f => Subtype.ext (by
       show conjL D r.2 (conjL D (Rb.inv_mem r.2) f) = f
@@ -218,6 +232,7 @@ theorem conjL_mem (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
   map_one' := LinearEquiv.ext fun f => Subtype.ext (conjL_one D f)
   map_mul' r s := LinearEquiv.ext fun f => Subtype.ext (conjL_mul D r.2 s.2 f)
 
+omit [FiniteDimensional K E] in
 theorem deltaRep_coe (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hRL : ∀ r ∈ Rb, ∀ l ∈ L, r * l * r⁻¹ ∈ L)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
@@ -225,6 +240,7 @@ theorem deltaRep_coe (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     ((deltaRep D hLN hRL hΔ r f : ↥(deltaSub D hLN hΔ)) : ↥(B.orthogonal T) →ₗ[K] E) =
       conjL D r.2 f := rfl
 
+omit [FiniteDimensional K E] in
 theorem deltaRep_deltaHom (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hRL : ∀ r ∈ Rb, ∀ l ∈ L, r * l * r⁻¹ ∈ L)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
@@ -234,6 +250,7 @@ theorem deltaRep_deltaHom (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
   apply Subtype.ext
   rw [deltaRep_coe, deltaHom_coe, deltaHom_coe, conjL_deltaP, h]
 
+omit [FiniteDimensional K E] in
 theorem deltaRep_eq_one_of_mem (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb)
     (hRL : ∀ r ∈ Rb, ∀ l ∈ L, r * l * r⁻¹ ∈ L)
     (hΔ : ∀ l ∈ L, ∀ c : K, ∃ l' ∈ L, ∀ w ∈ B.orthogonal T, opm (φ l') w = c • opm (φ l) w)
@@ -282,7 +299,7 @@ theorem deltaRep_eq_one_iff (D : Sec717LayerData B φ V Nb Rb T) (hLN : L ≤ Nb
   have hall : ∀ x : ↥Rb, deltaRep D hLN hRL hΔ x = 1 := fun x =>
     (hmemR₁ x).mp (by rw [h]; exact x.2)
   have hpos : 0 < Module.finrank K ↥(deltaSub D hLN hΔ) := by omega
-  haveI : Nontrivial ↥(deltaSub D hLN hΔ) := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial ↥(deltaSub D hLN hΔ) := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨f₀, hf₀⟩ := exists_ne (0 : ↥(deltaSub D hLN hΔ))
   set P : Submodule K ↥(deltaSub D hLN hΔ) := K ∙ f₀ with hP
   have hPtop : P ≠ ⊤ := by

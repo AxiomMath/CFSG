@@ -28,7 +28,7 @@ theorem exists_isElemAbelian_card_sq_of_nonabelian {p : ℕ} [Fact p.Prime] {G :
     exact Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 g hg
   obtain ⟨t, htT, htZ⟩ : ∃ t ∈ T, t ∉ Z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     refine IsMulCommutative.of_setLike_mul_comm fun a ha b hb => ?_
     exact (hZc a (hcon a ha) b hb).symm

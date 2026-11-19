@@ -122,8 +122,8 @@ theorem chunkK_of_chunkF {L q : ℕ} (h : chunkF R st o n L q = true) :
   have e := h t h1 h2
   cases hb : Nat.blt t n
   · rfl
-  · rw [hb, cond_true] at e
-    rw [cond_true]
+  · rw [hb, _root_.Bool.cond_true] at e
+    rw [_root_.Bool.cond_true]
     exact rowK_of_rowF e
 
 end CFSG.KC.YamakiRepF

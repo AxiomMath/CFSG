@@ -106,7 +106,7 @@ theorem caseOne_sylowBar_mem_or {s : EscapingQuotient z} (hs : s ∈ (sylowBar h
   have hzz := escapingBar_mul_self hz.2.1
   by_contra hsA
   obtain ⟨t, rfl⟩ := hs
-  obtain ⟨m, hm⟩ := S.isPGroup' t
+  obtain ⟨m, hm⟩ := S.isPGroup t
   have hP : ∃ k, sylowBar hz t ^ 2 ^ k ∈ J ∨ escapingBar z * sylowBar hz t ^ 2 ^ k ∈ J :=
     ⟨m, Or.inl (by rw [← map_pow, hm, map_one]; exact J.one_mem)⟩
   classical

@@ -15,6 +15,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_istar_eq {p : ℕ} {M D I : Subgroup G} (hI : I = Istar p M D) :
     M ≤ Subgroup.normalizer (I : Set G) := by
   intro g hg
@@ -26,12 +27,14 @@ theorem le_normalizer_of_istar_eq {p : ℕ} {M D I : Subgroup G} (hI : I = Istar
 noncomputable abbrev blkKer (p : ℕ) (M I : Subgroup G) : Subgroup G :=
   ((MonoidHom.ker (barAut p I)).map (Subgroup.normalizer (I : Set G)).subtype) ⊓ M
 
+omit [Finite G] in
 theorem mem_blkKer_iff {p : ℕ} {M I : Subgroup G} {x : G} :
     x ∈ blkKer p M I ↔ x ∈ M ∧ ∃ hx : x ∈ Subgroup.normalizer (I : Set G), barAut p I ⟨x, hx⟩ = 1 := by
   unfold blkKer
   rw [Subgroup.mem_inf, mem_centK_iff]
   exact and_comm
 
+omit [Finite G] in
 theorem centBar_eq_blkKer_inf {p : ℕ} {M I R : Subgroup G} (hRM : R ≤ M) :
     centBar p R I = blkKer p M I ⊓ R := by
   ext x
@@ -43,6 +46,7 @@ theorem centBar_eq_blkKer_inf {p : ℕ} {M I R : Subgroup G} (hRM : R ≤ M) :
   · rintro ⟨⟨hk, -⟩, hR⟩
     exact ⟨hk, hR⟩
 
+omit [Finite G] in
 theorem blkKer_conj_mem {p : ℕ} {M I : Subgroup G} (hMN : M ≤ Subgroup.normalizer (I : Set G))
     {m k : G} (hm : m ∈ M) (hk : k ∈ blkKer p M I) : m * k * m⁻¹ ∈ blkKer p M I := by
   obtain ⟨hkM, hkN, hk1⟩ := mem_blkKer_iff.1 hk
@@ -68,7 +72,7 @@ theorem blkKer_inf_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M I : Subgroup G
 end Helpers
 
 @[expose] def Lemma133_compStatement : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {D T : Subgroup G} (h : Sec13 G m p B M E A D T)
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {D T : Subgroup G} (_h : Sec13 G m p B M E A D T)
     {L : Subgroup G}, GLAPComponent p (Istar p M D) L → GLAPComponent p M L
 
 section ConjPartI
@@ -84,7 +88,7 @@ theorem conj_part_i {m p : ℕ} {B M E A D T R : Subgroup G} (hI71 : Input7_1Inn
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hbl : IsGLBlock M I := ((hL133 h).2 I hIc).1.1
   have hIM : I ≤ M := hbl.le
@@ -337,24 +341,29 @@ section Lemma1312
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_L1of {p : ℕ} {M D L0 : Subgroup G} : L0 ≤ L1of p M D L0 := by
   refine le_iSup₂_of_le (1 : G) (Istar p M D).one_mem ?_
   exact le_of_eq (gLBConj_eq_of_mem_normalizer (one_mem _)).symm
 
+omit [Finite G] in
 theorem piLayer_le_self (p : ℕ) (H : Subgroup G) : piLayer p H ≤ H := by
   unfold piLayer
   exact iSup₂_le fun L hL => hL.1.1
 
+omit [Finite G] in
 theorem le_centralizer_of_piComp {p : ℕ} {M D L0 : Subgroup G} {d : G}
     (hL0 : GLAPComponent p (piLayer p (Istar p M D ⊓ Cg d)) L0) : L0 ≤ Cg d :=
   hL0.1.trans ((piLayer_le_self p _).trans inf_le_right)
 
 abbrev L2of (p : ℕ) (M D L0 : Subgroup G) : Subgroup G := ⨆ g ∈ M, GLBConj g (L1of p M D L0)
 
+omit [Finite G] in
 theorem L1_le_L2 {p : ℕ} {M D L0 : Subgroup G} : L1of p M D L0 ≤ L2of p M D L0 := by
   refine le_iSup₂_of_le (1 : G) (M.one_mem) ?_
   exact le_of_eq (gLBConj_eq_of_mem_normalizer (one_mem _)).symm
 
+omit [Finite G] in
 theorem normal_L2of {p : ℕ} {M D L0 : Subgroup G} :
     ∀ g ∈ M, ∀ x ∈ L2of p M D L0, g * x * g⁻¹ ∈ L2of p M D L0 := by
   intro g hg x hx
@@ -365,6 +374,7 @@ theorem normal_L2of {p : ℕ} {M D L0 : Subgroup G} :
     exact hx
   exact conj_iSup_mem_le (M.inv_mem hg) h1
 
+omit [Finite G] in
 theorem centralizer_L2of_normal {p : ℕ} {M D L0 : Subgroup G} :
     ∀ g ∈ M, ∀ c ∈ Subgroup.centralizer ((L2of p M D L0 : Subgroup G) : Set G) ⊓ M,
       g * c * g⁻¹ ∈ Subgroup.centralizer ((L2of p M D L0 : Subgroup G) : Set G) ⊓ M := by
@@ -400,7 +410,7 @@ theorem inf_ne_bot_of_sylow_normal {p : ℕ} [Fact p.Prime] {M R N : Subgroup G}
         have hEq : Q.map M.subtype = R := hRmax _ hQM hQp hRQ
         exact le_of_eq (Subgroup.map_subtype_inj.1 (hEq.trans (Subgroup.map_subgroupOf_eq_of_le hRM').symm))
       ⟩ }
-  haveI : (N.subgroupOf M).Normal := by
+  have : (N.subgroupOf M).Normal := by
     constructor
     intro n hn g
     have := hNn (g : G) g.2 (n : G) (Subgroup.mem_subgroupOf.1 hn)
@@ -428,7 +438,7 @@ theorem caseA_central {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     ∃ c ∈ centBar p B (L1of p M D L0) ⊓ Cg d, c ≠ 1 ∧ (Prop139a p M D → c ∈ centerOf R) := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup G,
       C = Subgroup.centralizer ((L2of p M D L0 : Subgroup G) : Set G) ⊓ M := ⟨_, rfl⟩
   rw [← hCdef] at hnot
@@ -465,7 +475,7 @@ theorem caseA_central {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     exact Subgroup.mem_map.2 ⟨⟨x, hxM⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hRC : R ⊓ C ≠ ⊥ :=
     inf_ne_bot_of_sylow_normal hRM hCM (fun g hg n hn => hCn g hg n hn) hpC
-  haveI : Group.IsNilpotent ↥R := hRp.isNilpotent
+  have : Group.IsNilpotent ↥R := hRp.isNilpotent
   have hHn : ((R ⊓ C).subgroupOf R).Normal := by
     constructor
     intro n hn g
@@ -654,7 +664,7 @@ theorem lemma1312_of_inputs {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
   obtain ⟨c, hcC, hc1, hcZ⟩ := hc
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hxB : x ∈ B := (Subgroup.mem_inf.1 hxBL).1
   have hxL0 : x ∈ L0 := (Subgroup.mem_inf.1 hxBL).2

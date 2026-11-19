@@ -21,7 +21,7 @@ Anisotropic vectors and orthogonal bases for nondegenerate Hermitian spaces.
 namespace CFSG.BenderSuzuki
 namespace External
 
-open MatrixGroups
+open _root_.CFSG.BenderSuzuki.MatrixGroups
 
 universe u v
 
@@ -132,7 +132,7 @@ private theorem hermitian_exists_orthogonal_basis
   | zero =>
       exact ⟨basisOfFinrankZero hd, fun _ _ _ => map_zero _⟩
   | succ d ih =>
-      letI : Nontrivial V := Module.nontrivial_of_finrank_eq_succ hd
+      let : Nontrivial V := Module.nontrivial_of_finrank_eq_succ hd
       obtain ⟨x, hx⟩ := hermitian_exists_anisotropic sigma B hB hsep htrace
       let N := (K ∙ x).orthogonalBilin B
       have hcompl : IsCompl (K ∙ x) N :=
@@ -202,12 +202,12 @@ public theorem huppert_II_10_2_b_orthogonal_basis
           (J.conjTranspose (P : Matrix (Fin n) (Fin n) K) * J.form *
             (P : Matrix (Fin n) (Fin n) K)) i i ≠ 0 := by
     classical
-    letI : Star K := ⟨J.conj⟩
-    letI : InvolutiveStar K := ⟨J.conj_involutive⟩
-    letI : StarMul K := ⟨fun r s => by
+    let : Star K := ⟨J.conj⟩
+    let : InvolutiveStar K := ⟨J.conj_involutive⟩
+    let : StarMul K := ⟨fun r s => by
       change J.conj (r * s) = J.conj s * J.conj r
       rw [map_mul, mul_comm]⟩
-    letI : StarRing K := ⟨fun r s => by
+    let : StarRing K := ⟨fun r s => by
       change J.conj (r + s) = J.conj r + J.conj s
       rw [map_add]⟩
     let e := Pi.basisFun K (Fin n)

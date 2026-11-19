@@ -340,7 +340,7 @@ theorem mset_kv {RC : ℕ → ℕ} {V : ℕ} (hrc : ∀ g < 72, rcOK RC V g = tr
     mset 72 (kv RC x) = {g | g < 72 ∧ ∑ m : Fin 6, v3 x m * ((vecOf 6 V g m : ℤ) : ZMod 3) = 0} := by
   have hD := dot5_lanes (fun m hm g hg => rc_le hrc hg hm) x
   ext g
-  simp only [mset, Set.mem_setOf_eq]
+  simp only [mset, Set.mem_ofPred_eq]
   refine and_congr_right fun hg => ?_
   have hz : fld (zl LOW5 (dot5 RC x)) 5 g = if fld (dot5 RC x) 5 g % 3 = 0 then 1 else 0 :=
     fld_zl_any (w := 5) (K := 72) le_rfl (fun k hk => by
@@ -383,8 +383,8 @@ theorem mset_kmask {RC : ℕ → ℕ} {V : ℕ} (hrc : ∀ g < 72, rcOK RC V g =
   ext g
   have m1 := congrArg (g ∈ ·) h1
   have m2 := congrArg (g ∈ ·) h2
-  simp only [mset, Set.mem_setOf_eq, eq_iff_iff] at m1 m2
-  simp only [mset, PhiP, Set.mem_setOf_eq, e, Bool.and_eq_true]
+  simp only [mset, Set.mem_ofPred_eq, eq_iff_iff] at m1 m2
+  simp only [mset, PhiP, Set.mem_ofPred_eq, e, Bool.and_eq_true]
   constructor
   · rintro ⟨hg, ha, hb⟩
     exact ⟨hg, (m1.1 ⟨hg, ha⟩).2, (m2.1 ⟨hg, hb⟩).2⟩
@@ -499,7 +499,7 @@ theorem mset_kv8 {RC : ℕ → ℕ} {V : ℕ} (hrc : ∀ g < 240, rc5OK RC V g =
     rw [hz k hk]
     split_ifs <;> norm_num
   ext g
-  simp only [mset, Set.mem_setOf_eq]
+  simp only [mset, Set.mem_ofPred_eq]
   refine and_congr_right fun hg => ?_
   change bit (squash8 (zl5 (dot8 RC B c))) g = true ↔ _
   rw [bit_iff, testBit_squash8 hl, decide_eq_true hg, Bool.true_and,
@@ -528,8 +528,8 @@ theorem mset_kmask5 {RC : ℕ → ℕ} {V : ℕ} (hrc : ∀ g < 240, rc5OK RC V 
   ext g
   have n1 := congrArg (g ∈ ·) m1
   have n2 := congrArg (g ∈ ·) m2
-  simp only [mset, Set.mem_setOf_eq, eq_iff_iff] at n1 n2
-  simp only [mset, PhiP5, Set.mem_setOf_eq, e, Bool.and_eq_true]
+  simp only [mset, Set.mem_ofPred_eq, eq_iff_iff] at n1 n2
+  simp only [mset, PhiP5, Set.mem_ofPred_eq, e, Bool.and_eq_true]
   constructor
   · rintro ⟨hg, ha, hb⟩
     exact ⟨hg, (n1.1 ⟨hg, ha⟩).2, (n2.1 ⟨hg, hb⟩).2⟩
@@ -618,7 +618,7 @@ theorem pw_spec
     intro g hg
     have h := hpw g hg
     rw [boolRec_true] at h
-    simp only [strictB_eq, beq_eq_true, blt_eq_true, nshr, nland] at h
+    simp only [beq_eq_true, blt_eq_true, nshr, nland] at h
     refine ⟨fun h1 => h.1 h1, fun h1 => h.2 ?_⟩
     cases hb : Nat.blt g 6
     · rfl
@@ -653,9 +653,9 @@ theorem phq_spec
   rw [phq, strictN_eq, boolRec_nat]
   simp only [nmod, ndiv]
   by_cases h0 : q % 3 = 0
-  · rw [if_pos (beq_eq_true.2 h0), if_pos h0]
+  · rw [ite_eq_left (beq_eq_true.2 h0), ite_eq_left h0]
     exact ⟨h1, h2⟩
-  · rw [if_neg (by rw [beq_eq_true]; exact h0), if_neg h0]
+  · rw [ite_eq_right (by rw [beq_eq_true]; exact h0), ite_eq_right h0]
     obtain ⟨n1, n2⟩ := hD.neg _ h1
     exact ⟨n1, by rw [n2, h2]⟩
 

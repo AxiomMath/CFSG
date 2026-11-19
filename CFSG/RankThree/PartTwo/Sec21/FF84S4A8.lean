@@ -69,7 +69,7 @@ theorem involution_cent_P_key : ∀ g : P8, g * cc = cc * g → g * dd = dd * g 
     rwa [hg i, hg (centVals (g 0) (g 3) (g 6) (g 7) i)] at this
   have hne : ∃ i, centVals (g 0) (g 3) (g 6) (g 7) i ≠ i := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact h4 (Equiv.ext fun i => by rw [hg i, hall i, Perm.one_apply])
   exact Equiv.ext fun i => by
     rw [hg i]

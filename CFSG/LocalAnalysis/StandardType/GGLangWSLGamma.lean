@@ -19,7 +19,7 @@ theorem rootSL2_WSL_mem_Γ_of_rho
     {f : ℕ} (hq : S.D.q = 2 ^ f) (hAlg : S.IsAlgebraic)
     {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) (hρα : S.ρ α = α ∨ S.ρ α = -α) :
     rootSL2 τ L α WSL ∈ S.Γ := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   refine langModel_mem_Γ_of_sq_eq_one S hτ hq hAlg
     (rootSL2_WSL_mem_model_of_rho S hα hρα) ?_
   rw [pow_two]
@@ -38,7 +38,7 @@ theorem rootSL2_HSL_mem_rationalComponent_of_entrywise_step'
     {t : Lˣ} (ht : Units.map Fr.toMonoidHom t = t⁻¹)
     {m : ℕ} (hm : Odd m) (htm : t ^ m = 1) :
     rootSL2 τ L γ (HSL t) ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hγr : IsRoot τ γ := (isRootComponent_componentRoots i).isRoot γ hγ
   exact rootSL2_HSL_mem_rationalComponent_of_entrywise_step S hΦ hn hw i hγ
     (rootSL2_WSL_mem_Γ_of_rho S hτ hq hAlg hγr hργ) ht hm htm

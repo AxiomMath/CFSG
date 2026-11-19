@@ -166,11 +166,13 @@ theorem fieldActor_conj_compatDiagAutHom (u : TwM σ) :
 @[expose] def twZ : (Fin Tag.E6.rank → Kˣ) →* (Fin Tag.E6.rank → Kˣ) :=
   zpowMatrix (G := Kˣ) Tag.E6.cartan
 
+omit [Finite K] in
 theorem twCompatHom_mem (u : TwM σ) : twCompatHom σ u ∈ twS σ := fun i => compatDiag_perm u i
 
 @[expose] noncomputable def twCompatHomS : TwM σ →* ↥(twS σ) :=
   (twCompatHom σ).codRestrict (twS σ) (twCompatHom_mem σ)
 
+omit [Finite K] in
 theorem twCompatHomS_surjective : Function.Surjective (twCompatHomS σ) := by
   rintro ⟨b, hb⟩
   obtain ⟨u, hu⟩ := exists_compatDiag_eq (t := TwistTag.E6) (σ := σ.toRingHom) hb
@@ -216,6 +218,7 @@ theorem twIm_index {q : ℕ} (hK : Nat.card K = q ^ 2) (hσ : ∀ c, σ c = c ^ 
     S ⊓ (twZ (K := K)).ker ≤ S)).toEquiv]
   exact card_compat_inf_ker_E6_of_card hK hσ'
 
+omit [Finite K] in
 theorem compatDiagAutHom_mem_inner_of_mem_twIm {u : TwM σ} (hu : u ∈ twIm σ) :
     compatDiagAutHom TwistTag.E6 K σ.toRingHom u ∈ twistedE6Inn K σ := by
   obtain ⟨c, hc, hcb⟩ := hu

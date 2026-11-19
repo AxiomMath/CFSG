@@ -15,14 +15,14 @@ open CFSG.LieType.Universal.Spin CFSG.LieType.Universal.Spin.Twisted
 open CliffordAlgebra
 
 theorem rckOmM_two_le
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .POmegaMinus m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .POmegaMinus m g).D.rank → ℤ}
     (hβ : β ∈ (ggU .POmegaMinus m g).D.roots) : 2 ≤ m := by
   by_contra hle
   have hm1 : m ≤ 1 := by omega
   have hrank : (ggU .POmegaMinus m g).D.rank = 0 := by
     simp only [ggU, lieUniversal, Spin.Twisted.minusDatum]
     omega
-  haveI : IsEmpty (Fin (ggU .POmegaMinus m g).D.rank) := by
+  have : IsEmpty (Fin (ggU .POmegaMinus m g).D.rank) := by
     rw [hrank]; infer_instance
   exact ne_zero_of_mem_roots (ggU .POmegaMinus m g).D.isFiniteType
     (ggU .POmegaMinus m g).D.divisible hβ (Subsingleton.elim β 0)
@@ -122,7 +122,7 @@ theorem rckLemmaHCore_OmM
     {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .POmegaMinus m g).D.rank → ℤ}
     (hβ : β ∈ (ggU .POmegaMinus m g).D.roots) (hL : ¬ GGLongRoot (ggU .POmegaMinus m g).D β)
     (h2 : 2 • β ∉ (ggU .POmegaMinus m g).D.roots) : RCKLemmaHCore (ggU .POmegaMinus m g) β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm2 : 2 ≤ m := rckOmM_two_le hg hβ
   have hmain : RCKLemmaHCore
       ⟨spinGroup (quadMinus m (GaloisField 2 g) (minusCoeffs 2 g).1 (minusCoeffs 2 g).2),

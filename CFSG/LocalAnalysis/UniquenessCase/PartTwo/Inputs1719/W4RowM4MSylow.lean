@@ -42,14 +42,14 @@ theorem exists_commute_isConj_of_not_isConj {G : Type*} [Group G] [Finite G] {c 
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     exact hcne1 (Subgroup.mem_bot.1 (hbot ▸ hcT))
-  haveI : Nontrivial (T : Subgroup G) := hTnt
-  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have : Nontrivial (T : Subgroup G) := hTnt
+  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hcnt : Nontrivial (Subgroup.center (T : Subgroup G)) := hTp.center_nontrivial
   have hcp : IsPGroup 2 (Subgroup.center (T : Subgroup G)) := hTp.to_subgroup _
   have hdvd : 2 ∣ Nat.card (Subgroup.center (T : Subgroup G)) := by
     rcases hcp.card_eq_or_dvd with h | h
     · exfalso
-      haveI : Nontrivial (Subgroup.center (T : Subgroup G)) := hcnt
+      have : Nontrivial (Subgroup.center (T : Subgroup G)) := hcnt
       exact not_subsingleton _ (Nat.card_eq_one_iff_unique.1 h).1
     · exact h
   obtain ⟨w0, hw0⟩ :=
@@ -82,7 +82,7 @@ theorem exists_commute_isConj_of_not_isConj {G : Type*} [Group G] [Finite G] {c 
       exact hdvdT
     have hle2 : (Nat.card G).factorization 2 ≤
         (Nat.card (Subgroup.centralizer ({c} : Set G))).factorization 2 := by
-      haveI : Nonempty (Subgroup.centralizer ({c} : Set G)) :=
+      have : Nonempty (Subgroup.centralizer ({c} : Set G)) :=
         ⟨1, Subgroup.mem_centralizer_singleton_iff.2 (by simp)⟩
       exact (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two Nat.card_pos.ne').1 hdvd'
     exact (not_le.2 hord) hle2

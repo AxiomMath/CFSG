@@ -114,7 +114,7 @@ theorem coprime_two_commutator_lifts_through_invariant_supplement {p : ℕ} (hp 
   have hPinv : ∀ a : A, ∀ x ∈ P, a • x ∈ P := by
     rintro a _ ⟨y, hy, rfl⟩
     exact ⟨a • y, hP₀inv a y hy, rfl⟩
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map Y.subtype
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map Y.subtype
   have hφ : ∀ y : Y, (π.comp Y.subtype) y ∈ E := fun y => y.2.2
   set φ : Y →* E := (π.comp Y.subtype).codRestrict E hφ with hφdef
   have hφs : Function.Surjective φ := by
@@ -140,7 +140,7 @@ theorem coprime_two_commutator_lifts_through_invariant_supplement {p : ℕ} (hp 
       have := hP₀inv a⁻¹ _ hg
       rwa [inv_smul_smul] at this⟩⟩
   have hfact := (coprime_pgroup_commutator_factorization (A := A) (Q := (P₀ : Subgroup Y))
-    Nat.prime_two P₀.isPGroup' h2A).2
+    Nat.prime_two P₀.isPGroup h2A).2
   set ι : (P₀ : Subgroup Y) →* L := Y.subtype.comp (P₀ : Subgroup Y).subtype with hιdef
   have hι : ∀ (a : A) (x : (P₀ : Subgroup Y)), ι (a • x) = a • ι x := fun _ _ => rfl
   have hιP : (⊤ : Subgroup (P₀ : Subgroup Y)).map ι = P := by

@@ -34,50 +34,50 @@ theorem clause_one_typeLie
   fun _ hn hL => nParam_eq_of_typeLie hSQ hFs (quasithinIsSylowTwo_of_isSylowIn hT) hFT hn hL
 
 theorem clause_one_tits
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsTits ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isTits hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT
 
 theorem clause_one_u33
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsPSU 3 3 1 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isPSU33 hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT
 
 theorem clause_one_l42
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsPSL 4 2 1 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isPSL42 hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT
 
 theorem clause_three
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
-    (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (_hT : IsSylowIn 2 T ⊤)
+    (_hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsAlt 7 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isAlt7 hL
 
 theorem clause_four_M11
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsSporadic .M11 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isM11 hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT
 
 theorem clause_four_M12
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsSporadic .M12 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isM12 hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT
 
 theorem clause_four_M24
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     IsSporadic .M24 ↥(CFSG.generalizedFitting G) → E1.nParam (⊤ : Subgroup G) = 1 :=
   fun hL => nParam_eq_one_of_isM24 hL (quasithinIsSylowTwo_of_isSylowIn hT) hFT

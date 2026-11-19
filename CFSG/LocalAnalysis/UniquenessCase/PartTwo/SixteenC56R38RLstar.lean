@@ -76,8 +76,8 @@ theorem exists_Lstar_of_case1633 (D : Data G) (h119 : F11.R119 D) (h127 : R127 D
       exact ⟨⟨x, hxY⟩, (hfker ⟨x, hxY⟩).2 hxC, rfl⟩
   have hsolvf : Group.IsSolvable ↥f.ker := by
     have hle : f.ker.map Y.subtype ≤ Y ⊓ F11.CTilde D.M V₀ V := hfkerEq.le
-    haveI := hsolv
-    exact solvable_of_solvable_injective (f := (Subgroup.inclusion hle).comp
+    have := hsolv
+    exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.inclusion hle).comp
       (f.ker.equivMapOfInjective Y.subtype Y.subtype_injective).toMonoidHom)
       ((Subgroup.inclusion_injective hle).comp (MulEquiv.injective _))
   have hR' : CFSG.pCore 2 ↥Y ≤ f.ker := fun y hy => (hfker y).2 (hR y hy)

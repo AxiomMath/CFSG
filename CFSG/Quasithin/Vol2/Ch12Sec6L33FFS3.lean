@@ -17,7 +17,7 @@ section Sections
 
 theorem not_isStrongFFModule_of_subsingleton {V : Type} [CommGroup V] (hV : Subsingleton V)
     (X : Subgroup (MulAut V)) : ¬ IsStrongFFModule X := by
-  haveI : Subsingleton (MulAut V) := ⟨fun φ ψ => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
+  have : Subsingleton (MulAut V) := ⟨fun φ ψ => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
   rintro ⟨A, -, hne, -, -⟩
   apply hne
   rw [eq_bot_iff]
@@ -25,6 +25,7 @@ theorem not_isStrongFFModule_of_subsingleton {V : Type} [CommGroup V] (hV : Subs
   rw [Subgroup.mem_bot]
   exact Subsingleton.elim φ 1
 
+omit [Finite G] in
 theorem comm_flip_mem {P : Subgroup G} {b q : G} (h : b * q * b⁻¹ * q⁻¹ ∈ P) :
     q * b * q⁻¹ * b⁻¹ ∈ P := by
   have := P.inv_mem h
@@ -32,6 +33,7 @@ theorem comm_flip_mem {P : Subgroup G} {b q : G} (h : b * q * b⁻¹ * q⁻¹ �
 
 variable {A B H : Subgroup G}
 
+omit [Finite G] in
 theorem actH_pCore_eq_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
     (hBH : H ≤ Subgroup.normalizer (B : Set G))
     (hcomm : ∀ b ∈ B, ∀ q ∈ pCoreOf 2 H, q * b * q⁻¹ * b⁻¹ ∈ A) :
@@ -47,6 +49,7 @@ theorem actH_pCore_eq_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
+omit [Finite G] in
 theorem isFFModule_actH_of_isFFInt {X : Subgroup G} (hXH : X ≤ H)
     (hAH : H ≤ Subgroup.normalizer (A : Set G)) (hBH : H ≤ Subgroup.normalizer (B : Set G))
     {hE : IsElemAbelian 2 (tildeOf A B)} (h : IsFFInt (tildeOf A X) (tildeOf A B) hE) :
@@ -56,6 +59,7 @@ theorem isFFModule_actH_of_isFFInt {X : Subgroup G} (hXH : X ≤ H)
   rw [autOn_tilde_eq_map_actH hAH hBH hXH]
   exact (Subgroup.map_le_range _ _).trans le_rfl
 
+omit [Finite G] in
 theorem isStrongFFModule_actH_of_isStrongFFInt {X : Subgroup G} (hXH : X ≤ H)
     (hAH : H ≤ Subgroup.normalizer (A : Set G)) (hBH : H ≤ Subgroup.normalizer (B : Set G))
     {hE : IsElemAbelian 2 (tildeOf A B)} (h : F9.IsStrongFFInt (tildeOf A X) (tildeOf A B) hE) :
@@ -90,6 +94,7 @@ theorem mem_secPreimage (A : Subgroup G)
   · intro h
     exact ⟨⟨g, hg⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem comm_comm_le_of_fix {hE : IsElemAbelian 2 (tildeOf A B)}
     (hAH : H ≤ Subgroup.normalizer (A : Set G))
     (hBH : H ≤ Subgroup.normalizer (B : Set G)) (hBA : B ≤ Subgroup.normalizer (A : Set G))
@@ -174,6 +179,7 @@ theorem comm_comm_le_of_fix {hE : IsElemAbelian 2 (tildeOf A B)}
   rw [e]
   exact (Subgroup.mem_normalizer_iff.1 haP _).1 h3
 
+omit [Finite G] in
 theorem comm_of_actH_eq_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
     (hBH : H ≤ Subgroup.normalizer (B : Set G)) (hBA : B ≤ Subgroup.normalizer (A : Set G))
     {x : G} (hx : x ∈ H) (h1 : actH hAH hBH ⟨x, hx⟩ = 1) (b : G) (hb : b ∈ B) :
@@ -195,6 +201,7 @@ theorem comm_of_actH_eq_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
   convert this using 1
   group
 
+omit [Finite G] in
 theorem exists_actH_ne_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
     (hBH : H ≤ Subgroup.normalizer (B : Set G)) (hBA : B ≤ Subgroup.normalizer (A : Set G))
     {K₀ : Subgroup G} (hK0H : K₀ ≤ H) (hnt : ¬ ⁅B, K₀⁆ ≤ A) :
@@ -210,6 +217,7 @@ theorem exists_actH_ne_one (hAH : H ≤ Subgroup.normalizer (A : Set G))
   rw [← commutatorElement_inv]
   exact A.inv_mem (by rw [commutatorElement_def]; exact this)
 
+omit [Finite G] in
 theorem sq_eq_one_of_isElemAbelian {X : Subgroup G} (hE : IsElemAbelian 2 X)
     (v : ↥X) : v ^ 2 = 1 := by
   apply Subtype.ext

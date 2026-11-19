@@ -40,6 +40,7 @@ section Step
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem commutator_self_eq_of_largeEvenStdSub {p : ℕ} {B L D J : Subgroup G} {x : G}
     (hDJ : LargeEvenStdSub p B x L D J) : ⁅J, J⁆ = J := by
   have hq : CFSG.Assembly.IsQuasisimple J := hDJ.1.2.2.2.2.2.1.2.2

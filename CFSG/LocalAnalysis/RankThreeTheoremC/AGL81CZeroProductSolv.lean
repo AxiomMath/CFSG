@@ -80,6 +80,7 @@ theorem pCore_quotient_pCore_eq_bot {X : Type} [Group X] [Finite X] (p : ℕ) [F
   have hx : x ∈ K := hy
   exact (QuotientGroup.eq_one_iff x).mpr (hle hx)
 
+omit [Finite Y] in
 theorem oUpperTwo_sup_eq {I N : Subgroup Y} (hN : N ≤ I) :
     oUpperTwo (oUpperTwo I ⊔ N) = oUpperTwo I := by
   apply le_antisymm
@@ -100,7 +101,7 @@ theorem commutator_oUpperTwo_le_pCoreOf (hSUC : SubnormalSUThreeTwoCommute)
     (hb₁ : pCoreOf 2 I₁ = pCoreOf 2 X ∧ IsSymThreeOrSUThreeTwo (↥I₁ ⧸ CFSG.pCore 2 ↥I₁))
     (hb₂ : pCoreOf 2 I₂ = pCoreOf 2 X ∧ IsSymThreeOrSUThreeTwo (↥I₂ ⧸ CFSG.pCore 2 ↥I₂))
     (hne : oUpperTwo I₁ ≠ oUpperTwo I₂) : ⁅oUpperTwo I₁, oUpperTwo I₂⁆ ≤ pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup ↥X := CFSG.pCore 2 ↥X with hNdef
   set π := QuotientGroup.mk' N with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective N

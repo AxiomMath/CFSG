@@ -116,7 +116,8 @@ theorem isPerfect_of_isL2_seven {Q : Type} [Group Q] {L : Subgroup Q} (hL : F6.I
     ⁅L, L⁆ = L :=
   pglb_isPerfect_of_isL2_seven hL
 
-theorem pglConfig_structure {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (hLn : L.Normal)
+omit [Finite W] in
+theorem pglConfig_structure {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (_hLn : L.Normal)
     (hidx : L.index = 2) {I : Subgroup (Multiplicative W)}
     (hI : ∀ l ∈ L, ∀ i ∈ I, repOf Y l i ∈ I) {g₀ : ↥Y} (hg₀ : g₀ ∉ L)
     (hdisj : Disjoint I (I.map (repOf Y g₀).toMonoidHom)) :
@@ -177,6 +178,7 @@ theorem pglConfig_structure {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (hLn : 
     rw [← hcomp, hiEq', hEq] at hmemI
     exact hmemI
 
+omit [Finite W] in
 theorem isNatCoord_of_isNaturalL3Two {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y}
     {I : Subgroup (Multiplicative W)} (hI : ∀ l ∈ L, ∀ i ∈ I, repOf Y l i ∈ I)
     (h : IsNaturalL3Two (repOf Y) L I) :
@@ -244,6 +246,7 @@ theorem isNatCoord_of_isNaturalL3Two {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y
     rw [hek]
     exact hcoord l ⟨Multiplicative.ofAdd u.1, _⟩ ⟨Multiplicative.ofAdd v.1, _⟩ hIeq
 
+omit [Finite W] in
 theorem map_invariant {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (hLn : L.Normal)
     {I : Subgroup (Multiplicative W)} (hI : ∀ l ∈ L, ∀ i ∈ I, repOf Y l i ∈ I) (g₀ : ↥Y) :
     ∀ l ∈ L, ∀ j ∈ I.map (repOf Y g₀).toMonoidHom,
@@ -253,6 +256,7 @@ theorem map_invariant {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (hLn : L.Norm
   refine ⟨repOf Y (g₀⁻¹ * l * g₀) i, hI _ hc i hi, ?_⟩
   simp [map_mul]
 
+omit [Finite W] in
 theorem isDualPair_of_isDualPairing {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y}
     {I J : Subgroup (Multiplicative W)} (hJ : ∀ l ∈ L, ∀ j ∈ J, repOf Y l j ∈ J)
     (h : IsDualPairing (repOf Y) L I J) :
@@ -278,6 +282,7 @@ theorem isDualPair_of_isDualPairing {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y}
     obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.1 hk
     exact h5 l hl _ hu _ hv
 
+omit [Finite W] in
 theorem pglConfig_of_conclusion {Y : Subgroup (LGL 2 W)} {L : Subgroup ↥Y} (hLn : L.Normal)
     (hidx : L.index = 2) {I : Subgroup (Multiplicative W)} (hI : IsIrr (repOf Y) L I)
     (hnat : IsNaturalL3Two (repOf Y) L I) {g₀ : ↥Y} (hg₀ : g₀ ∉ L)

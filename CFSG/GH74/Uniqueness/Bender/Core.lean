@@ -1237,7 +1237,7 @@ theorem BenderCore.isSolvable_borel [Finite K] {Q : Sylow 2 K}
   have hnormal : (P.subgroupOf (borel P)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPM).mpr le_rfl
   have hsolP : Group.IsSolvable ↥(P.subgroupOf (borel P)) := by
-    have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent Q.isPGroup'
+    have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent Q.isPGroup
     have : Group.IsSolvable ↥P := inferInstance
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hPM).toMonoidHom)
@@ -1421,7 +1421,7 @@ theorem BenderCore.sylow_eq_of_ne_bot [Finite K] {q i e : ℕ} {Q : Sylow 2 K} {
     (hc : BenderCore q i e (Q : Subgroup K) t) {Q₁ : Sylow 2 K} {V : Subgroup K} (hV : V ≠ ⊥)
     (hVQ : V ≤ (Q : Subgroup K)) (hVQ₁ : V ≤ (Q₁ : Subgroup K)) : Q₁ = Q := by
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq K Q Q₁
-  have hV2 : IsPGroup 2 V := IsPGroup.to_le Q.isPGroup' hVQ
+  have hV2 : IsPGroup 2 V := IsPGroup.to_le Q.isPGroup hVQ
   have hg : g⁻¹ ∈ borel (Q : Subgroup K) := by
     refine IsStronglyEmbedded.mem_of_conj_mem hc.strong (V := V) (hVQ.trans (le_borel _))
       (fun v hv => ?_) hV2 hV

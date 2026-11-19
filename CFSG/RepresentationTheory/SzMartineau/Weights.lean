@@ -399,7 +399,7 @@ theorem diag_isTwoPow_unique {a : ℕ} (ha : 2 ≤ a) (c : ℕ) {i j : Fin 4} (h
   all_goals
     have hci := diag_mod_eq ha hi
     have hcj := diag_mod_eq ha hj
-    simp only [Fin.reduceFinMk] at hci hcj
+    simp only at hci hcj
     first
       | exact (hij rfl).elim
       | omega

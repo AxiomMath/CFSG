@@ -19,8 +19,8 @@ private theorem mem_zpowers_of_orderOf_eq [Finite G] {Z : Subgroup G} (hZcyc : I
     w ∈ zpowers x := by
   classical
   let α := ↥Z
-  haveI : IsCyclic α := hZcyc
-  haveI : Fintype α := Fintype.ofFinite α
+  have : IsCyclic α := hZcyc
+  have : Fintype α := Fintype.ofFinite α
   let s : Set α := {a : α | a ^ 4 = 1}
   have hsle : s.toFinset.card ≤ 4 := by
     simpa [s] using IsCyclic.card_pow_eq_one_le (α := α) (n := 4) (by norm_num)
@@ -45,7 +45,6 @@ private theorem mem_zpowers_of_orderOf_eq [Finite G] {Z : Subgroup G} (hZcyc : I
     have hws : (⟨w, hw⟩ : α) ∈ s := by
       change (⟨w, hw⟩ : α) ^ 4 = 1
       rw [← orderOf_dvd_iff_pow_eq_one, Subgroup.orderOf_mk, hw4]
-      try exact dvd_rfl
     have hmem : (⟨w, hw⟩ : α) ∈ s.toFinset := Set.mem_toFinset.mpr hws
     rw [← heq] at hmem
     rwa [Set.mem_toFinset] at hmem
@@ -64,22 +63,22 @@ theorem sec76_isCyclic_inf [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Subgro
     hZ2.of_equiv (Subgroup.subgroupOfEquivOfLe hZC).symm
   obtain ⟨Q, hQ⟩ := hZsub2.exists_le_sylow
   have hQcyc : IsCyclic ↥(Q : Subgroup ↥C) := by
-    haveI : IsCyclic ↥((Q : Subgroup ↥C).map C.subtype) :=
+    have : IsCyclic ↥((Q : Subgroup ↥C).map C.subtype) :=
       h72 G t L hctx.toSec3SettingLB hctx.omega6 _ (isSylow2Of_map_sylow Q)
     exact isCyclic_of_injective
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥C) C.subtype C.subtype_injective).toMonoidHom
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥C) C.subtype C.subtype_injective).injective
-  haveI : IsCyclic ↥(Q : Subgroup ↥C) := hQcyc
+  have : IsCyclic ↥(Q : Subgroup ↥C) := hQcyc
   have hZsubcyc : IsCyclic ↥(Z.subgroupOf C) := Subgroup.isCyclic_of_le hQ
-  haveI : IsCyclic ↥(Z.subgroupOf C) := hZsubcyc
+  have : IsCyclic ↥(Z.subgroupOf C) := hZsubcyc
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hZC).toMonoidHom
     (Subgroup.subgroupOfEquivOfLe hZC).surjective
 
 theorem sec76_comm_inf [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Subgroup G} {z : G}
     (hctx : Sec7Ctx G t L S z) {a b : G} (ha : a ∈ S ⊓ centralizer (L : Set G))
     (hb : b ∈ S ⊓ centralizer (L : Set G)) : a * b = b * a := by
-  haveI : IsCyclic ↥(S ⊓ centralizer (L : Set G)) := sec76_isCyclic_inf h72 hctx
-  haveI : IsMulCommutative ↥(S ⊓ centralizer (L : Set G)) := inferInstance
+  have : IsCyclic ↥(S ⊓ centralizer (L : Set G)) := sec76_isCyclic_inf h72 hctx
+  have : IsMulCommutative ↥(S ⊓ centralizer (L : Set G)) := inferInstance
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(S ⊓ centralizer (L : Set G))) ⟨b, hb⟩)
 
 theorem sec76_sq_eq_t [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Subgroup G} {z : G}
@@ -122,7 +121,7 @@ theorem sec76_conj_mem_zpowers [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma
   have hwZ : y⁻¹ * x * y ∈ Z :=
     ⟨S.mul_mem (S.mul_mem (S.inv_mem hy) hx.1) hy, hwC⟩
   have hw4 : orderOf (y⁻¹ * x * y) = 4 := by
-    have h1 : y⁻¹ * x * y = (MulAut.conj y⁻¹) x := by simp [MulAut.conj_apply]
+    have h1 : y⁻¹ * x * y = (MulAut.conj y⁻¹) x := by simp
     rw [h1, MulEquiv.orderOf_eq, hx4]
   exact mem_zpowers_of_orderOf_eq (sec76_isCyclic_inf h72 hctx) hxZ hwZ hx4 hw4
 
@@ -130,7 +129,7 @@ theorem sec76_le_zpowers_t [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Subgro
     (hctx : Sec7Ctx G t L S z) (h4 : ∀ x ∈ S ⊓ centralizer (L : Set G), orderOf x ≠ 4) :
     S ⊓ centralizer (L : Set G) ≤ zpowers t := by
   intro y hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup G := S ⊓ centralizer (L : Set G)
   have hyZ : y ∈ Z := hy
   have hZ2 : IsPGroup 2 Z := hctx.sylow.2.1.to_le inf_le_left
@@ -165,7 +164,7 @@ theorem sec76_le_zpowers_t [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Subgro
 theorem sec76_sylow_cent_tz [Finite G] {t : G} {L S : Subgroup G} {z : G}
     (hctx : Sec7Ctx G t L S z) {g : G} (hg : g⁻¹ * t * g = t * z) :
     IsSylow2Of S (centralizer ({t * z} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : S ≤ centralizer ({t * z} : Set G) := by
     intro s hs
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -207,7 +206,7 @@ theorem sq_mem_of_relIndex_le_two [Finite G] {C R : Subgroup G} (h : C.relIndex 
     have hyK : (⟨y, hy⟩ : ↥R) ∈ K := by rw [htop]; exact Subgroup.mem_top _
     have hyC : y ∈ C := Subgroup.mem_subgroupOf.mp hyK
     exact C.mul_mem hyC hyC
-  · haveI : K.Normal := Subgroup.normal_of_index_eq_two h2
+  · have : K.Normal := Subgroup.normal_of_index_eq_two h2
     have hpow : (⟨y, hy⟩ : ↥R) ^ 2 ∈ K := by
       have hpi := K.pow_index_mem (⟨y, hy⟩ : ↥R)
       rwa [h2] at hpi

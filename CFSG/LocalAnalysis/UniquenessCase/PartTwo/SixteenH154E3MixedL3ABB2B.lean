@@ -101,9 +101,9 @@ end Abstract
 section Setting
 
 theorem s16h_e3_l3_two_outside_swap_rank
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
-    (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t
       (lBar ⊥ V h.hyp151.isElemAbelian L))
     {τ : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}

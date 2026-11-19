@@ -120,6 +120,7 @@ private theorem perm3_inv (σ : Equiv.Perm (Fin 3)) (h : σ ^ 3 = 1) :
   revert σ
   decide
 
+omit [Finite G] in
 private theorem exists_inv_mod {I : Subgroup G}
     (hS3 : Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* Equiv.Perm (Fin 3))) :
     ∃ s ∈ I, ∀ a ∈ oUpperTwo I, s * a * s⁻¹ * a ∈ pCoreOf 2 I := by
@@ -193,6 +194,7 @@ private theorem commutator_map_conj_le {M H L I₀ : Subgroup G} (hL : IsTwoPrim
         (fun x hx => localGroup_le_normalizer_pCoreOf 2 M hx.2) le_normalizer
     exact (le_inf h1 h2).trans h3
 
+omit [Finite G] in
 private theorem commutator_map_conj_conj_le {H M I₀ : Subgroup G}
     (hA : ∀ g ∈ H ⊓ M, oUpperTwo I₀ ≠ (oUpperTwo I₀).map (MulAut.conj g).toMonoidHom →
       ⁅I₀, I₀.map (MulAut.conj g).toMonoidHom⁆ ≤ pCoreOf 2 (H ⊓ M)) :

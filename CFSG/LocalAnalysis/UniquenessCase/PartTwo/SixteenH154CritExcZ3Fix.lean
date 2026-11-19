@@ -101,7 +101,7 @@ theorem s16h_fix_card_of_prime_Z3 {W : Type} [CommGroup W] [Finite W] (hcard : N
     intro h64F
     have htop : F = ⊤ := by
       refine Subgroup.eq_of_le_of_card_ge le_top ?_
-      simpa [Subgroup.card_top, hcard, h64F]
+      simp [hcard, h64F]
     have hρone : ρ = 1 := by
       ext w
       have hw : w ∈ F := by

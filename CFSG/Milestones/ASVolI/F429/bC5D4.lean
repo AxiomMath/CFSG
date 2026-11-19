@@ -177,6 +177,7 @@ theorem burnsideF429b_D4_fix_k (hσ3 : σ ^ 3 = 1) [CharP K 2] (δ : K ≃+* K)
       CFSG.Quasithin.H13.Sec53F.TriD4.entry_torusElt] at h1
     exact congrArg Units.val (burnsideF429b_torusElt_injective _ h1)
 
+omit [Finite K] in
 theorem burnsideF429b_D4_card_fixed {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ f)) :
     Nat.card ↥(trialityFixedField K σ.toRingHom) = 2 ^ f := by
@@ -193,8 +194,8 @@ theorem burnsideF429b_D4_card_fixed {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 
 theorem burnsideF429b_D4_finrank {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ f)) :
     Module.finrank (trialityFixedField K σ.toRingHom) K = 3 := by
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite ↥(trialityFixedField K σ.toRingHom)
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite ↥(trialityFixedField K σ.toRingHom)
   have h := Module.card_eq_pow_finrank (K := ↥(trialityFixedField K σ.toRingHom)) (V := K)
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
     burnsideF429b_D4_card_fixed σ hf hK hσq] at h
@@ -239,7 +240,7 @@ theorem burnsideF429b_key1_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₁) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   have hσ3' : σ ^ 3 = 1 := RingEquiv.ext fun c => (ringEquiv_pow_three_apply σ c).trans (hσ3 c)
@@ -268,7 +269,7 @@ theorem burnsideF429b_key2_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₂) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   have hσ3' : σ ^ 3 = 1 := RingEquiv.ext fun c => (ringEquiv_pow_three_apply σ c).trans (hσ3 c)

@@ -35,13 +35,13 @@ theorem lamHom_zconj
 theorem parFun_of_mem {x : G} (hx : x ∈ c.N1) : c.parFun π x = c.lamHom π ⟨x, hx⟩ := by
   classical
   unfold parFun
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 theorem parFun_of_not_mem {x : G} (hx : x ∉ c.N1) (hxz : x * z ∈ c.N1) :
     c.parFun π x = -(c.lamHom π ⟨x * z, hxz⟩) := by
   classical
   unfold parFun
-  rw [dif_neg hx, dif_pos hxz]
+  rw [dite_eq_right hx, dite_eq_left hxz]
 
 variable {c}
 
@@ -63,7 +63,7 @@ theorem z_inv : z⁻¹ = z := inv_eq_of_mul_eq_one_right c.h.z_sq
 theorem zconj_eq_mul (n : ↥c.N1) : ((c.zconjN1 n : ↥c.N1) : G) = z * (n : G) * z := by
   rw [zconjN1_coe, c.z_inv]
 
-theorem parFun_mul_case2 {Rs : Subgroup G} (hR : c.IsRs Rs) {x y : G} (hx : x ∈ Rs)
+theorem parFun_mul_case2 {Rs : Subgroup G} (hR : c.IsRs Rs) {x y : G} (_hx : x ∈ Rs)
     (hy : y ∈ Rs) (hxN : x ∈ c.N1) (hyN : y ∉ c.N1) :
     c.parFun π (x * y) = c.parFun π x * c.parFun π y := by
   have hyz : y * z ∈ c.N1 := hR.not_mem_N1_mul_z hy hyN

@@ -199,7 +199,7 @@ theorem card_ker_eq_one_or_three [Finite K] (hperf : E₀ ≤ ⁅E₀, stabIn X 
   have hZS : π.ker ≤ S := hZ3.le_sylow_of_normal S
   have hS9 : Nat.card ((S : Subgroup K).map π) ∣ 3 ^ 2 := by
     have := finite_map_of_finite π (S : Subgroup K)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup'.map π)
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup.map π)
     have hd := card_dvd_of_le (h.range_eq ▸ map_le_range π _ : (S : Subgroup K).map π ≤ X)
     rw [hk] at hd ⊢
     refine pow_dvd_pow 3 ?_

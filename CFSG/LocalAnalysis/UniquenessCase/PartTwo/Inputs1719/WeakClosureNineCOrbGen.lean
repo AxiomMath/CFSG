@@ -151,7 +151,7 @@ theorem not_dvd_relIndex_iSup {q : ℕ} (hq : q.Prime) {P : ι → Subgroup G}
   intro hd
   have h3 := hd.trans (index_dvd_of_le le_sup_left)
   rw [index_pi_dep] at h3
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hq.prime _).1 h3
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hq.prime _).1 h3
   exact h i hi
 
 omit [DecidableEq ι] in

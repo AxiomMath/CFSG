@@ -34,7 +34,7 @@ theorem rb5_rel {H : Type*} [Group H] (g : Fin 6 → H)
     ∀ r ∈ {r : FreeGroup (Fin S5.length) | r ∈ RB5.map FreeGroup.mk},
       FreeGroup.lift (fun j => g (S5.get j)) r = 1 := by
   intro r hr
-  simp only [Set.mem_setOf_eq, List.mem_map, restrictWords, List.mem_filterMap] at hr
+  simp only [Set.mem_ofPred_eq, List.mem_map, restrictWords, List.mem_filterMap] at hr
   obtain ⟨w', ⟨w, hw, hren⟩, rfl⟩ := hr
   rw [lift_renumber S5 g hren]
   exact hg w hw

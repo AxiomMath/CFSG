@@ -99,7 +99,7 @@ theorem m11_not_two_dvd_card (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : The
       rwa [Subgroup.orderOf_mk] at h3
     exact (glbPrimeCore_coprime 3 M).coprime_dvd_right (h1.trans h2)
   have hEbot : E = ⊥ :=
-    l44_eq_bot hdec hDS Sbar.isPGroup' hΓ hNΓ hC' hmax' hEΓ hEn hE3
+    l44_eq_bot hdec hDS Sbar.isPGroup hΓ hNΓ hC' hmax' hEΓ hEn hE3
   intro hdvd
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
   have hcC : (c : G) ∈ C := c.2.2

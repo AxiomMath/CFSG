@@ -13,7 +13,7 @@ open CFSG.ComponentClassification
 
 theorem res3NoDatumL3Odd_holds : Res3NoDatumL3Odd := by
   intro J _ _ _ hq p e _ hp5 he hiso c g V U hd
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   let Φ : MulAut J →* MulAut (J ⧸ Subgroup.center J) :=
     PerfectAutomorphisms.centerQuotientHom J
   have hΦ : Function.Injective Φ := PerfectAutomorphisms.centerQuotientHom_injective J

@@ -28,9 +28,9 @@ theorem twinDiscPerpSPAll_of_disc15
     (h15 : ∀ n, CIT3Below n → CFSG.ClassicalInvolution.Q3.TL4.TightBelowRPlus 3 n →
       TwinDisc.Disc15 n) :
     ∀ n, TwinCoreDiscPerpSP n := by
-  haveI : TwinThmEW.PrintedQuotOdd := TwinThmEW.printedQuotOdd_proved
-  haveI : TwinThmEW.PrintedQuotCent := TwinThmEW.printedQuotCent_proved
-  haveI : TwinThmEW.PrintedHull := TwinThmEW.printedHull_proved
+  have : TwinThmEW.PrintedQuotOdd := TwinThmEW.printedQuotOdd_proved
+  have : TwinThmEW.PrintedQuotCent := TwinThmEW.printedQuotCent_proved
+  have : TwinThmEW.PrintedHull := TwinThmEW.printedHull_proved
   have hWF : TwinThmEW.WFreeToAll := TwinThmEW.wFreeToAll_proved
   have hEQ : TwinThmEW.ThmEQ8 := TwinThmEW.thmEQ8_of_dLeafEnd hLEnd
   intro n hA hP Y _ _ R S t h hD hPerp

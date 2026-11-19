@@ -59,11 +59,11 @@ noncomputable abbrev yamadaBarN₂ (d : G2Data L K) (t : G) : Subgroup (BarM (ya
 
 theorem yamadaT₁_eq (d : G2Data L K) {t : G} (ht : t ∈ normalizer (yamadaD₇ d t : Set G)) :
     yamadaT₁ d t = barMap (yamadaD₇ d t) ⟨t, ht⟩ :=
-  dif_pos ht
+  dite_eq_left ht
 
 theorem yamadaT₂_eq (d : G2Data L K) {t : G} (ht : t ∈ normalizer (yamadaM₆ d t : Set G)) :
     yamadaT₂ d t = barMap (yamadaM₆ d t) ⟨t, ht⟩ :=
-  dif_pos ht
+  dite_eq_left ht
 
 theorem yamadaK₁_le_yamadaN₁ (d : G2Data L K) (t : G) : yamadaK₁ d ≤ yamadaN₁ d t :=
   le_sup_left.trans

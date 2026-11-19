@@ -33,7 +33,7 @@ theorem ThreeNat.exists_fano_rep (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet 
           Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec u = v := by
   classical
   obtain ⟨third, ptAct, hmap, h1, h2, h3, heq⟩ := s16t3_exists_fano_structure h h7
-  haveI : Fintype ↥(irrSet L) := Fintype.ofFinite _
+  have : Fintype ↥(irrSet L) := Fintype.ofFinite _
   have hcard : Fintype.card ↥(irrSet L) = 7 := by
     rw [← Nat.card_eq_fintype_card]
     exact h7

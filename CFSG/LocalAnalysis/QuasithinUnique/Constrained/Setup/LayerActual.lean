@@ -34,7 +34,7 @@ theorem exists_conjSub_le_sylowTwo [Finite X] {P K E : Subgroup X} (hP : IsSylow
   obtain ⟨Q, hQ⟩ := hE'.exists_le_sylow
   have hplus : IsSylowTwoOf ((Q : Subgroup ↥K).map K.subtype) K := by
     refine ⟨Subgroup.map_subtype_le _, ?_, ?_⟩
-    · exact Q.isPGroup'.map K.subtype
+    · exact Q.isPGroup.map K.subtype
     · have e : ((Q : Subgroup ↥K).map K.subtype).subgroupOf K = (Q : Subgroup ↥K) :=
         Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
       rw [e]

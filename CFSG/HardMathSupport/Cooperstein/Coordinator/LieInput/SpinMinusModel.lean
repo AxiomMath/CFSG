@@ -105,12 +105,15 @@ variable
   (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
   (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
 
+omit [Finite F] in
 theorem charP_shortField : CharP (ShortField b c) 2 :=
   charP_of_injective_algebraMap (algebraMap F (ShortField b c)).injective 2
 
+omit [Finite F] [CharP F 2] in
 theorem card_shortField : Nat.card (ShortField b c) = Nat.card F ^ 2 := by
   rw [Nat.card_congr (QuadraticAlgebra.equivProd (-c) b), Nat.card_prod, sq]
 
+omit [CharP F 2] in
 theorem four_le_card_shortField : 4 ≤ Nat.card (ShortField b c) := by
   rw [card_shortField]
   have : 2 ≤ Nat.card F := by
@@ -153,7 +156,7 @@ noncomputable def shortEquiv (i : Fin (n - 1)) (hi : ¬ i.val + 1 < n - 1) :
     (Or.inr ⟨rfl, four_le_card_shortField⟩)).1
   have hinj : Function.Injective Θ := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI : Θ.ker.Normal := MonoidHom.normal_ker Θ
+    have : Θ.ker.Normal := MonoidHom.normal_ker Θ
     rcases le_center_or_eq_top_of_isQuasisimple hquasi Θ.ker with hz | htop
     · rw [eq_bot_iff]
       intro g hg
@@ -208,11 +211,11 @@ theorem chev_spinMinus_three :
       IsClassicalTwoOrG2 (spinGroup (quadMinus 3 F b c) ⧸
         Subgroup.center (spinGroup (quadMinus 3 F b c))) := by
   obtain ⟨f, hf1, hfcard⟩ := CFSG.AGLEmbedding.ParabHub.exists_card_eq_two_pow F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   have hKcard : Nat.card K = (2 ^ f) ^ 2 := by
     rw [GaloisField.card _ _ (by omega), ← pow_mul, mul_comm]
-  haveI : CharP K 2 := inferInstance
+  have : CharP K 2 := inferInstance
   obtain ⟨_, e, -⟩ := CFSG.RankThree.PartOne.CTP.SU4Even.exists_equiv_su_four_even
     (F := F) (K := K) hfcard hKcard hirr
   have hnq : ((4 : ℕ), 2 ^ f) ≠ (3, 2) := fun h => by

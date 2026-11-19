@@ -31,6 +31,7 @@ theorem t11_cent_le_norm (hp : Asc82Pre11) (hctx : Sec10Ctx G t L S z K1 K2) :
 theorem t11_le_cent (hctx : Sec10Ctx G t L S z K1 K2) : L ≤ centralizer ({t} : Set G) :=
   hctx.component.le
 
+omit [Finite G] in
 private theorem t11_isPGroup_zpowers {a : G} (ha : a * a = 1) : IsPGroup 2 (zpowers a) := by
   have hdvd : orderOf a ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact ha)
   rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h1 | h1
@@ -40,7 +41,7 @@ private theorem t11_isPGroup_zpowers {a : G} (ha : a * a = 1) : IsPGroup 2 (zpow
 theorem t11_invol_eq (hp : Asc82Pre11) (hctx : Sec10Ctx G t L S z K1 K2) {e : G}
     (heL : e ∈ centralizer (L : Set G)) (het : e * t = t * e) (he2 : e * e = 1) (he1 : e ≠ 1) :
     e = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have heC : e ∈ centralizer ({t} : Set G) := Subgroup.mem_centralizer_singleton_iff.mpr het
   obtain ⟨c, hc, hcS⟩ := exists_conj_le_of_isSylow2Of hctx.sylow (t11_isPGroup_zpowers he2)
     (Subgroup.zpowers_le.mpr heC)

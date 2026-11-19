@@ -71,7 +71,7 @@ theorem uc22s2114r3f_exists_fixed_lift {L B : Subgroup G} (hBL : B ≤ normalize
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow p ↥Y))
   have hS : ((P.mapSurjective hg : Sylow p ↥X) : Subgroup ↥X) = ⊤ :=
     (P.mapSurjective hg).maximal_isPGroup.eq_of_le (hX.to_subgroup ⊤) le_top
-  refine ⟨(P : Subgroup ↥Y).map Y.subtype, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup ↥Y).map Y.subtype, P.isPGroup.map _, ?_, ?_⟩
   · apply le_antisymm
     · rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
       exact hfY y
@@ -99,7 +99,7 @@ theorem uc22s2114r3f_two_le_pRank_centralizer {L B : Subgroup G}
     intro hc
     apply hXc
     rw [← hQX]
-    haveI : IsCyclic ↥Q := isCyclic_of_surjective
+    have : IsCyclic ↥Q := isCyclic_of_surjective
       (Q.equivMapOfInjective L.subtype L.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)
     exact isCyclic_of_surjective ((QuotientGroup.mk' _).subgroupMap Q)
@@ -205,7 +205,7 @@ theorem uc22s2114r3f_exists_lift {L : Subgroup G} {b : G} (hb : b ∈ normalizer
     rw [← h]
     exact (Subgroup.mem_smul_pointwise_iff_exists _ _ _).2 ⟨x, hx, rfl⟩
   have hdisj : Disjoint (P : Subgroup ↥E) f.ker := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     refine Subgroup.disjoint_of_coprime_natCard ?_
     rw [hk]
     exact Nat.Coprime.pow_left k
@@ -274,7 +274,7 @@ theorem uc22s2114r3f_not_dvd_card_solvableRadical (hGA : GriessAllModelsStatemen
     {M L : Subgroup G} (hL : L ∈ calC M) {m f : ℕ} (hm : m = 6 ∨ m = 7)
     (hX : LieModel (BarInf L) .PSU m 2 f) {r : ℕ} (hr : r.Prime) (hr7 : 7 ≤ r) :
     ¬ r ∣ Nat.card (CFSG.solvableRadical ↥L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [uc22s2114r3f_card_solvableRadical hL]
   intro h
   rcases (Nat.Prime.dvd_mul hr).1 h with h2 | hZ
@@ -326,7 +326,7 @@ theorem uc22s2114r3f_two_lt_card_of_fpf (hK : UCK.K47) {Mg : Type} [Group Mg] [F
           commutatorElement_def]
       rw [hg]
       exact Subgroup.commutator_mem_commutator (mem_zpowers b) ⟨c, rfl⟩
-  haveI hcyc : IsCyclic ↥Q := UC6.k47_transport_two_uc6 hK hMg Q₀ hQ₀ hchar hq hr hq2 hr2 hqr
+  have hcyc : IsCyclic ↥Q := UC6.k47_transport_two_uc6 hK hMg Q₀ hQ₀ hchar hq hr hq2 hr2 hqr
     (zpowers b) (by rw [Nat.card_zpowers, hbr]) hfix Q hQp hQab hDQ hcomm
   exact hAc (isCyclic_of_surjective (MonoidHom.ofInjective hψ).symm.toMonoidHom
     (MulEquiv.surjective _))

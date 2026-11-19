@@ -200,7 +200,7 @@ theorem FTS_beta_or_derived_line_centralizer_unique
         FTS_beta_prime_derived_complement h₁ h₆ G hG M hM p hp hpodd hpβM
       have hKle : _root_.CFSG.FeitThompson.Prep06.pComplCoreIn p (sigmaCore M) ≤ sigmaCore M :=
         Subgroup.map_subtype_le _
-      letI := hKnorm
+      let := hKnorm
       have hKcard' :
           ¬ p ∣ Nat.card ↥((_root_.CFSG.FeitThompson.Prep06.pComplCoreIn p
             (sigmaCore M)).subgroupOf (sigmaCore M)) := by

@@ -78,7 +78,7 @@ theorem rk2_markedModel_of_isLabel {K : Type} [Group K] {lab : GLALabel}
     exact h.2.1
   have hraw' := CFSG.StandardType.Canonical.largeEvenRawDatum_markedModel hlab' hna hraw
   obtain ⟨R, hgroup, I, F, hQ⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw'
-  letI : Group R := hgroup
+  let : Group R := hgroup
   obtain ⟨⟨hsimple, -, θ, hlab'⟩, hM⟩ := hQ
   subst lab'
   exact ⟨hlab', R, hgroup, hsimple, ⟨θ⟩, hM⟩
@@ -94,7 +94,7 @@ private theorem prime_not_dvd_four {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) : ¬
 theorem rkLin_four_true_eq_rkOmPlus_three (n r z : ℕ) (hr : r.Prime) (hr2 : r ≠ 2) :
     rkLin 4 true (2 ^ n) r z = rkOmPlus 3 (2 ^ n) r := by
   unfold rkLin rkOmPlus eP eS
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h2 : (2 : ZMod r) ≠ 0 := by
     intro hc
     have h' : ((2 : ℕ) : ZMod r) = 0 := by exact_mod_cast hc
@@ -133,14 +133,14 @@ theorem rkLin_four_true_eq_rkOmPlus_three (n r z : ℕ) (hr : r.Prime) (hr2 : r 
     have hnotdvd' : ¬ (ep ∣ 2 * 3 ∧ ¬ ep ∣ 3) := by
       rintro ⟨hd, -⟩
       exact hnotdvd hd
-    simp only [if_true]
-    rw [if_neg hne1, if_neg hnotdvd',
+    simp only [ite_true]
+    rw [ite_eq_right hne1, ite_eq_right hnotdvd',
       Nat.div_eq_of_lt (by omega : 4 < ep), Nat.div_eq_of_lt hE]
 
 theorem rkLin_two_true_eq_rkOmMinus_two (n r z : ℕ) (hr : r.Prime) (hr2 : r ≠ 2) :
     rkLin 2 true (2 ^ (2 * n)) r z = rkOmMinus 2 (2 ^ n) r := by
   unfold rkLin rkOmMinus eP eS
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h2 : (2 : ZMod r) ≠ 0 := by
     intro hc
     have h' : ((2 : ℕ) : ZMod r) = 0 := by exact_mod_cast hc
@@ -167,8 +167,8 @@ theorem rkLin_two_true_eq_rkOmMinus_two (n r z : ℕ) (hr : r.Prime) (hr2 : r �
         (Nat.div_eq_iff_eq_mul_left hgpos (Nat.gcd_dvd_left ep 2)).mp h
       rw [heq]
       simpa using Nat.gcd_dvd_right ep 2
-    simp only [if_true]
-    rw [if_pos h, if_pos hep_dvd_two, h]
+    simp only [ite_true]
+    rw [ite_eq_left h, ite_eq_left hep_dvd_two, h]
     norm_num
   · have hnot : ¬ ep ∣ 2 := by
       intro hd
@@ -181,8 +181,8 @@ theorem rkLin_two_true_eq_rkOmMinus_two (n r z : ℕ) (hr : r.Prime) (hr2 : r �
         norm_num at h
       · rw [h1] at h
         norm_num at h
-    simp only [if_true]
-    rw [if_neg h, if_neg hnot, Nat.sub_zero]
+    simp only [ite_true]
+    rw [ite_eq_right h, ite_eq_right hnot, Nat.sub_zero]
 
 
 private theorem two_pow_eq_two_iff {n : ℕ} : 2 ^ n = 2 ↔ n = 1 := by
@@ -230,7 +230,7 @@ theorem rk2_index_A {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   simp only [CFSG.Assembly.LargeEvenInLambda2, htag] at hlab
   obtain ⟨hn1, hr1, hr1n⟩ := hlab
   have ht : CFSG.StandardType.markTag lab = .PSL := by
@@ -245,7 +245,7 @@ theorem rk2_index_A {K : Type} [Group K] [Finite K] {lab : GLALabel}
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hr, hc, hd] at hM'
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by omega⟩
   have hv : (TauCeti.LieTypeIndex.A lab.rank q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -283,7 +283,7 @@ theorem rk2_index_BC {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have ht : CFSG.StandardType.markTag lab = .PSp := by
     rcases htag with hB | hC
     · simp [CFSG.StandardType.markTag, hB]
@@ -304,7 +304,7 @@ theorem rk2_index_BC {K : Type} [Group K] [Finite K] {lab : GLALabel}
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hr, hc, hd] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by have := hadm.2.1; omega⟩
   have hv : (TauCeti.LieTypeIndex.B lab.rank q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -345,8 +345,8 @@ theorem rk2_index_BC {K : Type} [Group K] [Finite K] {lab : GLALabel}
       exact hres
   refine ⟨d, ?_, hmain, ?_⟩
   · rcases htag with hB | hC
-    · simp [CFSG.AGLEmbedding.IsClassicalOrG2Index, d, q, hB]
-    · simp [CFSG.AGLEmbedding.IsClassicalOrG2Index, d, q, hC]
+    · simp [CFSG.AGLEmbedding.IsClassicalOrG2Index, d, q]
+    · simp [CFSG.AGLEmbedding.IsClassicalOrG2Index, d, q]
   · intro r z hr hr2
     rcases htag with hB | hC
     · simp [mRankChev, rk2Chev, d, q, hB, TauCeti.PrimePower.card_def]
@@ -359,7 +359,7 @@ theorem rk2_index_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have ht : CFSG.StandardType.markTag lab = .PSU := by
     simp [CFSG.StandardType.markTag, htag]
   have hr : CFSG.StandardType.markRank lab = lab.rank + 1 := by
@@ -372,7 +372,7 @@ theorem rk2_index_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hr, hc, hd] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, lab.n, hadm.1, by have := hadm.2.1; omega⟩
   have hv : (TauCeti.LieTypeIndex.twistedA lab.rank q).Valid := by
     have h := CFSG.ClassicalModels.unitaryCatalog_index_valid (lab.rank + 1) 2 lab.n hadm
@@ -426,7 +426,7 @@ theorem rk2_index_D {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   simp only [CFSG.Assembly.LargeEvenInLambda2, htag] at hlab
   by_cases hr3 : lab.rank = 3
   · have ht : CFSG.StandardType.markTag lab = .PSL := by
@@ -441,7 +441,7 @@ theorem rk2_index_D {K : Type} [Group K] [Finite K] {lab : GLALabel}
     unfold CFSG.StandardType.MarkedModel at hM'
     rw [ht, hr, hc, hd] at hM'
     obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by omega⟩
     have hv : (TauCeti.LieTypeIndex.A 3 q).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -468,9 +468,9 @@ theorem rk2_index_D {K : Type} [Group K] [Finite K] {lab : GLALabel}
       have := hlab
       omega
     have ht : CFSG.StandardType.markTag lab = .POmegaPlus := by
-      simp [CFSG.StandardType.markTag, htag, if_neg hr3]
+      simp [CFSG.StandardType.markTag, htag, ite_eq_right hr3]
     have hr : CFSG.StandardType.markRank lab = lab.rank := by
-      simp [CFSG.StandardType.markRank, htag, if_neg hr3]
+      simp [CFSG.StandardType.markRank, htag, ite_eq_right hr3]
     have hc : CFSG.StandardType.markChar lab = 2 := by
       simp [CFSG.StandardType.markChar, htag]
     have hd : CFSG.StandardType.markDeg lab = lab.n := by
@@ -479,7 +479,7 @@ theorem rk2_index_D {K : Type} [Group K] [Finite K] {lab : GLALabel}
     unfold CFSG.StandardType.MarkedModel at hM'
     rw [ht, hr, hc, hd] at hM'
     obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by omega⟩
     have hv : (TauCeti.LieTypeIndex.D lab.rank q).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -506,7 +506,7 @@ theorem rk2_index_D {K : Type} [Group K] [Finite K] {lab : GLALabel}
     · intro r z hrp hr2
       have hd1 : (d : TauCeti.ValidLieTypeIndex).1 = .D lab.rank q := rfl
       rw [hd1]
-      simp [mRankChev, rk2Chev, htag, hr3, q, TauCeti.PrimePower.card_def]
+      simp [mRankChev, rk2Chev, htag, q, TauCeti.PrimePower.card_def]
 
 
 theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
@@ -515,7 +515,7 @@ theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   simp only [CFSG.Assembly.LargeEvenInLambda2, htag] at hlab
   by_cases hr2 : lab.rank = 2
   · have ht : CFSG.StandardType.markTag lab = .PSL := by
@@ -530,7 +530,7 @@ theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
     unfold CFSG.StandardType.MarkedModel at hM'
     rw [ht, hr, hc, hd] at hM'
     obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q : TauCeti.PrimePower := ⟨2, 2 * lab.n, Nat.prime_two, by omega⟩
     have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -560,22 +560,22 @@ theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
       exact rkLin_two_true_eq_rkOmMinus_two lab.n r z hrp hr2'
   · by_cases hr3 : lab.rank = 3
     · have ht : CFSG.StandardType.markTag lab = .PSU := by
-        simp [CFSG.StandardType.markTag, htag, if_neg hr2, hr3]
+        simp [CFSG.StandardType.markTag, htag, hr3]
       have hr : CFSG.StandardType.markRank lab = 4 := by
-        simp [CFSG.StandardType.markRank, htag, if_neg hr2, hr3]
+        simp [CFSG.StandardType.markRank, htag, hr3]
       have hc : CFSG.StandardType.markChar lab = 2 := by
         simp [CFSG.StandardType.markChar, htag]
       have hd : CFSG.StandardType.markDeg lab = lab.n := by
-        simp [CFSG.StandardType.markDeg, htag, if_neg hr2]
+        simp [CFSG.StandardType.markDeg, htag, ite_eq_right hr2]
       have hM' := hM
       unfold CFSG.StandardType.MarkedModel at hM'
       rw [ht, hr, hc, hd] at hM'
       obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       let q : TauCeti.PrimePower := ⟨2, lab.n, hadm.1, by have := hadm.2.1; omega⟩
       have hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid := by
         have h := CFSG.ClassicalModels.unitaryCatalog_index_valid 4 2 lab.n hadm
-        simpa [q] using h
+        simp [q]
       let d : TauCeti.ValidLieTypeIndex := ⟨.twistedA 3 q, hv⟩
       have hc2 : TauCeti.ValidLieTypeIndex.characteristic d = 2 := by
         change (TauCeti.LieTypeIndex.twistedA 3 q).characteristic = 2
@@ -613,22 +613,22 @@ theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
       · intro r z hrp hr2'
         have hd1 : (d : TauCeti.ValidLieTypeIndex).1 = .twistedA 3 q := rfl
         rw [hd1]
-        simp [mRankChev, rk2Chev, htag, hr2, hr3, q, TauCeti.PrimePower.card_def]
+        simp [mRankChev, rk2Chev, htag, hr3, q, TauCeti.PrimePower.card_def]
     · have hr4 : 4 ≤ lab.rank := by omega
       have ht : CFSG.StandardType.markTag lab = .POmegaMinus := by
-        simp [CFSG.StandardType.markTag, htag, if_neg hr2, if_neg hr3]
+        simp [CFSG.StandardType.markTag, htag, ite_eq_right hr2, ite_eq_right hr3]
       have hr : CFSG.StandardType.markRank lab = lab.rank := by
-        simp [CFSG.StandardType.markRank, htag, if_neg hr2, if_neg hr3]
+        simp [CFSG.StandardType.markRank, htag, ite_eq_right hr2, ite_eq_right hr3]
       have hc : CFSG.StandardType.markChar lab = 2 := by
         simp [CFSG.StandardType.markChar, htag]
       have hd : CFSG.StandardType.markDeg lab = lab.n := by
-        simp [CFSG.StandardType.markDeg, htag, if_neg hr2]
+        simp [CFSG.StandardType.markDeg, htag, ite_eq_right hr2]
       have hM' := hM
       unfold CFSG.StandardType.MarkedModel at hM'
       rw [ht, hr, hc, hd] at hM'
       obtain ⟨hadm, F, hfield, hfinite, hcard, b, c, hirr, ⟨e⟩⟩ :=
         hM'.statedClassicalModel (by decide)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by omega⟩
       have hv : (TauCeti.LieTypeIndex.twistedD lab.rank q).Valid := by
         rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -659,14 +659,14 @@ theorem rk2_index_twD {K : Type} [Group K] [Finite K] {lab : GLALabel}
       · intro r z hrp hr2'
         have hd1 : (d : TauCeti.ValidLieTypeIndex).1 = .twistedD lab.rank q := rfl
         rw [hd1]
-        simp [mRankChev, rk2Chev, htag, hr2, hr3, q, TauCeti.PrimePower.card_def]
+        simp [mRankChev, rk2Chev, htag, hr3, q, TauCeti.PrimePower.card_def]
 
 
 
 theorem rkLin_four_false_le_rk2Mult_twD_three {r n z : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     rkLin 4 false (2 ^ n) r z ≤
       rk2Mult (⟨.twD, 3, n⟩ : GLALabel) (rk2Ord r n) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hmpos : 0 < rk2Ord r n := rk2Ord_pos hr hr2 n
   have hRHS : rk2Mult (⟨.twD, 3, n⟩ : GLALabel) (rk2Ord r n) =
       (if rk2Ord r n % 2 = 0 then 2 * 3 / rk2Ord r n else 3 / rk2Ord r n) -
@@ -727,8 +727,8 @@ theorem rkLin_four_false_le_rk2Mult_twD_three {r n z : ℕ} (hr : r.Prime) (hr2 
         exact CFSG.LieType.SeitzGeneration.orderOf_neg_of_odd
           (CFSG.LieType.SeitzGeneration.neg_one_ne_one_zmod hr hr2) rfl hodd' hmpos.ne'
       have hgt : 4 < eM (2 ^ n) r := by rw [heM]; omega
-      rw [if_neg (by omega : ¬ eM (2 ^ n) r = 1),
-        Nat.div_eq_of_lt hgt, if_neg (by omega : ¬ rk2Ord r n % 2 = 0), if_neg hnotdiv3]
+      rw [ite_eq_right (by omega : ¬ eM (2 ^ n) r = 1),
+        Nat.div_eq_of_lt hgt, ite_eq_right (by omega : ¬ rk2Ord r n % 2 = 0), ite_eq_right hnotdiv3]
       omega
     · have h2dvd : 2 ∣ rk2Ord r n := by
         rw [Nat.dvd_iff_mod_eq_zero]
@@ -741,8 +741,8 @@ theorem rkLin_four_false_le_rk2Mult_twD_three {r n z : ℕ} (hr : r.Prime) (hr2 
         have hgt : 4 < eM (2 ^ n) r := by
           rw [heM]
           omega
-        rw [if_neg (by omega : ¬ eM (2 ^ n) r = 1),
-          Nat.div_eq_of_lt hgt, if_pos (by omega : rk2Ord r n % 2 = 0), if_neg hnotdiv3]
+        rw [ite_eq_right (by omega : ¬ eM (2 ^ n) r = 1),
+          Nat.div_eq_of_lt hgt, ite_eq_left (by omega : rk2Ord r n % 2 = 0), ite_eq_right hnotdiv3]
         omega
       · have h4dvd : 4 ∣ rk2Ord r n := by
           rw [Nat.dvd_iff_mod_eq_zero]
@@ -752,8 +752,8 @@ theorem rkLin_four_false_le_rk2Mult_twD_three {r n z : ℕ} (hr : r.Prime) (hr2 
           exact CFSG.LieType.SeitzGeneration.orderOf_neg_of_four_dvd
             (x := (2 : ZMod r) ^ n) rfl h4dvd hmpos.ne'
         have hgt : 4 < eM (2 ^ n) r := by rw [heM]; omega
-        rw [if_neg (by omega : ¬ eM (2 ^ n) r = 1),
-          Nat.div_eq_of_lt hgt, if_pos (by omega : rk2Ord r n % 2 = 0), if_neg hnotdiv3]
+        rw [ite_eq_right (by omega : ¬ eM (2 ^ n) r = 1),
+          Nat.div_eq_of_lt hgt, ite_eq_left (by omega : rk2Ord r n % 2 = 0), ite_eq_right hnotdiv3]
         omega
 
 
@@ -761,7 +761,7 @@ theorem rk2_isQuasisimple_of_isLabel {K : Type} [Group K] {lab : GLALabel}
     (hK : Rk2IsLabel K lab) :
     CFSG.Open.IsQuasisimple K := by
   obtain ⟨-, R, hgroup, hsimple, ⟨θ⟩, -⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hcomm : commutator K = ⊤ := by
     have h := hK
     change CFSG.Assembly.LargeEvenMarking K (fun lab' _ _ _ _ _ => lab' = lab) at h
@@ -779,7 +779,7 @@ private theorem rk2KRank_A_one_two {K : Type} [Group K] [Finite K]
     CFSG.Open.pRank p (⊤ : Subgroup K) ≤
       rk2Mult (⟨.A, 1, 2⟩ : GLALabel) (rk2Ord p 2) := by
   obtain ⟨-, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hM' : CFSG.Blueprint.LieModel R .PSL 2 2 2 := by
     have h := hM
     unfold CFSG.StandardType.MarkedModel at h
@@ -815,7 +815,7 @@ private theorem rk2KRank_A_three_one {K : Type} [Group K] [Finite K]
     CFSG.Open.pRank p (⊤ : Subgroup K) ≤
       rk2Mult (⟨.A, 3, 1⟩ : GLALabel) (rk2Ord p 1) := by
   obtain ⟨-, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hM' : CFSG.Blueprint.LieModel R .PSL 4 2 1 := by
     have h := hM
     unfold CFSG.StandardType.MarkedModel at h
@@ -840,7 +840,7 @@ private theorem rk2KRank_D_three_one {K : Type} [Group K] [Finite K]
     CFSG.Open.pRank p (⊤ : Subgroup K) ≤
       rk2Mult (⟨.D, 3, 1⟩ : GLALabel) (rk2Ord p 1) := by
   obtain ⟨-, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hM' : CFSG.Blueprint.LieModel R .PSL 4 2 1 := by
     have h := hM
     unfold CFSG.StandardType.MarkedModel at h
@@ -865,7 +865,7 @@ private theorem rk2KRank_twD_two_one {K : Type} [Group K] [Finite K]
     CFSG.Open.pRank p (⊤ : Subgroup K) ≤
       rk2Mult (⟨.twD, 2, 1⟩ : GLALabel) (rk2Ord p 1) := by
   obtain ⟨-, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hM' : CFSG.Blueprint.LieModel R .PSL 2 2 2 := by
     have h := hM
     unfold CFSG.StandardType.MarkedModel at h
@@ -892,7 +892,7 @@ private theorem rk2KRank_A_two_one (hG : CFSG.Open.GriessAllModelsStatement) {K 
   have hS : CFSG.LocalAnalysis.RankThreeUC.S15.LieOddRankSmall :=
     CFSG.LocalAnalysis.RankThreeUC.S15.lieOddRankSmall_of_griess hG
   obtain ⟨-, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have hM3 : CFSG.Blueprint.LieModel R .PSL 3 2 1 := by
     have h := hM
     unfold CFSG.StandardType.MarkedModel at h
@@ -901,7 +901,7 @@ private theorem rk2KRank_A_two_one (hG : CFSG.Open.GriessAllModelsStatement) {K 
   have hM7 : CFSG.Blueprint.LieModel R .PSL 2 7 1 :=
     CFSG.LocalAnalysis.ComponentInitial.PSL3_two_PSL2_seven_paired_isomorphism R hM3
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e7⟩⟩ := hM7.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let q : TauCeti.PrimePower := ⟨7, 1, by norm_num, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -918,11 +918,11 @@ private theorem rk2KRank_A_two_one (hG : CFSG.Open.GriessAllModelsStatement) {K 
       ⟨q, ⟨.A 1 q, hv⟩, by norm_num, rfl, ⟨(θ.trans e7).trans (e1.trans e2)⟩⟩
   rw [hpr]
   by_cases hp37 : p = 3 ∨ p = 7
-  · rw [if_pos hp37]
+  · rw [ite_eq_left hp37]
     rcases hp37 with rfl | rfl
     · rw [rk2Ord_three_one_eq_two]; norm_num [rk2Mult]
     · rw [rk2Ord_seven_one_eq_three]; norm_num [rk2Mult]
-  · rw [if_neg hp37]
+  · rw [ite_eq_right hp37]
     exact Nat.zero_le _
 
 theorem rk2_tauCeti_index_of_isLabel {K : Type} [Group K] [Finite K] {lab : GLALabel}
@@ -1079,7 +1079,7 @@ private theorem rk2_index_G2 {K : Type} [Group K] [Finite K] {lab : GLALabel}
       Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       ∀ r z, r.Prime → r ≠ 2 → mRankChev d.1 r z = rk2Chev lab r z := by
   obtain ⟨hlab, R, hgroup, -, ⟨θ⟩, hM⟩ := rk2_markedModel_of_isLabel hK
-  letI : Group R := hgroup
+  let : Group R := hgroup
   have ht : CFSG.StandardType.markTag lab = .G2 := by
     simp [CFSG.StandardType.markTag, htag]
   have hr : CFSG.StandardType.markRank lab = 0 := by
@@ -1094,9 +1094,9 @@ private theorem rk2_index_G2 {K : Type} [Group K] [Finite K] {lab : GLALabel}
   rcases hM' with ⟨hclass, -⟩ | ⟨-, -, hCE⟩ | ⟨-, hree, -⟩ | ⟨-, hsuz, -⟩
   · exact absurd hclass (by decide)
   · obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨eA⟩⟩ := hCE
-    letI : Field F := hfield
-    letI : Finite F := hfinite
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Field F := hfield
+    let : Finite F := hfinite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q : TauCeti.PrimePower := ⟨2, lab.n, Nat.prime_two, by have := hadm.2.1; omega⟩
     have hv : (TauCeti.LieTypeIndex.G2 q).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,

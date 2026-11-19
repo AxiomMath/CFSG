@@ -115,7 +115,7 @@ theorem conj_comp {G : Type*} [Group G] (g g' w u r : G) (e : ℕ) (hne : g⁻¹
 
 theorem fiveDigits_val (q : ℕ) : (fiveDigits q).1.val = q % 5 ∧
     ∀ i : Fin 4, ((fiveDigits q).2 i).val = q / 5 ^ (i.val + 1) % 5 := by
-  refine ⟨?_, fun i => ?_⟩ <;> simp [fiveDigits, ZMod.val_natCast, Nat.mod_mod]
+  refine ⟨?_, fun i => ?_⟩ <;> simp [fiveDigits, ZMod.val_natCast]
 
 theorem fiveDigits_inj {q q' : ℕ} (hq : q < 3125) (hq' : q' < 3125)
     (h : fiveDigits q = fiveDigits q') : q = q' := by

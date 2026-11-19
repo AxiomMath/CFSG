@@ -40,7 +40,7 @@ theorem conjQuotHom_surjective_of_card [Finite M] (hL : commutator L = ⊤)
   have hpos : 0 < Nat.card ((centralizer (L : Set G)).subgroupOf M) := Nat.card_pos
   have h2 : Nat.card (conjQuotHom L M hM).range = Nat.card (MulAut (L ⧸ center L)) :=
     Nat.eq_of_mul_eq_mul_left hpos h1
-  haveI : Finite (conjQuotHom L M hM).range :=
+  have : Finite (conjQuotHom L M hM).range :=
     Finite.of_surjective _ (conjQuotHom L M hM).rangeRestrict_surjective
   have hfin : Finite (MulAut (L ⧸ center L)) := by
     have : 0 < Nat.card (MulAut (L ⧸ center L)) := by
@@ -72,11 +72,13 @@ variable {G : Type} [Group G] [Finite G] {L E : Subgroup G} {t : G}
   ((MulAut.congr e).trans fi22RAut.symm).toMonoidHom.comp
     (conjQuotHom L (centralizer ({t} : Set G)) hH)
 
+omit [Finite G] in
 theorem piR_eq_one_iff (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
     (e : (L ⧸ center L) ≃* fi22P) (g : centralizer ({t} : Set G)) :
     piR hH e g = 1 ↔ conjQuotHom L (centralizer ({t} : Set G)) hH g = 1 := by
   rw [piR, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.map_eq_one_iff]
 
+omit [Finite G] in
 theorem fi22RAut_piR (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
     (e : (L ⧸ center L) ≃* fi22P) (g : centralizer ({t} : Set G)) :
     fi22RAut (piR hH e g) =
@@ -84,6 +86,7 @@ theorem fi22RAut_piR (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
   rw [piR, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
     MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem piR_apply_of_mem_L (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
     (e : (L ⧸ center L) ≃* fi22P) (l : L) (hl : (l : G) ∈ centralizer ({t} : Set G)) :
     ((piR hH e ⟨l, hl⟩ : fi22R) : Equiv.Perm (Fin 3510)) =

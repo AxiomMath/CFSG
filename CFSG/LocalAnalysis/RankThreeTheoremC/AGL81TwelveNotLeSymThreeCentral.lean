@@ -110,8 +110,8 @@ theorem card_central_cover {R : Type*} [Group R] [Finite R] (f : R →* Perm (Fi
 theorem four_le_card_pCore_of_central_cover {R : Type*} [Group R] [Finite R]
     (f : R →* Perm (Fin 4)) (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center R)
     (hcard : Nat.card f.ker = 3) : 4 ≤ Nat.card (CFSG.pCore 2 R) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR := card_central_cover f hf hcard
   have hpker : IsPGroup 3 f.ker := IsPGroup.of_card (n := 1) (by rw [hcard]; norm_num)
   have himg := CFSG.central_p_kernel_prime_core_image (p := 3) f hf hker hpker
@@ -138,7 +138,7 @@ theorem eq_of_central_cover {R : Type*} [Group R] [Finite R] (f : R →* Perm (F
     (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center R) (hcard : Nat.card f.ker = 3)
     {X W : Subgroup (R ⧸ CFSG.pCore 2 R)} (eX : X ≃* Perm (Fin 3)) (eW : W ≃* Perm (Fin 3)) :
     X = W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR := card_central_cover f hf hcard
   have hO4 := four_le_card_pCore_of_central_cover f hf hker hcard
   have hQO : Nat.card R = Nat.card (R ⧸ CFSG.pCore 2 R) * Nat.card (CFSG.pCore 2 R) :=

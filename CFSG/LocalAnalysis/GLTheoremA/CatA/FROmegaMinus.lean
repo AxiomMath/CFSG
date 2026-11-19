@@ -94,7 +94,7 @@ theorem omegaMinus_fixed_equiv {G : Type} [Group G] [Finite G] {n f : ℕ}
     (σ := U.val.right) (fun x => Iff.rfl) hp hp2 hord' hn4 hdeg b' c' hirr'
   have hΘ' : ∀ x, Θ (β x) = matrixProjectiveConjugationHom _ g' (Θ x) := fun x => by
     rw [← hUκ]; exact hΘ x
-  haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
   have e2 := fixSubEquiv Θ β _ hΘ'
   have e3 := fixSub_conjHom_eq hsetup g' hg'l hg'r
   have e4 : ↥(subfieldDerivedImage (semilinearFixedSubfield U.val.right) hsetup.hext) ≃*
@@ -114,16 +114,16 @@ theorem omegaMinus_fixed_equiv {G : Type} [Group G] [Finite G] {n f : ℕ}
 theorem subBody_omegaMinus {l n : ℕ} (hl : 4 ≤ l) (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ n) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2)
-    (I F : Set (MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c)))))
+    (_I F : Set (MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c)))))
     (hF : FQ.InnFree p F) :
     ∀ f ∈ F, orderOf f = p → p ∣ n ∧
       ∃ D : Subgroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))),
         SubfieldGrp f D ∧ LargeEvenRecipeOmegaMinus (l - 1) (2 ^ (n / p))
           (fun R' _ _ _ => Nonempty (↥D ≃* R')) := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   intro f hf hord
   have hcl := CFSG.StandardType.statedClassicalModel_omegaMinus l n hK b c hirr ⟨Nat.prime_two, hn, hl⟩
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hαp : f ^ p = 1 := hord ▸ pow_orderOf_eq_one f
   obtain ⟨f₀, k, hkF, hkfin, b', c', hirr', hf0, hkcard, ⟨e⟩⟩ :=

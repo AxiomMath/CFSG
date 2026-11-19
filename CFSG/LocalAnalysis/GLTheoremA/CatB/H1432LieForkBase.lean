@@ -46,7 +46,7 @@ theorem outerSubThree_of_mulEquiv {Y Y' : Type} [Group Y] [Finite Y] [Group Y'] 
 theorem outerSubThree_congr {P P' : Type} [Group P] [Finite P] [Group P'] (θ : P ≃* P')
     {ψ : MulAut P} (h : OuterSubThree t n f (fixSubgroup (MulAut.congr θ ψ))) :
     OuterSubThree t n f (fixSubgroup ψ) := by
-  haveI : Finite P' := Finite.of_equiv P θ.toEquiv
+  have : Finite P' := Finite.of_equiv P θ.toEquiv
   have hfix := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.fixSubgroup_congr θ ψ
   exact outerSubThree_of_mulEquiv
     ((Subgroup.equivMapOfInjective _ θ.toMonoidHom θ.injective).trans
@@ -95,7 +95,7 @@ theorem outerSubThree_of_simple_normal_comm {Y : Type} [Group Y] [Finite Y] {D S
 theorem outerSubThree_of_fixed_equiv {Y : Type} [Group Y] [Finite Y] (D : Subgroup Y) {X : Type}
     [Group X] (e : ↥D ≃* X) (hs : IsSimpleGroup X) (hnab : ∃ a b : X, a * b ≠ b * a)
     (hX : OuterLayerThree t n f X) : OuterSubThree t n f D := by
-  haveI : IsSimpleGroup ↥D := e.isSimpleGroup
+  have : IsSimpleGroup ↥D := e.isSimpleGroup
   refine outerSubThree_of_simple_normal_comm (S := D) le_rfl ?_ inferInstance ?_
     (outerLayerThree_congr e.symm hX)
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
@@ -107,10 +107,10 @@ theorem outerSubThree_of_fixed_equiv {Y : Type} [Group Y] [Finite Y] (D : Subgro
 theorem outerSubThree_of_solvable {Y : Type} [Group Y] [Finite Y] (D : Subgroup Y)
     (hD : Group.IsSolvable ↥D) : OuterSubThree t n f D := by
   intro A hA
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hA.1)
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hA)
-  haveI : Nontrivial ↥A :=
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hA)
+  have : Nontrivial ↥A :=
     (Subgroup.nontrivial_iff_ne_bot A).mpr (Lemma510Ns.glaPComponent_ne_bot hA)
   exact (Group.IsPerfect.not_isSolvable ↥A inferInstance).elim
 

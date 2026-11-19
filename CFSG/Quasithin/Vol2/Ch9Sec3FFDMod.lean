@@ -429,7 +429,7 @@ theorem inf_centralizer_eq_bot_four (hKKY : K ≤ KY) (hKYN : KY ≤ Subgroup.no
     exact h1
   obtain P : Sylow 5 ↥K := default
   set P' : Subgroup G := (P : Subgroup ↥K).map K.subtype with hP'
-  have hP5 : IsPGroup 5 ↥P' := P.isPGroup'.map _
+  have hP5 : IsPGroup 5 ↥P' := P.isPGroup.map _
   have hP'K : P' ≤ K := Subgroup.map_subtype_le _
   have hPnt : ¬ P' ≤ Subgroup.centralizer (U : Set G) := by
     intro hPU

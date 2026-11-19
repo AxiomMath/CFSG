@@ -64,7 +64,7 @@ private theorem nsf_normalizer_le_centralizer {G : Type*} [Group G] [Finite G]
     have h5 := orderOf_dvd_iff_zpow_eq_one.mpr h4
     rw [hc'] at h5
     exact_mod_cast h5
-  obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
   have hkP : (Nat.card (P : Subgroup G) : ℤ) ∣ k ^ Nat.card (P : Subgroup G) - 1 := by
     have h := dvd_sub_pow_of_dvd_sub (R := ℤ) (p := 3) (a := k) (b := 1) (by exact_mod_cast hk1) a
     rw [one_pow] at h
@@ -153,7 +153,7 @@ theorem noncentral_three_absurd {Γ : Type*} [Group Γ] [Finite Γ] (K Y : Subgr
     apply map_injective K.subtype_injective
     rw [map_subtype_commutator, ← MonoidHom.range_eq_map, range_subtype, hK]
   refine P.ne_bot_of_dvd_card h3 (nsf_eq_bot hKtop P ?_)
-  exact nsf_normalizer_le_centralizer P (nsf_isCyclic P.isPGroup' hE)
+  exact nsf_normalizer_le_centralizer P (nsf_isCyclic P.isPGroup hE)
     (P.dvd_card_of_dvd_card h3) fun x y hx =>
       Subtype.ext (hcent x x.2 ((orderOf_coe x).trans hx) y y.2)
 

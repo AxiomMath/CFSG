@@ -14,10 +14,10 @@ section Rows
 
 
 theorem kd264SporAt_M {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : KD264SporAt p .M := by
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) := by
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) := by
     have : IsSimpleGroup CFSG.Open.MonsterY443Derived := CFSG.Milestones.fam_m_simplicity
     exact CFSG.Sporadic.Bridge.Y443.commutatorMulEquiv.isSimpleGroup
-  haveI : Finite (NativeSporadic.Carrier .M) :=
+  have : Finite (NativeSporadic.Carrier .M) :=
     CFSG.Sporadic.finite_carrier_M_of_card CFSG.Milestones.fam_m_finiteness
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .M
   have hc : Nat.card (NativeSporadic.Carrier .M) = sporOrd .M :=

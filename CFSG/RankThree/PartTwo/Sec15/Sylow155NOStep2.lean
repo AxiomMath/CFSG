@@ -36,6 +36,7 @@ private theorem le_pPrimeCoreOf_of_img148_eq_bot {A M X : Subgroup G} [(ker148 A
   rw [h, Subgroup.mem_bot, mk'_ker148_eq_one_iff] at this
   exact this
 
+omit [Finite G] in
 theorem inf_le_pPrimeCoreOf {A M H N : Subgroup G} [(ker148 A M).Normal] (hHM : H ≤ M)
     (hH : Ronan148W.NoNormal3 ↥(img148 A M H)) (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hN3 : ¬ 3 ∣ Nat.card N) : H ⊓ N ≤ pPrimeCoreOf 3 M := by
@@ -65,6 +66,7 @@ theorem inf_le_pPrimeCoreOf {A M H N : Subgroup G} [(ker148 A M).Normal] (hHM : 
     exact disjoint_self.mp (hdisj.mono_right hmono)
   exact le_pPrimeCoreOf_of_img148_eq_bot hDM himg
 
+omit [Finite G] in
 theorem card_img148_dvd_index {A M H Y N : Subgroup G} [(ker148 A M).Normal] (hHM : H ≤ M)
     (hHY : H ≤ Y) (hNY : N ≤ Y) (hYN : Y ≤ Subgroup.normalizer (N : Set G))
     (hHN : H ⊓ N ≤ pPrimeCoreOf 3 M) : Nat.card (img148 A M H) ∣ (N.subgroupOf Y).index := by
@@ -100,6 +102,7 @@ private theorem sup_eq_sup_pPrimeCoreOf {O X : Subgroup G}
   le_antisymm (sup_le_sup_right (le_sup_left.trans (sup_theta_le hXO hO3)) X)
     (sup_le (pPrimeCoreOf_le 3 _) le_sup_right)
 
+omit [Finite G] in
 private theorem index_dvd_card_theta_quot {Y X : Subgroup G} (hY : Y = pPrimeCoreOf 3 Y ⊔ X)
     (hθX : inSubgroup (aschbacherSolvableCore 3) X ≤ pPrimeCoreOf 3 Y) :
     ((pPrimeCoreOf 3 Y).subgroupOf Y).index ∣ Nat.card (↥X ⧸ aschbacherSolvableCore 3 ↥X) := by

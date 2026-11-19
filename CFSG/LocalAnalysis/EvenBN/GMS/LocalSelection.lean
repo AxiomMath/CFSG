@@ -148,7 +148,7 @@ theorem alternative_two (h : LocalSetting A t U V D n)
   obtain ⟨f, hf3, ⟨e⟩⟩ := exists_psl2_of_goldschmidtSimpleType_of_outer hX h16 α hαα hαout hfix hW
   have hSyl : IsSylowOf 2 ((S : Subgroup H) ⊓ CFSG.layer H) (CFSG.layer H) := by
     have h0 : IsSylowOf 2 (S : Subgroup H) ⊤ :=
-      isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+      isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
     exact h0.inf_of_le_normalizer le_top (by rw [normalizer_eq_top_iff.mpr inferInstance])
   obtain ⟨Q, hQ⟩ := hSyl
   obtain ⟨hQcard, hQ2⟩ := sylow_facts_of_psl2 (by omega) e Q

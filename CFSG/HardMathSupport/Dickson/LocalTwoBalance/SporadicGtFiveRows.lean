@@ -553,7 +553,7 @@ theorem exists_plane_witness_of_oPrimeCoreTrivialAt {p : ℕ} (hp : p.Prime) {S 
     (h : OPrimeCoreTrivialAt p S) {E : Subgroup S} (hE : IsElemAbelian p E)
     (hEc : Nat.card E = p ^ 2) :
     ∃ d ∈ E, d ≠ 1 ∧ GLAPPrimeCoreOf p (Subgroup.centralizer ({d} : Set S)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hdE, hd1⟩ : ∃ d ∈ E, d ≠ 1 := by
     by_contra hcon
     push Not at hcon

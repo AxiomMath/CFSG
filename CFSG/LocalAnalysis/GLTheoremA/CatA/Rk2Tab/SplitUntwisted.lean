@@ -44,10 +44,10 @@ theorem rk2_split_low_E7 {K : Type} [Group K] [Finite K] {lab : GLALabel}
     lieModel_of_markedModel_E7 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   have hpq' : p ∣ Nat.card F - 1 := by rw [hFcard]; exact hpq
@@ -90,10 +90,10 @@ theorem rk2_split_low_E8 {K : Type} [Group K] [Finite K] {lab : GLALabel}
     lieModel_of_markedModel_E8 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E8 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ n := hl.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   have hpq' : p ∣ Nat.card F - 1 := by rw [hFcard]; exact hpq
@@ -149,13 +149,13 @@ theorem rk2_split_low_BC {K : Type} [Group K] [Finite K] {lab : GLALabel}
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Field F := hfield
-  letI : Finite F := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hn : 2 ≤ lab.n := by
     rcases Nat.lt_or_ge lab.n 2 with h2 | h2
     · have hn1 : lab.n = 1 := by
@@ -226,12 +226,12 @@ theorem rk2_split_low_D_three {K : Type} [Group K] [Finite K] {lab : GLALabel}
       (by simp [CFSG.StandardType.markRank, htag, hrank])
       (by simp [CFSG.StandardType.markChar, htag])
       (by simp [CFSG.StandardType.markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcardF
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hq : 4 ≤ Fintype.card F := by
     have h4 : 4 ≤ Nat.card F := by
       rw [hcardF]
@@ -275,22 +275,22 @@ theorem rk2_split_low_D_ge_four {K : Type} [Group K] [Finite K] {lab : GLALabel}
   obtain ⟨hQ, hlab, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have htag3 : lab.rank ≠ 3 := by omega
   have ht : markTag lab = .POmegaPlus := by
-    simp [CFSG.StandardType.markTag, htag, if_neg htag3]
+    simp [CFSG.StandardType.markTag, htag, ite_eq_right htag3]
   have hrk : markRank lab = lab.rank := by
-    simp [CFSG.StandardType.markRank, htag, if_neg htag3]
+    simp [CFSG.StandardType.markRank, htag, ite_eq_right htag3]
   have hch : markChar lab = 2 := by simp [CFSG.StandardType.markChar, htag]
   have hdg : markDeg lab = lab.n := by simp [CFSG.StandardType.markDeg, htag]
   have hM' := hM
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Field F := hfield
-  letI : Finite F := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hn : 2 ≤ lab.n := by
     rcases Nat.lt_or_ge lab.n 2 with h2 | h2
     · have hn1 : lab.n = 1 := by
@@ -312,8 +312,8 @@ theorem rk2_split_low_D_ge_four {K : Type} [Group K] [Finite K] {lab : GLALabel}
         if i = i0 then 1 else 0 := by
       intro i
       by_cases hi : i = i0
-      · subst hi; rw [hv1, hv2, if_pos rfl, one_mul]
-      · rw [if_neg hi]
+      · subst hi; rw [hv1, hv2, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hi]
         have h1 : v (Sum.inl i) = 0 := by simp [v, hi]
         rw [h1, zero_mul]
     simp only [hterm]
@@ -394,13 +394,13 @@ theorem rk2_split_low_A_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
       (by simp [CFSG.StandardType.markRank, htag])
       (by simp [CFSG.StandardType.markChar, htag])
       (by simp [CFSG.StandardType.markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
   have hF2 : Nat.card F = 2 := by rw [hcardF, hn]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hF2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .PSL (lab.rank + 1) 2 1 := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg, htag, hn] using hM
@@ -466,14 +466,14 @@ theorem rk2_split_low_BC_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Field F := hfield
-  letI : Finite F := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hℓ2 : 2 ≤ lab.rank := by
     rcases htag with hB | hC
     · have h := hlab; simp only [CFSG.Assembly.LargeEvenInLambda2, hB] at h
@@ -521,7 +521,7 @@ theorem not_three_dvd_center_pomegaPlus_one {X : Type} [Group X] {ℓ : ℕ}
       CFSG.LieType.Steinberg.CentralExt.GriessClassical.pomegaPlus_four_two_row hLM
     have hg : CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 4 2 1 = (1, 1) := by
       simp only [CFSG.Blueprint.Multiplier.genericOrders]
-      rw [if_pos (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
+      rw [ite_eq_left (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
     have he : CFSG.Blueprint.Multiplier.exceptionalOrders .POmegaPlus 4 2 1 = (2, 2) := by
       decide
     have hMcard : Nat.card (CFSG.Open.griessHopfMultiplier X) = 4 := by
@@ -534,7 +534,7 @@ theorem not_three_dvd_center_pomegaPlus_one {X : Type} [Group X] {ℓ : ℕ}
       (Or.inr (by omega))
     have hg : CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus ℓ 2 1 = (1, 1) := by
       simp only [CFSG.Blueprint.Multiplier.genericOrders]
-      rw [if_pos (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
+      rw [ite_eq_left (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
     have he : CFSG.Blueprint.Multiplier.exceptionalOrders .POmegaPlus ℓ 2 1 = (1, 1) := by
       simp [CFSG.Blueprint.Multiplier.exceptionalOrders, h4]
     have hMcard : Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
@@ -554,11 +554,11 @@ theorem rk2_split_low_E7_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
     lieModel_of_markedModel_E7 htag hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ lab.n := hl.1
   have htwo : Nat.card F = 2 := by rw [hFcard, hn, pow_one]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 (by rw [hFcard, hn, pow_one])
   have hz : Subgroup.center K = ⊥ :=
@@ -592,11 +592,11 @@ theorem rk2_split_low_E8_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
     lieModel_of_markedModel_E8 htag hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E8 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ lab.n := hl.1
   have htwo : Nat.card F = 2 := by rw [hFcard, hn, pow_one]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 (by rw [hFcard, hn, pow_one])
   have hz : Subgroup.center K = ⊥ :=
@@ -629,23 +629,23 @@ theorem rk2_split_low_D_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
   obtain ⟨hQ, hlab, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have htag3 : lab.rank ≠ 3 := by omega
   have ht : markTag lab = .POmegaPlus := by
-    simp [CFSG.StandardType.markTag, htag, if_neg htag3]
+    simp [CFSG.StandardType.markTag, htag, ite_eq_right htag3]
   have hrk : markRank lab = lab.rank := by
-    simp [CFSG.StandardType.markRank, htag, if_neg htag3]
+    simp [CFSG.StandardType.markRank, htag, ite_eq_right htag3]
   have hch : markChar lab = 2 := by simp [CFSG.StandardType.markChar, htag]
   have hdg : markDeg lab = lab.n := by simp [CFSG.StandardType.markDeg, htag]
   have hM' := hM
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Field F := hfield
-  letI : Finite F := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hv : ∃ v : Fin lab.rank ⊕ Fin lab.rank → F, quadPlus lab.rank F v ≠ 0 := by
     let i0 : Fin lab.rank := ⟨0, by omega⟩
     let v : Fin lab.rank ⊕ Fin lab.rank → F :=
@@ -658,8 +658,8 @@ theorem rk2_split_low_D_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
         if i = i0 then 1 else 0 := by
       intro i
       by_cases hi : i = i0
-      · subst hi; rw [hv1, hv2, if_pos rfl, one_mul]
-      · rw [if_neg hi]
+      · subst hi; rw [hv1, hv2, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hi]
         have h1 : v (Sum.inl i) = 0 := by simp [v, hi]
         rw [h1, zero_mul]
     simp only [hterm]
@@ -716,13 +716,13 @@ theorem rk2_split_low_BCD_one {K : Type} [Group K] [Finite K] {lab : GLALabel}
           (by simp [CFSG.StandardType.markRank, hD, h3])
           (by simp [CFSG.StandardType.markChar, hD])
           (by simp [CFSG.StandardType.markDeg, hD])
-      letI : Field F := hF
-      letI : Finite F := hFin
-      letI : Fintype F := Fintype.ofFinite F
+      let : Field F := hF
+      let : Finite F := hFin
+      let : Fintype F := Fintype.ofFinite F
       have hcard2 : Nat.card F = 2 := by rw [hcardF, hn]; norm_num
       have hcard' : Fintype.card F = 2 ^ 1 := by
         rw [← Nat.card_eq_fintype_card]; exact hcard2
-      haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+      have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
       have hM4 : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .PSL 4 2 1 := by
         simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag, CFSG.StandardType.markRank,
           CFSG.StandardType.markChar, CFSG.StandardType.markDeg, hD, h3, hn] using hM
@@ -859,8 +859,8 @@ private theorem d5_card_closure {F : Type} [Field F] [Finite F]
     intro x hx y hy
     dsimp only [E] at hx hy ⊢
     exact CFSG.RankThree.CentralCover.commute_of_mem_closure (S := Set.range h) hS hx hy
-  haveI : IsMulCommutative E := ⟨⟨fun x y => Subtype.ext (hEcomm x x.2 y y.2).eq⟩⟩
-  letI : CommGroup E := IsMulCommutative.instCommGroup
+  have : IsMulCommutative E := ⟨⟨fun x y => Subtype.ext (hEcomm x x.2 y y.2).eq⟩⟩
+  let : CommGroup E := IsMulCommutative.instCommGroup
   have hle : Nat.card E ≤ p ^ 5 :=
     card_closure_le_pow_of_commuting hp hpow hcomm
   have hinj : Function.Injective (fun a : Fin 5 → Fin p =>
@@ -940,14 +940,14 @@ theorem rk2_split_low_E6 {K : Type} [Group K] [Finite K] {lab : GLALabel}
     lieModel_of_markedModel_E6 htag hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hn1 : 1 ≤ lab.n := hlab.1
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hFcard
   have hpq' : p ∣ Nat.card F - 1 := by rw [hFcard]; exact hpq
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
   let h : Fin 5 → adjointGroup .E6 F := fun i => torusElement .E6 F (e6D5Chain i) ζ
   let w : Fin 5 → adjointGroup .E6 F := fun i => weylElement .E6 F (e6D5Chain i)

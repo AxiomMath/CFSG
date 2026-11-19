@@ -37,7 +37,7 @@ theorem of_central_odd_ker {E Q : Type*} [Group E] [Finite E] [Group Q] [Finite 
     (hker_center : φ.ker ≤ Subgroup.center E) (hker_odd : Odd (Nat.card φ.ker))
     (hQ : SylowTwoTI Q) : SylowTwoTI E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkey : ∀ A B : Sylow 2 E, (A : Subgroup E).map φ = (B : Subgroup E).map φ → A = B := by
     have hle : ∀ A B : Sylow 2 E, (A : Subgroup E).map φ = (B : Subgroup E).map φ →
         (A : Subgroup E) ≤ (B : Subgroup E) := by
@@ -56,10 +56,10 @@ theorem of_central_odd_ker {E Q : Type*} [Group E] [Finite E] [Group Q] [Finite 
       have hcomm : Commute k b :=
         ((commute_iff_eq b k).mpr (Subgroup.mem_center_iff.mp hkcenter b)).symm
       have hx2 : ∃ n : ℕ, orderOf x = 2 ^ n := by
-        obtain ⟨n, hn⟩ := A.isPGroup'.exists_orderOf_eq_pow ⟨x, hx⟩
+        obtain ⟨n, hn⟩ := A.isPGroup.exists_orderOf_eq_pow ⟨x, hx⟩
         exact ⟨n, by simpa using hn⟩
       have hb2 : ∃ n : ℕ, orderOf b = 2 ^ n := by
-        obtain ⟨n, hn⟩ := B.isPGroup'.exists_orderOf_eq_pow ⟨b, hb⟩
+        obtain ⟨n, hn⟩ := B.isPGroup.exists_orderOf_eq_pow ⟨b, hb⟩
         exact ⟨n, by simpa using hn⟩
       have hxkb : x = b * k := by
         rw [show x = k * b from by rw [hk]; group]
@@ -101,7 +101,7 @@ theorem of_central_odd_ker {E Q : Type*} [Group E] [Finite E] [Group Q] [Finite 
     rw [hint, Subgroup.mem_bot] at hmem
     exact hmem
   have hPK : (P : Subgroup E) ⊓ φ.ker = ⊥ :=
-    CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup' hker_odd
+    CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup hker_odd
   have hxbot : x ∈ (⊥ : Subgroup E) := by
     rw [← hPK]
     exact ⟨hx.1, hxker⟩
@@ -110,7 +110,7 @@ theorem of_central_odd_ker {E Q : Type*} [Group E] [Finite E] [Group Q] [Finite 
 theorem of_mulEquiv {X Y : Type*} [Group X] [Group Y] [Finite X] [Finite Y]
     (e : X ≃* Y) (hY : SylowTwoTI Y) : SylowTwoTI X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hφ : Function.Surjective e.toMonoidHom := e.surjective
   intro P Q hPQ
   rw [eq_bot_iff]
@@ -145,7 +145,7 @@ theorem isSylowOf_inf_eq_bot {X : Type*} [Group X] [Finite X] (h : SylowTwoTI X)
     {P P' : Subgroup X} (hP : IsSylowOf 2 P ⊤) (hP' : IsSylowOf 2 P' ⊤) (hPP' : P ≠ P') :
     P ⊓ P' = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hP2, hPidx⟩ := isSylowOf_iff.mp hP
   obtain ⟨-, hP'2, hP'idx⟩ := isSylowOf_iff.mp hP'
   let P₀ : Sylow 2 X := hP2.toSylow (by simpa using hPidx)
@@ -163,11 +163,11 @@ theorem of_isSylowOf {X : Type*} [Group X] [Finite X]
     (h : ∀ P P' : Subgroup X, IsSylowOf 2 P ⊤ → IsSylowOf 2 P' ⊤ → P ≠ P' → P ⊓ P' = ⊥) :
     SylowTwoTI X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P P' hPP'
   exact h (P : Subgroup X) (P' : Subgroup X)
-    (isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by simpa using P.not_dvd_index⟩)
-    (isSylowOf_iff.mpr ⟨le_top, P'.isPGroup', by simpa using P'.not_dvd_index⟩)
+    (isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by simpa using P.not_dvd_index⟩)
+    (isSylowOf_iff.mpr ⟨le_top, P'.isPGroup, by simpa using P'.not_dvd_index⟩)
     (fun h' => hPP' (Sylow.ext h'))
 
 theorem inf_eq_of_sylowTwoTI_quotient {A : Type*} [Group A] [Finite A]
@@ -175,7 +175,7 @@ theorem inf_eq_of_sylowTwoTI_quotient {A : Type*} [Group A] [Finite A]
     {P Q : Subgroup A} (hP : IsSylowOf 2 P ⊤) (hQ : IsSylowOf 2 Q ⊤)
     (hNP : N ≤ P) (hNQ : N ≤ Q) (hPQ : P ≠ Q) : P ⊓ Q = N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : A →* A ⧸ N := QuotientGroup.mk' N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   have hker : π.ker = N := QuotientGroup.ker_mk' N

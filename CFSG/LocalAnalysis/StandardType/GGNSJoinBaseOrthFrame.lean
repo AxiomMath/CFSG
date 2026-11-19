@@ -150,7 +150,7 @@ theorem GGConfig.lt_bstar_of_orthTwo {G : Type} [Group G] [Finite G] {p : ℕ}
     B < Bs := by
   classical
   obtain ⟨hp, hBs, hxB, hLx, h4⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hS.2.2.1
@@ -166,9 +166,9 @@ theorem GGConfig.lt_bstar_of_orthTwo {G : Type} [Group G] [Finite G] {p : ℕ}
     -, -, -, -, -, -, hcompat0⟩ :=
     OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking hRig (by norm_num) hmarkK hBs hSC
       hΛ hhas htag hrank
-  letI : Field F := hField; letI : Finite F := hFinite; letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd; letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
+  let : Field F := hField; let : Finite F := hFinite; let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd; let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
   have hinner : ∀ b ∈ Bs, ∃ a : ↥L, ∀ y ∈ L, b⁻¹ * y * b = (a : G)⁻¹ * y * a :=
     exists_inner_conj_of_marking_orthTwo hN hperf hcompat0
   have hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥L)) 3 :=
@@ -197,7 +197,7 @@ theorem GGConfig.center_eq_bot_of_orthTwo {G : Type} [Group G] [Finite G] {p : �
     Subgroup.center ↥L = ⊥ := by
   classical
   obtain ⟨hp, -, -, -, -⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmarkK : GGInnerDiagOn Bs L :=
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => hP.2) hmark
   obtain ⟨lab, hΛ, hhas, R, hRgrp, I, F', θ, hPm⟩ := largeEvenMarking_exists_hasLabel hmark
@@ -274,7 +274,7 @@ theorem NSJoin.exists_orthWeakFrame_L_typeD {G : Type} [Group G] [Finite G] {p :
     ∃ Φ : OrthTorus.OrthWeakFrame p Bs L, Φ.Recognized := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hcfg
   have hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3 := GGIsWeylMatrixAD.le_three (Or.inr hD)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1
   obtain ⟨-, hBs, -, -, -⟩ := hconf.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hconf.2.1.2.2.2
@@ -321,7 +321,7 @@ theorem NSJoin.not_innerDiagOnLabel_two_L_typeD {G : Type} [Group G] [Finite G] 
   intro hn1
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hcfg
   have hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3 := GGIsWeylMatrixAD.le_three (Or.inr hD)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1
   obtain ⟨-, hBs, -, -, -⟩ := hconf.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hconf.2.1.2.2.2
@@ -426,7 +426,7 @@ theorem NSJoin.not_innerDiagOnLabel_two_L_typeD {G : Type} [Group G] [Finite G] 
       (fun _ _ _ => GGConfig.center_eq_bot_of_D4two hRig hconf h)
   rcases GGInnerDiagOnLabel.elim_or h with h | h
   ·
-    haveI : Group.IsPerfect ↥L := Group.IsPerfect.mk h.1
+    have : Group.IsPerfect ↥L := Group.IsPerfect.mk h.1
     refine hOrth _ (fun _ hl => hl.1) (fun _ hl => hl.2.1) h fun lab hl hhas => ?_
     obtain ⟨hrow, hn, h4⟩ := hl
     refine OrthTorus.center_eq_bot_of_hasLabel_orth_two ?_ hn hhas

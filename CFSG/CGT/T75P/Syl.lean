@@ -22,7 +22,7 @@ theorem odd_index_normalizer [Finite G] (hT : IsWC T) :
       have hx' : s⁻¹ * x * s ∈ T := mem_conjSubgroup.1 hx
       have := (P : Subgroup G).mul_mem ((P : Subgroup G).mul_mem hs (hTP hx')) ((P : Subgroup G).inv_mem hs)
       simpa [mul_assoc] using this
-    exact mem_normalizer_of_conjSubgroup_eq (eq_of_conj_le_pGroup hT P.isPGroup' hTP h1)
+    exact mem_normalizer_of_conjSubgroup_eq (eq_of_conj_le_pGroup hT P.isPGroup hTP h1)
   have hdvd : (Subgroup.normalizer (T : Set G)).index ∣ (P : Subgroup G).index :=
     Subgroup.index_dvd_of_le hPN
   have hodd : Odd (P : Subgroup G).index := by

@@ -57,11 +57,11 @@ private theorem coorootSp_inv_C04 (m : ℕ) {K : Type} [Field K] (c : Kˣ) :
   funext i
   by_cases hi0 : i = 0
   · subst hi0
-    simp [Pi.mulSingle_apply, h01]
+    simp [h01]
   · by_cases hi1 : i = 1
     · subst hi1
-      simp [Pi.mulSingle_apply, h10]
-    · simp [Pi.mulSingle_apply, hi0, hi1]
+      simp [h10]
+    · simp [hi0, hi1]
 
 theorem rootDiagSp_mem_longRootSp2 (m : ℕ) {K : Type} [Field K] (c : Kˣ) :
     rootDiagSp m c ∈ longRootSp2 K (m + 2) 1 := by
@@ -93,11 +93,11 @@ theorem orderOf_coorootSp (m : ℕ) {K : Type} [Field K] (c : Kˣ) :
     funext i
     by_cases hi0 : i = 0
     · subst hi0
-      simp [Pi.mulSingle_apply, h01, h]
+      simp [h01, h]
     · by_cases hi1 : i = 1
       · subst hi1
-        simp [Pi.mulSingle_apply, h10, h]
-      · simp [Pi.mulSingle_apply, hi0, hi1]
+        simp [h10, h]
+      · simp [hi0, hi1]
 
 theorem coorootSp_mul_mul_inv_eq (m : ℕ) {K : Type} [Field K] (c : Kˣ) {x : StatedSp (m + 2) K}
     (hx : x ∈ longRootSp2 K (m + 2) 1) :

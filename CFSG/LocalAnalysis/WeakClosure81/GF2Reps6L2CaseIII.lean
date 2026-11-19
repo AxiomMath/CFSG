@@ -18,7 +18,7 @@ private theorem intCast_of_mul_mem {K : Type} [Field K] [Finite K] {p : ℕ} (hp
     {H : AddSubgroup K} (hH : H.index = p) {c : K} (hc : ∀ x ∈ H, c * x ∈ H) :
     ∃ m : ℤ, c = (m : K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : Nat.card (K ⧸ H) = p := by
     rw [← AddSubgroup.index_eq_card, hH]
   have htop : (⊤ : AddSubgroup K).index = 1 := AddSubgroup.index_top
@@ -341,7 +341,7 @@ private theorem psl2SubRange_groupFacts {K : Type} [Field K] [Finite K]
   have hsimple : IsSimpleGroup ↥(psl2SubRange K₀) := by
     change IsSimpleGroup ↥ι.range
     have h4 : 4 ≤ Nat.card K₀ := by rw [hK₀card]; omega
-    letI : IsSimpleGroup (PSL2 K₀) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+    let : IsSimpleGroup (PSL2 K₀) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact e.symm.isSimpleGroup
   have hL₀C : ι.range ≤ Subgroup.centralizer {v} := by
     rintro _ ⟨x, rfl⟩
@@ -462,7 +462,7 @@ private theorem psl2SubRange_le_quadY {K : Type} [Field K] [Finite K]
     (hK₀ : ∀ x, x ∈ K₀ ↔ σ x = x) (hcard : Nat.card K = Nat.card K₀ ^ 2)
     (hK₀card : Nat.card K₀ = r)
     (h90 : ∀ c : K, c * σ c = 1 → ∃ y : Kˣ, (y : K) / σ y = c)
-    {t : PGammaL2 K} (htI : t ∈ pGammaL2PSLRange K) (ht2 : t * t = 1) (ht1 : t ≠ 1)
+    {t : PGammaL2 K} (htI : t ∈ pGammaL2PSLRange K) (_ht2 : t * t = 1) (ht1 : t ≠ 1)
     (htcomm : t * SemidirectProduct.inr σ = SemidirectProduct.inr σ * t) :
     psl2SubRange K₀ ≤ quadY (closure {t, SemidirectProduct.inr σ} ⊔ pGammaL2PSLRange K)
       (closure {t, SemidirectProduct.inr σ}) (SemidirectProduct.inr σ) := by
@@ -630,9 +630,9 @@ private theorem fixedRoot_le_quadY {K : Type} [Field K] [Finite K]
       quadY (closure {t, SemidirectProduct.inr σ} ⊔ pGammaL2PSLRange K)
         (closure {t, SemidirectProduct.inr σ}) (SemidirectProduct.inr σ) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let p := ringChar K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   have hchar : CharP K p := ringChar.charP K
   have hp : p.Prime := Fact.out
   have hpodd : Odd p := by
@@ -701,9 +701,9 @@ private theorem l2CaseIII_inr {K : Type} [Field K] [Finite K]
     (htcomm : t * SemidirectProduct.inr σ = SemidirectProduct.inr σ * t) :
     L2CaseIII (pGammaL2PSLRange K) t (SemidirectProduct.inr σ) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let p := ringChar K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   have hchar : CharP K p := ringChar.charP K
   have hp : p.Prime := Fact.out
   have hpodd : Odd p := by
@@ -766,7 +766,7 @@ private theorem l2CaseIII_inr {K : Type} [Field K] [Finite K]
   intro H hHU hHidx
   let H' : AddSubgroup K :=
     { carrier := {x | u (Multiplicative.ofAdd x) ∈ H}
-      zero_mem' := by simpa using H.one_mem
+      zero_mem' := by simp
       add_mem' := by
         intro x y hx hy
         simpa using H.mul_mem hx hy

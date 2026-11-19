@@ -69,7 +69,7 @@ theorem ne_top (h : Hyp183 D V₀ V H i) : H ≠ ⊤ := by
   intro htop
   have hF := h.hyp171.1
   subst htop
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hF' : (CFSG.generalizedFitting ↥(⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype =
       pCoreOf 2 (⊤ : Subgroup G) := by
     rw [← hF]
@@ -96,7 +96,7 @@ theorem ne_top (h : Hyp183 D V₀ V H i) : H ≠ ⊤ := by
       have := (Subgroup.mem_normalizer_iff.1 hg n).1 hn
       simpa using this⟩
   obtain ⟨a, b, hab⟩ := D.standing.nonab
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pCoreOf 2 (⊤ : Subgroup G)) with hbot | htopp
   · rw [hbot] at hcen
     have hcent : a ∈ Subgroup.centralizer ((⊥ : Subgroup G) : Set G) := by
@@ -112,8 +112,8 @@ theorem ne_top (h : Hyp183 D V₀ V H i) : H ≠ ⊤ := by
       have := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (⊤ : Subgroup G)
       rw [htopp] at this
       exact (IsPGroup.of_equiv this (Subgroup.topEquiv))
-    haveI : Nontrivial G := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
-    haveI := hP.center_nontrivial
+    have : Nontrivial G := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
+    have := hP.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hc | hc
     · exact absurd hc (Subgroup.nontrivial_iff_ne_bot _ |>.mp this)
     · exact hab (by

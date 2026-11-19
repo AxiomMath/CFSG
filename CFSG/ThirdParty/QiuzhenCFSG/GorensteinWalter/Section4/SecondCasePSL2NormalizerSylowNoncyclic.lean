@@ -62,7 +62,7 @@ public theorem secondCase_psl2_sylow_not_cyclic_of_component_le
         (e.some.toMonoidHom.subgroupMap_surjective (PE : Subgroup Q))
     exact hPPnc hPPcyc
   let A : Subgroup G := (SE : Subgroup d.E).map d.E.subtype
-  have hAp : IsPGroup 2 A := SE.isPGroup'.map d.E.subtype
+  have hAp : IsPGroup 2 A := SE.isPGroup.map d.E.subtype
   have hAleE : A ≤ d.E := by
     intro x hx
     have hx' : x ∈ ((SM : Subgroup w.M).map w.M.subtype) ⊓ d.E := by

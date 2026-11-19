@@ -28,7 +28,7 @@ theorem twoRankLe_two_of_carrier_cubic {s : TauCeti.SporadicName} {p : ℕ} (hp 
   obtain ⟨x, y, hz, hcard⟩ := hW
   have hc : Nat.card (NativeSporadic.Carrier s) = sporOrd s :=
     (Nat.card_congr b.toEquiv).trans (hOrd s)
-  haveI : Finite (NativeSporadic.Carrier s) := Nat.finite_of_card_ne_zero (by
+  have : Finite (NativeSporadic.Carrier s) := Nat.finite_of_card_ne_zero (by
     rw [hc]
     intro h0
     apply h4

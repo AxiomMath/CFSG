@@ -58,7 +58,7 @@ theorem tab_hom {Q : Type} [Group Q] {c : Q → ℕ} (hc : Function.Injective c)
     intro i hi x hx
     obtain ⟨q, hq⟩ := hYc i hi
     have hex : ∃ q, ∃ i < n, Enc m.ρ (X i) x ∧ c q = Y i := ⟨q, i, hi, hx, hq.symm⟩
-    have e : F x = Classical.choose hex := dif_pos hex
+    have e : F x = Classical.choose hex := dite_eq_left hex
     obtain ⟨i', hi', hx', hc'⟩ := Classical.choose_spec hex
     rw [e, hc', hinj i' hi' i hi (enc_inj hx' hx)]
   have hn : 0 < n := by
@@ -343,14 +343,16 @@ theorem H_hom : ∃ F : G → Equiv.Perm (Fin 3) × Equiv.Perm (Fin 3),
   rw [H_eq] at hmul
   exact ⟨F, hF, hFg, hmul⟩
 
+omit [Finite G] in
 theorem F_one_of {Q : Type} [Group Q] {H : Subgroup G} {F : G → Q}
     (hF : ∀ x ∈ H, ∀ y ∈ H, F (x * y) = F x * F y) : F 1 = 1 := by
   have := hF 1 (one_mem _) 1 (one_mem _)
   rw [mul_one] at this
   exact mul_eq_left.mp this.symm
 
+omit [Finite G] in
 theorem conj_of_gens {Q : Type} [Group Q] {S : Set G} {F : G → Q} {σ : G} {t : Q}
-    (hσ2 : σ * σ = 1) (ht2 : t * t = 1) (hconj : ∀ h ∈ closure S, σ * h * σ⁻¹ ∈ closure S)
+    (_hσ2 : σ * σ = 1) (ht2 : t * t = 1) (hconj : ∀ h ∈ closure S, σ * h * σ⁻¹ ∈ closure S)
     (hF : ∀ x ∈ closure S, ∀ y ∈ closure S, F (x * y) = F x * F y)
     (hS : ∀ x ∈ S, F (σ * x * σ⁻¹) = t * F x * t) :
     ∀ h ∈ closure S, F (σ * h * σ⁻¹) = t * F h * t := by
@@ -375,6 +377,7 @@ theorem conj_of_gens {Q : Type} [Group Q] {S : Set G} {F : G → Q} {σ : G} {t 
     calc (t * F x * t)⁻¹ = t⁻¹ * (F x)⁻¹ * t⁻¹ := by group
       _ = t * (F x)⁻¹ * t := by rw [hti]
 
+omit [Finite G] in
 theorem ext_sigma {Q : Type} [Group Q] {H T : Subgroup G} {σ : G} {F : G → Q} {t : Q}
     (hσ2 : σ * σ = 1) (hσH : σ ∉ H) (hconjH : ∀ h ∈ H, σ * h * σ⁻¹ ∈ H)
     (hT : ∀ g ∈ T, g ∈ H ∨ g * σ ∈ H) (hHT : H ≤ T) (hσT : σ ∈ T)
@@ -384,14 +387,14 @@ theorem ext_sigma {Q : Type} [Group Q] {H T : Subgroup G} {σ : G} {F : G → Q}
   classical
   have hσi : σ⁻¹ = σ := (eq_inv_of_mul_eq_one_left hσ2).symm
   let F' : G → Q := fun g => if g ∈ H then F g else F (g * σ) * t
-  have hA : ∀ a ∈ H, F' a = F a := fun a ha => if_pos ha
+  have hA : ∀ a ∈ H, F' a = F a := fun a ha => ite_eq_left ha
   have hB : ∀ a ∈ H, F' (a * σ) = F a * t := fun a ha => by
     have hn : a * σ ∉ H := fun h => hσH (by
       have := mul_mem (inv_mem ha) h
       rwa [← mul_assoc, inv_mul_cancel, one_mul] at this)
     have e : a * σ * σ = a := by rw [mul_assoc, hσ2, mul_one]
     change (if a * σ ∈ H then F (a * σ) else F (a * σ * σ) * t) = _
-    rw [if_neg hn, e]
+    rw [ite_eq_right hn, e]
   have hform : ∀ g ∈ T, ∃ a ∈ H, a = g ∨ a * σ = g := by
     intro g hg
     rcases hT g hg with h | h
@@ -417,6 +420,7 @@ theorem ext_sigma {Q : Type} [Group Q] {H T : Subgroup G} {σ : G} {F : G → Q}
   have := hB 1 (one_mem _)
   rwa [one_mul, F_one_of hF, one_mul] at this
 
+omit [Finite G] in
 theorem F_closure_one {Q : Type} [Group Q] {H : Subgroup G} {F : G → Q}
     (hF : ∀ x ∈ H, ∀ y ∈ H, F (x * y) = F x * F y) {S : Set G} (hSH : closure S ≤ H)
     (hS : ∀ x ∈ S, F x = 1) : ∀ x ∈ closure S, F x = 1 := by

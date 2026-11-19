@@ -19,7 +19,7 @@ open Subgroup
 theorem b2c_flag_eq {F : Type} [Field F] {i : ℕ} (hi : i ≤ 2) :
     CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.flag 2 F i =
       CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.isoFlag 2 F i := by
-  rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.flag, if_pos hi]
+  rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.flag, ite_eq_left hi]
 
 theorem b2c_flag_mem_iso {F : Type} [Field F] {i : ℕ} (hi : i ≤ 2) :
     CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.flag 2 F i ∈
@@ -138,13 +138,13 @@ theorem b2_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A}
     (hv : (TauCeti.LieTypeIndex.B 2 q).Valid)
     (e : Nonempty (↥K ≃* TauCeti.ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩)) : False := by
   obtain ⟨e⟩ := e
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) with hF
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card F = 2 ^ q.exponent := by
     rw [CFSG.Models.card_fixedField_of (TauCeti.LieTypeIndex.characteristic_B 2 q)
       (TauCeti.LieTypeIndex.fieldExponent_B 2 q), hq2]
-  haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hcard
+  have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hcard
   let eG : ↥K ≃* CFSG.Open.StatedSp 2 F :=
     (e.trans (CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv)).trans
       (statedProjSpEquiv 2)

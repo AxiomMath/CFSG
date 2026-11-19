@@ -21,8 +21,8 @@ variable {K : Type} [Field K]
 
 theorem blkMat_mul (M N : Fin 3 → Matrix (Fin 2) (Fin 2) K) :
     blkMat M * blkMat N = blkMat (fun i => M i * N i) := by
-  simp only [blkMat, fromBlocks_multiply, diagonal_mul_diagonal, ← diagonal_add]
-  congr 1 <;> congr 1 <;> funext i <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+  simp only [blkMat, fromBlocks_multiply, diagonal_mul_diagonal]
+  congr 1 <;> funext i <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem blkMat_one : blkMat (fun _ => (1 : Matrix (Fin 2) (Fin 2) K)) = 1 := by
   simp only [blkMat, fromBlocks_one.symm]
@@ -44,8 +44,8 @@ theorem blkMat_symplectic (M : Fin 3 → Matrix (Fin 2) (Fin 2) K) (hM : ∀ i, 
     (blkMat M)ᵀ * (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) * blkMat M =
       fromBlocks 0 1 (-1) 0 := by
   simp only [blkMat, fromBlocks_transpose, diagonal_transpose, fromBlocks_multiply,
-    diagonal_mul_diagonal, Matrix.mul_zero, Matrix.zero_mul, zero_add, add_zero, Matrix.mul_one,
-    Matrix.mul_neg, Matrix.neg_mul, Matrix.one_mul]
+    diagonal_mul_diagonal, Matrix.mul_zero, zero_add, add_zero, Matrix.mul_one,
+    Matrix.mul_neg, Matrix.neg_mul]
   have hd : ∀ i, M i 0 0 * M i 1 1 - M i 0 1 * M i 1 0 = 1 := fun i => by
     rw [← Matrix.det_fin_two (M i)]; exact hM i
   have key : ∀ f g : Fin 3 → K, -(diagonal f) + diagonal g = diagonal (fun i => g i - f i) := by

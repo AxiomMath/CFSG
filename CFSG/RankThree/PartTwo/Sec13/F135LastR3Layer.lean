@@ -23,7 +23,7 @@ theorem r3L1_centralizer_layer_normal (N : Type*) [Group N] :
     (Subgroup.centralizer (CFSG.layer N : Set N)).Normal := by
   have hLchar : (CFSG.layer N).Characteristic := CFSG.LocalCores.layer_characteristic
   have hLn : (CFSG.layer N).Normal := by
-    haveI := hLchar
+    have := hLchar
     infer_instance
   refine ⟨fun x hx g => ?_⟩
   rw [Subgroup.mem_centralizer_iff] at hx ⊢
@@ -82,7 +82,7 @@ theorem r3_charP_centralizer_layer {N : Type} [Group N] [Finite N] {p : ℕ} (hp
     (hcore : CFSG.pPrimeCore p N = ⊥) :
     ∃ Q : Subgroup N, IsPGroup p Q ∧ (∀ g : N, g ∈ Subgroup.normalizer (Q : Set N)) ∧
       Subgroup.centralizer (CFSG.layer N : Set N) ⊓ Subgroup.centralizer (Q : Set N) ≤ Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hC⟩ : ∃ C : Subgroup N, C = Subgroup.centralizer (CFSG.layer N : Set N) :=
     ⟨_, rfl⟩
   have hCle : C ≤ Subgroup.centralizer (CFSG.layer N : Set N) := hC.le
@@ -184,7 +184,7 @@ theorem r3L2a_conj_cent {N : Type} [Group N] {Q : Subgroup N} {u g : N}
 theorem r3_faithful_prod {N : Type} [Group N] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {f : N}
     (hf : f ^ p = 1) {Ū Q : Subgroup N} (hŪ2 : IsPGroup 2 Ū)
     (hfŪ : f ∈ Subgroup.normalizer (Ū : Set N)) (hfn : f ∉ Subgroup.centralizer (Ū : Set N))
-    (hŪQ : Ū ≤ Subgroup.normalizer (Q : Set N)) (hfQ : f ∈ Subgroup.normalizer (Q : Set N))
+    (hŪQ : Ū ≤ Subgroup.normalizer (Q : Set N)) (_hfQ : f ∈ Subgroup.normalizer (Q : Set N))
     (hfaith : Ū ⊓ Subgroup.centralizer (Q : Set N) = ⊥) :
     (Subgroup.zpowers f ⊔ Ū) ⊓ Subgroup.centralizer (Q : Set N) = ⊥ := by
   rw [eq_bot_iff]
@@ -294,7 +294,7 @@ theorem r3L2_zpowers_inf_centralizer_eq_bot {N : Type} [Group N] [Finite N] {p :
     (hp : p.Prime) {f : N} (hf : f ^ p = 1) (hf1 : f ≠ 1) {S : Subgroup N}
     (hfn : f ∉ Subgroup.centralizer (S : Set N)) :
     Subgroup.zpowers f ⊓ Subgroup.centralizer (S : Set N) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEcard : Nat.card (Subgroup.zpowers f) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hf hf1]
   have hHle : Subgroup.zpowers f ⊓ Subgroup.centralizer (S : Set N) ≤ Subgroup.zpowers f :=
@@ -315,7 +315,7 @@ theorem r3L2_zpowers_inf_centralizer_eq_bot {N : Type} [Group N] [Finite N] {p :
 theorem r3_exists_not_centralizing {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     (hp7 : 7 ≤ p) (hlr : CFSG.Assembly.RankThreeEven.localRank p N < 3)
     (hcore : CFSG.pPrimeCore p N = ⊥) {Ū B : Subgroup N} (hŪ2 : IsPGroup 2 Ū) (hŪ1 : Ū ≠ ⊥)
-    (hB : IsPGroup p B) (hBexp : ∀ x ∈ B, x ^ p = 1)
+    (_hB : IsPGroup p B) (hBexp : ∀ x ∈ B, x ^ p = 1)
     (hBN : B ≤ Subgroup.normalizer (Ū : Set N)) (hcomm : ⁅Ū, B⁆ = Ū) :
     ¬ Ū ≤ Subgroup.centralizer (CFSG.layer N : Set N) := by
   intro hle

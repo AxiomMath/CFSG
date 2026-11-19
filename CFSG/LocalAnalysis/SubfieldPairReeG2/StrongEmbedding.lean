@@ -56,7 +56,7 @@ theorem isStronglyEmbedded_subgroupOf {Γ : Type*} [Group Γ] [Finite Γ] {J M :
     obtain ⟨y, hy, hyx⟩ := hxmap
     have hgxg : (g : Γ) * (x : Γ) * (g : Γ)⁻¹ ∈ M := by
       have h1 : (g : J) * x * (g : J)⁻¹ = y := by
-        rw [← hyx]; simp [MulAut.conj_apply, mul_assoc]
+        rw [← hyx]; simp [mul_assoc]
       have h2 := congrArg Subtype.val h1
       have h3 : (y : Γ) ∈ M := Subgroup.mem_subgroupOf.1 hy
       have h4 : (g : Γ) * (x : Γ) * (g : Γ)⁻¹ = (y : Γ) := by simpa using h2
@@ -146,7 +146,7 @@ theorem false_of_stronglyEmbeddedIn {Γ : Type*} [Group Γ] [Finite Γ]
           rw [Subgroup.orderOf_mk, orderOf_injective ψ₁ hψ₁inj s']
           exact hs'2
         have hdvd : 2 ∣ Nat.card O := hord ▸ orderOf_dvd_natCard _
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hcop : Nat.Coprime 2 (Nat.card O) := pPrimeCore_coprime_card (p := 2) (G := L)
         exact absurd (Nat.eq_one_of_dvd_coprimes hcop dvd_rfl hdvd) (by norm_num)
     have hfB : ∀ w : W, f w ∈ B := by
@@ -161,7 +161,7 @@ theorem false_of_stronglyEmbeddedIn {Γ : Type*} [Group Γ] [Finite Γ]
       apply hfinj
       have := congrArg Subtype.val hxy
       simpa [hf'] using this
-    haveI : Group.IsSolvable W := solvable_of_solvable_injective hf'inj
+    have : Group.IsSolvable W := Group.isSolvable_of_isSolvable_injective hf'inj
     obtain ⟨x, y, hxy⟩ := hWnc
     exact hxy ((IsSimpleGroup.comm_iff_isSolvable (G := W)).2 inferInstance x y)
 

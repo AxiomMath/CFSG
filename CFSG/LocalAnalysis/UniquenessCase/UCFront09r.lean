@@ -35,7 +35,7 @@ theorem false_of_le_centralizer_I9 (hKF : KFactShape92NoFaithfulA5) {M L X H : S
     (hcov : L = X ⊔ pCoreOf 2 L)
     (hZ : ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≠ ⊥) (hXH : X ≤ H)
     (hXI : X ≤ centralizer (I9 H : Set G)) (h92 : Shape92 (Lbar9 X H)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ M := hXL.trans hLM
   have hEX : E9 M X ≤ X := (E9_le M X).trans ((commutator_zO2_le hXM).trans inf_le_right)
   have hEE : ⁅E9 M X, X⁆ = E9 M X := commutator_E9_eq hLM hXL hcov hA5 hX

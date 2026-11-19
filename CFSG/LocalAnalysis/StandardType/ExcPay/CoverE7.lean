@@ -231,7 +231,7 @@ private theorem excPayV_e7_center_eq_bot {X : Type} [Group X] [Finite X]
     (θ : X ⧸ Subgroup.center X ≃* TableBExc.RecipeGroup .E7 K) :
     Subgroup.center X = ⊥ := by
   have hQuasi : CFSG.IsQuasisimple X := by
-    haveI hsimple' : IsSimpleGroup (TableBExc.RecipeGroup .E7 K) := hsimple
+    have hsimple' : IsSimpleGroup (TableBExc.RecipeGroup .E7 K) := hsimple
     have hna' : ∃ a b : X ⧸ Subgroup.center X, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hna
       refine ⟨θ.symm a, θ.symm b, fun h => hab ?_⟩
@@ -250,7 +250,7 @@ private theorem excPayV_e7_equiv {X : Type} [Group X] [Finite X]
     (hZ : Subgroup.center X = ⊥)
     (θ : X ⧸ Subgroup.center X ≃* TableBExc.RecipeGroup .E7 K) :
     ∃ (eXiso : X ≃* TableBExc.RecipeGroup .E7 K)
-      (κ : ↥(adjointGroup .E7 (GaloisField 2 f)) ≃* X),
+      (_κ : ↥(adjointGroup .E7 (GaloisField 2 f)) ≃* X),
       ∀ z : X, eXiso z = θ (QuotientGroup.mk z) := by
   let eXiso : X ≃* TableBExc.RecipeGroup .E7 K :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans θ
@@ -264,7 +264,7 @@ private theorem excPayV_e7_equiv_of_marking {G : Type} [Group G] [Finite G] {p :
     ∃ (f : ℕ) (K : Type) (_ : Field K) (_ : Finite K)
       (θ : ↥X ⧸ Subgroup.center ↥X ≃* TableBExc.RecipeGroup .E7 K)
       (eXiso : ↥X ≃* TableBExc.RecipeGroup .E7 K)
-      (κ : ↥(adjointGroup .E7 (GaloisField 2 f)) ≃* ↥X),
+      (_κ : ↥(adjointGroup .E7 (GaloisField 2 f)) ≃* ↥X),
       k ≤ f ∧ p ∣ 2 ^ f + 1 ∧
       (∀ z : ↥X, eXiso z = θ (QuotientGroup.mk z)) ∧
       (∀ b ∈ Bs, b ∈ Subgroup.normalizer (X : Set G)) ∧
@@ -278,19 +278,19 @@ private theorem excPayV_e7_equiv_of_marking {G : Type} [Group G] [Finite G] {p :
       (t := .E7) (by trivial) hm' (excPayV_lieModel_adjointGroup f (by omega))
   have hZ : Subgroup.center ↥X = ⊥ :=
     excPayV_e7_center_eq_bot hmark.1 hsimple hna eR (by omega) θ
-  obtain ⟨eXiso, κ, heXiso⟩ := excPayV_e7_equiv eR hZ θ
+  obtain ⟨eXiso, _κ, heXiso⟩ := excPayV_e7_equiv eR hZ θ
   have hBsInd : ∀ b ∈ Bs, ∃ r : TableBExc.RecipeGroup .E7 K, LargeEvenInduces θ
       (fun l l' => (l' : G) = b⁻¹ * l * b) (MulAut.conj r) := by
     intro b hb
     obtain ⟨φ, hφI, hφInd⟩ := hBsIndI b hb
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcard : Fintype.card K = 2 ^ f := by
       rw [← Nat.card_eq_fintype_card, hK_card]
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow hcard
+    have : CharP K 2 := charP_of_card_eq_prime_pow hcard
     obtain ⟨r, hr⟩ := TableBExc.idImage_subset_inn_E7 K hφI
     exact ⟨r, hr ▸ hφInd⟩
-  exact ⟨f, K, hK_field, hK_finite, θ, eXiso, κ, hkf, hpf, heXiso, hBsN, hBsInd⟩
+  exact ⟨f, K, hK_field, hK_finite, θ, eXiso, _κ, hkf, hpf, heXiso, hBsN, hBsInd⟩
 
 private theorem excPayV_e7_inner {G : Type} [Group G] {Bs X : Subgroup G}
     {K : Type} [Field K] [Finite K]

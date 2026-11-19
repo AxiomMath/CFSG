@@ -19,7 +19,7 @@ theorem mem_Q_of_comm_LB_of_odd (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n 
   classical
   obtain ⟨K, fK, finK, chK, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ, hφπ, hφker, hφQ⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   let Λ : Subgroup (M₀.E ≃ₗ[K] M₀.E) := (φ.comp (Subgroup.inclusion hc.LB_le_H0')).range
   have hΛp : IsPGroup 2 Λ := hc.isPGroup_range_LB φ hφker
   have h35 := (stroth_3_5 h34 hc hs.width hs.n_gt hs.noA2 hs.gen).2.1

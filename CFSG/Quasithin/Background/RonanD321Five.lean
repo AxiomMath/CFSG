@@ -18,8 +18,8 @@ theorem twoResidual_of_d321Two
     {M Mp T L : Subgroup (MulAut W)} {V : Subgroup W} {t : MulAut W}
     (hB : D321Base M Mp T L V t) (hqM : qhatOf M ≤ ((2 : ℚ) : WithTop ℚ))
     (htop : orbSup T V ≠ ⊤) (h2 : D321Two L)
-    (hsum : IsSumMod (fixV Mp) (commV L) ((commV L).map t.toMonoidHom) ⊤)
-    (hle : commV L ≤ fixV (conjAutSub t L)) :
+    (_hsum : IsSumMod (fixV Mp) (commV L) ((commV L).map t.toMonoidHom) ⊤)
+    (_hle : commV L ≤ fixV (conjAutSub t L)) :
     Nat.card ↥(twoResidual (M ⊓ Subgroup.centralizer (Mp : Set (MulAut W)))) = 5 ∨
       (IsElemAbelian 5 (twoResidual (M ⊓ Subgroup.centralizer (Mp : Set (MulAut W)))) ∧
         Nat.card ↥(twoResidual (M ⊓ Subgroup.centralizer (Mp : Set (MulAut W)))) = 25) := by

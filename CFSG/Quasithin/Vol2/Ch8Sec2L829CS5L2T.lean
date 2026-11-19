@@ -9,17 +9,17 @@ namespace CFSG.Quasithin.H13
 open CFSG.GorensteinWalter
 open scoped MatrixGroups
 
-theorem psl2_sylow_transitive_cs5 {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+theorem psl2_sylow_transitive_cs5 {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) (P : Sylow 2 PSL(2, F)) {z z' : PSL(2, F)}
     (hz : z ∈ (P : Subgroup PSL(2, F))) (hz1 : z ≠ 1) (hz' : z' ∈ (P : Subgroup PSL(2, F)))
     (hz'1 : z' ≠ 1) :
     ∃ b ∈ Subgroup.normalizer ((P : Subgroup PSL(2, F)) : Set PSL(2, F)), b * z * b⁻¹ = z' := by
-  clear hn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  clear _hn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : ringChar F = 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨p, hpC, m, hpp, hm⟩ := FiniteField.card' F
-    haveI := hpC
+    have := hpC
     have hp : ringChar F = p := ringChar.eq F p
     have hcard : p ^ (m : ℕ) = 2 ^ n := by
       rw [← hm, ← hF, Nat.card_eq_fintype_card]
@@ -117,7 +117,7 @@ theorem exists_singer_coordinates_psl216
             PSL(2, GaloisField 2 4)) =
           b * (eT (Multiplicative.ofAdd x) : PSL(2, GaloisField 2 4)) * b⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 4
   have hcardK : Nat.card K = 2 ^ 4 := GaloisField.card 2 4 (by norm_num)
   let U : Sylow 2 (PSL(2, K)) := psl2UpperUnipotentSylow K (p := 2) (f := 4) hcardK

@@ -26,7 +26,7 @@ open scoped commutatorElement Pointwise
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ gnC T)}
 
-private theorem four_nontrivial (hX : GNSetting X T) (hV : IsElemAbelian 2 (gnV T))
+private theorem four_nontrivial (_hX : GNSetting X T) (hV : IsElemAbelian 2 (gnV T))
     [Module (ZMod 2) (Additive (IntMod (gnV T) hV))]
     {C₁ : Subgroup X} (h1 : C₁ ≤ omegaOneCenterOf T)
     (eL : ↥L ≃* alternatingGroup (Fin 7))
@@ -79,6 +79,7 @@ private theorem four_comm (hX : GNSetting X T) (hV : IsElemAbelian 2 (gnV T))
   exact commOn_eq_of_card_sixteen (gnRep hV) hinj eL (isElementaryAbelian_map_mk hA₀) hAN₀
     hLA₀ hA₀b hU'16 hU'inv hnt
 
+omit [Finite X] in
 private theorem four_nV (hV : IsElemAbelian 2 (gnV T))
     [Module (ZMod 2) (Additive (IntMod (gnV T) hV))]
     {U : Subgroup X} (hUV : U ≤ gnV T) (hU16 : Nat.card U = 2 ^ 4)
@@ -152,6 +153,7 @@ private theorem submodule_irreducible_of_commOn {Γ W : Type} [Group Γ] [Finite
     have : q' = q := Subtype.ext hqq
     rwa [← this]
 
+omit [Finite X] in
 private theorem four_normalizer_decomp
     {Q : Type} [AddCommGroup Q] [Module (ZMod 2) Q] [Finite Q]
     (ρN : Representation (ZMod 2) ↥(nLs T L) Q)
@@ -237,7 +239,7 @@ theorem four_facts (hX : GNSetting X T) {C₁ : Subgroup X} (h1 : C₁ ≤ omega
     (hC₁ : ¬ L ≤ gnImg T (Subgroup.centralizer (C₁ : Set X)))
     (eL : ↥L ≃* alternatingGroup (Fin 7))
     {W U : Subgroup X} (hWV : W ≤ gnV T) (hZW : omegaOneCenterOf T ≤ W)
-    (hWK : ∀ k ∈ lT T L, ∀ w ∈ W, k * w * k⁻¹ ∈ W) (hWU : ⁅W, lT T L⁆ ≤ U) (hUV : U ≤ gnV T)
+    (_hWK : ∀ k ∈ lT T L, ∀ w ∈ W, k * w * k⁻¹ ∈ W) (hWU : ⁅W, lT T L⁆ ≤ U) (hUV : U ≤ gnV T)
     (hUK : ∀ k ∈ lT T L, ∀ u ∈ U, k * u * k⁻¹ ∈ U) (hU16 : Nat.card U = 2 ^ 4) :
     nV T L ≠ ⊥ ∧ nV T L ⊓ Subgroup.centralizer (lT T L : Set X) = ⊥ ∧
       (∀ g : X, (∀ l ∈ L, QuotientGroup.mk' (gnC T) g * l = l * QuotientGroup.mk' (gnC T) g) →
@@ -251,7 +253,7 @@ theorem four_facts (hX : GNSetting X T) {C₁ : Subgroup X} (h1 : C₁ ≤ omega
   have hVT : gnV T ≤ T := gnV_le_of_le hX.charTwo hQT
   set ρ := gnRep hV with hρ
   have hinj : Function.Injective ρ := gnRep_injective hV
-  have hnt := four_nontrivial (hX := hX) (hV := hV) (L := L) h1 eL hWV hZW hWU hC₁
+  have hnt := four_nontrivial (_hX := hX) (hV := hV) (L := L) h1 eL hWV hZW hWU hC₁
   obtain ⟨hcomm, hfix⟩ := four_comm (hX := hX) (hV := hV) (L := L) hL hJ eL hUV hUK hU16 hnt
   obtain ⟨hNV, hne, hC⟩ := four_nV (hV := hV) (L := L) hUV hU16 hcomm hfix
   obtain ⟨A₀, hA₀, hAN₀, hLA₀⟩ := exists_offender_of_le (hV := hV) hVT L hL hJ
@@ -287,6 +289,7 @@ theorem four_facts (hX : GNSetting X T) {C₁ : Subgroup X} (h1 : C₁ ≤ omega
 
 namespace SevenCtx0
 
+omit [Finite X] in
 private theorem θs_mem_alternating (c : SevenCtx0 T L)
     (hinner : ∀ y ∈ nLs T L, ∃ l ∈ L, ∀ m ∈ L, (l⁻¹ * y) * m = m * (l⁻¹ * y))
     {y : X ⧸ gnC T} (hy : y ∈ nLs T L) : c.θs ⟨y, hy⟩ ∈ alternatingGroup (Fin 7) := by
@@ -301,10 +304,11 @@ private theorem θs_mem_alternating (c : SevenCtx0 T L)
     group
   have hprod : (⟨y, hy⟩ : ↥(nLs T L)) = ⟨l, hln⟩ * ⟨l⁻¹ * y, hkn⟩ := by
     ext
-    simp [mul_assoc]
+    simp
   rw [hprod, map_mul, hθk, mul_one, c.θs_of_mem_L hlL]
   exact (c.eL ⟨l, hlL⟩).2
 
+omit [Finite X] in
 private theorem img_le_alternating (c : SevenCtx0 T L)
     (hinner : ∀ y ∈ nLs T L, ∃ l ∈ L, ∀ m ∈ L, (l⁻¹ * y) * m = m * (l⁻¹ * y))
     {R : Subgroup X} (hRL : R ≤ nL T L) : c.img R ≤ alternatingGroup (Fin 7) := by
@@ -386,6 +390,7 @@ private theorem exists_conj_img_eq_fourD (c : SevenCtx0 T L) (hX : GNSetting X T
   rw [SevenCtx0.img_conj, hReq]
   exact hconj.symm
 
+omit [Finite X] in
 private theorem exists_lift_of_mem_img (c : SevenCtx0 T L)
     (hRL : T ⊓ nL T L ≤ nL T L)
     (hReq : c.img (T ⊓ nL T L) = c.img (T ⊓ lT T L)) {σ : Perm (Fin 7)}
@@ -453,6 +458,7 @@ private theorem four_steps (hX : GNSetting X T)
       (by rw [himgR]; exact minParabolic_fourPS) fourPS_le_alt nonempty_fourA5_equiv
       (by rw [himgR, fourPS_eq]) (by rw [himgR]; exact fourD_le_normalizer_fourA5) hQLS
 
+omit [Finite X] in
 private theorem four_contradiction {C₁ C₂ : Subgroup X} (hY : GNYComponent T C₁ C₂ L)
     {c' : SevenCtx0 T L}
     (hstepb : c'.wP fourPb ≤ gnImg T (Subgroup.centralizer (C₁ : Set X)) ∨

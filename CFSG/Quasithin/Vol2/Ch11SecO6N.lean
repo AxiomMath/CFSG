@@ -27,7 +27,7 @@ theorem mem_pCore_of_pow_eq_one {r : ℕ} [Fact r.Prime] {z : X}
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S hSn
   have hmapn : ((S : Subgroup F).map F.subtype).Normal := inferInstance
   have hle : (S : Subgroup F).map F.subtype ≤ CFSG.pCore r X :=
-    le_sSup ⟨hmapn, S.isPGroup'.map _⟩
+    le_sSup ⟨hmapn, S.isPGroup.map _⟩
   exact hle ⟨⟨z, hz⟩, hS (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers z)), rfl⟩
 
 theorem conj_eq_of_forall_pCore {s : X}

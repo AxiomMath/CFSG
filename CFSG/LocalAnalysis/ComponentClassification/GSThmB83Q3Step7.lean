@@ -271,7 +271,7 @@ theorem W_ne (hq : h.IsQ3) (hF : Cat8.Q3Facts) {U : Sylow 2 X} (hRU : d.R ≤ U)
       have h3 : orderOf y ≠ 1 := fun h1 => hy1 (orderOf_eq_one_iff.mp h1)
       omega
     obtain ⟨N, hN, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-      U.isPGroup' (Sylow.not_dvd_index U) hU₀U hidx haU haU₀ hmin hconj
+      U.isPGroup (Sylow.not_dvd_index U) hU₀U hidx haU haU₀ hmin hconj
     have := hsimple
     have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with rfl | rfl

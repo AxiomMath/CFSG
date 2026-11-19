@@ -78,8 +78,7 @@ theorem prod_invW {w : List ℕ} (hw : w.all okReg = true) :
       List.map_reverse, List.map_map, List.prod_cons, mul_inv_rev] at ih ⊢
     rw [← List.map_reverse, ← List.map_map] at ih ⊢
     rw [ih hw.2]
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
-      Function.comp_apply]
+    simp only [List.map_nil, List.prod_nil, mul_one]
     rw [invReg_spec hw.1]
 
 theorem lt_of_okReg {w : List ℕ} (hw : w.all okReg = true) : ∀ r ∈ w, rowsMatrix regs7[r]! = matJ (R7 r) := by
@@ -142,7 +141,7 @@ theorem s0_ne_one : s 0 ≠ 1 := by
 
 theorem exists_component :
     ∃ J0 : Subgroup J, GLAPComponent 7 (Subgroup.centralizer ({R7 24 * R7 25 ^ 6} : Set J)) J0 := by
-  haveI : Finite J :=
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   set L : Subgroup J := Subgroup.closure (s '' Set.Iio 6) with hL
   have hLC : L ≤ Subgroup.centralizer ({R7 24 * R7 25 ^ 6} : Set J) := by
@@ -166,7 +165,7 @@ theorem exists_component :
   exact exists_component_of_perfect_1176 orderOf_z7 card_centralizer_z7 hLC hperf hne
 
 theorem kd264RowData_Th_seven : KD264RowData 7 J := by
-  haveI : Finite J :=
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   obtain ⟨J0, hJ0⟩ := exists_component
   refine kd264RowData_of_sq (by norm_num) ?_ orderOf_z7 hJ0
@@ -188,10 +187,10 @@ set_option maxRecDepth 100000 in
 theorem kd264SporAt_Th_seven
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KD264SporAt 7 .Th := by
-  haveI : Finite J :=
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
-  haveI hTh : IsSimpleGroup NativeSporadic.Th := CFSG.Milestones.fam_th_simplicity
-  haveI : IsSimpleGroup J := @MulEquiv.isSimpleGroup _ _ _ _ hTh thEquivJ.symm
+  have hTh : IsSimpleGroup NativeSporadic.Th := CFSG.Milestones.fam_th_simplicity
+  have : IsSimpleGroup J := @MulEquiv.isSimpleGroup _ _ _ _ hTh thEquivJ.symm
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
   have hp : ¬ (Nat.card J).Prime := by
     rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num

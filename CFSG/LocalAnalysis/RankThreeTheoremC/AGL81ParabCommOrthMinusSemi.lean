@@ -20,6 +20,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r : ℕ}
 
+omit [Finite K] in
 theorem scalar_eq_one_of_isometry {V : Type} [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {g : V ≃ₗ[K] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgs : g ∈ scalars K V) {v₀ : V}
@@ -33,12 +34,14 @@ theorem scalar_eq_one_of_isometry {V : Type} [AddCommGroup V] [Module K V]
   have ha1 : a = 1 := sub_eq_zero.1 ((pow_eq_zero_iff two_ne_zero).1 h8)
   exact LinearEquiv.ext fun v => by rw [ha, ha1, one_smul]; rfl
 
-theorem exists_quadTail_ne_zero (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] [CharP K 2] in
+theorem exists_quadTail_ne_zero (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ∃ v : (Fin r ⊕ Fin r → K) × (Fin 2 → K), quadTail r (minusTailForm K b c) v ≠ 0 := by
   refine ⟨((0 : Fin r ⊕ Fin r → K), Pi.single 0 1), ?_⟩
   rw [quadTail_tail, minusTailForm_apply]
   simp
 
+omit [Finite K] in
 theorem scalars_subgroupOf_orthDerived_eq_bot (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (scalars K ((Fin r ⊕ Fin r → K) × (Fin 2 → K))).subgroupOf
       (orthDerived (quadTail r (minusTailForm K b c))) = ⊥ := by
@@ -52,6 +55,7 @@ theorem scalars_subgroupOf_orthDerived_eq_bot (hirr : ∀ s : K, s ^ 2 + b * s +
   have h1 := scalar_eq_one_of_isometry hgo hgs hv₀
   exact Subtype.ext h1
 
+omit [CharP K 2] in
 theorem exists_semiSim_aux {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     (Q : QuadraticForm K V) (hQnd : (polarBilin Q).Nondegenerate) (hdim : 7 ≤ finrank K V)
     (hD4 : finrank K V = 8 → ¬ ∃ U : Submodule K V, finrank K U = 4 ∧ ∀ u ∈ U, Q u = 0)
@@ -155,6 +159,7 @@ def semilinImage {V : Type} [AddCommGroup V] [Module K V] (F : V ≃+ V) (σ : K
     rintro a _ ⟨x, hx, rfl⟩
     exact ⟨σ.symm a • x, S.smul_mem _ hx, by rw [hF, σ.apply_symm_apply]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem natCard_semilinImage {V : Type} [AddCommGroup V] [Module K V] (F : V ≃+ V) (σ : K ≃+* K)
     (hF : ∀ (a : K) (v : V), F (a • v) = σ a • F v) (S : Submodule K V) :
     Nat.card (semilinImage F σ hF S) = Nat.card S := by
@@ -163,6 +168,7 @@ theorem natCard_semilinImage {V : Type} [AddCommGroup V] [Module K V] (F : V ≃
     semilinImage F σ hF S)) ⟨fun x y h => Subtype.ext (F.injective (congrArg Subtype.val h)),
       fun ⟨_, ⟨x, hx, rfl⟩⟩ => ⟨⟨x, hx⟩, rfl⟩⟩)
 
+omit [CharP K 2] in
 theorem mem_flag_iff_of_normalizes (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (hd : OrthCuts r d)
     {σ : K ≃+* K} {F : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃+ ((Fin r ⊕ Fin r → K) × (Fin 2 → K))}
     (hF : ∀ (a : K) (v : (Fin r ⊕ Fin r → K) × (Fin 2 → K)), F (a • v) = σ a • F v) {μ : K}

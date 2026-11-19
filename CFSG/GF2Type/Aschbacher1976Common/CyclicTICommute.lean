@@ -14,11 +14,13 @@ variable {G : Type*} [Group G] [Finite G]
 @[expose] def conjugatesIn (A S : Subgroup G) : Set (Subgroup G) :=
   {B | ∃ g : G, B = conjugate A g ∧ B ≤ S}
 
+omit [Finite G] in
 theorem card_conjugate_eq (A : Subgroup G) (g : G) : Nat.card (conjugate A g) = Nat.card A := by
   unfold conjugate
   exact Subgroup.card_map_of_injective (f := (MulAut.conj g⁻¹).toMonoidHom)
     (MulEquiv.injective (MulAut.conj g⁻¹))
 
+omit [Finite G] in
 theorem exists_sq_ne_one_of_cyclic {A : Subgroup G} (hA : IsCyclic A) (hA4 : 4 ≤ Nat.card A) :
     ∃ a ∈ A, a ^ 2 ≠ 1 := by
   obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥A)
@@ -27,6 +29,7 @@ theorem exists_sq_ne_one_of_cyclic {A : Subgroup G} (hA : IsCyclic A) (hA4 : 4 �
   rw [Subgroup.orderOf_coe, ha] at hle
   omega
 
+omit [Finite G] in
 theorem conjugate_comm_of_isCyclic {A : Subgroup G} (hA : IsCyclic A) {g x y : G}
     (hx : x ∈ conjugate A g) (hy : y ∈ conjugate A g) : x * y = y * x := by
   have hx' : g * x * g⁻¹ ∈ A :=
@@ -71,8 +74,8 @@ theorem tiFamily_conjugates {A S : Subgroup G} (hA : IsCyclic A) (hA2 : IsPGroup
     rw [card_conjugate_eq, card_conjugate_eq]
   · intro R hR hbot
     obtain ⟨g, rfl, -⟩ := hR
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 (conjugate A g)) := ⟨hA2.map (MulAut.conj g⁻¹).toMonoidHom⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 (conjugate A g)) := ⟨hA2.map (MulAut.conj g⁻¹).toMonoidHom⟩
     obtain ⟨a, ha, ha2⟩ := exists_sq_ne_one_of_cyclic hA hA4
     have hmem : g⁻¹ * a * g ∈ conjugate A g :=
       CFSG.LocalAnalysis.GorensteinLyons.inv_mul_mul_mem_conjugate ha

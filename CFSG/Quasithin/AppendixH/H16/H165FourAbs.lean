@@ -399,7 +399,7 @@ theorem isE2k_kleinSubgroup {z d : P24} (hz : z * z = 1) (hd : d * d = 1) (hzd :
     ext x
     change x ∈ kleinSubgroup z d hz hd hzd ↔ x ∈ ({1, z, d, z * d} : Set P24)
     rw [mem_kleinSubgroup_iff]
-    simp [Set.mem_insert_iff, Set.mem_singleton_iff, or_assoc]
+    simp [Set.mem_insert_iff, Set.mem_singleton_iff]
   unfold IsE2k CFSG.Open.IsElemAbelian
   refine ⟨⟨?_, ?_⟩, ?_⟩
   · have hzd' : d * z = z * d := hzd.symm
@@ -414,7 +414,7 @@ theorem isE2k_kleinSubgroup {z d : P24} (hz : z * z = 1) (hd : d * d = 1) (hzd :
     rcases (mem_kleinSubgroup_iff hz hd hzd a.1).mp a.2 with ha | ha | ha | ha <;>
       rcases (mem_kleinSubgroup_iff hz hd hzd b.1).mp b.2 with hb | hb | hb | hb <;>
       rw [ha, hb] <;>
-      simp [hz, hd, hzd', hzzd, hdzd, hzdz, hzdd, hzdzd]
+      simp [hzd', hzzd, hdzd, hzdz, hzdd]
   · intro x hx
     rcases (mem_kleinSubgroup_iff hz hd hzd x).mp hx with h | h | h | h
     · rw [h]; simp

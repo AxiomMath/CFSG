@@ -157,7 +157,7 @@ theorem sec34_normalizes_M
     s ∈ normalizer (Section3.M A Abar : Set G) := by
   obtain ⟨hN, hO2, -⟩ := h.setup.exists_models CFSG.CGT.T75N.benderCenterInput
     CFSG.CGT.T75N.unitaryTwoGenerationInput
-  haveI := hN
+  have := hN
   have hMe : ∀ m ∈ Section3.M A Abar, m * m = 1 := fun m hm => by
     rw [← sq]
     exact h.setup.isElemAbelian_M.2 m hm
@@ -234,7 +234,7 @@ theorem tim77Sec34_holds :
     have hu : conjSubgroup s (A ⊔ Abar) = A ⊔ Abar := by
       have h1 := mem_normalizer_iff_conjSubgroup_eq.1 hX
       rwa [h.x_eq] at h1
-    haveI := h.setup.normal_subgroupOf
+    have := h.setup.normal_subgroupOf
     have hsq' : ∀ y ∈ A ⊔ Abar, (s * s)⁻¹ * y⁻¹ * (s * s) * y ∈ Section3.M A Abar := by
       intro y hy
       have key : (s * s)⁻¹ * y⁻¹ * (s * s) * y = (s * s)⁻¹ * (y⁻¹ * (s * s) * y) := by

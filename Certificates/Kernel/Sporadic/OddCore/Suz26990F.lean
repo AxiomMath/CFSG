@@ -88,7 +88,7 @@ theorem word_of {S : Array (Array Nat)} {k : Nat} {PS PSI : Nat → Nat} {wd : L
     wordA 1782 S (rawInvs 1782 S) wd = unpack 1782 11 (wordK 1782 11 (mask 11) e PS PSI wd) := by
   refine (wordEqK_sound hS (CFSG.KS.Raw.Orb.allN_iff.2 hp) ?_).1
   unfold wordEqK
-  simp only [bAnd_iff, hsz, hl, true_and]
+  simp only [hsz, hl]
   exact Nat.beq_refl _
 
 theorem tri_bind : bTriple.size = 3 ∧ ∀ j < 3, bTriple[j]! = unpack 1782 11 (triS j) := by

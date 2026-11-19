@@ -14,7 +14,7 @@ open scoped CharTwo
 
 private lemma sec12S8Mod_tor_charP_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 16) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hcp, m, hp, hcard⟩ := FiniteField.card' K
   have hcard16 : Fintype.card K = 16 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hpdvd : p ∣ 16 := by
@@ -28,7 +28,7 @@ private lemma sec12S8Mod_tor_charP_two {K : Type} [Field K] [Finite K] (hK : Nat
 
 private lemma sec12S8Mod_tor_primRoot {K : Type} [Field K] [Finite K] (hK : Nat.card K = 16)
     {n : ℕ} (hn : n = 3 ∨ n = 5) : ∃ ζ : K, IsPrimitiveRoot ζ n := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨ζ, hζ⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hord : orderOf ζ = Nat.card Kˣ := orderOf_eq_card_of_forall_mem_zpowers hζ
   have hcard : Nat.card Kˣ = 15 := by rw [Nat.card_units, hK]
@@ -85,8 +85,8 @@ theorem sec12S8Mod_tor_diag {K : Type} [Field K] [Finite K] (hK : Nat.card K = 1
     ∃ (P : Matrix (Fin 2) (Fin 2) K) (μ : K), IsUnit P.det ∧ μ ^ n = 1 ∧ μ ≠ 1 ∧
       (M : Matrix (Fin 2) (Fin 2) K) * P = P * Matrix.diagonal ![μ, μ⁻¹] := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := sec12S8Mod_tor_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := sec12S8Mod_tor_charP_two hK
   have hnpos : 0 < n := by rcases hn with h | h <;> omega
   obtain ⟨ζ, hζ⟩ := sec12S8Mod_tor_primRoot hK hn
   have hfac := Polynomial.X_pow_sub_one_eq_prod (R := K) hnpos hζ
@@ -172,7 +172,7 @@ theorem sec12S8Mod_tor_diag {K : Type} [Field K] [Finite K] (hK : Nat.card K = 1
       rw [ht, zero_smul, sub_zero] at h2
       have hone : (1 : Matrix (Fin 2) (Fin 2) K) + 1 = 0 := by
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+        fin_cases i <;> fin_cases j <;> simp
       calc A ^ 2 = A ^ 2 + (1 + 1) := by rw [hone, add_zero]
         _ = (A ^ 2 + 1) + 1 := by rw [← add_assoc]
         _ = 0 + 1 := by rw [h2]
@@ -194,10 +194,10 @@ theorem sec12S8Mod_tor_diag {K : Type} [Field K] [Finite K] (hK : Nat.card K = 1
   have hAP : A * P = P * Matrix.diagonal ![μ, μ⁻¹] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [P, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mul_diagonal, hcol1, hcol2] <;>
+      simp [P, Matrix.mul_apply, Fin.sum_univ_two, hcol1, hcol2] <;>
       ring
   have hPdet : IsUnit P.det := by
-    rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_col_iff_isUnit]
     have hμν : μ ≠ μ⁻¹ := by
       intro h
       have h2 : μ ^ 2 = 1 := by
@@ -233,8 +233,8 @@ theorem sec12S8Mod_torus {K : Type} [Field K] [Finite K] (hK : Nat.card K = 16)
     ∃ c w r : SpecialLinearGroup (Fin 2) K, c * g = g * c ∧ c ^ 3 = 1 ∧ c ≠ 1 ∧
       w * g * w⁻¹ = g⁻¹ ∧ w * c * w⁻¹ = c⁻¹ ∧ r * h * r⁻¹ = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := sec12S8Mod_tor_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := sec12S8Mod_tor_charP_two hK
   obtain ⟨P, lam, hPunit, hlam5, hlam1, hgP⟩ := sec12S8Mod_tor_diag hK (Or.inr rfl) g hg5 hg1
   obtain ⟨Q, ω, hQunit, hω3, hω1, hhQ⟩ := sec12S8Mod_tor_diag hK (Or.inl rfl) h hh3 hh1
   have hPne : P.det ≠ 0 := isUnit_iff_ne_zero.mp hPunit
@@ -295,12 +295,12 @@ theorem sec12S8Mod_torus {K : Type} [Field K] [Finite K] (hK : Nat.card K = 16)
     rw [hDlaminv]
     show (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) K) * Matrix.diagonal ![lam, lam⁻¹] *
         !![0, 1; 1, 0] = Matrix.diagonal ![lam⁻¹, lam]
-    simp [Matrix.diagonal_fin_two, Matrix.mul_fin_two]
+    simp [Matrix.diagonal_fin_two]
   have hSω : S * Dω * S = Dω⁻¹ := by
     rw [hDωinv]
     show (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) K) * Matrix.diagonal ![ω, ω⁻¹] *
         !![0, 1; 1, 0] = Matrix.diagonal ![ω⁻¹, ω]
-    simp [Matrix.diagonal_fin_two, Matrix.mul_fin_two]
+    simp [Matrix.diagonal_fin_two]
   have hDcomm : Dω * Dlam = Dlam * Dω := by
     show Matrix.diagonal ![ω, ω⁻¹] * Matrix.diagonal ![lam, lam⁻¹] =
       Matrix.diagonal ![lam, lam⁻¹] * Matrix.diagonal ![ω, ω⁻¹]

@@ -92,12 +92,12 @@ theorem blockSL2_eq_blk {k : Fin 4} (hk : k ≠ 3) (h : 2 * k.val < 5) (A : SL2F
         (⟨s.val - 2 * k.val, h'⟩ : Fin 2) = if s = bA k then 0 else 1 := by
     intro s hs h'
     by_cases h0 : s = bA k
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       apply Fin.ext
       have : s.val = 2 * k.val := by rw [h0, hbA]
       show s.val - 2 * k.val = 0
       omega
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       apply Fin.ext
       have : s.val ≠ 2 * k.val := fun h => h0 (Fin.ext (by rw [h, hbA]))
       show s.val - 2 * k.val = 1
@@ -111,8 +111,8 @@ theorem blockSL2_eq_blk {k : Fin 4} (hk : k ≠ 3) (h : 2 * k.val < 5) (A : SL2F
   have hc := mem_blk_pair_iff hk c
   by_cases hrc : (2 * k.val ≤ r.val ∧ r.val < 2 * k.val + 2) ∧
       (2 * k.val ≤ c.val ∧ c.val < 2 * k.val + 2)
-  · rw [dif_pos hrc, if_pos ⟨hr.2 hrc.1, hc.2 hrc.2⟩, hidx r hrc.1, hidx c hrc.2]
-  · rw [dif_neg hrc, if_neg (fun h => hrc ⟨hr.1 h.1, hc.1 h.2⟩)]
+  · rw [dite_eq_left hrc, ite_eq_left ⟨hr.2 hrc.1, hc.2 hrc.2⟩, hidx r hrc.1, hidx c hrc.2]
+  · rw [dite_eq_right hrc, ite_eq_right (fun h => hrc ⟨hr.1 h.1, hc.1 h.2⟩)]
 
 section Chart
 
@@ -172,14 +172,14 @@ theorem ggF4_calibration_C1 {Bs K : Subgroup G} (ψ₁ : SL6F4 →* G) (hK : ψ�
   · rw [congr_sgnAut_apply]
     by_cases hk3 : k = 3
     · subst hk3
-      rw [if_neg (Ne.symm hi), hfix3]
+      rw [ite_eq_right (Ne.symm hi), hfix3]
     · rw [hn k hk3, hconj]
       by_cases hki : k = i
       · subst hki
         have hM : blk k a * blk k t * (blk k a)⁻¹ = (blk k t)⁻¹ := by
           rw [← map_inv (blk k) a, ← map_mul, ← map_mul, hat, map_inv]
-        rw [if_pos rfl, Subgroup.coe_inv, hn k hk3, hM, map_inv]
-      · rw [if_neg hki, hn k hk3, (blk_commute hi hk3 (Ne.symm hki) a t).eq, mul_inv_cancel_right]
+        rw [ite_eq_left rfl, Subgroup.coe_inv, hn k hk3, hM, map_inv]
+      · rw [ite_eq_right hki, hn k hk3, (blk_commute hi hk3 (Ne.symm hki) a t).eq, mul_inv_cancel_right]
   · by_cases hbc : b = c
     · subst hbc
       rw [Equiv.swap_self, show (Equiv.refl (Fin 4) : Equiv.Perm (Fin 4)) = 1 from rfl, permAut_one,
@@ -254,17 +254,17 @@ theorem swap_mem_zpowers {Bs L : Subgroup G} {x g y v n₃ nₘ : G}
         calc g * g * x = g * (g * x * g⁻¹) * g⁻¹ * (g * g) := by group
           _ = x * (g * g) := by rw [hgx, hgx]
       rw [Subgroup.mem_centralizer_singleton_iff]
-      first | exact h | exact h.symm
+      exact h.symm
     · have hb' : g * b⁻¹ * g⁻¹ = b := by
         rw [show g * b⁻¹ * g⁻¹ = (g * b * g⁻¹)⁻¹ by group, hinv b hb, inv_inv]
       have h : g * g * b = b * (g * g) := by
         calc g * g * b = g * (g * b * g⁻¹) * g⁻¹ * (g * g) := by group
           _ = b * (g * g) := by rw [hinv b hb, hb']
       rw [Subgroup.mem_centralizer_singleton_iff]
-      first | exact h | exact h.symm
+      exact h.symm
   have hgy2 : g * (g * y * g⁻¹) * g⁻¹ = y := by
     have h := Subgroup.mem_centralizer_singleton_iff.1 (hg2 hyB)
-    have h' : g * g * y = y * (g * g) := by first | exact h | exact h.symm
+    have h' : g * g * y = y * (g * g) := by exact h.symm
     calc g * (g * y * g⁻¹) * g⁻¹ = (g * g) * y * (g * g)⁻¹ := by group
       _ = y := by rw [h', mul_inv_cancel_right]
   have hzv : Subgroup.zpowers (g * y * g⁻¹) = Subgroup.zpowers v := by

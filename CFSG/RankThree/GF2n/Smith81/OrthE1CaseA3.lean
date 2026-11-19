@@ -25,10 +25,10 @@ theorem prod_normal_factor {A B : Type} [Group A] [Group B] [IsSimpleGroup A] [I
     Subgroup.Normal.conj_mem ‹N.Normal› n hn g
   let NA : Subgroup A := N.comap (MonoidHom.inl A B)
   let NB : Subgroup B := N.comap (MonoidHom.inr A B)
-  haveI hNA : NA.Normal := ⟨fun n hn g => by
+  have hNA : NA.Normal := ⟨fun n hn g => by
     have h := hNc ((MonoidHom.inl A B) n) hn ((MonoidHom.inl A B) g)
     simpa [NA, Subgroup.mem_comap, map_mul, map_inv] using h⟩
-  haveI hNB : NB.Normal := ⟨fun n hn g => by
+  have hNB : NB.Normal := ⟨fun n hn g => by
     have h := hNc ((MonoidHom.inr A B) n) hn ((MonoidHom.inr A B) g)
     simpa [NB, Subgroup.mem_comap, map_mul, map_inv] using h⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal NA with hA0 | hA1
@@ -77,8 +77,8 @@ theorem prod_normal_factor {A B : Type} [Group A] [Group B] [IsSimpleGroup A] [I
 
 theorem omega_normal_two_charP_of_dvd (K : Type) [Field K] [Finite K] (h : 2 ∣ Nat.card K) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := Fintype.ofFinite K
+  have := ringChar.charP K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have h2 : 2 ∣ ringChar K := by
     rw [Nat.card_eq_fintype_card, hn] at h
@@ -88,7 +88,7 @@ theorem omega_normal_two_charP_of_dvd (K : Type) [Field K] [Finite K] (h : 2 ∣
 
 theorem omega_normal_two_card_two_pow (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ f : ℕ, Nat.card K = 2 ^ f := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
 
@@ -127,7 +127,7 @@ theorem omega_normal_two_finite_sl2 (K : Type) [Field K] [Finite K] (h4 : 4 ≤ 
 theorem omega_normal_two_sylow_sl2 (F : Type) [Field F] [Finite F] [CharP F 2]
     (h4 : 4 ≤ Nat.card F) :
     ∃ H : Subgroup ↥(StatedSL 2 F), IsPGroup 2 H ∧ Nat.card H = Nat.card F := by
-  haveI := omega_normal_two_finite_sl2 F h4
+  have := omega_normal_two_finite_sl2 F h4
   obtain ⟨f, hf⟩ := omega_normal_two_card_two_pow F
   obtain ⟨H, hH⟩ : ∃ H : Subgroup ↥(StatedSL 2 F), Nat.card H = 2 ^ f := by
     refine Sylow.exists_subgroup_card_pow_prime 2 ?_
@@ -140,9 +140,9 @@ theorem omega_normal_two_gamma_plus (K : Type) [Field K] [Finite K] [CharP K 2]
     (IsPGroup 2 N → N = ⊥) ∧
       (N ≠ ⊥ → ∃ U : Subgroup (↥(StatedSL 2 K) × ↥(StatedSL 2 K)),
         U ≤ N ∧ IsPGroup 2 U ∧ Nat.card K ≤ Nat.card U) := by
-  haveI hQ : CFSG.IsQuasisimple ↥(StatedSL 2 K) := statedSL_quasisimple_of_card 2 K le_rfl h4
-  haveI hS : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hQ
-  haveI := omega_normal_two_finite_sl2 K h4
+  have hQ : CFSG.IsQuasisimple ↥(StatedSL 2 K) := statedSL_quasisimple_of_card 2 K le_rfl h4
+  have hS : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hQ
+  have := omega_normal_two_finite_sl2 K h4
   have hcen : Subgroup.center ↥(StatedSL 2 K) = ⊥ := center_statedSL_two_eq_bot
   obtain ⟨H, hH2, hHc⟩ := omega_normal_two_sylow_sl2 K h4
   constructor
@@ -183,9 +183,9 @@ theorem omega_normal_two_gamma_minus (F : Type) [Field F] [Finite F] [CharP F 2]
     (IsPGroup 2 N → N = ⊥) ∧
       (N ≠ ⊥ → ∃ U : Subgroup ↥(StatedSL 2 F), U ≤ N ∧ IsPGroup 2 U ∧
         Nat.card F ≤ Nat.card U) := by
-  haveI hQ : CFSG.IsQuasisimple ↥(StatedSL 2 F) := statedSL_quasisimple_of_card 2 F le_rfl h4
-  haveI hS : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two hQ
-  haveI := omega_normal_two_finite_sl2 F h4
+  have hQ : CFSG.IsQuasisimple ↥(StatedSL 2 F) := statedSL_quasisimple_of_card 2 F le_rfl h4
+  have hS : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two hQ
+  have := omega_normal_two_finite_sl2 F h4
   have hcen : Subgroup.center ↥(StatedSL 2 F) = ⊥ := center_statedSL_two_eq_bot
   obtain ⟨H, hH2, hHc⟩ := omega_normal_two_sylow_sl2 F h4
   constructor
@@ -209,7 +209,7 @@ theorem omega_normal_two_transfer {q : ℕ} {W Γ : Type} [Group W] [Group Γ] (
     (N : Subgroup W) [N.Normal] :
     (IsPGroup 2 N → N = ⊥) ∧
       (N ≠ ⊥ → ∃ U : Subgroup W, U ≤ N ∧ IsPGroup 2 U ∧ q ≤ Nat.card U) := by
-  haveI hN' : (N.map e.toMonoidHom).Normal :=
+  have hN' : (N.map e.toMonoidHom).Normal :=
     Subgroup.Normal.map ‹N.Normal› e.toMonoidHom e.surjective
   constructor
   · intro hP
@@ -238,17 +238,17 @@ theorem omega_normal_two {q : ℕ} (hq : 4 ≤ q) (hq2 : 2 ∣ q) {W : Type} [Gr
       (N ≠ ⊥ → ∃ U : Subgroup W, U ≤ N ∧ IsPGroup 2 U ∧ q ≤ Nat.card U) := by
   rcases hW with ⟨K, hK, hKfin, hKq, ⟨e⟩⟩ | ⟨K, hK, hKfin, hKq, b, c, hirr, ⟨e⟩⟩
   · subst hKq
-    haveI : CharP K 2 := omega_normal_two_charP_of_dvd K hq2
+    have : CharP K 2 := omega_normal_two_charP_of_dvd K hq2
     obtain ⟨eΓ⟩ := statedOmega_plus_four_nonempty_equiv K hq
     exact omega_normal_two_transfer (e.trans eΓ)
       (fun N' hN' => omega_normal_two_gamma_plus K hq N') N
   · subst hKq
-    haveI : CharP K 2 := omega_normal_two_charP_of_dvd K hq2
+    have : CharP K 2 := omega_normal_two_charP_of_dvd K hq2
     obtain ⟨F, hF, hFfin, hFcard, ⟨eF⟩⟩ := exists_statedOmega_quadMinus_two_mulEquiv hirr
     have h2F : 2 ∣ Nat.card F := by
       rw [hFcard]
       exact dvd_pow hq2 two_ne_zero
-    haveI : CharP F 2 := omega_normal_two_charP_of_dvd F h2F
+    have : CharP F 2 := omega_normal_two_charP_of_dvd F h2F
     have hqF : Nat.card K ≤ Nat.card F := by
       rw [hFcard]
       nlinarith
@@ -297,13 +297,13 @@ theorem card_bar_mul {G : Type} [Group G] [Finite G] {X Q T : Subgroup G}
   exact (mul_comm _ _).trans key
 
 theorem omega_two_group {G : Type} [Group G] [Finite G] {X Q F : Subgroup G} {q : ℕ} (hq : 4 ≤ q)
-    (hq2 : 2 ∣ q) (hQX : Q ≤ X) (hQF : Q ≤ F) (hFX : F ≤ X)
+    (hq2 : 2 ∣ q) (_hQX : Q ≤ X) (_hQF : Q ≤ F) (hFX : F ≤ X)
     (hFn : ∀ x ∈ X, ∀ f ∈ F, x * f * x⁻¹ ∈ F)
     (hX : QuotSat X Q (IsOmegaPlus 2 q) ∨ QuotSat X Q (IsOmegaMinus 2 q))
     (h2 : ∀ f ∈ F, ∃ k : ℕ, f ^ (2 ^ k) ∈ Q) : F ≤ Q := by
   have hn : (Q.subgroupOf X).Normal := by
     rcases hX with ⟨hn, _⟩ | ⟨hn, _⟩ <;> exact hn
-  haveI := hn
+  have := hn
   have hW : IsOmegaPlus 2 q (↥X ⧸ Q.subgroupOf X) ∨
       IsOmegaMinus 2 q (↥X ⧸ Q.subgroupOf X) := by
     rcases hX with ⟨_, hP⟩ | ⟨_, hP⟩
@@ -315,7 +315,7 @@ theorem omega_two_group {G : Type} [Group G] [Finite G] {X Q F : Subgroup G} {q 
     exact hFn k hk h hh
   have hNn : (bar X Q F).Normal :=
     hFn'.map (QuotientGroup.mk' (Q.subgroupOf X)) (QuotientGroup.mk'_surjective (Q.subgroupOf X))
-  haveI := hNn
+  have := hNn
   have hNp : IsPGroup 2 ↥(bar X Q F) := by
     refine isPGroup_iff_pow_pow_eq_one.mpr ?_
     intro g
@@ -349,7 +349,7 @@ theorem omega_big {G : Type} [Group G] [Finite G] {X Q F : Subgroup G} {q : ℕ}
       q * Nat.card Q ≤ Nat.card U := by
   have hn : (Q.subgroupOf X).Normal := by
     rcases hX with ⟨hn, _⟩ | ⟨hn, _⟩ <;> exact hn
-  haveI := hn
+  have := hn
   have hW : IsOmegaPlus 2 q (↥X ⧸ Q.subgroupOf X) ∨
       IsOmegaMinus 2 q (↥X ⧸ Q.subgroupOf X) := by
     rcases hX with ⟨_, hP⟩ | ⟨_, hP⟩
@@ -361,7 +361,7 @@ theorem omega_big {G : Type} [Group G] [Finite G] {X Q F : Subgroup G} {q : ℕ}
     exact hFn k hk h hh
   have hNn : (bar X Q F).Normal :=
     hFn'.map (QuotientGroup.mk' (Q.subgroupOf X)) (QuotientGroup.mk'_surjective (Q.subgroupOf X))
-  haveI := hNn
+  have := hNn
   obtain ⟨f, hfF, hfQ⟩ := hF
   have hfX : f ∈ X := hFX hfF
   have hfS : (⟨f, hfX⟩ : X) ∈ F.subgroupOf X := Subgroup.mem_subgroupOf.mpr hfF
@@ -442,7 +442,7 @@ theorem card_le_sylow {G : Type} [Group G] [Finite G] (P : Sylow 2 G) {W : Subgr
   exact le_trans h1 (le_of_eq h2)
 
 theorem sylow_bar {G : Type} [Group G] [Finite G] {D Q S : Subgroup G}
-    [(Q.subgroupOf D).Normal] (hQS : Q ≤ S) (hSD : S ≤ D)
+    [(Q.subgroupOf D).Normal] (hQS : Q ≤ S) (_hSD : S ≤ D)
     (h2 : ∀ s ∈ S, ∃ k : ℕ, s ^ (2 ^ k) ∈ Q) (hodd : ¬ 2 ∣ S.relIndex D) :
     ∃ P : Sylow 2 (↥D ⧸ Q.subgroupOf D), P.toSubgroup = bar D Q S := by
   have hidx : (bar D Q S).index = S.relIndex D := by
@@ -739,7 +739,7 @@ theorem caseA3_N_le_D {G : Type} [Group G] (M Q B : Subgroup G) (t : G) :
 theorem caseA3_pointwise {G : Type} [Group G] {S Q : Subgroup G}
     (hq : QuotSat S Q (fun W _ => IsPGroup 2 W)) : ∀ s ∈ S, ∃ k : ℕ, s ^ (2 ^ k) ∈ Q := by
   obtain ⟨hn, hP⟩ := hq
-  haveI := hn
+  have := hn
   intro s hs
   obtain ⟨k, hk⟩ := isPGroup_iff_pow_pow_eq_one.mp hP (QuotientGroup.mk ⟨s, hs⟩)
   refine ⟨k, ?_⟩
@@ -854,7 +854,7 @@ theorem caseA3_of
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
   have hQnM : M ≤ Subgroup.normalizer (Q : Set G) := hc.hyp.Q_normal.2
   have hXLg : E1Xpre M Q B t ≤ Lgen M (LB M Q B) := E1Xpre_le_Lgen hc htL
-  haveI : (Q.subgroupOf M).Normal :=
+  have : (Q.subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hQnM hx
   have hLgM : Lgen M (LB M Q B) ≤ M := Lgen_le_M hc
   have hLgH0 : Lgen M (LB M Q B) ≤ H0 M Z := Lgen_le_H0 hc
@@ -898,12 +898,12 @@ theorem caseA3_of
     fun x hx => hQnM (hLgM (hXLg hx))
   obtain ⟨hnD, hP⟩ := hA2 G M Q Z B t hH hE
   obtain ⟨hsimp, hlist⟩ := hP
-  haveI := hnD
-  haveI := hsimp
+  have := hnD
+  have := hsimp
   have hnab : ∃ a b : ↥(E1Dpre M Q B t) ⧸ Q.subgroupOf (E1Dpre M Q B t), a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
-    haveI : IsMulCommutative (↥(E1Dpre M Q B t) ⧸ Q.subgroupOf (E1Dpre M Q B t)) :=
+    push Not at hcon
+    have : IsMulCommutative (↥(E1Dpre M Q B t) ⧸ Q.subgroupOf (E1Dpre M Q B t)) :=
       ⟨⟨fun a b => hcon a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card).mp hsimp
     have hbar := card_bar_mul hNQ hND

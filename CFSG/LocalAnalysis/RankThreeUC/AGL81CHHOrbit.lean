@@ -13,8 +13,8 @@ theorem three_pow_three_le_relIndex_centralizer {K : Type*} [Group K] [Finite K]
     (hB : IsPGroup d B) (hBQ : B ≤ normalizer (Q : Set K))
     (hne : ¬ Q ≤ centralizer (B : Set K)) :
     3 ^ 3 ≤ (centralizer (B : Set K)).relIndex Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime d) := ⟨hd⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime d) := ⟨hd⟩
   obtain ⟨F, hF⟩ : ∃ F : Subgroup K, F = Q ⊓ centralizer (B : Set K) := ⟨_, rfl⟩
   have hFQ : F ≤ Q := by rw [hF]; exact inf_le_left
   have hFC : F ≤ centralizer (B : Set K) := by rw [hF]; exact inf_le_right

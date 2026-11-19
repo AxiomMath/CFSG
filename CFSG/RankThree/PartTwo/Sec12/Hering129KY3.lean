@@ -22,7 +22,7 @@ theorem exists_sl2_image_Y (hTL : KS129ThreeLocalFix) (h1134N : Sec11.Item1134E2
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Fintype.card F = r₀.card ^ δ₀ ∧
       ∃ φ : ↥(resCent K x) →* Matrix.SpecialLinearGroup (Fin 2) F,
         Function.Surjective φ ∧ φ.ker ≤ aschbacherSolvableCore 3 ↥(resCent K x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
   have hA27 : Nat.card A = 27 := hstd.isE27.2
@@ -50,7 +50,7 @@ theorem exists_sl2_image_Y (hTL : KS129ThreeLocalFix) (h1134N : Sec11.Item1134E2
   obtain ⟨-, -, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥Y) Nat.prime_three
   set N := aschbacherSolvableCore 3 ↥Y with hN
-  haveI hNn : N.Normal := inferInstance
+  have hNn : N.Normal := inferInstance
   set π := QuotientGroup.mk' N with hπ
   have hθ : N = CFSG.pCore 2 ↥Y := Hering129KOut.aschbacherSolvableCore_eq_pCore_two hG₀
   have hGθ₀ : IsG2D4 (↥Y ⧸ N) r₀ δ₀ :=
@@ -197,7 +197,7 @@ theorem exists_sl2_image_Y (hTL : KS129ThreeLocalFix) (h1134N : Sec11.Item1134E2
     · exact hB
   obtain ⟨-, F, hFf, hFfin, hFcard, ⟨e⟩⟩ := hBb
   set Q := resCent (⊤ : Subgroup (↥Y ⧸ N)) (π b₀) with hQ
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have h4F : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hFcard]
     exact hr₄.trans (Nat.le_self_pow (by rcases hG₀ with ⟨h1, -⟩ | ⟨h3, -⟩ <;> omega) _)

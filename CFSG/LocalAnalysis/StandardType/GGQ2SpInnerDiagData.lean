@@ -19,16 +19,16 @@ theorem spInnerDiagData_holds : SpInnerDiagData := by
   obtain ⟨_, _, _, hS, _, _⟩ := hQ
   change lab = planeAmbientLabel .symplectic m at hS
   subst lab
-  simp only [LargeEvenRawDatum, planeAmbientLabel] at hraw
+  simp only [planeAmbientLabel] at hraw
   obtain ⟨K, _, _, hK, hQK⟩ := hraw
   obtain ⟨-, -, θ, -, hEN, hInd⟩ := hQK
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hlab' : LargeEvenInLambda2 (⟨.C, m, 1⟩ : LargeEvenLabel) := by
     simpa [planeAmbientLabel] using hlab
   have h2m : 2 ≤ m := by simpa [LargeEvenInLambda2] using hlab'.2.1
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : NeZero m := ⟨by omega⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     apply charP_of_card_eq_prime_pow (R := K) (p := 2) (f := 1)
     simpa [Nat.card_eq_fintype_card] using hK2
   have hmem : ∀ (b : G) (hb : b ∈ E),

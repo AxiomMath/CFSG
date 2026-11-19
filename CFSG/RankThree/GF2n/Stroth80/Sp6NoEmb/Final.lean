@@ -22,16 +22,16 @@ theorem update_slotLabel_eq_threeLabel {s l : Fin 3} (h : s ≠ l) (A B : Finset
   funext u
   by_cases hul : u = l
   · subst hul
-    rw [Function.update_self, threeLabel, if_neg (Ne.symm h), if_pos rfl]
-  · rw [Function.update_of_ne hul, threeLabel, slotLabel, if_neg hul]
+    rw [Function.update_self, threeLabel, ite_eq_right (Ne.symm h), ite_eq_left rfl]
+  · rw [Function.update_of_ne hul, threeLabel, slotLabel, ite_eq_right hul]
 
 theorem eq_twoLabel_of {J : Fin 3 → Finset ℕ} {l : Fin 3} {B : Finset ℕ}
     (h : ∀ k, k ≠ l → J k = B) : J = twoLabel l (J l) B := by
   funext k
   by_cases hk : k = l
   · subst hk
-    rw [twoLabel, if_pos rfl]
-  · rw [twoLabel, if_neg hk, h k hk]
+    rw [twoLabel, ite_eq_left rfl]
+  · rw [twoLabel, ite_eq_right hk, h k hk]
 
 theorem eq_slotLabel_of {J : Fin 3 → Finset ℕ} {l : Fin 3} (h : ∀ k, k ≠ l → J k = ∅) :
     J = slotLabel l (J l) := by
@@ -47,11 +47,12 @@ theorem eq_slotLabel_of {J : Fin 3 → Finset ℕ} {l : Fin 3} (h : ∀ k, k ≠
     Representation.IntertwiningMap (ρ.comp α) (σ.comp α) :=
   ⟨π.toLinearMap, fun g => π.isIntertwining' (α g)⟩
 
+omit [CharP K 2] in
 theorem card_of_finrank {M : Type} [AddCommGroup M] [Module K M] [FiniteDimensional K M] :
     Nat.card M = Fintype.card K ^ finrank K M := by
   classical
-  haveI : Finite M := Module.finite_of_finite K
-  haveI := Fintype.ofFinite M
+  have : Finite M := Module.finite_of_finite K
+  have := Fintype.ofFinite M
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K)]
 
 theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n)
@@ -75,7 +76,7 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
     have hfin : finrank K ((Fin 3 ⊕ Fin 3 → K) →ₗ[K] X) = 6 := by
       rw [Module.finrank_linearMap, h1, Module.finrank_fintype_fun_eq_card]
       simp
-    haveI : Finite ((Fin 3 ⊕ Fin 3 → K) →ₗ[K] X) := Module.finite_of_finite K
+    have : Finite ((Fin 3 ⊕ Fin 3 → K) →ₗ[K] X) := Module.finite_of_finite K
     have hc := Nat.card_le_card_of_injective f hinj
     rw [hNcard, card_of_finrank (K := K), hfin] at hc
     have := (Nat.pow_le_pow_iff_right (by omega : 2 ≤ Fintype.card K)).mp hc
@@ -104,7 +105,7 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
     have hex : ∃ J, IsLabel n J ∧ pat (ρY.comp block) J ≠ 0 := by
       by_contra hcon
       push Not at hcon
-      haveI := subsingleton_of_pat_eq_zero hK (ρY.comp block) hcon
+      have := subsingleton_of_pat_eq_zero hK (ρY.comp block) hcon
       have : finrank K Yb = 0 := finrank_zero_of_subsingleton
       omega
   ·
@@ -114,26 +115,26 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
     · rw [pat_linHom_natRep_of_const_zero hK hn ρX hconst hJ] at hM
       obtain ⟨l, -, hl⟩ := Finset.exists_ne_zero_of_sum_ne_zero hM
       by_cases hk : ∀ k, k ≠ l → J k = {0}
-      · rw [if_pos hk] at hl
+      · rw [ite_eq_left hk] at hl
         by_cases h1 : J l = ∅
         · rw [eq_twoLabel_of hk, h1] at hJne
           have := hp1 _ hJne
           rw [p_twoLabel_empty_zero hshift hperm hsum.le hn1 l] at this
           omega
-        · rw [if_neg h1, zero_add] at hl
+        · rw [ite_eq_right h1, zero_add] at hl
           by_cases h2 : J l = {1}
           · rw [eq_twoLabel_of hk, h2] at hJne
             have := hp1 _ hJne
             rw [p_twoLabel_one_zero hshift hperm hsum.le hn l] at this
             omega
-          · exact hl (if_neg h2)
-      · exact hl (if_neg hk)
+          · exact hl (ite_eq_right h2)
+      · exact hl (ite_eq_right hk)
     · rw [pat_linHom_natRep_of_const_pos hK ρX ha0 ha hconst hJ] at hM
       obtain ⟨l, -, hl⟩ := Finset.exists_ne_zero_of_sum_ne_zero hM
       split_ifs at hl with hk
       · rw [eq_twoLabel_of hk.1, hk.2] at hJne
         have := hp1 _ hJne
-        rw [p_twoLabel_pair_single hshift hperm hsum.le ha0 ha l] at this
+        rw [p_twoLabel_pair_single hshift hsum.le ha0 ha l] at this
         omega
       · exact hl rfl
   ·
@@ -158,7 +159,7 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
         rw [p_threeLabel hshift hperm hsum.le ha hsl] at this
         omega
       · push Not at h1
-        rw [Finset.sum_eq_zero fun s hs => if_neg (h1 s hs), add_zero] at hl
+        rw [Finset.sum_eq_zero fun s hs => ite_eq_right (h1 s hs), add_zero] at hl
         split_ifs at hl with hk
         · exact ⟨l, hk, hl⟩
         · exact absurd rfl hl
@@ -176,32 +177,32 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
           by_cases hkl : k = l
           · subst hkl; rw [slotLabel_self]; rfl
           · rw [slotLabel_of_ne hkl]; rfl
-        · rw [if_neg h1, zero_add] at hl
+        · rw [ite_eq_right h1, zero_add] at hl
           by_cases h2 : J l = {1}
           · right
             exact ⟨l, by rw [eq_slotLabel_of hk, h2]⟩
-          · exact absurd (if_neg h2) hl
+          · exact absurd (ite_eq_right h2) hl
       have hle1 : ∀ l, pat (ρY.comp block) (slotLabel l {1}) ≤ 1 := by
         intro l
         refine (hYM _).trans ?_
         rw [pat_linHom_natRep_of_slot_eq hK ρX (by omega) hslot
           (isLabel_slotLabel (singleton_lt (by omega)) l)]
         rw [Finset.sum_eq_single l]
-        · rw [zero_mul, zero_add, if_pos (fun k hk => slotLabel_of_ne hk _),
+        · rw [zero_mul, zero_add, ite_eq_left (fun k hk => slotLabel_of_ne hk _),
             CFSG.RankThree.GF2n.Stroth80.Sp6NoEmb.slPat_linHom_natSL_zero hK hn
               (fun i hi => by rw [slotLabel_self] at hi; exact (Finset.mem_singleton.mp hi) ▸ (by omega)),
             slotLabel_self, Finset.sum_eq_zero]
           · simp
           · intro s hs
-            rw [if_neg]
+            rw [ite_eq_right]
             intro h
             have := congrFun h l
             rw [slotLabel_self, Function.update_self] at this
             exact absurd (Finset.singleton_injective this) (by decide)
         · intro l' _ hl'
-          rw [zero_mul, zero_add, if_neg, zero_add, Finset.sum_eq_zero]
+          rw [zero_mul, zero_add, ite_eq_right, zero_add, Finset.sum_eq_zero]
           · intro s hs
-            rw [if_neg]
+            rw [ite_eq_right]
             intro h
             have := congrFun h l'
             rw [Function.update_self, slotLabel_of_ne hl'] at this
@@ -235,16 +236,16 @@ theorem no_embedding_core [Algebra (ZMod 2) K] (hK : Fintype.card K = 2 ^ n) (hn
           intro J hJ
           by_cases hJt : J = trivLabel
           · subst hJt
-            rw [if_pos rfl, Finset.sum_eq_zero fun s _ => if_neg
+            rw [ite_eq_left rfl, Finset.sum_eq_zero fun s _ => ite_eq_right
               (Ne.symm (slotLabel_ne_trivLabel (Finset.singleton_nonempty 1) s)), add_zero]
-          · rw [if_neg hJt, zero_add]
+          · rw [ite_eq_right hJt, zero_add]
             by_cases hJs : ∃ l, J = slotLabel l {1}
             · obtain ⟨l, rfl⟩ := hJs
-              rw [h1 l, Finset.sum_eq_single l (fun s _ hs => if_neg fun h =>
+              rw [h1 l, Finset.sum_eq_single l (fun s _ hs => ite_eq_right fun h =>
                 hs (slotLabel_inj (Finset.singleton_nonempty 1) h).symm)
-                (fun h => absurd (Finset.mem_univ l) h), if_pos rfl]
+                (fun h => absurd (Finset.mem_univ l) h), ite_eq_left rfl]
             · push Not at hJs
-              rw [Finset.sum_eq_zero fun s _ => if_neg (hJs s)]
+              rw [Finset.sum_eq_zero fun s _ => ite_eq_right (hJs s)]
               by_contra hne
               rcases hsupp0 J hJ hne with h | ⟨l, hl⟩
               · exact hJt h
@@ -290,7 +291,7 @@ theorem sp6NoEmbedding_holds : Sp6NoEmbeddingStatement := by
   unfold Sp6NoEmbeddingStatement
   intro K _ _ _ hK4 N _ _ _ hNcard _ hNirr X _ _ _ _ hXlin hXdim f hf hinj
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hK : Fintype.card K = 2 ^ (n : ℕ) := hn
   have hn2 : 2 ≤ (n : ℕ) := by
@@ -302,7 +303,7 @@ theorem sp6NoEmbedding_holds : Sp6NoEmbeddingStatement := by
     intro a
     apply hinj
     rw [map_nsmul, map_zero, two_nsmul, ← two_smul K (f a), CharTwo.two_eq_zero, zero_smul]
-  letI : Module (ZMod 2) N := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) N := AddCommGroup.zmodModule h2
   let ρN : Representation (ZMod 2) (StatedSp 3 K) N :=
     { toFun := fun g => (DistribSMul.toAddMonoidHom N g).toZModLinearMap 2
       map_one' := LinearMap.ext fun a => one_smul _ a
@@ -332,7 +333,7 @@ theorem sp6NoEmbedding_holds : Sp6NoEmbeddingStatement := by
     exact hf g a v
   obtain ⟨Z, _, _, _, ρZ, hZirr, hZdim, f', hf'', hinj'⟩ :=
     exists_irreducible_target hNirr' natRep ρX f hf' hinj
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   exact no_embedding_core hK hn2 hNirr' (by rw [hNcard, Nat.card_eq_fintype_card]) hZirr
     (hZdim.trans hXdim.le) f' hf'' hinj'
 

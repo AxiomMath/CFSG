@@ -23,7 +23,7 @@ theorem exists_conj_eq_of_sylowTorus {G : Type*} [Group G] [Finite G] {p m : ℕ
   obtain ⟨S₀, hS₀⟩ := (hpg hE').exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S S₀
   have hSab : ∀ a ∈ (S₀ : Subgroup G), ∀ b ∈ (S₀ : Subgroup G), a * b = b * a :=
-    fun a ha b hb => mul_comm_of_sylowTorus h S₀.isPGroup' ha hb
+    fun a ha b hb => mul_comm_of_sylowTorus h S₀.isPGroup ha hb
   set F' : Subgroup G := E.map (MulAut.conj g).toMonoidHom with hF'
   have hF'S : F' ≤ S₀ := by
     rintro _ ⟨x, hx, rfl⟩
@@ -55,7 +55,7 @@ theorem exists_conj_eq_of_sylowTorus {G : Type*} [Group G] [Finite G] {p m : ℕ
     rw [hF', Subgroup.card_map_of_injective (MulAut.conj g).injective, hEc, hEc']
   exact ⟨g, (Subgroup.eq_of_le_of_card_ge hF'le hcardF'.ge)⟩
 
-theorem exists_plane_containing_of_sylowTorus {G : Type*} [Group G] {p m : ℕ} [hp : Fact p.Prime]
+theorem exists_plane_containing_of_sylowTorus {G : Type*} [Group G] {p m : ℕ} [_hp : Fact p.Prime]
     (h : SylowTorus G p m) {e : G} (he : orderOf e = p) :
     ∃ E : Subgroup G, IsElemAbelian p E ∧ Nat.card E = p ^ m ∧ e ∈ E := by
   obtain ⟨T, E, hT, hconj, hET, hTE, hEel, hEc⟩ := h.exists_torus

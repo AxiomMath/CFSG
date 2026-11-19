@@ -32,7 +32,7 @@ theorem s16t3_statedOmega_trans {K : Type} [Field K] [Finite K] (hK : Nat.card K
       CFSG.ClassicalGroups.Orthogonal.elementaryGroup Q)
     {x y : ι → K} (hx : x ≠ 0) (hy : y ≠ 0) (hxy : Q₀ x = Q₀ y) :
     ∃ g ∈ StatedOmega Q₀, ((g : Matrix.GeneralLinearGroup ι K) : Matrix ι ι K).mulVec x = y := by
-  haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK
   have hxyQ : Q x = Q y := by
     rw [← hQ] at hxy

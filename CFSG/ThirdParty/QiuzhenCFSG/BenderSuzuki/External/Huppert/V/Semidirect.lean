@@ -807,7 +807,7 @@ public theorem hkt_minimal_invariant_nilpotent_exists_isPGroup
   have hPamb_eq_M : Pamb = M :=
     hMmin Pamb hPamb_normal hPamb_invariant hPamb_ne_bot hPamb_le_M
   have hPamb_p : IsPGroup r Pamb := by
-    simpa [Pamb] using P.isPGroup'.map M.subtype
+    simpa [Pamb] using P.isPGroup.map M.subtype
   refine ⟨r, hr_prime, ?_⟩
   simpa using (hPamb_eq_M ▸ hPamb_p)
 

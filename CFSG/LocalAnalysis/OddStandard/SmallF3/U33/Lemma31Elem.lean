@@ -411,7 +411,7 @@ private theorem model_card_le_eight (E : Subgroup M12Mod) (hE : IsElemAbelian 2 
         exact hdvd)
       have hk1 : k ≤ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         have hk2 : k = 2 := by omega
         subst hk2
         norm_num [pow_two] at hdk
@@ -741,7 +741,7 @@ private theorem model_centralizer_eq_eight (E : Subgroup M12Mod) (hE : IsElemAbe
         (Subgroup.mem_centralizer_iff.mp hg) _ hvE
       exact triple_subset huE hvE hzE _
         (mem_triple_of_comm ua ub va vb ga gb gi gj hu2 hcomm hug hvg)
-  · letI : IsMulCommutative ↥E := hE.1
+  · let : IsMulCommutative ↥E := hE.1
     exact Subgroup.le_centralizer E
 
 private theorem sq_mul_conj_ne_one (a b : Fin 4) (i j : Fin 2)

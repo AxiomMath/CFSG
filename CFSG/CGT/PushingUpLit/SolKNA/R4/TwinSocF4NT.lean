@@ -22,7 +22,7 @@ theorem exists_involution_frob {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 
     ∃ q₁ : ℕ, Odd q₁ ∧ q₁ * q₁ = p ^ f ∧ ∀ x : K, ρ x = x ^ q₁ := by
   obtain ⟨σ, hσ, hσord, htop, hcard, -⟩ := finite_field_automorphism_fixed_field_cardinality hp hf hK
   have hfin : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
-  haveI : IsCyclic (K ≃+* K) := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ, htop⟩
+  have : IsCyclic (K ≃+* K) := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ, htop⟩
   have hρ2 : orderOf ρ = 2 := orderOf_eq_prime (by rw [sq]; exact hρ) hρ1
   have h2f : 2 ∣ f := hcard ▸ hρ2 ▸ orderOf_dvd_natCard ρ
   obtain ⟨g, hg⟩ := h2f
@@ -53,7 +53,7 @@ theorem fieldAut_eq_one {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f
     (hK : Nat.card K = p ^ f) {l : Kˣ} {k : ℕ} (hlord : orderOf l = 2 ^ k)
     (hmax : ¬ 2 ^ (k + 1) ∣ Nat.card Kˣ) {τ : K ≃+* K} {s : ℕ} (hτ : τ ^ 2 ^ s = 1)
     (hl : τ (l : K) = l ∨ τ (l : K) = ((l⁻¹ : Kˣ) : K)) : τ = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos hp.pos f).ne')
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos hp.pos f).ne')
   by_contra hτ1
   obtain ⟨t, -, ht⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hτ)
   have ht1 : 1 ≤ t := by

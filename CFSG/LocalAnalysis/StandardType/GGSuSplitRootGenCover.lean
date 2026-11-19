@@ -197,7 +197,6 @@ private theorem commute_conj_iff_of_torus_conj {φ : H →* L'}
   have hAB : MulAut.conj (φ w) * MulAut.conj (φ (τ (ofAdd t))) =
       MulAut.conj (φ (τ (ofAdd (f t)))) * MulAut.conj (φ w) := by
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul, ← hw t]
     group
   constructor
@@ -358,7 +357,7 @@ private theorem ggHypCent_cover_eq {φ : H →* L'}
 private theorem orderOf_map_eq_of_ker {G K : Type} [Group G] [Group K] (hp : p.Prime)
     (ψ : G →* K) (hψp : ∀ z ∈ ψ.ker, z ^ p = 1 → z = 1) {x : G}
     (hx : orderOf x = p) : orderOf (ψ x) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hdvd : orderOf (ψ x) ∣ p := by
     rw [orderOf_dvd_iff_pow_eq_one, ← map_pow, hxp, map_one]
@@ -376,9 +375,9 @@ private theorem orderOf_map_eq_of_ker {G K : Type} [Group G] [Group K] (hp : p.P
 private theorem dvd_card_map_of_dvd [Finite H] {φ : H →* L'} (hp : p.Prime)
     (hkerp : ∀ z ∈ φ.ker, z ^ p = 1 → z = 1) {S : Subgroup H}
     (hdvd : p ∣ Nat.card S) : p ∣ Nat.card (S.map φ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite S := Finite.of_injective (fun x : S => (x : H)) Subtype.val_injective
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite S := Finite.of_injective (fun x : S => (x : H)) Subtype.val_injective
+  have : Fintype S := Fintype.ofFinite S
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card p (by simpa using hdvd)
   have hxH : orderOf (x : H) = p := by
     rw [Subgroup.orderOf_coe]
@@ -404,7 +403,7 @@ theorem ggTorusRootGenAvoid_of_cover (hp : p.Prime) [Finite H] {φ : H →* L'}
     (hgen : ∀ j, (⨆ (i : ι) (_ : f i ≠ f j), S i) = ⊤) :
     GGTorusRootGenAvoid p A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro ρ
   let n : ι → L' := fun i => φ (w i)
   have hn : ∀ i, MulAut.conj (n i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=

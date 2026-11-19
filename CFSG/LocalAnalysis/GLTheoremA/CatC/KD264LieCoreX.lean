@@ -44,7 +44,7 @@ private theorem kd264CoreGoal_of_isGood_zpowers (p : ℕ) (hp : p.Prime)
     (hβA : β ∈ A) (hβ : β ^ p = 1) (hβ1 : β ≠ 1)
     (hgood : IsGood p (Subgroup.zpowers β)) : KD264CoreGoal p d A m 2 := by
   refine Or.inl ⟨Subgroup.zpowers β, Subgroup.zpowers_le.2 hβA, hgood, ?_⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.card_zpowers, orderOf_eq_prime hβ hβ1]
   have h : p ^ 3 = p * p ^ 2 := by ring
   rw [h]

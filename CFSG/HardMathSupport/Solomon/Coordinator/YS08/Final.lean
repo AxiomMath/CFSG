@@ -190,7 +190,7 @@ theorem lThreeFourComponentFacts_of_residuals
     | M => exact hM
   have hSpor : ∀ s : TauCeti.SporadicName, SporL3Down s :=
     fun s => sporL3Down_of_inner hOut (hInner s)
-  have hLieComp : LieComp.LieComp :=
+  have hLieComp : LieComp.LieCompAll :=
     LieComp.lieComp_of_classical lieOrderBridge_holds LieQ.lieQConstrainedInner_three_holds
         (LieComp.d4OuterExport_of hA2 hD43)
         (LieComp.lieCompOn_exceptional (LieComp.excRationalLieTypes_of_residuals hOuter hF2)

@@ -40,7 +40,7 @@ theorem exists_omega_of_isBender_quotient {K R : Subgroup G}
   obtain ⟨Q, hQ⟩ := hRK
   set ρ := QuotientGroup.mk' (pPrimeCore 2 ↥K) with hρ
   have hQO : ∀ a ∈ (Q : Subgroup ↥K), ρ a = 1 → a = 1 := fun a ha h1 =>
-    eq_one_of_mk_eq_one' Q.isPGroup' ha h1
+    eq_one_of_mk_eq_one' Q.isPGroup ha h1
   set Q' : Sylow 2 (↥K ⧸ pPrimeCore 2 ↥K) := Q.mapSurjective (QuotientGroup.mk'_surjective _)
     with hQ'
   have hQ'c : (Q' : Subgroup _) = (Q : Subgroup ↥K).map ρ := Sylow.coe_mapSurjective _ _
@@ -90,8 +90,8 @@ theorem exists_mem_normalizer_conj_of_quotient {K R : Subgroup G} (Q : Sylow 2 �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ := QuotientGroup.mk' (pPrimeCore 2 ↥K) with hρ
   have hQO : ∀ a ∈ (Q : Subgroup ↥K), ρ a = 1 → a = 1 := fun a ha h1 =>
-    eq_one_of_mk_eq_one' Q.isPGroup' ha h1
-  have : Fact (IsPGroup 2 ↥(Q : Subgroup ↥K)) := ⟨Q.isPGroup'⟩
+    eq_one_of_mk_eq_one' Q.isPGroup ha h1
+  have : Fact (IsPGroup 2 ↥(Q : Subgroup ↥K)) := ⟨Q.isPGroup⟩
   have hnorm := CFSG.normalizer_map_quotient_eq_map_normalizer 2 (Q : Subgroup ↥K)
     (pPrimeCore 2 ↥K) inferInstance (Nat.coprime_two_left.mpr (odd_card_pPrimeCore_two ↥K))
   have hn'' : n' ∈ (normalizer ((Q : Subgroup ↥K) : Set ↥K)).map ρ := by
@@ -135,7 +135,7 @@ theorem exists_mem_normalizer_conj_of_isCoverOverTwo_sz
   have hkerp : IsPGroup 2 π.ker := IsPGroup.of_card (n := 1) (by rw [hK2, pow_one])
   have hkerT : π.ker ≤ (T : Subgroup Y) := by
     have hp : IsPGroup 2 ↥((T : Subgroup Y) ⊔ π.ker) :=
-      T.isPGroup'.to_sup_of_normal_right hkerp
+      T.isPGroup.to_sup_of_normal_right hkerp
     have hle : (T : Subgroup Y) ⊔ π.ker ≤ (T : Subgroup Y) :=
       T.maximal_isPGroup.le_of_ge hp le_sup_left
     intro x hx
@@ -204,7 +204,7 @@ theorem exists_mem_normalizer_conj_of_isCoverOverTwo_sz_quotient
   obtain ⟨Q, hQ⟩ := hRK'
   set ρ := QuotientGroup.mk' (pPrimeCore 2 ↥K) with hρ
   have hQO : ∀ a ∈ (Q : Subgroup ↥K), ρ a = 1 → a = 1 := fun a ha h1 =>
-    eq_one_of_mk_eq_one' Q.isPGroup' ha h1
+    eq_one_of_mk_eq_one' Q.isPGroup ha h1
   set Q' : Sylow 2 (↥K ⧸ pPrimeCore 2 ↥K) := Q.mapSurjective (QuotientGroup.mk'_surjective _)
     with hQ'
   have hQ'c : (Q' : Subgroup _) = (Q : Subgroup ↥K).map ρ := Sylow.coe_mapSurjective _ _

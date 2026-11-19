@@ -48,6 +48,7 @@ theorem exists_mem_conj_of_odd (hC : HypothesisC D) {d d' : DstarH hC}
   have h := conj_pow_eq_of_odd_mul hd2 hd'2 ⟨k, hk⟩
   rwa [hk'] at h
 
+omit [Finite G] in
 theorem mk_eq_of_mem_conj (hC : HypothesisC D) {d d' : DstarH hC}
     {m : Halpha D hC.alpha} (hm : m ∈ CFSG.solvableRadical (Halpha D hC.alpha))
     (hmconj : m * d * m⁻¹ = d') :
@@ -68,6 +69,7 @@ theorem exists_transpositions_commute_ne {τ : Equiv.Perm (Fin 5)} (hτ : τ ∈
   obtain ⟨⟨σ, hσ, hne, hcomm⟩⟩ := Nat.card_pos_iff.mp hpos
   exact ⟨σ, hσ, hne, hcomm.symm⟩
 
+omit [Finite G] in
 theorem exists_lift_eq_symm (hC : HypothesisC D)
     {e : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃*
       Equiv.Perm (Fin 5)}

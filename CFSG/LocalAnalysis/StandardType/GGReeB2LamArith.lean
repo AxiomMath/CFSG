@@ -6,7 +6,7 @@ public section
 
 namespace CFSG.StandardType.ReeB2Fixed
 
-private theorem two_pow_e_eq_one (e : ℕ) (he : Odd e) :
+private theorem two_pow_e_eq_one (e : ℕ) (_he : Odd e) :
     (2 : ZMod (2 ^ e - 1)) ^ e = 1 := by
   have h1 : 1 ≤ 2 ^ e := Nat.one_le_two_pow
   have hcast : ((2 ^ e : ℕ) : ZMod (2 ^ e - 1)) = 1 := by
@@ -152,7 +152,7 @@ private theorem sum_erase_succ_eq (e : ℕ) (he : Odd e) (A : Finset (Fin e)) (p
     intro j hj
     simp only [Finset.mem_erase] at hj
     obtain ⟨hjp, hjq, _⟩ := hj
-    rw [if_neg hjq, if_neg hjp]
+    rw [ite_eq_right hjq, ite_eq_right hjp]
   rw [← Finset.sum_erase_add (A.erase (succσ e p)) (fun j => c j * 2 ^ (j : ℕ)) hp']
   rw [← Finset.sum_erase_add A
         (fun j =>
@@ -162,10 +162,10 @@ private theorem sum_erase_succ_eq (e : ℕ) (he : Odd e) (A : Finset (Fin e)) (p
           (if j = succσ e p then y0 else if j = p then x0 else c j) * 2 ^ (j : ℕ)) hp']
   rw [htail]
   have hgp : (if p = succσ e p then y0 else if p = p then x0 else c p) * 2 ^ (p : ℕ)
-      = x0 * 2 ^ (p : ℕ) := by rw [if_neg hpq, if_pos rfl]
+      = x0 * 2 ^ (p : ℕ) := by rw [ite_eq_right hpq, ite_eq_left rfl]
   have hgq : (if succσ e p = succσ e p then y0 else if succσ e p = p then x0 else c (succσ e p))
         * 2 ^ ((succσ e p : Fin e) : ℕ)
-      = y0 * 2 ^ ((succσ e p : Fin e) : ℕ) := by rw [if_pos rfl]
+      = y0 * 2 ^ ((succσ e p : Fin e) : ℕ) := by rw [ite_eq_left rfl]
   rw [hgp, hgq]
   have h2 : (2 : ZMod (2 ^ e - 1)) ^ ((succσ e p : Fin e) : ℕ)
       = (2 : ZMod (2 ^ e - 1)) ^ (p : ℕ) * r e := two_pow_succ_sigma e he p
@@ -178,14 +178,14 @@ theorem lam_erase_succ_subset (e : ℕ) (he : Odd e) (A : Finset (Fin e)) (p : F
   · obtain ⟨k, hk⟩ := odd_iff_exists_bit1.mp he
     omega
   · intro x hx
-    haveI : Subsingleton (ZMod (2 ^ 1 - 1)) := by
+    have : Subsingleton (ZMod (2 ^ 1 - 1)) := by
       rw [show 2 ^ 1 - 1 = 1 by norm_num]
       infer_instance
     refine ⟨fun _ => 1, ?_, Subsingleton.elim _ _⟩
     intro j hj
     simp [units]
   · intro x hx
-    simp only [Lam, Set.mem_setOf_eq] at hx ⊢
+    simp only [Lam, Set.mem_ofPred_eq] at hx ⊢
     obtain ⟨c, hc, hxeq⟩ := hx
     have he3 : 3 ≤ e + 2 := by
       obtain ⟨k, hk⟩ := odd_iff_exists_bit1.mp he
@@ -197,10 +197,10 @@ theorem lam_erase_succ_subset (e : ℕ) (he : Odd e) (A : Finset (Fin e)) (p : F
     · intro j hj
       change (if j = succσ (e + 2) p then y0 else if j = p then x0 else c j) ∈ units (e + 2)
       by_cases hjq : j = succσ (e + 2) p
-      · rw [if_pos hjq]; exact hy0
+      · rw [ite_eq_left hjq]; exact hy0
       · by_cases hjp : j = p
-        · rw [if_neg hjq, if_pos hjp]; exact hx0
-        · rw [if_neg hjq, if_neg hjp]
+        · rw [ite_eq_right hjq, ite_eq_left hjp]; exact hx0
+        · rw [ite_eq_right hjq, ite_eq_right hjp]
           exact hc j (Finset.mem_erase.mpr ⟨hjq, hj⟩)
     · rw [hxeq]
       exact sum_erase_succ_eq (e + 2) he A p hp hq hpq c x0 y0 hxy
@@ -209,7 +209,7 @@ theorem lam_eq_S_add_two_delta (e : ℕ) (he : Odd e) (J : Finset (Fin e)) :
     Lam e J = (fun d => S e J + 2 * d) '' Delta e J := by
   ext x
   constructor
-  · simp only [Lam, Set.mem_setOf_eq]
+  · simp only [Lam, Set.mem_ofPred_eq]
     rintro ⟨c, hc, hxeq⟩
     have hchoose : ∀ j : Fin e,
         ∃ d : ZMod (2 ^ e - 1), j ∈ J → d ∈ dset e ∧ c j = 1 + 2 * d := by
@@ -221,7 +221,7 @@ theorem lam_eq_S_add_two_delta (e : ℕ) (he : Odd e) (J : Finset (Fin e)) :
     choose d hd using hchoose
     simp only [Set.mem_image]
     refine ⟨∑ j ∈ J, d j * 2 ^ (j : ℕ), ?_, ?_⟩
-    · simp only [Delta, Set.mem_setOf_eq]
+    · simp only [Delta, Set.mem_ofPred_eq]
       exact ⟨d, fun j hj => (hd j hj).1, rfl⟩
     · rw [hxeq]
       simp only [S]
@@ -233,8 +233,8 @@ theorem lam_eq_S_add_two_delta (e : ℕ) (he : Odd e) (J : Finset (Fin e)) :
   · simp only [Set.mem_image]
     rintro ⟨y, hy, hxy⟩
     rw [← hxy]
-    simp only [Lam, Set.mem_setOf_eq]
-    simp only [Delta, Set.mem_setOf_eq] at hy
+    simp only [Lam, Set.mem_ofPred_eq]
+    simp only [Delta, Set.mem_ofPred_eq] at hy
     obtain ⟨d, hd, hyeq⟩ := hy
     refine ⟨fun j => 1 + 2 * d j, ?_, ?_⟩
     · intro j hj

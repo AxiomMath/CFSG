@@ -76,7 +76,7 @@ theorem PairWit.conj {W : Type*} [Group W] {F₀ : Subgroup W} (hF₀ : F₀.Nor
         (s * g₂ * s⁻¹) * (s * x * s⁻¹) * (s * g₂ * s⁻¹)⁻¹} : Set W) := by
     rw [MonoidHom.map_closure]
     congr 1
-    simp only [Set.image_insert_eq, Set.image_singleton, MulAut.conj_apply, map_mul, map_inv]
+    simp only [Set.image_insert_eq, Set.image_singleton, map_mul, map_inv]
     simp [mul_assoc]
   refine ⟨s * g₁ * s⁻¹, hF₀.conj_mem g₁ hg₁ s, s * g₂ * s⁻¹, hF₀.conj_mem g₂ hg₂ s, ?_, ?_,
     s * a * s⁻¹, ?_, s * b * s⁻¹, ?_, ?_, ?_, ?_⟩
@@ -153,7 +153,7 @@ theorem pairWit_of_sylow {W : Type*} [Group W] [Finite W] {F₀ S : Subgroup W} 
     (h : ∀ x ∈ S, ∀ t ∈ S, orderOf x = 8 → orderOf t = 2 → x * t = t * x → PairWit F₀ x t)
     {x t : W} (hx : orderOf x = 8) (ht : orderOf t = 2) (hc : x * t = t * x) :
     PairWit F₀ x t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := (isPGroup_closure_pair hx ht hc).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq W (hS.toSylow hidx) T
   have hmem : ∀ z : W, z ∈ Subgroup.closure ({x, t} : Set W) → g⁻¹ * z * g ∈ S := by

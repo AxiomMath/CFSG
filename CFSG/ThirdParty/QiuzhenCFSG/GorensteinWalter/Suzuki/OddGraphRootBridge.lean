@@ -67,7 +67,7 @@ private lemma pow_eq_sq_of_cyclic_order_four
     (hyI : IsInvolution y) : y = a ^ 2 := by
   let K : Subgroup G := Subgroup.zpowers a
   have hKcard : Nat.card K = 4 := by
-    simpa [K, ha] using Nat.card_zpowers a
+    simp [K, ha]
   have hcyc : IsCyclic K := Subgroup.isCyclic_zpowers a
   let xK : K := ⟨a, Subgroup.mem_zpowers a⟩
   let yK : K := ⟨y, hy⟩

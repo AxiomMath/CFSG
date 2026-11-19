@@ -186,7 +186,8 @@ variable {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [FaithfulSMul
   [GraphAction H Γ]
 variable [Fintype V] [DecidableRel Γ.Adj]
 
-private theorem exists_smul_fix_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+omit [FaithfulSMul H V] in
+private theorem exists_smul_fix_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (hM : MoufangCondition H Γ 4) {x L₀ M : V} (hxL₀ : Γ.Adj x L₀) (hxM : Γ.Adj x M)
     (hML : M ≠ L₀) {t : ZMod (2 * 4) → V} (ht : IsPolygonApartment Γ 4 t)
     (ht4 : t 4 = x) (ht5 : t 5 = L₀) {y : V} (hy : Γ.dist x y = 4) :
@@ -252,6 +253,7 @@ private theorem exists_smul_fix_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4)
     simpa [z, apt] using h0
 
 
+omit [FaithfulSMul H V] in
 private theorem exists_smul_eq_of_dist_eq_four_faithful (hP : IsGeneralizedPolygon Γ 4)
     (hT : IsThick Γ) (hM : MoufangCondition H Γ 4) {x y y' : V} (hy : Γ.dist x y = 4)
     (hy' : Γ.dist x y' = 4) : ∃ g : H, g • x = x ∧ g • y = y' := by
@@ -306,7 +308,7 @@ theorem exists_smul_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) (hT : Is
       rfl
     rw [hka, hkb]
     exact GraphAction.adj_smul g a b
-  haveI : GraphAction φ.range Γ := hKgraph
+  have : GraphAction φ.range Γ := hKgraph
   have hMK : MoufangCondition φ.range Γ 4 := by
     intro p hp u v hu hv hne hne'
     obtain ⟨g, hfix, hgu⟩ := hM p hp u v hu hv hne hne'
@@ -323,7 +325,7 @@ theorem exists_smul_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4) (hT : Is
       change (φ g : Equiv.Perm V) u = v
       rw [hφ]
       exact hgu
-  haveI : FaithfulSMul φ.range V := inferInstance
+  have : FaithfulSMul φ.range V := inferInstance
   obtain ⟨k, hkx, hky⟩ :=
     exists_smul_eq_of_dist_eq_four_faithful (H := φ.range) hP hT hMK hy hy'
   obtain ⟨g, hg⟩ := k.2

@@ -111,6 +111,7 @@ noncomputable def thetaGLimage
   (thetaDimage (L := L) ψ G0 B1 hG0 hker hcenter hBN hinner D hDB).map
     (adjointGroup .F4 L).subtype
 
+omit [Finite K] [Finite X] in
 theorem thetaGLimage_le_adjointGroup
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -123,6 +124,7 @@ theorem thetaGLimage_le_adjointGroup
   rintro _ ⟨y, -, rfl⟩
   exact y.2
 
+omit [Finite K] in
 theorem thetaGLimage_finite
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -142,6 +144,7 @@ theorem thetaGLimage_finite
     exact h1.image _
   exact h3.to_subtype
 
+omit [Finite K] [Finite X] in
 theorem thetaGLimage_isElemAbelian
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -155,6 +158,7 @@ theorem thetaGLimage_isElemAbelian
     (thetaF4 (L := L) ψ G0 B1 hG0 hker hcenter hBN hinner) |>.map
       (adjointGroup .F4 L).subtype
 
+omit [Finite K] [Finite X] in
 theorem thetaGLimage_exp
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -165,6 +169,7 @@ theorem thetaGLimage_exp
     ∀ a ∈ thetaGLimage (L := L) ψ G0 B1 hG0 hker hcenter hBN hinner D hDB, a ^ p = 1 :=
   (thetaGLimage_isElemAbelian (L := L) ψ G0 B1 D hG0 hker hcenter hBN hinner hDB hB1).2
 
+omit [Finite K] in
 theorem thetaGLimage_card_le
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -179,6 +184,7 @@ theorem thetaGLimage_card_le
   rwa [Subgroup.card_map_of_injective (K := thetaDimage (L := L) ψ G0 B1 hG0 hker hcenter
     hBN hinner D hDB) (f := (adjointGroup .F4 L).subtype) Subtype.coe_injective]
 
+omit [Finite X] in
 theorem thetaGLimage_frobF4_fixed
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -197,6 +203,7 @@ theorem units_map_entrywiseHom_eq_bcGL (Fr : L →+* L) :
     (Units.map (entrywiseHom Fr) : ModGL .F4 L →* ModGL .F4 L) = bcGL (τ := .F4) Fr := by
   rw [bcGL, bcEndHom_eq_entrywiseHom]
 
+omit [Field K] [Finite K] [Algebra K L] in
 theorem units_map_entrywiseHom_rootDiagUnit
     (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ Nat.card K) (a : Fin Tag.F4.rank → Lˣ) :
@@ -208,6 +215,7 @@ theorem units_map_entrywiseHom_rootDiagUnit
   funext i
   exact Units.ext (hFr (a i))
 
+omit [Field K] [Finite K] [Algebra K L] in
 theorem frobRootMap_langDatumF4
     (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ Nat.card K) (hsurj : Function.Surjective Fr)

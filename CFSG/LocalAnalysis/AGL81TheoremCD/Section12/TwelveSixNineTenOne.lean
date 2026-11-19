@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 
 namespace TwelveSixKCtx
 
+omit [Finite G] in
 private theorem mem_xSub_iff {z : G} (hz : z ∈ H) :
     z ∈ xSub p M H ↔
       QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨z, hz⟩ ∈
@@ -31,6 +32,7 @@ private theorem mem_xSub_iff {z : G} (hz : z ∈ H) :
   · intro h
     exact ⟨⟨z, hz⟩, by simpa using h, rfl⟩
 
+omit [Finite G] in
 private theorem starImg_V_isElemAbelian
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     IsElemAbelian 3 (starImg p H D.V) :=

@@ -760,7 +760,7 @@ theorem eq_top_of_two_elements {α : Type*} [Finite α] (hα : Nat.card α = 3)
     (hst : s ≠ t) (ht1 : t ≠ 1) (hs2 : s * s = 1) : H = ⊤ := by
   have h6 : Nat.card (Equiv.Perm α) = 6 := by
     classical
-    haveI := Fintype.ofFinite α
+    have := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, ← Nat.card_eq_fintype_card, hα]
     rfl
   have hdvd : Nat.card H ∣ 6 := h6 ▸ Subgroup.card_subgroup_dvd_card H

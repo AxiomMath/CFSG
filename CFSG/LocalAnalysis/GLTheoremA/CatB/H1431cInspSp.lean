@@ -58,7 +58,7 @@ theorem hasLabel_b2der {X : Type} [Group X] (hX : commutator X = ⊤)
 theorem isQuasisimple_of_mulEquiv_target {H K : Type*} [Group H] [Group K] (e : H ≃* K)
     (h : CFSG.Open.IsQuasisimple K) : CFSG.Open.IsQuasisimple H := by
   obtain ⟨hc, hs⟩ := h
-  haveI : Group.IsPerfect K := ⟨hc⟩
+  have : Group.IsPerfect K := ⟨hc⟩
   refine ⟨(Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
     e.symm.surjective).commutator_eq_top, ?_⟩
   exact (MulEquiv.isSimpleGroup_congr (QuotientGroup.congr (Subgroup.center H) (Subgroup.center K) e
@@ -78,13 +78,13 @@ theorem false_of_symp_a6 {S : Type} [Group S] [Finite S] {labK : GLALabel}
     (h32 : ¬((canonLabel labK).n = 3 ∧ (canonLabel labK).rank = 2)) {τ : MulAut S}
     (hτ : τ ^ 3 = 1) {A : Subgroup S} (hA : GLAPComponent 3 (fixSubgroup τ) A)
     (hT : S8.IsTypeWithCenter 3 A S8.isA6 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e6⟩ := nonempty_equiv_alt6_of_isA6 hT.1
-  haveI : Nontrivial (PSimple 3 A) := e6.toEquiv.nontrivial
+  have : Nontrivial (PSimple 3 A) := e6.toEquiv.nontrivial
   have hlabA : CFSG.Open.IsQuasisimple ↥A → HasLabel ↥A (· = ⟨.B2der, 0, 1⟩) := by
     intro hq
     obtain ⟨φ⟩ := I1431C2.nonempty_centerQuot_equiv_psimple hq inferInstance
-    haveI : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hq.2
+    have : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hq.2
     exact hasLabel_b2der hq.1 (φ.trans e6)
   have hcanon : canonLabel (⟨.B2der, 0, 1⟩ : GLALabel) = ⟨.B, 2, 1⟩ := rfl
   rcases ClsSymp_holds S 3 τ labK hFam Nat.prime_three (by norm_num) hcen hlab hτ with hin | hfk
@@ -101,7 +101,7 @@ theorem false_of_symp_a6 {S : Type} [Group S] [Finite S] {labK : GLALabel}
           omega
         · exact h0
       have h2 : (2 : K) = 0 := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' K
         have hc := hcard
         rw [Nat.card_eq_fintype_card, hqcard] at hc
@@ -196,7 +196,7 @@ theorem false_of_symp_a6 {S : Type} [Group S] [Finite S] {labK : GLALabel}
     · obtain ⟨φ⟩ :=
         Y10GFldSympComp.nonempty_quotCenter_equiv_of_glaPComponent_fieldAut hm (by decide) hσp
           h22 hJ'
-      haveI : IsSimpleGroup (StatedProj (StatedSp m (descentField σ))) :=
+      have : IsSimpleGroup (StatedProj (StatedSp m (descentField σ))) :=
         (CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := descentField σ) hm
           h22).1
       have hqJ : CFSG.Open.IsQuasisimple ↥(A.map e'.toMonoidHom) :=

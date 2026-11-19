@@ -34,7 +34,7 @@ theorem close16_exists_Y (h127 : R127 D) (h119 : F11.R119 D) (hS : Close16Settin
   have hMn : D.M ≤ normalizer (V : Set G) := hMs.trans (stabTil_le_normalizer ⊥ V)
   have hYM : Y ≤ D.M := hYX.trans hXM
   obtain ⟨φY, -, hkerY⟩ := close16_exists_hom_barSub (hV := hV) hMs hYM
-  haveI hnormY : ((Y ⊓ F11.CTilde D.M ⊥ V).subgroupOf Y).Normal := hkerY ▸ φY.normal_ker
+  have hnormY : ((Y ⊓ F11.CTilde D.M ⊥ V).subgroupOf Y).Normal := hkerY ▸ φY.normal_ker
   have hker : Y ⊓ F11.CTilde D.M ⊥ V = pCoreOf 2 Y :=
     close16_ker_eq_pcore hYperf hO2E hYC (close16_isAlt_quot hS hYM hbarY)
   have hY2 : IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M ⊥ V) := by
@@ -57,7 +57,7 @@ theorem close16_exists_Y (h127 : R127 D) (h119 : F11.R119 D) (hS : Close16Settin
     rw [inv_mul_cancel_right, sup_comm] at hmem
     exact hmem
   obtain ⟨φX, hφX, hkerX⟩ := close16_exists_hom_barSub (hV := hV) hMs hXM
-  haveI hsimple : IsSimpleGroup ↥(barSub ⊥ V hV X) := by
+  have hsimple : IsSimpleGroup ↥(barSub ⊥ V hV X) := by
     rw [hbarX]; exact close16_lbar_simple hS
   have hnc : ¬ IsMulCommutative ↥(barSub ⊥ V hV X) := by
     rw [hbarX]; exact close16_lbar_not_commutative hS

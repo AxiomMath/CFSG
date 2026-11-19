@@ -147,10 +147,10 @@ theorem s16c11_v1_rf3_of_cover_quad {J : Type} [CommGroup J] [Finite J] {D : FFM
     exact hg₀ (s16c11_v1_inv_mul_mem_iff.1 hker')
   have hmovι : ι g₀ (u : J) ≠ (u : J) := by
     simpa [ι] using hmovπ
-  haveI : Finite (MulAut J) :=
+  have : Finite (MulAut J) :=
     Finite.of_injective (fun e : MulAut J => (e : J → J))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro T₀ hT₀ hT₀p hT₀i
   let P : Subgroup (MulAut J) := T.map ι
   have hPH : P ≤ H := by

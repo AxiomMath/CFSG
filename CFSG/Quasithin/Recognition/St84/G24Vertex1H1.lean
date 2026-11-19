@@ -76,17 +76,16 @@ private theorem v1Diag_mul (X Y : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
         mul_zero, Finset.sum_const_zero, add_zero]
     · simp only [v1Diag_castAdd_natAdd, Matrix.mul_apply]
       rw [Fin.sum_univ_add (a := 4) (b := 4)]
-      simp only [v1Diag_castAdd_castAdd, v1Diag_castAdd_natAdd, v1Diag_natAdd_castAdd,
-        mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
+      simp only [v1Diag_castAdd_castAdd, v1Diag_castAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
   · refine Fin.addCases (m := 4) (n := 4) (fun b => ?_) (fun d => ?_) j
     · simp only [v1Diag_natAdd_castAdd, Matrix.mul_apply]
       rw [Fin.sum_univ_add (a := 4) (b := 4)]
-      simp only [v1Diag_castAdd_castAdd, v1Diag_castAdd_natAdd, v1Diag_natAdd_castAdd,
+      simp only [v1Diag_castAdd_castAdd, v1Diag_natAdd_castAdd,
         v1Diag_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
     · simp only [v1Diag_natAdd_natAdd, Matrix.mul_apply]
       rw [Fin.sum_univ_add (a := 4) (b := 4)]
-      simp only [v1Diag_castAdd_castAdd, v1Diag_castAdd_natAdd, v1Diag_natAdd_castAdd,
-        v1Diag_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero, zero_add]
+      simp only [v1Diag_castAdd_natAdd, v1Diag_natAdd_castAdd,
+        v1Diag_natAdd_natAdd, mul_zero, Finset.sum_const_zero, zero_add]
 
 private theorem v1Diag_add (X Y : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
     v1Diag (X + Y) = v1Diag X + v1Diag Y := by
@@ -107,14 +106,14 @@ private theorem v1Diag_one : v1Diag (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) = 1 :=
       by_cases h : a = b
       · subst h
         simp
-      · rw [if_neg h, if_neg (fun hc => h (Fin.castAdd_inj.mp hc))]
+      · rw [ite_eq_right h, ite_eq_right (fun hc => h (Fin.castAdd_inj.mp hc))]
     · rw [v1Diag_castAdd_natAdd, Matrix.one_apply]
       have hne : Fin.castAdd 4 a ≠ Fin.natAdd 4 d := by
         intro h
         have hv := congrArg Fin.val h
         simp [Fin.castAdd, Fin.natAdd] at hv
         omega
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
   · refine Fin.addCases (m := 4) (n := 4) (fun b => ?_) (fun d => ?_) j
     · rw [v1Diag_natAdd_castAdd, Matrix.one_apply]
       have hne : Fin.natAdd 4 c ≠ Fin.castAdd 4 b := by
@@ -122,14 +121,14 @@ private theorem v1Diag_one : v1Diag (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) = 1 :=
         have hv := congrArg Fin.val h
         simp [Fin.castAdd, Fin.natAdd] at hv
         omega
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
     · simp only [v1Diag_natAdd_natAdd, Matrix.one_apply]
       by_cases h : c = d
       · subst h
         simp
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         symm
-        rw [if_neg]
+        rw [ite_eq_right]
         intro hc
         apply h
         apply Fin.ext
@@ -287,7 +286,7 @@ private theorem v1CoordEquiv_apply [Finite G] (F : G24Frame1 L1 L2 S)
       s.cl ⟨eElt (v1Frame F.k F.e) u,
         eElt_mem_of_forall_mem (F.frame_spec hD).1 u⟩ := by
   classical
-  haveI : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
+  have : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
   obtain ⟨hQ, hC, hSq, hCm, hCard⟩ := F.frame_spec hD
   rw [v1CoordEquiv]
   change Multiplicative.toAdd ((SecRep.quotEquiv s)
@@ -314,7 +313,7 @@ private theorem v1Rep_a [Finite G] (F : G24Frame1 L1 L2 S)
       v1CoordEquiv F hD s (v1Diag aO *ᵥ u) := by
   classical
   obtain ⟨hQ, hC, hSq, hCm, hCard⟩ := F.frame_spec hD
-  haveI : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
+  have : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
   have hxq : eElt (v1Frame F.k F.e) (v1Diag aO *ᵥ u) ∈ dsQ L1 L2 S :=
     eElt_mem_of_forall_mem hQ _
   have hmQ : F.a * eElt (v1Frame F.k F.e) u * F.a⁻¹ ∈ dsQ L1 L2 S := by
@@ -360,7 +359,7 @@ private theorem v1Rep_b [Finite G] (F : G24Frame1 L1 L2 S)
       v1CoordEquiv F hD s (v1Diag bO *ᵥ u) := by
   classical
   obtain ⟨hQ, hC, hSq, hCm, hCard⟩ := F.frame_spec hD
-  haveI : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
+  have : ((centerOf (dsQ L1 L2 S)).subgroupOf (dsQ L1 L2 S)).Normal := v1Z_normal L1 L2 S
   have hxq : eElt (v1Frame F.k F.e) (v1Diag bO *ᵥ u) ∈ dsQ L1 L2 S :=
     eElt_mem_of_forall_mem hQ _
   have hmQ : F.b * eElt (v1Frame F.k F.e) u * F.b⁻¹ ∈ dsQ L1 L2 S := by
@@ -531,7 +530,7 @@ private theorem v1Form_nondegenerate [Finite G] (F : G24Frame1 L1 L2 S)
     _ = 0 := by rw [hx'0, map_zero]
 
 private theorem v1Z1_eq_zero_of [Finite G] (F : G24Frame1 L1 L2 S)
-    (hD : G24LocalData L1 L2 S) {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
+    (_hD : G24LocalData L1 L2 S) {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     (s : SecRep (v1N F) (centerOf (dsQ L1 L2 S)) (dsQ L1 L2 S) W)
     {ψ : ↥(v1N F) → W} (hψ : ψ ∈ Z1 (v1Rep s))
     (ha : ψ (v1a F) = 0) (hb : ψ (v1b F) = 0) :
@@ -905,9 +904,9 @@ theorem G24Frame1.crossedHomPrincipal [Finite G] {G' : Type} [Group G'] [Finite 
   classical
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ :=
     exists_secRep (v1SecHyp F hD)
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hN := crossedHomPrincipalOn_of_secRep (Q := dsQ L1 L2 S)
     (Z := centerOf (dsQ L1 L2 S)) (R := (L1 ⊔ bigB L1 L2 S) ⊓
       Subgroup.centralizer ({F.k} : Set G)) (N := v1N F) e

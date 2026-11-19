@@ -39,9 +39,9 @@ theorem census_linear
     hcardk, hchark, hA3, hK₁, hK₂, hK₃, hK12, hK13, hK23, hL1', hL2', hL3'⟩ :=
     census_linear_reduce d hd hchar η hη hη3 hηne r hr J₁ J₂ J₃
       hJ₁ hJ₂ hJ₃ h12 h13 h23 hL1 hL2 hL3
-  letI : Field k := hkfield
-  letI : Fintype k := hkfin
-  letI : CharP k 2 := hchark
+  let : Field k := hkfield
+  let : Fintype k := hkfin
+  let : CharP k 2 := hchark
   have hpq : q.p = 2 := by
     have := hchar
     rw [hd, TauCeti.LieTypeIndex.characteristic_A] at this

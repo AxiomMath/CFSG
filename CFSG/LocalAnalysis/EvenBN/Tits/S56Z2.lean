@@ -54,7 +54,7 @@ theorem Hyp.s56_relIndex_E_C_le (hd : d.Hyp) :
         _ = 128 := by norm_num
   omega
 
-theorem Hyp.s56_conj_z1_mem (h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
+theorem Hyp.s56_conj_z1_mem (_h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
     (hz₁ : z₁ ∈ d.s56Q2) (hε : d.s56Eps z₁ = d.z) {g : G} (hg : g ∈ zpowers d.x₅) :
     z₁⁻¹ * (g * z₁ * g⁻¹) ∈ d.E := by
   have hxM := hd.s56_x5_mem_M
@@ -143,7 +143,7 @@ theorem Hyp.s56_J_comm_z1_mem_E (h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
   have hcen : ∀ e ∈ d.E, z₁ * e = e * z₁ := fun e he => (((s56_mem_Q2_iff).1 hz₁).2 e he).symm
   let H₁ : Subgroup G :=
     { carrier := {j | j ∈ d.s56J ∧ j * z₁ * j⁻¹ * z₁⁻¹ ∈ d.E}
-      one_mem' := ⟨one_mem _, by simpa using one_mem d.E⟩
+      one_mem' := ⟨one_mem _, by simp⟩
       mul_mem' := by
         rintro j j' ⟨hj, hjE⟩ ⟨hj', hj'E⟩
         refine ⟨mul_mem hj hj', ?_⟩
@@ -233,7 +233,7 @@ theorem Hyp.s56_J_comm_Q2_mem (h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
     hd.s56_J_conj_S h49 hz₁ hε hz₁sq hj hs
   let H₂ : Subgroup G :=
     { carrier := {j | j ∈ d.s56J ∧ ∀ q ∈ d.s56Q2, j * q * j⁻¹ * q⁻¹ ∈ S}
-      one_mem' := ⟨one_mem _, fun q hq => by simpa using one_mem S⟩
+      one_mem' := ⟨one_mem _, fun q hq => by simp⟩
       mul_mem' := by
         rintro j j' ⟨hj, hjS⟩ ⟨hj', hj'S⟩
         refine ⟨mul_mem hj hj', fun q hq => ?_⟩

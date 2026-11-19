@@ -12,7 +12,7 @@ open CFSG.Assembly TableB
 
 theorem ggTwOm_facts_rec
     {K : Type} [Field K] [Finite K] [CharP K 2] {n m r : ℕ} {b c : K}
-    (hK : Nat.card K = 2 ^ n) (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hr : 3 ≤ r) (hmr : m = r)
+    (_hK : Nat.card K = 2 ^ n) (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hr : 3 ≤ r) (hmr : m = r)
     (h3 : 3 ∣ 2 ^ n - 1 ∨ (Odd r ∧ 3 ∣ 2 ^ n + 1)) :
     Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) = ⊥ ∧
       GGOutdiagPrime 3 (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))

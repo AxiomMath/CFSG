@@ -90,6 +90,7 @@ section Main
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem notEight_of_type
     {Y : Subgroup G} (hθ : aschbacherSolvableCore 3 Y = CFSG.pCore 2 Y)
     (hty : (∃ (p e : ℕ) (_ : Fact p.Prime), Sec4.IsoLThreePi (Y ⧸ CFSG.pCore 2 Y) p e) ∨
@@ -105,7 +106,7 @@ theorem notEight_of_type
       rw [Nat.card_congr (ePC.symm.trans e).toEquiv]
       exact card_projSL_two_eight
     rcases hty with ⟨p, e', hp, hiso⟩ | ⟨q₀, hq, ⟨f⟩⟩
-    · haveI := hp
+    · have := hp
       exact false_of_card_isoLThreePi hQ hiso
     · have h1 := Hering129KOrders.card_of_isoD4 (r := q₀) (hr := hq) ⟨f⟩
       have h2 := Hering129KOrders.le_ordTrialityD4 (Hering129KOrders.two_le_card q₀)
@@ -118,6 +119,7 @@ theorem notEight_of_type
     rw [hZ'] at h3
     simp at h3
 
+omit [Finite G] in
 theorem notEight_of_typ129IIIcType
     {L Y : Subgroup G} (hθ : aschbacherSolvableCore 3 Y = CFSG.pCore 2 Y)
     (h3 : Typ129IIIcType L Y) :

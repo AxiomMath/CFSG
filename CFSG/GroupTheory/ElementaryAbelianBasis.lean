@@ -88,7 +88,7 @@ theorem exists_list_closure_card [Finite G] (E : Subgroup G) (hsq : ∀ x ∈ E,
       rw [pow_succ] at this
       have : 0 < 2 ^ k := by positivity
       omega
-    obtain ⟨y, hyE, hy⟩ := SetLike.not_le_iff_exists.1 hne
+    obtain ⟨y, hyE, hy⟩ := IsConcreteLE.not_le_iff_exists.1 hne
     have hy1 : y ≠ 1 := fun h => hy (h ▸ Subgroup.one_mem _)
     have hyn : y ∈ Subgroup.normalizer (Subgroup.closure {x | x ∈ l} : Set G) :=
       mem_normalizer_of_conj_mem fun h hh => by

@@ -106,7 +106,7 @@ theorem exists_cyclic_sylow_two_of_normal_sup {X : Type*} [Group X] [Finite X] {
   have hTΓ : (T₀ : Subgroup ↥Γ).map Γ.subtype ≤ Γ := Subgroup.map_subtype_le _
   have hsub : ((T₀ : Subgroup ↥Γ).map Γ.subtype).subgroupOf Γ = T₀ :=
     Subgroup.comap_map_eq_self_of_injective Γ.subtype_injective _
-  refine ⟨(T₀ : Subgroup ↥Γ).map Γ.subtype, hTΓ, T₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(T₀ : Subgroup ↥Γ).map Γ.subtype, hTΓ, T₀.isPGroup.map _, ?_, ?_⟩
   · show ¬ 2 ∣ (((T₀ : Subgroup ↥Γ).map Γ.subtype).subgroupOf Γ).index
     rw [hsub]; exact T₀.not_dvd_index
   · have hinj : Function.Injective
@@ -116,7 +116,7 @@ theorem exists_cyclic_sylow_two_of_normal_sup {X : Type*} [Group X] [Finite X] {
       have hQ3' : IsPGroup 3 (Q.subgroupOf Γ) :=
         hQ3.of_surjective (Subgroup.subgroupOfEquivOfLe hQΓ).symm.toMonoidHom
           (Subgroup.subgroupOfEquivOfLe hQΓ).symm.surjective
-      obtain ⟨a, ha⟩ := T₀.isPGroup' x
+      obtain ⟨a, ha⟩ := T₀.isPGroup x
       obtain ⟨b, hb⟩ := hQ3' ⟨(x : ↥Γ), hxQ⟩
       have h2 : (x : ↥Γ) ^ (2 ^ a) = 1 := by simpa using congrArg Subtype.val ha
       have h3 : (x : ↥Γ) ^ (3 ^ b) = 1 := by simpa using congrArg Subtype.val hb

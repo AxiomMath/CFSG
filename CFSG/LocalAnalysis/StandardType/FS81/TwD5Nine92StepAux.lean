@@ -369,7 +369,7 @@ theorem conj_b₀_eq_self_of_exists_zmod {G : Type} [Group G] [Finite G] {b₀ :
       apply congrArg Subgroup.zpowers
       apply congrArg B.vec
       funext i
-      simp [f, s, Equiv.Perm.one_symm]
+      simp [f, s, ← Equiv.Perm.inv_def 1, inv_one]
     have hconj_s : IsConjLine b₀ (B.line s) := by rwa [hmap] at hconj
     have hsne : s ≠ 0 := by
       intro h

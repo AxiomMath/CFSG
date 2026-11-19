@@ -33,17 +33,17 @@ theorem odd_normal_eq_bot {X : Type*} [Group X] [Finite X] {H V O : Subgroup X}
     (hVH : V ≤ H) (hV2 : ∀ x ∈ V, x ^ 2 = 1) (hVab : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x)
     (hV4 : 4 ≤ Nat.card V)
     (hti : ∀ g : X, ∀ x ∈ V, x ≠ 1 → g * x * g⁻¹ ∈ V → g ∈ Subgroup.normalizer (V : Set X))
-    (hOH : ∀ h ∈ H, h ∈ Subgroup.normalizer (O : Set X)) (hOle : O ≤ H)
+    (hOH : ∀ h ∈ H, h ∈ Subgroup.normalizer (O : Set X)) (_hOle : O ≤ H)
     (hOodd : Odd (Nat.card O))
     (hOK : ∀ k ∈ O, k ∈ Subgroup.normalizer (V : Set X) → k = 1) : O = ⊥ := by
   have hVO : ∀ v ∈ V, ∀ o ∈ O, v * o * v⁻¹ ∈ O := by
     intro v hv o ho
     have hvN : v ∈ Subgroup.normalizer (O : Set X) := hOH v (hVH hv)
     exact (Subgroup.mem_set_normalizer_iff.mp hvN o).mp ho
-  haveI : IsMulCommutative V := IsMulCommutative.of_setLike_mul_comm hVab
-  letI : CommGroup V := IsMulCommutative.instCommGroup
-  letI : MulDistribMulAction V O := conjActionOfNormalizing V O hVO
-  haveI : Fact (IsPGroup 2 V) :=
+  have : IsMulCommutative V := IsMulCommutative.of_setLike_mul_comm hVab
+  let : CommGroup V := IsMulCommutative.instCommGroup
+  let : MulDistribMulAction V O := conjActionOfNormalizing V O hVO
+  have : Fact (IsPGroup 2 V) :=
     ⟨fun g => ⟨1, Subtype.ext (by simpa using hV2 (g : X) g.2)⟩⟩
   have hG : Nat.Coprime 2 (Nat.card O) := Nat.coprime_two_left.mpr hOodd
   have hncyc : ¬ IsCyclic V := by

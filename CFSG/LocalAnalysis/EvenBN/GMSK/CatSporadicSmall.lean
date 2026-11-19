@@ -189,7 +189,7 @@ theorem IsRankOneFixedRoot.false_of_card_centralizer_eq_twelve {D : Type} [Group
   have hT : IsPGroup 2 (zpowers t') :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht', pow_one])
   obtain ⟨P, hP⟩ := hT.exists_le_sylow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hcop := P.card_coprime_index
   have hmul := (P : Subgroup X).card_mul_index
   rw [h12, hk] at hmul
@@ -225,7 +225,7 @@ theorem IsRankOneFixedRoot.false_of_card_centralizer_eq_twelve {D : Type} [Group
     rw [eqLocus_conj, mem_centralizer_singleton_iff]
     have hcomm := hPc.is_comm.comm (⟨x, hx⟩ : (P : Subgroup X)) ⟨t', hP (mem_zpowers t')⟩
     exact congrArg (fun z : (P : Subgroup X) => ((z : X) : D)) hcomm
-  have hQp : IsPGroup 2 Q := P.isPGroup'.map X.subtype
+  have hQp : IsPGroup 2 Q := P.isPGroup.map X.subtype
   have hQcard : Nat.card Q = 4 := by
     rw [card_map_of_injective X.subtype_injective, hk]
     norm_num

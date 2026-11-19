@@ -28,22 +28,22 @@ variable {K : Type} [Field K] {A : Type} [AddCommGroup A] [Module K A] {r : ℕ}
   Subgroup.closure ((tailBorel r qA : Set (TailModel K A r)) ∪ {tailWeylElt r qA a₀ i})
 
 @[expose] def TailRankOneSL2Surjection [Finite (TailModel K A r)]
-    (hani : qA.Anisotropic) {a₀ : A} (ha₀ : a₀ ≠ 0) (i : Fin r) : Prop :=
+    (_hani : qA.Anisotropic) {a₀ : A} (_ha₀ : a₀ ≠ 0) (i : Fin r) : Prop :=
   ∃ f : ↥(Hinf (tailRankOneParabolic qA a₀ i)) →* SpecialLinearGroup (Fin 2) K,
     Function.Surjective f ∧ IsPGroup 2 f.ker
 
 theorem isL2_rankOneParabolic_tail_of_sl2Surjection [FiniteDimensional K A]
     [Finite (TailModel K A r)]
-    (hani : qA.Anisotropic) {a₀ : A} (ha₀ : a₀ ≠ 0) {i : Fin r} (hi : i.val + 1 < r)
+    (hani : qA.Anisotropic) {a₀ : A} (ha₀ : a₀ ≠ 0) {i : Fin r} (_hi : i.val + 1 < r)
     {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n)
     (hsurj : TailRankOneSL2Surjection (qA := qA) hani ha₀ i) :
     IsL2 (Bar2 (Hinf (tailRankOneParabolic qA a₀ i))) n := by
-  haveI : Finite K :=
+  have : Finite K :=
     (Nat.card_ne_zero.mp (by rw [hK]; exact pow_ne_zero n (by norm_num))).2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two (by omega) hK
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hK4 : ∃ s : Finset K, s.card = 4 := by
     refine exists_finset_card_four ?_
     rw [hK]
@@ -51,7 +51,7 @@ theorem isL2_rankOneParabolic_tail_of_sl2Surjection [FiniteDimensional K A]
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab : ∃ a b : SpecialLinearGroup (Fin 2) K, a * b ≠ b * a :=
     sl2_nonabelian (K := K) hK4
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
   have hmodel : LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -77,12 +77,12 @@ noncomputable def flagStabilizer (F : Submodule K V) : Subgroup (V ≃ₗ[K] V) 
   one_mem' := by simp
   mul_mem' := by
     intro g h hg hh
-    rw [Set.mem_setOf_eq] at hg hh ⊢
+    rw [Set.mem_ofPred_eq] at hg hh ⊢
     change F.map ((g : V →ₗ[K] V).comp (h : V →ₗ[K] V)) = F
     rw [Submodule.map_comp, hh, hg]
   inv_mem' := by
     intro g hg
-    rw [Set.mem_setOf_eq] at hg ⊢
+    rw [Set.mem_ofPred_eq] at hg ⊢
     have hcomp : ((g⁻¹ : V ≃ₗ[K] V) : V →ₗ[K] V).comp ((g : V ≃ₗ[K] V) : V →ₗ[K] V) =
         LinearMap.id := LinearMap.ext (g.left_inv)
     have h : (F.map ((g : V ≃ₗ[K] V) : V →ₗ[K] V)).map ((g⁻¹ : V ≃ₗ[K] V) : V →ₗ[K] V) = F := by

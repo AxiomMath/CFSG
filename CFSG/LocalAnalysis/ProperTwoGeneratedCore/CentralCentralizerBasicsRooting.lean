@@ -39,7 +39,7 @@ theorem centralInvolution_exists_transport {z t : G}
     calc p * (c * t * c⁻¹) = c * (c⁻¹ * p * c * t) * c⁻¹ := by group
       _ = c * (t * (c⁻¹ * p * c)) * c⁻¹ := by rw [hpt]
       _ = c * t * c⁻¹ * p := by group
-  have hPp : IsPGroup 2 P := (S.isPGroup'.to_le inf_le_left).map _
+  have hPp : IsPGroup 2 P := (S.isPGroup.to_le inf_le_left).map _
   have hmax : ∀ Q : Subgroup G, Q ≤ M → IsPGroup 2 Q →
       Nat.card Q ≤ Nat.card (S : Subgroup G) := by
     intro Q _ hQ
@@ -47,7 +47,7 @@ theorem centralInvolution_exists_transport {z t : G}
     calc Nat.card Q ≤ Nat.card R := Subgroup.card_le_of_le hQR
       _ = Nat.card (S : Subgroup G) := by
         rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
-  obtain ⟨d, hdM, hd⟩ := exists_conj_mem_of_card_le hz.le_centralizer S.isPGroup' hmax hPM hPp
+  obtain ⟨d, hdM, hd⟩ := exists_conj_mem_of_card_le hz.le_centralizer S.isPGroup hmax hPM hPp
   have hdz : d * z = z * d := Subgroup.mem_centralizer_singleton_iff.mp hdM
   refine ⟨c⁻¹ * d, ?_, fun y hyS hyt => ?_⟩
   · calc (c⁻¹ * d)⁻¹ * t * (c⁻¹ * d) = d⁻¹ * (c * t * c⁻¹) * d := by group

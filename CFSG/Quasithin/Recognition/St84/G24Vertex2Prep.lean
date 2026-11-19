@@ -39,7 +39,7 @@ private theorem frame_Mk_normalize [Finite G]
     have hv : (Pi.single (0 : Fin 4) (1 : ZMod 2) : Fin 4 → ZMod 2) ≠ 0 := by
       intro h0
       have := congrFun h0 0
-      simpa using this
+      simp at this
     refine hv (hspec.2.2.2 _ ?_)
     rw [h]
     exact Matrix.one_mulVec _
@@ -118,7 +118,7 @@ private theorem psi_mem_bigB [Finite G] {L1 L2 S : Subgroup G} (hF : F112HypW L1
 private theorem psi_Q2_Z2 [Finite G] {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)
     (hD : G24LocalData L1 L2 S) (hM : G24M.Facts)
     (ψ₁ : ↥(L1 ⊔ bigB L1 L2 S) ≃* ↥G24M.M1)
-    (hψ₁S : ∀ x : ↥(L1 ⊔ bigB L1 L2 S),
+    (_hψ₁S : ∀ x : ↥(L1 ⊔ bigB L1 L2 S),
       (x : G) ∈ S ↔ ((ψ₁ x : ↥G24M.M1) : G24M.Y) ∈ G24M.T0)
     (hψ₁Q : ∀ x : ↥(L1 ⊔ bigB L1 L2 S),
       (x : G) ∈ dsQ L1 L2 S ↔ ((ψ₁ x : ↥G24M.M1) : G24M.Y) ∈ G24M.Q1)

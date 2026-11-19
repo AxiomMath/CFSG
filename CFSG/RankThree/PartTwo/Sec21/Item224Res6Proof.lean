@@ -47,7 +47,7 @@ theorem item224Elliptic_of_torusElliptic (h222 : Item222) (h213 : Item213) (h45 
   set S' : Subgroup G := (S : Subgroup (Subgroup.centralizer (A : Set G))).map
     (Subgroup.centralizer (A : Set G)).subtype with hS'
   have hS'A : S' ≤ Subgroup.centralizer (A : Set G) := Subgroup.map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hS'L : S' ≤ Subgroup.normalizer (L : Set G) :=
     hS'A.trans (centralizer_le_normalizer_of_sec21Pair h222 h213 hpair)
   set E := Sec4.autThetaQuot A L with hE

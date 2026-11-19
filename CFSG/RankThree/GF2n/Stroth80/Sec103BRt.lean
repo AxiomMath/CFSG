@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem comm_conj_inv_eq {t j h : G} (hjt : Commute j t)
     (hjZ : ∀ z ∈ Z, j * z * j⁻¹ = z) (hZ : ⁅t, h⁆ ∈ Z) :
     ⁅t, j⁻¹ * h * j⁆ = ⁅t, h⁆ := by
@@ -26,8 +27,8 @@ private theorem comm_conj_inv_eq {t j h : G} (hjt : Commute j t)
     _ = j⁻¹ * ⁅t, h⁆ * j := by simp only [commutatorElement_def]; group
     _ = ⁅t, h⁆ := hjZ'
 
-private theorem commute_conj_mul_inv (hc : Ctx M Q Z B) {t j h : G} (htM : t ∈ M)
-    (hhQ : h ∈ Q) (hjM : j ∈ M) (hjt : Commute j t)
+private theorem commute_conj_mul_inv (hc : Ctx M Q Z B) {t j h : G} (_htM : t ∈ M)
+    (hhQ : h ∈ Q) (hjM : j ∈ M) (_hjt : Commute j t)
     (hcomm' : ⁅t, j⁻¹ * h * j⁆ = ⁅t, h⁆) (hZ : ⁅t, h⁆ ∈ Z) :
     (j⁻¹ * h * j) * h⁻¹ * t = t * ((j⁻¹ * h * j) * h⁻¹) := by
   set v := ⁅t, h⁆ with hv
@@ -93,6 +94,7 @@ private theorem comm_conj_eq (hc : Ctx M Q Z B) {t j a h : G} (htM : t ∈ M) (h
     _ = j * (k * ⁅h, a⁆ * k⁻¹) * j⁻¹ := by rw [h2]
     _ = ⁅h, a⁆ := h4
 
+omit [Finite G] in
 private theorem inv_mul_conj_mul_commute {a j t : G} (hjt : Commute j t) (hat : Commute a t) :
     a⁻¹ * (j * a * j⁻¹) * t = t * (a⁻¹ * (j * a * j⁻¹)) := by
   have hja_t : j * a * j⁻¹ * t = t * (j * a * j⁻¹) := by

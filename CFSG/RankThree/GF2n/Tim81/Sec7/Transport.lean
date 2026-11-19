@@ -19,10 +19,12 @@ theorem Hyp.sigmaAt_conj (h : Hyp M V) (a : G) :
   unfold sigmaAt
   rw [normalizer_conjSubgroup a V, h.normalizer_eq]
 
+omit [Finite G] in
 theorem sigmaSet_subset_omegaSet (M V : Subgroup G) : sigmaSet M V ⊆ omegaSet V := by
   rintro U ⟨g, rfl, -⟩
   exact ⟨g, Subgroup.mem_top g, rfl⟩
 
+omit [Finite G] in
 theorem sigmaAt_subset_omegaSet {X : Subgroup G} (hX : X ∈ omegaSet V) :
     sigmaAt X ⊆ omegaSet V := by
   rintro U ⟨g, rfl, -⟩
@@ -220,18 +222,21 @@ theorem Sec6Hyp.sigmaAt_subset_gammaAt (hS : Sec6Hyp M V) {X : Subgroup G}
     (Hyp.sigmaAt_conj hS.sec5.toRootHyp.toHyp b) ▸ hU
   exact (hS.conj b).sigmaSet_subset_gammaAt hU'
 
+omit [Finite G] in
 theorem le_y0Of (V X : Subgroup G) : V ≤ y0Of V X := by
   unfold y0Of
   simpa [conjSubgroup_one] using
     le_iSup₂_of_le (f := fun x (_ : x ∈ cenOf X) => conjSubgroup x V) 1
       ((cenOf X).one_mem) le_rfl
 
+omit [Finite G] in
 theorem y0Of_anti (V : Subgroup G) {X X' : Subgroup G} (h : X ≤ X') :
     y0Of V X' ≤ y0Of V X := by
   unfold y0Of
   refine iSup₂_le fun x hx => ?_
   exact le_iSup₂_of_le x (Subgroup.centralizer_le h hx) le_rfl
 
+omit [Finite G] in
 private theorem y0Of_eq_iSup_conjSet (V X : Subgroup G) :
     y0Of V X = ⨆ C ∈ {C : Subgroup G | ∃ x ∈ cenOf X, C = conjSubgroup x V}, C := by
   unfold y0Of
@@ -242,6 +247,7 @@ private theorem y0Of_eq_iSup_conjSet (V X : Subgroup G) :
     obtain ⟨x, hx, rfl⟩ := hC
     exact le_iSup₂_of_le x hx le_rfl
 
+omit [Finite G] in
 private theorem iSup_conj_eq {S S' : Set (Subgroup G)} (a : G)
     (h : ∀ U, U ∈ S' ↔ conjSubgroup a⁻¹ U ∈ S) :
     (⨆ C ∈ S', C) = conjSubgroup a (⨆ C ∈ S, C) := by
@@ -260,6 +266,7 @@ private theorem iSup_conj_eq {S S' : Set (Subgroup G)} (a : G)
     · exact le_iSup₂_of_le (conjSubgroup a C) hC' le_rfl
     · rwa [conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one]
 
+omit [Finite G] in
 theorem cenOf_le_normalizer_y0Of (V X : Subgroup G) :
     cenOf X ≤ Subgroup.normalizer (y0Of V X : Set G) := by
   intro c hc
@@ -275,6 +282,7 @@ theorem cenOf_le_normalizer_y0Of (V X : Subgroup G) :
       rw [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one]
     rw [hU, hxU, conjSubgroup_conjSubgroup]
 
+omit [Finite G] in
 theorem y0Of_conjSubgroup (a : G) (V X : Subgroup G) :
     y0Of (conjSubgroup a V) (conjSubgroup a X) = conjSubgroup a (y0Of V X) := by
   rw [y0Of_eq_iSup_conjSet, y0Of_eq_iSup_conjSet]
@@ -301,12 +309,14 @@ theorem y0Of_conjSubgroup (a : G) (V X : Subgroup G) :
       congr 1
       group
 
+omit [Finite G] in
 private theorem conj_conj_Pc_eq (a p g : G) (hpg : g = a * p * a⁻¹) :
     conjSubgroup g (Pc (conjSubgroup a M) (conjSubgroup a V)) =
       conjSubgroup a (conjSubgroup p (Pc M V)) := by
   rw [Pc_conjSubgroup, hpg, conjSubgroup_conjSubgroup, conjSubgroup_conjSubgroup,
     show (a * p * a⁻¹) * a = a * p by group]
 
+omit [Finite G] in
 private theorem conj_conj_m0Of_eq (a p g : G) (hpg : g = a * p * a⁻¹) :
     conjSubgroup g (m0Of (conjSubgroup a M) (conjSubgroup a V)) =
       conjSubgroup a (conjSubgroup p (m0Of M V)) := by
@@ -326,6 +336,7 @@ private theorem iSup_sigmaAt_conj_eq (h : Hyp M V) (a : G) {A' B' : Subgroup G}
     exact ⟨(Hyp.mem_sigmaAt_conj_iff h hA' a).mpr h1,
       (Hyp.mem_sigmaAt_conj_iff h hB' a).mpr h2⟩
 
+omit [Finite G] in
 theorem Sec7.Stmt71.conj (h71 : Sec7.Stmt71 M V) (a : G) :
     Sec7.Stmt71 (conjSubgroup a M) (conjSubgroup a V) := by
   intro N hVN hNP hNm0

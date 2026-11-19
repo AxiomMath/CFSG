@@ -262,7 +262,7 @@ theorem exists_normal_two_complement {K P : Subgroup G} (hP : IsSylowOf 2 P K)
   · rw [card_map_of_injective K.subtype_injective]
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hN2)
   · intro k hk hko
-    obtain ⟨e, he⟩ := Q₂.isPGroup'.exists_card_eq
+    obtain ⟨e, he⟩ := Q₂.isPGroup.exists_card_eq
     have h2 := N.pow_index_mem (⟨k, hk⟩ : K)
     rw [hNidx, he] at h2
     have h3 : (⟨k, hk⟩ : K) ^ orderOf k ∈ N := by

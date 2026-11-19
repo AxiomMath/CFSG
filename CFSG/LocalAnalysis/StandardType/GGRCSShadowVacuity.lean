@@ -148,7 +148,7 @@ theorem ggShadow_vacuity {W : Type} [Group W] [Finite W] {p : ℕ} [Fact p.Prime
   obtain ⟨S0 : Sylow p ↥X⟩ := Sylow.nonempty (p := p) (G := ↥X)
   let P : Subgroup ↥K := (S0 : Subgroup ↥X).map X.subtype
   have hPp : IsPGroup p ↥P :=
-    IsPGroup.map (H := (S0 : Subgroup ↥X)) (K := ↥K) (Sylow.isPGroup' S0)
+    IsPGroup.map (H := (S0 : Subgroup ↥X)) (K := ↥K) (Sylow.isPGroup S0)
       (X.subtype : ↥X →* ↥K)
   have hPidx : ¬ p ∣ P.index := by
     change ¬ p ∣ ((S0 : Subgroup ↥X).map X.subtype).index

@@ -65,11 +65,13 @@ theorem map_conj_eq_of_mem_normalizer {H : Subgroup Γ} {t : Γ}
     refine ⟨t⁻¹ * x * t, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
     exact (ht _).2 (by simpa [mul_assoc] using hx)
 
+omit [CharP K 2] in
 theorem fixP_map_of_mem_normalizer [Finite K] (A : Γ →* (X ≃ₗ[K] X)) {H : Subgroup Γ} {t : Γ}
     (ht : t ∈ Subgroup.normalizer (H : Set Γ)) :
     (fixP A H).map (A t : X →ₗ[K] X) = fixP A H := by
   rw [← fixP_map_conj, map_conj_eq_of_mem_normalizer ht]
 
+omit [CharP K 2] in
 theorem fixP_map_of_mem [Finite K] (A : Γ →* (X ≃ₗ[K] X)) {H : Subgroup Γ} {u : Γ} (hu : u ∈ H) :
     (fixP A H).map (A u : X →ₗ[K] X) = fixP A H := by
   ext v
@@ -132,7 +134,7 @@ theorem exists_base_E4
     exact hctx.hyp.q4
   obtain ⟨-, -, hLBcard, -⟩ := stroth_3_5 h34 hctx hw (by norm_num) hnoB hgenB
   obtain ⟨T, hTe, hTker, -⟩ := exists_T_Lgen_isom hctx hg
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hsqθ : ∀ θ : Lgen M (LB M Q B) →* ↥(EAut0 K), (∀ s, θ s = 1 ↔ (s : G) ∈ Q) →
       ∀ s ∈ (LB M Q B).subgroupOf (Lgen M (LB M Q B)), θ s ^ 2 = 1 := by
     intro θ hθ s hs

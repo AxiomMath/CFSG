@@ -102,7 +102,7 @@ private theorem deltaM_single_row (d : ℕ) (p x y : Fin d) (hpy : p ≠ y) :
   have hconj : Matrix.transvection p x (1 : ZMod 2) * single x y 1 *
       Matrix.transvection p x (1 : ZMod 2) = single x y 1 + single p y 1 := by
     simp only [transvection_mul_single, single_mul_transvection, Matrix.add_mul, mul_one,
-      add_zero, if_true, if_neg (Ne.symm hpy)]
+      add_zero, ite_true, ite_eq_right (Ne.symm hpy)]
   rw [hconj, add_assoc, add_comm (single p y 1) (single x y 1), mat_add_cancel_left]
 
 private theorem deltaM_single_col (d : ℕ) (q x y : Fin d) (hqx : q ≠ x) :
@@ -112,8 +112,8 @@ private theorem deltaM_single_col (d : ℕ) (q x y : Fin d) (hqx : q ≠ x) :
     single x y 1 = single x q 1
   have hconj : Matrix.transvection y q (1 : ZMod 2) * single x y 1 *
       Matrix.transvection y q (1 : ZMod 2) = single x y 1 + single x q 1 := by
-    simp only [transvection_mul_single, single_mul_transvection, mul_one, add_zero, if_true,
-      if_neg hqx]
+    simp only [transvection_mul_single, single_mul_transvection, mul_one, add_zero, ite_true,
+      ite_eq_right hqx]
   rw [hconj, add_assoc, add_comm (single x q 1) (single x y 1), mat_add_cancel_left]
 
 private theorem deltaM_single_offdiag (d : ℕ) (i j : Fin d) (_hij : i ≠ j) :
@@ -126,7 +126,7 @@ private theorem deltaM_single_offdiag (d : ℕ) (i j : Fin d) (_hij : i ≠ j) :
       Matrix.transvection j i (1 : ZMod 2) = single i j 1 + single i i 1 + single j j 1 +
         single j i 1 := by
     simp only [transvection_mul_single, single_mul_transvection, Matrix.add_mul, mul_one,
-      if_true]
+      ite_true]
     abel
   rw [hconj]
   simp only [mat_add_cancel_left, add_assoc, add_left_comm, add_comm]
@@ -136,10 +136,10 @@ private theorem transvection_conj_two_units (d : ℕ) (i k p : Fin d) (_hki : k 
     Matrix.transvection k p β * (single i k (1 : ZMod 2) + single i p β) *
         Matrix.transvection k p β = single i k 1 := by
   rw [Matrix.mul_add, Matrix.add_mul,
-    transvection_mul_single d k p i k β 1, if_neg hpi, add_zero,
-    single_mul_transvection d k p i k β 1, if_pos rfl,
-    transvection_mul_single d k p i p β β, if_neg hpi, add_zero,
-    single_mul_transvection d k p i p β β, if_neg (Ne.symm hkp)]
+    transvection_mul_single d k p i k β 1, ite_eq_right hpi, add_zero,
+    single_mul_transvection d k p i k β 1, ite_eq_left rfl,
+    transvection_mul_single d k p i p β β, ite_eq_right hpi, add_zero,
+    single_mul_transvection d k p i p β β, ite_eq_right (Ne.symm hkp)]
   simp only [one_mul, mat_add_cancel_left, add_comm, add_zero]
 
 private theorem single_mul_diagonal (d : ℕ) (i j : Fin d)
@@ -375,8 +375,8 @@ theorem trace_eq_zero_mem_of_invariant (d : ℕ) (hd : 3 ≤ d)
   have hoff : (∑ i, ∑ j, if i = j then 0 else single i j (B i j)) ∈ W := by
     refine W.sum_mem fun i _ => W.sum_mem fun j _ => ?_
     by_cases hij : i = j
-    · rw [if_pos hij]; exact W.zero_mem
-    · rw [if_neg hij]
+    · rw [ite_eq_left hij]; exact W.zero_mem
+    · rw [ite_eq_right hij]
       have : single i j (B i j) = B i j • single i j (1 : ZMod 2) := by
         rw [Matrix.smul_single, smul_eq_mul, mul_one]
       rw [this]

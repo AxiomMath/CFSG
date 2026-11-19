@@ -48,7 +48,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (IsL2 IsU3 IsL3 IsSp4 IsSL3)
 
 private theorem wc813fl2_borelRankOne_of_coatom
     {Y : Type} [Group Y] [Finite Y] (L S : Subgroup Y) (hSL : S ≤ L)
-    (hP : IsPGroup 2 (S.subgroupOf L)) (hnd : ¬ 2 ∣ (S.subgroupOf L).index)
+    (_hP : IsPGroup 2 (S.subgroupOf L)) (_hnd : ¬ 2 ∣ (S.subgroupOf L).index)
     (hcoat : IsCoatom (Subgroup.normalizer ((S.subgroupOf L : Subgroup ↥L) : Set ↥L))) :
     ∀ P : Subgroup Y, L ⊓ normalizer (S : Set Y) ≤ P → P ≤ L →
       P = L ⊓ normalizer (S : Set Y) ∨ P = L := by
@@ -91,7 +91,7 @@ private theorem wc813fl2_card_sylow_of_isL2
     {Y : Type} [Group Y] [Finite Y] {L S : Subgroup Y} (hL2 : IsL2 ↥L 2)
     (hSL : S ≤ L) (hP : IsPGroup 2 (S.subgroupOf L))
     (hnd : ¬ 2 ∣ (S.subgroupOf L).index) : Nat.card ↥S = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.LocalAnalysis.ComponentInitial.PSL2_four_alternating_five_model ↥L hL2
   let P'' : Sylow 2 (alternatingGroup (Fin 5)) :=
     (hP.map e.toMonoidHom).toSylow (Subgroup.index_map_equiv (S.subgroupOf L) e ▸ hnd)
@@ -109,7 +109,7 @@ private theorem wc813fl2_relIndex_normalizer_eq_five
     (hSL : S ≤ L) (hP : IsPGroup 2 (S.subgroupOf L))
     (hnd : ¬ 2 ∣ (S.subgroupOf L).index) :
     (L ⊓ normalizer (S : Set Y)).relIndex L = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.LocalAnalysis.ComponentInitial.PSL2_four_alternating_five_model ↥L hL2
   have hB : (L ⊓ normalizer (S : Set Y)).subgroupOf L =
       Subgroup.normalizer ((S.subgroupOf L : Subgroup ↥L) : Set ↥L) := by
@@ -161,7 +161,7 @@ private theorem wc813fl2_oTwoMod_bot_eq_bot {Y : Type} [Group Y] [Finite Y] (L :
     intro w
     obtain ⟨k, hk⟩ := hW.2.2.2 (w : Y) w.2
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
-  haveI := hWnorm
+  have := hWnorm
   rcases hsimple.eq_bot_or_eq_top_of_normal (W.subgroupOf L) with h | h
   · rw [← Subgroup.map_subgroupOf_eq_of_le hWL, h, Subgroup.map_bot]
   · exfalso
@@ -171,7 +171,7 @@ private theorem wc813fl2_oTwoMod_bot_eq_bot {Y : Type} [Group Y] [Finite Y] (L :
       rw [← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
       exact h1
     have hPL : IsPGroup 2 ↥L := hWL' ▸ hW2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥L)).mp hPL
     rw [hcard] at hn
     have h3 : 3 ∣ 2 ^ n := by rw [← hn]; norm_num
@@ -196,7 +196,7 @@ theorem fourGroupInnerOn_L2 : FourGroupInnerOn ShapeL2 :=
 
 theorem borelRankOneOn_L2 : BorelRankOneOn ShapeL2 := by
   intro Y _ _ L S hL hSy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : S ≤ L := hSy.1
   have hP : IsPGroup 2 (S.subgroupOf L) :=
     hSy.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
@@ -212,7 +212,7 @@ theorem borelRankOneOn_L2 : BorelRankOneOn ShapeL2 := by
 
 theorem borelRankOneOn_U3 : BorelRankOneOn ShapeU3 := by
   intro Y _ _ L S hL hSy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : S ≤ L := hSy.1
   have hP : IsPGroup 2 (S.subgroupOf L) :=
     hSy.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
@@ -228,7 +228,7 @@ theorem borelRankOneOn_U3 : BorelRankOneOn ShapeU3 := by
 
 theorem choiceOfKOn_L2 : ChoiceOfKOn ShapeL2 := by
   intro Y _ _ L S A hL hSy hAS hAe hA4 _ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : S ≤ L := hSy.1
   have hP : IsPGroup 2 (S.subgroupOf L) :=
     hSy.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
@@ -242,7 +242,7 @@ theorem choiceOfKOn_L2 : ChoiceOfKOn ShapeL2 := by
   have hScomm : ∀ a ∈ A, ∀ s ∈ S, a * s = s * a := by
     intro a ha s hs
     have hcard : Nat.card ↥S = 2 ^ 2 := by rw [hScard]; norm_num
-    have hcomm := IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (G := ↥S) hcard
+    have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := ↥S) hcard).is_comm.comm
     exact congrArg Subtype.val (hcomm ⟨a, hAS ha⟩ ⟨s, hs⟩)
   refine ⟨L, le_rfl, hAS.trans hSL, ?_, ?_, ?_, ?_, ?_⟩
   · rw [hoTwo]

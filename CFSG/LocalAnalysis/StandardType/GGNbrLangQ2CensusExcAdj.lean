@@ -55,21 +55,21 @@ private theorem q2cEA_compLabel_A {r N e d n : ℕ} {k : TwistKind}
   | inner =>
     dsimp only [componentLabel] at h
     by_cases hN : N = r * (r + 1)
-    · rw [if_pos hN] at h
+    · rw [ite_eq_left hN] at h
       exact ⟨by simpa using congrArg LargeEvenLabel.rank h, hN⟩
-    · rw [if_neg hN] at h
+    · rw [ite_eq_right hN] at h
       by_cases hD : N = 2 * r * (r - 1)
-      · rw [if_pos hD] at h
+      · rw [ite_eq_left hD] at h
         exact absurd (congrArg LargeEvenLabel.tag h) (by simp)
-      · rw [if_neg hD] at h
+      · rw [ite_eq_right hD] at h
         by_cases h6 : r = 6
-        · rw [if_pos h6] at h
+        · rw [ite_eq_left h6] at h
           exact absurd (congrArg LargeEvenLabel.tag h) (by simp)
-        · rw [if_neg h6] at h
+        · rw [ite_eq_right h6] at h
           by_cases h7 : r = 7
-          · rw [if_pos h7] at h
+          · rw [ite_eq_left h7] at h
             exact absurd (congrArg LargeEvenLabel.tag h) (by simp)
-          · rw [if_neg h7] at h
+          · rw [ite_eq_right h7] at h
             exact absurd (congrArg LargeEvenLabel.tag h) (by simp)
   | suN =>
     dsimp only [componentLabel] at h
@@ -85,10 +85,10 @@ private theorem q2cEA_typeA_shape {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ p : ℕ}
     (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2)
     {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
-    (hap : ∀ j, a j ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
+    (hap : ∀ j, a j ^ p = 1) (_h1 : rootDiagUnit τ a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hq : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
-    {d m : ℕ} (hd : 5 ≤ d) (hm : 2 ≤ m) {F₀ : Type} [Field F₀] [Finite F₀]
+    {d m : ℕ} (hd : 5 ≤ d) (_hm : 2 ≤ m) {F₀ : Type} [Field F₀] [Finite F₀]
     (hF₀ : Nat.card F₀ = 2 ^ m)
     (θ : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≃*
@@ -116,7 +116,7 @@ private theorem q2cEA_typeA_shape {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ
       rootSpan τ L (famOrbit S.ρ a' i') := by
     have hforb : famOrbit S.ρ a' i' = rationalRoots S.ρ (rootCharHom a) i := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hi']
     rw [hforb]
     exact (Subgroup.commutator_le_self _).trans inf_le_left
@@ -131,7 +131,7 @@ private theorem q2cEA_typeA_shape {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ
     unfold LabAt
     rw [← hnf]
     exact hlab
-  haveI hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) F₀)) :=
+  have hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) F₀)) :=
     θ.isSimpleGroup_congr.mp hq.2.1
   let eA : LargeEvenProj (LargeEvenSLGroup (Fin d) F₀) ≃*
       CFSG.Open.StatedProj (CFSG.Open.StatedSL d F₀) :=
@@ -171,7 +171,7 @@ private theorem q2cEA_field {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8
     (hap : ∀ j, a j ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hq : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
-    {d m : ℕ} (hd : 5 ≤ d) (hm : 2 ≤ m) {F₀ : Type} [Field F₀] [Finite F₀]
+    {d m : ℕ} (hd : 5 ≤ d) (_hm : 2 ≤ m) {F₀ : Type} [Field F₀] [Finite F₀]
     (hF₀ : Nat.card F₀ = 2 ^ m)
     (θ : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≃*
@@ -180,7 +180,7 @@ private theorem q2cEA_field {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8
   classical
   have hfd := langRatCompFieldLenSL_holds τ L p₀ S hτ p hp hp2 a hT hap h1 i hq
   obtain ⟨lab, hlab, -, hdeg, hsl, hhas, R', hR'inst, hmm, ⟨eR'⟩⟩ := hfd
-  haveI hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) F₀)) :=
+  have hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) F₀)) :=
     θ.isSimpleGroup_congr.mp hq.2.1
   let eA : LargeEvenProj (LargeEvenSLGroup (Fin d) F₀) ≃*
       CFSG.Open.StatedProj (CFSG.Open.StatedSL d F₀) :=
@@ -308,7 +308,7 @@ theorem q2c_exc_comp_typeA {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     refine MulEquiv.ext fun c => Subtype.ext ?_
     rw [hβh' c, h1]
     simp
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -331,7 +331,7 @@ theorem q2c_exc_comp_typeA {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
       hmon hperf β h' (baseChange_mem_adjointGroup_of_mem_inndiag hh') hβh' hp1 hh1
   have hℓL : ringChar (AlgebraicClosure K) = ringChar K := ringChar_algebraicClosure K
   have hℓ2 : ringChar (AlgebraicClosure K) = 2 := by rw [hℓL, hK2]
-  haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne hp (by rw [hℓL]; exact hpℓ.symm)
   have hsmall : τ = .G2 → 5 ≤ p ∨ 4 ≤ S.D.q := fun hG2 =>

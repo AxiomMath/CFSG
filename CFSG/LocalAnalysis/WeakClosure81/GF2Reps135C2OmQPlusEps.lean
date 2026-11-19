@@ -36,7 +36,7 @@ private lemma c2slomqep_map_sub (n m : ℕ) (ν μ : Fin n → ZMod m) :
 
 private lemma c2slomqep_eq_zero_of_labels_zero {n : ℕ} (hn : 3 ≤ n) {m : ℕ} (hm : Odd m)
     {ν : Fin n → ZMod m} (h : omqEpsLabels n m ν = 0) : ν = 0 := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hn2 : 2 ≤ n := by omega
   have step : ∀ (k : Fin n) (hk : k.val + 1 < n), ν k = ν ⟨k.val + 1, hk⟩ := by
     intro k hk
@@ -82,7 +82,7 @@ theorem omq_labels_bijective {n : ℕ} (hn : 3 ≤ n) {m : ℕ} (hm : Odd m) :
   have hm0 : m ≠ 0 := by
     obtain ⟨t, ht⟩ := hm
     omega
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   refine Finite.injective_iff_bijective.mp ?_
   intro ν μ h
   have hzero : omqEpsLabels n m (ν - μ) = 0 := by

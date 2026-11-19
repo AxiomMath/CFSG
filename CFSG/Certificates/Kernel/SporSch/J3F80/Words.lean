@@ -159,7 +159,7 @@ theorem words_sound' {cs : List (List Char)} {k : Nat} {F : Nat → Nat}
     | zero => intro _; simp
     | succ j ih =>
       intro hj
-      rw [List.take_succ, List.flatten_append, List.length_append, ih (by omega),
+      rw [List.take_add_one, List.flatten_append, List.length_append, ih (by omega),
         List.getElem?_eq_getElem (by omega)]
       have := hlen j (by omega)
       rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega), Option.getD_some] at this

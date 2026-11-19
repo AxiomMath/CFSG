@@ -30,6 +30,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_barPreimage (L : Subgroup G) (K : Subgroup (Bar2 L)) :
     (barPreimage L K).subgroupOf L = K.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) := by
   ext z
@@ -195,7 +196,7 @@ theorem exists_sylow_syl2Bar (D : Data G) (L : Subgroup G)
 
 theorem mem_delta_third
     (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) (h1 : ¬ P17_12_1 r q L) (h2 : ¬ P17_12_2 q L)
+    (_hC : Ctx17_6 D V₀ V L r q) (h1 : ¬ P17_12_1 r q L) (h2 : ¬ P17_12_2 q L)
     (X : Subgroup G) (hXL : X ≤ L) (hO2 : pCoreOf 2 L ≤ X)
     (hfun : (X.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ∈
       FunSet (fundPred q) (Bar2 L) (Syl2Bar D L)) :
@@ -203,7 +204,7 @@ theorem mem_delta_third
   have hconj1 : L.map (MulAut.conj (1 : G)).toMonoidHom = L := by
     rw [show (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G by
       ext l
-      simp [MulAut.conj_apply], Subgroup.map_id]
+      simp, Subgroup.map_id]
   have hfun' : ((X.subgroupOf (L.map (MulAut.conj (1 : G)).toMonoidHom)).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥(L.map (MulAut.conj (1 : G)).toMonoidHom)))) ∈
       FunSet (fundPred q) (Bar2 (L.map (MulAut.conj (1 : G)).toMonoidHom))
@@ -211,7 +212,7 @@ theorem mem_delta_third
           (L.map (MulAut.conj (1 : G)).toMonoidHom)).map
             (QuotientGroup.mk' (CFSG.pCore 2 ↥(L.map (MulAut.conj (1 : G)).toMonoidHom)))) := by
     exact hconj1.symm ▸ hfun
-  rw [Delta17_12, dif_neg h1, dif_neg h2]
+  rw [Delta17_12, dite_eq_right h1, dite_eq_right h2]
   have hpc : pCoreOf 2 (L.map (MulAut.conj (1 : G)).toMonoidHom) = pCoreOf 2 L := by
     rw [hconj1]
   refine ⟨1, D.M.one_mem, X, ?_, ?_, rfl, hfun'⟩
@@ -261,7 +262,7 @@ theorem exceptional_rank_two_data
     (hC : Ctx17_6 D V₀ V L r q)
     (h1 : ¬ P17_12_1 r q L) (h2 : ¬ P17_12_2 q L)
     (hLnorm : (L.subgroupOf D.M).Normal)
-    (hqr : q = r)
+    (_hqr : q = r)
     (hexc : LieModel (BarInf L) .G2 0 r 1 ∨ LieModel (BarInf L) .PSp 2 r 1)
     (hq3 : 3 < q)
     (hKO1b : K_FunRankTwo)
@@ -402,7 +403,7 @@ theorem exceptional_rank_two_data
 theorem seventeen_sixteen_case_three
     (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
     (hC : Ctx17_6 D V₀ V L r q)
-    (h17_7 : R17_7At D V₀ V L r q hC)
+    (_h17_7 : R17_7At D V₀ V L r q hC)
     (h17_9 : R17_9At D V₀ V L r q hC)
     (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D) (h76 : F07.R76 D)
     (hSg : SigmaStd D)
@@ -474,7 +475,7 @@ theorem seventeen_sixteen_case_three
   · have hrsig : r ∈ D.sig := hSg.four_mem r hr hr2 h4
     have hE'M : E' ≤ D.M := hE'delta.trans hsupM
     exact finish E' hE'delta (h61 r hrsig E' hE'M hE'el.isPGroup hE'nc)
-  · push_neg at h4
+  · push Not at h4
     have hrank := hKO2 (Bar2 L) r q hr hr2 ⟨t, n, f, hadm, hq_eq, hmq⟩ hq hodd hL2 hL3 hRee
     rcases hrank with h4' | ⟨hqr, hexcBar, hZbar⟩
     · have hEq : CFSG.Open.pRank r (⊤ : Subgroup (Bar2 L)) = CFSG.Open.pRank r L :=
@@ -538,7 +539,7 @@ theorem seventeen_sixteen_case_three
             UC6S846.le_pRank' hp (le_refl E''') hE'''el hE'''card
           omega
         exact finish E''' hE'''delta (h61 p hpσ E''' hE'''M hE'''el.isPGroup hE'''nc)
-      · push_neg at hall
+      · push Not at hall
         obtain ⟨p, hpσ, hpdvd⟩ := hall
         have hp : p.Prime := (D.sig_prime p hpσ).1
         have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
@@ -566,6 +567,7 @@ theorem seventeen_sixteen_case_three
         exact finish E hEdelta (h63 r hr hr2 E hEM hEel'' hEcard'' hgamma)
 
 
+omit [Finite G] in
 theorem bar2_barPreimage_mulEquiv (L : Subgroup G) (K : Subgroup (Bar2 L))
     (hK : CFSG.pCore 2 K = ⊥) : Nonempty (Bar2 (barPreimage L K) ≃* K) := by
   classical
@@ -773,7 +775,7 @@ theorem seventeen_sixteen_case_two
         rwa [h1] at hmem
       · change ((Subgroup.normalizerMonoidHom L ⟨s⁻¹, hS_le_N (S.inv_mem hs)⟩ l : ↥L) : G) = z
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
-        simp only [Subgroup.coe_inv, Subgroup.coe_mk, Subgroup.coe_subtype]
+        simp only
         have hzl' : (l : G) = s * z * s⁻¹ := hzl
         rw [hzl']
         group
@@ -813,7 +815,7 @@ theorem seventeen_sixteen_case_two
         rwa [h1] at hmem
       · change ((Subgroup.normalizerMonoidHom L ⟨s⁻¹, hS_le_N (S.inv_mem hs)⟩ l : ↥L) : G) = z
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
-        simp only [Subgroup.coe_inv, Subgroup.coe_mk, Subgroup.coe_subtype]
+        simp only
         have hzl' : (l : G) = s * z * s⁻¹ := hzl
         rw [hzl']
         group
@@ -828,10 +830,10 @@ theorem seventeen_sixteen_case_two
     obtain ⟨e⟩ := bar2_barPreimage_mulEquiv L Ky hKyO2
     exact isL2Over17_of_mulEquiv (q := q) e hKyL2
   have hXx_delta : D.T ⊔ Xx ∈ Delta17_12 D (fundPred q) r q L := by
-    rw [Delta17_12, dif_neg h1, dif_pos (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
+    rw [Delta17_12, dite_eq_right h1, dite_eq_left (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
     exact ⟨Xx, hXxL, hXx_perm, hXx_L2, rfl⟩
   have hXy_delta : D.T ⊔ Xy ∈ Delta17_12 D (fundPred q) r q L := by
-    rw [Delta17_12, dif_neg h1, dif_pos (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
+    rw [Delta17_12, dite_eq_right h1, dite_eq_left (show P17_12_2 q L from ⟨n, hq_eq, hLie⟩)]
     exact ⟨Xy, hXyL, hXy_perm, hXy_L2, rfl⟩
   have hXxS : Xx ≤ (⨆ H ∈ Delta17_12 D (fundPred q) r q L, H) :=
     (le_sup_right : Xx ≤ D.T ⊔ Xx).trans (le_iSup₂_of_le (D.T ⊔ Xx) hXx_delta le_rfl)

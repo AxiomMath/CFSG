@@ -156,7 +156,7 @@ theorem XBar.rank_centralizer (hp : p.Prime) {X : Subgroup A} {x : A} (hxX : x �
     (hxp : x ^ p = 1) (hx1 : x ≠ 1)
     (hcx : Open.pRank p (centralizer ({x} : Set A) ⊓ X) ≤ 2) :
     Open.pRank p (centralizer ({XBar.mk p X ⟨x, hxX⟩} : Set (XBar p X))) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hπsurj : Function.Surjective (XBar.mk p X) := QuotientGroup.mk'_surjective _
   have hx'p : (⟨x, hxX⟩ : ↥X) ^ p = 1 := by
     apply Subtype.ext
@@ -205,6 +205,7 @@ theorem XBar.rank_centralizer (hp : p.Prime) {X : Subgroup A} {x : A} (hxX : x �
         rw [inf_comm]
         exact hcx
 
+omit [Finite A] in
 theorem XBar.lift_normal {X : Subgroup A} {Nb : Subgroup (XBar p X)} (hNbn : Nb.Normal)
     (hNbi : Nb.index = p) :
     ∃ N : Subgroup A, N ≤ X ∧ (N.subgroupOf X).Normal ∧ (N.subgroupOf X).index = p := by
@@ -217,7 +218,7 @@ theorem XBar.lift_normal {X : Subgroup A} {Nb : Subgroup (XBar p X)} (hNbn : Nb.
   · rw [hN', Subgroup.index_comap_of_surjective _ hπsurj]
     exact hNbi
 
-theorem XBar.lift_W {X B W : Subgroup A} (hBX : B ≤ X) (hWX : W ≤ X)
+theorem XBar.lift_W {X B W : Subgroup A} (_hBX : B ≤ X) (hWX : W ≤ X)
     (hBW : B ≤ normalizer (W : Set A)) (hcop : Nat.Coprime (Nat.card W) (2 * p))
     (hWb : ∀ W' : Subgroup (XBar p X),
       (B.subgroupOf X).map (XBar.mk p X) ≤ normalizer (W' : Set (XBar p X)) →
@@ -250,7 +251,7 @@ theorem XBar.lift_W {X B W : Subgroup A} (hBX : B ≤ X) (hWX : W ≤ X)
   rw [CFSG.LocalAnalysis.RankThreeTheoremC.rankThreePrimeCore_eq_map_primeComplementCore]
   exact ⟨_, hwO, rfl⟩
 
-theorem XBar.lift_Q0 (hp : p.Prime) {X Q : Subgroup A} (hQX : Q ≤ X) (hQp : IsPGroup p Q)
+theorem XBar.lift_Q0 (hp : p.Prime) {X Q : Subgroup A} (_hQX : Q ≤ X) (hQp : IsPGroup p Q)
     {Q₀b : Subgroup (XBar p X)} (hQ₀bQ : Q₀b ≤ (Q.subgroupOf X).map (XBar.mk p X))
     (hel : IsElemAbelian p Q₀b) (hc : Nat.card Q₀b = p ^ p)
     (hT : ∀ a ∈ Q₀b, a ≠ 1 → ∀ b ∈ Q₀b, b ≠ 1 →
@@ -305,7 +306,7 @@ theorem kFactP65RankThree_of_kdata (hI291 : KDL64I291) (hI246 : KDL64I246)
     (hRank : KDL64TypeRank) (hI204 : KDL64I204L2) : KFactP65RankThree := by
   intro A _ _ p X Y Q B x hp hp5 hX hYX hXY hQX hQp hQs h3 hQY hBQ hBel hBcard hxB hx1 hsc hcx hΓ2
     hΓ1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBX : B ≤ X := hBQ.trans hQX
   have hxX : x ∈ X := hBX hxB
   have hOY : rankThreePrimeCore p X ≤ Y :=

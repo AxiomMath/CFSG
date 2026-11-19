@@ -18,7 +18,7 @@ theorem commutator_eq_bot_of_odd_of_fixSub_eq {W : Type} [AddCommGroup W] [Modul
     (hAY : A ≤ Subgroup.normalizer (Y : Set (LGL 2 W))) (hY : Odd (Nat.card Y))
     (hfix : ∀ D : Subgroup (LGL 2 W), D ≤ A → D.relIndex A < 2 ^ 2 → fixSub D = fixSub A) :
     ⁅A, Y⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ D : Subgroup (LGL 2 W), D ≤ A → (D.subgroupOf A).index = 2 →
       ⁅Y ⊓ Subgroup.centralizer (D : Set (LGL 2 W)), A⁆ = ⊥ := by
     intro D hDA hidx

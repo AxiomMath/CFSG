@@ -104,7 +104,7 @@ theorem exists_mem_inf_centralizer {J : Subgroup G}
     rw [hE', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEJ).toEquiv, hE9]
   have hE'p : IsPGroup 3 E' := IsPGroup.of_card (n := 2) (by rw [hE'9]; norm_num)
   obtain ⟨S', hES'⟩ := hE'p.exists_le_sylow
-  have hinj : Set.InjOn π (S' : Set J) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup'
+  have hinj : Set.InjOn π (S' : Set J) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup
   set P : Sylow 3 (J ⧸ aschbacherSolvableCore 3 J) :=
     S'.mapSurjective (QuotientGroup.mk'_surjective _) with hPdef
   have hP : (P : Subgroup _) = (S' : Subgroup J).map π := Sylow.coe_mapSurjective _ _
@@ -173,7 +173,7 @@ theorem exists_mem_inf_centralizer {J : Subgroup G}
     have h1 := hnorm.conj_mem _ hyE'' ⟨x, hx⟩
     exact Subgroup.mem_subgroupOf.mp (Subgroup.mem_subgroupOf.mp h1)
   have hx3 : ∃ k : ℕ, (x : G) ^ 3 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S'.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S'.isPGroup ⟨x, hx⟩
     have := congrArg (fun z : (S' : Subgroup J) => ((z : J) : G)) hk
     exact ⟨k, by simpa using this⟩
   have hud : (u : G) ∈ Subgroup.zpowers d := by

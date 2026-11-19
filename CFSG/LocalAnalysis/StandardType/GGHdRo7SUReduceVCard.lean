@@ -16,16 +16,16 @@ theorem hdRo7SUReduceVAux_card_le {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     (hD : SULinData 3 m V b H A) :
     Nat.card H ≤ 2 * 3 ^ m * (m + 1).factorial := by
   have hm7 : 7 ≤ m := hD.hm
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Fintype V := Fintype.ofEquiv (Fin m → ZMod 3) b.equivFun.toEquiv.symm
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : NeZero m := ⟨by omega⟩
+  have : Fintype V := Fintype.ofEquiv (Fin m → ZMod 3) b.equivFun.toEquiv.symm
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e f h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Fintype (V ≃ₗ[ZMod 3] V) := Fintype.ofFinite _
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype (V ≃ₗ[ZMod 3] V) := Fintype.ofFinite _
+  have : Fintype H := Fintype.ofFinite H
   let x : V := SUOnes 3 b
-  haveI : Fintype ↥(MulAction.orbit H x) := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer H x) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.orbit H x) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.stabilizer H x) := Fintype.ofFinite _
   have hVcard : Fintype.card V = 3 ^ m := by
     rw [Fintype.card_congr b.equivFun.toEquiv, Fintype.card_fun, Fintype.card_fin, ZMod.card]
   have hOS : Fintype.card (MulAction.orbit H x) * Fintype.card (MulAction.stabilizer H x) =

@@ -33,7 +33,7 @@ theorem marking_transport_central {X : Type} [Group X] (rel : X → X → Prop) 
     intro l l' hll'
     have h1 := hind₂ l l' hll'
     simp only [σ, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply,
-      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply, h1]
+      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, h1]
   have hc : MulAut.congr σ (MulAut.congr σ.symm φ₂) = φ₂ := by
     ext x
     simp [MulAut.congr_apply]

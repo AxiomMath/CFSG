@@ -80,7 +80,7 @@ theorem innDiagKind_of_i1419Inn {Q : Type} [Group Q] [Finite Q]
       (PQ Q ⧸ Subgroup.center (PQ Q)) labK (centerBar (betaBar β)) := by
   have hcen : Subgroup.center (PQ Q ⧸ Subgroup.center (PQ Q)) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hQ
-  haveI : Group.IsPerfect (PQ Q) := ⟨hQ.1⟩
+  have : Group.IsPerfect (PQ Q) := ⟨hQ.1⟩
   have hS : commutator (PQ Q ⧸ Subgroup.center (PQ Q)) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQ Q)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -100,9 +100,9 @@ theorem innDiagKind_of_i1419Inn {Q : Type} [Group Q] [Finite Q]
 theorem i1419ExcFact_of_S (h : I1419ExcS) : CFSG.LocalAnalysis.GLTheoremA.K1419.I1419ExcFact := by
   intro Q _ _ β J hQ hβ3 hNt hInn hJ hcat hZ hch hncl
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set S := PQ Q ⧸ Subgroup.center (PQ Q) with hSdef
-  haveI : IsSimpleGroup S := hQ.2
+  have : IsSimpleGroup S := hQ.2
   have hnab : ∃ a b : S, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian (PQ Q) hQ
   have hker : Nat.Coprime 3
@@ -124,7 +124,7 @@ theorem i1419ExcFact_of_S (h : I1419ExcS) : CFSG.LocalAnalysis.GLTheoremA.K1419.
     exact hJ2
   have hqJ := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hqJ' := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hJπ
-  haveI : Nontrivial (PQuot 3 (J.map π)) := by
+  have : Nontrivial (PQuot 3 (J.map π)) := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hqJ'
     by_contra hnt

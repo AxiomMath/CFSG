@@ -60,7 +60,7 @@ theorem normal_subgroup_full_core_le
       ← pRank_subgroup_eq_internal_top 2 (by decide) (U.map N.subtype)] at heq
     rwa [← heq]
   have hnormalizer := normalizer_le_overgroup S H 2 hSH hcore (U.map N.subtype)
-    ((IsPGroup.to_le (hallSylowSubgroupOfNormal S N).isPGroup' hUT).map N.subtype)
+    ((IsPGroup.to_le (hallSylowSubgroupOfNormal S N).isPGroup hUT).map N.subtype)
     ((himage.trans inf_le_left).trans hSH) himageRank
   intro n hn
   exact hnormalizer (Subgroup.le_normalizer_map N.subtype

@@ -41,7 +41,7 @@ theorem isSolvable_of_sylow_le_stated {L : Type} [Group L] [Finite L] {p f : ℕ
       apply hH
       have := congrArg (Subgroup.comap e'.toMonoidHom) htop
       rwa [Subgroup.comap_map_eq_self_of_injective e'.injective, Subgroup.comap_top] at this
-  haveI := isSolvable_stabilizer_pinf J hJ hK hfix
+  have := isSolvable_stabilizer_pinf J hJ hK hfix
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.inclusion hle).comp
       (Subgroup.equivMapOfInjective H e'.toMonoidHom e'.injective).toMonoidHom)

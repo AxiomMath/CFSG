@@ -56,7 +56,7 @@ theorem embed_vec4_swap (ι : Fin 4 ↪ Fin 7) (p q a b c d : Fin 4) :
     · rw [embedVec_of_not_mem ι _ hx]
       have hp : x ≠ ι p := fun h => hx ⟨p, h.symm⟩
       have hq : x ≠ ι q := fun h => hx ⟨q, h.symm⟩
-      simp only [wr22, hp, hq, or_self, if_false]
+      simp only [wr22, hp, hq, or_self, ite_false]
   · rw [embed_perm]
     by_cases hx : x ∈ Set.range ι
     · obtain ⟨i, rfl⟩ := hx
@@ -221,7 +221,7 @@ theorem closure_modelGen : Subgroup.closure (Set.range modelGen) = e64Sub := by
         C.subgroupOf e64Sub := by
       rw [Subgroup.closure_le]
       intro z hz
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.mem_nil_iff, or_false] at hz
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.mem_nil_iff, or_false] at hz
       rw [SetLike.mem_coe, Subgroup.mem_subgroupOf]
       rcases hz with rfl | rfl | rfl
       · have e : ((TwinThinPf.aH : ↥e64Sub) : AEQ 7) = modelGen 0 := by
@@ -300,7 +300,7 @@ theorem lift_mk_conjRel (x : Fin 28 → G) (d : Nat × Nat × Nat × Nat × List
         ((d.2.2.2.2.map fun l => x (gIdx d.2.2.2.1 l)).prod)⁻¹ := by
   obtain ⟨g, k, c, k', w⟩ := d
   rw [FreeGroup.lift_mk, conjRel, List.map_append, List.prod_append, List.prod_inv_reverse]
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, cond_true, cond_false,
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, _root_.Bool.cond_true, Bool.cond_false,
     mul_one, List.map_reverse, List.map_map, Function.comp_def, mul_assoc]
 
 theorem rels_of {x : Fin 28 → G}
@@ -319,7 +319,7 @@ theorem rels_of {x : Fin 28 → G}
     simp only [q8Rels, List.mem_cons, List.mem_nil_iff, or_false] at hr
     rcases hr with rfl | rfl | rfl <;>
       simp only [FreeGroup.lift_mk, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-        cond_true, cond_false, mul_one]
+        Bool.cond_true, Bool.cond_false, mul_one]
     · have e : x (gIdx k 0) * (x (gIdx k 0) * (x (gIdx k 0) * x (gIdx k 0))) =
           x (gIdx k 0) ^ 4 := by simp only [pow_succ, pow_zero, one_mul, mul_assoc]
       rw [e, h4]
@@ -332,7 +332,7 @@ theorem rels_of {x : Fin 28 → G}
       rw [e, hji, inv_mul_cancel]
   · rw [lift_mk_conjRel, hc d hd, mul_inv_cancel]
   · simp only [twinRel, FreeGroup.lift_mk, List.map_cons, List.map_nil, List.prod_cons,
-      List.prod_nil, cond_true, cond_false, mul_one]
+      List.prod_nil, _root_.Bool.cond_true, Bool.cond_false, mul_one]
     have e : x (gIdx (2 * ℓ) 0) * (x (gIdx (2 * ℓ) 0) *
         ((x (gIdx (2 * ℓ + 1) 0))⁻¹ * (x (gIdx (2 * ℓ + 1) 0))⁻¹)) =
           x (gIdx (2 * ℓ) 0) ^ 2 * (x (gIdx (2 * ℓ + 1) 0) ^ 2)⁻¹ := by

@@ -163,7 +163,7 @@ theorem tensorNat_realizes_zmod_two {d : ℕ} {K : Type} [Field K] [Finite K]
     {U Z : Subgroup V} (h : (FFModel.tensorNat d K).Realizes H U Z) :
     (FFModel.tensorNat d (ZMod 2)).Realizes H U Z := by
   obtain ⟨π, hπ⟩ := h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hF : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
   let e : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hF
   have hθ : Function.Surjective ((s16b_slMap (d := d) e).prodMap (s16b_slMap (d := d) e)) := by
@@ -192,9 +192,7 @@ private theorem s16b_tensorAct_trans {d : ℕ} {i j : Fin d} (hij : i ≠ j) (k 
       (Multiplicative.ofAdd (Matrix.single j k (1 : ZMod 2)))⁻¹ =
     Multiplicative.ofAdd (Matrix.single i k (1 : ZMod 2)) := by
   unfold tensorAct
-  simp only [toAdd_ofAdd, s16b_trans_val, Matrix.transvection, Subgroup.coe_one, Prod.snd_one,
-    Units.val_one, Matrix.transpose_one, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul,
-    Matrix.single_mul_single_same, one_mul]
+  simp only [toAdd_ofAdd, s16b_trans_val, Matrix.transvection, Subgroup.coe_one, Units.val_one, Matrix.transpose_one, Matrix.mul_one, Matrix.add_mul, Matrix.single_mul_single_same, one_mul]
   rw [← ofAdd_neg, ← ofAdd_add]
   congr 1
   abel

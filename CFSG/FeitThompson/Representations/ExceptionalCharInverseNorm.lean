@@ -65,6 +65,7 @@ theorem coe_map_subtype_sdiff_one (H : Subgroup ↥L) :
 
 omit [Fintype G] in
 include hS in
+omit [H.Normal] in
 theorem exists_apply_one_eq_index_mul (l : ι) :
     ∃ m : ℕ, 0 < m ∧ ξ l 1 = (m : ℂ) * (H.index : ℂ) := by
   have hSsub : Set.range ξ ⊆ indFam H (Irr ↥H) := hS ▸ indFam_mono H Set.sdiff_subset
@@ -77,6 +78,7 @@ theorem exists_apply_one_eq_index_mul (l : ι) :
 
 omit [Fintype G] in
 include hS in
+omit [H.Normal] in
 theorem apply_one_ne_zero (l : ι) : ξ l 1 ≠ 0 := by
   obtain ⟨m, hm0, hm⟩ := exists_apply_one_eq_index_mul hS l
   rw [hm]
@@ -94,6 +96,7 @@ theorem coe_nu_eq_coe_dadeMap (f : Submodule.span ℤ (Set.range ξ)) (F : dadeD
   rw [← hincl, hν.eq_on_zero f₀, hτ f₀ F h]
 
 include hD hS hν hτ in
+omit [H.Normal] in
 theorem coe_dadeMap_of_coe_eq_puncturedDiff (F : dadeDomain L A) (k l : ι)
     (hF : (F : ↥L → ℂ) = puncturedDiff (ξ k) (ξ l)) :
     ((dadeMap hD F : classFun G) : G → ℂ)
@@ -144,12 +147,12 @@ theorem cfInner_dadeMap_puncturedDiff_coherentImage (F : dadeDomain L A) {k : ι
       = if l = k₀ then 1 else 0 := by
   rw [coe_dadeMap_of_coe_eq_puncturedDiff hD hS hν hτ F k l hF, cfInner_sub_left,
     cfInner_smul_left, NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν l k₀,
-    NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k k₀, if_neg hk]
+    NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k k₀, ite_eq_right hk]
   by_cases hl : l = k₀
   · subst hl
-    rw [if_pos rfl, if_pos rfl, cfInner_self_of_mem_Irr hζIrr]
+    rw [ite_eq_left rfl, ite_eq_left rfl, cfInner_self_of_mem_Irr hζIrr]
     ring
-  · rw [if_neg hl, if_neg hl]
+  · rw [ite_eq_right hl, ite_eq_right hl]
     ring
 
 include hD hA hS hinj hν hτ hζIrr hζ1 in
@@ -181,7 +184,7 @@ theorem cfInner_dadeMap_puncturedDiff_one_coherentImage (F : dadeDomain L A) {k 
     ← dadeBeta_eq_dadeMap (R := R) (H := H) (ζ := ξ k₀) hD
       (indClassFun_one_sub_mem_dadeDomain hA hζS hζ1),
     cfInner_dadeBeta_coherentImage_self,
-    cfInner_dadeMap_puncturedDiff_coherentImage hD hS hinj hν hτ hζIrr Fφζ k₀ hk rfl, if_pos rfl]
+    cfInner_dadeMap_puncturedDiff_coherentImage hD hS hinj hν hτ hζIrr Fφζ k₀ hk rfl, ite_eq_left rfl]
   ring
 
 open scoped Classical in

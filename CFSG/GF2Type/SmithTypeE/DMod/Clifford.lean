@@ -24,7 +24,7 @@ theorem two_pow_lt_64 (i : Fin 6) : 2 ^ i.val < 64 := by
 
 @[expose] def flipS (i : Fin 6) (T : Fin 64) : Fin 64 :=
   ⟨T.val ^^^ 2 ^ i.val, by
-    have h1 : T.val < 2 ^ 6 := by simpa using T.isLt
+    have h1 : T.val < 2 ^ 6 := by simp
     have h2 : 2 ^ i.val < 2 ^ 6 := by simpa using two_pow_lt_64 i
     simpa using Nat.xor_lt_two_pow h1 h2⟩
 
@@ -32,7 +32,7 @@ theorem flipS_val (i : Fin 6) (T : Fin 64) : (flipS i T).val = T.val ^^^ 2 ^ i.v
 
 theorem flipS_flipS (i : Fin 6) (T : Fin 64) : flipS i (flipS i T) = T := by
   apply Fin.ext
-  simp [flipS_val, Nat.xor_assoc]
+  simp [flipS_val]
 
 theorem flipS_comm (i j : Fin 6) (T : Fin 64) : flipS i (flipS j T) = flipS j (flipS i T) := by
   apply Fin.ext
@@ -117,12 +117,12 @@ theorem wedgeL_contrL_anticomm (i j : Fin 6) :
     wedgeL i * contrL j + contrL j * wedgeL i = if i = j then 1 else 0 := by
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine LinearMap.ext fun v => funext fun T => ?_
     simp only [LinearMap.add_apply, Module.End.mul_apply, wedgeL_apply, contrL_apply,
       testBit_flipS_self, flipS_flipS, Module.End.one_apply, Pi.add_apply]
     cases T.val.testBit i.val <;> simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     refine LinearMap.ext fun v => funext fun T => ?_
     simp only [LinearMap.add_apply, Module.End.mul_apply, wedgeL_apply, contrL_apply,
       testBit_flipS_ne hij, testBit_flipS_ne (Ne.symm hij), LinearMap.zero_apply, Pi.add_apply,
@@ -172,8 +172,8 @@ theorem rhoL_anticomm (x y : V12) : rhoL x * rhoL y + rhoL y * rhoL x = B12 x y 
     fun i j => by rw [add_comm]; exact wedgeL_contrL_anticomm i j
   have hBC : ∀ i j, contrL i * wedgeL j + wedgeL j * contrL i = if j = i then 1 else 0 :=
     fun i j => by rw [add_comm]; exact wedgeL_contrL_anticomm j i
-  simp only [hDA, hBC, wedgeL_contrL_anticomm, smul_ite, smul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, ← Finset.sum_add_distrib, ← add_smul, B12, Finset.sum_smul]
+  simp only [hDA, wedgeL_contrL_anticomm, smul_ite, smul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
+    Finset.mem_univ, ite_true, ← Finset.sum_add_distrib, ← add_smul, B12, Finset.sum_smul]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [mul_comm (x.2 i)]
 
@@ -248,7 +248,7 @@ theorem conj_one_add_mul {p q r : 𝔼} (α β : ZMod 2) (hp : p * p = 0) (hq : 
   have hC : p * (q * (p * q)) = 0 := by rw [hB, mul_zero]
   have h2 : p * q * r * (p * q) = 0 := by
     rw [h1]
-    simp only [add_mul, smul_mul_assoc, mul_assoc, hA, hB, hC, mul_zero, smul_zero, add_zero]
+    simp only [add_mul, smul_mul_assoc, mul_assoc, hA, hB, mul_zero, smul_zero, add_zero]
   calc (1 + p * q) * r * (1 + p * q) = r + (p * q * r + r * (p * q)) + p * q * r * (p * q) := by
         noncomm_ring
     _ = r + α • p + β • q := by
@@ -290,7 +290,7 @@ theorem tlift_add_right {u w : V12} (h : TsPair u w) : tlift u (u + w) = tlift u
   rw [map_add, mul_add, rhoL_mul_self_of_q h.1, zero_add]
 
 theorem tlift_eq_of_line_eq {u w u' w' : V12} (h : TsPair u w) (h' : TsPair u' w')
-    (huw : u ≠ w) (huw' : u' ≠ w')
+    (_huw : u ≠ w) (huw' : u' ≠ w')
     (e : ({u, w, u + w} : Finset V12) = {u', w', u' + w'}) : tlift u w = tlift u' w' := by
   have hu'mem : u' ∈ ({u, w, u + w} : Finset V12) := by
     rw [e]; simp

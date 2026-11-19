@@ -29,7 +29,7 @@ variable {G : Type*} [Group G] {D : Subgroup G} {m : ℕ}
     rw [heuv, cab_eq, sq, ofTorus_ofInt_mul]
     congr 3
     funext i
-    fin_cases i <;> simp <;> norm_num
+    fin_cases i <;> simp
   conj_t := by
     rw [het, dD.ofTorus_ofInt]
     simp [sq]
@@ -218,8 +218,7 @@ theorem t201_ii_conj_e (hm : 1 ≤ m)
       ⟨1 + 2 ^ k - 8 * (2 ^ k) ^ 2 - 16 * (2 ^ k) ^ 3, by ring⟩⟩
   · refine ⟨Torus.ofInt _ ![0, 0, 2 ^ (k + 1 + 1)], ?_⟩
     rw [t201_ii_φe dD hE hφe]
-    simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-      AddMonoidHom.id_apply]
+    simp only [SigmaFourAction.d8Act, ↓reduceIte, AddMonoidHom.comp_apply]
     rw [t201_φu, t201_φt, t201_φuv, ← Torus.ofInt_add, t201_ofInt_eq_iff]
     simp only [Pi.add_apply, Nat.add_sub_cancel, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
@@ -424,9 +423,9 @@ theorem t201_ii_h9 (hm : 1 ≤ m)
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t201 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k :=
     fun y hy => t201_ii_mem_CSc₁ dD hE hm hφe (hX hy)
@@ -448,7 +447,7 @@ theorem t201_ii_h9 (hm : 1 ≤ m)
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD

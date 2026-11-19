@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_branch_map_mem_fixV {H : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (H : Set (MulAut W))) (w : W) :
     g w ∈ fixV H ↔ w ∈ fixV H := by
@@ -27,6 +28,7 @@ private theorem s16t3_branch_map_mem_fixV {H : Subgroup (MulAut W)} {g : MulAut 
     calc x (g w) = g ((g⁻¹ * x * g) w) := by simp [MulAut.mul_apply]
       _ = g w := by rw [h1]
 
+omit [Finite W] in
 private theorem s16t3_branch_sumOfNat_map
     {N : Subgroup (MulAut W) → Subgroup W → Subgroup W → Prop}
     {L : Subgroup (MulAut W)} {U Z : Subgroup W} {k : ℕ} {g : MulAut W}
@@ -47,6 +49,7 @@ private theorem s16t3_branch_sumOfNat_map
   · intro i
     exact hN (I i) Z (hnat i)
 
+omit [Finite W] in
 private theorem s16t3_natShapeGood_map {L : Subgroup (MulAut W)} {U Z : Subgroup W}
     {g : MulAut W} (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W)))
     (h : NatShapeGood L U Z) :

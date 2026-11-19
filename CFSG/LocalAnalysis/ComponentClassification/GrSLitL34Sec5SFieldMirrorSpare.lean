@@ -24,7 +24,7 @@ theorem false_of_field_host_spare
     (h13 : Sol76T13.SolomonThm13Simple) (hmult : Quasithin.SchurMult2L3)
     {G : Type} [Group G] [Finite G] {t : G} {P W M : Subgroup G}
     (hset : L34FieldNormalSetting G t P) (hmax : FooteLit.GSMirrorMaximal P)
-    (hWodd : Odd (Nat.card W)) (hW1 : W ≠ ⊥)
+    (_hWodd : Odd (Nat.card W)) (_hW1 : W ≠ ⊥)
     (hPW : normalizer (P : Set G) ≤ normalizer (W : Set G))
     (hWE : ∀ E : Subgroup G, E ≤ centralizer ({t} : Set G) → Open.IsElemAbelian 2 E →
       8 ≤ Nat.card E → GrSLit.wGroup E = W)
@@ -215,12 +215,12 @@ theorem false_of_field_host_spare
   have hNqnormal : Nq.Normal := hNn
   have hNqne : Nq ≠ ⊥ := hNqne
   let zsub : Subgroup ↥(Q : Subgroup H) := Nq ⊓ Subgroup.center ↥(Q : Subgroup H)
-  have hzsub2 : IsPGroup 2 ↥zsub := Q.isPGroup'.to_subgroup zsub
+  have hzsub2 : IsPGroup 2 ↥zsub := Q.isPGroup.to_subgroup zsub
   have hzsubne : zsub ≠ ⊥ := by
-    letI : Nq.Normal := hNqnormal
+    let : Nq.Normal := hNqnormal
     exact CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
-      Q.isPGroup' Nq hNqne
-  letI : Nontrivial ↥zsub := (Subgroup.nontrivial_iff_ne_bot zsub).mpr hzsubne
+      Q.isPGroup Nq hNqne
+  let : Nontrivial ↥zsub := (Subgroup.nontrivial_iff_ne_bot zsub).mpr hzsubne
   obtain ⟨z, -, hzord⟩ :=
     CFSG.GroupTheory.SmallFixedTwoGroup.exists_mem_center_orderOf_eq_two hzsub2
   have hzN : z.1 ∈ Nq := (Subgroup.mem_inf.mp z.2).1
@@ -260,7 +260,7 @@ theorem false_of_field_host_spare
   have hOMsub : (OM.subgroupOf M).Normal := by
     rw [show OM.subgroupOf M = pPrimeCore 2 ↥M by
       ext x
-      simp [OM, Subgroup.mem_subgroupOf, Subgroup.mem_map]]
+      simp [OM]]
     exact pPrimeCore_normal
   have hOMleM : OM ≤ M := Subgroup.map_subtype_le _
   have hMnormOM : M ≤ normalizer (OM : Set G) :=
@@ -279,7 +279,7 @@ theorem false_of_field_host_spare
       exact Subgroup.card_dvd_of_le (inf_le_left : K ≤ OM)
     exact CFSG.pPrimeCore_coprime_card.coprime_dvd_right hKdvd
   have hK_le_odd : K ≤ oddIn P := by
-    letI : (K.subgroupOf P).Normal := hKN
+    let : (K.subgroupOf P).Normal := hKN
     have h := CFSG.subgroupOf_le_pPrimeCore_map (p := 2) (K := K) (H := P) inf_le_right hcopK
     simpa [oddIn] using h
   have hvC : (vM : G) ∈ centralizer ({t} : Set G) :=
@@ -375,12 +375,12 @@ theorem false_of_field_host_spare
       exact hoddInP_odd
     exact (Nat.not_even_iff_odd.mpr hoddP) (even_iff_two_dvd.mpr hP2)
   have hDsub_perf : Group.IsPerfect ↥(D.subgroupOf M) := by
-    letI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD_perf
+    let : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD_perf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hD_le_M).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hD_le_M).symm.surjective
   have hDbar_perf : ⁅Dbar, Dbar⁆ = Dbar := by
-    letI : Group.IsPerfect ↥(D.subgroupOf M) := hDsub_perf
+    let : Group.IsPerfect ↥(D.subgroupOf M) := hDsub_perf
     exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.map (H := D.subgroupOf M) π)
   have hcontra : ⁅Dbar, Dbar⁆ = ⊥ → False := fun h => hDbar_ne (hDbar_perf.symm.trans h)
   set Cv : Subgroup ↥M := centralizer ({vM} : Set ↥M) with hCvdef
@@ -498,7 +498,7 @@ theorem false_of_field_host_spare
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hQvC).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hQvC).surjective
-  letI : Group.IsPerfect ↥Q := hQperfect
+  let : Group.IsPerfect ↥Q := hQperfect
   have hQZ : Open.fusionZStar ↥Q = Open.fusionOddCore ↥Q :=
     fusionZStar_eq_fusionOddCore_of_schurMult2L3 hmult (X := ↥Q) (by omega) hQmodel
   have hQoddZ : Odd (Nat.card (Open.fusionZStar ↥Q)) := by

@@ -67,7 +67,7 @@ theorem ggQ2s08_bigRange_of_shapeA
     (h9 : 3 ^ 9 < Nat.card ↥Bs)
     (g : G) (φ : MulAut ↥Bs) (hInd : GGQ2Ind Bs g φ) (hRefl : GGIsReflection 3 φ) :
     g ∈ Subgroup.normalizer (ggG0 3 B x L D J : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨labL, hq, hTB, hMark, M, hMW, hSh, -⟩ := hT hS rfl hI1
   have hmark : GGQ2TBMarked 3 L labL := ⟨hq, hTB, hMark⟩
   have hSS : LargeEvenSStar 3 B x L := hS.1.1.1.2.2.2.2.2.2.1

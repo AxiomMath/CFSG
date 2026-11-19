@@ -84,7 +84,7 @@ theorem famTrivial_componentRoots_eq_univ {τ : Tag}
     (hχ : ∀ γ : Fin τ.rank → ℤ, χ (Multiplicative.ofAdd γ) = 1)
     (i : KernelComponent χ) :
     componentRoots χ i = {γ : Fin τ.rank → ℤ | IsRoot τ γ} := by
-  haveI := famTrivial_subsingleton_of_trivial hτ χ hχ
+  have := famTrivial_subsingleton_of_trivial hτ χ hχ
   ext γ
   constructor
   · rintro ⟨hγ, -⟩

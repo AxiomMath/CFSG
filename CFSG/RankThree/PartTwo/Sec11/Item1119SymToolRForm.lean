@@ -112,7 +112,7 @@ public theorem mem_closure_triple_form {G : Type*} [Group G] (r x c : G)
       _ = r ^ (-j) * x ^ k * c ^ (-l) := by group
 
 public theorem zpow_conj_of_comm {G : Type*} [Group G] (x a d : G) (m : ℤ)
-    (h : x * a * x⁻¹ = d ^ m * a) (hxd : x * d = d * x) (had : a * d = d * a) (i : ℤ) :
+    (h : x * a * x⁻¹ = d ^ m * a) (hxd : x * d = d * x) (_had : a * d = d * a) (i : ℤ) :
     x ^ i * a * (x ^ i)⁻¹ = d ^ (i * m) * a := by
   have hxdc : Commute x d := hxd
   have hfix : ∀ k : ℤ, x * d ^ k * x⁻¹ = d ^ k := fun k => by

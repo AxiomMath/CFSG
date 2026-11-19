@@ -28,7 +28,7 @@ theorem uScal_det_torusMat (u : Kˣ) {a b : Fin d} (hab : a ≠ b) :
       (fun k : Fin d => if k = a then (u : K) else if k = b then ((u⁻¹ : Kˣ) : K) else 1) c = 1 :=
     fun c hc => by simp [hc.1, hc.2]
   rw [uScal_torusMat, Matrix.det_diagonal, Fintype.prod_eq_mul a b hab h0]
-  simp [Units.mul_inv, Ne.symm hab]
+  simp [Ne.symm hab]
 
 @[expose] noncomputable def uScal_torusGL (u : Kˣ) {a b : Fin d} (hab : a ≠ b) : GL (Fin d) K :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero (uScal_torusMat u a b)
@@ -69,7 +69,7 @@ theorem uScal_swap_self (a b : Fin d) : Matrix.swap K a b a b = 1 := by
 
 theorem uScal_det_rotMat {a b : Fin d} (hab : a ≠ b) : (uScal_rotMat (K := K) a b).det = 1 := by
   have hD : (Matrix.diagonal (fun k : Fin d => if k = a then (-1 : K) else 1)).det = -1 := by
-    rw [Matrix.det_diagonal, Fintype.prod_eq_single a (fun x hx => if_neg hx), if_pos rfl]
+    rw [Matrix.det_diagonal, Fintype.prod_eq_single a (fun x hx => ite_eq_right hx), ite_eq_left rfl]
   have hS : (Matrix.swap K a b).det = -1 := by
     rw [Matrix.swap, Matrix.det_permutation, Equiv.Perm.sign_swap hab]
     simp
@@ -83,7 +83,7 @@ theorem uScal_rotMat_entry (a b x y : Fin d) :
   rcases uScal_swap_entry (K := K) a b x y with h | h <;> split_ifs <;> simp [h]
 
 theorem uScal_rotMat_swap_entry (a b : Fin d) : uScal_rotMat (K := K) a b a b = -1 := by
-  rw [uScal_rotMat, Matrix.diagonal_mul, if_pos rfl, uScal_swap_self, mul_one]
+  rw [uScal_rotMat, Matrix.diagonal_mul, ite_eq_left rfl, uScal_swap_self, mul_one]
 
 theorem uScal_neg_one_pow {Q : ℕ} (τ : K ≃+* K) (hτQ : ∀ x, τ x = x ^ Q) : (-1 : K) ^ Q = -1 := by
   rw [← hτQ (-1), map_neg, map_one]

@@ -116,7 +116,7 @@ theorem le_center_of_four_fixed {P : Type*} [Group P] [Finite P] {U : Subgroup P
   have hB_eq : Subgroup.closure ({x, y} : Set P) = V := le_antisymm hB_le_V hV_le_B
   have hB_ea : CFSG.IsElementaryAbelian 2 (Subgroup.closure ({x, y} : Set P)) := by
     rw [hB_eq]
-    haveI : IsKleinFour V := hVK
+    have : IsKleinFour V := hVK
     refine { toIsMulCommutative := IsKleinFour.isMulCommutative (G := V), exponent_dvd_p := ?_ }
     rw [IsKleinFour.exponent_two (G := V)]
   have hB_card : 2 ^ 2 ≤ Nat.card ↥(Subgroup.closure ({x, y} : Set P)) := by
@@ -161,7 +161,7 @@ theorem le_center_of_four_fixed {P : Type*} [Group P] [Finite P] {U : Subgroup P
       U ⊓ Subgroup.centralizer ({x} : Set P) :=
     (Subgroup.eq_of_le_of_card_ge hle_x_xy (le_of_eq hcard_xy.symm)).symm
   have hx_cent : U ≤ Subgroup.centralizer ({x} : Set P) := by
-    haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+    have : Fact (Nat.Prime 2) := Nat.fact_prime_two
     refine CFSG.RankThree.GroupTheory.SteinbergBM.le_of_forall_inf_centralizer_le
       (p := 2) (B := Subgroup.closure ({x, y} : Set P)) (V := U)
       (W := Subgroup.centralizer ({x} : Set P)) hB_ea hB_card ?_ hB_normalizes ?_
@@ -202,7 +202,7 @@ theorem le_center_of_four_fixed {P : Type*} [Group P] [Finite P] {U : Subgroup P
       _ = u * (g⁻¹ * x * g) := by group
   let C : Subgroup P := Subgroup.centralizer (U : Set P)
   have hCnorm : C.Normal := Subgroup.normal_centralizer
-  haveI : C.Normal := hCnorm
+  have : C.Normal := hCnorm
   have hx_C : x ∈ C := by
     rw [Subgroup.mem_centralizer_iff]
     intro u hu
@@ -217,8 +217,8 @@ theorem le_center_of_four_fixed {P : Type*} [Group P] [Finite P] {U : Subgroup P
       exact Subgroup.mem_bot.mp hmem
     exact hx_not_mem ((QuotientGroup.eq_one_iff x).mp hxq)
   have hCmap_top : C.map q = ⊤ := by
-    haveI : IsSimpleGroup (P ⧸ U) := hsimp
-    haveI : (C.map q).Normal := hCnorm.map q hq_surj
+    have : IsSimpleGroup (P ⧸ U) := hsimp
+    have : (C.map q).Normal := hCnorm.map q hq_surj
     rcases Subgroup.Normal.eq_bot_or_eq_top (C.map q) with h | h
     · exact absurd h hCmap_ne_bot
     · exact h
@@ -251,14 +251,14 @@ theorem le_center_of_four_fixed {P : Type*} [Group P] [Finite P] {U : Subgroup P
     have hc1 : QuotientGroup.mk' C c = 1 := (QuotientGroup.eq_one_iff c).mpr hc
     rw [map_mul, hc1, one_mul]
   have hQsolv : Group.IsSolvable (P ⧸ C) := by
-    haveI : Group.IsSolvable U := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hU
+    have : Group.IsSolvable U := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hU
     exact Group.isSolvable_of_surjective (f := r) hr
   have hC_top : C = ⊤ := by
     have hsub : Subsingleton (P ⧸ C) := by
       by_contra h
-      haveI : Nontrivial (P ⧸ C) := not_subsingleton_iff_nontrivial.mp h
-      haveI hPperf : Group.IsPerfect P := Group.isPerfect_def.mpr hperf
-      haveI : Group.IsPerfect (P ⧸ C) :=
+      have : Nontrivial (P ⧸ C) := not_subsingleton_iff_nontrivial.mp h
+      have hPperf : Group.IsPerfect P := Group.isPerfect_def.mpr hperf
+      have : Group.IsPerfect (P ⧸ C) :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' C) (QuotientGroup.mk'_surjective C)
       exact Group.IsPerfect.not_isSolvable (P ⧸ C) hQsolv
     rw [eq_top_iff]

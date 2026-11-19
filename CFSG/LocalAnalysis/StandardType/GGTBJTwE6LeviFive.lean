@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-private theorem tw5_two_le {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ 2 ^ n + 1) :
+private theorem tw5_two_le {p n : ℕ} (_hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ 2 ^ n + 1) :
     2 ≤ n := by
   by_contra h
   have hn : n = 0 ∨ n = 1 := by omega
@@ -38,7 +38,7 @@ theorem ggTBJTwE6LeviL_ge5
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn2 : 2 ≤ n := tw5_two_le hp hp5 hpn
   refine ggTBJE6LeviL_of_cellFn hH fun hBs hSC hJX hyBs hJg hgX hcomp bX hbX1 hbXc hcardJ => ?_
   obtain ⟨hN, F, _, _, σ, hcard, hσ, e, E, hZ, hE, hcardE, hsc, hA⟩ :=
@@ -57,7 +57,7 @@ theorem ggTBJTwE6LeviK_ge5
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn2 : 2 ≤ n := tw5_two_le hp hp5 hpn
   refine ggTBJE6LeviK_of_cellFn hH hJK fun hBs hSC hJK' hxBs hJg hgX hcomp bX hbX1 hbXc hcardJ => ?_
   obtain ⟨hN, F, _, _, σ, hcard, hσ, e, E, hZ, hE, hcardE, hsc, hA⟩ :=

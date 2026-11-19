@@ -128,7 +128,7 @@ private lemma ggL45NtGeoNorm_conj {p : ℕ} {R : Type} [Group R] {I : Set (MulAu
     · have h := congrArg (MulAut.conj u) hb'eq
       simpa only [map_pow, hψφ'] using h
 
-theorem ggL45NtGeo_of_normalized {p : ℕ} (hp : p.Prime) {R : Type} [Group R] {I F : Set (MulAut R)}
+theorem ggL45NtGeo_of_normalized {p : ℕ} (_hp : p.Prime) {R : Type} [Group R] {I F : Set (MulAut R)}
     (hI : ∃ J : Subgroup (MulAut R), (J : Set (MulAut R)) = I)
     (h : ∀ (Ebar : Subgroup (MulAut R)) (f : MulAut R), f ∈ F → orderOf f = p →
       IsElemAbelian p Ebar → p ^ 2 ≤ Nat.card Ebar → (∀ e ∈ Ebar, e ∈ I) →

@@ -67,7 +67,7 @@ theorem IsExtraspecialPlusByA5WrTwoWith.centerOf_sylow {C : Type} [Group C] [Fin
     {Q : Subgroup C} [Q.Normal] (h : IsExtraspecialPlusByA5WrTwoWith C Q) {z : C}
     (hz : z ∈ Subgroup.center C) (hz2 : orderOf z = 2) (S : Sylow 2 C) :
     centerOf (S : Subgroup C) = Subgroup.zpowers z := by
-  haveI : CFSG.IsExtraspecial 2 ↥Q := h.plus.1
+  have : CFSG.IsExtraspecial 2 ↥Q := h.plus.1
   have hQp : IsPGroup 2 (Q : Subgroup C) := CFSG.IsExtraspecial.isPGroup 2 ↥Q
   have hQS : Q ≤ (S : Subgroup C) := IsPGroup.le_sylow_of_normal hQp S
   have hzcent : z ∈ Subgroup.centralizer (Q : Set C) :=
@@ -97,7 +97,7 @@ theorem exists_sylow_centerOf_eq_zpowers {G : Type} [Group G] [Finite G] {z : G}
   classical
   set C : Subgroup G := Subgroup.centralizer ({z} : Set G) with hC
   obtain ⟨Q, hQn, hQ⟩ := h
-  letI : Q.Normal := hQn
+  let : Q.Normal := hQn
   have hzC : z ∈ C := by simp [hC, Subgroup.mem_centralizer_singleton_iff]
   let zC : C := ⟨z, hzC⟩
   have hzC_center : zC ∈ Subgroup.center C := by
@@ -110,7 +110,7 @@ theorem exists_sylow_centerOf_eq_zpowers {G : Type} [Group G] [Finite G] {z : G}
   have hcenter₀ : centerOf (S₀ : Subgroup C) = Subgroup.zpowers zC :=
     IsExtraspecialPlusByA5WrTwoWith.centerOf_sylow hQ hzC_center hzC_order S₀
   let S₁ : Subgroup G := (S₀ : Subgroup C).map C.subtype
-  have hS₁p : IsPGroup 2 S₁ := S₀.isPGroup'.map C.subtype
+  have hS₁p : IsPGroup 2 S₁ := S₀.isPGroup.map C.subtype
   have hcenter₁ : centerOf S₁ = Subgroup.zpowers z := by
     change centerOf ((S₀ : Subgroup C).map C.subtype) = Subgroup.zpowers z
     rw [centerOf_map_of_injective C.subtype C.subtype_injective, hcenter₀,
@@ -123,7 +123,7 @@ theorem exists_sylow_centerOf_eq_zpowers {G : Type} [Group G] [Finite G] {z : G}
     have hlt : S₁.subgroupOf P < ⊤ := by
       rw [lt_iff_le_and_ne]
       exact ⟨le_top, fun htop => hnot (Subgroup.subgroupOf_eq_top.mp htop)⟩
-    haveI hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
     have hnc : NormalizerCondition (P : Subgroup G) := Group.normalizerCondition_of_isNilpotent
     have hnormalizer : ∃ g : ↥P, g ∈ Subgroup.normalizer (S₁.subgroupOf P) ∧
         g ∉ S₁.subgroupOf P := by
@@ -155,7 +155,7 @@ theorem exists_sylow_centerOf_eq_zpowers {G : Type} [Group G] [Finite G] {z : G}
     have hsup_le_P : S₁ ⊔ Subgroup.zpowers (g : G) ≤ (P : Subgroup G) :=
       sup_le hS₁P (Subgroup.zpowers_le.mpr hgP)
     have hsup_p : IsPGroup 2 ((S₁ ⊔ Subgroup.zpowers (g : G)) : Subgroup G) :=
-      IsPGroup.to_le (H := (S₁ ⊔ Subgroup.zpowers (g : G) : Subgroup G)) P.isPGroup' hsup_le_P
+      IsPGroup.to_le (H := (S₁ ⊔ Subgroup.zpowers (g : G) : Subgroup G)) P.isPGroup hsup_le_P
     let N : Subgroup C := (S₁ ⊔ Subgroup.zpowers (g : G)).comap C.subtype
     have hNp : IsPGroup 2 N := hsup_p.comap_of_injective C.subtype C.subtype_injective
     have hS₀N : (S₀ : Subgroup C) ≤ N := by
@@ -192,7 +192,7 @@ theorem exists_isConj_centerOf_sylow {G : Type} [Group G] [Finite G] {z : G} (hz
     (h : IsExtraspecialPlusByA5WrTwo (Subgroup.centralizer ({z} : Set G))) (S : Sylow 2 G) :
     ∃ w : G, IsConj z w ∧ centerOf (S : Subgroup G) = Subgroup.zpowers w := by
   obtain ⟨S₀, hS₀⟩ := exists_sylow_centerOf_eq_zpowers hz h
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex S₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := G) S₀ S
   refine ⟨g * z * g⁻¹, ?_, ?_⟩
   · exact isConj_iff.mpr ⟨g, rfl⟩

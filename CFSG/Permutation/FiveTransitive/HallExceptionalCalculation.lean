@@ -15,6 +15,7 @@ open MulAction Subgroup
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 theorem two_dvd_orderOf_of_smul_swap
     (w : G) (x y : X) (hxy : x ≠ y)
     (hwx : w • x = y) (hwy : w • y = x) :
@@ -38,8 +39,8 @@ theorem two_dvd_orderOf_of_smul_swap
     have ha' : a = x ∨ a = y := by
       simpa [S] using ha
     rcases ha' with rfl | rfl
-    · simp [rho, wS, xS, yS, hwx, hxy]
-    · simp [rho, wS, xS, yS, hwy, hxy]
+    · simp [rho, wS, xS, yS, hwx]
+    · simp [rho, wS, xS, yS, hwy]
   have hswapOrder : orderOf (Equiv.swap xS yS) = 2 :=
     (Equiv.Perm.swap_isSwap_iff.mpr hxyS).orderOf
   have htwoS : 2 ∣ orderOf wS := by
@@ -50,6 +51,7 @@ theorem two_dvd_orderOf_of_smul_swap
     exact htwoS
   simpa [wS] using htwoG
 
+omit [Finite G] in
 private theorem two_dvd_stabilizer_natCard_of_fixed_base_and_smul_swap
     (e : Fin 4 ↪ X) (w : G)
     (hwFix : ∀ i, w • e i = e i)
@@ -63,6 +65,7 @@ private theorem two_dvd_stabilizer_natCard_of_fixed_base_and_smul_swap
   exact (two_dvd_orderOf_of_smul_swap w x y hxy hwx hwy).trans
     ((MulAction.stabilizer G e).orderOf_dvd_natCard hwMem)
 
+omit [Finite G] [Fintype X] in
 private theorem hall_exceptional_word_action
     (z u : G) (e0 e1 e2 e3 p q r : X)
     (hz0 : z • e0 = e0) (hz1 : z • e1 = e1)
@@ -79,6 +82,7 @@ private theorem hall_exceptional_word_action
   simp [pow_succ, mul_smul, hu2, hzq, hup, hz2, hu0, hz0,
     hu1, hz1, hu3, hzp, hur, hzr, huq, hz3]
 
+omit [Finite G] in
 theorem two_dvd_stabilizer_natCard_of_hall_exceptional
     (b : Fin 4 ↪ X)
     (z u : G) (e0 e1 e2 e3 p q r : X)

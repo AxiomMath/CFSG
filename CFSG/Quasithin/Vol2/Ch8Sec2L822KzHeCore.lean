@@ -77,8 +77,8 @@ theorem center_bot_of_he_kz2 {Q : Type} [Group Q] [Finite Q]
     (hQe : Nonempty (Q ≃* CFSG.Blueprint.NativeSporadic.Carrier .He)) :
     Subgroup.center Q = ⊥ := by
   obtain ⟨e⟩ := hQe
-  haveI : IsSimpleGroup Q := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
+  have : IsSimpleGroup Q := by
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
       CFSG.Sporadic.He.isSimpleGroup_He
     exact MulEquiv.isSimpleGroup e
   have hcard : Nat.card Q = 4030387200 := by
@@ -103,7 +103,7 @@ theorem false_of_heCore_gen_kz2 (hHe : HeSubO2_kz) {Q : Type} [Group Q] [Finite 
     (hirr : ∀ W : Subgroup Q, O ≤ W → W ≤ X → S ≤ Subgroup.normalizer (W : Set Q) → W = O ∨ W = X) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := hOp.exists_card_eq
   have hXcard : Nat.card X = 9 * Nat.card O := by
     have h := Subgroup.relIndex_mul_card (H := O) (K := X)
@@ -138,7 +138,7 @@ theorem false_of_heCore_gen_kz2 (hHe : HeSubO2_kz) {Q : Type} [Group Q] [Finite 
   have hSU : S ≤ U := le_sup_right
   have hUN : U ≤ Subgroup.normalizer (X : Set Q) := sup_le (Subgroup.le_normalizer) hSX
   have hUO : U ≤ Subgroup.normalizer (O : Set Q) := sup_le hXO hSO
-  haveI hXUn : (X.subgroupOf U).Normal := ⟨fun x hx g => by
+  have hXUn : (X.subgroupOf U).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hUN g.2) x).mp hx⟩
   have hidx : (X.subgroupOf U).index = (O.subgroupOf S).index := by
@@ -252,7 +252,7 @@ theorem false_of_heCore_gen_kz2 (hHe : HeSubO2_kz) {Q : Type} [Group Q] [Finite 
   have hSW : S ≤ Subgroup.normalizer (W : Set Q) := hSU.trans hUW
   have hWX : W ≤ X := sup_le hYX hOX
   have hOW : O ≤ W := le_sup_right
-  haveI hOXn : (O.subgroupOf X).Normal := ⟨fun x hx g => by
+  have hOXn : (O.subgroupOf X).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hXO g.2) x).mp hx⟩
   let g : ↥Y →* ↥X ⧸ O.subgroupOf X :=

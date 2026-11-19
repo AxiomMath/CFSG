@@ -20,7 +20,7 @@ theorem CoreHyp.sq_mem_graph [N.Normal] (h : CoreHyp N N' θ θ' ψ φ z) {t : L
   let F : Subgroup (L × L') := fibre θ θ' ψ N φ
   let π : ↥F →* A5 × A5 := θ.comp ((MonoidHom.fst L L').comp F.subtype)
   let Δ : Subgroup ↥F := h.graph.subgroupOf F
-  haveI hΔN : Δ.Normal := h.graph_normal
+  have hΔN : Δ.Normal := h.graph_normal
   have hπ : Function.Surjective π := by
     intro g
     obtain ⟨l, hl⟩ := h.surj g

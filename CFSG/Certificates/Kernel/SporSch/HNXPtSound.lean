@@ -16,6 +16,7 @@ theorem letB_eq' (v : Nat) (k : Nat → Bool) : letB v k = k v := by cases v <;>
 theorem strictN_eq' (y : Nat) (k : Nat → Nat) : CFSG.KC.Loop.strictN y k = k y := by
   cases y <;> rfl
 
+set_option exponentiation.threshold 1729 in
 theorem eq_zero_of_lanes {x : Nat} (hx : x < 2 ^ (13 * 133))
     (h : ∀ l < 133, x / 2 ^ (13 * l) % 2 ^ 13 = 0) : x = 0 := by
   apply Nat.eq_of_testBit_eq
@@ -32,6 +33,7 @@ theorem eq_zero_of_lanes {x : Nat} (hx : x < 2 ^ (13 * 133))
   · exact Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hx (Nat.pow_le_pow_right (by norm_num)
       (by omega)))
 
+set_option exponentiation.threshold 1729 in
 theorem listA_eq {CM3 M : Nat} (hc : constsOK CM3 M = true) (T : Nat → Nat) (FL c : Nat)
     (hc64 : c ≤ 64) :
     listA T M FL c = ∑ r ∈ range 64,
@@ -62,6 +64,7 @@ theorem canon_ent {V : Nat} (hV : Canon 5 133 13 V) : ∀ k < 133, ∀ l < 133, 
     unfold ent13
     rwa [show 13 * (133 * k + l) = 1729 * k + 13 * l by ring] at h2
 
+set_option exponentiation.threshold 399 in
 theorem listA_lane {CM3 M W : Nat} (hc : constsOK CM3 M = true) (hv : Canon 5 133 13 W)
     (T : Nat → Nat) {FL c : Nat} (hc64 : c ≤ 64) {k : Nat} (hk : k < c) {l : Nat} (hl : l < 133) :
     fldW (mulC CM3 (listA T M FL c) (trM W)) (1729 * k) 1729 / 2 ^ (13 * l) % 2 ^ 13 =
@@ -73,7 +76,7 @@ theorem listA_lane {CM3 M W : Nat} (hc : constsOK CM3 M = true) (hv : Canon 5 13
       · exact Nat.two_pow_pos _)
     (g := fun j l => ent13 W l j) (by rw [trM_eq])
     (fun j hj l hl => canon_ent hv l hl j hj) k (by omega) l hl]
-  simp only [if_pos hk]
+  simp only [ite_eq_left hk]
   rfl
 
 theorem ptsImg_rows {T : Nat → Nat} {MS CM3 M G FL IL c : Nat}
@@ -100,7 +103,7 @@ theorem ptsImg_sound {T : Nat → Nat} {MS CM3 M W FL IL c : Nat} (hc : constsOK
   rw [listA_lane hc hv T hc64 hk hl, spread_lane hm (lanes_xv_lt T _) l hl] at e1
   exact e1.symm
 
-theorem lanes_zero_iff {V : Nat} (hV : Canon 5 133 13 V) (x : Fin 133 → ZMod 5) (u : Nat → Nat)
+theorem lanes_zero_iff {V : Nat} (_hV : Canon 5 133 13 V) (x : Fin 133 → ZMod 5) (u : Nat → Nat)
     (hu : ∀ j (hj : j < 133), (u j : ZMod 5) = x ⟨j, hj⟩) :
     (∀ l < 133, (∑ j ∈ range 133, u j * ent13 V l j) % 5 = 0) ↔ ordMat 5 133 13 1729 V *ᵥ x = 0 := by
   constructor
@@ -136,11 +139,12 @@ theorem zeroRows_eq (Y : Nat) : ∀ c, zeroRows Y c =
       (Nat.beq (fldW Y (1729 * c) 1729) 0)) = _
     rw [zeroRows_eq Y c, Finset.card_filter, Finset.card_filter, Finset.sum_range_succ]
     cases hb : Nat.beq (fldW Y (1729 * c) 1729) 0
-    · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
       rfl
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
       rfl
 
+set_option exponentiation.threshold 1729 in
 theorem fixLeaf_one {T : Nat → Nat} {CM3 M V : Nat} (hc : constsOK CM3 M = true)
     (hV : Canon 5 133 13 V) {b c : Nat} (hc64 : c ≤ 64) :
     fixLeaf T 464 CM3 M [trM V] b c =
@@ -164,7 +168,7 @@ theorem fixLeaf_one {T : Nat → Nat} {CM3 M V : Nat} (hc : constsOK CM3 M = tru
         · exact Nat.two_pow_pos _)
       (g := fun j l => ent13 V l j) (by rw [trM_eq])
       (fun j hj l hl => hent l hl j hj) r (by omega) l hl]
-    simp only [if_pos hr']
+    simp only [ite_eq_left hr']
     unfold xe
     rw [xv_leaf T b r (by omega)]
   rw [← lanes_zero_iff hV (xvec T (64 * b + r)) (xe T (64 * b + r)) (fun j _ => rfl)]

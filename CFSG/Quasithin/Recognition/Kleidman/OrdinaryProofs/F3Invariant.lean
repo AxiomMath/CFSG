@@ -241,7 +241,7 @@ lemma shape_d4 (p : (ZMod 2)[X]) (hd : p.natDegree = 4) (hm : p.Monic) (h0 : p.c
   · right; right; right
     rw [h1, h2] at e
     rw [e]
-    simp only [map_one, map_zero, one_mul, zero_mul, add_zero]
+    simp only [map_one, one_mul]
     ring
 
 lemma exists_dvd_X_pow_sub_one (p : (ZMod 2)[X]) (hm : p.Monic) (h0 : p.coeff 0 = 1)

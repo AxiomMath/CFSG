@@ -40,7 +40,7 @@ private theorem liK_spec {LB LI : Nat → Nat} (h : ∀ k < 16, liK LB LI (64 * 
     simp only [letB_eq] at h2
     rw [show Nat.add (64 * (j / 64)) (j % 64) = j from Nat.div_add_mod j 64] at h2
     have hjb : Nat.blt j 1024 = true := Nat.blt_eq.mpr hj
-    simp only [impB_eq, letB_eq, andB_eq, Bool.and_eq_true, hjb, Bool.not_true,
+    simp only [impB_eq, andB_eq, Bool.and_eq_true, hjb, Bool.not_true,
       Bool.false_or] at h2
     exact ⟨Nat.blt_eq.mp h2.1, allN_lqt_iff.mp h2.2⟩
   refine ⟨fun j hj => (key j hj).1, fun p hp j hj => ?_⟩
@@ -60,7 +60,7 @@ private theorem nlK_spec {GI : Nat → Nat} {PL NL : Nat → List Nat}
   simp only [letB_eq] at h2
   rw [show Nat.add (33 * (x / 33)) (x % 33) = x from Nat.div_add_mod x 33] at h2
   have hxb : Nat.blt x 693 = true := Nat.blt_eq.mpr hx
-  simp only [impB_eq, letB_eq, hxb, Bool.not_true, Bool.false_or] at h2
+  simp only [impB_eq, hxb, Bool.not_true, Bool.false_or] at h2
   rw [eqLN_eq, decide_eq_true_eq] at h2
   rw [h2, rec_cons_map]
   congr 1
@@ -137,7 +137,7 @@ private theorem searchK_extract {PB LB HS LI : Nat → Nat} {NL : Nat → List N
   have e : Nat.add j 0 = j := rfl
   simp only [e, letB_eq] at h0
   have hjb : Nat.blt j 1024 = true := Nat.blt_eq.mpr hj
-  simp only [impB_eq, letB_eq, hjb, Bool.not_true, Bool.false_or, Nat.beq_eq] at h0
+  simp only [impB_eq, hjb, Bool.not_true, Bool.false_or] at h0
   constructor
   · intro hb
     rw [hb] at h0

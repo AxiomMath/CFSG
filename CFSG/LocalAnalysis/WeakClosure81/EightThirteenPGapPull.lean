@@ -21,7 +21,7 @@ private theorem wcgapp_subgroupOf_inf_centralizer {Y : Type} [Group Y] {L S : Su
   · rintro ⟨hxS, hxc⟩
     exact ⟨hxS, fun s hs => congrArg Subtype.val (hxc ⟨s, hSL hs⟩ hs)⟩
 
-theorem borelKills_pull {Y : Type} [Group Y] {L S T : Subgroup Y} (hSL : S ≤ L) (hTS : T ≤ S)
+theorem borelKills_pull {Y : Type} [Group Y] {L S T : Subgroup Y} (hSL : S ≤ L) (_hTS : T ≤ S)
     (h : BorelKills (S.subgroupOf L) (T.subgroupOf L)) {E : Type} [Group E]
     (hE : ElemAbOrderEight E) (W : Subgroup (MulAut E)) {X : Type} [Group X] (ψ : ↥W →* X)
     (hψ : Function.Surjective ψ) (φ : ↥(L ⊓ normalizer (S : Set Y)) →* X) :

@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183br4_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃* ↥L')
     (hK : ∀ l : ↥L, (l : G) ∈ K ↔ (e l : G) ∈ K) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape L' K P := by
@@ -24,6 +25,7 @@ private theorem w183br4_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L
   have h := hK (e.symm k)
   rwa [show e (e.symm k) = k from e.apply_symm_apply k] at h
 
+omit [Finite G] in
 private theorem w183br4_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G ≃* G)
     (hK : K.map e.toMonoidHom = K) (hH : H.map e.toMonoidHom = H)
     (h : IsComponentModN K H L) :
@@ -91,7 +93,7 @@ theorem br4_conj_eq_of_good {H K L : Subgroup G}
       (fun l => (hmem (l : G)).symm) hX
   have hcomm := w183_components_commute hL hL₂ (Ne.symm hne)
   let K0 : Subgroup ↥H := K.subgroupOf H
-  haveI hK0n : K0.Normal := hL.1
+  have hK0n : K0.Normal := hL.1
   let π : ↥H →* ↥H ⧸ K0 := QuotientGroup.mk' K0
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective K0
   have hker : ∀ x : ↥H, π x = 1 ↔ (x : G) ∈ K := by
@@ -120,7 +122,7 @@ theorem br4_conj_eq_of_good {H K L : Subgroup G}
       _ = 1 * (π b' * π a') := by rw [h1]
       _ = π b' * π a' := by group
   have hcenter₁ : Subgroup.center ↥A₁ = ⊥ := by
-    haveI : IsSimpleGroup ↥A₁ := hgood₁.1
+    have : IsSimpleGroup ↥A₁ := hgood₁.1
     refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative ?_
     intro hc
     obtain ⟨a, b, hab⟩ := hgood₁.nonabelian

@@ -17,6 +17,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {m : ℕ} {Y L R : Subgroup G} {b t : G}
   {φ : ↥Y ≃* GL (BlkIdx 1 m) (ZMod 2)}
 
+omit [Finite G] in
 private theorem caInv_liftSub_conj_mem {m : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 m) (ZMod 2)}
     {K L : Subgroup (GL (BlkIdx 1 m) (ZMod 2))}
@@ -40,7 +41,7 @@ theorem le_liftSub_uSub_of_invariant (hS : CentASetting m Y L R b t φ) {X : Sub
     (hXn : ∀ y ∈ liftSub φ (Cent 1 m), ∀ x ∈ X, y * x * y⁻¹ ∈ X) :
     X ≤ liftSub φ (uSub 1 m) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 2 := by
     rcases hS.m_cases with hm | hm
     · exact ⟨4, by omega⟩
@@ -304,8 +305,8 @@ theorem le_liftSub_uSub_of_invariant (hS : CentASetting m Y L R b t φ) {X : Sub
   have hP_le_NU : P ≤ Subgroup.normalizer (U : Set G) :=
     hPL.trans (hL_le_CY.trans hCY_N_U)
   have hT2 : IsPGroup 2 T := hXt2.to_le inf_le_left
-  have hsol : IsSolvable ↥T := by
-    haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have hsol : Group.IsSolvable ↥T := by
+    have : Group.IsNilpotent ↥T := hT2.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hfix : ∀ x ∈ T, bStarG φ * x * (bStarG φ)⁻¹ * x⁻¹ ∈ U → x ∈ U := by
     intro x hxT hcommU
@@ -353,7 +354,7 @@ theorem le_liftSub_uSub_of_invariant (hS : CentASetting m Y L R b t φ) {X : Sub
       rw [lt_top_iff_ne_top]
       intro htop
       exact hnot (Subgroup.subgroupOf_eq_top.mp htop)
-    haveI : Group.IsNilpotent ↥Xt := hXt2.isNilpotent
+    have : Group.IsNilpotent ↥Xt := hXt2.isNilpotent
     have hnc : NormalizerCondition ↥Xt :=
       Group.normalizerCondition_of_isNilpotent (G := ↥Xt)
     have hgrowth := hnc (U.subgroupOf Xt) hlt

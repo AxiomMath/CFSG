@@ -58,9 +58,9 @@ theorem card_le_pow_four_subsystemGroup_e6D4 {F : Type} [Field F] [Finite F] [Ch
     {E : Subgroup (ModGL TwistTag.E6.tag F)}
     (hE : E ≤ subsystemGroup TwistTag.E6.tag F {i | i.val ≠ 0 ∧ i.val ≠ 5})
     (hEel : CFSG.Open.IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hF⟩ := FiniteField.card F 2
   have hFn : Nat.card F = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hF
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hFn

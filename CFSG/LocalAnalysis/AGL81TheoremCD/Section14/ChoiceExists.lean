@@ -42,7 +42,7 @@ theorem isSL34Star_of_le
       norm_num at hdvd
     · exact hSL
   · exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨eA⟩ := hA11
     let π : ↥J →* threeStar J := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J)
     let f : ↥J₁ →* threeStar J := π.comp (Subgroup.inclusion hle)
@@ -106,9 +106,9 @@ theorem card_threeStar_center_dvd_card_solvableRadical {J : Subgroup G}
     Nat.card (threeStar J ⧸ Subgroup.center (threeStar J)) ∣
       Nat.card (↥J ⧸ CFSG.solvableRadical ↥J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect (threeStar J) := hq.1
-  haveI : Nontrivial (threeStar J) := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect (threeStar J) := hq.1
+  have : Nontrivial (threeStar J) := CFSG.LocalCores.isQuasisimple_nontrivial hq
   let R : Subgroup ↥J := CFSG.solvableRadical ↥J
   have hRn : R.Normal := CFSG.ABGLocalTools.solvableRadical_normal
   have hRs : Group.IsSolvable R := CFSG.ABGLocalTools.solvableRadical_isSolvable
@@ -116,12 +116,12 @@ theorem card_threeStar_center_dvd_card_solvableRadical {J : Subgroup G}
   let D : Subgroup (threeStar J) := R.map π
   have hDn : D.Normal := hRn.map π (QuotientGroup.mk'_surjective _)
   have hDs : Group.IsSolvable D := by
-    haveI : Group.IsSolvable R := hRs
+    have : Group.IsSolvable R := hRs
     exact Group.isSolvable_of_surjective (f := π.subgroupMap R) (π.subgroupMap_surjective R)
   have hDcenter : D ≤ Subgroup.center (threeStar J) := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hDn with htop | hle
     · exfalso
-      haveI : Group.IsSolvable (⊤ : Subgroup (threeStar J)) := htop ▸ hDs
+      have : Group.IsSolvable (⊤ : Subgroup (threeStar J)) := htop ▸ hDs
       have hsolv : Group.IsSolvable (threeStar J) :=
         Group.isSolvable_of_surjective
           (f := (Subgroup.topEquiv : (⊤ : Subgroup (threeStar J)) ≃* threeStar J).toMonoidHom)
@@ -196,7 +196,7 @@ theorem s14Choice_of_maximal {M : Subgroup G} (hC : CStarGen G)
   obtain ⟨p₀, Q₀, hQ₀, H₀, hH₀, hcomp, htype⟩ := hJ₀
   obtain rfl : p₀ = 3 := eq_three_of_mem_H2StarFam h1211 hC hM hσ hQ₀ hH₀
   obtain ⟨E, -, hE⟩ := exists_hypCGen_of_mem hC hM hσ hQ₀ hH₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ, hEQ⟩ := CFSG.RankThree.PartOne.exists_isSylowOf_ge (p := 3)
     (K := kSub 3 M H₀ ⊔ E) (Q := E) le_sup_right hE.isPGroup
   have hQM : Q ≤ M := hE.le_M_of_isPGroup hU hEQ hQ.isPGroup

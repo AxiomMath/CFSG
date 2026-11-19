@@ -48,7 +48,7 @@ theorem tmF_eq {pp pj : ℕ → ℕ} {lt : ℕ → ℕ → ℕ}
     rw [tabMul, tmF_succ, sN_eq, nRec_eq, hpa]
     by_cases hlt : pp a < a
     · have hb' : Nat.blt (pp a) a = true := CFSG.KS.LyS0K.blt_iff hlt
-      rw [dif_pos hlt, hb']
+      rw [dite_eq_left hlt, hb']
       simp only [↓reduceIte]
       have hja := hj a ha hlt
       obtain ⟨e1, e2⟩ := tmF_eq hpar hL hj hLt hb f (pp a) (by omega) (by omega)
@@ -59,7 +59,7 @@ theorem tmF_eq {pp pj : ℕ → ℕ} {lt : ℕ → ℕ → ℕ}
         rw [Bool.eq_false_iff]
         intro e
         exact hlt (CFSG.KS.LyS0K.blt_of e)
-      rw [dif_neg hlt, hb']
+      rw [dite_eq_right hlt, hb']
       exact ⟨rfl, hb⟩
 
 theorem tm_eq {pp pj : ℕ → ℕ} {lt : ℕ → ℕ → ℕ}
@@ -140,7 +140,7 @@ theorem killOK_of {pp pj W CI REP : ℕ → ℕ} {lt cw : ℕ → ℕ → ℕ}
     exact h0 (Nat.eq_of_beq_eq_true e)
   unfold killC at hk
   rw [bRec_eq, hb0, sB_eq, hc] at hk
-  simp only [Bool.false_eq_true, ↓reduceIte, sB_eq, bRec_and, Bool.and_eq_true, blt_iff] at hk
+  simp only [Bool.false_eq_true, ↓reduceIte, sB_eq, bRec_and] at hk
   have hk2 : (Nat.blt (W a) 19683 && (Nat.blt (CI a) 126 &&
       Nat.beq (tm pp pj lt (W a) a) (tm pp pj lt (REP (CI a)) (W a)))) = true := hk
   simp only [Bool.and_eq_true, blt_iff] at hk2
@@ -155,7 +155,7 @@ theorem killOK_of {pp pj W CI REP : ℕ → ℕ} {lt cw : ℕ → ℕ → ℕ}
       tm pp pj lt (REP (CI a)) (cw (CI a) k) = tm pp pj lt (cw (CI a) k) (REP (CI a)) := by
     intro k hk
     have h := hall' k hk
-    simp only [sB_eq, bRec_and, Bool.and_eq_true, blt_iff, bRec_eq] at h
+    simp only [Bool.and_eq_true, blt_iff, bRec_eq] at h
     obtain ⟨h1, h2, h3⟩ := h
     refine ⟨h1, fun hk0 => ?_, Nat.eq_of_beq_eq_true h3⟩
     have hb : Nat.beq k 0 = false := by

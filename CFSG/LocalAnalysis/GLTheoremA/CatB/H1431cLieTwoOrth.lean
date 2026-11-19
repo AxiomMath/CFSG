@@ -46,9 +46,9 @@ theorem lieSTwo_ordTwistedA_eq (n Q : ℕ) (hQ : 1 ≤ Q) : ordTwistedA n Q = or
   have h1 : 1 ≤ Q ^ i := Nat.one_le_pow _ _ hQ
   have hc : ((Q ^ i : ℕ) : ℤ) = (Q : ℤ) ^ i := Nat.cast_pow Q i
   rcases Nat.even_or_odd i with hi | hi
-  · rw [if_pos hi, hi.neg_one_pow]
+  · rw [ite_eq_left hi, hi.neg_one_pow]
     omega
-  · rw [if_neg (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
     omega
 
 theorem lieSTwo_lieOrderFormula_ne_of_orthCompIdx {d : TauCeti.LieTypeIndex} (hd : OrthCompIdx d) :
@@ -135,7 +135,7 @@ theorem lieSTwo_d4_noSp (hLO : LieOrderBridge) (hSh : D4TwoShape) {S : Type} [Gr
     rw [TauCeti.PrimePower.card_def, hq.1, hq.2]
     norm_num
   have hM : StatedClassicalModel S .POmegaPlus 4 2 1 := by
-    haveI : Finite (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
+    have : Finite (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
       CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
     have hK : Nat.card (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 2 ^ 1 := by
       rw [TauCeti.ValidLieTypeIndex.card_fixedField]
@@ -181,7 +181,7 @@ theorem lieSTwoAt_twistedD (hGA : CFSG.Open.GriessAllModelsStatement) (hLO : Lie
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1 hrange.1
   simp only [] at hr
   rcases (show n = 4 ∨ 5 ≤ n by omega) with rfl | h5
-  · haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  · have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
     have hn := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY
     have hcard : Nat.card (Y ⧸ Subgroup.center Y) = orderTwistedD 4 q.card :=
       hLO ⟨.twistedD 4 q, hv⟩ _ ⟨e⟩

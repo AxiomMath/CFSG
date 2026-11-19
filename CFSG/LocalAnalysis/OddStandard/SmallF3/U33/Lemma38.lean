@@ -47,9 +47,9 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
     Nat.card {W : Subgroup X // Nat.card W = 4 ∧ (∀ w ∈ W, a w ∈ W) ∧
       (∀ w ∈ W, b w ∈ W)} = 3 := by
   classical
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have comm : ∀ x y : X, x * y = y * x := comm_of_sq_eq_one hsq
-  letI : CommGroup X := { ‹Group X› with mul_comm := comm }
+  let : CommGroup X := { ‹Group X› with mul_comm := comm }
   have hba : b * a = a ^ 2 * b := by
     rw [← hrel, mul_assoc, inv_mul_cancel, mul_one]
   have hbb : ∀ x : X, b (b x) = x := by
@@ -128,7 +128,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
       change z ∈ Subgroup.closure ({v, a v} : Set X) ↔
         z ∈ (↑({1, v, a v, v * a v} : Finset X) : Set X)
       rw [mem_W v hv z]
-      simp [or_assoc]
+      simp
     have hcard4 : ({1, v, a v, v * a v} : Finset X).card = 4 := by
       rw [Finset.card_eq_four]
       exact ⟨1, v, a v, v * a v, hv.symm, (hav_ne_one v hv).symm, (hva_ne_one v hv).symm,
@@ -189,7 +189,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
         _ ≤ Nat.card F * Nat.card F := Nat.mul_le_mul (le_refl _) hle
         _ = Nat.card F ^ 2 := (pow_two _).symm
     by_contra h
-    push_neg at h
+    push Not at h
     have hle3 : Nat.card F ≤ 3 := by omega
     have h9 : Nat.card F ^ 2 ≤ 3 ^ 2 := Nat.pow_le_pow_left hle3 2
     norm_num at h9
@@ -234,7 +234,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
       Nat.card_le_card_of_injective _ hpair_inj
     rw [Nat.card_prod, hcard] at hle
     by_contra h
-    push_neg at h
+    push Not at h
     have h5 : 5 ≤ Nat.card F := by omega
     have h25 : 25 ≤ Nat.card F * Nat.card F := by
       calc 25 = 5 * 5 := by norm_num
@@ -318,7 +318,6 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
           exact W.mul_mem w.2 (hWb w w.2)
         · change g w ∈ F
           rw [mem_F]
-          change b (g w) = g w
           change b ((w : X) * b (w : X)) = (w : X) * b (w : X)
           rw [map_mul, hbb, comm (b (w : X)) (w : X)]
       have hle : Nat.card g.range ≤ Nat.card ↥(W ⊓ F) :=
@@ -332,14 +331,14 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
         calc 4 = Nat.card ↥(W ⊓ F) * Nat.card g.range := h4.symm
           _ ≤ Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) := Nat.mul_le_mul (le_refl _) hle
       by_contra h
-      push_neg at h
+      push Not at h
       have hle1 : Nat.card ↥(W ⊓ F) ≤ 1 := by omega
       have h1 : Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) ≤ 1 := by
         calc Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) ≤ 1 * 1 := Nat.mul_le_mul hle1 hle1
           _ = 1 := by norm_num
       omega
     obtain ⟨f, hfne⟩ : ∃ f : ↥(W ⊓ F), f ≠ 1 := by
-      haveI : Nontrivial ↥(W ⊓ F) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+      have : Nontrivial ↥(W ⊓ F) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
       exact exists_ne 1
     refine ⟨⟨(f : X), f.2.2, fun h => hfne (Subtype.ext h)⟩, ?_⟩
     apply Subtype.ext
@@ -376,7 +375,7 @@ theorem lemma38 (hρ : IsAutE16 ρ) {H : Subgroup G}
     (hV : actFixed ρ (CFSG.Open.pCoreOf 3 H : Set G) = ⊥) :
     Nat.card {W : Subgroup V // Nat.card W = 4 ∧ ∀ h ∈ H, ∀ w ∈ W, ρ h w ∈ W} = 3 := by
   classical
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hρ.card_eq]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hρ.card_eq]; norm_num)
   obtain ⟨e⟩ := hH
   let rH : ↥H := e.symm (finRotate 3)
   let lH : ↥H := e.symm (Equiv.swap 0 1)

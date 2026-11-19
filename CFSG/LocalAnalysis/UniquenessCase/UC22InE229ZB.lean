@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22ine229_normalizer_le_of_mem_sig {D : Data G} (hSg : UC6S846.SigmaStd D)
     {Y : Subgroup G} (hY : Y ∈ calC D.M) {q : ℕ} (hq : q ∈ D.sig) {X : Subgroup G}
     (hXY : X ≤ Y) (hX : X ≠ ⊥) (hXq : IsPGroup q X) : normalizer (X : Set G) ≤ D.M := by
-  haveI : Fact q.Prime := ⟨(D.sig_prime q hq).1⟩
+  have : Fact q.Prime := ⟨(D.sig_prime q hq).1⟩
   exact (UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hq).normalizer_le hX hXq
     (hXY.trans hY.1.le)
 
@@ -26,7 +26,7 @@ theorem uc22ine229_pRank_le_three {D : Data G} (hSg : UC6S846.SigmaStd D) {q : �
 
 theorem uc22ine229_pCoreOf_le_of_isSubnormal {K L : Subgroup G} (h : IsSubnormal K L) :
     pCoreOf 2 K ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   induction h with
   | refl A => exact le_rfl
   | @step A B C hAB hn _ ih =>
@@ -37,6 +37,7 @@ theorem uc22ine229_pCoreOf_le_of_isSubnormal {K L : Subgroup G} (h : IsSubnormal
     exact ((Subgroup.normal_subgroupOf_iff_le_normalizer hAB).mp hn).trans
       (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 A)
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {M : Subgroup G} {x o : G} (hx : x ∈ M)
     (ho : o ∈ pCoreOf 2 M) : x * o * x⁻¹ ∈ pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.1
@@ -68,7 +69,7 @@ theorem uc22ine229_le_normalizer {M Y : Subgroup G} (hY : Y ∈ calC M) {p q : �
   by_cases hy1 : y = 1
   · rw [hy1]
     exact one_mem _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact uc22ine229_normalizes_of_pRank_le_three hY (hBM hy) hp hp5
     (orderOf_eq_prime (hBel.2 y hy) hy1) hq hq2 hXY hXc hZ hrank
 
@@ -78,7 +79,7 @@ theorem uc22ine229_exists_kernel {M Y : Subgroup G} (hY : IsSubnormal Y M) {p : 
     (hR : Nat.card ((B.subgroupOf (normalizer (Y : Set G))).map (UC6S846.rhoL Y)) ≤ p ^ 2) :
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ IsElemAbelian p B₀ ∧ Nat.card B₀ = p ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let BN : Subgroup ↥(normalizer (Y : Set G)) := B.subgroupOf (normalizer (Y : Set G))
   let φ : ↥BN →* MulAut (Bar2 Y) := (UC6S846.rhoL Y).comp BN.subtype
   have hφrange : φ.range = BN.map (UC6S846.rhoL Y) := by
@@ -144,10 +145,10 @@ theorem uc22ine229_commutator_mem_of_ne {M L₁ L₂ : Subgroup G} (h₁ : L₁ 
 theorem uc22ine229_exists_elemAbelian_sq (hSyl : UCK.U3SylOmega) {Y : Subgroup G} {n : ℕ}
     (hX : IsSU3 (Bar2 Y) n) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) (hpn : p ∣ 2 ^ n + 1) :
     ∃ E : Subgroup G, E ≤ Y ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S⟩ : Nonempty (Sylow p (Bar2 Y)) := inferInstance
   obtain ⟨Eb, -, hEbel, hEbc, -⟩ :=
-    hSyl (Bar2 Y) n hX p hp hp3 hpn (S : Subgroup (Bar2 Y)) S.isPGroup' S.not_dvd_index
+    hSyl (Bar2 Y) n hX p hp hp3 hpn (S : Subgroup (Bar2 Y)) S.isPGroup S.not_dvd_index
   let π : ↥Y →* Bar2 Y := QuotientGroup.mk' (CFSG.pCore 2 ↥Y)
   have hker : IsPGroup 2 π.ker := by
     rw [QuotientGroup.ker_mk']
@@ -164,7 +165,7 @@ theorem uc22ine229_exists_conj_sq (hSyl : UCK.U3SylOmega) {M Y : Subgroup G} (hY
     (hnorm : ¬ M ≤ normalizer (Y : Set G)) :
     ∃ B₀ : Subgroup G, B₀ ≤ M ∧ IsElemAbelian p B₀ ∧ Nat.card B₀ = p ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnorm
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnorm
   obtain ⟨E, hEY, hEel, hEc⟩ := uc22ine229_exists_elemAbelian_sq hSyl hX hp hp3 hpn
   let f : MulAut G := MulAut.conj m
   have hM : M.map f.toMonoidHom = M :=

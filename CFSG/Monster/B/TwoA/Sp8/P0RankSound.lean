@@ -134,7 +134,7 @@ private lemma Y_card_le {dat : Data} {W Y : Finset ℕ}
     have hτ' : τ < 2 ^ 9 := hY9 τ hτ
     have hfτ : f τ = Classical.choose (hcover2 τ hτ') := by
       dsimp only [f]
-      rw [dif_pos hτ']
+      rw [dite_eq_left hτ']
     rw [hfτ]
     exact Classical.choose_spec (hcover2 τ hτ')
   have hfixC : ∀ τ ∈ Y, ∀ κ ∈ W,
@@ -147,7 +147,7 @@ private lemma Y_card_le {dat : Data} {W Y : Finset ℕ}
       exact Classical.choose_spec (hcover2 τ hτ')
     have hfτ : f τ = p := by
       dsimp only [f]
-      rw [dif_pos hτ']
+      rw [dite_eq_left hτ']
     rw [hfτ]
     have h1 : actK dat.uConjT κ τ = τ := hYW τ hτ κ hκ
     have h3 : actK dat.uConjT κ p.1 = p.1 := hfixlam κ (hW10 κ hκ) p.1 hspec.1
@@ -224,7 +224,7 @@ private lemma walk_D {dat : Data} {F : List Fact} {D : Finset ℕ}
       · rw [decide_eq_true_eq]; exact hpw
       · rw [beq_iff_eq]
         have hbr : (bRows dat)[v]! = colsOf 16 (betaN dat.beta v) := by
-          rw [bRows_getElem! dat (by simpa using hD16 v hvD), if_pos (hDq v hvD)]
+          rw [bRows_getElem! dat (by simpa using hD16 v hvD), ite_eq_left (hDq v hvD)]
         rw [hbr, colsAct_colsOf (betaN_xor_right dat.beta v) (hD16 w hwD)]
         exact hDb v hvD w hwD
     · intro κ

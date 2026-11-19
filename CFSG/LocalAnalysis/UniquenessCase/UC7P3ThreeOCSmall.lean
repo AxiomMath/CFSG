@@ -20,9 +20,9 @@ theorem good_m11Row {N K Q S : Subgroup X} (hQN : Q ≤ N)
     (hQ9 : Nat.card ↥Q = 9) (hS : S ≤ K ⊓ Subgroup.normalizer (Q : Set X))
     (hsup : Q ⊔ S = K ⊓ Subgroup.normalizer (Q : Set X)) (hS16 : Nat.card ↥S = 16)
     (hSC : S ⊓ Subgroup.centralizer (Q : Set X) = ⊥) : SEFive.Good 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   subst hK
-  haveI : IsMulCommutative ↥Q := hE.1
+  have : IsMulCommutative ↥Q := hE.1
   have hQC : Q ≤ Subgroup.centralizer (Q : Set X) := Subgroup.le_centralizer Q
   have hQ3 : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 2) (by rw [hQ9]; norm_num)
   have hSn : S ≤ Subgroup.normalizer (Q : Set X) := hS.trans inf_le_right
@@ -51,6 +51,7 @@ theorem dihedral_nine_pow_nine :
     ∀ g h : DihedralGroup 9, h ^ 9 = 1 → h ^ 3 ≠ 1 → g * h = h * g → g ^ 9 = 1 := by
   decide
 
+omit [Finite X] in
 theorem pow_nine_of_commute {Γ : Subgroup X} (φ : ↥Γ ≃* DihedralGroup 9) {a b : X} (ha : a ∈ Γ)
     (hb : b ∈ Γ) (hb9 : b ^ 9 = 1) (hb3 : b ^ 3 ≠ 1) (hab : a * b = b * a) : a ^ 9 = 1 := by
   have h := dihedral_nine_pow_nine (φ ⟨a, ha⟩) (φ ⟨b, hb⟩)
@@ -68,7 +69,7 @@ theorem good_l28Row {N K Q : Subgroup X} [K.Normal] (hQN : Q ≤ N) (hQK : Q ≤
     (hQc : IsCyclic ↥Q) (hQ9 : Nat.card ↥Q = 9)
     (hD : Nonempty (↥(K ⊓ Subgroup.normalizer (Q : Set X)) ≃* DihedralGroup 9)) :
     SEFive.Good 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ⟩ := hD
   have hQ3 : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 2) (by rw [hQ9]; norm_num)
   obtain ⟨g, hg⟩ := @IsCyclic.exists_generator _ _ hQc

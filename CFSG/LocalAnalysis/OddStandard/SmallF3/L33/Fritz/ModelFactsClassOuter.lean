@@ -23,12 +23,12 @@ private lemma conj_inner_iff (g φ : MulAut L) :
     calc φ u = g⁻¹ (g (φ u)) := by simp
       _ = g⁻¹ (a * g u * a⁻¹) := by rw [h]
       _ = g⁻¹ a * u * (g⁻¹ a)⁻¹ := by
-        simp [map_mul, map_inv, MulAut.inv_apply_self]
+        simp [map_mul, map_inv]
   · rintro ⟨a, ha⟩
     refine ⟨g a, fun u => ?_⟩
     simp only [MulAut.mul_apply]
     rw [ha]
-    simp [map_mul, map_inv, MulAut.apply_inv_self]
+    simp [map_mul, map_inv]
 
 theorem l33_outer_involutions_conj
     (hL : LieModel L .PSL 3 3 1)
@@ -36,7 +36,7 @@ theorem l33_outer_involutions_conj
     (hψ : ψ ^ 2 = 1) (hψo : ¬ ∃ a : L, ∀ u : L, ψ u = a * u * a⁻¹) : IsConj φ ψ := by
   obtain ⟨F⟩ := l33_nonempty_fritzData hL
   have hcardAut : Nat.card (MulAut L) = 11232 := l33_card_mulAut hL
-  haveI : Finite (MulAut L) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; norm_num)
+  have : Finite (MulAut L) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; norm_num)
   let S : Set (MulAut L) := {θ | θ ^ 2 = 1 ∧ ¬ ∃ a : L, ∀ u : L, θ u = a * u * a⁻¹}
   have hScard : Nat.card S = 234 := by
     change Nat.card {θ : MulAut L // θ ^ 2 = 1 ∧

@@ -73,11 +73,11 @@ theorem innerPlaneBalance_adjointE8_ten (K : Type) [Field K] [Finite K] {p : ℕ
   obtain ⟨hp7', -, -, -⟩ := e8Ten_arith hp hp7 he
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨F⟩ := exists_e8TenFrame K hf hK hp hp7 he L
   have hordW : ¬ p ∣ Nat.card (WeylGroup Tag.E8) :=
     not_dvd_card_weylGroup_E hp hp7' (Or.inr (Or.inr rfl))

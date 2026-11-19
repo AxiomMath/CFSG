@@ -51,7 +51,7 @@ theorem Hyp.s56_CF_P0_le_U11 (h49 : d.Thm49Statement) (hd : d.Hyp) :
 
 theorem Hyp.s56_CF_P0_eq (h49 : d.Thm49Statement) (hd : d.Hyp) :
     d.F ⊓ centralizer (d.s56P0 : Set G) = d.s56U11 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hyNC, -, hy3, hy1, hy10, hy11, hy12⟩ := hd.s56_Y_facts
   have hyN : d.s56Y ∈ d.N := (mem_inf.1 hyNC).1
   have hsub := hd.s56_CF_P0_le_U11 h49
@@ -180,7 +180,7 @@ theorem s56_F_not_le_U10 (d : Data G) (hd : d.Hyp) : ¬ d.F ≤ d.s56U10 := fun 
 theorem Hyp.s56_commSub_U11_eq_U10 (h49 : d.Thm49Statement) (hd : d.Hyp) (f : G) :
     f ∈ commSub d.s56P0 d.s56U11 d.F (fun _ ha _ hb => hd.s56_F_comm ha hb) (s56_U11_le_F d) ↔
       f ∈ d.s56U10 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Ŵ := commSub d.s56P0 d.s56U11 d.F (fun _ ha _ hb => hd.s56_F_comm ha hb)
     (s56_U11_le_F d) with hŴ
   have hle : ∀ f ∈ Ŵ, f ∈ d.s56U10 := fun f hf =>

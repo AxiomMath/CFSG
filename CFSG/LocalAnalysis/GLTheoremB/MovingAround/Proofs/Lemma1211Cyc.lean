@@ -11,8 +11,8 @@ namespace Lemma1211Cyc
 theorem input_cyc3_holds : Lemma1211.Input_cyc3 := by
   intro X _ _ hX hE
   by_contra hnc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 X) := ⟨hX⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 X) := ⟨hX⟩
   obtain ⟨S, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   have h := hE S (CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr hel)
   rw [hcard] at h

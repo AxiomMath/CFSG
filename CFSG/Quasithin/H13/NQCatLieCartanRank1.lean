@@ -30,7 +30,7 @@ theorem torusConcl_of_benderType {S : Type} [Group S] [Finite S]
   obtain ⟨t, hc⟩ := h.exists_benderCore (default : Sylow 2 S)
   set U : Subgroup S := ((default : Sylow 2 S) : Subgroup S) with hUdef
   have hU : IsSylowTwoOf U ⊤ := by
-    refine ⟨le_top, (default : Sylow 2 S).isPGroup', ?_⟩
+    refine ⟨le_top, (default : Sylow 2 S).isPGroup, ?_⟩
     change ¬ 2 ∣ U.relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact (default : Sylow 2 S).not_dvd_index

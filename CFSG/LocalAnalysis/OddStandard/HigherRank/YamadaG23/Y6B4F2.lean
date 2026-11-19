@@ -83,7 +83,7 @@ theorem y6b_T3_comm_E16 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hxf hf') (c.s.fr.F.inv_mem hf)
   have hM3 : M3 c.s ≤ y6bQ c := by
     intro m hm
-    haveI := y6e_M3_comm c hF
+    have := y6e_M3_comm c hF
     have hmF : ∀ f ∈ c.s.fr.F, m * f = f * m := by
       intro f hf
       exact congrArg Subtype.val (mul_comm' (⟨m, hm⟩ : ↥(M3 c.s))
@@ -145,7 +145,7 @@ theorem y6b_exists_a (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
   have hF_M3 : c.s.fr.F ≤ M3 c.s := fun _ hf => Subgroup.mem_sup_right hf
   have hM3_T3 : M3 c.s ≤ y6bT3 c := fun _ hm => Subgroup.mem_sup_right hm
   have hFP : c.s.fr.F ≤ P := (hF_M3.trans hM3_T3).trans hTP
-  haveI : ((c.s.fr.F).subgroupOf P).Normal := by
+  have : ((c.s.fr.F).subgroupOf P).Normal := by
     refine ⟨fun n hn g => ?_⟩
     change ((g : G) * (n : G) * (g : G)⁻¹) ∈ c.s.fr.F
     exact hFnorm g g.2 n hn

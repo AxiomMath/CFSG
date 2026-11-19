@@ -352,7 +352,7 @@ theorem STSetting.weaklyClosedInNormalizer_of_card_four (S : STSetting G K) (R :
           (P := (conjSubgroup f A).subgroupOf M)
           (hB2.of_equiv (Subgroup.subgroupOfEquivOfLe hB1').symm)
         set S₀ : Subgroup G := (P : Subgroup M).map M.subtype with hS₀
-        have hS₀2 : IsPGroup 2 S₀ := P.isPGroup'.map M.subtype
+        have hS₀2 : IsPGroup 2 S₀ := P.isPGroup.map M.subtype
         have hBS : conjSubgroup f A ≤ S₀ := by
           intro b hb
           exact ⟨⟨b, hB1' hb⟩, hP (Subgroup.mem_subgroupOf.mpr hb), rfl⟩

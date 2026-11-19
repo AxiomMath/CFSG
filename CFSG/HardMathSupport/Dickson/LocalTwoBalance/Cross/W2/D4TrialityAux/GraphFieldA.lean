@@ -26,12 +26,13 @@ section GraphFieldA
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem isSimpleGroup_fixedSubgroup_twistedEntrywise_one {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
     (he : 1 ≤ e) (hK : Nat.card K = ℓ ^ (e * 3)) (σ : K ≃+* K) (r : ℕ) (hr : r = 1 ∨ r = 2)
     (hσ : ∀ c, σ c = c ^ ((ℓ ^ e) ^ r)) :
     IsSimpleGroup (fixedSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) := by
   classical
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, hfixeq, hsimple, -⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ e Fact.out he K
@@ -41,7 +42,7 @@ theorem isSimpleGroup_fixedSubgroup_twistedEntrywise_one {ℓ e : ℕ} [Fact ℓ
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (fixedSubgroupTwistedEntrywiseAutOneEquiv TwistTag.D4 σ).trans
       (MulEquiv.subgroupCongr hfixeq)
-  haveI := hsimple
+  have := hsimple
   exact eΓ.isSimpleGroup
 
 theorem noNormalCop_fixSub_twistedEntrywise {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K ℓ] (hℓ3 : ℓ ≠ 3)

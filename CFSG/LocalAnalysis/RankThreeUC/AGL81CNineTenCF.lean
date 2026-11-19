@@ -117,7 +117,7 @@ theorem dvd_card_quotient_normalCore [Finite X] {p : ℕ} [Fact p.Prime] (S : Sy
   have h1 : (S : Subgroup X).map (QuotientGroup.mk' Y.normalCore) = ⊥ := by
     refine (Subgroup.eq_bot_iff_forall _).mpr fun z hz => ?_
     obtain ⟨s, hs, rfl⟩ := hz
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hs⟩
     have h2 : orderOf (QuotientGroup.mk' Y.normalCore s) ∣ p ^ n := by
       have : (QuotientGroup.mk' Y.normalCore s) ^ (p ^ n) = 1 := by
         rw [← map_pow]
@@ -151,6 +151,7 @@ section Ker
 
 variable {G : Type} [Group G] [Finite G] {M H Q : Subgroup G} {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] in
 theorem normalizer_subgroupOf_le_subgroupOf (hQH : Q ≤ H) (hN : normalizer (Q : Set G) ≤ M) :
     normalizer ((Q.subgroupOf H : Subgroup ↥H) : Set ↥H) ≤ (M ⊓ H).subgroupOf H := by
   intro x hx

@@ -26,16 +26,19 @@ variable {G : Type} [Group G] [Finite G]
     uniqueFourConj g A ≤ normalizer (P₁ : Set G) →
     A ≤ normalizer ((uniqueFourConj g P₂ : Subgroup G) : Set G) → False
 
+omit [Finite G] in
 theorem uc22p22r_mem_conj_inv (X : Subgroup G) (g x : G) :
     x ∈ uniqueFourConj g⁻¹ X ↔ g⁻¹ * x * g ∈ X := by
   rw [uc22p22f_mem_conj, inv_inv]
 
+omit [Finite G] in
 theorem uc22p22r_conj_conj (X : Subgroup G) (g h : G) :
     uniqueFourConj h (uniqueFourConj g X) = uniqueFourConj (g * h) X := by
   ext x
   rw [uc22p22f_mem_conj, uc22p22f_mem_conj, uc22p22f_mem_conj,
     show g * h * x * (g * h)⁻¹ = g * (h * x * h⁻¹) * g⁻¹ by group]
 
+omit [Finite G] in
 theorem uc22p22r_conj_self_of_mem (X : Subgroup G) {g : G} (hg : g ∈ X) : uniqueFourConj g X = X := by
   ext x
   rw [uc22p22f_mem_conj]
@@ -46,19 +49,23 @@ theorem uc22p22r_conj_self_of_mem (X : Subgroup G) {g : G} (hg : g ∈ X) : uniq
   · intro h
     exact X.mul_mem (X.mul_mem hg h) (X.inv_mem hg)
 
+omit [Finite G] in
 theorem uc22p22r_conj_mono {X Y : Subgroup G} (h : X ≤ Y) (g : G) :
     uniqueFourConj g X ≤ uniqueFourConj g Y := by
   intro x hx
   rw [uc22p22f_mem_conj] at hx ⊢
   exact h hx
 
+omit [Finite G] in
 theorem uc22p22r_card_conj (X : Subgroup G) (g : G) : Nat.card ↥(uniqueFourConj g X) = Nat.card ↥X :=
   Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem uc22p22r_isPGroup_conj {p : ℕ} {X : Subgroup G} (h : IsPGroup p ↥X) (g : G) :
     IsPGroup p ↥(uniqueFourConj g X) :=
   h.map _
 
+omit [Finite G] in
 theorem uc22p22r_pow_conj {q : ℕ} {X : Subgroup G} (h : ∀ x ∈ X, x ^ q = 1) (g : G) :
     ∀ x ∈ uniqueFourConj g X, x ^ q = 1 := by
   intro x hx
@@ -68,6 +75,7 @@ theorem uc22p22r_pow_conj {q : ℕ} {X : Subgroup G} (h : ∀ x ∈ X, x ^ q = 1
   calc x ^ q = g⁻¹ * (g * x ^ q * g⁻¹) * g := by group
     _ = 1 := by rw [h1]; group
 
+omit [Finite G] in
 theorem uc22p22r_mem_normalizer_conj (X : Subgroup G) (g x : G) :
     x ∈ normalizer ((uniqueFourConj g X : Subgroup G) : Set G) ↔
       g * x * g⁻¹ ∈ normalizer (X : Set G) := by
@@ -85,12 +93,14 @@ theorem uc22p22r_mem_normalizer_conj (X : Subgroup G) (g x : G) :
       show g * (x * y * x⁻¹) * g⁻¹ = g * x * g⁻¹ * (g * y * g⁻¹) * (g * x * g⁻¹)⁻¹ by group]
     exact h1
 
+omit [Finite G] in
 theorem uc22p22r_conj_le_normalizer {X Y : Subgroup G} (h : Y ≤ normalizer (X : Set G)) (g : G) :
     uniqueFourConj g Y ≤ normalizer ((uniqueFourConj g X : Subgroup G) : Set G) := by
   intro y hy
   rw [uc22p22f_mem_conj] at hy
   exact (uc22p22r_mem_normalizer_conj X g y).2 (h hy)
 
+omit [Finite G] in
 theorem uc22p22r_maxTwoLocal_conj {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) (g : G) :
     rankThreeIsMaxTwoLocal (uniqueFourConj g M) :=
   CFSG.LocalAnalysis.RankThreeTheoremC.rankThreeIsMaxTwoLocal_map hM (MulAut.conj g⁻¹)

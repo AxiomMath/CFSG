@@ -19,7 +19,7 @@ theorem card_perp_three :
 theorem card_fixV_part1 {A : Subgroup (MulAut PV)} {a b : MulAut PV} {c φ : Fin 3 → ZMod 2}
     {H D : Matrix (Fin 3) (Fin 3) (ZMod 2)}
     (hA : ∀ x ∈ A, x = 1 ∨ x = a ∨ x = b ∨ x = a * b) (haA : a ∈ A) (hbA : b ∈ A)
-    (hc : c ≠ 0) (hφ : φ ≠ 0) (hφc : φ ⬝ᵥ c = 0)
+    (hc : c ≠ 0) (hφ : φ ≠ 0) (_hφc : φ ⬝ᵥ c = 0)
     (ha : ∀ v w, a (mk v w) = mk (v + (φ ⬝ᵥ v) • c) (w + (c ⬝ᵥ w) • φ))
     (hb : ∀ v w, b (mk v w) = mk (D *ᵥ w) (H *ᵥ v))
     (hHs : Hᵀ = H) (hHc : H *ᵥ c = φ) (hDH : D * H = 1) :
@@ -225,8 +225,8 @@ theorem exists_ab {A : Subgroup (MulAut PV)} (hAN : A ≤ pairNorm (ZMod 2))
     ∃ a b : MulAut PV, a ∈ A ∧ b ∈ A ∧ a ∈ pairSL (ZMod 2) ∧ a ≠ 1 ∧ b ∉ pairSL (ZMod 2) ∧
       ∀ x ∈ A, x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
   classical
-  haveI : Finite (MulAut PV) := MulEquiv.finite_left
-  obtain ⟨b, hbA, hbL⟩ := SetLike.not_le_iff_exists.mp hAL
+  have : Finite (MulAut PV) := MulEquiv.finite_left
+  obtain ⟨b, hbA, hbL⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   have hbb : b * b = 1 := by rw [← sq]; exact hA2.2 b hbA
   have hb1 : b ≠ 1 := fun h => hbL (h ▸ Subgroup.one_mem _)
   have hbinv : b⁻¹ = b := inv_eq_of_mul_eq_one_right hbb

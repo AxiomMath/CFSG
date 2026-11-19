@@ -63,7 +63,7 @@ instance (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) : Decidable (IsQm s M
 theorem xM_mul_apply (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     (xM s * M) (qRow s) (qCol s) = M (qRow s) (qCol s) + M (qCol s) (qCol s) := by
   fin_cases s <;>
-    simp [qRow, qCol, xM_eq_toMat, xB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit] <;> ring
+    simp [qRow, qCol, xM_eq_toMat, xB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit]
 
 theorem yM_mul_apply (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     (yM s * M) (qCol s) (qRow s) = M (qCol s) (qRow s) + M (qRow s) (qRow s) := by
@@ -73,7 +73,7 @@ theorem yM_mul_apply (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
 theorem xM_mul_apply_diag (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     (xM s * M) (qRow s) (qRow s) = M (qRow s) (qRow s) + M (qCol s) (qRow s) := by
   fin_cases s <;>
-    simp [qRow, qCol, xM_eq_toMat, xB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit] <;> ring
+    simp [qRow, qCol, xM_eq_toMat, xB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit]
 
 theorem yM_mul_apply_diag (s : Fin 3) (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     (yM s * M) (qCol s) (qCol s) = M (qCol s) (qCol s) + M (qRow s) (qCol s) := by
@@ -88,7 +88,7 @@ theorem mul_xM_apply (s : Fin 3) (N : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
 theorem mul_yM_apply (s : Fin 3) (N : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     (N * yM s) (qCol s) (qRow s) = N (qCol s) (qRow s) + N (qCol s) (qCol s) := by
   fin_cases s <;>
-    simp [qRow, qCol, yM_eq_toMat, yB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit] <;> ring
+    simp [qRow, qCol, yM_eq_toMat, yB, toMat, mul_apply, Fin.sum_univ_six, Nat.testBit]
 
 theorem decomp_up {s : Fin 3} {M : Matrix (Fin 6) (Fin 6) (ZMod 2)} (hM : IsUpU M) :
     IsQs s M ∨ IsQs s (xM s * M) := by

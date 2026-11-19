@@ -647,7 +647,7 @@ theorem u3K_facts {L T K : Subgroup G} (h3 : Sec3 G L T) {f : ℕ} (hf : 2 ≤ f
       rw [hA, Subgroup.card_map_of_injective (MulAut.conj r).injective]
       exact u3_odd_card_torusK J hJ hf hcard hfixed
     obtain ⟨m, hm⟩ := (show IsPGroup 2 (unitaryCoverRoot J hJ) by
-      rw [← hS]; exact S.isPGroup') ⟨ρ t', htR⟩
+      rw [← hS]; exact S.isPGroup) ⟨ρ t', htR⟩
     have hm' : (ρ t') ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
     have hk1 : k = 1 := by
       have hjkc : Commute j k := hJA j hj k hk
@@ -684,7 +684,7 @@ theorem u3K_facts {L T K : Subgroup G} (h3 : Sec3 G L T) {f : ℕ} (hf : 2 ≤ f
         have hW : Nat.card W = Nat.card (unitaryCoverRoot J hJ ⊓ J₁ : Subgroup _) :=
           Nat.card_congr (subgroupOfEquivOfLe inf_le_right).toEquiv
         have hW2 : IsPGroup 2 W := by
-          have h2 : IsPGroup 2 (unitaryCoverRoot J hJ) := by rw [← hS]; exact S.isPGroup'
+          have h2 : IsPGroup 2 (unitaryCoverRoot J hJ) := by rw [← hS]; exact S.isPGroup
           exact (h2.to_inf_left (K := J₁)).comap_subtype
         have hW2' : IsPGroup 2 (W.map eJ₁.toMonoidHom) := hW2.map _
         obtain ⟨k, hk⟩ := hW2'.exists_card_eq

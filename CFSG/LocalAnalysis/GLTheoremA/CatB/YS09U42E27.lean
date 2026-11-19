@@ -58,14 +58,14 @@ theorem exists_pSubgroup_lift_of_le {p : ℕ} (hp : p.Prime) (π : H →* M)
     {E₀ : Subgroup H} (hE₀ : IsPGroup p E₀) (hE₀F : E₀.map π ≤ F) :
     ∃ W : Subgroup H, IsPGroup p W ∧ E₀ ≤ W ∧ W.map π = F ∧
       Function.Injective (π.comp W.subtype) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Subgroup H := F.comap π
   let f : ↥P →* ↥F := π.subgroupComap F
   have hf : Function.Surjective f := by
     intro e
     obtain ⟨h, hh⟩ := hFπ e.2
     exact ⟨⟨h, by simp [P, Subgroup.mem_comap, hh]⟩, Subtype.ext hh⟩
-  haveI : Finite F := Finite.of_surjective f hf
+  have : Finite F := Finite.of_surjective f hf
   have hE₀P : E₀ ≤ P := fun x hx => hE₀F (Subgroup.mem_map_of_mem π hx)
   have htop : IsPGroup p (⊤ : Subgroup F) := hF.of_equiv Subgroup.topEquiv.symm
   have hQmap : ∀ Q : Sylow p P, (Q : Subgroup P).map f = ⊤ := by

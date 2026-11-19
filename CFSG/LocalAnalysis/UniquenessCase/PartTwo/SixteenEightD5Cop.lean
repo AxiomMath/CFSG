@@ -11,12 +11,13 @@ open CFSG.Quasithin Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
-private noncomputable instance s16e_d5_fintypeMulAut [Finite W] : Fintype (MulAut W) := by
+private noncomputable instance s16e_d5_fintypeMulAut : Fintype (MulAut W) := by
   haveI : Fintype W := Fintype.ofFinite W
   haveI : DecidableEq W := Classical.decEq W
   exact Fintype.ofInjective (fun f : MulAut W => (f : W → W))
     (fun _ _ h => MulEquiv.ext (congrFun h))
 
+omit [Finite W] in
 private lemma s16e_d5_card_L {L : Subgroup (MulAut W)}
     (hL : IsElemAbelianOfRank 3 2 ↥L) : Nat.card ↥L = 9 := by
   obtain ⟨e⟩ := hL
@@ -24,11 +25,13 @@ private lemma s16e_d5_card_L {L : Subgroup (MulAut W)}
     Nat.card_congr (Multiplicative.toAdd (α := Fin 2 → ZMod 3)), Nat.card_pi]
   simp [ZMod.card]
 
+omit [Finite W] in
 private lemma s16e_d5_mul_comm {L : Subgroup (MulAut W)}
     (hL : IsElemAbelianOfRank 3 2 ↥L) (x y : ↥L) : x * y = y * x := by
   obtain ⟨e⟩ := hL
   exact e.injective (by rw [map_mul, map_mul, mul_comm])
 
+omit [Finite W] in
 private lemma s16e_d5_mul_comm_coe {L : Subgroup (MulAut W)}
     (hL : IsElemAbelianOfRank 3 2 ↥L) {x y : MulAut W} (hx : x ∈ L) (hy : y ∈ L) :
     x * y = y * x :=
@@ -109,8 +112,7 @@ theorem s16e_d5_le_commSub (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     rw [s16e_d5_card_L hL, hcard_sup]
   have hinf : fixV K' ⊓ fixV K = ⊥ := by
     have hle : fixV K' ⊓ fixV K ≤ fixV L := by
-      intro w hw
-      intro y hy
+      intro w hw y hy
       have hy' : y ∈ K ⊔ K' := by
         rw [hsup_eq]
         exact hy

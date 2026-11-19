@@ -15,12 +15,12 @@ open CFSG.StandardType
 private theorem spFromStd2_apply_of_ne {n : ℕ} {c : Fin n → ℤ} {a : Fin n}
     (h : a.val + 1 ≠ n) : spFromStd2 n c a = 2 * ∑ b ∈ Finset.Iic a, c b := by
   unfold spFromStd2
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private theorem spFromStd2_apply_of_eq {n : ℕ} {c : Fin n → ℤ} {a : Fin n}
     (h : a.val + 1 = n) : spFromStd2 n c a = ∑ b, c b := by
   unfold spFromStd2
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem sum_Iic_eq_sum_Iic_pred {n : ℕ} (c : Fin n → ℤ) {a : Fin n}
     (ha : 0 < a.val) :
@@ -67,26 +67,26 @@ theorem toStd_spFromStd2 (n : ℕ) (c : Fin n → ℤ) :
   funext a
   unfold toStd
   by_cases hlast : a.val + 1 = n
-  · rw [if_pos hlast, spFromStd2_apply_of_eq hlast]
+  · rw [ite_eq_left hlast, spFromStd2_apply_of_eq hlast]
     by_cases h0 : 0 < a.val
     · have hpred : (⟨a.val - 1, by omega⟩ : Fin n).val + 1 ≠ n := by
         dsimp only
         omega
-      rw [dif_pos h0, spFromStd2_apply_of_ne hpred,
+      rw [dite_eq_left h0, spFromStd2_apply_of_ne hpred,
         ← Iic_eq_univ_of_last hlast, sum_Iic_eq_sum_Iic_pred c h0]
       ring
     · have ha : a.val = 0 := by omega
-      rw [dif_neg h0, univ_eq_singleton_of_last_val_zero hlast ha, Finset.sum_singleton]
+      rw [dite_eq_right h0, univ_eq_singleton_of_last_val_zero hlast ha, Finset.sum_singleton]
       ring
-  · rw [if_neg hlast, spFromStd2_apply_of_ne hlast]
+  · rw [ite_eq_right hlast, spFromStd2_apply_of_ne hlast]
     by_cases h0 : 0 < a.val
     · have hpred : (⟨a.val - 1, by omega⟩ : Fin n).val + 1 ≠ n := by
         dsimp only
         omega
-      rw [dif_pos h0, spFromStd2_apply_of_ne hpred, sum_Iic_eq_sum_Iic_pred c h0]
+      rw [dite_eq_left h0, spFromStd2_apply_of_ne hpred, sum_Iic_eq_sum_Iic_pred c h0]
       ring
     · have ha : a.val = 0 := by omega
-      rw [dif_neg h0, Iic_eq_singleton_of_val_eq_zero ha, Finset.sum_singleton]
+      rw [dite_eq_right h0, Iic_eq_singleton_of_val_eq_zero ha, Finset.sum_singleton]
       ring
 
 @[expose] def spWeight2 {n : ℕ} (S : Finset (Fin n)) : Fin n → ℤ := spFromStd2 n (spTypeVec S)
@@ -166,10 +166,10 @@ theorem weylAction_simple_spWeight2 {n : ℕ} (S : Finset (Fin n)) {k : Fin n} (
     · subst hb
       rw [spTypeVec_eq_zero_of_last_not_mem hk hlast]
       unfold spSgn
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       ring
     · unfold spSgn
-      rw [if_neg hb]
+      rw [ite_eq_right hb]
       ring
 
 private theorem exists_spRealizes_spZeroSwap (k : ℕ) (hn : 1 ≤ k + 1) (c : Fin (k + 2)) :
@@ -218,7 +218,7 @@ private theorem exists_spRealizes_of_spIsSign_succ_neg {k : ℕ}
     dsimp only [s']
     rw [hπ'0, hs0]
     unfold spSgn
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     norm_num
   obtain ⟨v, _, hv⟩ := exists_spLeviW_of_fix (n := k + 1) hn hs' hπ'0 hs'0
   obtain ⟨z, hz⟩ := exists_spZeroSign (n := k + 1) hn
@@ -265,7 +265,7 @@ theorem exists_spRealizes_of_spIsSign {m : ℕ} (π : Equiv.Perm (Fin m)) {s : F
         omega
       subst hx
       unfold spSgn
-      rw [if_pos rfl, h]
+      rw [ite_eq_left rfl, h]
   · rcases hs 0 with hs0 | hs0
     · exact exists_spRealizes_of_spIsSign_succ_pos π hs hs0
     · exact exists_spRealizes_of_spIsSign_succ_neg π hs hs0
@@ -283,7 +283,7 @@ theorem spRealizes_unique {m : ℕ} {w : (coxeterMatrix (isFiniteType_cartanC m)
       simp only [Pi.single_apply]
       split_ifs <;> ring
     have hb2 : toStd m (spFromStd2 m (Pi.single b (1 : ℤ))) b = 2 := by
-      rw [htoStd b, if_pos rfl]
+      rw [htoStd b, ite_eq_left rfl]
     have e1 := congrFun (h (spFromStd2 m (Pi.single b (1 : ℤ)))) (π b)
     have e2 := congrFun (h' (spFromStd2 m (Pi.single b (1 : ℤ)))) (π b)
     simp only [Equiv.symm_apply_apply] at e1
@@ -296,7 +296,7 @@ theorem spRealizes_unique {m : ℕ} {w : (coxeterMatrix (isFiniteType_cartanC m)
       apply hne
       simpa using congrArg π' hh
     have hz : toStd m (spFromStd2 m (Pi.single b (1 : ℤ))) (π'.symm (π b)) = 0 := by
-      rw [htoStd, if_neg hne']
+      rw [htoStd, ite_eq_right hne']
     rw [hb2, hz, mul_zero] at key
     rcases hs b with hb | hb <;> rw [hb] at key <;> norm_num at key
   rw [← hπ] at h'

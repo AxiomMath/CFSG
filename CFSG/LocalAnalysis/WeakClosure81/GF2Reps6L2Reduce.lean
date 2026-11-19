@@ -64,7 +64,7 @@ private noncomputable def L2Setup.ofRep {Q : Type} [Group Q] [Finite Q] {V : Typ
         intro a b
         by_contra hab
         exact h ⟨a, b, hab⟩
-      haveI : IsMulCommutative ↥L := isMulCommutative_iff.mpr hcomm
+      have : IsMulCommutative ↥L := isMulCommutative_iff.mpr hcomm
       have htop : Subgroup.center ↥L = ⊤ := Subgroup.center_eq_top_iff.mpr inferInstance
       rw [hZ] at htop
       exact bot_ne_top htop
@@ -170,7 +170,6 @@ private noncomputable def L2Setup.ofRep {Q : Type} [Group Q] [Finite Q] {V : Typ
       intro l
       apply e.injective
       apply Subtype.ext
-      change (e (ψ l) : MulAut (V ⧸ W)) = (e l : MulAut (V ⧸ W))
       rw [hθconj l, hcomm l]
       group
     have h2 : x * l * x⁻¹ = l := by

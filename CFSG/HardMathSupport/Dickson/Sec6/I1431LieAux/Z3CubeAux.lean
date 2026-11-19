@@ -162,7 +162,7 @@ theorem exists_fixedPoint_perm_of_coprime {T : Type*} [Finite T] (f : Equiv.Perm
     (hf : f ^ 3 = 1) (hT : ¬ 3 ∣ Nat.card T) : ∃ t : T, f t = t := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 (Subgroup.zpowers f) := by
     intro g
     refine ⟨1, ?_⟩

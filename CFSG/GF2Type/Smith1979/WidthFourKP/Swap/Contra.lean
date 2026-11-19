@@ -103,8 +103,8 @@ theorem exists_swap (T : ThompsonInput S g x K Y) (H : Hyp4 S g) :
   exact ⟨w, mem_centralizer_singleton_iff.mpr hwx, by rw [ha]; exact hzw, by rw [ha]; exact hwa⟩
 
 
-theorem clSub_inf_le (hchar : IsCharTwoType G) (T : ThompsonInput S g x K Y)
-    (H : Hyp4 S g) (hw : S.width = 4) :
+theorem clSub_inf_le (_hchar : IsCharTwoType G) (T : ThompsonInput S g x K Y)
+    (H : Hyp4 S g) (_hw : S.width = 4) :
     S.clSub (Thompson.UCore S x) ⊓
         LinearMap.ker (S.q.polarBilin (S.cl (g * S.z * g⁻¹))) ≤
       S.clSub (S.QG ⊓ S.Qa g) := by

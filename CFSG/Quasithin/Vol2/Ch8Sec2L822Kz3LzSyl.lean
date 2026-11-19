@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 theorem card_eq_of_isSylowTwoOf_kz3 {G : Type} [Group G] [Finite G] {S H : Subgroup G}
     (h : IsSylowTwoOf S H) (hH : Nat.card ↥H = 443520) : Nat.card ↥S = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSH, hS2, hodd⟩ := h
   have hcardS : Nat.card ↥(S.subgroupOf H) = Nat.card ↥S :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSH).toEquiv
@@ -34,7 +34,7 @@ theorem card_inf_autOn_kz3 {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
     (hT : quasithinIsSylowTwo T) (hTL : T ≤ Subgroup.normalizer (L : Set G))
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) (hA : Nat.card ↥(autOn L V) = 443520) :
     Nat.card ↥(autOn T V ⊓ autOn L V) = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf T (L ⊔ T) := isSylowTwoOf_of_quasithinIsSylowTwo hT le_sup_right
   have hLn : (L.subgroupOf (L ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
@@ -97,7 +97,7 @@ theorem exists_order_three_of_center_kz3 {G : Type} [Group G] [Finite G] {L V M 
     (hψ : ∀ l : ↥L, ψ (QuotientGroup.mk l) = res822Act' hLV l)
     (q : ↥L ⧸ CFSG.pCore 2 ↥L) (hq3 : orderOf q = 3) (hqψ : ψ q = 1) :
     ∃ y ∈ M, (∀ v ∈ V, y * v * y⁻¹ = v) ∧ orderOf y = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective q
   have h3 : (QuotientGroup.mk l : ↥L ⧸ CFSG.pCore 2 ↥L) ^ 3 = 1 := by
     rw [← hq3]
@@ -145,14 +145,14 @@ theorem exists_order_three_of_center_kz3 {G : Type} [Group G] [Finite G] {L V M 
 
 theorem injective_of_noThree_kz3 {G : Type} [Group G] [Finite G] {L V M : Subgroup G}
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) (hLM : L ≤ M) (hNT : NoThreeInCV M V)
-    (hQ : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L))
+    (_hQ : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L))
     (ψ : (↥L ⧸ CFSG.pCore 2 ↥L) →* ↥(autOn L V))
     (hψ : ∀ l : ↥L, ψ (QuotientGroup.mk l) = res822Act' hLV l)
     (hker : ψ.ker = Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L))
     (hdvd12 : Nat.card ↥(Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)) ∣ 12) :
     Function.Injective ψ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : CFSG.pCore 2 (↥L ⧸ CFSG.pCore 2 ↥L) = ⊥ := CFSG.Quasithin.B6.pCore_quotient_pCore
   have hodd : ¬ 2 ∣ Nat.card ↥(Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)) :=
     res822_not_two_dvd_card_of_central le_rfl hO

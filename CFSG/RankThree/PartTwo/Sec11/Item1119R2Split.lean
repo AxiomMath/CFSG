@@ -80,14 +80,14 @@ theorem sym1119YAlphaSplit_holds (h45 : Sec4.Item4_5) (h119 : Item119) :
     ⟨hf, -⟩ | ⟨h2, -⟩ | ⟨h3, -⟩ | ⟨-, ⟨e⟩, -⟩
   · exact absurd hf hctx.big.not_field
   · rcases h2 with ⟨q, hq, ⟨e⟩⟩ | ⟨q, hq, ⟨e⟩⟩
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hq⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hq⟩).Group :=
         Finite.of_injective (fun x => e.symm (1, x)) fun x y hxy => by
           simpa using congrArg e hxy
       have hperf := SetUp1118Proof.isPerfect_lie_G2 q hq
       exact key _ hperf
         (KS11Lie3Proof.center_eq_bot_g2 _ ⟨_, inferInstance, ⟨q, hq, ⟨MulEquiv.refl _⟩⟩,
           Item1120V0Bar.nonempty_mulEquiv_commutator_of_isPerfect hperf⟩) e
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hq⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hq⟩).Group :=
         Finite.of_injective (fun x => e.symm (1, x)) fun x y hxy => by
           simpa using congrArg e hxy
       have hperf := SetUp1118Proof.isPerfect_lie_trialityD4 q hq

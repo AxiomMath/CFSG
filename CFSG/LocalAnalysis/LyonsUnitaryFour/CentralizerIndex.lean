@@ -88,9 +88,9 @@ theorem index_centralFixed_eq_pow_four_of_odd {T : Type} [Group T]
   have hF2 : ¬ 2 ∣ Nat.card F := fun h => (Nat.not_even_iff_odd.mpr hK)
     (even_iff_two_dvd.mpr (h.trans (Subgroup.card_subgroup_dvd_card F)))
   obtain ⟨P₀F, hP₀F⟩ := CFSG.LargeEvenClassification.Helpers.coprime_action_invariant_sylow
-    (sylowPrime := p) Nat.prime_two hp S.isPGroup' φF hF2
+    (sylowPrime := p) Nat.prime_two hp S.isPGroup φF hF2
   set P₀ : Subgroup K := (P₀F : Subgroup F).map F.subtype with hP₀
-  have hP₀p : IsPGroup p P₀ := P₀F.isPGroup'.map _
+  have hP₀p : IsPGroup p P₀ := P₀F.isPGroup.map _
   have hP₀F_le : P₀ ≤ F := Subgroup.map_subtype_le _
   let _ : MulDistribMulAction (S : Subgroup G) K := MulDistribMulAction.compHom K φ
   have hsmul : ∀ (g : (S : Subgroup G)) (x : K), g • x = φ g x := fun g x => rfl
@@ -102,11 +102,11 @@ theorem index_centralFixed_eq_pow_four_of_odd {T : Type} [Group T]
       rw [← hP₀F g]; exact ⟨y, hy, rfl⟩
     exact ⟨φF g y, hmem, rfl⟩
   obtain ⟨P, hP₀P, hPinv⟩ := CFSG.SignalizerFunctor.Helpers.invariant_sylow_containing 2 p
-    Nat.prime_two hp S.isPGroup' hcopK P₀ hP₀p hP₀inv
+    Nat.prime_two hp S.isPGroup hcopK P₀ hP₀p hP₀inv
   have hPF : (P : Subgroup K) ⊓ F = P₀ := by
     apply le_antisymm
     · have hX : IsPGroup p (((P : Subgroup K) ⊓ F).subgroupOf F) :=
-        (P.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+        (P.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
       have hle : (P₀F : Subgroup F) ≤ ((P : Subgroup K) ⊓ F).subgroupOf F := by
         intro y hy
         rw [Subgroup.mem_subgroupOf]
@@ -137,7 +137,7 @@ theorem index_centralFixed_eq_pow_four_of_odd {T : Type} [Group T]
     · intro h e he
       exact Subtype.ext (h e he)
   obtain ⟨m, hm, -⟩ := unitary_four_coprime_centralizer_index_fourth_power hT S U hSU hp hp2
-    P.isPGroup' φP
+    P.isPGroup φP
   have hcardP := Subgroup.card_mul_index (centralFixed (S : Subgroup G) φP)
   rw [hm, hfixP, card_subgroupOf_eq_card_inf, inf_comm, hPF, hP₀,
     Subgroup.card_map_of_injective F.subtype_injective, P₀F.card_eq_multiplicity,

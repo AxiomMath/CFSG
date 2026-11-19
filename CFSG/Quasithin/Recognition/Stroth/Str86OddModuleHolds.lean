@@ -21,7 +21,7 @@ theorem str86OddModuleOf_holds :
   intro G _ _ L1 L2 S k m F _ _ hF hSB hk hFc hU3 hB2 hL2 hkm hZI hZQ hab
   classical
   have hm : 2 ≤ m := by omega
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   obtain ⟨D, hDS, hDQ, hD⟩ :=
     str86_exists_displacement hF hSB hk hFc hU3 hB2 hL2 hkm hZI hZQ hab
   have hc1 := str86_chief_count_one hF hSB hk hFc hU3 hB2 hL2 hkm hZI hDS hDQ hD

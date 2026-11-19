@@ -55,7 +55,7 @@ lemma fzr_a_stepA (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x)
     ∀ p ∈ P, ∃ h : G,
       (h = 1 ∨ h = a ∨ h = b ∨ h = a * b) ∧ ∃ c ∈ P, p = h * c ^ 2 := by
   classical
-  haveI : IsMulCommutative ↥P := IsMulCommutative.of_comm fun x y =>
+  have : IsMulCommutative ↥P := IsMulCommutative.of_comm fun x y =>
     Subtype.ext (hcomm x.1 x.2 y.1 y.2)
   let H : Subgroup ↥P := E.subgroupOf P
   have hrel : E.relIndex P = 4 := by
@@ -113,8 +113,8 @@ lemma fzr_a_stepA (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x)
               rw [← mul_assoc, hcomm b⁻¹ (P.inv_mem hbP) a haP, mul_assoc]
         _ = a := by group
     exact haE (hz_eq ▸ hzE)
-  haveI : Finite (↥P ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcardQ]; norm_num)
-  haveI : Fintype (↥P ⧸ H) := Fintype.ofFinite _
+  have : Finite (↥P ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcardQ]; norm_num)
+  have : Fintype (↥P ⧸ H) := Fintype.ofFinite _
   have hcardF : Fintype.card (↥P ⧸ H) = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcardQ
@@ -221,8 +221,8 @@ lemma fzr_a_inj_of_span (hpf : FzPFacts t tau rho E W Q T P) {a b : G}
     (hspan : ∀ p ∈ P, ∃ n, n < 64 ∧ fzrAElt a b n = p) :
     ∀ n m, n < 64 → m < 64 → fzrAElt a b n = fzrAElt a b m → n = m := by
   have hcard : Nat.card ↥P = 64 := hpf.card_P
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype ↥P := Fintype.ofFinite _
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype ↥P := Fintype.ofFinite _
   have hcardF : Fintype.card (Fin 64) = Fintype.card ↥P := by
     rw [Fintype.card_fin, ← Nat.card_eq_fintype_card, hcard]
   have he : Fin 64 ≃ ↥P := (Fintype.card_eq.mp hcardF).some

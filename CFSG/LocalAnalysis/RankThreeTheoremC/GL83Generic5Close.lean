@@ -25,7 +25,7 @@ theorem gen5_close (hG : Gen5Global G) (hl : Gen5Local G p P M x)
   set O := rankThreePrimeCore p N
   set U := gen5U (P : Subgroup G) x
   have hUL : U ≤ gen5L x := inf_le_right
-  have hUp : IsPGroup p U := P.isPGroup'.to_le inf_le_left
+  have hUp : IsPGroup p U := P.isPGroup.to_le inf_le_left
   obtain ⟨n, hn⟩ := hW2.exists_card_eq
   have hWcop : Nat.Coprime p (Nat.card W) := hn ▸ Nat.Coprime.pow_right n
     ((Nat.coprime_primes hp Nat.prime_two).mpr (by have := gen5_five_le hG hl; omega))

@@ -95,7 +95,7 @@ theorem false_of_isPComponent_statedSp {X : Type} [Group X] [Finite X] {k : Type
       exact ⟨.PSp, r, (Φ.trans eProj.symm).isSimpleGroup,
         Or.inl ⟨by decide, hadm, k, inferInstance, inferInstance, hk, ⟨Φ.trans eProj.symm⟩⟩,
         by decide⟩
-  haveI := hX
+  have := hX
   exact false_of_isPComponent_of_simple ht hm hP hG
 
 theorem false_of_spFixedRankOrNoPComponent {X : Type} [Group X] [Finite X] {g : ℕ}
@@ -125,7 +125,7 @@ theorem g2EvenOuterFamily_PSp : G2EvenOuterFamily .PSp := by
   rcases SeitzReduction.SymplecticPilot.psp_outer_fixed_sp2m hadm hmK α hα hout with
     ⟨k, _, _, hk, -, ⟨Φ⟩⟩ | ⟨hS, -, hLie⟩
   · exact (false_of_isPComponent_statedSp hk (by have := hadm.2.2.1; omega) Φ hP hG).elim
-  · haveI := hS
+  · have := hS
     exact (false_of_isPComponent_of_simple (by decide) hLie hP hG).elim
 
 theorem g2EvenOuterFamily_POmega {τ : StatedLieTag} (hτ : τ = .POmegaPlus ∨ τ = .POmegaMinus) :

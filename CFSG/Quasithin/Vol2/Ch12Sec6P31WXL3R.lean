@@ -20,7 +20,7 @@ theorem l3r_inv_isUpper (A : GL (Fin 3) K)
     ((A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).IsUpperTriangular := by
   have h : (A : Matrix (Fin 3) (Fin 3) K) *
       ((A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 := Units.mul_inv A
-  haveI : Invertible (A : Matrix (Fin 3) (Fin 3) K) :=
+  have : Invertible (A : Matrix (Fin 3) (Fin 3) K) :=
     ⟨((A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K), Units.inv_mul A, Units.mul_inv A⟩
   rw [← Matrix.inv_eq_right_inv h]
   exact Matrix.blockTriangular_inv_of_blockTriangular hA
@@ -108,7 +108,7 @@ variable {K : Type} [Field K]
 
 theorem l3r_odd_of_pow_eq_one {j : ℕ} {w : K} (h3 : w ^ 3 = 1) (hw : w ≠ 1)
     (hpow : w ^ (2 ^ j) * w = 1) : Odd j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : w ^ (2 ^ j + 1) = 1 := by rw [pow_succ, hpow]
   have h2 : orderOf w = 3 := orderOf_eq_prime h3 hw
   have h4 : 3 ∣ 2 ^ j + 1 := by
@@ -203,7 +203,7 @@ theorem l3r_D_pow {a : Kˣ} {p : ℕ} (ha : orderOf a = p) : (l3r_D a) ^ p = 1 :
     Matrix.SpecialLinearGroup.coe_one, ← Matrix.diagonal_one]
   congr 1
   funext i
-  fin_cases i <;> simp [h0, h1]
+  fin_cases i <;> simp [h0]
 
 theorem l3r_D_mem_upper (a : Kˣ) : l3r_D a ∈ upperTriangular 3 K := by
   rw [mem_upperTriangular_iff_isUpperTriangular, l3r_D_coe]
@@ -537,7 +537,7 @@ theorem l3_rclaim_S {K : Type} [Field K] [Finite K] [CharP K 2]
     intro g
     rw [← LinearFlag.descendAut_proj 3 K α g,
       ← LinearFlag.descendAut_proj 3 K (l3r_lift A σ η) g, hbar']
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) K) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) K) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (K := K) (n := 3) le_rfl
   have hEq : α.toMonoidHom = (l3r_lift A σ η).toMonoidHom := by
     apply bt_eq_of_inv_mul_mem_center

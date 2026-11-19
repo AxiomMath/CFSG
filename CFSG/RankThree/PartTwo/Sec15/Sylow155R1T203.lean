@@ -187,7 +187,7 @@ theorem exists_faithful_e9 {M L : Subgroup G} (hLM : L ≤ M)
     exact Subtype.ext (by simpa using hEe _ (eR a).2))
   set N : Subgroup ↥L := (aschbacherSolvableCore 3 ↥M).comap (Subgroup.inclusion hLM) with hN
   have hNn : N.Normal := by
-    haveI : (aschbacherSolvableCore 3 ↥M).Characteristic := hθMchar
+    have : (aschbacherSolvableCore 3 ↥M).Characteristic := hθMchar
     exact Subgroup.Normal.comap inferInstance _
   have hinj : Function.Injective
       ((Subgroup.inclusion hLM).subgroupComap (aschbacherSolvableCore 3 ↥M)) := by
@@ -196,7 +196,7 @@ theorem exists_faithful_e9 {M L : Subgroup G} (hLM : L ≤ M)
       congrArg Subtype.val hab
     exact Subtype.ext (Subgroup.inclusion_injective hLM h1)
   have hNsol : Group.IsSolvable N := by
-    haveI := hθMsol
+    have := hθMsol
     exact Group.isSolvable_of_isSolvable_injective hinj
   have hN3 : ¬ 3 ∣ Nat.card N := fun h3 =>
     hθM3 (h3.trans (Subgroup.card_dvd_of_injective _ hinj))
@@ -297,7 +297,7 @@ theorem center_eq_bot_and_e9_of_m22
       (Subgroup.center CFSG.Blueprint.NativeSporadic.M22) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative CFSG.Blueprint.NativeSporadic.M22 :=
+    have : IsMulCommutative CFSG.Blueprint.NativeSporadic.M22 :=
       ⟨⟨fun a b => (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b : b ∈ _) a)⟩⟩
     have hp := Group.is_simple_iff_prime_card.mp hs
     rw [CFSG.Sporadic.Mathieu.card_M22] at hp

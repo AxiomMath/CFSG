@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Quasithin.H.Om4
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem s16c11_case5_conj_congr_comp (m : MulAut (VM K)) :
     (MulAut.conj m⁻¹).toMonoidHom.comp (MulAut.congr m).toMonoidHom =
       MonoidHom.id (MulAut (VM K)) := by
@@ -21,6 +22,7 @@ private theorem s16c11_case5_conj_congr_comp (m : MulAut (VM K)) :
   rw [CFSG.Quasithin.H13.S127.Mod.congr_eq, MulAut.conj_apply, inv_inv]
   group
 
+omit [Finite K] in
 private theorem s16c11_case5_map_conj_map_congr (m : MulAut (VM K))
     (A : Subgroup (MulAut (VM K))) :
     (A.map (MulAut.congr m).toMonoidHom).map (MulAut.conj m⁻¹).toMonoidHom = A := by
@@ -31,14 +33,14 @@ theorem s16c11_case5_torus {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     (hSN : S ≤ Subgroup.normalizer ((rho (K := K)).range : Set (MulAut (VM K))) ⊓
       Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))))
     (hS2 : IsPGroup 2 ↥S)
-    (hSodd : ¬ 2 ∣ S.relIndex (Subgroup.normalizer ((rho (K := K)).range :
+    (_hSodd : ¬ 2 ∣ S.relIndex (Subgroup.normalizer ((rho (K := K)).range :
       Set (MulAut (VM K))) ⊓ Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))))) :
     ∃ D : Subgroup (MulAut (VM K)), D ≤ (rho (K := K)).range ∧ Nat.card ↥D = 3 ∧
       D ⊓ s16c11C5Scal K = ⊥ ∧
       ∀ A ∈ E3.aSet 2 S, D ≤ Subgroup.normalizer (A : Set (MulAut (VM K))) := by
   classical
-  haveI : Finite (MulAut (VM K)) := inferInstance
-  haveI : CharP K 2 := s16c11_case5_charP hK
+  have : Finite (MulAut (VM K)) := inferInstance
+  have : CharP K 2 := s16c11_case5_charP hK
   have hSN' : S ≤ s16c11_case5_N1 (K := K) := by
     unfold s16c11_case5_N1 s16c11_case5_Omega
     exact hSN

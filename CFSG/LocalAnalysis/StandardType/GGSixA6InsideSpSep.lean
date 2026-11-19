@@ -20,6 +20,7 @@ namespace A6InsideSp
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {L : Type} [Field L] [Algebra K L]
   {ζ : L} {E : Subgroup (StatedSp n K)} (F : ChoiceTwo.SpFrame K n ζ E)
 
+omit [Finite K] [CharP K 2] in
 private theorem frame_form (d d' : Fin F.s → L) :
     (CFSG.LieType.BorelTits.spForm n K).β (F.Φ d) (F.Φ d') =
       ∑ i, F.β (d i) (d' i) := by
@@ -47,6 +48,7 @@ private theorem torE_unit_eq_zero (hζo : IsPrimitiveRoot ζ 3) (a : ℕ)
     rw [h4]
     linear_combination h
 
+omit [Finite K] in
 private theorem tor_proj (hζo : IsPrimitiveRoot ζ 3) (f : Fin F.s → ZMod 3) (d : Fin F.s → L) :
     spEnd (F.tor f) (spEnd (F.tor f) (F.Φ d)) + spEnd (F.tor f) (F.Φ d) + F.Φ d =
       F.Φ (fun i => if f i = 0 then d i else 0) := by
@@ -55,7 +57,7 @@ private theorem tor_proj (hζo : IsPrimitiveRoot ζ 3) (f : Fin F.s → ZMod 3) 
   funext i
   simp only [Pi.add_apply, ChoiceTwo.torE_apply]
   by_cases h : f i = 0
-  · rw [if_pos h, h, ZMod.val_zero, pow_zero, one_mul, one_mul,
+  · rw [ite_eq_left h, h, ZMod.val_zero, pow_zero, one_mul, one_mul,
       ChoiceTwo.add_self_eq_zero_of_charTwo (K := K) (w := d i), zero_add]
   · have ha0 : (f i).val ≠ 0 := fun h0 => h ((ZMod.val_eq_zero (f i)).mp h0)
     have ha3 : (f i).val < 3 := ZMod.val_lt (f i)
@@ -65,8 +67,9 @@ private theorem tor_proj (hζo : IsPrimitiveRoot ζ 3) (f : Fin F.s → ZMod 3) 
         (ζ ^ ((f i).val + (f i).val) + ζ ^ (f i).val + 1) * d i := by
       rw [pow_add]
       ring
-    rw [if_neg h, e, hfac, zero_mul]
+    rw [ite_eq_right h, e, hfac, zero_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem sum_single_left (j : Fin F.s) (x : L) (d' : Fin F.s → L) :
     (∑ i : Fin F.s, F.β ((Pi.single j x : Fin F.s → L) i) (d' i)) = F.β x (d' j) := by
   rw [Finset.sum_eq_single j]
@@ -76,12 +79,14 @@ private theorem sum_single_left (j : Fin F.s) (x : L) (d' : Fin F.s → L) :
   · intro h
     exact absurd (Finset.mem_univ j) h
 
+omit [Finite K] [CharP K 2] in
 private theorem sum_single_single (j : Fin F.s) (x y : L) :
     (∑ i : Fin F.s, F.β ((Pi.single j x : Fin F.s → L) i)
       ((Pi.single j y : Fin F.s → L) i)) = F.β x y := by
   rw [sum_single_left F j x (Pi.single j y : Fin F.s → L)]
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem endo_add_apply (g : StatedSp n K) (w : Fin n ⊕ Fin n → K) :
     (natRep (StatedSp n K) g * natRep (StatedSp n K) g
       + natRep (StatedSp n K) g + 1) w =
@@ -90,6 +95,7 @@ private theorem endo_add_apply (g : StatedSp n K) (w : Fin n ⊕ Fin n → K) :
   change (spEnd g * spEnd g + spEnd g + 1) w = spEnd g (spEnd g w) + spEnd g w + w
   rw [LinearMap.add_apply, LinearMap.add_apply, Module.End.mul_apply, Module.End.one_apply]
 
+omit [Finite K] in
 private theorem tor_proj_natRep (hζo : IsPrimitiveRoot ζ 3) (f : Fin F.s → ZMod 3)
     (d : Fin F.s → L) :
     (natRep (StatedSp n K) (F.tor f) * natRep (StatedSp n K) (F.tor f)
@@ -149,15 +155,15 @@ theorem eq_bot_of_separating [Module.Finite K L] (hK : Nat.card K = 2)
       if h : i = j then 0 else Classical.choose (hsep j i (Ne.symm h))
     have hff_mem : ∀ i (hi : i ≠ j), F.tor (ff i) ∈ B := by
       intro i hi
-      simp only [ff, dif_neg hi]
+      simp only [ff, dite_eq_right hi]
       exact (Classical.choose_spec (hsep j i (Ne.symm hi))).1
     have hff_j : ∀ i (hi : i ≠ j), ff i j = 0 := by
       intro i hi
-      simp only [ff, dif_neg hi]
+      simp only [ff, dite_eq_right hi]
       exact (Classical.choose_spec (hsep j i (Ne.symm hi))).2.1
     have hff_i : ∀ i (hi : i ≠ j), ff i i ≠ 0 := by
       intro i hi
-      simp only [ff, dif_neg hi]
+      simp only [ff, dite_eq_right hi]
       exact (Classical.choose_spec (hsep j i (Ne.symm hi))).2.2
     have hcomp : ∀ s : Finset (Fin F.s), (∀ i ∈ s, i ≠ j) →
         F.Φ (fun l => if ∀ i ∈ s, ff i l = 0 then d l else 0) ∈ R := by
@@ -192,11 +198,11 @@ theorem eq_bot_of_separating [Module.Finite K L] (hK : Nat.card K = 2)
         funext l
         by_cases hlj : l = j
         · subst hlj
-          rw [if_pos]
+          rw [ite_eq_left]
           · simp
           · intro i hi
             exact hff_j i (Finset.ne_of_mem_erase hi)
-        · rw [if_neg, Pi.single_eq_of_ne hlj]
+        · rw [ite_eq_right, Pi.single_eq_of_ne hlj]
           · intro hc
             exact hff_i l hlj (hc l (Finset.mem_erase.mpr ⟨hlj, Finset.mem_univ l⟩))
       rwa [hfun] at h

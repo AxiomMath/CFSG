@@ -57,10 +57,10 @@ theorem ggQ2s08_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) 
   have hZbS' : Zb ≤ S' := fun z hz => hZS hz
   let Z' : Subgroup ↥S' := Zb.subgroupOf S'
   have hcomm : ∀ a b : ↥Bs, a * b = b * a := fun a b => hBs.1.is_comm.comm a b
-  letI : CommGroup ↥Bs := { mul_comm := hcomm }
-  letI : CommGroup ↥S' :=
+  let : CommGroup ↥Bs := { mul_comm := hcomm }
+  let : CommGroup ↥S' :=
     { mul_comm := fun a b => Subtype.ext (hcomm (a : ↥Bs) (b : ↥Bs)) }
-  haveI : Z'.Normal := Subgroup.normal_of_comm Z'
+  have : Z'.Normal := Subgroup.normal_of_isMulCommutative Z'
   have hSshift : ∀ t ∈ A, ∀ b : ↥Bs, b⁻¹ * t b ∈ S' := by
     intro t ht b
     rw [Subgroup.mem_subgroupOf]
@@ -195,7 +195,7 @@ theorem ggQ2s08_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) 
     have hQpg : IsPGroup 3 (↥S' ⧸ Z') := by
       intro x
       exact ⟨1, by rw [pow_one]; exact hQexp x⟩
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq hQpg
     have hQcard : Nat.card ↥S' = Nat.card (↥S' ⧸ Z') * Nat.card ↥Z' :=
       Subgroup.card_eq_card_quotient_mul_card_subgroup Z'
@@ -219,7 +219,7 @@ theorem ggQ2s08_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) 
     have hn01 : n = 0 ∨ n = 1 := by omega
     rcases hn01 with rfl | rfl
     · have h1 : Nat.card (↥S' ⧸ Z') = 1 := by rw [hn, pow_zero]
-      haveI : Subsingleton (↥S' ⧸ Z') := (Nat.card_eq_one_iff_unique.mp h1).1
+      have : Subsingleton (↥S' ⧸ Z') := (Nat.card_eq_one_iff_unique.mp h1).1
       have hsub : Subsingleton (MulAut (↥S' ⧸ Z')) :=
         ⟨fun a b => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
       have hcard1 : Nat.card (MulAut (↥S' ⧸ Z')) = 1 :=
@@ -227,10 +227,10 @@ theorem ggQ2s08_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) 
       rw [hcard1]
       exact one_dvd 2
     · have h3 : Nat.card (↥S' ⧸ Z') = 3 := by rw [hn, pow_one]
-      haveI : IsCyclic (↥S' ⧸ Z') := isCyclic_of_prime_card (p := 3) h3
+      have : IsCyclic (↥S' ⧸ Z') := isCyclic_of_prime_card (p := 3) h3
       have hcard2 : Nat.card (MulAut (↥S' ⧸ Z')) = 2 := by
         rw [IsCyclic.card_mulAut, h3, Nat.totient_prime (by norm_num)]
-      simpa [hcard2] using (dvd_rfl : 2 ∣ 2)
+      simp [hcard2]
   have hK3 : IsPGroup 3 (MonoidHom.ker ρ) := by
     intro t
     refine ⟨1, ?_⟩
@@ -246,7 +246,7 @@ theorem ggQ2s08_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) 
   have h4' : 4 ∣ Nat.card (MonoidHom.ker ρ) * Nat.card (MonoidHom.range ρ) := by
     rw [← hcard]; exact hA4
   have hKcop : Nat.Coprime 2 (Nat.card (MonoidHom.ker ρ)) := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq hK3
     rw [hn]
     exact (show Nat.Coprime 2 3 by norm_num).pow_right n

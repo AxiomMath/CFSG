@@ -39,9 +39,9 @@ theorem ggDetAut_coord {p k : ℕ} (hP : p.Prime) {H : Type} [Group H]
     (hM : ∀ f : Fin k → ZMod p,
       Multiplicative.toAdd (e0 (s (e0.symm (Multiplicative.ofAdd f)))) = M.mulVec f) :
     ((ggDetAut p hP hc hp s : (ZMod p)ˣ) : ZMod p) = M.det := by
-  haveI : Fact p.Prime := ⟨hP⟩
-  letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hc }
-  letI : Module (ZMod p) (Additive H) := AddCommGroup.zmodModule (n := p) fun a => by
+  have : Fact p.Prime := ⟨hP⟩
+  let : CommGroup H := { (inferInstance : Group H) with mul_comm := hc }
+  let : Module (ZMod p) (Additive H) := AddCommGroup.zmodModule (n := p) fun a => by
     have h : (Additive.toMul a) ^ p = 1 := hp _
     rw [← ofMul_toMul a, ← ofMul_pow, h, ofMul_one]
   exact ggDetLin_coord s e0 M hM

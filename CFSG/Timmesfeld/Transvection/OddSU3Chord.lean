@@ -63,6 +63,7 @@ end Defs
 
 variable {σ : F ≃+* F}
 
+omit [Finite F] [CharP F 2] in
 theorem mat_su3Chord (A : SU σ 2) : mat σ 3 (su3Chord σ A) =
     !![mat σ 2 A 0 0, 0, mat σ 2 A 0 1; 0, 1, 0; mat σ 2 A 1 0, 0, mat σ 2 A 1 1] := by
   have hmat : mat σ 3 (su3Chord σ A) = extendMat su3ChordIdx_injective (mat σ 2 A) :=
@@ -80,16 +81,16 @@ theorem mat_su3Chord (A : SU σ 2) : mat σ 3 (su3Chord σ A) =
     extendMat_apply_map su3ChordIdx_injective (mat σ 2 A) 1 1
   have h01 : extendMat su3ChordIdx_injective (mat σ 2 A) 0 1 = 0 := by
     rw [extendMat_apply_of_not_mem su3ChordIdx_injective _ (Or.inr hne1), Matrix.one_apply]
-    exact if_neg (by decide)
+    exact ite_eq_right (by decide)
   have h10 : extendMat su3ChordIdx_injective (mat σ 2 A) 1 0 = 0 := by
     rw [extendMat_apply_of_not_mem su3ChordIdx_injective _ (Or.inl hne1), Matrix.one_apply]
-    exact if_neg (by decide)
+    exact ite_eq_right (by decide)
   have h12 : extendMat su3ChordIdx_injective (mat σ 2 A) 1 2 = 0 := by
     rw [extendMat_apply_of_not_mem su3ChordIdx_injective _ (Or.inl hne1), Matrix.one_apply]
-    exact if_neg (by decide)
+    exact ite_eq_right (by decide)
   have h21 : extendMat su3ChordIdx_injective (mat σ 2 A) 2 1 = 0 := by
     rw [extendMat_apply_of_not_mem su3ChordIdx_injective _ (Or.inr hne1), Matrix.one_apply]
-    exact if_neg (by decide)
+    exact ite_eq_right (by decide)
   have h11 : extendMat su3ChordIdx_injective (mat σ 2 A) 1 1 = 1 := by
     rw [extendMat_apply_of_not_mem su3ChordIdx_injective _ (Or.inl hne1)]
     simp
@@ -101,6 +102,7 @@ theorem mat_su3Chord (A : SU σ 2) : mat σ 3 (su3Chord σ A) =
       | exact h10 | exact h11 | exact h12
       | exact h20 | exact h21 | exact h22
 
+omit [Finite F] [CharP F 2] in
 theorem su3Chord_suLong_inl (c : F) :
     su3Chord σ (suLong σ (Sum.inl (0 : Fin (2 / 2))) c) =
       suLong σ (Sum.inl (0 : Fin (3 / 2))) c := by
@@ -110,6 +112,7 @@ theorem su3Chord_suLong_inl (c : F) :
       (hr := su3ChordIdx_rev) _ _
   · simp
 
+omit [Finite F] [CharP F 2] in
 theorem su3Chord_suLong_inr (c : F) :
     su3Chord σ (suLong σ (Sum.inr (0 : Fin (2 / 2))) c) =
       suLong σ (Sum.inr (0 : Fin (3 / 2))) c := by
@@ -119,58 +122,63 @@ theorem su3Chord_suLong_inr (c : F) :
       (hr := su3ChordIdx_rev) _ _
   · simp
 
+omit [Finite F] in
 theorem mem_su2Top_iff {x : SU σ 2} :
     x ∈ su2Top σ ↔ ∃ c : F, σ c = c ∧ suLong σ (Sum.inl (0 : Fin (2 / 2))) c = x := by
   constructor
   · rintro ⟨c, rfl⟩
     refine ⟨(c.toAdd : F), (CharTwo.add_eq_zero.1 c.toAdd.2).symm, ?_⟩
-    rw [suLong, dif_pos ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
+    rw [suLong, dite_eq_left ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
     rfl
   · rintro ⟨c, hc, rfl⟩
     have hz : c + σ c = 0 := CharTwo.add_eq_zero.2 hc.symm
     refine ⟨Multiplicative.ofAdd ⟨c, (mem_traceZero (σ := σ)).2 hz⟩, ?_⟩
-    rw [suLong, dif_pos hz]
+    rw [suLong, dite_eq_left hz]
     rfl
 
+omit [Finite F] in
 theorem mem_su2Bot_iff {x : SU σ 2} :
     x ∈ su2Bot σ ↔ ∃ c : F, σ c = c ∧ suLong σ (Sum.inr (0 : Fin (2 / 2))) c = x := by
   constructor
   · rintro ⟨c, rfl⟩
     refine ⟨(c.toAdd : F), (CharTwo.add_eq_zero.1 c.toAdd.2).symm, ?_⟩
-    rw [suLong, dif_pos ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
+    rw [suLong, dite_eq_left ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
     rfl
   · rintro ⟨c, hc, rfl⟩
     have hz : c + σ c = 0 := CharTwo.add_eq_zero.2 hc.symm
     refine ⟨Multiplicative.ofAdd ⟨c, (mem_traceZero (σ := σ)).2 hz⟩, ?_⟩
-    rw [suLong, dif_pos hz]
+    rw [suLong, dite_eq_left hz]
     rfl
 
+omit [Finite F] in
 theorem mem_su3Top_iff {x : SU σ 3} :
     x ∈ su3Top σ ↔ ∃ c : F, σ c = c ∧ suLong σ (Sum.inl (0 : Fin (3 / 2))) c = x := by
   constructor
   · rintro ⟨c, rfl⟩
     refine ⟨(c.toAdd : F), (CharTwo.add_eq_zero.1 c.toAdd.2).symm, ?_⟩
-    rw [suLong, dif_pos ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
+    rw [suLong, dite_eq_left ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
     rfl
   · rintro ⟨c, hc, rfl⟩
     have hz : c + σ c = 0 := CharTwo.add_eq_zero.2 hc.symm
     refine ⟨Multiplicative.ofAdd ⟨c, (mem_traceZero (σ := σ)).2 hz⟩, ?_⟩
-    rw [suLong, dif_pos hz]
+    rw [suLong, dite_eq_left hz]
     rfl
 
+omit [Finite F] in
 theorem mem_su3Bot_iff {x : SU σ 3} :
     x ∈ su3Bot σ ↔ ∃ c : F, σ c = c ∧ suLong σ (Sum.inr (0 : Fin (3 / 2))) c = x := by
   constructor
   · rintro ⟨c, rfl⟩
     refine ⟨(c.toAdd : F), (CharTwo.add_eq_zero.1 c.toAdd.2).symm, ?_⟩
-    rw [suLong, dif_pos ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
+    rw [suLong, dite_eq_left ((mem_traceZero (σ := σ)).1 c.toAdd.2)]
     rfl
   · rintro ⟨c, hc, rfl⟩
     have hz : c + σ c = 0 := CharTwo.add_eq_zero.2 hc.symm
     refine ⟨Multiplicative.ofAdd ⟨c, (mem_traceZero (σ := σ)).2 hz⟩, ?_⟩
-    rw [suLong, dif_pos hz]
+    rw [suLong, dite_eq_left hz]
     rfl
 
+omit [Finite F] in
 theorem mem_su3Top_iff_Y {x : SU σ 3} :
     x ∈ su3Top σ ↔ ∃ β, ∃ hβ : σ β = β, x = UC22.uc22pwsu3Y β hβ := by
   constructor
@@ -184,11 +192,13 @@ theorem mem_su3Top_iff_Y {x : SU σ 3} :
     unfold UC22.uc22pwsu3Y
     rfl
 
+omit [Finite F] in
 theorem su3Top_le_X (hσ : ∀ c, σ (σ c) = c) : su3Top σ ≤ UC22.uc22pwsu3X hσ := by
   intro x hx
   obtain ⟨β, hβ, rfl⟩ := (mem_su3Top_iff_Y (σ := σ)).1 hx
   exact UC22.uc22pwsu3Y_mem hσ β hβ
 
+omit [Finite F] in
 theorem map_su2Top_su3Chord : (su2Top σ).map (su3Chord σ) = su3Top σ := by
   refine le_antisymm ?_ ?_
   · rintro - ⟨x, hx, rfl⟩
@@ -199,6 +209,7 @@ theorem map_su2Top_su3Chord : (su2Top σ).map (su3Chord σ) = su3Top σ := by
     exact ⟨suLong σ (Sum.inl 0) c, (mem_su2Top_iff (σ := σ)).2 ⟨c, hc, rfl⟩,
       su3Chord_suLong_inl c⟩
 
+omit [Finite F] in
 theorem map_su2Bot_su3Chord : (su2Bot σ).map (su3Chord σ) = su3Bot σ := by
   refine le_antisymm ?_ ?_
   · rintro - ⟨x, hx, rfl⟩
@@ -209,6 +220,7 @@ theorem map_su2Bot_su3Chord : (su2Bot σ).map (su3Chord σ) = su3Bot σ := by
     exact ⟨suLong σ (Sum.inr 0) c, (mem_su2Bot_iff (σ := σ)).2 ⟨c, hc, rfl⟩,
       su3Chord_suLong_inr c⟩
 
+omit [Finite F] in
 theorem conjSub_su3Top_of_mem_X (hσ : ∀ c, σ (σ c) = c) {u : SU σ 3}
     (hu : u ∈ UC22.uc22pwsu3X hσ) : conjSub (su3Top σ) u = su3Top σ := by
   have key : ∀ v ∈ UC22.uc22pwsu3X hσ, ∀ x ∈ su3Top σ, v * x * v⁻¹ ∈ su3Top σ := by
@@ -223,6 +235,7 @@ theorem conjSub_su3Top_of_mem_X (hσ : ∀ c, σ (σ c) = c) {u : SU σ 3}
     have hk := key u⁻¹ (Subgroup.inv_mem _ hu) (u * x * u⁻¹) hx
     rwa [show u⁻¹ * (u * x * u⁻¹) * u⁻¹⁻¹ = x from by group] at hk⟩
 
+omit [Finite F] in
 theorem conjSub_su3Top_of_mem_H (hσ : ∀ c, σ (σ c) = c) {h : SU σ 3}
     (hh : h ∈ UC22.uc22pwsu3H σ) : conjSub (su3Top σ) h = su3Top σ := by
   have key : ∀ v ∈ UC22.uc22pwsu3H σ, ∀ x ∈ su3Top σ, v * x * v⁻¹ ∈ su3Top σ := by
@@ -250,6 +263,7 @@ theorem conjSub_su3Top_of_mem_H (hσ : ∀ c, σ (σ c) = c) {h : SU σ 3}
     have hk := key h⁻¹ (Subgroup.inv_mem _ hh) (h * x * h⁻¹) hx
     rwa [show h⁻¹ * (h * x * h⁻¹) * h⁻¹⁻¹ = x from by group] at hk⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem mat_suLong_three (a : Fin (3 / 2) ⊕ Fin (3 / 2)) {c : F}
     (hc : c + σ c = 0) : mat σ 3 (suLong (m := 3) σ a c) = longRootMatrix (crd a) c := by
   rw [mat_suLong (m := 3) (a := a) hc, crd_swap]
@@ -257,7 +271,7 @@ private theorem mat_suLong_three (a : Fin (3 / 2) ⊕ Fin (3 / 2)) {c : F}
 
 private theorem levelPerm_zero_three :
     levelPerm (0 : Fin (3 / 2)) = Equiv.swap (0 : Fin 3) 2 := by
-  rw [levelPerm, dif_neg (by decide)]
+  rw [levelPerm, dite_eq_right (by decide)]
   rfl
 
 private theorem levelPerm_zero_three_crd_inl :
@@ -272,6 +286,7 @@ private theorem levelPerm_zero_three_crd_inr :
   rw [levelPerm_zero_three]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_W_suLong_inl (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero σ}
     (hζ : (ζ : F) ≠ 0) {c : F} (hc : c + σ c = 0) :
     UC22.uc22pwsu3W hσ ζ * suLong (m := 3) σ (Sum.inl 0) c =
@@ -292,6 +307,7 @@ private theorem conj_W_suLong_inl (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero �
       (crd (Sum.inl (0 : Fin (3 / 2)))) c, levelPerm_zero_three_crd_inl]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_W_suLong_inr (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero σ}
     (hζ : (ζ : F) ≠ 0) {c : F} (hc : c + σ c = 0) :
     UC22.uc22pwsu3W hσ ζ * suLong (m := 3) σ (Sum.inr 0) c =
@@ -312,6 +328,7 @@ private theorem conj_W_suLong_inr (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero �
       (crd (Sum.inr (0 : Fin (3 / 2)))) c, levelPerm_zero_three_crd_inr]
   rfl
 
+omit [Finite F] in
 theorem conjSub_su3Top_W (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero σ} (hζ : (ζ : F) ≠ 0) :
     conjSub (su3Top σ) (UC22.uc22pwsu3W hσ ζ) = su3Bot σ := by
   have hw2 : UC22.uc22pwsu3W hσ ζ * UC22.uc22pwsu3W hσ ζ = 1 := by

@@ -17,9 +17,9 @@ theorem ffCentCyclic_of_kE9 (hK : FFKE9) : FFCentCyclic := by
   unfold FFCentCyclicSylow
   generalize hC : Subgroup.centralizer (X : Set G) = C
   intro P
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcyc
-  haveI : Fact (IsPGroup 3 ↥(P : Subgroup ↥C)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(P : Subgroup ↥C)) := ⟨P.isPGroup⟩
   obtain ⟨S, -, hS9, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hcyc
   have hSab : IsElemAbelian 3 S :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr hSel

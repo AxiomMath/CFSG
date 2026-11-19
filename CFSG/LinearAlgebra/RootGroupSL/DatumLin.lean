@@ -79,7 +79,7 @@ theorem exists_datumLin [Module.Finite k V] (ι : E →ₗ[k] V) (π : V →ₗ[
       map_add' := fun u v => by
         ext <;> simp only [Prod.fst_add, Prod.snd_add, map_add]
       map_smul' := fun c v => by
-        ext <;> simp [smul_add]
+        ext <;> simp
       left_inv := fun v => by
         change ι (p v) + ((g v : ↥S) : V) + s (π v) = v
         have hg : ((g v : ↥S) : V) = v - ι (p v) - s (π v) := by

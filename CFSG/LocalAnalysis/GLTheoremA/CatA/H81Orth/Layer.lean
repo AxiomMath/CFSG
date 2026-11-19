@@ -52,6 +52,7 @@ variable (hx : OddOrderIsometry Q p x) (hy : OddOrderIsometry Q p y) (hxy : x * 
   (hyR : ∀ v, y (x v - v) = x v - v)
 include hx hy hxy hyR
 
+omit [FiniteDimensional K V] hyR in
 theorem oddOrderIsometry_mul : OddOrderIsometry Q p (x * y) where
   mem := Subgroup.mul_mem _ hx.mem hy.mem
   pow_eq_one := by rw [(Commute.mul_pow hxy p), hx.pow_eq_one, hy.pow_eq_one, one_mul]
@@ -59,6 +60,7 @@ theorem oddOrderIsometry_mul : OddOrderIsometry Q p (x * y) where
   regular := hx.regular
 
 omit hy in
+omit hxy in
 theorem apply_eq_of_mem_othersSpace {r : V} (hr : r ∈ othersSpace x.toLinearMap (X - 1)) :
     y r = r := by
   obtain ⟨s, -, rfl⟩ := exists_mem_othersSpace_sub_eq hx hr
@@ -68,17 +70,18 @@ theorem othersSpace_le_othersSpace_mul :
     othersSpace x.toLinearMap (X - 1) ≤ othersSpace (x * y).toLinearMap (X - 1) := by
   intro r hr
   obtain ⟨s, hs, rfl⟩ := exists_mem_othersSpace_sub_eq hx hr
-  have hys : y s = s := apply_eq_of_mem_othersSpace hx hxy hyR hs
-  have := sub_mem_othersSpace (oddOrderIsometry_mul hx hy hxy hyR) s
+  have hys : y s = s := apply_eq_of_mem_othersSpace hx hyR hs
+  have := sub_mem_othersSpace (oddOrderIsometry_mul hx hy hxy) s
   rwa [LinearEquiv.mul_apply, hys] at this
 
+omit hy in
 theorem fixedSpace_mul_le : fixedSpace (x * y) ≤ fixedSpace x := by
   intro v hv
   obtain ⟨hcompl, -⟩ := hx.fixed_others
   obtain ⟨u, hu, r, hr, rfl⟩ := exists_add_of_isCompl hcompl v
   have hyu : y u ∈ fixedSpace x :=
     mem_fixedSpace_of_apply (Subgroup.mem_centralizer_singleton_iff.mpr hxy.symm) hu
-  have hyr : y r = r := apply_eq_of_mem_othersSpace hx hxy hyR hr
+  have hyr : y r = r := apply_eq_of_mem_othersSpace hx hyR hr
   have hxr : x r ∈ othersSpace x.toLinearMap (X - 1) :=
     mem_othersSpace_of_apply (Subgroup.mem_centralizer_singleton_iff.mpr rfl) hr
   have hw : (x * y) (u + r) = y u + x r := by
@@ -98,7 +101,7 @@ theorem supportedBlock_mul_le :
   intro s hs
   obtain ⟨⟨hsO, hsw⟩, hsR⟩ := mem_supportedBlock.mp hs
   have hsw' : s * (x * y) = (x * y) * s := Subgroup.mem_centralizer_singleton_iff.mp hsw
-  have hw := oddOrderIsometry_mul hx hy hxy hyR
+  have hw := oddOrderIsometry_mul hx hy hxy
   refine mem_supportedBlock.mpr ⟨⟨hsO, Subgroup.mem_centralizer_singleton_iff.mpr ?_⟩,
     fun r hr => hsR r (othersSpace_le_othersSpace_mul hx hy hxy hyR hr)⟩
   obtain ⟨hcompl, -⟩ := hw.fixed_others
@@ -108,16 +111,16 @@ theorem supportedBlock_mul_le :
   have hxw : x * (x * y) = (x * y) * x := ((Commute.refl x).mul_right hxy).eq
   have hxt : x t ∈ othersSpace (x * y).toLinearMap (X - 1) :=
     mem_othersSpace_of_apply (Subgroup.mem_centralizer_singleton_iff.mpr hxw) ht
-  have hxu : x u = u := mem_fixedSpace.mp (fixedSpace_mul_le hx hy hxy hyR hu)
+  have hxu : x u = u := mem_fixedSpace.mp (fixedSpace_mul_le hx hxy hyR hu)
   have hsu : s u ∈ fixedSpace (x * y) :=
     mem_fixedSpace_of_apply (Subgroup.mem_centralizer_singleton_iff.mpr hsw') hu
-  have hxsu : x (s u) = s u := mem_fixedSpace.mp (fixedSpace_mul_le hx hy hxy hyR hsu)
+  have hxsu : x (s u) = s u := mem_fixedSpace.mp (fixedSpace_mul_le hx hxy hyR hsu)
   simp only [LinearEquiv.mul_apply, map_add]
   rw [hxu, hsR _ hxt, hsR t ht, hxsu]
 
 theorem supportedFixedDerived_mul_le :
     supportedFixedDerived Q (x * y) ≤ supportedFixedDerived Q x := by
-  rw [(oddOrderIsometry_mul hx hy hxy hyR).supportedFixedDerived_eq, hx.supportedFixedDerived_eq]
+  rw [(oddOrderIsometry_mul hx hy hxy).supportedFixedDerived_eq, hx.supportedFixedDerived_eq]
   exact Subgroup.commutator_mono (supportedBlock_mul_le hx hy hxy hyR)
     (supportedBlock_mul_le hx hy hxy hyR)
 
@@ -159,6 +162,7 @@ theorem fixedComponentImage_mul_le :
     exact Subtype.ext (commute_of_mem_supportedBlock_mul hx hy hxy hyR
       (supportedFixedDerived_le_supportedBlock (Subgroup.mem_subgroupOf.mp hz)))
 
+omit hx hxy hyR in
 theorem le_centralizerImage_mul [Finite K] (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (hp : p.Prime) (hp2 : p ≠ 2)
     (hy1 : y ≠ 1) :
@@ -193,10 +197,10 @@ theorem normal_fixedComponentImage_mul [Finite K] (hQ : (QuadraticMap.polarBilin
     (hy1 : y ≠ 1) :
     ((fixedComponentImage Q ((x : V ≃ₗ[K] V) * y)).subgroupOf
       (fixedComponentImage Q (x : V ≃ₗ[K] V) ⊓ Subgroup.centralizer {projT Q y})).Normal := by
-  have hw := oddOrderIsometry_mul hx hy hxy hyR
+  have hw := oddOrderIsometry_mul hx hy hxy
   have hN := hw.normal_fixedComponentImage
   have hLM := fixedComponentImage_mul_le hx hy hxy hyR
-  have hMC := le_centralizerImage_mul hx hy hxy hyR hQ hT hp hp2 hy1
+  have hMC := le_centralizerImage_mul (x := x) hy hQ hT hp hp2 hy1
   rw [Subgroup.normal_subgroupOf_iff hLM]
   rw [Subgroup.normal_subgroupOf_iff fixedComponentImage_le_centralizerImage] at hN
   intro j n hj hn
@@ -213,7 +217,7 @@ theorem dvd_card_fixedComponentImage (hw : OddOrderIsometry Q p w) (hp : p.Prime
     (ht : t ∈ isometryCentralizer Q w) (htp : t ^ p = 1) {u : V} (hu : u ∈ fixedSpace w)
     (htu : t u ≠ u) : p ∣ Nat.card ↥(fixedComponentImage Q w) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have htw : t ∈ Subgroup.centralizer ({w} : Set (V ≃ₗ[K] V)) := (Subgroup.mem_inf.mp ht).2
   have htw' : t.symm ∈ Subgroup.centralizer ({w} : Set (V ≃ₗ[K] V)) :=
     Subgroup.inv_mem _ htw
@@ -348,7 +352,7 @@ theorem exists_quasisimple_le_fixedComponentImage (hw : OddOrderIsometry Q p w) 
             (Subgroup.subgroupOfEquivOfLe hFC)
         rw [Nat.card_congr e₁.toEquiv]
         exact hFp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rcases (Nat.Prime.dvd_mul hp).mp hdvd with hA | hB
     · exact key A hAC hnA hqA hA
     · exact key B hBC hnB hqB hB
@@ -356,6 +360,7 @@ theorem exists_quasisimple_le_fixedComponentImage (hw : OddOrderIsometry Q p w) 
       CFSG.LocalAnalysis.ComponentInitial.orthogonal_nonsplit_four_derived hodd Q' hQ' h4 hS
     exact hwhole hq
 
+omit [Finite K] in
 theorem glaPLayer_ne_bot_of_mul [Finite K] (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) {x y : ↥(orthDerived Q)}
     (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V)) (hy : OddOrderIsometry Q p (y : V ≃ₗ[K] V))
@@ -372,7 +377,7 @@ theorem glaPLayer_ne_bot_of_mul [Finite K] (hQ : (QuadraticMap.polarBilin Q).Non
   have : Finite V := Module.finite_of_finite K
   have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  have hw := oddOrderIsometry_mul hx hy hxy hyR
+  have hw := oddOrderIsometry_mul hx hy hxy
   have hRw : othersSpace ((x : V ≃ₗ[K] V) * (y : V ≃ₗ[K] V)).toLinearMap (X - 1) ≠ ⊥ := fun h =>
     hR (le_bot_iff.mp (h ▸ othersSpace_le_othersSpace_mul hx hy hxy hyR))
   have hpdvd := dvd_card_fixedComponentImage hw hp hp2 hK hRw ht htp hu htu

@@ -197,7 +197,7 @@ theorem ncard_val_mem {n : ℕ} {L : List ℕ} (hL : L.Nodup) (hlt : ∀ x ∈ L
     {q : Fin n | q.val ∈ L}.ncard = L.length := by
   have himg : Fin.val '' {q : Fin n | q.val ∈ L} = (L.toFinset : Set ℕ) := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset]
     constructor
     · rintro ⟨q, hq, rfl⟩
       exact hq

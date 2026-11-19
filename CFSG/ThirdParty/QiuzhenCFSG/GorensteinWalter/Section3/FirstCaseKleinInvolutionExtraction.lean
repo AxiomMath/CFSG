@@ -87,7 +87,7 @@ public theorem firstCase_klein_extract_inverting_involution
     obtain ⟨k, hk⟩ := hqaodd
     have hqpow : qa ^ orderOf qa = 1 := pow_orderOf_eq_one qa
     have hqpow' : q (a ^ orderOf qa) = 1 := by
-      simpa [qa, map_pow] using hqpow
+      simp [qa, map_pow]
     have haV : a ^ orderOf qa ∈ V :=
       (QuotientGroup.eq_one_iff (N := V) (a ^ orderOf qa)).mp hqpow'
     have hInvPow : φ (a ^ orderOf qa) x = x⁻¹ :=
@@ -290,7 +290,7 @@ public theorem firstCase_klein_extract_inverting_involution
   have hsne : s ≠ 1 := by
     intro hs1
     apply hsV
-    simpa [hs1] using (V.one_mem)
+    simp [hs1]
   have hssq : s ^ 2 = 1 := by
     have h := pow_orderOf_eq_one s0
     rw [hsOrder] at h

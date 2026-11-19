@@ -99,7 +99,7 @@ private theorem update_inv_last_inv {m : ℕ} (t : Fin (m + 1) → normOne (unit
   by_cases hi : i = Fin.last m
   · subst hi
     simp
-  · rw [Function.update_apply, if_neg hi, Function.update_apply, if_neg hi]
+  · rw [Function.update_apply, ite_eq_right hi, Function.update_apply, ite_eq_right hi]
 
 theorem stdConj_diagHom (m : ℕ) (t : Fin (m + 1) → normOne (unitaryInvolution K 2 f)) :
     (stdConj E m).toMonoidHom (diagHom F (unitaryInvolution K 2 f) (m + 1) t) =
@@ -123,7 +123,7 @@ theorem stdConj_diagHom (m : ℕ) (t : Fin (m + 1) → normOne (unitaryInvolutio
   · subst hi
     simp only [Function.update_self, diagHom_apply, map_mul, hσ,
       E.isUnitary.invol, ↓reduceIte]
-  · simp only [if_neg hi, Function.update_apply, diagHom_apply]
+  · simp only [ite_eq_right hi, Function.update_apply, diagHom_apply]
 
 theorem diagHom_mul_suEndN_blockEmb_mul_inv
     (hK : Nat.card K = (2 ^ f) ^ 2)
@@ -283,8 +283,8 @@ private theorem exists_chainIota_torusTwo_of_diag (E : QuadExt F K (unitaryInvol
       simp [Fin.castSucc_lt_succ.ne]
     · by_cases h2 : c = k.succ
       · subst h2
-        rw [if_neg h1, if_pos rfl, one_mul, hlast]
-      · rw [if_neg h1, if_neg h2, mul_one, hoff c h1 h2]
+        rw [ite_eq_right h1, ite_eq_left rfl, one_mul, hlast]
+      · rw [ite_eq_right h1, ite_eq_right h2, mul_one, hoff c h1 h2]
   refine ⟨t (Fin.castSucc k), ?_⟩
   have hnt : stdChainIota (F := F) (f := f) m k
       (torusTwo (unitaryInvolution K 2 f) (t (Fin.castSucc k))) =
@@ -353,20 +353,20 @@ private theorem chainTheta_entries {m : ℕ} (k : Fin m) (hk : k.val + 1 < m) (B
     by_cases hzx : z = x
     · subst hzx
       simp
-    · rw [if_neg (by
+    · rw [ite_eq_right (by
         intro hh
-        exact hzx (blockIdx_injective hblk hh)), if_neg hzx]
+        exact hzx (blockIdx_injective hblk hh)), ite_eq_right hzx]
   rw [hcol, Matrix.mulVec_single_one] at hv
   rw [diagHom_single, Pi.smul_apply, Pi.single_apply] at hv
   by_cases hyx : y = x
   · subst hyx
-    rw [if_pos rfl, smul_eq_mul, mul_one] at hv
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl, smul_eq_mul, mul_one] at hv
+    rw [ite_eq_left rfl]
     simpa using hv
-  · rw [if_neg (by
+  · rw [ite_eq_right (by
       intro hh
       exact hyx (blockIdx_injective hblk hh)), smul_zero] at hv
-    rw [if_neg hyx]
+    rw [ite_eq_right hyx]
     simpa using hv
 
 private theorem chainTheta_prod {m : ℕ} (k : Fin m) (hk : k.val + 1 < m) (B : Su K 2 f 3)
@@ -435,15 +435,15 @@ private theorem exists_chainTheta_nodeTor_mul (E : QuadExt F K (unitaryInvolutio
       Pi.mulSingle_apply, Pi.mulSingle_apply]
     by_cases e0 : c = Fin.castSucc k
     · subst e0
-      rw [if_pos rfl, if_neg e01, if_neg e01, if_neg e02]
+      rw [ite_eq_left rfl, ite_eq_right e01, ite_eq_right e01, ite_eq_right e02]
       simp
     · by_cases e1 : c = k.succ
       · subst e1
-        rw [if_neg (Ne.symm e01), if_pos rfl, if_pos rfl, if_neg e12]
+        rw [ite_eq_right (Ne.symm e01), ite_eq_left rfl, ite_eq_left rfl, ite_eq_right e12]
         simp [inv_mul_cancel_left]
       · by_cases e2 : c = (⟨k.val + 2, by omega⟩ : Fin (m + 1))
         · subst e2
-          rw [if_neg (Ne.symm e02), if_neg (Ne.symm e12), if_neg (Ne.symm e12), if_pos rfl]
+          rw [ite_eq_right (Ne.symm e02), ite_eq_right (Ne.symm e12), ite_eq_right (Ne.symm e12), ite_eq_left rfl]
           simp [hlast]
         · have hc : ¬ (k.val ≤ c.val ∧ c.val < k.val + 3) := by
             rintro ⟨h1, h2⟩
@@ -452,7 +452,7 @@ private theorem exists_chainTheta_nodeTor_mul (E : QuadExt F K (unitaryInvolutio
             · exact e0 (Fin.ext (by simpa using h))
             · exact e1 (Fin.ext (by simpa using h))
             · exact e2 (Fin.ext (by simpa using h))
-          rw [if_neg e0, if_neg e1, if_neg e1, if_neg e2]
+          rw [ite_eq_right e0, ite_eq_right e1, ite_eq_right e1, ite_eq_right e2]
           simpa using hoff c hc
   refine ⟨t (Fin.castSucc k), t (Fin.castSucc k) * t (k.succ), ?_⟩
   rw [stdFamilyV_nodeTor_castSucc, stdFamilyV_nodeTor_castSucc, hkey1, hc2,
@@ -514,7 +514,7 @@ private theorem exists_forkTheta_nodeTor_mul (E : QuadExt F K (unitaryInvolution
 private theorem ggCoxeterMatrixD_simplyLaced {n : ℕ} (i j : Fin n) (hij : i ≠ j) :
     CFSG.StandardType.ggCoxeterMatrixD n i j = 2 ∨
       CFSG.StandardType.ggCoxeterMatrixD n i j = 3 := by
-  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_neg hij]
+  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 private theorem sq_eq_sq_normOne (hK : Nat.card K = (2 ^ f) ^ 2)
@@ -586,7 +586,7 @@ private theorem eq_diagHom_of_mul_of_fix {m : ℕ} {x g h : (Fin (m + 1) → K) 
     g = diagHom F (unitaryInvolution K 2 f) (m + 1) (fun c => if S c then t c else 1) := by
   refine eq_diagHom_of_forall_single (fun c v => hlin c v) (fun c => ?_)
   by_cases hc : S c
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     have hstep : g (Pi.single c (1 : K)) =
         (diagHom F (unitaryInvolution K 2 f) (m + 1) t) (Pi.single c (1 : K)) := by
       calc g (Pi.single c (1 : K)) = g (h (Pi.single c (1 : K))) := by rw [hS c hc]
@@ -594,7 +594,7 @@ private theorem eq_diagHom_of_mul_of_fix {m : ℕ} {x g h : (Fin (m + 1) → K) 
         _ = x (Pi.single c (1 : K)) := by rw [hxgh]
         _ = (diagHom F (unitaryInvolution K 2 f) (m + 1) t) (Pi.single c (1 : K)) := by rw [hx]
     rw [hstep, diagHom_single]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     simpa using hSc c hc
 
 private theorem chain_chain_diag_exists {m : ℕ} {k l : Fin m}
@@ -824,13 +824,13 @@ private theorem pair_fork_fork_inf_torus_le (m : ℕ) (hm : 3 ≤ m)
       Pi.mulSingle_apply, Pi.mulSingle_apply]
     by_cases h0 : c = (⟨m - 1, by omega⟩ : Fin (m + 1))
     · subst h0
-      rw [if_pos rfl, if_neg hne, if_pos rfl, if_neg hne]
+      rw [ite_eq_left rfl, ite_eq_right hne, ite_eq_left rfl, ite_eq_right hne]
       simpa using huv1
     · by_cases h1 : c = Fin.last m
       · subst h1
-        rw [if_neg (Ne.symm hne), if_pos rfl, if_neg (Ne.symm hne), if_pos rfl]
+        rw [ite_eq_right (Ne.symm hne), ite_eq_left rfl, ite_eq_right (Ne.symm hne), ite_eq_left rfl]
         simpa using huv2
-      · rw [if_neg h0, if_neg h1, if_neg h0, if_neg h1]
+      · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h0, ite_eq_right h1]
         have h1' : c.val ≠ m - 1 := fun h => h0 (Fin.ext (by simpa using h))
         have h2' : c.val ≠ m := fun h => h1 (Fin.ext (by simpa using h))
         simpa using (hoff c h1' h2').symm

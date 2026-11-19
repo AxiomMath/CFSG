@@ -17,7 +17,7 @@ theorem exists_lift_aut_psl_linear {p f : ℕ} {K : Type} [Field K] (hK : PiFiel
     (ζ : MulAut (projImage (slPi true 3 (p ^ f) K))) (hζ : ζ ^ 3 = 1) :
     ∃ ζ' : MulAut (slPi true 3 (p ^ f) K), ζ' ^ 3 = 1 ∧
       ∀ s, projOf (slPi true 3 (p ^ f) K) (ζ' s) = ζ (projOf (slPi true 3 (p ^ f) K) s) := by
-  haveI := hK.finite
+  have := hK.finite
   set ψ := pslEquivProjective (p ^ f) K with hψ
   set α := MulAut.congr ψ ζ with hα
   have hα3 : α ^ 3 = 1 := by rw [hα, ← map_pow, hζ, map_one]

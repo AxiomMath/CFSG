@@ -99,7 +99,7 @@ theorem sec33_root_types [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
       intro x hx
       obtain ⟨a, ha, rfl⟩ := (mem_img hAyY).mp hx
       exact hπsq a (hAyY ha) (hsqconj y a ha)
-    obtain ⟨a₀, ha₀A, ha₀L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
+    obtain ⟨a₀, ha₀A, ha₀L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
     have hψA : ∃ (a₀ : G) (h : a₀ ∈ A), π ⟨a₀, hAY h⟩ ≠ 1 :=
       ⟨a₀, ha₀A, hnotc a₀ ha₀A ha₀L⟩
     have hTne : T ≠ ⊥ := by
@@ -260,7 +260,7 @@ theorem sec33_type3_false [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
     intro x hx
     obtain ⟨a, ha, rfl⟩ := (mem_img hAbY).mp hx
     exact hπsq a (hAbY ha) (hC.setup.sq_Ab ha)
-  obtain ⟨a₀, ha₀A, ha₀L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
+  obtain ⟨a₀, ha₀A, ha₀L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
   have hTne : T ≠ ⊥ := by
     intro hbot
     apply hnotc a₀ ha₀A ha₀L

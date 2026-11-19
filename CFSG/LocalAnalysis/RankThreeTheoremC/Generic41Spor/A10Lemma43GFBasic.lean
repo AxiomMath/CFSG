@@ -158,7 +158,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 theorem a10_F_basic (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts) (hL : A10L43Facts)
     (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q)
     (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
-    (hQ : IsA10Type 5 Q) (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
+    (hQ : IsA10Type 5 Q) (_hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
     {S : Sylow 5 Q} (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ) (hxM : x ∈ M) :
     a10Img M (J ⊓ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G)) ≤
         Subgroup.centralizer ({a10π M ⟨x, hxM⟩} : Set (A10Y M)) ∧
@@ -170,7 +170,7 @@ theorem a10_F_basic (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts) (hL
       (∀ t ∈ a10Img M (u3T P x J),
         (∀ f ∈ a10Img M (J ⊓ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G)), f * t * f⁻¹ = t) →
         t = 1) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hTP : u3T P x J ≤ (P : Subgroup G) := (inf_le_left : u3T P x J ≤ u3S P x).trans inf_le_left
   have hTJ : u3T P x J ≤ J := inf_le_right
@@ -188,7 +188,7 @@ theorem a10_F_basic (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts) (hL
   have hcop : Nat.Coprime 5 (Nat.card ψ.ker) := by
     rw [hker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOJ).toEquiv]
     exact hOcop
-  have hTp : IsPGroup 5 (u3T P x J) := P.isPGroup'.to_le hTP
+  have hTp : IsPGroup 5 (u3T P x J) := P.isPGroup.to_le hTP
   have hψinj := a10t1_fb_injOn_of_ker ψ hcop (hTp.comap_subtype (K := J))
   have hπcop : Nat.Coprime 5 (Nat.card (a10π M).ker) := by
     rw [QuotientGroup.ker_mk']

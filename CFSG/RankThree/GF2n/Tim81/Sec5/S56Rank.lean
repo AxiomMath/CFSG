@@ -52,7 +52,7 @@ private theorem exists_partner_data (hS : Sec5Hyp M V) {U U' : Subgroup G}
       simpa using Nat.pow_lt_pow_right (by have := hS.toRootHyp.four_le_card; omega)
         (by norm_num : 1 < 3)
     omega
-  obtain ⟨y₀, hy₀E', hy₀V⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hVE' hne)
+  obtain ⟨y₀, hy₀E', hy₀V⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hVE' hne)
   have hy₀P : y₀ ∈ Pc M V := hS.commutator_le_Pc hU' hy₀E'
   have hz₀E : ⁅a, y₀⁆ ∈ ⁅Pc M V, U⁆ := by
     have h1 : ⁅a, y₀⁆ ∈ ⁅U, Pc M V⁆ := Subgroup.commutator_mem_commutator ha hy₀P
@@ -215,7 +215,7 @@ private theorem inv_mul_mem_of_fixed (hS : Sec5Hyp M V) (h51a : Sec5.Stmt51a M V
       intro hEq
       have hc : Nat.card V ^ 2 = Nat.card V ^ 3 := by rw [← hcardA, hEq, hcardE]
       omega
-    exact SetLike.exists_of_lt (lt_of_le_of_ne hA.2 hne)
+    exact _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hA.2 hne)
   have hPP : ∀ x ∈ Pc M V, ∀ y ∈ Pc M V, ⁅x, y⁆ ∈ V := by
     intro x hx y hy
     rw [← hS.commutator_Pc_eq_V ⟨U, hU⟩]
@@ -237,7 +237,7 @@ private theorem inv_mul_mem_of_fixed (hS : Sec5Hyp M V) (h51a : Sec5.Stmt51a M V
         hA.1 hA.2 hx
   have hfixV : z₀⁻¹ * ⁅a, ⁅b, z₀⁆⁆ ∈ V := by
     rw [hfix]
-    simpa using V.one_mem
+    simp
   exact inv_mul_mem_of_spread (V := V) (E := ⁅Pc M V, U⁆) (𝒜 := 𝒜)
     (f := fun z => ⁅a, ⁅b, z⁆⁆) hVE hVA hAE hcover hdisj hout hadd hf hz₀ hz₀V hfixV
 

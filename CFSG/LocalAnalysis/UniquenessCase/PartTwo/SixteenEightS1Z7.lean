@@ -47,7 +47,7 @@ private lemma s16e_z7_norm3_fixed {c : MulAut W} (hc3 : c ^ 3 = 1) (w : W) :
     intro v
     have := congrArg (fun f : MulAut W => f v) hc3
     simpa [pow_three, MulAut.mul_apply] using this
-  simp [s16e_z7_norm3, map_mul, hc, mul_assoc, mul_comm, mul_left_comm]
+  simp [s16e_z7_norm3, map_mul, hc, mul_comm, mul_left_comm]
 
 private lemma s16e_z7_norm3_mul (hW : ∀ w : W, w ^ 2 = 1) (a b : MulAut W)
     (hab : a * b = b * a) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (w : W) :
@@ -66,7 +66,7 @@ private lemma s16e_z7_norm3_mul (hW : ∀ w : W, w ^ 2 = 1) (a b : MulAut W)
     intro v
     have := congrArg (fun f : MulAut W => f v) hb3
     simpa [pow_three, MulAut.mul_apply] using this
-  simp [s16e_z7_norm3, MulAut.mul_apply, map_mul, hab', ha3', hb3', mul_assoc, mul_comm,
+  simp [s16e_z7_norm3, MulAut.mul_apply, map_mul, hab', hb3', mul_assoc, mul_comm,
     mul_left_comm]
   try rw [← mul_assoc, s16e_z7_mul_self hW w, one_mul]
 
@@ -74,7 +74,7 @@ private lemma s16e_z7_fixSub_eq_one [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hcard : Nat.card W = 2 ^ 6) {ℓ : MulAut W} (hℓ7 : ℓ ^ 7 = 1)
     (hfpf : ∀ w : W, ℓ w = w → w = 1) {x : MulAut W} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hxℓ : x * ℓ = ℓ * x) : ∀ v : W, x v = v → v = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : CFSG.OddStandard.HigherRank.G2Three.Sec1.IsE 6 W := by
     refine ⟨⟨IsMulCommutative.of_comm (fun u v => Subtype.ext (mul_comm u.1 v.1)),
       fun u _ => hW u⟩, ?_⟩
@@ -124,12 +124,12 @@ private lemma s16e_z7_norm3_eq_one [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (s16e_z7_norm3_fixed hx3 w)
 
 theorem s16e_pRank_three_lt_three_of_z7 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
+    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} (_hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsCyclicOrd ↥L 7)
     (hWL : commSub ⊤ L = ⊤) : CFSG.Open.pRank 3 A < 3 := by
   by_contra hge
   rw [not_lt] at hge
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ℓ, hℓ⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top L).mp hL.1
   have hℓL : ℓ ∈ L := hℓ ▸ Subgroup.mem_zpowers ℓ
   have hoddL : Odd (Nat.card L) := by
@@ -157,14 +157,14 @@ theorem s16e_pRank_three_lt_three_of_z7 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     exact Subgroup.mem_bot.mp hmem
   obtain ⟨E, hEA, hEelem, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (H := A) (k := 3) hge
-  haveI hEcomm : IsMulCommutative E := hEelem.1
+  have hEcomm : IsMulCommutative E := hEelem.1
   let N : Subgroup (MulAut W) := Subgroup.normalizer (L : Set (MulAut W))
   have hEN : E ≤ N := by
     intro g hg
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     simpa using hLn g (hEA hg)
   let φ : E →* MulAut ↥L := L.normalizerMonoidHom.comp (Subgroup.inclusion hEN)
-  haveI : IsCyclic ↥L := hL.1
+  have : IsCyclic ↥L := hL.1
   have hφmul : Nat.card (MulAut ↥L) = 6 := by
     rw [IsCyclic.card_mulAut, hL.2, Nat.totient_prime Nat.prime_seven]
   have hφrange_dvd6 : Nat.card φ.range ∣ 6 := by
@@ -211,7 +211,7 @@ theorem s16e_pRank_three_lt_three_of_z7 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     calc (y : MulAut W) * ℓ = ((y : MulAut W) * ℓ * (y : MulAut W)⁻¹) * (y : MulAut W) := by
           group
       _ = ℓ * (y : MulAut W) := by rw [happ.symm]
-  haveI : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨a, ha1⟩ := exists_ne (1 : K)
   have ha3 : (a : MulAut W) ^ 3 = 1 := hKelem (a : MulAut W) a.2
   have ha3K : a ^ 3 = 1 := Subtype.ext ha3
@@ -231,7 +231,7 @@ theorem s16e_pRank_three_lt_three_of_z7 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
       rw [Subgroup.card_top, hcard3] at h
       exact h.symm
     omega
-  obtain ⟨b, -, hb_notin⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨b, -, hb_notin⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hb1 : b ≠ 1 := by
     intro h
     exact hb_notin (by rw [h]; exact Subgroup.one_mem _)
@@ -331,7 +331,7 @@ theorem s16e_s1_false_of_z7 (D : Data G) (hx : DataExt D) (h4 : 3 < CFSG.Open.ev
     rw [s16e_card_eq_two_pow_rk_top hT, hrkV]
   have hc7 : Nat.card ↥(lBar V₀ V hV L) = 7 := by
     simpa using s16c167_card_isElemAbelianOfRank hZ
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcyc : IsCyclicOrd ↥(lBar V₀ V hV L) 7 := ⟨isCyclic_of_prime_card hc7, hc7⟩
   have hlt := s16e_pRank_three_lt_three_of_z7 hT hcard
     (A := Mbar D.M V₀ V hV) (L := lBar V₀ V hV L)

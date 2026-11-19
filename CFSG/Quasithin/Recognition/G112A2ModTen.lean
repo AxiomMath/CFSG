@@ -15,6 +15,7 @@ section Ten
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem ten_sup_mul {E P : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hcomm : ∀ e ∈ E, ∀ p ∈ P, e * p = p * e) (s : V ≃ₗ[ZMod 2] V) (hs : s ∈ E ⊔ P) :
     ∃ e ∈ E, ∃ p ∈ P, s = e * p := by
@@ -41,13 +42,14 @@ theorem ten_sup_mul {E P : Subgroup (V ≃ₗ[ZMod 2] V)}
 
 theorem ten_comm_of_card_three {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {P : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hPcard : Nat.card P = 3) : ∀ p ∈ P, ∀ p' ∈ P, p * p' = p' * p := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : IsCyclic P := isCyclic_of_prime_card hPcard
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsCyclic P := isCyclic_of_prime_card hPcard
   intro p hp p' hp'
-  letI : CommGroup ↥P := IsCyclic.commGroup
+  let : CommGroup ↥P := IsCyclic.commGroup
   have h : (⟨p, hp⟩ : ↥P) * ⟨p', hp'⟩ = ⟨p', hp'⟩ * ⟨p, hp⟩ := mul_comm _ _
   exact congrArg Subtype.val h
 
+omit [Finite V] in
 theorem ten_decomp {Γ E P : Subgroup (V ≃ₗ[ZMod 2] V)} {x : V ≃ₗ[ZMod 2] V}
     (hΓeq : Γ = (E ⊔ P) ⊔ Subgroup.zpowers x) (hxx : x * x = 1)
     (hEx : ∀ e ∈ E, x * e * x⁻¹ ∈ E) (hPx : ∀ p ∈ P, x * p * x⁻¹ ∈ P)
@@ -72,7 +74,7 @@ theorem ten_decomp {Γ E P : Subgroup (V ≃ₗ[ZMod 2] V)} {x : V ≃ₗ[ZMod 2
         · right
           have e1 : t₁ * t₂ * x = (t₁ * x) * (x * t₂ * x⁻¹) := by
             rw [hx']
-            simp only [mul_assoc, hxx, mul_one, hxxy]
+            simp only [mul_assoc, hxxy]
           rw [e1]
           exact (E ⊔ P).mul_mem h1 (hxS t₂ h2)
         · left
@@ -89,7 +91,7 @@ theorem ten_decomp {Γ E P : Subgroup (V ≃ₗ[ZMod 2] V)} {x : V ≃ₗ[ZMod 2
         · right
           have e3 : t⁻¹ * x = x * (t * x)⁻¹ * x⁻¹ := by
             rw [mul_inv_rev, hx']
-            simp only [mul_assoc, hxxy]
+            simp only [hxxy]
           rw [e3]
           exact hxS _ ((E ⊔ P).inv_mem h) }
   have hY : Γ ≤ Y := by
@@ -99,6 +101,7 @@ theorem ten_decomp {Γ E P : Subgroup (V ≃ₗ[ZMod 2] V)} {x : V ≃ₗ[ZMod 2
     exact Or.inr (by rw [hxx]; exact (E ⊔ P).one_mem)
   exact hY ht
 
+omit [Finite V] in
 theorem ten_pow_three_of_mem {P : Subgroup (V ≃ₗ[ZMod 2] V)} (hPcard : Nat.card P = 3) :
     ∀ q ∈ P, q ^ 3 = 1 := by
   intro q hq
@@ -129,7 +132,7 @@ theorem finrank_range_ne_two_of_ten {Γ X : Subgroup (V ≃ₗ[ZMod 2] V)} (h10 
   have hP3 := ten_pow_three_of_mem hPcard
   have hPcomm := ten_comm_of_card_three hPcard
   obtain ⟨p₀, hp₀, hp₀1⟩ : ∃ q ∈ P, q ≠ 1 := by
-    haveI : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPcard]; norm_num)
+    have : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPcard]; norm_num)
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥P)
     exact ⟨q.1, q.2, fun h => hq (Subtype.ext h)⟩
   have hp₀3 : p₀ ^ 3 = 1 := hP3 p₀ hp₀

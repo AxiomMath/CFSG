@@ -39,6 +39,7 @@ theorem exists_y_notMem_zpowers
   rw [h9, hd3] at hcard
   omega
 
+omit [Finite G] in
 theorem conj_mulAut_pow_three_ne_one_of_notMem {y : G} (hyX : y ∈ x₀ L d)
     (hy3 : y ^ 3 = 1) (hyd : y ∉ Subgroup.zpowers d)
     (hcenter : (Subgroup.center ↥(x₀ L d)).map (x₀ L d).subtype = Subgroup.zpowers d) :
@@ -46,8 +47,7 @@ theorem conj_mulAut_pow_three_ne_one_of_notMem {y : G} (hyX : y ∈ x₀ L d)
       MulAut.conj (⟨y, hyX⟩ : ↥(x₀ L d)) ≠ 1 := by
   have hyQ3 : (⟨y, hyX⟩ : ↥(x₀ L d)) ^ 3 = 1 := Subtype.ext (by simpa using hy3)
   refine ⟨?_, ?_⟩
-  · change (MulAut.conj (⟨y, hyX⟩ : ↥(x₀ L d)) : MulAut ↥(x₀ L d)) ^ 3 = 1
-    rw [← map_pow, hyQ3, map_one]
+  · rw [← map_pow, hyQ3, map_one]
   · intro hf
     apply hyd
     have hycenter : (⟨y, hyX⟩ : ↥(x₀ L d)) ∈ Subgroup.center ↥(x₀ L d) := by
@@ -65,6 +65,7 @@ theorem conj_mulAut_pow_three_ne_one_of_notMem {y : G} (hyX : y ∈ x₀ L d)
       ⟨⟨y, hyX⟩, hycenter, rfl⟩
     rwa [hcenter] at hymap
 
+omit [Finite G] in
 theorem conj_mem_normalizer_map_subtype {y : G} (hyX : y ∈ x₀ L d)
     {V : Subgroup ↥(x₀ L d)}
     (hVinv : ∀ g ∈ Subgroup.zpowers (MulAut.conj (⟨y, hyX⟩ : ↥(x₀ L d))),
@@ -84,8 +85,7 @@ theorem conj_mem_normalizer_map_subtype {y : G} (hyX : y ∈ x₀ L d)
     rw [hn_eq]
     change (((MulAut.conj (⟨y, hyX⟩ : ↥(x₀ L d))) v : ↥(x₀ L d)) : G) =
       y * ((v : G) * y⁻¹)
-    simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
-      Subgroup.coe_subtype]
+    simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]
     group
   · rintro ⟨v, hv, hv_eq⟩
     have hv_eq' : (v : G) = y * n := hv_eq
@@ -167,7 +167,7 @@ theorem exists_four
   obtain ⟨hperf, htc, -, -, -, -, -⟩ := h.residual_facts
   obtain ⟨hZcard, ⟨e⟩⟩ := htc
   let Q := ↥(x₀ L d)
-  haveI : Group.IsPerfect Q := hperf
+  have : Group.IsPerfect Q := hperf
   obtain ⟨V, hVne, hV2, hVinv⟩ :=
     CFSG.RankThree.PartTwo.Sec10.KS1012AutHyp.exists_V_of_order_three hZcard e hf3 hf1
   set T : Subgroup G := V.map (x₀ L d).subtype with hT

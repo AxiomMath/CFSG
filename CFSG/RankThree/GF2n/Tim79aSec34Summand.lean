@@ -359,7 +359,7 @@ theorem commutator_mem_xClosure {A₁ : Subgroup G} (hA₁ : A₁ ≤ wOf V H) {
         rw [mul_inv_cancel, commutatorElement_def] at h1
         have h2 : ⁅a, w⁻¹⁆ = ⁅a, w⁆⁻¹ := by
           have : ⁅a, w⁆ * ⁅a, w⁻¹⁆ = 1 := by
-            rw [← h1]; simp [commutatorElement_def]
+            rw [← h1]; simp
           exact eq_inv_of_mul_eq_one_right this
         rw [h2]
         exact A₁.inv_mem h.2 }

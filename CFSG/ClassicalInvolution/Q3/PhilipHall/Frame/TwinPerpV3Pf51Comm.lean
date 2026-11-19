@@ -67,7 +67,7 @@ end Pf51Comm
 open Pf51Comm in
 theorem centralizes_lift_of_centralizes {Y : Type} [Group Y] [Finite Y] {Ω : Set (Subgroup Y)}
     (hΩ : HypOmegaGen Ω) {J L : Subgroup Y} {t x : Y} (hJ : J ∈ Ω) (hz : IsUniqueInvolution J t)
-    (hJ2 : IsPGroup 2 ↥J) (hq8 : Nonempty (↥J ≃* QuaternionGroup 2)) (hL : IsClassicalMember3 L t)
+    (_hJ2 : IsPGroup 2 ↥J) (hq8 : Nonempty (↥J ≃* QuaternionGroup 2)) (hL : IsClassicalMember3 L t)
     (hJL : J ≤ L)
     (hO : classicalInvolutionOddCore ↥(Subgroup.centralizer ({t} : Set Y)) = ⊥)
     (hxt : x * t = t * x) (hxJ : ∀ j ∈ J, x * j = j * x) :

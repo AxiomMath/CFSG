@@ -16,12 +16,12 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M Q H E : Subgroup G} {p : ℕ}
 
-private theorem two_le_pRank_three_of_e9_le_starImg (s : NineSettingGen G M p Q H E 2)
+private theorem two_le_pRank_three_of_e9_le_starImg (_s : NineSettingGen G M p Q H E 2)
     (hO : primeComplementCore (G := ↥H) p ≤ M.subgroupOf H)
     {R' : Subgroup (StarGroup p H)} (hR'N : R' ≤ starImg p H M)
     (hR'e : IsElemAbelian 3 R') (hR'c : Nat.card R' = 9) :
     2 ≤ CFSG.Open.pRank 3 M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hR'p : IsPGroup 3 R' := elementary_isPGroup 3 R' hR'e
   obtain ⟨R, hRp, hRM, hRmap⟩ := CFSG.LocalLift.exists_isPGroup_map_eq (r := 3)
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))
@@ -46,7 +46,7 @@ private theorem normalizer_le_subgroupOf_of_two_le_pRank (s : NineSettingGen G M
     (h3 : 3 ∈ sigmaM G M) {R : Subgroup ↥H} (hRM : R ≤ M.subgroupOf H)
     (hR : 2 ≤ CFSG.Open.pRank 3 R) :
     Subgroup.normalizer (R : Set ↥H) ≤ M.subgroupOf H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hRM' : R.map H.subtype ≤ M := by
     calc R.map H.subtype ≤ (M.subgroupOf H).map H.subtype := Subgroup.map_mono hRM
       _ = M ⊓ H := Subgroup.subgroupOf_map_subtype M H
@@ -69,7 +69,7 @@ private theorem normalizer_le_starImg_of_two_le_pRank (s : NineSettingGen G M p 
     {R' : Subgroup (StarGroup p H)} (hR'p : IsPGroup 3 R') (hR'N : R' ≤ starImg p H M)
     (hR' : 2 ≤ CFSG.Open.pRank 3 R') :
     Subgroup.normalizer (R' : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine CFSG.LocalLift.normalizer_le_map_of_forall (r := 3)
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk']; exact hO) hR'p hR'N ?_
@@ -91,6 +91,7 @@ private noncomputable def kSubToKStar (p : ℕ) (M H : Subgroup G) :
   map_one' := by apply Subtype.ext; rfl
   map_mul' x y := by apply Subtype.ext; rfl
 
+omit [Finite G] in
 private theorem kSubToKStar_surjective (p : ℕ) (M H : Subgroup G) :
     Function.Surjective (kSubToKStar (G := G) p M H) := by
   rintro ⟨y, hy⟩
@@ -101,10 +102,10 @@ theorem not_isAltTwoP_kStar {G : Type} [Group G] [Finite G] {M Q H E : Subgroup 
     (s : NineSettingGen G M p Q H E 2) (hp : p ∈ sigmaM G M) (hL : ¬ pLayerIn p H ≤ M)
     (hΓ : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M) → rankThreeGamma 1 p P ≤ M)
     (hp7 : 7 ≤ p) : ¬ CFSG.AGLEmbedding.IsAltTwoP p ↥(kStar p M H) := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   intro hAlt
   obtain ⟨hY, hF, hnot, -, hO⟩ := nineFourTwo_star s hp hL hΓ
-  haveI : (kStar p M H).Normal := by rw [← hF]; exact inferInstance
+  have : (kStar p M H).Normal := by rw [← hF]; exact inferInstance
   obtain ⟨e⟩ := hAlt
   obtain ⟨R, hR, hRe, hRc⟩ := exists_e9_le_inf_of_altTwoP (p := p) hp7 hY e
   have h2M : 2 ≤ CFSG.Open.pRank 3 M :=
@@ -132,16 +133,16 @@ theorem not_isFi22_kStar {G : Type} [Group G] [Finite G] {M Q H E : Subgroup G} 
     (hΓ : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M) → rankThreeGamma 1 p P ≤ M)
     (hp5 : p = 5) : ¬ CFSG.AGLEmbedding.IsFi22 ↥(kStar p M H) := by
   subst p
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro hFi
   obtain ⟨hY, hF, hnot, -, hO⟩ := nineFourTwo_star s hp hL hΓ
-  haveI : (kStar 5 M H).Normal := by rw [← hF]; exact inferInstance
+  have : (kStar 5 M H).Normal := by rw [← hF]; exact inferInstance
   obtain ⟨eK⟩ := id hFi
   obtain ⟨b⟩ : Nonempty (CFSG.Blueprint.NativeSporadic.Carrier .Fi22 ≃*
       (TauCeti.CFSGIndex.sporadic .Fi22).Group) := CFSG.Sporadic.Bridge.Fi22.nonempty_mulEquiv
   have hf : Function.Surjective (kSubToKStar (G := G) 5 M H) := kSubToKStar_surjective 5 M H
   let K₀ : Subgroup ↥(kSub 5 M H) := (kSubToKStar (G := G) 5 M H).ker
-  haveI : K₀.Normal := MonoidHom.normal_ker _
+  have : K₀.Normal := MonoidHom.normal_ker _
   have h4 : 4 ≤ CFSG.Open.twoLocalPrimeRank 3 G :=
     CFSG.RankThree.PartOne.four_le_twoLocalPrimeRank_three_of_section_fi22
       (kSub 5 M H) K₀

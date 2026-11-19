@@ -21,10 +21,10 @@ private theorem lr7dl_coroot_indep (D : GGQ2Lin 3)
   let d' : D.ι → ZMod 3 := fun i => if h : i ≠ D.a then d ⟨i, h⟩ else 0
   have hd'a : d' D.a = 0 := by
     show (if h : D.a ≠ D.a then d ⟨D.a, h⟩ else 0) = 0
-    rw [dif_neg (fun h => h rfl)]
+    rw [dite_eq_right (fun h => h rfl)]
   have hd'eq : ∀ (i : D.ι) (h : i ≠ D.a), d' i = d ⟨i, h⟩ := fun i h => by
     show (if h' : i ≠ D.a then d ⟨i, h'⟩ else 0) = d ⟨i, h⟩
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hker : ∀ i, ∑ j, (D.cartan i j : ZMod 3) * d' j = 0 := by
     intro i
     have hev : D.root i (∑ k : {k : D.ι // k ≠ D.a}, d k • D.coroot k) = 0 := by
@@ -39,8 +39,8 @@ private theorem lr7dl_coroot_indep (D : GGQ2Lin 3)
       intro j _
       by_cases hj : j = D.a
       · subst hj
-        rw [hd'a, mul_zero, if_neg (by simp)]
-      · rw [if_pos hj]
+        rw [hd'a, mul_zero, ite_eq_right (by simp)]
+      · rw [ite_eq_left hj]
     rw [h1]
     have h2a : (∑ j ∈ Finset.univ.filter (fun j => j ≠ D.a),
           (D.cartan i j : ZMod 3) * d' j)
@@ -69,10 +69,10 @@ private theorem lr7dl_root_indep (D : GGQ2Lin 3)
   let d' : D.ι → ZMod 3 := fun i => if h : i ≠ D.a then d ⟨i, h⟩ else 0
   have hd'a : d' D.a = 0 := by
     show (if h : D.a ≠ D.a then d ⟨D.a, h⟩ else 0) = 0
-    rw [dif_neg (fun h => h rfl)]
+    rw [dite_eq_right (fun h => h rfl)]
   have hd'eq : ∀ (i : D.ι) (h : i ≠ D.a), d' i = d ⟨i, h⟩ := fun i h => by
     show (if h' : i ≠ D.a then d ⟨i, h'⟩ else 0) = d ⟨i, h⟩
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hker : ∀ j, ∑ i, d' i * (D.cartan i j : ZMod 3) = 0 := by
     intro j
     have hev : (∑ k : {k : D.ι // k ≠ D.a}, d k • D.root k) (D.coroot j) = 0 := by
@@ -87,8 +87,8 @@ private theorem lr7dl_root_indep (D : GGQ2Lin 3)
       intro i _
       by_cases hi : i = D.a
       · subst hi
-        rw [hd'a, zero_mul, if_neg (by simp)]
-      · rw [if_pos hi]
+        rw [hd'a, zero_mul, ite_eq_right (by simp)]
+      · rw [ite_eq_left hi]
     rw [h1]
     have h2a : (∑ i ∈ Finset.univ.filter (fun i => i ≠ D.a),
           d' i * (D.cartan i j : ZMod 3))

@@ -88,10 +88,10 @@ theorem s16t3_normIdx_omminus_four {K : Type} [Field K] [Finite K] (hK : Nat.car
 
 theorem s16t3_normIdx_alt {n : ℕ} (hn : 5 ≤ n) :
     s16t3_normIdx (alternatingGroup (Fin n)) := by
-  haveI : Nontrivial (Fin n) :=
+  have : Nontrivial (Fin n) :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [Fintype.card_fin]; omega)
   intro M₁ M₂ M₃ _ _ _
   exact CFSG.Quasithin.S15223.mem_of_index_le_two
-    (by simpa using (alternatingGroup.index_eq_two (α := Fin n)).le) M₁ M₂ M₃
+    (by simp) M₁ M₂ M₃
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

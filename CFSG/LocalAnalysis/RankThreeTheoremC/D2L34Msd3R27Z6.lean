@@ -56,11 +56,11 @@ private theorem normalizer_zpowers_conj_le {X : Type*} [Group X] {X₀ : Subgrou
   have hmap : (Subgroup.zpowers s).map (MulAut.conj u⁻¹).toMonoidHom =
       Subgroup.zpowers (u⁻¹ * s * u) := by
     rw [MonoidHom.map_zpowers]
-    simp [MulAut.conj_apply]
+    simp
   rw [← hmap, ← Subgroup.map_equiv_normalizer_eq]
   rintro _ ⟨x, hx, rfl⟩
   have hxX₀ := hs hx
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
   exact X₀.mul_mem (X₀.mul_mem (X₀.inv_mem hu) hxX₀) hu
 
 private theorem exists_pow_lift_orderOf_three {Y : Type*} [Group Y] [Finite Y] (O : Subgroup Y)
@@ -287,7 +287,7 @@ theorem D2L34SideCtx3.index_eq_six_or_twelve
     hc.not_centralizer_le (h27 ▸ hRR ▸ Subgroup.card_subgroup_dvd_card _)
 
 theorem D2L34SideCtx3.exists_order_three_of_index_six
-    (ctx : D2L34SideCtx3 G d P M A H R Rbar K) (h27 : Nat.card R = 27) (h6 : K.index = 6)
+    (ctx : D2L34SideCtx3 G d P M A H R Rbar K) (_h27 : Nat.card R = 27) (h6 : K.index = 6)
     {T : Subgroup G} (hT : IsSylowTwoOf T (H ⊓ M)) :
     ∃ h ∈ H ⊓ M, h ∈ Subgroup.normalizer (T : Set G) ∧ orderOf h = 3 ∧
       ¬ Subgroup.normalizer (Subgroup.zpowers h : Set G) ≤ M := by

@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [CharP K 2]
   ((List.finRange Tag.E7.rank).map fun i =>
     torusElement .E7 K i (ζ ^ multiplicityCochar i)).prod
 
+omit [CharP K 2] in
 theorem cartanChar_multiplicity (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     cartanChar (cubeChar ζ multiplicityCochar) = cubeChar ζ multiplicityExp := by
   funext j
@@ -37,6 +38,7 @@ theorem cartanChar_multiplicity (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
       fin_cases j <;> rfl
     _ = ζ ^ multiplicityExp j := (zpow_eq_zpow_emod' _ hζ).symm
 
+omit [CharP K 2] in
 theorem multiplicityWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (multiplicityWord ζ : ModGL .E7 K) = rootDiagUnit .E7 (cubeChar ζ multiplicityExp) := by
   rw [multiplicityWord, Subgroup.val_list_prod, List.map_map]
@@ -46,6 +48,7 @@ theorem multiplicityWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   change rootDiagUnit .E7 (cartanChar (cubeChar ζ multiplicityCochar)) = _
   rw [cartanChar_multiplicity ζ hζ]
 
+omit [CharP K 2] in
 theorem multiplicityWord_mem_torusGroup (ζ : Kˣ) :
     (multiplicityWord ζ : ModGL .E7 K) ∈ torusGroup .E7 K := by
   rw [multiplicityWord, Subgroup.val_list_prod, List.map_map]
@@ -56,6 +59,7 @@ theorem multiplicityWord_mem_torusGroup (ζ : Kˣ) :
   obtain ⟨i, -, rfl⟩ := List.mem_map.1 hx
   exact torusElt_mem_torusGroup i _
 
+omit [CharP K 2] in
 theorem multiplicityWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     multiplicityWord ζ ^ 3 = 1 := by
   apply Subtype.ext
@@ -64,6 +68,7 @@ theorem multiplicityWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   change (rootDiagUnitHom .E7 K (cubeChar ζ multiplicityExp)) ^ 3 = 1
   rw [← map_pow, cubeChar_pow_three ζ hζ multiplicityExp, map_one]
 
+omit [CharP K 2] in
 theorem multiplicityWord_val_product (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (multiplicityWord ζ : ModGL .E7 K) =
       torusElt .E7 K (e7Index 1) ζ * torusElt .E7 K (e7Index 3) (ζ ^ 2) *

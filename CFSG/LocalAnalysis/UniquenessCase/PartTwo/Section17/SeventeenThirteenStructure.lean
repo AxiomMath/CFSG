@@ -30,6 +30,7 @@ theorem isComponent_barImage_of_mem_calC {D : Data G} {H : Subgroup G} {U : Subg
       (show U ∈ calC H from ⟨hsubH, hperf, hq⟩)
   exact CFSG.LocalAnalysis.UniquenessCase.UC6S846.isComponent_image (Y := ↥H) hsnTop hqsub
 
+omit [Finite G] in
 theorem barImage_sup_barImage_eq_top {H T X : Subgroup G} (hH : H = T ⊔ X) (hXH : X ≤ H) :
     (X.subgroupOf H).map (QuotientGroup.mk' (CFSG.pCore 2 ↥H)) ⊔
       CFSG.LocalAnalysis.WeakClosure81.barImage H T = ⊤ := by
@@ -49,7 +50,7 @@ theorem gap17_13_component_of_case_one {D : Data G} (V₀ V L : Subgroup G) (r q
       orbitClosure K (CFSG.LocalAnalysis.WeakClosure81.barImage H D.T) ⊔
         CFSG.LocalAnalysis.WeakClosure81.barImage H D.T = ⊤ := by
   classical
-  rw [Delta17_12, dif_pos h1] at hH
+  rw [Delta17_12, dite_eq_left h1] at hH
   obtain ⟨x, hxM, rfl⟩ := hH
   set U : Subgroup G := L.map (MulAut.conj x).toMonoidHom with hU
   have hUcal : U ∈ calC D.M :=
@@ -96,7 +97,7 @@ theorem gap17_13_component_of_case_one {D : Data G} (V₀ V L : Subgroup G) (r q
   exact top_le_iff.mp htop
 
 @[expose] def Gap17_13_structure_remaining (D : Data G)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   (∀ H ∈ Delta17_12 D (fundPred q) r q L, ¬ P17_12_1 r q L →
     ∃ K : Subgroup (Bar2 H),
       CFSG.IsComponent K ∧

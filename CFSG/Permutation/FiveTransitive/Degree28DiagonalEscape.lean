@@ -134,7 +134,7 @@ private theorem two_mul_nat_card_alternating_centralizer
   let C := Subgroup.centralizer
     ({(g : Equiv.Perm X)} : Set (Equiv.Perm X))
   let f : C →* ℤˣ := Equiv.Perm.sign.domRestrict C
-  obtain ⟨c, hcC, hcOdd⟩ := SetLike.not_le_iff_exists.mp hodd
+  obtain ⟨c, hcC, hcOdd⟩ := IsConcreteLE.not_le_iff_exists.mp hodd
   have hcSignNe : Equiv.Perm.sign c ≠ 1 := by
     intro hc
     apply hcOdd
@@ -145,7 +145,7 @@ private theorem two_mul_nat_card_alternating_centralizer
     intro u
     rcases Int.units_eq_one_or u with hu | hu
     · refine ⟨1, ?_⟩
-      simpa [hu]
+      simp [hu]
     · refine ⟨⟨c, hcC⟩, ?_⟩
       simpa [f, hu] using hcSignNeg
   have hindex : f.ker.index = 2 := by
@@ -281,7 +281,7 @@ private theorem simple_equal_card_lift_or_diagonal
     (∀ a : A, ∃ l : L, f l = a ∧ t l = 1) ∨
       ∃ e : B ≃* A, ∀ l : L, e (t l) = f l := by
   let M : Subgroup A := t.ker.map f
-  letI : M.Normal :=
+  let : M.Normal :=
     Subgroup.Normal.map (inferInstance : t.ker.Normal) f hf
   rcases (inferInstance : M.Normal).eq_bot_or_eq_top with hM | hM
   · right
@@ -325,13 +325,13 @@ theorem exists_lift_threeCycle_both_of_surjective_alternating
       ((f l : alternatingGroup F) : Equiv.Perm F).IsThreeCycle ∧
       ((t l : alternatingGroup C) : Equiv.Perm C).IsThreeCycle := by
   classical
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card, hF]
       norm_num)
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [hF]; norm_num)
-  letI : Nontrivial C :=
+  let : Nontrivial C :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [hC]; norm_num)
   have hcard :
       Nat.card (alternatingGroup F) =

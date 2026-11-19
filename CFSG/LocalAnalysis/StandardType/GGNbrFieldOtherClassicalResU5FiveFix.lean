@@ -73,7 +73,7 @@ theorem ggFixNoCompOn_u5Five (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n) {σ 
   classical
   intro φ hφI hφ φ₀ hφ₀X hres J
   obtain ⟨hjr, hj', hk⟩ := Uni.fixF_data hn hK σ hσ
-  haveI : CharP (fixF σ) 2 := Uni.charP_fixF hn hK σ hσ
+  have : CharP (fixF σ) 2 := Uni.charP_fixF hn hK σ hσ
   obtain ⟨A, hAGU, hA⟩ := hφI
   obtain ⟨M, ⟨hMGU, hMreg⟩, hM⟩ := hφ₀X
   set ι : fixF σ →+* K := (fixF σ).subtype with hι
@@ -218,7 +218,7 @@ theorem ggFixDataKX_u5Five {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   have h5 : 5 ∣ 2 ^ (n / orderOf σ) + 1 := by
     rw [hσ5]
     exact five_dvd_sub_U5Five hpn h5n
-  haveI : CharP (fixF σ) 2 := Uni.charP_fixF hn hK σ hσ
+  have : CharP (fixF σ) 2 := Uni.charP_fixF hn hK σ hσ
   obtain ⟨hS, hna⟩ := Uni.simple_noncomm_proj hk (d := 5) (by norm_num) hdq
   exact ⟨_, inferInstance, _, ggRegSetU5Five (fixF σ) (n / orderOf σ),
     (Uni.subfieldEquiv (by norm_num) hn hK hσ hdq hσf).symm, hS, hna,
@@ -238,7 +238,7 @@ theorem largeEvenLabelAll_fixKX_u5Five {lab : LargeEvenLabel} (hlab : LargeEvenI
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   intro _ _ f hf hord
   exact ggFixDataKX_u5Five hK hn hpn h5n hf hord

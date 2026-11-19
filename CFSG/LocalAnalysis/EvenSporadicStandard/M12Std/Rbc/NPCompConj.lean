@@ -83,6 +83,7 @@ namespace Alt5Pair
 
 variable {w c : K}
 
+omit [A.Normal] in
 theorem h₀_mem (hS : Alt5Pair A w c) : c⁻¹ * w ∈ centralizer (A : Set K) := by
   rw [mem_centralizer_iff]
   intro a ha
@@ -91,12 +92,15 @@ theorem h₀_mem (hS : Alt5Pair A w c) : c⁻¹ * w ∈ centralizer (A : Set K) 
     _ = c⁻¹ * (w * a) := by rw [← h]
     _ = c⁻¹ * w * a := by group
 
+omit [A.Normal] in
 theorem w_eq (_hS : Alt5Pair A w c) : w = c * (c⁻¹ * w) := by
   group
 
+omit [A.Normal] in
 theorem h₀_comm (hS : Alt5Pair A w c) : (c⁻¹ * w) * c = c * (c⁻¹ * w) :=
   (mem_centralizer_iff.1 hS.h₀_mem c hS.mem).symm
 
+omit [A.Normal] in
 theorem h₀_sq (hS : Alt5Pair A w c) : (c⁻¹ * w) * (c⁻¹ * w) = 1 := by
   have h1 := hS.h₀_comm
   have h2 := hS.sq_w

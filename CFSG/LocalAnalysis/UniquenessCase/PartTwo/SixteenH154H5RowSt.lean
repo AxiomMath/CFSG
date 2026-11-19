@@ -14,10 +14,10 @@ variable {W : Type} [CommGroup W]
 theorem s16h_H5_row_St8_rank [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSt8 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L)) :
-    ∀ q : ℕ, q.Prime → q ≠ 2 → ∀ E : Subgroup (MulAut W),
-      E ≤ A ⊓ normalizer (L : Set (MulAut W)) → IsElemAbelian q E →
-      Nat.card ↥(autSub E (commSub ⊤ L)) ≤ q ^ 2 :=
-  fun q hq hq2 E hE hEab =>
+    ∀ _q : ℕ, _q.Prime → _q ≠ 2 → ∀ _E : Subgroup (MulAut W),
+      _E ≤ A ⊓ normalizer (L : Set (MulAut W)) → IsElemAbelian _q _E →
+      Nat.card ↥(autSub _E (commSub ⊤ L)) ≤ _q ^ 2 :=
+  fun _q hq hq2 _E hE hEab =>
     s16h_H5_rowSt8_autSub_le hc h (s16h_H5_rowSt8_irrSet hc h) hq hq2 hE hEab
 
 theorem s16h_H5_row_St8 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}

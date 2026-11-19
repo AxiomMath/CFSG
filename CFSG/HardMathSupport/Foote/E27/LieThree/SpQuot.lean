@@ -20,7 +20,7 @@ theorem statedSp_scalar_sq {n : ℕ} (hn : 0 < n) {F : Type} [Field F] (y : Stat
         Matrix.diagonal (fun _ => (u : F)) := by
       rw [← hu]
       ext i j
-      simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply, Matrix.one_apply]
+      simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply]
     exact this
   have h := congrFun (congrFun (mat_transpose_mul_gram_mul y) (Sum.inl ⟨0, hn⟩))
     (Sum.inr ⟨0, hn⟩)

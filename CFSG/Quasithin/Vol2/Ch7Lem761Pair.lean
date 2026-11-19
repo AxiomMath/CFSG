@@ -50,14 +50,14 @@ theorem offender_quad_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQT
     norm_num
   obtain ⟨hrkA, -⟩ := e3_31_one_core hV hT h24 hg hEq
   rw [hm22] at hrkA
-  have h21 : rk ↥(autI hV A) - 1 = 1 := by rw [hrkA] <;> norm_num
+  have h21 : rk ↥(autI hV A) - 1 = 1 := by rw [hrkA]
   have hW1 := rkIdx_gammaCheck_le_one hcard hA2 hcardA hxA hyA hx1 hy1 h32
   have hW2 := e3_31_two_ge hV hT h24 hg hEq
   rw [h21, hw] at hW2
   have hW : rkIdx (gammaCheck 1 (autI hV A)) = 1 := by
     have : 1 ≤ rkIdx (gammaCheck 1 (autI hV A)) := by exact_mod_cast hW2
     omega
-  obtain ⟨-, hWeq, -, -⟩ := e3_31_two_eq hV hVg hT h24 hg hEq (by rw [h21, hw, hW] <;> simp)
+  obtain ⟨-, hWeq, -, -⟩ := e3_31_two_eq hV hVg hT h24 hg hEq (by rw [h21, hw, hW]; simp)
   rw [h21] at hWeq
   have hm1 : mQuot (fsuV T I)
       (fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G)) = 1 := by
@@ -80,7 +80,7 @@ theorem offender_quad_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQT
     have hfix : convI hV ⟨a, hAN ha⟩ u * u⁻¹ ∈ fixV (autI hV A) :=
       mem_fixV.mpr fun z hz => hquad _ hxaA z hz u
     have hval : (convI hV ⟨a, hAN ha⟩ u * u⁻¹).val = a * v * a⁻¹ * v⁻¹ := by
-      rw [IntMod.val_mul, IntMod.val_inv, convI_apply_val, hu] <;> rfl
+      rw [IntMod.val_mul, IntMod.val_inv, convI_apply_val, hu]
     have hC := (mem_fixV_autI hV hAN _).mp hfix
     rw [hval] at hC
     have hmem : a * v * a⁻¹ * v⁻¹ ∈ fsuV T I ⊓ Subgroup.centralizer (A : Set G) := by
@@ -102,7 +102,7 @@ theorem offender_quad_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQT
           conjSubgroup (fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G))
             g⁻¹ := by
         rw [conjSubgroup_inf, conjSubgroup_normalizer, conjSubgroup_conj_inv]
-      rw [h3, mQuot_conjSubgroup, hm1, hw] <;> simp
+      rw [h3, mQuot_conjSubgroup, hm1, hw]; simp
 
 theorem isPGroup_sup_conj_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
     (hmod : StmtFSUModule) (h734 : Stmt7_3_4) (h771 : Stmt7_7_1) (hyp : Hyp7_0_2 G T L I)

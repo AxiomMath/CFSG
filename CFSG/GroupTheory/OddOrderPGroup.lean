@@ -51,7 +51,7 @@ theorem exists_normal_of_lt_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] {U T
     (hT : IsPGroup p T) (hUT : U < T) :
     ∃ X : Subgroup G, U ≤ X ∧ X < T ∧ T ≤ Subgroup.normalizer (X : Set G) := by
   have hT' : IsPGroup p ↥T := hT
-  haveI : Group.IsNilpotent ↥T := hT'.isNilpotent
+  have : Group.IsNilpotent ↥T := hT'.isNilpotent
   let U' : Subgroup T := U.subgroupOf T
   have hU'ne : U' ≠ ⊤ := by
     intro h
@@ -59,7 +59,7 @@ theorem exists_normal_of_lt_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] {U T
     exact hUT.ne (le_antisymm hUT.le h)
   obtain ⟨M, hMcoat, hU'M⟩ :=
     (IsCoatomic.eq_top_or_exists_le_coatom U').resolve_left hU'ne
-  haveI : M.Normal := Subgroup.NormalizerCondition.normal_of_coatom M
+  have : M.Normal := Subgroup.NormalizerCondition.normal_of_coatom M
     (Group.normalizerCondition_of_isNilpotent (G := ↥T)) hMcoat
   have hMlt : M < ⊤ := lt_of_le_of_ne le_top hMcoat.1
   refine ⟨M.map T.subtype, ?_, ?_, ?_⟩

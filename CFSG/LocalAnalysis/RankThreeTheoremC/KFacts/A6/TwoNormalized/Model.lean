@@ -52,7 +52,7 @@ theorem mem_range_of_commute {a : GF9} (ha : a ≠ 0) {g : PSL29} (hg : g * ut a
   have e01 := congrFun (congrFun hmat 0) 1
   have e10 := congrFun (congrFun hmat 1) 0
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
+    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
     smul_eq_mul, one_mul, mul_one, zero_mul, mul_zero, add_zero, zero_add] at e00 e01 e10
   set p := (g : Matrix (Fin 2) (Fin 2) GF9) 0 0 with hp
   set q := (g : Matrix (Fin 2) (Fin 2) GF9) 0 1 with hq
@@ -176,8 +176,8 @@ theorem eq_wb {g : PSL29} (h1 : g * hb = hb⁻¹ * g) (h2 : (g * ut 1) ^ 3 = 1) 
   have e00 := congrFun (congrFun hmat 0) 0
   have e11 := congrFun (congrFun hmat 1) 1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
-    smul_eq_mul, one_mul, mul_one, zero_mul, mul_zero, add_zero, zero_add] at e00 e11
+    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
+    smul_eq_mul, zero_mul, mul_zero, add_zero, zero_add] at e00 e11
   have hp : (g : Matrix (Fin 2) (Fin 2) GF9) 0 0 = 0 := eq_zero_of_left ε _ hε e00
   have hs : (g : Matrix (Fin 2) (Fin 2) GF9) 1 1 = 0 := eq_zero_of_right ε _ hε e11
   have hqr : (g : Matrix (Fin 2) (Fin 2) GF9) 0 1 * (g : Matrix (Fin 2) (Fin 2) GF9) 1 0 = -1 := by

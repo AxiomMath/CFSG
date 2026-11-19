@@ -36,7 +36,7 @@ theorem exists_sylow_isA8Type [Finite Q]
   obtain ⟨S, hS⟩ := hP'2.exists_le_sylow
   refine ⟨S, ?_⟩
   have hcard_le : Nat.card ((S : Subgroup ↥X).map X.subtype) ≤ 64 :=
-    hmax _ (S.isPGroup'.map X.subtype)
+    hmax _ (S.isPGroup.map X.subtype)
   have hcard_eq : Nat.card ((S : Subgroup ↥X).map X.subtype) =
       Nat.card (S : Subgroup ↥X) :=
     Subgroup.card_map_of_injective X.subtype_injective

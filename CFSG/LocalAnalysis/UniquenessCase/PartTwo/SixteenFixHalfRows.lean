@@ -36,8 +36,8 @@ theorem s16fh_row_L3 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨k, -, hsl, hsum⟩ := h
   obtain ⟨K₀, hK₀f, -, -, ⟨e⟩⟩ := hsl
-  letI := hK₀f
-  haveI : Group.IsPerfect ↥(StatedSL 3 K₀) :=
+  let := hK₀f
+  have : Group.IsPerfect ↥(StatedSL 3 K₀) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K₀
   have hperf : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -52,8 +52,8 @@ theorem s16fh_row_L3 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
       (N := fun H U Z => BinaryNaturalSL H U Z 3 1) (k := k) (c := 1)
       (fun I hI => by
         obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hI
-        letI := hKf
-        letI := hKfin
+        let := hKf
+        let := hKfin
         exact ⟨FFModel.nat (StatedSL 3 K), s16fh_cover_sl_three (by simpa using hKcard),
           hreal, s16fh_commSub_sup_nat (by norm_num) hreal⟩) hsum
   have hZk : rk ↥(commSub ⊤ L ⊓ fixV L) ≤ k := s16fh_rk_le_of_card_le (by simpa using hcard)
@@ -61,8 +61,8 @@ theorem s16fh_row_L3 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
     s16fh_rk_sumOfNat_ge (N := fun H U Z => BinaryNaturalSL H U Z 3 1) hsum
       (fun I hI => by
         obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hI
-        letI := hKf
-        letI := hKfin
+        let := hKf
+        let := hKfin
         simpa using s16fh_rk_of_realizes_nat (d := 3) (a := 1) hKcard hreal)
   omega
 
@@ -71,11 +71,11 @@ theorem s16fh_row_SL2_three [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgrou
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨-, hBN⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hBN
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π, hπ⟩ := hreal
   have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-  haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+  have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   have hperf : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective (f := π) hπ.1
   have hmem : ∀ l ∈ L, ∀ y ∈ (⊤ : Subgroup W), l y ∈ (⊤ : Subgroup W) :=
@@ -98,8 +98,8 @@ theorem s16fh_row_SL2_two [Finite W] {L : Subgroup (MulAut W)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨-, hBN⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hBN
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hdim : rk ↥(commSub ⊤ L) = rk ↥(commSub ⊤ L ⊓ fixV L) + 2 * 2 :=
     s16fh_rk_of_realizes_nat (d := 2) (a := 2) hKcard hreal
   omega

@@ -61,13 +61,13 @@ private theorem false_of_fix_inv_comm (hP : Nat.card P = 27) (hZ : Nat.card (Sub
   set C := Subgroup.centralizer ({a} : Set P)
   set A := φ.eqLocus (MonoidHom.id P) ⊓ C
   have hZA : Subgroup.center P < A := by
-    refine SetLike.lt_iff_le_and_exists.2
+    refine IsConcreteLE.lt_iff_le_and_exists.2
       ⟨fun z hz => Subgroup.mem_inf.2 ⟨hφZ z hz, ?_⟩, a, Subgroup.mem_inf.2 ⟨hfa, ?_⟩, ha⟩
     · exact Subgroup.mem_centralizer_iff.2 fun g hg => by
         rw [Set.mem_singleton_iff.1 hg]; exact Subgroup.mem_center_iff.1 hz a
     · exact Subgroup.mem_centralizer_iff.2 fun g hg => by rw [Set.mem_singleton_iff.1 hg]
   have hAC : A < C := by
-    refine SetLike.lt_iff_le_and_exists.2 ⟨inf_le_right, b, ?_, fun h => hb ?_⟩
+    refine IsConcreteLE.lt_iff_le_and_exists.2 ⟨inf_le_right, b, ?_, fun h => hb ?_⟩
     · exact Subgroup.mem_centralizer_iff.2 fun g hg => by rw [Set.mem_singleton_iff.1 hg, hab]
     · have h' : φ b = b := (Subgroup.mem_inf.1 h).1
       rw [hfb] at h'
@@ -296,7 +296,7 @@ private theorem false_of_commute (hirr : IsIrreducibleMatrixRep H.subtype) (hq3 
       · simp [hk, one_apply_ne hk]
   · have := congrFun (congrFun h (i + 1)) (i + 1)
     rw [Matrix.sub_apply, val_diagSign, diagonal_apply_eq, one_apply_eq,
-      if_neg (by fin_cases i <;> decide), Matrix.zero_apply] at this
+      ite_eq_right (by fin_cases i <;> decide), Matrix.zero_apply] at this
     exact h2 (by linear_combination -this)
 
 end Matrix

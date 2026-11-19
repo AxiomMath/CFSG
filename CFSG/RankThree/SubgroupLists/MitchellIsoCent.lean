@@ -29,16 +29,14 @@ theorem quad_sq_eq_zero_of_mem_isoCent {g : GL V₄ K} (hg : g ∈ isoCent K) :
   have hcol : ∀ (a : V₄) (j : Fin 2), S a (Sum.inl j) = 0 := by
     intro a j
     rcases a with i | i <;> fin_cases i <;> fin_cases j <;>
-      simp [hS, htr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.one_apply,
-        hl] <;>
+      simp [hS, htr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, hl] <;>
       first | linear_combination | linear_combination -hdet
   have hrow : ∀ (i : Fin 2) (b : V₄), S (Sum.inr i) b = 0 := by
     intro i b
     rcases b with j | j
     · exact hcol _ j
     fin_cases i <;> fin_cases j <;>
-      simp [hS, htr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.one_apply,
-        hl, e1, e2, e3, e4] <;>
+      simp [hS, htr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, hl, e1, e2, e3, e4] <;>
       first | linear_combination | linear_combination -hdet
   rw [sq]
   ext a b

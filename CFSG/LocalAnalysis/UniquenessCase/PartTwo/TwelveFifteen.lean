@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveFifteen
 
+omit [Finite G] in
 theorem eq_or_eq_of_inCalV0 {M V₀ V V₁ V₂ : Subgroup G} (h0 : InCalV0 M V₀ V)
     (hV₁ : M ≤ normalizer (V₁ : Set G)) (hV₂ : M ≤ normalizer (V₂ : Set G))
     (hV : V = V₁ ⊔ V₂) : V = V₁ ∨ V = V₂ := by
@@ -23,7 +24,7 @@ theorem eq_or_eq_of_inCalV0 {M V₀ V V₁ V₂ : Subgroup G} (h0 : InCalV0 M V�
   have key : ∀ V' : Subgroup G, M ≤ normalizer (V' : Set G) → V' ≤ V → ¬ V' ≤ V₀ →
       V = V' := by
     intro V' hM' hV'V hnot
-    obtain ⟨v, hv, hv0⟩ := SetLike.not_le_iff_exists.1 hnot
+    obtain ⟨v, hv, hv0⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
     have h1 := hgen v (hV'V hv) hv0
     refine le_antisymm ?_ hV'V
     rw [← h1, closure_le]
@@ -46,7 +47,7 @@ theorem inCalW_of_le (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) {U V : Sub
   obtain ⟨⟨hV, hV1⟩, h8, hred⟩ := hW
   obtain ⟨p, hp⟩ := hx.sig_nonempty
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨P, hPM, hPel, hPV, hP2⟩ := uc22p22n_exists_good D hx h61 hV hTI hp
   have hPU : P ⊓ centralizer (U : Set G) = ⊥ := by
     rw [eq_bot_iff]
@@ -62,7 +63,7 @@ theorem inCalW_of_le (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) {U V : Sub
   have hU8 : 8 ≤ Nat.card U := by
     have h4 : ¬ Nat.card U ≤ 4 := fun h4 =>
       uc22p22nb_false_of_card_le_four (hPM.trans hMU) hPU h4 hP9
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (uc22p22e_isPGroup_of_elem hUel)
     rw [hk] at h4 ⊢
     by_contra h8'

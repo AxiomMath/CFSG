@@ -51,8 +51,8 @@ lemma u7sw_map_tvMat (σ : L →+* L) {v φ : Fin ν → L} (s : L) :
     Matrix.vecMulVec_apply]
   by_cases hij : i = j
   · subst hij
-    simp [map_add, map_mul, mul_assoc]
-  · simp [hij, map_mul, mul_assoc]
+    simp [map_add, map_mul]
+  · simp [hij, map_mul]
 
 lemma u7sw_inv_one_add_smul_vecMulVec {w u : Fin ν → L} (c : L) (h : u ⬝ᵥ w = 0) :
     (1 + c • Matrix.vecMulVec w u)⁻¹ = 1 - c • Matrix.vecMulVec w u := by
@@ -282,7 +282,7 @@ theorem exists_rational_of_stable (σ : L ≃+* L) {T : Subgroup SL(ν, L)} (hT 
       funext i; simp only [hv0def, Pi.smul_apply, smul_eq_mul], by
       funext i; simp only [hφ0def, Pi.smul_apply, smul_eq_mul]⟩
 
-theorem swapped_isotropic (σ : L ≃+* L) {v φ : Fin ν → L} (hv : ∀ i, σ (σ (v i)) = v i)
+theorem swapped_isotropic (σ : L ≃+* L) {v φ : Fin ν → L} (_hv : ∀ i, σ (σ (v i)) = v i)
     (hφ : ∀ i, σ (σ (φ i)) = φ i) (hv0 : v ≠ 0) (hφ0 : φ ≠ 0) (h : φ ⬝ᵥ v = 0)
     (hs : IsSwappedTv (stdUnitary σ.toRingHom) (tvGroup v φ)) :
     (∑ i, σ (v i) * v i = 0) ∧ (∑ i, σ (φ i) * φ i = 0) ∧

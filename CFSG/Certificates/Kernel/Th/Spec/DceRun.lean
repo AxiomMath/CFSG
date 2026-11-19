@@ -153,7 +153,7 @@ theorem exists_first_tree {NF ND : ℕ} {nxf : ℕ → ℕ} (h0 : nxf 0 = 1) (hN
     (hND : 2 ≤ ND) (hstep : ∀ i < NF, nxf (i + 1) = nxf i ∨ nxf (i + 1) = nxf i + 1) :
     ∃ i < NF, nxf i = 1 ∧ nxf (i + 1) = 2 := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have key : ∀ k ≤ NF, nxf k = 1 := by
     intro k
     induction k with

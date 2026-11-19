@@ -19,7 +19,7 @@ theorem dvd_exponent_of_dvd_outer_PSp_two {K : Type} [Field K] [Finite K] {p f :
     (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f)
     (h : p ∣ Nat.card (Outer (StatedProj (StatedSp 2 K)))) : p ∣ f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hchar : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have h2 : (2 : K) ≠ 0 := by
@@ -47,7 +47,7 @@ theorem dvd_exponent_of_dvd_outer_PSp_two {K : Type} [Field K] [Finite K] {p f :
   have hED : (spLinearAutGroup 2 K).relIndex (spSemilinearAutGroup 2 K) ∣ f := by
     set D := spLinearAutGroup 2 K
     set E := spSemilinearAutGroup 2 K
-    haveI : (D.subgroupOf E).Normal := inferInstance
+    have : (D.subgroupOf E).Normal := inferInstance
     let Φ : (K ≃+* K) →* ↥E ⧸ D.subgroupOf E :=
       (QuotientGroup.mk' (D.subgroupOf E)).comp
         ((fieldAut 2 K).codRestrict E fun σ => fieldAut_mem_spSemilinearAutGroup σ)
@@ -73,16 +73,16 @@ theorem kdRank3Field_B2 (q : PrimePower) (hv : (LieTypeIndex.B 2 q).Valid) :
     KDRank3FieldAt ⟨.B 2 q, hv⟩ := by
   intro p hp hp2 S _ _ ⟨e⟩ hchar hrank hout
   set d : ValidLieTypeIndex := ⟨.B 2 q, hv⟩ with hd
-  haveI hfin := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI hFact : Fact p.Prime := ⟨hp⟩
+  have hfin := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have hFact : Fact p.Prime := ⟨hp⟩
   have hchar' : d.characteristic = p := hchar
   have hKc : Nat.card ↥d.fixedField = p ^ q.exponent := by
     rw [ValidLieTypeIndex.card_fixedField, ValidLieTypeIndex.fieldOrder_eq_characteristic_pow,
       hchar']
     have he : d.fieldExponent = q.exponent := LieTypeIndex.fieldExponent_B 2 q
     rw [he]
-  haveI hcp : CharP ↥d.fixedField p := by
-    haveI := Fintype.ofFinite ↥d.fixedField
+  have hcp : CharP ↥d.fixedField p := by
+    have := Fintype.ofFinite ↥d.fixedField
     exact charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hKc)
   let e1 := e.trans (CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv)
@@ -105,16 +105,16 @@ theorem kdRank3Field_C (r : ℕ) (q : PrimePower) (hv : (LieTypeIndex.C r q).Val
   intro p hp hp2 S _ _ ⟨e⟩ hchar hrank hout
   have hr : 3 ≤ r := ((LieTypeIndex.inStandardRange_iff _).1 ((LieTypeIndex.valid_iff _).1 hv).1).1
   set d : ValidLieTypeIndex := ⟨.C r q, hv⟩ with hd
-  haveI hfin := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI hFact : Fact p.Prime := ⟨hp⟩
+  have hfin := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have hFact : Fact p.Prime := ⟨hp⟩
   have hchar' : d.characteristic = p := hchar
   have hKc : Nat.card ↥d.fixedField = p ^ q.exponent := by
     rw [ValidLieTypeIndex.card_fixedField, ValidLieTypeIndex.fieldOrder_eq_characteristic_pow,
       hchar']
     have he : d.fieldExponent = q.exponent := LieTypeIndex.fieldExponent_C r q
     rw [he]
-  haveI hcp : CharP ↥d.fixedField p := by
-    haveI := Fintype.ofFinite ↥d.fixedField
+  have hcp : CharP ↥d.fixedField p := by
+    have := Fintype.ofFinite ↥d.fixedField
     exact charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hKc)
   let e1 := e.trans (CFSG.QuasithinUnique.SQTK.typeCGroupEquivStatedProj r q hv)

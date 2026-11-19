@@ -13,6 +13,7 @@ variable {K : Type*} [Group K] [Finite K]
 @[expose] def fixedSubgroupOf (σ : MulAut K) : Subgroup K :=
   MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id K)
 
+omit [Finite K] in
 theorem mem_fixedSubgroupOf {σ : MulAut K} {x : K} : x ∈ fixedSubgroupOf σ ↔ σ x = x := Iff.rfl
 
 theorem card_fixedSubgroupOf_modEq {p : ℕ} [Fact p.Prime] (σ : MulAut K) (hσ : σ ^ p = 1) :
@@ -81,13 +82,13 @@ theorem card_le_of_elemAbelian_of_unique {p : ℕ} [hp : Fact p.Prime] {k : K} (
   have hkp : IsPGroup p (Subgroup.zpowers k) := IsPGroup.of_card (n := 1) (by rw [hzk, pow_one])
   obtain ⟨P₀, hkP⟩ := hkp.exists_le_sylow
   have hkP₀ : k ∈ (P₀ : Subgroup K) := hkP (Subgroup.mem_zpowers k)
-  have hP₀p : IsPGroup p (P₀ : Subgroup K) := P₀.isPGroup'
+  have hP₀p : IsPGroup p (P₀ : Subgroup K) := P₀.isPGroup
   have hnt : Nontrivial (P₀ : Subgroup K) := by
     refine ⟨⟨⟨k, hkP₀⟩, 1, fun h => ?_⟩⟩
     have : k = 1 := congrArg Subtype.val h
     rw [this, orderOf_one] at hk
     exact hp.out.one_lt.ne hk
-  haveI : Nontrivial (Subgroup.center (P₀ : Subgroup K)) := hP₀p.center_nontrivial
+  have : Nontrivial (Subgroup.center (P₀ : Subgroup K)) := hP₀p.center_nontrivial
   have hZp : IsPGroup p (Subgroup.center (P₀ : Subgroup K)) := hP₀p.to_subgroup _
   have hZdvd : p ∣ Nat.card (Subgroup.center (P₀ : Subgroup K)) := by
     rcases hZp.card_eq_or_dvd with h | h

@@ -107,7 +107,7 @@ theorem exists_ne_zero_mem (hp2 : p ≠ 2) (hW : W ≠ ⊥) (hWp : IsPGroup p �
         ext v
         simp [mulVec_mulVec] }
   obtain ⟨⟨v, hvD⟩, hv0, hvfix⟩ :=
-    CFSG.LieType.BorelTits.exists_fixed_ne_zero ρ p (S : Subgroup _) S.isPGroup'
+    CFSG.LieType.BorelTits.exists_fixed_ne_zero ρ p (S : Subgroup _) S.isPGroup
   refine ⟨v, ⟨fun y hy => ?_, hvD⟩, fun h => hv0 (Subtype.ext h)⟩
   obtain ⟨⟨t, ht, rfl⟩, m, hm⟩ := hy
   have htS : (⟨t, ht⟩ : ↥(W.comap (proj 4 F))) ∈ S := by

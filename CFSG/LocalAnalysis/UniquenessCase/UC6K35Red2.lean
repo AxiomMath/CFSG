@@ -68,7 +68,7 @@ theorem not_le_of_isStronglyPEmbedded {N K : Subgroup Y} [K.Normal] (hN : IsStro
     rw [hT, Subgroup.subgroupOf_map_subtype, inf_of_le_left inf_le_right]
   apply hN.1
   rw [eq_top_iff, ← Sylow.normalizer_sup_eq_top T, hTmap]
-  exact sup_le (hN.normalizer_le hPK P.isPGroup'.to_inf_left (inf_le_left.trans hPN)) hKN
+  exact sup_le (hN.normalizer_le hPK P.isPGroup.to_inf_left (inf_le_left.trans hPN)) hKN
 
 theorem glbCore_sylow_ne_top {N K : Subgroup Y} [K.Normal] (hN : IsStronglyPEmbedded p N)
     (P : Sylow p Y) (hPN : (P : Subgroup Y) ≤ N) (hPK : (P : Subgroup Y) ⊓ K ≠ ⊥) (T : Sylow p ↥K)
@@ -82,7 +82,7 @@ theorem glbCore_sylow_ne_top {N K : Subgroup Y} [K.Normal] (hN : IsStronglyPEmbe
     rw [Subgroup.mem_subgroupOf]
     have hQne : Q.map K.subtype ≠ ⊥ := fun h =>
       ne_bot_of_one_le_pRank hQ ((Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective).1 h)
-    have hQp : IsPGroup p ↥(Q.map K.subtype) := (T.isPGroup'.to_le hQT).map K.subtype
+    have hQp : IsPGroup p ↥(Q.map K.subtype) := (T.isPGroup.to_le hQT).map K.subtype
     have hQN : Q.map K.subtype ≤ N :=
       (Subgroup.map_mono hQT).trans (by rw [hTmap]; exact inf_le_left.trans hPN)
     exact hN.normalizer_le hQne hQp hQN
@@ -98,6 +98,7 @@ theorem pRank_le_pRank_mulAut (K : Subgroup Y) [K.Normal] (hKC : centralizer (K 
   CFSG.SectionRank.pRank_top_le_of_injective hp.out.one_lt MulAut.conjNormal
     (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.CyclicOuter.conjNormal_injective K hKC)
 
+omit [Finite Y] hp in
 theorem mem_of_forall_inner (K : Subgroup Y) [K.Normal] (hKC : centralizer (K : Set Y) = ⊥)
     (hinn : ∀ f : MulAut ↥K, (∃ n : ℕ, f ^ p ^ n = 1) → f ∈ (MulAut.conj : ↥K →* MulAut ↥K).range)
     {x : Y} {n : ℕ} (hx : x ^ p ^ n = 1) : x ∈ K := by
@@ -123,6 +124,7 @@ theorem mem_of_forall_inner (K : Subgroup Y) [K.Normal] (hKC : centralizer (K : 
       _ = c := by rw [hcen, mul_one]
   exact hxc ▸ c.2
 
+omit [Finite Y] in
 theorem mem_of_not_dvd_index (K : Subgroup Y) [K.Normal] (hK : ¬ p ∣ K.index) {x : Y} {n : ℕ}
     (hx : x ^ p ^ n = 1) : x ∈ K := by
   have h1 : (QuotientGroup.mk' K x) ^ p ^ n = 1 := by rw [← map_pow, hx, map_one]
@@ -140,6 +142,7 @@ theorem mem_of_not_dvd_index (K : Subgroup Y) [K.Normal] (hK : ¬ p ∣ K.index)
   rw [orderOf_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h4
   exact h4
 
+omit [Finite Y] hp in
 theorem opp_le_of_forall {K : Subgroup Y} (h : ∀ (x : Y) (n : ℕ), x ^ p ^ n = 1 → x ∈ K) :
     UC22.Opp p (⊤ : Subgroup Y) ≤ K := by
   unfold UC22.Opp CFSG.RankThree.PartOne.pElementSubgroup

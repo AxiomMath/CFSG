@@ -133,7 +133,7 @@ theorem exists_exponent_three {G : Type*} [Group G] [Finite G] {R : Subgroup G}
     ∃ m : ℕ, (∀ y ∈ R, y ^ 3 ^ (m + 1) = 1) ∧ ∃ y ∈ R, y ^ 3 ^ m ≠ 1 := by
   classical
   have hex : ∃ k : ℕ, ∀ y ∈ R, y ^ 3 ^ k = 1 := by
-    haveI : Fintype R := Fintype.ofFinite R
+    have : Fintype R := Fintype.ofFinite R
     choose f hf using (hR3 : ∀ g : R, ∃ k : ℕ, g ^ 3 ^ k = 1)
     have hall : ∀ z : R, z ^ 3 ^ (Finset.sup (Finset.univ : Finset R) f) = 1 := fun z =>
       pow_three_pow_eq_one_of_le (hf z) (Finset.le_sup (f := f) (Finset.mem_univ z))
@@ -245,7 +245,7 @@ theorem centralizer_le_B {G : Type*} [Group G] {A B R : Subgroup G} {a c d : G}
     exact (inv_mul_eq_one.mp h).symm
   have ha3 : a ^ 3 = 1 := hA3 a haA
   have hb3 : b ^ 3 = 1 := hA3 b hbA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   have hyab : y0 * a * y0⁻¹ = a * b := by
     rw [hb_def, mul_inv_cancel_left]
@@ -298,10 +298,10 @@ theorem beta_mul {G : Type*} [Group G] {B R : Subgroup G} {a : G}
 
 theorem beta_conj {G : Type*} [Group G] {A B R : Subgroup G} {a n b0 y : G}
     (hAc : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u) (haA : a ∈ A) (hBA : B ≤ A)
-    (hRcB : ∀ y ∈ R, ∀ b ∈ B, y * b * y⁻¹ = b) (hy : y ∈ R) (hy' : n * y * n⁻¹ ∈ R)
-    (hβy : a⁻¹ * (y * a * y⁻¹) ∈ B)
+    (hRcB : ∀ y ∈ R, ∀ b ∈ B, y * b * y⁻¹ = b) (_hy : y ∈ R) (hy' : n * y * n⁻¹ ∈ R)
+    (_hβy : a⁻¹ * (y * a * y⁻¹) ∈ B)
     (hβy' : a⁻¹ * ((n * y * n⁻¹) * a * (n * y * n⁻¹)⁻¹) ∈ B)
-    (hnB : ∀ b ∈ B, n * b * n⁻¹ ∈ B) (hb0 : b0 ∈ B) (hna : n * a * n⁻¹ = a⁻¹ * b0) :
+    (_hnB : ∀ b ∈ B, n * b * n⁻¹ ∈ B) (hb0 : b0 ∈ B) (hna : n * a * n⁻¹ = a⁻¹ * b0) :
     a⁻¹ * ((n * y * n⁻¹) * a * (n * y * n⁻¹)⁻¹) =
       (n * (a⁻¹ * (y * a * y⁻¹)) * n⁻¹)⁻¹ := by
   obtain ⟨y', hy'def⟩ : ∃ y', y' = n * y * n⁻¹ := ⟨_, rfl⟩

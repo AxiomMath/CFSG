@@ -13,7 +13,7 @@ theorem two_le_pRank_of_sylowShape_sq {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) 
   classical
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p X) := inferInstance
-  obtain ⟨ε⟩ := h P.1 P.isPGroup' P.not_dvd_index
+  obtain ⟨ε⟩ := h P.1 P.isPGroup P.not_dvd_index
   have hdvd : p ∣ p ^ e := dvd_pow_self p (by omega)
   have hm : p ^ e ≠ 0 := pow_ne_zero _ hp.ne_zero
   let Ψ₀ : (Fin 2 → Multiplicative (ZMod p)) →* (Fin 2 → Multiplicative (ZMod (p ^ e))) :=

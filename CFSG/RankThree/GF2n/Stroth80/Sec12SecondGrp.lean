@@ -36,11 +36,13 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
     (h : H) (i : ι) : ι :=
   Classical.choose (hstab h i)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem famIdx_spec (A : ι → Subgroup H)
     (hstab : ∀ (h : H) (i : ι), ∃ j, Subgroup.map (MulAut.conj h).toMonoidHom (A i) = A j)
     (h : H) (i : ι) : A (famIdx A hstab h i) = Subgroup.map (MulAut.conj h).toMonoidHom (A i) :=
   (Classical.choose_spec (hstab h i)).symm
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem famIdx_injective (A : ι → Subgroup H) (hinj : Function.Injective A)
     (hstab : ∀ (h : H) (i : ι), ∃ j, Subgroup.map (MulAut.conj h).toMonoidHom (A i) = A j)
     (h : H) : Function.Injective (famIdx A hstab h) := by
@@ -52,6 +54,7 @@ theorem famIdx_injective (A : ι → Subgroup H) (hinj : Function.Injective A)
     rw [← e1, ← e2, hii]
   exact hinj (Subgroup.map_injective (MulAut.conj h).injective this)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem famIdx_one (A : ι → Subgroup H) (hinj : Function.Injective A)
     (hstab : ∀ (h : H) (i : ι), ∃ j, Subgroup.map (MulAut.conj h).toMonoidHom (A i) = A j)
     (i : ι) : famIdx A hstab 1 i = i := by
@@ -60,6 +63,7 @@ theorem famIdx_one (A : ι → Subgroup H) (hinj : Function.Injective A)
   ext x
   simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem famIdx_mul (A : ι → Subgroup H) (hinj : Function.Injective A)
     (hstab : ∀ (h : H) (i : ι), ∃ j, Subgroup.map (MulAut.conj h).toMonoidHom (A i) = A j)
     (h k : H) (i : ι) :
@@ -79,6 +83,7 @@ theorem famIdx_mul (A : ι → Subgroup H) (hinj : Function.Injective A)
   map_one' := Equiv.ext fun i => famIdx_one A hinj hstab i
   map_mul' := fun h k => Equiv.ext fun i => famIdx_mul A hinj hstab h k i
 
+omit [DecidableEq ι] in
 theorem famPerm_apply (A : ι → Subgroup H) (hinj : Function.Injective A)
     (hstab : ∀ (h : H) (i : ι), ∃ j, Subgroup.map (MulAut.conj h).toMonoidHom (A i) = A j)
     (h : H) (i : ι) : famPerm A hinj hstab h i = famIdx A hstab h i := rfl
@@ -99,7 +104,7 @@ theorem perfect_le_iSup_of_factors [Finite H] (A : ι → Subgroup H) (hinj : Fu
     (hSn : (⨆ i, A i : Subgroup H).Normal)
     {P : Subgroup H} (hP : ⁅P, P⁆ = P) : P ≤ ⨆ i, A i := by
   classical
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
   set S : Subgroup H := ⨆ i, A i with hS
   have hPstab : ∀ p ∈ P, ∀ i, ∀ x ∈ A i, p * x * p⁻¹ ∈ A i := by
     have h1 : (famPerm A hinj hstab).comp P.subtype = 1 := hom_eq_one _
@@ -118,7 +123,7 @@ theorem perfect_le_iSup_of_factors [Finite H] (A : ι → Subgroup H) (hinj : Fu
     exact this
   have hinner : ∀ p ∈ P, ∀ i, ∃ a ∈ A i, ∀ x ∈ A i, p * x * p⁻¹ = a * x * a⁻¹ := by
     intro p hp i
-    haveI := hout i
+    have := hout i
     obtain ⟨a, ha⟩ := perfect_action_inner
       (conjAut P (A i) (fun k hk x hx => hPstab k hk i x hx)) ⟨p, hp⟩
     refine ⟨a, a.2, fun x hx => ?_⟩
@@ -183,7 +188,7 @@ theorem perfect_le_iSup_of_factors [Finite H] (A : ι → Subgroup H) (hinj : Fu
     have := Subgroup.mem_centralizer_iff.mp (hSle hy) (s⁻¹ * p) (Set.mem_singleton _)
     exact this.symm
   let φ : H →* H ⧸ S := QuotientGroup.mk' S
-  haveI : Group.IsSolvable ↥((Subgroup.centralizer (S : Set H)).map φ) :=
+  have : Group.IsSolvable ↥((Subgroup.centralizer (S : Set H)).map φ) :=
     Group.isSolvable_of_surjective (f := φ.subgroupMap (Subgroup.centralizer (S : Set H)))
       (φ.subgroupMap_surjective _)
   let ψ : ↥P →* ↥((Subgroup.centralizer (S : Set H)).map φ) :=
@@ -202,6 +207,7 @@ theorem perfect_le_iSup_of_factors [Finite H] (A : ι → Subgroup H) (hinj : Fu
   exact (QuotientGroup.eq_one_iff p).mp h1
 
 
+omit [Fintype ι] in
 theorem iSup_le_normalizer_factor [Finite H] (A : ι → Subgroup H)
     (hcomm : ∀ i j, i ≠ j → ∀ x ∈ A i, ∀ y ∈ A j, x * y = y * x) (i : ι) :
     (⨆ j, A j : Subgroup H) ≤ Subgroup.normalizer (A i : Set H) := by
@@ -249,15 +255,15 @@ theorem exists_eq_of_conj_factor [Finite H] (A : ι → Subgroup H)
     exact (Subgroup.mem_normalizer_iff.mp (iSup_le_normalizer_factor A hcomm j hs) y).mp hy
   let e : ↥(A i) ≃* ↥K := (A i).equivMapOfInjective (MulAut.conj h).toMonoidHom
     (MulAut.conj h).injective
-  haveI : IsSimpleGroup ↥K := by
-    haveI := hsimple i
+  have : IsSimpleGroup ↥K := by
+    have := hsimple i
     exact e.symm.isSimpleGroup
   by_contra hne
   push Not at hne
   have hdisj : ∀ j, K ⊓ A j = ⊥ := by
     intro j
     by_contra hnb
-    haveI := hsimple j
+    have := hsimple j
     have hn1 : ((K ⊓ A j).subgroupOf (A j)).Normal := by
       refine ⟨fun x hx g => ?_⟩
       have hx' : (x : H) ∈ K ⊓ A j := hx
@@ -344,6 +350,7 @@ variable [Finite H]
     B →* H :=
   S.subtype.comp (e.symm.toMonoidHom.comp (MonoidHom.inr A B))
 
+omit [Finite H] in
 theorem facFst_injective (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B) :
     Function.Injective (facFst S e) := by
   intro a a' h
@@ -351,6 +358,7 @@ theorem facFst_injective (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e :
   have := e.symm.injective h1
   exact (Prod.mk.inj this).1
 
+omit [Finite H] in
 theorem facSnd_injective (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B) :
     Function.Injective (facSnd S e) := by
   intro b b' h
@@ -358,6 +366,7 @@ theorem facSnd_injective (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e :
   have := e.symm.injective h1
   exact (Prod.mk.inj this).2
 
+omit [Finite H] in
 theorem facFst_comm (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B)
     (a : A) (b : B) : facFst S e a * facSnd S e b = facSnd S e b * facFst S e a := by
   have : e.symm (a, 1) * e.symm (1, b) = e.symm (1, b) * e.symm (a, 1) := by
@@ -365,16 +374,19 @@ theorem facFst_comm (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S
     simp
   exact congrArg Subtype.val this
 
+omit [Finite H] in
 theorem facFst_le (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B) :
     (facFst S e).range ≤ S := by
   rintro _ ⟨a, rfl⟩
   exact (e.symm (a, 1)).2
 
+omit [Finite H] in
 theorem facSnd_le (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B) :
     (facSnd S e).range ≤ S := by
   rintro _ ⟨b, rfl⟩
   exact (e.symm (1, b)).2
 
+omit [Finite H] in
 theorem facs_sup (S : Subgroup H) {A B : Type*} [Group A] [Group B] (e : ↥S ≃* A × B) :
     (facFst S e).range ⊔ (facSnd S e).range = S := by
   refine le_antisymm (sup_le (facFst_le S e) (facSnd_le S e)) fun x hx => ?_
@@ -487,6 +499,7 @@ section Ternary
   | some false => (S.subtype.comp (e.symm.toMonoidHom.comp
       ((MonoidHom.inr A (B × C)).comp (MonoidHom.inr B C)))).range
 
+omit [Finite H] in
 theorem facTri_le (S : Subgroup H) {A B C : Type*} [Group A] [Group B] [Group C]
     (e : ↥S ≃* A × (B × C)) (o : Option Bool) : facTri S e o ≤ S := by
   cases o with
@@ -500,6 +513,7 @@ theorem facTri_le (S : Subgroup H) {A B C : Type*} [Group A] [Group B] [Group C]
     · rintro _ ⟨a, rfl⟩
       exact (e.symm (1, (a, 1))).2
 
+omit [Finite H] in
 theorem facTri_sup (S : Subgroup H) {A B C : Type*} [Group A] [Group B] [Group C]
     (e : ↥S ≃* A × (B × C)) : (⨆ o, facTri S e o) = S := by
   refine le_antisymm (iSup_le (facTri_le S e)) fun x hx => ?_
@@ -519,6 +533,7 @@ theorem facTri_sup (S : Subgroup H) {A B C : Type*} [Group A] [Group B] [Group C
   · exact le_iSup (facTri S e) (some false) ⟨p.2.2, rfl⟩
 
 
+omit [Finite H] in
 theorem facTri_comm (S : Subgroup H) {A B C : Type*} [Group A] [Group B] [Group C]
     (e : ↥S ≃* A × (B × C)) {o o' : Option Bool} (hoo : o ≠ o') :
     ∀ x ∈ facTri S e o, ∀ y ∈ facTri S e o', x * y = y * x := by
@@ -627,13 +642,13 @@ theorem perfect_le_of_prod3 (S R : Subgroup H) [S.Normal]
     intro o
     cases o with
     | none =>
-      haveI := hAo
+      have := hAo
       exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv eA
     | some b =>
       cases b
-      · haveI := hCo
+      · have := hCo
         exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv eC
-      · haveI := hBo
+      · have := hBo
         exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv eB
   have hperm : Group.IsSolvable (Equiv.Perm (Option Bool)) :=
     Equiv.Perm.isSolvable (by simp)
@@ -695,7 +710,7 @@ theorem card_le_or_le_prod3 {C : Type*} [Group C] [Finite A] [Finite B] [Finite 
       have h2 : (y : A × (B × C)).1 = 1 := (Subgroup.mem_prod.mp (hle y.2)).1
       exact Prod.ext (h1.trans h2.symm) hxy
     let e : ↥R ≃* ↥g.range := MonoidHom.ofInjective hinj
-    haveI : IsSimpleGroup ↥g.range := e.symm.isSimpleGroup
+    have : IsSimpleGroup ↥g.range := e.symm.isSimpleGroup
     have hcard : Nat.card ↥g.range = Nat.card R := (Nat.card_congr e.toEquiv).symm
     rcases card_le_or_le_prod g.range with h | ⟨-, h⟩
     · exact Or.inl (hcard ▸ h)
@@ -706,7 +721,7 @@ theorem card_le_or_le_of_embeds {R : Type*} [Group R] [IsSimpleGroup R] [Finite 
     (f : R →* A × B) (hf : Function.Injective f) :
     Nat.card R ≤ Nat.card A ∨ (Nat.card R ≤ Nat.card B ∧ ∀ r : R, (f r).1 = 1) := by
   let e : R ≃* ↥f.range := MonoidHom.ofInjective hf
-  haveI : IsSimpleGroup ↥f.range := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥f.range := e.symm.isSimpleGroup
   have hcard : Nat.card ↥f.range = Nat.card R := (Nat.card_congr e.toEquiv).symm
   rcases card_le_or_le_prod f.range with h | ⟨hle, h⟩
   · exact Or.inl (hcard ▸ h)
@@ -717,14 +732,14 @@ theorem card_le_or_le_of_embeds3 {C : Type*} [Group C] {R : Type*} [Group R] [Is
     [Finite A] [Finite B] [Finite C] (f : R →* A × (B × C)) (hf : Function.Injective f) :
     Nat.card R ≤ Nat.card A ∨ Nat.card R ≤ Nat.card B ∨ Nat.card R ≤ Nat.card C := by
   let e : R ≃* ↥f.range := MonoidHom.ofInjective hf
-  haveI : IsSimpleGroup ↥f.range := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥f.range := e.symm.isSimpleGroup
   have hcard : Nat.card ↥f.range = Nat.card R := (Nat.card_congr e.toEquiv).symm
   rcases card_le_or_le_prod3 f.range with h | h | h
   · exact Or.inl (hcard ▸ h)
   · exact Or.inr (Or.inl (hcard ▸ h))
   · exact Or.inr (Or.inr (hcard ▸ h))
 
-theorem exists_injective_quotient {G : Type*} [Group G] {N R S : Subgroup G} (hNR : N ≤ R)
+theorem exists_injective_quotient {G : Type*} [Group G] {N R S : Subgroup G} (_hNR : N ≤ R)
     (hRS : R ≤ S) [(N.subgroupOf R).Normal] [(N.subgroupOf S).Normal] :
     ∃ ι : ↥R ⧸ N.subgroupOf R →* ↥S ⧸ N.subgroupOf S, Function.Injective ι ∧
       ∀ r : ↥R, ι (QuotientGroup.mk r) = QuotientGroup.mk (Subgroup.inclusion hRS r) := by

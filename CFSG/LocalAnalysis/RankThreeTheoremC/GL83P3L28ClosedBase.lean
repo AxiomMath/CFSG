@@ -31,9 +31,9 @@ structure ClosedData [Finite Y] (P : Subgroup Y) (x k : Y) : Prop where
   solv : ∀ K : Subgroup Y, IsSimpleGroup K → (∃ a b : K, a * b ≠ b * a) → 3 ∣ Nat.card K →
     ¬ K ≤ centralizer ({x} : Set Y)
 
-theorem comm_mem_Z_of_cube {P K : Subgroup Y} (hKP : K ≤ P) (hPK : P ≤ normalizer (K : Set Y))
+theorem comm_mem_Z_of_cube {P K : Subgroup Y} (_hKP : K ≤ P) (hPK : P ≤ normalizer (K : Set Y))
     (hKab : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a) (hK9 : ∀ a ∈ K, a ^ 9 = 1)
-    (hZ : ∀ a : Y, a ∈ L28Z P ↔ a ∈ K ∧ a ^ 3 = 1) {w q : Y} (hw : w ∈ P) (hw3 : w ^ 3 = 1)
+    (hZ : ∀ a : Y, a ∈ L28Z P ↔ a ∈ K ∧ a ^ 3 = 1) {w q : Y} (hw : w ∈ P) (_hw3 : w ^ 3 = 1)
     (hq : q ∈ K) : w * q * w⁻¹ * q⁻¹ ∈ L28Z P := by
   set d : Y := w * q * w⁻¹ * q⁻¹ with hd
   have hq' : w * q * w⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.mp (hPK hw) q).mp hq
@@ -106,13 +106,13 @@ structure CompSetting (P : Subgroup Y) : Prop where
 namespace CompSetting
 
 theorem exists_sylow (hs : CompSetting P) : ∃ S : Sylow 3 Y, (S : Subgroup Y) = P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hp, hidx⟩ := isSylowOf_iff.mp hs.sylow
   rw [Subgroup.relIndex_top_right] at hidx
   exact ⟨hp.toSylow hidx, rfl⟩
 
 theorem centralizer_layer (hs : CompSetting P) : centralizer (CFSG.layer Y : Set Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact centralizer_layer_eq_bot_of_pCore_eq_bot hs.core hs.pcore
 
 theorem center_bot (hs : CompSetting P) {K : Subgroup Y} (hK : IsComponentOf K ⊤) :

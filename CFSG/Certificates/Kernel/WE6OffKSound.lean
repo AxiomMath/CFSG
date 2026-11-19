@@ -168,9 +168,9 @@ theorem countIn_eq (l : List Nat) (M : Nat) :
     change Nat.add (selN (bit M a) 1 0) (countIn t M) = _
     rw [List.filter_cons, ih]
     cases h : bit M a
-    · simp only [selN, Bool.false_eq_true, if_false]
+    · simp only [selN, Bool.false_eq_true, ite_false]
       exact Nat.zero_add _
-    · simp only [selN, if_true, List.length_cons]
+    · simp only [selN, ite_true, List.length_cons]
       exact Nat.add_comm _ _
 
 theorem card_inter_le (li lj : List Nat) :
@@ -360,9 +360,9 @@ theorem decode_apply (x : Nat) (s : Fin 6) : decode x s = ((dx x s.val : Nat) : 
   rw [decode]
   by_cases hs : s = 0
   · subst hs
-    simp only [if_true]
+    simp only [ite_true]
     rfl
-  · rw [if_neg hs]
+  · rw [ite_eq_right hs]
     have hs' : Nat.beq s.val 0 = false := beq_false_iff.mpr fun h => hs (Fin.ext h)
     change _ = ((selN (Nat.beq s.val 0) 0 _ : Nat) : ZMod 3)
     rw [hs']

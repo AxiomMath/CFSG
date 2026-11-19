@@ -51,6 +51,7 @@ theorem exists_mem_su3Top_sup_su3Bot_mat_eq (hFn : Nat.card F = (2 ^ n) ^ 2) {c 
     ext i j
     fin_cases i <;> fin_cases j <;> simp [longTorusFun]
 
+omit [Finite F] in
 private theorem conj_su3Top_of_mat_diagonal {g : SU σ 3} {d : Fin 3 → F}
     (hg : mat σ 3 g = Matrix.diagonal d) (hd : ∀ i, σ (d i) * d (Fin.rev i) = 1)
     {x : SU σ 3} (hx : x ∈ su3Top σ) : g * x * g⁻¹ ∈ su3Top σ := by
@@ -68,6 +69,7 @@ private theorem conj_su3Top_of_mat_diagonal {g : SU σ 3} {d : Fin 3 → F}
   rw [map_mul, map_mul, map_inv₀, h0, h2, inv_inv, ha]
   ring
 
+omit [Finite F] in
 private theorem conj_su3Bot_of_mat_diagonal {g : SU σ 3} {d : Fin 3 → F}
     (hg : mat σ 3 g = Matrix.diagonal d) (hd : ∀ i, σ (d i) * d (Fin.rev i) = 1)
     {x : SU σ 3} (hx : x ∈ su3Bot σ) : g * x * g⁻¹ ∈ su3Bot σ := by
@@ -85,6 +87,7 @@ private theorem conj_su3Bot_of_mat_diagonal {g : SU σ 3} {d : Fin 3 → F}
   rw [map_mul, map_mul, map_inv₀, h0, h2, inv_inv, ha]
   ring
 
+omit [Finite F] in
 theorem conjSub_su3Top_su3Bot_of_mat_eq {c : F} (hc : σ c = c)
     (hc0 : c ≠ 0) {s : SU σ 3} (hs : mat σ 3 s = Matrix.diagonal ![c, 1, c⁻¹]) :
     conjSub (su3Top σ) s = su3Top σ ∧ conjSub (su3Bot σ) s = su3Bot σ := by
@@ -111,6 +114,7 @@ theorem conjSub_su3Top_su3Bot_of_mat_eq {c : F} (hc : σ c = c)
       have hk := conj_su3Bot_of_mat_diagonal hinv hd' hx
       rwa [show s⁻¹ * (s * x * s⁻¹) * (s⁻¹)⁻¹ = x from by group] at hk⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem mat_conj_diag_apply {g x : SU σ 3} {d : Fin 3 → F}
     (hg : mat σ 3 g = Matrix.diagonal d) (hd : ∀ i, d i ≠ 0) (i j : Fin 3) :
     mat σ 3 (g * x * g⁻¹) i j = d i * mat σ 3 x i j * (d j)⁻¹ := by
@@ -118,6 +122,7 @@ private theorem mat_conj_diag_apply {g x : SU σ 3} {d : Fin 3 → F}
     diagonal_inv_eq hd hg
   rw [map_mul, map_mul, hg, hinv, Matrix.mul_diagonal, Matrix.diagonal_mul]
 
+omit [Finite F] in
 private theorem eq_one_of_conj_diag_eq_self (hσ : ∀ c, σ (σ c) = c) {c : F}
     (hc0 : c ≠ 0) (hc1 : c ≠ 1) {s x : SU σ 3}
     (hs : mat σ 3 s = Matrix.diagonal ![c, 1, c⁻¹])
@@ -165,7 +170,7 @@ theorem exists_eq_commutatorElement_of_mat_eq (hσ : ∀ c, σ (σ c) = c) {c : 
     (hc1 : c ≠ 1) {s : SU σ 3} (hs : mat σ 3 s = Matrix.diagonal ![c, 1, c⁻¹])
     {x : SU σ 3} (hx : x ∈ UC22.uc22pwsu3X hσ) : ∃ y ∈ UC22.uc22pwsu3X hσ, x = ⁅y, s⁆ := by
   classical
-  haveI : Finite (SU σ 3) := inferInstance
+  have : Finite (SU σ 3) := inferInstance
   have hd : ∀ i, (![c, 1, c⁻¹] : Fin 3 → F) i ≠ 0 := by
     intro i
     fin_cases i <;> simp [hc0]
@@ -189,6 +194,7 @@ theorem exists_eq_commutatorElement_of_mat_eq (hσ : ∀ c, σ (σ c) = c) {c : 
     _ = (s * y * s⁻¹ * y⁻¹)⁻¹ := by rw [hyx]
     _ = y * s * y⁻¹ * s⁻¹ := by group
 
+omit [Finite F] in
 theorem map_su3Top_su3Bot_of_comp_su3Chord {θ : SU σ 3 →* H} {ψ : SU σ 2 →* H}
     {A E : Subgroup H} (hθc : θ.comp (su3Chord σ) = ψ) (ht : (su2Top σ).map ψ = A)
     (hb : (su2Bot σ).map ψ = E) : (su3Top σ).map θ = A ∧ (su3Bot σ).map θ = E := by
@@ -196,12 +202,14 @@ theorem map_su3Top_su3Bot_of_comp_su3Chord {θ : SU σ 3 →* H} {ψ : SU σ 2 �
   · rw [← map_su2Top_su3Chord, Subgroup.map_map, hθc, ht]
   · rw [← map_su2Bot_su3Chord, Subgroup.map_map, hθc, hb]
 
+omit [Finite F] in
 theorem conjSub_eq_of_mem_map_heis (hσ : ∀ c, σ (σ c) = c) {θ : SU σ 3 →* H}
     {A : Subgroup H} (hθt : (su3Top σ).map θ = A) {b : H}
     (hb : b ∈ (UC22.uc22pwsu3X hσ).map θ) : conjSub A b = A := by
   obtain ⟨x, hx, rfl⟩ := hb
   rw [← hθt, ModelRank.conjSub_map, conjSub_su3Top_of_mem_X hσ hx]
 
+omit [Finite F] in
 theorem commuting_map_heis_map_su3Top (hσ : ∀ c, σ (σ c) = c) (θ : SU σ 3 →* H) :
     Commuting ((UC22.uc22pwsu3X hσ).map θ) ((su3Top σ).map θ) := by
   refine ModelRank.commuting_map θ ?_

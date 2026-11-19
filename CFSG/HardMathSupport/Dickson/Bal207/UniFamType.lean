@@ -20,8 +20,8 @@ theorem uni_isLieQuot_of_primeFormP {Y : Type} [Group Y] {k m : ℕ} {E : Type} 
     (h₀ : UnitaryFieldData 2 k E) (hk : k = 1 ∨ k = 3) (hm : 4 ≤ m) (h3 : ¬ 3 ∣ m)
     (e : (Y ⧸ Subgroup.center Y) ≃* primeFormP h₀ (oneGram E m)) :
     IsLieQuot Y (fun d => Bal207Index 3 d ∧ ¬ IsG2EightIndex d) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h₀.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h₀.finite
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
   let q : TauCeti.PrimePower := ⟨2, k, Nat.prime_two, by omega⟩
   have hv : (TauCeti.LieTypeIndex.twistedA r q).Valid := by
@@ -31,8 +31,8 @@ theorem uni_isLieQuot_of_primeFormP {Y : Type} [Group Y] {k m : ℕ} {E : Type} 
     exact ⟨by omega, fun hr => by omega⟩
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, h₀.card_eq_sq]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -53,9 +53,9 @@ theorem uni_isBalSmall_of_block {X : Type} [Group X] {K J : Subgroup X} {S : Typ
     {ι : ↥(primeFormUnitary h (oneGram E m)) →* S} (hι : Function.Injective ι)
     (hJι : (J.comap K.subtype).map (uniMap e) = (blockSU h m).map ι) : IsBalSmall J := by
   subst hf hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.finite
-  haveI := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have := h.charP
   obtain ⟨eS⟩ := CFSG.ComponentClassification.RankTwoClassical.nonempty_SL2_equiv_statedSU_two
     (K := E) (f := 3) h.card_eq_sq
   let φ : ↥J →* Matrix.SpecialLinearGroup (Fin 2) (CFSG.LieType.Steinberg.fixedSubfield E 2 3) :=

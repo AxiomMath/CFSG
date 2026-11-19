@@ -58,7 +58,7 @@ theorem center_projSU_four_two_eq_bot {m : ℕ} (hm : 1 ≤ m) :
   rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center (projSU 4 2 m)) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative (projSU 4 2 m) := ⟨⟨fun a b => by
+    have : IsMulCommutative (projSU 4 2 m) := ⟨⟨fun a b => by
       have ha : a ∈ Subgroup.center (projSU 4 2 m) := by rw [h]; exact Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm⟩⟩
     have hp : (Nat.card (projSU 4 2 m)).Prime := Group.is_simple_iff_prime_card.mp hs

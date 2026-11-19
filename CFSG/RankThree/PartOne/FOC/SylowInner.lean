@@ -54,7 +54,7 @@ theorem no_central_of_isQuasisimple {p : ℕ} {T : Type} [Group T] [Finite T] (h
   have : Group.IsPerfect ↥E := hE.1
   obtain ⟨hzE, hzC⟩ := Subgroup.mem_inf.1 hz
   obtain ⟨S⟩ : Nonempty (Sylow p ↥E) := inferInstance
-  obtain ⟨Q, hQ⟩ := (S.isPGroup'.map E.subtype).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (S.isPGroup.map E.subtype).exists_le_sylow
   have hSab : ∀ x ∈ (S : Subgroup ↥E), ∀ y ∈ (S : Subgroup ↥E), x * y = y * x := by
     intro x hx y hy
     apply Subtype.ext
@@ -277,7 +277,7 @@ theorem two_le_localRank_of_not_dvd_card (hp : p.Prime) (hA : PRankLeTwo p T) {b
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU⟩ := exists_normalized_sylow (r := 2) (p := p) hyp hyN hpE
   set U' : Subgroup T := (U : Subgroup E).map E.subtype with hU'
-  have hU2 : IsPGroup 2 U' := U.isPGroup'.map E.subtype
+  have hU2 : IsPGroup 2 U' := U.isPGroup.map E.subtype
   have hU0 : U' ≠ ⊥ := by
     intro h
     have h1 : (U : Subgroup E) = ⊥ :=

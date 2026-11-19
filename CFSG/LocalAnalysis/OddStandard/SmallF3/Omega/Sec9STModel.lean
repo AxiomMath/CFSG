@@ -18,6 +18,7 @@ private lemma sign_mul_symmDiff {n : ℕ} (T1 T2 : Finset (Fin n)) (i : Fin n) :
   by_cases h1 : i ∈ T1 <;> by_cases h2 : i ∈ T2 <;>
     simp [Finset.mem_symmDiff, h1, h2]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma coe_inv_sign {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {T : Finset (Fin n)}
     {g : OGroup Q}
     (h : ∀ i, (g : V ≃ₗ[ZMod 3] V) (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i)
@@ -26,7 +27,7 @@ private lemma coe_inv_sign {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {T : 
   rw [Subgroup.coe_inv]
   show ((g : V ≃ₗ[ZMod 3] V)).symm (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i
   rw [LinearEquiv.symm_apply_eq, map_smul, h i]
-  by_cases hi : i ∈ T <;> simp [hi, smul_smul]
+  by_cases hi : i ∈ T <;> simp [hi]
 
 theorem sec9t_cosets (hQ : Q.Nondegenerate) (h6 : Module.finrank (ZMod 3) V = 6)
     (F : Subgroup (ProjSim Q)) (hF16 : Nat.card F = 2 ^ 4)

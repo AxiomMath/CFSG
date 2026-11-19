@@ -45,7 +45,7 @@ theorem normalClosure_eq_top_of_isOddCenterAltSeven {J : Type} [Group J] [Finite
     Subgroup.normalClosure (V : Set J) = ⊤ := by
   classical
   obtain ⟨hXperf, hZodd, ⟨e⟩⟩ := hX
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := S7.isSimple_Alt7
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := S7.isSimple_Alt7
   let π : J →* (J ⧸ CFSG.pCore 2 J) := QuotientGroup.mk' (CFSG.pCore 2 J)
   let ψ : (J ⧸ CFSG.pCore 2 J) →* alternatingGroup (Fin 7) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center (J ⧸ CFSG.pCore 2 J)))
@@ -61,7 +61,7 @@ theorem normalClosure_eq_top_of_isOddCenterAltSeven {J : Type} [Group J] [Finite
     · intro h
       simp [ψ, (QuotientGroup.eq_one_iff x).2 h]
   set W : Subgroup J := Subgroup.normalClosure (V : Set J) with hWdef
-  haveI : W.Normal := Subgroup.normalClosure_normal
+  have : W.Normal := Subgroup.normalClosure_normal
   set W' : Subgroup (J ⧸ CFSG.pCore 2 J) := W.map π with hW'def
   have hW'n : W'.Normal := Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective _)
   have hVW : ∀ v ∈ V, π v ∈ W' := fun v hv =>
@@ -90,7 +90,7 @@ theorem normalClosure_eq_top_of_isOddCenterAltSeven {J : Type} [Group J] [Finite
     have h1 : π v ∈ V.map π := Subgroup.mem_map_of_mem π hv
     rw [hV0, Subgroup.mem_bot] at h1
     exact (QuotientGroup.eq_one_iff v).1 h1
-  haveI hSn : (W'.map ψ).Normal := Subgroup.Normal.map hW'n ψ hψsurj
+  have hSn : (W'.map ψ).Normal := Subgroup.Normal.map hW'n ψ hψsurj
   have hSt : W'.map ψ = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (W'.map ψ)).resolve_left hS
   have hdec : ∀ g : J ⧸ CFSG.pCore 2 J, ∃ w ∈ W', ∃ z ∈ Subgroup.center (J ⧸ CFSG.pCore 2 J),
@@ -121,10 +121,10 @@ theorem normalClosure_eq_top_of_isOddCenterAltSeven {J : Type} [Group J] [Finite
       show (π w)⁻¹ * π j = 1
       rw [hwj, inv_mul_cancel]
     exact (QuotientGroup.eq_one_iff (w⁻¹ * j)).1 h1
-  haveI : Group.IsPerfect J := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect J := Group.isPerfect_def.2 hperf
   let ρ : J →* (J ⧸ W) := QuotientGroup.mk' W
   have hρsurj : Function.Surjective ρ := QuotientGroup.mk'_surjective W
-  haveI : Group.IsPerfect (J ⧸ W) := Group.IsPerfect.ofSurjective hρsurj
+  have : Group.IsPerfect (J ⧸ W) := Group.IsPerfect.ofSurjective hρsurj
   have hOmap : (CFSG.pCore 2 J).map ρ = ⊤ := by
     rw [eq_top_iff]
     intro q _
@@ -141,10 +141,10 @@ theorem normalClosure_eq_top_of_isOddCenterAltSeven {J : Type} [Group J] [Finite
     refine ⟨k, ?_⟩
     have hk' : o ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     rw [← map_pow, hk', map_one]
-  haveI : Subsingleton (J ⧸ W) := by
+  have : Subsingleton (J ⧸ W) := by
     by_contra hnt
     rw [not_subsingleton_iff_nontrivial] at hnt
-    haveI : Group.IsNilpotent (J ⧸ W) := hQ2.isNilpotent
+    have : Group.IsNilpotent (J ⧸ W) := hQ2.isNilpotent
     exact Group.IsPerfect.not_isSolvable (G := J ⧸ W) inferInstance
   have hWtop : W = ⊤ := by
     rw [eq_top_iff]
@@ -160,7 +160,7 @@ theorem le_iSup_conj_of_isOddCenterAltSeven {G : Type} [Group G] [Finite G] {J :
     (hVO : ¬ V ≤ CFSG.Open.pCoreOf 2 J) :
     J ≤ ⨆ g ∈ J, GLBConj g V := by
   classical
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
   have hperf : commutator ↥J = ⊤ := Group.isPerfect_def.1 inferInstance
   set V' : Subgroup ↥J := V.subgroupOf J with hV'def
   have hV' : IsPGroup 2 ↥V' := by
@@ -182,7 +182,7 @@ theorem le_iSup_conj_of_isOddCenterAltSeven {G : Type} [Group G] [Finite G] {J :
   have hVK : V ≤ K := by
     intro x hx
     have h1 : x ∈ GLBConj ((1 : ↥J) : G) V :=
-      Subgroup.mem_map.2 ⟨x, hx, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.2 ⟨x, hx, by simp⟩
     exact hK_mem 1 h1
   have hconj : ∀ x ∈ K, ∀ g : ↥J, (g : G) * x * (g : G)⁻¹ ∈ K := by
     intro x hx
@@ -201,7 +201,7 @@ theorem le_iSup_conj_of_isOddCenterAltSeven {G : Type} [Group G] [Finite G] {J :
           ((g : G) * x * (g : G)⁻¹) * ((g : G) * y * (g : G)⁻¹) := by group
       rw [e]
       exact K.mul_mem (hx g) (hy g)
-  haveI hKJ : (K.subgroupOf J).Normal := ⟨fun n hn g => by
+  have hKJ : (K.subgroupOf J).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact hconj _ hn g⟩
@@ -267,7 +267,7 @@ theorem exists_ne_one_mem_of_index_le {G : Type} [Group G] [Finite G] {A F D : S
     exact Nat.le_of_mul_le_mul_right this hfpos
   have hc : 2 ≤ Nat.card ↥(F.subgroupOf A ⊓ D.subgroupOf A) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h6 : Nat.card ↥(F.subgroupOf A ⊓ D.subgroupOf A) * (D.subgroupOf A).index ≤ 1 * 3 :=
       Nat.mul_le_mul (by omega) hdi
     omega
@@ -289,7 +289,7 @@ theorem exists_ne_one_mem_of_index_le {G : Type} [Group G] [Finite G] {A F D : S
 
 @[expose] def BlockCoverIII : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
+    (_h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
     ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
       ∃ (ι : Type) (D V J : ι → Subgroup G),
         (∀ i, D i ≤ A ∧ Nat.card A ≤ 3 * Nat.card (D i)) ∧

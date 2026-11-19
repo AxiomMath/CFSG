@@ -51,7 +51,7 @@ private theorem neighbor_mem_inter {X : Type*} [Fintype X] [DecidableEq X]
       apply hmove
       apply even_power_fixed_of_square_fixed
       simp only [pow_two, Perm.mul_apply, hsf', htx, hsf]
-    simpa only [neighbor, if_pos hsf, Finset.mem_inter, Perm.mem_support] using
+    simpa only [neighbor, ite_eq_left hsf, Finset.mem_inter, Perm.mem_support] using
       And.intro hsm (fun h => htm (t.injective h))
   · have htf : t x = x := by
       by_contra htm
@@ -61,7 +61,7 @@ private theorem neighbor_mem_inter {X : Type*} [Fintype X] [DecidableEq X]
       apply hmove
       apply even_power_fixed_of_square_fixed
       simp only [pow_two, Perm.mul_apply, htf, htf', hsx]
-    simpa only [neighbor, if_neg hsf, Finset.mem_inter, Perm.mem_support] using
+    simpa only [neighbor, ite_eq_right hsf, Finset.mem_inter, Perm.mem_support] using
       And.intro (fun h => hsf (s.injective h)) htm
 
 private theorem neighbor_injective_on_outside {X : Type*} [Fintype X] [DecidableEq X]
@@ -79,20 +79,20 @@ private theorem neighbor_injective_on_outside {X : Type*} [Fintype X] [Decidable
   have hx' := Finset.mem_sdiff.mp hx
   have hy' := Finset.mem_sdiff.mp hy
   by_cases hxs : s x = x <;> by_cases hys : s y = y
-  · exact t.injective (by simpa only [neighbor, if_pos hxs, if_pos hys] using heq)
+  · exact t.injective (by simpa only [neighbor, ite_eq_left hxs, ite_eq_left hys] using heq)
   · have hyt : t y = y := by
       by_contra h
       exact hy'.2 (Finset.mem_inter.mpr ⟨Perm.mem_support.mpr hys, Perm.mem_support.mpr h⟩)
-    have heq' : t x = s y := by simpa only [neighbor, if_pos hxs, if_neg hys] using heq
+    have heq' : t x = s y := by simpa only [neighbor, ite_eq_left hxs, ite_eq_right hys] using heq
     exact ((Perm.mem_support.mp hx'.1)
       (involution_power_fixed_of_cube_fixed _ _ hw x (hcollision x y hxs hyt heq'))).elim
   · have hxt : t x = x := by
       by_contra h
       exact hx'.2 (Finset.mem_inter.mpr ⟨Perm.mem_support.mpr hxs, Perm.mem_support.mpr h⟩)
-    have heq' : t y = s x := by simpa only [neighbor, if_neg hxs, if_pos hys] using heq.symm
+    have heq' : t y = s x := by simpa only [neighbor, ite_eq_right hxs, ite_eq_left hys] using heq.symm
     exact ((Perm.mem_support.mp hy'.1)
       (involution_power_fixed_of_cube_fixed _ _ hw y (hcollision y x hys hxt heq'))).elim
-  · exact s.injective (by simpa only [neighbor, if_neg hxs, if_neg hys] using heq)
+  · exact s.injective (by simpa only [neighbor, ite_eq_right hxs, ite_eq_right hys] using heq)
 
 theorem card_support_even_power_le {X : Type*} [Fintype X] [DecidableEq X]
     (s t : Perm X) (hs : s ^ 2 = 1) (ht : t ^ 2 = 1) (k : ℕ)

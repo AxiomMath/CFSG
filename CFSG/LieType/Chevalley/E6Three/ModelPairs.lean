@@ -204,7 +204,7 @@ theorem sum_rowW_mul {cols : Fin Tag.E6.rank → Fin Tag.E6.rank → ℤ} {x : F
       ∑ i', (if j = i' then x i' else 0) := by
     rw [Finset.sum_congr rfl fun i' _ => e i']
     exact Finset.sum_sub_distrib _ _
-  rw [e2, Finset.sum_ite_eq, if_pos (Finset.mem_univ _), sub_eq_zero, ← hfix]
+  rw [e2, Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _), sub_eq_zero, ← hfix]
   exact Finset.sum_congr rfl fun i' _ => mul_comm _ _
 
 theorem eq_sum_of_identity {m k : ℕ} (f P : Fin m → Fin Tag.E6.rank → ZMod 3)
@@ -213,7 +213,7 @@ theorem eq_sum_of_identity {m k : ℕ} (f P : Fin m → Fin Tag.E6.rank → ZMod
     {x : Fin Tag.E6.rank → ZMod 3} (hr : ∀ b, ∑ i', r b i' * x i' = 0) (i : Fin Tag.E6.rank) :
     x i = ∑ a, f a i * ∑ i', P a i' * x i' := by
   calc x i = ∑ i', (if i = i' then 1 else 0) * x i' := by
-        simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     _ = ∑ i', ((∑ a, f a i * P a i') + (∑ b, s b i * r b i')) * x i' :=
         Finset.sum_congr rfl fun i' _ => by rw [hid]
     _ = (∑ a, f a i * ∑ i', P a i' * x i') + ∑ b, s b i * ∑ i', r b i' * x i' := by
@@ -283,7 +283,7 @@ theorem exists_reflections_of_order_nine {q₁ q₂ : Coord} (hp₁ : isPlanes q
   rw [List.all_eq_true] at hpair
   have h := hpair q₂ (mem_allQ q₂)
   simp only [pairOK, hp₁, hp₂, hc, hne₁, hne₂, hne₃, decide_true, decide_false, Bool.and_true,
-    Bool.not_false, Bool.true_and, Bool.not_true, Bool.false_or, Bool.or_eq_true,
+    Bool.not_false, Bool.not_true, Bool.false_or, Bool.or_eq_true,
     List.any_eq_true, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
   rcases h with ⟨a, -, b, -, hab, hrefl⟩ | ⟨j, -, ⟨hg₁, hg₂⟩, hlines⟩
   ·
@@ -324,8 +324,8 @@ theorem exists_reflections_of_order_nine {q₁ q₂ : Coord} (hp₁ : isPlanes q
       true_implies] at hcc
     obtain ⟨-, hcl⟩ := hcc
     have hcl' := hcl l
-    simp only [Bool.and_eq_true, Bool.not_eq_true', decide_eq_false_iff_not,
-      List.all_eq_true, List.mem_finRange, true_implies, decide_eq_true_eq] at hcl'
+    simp only [Bool.not_eq_true', decide_eq_false_iff_not,
+      decide_eq_true_eq] at hcl'
     obtain ⟨⟨hne, hprod⟩, hroots⟩ := hcl'
     refine ⟨a, b, ?_, (c.lines.getD l default).2.2, ?_, fun p hp => ?_⟩
     · rw [← hab]

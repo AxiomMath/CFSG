@@ -101,7 +101,7 @@ theorem ggG0_innerDiag_n_eq_one {G : Type} [Group G] [Finite G] {B Bs : Subgroup
         Nat.card (Subgroup.centralizer (H : Set G)) :=
       Subgroup.card_dvd_of_le hzle
     have hcard : Nat.card (Subgroup.zpowers x) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       rw [Nat.card_zpowers]
       exact orderOf_eq_prime (hBsE.2 x hxBs) hx1
     rw [hcard] at hdvd
@@ -184,7 +184,7 @@ theorem ggG0_innerDiag_n_eq_one {G : Type} [Group G] [Finite G] {B Bs : Subgroup
     case twD =>
       by_cases hr : rank = 2
       · exact absurd ⟨rfl, hr⟩ htw
-      · rw [markDeg, if_neg hr]
+      · rw [markDeg, ite_eq_right hr]
         exact hnL
     case B2der => exact (hB2 rfl).elim
     case G2der => rfl
@@ -231,7 +231,7 @@ theorem ggG0_innerDiag_n_eq_one {G : Type} [Group G] [Finite G] {B Bs : Subgroup
       push Not at hc
       exact hnd ⟨hc.1, hc.2.1, hc.2.2⟩
     have hnH : labH.n = 1 := by
-      rcases hder with h | h | h <;> (simp only [LargeEvenInLambda2, h] at hlamH <;> exact hlamH.2.2)
+      rcases hder with h | h | h <;> (simp only [LargeEvenInLambda2, h] at hlamH; exact hlamH.2.2)
     exact ⟨labH, hnH, ggInnerDiagOn_relabel ggLabelRigidInput_holds hHmark hlamH hhas⟩
 
 end CFSG.StandardType.GGQ2Frame

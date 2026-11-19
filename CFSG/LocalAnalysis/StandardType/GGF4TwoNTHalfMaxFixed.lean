@@ -401,7 +401,7 @@ theorem halfMaxFixedRoot_F4_three : HalfMaxFixedRoot .F4 3 := by
     have hcard : Nat.card {z : Fin Tag.F4.rank → ZMod 3 // Nᵀ *ᵥ z = (-1 : ZMod 3) • z} =
         3 ^ Tag.F4.rank := by
       rw [Nat.card_congr (Equiv.subtypeUnivEquiv hall), Nat.card_eq_fintype_card]
-      simp [Fintype.card_fun]
+      simp
     exact absurd hcard (ne_of_lt hlt)
   obtain ⟨l, c, hl, hc, hlc⟩ := exists_vecMulVec_of_rank_le_one hrank hne
   have hmin : ∀ i j a b : Fin Tag.F4.rank,

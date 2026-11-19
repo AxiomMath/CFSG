@@ -33,7 +33,7 @@ open scoped commutatorElement
 
 @[expose] def UniFieldTypeA0Bound : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (p N n : ℕ) (L J A : Subgroup G) (d b : G)
-    (K : Type) [Field K] [Finite K] (h : UnitaryFieldData 2 n K),
+    (K : Type) [Field K] [Finite K] (_h : UnitaryFieldData 2 n K),
     3 ≤ N → (N, 2 ^ n) ≠ (3, 2) → p ∣ 2 ^ n + 1 →
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K N)) →
     (hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage

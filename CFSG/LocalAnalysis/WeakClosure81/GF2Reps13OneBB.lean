@@ -44,7 +44,7 @@ theorem w16g_false_of_inverted_orderOf_sq (hW : ∀ w : W, w ^ 2 = 1) {t : MulAu
     (ht : orderOf t = 2) (hrk : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hgood : 3 < p ∨ InducesTransvection t ⊤) {c : MulAut W}
     (hc : orderOf c = p ^ 2) (hinv : t * c * t⁻¹ = c⁻¹) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have htt : t * t = 1 := by
     have h := pow_orderOf_eq_one t
     rw [ht, pow_two] at h

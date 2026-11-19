@@ -95,6 +95,7 @@ theorem eq_sup_inf_of_mul_eq {p : ℕ} [Fact p.Prime] {M X C P : Subgroup G} (hX
   rw [sup_comm]
   exact heq.symm
 
+omit [Finite G] in
 theorem conj_eq_of_pow_eq_one_of_odd {n : ℕ} (hn : Odd n) {V₀ : Subgroup G}
     (hV₀exp : ∀ d ∈ V₀, d ^ 2 = 1) {e v : G} (hen : e ^ n = 1)
     (he0 : ∀ d ∈ V₀, e * d * e⁻¹ = d) (hv : e * v * e⁻¹ * v⁻¹ ∈ V₀) :
@@ -125,6 +126,7 @@ theorem conj_eq_of_pow_eq_one_of_odd {n : ℕ} (hn : Odd n) {V₀ : Subgroup G}
     exact hfn
   rw [hfv, hf1, one_mul]
 
+omit [Finite G] in
 theorem inf_ctilde_inf_centralizer_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M V₀ V P : Subgroup G}
     (hP : IsPGroup p P) (hV₀exp : ∀ d ∈ V₀, d ^ 2 = 1) :
     P ⊓ F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G) ≤ centralizer (V : Set G) := by
@@ -146,17 +148,19 @@ theorem inf_ctilde_inf_centralizer_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
   calc v * e = (e * v * e⁻¹) * e := by rw [h2]
     _ = e * v := by group
 
+omit [Finite G] in
 theorem normal_inf_centralizer_subgroupOf {X V₀ : Subgroup G}
     (hX : X ≤ normalizer (V₀ : Set G)) :
     ((X ⊓ centralizer (V₀ : Set G)).subgroupOf X).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).2
     (uc22p22nc_le_normalizer_inf_centralizer hX)
 
+omit [Finite G] in
 theorem uniqueMax_of_le {M Y X : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hU : UniqueMax M Y) (hYX : Y ≤ X) (hXM : X ≤ M) : UniqueMax M X := by
   unfold UniqueMax calMOf at *
   ext N
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hN, hXN⟩
     have hmem : N ∈ {N | rankThreeIsMaxTwoLocal N ∧ Y ≤ N} := ⟨hN, hYX.trans hXN⟩

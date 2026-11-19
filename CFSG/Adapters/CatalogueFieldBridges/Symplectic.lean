@@ -17,7 +17,7 @@ theorem nonempty_mulEquiv_lie_of_statedProj {r : ℕ} (d : TauCeti.ValidLieTypeI
     Nonempty (StatedProj (StatedSp r k) ≃* (TauCeti.CFSGIndex.lie d).Group) := by
   classical
   let Fd := ↥d.fixedField
-  haveI : Finite Fd := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite Fd := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype k := Fintype.ofFinite k
   let _ : Fintype Fd := Fintype.ofFinite Fd
   have hFd : Nat.card Fd = d.fieldOrder := TauCeti.ValidLieTypeIndex.card_fixedField d
@@ -105,7 +105,7 @@ theorem nonempty_mulEquiv_lie_u42 {k : Type} [Field k] [Finite k]
     (CFSG.Adapters.RankTwoModelTransports.glCongr (ι := Fin 2 ⊕ Fin 2) φ)
     (CFSG.Adapters.RankTwoModelTransports.glCongr_statedSp φ 2)
     (CFSG.Adapters.RankTwoModelTransports.glCongr_statedScalars φ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eT := CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj 3 q hv
   exact ⟨(e1.trans CFSG.GH74.Exceptional.psp43EquivU2).trans
     (CFSG.GH74.Exceptional.u2FourEquiv.trans eT.symm)⟩

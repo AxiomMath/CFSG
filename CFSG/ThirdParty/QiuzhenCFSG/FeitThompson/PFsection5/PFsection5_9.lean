@@ -159,7 +159,7 @@ private theorem representation_dual_irreducible_of_pf59
     [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) (hρ : Representation.IsIrreducible ρ) :
     Representation.IsIrreducible ρ.dual := by
-  letI : Representation.IsIrreducible ρ := hρ
+  let : Representation.IsIrreducible ρ := hρ
   refine
     { exists_pair_ne := ?_
       eq_bot_or_eq_top := ?_ }
@@ -635,9 +635,9 @@ public theorem signed_irreducible_of_virtual_norm_one_pf59
     Section3.isVirtualCharacter_isClassFunction hvirt
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, χ, hχ, _b, _hb⟩
-  letI : Fintype ι := hι
-  letI : Finite ι := Finite.of_fintype ι
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := hι
+  let : Finite ι := Finite.of_fintype ι
+  let : Fintype ι := Fintype.ofFinite ι
   rcases hχ with ⟨hirr, hall, _hinj⟩
   let ψ : ι → Section1.ClassFunction G := fun i => Section1.ofConjClassFunction (χ i)
   have hψclass : ∀ i, Section1.IsClassFunction (ψ i) := by
@@ -1026,8 +1026,8 @@ private theorem complex_galois_aut_pow_on_roots_pf59
     {n e : ℕ} (hn : n ≠ 0) (he : e.Coprime n) :
     ∃ τ : Gal(ℂ/ℚ), ∀ z : ℂ, z ^ n = 1 → τ z = z ^ e := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  haveI : NeZero (n : ℚ) := ⟨by exact_mod_cast hn⟩
+  let : NeZero n := ⟨hn⟩
+  have : NeZero (n : ℚ) := ⟨by exact_mod_cast hn⟩
   let ζ : ℂ := Complex.exp (2 * Real.pi * Complex.I / n)
   have hζ : IsPrimitiveRoot ζ n := by
     dsimp [ζ]
@@ -1043,11 +1043,11 @@ private theorem complex_galois_aut_pow_on_roots_pf59
     change IsCyclotomicExtension {n} ℚ F.toSubalgebra
     rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic hζalg]
     exact hζ.adjoin_isCyclotomicExtension ℚ
-  haveI : IsCyclotomicExtension {n} ℚ F := hFcyc
-  haveI : IsCyclotomicExtension {n} ℚ F.toSubalgebra := by
+  have : IsCyclotomicExtension {n} ℚ F := hFcyc
+  have : IsCyclotomicExtension {n} ℚ F.toSubalgebra := by
     change IsCyclotomicExtension {n} ℚ F
     exact hFcyc
-  haveI : NumberField F := IsCyclotomicExtension.numberField {n} ℚ F
+  have : NumberField F := IsCyclotomicExtension.numberField {n} ℚ F
   let u : (ZMod n)ˣ := ZMod.unitOfCoprime e he
   let σF : Gal(F/ℚ) := (IsCyclotomicExtension.Rat.galEquivZMod n F).symm u
   obtain ⟨s, hs⟩ := exists_isTranscendenceBasis F ℂ
@@ -1094,13 +1094,13 @@ private theorem complex_galois_aut_pow_on_roots_pf59
     letI : IsAlgClosure B ℂ := hclosure
     exact IsAlgClosure.equivOfEquiv ℂ ℂ baseAlgAut.toRingEquiv
   have hτR_Q (q : ℚ) : τR (algebraMap ℚ ℂ q) = algebraMap ℚ ℂ q := by
-    letI : IsAlgClosure B ℂ := hclosure
+    let : IsAlgClosure B ℂ := hclosure
     have hBq := IsAlgClosure.equivOfEquiv_algebraMap (L := ℂ) (M := ℂ)
       baseAlgAut.toRingEquiv (algebraMap ℚ B q)
     simp [τR, baseAlgAut] at hBq ⊢
   let τ : Gal(ℂ/ℚ) := AlgEquiv.ofRingEquiv hτR_Q
   have hτ_on_F (y : F) : τ (y : ℂ) = (σF y : ℂ) := by
-    letI : IsAlgClosure B ℂ := hclosure
+    let : IsAlgClosure B ℂ := hclosure
     have hB := IsAlgClosure.equivOfEquiv_algebraMap (L := ℂ) (M := ℂ)
       baseAlgAut.toRingEquiv (algebraMap F B y)
     change (IsAlgClosure.equivOfEquiv ℂ ℂ baseAlgAut.toRingEquiv)

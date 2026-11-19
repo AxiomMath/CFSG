@@ -19,6 +19,7 @@ namespace KFactProofs.Stroth.L34Borel
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem isLinThreeFour_of_isRankThreeL34 (hK : IsRankThreeL34 K) :
     CFSG.AGLEmbedding.IsLinThreeFour K := by
   obtain ⟨q, hq2, hqe, hv, he⟩ := hK
@@ -51,6 +52,7 @@ theorem exists_conj_of_orderOf_eq_three (hK : IsRankThreeL34 K) {a b : K} (ha : 
   obtain ⟨n, -, hn⟩ := kFactL34SylowTransitive K hK Pb _ _ hga (hPb (mem_zpowers b)) ha1 hb1
   exact ⟨n * g, by rw [← hn]; group⟩
 
+omit [Finite K] in
 theorem card_eq (hK : IsRankThreeL34 K) : Nat.card K = 20160 := by
   obtain ⟨ε⟩ := CFSG.AGLEmbedding.KFactProofs.L34ModelS.nonempty_mulEquiv_S_of_isLinThreeFour
     (isLinThreeFour_of_isRankThreeL34 hK)
@@ -165,7 +167,7 @@ theorem kFactL34Borel :
       omega
     have hC := kFactL34SylowCentralizer K hK P u (hP (mem_zpowers u)) hu1
     rw [hC]
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     have hP9 : Nat.card (P : Subgroup K) = 9 := by
       rw [Sylow.card_eq_multiplicity, card_eq hK, Nat.factorization_def _ Nat.prime_three,
         show (20160 : ℕ) = 3 ^ 2 * 2240 by norm_num, padicValNat.mul (by norm_num) (by norm_num),

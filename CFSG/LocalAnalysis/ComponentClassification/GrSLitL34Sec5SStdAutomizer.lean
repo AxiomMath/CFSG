@@ -322,7 +322,7 @@ theorem le_of_perfect_le_centralizer {J : Subgroup G} (hst : IsStandardSubgroup 
     have hPle : (Sb : Subgroup ↥B).map B.subtype ≤ C := by
       rintro - ⟨b, hb, rfl⟩
       exact (Subgroup.mem_inf.mp b.2).1
-    have hPpos : IsPGroup 2 ((Sb : Subgroup ↥B).map B.subtype) := Sb.isPGroup'.map B.subtype
+    have hPpos : IsPGroup 2 ((Sb : Subgroup ↥B).map B.subtype) := Sb.isPGroup.map B.subtype
     have hPcyc : IsCyclic ((Sb : Subgroup ↥B).map B.subtype) := hcyc _ hPle hPpos
     let e : ↥(Sb : Subgroup ↥B) ≃* ((Sb : Subgroup ↥B).map B.subtype) :=
       Subgroup.equivMapOfInjective (Sb : Subgroup ↥B) B.subtype B.subtype_injective

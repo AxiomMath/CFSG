@@ -27,6 +27,7 @@ section Field
 
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2]
 
+omit [Field K] [CharP K 2] in
 theorem coprime_card_sub_one_two_pow {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hf1 : 1 ≤ f)
     (n : ℕ) : IsCoprime ((Fintype.card K - 1 : ℕ) : ℤ) ((2 : ℤ) ^ n) := by
   have hodd : Odd (Fintype.card K - 1) := by
@@ -36,6 +37,7 @@ theorem coprime_card_sub_one_two_pow {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hf
   rw [show (2 : ℤ) ^ n = ((2 ^ n : ℕ) : ℤ) by push_cast; rfl, Nat.isCoprime_iff_coprime]
   exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.2 hodd)
 
+omit [Field K] [CharP K 2] in
 theorem dvd_of_dvd_mul_half {f m : ℕ} (hf : Fintype.card K = 2 ^ f) (hf1 : 1 ≤ f)
     (hm : 2 * m = Fintype.card K) {x : ℤ} (h : ((Fintype.card K - 1 : ℕ) : ℤ) ∣ x * m) :
     ((Fintype.card K - 1 : ℕ) : ℤ) ∣ x := by
@@ -76,6 +78,7 @@ theorem zpow_ne_one_of_isGoodVal8 {g : Kˣ} (hg : orderOf g = Fintype.card K - 1
     have : (15 : ℤ) ≤ ((Fintype.card K - 1 : ℕ) : ℤ) := by exact_mod_cast h15
     linarith
 
+omit [CharP K 2] in
 theorem zpow_ne_one_of_mid {g : Kˣ} (hg : orderOf g = Fintype.card K - 1) {f m : ℕ}
     (hf : Fintype.card K = 2 ^ f) (hm : 2 * m = Fintype.card K) {a : ℕ} (ha : 2 ≤ a)
     (haf : a + 2 ≤ f) {u v : ℤ} (huv : u ≠ 0 ∨ v ≠ 0) (hu : |u| ≤ 2) (hv : |v| ≤ 2) :
@@ -115,15 +118,18 @@ theorem zpow_ne_one_of_mid {g : Kˣ} (hg : orderOf g = Fintype.card K - 1) {f m 
     have h2 : |v| = (2 : ℤ) ^ a * |u| := by rw [hveq, abs_mul, abs_of_pos (by positivity)]
     nlinarith
 
+omit [Fintype K] [CharP K 2] in
 theorem wtChar_succ (m k : ℕ) (v : Fin 4 → ℤ) (z : Fin 4 → Kˣ) :
     wtChar m (k + 1) v z = wtChar m k v z ^ 2 := by
   rw [wtChar, wtChar, pow_succ, pow_mul]
 
+omit [CharP K 2] in
 theorem wtChar_card {f : ℕ} (hf : Fintype.card K = 2 ^ f) (m : ℕ) (v : Fin 4 → ℤ)
     (z : Fin 4 → Kˣ) : wtChar m f v z = wtChar m 0 v z := by
   rw [wtChar, wtChar, pow_zero, pow_one, ← hf]
   exact Units.ext (by rw [Units.val_pow_eq_pow_val, FiniteField.pow_card])
 
+omit [Fintype K] [CharP K 2] in
 theorem wtChar_zpow_eq_iff (m a : ℕ) (ψ χ e : Fin 4 → ℤ) (g : Kˣ) :
     wtChar m a ψ (fun i => g ^ e i) = wtChar m 0 χ (fun i => g ^ e i) →
       g ^ (((2 : ℤ) ^ a * dot4 ψ e - dot4 χ e) * m) = 1 := by

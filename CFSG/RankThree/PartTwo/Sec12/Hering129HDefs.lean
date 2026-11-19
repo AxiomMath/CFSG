@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
         Nonempty (K ⧸ CFSG.pCore 2 K ≃*
           (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hq⟩).Group))
 
+omit [Finite G] in
 theorem gTwoType129_iff {L K : Subgroup G} : GTwoType129 L K ↔ ∃ q, GTwoType129At L K q :=
   Iff.rfl
 

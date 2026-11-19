@@ -46,11 +46,13 @@ variable (hD : IsDadeData L A R)
 section Bounds
 
 omit [Fintype ι] hS2 hbound in
+omit [Fintype ↥L] [H.Normal] in
 private theorem index_pos' : 0 < (H.index : ℝ) := by
   exact_mod_cast Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (H := H))
 
 omit [Fintype ι] hS2 in
 include hbound in
+omit [Fintype G] [Fintype ↥L] [H.Normal] in
 private theorem two_mul_index_le' : 2 * (H.index : ℝ) ≤ (Nat.card ↥H : ℝ) - 1 := by
   have : ((2 * H.index + 1 : ℕ) : ℝ) ≤ (Nat.card ↥H : ℝ) := by exact_mod_cast hbound
   push_cast at this

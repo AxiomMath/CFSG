@@ -25,6 +25,7 @@ section Main
 
 variable {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem torusGroup_pow_card_sub_one_eq_one
     {h : ModGL τ K} (hh : h ∈ torusGroup τ K) :
     h ^ (Nat.card K - 1) = 1 := by

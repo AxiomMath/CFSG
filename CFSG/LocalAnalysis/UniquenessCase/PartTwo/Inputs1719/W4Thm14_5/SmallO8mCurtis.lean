@@ -498,7 +498,7 @@ theorem naturalRep_heckeT_highestVec [CharP k 2] (hK : 4 ≤ Nat.card K) (i : Fi
         rw [minusRootGroup_single_of_lt 4 hirrQ (k := 0) (by norm_num)] at hx
         obtain ⟨a, ha⟩ := hx
         exact ⟨a.toAdd, Subtype.ext ha⟩
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [← (Equiv.ofBijective f hf).sum_comp]
     simp_rw [Equiv.ofBijective_apply, show ∀ a : K,
       naturalRep 4 b c φ (f a : spinGroup _) (Pi.single (.inl 1) 1) =
@@ -513,7 +513,7 @@ theorem naturalRep_heckeT_highestVec [CharP k 2] (hK : 4 ≤ Nat.card K) (i : Fi
       simpa using FiniteField.sum_pow_lt_card_sub_one K 1 (by
         rw [← Nat.card_eq_fintype_card]; omega)
     rw [hcard, zero_smul, hsum, map_zero, zero_smul, add_zero]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hfix : ∀ x : D.X i, naturalRep 4 b c φ (x : spinGroup _) highestVec = highestVec :=
       fun x => (D.mem_fixU (naturalRep 4 b c φ)).mp (naturalRep_highestVec_mem_fixU hirrQ φ) _
         (D.X_le i x.2)

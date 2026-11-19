@@ -30,20 +30,24 @@ variable {B : LinearMap.BilinForm K E} {Qf : E → K} {α : Γ →* (E ≃ₗ[K]
   {U : Submodule K E} {b₀ : E} (hQ : IsQuadSpace B Qf) (hS : Siegel B Qf α U b₀)
 include hQ hS
 
+omit [FiniteDimensional K E] in
 theorem Siegel.selfadj (g : Γ) (e e' : E) : B (α g e) e' = B e (α g e') := by
   have h := hQ.B_iso (α g) (hS.iso g) e (α g e')
   rw [hS.invol g e'] at h
   exact h
 
+omit [FiniteDimensional K E] in
 theorem Siegel.isotropic {u u' : E} (hu : u ∈ U) (hu' : u' ∈ U) : B u u' = 0 := by
   have h1 := hQ.Qf_add u u'
   rw [hS.sing _ (U.add_mem hu hu'), hS.sing u hu, hS.sing u' hu'] at h1
   linear_combination -h1
 
+omit [FiniteDimensional K E] in
 theorem Siegel.form_symm (g : Γ) (e e' : E) :
     B e (α g e' - e') = B (α g e - e) e' := by
   rw [map_sub, ← hS.selfadj hQ g e e', LinearMap.map_sub₂]
 
+omit [FiniteDimensional K E] in
 theorem Siegel.sub_mem_U (g : Γ) {e : E} (he : B b₀ e = 0) : α g e - e ∈ U := by
   apply hS.perp
   intro u hu
@@ -52,11 +56,13 @@ theorem Siegel.sub_mem_U (g : Γ) {e : E} (he : B b₀ e = 0) : α g e - e ∈ U
   rw [map_sub, h1, hc, LinearMap.map_add₂, LinearMap.map_smul₂, he]
   simp
 
+omit [FiniteDimensional K E] in
 theorem Siegel.form_alt (g : Γ) {e : E} (he : B b₀ e = 0) : B e (α g e - e) = 0 := by
   have h := hQ.Qf_add e (α g e - e)
   rw [add_sub_cancel, hS.iso g e, hS.sing _ (hS.sub_mem_U hQ g he)] at h
   linear_combination -h
 
+omit [FiniteDimensional K E] in
 theorem Siegel.form_mul (g h : Γ) {e e' : E} (he : B b₀ e = 0) (he' : B b₀ e' = 0) :
     B e (α (g * h) e' - e') = B e (α g e' - e') + B e (α h e' - e') := by
   have e1 : α (g * h) e' - e' = (α g e' - e') + (α h e' - e') +
@@ -128,6 +134,7 @@ variable {B : LinearMap.BilinForm K E} {Qf : E → K} {α : Γ →* (E ≃ₗ[K]
   {U : Submodule K E} {b₀ : E} (hQ : IsQuadSpace B Qf) (hS : Siegel B Qf α U b₀)
 
 omit hQ hS in
+omit [FiniteDimensional K E] in
 theorem mem_perp_iff {e : E} :
     e ∈ B.orthogonal (Submodule.span K {b₀}) ↔ B b₀ e = 0 := by
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -141,6 +148,7 @@ theorem mem_perp_iff {e : E} :
 
 include hQ hS
 
+omit hS in
 theorem Siegel.act_perp_of_form_zero (g : Γ)
     (hg : ∀ e e', B b₀ e = 0 → B b₀ e' = 0 → B e (α g e' - e') = 0) {e' : E}
     (he' : B b₀ e' = 0) : ∃ c : K, α g e' = e' + c • b₀ := by
@@ -180,7 +188,7 @@ theorem exists_kernel_subgroup [Finite K] (G₂ : Subgroup Γ) (S : Submodule K 
       unfold Subgroup.subgroupOf
       exact Subgroup.comap_map_eq_self_of_injective Subtype.val_injective f.ker
     rw [Subgroup.relIndex, hsub, Subgroup.index_ker f]
-    haveI : Finite (Multiplicative K) := inferInstanceAs (Finite K)
+    have : Finite (Multiplicative K) := inferInstanceAs (Finite K)
     calc Nat.card f.range ≤ Nat.card (Multiplicative K) := Subgroup.card_le_card_group _
       _ = Nat.card K := Nat.card_congr Multiplicative.toAdd
   · rintro _ ⟨g, hg, rfl⟩ e e' he he'
@@ -231,6 +239,7 @@ def fixSpace (α : Γ →* (E ≃ₗ[K] E)) (H : Subgroup Γ) : Submodule K E wh
   zero_mem' := fun g _ => map_zero _
   smul_mem' := fun c e he g hg => by rw [map_smul, he g hg]
 
+omit [FiniteDimensional K E] in
 theorem mem_fixSpace {α : Γ →* (E ≃ₗ[K] E)} {H : Subgroup Γ} {e : E} :
     e ∈ fixSpace α H ↔ ∀ g ∈ H, α g e = e := Iff.rfl
 
@@ -238,6 +247,7 @@ variable {B : LinearMap.BilinForm K E} {Qf : E → K} {α : Γ →* (E ≃ₗ[K]
   {U : Submodule K E} {b₀ : E} (hQ : IsQuadSpace B Qf) (hS : Siegel B Qf α U b₀)
 include hQ hS
 
+omit [FiniteDimensional K E] in
 theorem Siegel.exists_dual : ∃ a₀ : E, B b₀ a₀ = 1 := by
   by_contra hcon
   push Not at hcon
@@ -248,6 +258,7 @@ theorem Siegel.exists_dual : ∃ a₀ : E, B b₀ a₀ = 1 := by
     rw [map_smul, smul_eq_mul, inv_mul_cancel₀ hy]
   exact hS.ne (hQ.nondeg b₀ h1)
 
+omit [FiniteDimensional K E] hQ in
 theorem Siegel.sub_mul (g h : Γ) {u : E} (hu : u ∈ U) :
     α (g * h) u - u = (α g u - u) + (α h u - u) := by
   obtain ⟨c, hc⟩ := hS.act h u hu
@@ -256,6 +267,7 @@ theorem Siegel.sub_mul (g h : Γ) {u : E} (hu : u ∈ U) :
   rw [hc, map_add, map_smul, hS.fix g]
   abel
 
+omit [FiniteDimensional K E] hQ in
 theorem Siegel.sub_eq_smul (g : Γ) {u : E} (hu : u ∈ U) {a₀ : E} (ha₀ : B b₀ a₀ = 1) :
     α g u - u = B (α g u - u) a₀ • b₀ := by
   obtain ⟨c, hc⟩ := hS.act g u hu
@@ -284,7 +296,7 @@ theorem Siegel.finrank_fix_le [Finite K] (Γ₁ : Subgroup Γ) (m : ℕ)
     intro g h
     ext d
     rw [LinearMap.add_apply, hlam, hlam, hlam,
-      hS.sub_mul hQ g h (d : U).2, LinearMap.map_add₂]
+      hS.sub_mul g h (d : U).2, LinearMap.map_add₂]
   have hlam_one : lam 1 = 0 := by
     ext d
     rw [hlam]
@@ -313,12 +325,12 @@ theorem Siegel.finrank_fix_le [Finite K] (Γ₁ : Subgroup Γ) (m : ℕ)
         have := LinearMap.congr_fun hg0 ⟨d, hd⟩
         rw [hlam] at this
         exact this
-      have h3 := hS.sub_eq_smul hQ (g : Γ) (d : U).2 ha₀
+      have h3 := hS.sub_eq_smul (g : Γ) (d : U).2 ha₀
       rw [h2, zero_smul] at h3
       exact sub_eq_zero.mp h3
     rw [← h1, map_add, hc1, hd1]
   have hfin : Finite (Module.Dual K D) := Module.finite_of_finite K
-  haveI : Finite (Multiplicative (Module.Dual K D)) := hfin
+  have : Finite (Multiplicative (Module.Dual K D)) := hfin
   have hq : 1 < Nat.card K := Finite.one_lt_card
   have hle : α.ker.relIndex Γ₁ ≤ Nat.card K ^ finrank K D := by
     have h1 : (α.ker.subgroupOf Γ₁).index ∣ Λ.ker.index := Subgroup.index_dvd_of_le hker
@@ -370,7 +382,7 @@ theorem Siegel.exists_rank_two [Finite K] (Γ₁ G₂ : Subgroup Γ)
     have := hcard C hCG h
     omega
   obtain ⟨g, hg, hne⟩ := hex
-  exact ⟨g, hCG hg, hne, fun e he => hS.act_perp_of_form_zero hQ g (hCform g hg) he⟩
+  exact ⟨g, hCG hg, hne, fun e he => Siegel.act_perp_of_form_zero hQ g (hCform g hg) he⟩
 
 end Fix
 

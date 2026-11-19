@@ -99,7 +99,7 @@ theorem genGood_of_checks [NeZero n] (hn : 8 ≤ n) (hn' : n ≤ 11)
     rw [hjm] at hj8
     change (strictB _ fun b => _) = true at hj8
     rw [strictB_eq, strictB_eq, strictB_eq] at hj8
-    simp only [bAnd_eq, Bool.and_eq_true] at hj8
+    simp only [Bool.and_eq_true] at hj8
     obtain ⟨hib, hic, hisb, hisc, hisab, hisac, hisbc, hisabc, h8⟩ := hj8
     have hibN := Nat.blt_eq.mp hib
     have hicN := Nat.blt_eq.mp hic

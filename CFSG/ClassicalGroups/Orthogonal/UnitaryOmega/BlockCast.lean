@@ -106,14 +106,14 @@ private abbrev castSupport (_E : QuadExt F K (unitaryInvolution K 2 f)) {k n : �
     (Finset.univ.map (Fin.castLEEmb h))
 
 private noncomputable def castTo (_E : QuadExt F K (unitaryInvolution K 2 f)) {k n : ℕ}
-    (h : k ≤ n) : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin n → K)) where
+    (_h : k ≤ n) : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin n → K)) where
   toFun v := (v.1, fun j => if hj : (j : ℕ) < k then v.2 ⟨(j : ℕ), hj⟩ else 0)
   map_add' v w := by
     refine Prod.ext rfl (funext fun j => ?_)
-    by_cases hj : (j : ℕ) < k <;> simp [hj, map_add]
+    by_cases hj : (j : ℕ) < k <;> simp [hj]
   map_smul' c v := by
     refine Prod.ext rfl (funext fun j => ?_)
-    by_cases hj : (j : ℕ) < k <;> simp [hj, map_smul]
+    by_cases hj : (j : ℕ) < k <;> simp [hj]
 
 private theorem castTo_apply (_E : QuadExt F K (unitaryInvolution K 2 f)) {k n : ℕ}
     (h : k ≤ n) (v : (F × F) × (Fin k → K)) :
@@ -128,7 +128,7 @@ private theorem castRestr_castTo (_E : QuadExt F K (unitaryInvolution K 2 f)) {k
   have hi : ((Fin.castLE h i : Fin n) : ℕ) < k := by
     rw [Fin.val_castLE]
     exact i.2
-  simp [castRestr, castTo_apply, hi]
+  simp [castRestr, castTo_apply]
 
 private def castRestrLin (_E : QuadExt F K (unitaryInvolution K 2 f)) {k n : ℕ}
     (h : k ≤ n) : ((F × F) × (Fin n → K)) →ₗ[F] ((F × F) × (Fin k → K)) where
@@ -400,7 +400,7 @@ private theorem castEquiv_apply_of_mem_castSupport (_E : QuadExt F K (unitaryInv
 
 private theorem isCompl_castSupport {k n : ℕ} (h : k ≤ n) :
     IsCompl (castSupport E h) (suppPerp (normHypForm E n) (castSupport E h)) := by
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   refine isCompl_suppPerp (polarNondegOn_of_nondegenerate ?_)
   exact coordSupport_nondegenerate (LinearEquiv.refl F ((F × F) × (Fin n → K)))
     (fun v => by
@@ -443,7 +443,7 @@ private theorem mem_range_normOmegaCast_of_mem_supportedDerived {k n : ℕ} (h :
         ((F × F) × (Fin n → K)) ≃ₗ[F] ((F × F) × (Fin n → K))) ∈
       supportedDerived (normHypForm E n) (castSupport E h)) :
     x ∈ (normOmegaCast E h).range := by
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   obtain ⟨hxfix, w, hw, hxact⟩ := mem_supportedDerived.mp hx
   rw [← CFSG.RankThree.PartOne.map_orthDerived_linConj (coordIsometry E h)] at hw
   obtain ⟨g, hg, hg_eq⟩ := Subgroup.mem_map.mp hw
@@ -501,14 +501,14 @@ private theorem map_castEquivCoord_coordSupport {k n : ℕ} (h : k ≤ n)
     rw [castTo_apply]
     dsimp only
     by_cases hjlt : (j : ℕ) < k
-    · rw [dif_pos hjlt]
+    · rw [dite_eq_left hjlt]
       have hjS : (⟨(j : ℕ), hjlt⟩ : Fin k) ∉ S := by
         intro hmem
         apply hj
         rw [Finset.mem_map]
         exact ⟨⟨(j : ℕ), hjlt⟩, hmem, Fin.ext rfl⟩
       exact (mem_coordSupport_refl_iff E S v).mp hv ⟨(j : ℕ), hjlt⟩ hjS
-    · rw [dif_neg hjlt]
+    · rw [dite_eq_right hjlt]
   · intro ha
     change (a : (F × F) × (Fin n → K)) ∈
       coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K)))

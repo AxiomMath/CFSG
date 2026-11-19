@@ -17,6 +17,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem ncard_preimage_of_mem_isThreeBundle {β : Set (Set V)}
     (hβ : IsThreeBundle Γ c q β) :
     (Subtype.val ⁻¹' β : Set {E : Set V // IsThreespace Γ c q E}).ncard = β.ncard := by
@@ -39,10 +40,10 @@ theorem exists_projectiveSpace (hΓ : IsThasQuadrangle Γ c q) :
       G.lines = {ℓ | ∃ β, IsThreeBundle Γ c q β ∧ ℓ = Subtype.val ⁻¹' β} ∧
         G.HasDimension 4 := by
   classical
-  haveI : Finite V := Finite.of_fintype V
-  haveI : Finite (Set V) := Finite.of_fintype (Set V)
+  have : Finite V := Finite.of_fintype V
+  have : Finite (Set V) := Finite.of_fintype (Set V)
   let P := {E : Set V // IsThreespace Γ c q E}
-  haveI : Finite P := Subtype.finite
+  have : Finite P := Subtype.finite
   let lines : Set (Set P) := {ℓ | ∃ β, IsThreeBundle Γ c q β ∧ ℓ = Subtype.val ⁻¹' β}
   have hline_ncard : ∀ ℓ ∈ lines, ℓ.ncard = q ^ 2 + 1 := by
     rintro ℓ ⟨β, hβ, rfl⟩
@@ -127,22 +128,22 @@ theorem exists_isModel_threespaces (hΓ : IsThasQuadrangle Γ c q) :
         ∃ β, IsThreeBundle Γ c q β ∧
           ψ '' (Subtype.val ⁻¹' β) = {x | x.submodule ≤ W} := by
   classical
-  haveI : Finite V := Finite.of_fintype V
-  haveI : Finite (Set V) := Finite.of_fintype (Set V)
+  have : Finite V := Finite.of_fintype V
+  have : Finite (Set V) := Finite.of_fintype (Set V)
   let P := {E : Set V // IsThreespace Γ c q E}
-  haveI hPfin : Finite P := Subtype.finite
+  have hPfin : Finite P := Subtype.finite
   obtain ⟨G, hGlines, hdim⟩ := exists_projectiveSpace (Γ := Γ) (c := c) (q := q) hΓ
   obtain ⟨D, hD, φ, hφline, hφW, hφfin⟩ :=
     G.veblen_young (n := 4) (by norm_num) hdim
-  letI : DivisionRing D := hD
+  let : DivisionRing D := hD
   obtain ⟨hDfin, hlinecardD, -⟩ := hφfin hPfin
   let K := Dᵐᵒᵖ
   let hKfin : Finite K := Finite.of_equiv D MulOpposite.opEquiv
   let hKfield : Field K := littleWedderburn K
   let hKfintype : Fintype K := Fintype.ofFinite K
-  letI : Finite K := hKfin
-  letI : Field K := hKfield
-  letI : Fintype K := hKfintype
+  let : Finite K := hKfin
+  let : Field K := hKfield
+  let : Fintype K := hKfintype
   let L₀ : (Fin 5 → D) ≃ₗ[K] (Fin 5 → K) :=
   { toFun := fun v i => MulOpposite.op (v i)
     invFun := fun w i => MulOpposite.unop (w i)
@@ -152,7 +153,7 @@ theorem exists_isModel_threespaces (hΓ : IsThasQuadrangle Γ c q) :
     map_smul' := by
       intro a v
       ext i
-      simp [MulOpposite.smul_eq_mul_unop, MulOpposite.op_mul] }
+      simp }
   let eSub : Submodule K (Fin 5 → D) ≃o Submodule K (Fin 5 → K) :=
     Submodule.orderIsoMapComap L₀
   have hfin : ∀ U, finrank K (eSub U) = finrank K U := fun U =>

@@ -32,8 +32,8 @@ theorem c8k_ker_two_part {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup
   obtain ⟨Y, hYB, hYO, hYodd⟩ := conf.minimal O nat.normal hOB
   obtain ⟨P₀, instP₀, φ, hφs, hφk, hE64, -⟩ := conf.p0
   obtain ⟨N, hNn, hN64, hL3⟩ := hE64
-  haveI : Finite P₀ := Finite.of_surjective φ hφs
-  haveI : N.Normal := hNn
+  have : Finite P₀ := Finite.of_surjective φ hφs
+  have : N.Normal := hNn
   let I : Subgroup Γ := CFSG.pPrimeCore 3 Γ
   have hkerI : ρ.ker ≤ I := nat.ker_le
   have hMn : ((I.subgroupOf B).map φ).Normal :=
@@ -76,7 +76,7 @@ theorem c8k_ker_two_part {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup
     have hkerC : (⟨y, hyB⟩ : ↥B) ∈ C₀.subgroupOf B := hφk ▸ hker
     exact hYodd y hyY (Subgroup.mem_subgroupOf.mp hkerC) hodd
   refine ⟨Y ⊓ ρ.ker, hP2, inf_le_right, ?_⟩
-  haveI : O.Normal := nat.normal
+  have : O.Normal := nat.normal
   apply le_antisymm
   · intro k hk
     have hkTop : k ∈ Y ⊔ O := by
@@ -94,7 +94,7 @@ theorem c8k_ker_le_o_of_two_part {Γ : Type} [Group Γ] [Finite Γ] {d : Γ}
     {ρ : Γ →* ↥(StatedSL 2 (ZMod 7))} {O Z : Subgroup Γ} (nat : C8KNat Γ d ρ O Z)
     {P : Subgroup Γ} (hP : IsPGroup 2 P) (hPk : P ≤ ρ.ker) (hk : ρ.ker = P ⊔ O) :
     ρ.ker ≤ O := by
-  haveI : O.Normal := nat.normal
+  have : O.Normal := nat.normal
   have hQk : CFSG.pCore 2 Γ ≤ ρ.ker := nat.q_le.trans (nat.z_le.trans nat.o_le_ker)
   have hT2 : IsPGroup 2 ↥(P ⊔ CFSG.pCore 2 Γ) :=
     hP.to_sup_of_normal_right CFSG.pCore_isPGroup

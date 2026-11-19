@@ -49,7 +49,7 @@ private theorem proposition_4_b_no_involution_in_D
     (hd : d ∈ D) (hdI : IsInvolution d) : False := by
   classical
   let dD : D := ⟨d, hd⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have horder : orderOf dD = 2 := by
     refine (orderOf_eq_prime_iff (x := dD) (p := 2)).2 ⟨?_, ?_⟩
     · ext
@@ -66,8 +66,8 @@ private theorem proposition_4_b_exists_H_involution
     (hA1 : HypothesisA1 G Ω H D Q t) :
     ∃ u : G, u ∈ H ∧ IsInvolution u := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fintype Q := Fintype.ofFinite Q
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hdiv : 2 ∣ Fintype.card Q := by
     rw [← Nat.card_eq_fintype_card]
     exact hA1.Q_even.two_dvd

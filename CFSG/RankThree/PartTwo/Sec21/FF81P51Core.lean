@@ -79,7 +79,7 @@ theorem H0L_sub (h : Hyp Γ) : ∀ A ∈ H0L, A ∈ GM Γ := by
 
 theorem ofCols_cols (A : Mat) : ofCols ![A *ᵥ e 0, A *ᵥ e 1, A *ᵥ e 2, A *ᵥ e 3] = A := by
   ext i j
-  fin_cases j <;> simp [ofCols, e, Matrix.mulVec_single_one]
+  fin_cases j <;> simp [ofCols, e]
 
 theorem mem_H0L_of {g : GL4} (h0 : (g : Mat) *ᵥ e 0 = e 0 ∨ (g : Mat) *ᵥ e 0 = -e 0)
     (h1 : (g : Mat) *ᵥ e 1 ∈ SU) (h2 : (g : Mat) *ᵥ e 2 ∈ SU) (h3 : (g : Mat) *ᵥ e 3 ∈ SU) :
@@ -231,7 +231,7 @@ theorem real_ok (h : Hyp Γ) {v ψ : V} (hr : Real Γ v ψ) : OkB v ψ := by
     rw [← hrv] at hre ⊢
     exact stab_H0L h hr' hre
 
-theorem real_orbital (h : Hyp Γ) (n : ℕ)
+theorem real_orbital (_h : Hyp Γ) (n : ℕ)
     (hT : ∀ v ψ, Real Γ v ψ → (T0 * (1 + vecMulVec v ψ)) ^ n = 1) {v ψ v' ψ' : V}
     (hr : Real Γ v ψ) (hr' : Real Γ v' ψ') :
     ((1 + vecMulVec v ψ) * (1 + vecMulVec v' ψ')) ^ n = 1 := by
@@ -262,7 +262,7 @@ noncomputable def psiOf (Γ : Subgroup GL4) (v : V) : V :=
   if hv : v ∈ Om Γ then Classical.choose (real_of_mem hv) else 0
 
 theorem real_psiOf {v : V} (hv : v ∈ Om Γ) : Real Γ v (psiOf Γ v) := by
-  rw [psiOf, dif_pos hv]
+  rw [psiOf, dite_eq_left hv]
   exact Classical.choose_spec (real_of_mem hv)
 
 open _root_.Classical in
@@ -280,8 +280,8 @@ theorem cfgOf_fst (h : Hyp Γ) (k : Fin 7) : (cfgOf Γ).1 k = true ↔ rep k ∈
   fin_cases k
   · simp only [cfgOf, mkCfg]; simp [rep_zero ▸ (e0_mem_Om (Γ := Γ))]
   all_goals first
+    | (simp only [cfgOf, mkCfg]; simp; done)
     | (simp only [cfgOf, mkCfg]; simpa using not_mem_rep3 h)
-    | (simp [cfgOf, mkCfg])
 
 theorem cfgOf_snd (h : Hyp Γ) (k : Fin 7) (hk : rep k ∈ Om Γ) : Real Γ (rep k) ((cfgOf Γ).2 k) := by
   fin_cases k
@@ -296,13 +296,13 @@ theorem cfgOf_opt (h : Hyp Γ) (k : Fin 7) (hk : k ≠ 0 ∧ k ≠ 3) :
     (cfgOf Γ).2 k ∈ optL k ((cfgOf Γ).1 k) := by
   by_cases hm : rep k ∈ Om Γ
   · have hr := cfgOf_snd h k hm
-    rw [(cfgOf_fst h k).2 hm, optL, if_pos rfl]
+    rw [(cfgOf_fst h k).2 hm, optL, ite_eq_left rfl]
     exact ok_rep k _ (mem_allV _) (real_dot hr) (real_ok h hr)
   · have h1 : (cfgOf Γ).1 k = false := by
       cases hc : (cfgOf Γ).1 k
       · rfl
       · exact absurd ((cfgOf_fst h k).1 hc) hm
-    rw [h1, optL, if_neg (by simp)]
+    rw [h1, optL, ite_eq_right (by simp)]
     obtain ⟨h0, h3⟩ := hk
     fin_cases k <;> simp_all [cfgOf, mkCfg, psiOf]
 
@@ -461,10 +461,10 @@ theorem sig01_of_mA (h : Hyp Γ) (hA : (cfgOf Γ).1 = mA) : Sig01 ∈ GM Γ := b
     rw [Units.val_mul, Matrix.mulVec_mulVec]
 
 theorem card_eq (h : Hyp Γ) : Nat.card Γ = 48 * (Om Γ).ncard := by
-  letI := vecAction
+  let := vecAction
   have horb : MulAction.orbit Γ (e 0) = Om Γ := by
     ext v
-    simp only [MulAction.mem_orbit_iff, Om, Set.mem_setOf_eq, Subtype.exists, Subgroup.mk_smul]
+    simp only [MulAction.mem_orbit_iff, Om, Set.mem_ofPred_eq, Subtype.exists, Subgroup.mk_smul]
     exact ⟨fun ⟨a, ha, h⟩ => ⟨a, ha, h⟩, fun ⟨a, ha, h⟩ => ⟨a, ha, h⟩⟩
   let S48 : Finset Mat := (H0L.filter fun A => decide (mv A (e 0) = e 0)).toFinset
   have hstab : Nat.card (MulAction.stabilizer Γ (e 0)) = 48 := by

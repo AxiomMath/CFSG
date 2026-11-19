@@ -211,7 +211,7 @@ def Tsub {A Q : Subgroup G} {d a₀ a₁ f₀ f₁ : G} (hS : SympBasis A Q d a�
         _ = (Mg d a₀ a₁ f₀ f₁ n⁻¹ * Mg d a₀ a₁ f₀ f₁ n).mulVec (Phi d a₀ a₁ f₀ f₁ b) := by
             rw [Matrix.mulVec_mulVec]
         _ = Phi d a₀ a₁ f₀ f₁ b := by rw [e1, Matrix.one_mulVec]
-    · have hq' : n⁻¹ * q * n⁻¹⁻¹ ∈ Q := hS.conj_mem hn'.1 hq
+    · have hq' : n⁻¹ * q * n⁻¹⁻¹ ∈ Q := CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hn'.1 hq
       obtain ⟨b, hbW, hb⟩ := hn2 _ hq'
       rw [← hS.Mg_apply hn.1 (NQ_conj_d hn) hq'] at hb
       have e : n * (n⁻¹ * q * n⁻¹⁻¹) * n⁻¹ = q := by group
@@ -258,7 +258,7 @@ theorem Tsub_conj {n : G} (hn : n ∈ Tsub hS W hWQ) (hdW : d ∈ W) {q : G} (hq
   obtain ⟨b, hbW, hb⟩ := hn.2.2 q hq
   have hbQ := hWQ hbW
   have hz : (q * b)⁻¹ * (n * q * n⁻¹) ∈ Subgroup.zpowers d := by
-    refine hS.Phi_eq (Q.mul_mem hq hbQ) (hS.conj_mem hn.1.1 hq) ?_
+    refine hS.Phi_eq (Q.mul_mem hq hbQ) (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hn.1.1 hq) ?_
     rw [hS.Phi_mul hq hbQ, ← hb, hS.Mg_apply hn.1.1 (NQ_conj_d hn.1) hq]
   have hcm := hS.hC.hcm b hbQ q hq
   have hzd : Subgroup.zpowers d ≤ W := Subgroup.zpowers_le.mpr hdW
@@ -278,7 +278,7 @@ theorem Tsub_conj {n : G} (hn : n ∈ Tsub hS W hWQ) (hdW : d ∈ W) {q : G} (hq
 theorem Tsub_fixW {n : G} (hn : n ∈ Tsub hS W hWQ) {m : G} (hm : m ∈ W) :
     m⁻¹ * (n * m * n⁻¹) ∈ Subgroup.zpowers d := by
   rw [mem_Tsub] at hn
-  refine hS.Phi_eq (hWQ hm) (hS.conj_mem hn.1.1 (hWQ hm)) ?_
+  refine hS.Phi_eq (hWQ hm) (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hn.1.1 (hWQ hm)) ?_
   rw [hS.Mg_apply hn.1.1 (NQ_conj_d hn.1) (hWQ hm)]
   exact (hn.2.1 m hm).symm
 
@@ -306,7 +306,7 @@ theorem D_le_Tsub {W : Subgroup G} (hW : D ⊓ Q = W) (hWQ : W ≤ Q) : D ≤ Ts
       have : n * q * n⁻¹ * q⁻¹ = n * (q * n⁻¹ * q⁻¹) := by group
       rw [this]; exact D.mul_mem hn hqn
     have hbQ : n * q * n⁻¹ * q⁻¹ ∈ Q :=
-      Q.mul_mem (h.hS.conj_mem hnNQ.1 hq) (Q.inv_mem hq)
+      Q.mul_mem (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hnNQ.1 hq) (Q.inv_mem hq)
     have hbW : n * q * n⁻¹ * q⁻¹ ∈ W := by rw [← hW]; exact ⟨hbD, hbQ⟩
     refine ⟨_, hbW, ?_⟩
     have e1 : n * q * n⁻¹ = (n * q * n⁻¹ * q⁻¹) * q := by group
@@ -418,7 +418,7 @@ theorem construct_y {A Q D D' M M' Y Y' : Subgroup G} {d a₀ a₁ f₀ f₁ e t
     have hcQ : ∀ q ∈ Q, c * q * c⁻¹ = q := by
       intro q hq
       set q₁ := (y * z)⁻¹ * q * (y * z)⁻¹⁻¹ with hq₁
-      have hq₁Q : q₁ ∈ Q := hS.conj_mem hyzN hq
+      have hq₁Q : q₁ ∈ Q := CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hyzN hq
       have e : c * q * c⁻¹ = z * y * q₁ * (z * y)⁻¹ := by rw [hq₁, hc]; group
       rw [e, hcommQ q₁ hq₁Q, hq₁]; group
     have hcN : c ∈ Subgroup.normalizer (Q : Set G) :=

@@ -66,6 +66,7 @@ private theorem w183_inf_centralizer_self_eq_bot {G : Type*} [Group G] {L : Subg
   rw [hZ, Subgroup.mem_bot] at hxZ
   exact congrArg Subtype.val hxZ
 
+omit [Finite V] in
 private theorem w183_cj_eq_components (htwo : Br2TwoComp Y T L₁ L₂) {x : LGL 2 V}
     (hx : x ∈ alphaX Y L₁) : cj x L₁ = L₁ ∧ cj x L₂ = L₂ := by
   have hcj1 : cj x L₁ = L₁ :=
@@ -74,6 +75,7 @@ private theorem w183_cj_eq_components (htwo : Br2TwoComp Y T L₁ L₂) {x : LGL
   · exact h
   · exact absurd (hcj1.symm.trans h.1) htwo.ne
 
+omit [Finite V] in
 private theorem w183_inf_centralizer_L2_le_normalizer (htwo : Br2TwoComp Y T L₁ L₂) :
     Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V)) ≤
       Subgroup.normalizer (L₁ : Set (LGL 2 V)) := by
@@ -111,8 +113,9 @@ private noncomputable def w183_equivMapOfInjOn {G G' : Type*} [Group G] [Group G
       obtain ⟨h, hh, hy⟩ := Subgroup.mem_map.mp y.2
       exact ⟨⟨h, hh⟩, Subtype.ext hy⟩)
 
+omit [Finite V] in
 private theorem w183_mk_inj_of_inf_bot {Y L : Subgroup (LGL 2 V)} {H : Subgroup (LGL 2 V)}
-    (hHX : H ≤ alphaX Y L) (hC : H ⊓ Subgroup.centralizer (L : Set (LGL 2 V)) = ⊥) :
+    (_hHX : H ≤ alphaX Y L) (hC : H ⊓ Subgroup.centralizer (L : Set (LGL 2 V)) = ⊥) :
     ∀ a ∈ H.subgroupOf (alphaX Y L), ∀ b ∈ H.subgroupOf (alphaX Y L),
       alphaMk Y L a = alphaMk Y L b → a = b := by
   intro a ha b hb hab
@@ -130,9 +133,10 @@ private theorem w183_mk_inj_of_inf_bot {Y L : Subgroup (LGL 2 V)} {H : Subgroup 
   exact mul_inv_eq_one.mp (Subtype.ext hbot)
 
 theorem w183_alpha_finite (Y L : Subgroup (LGL 2 V)) : Finite (alphaQuot Y L) := by
-  haveI : Finite ↥(alphaX Y L) := Subtype.finite
+  have : Finite ↥(alphaX Y L) := Subtype.finite
   exact Quotient.finite _
 
+omit [Finite V] in
 theorem w183_alpha_normal_cent (htwo : Br2TwoComp Y T L₁ L₂) :
     (alphaL Y L₁).Normal ∧ Subgroup.centralizer (alphaL Y L₁ : Set (alphaQuot Y L₁)) = ⊥ := by
   have hL₁X : L₁ ≤ alphaX Y L₁ := le_inf htwo.le₁ L₁.le_normalizer
@@ -177,6 +181,7 @@ theorem w183_alpha_normal_cent (htwo : Br2TwoComp Y T L₁ L₂) :
     exact (QuotientGroup.eq_one_iff (N := (alphaC Y L₁).subgroupOf (alphaX Y L₁))
       xX).mpr ⟨xX.2.1, hxX_cent⟩
 
+omit [Finite V] in
 theorem w183_alpha_shape (htwo : Br2TwoComp Y T L₁ L₂) :
     Nonempty (↥L₁ ≃* ↥(alphaL Y L₁)) := by
   have hL₁X : L₁ ≤ alphaX Y L₁ := le_inf htwo.le₁ L₁.le_normalizer
@@ -185,6 +190,7 @@ theorem w183_alpha_shape (htwo : Br2TwoComp Y T L₁ L₂) :
   exact ⟨(Subgroup.subgroupOfEquivOfLe hL₁X).symm.trans
     (w183_equivMapOfInjOn (alphaMk Y L₁) hinj)⟩
 
+omit [Finite V] in
 theorem w183_alpha_card_elem (hA : A ≤ Y) (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
     (hC₁ : A ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) = ⊥) (hcard : Nat.card ↥A = 4)
     (hel : IsElemAbelian 2 A) :
@@ -195,6 +201,7 @@ theorem w183_alpha_card_elem (hA : A ≤ Y) (hAn₁ : A ≤ Subgroup.normalizer 
   rw [← Nat.card_congr (w183_equivMapOfInjOn (alphaMk Y L₁) hinj).toEquiv,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAX).toEquiv, hcard]
 
+omit [Finite V] in
 theorem w183_alpha_ti (htwo : Br2TwoComp Y T L₁ L₂) (hA : A ≤ Y)
     (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
     (hC₂ : A ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V)))
@@ -248,7 +255,7 @@ theorem w183_alpha_ti (htwo : Br2TwoComp Y T L₁ L₂) (hA : A ≤ Y)
 theorem w183_alpha_dynkin [Finite (alphaQuot Y L₁)] (htwo : Br2TwoComp Y T L₁ L₂) {τ : LGL 2 V}
     (hτY : τ ∈ Y) (hτ : ActsOnDynkinMod ⊥ L₁ τ) :
     ∃ τ' : alphaQuot Y L₁, ActsOnDynkinMod ⊥ (alphaL Y L₁) τ' := by
-  haveI : Finite ↥(alphaX Y L₁) := Subtype.finite
+  have : Finite ↥(alphaX Y L₁) := Subtype.finite
   have hL₁X : L₁ ≤ alphaX Y L₁ := le_inf htwo.le₁ L₁.le_normalizer
   have hτX : τ ∈ alphaX Y L₁ := ⟨hτY, hτ.1⟩
   have hinj := w183_mk_inj_of_inf_bot hL₁X
@@ -256,6 +263,7 @@ theorem w183_alpha_dynkin [Finite (alphaQuot Y L₁)] (htwo : Br2TwoComp Y T L�
   exact ⟨alphaMk Y L₁ ⟨τ, hτX⟩,
     w183_actsOnDynkin_map (alphaMk Y L₁) hinj (w183_dynkin_subgroupOf hL₁X hτX hτ)⟩
 
+omit [Finite V] in
 theorem w183_alpha_lift (htwo : Br2TwoComp Y T L₁ L₂) (hA : A ≤ Y)
     (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
     (hC₂ : A ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V)))

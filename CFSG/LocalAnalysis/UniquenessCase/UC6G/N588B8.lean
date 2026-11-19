@@ -26,7 +26,7 @@ structure A10Setup (m : Mz614 Dat) where
 theorem exists_A10Setup (m : Mz614 Dat) (h620 : m.C620) (hr : m.r = 5)
     (hL : UC22.IsAlt ↥m.L 10) : Nonempty (A10Setup m) := by
   obtain ⟨e⟩ := hL
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card ((m.A ⊓ m.L).subgroupOf m.L) = 5 ^ (Nat.card ↥m.L).factorization 5 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv, m.card_A_inf_L h620,
       hr, Nat.card_congr e.toEquiv, factorization_A10]

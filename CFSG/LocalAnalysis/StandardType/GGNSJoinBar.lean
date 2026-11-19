@@ -24,7 +24,7 @@ namespace NSJoin
 
 theorem nsBarInput_holds {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
     (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) (hBase : NSBaseFrameInputOf T)
-    (hPumpNbr : NSPumpNbrInputOf T) (hFix : NSFixInputOf T) (hJA2 : NSJA2InputOf T) :
+    (hPumpNbr : NSPumpNbrInputOf T) (_hFix : NSFixInputOf T) (hJA2 : NSJA2InputOf T) :
     NSBarInputOf T := by
   classical
   intro G _ _ p B Bs x L D J 𝒦 hcfg0 hC _ V _ _ ι

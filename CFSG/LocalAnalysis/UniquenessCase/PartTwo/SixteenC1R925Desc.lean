@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem r925_centralizer_ne_top (D : Data G) {z : G} (hz : z ≠ 1) :
     centralizer ({z} : Set G) ≠ ⊤ := by
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   exact CFSG.RankThree.PartOne.centralizer_singleton_ne_top_of_simple D.standing.nonab hz
 
 theorem r925_kgroup_bar2 (D : Data G) {H : Subgroup G} (hH : H ≠ ⊤) :
@@ -22,8 +22,9 @@ theorem r925_kgroup_bar2 (D : Data G) {H : Subgroup G} (hH : H ≠ ⊤) :
   have hKH : CFSG.Open.IsKGroup ↥H := CFSG.Open.IsKProper.isKGroup D.standing.kProper H hH
   exact CFSG.Open.IsKGroup.quotient hKH (CFSG.pCore 2 ↥H)
 
+omit [Finite G] in
 theorem r925_bar2_o2 (H : Subgroup G) : CFSG.pCore 2 (Bar2 H) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (H := ↥H) (p := 2)
 
 theorem r925_pRank_bar2 {H : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :

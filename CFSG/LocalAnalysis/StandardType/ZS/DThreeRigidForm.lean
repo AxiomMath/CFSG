@@ -220,7 +220,7 @@ private theorem zrf_span_roots_eq_top (hn : 2 ≤ Module.finrank (ZMod 3) U)
     by_contra h
     have hset : {t : U ≃ₗ[ZMod 3] U | t ∈ A ∧ IsRefl 3 t} = ∅ := by
       ext t
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       exact fun htA ht => h ⟨t, htA, ht⟩
     have hbot : A = ⊥ := by rw [hgen, hset]; exact Subgroup.closure_empty
     exact hAne hbot
@@ -367,7 +367,7 @@ theorem exists_bilinForm_of_orderOf_mul_le_three (hn : 2 ≤ Module.finrank (ZMo
       Module.reflection hφ ∈ A := by
     intro i
     have h := ht_sub i.2
-    simp only [S, Set.mem_setOf_eq] at h
+    simp only [S, Set.mem_ofPred_eq] at h
     rwa [← hb i] at h
   let φ : ↥t → Dual (ZMod 3) U := fun i => (hbS i).choose
   let hφ : ∀ i, φ i (b i) = 2 := fun i => (hbS i).choose_spec.choose

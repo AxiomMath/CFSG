@@ -22,12 +22,15 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def uc22r3tN0 (T M L : Subgroup G) : Subgroup G :=
   conjClosure M L ⊓ normalizer (T : Set G) ⊓ normalizer (L : Set G)
 
+omit [Finite G] in
 theorem uc22r3tN0_le_conjClosure (T M L : Subgroup G) :
     uc22r3tN0 T M L ≤ conjClosure M L := inf_le_left.trans inf_le_left
 
+omit [Finite G] in
 theorem uc22r3tN0_le_normalizer_T (T M L : Subgroup G) :
     uc22r3tN0 T M L ≤ normalizer (T : Set G) := inf_le_left.trans inf_le_right
 
+omit [Finite G] in
 theorem uc22r3tN0_le_normalizer_L (T M L : Subgroup G) :
     uc22r3tN0 T M L ≤ normalizer (L : Set G) := inf_le_right
 
@@ -35,7 +38,7 @@ theorem uc22r3t_theta_ne_one_of_mem {M L : Subgroup G} (hL : L ∈ calC M) {q : 
     (hSz : IsSz (Bar2 L) q) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {x : G} (hxL : x ∈ L)
     (hxo : orderOf x = r) (hxn : x ∈ normalizer (L : Set G)) :
     inducedQuotInfAut L x hxn ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : center (BarInf L ⧸ center (BarInf L)) = ⊥ :=
     uc22r3t_center_xbar_eq_bot hL hSz
   have hne : piBarInf L ⟨x, hxL⟩ ≠ 1 := by
@@ -70,7 +73,7 @@ theorem uc22r3t_exists_swap_mem_T {D : Data G} {L K : Subgroup G}
     (hne : K ≠ L) (hset : conjSetOf D.M L = {L, K}) (hTL : ¬ D.T ≤ normalizer (L : Set G)) :
     ∃ t ∈ D.T, L.map (MulAut.conj t).toMonoidHom = K ∧
       K.map (MulAut.conj t).toMonoidHom = L := by
-  obtain ⟨t, htT, htN⟩ := SetLike.not_le_iff_exists.1 hTL
+  obtain ⟨t, htT, htN⟩ := IsConcreteLE.not_le_iff_exists.1 hTL
   have htM : t ∈ D.M := D.sylowM.le htT
   have hLt : L.map (MulAut.conj t).toMonoidHom = K := by
     have hmem : L.map (MulAut.conj t).toMonoidHom ∈ conjSetOf D.M L := ⟨t, htM, rfl⟩
@@ -119,6 +122,7 @@ theorem uc22r3t_conj_eq_one_iff {M L : Subgroup G} (hL : L ∈ calC M) {q : ℕ}
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 theorem uc22r3t_conjClosure_eq_sup {M L K : Subgroup G} (hset : conjSetOf M L = {L, K}) :
     conjClosure M L = L ⊔ K := by
   have hL : L ∈ conjSetOf M L := by rw [hset]; simp
@@ -209,7 +213,7 @@ theorem uc22r3t_theta_conj_ne_one {M L K : Subgroup G} (hL : L ∈ calC M) (hK :
     (hxθ : inducedQuotInfAut L x hxn = 1)
     (hyn : t * x * t⁻¹ ∈ normalizer (L : Set G))
     (hyθ : inducedQuotInfAut L (t * x * t⁻¹) hyn = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLK : L ≤ normalizer (K : Set G) := uc22p22u_calC_normalizes hK hL hne
   have hxmem : x ∈ (L : Set G) * (K : Set G) := by
     rw [← Subgroup.coe_mul_of_left_le_normalizer_right L K hLK,
@@ -243,7 +247,7 @@ theorem uc22r3t_exists_rElt_of_le_normalizer {D : Data G}
     (hTL : D.T ≤ normalizer (L : Set G)) :
     ∃ y ∈ conjClosure D.M L, ∃ hyL : y ∈ normalizer (L : Set G),
       orderOf y = r ∧ y ∈ normalizer (D.T : Set G) ∧ inducedQuotInfAut L y hyL ≠ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hqodd : Odd q := CFSG.LocalAnalysis.EvenBN.GMSK.odd_of_lieModel_twistedB2 hSz
   have hr2 : r ≠ 2 := uc22ine229_ne_two hqodd hrq
   obtain ⟨x, hxL, hxo, hxT⟩ :=
@@ -255,6 +259,7 @@ theorem uc22r3t_exists_rElt_of_le_normalizer {D : Data G}
       ⟨1, D.M.one_mem, by ext y; simp⟩ le_rfl hxL
   exact ⟨x, hxX, hxn, hxo, hxT, uc22r3t_theta_ne_one_of_mem hL hSz hr hr2 hxL hxo hxn⟩
 
+omit [Finite G] in
 private theorem uc22r3t_conj_mem_normalizer_of_map_conj {L K : Subgroup G} {t x : G}
     (hKt : K.map (MulAut.conj t).toMonoidHom = L)
     (hxK : x ∈ normalizer (K : Set G)) :
@@ -285,7 +290,7 @@ theorem uc22r3t_exists_rElt_of_not_le_normalizer {D : Data G}
     (hr : r.Prime) (hrq : r ∣ 2 ^ q - 1) (hTL : ¬ D.T ≤ normalizer (L : Set G)) :
     ∃ y ∈ conjClosure D.M L, ∃ hyL : y ∈ normalizer (L : Set G),
       orderOf y = r ∧ y ∈ normalizer (D.T : Set G) ∧ inducedQuotInfAut L y hyL ≠ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hqodd : Odd q := CFSG.LocalAnalysis.EvenBN.GMSK.odd_of_lieModel_twistedB2 hSz
   have hr2 : r ≠ 2 := uc22ine229_ne_two hqodd hrq
   have hc : (conjSetOf D.M L).ncard ≤ 2 := by
@@ -334,7 +339,7 @@ theorem uc22r3t_split {D : Data G} {H₁ H₂ : Subgroup G} (hH₁ : H₁ ∈ hS
     (hRM : R ≤ D.M) (hRT : R ≤ normalizer (D.T : Set G)) {b : G}
     (hz : ∃ z ∈ R, b * z ≠ z * b) :
     (∃ z ∈ R ⊓ H₁, b * z ≠ z * b) ∨ (∃ z ∈ R ⊓ H₂, b * z ≠ z * b) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hsolvT : Group.IsSolvable ↥D.T :=
     CFSG.GorensteinWalter.isSolvable_of_isPGroup D.sylowM.isPGroup
   have hsolvR : Group.IsSolvable ↥R := CFSG.GorensteinWalter.isSolvable_of_isPGroup hR

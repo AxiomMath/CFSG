@@ -32,6 +32,7 @@ section Existence
 
 variable {Γ W₀ W₁ : Subgroup G}
 
+omit [Finite G] in
 theorem IsChiefFactor.normal (hc : IsChiefFactor Γ W₀ W₁) (hW₁Γ : W₁ ≤ Γ) :
     (W₀.subgroupOf W₁).Normal :=
   ⟨fun n hn w => by
@@ -42,6 +43,7 @@ section Quot
 
 variable [(W₀.subgroupOf W₁).Normal]
 
+omit [Finite G] in
 private theorem conj_mem_of_le_normalizer {W : Subgroup G} {γ : G}
     (hγ : γ ∈ Subgroup.normalizer (W : Set G)) {w : G} (hw : w ∈ W) : γ * w * γ⁻¹ ∈ W :=
   (Subgroup.mem_normalizer_iff.mp hγ w).mp hw
@@ -49,6 +51,7 @@ private theorem conj_mem_of_le_normalizer {W : Subgroup G} {γ : G}
 private def preQ (S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)) : Subgroup G :=
   (S.comap (QuotientGroup.mk' (W₀.subgroupOf W₁))).map W₁.subtype
 
+omit [Finite G] in
 private theorem mem_preQ {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)} {g : G} :
     g ∈ preQ S ↔ ∃ h : g ∈ W₁, (QuotientGroup.mk ⟨g, h⟩ : ↥W₁ ⧸ W₀.subgroupOf W₁) ∈ S := by
   constructor
@@ -57,10 +60,12 @@ private theorem mem_preQ {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)} {g : 
   · rintro ⟨h, hS⟩
     exact ⟨⟨g, h⟩, hS, rfl⟩
 
+omit [Finite G] in
 private theorem preQ_le (S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)) : preQ S ≤ W₁ := by
   rintro _ ⟨w, -, rfl⟩
   exact w.2
 
+omit [Finite G] in
 private theorem le_preQ (S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)) (hW : W₀ ≤ W₁) :
     W₀ ≤ preQ S := by
   intro g hg
@@ -68,7 +73,8 @@ private theorem le_preQ (S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)) (hW : 
   rw [(QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hg)]
   exact S.one_mem
 
-private theorem preQ_ne (hW : W₀ ≤ W₁) {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)} (hS : S ≠ ⊥) :
+omit [Finite G] in
+private theorem preQ_ne (_hW : W₀ ≤ W₁) {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)} (hS : S ≠ ⊥) :
     preQ S ≠ W₀ := by
   intro h
   apply hS
@@ -78,6 +84,7 @@ private theorem preQ_ne (hW : W₀ ≤ W₁) {S : Subgroup (↥W₁ ⧸ W₀.sub
   rw [h] at hw
   exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hw)
 
+omit [Finite G] in
 private theorem eq_top_of_preQ {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)} (hS : preQ S = W₁) :
     S = ⊤ := by
   refine (Subgroup.eq_top_iff' _).mpr fun s => ?_
@@ -86,7 +93,7 @@ private theorem eq_top_of_preQ {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)}
   obtain ⟨h, hmem⟩ := (mem_preQ).mp hw
   exact hmem
 
-private noncomputable def conjQ (h₀ : W₀ ≤ W₁) (γ : G)
+private noncomputable def conjQ (_h₀ : W₀ ≤ W₁) (γ : G)
     (hγ₀ : γ ∈ Subgroup.normalizer (W₀ : Set G)) (hγ₁ : γ ∈ Subgroup.normalizer (W₁ : Set G)) :
     ↥W₁ ⧸ W₀.subgroupOf W₁ →* ↥W₁ ⧸ W₀.subgroupOf W₁ :=
   QuotientGroup.map (W₀.subgroupOf W₁) (W₀.subgroupOf W₁)
@@ -97,6 +104,7 @@ private noncomputable def conjQ (h₀ : W₀ ≤ W₁) (γ : G)
       rw [Subgroup.mem_comap, Subgroup.mem_subgroupOf]
       exact conj_mem_of_le_normalizer hγ₀ (Subgroup.mem_subgroupOf.mp hw))
 
+omit [Finite G] in
 private theorem conjQ_mk (h₀ : W₀ ≤ W₁) (γ : G)
     (hγ₀ : γ ∈ Subgroup.normalizer (W₀ : Set G)) (hγ₁ : γ ∈ Subgroup.normalizer (W₁ : Set G))
     (w : ↥W₁) :
@@ -104,6 +112,7 @@ private theorem conjQ_mk (h₀ : W₀ ≤ W₁) (γ : G)
       QuotientGroup.mk ⟨γ * w * γ⁻¹, conj_mem_of_le_normalizer hγ₁ w.2⟩ :=
   rfl
 
+omit [Finite G] in
 private theorem conjQ_surjective (h₀ : W₀ ≤ W₁) (γ : G)
     (hγ₀ : γ ∈ Subgroup.normalizer (W₀ : Set G)) (hγ₁ : γ ∈ Subgroup.normalizer (W₁ : Set G)) :
     Function.Surjective (conjQ h₀ γ hγ₀ hγ₁) := by
@@ -116,6 +125,7 @@ private theorem conjQ_surjective (h₀ : W₀ ≤ W₁) (γ : G)
   ext
   simp [mul_assoc]
 
+omit [Finite G] in
 private theorem le_normalizer_preQ (hc : IsChiefFactor Γ W₀ W₁)
     {S : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁)}
     (hS : ∀ γ (hγ : γ ∈ Γ) (s : ↥W₁ ⧸ W₀.subgroupOf W₁), s ∈ S →
@@ -134,6 +144,7 @@ private theorem le_normalizer_preQ (hc : IsChiefFactor Γ W₀ W₁)
   have := key γ⁻¹ (inv_mem hγ) _ h
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem conjQ_mem_center (hc : IsChiefFactor Γ W₀ W₁) {γ : G} (hγ : γ ∈ Γ)
     {s : ↥W₁ ⧸ W₀.subgroupOf W₁} (hs : s ∈ Subgroup.center (↥W₁ ⧸ W₀.subgroupOf W₁)) :
     conjQ hc.lt.le γ (hc.norm₀ hγ) (hc.norm₁ hγ) s ∈
@@ -146,9 +157,9 @@ private theorem conjQ_mem_center (hc : IsChiefFactor Γ W₀ W₁) {γ : G} (hγ
 private theorem mul_comm_quot (hc : IsChiefFactor Γ W₀ W₁) (hW₁ : IsPGroup 2 W₁) :
     ∀ a b : ↥W₁ ⧸ W₀.subgroupOf W₁, a * b = b * a := by
   have hp : IsPGroup 2 (↥W₁ ⧸ W₀.subgroupOf W₁) := hW₁.to_quotient _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (↥W₁ ⧸ W₀.subgroupOf W₁) := by
-    obtain ⟨w, hw₁, hw₀⟩ := SetLike.exists_of_lt hc.lt
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (↥W₁ ⧸ W₀.subgroupOf W₁) := by
+    obtain ⟨w, hw₁, hw₀⟩ := _root_.IsConcreteLE.exists_of_lt hc.lt
     refine ⟨⟨QuotientGroup.mk ⟨w, hw₁⟩, 1, fun h => hw₀ ?_⟩⟩
     exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h)
   have hZ : Subgroup.center (↥W₁ ⧸ W₀.subgroupOf W₁) ≠ ⊥ := by
@@ -165,7 +176,7 @@ private theorem mul_comm_quot (hc : IsChiefFactor Γ W₀ W₁) (hW₁ : IsPGrou
 private theorem mul_self_quot (hc : IsChiefFactor Γ W₀ W₁) (hW₁ : IsPGroup 2 W₁) :
     ∀ a : ↥W₁ ⧸ W₀.subgroupOf W₁, a * a = 1 := by
   have hcomm := mul_comm_quot hc hW₁
-  letI : CommGroup (↥W₁ ⧸ W₀.subgroupOf W₁) :=
+  let : CommGroup (↥W₁ ⧸ W₀.subgroupOf W₁) :=
     { (inferInstance : Group (↥W₁ ⧸ W₀.subgroupOf W₁)) with mul_comm := hcomm }
   let E : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁) := (powMonoidHom 2 :
     (↥W₁ ⧸ W₀.subgroupOf W₁) →* (↥W₁ ⧸ W₀.subgroupOf W₁)).ker
@@ -173,9 +184,9 @@ private theorem mul_self_quot (hc : IsChiefFactor Γ W₀ W₁) (hW₁ : IsPGrou
     show s ^ 2 = 1 ↔ s * s = 1
     rw [pow_two]
   have hp : IsPGroup 2 (↥W₁ ⧸ W₀.subgroupOf W₁) := hW₁.to_quotient _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : E ≠ ⊥ := by
-    obtain ⟨w, hw₁, hw₀⟩ := SetLike.exists_of_lt hc.lt
+    obtain ⟨w, hw₁, hw₀⟩ := _root_.IsConcreteLE.exists_of_lt hc.lt
     have hne1 : (QuotientGroup.mk ⟨w, hw₁⟩ : ↥W₁ ⧸ W₀.subgroupOf W₁) ≠ 1 := fun h =>
       hw₀ (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h))
     obtain ⟨k, hk⟩ := hp (QuotientGroup.mk ⟨w, hw₁⟩)
@@ -216,16 +227,16 @@ theorem exists_chiefLin (hc : IsChiefFactor Γ W₀ W₁) (hW₁ : IsPGroup 2 W�
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module (ZMod 2) V) (_ : Finite V),
       Nonempty (ChiefLin Γ W₀ W₁ V) := by
   classical
-  haveI := hc.normal hW₁Γ
+  have := hc.normal hW₁Γ
   set N : Subgroup ↥W₁ := W₀.subgroupOf W₁ with hN
   have hcomm := mul_comm_quot hc hW₁
   have hsq := mul_self_quot hc hW₁
-  letI : CommGroup (↥W₁ ⧸ N) := { (inferInstance : Group (↥W₁ ⧸ N)) with mul_comm := hcomm }
+  let : CommGroup (↥W₁ ⧸ N) := { (inferInstance : Group (↥W₁ ⧸ N)) with mul_comm := hcomm }
   have h2 : ∀ x : Additive (↥W₁ ⧸ N), (2 : ℕ) • x = 0 := by
     intro x
     rw [two_nsmul]
     exact congrArg Additive.ofMul (hsq (Additive.toMul x))
-  letI : Module (ZMod 2) (Additive (↥W₁ ⧸ N)) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive (↥W₁ ⧸ N)) := AddCommGroup.zmodModule h2
   have hconj : ∀ (x : ↥Γ) (u : G), u ∈ W₁ → (x : G) * u * (x : G)⁻¹ ∈ W₁ :=
     fun x u hu => conj_mem_of_le_normalizer (hc.norm₁ x.2) hu
   have hconj₀ : ∀ (x : ↥Γ) (u : G), u ∈ W₀ → (x : G) * u * (x : G)⁻¹ ∈ W₀ :=
@@ -308,27 +319,34 @@ variable {Γ W₀ W₁ : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2
 @[expose] def vec (u : ↥W₁) : V :=
   Multiplicative.toAdd (lin.π u)
 
+omit [Finite G] in
 theorem vec_mul (u v : ↥W₁) : lin.vec (u * v) = lin.vec u + lin.vec v := by
   simp [vec]
 
+omit [Finite G] in
 theorem vec_one : lin.vec 1 = 0 := by
   simp [vec]
 
+omit [Finite G] in
 theorem vec_inv (u : ↥W₁) : lin.vec u⁻¹ = - lin.vec u := by
   simp [vec]
 
+omit [Finite G] in
 theorem vec_eq_zero_iff (u : ↥W₁) : lin.vec u = 0 ↔ (u : G) ∈ W₀ := by
   rw [← Subgroup.mem_subgroupOf, ← lin.ker_eq, MonoidHom.mem_ker]
   simp [vec]
 
+omit [Finite G] in
 theorem vec_surjective : Function.Surjective lin.vec := fun v => by
   obtain ⟨u, hu⟩ := lin.surj (Multiplicative.ofAdd v)
   exact ⟨u, by simp [vec, hu]⟩
 
+omit [Finite G] in
 theorem ρ_vec (x : ↥Γ) (u v : ↥W₁) (h : (v : G) = x * u * (x : G)⁻¹) :
     lin.ρ x (lin.vec u) = lin.vec v :=
   (lin.spec x u v h).symm
 
+omit [Finite G] in
 theorem vec_eq_vec_iff (u v : ↥W₁) :
     lin.vec u = lin.vec v ↔ (u : G) * (v : G)⁻¹ ∈ W₀ := by
   have h : lin.vec (u * v⁻¹) = lin.vec u - lin.vec v := by
@@ -336,6 +354,7 @@ theorem vec_eq_vec_iff (u v : ↥W₁) :
   rw [← sub_eq_zero, ← h, lin.vec_eq_zero_iff]
   rfl
 
+omit [Finite G] in
 theorem ρ_eq_one_iff (x : ↥Γ) :
     lin.ρ x = 1 ↔ ∀ w ∈ W₁, (x : G) * w * (x : G)⁻¹ * w⁻¹ ∈ W₀ := by
   have hconj : ∀ w : G, w ∈ W₁ → (x : G) * w * (x : G)⁻¹ ∈ W₁ := fun w hw =>
@@ -352,13 +371,15 @@ theorem ρ_eq_one_iff (x : ↥Γ) :
     exact (lin.vec_eq_vec_iff ⟨(x : G) * u * (x : G)⁻¹, hconj u u.2⟩ u).mpr (h u u.2)
 
 include lin in
+omit [Finite G] in
 theorem nontrivial (hlt : W₀ < W₁) : Nontrivial V := by
-  obtain ⟨g, hg₁, hg₀⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g, hg₁, hg₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   exact ⟨⟨lin.vec ⟨g, hg₁⟩, 0, fun h => hg₀ ((lin.vec_eq_zero_iff ⟨g, hg₁⟩).mp h)⟩⟩
 
 @[expose] def preW (S : Submodule (ZMod 2) V) : Subgroup G :=
   (AddSubgroup.toSubgroup S.toAddSubgroup |>.comap lin.π).map W₁.subtype
 
+omit [Finite G] in
 theorem mem_preW {S : Submodule (ZMod 2) V} {g : G} :
     g ∈ lin.preW S ↔ ∃ h : g ∈ W₁, lin.vec ⟨g, h⟩ ∈ S := by
   constructor
@@ -367,14 +388,17 @@ theorem mem_preW {S : Submodule (ZMod 2) V} {g : G} :
   · rintro ⟨h, hv⟩
     exact ⟨⟨g, h⟩, hv, rfl⟩
 
+omit [Finite G] in
 theorem preW_le (S : Submodule (ZMod 2) V) : lin.preW S ≤ W₁ := by
   rintro _ ⟨u, -, rfl⟩
   exact u.2
 
+omit [Finite G] in
 theorem le_preW (hW : W₀ ≤ W₁) (S : Submodule (ZMod 2) V) : W₀ ≤ lin.preW S := fun g hg =>
   (lin.mem_preW).mpr ⟨hW hg, by
     rw [(lin.vec_eq_zero_iff ⟨g, hW hg⟩).mpr hg]; exact S.zero_mem⟩
 
+omit [Finite G] in
 theorem le_normalizer_preW {A : Subgroup G} (hAΓ : A ≤ Γ) {S : Submodule (ZMod 2) V}
     (hS : Invariant (lin.img A) S) : A ≤ Subgroup.normalizer (lin.preW S : Set G) := by
   have key : ∀ j ∈ A, ∀ g ∈ lin.preW S, j * g * j⁻¹ ∈ lin.preW S := by
@@ -393,8 +417,9 @@ theorem le_normalizer_preW {A : Subgroup G} (hAΓ : A ≤ Γ) {S : Submodule (ZM
   have := key j⁻¹ (inv_mem hj) _ h
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem isIrr_img (hc : IsChiefFactor Γ W₀ W₁) : IsIrr (lin.img Γ) ⊤ := by
-  haveI := lin.nontrivial hc.lt
+  have := lin.nontrivial hc.lt
   unfold IsIrr IrrSec
   refine ⟨fun _ _ _ _ => Submodule.mem_top, bot_lt_top, ?_⟩
   intro S hS _ _
@@ -413,10 +438,11 @@ theorem isIrr_img (hc : IsChiefFactor Γ W₀ W₁) : IsIrr (lin.img Γ) ⊤ := 
     obtain ⟨_, hv⟩ := (lin.mem_preW).mp hu
     exact hv
 
+omit [Finite G] in
 theorem ρ_eq_one_of_normal [Finite V] (hc : IsChiefFactor Γ W₀ W₁) {P : Subgroup G}
     (hP : IsPGroup 2 P) (hΓP : Γ ≤ Subgroup.normalizer (P : Set G)) (x : ↥Γ)
     (hx : (x : G) ∈ P) : lin.ρ x = 1 := by
-  haveI := lin.nontrivial hc.lt
+  have := lin.nontrivial hc.lt
   set F := fixedSpace (lin.img P) with hFdef
   have hF : Invariant (lin.img Γ) F := by
     rintro _ ⟨γ, -, rfl⟩ v hv k hk
@@ -436,8 +462,8 @@ theorem ρ_eq_one_of_normal [Finite V] (hc : IsChiefFactor Γ W₀ W₁) {P : Su
   · exfalso
     have hPimg : IsPGroup 2 ↥(lin.img P) :=
       (hP.comap_of_injective Γ.subtype Subtype.val_injective).map lin.ρ
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
     have h2V : 2 ∣ Nat.card V := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
       exact dvd_pow_self 2 (Module.finrank_pos (R := ZMod 2) (M := V)).ne'

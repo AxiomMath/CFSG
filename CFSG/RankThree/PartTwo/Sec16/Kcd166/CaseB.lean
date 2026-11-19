@@ -72,7 +72,7 @@ theorem card_quotient_center_eq_finrank_sq {𝕜 : Type*} [Field 𝕜] [IsAlgClo
     (hfaith : ∀ z ∈ Subgroup.center Q, σ z = 1 → z = 1) :
     Nat.card (Q ⧸ Subgroup.center Q) = Module.finrank 𝕜 W ^ 2 := by
   classical
-  haveI : Nontrivial W :=
+  have : Nontrivial W :=
     CFSG.RankThree.GroupTheory.nontrivial_of_isIrreducible hirr
   have hσ_inj : Function.Injective σ :=
     injective_of_commutator_mem_center σ hcl hfaith
@@ -130,11 +130,13 @@ private noncomputable def K0 (Q : Subgroup Γ) [Q.Normal] : Subgroup Γ :=
 private abbrev centralizerQ (Q : Subgroup Γ) : Subgroup Γ :=
   Subgroup.centralizer (Q : Set Γ)
 
+omit [Finite Γ] in
 private lemma centerMap_normal {Q : Subgroup Γ} [Q.Normal] :
     (centerMap Q).Normal := by
-  letI : (Subgroup.center Q).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center Q).Characteristic := Subgroup.centerCharacteristic
   exact ConjAct.normal_of_characteristic_of_normal
 
+omit [Finite Γ] in
 private lemma centerMap_lt {Q : Subgroup Γ} (hQc : ¬ IsMulCommutative Q) :
     centerMap Q < Q := by
   refine lt_of_le_of_ne (Subgroup.map_subtype_le _) ?_
@@ -147,15 +149,17 @@ private lemma centerMap_lt {Q : Subgroup Γ} (hQc : ¬ IsMulCommutative Q) :
     have ha : a ∈ Subgroup.center Q := by rw [hcenter_top]; trivial
     exact (Subgroup.mem_center_iff.mp ha b).symm⟩⟩
 
+omit [Finite Γ] in
 private lemma centerMap_central {Q : Subgroup Γ} [Q.Normal]
     (hQc : ¬ IsMulCommutative Q)
     (hmin : ∀ R : Subgroup Γ, R.Normal → R < Q → R ≤ Subgroup.center Γ) :
     centerMap Q ≤ Subgroup.center Γ :=
   hmin _ (centerMap_normal) (centerMap_lt hQc)
 
+omit [Finite Γ] in
 private lemma frattiniMap_normal {Q : Subgroup Γ} [Q.Normal] :
     (frattiniMap Q).Normal := by
-  letI : (frattini Q).Characteristic := frattini_characteristic
+  let : (frattini Q).Characteristic := frattini_characteristic
   exact ConjAct.normal_of_characteristic_of_normal
 
 private lemma frattiniMap_lt {Q : Subgroup Γ} [Nontrivial Q] :
@@ -181,8 +185,8 @@ private lemma commutator_mem_center {Q : Subgroup Γ} {r : ℕ} (hr : r.Prime)
     (hQr : IsPGroup r Q)
     (hQ0center : frattiniMap Q ≤ Subgroup.center Γ) :
     ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q := by
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : Fact (IsPGroup r Q) := ⟨hQr⟩
+  let : Fact r.Prime := ⟨hr⟩
+  let : Fact (IsPGroup r Q) := ⟨hQr⟩
   intro x y
   have hmem : ((⁅x, y⁆ : Q) : Γ) ∈ frattiniMap Q := by
     refine Subgroup.mem_map.mpr ⟨⁅x, y⁆, ?_, rfl⟩
@@ -198,8 +202,8 @@ private lemma pow_mem_center {Q : Subgroup Γ} {r : ℕ} (hr : r.Prime)
     (hQr : IsPGroup r Q)
     (hQ0center : frattiniMap Q ≤ Subgroup.center Γ) :
     ∀ x : Q, x ^ r ∈ Subgroup.center Q := by
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : Fact (IsPGroup r Q) := ⟨hQr⟩
+  let : Fact r.Prime := ⟨hr⟩
+  let : Fact (IsPGroup r Q) := ⟨hQr⟩
   intro x
   have hmem : ((x ^ r : Q) : Γ) ∈ frattiniMap Q :=
     Subgroup.mem_map.mpr ⟨x ^ r,
@@ -209,11 +213,12 @@ private lemma pow_mem_center {Q : Subgroup Γ} {r : ℕ} (hr : r.Prime)
   intro z
   exact Subtype.ext (hc (z : Γ))
 
-private lemma quotient_elementary {Q : Subgroup Γ} {r : ℕ} (hr : r.Prime)
+omit [Finite Γ] in
+private lemma quotient_elementary {Q : Subgroup Γ} {r : ℕ} (_hr : r.Prime)
     (hcommQ : ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q)
     (hpowQ : ∀ x : Q, x ^ r ∈ Subgroup.center Q) :
     CFSG.IsElementaryAbelian r (Q ⧸ Subgroup.center Q) := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨_hr⟩
   have hclass : _root_.commutator Q ≤ Subgroup.center Q := by
     rw [_root_.commutator_def, Subgroup.commutator_le]
     intro x _ y _
@@ -231,10 +236,11 @@ private lemma quotient_elementary {Q : Subgroup Γ} {r : ℕ} (hr : r.Prime)
           exponent_dvd_p :=
             Monoid.exponent_dvd_iff_forall_pow_eq_one.2 hQquotExp }
 
+omit [IsAlgClosed 𝕜] [FiniteDimensional 𝕜 V] in
 private lemma r_ne_p {Q : Subgroup Γ} [Q.Normal] {r : ℕ} (hp : p.Prime)
     (hirr : ρ.IsIrreducible) (hfaith : Function.Injective ρ)
     (hQr : IsPGroup r Q) (hQc : ¬ IsMulCommutative Q) (hrp : r = p) : False := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hQrp : IsPGroup p Q := hrp ▸ hQr
   have hact : ∀ q : Q, ρ (q : Γ) = 1 := fun q =>
     CFSG.TwoRankLowerBound.Helpers.normal_p_subgroup_irreducible_action_trivial
@@ -243,7 +249,7 @@ private lemma r_ne_p {Q : Subgroup Γ} [Q.Normal] {r : ℕ} (hp : p.Prime)
     rw [eq_bot_iff]
     intro q hq
     have hq1 : q = 1 := hfaith (by simpa using hact ⟨q, hq⟩)
-    simpa [hq1]
+    simp [hq1]
   exact hQc (by rw [hQbot]; infer_instance)
 
 private lemma r_ne_three {Q : Subgroup Γ} [Nontrivial Q] {r : ℕ} {π : Γ →* T}
@@ -254,7 +260,7 @@ private lemma r_ne_three {Q : Subgroup Γ} [Nontrivial Q] {r : ℕ} {π : Γ →
   have hnpos : 0 < n := by
     rcases Nat.eq_zero_or_pos n with h0 | hpos
     · exfalso
-      haveI : Subsingleton Q := by
+      have : Subsingleton Q := by
         rw [h0, pow_zero] at hn
         exact (Nat.card_eq_one_iff_unique.mp hn).1
       exact false_of_nontrivial_of_subsingleton Q
@@ -291,6 +297,7 @@ private lemma exists_center_character {Q : Subgroup Γ} [Q.Normal] [Nontrivial V
   · intro z
     exact hχΓ (centerToCenter z)
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma center_action_faithful {Q : Subgroup Γ}
     {W : Subrepresentation (ρ.comp Q.subtype)} [Nontrivial W.toSubmodule]
     {χQ : Subgroup.center Q →* 𝕜ˣ}
@@ -318,6 +325,7 @@ private lemma center_action_faithful {Q : Subgroup Γ}
   have hz1' : (⟨z, hz⟩ : Subgroup.center Q) = 1 := hχQinj (by simpa using hzχ)
   exact congrArg (fun w : Subgroup.center Q => (w : Q)) hz1'
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma m_bounds {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subtype)}
     {r m : ℕ} (hr : r.Prime) (hQc : ¬ IsMulCommutative Q)
     (hm : Nat.card (Q ⧸ Subgroup.center Q) = r ^ m)
@@ -354,6 +362,7 @@ private lemma m_bounds {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subty
     rwa [Nat.factorization_pow_self hr] at h
   exact ⟨hm_le, hm_pos, hm_even⟩
 
+omit [Finite Γ] in
 private lemma K0_ne_top {Q : Subgroup Γ} [Q.Normal]
     (hZcenter : centerMap Q ≤ Subgroup.center Γ)
     (hQc : ¬ IsMulCommutative Q) (hperf : Group.IsPerfect Γ) :
@@ -392,9 +401,10 @@ private lemma K0_ne_top {Q : Subgroup Γ} [Q.Normal]
     have ha : (a : Γ) ∈ Subgroup.center Γ := hQcenter a.2
     exact Subtype.ext ((Subgroup.mem_center_iff.mp ha b).symm)⟩⟩
 
+omit [Finite Γ] in
 private lemma K0_card_dvd (Q : Subgroup Γ) [Q.Normal] :
     Nat.card (Γ ⧸ K0 Q) ∣ Nat.card (MulAut (Q ⧸ Subgroup.center Q)) := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   exact Subgroup.card_dvd_of_injective (QuotientGroup.kerLift (conjOnQuotient Q))
     (QuotientGroup.kerLift_injective (conjOnQuotient Q))
 
@@ -403,8 +413,8 @@ private lemma K0_GL_dvd {Q : Subgroup Γ} [Q.Normal] {r m : ℕ} (hr : r.Prime)
     (hQquotExp : ∀ x : Q ⧸ Subgroup.center Q, x ^ r = 1)
     (hm : Nat.card (Q ⧸ Subgroup.center Q) = r ^ m) :
     Nat.card (Γ ⧸ K0 Q) ∣ Nat.card (GL (Fin m) (ZMod r)) := by
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : Fact r.Prime := ⟨hr⟩
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary
     (p := r) (W := Q ⧸ Subgroup.center Q) (n := m)
     (fun a b => hQquotComm.is_comm.comm a b) hQquotExp hm
@@ -437,6 +447,7 @@ private lemma toA6_ker {T : Type*} [Group T]
   change hT.2.some (QuotientGroup.mk x) = 1 ↔ x ∈ Subgroup.center T
   rw [MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
 
+omit [Finite Γ] in
 private lemma K0_le_ker_of_image_bot {Q : Subgroup Γ} [Q.Normal] {π : Γ →* T}
     (σT : T →* alternatingGroup (Fin 6))
     (hbot : ((K0 Q).map π).map σT = ⊥) :
@@ -448,18 +459,19 @@ private lemma K0_le_ker_of_image_bot {Q : Subgroup Γ} [Q.Normal] {π : Γ →* 
   rw [hbot] at hmem
   simpa using hmem
 
+omit [Finite Γ] in
 private lemma K0_top_of_image_top {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     {π : Γ →* T} (hπ : Function.Surjective π) (σT : T →* alternatingGroup (Fin 6))
     (hσT_surj : Function.Surjective σT)
     (hσT_ker : σT.ker = Subgroup.center T)
     (hkerS : Group.IsSolvable π.ker) (hK0ne : K0 Q ≠ ⊤)
     (htop : ((K0 Q).map π).map σT = ⊤) : False := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   have hsup : (K0 Q).map π ⊔ σT.ker = ⊤ := by
     have h := htop
     rw [← MonoidHom.range_eq_top.mpr hσT_surj] at h
     exact codisjoint_iff.mp (Subgroup.map_eq_range_iff.mp h)
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
   have hπKtop : (K0 Q).map π = ⊤ :=
     CFSG.GroupTheory.eq_top_of_sup_le_center_of_isPerfect (L := (K0 Q).map π)
       (Z := σT.ker) (by rw [hσT_ker]) hsup
@@ -485,22 +497,23 @@ private lemma K0_top_of_image_top {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect 
     have hk1 : QuotientGroup.mk' (K0 Q) k = 1 := (QuotientGroup.eq_one_iff k).mpr hk
     change QuotientGroup.mk' (K0 Q) n = QuotientGroup.mk' (K0 Q) g
     rw [← hkn, map_mul, hk1, one_mul]
-  haveI : Group.IsSolvable π.ker := hkerS
-  haveI : Group.IsSolvable (Γ ⧸ K0 Q) := Group.isSolvable_of_surjective hsurjKer
-  haveI : Group.IsPerfect (Γ ⧸ K0 Q) := Group.IsPerfect.instQuotientSubgroup
+  have : Group.IsSolvable π.ker := hkerS
+  have : Group.IsSolvable (Γ ⧸ K0 Q) := Group.isSolvable_of_surjective hsurjKer
+  have : Group.IsPerfect (Γ ⧸ K0 Q) := Group.IsPerfect.instQuotientSubgroup
   have hsub : Subsingleton (Γ ⧸ K0 Q) := by
     by_contra h
-    haveI : Nontrivial (Γ ⧸ K0 Q) := (not_subsingleton_iff_nontrivial).mp h
+    have : Nontrivial (Γ ⧸ K0 Q) := (not_subsingleton_iff_nontrivial).mp h
     exact (Group.IsPerfect.not_isSolvable (Γ ⧸ K0 Q)) inferInstance
   have hK0top : K0 Q = ⊤ := QuotientGroup.subsingleton_iff.mp hsub
   exact hK0ne hK0top
 
+omit [Finite Γ] in
 private lemma three_dvd_of_image_bot {Q : Subgroup Γ} [Q.Normal] {π : Γ →* T}
     (hπ : Function.Surjective π) (σT : T →* alternatingGroup (Fin 6))
     (hσT_surj : Function.Surjective σT)
     (hbot : ((K0 Q).map π).map σT = ⊥) :
     360 ∣ Nat.card (Γ ⧸ K0 Q) := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   have hle : K0 Q ≤ (σT.comp π).ker := K0_le_ker_of_image_bot σT hbot
   let φbar : Γ ⧸ K0 Q →* alternatingGroup (Fin 6) :=
     QuotientGroup.lift (K0 Q) (σT.comp π) hle
@@ -514,17 +527,18 @@ private lemma three_dvd_of_image_bot {Q : Subgroup Γ} [Q.Normal] {π : Γ →* 
   rw [← card_alternating_six]
   exact hdvd
 
+omit [Finite Γ] in
 private lemma three_dvd_card_quotient {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     {π : Γ →* T} (hπ : Function.Surjective π)
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hkerS : Group.IsSolvable π.ker) (hK0ne : K0 Q ≠ ⊤) :
     360 ∣ Nat.card (Γ ⧸ K0 Q) := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   let σT : T →* alternatingGroup (Fin 6) := toA6 hT
   have hσT_surj : Function.Surjective σT := toA6_surjective hT
   have hσT_ker : σT.ker = Subgroup.center T := toA6_ker hT
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hσKnormal : (((K0 Q).map π).map σT).Normal :=
     ((MonoidHom.normal_ker _).map π hπ).map σT hσT_surj
@@ -533,6 +547,7 @@ private lemma three_dvd_card_quotient {Q : Subgroup Γ} [Q.Normal] [Group.IsPerf
   · exact absurd (K0_top_of_image_top hπ σT hσT_surj hσT_ker hkerS hK0ne htop)
       (by norm_num)
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma exclude_m_two {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subtype)}
     {r m : ℕ} (hr : r.Prime)
     (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = r ^ m)
@@ -547,7 +562,7 @@ private lemma exclude_m_two {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.
   have hr_le : r ≤ 9 := by
     rw [← hd_eq]
     exact hWdim_le
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod, Fin.prod_univ_two] at h360GL
   interval_cases r
   · norm_num at hr
@@ -561,6 +576,7 @@ private lemma exclude_m_two {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.
   · norm_num at hr
   · norm_num at hr
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma r_eq_two_of_m_four {Q : Subgroup Γ}
     {W : Subrepresentation (ρ.comp Q.subtype)} {r m : ℕ} (hr : r.Prime)
     (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = r ^ m)
@@ -582,6 +598,7 @@ private lemma r_eq_two_of_m_four {Q : Subgroup Γ}
   · rfl
   · exact absurd rfl hr3ne
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma r_eq_two_of_m_six {Q : Subgroup Γ}
     {W : Subrepresentation (ρ.comp Q.subtype)} {r m : ℕ} (hr : r.Prime)
     (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = r ^ m)
@@ -607,6 +624,7 @@ private lemma r_eq_two_of_m_six {Q : Subgroup Γ}
     omega
   exact hr2
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma arithmetic_final {Q : Subgroup Γ}
     {W : Subrepresentation (ρ.comp Q.subtype)} {r m : ℕ} (hr : r.Prime)
     (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = r ^ m)
@@ -654,7 +672,7 @@ private lemma atMostOne_of_no_outside {Q : Subgroup Γ}
 
 private lemma quaternion_center_card {k : ℕ} (hk2 : 2 ≤ k) :
     Nat.card (Subgroup.center (QuaternionGroup k)) = 2 := by
-  haveI : NeZero k := ⟨by positivity⟩
+  have : NeZero k := ⟨by positivity⟩
   have hcenter_iff : ∀ g : QuaternionGroup k,
       g ∈ Subgroup.center (QuaternionGroup k) ↔
         g = QuaternionGroup.a (0 : ZMod (2 * k)) ∨
@@ -718,6 +736,7 @@ private lemma quaternion_a4_not_center {k : ℕ} (hk8 : 8 ≤ k) :
     rw [Nat.ModEq, Nat.mod_eq_of_lt h4lt, Nat.mod_eq_of_lt hlt] at hmod
     omega
 
+omit [Finite Γ] in
 private lemma quaternion_quotient_card {Q : Subgroup Γ} {m n : ℕ}
     (e : Q ≃* QuaternionGroup (2 ^ (n - 2))) (hn3 : 3 ≤ n)
     (hm : Nat.card (Q ⧸ Subgroup.center Q) = 2 ^ m)
@@ -744,6 +763,7 @@ private lemma quaternion_quotient_card {Q : Subgroup Γ} {m n : ℕ}
     exact Nat.pow_le_pow_right (n := 2) (by norm_num) hm4
   exact ⟨hcardQuot, by omega⟩
 
+omit [Finite Γ] in
 private lemma quaternion_quotient_false {Q : Subgroup Γ} {m n : ℕ}
     (e : Q ≃* QuaternionGroup (2 ^ (n - 2))) (hn3 : 3 ≤ n)
     (hm : Nat.card (Q ⧸ Subgroup.center Q) = 2 ^ m)
@@ -787,7 +807,7 @@ private lemma exists_involution_outside_center {Q : Subgroup Γ} {m : ℕ}
     (hm46 : m = 4 ∨ m = 6)
     (hQquotExp : ∀ x : Q ⧸ Subgroup.center Q, x ^ 2 = 1) :
     ∃ x : Q, x * x = 1 ∧ x ≠ 1 ∧ x ∉ Subgroup.center Q := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hno
   push Not at hno
   have hAtMost := atMostOne_of_no_outside hno
@@ -796,6 +816,7 @@ private lemma exists_involution_outside_center {Q : Subgroup Γ} {m : ℕ}
   · exact hQc (IsCyclic.isMulCommutative (α := Q))
   · exact quaternion_quotient_false e hn3 hm hm46 hQquotExp
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma commutator_data {Q : Subgroup Γ} {x y : Q}
     (hcommQ : ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q)
     {χQ : Subgroup.center Q →* 𝕜ˣ}
@@ -838,6 +859,7 @@ private lemma commutator_data {Q : Subgroup Γ} {x y : Q}
     rw [hχQspec ⟨⁅x, y⁆, hz_center⟩, hχz_neg]
   exact ⟨hz_center, hz_ne_one, hz_sq, hχz_neg, hρz⟩
 
+omit [Finite Γ] in
 private lemma conjugate_identity {Q : Subgroup Γ} {x y : Q}
     (hcommQ : ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q) :
     y⁻¹ * x * y = x * ⁅x, y⁆ := by
@@ -855,6 +877,7 @@ private lemma conjugate_identity {Q : Subgroup Γ} {x y : Q}
   rw [h1, h2]
   exact (Subgroup.mem_center_iff.mp hz_center x).symm
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma involution_eigenspace_decomp {Q : Subgroup Γ} {x : Q}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hx2 : x * x = 1) :
     IsCompl (Module.End.eigenspace (ρ (x : Γ)) 1) (Module.End.eigenspace (ρ (x : Γ)) (-1)) := by
@@ -871,6 +894,7 @@ private lemma involution_eigenspace_decomp {Q : Subgroup Γ} {x : Q}
   exact CFSG.ClassicalInvolution.Models.OrthogonalPairs.isCompl_eigenspace_of_mul_self
     h2 hT2
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma eigenspace_conjugate_maps {Q : Subgroup Γ} {x y : Q}
     (hconj : y⁻¹ * x * y = x * ⁅x, y⁆)
     (hρz : ρ ((⁅x, y⁆ : Q) : Γ) = (-1 : 𝕜) • (1 : Module.End 𝕜 V)) :
@@ -914,6 +938,7 @@ private lemma eigenspace_conjugate_maps {Q : Subgroup Γ} {x y : Q}
       _ = -ρ (y : Γ) (-v) := by rw [hv1]
       _ = ρ (y : Γ) v := by simp
 
+omit [IsAlgClosed 𝕜] [Finite Γ] in
 private lemma eigenspace_finrank_eq {Q : Subgroup Γ} {x y : Q}
     (hmaps_plus : ∀ v ∈ Module.End.eigenspace (ρ (x : Γ)) 1,
       ρ (x : Γ) (ρ (y : Γ) v) = -ρ (y : Γ) v)
@@ -949,6 +974,7 @@ private lemma eigenspace_finrank_eq {Q : Subgroup Γ} {x y : Q}
   exact le_antisymm (LinearMap.finrank_le_finrank_of_injective hφinj)
     (LinearMap.finrank_le_finrank_of_injective hψinj)
 
+omit [IsAlgClosed 𝕜] [Finite Γ] in
 private lemma involution_finrank_bound {Q : Subgroup Γ} {x : Q}
     (hx2 : x * x = 1) (hx1 : x ≠ 1)
     (hcompl : IsCompl (Module.End.eigenspace (ρ (x : Γ)) 1)
@@ -983,6 +1009,7 @@ private lemma involution_finrank_bound {Q : Subgroup Γ} {x : Q}
   rw [hVdim]
   omega
 
+omit [IsAlgClosed 𝕜] [Finite Γ] in
 private lemma m_ne_six {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subtype)}
     {m : ℕ} (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = 2 ^ m)
     (hVdim_le6 : Module.finrank 𝕜 V ≤ 6) (h6 : m = 6) : False := by
@@ -1001,6 +1028,7 @@ private lemma m_eq_four {m : ℕ} (hm46 : m = 4 ∨ m = 6) (hm_ne6 : m ≠ 6) : 
   · exact h4
   · exact absurd h6 hm_ne6
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma W_dim_four {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subtype)}
     {m : ℕ} (hWsq : Module.finrank 𝕜 W.toSubmodule ^ 2 = 2 ^ m)
     (hm4 : m = 4) : Module.finrank 𝕜 W.toSubmodule = 4 := by
@@ -1009,6 +1037,7 @@ private lemma W_dim_four {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.sub
   rw [hWsq, hm4]
   norm_num
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma quotient_character_faithful {Q : Subgroup Γ} [Q.Normal]
     {W : Subrepresentation (ρ.comp Q.subtype)} [Nontrivial W.toSubmodule]
     {W2 : Subrepresentation W.quotient} [Nontrivial W2.toSubmodule]
@@ -1052,7 +1081,7 @@ private lemma quotient_character_faithful {Q : Subgroup Γ} [Q.Normal]
 private lemma quotient_constituent_dim_four {Q : Subgroup Γ} [Q.Normal]
     {W : Subrepresentation (ρ.comp Q.subtype)} [Nontrivial W.toSubmodule]
     {χQ : Subgroup.center Q →* 𝕜ˣ} {m : ℕ}
-    (hWirr : W.toRepresentation.IsIrreducible)
+    (_hWirr : W.toRepresentation.IsIrreducible)
     (hcommQ : ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q)
     (hχQinj : Function.Injective χQ)
     (hχQspec : ∀ z : Subgroup.center Q,
@@ -1063,11 +1092,11 @@ private lemma quotient_constituent_dim_four {Q : Subgroup Γ} [Q.Normal]
       Module.finrank 𝕜 W2.toSubmodule = 4 ∧
       Module.finrank 𝕜 W2.toSubmodule ≤
         Module.finrank 𝕜 (V ⧸ W.toSubmodule) := by
-  haveI : Nontrivial (V ⧸ W.toSubmodule) :=
+  have : Nontrivial (V ⧸ W.toSubmodule) :=
     Submodule.Quotient.nontrivial_iff.mpr hUne
   obtain ⟨W2, hW2ne, hW2irr⟩ :=
     CFSG.CharacterTheory.SteinbergBY.exists_isIrreducible_subrepresentation W.quotient
-  haveI : Nontrivial W2.toSubmodule := by
+  have : Nontrivial W2.toSubmodule := by
     rw [Submodule.nontrivial_iff_ne_bot]
     intro h
     apply hW2ne
@@ -1092,6 +1121,7 @@ private lemma quotient_constituent_dim_four {Q : Subgroup Γ} [Q.Normal]
     rw [← hW2aux, hQcard16]
   exact ⟨W2, hW2ne, hW2dim4, Submodule.finrank_le _⟩
 
+omit [IsAlgClosed 𝕜] [Finite Γ] in
 private lemma no_proper_quotient_constituent {Q : Subgroup Γ}
     {W : Subrepresentation (ρ.comp Q.subtype)} {W2 : Subrepresentation W.quotient}
     (hWdim4 : Module.finrank 𝕜 W.toSubmodule = 4)
@@ -1125,6 +1155,7 @@ private lemma V_eq_W {Q : Subgroup Γ} [Q.Normal]
     quotient_constituent_dim_four hWirr hcommQ hχQinj hχQspec hm hm4 hUne
   exact no_proper_quotient_constituent hWdim4 hVdim_le6 hW2dim4 hW2le
 
+omit [IsAlgClosed 𝕜] [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma V_dim_four {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.subtype)}
     (hWdim4 : Module.finrank 𝕜 W.toSubmodule = 4)
     (hWtop : W.toSubmodule = ⊤) : Module.finrank 𝕜 V = 4 := by
@@ -1133,6 +1164,7 @@ private lemma V_dim_four {Q : Subgroup Γ} {W : Subrepresentation (ρ.comp Q.sub
     _ = Module.finrank 𝕜 W.toSubmodule := by rw [← hWtop]
     _ = 4 := hWdim4
 
+omit [Finite Γ] in
 private lemma centralizer_scalar {Q : Subgroup Γ} [Q.Normal]
     {W : Subrepresentation (ρ.comp Q.subtype)} [Nontrivial W.toSubmodule]
     (hWtop : W.toSubmodule = ⊤)
@@ -1162,6 +1194,7 @@ private lemma centralizer_scalar {Q : Subgroup Γ} [Q.Normal]
     (LinearMap.congr_fun hμ ⟨v, by simp [hWtop]⟩)
   simpa [B] using h
 
+omit [IsAlgClosed 𝕜] in
 private lemma centralizer_is_two_group {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     (hfaith : Function.Injective ρ) (hVdim4 : Module.finrank 𝕜 V = 4)
     (hC_scalar : ∀ g ∈ centralizerQ Q,
@@ -1189,6 +1222,7 @@ private lemma centralizer_is_two_group {Q : Subgroup Γ} [Q.Normal] [Group.IsPer
   rw [Subgroup.orderOf_mk]
   exact orderOf_dvd_iff_pow_eq_one.mpr hg4
 
+omit [Finite Γ] in
 private lemma K0_comm {Q : Subgroup Γ} [Q.Normal] :
     ∀ g ∈ K0 Q, ∀ x : Q, (⁅g, (x : Γ)⁆ : Γ) ∈ centerMap Q := by
   intro g hgK x
@@ -1206,6 +1240,7 @@ private lemma K0_comm {Q : Subgroup Γ} [Q.Normal] :
   rw [h3]
   exact Subgroup.mem_map.mpr ⟨_, h2, rfl⟩
 
+omit [Finite Γ] in
 private lemma K0_odd_central {Q : Subgroup Γ} [Q.Normal]
     (hQr : IsPGroup 2 Q)
     (hZcenter : centerMap Q ≤ Subgroup.center Γ)
@@ -1275,6 +1310,7 @@ private lemma K0_is_two_group {Q : Subgroup Γ} [Q.Normal]
           exact dvd_pow_self 2 (Nat.succ_ne_zero m)
         exact hpo.not_two_dvd_nat h2dvd
 
+omit [Finite Γ] in
 private lemma K0_le_ker_of_map_bot {Q : Subgroup Γ} [Q.Normal] {π : Γ →* T}
     (hbot : (K0 Q).map π = ⊥) : K0 Q ≤ π.ker := by
   intro g hg
@@ -1286,8 +1322,8 @@ private lemma pi_K0_bot {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     {π : Γ →* T} (hπ : Function.Surjective π)
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hK0_2 : IsPGroup 2 (K0 Q)) : (K0 Q).map π = ⊥ := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
-  letI : Finite T := Finite.of_surjective π hπ
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : Finite T := Finite.of_surjective π hπ
   have hπK02 : IsPGroup 2 ((K0 Q).map π) := hK0_2.map π
   have hπK0not3 : ¬ 3 ∣ Nat.card ((K0 Q).map π) := by
     obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq (p := 2) hπK02
@@ -1296,8 +1332,8 @@ private lemma pi_K0_bot {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     have h32 : (3 : ℕ) ∣ 2 :=
       Nat.Prime.dvd_of_dvd_pow (by norm_num : Nat.Prime 3) h3
     norm_num at h32
-  haveI : ((K0 Q).map π).Normal := (MonoidHom.normal_ker _).map π hπ
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
+  have : ((K0 Q).map π).Normal := (MonoidHom.normal_ker _).map π hπ
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
   exact CFSG.RankThree.PartTwo.Sec16.ThetaCompY.eq_bot_of_normal_of_not_three_dvd hT hπK0not3
 
 private lemma T_card {T : Type*} [Group T]
@@ -1311,12 +1347,13 @@ private lemma T_card {T : Type*} [Group T]
   rw [hquot] at hmul
   omega
 
+omit [Finite Γ] in
 private lemma final_contradiction {Q : Subgroup Γ} [Q.Normal] {π : Γ →* T}
     (hπ : Function.Surjective π)
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hK0_le_ker : K0 Q ≤ π.ker)
     (hGLdvd : Nat.card (Γ ⧸ K0 Q) ∣ Nat.card (GL (Fin 4) (ZMod 2))) : False := by
-  letI : (K0 Q).Normal := MonoidHom.normal_ker _
+  let : (K0 Q).Normal := MonoidHom.normal_ker _
   have hK0index_dvd : Nat.card T ∣ Nat.card (Γ ⧸ K0 Q) := by
     have h := Subgroup.index_dvd_of_le hK0_le_ker
     rw [Subgroup.index_eq_card, Subgroup.index_eq_card] at h
@@ -1374,6 +1411,7 @@ private structure Stage1Core (𝕜 : Type*) [Field 𝕜] [IsAlgClosed 𝕜]
   hcommQ : ∀ x y : Q, ⁅x, y⁆ ∈ Subgroup.center Q
   hQquotElem : CFSG.IsElementaryAbelian r (Q ⧸ Subgroup.center Q)
 
+omit [FiniteDimensional 𝕜 V] in
 private lemma stage1a {Q : Subgroup Γ} {r : ℕ} {π : Γ →* T}
     (hp : p.Prime) (hirr : ρ.IsIrreducible) (hfaith : Function.Injective ρ)
     (hr : r.Prime) (hQn : Q.Normal) (hQD : Q ≤ π.ker)
@@ -1382,10 +1420,10 @@ private lemma stage1a {Q : Subgroup Γ} {r : ℕ} {π : Γ →* T}
     (hmin : ∀ R : Subgroup Γ, R.Normal → R < Q → R ≤ Subgroup.center Γ) :
     Stage1Core 𝕜 p Γ Q r := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact r.Prime := ⟨hr⟩
-  haveI : Q.Normal := hQn
-  haveI : Fact (IsPGroup r Q) := ⟨hQr⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact r.Prime := ⟨hr⟩
+  have : Q.Normal := hQn
+  have : Fact (IsPGroup r Q) := ⟨hQr⟩
   have hQnontrivial : Nontrivial Q := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
@@ -1460,7 +1498,7 @@ private lemma stage2 {Q : Subgroup Γ} [Q.Normal] {r : ℕ} {π : Γ →* T}
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hkerS : Group.IsSolvable π.ker) (hdim : Module.finrank 𝕜 V ≤ 9) :
     Stage2 𝕜 p Γ V ρ Q r S := by
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   have hQquotComm : IsMulCommutative (Q ⧸ Subgroup.center Q) :=
     S.hQquotElem.toIsMulCommutative
   have hQquotExp : ∀ x : Q ⧸ Subgroup.center Q, x ^ r = 1 := fun x =>
@@ -1493,9 +1531,9 @@ private lemma stage3a {Q : Subgroup Γ} [Q.Normal]
     (hr3 : ∀ t : Γ, IsPGroup 2 (Subgroup.zpowers t) → t ≠ 1 →
       Module.finrank 𝕜 (LinearMap.ker (ρ t - 1)) ≤ 3) :
     Stage3Data 𝕜 p Γ V ρ Q S := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (Subgroup.center Q) := S.hZcyc
-  haveI : Nontrivial S.W.toSubmodule :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (Subgroup.center Q) := S.hZcyc
+  have : Nontrivial S.W.toSubmodule :=
     CFSG.RankThree.GroupTheory.nontrivial_of_isIrreducible S.hWirr
   have hQquotExp : ∀ x : Q ⧸ Subgroup.center Q, x ^ 2 = 1 := fun x =>
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp S.hQquotElem.exponent_dvd_p x
@@ -1528,8 +1566,8 @@ private lemma stage3b {Q : Subgroup Γ} [Q.Normal] [Group.IsPerfect Γ]
     (hGLdvd : Nat.card (Γ ⧸ K0 Q) ∣ Nat.card (GL (Fin S.m) (ZMod 2)))
     (hπ : Function.Surjective π)
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
-    (hkerS : Group.IsSolvable π.ker) : False := by
-  haveI : Nontrivial S.W.toSubmodule :=
+    (_hkerS : Group.IsSolvable π.ker) : False := by
+  have : Nontrivial S.W.toSubmodule :=
     CFSG.RankThree.GroupTheory.nontrivial_of_isIrreducible S.hWirr
   have hC_scalar : ∀ g ∈ centralizerQ Q, ∃ μ : 𝕜,
       ρ g = μ • (1 : Module.End 𝕜 V) := centralizer_scalar D.hWtop S.hWirr
@@ -1571,8 +1609,8 @@ theorem false_of_nonabelian_minimal {𝕜 : Type*} [Field 𝕜] [IsAlgClosed �
     (hQr : IsPGroup r Q) (hQc : ¬ IsMulCommutative Q)
     (hmin : ∀ R : Subgroup Γ, R.Normal → R < Q → R ≤ Subgroup.center Γ) : False := by
   classical
-  haveI : Q.Normal := hQn
-  haveI : Group.IsPerfect Γ := hperf
+  have : Q.Normal := hQn
+  have : Group.IsPerfect Γ := hperf
   let S := stage1 (π := π) hp hirr hfaith hdim hr hQn hQD hQr hQc hker3 hmin
   have h2 := stage2 (S := S) hperf hr hQc hπ hT hkerS hdim
   obtain ⟨hr2, hm46, hGLdvd⟩ := h2

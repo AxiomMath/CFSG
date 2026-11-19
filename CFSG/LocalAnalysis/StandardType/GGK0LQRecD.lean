@@ -51,7 +51,7 @@ private theorem lk0xlqrecd_hasLabel_of_model {X : Type} [Group X] {n N : ℕ} (h
     GGHasLabel ⟨.D, n, N⟩ X := by
   obtain ⟨-, K, hF, hfin, hcard, ⟨e⟩⟩ := h
   unfold GGHasLabel LargeEvenRawDatum
-  rw [if_neg (by omega : ¬ n = 3)]
+  rw [ite_eq_right (by omega : ¬ n = 3)]
   exact ⟨K, hF, hfin, hcard, ⟨e⟩⟩
 
 private theorem lk0xlqrecd_model
@@ -140,7 +140,7 @@ private theorem lk0xlqrecd_model_E6
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus (compRank (componentRoots (rootCharHom a) i)) 2 N :=
   lk0xlqrecd_model (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check e6_lt
-    e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
+    e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner hN
 
 private theorem lk0xlqrecd_model_E7
@@ -161,7 +161,7 @@ private theorem lk0xlqrecd_model_E7
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus (compRank (componentRoots (rootCharHom a) i)) 2 N :=
   lk0xlqrecd_model (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7 e7_tree e7_adj e7_check
-    e7_lt e7_card e7_dcount e7_dtrees (fun {F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4
+    e7_lt e7_card e7_dcount e7_dtrees (fun {_F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4
     hn hinner hN
 
 private theorem lk0xlqrecd_model_E8
@@ -182,7 +182,7 @@ private theorem lk0xlqrecd_model_E8
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus (compRank (componentRoots (rootCharHom a) i)) 2 N :=
   lk0xlqrecd_model (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8 e8_tree e8_adj e8_check
-    e8_lt e8_card e8_dcount e8_dtrees (fun {F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4
+    e8_lt e8_card e8_dcount e8_dtrees (fun {_F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4
     hn hinner hN
 
 theorem lq_rec_D

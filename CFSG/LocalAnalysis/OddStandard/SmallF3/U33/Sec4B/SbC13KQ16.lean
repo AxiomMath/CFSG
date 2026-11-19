@@ -22,7 +22,7 @@ theorem c13K_om_mem_M (hc : Ctx13M t L S x₁ x₂ lam rho tau om) : om ∈ ctxM
     exact Subgroup.map_subtype_le _
   exact hOle (Subgroup.mem_inf.mp hCO).1
 
-theorem c13K_tau_mem_M (hc : Ctx13M t L S x₁ x₂ lam rho tau om) : tau ∈ ctxM t tau x₁ x₂ := by
+theorem c13K_tau_mem_M (_hc : Ctx13M t L S x₁ x₂ lam rho tau om) : tau ∈ ctxM t tau x₁ x₂ := by
   exact Subgroup.le_normalizer (Subgroup.subset_closure (by simp))
 
 theorem c13K_QQ_le_M (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
@@ -34,11 +34,11 @@ theorem c13K_QQ_le_M (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
   · exact c13K_tau_mem_M hc
   · exact c13K_om_mem_M hc
 
-theorem c13K_tau_mem_QQ (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
+theorem c13K_tau_mem_QQ (_hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
     tau ∈ ctxQ t tau x₁ x₂ rho ⊔ closure ({tau, om} : Set G) :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
-theorem c13K_om_mem_QQ (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
+theorem c13K_om_mem_QQ (_hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
     om ∈ ctxQ t tau x₁ x₂ rho ⊔ closure ({tau, om} : Set G) :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 

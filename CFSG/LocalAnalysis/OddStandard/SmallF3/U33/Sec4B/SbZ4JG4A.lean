@@ -19,7 +19,7 @@ theorem z4j_sylow_of_fusion {P D : Subgroup G} {s : G} (hP : IsPGroup 2 P) (hsP 
     (hcard : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ centralizer ({s} : Set G) →
       Nat.card R ≤ Nat.card ↥(P ⊓ centralizer ({s} : Set G))) :
     ¬ 2 ∣ P.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Sy, hPSy⟩ := hP.exists_le_sylow
   have hle : (Sy : Subgroup G) ≤ P := by
     by_contra hnotle
@@ -31,7 +31,7 @@ theorem z4j_sylow_of_fusion {P D : Subgroup G} {s : G} (hP : IsPGroup 2 P) (hsP 
       have : (⟨x, hx⟩ : Sy) ∈ P.subgroupOf (Sy : Subgroup G) := by
         rw [htop]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.1 this
-    have hnil : Group.IsNilpotent Sy := Sy.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent Sy := Sy.isPGroup.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := Sy)
     obtain ⟨y, hyN, hyP⟩ := IsConcreteLE.exists_of_lt (hnc _ hlt)
     have hyN' : (y : G) ∈ normalizer (P : Set G) := by
@@ -72,7 +72,7 @@ theorem z4j_sylow_of_fusion {P D : Subgroup G} {s : G} (hP : IsPGroup 2 P) (hsP 
       rw [hn]
       exact mul_mem (inv_mem (hPSy hwP)) y.2
     set R : Subgroup G := (Sy : Subgroup G) ⊓ centralizer ({s} : Set G) with hR
-    have hRp : IsPGroup 2 R := (Sy.isPGroup').to_le inf_le_left
+    have hRp : IsPGroup 2 R := (Sy.isPGroup).to_le inf_le_left
     have hRC : R ≤ centralizer ({s} : Set G) := inf_le_right
     have hleR : P ⊓ centralizer ({s} : Set G) ≤ R :=
       le_inf (inf_le_left.trans hPSy) inf_le_right
@@ -94,6 +94,7 @@ theorem z4j_sylow_of_fusion {P D : Subgroup G} {s : G} (hP : IsPGroup 2 P) (hsP 
   rw [← heq]
   exact Sy.not_dvd_index
 
+omit [Finite G] in
 theorem z4j_char_of_unique {Vg V : Subgroup G} (hVV : V ≤ Vg) (hVd : V ≤ ⁅Vg, Vg⁆)
     (hVn : ∀ g ∈ Vg, ∀ v ∈ V, g * v * g⁻¹ ∈ V) (hV4 : Nat.card V = 4)
     (hVe : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a ∧ a * a = 1)

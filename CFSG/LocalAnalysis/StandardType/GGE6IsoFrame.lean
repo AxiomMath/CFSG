@@ -63,7 +63,7 @@ theorem kgAutFrame_of_model {L' : Type} [Group L'] {Z : Subgroup L'} {A : Subgro
     {Φ : A →* Multiplicative (Fin 6 → ZMod 3)} {T : Subgroup L'} {w : Fin 6 → L'}
     (hM : GGE6ThreeWeylModelWith Z A Φ T w) (hA : Nat.card A = 3 ^ 5) : KGAutFrame A Φ := by
   obtain ⟨h1, h2, -, -, -, -, -, h8, -, h10, -, -⟩ := hM
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   refine ⟨hA, h1, range_iff_of_card h1 h2 hA, h10, ?_⟩
   intro i
   refine ⟨w i, conj_mem_normalizer (w i) (fun a => (h8 i a).imp fun b hb => hb.1), ?_⟩

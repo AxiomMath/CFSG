@@ -69,6 +69,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem solvableRadical_le_normalizer_closure_DstarH (hC : HypothesisC D)
     (E : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     CFSG.solvableRadical (Halpha D hC.alpha) ≤

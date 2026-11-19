@@ -37,8 +37,8 @@ theorem exists_normal_simple_quotient (H : Type*) [Group H] [Finite H] [Nontrivi
   have hNnorm : N.Normal := hmax.prop.1
   have hNne : N ≠ ⊤ := hmax.prop.2
   refine ⟨N, hNnorm, hNne, ?_⟩
-  haveI : N.Normal := hNnorm
-  haveI : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNne
+  have : N.Normal := hNnorm
+  have : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNne
   refine IsSimpleGroup.mk ?_
   intro K hK
   have hK'norm : (K.comap (QuotientGroup.mk' N)).Normal := Subgroup.normal_comap _
@@ -56,6 +56,7 @@ theorem exists_normal_simple_quotient (H : Type*) [Group H] [Finite H] [Nontrivi
       rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk' N]
     rw [h1, h2]
 
+omit [Finite G] in
 theorem normalizer_pCoreOf_le {L M : Subgroup G}
     (h : M ≤ Subgroup.normalizer (L : Set G)) :
     M ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 L : Set G) := by
@@ -104,7 +105,7 @@ theorem map_ker_conjModPCore_eq_centralizerOnQuotient (c : Ctx82E3 D) :
 theorem noSzSection_mulAut_Lbar
     (c : Ctx82E3 D) (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) :
     CFSG.RankThree.PartTwo.Sec16.Steps166.NoSzSection (MulAut c.Lbar) := by
-  haveI : Group.IsPerfect c.Lbar := Group.isPerfect_def.2 hON.1.1
+  have : Group.IsPerfect c.Lbar := Group.isPerfect_def.2 hON.1.1
   have hT : IsTripleCover c.Lbar CFSG.Blueprint.NativeSporadic.ON := ⟨hON.2.1, hON.2.2⟩
   exact CFSG.RankThree.PartTwo.Sec17.Proof17Res15.noSzSection_mulAut_of_isTripleCover hT
     CFSG.RankThree.PartTwo.Sec17.Proof17Res15.noSzSection_mulAut_on
@@ -125,7 +126,7 @@ variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem perfect_threePrime_le_centralizerOnQuotient'
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
+    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) :
     ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
@@ -153,18 +154,18 @@ theorem perfect_threePrime_le_centralizerOnQuotient'
         D.M.subtype := Subgroup.mem_map.mpr ⟨⟨w, hWM hwW⟩, hker, rfl⟩
     rw [map_ker_conjModPCore_eq_centralizerOnQuotient] at hmem
     exact hmem
-  haveI : Group.IsPerfect ↥W := hperf
-  haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range (f := ρ)
+  have : Group.IsPerfect ↥W := hperf
+  have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range (f := ρ)
   have hrange : ρ.range ≠ ⊥ := by
     intro hbot
     exact hρne (MonoidHom.range_eq_bot_iff.mp hbot)
-  haveI : Nontrivial ↥ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hrange
+  have : Nontrivial ↥ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hrange
   obtain ⟨N, hNnorm, hNne, hsimple⟩ :=
     exists_normal_simple_quotient ↥ρ.range
-  haveI : N.Normal := hNnorm
-  haveI : IsSimpleGroup (↥ρ.range ⧸ N) := hsimple
-  haveI : Nontrivial (↥ρ.range ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNne
-  haveI : Group.IsPerfect (↥ρ.range ⧸ N) := inferInstance
+  have : N.Normal := hNnorm
+  have : IsSimpleGroup (↥ρ.range ⧸ N) := hsimple
+  have : Nontrivial (↥ρ.range ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNne
+  have : Group.IsPerfect (↥ρ.range ⧸ N) := inferInstance
   have hnonab : ∃ x y : (↥ρ.range ⧸ N), x * y ≠ y * x := by
     by_contra h
     push Not at h
@@ -196,9 +197,9 @@ theorem perfect_threePrime_le_centralizerOnQuotient'
 
 theorem perfectCoreL_structure'
     (hF9 : F9PerfectCore c P a) (hgen : PerfectCoreGeneration c A a)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L) :
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27)
+    (_hAPL : A ≤ P ⊓ c.L) (_ha : a ∈ A) (_haZ : a ∉ zSub P c.L) :
     IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧

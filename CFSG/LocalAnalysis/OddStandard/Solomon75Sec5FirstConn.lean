@@ -130,7 +130,7 @@ theorem mem_normalizer_W1V {V U : Subgroup G} {g : G} (hg : g ∈ centralizer (V
   mem_normalizer_of_map_conj_eq (by rw [W1V_map_conj hg, map_conj_eq_of_mem_normalizer hgU])
 
 theorem le_normalizer_W1V {V E : Subgroup G} (hEV : E ≤ centralizer (V : Set G)) :
-    E ≤ normalizer ((W1V V E : Subgroup G) : Set G) := fun x hx =>
+    E ≤ normalizer ((W1V V E : Subgroup G) : Set G) := fun _x hx =>
   mem_normalizer_W1V (hEV hx) (Subgroup.le_normalizer hx)
 
 variable [Finite G]
@@ -172,7 +172,7 @@ theorem exists_fixed_mem_coset_of_isPGroup {O V : Subgroup G} (hodd : Odd (Nat.c
   have hfm : ∀ (v w : V) (p : O), f (v * w) p = f v (f w p) := fun v w p => Subtype.ext (by
     simp only [f, Subgroup.coe_mul, mul_inv_rev]
     group)
-  letI act : MulAction V O := { smul := f, one_smul := hf1, mul_smul := hfm }
+  let act : MulAction V O := { smul := f, one_smul := hf1, mul_smul := hfm }
   have hmod := hV.card_modEq_card_fixedPoints O
   have hne : (MulAction.fixedPoints V O).Nonempty := by
     by_contra hemp
@@ -428,7 +428,7 @@ theorem fourInE8_of_invol {P : Subgroup X} {z₀ : X} (hzP : z₀ ∈ P) (hz2 : 
       have h2 := Subgroup.card_le_of_le hle
       rw [Nat.card_zpowers, hoz] at h2
       omega
-    obtain ⟨b, hbU, hbz⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨b, hbU, hbz⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     have hb1 : b ≠ 1 := fun e => hbz (by rw [e]; exact Subgroup.one_mem _)
     have hbb : b * b = 1 := mul_self_eq_one_of_isElemAbelian hUab hbU
     have hb2 : orderOf b = 2 := orderOf_eq_prime (by rw [← pow_two] at hbb; exact hbb) hb1
@@ -483,7 +483,7 @@ theorem W1V_props (h : Sec5Data X n z (zpowers z) S) {A₁ A₂ V P : Subgroup X
     exact theta_le_W1V_of_invol h hT hzV hP hPV hR hE hb hb2
 
 private theorem V_le_normalizer_A₁ {A₁ A₂ V : Subgroup X} (hT : TwoCompData X n z A₁ A₂ V) :
-    V ≤ normalizer (A₁ : Set X) := fun v hv =>
+    V ≤ normalizer (A₁ : Set X) := fun _v hv =>
   Sec5Two.K0_le_normalizer_comp hT.hA₁ (Sec5Two.comp_le_K0 hT.hA₂ (hT.hVA hv))
 
 private theorem le_normalizer_W1V_of_vertex (h : Sec5Data X n z (zpowers z) S)
@@ -606,6 +606,7 @@ private theorem exists_decomp_of_normalizer {A₁ A₂ V P Q : Subgroup X}
   exact ⟨g * p, A₁.mul_mem hgA (oddCoreOf_le A₁ hp.1), hgp, Subgroup.mul_mem _ hg hp.2, p⁻¹,
     (oddCoreOf A₁).inv_mem hp.1, by group⟩
 
+omit [Finite X] in
 private theorem isElemAbelian_subgroupOf {K U : Subgroup X} (hU : Open.IsElemAbelian 2 U) :
     Open.IsElemAbelian 2 (U.subgroupOf K) := by
   rw [CoreAux.isElemAbelian_iff] at hU ⊢

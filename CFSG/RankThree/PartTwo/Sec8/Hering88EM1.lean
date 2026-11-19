@@ -160,9 +160,9 @@ theorem isSimpleGroup_perfectResidual_of_isoGTwoEven {R : Subgroup Q} {m : ℕ} 
     calc 3 ≤ 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K hK3
-  haveI hsg := Sec11.KS11Lie2Proof.isSimpleGroup_g2 hK3
-  haveI : IsSimpleGroup R := MulEquiv.isSimpleGroup e
-  haveI : Group.IsPerfect R := by
+  have hsg := Sec11.KS11Lie2Proof.isSimpleGroup_g2 hK3
+  have : IsSimpleGroup R := MulEquiv.isSimpleGroup e
+  have : Group.IsPerfect R := by
     have hqR : IsQuasisimple R := LocalCores.isQuasisimple_of_mulEquiv e.symm hq
     exact hqR.1
   rw [inSubgroup_perfectResidual_of_isPerfect (R := R) inferInstance]

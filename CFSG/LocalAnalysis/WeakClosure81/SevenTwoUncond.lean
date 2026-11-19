@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_inf' (g : G) (U W : Subgroup G) :
     conjSubgroup (U ⊓ W) g = conjSubgroup U g ⊓ conjSubgroup W g :=
   Subgroup.map_inf_eq U W (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective
@@ -33,6 +34,7 @@ theorem isTISetIn_top_of_isTI {V : Subgroup G} (hTI : IsTI V) : IsTISetIn V ⊤ 
       Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup'])
     exact hg (conjSubgroup_eq_iff_mem_normalizer.mp heq'.symm)
 
+omit [Finite G] in
 theorem pCoreOf_top_subgroupOf (X : Subgroup G) :
     pCoreOf 2 (⊤ : Subgroup X) = (pCoreOf 2 X).subgroupOf X := by
   have h1 : pCoreOf 2 (⊤ : Subgroup X) = CFSG.pCore 2 ↥X := by
@@ -43,6 +45,7 @@ theorem pCoreOf_top_subgroupOf (X : Subgroup G) :
   rw [h1]
   exact (openPCoreOf_subgroupOf 2 X).symm
 
+omit [Finite G] in
 theorem conjSubgroup_mem_omegaSet {V H E W : Subgroup G} (hEH : E ≤ H)
     (hEnorm : (E.subgroupOf H).Normal) (hW : W ∈ omegaSet V H E) {h : G} (hh : h ∈ H) :
     conjSubgroup W h ∈ omegaSet V H E := by
@@ -89,6 +92,7 @@ theorem conjSubgroup_mem_omegaSet {V H E W : Subgroup G} (hEH : E ≤ H)
       rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, mul_inv_cancel, CFSG.Quasithin.conjSubgroup_one]
     rwa [hW', hOinv] at h1
 
+omit [Finite G] in
 theorem iSub_subgroupOf_normal {V H E : Subgroup G} (hEH : E ≤ H)
     (hEnorm : (E.subgroupOf H).Normal) :
     ((iSub V H E).subgroupOf H).Normal := by
@@ -191,7 +195,7 @@ theorem pCoreOf_tiX_eq_tiY {V A : Subgroup G} (h : CFSG.Quasithin.I62.Hyp V A) :
   exact hmap.symm
 
 theorem pCoreOf_sup_conj_eq {V : Subgroup G} (hV : IsElemAbelian 2 V) (hTI : IsTI V)
-    {a b : G} (hne : conjSubgroup V a ≠ conjSubgroup V b)
+    {a b : G} (_hne : conjSubgroup V a ≠ conjSubgroup V b)
     (hN : conjSubgroup V a ⊓ normalizer (conjSubgroup V b : Set G) ≠ ⊥)
     (hnot : ¬ conjSubgroup V a ≤ normalizer (conjSubgroup V b : Set G)) :
     pCoreOf 2 (conjSubgroup V a ⊔ conjSubgroup V b) =
@@ -296,8 +300,8 @@ theorem seven_two_iSub_isElemAbelian_uncond {V H E : Subgroup G}
 
 theorem seven_three_one {V H E J : Subgroup G} (hV : IsElemAbelian 2 V) (hTI : IsTI V)
     (hE : IsMulCommutative E) (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
-    (hVOm : V ∈ omegaSet V H E) (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H)
-    (hJ : J ≤ pCoreOf 2 H) (hJnorm : (J.subgroupOf H).Normal)
+    (hVOm : V ∈ omegaSet V H E) (_hOmH : ∀ W ∈ omegaSet V H E, W ≤ H)
+    (_hJ : J ≤ pCoreOf 2 H) (_hJnorm : (J.subgroupOf H).Normal)
     {h : G} (hh : h ∈ H) (hP : IsPGroup 2 ↥(V ⊔ conjSubgroup V h ⊔ J)) :
     ∀ u ∈ V, ∀ v ∈ conjSubgroup V h, u * v = v * u := by
   have hVhOm : conjSubgroup V h ∈ omegaSet V H E :=

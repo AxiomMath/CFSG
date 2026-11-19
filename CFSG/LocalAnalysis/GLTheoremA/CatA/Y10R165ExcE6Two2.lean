@@ -131,7 +131,7 @@ theorem centralizer_nonsplit_E6_of_orderOf {p : ℕ} [Fact p.Prime] (hp3 : 3 ≤
   have hX'map : X'.map ρ = X := by
     rw [hX', Subgroup.map_comap_eq, inf_eq_right.mpr hXrange]
   have hX'cyc : IsCyclic X' := by
-    haveI : IsCyclic X := hXcyc
+    have : IsCyclic X := hXcyc
     have e : X' ≃* X :=
       (Subgroup.equivMapOfInjective X' ρ hinj).trans (MulEquiv.subgroupCongr hX'map)
     exact e.isCyclic.mpr hXcyc
@@ -157,7 +157,7 @@ theorem centralizer_nonsplit_E6_of_orderOf {p : ℕ} [Fact p.Prime] (hp3 : 3 ≤
   have hXx : X ≤ centralizer ({x} : Set (ModGL .E6 K)) := by
     intro y hy
     rw [Subgroup.mem_centralizer_singleton_iff]
-    letI : IsCyclic X := hXcyc
+    let : IsCyclic X := hXcyc
     exact setLike_mul_comm hy hxX
   refine ⟨le_antisymm ?_ ?_, ?_, hXD⟩
   · rintro c ⟨hcC, hcx⟩
@@ -200,7 +200,7 @@ theorem centralizer_subgroupOf_nonsplit_E6_of_orderOf {p : ℕ} [Fact p.Prime] (
     obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.1 hy
     exact Subgroup.mem_subgroupOf.1 (hXJ hz)
   have hXgcyc : IsCyclic Xg := by
-    haveI : IsCyclic X := hXcyc
+    have : IsCyclic X := hXcyc
     have hsurj : Function.Surjective
         ((Subgroup.subtype (adjointGroup .E6 K)).subgroupMap X) :=
       MonoidHom.subgroupMap_surjective _ _

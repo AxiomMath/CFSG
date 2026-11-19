@@ -40,7 +40,7 @@ private theorem card_S06 : Nat.card S06 = 16 := by
   exact (card_of_list R6.enc_inj S06 _ hnd (fun _ => enc_mem_S06_iff) hs).trans hlen
 
 private theorem Nat_card_P6 : Nat.card P6 = 720 := by
-  rw [Nat.card_perm, Nat.card_fin] <;> decide
+  rw [Nat.card_perm, Nat.card_fin]; decide
 
 theorem isSylowTwoOf_S06 : IsSylowTwoOf (S06 : Subgroup P6) ⊤ := by
   have h16 : Nat.card S06 = 2 ^ 4 := card_S06.trans (by norm_num)
@@ -146,7 +146,7 @@ theorem centralizer_Z6_le_S06 : Subgroup.centralizer (Z6 : Set P6) ≤ S06 := by
     exact h.symm)
   have hnd : [x 0, x 1, x 2, x 3, x 4, x 5].Nodup := by
     have h := List.Nodup.map x.injective (by decide : ([0, 1, 2, 3, 4, 5] : List (Fin 6)).Nodup)
-    simpa using h
+    simp
   have hmem := tuple_mem_S06 (x 0) (x 1) (x 4) (x 5)
     (by rw [h2, h3] at hnd; exact hnd) h4 h5
   apply enc_mem_S06_iff.2

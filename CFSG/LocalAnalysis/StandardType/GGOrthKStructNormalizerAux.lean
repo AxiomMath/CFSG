@@ -29,7 +29,7 @@ theorem okNorm_wt_mulSingle {k : ℕ} {j : Fin k} {g : Multiplicative (ZMod 3)} 
     constructor
     · intro h
       by_contra hij
-      exact h.2 (by rw [Pi.mulSingle_apply, if_neg hij])
+      exact h.2 (by rw [Pi.mulSingle_apply, ite_eq_right hij])
     · intro hij
       subst hij
       simpa [Pi.mulSingle_apply] using hg
@@ -50,7 +50,7 @@ theorem okNorm_weight_one {k : ℕ} {a : Fin k → Multiplicative (ZMod 3)}
   by_cases hi : i = j
   · subst hi
     simp
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     by_contra hne
     have himem : i ∈ Finset.univ.filter (fun l => a l ≠ 1) :=
       Finset.mem_filter.mpr ⟨Finset.mem_univ i, hne⟩
@@ -65,7 +65,7 @@ theorem okNorm_wt_mulSingle_le_one {k : ℕ} (i : Fin k) (c : Multiplicative (ZM
     intro t ht
     rw [Finset.mem_singleton]
     by_contra hti
-    exact (Finset.mem_filter.mp ht).2 (by rw [Pi.mulSingle_apply, if_neg hti])
+    exact (Finset.mem_filter.mp ht).2 (by rw [Pi.mulSingle_apply, ite_eq_right hti])
   calc (Finset.univ.filter fun t =>
         (Pi.mulSingle i c : Fin k → Multiplicative (ZMod 3)) t ≠ 1).card
       ≤ ({i} : Finset (Fin k)).card := Finset.card_le_card hsub
@@ -133,25 +133,25 @@ theorem okNorm_permAut_toEquiv {k : ℕ} (σ : Equiv.Perm (Fin k)) :
     show (if t ∈ S then (if t ∈ S then (v t)⁻¹ else v t)⁻¹
       else (if t ∈ S then (v t)⁻¹ else v t)) = v t
     by_cases h : t ∈ S
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact inv_inv (v t)
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
   right_inv v := by
     funext t
     show (if t ∈ S then (if t ∈ S then (v t)⁻¹ else v t)⁻¹
       else (if t ∈ S then (v t)⁻¹ else v t)) = v t
     by_cases h : t ∈ S
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact inv_inv (v t)
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
   map_mul' v w := by
     funext t
     show (if t ∈ S then ((v * w) t)⁻¹ else (v * w) t) =
       (if t ∈ S then (v t)⁻¹ else v t) * (if t ∈ S then (w t)⁻¹ else w t)
     by_cases h : t ∈ S
-    · rw [if_pos h, if_pos h, if_pos h, Pi.mul_apply]
+    · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h, Pi.mul_apply]
       exact mul_inv (v t) (w t)
-    · rw [if_neg h, if_neg h, if_neg h, Pi.mul_apply]
+    · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h, Pi.mul_apply]
 
 @[simp] theorem okNorm_flipAut_apply {k : ℕ} (S : Finset (Fin k))
     (v : Fin k → Multiplicative (ZMod 3)) (t : Fin k) :
@@ -166,11 +166,11 @@ theorem okNorm_flipAut_mulSingle {k : ℕ} (S : Finset (Fin k)) (i : Fin k)
   by_cases ht : t = i
   · rw [ht]
     by_cases hi : i ∈ S <;> simp [hi]
-  · simp only [ht, if_false, if_true]
+  · simp only [ht, ite_false]
     by_cases htS : t ∈ S
-    · rw [if_pos htS]
+    · rw [ite_eq_left htS]
       decide
-    · rw [if_neg htS]
+    · rw [ite_eq_right htS]
 
 theorem okNorm_flipAut_mem {k : ℕ} (S : Finset (Fin k)) :
     (okNorm_flipAut S).toEquiv ∈ spSignedGroup k 3 := by
@@ -191,12 +191,12 @@ theorem okNorm_flipAut_mem {k : ℕ} (S : Finset (Fin k)) :
         simp only [okNorm_flipAut_apply, MulAut.mul_apply, SpCoord.sgnAut_apply,
           Function.update_apply]
         by_cases ht : t = a
-        · rw [ht, if_pos (Finset.mem_insert_self a T), if_pos rfl, if_neg ha]
-        · rw [if_neg ht]
+        · rw [ht, ite_eq_left (Finset.mem_insert_self a T), ite_eq_left rfl, ite_eq_right ha]
+        · rw [ite_eq_right ht]
           by_cases htT : t ∈ T
-          · rw [if_pos (Finset.mem_insert_of_mem htT), if_pos htT]
-          · rw [if_neg (fun h => htT (Finset.mem_insert.mp h |>.elim (fun h' => absurd h' ht) id)),
-              if_neg htT]
+          · rw [ite_eq_left (Finset.mem_insert_of_mem htT), ite_eq_left htT]
+          · rw [ite_eq_right (fun h => htT (Finset.mem_insert.mp h |>.elim (fun h' => absurd h' ht) id)),
+              ite_eq_right htT]
       rw [hstep]
       rw [show (SpCoord.sgnAut (p := 3) (k := k) a * okNorm_flipAut T).toEquiv =
           (SpCoord.sgnAut (p := 3) (k := k) a).toEquiv * (okNorm_flipAut T).toEquiv from rfl]
@@ -243,8 +243,8 @@ theorem okNorm_mem_spSignedGroup_of_weight {k : ℕ}
   have hε_sign (i : Fin k) : ε i = if i ∈ S then g⁻¹ else g := by
     rw [hε_ofadd i]
     rcases hs_cases i with h1 | h1
-    · rw [h1, if_neg (by rw [hmemS, h1]; decide)]
-    · rw [h1, hneg, if_pos ((hmemS i).mpr h1)]
+    · rw [h1, ite_eq_right (by rw [hmemS, h1]; decide)]
+    · rw [h1, hneg, ite_eq_left ((hmemS i).mpr h1)]
   have hm_inj : Function.Injective m := by
     intro i j hij
     by_contra hne
@@ -258,11 +258,11 @@ theorem okNorm_mem_spSignedGroup_of_weight {k : ℕ}
         refine ⟨Finset.mem_univ t, ?_⟩
         rw [Finset.mem_insert, Finset.mem_singleton] at ht
         rcases ht with h | h
-        · rw [h, Pi.mul_apply, Pi.mulSingle_apply, if_pos rfl, Pi.mulSingle_apply, if_neg hne,
+        · rw [h, Pi.mul_apply, Pi.mulSingle_apply, ite_eq_left rfl, Pi.mulSingle_apply, ite_eq_right hne,
             mul_one]
           exact hg
-        · rw [h, Pi.mul_apply, Pi.mulSingle_apply, if_neg (fun hh : j = i => hne hh.symm),
-            Pi.mulSingle_apply, if_pos rfl, one_mul]
+        · rw [h, Pi.mul_apply, Pi.mulSingle_apply, ite_eq_right (fun hh : j = i => hne hh.symm),
+            Pi.mulSingle_apply, ite_eq_left rfl, one_mul]
           exact hg
       calc 2 = ({i, j} : Finset (Fin k)).card := (Finset.card_pair hne).symm
         _ ≤ _ := Finset.card_le_card hsub

@@ -53,11 +53,11 @@ theorem sup_perfectCore_eq_top_of_yamStd {C : Type} [Group C] [Finite C] [IsSimp
     rw [hX, Subgroup.map_sup, h0, h1]
   have hbot : ∀ {A : Subgroup C}, A ≤ P₀ ⊓ P₁ → ⁅A, A⁆ = A → A = ⊥ := by
     intro A hA hperf
-    haveI := hsol
+    have := hsol
     exact eq_bot_of_perfect_of_isSolvable_aux hperf
-      (solvable_of_solvable_injective (Subgroup.inclusion_injective hA))
+      (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hA))
   by_cases htop : normalizer (X : Set C) = ⊤
-  · haveI : X.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+  · have : X.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal X with hb | ht
     · exact absurd (eq_bot_iff.mpr ((hU₀.trans le_sup_left).trans hb.le)) hU
     · exact ht

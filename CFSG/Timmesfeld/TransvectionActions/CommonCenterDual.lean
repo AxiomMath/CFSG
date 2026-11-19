@@ -50,7 +50,7 @@ theorem displacementFunctional_smul (commonCenter : CommonTransvectionCenter act
     · exact (commonCenter.2 element elementOne).le
   have coordinateIdentity := LinearEquiv.coord_apply_smul (ZMod 2) Space center commonCenter.ne_zero
     ⟨displacement action element vector, rangeBound ⟨vector, rfl⟩⟩
-  simpa [displacementFunctional, displacement_apply] using coordinateIdentity
+  simp [displacementFunctional, displacement_apply]
 
 theorem displacementFunctional_center (commonCenter : CommonTransvectionCenter action center)
     (elementary : IsElementaryAbelian2 ActingGroup) (element : ActingGroup) :

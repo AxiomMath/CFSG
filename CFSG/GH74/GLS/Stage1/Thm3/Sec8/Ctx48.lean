@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subg
 
 theorem w_inv_A (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ (1 + 1)) {t w : G}
-    (htS : t ∈ S) (ht2 : t * t = 1) (htu : t * u * t⁻¹ = u * z) (hwW : w ∈ Wsub S U)
+    (htS : t ∈ S) (_ht2 : t * t = 1) (htu : t * u * t⁻¹ = u * z) (hwW : w ∈ Wsub S U)
     (htw : t * w = w * t) (hwh : w * h = h * w) (hw1 : w ≠ 1) :
     ∀ a ∈ Aof S K₁ W₂ h, w * a * w⁻¹ = a⁻¹ := by
   obtain ⟨x, hVx, -, -, -, hz⟩ := hs.xdata hII hq hk

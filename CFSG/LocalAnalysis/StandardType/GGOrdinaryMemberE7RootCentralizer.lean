@@ -80,9 +80,9 @@ theorem e7_commute_pinnedX_baseChange_of_commute_xm_one
     Commute (baseChangeGL (algebraMap k Ω)
       ((e7Isogeny k y : adjointGroup .E7 k) : ModGL .E7 k)) (pinnedX .E7 Ω gamma c) := by
   let E : IntermediateField k Ω := IntermediateField.adjoin k ({c} : Set Ω)
-  letI : FiniteDimensional k E :=
+  let : FiniteDimensional k E :=
     IntermediateField.adjoin.finiteDimensional ((Algebra.IsAlgebraic.isAlgebraic c).isIntegral)
-  letI : Finite E := Module.finite_of_finite k
+  let : Finite E := Module.finite_of_finite k
   let ce : E := ⟨c, IntermediateField.mem_adjoin_simple_self k c⟩
   have hc : Commute (minBC e7Data_valid (algebraMap k E) y)
       (e7Data_valid.xm E gamma ce) :=
@@ -197,7 +197,7 @@ theorem e7_rootSL2_conj_mem_kernelRootSpan_of_component
     (A : SL2 Ω) :
     S.D.g0⁻¹ * rootSL2 .E7 Ω (Pi.single i 1) A * S.D.g0 ∈
       rootSpan .E7 Ω (rootCharKernel a) := by
-  letI : Group.IsPerfect (SL2 Ω) :=
+  let : Group.IsPerfect (SL2 Ω) :=
     CFSG.RankThree.Classical2.isPerfect_specialLinearGroup_of_infinite (by decide)
   let phi : SL2 Ω →* ModGL .E7 Ω :=
     (MulAut.conj S.D.g0⁻¹).toMonoidHom.comp (rootSL2 .E7 Ω (Pi.single i 1))

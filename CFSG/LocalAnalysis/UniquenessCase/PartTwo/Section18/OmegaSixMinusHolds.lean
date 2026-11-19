@@ -46,7 +46,7 @@ theorem k_K_Omega6Minus_singularPointStabilizer_holds :
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · subst h0; simp at hcard; omega
     · exact h0
-  haveI : CharP F 2 := uc22p22d_charP_two hn hcard
+  have : CharP F 2 := uc22p22d_charP_two hn hcard
   have hQw' : quadMinus 3 F b c w = 0 := by
     have := congrFun (coe_quadMinus 3 F b c) w
     rw [this]; exact hQw

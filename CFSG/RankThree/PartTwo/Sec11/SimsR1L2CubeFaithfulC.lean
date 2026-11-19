@@ -33,7 +33,7 @@ theorem uu_mul_hh_inv (y : Fˣ) (b : F) :
   rw [inv_inv, Matrix.mul_fin_two, Matrix.mul_fin_two]
   ext i j
   have hy0 : (y : F) ≠ 0 := y.ne_zero
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp; field_simp
 
 theorem card_squares_le_finrank [Finite F] {K W : Type} [Field K] [IsAlgClosed K]
     [AddCommGroup W] [Module K W] [FiniteDimensional K W] (σ : SL(2, F) →* Module.End K W)

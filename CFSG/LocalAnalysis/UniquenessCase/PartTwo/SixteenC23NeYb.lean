@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_subgroupOf_commutator {H K₁ K₂ : Subgroup G} (h₁ : K₁ ≤ H) (h₂ : K₂ ≤ H) :
     ⁅K₁.subgroupOf H, K₂.subgroupOf H⁆ = (⁅K₁, K₂⁆ : Subgroup G).subgroupOf H := by
   apply Subgroup.map_injective H.subtype_injective
@@ -20,9 +21,10 @@ private theorem c23ne_subgroupOf_commutator {H K₁ K₂ : Subgroup G} (h₁ : K
     Subgroup.map_subgroupOf_eq_of_le h₂,
     Subgroup.map_subgroupOf_eq_of_le (Subgroup.commutator_le_of_le h₁ h₂)]
 
+omit [Finite G] in
 private theorem c23ne_comm_of_commutator_comm {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {q k : G} (hqs : q ∈ stabTil V₀ V) (hks : k ∈ stabTil V₀ V)
-    (hq0 : q ∈ centralizer (V₀ : Set G)) (hk0 : k ∈ centralizer (V₀ : Set G))
+    (_hq0 : q ∈ centralizer (V₀ : Set G)) (hk0 : k ∈ centralizer (V₀ : Set G))
     (hqT : ∀ v ∈ V, q * v * q⁻¹ * v⁻¹ ∈ V₀)
     (hcomm : ∀ v ∈ V, (k * q * k⁻¹ * q⁻¹) * v = v * (k * q * k⁻¹ * q⁻¹)) :
     ∀ v ∈ V, q * (k * v * k⁻¹ * v⁻¹) = (k * v * k⁻¹ * v⁻¹) * q := by
@@ -91,12 +93,12 @@ private theorem c23ne_comm_of_commutator_comm {V₀ V : Subgroup G} (hV : IsElem
     _ = (k * v * k⁻¹ * v⁻¹) * q := by rw [hthis]
 
 theorem c23ne_comm_le_of_subnormal {H K C Q : Subgroup G} (hK : IsSubnormal K H)
-    (hKp : ⁅K, K⁆ = K) (hCH : C ≤ H) (hC : (C.subgroupOf H).Normal) (hQH : Q ≤ H)
+    (hKp : ⁅K, K⁆ = K) (_hCH : C ≤ H) (hC : (C.subgroupOf H).Normal) (hQH : Q ≤ H)
     (hQ : (Q.subgroupOf H).Normal) (hQ2 : ∀ q ∈ Q, ∃ n : ℕ, q ^ (2 ^ n) ∈ C) :
     ∀ k ∈ K, ∀ q ∈ Q, ∃ a ∈ K, ∃ c ∈ C, k * q * k⁻¹ * q⁻¹ = a * c := by
   classical
   let C' : Subgroup H := C.subgroupOf H
-  letI : C'.Normal := hC
+  let : C'.Normal := hC
   let π : ↥H →* ↥H ⧸ C' := QuotientGroup.mk' C'
   let Kq : Subgroup (↥H ⧸ C') := (K.subgroupOf H).map π
   let Qq : Subgroup (↥H ⧸ C') := (Q.subgroupOf H).map π
@@ -104,7 +106,7 @@ theorem c23ne_comm_le_of_subnormal {H K C Q : Subgroup G} (hK : IsSubnormal K H)
   have hKsub : Kq.IsSubnormal :=
     (CFSG.Open.IsSubnormal.subgroupOf hK).map (QuotientGroup.mk'_surjective C')
   have hKperf : Group.IsPerfect ↥Kq := by
-    haveI : Group.IsPerfect ↥(K.subgroupOf H) :=
+    have : Group.IsPerfect ↥(K.subgroupOf H) :=
       Subgroup.isPerfect_iff.mpr (by rw [c23ne_subgroupOf_commutator hKH hKH, hKp])
     exact Group.IsPerfect.map (f := π)
   have hQnorm : Qq.Normal := hQ.map π (QuotientGroup.mk'_surjective C')
@@ -123,9 +125,9 @@ theorem c23ne_comm_le_of_subnormal {H K C Q : Subgroup G} (hK : IsSubnormal K H)
     apply Subtype.ext
     simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [← map_pow, hπ]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQsolv : Group.IsSolvable ↥Qq := by
-    haveI : Group.IsNilpotent ↥Qq := hQp2.isNilpotent
+    have : Group.IsNilpotent ↥Qq := hQp2.isNilpotent
     infer_instance
   have hsup := CFSG.SignalizerFunctorTheorem.Nonsolvable.sup_le_normalizer
     hKperf hKsub hQnorm hQsolv
@@ -153,6 +155,7 @@ theorem c23ne_comm_le_of_subnormal {H K C Q : Subgroup G} (hK : IsSubnormal K H)
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using this
   exact ⟨(aH : G), haK, (aH : G)⁻¹ * (k * q * k⁻¹ * q⁻¹), hcC, by group⟩
 
+omit [Finite G] in
 theorem c23ne_sq_mem_cent {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hV₀V : V₀ ≤ V) {q : G}
     (hq : q ∈ F11.CTilde M V₀ V) (hq0 : q ∈ centralizer (V₀ : Set G)) :
@@ -270,6 +273,7 @@ theorem c23ne_exists_comm_not_cent {D : Data G} {V₀ V L : Subgroup G} {hV : Is
     simpa using C.inv_mem hv_inv
   exact hqV (hVC.trans (show C ≤ centralizer ({q} : Set G) from inf_le_left))
 
+omit [Finite G] in
 private theorem c23ne_cent_normal {M V : Subgroup G} (hM : M ≤ normalizer (V : Set G)) :
     ((centralizer (V : Set G) ⊓ M).subgroupOf M).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -288,6 +292,7 @@ private theorem c23ne_cent_normal {M V : Subgroup G} (hM : M ≤ normalizer (V :
       _ = ((g : G) * (n : G) * (g : G)⁻¹) * v := by group
   · exact (g * n * g⁻¹).2
 
+omit [Finite G] in
 private theorem c23ne_q_normal {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) :
     ((F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)).subgroupOf M).Normal := by

@@ -15,6 +15,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3k_symm {M L K : Subgroup G} (hne : K ≠ L) (hset : conjSetOf M L = {L, K})
     {n : ℕ} (hS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) :
     (conjSetOf M L).ncard = 2 ∧ (conjSetOf M K).ncard = 2 ∧

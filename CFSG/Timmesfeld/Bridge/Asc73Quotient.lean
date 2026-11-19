@@ -191,7 +191,7 @@ theorem false_of_mem_center (hS : SchurNarrowInput) [Finite G] (hN : IsNormalSet
     obtain ⟨S⟩ : Nonempty (Sylow 2 G) := inferInstance
     have hS2 : ∀ y ∈ (S : Subgroup G), y * y = 1 := by
       intro y hy
-      obtain ⟨n, hn⟩ := S.isPGroup' ⟨y, hy⟩
+      obtain ⟨n, hn⟩ := S.isPGroup ⟨y, hy⟩
       exact hsq y n (by simpa using congrArg Subtype.val hn)
     refine not_mem_commutator_of_sylow_commute hxc hx2 S (fun a ha b hb => ?_) hxG
     exact (commute_iff_mul_sq_eq_one (hS2 a ha) (hS2 b hb)).2

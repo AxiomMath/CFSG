@@ -125,7 +125,7 @@ theorem corB_listGroup_of_normal {Y : Type} [Group Y] [Finite Y] {T : Subgroup Y
       Odd (Nat.card P) → P = ⊥) :
     ListGroup ↥(Subgroup.normalClosure (T : Set Y)) :=
   corBN_main T (Subgroup.normalClosure (T : Set Y)) hT hTp Subgroup.le_normalClosure
-    (fun Q _ hTQ => Subgroup.normalClosure_le_normal (fun _ ht => hTQ ht)) hThm hO2 hO
+    (fun _Q _ hTQ => Subgroup.normalClosure_le_normal (fun _ ht => hTQ ht)) hThm hO2 hO
 
 theorem corB_listGroup_of_normal_sub {Y : Type} [Group Y] [Finite Y] {T H : Subgroup Y}
     [H.Normal] (hTH : T ≤ H) (hT : T ≠ ⊥) (hTp : IsPGroup 2 T) (hThm : ThmAConclusion T)

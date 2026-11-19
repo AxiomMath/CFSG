@@ -75,7 +75,7 @@ theorem o1_cards_of_tableX {a z p : G} {x b₀ u₀ : ↥(Gx p)} (hx : (x : G) =
 theorem three_cent_of_tableX {a z p : G} {x b₀ u₀ : ↥(Gx p)} (hx : (x : G) = z)
     (hT : TableXData (GxSelf p) x b₀ u₀)
     (h1 : orb2A a p ∩ orb2A a (p * z) = Subtype.val '' tabXSet (GxSelf p) x b₀ u₀ 0)
-    (hR : CFSG.Open.pCoreOf 2 (Gxy p z) = Gxy p z ⊓ Qz z) :
+    (_hR : CFSG.Open.pCoreOf 2 (Gxy p z) = Gxy p z ⊓ Qz z) :
     ∀ σ ∈ Gxy p z, orderOf σ = 3 → ∃ c ∈ orb2A a p ∩ orb2A a (p * z),
       CFSG.Open.pCoreOf 2 (Gxy p z) ⊓ Gx σ =
           Subgroup.closure ((centerOf (derivedOf (Gxy p z)) : Set G) ∪ {c}) ∧

@@ -30,7 +30,7 @@ private theorem even_card_of_lieModel_psu5 {S : Type} [Group S]
   decide
 
 private theorem mem_of_conjNormal_inner_of_odd
-    {U : Type} [CommGroup U] [Finite U] {N S : Subgroup (MulAut U)} (hSN : S ≤ N)
+    {U : Type} [CommGroup U] [Finite U] {N S : Subgroup (MulAut U)} (_hSN : S ≤ N)
     (hN : (S.subgroupOf N).Normal)
     (hZ : Subgroup.center (S.subgroupOf N) = ⊥)
     (hCodd : Odd (Nat.card (Subgroup.centralizer (S.subgroupOf N : Set ↥N))))
@@ -41,7 +41,7 @@ private theorem mem_of_conjNormal_inner_of_odd
   classical
   let L : Subgroup ↥N := S.subgroupOf N
   let C : Subgroup ↥N := Subgroup.centralizer (L : Set ↥N)
-  haveI hLnorm : L.Normal := hN
+  have hLnorm : L.Normal := hN
   have hmem : (⟨t, htN⟩ : ↥N) ∈ L ⊔ C :=
     CFSG.Quasithin.H13.NQCore.mem_sup_centralizer_of_conjNormal_inner hInner
   obtain ⟨s, hsL, c, hcC, hsc⟩ := Subgroup.mem_sup_of_normal_left.mp hmem
@@ -112,7 +112,7 @@ private theorem nine_le_rkIdx_of_inverts_of_order_forty_one
     {t y : MulAut U} (ht : t * t = 1) (hy : orderOf y = 41)
     (hty : t * y * t⁻¹ = y⁻¹) :
     9 ≤ rkIdx (fixV (Subgroup.zpowers t)) := by
-  haveI : Fact (Nat.Prime 41) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 41) := ⟨by norm_num⟩
   have hodd : Odd 41 := by norm_num
   have hy41 : y ^ 41 = 1 := by
     rw [← hy]
@@ -177,7 +177,7 @@ theorem k146ModU54_of (hin : K146U54InvRank) (hout : K146U54OuterInv) : K146ModU
       simpa using not_exists.mp h u
     obtain ⟨u, hu⟩ := hne
     exact ⟨1, u, fun h1 => hu h1.symm⟩
-  letI : Nontrivial U := hUtriv
+  let : Nontrivial U := hUtriv
   have hW' : ∀ w : U, w * w = 1 := fun w => by rw [← pow_two]; exact hW w
   have hIrrOn : ∀ H : Subgroup U, (∀ g ∈ S, ∀ u ∈ H, g u ∈ H) → H = ⊥ ∨ H = ⊤ :=
     fun H hH => hIrr.2.2.2 H hH bot_le le_top
@@ -196,7 +196,7 @@ theorem k146ModU54_of (hin : K146U54InvRank) (hout : K146U54OuterInv) : K146ModU
   have hSdvd : Nat.card S ∣ Nat.card N := Subgroup.card_dvd_of_le hSN
   have hNeven : Even (Nat.card N) :=
     even_iff_two_dvd.mpr (dvd_trans (even_iff_two_dvd.mp hSeven) hSdvd)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2dvd : 2 ∣ Nat.card S := even_iff_two_dvd.mp hSeven
   obtain ⟨lS, hlS⟩ := exists_prime_orderOf_dvd_card' (G := ↥S) 2 h2dvd
   have hNne : ∃ t ∈ N, orderOf t = 2 := by

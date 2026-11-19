@@ -174,7 +174,7 @@ theorem fourUFixedSLOB_u6 (h207 : CFSG.HardMathSupport.Dickson.Bal207.Bal207Corr
 end SLOB
 
 theorem sLOB_of_balancedIn_centralizer {X : Type} [Group X] {B J : Subgroup X} {a : X}
-    (hBC : B ≤ Subgroup.centralizer ({a} : Set X)) (hJC : J ≤ Subgroup.centralizer ({a} : Set X))
+    (_hBC : B ≤ Subgroup.centralizer ({a} : Set X)) (hJC : J ≤ Subgroup.centralizer ({a} : Set X))
     (hBJ : B ≤ Subgroup.normalizer (J : Set X))
     (hbal : IsStronglyBalancedIn 3 (B.subgroupOf (Subgroup.centralizer ({a} : Set X)))
       (J.subgroupOf (Subgroup.centralizer ({a} : Set X)))) :
@@ -263,12 +263,12 @@ theorem sLOB_of_l2Eight_component
   have hH := compHyp_bar Nat.prime_three (by decide) hJC (le_centralizer_of_mem hBSC haB) hBJ hBSC
   obtain ⟨⟨d, hv⟩, hd, ⟨eJ⟩⟩ := hL
   obtain ⟨q, rfl, hq⟩ := hd.exists
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF8 : Nat.card (GaloisField q.p q.exponent) = 8 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hq.1, hq.2]
     norm_num
   let eJ' := eJ.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField q.p q.exponent)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hF8]; norm_num)
   obtain ⟨⟨e₃⟩, -⟩ := barX_centralQuotient hJC eJ'.isSimpleGroup

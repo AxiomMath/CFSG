@@ -430,7 +430,7 @@ theorem findInn_eq_innGuess (t : Array ℕ) : findInn (innTabs ()) t = innGuess 
     rw [List.find?_eq_none] at h
     have h1 := h (2 * innW t) (List.mem_range.2 hg)
     rw [innTabs_getElem! hg] at h1
-    rw [if_neg h1]
+    rw [ite_eq_right h1]
   | some e =>
     obtain ⟨hp, i, hi, hie, hmin⟩ := List.find?_eq_some_iff_getElem.1 h
     simp only [List.length_range] at hi
@@ -444,7 +444,7 @@ theorem findInn_eq_innGuess (t : Array ℕ) : findInn (innTabs ()) t = innGuess 
       have := hmin _ hlt
       rw [innTabs_getElem! (by omega), innTab_even hi, hp] at this
       simp at this
-    rw [hw, h2, if_pos (by rw [hp]; exact beq_self_eq_true t)]
+    rw [hw, h2, ite_eq_left (by rw [hp]; exact beq_self_eq_true t)]
 
 theorem firstMapV_get? {β : Type} (key : ℕ → ℕ) (val : ℕ → β) : ∀ (l : List ℕ)
     (m : Std.HashMap ℕ β) (y : ℕ),
@@ -454,7 +454,7 @@ theorem firstMapV_get? {β : Type} (key : ℕ → ℕ) (val : ℕ → β) : ∀ 
   | j :: l, m, y => by
     rw [List.foldl_cons, firstMapV_get? key val l, List.find?_cons]
     by_cases hc : m.contains (key j) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       by_cases hk : key j = y
       · subst hk
         have hs : (m.get? (key j)).isSome := by
@@ -465,7 +465,7 @@ theorem firstMapV_get? {β : Type} (key : ℕ → ℕ) (val : ℕ → β) : ∀ 
         rfl
       · have hb : (key j == y) = false := by simpa using hk
         simp only [hb]
-    · rw [if_neg hc, Std.HashMap.get?_insert]
+    · rw [ite_eq_right hc, Std.HashMap.get?_insert]
       by_cases hk : key j = y
       · subst hk
         have hn : m.get? (key j) = none := by
@@ -474,10 +474,10 @@ theorem firstMapV_get? {β : Type} (key : ℕ → ℕ) (val : ℕ → β) : ∀ 
           apply hc
           rw [Std.HashMap.contains_eq_isSome_getElem?, hv]
           rfl
-        simp only [beq_self_eq_true, if_true, hn]
+        simp only [beq_self_eq_true, ite_true, hn]
         rfl
       · have hb : (key j == y) = false := by simpa using hk
-        simp only [hb, Bool.false_eq_true, if_false]
+        simp only [hb, Bool.false_eq_true, ite_false]
 
 theorem firstMapV_contains {β : Type} (key : ℕ → ℕ) (val : ℕ → β) (l : List ℕ)
     (m : Std.HashMap ℕ β) (y : ℕ) :

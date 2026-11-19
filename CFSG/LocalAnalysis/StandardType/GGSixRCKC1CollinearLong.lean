@@ -33,7 +33,7 @@ private lemma eq_one_of_central_mul_involution {U : Type*} [Group U] {c y : U}
 
 private lemma commute_of_map_commute {U X : Type} [Group U] [Group X] {φ : U →* X}
     (hker : φ.ker ≤ Subgroup.center U) (hZ : CenterPPrime U 2) {a b : U}
-    (ha : a * a = 1) (hb : b * b = 1) (hcomm : φ a * φ b = φ b * φ a) : a * b = b * a := by
+    (_ha : a * a = 1) (hb : b * b = 1) (hcomm : φ a * φ b = φ b * φ a) : a * b = b * a := by
   have hker' : a * b * a⁻¹ * b⁻¹ ∈ φ.ker := by
     rw [MonoidHom.mem_ker]
     have h1 : φ a * φ b * (φ a)⁻¹ = φ b := by rw [hcomm]; group
@@ -127,8 +127,7 @@ theorem le_pCoreOf_of_isRootInvolutionSet {U X : Type} [Group U] [Finite U] [Gro
     intro v hv
     by_cases hv1 : v = 1
     · rw [hv1]
-      simpa using Subgroup.mem_map_of_mem φ
-        (Subgroup.one_mem (pCoreOf 2 (Subgroup.centralizer ({x} : Set U))))
+      simp
     · obtain ⟨k, hk, hvk⟩ := hconj v hv hv1
       obtain ⟨g, hg⟩ := hk
       rw [← hg] at hvk
@@ -299,7 +298,7 @@ theorem rckCollinearVia_of_long {M : LieUniversal} [Finite M.K] {n : Fin M.D.ran
   have hD : CFSG.Timmesfeld.IsRootInvolutionSet {g : M.K | IsConj x g} := by
     have hset : {g : M.K | IsConj x₀ g} = {g : M.K | IsConj x g} := by
       ext g
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => hconjx.symm.trans h, fun h => hconjx.trans h⟩
     rwa [hset] at hD₀
   have hxrV : φ x ∈ V := by rw [hxr]; exact hrV

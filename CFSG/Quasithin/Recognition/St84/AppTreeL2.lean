@@ -62,7 +62,7 @@ theorem pCore_quotient_mulEquiv_of_sup_pCoreOf {G : Type*} [Group G] {M L : Subg
     have h2 : (m : G) ∈ pCoreOf 2 M ↔ m ∈ CFSG.pCore 2 ↥M := by
       have := (Subgroup.mem_map_iff_mem (K := CFSG.pCore 2 ↥M)
         (x := m) M.subtype_injective)
-      simpa [pCoreOf] using this
+      simp [pCoreOf]
     have h3 : (m : G) ∈ pCoreOf 2 L ↔ (m : G) ∈ pCoreOf 2 M := by
       rw [← hinf]
       exact ⟨fun h => ⟨m.2, h⟩, fun h => h.2⟩
@@ -221,7 +221,7 @@ theorem f112_mem_L1_of_orderFive {L1 L2 S : Subgroup H}
     sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left hR).1
   let P : Subgroup H := f112P1 L1 L2 S
   let M' : Subgroup ↥P := L1.subgroupOf P
-  haveI hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormP1
+  have hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormP1
   have h5 : 5 ∣ Nat.card M' := by
     show 5 ∣ Nat.card ↥(L1.subgroupOf (f112P1 L1 L2 S))
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_left).toEquiv]
@@ -257,6 +257,7 @@ theorem f112M1_le_L1 {L1 L2 S : Subgroup H}
   rintro x ⟨hxP, hx5⟩
   exact f112_mem_L1_of_orderFive hF h1 h2 hxP hx5
 
+omit [Finite H] in
 theorem f112M1_conj_mem {L1 L2 S : Subgroup H} {g x : H}
     (hg : g ∈ f112P1 L1 L2 S) (hx : x ∈ f112M1 L1 L2 S) :
     g * x * g⁻¹ ∈ f112M1 L1 L2 S := by
@@ -276,6 +277,7 @@ theorem f112M1_conj_mem {L1 L2 S : Subgroup H} {g x : H}
       exact hx.2
   exact hmap (Subgroup.mem_map_of_mem _ hx)
 
+omit [Finite H] in
 theorem f112M1_normal (L1 L2 S : Subgroup H) :
     f112P1 L1 L2 S ≤ Subgroup.normalizer (f112M1 L1 L2 S : Set H) := by
   intro g hg
@@ -288,6 +290,7 @@ theorem f112M1_normal (L1 L2 S : Subgroup H) :
     have h := f112M1_conj_mem (L2 := L2) (S := S) ((f112P1 L1 L2 S).inv_mem hg) hx
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112M1_normal_L1 (L1 L2 S : Subgroup H) :
     L1 ≤ Subgroup.normalizer (f112M1 L1 L2 S : Set H) :=
   le_sup_left.trans (f112M1_normal L1 L2 S)
@@ -295,7 +298,7 @@ theorem f112M1_normal_L1 (L1 L2 S : Subgroup H) :
 theorem f112M1_sup_pCoreOf {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2) :
     f112M1 L1 L2 S ⊔ pCoreOf 2 L1 = L1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hM1L1 : f112M1 L1 L2 S ≤ L1 := f112M1_le_L1 hF h1 h2
   have hnormL1 : L1 ≤ Subgroup.normalizer (f112M1 L1 L2 S : Set H) := f112M1_normal_L1 L1 L2 S
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 (f112_five_dvd_card_L1 hF h1)
@@ -303,7 +306,7 @@ theorem f112M1_sup_pCoreOf {L1 L2 S : Subgroup H}
   have hxM1 : (x : H) ∈ f112M1 L1 L2 S :=
     Subgroup.subset_closure ⟨Subgroup.mem_sup_left x.2, hx5H⟩
   let M' : Subgroup ↥L1 := (f112M1 L1 L2 S).subgroupOf L1
-  haveI hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormL1
+  have hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormL1
   let π : ↥L1 →* ↥L1 ⧸ CFSG.pCore 2 ↥L1 := QuotientGroup.mk' (CFSG.pCore 2 ↥L1)
   have hM'normal : (M'.map π).Normal := hM'.map π (QuotientGroup.mk'_surjective _)
   have hxM' : x ∈ M' := by
@@ -326,15 +329,15 @@ theorem f112M1_sup_pCoreOf {L1 L2 S : Subgroup H}
       exact orderOf_dvd_of_pow_eq_one hk
     have h52 : 5 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_five hdvd
     norm_num at h52
-  haveI hPSL : IsSimpleGroup
+  have hPSL : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) := by
     apply Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
-  haveI : IsSimpleGroup (↥L1 ⧸ CFSG.pCore 2 ↥L1) := by
+  have : IsSimpleGroup (↥L1 ⧸ CFSG.pCore 2 ↥L1) := by
     obtain ⟨e⟩ := h1
     exact e.isSimpleGroup
-  haveI : (M'.map π).Normal := hM'normal
+  have : (M'.map π).Normal := hM'normal
   have htop : M'.map π = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (M'.map π) with h | h
     · exact absurd h hne
@@ -354,7 +357,7 @@ theorem f112M1_sup_pCoreOf {L1 L2 S : Subgroup H}
         (x := m'⁻¹ * (⟨l, hl⟩ : ↥L1)) L1.subtype_injective).mpr hq
       simpa [pCoreOf] using h
     have hl' : (m' : H) * ((m'⁻¹ * (⟨l, hl⟩ : ↥L1) : ↥L1) : H) = l := by
-      simp [mul_assoc]
+      simp
     have hmem' : (m' : H) * ((m'⁻¹ * (⟨l, hl⟩ : ↥L1) : ↥L1) : H) ∈
         f112M1 L1 L2 S ⊔ pCoreOf 2 L1 :=
       (f112M1 L1 L2 S ⊔ pCoreOf 2 L1).mul_mem (Subgroup.mem_sup_left hm1)
@@ -382,6 +385,7 @@ noncomputable def f112NlocalA (L1 L2 S : Subgroup H) :
     Subgroup (f112Gold L1 L2 S).Universal :=
   f112A1 L1 L2 S ⊔ pCoreOf 2 (f112Nalpha L1 L2 S)
 
+omit [Finite H] in
 theorem f112A1_le_E {L1 L2 S : Subgroup H} :
     f112A1 L1 L2 S ≤ f112E5 L1 L2 S := by
   let K' : Subgroup ↥(f112P1 L1 L2 S) := (f112E5 L1 L2 S).comap (f112Gold L1 L2 S).ofA
@@ -406,6 +410,7 @@ theorem f112A1_le_E {L1 L2 S : Subgroup H} :
   rw [← hzx']
   exact hz
 
+omit [Finite H] in
 theorem f112A1_le_Nalpha {L1 L2 S : Subgroup H} :
     f112A1 L1 L2 S ≤ f112Nalpha L1 L2 S := by
   refine le_inf f112A1_le_E ?_
@@ -414,6 +419,7 @@ theorem f112A1_le_Nalpha {L1 L2 S : Subgroup H} :
   intro x _
   exact ⟨x, rfl⟩
 
+omit [Finite H] in
 theorem f112A1_conj_mem {L1 L2 S : Subgroup H} {g a : (f112Gold L1 L2 S).Universal}
     (hg : g ∈ f112Nalpha L1 L2 S) (ha : a ∈ f112A1 L1 L2 S) :
     g * a * g⁻¹ ∈ f112A1 L1 L2 S := by
@@ -428,6 +434,7 @@ theorem f112A1_conj_mem {L1 L2 S : Subgroup H} {g a : (f112Gold L1 L2 S).Univers
   rw [heq]
   exact Subgroup.mem_map_of_mem _ hconj
 
+omit [Finite H] in
 theorem f112A1_normal_Nalpha {L1 L2 S : Subgroup H} :
     f112Nalpha L1 L2 S ≤
       Subgroup.normalizer (f112A1 L1 L2 S : Set (f112Gold L1 L2 S).Universal) := by
@@ -441,6 +448,7 @@ theorem f112A1_normal_Nalpha {L1 L2 S : Subgroup H} :
     have h := f112A1_conj_mem (L1 := L1) (L2 := L2) (S := S) ((f112Nalpha L1 L2 S).inv_mem hg) ha
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112NlocalA_normal_Nalpha {L1 L2 S : Subgroup H} :
     f112Nalpha L1 L2 S ≤ Subgroup.normalizer
       (f112NlocalA L1 L2 S : Set (f112Gold L1 L2 S).Universal) :=
@@ -449,10 +457,12 @@ theorem f112NlocalA_normal_Nalpha {L1 L2 S : Subgroup H} :
     (Subgroup.inf_normalizer_le_normalizer_sup (f112A1 L1 L2 S)
       (pCoreOf 2 (f112Nalpha L1 L2 S)))
 
+omit [Finite H] in
 theorem f112NlocalA_le_Nalpha {L1 L2 S : Subgroup H} :
     f112NlocalA L1 L2 S ≤ f112Nalpha L1 L2 S :=
   sup_le f112A1_le_Nalpha (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
 
+omit [Finite H] in
 theorem f112NlocalA_le_E {L1 L2 S : Subgroup H} :
     f112NlocalA L1 L2 S ≤ f112E5 L1 L2 S :=
   f112NlocalA_le_Nalpha.trans inf_le_left
@@ -493,7 +503,7 @@ theorem f112A1_trans {L1 L2 S : Subgroup H}
       (f112Gold L1 L2 S).treeGraph.Adj (baseA (f112Gold L1 L2 S)) a →
       (f112Gold L1 L2 S).treeGraph.Adj (baseA (f112Gold L1 L2 S)) b →
       ∃ g ∈ f112A1 L1 L2 S, g • a = b := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro a b ha hb
   let X := f112Gold L1 L2 S
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 (f112_five_dvd_card_L1 hF h1)
@@ -660,7 +670,7 @@ theorem f112_mem_L2_of_orderFive {L1 L2 S : Subgroup H}
     sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left hR).2
   let P : Subgroup H := f112P2 L1 L2 S
   let M' : Subgroup ↥P := L2.subgroupOf P
-  haveI hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormP1
+  have hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormP1
   have h5 : 5 ∣ Nat.card M' := by
     show 5 ∣ Nat.card ↥(L2.subgroupOf (f112P2 L1 L2 S))
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_left).toEquiv]
@@ -696,6 +706,7 @@ theorem f112M2_le_L2 {L1 L2 S : Subgroup H}
   rintro x ⟨hxP, hx5⟩
   exact f112_mem_L2_of_orderFive hF h1 h2 hxP hx5
 
+omit [Finite H] in
 theorem f112M2_conj_mem {L1 L2 S : Subgroup H} {g x : H}
     (hg : g ∈ f112P2 L1 L2 S) (hx : x ∈ f112M2 L1 L2 S) :
     g * x * g⁻¹ ∈ f112M2 L1 L2 S := by
@@ -715,6 +726,7 @@ theorem f112M2_conj_mem {L1 L2 S : Subgroup H} {g x : H}
       exact hx.2
   exact hmap (Subgroup.mem_map_of_mem _ hx)
 
+omit [Finite H] in
 theorem f112M2_normal (L1 L2 S : Subgroup H) :
     f112P2 L1 L2 S ≤ Subgroup.normalizer (f112M2 L1 L2 S : Set H) := by
   intro g hg
@@ -727,6 +739,7 @@ theorem f112M2_normal (L1 L2 S : Subgroup H) :
     have h := f112M2_conj_mem (L2 := L2) (S := S) ((f112P2 L1 L2 S).inv_mem hg) hx
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112M2_normal_L2 (L1 L2 S : Subgroup H) :
     L2 ≤ Subgroup.normalizer (f112M2 L1 L2 S : Set H) :=
   le_sup_left.trans (f112M2_normal L1 L2 S)
@@ -734,7 +747,7 @@ theorem f112M2_normal_L2 (L1 L2 S : Subgroup H) :
 theorem f112M2_sup_pCoreOf {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2) :
     f112M2 L1 L2 S ⊔ pCoreOf 2 L2 = L2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hM1L2 : f112M2 L1 L2 S ≤ L2 := f112M2_le_L2 hF h1 h2
   have hnormL2 : L2 ≤ Subgroup.normalizer (f112M2 L1 L2 S : Set H) := f112M2_normal_L2 L1 L2 S
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 (f112_five_dvd_card_L2 hF h2)
@@ -742,7 +755,7 @@ theorem f112M2_sup_pCoreOf {L1 L2 S : Subgroup H}
   have hxM1 : (x : H) ∈ f112M2 L1 L2 S :=
     Subgroup.subset_closure ⟨Subgroup.mem_sup_left x.2, hx5H⟩
   let M' : Subgroup ↥L2 := (f112M2 L1 L2 S).subgroupOf L2
-  haveI hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormL2
+  have hM' : M'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnormL2
   let π : ↥L2 →* ↥L2 ⧸ CFSG.pCore 2 ↥L2 := QuotientGroup.mk' (CFSG.pCore 2 ↥L2)
   have hM'normal : (M'.map π).Normal := hM'.map π (QuotientGroup.mk'_surjective _)
   have hxM' : x ∈ M' := by
@@ -765,15 +778,15 @@ theorem f112M2_sup_pCoreOf {L1 L2 S : Subgroup H}
       exact orderOf_dvd_of_pow_eq_one hk
     have h52 : 5 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_five hdvd
     norm_num at h52
-  haveI hPSL : IsSimpleGroup
+  have hPSL : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) := by
     apply Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
-  haveI : IsSimpleGroup (↥L2 ⧸ CFSG.pCore 2 ↥L2) := by
+  have : IsSimpleGroup (↥L2 ⧸ CFSG.pCore 2 ↥L2) := by
     obtain ⟨e⟩ := h2
     exact e.isSimpleGroup
-  haveI : (M'.map π).Normal := hM'normal
+  have : (M'.map π).Normal := hM'normal
   have htop : M'.map π = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (M'.map π) with h | h
     · exact absurd h hne
@@ -793,7 +806,7 @@ theorem f112M2_sup_pCoreOf {L1 L2 S : Subgroup H}
         (x := m'⁻¹ * (⟨l, hl⟩ : ↥L2)) L2.subtype_injective).mpr hq
       simpa [pCoreOf] using h
     have hl' : (m' : H) * ((m'⁻¹ * (⟨l, hl⟩ : ↥L2) : ↥L2) : H) = l := by
-      simp [mul_assoc]
+      simp
     have hmem' : (m' : H) * ((m'⁻¹ * (⟨l, hl⟩ : ↥L2) : ↥L2) : H) ∈
         f112M2 L1 L2 S ⊔ pCoreOf 2 L2 :=
       (f112M2 L1 L2 S ⊔ pCoreOf 2 L2).mul_mem (Subgroup.mem_sup_left hm1)
@@ -821,6 +834,7 @@ noncomputable def f112NlocalB (L1 L2 S : Subgroup H) :
     Subgroup (f112Gold L1 L2 S).Universal :=
   f112A2 L1 L2 S ⊔ pCoreOf 2 (f112Nbeta L1 L2 S)
 
+omit [Finite H] in
 theorem f112A2_le_E {L1 L2 S : Subgroup H} :
     f112A2 L1 L2 S ≤ f112E5 L1 L2 S := by
   let K' : Subgroup ↥(f112P2 L1 L2 S) := (f112E5 L1 L2 S).comap (f112Gold L1 L2 S).ofB
@@ -845,6 +859,7 @@ theorem f112A2_le_E {L1 L2 S : Subgroup H} :
   rw [← hzx']
   exact hz
 
+omit [Finite H] in
 theorem f112A2_le_Nbeta {L1 L2 S : Subgroup H} :
     f112A2 L1 L2 S ≤ f112Nbeta L1 L2 S := by
   refine le_inf f112A2_le_E ?_
@@ -853,6 +868,7 @@ theorem f112A2_le_Nbeta {L1 L2 S : Subgroup H} :
   intro x _
   exact ⟨x, rfl⟩
 
+omit [Finite H] in
 theorem f112A2_conj_mem {L1 L2 S : Subgroup H} {g a : (f112Gold L1 L2 S).Universal}
     (hg : g ∈ f112Nbeta L1 L2 S) (ha : a ∈ f112A2 L1 L2 S) :
     g * a * g⁻¹ ∈ f112A2 L1 L2 S := by
@@ -867,6 +883,7 @@ theorem f112A2_conj_mem {L1 L2 S : Subgroup H} {g a : (f112Gold L1 L2 S).Univers
   rw [heq]
   exact Subgroup.mem_map_of_mem _ hconj
 
+omit [Finite H] in
 theorem f112A2_normal_Nbeta {L1 L2 S : Subgroup H} :
     f112Nbeta L1 L2 S ≤
       Subgroup.normalizer (f112A2 L1 L2 S : Set (f112Gold L1 L2 S).Universal) := by
@@ -880,6 +897,7 @@ theorem f112A2_normal_Nbeta {L1 L2 S : Subgroup H} :
     have h := f112A2_conj_mem ((f112Nbeta L1 L2 S).inv_mem hg) ha
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112NlocalB_normal_Nbeta {L1 L2 S : Subgroup H} :
     f112Nbeta L1 L2 S ≤ Subgroup.normalizer
       (f112NlocalB L1 L2 S : Set (f112Gold L1 L2 S).Universal) :=
@@ -888,10 +906,12 @@ theorem f112NlocalB_normal_Nbeta {L1 L2 S : Subgroup H} :
     (Subgroup.inf_normalizer_le_normalizer_sup (f112A2 L1 L2 S)
       (pCoreOf 2 (f112Nbeta L1 L2 S)))
 
+omit [Finite H] in
 theorem f112NlocalB_le_Nbeta {L1 L2 S : Subgroup H} :
     f112NlocalB L1 L2 S ≤ f112Nbeta L1 L2 S :=
   sup_le f112A2_le_Nbeta (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
 
+omit [Finite H] in
 theorem f112NlocalB_le_E {L1 L2 S : Subgroup H} :
     f112NlocalB L1 L2 S ≤ f112E5 L1 L2 S :=
   f112NlocalB_le_Nbeta.trans inf_le_left
@@ -932,7 +952,7 @@ theorem f112A2_trans {L1 L2 S : Subgroup H}
       (f112Gold L1 L2 S).treeGraph.Adj (baseB (f112Gold L1 L2 S)) a →
       (f112Gold L1 L2 S).treeGraph.Adj (baseB (f112Gold L1 L2 S)) b →
       ∃ g ∈ f112A2 L1 L2 S, g • a = b := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro a b ha hb
   let X := f112Gold L1 L2 S
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 (f112_five_dvd_card_L2 hF h2)

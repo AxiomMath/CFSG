@@ -16,8 +16,10 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def v1Sub15 (V₀ U : Subgroup G) : Subgroup G :=
   V₀ ⊓ pCoreOf 2 (centralizer (U : Set G))
 
+omit [Finite G] in
 theorem v1Sub15_le_left (V₀ U : Subgroup G) : v1Sub15 V₀ U ≤ V₀ := inf_le_left
 
+omit [Finite G] in
 theorem v1Sub15_le_pCoreOf (V₀ U : Subgroup G) :
     v1Sub15 V₀ U ≤ pCoreOf 2 (centralizer (U : Set G)) := inf_le_right
 
@@ -30,12 +32,12 @@ variable {M V₀ V U S : Subgroup G}
 
 theorem v1Sub15_le_inf_conj (h : Cex15 M V₀ V U S) {g : G} (hg : g ∈ centralizer (U : Set G)) :
     v1Sub15 V₀ U ≤ V₀ ⊓ conjSubgroup M g :=
-  fun x hx => Subgroup.mem_inf.2 ⟨hx.1, h.pCoreOf_le_conj hg hx.2⟩
+  fun _x hx => Subgroup.mem_inf.2 ⟨hx.1, h.pCoreOf_le_conj hg hx.2⟩
 
 theorem mem_v1Sub15_iff (h : Cex15 M V₀ V U S) {x : G} :
     x ∈ v1Sub15 V₀ U ↔
       x ∈ V₀ ∧ ∀ g ∈ centralizer (U : Set G), g ∉ M → x ∈ conjSubgroup M g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := h.hyp
   constructor
   · intro hx

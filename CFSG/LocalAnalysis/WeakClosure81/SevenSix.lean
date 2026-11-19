@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem omegaSet_conjSubgroup (V H E : Subgroup G) (g : G) :
     omegaSet (conjSubgroup V g) H E = omegaSet V H E := by
   ext U
@@ -22,29 +23,35 @@ theorem omegaSet_conjSubgroup (V H E : Subgroup G) (g : G) :
     refine ⟨g⁻¹ * h, ?_, hEU, hUO⟩
     rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, show g * (g⁻¹ * h) = h by group]
 
+omit [Finite G] in
 theorem kSub_conjSubgroup (V H E : Subgroup G) (g : G) :
     kSub (conjSubgroup V g) H E = kSub V H E := by
   simp only [kSub, omegaSet_conjSubgroup]
 
+omit [Finite G] in
 theorem iSub_conjSubgroup (V H E : Subgroup G) (g : G) :
     iSub (conjSubgroup V g) H E = iSub V H E := by
   simp only [iSub, omegaSet_conjSubgroup]
 
+omit [Finite G] in
 theorem omegaSet_eq_of_mem {V H E U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     omegaSet U H E = omegaSet V H E := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
   exact omegaSet_conjSubgroup V H E g
 
+omit [Finite G] in
 theorem kSub_eq_of_mem {V H E U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     kSub U H E = kSub V H E := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
   exact kSub_conjSubgroup V H E g
 
+omit [Finite G] in
 theorem iSub_eq_of_mem {V H E U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     iSub U H E = iSub V H E := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
   exact iSub_conjSubgroup V H E g
 
+omit [Finite G] in
 theorem isTI_of_mem_omegaSet {V H E U : Subgroup G} (hU : U ∈ omegaSet V H E) (hTI : IsTI V) :
     IsTI U := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
@@ -64,7 +71,7 @@ theorem seven_six_one_relIndex_eq_two {V H E J A X : Subgroup G}
   have hUnotJ : ¬ U ≤ J := fun hUJ => hUnotO (hUJ.trans hJ)
   have hne1 : J.relIndex U ≠ 1 := fun h => hUnotJ (Subgroup.relIndex_eq_one.mp h)
   have hne0 : J.relIndex U ≠ 0 := by
-    haveI : Finite (↥U ⧸ (J.subgroupOf U)) := inferInstance
+    have : Finite (↥U ⧸ (J.subgroupOf U)) := inferInstance
     exact Subgroup.index_ne_zero_of_finite
   have hnotbig : ¬ 2 < J.relIndex U := by
     intro hbig

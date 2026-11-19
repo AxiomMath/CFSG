@@ -29,7 +29,7 @@ private theorem alternatingGroup_perm5_le_of_normal_cv (N : Subgroup (Equiv.Perm
           Subgroup.mem_subgroupOf.2 (N.pow_mem hz 2)
         rw [hM, Subgroup.mem_bot] at hmem
         exact congrArg Subtype.val hmem
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨c, hc⟩ : ∃ c : Equiv.Perm (Fin 5), c = List.formPerm [0, 1, 2, 3, 4] := ⟨_, rfl⟩
     have hc5 : c ^ 5 = 1 := by
       rw [hc]
@@ -65,7 +65,7 @@ theorem twoResidual_perm5_cv :
     intro x hx
     rw [CFSG.Quasithin.mem_twoResidual_iff]
     intro N _ hN h2
-    haveI : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hN)
+    have : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hN)
     exact alternatingGroup_perm5_le_of_normal_cv N (fun y => by
       obtain ⟨k, hk⟩ := h2 y (Subgroup.mem_top y)
       exact ⟨k, hk⟩) hx

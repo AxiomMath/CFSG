@@ -147,7 +147,7 @@ theorem mem_normalizer_firstFactor {x : T}
 theorem sigmaGen_le_normalizer_firstFactor
     (hst : sigmaGen K ≤ conjStab (aStar (CoreAssembly.conjClass K) K)) :
     sigmaGen K ≤ Subgroup.normalizer (firstFactor K : Set T) :=
-  fun x hx => mem_normalizer_firstFactor (hst hx) (Subgroup.le_normalizer hx)
+  fun _x hx => mem_normalizer_firstFactor (hst hx) (Subgroup.le_normalizer hx)
 
 theorem conjStab_aStar_le_sigmaNorm [Finite T] (hΩ : HypOmegaGen (CoreAssembly.conjClass K)) :
     conjStab (aStar (CoreAssembly.conjClass K) K) ≤ sigmaNorm K := by
@@ -326,7 +326,7 @@ private theorem exists_conj_commute_aux {G : Type} [Group G] [Finite G] {N : Sub
       exact (N ⊔ Subgroup.zpowers b).mul_mem (hNM hvb) (hBM (Subgroup.mem_zpowers b))
     have hconjB : conjSub v (Subgroup.zpowers b) = Subgroup.zpowers (v * b * v⁻¹) := by
       show Subgroup.map (MulAut.conj v).toMonoidHom (Subgroup.zpowers b) = _
-      rw [MonoidHom.map_zpowers] <;> rfl
+      rw [MonoidHom.map_zpowers]; rfl
     have hle : conjSub v (Subgroup.zpowers b) ≤ N ⊔ Subgroup.zpowers b := by
       rw [hconjB]
       exact Subgroup.zpowers_le.mpr hvB
@@ -369,7 +369,7 @@ theorem exists_conj_commute_of_commutator_mem_odd [Finite T] {N : Subgroup T}
     (hbN : b ∈ Subgroup.normalizer (N : Set T)) (hab : a * b * a⁻¹ * b⁻¹ ∈ N) :
     ∃ n ∈ N, a * (n * b * n⁻¹) = (n * b * n⁻¹) * a := by
   have hle : N ≤ Subgroup.normalizer (N : Set T) := Subgroup.le_normalizer
-  haveI : (N.subgroupOf (Subgroup.normalizer (N : Set T))).Normal := Subgroup.normal_in_normalizer
+  have : (N.subgroupOf (Subgroup.normalizer (N : Set T))).Normal := Subgroup.normal_in_normalizer
   have hN₁ : Odd (Nat.card ↥(N.subgroupOf (Subgroup.normalizer (N : Set T)))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv]
     exact hN
@@ -459,7 +459,7 @@ theorem cent_of_mod_odd (cfg : FrameCfg K z J zJ S) {u x k : T} {R₀ : Subgroup
     have e : c * k * c⁻¹ = MulAut.conj c k := by rw [MulAut.conj_apply]
     rw [e, MulEquiv.orderOf_eq, hk4]
   have hb_p : IsPGroup 2 (Subgroup.zpowers (x * k * x⁻¹)) :=
-    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hconj_ord x] <;> norm_num)
+    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hconj_ord x]; norm_num)
   have huN' : u ∈ Subgroup.normalizer (oddCoreOf (firstFactor K) : Set T) :=
     mem_normalizer_iff_conjSub_eq.mpr (Asc77.T7V.conjSub_oddCoreOf_eq_of_mem_normalizer huN)
   have hbN' : x * k * x⁻¹ ∈ Subgroup.normalizer (oddCoreOf (firstFactor K) : Set T) :=

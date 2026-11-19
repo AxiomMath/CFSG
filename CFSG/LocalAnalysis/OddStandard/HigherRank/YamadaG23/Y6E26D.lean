@@ -76,7 +76,7 @@ theorem y6e_closure_eq {G : Type} [Group G] {X S M : Subgroup G} (hMS : M ≤ S)
   exact (Subgroup.map_subgroupOf_eq_of_le hMS).symm
 
 theorem y6e_omega1_eq {Γ : Type} [Group Γ] [Finite Γ] {S M F : Subgroup Γ} (hFM : F ≤ M)
-    (hMS : M ≤ S) (e : ↥M ≃* (Fin 3 → Multiplicative (ZMod 4)))
+    (_hMS : M ≤ S) (e : ↥M ≃* (Fin 3 → Multiplicative (ZMod 4)))
     (hFsq : ∀ x ∈ F, x ^ 2 = 1) (hFc : Nat.card ↥F = 8) {K : Subgroup ↥S}
     (hK : K = M.subgroupOf S) : omega1 K = F.subgroupOf S := by
   apply le_antisymm

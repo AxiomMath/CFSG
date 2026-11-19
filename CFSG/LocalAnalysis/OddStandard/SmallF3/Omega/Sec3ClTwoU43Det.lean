@@ -37,10 +37,10 @@ private theorem isSolvable_linearEquiv_of_finrank_eq_two {W : Type} [AddCommGrou
         Matrix.GeneralLinearGroup (Fin 2) (ZMod 3) :=
       (LinearMap.GeneralLinearGroup.congrLinearEquiv b.equivFun).trans
         Matrix.GeneralLinearGroup.toLin.symm
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) :=
       CFSG.Quasithin.A38c15.isSolvable_gl2_zmod_three
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsSolvable (LinearMap.GeneralLinearGroup (ZMod 3) W) := hgl
+  have : Group.IsSolvable (LinearMap.GeneralLinearGroup (ZMod 3) W) := hgl
   exact Group.isSolvable_of_isSolvable_injective
     (f := (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 3) W).symm.toMonoidHom)
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 3) W).symm.injective
@@ -53,7 +53,7 @@ private lemma det_neg_eq_neg_one {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
   have hsmul : ((LinearEquiv.neg (ZMod 3) : W ≃ₗ[ZMod 3] W) : W →ₗ[ZMod 3] W) =
       (-1 : ZMod 3) • (1 : W →ₗ[ZMod 3] W) := by
     ext x
-    simp [LinearEquiv.neg_apply, neg_one_smul]
+    simp [LinearEquiv.neg_apply]
   rw [hsmul, LinearMap.det_smul, map_one, mul_one]
   rcases h with h | h <;> rw [h] <;> norm_num
 
@@ -113,7 +113,7 @@ private lemma neg_not_mem_of_invariant {V : Type} [AddCommGroup V] [Module (ZMod
     apply Subtype.ext
     rw [hρ_apply]
     simp [LinearEquiv.neg_apply]
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
   have hdet_case (hodd : Module.finrank (ZMod 3) W = 1 ∨ Module.finrank (ZMod 3) W = 3) :
       False := by
     have htop : (⊤ : Subgroup J) ≤ (LinearEquiv.det.comp ρ).ker := by
@@ -131,12 +131,12 @@ private lemma neg_not_mem_of_invariant {V : Type} [AddCommGroup V] [Module (ZMod
     rw [Units.val_neg, Units.val_one] at hval
     exact (by decide : (-1 : ZMod 3) ≠ 1) hval
   have hsolv_case (h2 : Module.finrank (ZMod 3) W = 2) : False := by
-    haveI : Group.IsSolvable (W ≃ₗ[ZMod 3] W) :=
+    have : Group.IsSolvable (W ≃ₗ[ZMod 3] W) :=
       isSolvable_linearEquiv_of_finrank_eq_two h2
-    haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+    have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
     have hbot : ρ.range = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hne
+      have : Nontrivial ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hne
       exact Group.IsPerfect.not_isSolvable ρ.range inferInstance
     have hone : ρ ⟨LinearEquiv.neg (ZMod 3), hneg⟩ = 1 := by
       have hmem : ρ ⟨LinearEquiv.neg (ZMod 3), hneg⟩ ∈ ρ.range :=
@@ -144,7 +144,7 @@ private lemma neg_not_mem_of_invariant {V : Type} [AddCommGroup V] [Module (ZMod
       rw [hbot] at hmem
       simpa using hmem
     rw [hρneg] at hone
-    haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
+    have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
     exact neg_ne_one hone
   rcases hfin with h1 | h2 | h3
   · exact hdet_case (Or.inl h1)
@@ -194,10 +194,10 @@ theorem cl_neg_not_mem_of_involution {V : Type} [AddCommGroup V] [Module (ZMod 3
     have hpos : T v = v := (sub_eq_zero.mp hv0).symm
     simpa [T] using hpos
   have hp_pos : 0 < Module.finrank (ZMod 3) Vp := by
-    haveI : Nontrivial Vp := Submodule.nontrivial_iff_ne_bot.mpr hp
+    have : Nontrivial Vp := Submodule.nontrivial_iff_ne_bot.mpr hp
     exact Module.finrank_pos_iff.mpr inferInstance
   have hm_pos : 0 < Module.finrank (ZMod 3) Vm := by
-    haveI : Nontrivial Vm := Submodule.nontrivial_iff_ne_bot.mpr hm
+    have : Nontrivial Vm := Submodule.nontrivial_iff_ne_bot.mpr hm
     exact Module.finrank_pos_iff.mpr inferInstance
   by_cases hdp : Module.finrank (ZMod 3) Vp ≤ 3
   · refine neg_not_mem_of_invariant hp (by omega) hJ ?_

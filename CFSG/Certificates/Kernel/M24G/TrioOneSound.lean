@@ -13,7 +13,7 @@ open CFSG.Quasithin.H13.AS91.M24G
 theorem compose_toArray (a b : List Nat) :
     Native.compose a.toArray b.toArray = (composeL a b).toArray := by
   apply Array.toList_inj.1
-  simp [Native.compose, composeL, toArray_getElem!_eq_getD]
+  simp [Native.compose, composeL]
 
 theorem foldl_toArray {β : Type} (f : Array Nat → β → Array Nat) (g : List Nat → β → List Nat)
     (hfg : ∀ x b, f x.toArray b = (g x b).toArray) :
@@ -42,8 +42,7 @@ theorem groupCheck_of (h : groupL = true) : Native.groupCheck () = true := by
   simp only [Bool.and_eq_true] at h
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, -⟩ := h
   unfold Native.groupCheck Native.genTabCheck Native.mulTabCheck Native.distinctTabCheck
-  simp only [prodTab_eq, compose_toArray, toArray_beq, toArray_getElem!_eq_getD, Bool.and_eq_true,
-    List.toList_toArray]
+  simp only [prodTab_eq, compose_toArray, toArray_beq, toArray_getElem!_eq_getD, Bool.and_eq_true]
   exact ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩
 
 theorem prodL_lt (hg : groupL = true) {s : Nat} (hs : s < 64) : ∀ x ∈ prodL s, x < 24 := by

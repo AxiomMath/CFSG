@@ -33,7 +33,7 @@ theorem odd_card_of_odd_orderOf {G : Type*} [Group G] [Finite G]
   have h2 : 2 ∣ Nat.card G := by
     rw [Nat.not_odd_iff_even] at hne
     exact even_iff_two_dvd.1 hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have := h x
   rw [hx] at this
@@ -46,7 +46,7 @@ theorem exists_mul_normalizes {G : Type*} [Group G] [Finite G] {U H B : Subgroup
     (T : G) (hT : ∀ b ∈ B, T * b * T⁻¹ ∈ B) :
     ∃ n ∈ U, ∀ h ∈ H, n * T * h * (n * T)⁻¹ ∈ H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H' : Subgroup G := H.map (MulAut.conj T).toMonoidHom with hH'
   have hH'B : H' ≤ B := by
     rintro _ ⟨h, hh, rfl⟩
@@ -60,13 +60,13 @@ theorem exists_mul_normalizes {G : Type*} [Group G] [Finite G] {U H B : Subgroup
   let N : Subgroup B := U.subgroupOf B
   let H₁ : Subgroup B := H.subgroupOf B
   let K₁ : Subgroup B := H'.subgroupOf B
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hUn g g.2 n hn
     simpa using this⟩
   have hNp : IsPGroup 2 N := hU.of_equiv (Subgroup.subgroupOfEquivOfLe hUB).symm
   have hNs : Group.IsSolvable N := by
-    haveI : Group.IsNilpotent N := IsPGroup.isNilpotent hNp
+    have : Group.IsNilpotent N := IsPGroup.isNilpotent hNp
     infer_instance
   have hdisj : ∀ X : Subgroup G, (∀ x ∈ X, Odd (orderOf x)) → N ⊓ X.subgroupOf B = ⊥ := by
     intro X hX
@@ -122,7 +122,7 @@ theorem exists_mul_normalizes {G : Type*} [Group G] [Finite G] {U H B : Subgroup
   rw [hK] at hmem
   obtain ⟨h', hh', hconj⟩ := Subgroup.mem_map.1 hmem
   have h3 := congrArg Subtype.val hconj
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
     Subgroup.coe_mul, Subgroup.coe_inv, inv_inv] at h3
   have hh'H : (h' : G) ∈ H := Subgroup.mem_subgroupOf.1 hh'
   have e : (n : G) * T * h * ((n : G) * T)⁻¹ = h' := by

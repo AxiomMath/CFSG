@@ -50,7 +50,7 @@ theorem orthPlus_leviData_of_sum {Q : Type} [Group Q] {p : ℕ} (hp : p.Prime) (
     (hb₁ : ∀ j (g : Q), β₁ j g ^ p = 1 → β₁ j g ≠ 1 → OrthPlusBlockData p (S₁ j))
     (hb₂ : ∀ j (g : Q), β₂ j g ^ p = 1 → β₂ j g ≠ 1 → OrthPlusBlockData p (S₂ j)) :
     OrthPlusLeviData Q p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : ∀ j, Subgroup (plusSumGroup G₁ G₂ j) := fun j => match j with
     | .inl a => S₁ a
     | .inr b => S₂ b
@@ -115,7 +115,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem orthPlus_gl_block_data {k p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K - 1)
     {x : GL (Fin k) K} (hx : x ^ p = 1) (hx1 : x ≠ 1) : OrthPlusBlockData p (slRange K k) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card (GL (Fin k) K) := by
     rw [← orderOf_eq_prime hx hx1]
     exact orderOf_dvd_natCard x
@@ -129,7 +129,7 @@ theorem orthPlus_gl_block_data {k p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpK : 
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h'))
   have hprod : p ∣ ∏ j ∈ Finset.Icc 1 k, (Nat.card K ^ j - 1) :=
     ((Nat.Prime.dvd_mul hp).1 hdvd).resolve_left hpq
-  obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 hprod
+  obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 hprod
   rw [Finset.mem_Icc] at hj
   have hj2 : 2 ≤ j := by
     by_contra h
@@ -166,7 +166,7 @@ theorem orthPlus_mem_orthElementaryGroup_of_pow_eq_one {m : ℕ} (hm : 3 ≤ m) 
     (hp2 : p ≠ 2) {x : (Fin m ⊕ Fin m → K) ≃ₗ[K] (Fin m ⊕ Fin m → K)}
     (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus m K)) (hx : x ^ p = 1) :
     x ∈ orthElementaryGroup (quadPlus m K) := by
-  haveI := finite_plusAut (K := K) m
+  have := finite_plusAut (K := K) m
   have hcard := card_orthogonalGroup_quadPlus (K := K) hm
   have hEcard : Nat.card ((orthElementaryGroup (quadPlus m K)).subgroupOf
       (TauCeti.QuadraticMap.orthogonalGroup (quadPlus m K))) =
@@ -205,7 +205,7 @@ theorem orthPlus_res_block_data {m p : ℕ} (hm : 3 ≤ m) (hp : p.Prime) (h5 : 
     {x : (Fin m ⊕ Fin m → K) ≃ₗ[K] (Fin m ⊕ Fin m → K)}
     (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus m K)) (hx : x ^ p = 1)
     (hx1 : x ≠ 1) : OrthPlusBlockData p (orthElementaryGroup (quadPlus m K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxE : x ∈ orthElementaryGroup (quadPlus m K) :=
     orthPlus_mem_orthElementaryGroup_of_pow_eq_one hm hp (by omega) hxO hx
   have hord : orderOf (⟨x, hxE⟩ : ↥(orthElementaryGroup (quadPlus m K))) = p :=

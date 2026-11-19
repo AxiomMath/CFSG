@@ -100,7 +100,7 @@ theorem ff6m_layerModel_of_surj {S F : Type} [Group S] [Group F] (φ : S →* F)
     (hφ : Function.Surjective φ) {tg : CFSG.Open.StatedLieTag} {n k : ℕ} (E₀ : Subgroup S)
     [E₀.Normal] (hE₀ : LieModel ↥E₀ tg n 3 k) (h2 : IsPGroup 2 (S ⧸ E₀))
     (hinj : ∀ g ∈ E₀, φ g = 1 → g = 1) : LayerModel F tg n k := by
-  haveI hE : (E₀.map φ).Normal := Subgroup.Normal.map ‹_› φ hφ
+  have hE : (E₀.map φ).Normal := Subgroup.Normal.map ‹_› φ hφ
   have hinj' : Function.Injective (φ.comp E₀.subtype) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -129,7 +129,7 @@ theorem ff6m_mem_twoRes_of_simple {G : Type} [Group G] [Finite G] (C : Subgroup 
     (hw : w ∈ E.map C.subtype) (hw2 : w * w = 1) : w ∈ twoRes C := by
   let e : ↥E ≃* ↥(E.map C.subtype) :=
     Subgroup.equivMapOfInjective E C.subtype C.subtype_injective
-  haveI : IsSimpleGroup ↥(E.map C.subtype) := (MulEquiv.isSimpleGroup_congr e).mp hs
+  have : IsSimpleGroup ↥(E.map C.subtype) := (MulEquiv.isSimpleGroup_congr e).mp hs
   have hnc' : ∃ a b : ↥(E.map C.subtype), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨e a, e b, fun h => hab (e.injective (by rw [map_mul, map_mul]; exact h))⟩

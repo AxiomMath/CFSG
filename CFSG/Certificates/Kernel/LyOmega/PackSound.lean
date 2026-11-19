@@ -143,7 +143,7 @@ theorem sTr_sound {X : ℕ} (hX : LCanon 11 7 7 X) :
     intro i hi j hj
     have e1 : 77 * i + 11 * j = 11 * (7 * ((7 * j + i) % 7) + (7 * j + i) / 7) := by omega
     rw [sTr_eq, e1, packR_lane hf hπ (by omega), sEnt_eq]
-    congr 3 <;> omega
+    congr 3; omega
   refine ⟨⟨?_, fun i hi j hj => ?_⟩, ?_⟩
   · rw [sTr_eq, show 11 * 7 * 7 = 11 * 49 by norm_num]
     exact packR_lt (π := fun t => 7 * (t % 7) + t / 7) hf (fun t ht => by omega)
@@ -176,7 +176,7 @@ theorem toBig_sound {X : ℕ} (hX : LCanon 11 7 7 X) :
     intro i hi j hj
     have e1 : 1332 * i + 12 * j = 12 * (111 * ((7 * i + j) / 7) + (7 * i + j) % 7) := by omega
     rw [toBig_eq, e1, packR_lane hf hπ (by omega), sEnt_eq]
-    congr 3 <;> omega
+    congr 3; omega
   have hout : ∀ i < 111, ∀ j < 111, ¬ (i < 7 ∧ j < 7) →
       toBig X / 2 ^ (1332 * i + 12 * j) % 2 ^ 12 = 0 := by
     intro i hi j hj hn
@@ -198,9 +198,9 @@ theorem toBig_sound {X : ℕ} (hX : LCanon 11 7 7 X) :
   · funext i j
     simp only [bigM, ent, padM]
     by_cases h : i.val < 7 ∧ j.val < 7
-    · rw [dif_pos h, hin i.val h.1 j.val h.2]
+    · rw [dite_eq_left h, hin i.val h.1 j.val h.2]
       rfl
-    · rw [dif_neg h, hout i.val i.2 j.val j.2 h]
+    · rw [dite_eq_right h, hout i.val i.2 j.val j.2 h]
       rfl
 
 end CFSG.KS.LyOm.Pack

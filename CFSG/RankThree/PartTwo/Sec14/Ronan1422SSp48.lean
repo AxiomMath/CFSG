@@ -32,6 +32,7 @@ theorem card_sup_mul_card_inf1422 {X : Type*} [Group X] [Finite X] (H N : Subgro
   rw [h2, h1]
   ring
 
+omit [Finite G] in
 theorem card_img148_of_injOn1422 {A Y : Subgroup G} [(ker148 A Y).Normal] {X : Subgroup G}
     (hX : X ≤ Y ⊔ A)
     (hinj : ∀ x ∈ X, ∀ y ∈ X, ∀ (hx : x ∈ Y ⊔ A) (hy : y ∈ Y ⊔ A),
@@ -104,7 +105,7 @@ theorem card_sup_Sp48 (h : Cfg A c L R S J)
     Nat.card (img148 A (Subgroup.normalizer (S : Set G)) J ⊔
       img148 A (Subgroup.normalizer (S : Set G)) A : Subgroup _) =
       3 * Nat.card (img148 A (Subgroup.normalizer (S : Set G)) J) := by
-  haveI := h.normal_J
+  have := h.normal_J
   have hA : IsE27 A := h.pt.std.isE27
   have h1 := card_sup_mul_card_inf1422 (img148 A (Subgroup.normalizer (S : Set G)) A)
     (img148 A (Subgroup.normalizer (S : Set G)) J)
@@ -121,7 +122,7 @@ theorem centralizer_eq_bot_Sp48 (h : Cfg A c L R S J)
       ⊓ Subgroup.centralizer (img148 A (Subgroup.normalizer (S : Set G)) J :
         Set (↥(Subgroup.normalizer (S : Set G) ⊔ A) ⧸
           ker148 A (Subgroup.normalizer (S : Set G)))) = ⊥ := by
-  haveI := h.normal_J
+  have := h.normal_J
   set J' := img148 A (Subgroup.normalizer (S : Set G)) J with hJ'
   set A' := img148 A (Subgroup.normalizer (S : Set G)) A with hA'
   set Z := (J' ⊔ A') ⊓ Subgroup.centralizer (J' : Set (↥(Subgroup.normalizer (S : Set G) ⊔ A) ⧸
@@ -184,7 +185,7 @@ theorem exists_sylow_Sp48 (hKF : KF1422Sp48) (h : Cfg A c L R S J)
           y ∉ img148 A (Subgroup.normalizer (S : Set G)) J →
           ∃ p ∈ P ⊓ img148 A (Subgroup.normalizer (S : Set G)) J,
             Subgroup.zpowers (p * x * p⁻¹) = Subgroup.zpowers y := by
-  haveI := h.normal_J
+  have := h.normal_J
   set J' := img148 A (Subgroup.normalizer (S : Set G)) J with hJ'
   set A' := img148 A (Subgroup.normalizer (S : Set G)) A with hA'
   set C := J' ⊔ A' with hC
@@ -228,7 +229,7 @@ theorem exists_sylow_Sp48 (hKF : KF1422Sp48) (h : Cfg A c L R S J)
   have hP243 : Nat.card (P₀ : Subgroup ↥C) = 243 := by
     have hidx := (P₀ : Subgroup ↥C).index_mul_card
     have hnd := P₀.not_dvd_index
-    obtain ⟨k, hk⟩ := P₀.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P₀.isPGroup.exists_card_eq
     rw [hcardC, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJC).toEquiv, Nat.card_congr ψ.toEquiv,
       CFSG.PGLModel.card_projSp_two_eight, hk] at hidx
     have hk20 : k < 21 := by
@@ -241,8 +242,8 @@ theorem exists_sylow_Sp48 (hKF : KF1422Sp48) (h : Cfg A c L R S J)
     rw [hk]
     interval_cases k <;> omega
   obtain ⟨hPab, hPΩ, hPtr⟩ := hKF.2.1 ↥C J₀ hJ₀n hJ₀ψ hcent hcardC E hEe.1 hEe.2 hEJ P₀
-    P₀.isPGroup' hEP₀ hP243
-  refine ⟨(P₀ : Subgroup ↥C).map C.subtype, ?_, P₀.isPGroup'.map _, ?_, Subgroup.map_subtype_le _,
+    P₀.isPGroup hEP₀ hP243
+  refine ⟨(P₀ : Subgroup ↥C).map C.subtype, ?_, P₀.isPGroup.map _, ?_, Subgroup.map_subtype_le _,
     ?_, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hAC hx⟩, hEP₀ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
@@ -272,7 +273,7 @@ theorem card_P_inf_J_Sp48 (h : Cfg A c L R S J)
     (hP'C : P' ≤ img148 A (Subgroup.normalizer (S : Set G)) J ⊔
       img148 A (Subgroup.normalizer (S : Set G)) A) :
     Nat.card (P' ⊓ img148 A (Subgroup.normalizer (S : Set G)) J : Subgroup _) = 81 := by
-  haveI := h.normal_J
+  have := h.normal_J
   set J' := img148 A (Subgroup.normalizer (S : Set G)) J with hJ'
   set A' := img148 A (Subgroup.normalizer (S : Set G)) A with hA'
   have h1 := card_sup_mul_card_inf1422 P' J'
@@ -313,7 +314,7 @@ theorem exists_fusion_data_Sp48 (hKF : KF1422Sp48) (h : Cfg A c L R S J)
       (∀ x ∈ P, x ^ 3 = 1 → x ∈ A) ∧
       ∀ x ∈ A, x ∉ A ⊓ L → ∀ y ∈ A, y ∉ A ⊓ L →
         ∃ p ∈ N, Subgroup.zpowers (p * x * p⁻¹) = Subgroup.zpowers y := by
-  haveI := h.normal_J
+  have := h.normal_J
   set J' := img148 A (Subgroup.normalizer (S : Set G)) J with hJ'
   set A' := img148 A (Subgroup.normalizer (S : Set G)) A with hA'
   set B' := img148 A (Subgroup.normalizer (S : Set G)) (A ⊓ L) with hB'
@@ -476,7 +477,7 @@ variable {A L R S J : Subgroup G} {c : G}
 theorem false_of_inverting_Sp48 (hKF : KF1422Sp48) (hA6 : KF1422AutA6) (h : Cfg A c L R S J)
     (ψ : ↥(img148 A (Subgroup.normalizer (S : Set G)) J) ≃* projSp 2 (GaloisField 2 3))
     {g : G} (hg : g * c * g⁻¹ = c⁻¹) : False := by
-  haveI := h.normal_J
+  have := h.normal_J
   set J' := img148 A (Subgroup.normalizer (S : Set G)) J with hJ'
   have hA : IsE27 A := h.pt.std.isE27
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hA.1.2

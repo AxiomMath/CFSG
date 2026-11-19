@@ -50,7 +50,7 @@ theorem not_lieModel_two_of_isA6 {X : Type} [Group X] (hX : catalogIs X S8.isA6)
 
 theorem lieSOutTypeW_a6 : LieSOutTypeW S8.isA6 2 1 360 where
   card_eq := typeOrd_isA6
-  det := fun {X} _ hX _ _ _ hm => (not_lieModel_two_of_isA6 hX hm).elim
+  det := fun {_X} _ hX _ _ _ hm => (not_lieModel_two_of_isA6 hX hm).elim
   ord := lieSOutOrdW_a6
   at360 := fun _ => ⟨rfl, rfl⟩
 

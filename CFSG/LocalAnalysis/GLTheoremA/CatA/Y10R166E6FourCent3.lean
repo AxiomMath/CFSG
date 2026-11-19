@@ -24,8 +24,8 @@ theorem exists_concl166S_adjointGroup_E6_four_of_concrete {F : Type} [Field F] [
       (J : Subgroup (adjointGroup Tag.E6 F)),
       Concl166S (adjointGroup Tag.E6 F) 5 q B' x' J := by
   have hK : Nat.card K = 4 := by rw [Nat.card_eq_fintype_card]; decide
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype F := Fintype.ofFinite F
   let eField : K ≃+* F := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hK.trans hF.symm)

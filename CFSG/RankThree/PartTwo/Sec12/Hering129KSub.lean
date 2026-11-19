@@ -34,9 +34,10 @@ end Hering129KSub
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem resCent_isSubnormal {K : Subgroup G} {b x : G} (hK : K ∈ thetaComponentsAt 3 b)
     {M : Subgroup G} (hMb : M ≤ Subgroup.centralizer ({b} : Set G))
-    (hMx : M ≤ Subgroup.centralizer ({x} : Set G)) (hXM : resCent K x ≤ M) :
+    (hMx : M ≤ Subgroup.centralizer ({x} : Set G)) (_hXM : resCent K x ≤ M) :
     ((resCent K x).subgroupOf M).IsSubnormal := by
   have hKs : (K.subgroupOf (Subgroup.centralizer ({b} : Set G))).IsSubnormal := by
     rw [thetaComponentsAt_eq_thetaComponentsIn] at hK

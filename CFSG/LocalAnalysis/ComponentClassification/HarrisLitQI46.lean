@@ -214,7 +214,7 @@ theorem harris46Quaternion_of_classical
       rwa [h2] at h1
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥J₀) := inferInstance
   set U : Subgroup ↥M := (T : Subgroup ↥J₀).map (Subgroup.inclusion hJ₀M) with hU
-  have hUp : IsPGroup 2 ↥U := T.isPGroup'.map _
+  have hUp : IsPGroup 2 ↥U := T.isPGroup.map _
   obtain ⟨eU⟩ := nonempty_mulEquiv_map_mk hUp
   have hUle : U.map π ≤ Nb := by
     rintro _ ⟨_, ⟨u, -, rfl⟩, rfl⟩

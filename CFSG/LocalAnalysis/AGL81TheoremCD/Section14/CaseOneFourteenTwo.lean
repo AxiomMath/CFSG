@@ -27,7 +27,7 @@ private theorem two_kComp_fac_le {M H E Q J : Subgroup G} (h : S14Choice G M H E
     (hT₁syl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ J) J)
     (hT₂syl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ J') J') :
     (Nat.card ↥(J ⊔ J')).factorization 3 ≤ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfacJ : (Nat.card ↥J).factorization 3 = 3 := by
     have h1 : 3 ^ (Nat.card ↥J).factorization 3 = 3 ^ 3 := by
       rw [← hT₁syl.card_eq, hcardT₁]
@@ -75,7 +75,7 @@ private theorem two_kComp_card_le {M H E Q J : Subgroup G} (h : S14Choice G M H 
     (hT₁syl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ J) J)
     (hT₂syl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ J') J') :
     Nat.card ↥Q ≤ 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQle_sup : Q ≤ J ⊔ J' := by
     have h1 : Q ≤ kSub 3 M H ⊔ E := h.sylow.le
     rw [hsup] at h1
@@ -180,6 +180,7 @@ private theorem two_kComp_commutator {Q T₁ T₂ Z : Subgroup G} (hQeq : Q = T�
     exact hZcentral z hz q (hQeq.symm ▸ hq)
   exact le_antisymm hQQ_le hZleQQ
 
+omit [Finite G] in
 private theorem two_kComp_center_le {Q T₁ T₂ Z : Subgroup G} (hQeq : Q = T₁ ⊔ T₂)
     (hAB : ⁅T₁, T₂⁆ = ⊥) (hinf : T₁ ⊓ T₂ = Z)
     (hZdef : Z = (Subgroup.center ↥T₁).map T₁.subtype)
@@ -239,6 +240,7 @@ private theorem two_kComp_center_le {Q T₁ T₂ Z : Subgroup G} (hQeq : Q = T�
     rwa [hzab] at hmem
   exact Subgroup.mem_subgroupOf.mpr (hinf ▸ Subgroup.mem_inf.mpr ⟨hzT₁, hzT₂⟩)
 
+omit [Finite G] in
 private theorem two_kComp_center_eq {Q T₁ T₂ Z : Subgroup G} (hQeq : Q = T₁ ⊔ T₂)
     (hinf : T₁ ⊓ T₂ = Z) (hcenter_le : Subgroup.center ↥Q ≤ Z.subgroupOf Q)
     (hZcentral : ∀ z ∈ Z, ∀ q ∈ Q, Commute z q) :
@@ -305,7 +307,7 @@ private theorem aux_two_kComp
     (ht' : IsSL34Star J' ∨ Is3A6Star J') :
     FourteenTwoConcl Q J ∧ (Q ⊓ J) ⊔ E = Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLN : ¬ pLayerIn 3 H ≤ M := hL 3 E H h.hypCGen
   have hSL : IsSL34Star J := h.isSL34Star_of_typeA hpre hU hA
   have hT₁syl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ J) J := h.isSylowOf_inf_J hpre hU

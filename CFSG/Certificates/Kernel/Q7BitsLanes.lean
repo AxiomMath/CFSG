@@ -139,12 +139,12 @@ private def orP : Option Nat → Bool → Nat → Option Nat
 
 private theorem orO_eq {β : Sort _} (a : Option Nat) (b : Bool) (q : Nat) (k : Option Nat → β) :
     orO a b q k = k (orP a b q) := by
-  cases a <;> cases b <;> simp only [orO, orP, cond_true, cond_false, force_eq]
+  cases a <;> cases b <;> simp only [orO, orP, Bool.cond_true, Bool.cond_false, force_eq]
 
 private theorem bt_orP (a : Option Nat) (b : Bool) (q L : Nat) :
     bt ((orP a b q).getD 0) L = (bt (a.getD 0) L || (b && bt q L)) := by
   cases a <;> cases b <;>
-    simp only [orP, cond_true, cond_false, Option.getD_some, Option.getD_none, bt_lor, bt_zero,
+    simp only [orP, Bool.cond_true, Bool.cond_false, Option.getD_some, Option.getD_none, bt_lor, bt_zero,
       Bool.false_or, Bool.true_and, Bool.false_and, Bool.or_false]
 
 private def selP (t : Nat → Nat) (j q0 q1 q2 q3 q4 q5 q6 q7 : Nat) : Nat :=
@@ -289,7 +289,7 @@ private def addP (a : Option P3) (l : List P3) (i : Nat) : Option P3 :=
 private theorem addO_eq {β : Sort _} (a : Option P3) (l : List P3) (i : Nat)
     (k : Option P3 → β) : addO a l i k = k (addP a l i) := by
   unfold addO addP
-  cases h : Nat.beq i 0 <;> cases a <;> simp only [cond_true, cond_false, laddK_eq]
+  cases h : Nat.beq i 0 <;> cases a <;> simp only [Bool.cond_true, Bool.cond_false, laddK_eq]
 
 private def lvo (o : Option P3) (L : Nat) : ZMod 7 := lv (o.getD z3) L
 
@@ -301,7 +301,7 @@ private theorem lvo_addP {a : Option P3} {l : List P3} {i L : Nat} (hl : Tok l L
     show lvo a L = lvo a L + ((0 : Nat) : ZMod 7) * lv (sel l 1) L
     rw [Nat.cast_zero, zero_mul, add_zero]
   | succ n =>
-    rw [show Nat.beq (n + 1) 0 = false from rfl, cond_false, ← hl (n + 1) hi]
+    rw [show Nat.beq (n + 1) 0 = false from rfl, Bool.cond_false, ← hl (n + 1) hi]
     cases a with
     | none => simp only [lvo, Option.getD_some, Option.getD_none, lv_z3, zero_add]
     | some a => simp only [lvo, Option.getD_some, lv_ladd]
@@ -521,8 +521,8 @@ private theorem bt_constB (v j n s L : Nat) :
     bt (constB v j n s) L = (v.testBit j && decide (L < n)) := by
   rw [constB, bt_xor_mix]
   cases v.testBit j
-  · rw [cond_false, bt_zero, Bool.false_and]
-  · rw [cond_true, Bool.true_and]
+  · rw [Bool.cond_false, bt_zero, Bool.false_and]
+  · rw [Bool.cond_true, Bool.true_and]
     unfold bt
     rw [Nat.testBit_shiftLeft, Nat.testBit_two_pow_sub_one,
       decide_eq_true (show L + 64 ≥ 64 by omega), Bool.true_and, Nat.add_sub_cancel]
@@ -530,11 +530,11 @@ private theorem bt_constB (v j n s L : Nat) :
 private theorem bits6_constP (a n s L : Nat) :
     bits6 (constP a n s) L = bif decide (L < n) then dg6 a else z6b := by
   simp only [bits6, constP, bt_constB, dg6, z6b]
-  cases decide (L < n) <;> simp only [Bool.and_false, Bool.and_true, cond_false, cond_true]
+  cases decide (L < n) <;> simp only [Bool.and_false, Bool.and_true, Bool.cond_false, Bool.cond_true]
 
 private theorem lv6_constP {a n s L : Nat} (ha : a < 49) (hL : L < n) :
     lv6 (constP a n s) L = gfDec a := by
-  rw [lv6_eq, bits6_constP, decide_eq_true hL, cond_true, val6_dg6 ha]
+  rw [lv6_eq, bits6_constP, decide_eq_true hL, Bool.cond_true, val6_dg6 ha]
 
 private theorem lz6_constP (a n s : Nat) : LZ6 (constP a n s) n := by
   refine ⟨fun L hL => ?_, fun L hL => ?_, fun L hL => ?_, fun L hL => ?_, fun L hL => ?_,
@@ -567,8 +567,8 @@ private theorem tabK_eq {β : Sort _} (f : Nat → Nat) (i n : Nat) (acc : P6) (
 private theorem bt_bif (b : Bool) (i L : Nat) :
     bt (bif b then 2 ^ (i + 64) else 0) L = (b && decide (i = L)) := by
   cases b
-  · rw [cond_false, bt_zero, Bool.false_and]
-  · rw [cond_true, bt_two_pow, Bool.true_and]
+  · rw [Bool.cond_false, bt_zero, Bool.false_and]
+  · rw [Bool.cond_true, bt_two_pow, Bool.true_and]
 
 private theorem bt_tab_gen (f : Nat → Nat) (pr : P6 → Nat) (dg : Nat → Bool) (L : Nat)
     (hstep : ∀ i acc, bt (pr (tabS f i acc)) L = (bt (pr acc) L || (dg i && decide (i = L)))) :
@@ -616,7 +616,7 @@ private theorem bits6_tab (f : Nat → Nat) (n L : Nat) :
     bits6 (tab f 0 n z6) L = bif decide (L < n) then dg6 (f L) else z6b := by
   obtain ⟨e0, e1, e2, e3, e4, e5⟩ := bt6_tab f n L
   rw [bits6, e0, e1, e2, e3, e4, e5]
-  cases decide (L < n) <;> simp only [Bool.and_false, Bool.and_true, cond_false, cond_true, dg6, z6b]
+  cases decide (L < n) <;> simp only [Bool.and_false, Bool.and_true, Bool.cond_false, Bool.cond_true, dg6, z6b]
 
 private theorem lz6_tab (f : Nat → Nat) (n : Nat) : LZ6 (tab f 0 n z6) n := by
   refine ⟨fun L hL => ?_, fun L hL => ?_, fun L hL => ?_, fun L hL => ?_, fun L hL => ?_,
@@ -630,7 +630,7 @@ private theorem lz6_tab (f : Nat → Nat) (n : Nat) : LZ6 (tab f 0 n z6) n := by
 
 private theorem lv6_tab {f : Nat → Nat} {n L : Nat} (hL : L < n) (hf : f L < 49) :
     lv6 (tab f 0 n z6) L = gfDec (f L) := by
-  rw [lv6_eq, bits6_tab, decide_eq_true hL, cond_true, val6_dg6 hf]
+  rw [lv6_eq, bits6_tab, decide_eq_true hL, Bool.cond_true, val6_dg6 hf]
 
 private theorem bt_rep {p w : Nat} (hp : LZp p w) (L : Nat) :
     ∀ n, bt (rep p w n) L = (decide (L < w * n) && bt p (L % w))
@@ -641,17 +641,17 @@ private theorem bt_rep {p w : Nat} (hp : LZp p w) (L : Nat) :
     by_cases h1 : L < w * n
     · rw [decide_eq_true h1, decide_eq_false (show ¬(w * n ≤ L) by omega),
         decide_eq_true (show L < w * n + w by omega)]
-      simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+      simp only [Bool.true_and, Bool.false_and, Bool.or_false]
     · by_cases h3 : L < w * n + w
       · have hmod : L % w = L - w * n := by
           have e : L = (L - w * n) + w * n := by omega
           conv_lhs => rw [e]
           rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt (show L - w * n < w by omega)]
         rw [decide_eq_false h1, decide_eq_true (show w * n ≤ L by omega), decide_eq_true h3, hmod]
-        simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+        simp only [Bool.true_and, Bool.false_and, Bool.false_or]
       · rw [decide_eq_false h1, decide_eq_true (show w * n ≤ L by omega), decide_eq_false h3,
           hp (L - w * n) (show w ≤ L - w * n by omega)]
-        simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+        simp only [Bool.false_and, Bool.and_false, Bool.or_false]
 
 private theorem lzp_rep {p w : Nat} (hp : LZp p w) (n : Nat) : LZp (rep p w n) (w * n) :=
   fun L hL => by rw [bt_rep hp L n, decide_eq_false (Nat.not_lt.2 hL), Bool.false_and]
@@ -672,14 +672,14 @@ private theorem bt_spread (p w L : Nat) :
         (bt p n && decide (w * n ≤ L ∧ L < w * n + w)) := by
       unfold bt
       cases p.testBit (n + 64)
-      · rw [cond_false, Nat.zero_testBit, Bool.false_and]
-      · rw [cond_true, Bool.true_and]
+      · rw [Bool.cond_false, Nat.zero_testBit, Bool.false_and]
+      · rw [Bool.cond_true, Bool.true_and]
         exact bt_ones w (w * n) L
     rw [hb]
     by_cases h1 : L < w * n
     · rw [decide_eq_true h1, decide_eq_false (show ¬(w * n ≤ L ∧ L < w * n + w) by omega),
         decide_eq_true (show L < w * n + w by omega)]
-      simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+      simp only [Bool.true_and, Bool.and_false, Bool.or_false]
     · by_cases h3 : L < w * n + w
       · have hw : 0 < w := by omega
         have e1 : n * w ≤ L := by rw [Nat.mul_comm]; omega
@@ -689,10 +689,10 @@ private theorem bt_spread (p w L : Nat) :
         have hdiv : L / w = n := by omega
         have hin : w * n ≤ L ∧ L < w * n + w := ⟨by omega, h3⟩
         rw [decide_eq_false h1, decide_eq_true hin, decide_eq_true h3, hdiv]
-        simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+        simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.false_or]
       · rw [decide_eq_false h1, decide_eq_false (show ¬(w * n ≤ L ∧ L < w * n + w) by omega),
           decide_eq_false h3]
-        simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+        simp only [Bool.false_and, Bool.and_false, Bool.or_false]
 
 private theorem lzp_spread (p w n : Nat) : LZp (spread p w n) (w * n) :=
   fun L hL => by rw [bt_spread p w L n, decide_eq_false (Nat.not_lt.2 hL), Bool.false_and]
@@ -723,7 +723,7 @@ private theorem lz6_mapP {g : Nat → Nat} {s w W : Nat} {x : P6} (hx : LZ6 x w)
 
 private theorem lv6_spread {w n s v : Nat} {x : P6} {L : Nat} (hx : LZ6 x v) (hL : L < w * n) :
     lv6 (mapP (fun p => spread p w n) s x) L = lv6 x (L / w) := by
-  rw [lv6_eq, bits6_mapP_of hx (fun p _ => bt_spread p w L n), decide_eq_true hL, cond_true]
+  rw [lv6_eq, bits6_mapP_of hx (fun p _ => bt_spread p w L n), decide_eq_true hL, Bool.cond_true]
   rfl
 
 private theorem lz6_spread {w n s v W : Nat} {x : P6} (hx : LZ6 x v) (hW : w * n ≤ W) :
@@ -732,7 +732,7 @@ private theorem lz6_spread {w n s v W : Nat} {x : P6} (hx : LZ6 x v) (hW : w * n
 
 private theorem lv6_rep {w n s : Nat} {x : P6} {L : Nat} (hx : LZ6 x w) (hL : L < w * n) :
     lv6 (mapP (fun p => rep p w n) s x) L = lv6 x (L % w) := by
-  rw [lv6_eq, bits6_mapP_of hx (fun p hp => bt_rep hp L n), decide_eq_true hL, cond_true]
+  rw [lv6_eq, bits6_mapP_of hx (fun p hp => bt_rep hp L n), decide_eq_true hL, Bool.cond_true]
   rfl
 
 private theorem lz6_rep {w n s W : Nat} {x : P6} (hx : LZ6 x w) (hW : w * n ≤ W) :
@@ -748,7 +748,7 @@ private theorem lv6_rs {s v : Nat} {x : P6} {L : Nat} (hx : LZ6 x v) (hL : L < 1
     lv6 (mapP (fun p => rep (spread p 49 49) 2401 49) s x) L = lv6 x (L % 2401 / 49) := by
   rw [lv6_eq, bits6_mapP_of hx (fun p _ => bt_rs p L),
     decide_eq_true (show L < 2401 * 49 by omega),
-    decide_eq_true (show L % 2401 < 49 * 49 by omega), Bool.true_and, cond_true]
+    decide_eq_true (show L % 2401 < 49 * 49 by omega), Bool.true_and, Bool.cond_true]
   rfl
 
 private theorem lz6_rs {s v : Nat} {x : P6} (hx : LZ6 x v) :
@@ -764,18 +764,18 @@ private theorem bt_join1 {a b c : Nat} (d : Nat) (ha : LZp a 117649) (hb : LZp b
   split_ifs with h1 h2 h3
   · rw [decide_eq_false (show ¬(117649 ≤ L) by omega), decide_eq_false (show ¬(120050 ≤ L) by omega),
       decide_eq_false (show ¬(120099 ≤ L) by omega)]
-    simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+    simp only [Bool.false_and, Bool.or_false]
   · rw [ha L (show 117649 ≤ L by omega), decide_eq_true (show 117649 ≤ L by omega),
       decide_eq_false (show ¬(120050 ≤ L) by omega), decide_eq_false (show ¬(120099 ≤ L) by omega)]
-    simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+    simp only [Bool.true_and, Bool.false_and, Bool.or_false, Bool.false_or]
   · rw [ha L (show 117649 ≤ L by omega), hb (L - 117649) (show 2401 ≤ L - 117649 by omega),
       decide_eq_true (show 117649 ≤ L by omega), decide_eq_true (show 120050 ≤ L by omega),
       decide_eq_false (show ¬(120099 ≤ L) by omega)]
-    simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+    simp only [Bool.true_and, Bool.false_and, Bool.and_false, Bool.or_false, Bool.false_or]
   · rw [ha L (show 117649 ≤ L by omega), hb (L - 117649) (show 2401 ≤ L - 117649 by omega),
       hc (L - 120050) (show 49 ≤ L - 120050 by omega), decide_eq_true (show 117649 ≤ L by omega),
       decide_eq_true (show 120050 ≤ L by omega), decide_eq_true (show 120099 ≤ L by omega)]
-    simp only [Bool.true_and, Bool.false_and, Bool.and_true, Bool.and_false, Bool.or_false, Bool.false_or]
+    simp only [Bool.true_and, Bool.and_false, Bool.or_false, Bool.false_or]
 
 private theorem lv6_joinP {a b c d : P6} (ha : LZ6 a 117649) (hb : LZ6 b 2401) (hc : LZ6 c 49)
     (L : Nat) : lv6 (joinP a b c d) L = if L < 117649 then lv6 a L else if L < 120050 then
@@ -836,8 +836,8 @@ private theorem lz6_ladd6 {a b : P6} {w : Nat} (ha : LZ6 a w) (hb : LZ6 b w) :
     fun L hL => (bt_ladd_zero (a3 L hL) (a4 L hL) (a5 L hL) (b3 L hL) (b4 L hL) (b5 L hL)).2.1,
     fun L hL => (bt_ladd_zero (a3 L hL) (a4 L hL) (a5 L hL) (b3 L hL) (b4 L hL) (b5 L hL)).2.2⟩
 
-private theorem lv6_U1 {L : Nat} (hL : L < NL) : lv6 U1 L = gfDec (laneArgs L).1 := by
-  unfold NL at hL
+private theorem lv6_U1 {L : Nat} (_hL : L < NL) : lv6 U1 L = gfDec (laneArgs L).1 := by
+  unfold NL at _hL
   rw [U1, lv6_joinP (lz6_constP 1 117649 0) (lz6_z6 _) (lz6_z6 _)]
   unfold laneArgs
   split_ifs with h1 h2 h3
@@ -1161,9 +1161,9 @@ private theorem stepL_inv {c : N7} (hc : Lt49 c) {r : N7} {k S : Nat} (hS : Inv 
   | L :: Ls, a, S', ha, h => by
     rw [stepL_cons] at h
     cases hb : (S.testBit (L + 64) && decide (L < NL))
-    · rw [hb, cond_false] at h
+    · rw [hb, Bool.cond_false] at h
       exact absurd h (by simp)
-    · rw [hb, cond_true] at h
+    · rw [hb, Bool.cond_true] at h
       rw [Bool.and_eq_true, decide_eq_true_eq] at hb
       obtain ⟨hSL, hL⟩ := hb
       refine stepL_inv hc hS Ls _ S' ?_ h

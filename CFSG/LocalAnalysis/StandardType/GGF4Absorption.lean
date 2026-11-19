@@ -339,7 +339,7 @@ private noncomputable def ggF4_join_chosen
       (Nat.card ↥(ggAutomizer K' Bs) = 24 ∨ Nat.card ↥(ggAutomizer K' Bs) = 48) := by
     intro K' hK'
     dsimp only [t]
-    rw [dif_pos hK']
+    rw [dite_eq_left hK']
     exact Classical.choose_spec (hex K' hK')
   exact ⟨y', hN', hfixN, t,
     fun K' hK' => (ht K' hK').1, fun K' hK' => (ht K' hK').2.1,

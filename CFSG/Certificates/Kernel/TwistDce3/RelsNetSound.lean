@@ -66,7 +66,7 @@ theorem wPlN_sound (hN : NetFacts PB F INVM NS K NL NP) {P : ℕ} : ∀ n s X,
     have e0 : wPlN INVM NS K P (n + 1) s X = wPlN INVM NS K P n (s / 16)
         (CFSG.KC.MonsterConv.Perm.netApply K (2 ^ K) (CFSG.KC.MonsterConv.Perm.repU (2 ^ K) P)
           (NS (ivL INVM (s % 16))) X) := by
-      simp only [wPlN, Nat.rec_add_one, sN_eq]
+      simp only [wPlN, sN_eq]
       rw [land15, shr4, shlK]
     have hy := psiL_lt hN _ hl' r hr
     rw [e0, wPlN_sound hN n (s / 16)

@@ -13,11 +13,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem imgTil_mono' {V₀ V A B : Subgroup G} (hV : IsElemAbelian 2 V) (h : A ≤ B) :
     imgTil V₀ V hV A ≤ imgTil V₀ V hV B := by
   unfold imgTil
   exact Subgroup.map_mono fun x hx => h hx
 
+omit [Finite G] in
 private theorem imgTil_sup_V₀' {V₀ V N : Subgroup G} (hV : IsElemAbelian 2 V) (hN : N ≤ V)
     (hV₀ : V₀ ≤ V) : imgTil V₀ V hV (N ⊔ V₀) = imgTil V₀ V hV N := by
   have h1 : intSub V hV (N ⊔ V₀) = intSub V hV N ⊔ intSub V hV V₀ :=
@@ -31,7 +33,7 @@ private theorem imgTil_sup_V₀' {V₀ V N : Subgroup G} (hV : IsElemAbelian 2 V
 
 theorem commutator_le_of_pairing {V W N₁ N₂ D : Subgroup G} {y : G}
     (hVab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hWab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
-    (hN₁ : N₁ ≤ V) (hN₂ : N₂ ≤ W) (hD : D ≤ V ⊓ W) (hVW : ⁅V, W⁆ ≤ V ⊓ W)
+    (_hN₁ : N₁ ≤ V) (hN₂ : N₂ ≤ W) (hD : D ≤ V ⊓ W) (hVW : ⁅V, W⁆ ≤ V ⊓ W)
     (hN₁W : ⁅N₁, W⁆ ≤ D) (hVN₂ : ⁅V, N₂⁆ ≤ D)
     (hyV : y ∈ normalizer (V : Set G)) (hyW : y ∈ normalizer (W : Set G))
     (hyN₁ : y ∈ normalizer (N₁ : Set G))
@@ -61,7 +63,7 @@ theorem commutator_le_of_pairing {V W N₁ N₂ D : Subgroup G} {y : G}
   have hδ_apply : ∀ a : ↥V, (δ a : G) = ⁅(a : G), y⁆ := fun a => rfl
   let N : Subgroup ↥V := N₁.subgroupOf V
   have hNmem : ∀ a : ↥V, a ∈ N ↔ (a : G) ∈ N₁ := fun a => Subgroup.mem_subgroupOf ..
-  haveI : IsMulCommutative ↥V :=
+  have : IsMulCommutative ↥V :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (hVab a.1 a.2 b.1 b.2)
   let φ : ↥V →* (↥V ⧸ N) := (QuotientGroup.mk' N).comp δ
   have hφ_apply : ∀ a : ↥V, φ a = QuotientGroup.mk' N (δ a) := fun a => rfl
@@ -262,7 +264,7 @@ theorem not_comm_le_sup_of_pGroup (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fif
       (c.cex.hyp.h6.le.trans (Subgroup.commutator_eq_bot_iff_le_centralizer.1 hcomm1))
   have hnorm : V₀ ≤ Subgroup.normalizer (conjSubgroup V₀ h : Set G) :=
     ((Subgroup.le_centralizer_iff).1 hcommB).trans (Subgroup.centralizer_le_normalizer _)
-  obtain ⟨w, hwW, hwnotC⟩ := SetLike.not_le_iff_exists.1 hWnotC
+  obtain ⟨w, hwW, hwnotC⟩ := IsConcreteLE.not_le_iff_exists.1 hWnotC
   have hwM : w ∈ M := hWleM hwW
   have hwst : w ∈ stabTil V₀ V := le_stabTil hMnormV hMnormV₀ hwM
   have hzpw : Subgroup.zpowers w ≤ conjSubgroup V h := Subgroup.zpowers_le.2 hwW

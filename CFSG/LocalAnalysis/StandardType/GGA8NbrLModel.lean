@@ -100,7 +100,7 @@ private theorem a8lmdiagSL_conj (d : Fin 4 → a8lmFˣ) (hd : ∏ i, d i = 1)
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, a8lm_coe_diagSL,
     coe_ggDiagConj, TypeA.coe_inv_SL_of_diagonal (a8lm_coe_diagSL d hd)]
-  simp only [Pi.inv_apply, Units.val_inv_eq_inv_val]
+  simp only [Units.val_inv_eq_inv_val]
 
 private theorem a8lmdiagSL_inv (d : Fin 4 → a8lmFˣ) (hd : ∏ i, d i = 1)
     (hd' : ∏ i, d⁻¹ i = 1) :
@@ -235,7 +235,7 @@ private theorem a8lmdiagVec_prod (χ : ZMod 7 → a8lmFˣ)
         (f := fun i => v i) (g := fun _ => a8lmM v)
     have hconst : (∑ i : Fin 4, a8lmM v) = (4 : ℕ) • a8lmM v := by
       have h := Finset.sum_const (s := (Finset.univ : Finset (Fin 4))) (b := a8lmM v)
-      simpa using h
+      simp
     rw [hsplit, hconst]
     simp only [a8lmM, nsmul_eq_mul]
     ring_nf
@@ -353,8 +353,8 @@ private theorem a8lmdiagSL_one :
   rw [a8lm_coe_diagSL, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   by_cases hij : i = j
-  · subst hij; simp [Matrix.diagonal_apply_eq, Matrix.one_apply]
-  · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply, hij]
+  · subst hij; simp [Matrix.diagonal_apply_eq]
+  · simp [hij]
 
 private theorem a8lmModelFun_zero {G : Type} [Group G] {Bs : Subgroup G}
     (φ : SpecialLinearGroup (Fin (3 + 1)) a8lmF →* G)
@@ -456,7 +456,7 @@ private theorem a8lmModelFun_surjective {G : Type} [Group G] {Bs L : Subgroup G}
   let v : Fin 4 → ZMod 7 := fun i => a i + m
   have hMv : a8lmM v = m := by
     simp only [a8lmM, v, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
-      Fintype.card_fin, nsmul_eq_mul, hsum, mul_zero, zero_add]
+      Fintype.card_fin, nsmul_eq_mul, hsum, zero_add]
     ring_nf
     rw [show (8 : ZMod 7) = 1 by decide, mul_one]
   have hdv : a8lmdiagVec χ v = d := by
@@ -580,7 +580,7 @@ theorem ggA8Nbr_lModel [Fact (Nat.Prime 7)] {G : Type} [Group G]
           ι (Additive.ofMul (ψ b)) = vecMul (ι (Additive.ofMul b)) (a8PermMat σ)) ∧
         (∀ σ : Equiv.Perm (Fin 4), σ 0 = 0 → ∃ ψ ∈ ggAutomizer J Bs, ∀ b : ↥Bs,
           ι (Additive.ofMul (ψ b)) = vecMul (ι (Additive.ofMul b)) (a8PermMat σ)) := by
-  haveI : IsCyclic a8lmFˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic a8lmFˣ := instIsCyclicUnitsOfFinite
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := a8lmFˣ)
   let χ : ZMod 7 → a8lmFˣ := a8lmchi g hg
   have hχadd : ∀ a b, χ (a + b) = χ a * χ b := a8lmchi_add g hg

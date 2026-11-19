@@ -37,10 +37,10 @@ private theorem pointSp_card_le_isometry {m : ℕ} {K : Type} [Field K] [Finite 
       (CFSG.ClassicalGroups.Symplectic.spForm m K) u, ∀ y ∈ Q, x * y * x⁻¹ ∈ Q)
     (hQsq : ∀ y ∈ Q, y * y = 1) :
     Nat.card Q ≤ Nat.card K ^ (2 * m - 1) := by
-  haveI : Finite (Module.End K (Fin m ⊕ Fin m → K)) :=
+  have : Finite (Module.End K (Fin m ⊕ Fin m → K)) :=
     Finite.of_injective _
       (DFunLike.coe_injective (F := (Fin m ⊕ Fin m → K) →ₗ[K] (Fin m ⊕ Fin m → K)))
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin m ⊕ Fin m → K)) :=
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin m ⊕ Fin m → K)) :=
     Finite.of_injective _ Units.val_injective
   have hQp : IsPGroup 2 Q := by
     intro y

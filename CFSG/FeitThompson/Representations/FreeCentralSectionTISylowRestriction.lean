@@ -213,11 +213,11 @@ theorem natCard_P_eq_factorization [Finite G] :
     intro x hx
     rw [← Subgroup.subgroupOf_normalizer_eq hPR, Subgroup.mem_subgroupOf] at hx
     rw [h.normalizer_eq] at hx
-    exact Subgroup.mem_subgroupOf.2 (h.mem_P_of_isPGroup R.isPGroup' x.2 hx)
+    exact Subgroup.mem_subgroupOf.2 (h.mem_P_of_isPGroup R.isPGroup x.2 hx)
   have htop : P.subgroupOf (R : Subgroup G) = ⊤ := by
     by_contra hne
     have hlt : P.subgroupOf (R : Subgroup G) < ⊤ := lt_of_le_of_ne le_top hne
-    have _ : Group.IsNilpotent (R : Subgroup G) := R.isPGroup'.isNilpotent
+    have _ : Group.IsNilpotent (R : Subgroup G) := R.isPGroup.isNilpotent
     exact absurd (Group.normalizerCondition_of_isNilpotent _ hlt) (not_lt_of_ge hnorm)
   rw [le_antisymm hPR (Subgroup.subgroupOf_eq_top.1 htop)]
   exact R.card_eq_multiplicity

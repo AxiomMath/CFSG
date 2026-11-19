@@ -69,7 +69,7 @@ theorem eq_one_of_centralizes_component (hP : CFSG.Assembly.IsElemAbelian 3 P)
     {c : Y} (hc : c ∈ P) (hcJ : ∀ j ∈ J, thetaAct hPW ⟨c, hc⟩ j = j) : c = 1 := by
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := theta_characteristic ↥W
+  have := theta_characteristic ↥W
   set Ws := ↥W ⧸ aschbacherSolvableCore 3 ↥W
   set mk := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥W) with hmk
   set Qs := (Q.subgroupOf W).map mk with hQs

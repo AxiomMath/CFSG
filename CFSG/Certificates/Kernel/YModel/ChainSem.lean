@@ -114,7 +114,7 @@ theorem testBit_fixedSet {k N : Nat} (hv : StagesValid k N) (p : Nat) :
         exact Bool.false_ne_true h
       · intro hne
         by_contra hall
-        push_neg at hall
+        push Not at hall
         apply hne
         apply eq_of_bits hpi hp
         intro b hb
@@ -327,12 +327,12 @@ theorem rep_letterA {k n J : Nat} {T : Nat → Nat} {S Sinv : Array (Array Nat)}
   unfold letterA cperm TextSem.decI
   rw [Nat.testBit_zero, hx2]
   by_cases hodd : x % 2 = 1
-  · rw [if_pos hodd, decide_eq_true hodd, if_pos rfl,
-      if_neg (by omega : ¬ (0 : Int) < -((x / 2 : Nat) : Int))]
+  · rw [ite_eq_left hodd, decide_eq_true hodd, ite_eq_left rfl,
+      ite_eq_right (by omega : ¬ (0 : Int) < -((x / 2 : Nat) : Int))]
     have e : (-(-((x / 2 : Nat) : Int))).toNat - 1 = x / 2 - 1 := by rw [neg_neg, Int.toNat_natCast]
     rw [e, (hS _ hj).2]
     exact rep_invCand (hS _ hj).1
-  · rw [if_neg hodd, decide_eq_false hodd, if_pos (by omega : (0 : Int) < ((x / 2 : Nat) : Int))]
+  · rw [ite_eq_right hodd, decide_eq_false hodd, ite_eq_left (by omega : (0 : Int) < ((x / 2 : Nat) : Int))]
     have e : (((x / 2 : Nat) : Int)).toNat - 1 = x / 2 - 1 := by rw [Int.toNat_natCast]
     rw [e]
     exact (hS _ hj).1

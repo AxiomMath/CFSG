@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open Matrix Subgroup Module
 
 private lemma r920kl3a_one_le_card {K : Type} [Field K] [Finite K] : 1 ≤ Nat.card K := by
-  haveI : Nonempty K := ⟨0⟩
+  have : Nonempty K := ⟨0⟩
   have := Nat.card_pos (α := K)
   omega
 
@@ -24,7 +24,7 @@ private lemma r920kl3a_seven_dvd_pow_three_sub_one {K : Type} [Field K] [Finite 
     (hK : Nat.card K = 2 ^ f) : 7 ∣ Nat.card K ^ 3 - 1 := by
   have h23 : (2 : ZMod 7) ^ 3 = 1 := by decide
   rw [← r920kl3a_zmod7_eq_one_iff (m := Nat.card K ^ 3)
-    (Nat.one_le_pow 3 _ (by haveI : Nonempty K := ⟨0⟩; exact Nat.card_pos)), Nat.cast_pow]
+    (Nat.one_le_pow 3 _ (by have : Nonempty K := ⟨0⟩; exact Nat.card_pos)), Nat.cast_pow]
   have hcast : ((Nat.card K : ZMod 7)) = (2 : ZMod 7) ^ f := by
     rw [hK]; push_cast; rfl
   rw [hcast]
@@ -78,7 +78,7 @@ private lemma r920kl3a_eigenvalue_eq_one {K : Type} [Field K] [Finite K]
     {M : Matrix (Fin 3) (Fin 3) K} (hM7 : M ^ 7 = 1)
     {v : Fin 3 → K} (hv : v ≠ 0) {μ : K} (hMv : M *ᵥ v = μ • v) : μ = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpow : ∀ k : ℕ, (M ^ k) *ᵥ v = μ ^ k • v := by
     intro k
     induction k with
@@ -128,13 +128,13 @@ theorem sl3_irreducible_of_not_seven_dvd {K : Type} [Field K] [Finite K] {f : �
   · exact Or.inl hZbot
   right
   by_contra hZtop
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hBpg : IsPGroup 7 B := IsPGroup.of_card (n := 1) (by rw [hB7, pow_one])
   have h3u : ((Nat.card K : ZMod 7)) ^ 3 = 1 := by
     have h := r920kl3a_seven_dvd_pow_three_sub_one hK
     have h' : (((Nat.card K ^ 3 : ℕ)) : ZMod 7) = 1 :=
       (r920kl3a_zmod7_eq_one_iff (m := Nat.card K ^ 3)
-        (Nat.one_le_pow 3 _ (by haveI : Nonempty K := ⟨0⟩; exact Nat.card_pos))).mpr h
+        (Nat.one_le_pow 3 _ (by have : Nonempty K := ⟨0⟩; exact Nat.card_pos))).mpr h
     simpa [Nat.cast_pow] using h'
   have h1u : ((Nat.card K : ZMod 7)) ≠ 1 := fun h =>
     h7 ((r920kl3a_zmod7_eq_one_iff (m := Nat.card K) (r920kl3a_one_le_card)).mp h)
@@ -264,7 +264,7 @@ private lemma r920kl3a_zeta_ne {K : Type} [Field K] {ζ : Kˣ}
 
 theorem sl3_irreducible_of_seven_dvd {K : Type} [Field K] [Finite K] {f : ℕ}
     (hK : Nat.card K = 2 ^ f) (h7 : 7 ∣ Nat.card K - 1)
-    {W B : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K)} (hBW : B ≤ W) (hB7 : Nat.card B = 7)
+    {W B : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K)} (_hBW : B ≤ W) (hB7 : Nat.card B = 7)
     (hN : ∀ P : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K), IsPGroup 7 ↥P → B ≤ P →
       normalizer (P : Set (Matrix.SpecialLinearGroup (Fin 3) K)) ≤ W)
     (Z : Submodule K (Fin 3 → K))
@@ -273,9 +273,9 @@ theorem sl3_irreducible_of_seven_dvd {K : Type} [Field K] [Finite K] {f : ℕ}
   by_cases hZbot : Z = ⊥
   · exact Or.inl hZbot
   right
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.N143.charP_two_of_card hK
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CFSG.RankThree.PartOne.N143.charP_two_of_card hK
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.N143.exists_isZeta (p := 7)
     (by norm_num) (by norm_num) h7
   have hB7pow : ∀ b ∈ B, b ^ 7 = 1 := by
@@ -390,12 +390,12 @@ theorem sl3_irreducible_of_seven_dvd {K : Type} [Field K] [Finite K] {f : ℕ}
     rw [show gM = (g : Matrix (Fin 3) (Fin 3) K) from rfl]
     have h := congrArg (fun u : (Matrix (Fin 3) (Fin 3) K)ˣ =>
       (u : Matrix (Fin 3) (Fin 3) K)) (inv_mul_cancel g)
-    simpa [Units.val_mul] using h
+    simp
   have hgg' : gM * (g⁻¹ : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [show gM = (g : Matrix (Fin 3) (Fin 3) K) from rfl]
     have h := congrArg (fun u : (Matrix (Fin 3) (Fin 3) K)ˣ =>
       (u : Matrix (Fin 3) (Fin 3) K)) (mul_inv_cancel g)
-    simpa [Units.val_mul] using h
+    simp
   have hβd : ((α.symm d : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       (g⁻¹ : Matrix (Fin 3) (Fin 3) K) * (d : Matrix (Fin 3) (Fin 3) K) * gM := by
     change ((α.symm d : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
@@ -439,7 +439,7 @@ theorem sl3_irreducible_of_seven_dvd {K : Type} [Field K] [Finite K] {f : ℕ}
       simp only [CFSG.RankThree.PartTwo.Sec21.Item224KFactsProof.SL3Mat.cycMat,
         Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
         Option.mem_some_iff] <;>
-      (first | rfl | exact one_ne_zero)
+      (first | rfl)
   have hinvD : ∀ w ∈ Z', Matrix.diagonal (fun i => (v i : K)) *ᵥ w ∈ Z' := by
     intro w hw
     obtain ⟨z, hz, rfl⟩ := Submodule.mem_map.mp hw

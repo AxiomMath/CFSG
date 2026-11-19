@@ -221,7 +221,7 @@ theorem kFact1019_of_involutionAt
   have hdih : ¬ IsDihedralTypeIndex d.1 := fun h => hcon (Or.inl h)
   have hree : ¬ IsReeIndex d.1 := fun h => hcon (Or.inr (Or.inl h))
   have hrk : ¬ IsRankTwoOddIndex d.1 := fun h => hcon (Or.inr (Or.inr h))
-  haveI : Fact d.1.characteristic.Prime := ⟨hpr⟩
+  have : Fact d.1.characteristic.Prime := ⟨hpr⟩
   rcases cover_families d hchar hdih hree hrk with h | h | h | h | h | h | h | h | h | h | h | h
   · exact false_of_involution hU (involution_in_subgroup hA h e hpr hchar)
   · exact false_of_involution hU (involution_in_subgroup hTA h e hpr hchar)

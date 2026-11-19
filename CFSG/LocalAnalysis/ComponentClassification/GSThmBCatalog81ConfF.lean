@@ -46,7 +46,7 @@ theorem exists_q3Conf (c : Cat8.QConf K₀ (3 ^ 1))
   rw [hC] at hQS
   have hQ2 : IsPGroup 2 c.Q := by
     obtain ⟨T, hT⟩ := hQS
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe (c.Q_le.trans inf_le_right))
   obtain ⟨R, hR⟩ := (isPGroup_sup hQ2 c.g_norm c.g_sq).exists_le_sylow

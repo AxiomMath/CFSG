@@ -29,7 +29,7 @@ theorem normalizer_P_le_normalizer_A :
 
 theorem isSylowOf_top (hNA : Subgroup.normalizer (F.A : Set G) ≤ D.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 F.P ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hT : CFSG.ABGLocalTools.IsSylowOf 3 F.P (D.M ⊓ ⊤) := by simpa using F.sylow
   have hN : Subgroup.normalizer (F.P : Set G) ⊓ ⊤ ≤ D.M :=
     (inf_le_left.trans (normalizer_P_le_normalizer_A F)).trans hNA
@@ -38,11 +38,11 @@ theorem isSylowOf_top (hNA : Subgroup.normalizer (F.A : Set G) ≤ D.M) :
 theorem exists_mem_normalizer_le_map_conj (hNA : Subgroup.normalizer (F.A : Set G) ≤ D.M)
     {Q : Subgroup G} (hQ : IsPGroup 3 Q) (hAQ : F.A ≤ Q) :
     ∃ g ∈ Subgroup.normalizer (F.A : Set G), Q ≤ F.P.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨S, hQS⟩ := hQ.exists_le_sylow
   have hStop : CFSG.ABGLocalTools.IsSylowOf 3 (S : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by simpa only [Subgroup.relIndex_top_right] using S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by simpa only [Subgroup.relIndex_top_right] using S.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := (isSylowOf_top F hNA).exists_mem_conj hStop
   have hAle : F.A.map (MulAut.conj k⁻¹).toMonoidHom ≤ F.P := by
     intro x hx
@@ -122,7 +122,7 @@ theorem three_le_pRank_five (F : A10Frame c) : 3 ≤ CFSG.Open.pRank 5 D.M :=
 theorem normalizer_le_of_isPGroup_five (F : A10Frame c) {R : Subgroup G}
     (hR : IsPGroup 5 R) (hR1 : R ≠ ⊥) (hRM : R ≤ D.M) :
     Subgroup.normalizer (R : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact CFSG.RankThree.PartOne.IsStronglyPEmbedded.normalizer_le
     (c.isStronglyPEmbedded_of_mem_sigma (by rw [F.sig]; simp)) hR1 hR hRM
 

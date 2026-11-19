@@ -24,7 +24,7 @@ lemma hdRo7SmKeysAux_countP_finRange {m : ℕ} (p : Fin m → Bool) :
   have h1 : ((List.finRange m).filter p).toFinset =
       Finset.univ.filter (fun i => p i = true) := by
     ext x
-    simp [List.mem_toFinset, Finset.mem_filter]
+    simp [Finset.mem_filter]
   have h2 : ((List.finRange m).filter p).Nodup :=
     List.Nodup.filter p (List.nodup_finRange m)
   rw [← h1, List.toFinset_card_of_nodup h2]
@@ -77,13 +77,13 @@ lemma hdRo7SmKeysAux_filter_trans_one {m : ℕ} (i j : Fin m) (hij : i ≠ j) :
     rw [hdRo7SmKeysAux_trans_apply i j hij x] at hx
     by_cases hxi : x = i
     · exact hxi
-    · rw [if_neg hxi] at hx
+    · rw [ite_eq_right hxi] at hx
       by_cases hxj : x = j
-      · rw [if_pos hxj] at hx; exact absurd hx (by decide)
-      · rw [if_neg hxj] at hx; exact absurd hx (by decide)
+      · rw [ite_eq_left hxj] at hx; exact absurd hx (by decide)
+      · rw [ite_eq_right hxj] at hx; exact absurd hx (by decide)
   · intro hx
     rw [hx]
-    rw [hdRo7SmKeysAux_trans_apply i j hij i, if_pos rfl]
+    rw [hdRo7SmKeysAux_trans_apply i j hij i, ite_eq_left rfl]
 
 lemma hdRo7SmKeysAux_filter_trans_two {m : ℕ} (i j : Fin m) (hij : i ≠ j) :
     Finset.univ.filter (fun x : Fin m => hdRo7SmKeysAux_trans m i j x = 2) = {j} := by
@@ -93,14 +93,14 @@ lemma hdRo7SmKeysAux_filter_trans_two {m : ℕ} (i j : Fin m) (hij : i ≠ j) :
   · intro hx
     rw [hdRo7SmKeysAux_trans_apply i j hij x] at hx
     by_cases hxi : x = i
-    · rw [if_pos hxi] at hx; exact absurd hx (by decide)
-    · rw [if_neg hxi] at hx
+    · rw [ite_eq_left hxi] at hx; exact absurd hx (by decide)
+    · rw [ite_eq_right hxi] at hx
       by_cases hxj : x = j
       · exact hxj
-      · rw [if_neg hxj] at hx; exact absurd hx (by decide)
+      · rw [ite_eq_right hxj] at hx; exact absurd hx (by decide)
   · intro hx
     rw [hx]
-    rw [hdRo7SmKeysAux_trans_apply i j hij j, if_neg (Ne.symm hij), if_pos rfl]
+    rw [hdRo7SmKeysAux_trans_apply i j hij j, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
     decide
 
 lemma hdRo7SmKeysAux_countOne_trans {m : ℕ} (i j : Fin m) (hij : i ≠ j) :

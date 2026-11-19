@@ -131,6 +131,7 @@ private theorem center_quot_pPrimeCore_eq_bot_congr {A B : Type*} [Group A] [Gro
   rw [← Subgroup.map_center_eq (QuotientGroup.congr _ _ e (pPrimeCore_map_iso 2 e)), h,
     Subgroup.map_bot]
 
+omit [Finite X] in
 private theorem iSup_subgroupOf_eq {H : Subgroup X} (S : Finset (Subgroup X))
     (hle : ∀ L ∈ S, L ≤ H) : ⨆ L ∈ S, L.subgroupOf H = (⨆ L ∈ S, L).subgroupOf H := by
   apply Subgroup.map_injective H.subtype_injective
@@ -179,7 +180,7 @@ private theorem exists_finset_sec6MComp (n : ℕ) (H : Subgroup X) :
     ?_⟩
   unfold Sec6M
   rw [sSup_eq_iSup]
-  simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+  simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
 
 theorem modOddCard_Sec6M_eq_prod_of_centerFree (hcf : McLLyCenterFree) {n : ℕ}
     (H : Subgroup X) :
@@ -190,6 +191,7 @@ theorem modOddCard_Sec6M_eq_prod_of_centerFree (hcf : McLLyCenterFree) {n : ℕ}
   rw [hM]
   exact modOddCard_iSup_of_sec6MComp_of_centerFree hcf S fun L hL => (hS L).1 hL
 
+omit [Finite X] in
 theorem modOddCard_eq_of_sec6MComp {n : ℕ} {H L : Subgroup X} {Q : Type} [Group Q]
     (hQ : IsSec6MType n Q) (hL : Sec6MComp X n H L) : modOddCard L = Nat.card Q := by
   unfold modOddCard

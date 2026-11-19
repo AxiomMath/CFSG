@@ -15,13 +15,13 @@ open CFSG CFSG.Assembly
   ∀ r : R, (∀ a ∈ A, a r = r) → IsPGroup 3 (Subgroup.zpowers r) → MulAut.conj r ∈ A
 
 @[expose] def toralAt {G : Type} [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (hS : GGQTwoSetting p B Bs x L D J)
+    (L D J : Subgroup G) (_hS : GGQTwoSetting p B Bs x L D J)
     (R : Type) [Group R] (θ : L ⧸ Subgroup.center L ≃* R)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) : Prop :=
   actionThree (ggBeta L θ hN).range
 
 @[expose] def internalAt {G : Type} [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (hS : GGQTwoSetting p B Bs x L D J)
+    (L D J : Subgroup G) (_hS : GGQTwoSetting p B Bs x L D J)
     (R : Type) [Group R] (θ : L ⧸ Subgroup.center L ≃* R)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) : Prop :=
   ∃ U : Subgroup L,

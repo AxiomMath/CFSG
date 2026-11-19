@@ -64,7 +64,7 @@ private theorem sec5b_tM_subset (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r B A
   have hk : k = 1 ∨ k = 2 ∨ k = 5 ∨ k = 6 := by omega
   rcases hk with rfl | rfl | rfl | rfl <;> (simp only [Set.mem_union]; tauto)
 
-private theorem sec5b_tM_block (hR : Sec5RCtx G t L S z r B A)
+private theorem sec5b_tM_block (_hR : Sec5RCtx G t L S z r B A)
     (hm : Sec5Model58 t L z r A φ) (k : ℕ) :
     wclass φ k ⊆ conjClassIn (normalizer (A : Set G)) t ∨
       conjClassIn (normalizer (A : Set G)) t ∩ wclass φ k = ∅ := by
@@ -167,22 +167,22 @@ theorem sec5b_tM_cases (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r B A)
   have hc6 : Nat.choose 6 6 = 1 := by decide
   have hS1 : (T ∩ wclass φ 1).ncard = if wclass φ 1 ⊆ T then 6 else 0 := by
     by_cases h : wclass φ 1 ⊆ T
-    · rw [if_pos h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 1, hc1]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 1, hc1]
+    · rw [ite_eq_right h]
       rcases hblock 1 with hh | hh
       · exact absurd hh h
       · rw [hh, Set.ncard_empty]
   have hS2 : (T ∩ wclass φ 2).ncard = if wclass φ 2 ⊆ T then 15 else 0 := by
     by_cases h : wclass φ 2 ⊆ T
-    · rw [if_pos h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 2, hc2]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 2, hc2]
+    · rw [ite_eq_right h]
       rcases hblock 2 with hh | hh
       · exact absurd hh h
       · rw [hh, Set.ncard_empty]
   have hS5 : (T ∩ wclass φ 5).ncard = if wclass φ 5 ⊆ T then 6 else 0 := by
     by_cases h : wclass φ 5 ⊆ T
-    · rw [if_pos h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 5, hc5]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, Set.inter_eq_right.mpr h, hm.perm.ncard_wclass 5, hc5]
+    · rw [ite_eq_right h]
       rcases hblock 5 with hh | hh
       · exact absurd hh h
       · rw [hh, Set.ncard_empty]
@@ -201,23 +201,23 @@ theorem sec5b_tM_cases (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r B A)
           · exact h5
         · exact hW6
       · right; right; right
-        rw [hncard, hS1, hS2, hS5, hS6, if_pos h1, if_pos h2, if_neg h5]
+        rw [hncard, hS1, hS2, hS5, hS6, ite_eq_left h1, ite_eq_left h2, ite_eq_right h5]
     · by_cases h5 : wclass φ 5 ⊆ T
       · right; right; left
-        rw [hncard, hS1, hS2, hS5, hS6, if_pos h1, if_neg h2, if_pos h5]
+        rw [hncard, hS1, hS2, hS5, hS6, ite_eq_left h1, ite_eq_right h2, ite_eq_left h5]
       · right; left
-        rw [hncard, hS1, hS2, hS5, hS6, if_pos h1, if_neg h2, if_neg h5]
+        rw [hncard, hS1, hS2, hS5, hS6, ite_eq_left h1, ite_eq_right h2, ite_eq_right h5]
   · by_cases h2 : wclass φ 2 ⊆ T
     · by_cases h5 : wclass φ 5 ⊆ T
       · right; right; right
-        rw [hncard, hS1, hS2, hS5, hS6, if_neg h1, if_pos h2, if_pos h5]
+        rw [hncard, hS1, hS2, hS5, hS6, ite_eq_right h1, ite_eq_left h2, ite_eq_left h5]
       · exfalso
         rcases hac with h | h
         · exact h1 h
         · exact h5 h
     · by_cases h5 : wclass φ 5 ⊆ T
       · right; left
-        rw [hncard, hS1, hS2, hS5, hS6, if_neg h1, if_neg h2, if_pos h5]
+        rw [hncard, hS1, hS2, hS5, hS6, ite_eq_right h1, ite_eq_right h2, ite_eq_left h5]
       · exfalso
         rcases hac with h | h
         · exact h1 h

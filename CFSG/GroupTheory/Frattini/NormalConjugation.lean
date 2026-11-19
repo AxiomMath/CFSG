@@ -93,6 +93,7 @@ section Centralizer
 
 variable {Γ : Type*} [Group Γ] [Finite Γ] {q : ℕ} [Fact q.Prime]
 
+omit [Finite Γ] in
 theorem mem_centralizer_of_mem_centralizer_map_subtype (hq2 : q ≠ 2) {Q : Subgroup Γ} [Q.Normal]
     {D : Subgroup ↥Q} (hD : IsPGroup q (fixingSubgroup (MulAut ↥Q) (D : Set ↥Q))) {t : Γ}
     (ht : IsPGroup 2 (Subgroup.zpowers t))
@@ -133,11 +134,11 @@ theorem exists_critical_map_subtype (hq2 : q ≠ 2) {Q : Subgroup Γ} [Q.Normal]
       ⁅⁅D.map Q.subtype, D.map Q.subtype⁆, D.map Q.subtype⁆ = ⊥ ∧
       IsPGroup q (fixingSubgroup (MulAut ↥Q) (D : Set ↥Q)) := by
   classical
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQ1
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQ1
   obtain ⟨D, hDchar, hDne, hDcomm, hDexp, hDfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := q) hq2 hQ
   refine ⟨D, ?_, ?_, ?_, ?_, ?_, hDfix⟩
-  · haveI : D.Characteristic := hDchar
+  · have : D.Characteristic := hDchar
     exact ConjAct.normal_of_characteristic_of_normal
   · exact (hQ.to_subgroup D).map Q.subtype
   · intro hbot

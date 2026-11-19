@@ -69,8 +69,8 @@ theorem kBlockType_of_comp (hP4 : AsB15Part4) (hComp : B69.AsB69ComponentK)
         (Subgroup.inclusion_injective hKP)
     have hKbs : Group.IsSolvable ↥(autI hV K) :=
       Group.isSolvable_of_surjective (toAutI_surjective hV K hKN)
-    haveI : Nontrivial ↥(autI hV K) := CFSG.LocalCores.isQuasisimple_nontrivial hqb
-    haveI : Group.IsPerfect ↥(autI hV K) := hqb.1
+    have : Nontrivial ↥(autI hV K) := CFSG.LocalCores.isQuasisimple_nontrivial hqb
+    have : Group.IsPerfect ↥(autI hV K) := hqb.1
     exact Group.IsPerfect.not_isSolvable (autI hV K) hKbs
   have hnsS := GE23.not_isSolvable_star hV hmp hred hHV hns
   have hKGS : CFSG.SectionRank.IsKGroupCat ↥(autI hV P) :=

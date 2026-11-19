@@ -21,7 +21,7 @@ theorem Cseq_ne_zero {ε : ℕ → L} (hε : ∀ j, ε j ≠ 0) (q : ℕ) : ∀ 
   | 0 => one_ne_zero
   | j + 1 => mul_ne_zero (hε j) (pow_ne_zero _ (Cseq_ne_zero hε q j))
 
-theorem separable_C_mul_X_pow_sub_X {c : L} (hc : c ≠ 0) {n : ℕ} (hn : (n : L) = 0) :
+theorem separable_C_mul_X_pow_sub_X {c : L} (_hc : c ≠ 0) {n : ℕ} (hn : (n : L) = 0) :
     (C c * X ^ n - X : L[X]).Separable := by
   rw [Polynomial.separable_def]
   have hd : derivative (C c * X ^ n - X : L[X]) = -1 := by
@@ -91,16 +91,16 @@ theorem descent_core {V : Type*} [AddCommGroup V] [Module L V] (W : Submodule L 
     have h0 := hfW' _ hmem
     rw [map_sum] at h0
     simp only [map_smul, smul_eq_mul] at h0
-    simp only [hP, eval_finset_sum, eval_mul, eval_C, eval_pow, eval_X]
+    simp only [hP, eval_finsetSum, eval_mul, eval_C, eval_pow, eval_X]
     rw [← h0]
     refine Finset.sum_congr rfl fun j _ => ?_
     ring
   have hcoef : P.coeff (q ^ j₀) = Cseq ε q j₀ * f (v j₀) := by
-    simp only [hP, finset_sum_coeff, coeff_C_mul_X_pow]
+    simp only [hP, finsetSum_coeff, coeff_C_mul_X_pow]
     rw [Finset.sum_eq_single j₀]
     · simp
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hj (Nat.pow_right_injective hq h).symm
     · intro h
       exact absurd (Finset.mem_range.2 hj₀) h

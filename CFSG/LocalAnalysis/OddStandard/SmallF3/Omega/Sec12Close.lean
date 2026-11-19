@@ -21,14 +21,14 @@ private lemma oTwoRes_top_normal {G : Type} [Group G] :
         exact (MulAut.conj g).orderOf_eq y
       rw [hconj]
       exact hy.2
-  | one => simpa using Subgroup.one_mem (Subgroup.closure _)
+  | one => simp
   | mul y z _ _ ihy ihz => simpa only [conj_mul] using Subgroup.mul_mem _ ihy ihz
   | inv y _ ihy => simpa only [conj_inv] using Subgroup.inv_mem _ ihy
 
 theorem oTwoRes_top_eq_top {G : Type} [Group G] [Finite G] (hs : IsSimpleGroup G)
     (hna : ∃ a b : G, a * b ≠ b * a) : oTwoRes (⊤ : Subgroup G) = ⊤ := by
-  haveI : Nontrivial G := hs.toNontrivial
-  haveI hnorm : (oTwoRes (⊤ : Subgroup G)).Normal := oTwoRes_top_normal
+  have : Nontrivial G := hs.toNontrivial
+  have hnorm : (oTwoRes (⊤ : Subgroup G)).Normal := oTwoRes_top_normal
   rcases hs.eq_bot_or_eq_top_of_normal (oTwoRes (⊤ : Subgroup G)) with hM | hM
   · exfalso
     have hodd : ∀ x : G, Odd (orderOf x) → x = 1 := by

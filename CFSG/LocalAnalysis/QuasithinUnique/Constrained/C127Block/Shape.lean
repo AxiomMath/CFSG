@@ -74,12 +74,12 @@ theorem two_le_of_altShapeK {V : Type} [CommGroup V] {M A L : Subgroup (MulAut V
     rw [← hLeq] at hmap
     exact hmap
   have hnt : Nontrivial ↥L := by
-    haveI := hq.2
+    have := hq.2
     obtain ⟨x, y, hxy⟩ := Nontrivial.exists_pair_ne (α := ↥L ⧸ Subgroup.center ↥L)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
     exact ⟨a, b, fun h => hxy (by rw [h])⟩
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
   exact Group.IsPerfect.not_isSolvable ↥L hsolv
 
 end C127Block

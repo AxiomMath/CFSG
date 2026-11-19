@@ -45,8 +45,8 @@ end Std
 
 instance instFiniteOrthDerivedT173X {F V : Type} [Field F] [Finite F] [AddCommGroup V] [Module F V]
     [FiniteDimensional F V] (Q : QuadraticForm F V) : Finite ↥(CFSG.RankThree.Classical2.orthDerived Q) := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) DFunLike.coe_injective
   infer_instance
 

@@ -17,7 +17,7 @@ private theorem exists_noncomm_of_simple_of_four_dvd {G : Type} [Group G] [Finit
     [IsSimpleGroup G] (h : 2 ^ 2 ∣ Nat.card G) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   have hprime : (Nat.card G).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   have hpd : 2 ∣ Nat.card G := (dvd_pow_self 2 (by norm_num)).trans h
   rcases (Nat.dvd_prime hprime).1 hpd with h1 | h1
@@ -40,8 +40,8 @@ private theorem simple_centerless_of_lieModel {Y : Type} [Group Y] {t : StatedLi
   obtain ⟨hfin, -, hsimp⟩ :=
     CFSG.LieType.Simplicity.fam_classical_converse Y
       ⟨t, n, p, f, GH74.statedClassicalModel_of_lieModel hn h⟩
-  haveI : Finite Y := hfin
-  haveI : IsSimpleGroup Y := hsimp
+  have : Finite Y := hfin
+  have : IsSimpleGroup Y := hsimp
   refine ⟨hsimp, ?_⟩
   exact center_eq_bot_of_simple'
     (exists_noncomm_of_simple_of_four_dvd (by simpa using h4))
@@ -122,13 +122,13 @@ theorem l34g_simple_of_simpleFStar {Y : Type} [Group Y] [Finite Y] (h : SimpleFS
 theorem l34g_pGroup_normal_bot {Y : Type} [Group Y] [Finite Y] (h : SimpleFStarQuotient Y)
     {p : ℕ} [Fact p.Prime] {N : Subgroup Y} [N.Normal] (hN : IsPGroup p ↥N) : N = ⊥ := by
   obtain ⟨hsimp, hcent⟩ := l34g_simple_of_simpleFStar h
-  haveI : IsSimpleGroup Y := hsimp
+  have : IsSimpleGroup Y := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · exact hbot
   · exfalso
     have hNtop : IsPGroup p (⊤ : Subgroup Y) := htop ▸ hN
     have hYp : IsPGroup p Y := hNtop.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial Y := hsimp.toNontrivial
+    have : Nontrivial Y := hsimp.toNontrivial
     have hlt : (⊥ : Subgroup Y) < center Y := hYp.bot_lt_center
     rw [hcent] at hlt
     exact (lt_irrefl (⊥ : Subgroup Y)) hlt
@@ -136,8 +136,8 @@ theorem l34g_pGroup_normal_bot {Y : Type} [Group Y] [Finite Y] (h : SimpleFStarQ
 theorem l34g_closure_odd_eq_top {Y : Type} [Group Y] [Finite Y] (h : SimpleFStarQuotient Y) :
     Subgroup.closure {y : Y | Odd (orderOf y)} = ⊤ := by
   obtain ⟨hsimp, hcent⟩ := l34g_simple_of_simpleFStar h
-  haveI : IsSimpleGroup Y := hsimp
-  haveI : Nontrivial Y := hsimp.toNontrivial
+  have : IsSimpleGroup Y := hsimp
+  have : Nontrivial Y := hsimp.toNontrivial
   have hMnorm : (Subgroup.closure {y : Y | Odd (orderOf y)}).Normal := by
     rw [Subgroup.normal_iff_map_conj_eq]
     intro g
@@ -155,7 +155,7 @@ theorem l34g_closure_odd_eq_top {Y : Type} [Group Y] [Finite Y] (h : SimpleFStar
         rw [MulEquiv.orderOf_eq]
         exact hy
       · exact MulEquiv.apply_symm_apply (MulAut.conj g) y
-  haveI : (Subgroup.closure {y : Y | Odd (orderOf y)}).Normal := hMnorm
+  have : (Subgroup.closure {y : Y | Odd (orderOf y)}).Normal := hMnorm
   have hMne : Subgroup.closure {y : Y | Odd (orderOf y)} ≠ ⊥ := by
     have hnot2 : ¬ IsPGroup 2 Y := by
       intro h2
@@ -170,7 +170,7 @@ theorem l34g_closure_odd_eq_top {Y : Type} [Group Y] [Finite Y] (h : SimpleFStar
         (fun {d} hd hdvd => hcon d hd hdvd)
       exact hnot2 (IsPGroup.of_card hpow)
     obtain ⟨q, hqprime, hqdvd, hqne2⟩ := hoddprime
-    haveI : Fact q.Prime := ⟨hqprime⟩
+    have : Fact q.Prime := ⟨hqprime⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' q hqdvd
     have hyodd : Odd (orderOf y) := by
       rw [hy]

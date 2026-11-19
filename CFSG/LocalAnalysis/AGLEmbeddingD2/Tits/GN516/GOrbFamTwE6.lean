@@ -290,7 +290,7 @@ theorem exists_ne_of_card_twE6 (hq : 2 ≤ q) (hk : Nat.card k = q ^ 2)
     (hθq : ∀ c, θ c = c ^ q) : ∃ c : k, θ c ≠ c := by
   by_contra! h
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hdeg : (Polynomial.X ^ q - Polynomial.X : Polynomial k).natDegree = q := by
     have h1 : (Polynomial.X : Polynomial k).natDegree <
         (Polynomial.X ^ q : Polynomial k).natDegree := by
@@ -396,7 +396,7 @@ theorem edgeCond_twE6 (hq : 2 ≤ q) (hk : Nat.card k = q ^ 2) (hθq : ∀ c, θ
       (weylAction (twistedDatum k θ).isFiniteType) (twistedDatum k θ).roots
       (twistedDatum k θ).rootGroup n H)
     (hext : SteinbergExtras (twistedDatum k θ) n H)
-    (hrank : 3 ≤ (twistedDatum k θ).rank) (u v : Fin (twistedDatum k θ).rank)
+    (_hrank : 3 ≤ (twistedDatum k θ).rank) (u v : Fin (twistedDatum k θ).rank)
     (hadj : (TauCeti.diagramGraph (twistedDatum k θ).cartan).Adj u v) :
     Core.EdgeCond (twistedDatum k θ) H u v := by
   have hθ := involutive_of_card_twE6 hk hθq

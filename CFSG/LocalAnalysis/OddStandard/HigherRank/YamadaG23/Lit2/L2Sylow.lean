@@ -33,7 +33,7 @@ theorem l2_not_sylow_of_extra {S : Type} [Group S] [Finite S] {A : Subgroup S} {
       rw [← hnc, mul_assoc, mul_inv_cancel, mul_one]
     rw [heq]
     exact hn
-  haveI : (A.subgroupOf C).Normal := hnorm
+  have : (A.subgroupOf C).Normal := hnorm
   have hq1 : (g' : ↥C ⧸ A.subgroupOf C) ≠ 1 := by
     intro h
     exact hgA (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff g').mp h))

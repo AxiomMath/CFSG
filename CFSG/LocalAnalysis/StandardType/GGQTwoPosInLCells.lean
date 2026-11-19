@@ -37,8 +37,8 @@ open CFSG CFSG.Assembly Module
           ggLin (p := p) N.model φ (N.coroot i) = c • μ i • w (N.coroot (π i))
 
 abbrev GGQ2PosSel : Type 1 :=
-  ∀ (G : Type) [Group G] [Finite G] (p : ℕ) [Fact p.Prime] (Bs : Subgroup G) (y : G)
-    (J K : Subgroup G), Prop
+  ∀ (G : Type) [Group G] [Finite G] (p : ℕ) [Fact p.Prime] (_Bs : Subgroup G) (_y : G)
+    (_J _K : Subgroup G), Prop
 
 @[expose] def GGQ2SelE6 : GGQ2PosSel := fun _ _ _ p _ Bs _ _ K =>
   ∃ N : GGQ2NbrDatum p Bs K, N.IsE6 ∧ N.Pos

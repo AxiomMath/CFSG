@@ -66,7 +66,7 @@ theorem hasNoncommPair_five_Gmat :
     have := hc 3 8 (by decide)
     rw [c38] at this
     simpa [MonsterFiveCensus.prodAsc, List.range_succ] using this
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hz3 : g 8 ^ 3 ≠ 1 := by
     intro h
     have hord : orderOf (g 8) = 5 := orderOf_eq_prime p8 hz1

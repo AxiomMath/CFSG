@@ -204,11 +204,11 @@ private theorem rckK1Ilnsf4_isConj_short_of_mem
   exact hmid.trans hsc
 
 theorem rckK1I_longNotShort_F4
-    {n f : ℕ} (hadm : StatedLieAdmissible .F4 n 2 f)
+    {n f : ℕ} (_hadm : StatedLieAdmissible .F4 n 2 f)
     {β γ : Fin (ggU .F4 n f).D.rank → ℤ} (hβ : β ∈ (ggU .F4 n f).D.roots)
     (hlong : GGLongRoot (ggU .F4 n f).D β)
     (hγ : γ ∈ (ggU .F4 n f).D.roots) (hshort : ¬ GGLongRoot (ggU .F4 n f).D γ)
-    (h2γ : 2 • γ ∉ (ggU .F4 n f).D.roots) (u : (ggU .F4 n f).K) :
+    (_h2γ : 2 • γ ∉ (ggU .F4 n f).D.roots) (u : (ggU .F4 n f).K) :
     (ggU .F4 n f).D.rootGroup β ⊓
       ((ggU .F4 n f).D.rootGroup γ).map (MulAut.conj u).toMonoidHom = ⊥ := by
   change (f4Datum (GaloisField 2 f)).rootGroup β ⊓
@@ -240,7 +240,6 @@ theorem rckK1I_longNotShort_F4
     rckK1Ilnsf4_isConj_short_of_mem hγroot hshort hy hy1
   have hyx : rckK1Ilnsf4_conj y x := by
     refine ⟨u, ?_⟩
-    change u * y * u⁻¹ = x
     rw [← MulAut.conj_apply]
     exact hyeq
   have hfull : rckK1Ilnsf4_conj

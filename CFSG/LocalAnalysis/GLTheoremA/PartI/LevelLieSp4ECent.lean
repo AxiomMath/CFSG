@@ -28,18 +28,20 @@ theorem sel_plane_pos (a : Ix) : sel (plane a) (pos a) = a := by
 @[expose] def blk (g : Matrix Ix Ix K) (k : Fin 2) : Matrix (Fin 2) (Fin 2) K :=
   Matrix.of fun i j => g (sel k i) (sel k j)
 
+omit [CharP K 2] in
 theorem planeMat_blk (g : Matrix Ix Ix K) (h : ∀ a b, plane a ≠ plane b → g a b = 0) :
     planeMat (fun k => blk g k) = g := by
   ext a b
   by_cases hab : plane a = plane b
-  · simp only [planeMat, hab, if_true, blk, Matrix.of_apply, pos_sel]
+  · simp only [planeMat, hab, ite_true, blk, Matrix.of_apply]
     have h1 : sel (plane b) (pos a) = a := by
       rw [← hab]; exact sel_plane_pos a
     have h2 : sel (plane b) (pos b) = b := sel_plane_pos b
     rw [h1, h2]
-  · simp only [planeMat, Matrix.of_apply, hab, if_false]
+  · simp only [planeMat, Matrix.of_apply, hab, ite_false]
     exact (h a b hab).symm
 
+omit [CharP K 2] in
 theorem planeMat_inj {X Y : Fin 2 → Matrix (Fin 2) (Fin 2) K} (h : planeMat X = planeMat Y) :
     X = Y := by
   funext k
@@ -47,12 +49,14 @@ theorem planeMat_inj {X Y : Fin 2 → Matrix (Fin 2) (Fin 2) K} (h : planeMat X 
   have := congrFun (congrFun h (sel k i)) (sel k j)
   simpa [planeMat, plane_sel, pos_sel] using this
 
+omit [CharP K 2] in
 theorem planeMat_mul (X Y : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     planeMat X * planeMat Y = planeMat fun k => X k * Y k := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [planeMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, plane, pos]
 
+omit [CharP K 2] in
 theorem planeMat_add (X Y : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     planeMat X + planeMat Y = planeMat fun k => X k + Y k := by
   ext a b
@@ -60,13 +64,15 @@ theorem planeMat_add (X Y : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
   simp only [Matrix.add_apply, Matrix.of_apply]
   split_ifs <;> simp
 
+omit [CharP K 2] in
 theorem planeMat_transpose (X : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     (planeMat X)ᵀ = planeMat fun k => (X k)ᵀ := by
   ext a b
   by_cases h : plane a = plane b
-  · simp only [planeMat, Matrix.transpose_apply, Matrix.of_apply, if_pos h.symm, if_pos h, h]
+  · simp only [planeMat, Matrix.transpose_apply, Matrix.of_apply, h]
   · simp [planeMat, Matrix.transpose_apply, Matrix.of_apply, h, Ne.symm h]
 
+omit [CharP K 2] in
 theorem planeMat_one : (1 : Matrix Ix Ix K) = planeMat fun _ => 1 := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
@@ -74,12 +80,14 @@ theorem planeMat_one : (1 : Matrix Ix Ix K) = planeMat fun _ => 1 := by
 
 @[expose] def J2 (K : Type) [Field K] : Matrix (Fin 2) (Fin 2) K := !![0, 1; -1, 0]
 
+omit [CharP K 2] in
 theorem JJ_eq_planeMat : JJ K = planeMat fun _ => J2 K := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [JJ, planeMat, J2, plane, pos, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
       Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂]
 
+omit [CharP K 2] in
 theorem planeMat_symp_iff (M : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     (planeMat M)ᵀ * JJ K * planeMat M = JJ K ↔ ∀ k, (M k)ᵀ * J2 K * M k = J2 K := by
   rw [JJ_eq_planeMat, planeMat_transpose, planeMat_mul, planeMat_mul]
@@ -91,6 +99,7 @@ theorem planeMat_symp_iff (M : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     funext k
     exact h k
 
+omit [CharP K 2] in
 theorem J2_symp_iff (X : Matrix (Fin 2) (Fin 2) K) : Xᵀ * J2 K * X = J2 K ↔ X.det = 1 := by
   have key : Xᵀ * J2 K * X = X.det • J2 K := by
     ext i j
@@ -104,6 +113,7 @@ theorem J2_symp_iff (X : Matrix (Fin 2) (Fin 2) K) : Xᵀ * J2 K * X = J2 K ↔ 
   · intro h
     rw [h, one_smul]
 
+omit [CharP K 2] in
 theorem Pm_planeMat (M : Fin 2 → Matrix (Fin 2) (Fin 2) K) :
     Pm (planeMat M) = planeMat fun k => M k * M k + M k + 1 := by
   unfold Pm
@@ -114,7 +124,7 @@ theorem Tmat_quad {c : K} (hc : c ≠ 0) : Tmat c * Tmat c + Tmat c + 1 = 0 := b
   have hc'' : c⁻¹ * c = 1 := inv_mul_cancel₀ hc
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Tmat, Matrix.mul_apply, Fin.sum_univ_two, hc', hc'', CharTwo.add_self_eq_zero]
+    simp [Tmat, hc', hc'', CharTwo.add_self_eq_zero]
 
 theorem Pm_A0 {c : K} (hc : c ≠ 0) : Pm (planeMat ![1, Tmat c]) = planeMat ![1, 0] := by
   rw [Pm_planeMat]
@@ -123,9 +133,10 @@ theorem Pm_A0 {c : K} (hc : c ≠ 0) : Pm (planeMat ![1, Tmat c]) = planeMat ![1
   fin_cases k
   · show (1 : Matrix (Fin 2) (Fin 2) K) * 1 + 1 + 1 = 1
     rw [mul_one, add_assoc, CharTwo.add_self_eq_zero, add_zero]
-  · simp only [Matrix.cons_val_one, Matrix.head_cons]
+  · simp only
     exact Tmat_quad hc
 
+omit [CharP K 2] in
 theorem commutant_form {c : K} (hc : c ≠ 0) (Y : Matrix (Fin 2) (Fin 2) K)
     (h : Y * Tmat c = Tmat c * Y) : Y = Y 0 0 • 1 + (Y 0 1 * c) • Tmat c := by
   have hc' : c * c⁻¹ = 1 := mul_inv_cancel₀ hc
@@ -138,12 +149,12 @@ theorem commutant_form {c : K} (hc : c ≠ 0) (Y : Matrix (Fin 2) (Fin 2) K)
     linear_combination (-c) * h01 + (Y 0 0 - Y 1 1) * hc'
   ext i j
   fin_cases i <;> fin_cases j
-  · simp [Tmat, Matrix.one_apply]
-  · simp [Tmat, Matrix.one_apply]
+  · simp [Tmat]
+  · simp [Tmat]
     linear_combination (-Y 0 1) * hc'
-  · simp [Tmat, Matrix.one_apply]
+  · simp [Tmat]
     linear_combination e10
-  · simp [Tmat, Matrix.one_apply]
+  · simp [Tmat]
     linear_combination e11
 
 theorem cross_zero {c : K} (hc : c ≠ 0) {g : Matrix Ix Ix K}
@@ -160,6 +171,6 @@ theorem cross_zero {c : K} (hc : c ≠ 0) {g : Matrix Ix Ix K}
   have h := congrFun (congrFun hP a) b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [planeMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, plane, pos] at h hab ⊢ <;>
-    first | exact h | exact h.symm | linear_combination h | linear_combination -h
+    first | exact h | exact h.symm
 
 end CFSG.LocalAnalysis.GLTheoremA.LevelLieSp4E

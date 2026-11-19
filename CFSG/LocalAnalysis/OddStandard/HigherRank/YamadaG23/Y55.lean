@@ -20,7 +20,7 @@ theorem y55_g_comm_NL (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.
     (hH.hLF.fact110 c.g hspec.2.2.2.1 hspec.2.2.1).2.2 n hn
   rwa [f3_zL_eq_bot hH, sup_bot_eq] at hmem
 
-theorem y55_g_cent_C0 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
+theorem y55_g_cent_C0 (c : Ctx5 G L) (_hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     ∀ x ∈ C0 c.e, c.g * x * c.g⁻¹ = x := by
   obtain ⟨hgT, -, -, -, hgd⟩ := c.g_spec hRT
   have hgH : c.g ∈ c.s.H := by

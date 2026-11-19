@@ -16,7 +16,7 @@ theorem w172_exists_lift_elemAbelian {Q : Subgroup Γ} [Q.Normal] (hQ : IsPGroup
     ∃ B₁ : Subgroup Γ, B₁.map (QuotientGroup.mk' Q) = B ∧ IsElemAbelian p B₁ ∧
       Nat.card B₁ = Nat.card B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : IsPGroup p B := fun x => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, OneMemClass.coe_one]
     exact hB.2 _ x.2)⟩

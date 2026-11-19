@@ -114,7 +114,7 @@ theorem sylow_eq_bot_of_ne {r p : ℕ} [Fact r.Prime] (hp : p.Prime) (hrp : r �
   have hr : r.Prime := Fact.out
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := hK.exists_card_eq
-  obtain ⟨k, hk⟩ := Cp.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Cp.isPGroup.exists_card_eq
   refine Subgroup.eq_bot_of_card_eq _ ?_
   rcases Nat.eq_zero_or_pos k with rfl | hk0
   · rw [hk, pow_zero]

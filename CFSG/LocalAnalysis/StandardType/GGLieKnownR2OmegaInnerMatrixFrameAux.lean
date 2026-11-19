@@ -136,7 +136,7 @@ theorem imat_pow_two_eq_one {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
     obtain ⟨y, hy, hyx⟩ := Submodule.mem_map.mp hx'
     have hxy : a⁻¹ x = y := by
       rw [← hyx]
-      simpa using LinearEquiv.symm_apply_apply a y
+      simp
     rw [hxy]; exact hy
 
 theorem imat_polar_eq_zero_of_mem_siegelY {F V : Type} [Field F] [AddCommGroup V]
@@ -161,7 +161,7 @@ private theorem imat_eq_of_mem_siegelY {F V : Type} [Field F] [AddCommGroup V] [
   have h2 : polar Q P'.f x = c₂ := by
     rw [← hc]
     simp only [polar_add_right, polar_smul_right_eq, polar_comm Q P'.f P.e, h.ef, P'.polar_fe,
-      mul_one, mul_zero, add_zero, zero_add]
+      mul_one, mul_zero, zero_add]
   rw [h1, h2]
   exact hc.symm
 

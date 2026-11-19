@@ -254,7 +254,7 @@ theorem step_weak_with_iso {a : G} {J S : Subgroup G} (h : B2Setting a J S) {e :
   set R := (R₀ : Subgroup (normalizer (Le : Set G))).map (normalizer (Le : Set G)).subtype
     with hRdef
   have hRN : R ≤ normalizer (Le : Set G) := map_subtype_le _
-  have hR2 : IsPGroup 2 R := R₀.isPGroup'.map _
+  have hR2 : IsPGroup 2 R := R₀.isPGroup.map _
   have hCSR : S ⊓ centralizer ({e} : Set G) ≤ R := fun x hx =>
     ⟨⟨x, hCSe hx⟩, hR₀ (show (⟨x, hCSe hx⟩ : normalizer (Le : Set G)) ∈
       (S ⊓ centralizer ({e} : Set G)).subgroupOf (normalizer (Le : Set G)) from hx), rfl⟩

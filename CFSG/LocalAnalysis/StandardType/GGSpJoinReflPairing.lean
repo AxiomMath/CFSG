@@ -50,7 +50,7 @@ theorem exists_pairing_of_weylOfType [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTrans
       (∀ i j, i ≠ j → M i j = 3 → α i (h j) * α j (h i) = 1) := by
   classical
   obtain ⟨e, he⟩ := hW
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
   let φ : ι → MulAut ↥Bs := fun i => ((e (M.simple i) : ↥A) : MulAut ↥Bs)
   let Φ : M.Group →* MulAut ↥Bs := (Subgroup.subtype A).comp e.toMonoidHom
   have hφeq : ∀ i, φ i = Φ (M.simple i) := fun _ => rfl
@@ -176,7 +176,7 @@ theorem exists_cartan_pairing_of_weylOfType [Finite G] (hp2 : p ≠ 2)
     rw [hrefl i]
     ext v
     rw [Module.reflection_apply, Module.reflection_apply]
-    simp only [LinearMap.smul_apply, map_smul, smul_eq_mul]
+    simp only [LinearMap.smul_apply, smul_eq_mul]
     rw [smul_smul]
     congr 1
     rw [mul_assoc, mul_comm ((α i) v) (c i), ← mul_assoc, inv_mul_cancel₀ (hc0 i), one_mul]
@@ -206,19 +206,19 @@ private theorem pr_A_neg_one (r : ℕ) (i j : Fin r) :
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases h2 : i.val + 1 = j.val ∨ j.val + 1 = i.val
-    · rw [if_pos h2]; exact iff_of_true rfl h2
-    · rw [if_neg h2]; exact iff_of_false (by norm_num) h2
+    · rw [ite_eq_left h2]; exact iff_of_true rfl h2
+    · rw [ite_eq_right h2]; exact iff_of_false (by norm_num) h2
 
 private theorem pr_A_hsl (r : ℕ) (i j : Fin r) (hij : i ≠ j) :
     CartanMatrix.A r i j = 0 ∨ CartanMatrix.A r i j = -1 := by
-  rw [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+  rw [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
   by_cases h2 : i.val + 1 = j.val ∨ j.val + 1 = i.val
-  · rw [if_pos h2]; exact Or.inr rfl
-  · rw [if_neg h2]; exact Or.inl rfl
+  · rw [ite_eq_left h2]; exact Or.inr rfl
+  · rw [ite_eq_right h2]; exact Or.inl rfl
 
-private theorem pr_A_hpar (r : ℕ) (hr : 1 ≤ r) (i j : Fin r) (hij : i ≠ j) :
+private theorem pr_A_hpar (r : ℕ) (hr : 1 ≤ r) (i j : Fin r) (_hij : i ≠ j) :
     (CartanMatrix.A r i j = -1 ↔
       ((i ≠ (⟨0, hr⟩ : Fin r) ∧ pr_A_par r i = j) ∨
         (j ≠ (⟨0, hr⟩ : Fin r) ∧ pr_A_par r j = i))) := by
@@ -258,24 +258,24 @@ private theorem pr_D_neg_one (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) :
   rw [CartanMatrix.D, Matrix.of_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     constructor
     · intro h; norm_num at h
     · intro h; omega
-  · rw [if_neg hij]
-    rw [if_neg (by omega : ¬ r ≤ 2)]
+  · rw [ite_eq_right hij]
+    rw [ite_eq_right (by omega : ¬ r ≤ 2)]
     by_cases c1 : i.val + 1 = j.val ∧ j.val + 2 < r
-    · rw [if_pos c1]; exact iff_of_true rfl (Or.inl c1)
-    · rw [if_neg c1]
+    · rw [ite_eq_left c1]; exact iff_of_true rfl (Or.inl c1)
+    · rw [ite_eq_right c1]
       by_cases c2 : j.val + 1 = i.val ∧ i.val + 2 < r
-      · rw [if_pos c2]; exact iff_of_true rfl (Or.inr (Or.inl c2))
-      · rw [if_neg c2]
+      · rw [ite_eq_left c2]; exact iff_of_true rfl (Or.inr (Or.inl c2))
+      · rw [ite_eq_right c2]
         by_cases c3 : i.val + 3 = r ∧ (j.val + 2 = r ∨ j.val + 1 = r)
-        · rw [if_pos c3]; exact iff_of_true rfl (Or.inr (Or.inr (Or.inl c3)))
-        · rw [if_neg c3]
+        · rw [ite_eq_left c3]; exact iff_of_true rfl (Or.inr (Or.inr (Or.inl c3)))
+        · rw [ite_eq_right c3]
           by_cases c4 : j.val + 3 = r ∧ (i.val + 2 = r ∨ i.val + 1 = r)
-          · rw [if_pos c4]; exact iff_of_true rfl (Or.inr (Or.inr (Or.inr c4)))
-          · rw [if_neg c4]
+          · rw [ite_eq_left c4]; exact iff_of_true rfl (Or.inr (Or.inr (Or.inr c4)))
+          · rw [ite_eq_right c4]
             exact iff_of_false (by norm_num) (by
               rintro (h | h | h | h)
               · exact c1 h
@@ -298,22 +298,22 @@ private theorem pr_D_par_eq (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) (hi : i.val �
       (i.val = r - 1 ∧ j.val = r - 3) ∨ (i.val ≠ r - 1 ∧ i.val = j.val + 1) := by
   rw [Fin.ext_iff]
   by_cases h1 : i.val = r - 1
-  · rw [pr_D_par, if_pos h1]
-    simp only [Fin.val_mk]
+  · rw [pr_D_par, ite_eq_left h1]
+    simp only
     constructor
     · intro h; exact Or.inl ⟨h1, h.symm⟩
     · rintro (⟨-, h⟩ | ⟨hne, -⟩)
       · exact h.symm
       · exact absurd h1 hne
-  · rw [pr_D_par, if_neg h1]
-    simp only [Fin.val_mk]
+  · rw [pr_D_par, ite_eq_right h1]
+    simp only
     constructor
     · intro h; exact Or.inr ⟨h1, by omega⟩
     · rintro (⟨hv, -⟩ | ⟨-, h⟩)
       · exact absurd hv h1
       · omega
 
-private theorem pr_D_hpar (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) (hij : i ≠ j) :
+private theorem pr_D_hpar (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) (_hij : i ≠ j) :
     (CartanMatrix.D r i j = -1 ↔
       ((i ≠ (⟨0, by omega⟩ : Fin r) ∧ pr_D_par r hr i = j) ∨
         (j ≠ (⟨0, by omega⟩ : Fin r) ∧ pr_D_par r hr j = i))) := by
@@ -369,12 +369,12 @@ private theorem pr_D_depth_par (r : ℕ) (hr : 4 ≤ r) (i : Fin r) :
     pr_D_depth r (pr_D_par r hr i) = if i.val = r - 1 then r - 3 else i.val - 1 := by
   rw [pr_D_depth, pr_D_par]
   by_cases h1 : i.val = r - 1
-  · rw [if_pos h1]
-    simp only [Fin.val_mk]
-    rw [if_neg (by omega : ¬ r - 3 = r - 1), if_pos h1]
-  · rw [if_neg h1]
-    simp only [Fin.val_mk]
-    rw [if_neg (by omega : ¬ i.val - 1 = r - 1), if_neg h1]
+  · rw [ite_eq_left h1]
+    simp only
+    rw [ite_eq_right (by omega : ¬ r - 3 = r - 1), ite_eq_left h1]
+  · rw [ite_eq_right h1]
+    simp only
+    rw [ite_eq_right (by omega : ¬ i.val - 1 = r - 1), ite_eq_right h1]
 
 private theorem pr_D_hdepth (r : ℕ) (hr : 4 ≤ r) (i : Fin r)
     (hi : i ≠ (⟨0, by omega⟩ : Fin r)) :
@@ -383,8 +383,8 @@ private theorem pr_D_hdepth (r : ℕ) (hr : 4 ≤ r) (i : Fin r)
     intro h0; exact hi (Fin.ext h0)
   rw [pr_D_depth_par, pr_D_depth]
   by_cases h1 : i.val = r - 1
-  · rw [if_pos h1, if_pos h1]; omega
-  · rw [if_neg h1, if_neg h1]; omega
+  · rw [ite_eq_left h1, ite_eq_left h1]; omega
+  · rw [ite_eq_right h1, ite_eq_right h1]; omega
 
 theorem exists_cartan_pairing_A [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs) {r : ℕ}
     (hr : 1 ≤ r) {A : Subgroup (MulAut ↥Bs)} (hW : GGWeylOfType p (CoxeterMatrix.A r) A)

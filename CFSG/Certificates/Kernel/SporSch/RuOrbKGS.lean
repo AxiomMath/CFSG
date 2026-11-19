@@ -44,10 +44,10 @@ private theorem set_getG {α : Type} [Inhabited α] {a : Array α} {i j : Nat} {
     by_cases hij : j = i
     · subst hij
       simp
-    · rw [if_neg (Ne.symm hij), if_neg hij]
+    · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij]
   · have hj' : ¬ j < (a.set! i v).size := by rw [size_setG]; exact hj
     have hij : j ≠ i := by omega
-    rw [getElem!_neg _ j hj', getElem!_neg a j hj, if_neg hij]
+    rw [getElem!_neg _ j hj', getElem!_neg a j hj, ite_eq_right hij]
 
 private theorem push_atG {α : Type} [Inhabited α] {a : Array α} {x : α} {i : Nat}
     (h : i = a.size) : (a.push x)[i]! = x := by
@@ -284,7 +284,7 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
       refine ⟨s, ?_, c, ⟨c1, c2, fun t ht1 ht2 => ⟨fun hlt => ?_, fun htc => ?_⟩⟩, hjc,
         ⟨s1, s2, s3, s4, s5, s6, s7⟩⟩
       · unfold fStepG
-        rw [hgy, if_neg]
+        rw [hgy, ite_eq_right]
         rw [(s7 y hyn).1]
         simp [hseen]
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hlt with h | h
@@ -317,12 +317,12 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
       have hyc : y = Q c := by rw [← htc, hty]
       have hxc : ORD (Q j) < c := by rw [hxo]; exact hjc
       have hdx : s.1[Q j]! = DEP (Q j) := by
-        rw [(s7 _ hx).2.1, if_pos hxc]
+        rw [(s7 _ hx).2.1, ite_eq_left hxc]
       refine ⟨(s.1.set! y (s.1[Q j]! + 1), s.2.1.set! y (Q j),
           s.2.2.1.set! y k, s.2.2.2.1.set! y true, s.2.2.2.2.push y), ?_, c + 1,
           ⟨by omega, by omega, fun t ht1 ht2 => ⟨fun hlt => ?_, fun htc' => ?_⟩⟩, by omega, ?_⟩
       · unfold fStepG
-        rw [hgy, if_pos]
+        rw [hgy, ite_eq_left]
         rw [(s7 y hyn).1]
         simp [hyn, hseen]
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hlt with h | h
@@ -351,12 +351,12 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
           rw [set_getG (by rw [s4]; exact hyn), set_getG (by rw [s1]; exact hyn),
             set_getG (by rw [s2]; exact hyn), set_getG (by rw [s3]; exact hyn)]
           by_cases hzy : z = y
-          · rw [if_pos hzy, if_pos hzy, if_pos hzy, if_pos hzy, hzy, htc]
+          · rw [ite_eq_left hzy, ite_eq_left hzy, ite_eq_left hzy, ite_eq_left hzy, hzy, htc]
             refine ⟨by simp, ?_, ?_, ?_⟩
-            · rw [if_pos (Nat.lt_succ_self c), hdx, hyc, g5]
-            · rw [if_pos (Nat.lt_succ_self c), hyc, g3]
-            · rw [if_pos (Nat.lt_succ_self c), hyc, g4]
-          · rw [if_neg hzy, if_neg hzy, if_neg hzy, if_neg hzy]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hdx, hyc, g5]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hyc, g3]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hyc, g4]
+          · rw [ite_eq_right hzy, ite_eq_right hzy, ite_eq_right hzy, ite_eq_right hzy]
             have hne : ORD z ≠ c := fun e => hzy (by rw [← (QS z hz).2, e, ← hyc])
             have hiff : ORD z < c + 1 ↔ ORD z < c := by omega
             simp only [hiff]
@@ -388,7 +388,7 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
         fun i' hi' => ?_, fun y hy => ?_⟩
       · rw [Nat.zero_add]
         unfold fRootG
-        rw [if_pos]
+        rw [ite_eq_left]
         rw [h4 _ hrn, hro]
         simp [hrn]
       · dsimp only
@@ -399,9 +399,9 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
       · dsimp only
         rw [set_getG (by rw [h1]; exact hrn), h4 y hy]
         by_cases hyr : y = Q i
-        · rw [if_pos hyr, hyr, hro]
+        · rw [ite_eq_left hyr, hyr, hro]
           simp
-        · rw [if_neg hyr]
+        · rw [ite_eq_right hyr]
           have hne : ORD y ≠ i := fun e => hyr (by rw [← (QS y hy).2, e])
           have hiff : ORD y < i + 1 ↔ ORD y < i := by omega
           simp only [hiff]
@@ -444,7 +444,7 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
       refine ⟨(_, _, _, _, _, st.2.2.2.2.2 + 1), ?_, by dsimp only; rw [hh], c',
         by rw [Nat.mul_succ]; exact hc1, hc3⟩
       unfold fRoundG
-      rw [if_pos hlt, hx, hs, forIn_rngG]
+      rw [ite_eq_left hlt, hx, hs, forIn_rngG]
       rfl
     have INIT : (Array.replicate n 0, Array.replicate n 0, Array.replicate n 0, s0.1, s0.2,
           (0 : Nat)).2.2.2.2.2 = 0 ∧ ∃ c, FCutG n R FO (kG * 0) c ∧
@@ -456,11 +456,11 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
         dsimp only
         rw [replicate_getG hy]
         by_cases hp : ORD y < R
-        · rw [if_pos hp]
+        · rw [ite_eq_left hp]
           have h0 := (FA _ (QS y hy).1).2.2.1 hp
           rw [(QS y hy).2] at h0
           first | exact h0.1.symm | exact h0.2.1.symm | exact h0.2.2.symm
-        · rw [if_neg hp]
+        · rw [ite_eq_right hp]
     obtain ⟨-, c, hcut, hinv⟩ := BfsReplay.forIn_range'_yield n 0 _ (fRoundG n gens)
       (fun j (st : GStG) => st.2.2.2.2.2 = j ∧ ∃ c, FCutG n R FO (kG * j) c ∧
         FInvG n Q ORD DEP PAR GI c (st.1, st.2.1, st.2.2.1, st.2.2.2.1, st.2.2.2.2.1))
@@ -482,7 +482,7 @@ theorem forestKG_sound {n kG R : Nat} {g : Nat → Nat → Nat} {Q ORD FO DEP PA
     dsimp only at h1 h2 h3 h7
     refine ⟨h1, h2, h3, fun y hy => ?_⟩
     obtain ⟨-, d1, d2, d3⟩ := h7 y hy
-    rw [if_pos (QS y hy).1] at d1 d2 d3
+    rw [ite_eq_left (QS y hy).1] at d1 d2 d3
     exact ⟨d1, d2, d3⟩
   rw [orbitForest_eqG]
   exact key _ (OUT _ (I0 _ rfl) _ rfl)

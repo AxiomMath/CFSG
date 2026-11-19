@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {K : Type*} [Field K] {E : Type*} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [FiniteDimensional K E] in
 theorem ker_opm_eq_orthogonal_range (B : LinearMap.BilinForm K E) (hnd : B.Nondegenerate)
     (hrefl : B.IsRefl) (g : E ≃ₗ[K] E) (hg : ∀ x y, B (g x) (g y) = B x y) :
     LinearMap.ker (opm g) = B.orthogonal (LinearMap.range (opm g)) := by
@@ -32,11 +33,12 @@ theorem ker_opm_eq_orthogonal_range (B : LinearMap.BilinForm K E) (hnd : B.Nonde
         have h := hx (opm g z) (LinearMap.mem_range_self (opm g) z)
         rw [opm_apply, map_sub, LinearMap.sub_apply] at h
         exact sub_eq_zero.mp h
-      simp only [map_sub, LinearMap.sub_apply, hg z x, h1, sub_self]
+      simp only [map_sub, hg z x, h1, sub_self]
     have hz : g x - x = 0 := hnd.1 (g x - x) (fun w => hrefl w (g x - x) (key w))
     rw [LinearMap.mem_ker, opm_apply]
     exact hz
 
+omit [FiniteDimensional K E] in
 theorem iSup_range_opm_isotropic (B : LinearMap.BilinForm K E) (hnd : B.Nondegenerate)
     (hrefl : B.IsRefl) {ι : Type*} (g : ι → (E ≃ₗ[K] E)) (hg : ∀ i x y, B (g i x) (g i y) = B x y)
     (hquad : ∀ i j x, opm (g i) (opm (g j) x) = 0) :
@@ -66,6 +68,7 @@ theorem iSup_range_opm_isotropic (B : LinearMap.BilinForm K E) (hnd : B.Nondegen
   · intro a b ha hb
     simp [map_add, LinearMap.add_apply, ha, hb]
 
+omit [FiniteDimensional K E] in
 theorem sub_mem_orthogonal_of_fixes (B : LinearMap.BilinForm K E) (u : E ≃ₗ[K] E)
     (hu : ∀ x y, B (u x) (u y) = B x y) (T : Submodule K E) (hT : ∀ w ∈ T, u w = w) (q : E) :
     u q - q ∈ B.orthogonal T := by
@@ -73,8 +76,9 @@ theorem sub_mem_orthogonal_of_fixes (B : LinearMap.BilinForm K E) (u : E ≃ₗ[
   intro w hw
   have h1 := hu w q
   rw [hT w hw] at h1
-  simp only [map_sub, LinearMap.sub_apply, h1, sub_self]
+  simp only [map_sub, h1, sub_self]
 
+omit [FiniteDimensional K E] in
 theorem mul_comm_of_fixes (B : LinearMap.BilinForm K E) (u v : E ≃ₗ[K] E)
     (hu : ∀ x y, B (u x) (u y) = B x y) (T : Submodule K E) (hT : ∀ w ∈ T, u w = w)
     (hr : LinearMap.range (opm v) ≤ T) (hk : B.orthogonal T ≤ LinearMap.ker (opm v)) :

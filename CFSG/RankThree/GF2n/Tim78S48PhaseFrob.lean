@@ -28,7 +28,7 @@ theorem card_le_of_frobenius {T₀ T K₁ E : Subgroup G} {n : ℕ} (hT₀T : T�
   have hT₀R : T₀ ≤ R := hT₀T.trans le_sup_left
   have hTR : T ≤ R := le_sup_left
   have hK₁R : K₁ ≤ R := le_sup_right
-  haveI : (T₀.subgroupOf R).Normal :=
+  have : (T₀.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀R).mpr hRN
   set π := QuotientGroup.mk' (T₀.subgroupOf R) with hπ
   have hmem : ∀ r : ↥R, π r = 1 ↔ (r : G) ∈ T₀ := fun r => by

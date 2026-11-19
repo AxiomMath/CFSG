@@ -167,7 +167,7 @@ theorem exists_torus_of_orderOf_three
     have hcyc : IsCyclic (S₂ : Subgroup h.F) := by
       have hc := (h.facts hp).cyclic 3 Nat.prime_three (by norm_num) (Ne.symm hp3)
         ((S₂ : Subgroup h.F).map h.F.subtype) (Subgroup.map_subtype_le _)
-        (S₂.isPGroup'.map _)
+        (S₂.isPGroup.map _)
       exact isCyclic_of_surjective
         ((S₂ : Subgroup h.F).equivMapOfInjective _ h.F.subtype_injective).symm.toMonoidHom
         (MulEquiv.surjective _)

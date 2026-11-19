@@ -24,7 +24,7 @@ theorem ElemModulo.anti {N E E' : Subgroup G} (h : ElemModulo N E) (hE : E' ≤ 
 theorem normalizer_le_normalizer_of_characteristic_subgroupOf {X H : Subgroup G} (hXH : X ≤ H)
     (hc : (X.subgroupOf H).Characteristic) :
     normalizer (H : Set G) ≤ normalizer (X : Set G) := by
-  haveI := hc
+  have := hc
   have h1 := LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (X.subgroupOf H)
   rwa [Subgroup.map_subgroupOf_eq_of_le hXH] at h1
 
@@ -551,8 +551,9 @@ theorem yamadaC₁_le_yamadaCstar (h : Setup G L f t) (d : G2Data L K) (hK : Nat
   rw [← hC₁inf]
   exact inf_le_left
 
+omit [Finite K] [CharP K 2] in
 theorem inf_normalizer_U_le_normalizer_yamadaC₇ (h : Setup G L f t) (d : G2Data L K) :
-    L ⊓ normalizer (d.U : Set G) ≤ normalizer (yamadaC₇ d t : Set G) := fun n hn =>
+    L ⊓ normalizer (d.U : Set G) ≤ normalizer (yamadaC₇ d t : Set G) := fun _n hn =>
   LieType.BorelTits.le_normalizer_pCoreOf 2 _ (h.inf_normalizer_U_le_normalizer_yamadaC₁ d hn)
 
 theorem card_yamadaD₁_of_doubling (h : Setup G L f t) (d : G2Data L K) (hD : h.DoublingFacts d) :
@@ -606,25 +607,30 @@ theorem card_yamadaD₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (
   rw [hsup, h.card_yamadaC₇ d hK hQ] at h1
   omega
 
+omit [Finite K] in
 theorem M_le_yamadaM₆ (_hW : CFSG.Walter.WalterOrderForm) (_h : Setup G L f t) (d : G2Data L K)
     (_hK : Nat.card K = 2 ^ f) (_hQ : _h.QFacts d) : d.M ≤ yamadaM₆ d t :=
   (Q44.M_le_M₅ d t).trans (yamadaM₅_le_yamadaM₆ d t)
 
+omit [Finite K] in
 theorem yamadaF₅_le_yamadaM₆ (_hW : CFSG.Walter.WalterOrderForm) (_h : Setup G L f t)
     (d : G2Data L K) (_hK : Nat.card K = 2 ^ f) (_hQ : _h.QFacts d) :
     yamadaF₅ d t ≤ yamadaM₆ d t :=
   (Q44.F₅_le_M₅ d t).trans (yamadaM₅_le_yamadaM₆ d t)
 
+omit [Finite K] in
 theorem yamadaY₂_le_yamadaM₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     yamadaY₂ d t ≤ yamadaM₆ d t :=
   (Q44.Y₂_le_F₅ d t).trans (yamadaF₅_le_yamadaM₆ hW h d hK hQ)
 
+omit [Finite K] in
 theorem yamadaM₂_le_yamadaM₆ (_hW : CFSG.Walter.WalterOrderForm) (_h : Setup G L f t)
     (d : G2Data L K) (_hK : Nat.card K = 2 ^ f) (_hQ : _h.QFacts d) :
     yamadaM₂ d t ≤ yamadaM₆ d t :=
   (Q44.M₂_le_M₅ d t).trans (yamadaM₅_le_yamadaM₆ d t)
 
+omit [Finite K] in
 theorem yamadaW₃_le_yamadaM₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     yamadaW₃ d t ≤ yamadaM₆ d t :=
@@ -803,7 +809,7 @@ theorem yamadaY₂_le_yamadaD₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G
 
 theorem J_le_normalizer_yamadaP (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    d.J ≤ normalizer (yamadaP d t : Set G) := fun j hj =>
+    d.J ≤ normalizer (yamadaP d t : Set G) := fun _j hj =>
   mem_normalizer_commutator ((h.yamadaP_facts hW d hK hQ).1 hj) (Subgroup.le_normalizer hj)
 
 theorem S_le_yamadaR₈ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
@@ -819,17 +825,18 @@ theorem S_le_normalizer_yamadaP (hW : CFSG.Walter.WalterOrderForm) (h : Setup G 
 
 theorem S_le_normalizer_yamadaD₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    d.S ≤ normalizer (yamadaD₇ d t : Set G) := fun s hs =>
+    d.S ≤ normalizer (yamadaD₇ d t : Set G) := fun _s hs =>
   Common.mem_normalizer_inf (h.S_le_normalizer_yamadaP hW d hK hQ hs)
     (h.inf_normalizer_U_le_normalizer_yamadaC₇ d (h.S_le_inf_normalizer_U d hs))
 
 theorem J_le_normalizer_yamadaD₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    d.J ≤ normalizer (yamadaD₇ d t : Set G) := fun j hj =>
+    d.J ≤ normalizer (yamadaD₇ d t : Set G) := fun _j hj =>
   Common.mem_normalizer_inf (h.J_le_normalizer_yamadaP hW d hK hQ hj)
     (h.inf_normalizer_U_le_normalizer_yamadaC₇ d (d.J_le_inf_normalizer_U hj))
 
 omit [Finite K] in
+omit [Finite G] [CharP K 2] in
 theorem leviA_le_sup_conj (d : G2Data L K) :
     d.leviA ≤ d.S ⊔ d.S.map (MulAut.conj d.wa).toMonoidHom := by
   have h1 := d.image_mono (Model.leviA_le_sup_conj (K := K))
@@ -1228,7 +1235,7 @@ theorem L₆_le_normalizer_yamadaF₅ (hW : CFSG.Walter.WalterOrderForm) (h : Se
 theorem L₆_le_normalizer_map_wb_yamadaF₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     yamadaL₆ d t ≤
-      normalizer ((yamadaF₅ d t).map (MulAut.conj d.wb).toMonoidHom : Set G) := fun x hx =>
+      normalizer ((yamadaF₅ d t).map (MulAut.conj d.wb).toMonoidHom : Set G) := fun _x hx =>
   Q44.mem_normalizer_map_conj (L₆_le_normalizer_yamadaF₅ hW h d hK hQ
     (Q44.inv_conj_mem (Q44.wb_mem_normalizer_L₆ h d) hx))
 
@@ -1353,11 +1360,13 @@ theorem yamada_5_55_1_M (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
 
 namespace JWeight
 
+omit [Finite G] [Finite K] in
 theorem Y₂_le_F₅ (d : G2Data L K) (t : G) : yamadaY₂ d t ≤ yamadaF₅ d t :=
   (le_sup_right : yamadaY₂ d t ≤ yamadaF₂ d t).trans
     ((le_sup_right : yamadaF₂ d t ≤ yamadaF₃ d t).trans
       (le_sup_left : yamadaF₃ d t ≤ yamadaF₅ d t))
 
+omit [Finite G] [Finite K] in
 theorem U₁_le_F₅ (d : G2Data L K) (t : G) : yamadaU₁ d t ≤ yamadaF₅ d t :=
   (yamadaU₁_le_yamadaY₂ d t).trans (Y₂_le_F₅ d t)
 
@@ -1387,9 +1396,9 @@ theorem J_le_normalizer_F₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f
   rw [subgroupOf_map_subtype, inf_of_le_left hF₅R₅] at h1
   exact (J_le_normalizer_R₅ hW h d hK hQ).trans h1
 
-theorem J_le_normalizer_F (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+theorem J_le_normalizer_F (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    d.J ≤ normalizer (d.F : Set G) := fun j hj =>
+    d.J ≤ normalizer (d.F : Set G) := fun _j hj =>
   h.centralizer_inf_normalizer_S_le_normalizer_F d hK hQ.doubling
     (h.J_le_centralizer_inf_normalizer_S d hj)
 
@@ -1409,12 +1418,13 @@ theorem J_le_normalizer_M (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
   exact fun j hj => mem_normalizer_sup (J_le_normalizer_rootGroup d isRoot_g2r hj)
     (J_le_normalizer_F hW h d hK hQ hj)
 
-theorem S_inf_centralizer_J₃ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
-    (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
+theorem S_inf_centralizer_J₃ (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+    (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (_hQ : h.QFacts d) :
     d.S ⊓ centralizer (d.J₃ : Set G) = d.rootGroup g2r :=
   S_inf_centralizer_Ji_of_four_le d (hK ▸ h.four_le) 2 (Or.inr (by decide))
 
-theorem S_inf_centralizer_J₄ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+omit [CharP K 2] in
+theorem S_inf_centralizer_J₄ (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (h8 : 8 ≤ Nat.card K) :
     d.S ⊓ centralizer (d.J₄ : Set G) = d.rootGroup g2a :=
   S_inf_centralizer_Ji_of_four_le d (hK ▸ h.four_le) 3 (Or.inl h8)
@@ -1507,7 +1517,7 @@ theorem mem_R₅_iff_of_crossed (hW : CFSG.Walter.WalterOrderForm) (h : Setup G 
     rw [h1, ← map_one φ] at hX
     exact mem_subgroupOf.1 ((QuotientGroup.eq_one_iff _).1 (φ.injective hX))
 
-theorem exists_crossed_D₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+theorem exists_crossed_D₇ (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) {x : G}
     (hx : x ∈ yamadaD₇ d t) :
     ∃ a ∈ d.D, ∃ u ∈ yamadaF₅ d t, x * t * x⁻¹ = t * a * u := by
@@ -1519,7 +1529,7 @@ theorem exists_crossed_D₇ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f 
     (fun s hs => h.S_le_normalizer_yamadaU₁ d hK hD (hDS hs)) δ hδ
   exact ⟨a, ha, u, U₁_le_F₅ d t hu, by rw [hxt, mul_assoc]⟩
 
-theorem exists_crossed_L₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+theorem exists_crossed_L₆ (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) {x : G}
     (hx : x ∈ yamadaL₆ d t) :
     ∃ m ∈ d.M, ∃ y ∈ yamadaF₅ d t, x * t * x⁻¹ = t * m * y := by
@@ -1706,15 +1716,18 @@ theorem mem_yamadaF₅_of_fixed_J₃_yamadaD₇ (hW : CFSG.Walter.WalterOrderFor
     exact ⟨a, ha, u, hu, hxt⟩
 
 theorem J_le_normalizer_yamadaR₅ (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f)
-    (hD : h.DoublingFacts d) : d.J ≤ normalizer (yamadaR₅ d t : Set G) := fun j hj =>
+    (hD : h.DoublingFacts d) : d.J ≤ normalizer (yamadaR₅ d t : Set G) := fun _j hj =>
   (LieType.BorelTits.le_normalizer_pCoreOf 2 (normalizer (yamadaR₂ d t : Set G)))
     ((h.centralizer_inf_normalizer_S_le_normalizer_yamadaR₂ d hK hD).1
       (h.J_le_centralizer_inf_normalizer_S d hj))
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem J₃_le_J (d : G2Data L K) : d.J₃ ≤ d.J := d.image_mono inf_le_left
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem J₄_le_J (d : G2Data L K) : d.J₄ ≤ d.J := d.image_mono inf_le_left
 
+omit [Finite G] [CharP K 2] in
 theorem coprime_card_J_pow (d : G2Data L K) (m : ℕ) :
     (Nat.card d.J₃).Coprime (Nat.card K ^ m) ∧ (Nat.card d.J₄).Coprime (Nat.card K ^ m) := by
   have key : ∀ n : ℕ, n = Nat.card K - 1 → n.Coprime (Nat.card K ^ m) := by
@@ -1727,13 +1740,15 @@ theorem coprime_card_J_pow (d : G2Data L K) (m : ℕ) :
     exact h1.pow_right m
   exact ⟨key _ (d.yamada_3_9_1_G 2).2, key _ (d.yamada_3_9_1_G 3).2⟩
 
+omit [Finite G] in
 theorem commutator_eq_one_of_mem_centralizer {J : Subgroup G} {j c : G}
     (hj : j ∈ J) (hc : c ∈ centralizer (J : Set G)) : ⁅j, c⁆ = 1 := by
   have := mem_centralizer_iff.1 hc j hj
   rw [commutatorElement_def, this]
   group
 
-theorem isPGroup_yamadaP (h : Setup G L f t) (d : G2Data L K)
+omit [Finite K] in
+theorem isPGroup_yamadaP (_h : Setup G L f t) (d : G2Data L K)
     (hP : yamadaP d t ≤ yamadaR₈ d t) : IsPGroup 2 (yamadaP d t) :=
   IsPGroup.to_le (LieType.BorelTits.pCoreOf_isPGroup 2 _) hP
 

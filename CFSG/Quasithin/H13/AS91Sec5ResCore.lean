@@ -25,7 +25,7 @@ structure ToddCore where
 
 theorem toddCore_nonempty : Nonempty c.ToddCore := by
   classical
-  letI : CommGroup ↥c.E := commGroupOfElem c.E_elem
+  let : CommGroup ↥c.E := commGroupOfElem c.E_elem
   obtain ⟨e, he⟩ := cocode24_std c.todd
   set ρ := rho11 AutPerm le_rfl with hρ
   have hρinj : Function.Injective ρ := rho11_injective AutPerm le_rfl

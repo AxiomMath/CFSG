@@ -12,15 +12,17 @@ open CFSG.RankThree.PartTwo.Sec21.FF79 (IsElemAb)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_elemAb_comm {H : Subgroup G} {k : ℕ} (hA : IsElemAb 2 k H) {a b : G} (ha : a ∈ H)
     (hb : b ∈ H) : a * b = b * a := by
-  haveI := hA.1
+  have := hA.1
   have h := (inferInstance : IsMulCommutative H).is_comm.comm (⟨a, ha⟩ : H) ⟨b, hb⟩
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem S36_elemAb_sq {H : Subgroup G} {k : ℕ} (hA : IsElemAb 2 k H) {a : G} (ha : a ∈ H) :
     a ^ 2 = 1 := by
-  haveI := hA.1
+  have := hA.1
   exact elemPow_eq_one_of_isElementaryAbelian (p := 2) a ha
 
 theorem S36_elemAb_map {H K : Type} [Group H] [Group K] [Finite H] {k : ℕ} (f : H →* K)

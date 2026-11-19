@@ -11,6 +11,7 @@ open CFSG CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg
   CFSG.LieType.Steinberg.Adjoint CFSG.LieType.CurtisTits CFSG.LieType.Universal
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem eq_one_of_prod_zpow_cartan' {n : ℕ} {A : Matrix (Fin n) (Fin n) ℤ}
     {B : Matrix (Fin n) (Fin n) ℤ} (hB : A * B = 1) {u : Fin n → Kˣ}
     (hu : ∀ m, ∏ j, u j ^ A j m = 1) (l : Fin n) : u l = 1 := by
@@ -32,6 +33,7 @@ theorem eq_one_of_prod_zpow_cartan' {n : ℕ} {A : Matrix (Fin n) (Fin n) ℤ}
   rw [← key]
   simp [hu]
 
+omit [CharP K 2] in
 theorem wtChar_mulSingle' (j : Fin Tag.F4.rank) (s : Kˣ) (μ : Fin Tag.F4.rank → ℤ) :
     wtChar (Pi.mulSingle j s) μ = s ^ (∑ l, Tag.cartan Tag.F4 j l * μ l) := by
   rw [wtChar, Finset.prod_eq_single j]
@@ -41,6 +43,7 @@ theorem wtChar_mulSingle' (j : Fin Tag.F4.rank) (s : Kˣ) (μ : Fin Tag.F4.rank 
   · intro h
     exact absurd (Finset.mem_univ j) h
 
+omit [CharP K 2] in
 theorem torus_le_charSub'
     {i j : Fin Tag.F4.rank} (hij : j ≠ i) :
     torus (τ := Tag.F4) K j ≤ charSub (τ := Tag.F4) K i := by
@@ -56,6 +59,7 @@ theorem cartan_mul_cartanInvF4_check :
     Tag.cartan .F4 * CFSG.LieType.Chevalley.cartanInvF4 = 1 := by
   decide +kernel
 
+omit [CharP K 2] in
 theorem torus_iSupIndep :
     iSupIndep (torus (τ := Tag.F4) K) := by
   have hB : Tag.cartan .F4 * CFSG.LieType.Chevalley.cartanInvF4 = 1 :=
@@ -111,6 +115,7 @@ theorem torus_iSupIndep :
 
 section ActualF4
 
+omit [CharP K 2] in
 theorem rankOne_bruhat_f4Datum
     (i : Fin Tag.F4.rank) {g : ↥(adjointGroup Tag.F4 K)}
     (hg : g ∈ rankOne ((f4Datum K).rootGroup) i) :
@@ -128,11 +133,13 @@ theorem eq_one_of_mem_normalizer_f4Datum
     u = 1 :=
   eq_one_of_mem_normalizer (rootOperatorFamily Tag.F4) i hu hn
 
+omit [CharP K 2] in
 theorem torus_commute_f4Datum
     {i j : Fin Tag.F4.rank} {g h : ↥(adjointGroup Tag.F4 K)}
     (hg : g ∈ torus (τ := Tag.F4) K i) (hh : h ∈ torus (τ := Tag.F4) K j) : Commute g h :=
   torus_commute hg hh
 
+omit [CharP K 2] in
 theorem torus_iSupIndep_f4Datum
     : iSupIndep (torus (τ := Tag.F4) K) :=
   torus_iSupIndep

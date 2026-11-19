@@ -173,9 +173,9 @@ theorem chart_tree {KX PT WT GT WC PI PJ SG : ℕ → ℕ} {n nc : ℕ} {G0 G1 :
   have mG : ∀ s < 2, bigM (pickL [G0, G1] s) * (if s = 0 then Gi0 else Gi1) = 1 := by
     intro s hs
     interval_cases s
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact hGi.1
-    · rw [if_neg (by norm_num)]
+    · rw [ite_eq_right (by norm_num)]
       exact hGi.2
   have hkinj : ∀ i < n, ∀ j < n, blkM (getRec KX 9324 i) = blkM (getRec KX 9324 j) →
       chartOf (getRec PT 32 i) = chartOf (getRec PT 32 j) → i = j := by

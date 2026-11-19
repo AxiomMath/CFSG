@@ -29,7 +29,7 @@ theorem commutator_le_of_isChiefFactor_of_isSolvable [Finite G] {L X Y : Subgrou
   have hMnormal : (X.map (mk' Y)).Normal := h.normal_num.map _ hsurj
   have : Group.IsSolvable (X.map (mk' Y)) := isSolvable_map (mk' Y) X
   have hMne : X.map (mk' Y) ≠ ⊥ := by
-    obtain ⟨x, hxX, hxY⟩ := SetLike.exists_of_lt h.lt
+    obtain ⟨x, hxX, hxY⟩ := _root_.IsConcreteLE.exists_of_lt h.lt
     intro hbot
     have hmem : (mk' Y) x ∈ X.map (mk' Y) := ⟨x, hxX, rfl⟩
     rw [hbot, Subgroup.mem_bot] at hmem

@@ -11,7 +11,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 theorem sec5pe8s_aut_eq_one_of_alt7 {Y : Type} [Group Y] (P : Sylow 2 Y)
     (e : Y ≃* alternatingGroup (Fin 7)) (κ : MulAut Y) (hodd : Odd (orderOf κ))
     (hfix : ∀ x ∈ (P : Subgroup Y), κ x = x) : κ = 1 := by
-  haveI : Finite Y := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.symm.toEquiv
   let σ : MulAut (alternatingGroup (Fin 7)) := MulAut.congr e κ
   have hσapply : ∀ x : Y, σ (e x) = e (κ x) := by
     intro x

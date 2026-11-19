@@ -42,7 +42,7 @@ theorem index_ne_four (hTI : WeaklyClosedTITransitive.{0}) (hMI : ModelInput) [I
     (hX : CFSG.Open.StatedClassicalModel (E ⧸ center E) .PSU 4 3 1) : E.index ≠ 4 := by
   intro hidx
   obtain ⟨hM0card, K2, L, x0, a0, Vt, hF⟩ := hMI
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOb1 : Ob ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hO

@@ -74,6 +74,6 @@ public theorem secondCase_linear_P_centralizer_FU_map_conj_eq
         _ = (h⁻¹ * y * h) * p := by group
     exact Subgroup.mem_map.mpr ⟨x, ⟨hxcent, hxfu⟩, by
       change h * x * h⁻¹ = y
-      simp [x, MulAut.conj_apply, mul_assoc]⟩
+      simp [x, mul_assoc]⟩
 
 end CFSG.GorensteinWalter

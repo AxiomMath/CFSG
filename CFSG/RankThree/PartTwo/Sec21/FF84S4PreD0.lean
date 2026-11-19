@@ -103,7 +103,7 @@ theorem S41_D0 (h : FF84Sec4 b L B K b₁ b₂) :
     ∃ D₀ : Subgroup G, D₀ ≤ Cen (b * b₁) ∧ (D₀.subgroupOf (Cen (b * b₁))).Normal ∧
       D₀.relIndex (Cen (b * b₁)) = 3 ∧ ⁅Cen (b * b₁), Cen (b * b₁)⁆ ≤ D₀ ∧
       IsSylowOf 3 (Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G)) D₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D := Cen (b * b₁) with hDdef
   set U := Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G) with hU
   have hS : IsSylowOf 3 B D := S41_B_sylow h
@@ -126,8 +126,8 @@ theorem S41_D0 (h : FF84Sec4 b L B K b₁ b₂) :
   refine ⟨N, hND, hNn, h3, ?_, ?_⟩
   ·
     have hcard : Nat.card (↥D ⧸ N.subgroupOf D) = 3 := h3
-    haveI : Fact (Nat.card (↥D ⧸ N.subgroupOf D)).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
-    haveI : IsCyclic (↥D ⧸ N.subgroupOf D) := isCyclic_of_prime_card hcard
+    have : Fact (Nat.card (↥D ⧸ N.subgroupOf D)).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
+    have : IsCyclic (↥D ⧸ N.subgroupOf D) := isCyclic_of_prime_card hcard
     have hcomm : ∀ q q' : ↥D ⧸ N.subgroupOf D, q * q' = q' * q := fun q q' =>
       (IsCyclic.commGroup (α := ↥D ⧸ N.subgroupOf D)).mul_comm q q'
     rw [Subgroup.commutator_le]

@@ -18,8 +18,8 @@ theorem ambiguousChev_lie_r {r : ℕ} {d : TauCeti.ValidLieTypeIndex}
   simp only [ambiguousChev] at h
   split at h
   · rcases h with ⟨-, h⟩ | ⟨-, h⟩ <;> simp [h]
-  · rcases h with ⟨-, h⟩ <;> simp [h]
-  · rcases h with ⟨-, h⟩ <;> simp [h]
+  · rcases h with ⟨-, h⟩; simp [h]
+  · rcases h with ⟨-, h⟩; simp [h]
   · exact absurd h (by simp)
 
 theorem ambiguousChev_three_lie {d : TauCeti.ValidLieTypeIndex}
@@ -57,7 +57,7 @@ theorem primePower_eq_q2 {q : TauCeti.PrimePower} (hq : q.card = 2) :
 
 theorem i196AmbLQ_five : I196AmbLQ 5 := by
   intro H _ _ S hSn hS hnab hamb hC Q hQS hQ hQp h hh hcomm
-  haveI := hSn
+  have := hSn
   obtain ⟨i, hi, ⟨e⟩⟩ := hamb
   cases i with
   | cyclic r hr => simp [ambiguousChev] at hi
@@ -66,7 +66,7 @@ theorem i196AmbLQ_five : I196AmbLQ 5 := by
       simp only [ambiguousChev] at hi
       omega
     subst hn5
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨f⟩ := CFSG.Adapters.CatalogueFieldBridges.nonempty_psl2_mulEquiv_alternating_five
       (k := ZMod 5) (Or.inr (by simp))
     let g : ↥S ≃* StatedProj (StatedSL 2 (ZMod 5)) :=
@@ -85,8 +85,8 @@ theorem i196AmbLQ_five : I196AmbLQ 5 := by
 
 theorem i196AmbLQ_three : I196AmbLQ 3 := by
   intro H _ _ S hSn hS hnab hamb hC Q hQS hQ hQp h hh hcomm
-  haveI := hSn
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have := hSn
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨i, hi, ⟨e⟩⟩ := hamb
   cases i with
   | cyclic r hr => simp [ambiguousChev] at hi
@@ -96,7 +96,7 @@ theorem i196AmbLQ_three : I196AmbLQ 3 := by
       omega
     subst hn6
     have hk9 : Nat.card (GaloisField 3 2) = 9 := by
-      rw [GaloisField.card 3 2 (by norm_num)] <;> norm_num
+      rw [GaloisField.card 3 2 (by norm_num)]; norm_num
     obtain ⟨f⟩ := CFSG.Adapters.CatalogueFieldBridges.nonempty_psl2_nine_mulEquiv_alternating_six hk9
     let g : ↥S ≃* StatedProj (StatedSL 2 (GaloisField 3 2)) :=
       e.trans (f.symm.trans (projectiveSpecialLinearGroupEquivStatedProj 2 (GaloisField 3 2)))
@@ -111,9 +111,9 @@ theorem i196AmbLQ_three : I196AmbLQ 3 := by
       obtain ⟨lt, hv⟩ := d
       simp only at hq
       subst hq
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hk8 : Nat.card (GaloisField 2 3) = q.card := by
-        rw [GaloisField.card 2 3 (by norm_num), hq8] <;> norm_num
+        rw [GaloisField.card 2 3 (by norm_num), hq8]; norm_num
       obtain ⟨f⟩ := CFSG.Adapters.CatalogueFieldBridges.nonempty_projectiveSL_mulEquiv_lie
         (n := 1) (k := GaloisField 2 3) q hv hk8
       let g : ↥S ≃* StatedProj (StatedSL 2 (GaloisField 2 3)) :=

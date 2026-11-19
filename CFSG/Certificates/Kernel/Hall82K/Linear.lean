@@ -105,7 +105,7 @@ theorem lorTree_eq_enc6 {x0 x1 x2 x3 x4 x5 : ℕ} (h0 : x0 < 64) (h1 : x1 < 64) 
   rw [hss x5, hss x5, hss x5, hss x5, hss x4, hss x4, hss x4, hss x3, hss x3, hss x2]
   have hlc : ∀ a b c : ℕ, a ||| (b ||| c) = b ||| (a ||| c) := fun a b c => by
     rw [← Nat.or_assoc, Nat.or_comm a b, Nat.or_assoc]
-  simp only [Nat.reduceAdd, Nat.or_assoc, Nat.or_comm, hlc]
+  simp only [Nat.reduceAdd, Nat.or_assoc, Nat.or_comm]
 
 theorem apL_codeL {f : Fin 64 → Fin 64} (hf : ∀ v w, f (xorF v w) = xorF (f v) (f w))
     (v : Fin 64) : apL (codeL f) v.val = (f v).val := by

@@ -23,8 +23,8 @@ private theorem outerSubThree_reeGammaFieldAut_G2 {a b f : ℕ} (hb : 1 ≤ b)
           (ReeTag.G2.reeGamma F a).subtype =
         (ReeTag.G2.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     OuterSubThree .twistedG2 0 f (fixSubgroup (ReeTag.G2.reeGammaFieldAut F a σ)) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three
       (by omega) hk
   let C : Subgroup ↥(ReeTag.G2.reeGamma F a) :=
@@ -44,7 +44,7 @@ private theorem outerSubThree_reeGammaFieldAut_G2 {a b f : ℕ} (hb : 1 ≤ b)
         ⟨fixSubfield σ, inferInstance, inferInstance, inferInstance, hk,
           ⟨(nonempty_derivedCentralQuotient_reeGamma_G2 hb hk).some.symm⟩⟩⟩
   obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_2g2_simplicity (h := hrel)
-  haveI : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
+  have : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
   exact outerSubThree_of_fixed_equiv _ eC hsimp
     (exists_noncomm_of_center_bot (ReeTag.center_reeGamma_G2_eq_bot hk))
     (outerLayerThree_of_field (by decide) hf (Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hrel⟩))))

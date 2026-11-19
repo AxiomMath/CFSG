@@ -39,7 +39,7 @@ theorem y5_z_mem_C0 {c : Ctx5 G L} (hH : F33Hyp c.s c.e) : c.s.fr.z ∈ C0 c.e :
   have hA : LFactsA c.s := lfactsA_of_setting hH.hS hH.hZ c.s
   exact s3_zt_le_C0 c.s hA c.e (Subgroup.subset_closure (by simp))
 
-theorem y5_dz {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
+theorem y5_dz {c : Ctx5 G L} (_hH : F33Hyp c.s c.e) :
     c.d * c.s.fr.z * c.d⁻¹ = c.s.fr.z :=
   y5_d_cent_A c c.s.fr.z (s3_z_mem_A c.s)
 
@@ -53,7 +53,7 @@ theorem y5_dtd {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
     exact pow_orderOf_eq_one _
   exact (d8_rel c.s.t_order c.d_order h4 hu2).1
 
-theorem y5_d_not_mem_T {c : Ctx5 G L} (hH : F33Hyp c.s c.e) : c.d ∉ c.s.T := by
+theorem y5_d_not_mem_T {c : Ctx5 G L} (_hH : F33Hyp c.s c.e) : c.d ∉ c.s.T := by
   intro hdT
   apply c.d_not_mem
   have hdcent : c.d ∈ centralizer (c.s.fr.A : Set G) := by

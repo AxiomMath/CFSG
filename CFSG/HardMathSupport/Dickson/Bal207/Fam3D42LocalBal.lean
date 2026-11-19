@@ -160,7 +160,7 @@ theorem isLocallyBalancedAbs_three_one_triD4_two {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ 1) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ 1))
     (ψ : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ≃* ↥d4P) :
     IsLocallyBalancedAbs 3 1 ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv _ ψ.symm.toEquiv
   obtain ⟨-, -, ⟨Θ, -, -, hker, -⟩, -, hcard, -, hZ, -⟩ :=
     even_triality_exact_automorphism_normal_form (f := 1) le_rfl K hK σ hσ

@@ -119,7 +119,7 @@ theorem inf_commutator_sup_oResidual_le :
     (P : Subgroup G) ⊓ (commutator G ⊔ oResidual p G) ≤ commutator G := by
   have hle : commutator G ⊔ oResidual p G ≤ (P : Subgroup G).transferFocal.ker :=
     sup_le (Abelianization.commutator_subset_ker _)
-      (oResidual_le_ker_of_isPGroup _ (P.isPGroup'.to_quotient _))
+      (oResidual_le_ker_of_isPGroup _ (P.isPGroup.to_quotient _))
   calc (P : Subgroup G) ⊓ (commutator G ⊔ oResidual p G)
       ≤ (P : Subgroup G).transferFocal.ker ⊓ P := by
         rw [inf_comm]

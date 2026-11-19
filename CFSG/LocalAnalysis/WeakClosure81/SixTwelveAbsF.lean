@@ -13,9 +13,9 @@ open scoped commutatorElement
 variable {X : Type} [Group X] [Finite X]
 
 theorem exists_mul_mem_of_card_eq {T' T₁ Z : Subgroup X} (hZ : Z ≤ Subgroup.center X)
-    (hT'Z : T' ⊓ Z = ⊥) (hT₁Z : T₁ ⊓ Z = ⊥) (hcard : Nat.card T₁ = Nat.card T')
+    (_hT'Z : T' ⊓ Z = ⊥) (hT₁Z : T₁ ⊓ Z = ⊥) (hcard : Nat.card T₁ = Nat.card T')
     (hle : T₁ ≤ T' ⊔ Z) : ∀ t ∈ T', ∃ z ∈ Z, t * z ∈ T₁ := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hdecomp : ∀ s : T₁, ∃ y : T', ∃ z : Z, (y : X) * (z : X) = (s : X) := by
     intro s
     obtain ⟨y, hy, z, hz, hyz⟩ := Subgroup.mem_sup_of_normal_right.mp (hle s.2)

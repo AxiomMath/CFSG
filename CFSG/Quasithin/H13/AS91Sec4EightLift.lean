@@ -62,7 +62,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_conj_of_card_three {L A B : Subgroup G} (hA : A ≤ L) (hB : B ≤ L)
     (hAc : Nat.card A = 3) (hBc : Nat.card B = 3) (hL : (Nat.card L).factorization 3 = 1) :
     ∃ k ∈ L, ∀ b ∈ B, ∃ a ∈ A, b = k * a * k⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA' : Nat.card (A.subgroupOf L) = 3 ^ (Nat.card L).factorization 3 := by
     rw [hL, pow_one, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv, hAc]
   have hB' : Nat.card (B.subgroupOf L) = 3 ^ (Nat.card L).factorization 3 := by
@@ -94,6 +94,7 @@ theorem qg_pow_four_eq_one (S : Setting G) {q : G} (hq : q ∈ S.QG) : q ^ 4 = 1
   · rw [h, one_pow]
   · rw [h, hz]
 
+omit [Finite G] in
 theorem M_le_normalizer_QG (S : Setting G) : S.M ≤ normalizer (S.QG : Set G) := fun m hm =>
   mem_normalizer_iff.mpr fun x => ⟨fun hx => S.conj_mem_QG hm hx, fun hx => by
     have := S.conj_mem_QG (inv_mem hm) hx
@@ -221,6 +222,7 @@ variable
 
 include hOut hTw hHat
 
+omit hHat in
 theorem c_mem_G13 : (D.c : G) ∈ D.G13 :=
   D.QX_le hOut hTw (le_sup_right (a := Q z) (mem_zpowers _))
 
@@ -229,7 +231,7 @@ theorem exists_cE_lift {U : V12 ≃ₗ[ZMod 2] V12} (hU : U ∈ Two.ebGrp) :
       D.Φo (h.setting.ρ s) = U := by
   obtain ⟨e, heE, heU⟩ := D.exists_mem_E hOut hTw hU
   set c : h.setting.M := D.c with hcdef
-  have hcG := D.c_mem_G13 hOut hTw hHat
+  have hcG := D.c_mem_G13 hOut hTw
   have hc2G : ((c * c : h.setting.M) : G) ∈ D.G13 := mul_mem hcG hcG
   set e1 : h.setting.M := c * e * c⁻¹ with he1
   set e2 : h.setting.M := (c * c) * e * (c * c)⁻¹ with he2
@@ -270,7 +272,7 @@ theorem exists_cE_lift {U : V12 ≃ₗ[ZMod 2] V12} (hU : U ∈ Two.ebGrp) :
     have hA : D.Φo (h.setting.ρ e) ∈ Two.ebGrp := by rw [heU]; exact hU
     have hcom : Commute (D.Φo (h.setting.ρ c)) (D.Φo (h.setting.ρ e)) := by
       rw [hcdef, D.ρ_c]
-      exact D.Φo_θ_comm hOut hTw hA
+      exact D.Φo_θ_comm hA
     have hcom2 : Commute (D.Φo (h.setting.ρ (c * c))) (D.Φo (h.setting.ρ e)) := by
       rw [map_mul, map_mul]
       exact hcom.mul_left hcom
@@ -349,7 +351,7 @@ theorem exists_nx_involution {x : h.setting.M} (hx : (x : G) * x = 1)
     intro h1
     apply D.θ_ne
     rw [← hρu, show u = 1 from Subtype.ext h1, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hou : orderOf (u : G) = 3 := orderOf_eq_prime hu3 hu1
   have hxw : (x : G) * w0 * (x : G)⁻¹ = (w0 : G)⁻¹ := by
     rw [hw0]
@@ -456,7 +458,7 @@ theorem exists_involution_of_mem_Lbar {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ =
       · rw [Set.mem_singleton_iff.mp ha]
         exact hcon b hb
       · rw [Set.mem_singleton_iff.mp ha, Set.mem_singleton_iff.mp hb]
-    haveI : IsMulCommutative ↥K := Subgroup.isMulCommutative_closure hpair
+    have : IsMulCommutative ↥K := Subgroup.isMulCommutative_closure hpair
     have hKc : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥K) ⟨b, hb⟩)
     have hKQ : K ≤ T'.QG := by
@@ -525,7 +527,7 @@ theorem card_Lbar_g₁ {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) :
   omega
 
 theorem Lbar_le_Tbar {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) : h.setting.Lbar g₁ ≤ D.Tbar := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, h31, h3z⟩ := D.rep_props vecOf_three_ne q0_three
   have hg₁' : g₁ * h.setting.z * g₁⁻¹ = D.rep 3 := hg₁
   have haQ : g₁ * h.setting.z * g₁⁻¹ ∈ h.setting.QG := by rw [hg₁']; exact D.rep_mem 3
@@ -552,7 +554,7 @@ theorem Lbar_le_Tbar {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) : h.set
   let P : Sylow 2 ↥St := Sylow.ofCard (D.Tbar.subgroupOf St) (by
     rw [Nat.card_congr (subgroupOfEquivOfLe hTs).toEquiv, hcardT, hfac]
     norm_num)
-  haveI hN : ((h.setting.Lbar g₁).subgroupOf St).Normal := by
+  have hN : ((h.setting.Lbar g₁).subgroupOf St).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [mem_subgroupOf] at hn ⊢
     simp only [coe_mul, coe_inv]
@@ -566,6 +568,7 @@ theorem Lbar_le_Tbar {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) : h.set
   have h1 : (⟨v, hLs hv⟩ : ↥St) ∈ (P : Subgroup ↥St) := hle (mem_subgroupOf.mpr hv)
   exact mem_subgroupOf.mp h1
 
+omit hOut hTw in
 theorem rowsOf_mem_enum_p {v : h.setting.O} (hv : v ∈ D.Tbar) :
     rowsOf (D.Φo v) ∈ enumGrp Two.pRows := by
   obtain ⟨-, -, hid, hc, -⟩ := Two.pOK45_spec
@@ -610,9 +613,9 @@ theorem rowsOf_mem_core {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) {v :
     rw [map_mul, map_mul, map_inv, hsbU, LinearEquiv.mul_apply, LinearEquiv.mul_apply,
       linOfRows_mulR, linOfRows_mulR, linOfRows_rowsOf, hUiU, hUs, hUis]
     rfl
-  refine Two.mem_coreList48.mpr ⟨D.rowsOf_mem_enum_p hOut hTw (hLT hv), ?_⟩
+  refine Two.mem_coreList48.mpr ⟨D.rowsOf_mem_enum_p (hLT hv), ?_⟩
   rw [← hrows]
-  exact D.rowsOf_mem_enum_p hOut hTw (hLT hconj)
+  exact D.rowsOf_mem_enum_p (hLT hconj)
 
 theorem exists_Lbar_of_mem_core {g₁ : G} (hg₁ : g₁ * z * g₁⁻¹ = D.rep 3) {r : Array ℕ}
     (hr : r ∈ Two.coreList48 ()) :

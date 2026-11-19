@@ -27,7 +27,7 @@ private theorem ncard_eq_four {B : Subgroup Y} (hB : IsKleinFour B) :
 private theorem exists_ne_one_ne {B : Subgroup Y} (hB : IsKleinFour B) (z : Y) :
     ∃ b ∈ B, b ≠ 1 ∧ b ≠ z := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (B : Set Y) ⊆ ({1, z} : Set Y) := by
     intro b hb
     by_cases h1 : b = 1

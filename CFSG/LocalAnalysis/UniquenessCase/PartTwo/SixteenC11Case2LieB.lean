@@ -196,7 +196,7 @@ private theorem s16c11_case2lie_sp_isoFlag_two_cases {r : ℕ} (hr : 2 ≤ r) {K
       · subst hj0; simp [h0]
       · by_cases hj1 : j = (⟨1, by omega⟩ : Fin r)
         · subst hj1
-          simp [h1, Pi.single_eq_of_ne (fun h => hj0 (Sum.inl.inj h))]
+          simp [h1]
         · rw [hother j hj0 hj1]
           simp [Pi.single_eq_of_ne (fun h => hj0 (Sum.inl.inj h))]
     · rw [hw1 j]; simp
@@ -299,15 +299,15 @@ theorem s16c11_case2lie_sp_unipotent_relIndex_flagStabilizer {r : ℕ} (hr : 2 �
   have hs0 : ((((s : StatedSp r K) : GL (Fin r ⊕ Fin r) K) :
       Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) *ᵥ v) (Sum.inl ⟨0, by omega⟩) = 0 := by
     rw [hv, hs, s16c11_case2lie_sp_rho_mulVec_inl, pairMat_mulVec h01]
-    simp [SymplecticTorusWeyl.coe_sl2W, Pi.single_apply]
+    simp [SymplecticTorusWeyl.coe_sl2W]
   have ht1 : ((((t : StatedSp r K) : GL (Fin r ⊕ Fin r) K) :
       Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) *ᵥ v) (Sum.inl ⟨1, by omega⟩) = 1 := by
     rw [hv, ht, s16c11_case2lie_sp_rho_mulVec_inl, pairMat_mulVec h01]
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
   have ht0 : ((((t : StatedSp r K) : GL (Fin r ⊕ Fin r) K) :
       Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) *ᵥ v) (Sum.inl ⟨0, by omega⟩) = 1 := by
     rw [hv, ht, s16c11_case2lie_sp_rho_mulVec_inl, pairMat_mulVec h01]
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
   have hv0 : v (Sum.inl ⟨0, by omega⟩) = 1 := by rw [hv]; simp
   have hv1 : v (Sum.inl ⟨1, by omega⟩) = 0 := by rw [hv]; simp
   have hsv : s • v ≠ v := by
@@ -344,7 +344,7 @@ theorem s16c11_case2lie_sp_unipotent_relIndex_flagStabilizer {r : ℕ} (hr : 2 �
     intro w hw
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
     rcases hw with rfl | rfl | rfl
-    · simpa using MulAction.mem_orbit v (1 : ↥X)
+    · simp
     · exact ⟨⟨s, hsV⟩, rfl⟩
     · exact ⟨⟨t, htV⟩, rfl⟩
   let w0 : Fin r ⊕ Fin r → K := Pi.single (Sum.inl ⟨0, by omega⟩) (1 : K)
@@ -358,11 +358,11 @@ theorem s16c11_case2lie_sp_unipotent_relIndex_flagStabilizer {r : ℕ} (hr : 2 �
   have hne02 : w0 ≠ w0 + w1 := by
     intro h
     have hh := congrFun h (Sum.inl ⟨1, by omega⟩)
-    simp [w0, w1, Pi.single_apply] at hh
+    simp [w0, w1] at hh
   have hne12 : w1 ≠ w0 + w1 := by
     intro h
     have hh := congrFun h (Sum.inl ⟨0, by omega⟩)
-    simp [w0, w1, Pi.single_apply] at hh
+    simp [w0, w1] at hh
   have hdrop1 : w0 ∉ ({w1, w0 + w1} : Set (Fin r ⊕ Fin r → K)) := by
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
     exact ⟨hne01, hne02⟩
@@ -413,7 +413,7 @@ theorem s16c11_case2lie_sp_unipotent_le_flagStabilizer {r : ℕ} {K : Type} [Fie
     (SymplecticHigher.borelSubgroup_le_flagStabilizer fun _ hi => (Set.mem_Icc.mp hi).2)
 
 theorem s16c11_case2lie_sp_exists_moves {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K]
-    [Finite K] (hK : Nat.card K = 2) :
+    [Finite K] (_hK : Nat.card K = 2) :
     ∃ g ∈ SymplecticHigher.flagStabilizer r K (Set.Icc 2 r),
       (((g : StatedSp r K) : GL (Fin r ⊕ Fin r) K) :
         Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) *ᵥ
@@ -432,7 +432,7 @@ theorem s16c11_case2lie_sp_exists_moves {r : ℕ} (hr : 2 ≤ r) {K : Type} [Fie
   · intro h
     have hh := congrFun h (Sum.inl ⟨0, by omega⟩)
     rw [s16c11_case2lie_sp_rho_mulVec_inl, pairMat_mulVec h01] at hh
-    simp [SymplecticTorusWeyl.coe_sl2W, Pi.single_apply] at hh
+    simp [SymplecticTorusWeyl.coe_sl2W] at hh
 
 end
 

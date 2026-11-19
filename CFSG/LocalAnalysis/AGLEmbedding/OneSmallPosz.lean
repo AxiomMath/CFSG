@@ -36,7 +36,7 @@ theorem D1OneSmallData.posz_mem (h3 : D1PhaseThree p P M H R) (h84 : Asc81bEight
   have hKn : K.Normal := hd.cfg.red.normal_of_rankOne hd.comp hd.noncyclic
   have hRC : IsCyclic ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓
       Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) : Subgroup _) :=
-    hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup'.to_le inf_le_left)
+    hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup.to_le inf_le_left)
       inf_le_right
   have hcyc : IsCyclic (d1MapPCore p M H) := Subgroup.isCyclic_of_le hVC
   have hheq := h3.d1MapPCore_eq h84 hD2
@@ -70,7 +70,7 @@ theorem D1OneSmallData.posz_mem (h3 : D1PhaseThree p P M H R) (h84 : Asc81bEight
   have hK1 : ∀ y ∈ pCorePreimage p M, y ^ p = 1 →
       ∃ k : ℤ, ((e : G) ^ k)⁻¹ * y ∈ pCoreOf 2 M := fun y hy hyp =>
     h3.exists_zpow_inv_mul_mem_twoCore h84 hD2 heX.2 hΩ hy (hyp ▸ (pCoreOf 2 M).one_mem)
-  have hcen := mem_centralizer_of_forall_exists_zpow hp hp2 P.isPGroup' hd.cfg.ext.sylow_le
+  have hcen := mem_centralizer_of_forall_exists_zpow hp hp2 P.isPGroup hd.cfg.ext.sylow_le
     (hd.cfg.ext.le_P heX.1) heX.2 hep hK1
   have hCM := hd.centralizer_not_le hz
   obtain ⟨hzR', hzp', hzH, hzC⟩ := hz

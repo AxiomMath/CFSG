@@ -30,15 +30,15 @@ theorem shult_card_uc6 {G : Type} [Group G] [Finite G] {ℓ : ℕ} [Fact ℓ.Pri
   have hσirr : Representation.IsIrreducible σ :=
     (Theory.Representation.RepEquiv.irreducible_iff_group_iso (ρ := σ) (σ := ρ) e
       (by intro g v; rfl)).2 hirr
-  haveI : FiniteDimensional (ZMod ℓ) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod ℓ) V := Module.Finite.of_finite
   have hσfaith : Function.Injective σ := by
     intro x y hxy
     exact e.injective (hfaith (by simpa [σ] using hxy))
   have hq_dvdK : 2 ∣ Nat.card K := by
     rw [hcardK]
     exact dvd_pow_self 2 (by positivity)
-  haveI : Fact (Nat.card R).Prime := ⟨hR⟩
-  haveI : IsCyclic ↥R := isCyclic_of_prime_card (p := Nat.card R) rfl
+  have : Fact (Nat.card R).Prime := ⟨hR⟩
+  have : IsCyclic ↥R := isCyclic_of_prime_card (p := Nat.card R) rfl
   have hyconj : ∀ (x : R) (y : K), φ x y = y → (x : G) * (y : G) = (y : G) * (x : G) := by
     intro x y hy
     have hyconj : (x : G) * (y : G) * (x : G)⁻¹ = y := by
@@ -66,7 +66,7 @@ theorem shult_card_uc6 {G : Type} [Group G] [Finite G] {ℓ : ℕ} [Fact ℓ.Pri
           _ = y := by simp [mul_assoc]
       simpa [φ, Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe, hRK] using hyconj
   have hcardG : Nat.card G = Nat.card R * 2 ^ (2 * n + 1) := by
-    rw [← hKR.card_mul, hcardK, mul_comm]
+    rw [← hKR.card_mul_card, hcardK, mul_comm]
   have hc : ¬ ringChar (ZMod ℓ) ∣ Nat.card R * 2 ^ (2 * n + 1) := by
     rw [ZMod.ringChar_zmod_n, ← hcardG]
     exact hℓ

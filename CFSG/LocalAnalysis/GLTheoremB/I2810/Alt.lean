@@ -20,8 +20,9 @@ section CaseOneTwo
 open CFSG.LocalAnalysis.GLTheoremB.Prop95Iv
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem omega_alt_iso {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
-    (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
+    (_h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hts : TransSection K (vOf W K S) U₁ U₂ a) (hAlt : InAlt ↥(bar W K))
     (hΩ : OmegaModelWith Q W K a U₁ U₂) :
     ∃ n₀ : ℕ, 5 ≤ n₀ ∧ Nonempty (↥(alternatingGroup (Fin n₀)) ≃*
@@ -29,10 +30,10 @@ theorem omega_alt_iso {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMo
   obtain ⟨θ, t, hsurj, hkerW, -, -, -, -, hiso⟩ := hΩ
   obtain ⟨-, n₀, hn₀, ⟨eA⟩⟩ := hAlt
   refine ⟨n₀, hn₀, ?_⟩
-  haveI : Group.IsPerfect ↥(bar W K) := hR.quasi.1
+  have : Group.IsPerfect ↥(bar W K) := hR.quasi.1
   have hnt : ∃ k : ↥K, θ k ≠ 1 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     obtain ⟨k, hk, x, hx, hxk⟩ := hts.nontriv
     obtain ⟨φ, -, hφker, hequiv⟩ := hiso
     have h1 := hequiv ⟨k, hk⟩ ⟨x, hx⟩ ⟨k * x * k⁻¹, hts.inv₁ k hk x hx⟩ rfl
@@ -101,6 +102,7 @@ theorem omegaMinusFour_swap (n : ℕ) (hn : n = 1)
   intro t ht hQ _
   exact AltOverlap.swap_of_transvection4 θ' t ht hQ
 
+omit [Finite X] [W.Normal] in
 theorem omega_to_alt_five {a : X} {U₁ U₂ : Subgroup X} (hm : OmegaMinus W K a U₁ U₂ 1) :
     AltModel W K a U₁ U₂ := by
   obtain ⟨θ, t, hsurj, hker, htr, hQt, htn, hconj, hiso⟩ := hm
@@ -140,6 +142,7 @@ theorem omegaPlusSix_swap (n : ℕ) (hn : n = 2)
   intro t ht hQ _
   exact AltOverlap.swap_of_transvection6 θ' t ht hQ
 
+omit [Finite X] [W.Normal] in
 theorem omega_to_alt_eight {a : X} {U₁ U₂ : Subgroup X} (hm : OmegaPlus W K a U₁ U₂ 2) :
     AltModel W K a U₁ U₂ := by
   obtain ⟨θ, t, hsurj, hker, htr, hQt, htn, hconj, hiso⟩ := hm
@@ -150,12 +153,14 @@ theorem omega_to_alt_eight {a : X} {U₁ U₂ : Subgroup X} (hm : OmegaPlus W K 
   · simp [hker k hk]
   · exact AltBasic.chiefFactorIso_comp hiso θ'.toMonoidHom β _ fun g v => hβ g v
 
+omit [Finite X] in
 theorem centMax_of_alt_center (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (_hts : TransSection K (vOf W K S) U₁ U₂ a) (haS : a ∈ S) (hna : a ∉ kerAct W K S)
     (hS2 : Nat.card ↥(indAut W K S) = 2) (hm : AltModel W K a U₁ U₂)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) : CentMax W K S a :=
   AltCent.centMax_core h hR haS hna hS2 hZ hm
 
+omit [Finite X] in
 theorem threeElt_of_alt_center (h : Setup28 W K S) (hR : Red28 W K S) {a : X}
     {U₁ U₂ : Subgroup X} (_hts : TransSection K (vOf W K S) U₁ U₂ a) (haS : a ∈ S)
     (_hna : a ∉ kerAct W K S) (_hS2 : Nat.card ↥(indAut W K S) = 2) (hm : AltModel W K a U₁ U₂)
@@ -166,6 +171,7 @@ theorem hyp28Two_center (h : Setup28 W K S) (h2 : Hyp28Two W K S) :
     Subgroup.center ↥(bar W K) = ⊥ :=
   AltCentre.center_bot_of_hyp28Two h h2
 
+omit [Finite X] in
 theorem alt_final (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S)

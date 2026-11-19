@@ -38,7 +38,7 @@ divisible by four has index not divisible by four. -/
 public theorem index_two_part_le_two_of_normal_card_div_four_of_card_12_or_24
     {G : Type u} [Group G] [Finite G]
     (hGcard : Nat.card G = 12 ∨ Nat.card G = 24)
-    {M : Subgroup G} (hM : M.Normal) (h4 : 4 ∣ Nat.card M) :
+    {M : Subgroup G} (_hM : M.Normal) (h4 : 4 ∣ Nat.card M) :
     ¬ 4 ∣ M.index := by
   intro h4idx
   have h16 : 16 ∣ Nat.card G := by
@@ -71,7 +71,6 @@ public theorem index_not_dvd_four_of_normal_card_div_four_of_A7_quotient
   have hOodd : Odd (Nat.card (↥O)) := by
     exact Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := A))
   have hOodd' : Odd (Nat.card (↥(q.ker))) := by
-    change Odd (Nat.card (↥(q.ker)))
     rw [show q.ker = O by
       dsimp [q]
       exact QuotientGroup.ker_mk' O]
@@ -165,7 +164,7 @@ is the whole group. -/
 public theorem index_not_dvd_four_of_normal_card_div_four_of_iso_psl2_large
     {L : Type u} [Group L] [Finite L]
     (K : Type u) [Field K] [Finite K]
-    (hK : IsOddPrimePower (Nat.card K)) (hcard : 3 < Nat.card K)
+    (_hK : IsOddPrimePower (Nat.card K)) (hcard : 3 < Nat.card K)
     (e : L ≃* PSL2 K)
     {M : Subgroup L} (hM : M.Normal) (h4 : 4 ∣ Nat.card M) :
     ¬ 4 ∣ M.index := by

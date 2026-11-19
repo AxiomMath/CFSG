@@ -105,6 +105,7 @@ theorem exists_lift
   rw [e1]
   simpa using e2
 
+omit [Finite K] hact hK in
 theorem rel_unique {g : ↥𝔛} {z z' : Matrix.SpecialLinearGroup (Fin 2) K ×
     Matrix.SpecialLinearGroup (Fin 2) K} (h : Rel D c g z) (h' : Rel D c g z') : z = z' := by
   apply specialRho_injective (K := K)
@@ -116,6 +117,7 @@ theorem rel_unique {g : ↥𝔛} {z z' : Matrix.SpecialLinearGroup (Fin 2) K ×
   rw [specialRho_apply, specialRho_apply]
   exact e
 
+omit [Finite K] [CharP K 2] hK in
 theorem eq_of_rel {g g' : ↥𝔛} {z : Matrix.SpecialLinearGroup (Fin 2) K ×
     Matrix.SpecialLinearGroup (Fin 2) K} (h : Rel D c g z) (h' : Rel D c g' z) : g = g' := by
   obtain ⟨hX, -, -, h3⟩ := hact
@@ -133,6 +135,7 @@ theorem eq_of_rel {g g' : ↥𝔛} {z : Matrix.SpecialLinearGroup (Fin 2) K ×
   have h2 : g⁻¹ * g' = 1 := Subtype.ext h1
   exact inv_mul_eq_one.mp h2
 
+omit [Finite K] [CharP K 2] hact hK in
 theorem rel_mul {g h : ↥𝔛} {z w : Matrix.SpecialLinearGroup (Fin 2) K ×
     Matrix.SpecialLinearGroup (Fin 2) K} (hg : Rel D c g z) (hh : Rel D c h w) :
     Rel D c (g * h) (z * w) := by
@@ -142,6 +145,7 @@ theorem rel_mul {g h : ↥𝔛} {z w : Matrix.SpecialLinearGroup (Fin 2) K ×
   rw [e, hg, hh]
   simp [mul_assoc, Matrix.SpecialLinearGroup.coe_mul, mul_inv_rev]
 
+omit [Finite K] [CharP K 2] hact hK in
 theorem rel_one : Rel D c (1 : ↥𝔛) 1 := by
   intro v
   have e : D.act 1 v = v := Subtype.ext (by rw [D.act_coe]; rfl)
@@ -158,9 +162,9 @@ theorem lift_rel (z : Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinea
 noncomputable def liftHom :
     Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K →* ↥𝔛 where
   toFun := lift D c hact hK
-  map_one' := eq_of_rel D c hact hK (lift_rel D c hact hK 1) (rel_one D c hact hK)
-  map_mul' z w := eq_of_rel D c hact hK (lift_rel D c hact hK (z * w))
-    (rel_mul D c hact hK (lift_rel D c hact hK z) (lift_rel D c hact hK w))
+  map_one' := eq_of_rel D c hact (lift_rel D c hact hK 1) (rel_one D c)
+  map_mul' z w := eq_of_rel D c hact (lift_rel D c hact hK (z * w))
+    (rel_mul D c (lift_rel D c hact hK z) (lift_rel D c hact hK w))
 
 theorem liftHom_rel
     (z : Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K) :
@@ -168,13 +172,13 @@ theorem liftHom_rel
 
 theorem liftHom_injective : Function.Injective (liftHom D c hact hK) := by
   intro z z' h
-  exact rel_unique D c hact hK (liftHom_rel D c hact hK z)
+  exact rel_unique D c (liftHom_rel D c hact hK z)
     (h ▸ liftHom_rel D c hact hK z')
 
 theorem liftHom_surjective : Function.Surjective (liftHom D c hact hK) := by
   intro g
   obtain ⟨z, hz⟩ := exists_rel D c hact hK g
-  exact ⟨z, eq_of_rel D c hact hK (liftHom_rel D c hact hK z) hz⟩
+  exact ⟨z, eq_of_rel D c hact (liftHom_rel D c hact hK z) hz⟩
 
 noncomputable def Phi :
     Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K →*
@@ -205,11 +209,13 @@ section Complement
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {S : QSpace K} {V : Submodule K S.E}
   {𝔛 : Subgroup (S.E ≃ₗ[K] S.E)} {D : LCData S V 𝔛}
 
+omit [Finite K] [CharP K 2] in
 theorem exists_section (D : LCData S V 𝔛) : ∃ s : ↥V →ₗ[K] S.E, ∀ u, D.β0 (s u) = u := by
   obtain ⟨s, hs⟩ := D.β0.exists_rightInverse_of_surjective
     (LinearMap.range_eq_top.mpr D.β0_surjective)
   exact ⟨s, fun u => by simpa using LinearMap.congr_fun hs u⟩
 
+omit [Finite K] [CharP K 2] in
 theorem mem_V_of_comm (s : ↥V →ₗ[K] S.E) (hs : ∀ u, D.β0 (s u) = u) (g : ↥𝔛) (v : ↥V) :
     (g : S.E ≃ₗ[K] S.E) (s v) - s (D.act g v) ∈ V := by
   rw [← D.β0_eq_zero_iff, map_sub, D.β0_act g (s v), hs, hs, sub_self]
@@ -219,9 +225,11 @@ theorem mem_V_of_comm (s : ↥V →ₗ[K] S.E) (hs : ∀ u, D.β0 (s u) = u) (g 
   LinearMap.codRestrict V
     (((g : S.E ≃ₗ[K] S.E) : S.E →ₗ[K] S.E) ∘ₗ s - s ∘ₗ D.act g) (mem_V_of_comm s hs g)
 
+omit [Finite K] [CharP K 2] in
 theorem cocycle0_apply (s : ↥V →ₗ[K] S.E) (hs : ∀ u, D.β0 (s u) = u) (g : ↥𝔛) (v : ↥V) :
     ((cocycle0 s hs g v : ↥V) : S.E) = (g : S.E ≃ₗ[K] S.E) (s v) - s (D.act g v) := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem cocycle0_mul (s : ↥V →ₗ[K] S.E) (hs : ∀ u, D.β0 (s u) = u) (g h : ↥𝔛) :
     cocycle0 s hs (g * h) = D.act g * cocycle0 s hs h + cocycle0 s hs g * D.act h := by
   apply LinearMap.ext
@@ -236,6 +244,7 @@ theorem cocycle0_mul (s : ↥V →ₗ[K] S.E) (hs : ∀ u, D.β0 (s u) = u) (g h
   rw [this]
   abel
 
+omit [Finite K] [CharP K 2] in
 theorem algConj_act {c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)} {g : ↥𝔛}
     {z : Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K}
     (h : Rel D c g z) : (cM c).conjRingEquiv (D.act g) = rhoLin z := by
@@ -341,6 +350,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {S : QSpace K} {V : Submodu
     funext a b c
     fin_cases a <;> simp
 
+omit [Finite K] [CharP K 2] in
 theorem pairT_apply (p : Matrix (Fin 2) (Fin 2) K × Matrix (Fin 2) (Fin 2) K) (a b c : Fin 2) :
     pairT p a b c = if a = 0 then p.1 b c else p.2 b c := rfl
 
@@ -348,10 +358,12 @@ theorem pairT_apply (p : Matrix (Fin 2) (Fin 2) K × Matrix (Fin 2) (Fin 2) K) (
     Matrix.SpecialLinearGroup (Fin 2) K :=
   (R⁻¹).transpose
 
+omit [Finite K] [CharP K 2] in
 theorem colSL_apply (R : Matrix.SpecialLinearGroup (Fin 2) K) (i j : Fin 2) :
     (colSL R : Matrix (Fin 2) (Fin 2) K) i j =
       ((R⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) j i := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem act_pairT (P R : Matrix.SpecialLinearGroup (Fin 2) K) (X Y : Matrix (Fin 2) (Fin 2) K) :
     tensor3Act1 (P : Matrix (Fin 2) (Fin 2) K) (tensor3Act2 (colSL R : Matrix (Fin 2) (Fin 2) K)
       (pairT (X, Y))) =
@@ -369,10 +381,12 @@ theorem act_pairT (P R : Matrix.SpecialLinearGroup (Fin 2) K) (X Y : Matrix (Fin
     S.E ≃ₗ[K] Tensor3 K :=
   (Sp.Θ.symm.trans (LinearEquiv.prodCongr (cM c) (cM c))).trans pairT
 
+omit [Finite K] [CharP K 2] in
 theorem frame_Θ (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (Sp : D.Split) (v w : ↥V) :
     frame c Sp (Sp.Θ (v, w)) = pairT (cM c v, cM c w) := by
   simp [frame]
 
+omit [Finite K] [CharP K 2] in
 theorem conj_frame (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (Sp : D.Split) (g : ↥𝔛)
     {z : Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K}
     (h : Rel D c g z) :
@@ -385,6 +399,7 @@ theorem conj_frame (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (Sp : D.Split) (
   rw [Sp.act_Θ, frame_Θ, frame_Θ, h v, h w, LinearEquiv.mul_apply, act2E_apply, act1E_apply,
     act_pairT]
 
+omit [Finite K] in
 theorem conj_frame_unip (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (Sp : D.Split) (r : K) :
     conjE (frame c Sp) (D.unip r) = act0E (unipSL r) := by
   apply LinearEquiv.ext
@@ -410,12 +425,15 @@ variable (Sp : D.Split)
 
 @[expose] noncomputable def bTau : ↥V →ₗ[K] ↥V →ₗ[K] K := S.B.compl₁₂ Sp.τ Sp.τ
 
+omit [Finite K] [CharP K 2] in
 theorem bTau_apply (w w' : ↥V) : bTau Sp w w' = S.B (Sp.τ w) (Sp.τ w') := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem bTau_act (g : ↥𝔛) (w w' : ↥V) : bTau Sp (D.act g w) (D.act g w') = bTau Sp w w' := by
   rw [bTau_apply, bTau_apply, Sp.τ_act, Sp.τ_act]
   exact S.B_isometry (D.O_le g.2) _ _
 
+omit [Finite K] [CharP K 2] in
 theorem exists_kappa : ∃ κ : K, ∀ w w' : ↥V, S.B (Sp.τ w) (Sp.τ w') = κ * D.pf w w' := by
   let a : ↥V →ₗ[K] ↥V := D.pfEquiv.symm.toLinearMap ∘ₗ bTau Sp
   have ha : ∀ w w', D.pf (a w) w' = bTau Sp w w' := by
@@ -445,6 +463,7 @@ end TauForm
 
 section StdForms
 
+omit [Finite K] in
 theorem plusPolar_eq_tensor3Form (x y : Fin 2 ⊕ Fin 2 → K) :
     plusPolar 2 K y x = tensor3Form (pairT (toMat K x, toMat K y)) := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -453,9 +472,11 @@ theorem plusPolar_eq_tensor3Form (x y : Fin 2 ⊕ Fin 2 → K) :
   linear_combination
     (x (.inr 1) * y (.inr 1) * 0 + (x (.inl 1) * y (.inr 1) + x (.inr 1) * y (.inl 1))) * h2
 
+omit [Finite K] [CharP K 2] in
 theorem det_toMat_eq (x : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K x = (toMat K x).det := (det_toMat K x).symm
 
+omit [Finite K] [CharP K 2] in
 theorem detW_pairT (X Y : Matrix (Fin 2) (Fin 2) K) : detW (pairT (X, Y)) = Y.det := by
   simp [detW, pairT_apply, Matrix.det_fin_two]
 
@@ -464,6 +485,7 @@ end StdForms
 @[expose] def frLowSL (c : K) : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![1, 0; c, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem frLowSL_apply (c : K) : (frLowSL c : Matrix (Fin 2) (Fin 2) K) = !![1, 0; c, 1] := rfl
 
 section QForm
@@ -472,6 +494,7 @@ variable (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (hact : ActsAsNatural S V 
   (hK : 4 ≤ Nat.card K) (Sp : D.Split)
 
 include hact in
+omit [Finite K] [CharP K 2] in
 theorem invariant_f0 (g : ↥𝔛) (w : ↥V) :
     StatedQuadPlus 2 K (c (D.act g w)) = StatedQuadPlus 2 K (c w) := by
   obtain ⟨hX, h1, -, -⟩ := hact
@@ -568,18 +591,22 @@ section Images
 variable (c : ↥V ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) (hact : ActsAsNatural S V 𝔛 c (StatedQuadPlus 2 K))
   (hK : 4 ≤ Nat.card K) (Sp : D.Split)
 
+omit [Finite K] [CharP K 2] in
 theorem colSL_one : colSL (1 : Matrix.SpecialLinearGroup (Fin 2) K) = 1 := by
   apply Subtype.ext
   simp [colSL, Matrix.SpecialLinearGroup.transpose]
 
+omit [Finite K] [CharP K 2] in
 theorem sl_transpose_inv (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     (A.transpose)⁻¹ = (A⁻¹).transpose := by
   apply Subtype.ext
   simp [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_transpose]
 
+omit [Finite K] [CharP K 2] in
 theorem sl_transpose_transpose (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     A.transpose.transpose = A := Subtype.ext (by simp)
 
+omit [Finite K] [CharP K 2] in
 theorem colSL_colSL (R : Matrix.SpecialLinearGroup (Fin 2) K) : colSL (colSL R) = R := by
   unfold colSL
   rw [sl_transpose_inv, inv_inv, sl_transpose_transpose]
@@ -629,13 +656,15 @@ section MainFrame
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem sl2_not_commutative : ¬ IsMulCommutative (Matrix.SpecialLinearGroup (Fin 2) K) := by
   intro h
   have h1 := h.is_comm.comm (unipSL (1 : K)) (frLowSL 1)
   have h2 := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) K =>
     (A : Matrix (Fin 2) (Fin 2) K) 0 0) h1
-  simp [unipSL_apply, frLowSL_apply, Matrix.mul_apply, Fin.sum_univ_two] at h2
+  simp [unipSL_apply, frLowSL_apply] at h2
 
+omit [Finite K] [CharP K 2] in
 theorem map_conjFlip_colG : (colG (K := K)).map (conjFlip (K := K)).toMonoidHom = rowG := by
   ext T
   constructor
@@ -644,6 +673,7 @@ theorem map_conjFlip_colG : (colG (K := K)).map (conjFlip (K := K)).toMonoidHom 
   · rintro ⟨A, rfl⟩
     exact ⟨act2E A, ⟨A, rfl⟩, conjFlip_act2E A⟩
 
+omit [Finite K] [CharP K 2] in
 theorem map_conjFlip_rowG : (rowG (K := K)).map (conjFlip (K := K)).toMonoidHom = colG := by
   ext T
   constructor
@@ -702,7 +732,7 @@ theorem not_comm_of_injective {G H : Type*} [Group G] [Group H] (hG : ¬ IsMulCo
   simpa [map_mul] using congrArg Subtype.val this
 
 theorem leftG_simple : IsSimpleGroup ↥(leftG D c hact hK) := by
-  haveI := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
+  have := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
   have hinj : Function.Injective ((Phi D c hact hK).comp
       (MonoidHom.inl (Matrix.SpecialLinearGroup (Fin 2) K)
         (Matrix.SpecialLinearGroup (Fin 2) K))) := fun a b h =>
@@ -710,7 +740,7 @@ theorem leftG_simple : IsSimpleGroup ↥(leftG D c hact hK) := by
   exact (MonoidHom.ofInjective hinj).symm.isSimpleGroup
 
 theorem rightG_simple : IsSimpleGroup ↥(rightG D c hact hK) := by
-  haveI := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
+  have := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
   have hinj : Function.Injective ((Phi D c hact hK).comp
       (MonoidHom.inr (Matrix.SpecialLinearGroup (Fin 2) K)
         (Matrix.SpecialLinearGroup (Fin 2) K))) := fun a b h =>
@@ -731,6 +761,7 @@ theorem rightG_not_comm : ¬ IsMulCommutative ↥(rightG D c hact hK) := by
     (Prod.ext_iff.mp (Phi_injective D c hact hK h)).2
   exact not_comm_of_injective sl2_not_commutative _ hinj
 
+omit [Finite K] [CharP K 2] in
 theorem conjE_trans_flip {E : Type} [AddCommGroup E] [Module K E] (θ : E ≃ₗ[K] Tensor3 K)
     (g : E ≃ₗ[K] E) : conjE (θ.trans flipE) g = conjFlip (conjE θ g) := by
   rw [conjFlip_apply]
@@ -742,6 +773,7 @@ theorem conjE_trans_flip {E : Type} [AddCommGroup E] [Module K E] (θ : E ≃ₗ
   simp only [conjE_apply, LinearEquiv.mul_apply, LinearEquiv.trans_apply,
     LinearEquiv.symm_trans_apply, hsymm]
 
+omit [Finite K] [CharP K 2] in
 theorem conjE_trans_flip_hom {E : Type} [AddCommGroup E] [Module K E] (θ : E ≃ₗ[K] Tensor3 K) :
     (conjE (θ.trans flipE)).toMonoidHom = (conjFlip (K := K)).toMonoidHom.comp
       (conjE θ).toMonoidHom := by
@@ -763,8 +795,8 @@ theorem exists_frame (hKF10 : H1TensorStatement) (hK : 4 ≤ Nat.card K)
       ∀ r : K, conjE θ (D.unip r) = act0E (unipSL r) := by
   obtain ⟨Sp⟩ := exists_split (D := D) hKF10 hK c hact
   obtain ⟨κ, hκ⟩ := Qf_frame c hact hK Sp hpf
-  haveI := leftG_simple D c hact hK
-  haveI := rightG_simple D c hact hK
+  have := leftG_simple D c hact hK
+  have := rightG_simple D c hact hK
   have hfu := factor_unique (leftG_comm_rightG D c hact hK) hcomm (leftG_inf_rightG D c hact hK)
     hinf ((leftG_sup_rightG D c hact hK).trans hBC.symm) (leftG_not_comm D c hact hK)
     (rightG_not_comm D c hact hK) hBn hCn

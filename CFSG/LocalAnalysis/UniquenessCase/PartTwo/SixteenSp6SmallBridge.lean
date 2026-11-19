@@ -39,7 +39,7 @@ theorem s16smRepW_apply {Γ : Type} [Group Γ] {H : Subgroup (MulAut W)} (π : �
   smul_mem' c x hx := by
     have hc : c = 0 ∨ c = 1 := by revert c; decide
     rcases hc with rfl | rfl
-    · simpa using U.one_mem
+    · simp
     · simpa using hx
 
 theorem mem_s16smSubmod {U : Subgroup W} {x : Additive W} :
@@ -106,8 +106,7 @@ theorem s16sm_hperf_of_comm {Γ : Type} [Group Γ] {H : Subgroup (MulAut W)} (π
         exact hl
       refine ⟨s16smRepU π hU γ ⟨Additive.ofMul l, hl0⟩ -
         ⟨Additive.ofMul l, hl0⟩, ?_, ?_⟩
-      · simp only [Submodule.coe_sub, Submodule.coe_add, Submodule.coe_neg, Subtype.coe_mk,
-          s16smRepU_apply, s16smRepW_apply, hγ', ofMul_mul, ofMul_inv, sub_eq_add_neg]
+      · simp only [Submodule.coe_add, Submodule.coe_neg, s16smRepU_apply, s16smRepW_apply, hγ', ofMul_mul, ofMul_inv, sub_eq_add_neg]
       · rw [map_sub, hψ γ ⟨Additive.ofMul l, hl0⟩, sub_self]
     · exact ⟨0, by simp, by simp⟩
     · rintro x y hx hy ⟨vx, hvx, hx0⟩ ⟨vy, hvy, hy0⟩

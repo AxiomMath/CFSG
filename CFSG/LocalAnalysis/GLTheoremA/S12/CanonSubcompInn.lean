@@ -40,7 +40,7 @@ theorem centerQuotAut_conjAut_ne_one {Γ : Type} [Group Γ] {L : Subgroup Γ} {y
     (hy : y ∈ Subgroup.normalizer (L : Set Γ)) (hyL : y ∉ Subgroup.centralizer (L : Set Γ))
     (hperf : commutator ↥L = ⊤) : centerQuotAut ↥L (conjAut L y hy) ≠ 1 := by
   intro h
-  haveI : Group.IsPerfect ↥L := ⟨hperf⟩
+  have : Group.IsPerfect ↥L := ⟨hperf⟩
   have hc : ∀ l : ↥L, l⁻¹ * (conjAut L y hy).toMonoidHom l ∈ Subgroup.center ↥L := fun l => by
     have h1 : (QuotientGroup.mk (conjAut L y hy l) : ↥L ⧸ Subgroup.center ↥L) =
         QuotientGroup.mk l := by

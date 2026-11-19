@@ -31,10 +31,10 @@ theorem wv_codeLetters {n : Nat} (g : Nat → Equiv.Perm (Fin n)) (r : List (Fin
     cases b
     · have h1 : ¬ (0 : Int) < -((i.val : Int) + 1) := by omega
       have h2 : (-(-((i.val : Int) + 1))).toNat - 1 = i.val := by omega
-      simp [lv, h1, h2, wordVal, letterVal]
+      simp [lv, wordVal, letterVal]
     · have h1 : (0 : Int) < (i.val : Int) + 1 := by omega
       have h2 : ((i.val : Int) + 1).toNat - 1 = i.val := by omega
-      simp [lv, h1, h2, wordVal, letterVal]
+      simp [lv, h1, wordVal, letterVal]
 
 theorem evalWord_eq_wv {n m : Nat} (g : Nat → Equiv.Perm (Fin n)) :
     ∀ {w : List Int}, Lm m w →

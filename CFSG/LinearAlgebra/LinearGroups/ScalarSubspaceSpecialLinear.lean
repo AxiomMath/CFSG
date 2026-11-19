@@ -11,6 +11,7 @@ namespace Submodule
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem exists_scalar_mem_specialLinearEmbedding
     {E P : Submodule K V} (h : IsCompl E P) (a : K) (ha : a ≠ 0)
     (hpow : a ^ Module.finrank K E = 1) :
@@ -44,6 +45,7 @@ theorem exists_scalar_mem_specialLinearEmbedding
       simp only [s, LinearEquiv.smulOfNeZero_apply, map_smul]
     exact hc.map beta
 
+omit [FiniteDimensional K V] in
 theorem normalizer_specialLinearEmbedding_preserves_complements
     {E P : Submodule K V} (h : IsCompl E P) (a : K) (ha0 : a ≠ 0)
     (ha1 : a ≠ 1) (hpow : a ^ Module.finrank K E = 1)
@@ -67,6 +69,7 @@ theorem normalizer_specialLinearEmbedding_preserves_complements
   exact CFSG.LinearAlgebra.preserves_complements_of_normalizes_scalar_block
     h hmove hfix hz ha1 hzE hzP hf
 
+omit [FiniteDimensional K V] in
 theorem le_left_or_le_right_of_scalar_invariant_line
     {U W L : Submodule K V} (hUW : Disjoint U W)
     (hL : Module.finrank K L = 1) (hle : L ≤ U ⊔ W)

@@ -19,10 +19,10 @@ theorem unitaryFieldDataOfCard (hFc : Nat.card F = (2 ^ n) ^ 2) : UnitaryFieldDa
     rcases Nat.eq_zero_or_pos n with h0 | hn
     · subst h0
       exfalso
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have h2 : 1 < Fintype.card F := Fintype.one_lt_card
       rw [← Nat.card_eq_fintype_card, hFc] at h2
-      simpa using h2
+      simp at h2
     · exact hn
   card := by
     rw [hFc, ← pow_mul, Nat.mul_comm n 2]
@@ -47,9 +47,9 @@ noncomputable def sylowMapUnitaryProj {m : ℕ} {K : Type} [Field K]
 
 theorem sylowMapUnitaryProj_bijective {m : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 m K) : Function.Bijective (sylowMapUnitaryProj h) := by
-  haveI : Finite K := h.finite
-  haveI : Finite ↥(unitarySU 2 m K 3) := model3U4_finite_group h
-  haveI : Finite (unitaryPSU h 3) :=
+  have : Finite K := h.finite
+  have : Finite ↥(unitarySU 2 m K 3) := model3U4_finite_group h
+  have : Finite (unitaryPSU h 3) :=
     Finite.of_surjective (unitaryProj h 3) (unitaryProj_surjective h 3)
   exact sylow_mapSurjective_bijective_of_odd_central_ker (unitaryProj h 3)
     (unitaryProj_surjective h 3)
@@ -61,11 +61,11 @@ theorem omegaOneOf_map_sylowMapUnitaryProj {m : ℕ} {K : Type} [Field K]
     (omegaOneOf (T : Subgroup ↥(unitarySU 2 m K 3))).map (unitaryProj h 3) =
       omegaOneOf ((sylowMapUnitaryProj h T : Sylow 2 (unitaryPSU h 3)) :
         Subgroup (unitaryPSU h 3)) := by
-  haveI : Finite K := h.finite
-  haveI : Finite ↥(unitarySU 2 m K 3) := model3U4_finite_group h
-  haveI : Finite (unitaryPSU h 3) :=
+  have : Finite K := h.finite
+  have : Finite ↥(unitarySU 2 m K 3) := model3U4_finite_group h
+  have : Finite (unitaryPSU h 3) :=
     Finite.of_surjective (unitaryProj h 3) (unitaryProj_surjective h 3)
   dsimp only [sylowMapUnitaryProj]
   rw [Sylow.coe_mapSurjective]
-  exact omegaOneOf_map_of_odd_ker (unitaryProj h 3) (ker_unitaryProj_odd h) T.isPGroup'
+  exact omegaOneOf_map_of_odd_ker (unitaryProj h 3) (ker_unitaryProj_odd h) T.isPGroup
 

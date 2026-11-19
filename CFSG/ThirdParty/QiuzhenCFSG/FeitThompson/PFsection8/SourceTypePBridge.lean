@@ -91,7 +91,7 @@ private theorem sourceTypeP_exists_primeOrderSubgroup_of_ne_bot
     intro hcard
     exact hHne ((Subgroup.card_eq_one (H := H)).1 hcard)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨p, hpprime, hpdiv⟩
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   rcases exists_prime_orderOf_dvd_card' (G := H) p hpdiv with ⟨zH, hzH_order⟩
   let z : G := zH
   refine ⟨Subgroup.zpowers z, ?_⟩
@@ -107,10 +107,10 @@ private theorem sourceTypeP_sylow_map_to_overgroup_sylow
     (P : Sylow p.val K) :
     ∃ PH : Sylow p.val H, (PH : Subgroup H) = (P : Subgroup K).map K.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup H := (P : Subgroup K).map K.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup' K.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup K.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup K).index * K.index := by
@@ -130,9 +130,9 @@ private theorem sourceTypeP_primeRank_le_one_of_cyclic_sylow
     primeRank p R ≤ 1 := by
   rw [primeRank]
   refine csSup_le ?_ ?_
-  · letI : IsCyclic (S : Subgroup R) := hS_cyc
+  · let : IsCyclic (S : Subgroup R) := hS_cyc
     refine ⟨0, ?_⟩
-    exact ⟨(S : Subgroup R), S.isPGroup', inferInstance, by simp⟩
+    exact ⟨(S : Subgroup R), S.isPGroup, inferInstance, by simp⟩
   · intro n hn
     rcases hn with ⟨A, hAp, _hAcomm, hnA⟩
     obtain ⟨T, hA_le_T⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hAp
@@ -158,13 +158,13 @@ private theorem sourceTypeP_primeRank_le_one_of_cyclic_hall_subgroup
     (hKcyc : IsCyclic K) :
     primeRank p.val R ≤ 1 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let PK : Sylow p.val K := Classical.choice (Sylow.nonempty (p := p.val) (G := K))
   rcases sourceTypeP_sylow_map_to_overgroup_sylow
       (H := R) (K := K) hKHall hpπ PK with
     ⟨PR, hPReq⟩
   have hPKcyclic : IsCyclic (PK : Subgroup K) := by
-    letI : IsCyclic K := hKcyc
+    let : IsCyclic K := hKcyc
     exact Subgroup.isCyclic_of_le (show (PK : Subgroup K) ≤ ⊤ from le_top)
   let Pmap : Subgroup R := (PK : Subgroup K).map K.subtype
   have hPmapCyclic : IsCyclic Pmap := by
@@ -186,7 +186,7 @@ private theorem sourceTypeP_natCard_eq_of_complements_same_normal_left
     (hKcomp : section12ComplementIn M K D) :
     Nat.card H = Nat.card K := by
   classical
-  letI : (D.subgroupOf M).Normal := hDnormal
+  let : (D.subgroupOf M).Normal := hDnormal
   have hKcompSymm : section12ComplementIn M D K := by
     refine ⟨hKcomp.2.1, hKcomp.1, ?_, hKcomp.2.2.2.symm⟩
     rw [sup_comm]
@@ -219,7 +219,7 @@ private theorem sourceTypeP_left_isHall_of_right_hall
     (hKHall : section16HallSubgroupOf K M) :
     IsHallSubgroup (subgroupPrimeSet H) (H.subgroupOf M) := by
   classical
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   have hcomp' : (K.subgroupOf M).IsComplement' (H.subgroupOf M) :=
     sourceTypeP_complementIn_isComplement_subgroupOf
       (M := M) (H := H) (K := K) hcomp
@@ -275,7 +275,7 @@ private theorem sourceTypeP_card_W1_dvd_card_typeF_complement
       _hU1le, _hU1comm, _hU1norm, _hCentF, _hU0le, _hexp, _hfrob⟩
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hW1card :
       Nat.card W1 = (ambientDerivedSubgroup M).relIndex M := by
     exact (sourceTypeP_complementIn_left_relIndex_eq_card_right
@@ -283,7 +283,7 @@ private theorem sourceTypeP_card_W1_dvd_card_typeF_complement
   have hUFcard : MF.relIndex M = Nat.card UF := by
     have hMFnormal : (MF.subgroupOf M).Normal := by
       exact hMFsource.1.2.1
-    letI : (MF.subgroupOf M).Normal := hMFnormal
+    let : (MF.subgroupOf M).Normal := hMFnormal
     exact sourceTypeP_complementIn_left_relIndex_eq_card_right
       (M := M) (K := MF) (L := UF) hMFcomp
   have hDleM : ambientDerivedSubgroup M ≤ M :=
@@ -310,7 +310,7 @@ private theorem sourceTypeP_prime_dvd_card_U0_of_typeF
     (hpUF : p ∣ Nat.card UF)
     (hFexp : Monoid.exponent U0 = Monoid.exponent UF) :
     p ∣ Nat.card U0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases exists_prime_orderOf_dvd_card' (G := UF) p hpUF with ⟨x, hxorder⟩
   have hpExpUF : p ∣ Monoid.exponent UF := by
     simpa [hxorder] using Monoid.order_dvd_exponent x
@@ -349,7 +349,7 @@ private theorem sourceTypeP_exists_prime_order_element_in_U0_of_prime_mem_W1
   classical
   have hpU0 : p ∈ subgroupPrimeSet U0 :=
     sourceTypeP_typeF_prime_mem_U0_of_prime_mem_W1 hP hF hpW1
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases exists_prime_orderOf_dvd_card' (G := U0) p.val
       (by simpa [subgroupPrimeSet] using hpU0) with
     ⟨a0, ha0order⟩
@@ -370,12 +370,12 @@ private theorem sourceTypeP_exists_conjugate_mem_of_hall_prime_order
     (haOrder : orderOf a = p.val) :
     ∃ y : G, y * a * y⁻¹ ∈ H := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let PH : Sylow p.val H := Classical.choice (Sylow.nonempty (p := p.val) (G := H))
   let Psub : Subgroup G := (PH : Subgroup H).map H.subtype
   have hPsub_p : IsPGroup p.val Psub := by
     simpa [Psub] using
-      (IsPGroup.map (p := p.val) (H := (PH : Subgroup H)) PH.isPGroup' H.subtype)
+      (IsPGroup.map (p := p.val) (H := (PH : Subgroup H)) PH.isPGroup H.subtype)
   have hp_not_dvd_Hindex : ¬ p.val ∣ H.index := by
     intro hp_dvd
     exact (hHall.p_in_pi_of_p_dvd_index p hp_dvd) hpπ
@@ -474,7 +474,7 @@ private theorem sourceTypeP_mem_MF_of_conjBy_MF
     (hyMF : y ∈ MF) :
     (m : G)⁻¹ * y * (m : G) ∈ MF := by
   rcases hMF.1 with ⟨hMFleM, hMFnorm, _hMFnil, _hMFhall⟩
-  letI : (MF.subgroupOf M).Normal := hMFnorm
+  let : (MF.subgroupOf M).Normal := hMFnorm
   have hyM : y ∈ M := hMFleM hyMF
   have hyloc : (⟨y, hyM⟩ : M) ∈ MF.subgroupOf M := by
     simpa [Subgroup.mem_subgroupOf] using hyMF
@@ -671,7 +671,7 @@ public theorem section16TypeCommon_of_source_typeP_with_T6
       (M := M) (H := ambientDerivedSubgroup M) (K := W1)
       hMcomp hDnormal hW1Hall
   have hW1card : Nat.card W1 = (ambientDerivedSubgroup M).relIndex M := by
-    letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+    let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
     have hcomp' : (W1.subgroupOf M).IsComplement'
         ((ambientDerivedSubgroup M).subgroupOf M) :=
       sourceTypeP_complementIn_isComplement_subgroupOf
@@ -745,7 +745,7 @@ private theorem sourceTypeP_tau13_of_W1_prime
     simpa [subgroupPrimeSet] using hpW1
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hCompLocal : (W1.subgroupOf M).IsComplement'
       ((ambientDerivedSubgroup M).subgroupOf M) :=
     sourceTypeP_complementIn_isComplement_subgroupOf
@@ -824,7 +824,7 @@ private theorem sourceTypeP_msigma_centralizer_ne_bot_of_W1_prime
       _hUnil, _hW1norm, _hDercomp, _hMFnotcyc, _hSecond, _hFit,
       _hFitDer, hW2leInf, _hW2cyc, hW2ne, hCent, _hNorm⟩
   rcases hX with ⟨hXW1, _hXcard⟩
-  haveI : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
+  have : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
   obtain ⟨yW2, hyW2ne⟩ := exists_ne (1 : W2)
   let y : G := yW2
   have hyW2 : y ∈ W2 := yW2.property
@@ -1491,10 +1491,10 @@ public theorem exists_typeP_local_section4_character_data
   rcases Section3.exists_notation_3_3_of_hypothesis_3_1 h31 with
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, hω⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   have h43 :
       Section4.theorem_4_3_statement
         (derivedSubgroup M)
@@ -2360,10 +2360,10 @@ public theorem exists_subgroupImage_section3_sigma_transport_data_with_image
   rcases Section3.exists_notation_3_3_of_hypothesis_3_1 h31 with
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, hω⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   rcases Section3.theorem_3_2_of_notation_3_3
       (Section4Scratch.subgroupImage M W1)
       (Section4Scratch.subgroupImage M W2)
@@ -3156,10 +3156,10 @@ public theorem section8_FTtypeP_coherent_TIred_source_data
               d52.sigma
                 (Section6.theorem_6_8_transportClassFunction e (ωsrc r j))) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases _hImage with ⟨k, ε, hε, hTν⟩
   rcases _hRowAlignment k with ⟨r, reindex, hrowEntry⟩
   refine ⟨r, ε, hε, ?_⟩
@@ -4072,7 +4072,7 @@ private theorem exactCharacterValueOrder_exists_dvd_of_characterValueOrder
     (hb : Section3.characterValueOrder χ b) :
     ∃ a : ℕ, a ∣ b ∧ Section3.exactCharacterValueOrder χ a := by
   classical
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   let a : ℕ := (Finset.univ : Finset G).lcm (fun g => orderOf (χ g))
   have hadvd_b : a ∣ b := by
     dsimp [a]
@@ -4173,7 +4173,7 @@ private theorem characterValueOrder_of_leftKernel_internalDirectProduct
     (hθdeg : Section1.degree θ = 1) :
     Section3.characterValueOrder θ (Nat.card W1) := by
   classical
-  haveI : (W2.subgroupOf W).Normal :=
+  have : (W2.subgroupOf W).Normal :=
     internalDirectProduct_right_subgroupOf_normal hIP
   rcases Section1.exists_quotientLinearCharacter_of_irreducible_degree_one_kernel
       W2 W hθirr hθker hθdeg with ⟨χ, hθ⟩
@@ -5423,10 +5423,10 @@ public theorem typeP_bot_typeV_fullFourSixData_core
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, hω, sigmaM, piChar, deltaSign, xChar,
       h43b, h43c, h43d, h45a, h45b⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   rcases typeP_bot_typeV_primeDade_subcoherence_core
       hPbot hNotation hWitness hω h43b h43c h43d h45a h45b with
     ⟨sigma, H_A0, tau, hσIso, hσVirt, hσClass, hσPrin, hσAgreeCyc,
@@ -5459,10 +5459,10 @@ public theorem section8Hypothesis52FullData_of_notation_8_10_source_typeP_witnes
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, sigmaM, sigma, piChar, xChar, deltaSign, tau, H_A,
       H_A0, hCyclicA0, hτCyclicA0, hσAgreeCyc, hFull⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   exact ⟨section8Hypothesis52FullData_of_supportedHypothesis
     (M := M) (Ms := Ms) (W1 := W1') (W2 := W2') (A := A)
     (W := (W1' ⊔ W2').subgroupOf M)
@@ -5703,7 +5703,7 @@ private theorem sourceTypeP_right_isHall_compl_of_left_hall
     calc
       R = K ⊔ U := hsup
       _ = U ⊔ K := sup_comm K U
-  letI : (U.subgroupOf R).Normal := hUnormal.2
+  let : (U.subgroupOf R).Normal := hUnormal.2
   have hcompLocal : (K.subgroupOf R).IsComplement' (U.subgroupOf R) :=
     sourceTypeP_complementIn_isComplement_subgroupOf
       (M := R) (H := U) (K := K) hcompSymm
@@ -6319,10 +6319,10 @@ public theorem section8Hypothesis52FullData_baseRow_of_late_notation_source_data
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, hω, sigmaM, piChar, deltaSign, xChar,
       h43b, h43c, h43d, h45a, h45b⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   rcases typeII_primeDadeSupportedPackage_package_source_data_for_sigma
       hWitness.1 hNotation hWitness h46.2 h14 h22A0 hTauCyclicA0
       (sigma := sigma) hSigmaImage hSigmaDef with
@@ -6525,10 +6525,10 @@ public theorem section8Hypothesis52FullData_baseRow_dadeRelative_of_typeII_sourc
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, omega, hω, sigmaM, piChar, deltaSign, xChar,
       h43b, h43c, h43d, h45a, h45b⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   rcases typeII_primeDadeSupportedPackage_package_source_data_for_sigma
       _hP hNotation hWitness h46.1 h14 h22A0 hTauCyclicA0
       (sigma := sigma) hSigmaImage hSigmaDef with

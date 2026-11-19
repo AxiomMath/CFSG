@@ -109,11 +109,11 @@ public theorem CFSG.section11Data.A_eq_centralizer_p_elements
     (A : Set G) =
       {x : G | x ∈ Subgroup.centralizer (A : Set G) ∧ x ^ p.val = 1} := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases h11.rankTwoMaximal with ⟨hArank, hAmax⟩
   rcases hArank with ⟨_hAcard, hAelem⟩
   rcases hAmax with ⟨_hAelem', hAmaximal⟩
-  letI : IsElementaryAbelian p.val A := hAelem
+  let : IsElementaryAbelian p.val A := hAelem
   ext x
   constructor
   · intro hxA
@@ -127,7 +127,7 @@ public theorem CFSG.section11Data.A_eq_centralizer_p_elements
     let Z : Subgroup G := Subgroup.zpowers x
     have hZelem : IsElementaryAbelian p.val Z :=
       section11_isElementaryAbelian_zpowers_of_pow_eq_one (p := p.val) (x := x) hxpow
-    letI : IsElementaryAbelian p.val Z := hZelem
+    let : IsElementaryAbelian p.val Z := hZelem
     have hZ_le_centA : Z ≤ Subgroup.centralizer (A : Set G) :=
       (Subgroup.zpowers_le).2 hxcent
     have hsup_elem : IsElementaryAbelian p.val ↥(A ⊔ Z) :=
@@ -144,11 +144,11 @@ public theorem CFSG.section11Data.hypothesis7_1
     {M A0 A : Subgroup G} {p : Nat.Primes} {P : Sylow p.val M}
     (h11 : section11Data M A0 A p P) :
     Hypothesis7_1 A := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases h11.A_rank_two with ⟨hAcard, hAelem⟩
-  letI : IsElementaryAbelian p.val A := hAelem
+  let : IsElementaryAbelian p.val A := hAelem
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
-  letI : IsMulCommutative A := hAelem.toIsMulCommutative
+  let : IsMulCommutative A := hAelem.toIsMulCommutative
   have hpA : p.val ∣ Nat.card A := by
     rw [hAcard, pow_two]
     exact dvd_mul_right p.val p.val
@@ -163,9 +163,9 @@ public theorem CFSG.section11Data.A_subgroupPrimeSet_eq_singleton
     {M A0 A : Subgroup G} {p : Nat.Primes} {P : Sylow p.val M}
     (h11 : section11Data M A0 A p P) :
     subgroupPrimeSet A = ({p} : Set Nat.Primes) := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases h11.A_rank_two with ⟨_hAcard, hAelem⟩
-  letI : IsElementaryAbelian p.val A := hAelem
+  let : IsElementaryAbelian p.val A := hAelem
   exact section8_subgroupPrimeSet_eq_singleton_of_isPGroup_ne_bot
     (IsElementaryAbelian.isPGroup p.val A) h11.A_ne_bot
 
@@ -201,7 +201,7 @@ public theorem CFSG.section11_ambientSylow_isPGroup
     {q : Nat.Primes} (H : Subgroup G) (Q : Sylow q.val H) :
     IsPGroup q.val (section10AmbientSylowSubgroup H Q) := by
   change IsPGroup q.val ((Q : Subgroup H).map H.subtype)
-  exact IsPGroup.map (p := q.val) (H := (Q : Subgroup H)) Q.isPGroup' H.subtype
+  exact IsPGroup.map (p := q.val) (H := (Q : Subgroup H)) Q.isPGroup H.subtype
 
 
 omit [IsMinCE G] in
@@ -212,7 +212,7 @@ public theorem CFSG.section11_ambientSylow_isSylow_of_hall
     ∃ S : Sylow q.val H,
       section10AmbientSylowSubgroup H S = section10AmbientSylowSubgroup K Q := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have hQamb_le_H : section10AmbientSylowSubgroup K Q ≤ H := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -271,7 +271,7 @@ public theorem CFSG.section11_normalizer_ne_top_of_ne_bot_ne_top
     Subgroup.normalizer (Q : Set G) ≠ ⊤ := by
   intro hNtop
   have hQnormal : Q.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-  letI : IsSimpleGroup G := IsMinCE.simple
+  let : IsSimpleGroup G := IsMinCE.simple
   rcases hQnormal.eq_bot_or_eq_top with hQbot | hQtop
   · exact hQ_ne_bot hQbot
   · exact hQ_ne_top hQtop
@@ -304,7 +304,7 @@ public theorem CFSG.section11_star_of_ambient_sylow_normalizer_le
     (hnormR_le_K : Subgroup.normalizer (R : Set G) ≤ K) :
     R ∈ section7HStarFamily (⊤ : Subgroup G) A ({q} : Set Nat.Primes) := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have hR_q : IsPGroup q.val R := by
     have htmp : IsPGroup q.val (section10AmbientSylowSubgroup K S) :=
       section11_ambientSylow_isPGroup K S
@@ -326,7 +326,7 @@ public theorem CFSG.section11_star_of_ambient_sylow_normalizer_le
     lt_top_iff_ne_top.mpr hRsub_ne_top
   have hT_q : IsPGroup q.val T :=
     section8_isPGroup_of_isPiSubgroup_singleton hTfam.2.1
-  haveI : Group.IsNilpotent T :=
+  have : Group.IsNilpotent T :=
     IsPGroup.isNilpotent (p := q.val) (G := T) hT_q
   have hnc : NormalizerCondition T := Group.normalizerCondition_of_isNilpotent (G := T)
   let Nsub : Subgroup T :=
@@ -559,7 +559,7 @@ public theorem CFSG.section11_ambientSylow_conjBy_exists
       section10AmbientSylowSubgroup (M.conjBy g) Sg =
         (section10AmbientSylowSubgroup M S).conjBy g := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   let e : M ≃* M.conjBy g := (MulAut.conj g).subgroupMap M
   let R : Subgroup (M.conjBy g) := (S : Subgroup M).map e.toMonoidHom
   have hRcard : Nat.card R = q.val ^ (Nat.card (M.conjBy g)).factorization q.val := by

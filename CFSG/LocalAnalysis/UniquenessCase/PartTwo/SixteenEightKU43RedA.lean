@@ -9,16 +9,16 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open
 
 theorem s16ku43_center_fixes_only_one {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
-    (hirr : IsIrrOn H ⊤ ⊥) {z : MulAut W} (hz : z ∈ H) (hzc : ∀ h ∈ H, h * z = z * h)
+    (hirr : IsIrrOn H ⊤ ⊥) {z : MulAut W} (_hz : z ∈ H) (hzc : ∀ h ∈ H, h * z = z * h)
     (hz1 : z ≠ 1) {w : W} (hw : z w = w) : w = 1 := by
   let C : Subgroup W :=
     { carrier := {u : W | z u = u}
       one_mem' := map_one z
       mul_mem' := fun ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       inv_mem' := fun ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hstable : StableUnder H C := by
     intro h hh u hu
@@ -58,7 +58,7 @@ theorem s16ku43_card_le_orbit_mul {W : Type} [CommGroup W] [Finite W]
     exact Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : ptCent H w ≤ H)).toEquiv
   have hcompl : Nat.card {u : W // u ≠ 1} = Nat.card W - 1 := by
-    haveI := Fintype.ofFinite W
+    have := Fintype.ofFinite W
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun u : W => u = 1),
       Fintype.card_subtype_eq (1 : W), ← Nat.card_eq_fintype_card]
   have horbit : Nat.card (MulAction.orbit ↥H w) ≤ Nat.card W - 1 := by

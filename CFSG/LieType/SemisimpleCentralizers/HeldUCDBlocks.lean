@@ -46,7 +46,7 @@ theorem sum_Pmat_mulVec (H : PrimaryHyp τ s m F a b) (x : Fin n → L) :
   refine Finset.sum_congr rfl fun f hf => ?_
   by_cases h0 : Pmat s b F f = 0
   · simp [h0]
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
 
 theorem Pmat_idem_index (H : PrimaryHyp τ s m F a b) (f : ↥(Fset s b F)) (x : Fin n → L) :
     Pmat s b F f.1 *ᵥ (Pmat s b F f.1 *ᵥ x) = Pmat s b F f.1 *ᵥ x :=
@@ -135,11 +135,11 @@ theorem rhoL_apply_block (H : PrimaryHyp τ s m F a b)
   · simp only [Bk, LinearMap.comp_apply, inclB, Submodule.subtype_apply, prjB_incl_self]
   · intro g _ hg
     have h0 : prjB H g ((y : Vf s b F f.1) : Fin n → L) = 0 := Subtype.ext (prjB_incl_ne H hg y)
-    simp only [Bk, LinearMap.comp_apply, inclB, Submodule.subtype_apply, h0, map_zero]
+    simp only [Bk, LinearMap.comp_apply, inclB, h0, map_zero]
   · intro h
     exact absurd (Finset.mem_univ f) h
 
-@[expose] noncomputable def resT (H : PrimaryHyp τ s m F a b) (T : (Fin n → L) →ₗ[L] (Fin n → L))
+@[expose] noncomputable def resT (_H : PrimaryHyp τ s m F a b) (T : (Fin n → L) →ₗ[L] (Fin n → L))
     (hcomm : ∀ (f : ↥(Fset s b F)) (x : Fin n → L),
       Pmat s b F f.1 *ᵥ (T x) = T (Pmat s b F f.1 *ᵥ x))
     (f : ↥(Fset s b F)) : Vf s b F f.1 →ₗ[L] Vf s b F f.1 :=

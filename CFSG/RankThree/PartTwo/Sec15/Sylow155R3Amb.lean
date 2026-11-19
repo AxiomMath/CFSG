@@ -31,7 +31,7 @@ private theorem map_conj_map_conj (F : Subgroup G) (x y : G) :
 
 theorem res3QAmb_oThreePrime (d : G) :
     ∀ N : Subgroup (Res3Bar d), N.Normal → ¬ 3 ∣ Nat.card N → N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro N hN hN3
   exact (CFSG.pPrimeCore_eq_bot_iff.mp
     (CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥(res3C d)) 3)) N hN

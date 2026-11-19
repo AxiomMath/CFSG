@@ -105,7 +105,7 @@ theorem card_le_eight {B : Subgroup (Perm (Fin 6))} (hB : ∀ b ∈ B, b * b = 1
     interval_cases m <;> simp_all
   obtain ⟨Q, hBQ⟩ := hB2.exists_le_sylow
   have hQ16 : Nat.card Q = 16 := by
-    refine le_antisymm (Nat.le_of_dvd (by norm_num) (card_dvd_sixteen Q.isPGroup')) ?_
+    refine le_antisymm (Nat.le_of_dvd (by norm_num) (card_dvd_sixteen Q.isPGroup)) ?_
     rw [← hB16]
     exact Subgroup.card_le_of_le hBQ
   have hBQ' : B = Q := Subgroup.eq_of_le_of_card_ge hBQ (by rw [hB16, hQ16])

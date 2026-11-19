@@ -34,7 +34,7 @@ private theorem exists_mul_sub_ne_zero {F : Type*} [Field F] {n : ℕ} {v w : Fi
   linear_combination hk
 
 private theorem unitTransvGroup_matrix_eq_one_or {F : Type} [Field F] [CharP F 2]
-    {σ : F ≃+* F} (hσ2 : ∀ c, σ c = c ^ 2) (hF4 : Nat.card F = 4) {n : ℕ}
+    {σ : F ≃+* F} (hσ2 : ∀ c, σ c = c ^ 2) (_hF4 : Nat.card F = 4) {n : ℕ}
     {v : Fin n → F} (hvv : uForm σ v v = 0) {g : GL (Fin n) F}
     (hg : g ∈ CFSG.StandardType.ClassicalPosition.unitTransvGroup (F := F) σ.toRingHom
       (CFSG.LieType.Universal.Unitary.antidiag n) v) :
@@ -87,7 +87,7 @@ private theorem unitTransvGroup_matrix_eq_one_or {F : Type} [Field F] [CharP F 2
 private theorem uTrans_mul_ne_uTrans {F : Type} [Field F] [Finite F] [CharP F 2]
     {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) (hσ2 : ∀ c, σ c = c ^ 2)
     (hF4 : Nat.card F = 4) {n : ℕ} {v w : Fin n → F} (hv : v ≠ 0) (hw : w ≠ 0)
-    (hvv : uForm σ v v = 0) (hww : uForm σ w w = 0)
+    (_hvv : uForm σ v v = 0) (hww : uForm σ w w = 0)
     (hne : uTrans σ v 1 ≠ uTrans σ w 1)
     (hcomm : uTrans σ v 1 * uTrans σ w 1 = uTrans σ w 1 * uTrans σ v 1) :
     ∀ u : Fin n → F, u ≠ 0 → uForm σ u u = 0 →
@@ -223,7 +223,7 @@ theorem rckCollinearVia_PSU_long_two
     have hconj1 : (MulAut.conj (1 : CFSG.LieType.Universal.Unitary.SU σ m)).toMonoidHom =
         MonoidHom.id (CFSG.LieType.Universal.Unitary.SU σ m) := by
       ext y
-      simp [MulAut.conj_apply]
+      simp
     have h := hmap
     rw [hconj1] at h
     simpa [σ] using h

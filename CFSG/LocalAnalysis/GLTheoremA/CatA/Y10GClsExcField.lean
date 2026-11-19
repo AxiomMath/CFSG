@@ -146,7 +146,7 @@ theorem recTwF4Inherited_closure (a : ℕ) (Q : LargeEvenRawCont)
 theorem canonAll_closure_field_exc {lab : LargeEvenLabel}
     (hfam : CFSG.LocalAnalysis.GLTheoremA.Y10GField.FamExc lab) :
     CFSG.StandardType.Canonical.LargeEvenLabelAll lab
-      (fun R _ _ F => ∀ f ∈ Subgroup.closure F, f ∈ F) := by
+      (fun _R _ _ F => ∀ f ∈ Subgroup.closure F, f ∈ F) := by
   intro Q hQ
   obtain ⟨tag, rank, n⟩ := lab
   simp only [CFSG.LocalAnalysis.GLTheoremA.Y10GField.FamExc] at hfam

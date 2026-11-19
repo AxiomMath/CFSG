@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13.L828SGL2
 
 private lemma l828_two_eq_zero (K : Type) [Field K] [Finite K] (hK : Nat.card K = 4) :
     (2 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h4 : ((Fintype.card K : ℕ) : K) = 0 := FiniteField.cast_card_eq_zero K
   rw [hc] at h4
@@ -20,7 +20,7 @@ private lemma l828_two_eq_zero (K : Type) [Field K] [Finite K] (hK : Nat.card K 
 
 private lemma l828_pow_four (K : Type) [Field K] [Finite K] (hK : Nat.card K = 4) (t : K) :
     t ^ 4 = t := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h := FiniteField.pow_card t
   rw [hc] at h
@@ -30,8 +30,7 @@ private lemma l828_cayley_hamilton {K : Type} [CommRing K] (g : Matrix (Fin 2) (
     g * g = g.trace • g - g.det • (1 : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two] <;> ring
 
 private lemma l828_pow_cases {K : Type} [Field K] (h2 : (2 : K) = 0)
     (g : Matrix (Fin 2) (Fin 2) K) (t : K) (ht4 : t ^ 4 = t) (hCH : g * g = t • g - 1) :
@@ -149,9 +148,9 @@ theorem stmt_b (K : Type) [Field K] [Finite K] (hK : Nat.card K = 4) (m : ℕ) (
 theorem stmt_c (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) (m : ℕ) (hm : Odd m)
     (hm1 : 1 < m) (f : DihedralGroup m →* Matrix.GeneralLinearGroup (Fin 2) K)
     (hf : Function.Injective f) : m = 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
     Finite.of_injective (fun g : Matrix.GeneralLinearGroup (Fin 2) K =>
       (g : Matrix (Fin 2) (Fin 2) K)) (fun a b h => Units.ext h)
   have hle := Nat.card_le_card_of_injective f hf

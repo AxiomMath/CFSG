@@ -121,6 +121,7 @@ theorem false_of_pCore_ne_bot {L : Subgroup G} {f : G} {F : Subgroup G}
   exact Sec13.F135Last.false_of_elemAbelian_cube Nat.prime_five hlr hAea hA125_card hOneG hO2
     hA125_N
 
+omit [Finite G] in
 theorem exists_elemAbelian_25_preimage (hE25 : J2HasE25)
     {L : Subgroup G} {N : Subgroup ↥L} [N.Normal]
     (hJ : Nonempty (↥L ⧸ N ≃* CFSG.Blueprint.NativeSporadic.J2)) :
@@ -132,6 +133,7 @@ theorem exists_elemAbelian_25_preimage (hE25 : J2HasE25)
       ⟨E, hE, by rw [hc]; norm_num⟩
   exact ⟨Ebar, hEbar, by simpa using hcard⟩
 
+omit [Finite G] in
 theorem mem_center_thetaQuot_of_conj_eq_one {L : Subgroup G} {f : G}
     (hfL : f ∈ L) (hfN : f ∈ Subgroup.normalizer (L : Set G))
     (hquot : ∀ l : ↥L,
@@ -166,7 +168,7 @@ theorem centralizer_sup_pCore_eq_top {L : Subgroup G} {f : G}
     (hθ : aschbacherSolvableCore 3 ↥L = CFSG.pCore 2 ↥L) :
     (Subgroup.centralizer ({f} : Set G)).subgroupOf L ⊔ CFSG.pCore 2 ↥L = ⊤ := by
   set O : Subgroup ↥L := CFSG.pCore 2 ↥L with hO
-  haveI : O.Normal := CFSG.pCore_normal
+  have : O.Normal := CFSG.pCore_normal
   have hφcoe : ∀ l : ↥L, ((L.normalizerMonoidHom ⟨f, hfN⟩ l : ↥L) : G) = f * (l : G) * f⁻¹ :=
     fun l => Sec4.normalizerMonoidHom_apply_coe hfN l
   have hN : ∀ n ∈ O.map L.subtype, f * n * f⁻¹ ∈ O.map L.subtype := by
@@ -221,7 +223,7 @@ theorem exists_elemAbelian_25_of_surjective_two_kernel
     le_antisymm le_top ((Sylow.mapSurjective hq D).maximal_isPGroup.2 htop5 le_top)
   have hDmap : (D : Subgroup H).map q = ⊤ := by
     rw [← Sylow.coe_mapSurjective hq D, hDtop]
-  have hD5 : IsPGroup 5 (D : Subgroup H) := Sylow.isPGroup' D
+  have hD5 : IsPGroup 5 (D : Subgroup H) := Sylow.isPGroup D
   have hdisj : (D : Subgroup H) ⊓ q.ker = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne 5 2 (by norm_num) (D : Subgroup H) q.ker hD5 hker2)
   have hDcard : Nat.card (D : Subgroup H) = 25 := by
@@ -259,6 +261,7 @@ theorem exists_elemAbelian_25_of_surjective_two_kernel
       exact congrArg Subtype.val h1
   exact ⟨(D : Subgroup H), hDea, hDcard⟩
 
+omit [Finite G] in
 theorem exists_preimage_quotient_data {L : Subgroup G} {N : Subgroup ↥L} [N.Normal]
     (hN : N = aschbacherSolvableCore 3 ↥L)
     (hO : aschbacherSolvableCore 3 ↥L = CFSG.pCore 2 ↥L)
@@ -343,6 +346,7 @@ theorem exists_centralizer_preimage_hom
       _ = y := hvq
   exact ⟨H, qH, inf_le_right, hqHsurj, hqHval⟩
 
+omit [Finite G] in
 theorem centralizer_preimage_hom_kernel
     {L : Subgroup G} {N : Subgroup ↥L} [N.Normal]
     (hN : N = aschbacherSolvableCore 3 ↥L)

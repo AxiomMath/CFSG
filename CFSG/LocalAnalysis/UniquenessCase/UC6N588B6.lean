@@ -17,7 +17,7 @@ open CFSG.Sporadic.Schreier.Tits
 variable {G : Type} [Group G] [Finite G]
 
 
-theorem c623_of_tits (hK : UCK.K322) (m : Mz614 G) (h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S))
+theorem c623_of_tits (hK : UCK.K322) (m : Mz614 G) (_h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S))
     (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C620) (hr : m.r = 5)
     (hL : IsoLie ↥m.L .tits) : m.C623 := by
   classical

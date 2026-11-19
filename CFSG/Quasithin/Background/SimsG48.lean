@@ -303,7 +303,7 @@ theorem card_eq_pow_of_basis (F₀ : Subfield F) {I : AddSubgroup V}
   simp
 
 theorem card_fix_mul {F₀ : Subfield F} {I : AddSubgroup V} (hsm : ∀ c ∈ F₀, ∀ x ∈ I, c • x ∈ I)
-    (B : BilinForm F V) {a : V ≃ₗ[F] V} {x₀ y₀ : V} {ν : F} (hx₀0 : x₀ ≠ 0) (hν : ν ≠ 0)
+    (B : BilinForm F V) {a : V ≃ₗ[F] V} {x₀ y₀ : V} {ν : F} (hx₀0 : x₀ ≠ 0) (_hν : ν ≠ 0)
     (ha : ∀ v, a v = v + (ν * B v x₀) • x₀) (hcoef : ∀ y ∈ I, ν * B y x₀ ∈ F₀) (hy₀ : y₀ ∈ I)
     (hy₀1 : ν * B y₀ x₀ = 1) :
     Nat.card {y : I // a y = y} * Nat.card F₀ = Nat.card I := by
@@ -687,7 +687,7 @@ theorem exists_symp_basis_subfield [Finite F] [CharP F 2] (B : BilinForm F V)
   have hf : ∀ i j, B (f i) (f j) = if i.val + j.val = 3 then 1 else 0 := by
     intro i j
     rw [← hgram i j, hs, hf_def, hf_def]
-    simp only [LinearMap.map_smul₂, map_smul, LinearMap.smul_apply, smul_eq_mul]
+    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul]
     ring
   have hli := linearIndependent_antidiag B hf
   let b := basisOfLinearIndependentOfCardEqFinrank hli (by simp [hdim])
@@ -697,7 +697,7 @@ theorem exists_symp_basis_subfield [Finite F] [CharP F 2] (B : BilinForm F V)
     exact hf
   refine ⟨b, hbg, fun g hg i j => ?_⟩
   rw [LinearMap.toMatrix_apply, repr_antidiag B b hbg _ i, hb]
-  simp only [hf_def, LinearEquiv.coe_coe, map_smul, LinearMap.map_smul₂, LinearMap.smul_apply,
+  simp only [hf_def, LinearEquiv.coe_coe, map_smul, LinearMap.smul_apply,
     smul_eq_mul]
   rw [← mul_assoc, ← hs]
   exact hval _ (he _) _ (hGI g hg _ (he j))
@@ -789,8 +789,8 @@ theorem g48_descent {F : Type} [Field F] [Finite F] [CharP F 2]
         (∀ x, (∀ y, B' x y = 0) → x = 0) →
         (∀ g ∈ H ⊔ Subgroup.zpowers a, ∀ x y, B' (g x) (g y) = B' x y) →
         ∃ c : F, c ≠ 0 ∧ B' = c • B) := by
-  haveI : Module.Finite F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite F
+  have : Module.Finite F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Finite V := Module.finite_of_finite F
   have hHG : H ≤ H ⊔ Subgroup.zpowers a := le_sup_left
   have haG : a ∈ H ⊔ Subgroup.zpowers a := Subgroup.mem_sup_right (Subgroup.mem_zpowers a)
   have hGSp : H ⊔ Subgroup.zpowers a ≤ spGroup B :=

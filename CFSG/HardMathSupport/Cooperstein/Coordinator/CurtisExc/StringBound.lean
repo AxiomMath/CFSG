@@ -52,7 +52,7 @@ theorem string_nonempty {n : ℕ} (hn : 1 ≤ n)
     rw [ht.2.2.2 s]
     refine ⟨fun z => ?_, ?_⟩
     · rw [hχ z, h0]; simp
-    · letI : Fintype K := Fintype.ofFinite K
+    · let : Fintype K := Fintype.ofFinite K
       rw [heckeT_chevDatum]
       have hn' : ∀ c : K, ρ (xC τ K s c * nC τ K s) y = y := by
         intro c

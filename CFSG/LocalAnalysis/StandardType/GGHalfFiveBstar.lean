@@ -22,7 +22,7 @@ include h
 private theorem bs_eq_of_normalizes_two {S₂ : Subgroup G} (hS₂2 : IsPGroup 2 S₂) (hS₂ne : S₂ ≠ ⊥)
     (hBsS₂ : Bs ≤ Subgroup.normalizer (S₂ : Set G)) : Bs = B := by
   obtain ⟨hp, hBsE, -, -, -⟩ := GGConfig.tableB_facts h.cfg
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hS : LargeEvenSStar p B x L := h.cfg.1.2.2.2.2.2.2.1
   have hBBs : B ≤ Bs := h.cfg.2.1.1
   have hBsP : IsPGroup p Bs := TableB.isPGroup_of_isElemAbelian hBsE
@@ -54,7 +54,6 @@ theorem bs_eq : Bs = B := by
   · intro c hc
     rw [Subgroup.mem_normalizer_iff]
     intro g
-    change g ∈ U.map φ₁ ↔ c * g * c⁻¹ ∈ U.map φ₁
     constructor
     · rintro ⟨u, hu, rfl⟩
       exact key c hc u hu

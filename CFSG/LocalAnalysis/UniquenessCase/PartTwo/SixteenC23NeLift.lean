@@ -27,7 +27,7 @@ theorem c23ne_exists_calC_image (D : Data G) {V₀ V : Subgroup G}
     [((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal] (hH : F11.Hyp11 D V₀ V)
     (h119 : F11.R119 D) {Lb : Subgroup (F11.MBar11 D.M V₀ V)} (hLb : IsComponentOf Lb ⊤) :
     ∃ K ∈ calC D.M, F11.barImage11 D.M V₀ V K = Lb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLbq : CFSG.Open.IsQuasisimple ↥Lb := hLb.2.2
   have hLbsub : CFSG.Open.IsSubnormal Lb ⊤ := hLb.2.1
   set Xp : Subgroup G := F11.barPreimage11 D.M V₀ V Lb with hXp
@@ -122,12 +122,12 @@ theorem c23ne_barImage11_ne (M V₀ V : Subgroup G) [((F11.CTilde M V₀ V).subg
     rw [← Subgroup.map_le_iff_le_comap, Subgroup.map_commutator,
       Subgroup.map_subgroupOf_eq_of_le hKM, Subgroup.map_subgroupOf_eq_of_le hK'M]
     exact hcomm
-  haveI := CFSG.Quasithin.solvRad_isSolvable M
-  haveI hRs : Group.IsSolvable ↥((CFSG.Quasithin.solvRad M).subgroupOf M) :=
+  have := CFSG.Quasithin.solvRad_isSolvable M
+  have hRs : Group.IsSolvable ↥((CFSG.Quasithin.solvRad M).subgroupOf M) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (CFSG.Quasithin.solvRad_le M)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (CFSG.Quasithin.solvRad_le M)).injective
-  haveI hRb : Group.IsSolvable ↥(((CFSG.Quasithin.solvRad M).subgroupOf M).map π) :=
+  have hRb : Group.IsSolvable ↥(((CFSG.Quasithin.solvRad M).subgroupOf M).map π) :=
     Group.isSolvable_of_surjective
       (MonoidHom.subgroupMap_surjective π ((CFSG.Quasithin.solvRad M).subgroupOf M))
   have hKbar : ⁅F11.barImage11 M V₀ V K, F11.barImage11 M V₀ V K⁆ =
@@ -142,10 +142,10 @@ theorem c23ne_barImage11_ne (M V₀ V : Subgroup G) [((F11.CTilde M V₀ V).subg
         unfold F11.barImage11
         rw [← Subgroup.map_commutator]
         exact Subgroup.map_mono hcomm'
-  haveI : Group.IsSolvable ↥(F11.barImage11 M V₀ V K) :=
+  have : Group.IsSolvable ↥(F11.barImage11 M V₀ V K) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥(F11.barImage11 M V₀ V K) := Subgroup.isPerfect_iff.2 hKbar
-  haveI : Nontrivial ↥(F11.barImage11 M V₀ V K) := (Subgroup.nontrivial_iff_ne_bot _).2 hnt
+  have : Group.IsPerfect ↥(F11.barImage11 M V₀ V K) := Subgroup.isPerfect_iff.2 hKbar
+  have : Nontrivial ↥(F11.barImage11 M V₀ V K) := (Subgroup.nontrivial_iff_ne_bot _).2 hnt
   exact Group.IsPerfect.not_isSolvable ↥(F11.barImage11 M V₀ V K) inferInstance
 
 private theorem c23ne_barSub_ne_of_ne {D : Data G} {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
@@ -153,7 +153,7 @@ private theorem c23ne_barSub_ne_of_ne {D : Data G} {V₀ V : Subgroup G} (hV : I
     {K K' : Subgroup G} (hK : K ∈ calC D.M) (hK' : K' ∈ CFSG.Quasithin.cComp D.M)
     (hne : K ≠ K') (hnt : barSub V₀ V hV K ≠ ⊥) :
     barSub V₀ V hV K ≠ barSub V₀ V hV K' := by
-  haveI hN : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hN : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hMV hMV₀
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hMV hMV₀
   obtain ⟨e, he⟩ := s15_Three_barImage_equiv (D := D) (V₀ := V₀) (V := V) hV hMs
@@ -170,6 +170,7 @@ private theorem c23ne_barSub_ne_of_ne {D : Data G} {V₀ V : Subgroup G} (hV : I
   intro hb
   exact hne' (Subgroup.map_injective e.injective (by rw [he K hKM, he K' hK'M, hb]))
 
+omit [Finite G] in
 private theorem c23ne_conjSubgroup_eq_map (A : Subgroup G) (g : G) :
     conjSubgroup A g = A.map (MulAut.conj g⁻¹).toMonoidHom := rfl
 
@@ -187,7 +188,7 @@ theorem c23ne_lift_factors (D : Data G) (h119 : F11.R119 D) {V₀ V : Subgroup G
       K₁ ≤ normalizer (K₂ : Set G) ∧ K₂ ≤ normalizer (K₁ : Set G) ∧
       ∀ m ∈ D.M, (conjSubgroup K₁ m = K₁ ∧ conjSubgroup K₂ m = K₂) ∨
         (conjSubgroup K₁ m = K₂ ∧ conjSubgroup K₂ m = K₁) := by
-  haveI hN : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hN : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hMV hMV₀
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hMV hMV₀
   obtain ⟨e, he⟩ := s15_Three_barImage_equiv (D := D) (V₀ := V₀) (V := V) hV hMs

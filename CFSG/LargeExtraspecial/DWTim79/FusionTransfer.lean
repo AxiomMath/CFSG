@@ -18,7 +18,7 @@ theorem transfer_eq_one_of_O2 {G : Type*} [Group G] [Finite G] {S : Setting G}
     have hcard : Nat.card (Multiplicative (ZMod 2)) = 2 := by
       rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
     simpa [hcard] using hdvd
-  haveI : (ϕ.transfer).ker.Normal := (ϕ.transfer).normal_ker
+  have : (ϕ.transfer).ker.Normal := (ϕ.transfer).normal_ker
   have hquot : IsPGroup 2 (G ⧸ (ϕ.transfer).ker) :=
     hrange.of_equiv (QuotientGroup.quotientKerEquivRange ϕ.transfer).symm
   have hker : (ϕ.transfer).ker = ⊤ := hO2 _ hquot

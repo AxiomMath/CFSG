@@ -102,7 +102,7 @@ theorem hdRo7SULCoordAux_inf_center_eq_botCfg
     ∀ z ∈ Bs, z ∈ L → z ∈ Subgroup.centralizer (L : Set G) → z = 1 := by
   obtain ⟨-, -, hp3, -, -⟩ := hdRo7SULCoordAux_rowDataCfg hH hrow
   have hp : Nat.Prime p := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (Subgroup.center ↥L)) := by
     rw [hp3]; exact hdRo7SULCoordAux_centerCoprimeCfg hH hRig hrow
   have hCeq := hdRo7SULCoordAux_centralizerCfg hH hp3
@@ -172,7 +172,7 @@ noncomputable def hdRo7SULCoordAux_conjAut {G : Type} [Group G] (L : Subgroup G)
   invFun y := ⟨g⁻¹ * (y : G) * g, by
     simpa only [inv_inv] using
       (Subgroup.mem_normalizer_iff.mp ((Subgroup.normalizer (L : Set G)).inv_mem hg) (y : G)).mp y.2⟩
-  left_inv y := Subtype.ext (by simp only [inv_inv]; group)
+  left_inv y := Subtype.ext (by simp only; group)
   right_inv y := Subtype.ext (by group)
   map_mul' y z := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 

@@ -33,9 +33,11 @@ noncomputable abbrev π : G ν (F := F) →* X ν (F := F) := QuotientGroup.mk' 
     ((blk (Lam ν)).comp (MonoidHom.prodMap (MonoidHom.id _)
       ((blk ν).comp (MonoidHom.inl _ _)))))
 
+omit [Finite F] in
 theorem Φ_apply (P Q R : SpecialLinearGroup (Fin 2) F) :
     Φ ν (P, (Q, R)) = blk (Kap ν) (P, blk (Lam ν) (Q, blk ν (R, 1))) := rfl
 
+omit [Finite F] in
 theorem Φ_injective : Function.Injective (Φ ν (F := F)) := by
   rintro ⟨P, Q, R⟩ ⟨P', Q', R'⟩ h
   rw [Φ_apply, Φ_apply] at h
@@ -83,18 +85,22 @@ theorem isElemAbelian_prod {H₁ H₂ : Type*} [Group H₁] [Group H₂] {K₁ :
     (SpecialLinearGroup (Fin 2) F × SpecialLinearGroup (Fin 2) F)) :=
   Subgroup.zpowers (c3, (1, 1))
 
+omit [Finite F] in
 theorem A1dom_le_A12dom : A1dom (F := F) ≤ A12dom := by
   rw [A1dom, Subgroup.zpowers_le]
   exact ⟨Subgroup.mem_zpowers _, Subgroup.one_mem _, Subgroup.one_mem _⟩
 
+omit [Finite F] in
 theorem A12dom_le_Adom : A12dom (F := F) ≤ Adom :=
   Subgroup.prod_mono le_rfl (Subgroup.prod_mono le_rfl bot_le)
 
+omit [Finite F] in
 theorem isElemAbelian_Adom : IsElemAbelian 3 (Adom (F := F)) :=
   isElemAbelian_prod (isElemAbelian_zpowers c3_pow_three)
     (isElemAbelian_prod (isElemAbelian_zpowers c3_pow_three)
       (isElemAbelian_zpowers c3_pow_three))
 
+omit [Finite F] in
 theorem orderOf_c3 : orderOf (c3 : SpecialLinearGroup (Fin 2) F) = 3 :=
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   orderOf_eq_prime c3_pow_three c3_ne_one
@@ -104,17 +110,20 @@ theorem card_prod_subgroup {H₁ H₂ : Type*} [Group H₁] [Group H₂] (K₁ :
     (K₂ : Subgroup H₂) : Nat.card (K₁.prod K₂) = Nat.card K₁ * Nat.card K₂ := by
   rw [Nat.card_congr (Subgroup.prodEquiv K₁ K₂).toEquiv, Nat.card_prod]
 
+omit [Finite F] in
 theorem card_Adom : Nat.card (Adom (F := F)) = 3 ^ 3 := by
   rw [Adom, card_prod_subgroup, card_prod_subgroup, Nat.card_zpowers, orderOf_c3]
   norm_num
 
+omit [Finite F] in
 theorem card_A12dom : Nat.card (A12dom (F := F)) = 3 ^ 2 := by
   rw [A12dom, card_prod_subgroup, card_prod_subgroup, Nat.card_zpowers, orderOf_c3,
     Subgroup.card_bot]
   norm_num
 
+omit [Finite F] in
 theorem card_A1dom : Nat.card (A1dom (F := F)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [A1dom, Nat.card_zpowers]
   refine orderOf_eq_prime ?_ ?_
   · simp [c3_pow_three]
@@ -126,10 +135,12 @@ theorem blk_one_one {ι : Type} [Fintype ι] [DecidableEq ι] :
     blk ι ((1 : SpecialLinearGroup (Fin 2) F), (1 : SpecialLinearGroup ι F)) = 1 :=
   map_one (blk ι)
 
+omit [Finite F] in
 theorem Φ_c3 : Φ ν ((c3 : SpecialLinearGroup (Fin 2) F), ((1 : SpecialLinearGroup (Fin 2) F), 1)) =
     a₁ ν := by
   rw [Φ_apply, blk_one_one, blk_one_one, a₁]
 
+omit [Finite F] in
 theorem Φ_c3' : Φ ν ((1 : SpecialLinearGroup (Fin 2) F), ((c3 : SpecialLinearGroup (Fin 2) F), 1)) =
     a₂ ν := by
   rw [Φ_apply, blk_one_one, a₂]
@@ -168,9 +179,9 @@ omit [Finite F] in
 @[expose] noncomputable def slReindex {m n : Type} [Fintype m] [DecidableEq m] [Fintype n]
     [DecidableEq n] (e : m ≃ n) : SpecialLinearGroup m F ≃* SpecialLinearGroup n F where
   toFun g := ⟨reindexAlgEquiv F F e (g : Matrix m m F), by
-    rw [reindexAlgEquiv_apply, det_reindex_self]; exact g.2⟩
+    rw [Matrix.coe_reindexAlgEquiv, det_reindex_self]; exact g.2⟩
   invFun g := ⟨reindexAlgEquiv F F e.symm (g : Matrix n n F), by
-    rw [reindexAlgEquiv_apply, det_reindex_self]; exact g.2⟩
+    rw [Matrix.coe_reindexAlgEquiv, det_reindex_self]; exact g.2⟩
   left_inv g := Subtype.ext (by simp)
   right_inv g := Subtype.ext (by simp)
   map_mul' g h := Subtype.ext (by
@@ -188,7 +199,7 @@ theorem isQuasisimple_SL {ι : Type} [Fintype ι] [DecidableEq ι] (hι : 2 ≤ 
 
 omit [Finite F] in
 theorem blkInr_injective {ι : Type} [Fintype ι] [DecidableEq ι] :
-    Function.Injective ((blk ι (F := F)).comp (MonoidHom.inr _ _)) := fun Y Y' h =>
+    Function.Injective ((blk ι (F := F)).comp (MonoidHom.inr _ _)) := fun _Y _Y' h =>
   congrArg Prod.snd (blk_injective h)
 
 @[expose] noncomputable def mapEquivOfKer {G₁ G₂ : Type*} [Group G₁] [Group G₂] (f : G₁ →* G₂)
@@ -217,6 +228,7 @@ theorem c3_mul_w2_ne : (c3 : SpecialLinearGroup (Fin 2) F) * w2 ≠ w2 * c3 := b
       (c3Mat : Matrix (Fin 2) (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) 0 1 at this
   simp [c3Mat, Matrix.mul_apply, Fin.sum_univ_two] at this
 
+omit [Finite F] in
 theorem three_dvd_blkRange {μ : Type} [Fintype μ] [DecidableEq μ] :
     3 ∣ Nat.card (↥(blkRange (F := F) (ι := Fin 2 ⊕ μ)) ⧸
       Subgroup.center ↥(blkRange (F := F) (ι := Fin 2 ⊕ μ))) := by
@@ -244,39 +256,47 @@ theorem three_dvd_blkRange {μ : Type} [Fintype μ] [DecidableEq μ] :
 @[expose] noncomputable def J2sub : Subgroup (X ν (F := F)) :=
   ((blkRange (F := F) (ι := Lam ν)).map ((blk (Kap ν)).comp (MonoidHom.inr _ _))).map (π ν)
 
+omit [Finite F] in
 theorem A1sub_eq : A1sub ν (F := F) = Subgroup.zpowers (π ν (a₁ ν)) := by
   rw [A1sub, A1dom, MonoidHom.map_zpowers, MonoidHom.comp_apply, Φ_c3]
 
 variable (hF : ∀ x : F, x ^ 3 = 1 → x = 1)
 include hF
 
+omit [Finite F] in
 theorem center_noThree : ∀ z ∈ Subgroup.center (G ν (F := F)), z ^ 3 = 1 → z = 1 :=
   fun _ hz hz3 => eq_one_of_mem_center_of_pow_three hF hz hz3
 
+omit [Finite F] in
 theorem ker_Adom : ∀ x ∈ Adom (F := F), (π ν).comp (Φ ν) x = 1 → x = 1 := by
   intro x hx h1
   have hc : Φ ν x ∈ Subgroup.center (G ν (F := F)) := (QuotientGroup.eq_one_iff _).1 h1
   have h3 : Φ ν x ^ 3 = 1 := by rw [← map_pow, isElemAbelian_Adom.2 x hx, map_one]
   exact Φ_injective ν (by rw [center_noThree ν hF _ hc h3, map_one])
 
+omit [Finite F] in
 theorem card_Asub : Nat.card (Asub ν (F := F)) = 3 ^ 3 := by
   rw [Asub, card_map_eq_of_ker _ _ (ker_Adom ν hF), card_Adom]
 
+omit [Finite F] in
 theorem card_A12sub : Nat.card (A12sub ν (F := F)) = 3 ^ 2 := by
   rw [A12sub, card_map_eq_of_ker _ _ fun x hx => ker_Adom ν hF x (A12dom_le_Adom hx),
     card_A12dom]
 
+omit [Finite F] in
 theorem card_A1sub : Nat.card (A1sub ν (F := F)) = 3 := by
   rw [A1sub, card_map_eq_of_ker _ _ fun x hx =>
     ker_Adom ν hF x (A12dom_le_Adom (A1dom_le_A12dom hx)), card_A1dom]
 
 omit hF in
+omit [Finite F] in
 theorem a₁_pow_three : a₁ ν (F := F) ^ 3 = 1 := by
   rw [a₁, ← map_pow]
   simp only [Prod.pow_mk, c3_pow_three, one_pow]
   exact blk_one_one
 
 omit hF in
+omit [Finite F] in
 theorem a₂_pow_three : a₂ ν (F := F) ^ 3 = 1 := by
   rw [a₂, ← map_pow]
   simp only [Prod.pow_mk, one_pow, ← map_pow, c3_pow_three]
@@ -295,6 +315,7 @@ theorem centralizer_zpowers_eq {H : Type*} [Group H] (g : H) :
     exact (Commute.zpow_left (Subgroup.mem_centralizer_singleton_iff.1 hx).symm m).eq
 
 omit hF in
+omit [Finite F] in
 theorem blkRange_le_centralizer {ι : Type} [Fintype ι] [DecidableEq ι] :
     blkRange (F := F) (ι := ι) ≤ Subgroup.centralizer ({blk ι (c3, 1)} : Set _) := by
   rintro _ ⟨Y, rfl⟩
@@ -303,7 +324,7 @@ theorem blkRange_le_centralizer {ι : Type} [Fintype ι] [DecidableEq ι] :
   congr 1
   ext : 1 <;> simp
 
-omit hF in
+omit hF [Finite F] in
 theorem isSubnormal_blkRange (h3 : (3 : F) ≠ 0) {ι : Type} [Fintype ι] [DecidableEq ι] :
     CFSG.Open.IsSubnormal (blkRange (F := F) (ι := ι))
       (Subgroup.centralizer ({blk ι (c3, 1)} : Set _)) := by
@@ -326,11 +347,12 @@ theorem glaPComponent_J (h3 : (3 : F) ≠ 0) (h4 : 4 ≤ Nat.card F) :
     simp [Fintype.card_sum]
 
 omit hF in
+omit [Finite F] in
 theorem c3_one_mem_Adom : ((c3 : SpecialLinearGroup (Fin 2) F),
     ((1 : SpecialLinearGroup (Fin 2) F), (1 : SpecialLinearGroup (Fin 2) F))) ∈ Adom :=
   ⟨Subgroup.mem_zpowers _, Subgroup.one_mem _, Subgroup.one_mem _⟩
 
-omit hF in
+omit hF [Finite F] in
 theorem Asub_le_normalizer (h3 : (3 : F) ≠ 0) :
     Asub ν (F := F) ≤ Subgroup.normalizer ((Jsub ν : Subgroup (X ν (F := F))) : Set (X ν)) := by
   rintro _ ⟨x, hx, rfl⟩
@@ -340,25 +362,28 @@ theorem Asub_le_normalizer (h3 : (3 : F) ≠ 0) :
       (isElemAbelian_Adom.1.is_comm.comm ⟨x, hx⟩ ⟨_, c3_one_mem_Adom⟩))
   exact Subgroup.le_normalizer_map (π ν) ⟨_, centralizer_le_normalizer_blkRange h3 hc, rfl⟩
 
+omit [Finite F] hF in
 theorem ker_blkRange : ∀ y ∈ blkRange (F := F) (ι := Kap ν), π ν y = 1 → y = 1 := by
   rintro _ ⟨Y, rfl⟩ h1
   have hc := (QuotientGroup.eq_one_iff _).1 h1
   simp only [MonoidHom.comp_apply, MonoidHom.inr_apply] at hc ⊢
   rw [eq_one_of_blk_one_mem_center hc, blk_one_one]
 
+omit hF in
 theorem isQuasisimple_Jsub (h4 : 4 ≤ Nat.card F) : CFSG.Open.IsQuasisimple ↥(Jsub ν (F := F)) :=
   CFSG.ComponentClassification.Components.quasisimple_of_equiv
-    (mapEquivOfKer (π ν) _ (ker_blkRange ν hF))
+    (mapEquivOfKer (π ν) _ (ker_blkRange ν))
     (isQuasisimple_blkRange (by simp [Fintype.card_sum]) h4)
 
+omit hF [Finite F] in
 theorem three_dvd_Jsub : 3 ∣ Nat.card ↥(Jsub ν (F := F)) := by
-  rw [Jsub, card_map_eq_of_ker _ _ (ker_blkRange ν hF)]
+  rw [Jsub, card_map_eq_of_ker _ _ (ker_blkRange ν)]
   exact three_dvd_blkRange.trans (Subgroup.card_quotient_dvd_card _)
 
 theorem centMod_Asub (h4 : 4 ≤ Nat.card F) :
     ∀ x ∈ Asub ν (F := F), CentMod 3 (Jsub ν) x → x ∈ A1sub ν := by
   rintro _ ⟨⟨P₀, Q₀, R₀⟩, hy, rfl⟩ hc
-  have hcent := mem_centralizer_of_centMod (isQuasisimple_Jsub ν hF h4) (three_dvd_Jsub ν hF) hc
+  have hcent := mem_centralizer_of_centMod (isQuasisimple_Jsub ν h4) (three_dvd_Jsub ν) hc
   set Y₀ : SpecialLinearGroup (Kap ν) F := blk (Lam ν) (Q₀, blk ν (R₀, 1)) with hY₀
   have hY₀c : Y₀ ∈ Subgroup.center (SpecialLinearGroup (Kap ν) F) := by
     rw [Subgroup.mem_center_iff]
@@ -397,19 +422,20 @@ theorem centMod_Asub (h4 : 4 ≤ Nat.card F) :
     ext : 1 <;> simp
   exact ⟨_, Subgroup.zpow_mem_zpowers _ m, by rw [e]⟩
 
-omit hF in
+omit hF [Finite F] in
 theorem A1sub_le_A12sub : A1sub ν (F := F) ≤ A12sub ν := Subgroup.map_mono A1dom_le_A12dom
 
-omit hF in
+omit hF [Finite F] in
 theorem A12sub_le_Asub : A12sub ν (F := F) ≤ Asub ν := Subgroup.map_mono A12dom_le_Adom
 
 omit hF in
+omit [Finite F] in
 theorem J2sub_le_Jsub : J2sub ν (F := F) ≤ Jsub ν := by
   refine Subgroup.map_mono ?_
   rintro _ ⟨y, -, rfl⟩
   exact ⟨y, rfl⟩
 
-omit hF in
+omit hF [Finite F] in
 theorem J2sub_le_centralizer :
     J2sub ν (F := F) ≤ Subgroup.centralizer ((A12sub ν : Subgroup (X ν (F := F))) : Set (X ν)) := by
   rintro _ ⟨_, ⟨_, ⟨R, rfl⟩, rfl⟩, rfl⟩
@@ -427,6 +453,7 @@ theorem J2sub_le_centralizer :
     congr 1
     ext : 1 <;> simp
 
+omit [Finite F] in
 theorem J2sub_normal (h3 : (3 : F) ≠ 0) :
     ((J2sub ν (F := F)).subgroupOf (Jsub ν ⊓
       Subgroup.centralizer ((A12sub ν : Subgroup (X ν (F := F))) : Set (X ν)))).Normal := by
@@ -456,9 +483,10 @@ theorem J2sub_normal (h3 : (3 : F) ≠ 0) :
   congr 2
   ext : 1 <;> simp
 
+omit hF in
 theorem isQuasisimple_J2sub (h4 : 4 ≤ Nat.card F) : CFSG.Open.IsQuasisimple ↥(J2sub ν (F := F)) := by
   have hker : ∀ y ∈ (blkRange (F := F) (ι := Lam ν)).map ((blk (Kap ν)).comp (MonoidHom.inr _ _)),
-      π ν y = 1 → y = 1 := fun y hy => ker_blkRange ν hF y (by
+      π ν y = 1 → y = 1 := fun y hy => ker_blkRange ν y (by
     obtain ⟨y', -, rfl⟩ := hy
     exact ⟨y', rfl⟩)
   refine CFSG.ComponentClassification.Components.quasisimple_of_equiv
@@ -466,6 +494,7 @@ theorem isQuasisimple_J2sub (h4 : 4 ≤ Nat.card F) : CFSG.Open.IsQuasisimple �
     (isQuasisimple_blkRange (by simp [Fintype.card_sum]) h4)
   exact blkInr_injective (hx.trans (map_one _).symm)
 
+omit hF [Finite F] in
 theorem three_dvd_J2sub : 3 ∣ Nat.card (↥(J2sub ν (F := F)) ⧸ Subgroup.center ↥(J2sub ν)) := by
   set h₁ : SpecialLinearGroup (Fin 2) F →* X ν (F := F) :=
     (π ν).comp (((blk (Kap ν)).comp (MonoidHom.inr _ _)).comp
@@ -473,7 +502,7 @@ theorem three_dvd_J2sub : 3 ∣ Nat.card (↥(J2sub ν (F := F)) ⧸ Subgroup.ce
   have hinj : Function.Injective h₁ := by
     rw [injective_iff_map_eq_one]
     intro P hP
-    have h1 := ker_blkRange ν hF _ ⟨_, rfl⟩ hP
+    have h1 := ker_blkRange ν _ ⟨_, rfl⟩ hP
     have h2 := blkInr_injective (h1.trans (map_one _).symm)
     have h3 := blkInr_injective (h2.trans (map_one _).symm)
     exact congrArg Prod.fst (blk_injective (h3.trans (blk_one_one).symm))
@@ -488,17 +517,19 @@ theorem layer_ne_bot (h3 : (3 : F) ≠ 0) (h4 : 4 ≤ Nat.card F) :
       Subgroup.centralizer ((A12sub ν : Subgroup (X ν (F := F))) : Set (X ν))) ≠ ⊥ :=
   CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPLayer_ne_bot_of_normal_quasisimple Nat.prime_three
     (le_inf (J2sub_le_Jsub ν) (J2sub_le_centralizer ν)) (J2sub_normal ν hF h3)
-    (isQuasisimple_J2sub ν hF h4) (three_dvd_J2sub ν hF)
+    (isQuasisimple_J2sub ν h4) (three_dvd_J2sub ν)
 
 omit hF in
 @[expose] def negOne : SpecialLinearGroup (Fin 2) F := ⟨-1, by simp [Matrix.det_neg]⟩
 
 omit hF in
+omit [Finite F] in
 theorem negOne_mul_comm (P : SpecialLinearGroup (Fin 2) F) : negOne * P = P * negOne :=
   Subtype.ext (show (-1 : Matrix (Fin 2) (Fin 2) F) * (P : Matrix (Fin 2) (Fin 2) F) =
     (P : Matrix (Fin 2) (Fin 2) F) * -1 by simp)
 
 omit hF in
+omit [Finite F] in
 theorem negOne_sq : (negOne : SpecialLinearGroup (Fin 2) F) ^ 2 = 1 := by
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_pow]
@@ -508,6 +539,7 @@ omit hF in
 @[expose] noncomputable def tG : G ν (F := F) := blk (Kap ν) (negOne, 1)
 
 omit hF in
+omit [Finite F] in
 theorem tG_not_mem_center (h2 : (2 : F) ≠ 0) : tG ν (F := F) ∉ Subgroup.center (G ν) := by
   intro h
   obtain ⟨r, -, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 h
@@ -518,15 +550,16 @@ theorem tG_not_mem_center (h2 : (2 : F) ≠ 0) : tG ν (F := F) ∉ Subgroup.cen
   apply h2
   linear_combination e1 - e2
 
-omit hF in
+omit hF [Finite F] in
 theorem t_ne_one (h2 : (2 : F) ≠ 0) : π ν (tG ν (F := F)) ≠ 1 := fun h =>
   tG_not_mem_center ν h2 ((QuotientGroup.eq_one_iff _).1 h)
 
-omit hF in
+omit hF [Finite F] in
 theorem t_sq : π ν (tG ν (F := F)) ^ 2 = 1 := by
   rw [← map_pow, tG, ← map_pow, Prod.pow_mk, negOne_sq, one_pow, blk_one_one, map_one]
 
 omit hF in
+omit [Finite F] in
 theorem Jsub_le_centralizer_t :
     Jsub ν (F := F) ≤ Subgroup.centralizer ({π ν (tG ν)} : Set (X ν (F := F))) := by
   rintro _ ⟨_, ⟨Y, rfl⟩, rfl⟩
@@ -535,7 +568,7 @@ theorem Jsub_le_centralizer_t :
   congr 2
   ext : 1 <;> simp
 
-omit hF in
+omit hF [Finite F] in
 theorem Asub_le_centralizer_t :
     Asub ν (F := F) ≤ Subgroup.centralizer ({π ν (tG ν)} : Set (X ν (F := F))) := by
   rintro _ ⟨⟨P, Q, R⟩, -, rfl⟩

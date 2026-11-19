@@ -78,11 +78,11 @@ theorem normPerm_eq_normOmegaCast_normPerm {m : ℕ} (hm : 3 ≤ m) (σ' : Equiv
     simpa using (congrArg σ.symm (last_of_eq_castSucc hσ)).symm
   rcases Fin.eq_castSucc_or_eq_last j with ⟨i, rfl⟩ | rfl
   · rw [inv_castSucc_of_eq_castSucc hσ i,
-      dif_pos (show (↑i.castSucc : ℕ) < m from i.2)]
+      dite_eq_left (show (↑i.castSucc : ℕ) < m from i.2)]
     change v.2 (Fin.castSucc (σ'⁻¹ i)) =
       v.2 (Fin.castLE (Nat.le_succ m) (σ'⁻¹ ⟨(↑i.castSucc : ℕ), i.2⟩))
     exact congrArg (fun k : Fin (m + 1) => v.2 k) (Fin.ext rfl)
-  · rw [hinv_last, dif_neg (by simp [Fin.val_last])]
+  · rw [hinv_last, dite_eq_right (by simp [Fin.val_last])]
 
 theorem deletionChart_common {m : ℕ} (hm : 3 ≤ m) {H : Type} [Group H]
     (t : Equiv.Perm (Fin (m + 1)) →* H) (κ : normOmega E m →* H)
@@ -155,7 +155,7 @@ private theorem deletionChart_pair_ne {m : ℕ} (hm : 4 ≤ m) :
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> intro h
   all_goals
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk, Fin.val_last] at hv
+    simp only [Fin.val_last] at hv
     omega
 
 private theorem normBlock_pair_normalizes_deletionChart {m : ℕ} (hm : 4 ≤ m)
@@ -234,14 +234,14 @@ theorem deletionChart_pairCovariance {m : ℕ} (hm : 4 ≤ m)
       t (Equiv.swap ⟨m - 2, by omega⟩ (Fin.last m)) * y *
         (t (Equiv.swap ⟨m - 2, by omega⟩ (Fin.last m)))⁻¹ ∈
         (anchorBlock E (by omega : 2 ≤ m)).map κ) :
-    ∀ (P : Finset (Fin (m + 1))) (σ : Equiv.Perm (Fin (m + 1))) (hPcard : P.card = 2)
+    ∀ (P : Finset (Fin (m + 1))) (σ : Equiv.Perm (Fin (m + 1))) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet (Fin.last m)) (hPσD : P.image σ ⊆ deletionSet (Fin.last m))
       (x : normBlock E (m + 1) P),
         deletionChart E m κ (Subgroup.inclusion (normBlock_mono E (m + 1) hPσD)
             (conjMapHom (map_normBlock_normPerm E (by omega : 3 ≤ m + 1)) σ P x)) =
           t σ * deletionChart E m κ (Subgroup.inclusion (normBlock_mono E (m + 1) hPD) x) *
             (t σ)⁻¹ := by
-  intro P σ hPcard hPD hPσD x
+  intro P σ _hPcard hPD hPσD x
   have hn : 3 ≤ m + 1 := by omega
   obtain ⟨huv, hcu, hcv, hdu, hdv, hcd, -, -, -, -, -, -⟩ :=
     deletionChart_pair_ne (m := m) hm
@@ -263,6 +263,6 @@ theorem deletionChart_pairCovariance {m : ℕ} (hm : 4 ≤ m)
     (hBmap := map_normBlock_normPerm E hn) huv hcu hcv hdu hdv hcd
     (deletionChart_common E (by omega) t κ hT1) hbase
     (deletionChart_cross E hm t κ hT1 hT2 hineq)
-    P σ hPcard hPD hPσD x
+    P σ _hPcard hPD hPσD x
 
 end CFSG.ClassicalGroups.Orthogonal.UnitaryOmega

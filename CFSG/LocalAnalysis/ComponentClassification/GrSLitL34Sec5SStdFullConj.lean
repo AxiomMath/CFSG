@@ -419,13 +419,13 @@ theorem card_le_four_of_full_conj {J : Subgroup G} (hst : IsStandardSubgroup J)
     have hPTeq : (PT : Subgroup Cg) = T.subgroupOf Cg :=
       (Subgroup.eq_of_le_of_card_ge hPTle (by
         rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTg).toEquiv]
-        have h := hCgmax (PT : Subgroup Cg) PT.isPGroup'
+        have h := hCgmax (PT : Subgroup Cg) PT.isPGroup
         rwa [← hTcard] at h)).symm
     have hRg_sub_p : IsPGroup 2 ((R.map (MulAut.conj g).toMonoidHom).subgroupOf Cg) :=
       hRgp.of_equiv (Subgroup.subgroupOfEquivOfLe hRg_le).symm
     obtain ⟨PR, hPRle⟩ := hRg_sub_p.exists_le_sylow
     have hPRmax : Nat.card PR ≤ Nat.card (R.map (MulAut.conj g).toMonoidHom) := by
-      have h := hCgmax (PR : Subgroup Cg) PR.isPGroup'
+      have h := hCgmax (PR : Subgroup Cg) PR.isPGroup
       rwa [← hRcard, ← Subgroup.card_map_of_injective (K := R)
         (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective] at h
     have hPReq : (PR : Subgroup Cg) = (R.map (MulAut.conj g).toMonoidHom).subgroupOf Cg :=
@@ -496,7 +496,7 @@ theorem card_le_four_of_full_conj {J : Subgroup G} (hst : IsStandardSubgroup J)
     apply Subgroup.eq_of_le_of_card_ge hPQ
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTQ0).toEquiv, hTcard]
     have h := hQ0p ((PQ : Subgroup Q0).map Q0.subtype) (Subgroup.map_subtype_le _)
-      (PQ.isPGroup'.map _)
+      (PQ.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective (Subgroup.subtype_injective Q0)] at h
   have hPQcyc : IsCyclic (PQ : Subgroup Q0) := by
     rw [hPQeq]

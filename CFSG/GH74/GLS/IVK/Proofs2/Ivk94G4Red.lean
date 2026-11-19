@@ -51,7 +51,7 @@ theorem ch6T2F1PrimeGe5_of_leaves_g4_three
     rw [← hg, Sylow.coe_subgroup_smul] at hx' hy'
     obtain ⟨x', hx'', hxx⟩ := (Subgroup.mem_smul_pointwise_iff_exists _ _ _).1 hx'
     obtain ⟨y', hy'', hyy⟩ := (Subgroup.mem_smul_pointwise_iff_exists _ _ _).1 hy'
-    have hc : x' * y' = y' * x' := hab (P₀ : Subgroup G) hP₀ P₀.isPGroup' x' hx'' y' hy''
+    have hc : x' * y' = y' * x' := hab (P₀ : Subgroup G) hP₀ P₀.isPGroup x' hx'' y' hy''
     have hxx' : x = g * x' * g⁻¹ := by
       rw [← hxx]; simp [MulAut.smul_def, MulAut.conj_apply]
     have hyy' : y = g * y' * g⁻¹ := by
@@ -163,7 +163,7 @@ theorem ch6T2F1PrimeGe5_of_leaves_g4_three
     have hQp : IsPGroup 3 ↥Q := by
       rintro ⟨q, hq⟩
       obtain ⟨a, ha, rfl⟩ := hq
-      obtain ⟨k, hk⟩ := P'.isPGroup' ⟨a, ha⟩
+      obtain ⟨k, hk⟩ := P'.isPGroup ⟨a, ha⟩
       refine ⟨k, ?_⟩
       apply Subtype.ext
       have := congrArg (fun x : ↥(P' : Subgroup ↥(layer Hb)) => (((x : ↥(layer Hb)) : Hb))) hk
@@ -212,7 +212,7 @@ theorem ch6T2F1PrimeGe5_of_leaves_g4_three
     have hTp : IsPGroup 3 ↥T := by
       rintro ⟨q, hq⟩
       obtain ⟨t', ht', rfl⟩ := hq
-      obtain ⟨k, hk⟩ := Tc.isPGroup' ⟨t', ht'⟩
+      obtain ⟨k, hk⟩ := Tc.isPGroup ⟨t', ht'⟩
       refine ⟨k, ?_⟩
       apply Subtype.ext
       have := congrArg (fun x : ↥(Tc : Subgroup ↥(centralizer ({f'} : Set G))) =>

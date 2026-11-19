@@ -79,8 +79,8 @@ theorem exists_mulEquiv_sl_of_cover_three_four
     rw [← Nat.card_congr
       (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess
         (ProjectiveSpecialLinearGroup (Fin 3) F)).toEquiv, Nat.card_congr eM.toEquiv]
-    simp [Nat.card_prod]
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
+    simp
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
       (ProjectiveSpecialLinearGroup (Fin 3) F)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hSLperf : Group.IsPerfect (SpecialLinearGroup (Fin 3) F) :=

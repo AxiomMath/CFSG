@@ -47,7 +47,7 @@ theorem geomBody_twF4 (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K
     GeomBody p ⟨.twF4, 0, 2 * a + 1⟩ (LargeEvenCenterQuot (LargeEvenTwF4H a K))
       (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H a K))
       (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K)) := by
-  haveI : CharP K ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := charP_two_of_card hK
   refine geomBody_of_field (by simp) fun hS hna f hf hord => ?_
   have hF : FQ.InnFree p (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K)) :=
     innFree_of_ggRawInnField (RawAutReeF4.ggRawInnField_twF4_of_diag ha hK
@@ -55,7 +55,7 @@ theorem geomBody_twF4 (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K
   obtain ⟨b, hbp, k, _, _, _, hk, ⟨φ⟩⟩ :=
     FR.exists_fixSub_equiv_reeGamma ha hK hp hp2 _ hF f hf hord
   have hdiv : (2 * a + 1) / p = 2 * b + 1 := by rw [← hbp, Nat.mul_div_cancel _ hp.pos]
-  haveI := hS
+  have := hS
   have hZ := center_eq_bot_of_simple_noncomm hna
   have hI : ∀ φ ∈ LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H a K), φ ^ p = 1 →
       φ ∈ Set.range (MulAut.conj : LargeEvenCenterQuot (LargeEvenTwF4H a K) →* _) := by
@@ -67,8 +67,8 @@ theorem geomBody_twF4 (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K
     subst hb0
     have hk2 : Nat.card k = 2 := by simpa using hk
     obtain ⟨eT⟩ := nonempty_titsQuot_equiv hk2
-    haveI : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
-    haveI : Group.IsPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) :=
+    have : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
+    have : Group.IsPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) :=
       (CFSG.LieType.Simplicity.titsData k hk2).isPerfect hk2
     obtain ⟨x, y, hxy⟩ := exists_mul_ne_of_isPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0))
     have hL : GGHasLabel ⟨.twF4der, 0, 1⟩ (LargeEvenCenterQuot (LargeEvenTwF4H 0 k)) := by
@@ -109,7 +109,7 @@ theorem geomBody_twF4 (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K
   ·
     obtain ⟨eR⟩ := gff_nonempty_centerQuot_equiv_reeGamma hb1 hk
     obtain ⟨hs₀, hna₀⟩ := twF4Quot_simple hb1 hk
-    haveI := hs₀
+    have := hs₀
     have hfix : FP.fixSub f = ggFixSub f := Subgroup.ext fun _ => Iff.rfl
     let e : LargeEvenCenterQuot (LargeEvenTwF4H b k) ≃* ↥(ggFixSub f) :=
       (eR.trans φ.symm).trans (MulEquiv.subgroupCongr hfix)

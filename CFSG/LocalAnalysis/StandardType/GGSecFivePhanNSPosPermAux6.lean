@@ -78,7 +78,7 @@ theorem ggNSPosPA_permutationGL_eq_permSU {K : Type} [Field K] [Finite K] [CharP
 
 theorem ggNSPosPA_diag_centralizes {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} {ψ : Su K 2 f n →* G}
-    (h : GGNSLocalHyp p B Bs K f n ψ) (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs)
+    (_h : GGNSLocalHyp p B Bs K f n ψ) (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs)
     {u : Su K 2 f n} (hu : ∃ d : Fin n → Kˣ, (u : GL (Fin n) K) = TauCeti.diagGL d)
     {b : G} (hb : b ∈ Bs) : ψ u * b = b * ψ u := by
   obtain ⟨d, hd_eq⟩ := hu

@@ -93,6 +93,7 @@ section Cover
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
 
+omit [Finite Ω] in
 theorem exists_cover_of_center_eq_bot (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {H : Subgroup (GL ι K)} (e : PSimple p S ≃* StatedProj H) :
     ∃ φ : ↥H →* Ω, φ.range = S ∧ φ.ker = (StatedScalars ι K).subgroupOf H := by
@@ -122,9 +123,9 @@ theorem exists_cover_of_odd_splitting [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
     (hsplit : ∀ (E : Type) [Group E] [Finite E] (π : E →* ↥H), Function.Surjective π →
       π.ker ≤ Subgroup.center E → Odd (Nat.card π.ker) → ∃ s : ↥H →* E, ∀ g, π (s g) = g) :
     ∃ φ : ↥H →* Ω, φ.range = S ∧ φ.ker ≤ (StatedScalars ι K).subgroupOf H := by
-  haveI : Group.IsPerfect ↥S := ⟨S267.perfect_of_commutator_self_eq hperf⟩
+  have : Group.IsPerfect ↥S := ⟨S267.perfect_of_commutator_self_eq hperf⟩
   have hodd : Odd (Nat.card (Subgroup.center ↥S)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1
       (CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
         hp hcore)

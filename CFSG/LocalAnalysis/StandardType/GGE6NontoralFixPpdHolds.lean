@@ -81,7 +81,7 @@ theorem ggE6NontoralFixPpdInput_holds :
   obtain ⟨w, hn⟩ := S.D.n_weyl
   have hw : w ∉ kernelReflectionGroup a := fun hw =>
     hnt (ggInndiagToral_of_twist_mem_kernelReflectionGroup S.D hFr hΦ hn x hda hw)
-  haveI : CharP (AlgebraicClosure (GaloisField 2 f)) 2 :=
+  have : CharP (AlgebraicClosure (GaloisField 2 f)) 2 :=
     charP_of_injective_algebraMap (algebraMap (GaloisField 2 f) _).injective 2
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hSq]; exact hFr c
   have hq : S.D.q = 2 ^ f := hSq.trans hK

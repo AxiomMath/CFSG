@@ -34,8 +34,8 @@ theorem exists_coroot_data_of_two_local (hRK : RootKill)
       CFSG.IsQuasisimple D' ∧ 7 ∣ Nat.card D' ∧
       ∀ y ∈ Y, (∀ d ∈ D', y d = d) → ∃ d ∈ X, y = MulAut.conj d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have h2 : ringChar K = 2 := ringChar.eq K 2
   have hAI : twMatPre K σ Y ≤ twistedE6InndiagGL K σ := twMatPre_le σ Y
   have hAel : IsElemAbelian 3 (twMatPre K σ Y) := isElemAbelian_twMatPre σ hn hK hσ hY
@@ -78,7 +78,7 @@ theorem exists_coroot_data_of_two_local (hRK : RootKill)
       obtain ⟨D, hc⟩ := hD34 K K₃ ι σ σ₃ (2 ^ n) hK hK₃ hσ hσ₃ h2 h3 _ hAI hAel hAc
         (twNormTwo_baseChange ι σ σ₃ hcomm hU)
       obtain ⟨β, hβ, hkill⟩ := hRK K σ (2 ^ n) hK hσ h2 3 Nat.prime_three h3 _ hAI hAel
-        (by rw [if_pos rfl, hAc]) hU D
+        (by rw [ite_eq_left rfl, hAc]) hU D
       obtain ⟨γ, hγ, -, ζ, hζ, hζ1, x, hxA, hx⟩ := exists_corootTuple_mem_of_kills D
         Nat.prime_three (by rw [h2]; norm_num) hAel (by rw [hAc]; norm_num) hβ hkill
       refine ⟨D, γ, hγ, ζ, hζ, hζ1, x, hxA, ?_⟩

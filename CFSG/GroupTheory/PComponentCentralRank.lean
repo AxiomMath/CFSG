@@ -45,7 +45,7 @@ theorem pRank_add_one_le_of_pComponent {z : H} (hz : orderOf z = p)
     have hcop : Nat.Coprime p (Nat.card O) := by
       simpa [O] using CFSG.pPrimeCore_coprime_card (p := p) (G := H)
     exact hp.coprime_iff_not_dvd.mp hcop
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   have hzq : orderOf (q z) = p := by
     simpa [q] using
       CFSG.GroupTheory.CoprimeTransport.orderOf_mk_eq_prime (p := p) (N := O) hOnotdvd hz
@@ -164,7 +164,7 @@ theorem pRank_add_one_le_of_distinct_pComponents {z : H} (hz : orderOf z = p)
     have hcop : Nat.Coprime p (Nat.card O) := by
       simpa [O] using CFSG.pPrimeCore_coprime_card (p := p) (G := H)
     exact hp.coprime_iff_not_dvd.mp hcop
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   have hzq : orderOf (q z) = p := by
     simpa [q] using
       CFSG.GroupTheory.CoprimeTransport.orderOf_mk_eq_prime (p := p) (N := O) hOnotdvd hz

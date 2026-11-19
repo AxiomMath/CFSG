@@ -19,17 +19,17 @@ private lemma ggQ2gx_D_fork_nbr {m : ℕ} (hm : 4 ≤ m) {i : Fin m}
     CartanMatrix.D m i ⟨m - 3, by omega⟩ ≠ 0 := by
   rcases hi with hi | hi
   · rw [CartanMatrix.D, Matrix.of_apply, hi]
-    simp only [Fin.val_mk]
+    simp only
     split_ifs <;> omega
   · rw [CartanMatrix.D, Matrix.of_apply, hi]
-    simp only [Fin.val_mk]
+    simp only
     split_ifs <;> omega
 
 private lemma ggQ2gx_D_fork_nbr_eq {m : ℕ} (hm : 4 ≤ m) {i j : Fin m}
     (hi : i.val = m - 2 ∨ i.val = m - 1) (hij : i ≠ j)
     (h : CartanMatrix.D m i j ≠ 0) : j.val = m - 3 := by
   rw [CartanMatrix.D, Matrix.of_apply] at h
-  simp only [hij, if_false] at h
+  simp only [hij, ite_false] at h
   rcases hi with hi | hi
   · rw [hi] at h
     split_ifs at h <;> omega
@@ -51,7 +51,7 @@ theorem ggQ2g_second_leaf {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) {k : ℕ} (hk
       have hfj : f (⟨2 * k - 1, by omega⟩ : Fin (2 * k)) =
           f (⟨2 * k - 2, by omega⟩ : Fin (2 * k)) := Subtype.ext (hh.trans h.symm)
       have hv := congrArg Fin.val (f.injective hfj)
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     · exact ⟨⟨2 * k - 2, by omega⟩, Or.inl rfl, h⟩
   obtain ⟨j, hj, hjne⟩ := hex
@@ -59,7 +59,7 @@ theorem ggQ2g_second_leaf {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) {k : ℕ} (hk
   refine ⟨f ⟨2 * k - 3, by omega⟩, ⟨?_, ?_⟩, ?_⟩
   · intro hh
     have hv := congrArg Fin.val (f.injective (Subtype.ext hh))
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     rcases hj with hj | hj <;> omega
   · rw [hf j ⟨2 * k - 3, by omega⟩]
     exact ggQ2gx_D_fork_nbr hm hj
@@ -96,7 +96,7 @@ private lemma ggQ2gx_D_succ_succ {k : ℕ} (hk : 2 ≤ k) (i j : Fin (2 * k)) :
   simp only [CartanMatrix.D, Matrix.of_apply]
   rw [if_congr (show i.succ = j.succ ↔ i = j from
     ⟨fun h => Fin.succ_injective (2 * k) h, fun h => by rw [h]⟩) rfl ?_]
-  rw [if_neg (by omega : ¬ 2 * k + 1 ≤ 2), if_neg (by omega : ¬ 2 * k ≤ 2)]
+  rw [ite_eq_right (by omega : ¬ 2 * k + 1 ≤ 2), ite_eq_right (by omega : ¬ 2 * k ≤ 2)]
   have hsi : (i.succ : Fin (2 * k + 1)).val = i.val + 1 := rfl
   have hsj : (j.succ : Fin (2 * k + 1)).val = j.val + 1 := rfl
   have h1 : (i.succ.val + 1 = j.succ.val ∧ j.succ.val + 2 < 2 * k + 1) ↔
@@ -128,7 +128,7 @@ theorem ggQ2_gammaXGraph_holds (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     (h5 : GGQTwoCentralizerInput) (hD5 : GGQ2GammaXGraphD5Input) (hE7 : GGQ2GammaXGraphE7Input) :
     GGQ2GammaXGraphInput := by
   intro G _ _ p B Bs x L D J hS hp hI1 hxL _ y K hnb M hD2k hV φ hφ hφxV π μ c w hSc hw hT hπb _
-  haveI : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
+  have : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
   subst hp
   classical
   have hH : GGCorFiveTwentyHyp 3 B Bs x L D J := hS.1

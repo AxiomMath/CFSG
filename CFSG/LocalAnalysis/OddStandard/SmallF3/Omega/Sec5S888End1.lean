@@ -33,7 +33,7 @@ private theorem s888_diff_mem {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 �
     (hw : ∀ k, w k ∈ W k) :
     (ρ i * (w 0 * w 1 * w 2 * w 3) * (ρ i)⁻¹) * (w 0 * w 1 * w 2 * w 3)⁻¹ =
       (ρ i * w i * (ρ i)⁻¹) * (w i)⁻¹ := by
-  letI : CommGroup V := { (inferInstance : Group V) with
+  let : CommGroup V := { (inferInstance : Group V) with
     mul_comm := fun a b => Subtype.ext (hVcomm a.1 a.2 b.1 b.2) }
   let wv : Fin 4 → V := fun k => ⟨w k, hP.le k (hw k)⟩
   let q : V →* V :=
@@ -66,8 +66,8 @@ theorem plane_le_of_invariant {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 �
     {ρ : Fin 4 → X} (hP : IsPlaneData V W ρ) (i : Fin 4) (U : Subgroup X)
     (hU : ∀ u ∈ U, ρ i * u * (ρ i)⁻¹ ∈ U) {a : X} (haW : a ∈ W i) (ha1 : a ≠ 1) (haU : a ∈ U) :
     W i ≤ U := by
-  haveI : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; norm_num)
-  haveI : Finite ↥(U ⊓ W i) := Finite.of_injective
+  have : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; norm_num)
+  have : Finite ↥(U ⊓ W i) := Finite.of_injective
     (Subgroup.inclusion (inf_le_right : U ⊓ W i ≤ W i)) (Subgroup.inclusion_injective _)
   let κ : MulAut X := MulAut.conj (ρ i)
   let a1 : X := κ a
@@ -101,7 +101,7 @@ theorem plane_le_of_invariant {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 �
       ⟨a2, Subgroup.mem_inf.mpr ⟨ha2U, ha2W⟩⟩]
   have hf : Function.Injective f := by
     intro p q hpq
-    fin_cases p <;> fin_cases q <;> simp_all [f, Fin.cons_zero, Fin.cons_succ]
+    fin_cases p <;> fin_cases q <;> simp_all [f]
   have h4 : 4 ≤ Nat.card ↥(U ⊓ W i) := by
     simpa using Nat.card_le_card_of_injective f hf
   exact (Subgroup.eq_of_le_of_card_ge inf_le_right
@@ -137,7 +137,7 @@ theorem irr_of_planes {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 → Subgr
   have hall : ∀ j, W j ≤ U := by
     intro j
     obtain ⟨g, hg, hgw⟩ := hP.trans i j
-    haveI : Finite (W j) := Nat.finite_of_card_ne_zero (by rw [hP.card j]; norm_num)
+    have : Finite (W j) := Nat.finite_of_card_ne_zero (by rw [hP.card j]; norm_num)
     have hmapeq : (W i).map (MulAut.conj g).toMonoidHom = W j := by
       refine Subgroup.eq_of_le_of_card_ge (fun x hx => ?_)
         (by rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hP.card i, hP.card j])

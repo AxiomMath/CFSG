@@ -36,9 +36,9 @@ theorem kFactParabolicCover_of_inputs
     KPCov.false_of_bender hp (by omega) hB hpar hne hSyl
   obtain ⟨f, H, N, hf, hf2, hfp, hrank, hHK₀, hHn, hs, hfd, hpd, hpN⟩ :=
     hLevi A K K₀ p hK hB hp hp5 hrk hpar hne hSyl
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK₀K : K₀ ≤ K := hpar.1
   have hK₀p : CFSG.Open.pRank p K₀ ≤ 1 :=
     (CFSG.SectionRank.pRank_mono hp.one_lt hK₀K).trans hrk

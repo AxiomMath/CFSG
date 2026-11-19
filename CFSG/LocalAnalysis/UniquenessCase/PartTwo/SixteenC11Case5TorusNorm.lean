@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Quasithin.H.Om4 Matrix
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem s16c11_case5_D0_le_normalizer_of_forward
     {A : Subgroup (MulAut (VM K))}
     (h : ∀ μ : Kˣ, ∀ y ∈ A,
@@ -32,6 +33,7 @@ private theorem s16c11_case5_D0_le_normalizer_of_forward
         s16c11_case5_D0Hom μ = y := by group
     rwa [hconj] at hy'
 
+omit [Finite K] in
 theorem s16c11_case5_D0_le_normalizer_Delta :
     s16c11_case5_D0 (K := K) ≤
       Subgroup.normalizer (s16c11_case5_Delta (K := K) : Set (MulAut (VM K))) := by
@@ -41,6 +43,7 @@ theorem s16c11_case5_D0_le_normalizer_Delta :
   obtain ⟨a, rfl⟩ := hy
   exact ⟨(μ : K) ^ 2 * a, s16c11_case5_D0_conj_rhoU μ a a⟩
 
+omit [Finite K] in
 theorem s16c11_case5_D0_le_normalizer_zpowers_sigma :
     s16c11_case5_D0 (K := K) ≤
       Subgroup.normalizer (Subgroup.zpowers (s16c11_case5_sigma (K := K)) :
@@ -57,6 +60,7 @@ theorem s16c11_case5_D0_le_normalizer_zpowers_sigma :
         (s16c11_case5_D0Hom μ)⁻¹ = s16c11_case5_sigma ^ n by
       rw [(hcomm.zpow_right n).eq, mul_assoc, mul_inv_cancel, mul_one]]
 
+omit [Finite K] in
 theorem s16c11_case5_D0_le_normalizer_of_kInv {A : Subgroup (MulAut (VM K))}
     (hAV : A ≤ s16c11_case5_V)
     (hinv : ∀ c a b : K, s16c11_case5_rhoU a b ∈ A → s16c11_case5_rhoU (c * a) (c * b) ∈ A) :

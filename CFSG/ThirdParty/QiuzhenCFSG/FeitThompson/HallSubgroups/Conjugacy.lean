@@ -2,9 +2,9 @@ module
 
 public import Mathlib.Algebra.Group.Defs
 public import Mathlib.Algebra.Group.Subgroup.Defs
-public import Mathlib.Data.Bracket
+public import Mathlib.Algebra.Notation.Bracket
 import Mathlib.SetTheory.Cardinal.NatCard
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.GroupTheory.Commutator.Basic
 public import Mathlib.GroupTheory.Index
@@ -136,7 +136,7 @@ lemma CFSG.normal_pSubgroup_le_of_isHallSubgroup_of_prime_mem
   let Psub : Subgroup G := (PH : Subgroup H).map H.subtype
   have hPsub_p : IsPGroup p Psub := by
     simpa [Psub] using
-      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup' H.subtype)
+      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup H.subtype)
   have hp_not_dvd_Hindex : ¬ p ∣ H.index := by
     intro hp_dvd
     exact (hHall.p_in_pi_of_p_dvd_index ⟨p, Fact.out⟩ hp_dvd) hp_mem
@@ -586,7 +586,7 @@ public theorem CFSG.exists_conj_eq_of_isHallSubgroup_of_solvable
     have _ : Subsingleton (Sylow p N) := by infer_instance
     have _ : (P₀ : Subgroup N).Characteristic := Sylow.characteristic_of_subsingleton (G := N) P₀
     let Psub : Subgroup G' := (P₀ : Subgroup N).map N.subtype
-    have hP₀_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup'
+    have hP₀_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup
     have hPsub_p : IsPGroup p Psub := by
       simpa [Psub] using (IsPGroup.map (p := p) (H := (P₀ : Subgroup N)) hP₀_p N.subtype)
     have _ : Psub.Normal := by infer_instance

@@ -30,6 +30,7 @@ theorem conj_injective_of_center_eq_bot {K : Type*} [Group K] (hZ : center K = �
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem mem_sylow_iff {K : Subgroup Y} {Q : Subgroup Y} {P : Sylow p K}
     (hP : (P : Subgroup K).map K.subtype = Q ⊓ K) (k : K) : k ∈ (P : Subgroup K) ↔ (k : Y) ∈ Q := by
   constructor
@@ -141,7 +142,7 @@ theorem exists_sylow_isSylowOf_inf (h : FrobCaseIIHyp p n L U x) {K : Subgroup Y
   have hSK := hSsyl.inf_of_le_normalizer le_normalizer le_rfl
   have hQK : (Q : Subgroup Y) ⊓ K = (S : Subgroup (normalizer (K : Set Y))).map
       (normalizer (K : Set Y)).subtype ⊓ K :=
-    hSK.eq_of_le (inf_le_inf_right K hQ) inf_le_right (Q.isPGroup'.to_le inf_le_left)
+    hSK.eq_of_le (inf_le_inf_right K hQ) inf_le_right (Q.isPGroup.to_le inf_le_left)
   refine ⟨Q, hQ (hES (mem_sup_right (mem_zpowers x))), (le_sup_left.trans hES).trans hQ, ?_⟩
   rw [hQK]
   exact hSK

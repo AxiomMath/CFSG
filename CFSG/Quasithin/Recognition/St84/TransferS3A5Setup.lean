@@ -90,6 +90,7 @@ theorem f112sa_P1_le_normalizer_QS {L1 L2 S : Subgroup H}
   (f112sa_P1_le_normalizer_P1' hF.toW).trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _)
 
+omit [Finite H] in
 theorem commute_of_mem_centerOf_of_card_two {E Q : Subgroup H}
     (hEQ : E ≤ Subgroup.normalizer (Q : Set H)) (hZ : Nat.card ↥(centerOf Q) = 2)
     {z : H} (hz : z ∈ centerOf Q) : ∀ x ∈ E, z * x = x * z := by

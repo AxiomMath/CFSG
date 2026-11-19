@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     ∀ (t : G), t ∈ LB M Q B → t ∉ Q → Rt M (LB M Q B) t ≠ LB M Q B →
     hc.CN t = ⨆ (h : G) (_ : h ∈ Rt M (LB M Q B) t), conjSubgroup h (LB M Q B) ⊓ hc.CN t
 
+omit [Finite G] in
 theorem exists_centLB (hc : Ctx M Q Z B) (t : G) :
     ∃ T : Subgroup G, ∀ x, x ∈ T ↔ x ∈ LB M Q B ∧ ∀ r ∈ Rt M (LB M Q B) t, ⁅r, x⁆ ∈ Q := by
   have hQn : ∀ a ∈ M, ∀ y ∈ Q, a * y * a⁻¹ ∈ Q := fun a ha y hy =>

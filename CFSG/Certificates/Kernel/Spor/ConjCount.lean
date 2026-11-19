@@ -54,7 +54,7 @@ theorem mem_normalizer_iff_conj {L : Subgroup G} (hL : L = Subgroup.closure (Set
     | mem y hy =>
       obtain ⟨i, rfl⟩ := hy
       exact h i
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul a c _ _ ha hc =>
       have e : g * (a * c) * g⁻¹ = (g * a * g⁻¹) * (g * c * g⁻¹) := by group
       rw [e]

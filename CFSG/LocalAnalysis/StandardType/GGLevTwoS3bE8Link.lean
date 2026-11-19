@@ -134,7 +134,7 @@ theorem levTwoS3b_e8_partOf_eq
     partOf kacE8 (D : Set (Option (Fin (Tag.rank Tag.E8)))) 2 =
       levTwoS3b_e8_patSet (levTwoS3b_e8_maskOf D) := by
   ext β
-  rw [partOf, Set.mem_setOf_eq]
+  rw [partOf, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, -⟩
     have hβ : IsRoot Tag.E8 β := hroot.1

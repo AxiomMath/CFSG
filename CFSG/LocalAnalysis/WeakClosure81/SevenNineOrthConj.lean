@@ -52,7 +52,7 @@ private theorem orthReflConj_of_mul_self_add {f} {x y : Fin m → ZMod p}
   refine ⟨orthRefl f (c • (x - y)), Subgroup.subset_closure (orthRefl_mem f huu), Or.inl ?_⟩
   rw [orthRefl_mulVec f huu]
   have hxu : f x (c • (x - y)) = c * (-2 - f x y) := by
-    simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, hx, smul_eq_mul]
+    simp only [map_sub, map_smul, hx, smul_eq_mul]
   rw [hxu]
   rw [smul_smul, show c * (-2 - f x y) * c = -1 by linear_combination -hc]
   module
@@ -67,7 +67,7 @@ private theorem orthReflConj_of_mul_self_sub {f} {x y : Fin m → ZMod p}
   refine ⟨orthRefl f (c • (x + y)), Subgroup.subset_closure (orthRefl_mem f huu), Or.inr ?_⟩
   rw [orthRefl_mulVec f huu]
   have hxu : f x (c • (x + y)) = c * (-2 + f x y) := by
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, hx, smul_eq_mul]
+    simp only [map_add, map_smul, hx, smul_eq_mul]
   rw [hxu]
   rw [smul_smul, show c * (-2 + f x y) * c = -1 by linear_combination -hc]
   module
@@ -176,23 +176,16 @@ theorem orthReflConj_a_of_mem_U (hp : p = 3 ∨ p = 5) {v : Fin m → ZMod p} (h
   have hzz : f (F.s + F.s' - F.a - v) (F.s + F.s' - F.a - v) = -2 := by
     simp only [map_sub, map_add, LinearMap.sub_apply, LinearMap.add_apply,
       F.isotropic_s, F.isotropic_s', F.pair, F.norm_a, F.a_orth_s, F.a_orth_s',
-      hvs, hvs', hvv, hva, F.symm F.a v, F.symm v F.a, F.symm F.s F.a, F.symm F.s' F.a,
-      F.symm F.s v, F.symm F.s' v, F.symm v F.s, F.symm v F.s', ← F.symm F.s F.s',
-      F.symm F.a F.s, F.symm F.a F.s']
+      hvs, hvs', hvv, hva, F.symm F.a v, F.symm F.s F.a, F.symm F.s' F.a,
+      F.symm F.s v, F.symm F.s' v, ← F.symm F.s F.s']
     ring
   have haz : f F.a (F.s + F.s' - F.a - v) = 2 := by
-    simp only [map_sub, map_add, LinearMap.sub_apply, LinearMap.add_apply,
-      F.isotropic_s, F.isotropic_s', F.pair, F.norm_a, F.a_orth_s, F.a_orth_s',
-      hvs, hvs', hvv, hva, F.symm F.a v, F.symm v F.a, F.symm F.s F.a, F.symm F.s' F.a,
-      F.symm F.s v, F.symm F.s' v, F.symm v F.s, F.symm v F.s', ← F.symm F.s F.s',
-      F.symm F.a F.s, F.symm F.a F.s']
+    simp only [map_sub, map_add, F.norm_a, F.a_orth_s, F.a_orth_s',
+      hva, F.symm F.a v]
     ring
   have hzv : f (F.s + F.s' - F.a - v) v = 2 := by
     simp only [map_sub, map_add, LinearMap.sub_apply, LinearMap.add_apply,
-      F.isotropic_s, F.isotropic_s', F.pair, F.norm_a, F.a_orth_s, F.a_orth_s',
-      hvs, hvs', hvv, hva, F.symm F.a v, F.symm v F.a, F.symm F.s F.a, F.symm F.s' F.a,
-      F.symm F.s v, F.symm F.s' v, F.symm v F.s, F.symm v F.s', ← F.symm F.s F.s',
-      F.symm F.a F.s, F.symm F.a F.s']
+      hvs, hvs', hvv, hva, F.symm F.a v, F.symm F.s v, F.symm F.s' v]
     ring
   have h2 : (2 : ZMod p) ≠ 0 := by
     rcases hp with rfl | rfl
@@ -217,11 +210,10 @@ theorem siegel_smul_mem_orthConjSup [Fact p.Prime] (hp : p = 3 ∨ p = 5) {v : F
       F.symm F.s v, F.isotropic_s, smul_eq_mul]
     ring
   have hw_a : f F.a (v + (-c) • F.s) = 0 := by
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      F.symm F.a v, hva, F.a_orth_s, smul_eq_mul]
+    simp only [map_add, map_smul, F.symm F.a v, hva, F.a_orth_s, smul_eq_mul]
     ring
   have hv_w : f v (v + (-c) • F.s) = -2 := by
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, hvv, hvs,
+    simp only [map_add, map_smul, hvv, hvs,
       smul_eq_mul]
     ring
   have hvw : OrthReflConj f v (v + (-c) • F.s) :=

@@ -20,7 +20,7 @@ theorem disjoint_sdiff_one_of_ne_of_card_prime {G : Type*} [Group G] [Finite G] 
     (hne : F ≠ F') : Disjoint ((F : Set G) \ {1}) ((F' : Set G) \ {1}) := by
   rw [Set.disjoint_left]
   intro x hx hx'
-  rw [Set.mem_diff, Set.mem_singleton_iff] at hx hx'
+  rw [Set.mem_sdiff, Set.mem_singleton_iff] at hx hx'
   obtain ⟨hxF, hx1⟩ := hx
   obtain ⟨hxF', -⟩ := hx'
   have hgen : ∀ {K : Subgroup G}, Nat.card K = p → x ∈ K → Subgroup.zpowers x = K := by
@@ -44,7 +44,7 @@ theorem ncard_subgroups_card_prime_mul_le {G : Type*} [Group G] [Finite G] {p : 
   set S : Set (Subgroup G) := {F | F ≤ A ∧ Nat.card F = p} with hS
   have hmem : ∀ {F : Subgroup G}, F ∈ S ↔ F ≤ A ∧ Nat.card F = p := by
     intro F
-    rw [hS, Set.mem_setOf_eq]
+    rw [hS, Set.mem_ofPred_eq]
   let f : Subgroup G → Set G := fun F => (F : Set G) \ {1}
   have hcardf : ∀ F ∈ S, (f F).ncard = p - 1 := by
     intro F hF
@@ -52,7 +52,7 @@ theorem ncard_subgroups_card_prime_mul_le {G : Type*} [Group G] [Finite G] {p : 
     have hcoe : (F : Set G).ncard = Nat.card F :=
       (Nat.card_coe_set_eq (F : Set G)).symm
     change ((F : Set G) \ {1}).ncard = p - 1
-    rw [Set.ncard_diff_singleton_of_mem F.one_mem, hcoe, hFp]
+    rw [Set.ncard_sdiff_singleton_of_mem F.one_mem, hcoe, hFp]
   have hdisj : S.PairwiseDisjoint f := by
     intro F hF F' hF' hne
     exact disjoint_sdiff_one_of_ne_of_card_prime hp (hmem.mp hF).2 (hmem.mp hF').2 hne
@@ -67,14 +67,14 @@ theorem ncard_subgroups_card_prime_mul_le {G : Type*} [Group G] [Finite G] {p : 
   have hsub : (⋃ F ∈ S, f F) ⊆ (A : Set G) \ {1} := by
     intro x hx
     obtain ⟨F, hF, hxF⟩ := Set.mem_iUnion₂.mp hx
-    simp only [f, Set.mem_diff, Set.mem_singleton_iff] at hxF
+    simp only [f, Set.mem_sdiff, Set.mem_singleton_iff] at hxF
     exact ⟨(hmem.mp hF).1 hxF.1, hxF.2⟩
   have hAle : (⋃ F ∈ S, f F).ncard ≤ ((A : Set G) \ {1}).ncard :=
     Set.ncard_le_ncard hsub (Set.toFinite _)
   have hA : ((A : Set G) \ {1}).ncard = Nat.card A - 1 := by
     have hcoe : (A : Set G).ncard = Nat.card A :=
       (Nat.card_coe_set_eq (A : Set G)).symm
-    rw [Set.ncard_diff_singleton_of_mem A.one_mem, hcoe]
+    rw [Set.ncard_sdiff_singleton_of_mem A.one_mem, hcoe]
   rw [hcount, hsum, hA] at hAle
   simpa only [hS] using hAle
 

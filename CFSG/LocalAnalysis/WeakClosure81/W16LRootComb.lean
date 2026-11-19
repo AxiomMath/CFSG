@@ -15,7 +15,7 @@ theorem w16l_eq_univ_of_line_closed {Ω : Type} [Finite Ω] {q : ℕ}
     {a b c : Ω} (ha : a ∈ S) (hb : b ∈ S) (hc : c ∈ S) (hab : a ≠ b) (hcab : c ∉ line a b) :
     S = Set.univ := by
   classical
-  haveI := Fintype.ofFinite Ω
+  have := Fintype.ofFinite Ω
   rw [Set.eq_univ_iff_forall]
   intro p
   by_contra hp

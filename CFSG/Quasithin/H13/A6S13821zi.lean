@@ -14,7 +14,7 @@ theorem false_of_sec_cube (hV : ∀ v : V, v ^ 2 = 1) {K : Subgroup (MulAut V)}
     {A C : Subgroup V} (hKA : K ≤ stabSub A ⊓ stabSub C)
     (hirr : XMod.IsIrrSec ↥(autSec K A C) (⊥ : Subgroup (Sec A C)) ⊤)
     (hnc : ∃ a b : ↥(autSec K A C), a * b ≠ b * a) {y s : MulAut V} (hy3 : y ^ 3 = 1)
-    (hcube : ∀ v ∈ A, v * y v * y (y v) = 1) (hyK : ∀ k ∈ K, k * y = y * k)
+    (hcube : ∀ v ∈ A, v * y v * y (y v) = 1) (_hyK : ∀ k ∈ K, k * y = y * k)
     (hsK : ∀ k ∈ K, k * s = s * k) {e : ℕ} (hs2 : s ^ 2 ^ e = 1) (hsy : s * y * s⁻¹ = y⁻¹)
     (hyA : y ∈ stabSub A ⊓ stabSub C) (hsA : s ∈ stabSub A ⊓ stabSub C) : False := by
   classical

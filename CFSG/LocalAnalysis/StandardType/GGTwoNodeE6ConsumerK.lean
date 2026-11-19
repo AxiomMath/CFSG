@@ -160,8 +160,8 @@ theorem ggTwoNodeIndepAtK_e6_of_moving_K (hAll : LR6E6All) (hFix : GGTBFixInput)
     exact ggFixed_of_mem_closure φ b hbφ
   have hmove := ggE6K_moving_L_of_moving_K hFix hH hx hmoveK hLrefl hb1 hbK
   subst hp3
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hA : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
   have hcardV : Nat.card ↥Bs = 3 ^ Module.finrank (ZMod 3) V :=

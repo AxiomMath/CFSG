@@ -15,6 +15,7 @@ variable {K : Type} [Group K] [Finite K]
 
 section PartA
 
+omit [Finite K] in
 theorem elemMod_normal {Y M : Subgroup K} (hMn : ∀ x ∈ Y, ∀ m ∈ M, x * m * x⁻¹ ∈ M) :
     (M.subgroupOf Y).Normal :=
   ⟨fun n hn g => by
@@ -33,6 +34,7 @@ abbrev elemMod_cg {Y M : Subgroup K} [(M.subgroupOf Y).Normal]
 
 attribute [local instance] elemMod_cg
 
+omit [Finite K] in
 theorem elemMod_exp {f : ℕ} {Y M : Subgroup K} [(M.subgroupOf Y).Normal]
     (hexp : ∀ x ∈ Y, x ^ f ∈ M) (v : Additive (↥Y ⧸ M.subgroupOf Y)) : f • v = 0 := by
   obtain ⟨a, rfl⟩ := Additive.ofMul.surjective v
@@ -64,20 +66,23 @@ attribute [local instance] elemMod_md
     rw [mem_comap, mem_subgroupOf]
     exact (mem_set_normalizer_iff.mp hgM (x : K)).mp hx)
 
+omit [Finite K] in
 theorem elemMod_conjQ_mk {Y M : Subgroup K} [(M.subgroupOf Y).Normal] (g : K)
     (hgY : g ∈ normalizer (Y : Set K)) (hgM : g ∈ normalizer (M : Set K)) (x : K) (hx : x ∈ Y)
     (hgx : g * x * g⁻¹ ∈ Y) :
     elemMod_conjQ g hgY hgM (QuotientGroup.mk ⟨x, hx⟩) = QuotientGroup.mk ⟨g * x * g⁻¹, hgx⟩ := rfl
 
+omit [Finite K] in
 theorem elemMod_conjQ_one {Y M : Subgroup K} [(M.subgroupOf Y).Normal]
     (hgY : (1 : K) ∈ normalizer (Y : Set K)) (hgM : (1 : K) ∈ normalizer (M : Set K))
     (a : ↥Y ⧸ M.subgroupOf Y) : elemMod_conjQ (1 : K) hgY hgM a = a := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   rw [show (QuotientGroup.mk x : ↥Y ⧸ M.subgroupOf Y) = QuotientGroup.mk ⟨(x : K), x.2⟩ from rfl,
-    elemMod_conjQ_mk _ _ _ _ _ (by simpa using x.2)]
+    elemMod_conjQ_mk _ _ _ _ _ (by simp)]
   congr 1
   exact Subtype.ext (by simp)
 
+omit [Finite K] in
 theorem elemMod_conjQ_mul {Y M : Subgroup K} [(M.subgroupOf Y).Normal] (g h : K)
     (hgY : g ∈ normalizer (Y : Set K)) (hgM : g ∈ normalizer (M : Set K))
     (hhY : h ∈ normalizer (Y : Set K)) (hhM : h ∈ normalizer (M : Set K))
@@ -94,11 +99,12 @@ theorem elemMod_conjQ_mul {Y M : Subgroup K} [(M.subgroupOf Y).Normal] (g h : K)
   open scoped Classical in
   if hx : x ∈ Y then Additive.ofMul (QuotientGroup.mk (⟨x, hx⟩ : ↥Y)) else Additive.ofMul 1
 
+omit [Finite K] in
 theorem elemMod_pi_of_mem {Y M : Subgroup K} [(M.subgroupOf Y).Normal] {x : K} (hx : x ∈ Y) :
     elemMod_pi Y M x = Additive.ofMul (QuotientGroup.mk (⟨x, hx⟩ : ↥Y)) := by
   simp [elemMod_pi, hx]
 
-theorem exists_elemSection {f : ℕ} [Fact f.Prime] {Y M G : Subgroup K} (hMY : M ≤ Y)
+theorem exists_elemSection {f : ℕ} [Fact f.Prime] {Y M G : Subgroup K} (_hMY : M ≤ Y)
     (hMn : ∀ x ∈ Y, ∀ m ∈ M, x * m * x⁻¹ ∈ M)
     (hab : ∀ x ∈ Y, ∀ y ∈ Y, x * y * x⁻¹ * y⁻¹ ∈ M) (hexp : ∀ x ∈ Y, x ^ f ∈ M)
     (hGY : G ≤ normalizer (Y : Set K)) (hGM : G ≤ normalizer (M : Set K)) :
@@ -106,11 +112,11 @@ theorem exists_elemSection {f : ℕ} [Fact f.Prime] {Y M G : Subgroup K} (hMY : 
       (π : K → W) (ρ : Representation (ZMod f) ↥G W),
       (∀ x ∈ Y, ∀ y ∈ Y, π (x * y) = π x + π y) ∧ (∀ x ∈ Y, π x = 0 ↔ x ∈ M) ∧
       (∀ w : W, ∃ x ∈ Y, π x = w) ∧ (∀ (g : ↥G), ∀ x ∈ Y, ρ g (π x) = π (g * x * g⁻¹)) := by
-  haveI hN : (M.subgroupOf Y).Normal := elemMod_normal hMn
-  haveI : Fact (∀ x ∈ Y, ∀ y ∈ Y, x * y * x⁻¹ * y⁻¹ ∈ M) := ⟨hab⟩
-  haveI : Fact (∀ x ∈ Y, x ^ f ∈ M) := ⟨hexp⟩
-  haveI : NeZero f := ⟨(Fact.out : f.Prime).ne_zero⟩
-  haveI hfin : Module.Finite (ZMod f) (Additive (↥Y ⧸ M.subgroupOf Y)) :=
+  have hN : (M.subgroupOf Y).Normal := elemMod_normal hMn
+  have : Fact (∀ x ∈ Y, ∀ y ∈ Y, x * y * x⁻¹ * y⁻¹ ∈ M) := ⟨hab⟩
+  have : Fact (∀ x ∈ Y, x ^ f ∈ M) := ⟨hexp⟩
+  have : NeZero f := ⟨(Fact.out : f.Prime).ne_zero⟩
+  have hfin : Module.Finite (ZMod f) (Additive (↥Y ⧸ M.subgroupOf Y)) :=
     Module.Finite.of_finite
   have key : ∃ ρ : Representation (ZMod f) ↥G (Additive (↥Y ⧸ M.subgroupOf Y)),
       ∀ (g : ↥G), ∀ x ∈ Y, ρ g (elemMod_pi Y M x) = elemMod_pi Y M (g * x * g⁻¹) := by
@@ -152,13 +158,13 @@ theorem elemMod_exists_maximal {f : ℕ} [Fact f.Prime] {X N : Subgroup K} (hX :
     (hNX : N ≤ X) (hXN : ¬ X ≤ N) :
     ∃ H : Subgroup K, N ≤ H ∧ ¬ X ≤ H ∧ (∀ x ∈ X, ∀ y ∈ X, x * y * x⁻¹ * y⁻¹ ∈ H) ∧
       ∀ x ∈ X, x ^ f ∈ H := by
-  haveI hnil : Group.IsNilpotent ↥X := hX.isNilpotent
+  have hnil : Group.IsNilpotent ↥X := hX.isNilpotent
   have hN' : N.subgroupOf X ≠ ⊤ := fun h => hXN (subgroupOf_eq_top.mp h)
   obtain ⟨H, hH, hNH⟩ := (eq_top_or_exists_le_coatom (N.subgroupOf X)).resolve_left hN'
-  haveI hHn : H.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom H hH
+  have hHn : H.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom H hH
   have hidx : H.index = f := hX.isCoatom_iff_index_eq_prime.mp hH
   have hcard : Nat.card (↥X ⧸ H) = f := by rw [← Subgroup.index_eq_card]; exact hidx
-  haveI : IsCyclic (↥X ⧸ H) := isCyclic_of_prime_card hcard
+  have : IsCyclic (↥X ⧸ H) := isCyclic_of_prime_card hcard
   refine ⟨H.map X.subtype, ?_, ?_, ?_, ?_⟩
   · intro n hn
     exact ⟨⟨n, hNX hn⟩, hNH (mem_subgroupOf.mpr hn), rfl⟩
@@ -187,6 +193,7 @@ theorem elemMod_exists_maximal {f : ℕ} [Fact f.Prime] {X N : Subgroup K} (hX :
 @[expose] def elemMod_M (f : ℕ) (X N : Subgroup K) : Subgroup K :=
   N ⊔ ⁅X, X⁆ ⊔ Subgroup.closure {x : K | ∃ y ∈ X, x = y ^ f}
 
+omit [Finite K] in
 theorem elemMod_M_le {f : ℕ} {X N : Subgroup K} (hNX : N ≤ X) : elemMod_M f X N ≤ X := by
   refine sup_le (sup_le hNX ?_) ?_
   · rw [commutator_le]
@@ -196,22 +203,27 @@ theorem elemMod_M_le {f : ℕ} {X N : Subgroup K} (hNX : N ≤ X) : elemMod_M f 
     rintro _ ⟨y, hy, rfl⟩
     exact X.pow_mem hy f
 
+omit [Finite K] in
 theorem elemMod_N_le {f : ℕ} {X N : Subgroup K} : N ≤ elemMod_M f X N :=
   le_sup_left.trans le_sup_left
 
+omit [Finite K] in
 theorem elemMod_comm_mem {f : ℕ} {X N : Subgroup K} {x y : K} (hx : x ∈ X) (hy : y ∈ X) :
     x * y * x⁻¹ * y⁻¹ ∈ elemMod_M f X N :=
   (le_sup_right.trans le_sup_left : ⁅X, X⁆ ≤ elemMod_M f X N) (commutator_mem_commutator hx hy)
 
+omit [Finite K] in
 theorem elemMod_pow_mem {f : ℕ} {X N : Subgroup K} {y : K} (hy : y ∈ X) : y ^ f ∈ elemMod_M f X N :=
   (le_sup_right : Subgroup.closure {x : K | ∃ y ∈ X, x = y ^ f} ≤ elemMod_M f X N)
     (subset_closure ⟨y, hy, rfl⟩)
 
+omit [Finite K] in
 theorem elemMod_normalizer_comm {X : Subgroup K} {g : K} (hgX : g ∈ normalizer (X : Set K)) :
     g ∈ normalizer ((⁅X, X⁆ : Subgroup K) : Set K) := by
   rw [mem_normalizer_iff_map_conj_eq] at hgX ⊢
   rw [map_commutator, hgX]
 
+omit [Finite K] in
 theorem elemMod_normalizer_pow {f : ℕ} {X : Subgroup K} {g : K} (hgX : g ∈ normalizer (X : Set K)) :
     g ∈ normalizer ((Subgroup.closure {x : K | ∃ y ∈ X, x = y ^ f} : Subgroup K) : Set K) := by
   apply normalizer_le_normalizer_closure
@@ -230,6 +242,7 @@ theorem elemMod_normalizer_pow {f : ℕ} {X : Subgroup K} {g : K} (hgX : g ∈ n
     rw [hcp, ← hu]
     group
 
+omit [Finite K] in
 theorem elemMod_normalizer_M {f : ℕ} {X N : Subgroup K} {g : K} (hgX : g ∈ normalizer (X : Set K))
     (hgN : g ∈ normalizer (N : Set K)) : g ∈ normalizer ((elemMod_M f X N : Subgroup K) : Set K) :=
   inf_normalizer_le_normalizer_sup _ _
@@ -238,7 +251,7 @@ theorem elemMod_normalizer_M {f : ℕ} {X N : Subgroup K} {g : K} (hgX : g ∈ n
 
 theorem elemMod_not_dvd_card {f q : ℕ} (hf : f.Prime) (hq : q.Prime) (hqf : q ≠ f)
     {M X : Subgroup K} (hX : IsPGroup f X) (hMX : M ≤ X) : ¬ q ∣ Nat.card M := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hX.to_le hMX)
   rw [hn]
   intro hdvd
@@ -256,6 +269,7 @@ theorem elemMod_mem_of_fixed {q : ℕ} [Fact q.Prime] {X M T N : Subgroup K}
   have h2 := M.mul_mem h1 (M.inv_mem hm)
   simpa using h2
 
+omit [Finite K] in
 theorem elemMod_mem_of_pi_eq {X M : Subgroup K} {W : Type} [AddCommGroup W] {π : K → W}
     (hadd : ∀ x ∈ X, ∀ y ∈ X, π (x * y) = π x + π y) (h0 : ∀ x ∈ X, π x = 0 ↔ x ∈ M)
     {x y : K} (hx : x ∈ X) (hy : y ∈ X) (hxy : π y = π x) : x⁻¹ * y ∈ M := by
@@ -281,7 +295,7 @@ theorem exists_module {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f
       (∀ S₀ : Subgroup K, S₀ ≤ S → S₀ ≠ ⊥ → zpowers z ≤ normalizer (S₀ : Set K) →
         ∀ w : W, (∀ g : ↥(S ⊔ zpowers z), (g : K) ∈ S₀ → ρ g w = w) → w = 0) ∧
       (∀ w : W, ρ ⟨z, mem_sup_right (mem_zpowers z)⟩ w = w → w = 0) := by
-  haveI : Fact f.Prime := ⟨h.hf⟩
+  have : Fact f.Prime := ⟨h.hf⟩
   have hMX : elemMod_M f X N ≤ X := elemMod_M_le h.hNX
   have hXN' : X ≤ normalizer (N : Set K) := (normal_subgroupOf_iff_le_normalizer h.hNX).mp h.hNn
   have hMn : ∀ x ∈ X, ∀ m ∈ elemMod_M f X N, x * m * x⁻¹ ∈ elemMod_M f X N := fun x hx m hm =>
@@ -323,7 +337,7 @@ theorem exists_module {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f
   · intro w hw
     obtain ⟨x, hx, rfl⟩ := hsurj w
     refine (h0 x hx).mpr ?_
-    haveI : Fact p.Prime := ⟨h.hp⟩
+    have : Fact p.Prime := ⟨h.hp⟩
     have hzG : z ∈ S ⊔ zpowers z := mem_sup_right (mem_zpowers z)
     have hpz : IsPGroup p (zpowers z) :=
       IsPGroup.of_card_dvd_pow (n := 1)

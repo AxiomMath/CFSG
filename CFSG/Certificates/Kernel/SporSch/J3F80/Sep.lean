@@ -468,14 +468,14 @@ private theorem sepK_parts {D zB RB v k P SI : Nat} {zs : List Nat} {terms : Lis
   · have e : (v >>> k) &&& 1 = 1 := Nat.eq_of_beq_eq_true hvk
     rw [CFSG.KC.J4Q.and_one_bit] at e
     by_contra hb
-    rw [if_neg hb] at e
+    rw [ite_eq_right hb] at e
     exact absurd e (by decide)
   · obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 (CFSG.KS.allN_spec hall i hi)
     exact ⟨Nat.le_of_ble_eq_true h1, Eq.mp Nat.blt_eq h2⟩
 
 theorem sep_sound' (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {zB RB SI : Nat}
     {zs : List Nat}
-    (hzs : zs.length = 4) (hzB : zB < 2 ^ 3240) (hz : ∀ z ∈ zs, z < 2 ^ 3240)
+    (hzs : zs.length = 4) (_hzB : zB < 2 ^ 3240) (_hz : ∀ z ∈ zs, z < 2 ^ 3240)
     (hP : rows80K sepP.toList = true)
     (h : sepK c rm t0 t1 t2 t3 t4 t5 t6 dgK zB RB zs sepTerms sepVec sepIdx (packRowsK sepP.toList)
       sepTree SI = true) :

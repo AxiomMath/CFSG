@@ -286,7 +286,7 @@ theorem mk_K_sq_sq (φ : K ≃+* F4) (x : K) : (x ^ 2) ^ 2 = x := by
 
 theorem mk_hU_map (φ : K ≃+* F4) (v w : Fin 4 → K) :
     φ (U42Hermitian K v w) = hU (fun i => φ (v i)) (fun i => φ (w i)) := by
-  simp [U42Hermitian, hU, Fin.sum_univ_four, map_pow, sq]
+  simp [U42Hermitian, hU, Fin.sum_univ_four, sq]
 
 @[expose] def mkTrvMat (σ : K →+* K) (p : Fin 4 → K) : Matrix (Fin 4) (Fin 4) K :=
   1 + Matrix.vecMulVec p (σ ∘ p)
@@ -343,7 +343,7 @@ theorem mkTrvMat_act (φ : K ≃+* F4) {σ : K →+* K} (hσ : ∀ x, σ x = x ^
   ext i
   fin_cases i <;>
   · simp [tU, hU, mkTrvMat, Matrix.mulVec, dotProduct, Fin.sum_univ_four, Matrix.one_apply,
-      Matrix.vecMulVec_apply, hσ, map_pow, sq]
+      Matrix.vecMulVec_apply, hσ, sq]
     try ring
 
 @[expose] def mkXi (φ : K ≃+* F4) (j : Fin 45) : Fin 4 → K := fun i => φ.symm (uPt j i)
@@ -1131,12 +1131,12 @@ theorem mk_fixed_inj (φ : K ≃+* F4) {σ : K →+* K} (hσ : ∀ x, σ x = x ^
     by_contra hne
     exact hcon ⟨i, by simpa using hne⟩
   have h3 := congrFun h2 i₀
-  simp only [mkBitVec, Pi.smul_apply, smul_eq_mul, hi₀, if_true, mul_one] at h3
+  simp only [mkBitVec, Pi.smul_apply, smul_eq_mul, hi₀, ite_true, mul_one] at h3
   have hs1 : φ.symm (t * t'⁻¹) = 1 := by
     by_cases hbi : b i₀ = true
-    · rw [if_pos hbi] at h3
+    · rw [ite_eq_left hbi] at h3
       exact h3.symm
-    · rw [if_neg hbi] at h3
+    · rw [ite_eq_right hbi] at h3
       exact absurd h3.symm hs0
   funext i
   have h4 := congrFun h2 i
@@ -1243,7 +1243,7 @@ theorem mk_S_point (φ : K ≃+* F4) {point : Submodule K (Fin 4 → K)} {j₀ :
     (hj₀ : ∀ w : Fin 4 → F4, w ∈ mkV φ point ↔ ∃ c : F4, w = c • uPt j₀) :
     {k | uPt k ∈ mkV φ point} = {j₀} := by
   ext k
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [hj₀]
   constructor
   · rintro ⟨c, hc⟩
@@ -1271,11 +1271,11 @@ theorem exists_markIso {E : Type} [Group E]
       15 ≤ (Finset.univ.filter fun ℓ : Fin 45 =>
         ((Θ fb : CFSG.Quasithin.H13.F431.U42Aut.Ah) : Equiv.Perm (Fin 45)) ℓ = ℓ).card := by
   classical
-  haveI : Finite E := hA.finite
-  haveI : Gp.Normal := hA.normal
+  have : Finite E := hA.finite
+  have : Gp.Normal := hA.normal
   obtain ⟨hfbGp, -, K, instK, instFin, hKcard, σ, C, hσ, hC, m, point, plane, hp1, hp2, hpp,
     hiso, hpar1, hpar2, hcoc⟩ := hA.native
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = Fintype.card F4 := by
     rw [← Nat.card_eq_fintype_card, hKcard, F4.card]
   let φ : K ≃+* F4 := FiniteField.ringEquivOfCardEq hcardK

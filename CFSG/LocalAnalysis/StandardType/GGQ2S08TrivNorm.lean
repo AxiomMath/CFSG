@@ -137,7 +137,7 @@ theorem ggQ2s08_triv_normalizes (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput
   obtain ⟨hcfg, -, -, -, -⟩ := hS.1
   obtain ⟨hI, hBstar, hDJ⟩ := hcfg
   have hprime : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hBsabel : IsElemAbelian p Bs := hBstar.2.1
   have hBsC : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hBsabel.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -220,7 +220,7 @@ theorem ggQ2s08_triv_normalizes (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput
       rw [inv_mul_eq_one, eq_comm]
     have hker : Nat.card hshift.ker = Nat.card {b : ↥Bs // φ b = b} :=
       Nat.card_congr (Equiv.subtypeEquivRight hhker)
-    haveI : Nonempty {b : ↥Bs // φ b = b} := ⟨⟨1, map_one φ⟩⟩
+    have : Nonempty {b : ↥Bs // φ b = b} := ⟨⟨1, map_one φ⟩⟩
     have hrange : Nat.card hshift.range = p := by
       have hcard := Subgroup.card_ker_mul_card_range hshift
       have hcard2 : Nat.card ↥hshift.ker * Nat.card ↥hshift.range =
@@ -304,7 +304,7 @@ theorem ggQ2s08_triv_normalizes (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput
           have h1 : n * (b : G) * n⁻¹ = ⁅n, (b : G)⁆ * (b : G) := by
             rw [commutatorElement_def]; group
           have hcommB : (b : G)⁻¹ * ⁅n, (b : G)⁆ = ⁅n, (b : G)⁆ * (b : G)⁻¹ :=
-            hBsC (b : G)⁻¹ (by simpa using Bs.inv_mem b.2) ⁅n, (b : G)⁆ hbBs'
+            hBsC (b : G)⁻¹ (by simp) ⁅n, (b : G)⁆ hbBs'
           rw [h1, ← mul_assoc, hcommB, mul_assoc, inv_mul_cancel, mul_one]
         rw [heq]
         exact hmem

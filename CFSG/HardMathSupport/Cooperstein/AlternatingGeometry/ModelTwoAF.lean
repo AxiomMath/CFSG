@@ -13,23 +13,25 @@ open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] in
 theorem blockPermHom_tI (i : ι) : blockPermHom ι (tI i) = blockTransp i := by
   refine Equiv.ext fun ⟨k, b⟩ => ?_
   by_cases hk : k = i
   · subst hk
     cases b
     · show (k, tI k k false) = swap (k, false) (k, true) (k, false)
-      rw [swap_apply_left, tI_apply, if_pos rfl]
+      rw [swap_apply_left, tI_apply, ite_eq_left rfl]
       simp [bsw]
     · show (k, tI k k true) = swap (k, false) (k, true) (k, true)
-      rw [swap_apply_right, tI_apply, if_pos rfl]
+      rw [swap_apply_right, tI_apply, ite_eq_left rfl]
       simp [bsw]
   · show (k, tI i k b) = swap (i, false) (i, true) (k, b)
-    rw [swap_apply_of_ne_of_ne (by simp [hk]) (by simp [hk]), tI_apply, if_neg hk]
+    rw [swap_apply_of_ne_of_ne (by simp [hk]) (by simp [hk]), tI_apply, ite_eq_right hk]
     rfl
 
 variable {G : Type} [Group G] [Finite G] {S M : Subgroup G}
 
+omit [Finite G] in
 theorem theta_mem_normalizer_W {Ω : Type*} (θ : ↥M →* Perm Ω) (m : ↥M)
     (hm : (m : G) ∈ Subgroup.normalizer (S : Set G)) :
     θ m ∈ Subgroup.normalizer
@@ -94,6 +96,7 @@ theorem mem_of_theta_mem_blockFix_gen (hA : Asc81bHyp M S) (θ : ↥M →* Perm 
   rw [hS] at hle
   exact hle ⟨m, hm, rfl⟩
 
+omit [Fintype ι] in
 theorem mem_blockPermHom_map_ker_iff (T : Finset ι) (i : ι) :
     blockTransp i ∈ ((fsign T).ker).map (blockPermHom ι) ↔ i ∉ T := by
   rw [← blockPermHom_tI, Subgroup.mem_map_iff_mem blockPermHom_injective, MonoidHom.mem_ker,
@@ -102,6 +105,7 @@ theorem mem_blockPermHom_map_ker_iff (T : Finset ι) (i : ι) :
   · simp [h]
   · simp [h]
 
+omit [Fintype ι] in
 theorem exists_flip_of_AT (T : Finset ι) (hT1 : T.card ≠ 1) (i : ι) :
     ∃ w ∈ ((fsign T).ker).map (blockPermHom ι), w (i, false) = (i, true) := by
   by_cases hi : i ∈ T
@@ -115,11 +119,11 @@ theorem exists_flip_of_AT (T : Finset ι) (hT1 : T.card ≠ 1) (i : ι) :
       · exact ⟨a, ha, hai⟩
     refine ⟨blockPermHom ι (tI i * tI j), ⟨tI i * tI j, ?_, rfl⟩, ?_⟩
     · exact MonoidHom.mem_ker.2 (by
-        rw [map_mul, fsign_tI, fsign_tI, if_pos hi, if_pos hjT]; decide)
+        rw [map_mul, fsign_tI, fsign_tI, ite_eq_left hi, ite_eq_left hjT]; decide)
     · simp [blockPermHom, blockPerm_apply, Pi.mul_apply, tI_apply, Ne.symm hji, bsw]
   · exact ⟨blockTransp i, (mem_blockPermHom_map_ker_iff T i).2 hi, swap_apply_left _ _⟩
 
-theorem theta_S_iff_mem_blockFix_AF (hA : Asc81bHyp M S) (hι : 5 ≤ Fintype.card ι)
+theorem theta_S_iff_mem_blockFix_AF (hA : Asc81bHyp M S) (_hι : 5 ≤ Fintype.card ι)
     (θ : ↥M →* Perm (ι × Bool))
     (hker : ∀ m : ↥M, θ m = 1 → (m : G) ∈ S)
     (hAlt : ∀ x ∈ alternatingGroup (ι × Bool), ∃ m : ↥M, θ m = x)

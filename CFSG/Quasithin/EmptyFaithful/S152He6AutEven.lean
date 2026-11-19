@@ -215,12 +215,12 @@ theorem autInner_psl2_even (hf : 2 ≤ f) (α : MulAut PSL(2, GaloisField 2 f))
     have : (P.map φ.toMonoidHom).index = P.index := Subgroup.index_map_equiv P (φ : L ≃* L)
     rw [this]
     exact hP.2
-  have hSsyl : IsSyl (S : Subgroup L) := ⟨S.isPGroup', S.not_dvd_index⟩
+  have hSsyl : IsSyl (S : Subgroup L) := ⟨S.isPGroup, S.not_dvd_index⟩
   obtain ⟨hSel, hScard⟩ := psl2_even_sylow_two hf S
   have hab : ∀ x ∈ (S : Subgroup L), ∀ y ∈ (S : Subgroup L), x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hSel.toIsMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hcardSyl : Nat.card (Sylow 2 L) = 2 ^ f + 1 := psl2_even_card_sylow hf0
-  have hSylsyl : ∀ P : Sylow 2 L, IsSyl (P : Subgroup L) := fun P => ⟨P.isPGroup', P.not_dvd_index⟩
+  have hSylsyl : ∀ P : Sylow 2 L, IsSyl (P : Subgroup L) := fun P => ⟨P.isPGroup, P.not_dvd_index⟩
   have hex : ∃ P : Sylow 2 L, P ≠ S := by
     have h1 : 1 < Nat.card (Sylow 2 L) := by
       rw [hcardSyl]
@@ -276,7 +276,7 @@ theorem autInner_psl2_even (hf : 2 ≤ f) (α : MulAut PSL(2, GaloisField 2 f))
       have h4 : (v : L)⁻¹ * (u : L) ∈ (S : Subgroup L) :=
         (S : Subgroup L).mul_mem ((S : Subgroup L).inv_mem v.2) u.2
       have h5 : (v : L)⁻¹ * (u : L) ∈ (S : Subgroup L) ⊓ (P' : Subgroup L) := by
-        rw [← (S.isPGroup'.inf_normalizer_sylow P')]
+        rw [← (S.isPGroup.inf_normalizer_sylow P')]
         exact ⟨h4, h3⟩
       have h6 := hTI P' hP'S _ h4 h5.2
       apply Subtype.ext
@@ -311,7 +311,7 @@ theorem autInner_of_equiv {G H : Type*} [Group G] [Group H] [Finite G] (e : G �
     (α : MulAut G) (S : Sylow 2 G) (hα : ∀ s ∈ (S : Subgroup G), α s = s) :
     ∃ l : G, ∀ g, α g = l * g * l⁻¹ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  let S' : Sylow 2 H := (S.isPGroup'.map e.toMonoidHom).toSylow (by
+  let S' : Sylow 2 H := (S.isPGroup.map e.toMonoidHom).toSylow (by
     have h1 := Subgroup.index_map_equiv (S : Subgroup G) e
     intro hd
     apply S.not_dvd_index

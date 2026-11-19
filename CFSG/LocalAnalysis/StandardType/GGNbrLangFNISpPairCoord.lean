@@ -197,11 +197,11 @@ theorem kgfniSp_pairBlock_coord {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       ({u} : Set (GL (Fin n ⊕ Fin n) K)) ε =
       spSupported β {a, reciprocalPolynomial a} := by
     simpa using ggJS1_glBlockCentralizer_eq_spSupported β hoddβ ha hane hae ha'e' hεe
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   let E : Type := AdjoinRoot a
-  haveI hEfinite : Finite E := Module.finite_of_finite K
-  haveI hEfintype : Fintype E := Fintype.ofFinite E
-  haveI hEchar : CharP E 2 :=
+  have hEfinite : Finite E := Module.finite_of_finite K
+  have hEfintype : Fintype E := Fintype.ofFinite E
+  have hEchar : CharP E 2 :=
     charP_of_injective_algebraMap (algebraMap K E).injective 2
   let W : Type := primaryComponent (spEnd β) a
   let m : ℕ := Module.finrank E W

@@ -55,7 +55,7 @@ theorem isSolvable_of_layer_eq_bot (hK3 : KFactAutRankThreeSolvable) {Z : Type} 
         rw [hker 2, show V 2 = ⊥ from h2]
         exact Subgroup.centralizer_eq_top_iff_subset.mpr (by simp)
       have he : Z ⧸ C 2 ≃* Z ⧸ (⊤ : Subgroup Z) := QuotientGroup.quotientMulEquivOfEq hC2
-      haveI : Subsingleton (Z ⧸ (⊤ : Subgroup Z)) := QuotientGroup.subsingleton_quotient_top
+      have : Subsingleton (Z ⧸ (⊤ : Subgroup Z)) := QuotientGroup.subsingleton_quotient_top
       exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv he.symm
     · have hr : (r : ℕ).Prime := Nat.prime_of_mem_primeFactors r.2
       have hV : IsPGroup (r : ℕ) ↥(V (r : ℕ)) := CFSG.pCore_isPGroup
@@ -79,7 +79,7 @@ theorem isSolvable_of_layer_eq_bot (hK3 : KFactAutRankThreeSolvable) {Z : Type} 
           (Nat.card_congr he.toEquiv).symm
         rw [hcard]
         exact h3.of_dvd_right (Subgroup.card_quotient_dvd_card (C (r : ℕ)))
-      haveI hBsolv : Group.IsSolvable ↥B :=
+      have hBsolv : Group.IsSolvable ↥B :=
         hK3 (r : ℕ) ↥(V (r : ℕ)) hr hr2 hV hrank B hBcop
       exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv he.symm
   have hKleC : ∀ r : (Nat.card Z).primeFactors, K ≤ C (r : ℕ) := fun r => iInf_le _ r
@@ -98,14 +98,14 @@ theorem isSolvable_of_layer_eq_bot (hK3 : KFactAutRankThreeSolvable) {Z : Type} 
     rw [← hgen]
     exact CFSG.centralizer_generalizedFitting_le Z
   have hKfit : K ≤ CFSG.fittingSubgroup Z := hcentFit.trans hbender
-  haveI hKsolv : Group.IsSolvable ↥K :=
+  have hKsolv : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKfit)
-  haveI hKnormal : K.Normal := by
+  have hKnormal : K.Normal := by
     dsimp only [K]
     exact Subgroup.normal_iInf_normal (fun r => by
       dsimp only [C]
       exact MonoidHom.normal_ker _)
-  haveI hKquot : Group.IsSolvable (Z ⧸ K) := by
+  have hKquot : Group.IsSolvable (Z ⧸ K) := by
     have hderiv : ∀ r : (Nat.card Z).primeFactors,
         ∃ n, derivedSeries Z n ≤ C (r : ℕ) := by
       intro r
@@ -163,8 +163,8 @@ theorem nonempty_quot_solvableRadical_mulEquiv {Y : Type} [Group Y] [Finite Y] {
   let Q := Y ⧸ N
   let P : Subgroup Y := (center Q).comap (QuotientGroup.mk' N)
   let R : Subgroup Y := CFSG.solvableRadical Y
-  haveI : Group.IsSolvable ↥N := hN
-  haveI hPnormal : P.Normal :=
+  have : Group.IsSolvable ↥N := hN
+  have hPnormal : P.Normal :=
     Subgroup.Normal.comap (inferInstance : (center Q).Normal) (QuotientGroup.mk' N)
   have hPsolv : Group.IsSolvable ↥P :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_comap_mk' (R := N) (N := center Q)
@@ -172,11 +172,11 @@ theorem nonempty_quot_solvableRadical_mulEquiv {Y : Type} [Group Y] [Finite Y] {
     CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical hPnormal hPsolv
   have hRmap_normal : (R.map (QuotientGroup.mk' N)).Normal :=
     (inferInstance : R.Normal).map (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-  haveI hRsolv : Group.IsSolvable ↥R :=
+  have hRsolv : Group.IsSolvable ↥R :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hRmap_le : R.map (QuotientGroup.mk' N) = ⊤ ∨ R.map (QuotientGroup.mk' N) ≤ center Q :=
     CFSG.LocalCores.quasisimple_normal_subgroups hq hRmap_normal
-  haveI hqperf : Group.IsPerfect Q := hq.1
+  have hqperf : Group.IsPerfect Q := hq.1
   have hRleP : R ≤ P := by
     rcases hRmap_le with htop | hle
     · exfalso
@@ -188,10 +188,10 @@ theorem nonempty_quot_solvableRadical_mulEquiv {Y : Type} [Group Y] [Finite Y] {
           exact ⟨y, y.2, rfl⟩
         · rintro ⟨y, hy, rfl⟩
           exact ⟨⟨y, hy⟩, rfl⟩
-      haveI hQsolv : Group.IsSolvable Q :=
+      have hQsolv : Group.IsSolvable Q :=
         Group.isSolvable_of_surjective (f := f) (MonoidHom.range_eq_top.mp (hrange.trans htop))
       have hQsolvQ : Group.IsSolvable (Q ⧸ center Q) := inferInstance
-      haveI : Nontrivial (Q ⧸ center Q) := by
+      have : Nontrivial (Q ⧸ center Q) := by
         obtain ⟨a, b, hab⟩ := hq.2.2
         exact ⟨a, b, fun h => hab (by rw [h])⟩
       exact (Group.IsPerfect.not_isSolvable (Q ⧸ center Q)) hQsolvQ
@@ -204,7 +204,7 @@ theorem nonempty_quot_solvableRadical_mulEquiv {Y : Type} [Group Y] [Finite Y] {
     exact bot_le
   have hPmap : P.map (QuotientGroup.mk' N) = center Q :=
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective N) (center Q)
-  haveI : (P.map (QuotientGroup.mk' N)).Normal :=
+  have : (P.map (QuotientGroup.mk' N)).Normal :=
     hPnormal.map (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hRP).trans
     ((QuotientGroup.quotientQuotientEquivQuotient N P hNP).symm.trans

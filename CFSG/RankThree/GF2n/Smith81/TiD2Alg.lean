@@ -21,7 +21,7 @@ variable {K : Type*} [Field K]
 @[expose] def pairLin (g h : Mat2 K) : Mat2 K →ₗ[K] Mat2 K where
   toFun X := g * X * hᵀ
   map_add' X Y := by simp [Matrix.mul_add, Matrix.add_mul]
-  map_smul' c X := by simp [Matrix.mul_smul, Matrix.smul_mul]
+  map_smul' c X := by simp
 
 @[simp] theorem pairLin_apply (g h X : Mat2 K) : pairLin g h X = g * X * hᵀ := rfl
 
@@ -322,7 +322,7 @@ theorem polar_tw_ne_zero (σ : K ≃+* K) {c c' : Fin 2 → K} (h : c 0 * c' 1 -
 
 theorem tw_single (σ : K ≃+* K) : tw σ (Pi.single 0 1) = !![1, 0; 0, 0] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [tw_apply, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [tw_apply]
 
 theorem exists_conj_u [CharP K 2] {t : SL(2, K)} (ht1 : t ≠ 1) (ht2 : t * t = 1) :
     ∃ (g : SL(2, K)) (a : K), a ≠ 0 ∧ t = g * uSL a * g⁻¹ := by
@@ -386,7 +386,7 @@ theorem fixed_u_singular [CharP K 2] (σ : K ≃+* K) {a : K} (ha : a ≠ 0) {X 
   have e10 := e 1 0
   simp only [twEquiv_apply, slMap_uSL, coe_uSL, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.transpose_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
     at e00 e01 e10
   have h11 : X 1 1 = 0 :=
     (mul_eq_zero.mp (by linear_combination e01 : a * X 1 1 = 0)).resolve_left ha
@@ -430,7 +430,7 @@ theorem lemmaS [CharP K 2] (σ : K ≃+* K) {t : SL(2, K)} (ht1 : t ≠ 1) (ht2 
     rw [← hgc, h, Matrix.mulVec_zero]
   · have hu : (!![1, a; 0, 1] : Mat2 K) *ᵥ (Pi.single 0 1) = Pi.single 0 1 := by
       ext i
-      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL]
     rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hgc, hu]
   · intro X hX hdet
@@ -466,14 +466,14 @@ theorem exists_sl_mulVec_single {c : Fin 2 → K} (hc : c ≠ 0) :
       ring
     refine ⟨⟨!![c 0, -(c 1)⁻¹; c 1, 0], hdet⟩, ?_⟩
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   · have hdet : (!![c 0, 0; c 1, (c 0)⁻¹] : Mat2 K).det = 1 := by
       rw [Matrix.det_fin_two_of]
       field_simp
       ring
     refine ⟨⟨!![c 0, 0; c 1, (c 0)⁻¹], hdet⟩, ?_⟩
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
 theorem exists_sl_mulVec_eq {c c' : Fin 2 → K} (hc : c ≠ 0) (hc' : c' ≠ 0) :
     ∃ g : SL(2, K), (g : Mat2 K) *ᵥ c = c' := by
@@ -560,7 +560,7 @@ theorem range_leftMul [CharP K 2] {g : SL(2, K)} (hg1 : g ≠ 1) (hg2 : g * g = 
       have h2 : (!![0, a; 0, 0] : Mat2 K) *ᵥ (Pi.single 1 1 : Fin 2 → K) =
           a • (Pi.single 0 1 : Fin 2 → K) := by
         ext i
-        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
       simp only [pairLin_apply, Matrix.transpose_one, Matrix.mul_one, vmvLin_apply]
       rw [h1, Matrix.mul_vecMulVec, h2, Matrix.mul_vecMulVec, Matrix.mulVec_smul, ← hw]
       ext i j
@@ -601,7 +601,7 @@ theorem sl2_commutator_eq_top [CharP K 2] [Finite K] (h4 : 4 ≤ Nat.card K) :
 
 theorem sl2_normal_eq_bot_or_top [CharP K 2] [Finite K] (h4 : 4 ≤ Nat.card K)
     (N : Subgroup SL(2, K)) [hN : N.Normal] : N = ⊥ ∨ N = ⊤ := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   have hnorm : (N.map (QuotientGroup.mk' (Subgroup.center SL(2, K)))).Normal :=
     Subgroup.Normal.map hN _ (QuotientGroup.mk'_surjective _)
@@ -609,7 +609,7 @@ theorem sl2_normal_eq_bot_or_top [CharP K 2] [Finite K] (h4 : 4 ≤ Nat.card K)
     rw [eq_bot_iff]
     intro g hg
     exact sl2_eq_one_of_central fun A => (Subgroup.mem_center_iff.mp hg A).symm
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (N.map (QuotientGroup.mk' (Subgroup.center SL(2, K)))) with h | h
   · left
@@ -673,7 +673,7 @@ theorem exists_smul_of_det_zero {c c' : Fin 2 → K} (hc : c ≠ 0)
       linear_combination h
 
 theorem card_sl2 [Finite K] : Nat.card SL(2, K) = Nat.card K * (Nat.card K ^ 2 - 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq : 2 ≤ Nat.card K := by
     have := Finite.one_lt_card (α := K)
     omega
@@ -691,8 +691,8 @@ theorem card_sl2 [Finite K] : Nat.card SL(2, K) = Nat.card K * (Nat.card K ^ 2 -
 
 theorem card_le_of_isPGroup_sl2 [CharP K 2] [Finite K] {P : Subgroup SL(2, K)}
     (hP : IsPGroup 2 P) : Nat.card P ≤ Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : Nat.card P ∣ Nat.card SL(2, K) := Subgroup.card_subgroup_dvd_card P
   rw [card_sl2, hk] at hdvd

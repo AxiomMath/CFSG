@@ -45,7 +45,7 @@ theorem exists_basis_eigenvectors_of_pow_three {F : Type} [Field F] {n : ℕ} {�
     intro w
     have hx' : x * (x * x) = 1 := by rw [← pow_three, hx]
     have hx'' : x * x * x = 1 := by rw [← pow_three', hx]
-    simp only [Matrix.toLin'_apply, Matrix.mulVec_mulVec, hx', hx'', Matrix.one_mulVec]
+    simp only [Matrix.toLin'_apply, Matrix.mulVec_mulVec, hx', Matrix.one_mulVec]
   obtain ⟨b, μ, hb⟩ := CFSG.RankThree.PartOne.exists_basis_common_eigenvectors_of_pow_eq_one
     (isPrimitiveRoot_three_of_sq_add_add_one hω h3) (fun _ : Unit => Matrix.toLin' x)
     (fun _ _ => Commute.refl _) (fun _ => hpow)
@@ -79,7 +79,7 @@ theorem exists_diagonal_of_pow_three {F : Type} [Field F] {n : ℕ} {ω : F}
   let P : Matrix (Fin n) (Fin n) F := (Pi.basisFun F (Fin n)).toMatrix b
   have hPij : ∀ i j, P i j = b j i := fun i j => by
     simp [P, Module.Basis.toMatrix_apply]
-  haveI : Invertible P := (Pi.basisFun F (Fin n)).invertibleToMatrix b
+  have : Invertible P := (Pi.basisFun F (Fin n)).invertibleToMatrix b
   have hdet : IsUnit P.det := Matrix.isUnit_det_of_invertible P
   have hxP : x * P = P * Matrix.diagonal (fun i => ω ^ (a i).val) := by
     ext i j

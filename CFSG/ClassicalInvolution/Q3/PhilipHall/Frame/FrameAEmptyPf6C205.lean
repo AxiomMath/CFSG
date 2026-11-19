@@ -38,10 +38,10 @@ theorem frameH20_le_centralizer (d : Std20Frame K K' J S R R' W V z t) {a : G}
     (hA : a ∈ centralizerModOdd (S : Subgroup G) (K ⊔ K')) :
     frameH20 (CoreAssembly.conjClass K) a R R' ≤ Subgroup.centralizer ({a} : Set G) := by
   have hR : ∀ r ∈ R, a * r = r * a := fun r hr =>
-    commutes_of_mem_centModOddCore S.isPGroup' (mem_centModOddCore_of_mem_centralizerModOdd hA)
+    commutes_of_mem_centModOddCore S.isPGroup (mem_centModOddCore_of_mem_centralizerModOdd hA)
       hA.1 (Subgroup.mem_sup_left (d.hR.1 hr)) (d.hRS hr)
   have hR' : ∀ r ∈ R', a * r = r * a := fun r hr =>
-    commutes_of_mem_centModOddCore S.isPGroup' (mem_centModOddCore_of_mem_centralizerModOdd hA)
+    commutes_of_mem_centModOddCore S.isPGroup (mem_centModOddCore_of_mem_centralizerModOdd hA)
       hA.1 (Subgroup.mem_sup_right (d.hR'.1 hr)) (d.hR'S hr)
   unfold frameH20
   refine sup_le (sup_le (iSup₂_le fun U hU => hU.2) ?_) ?_

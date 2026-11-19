@@ -25,6 +25,7 @@ section Generators
 variable (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
 include hfam
 
+omit [Finite G] in
 theorem devMat_conj_uv_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.uv⁻¹ * x * dD.uv ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actUvOne (devMat dD hk x hx) :=
@@ -33,6 +34,7 @@ theorem devMat_conj_uv_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (fun ε => (familyOne_torusHalf hfam (le_trans (by norm_num) (hk 0)) ε).1)
     (fun d _ => conj_commutator x _ d))
 
+omit [Finite G] in
 theorem devMat_conj_t_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.t⁻¹ * x * dD.t ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actTOne (devMat dD hk x hx) :=
@@ -41,6 +43,7 @@ theorem devMat_conj_t_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (fun ε => (familyOne_torusHalf hfam (le_trans (by norm_num) (hk 0)) ε).2.1)
     (fun d _ => conj_commutator x _ d))
 
+omit [Finite G] in
 theorem devMat_conj_u_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.u⁻¹ * x * dD.u ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actU (devMat dD hk x hx) :=
@@ -51,18 +54,21 @@ theorem devMat_conj_u_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
 
 variable (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
 
+omit [Finite G] in
 theorem sqBar_conj_uv_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.uv⁻¹ * x * dD.uv ∈ 𝓡[S, D]) :
     sqBar dD hk hcent _ hy = sqBar dD hk hcent x hx := by
   rw [sqBar_conj hk hcent hx dD.uv_mem hy dD.uv_conj
     (fun v => (familyOne_torusBar hfam (one_le_of_two_le hk) v).1), Matrix.one_mulVec]
 
+omit [Finite G] in
 theorem sqBar_conj_t_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.t⁻¹ * x * dD.t ∈ 𝓡[S, D]) :
     sqBar dD hk hcent _ hy = sqBar dD hk hcent x hx := by
   rw [sqBar_conj hk hcent hx dD.t_mem hy dD.t_conj
     (fun v => (familyOne_torusBar hfam (one_le_of_two_le hk) v).2.1), Matrix.one_mulVec]
 
+omit [Finite G] in
 theorem sqBar_conj_u_familyOne {x : G} (hx : x ∈ 𝓡[S, D])
     (hy : dD.u⁻¹ * x * dD.u ∈ 𝓡[S, D]) :
     sqBar dD hk hcent _ hy = barU *ᵥ sqBar dD hk hcent x hx :=
@@ -104,6 +110,7 @@ theorem sqBar_proj_rho_familyOne (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.
   rw [sqBar, h, barD, dD.ρ_conj, (familyOne_torusBar hfam (one_le_of_two_le hk) _).2.2.2]
   rfl
 
+omit [Finite G] in
 theorem mem_centralizer_omegaIn_iff_familyOne (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
     {x : G} (hx : x ∈ 𝓡[S, D]) :
     x ∈ Subgroup.centralizer ((omegaIn (τ.n - 1) D : Subgroup G) : Set G) ↔
@@ -138,6 +145,7 @@ theorem mem_centralizer_omegaIn_iff_familyOne (hfam : τ.m + 1 = τ.n) (hk : ∀
     calc w * x = (x * w * x⁻¹) * x := by rw [this]
       _ = x * w := by group
 
+omit [Finite G] in
 theorem barD_commutator_one_two_familyOne (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) :
@@ -158,6 +166,7 @@ theorem torusHalf_mulVec_zero_of_row_zero (f : Matrix (Fin 3) (Fin 3) (ZMod 2))
     simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, h1, h2, h3]
   rw [this, halfHom_zero]
 
+omit [Finite G] in
 theorem barD_commutator_zero_familyOne (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D])
@@ -197,6 +206,7 @@ theorem barD_commutator_zero_familyOne (hk : ∀ i, 2 ≤ τ.k i)
         ZMod.cast_natCast (dvd_pow_self 2 (by have := hk 0; omega))]
       decide, zero_mul]
 
+omit [Finite G] in
 theorem sqBar_mul_of_row_zero (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D])

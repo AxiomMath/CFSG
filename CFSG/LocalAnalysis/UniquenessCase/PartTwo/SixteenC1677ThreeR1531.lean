@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s168e3_row153_1
     {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (c : S168e3Ctx D V₀ V L hV) (h : Case153_1 D V₀ V hV L) : Case167_1 D V₀ V hV L := by
-  haveI : Finite (Vtil V₀ V hV) := inferInstance
+  have : Finite (Vtil V₀ V hV) := inferInstance
   obtain ⟨hΩ, hnat, hsig, hrank, hs, -⟩ := h
   obtain ⟨ρ, θ, hρ, hequiv, hker⟩ := s168e3_star c hs
   rw [s15_Three_wStar_eq_top D c.std.h1217 c.setting.hyp151 hV c.ne hs] at hnat

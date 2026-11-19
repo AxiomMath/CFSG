@@ -20,7 +20,7 @@ open CFSG.EvenSporadicStandard.HSStd (autCentralizer)
 
 
 theorem a6sq_even_twistedB2 {S : Type} [Group S] {n f : ℕ}
-    (hadm : StatedLieAdmissible .twistedB2 n 2 f) (hm : LieModel S .twistedB2 n 2 f)
+    (_hadm : StatedLieAdmissible .twistedB2 n 2 f) (hm : LieModel S .twistedB2 n 2 f)
     {σ : MulAut S} (hσ : orderOf σ = 2) (hout : σ ∉ (MulAut.conj : S →* MulAut S).range) :
     False := by
   have hsq : σ ^ 2 = 1 := hσ ▸ pow_orderOf_eq_one σ
@@ -33,7 +33,7 @@ theorem a6sq_even_twistedB2 {S : Type} [Group S] {n f : ℕ}
   · exact h
 
 theorem a6sq_even_twistedF4 {S : Type} [Group S] {n f : ℕ}
-    (hadm : StatedLieAdmissible .twistedF4 n 2 f) (hm : LieModel S .twistedF4 n 2 f)
+    (_hadm : StatedLieAdmissible .twistedF4 n 2 f) (hm : LieModel S .twistedF4 n 2 f)
     {σ : MulAut S} (hσ : orderOf σ = 2) (hout : σ ∉ (MulAut.conj : S →* MulAut S).range) :
     False := by
   have hsq : σ ^ 2 = 1 := hσ ▸ pow_orderOf_eq_one σ

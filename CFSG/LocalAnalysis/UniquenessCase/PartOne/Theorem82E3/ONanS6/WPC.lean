@@ -13,6 +13,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (Data IsSpor)
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 
+omit [Finite G] in
 theorem zSub_le_centralizer (P L : Subgroup G) :
     zSub P L ≤ Subgroup.centralizer ((P ⊓ L : Subgroup G) : Set G) :=
   inf_le_right

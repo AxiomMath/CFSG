@@ -28,7 +28,7 @@ theorem sympMinus_frameAut_top {K : Type} [Field K] [Finite K] [CharP K 2] {p m 
 theorem sympMinus_block_zero {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : 4 ≤ Nat.card K ∨ Nat.card K = 2) {p m : ℕ} (hm3 : Nat.card K = 2 → 3 ≤ m)
     (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq : p ∣ Nat.card K + 1)
+    (_hpq : p ∣ Nat.card K + 1)
     {ζ : Multiplicative (ZMod p) →* Matrix.SpecialLinearGroup (Fin 2) K}
     (hζ : Function.Injective ζ) (hζW : ∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹)
     (f₀ : Fin m → Multiplicative (ZMod p)) {J₀ : Subgroup (StatedSp m K)}

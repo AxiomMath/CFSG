@@ -103,12 +103,12 @@ variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
 theorem Mc_cent_tau (hb : ZJBound t) {m : H} (hm : m ∈ Mc) (hc : τ * m = m * τ) : m ∈ Y := by
   have hG₀V : ∀ x ∈ Mc ⊓ centralizer ({τ} : Set H), ∀ v ∈ V, x * v * x⁻¹ = v :=
-    fun x hx v hv => h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hx.1) hv
+    fun x hx v hv => h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hx.1) hv
   obtain ⟨D, hDmem, hDcard⟩ := h.exists_comm_subgroup hG₀V t
   have hG₀D : Mc ⊓ centralizer ({τ} : Set H) ≤ D := by
     intro k hk
     obtain ⟨hkMc, hkτ⟩ := hk
-    have hkMh : k ∈ Mh := h.Mc_le_Mh hMh hMc hkMc
+    have hkMh : k ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hkMc
     have hkc : k * τ = τ * k := (Subgroup.mem_centralizer_singleton_iff).mp hkτ
     have hcQ : k * t * k⁻¹ * t⁻¹ ∈ Q := h.Mh_comm_t hMh hkMh
     have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right h.t_sq
@@ -188,7 +188,7 @@ theorem Mc_cent_tau (hb : ZJBound t) {m : H} (hm : m ∈ Mc) (hc : τ * m = m * 
 theorem Mc_comm_t_mem_V_iff (hb : ZJBound t) {m : H} (hm : m ∈ Mc) :
     m * t * m⁻¹ * t⁻¹ ∈ V ↔ m ∈ Q := by
   have hMcV : ∀ x ∈ Mc, ∀ v ∈ V, x * v * x⁻¹ = v :=
-    fun x hx v hv => h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hx) hv
+    fun x hx v hv => h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hx) hv
   constructor
   · intro hmV
     obtain ⟨D, hDmem, hDcard⟩ := h.exists_comm_subgroup hMcV t
@@ -216,7 +216,7 @@ theorem Mc_comm_t_mem_V_iff (hb : ZJBound t) {m : H} (hm : m ∈ Mc) :
 theorem Mc_comm_tau_mem_V_iff (hb : ZJBound t) {m : H} (hm : m ∈ Mc) :
     m * τ * m⁻¹ * τ⁻¹ ∈ V ↔ m ∈ Q := by
   have hMcV : ∀ x ∈ Mc, ∀ v ∈ V, x * v * x⁻¹ = v :=
-    fun x hx v hv => h.Mh_cent_V hMh (h.Mc_le_Mh hMh hMc hx) hv
+    fun x hx v hv => h.Mh_cent_V hMh (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hx) hv
   have hQmem : ∀ q ∈ Q, q * τ * q⁻¹ * τ⁻¹ ∈ V := by
     intro q hq
     have h1 : τ * q⁻¹ * τ⁻¹ = q := by

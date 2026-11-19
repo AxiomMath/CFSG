@@ -13,7 +13,7 @@ theorem exists_conj_le_of_not_dvd_index {X : Type*} [Group X] [Finite X] {p : �
     ∃ x : X, ∀ e ∈ E, x * e * x⁻¹ ∈ N := by
   classical
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Finite N := inferInstance
+  have : Finite N := inferInstance
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p N))
   set P : Subgroup X := (Q : Subgroup N).map N.subtype with hPdef
   have hPcard : Nat.card P = p ^ (Nat.card X).factorization p := by

@@ -77,7 +77,7 @@ private theorem lane_mod (Y N b c : ℕ) (h : b + c ≤ N) :
   by_cases hi : i < c
   · have h1 : b + i < N := by omega
     have h2 : i + b < N := by omega
-    simp [hi, h1, h2]
+    simp [hi, h2]
   · simp [hi]
 
 private noncomputable def cntB (c : ℕ → Bool) : ℕ → ℕ
@@ -107,12 +107,12 @@ private theorem cnt_exists (c : ℕ → Bool) : ∀ N t, t < cntB c N →
   | N + 1, t, h => by
     rw [cntB_succ] at h
     by_cases hc : c N = true
-    · rw [if_pos hc] at h
+    · rw [ite_eq_left hc] at h
       by_cases ht : t < cntB c N
       · obtain ⟨r, hr, h1, h2⟩ := cnt_exists c N t ht
         exact ⟨r, by omega, h1, h2⟩
       · exact ⟨N, by omega, hc, by omega⟩
-    · rw [if_neg hc] at h
+    · rw [ite_eq_right hc] at h
       obtain ⟨r, hr, h1, h2⟩ := cnt_exists c N t h
       exact ⟨r, by omega, h1, h2⟩
 
@@ -149,7 +149,7 @@ private theorem GR_spec (c : ℕ → Bool) (v : ℕ → ℕ) (hv : ∀ r, v r < 
     have e : (63 - t : ℕ) = r0 := by omega
     have e' : Nat.sub (nat_lit 63) t = r0 := e
     by_cases hcr : c r0 = true
-    · have hcn : cntB c (r0 + 1) = cntB c r0 + 1 := by rw [cntB_succ, if_pos hcr]
+    · have hcn : cntB c (r0 + 1) = cntB c r0 + 1 := by rw [cntB_succ, ite_eq_left hcr]
       have hP : 0 < 2 ^ (539 * cntB c r0) := Nat.two_pow_pos _
       have e2 : 2 ^ (539 * (cntB c r0 + 1)) = 2 ^ (539 * cntB c r0) * 2 ^ 539 := by
         rw [Nat.mul_succ, pow_add]
@@ -179,7 +179,7 @@ private theorem GR_spec (c : ℕ → Bool) (v : ℕ → ℕ) (hv : ∀ r, v r < 
           Nat.add_zero]
       · exact ih2 r hlt hr2 hcr'
     · have hcf : c r0 = false := by simpa using hcr
-      have hcn : cntB c (r0 + 1) = cntB c r0 := by rw [cntB_succ, if_neg hcr]; rfl
+      have hcn : cntB c (r0 + 1) = cntB c r0 := by rw [cntB_succ, ite_eq_right hcr]; rfl
       obtain ⟨ih1, ih2⟩ := GR_spec c v hv t (r0 + 1) (by omega) acc (by rw [hcn]; exact hacc)
       rw [hcn] at ih1 ih2
       have key : GR c v (t + 1) acc (cntB c r0) = GR c v t acc (cntB c r0) := by
@@ -214,7 +214,7 @@ private theorem core {C : SConsts} (hC : sConstsOK C = true)
   have hQ : 11 * 49 * (q + 1) = 539 * (q + 1) := by ring
   have rowF : ∀ t, t ≤ q → ∃ r', r' ≤ r ∧ c r' = true ∧ gF / 2 ^ (539 * t) % 2 ^ 539 = vF r' := by
     intro t ht
-    have ht' : t < cntB c (r + 1) := by rw [cntB_succ, if_pos hcr]; omega
+    have ht' : t < cntB c (r + 1) := by rw [cntB_succ, ite_eq_left hcr]; omega
     obtain ⟨r', hr', h1, h2⟩ := cnt_exists c (r + 1) t ht'
     refine ⟨r', by omega, h1, ?_⟩
     have := spF r' (Nat.zero_le _) (by omega) h1
@@ -371,7 +371,7 @@ private theorem BadR_spec (P m n b : ℕ) : ∀ T, BadR P m n b T = 0 → ∀ r 
     have h' : badStep P m n b T (BadR P m n b T) = 0 := h
     unfold badStep at h'
     have hsh : Nat.add (Nat.shiftLeft b 6) T = 64 * b + T := by rw [shl6]; rfl
-    simp only [nIf_eq, bAnd_eq, blt_iff] at h'
+    simp only [nIf_eq, bAnd_eq] at h'
     generalize hacc : BadR P m n b T = acc at h'
     have hz : acc = 0 ∧ (isChild n (Nat.add (Nat.shiftLeft b 6) T) = true →
         (Nat.land (fldW P (Nat.mul 22 T) 22) 1048575 < 64 * b + T ∧
@@ -386,6 +386,7 @@ private theorem BadR_spec (P m n b : ℕ) : ∀ T, BadR P m n b T = 0 → ∀ r 
     · exact BadR_spec P m n b T (hacc.trans hz0) r hlt hch
     · exact hz1 hch
 
+set_option exponentiation.threshold 539 in
 private theorem getRec_lt (KX : ℕ → ℕ) (j : ℕ) : getRec KX 539 j < 2 ^ 539 := by
   rw [getRec_eq]; exact Nat.mod_lt _ (Nat.two_pow_pos _)
 
@@ -400,6 +401,7 @@ private theorem fldW_leaf (KX : ℕ → ℕ) (b r : ℕ) (hr : r < 64) :
   rw [e1, e2, Nat.mul_comm r]
   rfl
 
+set_option exponentiation.threshold 539 in
 theorem sLeaf_sound_of {C : SConsts} (hC : sConstsOK C = true)
     (hBlk : ∀ {r X K : ℕ}, r ≤ 64 → LCanon 11 r 49 X → LCanon 11 49 49 K →
       LCanon 11 r 49 (sBlk C X K) ∧ ∀ q < r, vec49 (sBlk C X K / 2 ^ (539 * q)) =

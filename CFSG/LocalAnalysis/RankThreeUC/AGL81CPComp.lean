@@ -34,8 +34,8 @@ theorem eq_bot_of_layer_le_normalizer {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   obtain ⟨R, hRdef⟩ : ∃ R : Subgroup Y, R = T ⊓ E := ⟨_, rfl⟩
   have hRmem : ∀ x, x ∈ R ↔ x ∈ T ∧ x ∈ E := fun x => by rw [hRdef, mem_inf]
   have hR2 : IsPGroup 2 R := hT.to_le (hRdef ▸ inf_le_left)
-  haveI : Group.IsNilpotent R := hR2.isNilpotent
-  haveI : Group.IsSolvable R := inferInstance
+  have : Group.IsNilpotent R := hR2.isNilpotent
+  have : Group.IsSolvable R := inferInstance
   have hRsub : R.IsSubnormal := by
     refine Subgroup.IsSubnormal.step R E (hRdef ▸ inf_le_right) hEnorm.isSubnormal ?_
     refine ⟨fun n hn g => ?_⟩
@@ -95,6 +95,7 @@ section PComponent
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_pLayer {p : ℕ} {L : Subgroup X} (hL : CFSG.IsPComponent p L) :
     L ≤ CFSG.pLayer X p :=
   le_sSup hL
@@ -105,6 +106,7 @@ theorem isComponent_map {A B : Type*} [Group A] [Group B] (e : A ≃* B) {K : Su
   have h := CFSG.SignalizerFunctorTheorem.TransportA.isComponentOf_map e hK
   rwa [Subgroup.map_top_of_surjective _ e.surjective] at h
 
+omit [Finite X] in
 theorem isPComponent_map (p : ℕ) (φ : X ≃* X) {L : Subgroup X} (hL : CFSG.IsPComponent p L) :
     CFSG.IsPComponent p (L.map φ.toMonoidHom) := by
   classical

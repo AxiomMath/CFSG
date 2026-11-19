@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C (SevenOneThree IsPClosedMod)
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 private theorem exists_mul_ne_mul {D : Subgroup X} (hD : IsExtraspecialExpP p D) :
     ∃ a b : D, a * b ≠ b * a := by
   by_contra h
@@ -37,6 +38,7 @@ private theorem pRank_le_one_of_card_dvd {G : Type*} [Group G] [Finite G] (hp : 
     exact (Subgroup.card_dvd_of_le hEH).trans hH
   exact (Nat.pow_dvd_pow_iff_le_right hp.one_lt).mp h
 
+omit [Finite X] in
 theorem le_normalizer_map_subtype {N : Subgroup X} {K : Subgroup N} (hK : K.Normal) :
     N ≤ Subgroup.normalizer ((K.map N.subtype : Subgroup X) : Set X) := by
   intro n hn
@@ -54,13 +56,13 @@ theorem exists_extraspecial_of_not_normalizer_le (hp : p.Prime) (hp2 : p ≠ 2) 
       Subgroup.normalizer (Q : Set X) ≤ Subgroup.normalizer (D : Set X) ∧
         IsExtraspecialExpP p D := by
   obtain ⟨D, hDQ, hND, -, hD⟩ :=
-    pGroupRankTwoCharSubgroup p hp hp2 Q (P.isPGroup'.to_le hQP) hQ2
+    pGroupRankTwoCharSubgroup p hp hp2 Q (P.isPGroup.to_le hQP) hQ2
   rcases hD with ⟨hDe, hDc⟩ | hD
   · exact absurd (hND.trans (normalizer_le_of_normal_elemAbelian_sq hp P hPY hW h3 hDe hDc
       (hDQ.trans hQP) (hPQ.trans hND))) hQY
   · exact ⟨D, hDQ, hND, hD⟩
 
-theorem exists_normal_elemAbelian_sq_le [Fact p.Prime] (hp2 : p ≠ 2) (P : Sylow p X)
+theorem exists_normal_elemAbelian_sq_le [Fact p.Prime] (_hp2 : p ≠ 2) (P : Sylow p X)
     {D : Subgroup X} (hDP : D ≤ P) (hPD : (P : Subgroup X) ≤ Subgroup.normalizer (D : Set X))
     (hD : IsExtraspecialExpP p D) :
     ∃ E : Subgroup X, E ≤ D ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
@@ -68,7 +70,7 @@ theorem exists_normal_elemAbelian_sq_le [Fact p.Prime] (hp2 : p ≠ 2) (P : Sylo
       (P : Subgroup X) ≤ Subgroup.normalizer (E : Set X) := by
   have hp : p.Prime := Fact.out
   obtain ⟨E, hED, hEc, hEn⟩ := CFSG.GroupTheory.exists_le_normal_card_eq
-    (S := (P : Subgroup X)) (Y := D) P.isPGroup' hDP
+    (S := (P : Subgroup X)) (Y := D) P.isPGroup hDP
     (fun s hs y hy => (Subgroup.mem_normalizer_iff.mp (hPD hs) y).mp hy) (k := 2)
     (by rw [hD.2.1]; exact Nat.pow_le_pow_right hp.pos (by norm_num))
   have hPE : (P : Subgroup X) ≤ Subgroup.normalizer (E : Set X) := by
@@ -117,7 +119,7 @@ theorem isCyclic_inf_centralizer_of_not_le (hp : p.Prime) (hp2 : p ≠ 2) (P : S
   obtain ⟨A, hAD, hA, hAc⟩ := exists_isElemAbelian_card_sq_of_card_cube hD.2.1 hD.2.2
   have h2 : 2 ≤ Open.pRank p D := le_csSup (pRank_bddAbove p hp D) ⟨A, hAD, hA, hAc⟩
   obtain ⟨F, hFC, hF, hFc⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank hp
-    (two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (P.isPGroup'.to_le inf_le_left) hnc)
+    (two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (P.isPGroup.to_le inf_le_left) hnc)
   obtain ⟨t, htF, htD⟩ : ∃ t ∈ F, t ∉ D := by
     by_contra h
     push Not at h
@@ -161,7 +163,7 @@ theorem pRank_le_three_of_not_le [Fact p.Prime] (P : Sylow p X) {Y D : Subgroup 
     rw [Subgroup.map_inf _ _ _ N.subtype_injective, hP'map]
   have h1 := pRank_le_pRank_inf_ker_add_pRank_map hp ψ P'
   have h2 : Open.pRank p (P'.map ψ) ≤ 1 := by
-    have hpg : IsPGroup p P' := P.isPGroup'.comap_subtype
+    have hpg : IsPGroup p P' := P.isPGroup.comap_subtype
     exact pRank_le_one_of_card_dvd hp
       (CFSG.RankThree.GroupTheory.card_dvd_prime_of_isPGroup_GL_two (Nat.card_zmod p) (hpg.map ψ))
   rw [← pRank_map_of_injective p hp N.subtype N.subtype_injective P', hP'map,

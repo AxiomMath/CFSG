@@ -9,7 +9,7 @@ namespace CFSG.StandardType
 
 private lemma natModEq_pow_prime_pow {p : ℕ} (hp : p.Prime) (j m : ℕ) :
     j ^ p ^ m ≡ j [MOD p] := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← ZMod.natCast_eq_natCast_iff]
   simp only [Nat.cast_pow]
   induction m with
@@ -20,8 +20,8 @@ theorem fieldAut_fixes_pow_eq_one {K : Type} [Field K] {p m : ℕ} (hp : p.Prime
     (hσ : σ ^ p ^ m = 1) {x : K} (hx : x ^ p = 1) : σ x = x := by
   by_cases hx1 : x = 1
   · rw [hx1, map_one]
-  · haveI : Fact p.Prime := ⟨hp⟩
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+  · have : Fact p.Prime := ⟨hp⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hfin : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, hx⟩
     have horder : orderOf x = p := orderOf_eq_prime hx hx1
     have hprim : IsPrimitiveRoot x p := IsPrimitiveRoot.iff_orderOf.mpr horder

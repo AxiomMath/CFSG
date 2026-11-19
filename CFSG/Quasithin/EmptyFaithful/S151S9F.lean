@@ -20,7 +20,7 @@ theorem centMaxProp_titsD :
     rw [hSeq]
     exact Subgroup.map_subtype_le _
   set S₀ : Subgroup ↥titsD := titsS.subgroupOf titsD with hS₀
-  have hS₀2 : IsPGroup 2 ↥S₀ := hP ▸ P.isPGroup'
+  have hS₀2 : IsPGroup 2 ↥S₀ := hP ▸ P.isPGroup
   have hS₀i : ¬ 2 ∣ S₀.index := hP ▸ P.not_dvd_index
   have hzS : titsZ ∈ titsS := by
     have : titsZ ∈ ((Subgroup.center titsS).map titsS.subtype : Set (Equiv.Perm (Fin 1755))) := by

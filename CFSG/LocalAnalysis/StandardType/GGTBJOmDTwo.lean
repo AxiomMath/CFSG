@@ -30,6 +30,7 @@ private theorem tbjOmDTwoAux_inf_pieces_eq_bot (Δ : TBJOmData Q p A r) {i k : F
     Δ.F.orth i k hik v hv u huk
   simp [h0]
 
+omit [Finite K] in
 theorem TBJOmData.finrank_fixedSpace (Δ : TBJOmData Q p A r)
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) (f₀ : Fin r → Multiplicative (ZMod p)) :
     finrank K (fixedSpace (Δ.τ f₀)) = 2 * Nat.card {j : Fin r // toAdd (f₀ j) = 0} := by
@@ -74,6 +75,7 @@ theorem TBJOmData.finrank_fixedSpace (Δ : TBJOmData Q p A r)
   have hEq : M = fixedSpace (Δ.τ f₀) := Submodule.eq_of_le_of_finrank_le hMle hWle
   rw [← hEq, hdimM]
 
+omit [Finite K] in
 theorem TBJOmData.exists_totallySingular_of_two_zero [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (f₀ : Fin r → Multiplicative (ZMod p)) {i k : Fin r}
     (hik : i ≠ k) (hi : toAdd (f₀ i) = 0) (hk : toAdd (f₀ k) = 0) :
@@ -130,6 +132,7 @@ theorem TBJOmData.exists_totallySingular_of_two_zero [Fact p.Prime] (Δ : TBJOmD
     Δ.F.orth i k hik u.1 u.2 (w u) (hmap u.1 u.2), add_zero]
   exact CharTwo.add_self_eq_zero (Q (u : V))
 
+omit [Finite K] in
 private theorem tbjOmDTwoAux_supportedBlock_tau [Fact p.Prime] (hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {i k : Fin r} (hik : i ≠ k)

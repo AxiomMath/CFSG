@@ -39,6 +39,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W : Subgroup Ω}
 
 include c D
 
+omit [Finite Ω] c in
 theorem alpha_surjective (hn : 2 ≤ n) : Function.Surjective D.α := by
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, D.card]
@@ -51,9 +52,10 @@ theorem alpha_ker_eq : D.α.ker = (Y ⊓ Subgroup.centralizer (W : Set Ω)).subg
 
 theorem exists_autIEquiv_W (hn : 2 ≤ n) : Nonempty (↥(autI c.W_elem Y) ≃* SL(2, F)) := by
   obtain ⟨e, -⟩ := burnsideC121_exists_autIEquiv c.W_elem c.Y_le_normalizer_W D.α
-    (c.alpha_surjective D hn) (c.alpha_ker_eq D)
+    (CFSG.ASVolI.burnsideC121_YCtx.alpha_surjective D hn) (c.alpha_ker_eq D)
   exact ⟨e⟩
 
+omit [Finite Ω] c in
 theorem relIndex_pCore_three (hn : n = 1) : (pCoreOf 2 Y).relIndex Y = 3 := by
   have h1 : (pCoreOf 2 Y).relIndex Y = Nat.card D.α.range := by
     rw [Subgroup.relIndex, ← D.αk, Subgroup.index_ker]
@@ -62,7 +64,7 @@ theorem relIndex_pCore_three (hn : n = 1) : (pCoreOf 2 Y).relIndex Y = 3 := by
 
 theorem RY_eq_pCore (hn : n = 1) : R ⊓ Y = pCoreOf 2 Y :=
   CFSG.Quasithin.C124.Z3.eq_of_relIndex_three_of_isPGroup c.pCore_Y_le_RY inf_le_right
-    (c.relIndex_pCore_three D hn) (c.R_pGroup.to_le inf_le_left)
+    (CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn) (c.R_pGroup.to_le inf_le_left)
 
 omit D in
 theorem not_le_normalizer_P (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω)) :
@@ -71,7 +73,7 @@ theorem not_le_normalizer_P (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω
 
 theorem minParabolic_H (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω)) :
     ∃ M : Subgroup Ω, MinParabolic (burnsideC121_H X T Y) (burnsideC121_P X R T Y) M := by
-  rw [c.H_eq]
+  rw [(CFSG.ASVolI.burnsideC121_YCtx.H_eq (X := X) (R := R) (T := T) (Y := Y))]
   have hsyl : IsSylowTwoOf (burnsideC121_P X R T Y ⊓ Y) Y := by
     rw [c.P_inf_Y]; exact c.hY.sylow
   by_cases hn : 2 ≤ n
@@ -84,7 +86,7 @@ theorem minParabolic_H (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω)) :
     refine ⟨_, burnsideC121_minParabolic_of_three c.P_pGroup c.P_le_normalizer hsyl ?_
       (c.not_le_normalizer_P hYS)⟩
     rw [c.P_inf_Y, c.RY_eq_pCore D hn1]
-    exact c.relIndex_pCore_three D hn1
+    exact CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn1
 
 theorem minParabolic_YS (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω))
     (hSyl : IsSylowTwoOf (baum T) (Y ⊔ baum T)) :
@@ -96,15 +98,15 @@ theorem minParabolic_YS (hYS : ¬ Y ≤ Subgroup.normalizer (baum T : Set Ω))
   · obtain ⟨e⟩ := c.exists_autIEquiv_W D hn
     have hF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, D.card]
     exact burnsideC121_minParabolic_of_sl2 c.W_elem c.Y_le_normalizer_W
-      (c.S_le_P.trans c.P_le_normalizer_W) c.S_pGroup c.S_le_normalizer hsyl
+      (CFSG.ASVolI.burnsideC121_YCtx.S_le_P.trans c.P_le_normalizer_W) c.S_pGroup c.S_le_normalizer hsyl
       (by rw [c.inf_centralizer_W D]; exact hO) hn hF e hYS
   · have hn1 : n = 1 := by have := D.one_le; omega
     refine ⟨_, burnsideC121_minParabolic_of_three c.S_pGroup c.S_le_normalizer hsyl ?_ hYS⟩
     have hSY : baum T ⊓ Y = pCoreOf 2 Y :=
       CFSG.Quasithin.C124.Z3.eq_of_relIndex_three_of_isPGroup (le_inf hO (pCoreOf_le 2 Y))
-        inf_le_right (c.relIndex_pCore_three D hn1) (c.S_pGroup.to_le inf_le_left)
+        inf_le_right (CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn1) (c.S_pGroup.to_le inf_le_left)
     rw [hSY]
-    exact c.relIndex_pCore_three D hn1
+    exact CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn1
 
 end burnsideC121_YCtx
 

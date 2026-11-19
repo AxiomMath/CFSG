@@ -46,7 +46,7 @@ private theorem pow_two_pow_add_one_of_pElt [Finite K] (h : UnitaryFieldData 2 n
 
 theorem exists_unitary_frame [Finite K] (h : UnitaryFieldData 2 n K) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpn : p ∣ n) (hpq : (p : ℤ) ∣ 2 ^ (n / p) + 1) {τ : K ≃+* K}
-    (hτ : ∀ a, τ a = a ^ (2 ^ (n / p)) ^ 2) (L : Set (GL (Fin d) K)) (hL : L.Finite)
+    (hτ : ∀ a, τ a = a ^ (2 ^ (n / p)) ^ 2) (L : Set (GL (Fin d) K)) (_hL : L.Finite)
     (hcomm : ∀ x ∈ L, ∀ y ∈ L, x * y = y * x)
     (hunit : ∀ x ∈ L,
       ((x : Matrix (Fin d) (Fin d) K).map h.bar)ᵀ * (x : Matrix (Fin d) (Fin d) K) = 1)
@@ -56,8 +56,8 @@ theorem exists_unitary_frame [Finite K] (h : UnitaryFieldData 2 n K) {p : ℕ} (
       ∀ t : Fin d → Kˣ, ∏ i, t i = 1 → (∀ i, GGL45IsPElt p (t i)) →
         P⁻¹ * GGL45TA.diagGL d t * P ∈ LargeEvenSUGroup (Fin d) K (2 ^ n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set e := n / p with he
   have hn1 : 1 ≤ n := h.one_le
   have hnpe : n = e * p := (Nat.div_mul_cancel hpn).symm
@@ -171,7 +171,7 @@ theorem exists_unitary_frame [Finite K] (h : UnitaryFieldData 2 n K) {p : ℕ} (
     | mul x y hx hy ihx ihy =>
       rw [(show Commute x y from hGcomm x hx y hy).mul_pow, ihx, ihy, one_mul]
     | inv x hx ih => rw [inv_pow, ih, inv_one]
-  haveI : Finite k₀ := h₀.finite
+  have : Finite k₀ := h₀.finite
   obtain ⟨ζ₀, hζ₀⟩ := TypeA.exists_isPrimitiveRoot (K := k₀) hp (by
     rw [hk₀card, mul_comm, pow_mul, two_pow_sq_sub_one]
     exact Dvd.dvd.mul_right hmq _)
@@ -254,10 +254,10 @@ theorem false_of_card_E_le [Finite K] (h : UnitaryFieldData 2 n K) {p : ℕ} (hp
         (Nat.Coprime p (Nat.card (Subgroup.center L)) → Nat.card R₀ ≤ Nat.card E))
     (hEdp : Nat.card E ≤ p ^ (d / p)) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : CharP K 2 := h.charP
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hpq' : p ∣ 2 ^ n + 1 := by exact_mod_cast hpq
   obtain ⟨e, hde⟩ := hpd
@@ -321,7 +321,7 @@ theorem false_of_card_E_le [Finite K] (h : UnitaryFieldData 2 n K) {p : ℕ} (hp
   have hv1 : v i₁ = 1 := by simp [hv, h01.symm]
   have hvv : v ⬝ᵥ v = 0 := by
     have : v ⬝ᵥ v = 1 + 1 := by
-      simp [hv, h01, h01.symm, dotProduct_add, add_dotProduct]
+      simp [hv, h01, h01.symm, dotProduct_add]
     rw [this, CharTwo.add_self_eq_zero]
   set N : Matrix (Fin (m + 4)) (Fin (m + 4)) K := vecMulVec v v with hN
   have hNN : N * N = 0 := by

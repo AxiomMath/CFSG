@@ -159,7 +159,7 @@ theorem ncard_conjSet_of_orbTr_aux {M : Type*} [Group M] [DecidableEq M] (cd : M
       exact ha _ (hb o ho)
   have heq : conjSet (Subgroup.closure {s | s ∈ gs}) r = (O.toFinset : Set M) := by
     ext x
-    rw [List.coe_toFinset, Set.mem_setOf_eq]
+    rw [List.coe_toFinset, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact hP g hg r hr
@@ -268,7 +268,6 @@ theorem ncard_conjSet_of_orbTr {M : Type*} [Group M] [DecidableEq M] (cd : M →
     (forall_treeL (fun x => x ∈ conjSet (Subgroup.closure {s | s ∈ gs}) r) _ r gs
       ⟨1, Subgroup.one_mem _, by rw [one_mul, inv_one, mul_one]⟩
       (fun k x ⟨g, hg, e⟩ => ⟨gs.getD k 1 * g, Subgroup.mul_mem _ (getD_mem_closureW gs k) hg, by
-        beta_reduce
         rw [e]
         group⟩) ps)
 

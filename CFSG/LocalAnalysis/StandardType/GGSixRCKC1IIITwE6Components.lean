@@ -57,19 +57,19 @@ theorem twistedE6_compConfig_has_component_label
       cases tag <;> simp [markTag] at htag
       · exfalso
         by_cases h3 : rank = 3
-        · rw [if_pos h3] at htag
+        · rw [ite_eq_left h3] at htag
           cases htag
-        · rw [if_neg h3] at htag
+        · rw [ite_eq_right h3] at htag
           cases htag
       · exfalso
         by_cases h2 : rank = 2
-        · rw [if_pos h2] at htag
+        · rw [ite_eq_left h2] at htag
           cases htag
-        · rw [if_neg h2] at htag
+        · rw [ite_eq_right h2] at htag
           by_cases h3 : rank = 3
-          · rw [if_pos h3] at htag
+          · rw [ite_eq_left h3] at htag
             cases htag
-          · rw [if_neg h3] at htag
+          · rw [ite_eq_right h3] at htag
             cases htag
       · rfl
     subst htag'

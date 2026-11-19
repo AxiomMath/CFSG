@@ -25,7 +25,7 @@ private theorem exists_conj_le_xHat_of_le_hatGroup {F : Type} [Field F] [Finite 
           ∀ e (he : e ∈ E),
             ((MulAut.conj c).toMonoidHom ⟨e, hEH he⟩ : ModGL Tag.E6 F) ∈ E' := by
   classical
-  haveI : Finite ↥(hatGroup Tag.E6 F) := finite_hatGroup
+  have : Finite ↥(hatGroup Tag.E6 F) := finite_hatGroup
   have hEp : IsPGroup 3 ↥(E.subgroupOf (hatGroup Tag.E6 F)) :=
     (IsElemAbelian.subgroupOf hE _).isPGroup
   obtain ⟨c, hcx⟩ := TableBF4.exists_conj_le_of_not_dvd_index Nat.prime_three
@@ -56,7 +56,7 @@ private theorem exists_conj_diag_of_le_xHat_of_elementaryAbelian {F : Type} [Fie
     (hE'5 : 3 ^ 5 ≤ Nat.card E') :
     ∃ g ∈ hatGroup Tag.E6 F, ∀ p ∈ E',
       ∃ b : Fin Tag.E6.rank → Fˣ, g * p * g⁻¹ = rootDiagUnit Tag.E6 b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := F) (p := 3) h3
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]

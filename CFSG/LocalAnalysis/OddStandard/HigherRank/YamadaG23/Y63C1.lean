@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y63_t_conj_npow {u t : G} (ht : orderOf t = 2)
     (hinv : t * u * t⁻¹ = u⁻¹) (i : ℕ) : t * u ^ i = (u ^ i)⁻¹ * t := by
   have ht2 : t * t = 1 := by
@@ -114,7 +115,7 @@ theorem y63_z_mem_cen_Q (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fact
     exact (Subgroup.mem_centralizer_iff.mp hzcR.2 x (hRT.symm ▸ hx)).symm
   have hzM : c.s.fr.z ∈ M3 c.s := (le_sup_right : c.s.fr.F ≤ M3 c.s) (y54_z_mem_F c.s)
   have hM : M3 c.s ≤ Subgroup.centralizer ({c.s.fr.z} : Set G) := by
-    haveI : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c.toCtx5 hF
+    have : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c.toCtx5 hF
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
     intro y hy

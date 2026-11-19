@@ -54,7 +54,7 @@ theorem mem_zpowers_of_conj_eq_inv {A B : Subgroup G} (hA : CFSG.Assembly.IsElem
     (hcB : c ∉ B) (hsB : s ∈ Subgroup.centralizer (B : Set G)) (hsa : s * a * s⁻¹ = a⁻¹)
     (hsc : s ∈ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     c ∈ Subgroup.zpowers a := by
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   have hBA' : B ≤ A := hBA.1
   have ha3 : a ^ 3 = 1 := hA.2 a haA
   have hc3 : c ^ 3 = 1 := hA.2 c hcA
@@ -124,7 +124,7 @@ theorem eq_of_conj_eq_inv {A B D : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian
     (hBA : IsHyperplane A B) (hDA : IsHyperplane A D) {c s : G} (hcA : c ∈ A) (hcB : c ∉ B)
     (hcD : c ∉ D) (hsB : s ∈ Subgroup.centralizer (B : Set G)) (hsc : s * c * s⁻¹ = c⁻¹)
     (hsD : s ∈ Subgroup.normalizer (D : Set G)) : B = D := by
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   have hBA' : B ≤ A := hBA.1
   have hDA' : D ≤ A := hDA.1
   have hc3 : c ^ 3 = 1 := hA.2 c hcA

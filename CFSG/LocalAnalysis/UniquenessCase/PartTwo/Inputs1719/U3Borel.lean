@@ -44,7 +44,7 @@ theorem isCyclic_normalizer_quot_of_isSU3
   have hgen' : ∃ g ∈ Subgroup.normalizer (S : Set X),
       ∀ b ∈ Subgroup.normalizer (S : Set X), ∃ k, (g ^ k)⁻¹ * b ∈ S := by
     simpa using hgen
-  haveI : (S.subgroupOf (Subgroup.normalizer (S : Set X))).Normal :=
+  have : (S.subgroupOf (Subgroup.normalizer (S : Set X))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
   exact CFSG.Quasithin.H13.P31X.isCyclic_quotient_of_cyc hgen'
 
@@ -53,7 +53,7 @@ theorem uc2_17_36b_dvd_index
     {S : Subgroup X} (hS : CFSG.Quasithin.IsSylowIn 2 S ⊤)
     {q : ℕ} (hq : q.Prime) (hq3 : 3 < q) (hqdvd : q ∣ 2 ^ n + 1) :
     q ∣ (S.subgroupOf (Subgroup.normalizer (S : Set X))).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 2 ≤ n := s13_two_le_of_isU3 hX.2
   have hq3' : ¬ q ∣ 2 * 1 + 1 := fun h => by
     have := Nat.le_of_dvd (by norm_num) h
@@ -87,7 +87,7 @@ private theorem exists_permuting_of_odd_prime_card {W U T : Subgroup G} {q : ℕ
     (hcard : Nat.card W = q * Nat.card U) :
     ∃ A : Subgroup G, A ≤ W ∧ Nat.card A = q ∧ Permutes A T := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqW : q ∣ Nat.card W := by
     rw [hcard]
     exact dvd_mul_right q _
@@ -141,13 +141,13 @@ private theorem transfer_preimage
     uc2_17_36b_dvd_index hshape hSX hq hq3 hqdiv
   let NX : Subgroup X := Subgroup.normalizer (S : Set X)
   let SN : Subgroup ↥NX := S.subgroupOf NX
-  haveI : SN.Normal := inferInstance
+  have : SN.Normal := inferInstance
   let QX := ↥NX ⧸ SN
   have hQXcyc : IsCyclic QX := hcyc
   have hqQX : q ∣ Nat.card QX := by
     rw [← Subgroup.index_eq_card]
     exact hdivq
-  letI : CommGroup QX := IsCyclic.commGroup
+  let : CommGroup QX := IsCyclic.commGroup
   let C : Subgroup QX := (powMonoidHom q).ker
   have hCcard : Nat.card C = q := by
     rw [show C = (powMonoidHom q).ker from rfl,
@@ -163,7 +163,7 @@ private theorem transfer_preimage
   have hcompS : S.comap π = U₁ := by
     have hker : π.ker ≤ U₁ := by
       rw [QuotientGroup.ker_mk']
-      haveI : (CFSG.pCore 2 Lg).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore 2 Lg).Normal := CFSG.pCore_normal
       exact CFSG.Quasithin.IsSylowIn.le_of_normal (p := 2) (P := U₁) (H := ⊤)
         (N := CFSG.pCore 2 Lg) hU₁ le_top (by infer_instance) CFSG.pCore_isPGroup
     exact Subgroup.comap_map_eq_self (f := π) (H := U₁) hker

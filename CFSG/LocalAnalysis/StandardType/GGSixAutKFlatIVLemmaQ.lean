@@ -127,12 +127,12 @@ theorem ggLemmaQ_pComponent {K : Subgroup W} [K.Normal] (π : W →* W')
     (hC : CFSG.IsPComponent p (C.subgroupOf (Subgroup.centralizer {π e}))) :
     ∃ C₀ : Subgroup W, C₀ ≤ K ⊓ Subgroup.centralizer {e} ∧
       CFSG.IsPComponent p (C₀.subgroupOf (K ⊓ Subgroup.centralizer {e})) ∧ C₀.map π = C := by
-  haveI : Finite W' := Finite.of_surjective (π : W → W') hπ
+  have : Finite W' := Finite.of_surjective (π : W → W') hπ
   let A : Subgroup W := K ⊓ Subgroup.centralizer {e}
   let Z : Subgroup W' := A.map π
   let f : ↥A →* ↥Z := imageRestriction π A
   have hf_surj : Function.Surjective f := imageRestriction_surjective π A
-  haveI : Finite ↥Z := Finite.of_surjective (f : ↥A → ↥Z) hf_surj
+  have : Finite ↥Z := Finite.of_surjective (f : ↥A → ↥Z) hf_surj
   have hf_ker_central : f.ker ≤ Subgroup.center ↥A := by
     intro y hy
     rw [Subgroup.mem_center_iff]
@@ -156,7 +156,7 @@ theorem ggLemmaQ_pComponent {K : Subgroup W} [K.Normal] (π : W →* W')
   let C1 : Subgroup ↥A := derivedPreimage f (C.subgroupOf Z)
   have hC1 : CFSG.IsPComponent p C1 :=
     pComponent_derivedPreimage p f hf_surj hf_ker_central (C.subgroupOf Z) hM
-  haveI : Group.IsPerfect (C.subgroupOf Z) :=
+  have : Group.IsPerfect (C.subgroupOf Z) :=
     CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect hM
   refine ⟨C1.map A.subtype, ?_, ?_, ?_⟩
   · intro x hx
@@ -191,7 +191,7 @@ theorem ggLemmaQ_ambient (π : ↥W →* W') (hπ : Function.Surjective π) (hW 
     ∃ C₀ : Subgroup X, C₀ ≤ K ⊓ Subgroup.centralizer {(e : X)} ∧
       CFSG.IsPComponent p (C₀.subgroupOf (K ⊓ Subgroup.centralizer {(e : X)})) ∧
       (C₀.subgroupOf W).map π = C := by
-  haveI : (K.subgroupOf W).Normal := hKn
+  have : (K.subgroupOf W).Normal := hKn
   have hEW : E ≤ W := hW ▸ le_sup_left
   have hKW : K ≤ W := hW ▸ le_sup_right
   have hE' : IsMulCommutative ↥(E.subgroupOf W) :=

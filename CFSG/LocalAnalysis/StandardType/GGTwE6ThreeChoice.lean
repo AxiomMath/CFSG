@@ -95,7 +95,7 @@ theorem ggTwE6Three_exists_involution
   have ht' : GGExcFive .twistedE6 := Or.inr (Or.inr (Or.inr (Or.inr rfl)))
   have hpp : p.Prime := hctx.prime
   have hp2 : p ≠ 2 := hctx.ne_two
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
+  have : NeZero p := ⟨hpp.ne_zero⟩
   have hks : GGKnownSetting .twistedE6 n 1 ψ := ggKnownSetting_of_ctx hctx hs1
   have hcard : p ^ 4 ≤ Nat.card Bs := hctx.pow_four_le_card_bstar
   have hBsN : Bs ≤ Subgroup.normalizer (ψ.range : Set G) := by

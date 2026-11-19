@@ -162,7 +162,7 @@ theorem listRow_of_class_exists {S : Type} [Group S] [Finite S] {κ : Type} (r :
   classical
   refine listRow_of_class_witness r (fun k => if h : r k ≠ 1 then Classical.choose (hw k h) else 1)
     hcl hr3 fun k hk => ?_
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   exact Classical.choose_spec (hw k hk)
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

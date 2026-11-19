@@ -55,11 +55,11 @@ theorem exists_twLangData_fixSubfield (h5 : SubfieldLangDatumFive) (h3 : Subfiel
     (hr : p ^ (if p = 3 then 4 else 5) ≤ Nat.card A₀)
     (hU : TwNormTwo K σ (A₀.map (baseChangeGL ι))) :
     ∃ D₀ : TwLangData K₀ σ₀ (2 ^ m) A₀, D₀.c = 1 := by
-  haveI : CharP K₀ 2 := charP_two_of_card_sq hK₀
+  have : CharP K₀ 2 := charP_two_of_card_sq hK₀
   have h2 : ringChar K₀ = 2 := ringChar.eq K₀ 2
   by_cases hp3 : p = 3
   · subst hp3
-    rw [if_pos rfl] at hr
+    rw [ite_eq_left rfl] at hr
     by_cases h35 : 3 ^ 5 ≤ Nat.card A₀
     · exact h3 K₀ σ₀ (2 ^ m) hK₀ hσ₀ h2 hpq A₀ hAI hA h35
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -82,7 +82,7 @@ theorem exists_twLangData_fixSubfield (h5 : SubfieldLangDatumFive) (h3 : Subfiel
   have hp5 : 5 ≤ p := by
     have := hp.two_le
     omega
-  rw [if_neg hp3] at hr
+  rw [ite_eq_right hp3] at hr
   obtain ⟨D₀, hc, -⟩ := h5 K₀ σ₀ (2 ^ m) hK₀ hσ₀ p hp hp5 hpq A₀ hAI hA
     ((Nat.pow_le_pow_right hp.pos (by norm_num : 4 ≤ 5)).trans hr)
   exact ⟨D₀, hc⟩

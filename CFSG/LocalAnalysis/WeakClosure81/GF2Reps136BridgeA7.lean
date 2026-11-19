@@ -16,7 +16,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 theorem bridge_row_a7 (hw2 : ∀ w : W, w ^ 2 = 1) {U Z : Subgroup W}
     {L : Subgroup (MulAut W)} (hZU : Z ≤ U) (hL : StabPair L U Z) (hf : FaithOn L U Z)
-    (hirr : IsIrrOn L U Z)
+    (_hirr : IsIrrOn L U Z)
     (h : IsAlt ↥(secSub U Z L) 7 ∧ Nat.card (Sect U Z) = 2 ^ 4) : A7Four L U Z := by
   obtain ⟨hAlt, hcard⟩ := h
   have hU : ∀ h ∈ secSub U Z L, ∀ u ∈ (⊤ : Subgroup (Sect U Z)), h u ∈ ⊤ :=

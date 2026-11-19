@@ -38,7 +38,7 @@ private theorem suz_witness :
         GLAPPrimeCoreOf 5 (Subgroup.centralizer ({(d : Equiv.Perm (Fin 1782))} :
           Set (Equiv.Perm (Fin 1782))) ⊓ suzT) = ⊥ := by
   intro E _ hEc
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, -, -⟩, ⟨hlines, -⟩, hrec, hgood, -⟩ :=
     R3E_Suz_full_five_centralizer_structures
   obtain ⟨hCeq, hDs, hDnab, -⟩ := hrec 0

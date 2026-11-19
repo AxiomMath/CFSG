@@ -31,9 +31,9 @@ theorem y63_sylow_of_normalizer_le {B Q : Subgroup G}
       have hyH : (⟨y, hy⟩ : ↥Pg) ∈ H := by rw [htop]; trivial
       exact Subgroup.mem_subgroupOf.mp hyH
     have hHlt : H < ⊤ := lt_of_le_of_ne le_top hHne
-    haveI : Group.IsNilpotent ↥Pg := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥Pg := P.isPGroup.isNilpotent
     have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥Pg)
-    obtain ⟨x, hx_norm, hx_not⟩ := SetLike.exists_of_lt (hNC H hHlt)
+    obtain ⟨x, hx_norm, hx_not⟩ := _root_.IsConcreteLE.exists_of_lt (hNC H hHlt)
     have hxG_norm : (x : G) ∈ normalizer (Q : Set G) := by
       have h1 : (x : ↥Pg) ∈ (normalizer (Q : Set G)).subgroupOf Pg := by
         rw [Subgroup.subgroupOf_normalizer_eq hQPg]
@@ -45,7 +45,7 @@ theorem y63_sylow_of_normalizer_le {B Q : Subgroup G}
     have hQ'P : Q' ≤ Pg := sup_le hQPg (Subgroup.zpowers_le.mpr x.2)
     have hQ'NB : Q' ≤ normalizer (B : Set G) :=
       sup_le hQ.1 (Subgroup.zpowers_le.mpr hxG_NB)
-    have hQ'2 : IsPGroup 2 ↥Q' := P.isPGroup'.to_le hQ'P
+    have hQ'2 : IsPGroup 2 ↥Q' := P.isPGroup.to_le hQ'P
     have hxQ' : (x : G) ∈ Q' := Subgroup.mem_sup_right (Subgroup.mem_zpowers (x : G))
     have hQneQ' : Q ≠ Q' := by
       intro heq
@@ -76,6 +76,7 @@ theorem y63_sylow_of_normalizer_le {B Q : Subgroup G}
   rw [hEq, Subgroup.relIndex_top_right]
   exact P.not_dvd_index
 
+omit [Finite G] in
 theorem y63_sylow_of_le {K Q : Subgroup G} (hQ : IsSylowIn 2 ⊤ Q) (hQK : Q ≤ K) :
     IsSylowIn 2 K Q := by
   refine ⟨hQK, hQ.2.1, ?_⟩
@@ -84,6 +85,7 @@ theorem y63_sylow_of_le {K Q : Subgroup G} (hQ : IsSylowIn 2 ⊤ Q) (hQK : Q ≤
   rw [Subgroup.relIndex_top_right, ← Subgroup.relIndex_mul_index hQK]
   exact dvd_mul_of_dvd_left h2 K.index
 
+omit [Finite G] in
 theorem y63_mem_normalizer_of_conjSub_eq {Y : Subgroup G} {n : G} (h : conjSub n Y = Y) :
     n ∈ normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -101,6 +103,7 @@ theorem y63_mem_normalizer_of_conjSub_eq {Y : Subgroup G} {n : G} (h : conjSub n
       exact h'
     exact hyy ▸ hy'
 
+omit [Finite G] in
 theorem y63_ZE64_conj {Z U : Subgroup G} (h : Y63ZE64 Z U) {n : G}
     (hn : ∀ z ∈ Z, n * z * n⁻¹ = z) : Y63ZE64 Z (conjSub n U) := by
   rw [Y63ZE64] at h ⊢
@@ -131,7 +134,7 @@ theorem y63_ZE64_conj {Z U : Subgroup G} (h : Y63ZE64 Z U) {n : G}
       _ ≤ Z.map (MulAut.conj n).toMonoidHom := Subgroup.map_mono h.2.2.2
       _ ≤ Z := hfixZ
 
-theorem y63_normalizer_le (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hY : Y63Hyps c)
+theorem y63_normalizer_le (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (_hY : Y63Hyps c)
     (hC : Y63Concl c) : normalizer (y63Q c : Set G) ≤ normalizer (C1 c.e : Set G) := by
   intro n hn
   have hzCen : c.s.fr.z ∈ cen (y63Q c) := by

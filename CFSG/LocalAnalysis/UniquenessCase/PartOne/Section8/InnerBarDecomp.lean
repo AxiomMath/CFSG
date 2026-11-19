@@ -15,17 +15,20 @@ variable {G : Type} [Group G] [Finite G]
 
 private abbrev O2sub (L : Subgroup G) : Subgroup ↥L := CFSG.pCore 2 ↥L
 
+omit [Finite G] in
 private theorem mem_O2sub_iff {L : Subgroup G} {x : ↥L} :
     x ∈ O2sub L ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 L := by
   rw [CFSG.Open.pCoreOf]
   exact (Subgroup.mem_map_iff_mem (f := L.subtype) L.subtype_injective).symm
 
+omit [Finite G] in
 private theorem O2sub_map (L : Subgroup G) (e : MulAut ↥L) :
     (O2sub L).map (e : ↥L →* ↥L) = O2sub L := by
   rw [← MulEquiv.toMonoidHom_eq_coe]
   exact Subgroup.characteristic_iff_map_eq.mp
     (inferInstance : (O2sub L).Characteristic) e
 
+omit [Finite G] in
 private theorem normalizerMonoidHom_apply_coe (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) (y : ↥L) :
     (((Subgroup.normalizerMonoidHom L) n) y : G) = (n : G) * (y : G) * (n : G)⁻¹ :=
@@ -44,12 +47,14 @@ private noncomputable def barAction (L : Subgroup G) :
       rw [QuotientGroup.congr_mk, MulAut.mul_apply, QuotientGroup.congr_mk,
         QuotientGroup.congr_mk, map_mul, MulAut.mul_apply])
 
+omit [Finite G] in
 private theorem barAction_mk (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) (y : ↥L) :
     barAction L n (QuotientGroup.mk y) =
       QuotientGroup.mk (((Subgroup.normalizerMonoidHom L) n) y) :=
   rfl
 
+omit [Finite G] in
 private theorem barAction_eq_one_iff (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) :
     barAction L n = 1 ↔ ∀ y ∈ L, ⁅(n : G), y⁆ ∈ CFSG.Open.pCoreOf 2 L := by
@@ -72,6 +77,7 @@ private theorem barAction_eq_one_iff (L : Subgroup G)
     simpa [commutatorElement_def, Subgroup.coe_div, normalizerMonoidHom_apply_coe,
       div_eq_mul_inv] using h (y : G) y.2
 
+omit [Finite G] in
 private theorem barAction_eq_of_inner {L : Subgroup G} {x l : G}
     (hxN : x ∈ Subgroup.normalizer (L : Set G)) (hlL : l ∈ L)
     (h : ∀ y ∈ L, (x * y * x⁻¹) * (l * y * l⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
@@ -84,8 +90,8 @@ private theorem barAction_eq_of_inner {L : Subgroup G} {x l : G}
 
 theorem le_sup_centralizerBar_of_inner
     {G : Type} [Group G] [Finite G] {P L Q X : Subgroup G}
-    (hQP : Q ≤ P) (hQL : Q ≤ L) (hQeq : Q = P ⊓ L)
-    (hQnormP : (Q.subgroupOf P).Normal)
+    (hQP : Q ≤ P) (hQL : Q ≤ L) (_hQeq : Q = P ⊓ L)
+    (_hQnormP : (Q.subgroupOf P).Normal)
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q L)
     (hP3 : IsPGroup 3 P) (hPNL : P ≤ Subgroup.normalizer (L : Set G))
     (hX : X ≤ P)
@@ -93,10 +99,10 @@ theorem le_sup_centralizerBar_of_inner
       (x * y * x⁻¹) * (l * y * l⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
     X ≤ Q ⊔ centralizerBar P L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hHfin : Finite (↥L ⧸ O2sub L) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hHfin : Finite (↥L ⧸ O2sub L) :=
     Finite.of_surjective (QuotientGroup.mk' (O2sub L)) (QuotientGroup.mk'_surjective (O2sub L))
-  haveI hAfin : Finite (MulAut (↥L ⧸ O2sub L)) :=
+  have hAfin : Finite (MulAut (↥L ⧸ O2sub L)) :=
     Finite.of_injective
       (fun f : MulAut (↥L ⧸ O2sub L) => (f : (↥L ⧸ O2sub L) → (↥L ⧸ O2sub L)))
       DFunLike.coe_injective

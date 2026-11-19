@@ -105,6 +105,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite K] in
 theorem sixK_rootA_sup_swap (k : Axis) :
     rootA K k ⊔ rootA K k.swap = antiUnipotent K := by
   cases k
@@ -114,6 +115,7 @@ theorem sixK_rootA_sup_swap (k : Axis) :
     rw [sup_comm]
     exact (antiUnipotent_eq_radA1_sup_radA2 (K := K)).symm
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_P_eq_A_sup (k : Axis) : A φ k ⊔ A φ k.swap = P φ := by
   have key := sixK_rootA_sup_swap (K := K) k
   calc A φ k ⊔ A φ k.swap = GomiFusion.pull φ (rootA K k ⊔ rootA K k.swap) :=
@@ -121,11 +123,13 @@ theorem sixK_P_eq_A_sup (k : Axis) : A φ k ⊔ A φ k.swap = P φ := by
     _ = GomiFusion.pull φ (antiUnipotent K) := by rw [key]
     _ = P φ := rfl
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_Mhat_le_S (k : Axis) : Mhat φ t i k ≤ S φ t i := by
   cases k
   · exact le_sup_left
   · exact le_sup_right
 
+omit [IsSimpleGroup G] in
 theorem sixK_k11
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) : K11Concl φ t i := by
@@ -204,6 +208,7 @@ theorem sixK_k11
       obtain ⟨hxM, hxC⟩ := Subgroup.mem_inf.mp hx
       exact Subgroup.mem_inf.mpr ⟨sixK_Mhat_le_S i.swap hxM, hxC⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k12 (hH : SixHConclusion φ t i) (k11 : K11Concl φ t i) :
     Tplus φ t i ⊓ centralizer ({t} : Set G) = P φ ⊔ zpowers t := by
   have k11' : S φ t i ⊓ centralizer ({t} : Set G) = P φ := k11

@@ -94,8 +94,8 @@ theorem isSolvable_quotient_layerSub (h69 : R6_9 Dat)
     (hw₂ : ∀ z ∈ m.Z, w⁻¹ * z * w ∈ m.L) :
     haveI := D.layerSub_normal
     Group.IsSolvable (↥D.CKZ ⧸ D.layerSub) := by
-  haveI := D.layerSub_normal
-  haveI := D.isSolvable_CHL h69 h620 hr hw₁ hw₂
+  have := D.layerSub_normal
+  have := D.isSolvable_CHL h69 h620 hr hw₁ hw₂
   have hN : D.layerSub ≤ D.chiC.ker := fun n hn =>
     D.chi_of_mem_L (show D.evC n ∈ m.L from hn) _
   let g : ↥D.CKZ ⧸ D.layerSub →* ℤˣ := QuotientGroup.lift D.layerSub D.chiC hN
@@ -125,7 +125,7 @@ theorem isAlt_layer (h69 : R6_9 Dat) (h620 : m.C620) (hr : m.r = 5)
       Set ↥D.Ka))).map (centralizer ((m.Z.subgroupOf D.Ka : Subgroup ↥D.Ka) :
         Set ↥D.Ka)).subtype) 6 := by
   show UC22.IsAlt ↥((genFittingLayer ↥D.CKZ).map D.CKZ.subtype) 6
-  haveI := D.layerSub_normal
+  have := D.layerSub_normal
   have hlayer : CFSG.layer ↥D.CKZ = D.layerSub :=
     CFSG.RankThree.PartOne.KFU.layer_eq_of_normal D.layerSub_normal D.isQuasisimple_layerSub
       (D.isSolvable_quotient_layerSub h69 h620 hr hw₁ hw₂)

@@ -21,7 +21,7 @@ theorem rootGroup_smul {u : V} {c : K} (hc : c ≠ 0) : rootGroup Q (c • u) = 
     rw [polar_smul_right_eq, (mul_eq_zero.mp hw).resolve_left hc, mul_zero]
   · rintro ⟨w, hw, rfl⟩
     refine ⟨c⁻¹ • w, ?_, ?_⟩
-    · simp [polar_smul_left_eq, polar_smul_right_eq, hw]
+    · simp [hw]
     · rw [eichler_smul_left, smul_smul, mul_inv_cancel₀ hc, one_smul]
 
 private theorem exists_perp_ne_zero_of_finrank [FiniteDimensional K V]

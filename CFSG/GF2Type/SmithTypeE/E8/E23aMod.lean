@@ -30,7 +30,7 @@ theorem rootOp_apply_shift {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 �
     rcases rootOp_single_cases (K := ZMod 2) hβ a' with ⟨h1, h2⟩ | ⟨h1, b, hb, h2⟩
     · rw [h2]
       have hne : a' ≠ a := fun h => h1 (h ▸ ha)
-      simp [Finsupp.single_apply, hne]
+      simp [hne]
     · rw [h2, ← wt_e7Shift hb]
       by_cases haa : a' = a
       · subst haa
@@ -42,7 +42,7 @@ theorem rootOp_apply_shift {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 �
           have h2' := wt_e7Shift_of_dotProduct hβ ha
           rw [h] at h1'
           exact e7Data_valid.wt_injective (add_right_cancel (h1'.symm.trans h2'))
-        simp [Finsupp.single_apply, hne, haa]
+        simp [hne, haa]
 
 theorem rootOp_apply_of_not_shift {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
     (v : Fin e7Data.d →₀ ZMod 2) {b : Fin e7Data.d}
@@ -58,7 +58,7 @@ theorem rootOp_apply_of_not_shift {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoo
     · rw [h2]; simp
     · rw [h2, ← wt_e7Shift hb']
       have hne := hb a' h1
-      simp [Finsupp.single_apply, hne]
+      simp [hne]
 
 theorem rootOp_eq_zero_iff {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
     (v : Fin e7Data.d →₀ ZMod 2) :
@@ -343,8 +343,8 @@ abbrev e7n2 : Fin (Tag.rank .E7) := ⟨1, by decide⟩
 
 theorem eq_one_of_fix_V0 {g : ↥(adjointGroup .E7 (ZMod 2))} (hg : g ∈ perpLevi .E7 (ZMod 2))
     (hfix : ∀ v ∈ V0, e7Rep56 (ZMod 2) g v = v) : g = 1 := by
-  haveI := CFSG.SeitzReduction.E7Pilot.isSimpleGroup_perpLevi_E7 (K := ZMod 2)
-  haveI := fixV0_normal
+  have := CFSG.SeitzReduction.E7Pilot.isSimpleGroup_perpLevi_E7 (K := ZMod 2)
+  have := fixV0_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal fixV0 with h | h
   · have hm : (⟨g, hg⟩ : ↥(perpLevi .E7 (ZMod 2))) ∈ fixV0 := hfix
     rw [h, Subgroup.mem_bot] at hm

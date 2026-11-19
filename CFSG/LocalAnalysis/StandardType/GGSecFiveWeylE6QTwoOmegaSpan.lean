@@ -35,9 +35,9 @@ theorem E6QTwo.sup_eq_or_sup_eq_of_card_192 [Finite G] {Bs : Subgroup G}
   classical
   obtain ⟨V, hVadd, hVmod, ι, h, α, hα, β, hV, hmap, hW', hP, hB, hx1⟩ :=
     E6QTwo.norm_eq_one_of_card_192 hBs hNT hcard hWcard hA hW hALA hALcard hx hALx
-  letI := hVadd
-  letI := hVmod
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
+  let := hVadd
+  let := hVmod
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
   have hphi : ∀ (yi : ↥Bs) (Ai : Subgroup (MulAut ↥Bs)), (yi : G) ∈ D →
       yi ∉ Subgroup.zpowers x → Ai ≤ A →
       (∀ r ∈ AL, GGIsReflection 3 r → (∀ d : ↥Bs, (d : G) ∈ D → r d = d) → r ∈ Ai) →

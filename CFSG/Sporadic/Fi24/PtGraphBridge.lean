@@ -13,7 +13,7 @@ theorem seedGrp_eq_J : seedGrp = J := by
   unfold seedGrp J
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro (h | h)
     · exact Or.inl (Units.ext h)

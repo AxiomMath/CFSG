@@ -36,25 +36,25 @@ private theorem map_jcFold (f : ↥Jc →* ↥Jc) (c : ℕ → ℕ)
         (if x.testBit i then jcA (2 ^ i) * ⟨jcFold x l, jcFold_mem x l hl'⟩
          else ⟨jcFold x l, jcFold_mem x l hl'⟩) := by
       by_cases hbit : x.testBit i
-      · rw [if_pos hbit]
+      · rw [ite_eq_left hbit]
         apply Subtype.ext
         change jcFold x (i :: l) = (jcA (2 ^ i) : K) * jcFold x l
         rw [coe_jcA, jcElt_two_pow hi]
         rw [show jcFold x (i :: l) =
-          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, if_pos hbit]
-      · rw [if_neg hbit]
+          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, ite_eq_left hbit]
+      · rw [ite_eq_right hbit]
         apply Subtype.ext
         change jcFold x (i :: l) = jcFold x l
         rw [show jcFold x (i :: l) =
-          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, if_neg hbit]
+          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, ite_eq_right hbit]
     rw [hP]
     by_cases hbit : x.testBit i
-    · rw [if_pos hbit, map_mul, hc i hi, map_jcFold f c hc l hl' x, ← jcA_xor,
-        List.foldr_cons, if_pos hbit]
-    · rw [if_neg hbit, map_jcFold f c hc l hl' x, List.foldr_cons, if_neg hbit]
+    · rw [ite_eq_left hbit, map_mul, hc i hi, map_jcFold f c hc l hl' x, ← jcA_xor,
+        List.foldr_cons, ite_eq_left hbit]
+    · rw [ite_eq_right hbit, map_jcFold f c hc l hl' x, List.foldr_cons, ite_eq_right hbit]
 
 theorem hom_jcA_of_basis {f : ↥Jc →* ↥Jc} {c : ℕ → ℕ} (h : ∀ i < 10, f (jcA (2 ^ i)) = jcA (c i))
-    {x : ℕ} (hx : x < 1024) : f (jcA x) = jcA (colAct c x) := by
+    {x : ℕ} (_hx : x < 1024) : f (jcA x) = jcA (colAct c x) := by
   rw [jcA_eq_jcFold x]
   simpa [colAct] using map_jcFold f c h (List.range 10)
     (fun _ hi => List.mem_range.1 hi) x
@@ -82,21 +82,21 @@ private theorem map_jcFold_add (f : ↥Jc → ZMod 2)
         (if x.testBit i then jcA (2 ^ i) * ⟨jcFold x l, jcFold_mem x l hl'⟩
          else ⟨jcFold x l, jcFold_mem x l hl'⟩) := by
       by_cases hbit : x.testBit i
-      · rw [if_pos hbit]
+      · rw [ite_eq_left hbit]
         apply Subtype.ext
         change jcFold x (i :: l) = (jcA (2 ^ i) : K) * jcFold x l
         rw [coe_jcA, jcElt_two_pow hi]
         rw [show jcFold x (i :: l) =
-          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, if_pos hbit]
-      · rw [if_neg hbit]
+          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, ite_eq_left hbit]
+      · rw [ite_eq_right hbit]
         apply Subtype.ext
         change jcFold x (i :: l) = jcFold x l
         rw [show jcFold x (i :: l) =
-          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, if_neg hbit]
+          (if x.testBit i then jcB i * jcFold x l else jcFold x l) from rfl, ite_eq_right hbit]
     rw [hP]
     by_cases hbit : x.testBit i
-    · rw [if_pos hbit, hf, map_jcFold_add f hf l hl' x, List.foldr_cons, if_pos hbit]
-    · rw [if_neg hbit, map_jcFold_add f hf l hl' x, List.foldr_cons, if_neg hbit]
+    · rw [ite_eq_left hbit, hf, map_jcFold_add f hf l hl' x, List.foldr_cons, ite_eq_left hbit]
+    · rw [ite_eq_right hbit, map_jcFold_add f hf l hl' x, List.foldr_cons, ite_eq_right hbit]
 
 private theorem foldr_range_add (n x : ℕ) (v : ℕ → ZMod 2) (a : ZMod 2) :
     (List.range n).foldr (fun i acc => if x.testBit i then v i + acc else acc) a =
@@ -112,7 +112,7 @@ private theorem foldr_range_add (n x : ℕ) (v : ℕ → ZMod 2) (a : ZMod 2) :
     · simp [h]
 
 theorem additive_jcA {f : ↥Jc → ZMod 2} (hf : ∀ a b, f (a * b) = f a + f b) {x : ℕ}
-    (hx : x < 1024) : f (jcA x) = bsum 10 x fun i => f (jcA (2 ^ i)) := by
+    (_hx : x < 1024) : f (jcA x) = bsum 10 x fun i => f (jcA (2 ^ i)) := by
   rw [jcA_eq_jcFold x, map_jcFold_add f hf (List.range 10)
     (fun _ hi => List.mem_range.1 hi) x, foldr_range_add]
   simp [bsum]

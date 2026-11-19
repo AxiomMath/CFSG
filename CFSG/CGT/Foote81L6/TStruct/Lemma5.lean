@@ -21,9 +21,9 @@ theorem TStruct.exists_sylow_subgroupOf_normalizer {G : Type*} [Group G] [Finite
     ∃ Q : Sylow p ↥(normalizer (E : Set G)),
       (Q : Subgroup _) = (T : Subgroup G).subgroupOf (normalizer (E : Set G)) := by
   set NE := normalizer (E : Set G) with hNE
-  have hS : IsPGroup p ↥((T : Subgroup G).subgroupOf NE) := T.isPGroup'.comap_subtype
+  have hS : IsPGroup p ↥((T : Subgroup G).subgroupOf NE) := T.isPGroup.comap_subtype
   obtain ⟨P, hP⟩ := hS.exists_le_sylow
-  have hP' : IsPGroup p ↥((P : Subgroup NE).map NE.subtype) := P.isPGroup'.map NE.subtype
+  have hP' : IsPGroup p ↥((P : Subgroup NE).map NE.subtype) := P.isPGroup.map NE.subtype
   obtain ⟨T', hT'⟩ := hP'.exists_le_sylow
   obtain ⟨x, rfl⟩ := MulAction.exists_smul_eq G T T'
   have hmemT : ∀ z, z ∈ ((x • T : Sylow p G) : Subgroup G) → x⁻¹ * z * x ∈ T := by
@@ -77,7 +77,7 @@ theorem not_isConj_a_b₀ (hL3 : ∀ y ∈ D.Zab, IsConj D.a y → y = D.a) : ¬
 theorem mem_normalizer_E64_of_odd (hab : ¬ IsConj D.a D.b₀) {Q : Subgroup G} (hQT : Q ≤ T)
     {y : G} (hyQ : y ∈ normalizer (Q : Set G)) {N : ℕ} (hN : Odd N) (hyN : y ^ N = 1)
     {F : Subgroup G} (hF : IsE64 T F) (hFQ : F ≤ Q) : y ∈ normalizer (F : Set G) := by
-  haveI := D.finite_T
+  have := D.finite_T
   obtain ⟨Fk, hFk⟩ : ∃ Fk : ℕ → Subgroup G, ∀ k, Fk k = F.map (MulAut.conj (y ^ k)).toMonoidHom :=
     ⟨_, fun _ => rfl⟩
   have hFkQ : ∀ k, Fk k ≤ Q := fun k => by
@@ -113,7 +113,7 @@ theorem mem_normalizer_E64_of_odd (hab : ¬ IsConj D.a D.b₀) {Q : Subgroup G} 
       exact sup_le_sup (le_iSup (fun k => Fk k ⊓ D.A) k)
         (sup_le_sup (le_iSup (fun k => Fk k ⊓ D.B₀) k) (le_iSup (fun k => Fk k ⊓ D.B₁) k))
   have hXT : (⨆ k, Fk k) ≤ T := iSup_le fun k => (hFkE k).1
-  haveI : Finite ↥(⨆ k, Fk k) := Finite.of_injective _ (inclusion_injective hXT)
+  have : Finite ↥(⨆ k, Fk k) := Finite.of_injective _ (inclusion_injective hXT)
   have hmap : (XA ⊔ (X0 ⊔ X1)).map (MulAut.conj y).toMonoidHom = XA ⊔ (X0 ⊔ X1) := by
     rw [hXX]
     have hle : (⨆ k, Fk k).map (MulAut.conj y).toMonoidHom ≤ ⨆ k, Fk k := by
@@ -141,7 +141,7 @@ theorem mem_normalizer_E64_of_odd (hab : ¬ IsConj D.a D.b₀) {Q : Subgroup G} 
     with h | ⟨hall, j, hj⟩
   ·
     have hFX : F ≤ XA ⊔ (X0 ⊔ X1) := hdec.le.trans (sup_le_sup hFA (sup_le_sup hF0' hF1'))
-    haveI := hF.finite
+    have := hF.finite
     refine mem_normalizer_of_forall_conj_mem fun v hv => ?_
     have hyv : y * v * y⁻¹ ∈ T := hQT ((mem_normalizer_iff.1 hyQ v).1 (hFQ hv))
     have hc : v⁻¹ * (y * v * y⁻¹) ∈ T ⊓ centralizer (F : Set G) :=
@@ -187,7 +187,7 @@ theorem exists_conj_eq_of_coprime_index [Finite G] (hab : ¬ IsConj D.a D.b₀) 
       (by rw [map_conj_map_conj, mul_inv_cancel, map_conj_one]) hx'
   have hodd : ∀ x ∈ NQ, ∀ {M : ℕ}, Odd M → x ^ M = 1 → x ∈ K := fun x hx M hM hxM =>
     (hmemK x).2 ⟨hx, fun F' hF' hF'Q => D.mem_normalizer_E64_of_odd hab hQT hx hM hxM hF' hF'Q⟩
-  haveI : (K.subgroupOf NQ).Normal :=
+  have : (K.subgroupOf NQ).Normal :=
     (normal_subgroupOf_iff hKle).2 fun x s hx hs => hKn s hs x hx
   have hp : IsPGroup 2 (↥NQ ⧸ K.subgroupOf NQ) := by
     intro q

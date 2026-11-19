@@ -23,7 +23,7 @@ theorem sec8ctr_comm_W_le_Z (h34 : Stroth34Statement) (h53 : Stroth53Statement)
     {s : G} (hsR : s ∈ Rt M (LB M Q B) t) (hsc : ∀ ρ ∈ Rt M (LB M Q B) t, ⁅s, ρ⁆ ∈ Q) :
     ∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), ⁅s, w⁆ ∈ Z := by
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
@@ -54,7 +54,7 @@ theorem sec8ctr_comm_W_le_Z (h34 : Stroth34Statement) (h53 : Stroth53Statement)
     ⟨hZQ, fun x hx y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
       fun x hx => hc.hyp.toHyp79.sq_mem_V hx, hnormQ, hnormZ⟩
   obtain ⟨Md, _, _, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   obtain ⟨ε, hε1, hεR⟩ := exists_comm_endo hc hRM hκ (hRM hsR) (fun ρ hρ => by
     rw [← commutatorElement_inv]
     exact Q.inv_mem (hsc ρ⁻¹ ((Rt M (LB M Q B) t).inv_mem hρ)))

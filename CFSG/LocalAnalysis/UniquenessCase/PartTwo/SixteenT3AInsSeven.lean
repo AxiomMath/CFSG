@@ -27,8 +27,8 @@ theorem s16t_a_insp_of_case168_7 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D
   have h7σ : 7 ∈ D.sig := by
     rw [hsig]
     exact Set.mem_singleton 7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
   have hP := h.pairFacts
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   obtain ⟨E, hEM, hEel, hEcard⟩ :=
@@ -97,7 +97,7 @@ theorem s16t_a_insp_of_case168_7 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D
     omega
   have hfixX : fixV X = ⊥ :=
     s16c1610_fixV_eq_bot D hx h61 h127 h1214 h hXM hXnormal hX1 (by rw [hXcard]; decide)
-  haveI : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp (by rw [hXcard]; norm_num)
+  have : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp (by rw [hXcard]; norm_num)
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥X)
   have hgen : ∀ x : ↥X, x ∈ Subgroup.zpowers z := fun x => mem_zpowers_of_prime_card hXcard hz1
   have hzord : (z : MulAut (Vtil ⊥ V hV)) ^ 7 = 1 := by

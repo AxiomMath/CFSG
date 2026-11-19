@@ -347,7 +347,7 @@ private theorem odd_card_of_isNilpotent_of_pCore_eq_bot {G : Type*} [Group G] [F
   obtain ⟨P⟩ : Nonempty (Sylow 2 N) := inferInstance
   have := Sylow.characteristic_of_normal P inferInstance
   have hle : (P : Subgroup N).map N.subtype ≤ CFSG.pCore 2 G :=
-    le_sSup ⟨inferInstance, P.isPGroup'.map _⟩
+    le_sSup ⟨inferInstance, P.isPGroup.map _⟩
   rw [hO2, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective] at hle
   exact P.ne_bot_of_dvd_card h hle
 
@@ -691,7 +691,7 @@ theorem comm_of_mem_inf_ker {S Q : Type*} [Group S] [Finite S] [Group Q]
     intro q hq
     have : Fact q.Prime := ⟨Nat.prime_of_mem_primeFactors hq⟩
     refine le_pCoreOf_of_le_normalizer q (Subgroup.map_subtype_le _) ?_
-      ((default : Sylow q ↥R).isPGroup'.map R.subtype)
+      ((default : Sylow q ↥R).isPGroup.map R.subtype)
     intro r hr
     rw [Subgroup.mem_normalizer_iff]
     intro y

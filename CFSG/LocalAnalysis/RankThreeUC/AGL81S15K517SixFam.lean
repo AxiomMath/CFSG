@@ -250,7 +250,7 @@ theorem three_dvd_card_sq_sub_one (F : Type) [Field F] [Finite F] [CharP F 2] :
 section Mat
 
 theorem noCliqueCover_of_path {r : ℕ} (hr : 5 ≤ r) (A : Matrix (Fin r) (Fin r) ℤ)
-    (hA : ∀ i j : Fin r, i.val + 2 ≤ j.val → A i j = 0) (hA' : ∀ i j : Fin r, i.val + 2 ≤ j.val →
+    (hA : ∀ i j : Fin r, i.val + 2 ≤ j.val → A i j = 0) (_hA' : ∀ i j : Fin r, i.val + 2 ≤ j.val →
       A j i = 0) : NoCliqueCover r (BadPairMat A) := by
   refine noCliqueCover_of_triple (a := ⟨0, by omega⟩) (b := ⟨2, by omega⟩) (c := ⟨4, by omega⟩)
     ⟨by simp [Fin.ext_iff], Or.inl (hA _ _ (by simp))⟩ ⟨by simp [Fin.ext_iff], Or.inl (hA _ _ (by simp))⟩
@@ -298,9 +298,9 @@ theorem false_of_sl (hS : IsSylowTwoOf S₀ L) (hcov : CoveredByTwo L S₀ A₁ 
     (hA₂ : A₂ ≤ L) (h₁ : CFSG.Open.pRank 3 A₁ ≤ 1) (h₂ : CFSG.Open.pRank 3 A₂ ≤ 1) {m : ℕ}
     (hm : 5 ≤ m) (e : Matrix.ProjectiveSpecialLinearGroup (Fin (m + 1)) F ≃*
       (↥L ⧸ Subgroup.center ↥L)) : False :=
-  false_of_cover hS hcov (borelQuotient_sl e) rfl (fun i => oddNode_sl_three m i) hA₁ hA₂ h₁ h₂
-    (noCliqueCover_of_path hm (CartanMatrix.A m) (fun i j h => cartanA_zero h)
-      (fun i j h => cartanA_zero' h))
+  false_of_cover hS hcov (borelQuotient_sl e) rfl (fun _i => oddNode_sl_three m _i) hA₁ hA₂ h₁ h₂
+    (noCliqueCover_of_path hm (CartanMatrix.A m) (fun _i _j h => cartanA_zero h)
+      (fun _i _j h => cartanA_zero' h))
 
 end SL
 
@@ -313,6 +313,7 @@ theorem oddNode_sp_three (r : ℕ) (i : Fin r) :
   oddNode_of_hasSL2Node (hasSL2Node_sp i) Nat.prime_three (by norm_num)
     (three_dvd_card_sq_sub_one F)
 
+omit [Finite F] [CharP F 2] in
 theorem noCliqueCover_sp {r : ℕ} (hr : 4 ≤ r) :
     NoCliqueCover (Symplectic.rootDatum r F).rank (BadPair (Symplectic.rootDatum r F)) := by
   rcases Nat.eq_or_lt_of_le hr with rfl | h5
@@ -338,22 +339,21 @@ theorem noCliqueCover_D {n : ℕ} (hn : 4 ≤ n) : NoCliqueCover n (BadPairMat (
   · simp only [cartanD, Matrix.of_apply, Fin.mk.injEq]
     split_ifs with h1 h2
     · omega
-    · try simp only [false_and, or_false, false_or] at h2
+    · try simp only [false_and, false_or] at h2
       omega
     · rfl
   · simp only [ne_eq, Fin.mk.injEq]; omega
   · simp only [cartanD, Matrix.of_apply, Fin.mk.injEq]
     split_ifs with h1 h2
     · omega
-    · try simp only [false_and, or_false, false_or] at h2
+    · try simp only [false_and, false_or] at h2
       omega
     · rfl
   · simp only [ne_eq, Fin.mk.injEq]; omega
   · simp only [cartanD, Matrix.of_apply, Fin.mk.injEq]
     split_ifs with h1 h2
     · omega
-    · try simp only [false_and, or_false, false_or] at h2
-      omega
+    · omega
     · rfl
 
 open CFSG.LieType.Universal.Spin in
@@ -400,7 +400,7 @@ set_option linter.unusedSectionVars false
 variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
   (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
 
-theorem oddNode_spinMinus_three (hn : 4 ≤ n) (i : Fin (n - 1)) :
+theorem oddNode_spinMinus_three (_hn : 4 ≤ n) (i : Fin (n - 1)) :
     OddNode (rankOne (minusDatum n hirr).rootGroup i) 3 := by
   by_cases hk : i.val + 1 < n - 1
   · exact oddNode_of_hasSL2Node (hasSL2Node_spinMinus_long hirr hk) Nat.prime_three (by norm_num)

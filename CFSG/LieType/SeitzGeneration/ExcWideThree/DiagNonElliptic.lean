@@ -27,7 +27,7 @@ theorem exists_normalized_rGroup_of_fixed {K : Type} [Field K] [Finite K] (hp : 
       IsPGroup (ringChar K) R ∧ ∀ y ∈ A, ∀ z ∈ R, y * z * y⁻¹ ∈ R := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
   obtain ⟨m, hm, hVcomm, hVpow, v, hvV, hvF, hv1⟩ :=
@@ -85,7 +85,7 @@ theorem exists_normalized_rGroup_of_fixed {K : Type} [Field K] [Finite K] (hp : 
   have hu'R₁ : u' ∈ R₁ := by
     refine ⟨hu'mem, Subgroup.mem_comap.2 ?_⟩
     rw [hu'eq]
-    exact ⟨v, hvV, by simp [conjHom_apply]⟩
+    exact ⟨v, hvV, by simp⟩
   have hcinv : D.c⁻¹ ∈ Subgroup.normalizer (adjointGroup Tag.E6 K : Set (ModGL Tag.E6 K)) :=
     inv_mem D.hcN
   have hconj_adj : ∀ z ∈ adjointGroup Tag.E6 K, D.c⁻¹ * z * D.c ∈ adjointGroup Tag.E6 K := by
@@ -97,7 +97,7 @@ theorem exists_normalized_rGroup_of_fixed {K : Type} [Field K] [Finite K] (hp : 
     simpa [MulAut.conj_apply] using hconj_adj z hz.1
   · intro h
     have hu : D.c⁻¹ * u' * D.c ∈ R₁.map (MulAut.conj D.c⁻¹).toMonoidHom :=
-      ⟨u', hu'R₁, by simp [conjHom_apply]⟩
+      ⟨u', hu'R₁, by simp⟩
     rw [h, Subgroup.mem_bot] at hu
     apply huL1
     rw [← hu'eq]

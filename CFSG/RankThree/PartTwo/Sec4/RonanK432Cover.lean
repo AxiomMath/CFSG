@@ -25,7 +25,7 @@ theorem listRow_of_cover {S : Type} [Group S] [Finite S] (R : Set S)
   · rintro ⟨⟨c, hc⟩, b⟩
     have h3 : c ^ 3 = 1 := by rw [← hR c hc]; exact pow_orderOf_eq_one c
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [← pow_mul, mul_comm, pow_mul, h3, one_pow]
     · simpa using h3
   · rintro ⟨⟨c, hc⟩, b⟩ _
@@ -36,7 +36,7 @@ theorem listRow_of_cover {S : Type} [Group S] [Finite S] (R : Set S)
     have hcinv : c⁻¹ ∈ Subgroup.zpowers c := inv_mem (Subgroup.mem_zpowers c)
     refine ⟨g, ?_⟩
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       have hy2 : g * c ^ 2 * g⁻¹ = (g * c * g⁻¹) ^ 2 := by simp [conj_pow]
       rw [hy2]
       have hc2 : c ^ 2 ∈ Subgroup.zpowers c := Subgroup.pow_mem _ (Subgroup.mem_zpowers c) 2
@@ -45,7 +45,7 @@ theorem listRow_of_cover {S : Type} [Group S] [Finite S] (R : Set S)
         exact Subgroup.pow_mem _ hmem 2)
       refine ⟨(show Commute (g * c * g⁻¹) c from hcomm).pow_pow 2 2, fun h => hnot2 (by rw [h]; exact hc2),
         fun h => hnot2 (by rw [h]; exact inv_mem hc2), fun h => hnot2 (by rw [h]; exact one_mem _)⟩
-    · simp only [if_true]
+    · simp only [ite_true]
       exact ⟨hcomm, fun h => hnot (by rw [h]; exact Subgroup.mem_zpowers c),
         fun h => hnot (by rw [h]; exact hcinv), fun h => hnot (by rw [h]; exact one_mem _)⟩
 

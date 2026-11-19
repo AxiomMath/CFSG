@@ -18,6 +18,7 @@ variable {A V C₀ C₁ : Subgroup G} {t u : G} (h : Gomi6Data A V C₀ C₁ t u
 
 include h
 
+omit [Finite G] in
 theorem hyp_quot :
     IsQuotIso (normIn (centralizer (V : Set G)) (A ⊔ V))
       (centralizer (V : Set G) ⊓ centralizerSection (A ⊔ V) V) (Equiv.Perm (Fin 6)) := by
@@ -93,6 +94,7 @@ theorem hyp_quot :
       rw [MonoidHom.mem_ker] at hxker
       exact hxker
 
+omit [Finite G] in
 theorem hyp_quot6 :
     IsQuotIso (centralizer (V : Set G) ⊓ centralizerSection (V ⊔ zpowers t) V)
       (centralizer (V : Set G) ⊓ centralizerSection (V ⊔ zpowers t) V ⊓
@@ -202,6 +204,7 @@ theorem hyp_quot6 :
       rw [MonoidHom.mem_ker] at hxker
       exact hxker
 
+omit [Finite G] in
 theorem hyp_even :
     Even ((normIn (centralizer (V : Set G)) (A ⊔ V)).relIndex (centralizer (V : Set G))) := by
   let NC : Subgroup G := centralizer (V : Set G) ⊓ normalizer ((A ⊔ V : Subgroup G) : Set G)

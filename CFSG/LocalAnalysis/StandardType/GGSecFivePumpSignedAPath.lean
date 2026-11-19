@@ -15,7 +15,7 @@ private theorem pair_trans {k : ℕ} {Φ : Set (Fin k → ℤ)} (hΦ : GGDSubsys
   have hd : ggDDot (Pi.single b (ε b) - Pi.single c (ε c))
       (Pi.single a (ε a) - Pi.single b (ε b)) = -1 := by
     rw [ggDDot_eq_dotProduct, sub_dotProduct, single_dotProduct, single_dotProduct]
-    simp only [Pi.sub_apply, Pi.single_apply, if_neg hab.symm, if_neg hac.symm, if_neg hbc.symm,
+    simp only [Pi.sub_apply, Pi.single_apply, ite_eq_right hab.symm, ite_eq_right hac.symm, ite_eq_right hbc.symm,
       ↓reduceIte]
     rcases hε b with h | h <;> rw [h] <;> ring
   have h := hΦ.2 _ h1 _ h2

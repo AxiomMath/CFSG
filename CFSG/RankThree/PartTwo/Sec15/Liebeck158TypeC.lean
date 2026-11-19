@@ -91,7 +91,7 @@ theorem exists_regular_eigenbasis (hK : PiField π p f K) (hq : ModThree π (p ^
     have : τ * τ = τ * 1 := by rw [← sq, ← h, mul_one]
     exact mul_left_cancel₀ hτ0 this
   refine ⟨(g : Matrix (Fin 3) (Fin 3) K).col, ![τ, τ ^ 2, 1],
-    Matrix.linearIndependent_cols_iff_isUnit.mpr g.isUnit, ?_, fun i => ?_⟩
+    Matrix.linearIndependent_col_iff_isUnit.mpr g.isUnit, ?_, fun i => ?_⟩
   · intro i j hij
     fin_cases i <;> fin_cases j <;>
       simp [hττ2, hτ1, hτ2, Ne.symm hττ2, Ne.symm hτ1, Ne.symm hτ2] at hij ⊢
@@ -330,7 +330,7 @@ end Pgl
 theorem exists_typeC_of_nonabelian {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (hK : PiField π p f K) (hq : ModThree π (p ^ f)) (hq2 : 2 < p ^ f)
     {X : Type} [Group X] [Finite X] (φ : X ≃* projImage (slPi π 3 (p ^ f) K))
-    (P : Subgroup (MulAut X)) (hP3 : IsPGroup 3 P) (hP27 : Nat.card P = 27)
+    (P : Subgroup (MulAut X)) (_hP3 : IsPGroup 3 P) (hP27 : Nat.card P = 27)
     (hPnc : ¬ IsMulCommutative P) (hPexp : ∀ σ ∈ P, σ ^ 3 = 1)
     (hA : ∀ σ ∈ P, ∃ y ∈ glPi π 3 (p ^ f) K, ∀ z : X,
       ((φ (σ z) : ProjGenLinGroup (Fin 3) K)) =

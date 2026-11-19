@@ -24,7 +24,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i j : ℕ}
 theorem w183b2ed_eOmegaZ_le_conj_M (x : Ctx188 D V₀ V H i j) {g : G}
     (hg : Gam183 V H (eOmegaZ H D.T) i g) : eOmegaZ H D.T ≤ conjSubgroup D.M g := by
   have hbot := x.inf_ne_bot_of_gam183 hg
-  obtain ⟨w, hw, hwbot⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hbot)
+  obtain ⟨w, hw, hwbot⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hbot)
   have hw1 : w ≠ 1 := fun h1 => hwbot (Subgroup.mem_bot.mpr h1)
   have hwCent : eOmegaZ H D.T ≤ Subgroup.centralizer ({w} : Set G) :=
     (Subgroup.le_centralizer_iff_isMulCommutative.mpr x.hyp.isElemAbelian_eOmegaZ.1).trans
@@ -68,7 +68,7 @@ theorem w183b2ed_mem_EDg (x : Ctx188 D V₀ V H i j) {g : G}
       ∀ v ∈ conjSubgroup V g, ⁅v, e⁆ ∈ conjSubgroup V₀ g := by
   classical
   unfold w183b2ed_EDg
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
   rfl
 
 variable {M : ModDataE H (eOmegaZ H D.T)}
@@ -88,9 +88,9 @@ theorem w183b2ed_ED_eq (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.
       E3.mQuot (conjSubgroup V g) (vInH V H g) = packDeltaU D V H i M A) :
     x.w183b2ed_ED M A = M.sp (x.w183b2ed_EDg (Classical.choose hex)) := by
   unfold w183b2ed_ED
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
 
-theorem w183b2ed_exists_attaining (x : Ctx188 D V₀ V H i j)
+theorem w183b2ed_exists_attaining (_x : Ctx188 D V₀ V H i j)
     (M : ModDataE H (eOmegaZ H D.T)) {A : Subgroup (LGL 2 M.W)}
     (hA : A ∈ packFamilyU D V H i M) :
     ∃ g : G, Gam183 V H (eOmegaZ H D.T) i g ∧ M.img (vInH V H g) = A ∧
@@ -120,7 +120,7 @@ theorem w183b2ed_comm_le (x : Ctx188 D V₀ V H i j)
       E3.mQuot (conjSubgroup V g) (vInH V H g) = packDeltaU D V H i M A :=
     ⟨g, hg, himg, hdelta⟩
   have hspec := Classical.choose_spec hex
-  rw [w183b2ed_ED, dif_pos hex]
+  rw [w183b2ed_ED, dite_eq_left hex]
   have hmem : ⁅x.w183b2ed_EDg (Classical.choose hex) ⊓ eOmegaZ H D.T,
       vInH V H (Classical.choose hex)⁆ ≤ conjSubgroup V₀ (Classical.choose hex) := by
     refine Subgroup.commutator_le.2 fun e he d hd => ?_

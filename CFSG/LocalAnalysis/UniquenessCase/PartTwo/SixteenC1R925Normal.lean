@@ -29,12 +29,12 @@ theorem commutator_normalClosure {Γ : Type} [Group Γ] {Y : Subgroup Γ}
 theorem IsThreeGen.normalClosure {Γ : Type} [Group Γ] {Y : Subgroup Γ} (h : IsThreeGen Y) :
     IsThreeGen (Subgroup.normalClosure (Y : Set Γ)) := by
   set K : Subgroup Γ := Subgroup.normalClosure (Y : Set Γ) with hKdef
-  haveI hKn : K.Normal := Subgroup.normalClosure_normal
+  have hKn : K.Normal := Subgroup.normalClosure_normal
   have hc : ∀ g : Γ, ∀ t : Γ, t ∈ K → (∃ k : ℕ, t ^ 3 ^ k = 1) →
       g * t * g⁻¹ ∈ K ∧ ∃ k : ℕ, (g * t * g⁻¹) ^ 3 ^ k = 1 := by
     rintro g t htK ⟨k, hk⟩
     exact ⟨hKn.conj_mem t htK g, k, by rw [conj_pow, hk, mul_one, mul_inv_cancel]⟩
-  haveI hnorm : (Subgroup.closure {a : Γ | a ∈ K ∧ ∃ k : ℕ, a ^ 3 ^ k = 1}).Normal :=
+  have hnorm : (Subgroup.closure {a : Γ | a ∈ K ∧ ∃ k : ℕ, a ^ 3 ^ k = 1}).Normal :=
     ⟨fun n hn g => by
       induction hn using Subgroup.closure_induction with
       | mem x hx => exact Subgroup.subset_closure (hc g x hx.1 hx.2)
@@ -62,9 +62,9 @@ theorem IsThreeGen.normalClosure {Γ : Type} [Group Γ] {Y : Subgroup Γ} (h : I
 
 theorem r925_eq_sup_of_commutator {Γ : Type} [Group Γ] {K Y W N : Subgroup Γ}
     (hK : commutator ↥K = ⊤) (hYK : Y ≤ K) (hKYW : K = Y ⊔ W) (hNK : N ≤ K)
-    (hN : (N.subgroupOf K).Normal) (hWN : ∀ w ∈ W, ∀ k ∈ K, w * k * w⁻¹ * k⁻¹ ∈ N) :
+    (_hN : (N.subgroupOf K).Normal) (hWN : ∀ w ∈ W, ∀ k ∈ K, w * k * w⁻¹ * k⁻¹ ∈ N) :
     K = Y ⊔ N := by
-  haveI hKperf : Group.IsPerfect ↥K := ⟨hK⟩
+  have hKperf : Group.IsPerfect ↥K := ⟨hK⟩
   let S : Subgroup Γ := Y ⊔ N
   have hSle : S ≤ K := sup_le hYK hNK
   have hWle : W ≤ K := by rw [hKYW]; exact le_sup_right
@@ -93,7 +93,7 @@ theorem r925_eq_sup_of_commutator {Γ : Type} [Group Γ] {K Y W N : Subgroup Γ}
       rcases hg with hgY | hgN
       · exact hScl ▸ S.mul_mem (Subgroup.mem_sup_right hwg) (Subgroup.mem_sup_left hgY)
       · exact hScl ▸ S.mul_mem (Subgroup.mem_sup_right hwg) (Subgroup.mem_sup_right hgN)
-  haveI hSnormal : (S.subgroupOf K).Normal :=
+  have hSnormal : (S.subgroupOf K).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hKW
   let q : ↥K →* (↥K ⧸ S.subgroupOf K) := QuotientGroup.mk' (S.subgroupOf K)
   have hgen : Y.subgroupOf K ⊔ W.subgroupOf K = ⊤ := by
@@ -140,11 +140,11 @@ theorem r925_eq_sup_of_commutator {Γ : Type} [Group Γ] {K Y W N : Subgroup Γ}
     · intro x hx ihx
       rw [map_inv]
       exact Subgroup.inv_mem _ ihx
-  haveI hperf : Group.IsPerfect (↥K ⧸ S.subgroupOf K) :=
+  have hperf : Group.IsPerfect (↥K ⧸ S.subgroupOf K) :=
     Group.IsPerfect.ofSurjective (f := q) (QuotientGroup.mk'_surjective (S.subgroupOf K))
-  haveI hcomm : IsMulCommutative (↥K ⧸ S.subgroupOf K) :=
+  have hcomm : IsMulCommutative (↥K ⧸ S.subgroupOf K) :=
     Subgroup.center_eq_top_iff.mp hcenter
-  haveI : Subsingleton (↥K ⧸ S.subgroupOf K) :=
+  have : Subsingleton (↥K ⧸ S.subgroupOf K) :=
     Group.IsPerfect.subsingleton_of_isMulCommutative
   have hStop : S.subgroupOf K = ⊤ := by
     rw [eq_top_iff]

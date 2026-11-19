@@ -347,7 +347,7 @@ theorem commSet_fiveProjClass_eq_image (A : FiveAdjoin k ε π) (hk : 4 ≤ k) :
   ext x
   constructor
   · intro hx
-    simp only [commSet, Set.mem_setOf_eq] at hx
+    simp only [commSet, Set.mem_ofPred_eq] at hx
     obtain ⟨hxclass, hxcomm, hxne⟩ := hx
     obtain ⟨r, hr, hrmk⟩ := hxclass
     have hxcomm' : Commute (QuotientGroup.mk r) (QuotientGroup.mk (adjoinRa A) :
@@ -400,7 +400,7 @@ theorem commSet_fiveProjClass_eq_image (A : FiveAdjoin k ε π) (hk : 4 ≤ k) :
           fiveReflOf_smul (k + 1) (ε == π) A.a (inv_ne_zero hμ0)]
       exact hxne (hrmk.symm.trans (congrArg QuotientGroup.mk hr_eq))
   · rintro ⟨g, hg, rfl⟩
-    simp only [commSet, Set.mem_setOf_eq]
+    simp only [commSet, Set.mem_ofPred_eq]
     exact ⟨adjoinPhi_mem_fiveProjClass A hg, adjoinPhi_commute_adjoinRa A hk hg,
       adjoinPhi_ne_adjoinRa A hk hg⟩
 

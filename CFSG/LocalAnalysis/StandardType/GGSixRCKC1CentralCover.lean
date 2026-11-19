@@ -18,7 +18,7 @@ theorem k2At_self_of_coreCommAt
       (hy : y ∈ pCoreOf 2 (J ⊓ Subgroup.centralizer ({r} : Set X)))
       {v : X} (hv : v ∈ V) : y * v * y⁻¹ ∈ V := by
     have h := V.mul_mem (V.inv_mem (hr (hCore v hv y hy))) hv
-    convert h using 1 <;> group
+    convert h using 1; group
   intro y hy
   apply Subgroup.mem_normalizer_iff.mpr
   intro v

@@ -14,6 +14,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_span_inter_eq_line {u w₁ w₂ x : V} (hu : Q u ≠ 0) (h₁ : polar Q u w₁ = 0)
     (h₂ : polar Q u w₂ = 0) (hw : LinearIndependent (ZMod 3) ![w₁, w₂])
     (hx₁ : x ∈ Submodule.span (ZMod 3) {u, w₁}) (hx₂ : x ∈ Submodule.span (ZMod 3) {u, w₂}) :

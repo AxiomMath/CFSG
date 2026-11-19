@@ -22,7 +22,7 @@ theorem exists_partner {n r : ℕ} (hn : n = 2 * r + 1) (hr : 3 ≤ r) {Ω : Typ
     ∃ D₁ K₁ : Subgroup Ω, GLAStdSubPre 3 B x S D₁ K₁ ∧
       catalogIs (PSimple 3 K₁) (isLnA (n - 2) 2) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hV : Module.finrank (ZMod 2) (Fin n → ZMod 2) = 2 * r + 1 := by
     rw [Module.finrank_fin_fun, hn]
   have hEel := isElemAbelian_range φ hBel
@@ -150,7 +150,7 @@ theorem exists_partner {n r : ℕ} (hn : n = 2 * r + 1) (hr : 3 ≤ r) {Ω : Typ
     have eK : ↥K₁ ≃* ↥(GL.Nsub h3) := (Subgroup.equivMapOfInjective (GL.Nsub h3) Θ hΘ).symm
     obtain ⟨hs, hnab⟩ := GL.Nsub_simple_nonab hV hr h3 hfr
     have hKsn := GL.simple_nonab_of_equiv eK ⟨hs, hnab⟩
-    haveI := hKsn.1
+    have := hKsn.1
     have hKZ : Subgroup.center ↥K₁ = ⊥ := GL.center_eq_bot_of_simple_nonab hKsn.2
     have hK3 : 3 ∣ Nat.card ↥K₁ := by
       rw [Nat.card_congr eK.toEquiv]
@@ -166,7 +166,7 @@ theorem s172AExist_holds :
   intro n hn hn7 Ω _ _ S B D K x hcfg hS _
   obtain ⟨r, hr⟩ := hn
   have hr3 : 3 ≤ r := by omega
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   obtain ⟨hZ, ⟨θ⟩, hin⟩ := exists_theta (n := n) (by omega) hcfg.qs hS
   obtain ⟨Θ, φ, hΘ, hΘS, hconj, hker'⟩ :=
     exists_action (B := B) (fun b hb => hcfg.elem.2 b hb) hZ θ hin

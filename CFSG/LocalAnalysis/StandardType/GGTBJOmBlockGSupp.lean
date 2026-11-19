@@ -21,12 +21,14 @@ open CFSG.RankThree.Classical2 (orthDerived)
 variable {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [FiniteDimensional K V] in
 private theorem orthDerived_le_orthogonalGroup (Q : QuadraticForm K V) :
     orthDerived Q ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by
   refine Subgroup.commutator_le.mpr fun g hg h hh => ?_
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem hg hh) (inv_mem hg)) (inv_mem hh)
 
+omit [FiniteDimensional K V] in
 theorem mem_supportedBlock_of_orthDerived {g : V ≃ₗ[K] V} (hg : g ∈ orthDerived Q)
     (hc : g * x = x * g) {h : K[X]} (hfix : ∀ v ∈ othersSpace x.toLinearMap h, g v = v) :
     g ∈ supportedBlock Q x h := by

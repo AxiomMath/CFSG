@@ -28,8 +28,8 @@ theorem permMatrix_mulVec_single (σ : Equiv.Perm ι) (i : ι) :
   funext j
   rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : σ j = i
-  · rw [if_pos h, if_pos ((Equiv.apply_eq_iff_eq_symm_apply σ).mp h)]
-  · rw [if_neg h, if_neg (fun h' => h ((Equiv.apply_eq_iff_eq_symm_apply σ).mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (((Iff.symm (_root_.Equiv.eq_symm_apply σ))).mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (((Iff.symm (_root_.Equiv.eq_symm_apply σ))).mpr h'))]
 
 theorem det_one_add_nilOf {k : ℕ} {u w : Fin k → ι} (huw : ∀ a b, u a ≠ w b) :
     (1 + nilOf K u w).det = 1 := by
@@ -39,14 +39,14 @@ theorem det_one_add_nilOf {k : ℕ} {u w : Fin k → ι} (huw : ∀ a b, u a ≠
     intro i hi j hj
     rw [Matrix.add_apply, Matrix.one_apply, nilOf_apply]
     have hij : i ≠ j := fun h => hj (by rw [← h]; exact hi)
-    rw [if_neg hij, zero_add]
-    exact if_neg (by rintro ⟨a, -, hb⟩; exact hj ⟨a, hb⟩)
+    rw [ite_eq_right hij, zero_add]
+    exact ite_eq_right (by rintro ⟨a, -, hb⟩; exact hj ⟨a, hb⟩)
   rw [Matrix.twoBlockTriangular_det' (1 + nilOf K u w) p hzero]
   have h1 : Matrix.toSquareBlockProp (1 + nilOf K u w) p = 1 := by
     ext x y
     have hN : nilOf K u w (x : ι) (y : ι) = 0 := by
       rw [nilOf_apply]
-      refine if_neg ?_
+      refine ite_eq_right ?_
       rintro ⟨a, ha, -⟩
       obtain ⟨a0, ha0⟩ := x.2
       exact huw a a0 (ha.trans ha0.symm)
@@ -58,7 +58,7 @@ theorem det_one_add_nilOf {k : ℕ} {u w : Fin k → ι} (huw : ∀ a b, u a ≠
     ext x y
     have hN : nilOf K u w (x : ι) (y : ι) = 0 := by
       rw [nilOf_apply]
-      exact if_neg (by rintro ⟨a, -, hb⟩; exact y.2 ⟨a, hb⟩)
+      exact ite_eq_right (by rintro ⟨a, -, hb⟩; exact y.2 ⟨a, hb⟩)
     rw [Matrix.toSquareBlockProp_def, Matrix.of_apply, Matrix.add_apply, hN, add_zero]
     by_cases hxy : x = y
     · rw [hxy, Matrix.one_apply_eq, Matrix.one_apply_eq]
@@ -92,8 +92,8 @@ theorem nilOf_mulVec_single_w {k : ℕ} {u w : Fin k → ι} (hw : Function.Inje
   · obtain ⟨a, ha, hwab⟩ := h
     have hab : a = b := hw hwab
     have hiu : i = u b := by rw [← hab]; exact ha.symm
-    rw [if_pos ⟨a, ha, hwab⟩, if_pos hiu]
-  · rw [if_neg h, if_neg]
+    rw [ite_eq_left ⟨a, ha, hwab⟩, ite_eq_left hiu]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hi
     exact h ⟨b, hi.symm, rfl⟩
 
@@ -102,14 +102,14 @@ theorem nilOf_mulVec_single_u {k : ℕ} {u w : Fin k → ι} (huw : ∀ a b, u a
     nilOf K u w *ᵥ (Pi.single (u b) (1 : K) : ι → K) = 0 := by
   funext i
   rw [Matrix.mulVec_single_one, Matrix.col_apply, nilOf_apply, Pi.zero_apply]
-  exact if_neg (by rintro ⟨a, -, hb⟩; exact huw b a hb.symm)
+  exact ite_eq_right (by rintro ⟨a, -, hb⟩; exact huw b a hb.symm)
 
 theorem nilOf_mulVec_single_of_forall_ne {k : ℕ} {u w : Fin k → ι} (j : ι)
     (hj : ∀ a, w a ≠ j) :
     nilOf K u w *ᵥ (Pi.single j (1 : K) : ι → K) = 0 := by
   funext i
   rw [Matrix.mulVec_single_one, Matrix.col_apply, nilOf_apply, Pi.zero_apply]
-  exact if_neg (by rintro ⟨a, -, hb⟩; exact hj a hb)
+  exact ite_eq_right (by rintro ⟨a, -, hb⟩; exact hj a hb)
 
 theorem one_add_nilOf_mulVec_single_u {k : ℕ} {u w : Fin k → ι}
     (huw : ∀ a b, u a ≠ w b) (b : Fin k) :
@@ -149,14 +149,14 @@ theorem conjMat_apply_of_forall_ne_left {k : ℕ} {u w : Fin k → ι} (i : ι)
   by_cases hij : i = j
   · rw [hij] at hu hw ⊢
     rw [conjMat, Matrix.of_apply,
-      if_pos (Or.inl (Or.inl ⟨rfl, fun ⟨a, ha⟩ => hw a ha⟩)), if_pos rfl]
+      ite_eq_left (Or.inl (Or.inl ⟨rfl, fun ⟨a, ha⟩ => hw a ha⟩)), ite_eq_left rfl]
   · have hcond : ¬ (((i = j ∧ ¬ ∃ a, w a = i) ∨ (∃ a, w a = i ∧ u a = j)) ∨
         (∃ a, u a = i ∧ w a = j)) := by
       rintro ((⟨h, -⟩ | ⟨a, ha, -⟩) | ⟨a, ha, -⟩)
       · exact hij h
       · exact hw a ha
       · exact hu a ha
-    rw [conjMat, Matrix.of_apply, if_neg hcond, if_neg hij]
+    rw [conjMat, Matrix.of_apply, ite_eq_right hcond, ite_eq_right hij]
 
 omit [Fintype ι] in
 theorem conjMat_apply_of_forall_ne_right {k : ℕ} {u w : Fin k → ι} (j : ι)
@@ -171,7 +171,7 @@ theorem conjMat_apply_of_forall_ne_right {k : ℕ} {u w : Fin k → ι} (j : ι)
       · exact hij h
       · exact hu a ha
       · exact hw a ha
-    rw [conjMat, Matrix.of_apply, if_neg hcond, if_neg hij]
+    rw [conjMat, Matrix.of_apply, ite_eq_right hcond, ite_eq_right hij]
 
 omit [Fintype ι] in
 theorem conjMat_apply_u {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective u)
@@ -183,7 +183,7 @@ theorem conjMat_apply_u {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
     by_cases hba : b = a
     · rw [hba]
       rw [conjMat, Matrix.of_apply,
-        if_pos (Or.inl (Or.inl ⟨rfl, fun ⟨c, hc⟩ => huw a c hc.symm⟩))]
+        ite_eq_left (Or.inl (Or.inl ⟨rfl, fun ⟨c, hc⟩ => huw a c hc.symm⟩))]
       simp [huw a a]
     · have hA : ¬ (u b = u a) := fun h => hba (hu h)
       have hB : ¬ (∃ c, w c = u b ∧ u c = u a) := by
@@ -198,14 +198,14 @@ theorem conjMat_apply_u {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
         · exact hA h
         · exact hB hB'
         · exact hC hC'
-      rw [conjMat, Matrix.of_apply, if_neg hcond, if_neg hA, if_neg (huw b a)]
+      rw [conjMat, Matrix.of_apply, ite_eq_right hcond, ite_eq_right hA, ite_eq_right (huw b a)]
       simp
   · by_cases hiw : ∃ b, w b = i
     · obtain ⟨b, rfl⟩ := hiw
       by_cases hba : b = a
       · rw [hba]
         have hwu : w a ≠ u a := fun h => huw a a h.symm
-        rw [conjMat, Matrix.of_apply, if_pos (Or.inl (Or.inr ⟨a, rfl, rfl⟩))]
+        rw [conjMat, Matrix.of_apply, ite_eq_left (Or.inl (Or.inr ⟨a, rfl, rfl⟩))]
         simp [hwu]
       · have hA : ¬ (w b = u a) := fun h => huw a b h.symm
         have hB : ¬ (∃ c, w c = w b ∧ u c = u a) := by
@@ -220,8 +220,8 @@ theorem conjMat_apply_u {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
           · exact hA h
           · exact hB hB'
           · exact hC hC'
-        rw [conjMat, Matrix.of_apply, if_neg hcond, if_neg hA,
-          if_neg (fun h => hba (hw h))]
+        rw [conjMat, Matrix.of_apply, ite_eq_right hcond, ite_eq_right hA,
+          ite_eq_right (fun h => hba (hw h))]
         simp
     · have h1 : i ≠ u a := fun h => hiu ⟨a, h.symm⟩
       have h2 : i ≠ w a := fun h => hiw ⟨a, h.symm⟩
@@ -237,7 +237,7 @@ theorem conjMat_apply_w {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
   · obtain ⟨b, rfl⟩ := hiu
     by_cases hba : b = a
     · rw [hba]
-      rw [conjMat, Matrix.of_apply, if_pos (Or.inr ⟨a, rfl, rfl⟩)]
+      rw [conjMat, Matrix.of_apply, ite_eq_left (Or.inr ⟨a, rfl, rfl⟩)]
       simp
     · have hA : ¬ (u b = w a) := huw b a
       have hB : ¬ (∃ c, w c = u b ∧ u c = w a) := by
@@ -252,7 +252,7 @@ theorem conjMat_apply_w {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
         · exact hA h
         · exact hB hB'
         · exact hC hC'
-      rw [conjMat, Matrix.of_apply, if_neg hcond, if_neg (fun h => hba (hu h))]
+      rw [conjMat, Matrix.of_apply, ite_eq_right hcond, ite_eq_right (fun h => hba (hu h))]
   · by_cases hiw : ∃ b, w b = i
     · obtain ⟨b, rfl⟩ := hiw
       have hA : ¬ (w b = w a ∧ ¬ ∃ c, w c = w b) :=
@@ -269,8 +269,8 @@ theorem conjMat_apply_w {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective 
         · exact hA hA'
         · exact hB hB'
         · exact hC hC'
-      rw [conjMat, Matrix.of_apply, if_neg hcond,
-        if_neg (fun h : w b = u a => huw a b h.symm)]
+      rw [conjMat, Matrix.of_apply, ite_eq_right hcond,
+        ite_eq_right (fun h : w b = u a => huw a b h.symm)]
     · have h1 : i ≠ u a := fun h => hiu ⟨a, h.symm⟩
       have h2 : i ≠ w a := fun h => hiw ⟨a, h.symm⟩
       rw [conjMat_apply_of_forall_ne_left i (fun b h => hiu ⟨b, h⟩)
@@ -369,7 +369,7 @@ theorem swapFun_apply_left {k : ℕ} {u w : Fin k → ι} (hu : Function.Injecti
     swapFun u w (u a) = w a := by
   rw [swapFun]
   have hex : ∃ b, u b = u a := ⟨a, rfl⟩
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact congrArg w (hu (Classical.choose_spec hex))
 
 omit [Fintype ι] in
@@ -379,7 +379,7 @@ theorem swapFun_apply_right {k : ℕ} {u w : Fin k → ι}
   rw [swapFun]
   have h1 : ¬ ∃ b, u b = w a := fun ⟨b, hb⟩ => huw b a hb
   have h2 : ∃ b, w b = w a := ⟨a, rfl⟩
-  rw [dif_neg h1, dif_pos h2]
+  rw [dite_eq_right h1, dite_eq_left h2]
   exact congrArg u (hw (Classical.choose_spec h2))
 
 omit [Fintype ι] in
@@ -389,7 +389,7 @@ theorem swapFun_apply_of_forall_ne {k : ℕ} {u w : Fin k → ι}
   rw [swapFun]
   have h1 : ¬ ∃ a, u a = i := fun ⟨a, ha⟩ => (hi a).1 ha.symm
   have h2 : ¬ ∃ a, w a = i := fun ⟨a, ha⟩ => (hi a).2 ha.symm
-  rw [dif_neg h1, dif_neg h2]
+  rw [dite_eq_right h1, dite_eq_right h2]
 
 omit [Fintype ι] in
 theorem swapFun_involutive {k : ℕ} {u w : Fin k → ι} (hu : Function.Injective u)
@@ -398,24 +398,24 @@ theorem swapFun_involutive {k : ℕ} {u w : Fin k → ι} (hu : Function.Injecti
   intro i
   rw [swapFun, swapFun]
   by_cases h1 : ∃ a, u a = i
-  · rw [dif_pos h1]
+  · rw [dite_eq_left h1]
     have h2 : ¬ ∃ b, u b = w (Classical.choose h1) :=
       fun ⟨b, hb⟩ => huw b (Classical.choose h1) hb
-    rw [dif_neg h2]
+    rw [dite_eq_right h2]
     have h3 : ∃ b, w b = w (Classical.choose h1) := ⟨Classical.choose h1, rfl⟩
-    rw [dif_pos h3]
+    rw [dite_eq_left h3]
     rw [show Classical.choose h3 = Classical.choose h1 from
       hw (Classical.choose_spec h3)]
     exact Classical.choose_spec h1
-  · rw [dif_neg h1]
+  · rw [dite_eq_right h1]
     by_cases h2 : ∃ a, w a = i
-    · rw [dif_pos h2]
+    · rw [dite_eq_left h2]
       have h3 : ∃ b, u b = u (Classical.choose h2) := ⟨Classical.choose h2, rfl⟩
-      rw [dif_pos h3]
+      rw [dite_eq_left h3]
       rw [show Classical.choose h3 = Classical.choose h2 from
         hu (Classical.choose_spec h3)]
       exact Classical.choose_spec h2
-    · rw [dif_neg h2, dif_neg h1, dif_neg h2]
+    · rw [dite_eq_right h2, dite_eq_right h1, dite_eq_right h2]
 
 noncomputable def swapPermOf {k : ℕ} (u w : Fin k → ι) (hu : Function.Injective u)
     (hw : Function.Injective w) (huw : ∀ a b, u a ≠ w b) : Equiv.Perm ι :=

@@ -89,13 +89,13 @@ theorem kL2BorelComm_holds : KL2BorelComm := by
     rw [hUcoe']
     exact Subgroup.le_normalizer_map e.toMonoidHom
       (Subgroup.mem_map_of_mem e.toMonoidHom hy)
-  haveI : (U.subgroupOf N).Normal := Subgroup.normal_in_normalizer
-  haveI hQcyc : IsCyclic (N ⧸ U.subgroupOf N) :=
+  have : (U.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have hQcyc : IsCyclic (N ⧸ U.subgroupOf N) :=
     psl2_normalizer_quotient_cyclic hk2 U
   let π : N →* N ⧸ U.subgroupOf N := QuotientGroup.mk' _
   have hπ : π (⟨e x, hxN⟩ * ⟨e y, hyN⟩ * ⟨e x, hxN⟩⁻¹ * ⟨e y, hyN⟩⁻¹) = 1 := by
     rw [map_mul, map_mul, map_mul, map_inv, map_inv]
-    letI : CommGroup (N ⧸ U.subgroupOf N) := IsCyclic.commGroup
+    let : CommGroup (N ⧸ U.subgroupOf N) := IsCyclic.commGroup
     rw [mul_comm (π ⟨e x, hxN⟩) (π ⟨e y, hyN⟩)]
     group
   have hmemN : (⟨e x, hxN⟩ * ⟨e y, hyN⟩ * ⟨e x, hxN⟩⁻¹ * ⟨e y, hyN⟩⁻¹ : N) ∈
@@ -154,9 +154,9 @@ theorem kL2TorusSelfCent_holds :
     rw [← hH'card]
     exact hH'odd
   have hHU : H' ⊓ (U : Subgroup (PSL2 (GaloisField 2 k))) = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (by
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
       rw [hH'card, hUcard]
-      exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hH'odd'))
+      exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hH'odd'))))
   have hNcard : Nat.card (Subgroup.normalizer ((U : Subgroup (PSL2 (GaloisField 2 k))) :
       Set (PSL2 (GaloisField 2 k)))) = 2 ^ k * (2 ^ k - 1) :=
     psl2_even_card_normalizer_sylow_two (f := k) (by omega) U
@@ -204,8 +204,8 @@ private theorem psl2_fieldAut_diag_eq_of_mem_borel_mod_upper
     (hd : d ∈ burnsideAut_psl2Diag K)
     (hcent : θ (u * d) * (u * d)⁻¹ ∈ psl2UpperUnipotentSubgroup K) :
     psl2FieldAut K σ d = d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.Semidihedral.FixedFieldData.characteristic_of_prime_power_card K Nat.prime_two hK
   let U := psl2UpperUnipotentSubgroup K
   let D := burnsideAut_psl2Diag K
@@ -311,8 +311,8 @@ private theorem psl2_odd_aut_inner_of_fixed_torus
     have hm0 : m = 0 := by omega
     rw [hm0, mul_zero] at hkm
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.Semidihedral.FixedFieldData.characteristic_of_prime_power_card K Nat.prime_two hK
   let U := psl2UpperUnipotentSubgroup K
   let D := burnsideAut_psl2Diag K
@@ -371,9 +371,9 @@ private theorem psl2_odd_aut_inner_of_fixed_torus
     Nat.Even.sub_odd (Nat.two_pow_pos m)
       (Nat.even_pow.mpr ⟨even_two, by omega⟩) odd_one
   have hH₁U : H₁ ⊓ U = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (by
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
       rw [hH₁card, hUcard]
-      exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hH₁odd))
+      exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hH₁odd))))
   have hfix₁ : ∀ h ∈ H₁, θ₁ h * h⁻¹ ∈ U := by
     intro h hh
     obtain ⟨h', hh', rfl⟩ := Subgroup.mem_map.mp hh

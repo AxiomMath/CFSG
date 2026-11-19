@@ -118,7 +118,7 @@ theorem absKN_A10 {r : ℕ} (hr : r = 5) (isL34 : Prop) (E : Subgroup A10) (hE :
     have hcop : Nat.Coprime 5 (Nat.card X) := by
       rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_five]
       intro hd
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 hd
       have h1 : (x : MulAut A10) = 1 := hX5 x x.2 ⟨1, by simpa using hx⟩
       have h2 : x = 1 := Subtype.ext h1
@@ -129,8 +129,8 @@ theorem absKN_A10 {r : ℕ} (hr : r = 5) (isL34 : Prop) (E : Subgroup A10) (hE :
     refine CFSG.LocalAnalysis.RankFourTheoremC.SigAlt.eq_bot_of_card_ten (Ω := Fin 10) (by simp)
       (B := E.map (alternatingGroup (Fin 10)).subtype) ?_ ?_ ?_ ?_
     · rw [Subgroup.card_map_of_injective (alternatingGroup (Fin 10)).subtype_injective, hE]
-    · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-      have hc := IsPGroup.commutative_of_card_eq_prime_sq (p := 5) (G := E) (by rw [hE]; norm_num)
+    · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have hc := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) (G := E) (by rw [hE]; norm_num)).is_comm.comm
       rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
       have := congrArg Subtype.val (hc ⟨a, ha⟩ ⟨b, hb⟩)
       exact congrArg Subtype.val this
@@ -184,7 +184,7 @@ theorem commute_a₂_of_fix {x : A10} (hx : ∀ i, i ∉ O1 → (x : Perm (Fin 1
   exact hd.commute.eq
 
 theorem isSylowOf_S₀ : CFSG.ABGLocalTools.IsSylowOf 5 S₀ ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
   rw [card_S₀, Subgroup.card_top, factorization_A10]
   norm_num
@@ -200,12 +200,12 @@ theorem kMult_A10 (J : Type) [Group J] [Finite J] (hq : CFSG.Open.IsQuasisimple 
     (hA : CFSG.LocalAnalysis.UniquenessCase.UC22.IsAlt (J ⧸ N) 10)
     (hodd : Odd (Nat.card (center J))) : center J = ⊥ := by
   obtain ⟨e⟩ := hA
-  haveI : Group.IsPerfect J := ⟨hq.1⟩
+  have : Group.IsPerfect J := ⟨hq.1⟩
   let η : J →* alternatingGroup (Fin (8 + 2)) := e.toMonoidHom.comp (QuotientGroup.mk' N)
   have hη : Function.Surjective η := e.surjective.comp (QuotientGroup.mk'_surjective N)
   have hker : η.ker = N := by
     ext x
-    simp [η, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [η]
   have hK : η.ker ≤ center J := hker ▸ hN
   have hoddK : Odd (Nat.card η.ker) := by
     rw [hker]

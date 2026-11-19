@@ -122,7 +122,7 @@ private theorem owSp_detSpinorNorm_of_form {K V : Type*} [Field K] [AddCommGroup
   have ha0 : a ≠ 0 := fun h => ha (by rw [h, map_zero])
   have hformula : ∀ x, t x = x - (QuadraticMap.polar Q a x / Q a) • a :=
     (owSp_form_of_isRefl_form Q hQ horth ha0 β hβa hform).2
-  haveI : Invertible (Q a) := invertibleOfNonzero ha
+  have : Invertible (Q a) := invertibleOfNonzero ha
   have hrefl : t = TauCeti.QuadraticMap.reflection Q a := by
     ext x
     rw [hformula x, TauCeti.QuadraticMap.reflection_apply_eq_sub_div]
@@ -140,8 +140,8 @@ theorem wit_classRefl_of_mem_closure {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U
     [Module.Finite (ZMod p) U] (Q : QuadraticForm (ZMod p) U) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (c : ZMod p) (hc : c ≠ 0) {r : U ≃ₗ[ZMod p] U} (hr : IsRefl p r)
     (hmem : r ∈ closure (ClassRefl p Q c)) : r ∈ ClassRefl p Q c := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Invertible (2 : ZMod p) := invertibleOfNonzero (owSp_two_ne_zero hp2)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Invertible (2 : ZMod p) := invertibleOfNonzero (owSp_two_ne_zero hp2)
   have hClassOrth : ∀ t ∈ ClassRefl p Q c, t ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
     intro t ht
     exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr ht.2.1
@@ -214,7 +214,7 @@ theorem wit_classRefl_of_mem_closure {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U
     · exact Or.inr h
     · exact Or.inr h
     · exact Or.inl (h.trans hxx)
-  haveI : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
+  have : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
   have hneg1 : (-1 : (ZMod p)ˣ) ≠ 1 := by
     intro h
     have h' : (↑(-1 : (ZMod p)ˣ) : ZMod p) = ↑(1 : (ZMod p)ˣ) :=

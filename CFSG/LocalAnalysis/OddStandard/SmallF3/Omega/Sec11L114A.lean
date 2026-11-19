@@ -101,12 +101,12 @@ theorem sec11L114_pair_card {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a
 theorem sec11L114_pair_isDih2 {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hne : a ≠ b) : IsDih2 (zpowers a ⊔ zpowers b) := by
   refine ⟨1, le_rfl, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥(zpowers a ⊔ zpowers b) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥(zpowers a ⊔ zpowers b) :=
     ⟨⟨⟨a, mem_sup_left (mem_zpowers a)⟩, 1, fun h => ha1 (congrArg Subtype.val h)⟩⟩
   have hsq : ∀ g : ↥(zpowers a ⊔ zpowers b), g ^ 2 = 1 := fun g =>
     Subtype.ext (by rw [pow_two]; exact sec11L114_pair_sq ha hb hab g.2)
-  haveI : IsKleinFour ↥(zpowers a ⊔ zpowers b) :=
+  have : IsKleinFour ↥(zpowers a ⊔ zpowers b) :=
     ⟨sec11L114_pair_card ha hb hab ha1 hb1 hne, by
       rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
       exact fun g hg => orderOf_eq_prime (hsq g) hg⟩

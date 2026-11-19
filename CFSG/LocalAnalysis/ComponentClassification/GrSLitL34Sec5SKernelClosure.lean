@@ -304,7 +304,7 @@ theorem le_oddIn_of_stronglyClosed_inf (hGold : GoldschmidtStronglyClosedInput)
     K ≤ oddIn M := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := hS
-  have hS2 : IsPGroup 2 S := hT ▸ T.isPGroup'
+  have hS2 : IsPGroup 2 S := hT ▸ T.isPGroup
   have hMnormN : M ≤ normalizer (oddIn M : Set G) := by
     have h :=
       CFSG.ComponentClassification.UnbalancedGS.normalizer_le_normalizer_map_of_characteristic

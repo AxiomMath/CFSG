@@ -150,7 +150,7 @@ theorem unitary_case (hZ : Subgroup.center S = ⊥) {p : ℕ} (hp3 : p ≠ 3) (r
 
 theorem nonD4LieContraS_linearUnitary : NonD4LieContraS .linearUnitary := by
   intro S _ _ hs hna p hp hp3 idx hF hidx he hD Q x J q c
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   obtain ⟨d, hv⟩ := idx
   cases d with

@@ -102,7 +102,7 @@ private theorem twistKind_ne_inner_of_not_twistInner
     twistKind ρ χ i ≠ .inner := by
   intro h
   unfold twistKind at h
-  rw [if_neg hni] at h
+  rw [ite_eq_right hni] at h
   have hnexc : ¬ ((compRank (componentRoots χ i) = 6 ∧ (componentRoots χ i).ncard = 72) ∨
       (compRank (componentRoots χ i) = 4 ∧ (componentRoots χ i).ncard = 24 ∧
         ¬ twistInner (componentRoots χ i)
@@ -124,7 +124,7 @@ private theorem twistKind_ne_inner_of_not_twistInner
     have h1' : compRank (componentRoots χ i) + 1 = 2 * (compRank (componentRoots χ i) - 1) :=
       Nat.eq_of_mul_eq_mul_left hcpos h1
     omega
-  rw [if_neg hnexc, if_neg hntwoD, if_pos ⟨h2, hn⟩] at h
+  rw [ite_eq_right hnexc, ite_eq_right hntwoD, ite_eq_left ⟨h2, hn⟩] at h
   exact absurd h (by decide)
 
 theorem compRank_frameRoots_eq
@@ -172,9 +172,9 @@ private theorem label_A_rankOne
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, -, hK4, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_rankOne S hT i hr1 hn hq
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, h2]
   have hperf : commutator (SL(2, K)) = ⊤ :=
@@ -199,7 +199,7 @@ private theorem label_A_rankOne
     rw [hK2] at hK4
     by_contra hlt
     simp only [not_le] at hlt
-    interval_cases f <;> norm_num at hK4
+    interval_cases f; norm_num at hK4
   refine ⟨⟨.A, compRank (componentRoots (rootCharHom a) i), f⟩, rfl, rfl, h2f, ?_, ?_⟩
   · rw [hr1]
     exact largeEvenInLambda2_A 1 f (by norm_num) hf1 (fun _ => hf2)
@@ -230,9 +230,9 @@ private theorem label_A_splitFrame
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, -, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_splitFrame S hT i hν hψ hΨ π hπ
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, h2]
   have hperf : commutator (SL(ν, K)) = ⊤ :=
@@ -284,8 +284,8 @@ private theorem label_twA_unitaryFrame
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, -, h32, g, hgsurj, hgker⟩ :=
     exists_suCover_rationalComponent_unitaryFrame S hT i hν hψ hΨ π hπ hq
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have h2 : ringChar L = 2 := ringChar.eq L 2
   have hmodelL : StatedClassicalModel
       (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
@@ -417,7 +417,7 @@ theorem rationalLabel_typeA
           (componentRoots (rootCharHom a) i)]) π hπ
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos hinner]
+      rw [ite_eq_left hinner]
     obtain ⟨lab, htag, hrank, hdeg, hlab, hhas⟩ :=
       label_A_splitFrame S hT i hν hψ hΨ π hπ hcr
     exact ⟨lab, hdeg, hrank, fun _ => htag, fun hsu => by

@@ -25,7 +25,7 @@ theorem sylowIn_le (T : Sylow 2 ↥(centralizer ({t} : Set X))) :
 
 omit [Finite X] in
 theorem isPGroup_sylowIn (T : Sylow 2 ↥(centralizer ({t} : Set X))) : IsPGroup 2 (sylowIn T) :=
-  T.isPGroup'.map _
+  T.isPGroup.map _
 
 omit [Finite X] in
 theorem mem_sylow (h : Config t L) (T : Sylow 2 ↥(centralizer ({t} : Set X))) :
@@ -78,7 +78,7 @@ theorem card_inf_L (h : Config t L) (T : Sylow 2 ↥(centralizer ({t} : Set X)))
     rw [Sylow.card_eq_multiplicity, h.factorization_card_L]; norm_num
   set Q' : Subgroup (centralizer ({t} : Set X)) :=
     ((Q : Subgroup L).map L.subtype).comap (centralizer ({t} : Set X)).subtype with hQ'
-  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup'.map L.subtype).comap_of_injective _
+  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup.map L.subtype).comap_of_injective _
     (subtype_injective _)
   obtain ⟨T', hT'⟩ := hQ'p.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (centralizer ({t} : Set X)) T' T

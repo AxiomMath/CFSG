@@ -57,13 +57,13 @@ private noncomputable def kleinFrame (hσ : IsUnitaryInvolution σ) (c : Frame �
   line j := K ∙ kleinWedge (kleinGen hσ c 0) (kleinGen hσ c j.succ)
   isFlipflopPt_line j := by
     have h00 : herm σ (kleinGen hσ c 0) (kleinGen hσ c 0) = 1 := by
-      rw [kleinGen_herm]; exact if_pos rfl
+      rw [kleinGen_herm]; exact ite_eq_left rfl
     have hjj : herm σ (kleinGen hσ c j.succ) (kleinGen hσ c j.succ) = 1 := by
-      rw [kleinGen_herm]; exact if_pos rfl
+      rw [kleinGen_herm]; exact ite_eq_left rfl
     have hj0 : herm σ (kleinGen hσ c j.succ) (kleinGen hσ c 0) = 0 := by
-      rw [kleinGen_herm]; exact if_neg (Fin.succ_ne_zero j)
+      rw [kleinGen_herm]; exact ite_eq_right (Fin.succ_ne_zero j)
     have h0j : herm σ (kleinGen hσ c 0) (kleinGen hσ c j.succ) = 0 := by
-      rw [kleinGen_herm]; exact if_neg fun h => Fin.succ_ne_zero j h.symm
+      rw [kleinGen_herm]; exact ite_eq_right fun h => Fin.succ_ne_zero j h.symm
     have hone : flipHerm σ (kleinWedge (kleinGen hσ c 0) (kleinGen hσ c j.succ))
         (kleinWedge (kleinGen hσ c 0) (kleinGen hσ c j.succ)) = 1 := by
       rw [flipHerm_kleinWedge, h00, hjj, hj0, h0j, mul_one, mul_zero, add_zero]
@@ -82,17 +82,17 @@ private noncomputable def kleinFrame (hσ : IsUnitaryInvolution σ) (c : Frame �
     obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hu
     obtain ⟨b, rfl⟩ := Submodule.mem_span_singleton.mp hv
     have h00 : herm σ (kleinGen hσ c 0) (kleinGen hσ c 0) = 1 := by
-      rw [kleinGen_herm]; exact if_pos rfl
+      rw [kleinGen_herm]; exact ite_eq_left rfl
     have hkj : herm σ (kleinGen hσ c k.succ) (kleinGen hσ c j.succ) = 0 := by
       rw [kleinGen_herm]
-      exact if_neg fun h => hjk (by
+      exact ite_eq_right fun h => hjk (by
         have h' := congrArg Fin.val h
         simp only [Fin.val_succ] at h'
         exact Fin.ext (by omega))
     have hk0 : herm σ (kleinGen hσ c k.succ) (kleinGen hσ c 0) = 0 := by
-      rw [kleinGen_herm]; exact if_neg (Fin.succ_ne_zero k)
+      rw [kleinGen_herm]; exact ite_eq_right (Fin.succ_ne_zero k)
     have h0j : herm σ (kleinGen hσ c 0) (kleinGen hσ c j.succ) = 0 := by
-      rw [kleinGen_herm]; exact if_neg fun h => Fin.succ_ne_zero j h.symm
+      rw [kleinGen_herm]; exact ite_eq_right fun h => Fin.succ_ne_zero j h.symm
     rw [flipHerm_smul_left, flipHerm_smul_right, flipHerm_kleinWedge, h00, hkj, hk0, h0j]
     ring
 
@@ -423,7 +423,7 @@ theorem elt_kleinChamber_zero (hσ : IsUnitaryInvolution σ) (c : Frame σ 4) :
       (c.spanAt ({0, 1} : Finset (Fin 4))) := by
   have hlast : (0 : Fin 3) ≠ Fin.last 2 := by decide
   have hmid : ¬ ((0 : Fin 3) : ℕ) + 1 = 2 := by decide
-  rw [FlipFrame.elt, if_neg hlast, if_neg hmid]
+  rw [FlipFrame.elt, ite_eq_right hlast, ite_eq_right hmid]
   have hsub : (kleinFrame hσ c).sub 1 = (kleinFrame hσ c).line 0 := by
     rw [FlipFrame.sub,
       show (Finset.univ.filter fun l : Fin 3 => (l : ℕ) < 1) = {0} by decide]
@@ -438,7 +438,7 @@ theorem elt_kleinChamber_one (hσ : IsUnitaryInvolution σ) (c : Frame σ 4) :
       (c.spanAt ({0, 1, 2} : Finset (Fin 4))) := by
   have hlast : (1 : Fin 3) ≠ Fin.last 2 := by decide
   have hmid : ((1 : Fin 3) : ℕ) + 1 = 2 := by decide
-  rw [FlipFrame.elt, if_neg hlast, if_pos hmid, FlipFrame.alt]
+  rw [FlipFrame.elt, ite_eq_right hlast, ite_eq_left hmid, FlipFrame.alt]
   have hsub : (kleinFrame hσ c).sub 2 =
       (kleinFrame hσ c).line 0 ⊔ (kleinFrame hσ c).line 1 := by
     rw [FlipFrame.sub,
@@ -454,7 +454,7 @@ theorem elt_kleinChamber_one (hσ : IsUnitaryInvolution σ) (c : Frame σ 4) :
 theorem elt_kleinChamber_two (hσ : IsUnitaryInvolution σ) (c : Frame σ 4) :
     (kleinChamber hσ c).elt 2 = kleinLine (c.line 0) ⊤ := by
   have hlast : (2 : Fin 3) = Fin.last 2 := by decide
-  rw [FlipFrame.elt, if_pos hlast]
+  rw [FlipFrame.elt, ite_eq_left hlast]
   have hsub : (kleinFrame hσ c).sub 3 =
       (kleinFrame hσ c).line 0 ⊔ (kleinFrame hσ c).line 1 ⊔ (kleinFrame hσ c).line 2 := by
     rw [FlipFrame.sub,

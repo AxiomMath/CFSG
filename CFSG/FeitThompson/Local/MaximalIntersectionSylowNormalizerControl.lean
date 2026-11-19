@@ -36,7 +36,7 @@ theorem lt_inf_normalizer_of_lt [Finite G] {R T : Subgroup G} (hp : p.Prime) (hT
   have hlt : R.subgroupOf T < ⊤ :=
     lt_top_iff_ne_top.2 fun h => hRT.not_ge (Subgroup.subgroupOf_eq_top.1 h)
   obtain ⟨x, hx1, hx2⟩ :=
-    SetLike.exists_of_lt (Subgroup.subgroupOf_normalizer_eq hRT.le ▸ hnc _ hlt)
+    _root_.IsConcreteLE.exists_of_lt (Subgroup.subgroupOf_normalizer_eq hRT.le ▸ hnc _ hlt)
   refine (le_inf le_normalizer hRT.le).lt_of_not_ge fun hle => hx2 ?_
   exact Subgroup.mem_subgroupOf.2 (hle ⟨Subgroup.mem_subgroupOf.1 hx1, x.2⟩)
 
@@ -48,8 +48,8 @@ theorem natCard_eq_pow_factorization_of_normalizer_le [Finite G] (hp : p.Prime)
   rcases eq_or_lt_of_le hT with h | hlt
   · rw [h, T.card_eq_multiplicity]
   · exact absurd (natCard_le_pow_factorization_of_isPGroup hp (inf_le_left.trans hNP)
-      (T.isPGroup'.to_le inf_le_right))
-      (by have := natCard_lt_natCard_of_lt (lt_inf_normalizer_of_lt hp T.isPGroup' hlt); omega)
+      (T.isPGroup.to_le inf_le_right))
+      (by have := natCard_lt_natCard_of_lt (lt_inf_normalizer_of_lt hp T.isPGroup hlt); omega)
 
 theorem exists_le_natCard_eq_pow_factorization [Finite G] (hp : p.Prime) {H R : Subgroup G}
     (hRH : R ≤ H) (hR : IsPGroup p R) :

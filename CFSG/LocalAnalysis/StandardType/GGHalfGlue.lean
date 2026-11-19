@@ -77,14 +77,14 @@ theorem uElt_mem : uElt φ₂ ∈ Bs :=
       Subgroup.subset_closure
         ⟨⟨0, by omega⟩, Or.inr ⟨by simp, by
           have h5 := h.nbr.2.2.1
-          simp only [Fin.val_mk]
+          simp only
           omega⟩, rfl⟩, rfl⟩)
 
 theorem wElt_mem : wElt φ₂ ∈ Bs :=
   h.torusK_le (Subgroup.mem_map.mpr
     ⟨omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩,
       Subgroup.subset_closure ⟨⟨m + 1, by omega⟩,
-        Or.inl (by simp only [Fin.val_mk]), rfl⟩, rfl⟩)
+        Or.inl (by simp only), rfl⟩, rfl⟩)
 
 theorem uElt_eq :
     uElt φ₂ = φ₁ (omegaBlock (m + 1 + 1) ⟨2, by have := h.nbr.2.2.1; omega⟩) := by
@@ -93,7 +93,7 @@ theorem uElt_eq :
       (φ₂.comp (slUpper2Hom m)) (omegaBlock m ⟨0, hm⟩) := by rw [h.coords.agree]
   simp only [MonoidHom.comp_apply] at hagree
   rw [slLower2Hom_omegaBlock, slUpper2Hom_omegaBlock] at hagree
-  simp only [Fin.val_zero, Nat.zero_add] at hagree
+  simp only [Nat.zero_add] at hagree
   simpa only [uElt] using hagree.symm
 
 theorem exists_eq_x_pow_mul_v_pow {b : G} (hb : b ∈ Bs) (hbJ : ∀ j ∈ J, b * j = j * b) :
@@ -170,7 +170,7 @@ theorem independent {p q r : ℤ} (hpqr : x ^ p * vElt φ₁ ^ q * uElt φ₂ ^ 
     exact hdisj (Subgroup.zpow_mem _ (Subgroup.mem_zpowers x) p) hxT
   have hpdvd : (3 : ℤ) ∣ p := by
     have hxord : orderOf x = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime hx3 hx1
     have := orderOf_dvd_iff_zpow_eq_one.mpr hxp1
     rwa [hxord] at this
@@ -215,7 +215,7 @@ theorem independent {p q r : ℤ} (hpqr : x ^ p * vElt φ₁ ^ q * uElt φ₂ ^ 
     exact hdisj hmem1 hmem2
   have hq : (3 : ℤ) ∣ q := by
     have hω0ord : orderOf (omegaBlock (m + 1 + 1) ⟨0, by omega⟩) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime (omegaBlock_pow_three _ _) (omegaBlock_ne_one _ _)
     have := orderOf_dvd_iff_zpow_eq_one.mpr hω0
     rwa [hω0ord] at this
@@ -229,7 +229,7 @@ theorem independent {p q r : ℤ} (hpqr : x ^ p * vElt φ₁ ^ q * uElt φ₂ ^ 
     exact hω2
   have hr : (3 : ℤ) ∣ r := by
     have haord : orderOf (omegaBlock m ⟨0, hm⟩) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime (omegaBlock_pow_three m ⟨0, hm⟩) (omegaBlock_ne_one m ⟨0, hm⟩)
     have := orderOf_dvd_iff_zpow_eq_one.mpr har
     rwa [haord] at this
@@ -237,7 +237,7 @@ theorem independent {p q r : ℤ} (hpqr : x ^ p * vElt φ₁ ^ q * uElt φ₂ ^ 
 
 theorem zSet_le : zSet φ₁ ⊆ Bs := by
   intro z hz
-  simp only [zSet, Set.mem_setOf_eq] at hz
+  simp only [zSet, Set.mem_ofPred_eq] at hz
   obtain ⟨k, hk2, -, rfl⟩ := hz
   exact h.torusL_le (Subgroup.mem_map.mpr
     ⟨omegaBlock (m + 1 + 1) k, Subgroup.subset_closure ⟨k, hk2, rfl⟩, rfl⟩)

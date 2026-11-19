@@ -161,7 +161,7 @@ theorem kgLangT3_model_lang_diag (k K : Type) [Field k] [Field K] [Algebra k K] 
     refine ⟨ζ, ?_, ?_⟩
     · rw [mul_inv_cancel, mul_one]
     · rw [hc', mul_inv_rev]
-      simp [mul_assoc]
+      simp
 
 theorem kgLangT3_model_lang_nine (k K : Type) [Field k] [Field K] [Algebra k K] [Finite K]
     (hdeg : Module.finrank k K = 3) (σ : K ≃ₐ[k] K) (hσ : orderOf σ = 3)
@@ -267,11 +267,11 @@ theorem kgLangT3_model_lang (k K : Type) [Field k] [Field K] [Algebra k K] [Fini
     (hx3 : x * triD4LineSigma k K σ x * triD4LineSigma k K (σ ^ 2) x = 1) :
     ∃ y : TriD4LineX k K, (∀ e ∈ E, y * e = e * y) ∧
       y * (x * triD4LineSigma k K σ y * x⁻¹)⁻¹ = z₀ := by
-  haveI hkfin : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  haveI hXfin : Finite (TriD4LineX k K) := inferInstance
-  haveI hEfin : Finite ↥E := inferInstance
+  have hkfin : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
+  have hXfin : Finite (TriD4LineX k K) := inferInstance
+  have hEfin : Finite ↥E := inferInstance
   have hEcard : ∃ n, Nat.card ↥E = 3 ^ n := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← IsPGroup.iff_card]
     intro g
     exact ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 (g : TriD4LineX k K) g.2)⟩

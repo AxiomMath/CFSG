@@ -119,8 +119,8 @@ theorem isReeFrob_of_reeEndo {L : Type} [Field L]
 private theorem exists_relationExponent_eq_pow (a : ℕ) (j : Fin ReeTag.F4.tag.rank) :
     ∃ k : ℕ, ReeTag.F4.relationExponent a j = 2 ^ k := by
   by_cases h : j ∈ ReeTag.F4.longSet
-  · exact ⟨a, by rw [ReeTag.relationExponent, if_pos h]; rfl⟩
-  · exact ⟨a + 1, by rw [ReeTag.relationExponent, if_neg h]; rfl⟩
+  · exact ⟨a, by rw [ReeTag.relationExponent, ite_eq_left h]; rfl⟩
+  · exact ⟨a + 1, by rw [ReeTag.relationExponent, ite_eq_right h]; rfl⟩
 
 private theorem exists_unit_pow_eq {L : Type} [Field L] [CharP L 2] [PerfectRing L 2]
     (m : ℕ) (x : Lˣ) : ∃ y : Lˣ, y ^ 2 ^ m = x := by

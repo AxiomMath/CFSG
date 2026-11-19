@@ -73,14 +73,14 @@ theorem indBetween_eq_indClassFun_of_map [Fintype G] (L : Subgroup G) (K : Subgr
   refine Finset.sum_congr rfl fun t _ => ?_
   by_cases hz : (t⁻¹ * y * t : ↥L) ∈ K
   · have hz' : (t⁻¹ * y * t : ↥L) ∈ N.subgroupOf L := by rw [hNK]; exact hz
-    rw [dif_pos hz, dif_pos hz']
+    rw [dite_eq_left hz, dite_eq_left hz']
     have hzN : ((t⁻¹ * y * t : ↥L) : G) ∈ N := (hmem _).2 hz
     rw [show extendZero θ (((⟨(t⁻¹ * y * t : ↥L), hz'⟩ : ↥(N.subgroupOf L)) : ↥L) : G)
         = θ ⟨((t⁻¹ * y * t : ↥L) : G), hzN⟩ from
       CFSG.FeitThompson.extendZero_coe θ ⟨_, hzN⟩]
     exact congrArg θ (Subtype.ext (he ⟨_, hz⟩).symm)
   · have hz' : (t⁻¹ * y * t : ↥L) ∉ N.subgroupOf L := by rw [hNK]; exact hz
-    rw [dif_neg hz, dif_neg hz']
+    rw [dite_eq_right hz, dite_eq_right hz']
 
 theorem indBetween_fittingOf [Fintype G] (M : Subgroup G) (θ : ↥(fittingOf M) → ℂ) :
     indBetween (fittingOf M) M θ = indClassFun (fittingRaw ↥M) (θ ∘ fittingEquiv M) :=
@@ -638,8 +638,8 @@ private theorem order_equation_aux
     rw [← Subgroup.orderOf_coe]; exact hordb
   have hHab : IsMulCommutative ↥(hallCoreOf M) :=
     ⟨⟨fun x y => e.injective (by rw [map_mul, map_mul, mul_comm])⟩⟩
-  haveI : IsMulCommutative ↥((hallCoreOf M).subgroupOf M) := isMulCommutative_subgroupOf hHab
-  haveI : ((hallCoreOf M).subgroupOf M).Normal := hsemiM.normal_subgroupOf
+  have : IsMulCommutative ↥((hallCoreOf M).subgroupOf M) := isMulCommutative_subgroupOf hHab
+  have : ((hallCoreOf M).subgroupOf M).Normal := hsemiM.normal_subgroupOf
   have hH' : Nat.card ↥((hallCoreOf M).subgroupOf M) = p ^ q :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHle).toEquiv).trans hHcard
   have hUQ' := isInternalSemidirectProduct_subgroupOf hsemiUW hsemiM.right_le
@@ -720,7 +720,7 @@ private theorem order_equation_aux
     obtain ⟨χ, hχ⟩ := exists_monoidHom_coe_eq_of_mem_Irr hθirr
     obtain ⟨x₀, hx₀⟩ : ∃ x₀, (θ : ↥((hallCoreOf M).subgroupOf M) → ℂ) x₀ ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hθ1 (funext hcon)
     refine hno ⟨θ, hθirr, apply_one_eq_one_of_mem_Irr hθirr, hθ, ?_⟩
     intro hall

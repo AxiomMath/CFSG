@@ -14,7 +14,7 @@ open scoped Pointwise CharTwo
 variable {m : ℕ} {K : Type} [Field K]
 
 private theorem two_eq_zero (h : UnitaryFieldData 2 m K) : (2 : K) = 0 := by
-  haveI := h.charP
+  have := h.charP
   exact CharP.cast_eq_zero K 2
 
 private theorem add_self_eq_zero (h : UnitaryFieldData 2 m K) (c : K) : c + c = 0 := by
@@ -41,22 +41,22 @@ theorem mem_traceZero_of_bar_eq (h : UnitaryFieldData 2 m K) {c : K} (hc : h.bar
 
 @[simp] theorem stdHermForm_stdIsoA_stdIsoA (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdIsoA stdIsoA = 0 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
-  simp [stdHermForm_apply, stdIsoA, Fin.sum_univ_three, h2]
+  simp [stdHermForm_apply, stdIsoA, Fin.sum_univ_three]
 
 @[simp] theorem stdHermForm_stdIsoB_stdIsoB (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdIsoB stdIsoB = 0 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
-  simp [stdHermForm_apply, stdIsoB, Fin.sum_univ_three, h2]
+  simp [stdHermForm_apply, stdIsoB, Fin.sum_univ_three]
 
 @[simp] theorem stdHermForm_stdNormC_stdNormC (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdNormC stdNormC = 1 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   have h3 : (1 : K) + 1 + 1 = 1 := by rw [h2, zero_add]
-  simp [stdHermForm_apply, stdNormC, Fin.sum_univ_three, h3]
+  simp [stdHermForm_apply, stdNormC, Fin.sum_univ_three]
 
 @[simp] theorem stdHermForm_stdIsoA_stdIsoB (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdIsoA stdIsoB = 1 := by
@@ -68,15 +68,15 @@ theorem mem_traceZero_of_bar_eq (h : UnitaryFieldData 2 m K) {c : K} (hc : h.bar
 
 @[simp] theorem stdHermForm_stdIsoA_stdNormC (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdIsoA stdNormC = 0 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
-  simp [stdHermForm_apply, stdIsoA, stdNormC, Fin.sum_univ_three, h2]
+  simp [stdHermForm_apply, stdIsoA, stdNormC, Fin.sum_univ_three]
 
 @[simp] theorem stdHermForm_stdIsoB_stdNormC (h : UnitaryFieldData 2 m K) :
     stdHermForm h 3 stdIsoB stdNormC = 0 := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
-  simp [stdHermForm_apply, stdIsoB, stdNormC, Fin.sum_univ_three, h2]
+  simp [stdHermForm_apply, stdIsoB, stdNormC, Fin.sum_univ_three]
 
 theorem stdIsoA_ne_zero : (stdIsoA : Fin 3 → K) ≠ 0 := by
   intro h0
@@ -143,7 +143,7 @@ theorem stdHermForm_stdIso_add_self (h : UnitaryFieldData 2 m K) (t : K) :
     add_zero]
   ring
 
-theorem unitarySU_smul_def (h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
+theorem unitarySU_smul_def (_h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
     (v : Fin 3 → K) :
     g • v = mulVecLin ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) v := by
   rw [Subgroup.smul_def]
@@ -167,7 +167,7 @@ theorem ptTransvection_mul_self (h : UnitaryFieldData 2 m K) {a : Fin 3 → K}
 
 theorem ptTransvection_mem_isotropicTransvectionGroup (h : UnitaryFieldData 2 m K)
     {L : Submodule K (Fin 3 → K)} (hL : L ∈ isotropicLines h 3) {a : Fin 3 → K}
-    (ha : a ∈ L) (ha0 : a ≠ 0) (c : h.traceZero) :
+    (ha : a ∈ L) (_ha0 : a ≠ 0) (c : h.traceZero) :
     ptTransvection h ((mem_isotropicLines.mp hL).2 a ha) c ∈
       isotropicTransvectionGroup h 3 L := by
   obtain ⟨g, hg, hgm⟩ := exists_mem_isotropicTransvectionGroup h hL ha c.2
@@ -204,7 +204,7 @@ theorem ptTransvection_stdIsoB_mul_ptTransvection_stdIsoA_mul
 
 theorem stdHermForm_norm_smul (h : UnitaryFieldData 2 m K) (s : K) (w : Fin 3 → K) :
     stdHermForm h 3 (s • w) (s • w) = h.norm s * stdHermForm h 3 w w := by
-  simp only [map_smulₛₗ, map_smul, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply,
+  simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply,
     UnitaryFieldData.norm]
   ring
 
@@ -223,7 +223,7 @@ theorem exists_mem_stdLineSU2_hermTransvection (h : UnitaryFieldData 2 m K)
     ∃ g ∈ stdLineSU2 h,
       mulVecLin ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
         hermTransvection (stdHermForm h 3) v c := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨s, t, hst⟩ := mem_stdLinePlane.mp hv
   subst hst
   by_cases hs : s = 0
@@ -287,11 +287,11 @@ theorem linearIndependent_stdIso (h : UnitaryFieldData 2 m K) :
   rw [LinearIndependent.pair_iff]
   intro s t hst
   have h1 := congrArg (fun w => stdHermForm h 3 w (stdIsoB : Fin 3 → K)) hst
-  simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, map_smulₛₗ,
+  simp only [map_add, LinearMap.add_apply, LinearMap.smul_apply, map_smulₛₗ,
     stdHermForm_stdIsoA_stdIsoB, stdHermForm_stdIsoB_stdIsoB, smul_eq_mul, mul_one, mul_zero,
     add_zero, map_zero, LinearMap.zero_apply] at h1
   have h2 := congrArg (fun w => stdHermForm h 3 w (stdIsoA : Fin 3 → K)) hst
-  simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, map_smulₛₗ,
+  simp only [map_add, LinearMap.add_apply, LinearMap.smul_apply, map_smulₛₗ,
     stdHermForm_stdIsoA_stdIsoA, stdHermForm_stdIsoB_stdIsoA, smul_eq_mul, mul_one, mul_zero,
     zero_add, map_zero, LinearMap.zero_apply] at h2
   exact ⟨h.bar_eq_zero_iff.mp h1, h.bar_eq_zero_iff.mp h2⟩
@@ -334,7 +334,7 @@ theorem exists_stdLinePlane_orthonormalBasis' (h : UnitaryFieldData 2 m K) :
         ↥(stdLinePlane (K := K)),
       ∀ i j, (stdHermForm h 3) ((e i : ↥stdLinePlane) : Fin 3 → K)
         ((e j : ↥stdLinePlane) : Fin 3 → K) = if i = j then 1 else 0 := by
-  haveI : FiniteDimensional K ↥(stdLinePlane (K := K)) := inferInstance
+  have : FiniteDimensional K ↥(stdLinePlane (K := K)) := inferInstance
   have hsymm : ((stdHermForm h 3).domRestrict₁₂ stdLinePlane stdLinePlane).IsSymm :=
     ⟨fun x y => by
       rw [LinearMap.domRestrict₁₂_apply, LinearMap.domRestrict₁₂_apply]
@@ -435,7 +435,7 @@ theorem stdLinePlane_orthogonal_stdNormC (h : UnitaryFieldData 2 m K) {w : Fin 3
     (hw : w ∈ stdLinePlane (K := K)) :
     stdHermForm h 3 w (stdNormC : Fin 3 → K) = 0 := by
   obtain ⟨s, t, rfl⟩ := mem_stdLinePlane.mp hw
-  simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, map_smulₛₗ,
+  simp only [map_add, LinearMap.add_apply, LinearMap.smul_apply, map_smulₛₗ,
     stdHermForm_stdIsoA_stdNormC, stdHermForm_stdIsoB_stdNormC, smul_eq_mul, mul_zero, add_zero]
 
 theorem stdLinePlane_sup_stdNormC_eq_top (h : UnitaryFieldData 2 m K) :
@@ -505,7 +505,7 @@ theorem exists_norm_one_stdLinePlane_of_not_le (h : UnitaryFieldData 2 m K)
     (hzW : ¬ z ≤ stdLinePlane (K := K)) :
     ∃ w ∈ stdLinePlane (K := K), stdHermForm h 3 w w = 1 ∧
       z = Submodule.span K {(w : Fin 3 → K) + stdNormC} := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨v, hv0, hviso, hzv⟩ := exists_eq_span_of_mem_isotropicLines hz
   obtain ⟨w₀, hw₀, lam, hdecomp⟩ := exists_stdLinePlane_add_stdNormC h v
   have hlam : lam ≠ 0 := by
@@ -528,7 +528,7 @@ theorem exists_norm_one_stdLinePlane_of_not_le (h : UnitaryFieldData 2 m K)
       exact hviso
     simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, map_smulₛₗ,
       hwc, hcw, stdHermForm_stdNormC_stdNormC, smul_eq_mul, mul_one, mul_zero, zero_add,
-      add_zero, UnitaryFieldData.norm] at h1
+      add_zero] at h1
     have h3 : stdHermForm h 3 w₀ w₀ = lam * h.bar lam := by
       have := eq_neg_of_add_eq_zero_right h1
       simpa using this.symm
@@ -615,11 +615,11 @@ theorem stdLinePlane_eq_stdPointA_sup_stdPointB :
   rw [stdLinePlane, stdPointA, stdPointB, ← Submodule.span_union]
   congr 1
 
-theorem unitarySU_smul_sup (h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
+theorem unitarySU_smul_sup (_h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
     (A B : Submodule K (Fin 3 → K)) : g • (A ⊔ B) = g • A ⊔ g • B := by
   simp only [Subgroup.smul_def, smul_eq_map, Submodule.map_sup]
 
-theorem unitarySU_smul_mono (h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
+theorem unitarySU_smul_mono (_h : UnitaryFieldData 2 m K) (g : unitarySU 2 m K 3)
     {A B : Submodule K (Fin 3 → K)} (hAB : A ≤ B) : g • A ≤ g • B := by
   simp only [Subgroup.smul_def, smul_eq_map]
   exact Submodule.map_mono hAB

@@ -36,7 +36,7 @@ theorem a5_lift (h : Setup28 W K S)
       (∀ b ∈ B, ∃ k : ↥K, (k : X) ∈ Ik ∧ piOf e k = b) ∧
       ∀ k : ↥K, (k : X) ∈ Ik → piOf e k = 1 → (k : X) ∈ W := A5Lift.a5_lift_aux h e hB
 
-theorem a5_S_dec (h : Setup28 W K S) (hR : Red28 W K S)
+theorem a5_S_dec (h : Setup28 W K S) (_hR : Red28 W K S)
     {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin 7))}
     (hroot : ActsLikeRootFourCQ (bar W S) (bar W K) 7 e)
     (hS4 : Nat.card ↥(bar W S ⊓ bar W K) = 4) (hind : Nat.card ↥(indAut W K S) = 4) :
@@ -67,6 +67,7 @@ theorem a5_I_dec_zker (h : Setup28 W K S) (hR : Red28 W K S) (d : A5Data W K S e
     (∀ i ∈ Ik ⊔ S, ∃ k ∈ K, k ∈ Ik ⊔ S ∧ i * k⁻¹ ∈ kerAct W K S) ∧
       (Ik ⊔ S) ⊓ zPre W K ≤ kerAct W K S := A5Hom.a5_I_dec_zker_aux h hR d
 
+omit [Finite X] in
 theorem a5_I_gen (h : Setup28 W K S) (hR : Red28 W K S) (d : A5Data W K S e V₄ B Ik) :
     ∀ H : Subgroup X, H ≤ K → (Ik ⊔ S) ⊓ K ≤ H →
       (∀ k ∈ K, k ∈ Subgroup.normalizer (S : Set X) → k ∈ H) → K ≤ H ⊔ (K ⊓ kerAct W K S) :=
@@ -74,6 +75,7 @@ theorem a5_I_gen (h : Setup28 W K S) (hR : Red28 W K S) (d : A5Data W K S e V₄
 
 end A5Leaves
 
+omit [Finite X] in
 theorem a5_nochar (h : Setup28 W K S) (hR : Red28 W K S) (hd : ¬ Concl28d K S) {I : Subgroup X}
     (hI : A5Frame W K S I) : CFSG.QuasithinUnique.Setup.Campbell.NoCharNormal S I :=
   A5Fr.a5_nochar_aux h hR hd hI

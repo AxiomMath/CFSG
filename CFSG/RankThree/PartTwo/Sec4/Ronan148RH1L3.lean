@@ -18,6 +18,7 @@ namespace L3
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem eq_one_of_commute_mulEquiv (hK : Nat.card K % 3 = 2) {S' : Type} [Group S']
     (e : S' ≃* SpecialLinearGroup (Fin 3) K) {y c : S'} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (hyc : y * c = c * y) (hc2 : c ^ 2 = 1) : c = 1 := by
@@ -26,11 +27,12 @@ theorem eq_one_of_commute_mulEquiv (hK : Nat.card K % 3 = 2) {S' : Type} [Group 
     (by rw [← map_mul, ← map_mul, hyc]) (by rw [← map_pow, hc2, map_one])
   exact (map_eq_one_iff e e.injective).mp h
 
+omit [Finite K] in
 theorem false_of_quasisimple_le (hK : Nat.card K % 3 = 2) {S' : Type} [Group S'] [Finite S']
     (e : S' ≃* SpecialLinearGroup (Fin 3) K) {y : S'} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (Q : Subgroup S') (hQC : Q ≤ Subgroup.centralizer ({y} : Set S')) (hQ : IsQuasisimple Q) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev := CFSG.RankThree.OddKernel.even_card_of_isQuasisimple hQ
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Q) 2 (even_iff_two_dvd.mp hev)
   have hc2 : (c : S') ^ 2 = 1 := by
@@ -44,7 +46,7 @@ theorem false_of_quasisimple_le (hK : Nat.card K % 3 = 2) {S' : Type} [Group S']
 theorem noCfgS427_sl3 (hK : Nat.card K % 3 = 2) :
     NoCfgS427 (SpecialLinearGroup (Fin 3) K) := by
   intro σ h3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime h3 h1
   by_cases hin : CFSG.RankThree.PartTwo.KFacts.IsInnerAut σ
   · obtain ⟨x, rfl, hx3, hx1⟩ := RonanKChevTwo.exists_conj_of_isInnerAut
@@ -70,7 +72,7 @@ theorem noCfgS427_sl3 (hK : Nat.card K % 3 = 2) :
       rfl
     rw [hfix]
     obtain ⟨hs, hna⟩ := CFSG.RankThree.OddKernel.isSimpleGroup_of_isQuasisimple hq hZ
-    haveI := hs
+    have := hs
     refine good427_of_le_simple le_rfl hna ?_ fun _ hQC _ => hQC
     rw [Nat.card_congr eC.toEquiv, ← CFSG.Open.StatedAPI.card_statedSL,
       CFSG.Open.StatedAPI.card_statedSL_three]
@@ -87,6 +89,7 @@ theorem noCfgS427_sl3 (hK : Nat.card K % 3 = 2) :
     have := Nat.mul_le_mul a1 a3
     omega
 
+omit [Finite K] [CharP K 2] in
 theorem statedScalars_subgroupOf_statedSL3_eq_bot (hK : Nat.card K % 3 = 2) :
     (CFSG.Open.StatedScalars (Fin 3) K).subgroupOf (CFSG.Open.StatedSL 3 K) = ⊥ := by
   rw [eq_bot_iff]
@@ -106,7 +109,7 @@ theorem center_eq_bot_of_sl3
     (hK : Nat.card K % 3 = 2) {L : Type} [Group L] [Finite L]
     (hL : IsQuasisimple L) (hZ3 : IsPGroup 3 (Subgroup.center L))
     (e : L ⧸ Subgroup.center L ≃* projSL 3 K) : Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hL.1
+  have : Group.IsPerfect L := hL.1
   have hodd : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
     rw [hk]

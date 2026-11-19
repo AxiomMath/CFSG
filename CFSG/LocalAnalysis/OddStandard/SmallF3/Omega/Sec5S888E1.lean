@@ -30,7 +30,7 @@ private lemma s888Check :
   decide +kernel
 
 theorem comb_pair_of_card {P : Subgroup (Equiv.Perm (Fin 4))} (hP : ∀ a ∈ P, a * a = 1)
-    {W : Finset (Fin 4 → ZMod 2)} (h0 : 0 ∈ W) (hadd : ∀ x ∈ W, ∀ y ∈ W, x + y ∈ W)
+    {W : Finset (Fin 4 → ZMod 2)} (_h0 : 0 ∈ W) (_hadd : ∀ x ∈ W, ∀ y ∈ W, x + y ∈ W)
     (heven : ∀ x ∈ W, IsEvenVec x) (hfix : ∀ x ∈ W, ∀ a ∈ P, ∀ i, x (a i) = x i)
     (hcard : 16 ≤ Nat.card P * W.card) :
     ∃ c d : Fin 4, c ≠ d ∧ ∀ a ∈ P, (a c = c ∧ a d = d) ∨ (a c = d ∧ a d = c) := by

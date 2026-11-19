@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 section ASeven
 
 
+omit [Finite G] in
 private theorem quotient_conj_a7 (O : Subgroup G) [O.Normal]
     (hOodd : Odd (Nat.card O)) {a b : G}
     (ha : orderOf a = 2) (hzord : orderOf (a * b) = 2)
@@ -49,7 +50,7 @@ private theorem not_a7_quotient {a b : G}
     (e7 : Nonempty (G ⧸ CFSG.pPrimeCore 2 G ≃* alternatingGroup (Fin 7))) : False := by
   classical
   let O : Subgroup G := CFSG.pPrimeCore 2 G
-  haveI hOn : O.Normal := CFSG.pPrimeCore_normal
+  have hOn : O.Normal := CFSG.pPrimeCore_normal
   have hOodd : Odd (Nat.card O) := by
     dsimp [O]
     exact CFSG.Walter.W67.odd_card_pPrimeCore G

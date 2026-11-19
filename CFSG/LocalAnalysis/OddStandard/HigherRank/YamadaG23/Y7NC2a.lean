@@ -12,9 +12,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F M : Subgroup G}
 
+omit [Finite G] in
 private lemma inv_mul_inv_comm {a b : G} (h : a * b = b * a) : a⁻¹ * b⁻¹ = b⁻¹ * a⁻¹ := by
   rw [← mul_inv_rev, ← mul_inv_rev, h]
 
+omit [Finite G] in
 private lemma conj_conjSub_eq_comm {t g v : G} (htg : t * g = g * t) :
     g * (t * v * t⁻¹) * g⁻¹ = t * (g * v * g⁻¹) * t⁻¹ := by
   calc g * (t * v * t⁻¹) * g⁻¹ = (g * t) * v * (t⁻¹ * g⁻¹) := by group
@@ -22,6 +24,7 @@ private lemma conj_conjSub_eq_comm {t g v : G} (htg : t * g = g * t) :
     _ = (t * g) * v * (g⁻¹ * t⁻¹) := by rw [inv_mul_inv_comm htg]
     _ = t * (g * v * g⁻¹) * t⁻¹ := by group
 
+omit [Finite G] in
 private lemma conjSub_eq_of_sq_conj {c : G} (hc : c ^ 2 = 1) {A : Subgroup G}
     (h : ∀ x ∈ A, c * x * c⁻¹ ∈ A) : conjSub c A = A := by
   have hc' : c * c = 1 := by simpa [pow_two] using hc
@@ -37,6 +40,7 @@ private lemma conjSub_eq_of_sq_conj {c : G} (hc : c ^ 2 = 1) {A : Subgroup G}
     rw [heq]
     exact h x hx
 
+omit [Finite G] in
 private lemma g_norm_P (h : NtTwo t g P U S F M) : ∀ x ∈ P, g * x * g⁻¹ ∈ P := by
   have hgU : conjSub g U = U := conjSub_eq_of_sq_conj h.sg.g_sq h.gU
   have hgU' : conjSub g (conjSub t U) = conjSub t U := by
@@ -58,6 +62,7 @@ private lemma g_norm_P (h : NtTwo t g P U S F M) : ∀ x ∈ P, g * x * g⁻¹ �
     (mem_conjSub_iff' g P _).mpr ⟨x, hx, rfl⟩
   rwa [hgP] at hmem
 
+omit [Finite G] in
 private lemma P0_le_normalizer_U (h : NtTwo t g P U S F M) :
     P ⊔ zpowers g ≤ Subgroup.normalizer (U : Set G) := by
   refine sup_le ?_ ?_
@@ -83,6 +88,7 @@ private lemma P0_le_normalizer_U (h : NtTwo t g P U S F M) :
         calc g * (g * v * g⁻¹) * g⁻¹ = (g * g) * v * (g⁻¹ * g⁻¹) := by group
           _ = v := by rw [hgg, hginv, hgg]; simp] at hconj
 
+omit [Finite G] in
 private lemma t_norm_P0 (h : NtTwo t g P U S F M) :
     ∀ x ∈ P ⊔ zpowers g, t * x * t⁻¹ ∈ P ⊔ zpowers g := by
   have htgconj : t * g * t⁻¹ = g := by rw [h.tg]; group

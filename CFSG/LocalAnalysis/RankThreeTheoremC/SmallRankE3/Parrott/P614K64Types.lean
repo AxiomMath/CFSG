@@ -137,7 +137,7 @@ theorem pow_le_prod_SL (n : ℕ) :
 theorem eq_four_of_card_SL {n : ℕ} (hn : 2 ≤ n)
     (hc : Nat.card (Matrix.SpecialLinearGroup (Fin n) (ZMod 2)) = 20160 ∨
       Nat.card (Matrix.SpecialLinearGroup (Fin n) (ZMod 2)) = 40320) : n = 4 := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   rw [card_SL_two] at hc
   rcases (show n = 2 ∨ n = 3 ∨ n = 4 ∨ 5 ≤ n by omega) with rfl | rfl | rfl | h5
   · revert hc

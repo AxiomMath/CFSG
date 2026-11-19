@@ -98,8 +98,8 @@ theorem perfectCore_centralizer_oddStdTorus (hF : 4 ≤ Nat.card F) :
     apply eq_zero_of_commute_diagonal (coe_ctEmbed_rootTorusHom_zero κ₀) hc
     rcases hI with rfl | rfl <;> fin_cases i <;> fin_cases j <;>
       simp at hij ⊢ <;>
-      first | exact hκ₀ | exact e1 | exact e1.symm | exact e2 | exact e2.symm | exact e3 |
-        exact e3.symm | exact e4 | exact e4.symm
+      first | exact hκ₀ | exact e1.symm |
+        exact e4 | exact e4.symm
   have hC : perfectCore C ≤ ⁅C, C⁆ := by
     rw [← perfectCore_perfect C]
     exact Subgroup.commutator_mono (perfectCore_le C) (perfectCore_le C)

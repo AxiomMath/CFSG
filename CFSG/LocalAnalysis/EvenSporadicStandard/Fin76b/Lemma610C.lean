@@ -13,7 +13,7 @@ theorem ncard_modEq_fixed_conj {G : Type*} [Group G] {O : Set G} (hO : O.Finite)
     (hy5 : y ^ 5 = 1) (h1 : ∀ u ∈ O, y * u * y⁻¹ ∈ O) (h2 : ∀ u ∈ O, y⁻¹ * u * y ∈ O) :
     O.ncard ≡ {u | u ∈ O ∧ y * u * y⁻¹ = u}.ncard [MOD 5] := by
   classical
-  haveI : Finite ↥O := hO.to_subtype
+  have : Finite ↥O := hO.to_subtype
   let σ : Equiv.Perm ↥O :=
     { toFun := fun u => ⟨y * u * y⁻¹, h1 u u.2⟩
       invFun := fun u => ⟨y⁻¹ * u * y, h2 u u.2⟩
@@ -96,7 +96,7 @@ theorem fix_X {α : G} (hα : AlphaSpec S z t α) {y : G} (hyB : y ∈ B) (hy5 :
 theorem Oz_sub_X {α : G} (hα : AlphaSpec S z t α) {u : G}
     (hu : u ∈ {u : G | ∃ f ∈ Fsub h hα, u = f * z * f⁻¹}) : u ∈ XSet S E z := by
   obtain ⟨f, hf, rfl⟩ := hu
-  exact h.X_inv hf.1 h.z_mem_X
+  exact CFSG.EvenSporadicStandard.Fin76b.Hyp69.X_inv hf.1 h.z_mem_X
 
 theorem CFz_eq {α : G} (hα : AlphaSpec S z t α) :
     Fsub h hα ⊓ centralizer ({z} : Set G) = E ⊔ zpowers z := by

@@ -27,7 +27,7 @@ theorem odd_order_of_central {G : Type*} [Group G] {R : Subgroup G} [Finite R]
     ∀ z ∈ R, (∀ x ∈ R, Commute z x) → ∃ N : ℕ, Odd N ∧ z ^ N = 1 := by
   intro z hz hzc
   set Z : Subgroup G := R ⊓ Subgroup.centralizer (R : Set G) with hZ
-  haveI : Finite Z := Finite.of_injective (Subgroup.inclusion (inf_le_left : Z ≤ R))
+  have : Finite Z := Finite.of_injective (Subgroup.inclusion (inf_le_left : Z ≤ R))
     (Subgroup.inclusion_injective _)
   have hzZ : z ∈ Z := ⟨hz, Subgroup.mem_centralizer_iff.2 fun x hx => (hzc x hx).symm.eq⟩
   have hodd : Odd (Nat.card Z) := by
@@ -36,7 +36,7 @@ theorem odd_order_of_central {G : Type*} [Group G] {R : Subgroup G} [Finite R]
       rcases Nat.even_or_odd (Nat.card Z) with h | h
       · exact even_iff_two_dvd.1 h
       · exact absurd h hev
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h2d
     have hu2 : (u : G) ^ 2 ^ 1 = 1 := by
       have : u ^ 2 = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
@@ -118,7 +118,7 @@ theorem eq_one_of_two_central_of_hom {G : Type} [Group G] {C : Type*} [Group C]
     (hodd : Odd (Nat.card (Subgroup.center C))) {z : G} (hz : z ∈ f.range)
     (hzc : ∀ w ∈ f.range, Commute z w) (hz2 : ∃ n : ℕ, z ^ 2 ^ n = 1) : z = 1 := by
   obtain ⟨c, rfl⟩ := hz
-  haveI : Finite (Subgroup.center C) := Nat.finite_of_card_ne_zero hodd.pos.ne'
+  have : Finite (Subgroup.center C) := Nat.finite_of_card_ne_zero hodd.pos.ne'
   have hcc : ∀ y : C, ⁅c, y⁆ ∈ Subgroup.center C := by
     intro y
     apply hker
@@ -173,12 +173,12 @@ private theorem langSel_of_good {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 
   classical
   have hker := rho_mem_kernelRoots_of_mem_torus S hT
   have hform := S.frob.iform_eq
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
     (Set.finite_range _).to_subtype
-  haveI : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
-  haveI : Finite S.D.model := S.finite
+  have : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
+  have : Finite S.D.model := S.finite
   let R : Set.range (rationalRoots S.ρ (rootCharHom a)) →
       Subgroup (ModGL τ (AlgebraicClosure K)) :=
     fun O => rationalComponent S.ρ S.Γ (rootCharHom a) O.2.choose
@@ -249,7 +249,7 @@ private theorem langSel_of_good {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 
     obtain ⟨s, hs, hsc⟩ := exists_decomp_of_centralizes R hRcomm (hPle hg) hgc
     have hodd : ∀ O, ∃ N : ℕ, Odd N ∧ ((s O : R O) : ModGL τ (AlgebraicClosure K)) ^ N = 1 := by
       intro O
-      haveI := hRfin O
+      have := hRfin O
       refine odd_order_of_central (R := R O) (fun z hz hzc hz2 => ?_) _ (s O).2 fun x hx =>
         (Subgroup.mem_centralizer_iff.1 (hsc O) x hx).symm
       exact (hGood O.2.choose).2.2 z (by rw [hRspec]; exact (hRle O hz).1)
@@ -287,8 +287,8 @@ private theorem orbitPerfect_outerD {τ : Tag} {K : Type} [Field K] [Finite K]
     (hk : twistKind S.ρ (rootCharHom a) i = .twoD ∨ twistKind S.ρ (rootCharHom a) i = .exc) :
     OrbitCharElemPerfect S 2 a i := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hLℓ : ringChar (AlgebraicClosure K) = 2 := ringChar.eq _ 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
@@ -338,7 +338,7 @@ theorem commute_orbit_of_commute_component {τ : Tag} {K : Type} [Field K] [Fini
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -380,8 +380,8 @@ private theorem goodComp_outerD {τ : Tag} {K : Type} [Field K] [Finite K]
     (hk : twistKind S.ρ (rootCharHom a) i = .twoD ∨ twistKind S.ρ (rootCharHom a) i = .exc) :
     GoodComp S i := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
@@ -433,12 +433,12 @@ private theorem goodComp_inner {τ : Tag} {K : Type} [Field K] [Finite K]
     (i : KernelComponent (rootCharHom a)) (hk : twistKind S.ρ (rootCharHom a) i = .inner) :
     GoodComp S i := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hQ : 4 ≤ S.D.q ^ s := hq4.trans (Nat.le_self_pow hs0.ne' _)
   have hQS := rationalComponent_quasisimple_inner_of_four_leT S
     CFSG.HardMathSupport.Timmesfeld.RootAut.rootAutIsWeyl_holds hT i hk hQ
@@ -449,7 +449,7 @@ private theorem goodComp_inner {τ : Tag} {K : Type} [Field K] [Finite K]
     CFSG.HardMathSupport.Timmesfeld.RootAut.rootAutIsWeyl_holds hT i hk
   obtain ⟨σ, z₀, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hqe⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r = 2 := CharP.eq (AlgebraicClosure K) hchar hL2
   subst hr2
   have hσ' : ∀ c, σ c = c ^ (2 ^ (e * s)) := fun c => by rw [hσ, hqe, ← pow_mul]
@@ -468,7 +468,7 @@ private theorem goodComp_inner {τ : Tag} {K : Type} [Field K] [Finite K]
     rationalComponent_eq_range_componentRootSpanT S hT i hs hmin σ z₀ hnorm hz hsL
   have hfR : f.range ≤ rationalComponent S.ρ S.Γ (rootCharHom a) i :=
     hf2 (Subgroup.isPerfect_iff.1 hperfC)
-  haveI : Finite (fixSubfield σ) := by
+  have : Finite (fixSubfield σ) := by
     obtain ⟨hfin, -⟩ := CFSG.HardMathSupport.Timmesfeld.LangTorus.ncard_pow_eq_self
       (L := AlgebraicClosure K) 2 (e * s) hes
     have hset : (fixSubfield σ : Set (AlgebraicClosure K)) =
@@ -479,7 +479,7 @@ private theorem goodComp_inner {τ : Tag} {K : Type} [Field K] [Finite K]
       rfl
     have h1 : (fixSubfield σ : Set (AlgebraicClosure K)).Finite := by rw [hset]; exact hfin
     exact h1.to_subtype
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : CharP (fixSubfield σ) 2 :=
     RingHom.charP (fixSubfield σ).subtype (fixSubfield σ).subtype.injective 2
   have hCodd : Odd (Nat.card (Subgroup.center ↥(componentRootSpan (fixSubfield σ)
       (rootCharHom a) i))) := CFSG.StandardType.TagsExc.odd_card_center_componentRootSpan
@@ -508,8 +508,8 @@ theorem exists_unitary_frame {τ : Tag} {K : Type} [Field K] [Finite K]
         (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
           (componentRoots (rootCharHom a) i)] (σ x y) = σ (π y) (π x) := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
@@ -571,8 +571,8 @@ private theorem suN_compCharElem {τ : Tag} {K : Type} [Field K] [Finite K]
     (hne0 : (ν, S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) ≠ (3, 2)) :
     CompCharElem S 2 a i := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
@@ -581,7 +581,7 @@ private theorem suN_compCharElem {τ : Tag} {K : Type} [Field K] [Finite K]
       π hπ
   have hr2 : r = 2 := CharP.eq (AlgebraicClosure K) hchar hL2
   subst hr2
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   have hψS : ∀ X, ψ X ∈ rootSpan τ (AlgebraicClosure K) (componentRoots (rootCharHom a) i) :=
     fun X => by
       rw [hΨ, ← hψ.range]
@@ -690,8 +690,8 @@ theorem goodComp_suN {τ : Tag} {K : Type} [Field K] [Finite K]
       (componentRoots (rootCharHom a) i).ncard = 6)) :
     GoodComp S i := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ν, ψ, σ, hν, hψ, hΨ, π, hπ⟩ := exists_unitary_frame hK2 S hp hp2 hT hap i hk
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
@@ -721,7 +721,7 @@ theorem goodComp_suN {τ : Tag} {K : Type} [Field K] [Finite K]
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
   have hr2 : r = 2 := CharP.eq (AlgebraicClosure K) hchar hL2
   subst hr2
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he
       hq
@@ -737,10 +737,10 @@ theorem goodComp_suN {τ : Tag} {K : Type} [Field K] [Finite K]
     (rationalComponent_of_unitary_frame_T S hT i hν hψ hΨ π hπ).1 hne0
   obtain ⟨F, hFcard, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_equiv hr hes σQ hσc hν
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos Nat.two_pos _) 2).ne')
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := e * s)
     hFcard hν hne).2
   have hodd : Odd (Nat.card ↥(Subgroup.center ↥(CFSG.RankThree.Classical2.fixSubgroup

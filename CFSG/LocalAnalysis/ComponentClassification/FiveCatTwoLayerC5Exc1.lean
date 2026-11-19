@@ -31,7 +31,7 @@ theorem fiveTwoLayer_of_oddLieA5For
     {t : StatedLieTag} (ht : t ∈ chevalleyExceptionalTags) (h : C5Exc.OddLieA5For t) :
     FiveTwoLayerCharFiveClause t := by
   intro S _ _ hs hna ⟨n, f, hm⟩ σ P₁ P₂ h₁ h₂ hne hZ₁ hZ₂ e₁ e₂ huniq
-  haveI := hs
+  have := hs
   have hadm : StatedLieAdmissible t n 5 f := hm.admissible
   have hσ1 : σ ≠ 1 := h₁.ne_one
   have hσσ : σ * σ = 1 := MulEquiv.ext fun y => h₁.1 y

@@ -373,7 +373,7 @@ theorem signFix_isSolvable (hF : ringChar F ≠ 2) (ζ : MulAut SL(2, F))
     simp
   refine isSolvable_of_cyclic_sylow_two fun P => ?_
   set P' : Subgroup SL(2, F) := (P : Subgroup ↥(signFix ζ)).map (signFix ζ).subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hno : ∀ g₁ ∈ P', ∀ g₂ ∈ P', g₁ * g₁ = -1 → g₂ * g₂ = -1 →
       g₁ * g₂ = (-1 : SL(2, F)) * (g₂ * g₁) → False := by
     rintro g₁ ⟨h₁, -, rfl⟩ g₂ ⟨h₂, -, rfl⟩ e₁ e₂ e₃

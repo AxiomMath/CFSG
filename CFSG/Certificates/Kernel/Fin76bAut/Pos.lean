@@ -25,7 +25,7 @@ theorem eInnK_spec {ET T INN INE : ℕ → ℕ} {cnt ni : ℕ} (h : eInnK ET cnt
   refine ⟨Nat.le_of_ble_eq_true h1, Nat.le_of_ble_eq_true h2, fun hu1 => ?_,
     fun x hx => beq_t.1 (h4 x hx)⟩
   have hu1' : Nat.blt (Nat.succ u) ni = true := Nat.blt_eq.mpr hu1
-  rw [bIf_eq, if_pos hu1'] at h3
+  rw [bIf_eq, ite_eq_left hu1'] at h3
   exact Nat.blt_eq.mp h3
 
 theorem eQK_spec {T INN QC : ℕ → ℕ} {cnt ni : ℕ} (h : eQK cnt T ni INN QC = true) :

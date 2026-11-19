@@ -38,7 +38,7 @@ theorem inf_eq_map_of_sec19Data {K : Subgroup G} {S : Sylow 2 G} {Q₀ : Sylow 2
     (S : Subgroup G) ⊓ K = (Q₀ : Subgroup K).map K.subtype := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (((S : Subgroup G) ⊓ K).subgroupOf K) :=
-    (S.isPGroup'.to_le inf_le_left).comap_subtype
+    (S.isPGroup.to_le inf_le_left).comap_subtype
   have hle : (Q₀ : Subgroup K) ≤ ((S : Subgroup G) ⊓ K).subgroupOf K := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨x, hx, rfl⟩, x.2⟩
@@ -118,7 +118,7 @@ theorem inf_le_of_etaFacts {K : Subgroup G} {z : G} {S : Sylow 2 G}
     exact hv
   exfalso
   have hc2 : IsPGroup 2 (Subgroup.zpowers c) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hDT.toSec19Data.hWS hc.1))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hDT.toSec19Data.hWS hc.1))
   have htc := mem_zpowers_of_isUniqueInvolution hDT.invL hcL hc2 hc1
   have htY : t ∈ sec19Y K z := (Subgroup.zpowers_le.mpr hc.2) htc
   have ht : t ∈ V ⊓ sec19Y K z := ⟨hDT.memT, htY⟩
@@ -159,7 +159,7 @@ theorem isSylow2In_inf_centralizer {K : Subgroup G} {z : G} {S : Sylow 2 G}
   have hI := isUniqueInvolution_of_tight htb
   have hVL := le_of_sec19DataT hDT
   have hVS : V ≤ (S : Subgroup G) := hDT.leW.trans hd.hWS
-  refine ⟨le_inf hVL (hVS.trans hd.hSz), S.isPGroup'.to_le hVS, fun T hT hT2 hVT => ?_⟩
+  refine ⟨le_inf hVL (hVS.trans hd.hSz), S.isPGroup.to_le hVS, fun T hT hT2 hVT => ?_⟩
   obtain ⟨R', hR', hVR', hcard⟩ := exists_isSylow2In_of_sec19DataT hDT
   by_contra hne
   have hle : Nat.card R' ≤ Nat.card T := by

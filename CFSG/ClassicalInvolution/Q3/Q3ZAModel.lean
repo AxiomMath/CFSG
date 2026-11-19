@@ -326,10 +326,10 @@ theorem swap_mul_lb (x : SL(2, F3)) :
       (by simp [coords]), lb_mulVec_other 1 x (j := Sum.inr 0) (by simp [coords])]
 
 theorem swap_mul_sbU (t : F3) : swapElt * sb (usl t) = sb (lsl t) * swapElt := by
-  refine eq_of_mulVec_basis ?_ ?_ ?_ ?_ <;> (act_simp'; try module)
+  refine eq_of_mulVec_basis ?_ ?_ ?_ ?_ <;> (act_simp')
 
 theorem swap_mul_sbL (t : F3) : swapElt * sb (lsl t) = sb (usl t) * swapElt := by
-  refine eq_of_mulVec_basis ?_ ?_ ?_ ?_ <;> (act_simp'; try module)
+  refine eq_of_mulVec_basis ?_ ?_ ?_ ?_ <;> (act_simp')
 
 theorem iota_apply (x : StatedSp 2 F3) : iotaHom x = longInv F3 2 0 * x * (longInv F3 2 0)⁻¹ := rfl
 

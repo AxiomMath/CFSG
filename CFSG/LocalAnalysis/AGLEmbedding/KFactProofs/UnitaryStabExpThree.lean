@@ -39,7 +39,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
     show (rootGroup J hJ).map ((α⁻¹).toMonoidHom) = rootGroup J hJ
     have hcomp : (α⁻¹).toMonoidHom.comp α.toMonoidHom = MonoidHom.id _ := by
       ext x
-      simpa using MulAut.inv_apply_self _ α x
+      simp
     have h : (rootGroup J hJ).map ((α⁻¹).toMonoidHom.comp α.toMonoidHom) =
         rootGroup J hJ := by
       rw [hcomp, Subgroup.map_id]
@@ -148,7 +148,7 @@ private theorem isCyclic_rootStabilizer_quotient_rootBorelAut
       exact hxsup
     rw [hc1, one_mul]
     rfl
-  haveI hcycK : IsCyclic (K ≃+* K) := CFSG.GH74.GLS.IVK.ringAut_isCyclic K
+  have hcycK : IsCyclic (K ≃+* K) := CFSG.GH74.GLS.IVK.ringAut_isCyclic K
   exact isCyclic_of_surjective f hf
 
 private theorem isCyclic_rootBorelAut_quotient_rootInnerAut
@@ -182,7 +182,7 @@ private theorem inf_rootInnerAut_eq_bot_of_pow_eq_one
     IsPGroup.map (isPGroup_rootGroup J hJ hK hfix)
       (MulAut.conj : ProjectiveSpecialUnitaryMatrixGroup J →*
         MulAut (ProjectiveSpecialUnitaryMatrixGroup J))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := hE3p.exists_card_eq
   obtain ⟨b, hb⟩ := hR'p.exists_card_eq
   have h3p : Nat.Coprime 3 p :=
@@ -190,7 +190,7 @@ private theorem inf_rootInnerAut_eq_bot_of_pow_eq_one
   have hcop : (Nat.card E).Coprime (Nat.card (rootInnerAut J hJ)) := by
     rw [ha, hb]
     exact Nat.Coprime.pow a b h3p
-  exact Subgroup.inf_eq_bot_of_coprime hcop
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
 
 private theorem isCyclic_of_le_rootBorelAut
     (hK : Nat.card K = (p ^ f) ^ 2)
@@ -206,9 +206,9 @@ private theorem isCyclic_of_le_rootBorelAut
       Subgroup.normalizer (rootInnerAut J hJ :
         Set (MulAut (ProjectiveSpecialUnitaryMatrixGroup J)))
     exact sup_le Subgroup.le_normalizer (torusAut_range_le_normalizer_map_conj J hJ)
-  haveI : ((rootInnerAut J hJ).subgroupOf (rootBorelAut J hJ)).Normal :=
+  have : ((rootInnerAut J hJ).subgroupOf (rootBorelAut J hJ)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNB
-  haveI : IsCyclic ((rootBorelAut J hJ) ⧸
+  have : IsCyclic ((rootBorelAut J hJ) ⧸
       (rootInnerAut J hJ).subgroupOf (rootBorelAut J hJ)) :=
     isCyclic_rootBorelAut_quotient_rootInnerAut J hJ
   have hinf : E ⊓ rootInnerAut J hJ = ⊥ :=
@@ -239,7 +239,7 @@ private theorem card_le_three_of_le_rootBorelAut
     {E : Subgroup (MulAut (ProjectiveSpecialUnitaryMatrixGroup J))}
     (hEB : E ≤ rootBorelAut J hJ) (hEexp : ∀ x ∈ E, x ^ 3 = 1) :
     Nat.card E ≤ 3 := by
-  haveI : IsCyclic E := isCyclic_of_le_rootBorelAut J hJ hK hfix hp3 hEB hEexp
+  have : IsCyclic E := isCyclic_of_le_rootBorelAut J hJ hK hfix hp3 hEB hEexp
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := E)
   have hg3 : g ^ 3 = 1 := Subtype.ext (hEexp (g : MulAut _) g.2)
   have hdvd : orderOf g ∣ 3 := orderOf_dvd_of_pow_eq_one hg3
@@ -252,8 +252,8 @@ private theorem card_le_nine_of_le_rootStabilizer
     {A : Subgroup (MulAut (ProjectiveSpecialUnitaryMatrixGroup J))}
     (hAS : A ≤ rootStabilizer J hJ) (hexp : ∀ α ∈ A, α ^ 3 = 1) :
     Nat.card A ≤ 9 := by
-  haveI := normal_rootBorelAut_subgroupOf_rootStabilizer J hJ hK hfix hq
-  haveI : IsCyclic ((rootStabilizer J hJ) ⧸
+  have := normal_rootBorelAut_subgroupOf_rootStabilizer J hJ hK hfix hq
+  have : IsCyclic ((rootStabilizer J hJ) ⧸
       (rootBorelAut J hJ).subgroupOf (rootStabilizer J hJ)) :=
     isCyclic_rootStabilizer_quotient_rootBorelAut J hJ hK hfix hq
   let φ : A →* ((rootStabilizer J hJ) ⧸
@@ -285,7 +285,7 @@ private theorem card_le_nine_of_le_rootStabilizer
         exact hexp x.1.1 x.1.2
       rw [← map_pow, hx3, map_one]
   have hrange : Nat.card φ.range ≤ 3 := by
-    haveI : IsCyclic φ.range := Subgroup.isCyclic φ.range
+    have : IsCyclic φ.range := Subgroup.isCyclic φ.range
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := φ.range)
     have hg3 : g ^ 3 = 1 := by
       obtain ⟨x, hx⟩ := g.2
@@ -325,8 +325,8 @@ theorem card_le_nine_of_stabilizes_sylow {L : Type} [Group L] [Finite L] {p : �
     statedClassicalModel hd ⟨e⟩
   obtain ⟨-, hf, hq, K, hKfield, hKfin, J, hJ, hKcard, hfix, ⟨eP⟩⟩ :=
     exists_equiv_psu (f := d.1.fieldExponent) hcm
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨S, hS⟩ := exists_sylow_eq_rootGroup J hJ hKcard hfix hf
   obtain ⟨e', he'⟩ := exists_equiv_map_eq eP U S
   let Φ : MulAut L ≃* MulAut (ProjectiveSpecialUnitaryMatrixGroup J) := MulAut.congr e'

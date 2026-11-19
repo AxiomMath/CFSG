@@ -15,6 +15,7 @@ section Generic
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem s15_Three_top_of_fstar {B : Subgroup Γ} (hF : Fstar B = B) :
     CFSG.fittingSubgroup ↥B ⊔ CFSG.layer ↥B = ⊤ := by
   have hmap : (genFittingFStar ↥B).map B.subtype = B := hF
@@ -68,12 +69,12 @@ theorem s15_Three_perfect_le_of_two_index {X : Type} [Group X] [Finite X] {C N :
   obtain ⟨n, hn⟩ := hidx
   have hcard : Nat.card (X ⧸ N) = 2 ^ n := hn
   have hP : IsPGroup 2 (X ⧸ N) := IsPGroup.of_card (p := 2) hcard
-  haveI : Group.IsNilpotent (X ⧸ N) := hP.isNilpotent
+  have : Group.IsNilpotent (X ⧸ N) := hP.isNilpotent
   have hbot : C.map (QuotientGroup.mk' N) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(C.map (QuotientGroup.mk' N)) :=
+    have : Nontrivial ↥(C.map (QuotientGroup.mk' N)) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect ↥C := hC
+    have : Group.IsPerfect ↥C := hC
     have hperf : Group.IsPerfect ↥(C.map (QuotientGroup.mk' N)) :=
       Group.IsPerfect.map (QuotientGroup.mk' N)
     have hsol : Group.IsSolvable ↥(C.map (QuotientGroup.mk' N)) :=
@@ -93,7 +94,7 @@ theorem s15_Three_mem_layer_of_odd {X : Type} [Group X] [Finite X] {x : X} (hx :
     (hodd : Odd (Nat.card ↥(CFSG.fittingSubgroup X))) : x ∈ CFSG.layer X := by
   let F := CFSG.fittingSubgroup X
   let E := CFSG.layer X
-  haveI hEchar : E.Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
+  have hEchar : E.Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
   have hxFE : x ∈ F ⊔ E := by
     change x ∈ CFSG.fittingSubgroup X ⊔ CFSG.layer X
     rw [hF]
@@ -133,12 +134,13 @@ theorem s15_Three_no_two_quotient {B : Subgroup Γ} (hF : Fstar B = B)
   rw [eq_top_iff, ← htop]
   exact sup_le hFN hEN
 
+omit [Finite Γ] in
 theorem s15_Three_twoCore_of_normal {A B : Subgroup Γ} (hBA : B ≤ A)
     (hn : (B.subgroupOf A).Normal)
     (hO : ∀ P : Subgroup ↥A, P.Normal → IsPGroup 2 ↥P → P = ⊥) :
     ∀ P : Subgroup ↥B, P.Normal → IsPGroup 2 ↥P → P = ⊥ := by
   intro P hPN hPp
-  haveI : (B.subgroupOf A).Normal := hn
+  have : (B.subgroupOf A).Normal := hn
   let e : ↥(B.subgroupOf A) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBA
   let Q : Subgroup ↥A := (CFSG.pCore 2 ↥(B.subgroupOf A)).map (B.subgroupOf A).subtype
   have hQp : IsPGroup 2 ↥Q :=

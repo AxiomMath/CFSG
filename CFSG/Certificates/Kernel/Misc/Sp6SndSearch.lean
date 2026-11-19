@@ -94,13 +94,13 @@ private theorem bfsNew_spec (gens : List (List ℕ)) (known fr : List (List ℕ 
       unfold bfsStep
       by_cases h : ((known.any fun q => q.1 == compT p.1 (gens.getD i [])) ||
           (acc.any fun q => q.1 == compT p.1 (gens.getD i []))) = true
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         refine ⟨hI, fun q hq => hq, ?_⟩
         simp only [Bool.or_eq_true, List.any_eq_true, beq_iff_eq] at h
         rcases h with ⟨q, hq, hqe⟩ | ⟨q, hq, hqe⟩
         · exact Or.inl (List.mem_map.mpr ⟨q, hq, hqe⟩)
         · exact Or.inr (List.mem_map.mpr ⟨q, hq, hqe⟩)
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         simp only [Bool.or_eq_true, List.any_eq_true, beq_iff_eq, not_or, not_exists, not_and] at h
         obtain ⟨hk, ha⟩ := h
         obtain ⟨n1, n2, n3⟩ := hI
@@ -378,7 +378,7 @@ theorem mem_adjoin {x : List ℕ} {A : List (List ℕ)} (hx : IsTup x) (hA : ∀
       rw [codeL_eq_codeT, codeL_eq_codeT, e]
     rwa [this] at hc'
 
-private def eaStep (P : List (List ℕ)) (K : List (List (List ℕ))) (A : List (List ℕ))
+private def eaStep (_P : List (List ℕ)) (K : List (List (List ℕ))) (A : List (List ℕ))
     (acc : List (List (List ℕ))) (x : List ℕ) : List (List (List ℕ)) :=
   let B := adjoin x A
   if K.contains B || acc.contains B then acc else acc ++ [B]
@@ -411,10 +411,10 @@ private theorem eaNew_spec (P : List (List ℕ)) (K F : List (List (List ℕ))) 
       intro x hx acc hI
       unfold eaStep
       by_cases h : (K.contains (adjoin x A) || acc.contains (adjoin x A)) = true
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         refine ⟨hI, fun q hq => hq, ?_⟩
         simpa [Bool.or_eq_true, List.contains_iff_mem] using h
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         refine ⟨?_, fun q hq => List.mem_append_left _ hq, Or.inr (by simp)⟩
         intro B hB
         rcases List.mem_append.mp hB with hB | hB
@@ -471,7 +471,7 @@ theorem mem_eaClose_of_mem (P : List (List ℕ)) :
 private theorem mem_extenders {P A : List (List ℕ)} {x : List ℕ} :
     x ∈ extenders P A ↔ x ∈ P ∧ (compT x x = idT ∧ x ≠ idT) ∧ x ∉ A ∧
       ∀ a ∈ A, compT x a = compT a x := by
-  simp [extenders, isInvT, List.contains_iff_mem, and_assoc]
+  simp [extenders, isInvT, and_assoc]
 
 private theorem isEA_length_le {P A : List (List ℕ)} (hA : IsEA P A) : A.length ≤ P.length := by
   have h1 : (A.map codeT).Nodup := hA.2.2.2.2.2.imp fun h => Nat.ne_of_lt h

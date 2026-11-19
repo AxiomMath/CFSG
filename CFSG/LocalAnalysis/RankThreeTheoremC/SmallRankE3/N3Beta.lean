@@ -23,10 +23,10 @@ theorem cfg_of_plane63E3 {p : ℕ} {X : Type} [Group X] [Finite X] {P : Sylow p 
       ((P : Subgroup X).map (QuotientGroup.mk' (primeComplementCore (G := X) p)))
       (x : X ⧸ primeComplementCore (G := X) p) (z : X ⧸ primeComplementCore (G := X) p) := by
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   set π : X →* X ⧸ D := QuotientGroup.mk' D with hπ
-  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup
   have hB : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup X) :=
     IsPGroup.of_card (n := 2) hpl.plane.card_eq
   have hxB : x ∈ (zpowers x ⊔ zpowers z : Subgroup X) := Subgroup.mem_sup_left (mem_zpowers x)
@@ -148,7 +148,7 @@ theorem cfg_of_plane63E3 {p : ℕ} {X : Type} [Group X] [Finite X] {P : Sylow p 
       have h4 : a * x = x * a := by
         calc a * x = (a * x * a⁻¹ * x⁻¹) * (x * a) := by group
           _ = x * a := by rw [h3, one_mul]
-      first | exact h4 | exact h4.symm
+      first | exact h4
     have hsurj : Function.Surjective (fun a : E' => (⟨π a, hE'map a a.2⟩ : E)) := by
       rintro ⟨e, he⟩
       obtain ⟨g, hg, rfl⟩ := hcentE e he
@@ -199,9 +199,9 @@ theorem betaStructure_E3 (h64 : CFSG.LocalAnalysis.RankFourTheoremC.KFactCenterC
       hC (fun C => hcfg.dvd_card_comp C) h7131 hsplit
   refine le_trans ?_ hR
   refine CFSG.GH74.Uniqueness.SU.SU1.pRank_le_of fun E hEP hE k hk => ?_
-  have hEp : IsPGroup p E := (P.isPGroup').to_le hEP
+  have hEp : IsPGroup p E := (P.isPGroup).to_le hEP
   have hEm : IsElemAbelian p (E.map (QuotientGroup.mk' D)) := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨inferInstance, ?_⟩
     rintro _ ⟨e, he, rfl⟩
     show (QuotientGroup.mk' D e) ^ p = 1

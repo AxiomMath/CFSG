@@ -10,6 +10,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 theorem hyp711_of_mem (h : Hyp711 V H E) {U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     Hyp711 U H E := by
   have hO := omegaSet_eq_of_mem hU
@@ -39,7 +40,7 @@ theorem hyp711_of_mem (h : Hyp711 V H E) {U : Subgroup G} (hU : U ∈ omegaSet V
 
 theorem eq_zpowers_of_card_two {X : Type} [Group X] {S : Subgroup X} (hS : Nat.card S = 2)
     {a : X} (ha : a ∈ S) (ha1 : a ≠ 1) : S = zpowers a := by
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
   have hle : zpowers a ≤ S := (zpowers_le).mpr ha
   have hdvd : orderOf a ∣ 2 := hS ▸ Subgroup.orderOf_dvd_natCard S ha
   have hne : orderOf a ≠ 1 := fun h => ha1 (orderOf_eq_one_iff.mp h)
@@ -130,6 +131,7 @@ theorem commute_of_isPGroup (h : Hyp711 V H E) {X : Type} [Group X]
   intro u hu u' hu'
   exact hcomm u hu u' (by rw [hconj]; exact hu')
 
+omit [Finite G] in
 theorem card_barSub_of_mem (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : Nat.card (barSub (kSub V H E) φ U) = 2 := by

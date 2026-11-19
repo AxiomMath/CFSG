@@ -55,6 +55,7 @@ theorem s11s_sign_conj (k : K) : Equiv.Perm.sign (h.theta (MulAut.conj k)) = 1 :
   rw [map_mul MulAut.conj, map_mul h.theta, Equiv.Perm.sign_mul, e1, e2]
   simp [Equiv.Perm.sign_sumCongr, sign_of_act hτ1, sign_of_act hτ2]
 
+omit [Finite K] in
 theorem s11s_map_mem_of_genA (X : Subgroup K) {α : MulAut K} (h0 : α (h.gen (Sum.inl 0)) ∈ X)
     (h1 : α (h.gen (Sum.inl 1)) ∈ X) {a : K} (ha : a ∈ A) : α a ∈ X := by
   obtain ⟨s, rfl⟩ := h.exists_embA ha
@@ -80,6 +81,7 @@ theorem s11s_map_mem_of_genA (X : Subgroup K) {α : MulAut K} (h0 : α (h.gen (S
     rw [h.embA_k5g]
     exact h1
 
+omit [Finite K] in
 theorem s11s_map_mem_of_genB (X : Subgroup K) {α : MulAut K} (h0 : α (h.gen (Sum.inr 0)) ∈ X)
     (h1 : α (h.gen (Sum.inr 1)) ∈ X) {b : K} (hb : b ∈ B) : α b ∈ X := by
   obtain ⟨s, rfl⟩ := h.exists_embB hb

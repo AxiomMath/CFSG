@@ -36,7 +36,7 @@ theorem d4ExitAt_of_ne_three (R : Type) [Group R] {p : ℕ} (hp : p.Prime) (hp2 
   · exact absurd hi (by simp [onLie])
   · obtain ⟨q, rfl, -⟩ := hi
     let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-    haveI : Finite F :=
+    have : Finite F :=
       CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.D 4 q, hv⟩
     let θ : Q ≃* adjointGroup Tag.D4 F :=
       e.trans ((CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid

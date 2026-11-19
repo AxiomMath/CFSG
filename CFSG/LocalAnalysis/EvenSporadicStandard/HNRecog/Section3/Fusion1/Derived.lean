@@ -26,7 +26,7 @@ private theorem natCard_of_isShapeTwoTwoTimesTwoFourA5 {X : Type} [Group X]
   obtain ⟨e⟩ := hiso
   have hY : Nat.card Y = 16 * 60 := by
     obtain ⟨N, hN, hNiso, hQiso⟩ := hshape
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     obtain ⟨eN⟩ := hNiso
     obtain ⟨eQ⟩ := hQiso
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, Nat.card_congr eQ.toEquiv,
@@ -44,7 +44,7 @@ private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
 private theorem natCard_of_isExtraspecialPlusByA5WrTwo {C : Type} [Group C]
     (h : IsExtraspecialPlusByA5WrTwo C) : Nat.card C = 2 ^ 9 * 7200 := by
   obtain ⟨Q, hQ, hw⟩ := h
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   obtain ⟨hplus, _hcent, hquot⟩ := hw
   obtain ⟨_hext, hcardQ, _E, _hEQ, _hEab, _hEcard⟩ := hplus
   obtain ⟨eQ⟩ := hquot

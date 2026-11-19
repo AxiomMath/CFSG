@@ -76,6 +76,7 @@ private theorem polar_four_val {a₁ a₂ a₃ a₄ : V}
     simp [-QuadraticMap.polar_self, h₁₂, h₂₁, h₃₄, h₄₃, h₁₃, h₃₁, h₁₄, h₄₁,
       h₂₃, h₃₂, h₂₄, h₄₂, CFSG.RankThree.OrthogonalInvolutions.polar_self_eq_zero]
 
+omit [CharP K 2] in
 private theorem nondegOn_span_of_dual {ι : Type} [Fintype ι] [DecidableEq ι]
     {v d : ι → V} (hd : ∀ j, d j ∈ Submodule.span K (Set.range v))
     (h : ∀ i j, polar Q (v i) (d j) = if i = j then 1 else 0) :
@@ -389,9 +390,9 @@ theorem ggSix_centralizer_le_of_twoPlaneThree {G : Type} [Group G] [Finite G] {p
         (y : GL (Fin d) (GaloisField 2 1))) v₁ v₂) :
     Subgroup.centralizer ({φ y} : Set G) ≤ ggM p B x L D J := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
-  haveI : DecidableEq (GaloisField 2 1) := Classical.decEq _
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : DecidableEq (GaloisField 2 1) := Classical.decEq _
   have hfield01 : ∀ a : GaloisField 2 1, a = 0 ∨ a = 1 := by
     have hcardK : Fintype.card (GaloisField 2 1) = 2 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num), pow_one]

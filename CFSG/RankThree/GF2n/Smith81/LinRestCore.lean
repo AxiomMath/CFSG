@@ -49,6 +49,7 @@ variable {M Q Z : Subgroup G} {n : ℕ} {V₁ V₂ : Subgroup G} (R : RestModel 
   card_W₁ := R.card_W₂
   card_W₂ := R.card_W₁
 
+omit [Finite G] in
 theorem B_inv (m : ↥(H0 M Z)) (e f : R.M₀.E) :
     R.M₀.B (R.φ m e) (R.φ m f) = R.M₀.B e f := by
   have e1 : R.φ m (e + f) = R.φ m e + R.φ m f := map_add (R.φ m) e f
@@ -56,6 +57,7 @@ theorem B_inv (m : ↥(H0 M Z)) (e f : R.M₀.E) :
   rw [← e1, R.φQf, R.φQf, R.φQf] at h1
   linear_combination (R.M₀.Qf_add e f) - h1
 
+omit [Finite G] in
 theorem φ_mem_W₁ (m : ↥(H0 M Z)) (hm : (m : G) ∈ Subgroup.normalizer (V₁ : Set G))
     {e : R.M₀.E} (he : e ∈ R.W₁) : R.φ m e ∈ R.W₁ := by
   obtain ⟨v, hv, hvQ, rfl⟩ := (R.memW₁ e).mp he
@@ -67,6 +69,7 @@ theorem φ_mem_W₂ (m : ↥(H0 M Z)) (hm : (m : G) ∈ Subgroup.normalizer (V�
     {e : R.M₀.E} (he : e ∈ R.W₂) : R.φ m e ∈ R.W₂ :=
   R.symm.φ_mem_W₁ m hm he
 
+omit [Finite G] in
 theorem φ_sq (m : ↥(H0 M Z)) (hm : (m : G) * (m : G) = 1) (e : R.M₀.E) :
     R.φ m (R.φ m e) = e := by
   have h : R.φ (m * m) = 1 :=
@@ -83,10 +86,12 @@ theorem φ_sq (m : ↥(H0 M Z)) (hm : (m : G) * (m : G) = 1) (e : R.M₀.E) :
 @[expose] def Nsp {x : G} (hx : x ∈ H0 M Z) : Submodule R.K R.M₀.E :=
   LinearMap.range ((R.φ ⟨x, hx⟩ : R.M₀.E →ₗ[R.K] R.M₀.E) - LinearMap.id)
 
+omit [Finite G] in
 theorem mem_Nsp {x : G} (hx : x ∈ H0 M Z) (e : R.M₀.E) :
     e ∈ R.Nsp hx ↔ ∃ u, R.φ ⟨x, hx⟩ u - u = e := by
   simp [Nsp, LinearMap.mem_range]
 
+omit [Finite G] in
 theorem mem_comm_sup_iff {x : G} (hx : x ∈ H0 M Z) (hx2 : x * x = 1) {y : G} :
     y ∈ (⁅Q, Subgroup.zpowers x⁆ ⊔ Z : Subgroup G) ↔ y ∈ Q ∧ R.M₀.π y ∈ R.Nsp hx := by
   have hxM : x ∈ M := hx.1
@@ -306,7 +311,7 @@ theorem fixed_preimage (R : RestModel M Q Z n V₁ V₂) (hs : Sit M Q Z X x) (h
   have hqC : q ∈ CQt Q Z (Subgroup.zpowers x) := by
     refine ⟨hqQ, fun t ht => ?_⟩
     rcases mem_zpowers_of_mul_self_eq_one hx2 ht with rfl | rfl
-    · simpa using Z.one_mem
+    · simp
     · exact hcomm
   rw [cqt_eq_of_class hs c4] at hqC
   have hZle : Z ≤ Q ⊓ Subgroup.centralizer ({x} : Set G) := by
@@ -320,7 +325,7 @@ theorem fixed_preimage (R : RestModel M Q Z n V₁ V₂) (hs : Sit M Q Z X x) (h
   exact ⟨q, hqC', rfl⟩
 
 theorem img_D_mem_Nsp (R : RestModel M Q Z n V₁ V₂) (hs : Sit M Q Z X x) (hx : x ∈ H0 M Z)
-    (hx2 : x * x = 1) (c4 : ∀ z' ∈ Z, InZClass Z (x * z') → z' = 1) {d : G}
+    (_hx2 : x * x = 1) (c4 : ∀ z' ∈ Z, InZClass Z (x * z') → z' = 1) {d : G}
     (hd : d ∈ Q ⊓ QB X) : R.M₀.π d ∈ R.Nsp hx := by
   have h12 := smith_1_12 hs
   obtain ⟨u, hu⟩ := exists_sub_of_orth_fixed R.M₀.B R.M₀.nondeg R.M₀.alt (R.φ ⟨x, hx⟩)
@@ -396,7 +401,7 @@ theorem rest_first_core_R (R : RestModel M Q Z n V₁ V₂) (hb : Smith1981Below
   have hbP : b ∈ R.Nsp hx ⊓ R.W₁ := ⟨hbN, hbW₁⟩
   obtain ⟨β, hβP, hβ0⟩ : ∃ β ∈ R.Nsp hx ⊓ R.W₂, β ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton ↥(R.Nsp hx ⊓ R.W₂) :=
       ⟨fun u v => Subtype.ext ((hcon _ u.2).trans (hcon _ v.2).symm)⟩
     have h1 : Nat.card ↥(R.Nsp hx ⊓ R.W₂) = 1 :=
@@ -551,7 +556,7 @@ theorem rest_first_core_R (R : RestModel M Q Z n V₁ V₂) (hb : Smith1981Below
       have : t • β ∈ Sset := ⟨(0, t), by simp⟩
       rw [← heq] at this
       exact this
-    · push_neg at hbr
+    · push Not at hbr
       obtain ⟨l, u, hu, hnot⟩ := hbr
       have hdich := la_dichotomy R.M₀.B R.M₀.nondeg R.M₀.alt R.W₁ R.W₂ R.hsup R.hint R.iso₁
         R.iso₂ (R.φ ⟨x, hx⟩) (ψ l) (R.B_inv ⟨x, hx⟩) (R.B_inv ⟨(l : G), hLxH l.2⟩)

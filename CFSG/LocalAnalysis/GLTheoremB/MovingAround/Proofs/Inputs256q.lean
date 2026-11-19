@@ -82,8 +82,8 @@ theorem commutator_supportedFixedDerived_eq_of_four_le_card (hK : 4 ≤ Nat.card
   have e : ↥(commutator ↥O) ≃* ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
     (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective).trans
       (MulEquiv.subgroupCongr (Subgroup.map_subtype_commutator O))
-  haveI := hcov
-  haveI : Group.IsPerfect ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
+  have := hcov
+  have : Group.IsPerfect ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hperf : Group.IsPerfect ↥(supportedFixedDerived Q x) :=
     Group.IsPerfect.ofSurjective (f := (supportedFixedDerivedEquiv hx).symm.toMonoidHom)
@@ -101,7 +101,7 @@ theorem ne_reciprocal_of_card_four_three (hK : Nat.card K = 4) (hx : OddOrderIso
     {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     h ≠ reciprocalPolynomial h := by
   intro hself
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨d, -, -, hroot, -⟩ := hx.exists_selfDual_hermitian (by decide) hh hne1 hself
   have h3 := hx.dvd_card_pow_add_one Nat.prime_three hh hne1 hroot
   rw [hK] at h3
@@ -113,7 +113,7 @@ theorem ne_reciprocal_of_card_four_three (hK : Nat.card K = 4) (hx : OddOrderIso
 theorem commutator_specialBlock_eq_of_card_four_three (hK : Nat.card K = 4)
     (hx : OddOrderIsometry Q 3 x) {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap)
     (hne1 : h ≠ X - 1) : ⁅specialBlock Q x h, specialBlock Q x h⁆ = specialBlock Q x h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_cases hm : 2 ≤ primaryMultiplicity x.toLinearMap h
   · have hne := ne_reciprocal_of_card_four_three hK hx hh hne1
     have h4 : 4 ≤ Nat.card (AdjoinRoot h) := by
@@ -138,9 +138,9 @@ theorem mem_specialBlock_of_pow_two_pow_eq_one [CharP K 2] {h : K[X]} [Fact (Irr
     {g : V ≃ₗ[K] V} (hg : g ∈ supportedBlock Q x h) {n : ℕ} (hgn : g ^ 2 ^ n = 1) :
     g ∈ specialBlock Q x h := by
   refine mem_specialBlock.mpr ⟨hg, ?_⟩
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : (⟨g, hg⟩ : ↥(supportedBlock Q x h)) ^ 2 ^ n = 1 := Subtype.ext (by simpa using hgn)
   have hc : blockDet Q x h ⟨g, hg⟩ ^ 2 ^ n = 1 := by rw [← map_pow, h1, map_one]
   have h0 : (blockDet Q x h ⟨g, hg⟩ - 1) ^ 2 ^ n = 0 := by
@@ -155,6 +155,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
 omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem supportedBlock_le_orthogonalGroup_q (r : K[X]) :
     supportedBlock Q x r ≤ TauCeti.QuadraticMap.orthogonalGroup Q := fun _ hg =>
   (Subgroup.mem_inf.mp (supportedBlock_le_isometryCentralizer r hg)).1
@@ -246,13 +247,13 @@ theorem exists_perfect_of_twoElement_projOrthDerived (hK : Nat.card K = 4)
     ∃ P : Subgroup (ProjOrthDerived Q), P ≤ Subgroup.centralizer ({a} : Set (ProjOrthDerived Q)) ∧
       ⁅P, P⁆ = P ∧ s ∈ P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   have hK4 : 4 ≤ Nat.card K := hK.ge
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U₀, hU₀, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K)
       (lt_of_lt_of_le (by omega : 0 < 3) (hU₀ ▸ Submodule.finrank_le U₀))
@@ -320,7 +321,7 @@ theorem exists_perfect_of_twoElement_projOrthDerived (hK : Nat.card K = 4)
           ⟨restrictFixed Q x ⟨_, hg⟩, restrictFixed_mem_orthogonalGroup _⟩ = 1 :=
         hδW.symm.trans hδ
       exact mem_fixedPart_of_twoElement hK4 hx hg (htin r) hδ'
-    · haveI : Fact (Irreducible (r : K[X])) := ⟨irreducible_of_mem_primaryFactors (hRep.1 r.2)⟩
+    · have : Fact (Irreducible (r : K[X])) := ⟨irreducible_of_mem_primaryFactors (hRep.1 r.2)⟩
       exact mem_specialBlock_of_pow_two_pow_eq_one (t r).2 (htin r)
   set P₀ : Subgroup (V ≃ₗ[K] V) := ⨆ r, P r with hP₀
   have hyP₀ : (y : V ≃ₗ[K] V) ∈ P₀ := by
@@ -363,8 +364,8 @@ theorem exists_projOrthDerived_of_model_gf4 {G : Type} [Group G] {t : StatedLieT
   rcases ht with rfl | rfl
   · have hG0 := hG
     obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hG
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨-, hnd, hT, -⟩ := coordinate_model_witness_plus hG0 K hK e
     have hd : 0 < 2 * n := by
       have := hadm.2.2
@@ -373,8 +374,8 @@ theorem exists_projOrthDerived_of_model_gf4 {G : Type} [Group G] {t : StatedLieT
       ⟨(coordinatePlusWitnessEquiv K e).trans (coordBridge _ hd)⟩⟩
   · have hG0 := hG
     obtain ⟨hadm, K, hKf, hKfin, hK, b, c, hirr, ⟨e⟩⟩ := hG
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨-, hnd, hT, -⟩ := coordinate_model_witness_minus hG0 K hK b c hirr e
     have hn1 : 1 ≤ n := by
       have := hadm.2.2
@@ -389,12 +390,12 @@ theorem twoElement_mem_glaLayer_inner_omega_gf4 {G : Type} [Group G] {t : Stated
     {s : G} (hs : β s = s) {m : ℕ} (hsm : s ^ 2 ^ m = 1) :
     s ∈ CFSG.Open.GLALayer (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β) := by
   obtain ⟨K, hKf, hKfin, d, Q, hK, hQ, hT, ⟨E⟩⟩ := exists_projOrthDerived_of_model_gf4 ht hG
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨b, rfl⟩ := hinn
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived Q) = ⊥ := b3Lie_center_eq_bot hnonab
   have hconj : MulAut.conj (E b) = MulAut.congr E (MulAut.conj b) := by
     ext y

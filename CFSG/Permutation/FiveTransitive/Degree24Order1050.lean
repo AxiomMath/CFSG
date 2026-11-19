@@ -23,12 +23,12 @@ private def sylowSevenCountOneThousandFiftyPredicate
 private theorem sylowSevenCountOneThousandFifty_cases :
     ∀ n : SylowSevenCountOneThousandFifty,
       sylowSevenCountOneThousandFiftyPredicate n := by
-  letI (n : SylowSevenCountOneThousandFifty) :
+  let (n : SylowSevenCountOneThousandFifty) :
       Decidable
         (sylowSevenCountOneThousandFiftyPredicate n) := by
     dsimp only [sylowSevenCountOneThousandFiftyPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ n : SylowSevenCountOneThousandFifty,
         sylowSevenCountOneThousandFiftyPredicate n) :=
     Fintype.decidableForallFintype
@@ -51,7 +51,7 @@ theorem five_point_stabilizer_card_ne_one_thousand_fifty
     (s : Set X) (hs : s.ncard = 5) :
     Nat.card (fixingSubgroup P s) ≠ 1050 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   intro hHcard
   have hP5 :
@@ -141,7 +141,7 @@ theorem five_point_stabilizer_card_ne_one_thousand_fifty
             X P s 7 14) =
         n * 6 := by
     rw [← Nat.card_congr localEquiv, hAllCard]
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -244,9 +244,9 @@ theorem five_point_stabilizer_card_ne_one_thousand_fifty
     have hproduct := N.index_mul_card
     rw [hNindex, hHcard] at hproduct
     omega
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup H :=
     Subgroup.centralizer (S : Set H)
@@ -269,7 +269,7 @@ theorem five_point_stabilizer_card_ne_one_thousand_fifty
     simp only [S.coe_coe]
   have hrDvd : C.relIndex N ∣ 6 := by
     rwa [hrEq]
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrPos : 0 < C.relIndex N :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
@@ -315,7 +315,7 @@ theorem five_point_stabilizer_card_ne_one_thousand_fifty
         omega
       rw [hCcard]
       norm_num
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨v, hvOrder⟩ :=
     exists_prime_orderOf_dvd_card'
       (G := C) 5 hFiveDvdC

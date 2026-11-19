@@ -81,22 +81,22 @@ private theorem lk7 (a₀ a₁ a₂ a₃ a₄ a₅ a₆ : TE) (i : Fin 7) :
   fin_cases i <;> rfl
 
 private theorem check0 : checkR687011 () = true := by
-  simp only [checkR687011, rc, rd, re, rs, rt, ru, rowsUI, rowsX1, rowsW1, rowsW1I, rowsY1,
+  simp only [checkR687011, rc, rd, re, ru, rowsUI, rowsX1, rowsW1, rowsW1I, rowsY1,
     rowsX2, rowsW2, ← mulT, ← powT, eqR, commR_eq]
   kernel_exact ok687011R
 
 private theorem check1 : checkE687011 () = true := by
-  simp only [checkE687011, Fin.getElem!_fin, rc, rd, re, rs, rt, ru, rowsUI, rowsE0, rowsE1,
+  simp only [checkE687011, Fin.getElem!_fin, rc, rd, ru, rowsUI, rowsE0, rowsE1,
     e8Tab_get, e8getLt, rowsE8, ← aT, ← mulT, ← powT, eqR, commR_eq]
   kernel_exact ok687011E
 
 private theorem check2 : checkN687011 () = true := by
-  simp only [checkN687011, Fin.getElem!_fin, rc, rd, re, rs, rt, ru, rowsUI, rowsE0, rowsE1,
+  simp only [checkN687011, Fin.getElem!_fin, rc, rd, re, rt, ru, rowsUI, rowsE0, rowsE1,
     e8tg0, e8tg1, rowsE8, neTab, ← aT, ← mulT, ← powT, lk5, eqR, commR_eq]
   kernel_exact ok687011N
 
 private theorem check3 : checkCE687011 () = true := by
-  simp only [checkCE687011, Fin.getElem!_fin, rc, rd, re, rs, rt, ru, rowsUI, rowsE0, rowsE1,
+  simp only [checkCE687011, Fin.getElem!_fin, rc, rd, re, rt, ru, rowsUI, rowsE0, rowsE1,
     rowsW1, rowsW2, e8Tab_get, rowsE8, preTab_get, rowsPRE, rowsNfTab_get, ← nfT, ← aT, ← mulT,
     ← powT, eqR, commR_eq]
   kernel_exact ok687011CE

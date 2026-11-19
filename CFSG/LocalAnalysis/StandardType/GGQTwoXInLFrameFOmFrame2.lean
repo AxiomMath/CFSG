@@ -48,7 +48,7 @@ lemma frameTwist_cube {M : Type} [Field M] {n : ℕ} (a : Fin n → M) (c : M)
   intro i
   by_cases h : a i = c
   · simpa [frameTwist, h] using hb i
-  · rw [frameTwist, if_neg h, ← map_pow, hb i, map_one]
+  · rw [frameTwist, ite_eq_right h, ← map_pow, hb i, map_one]
 
 lemma framePsi_mul {K M : Type} [Field K] [Finite K] [Field M] [Algebra K M]
     [DecidableEq M] (hK : Nat.card K = 2) {n : ℕ} (a : Fin n → M) (c : M) (τ : M ≃+* M)
@@ -67,9 +67,9 @@ lemma frameTwist_const {M : Type} [Field M] {n : ℕ} {a : Fin n → M} {c : M}
   classical
   ext i
   rcases hroots i with h | h
-  · rw [frameTwist, if_pos h, h]
+  · rw [frameTwist, ite_eq_left h, h]
   · have hne : a i ≠ c := by rw [h]; exact fun hh => hc hh
-    rw [frameTwist, if_neg hne, hτ2, h]
+    rw [frameTwist, ite_eq_right hne, hτ2, h]
 
 end QTwoOmFrame
 

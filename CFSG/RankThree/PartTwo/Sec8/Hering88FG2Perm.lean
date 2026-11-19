@@ -10,7 +10,7 @@ open scoped Pointwise
 
 theorem exists_fixed_of_pow_three {g : Equiv.Perm (Fin 28)} (hg : g ^ 3 = 1) :
     ∃ p : Fin 28, g p = p := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z : Subgroup (Equiv.Perm (Fin 28)) := Subgroup.zpowers g with hZ
   have hp : IsPGroup 3 Z := by
     intro x
@@ -44,7 +44,7 @@ theorem exists_mem_apply_zero (h2t : ∀ p q : Fin 28, p ≠ q → ∃ h ∈ H, 
 theorem card_stabilizer_zero (hcard : Nat.card H = 6048)
     (h2t : ∀ p q : Fin 28, p ≠ q → ∃ h ∈ H, h 0 = p ∧ h 1 = q) :
     Nat.card (MulAction.stabilizer H (0 : Fin 28)) = 216 := by
-  haveI : MulAction.IsPretransitive H (Fin 28) := ⟨fun x y => by
+  have : MulAction.IsPretransitive H (Fin 28) := ⟨fun x y => by
     obtain ⟨h, hh, hx⟩ := exists_mem_apply_zero h2t x
     obtain ⟨k, hk, hy⟩ := exists_mem_apply_zero h2t y
     refine ⟨⟨k * h⁻¹, H.mul_mem hk (H.inv_mem hh)⟩, ?_⟩
@@ -63,7 +63,7 @@ theorem card_stabilizer_pair (hcard : Nat.card H = 6048)
       ↑(Finset.univ.filter fun pq : Fin 28 × Fin 28 => pq.1 ≠ pq.2) := by
     ext ⟨p, q⟩
     simp only [MulAction.mem_orbit_iff, Finset.coe_filter, Finset.mem_univ, true_and,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨h, hh⟩, hpq⟩
       have h1 : h 0 = p := congrArg Prod.fst hpq

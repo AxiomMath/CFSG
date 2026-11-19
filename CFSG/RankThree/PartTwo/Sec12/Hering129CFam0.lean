@@ -71,10 +71,10 @@ theorem PPair.of_injOn {s : Q} {J : Subgroup Q} {g : ↥J →* Lb} (h : PPair s 
     rw [Subgroup.mem_centralizer_singleton_iff]
     have := Subgroup.mem_centralizer_singleton_iff.mp (h.le_centralizer hx)
     rw [← map_mul, ← map_mul, this]
-  · haveI := h.isPerfect
+  · have := h.isPerfect
     exact Group.IsPerfect.ofSurjective (f := eJ.toMonoidHom) eJ.surjective
   · exact h.surjective.comp eJ.symm.surjective
-  · haveI := h.ker_solvable
+  · have := h.ker_solvable
     exact Group.isSolvable_of_isSolvable_injective (f := hkerEquiv.toMonoidHom)
       hkerEquiv.injective
   · rw [Nat.card_congr hkerEquiv.toEquiv]
@@ -109,7 +109,7 @@ theorem isPGroup_center_of_theta_eq_bot (hθ : aschbacherSolvableCore 3 Q = ⊥)
   have hord : orderOf w = m := by
     rw [hw, orderOf_pow' _ (pow_ne_zero _ (by norm_num)), hn, Nat.gcd_mul_right_left]
     exact Nat.mul_div_cancel_left m (pow_pos (by norm_num) k)
-  haveI : (Subgroup.zpowers w).Normal :=
+  have : (Subgroup.zpowers w).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hwz)
   have hsol : Group.IsSolvable (Subgroup.zpowers w) := inferInstance
   have hle := hmax (Subgroup.zpowers w) inferInstance hsol
@@ -156,7 +156,7 @@ theorem inf_center_eq_bot (hD : Census129 c a I X f) : I ⊓ Subgroup.center Q =
   rintro z ⟨hzI, hzZ⟩
   rw [Subgroup.mem_bot]
   by_contra hz1
-  haveI : Finite Lb := Finite.of_surjective f hD.surjective
+  have : Finite Lb := Finite.of_surjective f hD.surjective
   set c' : ↥I := ⟨c, hD.c_mem⟩ with hc'
   set z' : ↥I := ⟨z, hzI⟩ with hz'
   have hc'3 : c' ^ 3 = 1 := Subtype.ext (by simpa using c_pow_three hD)
@@ -246,13 +246,14 @@ variable {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S} {J : Subgroup S} 
 theorem PPair.finite_Lb (h : PPair s J g) : Finite Lb :=
   Finite.of_surjective g h.surjective
 
+omit [Finite S] in
 theorem PPair.card_Lb_dvd (h : PPair s J g) :
     Nat.card Lb ∣ Nat.card (Subgroup.centralizer ({s} : Set S)) :=
   (Subgroup.card_dvd_of_surjective h.surjective).trans
     (Subgroup.card_dvd_of_le h.le_centralizer)
 
 theorem PPair.twentySeven_dvd_Lb (h : PPair s J g) : 27 ∣ Nat.card Lb := by
-  haveI := h.finite_Lb
+  have := h.finite_Lb
   exact twentySeven_dvd_card_of_isType425 h.quasisimple_Lb (isType425_of_isType122 h.type_Lb)
 
 theorem PPair.false_of_not_dvd (h : PPair s J g) (h27 : ¬ 27 ∣ Nat.card S) : False :=
@@ -261,7 +262,7 @@ theorem PPair.false_of_not_dvd (h : PPair s J g) (h27 : ¬ 27 ∣ Nat.card S) : 
 theorem PPair.false_of_card_dvd (h : PPair s J g) {M B : ℕ} (hM0 : 0 < M) (hB : M < B ^ 3)
     (hfree : typeOrders425 M B = []) (hC : Nat.card (Subgroup.centralizer ({s} : Set S)) ∣ M) :
     False := by
-  haveI := h.finite_Lb
+  have := h.finite_Lb
   have := card_mem_typeOrders425 h.quasisimple_Lb hM0 hB (isType425_of_isType122 h.type_Lb)
     (h.card_Lb_dvd.trans hC)
   rw [hfree] at this
@@ -272,7 +273,7 @@ theorem PPair.false_of_noA6 (h : PPair s J g) {M B : ℕ} (hM0 : 0 < M) (hB : M 
     (hC : Nat.card (Subgroup.centralizer ({s} : Set S)) ∣ M)
     (hA6 : ∀ H : Subgroup S, H ≤ Subgroup.centralizer {s} →
       ∀ f : H →* alternatingGroup (Fin 6), ¬ Function.Surjective f) : False := by
-  haveI := h.finite_Lb
+  have := h.finite_Lb
   have hT := isType425_of_isType122 h.type_Lb
   have h1080 := hfree _ (card_mem_typeOrders425 h.quasisimple_Lb hM0 hB hT (h.card_Lb_dvd.trans hC))
   obtain ⟨f, hf⟩ := exists_surjective_A6 hT h1080
@@ -283,7 +284,7 @@ theorem PPair.false_of_card_eq (h : PPair s J g) {M B : ℕ}
     (hfree : ∀ t ∈ typeOrders425 M B, t = M)
     (hnp : ⁅Subgroup.centralizer ({s} : Set S), Subgroup.centralizer ({s} : Set S)⁆ ≠
       Subgroup.centralizer ({s} : Set S)) : False := by
-  haveI := h.finite_Lb
+  have := h.finite_Lb
   have hM := hfree _ (card_mem_typeOrders425 h.quasisimple_Lb hM0 hB
     (isType425_of_isType122 h.type_Lb) (h.card_Lb_dvd.trans hC.dvd))
   have hLJ : Nat.card Lb ∣ Nat.card J := Subgroup.card_dvd_of_surjective h.surjective
@@ -293,18 +294,20 @@ theorem PPair.false_of_card_eq (h : PPair s J g) {M B : ℕ}
   have hJC : J = Subgroup.centralizer ({s} : Set S) :=
     Subgroup.eq_of_le_of_card_ge h.le_centralizer hle
   apply hnp
-  haveI hJp := h.isPerfect
+  have hJp := h.isPerfect
   rw [← hJC]
   exact Subgroup.commutator_eq_self (H := J)
 
+omit [Finite S] in
 theorem PPair.false_of_not_mem_commutator (h : PPair s J g)
     (hs : s ∉ ⁅Subgroup.centralizer ({s} : Set S), Subgroup.centralizer ({s} : Set S)⁆) :
     False := by
   apply hs
-  haveI := h.isPerfect
+  have := h.isPerfect
   have hKK : ⁅J, J⁆ = J := Subgroup.commutator_eq_self (H := J)
   exact Subgroup.commutator_mono h.le_centralizer h.le_centralizer (hKK.symm ▸ h.s_mem)
 
+omit [Finite S] in
 theorem PPair.false_of_comm_centralizer (h : PPair s J g)
     (hC : ∀ a b : S, a ∈ Subgroup.centralizer ({s} : Set S) →
       b ∈ Subgroup.centralizer ({s} : Set S) → a * b = b * a) : False := by
@@ -324,7 +327,7 @@ theorem PPair.false_of_comm_centralizer (h : PPair s J g)
 theorem PPair.false_of_abelian_sylow (h : PPair s J g)
     (hab : ∀ P : Sylow 3 S, ∀ a b : S, a ∈ (P : Subgroup S) → b ∈ (P : Subgroup S) →
       a * b = b * a) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKp : Group.IsPerfect J := h.isPerfect
   set k : J := ⟨s, h.s_mem⟩ with hk
   have hk3 : IsPGroup 3 (Subgroup.zpowers k) :=
@@ -332,7 +335,7 @@ theorem PPair.false_of_abelian_sylow (h : PPair s J g)
       rw [Nat.card_zpowers, Subgroup.orderOf_mk, h.orderOf_s, pow_one])
   obtain ⟨Q, hQ⟩ := hk3.exists_le_sylow
   have hkQ : k ∈ (Q : Subgroup J) := hQ (Subgroup.mem_zpowers k)
-  have hQ3 : IsPGroup 3 ((Q : Subgroup J).map J.subtype) := Q.isPGroup'.map _
+  have hQ3 : IsPGroup 3 ((Q : Subgroup J).map J.subtype) := Q.isPGroup.map _
   obtain ⟨P, hP⟩ := hQ3.exists_le_sylow
   have hQab : ∀ a b : J, a ∈ (Q : Subgroup J) → b ∈ (Q : Subgroup J) → a * b = b * a := by
     intro a b ha hb

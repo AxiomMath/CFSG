@@ -42,7 +42,7 @@ theorem eq_eleven_of_isSpor_J1 {Q : Type} [Group Q] (hQ : IsSpor Q .J1) {q k : �
   have hcard : Nat.card Q = 175560 :=
     (Nat.card_congr (e.trans CFSG.Walter.walterJ1EquivNative.symm).toEquiv).trans
       CFSG.Walter.J1Props.card_walterJ1
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hq1 : q ∣ 175560 := by
     rw [← hcard, ← ha]
     exact orderOf_dvd_natCard a
@@ -84,7 +84,7 @@ theorem lieChar_or_J1 (S : Slice D L D₃ Y H q) (hq : 7 < q) {E : Subgroup G}
       (q = 11 ∧ IsSpor (F09.Lbar9 Y H) .J1) := by
   classical
   have hqp := S.prime
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   obtain ⟨a, b, k, ha, hab, hk⟩ := S.exists_conj_pow_lbar9
   have hk3 : 3 < orderOf (k : ZMod q) := by
     have := hqp.eq_two_or_odd
@@ -102,7 +102,7 @@ theorem lieChar_or_J1 (S : Slice D L D₃ Y H q) (hq : 7 < q) {E : Subgroup G}
     rw [h2, orderOf_one] at hk3
     omega
   have hrank : CFSG.Open.pRank 3 (⊤ : Subgroup (F09.Lbar9 Y H)) = 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine le_antisymm (F09.pRank_three_le_one_of_not_hasE9 (F09.not_hasE9_Lbar9 hyp)) ?_
     have hnp : ¬ IsPGroup 3 (F09.Lbar9 Y H) := fun h3 => by
       obtain ⟨n, hn⟩ := h3 a

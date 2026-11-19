@@ -153,7 +153,7 @@ theorem length_spanK : ∀ b : List ℕ, (spanK b).length = 2 ^ b.length
 
 theorem zero_mem_spanK : ∀ b : List ℕ, 0 ∈ spanK b
   | [] => List.mem_singleton.2 rfl
-  | v :: b => mem_spanK_cons.2 (Or.inl (zero_mem_spanK b))
+  | _v :: b => mem_spanK_cons.2 (Or.inl (zero_mem_spanK b))
 
 theorem mem_spanK_of_mem : ∀ {b : List ℕ} {v : ℕ}, v ∈ b → v ∈ spanK b
   | [], _, h => absurd h List.not_mem_nil

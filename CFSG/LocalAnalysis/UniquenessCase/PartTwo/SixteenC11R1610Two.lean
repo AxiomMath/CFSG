@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem set_mul_comm_of_subgroup {A B X : Subgroup G}
     (h : (X : Set G) = (A : Set G) * (B : Set G)) : (X : Set G) = (B : Set G) * (A : Set G) := by
   have hA : A ≤ X := fun a ha => by

@@ -17,8 +17,9 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem pSubgroup_le_of_sp4_natural_of_centralizer_eq_bot
-    (hW : ∀ w : W, w ^ 2 = 1)
+    (_hW : ∀ w : W, w ^ 2 = 1)
     {A H : Subgroup (MulAut W)}
     (hHA : H ≤ A)
     (hHn : A ≤ Subgroup.normalizer (H : Set (MulAut W)))
@@ -30,14 +31,14 @@ theorem pSubgroup_le_of_sp4_natural_of_centralizer_eq_bot
     (hcent : A ⊓ Subgroup.centralizer (H : Set (MulAut W)) = ⊥) :
     ∀ E : Subgroup (MulAut W), E ≤ A → IsPGroup p E → E ≤ H := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 := by
     rcases hK with h4 | h8
     · exact charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
         rw [← Nat.card_eq_fintype_card, h4]; norm_num)
     · exact s16g_charP_two h8
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   have hfour : ∃ s : Finset K, s.card = 4 := by
     have hcard : 4 ≤ (Finset.univ : Finset K).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -46,7 +47,7 @@ theorem pSubgroup_le_of_sp4_natural_of_centralizer_eq_bot
     exact ⟨s, hs⟩
   have hperfΓ : Group.IsPerfect ↥(StatedSp 2 K) :=
     CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp 2 K (Or.inl hfour)
-  haveI : Group.IsPerfect (FFModel.nat (StatedSp 2 K)).Gam := hperfΓ
+  have : Group.IsPerfect (FFModel.nat (StatedSp 2 K)).Gam := hperfΓ
   have hrealEmbed := hreal
   obtain ⟨π, hπ⟩ := hreal
   have hπsurj : Function.Surjective π := hπ.1
@@ -71,12 +72,12 @@ theorem pSubgroup_le_of_sp4_natural_of_centralizer_eq_bot
   have hcommRA : ∀ a b : RingAut K, a * b = b * a :=
     fun a b => (IsCyclic.commGroup (α := RingAut K)).mul_comm a b
   have hHsubPerf : Group.IsPerfect ↥(H.subgroupOf A) := by
-    haveI : Group.IsPerfect ↥H := hHperf
+    have : Group.IsPerfect ↥H := hHperf
     let e : (H.subgroupOf A) ≃* ↥H := Subgroup.subgroupOfEquivOfLe hHA
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   let Eimg : Subgroup (MulAut (Multiplicative (Fin 2 ⊕ Fin 2 → K))) := (H.subgroupOf A).map ρ
   have hEimgPerf : Group.IsPerfect ↥Eimg := by
-    haveI : Group.IsPerfect ↥(H.subgroupOf A) := hHsubPerf
+    have : Group.IsPerfect ↥(H.subgroupOf A) := hHsubPerf
     change Group.IsPerfect ↥((H.subgroupOf A).map ρ)
     exact Group.IsPerfect.map (H := H.subgroupOf A) (f := ρ)
   have hEimgNorm : Eimg ≤ s16gNorm (StatedSp 2 K) := by
@@ -84,10 +85,10 @@ theorem pSubgroup_le_of_sp4_natural_of_centralizer_eq_bot
     exact hρnorm a
   have hEimgTriv : ∀ φ : ↥Eimg →* RingAut K, φ = 1 := by
     intro φ
-    haveI : Group.IsPerfect ↥Eimg := hEimgPerf
-    haveI : IsMulCommutative (RingAut K) := IsMulCommutative.mk ⟨fun a b => hcommRA a b⟩
-    haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
-    haveI : IsMulCommutative ↥φ.range := inferInstance
+    have : Group.IsPerfect ↥Eimg := hEimgPerf
+    have : IsMulCommutative (RingAut K) := IsMulCommutative.mk ⟨fun a b => hcommRA a b⟩
+    have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
+    have : IsMulCommutative ↥φ.range := inferInstance
     have hsub : Subsingleton ↥φ.range :=
       Group.IsPerfect.subsingleton_of_isMulCommutative (G := ↥φ.range)
     exact MonoidHom.range_eq_bot_iff.mp (Subgroup.eq_bot_of_subsingleton (H := φ.range))

@@ -25,7 +25,7 @@ private theorem exists_mem_normalizer_of_not_le {R' : Subgroup G} (hR : IsPGroup
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : R') ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   have hconj : ∀ u : R', u ∈ Subgroup.normalizer (Q' : Set R') → ∀ q ∈ lyR ρ,
       (u : G) * q * (u : G)⁻¹ ∈ lyR ρ := by
     intro u hu q hq
@@ -42,6 +42,7 @@ private theorem exists_mem_normalizer_of_not_le {R' : Subgroup G} (hR : IsPGroup
     rwa [e] at h
   exact ⟨y, y.2, hN, fun h => hyQ (Subgroup.mem_subgroupOf.2 h)⟩
 
+omit [Finite G] in
 private theorem rho_normalizes (D : LyData G t ρ) {h : ↥(centralizer ({t} : Set G))}
     (hh : (h : G) ∈ Subgroup.normalizer (lyR ρ : Set G)) :
     (∀ σ ∈ lyVS, ρ h * σ * (ρ h)⁻¹ ∈ lyVS) ∧ ∀ σ ∈ lyVS, (ρ h)⁻¹ * σ * ρ h ∈ lyVS := by

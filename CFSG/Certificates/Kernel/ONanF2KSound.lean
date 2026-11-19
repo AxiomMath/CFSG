@@ -51,7 +51,7 @@ theorem decN_cdN (a : AlpE) : decN (cdN a) = a := by
   unfold cdN
   rw [decN_mk h0 h1 h2]
   refine AlpE.ext ?_ ?_ ?_ ?_
-  · exact Fin.ext (by simp [Fin.val_ofNat])
+  · exact Fin.ext (by simp)
   · exact ZMod.natCast_zmod_val a.v0
   · exact ZMod.natCast_zmod_val a.v1
   · exact ZMod.natCast_zmod_val a.v2

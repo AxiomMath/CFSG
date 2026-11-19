@@ -63,18 +63,18 @@ private theorem ggQ2xTLa_cartan_A (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
       simp
     have hlabel : (CoxeterMatrix.A n) i j = 2 ∨ (CoxeterMatrix.A n) i j = 3 := by
       simp only [CoxeterMatrix.A, Matrix.of_apply]
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       by_cases h : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)
-      · exact Or.inr (if_pos h)
-      · exact Or.inl (if_neg h)
+      · exact Or.inr (ite_eq_left h)
+      · exact Or.inl (ite_eq_right h)
     rcases hlabel with h2 | h3
     · have hA0 : CartanMatrix.A n i j = 0 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
         split_ifs with hh
         · exfalso
           have hcontra : (CoxeterMatrix.A n) i j = 3 := by
-            simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
-            exact if_pos (Or.symm hh)
+            simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
+            exact ite_eq_left (Or.symm hh)
           omega
         · rfl
       rcases D.isCartan.2 (e i) (e j) hne with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ |
@@ -86,12 +86,12 @@ private theorem ggQ2xTLa_cartan_A (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     · have hadj : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) := by
         by_contra hh
         have hcontra : (CoxeterMatrix.A n) i j = 2 := by
-          simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
-          exact if_neg (fun hD => hh (Or.symm hD))
+          simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
+          exact ite_eq_right (fun hD => hh (Or.symm hD))
         omega
       have hAneg : CartanMatrix.A n i j = -1 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
-        exact if_pos hadj
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
+        exact ite_eq_left hadj
       rcases D.isCartan.2 (e i) (e j) hne with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ |
         ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
       · rw [hcox] at hm; omega
@@ -129,7 +129,7 @@ private theorem ggQ2xTLa_leaf (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
           have hval := congrArg Fin.val h
           simp only [j] at hval
           omega
-        rw [if_neg hne, if_pos (Or.inr hjv)]
+        rw [ite_eq_right hne, ite_eq_left (Or.inr hjv)]
       have hcoxk : D.coxeter (e i) (e k) = 3 := by
         rw [hA, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
         rw [ggQ2_A_label]
@@ -138,7 +138,7 @@ private theorem ggQ2xTLa_leaf (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
           have hval := congrArg Fin.val h
           simp only [k] at hval
           omega
-        rw [if_neg hne, if_pos (Or.inl hkv)]
+        rw [ite_eq_right hne, ite_eq_left (Or.inl hkv)]
       have hneij : e i ≠ e j := by
         intro h
         have hval := congrArg Fin.val (e.injective h)
@@ -222,39 +222,39 @@ private lemma ggQ2xTLb_B_apply (n : ℕ) (i j : Fin n) :
   rw [CoxeterMatrix.B]
   simp only [Matrix.of_apply]
 
-private lemma ggQ2xTLb_B_succ_ne_two {n : ℕ} (hn : 3 ≤ n) (i : Fin n) (h : (i:ℕ)+1 < n) :
+private lemma ggQ2xTLb_B_succ_ne_two {n : ℕ} (_hn : 3 ≤ n) (i : Fin n) (h : (i:ℕ)+1 < n) :
     (CoxeterMatrix.B n) i (⟨(i:ℕ)+1, h⟩ : Fin n) ≠ 2 := by
   rw [ggQ2xTLb_B_apply]
   have hne : i ≠ (⟨(i:ℕ)+1, h⟩ : Fin n) := by
     intro hh; have h' := congrArg Fin.val hh; change (i:ℕ) = (i:ℕ)+1 at h'; omega
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   by_cases hd : ((i:ℕ) = n-1 ∧ ((⟨(i:ℕ)+1, h⟩ : Fin n):ℕ) = n-2) ∨
       (((⟨(i:ℕ)+1, h⟩ : Fin n):ℕ) = n-1 ∧ (i:ℕ) = n-2)
-  · rw [if_pos hd]; decide
-  · rw [if_neg hd]
+  · rw [ite_eq_left hd]; decide
+  · rw [ite_eq_right hd]
     by_cases ha : (((⟨(i:ℕ)+1, h⟩ : Fin n):ℕ)+1 = (i:ℕ)) ∨
         ((i:ℕ)+1 = ((⟨(i:ℕ)+1, h⟩ : Fin n):ℕ))
-    · rw [if_pos ha]; decide
+    · rw [ite_eq_left ha]; decide
     · exfalso
       apply ha; right
-      simp only [Fin.val_mk]
+      simp only
 
-private lemma ggQ2xTLb_B_pred_ne_two {n : ℕ} (hn : 3 ≤ n) (i : Fin n) (h : 0 < (i:ℕ)) :
+private lemma ggQ2xTLb_B_pred_ne_two {n : ℕ} (_hn : 3 ≤ n) (i : Fin n) (h : 0 < (i:ℕ)) :
     (CoxeterMatrix.B n) i (⟨(i:ℕ)-1, by omega⟩ : Fin n) ≠ 2 := by
   rw [ggQ2xTLb_B_apply]
   have hne : i ≠ (⟨(i:ℕ)-1, by omega⟩ : Fin n) := by
     intro hh; have h' := congrArg Fin.val hh; change (i:ℕ) = (i:ℕ)-1 at h'; omega
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   by_cases hd : ((i:ℕ) = n-1 ∧ ((⟨(i:ℕ)-1, by omega⟩ : Fin n):ℕ) = n-2) ∨
       (((⟨(i:ℕ)-1, by omega⟩ : Fin n):ℕ) = n-1 ∧ (i:ℕ) = n-2)
-  · rw [if_pos hd]; decide
-  · rw [if_neg hd]
+  · rw [ite_eq_left hd]; decide
+  · rw [ite_eq_right hd]
     by_cases ha : (((⟨(i:ℕ)-1, by omega⟩ : Fin n):ℕ)+1 = (i:ℕ)) ∨
         ((i:ℕ)+1 = ((⟨(i:ℕ)-1, by omega⟩ : Fin n):ℕ))
-    · rw [if_pos ha]; decide
+    · rw [ite_eq_left ha]; decide
     · exfalso
       apply ha; left
-      simp only [Fin.val_mk]
+      simp only
       omega
 
 private theorem ggQ2xTLb_leaf {n : ℕ} [NeZero n] (hn : 4 ≤ n) (D : GGQ2Lin 3)
@@ -336,15 +336,15 @@ private theorem ggQ2xTLd_cartanD_ne_zero (n : ℕ) (i j : Fin n) (hij : i ≠ j)
       (i.val + 1 = j.val ∧ j.val + 2 < n) ∨ (j.val + 1 = i.val ∧ i.val + 2 < n) ∨
       (i.val + 3 = n ∧ (j.val + 2 = n ∨ j.val + 1 = n)) ∨
       (j.val + 3 = n ∧ (i.val + 2 = n ∨ i.val + 1 = n)) := by
-  simp only [CartanMatrix.D, Matrix.of_apply, if_neg hij]
+  simp only [CartanMatrix.D, Matrix.of_apply, ite_eq_right hij]
   by_cases hn2 : n ≤ 2
   · have hi := i.isLt
     have hj := j.isLt
-    simp only [if_pos hn2]
+    simp only [ite_eq_left hn2]
     constructor
     · intro h; exact absurd rfl h
     · rintro (⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩) <;> omega
-  · simp only [if_neg hn2]
+  · simp only [ite_eq_right hn2]
     split_ifs with h1 h2 h3 h4
     · exact ⟨fun _ => Or.inl h1, fun _ => by norm_num⟩
     · exact ⟨fun _ => Or.inr (Or.inl h2), fun _ => by norm_num⟩
@@ -362,7 +362,7 @@ private theorem ggQ2xTLd_D_edge (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     (h : CartanMatrix.D n i j ≠ 0) : D.cartan (e i) (e j) ≠ 0 := by
   rw [ggQ2xTL_nbr_iff D (by intro hh; exact hij (e.injective hh)), hD,
     CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply,
-    ggCoxeterMatrixD_apply, if_neg hij, if_neg h]
+    ggCoxeterMatrixD_apply, ite_eq_right hij, ite_eq_right h]
   norm_num
 
 private theorem ggQ2xTLd_D_leaf (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
@@ -386,11 +386,11 @@ private theorem ggQ2xTLd_D_leaf (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     have hj : D.cartan (e i) (e ⟨n - 2, by omega⟩) ≠ 0 :=
       ggQ2xTLd_D_edge D e hD (ggQ2xTLd_ne_of_val hiv2)
         ((ggQ2xTLd_cartanD_ne_zero n i ⟨n - 2, by omega⟩ (ggQ2xTLd_ne_of_val hiv2)).mpr
-          (Or.inr (Or.inr (Or.inl ⟨by omega, Or.inl (by simp only [Fin.val_mk]; omega)⟩))))
+          (Or.inr (Or.inr (Or.inl ⟨by omega, Or.inl (by simp only; omega)⟩))))
     have hk : D.cartan (e i) (e ⟨n - 1, by omega⟩) ≠ 0 :=
       ggQ2xTLd_D_edge D e hD (ggQ2xTLd_ne_of_val hiv1)
         ((ggQ2xTLd_cartanD_ne_zero n i ⟨n - 1, by omega⟩ (ggQ2xTLd_ne_of_val hiv1)).mpr
-          (Or.inr (Or.inr (Or.inl ⟨by omega, Or.inr (by simp only [Fin.val_mk]; omega)⟩))))
+          (Or.inr (Or.inr (Or.inl ⟨by omega, Or.inr (by simp only; omega)⟩))))
     have hji : e ⟨n - 2, by omega⟩ ≠ D.a := by
       rw [hDa]; intro hh
       have hv : n - 2 = i.val := by simpa using congrArg Fin.val (e.injective hh)

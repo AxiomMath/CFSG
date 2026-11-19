@@ -64,9 +64,9 @@ theorem rck_cyclic_kernel
       rootDiagUnit (langTag t) a ≠ 1 ∧
       kernelRoots (rckFamChar Dl.g0 (fun x : S => (x : ModGL (langTag t) GGL))) =
         kernelRoots (rootCharHom a) := by
-  haveI := Fact.mk hp
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
-  haveI : IsCyclic S := isCyclic_of_prime_card hcard
+  have := Fact.mk hp
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+  have : IsCyclic S := isCyclic_of_prime_card hcard
   obtain ⟨s, hs⟩ := IsCyclic.exists_generator (α := S)
   set y : ModGL (langTag t) GGL := Dl.g0⁻¹ * (s : ModGL (langTag t) GGL) * Dl.g0 with hy
   have hyT : y ∈ torusGroup (langTag t) GGL := (mem_twistedTorusOf.1 (hSt s s.2)).1

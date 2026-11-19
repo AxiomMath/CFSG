@@ -29,12 +29,14 @@ open scoped MatrixGroups commutatorElement
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem yTMat_sq_add_add_one :
     yTMat F ^ 2 + yTMat F + 1 = 0 := by
   ext (i | i) (j | j) <;> fin_cases i <;> fin_cases j <;>
     simp [pow_two, yTMat, wMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
       CharTwo.add_self_eq_zero]
 
+omit [Finite F] in
 theorem yT_pow_three : yT F ^ 3 = 1 := by
   apply mat_injective
   rw [map_pow, mat_yT, map_one]
@@ -43,6 +45,7 @@ theorem yT_pow_three : yT F ^ 3 = 1 := by
   rw [h, mul_zero, sub_eq_zero] at h2
   exact h2
 
+omit [Finite F] in
 theorem yT_ne_one : yT F ≠ 1 := by
   intro h
   have h1 := congrArg (mat 2 F) h

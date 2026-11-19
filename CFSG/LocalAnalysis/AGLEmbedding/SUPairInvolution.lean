@@ -157,7 +157,7 @@ theorem centralizes_or_le_commutator [Finite Y] (hA : Heis27 A Z) {u : Y} (hu2 :
         apply hn
         intro z hz
         have hzp : Nat.card Z = 3 := hA.card_center
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         have hzz : zpowers (c₁ * c₂ * c₁⁻¹ * c₂⁻¹) = Z := by
           have hle : zpowers (c₁ * c₂ * c₁⁻¹ * c₂⁻¹) ≤ Z := zpowers_le.mpr hcm
           refine eq_of_le_of_card_ge hle ?_
@@ -212,7 +212,7 @@ theorem centralizes_or_le_commutator [Finite Y] (hA : Heis27 A Z) {u : Y} (hu2 :
       simp only [hv]
       rw [this, inv_mul_cancel]
       exact one_mem Z
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hBcard : Nat.card B = 9 := by
       have hdvd : Nat.card B ∣ 27 := hA.card ▸ card_dvd_of_le hBA
       have h3 : 3 ∣ Nat.card B := hA.card_center ▸ card_dvd_of_le hZB
@@ -234,8 +234,8 @@ theorem centralizes_or_le_commutator [Finite Y] (hA : Heis27 A Z) {u : Y} (hu2 :
       · exact absurd h hne27
     have hBab : ∀ g ∈ B, ∀ h ∈ B, g * h = h * g := by
       intro g hg h hh
-      have hcomm := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := ↥B)
-        (by rw [hBcard]; norm_num)
+      have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := ↥B)
+        (by rw [hBcard]; norm_num)).is_comm.comm
       have := hcomm ⟨g, hg⟩ ⟨h, hh⟩
       simpa using congrArg Subtype.val this
     have hxinv : ∀ y ∈ A, u * y * u⁻¹ = y⁻¹ → x * y = y * x := by

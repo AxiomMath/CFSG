@@ -58,7 +58,7 @@ theorem rckTw_cover_E78_of_field
   have hρ : ∀ γ ∈ componentRoots (rootCharHom a) i, S.ρ γ ∈ componentRoots (rootCharHom a) i :=
     rckTw78_hρ (p₀ := p₀) S hT i v hΨ
   have hΦ' := rckTw78_frob S hq
-  haveI : CharP CoeffField 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) CoeffField).injective 2
+  have : CharP CoeffField 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) CoeffField).injective 2
   set nv := canonicalRep (coxeterSystem τ) CoeffField v with hnv
   set nw := canonicalRep (coxeterSystem τ) CoeffField w with hnw
   have hroots : ∀ α ∈ parabolicRoots τ (e6Nodes τ), IsRoot τ α := fun α hα => hα.1
@@ -106,7 +106,7 @@ theorem rckTw_cover_E78_of_field
     (root_character_kernel_orthogonal_central_product τ CoeffField (rootCharHom a)).1.subset
       (fun α hα => by
         have hα' := hα
-        simp only [hΨdef, componentRoots, Set.mem_setOf_eq] at hα'
+        simp only [hΨdef, componentRoots, Set.mem_ofPred_eq] at hα'
         exact hα'.choose)
   have horbit : componentOrbitLength S.ρ Ψ = 1 := componentOrbitLength_eq_one hfin hρ
   obtain ⟨σ, hσ⟩ := exists_ringEquiv_frob (L := CoeffField) 2 h

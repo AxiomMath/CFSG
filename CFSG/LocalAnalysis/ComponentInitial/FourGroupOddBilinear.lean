@@ -319,7 +319,6 @@ theorem bilinear_isometry_projective_four_group {K : Type*} [Field K]
         simp only [J, fromBlocks_apply₁₁, fromBlocks_apply₁₂, fromBlocks_apply₂₁,
           fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.neg_apply, one_apply, ne_eq] at h <;>
         first
-        | exact absurd rfl h
         | (by_cases hij : i = j
            · subst hij; simp [S]
            · simp [hij] at h)

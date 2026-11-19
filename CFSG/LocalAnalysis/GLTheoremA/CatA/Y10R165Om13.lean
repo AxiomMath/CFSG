@@ -16,6 +16,7 @@ variable {F V : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup V] [Module 
   [FiniteDimensional F V] {Q : QuadraticForm F V} {n p q : ℕ}
   {Ã : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem blockEnd_sub_mem_blockSpace [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
@@ -33,6 +34,7 @@ theorem blockEnd_sub_mem_blockSpace [Fintype ↥(orthImage Ã)]
   rw [hgoal]
   exact Submodule.sub_mem _ (blockSpace_invariant (orthImage Ã) hp hpF hAe a.2) a.2
 
+omit [CharP F 2] in
 theorem exists_restriction_mem_supportedFixedDerived
     {xD xE xG : V ≃ₗ[F] V} {B : Submodule F V}
     (hcommEG : Commute xE xG) (hcommGD : Commute xG xD)
@@ -122,6 +124,7 @@ theorem exists_restriction_mem_supportedFixedDerived
   rw [hres_xGZ]
   exact hxGZmem
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem blockEnd_mem_fixedSpace_of_ne [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
@@ -136,12 +139,13 @@ private theorem blockEnd_mem_fixedSpace_of_ne [Fintype ↥(orthImage Ã)]
   refine mem_fixedSpace.mpr ?_
   rw [← LinearEquiv.mul_apply, ← hc.eq, LinearEquiv.mul_apply, mem_fixedSpace.mp hb]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem commute_blockEnd_of_fix_block_of_restrict [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
     {D E : Hyperplane (orthImage Ã) p} (hDE : D ≠ E)
     {j : V ≃ₗ[F] V} (hjfix : ∀ a ∈ blockSpace (orthImage Ã) D.1, j a = a)
-    (hjW : ∀ b ∈ fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D),
+    (_hjW : ∀ b ∈ fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D),
       j b ∈ fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D))
     (hxEW : ∀ b ∈ fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D),
       blockEnd (orthImage Ã) hp hpF hAe t ht E b ∈
@@ -213,6 +217,7 @@ private theorem commute_blockEnd_of_fix_block_of_restrict [Fintype ↥(orthImage
           rw [h1, hjfix a a.2]
     _ = (blockEnd (orthImage Ã) hp hpF hAe t ht E * j) ((a : V) + (bW : V)) := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem commute_blockEnd_of_mem_supportedFixedDerived [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (hQ : (polarBilin Q).Nondegenerate)
@@ -268,6 +273,7 @@ private theorem commute_blockEnd_of_mem_supportedFixedDerived [Fintype ↥(orthI
     (blockEnd_mem_fixedSpace_of_ne hp hpF hAe t ht hDE) hxE'coe
     (fun b => (hΦ_apply j b).symm) hΦj_comm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closure_pair_le_centralizer {xDK xEK jK : ↥(orthDerived Q)}
     (hcommD : Commute jK xDK) (hcommE : Commute jK xEK) :
     Subgroup.closure ({xDK, xEK} : Set ↥(orthDerived Q)) ≤
@@ -283,6 +289,7 @@ private theorem closure_pair_le_centralizer {xDK xEK jK : ↥(orthDerived Q)}
   · exact hcommD
   · exact hcommE
 
+omit [Finite F] [CharP F 2] in
 theorem layer_le_centralizer [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (hQ : (polarBilin Q).Nondegenerate)
@@ -342,6 +349,7 @@ theorem layer_le_centralizer [Fintype ↥(orthImage Ã)]
   intro y hy
   exact (Subgroup.mem_centralizer_iff.mp (hEKle hy) jK (Set.mem_singleton jK)).symm
 
+omit [CharP F 2] in
 theorem layer_normal
     (hp : p.Prime)
     {W : Submodule F V} {xE' : ↥W ≃ₗ[F] ↥W}

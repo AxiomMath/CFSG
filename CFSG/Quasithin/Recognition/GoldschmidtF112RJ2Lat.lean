@@ -63,10 +63,10 @@ theorem overgroup {Z : Subgroup ↥CFSG.Sporadic.J2.J} (hSZ : j2CtxA.S ≤ Z) :
 
 theorem normalizer_ne_top {P : Subgroup ↥CFSG.Sporadic.J2.J} (hP : P ≠ ⊥) (h2 : IsPGroup 2 P) :
     Subgroup.normalizer (P : Set ↥CFSG.Sporadic.J2.J) ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h
   have hn : P.Normal := Subgroup.normalizer_eq_top_iff.mp h
-  haveI := CFSG.Sporadic.J2.isSimpleGroup_J
+  have := CFSG.Sporadic.J2.isSimpleGroup_J
   rcases hn.eq_bot_or_eq_top with h1 | h1
   · exact hP h1
   · subst h1

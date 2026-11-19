@@ -17,7 +17,7 @@ private theorem exists_weylAction_of_mem_roots {U : Type*} [Group U] (D : Univer
     ∃ (w : (coxeterMatrix D.isFiniteType).Group) (i : Fin D.rank),
       γ = weylAction D.isFiniteType w (Pi.single i 1) := by
   change γ ∈ roots D.isFiniteType D.divisible at hγ
-  rw [roots, Set.mem_union, Set.mem_setOf_eq, Set.mem_setOf_eq] at hγ
+  rw [roots, Set.mem_union, Set.mem_ofPred_eq, Set.mem_ofPred_eq] at hγ
   rcases hγ with ⟨w, i, rfl⟩ | ⟨w, i, hi, rfl⟩
   · exact ⟨w, i, rfl⟩
   · rw [hdiv] at hi

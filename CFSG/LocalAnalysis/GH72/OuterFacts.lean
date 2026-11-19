@@ -120,7 +120,7 @@ end Ambient
 theorem commutator_le_sup_inf_centralizer_of_isL2OrA7 {G : Type*} [Group G] {H L : Subgroup G}
     (hLH : L ≤ H) (hH : H ≤ normalizer (L : Set G)) {qmin : ℕ} (h : IsL2OrA7 L qmin) :
     ⁅H, H⁆ ≤ L ⊔ (H ⊓ centralizer (L : Set G)) := by
-  haveI : (L.subgroupOf H).Normal := normal_subgroupOf_of_le_normalizer hH
+  have : (L.subgroupOf H).Normal := normal_subgroupOf_of_le_normalizer hH
   have h' : IsL2OrA7 (L.subgroupOf H) qmin := isL2OrA7_of_mulEquiv (subgroupOfEquivOfLe hLH) h
   have hmap := Subgroup.map_mono (f := H.subtype)
     (commutator_le_sup_centralizer_of_isL2OrA7 (X := H) (L.subgroupOf H) h')

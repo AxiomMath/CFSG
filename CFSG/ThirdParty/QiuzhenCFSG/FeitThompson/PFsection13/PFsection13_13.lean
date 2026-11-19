@@ -279,7 +279,7 @@ public theorem theorem_13_13
     section13_odd_card_subgroup_of_odd_group U hoddG
   have huOdd : Odd u := by
     rcases hBarU with ⟨_hCU, hnormal, hcard⟩
-    letI : (C.subgroupOf U).Normal := hnormal
+    let : (C.subgroupOf U).Normal := hnormal
     have hquot_dvd : Nat.card (U ⧸ C.subgroupOf U) ∣ Nat.card U :=
       Subgroup.card_quotient_dvd_card (C.subgroupOf U)
     have hquot_odd : Odd (Nat.card (U ⧸ C.subgroupOf U)) :=

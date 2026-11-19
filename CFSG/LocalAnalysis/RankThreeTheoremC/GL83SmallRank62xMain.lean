@@ -20,9 +20,9 @@ variable {G : Type} [Group G] [Finite G]
 private theorem main62x_exists_central {p : ℕ} [Fact p.Prime] {P : Sylow p G}
     (hP : (P : Subgroup G) ≠ ⊥) : ∃ z : G, SmallRankCentral P z := by
   have hnt : Nontrivial (P : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hP
-  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup.center_nontrivial
   have hdvd : p ∣ Nat.card (center (P : Subgroup G)) :=
-    (P.isPGroup'.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
+    (P.isPGroup.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
       (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne' h
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hc' : orderOf ((c : P) : G) = p := by

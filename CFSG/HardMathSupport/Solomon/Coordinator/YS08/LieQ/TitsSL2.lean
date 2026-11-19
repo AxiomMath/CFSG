@@ -43,18 +43,17 @@ theorem sl2_odd_order_card_two {K : Type} [Field K] [Finite K] (hK : Nat.card K 
         rw [sq]
         refine SL2_ext ?_ ?_ ?_ ?_ <;>
           simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two,
-            Matrix.one_apply, e00, e01, e10, e11, h2, h2']
+            e00, e01, e10, e11, h2]
         done
       | left
         refine SL2_ext ?_ ?_ ?_ ?_ <;>
           simp [coe_uSL, coe_WSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-            Fin.sum_univ_two, e00, e01, e10, e11, h2, h2', hneg]
+            Fin.sum_univ_two, e00, e01, e10, e11, hneg]
         done
       | right
         apply eq_inv_of_mul_eq_one_left
         refine SL2_ext ?_ ?_ ?_ ?_ <;>
           simp [coe_uSL, coe_WSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-            Fin.sum_univ_two, Matrix.one_apply, e00, e01, e10, e11, h2, h2', hneg]
-        done
+            Fin.sum_univ_two, e00, e01, e10, e11, h2, hneg]
 
 end CFSG.HardMathSupport.Solomon.Coordinator.YS08.LieQ

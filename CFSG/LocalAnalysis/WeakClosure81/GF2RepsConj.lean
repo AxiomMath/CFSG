@@ -99,7 +99,7 @@ theorem map_mem_irrSet {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) {I : Subgroup W}
     (hI : I ∈ irrSet X) : I.map g.toMonoidHom ∈ irrSet X := by
   have hI' : commSub I X = I ∧ IsIrrOn X I (I ⊓ fixV X) := by
-    simpa only [irrSet, Set.mem_setOf_eq] using hI
+    simpa only [irrSet, Set.mem_ofPred_eq] using hI
   obtain ⟨hcomm, hIirr⟩ := hI'
   have hfix : (fixV X).map g.toMonoidHom = fixV X := map_fixV_of_normalizes hg hg'
   have hcomm' : commSub (I.map g.toMonoidHom) X = I.map g.toMonoidHom := by
@@ -159,7 +159,7 @@ theorem stableUnder_iSup_irrSet {Y H : Subgroup (MulAut W)}
 theorem isIrrOn_sup_fixV {H : Subgroup (MulAut W)} {I : Subgroup W} (hI : I ∈ irrSet H) :
     IsIrrOn H (I ⊔ fixV H) (fixV H) := by
   have hI' : commSub I H = I ∧ IsIrrOn H I (I ⊓ fixV H) := by
-    simpa only [irrSet, Set.mem_setOf_eq] using hI
+    simpa only [irrSet, Set.mem_ofPred_eq] using hI
   obtain ⟨_, hIirr⟩ := hI'
   have hFixV : StableUnder H (fixV H) := fun x hx w hw => by
     rw [hw x hx]
@@ -260,7 +260,7 @@ theorem secIsoOn_trans {X : Subgroup (MulAut W)} {A A₀ B B₀ D D₀ : Subgrou
     exact D₀.mul_mem hD₀₁ hD₀₂
 
 theorem secIsoOn_map {X : Subgroup (MulAut W)} {g : MulAut W}
-    (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X)
+    (_hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X)
     {A A₀ B B₀ : Subgroup W} (h : SecIsoOn X A A₀ B B₀) :
     SecIsoOn X (A.map g.toMonoidHom) (A₀.map g.toMonoidHom) (B.map g.toMonoidHom)
       (B₀.map g.toMonoidHom) := by

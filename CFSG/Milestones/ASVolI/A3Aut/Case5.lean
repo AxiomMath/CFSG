@@ -82,7 +82,7 @@ theorem burnsideAut_case5_of_model {L T B : Subgroup G}
           IM.map (MulAut.congr ε.symm).toMonoidHom) →
         IsCyclic F ∧ Nat.card F ∣ n ∧ ChA.A315PinnedFieldGroup n ↥L ((T ⊓ L).subgroupOf L) F) :
     ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   set α : G →* MulAut ↥L := MulAut.conjNormal with hα
   have hαinj : Function.Injective α := burnsideAut_conjNormal_injective h
   set S : Subgroup ↥L := (T ⊓ L).subgroupOf L with hS
@@ -123,7 +123,7 @@ theorem burnsideAut_case5_of_model {L T B : Subgroup G}
   have hIΦ' : I ⊓ Φ = ⊥ := by
     rw [hI, hΦ, ← Subgroup.map_inf _ _ _ ψ.injective, hIΦ, Subgroup.map_bot]
   have hΦJ : Φ ≤ Subgroup.normalizer (J : Set (MulAut ↥L)) := by
-    haveI := burnsideAut_innDiag_normal ↥L
+    have := burnsideAut_innDiag_normal ↥L
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hΦS : Φ ≤ Subgroup.normalizer (Sb : Set (MulAut ↥L)) := by

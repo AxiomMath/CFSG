@@ -132,6 +132,7 @@ theorem mem_of_forall_conj_mem_sup (c : Cfg1620 M V₀ V U S R H g B) {v : G} (h
     exact h (m : G) m.2
   exact le_of_normalizer_of_ne_of_conjGenerated hgen hWleV hMW hWne hvW
 
+omit [Finite G] in
 theorem conjSubgroup_sup_eq (c : Cfg1620 M V₀ V U S R H g B) {b : G}
     (hb : b ∈ F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) :
     conjSubgroup (U ⊔ V₀) b = U ⊔ V₀ := by
@@ -156,6 +157,7 @@ theorem conjSubgroup_sup_eq (c : Cfg1620 M V₀ V U S R H g B) {b : G}
     rw [mem_conjSubgroup_iff]
     exact hstep hb.1 x hx
 
+omit [Finite G] in
 theorem inf_centralizer_conjSubgroup_L (c : Cfg1620 M V₀ V U S R H g B) {b : G}
     (hb : b ∈ F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) :
     (U ⊔ V₀) ⊓ centralizer (conjSubgroup (V ⊔ conjSubgroup V g) b : Set G) =
@@ -171,6 +173,7 @@ theorem inf_centralizer_conjSubgroup_L (c : Cfg1620 M V₀ V U S R H g B) {b : G
   rw [E3.conjSubgroup_inf, E3.conjSubgroup_centralizer, conjSubgroup_sup_eq c hb] at key
   exact key
 
+omit [Finite G] in
 theorem conjSubgroup_L_le_conjClosure (c : Cfg1620 M V₀ V U S R H g B) {b : G} (hb : b ∈ H) :
     conjSubgroup (V ⊔ conjSubgroup V g) b ≤ conjClosure V H := by
   intro x hx

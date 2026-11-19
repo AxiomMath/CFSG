@@ -156,13 +156,13 @@ theorem s16k_exists_group_fixing_base {K : Type} [Field K] [Finite K] [CharP K 2
       rw [hwc, single_dot_plusM, s16k_swap_swap]
       exact s16k_plusD_apply_eq_zero hir.symm hjr.symm
     have hwc_inl : wc (Sum.inl i0) = 0 := by
-      rw [hwc, Pi.single_apply, if_neg]
+      rw [hwc, Pi.single_apply, ite_eq_right]
       intro h
       have h1 := congrArg Sum.swap h
       rw [s16k_swap_swap] at h1
       exact hri0 (by rw [← h1]; simp [plusIdx])
     have hwc_inr : wc (Sum.inr i0) = 0 := by
-      rw [hwc, Pi.single_apply, if_neg]
+      rw [hwc, Pi.single_apply, ite_eq_right]
       intro h
       have h1 := congrArg Sum.swap h
       rw [s16k_swap_swap] at h1

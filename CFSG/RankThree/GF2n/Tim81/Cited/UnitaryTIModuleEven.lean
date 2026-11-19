@@ -13,6 +13,7 @@ open Matrix CFSG.RankThree.FFModules CFSG.Timmesfeld.ARS CFSG.Timmesfeld.LieEmbe
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f m : ℕ}
   {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite F] [CharP F 2] in
 private theorem single_ne_smul_single {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
     ∀ c : F, (Pi.single j 1 : Fin n → F) ≠ c • Pi.single i 1 := by
   intro c h
@@ -37,6 +38,7 @@ private theorem frameIdx_rev_ne {k : ℕ} {j j' : Fin (k + 1)} (h : j ≠ j') :
     Fin.rev (frameIdx k j) ≠ Fin.rev (frameIdx k j') := fun h' =>
   frameIdx_ne h (Fin.rev_injective h')
 
+omit [Finite F] [CharP F 2] in
 private theorem frame_perp {k : ℕ} {σ' : F ≃+* F} {j j' : Fin (k + 1)} (h : j ≠ j')
     {u v : Fin (k + k + 2) → F}
     (hu : u = Pi.single (frameIdx k j) 1 ∨ u = Pi.single (Fin.rev (frameIdx k j)) 1)

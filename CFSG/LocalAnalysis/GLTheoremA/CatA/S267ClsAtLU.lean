@@ -30,8 +30,8 @@ theorem badClsAt_A (hLin : ConcACaseLLinStatement) (hGA : GriessAllModelsStateme
   rw [TauCeti.LieTypeIndex.characteristic_A] at hchar
   subst hchar
   obtain ⟨e⟩ := he
-  haveI := hSn
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have := hSn
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hKc : Nat.card (GaloisField Q.p Q.exponent) = Q.p ^ Q.exponent :=
     GaloisField.card Q.p Q.exponent Q.exponent_pos.ne'
   let e' : PSimple p S ≃* StatedProj (StatedSL (n + 1) (GaloisField Q.p Q.exponent)) :=
@@ -52,7 +52,7 @@ theorem badClsAt_twistedA (hLU : ConcACaseLLUStatement) (hGA : GriessAllModelsSt
   classical
   intro p q hp hp2 hq hq2 hqp Ω _ _ _ S B hSn hperf hcore hchar he hB _ hrank hB4 hBC hp3B hHq
   obtain ⟨e⟩ := he
-  haveI := hSn
+  have := hSn
   have hc : TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩ = Q.p :=
     TauCeti.LieTypeIndex.characteristic_twistedA n Q
   have hfe : TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA n Q, hv⟩ = Q.exponent :=

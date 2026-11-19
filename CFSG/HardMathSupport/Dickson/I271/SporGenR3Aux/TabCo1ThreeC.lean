@@ -176,7 +176,7 @@ theorem pConstrained_of_index_two {G : Type} [Group G] [Finite G] (A : Subgroup 
     Subgroup.mem_centralizer_singleton_iff.1 (hKC (hQK hq)).1
   have hxZ : x ∈ Subgroup.centralizer (Q : Set G) ⊓ A :=
     ⟨Subgroup.mem_centralizer_iff.2 fun q hq => hxc q hq, hxA⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hle : Subgroup.zpowers x ≤ Subgroup.centralizer (Q : Set G) ⊓ A :=
     Subgroup.zpowers_le.2 hxZ
@@ -213,7 +213,7 @@ theorem threeC_shape {x : GL24} (hx : MRep (rootRows3C ()) x) :
     and_assoc, List.all_eq_true, List.mem_range] at h
   obtain ⟨hD, hwx, hw1, hx1, hx3, hxq, hc1, hc2, hc3, hc4, hQok, hQsz, hf1, hf2, hf3, hf4, hFb,
     hb1, hcnt1, hb2, hcnt2⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have rq1 := rep_nd (ext := TabCo1ThreeC.ext) hD 88
   have rq2 := rep_nd (ext := TabCo1ThreeC.ext) hD 89
   have rq3 := rep_nd (ext := TabCo1ThreeC.ext) hD 90
@@ -264,7 +264,7 @@ theorem threeC_shape {x : GL24} (hx : MRep (rootRows3C ()) x) :
   have hQK : Q ≤ K := by
     refine (Subgroup.closure_le K).2 ?_
     intro q hq
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hq
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hq
     rcases hq with rfl | rfl | rfl | rfl
     · exact hcm _ cm1 (kG_mem _ 88) hF1
     · exact hcm _ cm2 (kG_mem _ 89) hF2
@@ -296,7 +296,7 @@ section Final
 
 theorem tabCo1_threeC (x : ↥GA) (hx : MRep (rootRows3C ()) (x : GL24)) :
     PConstrainedShape 3 (Subgroup.centralizer ({x} : Set ↥GA)) := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   refine pConstrainedShape_of_map_injective GA.subtype GA.subtype_injective ?_
   rw [map_centralizer_subtype' GA x]
   exact threeC_shape hx

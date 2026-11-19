@@ -18,8 +18,8 @@ private theorem eq_bot_of_normalizes_comap {G H : Type} [Group G] [Finite G] [Gr
     W = ⊥ := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Finite W :=
+  have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite W :=
     Finite.of_injective (Subgroup.inclusion hWr) (Subgroup.inclusion_injective hWr)
   set P : Subgroup G := W.comap φ
   set F : P →* W := (φ.comp P.subtype).codRestrict W (fun x => x.2)
@@ -42,7 +42,7 @@ private theorem eq_bot_of_normalizes_comap {G H : Type} [Group G] [Finite G] [Gr
     CFSG.LocalAnalysis.GLTheoremA.I2016.sylow_two_normal_of_central F.ker hZc hcard S
   have hSu : Unique (Sylow 2 P) := Sylow.unique_of_normal S hSn
   set T : Subgroup G := (S : Subgroup P).map P.subtype
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := S.isPGroup.map _
   have hTP : T ≤ P := Subgroup.map_subtype_le _
   have hle : ∀ X : Subgroup G, X ≤ P → IsPGroup 2 X → X ≤ T := by
     intro X hXP hX2

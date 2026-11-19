@@ -57,7 +57,7 @@ theorem l154td4_exists_cubeSetup (S : LangSetup τ L p₀) (R : FrobRoot S.D 3)
     have h2 := R.step0_iterate x
     rw [Function.iterate_fixed h1 3] at h2
     exact h2.symm
-  haveI := S.finite
+  have := S.finite
   have hfin : Finite D₀.model := Finite.of_injective (Subgroup.inclusion hsub)
     (Subgroup.inclusion_injective hsub)
   refine ⟨D₀.toSetup 5 ρ₀ hρ₀ (by norm_num) (Or.inl le_rfl) hqpow hpq hfin, rfl, fun γ hγ => ?_⟩

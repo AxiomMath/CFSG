@@ -29,7 +29,6 @@ private theorem mem_word_x {H : Subgroup (Perm (Fin 11))} {A B : Perm (Fin 11)} 
   repeat' first
     | apply Subgroup.mul_mem
     | apply Subgroup.inv_mem
-    | apply Subgroup.pow_mem
     | assumption
 
 private theorem mem_word_y {H : Subgroup (Perm (Fin 11))} {A B : Perm (Fin 11)} (hA : A ∈ H)
@@ -38,7 +37,6 @@ private theorem mem_word_y {H : Subgroup (Perm (Fin 11))} {A B : Perm (Fin 11)} 
   repeat' first
     | apply Subgroup.mul_mem
     | apply Subgroup.inv_mem
-    | apply Subgroup.pow_mem
     | assumption
 
 theorem m11SdX_mem : m11SdX ∈ NativeSporadic.M11 := by

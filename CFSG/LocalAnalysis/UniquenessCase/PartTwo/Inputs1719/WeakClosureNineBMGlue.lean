@@ -14,7 +14,7 @@ theorem closureC_map_code (gens : List P16) : closureC (gens.map code) = closure
   rw [closureC]
   congr 1
   ext σ
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
   exact ⟨fun ⟨τ, hτ, he⟩ => code_injective he ▸ hτ, fun hσ => ⟨σ, hσ, rfl⟩⟩
 
 variable {i : Fin 4} {tLit : List (List ℕ)}

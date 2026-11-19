@@ -13,7 +13,7 @@ open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley CFSG.RankThree.CentralCover
 section W
 
 
-@[expose] noncomputable abbrev SM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
+noncomputable abbrev SM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
   (l.map (Smat Tag.F4)).prod
 
 theorem wordW_nil : wordW Tag.F4 [] = 1 := by simp [wordW]
@@ -57,6 +57,7 @@ section Core
 
 variable (K : Type) [Field K] [Finite K]
 
+omit [Finite K] in
 theorem torusN_injective_F4 : Function.Injective (torusN Tag.F4 K) := by
   intro a b hab
   have h1 := congrArg (monoι Tag.F4 K) hab
@@ -64,7 +65,7 @@ theorem torusN_injective_F4 : Function.Injective (torusN Tag.F4 K) := by
   exact torusCoordHom_injective_of_mul_eq_one cartan_mul_cartanInv_F4 (Subtype.val_injective h1)
 
 theorem exists_omega (h3 : 3 ∣ Nat.card K - 1) : ∃ ω : Kˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : 3 ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   exact exists_prime_orderOf_dvd_card' 3 this
 
@@ -190,6 +191,7 @@ theorem bound_ab2 (h3 : 3 ∣ Nat.card K - 1) (s : ↥(monomialSub Tag.F4 K))
   ∀ s : ↥(monomialSub Tag.F4 K), monomialSubHom (τ := Tag.F4) (K := K) s = x → s ^ 3 = 1 →
     81 ∣ Nat.card (Subgroup.centralizer ({s} : Set ↥(monomialSub Tag.F4 K)))
 
+omit [Finite K] in
 theorem BdF4.inv {x : WeylGroup Tag.F4} (h : BdF4 K x) : BdF4 K x⁻¹ := by
   intro s hs hs3
   have h1 := h s⁻¹ (by rw [map_inv, hs, inv_inv]) (by rw [inv_pow, hs3, inv_one])
@@ -250,6 +252,7 @@ theorem bdF4_of_QF4 (h3 : 3 ∣ Nat.card K - 1) {x : WeylGroup Tag.F4} (hx : x �
   · have := (bdF4_ab K h3).inv
     rwa [inv_wa_wb] at this
 
+omit [Finite K] in
 theorem bd_torus (h3 : 3 ∣ Nat.card K - 1) (n : ↥(monomialSub Tag.F4 K))
     (hn : monomialSubHom (τ := Tag.F4) (K := K) n = 1) :
     81 ∣ Nat.card (Subgroup.centralizer ({n} : Set ↥(monomialSub Tag.F4 K))) := by

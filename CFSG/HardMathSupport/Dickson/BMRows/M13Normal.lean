@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -137,7 +137,7 @@ theorem conj_mem_of_small_index {G : Type*} [Group G] [Finite G] {x : G} {Q : Su
   let x' : ↥C := ⟨x, hxC⟩
   let Q' : Subgroup ↥C := Q.subgroupOf C
   let eQ : ↥Q' ≃* ↥Q := Subgroup.subgroupOfEquivOfLe hQC
-  haveI hs' : IsSimpleGroup ↥Q' := (MulEquiv.isSimpleGroup_congr eQ).2 inferInstance
+  have hs' : IsSimpleGroup ↥Q' := (MulEquiv.isSimpleGroup_congr eQ).2 inferInstance
   have hnab' : ∃ a b : ↥Q', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨eQ.symm a, eQ.symm b, fun h => hab (by simpa using congrArg eQ h)⟩
@@ -149,7 +149,7 @@ theorem conj_mem_of_small_index {G : Type*} [Group G] [Finite G] {x : G} {Q : Su
   have hzc : Subgroup.zpowers x' ≤ Subgroup.center ↥C := by
     rw [Subgroup.zpowers_le]
     exact hx'c
-  haveI hZn : (Subgroup.zpowers x').Normal := by
+  have hZn : (Subgroup.zpowers x').Normal := by
     constructor
     intro n hn g
     have hnc : n ∈ Subgroup.center ↥C := hzc hn
@@ -210,7 +210,7 @@ theorem conj_mem_of_small_index {G : Type*} [Group G] [Finite G] {x : G} {Q : Su
     rw [commutator_mul_central_left hz₁c, commutator_mul_central_right hz₂c, commutatorElement_def]
     exact Q'.mul_mem (Q'.mul_mem (Q'.mul_mem ha hb) (Q'.inv_mem ha)) (Q'.inv_mem hb)
   have hperf' : ⁅Q', Q'⁆ = Q' := commutator_self_eq (commutator_eq_top_of_simple_nonab hnab')
-  haveI : H.normalCore.Normal := inferInstance
+  have : H.normalCore.Normal := inferInstance
   have hQn : Q'.Normal := normal_of_commutator hcore (Subgroup.normalCore_le H) hcomm hperf'
   intro g hg l hl
   exact hQn.conj_mem (⟨l, hQC hl⟩ : ↥C) hl (⟨g, hg⟩ : ↥C)
@@ -271,7 +271,7 @@ theorem card_mul_cent_le {G : Type*} [Group G] [Finite G] {x : G} {Q : Subgroup 
   rfl
 
 theorem isPGroup_of_card_lt {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {Z : Subgroup G}
-    [Finite Z] {x : G} (hx : x ∈ Z) (hxo : orderOf x = p) {m N : ℕ} (hm : 0 < m)
+    [Finite Z] {x : G} (hx : x ∈ Z) (hxo : orderOf x = p) {m N : ℕ} (_hm : 0 < m)
     (hZ : Nat.card ↥Z * m ≤ N) (hN : N < 2 * p * m) : IsPGroup p ↥Z := by
   have hdvd : p ∣ Nat.card ↥Z := by
     have := orderOf_dvd_natCard (⟨x, hx⟩ : ↥Z)

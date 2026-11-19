@@ -75,7 +75,7 @@ theorem dihedral_case {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) {V : Type} [AddCom
   have hpp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
   obtain ⟨ℓ, hℓ, hℓ2, hℓp, hℓd, hppd⟩ := exists_ppd_six hpp hp2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hcard : Nat.card (GaloisField p (3 * 1)) = p ^ 3 := by
     simpa using GaloisField.card p (3 * 1) (by norm_num)
   have h2F : (2 : GaloisField p (3 * 1)) ≠ 0 := two_ne_zero_of_charP (p := p) (by omega)
@@ -119,7 +119,7 @@ theorem cross_case {p r : ℕ} [Fact p.Prime] [Fact r.Prime] (hp : 5 ≤ p) (hr 
       _ ≤ p ^ 3 := Nat.pow_le_pow_left hp 3
     omega
   obtain ⟨x, y, hxy⟩ : ∃ x y : GaloisField p (3 * 1), x ^ 2 + y ^ 2 = -1 := by
-    haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+    have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
     obtain ⟨a, b, hab⟩ := CharP.sq_add_sq (GaloisField p (3 * 1)) p (-1)
     exact ⟨a, b, by simpa using hab⟩
   obtain ⟨a, b, ha, hb, hab, ha1, hb1, hab1⟩ := exists_klein h2F ⟨x, y, hxy⟩

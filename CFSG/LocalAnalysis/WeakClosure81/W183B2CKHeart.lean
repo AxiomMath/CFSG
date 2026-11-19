@@ -82,12 +82,12 @@ theorem w183b2_core_tensor {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {Δ 
         T d * TensorProduct.map s LinearMap.id = TensorProduct.map s' LinearMap.id * T d) :
     Nat.card Δ ≤ 4 := by
   classical
-  haveI hnt1 : Nontrivial (Module.End k U₁) := ⟨0, 1, fun hcon => by
+  have hnt1 : Nontrivial (Module.End k U₁) := ⟨0, 1, fun hcon => by
     obtain ⟨v, hv⟩ := exists_ne (0 : U₁)
     have h' : (0 : U₁) = v := by
       simpa using congrArg (fun f : Module.End k U₁ => f v) hcon
     exact hv h'.symm⟩
-  haveI hnt2 : Nontrivial (Module.End k U₂) := ⟨0, 1, fun hcon => by
+  have hnt2 : Nontrivial (Module.End k U₂) := ⟨0, 1, fun hcon => by
     obtain ⟨v, hv⟩ := exists_ne (0 : U₂)
     have h' : (0 : U₂) = v := by
       simpa using congrArg (fun f : Module.End k U₂ => f v) hcon
@@ -105,7 +105,7 @@ theorem w183b2_core_tensor {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {Δ 
     have hsq : TensorProduct.map (a₀ * a₀) (b₀ * b₀) = 1 := by
       rw [TensorProduct.map_mul, ← hTd, hTT]
     obtain ⟨c, hc, ha₀, hb₀⟩ := w183b2_map_eq_one hsq
-    obtain ⟨e, he⟩ := IsAlgClosed.exists_eq_mul_self c
+    obtain ⟨e, he⟩ := IsAlgClosed.isSquare c
     have he0 : e ≠ 0 := by rintro rfl; exact hc (by simpa using he)
     refine ⟨e⁻¹ • a₀, e • b₀, ?_, ?_, ?_⟩
     · rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, smul_smul, ha₀, smul_smul,
@@ -296,7 +296,7 @@ theorem w183b2_core_tensor {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {Δ 
             (hA_comm f₀ g) hq
     choose coef hcoef using hline
     obtain ⟨n, b, F, S, hFfin, hFcard, hspan, hSF, hSinv⟩ := hF
-    haveI : Finite F := hFfin
+    have : Finite F := hFfin
     have hAmat : ∀ d : Δ, ∀ i j, LinearMap.toMatrix b b (A d) i j ∈ F := by
       intro d
       apply w183b2_frob_descent b F S hspan hSF (A d) (hA d)
@@ -307,7 +307,7 @@ theorem w183b2_core_tensor {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {Δ 
           TensorProduct.map (s' * A d) (B d) := by
         have h := hs'eq
         rw [hT d] at h
-        simp only [← TensorProduct.map_mul, mul_one, one_mul] at h
+        simp only [← TensorProduct.map_mul] at h
         exact h
       exact w183b2_tensor_mul_eq_map_left (hunitB d).ne_zero hmap
     have hAmat1 : ∀ g : Δ, ∀ i j, LinearMap.toMatrix b b (A g - 1) i j ∈ F := by
@@ -354,7 +354,7 @@ theorem w183b2_core_tensor {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {Δ 
       exact hA_inj g g' hAg
     exact le_trans (Nat.card_le_card_of_injective lam hinjlam) hFcard
   · rw [not_exists] at hex
-    haveI : Subsingleton Δ := ⟨fun a b => by
+    have : Subsingleton Δ := ⟨fun a b => by
       rw [show a = 1 from by simpa using hex a, show b = 1 from by simpa using hex b]⟩
     have h1 : Nat.card Δ ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr ‹Subsingleton Δ›
     omega

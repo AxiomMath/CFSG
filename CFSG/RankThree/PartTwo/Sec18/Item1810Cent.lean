@@ -98,7 +98,7 @@ theorem card_inf_centralizer_eq_nine [Finite G] {A : Subgroup G} {d : G}
   · exact hk.trans (by norm_num)
   · exfalso
     have htop : φ.ker = ⊤ :=
-      Subgroup.eq_top_of_card_eq φ.ker (by rw [hk, hA27] <;> norm_num)
+      Subgroup.eq_top_of_card_eq φ.ker (by rw [hk, hA27]; norm_num)
     obtain ⟨a, ha, hne⟩ := hnc
     have hmem : (⟨a, ha⟩ : A) ∈ φ.ker := by
       rw [htop]

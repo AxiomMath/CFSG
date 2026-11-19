@@ -16,7 +16,7 @@ theorem s3_coset_invol_conj (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center 
     (hOut : (innerAut (L ⧸ center L)).index = 2) {t'' : G} (ht : ActsAs L t'' s.fr'.σ)
     (ht2 : t'' ^ 2 = 1) {l : G} (hl : l ∈ L) (hw : (t'' * l) ^ 2 = 1) :
     ∃ l₂ ∈ L, t'' * l = l₂ * t'' * l₂⁻¹ := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   set il : MulAut (L ⧸ center L) :=
     MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L)) with hil_def
   set α : MulAut (L ⧸ center L) := s.fr'.σ * il with hα_def

@@ -50,7 +50,7 @@ theorem quasisimple_SQTK_center_odd_part_of_catalogStep (hcat : CFSG.SectionRank
     have h := mem_center_iff.1 (hAZ ha) g
     rw [h, mul_inv_cancel_right]
     exact ha⟩
-  have hA2 : IsPGroup 2 A := S.isPGroup'.map Z.subtype
+  have hA2 : IsPGroup 2 A := S.isPGroup.map Z.subtype
   set v := (Nat.card Z).factorization 2 with hv
   have hAcard : Nat.card A = 2 ^ v := by
     rw [hAdef, card_map_of_injective Z.subtype_injective, S.card_eq_multiplicity]

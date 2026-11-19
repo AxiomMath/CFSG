@@ -13,6 +13,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3e5c_mem_pCoreOf_of_conj {L : Subgroup G} {b y : G}
     (hbL : b ∈ normalizer (L : Set G)) (hyL : y ∈ L)
     (hy : MulAut.conj (QuotientGroup.mk (⟨y, hyL⟩ : ↥L) : Bar2 L) =
@@ -75,6 +76,7 @@ theorem uc22r3e5c_exists_sylow_rhoL_stable {D : Data G} {L : Subgroup G} (hL : L
     uc22r3e5c_mem_normalizer_T_inf hbT hbL
   rw [hU, CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.rhoL_maps_barImage inf_le_right hbTL hbL]
 
+omit [Finite G] in
 theorem uc22r3e5c_conjClosure_eq_of_mem {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     conjClosure M K = conjClosure M L := by
   rw [conjClosure, conjClosure, uc22p2214_conjSetOf_eq hK]

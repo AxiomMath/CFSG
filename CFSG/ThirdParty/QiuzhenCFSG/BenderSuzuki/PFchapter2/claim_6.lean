@@ -240,12 +240,12 @@ private theorem claim6_units_card_power_of_two
     (hQ1 : Q1 = ⊥) (hsup : S ⊔ Q1 = Q)
     (unitEquiv : nearFieldStar Q P ≃* Fˣ) :
     ∃ b : ℕ, Nat.card Fˣ = 2 ^ b := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSQ : S = Q := by
     simpa [hQ1] using hsup
   rcases hS_sylow with ⟨P2, hS⟩
   have hSp : IsPGroup 2 S := by
-    have hp := P2.isPGroup'.map Q.subtype
+    have hp := P2.isPGroup.map Q.subtype
     rw [← hS] at hp
     exact hp
   have hstar_le_S : nearFieldStar Q P ≤ S := by
@@ -266,12 +266,12 @@ private theorem claim6_nearField_commutative_of_unitEquiv
     (hstar : IsMulCommutative (nearFieldStar Q P)) :
     IsMulCommutative F := by
   have hUnits : IsMulCommutative Fˣ := by
-    letI : IsMulCommutative (nearFieldStar Q P) := hstar
+    let : IsMulCommutative (nearFieldStar Q P) := hstar
     refine ⟨⟨fun x y => ?_⟩⟩
     apply unitEquiv.symm.injective
     rw [map_mul, map_mul]
     exact (IsMulCommutative.is_comm (M := nearFieldStar Q P)).comm _ _
-  letI : IsMulCommutative Fˣ := hUnits
+  let : IsMulCommutative Fˣ := hUnits
   refine ⟨⟨fun x y => ?_⟩⟩
   by_cases hx : x = 0
   · simp [hx]
@@ -302,13 +302,13 @@ private theorem claim6_units_card_eight_sigma_card
   have hChar : addOrderOf (1 : F) = 3 :=
     Nat.prime_eq_prime_of_dvd_pow (m := 2) hCharPrime Nat.prime_three
       (by simpa using hCharDvdNine)
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let moduleThree : Module (ZMod 3) F := by
     exact AddCommGroup.zmodModule (n := 3) (by
       intro x
       rw [← hChar]
       exact rightNearField_addOrderOf_one_nsmul_eq_zero x)
-  letI : Module (ZMod 3) F := moduleThree
+  let : Module (ZMod 3) F := moduleThree
   have hfinrank : Module.finrank (ZMod 3) F = 2 := by
     apply Nat.pow_right_injective (by norm_num : 2 ≤ 3)
     calc
@@ -457,7 +457,7 @@ private theorem claim6_field_sigma_bot
   classical
   have hCharDvdCard : addOrderOf (1 : F) ∣ Nat.card F :=
     addOrderOf_dvd_natCard (1 : F)
-  letI : IsMulCommutative F := hcomm
+  let : IsMulCommutative F := hcomm
   let fieldF : Field F :=
     Field.ofMinimalAxioms F add_assoc zero_add neg_add_cancel mul_assoc
       (IsMulCommutative.is_comm (M := F)).comm one_mul
@@ -471,23 +471,23 @@ private theorem claim6_field_sigma_bot
             rw [(IsMulCommutative.is_comm (M := F)).comm b a,
               (IsMulCommutative.is_comm (M := F)).comm c a])
       ⟨0, 1, zero_ne_one⟩
-  letI : Field F := fieldF
-  letI : AddCommGroup F := fieldF.toAddCommGroup
-  letI : AddCommMonoid F := fieldF.toAddCommGroup.toAddCommMonoid
+  let : Field F := fieldF
+  let : AddCommGroup F := fieldF.toAddCommGroup
+  let : AddCommMonoid F := fieldF.toAddCommGroup.toAddCommMonoid
   have hellPrime : Nat.Prime ell := by
     rw [← hchar]
     exact rightNearField_addOrderOf_one_prime
-  letI : Fact (Nat.Prime ell) := ⟨hellPrime⟩
+  let : Fact (Nat.Prime ell) := ⟨hellPrime⟩
   let zmodField : Field (ZMod ell) := inferInstance
-  letI : Semiring (ZMod ell) :=
+  let : Semiring (ZMod ell) :=
     zmodField.toSemifield.toDivisionSemiring.toSemiring
-  letI : CharP F ell := by
+  let : CharP F ell := by
     rw [← hchar]
     exact CharP.addOrderOf_one F
-  letI : Module (ZMod ell) F :=
+  let : Module (ZMod ell) F :=
     { (ZMod.castHom dvd_rfl F : ZMod ell →+* _).toModule with }
-  letI : Algebra (ZMod ell) F := ZMod.algebraOfModule ell F
-  letI : Module (ZMod ell) F := Algebra.toModule
+  let : Algebra (ZMod ell) F := ZMod.algebraOfModule ell F
+  let : Module (ZMod ell) F := Algebra.toModule
   rcases hPO with
     ⟨_addLift, _unitLift, sigmaAct, _hcoordinates, _haddZero, _hadd,
       _hunitOne, _hunitMul, _hunitRange, _hright, hsigmaMaps,
@@ -557,7 +557,7 @@ private theorem claim6_field_sigma_bot
       _ ≤ Module.finrank (ZMod ell) F := by
         simpa [Nat.card_eq_fintype_card] using
           (AlgEquiv.card_le (F := ZMod ell) (K := F))
-  haveI : Finite (F ≃+* F) :=
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun e : F ≃+* F => (e : F → F)) (by
       intro e₁ e₂ h
       ext x
@@ -640,7 +640,7 @@ public theorem claim_6
   classical
   let C : Subgroup G := Subgroup.centralizer (P : Set G)
   let OmegaP : Type _ := {w : Omega // w ∈ fixedPointsOfSubgroup G Omega P}
-  letI : MulAction C OmegaP := fixedPointCentralizerAction G Omega P
+  let : MulAction C OmegaP := fixedPointCentralizerAction G Omega P
   let HP : Subgroup C := H.comap C.subtype
   let DP : Subgroup C := D.comap C.subtype
   let QP : Subgroup C := Q.comap C.subtype
@@ -650,10 +650,10 @@ public theorem claim_6
   rcases h2b with
     ⟨_hNcore, hnormal, _quotientAction, _hsmul, hAbar,
       F, hF, hFfinite, hFnontrivial, unitEquiv, hPO, hcharacteristic⟩
-  letI : core.Normal := hnormal
-  letI : PFAppendixII.RightNearField F := hF
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : core.Normal := hnormal
+  let : PFAppendixII.RightNearField F := hF
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   let pi : C →* C ⧸ core := QuotientGroup.mk' core
   have hQnil : Group.IsNilpotent Q :=
     PFchapter1section2.proposition_1_b H D Q K V W Q0 S Q1 t

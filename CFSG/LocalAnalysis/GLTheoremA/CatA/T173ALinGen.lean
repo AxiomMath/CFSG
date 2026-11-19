@@ -12,7 +12,7 @@ open scoped MatrixGroups
 
 private theorem charP_two_of_linArith {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : LinArith p n d F) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Nat.card F = 2 ^ n := h.2.2.2.2.1
   have hn : 2 ≤ n := h.2.2.2.2.2.1
   have hring : ringChar F = 2 := by
@@ -37,7 +37,7 @@ private theorem inv_permGL {d : ℕ} {F : Type} [Field F] (σ : Equiv.Perm (Fin 
 
 private theorem det_permGL {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : LinArith p n d F) (σ : Equiv.Perm (Fin d)) : (σ.permMatrix F).det = 1 := by
-  haveI : CharP F 2 := charP_two_of_linArith h
+  have : CharP F 2 := charP_two_of_linArith h
   rw [Matrix.det_permutation]
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h1 | h1
   · simp [h1]
@@ -65,13 +65,13 @@ private def IsTwoByTwo {d : ℕ} {F : Type} [Field F] (i j : Fin d)
     M a b = if a = b then 1 else 0
 
 private theorem isTwoByTwo_transvection {d : ℕ} {F : Type} [Field F] {i j : Fin d}
-    (hij : i ≠ j) (c : F) : IsTwoByTwo i j (Matrix.transvection i j c) := by
+    (_hij : i ≠ j) (c : F) : IsTwoByTwo i j (Matrix.transvection i j c) := by
   intro a b hab
   have hsingle : Matrix.single i j c a b = 0 := by
     rw [Matrix.single_apply]
     rcases hab with ⟨ha, -⟩ | ⟨-, hb⟩
-    · exact if_neg (fun hc => ha hc.1.symm)
-    · exact if_neg (fun hc => hb hc.2.symm)
+    · exact ite_eq_right (fun hc => ha hc.1.symm)
+    · exact ite_eq_right (fun hc => hb hc.2.symm)
   rw [Matrix.transvection, Matrix.add_apply, hsingle, add_zero, Matrix.one_apply]
 
 private theorem isTwoByTwo_diag2n {d : ℕ} {F : Type} [Field F] {i j : Fin d}
@@ -81,11 +81,11 @@ private theorem isTwoByTwo_diag2n {d : ℕ} {F : Type} [Field F] {i j : Fin d}
   intro a b hab
   rw [Matrix.SpecialLinearGroup.diag2n_coe, Matrix.diagonal_apply]
   by_cases h : a = b
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     rcases hab with ⟨ha1, ha2⟩ | ⟨hb1, hb2⟩
-    · rw [if_neg ha1, if_neg ha2]
-    · rw [if_neg (fun hh => hb1 (h ▸ hh)), if_neg (fun hh => hb2 (h ▸ hh))]
-  · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right ha1, ite_eq_right ha2]
+    · rw [ite_eq_right (fun hh => hb1 (h ▸ hh)), ite_eq_right (fun hh => hb2 (h ▸ hh))]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private theorem exists_perm_maps_mem {d : ℕ} {I : Finset (Fin d)} (hI : 2 ≤ I.card)
     {i j : Fin d} (hij : i ≠ j) :
@@ -167,7 +167,7 @@ private theorem permGL_conj_mem_diagTorsion {p n d : ℕ} {F : Type} [Field F] [
     rw [Subgroup.closure_le]
     rintro a ⟨b, hb, rfl⟩
     refine Subgroup.subset_closure ?_
-    simp only [Set.mem_setOf_eq] at hb ⊢
+    simp only [Set.mem_ofPred_eq] at hb ⊢
     obtain ⟨hbSL, hbp, hbd⟩ := hb
     have := permGL_conj_mem_diagSet h τ hbSL hbp hbd
     simpa [MulAut.conj_apply] using this
@@ -217,7 +217,7 @@ private theorem permGL_conj_mem_blockSet {p n d : ℕ} {F : Type} [Field F] [Fin
   rw [hM.2 (τ i) (τ j) hnot]
   by_cases hij' : i = j
   · subst hij'; simp
-  · rw [if_neg hij', if_neg (fun hh => hij' (τ.injective hh))]
+  · rw [ite_eq_right hij', ite_eq_right (fun hh => hij' (τ.injective hh))]
 
 private theorem conj_image_blockImage_subset {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : LinArith p n d F) (τ : Equiv.Perm (Fin d)) (J : Finset (Fin d)) :
@@ -320,7 +320,7 @@ theorem lin_blocks_generate {d : ℕ} {F : Type} [Field F] [Finite F] {I : Finse
     have := Finset.card_le_univ I
     rw [Fintype.card_fin] at this
     omega
-  haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr hd
+  have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr hd
   let K : Subgroup ↥(LinSL d F) := (LinBlockClosure d F I).comap (LinMk d F)
   let K' : Subgroup (Matrix.SpecialLinearGroup (Fin d) F) :=
     K.comap (linSLEquiv d F).toMonoidHom

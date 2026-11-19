@@ -47,14 +47,14 @@ theorem forall_eq_one_of_irred [Finite A] {N B : Subgroup A} (hcyc : ¬ IsCyclic
     exact b.2
   have hNV : N ≤ Subgroup.normalizer (V : Set A) := by
     intro n hn
-    haveI : Finite ↥V := inferInstance
+    have : Finite ↥V := inferInstance
     refine Subgroup.mem_normalizer_fintype fun v hv => ?_
     obtain ⟨b, hb, rfl⟩ := hv
     have hnb : n * (b : A) * n⁻¹ ∈ B :=
       (Subgroup.mem_normalizer_iff.1 (hNB hn) b).1 b.2
     exact ⟨⟨_, hnb⟩, hθ n hn b hb hnb, rfl⟩
-  haveI : Finite ↥θ.range := Finite.of_surjective _ θ.rangeRestrict_surjective
-  haveI : IsCyclic θ.range :=
+  have : Finite ↥θ.range := Finite.of_surjective _ θ.rangeRestrict_surjective
+  have : IsCyclic θ.range :=
     isCyclic_of_injective_ringHom ((Units.coeHom K).comp θ.range.subtype)
       (fun a b h => Subtype.ext (Units.ext h))
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := θ.range)

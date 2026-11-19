@@ -13,10 +13,12 @@ section
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {V : Type} [CommGroup V]
 
+omit [Finite G] in
 theorem conj_mem_blockU {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) {u : G}
     (hu : u ∈ blockU K) : n * u * n⁻¹ ∈ blockU K :=
   (Subgroup.mem_normalizer_iff.mp (C1.mem_normalizer_blockU hn) u).mp hu
 
+omit [Finite G] in
 theorem conj_mem_blockZ {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) {u : G}
     (hu : u ∈ blockZ K) : n * u * n⁻¹ ∈ blockZ K :=
   (Subgroup.mem_normalizer_iff.mp (C1.mem_normalizer_blockZ hn) u).mp hu
@@ -30,6 +32,7 @@ theorem conj_mem_blockZ {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) {u 
     (v : V) : V :=
   D.β (cU hn (sinv D v))
 
+omit [Finite G] in
 theorem gfun_β (D : ModData K V) {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G))
     (u : ↥(blockU K)) : gfun D hn (D.β u) = D.β (cU hn u) := by
   set u' := sinv D (D.β u) with hu'
@@ -49,6 +52,7 @@ theorem gfun_β (D : ModData K V) {n : G} (hn : n ∈ Subgroup.normalizer (K : S
   unfold gfun
   exact h4
 
+omit [Finite G] in
 theorem cU_val {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) (u : ↥(blockU K)) :
     ((cU hn u : ↥(blockU K)) : G) = n * (u : G) * n⁻¹ := rfl
 
@@ -79,9 +83,11 @@ theorem cU_val {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) (u : ↥(blo
     simp only [cU_val, Subgroup.coe_mul]
     group
 
+omit [Finite G] in
 theorem gammaAut_apply (D : ModData K V) {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G))
     (u : ↥(blockU K)) : gammaAut D hn (D.β u) = D.β (cU hn u) := gfun_β D hn u
 
+omit [Finite G] in
 theorem gammaAut_one (D : ModData K V) :
     gammaAut D (Subgroup.normalizer (K : Set G)).one_mem = 1 := by
   apply MulEquiv.ext
@@ -94,6 +100,7 @@ theorem gammaAut_one (D : ModData K V) :
   simp only [cU_val]
   group
 
+omit [Finite G] in
 theorem gammaAut_mul (D : ModData K V) {n m : G} (hn : n ∈ Subgroup.normalizer (K : Set G))
     (hm : m ∈ Subgroup.normalizer (K : Set G)) :
     gammaAut D ((Subgroup.normalizer (K : Set G)).mul_mem hn hm) = gammaAut D hn * gammaAut D hm := by
@@ -132,7 +139,7 @@ theorem gammaAut_conj_rho (D : ModData K V) {n : G} (hn : n ∈ Subgroup.normali
       exact (Subgroup.mem_normalizer_iff.mp (C1.le_normalizer_blockU K k.2) u₁).mp u₁.2⟩) =
       D.ρ ⟨n * (k : G) * n⁻¹, (Subgroup.mem_normalizer_iff.mp hn k).mp k.2⟩ (D.β u) := by
     refine D.equiv _ u _ ?_
-    simp only [cU_val, hu₁, cU, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [hu₁, cU, Subgroup.coe_inv]
     group
   exact e2
 
@@ -142,10 +149,12 @@ section
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {V : Type} [CommGroup V]
 
+omit [Finite G] in
 theorem h5_centralizer_of_mem_blockZ {z : G} (hz : z ∈ blockZ K) :
     z ∈ Subgroup.centralizer (K : Set G) :=
   (show z ∈ blockU K ⊓ Subgroup.centralizer (K : Set G) from hz).2
 
+omit [Finite G] in
 theorem h5_comm_mem_blockZ (D : ModData K V) {n : G}
     (hn : n ∈ Subgroup.normalizer (K : Set G)) (h : gammaAut D hn = 1) {x : G}
     (hx : x ∈ blockU K) : n * x * n⁻¹ * x⁻¹ ∈ blockZ K := by
@@ -259,6 +268,7 @@ variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {V : Type} [CommGroup 
     Subgroup (MulAut V) :=
   ((gammaHom D).comp (Subgroup.inclusion hAN)).range
 
+omit [Finite G] in
 theorem mem_gamB (D : ModData K V) {A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (K : Set G))
     {b : MulAut V} : b ∈ gamB D A hAN ↔ ∃ (a : G) (ha : a ∈ A), gammaAut D (hAN ha) = b := by
   unfold gamB
@@ -269,6 +279,7 @@ theorem mem_gamB (D : ModData K V) {A : Subgroup G} (hAN : A ≤ Subgroup.normal
   · rintro ⟨a, ha, rfl⟩
     exact ⟨⟨a, ha⟩, rfl⟩
 
+omit [Finite G] in
 theorem gammaAut_mem_gamB (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) {a : G} (ha : a ∈ A) :
     gammaAut D (hAN ha) ∈ gamB D A hAN :=
@@ -278,16 +289,18 @@ theorem gammaAut_mem_gamB (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) : ↥A →* MulAut V :=
   (gammaHom D).comp (Subgroup.inclusion hAN)
 
+omit [Finite G] in
 theorem mem_gamB_phiA (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) {b : MulAut V} :
     b ∈ gamB D A hAN ↔ ∃ a : ↥A, phiA D hAN a = b := by
   unfold gamB
   exact MonoidHom.mem_range
 
+omit [Finite G] in
 theorem gamB_isElemAbelian (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) (hA : IsElemAbelian 2 A) :
     IsElemAbelian 2 (gamB D A hAN) := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
   · show x * y = y * x
     apply Subtype.ext
@@ -300,6 +313,7 @@ theorem gamB_isElemAbelian (D : ModData K V) {A : Subgroup G}
       exact hA.2 _ a.2)
     rw [← ha, ← map_pow, ha2, map_one]
 
+omit [Finite G] in
 theorem card_blockZ_mul_card_V (D : ModData K V) :
     Nat.card ↥(blockZ K) * Nat.card V = Nat.card ↥(blockU K) := by
   have hZU : blockZ K ≤ blockU K := inf_le_left
@@ -310,6 +324,7 @@ theorem card_blockZ_mul_card_V (D : ModData K V) :
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZU).toEquiv
   rw [← Subgroup.card_mul_index (H := D.β.ker), hk, ← hV]
 
+omit [Finite G] in
 theorem conj_fix_of_mem_centralizer {A : Subgroup G} {a : G} (ha : a ∈ A) {s : G}
     (hs : s ∈ Subgroup.centralizer (A : Set G)) : a * s * a⁻¹ = s := by
   have h := Subgroup.mem_centralizer_iff.mp hs a (SetLike.mem_coe.2 ha)
@@ -322,12 +337,14 @@ theorem conj_fix_of_mem_centralizer {A : Subgroup G} {a : G} (ha : a ∈ A) {s :
     ↥(blockU K ⊓ Subgroup.centralizer (A : Set G)) →* V :=
   D.β.comp (incS A)
 
+omit [Finite G] in
 theorem cU_inter_fix {A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (K : Set G))
     {a : G} (ha : a ∈ A) (s : ↥(blockU K ⊓ Subgroup.centralizer (A : Set G))) :
     cU (hAN ha) (incS A s) = incS A s := by
   apply Subtype.ext
   exact conj_fix_of_mem_centralizer ha (Subgroup.mem_inf.1 s.2).2
 
+omit [Finite G] in
 theorem betaS_ker_mem (D : ModData K V) {A : Subgroup G}
     (s : ↥(blockU K ⊓ Subgroup.centralizer (A : Set G))) (hs : betaS D A s = 1) :
     (s : G) ∈ blockZ K := by
@@ -335,6 +352,7 @@ theorem betaS_ker_mem (D : ModData K V) {A : Subgroup G}
   rw [D.ker, Subgroup.mem_subgroupOf] at h2
   exact h2
 
+omit [Finite G] in
 theorem fixes_betaS_range (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) (v : V) (hv : v ∈ (betaS D A).range) :
     ∀ b ∈ gamB D A hAN, b v = v := by
@@ -348,7 +366,7 @@ theorem card_inter_le (D : ModData K V) {A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) :
     Nat.card ↥(blockU K ⊓ Subgroup.centralizer (A : Set G)) ≤
       Nat.card ↥(blockZ K) * Nat.card {x : V // ∀ b ∈ gamB D A hAN, b x = x} := by
-  haveI : Finite V := Finite.of_surjective D.β D.surj
+  have : Finite V := Finite.of_surjective D.β D.surj
   have hmem : ∀ x : ↥(betaS D A).ker, (x.1 : G) ∈ blockZ K := fun x =>
     betaS_ker_mem D x.1 (MonoidHom.mem_ker.1 x.2)
   have hker : Nat.card ↥(betaS D A).ker ≤ Nat.card ↥(blockZ K) := by
@@ -396,8 +414,8 @@ theorem offender_transfer (D : ModData K V) {A : Subgroup G}
       Nat.card ↥(blockU K ⊓ Subgroup.centralizer (A : Set G))) :
     Nat.card V ≤ Nat.card (gamB D A hAN) *
       Nat.card {x : V // ∀ b ∈ gamB D A hAN, b x = x} := by
-  haveI : Finite V := Finite.of_surjective D.β D.surj
-  haveI : Nonempty ↥(blockZ K) := ⟨1⟩
+  have : Finite V := Finite.of_surjective D.β D.surj
+  have : Nonempty ↥(blockZ K) := ⟨1⟩
   have hU : Nat.card ↥(blockZ K) * Nat.card V = Nat.card ↥(blockU K) :=
     card_blockZ_mul_card_V D
   have hS := card_inter_le D hAN
@@ -440,6 +458,7 @@ theorem gamB_normalizes {K : Subgroup G} {F : Type} [Field F] [Fintype F]
   obtain ⟨a, ha, rfl⟩ := (mem_gamB D hAN).1 hb
   exact gammaAut_normalizes D hrange (hAN ha) l hl
 
+omit [Finite G] in
 theorem gammaAut_inv {K : Subgroup G} {V : Type} [CommGroup V] (D : ModData K V) {n : G}
     (hn : n ∈ Subgroup.normalizer (K : Set G)) :
     gammaAut D ((Subgroup.normalizer (K : Set G)).inv_mem hn) = (gammaAut D hn)⁻¹ := by
@@ -447,6 +466,7 @@ theorem gammaAut_inv {K : Subgroup G} {V : Type} [CommGroup V] (D : ModData K V)
   congr 1
   simp
 
+omit [Finite G] in
 theorem comm_eq_inv {K : Subgroup G} (hK : IsShort2 K) {a : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G)) (u : ↥(blockU K)) :
     ⁅(u : G), a⁆ = ((u : G)⁻¹ * (a * u * a⁻¹))⁻¹ := by
@@ -460,6 +480,7 @@ theorem comm_eq_inv {K : Subgroup G} (hK : IsShort2 K) {a : G}
     _ = (a * (u : G)⁻¹ * a⁻¹) * (u : G) := hc'.eq
     _ = ((u : G)⁻¹ * (a * u * a⁻¹))⁻¹ := by group
 
+omit [Finite G] in
 theorem fixed_iff_comm_mem_blockZ {K : Subgroup G} {V : Type} [CommGroup V] (D : ModData K V)
     (hK : IsShort2 K) {a : G} (ha : a ∈ Subgroup.normalizer (K : Set G)) (u : ↥(blockU K)) :
     gammaAut D ha (D.β u) = D.β u ↔ ⁅(u : G), a⁆ ∈ blockZ K := by
@@ -488,6 +509,7 @@ theorem lift_fixed {K : Subgroup G} {V : Type} [CommGroup V] (D : ModData K V) {
   refine C116Two.fixMod_le_centralizer hKP hA hAN hoff u u.2 (fun a ha => ?_)
   exact (fixed_iff_comm_mem_blockZ D hKP.1.1 (hAN ha) u).1 (hu a ha)
 
+omit [Finite G] in
 theorem conj_eq_of_gammaAut_eq {K : Subgroup G} {V : Type} [CommGroup V] (D : ModData K V)
     (hconj : ∀ (n : G) (hn : n ∈ Subgroup.normalizer (K : Set G)), gammaAut D hn = 1 →
       ∀ u ∈ blockU K, n * u * n⁻¹ = u)

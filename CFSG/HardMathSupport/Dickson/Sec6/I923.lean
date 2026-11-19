@@ -31,7 +31,7 @@ theorem y923_of_lieRest (h : Y923_LieRest) : Y923 := by
       l2CentreThree_holds hq hcore hs h3 hnot hJ hr0 hT
   · exfalso
     have hL2' : ∀ s, ¬ IsTypeL2 s Y := fun s hs => hL2 ⟨s, hs⟩
-    haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+    have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
     have hnab := exists_not_comm_of_quasisimple hq
     have hcat : Catalog (Y ⧸ Subgroup.center Y) :=
       CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge _ hnab (inCatalog_of_quasisimple hK hq)

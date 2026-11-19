@@ -79,7 +79,7 @@ theorem local_involution_point_full_pair_sylow_three_point_transport
       ((Subgroup.map_subtype_le (CFSG.oddCore (triplePointStabilizer H z beta))).trans
       (triple_stabilizer_le_opposite_pair H z beta))
   have hPgroup : IsPGroup p ((P : Subgroup V).map V.subtype) :=
-    P.isPGroup'.map V.subtype
+    P.isPGroup.map V.subtype
   obtain ⟨hdelta, hpair, R, _, hRtriple⟩ :=
     full_motion_opposite_pair_flip_contains_triple_sylow
       h S hzS hzcenter hbeta ht p hp _ hPopp hzP htP hPgroup hmotion

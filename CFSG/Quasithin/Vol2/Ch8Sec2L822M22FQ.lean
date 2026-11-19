@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 abbrev CodeHyp22_m22f {V : Subgroup G} (hV : IsElemAbelian 2 V) (L₀ : Subgroup G) : Prop :=
   @CFSG.Quasithin.MathieuCode22 ↥V (commGroupOfElemAbelian hV) (CFSG.Quasithin.autOn L₀ V) ⊤ ⊥
 
+omit [Finite G] in
 theorem isOver_autOn_m22f {L₀ M V : Subgroup G} (hV : IsElemAbelian 2 V) (hLM : L₀ ≤ M)
     (hMN : M ≤ Subgroup.normalizer (L₀ : Set G)) :
     @CFSG.Quasithin.H.Mathieu.IsOver ↥V (commGroupOfElemAbelian hV) (autOn L₀ V) (autOn M V) :=
@@ -28,7 +29,7 @@ theorem qInt_eq_two_m22f
     {L₀ T V : Subgroup G} (hV : IsElemAbelian 2 V) (hT : T ≤ Subgroup.normalizer (L₀ : Set G))
     (h : CodeHyp22_m22f hV L₀) (hnot : ¬ autOn T V ≤ autOn L₀ V) :
     qInt (L₀ ⊔ T) V hV = 2 := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   have hLX := isOver_autOn_m22f hV le_sup_left (sup_le (Subgroup.le_normalizer) hT)
   have hXL : ¬ autOn (L₀ ⊔ T) V ≤ autOn L₀ V := by
     intro hle
@@ -42,6 +43,7 @@ theorem not_isDualFFInt_m22f
   have hLX := isOver_autOn_m22f hV le_sup_left (sup_le (Subgroup.le_normalizer) hT)
   exact CFSG.Quasithin.B45Mat.not_isDualFFInt_code22 hV hLX h
 
+omit [Finite G] in
 theorem not_le_autOn_of_T_m22f {L₀ T M V : Subgroup G} (hTM : T ≤ M)
     (hnot : ¬ autOn T V ≤ autOn L₀ V) : ¬ autOn M V ≤ autOn L₀ V := fun hle =>
   hnot ((AutOn.autOn_mono hTM).trans hle)
@@ -51,7 +53,7 @@ theorem two_le_qMin_m22f
     (hMN : M ≤ Subgroup.normalizer (L₀ : Set G)) (h : CodeHyp22_m22f hV L₀)
     (hnot : ¬ autOn M V ≤ autOn L₀ V) :
     2 ≤ qMin M V hV := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   have hLX := isOver_autOn_m22f hV hLM hMN
   have hq2 : qOf (autOn M V) ≤ ((2 : ℚ) : WithTop ℚ) :=
     CFSG.Quasithin.B45Mat.qOf_le_two_code22 hLX h hnot

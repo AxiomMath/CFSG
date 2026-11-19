@@ -54,7 +54,7 @@ theorem eichler_eq_one_iff (hQ : (polarBilin Q).Nondegenerate) {s w : V} (hs : Q
 theorem orderOf_eichler_of_charP {p : ℕ} (hp : p.Prime) [CharP K p]
     (hQ : (polarBilin Q).Nondegenerate) {s w : V} (hs : Q s = 0) (hs0 : s ≠ 0)
     (hw : polar Q s w = 0) (hws : ∀ a : K, w ≠ a • s) : orderOf (eichler Q s w) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime ?_ ?_
   · have h := eichler_zpow hw (p : ℤ)
     rw [zpow_natCast] at h
@@ -112,7 +112,7 @@ theorem modelForm_planeVec (b c : K) (i : Fin 3) (p : K × K) :
     modelForm b c (planeVec i p) = rotForm K p := by
   rw [modelForm_apply]
   have hsum : (∑ j, rotForm K ((planeVec i p).1 j)) = rotForm K p := by
-    rw [Fintype.sum_eq_single i (fun j hj => by simp [planeVec, Pi.single_apply, hj])]
+    rw [Fintype.sum_eq_single i (fun j hj => by simp [planeVec, hj])]
     simp [planeVec]
   rw [hsum]
   simp [planeVec]
@@ -124,7 +124,7 @@ theorem polar_modelForm_planeVec_wVec (b c : K) (i : Fin 3) (p w : K × K) :
   have h1 : modelForm b c (Pi.single i p, w) = rotForm K p + wForm b c w := by
     rw [modelForm_apply]
     have hsum : (∑ j, rotForm K ((Pi.single i p : Fin 3 → K × K) j)) = rotForm K p := by
-      rw [Fintype.sum_eq_single i (fun j hj => by simp [Pi.single_apply, hj])]
+      rw [Fintype.sum_eq_single i (fun j hj => by simp [hj])]
       simp
     rw [hsum]
   rw [polar, hx, h1, modelForm_planeVec, modelForm_wVec]
@@ -142,7 +142,7 @@ theorem polar_modelForm_planeVec_planeVec_of_ne (b c : K) {i j : Fin 3} (hij : i
         rotForm K p + rotForm K p' := by
       rw [Fin.sum_univ_three]
       fin_cases i <;> fin_cases j <;>
-        simp_all [Pi.single_apply, add_comm, add_left_comm, add_assoc]
+        simp_all [add_comm]
     rw [hsum]
     simp
   rw [polar, hx, h1, modelForm_planeVec, modelForm_planeVec]

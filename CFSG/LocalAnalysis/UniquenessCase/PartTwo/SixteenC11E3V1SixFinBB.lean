@@ -175,7 +175,7 @@ private lemma s1611e3_closure_four_aux {x y : G} (hx : x * x = 1) (hy : y * y = 
     simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using hzT
 
 private lemma s1611e3_ncard_eight {a b c : G} (ha : a * a = 1) (hb : b * b = 1)
-    (hc : c * c = 1) (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b)
+    (_hc : c * c = 1) (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hne : a ≠ b) (hcP : c ∉ ({1, a, b, a * b} : Set G)) :
     ({1, a, b, a * b, c, a * c, b * c, a * b * c} : Set G).ncard = 8 := by
   have hcfour := s1611e3_closure_four_aux ha hb hab ha1 hb1 hne
@@ -225,12 +225,12 @@ private lemma s1611e3_ncard_eight {a b c : G} (ha : a * a = 1) (hb : b * b = 1)
     obtain ⟨w, hwP, rfl⟩ := hzQ
     have hzP' : c * w ∈ (Subgroup.closure {a, b} : Set G) := by rwa [hPsub]
     have hwP' : w ∈ (Subgroup.closure {a, b} : Set G) := by rwa [hPsub]
-    have hc : c ∈ (Subgroup.closure {a, b} : Set G) := by
+    have _hc : c ∈ (Subgroup.closure {a, b} : Set G) := by
       have hcw : c = (c * w) * w⁻¹ := by rw [mul_assoc, mul_inv_cancel, mul_one]
       rw [hcw]
       exact (Subgroup.closure {a, b}).mul_mem hzP'
         ((Subgroup.closure {a, b}).inv_mem hwP')
-    exact hcP' hc
+    exact hcP' _hc
   have hS : ({1, a, b, a * b, c, a * c, b * c, a * b * c} : Set G) =
       ({1, a, b, a * b} : Set G) ∪ ((fun w => c * w) '' ({1, a, b, a * b} : Set G)) := by
     ext z
@@ -267,8 +267,8 @@ private lemma s1611e3_ncard_eight {a b c : G} (ha : a * a = 1) (hb : b * b = 1)
           exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))))
   rw [hS, Set.ncard_union_eq hdisj, hPcard, hQcard]
 
-theorem sixFin_card_two {E : Subgroup G} (hsq : ∀ x ∈ E, x * x = 1)
-    (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : Nat.card ↥E = 2) :
+theorem sixFin_card_two {E : Subgroup G} (_hsq : ∀ x ∈ E, x * x = 1)
+    (_hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : Nat.card ↥E = 2) :
     ∃ a ∈ E, a ≠ 1 ∧ ∀ x ∈ E, x = 1 ∨ x = a := by
   have hEfin : (E : Set G).Finite := by
     change Finite ↥(E : Set G)
@@ -295,7 +295,7 @@ theorem sixFin_card_two {E : Subgroup G} (hsq : ∀ x ∈ E, x * x = 1)
   simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using this
 
 theorem sixFin_card_four {E : Subgroup G} (hsq : ∀ x ∈ E, x * x = 1)
-    (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : Nat.card ↥E = 4) :
+    (_hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : Nat.card ↥E = 4) :
     ∃ a ∈ E, ∃ b ∈ E, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b ∧ ∀ x ∈ E, x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
   have hEfin : (E : Set G).Finite := by
     change Finite ↥(E : Set G)
@@ -413,8 +413,8 @@ theorem sixFin_card_eight {E : Subgroup G} (hsq : ∀ x ∈ E, x * x = 1)
   have : x ∈ ({1, a, b, a * b, c, a * c, b * c, a * b * c} : Set G) := heq ▸ hxE
   simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using this
 
-theorem sixFin_card_gt {E : Subgroup G} (hsq : ∀ x ∈ E, x * x = 1)
-    (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : 8 < Nat.card ↥E) :
+theorem sixFin_card_gt {E : Subgroup G} (_hsq : ∀ x ∈ E, x * x = 1)
+    (_hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : 8 < Nat.card ↥E) :
     ∃ a ∈ E, ∃ b ∈ E, ∃ c ∈ E, ∃ d ∈ E, a ≠ 1 ∧ b ≠ 1 ∧ c ≠ 1 ∧ d ≠ 1 ∧ a ≠ b ∧ c ≠ a ∧
       c ≠ b ∧ c ≠ a * b ∧ d ≠ a ∧ d ≠ b ∧ d ≠ c ∧ d ≠ a * b ∧ d ≠ a * c ∧ d ≠ b * c ∧
       d ≠ a * b * c := by

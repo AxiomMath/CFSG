@@ -191,7 +191,7 @@ private theorem exists_cenL_decomp {G : Type} [Group G] [Finite G] {n : ℕ} {b 
   obtain ⟨Q, hPsubQ⟩ := hPsub.exists_le_sylow
   have hQmap : (Q : Subgroup ↥D).map D.subtype = Subgroup.zpowers b := by
     refine h.facts.syl _ ((Subgroup.map_subtype_le (Q : Subgroup ↥D)).trans hD_le_L)
-      ((Subgroup.map_subtype_le (Q : Subgroup ↥D)).trans hD_le_b) (Q.isPGroup'.map D.subtype) ?_
+      ((Subgroup.map_subtype_le (Q : Subgroup ↥D)).trans hD_le_b) (Q.isPGroup.map D.subtype) ?_
     refine Subgroup.zpowers_le.mpr ?_
     have hb_sub : (⟨b, hbD⟩ : ↥D) ∈ (Subgroup.zpowers b).subgroupOf D := by
       rw [Subgroup.mem_subgroupOf]

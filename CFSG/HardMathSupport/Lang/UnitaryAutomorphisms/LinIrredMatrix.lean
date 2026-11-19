@@ -106,7 +106,7 @@ theorem exists_lin_irred_element [Finite K] (h3 : 3 ∣ Nat.card K - 1)
     have hcol : Q.col = ![w, Bm *ᵥ w, (Bm ^ 2) *ᵥ w] := by
       ext j i
       fin_cases j <;> simp [hQ]
-    exact Matrix.linearIndependent_cols_iff_isUnit.1 (hcol ▸ hli)
+    exact Matrix.linearIndependent_col_iff_isUnit.1 (hcol ▸ hli)
   have hdu : IsUnit Q.det := (Matrix.isUnit_iff_isUnit_det Q).1 hu
   have hQ1 : Q * Q⁻¹ = 1 := Matrix.mul_nonsing_inv Q hdu
   have hQ2 : Q⁻¹ * Q = 1 := Matrix.nonsing_inv_mul Q hdu

@@ -49,7 +49,7 @@ theorem sumOfNat_one {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {U Z : S
 theorem isL2_of_isOmegaMinus_four {X : Type} [Group X] {k : ℕ} (hk : 1 ≤ k)
     (h : IsOmegaMinus X 4 k) : IsL2 X (2 * k) := by
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, hbc, ⟨e⟩⟩ := h
-  letI := hKf
+  let := hKf
   have := hKfin
   have hchar : CharP K 2 := uc22p22d_charP_two hk hcard
   let Q : QuadraticForm K (Fin (4 / 2 - 1) ⊕ Fin (4 / 2 - 1) ⊕ Fin 2 → K) :=
@@ -72,7 +72,7 @@ theorem not_omega4minus_of_isL2 {X : Type} [Group X]
     (hOm : IsOmegaMinus X 4 (f / 2)) : False := by
   have hk : 1 ≤ f / 2 := by
     obtain ⟨-, K, hKf, hKfin, b, c, hcard, -, -⟩ := hOm
-    letI := hKf
+    let := hKf
     have := hKfin
     exact CFSG.ComponentClassification.CatLeafProof.one_le_of_card_eq_pow hcard
   have h2f : 2 * (f / 2) = f := by
@@ -259,6 +259,7 @@ theorem fixV_of_hyp18 {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup
 
 end Certified
 
+omit [Finite G] in
 theorem tilOf_eq_one_iff {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {v : G} (hv : v ∈ V) :
     tilOf V₀ V hV v hv = 1 ↔ v ∈ V₀ := by
   have h1 : (1 : Vtil V₀ V hV) = mkTil V₀ V hV (1 : CFSG.Quasithin.IntMod V hV) :=
@@ -267,6 +268,7 @@ theorem tilOf_eq_one_iff {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {v : G} 
   change v * 1⁻¹ ∈ V₀ ↔ v ∈ V₀
   simp
 
+omit [Finite G] in
 theorem tilOf_ne_one {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {v : G} (hv : v ∈ V)
     (hv0 : v ∉ V₀) : tilOf V₀ V hV v hv ≠ 1 :=
   fun h => hv0 ((tilOf_eq_one_iff hV hv).1 h)

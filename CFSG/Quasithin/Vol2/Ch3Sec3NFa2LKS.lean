@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
 
+omit [Finite G] in
 theorem centralizerMod_inf_eq {Z U : Subgroup G} (c : G) (hUZ : U ≤ Subgroup.normalizer (Z : Set G))
     (hcU : c ∈ Subgroup.normalizer (U : Set G)) :
     centralizerMod (Z ⊓ U) U (Subgroup.zpowers c) = centralizerMod Z U (Subgroup.zpowers c) := by

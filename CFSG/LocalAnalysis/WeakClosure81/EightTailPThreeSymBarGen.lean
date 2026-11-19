@@ -19,8 +19,9 @@ private theorem wc85bg_conjSubgroup_zpowers {X : Type} [Group X] (t g : X) :
   change (Subgroup.zpowers t).map (MulAut.conj g⁻¹).toMonoidHom = _
   rw [MonoidHom.map_zpowers]
   congr 1
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite G] in
 private theorem wc85bg_conjSubgroup_wClos (x : G) :
     conjSubgroup (E3.wClos V 0 T) x =
       ⨆ A ∈ E3.gammaSet V 0 T, conjSubgroup A x := by

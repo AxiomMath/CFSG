@@ -21,7 +21,7 @@ theorem ggRawFieldCycW_of_pCyclic {p : ℕ} {R : Type} [Group R] {I F : Set (Mul
   exact ⟨J, S, h1, h2, h3, h4, fun α _ hα => h5 α hα⟩
 
 @[expose] def GGRawFieldNorm : LargeEvenRawCont :=
-  fun R _ I F => ∀ f ∈ Subgroup.closure F, ∀ u ∈ I, f * u * f⁻¹ ∈ I
+  fun _R _ I F => ∀ f ∈ Subgroup.closure F, ∀ u ∈ I, f * u * f⁻¹ ∈ I
 
 theorem ggRawFieldNorm_of_central {p : ℕ} {R : Type} [Group R] {I F : Set (MulAut R)}
     (hc : GGRawFieldCentral R I F) (hi : GGRawInnField p R I F) :
@@ -74,7 +74,7 @@ theorem ggFixGeom_conj {R : Type} [Group R] {J : Subgroup (MulAut R)} {f u : Mul
     { toFun := fun g => ⟨u⁻¹ (g : R), (ggFixDer_conj_mem f u (g : R)).1 g.2⟩
       invFun := fun k => ⟨u (k : R), by
         rw [ggFixDer_conj_mem]
-        simpa using k.2⟩
+        simp⟩
       left_inv := fun g => Subtype.ext (by simp)
       right_inv := fun k => Subtype.ext (by simp)
       map_mul' := fun g k => Subtype.ext (by simp) }
@@ -192,7 +192,7 @@ theorem largeEvenLabelAll_fieldKLevelComp_of_fix {p r : ℕ} (hp : p.Prime) (hr 
 
 theorem ggDvd_two_pow_sub_one_iff {p n : ℕ} (hp : p.Prime) (hn : p ∣ n) :
     p ∣ 2 ^ n - 1 ↔ p ∣ 2 ^ (n / p) - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨m, rfl⟩ := hn
   rw [Nat.mul_div_cancel_left m hp.pos, ← ZMod.natCast_eq_zero_iff, ← ZMod.natCast_eq_zero_iff,
     Nat.cast_sub Nat.one_le_two_pow, Nat.cast_sub Nat.one_le_two_pow]
@@ -236,7 +236,7 @@ theorem largeEvenInLambda2_subfield {p : ℕ} {lab : LargeEvenLabel} (hp : p.Pri
   obtain ⟨-, h⟩ := h
   dsimp only at hm ⊢
   rcases h with (h | h | h) | ⟨h | h, hr⟩ | ⟨h, hr, -⟩ | ⟨h, hr⟩ | ⟨h, hr⟩ | ⟨h, -⟩ <;>
-    rw [h] at hm ⊢ <;> simp only at hm ⊢ <;> first | omega | exact hm
+    rw [h] at hm ⊢ <;> simp only at hm ⊢ <;> first | omega
 
 theorem ggFieldKLevel_of_fixKnown {S : ℕ → LargeEvenLabel → Prop}
     (hS : ∀ p lab, S p lab → GGFieldFixLabel p lab) (hFix : GGFieldFixKnown S)

@@ -45,7 +45,7 @@ theorem e7_spanC [CharP K 2] {r : V K ≃ₗ[K] V K} (hr : IsRt5 r) :
     have hb : pr (shift theta μ) theta = 1 := pr_shift_self isRoot_theta hμ
     have hsh : shift (-theta) (shift theta μ) = μ := shift_neg_shift isRoot_theta hμ
     have h := rootOp_apply (K := K) isRoot_theta q (shift theta μ)
-    rw [hrq, if_pos hb, hsh] at h
+    rw [hrq, ite_eq_left hb, hsh] at h
     simpa using h.symm
   have hqsum : q = ∑ μ ∈ q.support, q μ • (Finsupp.single μ 1 : V K) := by
     refine Eq.trans (Finsupp.sum_single q).symm ?_
@@ -55,7 +55,7 @@ theorem e7_spanC [CharP K 2] {r : V K ≃ₗ[K] V K} (hr : IsRt5 r) :
   have hfix : ∀ μ : Fin e7Data.d, pr μ theta ≠ -1 →
       act7 (e7Data_valid.xm K theta a) (Finsupp.single μ 1) = Finsupp.single μ 1 := by
     intro μ hμ
-    rw [act7_xm, rootOp_single (K := K) isRoot_theta μ, if_neg hμ, smul_zero, add_zero]
+    rw [act7_xm, rootOp_single (K := K) isRoot_theta μ, ite_eq_right hμ, smul_zero, add_zero]
   have hfixA : ∀ μ : Fin e7Data.d, pr μ theta ≠ -1 →
       act7 g (act7 p (Finsupp.single μ 1)) = act7 p (Finsupp.single μ 1) := by
     intro μ hμ

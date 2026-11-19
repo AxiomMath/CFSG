@@ -38,34 +38,36 @@ theorem component_eq (hC : CCore c) (h : UniqueComp c R L1) {K' : Subgroup c.Qt}
       rw [← h.layer]
       exact centralizer_layer_eq_bot (pPrimeCore_Qt_eq_bot hC) (pCore_Qt_eq_bot hC)
     rw [hbot] at hK'le
-    haveI : Nontrivial ↥K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'.1
+    have : Nontrivial ↥K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'.1
     exact (Subgroup.nontrivial_iff_ne_bot K').mp inferInstance (le_bot_iff.mp hK'le)
 
 theorem L1_center_eq_bot (hC : CCore c) (h : UniqueComp c R L1) : center ↥L1 = ⊥ := by
   exact center_component_eq_bot (pPrimeCore_Qt_eq_bot hC) (pCore_Qt_eq_bot hC) h.comp
 
+omit [Finite C] in
 theorem L1_perfect (h : UniqueComp c R L1) : ⁅L1, L1⁆ = L1 := by
   rw [← h.layer]
   exact CFSG.LocalCores.layer_perfect
 
 theorem L1_simple (hC : CCore c) (h : UniqueComp c R L1) : IsSimpleGroup ↥L1 := by
   have hcenter : center ↥L1 = ⊥ := L1_center_eq_bot hC h
-  haveI : IsSimpleGroup (↥L1 ⧸ center ↥L1) := h.comp.1.2.1
+  have : IsSimpleGroup (↥L1 ⧸ center ↥L1) := h.comp.1.2.1
   let e : (↥L1 ⧸ center ↥L1) ≃* ↥L1 :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
   exact e.symm.isSimpleGroup
 
-theorem L1_nonabelian (hC : CCore c) (h : UniqueComp c R L1) : ∃ a b : ↥L1, a * b ≠ b * a := by
+omit [Finite C] in
+theorem L1_nonabelian (_hC : CCore c) (h : UniqueComp c R L1) : ∃ a b : ↥L1, a * b ≠ b * a := by
   by_contra hcon
   simp only [not_exists, not_not] at hcon
-  haveI : IsMulCommutative ↥L1 := IsMulCommutative.of_comm fun a b => hcon a b
-  haveI : Nontrivial ↥L1 := CFSG.LocalCores.isQuasisimple_nontrivial h.comp.1
-  haveI : Group.IsPerfect ↥L1 := Subgroup.isPerfect_iff.mpr (L1_perfect h)
+  have : IsMulCommutative ↥L1 := IsMulCommutative.of_comm fun a b => hcon a b
+  have : Nontrivial ↥L1 := CFSG.LocalCores.isQuasisimple_nontrivial h.comp.1
+  have : Group.IsPerfect ↥L1 := Subgroup.isPerfect_iff.mpr (L1_perfect h)
   exact Group.IsPerfect.not_isMulCommutative (↥L1) inferInstance
 
 theorem catalog_L1 (hC : CCore c) (hcat : CatSections C) (h : UniqueComp c R L1) :
     CFSG.Blueprint.Catalog ↥L1 := by
-  haveI : IsSimpleGroup ↥L1 := L1_simple hC h
+  have : IsSimpleGroup ↥L1 := L1_simple hC h
   exact hcat (L1.comap c.qmap) ↥L1 (L1_nonabelian hC h)
     (c.qmap.subgroupComap L1) (MonoidHom.subgroupComap_surjective c.qmap L1 c.qmap_surjective)
 
@@ -81,7 +83,7 @@ theorem perfect_le_L1 (hC : CCore c) (hcat : CatSections C) (hSch : CatalogOuter
     have hi : CFSG.IsComponent i.val := (CFSG.isComponent_iff_open i.val).mpr i.property
     have hLi : i.val = L1 := component_eq hC h hi
     rw [hLi]
-    haveI : IsSimpleGroup ↥L1 := L1_simple hC h
+    have : IsSimpleGroup ↥L1 := L1_simple hC h
     exact hSch ↥L1 (L1_nonabelian hC h) (catalog_L1 hC hcat h)
   have hn : ∀ (i : CFSG.ComponentClassification.SemisimpleComponentStructure.ComponentIndex c.Qt),
       ∀ k ∈ P, ∀ m ∈ i.val, k * m * k⁻¹ ∈ i.val := by

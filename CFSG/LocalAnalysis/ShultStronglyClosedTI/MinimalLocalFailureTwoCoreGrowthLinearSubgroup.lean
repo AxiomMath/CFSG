@@ -49,7 +49,7 @@ theorem psl2_even_no_split_primes_frobenius_kernel
     have hRA : Nat.card R = Nat.card A := by
       rw [htop]
       exact Nat.card_congr Subgroup.topEquiv.toEquiv
-    obtain ⟨n, hn⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := R.isPGroup.exists_card_eq
     exact hAnot ⟨n, hRA.symm.trans hn⟩
   obtain ⟨N, hFrob, hRcard, hNodd, hNcomm, _⟩ :=
     elementary_two_TI_frobenius_decomposition (R : Subgroup A) hRne hRproper

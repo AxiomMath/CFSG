@@ -187,23 +187,23 @@ variable (F : Type) [Field F] [Finite F] (hF : Nat.card F = 4)
 
 theorem u6_comm (i j : Fin u6Mod.basis.length) :
     u6a F hF i * u6a F hF j = u6a F hF j * u6a F hF i := by
-  haveI := cjField_of_equiv (psiOf F hF)
+  have := cjField_of_equiv (psiOf F hF)
   exact radBasis_comm _ i j
 
 theorem u6_pow (i : Fin u6Mod.basis.length) : u6a F hF i ^ 2 = 1 := by
-  haveI := cjField_of_equiv (psiOf F hF)
+  have := cjField_of_equiv (psiOf F hF)
   exact radBasis_sq _ i
 
 theorem u6_indep (c : Fin u6Mod.basis.length → ZMod 2) :
     ((List.finRange u6Mod.basis.length).map fun k => u6a F hF k ^ (c k).val).prod = 1 →
       c = 0 := by
-  haveI := cjField_of_equiv (psiOf F hF)
+  have := cjField_of_equiv (psiOf F hF)
   exact radBasis_indep _ c
 
 theorem u6_act (j : Fin u6Mod.acts.length) (i : Fin u6Mod.basis.length) :
     u6g F hF j * u6a F hF i * (u6g F hF j)⁻¹ = ((List.finRange u6Mod.basis.length).map fun k =>
       u6a F hF k ^ (actMatN 2 u6Mod.basis.length (u6Mod.acts.get j) k i).val).prod := by
-  haveI := cjField_of_equiv (psiOf F hF)
+  have := cjField_of_equiv (psiOf F hF)
   exact leviElt_act _ (fun j k i => (actMatN 2 u6Mod.basis.length (u6Mod.acts.get j) k i).val)
     act4_u6 j i
 

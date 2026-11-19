@@ -17,7 +17,7 @@ variable {S : Std b t b₁ b₂ J} {A₁ : Subgroup J6.S6} {c₀ : J6.S6} {J₁ 
 
 theorem Zsub_two_mem_Asub (Fr : Frame A₁ c₀ J₁) {x : H} (hx : x ∈ Zsub S A₁) {k : ℕ}
     (hk : x ^ (2 ^ k) = 1) : x ∈ Asub S A₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨o, ho, a, ha, rfl⟩ := mem_Zsub_iff.mp hx
   have hcomm : Commute o a := mem_C1_iff.mp (L14.Opp_le 2 _ ho) a ha
   have ha2 : a ^ (2 ^ (k + 1)) = 1 := by
@@ -36,11 +36,11 @@ theorem case_false (hR1K : KF_FS79Prop2OneK) (hK : KCore.KGroupNonab InCatalog H
     (hO₂ : Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers (b * S.ι c₀))))))
     (hO₃ : Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers (b * (S.ι c₀)⁻¹)))))) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   have D := qdata (S := S) Fr hcop hC₁ hC₂ hC₃ hO₁ hO₂ hO₃
-  haveI hN : ((Zsub S A₁).subgroupOf (Nor (Asub S A₁))).Normal := ⟨fun n hn g => by
+  have hN : ((Zsub S A₁).subgroupOf (Nor (Asub S A₁))).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using D.Z_norm (g : H) g.2 (n : H) hn⟩
   obtain ⟨O, hZO, hOΓ, hOn, hO6, hdec⟩ := D.conclusionP

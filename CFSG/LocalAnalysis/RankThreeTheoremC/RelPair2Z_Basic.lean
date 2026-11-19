@@ -93,7 +93,7 @@ theorem ThompsonFrame.dvd_card_join_of_pClosed {p : ℕ} {X : Type} [Group X] [F
           rw [this, map_one]
         exact orderOf_dvd_of_pow_eq_one this
       have hmem : (QuotientGroup.mk' L) u ∈ (P : Subgroup (X ⧸ L)) := hUL' hu
-      obtain ⟨m, hm⟩ := P.isPGroup'.exists_card_eq
+      obtain ⟨m, hm⟩ := P.isPGroup.exists_card_eq
       have h2 : orderOf ((QuotientGroup.mk' L) u) ∣ p ^ m := by
         rw [← hm]
         exact (Subgroup.orderOf_dvd_natCard _ hmem)

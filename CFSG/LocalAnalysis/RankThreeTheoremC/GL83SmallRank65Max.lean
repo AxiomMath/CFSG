@@ -171,7 +171,7 @@ private theorem max65_exists_conj_le_normalizer {P : Sylow 3 G} {M : Subgroup G}
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨S, hS, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    Nat.prime_three hf P.isPGroup' (max65_core_not_dvd M)
+    Nat.prime_three hf P.isPGroup (max65_core_not_dvd M)
     (hPM.trans (max65_le_normalizer_core M)) bot_le hbot hPbot
   obtain ⟨c, hc, hFsc⟩ := max65_exists_conj_sylow hf hS
     (max65_fusionIsSylowIn_of_index hf hFsD hFs hsyl)
@@ -196,14 +196,14 @@ theorem exists_sylow_three_normalizing {P : Sylow 3 G} {M : Subgroup G} {x z : G
   have hBN : zpowers x ⊔ zpowers z ≤ N := le_inf (max65_plane_le h) hBFs
   obtain ⟨c, -, hQN⟩ := max65_exists_conj_le_normalizer h hf hFsD hFs hsyl
   set Q : Subgroup G := (P : Subgroup G).map (MulAut.conj c).toMonoidHom with hQ
-  have hQ3 : IsPGroup 3 Q := P.isPGroup'.map _
+  have hQ3 : IsPGroup 3 Q := P.isPGroup.map _
   have hQ81 : Nat.card Q = 81 := by
     rw [hQ, Subgroup.card_map_of_injective (MulAut.conj c).injective, hP81]
   obtain ⟨R, hBR⟩ := ((max65_plane_isPGroup h).comap_subtype (K := N)).exists_le_sylow
   set R' : Subgroup G := (R : Subgroup N).map N.subtype with hR'
   have hBR' : zpowers x ⊔ zpowers z ≤ R' := fun b hb => ⟨⟨b, hBN hb⟩, hBR hb, rfl⟩
   have hR'N : R' ≤ N := Subgroup.map_subtype_le _
-  have hR'3 : IsPGroup 3 R' := R.isPGroup'.map _
+  have hR'3 : IsPGroup 3 R' := R.isPGroup.map _
   have hcardR : Nat.card R' = Nat.card (R : Subgroup N) :=
     Subgroup.card_map_of_injective N.subtype_injective
   have hle : Nat.card R' ≤ 81 := by

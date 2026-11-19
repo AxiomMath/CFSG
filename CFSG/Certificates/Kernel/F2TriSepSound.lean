@@ -392,7 +392,7 @@ theorem spinK_facts {d : Nat} {G : List Nat} {tree : List (Nat × Nat)} {v e Ri 
     rw [show CFSG.KLie.CT.pw2 d = 2 ^ d from Nat.one_shiftLeft d] at he
     exact he
   obtain ⟨L, hk, hL⟩ := vregK_spec d (trL d G) tree [v] hreg
-  simp only [tsAndB_eq, Bool.and_eq_true, Nat.beq_eq, lenL_eq] at hk
+  simp only [Bool.and_eq_true, Nat.beq_eq, lenL_eq] at hk
   obtain ⟨hlen, hinv⟩ := hk
   rw [Nat.pred_eq_sub_one] at hlen
   have hlt : ∀ x ∈ L, x < 2 ^ d := hL (fun x => x < 2 ^ d)

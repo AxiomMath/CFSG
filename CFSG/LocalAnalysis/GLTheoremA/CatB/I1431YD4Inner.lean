@@ -65,11 +65,11 @@ theorem noT_inner_om8 (hcard : Nat.card ↥Om8 = 3 ^ 5 * 716800)
   have hA6c := hA6
   obtain ⟨A₀, S, hSg, f, hA₀H, hSc, hf⟩ := hA6
   obtain ⟨hSsimp, hS360⟩ := CatB.I1431YU5.isA6_isSimpleGroup hSc
-  haveI : IsSimpleGroup S := hSsimp
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS360]; norm_num)
-  haveI : Group.IsPerfect S := isPerfect_of_simple (by rw [hS360]; norm_num)
+  have : IsSimpleGroup S := hSsimp
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS360]; norm_num)
+  have : Group.IsPerfect S := isPerfect_of_simple (by rw [hS360]; norm_num)
   obtain ⟨L, hLA, hLperf, φ, hφ⟩ := exists_perfect_sub f hf
-  haveI := hLperf
+  have := hLperf
   have hLH : L ≤ H := hLA.trans hA₀H
   have hLg : ∀ l ∈ L, l * g = g * l := fun l hl =>
     Subgroup.mem_centralizer_singleton_iff.1 (hH (hLH hl))

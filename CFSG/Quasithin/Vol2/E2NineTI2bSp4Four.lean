@@ -17,7 +17,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog.SpChain
 private theorem exists_ne_zero_ne_one_E29 {k : Type} [Field k] [Finite k] (hk : 4 ≤ Nat.card k) :
     ∃ t : k, t ≠ 0 ∧ t ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hcard : ({0, 1} : Finset k).card < (Finset.univ : Finset k).card := by
     have h1 : ({0, 1} : Finset k).card ≤ 2 := Finset.card_le_two
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -47,7 +47,7 @@ private theorem eq_one_of_dd_fixed {k : Type} [Field k] [CharP k 2] [Finite k]
   rw [dd_conj_uElt] at hx hy
   obtain ⟨h1, h2, h3, -⟩ := CFSG.QuasithinUnique.Setup.X7b.uElt_inj hx
   obtain ⟨-, -, -, h4⟩ := CFSG.QuasithinUnique.Setup.X7b.uElt_inj hy
-  simp only [Units.val_mk0, Units.val_one, inv_one, mul_one, one_mul, one_pow] at h1 h2 h3 h4
+  simp only [Units.val_mk0, Units.val_one, inv_one, mul_one] at h1 h2 h3 h4
   have ha : a = 0 := eq_zero_of_mul_eq_self_E29 ht1 h1
   have hb : b = 0 := eq_zero_of_mul_eq_self_E29 ht1 h2
   have hc : c = 0 := eq_zero_of_sq_mul_eq_self_E29 ht1 h3
@@ -80,7 +80,7 @@ private theorem exists_coord_sp4 {A : Type} [Group A] [Finite A] {Ts Ms K : Subg
       Nat.card k = 2 ^ n ∧
         ((Ms ⊓ K).subgroupOf K).map θ.toMonoidHom =
           Subgroup.normalizer ((antiUnipotent k : Subgroup (antiSp k)) : Set (antiSp k)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSp' : IsPSp4 2 n ↥K := by
     have h' := hSp
     unfold IsSp4Prime at h'
@@ -182,7 +182,7 @@ theorem four_le_card_of_sp4 {A : Type} [Group A] [Finite A] {Ts Ms K Es : Subgro
     4 ≤ Nat.card Es := by
   by_contra hlt
   replace hlt : Nat.card Es < 4 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e, he, he1⟩ : ∃ e ∈ Es, e ≠ 1 := by
     obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hEs1
     exact ⟨(a : A), a.2, fun h => ha1 (Subtype.ext h)⟩

@@ -444,7 +444,7 @@ theorem bigLe_mem_normalizer_Wbar [Finite G] {M V Q P H B : Subgroup G}
     {e : ↥M} (he : (e : Mbar M) ∈ Subgroup.normalizer (RbarM M V H : Set (Mbar M)))
     (hBB : ⁅B, conjSubgroup (e : G) B⁆ ≤ V) :
     (e : Mbar M) ∈ Subgroup.normalizer (WbarM M V H : Set (Mbar M)) := by
-  haveI : Finite (Mbar M) := inferInstance
+  have : Finite (Mbar M) := inferInstance
   rw [mem_normalizer_iff_conjSubgroup_eq]
   refine conjSubgroup_eq_of_le fun z hz => ?_
   have ht : (e : Mbar M)⁻¹ * z * (e : Mbar M) ∈ WbarM M V H := mem_conjSubgroup.mp hz

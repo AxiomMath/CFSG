@@ -179,8 +179,8 @@ theorem haradaShape_aux {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
   have hcard := card_eq_of_double_cover hZ hE.quotient
   obtain ⟨D⟩ := exists_thetaData (E := E) M.toCoverMaps
   obtain ⟨S, hTS⟩ := (M.isPGroup_T0.map E.subtype).exists_le_sylow
-  have hSE := inf_eq_map_T0 M hcard S.isPGroup' hTS
-  have hder := D.commutator_eq hE M S.isPGroup' hTS
+  have hSE := inf_eq_map_T0 M hcard S.isPGroup hTS
+  have hder := D.commutator_eq hE M S.isPGroup hTS
   have hData := harCoreData_of_cover ht2 hE M
     (fun h hh => D.mem_of_centralizer hE M hh) hSE hder
   have hι := embE_injective t E

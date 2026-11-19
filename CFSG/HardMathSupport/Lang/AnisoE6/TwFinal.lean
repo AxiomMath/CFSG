@@ -16,7 +16,7 @@ set_option linter.unusedSectionVars false
 
 theorem seven_le_of_orderOf_eq_three {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h : orderOf (q : ZMod p) = 3) : 7 ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h0 : (q : ZMod p) ≠ 0 := by
     intro h0
     rw [h0, orderOf_zero] at h
@@ -44,20 +44,20 @@ theorem seitzExcAnisotropicTwistedE6Class_three_of_f4
     rw [← hc0]
     exact hord
   have hp7 := seven_le_of_orderOf_eq_three hp hp5 hord
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hpq : p ≠ q.p := by simpa using hpc
   obtain ⟨K, _, σ, hK, hσ, ⟨eG⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   obtain ⟨k, _, _, hk, hkchar, ⟨eF⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q (F4_valid q)
   have hk' : Nat.card k = q.p ^ q.exponent := by rw [hk, hc0]
   obtain ⟨ι⟩ := nonempty_ringHom_of_card_sq (ℓ := q.p) (f := q.exponent) hk' hK
-  letI : Algebra k K := ι.toAlgebra
+  let : Algebra k K := ι.toAlgebra
   have hp3dvd : p ∣ Nat.card k ^ 2 + Nat.card k + 1 := by
     rw [hk']
     exact dvd_sq_add_add_one_of_orderOf_eq_three hp he

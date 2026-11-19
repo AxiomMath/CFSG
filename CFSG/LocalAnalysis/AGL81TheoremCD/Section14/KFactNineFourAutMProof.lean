@@ -115,9 +115,9 @@ theorem kFactNineFourAutM_holds :
     KFactNineFourAutM := by
   refine KFAut.kFactNineFourAutM_of_families ?_
   intro p hp h5 S _ _ hlist hnc
-  haveI : Fact p.Prime := hp
+  have : Fact p.Prime := hp
   obtain ⟨hS, i, hi, ⟨e⟩⟩ := hlist
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   cases i with
   | cyclic _ _ => exact hi.elim
   | alternating n _ =>

@@ -36,7 +36,7 @@ variable {M : ChevModel2 D n H Fld}
 private lemma plh_ne_22x_of_node_or_path2 {c : PhanCode} (hc : c.IsNode ∨ c.IsPath2) :
     c ≠ PhanCode.a3_22x := by
   rintro rfl
-  simpa [PhanCode.IsNode, PhanCode.IsPath2] using hc
+  simp [PhanCode.IsNode, PhanCode.IsPath2] at hc
 
 private lemma plh_chartOf_of_normalForm {ι Ω : Type} {Y : ChamberSystem ι Ω}
     {J : Set (Fin D.rank)} {a : K ⧸ borel D H}
@@ -100,7 +100,7 @@ theorem exists_chart_prod_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
     obtain ⟨hd₂, hI₂, hPu₂, hPl₂⟩ :=
       seam_hyps_of_match hct F PC hf₂ L₂ hcore₂' hperm₂' hπ
     obtain ⟨Θ₀, N₁, N₂, hN₁, hN₂, hSseam, hψseam⟩ :=
-      exists_seam_prod hct hext F hw₀ hsq L₁ L₂ rfl rfl hz hcomm hIJ hR hcoreF ht₀ hl₀
+      exists_seam_prod hct hext F L₁ L₂ rfl rfl hz hcomm hIJ hR hcoreF ht₀ hl₀
         hψfr hd₁ hd₂ hI₁ (Fin.forall_fin_one.mp hI₂) (sg Fld f) (permSL c₁.blockPerm)
           (permSL cc₂.blockPerm)
         c₁.polB cc₂.polB hPu₁ hPl₁ hPu₂ hPl₂
@@ -193,7 +193,7 @@ theorem exists_chart_prod3_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
     obtain ⟨hdz, hIz', hPuz, hPlz⟩ :=
       seam_hyps_of_match hct F PC hf₃ Lz hcorez' hpermz' hπ
     obtain ⟨Θ₀, Nx, Ny, Nz, hNx, hNy, hNz, hSseam, hψseam⟩ :=
-      exists_seam_prod3 hct hext F hw₀ hsq Lx Ly Lz rfl rfl rfl hxy hxz hyz hmxy hmxz hmyz
+      exists_seam_prod3 hct hext F Lx Ly Lz rfl rfl rfl hxy hxz hyz hmxy hmxz hmyz
         hIJ hR hcoreF ht₀ hl₀ hψfr hdx hdy hdz (Fin.forall_fin_one.mp hIx')
           (Fin.forall_fin_one.mp hIy') (Fin.forall_fin_one.mp hIz')
         (sg Fld f) (permSL cc₁.blockPerm) (permSL cc₂.blockPerm) (permSL cc₃.blockPerm)

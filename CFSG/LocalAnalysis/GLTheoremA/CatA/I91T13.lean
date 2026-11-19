@@ -20,7 +20,7 @@ section A6Distinct
 private theorem lieModel_psl29_of_alt6'
     {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 6)) :
     CFSG.Blueprint.LieModel X .PSL 2 3 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 2) = 3 ^ 2 := GaloisField.card 3 2 (by norm_num)
   have hF : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   obtain ⟨φ⟩ :=
@@ -65,7 +65,7 @@ theorem a6NoChar2Lambda_holds
     unfold LargeEvenInLambda2 at hΛ'
     rw [htag] at hΛ'
     obtain ⟨-, hr, hn⟩ := hΛ'
-    have hrk : markRank lab = 0 := by simp [markRank, htag, hr]
+    have hrk : markRank lab = 0 := by simp [markRank, htag]
     have hdg : markDeg lab = 1 := by simp [markDeg, htag, hn]
     rw [hT, hrk, hdg] at hX
     rcases hX with ⟨hc, -⟩ | ⟨-, hc, -⟩ | ⟨-, -, hR⟩ | ⟨-, hc, -⟩

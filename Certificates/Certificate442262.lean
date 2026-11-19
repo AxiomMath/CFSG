@@ -12,7 +12,7 @@ open CertificateChecks
 
 open CFSG.OddStandard.SmallF3.HarrisU33.GH23Data CFSG.OddStandard.SmallF3.HarrisU33.Outside in
 theorem certificate442262 : ∀ m ∈ members, (m.tag matches .solv _ | .two _) = true →
-    IsSolvable ↥(gh23Sub m.gens) ∨ ¬ NoNormalTwo (gh23Sub m.gens) ∨ GH23Concl ↥(gh23Sub m.gens) :=
+    Group.IsSolvable ↥(gh23Sub m.gens) ∨ ¬ NoNormalTwo (gh23Sub m.gens) ∨ GH23Concl ↥(gh23Sub m.gens) :=
   fun m hm _ => KernelMisc.GH23Tag.members_spec m hm
 
 end Certificates

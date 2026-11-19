@@ -107,7 +107,7 @@ theorem sec217OutJ_of (h417 : Sec4.Item4_17) (h611 : Sec6.Item6_11_1) (h45 : Sec
   · exact absurd (h3.symm.trans hA81) (by norm_num)
   · exact absurd (h3.symm.trans hA81) (by norm_num)
   ·
-    haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     refine hfinish (j217_center_eq_bot_of_equiv_simple hq.1 eA) fun x hx =>
       j217_not_inducesOuterTheta_of_hInn (by simpa using hab.2 x hx) (j217_hInn_A9 eA)
@@ -115,8 +115,8 @@ theorem sec217OutJ_of (h417 : Sec4.Item4_17) (h611 : Sec6.Item6_11_1) (h45 : Sec
   ·
     rcases hJ3 with hJ3' | hcov
     · obtain ⟨eJ⟩ := hJ3'
-      haveI hs : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
-      haveI : IsSimpleGroup (lBar J) := @MulEquiv.isSimpleGroup _ _ _ _ hs eJ
+      have hs : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
+      have : IsSimpleGroup (lBar J) := @MulEquiv.isSimpleGroup _ _ _ _ hs eJ
       exact hfinish (j217_center_eq_bot_of_perfect_simple hq.1) fun x hx =>
         j217_not_inducesOuterTheta_of_hInn (by simpa using hab.2 x hx) (j217_hInn_J3 hq.1 eJ)
     · exact Item2113Res3Proof.j217_false_of_cover ks217J3CoverPreimage_holds
@@ -127,13 +127,13 @@ theorem sec217OutJ_of (h417 : Sec4.Item4_17) (h611 : Sec6.Item6_11_1) (h45 : Sec
   · exact absurd (h3.symm.trans hA81) (by norm_num)
   ·
     have hn1 : 1 ≤ n := hno.pos
-    haveI : IsSimpleGroup (projSU 4 2 n) := isSimpleGroup_projSU le_rfl hn1
-    haveI : IsSimpleGroup (lBar J) := @MulEquiv.isSimpleGroup _ _ _ _ inferInstance eU
+    have : IsSimpleGroup (projSU 4 2 n) := isSimpleGroup_projSU le_rfl hn1
+    have : IsSimpleGroup (lBar J) := @MulEquiv.isSimpleGroup _ _ _ _ inferInstance eU
     exact hfinish (j217_center_eq_bot_of_perfect_simple hq.1) fun x hx =>
       Item223PrintProof.not_inducesOuterTheta_of_mem_thetaComponentsAt hst.toTheoremFourHyp hd3
         hd1 hJd hn1 eU (hcomm x hx) (by simpa using hab.2 x hx)
   ·
-    haveI : IsSimpleGroup (lBar J) :=
+    have : IsSimpleGroup (lBar J) :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp (lBar J) 3 2 1
         hSp6
     exact hfinish (j217_center_eq_bot_of_perfect_simple hq.1) fun x hx =>

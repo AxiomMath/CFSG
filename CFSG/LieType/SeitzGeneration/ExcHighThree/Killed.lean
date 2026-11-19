@@ -68,8 +68,8 @@ theorem natCast_three_ne_zero_of_not_dvd {K L : Type} [Field K] [Finite K] [Fiel
     rw [← map_natCast (algebraMap K L)] at h0
     exact (map_eq_zero_iff _ (algebraMap K L).injective).1 h0
   have hdvd : ringChar K ∣ 3 := (ringChar.spec K 3).1 hK0
-  haveI := ringChar.charP K
-  haveI : Fintype K := Fintype.ofFinite K
+  have := ringChar.charP K
+  have : Fintype K := Fintype.ofFinite K
   have hne : ringChar K ≠ 0 := CharP.char_ne_zero_of_finite K (ringChar K)
   have hp : (ringChar K).Prime := (CharP.char_is_prime_or_zero K (ringChar K)).resolve_right hne
   have h3 : ringChar K = 3 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 hdvd
@@ -102,10 +102,10 @@ theorem langPlaneKilled_of_planeKilled {τ : Tag}
       ∃ α : Fin τ.rank → ℤ, IsRoot τ α ∧ (3 : ℤ) ∣ ∑ i, α i * (k₁ i : ℤ) ∧
         (3 : ℤ) ∣ ∑ i, α i * (k₂ i : ℤ)) : LangPlaneKilled τ := by
   intro K _ _ hnd A hA hcard D
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne3 : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := natCast_three_ne_zero_of_not_dvd (K := K) hnd
-  haveI : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  have : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   obtain ⟨ω, hωζ⟩ : ∃ ω : (AlgebraicClosure K)ˣ, (ω : AlgebraicClosure K) = ζ :=
     ⟨hζu.unit, hζu.unit_spec⟩

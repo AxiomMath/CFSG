@@ -38,7 +38,7 @@ variable {A B : Type} [Group A] [Group B]
 
 theorem nontrivial_of_open_isQuasisimple {Q : Type*} [Group Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : Nontrivial Q := by
-  haveI := hQ.2
+  have := hQ.2
   exact (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
 
 theorem ggRCS_commutator_subgroupOf_normal (H : Subgroup A) :
@@ -84,18 +84,18 @@ theorem ggRCS_central_lift [Finite A] (φ : A →* B) (hφ : Function.Surjective
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.mp hxA (y : A))
-  haveI : Group.IsPerfect ↥N := ⟨hNq.1⟩
+  have : Group.IsPerfect ↥N := ⟨hNq.1⟩
   exact CFSG.LieType.ChevTwo.nonempty_quotCenter_equiv_of_surjective π hπsurj hπker
 
-theorem ggRCS_isQuasisimple_map_of_solvable_ker (φ : A →* B) (hφ : Function.Surjective φ)
+theorem ggRCS_isQuasisimple_map_of_solvable_ker (φ : A →* B) (_hφ : Function.Surjective φ)
     (hsol : Group.IsSolvable ↥φ.ker) {C : Subgroup A}
     (hC : CFSG.Open.IsQuasisimple ↥C) : CFSG.Open.IsQuasisimple ↥(C.map φ) := by
   have hKf : ¬ C ≤ φ.ker := by
     intro hle
     have hCsolv : Group.IsSolvable ↥C :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-    haveI : Nontrivial ↥C := nontrivial_of_open_isQuasisimple hC
-    haveI : Group.IsPerfect ↥C := ⟨hC.1⟩
+    have : Nontrivial ↥C := nontrivial_of_open_isQuasisimple hC
+    have : Group.IsPerfect ↥C := ⟨hC.1⟩
     exact Group.IsPerfect.not_isSolvable ↥C hCsolv
   have hnatC : CFSG.IsQuasisimple ↥C :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp
@@ -122,8 +122,8 @@ theorem ggRCS_component_map_solvable_ker [Finite A] (φ : A →* B)
     intro hle
     have hCsolv : Group.IsSolvable ↥C :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-    haveI : Nontrivial ↥C := nontrivial_of_open_isQuasisimple hC.2.2
-    haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+    have : Nontrivial ↥C := nontrivial_of_open_isQuasisimple hC.2.2
+    have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
     exact Group.IsPerfect.not_isSolvable ↥C hCsolv
   have hψker : (φ.subgroupMap C).ker ≤ Subgroup.center ↥C := by
     intro x hx
@@ -140,7 +140,7 @@ theorem ggRCS_component_map_solvable_ker [Finite A] (φ : A →* B)
         rw [htop]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hy'
     · exact hcent hxK
-  haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+  have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
   refine ⟨hCq, ?_⟩
   obtain ⟨e⟩ := CFSG.LieType.ChevTwo.nonempty_quotCenter_equiv_of_surjective (φ.subgroupMap C)
     hψsurj hψker
@@ -167,7 +167,7 @@ theorem ggRCS_map_injOn_components_of_solvable_ker [Finite A] (φ : A →* B)
     have hperf : ⁅C₁.map φ, C₁.map φ⁆ = C₁.map φ := Subgroup.isPerfect_iff.mp ⟨hq.2.2.1⟩
     have hDne : C₁.map φ ≠ ⊥ := by
       intro hbot
-      haveI : Nontrivial ↥(C₁.map φ) := nontrivial_of_open_isQuasisimple hq.2.2
+      have : Nontrivial ↥(C₁.map φ) := nontrivial_of_open_isQuasisimple hq.2.2
       have hsub : Subsingleton ↥(C₁.map φ) := by rw [hbot]; infer_instance
       obtain ⟨a, b, hab⟩ := ‹Nontrivial ↥(C₁.map φ)›.exists_pair_ne
       exact hab (hsub.elim a b)

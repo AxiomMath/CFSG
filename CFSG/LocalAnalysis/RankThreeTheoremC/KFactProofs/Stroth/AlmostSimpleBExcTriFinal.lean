@@ -25,7 +25,7 @@ section Final
 theorem chevTwoPClosureOddTrialityD4Split_of_three (hThree : ChevTwoPClosureOddTrialityD4Three) :
     ChevTwoPClosureOddTrialityD4Split := by
   intro p hp hp2 L _ _ hs hnab hrk hSE d hF hdi ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := d
   cases d with
   | trialityD4 q =>

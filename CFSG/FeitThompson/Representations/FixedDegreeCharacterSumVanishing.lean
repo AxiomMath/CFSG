@@ -162,14 +162,14 @@ theorem sum_nonprincipalIrrDeg_apply_of_notMem_commutator [Finite H] {h : H}
     have hnot : (1 : H → ℂ) ∉ nonprincipalIrrDegFinset H 1 := fun hc =>
       (mem_nonprincipalIrrDeg.1 (mem_nonprincipalIrrDegFinset.1 hc)).2.1 rfl
     rw [hins, Finset.sum_insert hnot, Pi.one_apply] at h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     linear_combination h0
   · have heq : nonprincipalIrrDegFinset H d = irrDegFinset H d := by
       ext χ
       rw [mem_nonprincipalIrrDegFinset, mem_irrDegFinset]
       exact ⟨fun hχ => nonprincipalIrrDeg_subset_irrDeg hχ, fun hχ =>
         mem_nonprincipalIrrDeg.2 ⟨hχ.1, fun hc => one_notMem_irrDeg hd (hc ▸ hχ), hχ.2⟩⟩
-    rw [heq, if_neg hd]
+    rw [heq, ite_eq_right hd]
     exact h0
 
 end CFSG.FeitThompson

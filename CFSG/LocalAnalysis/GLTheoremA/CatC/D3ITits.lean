@@ -15,12 +15,14 @@ variable {G : Type} [Group G] [Finite G] (r : ℕ) [Fact r.Prime]
 @[expose] def titsStep (V : Subgroup G) : Subgroup G :=
   pCoreOf r (Subgroup.normalizer (V : Set G))
 
+omit [Fact (Nat.Prime r)] in
 theorem le_titsStep {V : Subgroup G} (hV : IsPGroup r V) : V ≤ titsStep r V :=
   le_pCoreOf_normalizer r V hV
 
 theorem titsStep_isPGroup (V : Subgroup G) : IsPGroup r (titsStep r V) :=
   pCoreOf_isPGroup r _
 
+omit [Finite G] [Fact (Nat.Prime r)] in
 theorem map_titsStep (φ : MulAut G) (V : Subgroup G) :
     (titsStep r V).map φ.toMonoidHom = titsStep r (V.map φ.toMonoidHom) := by
   unfold titsStep
@@ -28,6 +30,7 @@ theorem map_titsStep (φ : MulAut G) (V : Subgroup G) :
 
 @[expose] def titsIter (A : Subgroup G) (i : ℕ) : Subgroup G := (titsStep r)^[i] A
 
+omit [Finite G] [Fact (Nat.Prime r)] in
 theorem titsIter_succ (A : Subgroup G) (i : ℕ) :
     titsIter r A (i + 1) = titsStep r (titsIter r A i) := by
   unfold titsIter
@@ -44,6 +47,7 @@ theorem titsIter_mono {A : Subgroup G} (hA : IsPGroup r A) : Monotone (titsIter 
   rw [titsIter_succ]
   exact le_titsStep r (titsIter_isPGroup r hA i)
 
+omit [Finite G] [Fact r.Prime] in
 theorem map_titsIter {A : Subgroup G} (φ : MulAut G) (hφ : A.map φ.toMonoidHom = A) (i : ℕ) :
     (titsIter r A i).map φ.toMonoidHom = titsIter r A i := by
   induction i with
@@ -54,7 +58,7 @@ theorem map_titsIter {A : Subgroup G} (φ : MulAut G) (hφ : A.map φ.toMonoidHo
 theorem exists_titsLimit {A : Subgroup G} (hA : IsPGroup r A) :
     ∃ V : Subgroup G, A ≤ V ∧ IsPGroup r V ∧ pCoreOf r (Subgroup.normalizer (V : Set G)) = V ∧
       ∀ φ : MulAut G, A.map φ.toMonoidHom = A → V.map φ.toMonoidHom = V := by
-  haveI : Finite (Subgroup G) := inferInstance
+  have : Finite (Subgroup G) := inferInstance
   obtain ⟨m, hm⟩ := (wellFoundedGT_iff_monotone_chain_condition).1
     (inferInstance : WellFoundedGT (Subgroup G)) ⟨titsIter r A, titsIter_mono r hA⟩
   have h1 : titsIter r A m = titsIter r A (m + 1) := hm (m + 1) (Nat.le_succ m)
@@ -97,14 +101,14 @@ theorem exists_canonical_parabolic (hBT : Holds G r) {A : Subgroup G} (hA1 : A �
   have hVQ : V = Q := by
     by_contra hne
     have hlt : V < Q := lt_of_le_of_ne hVP hne
-    haveI : Group.IsNilpotent ↥Q := hQp.isNilpotent
+    have : Group.IsNilpotent ↥Q := hQp.isNilpotent
     set H : Subgroup ↥Q := V.subgroupOf Q with hH
     have hHtop : H < ⊤ := by
       refine lt_of_le_of_ne le_top fun h => ?_
       rw [hH, Subgroup.subgroupOf_eq_top] at h
       exact absurd (le_antisymm hVP h) hne
     have hgrow := (Group.normalizerCondition_of_isNilpotent (G := ↥Q)) H hHtop
-    obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt hgrow
+    obtain ⟨x, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
     have hxN' : (x : G) ∈ Subgroup.normalizer (V : Set G) := by
       have := Subgroup.subgroupOf_normalizer_eq hVP
       rw [← hH] at this

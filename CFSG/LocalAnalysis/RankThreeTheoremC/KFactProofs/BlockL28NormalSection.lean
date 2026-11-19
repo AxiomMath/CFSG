@@ -325,7 +325,7 @@ theorem exists_two_blocks_of_normal_section [∀ j, Finite (G j)] {S : ∀ j, Su
   have hW₂ : ∀ u : U₂, ∃ w ∈ σ.range, w.2 = u := fun u => by
     obtain ⟨s, hs, hsN, h⟩ := hs₂ u
     exact ⟨σ ⟨s, hs⟩, ⟨⟨s, hs⟩, rfl⟩, h⟩
-  haveI := hWn
+  have := hWn
   have htop := eq_top_of_normal_of_proj_surjective h₁ h₂ hW₁ hW₂
   exact not_exists_surjective_quasisimple_prod h₁ h₂ hq₁ σ (MonoidHom.range_eq_top.mp htop)
 
@@ -433,7 +433,7 @@ theorem two_blocks_of_l28Section {Y : Type} [Group Y] [Finite Y] {L P : Subgroup
     · ext
       simp [hρQ, hk]
   set Ñ := N'.comap ρQ with hÑd
-  haveI : Ñ.Normal := hN'n.comap ρQ
+  have : Ñ.Normal := hN'n.comap ρQ
   set g : ↥Ñ →* CatGroup d₁ × CatGroup d₂ := ψ'.comp (ρQ.subgroupComap N') with hg
   have hg' : Function.Surjective g := by
     intro u

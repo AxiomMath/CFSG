@@ -31,7 +31,7 @@ variable {M : Type} [Group M]
 theorem nonsolvable_of_simple_center (hs : IsSimpleGroup M) (hcen : Subgroup.center M = ⊥) {z : M}
     (hz : z ≠ 1) : ¬ Group.IsSolvable M := by
   intro hsol
-  haveI := hs
+  have := hs
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr hsol
   apply hz
   have : z ∈ Subgroup.center M := by
@@ -70,13 +70,13 @@ theorem secFacts_of_fixTwo {P : Subgroup (MulAut M)} {zs : M} (hz2 : zs * zs = 1
       (hfix β (hLP hβ)).resolve_right fun h => hc (h ▸ hβ)
     have hsurj : Function.Surjective (fixOf L).subtype := fun x =>
       ⟨⟨x, fun β hβ => by rw [hL1 β hβ]; rfl⟩, rfl⟩
-    haveI := hsol
-    exact hns (solvable_of_surjective hsurj)
+    have := hsol
+    exact hns (Group.isSolvable_of_surjective hsurj)
 
 theorem eq_bot_or_zpowers_of_card [Finite M] {P L : Subgroup M} (hP2 : IsPGroup 2 P) (hPc : Nat.card P ≤ 4)
     (hLP : L ≤ P) {c : M} (hcP : c ∈ P) (hcL : c ∉ L) :
     L = ⊥ ∨ ∃ β ∈ L, β ≠ 1 ∧ β * β = 1 ∧ L = Subgroup.zpowers β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : IsPGroup 2 L := hP2.to_le hLP
   obtain ⟨n, hn⟩ := hL2.exists_card_eq
   have hlt : Nat.card L < Nat.card P := by
@@ -154,7 +154,7 @@ theorem isSimpleGroup_of_hom_psl4 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y : 
     (by norm_num) hR'
   have hRR : R ≠ R' := fun h => hne (by rw [h])
   have hk := CFSG.ClassicalInvolution.Asc77.CX.CX4.L4.ker_eq_scalars h2 hsq ψ hker hi hi' hRR hz hz'
-  haveI : IsSimpleGroup (projectiveSL 4 (GaloisField p e)) :=
+  have : IsSimpleGroup (projectiveSL 4 (GaloisField p e)) :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL (K := GaloisField p e) (n := 4)
       (by norm_num)
   let ψ' : Matrix.SpecialLinearGroup (Fin 4) (GaloisField p e) →* Y := ψ
@@ -167,7 +167,7 @@ theorem isSimpleGroup_of_hom_psl4 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y : 
 theorem isSimpleGroup_of_om6mData {Y : Type} [Group Y] [Finite Y] {Φ : Set (Subgroup Y)}
     {A A' : Subgroup Y} {z' a₀ b₀ : Y}
     (h : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.Om6mData Y Φ A A' z' a₀ b₀) : IsSimpleGroup Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨D, hD1, i, hi⟩, htw, -⟩ := h
   have hsub : Subsingleton (Fin D.card) := by
     rw [hD1]
@@ -233,7 +233,7 @@ theorem secFacts_five {Xs : Type} [Group Xs] [Finite Xs] {Φ : Set (Subgroup Xs)
     (htw : TwinSect0 Φ A A' z' a₀ b₀) (hconj : ∀ J ∈ Φ, ∀ y : Xs, conjSub y J ∈ Φ)
     {P : Subgroup (MulAut Xs)} (hPfix : ∀ β ∈ P, (∀ y ∈ A, β y = y) ∧ ∀ y ∈ A', β y = y) :
     SecFacts P z' ∧ ∀ β ∈ P, β = 1 ∨ β = MulAut.conj z' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLT := CFSG.ClassicalInvolution.Q3.Q3T7P25.layerTwinFactsFive3_proved D hD1 hi htw
   have hfix : ∀ β ∈ P, β = 1 ∨ β = MulAut.conj z' := by
     intro β hβ
@@ -258,7 +258,7 @@ theorem secFacts_six {Xs : Type} [Group Xs] [Finite Xs] {Φ : Set (Subgroup Xs)}
     (hPfix : ∀ β ∈ P, (∀ y ∈ A, β y = y) ∧ ∀ y ∈ A', β y = y)
     (eA : A ≃* SL(2, ZMod 3)) : SecFacts P z' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLT := CFSG.ClassicalInvolution.Asc77.CX.layer6Twin_proved 3 1 Xs Φ D A A' z' a₀ b₀ hD1 hi htw
   obtain ⟨hcen, -, -, hP, hrefl⟩ := hLT
   obtain ⟨hexp, hcard⟩ := hP P hP2 hPfix
@@ -276,8 +276,8 @@ theorem secFacts_six {Xs : Type} [Group Xs] [Finite Xs] {Φ : Set (Subgroup Xs)}
       exact hγ
     have hsurj : Function.Surjective (fixOf L).subtype := fun x =>
       ⟨⟨x, fun γ hγ => by rw [hL1 γ hγ]; rfl⟩, rfl⟩
-    haveI := hsol
-    exact hns (solvable_of_surjective hsurj)
+    have := hsol
+    exact hns (Group.isSolvable_of_surjective hsurj)
   ·
     have hβP : β ∈ P := hLP hβL
     have hβz : β ≠ MulAut.conj z' := fun h => hc (h ▸ hβL)
@@ -300,7 +300,7 @@ theorem secFacts_six {Xs : Type} [Group Xs] [Finite Xs] {Φ : Set (Subgroup Xs)}
       exact eA.symm.injective h2
     have hTns : ¬ Group.IsSolvable ↥(Goldschmidt75.perfRes (CFSG.ClassicalInvolution.Asc77.CX.fixSubgroup β)) := by
       intro hsolT
-      haveI := hTs
+      have := hTs
       exact hnc (IsSimpleGroup.comm_iff_isSolvable.mpr hsolT)
     apply hTns
     have hTfix : ∀ x ∈ Goldschmidt75.perfRes (CFSG.ClassicalInvolution.Asc77.CX.fixSubgroup β),
@@ -310,8 +310,8 @@ theorem secFacts_six {Xs : Type} [Group Xs] [Finite Xs] {Φ : Set (Subgroup Xs)}
       exact mem_fixOf_zpowers (Goldschmidt75.perfRes_le _ hx)
     let f : ↥(Goldschmidt75.perfRes (CFSG.ClassicalInvolution.Asc77.CX.fixSubgroup β)) →* ↥(fixOf L) :=
       (Subgroup.subtype _).codRestrict (fixOf L) fun x => hTfix x x.2
-    haveI := hsol
-    refine solvable_of_solvable_injective (f := f) ?_
+    have := hsol
+    refine Group.isSolvable_of_isSolvable_injective (f := f) ?_
     intro x y hxy
     exact Subtype.ext (congrArg (fun t : ↥(fixOf L) => (t : Xs)) hxy)
 

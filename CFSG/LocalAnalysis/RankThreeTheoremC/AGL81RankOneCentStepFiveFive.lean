@@ -57,7 +57,7 @@ theorem exists_mem_inf_of_mem (hI1 : KFactStepThreeCentNilp) (hI2 : KFactStepThr
     have hcL := hML (Subgroup.mem_subgroupOf.mp hc).2
     rw [SetLike.mem_coe, Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.coe_mul,
+    simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.coe_mul,
       Subgroup.coe_inv, SetLike.coe_mem, true_and]
     have hC : (c : G) * h * (c : G)⁻¹ ∈ C := (c * h * c⁻¹).2
     rw [Subgroup.mem_normalizer_iff.mp hcL h]

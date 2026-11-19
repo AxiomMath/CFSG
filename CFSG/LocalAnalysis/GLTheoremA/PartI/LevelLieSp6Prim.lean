@@ -18,7 +18,7 @@ theorem charP_two_of_card_two [Finite K] (hK : Nat.card K = 2) : CharP K 2 := by
   exact charP_of_card_eq_prime hk'
 
 theorem two_eq_zero_of_card_two [Finite K] (hK : Nat.card K = 2) : (2 : K) = 0 := by
-  haveI := charP_two_of_card_two hK
+  have := charP_two_of_card_two hK
   exact CharP.cast_eq_zero K 2
 
 theorem eq_zero_or_one_of_card_two [Finite K] (hK : Nat.card K = 2) (a : K) : a = 0 ∨ a = 1 := by
@@ -58,7 +58,7 @@ theorem X_cube_sub_one_K : (X ^ 3 - 1 : K[X]) = (X - 1) * X2K := by
 theorem reciprocal_X_sub_one [Finite K] (hK : Nat.card K = 2) :
     reciprocalPolynomial (X - 1 : K[X]) = X - 1 := by
   have h2 : (-1 : K) = 1 := by
-    haveI := charP_two_of_card_two hK
+    have := charP_two_of_card_two hK
     exact (neg_one_eq_one_iff).2 (ringChar.eq K 2)
   unfold reciprocalPolynomial
   have hd : (X - 1 : K[X]).natDegree = 1 := by compute_degree!
@@ -68,9 +68,8 @@ theorem reciprocal_X_sub_one [Finite K] (hK : Nat.card K = 2) :
   rw [coeff_reverse, hd]
   rcases (show n = 0 ∨ n = 1 ∨ 2 ≤ n by omega) with rfl | rfl | h2'
   · simp [revAt_le, coeff_X, coeff_one, coeff_sub, h2]
-  · simp [revAt_le, coeff_X, coeff_one, coeff_sub, Nat.sub_zero, h2]
-  · rw [revAt_eq_self_of_lt (by omega)] <;>
-    simp [coeff_X, coeff_one, coeff_sub, h2, show n ≠ 0 by omega, show n ≠ 1 by omega]
+  · simp [revAt_le, coeff_X, coeff_one, coeff_sub, h2]
+  · rw [revAt_eq_self_of_lt (by omega)]
 
 theorem reciprocal_X2K : reciprocalPolynomial (X2K : K[X]) = X2K := by
   have hd : (X2K : K[X]).natDegree = 2 := by unfold X2K; compute_degree!
@@ -83,9 +82,7 @@ theorem reciprocal_X2K : reciprocalPolynomial (X2K : K[X]) = X2K := by
   · simp [revAt_le, X2K, coeff_X, coeff_one, coeff_X_pow]
   · simp [revAt_le, X2K, coeff_X, coeff_one, coeff_X_pow]
   · simp [revAt_le, X2K, coeff_X, coeff_one, coeff_X_pow]
-  · rw [revAt_eq_self_of_lt (by omega)] <;>
-    simp [X2K, coeff_X, coeff_one, coeff_X_pow, show n ≠ 0 by omega, show n ≠ 1 by omega,
-      show n ≠ 2 by omega]
+  · rw [revAt_eq_self_of_lt (by omega)]
 
 theorem primaryFactor_cases [Finite K] (hK : Nat.card K = 2) (x : StatedSp 3 K)
     (hx : x ^ 3 = 1) {h : K[X]} (hh : h ∈ primaryFactors (spEnd x)) :
@@ -120,7 +117,7 @@ theorem reciprocalOrbit_singleton [Finite K] (hK : Nat.card K = 2) (x : StatedSp
     ({h, reciprocalPolynomial h} : Set K[X]) = {h} := by
   rw [reciprocal_of_primaryFactor hK x hx hh, Set.pair_eq_singleton]
 
-theorem finrank_sixDim [Finite K] (hK : Nat.card K = 2) :
+theorem finrank_sixDim [Finite K] (_hK : Nat.card K = 2) :
     Module.finrank K (Fin 3 ⊕ Fin 3 → K) = 6 := by
   rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
 

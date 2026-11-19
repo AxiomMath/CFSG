@@ -118,7 +118,7 @@ theorem isSolvable_closure_of_braid [Finite X] {a b c : X} (ha : a * a = 1) (hb 
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hgen, Subgroup.closure_le]
     exact hnorm
   have hVsolv : Group.IsSolvable V := by
-    haveI : IsMulCommutative V := Subgroup.isMulCommutative_closure (k := {a' * c', w}) (by
+    have : IsMulCommutative V := Subgroup.isMulCommutative_closure (k := {a' * c', w}) (by
       intro x hx y hy hxy
       rcases hx with rfl | rfl <;> rcases hy with rfl | rfl
       · exact absurd rfl hxy
@@ -148,9 +148,9 @@ theorem isSolvable_closure_of_braid [Finite X] {a b c : X} (ha : a * a = 1) (hb 
         ← Subgroup.zpowers_eq_closure]
     have h := CFSG.LocalAnalysis.WeakClosure81.isSolvable_sup_zpowers_of_mul_self_eq_one hA hB
     rw [htop] at h
-    exact solvable_of_surjective (f := (⊤ : Subgroup (Y ⧸ V)).subtype)
+    exact Group.isSolvable_of_surjective (f := (⊤ : Subgroup (Y ⧸ V)).subtype)
       (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)
-  exact solvable_of_ker_le_range V.subtype (QuotientGroup.mk' V) (by
+  exact Group.isSolvable_of_ker_le_range V.subtype (QuotientGroup.mk' V) (by
     rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 

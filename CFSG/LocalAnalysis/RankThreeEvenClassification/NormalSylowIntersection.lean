@@ -38,7 +38,7 @@ theorem normalized_intersection_index_dvd {G : Type u} [Group G] [Finite G]
     (normal : Subgroup G) [normal.Normal] : Sylow prime normal := by
   have : Fact prime.Prime := ⟨hprime⟩
   have hpgroup : IsPGroup prime ((sylow : Subgroup G).subgroupOf normal) :=
-    sylow.isPGroup'.comap_subtype
+    sylow.isPGroup.comap_subtype
   apply hpgroup.toSylow
   have hnormalizes : (sylow : Subgroup G) ≤ Subgroup.normalizer (normal : Set G) := by
     rw [Subgroup.normalizer_eq_top]

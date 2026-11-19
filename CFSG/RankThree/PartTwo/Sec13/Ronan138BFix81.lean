@@ -237,7 +237,7 @@ theorem exists_fixed_subgroup_eightyOne {π : Bool} {p f : ℕ} (hK : PiField π
     have hxd : ProjGenLinGroup.mk x * dbar = dbar * ProjGenLinGroup.mk x :=
       Subgroup.mem_centralizer_singleton_iff.mp (hXC hx)
     rw [← hxbm, hs]
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
     calc ProjGenLinGroup.mk g * dbar * (ProjGenLinGroup.mk g)⁻¹ *
           (ProjGenLinGroup.mk g * ProjGenLinGroup.mk x * (ProjGenLinGroup.mk g)⁻¹) *
           (ProjGenLinGroup.mk g * dbar * (ProjGenLinGroup.mk g)⁻¹)⁻¹ =

@@ -55,18 +55,18 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
   have hXnt : Nontrivial X := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne N
     exact ⟨(a : X), (b : X), fun h => hab (Subtype.ext h)⟩
-  haveI hΩnt : Nontrivial Ω := by
+  have hΩnt : Nontrivial Ω := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     exact (not_subsingleton_iff_nontrivial.mpr hXnt)
       ⟨fun a b => FaithfulSMul.eq_of_smul_eq_smul (M := X) (α := Ω)
         fun x => Subsingleton.elim (a • x) (b • x)⟩
-  haveI : Nonempty Ω := inferInstance
+  have : Nonempty Ω := inferInstance
   let C : Subgroup X := Subgroup.centralizer (N : Set X)
-  haveI hCnormal : C.Normal := Subgroup.normal_centralizer
-  haveI : MulAction.IsPreprimitive X Ω :=
+  have hCnormal : C.Normal := Subgroup.normal_centralizer
+  have : MulAction.IsPreprimitive X Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive X Ω := inferInstance
+  have : MulAction.IsQuasiPreprimitive X Ω := inferInstance
   have hfixedN : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     apply hNbot
@@ -77,7 +77,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
     intro x
     have hx : x ∈ MulAction.fixedPoints N Ω := by rw [htop]; exact Set.mem_univ x
     simpa using hx ⟨n, hn⟩
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixedN
   have hCsem : ∀ (c : C) (ω : Ω), c • ω = ω → c = 1 := by
     intro c ω hcω
@@ -98,7 +98,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
   · exact hC
   · exfalso
     have hCne : C ≠ ⊥ := hC
-    haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
+    have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
     have hfixedC : MulAction.fixedPoints C Ω ≠ ⊤ := by
       intro htop
       apply hCne
@@ -109,7 +109,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
       intro x
       have hx : x ∈ MulAction.fixedPoints C Ω := by rw [htop]; exact Set.mem_univ x
       simpa using hx ⟨c, hc⟩
-    haveI : MulAction.IsPretransitive C Ω :=
+    have : MulAction.IsPretransitive C Ω :=
       MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := C) hfixedC
     let ω : Ω := Classical.arbitrary Ω
     have hCreg : ∀ (c c' : C), c • ω = c' • ω → c = c' := by
@@ -193,7 +193,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
       · rw [hg, orderOf_one]
         exact one_dvd p
       · rw [hord g c0 hg hc0]
-    haveI : Fact p.Prime := ⟨hp_prime⟩
+    have : Fact p.Prime := ⟨hp_prime⟩
     have hZnt : Nontrivial (Subgroup.center C) := IsPGroup.center_nontrivial hCpg
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center C)
     have hzC1 : (z : C) ≠ 1 := fun h => hz1 (Subtype.ext h)
@@ -243,7 +243,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
       intro a b
       have ha : a ∈ Subgroup.center C := by rw [hcenter_top]; trivial
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    letI : IsMulCommutative C := hcommC
+    let : IsMulCommutative C := hcommC
     have hCcent_sem : ∀ (g : X), g ∈ Subgroup.centralizer (C : Set X) → ∀ ω : Ω,
         g • ω = ω → g = 1 := by
       intro g hg ω hω
@@ -291,7 +291,7 @@ theorem centralizer_eq_bot_of_isMultiplyPretransitive
       intro a b
       have haC : (a : X) ∈ C := hNleC a.2
       have hbC : (b : X) ∈ C := hNleC b.2
-      letI : IsMulCommutative C := hcommC
+      let : IsMulCommutative C := hcommC
       have hcab := hcommC.is_comm.comm (⟨(a : X), haC⟩ : C) ⟨(b : X), hbC⟩
       have hcabX : (a : X) * (b : X) = (b : X) * (a : X) := congrArg Subtype.val hcab
       exact Subtype.ext hcabX
@@ -304,7 +304,7 @@ theorem exists_stabilizer_eq_conj_of_rankOneData {Y Ω : Type*} [Group Y] [Finit
     (hcard : Fintype.card Ω = 1 + Nat.card U) (ω : Ω) :
     ∃ x : N, (MulAction.stabilizer Y ω).subgroupOf N = B.map (MulAut.conj x).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfixed : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     apply hNbot
@@ -315,10 +315,10 @@ theorem exists_stabilizer_eq_conj_of_rankOneData {Y Ω : Type*} [Group Y] [Finit
     intro x
     have hx : x ∈ MulAction.fixedPoints N Ω := by rw [htop]; exact Set.mem_univ x
     simpa using hx ⟨n, hn⟩
-  haveI : MulAction.IsPreprimitive Y Ω :=
+  have : MulAction.IsPreprimitive Y Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive Y Ω := inferInstance
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsQuasiPreprimitive Y Ω := inferInstance
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixed
   let M : Subgroup N := MulAction.stabilizer N ω
   have hMindex : M.index = Fintype.card Ω := by

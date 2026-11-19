@@ -214,7 +214,7 @@ theorem exists_sylow_equiv_X16 :
     exact hle x.2
   have hcS2 : Nat.card S2 = Nat.card S := card_map_of_injective heSylP0.subtype_injective
   have hlt : Nat.card S ≤ 1024 := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hd : 2 ^ k ∣ Nat.card heP := by
       rw [← hk, ← hcS2]
       exact card_dvd_of_le hS2le
@@ -265,7 +265,7 @@ theorem range_hfPhi_eq :
   congr 1
   rw [show hfT0Tabs32 = Array.map (Sporadic.SuzOddCore.restrictArr hfDelta32) hfT0Tabs from rfl]
   ext g
-  simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_ofPred_eq]
+  simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨j, hj, rfl⟩
     exact ⟨j, hj, permOfArr_eq_of_rep (htab j hj).2⟩

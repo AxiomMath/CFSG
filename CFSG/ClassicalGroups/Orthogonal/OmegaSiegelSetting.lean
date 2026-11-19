@@ -67,6 +67,7 @@ theorem IsLongRootElement.isOrthA2 [FiniteDimensional K' N] (hnd : (polarBilin Q
   exact ⟨hs.mem_orthogonalGroup, hs.mul_self, hs.finrank_movedSpace hnd',
     fun x hx => hs.qf_eq_zero_of_mem_movedSpace hx⟩
 
+omit [CharP K 2] in
 theorem omegaSetting_of_exists [Finite K'] [FiniteDimensional K' N] {m : ℕ}
     (hdim : finrank K' N = 2 * m) (hm : 3 ≤ m) (hcard : Nat.card K' = Nat.card K)
     (hndN : (polarBilin QN).Nondegenerate) (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 0)

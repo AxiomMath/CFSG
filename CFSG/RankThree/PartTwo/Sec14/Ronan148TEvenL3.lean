@@ -143,7 +143,7 @@ theorem exists_sl2_of_reducible {F : Type} [Field F] [Finite F] [CharP F 2]
     (hZ3 : ∀ z ∈ Subgroup.center D, z ^ 3 = 1) (W : Submodule F (Fin 3 → F))
     (hW : ∀ g ∈ D, ∀ v ∈ W, (g : Matrix (Fin 3) (Fin 3) F) *ᵥ v ∈ W) (hW0 : W ≠ ⊥)
     (hWt : W ≠ ⊤) : ∃ P : Subgroup SL(2, F), Nonempty (D ≃* P) := by
-  haveI : Group.IsPerfect D := hDq.1
+  have : Group.IsPerfect D := hDq.1
   have hinv : ∀ g ∈ D, ∀ v ∈ W, Matrix.toLin' (g : Matrix (Fin 3) (Fin 3) F) v ∈ W :=
     fun g hg v hv => by rw [Matrix.toLin'_apply]; exact hW g hg v hv
   let baseW : D →* Module.End F W :=
@@ -259,7 +259,7 @@ theorem statedClassicalModel_of_sl2_copy {F : Type} [Field F]
     (hDq : IsQuasisimple D) {P : Subgroup SL(2, F)} (φ : D ≃* P) :
     Subgroup.center D = ⊥ ∧ ∃ j : ℕ, 2 ≤ j ∧ StatedClassicalModel D .PSL 2 2 j := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect D := hDq.1
+  have : Group.IsPerfect D := hDq.1
   have hnt : Nontrivial D := CFSG.LocalCores.isQuasisimple_nontrivial hDq
   have hns : ¬ Group.IsSolvable D := fun h => Group.IsPerfect.not_isSolvable D h
   let σ : SL(2, F) ≃* PSL2MatrixGroup F :=
@@ -338,16 +338,16 @@ theorem evenSimpleListL3_of_irred (hIrr : EvenSL3Irred) :
   have hFc : Nat.card F = 2 ^ e := hF.card
   set H := slPi true 3 (2 ^ e) F with hH
   set N := Subgroup.center H with hN
-  haveI : Group.IsPerfect K := isPerfect_of_simple hKs hnab
+  have : Group.IsPerfect K := isPerfect_of_simple hKs hnab
   have hKZ : Subgroup.center K = ⊥ := center_eq_bot_of_simple hKs hnab
   set K₁ : Subgroup (H ⧸ N) := K.map φ.toMonoidHom with hK₁
   let κ : K ≃* K₁ := Subgroup.equivMapOfInjective K φ.toMonoidHom φ.injective
-  haveI : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
+  have : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
   have hK₁Z : Subgroup.center K₁ = ⊥ := by
     rw [← map_center_mulEquiv κ, hKZ, Subgroup.map_bot]
   set M : Subgroup H := K₁.comap (QuotientGroup.mk' N) with hM
   set D : Subgroup H := ⁅M, M⁆ with hD
-  haveI hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
+  have hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
   have hDK : D.map (QuotientGroup.mk' N) = K₁ := SubgroupLists.map_commutator_comap K₁
   have hmemK : ∀ d ∈ D, QuotientGroup.mk' N d ∈ K₁ := fun d hd => hDK ▸ ⟨d, hd, rfl⟩
   let f : D →* K₁ :=
@@ -387,9 +387,9 @@ theorem evenSimpleListL3_of_irred (hIrr : EvenSL3Irred) :
     map_center_mulEquiv χ
   let ψ : D' ⧸ Subgroup.center D' ≃* K :=
     (QuotientGroup.congr (Subgroup.center D) (Subgroup.center D') χ hcenter).symm.trans ψ₀
-  haveI : Group.IsPerfect D' := Group.IsPerfect.ofSurjective (f := χ.toMonoidHom) χ.surjective
+  have : Group.IsPerfect D' := Group.IsPerfect.ofSurjective (f := χ.toMonoidHom) χ.surjective
   have hD'q : IsQuasisimple D' := by
-    haveI := hKs
+    have := hKs
     refine ⟨inferInstance, MulEquiv.isSimpleGroup ψ, ?_⟩
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨ψ.symm a, ψ.symm b, fun h => hab (ψ.symm.injective (by rw [map_mul, map_mul, h]))⟩

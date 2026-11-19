@@ -129,7 +129,7 @@ theorem autOn_conjClosure {V Z H : Subgroup G} (hZ : Z ≤ Subgroup.normalizer (
 
 omit [Finite G] in
 theorem autOn_le_normalizer_autOn {V X Z : Subgroup G}
-    (_hXV : X ≤ Subgroup.normalizer (V : Set G)) (hZV : Z ≤ Subgroup.normalizer (V : Set G))
+    (_hXV : X ≤ Subgroup.normalizer (V : Set G)) (_hZV : Z ≤ Subgroup.normalizer (V : Set G))
     (hXZ : X ≤ Subgroup.normalizer (Z : Set G)) :
     autOn X V ≤ Subgroup.normalizer (autOn Z V : Set (MulAut V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hXZ

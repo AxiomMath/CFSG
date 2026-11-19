@@ -188,13 +188,13 @@ theorem centralizer_eq_of_card_eq_nine {X : Type*} [Group X]
     (e : X ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 2)) {E : Subgroup X}
     (hE : Nat.card E = 9) : Subgroup.centralizer (E : Set X) = E := by
   classical
-  haveI : Finite X := Finite.of_injective (⇑e.toEquiv) e.toEquiv.injective
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite X := Finite.of_injective (⇑e.toEquiv) e.toEquiv.injective
+  have : Fintype E := Fintype.ofFinite E
   let C := Subgroup.centralizer (E : Set X)
   let N := Subgroup.normalizer (E : Set X)
   let ρ := conjHom E
   have hEC : E ≤ C := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcomm : IsMulCommutative E :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hE]; norm_num)
     intro x hx
@@ -210,7 +210,7 @@ theorem centralizer_eq_of_card_eq_nine {X : Type*} [Group X]
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
       have h := congrArg (fun g : Equiv.Perm E => ((g ⟨y, hy⟩ : E) : X)) hn
-      simp only [MonoidHom.one_apply, Equiv.Perm.coe_one, id_eq] at h
+      simp only [Equiv.Perm.coe_one, id_eq] at h
       have h' : (n : X) * y * (n : X)⁻¹ = y := h
       calc y * (n : X) = ((n : X) * y * (n : X)⁻¹) * (n : X) := by rw [h']
         _ = (n : X) * y := by group

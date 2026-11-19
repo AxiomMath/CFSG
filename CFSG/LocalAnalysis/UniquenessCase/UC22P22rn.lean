@@ -15,6 +15,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22r_isPerfect_subgroupOf {K H : Subgroup G} (hKH : K ≤ H) (hK : ⁅K, K⁆ = K) :
     Group.IsPerfect ↥(K.subgroupOf H) := by
   rw [Subgroup.isPerfect_iff]
@@ -24,10 +25,12 @@ theorem uc22p22r_isPerfect_subgroupOf {K H : Subgroup G} (hKH : K ≤ H) (hK : �
 noncomputable def uc22p22rPhi {K H : Subgroup G} (hKH : K ≤ H) : ↥(K.subgroupOf H) →* Bar2 K :=
   (QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp (Subgroup.subgroupOfEquivOfLe hKH).toMonoidHom
 
+omit [Finite G] in
 theorem uc22p22rPhi_surjective {K H : Subgroup G} (hKH : K ≤ H) :
     Function.Surjective (uc22p22rPhi hKH) :=
   (QuotientGroup.mk'_surjective _).comp (Subgroup.subgroupOfEquivOfLe hKH).surjective
 
+omit [Finite G] in
 theorem uc22p22rPhi_ker {K H : Subgroup G} (hKH : K ≤ H) (n : ↥(K.subgroupOf H))
     (hn : n ∈ (uc22p22rPhi hKH).ker) : (((n : ↥H) : H) : G) ∈ pCoreOf 2 K := by
   have h : (Subgroup.subgroupOfEquivOfLe hKH n) ∈ CFSG.pCore 2 ↥K := by
@@ -35,12 +38,14 @@ theorem uc22p22rPhi_ker {K H : Subgroup G} (hKH : K ≤ H) (n : ↥(K.subgroupOf
     exact (QuotientGroup.eq_one_iff _).1 h1
   exact ⟨_, h, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22r_quasisimple_quot {K H : Subgroup G} (hKH : K ≤ H)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     CFSG.Open.IsQuasisimple (↥(K.subgroupOf H) ⧸ (uc22p22rPhi hKH).ker) :=
   CFSG.Open.IsQuasisimple.of_mulEquiv
     (QuotientGroup.quotientKerEquivOfSurjective _ (uc22p22rPhi_surjective hKH)) hKq
 
+omit [Finite G] in
 theorem uc22p22r_mem_normalizer_of_subgroupOf {K H : Subgroup G} (hKH : K ≤ H) {x : G} (hxH : x ∈ H)
     (h : (⟨x, hxH⟩ : ↥H) ∈ normalizer ((K.subgroupOf H : Subgroup ↥H) : Set ↥H)) :
     x ∈ normalizer (K : Set G) := by

@@ -47,22 +47,22 @@ theorem a3Roots_subset_rootsE6 : a3Roots ⊆ rootsE6 := by
   have h3 : Pi.single (3 : Fin 6) (1 : ℤ) ∈ rootsE6 := rootsE6_simple 3
   have hd : (![1, 0, 1, 0, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 :=
     mem_rootsE6_of_refl_eq 2 h0 (by funext j; fin_cases j <;>
-      simp [rootRefl, cartanE6, Fin.sum_univ_six, Pi.single_apply])
+      simp [rootRefl, cartanE6, Pi.single_apply])
   have hf : (![0, 0, 1, 1, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 :=
     mem_rootsE6_of_refl_eq 3 h2 (by funext j; fin_cases j <;>
-      simp [rootRefl, cartanE6, Fin.sum_univ_six, Pi.single_apply])
+      simp [rootRefl, cartanE6, Pi.single_apply])
   have hg : (![1, 0, 1, 1, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 :=
     mem_rootsE6_of_refl_eq 3 hd (by funext j; fin_cases j <;>
       simp [rootRefl, cartanE6, Fin.sum_univ_six])
   have he0 : (![1, 0, 0, 0, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 := by
     convert h0 using 1
-    funext j; fin_cases j <;> simp [Pi.single_apply]
+    funext j; fin_cases j <;> simp
   have he2 : (![0, 0, 1, 0, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 := by
     convert h2 using 1
-    funext j; fin_cases j <;> simp [Pi.single_apply]
+    funext j; fin_cases j <;> simp
   have he3 : (![0, 0, 0, 1, 0, 0] : Fin 6 → ℤ) ∈ rootsE6 := by
     convert h3 using 1
-    funext j; fin_cases j <;> simp [Pi.single_apply]
+    funext j; fin_cases j <;> simp
   intro x hx
   rcases hx with rfl | rfl | rfl | rfl | rfl | rfl
   · exact he0
@@ -147,7 +147,7 @@ theorem card_toAddSubgroup_eq {A : Type} [AddGroup A] (S : Subgroup (Multiplicat
   refine Nat.card_congr
     { toFun := fun x => ⟨Multiplicative.ofAdd (x : A), (Subgroup.mem_toAddSubgroup' S _).1 x.2⟩
       invFun := fun y => ⟨Multiplicative.toAdd (y : Multiplicative A),
-        (Subgroup.mem_toAddSubgroup' S _).2 (by simpa using y.2)⟩
+        (Subgroup.mem_toAddSubgroup' S _).2 (by simp)⟩
       left_inv := fun x => rfl
       right_inv := fun y => rfl }
 

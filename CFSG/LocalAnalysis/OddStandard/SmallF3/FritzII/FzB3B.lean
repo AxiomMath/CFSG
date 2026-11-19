@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 theorem fzbs_chi_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {r r' : G} (hr : r ∈ R)
     (hr' : r' ∈ R) :
     t * ((r * r') * t * (r * r')⁻¹) = (t * (r * t * r⁻¹)) * (t * (r' * t * r'⁻¹)) := by
@@ -27,6 +28,7 @@ theorem fzbs_chi_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {r r' : G} (hr
     _ = (t * r * t * r⁻¹) * c := by rw [hrc]
     _ = (t * (r * t * r⁻¹)) * (t * (r' * t * r'⁻¹)) := by rw [hc]; group
 
+omit [Finite G] in
 theorem fzbs_chi_conj {g r : G} (hg : g * t * g⁻¹ = t) :
     t * ((g * r * g⁻¹) * t * (g * r * g⁻¹)⁻¹) = g * (t * (r * t * r⁻¹)) * g⁻¹ := by
   have hg' : g⁻¹ * t * g = t := by
@@ -42,6 +44,7 @@ theorem fzbs_chi_conj {g r : G} (hg : g * t * g⁻¹ = t) :
     _ = g * t * r * t * r⁻¹ * g⁻¹ := by rw [← hgt]
     _ = g * (t * (r * t * r⁻¹)) * g⁻¹ := by group
 
+omit [Finite G] in
 theorem fzbs_chi_eq_one (hS : FzbsStr t q tau lam rho u Z E X W R T) {r : G} (hr : r ∈ R) :
     t * (r * t * r⁻¹) = 1 ↔ r ∈ W ∨ r * tau⁻¹ ∈ W := by
   have hwt : t ∈ W := hS.XW hS.t_mem
@@ -73,7 +76,7 @@ theorem fzbs_Z_orbit (hS : FzbsStr t q tau lam rho u Z E X W R T) {z y : G} (hz 
     (hz1 : z ≠ 1) (hy : y ∈ Z) :
     y = 1 ∨ y = z ∨ y = rho * z * rho⁻¹ ∨ y = rho ^ 2 * z * (rho ^ 2)⁻¹ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   set z1 : G := rho * z * rho⁻¹ with hz1def
   set z2 : G := rho ^ 2 * z * (rho ^ 2)⁻¹ with hz2def
   have hz1Z : z1 ∈ Z := by rw [hz1def]; exact hS.rho_Z z hz
@@ -159,6 +162,7 @@ theorem fzbs_Z_norm (hS : FzbsStr t q tau lam rho u Z E X W R T) {z : G} (hz : z
     rw [hzz1]
     simpa [pow_two] using hS.Z_sq z2 hz2Z
 
+omit [Finite G] in
 theorem fzbs_zpow_conj (hrho3 : rho ^ 3 = 1) {H : Subgroup G}
     (hH : ∀ h ∈ H, rho * h * rho⁻¹ ∈ H) {g : G} (hg : g ∈ zpowers rho) {h : G} (hh : h ∈ H) :
     g * h * g⁻¹ ∈ H := by
@@ -179,6 +183,7 @@ theorem fzbs_zpow_conj (hrho3 : rho ^ 3 = 1) {H : Subgroup G}
   have hle : zpowers rho ≤ Subgroup.normalizer (H : Set G) := Subgroup.zpowers_le.mpr hrho
   exact ((Subgroup.mem_set_normalizer_iff.mp (hle hg)) h).mp hh
 
+omit [Finite G] in
 theorem fzbs_rho_X_E (hS : FzbsStr t q tau lam rho u Z E X W R T) {g : G}
     (hg : g ∈ zpowers rho) {x : G} (hx : x ∈ X) : g * x * g⁻¹ * x⁻¹ ∈ E := by
   have hrho_c : rho ∈ Subgroup.centralizer ({t} : Set G) := by

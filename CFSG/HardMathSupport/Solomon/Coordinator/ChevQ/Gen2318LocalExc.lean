@@ -98,7 +98,7 @@ theorem residual_of_data {τ : Tag} {c : TauCeti.PrimePower → TauCeti.LieTypeI
       k ≤ CFSG.Open.pRank 3 E ∧ P ≠ ⊥ ∧ IsPGroup 2 ↥P ∧ E ≤ Subgroup.normalizer (P : Set K) := by
   have hFc : Nat.card (GaloisField 2 q.exponent) = TauCeti.PrimePower.card q := by
     rw [TauCeti.PrimePower.card_def, GaloisField.card 2 q.exponent q.exponent_pos.ne', hq1]
-  haveI : Finite ↥(adjointGroup τ (GaloisField 2 q.exponent)) := hFin _
+  have : Finite ↥(adjointGroup τ (GaloisField 2 q.exponent)) := hFin _
   obtain ⟨ρ, hρ, hρk⟩ := exists_rho hB hv hq1 hFc (hZ _) e
   have hF8 : Nat.card (GaloisField 2 q.exponent) = 2 ∨ Nat.card (GaloisField 2 q.exponent) = 8 := by
     rw [GaloisField.card 2 q.exponent q.exponent_pos.ne']

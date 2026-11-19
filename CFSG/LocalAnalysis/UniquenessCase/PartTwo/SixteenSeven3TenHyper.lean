@@ -35,13 +35,13 @@ theorem s16c167b_hyperplane_fixed_moved {W : Type} [CommGroup W] [Finite W]
     ∃ B : Subgroup (MulAut W), B ≤ T ∧ Nat.card B * 7 = Nat.card T ∧
       ∃ e ∈ E, (∀ b ∈ B, b e = e) ∧ ∃ t ∈ T, t e ≠ e := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsElementaryAbelian 7 ↥T :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsElementaryAbelian 7 ↥T :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hTc _ a.2 _ b.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun a =>
         Subtype.ext (hT7 _ a.2) }
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
-  haveI : CFSG.IsInvariant ↥T W E :=
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : CFSG.IsInvariant ↥T W E :=
     SolvableHall.isInvariant_of_forall_smul_mem (fun a x hx => hTE _ a.2 x hx)
   have hsq' : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact hsq w
   have hp : ¬ 7 ∣ Nat.card ↥E := by

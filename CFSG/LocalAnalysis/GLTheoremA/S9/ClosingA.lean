@@ -36,7 +36,7 @@ structure Cfg (x y z : G) (L Bs D J E₀ : Subgroup G) : Prop where
 theorem eq_one_of_mem_of_centMod {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     (hZ : Subgroup.center (PQuot p L) = ⊥) {g : G} (hgL : g ∈ L) (hg : CentMod p L g)
     (hgp : g ^ p = 1) : g = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : (QuotientGroup.mk (⟨g, hgL⟩ : ↥L) : PQuot p L) ∈ Subgroup.center (PQuot p L) := by
     rw [Subgroup.mem_center_iff]
     intro w
@@ -70,7 +70,7 @@ theorem D_facts {x y : G} {L J : Subgroup G} (hL : GLAPComponent 3 (cx x) L) (hx
       (Subgroup.zpowers x ⊔ Subgroup.zpowers y) ⊓ J = ⊥ ∧
       Subgroup.zpowers x ⊔ Subgroup.zpowers y ≤ Subgroup.centralizer (J : Set G) := by
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hJL : J ≤ L := (hJ.1).trans inf_le_left
   have hJy : J ≤ cx y := (hJ.1).trans inf_le_right
   have hLx : L ≤ cx x := hL.1
@@ -155,6 +155,7 @@ theorem D_facts {x y : G} {L J : Subgroup G} (hL : GLAPComponent 3 (cx x) L) (hx
       refine Subgroup.mem_centralizer_iff.2 fun l hl => ?_
       exact Subgroup.mem_centralizer_singleton_iff.1 (hJy hl)
 
+omit [Finite G] in
 theorem bstar_facts {D E J : Subgroup G} {z : G} (hD : IsElemAbelian 3 D) (hE : IsElemAbelian 3 E)
     (hEJ : E ≤ J ⊓ cx z) (hDJ : D ≤ Subgroup.centralizer (J : Set G)) (hDJ' : D ⊓ J = ⊥)
     (hzJ : z ∈ J) :
@@ -175,6 +176,7 @@ theorem bstar_facts {D E J : Subgroup G} {z : G} (hD : IsElemAbelian 3 D) (hE : 
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.1 (hDJ hd) z hzJ).symm
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_sq {z : G} (hz2 : z ^ 2 = 1) : IsPGroup 2 (Subgroup.zpowers z) := by
   intro g
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -183,6 +185,7 @@ theorem isPGroup_zpowers_of_sq {z : G} (hz2 : z ^ 2 = 1) : IsPGroup 2 (Subgroup.
     hz2, one_zpow]
   rfl
 
+omit [Finite G] in
 theorem centralizer_eq_inf_of_gen {D : Subgroup G} {u v : G}
     (hD : D = Subgroup.zpowers u ⊔ Subgroup.zpowers v) :
     Subgroup.centralizer (D : Set G) = cx u ⊓ cx v := by
@@ -203,9 +206,10 @@ theorem centralizer_eq_inf_of_gen {D : Subgroup G} {u v : G}
     intro d hd
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle hd)
 
+omit [Finite G] in
 theorem isTwoLocal_cx_of_sq {z : G} (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1) : IsTwoLocal (cx z) := by
   have hord : orderOf z = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hz2 hz1
   have hzp : ∀ w ∈ Subgroup.zpowers z, w = 1 ∨ w = z := by
     intro w hw

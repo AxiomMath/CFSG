@@ -15,6 +15,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W W' : Type} [CommGroup W] [Finite W] [CommGroup W'] [Finite W']
   {M L : Subgroup (MulAut W)} {L' : Subgroup (MulAut W')} {κ : W →* W'} {e : ↥L' →* ↥L}
 
+omit [Finite W'] in
 private theorem s1611e3_eq_one_of_fixes {I₁ I₂ : Subgroup W'}
     (hsup : I₁ ⊔ I₂ = ⊤) {ψ : MulAut W'}
     (hψ : ψ ∈ Subgroup.centralizer (L' : Set (MulAut W')))
@@ -67,6 +68,7 @@ theorem SixHyp.ker_eq (h : SixHyp M L L' κ e) : κ.ker = fixV L := by
     rw [h.fix, Subgroup.mem_bot] at hfix
     exact hfix
 
+omit [Finite W'] in
 private theorem s1611e3_not_isoMod {I₁ I₂ : Subgroup W'}
     (hinf : I₁ ⊓ I₂ = ⊥) (hsup : I₁ ⊔ I₂ = ⊤)
     (h₁ : H.Pair.IsInv L' I₁) (h₂ : H.Pair.IsInv L' I₂)
@@ -184,7 +186,7 @@ private theorem s1611e3_not_isoMod {I₁ I₂ : Subgroup W'}
         rw [hPself ha, mul_inv_cancel])
       change (e (P₁ a) : W') * (e.symm (b₂ a) : W') ∈ I₂
       rw [hP₁a, hb]
-      simpa using (e ⟨a, ha⟩).2
+      simp
     · intro b hb
       refine Subgroup.mem_map.2 ⟨((e.symm ⟨b, hb⟩ : ↥I₁) : W'), (e.symm ⟨b, hb⟩).2, ?_⟩
       change ψ₀ ((e.symm ⟨b, hb⟩ : ↥I₁) : W') = b
@@ -196,7 +198,7 @@ private theorem s1611e3_not_isoMod {I₁ I₂ : Subgroup W'}
       change (e (P₁ ((e.symm ⟨b, hb⟩ : ↥I₁) : W')) : W') *
         (e.symm (b₂ ((e.symm ⟨b, hb⟩ : ↥I₁) : W')) : W') = b
       rw [hP₁a, hb']
-      simpa using congrArg Subtype.val (MulEquiv.apply_symm_apply e ⟨b, hb⟩)
+      simp
   exact hne ψ hψc hmap
 
 theorem SixHyp.cent'_eq_one (h : SixHyp M L L' κ e) :

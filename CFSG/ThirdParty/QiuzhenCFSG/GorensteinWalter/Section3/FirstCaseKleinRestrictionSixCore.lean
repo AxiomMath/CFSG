@@ -50,7 +50,7 @@ private theorem exists_centralizing_involution_of_even_normalized
   let : Fintype T := Fintype.ofFinite T
   let : Nontrivial T :=
     (Subgroup.nontrivial_iff_ne_bot (T : Subgroup D)).mpr hTne
-  obtain ⟨z, hzord, hzcent⟩ := BenderGlauberman.exists_central_involution T.isPGroup'
+  obtain ⟨z, hzord, hzcent⟩ := BenderGlauberman.exists_central_involution T.isPGroup
   let a : G := (z : D)
   have haD : a ∈ D := (z : D).2
   have ha2 : a * a = 1 := by
@@ -97,7 +97,7 @@ private theorem exists_centralizing_involution_of_even_normalized
     have hba : b = a := by
       calc
         b = 1 * b := by simp
-        _ = (a * b) * b := by simpa [hw]
+        _ = (a * b) * b := by simp [hw]
         _ = a * (b * b) := by simp [mul_assoc]
         _ = a := by rw [hb2]; simp
     have hfix : y * a * y⁻¹ = a := by simpa [b, bD, hba]
@@ -418,15 +418,15 @@ private theorem firstCase_klein_restrictionSix_core
         have hsne : s ≠ 1 := hsI.1
         rcases hcases x x.2 with hx1 | hxs
         · rcases hcases z z.2 with hz1 | hzs
-          · apply Subtype.ext; simpa [hx1, hz1]
+          · apply Subtype.ext; simp [hx1, hz1]
           · exfalso
-            have h01 : (0 : Fin 2) = 1 := by simpa [F, hx1, hzs, hsne] using hF
+            have h01 : (0 : Fin 2) = 1 := by simp [F, hx1, hzs, hsne] at hF
             exact Fin.zero_ne_one h01
         · rcases hcases z z.2 with hz1 | hzs
           · exfalso
-            have h10 : (1 : Fin 2) = 0 := by simpa [F, hxs, hz1, hsne] using hF
+            have h10 : (1 : Fin 2) = 0 := by simp [F, hxs, hz1, hsne] at hF
             exact Fin.zero_ne_one h10.symm
-          · apply Subtype.ext; simpa [hxs, hzs]
+          · apply Subtype.ext; simp [hxs, hzs]
       have hle : Nat.card {x : G // x ∈ invertedElements D y} ≤ 2 := by
         simpa using Nat.card_le_card_of_injective F hF_inj
       exfalso

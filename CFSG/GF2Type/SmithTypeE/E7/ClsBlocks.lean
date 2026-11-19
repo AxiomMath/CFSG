@@ -15,7 +15,7 @@ open scoped Matrix
 theorem zmod2_add_self_eq_zero : ∀ a : ZMod 2, a + a = 0 := by decide
 
 theorem V12_add_self_eq_zero (w : V12) : w + w = 0 :=
-  Prod.ext (funext fun i => zmod2_add_self_eq_zero _) (funext fun i => zmod2_add_self_eq_zero _)
+  Prod.ext (funext fun _i => zmod2_add_self_eq_zero _) (funext fun _i => zmod2_add_self_eq_zero _)
 
 theorem q12_eq_dot (x : V12) : q12 x = x.1 ⬝ᵥ x.2 := rfl
 
@@ -282,7 +282,7 @@ theorem exists_line_siegel {u w : V12} (hu : u ≠ 0) (hw : w ≠ 0) (huw : u �
   exact (siegelEquiv_eq_of_lineOfPair_eq ⟨hq1, hq2, hb⟩ (tsPair_linePair p.2) hu hw huw hu' hw'
     huw' hset'.symm).symm
 
-theorem tsPair_F {i j : Fin 6} (hij : i ≠ j) :
+theorem tsPair_F {i j : Fin 6} (_hij : i ≠ j) :
     TsPair ((0 : Fin 6 → ZMod 2), (Pi.single i 1 : Fin 6 → ZMod 2))
       ((0 : Fin 6 → ZMod 2), (Pi.single j 1 : Fin 6 → ZMod 2)) := by
   refine ⟨by simp [q12_eq_dot], by simp [q12_eq_dot], ?_⟩
@@ -299,7 +299,7 @@ theorem F_single_ne {i j : Fin 6} (hij : i ≠ j) :
       ((0 : Fin 6 → ZMod 2), (Pi.single i 1 : Fin 6 → ZMod 2)) := by
   intro h
   have := congrArg (fun v : V12 => v.2 i) h
-  simp [Pi.single_apply, hij] at this
+  simp [hij] at this
 
 theorem E_single_ne_zero (j : Fin 6) :
     ((Pi.single j 1 : Fin 6 → ZMod 2), (0 : Fin 6 → ZMod 2)) ≠ 0 := by
@@ -324,7 +324,7 @@ theorem altE_mulVec {i j : Fin 6} (hij : i ≠ j) (x : Fin 6 → ZMod 2) :
   funext k
   rw [altE_mulVec_apply]
   rcases eq_or_ne k i with rfl | hki <;> rcases eq_or_ne k j with rfl | hkj <;>
-    simp_all [Pi.single_apply, hij, hij.symm]
+    simp_all [hij.symm]
 
 theorem kN_altE {i j : Fin 6} (hij : i ≠ j) :
     kN (altE i j) = siegelEquiv (0, Pi.single i 1) (0, Pi.single j 1) := by
@@ -357,17 +357,17 @@ theorem ite_mul_ite_aux (a b i j : Fin 6) :
     simp
   · have h3 : ¬ (i = a ∧ j = b) := fun h => h2 h.1.symm
     have h4 : i ≠ a := fun h => h2 h.symm
-    simp [h1, h2, h3, h4]
+    simp [h1, h2, h4]
   · have h3 : ¬ (i = a ∧ j = b) := fun h => h1 h.2
-    simp [h1, h2, h3]
+    simp [h1, h2]
   · have h3 : ¬ (i = a ∧ j = b) := fun h => h1 h.2
-    simp [h1, h2, h3]
+    simp [h1, h2]
 
 theorem single_mul_single_eq_zero {i j : Fin 6} (hij : i ≠ j) (k : Fin 6) :
     (Pi.single j 1 : Fin 6 → ZMod 2) k * (Pi.single i 1 : Fin 6 → ZMod 2) k = 0 := by
   by_cases hk : k = j
   · subst hk
-    simp [Pi.single_apply, hij.symm]
+    simp [hij.symm]
   · simp [Pi.single_apply, hk]
 
 theorem tsPair_levi {i j : Fin 6} (hij : i ≠ j) :
@@ -389,13 +389,13 @@ theorem Ablk_siegel_levi {i j : Fin 6} (hij : i ≠ j) :
   have hB2 : B12 ((0 : Fin 6 → ZMod 2), (Pi.single b 1 : Fin 6 → ZMod 2))
       ((Pi.single j 1 : Fin 6 → ZMod 2), (0 : Fin 6 → ZMod 2)) =
         (Pi.single b 1 : Fin 6 → ZMod 2) j := by
-    simp only [B12, Prod.fst, Prod.snd, Pi.zero_apply, mul_zero, zero_mul, add_zero, zero_add,
-      Pi.single_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_ite, mul_one, mul_zero]
+    simp only [B12, Pi.zero_apply, mul_zero, zero_add,
+      Pi.single_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true, mul_ite, mul_one, mul_zero]
     by_cases h : b = j
     · simp [h]
     · simp [h, Ne.symm h]
   rw [hB1, hB2]
-  simp only [zero_smul, add_zero, zero_add, Prod.snd_add, Prod.smul_snd, Pi.add_apply,
+  simp only [zero_smul, add_zero, Prod.snd_add, Prod.smul_snd, Pi.add_apply,
     Pi.smul_apply, smul_eq_mul, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
     Matrix.single_apply, Pi.single_apply]
   rw [ite_mul_ite_aux]
@@ -491,7 +491,7 @@ theorem sum_altE_apply (s : Finset (Fin 6 × Fin 6)) (i j : Fin 6) :
 theorem ent_kN (N : M6) (i j : Fin 6) : ent (kN N) i j = N i j := by
   show (kN N ((Pi.single j 1 : Fin 6 → ZMod 2), (0 : Fin 6 → ZMod 2))).2 i = N i j
   rw [kN_apply]
-  simp [Matrix.mulVec_single_one]
+  simp
 
 theorem exists_K0_sig_sum (s : Finset (Fin 6 × Fin 6)) (hs : ∀ p ∈ s, p.1 < p.2) :
     ∃ g ∈ K0, sig g = kN (∑ p ∈ s, altE p.1 p.2) := by
@@ -517,16 +517,16 @@ theorem exists_K0_ent (c : {p : Fin 6 × Fin 6 // p.1 < p.2} → ZMod 2) :
     intro p hp
     rw [hmem] at hp
     by_contra hlt
-    rw [hc', dif_neg hlt] at hp
+    rw [hc', dite_eq_right hlt] at hp
     exact zero_ne_one hp
   obtain ⟨g, hg, hgs⟩ := exists_K0_sig_sum s hlt
   refine ⟨g, hg, fun p => ?_⟩
   have h1 : c' (p.1.1, p.1.2) = c p := by
     rw [hc']
-    exact dif_pos p.2
+    exact dite_eq_left p.2
   have h2 : c' (p.1.2, p.1.1) = 0 := by
     rw [hc']
-    exact dif_neg (not_lt.mpr (le_of_lt p.2))
+    exact dite_eq_right (not_lt.mpr (le_of_lt p.2))
   rw [hgs, ent_kN, sum_altE_apply]
   simp only [hmem, h1, h2]
   rcases (by decide : ∀ x : ZMod 2, x = 0 ∨ x = 1) (c p) with h | h <;> simp [h]

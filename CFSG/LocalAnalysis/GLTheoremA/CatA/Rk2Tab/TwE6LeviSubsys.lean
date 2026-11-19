@@ -150,7 +150,7 @@ theorem card_le_pow_two_subsystemGroup_e6pair
       · exact hyUnit c
       · exact hyUnitj c
   have hRankSL3 : CFSG.Open.pRank p (⊤ : Subgroup (SL(3, F))) ≤ 2 := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpF : (p : F) ≠ 0 := CFSG.StandardType.F4Rest.natCast_ne_zero_of_charTwo hp hp2
     have hstated : CFSG.Open.pRank p (StatedSL 3 F) ≤ 2 :=
       CFSG.LocalAnalysis.RankThreeUC.S15.pRank_statedSL_le (F := F) (r := p) (m := 3)
@@ -244,7 +244,7 @@ private theorem card_scalar_subtype_le_one {F : Type} [Field F] [CharP F 2]
 
 theorem card_le_pow_one_subsystemGroup_e6node
     {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = (2 ^ n) ^ 2)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     (hPRL : ∀ (V : Type) [AddCommGroup V] [Module F V] [FiniteDimensional F V]
       (R : Subgroup (V ≃ₗ[F] V)), IsPGroup p R →
       (∀ x ∈ R, ∀ y ∈ R, ∃ a : F, ∀ v, (x * y * x⁻¹ * y⁻¹) v = a • v) →
@@ -256,7 +256,7 @@ theorem card_le_pow_one_subsystemGroup_e6node
     Nat.card E ≤ p ^ 1 := by
   have hn : 1 ≤ n * 2 := by
     have h2F : 2 ≤ Nat.card F := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       have h := Fintype.one_lt_card (α := F)
       omega
@@ -265,7 +265,7 @@ theorem card_le_pow_one_subsystemGroup_e6node
       simp at hF
       omega
     · omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := n * 2) hn (by rw [hF, pow_mul])
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -386,7 +386,7 @@ private theorem transfer_bound {τ : Tag} {K : Type} [Field K] {p k : ℕ}
 
 private theorem memA (k : Fin 6) (h2 : k ≠ 2) (h4 : k ≠ 4) :
     e6Index k ∈ ({i : Fin Tag.E6.rank | i.val ≠ 2 ∧ i.val ≠ 4} : Set (Fin Tag.E6.rank)) := by
-  simp only [e6Index, Set.mem_setOf_eq]
+  simp only [e6Index]
   constructor <;> intro h
   · exact h2 (Fin.ext h)
   · exact h4 (Fin.ext h)
@@ -465,10 +465,10 @@ theorem card_le_pow_four_subsystemGroup_e6A1A2
     rcases ha with rfl | rfl
     · exact e6_pair_support 1 5 (by decide) support_1_5
     · exact e6_pair_support 3 5 (by decide) support_3_5
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     have hn : 1 ≤ n * 2 := by
       have h2F : 2 ≤ Nat.card F := by
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         rw [Nat.card_eq_fintype_card]
         exact Fintype.one_lt_card (α := F)
       rcases Nat.eq_zero_or_pos n with h | h
@@ -531,13 +531,13 @@ theorem card_le_pow_four_subsystemGroup_e6A1A2
             omega
           rcases hv with h | h | h | h
           · rw [show i = e6Index 0 from Fin.ext h]
-            exact Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 1 from Fin.ext h]
-            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 3 from Fin.ext h]
-            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 5 from Fin.ext h]
-            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp) c)
         · have hv : i.val = 0 ∨ i.val = 1 ∨ i.val = 3 ∨ i.val = 5 := by
             have h2 : i.val ≠ 2 := hi.1
             have h4 : i.val ≠ 4 := hi.2
@@ -545,13 +545,13 @@ theorem card_le_pow_four_subsystemGroup_e6A1A2
             omega
           rcases hv with h | h | h | h
           · rw [show i = e6Index 0 from Fin.ext h]
-            exact Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 1 from Fin.ext h]
-            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 3 from Fin.ext h]
-            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp) c)
           · rw [show i = e6Index 5 from Fin.ext h]
-            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+            exact Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp) c)
       · refine sup_le ?_ ?_
         · refine CFSG.StandardType.F4Rest.subsystemGroup_mono ?_
           intro i hi
@@ -576,6 +576,7 @@ theorem card_le_pow_four_subsystemGroup_e6A1A2
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private lemma toLin'_eq_scalar {A : Matrix.SpecialLinearGroup (Fin 3) F} {l : F}
     (hA : (A : Matrix (Fin 3) (Fin 3) F) = Matrix.scalar (Fin 3) l) (v : Fin 3 → F) :
     (Matrix.SpecialLinearGroup.toLin' A : (Fin 3 → F) →ₗ[F] (Fin 3 → F)) v = l • v := by
@@ -583,6 +584,7 @@ private lemma toLin'_eq_scalar {A : Matrix.SpecialLinearGroup (Fin 3) F} {l : F}
   rw [Matrix.toLin'_apply, hA]
   simp [Matrix.scalar_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem center_N1_le_Z0 :
     Subgroup.center (subsystemGroup Tag.E6 F support13) ≤
     (subsystemGroup Tag.E6 F support13 ⊓ subsystemGroup Tag.E6 F support56).subgroupOf
@@ -609,6 +611,7 @@ private theorem center_N1_le_Z0 :
   rw [hg_eq]
   exact Subgroup.inv_mem _ hg2mem
 
+omit [Finite F] [CharP F 2] in
 private theorem a2Equiv_center_scalar (z : subsystemGroup Tag.E6 F support13)
     (hz : z ∈ Subgroup.center (subsystemGroup Tag.E6 F support13)) :
     ∃ l : F, l ^ 3 = 1 ∧
@@ -623,6 +626,7 @@ private theorem a2Equiv_center_scalar (z : subsystemGroup Tag.E6 F support13)
   obtain ⟨l, hl, hlA⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hAc
   exact ⟨l, by simpa using hl, hlA.symm⟩
 
+omit [CharP F 2] in
 theorem card_inf_A2_A2_dvd_three :
     Nat.card ↥(subsystemGroup Tag.E6 F support13 ⊓
       subsystemGroup Tag.E6 F support56) ∣ 3 := by
@@ -660,6 +664,7 @@ theorem card_inf_A2_A2_dvd_three :
   rw [hZ1] at hdvd
   exact hdvd.trans hcenter
 
+omit [Finite F] [CharP F 2] in
 private theorem Z0_le_center_N1 :
     (subsystemGroup Tag.E6 F support13 ⊓ subsystemGroup Tag.E6 F support56).subgroupOf
       (subsystemGroup Tag.E6 F support13) ≤
@@ -711,7 +716,7 @@ private theorem card_le_pow_four_E0_p3 {E0 : Subgroup (ModGL Tag.E6 F)}
         Subgroup.normalizer (N2 : Set (ModGL Tag.E6 F)) := hNle m.2
     exact (Subgroup.mem_normalizer_iff.1 hm ((n : ↥N) : ModGL Tag.E6 F)).mp
       (Subgroup.mem_subgroupOf.1 hn)
-  letI : N2'.Normal := hN2'normal
+  let : N2'.Normal := hN2'normal
   let π : ↥N →* (↥N ⧸ N2') := QuotientGroup.mk' N2'
   let S : Subgroup ↥N := E0.subgroupOf N
   let P : Subgroup (↥N ⧸ N2') := S.map π
@@ -738,7 +743,7 @@ private theorem card_le_pow_four_E0_p3 {E0 : Subgroup (ModGL Tag.E6 F)}
       CFSG.GroupTheory.exists_mul_of_mem_sup_of_commute
         (fun a ha b hb => (commute_Q₁_Q₂ (K := F) ha hb).eq) hxN
     refine ⟨⟨a, ha⟩, ?_⟩
-    simp only [φ, MonoidHom.comp_apply, Subgroup.coe_inclusion]
+    simp only [φ, MonoidHom.comp_apply]
     change π ⟨a, (le_sup_left : N1 ≤ N1 ⊔ N2) ha⟩ = π (x : ↥N)
     have hxeq : (x : ↥N) = ⟨a * b,
         N.mul_mem ((le_sup_left : N1 ≤ N1 ⊔ N2) ha)
@@ -1004,7 +1009,7 @@ private theorem card_le_pow_mul_card_inf_of_le_sup {p k : ℕ} {A B : Subgroup G
     intro n hn m
     have hm : ((m : ↥M) : G) ∈ Subgroup.normalizer (B : Set G) := hBnormG m.2
     exact (Subgroup.mem_normalizer_iff.1 hm ((n : ↥M) : G)).mp (Subgroup.mem_subgroupOf.1 hn)
-  letI : B'.Normal := hB'normal
+  let : B'.Normal := hB'normal
   have htop : A' ⊔ B' = ⊤ := by
     rw [eq_top_iff]
     intro x _
@@ -1083,7 +1088,7 @@ private theorem support_1_4 : ∀ γ ∈ rootFinset (Tag.E6),
 
 private theorem memB (k : Fin 6) (h3 : k ≠ 3) :
     e6Index k ∈ ({i : Fin Tag.E6.rank | i.val ≠ 3} : Set (Fin Tag.E6.rank)) := by
-  simp only [e6Index, Set.mem_setOf_eq]
+  simp only [e6Index]
   intro h
   exact h3 (Fin.ext h)
 private theorem memB0 : e6Index 0 ∈ ({i : Fin Tag.E6.rank | i.val ≠ 3} : Set _) := memB 0 (by decide)
@@ -1106,10 +1111,10 @@ theorem card_le_pow_five_subsystemGroup_e6A2A1
     (hE : E ≤ subsystemGroup TwistTag.E6.tag F {i | i.val ≠ 3} ⊓
       twistedFixedGroup TwistTag.E6 F σ.toRingHom) :
     Nat.card E ≤ p ^ 5 := by
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     have hn : 1 ≤ n * 2 := by
       have h2F : 2 ≤ Nat.card F := by
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         rw [Nat.card_eq_fintype_card]
         exact Fintype.one_lt_card (α := F)
       rcases Nat.eq_zero_or_pos n with h | h
@@ -1177,30 +1182,30 @@ theorem card_le_pow_five_subsystemGroup_e6A2A1
           omega
         rcases hv with h | h | h | h | h
         · rw [show i = e6Index 0 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13]) c))
         · rw [show i = e6Index 1 from Fin.ext h]
-          exact Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+          exact Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp) c)
         · rw [show i = e6Index 2 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (xUnit_mem_subsystemGroup (by simp [support13]) c))
         · rw [show i = e6Index 4 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support56]) c))
         · rw [show i = e6Index 5 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (xUnit_mem_subsystemGroup (by simp [support56]) c))
       · have hv : i.val = 0 ∨ i.val = 1 ∨ i.val = 2 ∨ i.val = 4 ∨ i.val = 5 := by
           have h3 : i.val ≠ 3 := hi
           have hlt : i.val < 6 := i.isLt
           omega
         rcases hv with h | h | h | h | h
         · rw [show i = e6Index 0 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13]) c))
         · rw [show i = e6Index 1 from Fin.ext h]
-          exact Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13, support56]) c)
+          exact Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp) c)
         · rw [show i = e6Index 2 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_left (yUnit_mem_subsystemGroup (by simp [support13]) c))
         · rw [show i = e6Index 4 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support56]) c))
         · rw [show i = e6Index 5 from Fin.ext h]
-          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support13, support56]) c))
+          exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (yUnit_mem_subsystemGroup (by simp [support56]) c))
     · refine sup_le ?_ ?_
       · refine CFSG.StandardType.F4Rest.subsystemGroup_mono ?_
         intro i hi

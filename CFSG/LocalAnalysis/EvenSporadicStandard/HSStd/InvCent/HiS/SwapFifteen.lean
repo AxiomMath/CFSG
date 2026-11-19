@@ -69,11 +69,11 @@ theorem swap_order_three_five {K : Type*} [Group K] [Finite K] {z : K} {B S₁ S
   obtain ⟨ha2pow, hb2pow⟩ := hpow (n := 5) ha₂ hb₂ hk5ab
   have horder3 : ∀ {x : K}, x ^ 3 = 1 → x ≠ 1 → orderOf x = 3 := by
     intro x hx3 hx1
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx3 hx1
   have horder5 : ∀ {x : K}, x ^ 5 = 1 → x ≠ 1 → orderOf x = 5 := by
     intro x hx5 hx1
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx5 hx1
   have hgk1 : g * k = (a₁ * a₂) * (b₁ * b₂) := by
     calc g * k = a₁ * (b₁ * (a₂ * b₂)) := by rw [hgab, hkab]; group

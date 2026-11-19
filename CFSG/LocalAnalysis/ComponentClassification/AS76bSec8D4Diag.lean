@@ -184,7 +184,7 @@ theorem conj_phi_transvection_d4
         φ (Matrix.SpecialLinearGroup.transvection hij c') =
           pinnedX TwistTag.D4.tag K (a2D4 γ) (c' : K) := fun hγ hst c' => by
     rw [← CFSG.LieType.Steinberg.SL.x_eq hij hst c', hφ _ hγ]
-  fin_cases i <;> fin_cases j <;> first | exact absurd rfl hij | skip
+  fin_cases i <;> fin_cases j <;> try exact absurd rfl hij
   · rw [hx (mem_rootsA2_d4.2 (Or.inl rfl)) (by decide), hx (mem_rootsA2_d4.2 (Or.inl rfl))
       (by decide), a2D4_x₂]
     change trialityOuterTorus K σ μ * d4x₂ K c * _ = d4x₂ K _

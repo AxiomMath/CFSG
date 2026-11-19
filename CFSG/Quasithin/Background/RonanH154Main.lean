@@ -79,13 +79,13 @@ theorem exists_std_iso_cocode
     (hreal : RealizesBy (FFModel.golaySec Γ (G6.coreMod 24)
       (golayC ⊔ Subgroup.zpowers (pairVec a b))) ρ.range ⊤ ⊥ ρ.rangeRestrict β) :
     ∃ c : P24, c ∈ AutPerm ∧ c a = 0 ∧ c b = 1 ∧ c • O = Ostd ∧ c • S = Sstd ∧ c • B = Bstd ∧
-      ∃ (hcΓ : conjSubg c Γ = mog22plus) (φ : ↥Γ →* ↥mog22plus),
+      ∃ (_hcΓ : conjSubg c Γ = mog22plus) (φ : ↥Γ →* ↥mog22plus),
         (∀ g : ↥Γ, (φ g : P24) = c * g * c⁻¹) ∧
         ∃ e : V ≃* W10, ∀ (g : ↥Γ) (v : V), e (ρ g v) = Rc (φ g) (e v) := by
-  obtain ⟨c, hc, hca, hcb, hcO, hcS, hcB, hcΓ⟩ :=
+  obtain ⟨c, hc, hca, hcb, hcO, hcS, hcB, _hcΓ⟩ :=
     normal_form_plus hab hO haO hbO hS hBS haB hbB hTO hTS hL hΓ hSyl
-  obtain ⟨φ, hφ, e, he'⟩ := exists_iso_of_conj hc hca hcb hcΓ hreal
-  exact ⟨c, hc, hca, hcb, hcO, hcS, hcB, hcΓ, φ, hφ, e, he'⟩
+  obtain ⟨φ, hφ, e, he'⟩ := exists_iso_of_conj hc hca hcb _hcΓ hreal
+  exact ⟨c, hc, hca, hcb, hcO, hcS, hcB, _hcΓ, φ, hφ, e, he'⟩
 
 theorem main154 {a b : Fin 24}
     (hab : a ≠ b) {O : Finset (Fin 24)} {S : Finset (Finset (Fin 24))} {B : Finset (Fin 24)}

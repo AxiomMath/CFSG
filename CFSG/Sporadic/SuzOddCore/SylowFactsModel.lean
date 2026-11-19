@@ -743,9 +743,9 @@ theorem rep_tenArrs (j : ℕ) (hj : j < 10) :
     Rep 1782 ((tenArrs (rArrs ()) (cArrs ()))[j]!) (tenGen j) := by
   rw [tenArrs, getElem!_ofFn_of_lt _ hj, tenGen]
   by_cases h4 : j < 4
-  · rw [if_pos h4, if_pos h4]
+  · rw [ite_eq_left h4, ite_eq_left h4]
     exact rep_rArrs j h4 (suzModelFacts.wordsR j h4).1
-  · rw [if_neg h4, if_neg h4]
+  · rw [ite_eq_right h4, ite_eq_right h4]
     exact rep_cArrs (j - 4) (by omega) (suzModelFacts.wordsC (j - 4) (by omega)).1
 
 theorem rep_inv_tenArrs (j : ℕ) (hj : j < 10) :
@@ -753,9 +753,9 @@ theorem rep_inv_tenArrs (j : ℕ) (hj : j < 10) :
   refine rep_inv_of_isInvA (rep_tenArrs j hj) ?_
   rw [tenArrs, getElem!_ofFn_of_lt _ hj]
   by_cases h4 : j < 4
-  · rw [if_pos h4]
+  · rw [ite_eq_left h4]
     exact isInvA_of_permOK (suzModelFacts.rPerm j h4)
-  · rw [if_neg h4]
+  · rw [ite_eq_right h4]
     exact isInvA_of_permOK (suzModelFacts.cPerm (j - 4) (by omega))
 
 theorem rep_wa :
@@ -785,9 +785,9 @@ theorem suzB1_eq_wb : suzB1 = wordIn 10 tenGen wbWord :=
 theorem tenGen_mem_sup (j : ℕ) (hj : j < 10) :
     tenGen j ∈ R0 ⊔ (suzM ⊓ Subgroup.centralizer (Q : Set (Equiv.Perm (Fin 1782)))) := by
   by_cases h4 : j < 4
-  · rw [tenGen, if_pos h4]
+  · rw [tenGen, ite_eq_left h4]
     exact Subgroup.mem_sup_left (Subgroup.subset_closure ⟨j, h4, rfl⟩)
-  · rw [tenGen, if_neg h4]
+  · rw [tenGen, ite_eq_right h4]
     exact Subgroup.mem_sup_right (Subgroup.mem_inf.mpr
       ⟨cGen_mem_suzM (j - 4) (by omega), cGen_mem_centralizer_Q (j - 4) (by omega)⟩)
 

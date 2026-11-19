@@ -132,7 +132,7 @@ theorem uc22pwlie_sp4_of_isSp4R {X : Type} [Group X] [Finite X] {n : ℕ} (hn2 :
       uc22pwlie_RShape (U : Subgroup X) E ψ := by
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e₀⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK
   let e₁ : X ≃* StatedSp 2 K := e₀.trans (CFSG.QuasithinUnique.Lin2.Five.projEquiv K).symm
   obtain ⟨U₀, hU₀⟩ := exists_sylow_unipotent (K := K) 2 2
   obtain ⟨e', he'⟩ := uc22pwI2_exists_equiv_sylow e₁ U U₀

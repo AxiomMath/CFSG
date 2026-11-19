@@ -43,7 +43,7 @@ theorem exists_commuting_order_three_lift_sigma2 (h : Tim79a.ParrottHyp z) :
     rw [J_mem_iff D]
     rw [map_pow, hxq, hσ2cube]
   let x3 : J z := ⟨((x ^ 3 : ↥(H z)) : G), Subgroup.mem_subgroupOf.mp hx3J⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (isPGroup_J (z := z) h).exists_orderOf_eq_pow x3
   have hk' : orderOf (x ^ 3 : ↥(H z)) = 2 ^ k := by
     rw [← Subgroup.orderOf_coe (x ^ 3 : ↥(H z))]
@@ -151,7 +151,7 @@ theorem mem_fixW_iff (h : Tim79a.ParrottHyp z) (x : ↥(O3H D))
         Subgroup G) : Set G) :=
     K_le_normalizer_commutator_sigma1Nine D xH hxK
   have hxodd : Odd (orderOf xH) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨m, hm⟩ := (isPGroup_O3H (z := z) D).exists_orderOf_eq_pow x
     rw [show orderOf xH = orderOf x from Subgroup.orderOf_coe x, hm]
     exact Odd.pow (by norm_num : Odd 3)
@@ -277,8 +277,8 @@ theorem card_CJcomm_eq (h : Tim79a.ParrottHyp z) (x : ↥(O3H D)) :
     Nat.card ↥(CJcomm (D := D) (x : ↥(H z))) =
       2 ^ Module.finrank (ZMod 2) (fixW (D := D) h (x : ↥(H z))) * 2 := by
   classical
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   let xH : ↥(H z) := (x : ↥(H z))
   let f : CJcomm (D := D) xH →* QuotientV.V z :=
     (QuotientV.pi z).comp (CJcomm (D := D) xH).subtype
@@ -389,7 +389,7 @@ theorem card_CJcomm_eq (h : Tim79a.ParrottHyp z) (x : ↥(O3H D)) :
     apply Nat.card_congr
     refine
       { toFun := fun v => ⟨Additive.ofMul v.1,
-          (mem_fixW_iff D h x (Additive.ofMul v.1)).mpr (by simpa using v.2)⟩
+          (mem_fixW_iff D h x (Additive.ofMul v.1)).mpr (by simp)⟩
         invFun := fun w => ⟨Additive.toMul w.1,
           (mem_fixW_iff D h x w.1).mp w.2⟩
         left_inv := by intro v; ext; simp

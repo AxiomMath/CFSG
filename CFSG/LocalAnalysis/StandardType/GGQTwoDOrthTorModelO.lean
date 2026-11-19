@@ -181,7 +181,7 @@ private theorem plh_mem_torP₀_of_mem_orthDerived (E : QuadExt F K (unitaryInvo
     Subgroup.mem_map.mpr ⟨g, hmemE, rfl⟩
   rwa [Subgroup.map_subtype_commutator] at hmemP
 
-theorem torStdM_P₀_equiv (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.card F = 2)
+theorem torStdM_P₀_equiv (E : QuadExt F K (unitaryInvolution K 2 1)) (_hF : Nat.card F = 2)
     {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1) (m a : ℕ) (ha : a ≤ m + 1) :
     Nonempty (↥(torP₀ (Qn E (m + 1)) (torStdM (F := F) ζ m a)) ≃* ↥(orthDerived (Qn E a))) := by
   let E₀ := torE₀ (Qn E (m + 1)) (torStdM (F := F) ζ m a)

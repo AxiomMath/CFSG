@@ -93,23 +93,23 @@ theorem vec_ext {x y : ℕ} (hx : x < 64) (hy : y < 64) (h : ∀ k < 6, x.testBi
   · exact h p hp
   · rw [testBit_vec hx (by omega), testBit_vec hy (by omega)]
 
-theorem pkMat_pow_row {j : ℕ} (hj : j < 6) {i : Fin 6} (hi : i.val = 0) (l : Fin 6) :
+theorem pkMat_pow_row {j : ℕ} (_hj : j < 6) {i : Fin 6} (hi : i.val = 0) (l : Fin 6) :
     pkMat 6 (2 ^ j) i l = if l.val = j then 1 else 0 := by
   simp only [pkMat, Matrix.of_apply, hi, Nat.mul_zero, Nat.zero_add, Nat.testBit_two_pow]
   by_cases h : l.val = j
   · simp [h]
-  · simp only [h, if_false]
-    rw [if_neg (by simp only [decide_eq_true_eq]; omega)]
+  · simp only [h, ite_false]
+    rw [ite_eq_right (by simp only [decide_eq_true_eq]; omega)]
 
 theorem testBit_row (N : ℕ) {j k : ℕ} (hj : j < 6) (hk : k < 6) :
     (MULF (2 ^ j) N).testBit k = N.testBit (6 * j + k) := by
   apply testBit_ite
   have e := testBit_eq_entry (MULF (2 ^ j) N) (p := k) (by omega)
   rw [e, pkMat_MULF, Matrix.mul_apply, Finset.sum_eq_single ⟨j, hj⟩]
-  · rw [pkMat_pow_row hj (Nat.div_eq_of_lt hk), if_pos rfl, one_mul]
+  · rw [pkMat_pow_row hj (Nat.div_eq_of_lt hk), ite_eq_left rfl, one_mul]
     simp only [pkMat, Matrix.of_apply, Nat.mod_eq_of_lt hk]
   · intro l _ hl
-    rw [pkMat_pow_row hj (Nat.div_eq_of_lt hk), if_neg (fun e => hl (Fin.ext e)), zero_mul]
+    rw [pkMat_pow_row hj (Nat.div_eq_of_lt hk), ite_eq_right (fun e => hl (Fin.ext e)), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -153,7 +153,7 @@ theorem mulF_sumBits (f : ℕ → ℕ) (r S : ℕ) :
     change MULF (sumBits f r n ^^^ _) S = sumBits (fun i => MULF (f i) S) r n ^^^ _
     rw [xor_mulF, mulF_sumBits f r S n]
     cases Nat.beq (Nat.land (Nat.shiftRight r n) 1) 1
-    · simp only [cond_false, zero_mulF]
+    · simp only [Bool.cond_false, zero_mulF]
     · rfl
 
 theorem sumBits_congr {f g : ℕ → ℕ} (r : ℕ) (h : ∀ i < 6, f i = g i) :
@@ -181,7 +181,7 @@ theorem testBit_packL : ∀ (rs : List ℕ), (∀ r ∈ rs, r < 64) → ∀ j k,
     cases j with
     | zero => simp [hk]
     | succ j =>
-      rw [if_neg (by omega), show 6 * (j + 1) + k - 6 = 6 * j + k by omega,
+      rw [ite_eq_right (by omega), show 6 * (j + 1) + k - 6 = 6 * j + k by omega,
         testBit_packL rs (fun x hx => h x (List.mem_cons_of_mem _ hx)) j k hk]
       simp
 
@@ -269,20 +269,25 @@ variable (hG : ∀ j : Fin 12, yamakiMat6 j = pkMat 6 (R j.val)) (hA : a0TabK R 
   (hc : coordK R Q = true)
 
 include hA hc in
+omit hA in
 theorem crd_lt {k : ℕ} (hk : k < 64) : crd Q k < 64 := ((coord_facts hc).2.1 k hk).1
 
 include hA hc in
+omit hA in
 theorem psc_crd {k : ℕ} (hk : k < 64) : psc Q (crd Q k) = k := ((coord_facts hc).2.1 k hk).2.1
 
 include hA hc in
+omit hA in
 theorem psc_lt {k : ℕ} (hk : k < 64) : psc Q k < 64 := ((coord_facts hc).2.1 k hk).2.2.1
 
 include hA hc in
+omit hA in
 theorem crd_psc {k : ℕ} (hk : k < 64) : crd Q (psc Q k) = k := ((coord_facts hc).2.1 k hk).2.2.2
 
 include hA hc in
+omit hA in
 theorem psc_zero : psc Q 0 = 0 := by
-  have := psc_crd hA hc (Q := Q) (k := 0) (by norm_num)
+  have := psc_crd hc (Q := Q) (k := 0) (by norm_num)
   rwa [(coord_facts hc).1] at this
 
 include hA hc in
@@ -311,13 +316,13 @@ theorem mulX : ∀ b < 64, ∀ a < 64, MX R a * MX R b = MX R (psc Q (crd Q a ^^
     cases b with
     | zero =>
       rw [show MX R 0 = 1 by rw [MX, h0, pkMat_ONE], mul_one, (coord_facts hc).1, Nat.xor_zero,
-        psc_crd hA hc ha]
+        psc_crd hc ha]
     | succ t =>
       obtain ⟨p1, p2, p3⟩ := hB t (by omega)
       have hm : crd Q a ^^^ crd Q (recF R 12 0 t) < 64 :=
-        xor_lt64 (crd_lt hA hc ha) (crd_lt hA hc (by omega))
+        xor_lt64 (crd_lt hc ha) (crd_lt hc (by omega))
       have hi : 6 * psc Q (crd Q a ^^^ crd Q (recF R 12 0 t)) + recF R 12 1 t < 384 := by
-        have := psc_lt hA hc hm
+        have := psc_lt hc hm
         omega
       obtain ⟨s1, s2⟩ := hS _ hi
       have e1 : (6 * psc Q (crd Q a ^^^ crd Q (recF R 12 0 t)) + recF R 12 1 t) / 6 =
@@ -326,10 +331,10 @@ theorem mulX : ∀ b < 64, ∀ a < 64, MX R a * MX R b = MX R (psc Q (crd Q a ^^
           recF R 12 1 t := by omega
       rw [e1, e2] at s2
       have hc2 := (coord_facts hc).2.2 _ hi
-      rw [e1, e2, crd_psc hA hc hm] at hc2
+      rw [e1, e2, crd_psc hc hm] at hc2
       rw [show MX R (t + 1) = MX R (recF R 12 0 t) * pkMat 6 (R (recF R 12 1 t + 3)) by
           rw [MX, p3, pkMat_MULF], ← mul_assoc, ih _ (by omega) (by omega) a ha, MX, ← pkMat_MULF,
-        ← s2, crd_succ hA hc (by omega), ← Nat.xor_assoc, ← hc2, psc_crd hA hc s1]
+        ← s2, crd_succ hA hc (by omega), ← Nat.xor_assoc, ← hc2, psc_crd hc s1]
 
 include hA hc in
 theorem genX {j : ℕ} (hj : j < 6) : pkMat 6 (R (j + 3)) = MX R (psc Q (2 ^ j)) := by
@@ -338,7 +343,7 @@ theorem genX {j : ℕ} (hj : j < 6) : pkMat 6 (R (j + 3)) = MX R (psc Q (2 ^ j))
   have hc2 := (coord_facts hc).2.2 j (by omega)
   rw [Nat.div_eq_of_lt (by omega), Nat.mod_eq_of_lt hj, (coord_facts hc).1, Nat.zero_xor] at hc2
   rw [Nat.div_eq_of_lt (by omega), Nat.mod_eq_of_lt hj, h0] at s2
-  rw [← hc2, psc_crd hA hc s1, MX, s2, pkMat_MULF, pkMat_ONE, one_mul]
+  rw [← hc2, psc_crd hc s1, MX, s2, pkMat_MULF, pkMat_ONE, one_mul]
 
 theorem gl_facts (hg : glK R Q = true) {i : ℕ} (hi : i < 11) :
     MULF (R i) (R i) = ONE ∧ ∀ j < 6, MULF (MULF (R i) (R (j + 3))) (R i) =
@@ -366,10 +371,10 @@ theorem conjX (hg : glK R Q = true) {i : ℕ} (hi : i < 11) :
     cases k with
     | zero =>
       have hM0 : MX R 0 = 1 := by rw [MX, h0, pkMat_ONE]
-      rw [hM0, mul_one, hsq, (coord_facts hc).1, zero_mulF, psc_zero hA hc, hM0]
+      rw [hM0, mul_one, hsq, (coord_facts hc).1, zero_mulF, psc_zero hc, hM0]
     | succ t =>
       obtain ⟨p1, p2, p3⟩ := hB t (by omega)
-      have hp := crd_lt hA hc (show recF R 12 0 t < 64 by omega)
+      have hp := crd_lt hc (show recF R 12 0 t < 64 by omega)
       have hx1 := vec_lt hp (Q i)
       have hx2 := vec_lt (pow_lt64 p2) (Q i)
       have e : pkMat 6 (R i) * MX R (t + 1) * pkMat 6 (R i) =
@@ -383,8 +388,8 @@ theorem conjX (hg : glK R Q = true) {i : ℕ} (hi : i < 11) :
                 pkMat 6 (R i) := by rw [hsq]; noncomm_ring
           _ = _ := by noncomm_ring
       rw [e, ih _ (by omega) (by omega), ← pkMat_MULF, ← pkMat_MULF, g2 _ p2, ← MX,
-        mulX hA hc _ (psc_lt hA hc hx2) _ (psc_lt hA hc hx1), crd_psc hA hc hx1,
-        crd_psc hA hc hx2, ← xor_mulF, ← crd_succ hA hc (by omega)]
+        mulX hA hc _ (psc_lt hc hx2) _ (psc_lt hc hx1), crd_psc hc hx1,
+        crd_psc hc hx2, ← xor_mulF, ← crd_succ hA hc (by omega)]
 
 end A0
 

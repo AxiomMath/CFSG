@@ -21,13 +21,16 @@ abbrev Np (p : ℕ) (L : Subgroup G) : Subgroup (NL L) :=
 
 abbrev Ev (L E : Subgroup G) : Subgroup (NL L) := E.subgroupOf (Subgroup.normalizer (L : Set G))
 
+omit [Finite G] in
 theorem mem_Lv {L : Subgroup G} (x : NL L) : x ∈ Lv L ↔ (x : G) ∈ L :=
   Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 theorem mem_Np {p : ℕ} {L : Subgroup G} (x : NL L) :
     x ∈ Np p L ↔ (x : G) ∈ GLAPPrimeCoreOf p L :=
   Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 theorem mem_Ev {L E : Subgroup G} (x : NL L) : x ∈ Ev L E ↔ (x : G) ∈ E :=
   Subgroup.mem_subgroupOf
 
@@ -43,10 +46,12 @@ instance Np.normal (p : ℕ) (L : Subgroup G) : (Np p L).Normal where
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact (Subgroup.mem_normalizer_iff.1 (normalizer_le_normalizer_glaPPrimeCoreOf p L g.2) _).1 hn
 
+omit [Finite G] in
 theorem Np_conj {p : ℕ} {L : Subgroup G} {n : NL L} (hn : n ∈ Np p L) (g : NL L) :
     g * n * g⁻¹ ∈ Np p L :=
   Subgroup.Normal.conj_mem (Np.normal p L) n hn g
 
+omit [Finite G] in
 theorem Lv_conj {L : Subgroup G} {n : NL L} (hn : n ∈ Lv L) (g : NL L) :
     g * n * g⁻¹ ∈ Lv L :=
   Subgroup.Normal.conj_mem (Lv.normal L) n hn g
@@ -56,9 +61,11 @@ abbrev Gam (p : ℕ) (L : Subgroup G) : Type := NL L ⧸ Np p L
 noncomputable abbrev psi (p : ℕ) (L : Subgroup G) : NL L →* Gam p L :=
   QuotientGroup.mk' (Np p L)
 
+omit [Finite G] in
 theorem L_le_normalizer (L : Subgroup G) : L ≤ Subgroup.normalizer (L : Set G) :=
   Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem Np_le_Lv (p : ℕ) (L : Subgroup G) : Np p L ≤ Lv L := by
   intro x hx
   rw [mem_Np] at hx
@@ -68,6 +75,7 @@ theorem Np_le_Lv (p : ℕ) (L : Subgroup G) : Np p L ≤ Lv L := by
     exact Subgroup.map_subtype_le _
   exact hO hx
 
+omit [Finite G] in
 theorem psi_eq_one_iff {p : ℕ} {L : Subgroup G} (x : NL L) : psi p L x = 1 ↔ x ∈ Np p L := by
   change (QuotientGroup.mk x : Gam p L) = 1 ↔ _
   rw [QuotientGroup.eq_one_iff]
@@ -85,6 +93,7 @@ theorem coprime_card_Np (p : ℕ) [Fact p.Prime] (L : Subgroup G) :
   rw [h1, h2]
   exact CFSG.pPrimeCore_coprime_card
 
+omit [Finite G] in
 theorem psi_comm_iff {p : ℕ} {L : Subgroup G} (e l : NL L) :
     psi p L e * psi p L l = psi p L l * psi p L e ↔ e * l * e⁻¹ * l⁻¹ ∈ Np p L := by
   rw [← map_mul, ← map_mul]
@@ -107,6 +116,7 @@ theorem psi_comm_iff {p : ℕ} {L : Subgroup G} (e l : NL L) :
     rw [h4]
     exact Subgroup.inv_mem _ h3
 
+omit [Finite G] in
 theorem psi_mem_centralizer_iff {p : ℕ} {L : Subgroup G} (e : NL L) :
     psi p L e ∈ Subgroup.centralizer (((Lv L).map (psi p L) : Subgroup (Gam p L)) : Set (Gam p L)) ↔
       ∀ l ∈ L, ⁅l, (e : G)⁆ ∈ GLAPPrimeCoreOf p L := by
@@ -140,7 +150,7 @@ theorem lift_fixed {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Subgroup (NL L
     {l : NL L} (hl : l ∈ Lv L) (hfix : ∀ e ∈ E, e * l * e⁻¹ * l⁻¹ ∈ Np p L) :
     ∃ l' ∈ Lv L, l' * l⁻¹ ∈ Np p L ∧ ∀ e ∈ E, e * l' = l' * e := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmemconj : ∀ e ∈ E, ∀ t : CosetT p L l,
       e * t.1 * e⁻¹ ∈ Lv L ∧ e * t.1 * e⁻¹ * l⁻¹ ∈ Np p L := by
     intro e he t
@@ -148,7 +158,7 @@ theorem lift_fixed {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Subgroup (NL L
     have h1 : e * t.1 * e⁻¹ * l⁻¹ = (e * (t.1 * l⁻¹) * e⁻¹) * (e * l * e⁻¹ * l⁻¹) := by group
     rw [h1]
     exact Subgroup.mul_mem _ (Np_conj t.2.2 e) (hfix e he)
-  letI : MulAction E (CosetT p L l) :=
+  let : MulAction E (CosetT p L l) :=
     { smul := fun e t => ⟨(e : NL L) * t.1 * (e : NL L)⁻¹, (hmemconj e e.2 t).1, (hmemconj e e.2 t).2⟩
       one_smul := fun t => Subtype.ext (by
         show ((1 : E) : NL L) * t.1 * ((1 : E) : NL L)⁻¹ = t.1
@@ -161,7 +171,7 @@ theorem lift_fixed {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Subgroup (NL L
     apply Nat.card_congr
     exact
       { toFun := fun t => ⟨t.1 * l⁻¹, t.2.2⟩
-        invFun := fun n => ⟨(n : NL L) * l, Subgroup.mul_mem _ (Np_le_Lv p L n.2) hl, by simpa using n.2⟩
+        invFun := fun n => ⟨(n : NL L) * l, Subgroup.mul_mem _ (Np_le_Lv p L n.2) hl, by simp⟩
         left_inv := fun t => Subtype.ext (by simp)
         right_inv := fun n => Subtype.ext (by simp) }
   have hndvd : ¬ p ∣ Nat.card (CosetT p L l) := by
@@ -208,11 +218,12 @@ theorem map_inf_centralizer_eq {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Su
       rw [map_mul, map_inv] at h1
       exact mul_inv_eq_one.1 h1
 
+omit [Finite G] in
 theorem card_map_psi {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Subgroup (NL L))
     (hE : IsElemAbelian p E) (hcop : Nat.Coprime p (Nat.card ↥(Np p L))) :
     Nat.card ↥(E.map (psi p L)) = Nat.card ↥E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Set.InjOn (psi p L) (E : Set (NL L)) := by
     intro a ha b hb hab
     have h1 : psi p L (a⁻¹ * b) = 1 := by
@@ -235,6 +246,7 @@ theorem card_map_psi {p : ℕ} (hp : p.Prime) {L : Subgroup G} (E : Subgroup (NL
     _ = Nat.card (E : Set (NL L)) := Nat.card_image_of_injOn hinj
     _ = Nat.card ↥E := rfl
 
+omit [Finite G] in
 theorem isElemAbelian_map_psi {p : ℕ} {L : Subgroup G} {E : Subgroup (NL L)}
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map (psi p L)) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, ?_⟩

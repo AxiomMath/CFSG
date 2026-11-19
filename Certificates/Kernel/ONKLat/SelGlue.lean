@@ -77,7 +77,7 @@ theorem wcode_powP_gen {n w : ℕ}
 theorem wcode_powP (g : Perm (Fin 120)) (k : ℕ) : wcode 7 (g ^ k) = powP 120 7 (wcode 7 g) k :=
   wcode_powP_gen henc120 g k
 
-theorem commF_iff_gen {n w : ℕ} (hn : 0 < n) (hw : n + 1 < 2 ^ w) (h32 : n < 2 ^ 32)
+theorem commF_iff_gen {n w : ℕ} (hn : 0 < n) (_hw : n + 1 < 2 ^ w) (h32 : n < 2 ^ 32)
     (he : CFSG.KC.Misc.Clos.ClosEnc (wcode (n := n) w) (pcomp n w (mask w)) (pidn n w))
     {y g : Perm (Fin n)} : commF n w (wcode w y) (wcode w g) = true ↔ g * y = y * g := by
   unfold commF

@@ -71,7 +71,7 @@ theorem exists_controlled_normal_plane_subgroup [Finite G] (hp : p.Prime) (P : S
   have hAcomm' : IsMulCommutative ↥(A.subgroupOf (P : Subgroup G)) :=
     isMulCommutative_subgroupOf_of_isMulCommutative hAcomm
   have hAn := hAnormal
-  obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
   have hself' : centralizer ((A.subgroupOf (P : Subgroup G) : Subgroup ↥(P : Subgroup G))
       : Set ↥(P : Subgroup G)) = A.subgroupOf (P : Subgroup G) :=
     (centralizer_subgroupOf_eq_iff hAP).2 (by rw [inf_comm]; exact hAself)
@@ -122,7 +122,7 @@ theorem lt_top_of_normal_selfCentralizing_sylow [Finite G] [IsSimpleGroup G]
     (hGnc : ¬ IsMulCommutative G) (hp : p.Prime) (P : Sylow p G) {A : Subgroup G}
     (hAP : A ≤ (P : Subgroup G)) (hA : 2 ∈ elementaryAbelianRanks p ↥A) : A < ⊤ :=
   lt_top_of_isPGroup hGnc hp (ne_bot_of_two_mem_elementaryAbelianRanks hp hA)
-    (P.isPGroup'.to_le hAP)
+    (P.isPGroup.to_le hAP)
 
 theorem le_pComplCoreIn_of_normal_selfCentralizing_sylow [Finite G] [IsSimpleGroup G]
     (hGnc : ¬ IsMulCommutative G) (hGodd : Odd (Nat.card G))
@@ -174,7 +174,7 @@ theorem le_pComplCoreIn_of_normal_selfCentralizing_sylow [Finite G] [IsSimpleGro
     have hzpowX : (zpowers (b : G) : Subgroup G) ≤ X := by
       rw [Subgroup.zpowers_le]; exact hAX (hBA hbB)
     have hzpow : IsPGroup p ↥(zpowers (b : G)) :=
-      P.isPGroup'.to_le (by rw [Subgroup.zpowers_le]; exact hAP (hBA hbB))
+      P.isPGroup.to_le (by rw [Subgroup.zpowers_le]; exact hAP (hBA hbB))
     have hcentEq : X ⊓ centralizer ((zpowers (b : G) : Subgroup G) : Set G)
         = X ⊓ centralizer ({(b : G)} : Set G) := by
       rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
@@ -192,7 +192,7 @@ theorem isConstrained_of_normal_selfCentralizing_sylow [Finite G] [IsSimpleGroup
     (hA : 2 ∈ elementaryAbelianRanks p ↥A) : IsConstrained A := by
   have hAP : A ≤ (P : Subgroup G) := hAself ▸ inf_le_right
   have hpi : subgroupPrimeSupportCompl A = {q : ℕ | q.Prime ∧ q ≠ p} :=
-    subgroupPrimeSupportCompl_eq_of_isPGroup hp (P.isPGroup'.to_le hAP)
+    subgroupPrimeSupportCompl_eq_of_isPGroup hp (P.isPGroup.to_le hAP)
       (ne_bot_of_two_mem_elementaryAbelianRanks hp hA)
   refine isConstrained_iff.2 fun X hXlt hAX Y hYX hYpi hYA => ?_
   rw [hpi, map_piCore_setOf_prime_ne_eq_pComplCoreIn]

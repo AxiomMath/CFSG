@@ -33,6 +33,7 @@ theorem three_le_natCard_units {K : Type*} [Field K] [Finite K] (hK : 4 ≤ Nat.
   rw [Nat.card_units]
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem natCast_natCard_units_ne_zero {k : ℕ} (hk0 : 0 < k)
     (hkN : k < Nat.card Kˣ) : ((k : ℕ) : ZMod (Nat.card Kˣ)) ≠ 0 := by
   rw [ne_eq, ZMod.natCast_eq_zero_iff]
@@ -59,11 +60,13 @@ private theorem two_pow_lt_natCard_units (hK : 4 ≤ Nat.card K) {l : ℕ}
     Finset (Fin 4 → ZMod (Nat.card Kˣ)) :=
   Finset.univ.filter fun a => D.wtSpace ρ a ≠ ⊥
 
+omit [CharP K 2] [FiniteDimensional K X] in
 theorem mem_wts {a : Fin 4 → ZMod (Nat.card Kˣ)} :
     a ∈ wts D ρ ↔ D.wtSpace ρ a ≠ ⊥ := by
   rw [wts]
   simp
 
+omit [CharP K 2] in
 theorem closed_wts : Closed (wts D ρ) := by
   intro β hβ a ha
   rw [mem_wts] at ha ⊢
@@ -87,6 +90,7 @@ theorem card_wts_le : (wts D ρ).card ≤ Module.finrank K X := by
         intro a _ _
         exact Nat.zero_le _
 
+omit [FiniteDimensional K X] in
 theorem wts_nonempty (hnt : ∃ g : G, ρ g ≠ 1) : (wts D ρ).Nonempty := by
   by_contra hne
   have hbot : ∀ a, D.wtSpace ρ a = ⊥ := by
@@ -96,7 +100,7 @@ theorem wts_nonempty (hnt : ∃ g : G, ρ g ≠ 1) : (wts D ρ).Nonempty := by
   have htopbot : (⊤ : Submodule K X) = ⊥ := by
     rw [← iSup_wtSpace D ρ]
     exact iSup_eq_bot.mpr hbot
-  haveI : Subsingleton X := by
+  have : Subsingleton X := by
     refine ⟨fun x y => ?_⟩
     have hx : x = 0 := by
       have hmem : x ∈ (⊥ : Submodule K X) := by
@@ -112,6 +116,7 @@ theorem wts_nonempty (hnt : ∃ g : G, ρ g ≠ 1) : (wts D ρ).Nonempty := by
   obtain ⟨g, hg⟩ := hnt
   exact hg (Subsingleton.elim (ρ g) 1)
 
+omit [Finite K] [CharP K 2] in
 private theorem nsmul_castW_ne_zero {α : Fin 4 → ℤ} (hα : IsD4Root α) {k : ℕ}
     (hk0 : 0 < k) (hkN : k < Nat.card Kˣ) :
     (k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ≠ 0 := by
@@ -133,6 +138,7 @@ private def StepClosed (D : D4Datum G K) (ρ : Representation K G X)
     a + (k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∈ wts D ρ →
       a + (k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∈ A
 
+omit [FiniteDimensional K X] in
 private theorem iSup_wtSpace_invariant {A : Finset (Fin 4 → ZMod (Nat.card Kˣ))}
     (hA : StepClosed D ρ A) :
     ∀ g : G, ∀ x ∈ ⨆ a ∈ A, D.wtSpace ρ a, ρ g x ∈ ⨆ a ∈ A, D.wtSpace ρ a := by
@@ -177,6 +183,7 @@ private theorem iSup_wtSpace_invariant {A : Finset (Fin 4 → ZMod (Nat.card Kˣ
   intro x hx
   exact hM hx
 
+omit [FiniteDimensional K X] in
 private theorem wts_subset_of_stepClosed
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     {A : Finset (Fin 4 → ZMod (Nat.card Kˣ))} (hA : StepClosed D ρ A)
@@ -200,9 +207,10 @@ private theorem wts_subset_of_stepClosed
     exact Submodule.mem_top
   have hproj := (mem_iSup_wtSpace_finset (D := D) (ρ := ρ) (A := A)).mp hxM a haA
   have hxa : wtProj D ρ a x = x := by
-    rw [wtProj_of_mem D ρ (a := a) hx, if_pos rfl]
+    rw [wtProj_of_mem D ρ (a := a) hx, ite_eq_left rfl]
   exact hx0 (by rw [← hxa]; exact hproj)
 
+omit [FiniteDimensional K X] in
 private theorem rho_x_eq_self_of_rootOp_eq_zero {α : Fin 4 → ℤ} (hα : IsD4Root α) {x : X}
     (hx : ∀ k : ℕ, 1 ≤ k → k ≤ Nat.card Kˣ → rootOp D ρ α k x = 0) (c : K) :
     ρ (D.x α c) x = x := by
@@ -222,6 +230,7 @@ private theorem rho_x_eq_self_of_rootOp_eq_zero {α : Fin 4 → ℤ} (hα : IsD4
   · intro h
     exact absurd (Finset.mem_range.mpr (by omega)) h
 
+omit [FiniteDimensional K X] in
 theorem eq_fixed_of_rootOp_eq_zero {x : X}
     (hx : ∀ α, IsD4Root α → ∀ k : ℕ, 1 ≤ k → k ≤ Nat.card Kˣ → rootOp D ρ α k x = 0) :
     ∀ g : G, ρ g x = x := by
@@ -241,6 +250,7 @@ theorem eq_fixed_of_rootOp_eq_zero {x : X}
   intro g
   exact key g (by rw [D.closure_eq]; exact Subgroup.mem_top g)
 
+omit [FiniteDimensional K X] in
 theorem eq_zero_of_rootOp_eq_zero
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hnt : ∃ g : G, ρ g ≠ 1) {x : X}
@@ -263,6 +273,7 @@ theorem eq_zero_of_rootOp_eq_zero
     exact (Submodule.mem_bot K).mp hxfix
   · exact absurd htop hne
 
+omit [FiniteDimensional K X] in
 theorem rootOp_eq_zero_of_pow_two {α : Fin 4 → ℤ} (hα : IsD4Root α) {k : ℕ}
     (hk0 : 1 ≤ k) (hkN : k ≤ Nat.card Kˣ) {x : X}
     (hpow : ∀ l : ℕ, 2 ^ l ≤ k → rootOp D ρ α (2 ^ l) x = 0) :
@@ -299,7 +310,7 @@ theorem rootOp_eq_zero_of_pow_two {α : Fin 4 → ℤ} (hα : IsD4Root α) {k : 
   have hcoeff : (((k.choose (k - 2 ^ l) : ℕ)) : K) = 1 :=
     natCast_eq_one_of_odd_of_two_eq_zero hodd CharTwo.two_eq_zero
   have hmul := rootOp_mul D ρ α hα (k - 2 ^ l) (2 ^ l)
-  rw [if_pos (by omega : k - 2 ^ l + 2 ^ l ≤ Nat.card Kˣ),
+  rw [ite_eq_left (by omega : k - 2 ^ l + 2 ^ l ≤ Nat.card Kˣ),
     Nat.sub_add_cancel hple, hcoeff, one_smul] at hmul
   calc rootOp D ρ α k x
       = (rootOp D ρ α (k - 2 ^ l) * rootOp D ρ α (2 ^ l)) x := by rw [hmul]
@@ -363,6 +374,7 @@ private theorem wts_eq_swt_of_mem
     exact isSWt_mem (odd_natCard_units K) (closed_wts D ρ) hb ha₀S ha₀ haS
       (by rw [hpar, he])
 
+omit [FiniteDimensional K X] in
 private theorem wts_eq_singleton_zero_of_zero_mem
     (hsmall : ∀ a ∈ wts D ρ, IsSmallWt a)
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
@@ -386,6 +398,7 @@ private theorem wts_eq_singleton_zero_of_zero_mem
   rw [ha]
   exact h0
 
+omit [FiniteDimensional K X] in
 private theorem rootOp_eq_zero_of_wts_singleton_zero (hK : 4 ≤ Nat.card K)
     (hzero : wts D ρ = {0}) :
     ∀ α, IsD4Root α → ∀ k : ℕ, 1 ≤ k → k ≤ Nat.card Kˣ → rootOp D ρ α k = 0 := by
@@ -408,7 +421,7 @@ private theorem rootOp_eq_zero_of_wts_singleton_zero (hK : 4 ≤ Nat.card K)
         (by simpa using hstep)
     have hmul := rootOp_mul D ρ α hα 1 (Nat.card Kˣ - 1)
     have hsum : 1 + (Nat.card Kˣ - 1) = Nat.card Kˣ := by omega
-    rw [if_pos (by omega : 1 + (Nat.card Kˣ - 1) ≤ Nat.card Kˣ), hsum,
+    rw [ite_eq_left (by omega : 1 + (Nat.card Kˣ - 1) ≤ Nat.card Kˣ), hsum,
       Nat.choose_one_right, natCard_units_cast_eq_one, one_smul] at hmul
     calc rootOp D ρ α (Nat.card Kˣ) x
         = (rootOp D ρ α 1 * rootOp D ρ α (Nat.card Kˣ - 1)) x := by rw [hmul]
@@ -422,8 +435,9 @@ private theorem rootOp_eq_zero_of_wts_singleton_zero (hK : 4 ≤ Nat.card K)
     intro hstep
     exact (nsmul_castW_ne_zero (K := K) hα (k := k) (by omega) hkNlt) (by simpa using hstep)
 
+omit [FiniteDimensional K X] in
 private theorem not_wts_eq_singleton_zero (hK : 4 ≤ Nat.card K)
-    (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
+    (_hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hnt : ∃ g : G, ρ g ≠ 1) : wts D ρ ≠ {0} := by
   intro hzero
   have hkill := rootOp_eq_zero_of_wts_singleton_zero D ρ hK hzero
@@ -444,6 +458,7 @@ theorem zero_not_mem_wts (hK : 4 ≤ Nat.card K)
   exact not_wts_eq_singleton_zero D ρ hK hirr hnt
     (wts_eq_singleton_zero_of_zero_mem D ρ hsmall hirr h0)
 
+omit [FiniteDimensional K X] in
 private theorem exists_pow_two_of_wts_eq_vwt (hK : 4 ≤ Nat.card K)
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hnt : ∃ g : G, ρ g ≠ 1) {b : ZMod (Nat.card Kˣ)} (hb : b ≠ 0)
@@ -487,6 +502,7 @@ private theorem exists_pow_two_of_wts_eq_vwt (hK : 4 ≤ Nat.card K)
     · exact (hno l hle).2 (by rw [hcast] at h; rw [h]; simp)
   exact hx0 (eq_zero_of_rootOp_eq_zero D ρ hirr hnt hkill)
 
+omit [FiniteDimensional K X] in
 private theorem exists_pow_two_of_wts_eq_swt (hK : 4 ≤ Nat.card K)
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hnt : ∃ g : G, ρ g ≠ 1) {b : ZMod (Nat.card Kˣ)} {e : ℕ}
@@ -530,6 +546,7 @@ private theorem exists_pow_two_of_wts_eq_swt (hK : 4 ≤ Nat.card K)
     · exact (hno l hle).2 (by rw [hcast] at h; rw [h]; simp)
   exact hx0 (eq_zero_of_rootOp_eq_zero D ρ hirr hnt hkill)
 
+omit [Finite K] [CharP K 2] in
 private theorem swt_neg_parity (hN : Odd (Nat.card Kˣ)) {b : ZMod (Nat.card Kˣ)} (hb : b ≠ 0)
     (e : ℕ) (a : Fin 4 → ZMod (Nat.card Kˣ)) :
     (IsSWt (-b) a ∧ negCount (-b) a % 2 = e) ↔

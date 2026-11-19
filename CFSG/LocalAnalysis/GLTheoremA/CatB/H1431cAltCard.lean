@@ -12,7 +12,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (lieOrderBridge_holds)
 
 theorem altS_two_mul_card_alt {m : ℕ} (hm : 2 ≤ m) :
     2 * Nat.card (alternatingGroup (Fin m)) = m.factorial := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_eq_fintype_card,
     Fintype.card_fin]
 

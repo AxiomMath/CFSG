@@ -31,7 +31,7 @@ theorem exists_sup_conj_eq_top {F : Type} [Field F] [Finite F]
     ∃ γ : SpecialLinearGroup (Fin 2) F, B ⊔ CFSG.Quasithin.conjSubgroup B γ = ⊤ := by
   classical
   obtain ⟨h, hh⟩ := exists_conj_le_u2 hB
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have hcard' : 2 < (Finset.univ : Finset B).card := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
     exact hcard
@@ -113,9 +113,9 @@ theorem twoConjugateGeneration_of_isPSL {S : Type} [Group S]
     ∃ g : S, A ⊔ CFSG.Quasithin.conjSubgroup A g = ⊤ := by
   classical
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := CFSG.Quasithin.burnsideC121_p4_psl_equiv hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hKcard
-  haveI : Finite K := Finite.of_fintype K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow hKcard
+  have : Finite K := Finite.of_fintype K
   let B : Subgroup (SpecialLinearGroup (Fin 2) K) := A.map e.toMonoidHom
   have hBp : IsPGroup 2 B := by
     intro b
@@ -123,7 +123,7 @@ theorem twoConjugateGeneration_of_isPSL {S : Type} [Group S]
     refine ⟨1, Subtype.ext ?_⟩
     have := hA.2 a ha
     rw [Subgroup.coe_pow, ← hab]
-    simp only [pow_one, MonoidHom.coe_coe, ← map_pow, this, map_one]
+    simp only [pow_one, ← map_pow, this, map_one]
     rfl
   have hBcard : Nat.card B = Nat.card A := Subgroup.card_map_of_injective e.injective
   obtain ⟨γ, hγ⟩ := exists_sup_conj_eq_top hBp (hBcard ▸ hcard)

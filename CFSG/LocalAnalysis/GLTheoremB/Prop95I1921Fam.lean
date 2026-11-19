@@ -345,6 +345,7 @@ theorem sigmaFam_le_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : Is
     (hD.le_pCore d hd hd1).trans
       (pCoreOf_centralizer_singleton_le_normalizer hp hp2 hK hO (hD.elemAbelian.2 d hd))
 
+omit [Finite X] in
 theorem actsAsTransposition_of_perm {p k : ℕ} (hk : 0 < k) (hZ : Subgroup.center ↥K = ⊥)
     {e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin (k * p + 2)))} (A : APD K e)
     {So : Subgroup X} {x y : Fin (k * p + 2)} (hxy : x ≠ y)
@@ -378,6 +379,7 @@ theorem actsAsTransposition_of_perm {p k : ℕ} (hk : 0 < k) (hZ : Subgroup.cent
     Subgroup.zpowers (MulAut.conjNormal (swap x y))
   rw [hhom, ← Subgroup.map_map, hR, MonoidHom.map_zpowers]
 
+omit [Finite X] in
 theorem actsLikeSubRootFourCQ_of_perm {n : ℕ}
     {e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin n))} (A : APD K e)
     {So : Subgroup X} {F : Finset (Fin n)} (hF : F.card = 4)

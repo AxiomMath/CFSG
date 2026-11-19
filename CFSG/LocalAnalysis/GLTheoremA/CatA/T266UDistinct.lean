@@ -83,7 +83,7 @@ theorem t266G2NotU6_of_bridge (hb : CatDistinct.OrderBridge)
   intro S _ n m h1 h2
   obtain ⟨q, hv, hq2, hqn, ⟨e⟩⟩ := CFSG.LocalAnalysis.GLTheoremA.CatB.MultA1.lieIndex_isG2n h1
   obtain ⟨q', hv', hq2', hqn', ⟨e'⟩⟩ := lieIndex_isU6n h2
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
   have hn : 1 ≤ n := by have := q.exponent_pos; omega
   have hm : 1 ≤ m := by have := q'.exponent_pos; omega
   have hc1 : Nat.card S = orderG2 (2 ^ n) := by

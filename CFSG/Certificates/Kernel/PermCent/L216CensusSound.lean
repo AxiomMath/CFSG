@@ -134,14 +134,14 @@ theorem census_of (hQ : ValidSchreier QP) (hc : clsOK (elemsC QA) (clsV r1) (cls
     rw [hd, Bool.not_true, Bool.false_or]
     rcases h with h | h
     · obtain ⟨g, hg, rfl⟩ := key t r1 h
-      rw [if_pos (conj_mem_elemsC QP hQ hg m1), centL_conj hQ hg, h1]
+      rw [ite_eq_left (conj_mem_elemsC QP hQ hg m1), centL_conj hQ hg, h1]
       rfl
     · obtain ⟨g, hg, rfl⟩ := key t r2 h
       have hn : g * r2 * g⁻¹ ∉ elemsC QP := fun hm => m2 (by
         have h' := conj_mem_elemsC QP hQ (hinv hg) hm
         have e : g⁻¹ * (g * r2 * g⁻¹) * g⁻¹⁻¹ = r2 := by group
         rwa [e] at h')
-      rw [if_neg hn, centL_conj hQ hg, h2]
+      rw [ite_eq_right hn, centL_conj hQ hg, h2]
       rfl
   · have hd : (decide (t * t = 1) && decide (t ≠ 1)) = false := by
       rw [← Bool.decide_and]

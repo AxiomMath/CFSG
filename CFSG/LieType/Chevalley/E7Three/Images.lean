@@ -20,6 +20,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem scalarWord_val_product (ζ : Kˣ) :
     (scalarWord ζ : ModGL .E7 K) =
       torusElt .E7 K (e7Index 1) ζ * torusElt .E7 K (e7Index 3) (ζ ^ 2) *
@@ -31,6 +32,7 @@ theorem scalarWord_val_product (ζ : Kˣ) :
     torusElt .E7 K i (ζ ^ scalarCochar i)).prod = _
   simp [List.finRange_succ, scalarCochar, ht, e7Index, mul_assoc]
 
+omit [CharP K 2] in
 theorem pairedWord_val_product (ζ : Kˣ) :
     (pairedWord ζ : ModGL .E7 K) =
       torusElt .E7 K (e7Index 0) ζ * torusElt .E7 K (e7Index 3) ζ *

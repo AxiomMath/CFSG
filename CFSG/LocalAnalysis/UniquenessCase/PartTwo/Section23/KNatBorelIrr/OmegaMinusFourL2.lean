@@ -149,7 +149,7 @@ variable {K : Type} [Field K] [Finite K] {b c : K}
 
 theorem exists_card_eq_two_pow_of_charP_two [CharP K 2] :
     ∃ n : ℕ, 1 ≤ n ∧ Nat.card K = 2 ^ n := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   refine ⟨(n : ℕ), n.pos, ?_⟩
   rw [Nat.card_eq_fintype_card]

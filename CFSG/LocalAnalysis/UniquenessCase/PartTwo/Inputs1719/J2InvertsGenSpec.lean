@@ -55,9 +55,9 @@ private theorem ivg_word_mem {t t₂ u : Array ℕ} {Y Y₂ U : Equiv.Perm (Fin 
   rw [← h2]
   refine ivg_foldl_mem g w (fun i _ => ?_) 1 (Subgroup.one_mem _)
   by_cases h0 : i = 0
-  · simp only [g, h0, if_true]
+  · simp only [g, h0, ite_true]
     exact Subgroup.subset_closure (Set.mem_insert _ _)
-  · simp only [g, h0, if_false]
+  · simp only [g, h0, ite_false]
     exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
 
 theorem invertsGenModel_of_check (hc : ivgCheck = true) :

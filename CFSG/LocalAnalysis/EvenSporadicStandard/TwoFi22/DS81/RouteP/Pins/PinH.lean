@@ -88,7 +88,7 @@ theorem Std.exists_pinH
     have h1 := Subgroup.relIndex_mul_card (H := L) (K := centralizer ({t} : Set G))
     rw [hr, inf_eq_left.2 hLH] at h1
     rw [← h1, Model.card_Ze, Nat.card_congr ψL'.toEquiv]
-  haveI : Finite Q3 := Finite.of_injective Model.rho Model.rho_injective
+  have : Finite Q3 := Finite.of_injective Model.rho Model.rho_injective
   obtain ⟨ψH, -, hψH⟩ := exists_mulEquiv_of_sup_eq_of_card_eq hLH hCH hHLC hLn Model.L0_le_Ze hL₀n
     ψL' ψC hagree hrigid hψCL hcard
   refine ⟨ψH, fun x hN hH => ?_⟩

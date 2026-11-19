@@ -27,7 +27,7 @@ private lemma bd_mem_map_self {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     e ∈ (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e) := by
   rw [Submodule.mem_map]
   refine ⟨1, ?_, ?_⟩
-  · simpa using A.one_mem
+  · simp
   · rw [LinearMap.mulRight_apply, one_mul]
 
 private theorem bd_exists_aux {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]

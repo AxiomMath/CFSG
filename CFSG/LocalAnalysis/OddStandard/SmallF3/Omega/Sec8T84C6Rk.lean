@@ -20,9 +20,9 @@ theorem HCtx.card_le_eight (hInv : Sec8T84FactInv) (S : HCtx E B u A H) (O : Odd
     (hc : ∀ h ∈ H, h * u * h⁻¹ * u⁻¹ ∈ P) {R : Subgroup (MulAut ↥E)} (hRH : R ≤ H)
     (hR2 : ∀ r ∈ R, r * r = 1) : Nat.card ↥R ≤ 8 := by
   classical
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
-  haveI : Finite (MulAut ↥E) := inferInstance
-  haveI : Finite ↥P := OddNormal.finite O
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
+  have : Finite (MulAut ↥E) := inferInstance
+  have : Finite ↥P := OddNormal.finite O
   let C : Subgroup (MulAut ↥E) := A ⊔ zpowers u
   have hCH : C ≤ H := sup_le S.A_H (Subgroup.zpowers_le.mpr S.u_H)
   have hAcent : A ≤ Subgroup.centralizer ({u} : Set (MulAut ↥E)) := by

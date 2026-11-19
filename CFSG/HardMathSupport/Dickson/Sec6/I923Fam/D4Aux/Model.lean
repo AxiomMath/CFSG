@@ -24,7 +24,7 @@ section Model
 
 
 theorem finite_adjointD4 (K : Type) [Field K] [Finite K] : Finite (adjointGroup Tag.D4 K) := by
-  haveI : Finite (ModGL Tag.D4 K) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ModGL Tag.D4 K) := CFSG.LieType.Chevalley.finite_modGL
   infer_instance
 
 theorem lieModel_adjointD4 {ℓ d : ℕ} (hℓ : ℓ.Prime) (hd : 1 ≤ d) (k : Type) [Field k] [Finite k]
@@ -39,7 +39,7 @@ theorem isSimple_adjointD4 (k : Type) [Field k] [Finite k] :
   obtain ⟨e⟩ := nonempty_matrixProjective_equiv_adjointGroup k
   obtain ⟨hnd, hT⟩ := regular_coordinateQuadPlus (K := k) (n := 4) (by norm_num)
   obtain ⟨hs, a, b, hab⟩ := matrix_simple_nonabelian (by norm_num) hnd hT
-  haveI := hs
+  have := hs
   refine ⟨e.symm.isSimpleGroup, e a, e b, fun h => hab (e.injective ?_)⟩
   rw [map_mul, map_mul]
   exact h

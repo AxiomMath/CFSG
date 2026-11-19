@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Six_commutator_eq_bot {X Y : Subgroup G}
     (h : ∀ x ∈ X, ∀ y ∈ Y, y * x * y⁻¹ * x⁻¹ = 1) : ⁅X, Y⁆ = ⊥ := by
   rw [eq_bot_iff, Subgroup.commutator_le]
@@ -35,7 +36,7 @@ theorem s15_Six_commutator_of_normalizes (D : Data G) {V₀ V L : Subgroup G}
     (h1 : wSub V₀ V hV L ≤ normalizer (conjSubgroup (wSub V₀ V hV L) g : Set G))
     (h2 : wSub V₀ V hV L ≤ normalizer (conjSubgroup (wSub V₀ V hV L) g⁻¹ : Set G)) :
     ⁅wSub V₀ V hV L, conjSubgroup (wSub V₀ V hV L) g⁆ = ⊥ :=
-  s15_Six_commutator_eq_bot fun x hx y hy =>
+  s15_Six_commutator_eq_bot fun _x hx _y hy =>
     s15_Six_comm_of_normalizers (s15_Six_inf_conj_wSub_eq_bot D h hV hgM)
       (Subgroup.mem_inf.2 ⟨hy, (s15_Six_conj_le_normalizer_iff _ _ g).2 h2 hy⟩)
       (Subgroup.mem_inf.2 ⟨hx, h1 hx⟩)

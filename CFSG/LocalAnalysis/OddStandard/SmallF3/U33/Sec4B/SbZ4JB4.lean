@@ -19,7 +19,7 @@ theorem no_order_four {g : H} (hg : g * ρ * g⁻¹ * ρ⁻¹ ∈ centralizer (Y
     (h2 : g * g ∉ centralizer (Y : Set H))
     (h4 : g * g * (g * g) ∈ centralizer (Y : Set H)) : False := by
   classical
-  haveI hY : Y.Normal := ⟨fun n hn k => h.normal_Y k n hn⟩
+  have hY : Y.Normal := ⟨fun n hn k => h.normal_Y k n hn⟩
   let f : H →* MulAut ↥Y := zjAct Y
   have hfker : f.ker = centralizer (Y : Set H) := by
     rw [show f = zjAct Y from rfl]
@@ -48,7 +48,7 @@ theorem no_order_four {g : H} (hg : g * ρ * g⁻¹ * ρ⁻¹ ∈ centralizer (Y
     rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, pow_two, pow_two]
     exact h4'
   have horder : orderOf (f g) = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hfin : (f g) ^ 2 ^ (1 + 1) = 1 := by
       rw [show (2 : ℕ) ^ (1 + 1) = 4 by norm_num]
       exact hfour
@@ -82,7 +82,7 @@ theorem no_klein {g g' : H} (hg : g * ρ * g⁻¹ * ρ⁻¹ ∈ centralizer (Y :
     (hne : g⁻¹ * g' ∉ centralizer (Y : Set H))
     (hc : g * g' * g⁻¹ * g'⁻¹ ∈ centralizer (Y : Set H)) : False := by
   classical
-  haveI hY : Y.Normal := ⟨fun n hn k => h.normal_Y k n hn⟩
+  have hY : Y.Normal := ⟨fun n hn k => h.normal_Y k n hn⟩
   let f : H →* MulAut ↥Y := zjAct Y
   have hfker : f.ker = centralizer (Y : Set H) := by
     rw [show f = zjAct Y from rfl]
@@ -211,7 +211,7 @@ theorem no_klein {g g' : H} (hg : g * ρ * g⁻¹ * ρ⁻¹ ∈ centralizer (Y :
     have hψ : Function.Injective ψ := by
       intro i j hij
       fin_cases i <;> fin_cases j <;>
-        simp_all [ψ, Subtype.ext_iff, ha1, hb1, hab, hab1, hproda, hprodb]
+        simp_all [ψ, Subtype.ext_iff]
     have := Nat.card_le_card_of_injective ψ hψ
     simpa using this
   have hres : Nat.card W ≤ 2 := h.range_cent_two_group W hWS hWc hW

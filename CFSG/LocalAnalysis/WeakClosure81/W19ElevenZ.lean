@@ -94,7 +94,7 @@ theorem mem_M_of_conj_eq (c : MinCex193 D V₀ V p X) {v : G} (hv : v ∈ V₀)
     refine mem_normalizer_of_conj_mem_fin fun x hx => ?_
     rcases hV₀ x hx with h | h
     · rw [h]
-      simpa using V₀.one_mem
+      simp
     · rw [h, hn]
       exact hv
   rwa [c.setting.normalizer₀ c.ne_bot] at h1
@@ -131,10 +131,10 @@ theorem eq_one_of_centralizes_normalizer_Z193 (c : MinCex193 D V₀ V p X) {a : 
 theorem exists_ne_one_centralizes_of_normalized (c : MinCex193 D V₀ V p X) {S : Subgroup G}
     (hS : S ≤ Z193 D V) (hS1 : S ≠ ⊥) (hn : ∀ t ∈ D.T, ∀ s ∈ S, t * s * t⁻¹ ∈ S) :
     ∃ s ∈ S, s ≠ 1 ∧ ∀ t ∈ D.T, t * s * t⁻¹ = s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hST : S ≤ D.T := hS.trans c.Z193_le_T
-  haveI hnil : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
-  haveI hnorm : (S.subgroupOf D.T).Normal := by
+  have hnil : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+  have hnorm : (S.subgroupOf D.T).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hn (g : G) g.2 (x : G) hx

@@ -60,11 +60,11 @@ theorem gh23g7_cycleType : gh23g7.cycleType = {7} := by
   rfl
 
 @[expose] def Alt8Classification : Prop :=
-  ∀ H : Subgroup (Equiv.Perm (Fin 8)), H ≤ alternatingGroup (Fin 8) → ¬ IsSolvable ↥H →
+  ∀ H : Subgroup (Equiv.Perm (Fin 8)), H ≤ alternatingGroup (Fin 8) → ¬ Group.IsSolvable ↥H →
     NoNormalTwo H → GH23Concl ↥H
 
 @[expose] def Alt8Rooted : Prop :=
   ∀ H : Subgroup (Equiv.Perm (Fin 8)), H ≤ alternatingGroup (Fin 8) →
-    (gh23g5 ∈ H ∨ gh23g7 ∈ H) → ¬ IsSolvable ↥H → NoNormalTwo H → GH23Concl ↥H
+    (gh23g5 ∈ H ∨ gh23g7 ∈ H) → ¬ Group.IsSolvable ↥H → NoNormalTwo H → GH23Concl ↥H
 
 end CFSG.OddStandard.SmallF3.HarrisU33.Outside

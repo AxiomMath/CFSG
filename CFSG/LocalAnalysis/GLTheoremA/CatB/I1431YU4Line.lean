@@ -44,7 +44,7 @@ theorem isCyclic_of_three_sl2 {K : Type} [Field K] [Finite K] [CharP K 2] (hK : 
     norm_num
   have hQc : IsCyclic ↥(↑Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K)) :=
     CFSG.RankThree.PartTwo.KFacts.isCyclic_sylow_three_psl2 hringChar (by rw [hK]; norm_num) Q
-  haveI := hQc
+  have := hQc
   have h1 : IsCyclic ↥((P.map π).subgroupOf (↑Q : Subgroup _)) := Subgroup.isCyclic _
   have h2 : IsCyclic ↥(P.map π) := (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hPQ)).mp h1
   exact (MulEquiv.isCyclic (Subgroup.equivMapOfInjective P π hπ)).mpr h2
@@ -54,16 +54,20 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 noncomputable def act (g : GL (HypIndex 2 0) K) : Module.End K (HypIndex 2 0 → K) :=
   Matrix.toLinAlgEquiv' (g : Matrix (HypIndex 2 0) (HypIndex 2 0) K)
 
+omit [Finite K] [CharP K 2] in
 theorem act_apply (g : GL (HypIndex 2 0) K) (v : HypIndex 2 0 → K) :
     act g v = (g : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ v := by
   simp [act]
 
+omit [Finite K] [CharP K 2] in
 theorem act_one : act (1 : GL (HypIndex 2 0) K) = 1 := by
   simp [act]
 
+omit [Finite K] [CharP K 2] in
 theorem act_pow (g : GL (HypIndex 2 0) K) (n : ℕ) : act (g ^ n) = act g ^ n := by
   simp [act, Units.val_pow_eq_pow_val, map_pow]
 
+omit [Finite K] [CharP K 2] in
 theorem hyp_isometry4 (h : UnitaryFieldData 2 3 K) (g : GL (HypIndex 2 0) K)
     (hg : g ∈ hypSU h 2 0) (x y : HypIndex 2 0 → K) :
     hypForm h 2 0 ((g : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ x)
@@ -73,10 +77,12 @@ theorem hyp_isometry4 (h : UnitaryFieldData 2 3 K) (g : GL (HypIndex 2 0) K)
     (show _ ∧ _ from hg).1
   exact (gramForm_isometry_iff h (hypGram 2 0 K) _).mpr hg' x y
 
+omit [Finite K] [CharP K 2] in
 theorem mem_perp_iff4 {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     {y : HypIndex 2 0 → K} : y ∈ W.orthogonalBilin (hypForm h 2 0) ↔ ∀ n ∈ W, hypForm h 2 0 n y = 0 :=
   Iff.rfl
 
+omit [Finite K] [CharP K 2] in
 theorem shift_mem_perp4 (h : UnitaryFieldData 2 3 K) {W : Submodule K (HypIndex 2 0 → K)}
     {g : GL (HypIndex 2 0) K} (hg : g ∈ hypSU h 2 0) (hfix : FixesPt W g) (x : HypIndex 2 0 → K) :
     (g : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ x - x ∈ W.orthogonalBilin (hypForm h 2 0) := by
@@ -89,6 +95,7 @@ theorem shift_mem_perp4 (h : UnitaryFieldData 2 3 K) {W : Submodule K (HypIndex 
           ((g : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ x) := by rw [hgn]
     _ = hypForm h 2 0 n x := hyp_isometry4 h g hg n x
 
+omit [CharP K 2] in
 theorem perp_eq_of_finrank_two' (h : UnitaryFieldData 2 3 K) (W : Submodule K (HypIndex 2 0 → K))
     (hW : ∀ x ∈ W, ∀ y ∈ W, hypForm h 2 0 x y = 0) (hk : Module.finrank K W = 2) :
     W.orthogonalBilin (hypForm h 2 0) = W :=
@@ -116,8 +123,8 @@ theorem sq_eq_one_of_fixes (h : UnitaryFieldData 2 3 K) {W : Submodule K (HypInd
     rw [pow_two, Module.End.mul_apply]
     simp only [LinearMap.zero_apply]
     exact hN_fix _ (hN_perp v)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (Module.End K (HypIndex 2 0 → K)) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (Module.End K (HypIndex 2 0 → K)) 2 :=
     charP_of_injective_algebraMap (algebraMap K (Module.End K (HypIndex 2 0 → K))).injective 2
   have hact : act g = 1 + N := by
     rw [hNdef]
@@ -128,6 +135,7 @@ theorem sq_eq_one_of_fixes (h : UnitaryFieldData 2 3 K) {W : Submodule K (HypInd
     rw [act_pow, hact2, act_one]
   exact Units.ext (Matrix.toLinAlgEquiv'.injective h2)
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_det_ne_zero {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x : X) : (restrMat b X hX x).det ≠ 0 := by
@@ -145,11 +153,13 @@ noncomputable def detRes {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex
   map_one' := Units.ext (by simp [restrMat_one])
   map_mul' x y := Units.ext (by simp [restrMat_mul, Matrix.det_mul])
 
+omit [CharP K 2] in
 theorem card_units_sixtyfour (hK : Nat.card K = 64) : Nat.card Kˣ = 63 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
 
+omit [CharP K 2] in
 theorem surj_ker_det {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (hK : Nat.card K = 64)
     (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
@@ -158,7 +168,7 @@ theorem surj_ker_det {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0
     Function.Surjective (φ.comp (detRes b X hX).ker.subtype) := by
   set X0 := (detRes b X hX).ker with hX0
   have hN : (X0.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (X0.map φ) with hbot | htop
   · exfalso
     have hle : X0 ≤ φ.ker := by
@@ -184,6 +194,7 @@ theorem surj_ker_det {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0
     obtain ⟨x, hx, hxt⟩ := Subgroup.mem_map.mp htm
     exact ⟨⟨x, hx⟩, hxt⟩
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_det_one {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x : X) (hx : x ∈ (detRes b X hX).ker) : (restrMat b X hX x).det = 1 := by
@@ -252,12 +263,12 @@ theorem no_surj_line {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0
     ¬ ∃ φ : X →* T, Function.Surjective φ := by
   rintro ⟨φ, hφ⟩
   let b : Module.Basis (Fin 2) K W := Module.finBasisOfFinrankEq K W hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply hT3
   intro Q
   exact CFSG.RankThree.PartTwo.Sec8.Item82Proof.isCyclic_sylow_of_surjective
     (surj_ker_det b hK X hX T hT φ hφ)
-    (fun R => three_subgroup_cyclic hW hk b hK X hX R R.isPGroup') Q
+    (fun R => three_subgroup_cyclic hW hk b hK X hX R R.isPGroup) Q
 
 end CFSG.LocalAnalysis.GLTheoremA.CatB.I1431YU4
 

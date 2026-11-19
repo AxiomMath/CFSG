@@ -17,12 +17,14 @@ section ModZ
 
 variable {z : Q}
 
+omit [Finite Q] in
 theorem ModZ.symm (hz2 : z * z = 1) {x y : Q} (h : ModZ z x y) : ModZ z y x := by
   rcases h with rfl | rfl
   · exact Or.inl rfl
   · right
     rw [mul_assoc, hz2, mul_one]
 
+omit [Finite Q] in
 theorem ModZ.trans (hz2 : z * z = 1) {x y w : Q} (h₁ : ModZ z x y) (h₂ : ModZ z y w) :
     ModZ z x w := by
   rcases h₁ with rfl | rfl <;> rcases h₂ with rfl | rfl
@@ -32,8 +34,10 @@ theorem ModZ.trans (hz2 : z * z = 1) {x y w : Q} (h₁ : ModZ z x y) (h₂ : Mod
   · left
     rw [mul_assoc, hz2, mul_one]
 
+omit [Finite Q] in
 theorem ModZ.mul_right_z (x : Q) : ModZ z (x * z) x := Or.inr rfl
 
+omit [Finite Q] in
 theorem ModZ.conj (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y) (c : Q) :
     ModZ z (c * x * c⁻¹) (c * y * c⁻¹) := by
   rcases h with rfl | rfl
@@ -43,6 +47,7 @@ theorem ModZ.conj (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y) (c 
       _ = c * y * (c⁻¹ * z) := by rw [hz c⁻¹]
       _ = c * y * c⁻¹ * z := by group
 
+omit [Finite Q] in
 theorem ModZ.comm_iff (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y) (w : Q) :
     (x * w = w * x ↔ y * w = w * y) := by
   rcases h with rfl | rfl
@@ -59,6 +64,7 @@ theorem ModZ.comm_iff (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y)
         _ = w * y * z := by rw [h]
         _ = w * (y * z) := by group
 
+omit [Finite Q] in
 theorem ModZ.comm_iff' (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y) (w : Q) :
     (w * x = x * w ↔ w * y = y * w) := by
   rw [eq_comm, ModZ.comm_iff hz h w, eq_comm]
@@ -113,6 +119,7 @@ section Pair
 
 variable {A B : Subgroup Q} {z : Q}
 
+omit [Finite Q] in
 theorem dec_modZ (hz : ∀ q : Q, q * z = z * q) (hz2 : z * z = 1)
     (hinf : ∀ w ∈ A, w ∈ B → w = 1 ∨ w = z) {a a' b b' : Q} (ha : a ∈ A) (ha' : a' ∈ A)
     (hb : b ∈ B) (hb' : b' ∈ B) (h : a * b = a' * b') : ModZ z a' a ∧ ModZ z b' b := by
@@ -140,6 +147,7 @@ theorem dec_modZ (hz : ∀ q : Q, q * z = z * q) (hz2 : z * z = 1)
       rw [h]; group
     rw [hb2, ← hz b', mul_assoc, hz2, mul_one]
 
+omit [Finite Q] in
 theorem comm_of_modZ (hz : ∀ q : Q, q * z = z * q) {x y : Q} (h : ModZ z x y) :
     x * y = y * x :=
   (ModZ.comm_iff hz h y).mpr rfl
@@ -207,6 +215,7 @@ theorem pigeon {α : Type*} {o q₁ q₂ d₁ d₂ d₃ d : α} (h₁ : d₁ = o
   rcases h₁ with rfl | rfl | rfl <;> rcases h₂ with rfl | rfl | rfl <;>
     rcases h₃ with rfl | rfl | rfl <;> rcases h with rfl | rfl | rfl <;> simp_all
 
+omit [Finite Q] in
 theorem conj_comm_iff (g x y : Q) :
     (g * x * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * x * g⁻¹) ↔ x * y = y * x := by
   rw [show (g * x * g⁻¹) * (g * y * g⁻¹) = g * (x * y) * g⁻¹ by group,

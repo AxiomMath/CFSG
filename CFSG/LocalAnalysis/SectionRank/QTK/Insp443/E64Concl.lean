@@ -53,7 +53,7 @@ theorem eElt_mul_of_le {V : Subgroup G} [IsMulCommutative ↥V] {n : ℕ} {x y :
   have h2 := map_eElt (v := x') V.subtype c
   have h3 := map_eElt (v := y') V.subtype c
   rw [eElt_mul_comm] at h1
-  simp only [Subgroup.coe_subtype, map_mul, Subgroup.coe_mul] at h1 h2 h3
+  simp only [Subgroup.coe_subtype, map_mul] at h1 h2 h3
   rw [← h2, ← h3]
   exact h1.symm
 
@@ -108,7 +108,7 @@ theorem a0_not_mem_a1 (i : Fin 3) : a₀ i ∉ eSub ha₁ := by
 
 include hw in
 theorem diag_of_mem {x : G} (hx : x ∈ eSub ha₂) : ∃ e, x = eElt a₀ e * eElt a₁ e := by
-  haveI := isMulCommutative_eSub_append hw
+  have := isMulCommutative_eSub_append hw
   obtain ⟨e, rfl⟩ := (mem_eSub_iff ha₂ x).mp hx
   exact ⟨e, eElt_mul_of_le (V := eSub hw) (a0_mem hw) (a1_mem hw) e⟩
 
@@ -181,7 +181,7 @@ theorem toAdd_betaEquiv6 (x : ↥(eSub hw)) :
     Multiplicative.toAdd (betaEquiv6 hw x) = unflat6 (Multiplicative.toAdd (ecoords hw x)) := rfl
 
 include ha₀ ha₁ ha₂ in
-theorem coords_conj {g : G} (hgV : g ∈ eNorm hw) (hg₀ : g ∈ eNorm ha₀) (hg₁ : g ∈ eNorm ha₁)
+theorem coords_conj {g : G} (_hgV : g ∈ eNorm hw) (hg₀ : g ∈ eNorm ha₀) (hg₁ : g ∈ eNorm ha₁)
     (hg₂ : g ∈ eNorm ha₂) (u v : ↥(eSub hw)) (huv : (v : G) = g * u * g⁻¹) :
     Multiplicative.toAdd (ecoords hw v) = Fin.append (m := 3) (n := 3)
       (eMat ha₀ ⟨g, hg₀⟩ *ᵥ unflat6 (Multiplicative.toAdd (ecoords hw u)) 0)
@@ -204,7 +204,7 @@ theorem KConfig.conclK_of_e64 [Finite G] {L V MK : Subgroup G} (h : KConfig G L 
     ConclK G L V MK := by
   subst hV
   unfold ConclK
-  haveI hcommV : IsMulCommutative ↥(eSub hw) := isMulCommutative_eSub_append hw
+  have hcommV : IsMulCommutative ↥(eSub hw) := isMulCommutative_eSub_append hw
   have hA0V := eSub_a0_le ha₀ hw
   have hA1V := eSub_a1_le ha₁ hw
   have hV2 : IsPGroup 2 ↥(eSub hw) := IsPGroup.of_card (n := 6) (card_eSub hw)
@@ -215,8 +215,8 @@ theorem KConfig.conclK_of_e64 [Finite G] {L V MK : Subgroup G} (h : KConfig G L 
   let α := E16.eNHom ha₀ hL0
   have hθ : ∀ l : ↥L, α l = 1 ↔ (l : G) ∈ Subgroup.centralizer (eSub ha₀ : Set G) :=
     fun l => E16.eNHom_eq_one_iff ha₀ hL0 l
-  haveI : Group.IsPerfect ↥L := ⟨commutator_eq_top_of_perfect h.perfect⟩
-  haveI : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
+  have : Group.IsPerfect ↥L := ⟨commutator_eq_top_of_perfect h.perfect⟩
+  have : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
   have hsurj : Function.Surjective α := by
     rw [← MonoidHom.range_eq_top]
     rcases CFSG.Quasithin.J4Fam.eq_bot_or_top_of_isPerfect
@@ -280,9 +280,9 @@ theorem KConfig.conclK_of_e64 [Finite G] {L V MK : Subgroup G} (h : KConfig G L 
     FFn.isFFModule_autOn_of_sum (n := 2) (k := 2) (by decide) (by norm_num) le_rfl hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub hw : Set G)) (eSub hw)) :=
     isFFModule_of_le (autOn_mono' h.le_normalizer) hFFL
-  haveI hc0 : IsMulCommutative ↥(eSub ha₀) :=
+  have hc0 : IsMulCommutative ↥(eSub ha₀) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm ha₀ x y hx hy
-  haveI hc1 : IsMulCommutative ↥(eSub ha₁) :=
+  have hc1 : IsMulCommutative ↥(eSub ha₁) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm ha₁ x y hx hy
   have hbin0 : BinaryNaturalSL (V := ↥(eSub ha₀)) (autOn L (eSub ha₀)) ⊤ ⊥ 3 1 := by
     refine ⟨ZMod 2, inferInstance, inferInstance, by norm_num, ?_⟩

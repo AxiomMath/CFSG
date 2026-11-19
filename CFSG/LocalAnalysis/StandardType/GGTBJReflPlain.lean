@@ -19,7 +19,7 @@ theorem exists_not_commute_reflection_plain {p : ℕ} [Fact p.Prime] (hp2 : p �
       (w - f j w • v j) - f i (w - f j w • v j) • v i ≠
         (w - f i w • v i) - f j (w - f i w • v i) • v j := by
   classical
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let g : ι → Module.Dual (ZMod p) V := fun i =>
     { toFun := f i
       map_add' := hadd i

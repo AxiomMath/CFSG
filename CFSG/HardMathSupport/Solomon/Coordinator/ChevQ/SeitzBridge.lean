@@ -164,7 +164,7 @@ theorem isQuasisimple_of_simple (hs : IsSimpleGroup S) (hnab : ∃ a b : S, a * 
     · exact h
   · have e : S ≃* (S ⧸ Subgroup.center S) :=
       (QuotientGroup.quotientBot.symm).trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
-    haveI := hs
+    have := hs
     exact MulEquiv.isSimpleGroup e.symm
 
 end Simple
@@ -278,7 +278,7 @@ theorem seitzHyperGamma_eq_top_of_inner (hF : SeitzHyperInnerFor Fam) (hp : p.Pr
     (hd : Fam d) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) (hpd : p ≠ d.1.characteristic)
     (hP : ¬ P1ThreeLieList p d) (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hinn : E ≤ (MulAut.conj : S →* MulAut S).range) : seitzHyperGamma p E = ⊤ := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
   refine seitzHyperGamma_eq_top_of_hyperGen p ?_
   refine hF p hp hp2 (Hol S E) (holK S E) (holE S E) inferInstance (holK_isQuasisimple hs hnab) d
     hd (holK_quot_equiv hs hnab e) hpd hP (isElemAbelian_holE hE) (by rw [card_holE, hcard]) ?_
@@ -418,7 +418,7 @@ theorem exists_noncomm_quot {K : Type} [Group K] (hq : CFSG.Open.IsQuasisimple K
     rw [this]
     exact commutatorElement_eq_one_iff_mul_comm.2 (hall _ _)
   have hctop : Subgroup.center K = ⊤ := top_le_iff.1 (hq.1 ▸ h1)
-  haveI := hq.2.toNontrivial
+  have := hq.2.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : K ⧸ Subgroup.center K)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
   exact hx ((QuotientGroup.eq_one_iff g).2 (hctop ▸ Subgroup.mem_top g))

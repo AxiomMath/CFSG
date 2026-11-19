@@ -120,7 +120,7 @@ theorem false_of_isSolomonChoice
     intro i g X hX hXa
     rw [hcore, hpre] at hXa
     exact h2 (K i) (hKmem i) g X hX (fun a ha => hXa a (mem_sup_left ha))
-  rcases Open.aschbacher_component_type_theorem_five G D r (by omega) Abar hdistinct hsemisimple
+  rcases Thm.aschbacher_component_type_theorem_five G D r (by omega) Abar hdistinct hsemisimple
     hcomm hgen hperm hi hii hHtop with h | ⟨-, hrank⟩
   · omega
   · have h3 := (hrank ⟨0, by omega⟩ ⟨1, by omega⟩ (by simp)).2.1

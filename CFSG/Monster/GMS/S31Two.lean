@@ -18,8 +18,8 @@ private theorem exists_isConj_mem_center_sylow [Finite G] {z₀ : G} (hz₀ : GM
     (P : Sylow 2 G) (hP : Nontrivial (P : Subgroup G)) :
     ∃ t : G, IsConj z₀ t ∧ orderOf t = 2 ∧ t ∈ (P : Subgroup G) ∧
       ∀ x ∈ (P : Subgroup G), x * t = t * x := by
-  have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
-  have hCp : IsPGroup 2 (Subgroup.center (P : Subgroup G)) := P.isPGroup'.to_subgroup _
+  have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup.center_nontrivial
+  have hCp : IsPGroup 2 (Subgroup.center (P : Subgroup G)) := P.isPGroup.to_subgroup _
   have h2 : 2 ∣ Nat.card (Subgroup.center (P : Subgroup G)) := by
     rcases hCp.card_eq_or_dvd with h | h
     · exact absurd (Nat.card_eq_one_iff_unique.mp h).1 (not_subsingleton _)
@@ -67,7 +67,7 @@ private theorem exists_tableV_isConj [Finite G] {d₀ : B} {a z₀ b z u : G}
     have hT'P : T' ≤ P := sup_le hTP (Subgroup.zpowers_le.mpr htP)
     have hT'C : T' ≤ Subgroup.centralizer ({a} : Set G) :=
       sup_le (hTK.trans inf_le_left) (Subgroup.zpowers_le.mpr htCa)
-    obtain ⟨k, hk⟩ := (P.isPGroup'.to_le hT'P).exists_card_eq
+    obtain ⟨k, hk⟩ := (P.isPGroup.to_le hT'P).exists_card_eq
     have hdvd : 2 ^ k ∣ twoBabyOrder := by
       rw [← hk, ← hcard]
       exact Subgroup.card_dvd_of_le hT'C

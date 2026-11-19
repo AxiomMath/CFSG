@@ -472,7 +472,7 @@ public theorem exists_omegaLength_of_isSuzukiTwoGroup
     {X P : Type u} [Group X] [Group P] [MulDistribMulAction X P]
     (hP : IsSuzukiTwoGroup P) : ∃ ell : ℕ, OmegaLength X P ell := by
   classical
-  haveI : Finite P := finite_of_isSuzukiTwoGroup hP
+  have : Finite P := finite_of_isSuzukiTwoGroup hP
   let α := NormalXSubgroup X P
   have hbot_ne_top : (⊥ : α) ≠ ⊤ := by
     intro h
@@ -560,17 +560,17 @@ public theorem not_omegaLength_one_of_isSuzukiTwoGroup
           L = subgroups ⟨1, by decide⟩ ∨ L = subgroups ⟨0, by decide⟩ at hatom
   rw [hs0, hs1] at hatom
   rcases hatom with ⟨_hlt, _htop_normal, _hbot_normal, _htop_X, _hbot_X, hminimal⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite P := finite_of_isSuzukiTwoGroup hP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite P := finite_of_isSuzukiTwoGroup hP
   rcases hP.2.2.1 with ⟨x, y, _hx, _hy, hxy⟩
-  haveI : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
+  have : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
   have hcenter_ne_bot : Subgroup.center P ≠ ⊥ :=
     ne_of_gt (isPGroup_of_isSuzukiTwoGroup hP).bot_lt_center
   have hcenter_case := hminimal (Subgroup.center P) inferInstance
     (isXInvariantSubgroup_center X P) bot_le le_top
   rcases hcenter_case with hcenter_bot | hcenter_top
   · exact hcenter_ne_bot hcenter_bot
-  · letI : CommGroup P := Group.commGroupOfCenterEqTop hcenter_top
+  · let : CommGroup P := Group.commGroupOfCenterEqTop hcenter_top
     have hcomm : IsMulCommutative P := by
       refine IsMulCommutative.mk <| Std.Commutative.mk ?_
       intro a b

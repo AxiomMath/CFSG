@@ -32,7 +32,7 @@ theorem twE6PairDict_holds : TwE6PairDict := by
   have hq2 : B.Δ.q = 2 ^ f := by
     rw [B.hq]
     exact GaloisField.card 2 f (by omega)
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   obtain ⟨S, hSD, hSρ⟩ := LieCore.exists_langSetup_of_datum B.Δ B.ρ B.frob B.finite hf hq2
   let a : Fin 2 → Fin Tag.E6.rank → GGLˣ := ![B.coord x, B.coord B.d]
   have hT : ∀ u : Fin 2, rootDiagUnit Tag.E6 (a u) ∈ S.D.torus := by

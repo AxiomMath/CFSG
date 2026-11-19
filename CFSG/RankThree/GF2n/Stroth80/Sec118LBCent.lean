@@ -66,6 +66,7 @@ theorem Ctx.comm_mem_Z_of_centralizes {Y : Subgroup G} (hc : Ctx M Q Z B) (hZY :
 
 variable [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem Ctx.mem_commXbarPre_sup_Z_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) {y : G}
     (hy : y ∈ (⁅Q, XbarPre M Q Z B⁆ ⊔ Z : Subgroup G)) :
     m * y * m⁻¹ ∈ (⁅Q, XbarPre M Q Z B⁆ ⊔ Z : Subgroup G) := by

@@ -22,7 +22,7 @@ theorem s16c1c_card_le_model {P : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} (hP : P �
     simpa using h2 x x.2⟩
   obtain ⟨g, -, hconj⟩ := s16c1c_exists_conj_mem_T hP hp
   set φ : (V₀ ≃ₗ[ZMod 2] V₀) →* (V₀ ≃ₗ[ZMod 2] V₀) := (MulAut.conj g⁻¹).toMonoidHom with hφ
-  have hφapply : ∀ x, φ x = g⁻¹ * x * g := fun x => by simp [hφ, MulAut.conj_apply]
+  have hφapply : ∀ x, φ x = g⁻¹ * x * g := fun x => by simp [hφ]
   have hφinj : Function.Injective φ := (MulAut.conj g⁻¹).injective
   have hcard : Nat.card (P.map φ) = Nat.card P := Subgroup.card_map_of_injective hφinj
   rw [← hcard]

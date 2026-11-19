@@ -24,13 +24,13 @@ def largeSet (H : Subgroup (Perm (Fin n))) (x₀ : Fin n) (c : ℕ) : Set (Fin n
 theorem smallSet_apply_iff {c : ℕ} {a : Perm (Fin n)}
     (ha : a ∈ normalizer (H : Set (Perm (Fin n)))) (x : Fin n) :
     a x ∈ smallSet H x₀ c ↔ x ∈ smallSet H x₀ c := by
-  simp only [smallSet, Set.mem_setOf_eq, card_orbit_eq_of_normalizer ha x,
+  simp only [smallSet, Set.mem_ofPred_eq, card_orbit_eq_of_normalizer ha x,
     orbit_mem_setStab x₀ ha x]
 
 theorem largeSet_apply_iff {c : ℕ} {a : Perm (Fin n)}
     (ha : a ∈ normalizer (H : Set (Perm (Fin n)))) (x : Fin n) :
     a x ∈ largeSet H x₀ c ↔ x ∈ largeSet H x₀ c := by
-  simp only [largeSet, Set.mem_setOf_eq, card_orbit_eq_of_normalizer ha x,
+  simp only [largeSet, Set.mem_ofPred_eq, card_orbit_eq_of_normalizer ha x,
     orbit_mem_setStab x₀ ha x]
 
 theorem ncard_orbit_add_smallSet_add_largeSet (c : ℕ) :
@@ -40,7 +40,7 @@ theorem ncard_orbit_add_smallSet_add_largeSet (c : ℕ) :
   have h1 : (smallSet H x₀ c) ∪ (largeSet H x₀ c) =
       (orbit (normalizer (H : Set (Perm (Fin n)))) x₀)ᶜ := by
     ext x
-    simp only [smallSet, largeSet, Set.mem_union, Set.mem_setOf_eq, Set.mem_compl_iff]
+    simp only [smallSet, largeSet, Set.mem_union, Set.mem_ofPred_eq, Set.mem_compl_iff]
     constructor
     · rintro (⟨h, -⟩ | ⟨h, -⟩) <;> exact h
     · intro h

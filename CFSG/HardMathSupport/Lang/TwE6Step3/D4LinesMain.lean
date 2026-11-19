@@ -154,8 +154,8 @@ theorem le_hyperClosure_of_kernel_D4 {ℓ f : ℕ} [hℓF : Fact ℓ.Prime] (K :
     rw [hmemY]
     rw [psiT_mul, psiT_mul, psiT_inv]
     exact h.1 hx
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hS := sylowTorus_twistedE6_six hℓ hf K hK σ hσ hpF.out hp7 hpq' hord6
   have hFmap : IsElemAbelian p (F.map Y.subtype) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hF Y.subtype

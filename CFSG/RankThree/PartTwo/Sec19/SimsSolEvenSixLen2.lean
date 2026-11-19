@@ -24,9 +24,9 @@ theorem uvec_moved {σ : Perm (Fin 6)} {x y : Fin 6} (hxy : x ≠ y) (h1 : σ x 
   have hσxy : σ x ≠ σ y := fun h => hxy (σ.injective h)
   unfold uvec
   refine bar_mk_ne_of_coords (i := σ x) (j := j) ?_ ?_
-  · simp only [Pi.add_apply, Pi.single_apply, if_true, hσxy, h1, h2, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, ite_true, hσxy, h1, h2, ite_false]
     decide
-  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, ite_false]
 
 theorem FourGroup_barAct_uvec_ne {J : Finset (Fin 6)} {N : Subgroup (Perm (Fin 6))}
     (h : FourGroup J N) (hJ : J.card = 4) {σ σ' : Perm (Fin 6)} (hσ : σ ∈ N) (hσ1 : σ ≠ 1)

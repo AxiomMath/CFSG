@@ -34,7 +34,7 @@ theorem exists_mem_normalizer_not_mem_pCoreOf_of_swap_19 {D : Data G} {V₀ V : 
     rcases permutesPair_of_ctx19_one h w (hAM hw) with ⟨h1, -⟩ | h2
     · exact absurd (Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1) hwL
     · exact h2
-  obtain ⟨s, hsA, hsL⟩ := SetLike.not_le_iff_exists.mp hAL
+  obtain ⟨s, hsA, hsL⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   by_contra hcon
   have hcon' : ∀ d ∈ A, d ∈ normalizer (L : Set G) → d ∈ pCoreOf 2 (L ⊔ K ⊔ D.T) :=
     fun d hd hdL => by_contra fun hdQ => hcon ⟨d, hd, hdL, hdQ⟩
@@ -156,7 +156,7 @@ theorem pin_two_swap_19 (D : Data G)
   have hKM : K ≤ D.M := CFSG.Quasithin.A3.subnormal_le h.hK.1
   have hLn : ¬ (L.subgroupOf D.M).Normal := fun hLN =>
     hAL (hAM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLN))
-  obtain ⟨s, hsA, hsL⟩ := SetLike.not_le_iff_exists.mp hAL
+  obtain ⟨s, hsA, hsL⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   obtain ⟨d, hdA, hdNL, hdQ⟩ :=
     exists_mem_normalizer_not_mem_pCoreOf_of_swap_19 h hAT (le_of_eq hq.symm) hAL
   have hdNK : d ∈ normalizer (K : Set G) := mem_normalizer_right_19 h (hAM hdA) hdNL h.hne.symm

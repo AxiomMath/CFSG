@@ -61,7 +61,7 @@ end WrE
   one_mem' := ⟨R.one_mem, R.one_mem⟩
   mul_mem' := by
     intro x y hx hy
-    rw [Set.mem_setOf_eq, WrE.mul_def]
+    rw [Set.mem_ofPred_eq, WrE.mul_def]
     cases hye : y.e
     · simp only [Bool.false_eq_true, ↓reduceIte]
       exact ⟨R.mul_mem hx.1 hy.1, R.mul_mem hx.2 hy.2⟩
@@ -69,7 +69,7 @@ end WrE
       exact ⟨R.mul_mem hx.2 hy.1, R.mul_mem hx.1 hy.2⟩
   inv_mem' := by
     intro x hx
-    rw [Set.mem_setOf_eq, WrE.inv_def]
+    rw [Set.mem_ofPred_eq, WrE.inv_def]
     cases hxe : x.e
     · simp only [Bool.false_eq_true, ↓reduceIte]
       exact ⟨R.inv_mem hx.1, R.inv_mem hx.2⟩
@@ -81,12 +81,12 @@ end WrE
   one_mem' := ⟨rfl, S.one_mem, S.one_mem⟩
   mul_mem' := by
     intro x y hx hy
-    rw [Set.mem_setOf_eq, WrE.mul_def, hy.1]
+    rw [Set.mem_ofPred_eq, WrE.mul_def, hy.1]
     simp only [Bool.false_eq_true, ↓reduceIte, hx.1, Bool.xor_false, true_and]
     exact ⟨S.mul_mem hx.2.1 hy.2.1, S.mul_mem hx.2.2 hy.2.2⟩
   inv_mem' := by
     intro x hx
-    rw [Set.mem_setOf_eq, WrE.inv_def, hx.1]
+    rw [Set.mem_ofPred_eq, WrE.inv_def, hx.1]
     simp only [Bool.false_eq_true, ↓reduceIte, true_and]
     exact ⟨S.inv_mem hx.2.1, S.inv_mem hx.2.2⟩
 

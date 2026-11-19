@@ -40,7 +40,7 @@ private theorem autOnK_central_quotient [Finite G] {H K V : Subgroup G}
             Nonempty (↥(autOn K V) ⧸ Subgroup.center ↥(autOn K V) ≃*
               CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ f) F)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKN : K ≤ Subgroup.normalizer (V : Set G) := hB.le.trans hHV
   let ψ : ↥K →* ↥(autOn K V) :=
     ((conjAct V).comp (Subgroup.inclusion hKN)).codRestrict (autOn K V)
@@ -95,7 +95,7 @@ private theorem autOnK_central_quotient [Finite G] {H K V : Subgroup G}
       hφker_ne
   have hcomap := CFSG.LocalCores.comap_center_eq_of_perfect hB.quasisimple.1 φ hφs hφkerZ
   have hperf : Group.IsPerfect ↥(autOn K V) := by
-    haveI : Group.IsPerfect (oTwoQuot ↥K) := hB.quasisimple.1
+    have : Group.IsPerfect (oTwoQuot ↥K) := hB.quasisimple.1
     exact Group.IsPerfect.ofSurjective (f := φ) hφs
   have hcenter : Subgroup.center ↥(autOn K V) =
       (Subgroup.center (oTwoQuot ↥K)).map φ := by
@@ -188,7 +188,7 @@ private theorem autOn_inf_centralizer_le [Finite G] {H K V : Subgroup G}
       x ∈ pCoreOf 2 H) :
     autOn H V ⊓ Subgroup.centralizer (autOn K V : Set (MulAut V)) ≤ autOn K V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y : Subgroup (MulAut V) :=
     autOn H V ⊓ Subgroup.centralizer (autOn K V : Set (MulAut V))
   have hYodd : Odd (Nat.card ↥Y) := by
@@ -227,12 +227,12 @@ private theorem autOn_inf_centralizer_le [Finite G] {H K V : Subgroup G}
   exact Subgroup.zpowers_le.mpr hpowL hmem
 
 private theorem isElemAbelian2_autOn_of_commutator_square {P V Q : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hPN : P ≤ Subgroup.normalizer (V : Set G))
+    (hV : IsElemAbelian 2 V) (_hPN : P ≤ Subgroup.normalizer (V : Set G))
     (hQV : Q ≤ Subgroup.centralizer (V : Set G))
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Q)
     (hsq : ∀ x ∈ P, x ^ 2 ∈ Q) :
     @IsElemAbelian2 ↥V (commGroupOfElemAbelian hV) (autOn P V) := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   constructor
   · intro a ha b hb
     obtain ⟨x, hxN, hxP, rfl⟩ := AutOn.mem_autOn_iff_exists.mp ha
@@ -302,7 +302,7 @@ theorem BenderVertex.two_mul_card_lt_index_fixV_of_core
     ∀ A : Subgroup (MulAut ↥V), A ≤ autOn H V → A ≠ ⊥ →
       @IsElemAbelian2 ↥V (commGroupOfElemAbelian hV) A →
       2 * Nat.card A < (@fixV ↥V (commGroupOfElemAbelian hV) A).index := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   intro A hAX hA hAe
   have hV' : ∀ v : ↥V, v * v = 1 := by
     intro v
@@ -326,8 +326,8 @@ theorem BenderVertex.starBound_of_core
       x ∈ pCoreOf 2 H) :
     StarBound V (pCoreOf 2 H) H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   intro P hPH hP hcomm hsq hPQ
   have hPN : P ≤ Subgroup.normalizer (V : Set G) := hPH.trans hHV
   have hinf := inf_centralizer_eq_inf_pCoreOf hB hHV hQV hcore hPH hP
@@ -367,15 +367,15 @@ theorem BenderVertex.not_isFFModule_of_core
       x ∈ pCoreOf 2 H) :
     ¬ @IsFFModule ↥V (commGroupOfElemAbelian hV) (autOn H V) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   rintro ⟨A, hAX, hA, hAe, hle⟩
   have hApos : 0 < Nat.card A := by
-    haveI : Nonempty ↥A := ⟨1, A.one_mem⟩
+    have : Nonempty ↥A := ⟨1, A.one_mem⟩
     exact Nat.card_pos
   have hlt := BenderVertex.two_mul_card_lt_index_fixV_of_core
     hB hV hHV hQV hKV hcore A hAX hA hAe
-  haveI : Nonempty ↥(fixV A) := ⟨1, (fixV A).one_mem⟩
+  have : Nonempty ↥(fixV A) := ⟨1, (fixV A).one_mem⟩
   have hcardpos : 0 < Nat.card ↥(fixV A) := Nat.card_pos
   have hidxle : (fixV A).index ≤ Nat.card A := by
     have h1 : (fixV A).index * Nat.card ↥(fixV A) = Nat.card ↥V :=

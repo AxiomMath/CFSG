@@ -16,7 +16,7 @@ theorem kFactSevenFive_holds :
   rcases hi with ⟨hp7, hn, rfl⟩ | ⟨hp5, hn, rfl⟩ | ⟨-, rfl⟩
   · exact CFSG.LocalAnalysis.RankThreeTheoremC.false_of_section_alternating he (by omega) φ hφ
   · exact CFSG.LocalAnalysis.RankThreeTheoremC.false_of_section_alternating he (by omega) φ hφ
-  · haveI : IsSimpleGroup (↥H ⧸ φ.ker) :=
+  · have : IsSimpleGroup (↥H ⧸ φ.ker) :=
       (QuotientGroup.quotientKerEquivOfSurjective φ hφ).isSimpleGroup_congr.mpr hs
     exact CFSG.LocalAnalysis.RankThreeTheoremC.false_of_section_fi22 he
       CFSG.RankThree.PartOne.sectionsForceEvenRankFour_Fi22

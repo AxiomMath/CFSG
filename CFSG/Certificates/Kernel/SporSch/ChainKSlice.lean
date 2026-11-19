@@ -80,6 +80,7 @@ theorem level_le_original (i : Nat) :
     (chainK_check hn hbs hQ).1]
   exact (certificate hn gens words bv hbs).levelSubgroup_antitone 0 i (Nat.zero_le _)
 
+omit hQ in
 theorem level_one_fix (hk : 0 < k) {g : Equiv.Perm (Fin n)}
     (hg : g ∈ (certificate hn gens words bv hbs).levelSubgroup 1) :
     g (bv.get ⟨0, hk⟩) = bv.get ⟨0, hk⟩ :=
@@ -141,7 +142,7 @@ theorem slice_eq (hk : 0 < k) (q : Equiv.Perm (Fin n) → Bool) {k₀ : Nat}
     have hfix : ∀ p ∈ tailP n w LR TR k, (1 * trP n w LR TR 0 k₁ * p) (bv.get ⟨0, hk⟩) =
         trP n w LR TR 0 k₁ (bv.get ⟨0, hk⟩) := by
       intro p hp
-      rw [one_mul, Equiv.Perm.mul_apply, level_one_fix hQ hn hbs hk (tailP_mem hQ hn hbs hk p hp)]
+      rw [one_mul, Equiv.Perm.mul_apply, level_one_fix hn hbs hk (tailP_mem hQ hn hbs hk p hp)]
     split_ifs with he
     · subst he
       apply List.countP_congr
@@ -158,6 +159,7 @@ theorem slice_eq (hk : 0 < k) (q : Equiv.Perm (Fin n) → Bool) {k₀ : Nat}
   rw [e2, List.map_congr_left hterm]
   exact sum_range_ite (fun k₁ => ((tailP n w LR TR k).map (trP n w LR TR 0 k₁ * ·)).countP q) _ hk₀
 
+omit hn hbs in
 theorem cntOrdK_one_eq {G₀ e : Nat}
     (hg₀ : imageList (1 : Equiv.Perm (Fin n)) = (unpack n w G₀).toList) (he : 0 < e) (hk : 0 < k) {k₀ : Nat} (hk₀ : k₀ < rcnt (LR 0)) :
     cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
@@ -205,7 +207,7 @@ theorem chainK_cosetCount_slices {G₀ e : Nat}
     (enumeration Q).countP (fun g => decide (g b₀ = p) && decide (orderOf g = e))
   have hslice : ∀ k₀ < rcnt (LR 0),
       cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ = F (trP n w LR TR 0 k₀ b₀) :=
-    fun k₀ hk₀ => (cntOrdK_one_eq hQ hn hbs hg₀ he hk0 hk₀).trans
+    fun k₀ hk₀ => (cntOrdK_one_eq hQ hg₀ he hk0 hk₀).trans
       (slice_eq hQ hn hbs hk0 _ hk₀)
   have hpt : ∀ k₀, 1 ≤ k₀ → k₀ < rcnt (LR 0) → F (trP n w LR TR 0 k₀ b₀) = F b₁ := by
     intro k₀ h1 h2
@@ -217,7 +219,7 @@ theorem chainK_cosetCount_slices {G₀ e : Nat}
       exact hpg
     rw [← hpoint]
     exact countP_point_conj hQ hn hbs hk0 (level_le_original hQ hn hbs 1 hu1)
-      (level_one_fix hQ hn hbs hk0 hu1) b₁ e
+      (level_one_fix hn hbs hk0 hu1) b₁ e
   have hs : ∀ k₀ < rcnt (LR 0),
       cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
         (s₀ :: List.replicate (rcnt (LR 0) - 1) s₁).getD k₀ 0 := by

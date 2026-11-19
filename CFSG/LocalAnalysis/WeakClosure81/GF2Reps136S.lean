@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem w1369_commSub_top_map_conj (L : Subgroup (MulAut W)) (g : MulAut W) :
     commSub ⊤ (L.map (MulAut.conj g).toMonoidHom) = (commSub ⊤ L).map g.toMonoidHom := by
   unfold commSub
@@ -30,9 +31,10 @@ theorem w1369_commSub_top_map_conj (L : Subgroup (MulAut W)) (g : MulAut W) :
     obtain ⟨x₀, hx₀, v, -, rfl⟩ := hs
     refine ⟨MulAut.conj g x₀, ⟨x₀, hx₀, rfl⟩, g v, trivial, ?_⟩
     change (MulAut.conj g x₀) (g v) * (g v)⁻¹ = g (x₀ v * v⁻¹)
-    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.apply_inv_self, MulAut.inv_apply_self,
+    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self,
       map_mul, map_inv]
 
+omit [Finite W] in
 theorem lemmaS {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
     (h : commSub ⊤ (⨆ φ ∈ A, L.map (MulAut.conj φ).toMonoidHom) = ⊤) :
     (⨆ X ∈ conjSubs A (commSub ⊤ L), X) = ⊤ := by
@@ -191,7 +193,7 @@ theorem comm_top_of_component {Y : Subgroup (MulAut W)} {t : MulAut W} (S : Std1
       exact Subgroup.mul_mem _ hx hz
   have hLne : L ≠ ⊥ := by
     rw [← Subgroup.nontrivial_iff_ne_bot]
-    haveI := hL.2.2.2
+    have := hL.2.2.2
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥L ⧸ Subgroup.center ↥L)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b

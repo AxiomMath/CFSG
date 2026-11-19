@@ -22,7 +22,7 @@ theorem Q_pow_four (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
     ∀ a ∈ ctxQ t tau x₁ x₂ rho, a ^ 4 = 1 :=
   fun _ ha => S4B.IsZ4Z4E4.pow_four hz.q_iso ha
 
-theorem Y_le_Q (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
+theorem Y_le_Q (_hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
     ctxYq t tau x₁ x₂ rho ≤ ctxQ t tau x₁ x₂ rho :=
   S4B.ctxYq_le_ctxQ
 

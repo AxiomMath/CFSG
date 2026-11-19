@@ -92,7 +92,7 @@ private theorem alternatingGroup_le_of_fixed_action_of_ker
         Nat.card (alternatingGroup F) := by
     simpa only [N, SN, F, g, gSupport] using
       hSupportSmall
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card]
       simpa only [N, SN, F] using hfive)
@@ -396,7 +396,7 @@ private theorem alternatingGroup_le_of_fixed_action_of_not_dvd
       ¬Nat.card (alternatingGroup F) ∣
         Nat.card κ.range := by
     simpa only [N, SN, F, κ] using hAutNotDvd
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card]
       simpa only [N, SN, F] using hfive)

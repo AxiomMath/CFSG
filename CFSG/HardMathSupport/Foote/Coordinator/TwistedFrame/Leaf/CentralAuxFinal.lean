@@ -57,7 +57,7 @@ theorem hat_mem_Lθ_and_centralizes {x : ModGL τ K} (hx : x ∈ Lθ τ K)
     (hcθ : ∀ u ∈ Uθ τ K, x * u = u * x) (hcn : ∀ u ∈ Heis.Uneg τ K, x * u = u * x) :
     hat D x ∈ Lθ τ D.L ∧ (∀ u ∈ Uθ τ D.L, hat D x * u = u * hat D x) ∧
       ∀ u ∈ Heis.Uneg τ D.L, hat D x * u = u * hat D x := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hxL : baseChangeGL (algebraMap K D.L) x ∈ Lθ τ D.L := baseChangeGL_mem_Lθ _ hx
   have hgL := D.g_mem
   refine ⟨mul_mem (mul_mem (inv_mem hgL) hxL) hgL, ?_, ?_⟩
@@ -285,7 +285,7 @@ theorem rootChar_eq_one_of_commute (c : TwClass) {L : Type} [Field L] {ĝ h y : 
 theorem central_main (c : TwClass) {K : Type} [Field K] [Finite K] (D : LangLevi c.tag K c.w)
     {x : ModGL c.tag K} (hx : x ∈ adjointGroup c.tag K)
     (hxX : ∀ y ∈ D.frame c.S₁, x * y = y * x) : x ∈ D.frame c.S₂ := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hd := twClassData c
   obtain ⟨k, ω, hlev⟩ := hd.levi
   have hUθ : Uθ c.tag K ≤ D.frame c.S₁ :=

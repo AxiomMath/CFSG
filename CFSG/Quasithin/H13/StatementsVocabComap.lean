@@ -228,12 +228,12 @@ theorem IsNaturalSumUnder.of_map {n : ℕ} {L V : Subgroup A} (f : A →* G)
   refine ⟨k, W', hk, ?_, ?_, hind', hsup'⟩
   · intro i
     obtain ⟨hcomm, hBNi⟩ := (hW i).2.2
-    haveI : IsMulCommutative ↥(W i) := hcomm
+    have : IsMulCommutative ↥(W i) := hcomm
     have hcomm' : IsMulCommutative ↥(W' i) :=
       CFSG.QuasiDihedralFusion.isMulCommutative_of_mulEquiv (e i).symm hcomm
-    haveI : IsMulCommutative ↥(W' i) := hcomm'
-    letI : CommGroup ↥(W i) := IsMulCommutative.instCommGroup
-    letI : CommGroup ↥(W' i) := IsMulCommutative.instCommGroup
+    have : IsMulCommutative ↥(W' i) := hcomm'
+    let : CommGroup ↥(W i) := IsMulCommutative.instCommGroup
+    let : CommGroup ↥(W' i) := IsMulCommutative.instCommGroup
     refine ⟨hW'_le i, hLnorm i, hcomm', ?_⟩
     have haut : autOn (L.map f) (W i) =
         (autOn L (W' i)).map (MulAut.congr (e i)).toMonoidHom :=

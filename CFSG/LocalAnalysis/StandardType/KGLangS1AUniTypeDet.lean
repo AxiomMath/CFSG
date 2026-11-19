@@ -97,7 +97,7 @@ private theorem kgLangS1AUniTypeDetAux_eq_one_of_subsingleton {ι : Type} [Finty
   rw [Subsingleton.elim i j, Units.val_one, Matrix.one_apply_eq]
   rcases isEmpty_or_nonempty ι with hι | ⟨⟨a⟩⟩
   · exact isEmptyElim j
-  · haveI : Unique ι := uniqueOfSubsingleton a
+  · have : Unique ι := uniqueOfSubsingleton a
     rw [Matrix.det_unique] at h
     rw [Subsingleton.elim j default]
     simpa using h
@@ -120,11 +120,11 @@ private theorem kgLangS1AUniTypeDetAux_largeEvenSU_subsingleton {n q : ℕ} {K :
       infer_instance
     · have hn1' : n = 1 := by omega
       subst hn1'
-      haveI : Subsingleton (Open.StatedSU 1 q K) := by
+      have : Subsingleton (Open.StatedSU 1 q K) := by
         rw [kgLangS1AUniTypeDetAux_statedSU_one_eq_bot]
         infer_instance
       infer_instance
-  haveI := h
+  have := h
   infer_instance
 
 private theorem kgLangS1AUniTypeDetAux_ordTwistedA_one_eq_ordA_one {m : ℕ} (hm : 1 ≤ m) :
@@ -137,8 +137,7 @@ private theorem kgLangS1AUniTypeDetAux_ordTwistedA_one_eq_ordA_one {m : ℕ} (hm
   have hg2 : Nat.gcd 2 (2 ^ m - 1) = 1 :=
     Nat.coprime_two_left.mpr (Timmesfeld.Orders.odd_two_pow_sub_one (by omega))
   rw [hg1, hg2]
-  simp only [Finset.Icc_self, Finset.prod_singleton, pow_one, Nat.reduceMul, Nat.reduceSub,
-    Int.reduceNeg, Int.reducePow]
+  simp only [Finset.Icc_self, Finset.prod_singleton, Nat.reduceMul, Int.reduceNeg, Int.reducePow]
   norm_num
   have hsq : ((2 ^ m : ℤ) ^ 2) = ((2 ^ (m * 2) : ℕ) : ℤ) := by
     push_cast
@@ -155,7 +154,7 @@ theorem kgLangS1A_psu_typeDet {d d₁ m₀ m : ℕ} {F₀ E : Type} [Field F₀]
     d₁ = d ∧ m = m₀ := by
   have hm : 1 ≤ m := hE.one_le
   have hcardE : Nat.card E = (2 ^ m) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hdq' : (d, 2 ^ m₀) ≠ (3, 2) := by
     intro h
     exact hdq ⟨(Prod.mk.inj h).1, (Prod.mk.inj h).2⟩
@@ -167,16 +166,16 @@ theorem kgLangS1A_psu_typeDet {d d₁ m₀ m : ℕ} {F₀ E : Type} [Field F₀]
   have hcardL : Nat.card (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) =
       Open.ordTwistedA (d - 1) (2 ^ m₀) :=
     (Timmesfeld.card_statedClassicalModel_two hSCM).2.1 rfl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimpleL : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) :=
     ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F₀ 2 m₀ hF₀ d hd hdq'
   rcases Nat.lt_or_ge d₁ 3 with hd₁_lt | hd₁_ge
   · rcases Nat.lt_or_ge d₁ 2 with hd₁_lt2 | hd₁_ge2
     · have hsub : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin d₁) E (2 ^ m))) :=
         kgLangS1AUniTypeDetAux_largeEvenSU_subsingleton (n := d₁) (q := 2 ^ m) (by omega)
-      haveI : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) :=
+      have : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) :=
         hsimpleL.toNontrivial
-      haveI : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin d₁) E (2 ^ m))) := hsub
+      have : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin d₁) E (2 ^ m))) := hsub
       have hsubL : Subsingleton (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) :=
         Equiv.subsingleton ψ.toEquiv
       exact (not_subsingleton _ hsubL).elim
@@ -199,17 +198,17 @@ theorem kgLangS1A_psu_typeDet {d d₁ m₀ m : ℕ} {F₀ E : Type} [Field F₀]
       subst hd3
       subst hm1
       have hsolvR : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin 3) E (2 ^ 1))) := by
-        haveI : Group.IsSolvable (LargeEvenSUGroup (Fin 3) E (2 ^ 1)) :=
+        have : Group.IsSolvable (LargeEvenSUGroup (Fin 3) E (2 ^ 1)) :=
           Quasithin.isSolvable_statedSU_one hcardE
         exact Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
       have hsolvL : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) :=
         Group.isSolvable_of_isSolvable_injective (f := ψ.toMonoidHom) ψ.injective
       have hperfL : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀))) := by
-        haveI : Group.IsPerfect (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀)) :=
+        have : Group.IsPerfect (LargeEvenSUGroup (Fin d) F₀ (2 ^ m₀)) :=
           ClassicalGroups.Unitary.isPerfect_statedSU hF₀ hd hdq'
         exact RankThree.PartOne.KCUnitary.isPerfect_of_surjective (QuotientGroup.mk' _)
           (QuotientGroup.mk'_surjective _)
-      haveI := hperfL
+      have := hperfL
       exact (Group.IsPerfect.not_isSolvable _ hsolvL).elim
     · have hneR : (d₁, 2 ^ m) ≠ (3, 2) := by
         intro h

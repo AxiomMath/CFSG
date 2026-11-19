@@ -101,7 +101,7 @@ theorem s15k_mcl_orth {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R : Su
       rw [hpl.1]
       exact hk_eq
     refine Or.inl ⟨k + k, hk3, ?_⟩
-    exact ⟨⟨k, rfl⟩, ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod],
+    exact ⟨⟨k, rfl⟩, ZMod 2, inferInstance, inferInstance, by simp,
       by rw [hdiv]; exact hreal⟩
   · let b' : Module.Basis (Fin (k - 1) ⊕ (Fin (k - 1) ⊕ Fin 2)) (ZMod 2) D.V :=
       b.reindex (Equiv.sumAssoc (Fin (k - 1)) (Fin (k - 1)) (Fin 2))
@@ -116,7 +116,7 @@ theorem s15k_mcl_orth {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R : Su
         (StatedQuadMinus k (ZMod 2) 1 1))).Realizes J R ⊥ :=
       s15k_mcl_realizes_nat D b' _ hΓ'
     refine Or.inr ⟨k + k, by omega, ?_⟩
-    exact ⟨⟨k, rfl⟩, ZMod 2, inferInstance, inferInstance, 1, 1, by simp [Nat.card_zmod],
+    exact ⟨⟨k, rfl⟩, ZMod 2, inferInstance, inferInstance, 1, 1, by simp,
       by decide, by rw [hdiv]; exact hreal⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

@@ -41,7 +41,7 @@ theorem normalizer_zpowers_le_of_perfect_centralizer
   have hHconf : k.Config H := ⟨hHne, hHnotM, hrankHM⟩
   have h75 : k.Step75 := k.step75 h5 hSE
   have hno : k.KIDExcluded := k.kIDExcluded_of_evenRank_le_three he
-  have hnotSolv : ¬ IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
+  have hnotSolv : ¬ Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
       (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) :=
     eight70_not_isSolvable k.prime hXHM hXperf (by omega)
   have hcase := eight70_solvable_or_altTen k h5 hno hHconf h75 hSAlt

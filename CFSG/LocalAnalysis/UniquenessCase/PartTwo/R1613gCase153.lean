@@ -28,7 +28,7 @@ theorem r1613g_not_isQuasisimple_of_comm {Q : Type*} [Group Q] (hc : ∀ a b : Q
 
 theorem r1613g_not_isPOnePlusTwo_of_comm {Q : Type*} [Group Q] (hc : ∀ a b : Q, a * b = b * a)
     (h : IsPOnePlusTwo 3 Q) : False := by
-  haveI := h.1
+  have := h.1
   exact r1613g_not_nontrivial_quot_center hc (CFSG.IsExtraspecial.quotient_nontrivial 3 Q)
 
 private theorem r1613g_pow_three_ne {c n : ℕ} (hn : n = 5 ∨ n = 7) : 3 ^ c ≠ n := by
@@ -44,13 +44,13 @@ variable {G : Type} [Group G] [Finite G]
 theorem r1613g_case153_3_summary (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hconc : Conc4_136 D V₀ V hV L) (h3 : Case153_3 D V₀ V hV L) :
     Nat.card ↥(lBar V₀ V hV L) = 3 ∧ rk ↥(wTil V₀ V hV L) ≤ 2 := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   obtain ⟨⟨K₀, -, hcyc, hdir, hnat⟩, -⟩ := h3
   have hK3 : Nat.card ↥(barSub V₀ V hV K₀) = 3 := hcyc.2
   have hKabel : IsElemAbelian 3 (barSub V₀ V hV K₀) := s15_T7_isElemAbelian_of_cyclicOrd hcyc
   have hXabel : IsElemAbelian 3 (lBar V₀ V hV L) := s15_T7_isElemAbelian_of_directProd hKabel hdir
   have hXcomm : ∀ a b : ↥(lBar V₀ V hV L), a * b = b * a := by
-    haveI := hXabel.1
+    have := hXabel.1
     exact fun a b => mul_comm' a b
   have hKrk : rk ↥(commSub ⊤ (barSub V₀ V hV K₀)) = 2 :=
     s16c1610_rk_of_card_two_pow (s16c1610_card_alternatingNatural_odd (by decide) hnat)
@@ -66,7 +66,7 @@ theorem r1613g_case153_3_summary (D : Data G) {V₀ V L : Subgroup G} {hV : IsEl
   obtain ⟨t, -, -, -, -, -, -, halt⟩ := hconc
   rcases halt with ⟨p, hp, -, -, -, hcases⟩ | ⟨K', hK', g, -, -, hLK, -⟩ | ⟨hcomp, -⟩ |
     ⟨-, -, hcomp, -⟩
-  · haveI : NeZero p := ⟨hp.ne_zero⟩
+  · have : NeZero p := ⟨hp.ne_zero⟩
     rcases hcases with ⟨hcyc3, -⟩ | ⟨hcyc5, -⟩ | ⟨hP, -⟩ | ⟨hE, hrk8, -⟩ | ⟨hcyc7, -⟩ |
       ⟨r, m, hpm, hr2, hE, hrkr, -⟩ | ⟨hE, hrk6, -⟩
     · have h1 : c = 1 := h3pow (by rw [← hc1, hcyc3.2]; simp)

@@ -39,6 +39,7 @@ theorem card_inf_e8Struct (hE : E8Struct X E) {K : Subgroup G} {z : G}
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_sup_e8Struct (hE : E8Struct X E) {K : Subgroup G} (hKX : K ≤ X) {z : G}
     (hz : IsUniqueInvolution K z) (hzE : z ∈ E) : Nat.card ↥(K ⊔ E) * 2 = Nat.card K * 8 := by
   have h := Sec6Gen.card_sup_mul_card_inf_of_le_normalizer (A := K) (B := E)

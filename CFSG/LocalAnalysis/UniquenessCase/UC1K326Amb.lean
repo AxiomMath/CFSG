@@ -83,15 +83,16 @@ theorem normalizer_le_normalizer_jOf (h : Hyp326 G n P) :
    fun _ hg => mem_normalizer_jOf_of_mem_normalizer h hg⟩
 
 theorem pCore_le_sylow (h : IsSylowOf 3 P ⊤) : CFSG.pCore 3 G ≤ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : ¬ 3 ∣ P.index := by
     have h' := (CFSG.ABGLocalTools.isSylowOf_iff.mp h).2.2
     rwa [Subgroup.relIndex_top_right] at h'
-  haveI : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal
   have hle := (CFSG.pCore_isPGroup (p := 3) (G := G)).le_sylow_of_normal
     (h.isPGroup.toSylow hdvd)
   simpa using hle
 
+omit [Finite G] in
 theorem le_oPrimeResidual_of_sylow (h : IsSylowOf 3 P ⊤) :
     P ≤ CFSG.GH74.GLS.oPrimeResidual 3 G := by
   intro x hx
@@ -100,12 +101,12 @@ theorem le_oPrimeResidual_of_sylow (h : IsSylowOf 3 P ⊤) :
 
 theorem genFittingFitting_eq_pCore (hc : CFSG.pPrimeCore 3 G = ⊥) :
     CFSG.Open.genFittingFitting G = CFSG.pCore 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ ?_
   · rw [CFSG.Open.genFittingFitting.eq_sSup]
     refine sSup_le ?_
     rintro N ⟨hNn, hNnil⟩
-    haveI : N.Normal := hNn
+    have : N.Normal := hNn
     have htop := CFSG.nilpotent_top_le_pCore_sup_pPrimeCore (Q := ↥N) (p := 3) hNnil
     have hmap : N ≤ (CFSG.pCore 3 ↥N).map N.subtype ⊔
         (CFSG.pPrimeCore 3 ↥N).map N.subtype := by
@@ -132,7 +133,7 @@ theorem noncomp_core (hc : CFSG.pPrimeCore 3 G = ⊥)
     rw [CFSG.Open.genFittingLayer.eq_sSup]
     have hset : {L : Subgroup G | CFSG.Open.IsComponentOf L ⊤} = ∅ := by
       ext L
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact hnc L
     rw [hset, sSup_empty]
   have hFStar : CFSG.Open.genFittingFStar G = CFSG.pCore 3 G := by
@@ -143,7 +144,7 @@ theorem noncomp_core (hc : CFSG.pPrimeCore 3 G = ⊥)
 theorem map_conj_jOf_eq_of_le_pCore (h : Hyp326 G n P) (hA : jOf P ≤ CFSG.pCore 3 G) (g : G) :
     (jOf P).map (MulAut.conj g).toMonoidHom = jOf P := by
   obtain ⟨hjP, hEA, hcard, huniq, -⟩ := jOf_spec h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine huniq _ ?_ (hEA.map (MulAut.conj g).toMonoidHom) ?_
   · rintro y ⟨x, hx, rfl⟩
     have hx' : g * x * g⁻¹ ∈ CFSG.pCore 3 G :=

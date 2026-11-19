@@ -20,6 +20,7 @@ section Certs
 
 variable {n q : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem pow_six_ne_one {ζu : Fˣ} (hζo : orderOf ζu = q) (hq6 : ¬ q ∣ 6) :
     (ζu : F) ^ 6 ≠ 1 := by
   intro h6
@@ -31,6 +32,7 @@ theorem pow_six_ne_one {ζu : Fˣ} (hζo : orderOf ζu = q) (hq6 : ¬ q ∣ 6) :
     exact orderOf_dvd_iff_pow_eq_one.2 h6u
   exact hq6 hdvd
 
+omit [Finite F] in
 theorem map_le_normalizer_map_unitaryProj (h : UnitaryFieldData 2 n F)
     {A J : Subgroup (unitarySU 2 n F 6)}
     (hAJ : A ≤ Subgroup.normalizer (J : Set (unitarySU 2 n F 6))) :
@@ -50,6 +52,7 @@ theorem map_le_normalizer_map_unitaryProj (h : UnitaryFieldData 2 n F)
     rw [map_mul, map_mul, map_inv, hbeq]
     group
 
+omit [Finite F] in
 theorem twA5Torus_le_normalizer_lineRadical (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) :
     twA5Torus h hζ ≤
@@ -61,6 +64,7 @@ theorem twA5Torus_le_normalizer_lineRadical (h : UnitaryFieldData 2 n F) {ζu : 
     (twA5Vec_prod h fun i => norm_eq_one_of_mem_zpowers h hζ (c i).2)
     (by simp [twA5Vec])
 
+omit [Finite F] in
 theorem twA5B_le_normalizer_lineRadical (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) :
     twA5B h hζ ≤ Subgroup.normalizer
@@ -90,6 +94,7 @@ theorem exists_pow_eq_of_mem_zpowers {ζu : Fˣ} (hζo : orderOf ζu = q) {k : �
   obtain ⟨c, hc⟩ := Finite.surjective_of_injective hinj ⟨b, hb⟩
   exact ⟨c, c.2, congrArg Subtype.val hc⟩
 
+omit [Finite F] in
 theorem coe_diagFiveLast_pow (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (m : ℕ) :
     ((((diagFiveLast h (ζu : F) hζ) ^ m : unitarySU 2 n F 6) : GL (Fin 6) F) :
@@ -163,7 +168,7 @@ theorem twA5B_le_sup (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu
         · exact h1 hmem
         · exact h1 hmem
       subst hi5
-      simp only [twA5Vec_five, diagFiveLastEntries, Fin.isValue, Fin.reduceEq, ↓reduceIte]
+      simp only [twA5Vec_five, diagFiveLastEntries, Fin.isValue, ↓reduceIte]
       have hκ5F : ((ζu : F) ^ m) ^ 5 = (b5 : F) := by
         rw [hκ, show (κ : F) ^ 5 = ((κ ^ 5 : Fˣ) : F) by push_cast; rfl, hκ5]
       rw [hκ5F, ← hb5val']
@@ -178,17 +183,20 @@ theorem twA5B_le_sup (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu
   exact Subgroup.mem_sup_right (Subgroup.inv_mem _ (Subgroup.pow_mem _ (Subgroup.mem_zpowers _) m))
 
 
+omit [Finite F] in
 theorem unitaryRadMatrix_zero_apply_zero (h : UnitaryFieldData 2 n F) (y : F) :
     unitaryRadMatrix h 0 y 0 0 = 1 + y := by
   simp [unitaryRadMatrix, suLineVec, suRadVec, Matrix.add_apply, Matrix.vecMulVec_apply]
 
+omit [Finite F] in
 theorem unitaryRadMatrix_zero_apply_two (h : UnitaryFieldData 2 n F) (y : F) :
     unitaryRadMatrix h 0 y 2 2 = 1 := by
   simp [unitaryRadMatrix, suLineVec, suRadVec, Matrix.add_apply, Matrix.vecMulVec_apply]
 
+omit [Finite F] in
 theorem unitaryLineRadical_map_ne_bot (h : UnitaryFieldData 2 n F) :
     (unitaryLineRadical h).map (unitaryProj h 6) ≠ ⊥ := by
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   obtain ⟨c, hc⟩ := h.exists_bar_ne
   have hytrace : (c + h.bar c) + h.bar (c + h.bar c) = 0 := by
     rw [map_add, h.bar_bar]
@@ -226,6 +234,7 @@ theorem unitaryLineRadical_map_ne_bot (h : UnitaryFieldData 2 n F) :
   have h1 : (1 : F) + (c + h.bar c) = 1 + 0 := by rw [h00', h22', add_zero]
   exact add_left_cancel h1
 
+omit [Finite F] in
 theorem twA5_commutator_mem (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) (hq6 : ¬ q ∣ 6) :
     ∀ g ∈ Subgroup.centralizer
@@ -248,7 +257,7 @@ theorem twA5_commutator_mem (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
 theorem evenRank_unitaryPSU_six (h : UnitaryFieldData 2 n F) (hn : 4 ≤ n)
     {q : ℕ} (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (hq6 : ¬ q ∣ 6) (hq2 : q ≠ 2) :
     evenRank (unitaryPSU h 6) = 4 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨ζu, hζ, hζo⟩ := exists_twA5_zeta h hq hqdvd
   have heq := evenRank_unitaryPSU_six_le h hn
   refine le_antisymm heq ?_
@@ -282,6 +291,7 @@ theorem evenRank_unitaryPSU_six (h : UnitaryFieldData 2 n F) (hn : 4 ≤ n)
     ⟨q, _, hq, hq2, hloc, rfl⟩
   exact le_trans hge (le_csSup hbdd hmem)
 
+omit [Finite F] in
 theorem twA5B0Param_mul_last {ζu : Fˣ} (c c' : Fin 3 → Subgroup.zpowers ζu) :
     ((c 0 * c' 0) ^ 2 * (c 1 * c' 1) * (c 2 * c' 2))⁻¹ =
       (c 0 ^ 2 * c 1 * c 2)⁻¹ * (c' 0 ^ 2 * c' 1 * c' 2)⁻¹ := by
@@ -308,19 +318,24 @@ theorem twA5B0Param_mul_last {ζu : Fˣ} (c c' : Fin 3 → Subgroup.zpowers ζu)
     · rfl
     · exact twA5B0Param_mul_last c c'
 
+omit [Finite F] in
 @[simp] theorem twA5B0Param_apply_zero {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5B0Param c 0 = c 0 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5B0Param_apply_one {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5B0Param c 1 = c 1 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5B0Param_apply_two {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5B0Param c 2 = c 2 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5B0Param_apply_three {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5B0Param c 3 = (c 0 ^ 2 * c 1 * c 2)⁻¹ := rfl
 
-theorem twA5B0Param_last {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
+omit [Finite F] in
+theorem twA5B0Param_last [Finite F] {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5Vec (fun i => ((twA5B0Param c i : Fˣ) : F)) 5 = 1 := by
   rw [twA5Vec_five]
   simp only [twA5B0Param_apply_zero, twA5B0Param_apply_one, twA5B0Param_apply_two,
@@ -335,6 +350,7 @@ theorem twA5B0Param_last {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     (hζ : h.norm (ζu : F) = 1) : Subgroup (unitaryPSU h 6) :=
   ((unitaryProj h 6).comp ((twA5TorusHom h hζ).comp twA5B0Param)).range
 
+omit [Finite F] in
 theorem twA5B0_le (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1) :
     twA5B0 h hζ ≤ twA5B h hζ := by
   rintro x ⟨c, rfl⟩
@@ -356,6 +372,7 @@ theorem twA5B0_le_blockSU (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
   subst hi5
   exact twA5B0Param_last c
 
+omit [Finite F] in
 theorem twA5B0_hom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) (hq : q.Prime) (hq6 : ¬ q ∣ 6) :
     Function.Injective ((unitaryProj h 6).comp ((twA5TorusHom h hζ).comp twA5B0Param)) := by
@@ -369,6 +386,7 @@ theorem twA5B0_hom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
   funext i
   fin_cases i <;> assumption
 
+omit [Finite F] in
 theorem card_twA5B0 (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (hζo : orderOf ζu = q) (hq : q.Prime) (hq6 : ¬ q ∣ 6) :
     Nat.card (twA5B0 h hζ) = q ^ 3 := by
@@ -378,6 +396,7 @@ theorem card_twA5B0 (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu 
   rw [twA5B0, MonoidHom.range_eq_map,
     Subgroup.card_map_of_injective (twA5B0_hom_injective h hζ hζo hq hq6), Subgroup.card_top, hdom]
 
+omit [Finite F] in
 theorem twA5B0_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
     IsElemAbelian q (twA5B0 h hζ) := by

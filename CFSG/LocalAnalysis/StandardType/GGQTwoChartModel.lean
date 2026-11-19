@@ -23,11 +23,11 @@ theorem qTwoChart_ordinaryModel
     ∃ (F0 : Type) (_ : Field F0) (_ : Finite F0) (_ : CharP F0 2) (ψ : Su F0 2 1 m →* G),
       Nat.card F0 = 4 ∧ QTwoOrdModel Bs L ψ := by
   classical
-  letI : Field hFrameL.F0 := hFrameL.fieldF0
-  letI : Finite hFrameL.F0 := hFrameL.finiteF0
-  letI : CharP hFrameL.F0 2 := hFrameL.charF0
-  letI : Fact (Nat.Prime 2) := hFrameL.factF0
-  letI : Group hFrameL.L0 := hFrameL.groupL0
+  let : Field hFrameL.F0 := hFrameL.fieldF0
+  let : Finite hFrameL.F0 := hFrameL.finiteF0
+  let : CharP hFrameL.F0 2 := hFrameL.charF0
+  let : Fact (Nat.Prime 2) := hFrameL.factF0
+  let : Group hFrameL.L0 := hFrameL.groupL0
   cases hFm
   have hK : Nat.card hFrameL.F0 = (2 ^ 1) ^ 2 := by
     rw [hFrameL.hcardF0]; norm_num
@@ -36,8 +36,8 @@ theorem qTwoChart_ordinaryModel
   have hm3 : 3 ≤ hFrameL.m := by omega
   have hne4 : hFrameL.m ≠ 4 := by omega
   have hSS : LargeEvenSStar 3 B x L := S.hcfg.1.1.1.2.2.2.2.2.2.1
-  haveI hLperf : Group.IsPerfect ↥L := Group.isPerfect_def.2 hSS.2.2.2.1.2.2.1
-  haveI hperfSu : Group.IsPerfect (Su hFrameL.F0 2 1 hFrameL.m) :=
+  have hLperf : Group.IsPerfect ↥L := Group.isPerfect_def.2 hSS.2.2.2.1.2.2.1
+  have hperfSu : Group.IsPerfect (Su hFrameL.F0 2 1 hFrameL.m) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_SUid
       (CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK)
       hm3 (fun h => by omega)

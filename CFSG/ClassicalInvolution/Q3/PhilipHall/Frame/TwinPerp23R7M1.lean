@@ -38,7 +38,7 @@ theorem cover3A {w : X} {q₁ q₂ : Q}
 theorem block3A {w : X} {q₁ q₂ : Q}
     (hcov : ∀ q : Q, q • w = w ∨ q • w = q₁ • w ∨
       q • w = q₂ • w)
-    (h01 : q₁ • w ≠ w) (h02 : q₂ • w ≠ w) (h12 : q₁ • w ≠ q₂ • w)
+    (_h01 : q₁ • w ≠ w) (_h02 : q₂ • w ≠ w) (_h12 : q₁ • w ≠ q₂ • w)
     (R : Q → Q → Prop) (hRs : ∀ {x y : Q}, R x y → R y x)
     (hRt : ∀ {x y w : Q}, R x y → R y w → R x w)
     (hRc : ∀ (c : Q) {x y : Q}, R x y → R (c * x * c⁻¹) (c * y * c⁻¹)) {y₀ : Q}
@@ -153,7 +153,7 @@ theorem prod_coreA [Finite Q] {A B : Subgroup Q} {z : Q} (hz : ∀ q : Q, q * z 
     (hsp : ModZ z (s * (a * b) * s⁻¹) (a * b))
     {eb : Q} (heA : ∀ x ∈ A, eb * x = x * eb) (heB : ∀ x ∈ B, eb * x = x * eb)
     (hMB : ∀ m : Q, (∀ x ∈ A, m * x = x * m) → (∀ x ∈ B, m * x = x * m) → m * eb = eb * m)
-    (he2 : eb * eb = 1) (heb1 : eb ≠ 1) (hebz : eb ≠ z) {w : X}
+    (he2 : eb * eb = 1) (_heb1 : eb ≠ 1) (_hebz : eb ≠ z) {w : X}
     (hWp : ∀ q d : Q, q • w = d • w →
       ModZ z (q * (a * b) * q⁻¹) (d * (a * b) * d⁻¹))
     (hWe : ∀ q d : Q, q • w = d • w → q * eb * q⁻¹ = d * eb * d⁻¹)
@@ -289,9 +289,8 @@ theorem prod_coreA [Finite Q] {A B : Subgroup Q} {z : Q} (hz : ∀ q : Q, q * z 
       | exact absurd (h0.trans h1.symm) d01
       | exact absurd (h0.trans h2.symm) d02
       | exact absurd (h1.trans h2.symm) d12
-      | (rw [hWe _ _ h0, hWe _ _ h1, hWe _ _ h2, hone] <;>
+      | (rw [hWe _ _ h0, hWe _ _ h1, hWe _ _ h2, hone]; try
          first
-         | rfl
          | exact P.1
          | exact P.2.1
          | exact P.2.2.1
@@ -496,7 +495,7 @@ theorem card_autQuot_ker {A : Subgroup Q} {z : Q} (hs : IsUniqueInvolution A z)
 theorem card_aut_dvd {A : Subgroup Q} {z : Q} (hz : ∀ q : Q, q * z = z * q)
     (hs : IsUniqueInvolution A z) (h8 : Nat.card A = 8) :
     ∃ k : ℕ, Nat.card (MulAut ↥A) ∣ 2 ^ k * 24 := by
-  haveI := zSub_normal hz hs
+  have := zSub_normal hz hs
   obtain ⟨k, hk⟩ := card_autQuot_ker hs
   refine ⟨k, ?_⟩
   rw [← Subgroup.card_ker_mul_card_range (autQuot hs), hk]
@@ -1083,7 +1082,7 @@ theorem p23E7Odd_proved : P23E7Odd n := by
   have hnd : ¬ 2 ∣ S₂.relIndex C := by
     obtain ⟨P, hP⟩ := (hS₂.2.1.comap_subtype : IsPGroup 2 (S₂.subgroupOf C)).exists_le_sylow
     have hPm : (P : Subgroup ↥C).map C.subtype = S₂ := by
-      refine hS₂.2.2 _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _) fun x hx => ?_
+      refine hS₂.2.2 _ (Subgroup.map_subtype_le _) (P.isPGroup.map _) fun x hx => ?_
       exact ⟨⟨x, hS₂.1 hx⟩, hP (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
     have hPe : (P : Subgroup ↥C) = S₂.subgroupOf C := by
       ext x

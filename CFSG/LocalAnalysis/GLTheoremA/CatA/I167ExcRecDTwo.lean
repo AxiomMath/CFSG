@@ -71,8 +71,8 @@ private theorem excRec_twoD_aux (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hΨ : IsRootComponent (componentRoots (rootCharHom a) i) := isRootComponent_componentRoots i
   have hcardΔ : (simpleRoots (componentRoots (rootCharHom a) i)).card = m := by
     rw [← Fintype.card_coe, Fintype.card_congr ε, Fintype.card_fin]
@@ -99,8 +99,8 @@ private theorem excRec_twoD_aux (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ
         Set (Fin τ.rank → ℤ)) := by
     ext β
     exact ⟨by rintro ⟨j, rfl⟩; exact (ε.symm j).2, fun hβ => ⟨ε ⟨β, hβ⟩, by simp⟩⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hlie := KD264Lie.ExcUntw.lieModel_orbitGroup_of_datum_four_of_root_data hτ D (by omega) hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot
     (fun j k h => ε.symm.injective (Subtype.ext h)) hG (hDs.trans hrange.symm) hfix hsw.1 hsw.2
@@ -130,7 +130,7 @@ theorem excRec_twoD_of_root_data {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
   have hpL : ((p : ℕ) : L) ≠ 0 := natCast_ne_zero_of_ringChar_ne hp hℓp
   have hkind : twistKind S.ρ (rootCharHom a) i = .twoD := by
     unfold twistKind
-    rw [if_neg hout, if_neg, if_pos ⟨by omega, hn⟩]
+    rw [ite_eq_right hout, ite_eq_right, ite_eq_left ⟨by omega, hn⟩]
     rintro (⟨h6, h72⟩ | ⟨h4', -, -⟩)
     · rw [hn, h6] at h72
       omega

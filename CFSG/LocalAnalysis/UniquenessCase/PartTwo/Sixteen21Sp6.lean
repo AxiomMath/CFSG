@@ -97,9 +97,9 @@ theorem exists_orderOf_fix_of_index_lt {U : Type*} [Group U] [Finite U]
     (hX : ∀ H : Subgroup X, H.index < Nat.card U → p ∣ Nat.card H) (hU : 1 < Nat.card U)
     (u : U) : ∃ φ ∈ X, orderOf φ = p ∧ φ u = u := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp hU
-  haveI : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp hU
+  have : Finite X := inferInstance
   have horbit : (MulAction.orbit X u).ncard < Nat.card U := by
     refine Set.ncard_lt_card ?_
     intro huniv
@@ -141,8 +141,8 @@ theorem forall_fix_vStar_of_case8 (hSp : RSp6SmallIndex) {D : Data G} (h1217 : R
     (hc : Case167_8 D V₀ V hV L) :
     ∀ w : vStar D.M V₀ V hV L, ∃ φ ∈ lStar D.M V₀ V hV L, orderOf φ = 3 ∧ φ w = w := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e₂⟩⟩ := hc.1
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   obtain ⟨e₁⟩ := nonempty_lStar_equiv_lBar D h1217 h151 hV
   have e₂' : ↥(lBar V₀ V hV L) ≃* ↥(StatedSp 3 K) := e₂

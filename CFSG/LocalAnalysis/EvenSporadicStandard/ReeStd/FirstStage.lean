@@ -14,13 +14,13 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_isPGroup_of_normal {A V X : Subgroup G} (hV : IsPGroup 2 V) (hVA : V ≤ A)
     (hAN : A ≤ normalizer (V : Set G)) (hX : IsPGroup 2 X) (hXA : X ≤ A) :
     ∃ T : Subgroup G, IsPGroup 2 T ∧ V ≤ T ∧ X ≤ T ∧ T ≤ A ∧ Odd (T.relIndex A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (V.subgroupOf A).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (V.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVA).2 hAN
   obtain ⟨Q, hQ⟩ := (hX.comap_subtype (K := A)).exists_le_sylow
   have hVp : IsPGroup 2 (V.subgroupOf A) := hV.comap_subtype
   have hVQ : V.subgroupOf A ≤ (Q : Subgroup A) := hVp.le_sylow_of_normal Q
-  refine ⟨(Q : Subgroup A).map A.subtype, Q.isPGroup'.map _, ?_, ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup A).map A.subtype, Q.isPGroup.map _, ?_, ?_, ?_, ?_⟩
   · intro v hv
     exact ⟨⟨v, hVA hv⟩, hVQ hv, rfl⟩
   · intro p hp

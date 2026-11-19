@@ -28,8 +28,8 @@ theorem two_le_pRank_fixed_graphFixed_D4_cross {ℓ f p : ℕ} (hℓ : ℓ.Prime
     (hrk : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) :
     2 ≤ CFSG.Open.pRank p (fixedSubgroup β) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hp1 : 1 < p := hp.one_lt
   have hβ1 : β ≠ 1 := fun h =>
     hβin (h ▸ (CFSG.ComponentClassification.OuterAutomorphisms.inner _).one_mem)

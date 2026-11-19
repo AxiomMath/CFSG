@@ -11,13 +11,14 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.EvenBN.Tits
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem false_of_normal_index_two [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a)
     {N : Subgroup L} (hN : N.Normal) (hidx : N.index = 2) : False := by
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h1 | h1
   · rw [h1, Subgroup.index_bot] at hidx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := isCyclic_of_prime_card (α := L) hidx
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := isCyclic_of_prime_card (α := L) hidx
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (IsCyclic.commGroup.mul_comm a b)
   · rw [h1, Subgroup.index_top] at hidx
@@ -35,6 +36,7 @@ theorem eq_of_isConj_of_fixed (P : Sylow 2 L) {y : L} (hy : ∀ q ∈ (P : Subgr
   have := hn'.trans (hfix n hn)
   rwa [inv_inv] at this
 
+omit [Finite L] in
 theorem normalizer_fixes_z0 (P : Sylow 2 L) {c r s : L} {m : ℕ} (h : DihRel c r s m)
     (hP : (P : Subgroup L) = closure ({c, r, s} : Set L)) {n : L}
     (hn : n ∈ normalizer (P : Subgroup L)) : n⁻¹ * z0 r m * n = z0 r m := by
@@ -64,6 +66,7 @@ theorem normalizer_fixes_z0 (P : Sylow 2 L) {c r s : L} {m : ℕ} (h : DihRel c 
     rw [h1, h2]
     exact h.eq_z0_of_sq_eq_one hne' hsq'
 
+omit [Finite L] in
 theorem normalizer_c_cases (P : Sylow 2 L) {c r s : L} {m : ℕ} (h : DihRel c r s m)
     (hP : (P : Subgroup L) = closure ({c, r, s} : Set L)) {n : L}
     (hn : n ∈ normalizer (P : Subgroup L)) :
@@ -170,6 +173,7 @@ theorem fusion_facts (P : Sylow 2 L) {c r s : L} {m : ℕ} (h : DihRel c r s m)
       (fun n hn => normalizer_fixes_c P h hP hn) hx hconj,
     fun x hx hconj => eq_of_isConj_of_fixed P hcz0 hcz0fix hx hconj⟩
 
+omit [Finite L] in
 theorem zpow_conj_mul {r e : L} (hre : e * r * e⁻¹ = r⁻¹) (k : ℤ) :
     r ^ k * e * (r ^ k)⁻¹ = r ^ (2 * k) * e := by
   have h1 : e * r ^ (-k) = r ^ (- -k) * e := mul_zpow_of_inv hre (-k)
@@ -178,6 +182,7 @@ theorem zpow_conj_mul {r e : L} (hre : e * r * e⁻¹ = r⁻¹) (k : ℤ) :
     _ = r ^ k * (r ^ k * e) := by rw [h1]
     _ = r ^ (2 * k) * e := by rw [← mul_assoc, ← zpow_add, two_mul]
 
+omit [Finite L] in
 theorem relIndex_eq_two {P U : Subgroup L} {c : L} (hcP : c ∈ P) (hcU : c ∉ U)
     (hcomm : ∀ b ∈ P, c * b = b * c) (h : ∀ b ∈ P, b ∈ U ∨ c * b ∈ U) : U.relIndex P = 2 := by
   have h1 : U.relIndex P ∣ 2 := by
@@ -202,7 +207,7 @@ theorem false_of_not_conj_into [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ 
     have hne : orderOf y ≠ 1 := fun h1 => hy1 (orderOf_eq_one_iff.mp h1)
     omega
   obtain ⟨N, hN, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-    P.isPGroup' P.not_dvd_index hUP hidx hbP hbU hmin hbconj
+    P.isPGroup P.not_dvd_index hUP hidx hbP hbU hmin hbconj
   exact false_of_normal_index_two hnab hN hNidx
 
 theorem prodDihedral_false [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a) (P : Sylow 2 L)
@@ -251,7 +256,7 @@ theorem prodDihedral_false [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * 
     relIndex_eq_two hcP hcU (fun b hb => (h'.c_central (hP' ▸ hb)).symm) fun b hb =>
       exists_mem_or_mul_mem h'.c_sq h'.cr h'.cs hrU heU (hP' ▸ hb)
   have hcz0o : orderOf (c * z0 r m) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcomm : Commute c (z0 r m) := h.z0_comm_c.symm
     refine orderOf_eq_prime ?_ ?_
     · rw [hcomm.mul_pow, h.c_sq, h.z0_sq, one_mul]

@@ -206,7 +206,7 @@ theorem j4z_pow : j4z ^ 11 = 1 := by
   rw [commutator_pow_eq j4z_comm_x, j4x_pow, commutatorElement_one_left]
 
 theorem j4xy_pow
-    {i j : ℕ} (hi : i < 11) (hj : j < 11) : (j4x ^ i * j4y ^ j) ^ 11 = 1 :=
+    {i j : ℕ} (_hi : i < 11) (_hj : j < 11) : (j4x ^ i * j4y ^ j) ^ 11 = 1 :=
   Transport.pow_x_pow_y_pow_eleven j4z_comm_x j4z_comm_y j4z_pow j4x_pow j4y_pow i j
 
 theorem fixDim_word

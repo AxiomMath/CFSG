@@ -135,9 +135,9 @@ theorem cfInner_coherentVal_coherentVal_eq_zero_of_disjoint
       cfInner_smul_smul_of_mem_Irr _ _ (hbIrr η) (star_mem_Irr (hbIrr η)),
       cfInner_smul_smul_of_mem_Irr _ _ (star_mem_Irr (hbIrr η)) (hbIrr η),
       cfInner_smul_smul_of_mem_Irr _ _ (star_mem_Irr (hbIrr η)) (star_mem_Irr (hbIrr η)),
-      if_pos rfl, if_pos rfl, if_neg (Ne.symm (hbnr η)), if_neg (hbnr η)] at hzero
+      ite_eq_left rfl, ite_eq_left rfl, ite_eq_right (Ne.symm (hbnr η)), ite_eq_right (hbnr η)] at hzero
     rcases hε with rfl | rfl <;> rcases hδ with rfl | rfl <;> norm_num at hzero
-  rw [haeq ξ, hbeq η, cfInner_smul_smul_of_mem_Irr _ _ (haIrr ξ) (hbIrr η), if_neg hne]
+  rw [haeq ξ, hbeq η, cfInner_smul_smul_of_mem_Irr _ _ (haIrr ξ) (hbIrr η), ite_eq_right hne]
 
 theorem cfInner_apply_apply_eq_zero_of_disjoint
     (hX : X ⊆ Irr L) (hY : Y ⊆ Irr L) (hXY : Disjoint X Y)

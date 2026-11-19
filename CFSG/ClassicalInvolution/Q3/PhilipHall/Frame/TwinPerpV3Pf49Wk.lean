@@ -26,7 +26,7 @@ section WeakData
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem weak_data_of_eta {Ω : Set (Subgroup Y)} {S₀ : Sylow 2 Y} {η : Set (Subgroup Y)}
-    (hη : η ∈ etaSet Ω (S₀ : Subgroup Y))
+    (_hη : η ∈ etaSet Ω (S₀ : Subgroup Y))
     (hinv : ∀ s ∈ (S₀ : Subgroup Y), ∀ U ∈ η, conjSub s U ∈ η)
     (hwc : ∀ g : Y, (∀ U ∈ η, conjSub g U ≤ (S₀ : Subgroup Y)) → ∀ U ∈ η, conjSub g U ∈ η)
     (S₁ : Sylow 2 Y) (hWS₁ : (⨆ U ∈ η, U) ≤ (S₁ : Subgroup Y)) :
@@ -141,10 +141,10 @@ theorem v3WZStar'_of_datum (hD : V3WDatum n) (hA : V3WAlt2 n) : V3WZStar' n := b
       (S₀ : Subgroup Y) := iSup₂_le fun U hU => hU.2
   have hηeq : η = η₀ := huniq η ⟨S₀, hη, hinv⟩ fun m hm U hU => hinv m (hMS₀ hm) U hU
   subst hηeq
-  have hW2 : IsPGroup 2 W := S₀.isPGroup'.to_le hWS₀
+  have hW2 : IsPGroup 2 W := S₀.isPGroup.to_le hWS₀
   have hW'2 : IsPGroup 2 (W.subgroupOf C) := hW2.comap_subtype
   obtain ⟨S_C, hS_C⟩ := hW'2.exists_le_sylow
-  have hQ2 : IsPGroup 2 ((S_C : Subgroup ↥C).map C.subtype) := S_C.isPGroup'.map C.subtype
+  have hQ2 : IsPGroup 2 ((S_C : Subgroup ↥C).map C.subtype) := S_C.isPGroup.map C.subtype
   obtain ⟨S₁, hS₁⟩ := hQ2.exists_le_sylow
   have hSC₁ : ∀ s ∈ (S_C : Subgroup ↥C), (s : Y) ∈ (S₁ : Subgroup Y) := fun s hs =>
     hS₁ ⟨s, hs, rfl⟩
@@ -209,7 +209,7 @@ theorem v3WZStar'_of_datum (hD : V3WDatum n) (hA : V3WAlt2 n) : V3WZStar' n := b
     have := Balance.conj_mem_normalClosureIn hcC hu
     rw [Subgroup.mem_subgroupOf]
     simpa [mul_assoc] using this
-  haveI hTn : ((Balance.normalClosureIn C U).subgroupOf C).Normal :=
+  have hTn : ((Balance.normalClosureIn C U).subgroupOf C).Normal :=
     Balance.normal_subgroupOf_normalClosureIn hUC'
   have hxT : x ∈ (Balance.normalClosureIn C U).subgroupOf C :=
     Subgroup.normalClosure_le_normal hsub hxL

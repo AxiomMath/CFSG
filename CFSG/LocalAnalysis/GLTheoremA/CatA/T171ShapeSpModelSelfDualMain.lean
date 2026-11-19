@@ -73,7 +73,7 @@ private theorem selfDual_prelim {m n p : ℕ} {K : Type} [Field K] [Finite K]
     (x : StatedSp m K) (hxp : x ^ p = 1) (hx1 : x ≠ 1) :
     SelfDualPrelim m n p K x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · exfalso
@@ -81,13 +81,13 @@ private theorem selfDual_prelim {m n p : ℕ} {K : Type} [Field K] [Finite K]
       have hc := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [Fintype.card_eq_nat_card, hK])
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero m := ⟨by omega⟩
   have hm1 : 1 ≤ m := by omega
   have hproj : Function.Injective (proj m K) :=
     CFSG.LocalAnalysis.GLTheoremA.K155XSp.l154s_proj_injective (r := m) (K := K) h2
@@ -174,7 +174,7 @@ private noncomputable def selfDualPsi {m n p : ℕ} {K : Type} [Field K] [Finite
 private theorem selfDual_multiplicity_two_le {m n p : ℕ} {K : Type} [Field K] [Finite K]
     {x : StatedSp m K} {h : K[X]} [Fact (Irreducible (h : K[X]))]
     (H : SelfDualHalf m n p K x h) (J : Subgroup (StatedProj (StatedSp m K)))
-    (hproj : Function.Injective (proj m K))
+    (_hproj : Function.Injective (proj m K))
     (hJeq : J = (⁅spSupported x ({h} : Set K[X]),
       spSupported x ({h} : Set K[X])⁆).map (proj m K))
     (hJnt : Nontrivial ↥J) :
@@ -182,8 +182,8 @@ private theorem selfDual_multiplicity_two_le {m n p : ℕ} {K : Type} [Field K] 
   classical
   let E := AdjoinRoot (h : K[X])
   let W := primaryComponent (spEnd x) (h : K[X])
-  letI : Finite E := H.hE.finite
-  letI : CharP E 2 := H.hE.charP
+  let : Finite E := H.hE.finite
+  let : CharP E 2 := H.hE.charP
   let A : Subgroup (StatedSp m K) := spSupported x ({h} : Set K[X])
   let D : Subgroup (StatedSp m K) := ⁅A, A⁆
   have ha_dim : Module.finrank E W = primaryMultiplicity (spEnd x) h := rfl
@@ -207,7 +207,7 @@ private theorem selfDual_multiplicity_two_le {m n p : ℕ} {K : Type} [Field K] 
     rw [hJeq]
     change D.map (proj m K) = ⊥
     rw [hDbot, Subgroup.map_bot]
-  haveI : Subsingleton ↥J := by rw [hJbot]; infer_instance
+  have : Subsingleton ↥J := by rw [hJbot]; infer_instance
   obtain ⟨j1, j2, hj⟩ := hJnt.exists_pair_ne
   exact hj (Subsingleton.elim j1 j2)
 
@@ -223,8 +223,8 @@ private theorem selfDual_small_block_false {m n p : ℕ} {K : Type} [Field K] [F
   classical
   let E := AdjoinRoot (h : K[X])
   let W := primaryComponent (spEnd x) (h : K[X])
-  letI : Finite E := H.hE.finite
-  letI : CharP E 2 := H.hE.charP
+  let : Finite E := H.hE.finite
+  let : CharP E 2 := H.hE.charP
   let A : Subgroup (StatedSp m K) := spSupported x ({h} : Set K[X])
   let D : Subgroup (StatedSp m K) := ⁅A, A⁆
   have hDF : D ≤ A := Subgroup.commutator_le_self A
@@ -287,8 +287,8 @@ private theorem selfDual_perfectData {m n p : ℕ} {K : Type} [Field K] [Finite 
   classical
   let E := AdjoinRoot (h : K[X])
   let W := primaryComponent (spEnd x) (h : K[X])
-  letI : Finite E := H.hE.finite
-  letI : CharP E 2 := H.hE.charP
+  let : Finite E := H.hE.finite
+  let : CharP E 2 := H.hE.charP
   let U := sesqUnitaryGroup H.Hf
   let SU := sesqSpecialUnitaryGroup H.Hf
   let θ : ↥SU →* ↥U := selfDualTheta H
@@ -432,10 +432,10 @@ private theorem selfDual_inner_of_dim_two {m n p : ℕ} {K : Type} [Field K] [Fi
     (hyp : y ^ p = 1) :
     MI.indAut p J (proj m K y) hN ∈
       CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Finite (AdjoinRoot (h : K[X])) := H.hE.finite
-  letI : CharP (AdjoinRoot (h : K[X])) 2 := H.hE.charP
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Finite (AdjoinRoot (h : K[X])) := H.hE.finite
+  let : CharP (AdjoinRoot (h : K[X])) 2 := H.hE.charP
   have hypN : (proj m K y) ^ p = 1 := by rw [← map_pow, hyp, map_one]
   exact indAut_mem_inner_of_sesqSUConj_two hp hp2 hqJ_open hpJ hN hypN H.hHf H.hHfl
     (by rw [ha_dim, hdim2]) (H.φ ⟨D.y_h, D.hy_h⟩) D.π' D.hπ'_surj D.hπ'_ker D.hconj
@@ -453,12 +453,12 @@ private theorem selfDual_catalog_unitary {m n p : ℕ} {K : Type} [Field K] [Fin
     (hqne : (primaryMultiplicity (spEnd x) h, 2 ^ (n * H.d)) ≠ (3, 2)) :
     catalogIs (PSimple p J) (onLie isUnitaryCharTwoIdx) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : CharP K 2 := hchar
+  let : Fact p.Prime := ⟨hp⟩
+  let : CharP K 2 := hchar
   let E := AdjoinRoot (h : K[X])
   let W := primaryComponent (spEnd x) (h : K[X])
-  letI : Finite E := H.hE.finite
-  letI : CharP E 2 := H.hE.charP
+  let : Finite E := H.hE.finite
+  let : CharP E 2 := H.hE.charP
   let A : Subgroup (StatedSp m K) := spSupported x ({h} : Set K[X])
   let Dsub : Subgroup (StatedSp m K) := ⁅A, A⁆
   have hcat : catalogIs (LargeEvenProj (unitarySU 2 (n * H.d) E
@@ -478,7 +478,7 @@ private theorem selfDual_catalog_unitary {m n p : ℕ} {K : Type} [Field K] [Fin
   open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.Bal209TwoInAux in
   have hOcore : GLAPPrimeCore p ↥Dsub ≤ Subgroup.center ↥Dsub :=
     pPrimeCore_le_center_of_quasisimple hqD hp hpD
-  haveI : Group.IsPerfect ↥Dsub := Group.isPerfect_def.mpr hqD.1
+  have : Group.IsPerfect ↥Dsub := Group.isPerfect_def.mpr hqD.1
   let e1 : PSimple p Dsub ≃* (↥Dsub ⧸ Subgroup.center ↥Dsub) :=
     (CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hOcore).symm
   let e2 : (↥Dsub ⧸ Subgroup.center ↥Dsub) ≃*
@@ -523,10 +523,10 @@ private theorem selfDual_innAutDerived {m n p : ℕ} {K : Type} [Field K] [Finit
     (hqJ_open : CFSG.Open.IsQuasisimple ↥J) (hpJ : p ∣ Nat.card J)
     (hyp : y ^ p = 1) :
     MI.indAut p J (proj m K y) hN ∈ innAutDerived (PSimple p J) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Finite (AdjoinRoot (h : K[X])) := H.hE.finite
-  letI : CharP (AdjoinRoot (h : K[X])) 2 := H.hE.charP
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Finite (AdjoinRoot (h : K[X])) := H.hE.finite
+  let : CharP (AdjoinRoot (h : K[X])) 2 := H.hE.charP
   have hypN : (proj m K y) ^ p = 1 := by rw [← map_pow, hyp, map_one]
   exact indAut_mem_innAutDerived_of_sesqSUConj hp hp2 hqJ_open hpJ hN hypN H.hHf H.hHfl
     D.hSUperf (H.φ ⟨D.y_h, D.hy_h⟩) D.π' D.hπ'_surj D.hπ'_ker D.hconj
@@ -535,20 +535,20 @@ theorem spSelfDualBlockAnalysis_holds : SpSelfDualBlockAnalysis := by
   intro m n p K _ _ hK hm hp hp2 x y hxp hyp hxy hx1 h hh h1 hsd hb J hJeq hqJ hN
   classical
   obtain S := selfDual_prelim hK hm hp hp2 x hxp hx1
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : CharP K 2 := S.hchar
-  letI : NeZero m := ⟨by omega⟩
-  letI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : CharP K 2 := S.hchar
+  let : NeZero m := ⟨by omega⟩
+  let : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_cases hpJ : p ∣ Nat.card J
   · have hqJ_open : CFSG.Open.IsQuasisimple ↥J :=
       (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open ↥J).mp hqJ
     have hJnt : Nontrivial ↥J := by
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hqJ_open.2.toNontrivial
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hqJ_open.2.toNontrivial
       exact Function.Surjective.nontrivial
         (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
     have hJnsolv : ¬ Group.IsSolvable ↥J := by
-      haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hqJ_open.1
+      have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hqJ_open.1
       exact Group.IsPerfect.not_isSolvable ↥J
     let H := selfDual_half S.hn1 hh hb
     have ha_dim : Module.finrank (AdjoinRoot (h : K[X]))
@@ -571,7 +571,7 @@ theorem spSelfDualBlockAnalysis_holds : SpSelfDualBlockAnalysis := by
           exact hsmall (Or.inr ⟨congrArg Prod.fst heq, congrArg Prod.snd heq⟩)
         exact Or.inl ⟨selfDual_catalog_unitary H D hJeq S.hproj S.hchar S.hm1 hp hqJ hpJ
           ha3 hqne, selfDual_innAutDerived H D hp hp2 hqJ_open hpJ hyp⟩
-  · haveI := subsingleton_pSimple_of_not_dvd hp hpJ
+  · have := subsingleton_pSimple_of_not_dvd hp hpJ
     exact Or.inr (Or.inr (mem_inner_of_subsingleton _))
 
 theorem sympComponentBlockAnalysis_holds : SympComponentBlockAnalysis :=

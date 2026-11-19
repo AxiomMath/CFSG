@@ -89,18 +89,21 @@ variable {α : Type} [Group α] [DecidableEq α] {K : Nat} {ofC : Nat → α} {m
   (hinj : ∀ m < K, ∀ n < K, ofC m = ofC n → m = n) (hone : ofC 0 = 1)
 include hmul hlt hinj hone
 
+omit hmul in
 theorem beq_one_eq {c : Nat} (hc : c < K) : (ofC c == 1) = Nat.beq c 0 := by
   have hK : 0 < K := by have := hlt 0 0; omega
   rw [Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq, ← hone]
   exact ⟨hinj c hc 0 hK, fun h => by rw [h]⟩
 
 theorem beq_mul_one {c d : Nat} : (ofC c * ofC d == 1) = Nat.beq (mul c d) 0 := by
-  rw [← hmul, beq_one_eq hmul hlt hinj hone (hlt c d)]
+  rw [← hmul, beq_one_eq hlt hinj hone (hlt c d)]
 
+omit hone in
 theorem commB_eq {g x : Nat} : ModZ.commB (ofC g) (ofC x) = commc mul g x := by
   rw [ModZ.commB, commc, ← hmul, ← hmul, Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq]
   exact ⟨hinj _ (hlt g x) _ (hlt x g), fun h => by rw [h]⟩
 
+omit [DecidableEq α] hlt hinj in
 theorem pow_eq (y e : Nat) : ofC (powC mul y e) = ofC y ^ e := by
   induction e with
   | zero => exact hone.trans (pow_zero _).symm
@@ -108,12 +111,14 @@ theorem pow_eq (y e : Nat) : ofC (powC mul y e) = ofC y ^ e := by
     change ofC (mul (powC mul y e) y) = _
     rw [hmul, ih, pow_succ]
 
+omit [DecidableEq α] hmul hinj hone in
 theorem powC_lt (y e : Nat) : powC mul y e < K := by
   cases e with
   | zero => have := hlt 0 0; change 0 < K; omega
   | succ e => exact hlt _ _
 
 omit hmul hlt hinj hone in
+omit [Group α] [DecidableEq α] in
 theorem length_filter (p : α → Bool) :
     (((List.range K).map ofC).filter p).length = cntN (fun g => p (ofC g)) K := by
   rw [cntN_eq, List.filter_map, List.length_map]
@@ -128,7 +133,7 @@ theorem checkE_of (hK : K % 128 = 0) (inE : α → Bool) (inEc : Nat → Bool)
   obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hy
   have hx := List.mem_range.1 hx
   have hS : (((List.range K).map ofC).map fun g => g * g).contains (ofC x) = tb SQ x := by
-    rw [Bool.eq_iff_iff, List.contains_iff, List.map_map, List.mem_map, tb_eq, hSQ,
+    rw [Bool.eq_iff_iff, _root_.List.contains_iff_mem, List.map_map, List.mem_map, tb_eq, hSQ,
       testBit_sqMask]
     constructor
     · rintro ⟨g, hg, he⟩
@@ -140,17 +145,17 @@ theorem checkE_of (hK : K % 128 = 0) (inE : α → Bool) (inEc : Nat → Bool)
   have hC : (((List.range K).map ofC).filter fun g => ModZ.commB g (ofC x)).length =
       cntN (fun g => commc mul g x) K := by
     rw [length_filter]
-    exact cntN_congr fun g _ => commB_eq hmul hlt hinj hone
+    exact cntN_congr fun g _ => commB_eq hmul hlt hinj
   have hd : ∀ a b : Nat, decide (a ≤ b) = Nat.ble a b := fun a b => by
     rw [Bool.eq_iff_iff, decide_eq_true_iff, Nat.ble_eq]
   have := h x hx
   rw [FE, cntB_K hK] at this
-  rw [hE x hx, beq_one_eq hmul hlt hinj hone hx, beq_mul_one hmul hlt hinj hone, hS, hC, hd]
+  rw [hE x hx, beq_one_eq hlt hinj hone hx, beq_mul_one hmul hlt hinj hone, hS, hC, hd]
   exact this
 
 theorem checkC_of (hK : K % 128 = 0) (code : α → Nat) (inM inA : α → Bool) (inMc inAc : Nat → Bool)
     (hM : ∀ x < K, inM (ofC x) = inMc x) (hA : ∀ x < K, inA (ofC x) = inAc x)
-    (tc N e : Nat) (htc : tc < K) (W : List (Nat × Nat × Nat × Nat)) (Rc : List Nat)
+    (tc N e : Nat) (_htc : tc < K) (W : List (Nat × Nat × Nat × Nat)) (Rc : List Nat)
     (hR : Rc = W.map Prod.fst) (h1 : allF1 mul K N e tc W = true) (wr wg wh : Nat → Nat)
     (h2 : ∀ x < K, F2 mul K inMc inAc Rc wr wg wh x = true) :
     ModZ.checkC ((List.range K).map ofC) code inM inA (ofC tc) N e (Rc.map ofC) = true := by
@@ -169,15 +174,15 @@ theorem checkC_of (hK : K % 128 = 0) (code : α → Nat) (inM inA : α → Bool)
     rw [Bool.or_eq_true, Bool.or_eq_true]
     rcases hF with (hF | ⟨⟨hy, hyr⟩, hye⟩) | ⟨⟨hg, hgh⟩, hgt⟩
     · refine Or.inl (Or.inl ?_)
-      rw [length_filter, cntN_congr fun g _ => commB_eq hmul hlt hinj hone]
+      rw [length_filter, cntN_congr fun g _ => commB_eq hmul hlt hinj]
       exact bne_iff_ne.2 (Nat.ne_of_beq_eq_false (by simpa using hF))
     · refine Or.inl (Or.inr (List.any_eq_true.2 ⟨ofC w.2.1, List.mem_filter.2
-        ⟨List.mem_map.2 ⟨w.2.1, List.mem_range.2 hy, rfl⟩, by rw [commB_eq hmul hlt hinj hone]; exact hyr⟩, ?_⟩))
-      rw [← pow_eq hmul hlt hinj hone, bne, beq_one_eq hmul hlt hinj hone (powC_lt hmul hlt hinj hone _ _)]
+        ⟨List.mem_map.2 ⟨w.2.1, List.mem_range.2 hy, rfl⟩, by rw [commB_eq hmul hlt hinj]; exact hyr⟩, ?_⟩))
+      rw [← pow_eq hmul hone, bne, beq_one_eq hlt hinj hone (powC_lt hlt _ _)]
       exact hye
     · refine Or.inr (List.any_eq_true.2 ⟨(ofC w.2.2.1, (ofC w.2.2.1)⁻¹),
         List.mem_map.2 ⟨ofC w.2.2.1, List.mem_map.2 ⟨w.2.2.1, List.mem_range.2 hg, rfl⟩, rfl⟩, ?_⟩)
-      rw [← hinv _ _ hgh, ← hmul, ← hmul, commB_eq hmul hlt hinj hone]
+      rw [← hinv _ _ hgh, ← hmul, ← hmul, commB_eq hmul hlt hinj]
       exact hgt
   · intro y hy
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hy
@@ -191,7 +196,7 @@ theorem checkC_of (hK : K % 128 = 0) (code : α → Nat) (inM inA : α → Bool)
     · refine Or.inr (List.any_eq_true.2 ⟨ModZ.conjCodes (((List.range K).map ofC).map
         fun g => (g, g⁻¹)) code (ofC (wr x)), List.mem_map.2 ⟨ofC (wr x),
         List.mem_map.2 ⟨wr x, memN_spec hr, rfl⟩, rfl⟩, ?_⟩)
-      rw [List.contains_iff, ModZ.conjCodes, List.mem_map]
+      rw [_root_.List.contains_iff_mem, ModZ.conjCodes, List.mem_map]
       refine ⟨(ofC (wg x), (ofC (wg x))⁻¹), List.mem_map.2 ⟨ofC (wg x),
         List.mem_map.2 ⟨wg x, List.mem_range.2 hg, rfl⟩, rfl⟩, ?_⟩
       rw [← hinv _ _ hgh, ← hmul, ← hmul, Nat.eq_of_beq_eq_true hc]

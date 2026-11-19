@@ -37,13 +37,13 @@ theorem conjQHom_inv (m : ↥M) (q : ↥Q) :
     conjQHom m (conjQHom m⁻¹ q) = q := by
   rw [conjQHom_apply, conjQHom_apply]
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_inv]
   group
 theorem conjQHom_inv' (m : ↥M) (q : ↥Q) :
     conjQHom m⁻¹ (conjQHom m q) = q := by
   rw [conjQHom_apply, conjQHom_apply]
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_inv]
   group
 @[expose] noncomputable def quotConjHom (m : ↥M) : QZ →* QZ :=
   QuotientGroup.map (Subgroup.center ↥Q) (Subgroup.center ↥Q) (conjQHom m) (by
@@ -55,7 +55,7 @@ theorem conjQHom_inv' (m : ↥M) (q : ↥Q) :
     intro g
     have h := congrArg Subtype.val (hx ⟨(m : J)⁻¹ * (g : J) * (m : J),
       AltQuot.conj_mem_Q_of_mem_M (M.inv_mem m.2) g.2⟩)
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h
+    simp only [Subgroup.coe_mul] at h
     apply Subtype.ext
     change (g : J) * ((m : J) * (x : J) * (m : J)⁻¹) =
       ((m : J) * (x : J) * (m : J)⁻¹) * (g : J)
@@ -921,7 +921,7 @@ theorem eq_qf_of_invariant (Q' : QuadraticForm (ZMod 2) V8)
           · exact absurd h hq
           · exact h
         rw [hval v]
-        simp [hv, hq, hb, hq1]
+        simp [hv, hb, hq1]
   · have hQ : ∀ v, Q' v = if v ≠ 0 ∧ qf v = 0 then (1 : ZMod 2) else 0 := by
       intro v
       rw [hval v]
@@ -1014,8 +1014,8 @@ theorem rho8pFun_right (σ : alternatingGroup (Fin 9)) (x : V8) :
     simp [rho8pLin, rho8pMap, rho8pFun, ext9_castSucc]
   map_mul' σ τ := by
     ext x i
-    simp only [rho8pLin, rho8pMap, rho8pFun, Equiv.Perm.mul_apply, Subgroup.coe_mul,
-      LinearEquiv.coe_mk, LinearMap.coe_mk, AddHom.coe_mk, Function.comp_apply]
+    simp only [rho8pLin, rho8pMap, rho8pFun, Subgroup.coe_mul,
+      LinearEquiv.coe_mk, LinearMap.coe_mk, AddHom.coe_mk]
     exact (congrFun (ext9_rho8p_fun τ x) ((σ : Equiv.Perm (Fin 9))⁻¹ (Fin.castSucc i))).symm
 theorem rho8p_apply (σ : alternatingGroup (Fin 9)) (x : V8) (i : Fin 8) :
     (rho8p σ x) i = ext9 x ((σ : Equiv.Perm (Fin 9))⁻¹ (Fin.castSucc i)) := rfl

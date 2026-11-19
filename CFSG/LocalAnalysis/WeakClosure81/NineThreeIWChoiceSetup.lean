@@ -47,7 +47,7 @@ theorem nine3_relIndex_of_mem_omega (hc : Nine3Choice V T A K S X p g x)
   exact hleft.trans hA
 
 theorem nine3_inf_S_X (hc : Nine3Choice V T A K S X p g x) : S ⊓ X = ⊥ := by
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   rw [inf_comm]
   exact (IsPGroup.disjoint_of_ne p 2 hc.core.hyp.base.odd X S
     hc.core.hyp.base.sylowP.isPGroup hc.core.hyp.base.sylowTwo.isPGroup).eq_bot
@@ -134,7 +134,7 @@ theorem nine3_c_mem_sup (hc : Nine3Choice V T A K S X p g x) {a x : G}
   exact hle hmem
 
 theorem nine3_c_pow_two_ne_one (hc : Nine3Choice V T A K S X p g x)
-    (hI : Nine3IFacts V K S) {a x : G} (ha : a ∈ A) (haR : a ∉ pCoreOf 2 K)
+    (_hI : Nine3IFacts V K S) {a x : G} (ha : a ∈ A) (haR : a ∉ pCoreOf 2 K)
     (hx : x ∈ X) (hx1 : x ≠ 1) :
     ∀ n : ℕ, (a * (x⁻¹ * a * x)) ^ 2 ^ n ≠ 1 := by
   intro n hn
@@ -204,8 +204,8 @@ theorem nine3_c_pow_two_ne_one (hc : Nine3Choice V T A K S X p g x)
 theorem nine3_exists_order_p (hc : Nine3Choice V T A K S X p g x)
     {c : G} (hcK : c ∈ K) (hnot : ∀ n : ℕ, c ^ 2 ^ n ≠ 1) :
     ∃ y : G, y ∈ Subgroup.zpowers c ∧ orderOf y = p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   obtain ⟨n, hnS⟩ := (IsPGroup.iff_card (p := 2) (G := ↥S)).mp
     hc.core.hyp.base.sylowTwo.isPGroup
   have hKcard : Nat.card K = Nat.card S * p := nine3_card_K hc

@@ -40,7 +40,7 @@ theorem exists_odd_subgroup_of_central [Finite Γ] {Y N : Subgroup Γ} (hNY : N 
   · intro y hy ho
     refine ⟨⟨y, hy⟩, MonoidHom.mem_ker.mpr ?_, rfl⟩
     have h1 : orderOf (τ ⟨y, hy⟩) ∣ orderOf (⟨y, hy⟩ : ↥Y) := orderOf_map_dvd τ _
-    obtain ⟨k, hk⟩ := P.isPGroup' (τ ⟨y, hy⟩)
+    obtain ⟨k, hk⟩ := P.isPGroup (τ ⟨y, hy⟩)
     have h2 : orderOf (τ ⟨y, hy⟩) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have ho' : Odd (orderOf (⟨y, hy⟩ : ↥Y)) := by rwa [Subgroup.orderOf_mk]
     have hcop : Nat.Coprime (2 ^ k) (orderOf (⟨y, hy⟩ : ↥Y)) :=

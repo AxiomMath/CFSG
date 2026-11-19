@@ -197,7 +197,7 @@ theorem exists_involution_cent_ge {K : Type} [Group K]
     ∃ u : K, u * u = 1 ∧ u ≠ 1 ∧ 48 ≤ Nat.card ↥(Subgroup.centralizer ({u} : Set K)) := by
   obtain ⟨e2⟩ := equiv_psl_P13
   let ε : K ≃* QP13.originalSubgroup := (e.trans slEquivPsl).trans e2
-  haveI : Finite K := Finite.of_equiv _ ε.symm.toEquiv
+  have : Finite K := Finite.of_equiv _ ε.symm.toEquiv
   let ua : QP13.originalSubgroup := ⟨pa, pa_mem⟩
   have hmem : ∀ i : Fin centPerms.length, centPerms.get i ∈ QP13.originalSubgroup := by
     intro i

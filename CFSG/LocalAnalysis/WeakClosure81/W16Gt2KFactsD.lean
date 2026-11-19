@@ -88,7 +88,7 @@ theorem kFacts_sp_config :
             (∀ x ∈ conjSubgroup A γ, ∀ y ∈ A ⊔ B, x * y = y * x) ∧
             τ ∈ Subgroup.normalizer (A : Set _) ∧ (∀ a ∈ A, τ * a = a * τ → a = 1) := by
   intro l n F _ _ hl hn hF A B hA hB hAt hBt hnc
-  haveI : CharP F 2 := charP_two_of_card_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_card_eq_two_pow hF
   obtain ⟨a, b, hab, hAa, hBb⟩ := kFacts_sp_hyperbolic_pair hF hn A B hA hB hAt hBt hnc
   have haa : spForm l F a a = 0 := (spForm_isAlt (r := l) (K := F)).self_eq_zero a
   have hba : spForm l F b a = 1 := by

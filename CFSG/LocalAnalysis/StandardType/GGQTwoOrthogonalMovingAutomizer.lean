@@ -86,7 +86,7 @@ theorem exists_four_moving_pieces
     ∃ i : Fin 4 → Fin n, Function.Injective i ∧
       ∀ j, Δ.F.U (i j) ≤ orbitSpace (Δ.τ f₀).toLinearMap (X ^ 2 + X + 1) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx := Δ.oddOrderIsometry (by decide) hQ hEΩ f₀
   have hX : (X ^ 2 + X + 1 : K[X]) ≠ X - 1 :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.phi_ne
@@ -122,9 +122,9 @@ theorem four_dvd_moving_of_data
     4 ∣ Nat.card (ggAutomizer
       (specialBlock Q (Δ.τ f₀) (X ^ 2 + X + 1) ⊓ orthDerived Q) E) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite V := Module.finite_of_finite K
-  letI : Finite (V ≃ₗ[K] V) :=
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Finite V := Module.finite_of_finite K
+  let : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
   have hX : (X ^ 2 + X + 1 : K[X]) ≠ X - 1 :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.phi_ne

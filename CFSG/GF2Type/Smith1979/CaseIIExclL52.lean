@@ -65,7 +65,7 @@ theorem commutator_mem_zpowers_of_fixed {H : Type*} [Group H] [Finite H] (σ : M
       map_mul' := fun a b =>
         Subtype.ext (show σ ((a : H) * b) = σ (a : H) * σ (b : H) from map_mul σ (a : H) (b : H)) }
   let Z : Subgroup C := (zpowers y).subgroupOf C
-  haveI : Z.Normal := ⟨fun n hn g => by
+  have : Z.Normal := ⟨fun n hn g => by
     obtain ⟨k, hk⟩ := mem_zpowers_iff.1 (Subgroup.mem_subgroupOf.1 hn)
     have hg : Commute (g : H) y := (hmemC g).1 g.2
     have hgn : Commute (g : H) (n : H) := by
@@ -124,7 +124,7 @@ theorem nonempty_mulEquiv_gl_of_psl_two {n : ℕ} {X : Type} [Group X]
     Nonempty (X ≃* GL (Fin n) (ZMod 2)) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hX
   have hK2 : Nat.card K = 2 := by simpa using hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let f : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq
     (by rw [← Nat.card_eq_fintype_card, hK2, ZMod.card])
   have h1 := CFSG.Open.StatedAPI.statedScalars_eq_bot_of_card_two hK2 (Fin n)
@@ -137,7 +137,7 @@ theorem nonempty_mulEquiv_gl_of_psl_two {n : ℕ} {X : Type} [Group X]
 theorem false_of_gl52_fix_seven (σ : MulAut (GL (Fin 5) (ZMod 2))) (hσ : σ * σ = 1)
     {y : GL (Fin 5) (ZMod 2)} (hy : orderOf y = 7) (hσy : σ y = y)
     (hC : ∀ x : GL (Fin 5) (ZMod 2), σ x = x → x * y = y * x → x ∈ zpowers y) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨Q, hQ⟩ := CFSG.GroupTheory.GL52.exists_sylow_eq_of_card (H := zpowers y)
     (by rw [Nat.card_zpowers, hy]) CFSG.GroupTheory.GL52.syl7_card_sylow
   obtain ⟨-, X, Y, ⟨hXY, hinf, hcomm⟩, ⟨eX⟩, -, -⟩ := CFSG.GroupTheory.GL52.syl7_structure Q

@@ -99,7 +99,7 @@ theorem isElemAbelian_range_f2BlockHom (m : ℕ) :
 theorem card_range_f2BlockHom (m : ℕ) :
     Nat.card ↥(f2BlockHom (F := F) m).range = 3 ^ 3 := by
   rw [← Nat.card_congr (MonoidHom.ofInjective (f2BlockHom_injective m)).toEquiv]
-  simp [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+  simp
 
 theorem three_le_pRank_range_f2BlockHom [Finite F] (m : ℕ) :
     3 ≤ CFSG.Open.pRank 3 (f2BlockHom (F := F) m).range :=

@@ -39,6 +39,7 @@ namespace MinCex
 variable (hc : MinCex M V Q P H)
 include hc
 
+omit [Finite G] hc in
 theorem x1Of_le_xOf {d : G} (hd : d ∈ V) : x1Of V H d ≤ xOf V H := by
   have hVΩ : V ∈ omegaOf V H := ⟨1, H.one_mem, (conjSubgroup_one V).symm⟩
   refine (Subgroup.closure_le _).2 ?_
@@ -46,10 +47,12 @@ theorem x1Of_le_xOf {d : G} (hd : d ∈ V) : x1Of V H d ≤ xOf V H := by
   · exact (xOf V H).mul_mem ((xOf V H).mul_mem hx (le_xOf hVΩ hd)) ((xOf V H).inv_mem hx)
   · exact wOf_le_xOf V H hy
 
+omit [Finite G] hc in
 theorem wOf_le_x1Of (d : G) : wOf V H ≤ x1Of V H d := fun _ hw =>
   Subgroup.subset_closure (Or.inr hw)
 
-theorem self_mem_x1Of {d : G} (hd : d ∈ V) : d ∈ x1Of V H d :=
+omit [Finite G] hc in
+theorem self_mem_x1Of {d : G} (_hd : d ∈ V) : d ∈ x1Of V H d :=
   Subgroup.subset_closure (Or.inl ⟨1, (xOf V H).one_mem, by group⟩)
 
 theorem xOf_le_normalizer_x1Of {d : G} (_hd : d ∈ V) :
@@ -60,6 +63,7 @@ theorem xOf_le_normalizer_x1Of {d : G} (_hd : d ∈ V) :
   · exact Subgroup.subset_closure (Or.inr
       ((Subgroup.mem_normalizer_iff.mp (H_le_normalizer_wOf V H (xOf_le_H hc.V_le_H hk)) s).mp hs))
 
+omit [Finite G] in
 theorem P_le_normalizer_x1Of {d : G} (hd : d ∈ V) :
     P ≤ Subgroup.normalizer (x1Of V H d : Set G) := by
   refine le_normalizer_closure ?_
@@ -81,14 +85,14 @@ theorem x1Of_sup_P_eq_H {d : G} (hdV : d ∈ V) (hdW : d ∉ wOf V H) :
     x1Of V H d ⊔ P = H := by
   set X₁ := x1Of V H d with hX₁
   have hPN : P ≤ Subgroup.normalizer (X₁ : Set G) := hc.P_le_normalizer_x1Of hdV
-  have hX₁H : X₁ ≤ H := (hc.x1Of_le_xOf hdV).trans (xOf_le_H hc.V_le_H)
+  have hX₁H : X₁ ≤ H := (MinCex.x1Of_le_xOf hdV).trans (xOf_le_H hc.V_le_H)
   have hKH : X₁ ⊔ P ≤ H := sup_le hX₁H hc.PleH
   by_contra hne
   have hlt : X₁ ⊔ P < H := lt_of_le_of_ne hKH hne
   have hKnorm : X₁ ⊔ P ≤ Subgroup.normalizer (wOf V H : Set G) := fun k hk =>
     H_le_normalizer_wOf V H (hKH hk)
   have hWK : wOf V H ≤ inSubgroup (pCore 2) (X₁ ⊔ P) :=
-    Tim78.le_inSubgroup_pCore (hc.wOf_le_x1Of d |>.trans le_sup_left) hKnorm
+    Tim78.le_inSubgroup_pCore (MinCex.wOf_le_x1Of d |>.trans le_sup_left) hKnorm
       (CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian hc.wOf_isElemAbelian)
   have hO : inSubgroup (pCore 2) (X₁ ⊔ P) ≠ ⊥ := by
     intro hbot
@@ -108,21 +112,21 @@ theorem x1Of_sup_P_eq_H {d : G} (hdV : d ∈ V) (hdW : d ∉ wOf V H) :
       (Subgroup.le_normalizer hk)
   have hTO : inSubgroup (pCore 2) (X₁ ⊔ P) ⊓ X₁ ≤ inSubgroup (pCore 2) X₁ :=
     Tim78.le_inSubgroup_pCore inf_le_right hTn hT2
-  have hX₁X : X₁ ≤ xOf V H := hc.x1Of_le_xOf hdV
+  have hX₁X : X₁ ≤ xOf V H := MinCex.x1Of_le_xOf hdV
   have hOX : inSubgroup (pCore 2) X₁ ≤ inSubgroup (pCore 2) (xOf V H) :=
     CFSG.RankThreeEvenClassification.Helpers.pCoreOf_le_pCoreOf_of_normal 2 X₁ (xOf V H) hX₁X
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hX₁X).2 (hc.xOf_le_normalizer_x1Of hdV))
   have hdO : d ∈ inSubgroup (pCore 2) H :=
-    hc.pCore_xOf_le_pCore (hOX (hTO ⟨hdK, hc.self_mem_x1Of hdV⟩))
+    hc.pCore_xOf_le_pCore (hOX (hTO ⟨hdK, MinCex.self_mem_x1Of hdV⟩))
   have : d ∈ V ⊓ wOf V H := by
-    rw [hc.V_inf_wOf_eq]; exact ⟨hdV, hdO⟩
+    rw [CFSG.RankThree.GF2n.Tim79a.MinCex.V_inf_wOf_eq]; exact ⟨hdV, hdO⟩
   exact hdW this.2
 
 theorem xOf_sup_P_eq_H : xOf V H ⊔ P = H := by
-  obtain ⟨d, hdV, hdW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨d, hdV, hdW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   refine le_antisymm (sup_le (xOf_le_H hc.V_le_H) hc.PleH) ?_
   calc H = x1Of V H d ⊔ P := (hc.x1Of_sup_P_eq_H hdV hdW).symm
-    _ ≤ xOf V H ⊔ P := sup_le_sup_right (hc.x1Of_le_xOf hdV) P
+    _ ≤ xOf V H ⊔ P := sup_le_sup_right (MinCex.x1Of_le_xOf hdV) P
 
 theorem exists_conj_xOf {h : G} (hh : h ∈ H) :
     ∃ x ∈ xOf V H, conjSubgroup h V = conjSubgroup x V := by

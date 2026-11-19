@@ -20,15 +20,18 @@ private noncomputable def coordAut (e : W ≃* Multiplicative (ι → K)) (s : M
   right_inv v := by simp
   map_add' v w := by simp only [ofAdd_add, map_mul, toAdd_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 @[simp] private theorem coordAut_apply (e : W ≃* Multiplicative (ι → K)) (s : MulAut W)
     (v : ι → K) :
     coordAut e s v = Multiplicative.toAdd (e (s (e.symm (Multiplicative.ofAdd v)))) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem coordAut_apply_toAdd (e : W ≃* Multiplicative (ι → K)) (s : MulAut W)
     (w : W) :
     coordAut e s (Multiplicative.toAdd (e w)) = Multiplicative.toAdd (e (s w)) := by
   simp
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem coordAut_apply_toAdd_ne {e : W ≃* Multiplicative (ι → K)}
     {s : MulAut W} {w : W} (hw : s w ≠ w) :
     coordAut e s (Multiplicative.toAdd (e w)) ≠ Multiplicative.toAdd (e w) := by
@@ -67,7 +70,7 @@ private theorem coordAut_normalizes {Γ : Subgroup (GL ι K)} {H : Subgroup (Mul
   refine ⟨(γ' : GL ι K), γ'.2, fun v => ?_⟩
   set y : W := e.symm (Multiplicative.ofAdd v) with hy
   have hσv : coordAut e s v = Multiplicative.toAdd (e (s y)) := by
-    simpa [y] using coordAut_apply_toAdd e s y
+    simp [y]
   have h2 : Multiplicative.toAdd (e (((π γ' : ↥H) : MulAut W) y)) =
       ((γ' : GL ι K) : Matrix ι ι K) *ᵥ v := by
     have h2' := he γ' y
@@ -82,6 +85,7 @@ private theorem coordAut_normalizes {Γ : Subgroup (GL ι K)} {H : Subgroup (Mul
         rw [coordAut_apply_toAdd]
     _ = coordAut e s (((γ' : GL ι K) : Matrix ι ι K) *ᵥ v) := by rw [h2]
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem fixV_zpowers_eq_comap {e : W ≃* Multiplicative (ι → K)} {s : MulAut W}
     {C : AddSubgroup (ι → K)} (hC : ∀ v, v ∈ C ↔ coordAut e s v = v) :
     fixV (Subgroup.zpowers s) = (AddSubgroup.toSubgroup C).comap e.toMonoidHom := by
@@ -105,6 +109,7 @@ private theorem fixV_zpowers_eq_comap {e : W ≃* Multiplicative (ι → K)} {s 
     have hx' := hle hx
     rwa [MulAction.mem_stabilizer_iff, MulAut.smul_def] at hx'
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem index_fixV_zpowers {e : W ≃* Multiplicative (ι → K)} {s : MulAut W}
     {C : AddSubgroup (ι → K)} (hC : ∀ v, v ∈ C ↔ coordAut e s v = v) :
     (fixV (Subgroup.zpowers s)).index = C.index := by
@@ -118,7 +123,7 @@ theorem le_rkIdx_of_realizes [Finite W] [Finite K] {Γ : Subgroup (GL ι K)}
     (hK : Nat.card K = 2 ^ k) {s : MulAut W} (hs : s ∈ Subgroup.normalizer (H : Set (MulAut W)))
     (hs1 : s ≠ 1) : k ≤ rkIdx (fixV (Subgroup.zpowers s)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨π, e, he⟩ := KTabC.exists_natEquiv hreal
   obtain ⟨w, hw⟩ : ∃ w : W, s w ≠ w := by
     by_contra h

@@ -24,7 +24,7 @@ private lemma commutator_mem_Q (h : FpfSetting P Q ρ) {a b : G} (ha : a ∈ P) 
     a * b * a⁻¹ * b⁻¹ ∈ Q := by
   classical
   let H : Subgroup ↥P := Q.subgroupOf P
-  haveI : H.Normal := normal_subgroupOf h
+  have : H.Normal := normal_subgroupOf h
   have hβ : ∀ z : ↥P ⧸ H, z ^ 2 = 1 := by
     intro z
     obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective (N := H) z
@@ -49,12 +49,14 @@ private lemma commutator_mem_Q (h : FpfSetting P Q ρ) {a b : G} (ha : a ∈ P) 
   have hmem : u ∈ H := (QuotientGroup.eq_one_iff u).mp htu
   rwa [Subgroup.mem_subgroupOf] at hmem
 
+omit [Finite G] in
 private lemma rho2_inv_eq (h : FpfSetting P Q ρ) : (ρ ^ 2)⁻¹ = ρ := by
   have hs3 : ρ * ρ * ρ = 1 := by simpa [pow_succ] using h.rho3
   rw [pow_two]
   exact inv_eq_of_mul_eq_one_right (by simpa [mul_assoc] using hs3)
 
-private lemma mul_coset_comm (h : FpfSetting P Q ρ) {c x q : G} (hx : x ∈ P) (hq : q ∈ Q)
+omit [Finite G] in
+private lemma mul_coset_comm (h : FpfSetting P Q ρ) {c x q : G} (_hx : x ∈ P) (hq : q ∈ Q)
     (hc : c ∈ P) (hcx : c * x = x * c) : c * (x * q) = (x * q) * c := by
   calc c * (x * q) = (c * x) * q := by group
     _ = (x * c) * q := by rw [hcx]
@@ -62,8 +64,9 @@ private lemma mul_coset_comm (h : FpfSetting P Q ρ) {c x q : G} (hx : x ∈ P) 
     _ = x * (q * c) := by rw [h.cen c hc q hq]
     _ = (x * q) * c := by group
 
+omit [Finite G] in
 private lemma commutator_mul_central (h : FpfSetting P Q ρ) {b z q : G}
-    (hb : b ∈ P) (hz : z ∈ P) (hq : q ∈ Q) :
+    (hb : b ∈ P) (_hz : z ∈ P) (hq : q ∈ Q) :
     b * (z * q) * b⁻¹ * (z * q)⁻¹ = b * z * b⁻¹ * z⁻¹ := by
   have hqb : q * b⁻¹ = b⁻¹ * q := (h.cen b⁻¹ (P.inv_mem hb) q hq).symm
   calc b * (z * q) * b⁻¹ * (z * q)⁻¹
@@ -174,11 +177,13 @@ theorem FpfSetting.comm (h : FpfSetting P Q ρ) : ∀ a ∈ P, ∀ b ∈ P, a * 
       ⟨(ρ ^ 2 * a * (ρ ^ 2)⁻¹)⁻¹ * b, hcase, by group⟩
     exact mul_coset_comm h (rho2_normalizes_P h a ha) hqQ ha (comm_rho2_self h ha haQ)
 
+omit [Finite G] in
 private lemma gconj_cancel {g a : G} (hg2 : g * g = 1) : g * (g * a * g⁻¹) * g⁻¹ = a := by
   have heq : g * (g * a * g⁻¹) * g⁻¹ = (g * g) * a * (g * g)⁻¹ := by group
   rw [heq, hg2]
   group
 
+omit [Finite G] in
 private lemma gconj_rho {g ρ t : G} (hg : g * ρ = ρ * g) :
     g * (ρ * t * ρ⁻¹) * g⁻¹ = ρ * (g * t * g⁻¹) * ρ⁻¹ := by
   have hginv : ρ⁻¹ * g⁻¹ = g⁻¹ * ρ⁻¹ := by rw [← mul_inv_rev, hg, mul_inv_rev]
@@ -188,6 +193,7 @@ private lemma gconj_rho {g ρ t : G} (hg : g * ρ = ρ * g) :
     _ = ρ * g * t * (g⁻¹ * ρ⁻¹) := by rw [hginv]
     _ = ρ * (g * t * g⁻¹) * ρ⁻¹ := by group
 
+omit [Finite G] in
 private lemma gconj_rho2 {g ρ t : G} (hg : g * ρ = ρ * g) :
     g * (ρ * (ρ * t * ρ⁻¹) * ρ⁻¹) * g⁻¹ = ρ * (ρ * (g * t * g⁻¹) * ρ⁻¹) * ρ⁻¹ := by
   have h1 := gconj_rho (g := g) (ρ := ρ) (t := ρ * t * ρ⁻¹) hg
@@ -280,8 +286,8 @@ theorem FpfSetting.sup_eq (h : FpfSetting P Q ρ) {C : Subgroup G} (hCP : C ≤ 
   by_cases hCQ : C ≤ Q
   · exact Or.inl hCQ
   · right
-    rw [SetLike.le_def] at hCQ
-    push_neg at hCQ
+    rw [_root_.IsConcreteLE.le_iff] at hCQ
+    push Not at hCQ
     obtain ⟨c, hcC, hcQ⟩ := hCQ
     have hcP : c ∈ P := hCP hcC
     intro x hx

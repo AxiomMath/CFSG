@@ -101,7 +101,7 @@ theorem uniR_noncube_rank {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ} 
   subst hq
   have h : UnitaryFieldData 2 f K :=
     CFSG.AGLEmbedding.ToralCensus.unitaryFieldData_of_card_eq_sq hK hf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnc' : ∀ s : Kˣ, s ^ 3 ≠ c := by
     intro s hs
     have hs3 : (s : K) ^ 3 = (c : K) := by

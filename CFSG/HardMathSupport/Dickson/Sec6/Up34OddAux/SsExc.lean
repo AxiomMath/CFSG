@@ -99,7 +99,7 @@ theorem noL34Layer_exc_inner_untw_of {τ : Tag}
     have := natCast_ne_zero_algebraicClosure Nat.prime_two h2K
     simpa using this
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
-  haveI : Finite ↥(adjointGroup τ K) := inferInstance
+  have : Finite ↥(adjointGroup τ K) := inferInstance
   refine noL34Layer_of_langSetup S Nat.prime_three ι hinj hrange β hconj hT hap h1
     (langSetup_hTame S hT hap h1) ?_
   intro i hq
@@ -139,7 +139,7 @@ theorem ssexc_noL34_inn_adjoint {τ : Tag}
       rw [Subgroup.mem_center_iff]
       intro g
       have := DFunLike.congr_fun h1 g
-      simp only [MulAut.conj_apply, MulAut.one_apply, inv_one, mul_one, one_mul] at this
+      simp only [MulAut.conj_apply, inv_one, mul_one, one_mul] at this
       calc g * x ^ 3 = x ^ 3 * g * (x ^ 3)⁻¹ * x ^ 3 := by rw [this]
         _ = x ^ 3 * g := by group
     rwa [hZ, Subgroup.mem_bot] at h2
@@ -172,7 +172,7 @@ theorem noL34InnAt_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInpu
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .G2 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -212,7 +212,7 @@ theorem noL34InnAt_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInpu
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .F4 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -248,7 +248,7 @@ theorem noL34InnAt_e6 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInpu
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E6 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -284,7 +284,7 @@ theorem noL34InnAt_e7 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInpu
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E7 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -320,7 +320,7 @@ theorem noL34InnAt_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInpu
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E8 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -353,7 +353,7 @@ section E6Diag
 theorem up34DiagE6_holds_of (hTwoD : SsExcTwoD Tag.E6) (hExc : SsExcExc Tag.E6) :
     Up34DiagE6 := by
   intro ℓ f hℓ h5 hf K _ _ hK x hx3 hxinn hxd
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     exact (by omega : 4 ≤ ℓ).trans (Nat.le_self_pow (by omega) ℓ)

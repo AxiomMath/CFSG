@@ -36,6 +36,7 @@ private theorem timti_map_conj75 {G H : Type*} [Group G] [Group H] (π : G →* 
   simp only [CFSG.CGT.Timmesfeld75.conjSubgroup] at h ⊢
   exact h
 
+omit [Finite X] in
 private theorem timti_isPGroup_of_elemAbelian (h : Hyp X S) : IsPGroup 2 ↥S := by
   rw [isPGroup_iff_orderOf_dvd_pow]
   intro x
@@ -67,12 +68,13 @@ theorem card_map_center (h : Hyp X S) :
   have hc' : (y : X) = (x : X) := by simpa using hc
   exact hc'.symm
 
+omit [Finite X] in
 theorem isElemAbelian_map_center (h : Hyp X S) :
     IsElemAbelian 2 (S.map (QuotientGroup.mk' (Subgroup.center X))) := by
   let π : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
   change IsElemAbelian 2 (S.map π)
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative ↥S := h.elem.1
+  · have : IsMulCommutative ↥S := h.elem.1
     infer_instance
   · rintro x ⟨s, hs, rfl⟩
     rw [← map_pow, h.elem.2 s hs, map_one]
@@ -147,7 +149,8 @@ theorem isTI_map_center (h : Hyp X S) :
     exact inf_eq_left.mpr
       ((Subgroup.map_mono hle).trans_eq (timti_map_conj75 π S g₀).symm)
 
-theorem mem_image_dSet_of_mem_map (h : Hyp X S) {a : X ⧸ Subgroup.center X}
+omit [Finite X] in
+theorem mem_image_dSet_of_mem_map (_h : Hyp X S) {a : X ⧸ Subgroup.center X}
     (ha : a ∈ S.map (QuotientGroup.mk' (Subgroup.center X))) (ha1 : a ≠ 1) :
     a ∈ QuotientGroup.mk' (Subgroup.center X) '' dSet S := by
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp ha
@@ -191,7 +194,7 @@ theorem isRootInvolutionSet_image (h : Hyp X S) :
 
 theorem eq_bot_of_normal_isSolvable_quot (h : Hyp X S) (N : Subgroup (X ⧸ Subgroup.center X))
     (hN : N.Normal) (hs : Group.IsSolvable N) : N = ⊥ := by
-  haveI := hN
+  have := hN
   exact CFSG.Timmesfeld.solvable_normal_eq_bot_quotient_center h.le_center_of_isSolvable N hs
 
 private theorem timti_isPGroup_sup_conj (h : Hyp X S) (g₀ : X)
@@ -206,7 +209,7 @@ private theorem timti_isPGroup_sup_conj (h : Hyp X S) (g₀ : X)
     show (S ⊔ conjSubgroup S g₀).map π = _
     rw [Subgroup.map_sup, timti_map_conj π S g₀]
   have h2' : IsPGroup 2 ↥(H.map π) := hHmap ▸ h2
-  haveI : Group.IsNilpotent ↥((π.domRestrict H).range) := by
+  have : Group.IsNilpotent ↥((π.domRestrict H).range) := by
     rw [MonoidHom.domRestrict_range]
     exact IsPGroup.isNilpotent h2'
   have hker : (π.domRestrict H).ker ≤ Subgroup.center H := by
@@ -218,7 +221,7 @@ private theorem timti_isPGroup_sup_conj (h : Hyp X S) (g₀ : X)
       have hz' : (z : X) ∈ Subgroup.center X := Subgroup.mem_subgroupOf.mp hz
       have := Subgroup.mem_center_iff.mp hz' (y : X)
       simpa using this)
-  haveI : Group.IsNilpotent H :=
+  have : Group.IsNilpotent H :=
     Subgroup.isNilpotent_of_ker_le_center ((π.domRestrict H).rangeRestrict) (by
       rw [MonoidHom.ker_rangeRestrict]
       exact hker)
@@ -231,7 +234,7 @@ private theorem timti_isPGroup_sup_conj (h : Hyp X S) (g₀ : X)
     rw [← Subgroup.comap_subtype (conjSubgroup S g₀) H]
     exact hC2.comap_subtype
   obtain ⟨P₁, hP₁⟩ := hSsub.exists_le_sylow
-  haveI : Unique (Sylow 2 H) := Sylow.unique_of_normal P₁ inferInstance
+  have : Unique (Sylow 2 H) := Sylow.unique_of_normal P₁ inferInstance
   obtain ⟨P₂, hP₂⟩ := hCsub.exists_le_sylow
   have hP₂eq : P₂ = P₁ := Subsingleton.elim P₂ P₁
   have hCsub_le : (conjSubgroup S g₀).subgroupOf H ≤ (P₁ : Subgroup H) := by
@@ -248,7 +251,7 @@ private theorem timti_isPGroup_sup_conj (h : Hyp X S) (g₀ : X)
       exact hCsub_le (Subgroup.mem_subgroupOf.mpr hy)
   change IsPGroup 2 ↥H
   rw [← hPeq]
-  exact P₁.isPGroup'.map H.subtype
+  exact P₁.isPGroup.map H.subtype
 
 theorem pair_map_center (h : Hyp X S) (g : X ⧸ Subgroup.center X)
     (h2 : IsPGroup 2 ↥(S.map (QuotientGroup.mk' (Subgroup.center X)) ⊔
@@ -276,7 +279,7 @@ theorem isWeaklyClosedIn_of_isWC (h : Hyp X S)
   change CFSG.CGT.Timmesfeld75.IsWC (S.map π) at hwc
   intro g hg
   have h2 : IsPGroup 2 ↥(S ⊔ conjSubgroup S g) :=
-    T.isPGroup'.to_le (sup_le hST hg)
+    T.isPGroup.to_le (sup_le hST hg)
   obtain ⟨s, hs, -, -, hs1, -, -⟩ := h.exists_ne_ne_one
   have hsD : s ∈ dSet S := mem_dSet_of_mem hs hs1
   have hsZ : s ∉ Subgroup.center X := h.not_mem_center hsD
@@ -292,7 +295,7 @@ theorem isWeaklyClosedIn_of_isWC (h : Hyp X S)
     subst hw
     have hy_eq : y = π (g⁻¹ * s' * g) := by
       rw [← hay]
-      simp [MulAut.conj_apply]
+      simp
     rw [hy_eq]
     have hs'g : g⁻¹ * s' * g ∈ conjSubgroup S g := by
       rw [mem_conjSubgroup_iff]

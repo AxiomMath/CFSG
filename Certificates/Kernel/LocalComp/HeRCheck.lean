@@ -58,7 +58,6 @@ theorem kK4 : heRK4 HeRC.S HeRC.SI (fun j => heRChainWords[j]!) = true := by
       heRChainWords[2 + j]! (HeRC.S (2 + j))) = true := by
     rw [CFSG.KS.Raw.Orb.allN_iff]
     intro j hj
-    beta_reduce
     rw [hD j hj]
     exact CFSG.KS.Raw.Orb.wordEqK_of_headK HeRC.head (Nat.le_add_right 2 j)
       (by omega : 2 + j < 9)

@@ -51,7 +51,7 @@ private theorem iform_single_left_free
     iform (Pi.single i 1) y = τ.symmetrizer i i * ∑ j, τ.cartan i j * y j := by
   simp only [iform, Pi.single_apply, ite_mul, one_mul, zero_mul]
   rw [Finset.sum_eq_single i (fun b _ hb => by simp [hb]) (by simp)]
-  simp only [if_true, Finset.mul_sum]
+  simp only [ite_true, Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [symmetrizedCartan_apply_free]
   ring

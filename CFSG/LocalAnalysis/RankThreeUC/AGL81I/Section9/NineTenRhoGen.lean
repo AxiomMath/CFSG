@@ -19,8 +19,8 @@ theorem isPSLType_oPPrimeHull_quotKer_of_centralizer_le (h : NineSettingGen G M 
     (hC : ((Subgroup.centralizer (CFSG.pCore 3 (StarGroup 3 H) : Set (StarGroup 3 H))).comap
       (QuotientGroup.mk' (primeComplementCore (G := ↥H) 3))).map H.subtype ≤ M) :
     IsPSLType 2 (ZMod 3) ↥(oPPrimeHull 3 (⊤ : Subgroup (QuotKer M H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 (StarGroup 3 H)).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 (StarGroup 3 H)).Normal := CFSG.pCore_normal
   obtain ⟨ρ, hρ⟩ := exists_hom_GL23_of_pRank_le_two (CFSG.pCore 3 (StarGroup 3 H))
     CFSG.pCore_isPGroup hR
   let ν : ↥H →* StarGroup 3 H := QuotientGroup.mk' (primeComplementCore (G := ↥H) 3)
@@ -32,7 +32,7 @@ theorem isPSLType_oPPrimeHull_quotKer_of_centralizer_le (h : NineSettingGen G M 
   have hCf_normal : Cf.Normal :=
     Subgroup.Normal.comap
       (Subgroup.normal_centralizer (H := CFSG.pCore 3 (StarGroup 3 H))) ν
-  haveI : Cf.Normal := hCf_normal
+  have : Cf.Normal := hCf_normal
   have hCfK : Cf ≤ (M ⊓ H).subgroupOf H := by
     intro x hx
     rw [Subgroup.mem_subgroupOf]

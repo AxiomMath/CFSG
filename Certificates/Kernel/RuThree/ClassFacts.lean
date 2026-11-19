@@ -49,9 +49,9 @@ theorem card_filter_range (p : ℕ → Bool) :
       omega
     rw [hr, Finset.filter_insert, List.range_succ, List.countP_append, ← card_filter_range p m]
     by_cases hp : p m = true
-    · rw [if_pos hp, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left hp, Finset.card_insert_of_notMem (by simp)]
       simp [hp]
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       simp [hp]
 
 
@@ -117,13 +117,12 @@ theorem count_le {g i r : ℕ} (hg : g < 2160) (hi : i < 2160) (hr : r < 2160)
     exact ⟨j', hj', (c_rep hj').unique hrep⟩
   let φ : ℕ → ℕ := fun j => if hj : j < 2160 then Classical.choose (hex j hj) else 0
   have hφ : ∀ j (hj : j < 2160), φ j < 2160 ∧ T (φ j) = T g * T j * (T g)⁻¹ := fun j hj => by
-    simp only [φ, dif_pos hj]
+    simp only [φ, dite_eq_left hj]
     exact Classical.choose_spec (hex j hj)
   have hTr : T r = T g * T i * (T g)⁻¹ := by rw [h, mul_inv_cancel_right]
   apply Finset.card_le_card_of_injOn φ
   · intro j hj
-    simp only [Finset.coe_filter, Finset.mem_filter, Finset.mem_range, Set.mem_setOf_eq,
-      Finset.mem_coe] at hj ⊢
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hj ⊢
     obtain ⟨hj1, hc⟩ := hj
     refine ⟨(hφ j hj1).1, ?_⟩
     rw [(hφ j hj1).2, hTr]
@@ -131,8 +130,7 @@ theorem count_le {g i r : ℕ} (hg : g < 2160) (hi : i < 2160) (hr : r < 2160)
       _ = T g * (T i * T j) * (T g)⁻¹ := by rw [hc]
       _ = T g * T i * (T g)⁻¹ * (T g * T j * (T g)⁻¹) := by group
   · intro a ha b hb e
-    simp only [Finset.coe_filter, Finset.mem_filter, Finset.mem_range, Set.mem_setOf_eq,
-      Finset.mem_coe] at ha hb
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha hb
     have e' := congrArg T e
     rw [(hφ a ha.1).2, (hφ b hb.1).2] at e'
     exact T_inj ha.1 hb.1 (by simpa using e')

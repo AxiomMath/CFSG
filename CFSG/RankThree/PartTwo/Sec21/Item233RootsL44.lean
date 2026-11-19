@@ -71,7 +71,7 @@ theorem monomial_of_normalizes (g : M)
   choose w hw using hg
   have hrow : ∀ i : Fin 4, ∃ j, (g : Matrix (Fin 4) (Fin 4) F4) i j ≠ 0 := fun i => by
     by_contra h
-    push_neg at h
+    push Not at h
     have hd := g.2
     rw [Matrix.det_eq_zero_of_row_eq_zero i h] at hd
     exact zero_ne_one hd
@@ -135,11 +135,11 @@ theorem permAut_conj (σ τ : Equiv.Perm (Fin 4)) :
 theorem permMat_mul (σ : Equiv.Perm (Fin 4)) (g : Matrix (Fin 4) (Fin 4) F4) :
     permMat σ * g = g.submatrix σ σ * permMat σ := by
   ext i j
-  simp [permMat, Matrix.mul_apply, Matrix.one_apply, Equiv.apply_eq_iff_eq_symm_apply]
+  simp [permMat, Matrix.mul_apply, Matrix.one_apply, ← _root_.Equiv.eq_symm_apply]
   rw [Finset.sum_eq_single (σ i)]
   · simp
   · intro b _ hb
-    rw [if_neg (fun h => hb ((Equiv.apply_eq_iff_eq_symm_apply σ).mpr h).symm)]
+    rw [ite_eq_right (fun h => hb (((Iff.symm (_root_.Equiv.eq_symm_apply σ))).mpr h).symm)]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -561,7 +561,7 @@ theorem isQuasisimple_blockSub_pair {a b : Fin 4} (hab : a ≠ b) :
   obtain ⟨τ, rfl, rfl⟩ := exists_perm_map_pair (i := 0) (j := 1) (a := a) (b := b) (by decide) hab
   have hset : τ.symm ⁻¹' {i : Fin 4 | i = 0 ∨ i = 1} = {i : Fin 4 | i = τ 0 ∨ i = τ 1} := by
     ext x
-    simp only [Set.mem_preimage, Set.mem_setOf_eq, Equiv.symm_apply_eq]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq, Equiv.symm_apply_eq]
   rw [← hset]
   exact isQuasisimple_blockSub_perm τ.symm isQuasisimple_blockSub_01
 
@@ -624,13 +624,13 @@ theorem isQuasisimple_blockSub_fibre {v : Fin 3 → ZMod 3} (hv : v ≠ 0) {κ :
   rcases finset_shape F hcard hne with ⟨a, b, hab, hF⟩ | ⟨d, hF⟩
   · have hS : {k : Fin 4 | ext v k = κ} = {k : Fin 4 | k = a ∨ k = b} := by
       ext k
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [← hmem k, hF k]
     rw [hS]
     exact isQuasisimple_blockSub_pair hab
   · have hS : {k : Fin 4 | ext v k = κ} = {k : Fin 4 | k ≠ d} := by
       ext k
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [← hmem k, hF k]
     rw [hS]
     exact isQuasisimple_blockSub_compl d
@@ -801,7 +801,7 @@ theorem mem_iSup_fibre_of_perfect {v : Fin 3 → ZMod 3} {Q : Type*} [Group Q]
       blkM {i : Fin 4 | ext v i = κ} ((f q : M) : Matrix (Fin 4) (Fin 4) F4)) :
     b ∈ ⨆ κ' : {κ' : ZMod 3 // ∃ i j : Fin 4, i ≠ j ∧ ext v i = κ' ∧ ext v j = κ'},
       blockSub {i : Fin 4 | ext v i = κ'.1} := by
-  haveI : Group.IsPerfect Q := hQ
+  have : Group.IsPerfect Q := hQ
   have hPr : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hSat := satBlock_fibre (isBlockDiag_of_mem_centralizer (hf q)) κ
   by_cases hbig : ∃ i j : Fin 4, i ≠ j ∧ ext v i = κ ∧ ext v j = κ
@@ -891,7 +891,7 @@ theorem components_big {v : Fin 3 → ZMod 3} (hv : v ≠ 0) :
       (isQuasisimple_blockSub_fibre hv κ.2))
     (fun κ => (Subgroup.normal_subgroupOf_iff_le_normalizer (blockSub_le_cv v κ.1)).mpr
       (block_normal (v := v) (κ := κ.1) (S := blockSub {i : Fin 4 | ext v i = κ.1})
-        (fun x => mem_blockSub)).2)
+        (fun _x => mem_blockSub)).2)
     (fun P hP => perfect_le_iSup_sub P hP)
 
 end Join
@@ -1058,7 +1058,7 @@ theorem exists_gen_of_card_three [Finite G] {H : Subgroup G} (h : Nat.card H = 3
     ∃ b ∈ H, b ≠ 1 ∧ H = Subgroup.zpowers b := by
   have hne : ∃ x ∈ H, x ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hbot : H = ⊥ := (Subgroup.eq_bot_iff_forall H).mpr hc
     rw [hbot, Subgroup.card_bot] at h
     exact absurd h (by norm_num)
@@ -1101,7 +1101,7 @@ theorem map_inf_centralizer_zpowers {I : Subgroup G} {K : Type*} [Group K] (Φ :
 
 theorem isPerfect_map_subgroupOf {I P : Subgroup G} (hPI : P ≤ I) (Φ : I ≃* M)
     (hP : Group.IsPerfect P) : Group.IsPerfect ((P.subgroupOf I).map Φ.toMonoidHom) := by
-  haveI : Group.IsPerfect (P.subgroupOf I) :=
+  have : Group.IsPerfect (P.subgroupOf I) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hPI).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPI).symm.surjective
   exact Group.IsPerfect.map Φ.toMonoidHom

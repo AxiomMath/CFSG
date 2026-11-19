@@ -13,6 +13,7 @@ open CFSG.CGT.Stroth77.Arch76
 
 variable {G : Type*} [Group G] [Finite G] (K : Config G)
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_ev {g : G} (hg : g * g = 1) {f : Co → Co}
     (hf : ∀ v, g⁻¹ * K.ev v * g = K.ev (f v)) : g ∈ Subgroup.normalizer (K.A : Set G) := by
   have hinv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
@@ -28,6 +29,7 @@ theorem mem_normalizer_of_conj_ev {g : G} (hg : g * g = 1) {f : Co → Co}
   rwa [show g * (g * a * g⁻¹) * g⁻¹ = a by rw [hinv, ← mul_assoc, ← mul_assoc, hg, one_mul,
     mul_assoc, hg, mul_one]] at this
 
+omit [Finite G] in
 theorem Tsub_le_normalizer_A : Tsub K ≤ Subgroup.normalizer (K.A : Set G) := by
   refine sup_le Subgroup.le_normalizer ((Subgroup.closure_le _).2 ?_)
   intro g hg
@@ -37,6 +39,7 @@ theorem Tsub_le_normalizer_A : Tsub K ≤ Subgroup.normalizer (K.A : Set G) := b
   · exact mem_normalizer_of_conj_ev K (t_mul_self K) K.conj_t_ev
   · exact mem_normalizer_of_conj_ev K (u_mul_self K) K.conj_u_ev
 
+omit [Finite G] in
 theorem exists_T_conj_of_normalizer_A
     (hfusE : ∀ e ∈ Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}, e ≠ 1 →
       IsConj e ((K.x * K.y) ^ 2))
@@ -84,6 +87,7 @@ section Sylow
 
 variable [Fact (Nat.Prime 2)]
 
+omit [Finite G] [Fact (Nat.Prime 2)] in
 theorem card_map_conj (m : G) (R : Subgroup G) :
     Nat.card (R.map (MulAut.conj m).toMonoidHom) = Nat.card R :=
   Subgroup.card_map_of_injective (MulAut.conj m).injective
@@ -166,6 +170,7 @@ theorem card_le_of_le_centralizer_w
 
 end Sylow
 
+omit [Finite G] in
 theorem comm_ne_w {g h : G} (hg : g ∈ Tsub K) (hh : h ∈ Tsub K) : g⁻¹ * h⁻¹ * g * h ≠ K.w := by
   obtain ⟨p, rfl⟩ := exists_tElt K hg
   obtain ⟨q, rfl⟩ := exists_tElt K hh
@@ -181,6 +186,7 @@ theorem comm_ne_w {g h : G} (hg : g ∈ Tsub K) (hh : h ∈ Tsub K) : g⁻¹ * h
 
 @[expose] def Mcent : Subgroup G := Tsub K ⊓ Subgroup.centralizer {K.x * K.y * K.uv}
 
+omit [Finite G] in
 theorem card_Mcent : Nat.card (Mcent K) = 2 ^ 6 := by
   rw [← card_isCc, ← Nat.card_eq_fintype_card]
   symm
@@ -195,12 +201,14 @@ theorem card_Mcent : Nat.card (Mcent K) = 2 ^ 6 := by
     obtain ⟨p, rfl⟩ := exists_tElt K hgT
     exact ⟨⟨p, (isCc_iff K p).2 (Subgroup.mem_centralizer_singleton_iff.1 hgc)⟩, rfl⟩
 
+omit [Finite G] in
 theorem u_mem_Mcent : K.u ∈ Mcent K := by
   refine Subgroup.mem_inf.2 ⟨Subgroup.mem_sup_right (u_mem_D K),
     Subgroup.mem_centralizer_singleton_iff.2 ?_⟩
   rw [← tElt_gen_u]
   exact (isCc_iff K _).1 isCc_u
 
+omit [Finite G] in
 theorem tx_mem_Mcent : K.t * K.x ∈ Mcent K := by
   have htx : K.t * K.x = tElt K (tmul (0, (0, 1, 0)) ((0, 1, 0), 0)) := by
     rw [tElt_mul, tElt_gen_t, tElt_x]
@@ -302,9 +310,9 @@ theorem arch76Lemma4 [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a)
     (hfusW : ∀ g ∈ Subgroup.closure {K.x, K.y, K.uv, K.t, u'}, orderOf g = 2 →
       IsConj g ((K.x * K.y) ^ 2) ∨ IsConj g (K.x * K.y * K.uv))
     (hAnn1 : ¬ IsConj K.w ((K.x * K.y) ^ 2)) (S : Sylow 2 G)
-    (hTS : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ S) :
+    (_hTS : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ S) :
     K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≠ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hT
   change Tsub K = S at hT
   have hW : Subgroup.closure ({K.x, K.y, K.uv, K.t, u'} : Set G) ≤ Tsub K ∧
@@ -316,7 +324,7 @@ theorem arch76Lemma4 [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a)
     · rw [closure_wu_eq]
       exact ⟨Usub_le_Tsub K, by rw [Usub, card_tSub, card_isUc], w_not_mem_Usub K⟩
   obtain ⟨hWT, hWcard, hwW⟩ := hW
-  have hTp : IsPGroup 2 (Tsub K) := hT ▸ S.isPGroup'
+  have hTp : IsPGroup 2 (Tsub K) := hT ▸ S.isPGroup
   have hTidx : ¬ 2 ∣ (Tsub K).index := hT ▸ S.not_dvd_index
   have hWidx : (Subgroup.closure ({K.x, K.y, K.uv, K.t, u'} : Set G)).relIndex (Tsub K) = 2 := by
     have h := Subgroup.relIndex_mul_card

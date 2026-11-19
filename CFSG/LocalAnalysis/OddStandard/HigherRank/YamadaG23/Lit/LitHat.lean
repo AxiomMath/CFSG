@@ -25,7 +25,7 @@ private theorem lit_isPerfect_of_isSimpleGroup_of_not_comm {Y : Type*} [Group Y]
   rw [Group.isPerfect_def]
   rcases hY.eq_bot_or_eq_top_of_normal (commutator Y) with h | h
   · exfalso
-    haveI : IsMulCommutative Y := (commutator_eq_bot_iff Y).mp h
+    have : IsMulCommutative Y := (commutator_eq_bot_iff Y).mp h
     exact hnc fun a b => mul_comm a b
   · exact h
 
@@ -36,7 +36,7 @@ theorem lit_monoData {G : Type} [Group G] [Finite G] {A : Subgroup G}
   obtain ⟨M, hMnorm, hMs, hAM, hCent, hMin, hA6⟩ := lit_mono h
   refine ⟨M, ⟨hMnorm, hMs, ?_, hAM, hCent, hMin⟩, hA6⟩
   intro hcomm
-  haveI : IsMulCommutative ↥M := IsMulCommutative.of_comm fun a b =>
+  have : IsMulCommutative ↥M := IsMulCommutative.of_comm fun a b =>
     Subtype.ext (hcomm a a.2 b b.2)
   have hprime : (Nat.card M).Prime := (Group.is_simple_iff_prime_card (α := ↥M)).mp hMs
   have h16 : 16 ∣ Nat.card M := by
@@ -62,8 +62,8 @@ theorem lit_hat {X G : Type} [Group X] [Finite X] [Group G] [Finite G] {Z A : Su
   have hMperf : ⁅M, M⁆ = M :=
     Subgroup.isPerfect_iff.mp (lit_isPerfect_of_isSimpleGroup_of_not_comm d.simple hnc)
   have hHmap : (litPerf (M.comap π)).map π = M := lit_perf_map hπ hMperf
-  haveI hKnorm : (M.comap π).Normal := d.normal.comap π
-  haveI hHnorm : (litPerf (M.comap π)).Normal := litPerf_normal (M.comap π)
+  have hKnorm : (M.comap π).Normal := d.normal.comap π
+  have hHnorm : (litPerf (M.comap π)).Normal := litPerf_normal (M.comap π)
   have hsolv : Group.IsSolvable ↥π.ker := by
     rw [hk]
     exact lit_solvable_litP h.central
@@ -90,7 +90,7 @@ theorem lit_hat {X G : Type} [Group X] [Finite X] [Group G] [Finite G] {Z A : Su
     exact hA_ne_bot (le_bot_iff.mp ((Subgroup.map_mono hAD).trans (le_of_eq hbot)))
   have hDmap_norm : (D.map π).Normal := hDnorm.map π hπ
   have hMD : M ≤ D.map π := d.min (D.map π) hDmap_norm hDmap_ne
-  haveI : D.Normal := hDnorm
+  have : D.Normal := hDnorm
   have hHD : litPerf (M.comap π) ≤ D := lit_perf_le hsolv hMD
   refine ⟨hHmap, ?_, ?_⟩
   · intro x hx y hy

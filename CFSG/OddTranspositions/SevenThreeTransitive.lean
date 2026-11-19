@@ -17,9 +17,11 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 def thirdOrbit (D : Set G) (z u : G) : Set G :=
   {x | ∃ k ∈ thirdK D z, k * u * k⁻¹ = x}
 
-theorem mem_thirdOrbit_self {z u : G} (hu : u ∈ Delta D z) : u ∈ thirdOrbit D z u :=
+omit [Finite G] in
+theorem mem_thirdOrbit_self {z u : G} (_hu : u ∈ Delta D z) : u ∈ thirdOrbit D z u :=
   ⟨1, one_mem _, by simp⟩
 
+omit [Finite G] in
 theorem thirdOrbit_subset_Delta (hN : IsNormalSet D) {z u : G} (hu : u ∈ Delta D z) :
     thirdOrbit D z u ⊆ Delta D z := by
   rintro x ⟨k, hk, rfl⟩
@@ -29,12 +31,14 @@ theorem thirdOrbit_subset_Delta (hN : IsNormalSet D) {z u : G} (hu : u ∈ Delta
   refine mem_Delta_iff.mpr ⟨hN k u (mem_Delta_iff.mp hu).1, ?_⟩
   exact ((hkz.symm.mul_right huz.symm).mul_right hkz.symm.inv_right).symm
 
+omit [Finite G] in
 theorem thirdOrbit_invariant {z u : G} :
     ∀ k' ∈ thirdK D z, ∀ x ∈ thirdOrbit D z u, k' * x * k'⁻¹ ∈ thirdOrbit D z u := by
   rintro k' hk' x ⟨k, hk, rfl⟩
   refine ⟨k' * k, Subgroup.mul_mem _ hk' hk, ?_⟩
   group
 
+omit [Finite G] in
 theorem disjoint_thirdOrbit_of_not_mem {z u x : G} (hx : x ∉ thirdOrbit D z u) :
     Disjoint (thirdOrbit D z u) (thirdOrbit D z x) := by
   rw [Set.disjoint_left]
@@ -47,6 +51,7 @@ theorem disjoint_thirdOrbit_of_not_mem {z u x : G} (hx : x ∉ thirdOrbit D z u)
       rw [← hky']
       group
 
+omit [Finite G] in
 theorem thirdK_transitive (hS : Setup G D) (hL : LocalSecond D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n) :
@@ -114,6 +119,7 @@ theorem thirdK_transitive (hS : Setup G D) (hL : LocalSecond D)
     rw [hk] at hsec
     omega
 
+omit [Finite G] in
 theorem thirdInv_not_mem (hS : Setup G D) (hL : LocalSecond D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n) :

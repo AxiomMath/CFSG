@@ -22,7 +22,7 @@ open CFSG.RankThree.PartTwo.Sec4.Census (SporadicMultipliers)
 theorem sylow_card_dvd_27 {K : Type} [Group K] [Finite K] (T : Sylow 3 K) {m : ℕ}
     (hK : Nat.card K = 27 * m) (hm : ¬ 3 ∣ m) : Nat.card (T : Subgroup K) ∣ 27 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   have hdvd : Nat.card (T : Subgroup K) ∣ 27 * m := hK ▸ Subgroup.card_subgroup_dvd_card _
   rw [hk] at hdvd ⊢
   have hcop : Nat.Coprime (3 ^ k) m :=
@@ -204,8 +204,8 @@ theorem centralizer_le_center_of_abelianSylowDatum {K X : Type} [Group K] [Finit
     rwa [Subgroup.index_comap_of_surjective _ hπ, hD', ModuleSpec.map_span,
       Subgroup.index_map_of_bijective (MulAut.conj g).bijective]
   have heq : D'.span.comap π = (T : Subgroup K) :=
-    le_antisymm hle (((T.isPGroup'.to_le hle).toSylow hidx').maximal_isPGroup.le_of_ge
-      T.isPGroup' hle)
+    le_antisymm hle (((T.isPGroup.to_le hle).toSylow hidx').maximal_isPGroup.le_of_ge
+      T.isPGroup hle)
   have hN' : D'.Nondeg := hN
   rcases D'.commute_or_mem_center_of_nondeg π hp hp2 hπ hker hZp hZc hN' with hcomm | hcent
   · exfalso

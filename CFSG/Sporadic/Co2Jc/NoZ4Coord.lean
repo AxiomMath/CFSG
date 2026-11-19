@@ -23,7 +23,7 @@ theorem coordBit_mul (i : Fin 10) (a b : ↥Jc) :
   rw [coordBit, coord_mul, Nat.testBit_xor]
   rcases Bool.eq_false_or_eq_true ((coord a).testBit i.val) with ha | ha <;>
     rcases Bool.eq_false_or_eq_true ((coord b).testBit i.val) with hb | hb <;>
-    simp only [coordBit, ha, hb, if_true, if_false] <;> decide
+    simp only [coordBit, ha, hb, ite_true] <;> decide
 
 theorem coordBit_one (i : Fin 10) : coordBit i 1 = 0 := by
   simp [coordBit, coord_one]
@@ -51,7 +51,7 @@ theorem coordBitHom_e (i j : Fin 10) :
   rw [Nat.testBit_two_pow]
   by_cases h : i.val = j.val
   · have hij : i = j := Fin.ext h
-    simp [h, hij]
+    simp [hij]
   · have hji : ¬ j.val = i.val := fun hji => h hji.symm
     have hij : i ≠ j := fun hh => h (congrArg Fin.val hh)
     simp [hji, hij]
@@ -88,11 +88,11 @@ theorem coordBitHom_eL (i : Fin 10) (y : Fin 10 → ZMod 4) :
   · rw [show (y i • (Additive.ofMul (jcA (2 ^ i.val)) : Additive ↥Jc)) =
         (y i).val • (Additive.ofMul (jcA (2 ^ i.val)) : Additive ↥Jc) from rfl]
     rw [map_nsmul, coordBitHom_e]
-    simp [val_smul_one]
+    simp
   · intro j _ hji
     rw [show (y j • (Additive.ofMul (jcA (2 ^ j.val)) : Additive ↥Jc)) =
         (y j).val • (Additive.ofMul (jcA (2 ^ j.val)) : Additive ↥Jc) from rfl]
-    rw [map_nsmul, coordBitHom_e, if_neg (Ne.symm hji), nsmul_zero]
+    rw [map_nsmul, coordBitHom_e, ite_eq_right (Ne.symm hji), nsmul_zero]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -105,7 +105,7 @@ theorem coordBitHom_sep (a : Additive ↥Jc)
     · have hz : coordBit ⟨i, hi⟩ a.toMul = 0 := h ⟨i, hi⟩
       rcases Bool.eq_false_or_eq_true ((coord a.toMul).testBit i) with hbit | hbit
       · exfalso
-        have hz' : (1 : ZMod 2) = 0 := by simpa [coordBit, hbit] using hz
+        have hz' : (1 : ZMod 2) = 0 := by simp [coordBit, hbit] at hz
         exact absurd hz' (by decide)
       · exact hbit
     · apply Nat.testBit_eq_false_of_lt
@@ -236,14 +236,14 @@ theorem phi_injective {ι : ↥Jc →* V} {v : Fin 10 → Additive V}
     · have h0' : x i - y i = 0 := h0
       have hzi0 : z i = 0 := by
         change (if x i - y i = 0 then 0 else 1) = 0
-        rw [if_pos h0']
+        rw [ite_eq_left h0']
       rw [Pi.smul_apply, hzi0]
       change (2 : ZMod 4) • 0 = x i - y i
       rw [h0', smul_zero]
     · have h2v' : x i - y i = 2 := h2v
       have hzi1 : z i = 1 := by
         change (if x i - y i = 0 then 0 else 1) = 1
-        rw [if_neg (by rw [h2v']; decide)]
+        rw [ite_eq_right (by rw [h2v']; decide)]
       rw [Pi.smul_apply, hzi1]
       change (2 : ZMod 4) • 1 = x i - y i
       rw [h2v']
@@ -258,10 +258,10 @@ theorem phi_injective {ι : ↥Jc →* V} {v : Fin 10 → Additive V}
       by_cases h : x i - y i = 0
       · left
         change (if x i - y i = 0 then 0 else 1) = 0
-        rw [if_pos h]
+        rw [ite_eq_left h]
       · right
         change (if x i - y i = 0 then 0 else 1) = 1
-        rw [if_neg h]
+        rw [ite_eq_right h]
     rcases h1 with h0 | h1
     · exact h0
     · exfalso
@@ -346,6 +346,7 @@ variable [Module (ZMod 4) (Additive V)]
   right_inv a := by simp
   map_add' a b := by simp [map_mul]
 
+omit [Module (ZMod 4) (Additive V)] in
 theorem rhoA_mul (g h : Qj) : rhoA ρ (g * h) = (rhoA ρ h).trans (rhoA ρ g) := by
   ext a
   rw [AddEquiv.trans_apply]
@@ -393,7 +394,7 @@ theorem mat_one (Φ : (Fin 10 → ZMod 4) ≃ₗ[ZMod 4] Additive V)
   rw [hrho]
   simp only [AddEquiv.refl_apply]
   rw [← hsingle, Φ.symm_apply_apply]
-  simp [Pi.single_apply, eq_comm]
+  simp [Pi.single_apply]
 
 theorem mat_mul (Φ : (Fin 10 → ZMod 4) ≃ₗ[ZMod 4] Additive V)
     (hΦ : ∀ x, Φ x = phi v x) (g h : Qj) :
@@ -454,6 +455,7 @@ variable (hv : ∀ i, (2 : ZMod 4) • v i = iotaA ι (Additive.ofMul (jcA (2 ^ 
 
 include hι hρ h1 h2 hv
 
+omit h1 h2 in
 theorem mat_qAj_parity (Φ : (Fin 10 → ZMod 4) ≃ₗ[ZMod 4] Additive V)
     (hΦ : ∀ x, Φ x = phi v x) (htab : ∀ k : Fin 3, ∀ i : Fin 10,
       (Co2Smith.Native.glNJTab[k.val]!)[i.val]! < 1024)
@@ -528,8 +530,6 @@ lemma zmod4_eq_add_two_mul_X {a b : ZMod 4} (hb : b = 0 ∨ b = 1) (h : a = b �
 
 theorem mat_qAj_decomp {ι : ↥Jc →* V} (hι : Function.Injective ι)
     (hρ : ∀ g a, ρ g (ι a) = ι ((g : MulAut ↥Jc) a))
-    (h1 : ∀ v : V, ∃ a, v ^ 2 = ι a)
-    (h2 : ∀ v : V, v ^ 2 = 1 → ∃ a, v = ι a)
     (hv : ∀ i, (2 : ZMod 4) • v i = iotaA ι (Additive.ofMul (jcA (2 ^ i.val))))
     (hΦ : ∀ x, Φ x = phi v x)
     (htab : ∀ k : Fin 3, ∀ i : Fin 10,
@@ -550,7 +550,7 @@ theorem mat_qAj_decomp {ι : ↥Jc →* V} (hι : Function.Injective ι)
       rw [show Ghn k j i = 1 by omega]; rfl
   have hpar : (mat ρ v Φ (qAj k) j i).val % 2 = (Gh k j i).val % 2 := by
     change (mat ρ v Φ ⟨qA k.val, qA_mem k.isLt⟩ j i).val % 2 = (Gh k j i).val % 2
-    rw [mat_qAj_parity (ρ := ρ) (ι := ι) (hι := hι) (hρ := hρ) (h1 := h1) (h2 := h2)
+    rw [mat_qAj_parity (ρ := ρ) (ι := ι) (hι := hι) (hρ := hρ)
       (v := v) (hv := hv) (Φ := Φ) (hΦ := hΦ) (htab := htab) k j i, Gh_apply]
     rcases Nat.eq_zero_or_pos (Ghn k j i) with h0 | hp
     · rw [h0]; rfl

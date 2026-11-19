@@ -90,7 +90,7 @@ theorem conj (x : G) : Hyp4 (conjSubgroup x M) (conjSubgroup x B) (conjSubgroup 
     rw [hφ, Subgroup.mem_map] at hy
     obtain ⟨z, hz, rfl⟩ := hy
     have := H.sq_eq_one z hz
-    simp [φ, ← map_pow, this]
+    simp [φ, this]
   · exact isTI_conjSubgroup H.ti x
   ·
     have : Nat.card (conjSubgroup x B) = Nat.card B := by

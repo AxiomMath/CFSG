@@ -42,6 +42,7 @@ theorem exists_frame_iso (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     · intro h
       exact (omegaGroup_normal hQ).conj_mem _ h c
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem frame_iso_piOrth (E : OGroup (hermForm 4) ≃* OGroup Q) {y : OGroup Q}
     (hE : E (omegaOrth 4) = y) (hy : y * y = piOrth Q) : E (piOrth (hermForm 4)) = piOrth Q := by
   rw [← omegaOrth_mul_self, map_mul, hE, hy]

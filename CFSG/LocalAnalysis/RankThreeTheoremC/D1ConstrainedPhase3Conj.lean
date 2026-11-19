@@ -44,7 +44,7 @@ theorem D1CentralizerInput3.exists_factorization {p : ℕ} [Fact p.Prime] {P : S
   rw [hQ] at hidx
   have hzF : Subgroup.zpowers z ≤ F := hFZ ▸ Subgroup.map_subtype_le _
   have hnorm := mul_mem_of_mem_centralizer_of_relIndex_eq hp h.ne_two hFR h.le_P
-    hFP hFn rfl hcyc (P.isPGroup'.to_inf_left) (fun y hy hyp => hzF (hΩ y hy hyp)) hidx
+    hFP hFn rfl hcyc (P.isPGroup.to_inf_left) (fun y hy hyp => hzF (hΩ y hy hyp)) hidx
   exact ⟨(P : Subgroup G) ⊓ Subgroup.centralizer (F : Set G), inf_le_left, hnorm, hdec⟩
 
 theorem D1CentralizerInput3.conj_le_of_extremal {p : ℕ} [Fact p.Prime] {P : Sylow p G}

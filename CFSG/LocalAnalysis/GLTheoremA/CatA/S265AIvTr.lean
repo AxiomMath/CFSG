@@ -60,11 +60,11 @@ private theorem centralizer_eq_of_conj_eq {S : Subgroup Ω} [S.Normal] {e : ↥S
 private theorem exists_gen {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω}
     (h : QSCfg 3 S B T x D K) : ∃ y ∈ D, y ∉ Subgroup.zpowers x ∧ D = Dgrp y x ∧
       S ⊓ Subgroup.centralizer (D : Set Ω) = S ⊓ cx y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hDB, -, hDcard, hxD, -, -, -⟩ := h.std
   have hx3 : Nat.card (Subgroup.zpowers x) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime (h.elem.2 x h.xB) h.x1]
-  obtain ⟨y, hyD, hyx⟩ := SetLike.not_le_iff_exists.1 fun hle : D ≤ Subgroup.zpowers x => by
+  obtain ⟨y, hyD, hyx⟩ := IsConcreteLE.not_le_iff_exists.1 fun hle : D ≤ Subgroup.zpowers x => by
     have h1 := Subgroup.card_le_of_le hle
     rw [hDcard, hx3] at h1
     norm_num at h1
@@ -109,8 +109,8 @@ theorem caseIv_false_of_core {Q : TauCeti.CFSGIndex → Prop} (hcore : IvCoreAt 
     (hU : (⁅T, B⁆ : Subgroup Ω) ≠ ⊥) (hZK : Subgroup.center (PQuot 3 K) = ⊥)
     (hQ : catalogIs ↥S Q) (hZS : Subgroup.center ↥S = ⊥)
     (hinn : ∀ α : MulAut ↥S, α ^ 3 = 1 → ∃ g : ↥S, α = MulAut.conj g) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.cfg.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.cfg.normal
   obtain ⟨hDB, -, hDcard, -, hKL, -, hDK⟩ := h.cfg.std
   obtain ⟨d0, hd0D, hd0x, hDeq, hSd0⟩ := exists_gen h.cfg
   have hN := h.nlAct (three_dvd_card hK6)
@@ -194,7 +194,7 @@ theorem caseIv_false_of_core {Q : TauCeti.CFSGIndex → Prop} (hcore : IvCoreAt 
     h.cfg.two.to_le (commutator_le_left_of_le_normalizer h.cfg.bnorm)
   have hρU : (⁅T, B⁆ : Subgroup Ω).map ρ ≤ c.range := by
     rw [Subgroup.map_le_iff_le_comap]
-    haveI : (c.range.comap ρ).Normal := (normal_range_conj ↥S).comap ρ
+    have : (c.range.comap ρ).Normal := (normal_range_conj ↥S).comap ρ
     exact (Subgroup.commutator_mono le_rfl
       (show B ≤ c.range.comap ρ from fun b hb => hρB ⟨b, hb, rfl⟩)).trans
       (Subgroup.commutator_le_right _ _)

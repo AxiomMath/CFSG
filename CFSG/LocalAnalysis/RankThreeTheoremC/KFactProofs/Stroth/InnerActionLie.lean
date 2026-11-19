@@ -87,21 +87,21 @@ theorem apply_eq_of_commute_conj {K : Type} [Group K] (hZ : Subgroup.center K = 
 
 theorem kFactInnerAction_of_reduced (hred : ReducedOuterSylowAbelian) : KFactInnerAction := by
   intro p hp hp2 K _ _ hs hnab hcat P hP hab φ hφ hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center K = ⊥ := center_eq_bot_of_simple hs hnab
   by_cases hin : φ ∈ inner K
   · exact exists_eq_conj_of_mem_inner hZ P hφ hc hin
   · exfalso
     obtain ⟨α, hαp, hαout, hαc⟩ := exists_outer_order_p_of_outer_centralizes hs hnab P hab hφ hc hin
     have hpK : p ∣ Nat.card K := by
-      obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
       have hk0 : k ≠ 0 := by
         rintro rfl
         apply hP
         rw [pow_zero] at hk
         exact Subgroup.eq_bot_of_card_eq _ hk
       exact (dvd_pow_self p hk0).trans (hk ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup K))
-    exact hαout (hred K hs hnab hcat p hp hp2 hpK P P.isPGroup' (Sylow.not_dvd_index P) hab α hαp
+    exact hαout (hred K hs hnab hcat p hp hp2 hpK P P.isPGroup (Sylow.not_dvd_index P) hab α hαp
       (fun s hs' => apply_eq_of_commute_conj hZ (hαc s hs')))
 
 theorem cases_of_dvd_lieOrderDivisor {t : StatedLieTag} {n q p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)

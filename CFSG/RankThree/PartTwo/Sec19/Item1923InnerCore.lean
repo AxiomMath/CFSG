@@ -91,7 +91,7 @@ theorem exists_mem_inverting_inner {Γ B X : Type} [Group Γ] [Finite Γ] [Group
   obtain ⟨S⟩ : Nonempty (Sylow 2 Γ) := inferInstance
   have hS := exists_mem_sylow_map_eq ρ hρ S
   let π : Γ →* Outer X := (QuotientGroup.mk' (inner X)).comp σ
-  have hπ : IsPGroup 2 ((S : Subgroup Γ).map π) := S.isPGroup'.map _
+  have hπ : IsPGroup 2 ((S : Subgroup Γ).map π) := S.isPGroup.map _
   have hπ1 : ∀ g, π g = 1 → σ g ∈ inner X := fun g hg => (QuotientGroup.eq_one_iff _).mp hg
   have hmem : ∀ q, f q ∈ ρ.range := fun q => hfr ▸ ⟨q, rfl⟩
   have h0 : Γ₁.index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -125,7 +125,7 @@ theorem exists_mem_square_inverting_inner {Γ B X : Type} [Group Γ] [Finite Γ]
   obtain ⟨S⟩ : Nonempty (Sylow 2 Γ) := inferInstance
   have hS := exists_mem_sylow_map_eq ρ hρ S
   let π : Γ →* Outer X := (QuotientGroup.mk' (inner X)).comp σ
-  have hπ : IsPGroup 2 ((S : Subgroup Γ).map π) := S.isPGroup'.map _
+  have hπ : IsPGroup 2 ((S : Subgroup Γ).map π) := S.isPGroup.map _
   have hπ1 : ∀ g, π g = 1 → σ g ∈ inner X := fun g hg => (QuotientGroup.eq_one_iff _).mp hg
   have hmem : ∀ q, f q ∈ ρ.range := fun q => hfr ▸ ⟨q, rfl⟩
   have hcy := hcyc _ hπ

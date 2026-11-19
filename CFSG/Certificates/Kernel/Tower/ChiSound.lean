@@ -105,7 +105,7 @@ theorem shr1 (k : Nat) : Nat.shiftRight k 1 = k / 2 :=
 
 theorem chiT_eq (T k : Nat) : chiT T k = chiV T (k / 2) ^^^ (k % 2 * bitN T 134) := by
   have e7 : Nat.shiftRight k 7 = Nat.shiftRight (k / 2) 6 := by
-    rw [shr, shr, Nat.div_div_eq_div_mul] <;> rfl
+    rw [shr, shr, Nat.div_div_eq_div_mul]; rfl
   have ed : Nat.land k (bitN T 134) = k % 2 * bitN T 134 := by
     rcases Nat.le_one_iff_eq_zero_or_eq_one.1 (bitN_le T 134) with h | h
     · rw [h, Nat.mul_zero]
@@ -113,7 +113,7 @@ theorem chiT_eq (T k : Nat) : chiT T k = chiV T (k / 2) ^^^ (k % 2 * bitN T 134)
     · rw [h, Nat.mul_one]
       exact Nat.and_one_is_mod k
   unfold chiT chiV
-  rw [e7, ed, shr1] <;> rfl
+  rw [e7, ed, shr1]; rfl
 
 theorem chiT_le (T k : Nat) : chiT T k ≤ 1 := by
   rw [chiT_eq]

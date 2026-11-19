@@ -26,7 +26,7 @@ theorem conj_five {G : Type*} [Group G] [Finite G] (h25 : ¬ 25 ∣ Nat.card G) 
     obtain ⟨S, hS⟩ := hp.exists_le_sylow
     refine ⟨S, (Subgroup.eq_of_le_of_card_ge hS ?_).symm⟩
     rw [Nat.card_zpowers, hx]
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
     have hd : Nat.card (S : Subgroup G) ∣ Nat.card G := Subgroup.card_subgroup_dvd_card _
     have hge : 5 ≤ Nat.card (S : Subgroup G) := by
       have := Subgroup.card_le_of_le hS

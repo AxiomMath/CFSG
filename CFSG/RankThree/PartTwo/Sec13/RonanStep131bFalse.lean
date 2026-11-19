@@ -15,7 +15,7 @@ theorem false_of_norm2e {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G}
     {X : Type} [Group X] (hX : Norm2e X)
     (e : haveI : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
       Nonempty (Y ⧸ solvableRadical Y ≃* X)) : False := by
-  haveI : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
+  have : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
   obtain ⟨e₂⟩ := e
   have hYc : Y ∈ thetaComponentsAt 3 b := hY.hD.mem_thetaComponentsAt
   have hq : CFSG.IsQuasisimple (Y ⧸ aschbacherSolvableCore 3 Y) :=

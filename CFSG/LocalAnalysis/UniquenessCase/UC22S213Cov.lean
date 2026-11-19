@@ -38,7 +38,7 @@ theorem uc22s213_mem_of_pow_three_eq_one {X : Type*} [Group X] [Finite X]
     (hCQ : C ≤ normalizer (Q : Set X)) (hcomm : ∀ q ∈ Q, ∀ c ∈ C, q * c = c * q)
     (hexp : ∀ q ∈ Q, q ^ 3 = 1) (hEQ : E ≤ Q) (hE : IsElemAbelian 3 E)
     (hEc : Nat.card E = 3 ^ 2) {x : X} (hx : x ∈ Q ⊔ C) (hx3 : x ^ 3 = 1) : x ∈ Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← SetLike.mem_coe, coe_mul_of_right_le_normalizer_left Q C hCQ] at hx
   obtain ⟨q, hq, c, hc, rfl⟩ := Set.mem_mul.mp hx
   have hc3 : c ^ 3 = 1 := by
@@ -64,12 +64,12 @@ theorem uc22s213_strong_of_cover (hS : Standing4 G) (hU : uniqueFourUnique G) (S
     (hm3 : CFSG.Open.pRank 3 S.M ≤ 2) (hp : CFSG.Open.pRank S.p L ≤ 1) :
     IsStronglyPEmbedded 3 S.M := by
   by_contra hnot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : ∀ {r : ℕ} {H : Subgroup G}, r.Prime → r ≠ 2 → IsPGroup r H → ∀ y ∈ H,
       Odd (orderOf y) := by
     intro r H hr hr2 hH y hy
-    haveI := Fact.mk hr
+    have := Fact.mk hr
     obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hH ⟨y, hy⟩
     rw [Subgroup.orderOf_mk] at hk
     exact hk ▸ (hr.odd_of_ne_two hr2).pow
@@ -116,7 +116,7 @@ theorem uc22s213_strong_of_cover (hS : Standing4 G) (hU : uniqueFourUnique G) (S
     hnot (isStronglyPEmbedded_three_of_mem_uniqueFourBeta hU S hσ h)
   have hpp : S.p.Prime := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := UC6.conclusion76_dataOfSetup4 hSE hS hU S h3β S.hp hsp
   obtain ⟨B, hBM, hBel, hBc⟩ :=
@@ -156,7 +156,7 @@ theorem uc22s213_not_centralizesBar_of_cover (hS : Standing4 G) (hU : uniqueFour
     (hN : CFSG.Open.pRank S.p (normalizer ((zpowers a : Subgroup G) : Set G) ⊓ S.M) ≤ 1) :
     ¬ CentralizesBar a L := by
   intro haL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := uc22s213_pRank_le_one_of_centralizesBar (CFSG.Quasithin.A3.subnormal_le hL.1) hodd
     hpr haL S.hp.1.1 S.hp.1.2.1 hN
   have h1 := hk1 (uc22s213_strong_of_cover hS hU S hσ hSE hOut hout hL hcov hm3 hp)

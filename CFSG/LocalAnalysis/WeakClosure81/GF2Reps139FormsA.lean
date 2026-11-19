@@ -17,6 +17,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
   {Y : Subgroup W} {n : ℕ}
 
 
+omit [Finite W] in
 private theorem w1369_realizes_nat
     {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
     {Γ : Subgroup (Matrix.GeneralLinearGroup ι F)} {H : Subgroup (MulAut W)}
@@ -68,6 +69,7 @@ private theorem w1369_realizes_nat
     rfl
   exact hβ'π.trans (congrArg (CFSG.Quasithin.natAct Γ γ) hβ'w.symm)
 
+omit [Finite W] in
 private theorem w1369_hasSympForm_of_model
     {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F] [Finite F] [CharP F 2]
     {Γ : Subgroup (Matrix.GeneralLinearGroup ι F)} {K : Subgroup (MulAut W)}
@@ -75,7 +77,7 @@ private theorem w1369_hasSympForm_of_model
     (β : W ≃* Multiplicative (ι → F))
     (hβ : ∀ (γ : ↥Γ) (w : W), β (((π γ : ↥K) : MulAut W) w) = CFSG.Quasithin.natAct Γ γ (β w))
     (G : (ι → F) →+ (ι → F) →+ F)
-    (hGlin₁ : ∀ (a : F) (x y : ι → F), G (a • x) y = a * G x y)
+    (_hGlin₁ : ∀ (a : F) (x y : ι → F), G (a • x) y = a * G x y)
     (hGlin₂ : ∀ (a : F) (x y : ι → F), G x (a • y) = a * G x y)
     (hGalt : ∀ x : ι → F, G x x = 0)
     (hGnd : ∀ x : ι → F, (∀ y : ι → F, G x y = 0) → x = 0)
@@ -83,7 +85,7 @@ private theorem w1369_hasSympForm_of_model
       G (((γ : Matrix.GeneralLinearGroup ι F) : Matrix ι ι F).mulVec x)
         (((γ : Matrix.GeneralLinearGroup ι F) : Matrix ι ι F).mulVec y) = G x y) :
     HasSympForm K := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   let tr : F →+ ZMod 2 := (Algebra.trace (ZMod 2) F).toAddMonoidHom
   let B : W →* W →* Multiplicative (ZMod 2) :=
     MonoidHom.mk' (fun x =>
@@ -351,7 +353,7 @@ private lemma w1369_Gminus_apply (d : ℕ) (F : Type) [CommRing F] (b : F)
 private lemma w1369_b_ne_zero {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     (h : ∀ s : F, s ^ 2 + b * s + c ≠ 0) : b ≠ 0 := by
   intro hb
-  haveI : ExpChar F 2 := inferInstance
+  have : ExpChar F 2 := inferInstance
   have hbij := PerfectRing.bijective_frobenius (R := F) (p := 2)
   obtain ⟨s, hs⟩ := hbij.2 c
   have hs' : s ^ 2 = c := hs
@@ -363,7 +365,7 @@ private lemma w1369_Gminus_polar (n : ℕ) (F : Type) [Field F] [CharP F 2] (b c
   rw [w1369_Gminus_apply]
   simp only [CFSG.Open.StatedQuadMinus, Pi.add_apply]
   ring_nf
-  simp only [CharTwo.two_eq_zero, mul_zero, add_zero, zero_add]
+  simp only [CharTwo.two_eq_zero, mul_zero, add_zero]
   simp only [Finset.sum_add_distrib]
   have hwv : (∑ x : Fin (n - 1), w (Sum.inl x) * v (Sum.inr (Sum.inl x))) =
       ∑ x : Fin (n - 1), v (Sum.inr (Sum.inl x)) * w (Sum.inl x) :=
@@ -412,7 +414,7 @@ private lemma w1369_Gminus_alt (d : ℕ) (F : Type) [Field F] [CharP F 2] (b : F
   rw [h2, mul_zero, add_zero]
 
 private lemma w1369_Gminus_nd (d : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2]
-    (b c : F) (hb : b ≠ 0) (x : Fin d ⊕ Fin d ⊕ Fin 2 → F)
+    (b _c : F) (hb : b ≠ 0) (x : Fin d ⊕ Fin d ⊕ Fin 2 → F)
     (hx : ∀ y, w1369_Gminus d F b x y = 0) : x = 0 := by
   funext k
   rcases k with i | i
@@ -479,13 +481,14 @@ private lemma w1369_Gminus_inv (n : ℕ) (F : Type) [Field F] [CharP F 2] (b c :
   rw [w1369_Gminus_polar, w1369_Gminus_polar, ← Matrix.mulVec_add,
     hQ (x + y), hQ x, hQ y]
 
+omit [Finite W] in
 theorem hasSympForm_of_natSpn {K : Subgroup (MulAut W)} {m a : ℕ} (h : NatSpn K ⊤ ⊥ m a) :
     HasSympForm K := by
   rcases h with ⟨hm, F, hF, hFfin, hFcard, hreal⟩
-  letI := hF
-  letI := hFfin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
+  let := hF
+  let := hFfin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
     rw [← Nat.card_eq_fintype_card]; exact hFcard)
   obtain ⟨π, β, hπsurj, hβ⟩ := w1369_realizes_nat (F := F)
     (Γ := CFSG.Open.StatedSp (m / 2) F) (H := K) hreal
@@ -494,13 +497,14 @@ theorem hasSympForm_of_natSpn {K : Subgroup (MulAut W)} {m a : ℕ} (h : NatSpn 
     (w1369_Gsp_lin₁ _ _) (w1369_Gsp_lin₂ _ _) (w1369_Gsp_alt _ _)
     (w1369_Gsp_nd _ _) (w1369_Gsp_inv _ _)
 
+omit [Finite W] in
 theorem hasSympForm_of_natOmegaPlus {K : Subgroup (MulAut W)} {m a : ℕ}
     (h : NatOmegaPlus K ⊤ ⊥ m a) : HasSympForm K := by
   rcases h with ⟨hm, F, hF, hFfin, hFcard, hreal⟩
-  letI := hF
-  letI := hFfin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
+  let := hF
+  let := hFfin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
     rw [← Nat.card_eq_fintype_card]; exact hFcard)
   obtain ⟨π, β, hπsurj, hβ⟩ := w1369_realizes_nat (F := F)
     (Γ := CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus (m / 2) F)) (H := K) hreal
@@ -510,13 +514,14 @@ theorem hasSympForm_of_natOmegaPlus {K : Subgroup (MulAut W)} {m a : ℕ}
     (w1369_Gplus_lin₁ _ _) (w1369_Gplus_lin₂ _ _) (w1369_Gplus_alt _ _)
     (w1369_Gplus_nd _ _) (w1369_Gplus_inv _ _)
 
+omit [Finite W] in
 theorem hasSympForm_of_natOmegaMinus {K : Subgroup (MulAut W)} {m a : ℕ}
     (h : NatOmegaMinus K ⊤ ⊥ m a) : HasSympForm K := by
   rcases h with ⟨hm, F, hF, hFfin, b, c, hFcard, hbc, hreal⟩
-  letI := hF
-  letI := hFfin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
+  let := hF
+  let := hFfin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
     rw [← Nat.card_eq_fintype_card]; exact hFcard)
   have hb : b ≠ 0 := w1369_b_ne_zero hbc
   obtain ⟨π, β, hπsurj, hβ⟩ := w1369_realizes_nat (F := F)

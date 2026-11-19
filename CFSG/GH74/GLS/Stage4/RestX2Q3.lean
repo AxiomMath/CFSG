@@ -130,7 +130,7 @@ theorem R_le_R₂' (h : T6Ctx N u p) {R : Subgroup G} (hRp : IsPGroup p ↥R) (h
     Subgroup.mem_normalizer_fintype (fun w hw => Wsub_norm hm hw)
   have hPW : P ≤ Wsub N := Subgroup.map_subtype_le _
   have hPM : P ≤ M₂ N := hPW.trans (Wsub_le_C₂.trans C₂_le_M₂)
-  have hPp : IsPGroup p ↥P := S.isPGroup'.map _
+  have hPp : IsPGroup p ↥P := S.isPGroup.map _
   have hle := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer p hPM (hMW.trans hPnorm) hPp
   intro r hr
   exact hle ⟨⟨r, hRW hr⟩, hRS (Subgroup.mem_subgroupOf.2 hr), rfl⟩

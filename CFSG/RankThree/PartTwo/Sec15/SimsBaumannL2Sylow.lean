@@ -52,7 +52,7 @@ private theorem sbl2_lowerSL_mem {Y : Subgroup (SL2 F)}
     intro i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.SpecialLinearGroup.coe_mul, IVK.Proofs2.coe_upperSL,
-        IVK.Proofs2.coe_lowerSL, sbl2_coe_sl, Matrix.mul_apply, Fin.sum_univ_two] <;>
+        IVK.Proofs2.coe_lowerSL, sbl2_coe_sl, Matrix.mul_apply, Fin.sum_univ_two];
       field_simp
   have h2 : lowerSL z = sbl2_sl 0 (-c⁻¹) c 0 hwdet * upperSL (-z / c ^ 2) *
       (sbl2_sl 0 (-c⁻¹) c 0 hwdet)⁻¹ :=
@@ -209,9 +209,9 @@ private theorem sbl2_not_le_normalizer {G : Type} [Group G] [Finite G] [Finite F
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup (SL2 F) := sbl2_sl2_isSimple h4
-  haveI : IsSimpleGroup ↥Lb := e.isSimpleGroup
-  haveI hnorm : (U.subgroupOf Lb).Normal :=
+  have : IsSimpleGroup (SL2 F) := sbl2_sl2_isSimple h4
+  have : IsSimpleGroup ↥Lb := e.isSimpleGroup
+  have hnorm : (U.subgroupOf Lb).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hU.1).2 hN
   rcases hnorm.eq_bot_or_eq_top with h | h
   · refine sbl2_sylow_ne_bot (by omega) hF e hU (eq_bot_iff.2 fun u hu => ?_)
@@ -221,9 +221,9 @@ private theorem sbl2_not_le_normalizer {G : Type} [Group G] [Finite G] [Finite F
       exact hu
     exact Subgroup.mem_bot.2 (congrArg Subtype.val (Subgroup.mem_bot.1 hmem))
   · have hLU : Lb ≤ U := Subgroup.subgroupOf_eq_top.1 h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 ↥Lb := hU.2.1.to_le hLU
-    haveI := hp.isNilpotent
+    have := hp.isNilpotent
     obtain ⟨a, b, hab⟩ := sbl2_sl2_nonabelian (F := F)
     refine hab ?_
     have := IsSimpleGroup.comm_iff_isSolvable.2 (inferInstance : Group.IsSolvable ↥Lb)
@@ -319,7 +319,7 @@ private theorem sbl2_isSimple {n : ℕ} (hn : 2 ≤ n)
     rw [GaloisField.card 2 n (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup (SL2 (GaloisField 2 n)) := sbl2_sl2_isSimple h4
+  have : IsSimpleGroup (SL2 (GaloisField 2 n)) := sbl2_sl2_isSimple h4
   exact (sbl2_equivSL e).isSimpleGroup
 
 private theorem sbl2_odd_mem_of_isSubnormal {Q : Subgroup X} [Q.Normal] (hQ : IsPGroup 2 Q)
@@ -399,7 +399,7 @@ private theorem sbl2_isSylow_sup {S : Subgroup X} (hS2 : IsPGroup 2 S)
 
 private theorem sbl2_charTwo (hF : generalizedFitting X = CFSG.pCore 2 X) {N : Subgroup X}
     (hQN : CFSG.pCore 2 X ≤ N) : CFSG.QuasithinUnique.CharTwo N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : IsCharacteristicP 2 X :=
     (CFSG.isCharacteristicP_iff_generalizedFitting_eq_pCore X 2).mpr hF
   have hQ : CFSG.pCore 2 X ≤ CFSG.Open.pCoreOf 2 N :=
@@ -426,7 +426,7 @@ private theorem sbl2_cgsIn_ne {S : Subgroup X} {n : ℕ} (hn : 2 ≤ n)
   have hLb := sbl2_oResidual_quot (X := X)
   have hUsyl := sbl2_isSylow_image hQS hS2 hsyl
   have hSyl := sbl2_isSylow_sup hS2 hsyl
-  haveI := hnorm
+  have := hnorm
   set P : Subgroup X := (Subgroup.normalizer
     (((S ⊓ (oResidual 2 X ⊔ CFSG.pCore 2 X)).map (QuotientGroup.mk' (CFSG.pCore 2 X)) :
       Subgroup (X ⧸ CFSG.pCore 2 X)) : Set (X ⧸ CFSG.pCore 2 X))).comap
@@ -484,7 +484,7 @@ private theorem sbl2_eq_oResidual {S : Subgroup X} {n : ℕ} (hn : 2 ≤ n)
     (hYnle : ¬ Y ≤ CFSG.Quasithin.cgsIn (S ⊔ oResidual 2 X ⊔ CFSG.pCore 2 X) S) :
     Y = oResidual 2 X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hker : (QuotientGroup.mk' (CFSG.pCore 2 X)).ker = CFSG.pCore 2 X :=
     QuotientGroup.ker_mk' (N := CFSG.pCore 2 X)
@@ -495,7 +495,7 @@ private theorem sbl2_eq_oResidual {S : Subgroup X} {n : ℕ} (hn : 2 ≤ n)
   have hMX₀ : oResidual 2 X ⊔ CFSG.pCore 2 X ≤ S ⊔ oResidual 2 X ⊔ CFSG.pCore 2 X :=
     sup_le hLX₀ le_sup_right
   have hYL : Y ≤ oResidual 2 X := by
-    haveI : ((oResidual 2 X).subgroupOf Y).Normal := inferInstance
+    have : ((oResidual 2 X).subgroupOf Y).Normal := inferInstance
     have hP : IsPGroup 2 (↥Y ⧸ (oResidual 2 X).subgroupOf Y) := by
       intro g
       induction g using QuotientGroup.induction_on with
@@ -551,7 +551,7 @@ theorem concl315_of_typeL2_sylow
       (oResidual 2 X ⊔ CFSG.pCore 2 X))
     (hKG : CFSG.Open.IsKGroup X)
     (hnorm : (S ⊔ oResidual 2 X ⊔ CFSG.pCore 2 X).Normal) : Concl315 X S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQS : CFSG.pCore 2 X ≤ S := Push153.pCore_le_of_mem_maxInvariant hS
   have hS2 : IsPGroup 2 S := (isPiSubgroup_piOf_iff Nat.prime_two S).mp hS.prop.2.1
   by_cases hC : ∃ C : Subgroup X, C ≠ ⊥ ∧ C ≤ S ∧ (C.subgroupOf S).Characteristic ∧ C.Normal

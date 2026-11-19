@@ -33,7 +33,7 @@ private lemma feomeg_finite (F : Type) {f : ℕ} (hc : Nat.card F = 2 ^ f) :
 
 private lemma feomeg_one_le (F : Type) [Field F] {f : ℕ} (hc : Nat.card F = 2 ^ f) :
     1 ≤ f := by
-  haveI : Finite F := feomeg_finite F hc
+  have : Finite F := feomeg_finite F hc
   have h2 : 2 ≤ Nat.card F := by
     have := Finite.one_lt_card (α := F)
     omega
@@ -45,8 +45,8 @@ private lemma feomeg_one_le (F : Type) [Field F] {f : ℕ} (hc : Nat.card F = 2 
 
 private lemma feomeg_charP (F : Type) [Field F] [Finite F] {f : ℕ} (hc : Nat.card F = 2 ^ f) :
     CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F (ringChar F) := ringChar.charP F
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F (ringChar F) := ringChar.charP F
   obtain ⟨n, hpprime, hcard⟩ := FiniteField.card F (ringChar F)
   have hcard' : (ringChar F) ^ (n : ℕ) = 2 ^ f := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hc]
@@ -99,7 +99,7 @@ private lemma feomeg_quotientCenter
     have hxc := hψ hx1
     apply Subtype.ext
     simpa using (Subgroup.mem_center_iff.mp hxc (y : U))
-  haveI : Group.IsPerfect ↥J' := ⟨hperf⟩
+  have : Group.IsPerfect ↥J' := ⟨hperf⟩
   have hcen : Subgroup.center (↥J' ⧸ fmap.ker) =
       (Subgroup.center ↥J').map (QuotientGroup.mk' fmap.ker) :=
     (CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel
@@ -128,7 +128,7 @@ private lemma feomeg_blockDegree_pos {ι F : Type} [Fintype ι] [DecidableEq ι]
     1 ≤ blockDegree A e := by
   have hmem : e ∈ (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e) := by
     rw [Submodule.mem_map]
-    exact ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+    exact ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   by_contra h
   have h0 : blockDegree A e = 0 := by omega
   have hbot : (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e) = ⊥ :=
@@ -241,9 +241,9 @@ private lemma feomeg_S_trivial_on_block
       (s' : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul, h]
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
+  let : CommRing (Algebra.adjoin F (Units.val '' S)) :=
     IsMulCommutative.instCommRing
   have hG : IsUnit (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadPlus n F))).det :=
     feomeg_gram_isUnit (Spin.quadPlus n F) (Spin.nondegenerate_polarBilin_quadPlus n F)
@@ -417,8 +417,8 @@ private lemma feomeg_block_isMinusFour
   · exact hrank
   · intro U hU
     by_contra h
-    haveI : Module.Free F ↥U := Module.Free.of_divisionRing F ↥U
-    haveI : Module.Finite F ↥U := inferInstance
+    have : Module.Free F ↥U := Module.Free.of_divisionRing F ↥U
+    have : Module.Finite F ↥U := inferInstance
     have hiff : Module.finrank F ↥U ≤ 1 ↔
         ∃ v : ↥U, ∀ w : ↥U, ∃ c : F, c • v = w :=
       finrank_le_one_iff (K := F) (V := ↥U)
@@ -789,7 +789,7 @@ private lemma feomeg_blockCentralizer_commutatorAction_commutatorElement_mem_ele
       ∀ h ∈ TauCeti.QuadraticMap.orthogonalGroup (feomeg_blockForm n F ε),
         ⁅g, h⁆ ∈ CFSG.ClassicalGroups.Orthogonal.elementaryGroup (feomeg_blockForm n F ε) := by
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic F
-  haveI : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
+  have : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
   have hleft : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingLeft :=
     fun x hx => hbf.2.1 x (fun y => by simpa using hx y)
   have hright : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingRight :=
@@ -838,7 +838,7 @@ private lemma
         TauCeti.QuadraticMap.orthogonalGroup (feomeg_blockForm n F ε)⁆ =
       CFSG.ClassicalGroups.Orthogonal.elementaryGroup (feomeg_blockForm n F ε) := by
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic F
-  haveI : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
+  have : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
   have hleft : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingLeft :=
     fun x hx => hbf.2.1 x (fun y => by simpa using hx y)
   have hright : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingRight :=
@@ -1036,9 +1036,9 @@ private lemma feomeg_blockCentralizer_actionHom_range_contains_elementaryGroup
       (s2 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         (s1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul, h]
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing (Algebra.adjoin F (Units.val '' S)) :=
+  let : CommRing (Algebra.adjoin F (Units.val '' S)) :=
     IsMulCommutative.instCommRing
   have hSε : ∀ s ∈ S, ε * (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       (s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * ε := by
@@ -1207,7 +1207,7 @@ private lemma feomeg_blockCentralizer_elementaryGroup_perfect
     ⁅CFSG.ClassicalGroups.Orthogonal.elementaryGroup (feomeg_blockForm n F ε),
       CFSG.ClassicalGroups.Orthogonal.elementaryGroup (feomeg_blockForm n F ε)⁆ =
       CFSG.ClassicalGroups.Orthogonal.elementaryGroup (feomeg_blockForm n F ε) := by
-  haveI : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
+  have : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic F
   have hleft : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingLeft :=
     fun x hx => hbf.2.1 x (fun y => by simpa using hx y)
@@ -1252,7 +1252,7 @@ private lemma feomeg_blockCentralizer_elementaryGroup_perfect
     CFSG.ComponentClassification.CatalogueBOrthogonalPointIsometry.derived_eq_elementary_isometry
       e.symm hmodel
   rw [hEq] at hperfGen
-  haveI := hperfGen
+  have := hperfGen
   exact Subgroup.commutator_eq_self
 
 private lemma feomeg_blockCentralizer_commutatorAction_eichler_mem_range
@@ -1365,7 +1365,7 @@ private lemma feomeg_block_omegaIso_statedSL
       TauCeti.QuadraticMap.orthogonalGroup (feomeg_blockForm n F ε)⁆ ≃*
       CFSG.Open.StatedSL 2 (GaloisField 2 (2 * f))) := by
   classical
-  haveI : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
+  have : FiniteDimensional F ↥(LinearMap.range (Matrix.mulVecLin ε)) := inferInstance
   have hleft : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingLeft :=
     fun x hx => hbf.2.1 x (fun y => by simpa using hx y)
   have hright : (QuadraticMap.polarBilin (feomeg_blockForm n F ε)).SeparatingRight :=
@@ -1388,10 +1388,10 @@ private lemma feomeg_block_omegaIso_statedSL
     CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction
       (feomeg_blockForm n F ε) hQ (Or.inl hbf.1) hts
   obtain ⟨E, _, _, D, ψ, ρ, -, -, hinj, hrange, -⟩ := hd4 hbf.1
-  haveI : Finite E := D.finite_E
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+  have : Finite E := D.finite_E
+  have : Fintype E := Fintype.ofFinite E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
   have hcardE : Fintype.card E = Fintype.card (GaloisField 2 (2 * f)) := by
     rw [← Nat.card_eq_fintype_card, D.card_E, ← Nat.card_eq_fintype_card, hc,
       GaloisField.card (p := 2) (n := 2 * f)
@@ -1642,7 +1642,7 @@ private lemma feomeg_component_iso
     (MulEquiv.isSimpleGroup_congr φ).mpr hKsimple
   have hJ'ne : J' ≠ ⊥ := by
     intro hbot
-    haveI hnt : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
+    have hnt : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
     have hsub : Subsingleton ↥J' :=
       ⟨fun a b => Subtype.ext (by
         have ha' : (a : ↥(spinGroup (Spin.quadPlus n F))) ∈
@@ -1707,8 +1707,8 @@ theorem ggSixLSevenFieldExtCase_omegaFourMinus_POmegaPlus (n : ℕ) (F : Type) [
     GGSixLSevenFieldExtCase (J'.map ψ) .POmegaPlus f := by
   classical
   have hf : 1 ≤ f := feomeg_one_le F hc
-  haveI : Finite F := feomeg_finite F hc
-  haveI : CharP F 2 := feomeg_charP F hc
+  have : Finite F := feomeg_finite F hc
+  have : CharP F 2 := feomeg_charP F hc
   obtain ⟨η⟩ := feomeg_component_iso n F hn f hc S hSU hS hodd hε hJε hdeg hrank hminus
   obtain ⟨ξ⟩ := feomeg_quotientCenter ψ hψ (J' := J') hJε.2.2.1
   refine ⟨.PSL, 2, 2 * f, ?_, ?_, ?_⟩

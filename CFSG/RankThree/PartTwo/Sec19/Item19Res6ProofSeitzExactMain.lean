@@ -194,15 +194,15 @@ theorem exactClosure_eq_top_of_large (h : UnitaryFieldData ℓ f K)
   have hE0 : ∃ g ∈ Subgroup.closure (outerHeisExactFix ℓ f K w α),
       ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
         homMat h a (a⁻¹ ^ 2 - a) ![1, 0, 0] :=
-    exactA9_coord_mem h hw3 ha (j := 0) (by ext i; fin_cases i <;> simp [Pi.single_apply])
+    exactA9_coord_mem h hw3 ha (j := 0) (by ext i; fin_cases i <;> simp)
   have hE1 : ∃ g ∈ Subgroup.closure (outerHeisExactFix ℓ f K w α),
       ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
         homMat h a (a⁻¹ ^ 2 - a) ![0, 1, 0] :=
-    exactA9_coord_mem h hw3 ha (j := 1) (by ext i; fin_cases i <;> simp [Pi.single_apply])
+    exactA9_coord_mem h hw3 ha (j := 1) (by ext i; fin_cases i <;> simp)
   have hE2 : ∃ g ∈ Subgroup.closure (outerHeisExactFix ℓ f K w α),
       ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
         homMat h a (a⁻¹ ^ 2 - a) ![0, 0, 1] :=
-    exactA9_coord_mem h hw3 ha (j := 2) (by ext i; fin_cases i <;> simp [Pi.single_apply])
+    exactA9_coord_mem h hw3 ha (j := 2) (by ext i; fin_cases i <;> simp)
   by_cases hk0 : h.bar c0 * c0 ≠ 1
   · exact exactA9_case0 h hq3 hℓ3 h17 hq ha hE0 hE1 hE2 hyQ hy hα0 hc0 hc1 hc2 hk0
   by_cases hk1 : h.bar c1 * c1 ≠ 1

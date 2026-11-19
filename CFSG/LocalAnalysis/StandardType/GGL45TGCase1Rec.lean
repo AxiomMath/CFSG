@@ -52,7 +52,7 @@ private theorem c15CenterPrimeOfHopf {R L' : Type} [Group R] [Group L']
     (ψ : L' →* R) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) :
     ¬ p ∣ Nat.card (Subgroup.center L') := by
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hcen : Subgroup.center L' ≤ ψ.ker := by
     intro z hz
     have h1 : ψ z ∈ Subgroup.center R := by
@@ -85,7 +85,7 @@ theorem ggCenterPrime_three_two
   obtain ⟨-, K', _, _, hK'card, ⟨eK'⟩⟩ :=
     (CFSG.Blueprint.LieModel.statedClassicalModel hLie2 (by decide) :
       StatedClassicalModel (LargeEvenProj (LargeEvenSLGroup (Fin 3) K)) .PSL 2 7 1)
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have hcard7 : Fintype.card K' = 7 := by
     rw [Fintype.card_eq_nat_card, hK'card]; norm_num
   obtain ⟨-, ⟨eM⟩⟩ :=
@@ -393,7 +393,7 @@ private theorem c15PowQAddOneMem [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2) (hn 
   exact hinner
 
 private theorem c15EqOneOfMemScalars (h : UnitaryFieldData 2 n K) (hd : 1 ≤ d) {p : ℕ}
-    (hp : p.Prime) (hpq : Nat.Coprime p (2 ^ n + 1)) {z : LargeEvenSUGroup (Fin d) K (2 ^ n)}
+    (_hp : p.Prime) (hpq : Nat.Coprime p (2 ^ n + 1)) {z : LargeEvenSUGroup (Fin d) K (2 ^ n)}
     (hz : z ∈ (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n))).ker) (hzp : z ^ p = 1) :
     z = 1 := by
   rw [LargeEvenProjMk, QuotientGroup.ker_mk'] at hz
@@ -531,7 +531,7 @@ theorem ggL45NtRecOn_famTypeACase1 :
   · dsimp only [GGL45Eps] at hq
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
-    haveI : Finite K := hfin
+    have : Finite K := hfin
     exact ⟨K, hf, hfin, hK, hQ', ggL45NtRec_linear_case1 hK hd hp hp2 hpd hq⟩
   · dsimp only [GGL45Eps] at hq
     have hq' : ¬ (p : ℤ) ∣ 2 ^ n + 1 := by simpa using hq
@@ -547,7 +547,7 @@ theorem ggL45NtRecOn_famTypeACase1 :
       norm_num at hle
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
-    haveI : Finite K := hfin
+    have : Finite K := hfin
     exact ⟨K, hf, hfin, hK, hQ', ggL45NtRec_unitary_case1 hK hlab.1 hd hdq hp hp2 hq'⟩
 
 end CFSG.StandardType.GGL45TG

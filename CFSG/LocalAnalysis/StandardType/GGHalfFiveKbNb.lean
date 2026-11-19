@@ -24,7 +24,7 @@ include h
 theorem kb_le_of_pComponent {N : Subgroup G}
     (hN : LargeEvenPComponent p (Subgroup.centralizer ({bElt φ₁ φ₂} : Set G)) N)
     (hL₁ : sl3four.map φ₁ ≤ N) : sl3four.map φ₂ ≤ N := by
-  haveI : Fact p.Prime := ⟨by rw [h.nbr.2.1]; exact Nat.prime_three⟩
+  have : Fact p.Prime := ⟨by rw [h.nbr.2.1]; exact Nat.prime_three⟩
   set y₁ : G := (gElt φ₁)⁻¹ * hElt φ₂ with hy₁
   have hgconj : (gElt φ₁)⁻¹ * bElt φ₁ φ₂ * (gElt φ₁) = bElt φ₁ φ₂ := by
     calc (gElt φ₁)⁻¹ * bElt φ₁ φ₂ * (gElt φ₁)

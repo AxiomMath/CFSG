@@ -21,7 +21,7 @@ theorem outer_pair_of_isCyclic_out_image {L : Subgroup G} [L.Normal]
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
   classical
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite ↥L := Subtype.finite
   intro t₁ t₂ ht₁L ht₂L ht₁ ht₂ hcomm
   have ht₁sq : t₁ * t₁ = 1 := by rw [← pow_two, ← ht₁, pow_orderOf_eq_one]
   have ht₂sq : t₂ * t₂ = 1 := by rw [← pow_two, ← ht₂, pow_orderOf_eq_one]

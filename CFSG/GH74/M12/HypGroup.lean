@@ -144,7 +144,7 @@ theorem comm_mem_of_index_two {P : Type*} [Group P] (K : Subgroup P) (hK : K.ind
 theorem pCore_le_sylow {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (S : Sylow p G) :
     CFSG.pCore p G ≤ (S : Subgroup G) := by
   have hsup : IsPGroup p (((S : Subgroup G) ⊔ CFSG.pCore p G : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_right S.isPGroup' (CFSG.pCore_isPGroup (G := G) (p := p))
+    IsPGroup.to_sup_of_normal_right S.isPGroup (CFSG.pCore_isPGroup (G := G) (p := p))
   have heq : (S : Subgroup G) ⊔ CFSG.pCore p G = (S : Subgroup G) :=
     (S.maximal_isPGroup.eq_of_le hsup le_sup_left).symm
   exact sup_eq_left.mp heq

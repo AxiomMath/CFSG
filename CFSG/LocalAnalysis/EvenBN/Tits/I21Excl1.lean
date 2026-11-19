@@ -45,13 +45,14 @@ theorem orderOf_conj_inv {K : Type*} [Group K] (g z : K) :
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem false_of_central_mod_oddCore [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a)
     {z : L} (hz : orderOf z = 2)
     (hmem : (QuotientGroup.mk z : L ⧸ CFSG.oddCore L) ∈ Subgroup.center (L ⧸ CFSG.oddCore L)) :
     False := by
   have hodd : CFSG.oddCore L = ⊥ := by
     refine eq_bot_iff.mpr (sSup_le fun N ⟨hN, hNodd⟩ => ?_)
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h.le
     · subst h
@@ -95,6 +96,7 @@ theorem exists_normalizer_conj (S : Sylow 2 L) {x g : L}
   S.conj_eq_normalizer_conj_of_mem_centralizer x g (Subgroup.mem_centralizer_iff.mpr hx)
     (Subgroup.mem_centralizer_iff.mpr hy)
 
+omit [Finite L] in
 theorem conj_mem_of_mem_normalizer {H : Subgroup L} {n x : L} (hn : n ∈ normalizer H)
     (hx : x ∈ H) : n⁻¹ * x * n ∈ H := by
   have := (mem_normalizer_iff.mp (inv_mem hn) x).mp hx
@@ -110,7 +112,7 @@ theorem uniqueInv_false [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a) 
     apply huniq a a.2 b b.2
     · rw [Subgroup.orderOf_coe]; exact ha
     · rw [Subgroup.orderOf_coe]; exact hb
-  rcases CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution P.isPGroup' hP with h | ⟨n, hn, hq⟩
+  rcases CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution P.isPGroup hP with h | ⟨n, hn, hq⟩
   · have heven : Even (Nat.card L) := by
       have h1 : 2 ∣ Nat.card L := he ▸ orderOf_dvd_natCard e
       exact even_iff_two_dvd.mpr h1

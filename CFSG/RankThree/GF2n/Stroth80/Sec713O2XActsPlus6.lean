@@ -139,7 +139,7 @@ theorem no_wild_plus6_ten_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatemen
   push Not at hex
   obtain ⟨Md, iD, iA, κ, hκ, S, hSA, hS2, hSw⟩ :=
     exists_conj_section_data_of_comm h52a hA h310chi hc hs hxM hxVn hxR hx2
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hWN := sec7_N_comm_W_le_V h52a hA hc hs
   have hVW : Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := sec7_V_le_W h310chi hc hs
@@ -265,7 +265,7 @@ theorem no_wild_plus6_ten_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatemen
   have hV3 := n12N_card_V hc t 3 (by norm_num) (Or.inl hp)
   have hZpos : 0 < Nat.card ↥Z := Nat.card_pos
   have hVpos : 0 < Nat.card ↥(Vt M (LB M Q B) B Z t) := Nat.card_pos
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Vt_le_Q t hv)))
   have hchi := card_mul_card_of_isChiIso
@@ -337,7 +337,7 @@ theorem no_wild_plus6_ten_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatemen
       SecHyp.of_isOppDecomp hdP hPn hVn
     obtain ⟨Y, iY, iYD, κ', hκ', hkerY⟩ :=
       exists_sectionModule_ker hker hsecP (fun k hk y hy => hWN k hk y (hPW hy))
-    haveI : Finite Y := hκ'.finite
+    have : Finite Y := hκ'.finite
     have hdec := isCompl_fixedSub_of_isOppDecomp hPn hκ' hdP hLR hL2R
     have hPcard := natCard_eq_of_isSecMod hVPlt.le hκ'
     have hYcard : Nat.card Y = Nat.card K ^ 4 := by

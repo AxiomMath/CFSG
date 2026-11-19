@@ -31,7 +31,7 @@ theorem seven_eleven_small_alt (hCore : OddTranspositionCoreInputSC)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) :
     (∀ u ∈ dSet V H E, ∀ v ∈ dSet V H E, ∃ k ∈ kSub V H E, u = k * v * k⁻¹) ∧
       SevenElevenSmallAlt X (barSub (kSub V H E) φ V) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hJK : pCoreOf 2 (kSub V H E) ≤ kSub V H E :=
     CFSG.LieType.BorelTits.pCoreOf_le (r := 2) (kSub V H E)
   refine ⟨exists_conj_dSet_of_card_eq_two h.toHyp73 h.transitive hJK hφ hS, ?_⟩

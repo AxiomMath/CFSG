@@ -42,7 +42,7 @@ theorem mem_normalizer_inf' {G : Type*} [Group G] {A B : Subgroup G} {g : G}
   intro y
   have h1 := hA y
   have h2 := hB y
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+  simp only [Subgroup.mem_inf] at h1 h2 ⊢
   exact and_congr h1 h2
 
 theorem X₂sub_le_K₃sub' : X₂sub ≤ K₃sub := X₂sub_le_K₂sub.trans K₂sub_le_K₃sub
@@ -202,9 +202,9 @@ theorem Data.Hyp.M_le_K (hYK : d.Y ≤ d.K) (hK₃ : d.K₃ ≤ d.K) :
     rwa [h.card_D₁] at this
   have hsolv : Group.IsSolvable M := by
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hMcard
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 M := IsPGroup.of_card hi
-    haveI := hp.isNilpotent
+    have := hp.isNilpotent
     infer_instance
   have hcop : (Nat.card (zpowers d.e₁)).Coprime (Nat.card M) := by
     rw [Nat.card_zpowers, d.orderOf_e₁]

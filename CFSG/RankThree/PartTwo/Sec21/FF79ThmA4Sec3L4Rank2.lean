@@ -85,8 +85,8 @@ variable {C : Type} [Group C] [Finite C]
 theorem rank2_lift_T (Q : Subgroup C) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q))
     (T : Subgroup (C ⧸ Q)) {k : ℕ} (hT : IsElemAb 3 k T) :
     ∃ T' : Subgroup C, IsElemAb 3 k T' ∧ T'.map (QuotientGroup.mk' Q) = T ∧ T' ⊓ Q = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hT.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hT.1
   have hT3 : IsPGroup 3 T := IsElementaryAbelian.isPGroup 3 T
   have h1 : IsPGroup 3 (Subgroup.zpowers (1 : C)) := by
     refine IsPGroup.of_card (n := 0) ?_
@@ -127,10 +127,10 @@ theorem rank2_lift (Q : Subgroup C) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q))
     (hTN : T ≤ Nor P) :
     ∃ P' T' : Subgroup C, IsPGroup 2 P' ∧ P' ≠ ⊥ ∧ IsElemAb 3 2 T' ∧ T' ≤ Nor P' ∧
       T'.map (QuotientGroup.mk' Q) = T ∧ T' ⊓ Q = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T', hT', hmap, hinf⟩ := rank2_lift_T Q hQ T hT
   have hT'3 : IsPGroup 3 T' := by
-    haveI := hT'.1
+    have := hT'.1
     exact IsElementaryAbelian.isPGroup 3 T'
   set Pt : Subgroup C := P.comap (QuotientGroup.mk' Q) with hPt
   have hmemPt : ∀ x : C, x ∈ Pt ↔ (QuotientGroup.mk x : C ⧸ Q) ∈ P := fun x => Iff.rfl
@@ -174,7 +174,7 @@ theorem rank2_lift (Q : Subgroup C) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q))
   obtain ⟨S, hSn, hSne⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial 3 2
       Nat.prime_three Nat.prime_two T' Pt hT'3 hnor hcop h2
-  exact ⟨S.map Pt.subtype, T', (S.isPGroup').map _, hSne, hT', hSn, hmap, hinf⟩
+  exact ⟨S.map Pt.subtype, T', (S.isPGroup).map _, hSne, hT', hSn, hmap, hinf⟩
 
 end Lift
 
@@ -187,8 +187,8 @@ theorem rank2_main {U : Subgroup G} (hUe : IsElemAb 3 2 U) (hr : localRank 3 G =
     ∀ P T : Subgroup (CQ U), IsPGroup 2 P → P ≠ ⊥ → IsElemAb 3 2 T →
       T ⊓ cqImg U U = ⊥ → T ≤ Nor P → False := by
   intro P T hP hPne hT hTZ hTN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   obtain ⟨P', T', hP', hP'ne, hT', hT'N, hmap, hinf⟩ :=
     rank2_lift (pPrimeCore 3 ↥(CenS U)) pPrimeCore_coprime_card P T hP hPne hT hTN
   have hcen : ∀ c : ↥(CenS U), ∀ u ∈ U, u * (c : G) = c * u := fun c u hu =>
@@ -225,13 +225,13 @@ theorem rank2_main {U : Subgroup G} (hUe : IsElemAb 3 2 U) (hr : localRank 3 G =
     have : c = 1 := (Subgroup.mem_bot).1 (hinf ▸ (⟨hcT, hQc⟩ : _ ∈ T' ⊓ pPrimeCore 3 ↥(CenS U)))
     simp [this]
   have hT''el : IsElemAb 3 2 (T'.map (CenS U).subtype) := by
-    haveI := hT'.1
+    have := hT'.1
     exact ⟨IsElementaryAbelian.map_subtype, by
       rw [Subgroup.card_map_of_injective (CenS U).subtype_injective]; exact hT'.2⟩
   have hA4 := rank2_elemAb_sup hUe hT''el hcomm hUT
   exact ff79_no_rank_four_in_two_local hP''ne hP''2 hA4 hr (sup_le hUN hT''N)
 
-theorem sec34_ap_rank2 (hs : FF79Sec3 b J) (h : FF79Sec34In4 b J B A P D)
+theorem sec34_ap_rank2 (hs : FF79Sec3 b J) (_h : FF79Sec34In4 b J B A P D)
     (hU : FF79Sec34UFacts b a J A) :
     ∀ P T : Subgroup (CQ (U34 b a J A)), IsPGroup 2 P → P ≠ ⊥ → IsElemAb 3 2 T →
       T ⊓ cqImg (U34 b a J A) (U34 b a J A) = ⊥ → T ≤ Nor P → False :=

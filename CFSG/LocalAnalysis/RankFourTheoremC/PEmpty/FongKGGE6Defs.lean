@@ -59,14 +59,14 @@ theorem mem_stabU_iff_map {F : Type} [Field F] {α : MulAut (C6 F)} :
 
 theorem U6_sylow (F : Type) [Field F] [Finite F] [CharP F 2] :
     ∃ P : Sylow 2 (C6 F), (P : Subgroup (C6 F)) = U6 F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.E6).length
   exact (exceptional_ordinary_Sylow_opposition Tag.E6 F 2 w₀ hw₀).1
 
 theorem exists_conj_stabU (F : Type) [Field F] [Finite F] [CharP F 2] {S : Subgroup (MulAut (C6 F))}
     (hS : IsPGroup 2 ↥S) :
     ∃ h : C6 F, ∀ σ ∈ S, MulAut.conj h⁻¹ * σ * MulAut.conj h ∈ stabU F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_two_fixed hS
   obtain ⟨P₀, hP₀⟩ := U6_sylow F
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq (C6 F) P₀ P
@@ -74,7 +74,7 @@ theorem exists_conj_stabU (F : Type) [Field F] [Finite F] [CharP F 2] {S : Subgr
   have hmem : ∀ y : C6 F, y ∈ (P : Subgroup (C6 F)) ↔ h⁻¹ * y * h ∈ U6 F := by
     intro y
     rw [← hh, ← hP₀, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have e1 : (MulAut.conj h⁻¹ * σ * MulAut.conj h) x = h⁻¹ * σ (h * x * h⁻¹) * h := by
     simp [MulAut.mul_apply, MulAut.conj_apply, mul_assoc]
   rw [e1]

@@ -84,7 +84,7 @@ theorem w4Fi22RowM4CentreThree_holds :
     W4Fi22RowM4CentreThree := by
   intro W _ _ hW Y L hLY hLn hF hq hO2 hZ hs
   obtain ⟨e⟩ := hs
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← sq]; exact hW w
   have hne : Subgroup.center ↥L ≠ ⊥ := by
@@ -116,9 +116,9 @@ theorem w4Fi22RowM4CentreThree_holds :
     m4_conj_centre_eq_or_inv hLY hLn hζ hZ hζ1
   obtain ⟨U, hUc, hUf, ρ, hU, hnt, hfixU, hdisp⟩ :=
     exists_fpf_module_of_order_three hW' hζY hζ3' hζ1' hnorm
-  letI : CommGroup U := hUc
-  letI : Finite U := hUf
-  haveI : Nontrivial U := hnt
+  let : CommGroup U := hUc
+  let : Finite U := hUf
+  have : Nontrivial U := hnt
   let ρL : ↥L →* MulAut U := ρ.comp (Subgroup.inclusion hLY)
   have hargζ : Subgroup.inclusion hLY ζ = ⟨ζ', hζY⟩ := Subtype.ext rfl
   have hρeqζ : ρL ζ = ρ ⟨ζ', hζY⟩ := by

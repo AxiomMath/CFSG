@@ -34,7 +34,7 @@ open Hering129KN3
 theorem exists_inverted_w {Q : Type} [Group Q] (τ : Q ≃* Q) (m : ℕ)
     (hτ : (τ ^ (2 ^ m) : Q ≃* Q) = 1) {a z w : Q} (haz : a * z = z * a) (ha3 : a ^ 3 = 1)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) (hwa : w * a * w⁻¹ = z * a) (hwz : w * z = z * w)
-    (hw3 : w ^ 3 = 1) (hτa : τ a = a) (hτz : τ z = z⁻¹) {i k : ℤ}
+    (_hw3 : w ^ 3 = 1) (hτa : τ a = a) (hτz : τ z = z⁻¹) {i k : ℤ}
     (hτw : τ w = a ^ i * z ^ k * w⁻¹) :
     ∃ i' k' : ℤ, τ (a ^ i' * z ^ k' * w) = (a ^ i' * z ^ k' * w)⁻¹ := by
   have hza : Commute z a := (show Commute a z from haz).symm
@@ -107,7 +107,7 @@ theorem exists_inverted_w {Q : Type} [Group Q] (τ : Q ≃* Q) (m : ℕ)
       _ = z ^ i := by rw [hki, one_mul]
   have ha3i : a ^ (3 * i) = 1 := by rw [zpow_mul, zpow_ofNat, ha3, one_zpow]
   calc τ (a ^ i * z ^ (0 : ℤ) * w) = a ^ i * (a ^ i * z ^ k) * w⁻¹ := by
-        simp only [map_mul, map_zpow, hτa, hτw, zpow_zero, mul_one, one_mul]; group
+        simp only [map_mul, map_zpow, hτa, hτw, zpow_zero, mul_one]; group
     _ = a ^ i * (z ^ i * a ^ i) * w⁻¹ := by rw [e5, hzk]
     _ = z ^ i * a ^ (3 * i) * a ^ (-i) * w⁻¹ := by
         have : a ^ i * z ^ i = z ^ i * a ^ i := ((hza.zpow_zpow i i).eq).symm
@@ -276,13 +276,13 @@ theorem quot_core {Q : Type} [Group Q] [Finite Q] (τ : Q ≃* Q) {A B Z V : Q}
     let K : Subgroup Q :=
       { carrier := {q | q * (τ q)⁻¹ ∈ E}
         mul_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq, map_mul, mul_inv_rev] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq, map_mul, mul_inv_rev] at hx hy ⊢
           have := mul_mem (hEn.conj_mem _ hy x) hx
           convert this using 1
           group
         one_mem' := by simp
         inv_mem' := fun {x} hx => by
-          simp only [Set.mem_setOf_eq, map_inv, inv_inv] at hx ⊢
+          simp only [Set.mem_ofPred_eq, map_inv, inv_inv] at hx ⊢
           have := hEn.conj_mem _ (inv_mem hx) x⁻¹
           convert this using 1
           group }
@@ -566,6 +566,7 @@ section Factor
 
 variable {X : Type} [Group X] [Finite X] {U R : Subgroup X} {a z : X}
 
+omit [Finite X] in
 theorem mem_R_of_pow (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r * a = a * r)
     (hR3 : ¬ 3 ∣ Nat.card R)
     (hdec : ∀ u ∈ U, u * a = a * u →
@@ -596,6 +597,7 @@ theorem mem_R_of_pow (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r 
   rw [hv1, one_mul]
   exact hr
 
+omit [Finite X] in
 theorem conj_mem_R (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r * a = a * r)
     (hR3 : ¬ 3 ∣ Nat.card R)
     (hdec : ∀ u ∈ U, u * a = a * u →
@@ -617,6 +619,7 @@ theorem conj_mem_R (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r * 
   refine mem_R_of_pow h hRU hRa hR3 hdec hgU hga.eq (n := Nat.card R) ?_ hR3
   rw [conj_pow, hrN, mul_one, mul_inv_cancel]
 
+omit [Finite X] in
 theorem t_conj_R (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r * a = a * r)
     (hR3 : ¬ 3 ∣ Nat.card R)
     (hdec : ∀ u ∈ U, u * a = a * u →
@@ -633,6 +636,7 @@ theorem t_conj_R (h : SLFactor U a z) (hRU : R ≤ U) (hRa : ∀ r ∈ R, r * a 
   refine mem_R_of_pow h hRU hRa hR3 hdec (htU r (hRU hr)) hga (n := Nat.card R) ?_ hR3
   rw [conj_pow, hrN, mul_one, mul_inv_cancel]
 
+omit [Finite X] in
 theorem decomp_factor (h : SLFactor U a z)
     (hdec : ∀ u ∈ U, u * a = a * u →
       ∃ v ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers z, ∃ r ∈ R, u = v * r)
@@ -657,6 +661,7 @@ theorem decomp_factor (h : SLFactor U a z)
   calc u = u * w ^ (-e) * w ^ e := by group
     _ = v * r * w ^ e := by rw [hvr]
 
+omit [Finite X] in
 theorem t_conj_w (h : SLFactor U a z)
     (hdec : ∀ u ∈ U, u * a = a * u →
       ∃ v ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers z, ∃ r ∈ R, u = v * r)
@@ -810,7 +815,7 @@ theorem endLocalX_of_factors {X : Type} [Group X] [Finite X] {U₁ U₂ : Subgro
   have hRS : R ≤ S := hRdef ▸ sup_le hR₁S hR₂S
   have hR3 : ¬ 3 ∣ Nat.card R := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hgR : (g : X) ∈ R₁ ⊔ R₂ := hRdef ▸ g.2
     obtain ⟨r₁, hr₁, r₂, hr₂, hg'⟩ :=
@@ -1074,7 +1079,7 @@ theorem endLocalX_of_factors {X : Type} [Group X] [Finite X] {U₁ U₂ : Subgro
     simp only [map_mul, map_zpow, map_inv, hρr₁, hρr₂, mul_one]
   obtain ⟨hcard, hcommE, hexpE, hinvE, hzE⟩ := quot_algebra τ m hτ2 hAB hAZ hBZ hA3 hB3 hZ3
     hZ1 hW3 hWA hWB hWZ hτA hτB hτZ hτW hgen
-  haveI := hRSn
+  have := hRSn
   refine ⟨S, hzS, S ⧸ R.subgroupOf S, inferInstance, inferInstance, ρ, τ,
     fun s hs => ((hmemS s).1 hs).1, fun s hs => ((hmemS s).1 hs).2.symm,
     fun s hs => (hzU s ((hmemS s).1 hs).1).symm, htS, hρsurj, ?_, ?_, hcard, hcommE, hexpE,

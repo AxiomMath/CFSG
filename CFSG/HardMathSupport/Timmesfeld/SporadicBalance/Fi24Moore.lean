@@ -35,7 +35,7 @@ theorem moore_of_chainD24 {w : CFSG.Sporadic.Fi24.J} {k : ℕ} (hk : 2 ≤ k) (s
     ⟨{x | ∃ y ∈ CFSG.Sporadic.Fi24.D24, (y : GL (Fin 781) (ZMod 3)) = x}, fun _ => Iff.rfl⟩
   let s' : ℕ → GL (Fin 781) (ZMod 3) := fun i => if h : i < k then (s ⟨i, h⟩ : GL (Fin 781) (ZMod 3))
     else 1
-  have hs' : ∀ i (h : i < k), s' i = (s ⟨i, h⟩ : GL (Fin 781) (ZMod 3)) := fun i h => dif_pos h
+  have hs' : ∀ i (h : i < k), s' i = (s ⟨i, h⟩ : GL (Fin 781) (ZMod 3)) := fun i h => dite_eq_left h
   have hsqD : ∀ x ∈ D, x * x = 1 := by
     intro x hxD
     obtain ⟨y, hy, rfl⟩ := (hD x).1 hxD
@@ -83,7 +83,7 @@ theorem moore_of_chainD24 {w : CFSG.Sporadic.Fi24.J} {k : ℕ} (hk : 2 ≤ k) (s
   have hm : ∀ j (h : j < k),
       (m j : GL (Fin 781) (ZMod 3)) = CFSG.Sporadic.SchreierLemmas.mooreOfChain s' j := by
     intro j h
-    simp only [m, dif_pos h]
+    simp only [m, dite_eq_left h]
   refine ⟨m, ⟨?_, fun j h2 hj => ?_, fun j h2 hj => ?_, fun i j hi hij hj => ?_⟩, ?_, ?_⟩
   · apply Subtype.ext
     change (m 1 : GL (Fin 781) (ZMod 3)) ^ 3 = 1

@@ -53,13 +53,13 @@ theorem twoSubgroupsFourGenerated_of_edgeless_star {K : Subgroup G} {z : G} (hp2
   have hzmap : z ∈ (Q : Subgroup K).map K.subtype :=
     ⟨⟨z, hz.mem⟩, hzQ (Subgroup.mem_zpowers _), rfl⟩
   have hp2g : IsPGroup 2 ((Q : Subgroup K).map K.subtype) :=
-    Q.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ K.subtype K.subtype_injective)
+    Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ K.subtype K.subtype_injective)
   obtain ⟨S, hQS⟩ := hp2g.exists_le_sylow
   have hSC := le_normalizer_of_commute_imp_normalizes Q hQq hzmap hU.1 hU.2.2.2.1 hU.2.2.2.2
-    S.isPGroup' hQS (fun _ h => hU.conj_eq_of_commuting hT hCSM Q h)
+    S.isPGroup hQS (fun _ h => hU.conj_eq_of_commuting hT hCSM Q h)
   refine fourGenerated_of_sylow S fun P hPS => ?_
   have hP : IsPGroup 2 P :=
-    S.isPGroup'.of_injective (Subgroup.inclusion hPS) (Subgroup.inclusion_injective hPS)
+    S.isPGroup.of_injective (Subgroup.inclusion hPS) (Subgroup.inclusion_injective hPS)
   exact exists_four_generators_of_twoRankOne hE2 hP (hE3 P hP fun x hx =>
     mem_normalizer_of_mem_centralizer_of_normal hU.2.2.2.1 hU.2.2.2.2 (hSC (hPS hx)))
 

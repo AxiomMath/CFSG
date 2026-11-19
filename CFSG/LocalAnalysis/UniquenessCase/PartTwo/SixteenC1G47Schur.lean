@@ -65,12 +65,12 @@ private lemma s16c1_G47_schur16_fixedPoints_card {E : Type*} [Group E] (σ : Mul
   · exact ⟨1, by
       rw [MulAction.mem_fixedPoints]
       intro g
-      simp [MulAut.smul_def, Subgroup.smul_def]⟩
+      simp⟩
 
 private lemma s16c1_G47_schur16_card_modEq {E : Type*} [Group E] [Finite E] (σ : MulAut E)
     {q : ℕ} (hq : q.Prime) (hσ : σ ^ q = 1) (hfix : ∀ x : E, σ x = x → x = 1) :
     Nat.card E ≡ 1 [MOD q] := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hG : IsPGroup q ↥(Subgroup.zpowers σ) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [pow_one, Nat.card_zpowers]
@@ -80,7 +80,7 @@ private lemma s16c1_G47_schur16_card_modEq {E : Type*} [Group E] [Finite E] (σ 
   rwa [hcard] at hmod
 
 theorem s16c1_G47_schur16 {Hs F : Type} [Group Hs] [Group F] [Finite F] (ρ : Hs →* MulAut F)
-    (hF : ∀ e : F, e * e = 1) {D₀ : Subgroup F} (hD : Nat.card ↥D₀ = 16)
+    (_hF : ∀ e : F, e * e = 1) {D₀ : Subgroup F} (hD : Nat.card ↥D₀ = 16)
     {Xs : Subgroup Hs} (hX : Group.IsPerfect Xs)
     (hDX : ∀ x ∈ Xs, ∀ d ∈ D₀, ρ x d ∈ D₀)
     (hirr : ∀ S : Subgroup F, S ≤ D₀ → (∀ x ∈ Xs, ∀ s ∈ S, ρ x s ∈ S) → S = ⊥ ∨ S = D₀)
@@ -88,7 +88,7 @@ theorem s16c1_G47_schur16 {Hs F : Type} [Group Hs] [Group F] [Finite F] (ρ : Hs
     (hcX : ∀ x ∈ Xs, c * x = x * c) (hcD : ∀ d ∈ D₀, ρ c d ∈ D₀) :
     ∀ d ∈ D₀, ρ c d = d := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let σ : MulAut ↥D₀ := s16c1_G47_schur16_restrictMulAut (ρ c) D₀ hcD
   have hσ_apply : ∀ x : ↥D₀, ((σ x : ↥D₀) : F) = ρ c (x : F) :=
     fun x => s16c1_G47_schur16_restrictMulAut_apply (ρ c) D₀ hcD x
@@ -163,7 +163,7 @@ theorem s16c1_G47_schur16 {Hs F : Type} [Group Hs] [Group F] [Finite F] (ρ : Hs
           obtain ⟨i, rfl⟩ := hy
           have hgen : (σ ^ (i + 1)) a ∈ S := Subgroup.subset_closure ⟨i + 1, rfl⟩
           simpa [pow_succ', MulAut.mul_apply] using hgen)
-        (by simpa using Subgroup.one_mem S)
+        (by simp)
         (fun x y hx hy hx' hy' => by
           rw [map_mul]
           exact S.mul_mem hx' hy')
@@ -286,13 +286,13 @@ theorem s16c1_G47_schur16 {Hs F : Type} [Group Hs] [Group F] [Finite F] (ρ : Hs
     have hrange_le : Nat.card θ.range ≤ Nat.card ↥C :=
       Nat.card_le_card_of_injective (Subgroup.inclusion hθC) (Subgroup.inclusion_injective hθC)
     have hrange16 : Nat.card θ.range ≤ 16 := le_trans hrange_le hCcard
-    haveI : Group.IsPerfect ↥Xs := hX
-    haveI : Group.IsPerfect θ.range := Group.IsPerfect.range θ
+    have : Group.IsPerfect ↥Xs := hX
+    have : Group.IsPerfect θ.range := Group.IsPerfect.range θ
     have hsolv : Group.IsSolvable θ.range :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable (G := ↥θ.range) (by omega)
     have htriv : Subsingleton θ.range := by
       by_contra hns
-      haveI : Nontrivial θ.range := not_subsingleton_iff_nontrivial.mp hns
+      have : Nontrivial θ.range := not_subsingleton_iff_nontrivial.mp hns
       exact Group.IsPerfect.not_isSolvable (G := θ.range) hsolv
     have hθ1 : ∀ x : ↥Xs, θ x = 1 := by
       intro x
@@ -305,7 +305,7 @@ theorem s16c1_G47_schur16 {Hs F : Type} [Group Hs] [Group F] [Finite F] (ρ : Hs
         congrArg (fun y : ↥D₀ => (y : F)) h1
       rw [hθ_apply ⟨x, hx⟩ ⟨d, hd⟩] at h2
       simpa using h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2dvd : 2 ∣ Nat.card ↥D₀ := by rw [hD]; norm_num
     obtain ⟨s, hs2⟩ := exists_prime_orderOf_dvd_card' (G := ↥D₀) 2 h2dvd
     let S₂ : Subgroup F := Subgroup.zpowers ((s : ↥D₀) : F)

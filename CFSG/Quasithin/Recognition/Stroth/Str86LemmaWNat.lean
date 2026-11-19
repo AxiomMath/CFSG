@@ -77,16 +77,18 @@ private theorem chiefLift_range {H U L N : Subgroup G} (hstep : IsChiefStep H U 
 private theorem chiefAut_perfect {H U L N : Subgroup G} (hstep : IsChiefStep H U L N)
     (hUH : U ≤ H) (hU2 : IsPGroup 2 U) (hqH : IsQuasisimple (oTwoQuot ↥H)) :
     Group.IsPerfect ↥(Ch3z.chiefAut H L N) := by
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
+  have : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
   have h := Group.IsPerfect.range (chiefLift hstep hUH hU2)
   rwa [chiefLift_range hstep hUH hU2] at h
 
+omit [Finite G] in
 private theorem chiefAut_irreducible {H U L N : Subgroup G} (hstep : IsChiefStep H U L N)
     (hUH : U ≤ H) :
     ∀ W : Subgroup ↥(Ch3z.chiefMod L N),
       (∀ g ∈ Ch3z.chiefAut H L N, ∀ w ∈ W, g w ∈ W) → W = ⊥ ∨ W = ⊤ :=
   fun W hW => Ch3z.chiefMod_irr hstep hUH W hW
 
+omit [Finite G] in
 private theorem le_normalizer_centralizerMod {H U L N : Subgroup G}
     (hstep : IsChiefStep H U L N) (hUH : U ≤ H) :
     H ≤ Subgroup.normalizer (centralizerMod L H N : Set G) := by
@@ -130,6 +132,7 @@ private theorem chiefPsi_ne_one {H U L N : Subgroup G} {t : G} {q : ℕ}
       simpa only [pow_one, pow_two] using ht2
     exact htO (h2el t htK ⟨1, htz⟩)
 
+omit [Finite G] in
 private theorem fixV_zpowers_chiefPsi_eq {H U L N : Subgroup G} {t : G}
     {hE : IsElemAbelian 2 (Ch3z.chiefMod L N)} (hstep : IsChiefStep H U L N)
     (htH : t ∈ H) :
@@ -140,7 +143,7 @@ private theorem fixV_zpowers_chiefPsi_eq {H U L N : Subgroup G} {t : G}
         (Subgroup.zpowers t) : Set (SecQuot (Subgroup.normalizer (L : Set G)) L))).subgroupOf
         (Ch3z.chiefMod L N) := by
   classical
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   let A0 : Subgroup G := Subgroup.normalizer (L : Set G)
   let z : SecQuot A0 L := secMk A0 L ⟨t, D14.le_normalizer_of_isNormalIn hstep.2.1 htH⟩
   let n0 : Subgroup.normalizer
@@ -240,7 +243,7 @@ private theorem quotient_center_statedProj {X : Type} [Group X] [Finite X] {k : 
   have hsimple : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 k hFc 3
       (by norm_num) hnq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSUq := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := k) (F := F) hFc (by norm_num) hnq
   have hnc : ∃ a b : StatedProj (StatedSU 3 (2 ^ k) F), a * b ≠ b * a :=
@@ -297,6 +300,7 @@ private theorem mem_sup_of_mem_p1_not_mem_q1
   exact (str86_le_lhat_of_isPGroup hI hX2).1 (Subgroup.zpowers_le.mpr htP)
     (Subgroup.mem_zpowers t)
 
+omit [Finite G] in
 private theorem chiefPsi_mem_and_sq {H L N : Subgroup G} {t : G}
     (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) (htH : t ∈ H) (ht2 : t * t = 1) :
@@ -308,6 +312,7 @@ private theorem chiefPsi_mem_and_sq {H L N : Subgroup G} {t : G}
       Ch3z.chiefPsi hHL hHN (⟨t, htH⟩ * ⟨t, htH⟩) := by rw [map_mul]
     _ = 1 := by rw [hsq, map_one]
 
+omit [Finite G] in
 private theorem chiefMod_square_eq_one {L N : Subgroup G}
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (w : ↥(Ch3z.chiefMod L N)) :
     w * w = 1 := by
@@ -330,7 +335,7 @@ theorem Str86AbHyp.chiefFactor_natural
   let V : Subgroup G := conjClosure (Z2 L1 L2 S) L1
   have h1 : VU3Big L1 := ⟨k, hI.hk, F, inferInstance, inferInstance, hI.hFc, hI.hU3⟩
   have hpCoreH : pCoreOf 2 H = Q1 L1 L2 S :=
-    u3LS_pCoreOf (k := k) (F := F) hI.hF hI.hSB h1
+    u3LS_pCoreOf (_k := k) (F := F) hI.hF hI.hSB h1
   have hQ1S : Q1 L1 L2 S ≤ S :=
     CFSG.Quasithin.F7.isSylowTwoOf_pCoreOf_le (f112_isSylowTwoOf_P1 hI.hF.toW)
   obtain ⟨hVQ1, -, -⟩ := str86_conjClosure_frame hI hZQ
@@ -339,7 +344,7 @@ theorem Str86AbHyp.chiefFactor_natural
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hE : IsElemAbelian 2 (Ch3z.chiefMod L N) := isElemAbelian_chiefMod hstep hVH hV2
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   have hWsq : ∀ w : ↥(Ch3z.chiefMod L N), w * w = 1 := fun w => chiefMod_square_eq_one hE w
   have hqL1 : IsQuasisimple (oTwoQuot ↥L1) :=
     isQuasisimple_oTwoQuot_of_u3 hI.hk hI.hFc hI.hU3
@@ -353,7 +358,7 @@ theorem Str86AbHyp.chiefFactor_natural
   let tW : MulAut ↥(Ch3z.chiefMod L N) := Ch3z.chiefPsi hHL hHN ⟨t, htH⟩
   obtain ⟨htWmem, htW2⟩ := chiefPsi_mem_and_sq hHL hHN htH ht2
   have htWne : tW ≠ 1 := chiefPsi_ne_one hstep hVH hV2 hnc htH ht2 htO hqHq
-  haveI : Nontrivial ↥(Ch3z.chiefAut H L N) :=
+  have : Nontrivial ↥(Ch3z.chiefAut H L N) :=
     ⟨⟨⟨tW, htWmem⟩, 1, fun h => htWne (congrArg Subtype.val h)⟩⟩
   have hperf : Group.IsPerfect ↥(Ch3z.chiefAut H L N) :=
     chiefAut_perfect hstep hVH hV2 hqH

@@ -37,13 +37,13 @@ theorem adjacent_lengths {i j : Fin τ.rank} (hij : i ≠ j) (hc : τ.cartan i j
   refine ⟨?_, ?_⟩
   · rw [height_reflect, height_single]
     simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     omega
   · rw [height_reflect]
     have h1 : height (reflect τ i (Pi.single j 1)) = 1 - τ.cartan i j := by
       rw [height_reflect, height_single]
       simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
     have hr : reflect τ i (Pi.single j 1) = Pi.single j 1 - τ.cartan i j • Pi.single i 1 := by
       simp [reflect, Pi.single_apply]
     have h2 : ∑ k, τ.cartan j k * reflect τ i (Pi.single j 1) k =
@@ -56,8 +56,8 @@ theorem adjacent_lengths {i j : Fin τ.rank} (hij : i ≠ j) (hc : τ.cartan i j
         intro k
         simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
         ring
-      simp only [e, Finset.sum_sub_distrib, ← Finset.mul_sum, Pi.single_apply, mul_ite,
-        mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [e, Finset.sum_sub_distrib, Pi.single_apply, mul_ite,
+        mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [h1, h2, hjj]
     have h3 : τ.cartan i j ≤ -1 := by omega
     have h4 : τ.cartan j i ≤ -1 := by omega

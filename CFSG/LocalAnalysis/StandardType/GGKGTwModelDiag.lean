@@ -18,13 +18,13 @@ theorem modelDiag_of_good_cover {R : Type} [Group R] (hAL : GGAbelianLift) (D : 
     (hD : D.Good) (hcov : CoverOdd R) {L' : Type} [Group L'] [Finite L'] {ψ : L' →* R}
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) {ρ : MulAut L' →* MulAut R}
-    (hρ : ∀ a l, ρ a (ψ l) = ψ (a l)) (hρinj : Function.Injective ρ)
+    (hρ : ∀ a l, ρ a (ψ l) = ψ (a l)) (_hρinj : Function.Injective ρ)
     {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A) (hsc : GGTorusSelfCent 3 A)
     (hal : ∀ a ∈ A, ρ a ∈ D.diag.range) :
     ∃ Φ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3), (∀ a : A, D.diag (Φ a) = ρ a) ∧
       ∃ (T : Subgroup L') (w : Fin 6 → L'), Body ψ.ker A Φ T w := by
   classical
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZ : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hD.center
   have hAle : A ≤ U63TB.presZ (U63TB.twoSub ψ.ker hker) := fun a ha =>
     U63TB.mem_presZ_of_ker hker fun z hz =>

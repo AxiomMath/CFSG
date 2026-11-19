@@ -71,13 +71,13 @@ theorem ff_cover_trans {φ : ↥L →* H} (hφ : OddCentralCover φ) {B : Subgro
   have himg1 : φ ⟨b, hbL⟩ ≠ 1 := by
     intro hcon
     have h1 : (⟨b, hbL⟩ : ↥L) = 1 :=
-      ff_cover_eq_of_pGroup hφ hB (l := ⟨b, hbL⟩) (l' := 1) hb (by simpa using B.one_mem)
+      ff_cover_eq_of_pGroup hφ hB (l := ⟨b, hbL⟩) (l' := 1) hb (by simp)
         (by simpa using hcon)
     exact hb1 (by simpa using congrArg (fun x : ↥L => (x : G)) h1)
   have himg1' : φ ⟨b', hb'L⟩ ≠ 1 := by
     intro hcon
     have h1 : (⟨b', hb'L⟩ : ↥L) = 1 :=
-      ff_cover_eq_of_pGroup hφ hB (l := ⟨b', hb'L⟩) (l' := 1) hb' (by simpa using B.one_mem)
+      ff_cover_eq_of_pGroup hφ hB (l := ⟨b', hb'L⟩) (l' := 1) hb' (by simp)
         (by simpa using hcon)
     exact hb'1 (by simpa using congrArg (fun x : ↥L => (x : G)) h1)
   obtain ⟨n, hnN, hn⟩ := h (φ ⟨b, hbL⟩) (mem_ffImg_iff.mpr ⟨⟨b, hbL⟩, hb, rfl⟩)
@@ -103,7 +103,7 @@ theorem ff_cover_centralizer_eq {φ : ↥L →* H} (hφ : OddCentralCover φ) {B
   have hB : IsPGroup 2 B := fun g => ⟨1, by rw [pow_one]; simpa [pow_two] using hsq g⟩
   have hsup : B ⊔ centerIn L ≤ L ⊓ Subgroup.centralizer (B : Set G) := by
     refine sup_le (le_inf hBL ?_) (le_inf (Subgroup.map_subtype_le _) ?_)
-    · haveI : IsMulCommutative ↥B := hab.1
+    · have : IsMulCommutative ↥B := hab.1
       exact Subgroup.le_centralizer B
     · intro z hz
       rw [Subgroup.mem_centralizer_iff]

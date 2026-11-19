@@ -136,7 +136,7 @@ theorem bit_mulVecAux (M : List Nat) (v acc i : Nat) :
     have hs : ∀ k, bit (v / 2) k = bit v (k + 1) := fun k => by
       unfold bit; rw [Nat.testBit_div_two]
     simp only [hs, List.getD_cons_succ, List.getD_cons_zero, h0]
-    split_ifs <;> simp [bit_xor] <;> ring
+    split_ifs <;> simp [bit_xor]; ring
 
 theorem mulVec_zero (M : List Nat) : mulVec M 0 = 0 := by
   unfold mulVec
@@ -194,7 +194,7 @@ theorem toMat_addId {d : Nat} (M : List Nat) (hM : M.length = d) :
   have hj : (addId M).getD j 0 = M.getD j 0 ^^^ 2 ^ (j : Nat) := by
     have hjl : (j : Nat) < M.length := hM ▸ j.isLt
     rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD]
-    simp [addId, hjl, List.getElem?_eq_getElem hjl]
+    simp [addId, hjl]
   simp only [toMat, Matrix.of_apply, Matrix.add_apply, hj, bit_xor, bit_two_pow,
     Matrix.one_apply]
   by_cases h : i = j

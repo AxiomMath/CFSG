@@ -70,10 +70,12 @@ theorem rImg_comp (A : Subgroup P24) : rImg (ρ'.comp φ) A = rImg ρ' (conjSubg
   unfold rImg
   rw [← Subgroup.map_map, key]
 
+omit hΓ hφ in
 theorem cenM_comp (W : Subgroup V) : cenM (ρ'.comp φ) W = (cenM ρ' W).comap φ := by
   unfold cenM
   rw [Subgroup.comap_comap]
 
+omit hΓ in
 theorem comap_subgroupOf (K : Subgroup P24) :
     ((conjSubg c K).subgroupOf Γ').comap φ = K.subgroupOf Γ := by
   ext g
@@ -96,8 +98,8 @@ theorem Concl163_comp (Q : Finset (Finset (Fin 24))) :
     exact hF
   · rw [hM, hK] at hI
     exact hI
-  · rw [← hK, cenM_comp c hΓ ρ' φ hφ, hcen, h163_KY_comp c hΓ Q]
-    exact comap_subgroupOf c hΓ φ hφ (KY Γ Q)
+  · rw [← hK, cenM_comp ρ' φ, hcen, h163_KY_comp c hΓ Q]
+    exact comap_subgroupOf c φ hφ (KY Γ Q)
   · have hP' := hP
     rw [h163_KY_comp c hΓ Q] at hP'
     exact h163_isPGroup_of_conjSubg c (KY Γ Q) hP'

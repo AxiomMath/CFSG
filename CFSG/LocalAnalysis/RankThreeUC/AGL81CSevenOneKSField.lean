@@ -28,8 +28,8 @@ theorem exists_not_mem_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [hp
     obtain ⟨E, hEP, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.out.one_lt (P : Subgroup G)
     have hEI : E ≤ I := fun e he => hin e (hE.2 e he)
     exact (CFSG.SectionRank.le_pRank hp.out.one_lt hEI hE hcard).trans hrank
-  haveI : IsCyclic (P : Subgroup G) := by
-    refine OddRankOneQuotient.isCyclic_of_pRank_le_one hp.out hp2 P.isPGroup' ?_
+  have : IsCyclic (P : Subgroup G) := by
+    refine OddRankOneQuotient.isCyclic_of_pRank_le_one hp.out hp2 P.isPGroup ?_
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact hPrank
   rcases P.normalizer_le_centralizer_or_le_commutator with hN | hC
@@ -39,7 +39,7 @@ theorem exists_not_mem_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [hp
       ⟨(MonoidHom.transferSylow P hN).ker, inferInstance,
         MonoidHom.ker_transferSylow_isComplement' P hN,
         MonoidHom.not_dvd_card_ker_transferSylow P hN⟩
-    haveI := hKn
+    have := hKn
     rcases hIs.eq_bot_or_eq_top_of_normal (K.subgroupOf I) with h | h
     ·
       have hdisj : Disjoint K I := Subgroup.subgroupOf_eq_bot.mp h
@@ -64,10 +64,10 @@ theorem exists_not_mem_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [hp
         have hg : g ∈ (P : Subgroup G) := by
           rw [hPtop]
           exact Subgroup.mem_top g
-        obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+        obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
         exact ⟨k, by simpa using congrArg Subtype.val hk⟩
       obtain ⟨a, b, hab⟩ := hInab
-      haveI : Nontrivial I := ⟨⟨a * b, b * a, hab⟩⟩
+      have : Nontrivial I := ⟨⟨a * b, b * a, hab⟩⟩
       have hZ : ⊥ < Subgroup.center I := (hGp.to_subgroup I).bot_lt_center
       rcases hIs.eq_bot_or_eq_top_of_normal (Subgroup.center I) with hz | hz
       · exact hZ.ne' hz
@@ -89,7 +89,7 @@ theorem exists_not_mem_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [hp
       exact hp.out.one_lt.ne' this
   ·
     have hcard : Nat.card (G ⧸ I) = p := by rw [← Subgroup.index_eq_card, hindex]
-    haveI : IsCyclic (G ⧸ I) := isCyclic_of_prime_card hcard
+    have : IsCyclic (G ⧸ I) := isCyclic_of_prime_card hcard
     have hcomm : commutator G ≤ I :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
     have hPI : (P : Subgroup G) ≤ I := hC.trans hcomm
@@ -104,7 +104,7 @@ theorem exists_mul_pow_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : F
   obtain ⟨H, hH⟩ : ∃ H : Subgroup G, H = I ⊔ Subgroup.zpowers g := ⟨_, rfl⟩
   have hIH : I ≤ H := hH ▸ le_sup_left
   let eI : I.subgroupOf H ≃* I := Subgroup.subgroupOfEquivOfLe hIH
-  haveI : IsSimpleGroup (I.subgroupOf H) := eI.isSimpleGroup
+  have : IsSimpleGroup (I.subgroupOf H) := eI.isSimpleGroup
   have hInab' : ∃ a b : I.subgroupOf H, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hInab
     refine ⟨eI.symm a, eI.symm b, fun h => hab (eI.symm.injective ?_)⟩
@@ -185,12 +185,12 @@ end SevenOneKS
 
 theorem sevenOneFourField_holds : SevenOneFourField := by
   intro X _ _ _ p hp hp2 L hL hLn hr x hx hxp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hLn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hLn
   set C : Subgroup X := Subgroup.centralizer (L : Set X) with hC
   set π : X →* X ⧸ C := QuotientGroup.mk' C with hπ
   set I : Subgroup (X ⧸ C) := L.map π with hI
-  haveI : I.Normal := Subgroup.Normal.map hLn π (QuotientGroup.mk'_surjective C)
+  have : I.Normal := Subgroup.Normal.map hLn π (QuotientGroup.mk'_surjective C)
   set f : L →* I := π.subgroupMap L with hf
   have hfs : Function.Surjective f := π.subgroupMap_surjective L
   have hker : f.ker = Subgroup.center L := by
@@ -212,8 +212,8 @@ theorem sevenOneFourField_holds : SevenOneFourField := by
   let e : (L ⧸ Subgroup.center L) ≃* I :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hfs)
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
-  haveI : IsSimpleGroup I := e.symm.isSimpleGroup
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
+  have : IsSimpleGroup I := e.symm.isSimpleGroup
   have hInab : ∃ a b : I, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hL.1.2.2
     refine ⟨e a, e b, fun h => hab (e.injective ?_)⟩

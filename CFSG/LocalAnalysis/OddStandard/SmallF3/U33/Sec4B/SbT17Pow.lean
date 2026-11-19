@@ -13,7 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 theorem relIndex_eq_four_of_le {P Q : Subgroup G} (hP : IsPGroup 2 P) (hQP : Q < P)
     (hQ : Nat.card Q = 64) (hP256 : Nat.card P ≤ 256) (hmod : Q.relIndex P % 3 = 1) :
     Q.relIndex P = 4 ∧ Nat.card P = 256 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hinf : Q ⊓ P = Q := inf_eq_left.mpr hQP.le
   have hmul : Q.relIndex P * Nat.card (Q ⊓ P : Subgroup G) = Nat.card P := by
@@ -48,8 +48,8 @@ theorem relIndex_eq_four_of_le {P Q : Subgroup G} (hP : IsPGroup 2 P) (hQP : Q <
     exact hmul.symm
 
 theorem exists_pow_four_eq {P V : Subgroup G} (hPab : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a)
-    {ρ : G} (hρ3 : ρ ^ 3 = 1) (hρP : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) (hV4 : Nat.card V = 4)
-    (hVρ : ∀ v ∈ V, ρ * v * ρ⁻¹ ∈ V) (hfix : ∀ v ∈ V, ρ * v * ρ⁻¹ = v → v = 1)
+    {ρ : G} (_hρ3 : ρ ^ 3 = 1) (hρP : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) (hV4 : Nat.card V = 4)
+    (_hVρ : ∀ v ∈ V, ρ * v * ρ⁻¹ ∈ V) (hfix : ∀ v ∈ V, ρ * v * ρ⁻¹ = v → v = 1)
     (hPV : ∀ x ∈ P, x ^ 4 ∈ V) {x : G} (hx : x ∈ P) (hx4 : x ^ 4 ≠ 1) :
     ∀ y ∈ V, ∃ w ∈ P, w ^ 4 = y := by
   let F : Subgroup G :=
@@ -99,7 +99,7 @@ theorem exists_pow_four_eq {P V : Subgroup G} (hPab : ∀ a ∈ P, ∀ b ∈ P, 
     have hyb : (⟨b, hbF⟩ : F) = y := huniq _ (by simpa using hb_ne)
     have : (⟨b, hbF⟩ : F) = ⟨a, haF⟩ := by rw [hyb, hya]
     exact hba (congrArg Subtype.val this)
-  haveI : Nonempty F := ⟨⟨a, haF⟩⟩
+  have : Nonempty F := ⟨⟨a, haF⟩⟩
   have hc3 : 3 ≤ Nat.card F := by
     have hp : 0 < Nat.card F := Nat.card_pos
     omega

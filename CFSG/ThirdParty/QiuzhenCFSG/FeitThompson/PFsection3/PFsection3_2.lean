@@ -220,8 +220,8 @@ private theorem weightedFamilySum_eq_of_inner_omega
         (fun p : I × J => ω p.1 p.2) = α := by
   classical
   rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-  letI : IsCyclic W := hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : IsCyclic W := hcyc
+  let : CommGroup W := IsCyclic.commGroup
   have hαclass : Section1.IsClassFunction α := isClassFunction_of_commGroup α
   have hsumclass :
       Section1.IsClassFunction
@@ -573,8 +573,8 @@ private theorem exists_alpha_basis
           constructor
           ·
             rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-            letI : IsCyclic W := hcyc
-            letI : CommGroup W := IsCyclic.commGroup
+            let : IsCyclic W := hcyc
+            let : CommGroup W := IsCyclic.commGroup
             exact isClassFunction_of_commGroup φ
           · intro x hx
             have hφsupp' := (Section1.mem_classFunctionsOn).1 hφsupp

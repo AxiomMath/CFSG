@@ -72,8 +72,8 @@ theorem psu_exists_perfect_unitary_two_card (h : UnitaryFieldData 3 2 E)
     (hW : finrank E W = 2) :
     ∃ (Q : Type) (_ : Group Q) (j : Q →* sesqUnitaryGroup B'), Function.Injective j ∧
       commutator Q = ⊤ ∧ Nat.card Q = 720 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := h.finite
   obtain ⟨hsig2, hsig1, -⟩ := CatalogueBUnitaryTwo.unitaryFieldConjugation_data 3 2 h.card_eq_sq
   have hfix := OddInner.card_fixedSubfield hsig2 hsig1 h.card_eq_sq
   have hnd := CatalogueBUnitaryB.nondegenerate_of_isSymm hsym hl
@@ -102,13 +102,13 @@ theorem psu_exists_perfect_unitary_two_card (h : UnitaryFieldData 3 2 E)
 
 end Orders
 
-theorem psu_inner_three_two_false (hO : LieOrderFormulasInput) {K : Type} [Field K]
+theorem psu_inner_three_two_false (_hO : LieOrderFormulasInput) {K : Type} [Field K]
     (h : UnitaryFieldData 3 2 K) (A : primeFormUnitary h (idGram K 3))
     (hA : orderOf (primeFormConjHom h (idGram K 3) A) = 2)
     {D : Subgroup ↥(fixedSubgroup (primeFormConjHom h (idGram K 3) A))}
     (hD : A6Hyp (primeFormConjHom h (idGram K 3) A) D) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   obtain ⟨T, hT, hT2⟩ := psu_exists_involution_lift h (by norm_num : 3 ≤ 3) A hA
   have hdimV : finrank K (Fin 3 → K) = 3 := Module.finrank_fin_fun K
   have hnV : 2 ≤ finrank K (Fin 3 → K) := by omega

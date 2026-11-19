@@ -61,7 +61,7 @@ theorem su_inv_apply (g : SU4 K n) (i j : Fin 4) :
       _ = antidiag 4 * conjTr (unitaryInvolution K 2 n) A * antidiag 4 := by
           rw [Matrix.mul_assoc]
   rw [h2, J_mul_mul_J_apply]
-  simp [conjTr, unitaryInvolution_apply, iterateFrobenius_def]
+  simp [conjTr, iterateFrobenius_def]
 
 end SUInv
 
@@ -118,6 +118,7 @@ theorem LamT_orbit (φ : Fin n → K →+* k) (u : ↥(LowerU K n)) :
   refine Finset.prod_congr rfl fun i _ => ?_
   rw [lamR_locR_ylocC, Efun_twist]
 
+omit [Finite K] [CharP k 2] in
 theorem prod_frobTw [Algebra K k] (x : K) :
     ∏ i : Fin n, frobTw K k i x = (algebraMap K k x) ^ (2 ^ n - 1) := by
   have h1 : ∀ i : Fin n, frobTw K k i x = (algebraMap K k x) ^ 2 ^ (i : ℕ) := fun i => by

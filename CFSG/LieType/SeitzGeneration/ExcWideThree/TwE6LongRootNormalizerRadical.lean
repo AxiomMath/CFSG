@@ -17,7 +17,7 @@ theorem graphFixedParabolicRadical_subgroupOf_le_twE6LongRootRadical :
     (graphFixedParabolicRadical TwistTag.E6 K σ.toRingHom J0).subgroupOf
         (twistedE6RootGroup K σ) ≤
       twE6LongRootRadical (twE6RootSubgroup K σ e6HighestRoot) := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
   obtain ⟨-, -, -, -, -, -, -, -, hQP, hQn, -, -, -, -, -, -, hpg, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors TwistTag.E6 K σ J0
   let φ : twE6LongRootParabolic (twE6RootSubgroup K σ e6HighestRoot) →*

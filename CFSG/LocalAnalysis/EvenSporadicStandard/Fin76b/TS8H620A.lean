@@ -28,7 +28,7 @@ theorem T_sylow : ∃ Q : Sylow 2 ↥(centralizer ({z} : Set G)),
   refine ⟨Q, le_antisymm ?_ hTQ⟩
   have hmap : (Q : Subgroup ↥(centralizer ({z} : Set G))).map
       (centralizer ({z} : Set G)).subtype ≤ T := by
-    refine hc.T_max _ ?_ (Q.isPGroup'.map _) ?_
+    refine hc.T_max _ ?_ (Q.isPGroup.map _) ?_
     · intro x hx
       obtain ⟨y, _, rfl⟩ := Subgroup.mem_map.1 hx
       exact y.2

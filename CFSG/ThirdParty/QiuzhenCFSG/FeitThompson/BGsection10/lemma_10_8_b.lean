@@ -42,7 +42,7 @@ private theorem CFSG.section10_isNilpotent_of_hasNormalPComplements
       have : Fact q.val.val.Prime := ⟨q.val.property⟩
       have hq_not_dvd_P : ¬ q.val.val ∣ Nat.card (P : Subgroup H) := by
         intro hq_dvd
-        rcases P.isPGroup'.exists_card_eq with ⟨n, hcardP⟩
+        rcases P.isPGroup.exists_card_eq with ⟨n, hcardP⟩
         have hq_dvd_pow : q.val.val ∣ p ^ n := by
           simpa [hcardP] using hq_dvd
         have hq_eq_p : q.val.val = p :=
@@ -80,7 +80,7 @@ private theorem CFSG.section10_isNilpotent_of_hasNormalPComplements
     rw [← hC_eq_P]
     exact hCnormal
   · have hPbot : (P : Subgroup H) = ⊥ := by
-      rcases P.isPGroup'.card_eq_or_dvd with hcard | hp_dvd_P
+      rcases P.isPGroup.card_eq_or_dvd with hcard | hp_dvd_P
       · exact (Subgroup.card_eq_one (H := (P : Subgroup H))).mp hcard
       · exact False.elim
           (hpH (hp_dvd_P.trans (Subgroup.card_subgroup_dvd_card (P : Subgroup H))))
@@ -119,7 +119,7 @@ private theorem CFSG.section10_quotient_mbeta_hasNormalPComplement
     (hp_dvd : p.val ∣ Nat.card (K ⧸ (section10MbetaSubgroup M).subgroupOf K)) :
     HasNormalPComplement p.val (K ⧸ (section10MbetaSubgroup M).subgroupOf K) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let N : Subgroup M := section10MbetaSubgroup M
   let Nsub : Subgroup K := N.subgroupOf K
   have hNHall : IsHallSubgroup (section10BetaPrimes M) N :=
@@ -179,7 +179,7 @@ private theorem CFSG.section10_hasNilpotentHallSubgroup_of_normal_hall_quotient_
     section10HasNilpotentHallSubgroup πᶜ K := by
   classical
   let Nsub : Subgroup K := N.subgroupOf K
-  haveI : Nsub.Normal := by
+  have : Nsub.Normal := by
     simpa [Nsub] using hNnormalK
   obtain ⟨C, hcomp⟩ :=
     Subgroup.exists_right_complement'_of_coprime
@@ -205,12 +205,12 @@ private theorem CFSG.section10_hasNilpotentHallSubgroup_of_normal_hall_quotient_
         simpa [hidx] using hq_dvd_Cidx
       exact hqπc (hNHallK.p_in_pi_of_p_dvd_card q hq_dvd_N)
   have hCnil : Group.IsNilpotent C := by
-    letI : Group.IsNilpotent (K ⧸ Nsub) := hquotNil
+    let : Group.IsNilpotent (K ⧸ Nsub) := hquotNil
     let e : K ⧸ Nsub ≃* C := hcomp.symm.QuotientMulEquiv
     exact Group.nilpotent_of_mulEquiv (G := K ⧸ Nsub) (G' := C) e
   have hLnil : Group.IsNilpotent L := by
     let e : C ≃* L := Subgroup.equivMapOfInjective C K.subtype K.subtype_injective
-    letI : Group.IsNilpotent C := hCnil
+    let : Group.IsNilpotent C := hCnil
     exact Group.nilpotent_of_mulEquiv (G := C) (G' := L) e
   exact ⟨L, hLK, by simpa [hLsub_eq] using hCHall, hLnil⟩
 

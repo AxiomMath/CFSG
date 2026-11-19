@@ -91,14 +91,14 @@ private theorem ggQ2tbd_card_x {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
 private theorem ggQ2tbd_card_Bs {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs L : Subgroup G} {x : G} (M : GGQ2LDatum p Bs L x) :
     Nat.card ↥Bs = p ^ Module.finrank (ZMod p) M.V := by
-  haveI hE : Finite (Additive ↥Bs) :=
+  have hE : Finite (Additive ↥Bs) :=
     Finite.of_injective (Additive.ofMul.symm : Additive ↥Bs → ↥Bs)
       Additive.ofMul.symm.injective
-  haveI : Finite M.V :=
+  have : Finite M.V :=
     Finite.of_injective (M.model.toEquiv.symm : M.V → Additive ↥Bs)
       M.model.toEquiv.symm.injective
-  haveI : Fintype M.V := Fintype.ofFinite M.V
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fintype M.V := Fintype.ofFinite M.V
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hcard : Nat.card ↥Bs = Nat.card M.V :=
     Nat.card_congr (Additive.ofMul.trans M.model.toEquiv)
   rw [hcard, Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p), ZMod.card]

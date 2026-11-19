@@ -40,7 +40,7 @@ private theorem smul_eq_neg_of_isRoot_of_neg
       (0 : Fin τ.rank → ZMod n)) * g0⁻¹ = 1
     have h0 : TableBExc.E6Three.zetaVec ζ hζ (0 : Fin τ.rank → ZMod n) = 1 := by
       funext i
-      simpa [TableBExc.E6Three.zetaVec]
+      simp [TableBExc.E6Three.zetaVec]
     rw [h0, rootDiagUnit_one]
     group
   map_mul' x y := by
@@ -252,7 +252,7 @@ private theorem zetaVec_single
     {τ : Tag} {L : Type} [Field L] {p : ℕ} [Fact p.Prime]
     {ζ : Lˣ} (hζ : ζ ^ p = 1) (j : Fin τ.rank) :
     TableBExc.E6Three.zetaVec ζ hζ (Pi.single j (1 : ZMod p)) = Pi.mulSingle j ζ := by
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   funext i
   rw [TableBExc.E6Three.zetaVec_apply]
   by_cases h : i = j

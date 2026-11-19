@@ -13,7 +13,7 @@ open Module
 open scoped commutatorElement
 
 theorem commutatorElement_pow_three_eq_one {G : Type*} [Group G] {x y : G} (hx : x ^ 3 = 1)
-    (hzx : Commute ⁅x, y⁆ x) (hzy : Commute ⁅x, y⁆ y) : ⁅x, y⁆ ^ 3 = 1 := by
+    (hzx : Commute ⁅x, y⁆ x) (_hzy : Commute ⁅x, y⁆ y) : ⁅x, y⁆ ^ 3 = 1 := by
   set z := ⁅x, y⁆ with hz
   have hcy : MulAut.conj x y = z * y := by
     rw [MulAut.conj_apply, hz, commutatorElement_def]

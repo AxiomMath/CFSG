@@ -69,12 +69,15 @@ theorem lemma11Hyp_of {V X : Type*} [CommGroup V] [Group X] (hV : ∀ v : V, v *
 variable {G : Type} [Group G] [Finite G] {T : Sylow 2 G} {n : ℕ}
   (D : FooteCore G (T : Subgroup G) 2 n)
 
+omit [Finite G] in
 theorem tvInput_holds : TvInput D := fun _ hE _ _ hx hxN htv hmove =>
   D.transvection_E64 hE hx hxN htv hmove
 
 include D in
+omit [Finite G] in
 theorem quotInput_holds : QuotInput (T : Subgroup G) := fun _ hE => D.normalizer_E64_quot rfl hE
 
+omit [Finite G] in
 theorem swapInput_holds : SwapInput D := fun _ hE _ _ _ hd₀ hd₀E hd₁ hd₁E hτ hτE =>
   D.swap_d rfl hE hd₀ hd₀E hd₁ hd₁E hτ hτE
 
@@ -118,7 +121,7 @@ theorem dichotomy (hnA : ¬ StronglyInvolutionClosed D.A (T : Subgroup G))
         ∃ x₀ : NBar.Q F, orderOf x₀ = 3 ∧ NBar.π F ⟨d₁, hd₁N⟩ * x₀ = x₀ * NBar.π F ⟨d₁, hd₁N⟩ ∧
           NBar.ρ F x₀ v ≠ v) := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨Q, hQ⟩ := hSylN F hF
   have h := tvHyp D hF (tvInput_holds D) (quotInput_holds D) (swapInput_holds D) hQ hd₀ hd₀F hd₁
     hd₁F
@@ -160,7 +163,7 @@ theorem dichotomy (hnA : ¬ StronglyInvolutionClosed D.A (T : Subgroup G))
     have hDz := h.dihedral_facts.2.1
     have hcard8 := h.card_sylow
     have hD2 : IsPGroup 2 ↥(NBar.sylowImage F Q : Subgroup (NBar.Q F)) :=
-      (NBar.sylowImage F Q).isPGroup'
+      (NBar.sylowImage F Q).isPGroup
     have hstab : ∀ v : ↥F, ∀ g : NBar.Q F,
         g ∈ (MulAction.stabilizer (MulAut ↥F) v).comap (NBar.ρ F) ↔ NBar.ρ F g v = v := by
       intro v g

@@ -13,22 +13,25 @@ open CFSG
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 private theorem injective_conj_hom (x : Γ) : Function.Injective (MulAut.conj x).toMonoidHom :=
   (MulAut.conj x).injective
 
+omit [Finite Γ] in
 private theorem card_map_conj (H : Subgroup Γ) (x : Γ) :
     Nat.card (H.map (MulAut.conj x).toMonoidHom) = Nat.card H :=
   Subgroup.card_map_of_injective (injective_conj_hom x)
 
+omit [Finite Γ] in
 private theorem isSimpleGroup_map_conj {H : Subgroup Γ} (hH : IsSimpleGroup ↥H) (x : Γ) :
     IsSimpleGroup ↥(H.map (MulAut.conj x).toMonoidHom) := by
-  haveI := hH
+  have := hH
   exact (H.equivMapOfInjective (MulAut.conj x).toMonoidHom
     (injective_conj_hom x)).symm.isSimpleGroup
 
 private theorem isQuasisimple_of_simple_perfect {Q : Type*} [Group Q] (hs : IsSimpleGroup Q)
     (hp : Group.IsPerfect Q) : CFSG.IsQuasisimple Q := by
-  haveI := hs
+  have := hs
   have hnc : ∃ a b : Q, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -56,10 +59,12 @@ private theorem isQuasisimple_of_simple_perfect {Q : Type*} [Group Q] (hs : IsSi
   refine ⟨hp, eQ.isSimpleGroup, eQ.symm a, eQ.symm b, fun h => hab ?_⟩
   simpa using congrArg eQ h
 
+omit [Finite Γ] in
 private theorem isComponent_of_simple_perfect {K : Subgroup Γ} (hKs : IsSimpleGroup ↥K)
     (hKp : Group.IsPerfect ↥K) (hKsn : K.IsSubnormal) : IsComponent K :=
   ⟨isQuasisimple_of_simple_perfect hKs hKp, hKsn⟩
 
+omit [Finite Γ] in
 private theorem le_of_isSimpleGroup_of_le_normalizer {D K : Subgroup Γ} {e : Γ}
     (hD : IsSimpleGroup ↥D) (hDN : D ≤ Subgroup.normalizer (K : Set Γ)) (heD : e ∈ D)
     (heK : e ∈ K) (he1 : e ≠ 1) : D ≤ K := by
@@ -69,7 +74,7 @@ private theorem le_of_isSimpleGroup_of_le_normalizer {D K : Subgroup Γ} {e : Γ
     obtain ⟨hhK, hhD⟩ := Subgroup.mem_inf.mp hh
     refine Subgroup.mem_inf.mpr ⟨?_, D.mul_mem (D.mul_mem hk hhD) (D.inv_mem hk)⟩
     exact (Subgroup.mem_normalizer_iff.mp (hDN hk) h).mp hhK
-  haveI := hnorm
+  have := hnorm
   rcases hD.eq_bot_or_eq_top_of_normal ((K ⊓ D).subgroupOf D) with h | h
   · exfalso
     have hmem : (⟨e, heD⟩ : ↥D) ∈ (K ⊓ D).subgroupOf D :=
@@ -79,6 +84,7 @@ private theorem le_of_isSimpleGroup_of_le_normalizer {D K : Subgroup Γ} {e : Γ
   · intro x hx
     exact (Subgroup.mem_inf.mp (Subgroup.subgroupOf_eq_top.mp h hx)).1
 
+omit [Finite Γ] in
 private theorem eq_of_isComponent_le {D K : Subgroup Γ} {e : Γ} (hD : IsComponent D)
     (hKs : IsSimpleGroup ↥K) (hDK : D ≤ K) (heD : e ∈ D) (heK : e ∈ K) (he1 : e ≠ 1) :
     D = K := by
@@ -90,6 +96,7 @@ private theorem eq_of_isComponent_le {D K : Subgroup Γ} {e : Γ} (hD : IsCompon
     exact he1 (congrArg Subtype.val hmem)
   · exact le_antisymm hDK (Subgroup.subgroupOf_eq_top.mp h)
 
+omit [Finite Γ] in
 private theorem conj_mem_centralizer_iff {J : Subgroup Γ} {z : Γ}
     (hz : z ∈ Subgroup.normalizer (J : Set Γ)) (n : Γ) :
     z * n * z⁻¹ ∈ Subgroup.centralizer (J : Set Γ) ↔ n ∈ Subgroup.centralizer (J : Set Γ) := by
@@ -237,7 +244,7 @@ theorem sup_map_conj_eq_of_two {J K Yb Y₁ A : Subgroup Γ} {e : Γ}
           obtain ⟨hhK, hhK'⟩ := Subgroup.mem_inf.mp hh
           refine Subgroup.mem_inf.mpr ⟨K.mul_mem (K.mul_mem hk hhK) (K.inv_mem hk), ?_⟩
           exact (Subgroup.mem_normalizer_iff.mp (hKN hk) h).mp hhK'
-        haveI := hnorm
+        have := hnorm
         rcases hKs.eq_bot_or_eq_top_of_normal
             ((K ⊓ K.map (MulAut.conj z).toMonoidHom).subgroupOf K) with h | h
         · exfalso

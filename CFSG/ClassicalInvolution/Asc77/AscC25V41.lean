@@ -258,7 +258,7 @@ theorem eq_one_or_eq_z_of_nuG_eq_one (h : T7F2.Hyp25T p f Ω K K' W S R R' z t u
   obtain ⟨hx₁N, hx₁N', hx₁ν, hx₁ν'⟩ := hx₁
   have hodd := oddCoreOf_odd_natCard K
   have hSpg : ∀ w ∈ (S : Subgroup G), w ∈ oddCoreOf K → w = 1 := fun w hw hwO =>
-    eq_one_of_isPGroup_of_mem_odd hodd hwO (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hw))
+    eq_one_of_isPGroup_of_mem_odd hodd hwO (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hw))
   have hcommR : ∀ r ∈ R, x₁ * r = r * x₁ := by
     intro r hr
     have hrK : r ∈ K := h.hyp.hR.2.1 hr
@@ -585,7 +585,7 @@ theorem gcs25z_of_pm (h11 : C25_11 p f) (hf4 : f % 4 = 2) : GCS25Z p f := by
   have hC := h11 G Ω K K' W S R R' z t u₁ u₂ hyp
   have ht2 := h.ht'2
   have hnz : n * z = z * n := hyp.hzS n hnS
-  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' (⟨n, hnS⟩ : (S : Subgroup G))
+  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup (⟨n, hnS⟩ : (S : Subgroup G))
   have hn2 : orderOf n = 2 ^ i := by
     rw [← hi]
     exact Subgroup.orderOf_coe (⟨n, hnS⟩ : (S : Subgroup G))

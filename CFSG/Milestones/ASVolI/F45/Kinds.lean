@@ -33,12 +33,12 @@ section G2
 
 theorem burnsideF45_hasSystem_G2 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 p f Gp M₁ M₂) (hp : p.Prime) : burnsideF45_HasSystem .G2 p Gp := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, fK, finK, hcard, marking, -, -⟩ := burnsideF45_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hf : 1 ≤ f := hyp.model.2.1
-  haveI : CharP K p :=
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hcard
   exact ⟨_, inferInstance, marking, 6, burnsideF4h_g2_sys K, rfl,
     burnsideF4h_g2_sys_U_sylow (K := K) p⟩
@@ -55,10 +55,10 @@ theorem burnsideF45_hasSystem_F4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
   subst hp2
   obtain ⟨a, K, fK, finK, charK, hscope, -, marking, -, -⟩ :=
     burnsideF4g_chart_F4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI := charK
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  let := fK
+  have := finK
+  have := charK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hscope
   obtain ⟨Φ, -⟩ := burnsideF4h_ree_exists_iso hK
   have hU2 := CFSG.Quasithin.H13.F431.TwoF4.isSylowTwoOf_Ug hK
@@ -82,14 +82,14 @@ theorem burnsideF45_hasSystem_D4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
   · exact absurd hk (by cases c' <;> decide)
   · exact absurd hk (by decide)
   · exact absurd hk (by decide)
-  · letI := fK
-    haveI := finK
+  · let := fK
+    have := finK
     obtain ⟨hp', hd, hK, hσ⟩ := hscope
     obtain ⟨σ, rfl⟩ : ∃ σ : K ≃+* K, σ.toRingHom = sigma :=
       ⟨RingEquiv.ofBijective sigma ⟨sigma.injective,
         Finite.surjective_of_injective sigma.injective⟩, rfl⟩
     have hσ' : ∀ c, σ.toRingHom c = c ^ (p ^ f) := hσ
-    have hq : 2 ≤ p ^ f := burnsideF45_two_le_q σ hp hd hK hσ'
+    have hq : 2 ≤ p ^ f := burnsideF45_two_le_q hp hd
     obtain ⟨f₀, hf₀, hrange, -⟩ := burnsideF4h_tri_exists_embedding hp hd hK σ hσ
     let e₁ : CFSG.Blueprint.DerivedCentralQuotient
         (CFSG.Blueprint.twistedFixedGroup TwistTag.D4 K σ.toRingHom) ≃*

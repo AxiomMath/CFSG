@@ -104,12 +104,16 @@ theorem nxor (a b : Nat) : Nat.xor a b = a ^^^ b := rfl
 theorem nshr (a b : Nat) : Nat.shiftRight a b = a >>> b := rfl
 theorem nshl (a b : Nat) : Nat.shiftLeft a b = a <<< b := rfl
 
+set_option exponentiation.threshold 560 in
 theorem L1_eq : L1 = lanes 8 (fun q => if q % 8 < 6 then 1 else 0) 48 := by decide
 
+set_option exponentiation.threshold 560 in
 theorem L3_eq : L3 = lanes 8 (fun q => if q % 8 < 6 then 3 else 0) 48 := by decide
 
+set_option exponentiation.threshold 560 in
 theorem L63_eq : L63 = lanes 8 (fun q => if q % 8 < 6 then 63 else 0) 48 := by decide
 
+set_option exponentiation.threshold 320 in
 theorem COL_eq : COL = lanes 64 (fun _ => 255) 6 := by decide
 
 theorem ROW_eq : ROW = 2 ^ 48 - 1 := by decide
@@ -199,9 +203,9 @@ theorem byte_cases {f : Nat → Nat} (hf : ∀ q < 48, f q < 25) (hz : ∀ q, ¬
   intro q hq
   unfold fl
   by_cases h : q % 8 < 6
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact h1 _ (hf q hq)
-  · rw [if_neg h, hz q h]
+  · rw [ite_eq_right h, hz q h]
     exact h0
 
 theorem lanes_fl (c : Nat) :
@@ -234,20 +238,19 @@ theorem redK_lanes {f : Nat → Nat} (hf : ∀ q < 48, f q < 25) (hz : ∀ q, ¬
   all_goals
     intro q hq
     have h := hf q hq
-    try dsimp only
     unfold fl
     by_cases h6 : q % 8 < 6
-    · simp only [if_pos h6]
+    · simp only [ite_eq_left h6]
       generalize f q = v at h ⊢
       revert v
       decide
-    · simp only [if_neg h6, hz q h6]
+    · simp only [ite_eq_right h6, hz q h6]
       decide
 
 theorem redK_pk {s : Nat → Nat → Nat} (hs : ∀ r < 6, ∀ c < 6, s r c < 25) :
     redK (pk s) = pk fun r c => s r c % 3 := by
   unfold pk
-  rw [redK_lanes (flat_lt (by decide) hs) (fun q hq => by unfold flat; rw [if_neg hq])]
+  rw [redK_lanes (flat_lt (by decide) hs) (fun q hq => by unfold flat; rw [ite_eq_right hq])]
   apply lanes_congr
   intro q _
   unfold flat
@@ -316,7 +319,6 @@ theorem lanes_prod (a b : Nat → Nat) :
   rw [Nat.mul_comm, lanes_mul_const]
   apply lanes_congr
   intro r _
-  try dsimp only
   rw [Nat.mul_comm, lanes_mul_const]
 
 @[expose] def mulE (a b : Nat → Nat → Nat) (r c : Nat) : Nat :=
@@ -535,11 +537,11 @@ theorem negK_pk {e : Nat → Nat → Nat} (he : ∀ r < 6, ∀ c < 6, e r c < 3)
   have hv := hf q hq
   unfold flat at hv ⊢
   by_cases h6 : q % 8 < 6
-  · simp only [if_pos h6] at hv ⊢
+  · simp only [ite_eq_left h6] at hv ⊢
     generalize e (q / 8) (q % 8) = v at hv ⊢
     revert v
     decide
-  · simp only [if_neg h6]
+  · simp only [ite_eq_right h6]
     decide
 
 theorem decM_negK {x : Nat} (hx : validK x = true) :

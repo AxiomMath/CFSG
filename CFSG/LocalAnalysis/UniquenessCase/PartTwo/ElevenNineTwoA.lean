@@ -66,9 +66,9 @@ theorem barImage11_hinf_inf_barPreimage11 {Y : Subgroup G} {Lbar : Subgroup (F11
     obtain ⟨w, hw, hwq⟩ := h1
     refine uc22p22u_mem_barImage11.2 ⟨Subgroup.inclusion hHM w,
       uc22p21c_mem_Hinf.2 ⟨w, hw, rfl⟩, ?_⟩
-    change (QuotientGroup.mk (Subgroup.inclusion hHM w) : F11.MBar11 M V₀ V) = q
     exact congrArg Subtype.val hwq
 
+omit [Finite G] in
 theorem isSubnormal_hinf_inf_barPreimage11 {Y : Subgroup G} {Lbar : Subgroup (F11.MBar11 M V₀ V)}
     (hYM : Y ≤ M) (hMY : M ≤ normalizer (Y : Set G)) (hL : IsSubnormal Lbar ⊤) :
     IsSubnormal (Hinf (Y ⊓ F11.barPreimage11 M V₀ V Lbar)) M := by
@@ -100,6 +100,7 @@ theorem isSubnormal_hinf_inf_barPreimage11 {Y : Subgroup G} {Lbar : Subgroup (F1
   exact (IsSubnormal.step (uc22p21c_Hinf_le _) hHinfNorm (IsSubnormal.refl _)).trans
     (by rw [inf_comm]; exact hPY)
 
+omit [Finite G] in
 theorem barImage11_conjClosure {K : Subgroup G} (hKM : K ≤ M) :
     F11.barImage11 M V₀ V (conjClosure M K) =
       ⨆ g : F11.MBar11 M V₀ V, (F11.barImage11 M V₀ V K).map (MulAut.conj g).toMonoidHom := by

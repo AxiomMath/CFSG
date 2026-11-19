@@ -27,7 +27,7 @@ theorem k105SporAt_Th :
   have hQT : Q ≤ T := by
     have h := Subgroup.map_mono (f := M.subtype) hQP
     rwa [Subgroup.map_subgroupOf_eq_of_le Q_le_M, ← hTdef] at h
-  have hTp : IsPGroup 2 T := hTdef ▸ P.isPGroup'.map _
+  have hTp : IsPGroup 2 T := hTdef ▸ P.isPGroup.map _
   have hT : IsSylowTwoOf T ⊤ := by
     refine ⟨le_top, hTp, ?_⟩
     change ¬ 2 ∣ T.relIndex ⊤

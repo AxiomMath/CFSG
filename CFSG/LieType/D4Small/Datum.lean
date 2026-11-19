@@ -34,8 +34,7 @@ theorem IsD4Root.add {α β : Fin 4 → ℤ} (hα : IsD4Root α) (hβ : IsD4Root
 theorem isD4Root_single_add_single {i j : Fin 4} (hij : i ≠ j) {s t : ℤ} (hs : s = 1 ∨ s = -1)
     (ht : t = 1 ∨ t = -1) : IsD4Root (Pi.single i s + Pi.single j t) := by
   rw [IsD4Root]
-  simp only [add_dotProduct, single_dotProduct, Pi.add_apply, Pi.single_apply, if_pos rfl,
-    if_neg hij, if_neg hij.symm]
+  simp only [add_dotProduct, single_dotProduct, Pi.add_apply, Pi.single_apply, ite_eq_right hij, ite_eq_right hij.symm]
   rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> norm_num
 
 theorem isD4Root_iff {α : Fin 4 → ℤ} :

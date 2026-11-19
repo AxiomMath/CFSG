@@ -47,7 +47,7 @@ theorem exists_notMem_conjBy_eq_of_notMem_sigmaPrimes {M P : Subgroup G} (hp : p
     ∃ g : G, g ∉ M ∧ conjBy P g = P := by
   have hNP : ¬ normalizer (P : Set G) ≤ M := fun h =>
     hpM ((mem_sigmaPrimes_iff_exists_subgroup hp).2 ⟨hdvd, P, hP.1, hP.2, h⟩)
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hNP
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hNP
   exact ⟨g, hgM, mem_normalizer_iff_conj_smul_eq.1 (inv_mem hgN)⟩
 
 theorem FTS_exceptional_core_nilpotent

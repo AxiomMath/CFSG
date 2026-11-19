@@ -112,7 +112,7 @@ theorem mk_mem_X0_iff (A : StatedSL 2 F) :
     have h1 : ((A : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) i j =
         (u : F) * ((A₀ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) i j := by
       rw [hu]
-      simp [Matrix.mul_smul]
+      simp
     have h2 : ((c * u⁻¹ : Fˣ) : F) * ((A : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) i j =
         (c : F) * ((A₀ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) i j := by
       rw [h1, Units.val_mul, Units.val_inv_eq_inv_val]
@@ -180,7 +180,7 @@ theorem card_GL_two_bot (p : ℕ) [Fact p.Prime] [CharP F p] :
   have hq : Nat.card (⊥ : Subfield F) = p := Subfield.card_bot F p
   have : Finite (⊥ : Subfield F) :=
     Nat.finite_of_card_ne_zero (by rw [hq]; exact (Fact.out : p.Prime).ne_zero)
-  letI : Fintype (⊥ : Subfield F) := Fintype.ofFinite _
+  let : Fintype (⊥ : Subfield F) := Fintype.ofFinite _
   rw [Matrix.card_GL_field, Fin.prod_univ_two, ← Nat.card_eq_fintype_card, hq]
   simp
 
@@ -189,7 +189,7 @@ theorem isSquare_det_primeEmb (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) [CharP F 
     IsSquare (Matrix.GeneralLinearGroup.det (primeEmb F B)) := by
   have hp : p.Prime := Fact.out
   have hfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero 2 hp.ne_zero)
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = p ^ 2 := by rw [← Nat.card_eq_fintype_card, hF]
   have hodd : Odd p := hp.eq_two_or_odd'.resolve_left hp2
   rw [primeEmb, Matrix.GeneralLinearGroup.map_det]
@@ -461,7 +461,7 @@ theorem eq_one_of_commute_unip_of_two_ne_zero (h2 : (2 : F) ≠ 0)
   refine ⟨Units.mk0 a ha0, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, ha, hb, hc1, hd, hb0, hc0, hda]
+    simp [Matrix.scalar_apply, ha, hb, hc1, hd, hb0, hc0, hda]
 
 theorem two_ne_zero_of_charP (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) [CharP F p] : (2 : F) ≠ 0 := by
   intro h

@@ -19,8 +19,8 @@ open CFSG.Open (StatedLieTag)
 theorem ggLieF4B2_derived
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {D : LangDatum Tag.F4 L}
     {ρ : Equiv.Perm (Fin Tag.F4.rank → ℤ)} {a₁ a₂ : Fin Tag.F4.rank → Lˣ}
-    (h : GGLieF4PlaneHyp D ρ a₁ a₂)
-    {f : ℕ} (hf : 1 ≤ f) (hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
+    (_h : GGLieF4PlaneHyp D ρ a₁ a₂)
+    {f : ℕ} (hf : 1 ≤ f) (_hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
     (hρΨ : (ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
       componentRoots (jointChar a₁ a₂) i = componentRoots (jointChar a₁ a₂) i)
     (hΓ : D.Γ = D.model)
@@ -66,11 +66,11 @@ theorem ggLieF4B2_derived
       have hcardAlt : Nat.card (alternatingGroup (Fin 6)) = 360 := by
         rw [nat_card_alternatingGroup, Nat.card_fin]; decide
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
-        (Subgroup.center (alternatingGroup (Fin 6))) with h | h
-      · exact h
+        (Subgroup.center (alternatingGroup (Fin 6))) with _h | _h
+      · exact _h
       · exfalso
         have hcomm : ∀ a b : alternatingGroup (Fin 6), a * b = b * a := fun a b =>
-          (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top a) b).symm
+          (Subgroup.mem_center_iff.mp (_h ▸ Subgroup.mem_top a) b).symm
         let : CommGroup (alternatingGroup (Fin 6)) :=
           { (inferInstance : Group (alternatingGroup (Fin 6))) with mul_comm := hcomm }
         have hp := IsSimpleGroup.prime_card (α := alternatingGroup (Fin 6))
@@ -105,9 +105,9 @@ theorem ggLieF4B2_derived
       refine ⟨Nat.prime_two, hf, le_rfl, ?_⟩
       intro hEq
       have hne : (2 : ℕ) ^ f ≠ 2 := by
-        intro h
+        intro _h
         have h42 : (4 : ℕ) ≤ 2 := by
-          rw [h] at hpow
+          rw [_h] at hpow
           exact hpow
         omega
       exact hne (congrArg Prod.snd hEq)

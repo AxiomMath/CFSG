@@ -120,7 +120,7 @@ theorem sylow_normal_of_normal_cyclic_of_not_dvd_sub_one {p : ℕ} [hp : Fact p.
     let ψ : (S : Subgroup G) →* MulAut ↥D' :=
       (MulAut.conjNormal (H := D')).comp (S : Subgroup G).subtype
     have hψp : IsPGroup p ψ.range :=
-      S.isPGroup'.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+      S.isPGroup.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
     have hψbot : ψ.range = ⊥ := by
       obtain ⟨k, hk⟩ := hψp.exists_card_eq
       rcases Nat.eq_zero_or_pos k with hk0 | hkpos

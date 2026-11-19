@@ -12,6 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace ElevenThree
 
+omit [Finite G] in
 theorem conj_mem_cTilde {M V₀ V : Subgroup G} (hMV : M ≤ normalizer (V : Set G))
     (hMV₀ : M ≤ normalizer (V₀ : Set G)) {c m : G} (hc : c ∈ F11.CTilde M V₀ V) (hm : m ∈ M) :
     m⁻¹ * c * m ∈ F11.CTilde M V₀ V := by
@@ -35,7 +36,7 @@ theorem cTilde_not_le_centralizer {M V₀ V : Subgroup G} (h : InCalV0 M V₀ V)
   intro hle
   obtain ⟨⟨_, _, hMV₀, _⟩, ⟨_, hVM, hMV, hV⟩, hV₀V, hTI₀, hTI, hclos, hnr⟩ := h
   have hne : V₀ ≠ V := fun h' => hTI (h' ▸ hTI₀)
-  obtain ⟨v, hvV, hv0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hV₀V hne)
+  obtain ⟨v, hvV, hv0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hV₀V hne)
   have hnr' : ∃ K : Subgroup G, K ≤ M ∧ M ≤ normalizer (K : Set G) ∧
       M ⊓ centralizer (V : Set G) ≤ K ∧
       (∃ n : ℕ, ((centralizer (V : Set G)).subgroupOf K).index = 2 ^ n) ∧
@@ -56,7 +57,7 @@ theorem cTilde_not_le_centralizer {M V₀ V : Subgroup G} (h : InCalV0 M V₀ V)
     have hk' : ((Subgroup.inclusion hKs k : ↥(stabTil V₀ V)) : G) = (k : G) := rfl
     rw [hk', ← hcomm]
     simp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : f.ker.index ∣ 2 ^ n := hn ▸ Subgroup.index_dvd_of_le hfker
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   have hp2 : IsPGroup 2 ↥f.range :=
@@ -154,7 +155,7 @@ theorem relIndex_cElt_eq_pow_two {M V₀ V : Subgroup G} (h : InCalV0 M V₀ V)
   classical
   have hcA := cTilde_not_le_centralizer h
   obtain ⟨⟨_, hV₀M, hMV₀, hV₀E⟩, ⟨_, hVM, hMV, _⟩, hV₀V, _, _, hclos, _⟩ := h
-  letI : MulAction ↥(F11.CElt M V₀ v) G := conjAction _
+  let : MulAction ↥(F11.CElt M V₀ v) G := conjAction _
   have hstab : MulAction.stabilizer ↥(F11.CElt M V₀ v) v =
       (M ⊓ centralizer ({v} : Set G)).subgroupOf (F11.CElt M V₀ v) := by
     ext c
@@ -280,6 +281,7 @@ theorem relIndex_cElt_eq_pow_two {M V₀ V : Subgroup G} (h : InCalV0 M V₀ V)
   · exact ⟨1, by norm_num, by simpa using h⟩
   · exact ⟨2, by norm_num, by simpa using h⟩
 
+omit [Finite G] in
 theorem relIndex_cElt_bot (M : Subgroup G) (v : G) :
     (M ⊓ centralizer ({v} : Set G)).relIndex (F11.CElt M ⊥ v) = 1 := by
   rw [Subgroup.relIndex_eq_one]

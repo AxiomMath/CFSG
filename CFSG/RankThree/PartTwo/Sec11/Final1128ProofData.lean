@@ -564,8 +564,6 @@ theorem theta_ne (h117 : Item117) (h : Data G A c L a R Y d x s r g e) {m : ℕ}
     rcases hu with rfl | rfl | rfl | rfl <;> rcases hv with rfl | rfl | rfl | rfl <;>
       first
       | exact hself _
-      | exact hPA _ hcP _ h.mem_A
-      | exact hPA _ haP _ h.a_mem
       | exact hPA _ h.x_mem_P _ h.mem_A
       | exact hPA _ h.x_mem_P _ h.a_mem
       | exact hPA _ hg₁P _ h.mem_A

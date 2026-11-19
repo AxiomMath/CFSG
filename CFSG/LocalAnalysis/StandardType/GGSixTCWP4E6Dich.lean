@@ -97,7 +97,7 @@ theorem e6d_mem_X1 (δ : Fin 5 → (Fin Tag.E6.rank → ℤ)) :
     simp
   · refine ⟨tcNegS (intv 0 2), by decide, ?_⟩
     rw [show tcNegS (intv 0 2) = [-1, -1, 0, 0, 0] by decide, e6d_chainVec_list]
-    simp only [zero_smul, neg_smul, one_smul, zero_add, add_zero]
+    simp only [zero_smul, neg_smul, one_smul, add_zero]
     abel
 
 theorem e6d_mem_X2 (δ : Fin 5 → (Fin Tag.E6.rank → ℤ)) :
@@ -230,7 +230,7 @@ theorem rho_image_X₂ {α₁ β₁ α₂ β₂ : Fin Tag.E6.rank → ℤ}
     (h12 : (ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ)) '' tcA2Set α₁ β₁ = tcA2Set α₂ β₂)
     (hst : ∀ γ ∈ tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂, ρ γ ∈ tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂) :
     (ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ)) '' tcA2Set α₂ β₂ = tcA2Set α₁ β₁ := by
-  haveI : Finite ↥(tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂) := hX.to_subtype
+  have : Finite ↥(tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂) := hX.to_subtype
   let f : ↥(tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂) → ↥(tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂) :=
     fun x => ⟨ρ x, hst x x.2⟩
   have hf : Function.Injective f := by

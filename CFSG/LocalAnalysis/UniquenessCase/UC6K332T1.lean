@@ -61,8 +61,8 @@ theorem conjugate_eq_of_mem (h : Hyp3 G S Z) {s : G} (hs : s ∈ S) :
 theorem le_centralizer_of_normal_of_card (hSp : IsPGroup 3 S) (hZS : Z ≤ S)
     (hN : S ≤ Subgroup.normalizer (Z : Set G)) (hcard : Nat.card Z = 3) :
     Z ≤ Subgroup.centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent S := hSp.isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent S := hSp.isNilpotent
   have hZcard : Nat.card (Z.subgroupOf S) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZS).toEquiv, hcard]
   have hnormal : (Z.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
@@ -97,10 +97,10 @@ theorem le_centralizer_of_normal_of_card (hSp : IsPGroup 3 S) (hZS : Z ≤ S)
   exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hzc ⟨y, hy⟩)
 
 theorem comm (h : Hyp3 G S Z) {z : G} (hz : z ∈ Z) {y : G} (hy : y ∈ S) : z * y = y * z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSp : IsPGroup 3 S := by
     obtain ⟨P, hP⟩ := N588A.exists_sylow_of_isSylowOf_top h.sylow
-    exact hP ▸ P.isPGroup'
+    exact hP ▸ P.isPGroup
   have hN : S ≤ Subgroup.normalizer (Z : Set G) := by
     intro s hs
     rw [Subgroup.mem_normalizer_iff]
@@ -160,7 +160,7 @@ theorem quotient (h : Hyp3 G S Z) (N : Subgroup G) [N.Normal]
     (hN : Nat.Coprime 3 (Nat.card N)) :
     Hyp3 (G ⧸ N) (S.map (QuotientGroup.mk' N)) (Z.map (QuotientGroup.mk' N)) := by
   obtain ⟨P, hPS⟩ := N588A.exists_sylow_of_isSylowOf_top h.sylow
-  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup
   have hSN : S ⊓ N = ⊥ := N588A.inf_eq_bot_of_coprime hSp hN
   have hker : ∀ x ∈ S, QuotientGroup.mk' N x = 1 → x = 1 := fun x hx h1 => by
     have hxN : x ∈ N := (QuotientGroup.eq_one_iff x).mp h1
@@ -254,7 +254,7 @@ theorem exists_component (h : Hyp3 G S Z) (hcore : CFSG.pPrimeCore 3 G = ⊥)
   push Not at hall
   have hF : CFSG.fittingSubgroup G = CFSG.pCore 3 G := CFSG.Fitting_eq_pcore G 3 hcore
   obtain ⟨Q, hQS⟩ := N588A.exists_sylow_of_isSylowOf_top h.sylow
-  haveI : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 3 G).Normal := CFSG.pCore_normal
   have hPS : CFSG.pCore 3 G ≤ S := hQS ▸ CFSG.pCore_isPGroup.le_sylow_of_normal Q
   have hZF : Z ≤ Subgroup.centralizer (CFSG.fittingSubgroup G : Set G) := by
     rw [Subgroup.le_centralizer_iff, hF]
@@ -340,6 +340,7 @@ theorem center_eq_bot (hM3 : UCK.KMult3Ab) (h : Hyp3 G S Z) (hcore : CFSG.pPrime
   exact h.omega _ (Subgroup.mem_subgroupOf.mp hx) (by simpa using congrArg Subtype.val hx3) _
     (Subgroup.mem_subgroupOf.mp hy) (by simpa using congrArg Subtype.val hy3)
 
+omit [Finite G] in
 theorem exists_ne_of_isComponent {J : Subgroup G} (hJ : CFSG.IsComponent J) :
     ∃ a b : J, a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := hJ.1.2.2

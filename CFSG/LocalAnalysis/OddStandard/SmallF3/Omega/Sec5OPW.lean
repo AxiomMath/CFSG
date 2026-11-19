@@ -35,6 +35,7 @@ private theorem sec5op5_exists_mul_of_mem_sup_of_commute {G : Type} [Group G]
     (fun b hb => ⟨1, one_mem _, b, hb, by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 theorem sec5op_z_mem_W (hyp : Sec5OPHyp t z T π) : z ∈ sec5op_W hyp := by
   refine (sec5op_mem_W_iff hyp).mpr ⟨hyp.TY hyp.zT, ?_⟩
   have hzker : (⟨z, hyp.TH hyp.zT⟩ : ↥(centralizer ({z} : Set G))) ∈ π.ker := by
@@ -53,12 +54,14 @@ theorem sec5op_z_mem_W (hyp : Sec5OPHyp t z T π) : z ∈ sec5op_W hyp := by
     exact hzker
   rw [h1, map_one]
 
+omit [Finite G] in
 theorem sec5op_W_le_Y (hyp : Sec5OPHyp t z T π) : sec5op_W hyp ≤ sec5op_Y t z := by
   intro x hx
   rw [sec5op_W, Subgroup.mem_map] at hx
   obtain ⟨y, _, hyx⟩ := hx
   exact hyx ▸ y.2
 
+omit [Finite G] in
 theorem sec5op_W_normal (hyp : Sec5OPHyp t z T π) {h : G} (hh : h ∈ centralizer ({z} : Set G))
     {w : G} (hw : w ∈ sec5op_W hyp) : h * w * h⁻¹ ∈ sec5op_W hyp := by
   obtain ⟨hwY, hcls⟩ := (sec5op_mem_W_iff hyp).mp hw
@@ -68,7 +71,7 @@ theorem sec5op_W_normal (hyp : Sec5OPHyp t z T π) {h : G} (hh : h ∈ centraliz
   rw [hcls, map_one] at hrc
   exact hrc.symm
 
-theorem sec5op_oddCore_Y_normal (hyp : Sec5OPHyp t z T π) {h : G}
+theorem sec5op_oddCore_Y_normal (_hyp : Sec5OPHyp t z T π) {h : G}
     (hh : h ∈ centralizer ({z} : Set G)) {x : G} (hx : x ∈ oddCoreIn (sec5op_Y t z)) :
     h * x * h⁻¹ ∈ oddCoreIn (sec5op_Y t z) := by
   refine conj_mem_oddCoreIn ?_ hx
@@ -85,6 +88,7 @@ theorem sec5op_oddCore_Y_normal (hyp : Sec5OPHyp t z T π) {h : G}
 @[expose] noncomputable def sec5op_N (hyp : Sec5OPHyp t z T π) : Subgroup G :=
   oddCoreIn (sec5op_Y t z) ⊓ sec5op_W hyp
 
+omit [Finite G] in
 theorem sec5op_N_le_oddCore (hyp : Sec5OPHyp t z T π) :
     sec5op_N hyp ≤ oddCoreIn (sec5op_Y t z) :=
   inf_le_left
@@ -93,6 +97,7 @@ theorem sec5op_N_odd (hyp : Sec5OPHyp t z T π) : Odd (Nat.card (sec5op_N hyp)) 
   refine (odd_card_oddCoreIn (sec5op_Y t z)).of_dvd_nat
     (Subgroup.card_dvd_of_le (sec5op_N_le_oddCore hyp))
 
+omit [Finite G] in
 theorem sec5op_N_le_H (hyp : Sec5OPHyp t z T π) :
     sec5op_N hyp ≤ centralizer ({z} : Set G) :=
   (inf_le_right.trans (sec5op_W_le_Y hyp)).trans (sec5op_Y_le hyp.tH)
@@ -105,7 +110,7 @@ theorem sec5op_N_normal (hyp : Sec5OPHyp t z T π) {h : G} (hh : h ∈ centraliz
 private theorem sec5op5_not_dvd_relIndex (hyp : Sec5OPHyp t z T π) :
     ¬ 2 ∣ (Subgroup.zpowers z).relIndex (sec5op_W hyp) := by
   classical
-  haveI : Finite X := Finite.of_surjective π hyp.surj
+  have : Finite X := Finite.of_surjective π hyp.surj
   let M : Subgroup X := normalClosure ((sec5op_Tb z T π : Subgroup X) : Set X)
   let φ : ↥(sec5op_W hyp) →* X :=
     { toFun := fun w => π ⟨w.1, sec5op_Y_le hyp.tH (sec5op_W_le_Y hyp w.2)⟩
@@ -172,6 +177,7 @@ private theorem sec5op5_isSylow2 (hyp : Sec5OPHyp t z T π) :
     rw [Nat.card_zpowers, hyp.hz, pow_one]
   exact IsPGroup.of_card hcard
 
+omit [Finite G] in
 private theorem sec5op5_comm (hyp : Sec5OPHyp t z T π) :
     ∀ k ∈ sec5op_W hyp, ∀ a ∈ Subgroup.zpowers z, a * k = k * a := by
   intro k hk a ha

@@ -244,11 +244,11 @@ theorem isPGroup_three_aux (n : ℕ) : ∀ {X : Type u} [Group X] [Finite X] (E 
       rw [Nat.card_zpowers, pow_one]
       exact orderOf_dvd_of_pow_eq_one hy)
     obtain ⟨Q, hQle⟩ := hz.exists_le_sylow
-    exact (Q.isPGroup'.le_sylow_of_normal S) (hQle (Subgroup.mem_zpowers y))
+    exact (Q.isPGroup.le_sylow_of_normal S) (hQle (Subgroup.mem_zpowers y))
   have hPT : P ≤ (S : Subgroup P).map P.subtype := by
     refine hPle _ fun a ha b hb => ?_
     exact ⟨⟨a * b, hPmem a ha b hb⟩, hS _ (Subtype.ext (by simpa using hE.cube a ha b hb)), rfl⟩
-  have hT3 : IsPGroup 3 ((S : Subgroup P).map P.subtype) := S.isPGroup'.map P.subtype
+  have hT3 : IsPGroup 3 ((S : Subgroup P).map P.subtype) := S.isPGroup.map P.subtype
   obtain ⟨m, hm, hm1⟩ : ∃ m ∈ M, m ≠ 1 := by
     by_contra h
     apply hMne

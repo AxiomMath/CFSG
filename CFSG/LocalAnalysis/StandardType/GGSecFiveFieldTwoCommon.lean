@@ -204,7 +204,7 @@ private theorem exists_clsLab_of_lieModel {X : Type} [Group X] {t : StatedLieTag
     refine ⟨⟨.D, m, f⟩, ⟨hf, show 3 ≤ m by omega⟩,
       Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))), ?_⟩
     dsimp only [MarkedModel, markTag, markRank, markChar, markDeg]
-    rw [if_neg hm3, if_neg hm3]
+    rw [ite_eq_right hm3, ite_eq_right hm3]
     exact h
   · obtain ⟨-, hf, hm⟩ := h.admissible
     have hm2 : m ≠ 2 := by omega
@@ -212,7 +212,7 @@ private theorem exists_clsLab_of_lieModel {X : Type} [Group X] {t : StatedLieTag
     refine ⟨⟨.twD, m, f⟩, ⟨hf, show 2 ≤ m by omega⟩,
       Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))), ?_⟩
     dsimp only [MarkedModel, markTag, markRank, markChar, markDeg]
-    rw [if_neg hm2, if_neg hm3, if_neg hm2, if_neg hm3, if_neg hm2]
+    rw [ite_eq_right hm2, ite_eq_right hm3, ite_eq_right hm2, ite_eq_right hm3, ite_eq_right hm2]
     exact h
 
 section TypeDet

@@ -34,12 +34,12 @@ theorem aV_eq_zero_of_mem_ZQ (S : Setting z E F) {a : G} (haQ : a ∈ Q z) (haZ 
 
 theorem aV_mem_commSpace_rhoBar_of_mem_Rbar
     (S : Setting z E F) {a : G} (haQ : a ∈ Q z) (hconj : IsConj z a) (haZ : a ∉ ZQ z)
-    (hza : z ∈ QaOf a) (hZQa : ¬ centerIn (QaOf a) ≤ Q z)
+    (hza : z ∈ QaOf a) (_hZQa : ¬ centerIn (QaOf a) ≤ Q z)
     {r : Hbar z} (hr : r ∈ Rbar S a) (hr1 : r ≠ 1) :
     Additive.ofMul (mkQbar S ⟨a, haQ⟩) ∈
       commSpace ((rhoBar S r : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   have hzaZ : z ∉ centerIn (QaOf a) := z_not_mem_centerIn_Qa S haQ hconj haZ hza
@@ -201,7 +201,7 @@ theorem commutator_Lbar_CQ_le (S : Setting z E F) {a : G} :
         rw [Subgroup.coe_mul, Subgroup.coe_inv, conjAutQ_apply]
       rw [heq]
       exact (Q z).mul_mem h1 ((Q z).inv_mem hcQ)
-    · haveI : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
+    · have : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
         fStar_subgroupOf_normal (Subgroup.centralizer ({a} : Set G))
       have h2 : (c : G) * (dH : G)⁻¹ * (c : G)⁻¹ ∈ QaOf a :=
         fStar_normal (M := Subgroup.centralizer ({a} : Set G)) hcCa ((QaOf a).inv_mem hdQa)
@@ -226,7 +226,7 @@ theorem span_sub_le_CQ (S : Setting z E F) {a : G}
       u = ((rhoBar S y : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) v - v} ≤
     QaInterImage S (Q z ⊓ Subgroup.centralizer ({a} : Set G)) := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   have haV0 : aV ≠ 0 := aV_ne_zero S haQ haZ
@@ -309,7 +309,7 @@ theorem span_sub_stable (S : Setting z E F) {a : G}
     rw [hval]
     exact Submodule.subset_span ⟨(y' : Hbar z), y'.2,
       ((rhoBar S l : V ≃ₗ[ZMod 2] V)) v, rfl⟩
-  · simpa using Submodule.zero_mem W
+  · simp
   · intro x y _ _ hx hy
     simpa only [map_add] using Submodule.add_mem W hx hy
   · intro c x _ hx
@@ -333,7 +333,7 @@ theorem commutator_Lbar_span_sub_eq (S : Setting z E F) {a : G}
         u = ((rhoBar S y : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) v - v},
         ((rhoBar S l : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) w = w := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   let W : Submodule (ZMod 2) V := Submodule.span (ZMod 2) {u | ∃ y ∈ Y, ∃ v : V,
@@ -373,7 +373,7 @@ theorem commutator_Lbar_span_sub_eq (S : Setting z E F) {a : G}
       exact W'.sub_mem
         (Submodule.subset_span ⟨l * l₀, Lbar S a |>.mul_mem hl hl₀, w₀, hw₀, rfl⟩)
         (Submodule.subset_span ⟨l, hl, w₀, hw₀, rfl⟩)
-    · simpa using Submodule.zero_mem W'
+    · simp
     · intro x y _ _ hx hy
       simpa only [map_add] using Submodule.add_mem W' hx hy
     · intro c x _ hx
@@ -436,7 +436,7 @@ theorem span_sub_disjoint (S : Setting z E F) {a : G}
         u = ((rhoBar S y : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) v - v} ⊓
       QaInterImage S (Q z ⊓ QaOf a) = ⊥ := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   let W : Submodule (ZMod 2) V := Submodule.span (ZMod 2) {u | ∃ y ∈ Y, ∃ v : V,
@@ -480,10 +480,10 @@ theorem stroth78_2_17_of_span_sub_le
     (S : Setting z E F) {a : G}
     (haQ : a ∈ Q z) (hconj : IsConj z a) (hza : z ∈ QaOf a)
     (Y : Subgroup (Hbar z))
-    (hO2 : Subgroup.closure {y | y ∈ Y ∧ Odd (orderOf y)} = Y)
-    (hO2' : ∀ P : Subgroup (Hbar z), P ≤ Y → IsPGroup 2 P →
+    (_hO2 : Subgroup.closure {y | y ∈ Y ∧ Odd (orderOf y)} = Y)
+    (_hO2' : ∀ P : Subgroup (Hbar z), P ≤ Y → IsPGroup 2 P →
       Y ≤ Subgroup.normalizer (P : Set (Hbar z)) → P = ⊥)
-    (hYR : ∀ y ∈ Y, ∀ r ∈ Rbar S a, Commute y r)
+    (_hYR : ∀ y ∈ Y, ∀ r ∈ Rbar S a, Commute y r)
     (hY2 : ∀ y ∈ Y, ∀ r ∈ Rbar S a, ∀ v : Additive (QbarOf S),
       ((rhoBar S y : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S)))
         ((((rhoBar S r : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) v) - v) =
@@ -503,14 +503,11 @@ theorem stroth78_2_17_of_span_sub_le
   by_cases haZ : a ∈ ZQ z
   · exfalso
     apply ha_not
-    change Additive.ofMul (mkQbar S ⟨a, haQ⟩) ∈
-      Submodule.span (ZMod 2) {u | ∃ y ∈ Y, ∃ v : Additive (QbarOf S),
-        u = ((rhoBar S y : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S))) v - v}
     rw [aV_eq_zero_of_mem_ZQ S haQ haZ]
     exact Submodule.zero_mem _
   by_cases hZQa : centerIn (QaOf a) ≤ Q z
   · exact absurd (rbar_eq_bot_of_centerIn_le_Q S a hZQa) hR
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   let W : Submodule (ZMod 2) V := Submodule.span (ZMod 2) {u | ∃ y ∈ Y, ∃ v : V,

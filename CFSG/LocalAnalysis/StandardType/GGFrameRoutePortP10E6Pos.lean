@@ -40,7 +40,7 @@ theorem p10h_card_range_le
 theorem p10h_exists_mulEquiv {A : Type} [Group A] (hexp : ∀ x : A, x ^ 3 = 1)
     (hab : ∀ x y : A, x * y = y * x) {m : ℕ} (hcard : Nat.card A = 3 ^ m) :
     Nonempty (A ≃* Multiplicative (Fin m → ZMod 3)) := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   obtain ⟨k, ⟨e⟩⟩ :=
     CFSG.GroupTheory.CoprimeActionSupport.AbelianEquivalence.abelian_equiv Nat.prime_three hexp hab
   have hk : 3 ^ k = 3 ^ m := by

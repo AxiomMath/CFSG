@@ -87,11 +87,11 @@ theorem fixed_eq_zero_of_central {P : Subgroup (GL (Fin n) (ZMod q))}
   let W : Submodule (ZMod q) (Fin n → ZMod q) :=
     { carrier := {v | (c : Matrix (Fin n) (Fin n) (ZMod q)) *ᵥ v = v}
       add_mem' := fun ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [Matrix.mulVec_add, ha, hb]
       zero_mem' := Matrix.mulVec_zero _
       smul_mem' := fun a v hv => by
-        simp only [Set.mem_setOf_eq] at hv ⊢
+        simp only [Set.mem_ofPred_eq] at hv ⊢
         rw [Matrix.mulVec_smul, hv] }
   have hWinv : ∀ g : P, ∀ w ∈ W, (P.subtype g : Matrix (Fin n) (Fin n) (ZMod q)) *ᵥ w ∈ W := by
     intro g w hw
@@ -126,7 +126,7 @@ theorem exists_central_commutator {T : Type*} [Group T] [Finite T] {s : ℕ} [Fa
     have hb : b ∈ center T := h ▸ mem_top b
     exact (mem_center_iff.1 hb a)
   have : Nontrivial (T ⧸ center T) := by
-    obtain ⟨g, -, hg⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.2 hZ)
+    obtain ⟨g, -, hg⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.2 hZ)
     exact ⟨⟨(g : T ⧸ center T), 1, fun h1 => hg ((QuotientGroup.eq_one_iff g).1 h1)⟩⟩
   have hQ : IsPGroup s (T ⧸ center T) := hT.to_quotient (center T)
   have := hQ.center_nontrivial
@@ -180,7 +180,7 @@ theorem le_center_of_irreducible (hn : n ≤ 4) (hn2 : ∀ s : ℕ, s.Prime → 
   apply le_center_of_pCores hRs
   intro s hsR
   have hs : s.Prime := Nat.prime_of_mem_primeFactors hsR
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hs2 : s ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hRodd) (even_iff_two_dvd.2 (Nat.dvd_of_mem_primeFactors hsR))

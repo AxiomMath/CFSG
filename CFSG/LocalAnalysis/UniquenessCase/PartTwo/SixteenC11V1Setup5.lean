@@ -27,7 +27,7 @@ private theorem s16c11_v1_kappa_ker5 {D : Data G} {V₀ V L : Subgroup G}
   have hfix := s15_Core_imgTil_v1Sub_le_fixV h (m := (1 : G)) D.M.one_mem
   simpa only [conjSubgroup_one] using hfix hmem
 
-theorem s16c11_v1_eq_bot_of_case5 (D : Data G) (hin : In10 D) (h1217 : R1217 D)
+theorem s16c11_v1_eq_bot_of_case5 (D : Data G) (_hin : In10 D) (h1217 : R1217 D)
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
     (hs : s15 D.M ⊥ V hV L = 1) (h5 : Case168_5Star D ⊥ V hV L) :

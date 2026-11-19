@@ -65,6 +65,7 @@ theorem commutator_le_orthogonalGroup_self {K V : Type*} [Field K] [AddCommGroup
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem hg hh) (inv_mem hg)) (inv_mem hh)
 
+omit [Finite F] [CharP F 2] in
 theorem quadMinus_mulVec_of_mem_statedOmega
     {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : g ∈ StatedOmega (StatedQuadMinus 3 F b c)) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) :
@@ -75,6 +76,7 @@ theorem quadMinus_mulVec_of_mem_statedOmega
   have := map_of_mem h x
   rwa [toLinEquiv_apply] at this
 
+omit [Finite F] [CharP F 2] in
 theorem polar_mulVec_of_mem_statedOmega
     {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : g ∈ StatedOmega (StatedQuadMinus 3 F b c))
@@ -180,11 +182,11 @@ theorem omega_similitude_of_normalizes (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 
   let S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) :=
     { carrier := {x | R x = 0}
       add_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [hRadd, hx, hy, add_zero]
       zero_mem' := hR0
       neg_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         have := hRadd x (-x)
         rw [add_neg_cancel, hR0, hx, zero_add] at this
         exact this.symm }

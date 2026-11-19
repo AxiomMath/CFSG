@@ -128,7 +128,7 @@ theorem ggA6_sp_fixed_nondegenerate {F : Type} [Field F] {V : Type} [AddCommGrou
       IsCompl (ggA6SpFixed A) (B.orthogonal (ggA6SpFixed A)) := by
   classical
   have := finite_linearEquiv (K := F) (V := V)
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hA : (Fintype.card A : F) ≠ 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact natCast_card_ne_zero_of_odd hodd
@@ -260,8 +260,8 @@ theorem ggA6_sp_dichotomy {F : Type} [Field F] {V : Type} [AddCommGroup V] [Modu
     (∀ j ∈ J, ∀ v ∈ B.orthogonal (ggA6SpFixed A), j v = v) ∨
       (∀ j ∈ J, ∀ v ∈ ggA6SpFixed A, j v = v) := by
   classical
-  haveI hfin : Finite (V ≃ₗ[F] V) := finite_linearEquiv (K := F) (V := V)
-  haveI : Fintype A := Fintype.ofFinite A
+  have hfin : Finite (V ≃ₗ[F] V) := finite_linearEquiv (K := F) (V := V)
+  have : Fintype A := Fintype.ofFinite A
   have hA : (Fintype.card A : F) ≠ 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact natCast_card_ne_zero_of_odd hodd
@@ -480,8 +480,8 @@ theorem ggA6_sp_dichotomy {F : Type} [Field F] {V : Type} [AddCommGroup V] [Modu
     simpa [Subgroup.subgroupOf_self] using hJsub
   have hJopen : CFSG.Open.IsComponentOf (J.subgroupOf C) ⊤ :=
     CFSG.Assembly.isComponentOf_iff_open.mp hJtop
-  haveI := hnormal₁
-  haveI := hnormal₂
+  have := hnormal₁
+  have := hnormal₂
   have hchoice := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_component_le_or_le
     (X := ↥C) (A₁ := A₁.subgroupOf C) (A₂ := A₂.subgroupOf C)
     (K' := J.subgroupOf C) hsup hJopen

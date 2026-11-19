@@ -56,11 +56,11 @@ theorem Ctx.card_le_of_le_inf_QB_inf_QB (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hZY : Z ≤ Y) (hYQ : Y ≤ Q) (hYB : Y ≤ QB B) (hYC : Y ≤ QB C) {k : ℕ}
     (hk : Module.finrank K ↥(imgQInfQB M₀ B ⊓ imgQInfQB M₀ C) + 1 = k) :
     Nat.card ↥Y ≤ Nat.card Z ^ k := by
-  haveI : FiniteDimensional K M₀.E := M₀.fin
+  have : FiniteDimensional K M₀.E := M₀.fin
   have hcard : Nat.card ↥Y = Nat.card Z * Nat.card ↥(M₀.img Y) := M₀.card_eq hYQ hZY
   set S : Submodule K M₀.E := imgQInfQB M₀ B ⊓ imgQInfQB M₀ C with hS
-  haveI : FiniteDimensional K ↥S := FiniteDimensional.finiteDimensional_submodule S
-  haveI : Finite ↥S := Module.finite_of_finite K
+  have : FiniteDimensional K ↥S := FiniteDimensional.finiteDimensional_submodule S
+  have : Finite ↥S := Module.finite_of_finite K
   have hsub : ((M₀.img Y : AddSubgroup M₀.E) : Set M₀.E) ⊆ (S : Set M₀.E) := by
     intro e he
     refine ⟨?_, ?_⟩
@@ -171,9 +171,9 @@ theorem stroth53bProd_of_vone_ne (h34 : Stroth34Statement) (hRoot : Stroth310Roo
   have hV : SpMNat hc t m := ⟨K₀, iF₀, iFin₀, hK₀, hrep₀⟩
   have hsp' : SpNat hc t := ⟨K₀, iF₀, iFin₀, hK₀, m, hm, hrep₀⟩
   obtain ⟨K, iF, iFin, iCh, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF
-  letI := iFin
-  letI := iCh
+  let := iF
+  let := iFin
+  let := iCh
   obtain ⟨T, hTmem, hBC⟩ :=
     sec53_hBC_of_vone_ne h34 hRoot h51 hne G M Q Z B hc n t hs hsp' r hr hplane m hV K γ M₀ hD
   have hspan := Ctx.le_sup_imgQInfQB_sp_of_hplane h34 hRoot hc hs hm hV hr hplane hD T hTmem

@@ -17,7 +17,7 @@ variable {H X : Type} [Group H] [Group X] {z : H} {K : Fin 4 → Subgroup H} {α
 
 theorem isPlanes_of_setup [Finite H] (hS : PlaneSetup z K α) :
     IsPlanes (planeV hS.quad α) (planeW hS.quad α) := by
-  haveI : Finite X := Finite.of_surjective α hS.surj
+  have : Finite X := Finite.of_surjective α hS.surj
   refine ⟨planeV_comm hS.quad α hS.ker, planeV_sq hS.quad α hS.ker, ?_, planeW_le hS.quad α,
     card_planeW hS, planeV_decomp hS.quad α⟩
   exact card_V_of_planes (planeV_comm hS.quad α hS.ker) (planeW_le hS.quad α)
@@ -47,6 +47,6 @@ theorem planeSys_of_setup [Finite H] (hS : PlaneSetup z K α)
         rw [CFSG.conjugate, Subgroup.mem_map]
         exact ⟨u, huK, by simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]⟩
       rwa [hj] at hmem
-  · simp only [map_mul, map_inv, inv_inv]
+  · simp only [map_mul, map_inv]
 
 end CFSG.OddStandard.SmallF3.Omega

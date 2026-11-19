@@ -31,9 +31,9 @@ private theorem w135c2_omfP8_mu_eq_indicator (hF : Nat.card F = 2)
   · rw [h0]
     by_cases hs : s = h
     · exact absurd ((hJ s).mpr hs) (by rw [h0, hds]; exact zero_ne_one)
-    · rw [if_neg hs]
+    · rw [ite_eq_right hs]
   · have hs : s = h := (hJ s).mp (by rw [h1, hds', hds])
-    rw [h1, hds', if_pos hs]
+    rw [h1, hds', ite_eq_left hs]
 
 theorem omPlus8_two_halfSpin_natural (hF : Nat.card F = 2) {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] {ρ : Representation (ZMod 2) (spinGroup (quadPlus 4 F)) V}
@@ -53,11 +53,11 @@ theorem omPlus8_two_halfSpin_natural (hF : Nat.card F = 2) {V : Type} [AddCommGr
     constructor
     · intro hi
       by_contra hih
-      have h0 : μ i = 0 := by rw [hμ i, if_neg hih]
+      have h0 : μ i = 0 := by rw [hμ i, ite_eq_right hih]
       rw [h0, hds i] at hi
       exact absurd hi zero_ne_one
     · intro hi
-      rw [hi, hμ h, if_pos rfl, hds h]
+      rw [hi, hμ h, ite_eq_left rfl, hds h]
   have hi0 : h.val ≠ 1 := by omega
   obtain ⟨γ, χ', μ', ht', hJ'⟩ := exists_twist_node_zero ht hi0 hJ
   have hρ' : IsSimpleRep (ρ.comp γ.toMonoidHom) := isSimpleRep_comp_mulEquiv hρ γ

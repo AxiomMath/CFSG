@@ -136,7 +136,7 @@ theorem lieModel_of_catalogIs_isL3char2 {R : Type} [Group R] (hc : catalogIs R S
   cases d with
   | A r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     · have hm := CFSG.Models.lieModel_A 2 q hv e
       have hq := hP.2
       have hev : Even q.exponent := by

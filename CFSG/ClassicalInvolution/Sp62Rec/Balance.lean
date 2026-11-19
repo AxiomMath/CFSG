@@ -15,7 +15,7 @@ theorem oddCoreIn_eq_bot_iff {G : Type*} [Group G] (X : Subgroup G) :
     unfold CFSG.Open.componentClassificationOddCore CFSG.pPrimeCore
     congr 1
     ext K
-    simp only [Set.mem_setOf_eq, Nat.coprime_two_left]
+    simp only [Set.mem_ofPred_eq, Nat.coprime_two_left]
   rw [CFSG.ClassicalInvolution.Balance.oddCoreIn, h,
     Subgroup.map_eq_bot_iff_of_injective _ X.subtype_injective]
 
@@ -150,8 +150,8 @@ theorem eq_bot_of_odd_of_normalized_by_centralizer {H : Type*} [Group H] [Finite
     centralizes_of_thompson_AxB hP2 (Nat.coprime_two_right.mpr hY) hB
       (le_top.trans hPnorm.ge) (le_top.trans hPnorm.ge)
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (by rw [hcz]; exact hYa)) hfix
-  haveI : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer H).Normal := inferInstance
+  have : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : (CFSG.layer H).Normal := inferInstance
   have hLa : CFSG.layer H ≤ Subgroup.centralizer ({a} : Set H) := by
     intro l hl
     rw [Subgroup.mem_centralizer_singleton_iff]

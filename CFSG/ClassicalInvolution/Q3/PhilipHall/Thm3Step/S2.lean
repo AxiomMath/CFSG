@@ -141,7 +141,7 @@ variable {X X' : Type} [Group X] [Group X']
 
 theorem isL3E8_of_mulEquiv (e : X ≃* X') (h : IsL3E8 X) : IsL3E8 X' := by
   obtain ⟨E, hEn, hEab, hcard, ⟨q⟩⟩ := h
-  haveI : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
+  have : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
   have hEab' : IsElemAbelian 2 (E.map e.toMonoidHom) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
     · rcases a with ⟨_, x₁, hx₁, rfl⟩
@@ -224,8 +224,8 @@ theorem thm3RowsA_of_restrict {Φ : Set (Subgroup Y)} (hΦH : ∀ L ∈ Φ, L �
     Thm3RowsA Φ P := by
   set E := secQuotEquiv hP with hE
   rcases h with ⟨N, hN, hidx, hLie⟩ | hM | hL | hW
-  · haveI := hN
-    haveI : (N.map E.toMonoidHom).Normal := hN.map _ E.surjective
+  · have := hN
+    have : (N.map E.toMonoidHom).Normal := hN.map _ E.surjective
     refine Or.inl ⟨N.map E.toMonoidHom, inferInstance, ?_, ?_⟩
     · exact (Subgroup.index_map_equiv N E).trans hidx
     · exact CFSG.Blueprint.LieModel.of_mulEquiv
@@ -235,8 +235,8 @@ theorem thm3RowsA_of_restrict {Φ : Set (Subgroup Y)} (hΦH : ∀ L ∈ Φ, L �
     exact Or.inr (Or.inl ⟨E.symm.trans e⟩)
   · exact Or.inr (Or.inr (Or.inl (isL3E8_of_mulEquiv E hL)))
   · obtain ⟨W, hW, hWset, ⟨d⟩⟩ := hW
-    haveI := hW
-    haveI : (W.map E.toMonoidHom).Normal := hW.map _ E.surjective
+    have := hW
+    have : (W.map E.toMonoidHom).Normal := hW.map _ E.surjective
     refine Or.inr (Or.inr (Or.inr ⟨W.map E.toMonoidHom, inferInstance, ?_, ⟨?_⟩⟩))
     · rw [oddQuotientFamily_eq_mapFam hΦH hP, WSet_map, hWset, Set.image_singleton]
     · exact (QuotientGroup.congr W (W.map E.toMonoidHom) E rfl).symm.trans d

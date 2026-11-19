@@ -19,10 +19,10 @@ abbrev orthTwistedDModel (m n : ℕ) : TauCeti.LieTypeIndex → Prop :=
 
 theorem finite_projOrthDerived_of_finite {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     [Finite V] (Q : QuadraticForm K V) : Finite (ProjOrthDerived Q) := by
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (orthDerived Q) := inferInstance
+  have : Finite (orthDerived Q) := inferInstance
   infer_instance
 
 theorem exists_orthDModel_or_twistedDModel {S : Type} [Group S]
@@ -88,8 +88,8 @@ theorem orthModelMarking_plus {G : Type} [Group G] [Finite G] {p : ℕ}
         ∀ a ∈ A, ∃ x : ProjOrthDerived (quadPlus m K),
           LargeEvenInduces θ (conjRel a) (MulAut.conj x) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, θ, hBI⟩ := orthMarking_holds.1 G p L J A d b m n hS hcat
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   let e := orthModelEquivPlus m K
   refine ⟨K, hKfield, hKfinite, hKcard, θ.trans e, fun a ha => ?_⟩
   obtain ⟨x, hxmem, hind⟩ := hBI a ha
@@ -110,8 +110,8 @@ theorem orthModelMarking_minus {G : Type} [Group G] [Finite G] {p : ℕ}
           LargeEvenInduces θ (conjRel a) (MulAut.conj x) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, b₀, c₀, hbc, θ, hBI⟩ :=
     orthMarking_holds.2 G p L J A d b m n hS hcat
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   let e := orthModelEquivMinus m K b₀ c₀
   refine ⟨K, hKfield, hKfinite, hKcard, b₀, c₀, hbc, θ.trans e, fun a ha => ?_⟩
   obtain ⟨x, hxmem, hind⟩ := hBI a ha
@@ -131,7 +131,7 @@ theorem orthModelLifts_plus {G : Type} [Group G] [Finite G] {p : ℕ}
       LargeEvenInduces θ (conjRel d) (MulAut.conj x) ∧
         LargeEvenInduces θ (conjRel b) (MulAut.conj y) ∧
           x ^ p = 1 ∧ y ^ p = 1 ∧ x * y = y * x := by
-  haveI : Finite (ProjOrthDerived (quadPlus m K)) :=
+  have : Finite (ProjOrthDerived (quadPlus m K)) :=
     finite_projOrthDerived_of_finite (quadPlus m K)
   have hreg := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := m) (by omega)
   have hZ : Subgroup.center (ProjOrthDerived (quadPlus m K)) = ⊥ :=
@@ -165,11 +165,11 @@ theorem orthModelDescent_plus {G : Type} [Group G] [Finite G] {p : ℕ}
     (hx : LargeEvenInduces θ (conjRel d) (MulAut.conj x)) :
     CFSG.Assembly.IsComponentOf ((J.subgroupOf L).map (piCenterQuot θ))
       (Subgroup.centralizer ({x} : Set (ProjOrthDerived (quadPlus m K)))) := by
-  haveI : Finite (ProjOrthDerived (quadPlus m K)) :=
+  have : Finite (ProjOrthDerived (quadPlus m K)) :=
     finite_projOrthDerived_of_finite (quadPlus m K)
   have hAN : A ≤ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag
-  exact isComponentOf_map_piCenterQuot_of_conj (p := p) θ (hAN hS.d_mem) x hx hS.comp.1
+  exact isComponentOf_map_piCenterQuot_of_conj (_p := p) θ (hAN hS.d_mem) x hx hS.comp.1
 
 theorem orthModelLifts_minus {G : Type} [Group G] [Finite G] {p : ℕ}
     {L J A : Subgroup G} {d b : G} {m : ℕ} (K : Type) [Field K] [Finite K]
@@ -182,7 +182,7 @@ theorem orthModelLifts_minus {G : Type} [Group G] [Finite G] {p : ℕ}
       LargeEvenInduces θ (conjRel d) (MulAut.conj x) ∧
         LargeEvenInduces θ (conjRel b) (MulAut.conj y) ∧
           x ^ p = 1 ∧ y ^ p = 1 ∧ x * y = y * x := by
-  haveI : Finite (ProjOrthDerived (quadMinus m K b₀ c₀)) :=
+  have : Finite (ProjOrthDerived (quadMinus m K b₀ c₀)) :=
     finite_projOrthDerived_of_finite (quadMinus m K b₀ c₀)
   have hreg := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := K) (n := m) (b := b₀)
     (c := c₀) (by omega) hbc
@@ -217,11 +217,11 @@ theorem orthModelDescent_minus {G : Type} [Group G] [Finite G] {p : ℕ}
     (hx : LargeEvenInduces θ (conjRel d) (MulAut.conj x)) :
     CFSG.Assembly.IsComponentOf ((J.subgroupOf L).map (piCenterQuot θ))
       (Subgroup.centralizer ({x} : Set (ProjOrthDerived (quadMinus m K b₀ c₀)))) := by
-  haveI : Finite (ProjOrthDerived (quadMinus m K b₀ c₀)) :=
+  have : Finite (ProjOrthDerived (quadMinus m K b₀ c₀)) :=
     finite_projOrthDerived_of_finite (quadMinus m K b₀ c₀)
   have hAN : A ≤ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag
-  exact isComponentOf_map_piCenterQuot_of_conj (p := p) θ (hAN hS.d_mem) x hx hS.comp.1
+  exact isComponentOf_map_piCenterQuot_of_conj (_p := p) θ (hAN hS.d_mem) x hx hS.comp.1
 
 theorem orthModelData_plus {G : Type} [Group G] [Finite G] {p : ℕ}
     {L J A : Subgroup G} {d b : G} {m n : ℕ} (hS : Setup p L J A d b)
@@ -235,8 +235,8 @@ theorem orthModelData_plus {G : Type} [Group G] [Finite G] {p : ℕ}
           CFSG.Assembly.IsComponentOf ((J.subgroupOf L).map (piCenterQuot θ))
             (Subgroup.centralizer ({x} : Set (ProjOrthDerived (quadPlus m K)))) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, θ, hBI⟩ := orthModelMarking_plus hS hcat
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   obtain ⟨x, y, hx, hy, hxp, hyp, hxy⟩ := orthModelLifts_plus K θ hS hm4 hBI
   exact ⟨K, hKfield, hKfinite, hKcard, θ, x, y, hx, hy, hxp, hyp, hxy,
     orthModelDescent_plus K θ hS x hx⟩
@@ -255,8 +255,8 @@ theorem orthModelData_minus {G : Type} [Group G] [Finite G] {p : ℕ}
             (Subgroup.centralizer ({x} : Set (ProjOrthDerived (quadMinus m K b₀ c₀)))) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, b₀, c₀, hbc, θ, hBI⟩ :=
     orthModelMarking_minus hS hcat
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   obtain ⟨x, y, hx, hy, hxp, hyp, hxy⟩ := orthModelLifts_minus K b₀ c₀ hbc θ hS hm4 hBI
   exact ⟨K, hKfield, hKfinite, hKcard, b₀, c₀, hbc, θ, x, y, hx, hy, hxp, hyp, hxy,
     orthModelDescent_minus K b₀ c₀ θ hS x hx⟩

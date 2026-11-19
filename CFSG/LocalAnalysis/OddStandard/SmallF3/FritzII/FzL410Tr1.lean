@@ -21,7 +21,7 @@ theorem sqZ_transfer (h : FzL410.SqZ) : ∀ x ∈ R, x ^ 2 ∈ Z := by
   have hz := h y ((M.mem_R y).mp hx)
   rw [M.mu_sq]
   have h2 : FzL410.mulT y y = FzL410.pe (FzL410.mulT y y).1 := Prod.ext rfl hz.1
-  rw [h2, M.mu_pe]
+  rw [h2, (CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_pe (t := t) (lam := lam) (s := s) (emb := emb))]
   exact (M.mem_Z _).mpr hz.2
 
 theorem rq_transfer (h : FzL410.RQ) : ∀ x ∈ R, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ E := by
@@ -31,7 +31,7 @@ theorem rq_transfer (h : FzL410.RQ) : ∀ x ∈ R, ∀ y ∈ Q, x * y * x⁻¹ *
   obtain ⟨a, b, hab⟩ := h x' ((M.mem_R x').mp hx) y' ((M.mem_Q y').mp hy)
   have h1 : fz410Mu emb t s lam x' * fz410Mu emb t s lam y' =
       (emb (a, b, 0, 0) * fz410Mu emb t s lam y') * fz410Mu emb t s lam x' := by
-    rw [← M.mu_mul, hab, M.mu_mul, M.mu_mul, M.mu_eE]
+    rw [← M.mu_mul, hab, M.mu_mul, M.mu_mul, CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_eE]
   have h2 : fz410Mu emb t s lam x' * fz410Mu emb t s lam y' * (fz410Mu emb t s lam x')⁻¹ *
       (fz410Mu emb t s lam y')⁻¹ = emb (a, b, 0, 0) := by
     rw [h1]
@@ -47,12 +47,12 @@ theorem qc_transfer (h : FzL410.QC) : ∀ x ∈ R, ((∀ e ∈ E, x * e = e * x)
   constructor
   · intro hc a b
     apply M.mu_inj
-    rw [M.mu_mul, M.mu_mul, M.mu_eE]
+    rw [M.mu_mul, M.mu_mul, CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_eE]
     exact hc _ (M.eE_mem a b)
   · intro hc e he
     obtain ⟨a, b, rfl⟩ := M.exists_eE he
     have := congrArg (fz410Mu emb t s lam) (hc a b)
-    rwa [M.mu_mul, M.mu_mul, M.mu_eE] at this
+    rwa [M.mu_mul, M.mu_mul, CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_eE] at this
 
 theorem ef_transfer (h : FzL410.EF) : ∀ a ∈ E, a ∈ fz410F P t s → a ∈ Z := by
   intro a ha haF
@@ -101,7 +101,7 @@ theorem invF_transfer (h : FzL410.InvF) : ∀ i ∈ R, i ∉ P → i ^ 2 = 1 →
     exact hF _ (M.emb.emb_mem a')
   obtain ⟨a, b, hab⟩ := h y ((M.mem_R y).mp hi) hyP hyy hcent
   refine ⟨emb (a, b, 0, 0), M.eE_mem a b, ?_⟩
-  rw [hab, M.mu_mul, M.mu_eE, M.mu_tsM]
+  rw [hab, M.mu_mul, CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_eE, M.mu_tsM]
 
 end Fz410Mod
 

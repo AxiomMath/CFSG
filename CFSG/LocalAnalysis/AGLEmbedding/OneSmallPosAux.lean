@@ -244,7 +244,7 @@ theorem D1OneSmallData.toPhaseThree_of_exc (hUE : KFactUPrimeExc)
   swap
   · exact absurd (hd.cfg.red.le_of_ne_component hL hd.comp hLK
       (two_le_pRank_of_isPGroup_not_isCyclic hd.cfg.red.prime hd.cfg.red.ne_two
-        (Rbar.isPGroup'.to_le inf_le_left) hd.noncyclic)) hLX₀
+        (Rbar.isPGroup.to_le inf_le_left) hd.noncyclic)) hLX₀
   subst hLK
   have hmem : ∀ k : L, k ∈ GLBCore p 1 (T : Subgroup L) →
       (k : H ⧸ primeComplementCore (G := H) p) ∈ d1X0 p M H ⊓ L :=

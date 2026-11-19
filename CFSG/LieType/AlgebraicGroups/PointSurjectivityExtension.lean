@@ -87,7 +87,7 @@ theorem exists_algHom_of_mem_range_comap {k L B A : Type} [Field k] [Field L] [I
         L ⊗[B] MvPolynomial (Fin n) B →ₐ[L] L ⊗[B] A).comp
         (MvPolynomial.algebraTensorAlgEquiv B L).symm.toAlgHom)
       (hsurj.comp (MvPolynomial.algebraTensorAlgEquiv B L).symm.surjective)
-  haveI := hft_tensor
+  have := hft_tensor
   obtain ⟨ψ, -⟩ := exists_algHom_ker_eq L (L ⊗[B] A) m
   let xr : A →+* L := ψ.toRingHom.comp
     (Algebra.TensorProduct.includeRight (R := B) (A := L) (B := A)).toRingHom

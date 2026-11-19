@@ -114,7 +114,7 @@ theorem actGo_eq (rows : Array ℕ) (v : ℕ) : ∀ (m acc : ℕ),
   | 0, acc => by simp [CFSG.Monster.VisCert.Native.actGo, sel, xorN_zero]
   | m + 1, acc => by
     rw [CFSG.Monster.VisCert.Native.actGo, actGo_eq rows v m, sel, sel, xorN_succ]
-    cases v.testBit m <;> simp <;> ac_rfl
+    cases v.testBit m <;> simp; ac_rfl
 
 theorem actD_eq (rows : Array ℕ) (v : ℕ) :
     Native.actD 22 rows v = sel (fun i => rows[i]!) v 22 := by
@@ -155,6 +155,7 @@ theorem mul_rowOf {g : ℕ} (hg : g < 2 ^ 22) : ∀ (t m : ℕ), (∀ s, rowOf m
       exact hm (s + 1)
     rw [rowOf_succ, rowOf_succ, hq, ih _ hm']
 
+set_option exponentiation.threshold 484 in
 theorem ones22_testBit (j : ℕ) :
     ones22.testBit j = (decide (j % 22 = 0) && decide (j < 484)) := by
   by_cases hj : j < 484
@@ -186,7 +187,7 @@ theorem rowOf_land_ones (x t : ℕ) :
       by_cases hi22 : i < 22
       · have h1 : ¬ (i + 22 * t) % 22 = 0 := by omega
         have h2 : ¬ i % 22 = 0 := by omega
-        simp [h1, h2]
+        simp [h2]
       · simp [hi22]
   · rename_i h
     rw [Nat.zero_testBit]
@@ -198,7 +199,7 @@ theorem rowOf_land_ones (x t : ℕ) :
     · by_cases hi22 : i < 22
       · have h1 : ¬ (i + 22 * t) % 22 = 0 := by omega
         have h2 : ¬ i % 22 = 0 := by omega
-        simp [h1, h2]
+        simp [h2]
       · simp [hi22]
 
 theorem rowOf_land_le (x s : ℕ) : rowOf (x &&& ones22) s ≤ 1 := by
@@ -285,6 +286,7 @@ theorem map_range_get (F : ℕ → ℕ) {j : ℕ} (hj : j < 22) : ((List.range 2
   rw [getElem!_pos _ _ (by simpa using hj)]
   simp
 
+set_option exponentiation.threshold 484 in
 theorem conjM_eq {g c : ℕ} {G GI : Array ℕ} (hg : ∀ b < 22, rowOf g b = G[b]!)
     (hG : ∀ b < 22, G[b]! < 2 ^ 22) (hcl : ∀ a < 22, fget c a 484 &&& ones22 = fget c a 484)
     (hc : ∀ a < 22, ∀ j < 22, rowOf (fget c a 484) j = if GI[j]!.testBit a then 1 else 0)

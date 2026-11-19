@@ -40,7 +40,7 @@ private theorem exists_mem_normalizer_of_lt {S P : Subgroup G} (hP : IsPGroup 2 
     exact absurd hSP (not_lt_of_ge (Subgroup.subgroupOf_eq_top.mp htop))
   have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent (G := ↥P)
-  obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt (hnc _ hIP)
+  obtain ⟨x, hxN, hxS⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hIP)
   refine ⟨x, x.2, fun hx => hxS (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   have hxsub : x ∈ (normalizer (S : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hSP.le]
@@ -50,7 +50,7 @@ private theorem exists_mem_normalizer_of_lt {S P : Subgroup G} (hP : IsPGroup 2 
 theorem le_M_of_isSylowIn (h1 : W16One G) (h15 : W16Fifteen G) (hS : Std15 G)
     (c : Cfg1620 M V₀ V U S R H g B) {P : Subgroup G} (hP : IsSylowIn 2 P H) (hRP : R ≤ P) :
     P ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   have hRM : R ≤ M := c.sylow.le.trans (cTilde_le_M M V₀ V)
   let D : Subgroup G := P ⊓ M

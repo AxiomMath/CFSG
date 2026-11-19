@@ -18,8 +18,8 @@ variable {G : Type*} [Group G]
 
 theorem relIndex_sup_of_le_normalizer {H N : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (H ⊔ N) = N.relIndex H := by
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hH
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hH
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
   exact Nat.card_congr
     (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hH).toEquiv.symm
 
@@ -55,7 +55,7 @@ theorem not_dvd_card_sup_of_isPGroup_two [Finite G] {R L : Subgroup G} {p : ℕ}
 
 theorem not_two_dvd_card_units (F : Type*) [Field F] [Finite F] [CharP F 2] :
     ¬ 2 ∣ Nat.card Fˣ := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_units, Nat.card_eq_fintype_card, hn]
   have h1 : 2 ∣ 2 ^ (n : ℕ) := dvd_pow_self 2 n.pos.ne'
@@ -105,7 +105,7 @@ theorem torusGroup_pow_card_units {h : ModGL τ K} (hh : h ∈ torusGroup τ K) 
 theorem not_two_dvd_card_torusGroup [Finite K] [CharP K 2] :
     ¬ 2 ∣ Nat.card (torusGroup τ K) := by
   intro h2
-  haveI : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
+  have : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have h1 : orderOf (x : ModGL τ K) ∣ Nat.card Kˣ :=
     orderOf_dvd_of_pow_eq_one (torusGroup_pow_card_units x.2)
@@ -123,8 +123,8 @@ theorem dvd_card_subsystemGroup_of_sylowHyp [Finite K] [CharP K 2] (J : Set (Fin
       CFSG.ABGLocalTools.IsSylowOf 2 U (parabolicSubgroup τ K J) →
         ¬ U ≤ rankThreePrimeCore p (parabolicSubgroup τ K J)) :
     p ∣ Nat.card (subsystemGroup τ K J) := by
-  haveI : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hpL
   have hRP : parabolicRadical τ K J ≤ parabolicSubgroup τ K J :=
     (parabolicRadical_le_posUnipotent J).trans (posUnipotent_le_parabolicSubgroup J)

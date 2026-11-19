@@ -34,7 +34,7 @@ theorem centFix_bot {X : Type*} [Group X] : centFix (⊥ : Subgroup (MulAut X)) 
 theorem isQuasisimple_of_simple_nonabelian {S : Type} [Group S] (hS : IsSimpleGroup S)
     (hnc : ∃ a b : S, a * b ≠ b * a) : CFSG.Open.IsQuasisimple S := by
   have hcomm : commutator S = ⊤ := by
-    haveI : (commutator S).Normal := Subgroup.commutator_normal ⊤ ⊤
+    have : (commutator S).Normal := Subgroup.commutator_normal ⊤ ⊤
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator S) with h | h
     · exfalso
       obtain ⟨a, b, hab⟩ := hnc
@@ -45,7 +45,7 @@ theorem isQuasisimple_of_simple_nonabelian {S : Type} [Group S] (hS : IsSimpleGr
       exact hmem
     · exact h
   have hcen : Subgroup.center S = ⊥ := by
-    haveI : (Subgroup.center S).Normal := inferInstance
+    have : (Subgroup.center S).Normal := inferInstance
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
     · exact h
     · exfalso

@@ -56,7 +56,7 @@ theorem inf_eq_liftGroup [Finite Ω] (hp : p.Prime) [hSn : S.Normal] (hB : IsEle
     (hrank : p ^ GLATwoLocalRank p Ω ≤ Nat.card B) (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hZ : Subgroup.center ↥S = ⊥) (h4 : p ^ 4 ≤ Nat.card B)
     [Finite K] (h2 : (2 : K) ≠ 0) (hpK : (p : K) ≠ 0) (Dat : ClsInner p S B H β)
-    (hHβ : H ≤ isomGL β) {Aε : Subgroup (GL ι K)} [IsMulCommutative Aε]
+    (_hHβ : H ≤ isomGL β) {Aε : Subgroup (GL ι K)} [IsMulCommutative Aε]
     (hle : liftGroup Dat ≤ Aε) (hAε : IsElemAbelian p Aε) (hAεβ : Aε ≤ isomGL β)
     (hAε𝒮 : Aε ≤ centGL (fieldSet Dat))
     (hmax : ∀ A' : Subgroup (GL ι K), Aε ≤ A' → IsElemAbelian p A' → A' ≤ isomGL β →
@@ -69,7 +69,7 @@ theorem inf_eq_liftGroup [Finite Ω] (hp : p.Prime) [hSn : S.Normal] (hB : IsEle
         glEquiv.symm (invol (glRep Aε) hp hA hpK {H₁, H₃}) ∈ H ∨
         glEquiv.symm (invol (glRep Aε) hp hA hpK {H₂, H₃}) ∈ H) :
     Aε ⊓ H = liftGroup Dat := by
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   set ρ := glRep Aε with hρdef
   have hρ : IsIsomRep β ρ := isIsomRep_glRep hAεβ
   have hmaxE : IsMaxElem β ρ p (fieldSet Dat) :=
@@ -159,7 +159,7 @@ theorem inf_eq_liftGroup [Finite Ω] (hp : p.Prime) [hSn : S.Normal] (hB : IsEle
           · exact hac h.symm
           · exact hbc (Finset.mem_singleton.mp h).symm
         · rw [← hgz, ← hc'', glEquiv_apply]
-          simp [Matrix.GeneralLinearGroup.scalar, Matrix.smul_mulVec, Matrix.one_mulVec]
+          simp [Matrix.GeneralLinearGroup.scalar]
       have hzE : ∀ e ∈ Aε.subgroupOf H, e * zH = zH * e := by
         intro e he
         apply Subtype.ext

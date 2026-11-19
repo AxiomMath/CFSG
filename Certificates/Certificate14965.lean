@@ -17,7 +17,6 @@ theorem certificate14965 :     ∃ (Q : Subgroup JH) (xs : ℕ → JH),
           Subgroup.zpowers z = Subgroup.zpowers (g * xs i * g⁻¹)) ∧
       (∀ i < 3, ∃ l : List JH, (∀ k ∈ l, k * xs i = xs i * k) ∧
           5 ∣ orderOf ((l.map fun k => MulAut.conj k * conjR t1R * (MulAut.conj k)⁻¹).prod)) := by
-  intros
   exact KernelHNClsL.factsC
 
 end Certificates

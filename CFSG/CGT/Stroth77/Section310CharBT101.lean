@@ -94,7 +94,7 @@ theorem t101_φuv_om_ne :
   rw [t101_φuv_om]
   intro h
   have h1 := (om101_eq_iff _ _).mp h 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h1
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h1
   norm_num [Int.ModEq] at h1
 
 end Stroth42Core

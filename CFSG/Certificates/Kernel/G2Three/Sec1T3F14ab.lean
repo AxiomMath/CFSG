@@ -30,7 +30,7 @@ theorem f14ab_cen_closure (T : Set Γ) :
     (cen (closure T) : Set Γ) = {x | x ∈ closure T ∧ ∀ s ∈ T, x * s = s * x} := by
   ext x
   simp only [cen, coe_inf, Set.mem_inter_iff, SetLike.mem_coe, mem_centralizer_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hx, hc⟩
     exact ⟨hx, fun s hs => (hc s (subset_closure hs)).symm⟩
@@ -53,7 +53,7 @@ theorem f14ab_zSeries_two {T : Set Γ} {K : Subgroup Γ} (hK : closure T = K) :
     exact and_congr Iff.rfl ⟨fun h y hy => (h y hy).symm, fun h y hy => (h y hy).symm⟩
   ext x
   rw [SetLike.mem_coe, CFSG.OddStandard.HigherRank.G2Three.Sec1Proof.Tab.mem_zSeries_succ 1]
-  simp only [hz1, Set.mem_setOf_eq]
+  simp only [hz1, Set.mem_ofPred_eq]
   refine and_congr_right fun _ => ⟨fun h s hs => h s (hK ▸ subset_closure hs), fun h y hy => ?_⟩
   rw [← hK] at hy
   refine closure_induction (p := fun y _ => ⁅x, y⁆ ∈ cen K) (fun s hs => h s hs) ?_ ?_ ?_ hy
@@ -86,21 +86,26 @@ theorem f14ab_iso_of_range {H : Type} [Group H] (φ : H →* Γ) (hφ : Function
   ⟨((MonoidHom.ofInjective hφ).trans (MulEquiv.subgroupCongr (SetLike.coe_injective
     (by rw [MonoidHom.coe_range]; exact h)))).symm⟩
 
+omit [Group Γ] in
 theorem f14ab_forall_setOf {gs : List ℕ} {p : Γ → Prop} :
     (∀ s ∈ {x | ∃ g ∈ gs, elt g = x}, p s) ↔ ∀ g ∈ gs, p (elt g) :=
   ⟨fun h g hg => h _ ⟨g, hg, rfl⟩, fun h _ ⟨g, hg, he⟩ => he ▸ h g hg⟩
 
+omit [Group Γ] in
 theorem f14ab_setOf_two (u v : Γ) : {x | x ∈ [u, v]} = ({u, v} : Set Γ) := by
   ext x
   simp
 
+omit [Group Γ] in
 theorem f14ab_setOf_four (u v w s : Γ) : {x | x ∈ [u, v, w, s]} = ({u, v, w, s} : Set Γ) := by
   ext x
   simp
 
+omit [Group Γ] in
 theorem f14ab_subM_spec {a b : ℕ} (h : subM a b = true) : mset elt a ⊆ mset elt b :=
   subset_of_land (Nat.eq_of_beq_eq_true h)
 
+omit [Group Γ] in
 theorem f14ab_mset_land (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) (a b : ℕ) :
     mset elt (Nat.land a b) = mset elt a ∩ mset elt b := by
   ext g
@@ -169,8 +174,6 @@ theorem f14ab_q8K_sound {r s Qm : ℕ} (h : q8K P r s Qm = true) :
         have e : d8I P r s 0 = 0 := rfl
         rw [e, hR.one]
       map_mul' := fun a b => by
-        change elt (d8I P r s (f14ab_q8Code (a * b))) = elt (d8I P r s (f14ab_q8Code a)) *
-          elt (d8I P r s (f14ab_q8Code b))
         rw [← f14ab_q8M_code, hmul _ (f14ab_q8Code_lt a) _ (f14ab_q8Code_lt b),
           mulE_elt hR (d8I_lt _ _ _) (d8I_lt _ _ _)] }
   have hrange : Set.range φ = mset elt Qm := by
@@ -224,7 +227,7 @@ theorem f14ab_cenS_mset (X : ℕ) : ∀ {gs : List ℕ}, (∀ g ∈ gs, g < 128)
     rw [cenE_mset hR _ (hgs g List.mem_cons_self),
       f14ab_cenS_mset X (fun k hk => hgs k (List.mem_cons_of_mem _ hk))]
     ext x
-    simp only [Set.mem_setOf_eq, List.forall_mem_cons]
+    simp only [Set.mem_ofPred_eq, List.forall_mem_cons]
     tauto
 
 theorem f14ab_cenS_closure {gs : List ℕ} (hgs : ∀ g ∈ gs, g < 128) {R : ℕ}
@@ -250,7 +253,7 @@ theorem f14ab_cenR_mset (X g : ℕ) : mset elt (cenR P C X g) =
         (fun t acc => cenE P C acc (genAt g t)) n) (genAt g n)) = _
       rw [cenE_mset hR _ (genAt_lt g n), ih]
       ext x
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       constructor
       · rintro ⟨⟨hx, h⟩, h'⟩
         refine ⟨hx, fun t ht => ?_⟩
@@ -293,7 +296,7 @@ theorem f14ab_commSetM_mset (X Y : ℕ) :
     simp only [commSetM, strictN_eq]
   rw [e, mset_recLorIf]
   ext g
-  simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨x, ⟨hx, hbx⟩, hg⟩
     rw [mset_recMask (hasB Y) (fun y => commE P C V x y) (fun _ _ => atR_lt _ _)] at hg
@@ -384,6 +387,7 @@ end Tables
 
 variable [Finite Γ] {fr : Frame Γ}
 
+omit [Finite Γ] in
 theorem f14ab_gens (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     elt 1 = fr.a₁ ∧ elt 2 = fr.b₁ ∧ elt 3 = fr.a₂ ∧ elt 4 = fr.b₂ ∧ elt 5 = fr.h₀ := by
   have h0 := hg 0 (by norm_num)
@@ -404,6 +408,7 @@ theorem f14ab_one_lt {g : ℕ} (hg : g < 128) : ∀ x ∈ [g], x < 128 := by
   rw [hx]
   exact hg
 
+omit [Finite Γ] in
 theorem f14ab_masks (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s) {R : ℕ}
     (c5 : closOK C [1, 2, 3, 4, 5] R = true) (cz : closOK C [atR Q 2] R = true) :
     closure {x | ∃ g ∈ [1, 2, 3, 4, 5], elt g = x} = fr.S ∧
@@ -425,6 +430,7 @@ theorem f14ab_masks (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen
     simp only [List.map_cons, List.map_nil, ez]
     rw [f13_setOf_one, hZ]
 
+omit [Finite Γ] in
 theorem f14ab_pair (hR : RealT elt P C V Q) {i j R : ℕ} (hi : i < 128) (hj : j < 128)
     (hc : closOK C [i, j] R = true) :
     mset elt (closK C [i, j] R) = (closure {elt i, elt j} : Set Γ) := by
@@ -466,6 +472,7 @@ theorem f14ab_one (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen f
   · apply SetLike.coe_injective
     rw [← hcomm, hcl, hZ2b, hB]
 
+omit [Finite Γ] in
 theorem f14ab_two (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s)
     {L RG N R : ℕ} (hN : N ≤ 448)
     (hlat : ∀ K ≤ fr.S, ∃ k < N, RepM elt (latM L k) (K : Set Γ))

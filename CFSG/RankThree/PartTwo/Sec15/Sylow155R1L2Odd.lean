@@ -36,7 +36,7 @@ private theorem card_fixedBy_le_two {g : PSL2 F} (hg : g ≠ 1) :
 private theorem smul_ne_self_of_orderOf_three (h3 : 3 ∣ Nat.card F + 1) {y : PSL2 F}
     (hy : orderOf y = 3) (P : ℙ F (Fin 2 → F)) : y • P ≠ P := by
   intro hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := card_points_modEq_card_fixedBy (F := F) hy
   rw [Projectivization.card_of_finrank_two F (Fin 2 → F) (Module.finrank_fin_fun F)] at hmod
   have hy1 : y ≠ 1 := by
@@ -53,7 +53,7 @@ private theorem smul_ne_self_of_orderOf_three (h3 : 3 ∣ Nat.card F + 1) {y : P
 private theorem eq_of_smul_eq_of_orderOf_two (h2 : Even (Nat.card F)) {t : PSL2 F}
     (ht : orderOf t = 2) {P Q : ℙ F (Fin 2 → F)} (hP : t • P = P) (hQ : t • Q = Q) : P = Q := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := card_points_modEq_card_fixedBy (F := F) ht
   rw [Projectivization.card_of_finrank_two F (Fin 2 → F) (Module.finrank_fin_fun F)] at hmod
   have ht1 : t ≠ 1 := by

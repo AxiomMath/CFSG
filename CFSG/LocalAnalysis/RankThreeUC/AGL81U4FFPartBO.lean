@@ -103,7 +103,7 @@ theorem partBO_sub {S : Type} [CommGroup S] {n : ℕ} (hn : 1 ≤ n) {F : Type} 
     (hAN : A ≤ Subgroup.normalizer (L : Set (MulAut S))) {Q : Subgroup (MulAut S)}
     (hQA : Q ≤ A) (hQ : IsElemAbelian2 Q) (hQq : IsQuadratic Q) :
     Nat.card Q * Nat.card (fixV Q) ≤ 2 * Nat.card S := by
-  haveI := charP_two_of_card_eq_pow hn hF
+  have := charP_two_of_card_eq_pow hn hF
   have h := partBO_quadratic hn hF hirr (boSub ψ Q) (bo_add_self ψ hQ) (bo_quad ψ hQq)
     (bo_normalizes ε ψ hεψ hAN hQA)
   rw [boSub_card ψ Q, bo_card_fix ψ Q, bo_card_space ψ] at h
@@ -126,7 +126,7 @@ theorem partBO_stmt : PartBOStmt := by
 
 theorem partBO4_stmt : PartBO4Stmt := by
   intro S _ _ hS n hn F _ _ b c hF hirr L A ε ψ hεψ hA hAN hcon
-  haveI := charP_two_of_card_eq_pow hn hF
+  have := charP_two_of_card_eq_pow hn hF
   obtain ⟨hA4, hSC⟩ := hcon
   exact partBO4_sub hn hF hirr (boSub ψ A) (bo_add_self ψ hA) (bo_comm ψ hA)
     (bo_normalizes ε ψ hεψ hAN le_rfl) (by rw [boSub_card ψ A, hA4])

@@ -57,9 +57,9 @@ theorem EU_span_le
   · rw [show d = (e : Dfull) * xhat from h]
     exact H.mul_mem heH hx
 
-@[expose] def E4 : Subgroup Dfull := Subgroup.closure (insert (dhat 4 5) (E3 : Set Dfull))
+def E4 : Subgroup Dfull := Subgroup.closure (insert (dhat 4 5) (E3 : Set Dfull))
 
-@[expose] def E5 : Subgroup Dfull := Subgroup.closure (insert (dhat 8 9) (E4 : Set Dfull))
+def E5 : Subgroup Dfull := Subgroup.closure (insert (dhat 8 9) (E4 : Set Dfull))
 
 theorem psiW_d45 :
 
@@ -107,17 +107,17 @@ theorem tauhat_mem_normalizer_E5 : tauhat ∈ Subgroup.normalizer (E5 : Set Dful
     exact d89_mem_E5
   · exact E4_le_E5 (conj_mem_of_normalizer tauhat_mem_normalizer_E4 h)
 
-@[expose] def H4 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E4 : Set Dfull)
+def H4 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E4 : Set Dfull)
 
 abbrev K4 : Subgroup Dfull := Subgroup.normalizer (E4 : Set Dfull)
 
-@[expose] def Z4 : Subgroup Dfull := Subgroup.centralizer (E4 : Set Dfull)
+def Z4 : Subgroup Dfull := Subgroup.centralizer (E4 : Set Dfull)
 
-@[expose] def H5 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E5 : Set Dfull)
+def H5 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E5 : Set Dfull)
 
 abbrev K5 : Subgroup Dfull := Subgroup.normalizer (E5 : Set Dfull)
 
-@[expose] def Z5 : Subgroup Dfull := Subgroup.centralizer (E5 : Set Dfull)
+def Z5 : Subgroup Dfull := Subgroup.centralizer (E5 : Set Dfull)
 
 theorem Z4_le_K4 : Z4 ≤ K4 := Subgroup.centralizer_le_normalizer _
 

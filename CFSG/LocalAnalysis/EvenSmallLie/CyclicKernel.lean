@@ -79,7 +79,7 @@ theorem false_of_forall_card_le_two [IsSimpleGroup G] (hnonab : ∃ a b : G, a *
   set N := normalizer (L : Set G) with hNdef
   set S₀ : Subgroup G :=
     (S : Subgroup (centralizer (L : Set G))).map (centralizer (L : Set G)).subtype with hS₀def
-  obtain ⟨σ, hσS, hσ4⟩ := exists_orderOf_eq_four_of_isCyclic hS S.isPGroup' (by omega)
+  obtain ⟨σ, hσS, hσ4⟩ := exists_orderOf_eq_four_of_isCyclic hS S.isPGroup (by omega)
   set s : G := (σ : G) with hsdef
   have hs4 : orderOf s = 4 := by rw [hsdef, orderOf_coe, hσ4]
   have hsC : s ∈ centralizer (L : Set G) := σ.2

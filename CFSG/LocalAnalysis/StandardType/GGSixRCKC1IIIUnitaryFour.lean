@@ -103,7 +103,7 @@ theorem card_centralizer_of_mem_suPair_four
         simp only [Matrix.mul_assoc]
       _ = antidiag 4 := by
         rw [← conjTr_mul, hAA, conjTr_one, Matrix.one_mul, Matrix.mul_one]
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let eF : F ≃+* CFSG.GH74.Uniqueness.SU.SU5.F4c :=
     FiniteField.ringEquivOfCardEq (by
       rw [Fintype.card_eq_nat_card, hF, CFSG.GH74.Uniqueness.SU.SU5.F4c.card_eq]

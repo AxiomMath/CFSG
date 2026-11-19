@@ -41,7 +41,7 @@ private theorem ap_treeOf_pos_mem {s : BS} (hle : s.pts.length ≤ n) (hn : n < 
     ap (treeOf n s).pos p = s.pts.idxOf p := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_true, UInt32.toNat_ofNat']
+  simp only [Array.getElem_ofFn, hm, ite_true, UInt32.toNat_ofNat']
   have := List.idxOf_lt_length_iff.mpr hm
   exact Nat.mod_eq_of_lt (by omega)
 
@@ -49,7 +49,7 @@ private theorem ap_treeOf_pos_nmem {s : BS} {p : Nat} (hp : p < n) (hm : p ∉ s
     ap (treeOf n s).pos p = 2 ^ 32 - 1 := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_false]
+  simp only [Array.getElem_ofFn, hm, ite_false]
   rfl
 
 private theorem ap_treeOf_pts_of {s : BS} (hn : n < 2 ^ 32) (hs : ∀ p ∈ s.pts, p < n) (k : Nat) :
@@ -175,7 +175,7 @@ theorem treeOK_treeOf {root : Nat} {lv : List Nat} {s : BS} (hn : n < 2 ^ 32)
   have hidx : s.pts.idxOf (s.pts.getD k 0) = k := idxOf_getD_of_nodup hs.nodup hk
   unfold CFSG.Perm.Native.treeAt
   simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Bool.or_eq_true, List.all_toArray,
-    List.all_eq_true, Array.contains_iff, List.mem_toArray, treeOf_pts_size, hpts, hpar, hlab]
+    List.all_eq_true, _root_.Array.contains_iff_mem, List.mem_toArray, treeOf_pts_size, hpts, hpar, hlab]
   refine ⟨⟨⟨hkn, ?_⟩, ?_⟩, ?_⟩
   · rw [ap_treeOf_pos_mem hs.le hn hkn hkmem, hidx]
   · intro l hl
@@ -200,14 +200,14 @@ theorem walk_treeOf {lv : List Nat} {r : Nat} {s : BS} (hn : n < 2 ^ 32)
       have htr : BS.trans (tabF letters) s k = fun x => tabF letters (s.lab.getD k 0)
           (BS.trans (tabF letters) s (s.par.getD k 0) x) := by
         funext x
-        rw [BS.trans.eq_def, dif_pos h]
-      rw [CFSG.Perm.Native.walk.eq_def, dif_pos h', htr, hp, hl, apT_map, ih _ h.2, Array.map_map]
+        rw [BS.trans.eq_def, dite_eq_left h]
+      rw [CFSG.Perm.Native.walk.eq_def, dite_eq_left h', htr, hp, hl, apT_map, ih _ h.2, Array.map_map]
       rfl
     · have h' : ¬ (0 < k ∧ ap (treeOf n s).par k < k) := by rw [hp]; exact h
       have htr : BS.trans (tabF letters) s k = fun x => x := by
         funext x
-        rw [BS.trans.eq_def, dif_neg h]
-      rw [CFSG.Perm.Native.walk.eq_def, dif_neg h', htr, Array.map_id']
+        rw [BS.trans.eq_def, dite_eq_right h]
+      rw [CFSG.Perm.Native.walk.eq_def, dite_eq_right h', htr, Array.map_id']
 
 theorem walkInv_treeOf {lv : List Nat} {r : Nat} {s : BS} (hn : n < 2 ^ 32)
     (hs : RunOK n (tabF letters) lv r s) (hlv : ∀ l ∈ lv, l < 2 ^ 32 ∧ IsPermN n (tabF letters l) ∧
@@ -233,7 +233,7 @@ theorem walkInv_treeOf {lv : List Nat} {r : Nat} {s : BS} (hn : n < 2 ^ 32)
           hinv y hyn
         rw [h1]
         exact finv_lt (by omega) _ _
-      rw [CFSG.Perm.Native.walkInv.eq_def, dif_pos h', hp, hl, ih _ h.2 hpk hq', apT_map,
+      rw [CFSG.Perm.Native.walkInv.eq_def, dite_eq_left h', hp, hl, ih _ h.2 hpk hq', apT_map,
         Array.map_map]
       apply Array.map_congr_left
       intro y hy
@@ -243,15 +243,15 @@ theorem walkInv_treeOf {lv : List Nat} {r : Nat} {s : BS} (hn : n < 2 ^ 32)
       have htr : BS.trans (tabF letters) s k = fun x => tabF letters (s.lab.getD k 0)
           (BS.trans (tabF letters) s (s.par.getD k 0) x) := by
         funext x
-        rw [BS.trans.eq_def, dif_pos h]
+        rw [BS.trans.eq_def, dite_eq_left h]
       show finv n (BS.trans (tabF letters) s (s.par.getD k 0))
           (ap letters[invL (s.lab.getD k 0)]! y) = _
       rw [h1, htr, finv_comp hperm (trans_isPermN hs (fun l hl => (hlv l hl).2.1) hpk) hyn]
     · have h' : ¬ (0 < k ∧ ap (treeOf n s).par k < k) := by rw [hp]; exact h
       have htr : BS.trans (tabF letters) s k = fun x => x := by
         funext x
-        rw [BS.trans.eq_def, dif_neg h]
-      rw [CFSG.Perm.Native.walkInv.eq_def, dif_neg h', htr]
+        rw [BS.trans.eq_def, dite_eq_right h]
+      rw [CFSG.Perm.Native.walkInv.eq_def, dite_eq_right h', htr]
       calc q = q.map (fun x => x) := (Array.map_id' q).symm
         _ = q.map (finv n fun x => x) :=
           Array.map_congr_left fun y hy =>
@@ -274,7 +274,7 @@ theorem sift_treeOf {L : List (List Nat × Nat × BS)} (hn : n < 2 ^ 32) (hL : N
     | zero =>
       intro l g hd hg
       have hl : ¬ l < L.length := by omega
-      rw [CFSG.Perm.Native.sift.eq_def, dif_neg (by simpa using hl),
+      rw [CFSG.Perm.Native.sift.eq_def, dite_eq_right (by simpa using hl),
         List.drop_eq_nil_of_le (by omega), List.map_nil]
       exact tupleEq_map_range g
     | succ d ih =>
@@ -285,7 +285,7 @@ theorem sift_treeOf {L : List (List Nat × Nat × BS)} (hn : n < 2 ^ 32) (hL : N
       have hT : (List.map (fun e => treeOf n e.snd.snd) L).toArray[l]'(by simpa using hl) =
           treeOf n L[l].2.2 := by simp
       have hqbl := hqb l hl
-      rw [CFSG.Perm.Native.sift.eq_def, dif_pos (by simpa using hl),
+      rw [CFSG.Perm.Native.sift.eq_def, dite_eq_left (by simpa using hl),
         List.drop_eq_getElem_cons hl, List.map_cons]
       dsimp only
       rw [hT, hqbl]
@@ -419,7 +419,7 @@ theorem chainTrees_eq {base : Array Nat} (hn : n < 2 ^ 32) (hbase : ∀ b ∈ ba
     rw [treeBFS_eq hn (hbi ▸ hlt)
       (fun l hl x hx => hF l (lvAt_sub _ _ _ _ l (hlv ▸ hl)) x hx), hlv, hbi]
 
-theorem natLevelsOK {base : Array Nat} (hn : n < 2 ^ 32) (hL : LettersOK n letters)
+theorem natLevelsOK {base : Array Nat} (_hn : n < 2 ^ 32) (hL : LettersOK n letters)
     (hbase : ∀ b ∈ base.toList, b < n) :
     NatLevelsOK n letters (natLevels n (tabF letters) letters.size base.toList) := by
   intro e he
@@ -438,7 +438,7 @@ theorem natLevelsOK {base : Array Nat} (hn : n < 2 ^ 32) (hL : LettersOK n lette
   · intro x hx
     exact (hl l (lvAt_sub _ _ _ _ l hl')).2.2 x hx
 
-theorem chainOK_of {base : Array Nat} (hn : n < 2 ^ 32) (hn0 : 0 < n) (hL : LettersOK n letters)
+theorem chainOK_of {base : Array Nat} (hn : n < 2 ^ 32) (_hn0 : 0 < n) (hL : LettersOK n letters)
     (hbase : ∀ b ∈ base.toList, b < n)
     (hsch : ∀ i (h : i < (natLevels n (tabF letters) letters.size base.toList).length),
       absSch n (tabF letters) (natLevels n (tabF letters) letters.size base.toList)[i].1
@@ -549,7 +549,7 @@ theorem orbitSizes_eq {base : Array Nat} (hn : n < 2 ^ 32) (hbase : ∀ b ∈ ba
       (natLevels n (tabF letters) letters.size base.toList).map fun e => e.2.2.pts.length := by
   unfold CFSG.Perm.Native.orbitSizes
   rw [chainTrees_eq hn hbase hF]
-  simp only [List.toList_toArray, List.map_map, Function.comp_def, treeOf_pts_size]
+  simp only [List.map_map, Function.comp_def, treeOf_pts_size]
 
 theorem inTreeB_treeOf {s : BS} (hn : n < 2 ^ 32) (hs : ∀ p ∈ s.pts, p < n) (hnd : s.pts.Nodup)
     {p : Nat} (hp : p < n) :

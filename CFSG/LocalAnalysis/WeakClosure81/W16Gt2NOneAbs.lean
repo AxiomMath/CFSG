@@ -29,7 +29,7 @@ private theorem oddCore_eq_pPrimeCore_two (X : Type*) [Group X] :
 private theorem odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
   rw [oddCore_eq_pPrimeCore_two]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := CFSG.pPrimeCore_coprime_card (p := 2) (G := X)
   simpa [Nat.coprime_two_left] using h
 
@@ -38,6 +38,7 @@ private theorem oddCore_characteristic (X : Type*) [Group X] :
   rw [oddCore_eq_pPrimeCore_two]
   infer_instance
 
+omit [Finite Ω] in
 private theorem conj_mem_oddCore_map {K : Subgroup Ω} {x : Ω}
     (hx : x ∈ Subgroup.normalizer K) {o : Ω}
     (ho : o ∈ (CFSG.oddCore ↥K).map K.subtype) :
@@ -56,7 +57,7 @@ theorem exists_odd_normal_eq_zpowers_sup {Hh P K : Subgroup Ω} {t : Ω}
     (hwc : ∀ x ∈ Hh, x⁻¹ * t * x ∈ P → x⁻¹ * t * x = t) :
     ∃ O : Subgroup Ω, O ≤ K ∧ Odd (Nat.card O) ∧ (∀ x ∈ Hh, ∀ o ∈ O, x * o * x⁻¹ ∈ O) ∧
       K = Subgroup.zpowers t ⊔ O := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htH : t ∈ Hh := hP.le htP
   let zt : ↥Hh := ⟨t, htH⟩
   let S : Sylow 2 ↥Hh := hP.toSylow
@@ -194,12 +195,12 @@ theorem eq_of_invariant_of_not_commute {Hh R O N : Subgroup Ω} {t : Ω} (hR2 : 
     (h73 : ∀ y ∈ Hh, y ≠ 1 → Odd (orderOf y) → t * y * t⁻¹ = y⁻¹ → R ⊔ Subgroup.zpowers y = Hh)
     (hNO : N ≤ O) (hNR : ∀ r ∈ R, ∀ n ∈ N, r * n * r⁻¹ ∈ N)
     (hnc : ∃ x ∈ N, t * x ≠ x * t) : N = O := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRO_disj : R ⊓ O = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (by
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
       obtain ⟨k, hk⟩ := hR2.exists_card_eq
       rw [hk]
-      exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hOodd))
+      exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hOodd))))
   obtain ⟨x, hxN, hxnc⟩ := hnc
   have hxO : x ∈ O := hNO hxN
   have hxH : x ∈ Hh := hOH hxO
@@ -253,6 +254,7 @@ theorem eq_of_invariant_of_not_commute {Hh R O N : Subgroup Ω} {t : Ω} (hR2 : 
     rw [← hrn, hr1]
     simpa using hnN
 
+omit [Finite Ω] in
 theorem exists_not_commute_of_ne {K O : Subgroup Ω} {t : Ω} (hKO : K = Subgroup.zpowers t ⊔ O)
     (hk : ∃ k ∈ K, k⁻¹ * t * k ≠ t) : ∃ o ∈ O, t * o ≠ o * t := by
   by_contra h

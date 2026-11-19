@@ -146,7 +146,7 @@ variable {X : Type} [Group X] [Finite X]
 omit [Finite X] in
 theorem exists_pow_eq_one_of_mem_sylow (P : Sylow 2 X) {t : X} (htP : t ∈ (P : Subgroup X)) :
     ∃ k : ℕ, t ^ 2 ^ k = 1 := by
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨t, htP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨t, htP⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 omit [Finite X] in
@@ -268,7 +268,7 @@ theorem wcl_le_of_isAlperinSubgroup (P : Sylow 2 X) {t : X} (htP : t ∈ (P : Su
   by_contra hWQ
   have hQW : Q ≤ normalizer (W : Set X) := fun q hq => mem_normalizer_wcl (htc q (hQ.1 hq))
   have hQW2 : IsPGroup 2 (Q ⊔ W : Subgroup X) :=
-    (P.isPGroup'.to_le hQ.1).to_sup_of_normal_right' hW2 hQW
+    (P.isPGroup.to_le hQ.1).to_sup_of_normal_right' hW2 hQW
   have hne : Q ≠ Q ⊔ W := fun h => hWQ (le_sup_right.trans h.symm.le)
   obtain ⟨x, hxQW, hxN, hxQ⟩ :=
     CFSG.Walter.Huppert.exists_mem_normalizer_not_mem hQW2 le_sup_left hne

@@ -76,6 +76,7 @@ noncomputable def rep : SpecialLinearGroup (Fin 5) K →* Module.End (ZMod 2) (F
     ext v
     simp
 
+omit [Finite K] in
 theorem rep_injective : Function.Injective (rep (K := K)) := by
   intro g h hgh
   apply Subtype.ext

@@ -25,7 +25,7 @@ theorem normal_subgroup_sylow_intersection (prime : ℕ) (prime_prime : prime.Pr
     intro divides
     exact sylow.not_dvd_index (divides.trans index_divides)
   have pgroup : IsPGroup prime ((sylow : Subgroup GroupType).subgroupOf normal) :=
-    sylow.isPGroup'.comap_of_injective normal.subtype normal.subtype_injective
+    sylow.isPGroup.comap_of_injective normal.subtype normal.subtype_injective
   refine ⟨pgroup.toSylow not_divides, ?_⟩
   rw [IsPGroup.toSylow_coe, Subgroup.subgroupOf_map_subtype, inf_comm]
 

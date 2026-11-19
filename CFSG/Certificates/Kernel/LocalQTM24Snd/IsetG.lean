@@ -32,7 +32,7 @@ private theorem aux_isetg_entry (x j : ℕ) (hj : j < 32) :
     Nat.land (Nat.add (Nat.shiftLeft x 5) j) 31 = j ∧
       codeE (Nat.add (Nat.shiftLeft x 5) j) = x := by
   have e1 : Nat.add (Nat.shiftLeft x 5) j = x * 32 + j := by
-    rw [aux_isetg_shl] <;> rfl
+    rw [aux_isetg_shl]; rfl
   rw [e1]
   refine ⟨?_, ?_⟩
   · rw [aux_isetg_land31]

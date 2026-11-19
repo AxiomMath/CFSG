@@ -75,12 +75,12 @@ theorem card_eq_pow_factorization_of_fixed_point {G : Type*} [Group G] [Finite G
     exact Sylow.card_eq_multiplicity P
   by_contra hne
   have hlt : T < (P : Subgroup G) := lt_of_le_of_ne hTP hne
-  obtain ⟨x, hxP, hxT, hxN⟩ := exists_mem_normalizer_of_lt_pGroup P.isPGroup' hlt
+  obtain ⟨x, hxP, hxT, hxN⟩ := exists_mem_normalizer_of_lt_pGroup P.isPGroup hlt
   have hxQ : x ∈ (P : Subgroup G) ⊓ normalizer (T : Set G) := ⟨hxP, hxN⟩
   have hTQ : T < (P : Subgroup G) ⊓ normalizer (T : Set G) :=
     lt_of_le_of_ne (le_inf hTP le_normalizer) fun heq => hxT (heq ▸ hxQ)
   have hQ : IsPGroup p ↥((P : Subgroup G) ⊓ normalizer (T : Set G)) :=
-    P.isPGroup'.to_inf_left
+    P.isPGroup.to_inf_left
   obtain ⟨B, hB, hQB⟩ := exists_le_normalizer_of_not_dvd_ncard hQ hΩ
     (fun g hg => hΩn g (mem_inf.mp hg).2)
   exact absurd (Subgroup.card_lt_of_lt hTQ) (not_lt_of_ge (hbound B hB _ hQ hQB))

@@ -23,9 +23,9 @@ private theorem d4F2_cartan_eq {z : RootModule τ K}
   classical
   ext a
   rcases a with j | ⟨β, hβ⟩
-  · simp [hVec, Finsupp.finset_sum_apply, Finsupp.single_apply]
+  · simp [hVec, _root_.Finsupp.finsetSum_apply, Finsupp.single_apply]
   · have h : z (Sum.inr ⟨β, hβ⟩) = 0 := hz β hβ
-    simp [hVec, Finsupp.finset_sum_apply, Finsupp.single_apply, h]
+    simp [hVec, _root_.Finsupp.finsetSum_apply, h]
 
 private theorem d4F2_fix_of_coord (op : K → Module.End K (RootModule τ K)) (A : Fin τ.rank → K)
     {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β) {z : RootModule τ K}

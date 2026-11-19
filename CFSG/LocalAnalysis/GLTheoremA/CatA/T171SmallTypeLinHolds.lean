@@ -30,7 +30,7 @@ theorem exists_oneBlock_maxrank {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElem
     (hge : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Nat.card E) :
     ∃ e ∈ E, e ^ 3 = 1 ∧ Module.finrank (ZMod 2) (comSp e) = 2 := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hge' : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     rwa [Nat.card_eq_fintype_card] at hge
   obtain ⟨k, X, ρf, hXprop, hind, hsup, hρf, hPcard, hpe⟩ := exists_struct E hE hge'
@@ -61,7 +61,7 @@ theorem exists_oneBlock_maxrank {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElem
     · have h := expo_spec ((hplane j hjp).2 e heE) x hx
       have hne : (⟨j, hjp⟩ : {i // Module.finrank (ZMod 2) (X i) = 2}) ≠ p := fun h' =>
         hj (congrArg Subtype.val h')
-      rw [h, hexp ⟨j, hjp⟩, if_neg hne]
+      rw [h, hexp ⟨j, hjp⟩, ite_eq_right hne]
       simp
     · exact hline j hjp e heE x hx
   have hinv : ∀ x ∈ X p.1, ρf p.1 x ∈ X p.1 := fun x hx =>
@@ -122,7 +122,7 @@ theorem cent_Nsub_le_zpowers_c {e : V ≃ₗ[ZMod 2] V} (h3 : e ^ 3 = 1)
   exact Subgroup.npow_mem_zpowers e k
 
 theorem not_smallOrd_Nsub {e : V ≃ₗ[ZMod 2] V} (h3 : e ^ 3 = 1)
-    (hfr : Module.finrank (ZMod 2) (comSp e) = 2) {c : ℕ}
+    (_hfr : Module.finrank (ZMod 2) (comSp e) = 2) {c : ℕ}
     (hc : Module.finrank (ZMod 2) (fixSp e) = c) (hc4 : 4 ≤ c) (hc7 : c ≤ 7) :
     ¬ HStdExcl.SmallOrd (Nsub h3) := by
   intro hso
@@ -239,7 +239,7 @@ theorem noSmallModel_fin_eight : NoSmallModel (VecAut 8) := by
     local81_linearEquiv (m := 8) (by norm_num)
   have hble := h.max E hEe ⟨U, hU2, hUne, hEU⟩
   rw [hEcard] at hble
-  exact false_of_smallModel_maxrank (m := 8) (by simp [Module.finrank_fin_fun])
+  exact false_of_smallModel_maxrank (m := 8) (by simp)
     (by norm_num) (by norm_num) h (by simpa using hble)
 
 theorem noSmallModel_fin_nine : NoSmallModel (VecAut 9) := by
@@ -248,7 +248,7 @@ theorem noSmallModel_fin_nine : NoSmallModel (VecAut 9) := by
     local81_linearEquiv (m := 9) (by norm_num)
   have hble := h.max E hEe ⟨U, hU2, hUne, hEU⟩
   rw [hEcard] at hble
-  exact false_of_smallModel_maxrank (m := 9) (by simp [Module.finrank_fin_fun])
+  exact false_of_smallModel_maxrank (m := 9) (by simp)
     (by norm_num) (by norm_num) h (by simpa using hble)
 
 theorem noSmallModel_fin_ge_ten {m : ℕ} (hm : 10 ≤ m) : NoSmallModel (VecAut m) := by
@@ -265,14 +265,14 @@ theorem noSmallModel_fin {m : ℕ} (hm : 5 ≤ m) : NoSmallModel (VecAut m) := b
   · have hm5 : m = 5 := by omega
     subst hm5
     exact noSmallModel_dim_five (V := Fin 5 → ZMod 2)
-      (by simp [Module.finrank_fin_fun])
+      (by simp)
   rcases Nat.lt_or_ge m 8 with h7 | h8
   · have h : m = 6 ∨ m = 7 := by omega
     rcases h with rfl | rfl
     · exact noSmallModel_dim_six_seven (V := Fin 6 → ZMod 2)
-        (Or.inl (by simp [Module.finrank_fin_fun]))
+        (Or.inl (by simp))
     · exact noSmallModel_dim_six_seven (V := Fin 7 → ZMod 2)
-        (Or.inr (by simp [Module.finrank_fin_fun]))
+        (Or.inr (by simp))
   rcases Nat.lt_or_ge m 10 with h9 | h10
   · have h : m = 8 ∨ m = 9 := by omega
     rcases h with rfl | rfl
@@ -291,9 +291,9 @@ theorem noSmallModel_of_rankFine {G : Type} [Group G] {B : ℕ}
 theorem rankFine_statedSU_card_four {K : Type} [Field K] (hK : Nat.card K = 4) :
     CFSG.LocalAnalysis.GLTheoremA.CatB.RankFine
       (StatedProj (StatedSU 4 2 K)) 9 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype CFSG.LocalAnalysis.GLTheoremA.CatB.K4 := Fintype.ofFinite _
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype CFSG.LocalAnalysis.GLTheoremA.CatB.K4 := Fintype.ofFinite _
   have hcard : Fintype.card CFSG.LocalAnalysis.GLTheoremA.CatB.K4 = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.LocalAnalysis.GLTheoremA.CatB.K4_card, hK]
@@ -317,8 +317,8 @@ theorem famLin_holds : FamLin := by
       .PSL (n + 1) 2 1 := by
     simpa [hp2, hexp] using hcl
   obtain ⟨-, K, hfK, hfinK, hcardK, ⟨e⟩⟩ := hcl'
-  haveI := hfK
-  haveI := hfinK
+  have := hfK
+  have := hfinK
   have hK2 : Nat.card K = 2 := by simpa using hcardK
   let e2 := (@CFSG.QuasithinUnique.Setup.Family.statedProjSL_equiv_of_card_two (n + 1) K
     hfK hfinK hK2).trans (linEquivSL (n + 1))
@@ -334,8 +334,8 @@ theorem famU4_holds : FamU4 := by
     simpa [hp2, hexp] using
       CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv (MulEquiv.refl _)
   obtain ⟨-, K, hfK, hfinK, hcardK, ⟨e⟩⟩ := hmod
-  haveI := hfK
-  haveI := hfinK
+  have := hfK
+  have := hfinK
   have hcard4 : Nat.card K = 4 := by simpa using hcardK
   exact noSmallModel_of_mulEquiv e
     (Lin.noSmallModel_of_rankFine (@Lin.rankFine_statedSU_card_four K hfK hcard4)

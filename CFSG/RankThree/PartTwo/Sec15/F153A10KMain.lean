@@ -237,7 +237,7 @@ theorem a10NoV4Offender_of (hP2 : P2Stmt) (hP4 : P4Stmt)
   by_contra hlt
   have hlt' : Nat.card V ≤ Nat.card E * Nat.card (fixV E) := not_lt.mp hlt
   have hidxE : (fixV E).index ≤ Nat.card E := by
-    haveI : Nonempty (fixV E) := ⟨1⟩
+    have : Nonempty (fixV E) := ⟨1⟩
     have hpos : 0 < Nat.card (fixV E) := Nat.card_pos
     have h1 : (fixV E).index * Nat.card (fixV E) ≤ Nat.card E * Nat.card (fixV E) := by
       rw [Subgroup.index_mul_card]

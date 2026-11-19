@@ -66,7 +66,7 @@ theorem lemma35KR_of_module (hN31 : NotC31)
     intro a ha
     exact hcov (Pi.single a 1) (fun b hb => by
       have : b ≠ a := fun h => by subst h; omega
-      simp [Pi.single_apply, this])
+      simp [this])
   have hnm' : n = m + 1 ∨ (n = 5 ∧ m = 3) := by
     rcases hnm with ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩
     · left; omega

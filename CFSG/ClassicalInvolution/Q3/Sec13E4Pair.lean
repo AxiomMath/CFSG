@@ -22,10 +22,12 @@ structure E4Hyp (Ω : Set (Subgroup G)) (W : Subgroup G) : Prop where
 @[expose] def Paired (Ω : Set (Subgroup G)) (A B : Subgroup G) : Prop :=
   A ∈ Ω ∧ B ∈ Ω ∧ A ≠ B ∧ Commutes A B
 
+omit [Finite G] in
 theorem Paired.symm {Ω : Set (Subgroup G)} {A B : Subgroup G} (h : Paired Ω A B) :
     Paired Ω B A :=
   ⟨h.2.1, h.1, h.2.2.1.symm, h.2.2.2.symm⟩
 
+omit [Finite G] in
 theorem Paired.conj {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) {A B : Subgroup G}
     (h : Paired Ω A B) (g : G) : Paired Ω (conjSub g A) (conjSub g B) := by
   refine ⟨hΩ g A h.1, hΩ g B h.2.1, ?_, h.2.2.2.conjSub g⟩
@@ -42,16 +44,20 @@ include h
 theorem partIHypG : Q3CL.PartIHypG Ω :=
   ⟨h.thmD.hyp, classicalClause_of_two h.thmD.hyp h.thmD.two, h.thmD.aEmpty⟩
 
+omit [Finite G] in
 theorem card_eq {L : Subgroup G} (hL : L ∈ Ω) : Nat.card L = 8 := by
   have := h.thmD.card L hL
   norm_num at this
   exact this
 
+omit [Finite G] in
 theorem isPGroup {L : Subgroup G} (hL : L ∈ Ω) : IsPGroup 2 L := h.thmD.two L hL
 
+omit [Finite G] in
 theorem exists_uniqueInvolution {L : Subgroup G} (hL : L ∈ Ω) : ∃ z : G, IsUniqueInvolution L z :=
   (h.thmD.hyp.omega1 L hL).1
 
+omit [Finite G] in
 theorem mem_pCore {L : Subgroup G} (hL : L ∈ Ω) {z : G} (hz : IsUniqueInvolution L z) :
     z ∈ pCore 2 G := by
   obtain ⟨Q, hQn, hQ2, hzQ⟩ := h.thmD.inO2 L hL z hz
@@ -63,6 +69,7 @@ theorem false_of_three (S : Sylow 2 G) {L₁ L₂ L₃ : Subgroup G} (h₁ : L�
     (hc₃ : 2 < Nat.card ↥(L₃ ⊓ (S : Subgroup G))) : False :=
   TL4.false_of_three_meet_sylow_E4 h.partIHypG h.hW h.hE S h₁ h₂ h₃ h12 h13 h23 hc₁ hc₂ hc₃
 
+omit [Finite G] in
 theorem two_lt_card_inf_of_le {L : Subgroup G} (hL : L ∈ Ω) {S : Subgroup G} (hLS : L ≤ S) :
     2 < Nat.card ↥(L ⊓ S) := by
   rw [inf_eq_left.mpr hLS, h.card_eq hL]
@@ -94,6 +101,7 @@ theorem exists_paired : ∃ A B : Subgroup G, Paired Ω A B := by
   exact ⟨ρ.K, σ.K, ρ.hK, σ.hK, hσ.symm,
     comm_of_mem_omegaNbr h.thmD.hyp h.thmD.two ρ.hK hnbr⟩
 
+omit [Finite G] in
 theorem exists_sylow_of_paired {A B : Subgroup G} (hp : Paired Ω A B) :
     ∃ S : Sylow 2 G, A ≤ (S : Subgroup G) ∧ B ≤ (S : Subgroup G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -114,6 +122,7 @@ theorem eq_or_eq_of_paired {A B : Subgroup G} (hp : Paired Ω A B) {S : Sylow 2 
   exact h.false_of_three S hp.1 hp.2.1 hL hp.2.2.1 (Ne.symm hne.1) (Ne.symm hne.2)
     (h.two_lt_card_inf_of_le hp.1 hA) (h.two_lt_card_inf_of_le hp.2.1 hB) hc
 
+omit [Finite G] in
 theorem exists_third {A B : Subgroup G} (hp : Paired Ω A B) :
     ∃ L ∈ Ω, L ≠ A ∧ L ≠ B := by
   by_contra hcon

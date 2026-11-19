@@ -10,6 +10,7 @@ open Matrix CFSG.Open CFSG.Quasithin
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem s16g_fixOrd_of_conj (Γ : Subgroup (Matrix.GeneralLinearGroup ι K)) {p : ℕ}
     {g : Matrix.GeneralLinearGroup ι K} (hgΓ : g ∈ Γ) (hg : orderOf g = p) {κ : Type}
     (w : κ → ι → K) (hw : ∀ k, (g : Matrix ι ι K) *ᵥ w k = w k)
@@ -41,6 +42,7 @@ theorem s16g_fixNc_of_fixed_vector (Γ : Subgroup (Matrix.GeneralLinearGroup ι 
   s16g_fixNc_of_conj Γ hp B hBΓ hBc hBe (fun _ : Unit => u) (fun _ => hfix)
     fun a ha => ⟨(), htr u a hu ha⟩
 
+omit [Finite K] in
 theorem s16g_fixOrd_of_fixed_vector (Γ : Subgroup (Matrix.GeneralLinearGroup ι K)) {p : ℕ}
     (htr : ∀ x y : ι → K, x ≠ 0 → y ≠ 0 → ∃ A ∈ Γ, (A : Matrix ι ι K) *ᵥ x = y)
     {g : Matrix.GeneralLinearGroup ι K} (hgΓ : g ∈ Γ) (hg : orderOf g = p) {u : ι → K}

@@ -73,10 +73,9 @@ theorem mem_KB {x : P45} :
   constructor
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨A, rfl⟩ := mem_KA.1 hy
-    exact ⟨A, by simp [Certificates.OmegaPk.cj, MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨A, by simp [Certificates.OmegaPk.cj, mul_assoc]⟩
   · rintro ⟨A, rfl⟩
-    exact ⟨rhoF A, mem_KA.2 ⟨A, rfl⟩, by simp [Certificates.OmegaPk.cj, MulAut.conj_apply,
-      mul_assoc]⟩
+    exact ⟨rhoF A, mem_KA.2 ⟨A, rfl⟩, by simp [Certificates.OmegaPk.cj, mul_assoc]⟩
 
 end Pk
 

@@ -76,7 +76,7 @@ theorem exists_fx_of_natural
     ∃ Fx : (ι → K) →ₗ[K] (ι → K), ∀ k k' : ↥(Vt M (LB M Q B) B Z t),
       (k' : G) = x * k * x⁻¹ → Fx (secVec ψ k) = secVec ψ k' := by
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hxV : ∀ v ∈ Vt M (LB M Q B) B Z t, x * v * x⁻¹ ∈ Vt M (LB M Q B) B Z t := fun v hv =>
@@ -125,13 +125,13 @@ theorem step71VanishPair_of_geom
       have h2 : m = 2 := by omega
       subst h2
       exact hs.notPlus4 ⟨K, fK, finK, hK, hnat⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
+    have : CharP K 2 := sec7ctr_charP hc hK
     have hK4 : 4 ≤ Nat.card K := by rw [hK]; exact hq4
     have hnat' := hnat
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have := hn
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h4 : 4 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
       omega
@@ -158,13 +158,13 @@ theorem step71VanishPair_of_geom
     exact ⟨h, hh, r, hr, hp, he⟩
   ·
     have hK' : Nat.card K = Nat.card Z := hK
-    haveI : CharP K 2 := sec7ctr_charP hc hK
+    have : CharP K 2 := sec7ctr_charP hc hK
     have hK4 : 4 ≤ Nat.card K := by rw [hK]; exact hq4
     have hnat' := hnat
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have := hn
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have h4 : 4 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]

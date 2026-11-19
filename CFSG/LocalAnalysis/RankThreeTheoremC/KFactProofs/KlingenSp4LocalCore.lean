@@ -89,11 +89,13 @@ theorem eq_of_abelian_of_card_center [Finite Y] {T U B : Subgroup Y} (hT : Nat.c
 
 namespace SiegelRadicalData
 
+omit [Fact (Nat.Prime p)] in
 theorem map_conj_eq (h : SiegelRadicalData p K T U) {g : Y}
     (hg : U.map (MulAut.conj g).toMonoidHom ≤ T) : U.map (MulAut.conj g).toMonoidHom = U :=
   h.unique _ hg (h.elem.map _)
     (by rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, h.card_U])
 
+omit [Fact p.Prime] in
 theorem T_le_normalizer (h : SiegelRadicalData p K T U) :
     T ≤ Subgroup.normalizer (U : Set Y) := by
   intro g hg
@@ -102,6 +104,7 @@ theorem T_le_normalizer (h : SiegelRadicalData p K T U) :
   obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
   exact T.mul_mem (T.mul_mem hg (h.U_le hu)) (T.inv_mem hg)
 
+omit [Fact p.Prime] in
 theorem normalizer_T_le (h : SiegelRadicalData p K T U) :
     Subgroup.normalizer (T : Set Y) ≤ Subgroup.normalizer (U : Set Y) := by
   intro g hg
@@ -174,7 +177,7 @@ theorem eq_normalizer [Finite Y] [K.Normal] (T : Sylow p Y)
     simpa [mul_assoc] using this
   have hpP' : IsPGroup p P' := h.elem.isPGroup.map _
   have hpsup : IsPGroup p (P' ⊔ (T : Subgroup Y) : Subgroup Y) :=
-    hpP'.to_sup_of_normal_left' T.isPGroup' (fun t ht => hQN (hTQ ht))
+    hpP'.to_sup_of_normal_left' T.isPGroup (fun t ht => hQN (hTQ ht))
   have hP'T : P' ≤ (T : Subgroup Y) := by
     have := T.maximal_isPGroup.eq_of_ge hpsup le_sup_right
     exact le_sup_left.trans this.le

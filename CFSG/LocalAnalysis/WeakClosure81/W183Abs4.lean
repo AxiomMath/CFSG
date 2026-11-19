@@ -26,6 +26,7 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 
 namespace Assumption131
 
+omit [Finite V] in
 theorem centralizer_le_normalizer_of_mRank_le (h : Assumption131 G Γ VA i)
     {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hr : mRank A ≤ i) {t : LGL 2 V} (ht : t ∈ A)
     (ht1 : t ≠ 1) {g : LGL 2 V} (hg : g ∈ G) (hgt : g * t = t * g) :
@@ -46,6 +47,7 @@ theorem centralizer_le_normalizer_of_mRank_le (h : Assumption131 G Γ VA i)
   rw [hbot, Subgroup.mem_bot] at ht'
   exact ht1 ht'
 
+omit [Finite V] in
 theorem isTISub_of_member (h : Assumption131 G Γ VA i) {G₀ : Type*} [Group G₀]
     (χ : G₀ →* LGL 2 V) (hχ : Function.Injective χ) (hχG : ∀ g, χ g ∈ G)
     {A₀ : Subgroup G₀} (hA : A₀.map χ ∈ Γ) (hr : mRank (A₀.map χ) ≤ i) : IsTISub G₀ A₀ := by
@@ -59,6 +61,7 @@ theorem isTISub_of_member (h : Assumption131 G Γ VA i) {G₀ : Type*} [Group G�
   rw [hconj] at this
   exact (Subgroup.mem_map_iff_mem hχ).symm.trans (this.trans (Subgroup.mem_map_iff_mem hχ))
 
+omit [Finite V] in
 theorem false_of_corConfig (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A) {G₀ : Type*} [Group G₀]
     (χ : G₀ →* LGL 2 V) (hχ : Function.Injective χ) (hχG : ∀ g, χ g ∈ G)
@@ -121,6 +124,7 @@ theorem false_of_corConfig (h : Assumption131 G Γ VA i)
       rintro _ ⟨a, ha, rfl⟩ _ ⟨x, hx, rfl⟩
       rw [← map_mul, ← map_mul, hc a ha x hx]
 
+omit [Finite V] in
 theorem false_of_ti_of_finite (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A) {G₀ : Type*} [Group G₀]
     (χ : G₀ →* LGL 2 V) (hχ : Function.Injective χ) (hχG : ∀ g, χ g ∈ G)

@@ -27,6 +27,7 @@ namespace Cex16
 
 variable {M V₀ V U S : Subgroup G}
 
+omit [Finite G] in
 private theorem w162_U_le_inf_conj (h : Cex16 M V₀ V U S) {g : G}
     (hg : g ∈ centralizer (U : Set G)) :
     U ≤ V ⊓ conjSubgroup M g ∧ U ≤ conjSubgroup V g ⊓ M := by
@@ -41,6 +42,7 @@ private theorem w162_U_le_inf_conj (h : Cex16 M V₀ V U S) {g : G}
   · rw [mem_conjSubgroup_iff, hfix x hx]
     exact h.le hx
 
+omit [Finite G] in
 private theorem w162_conj_mem_pCoreOf_iff {H : Subgroup G} {g : G} (hg : g ∈ H) (y : G) :
     g * y * g⁻¹ ∈ pCoreOf 2 H ↔ y ∈ pCoreOf 2 H :=
   (Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H hg) y).symm
@@ -155,7 +157,7 @@ theorem w162_mQuot_conj_le (h : Cex16 M V₀ V U S) {g : G} (hg : g ∈ centrali
 
 theorem w162_inf_conj_le_cTilde (h : Cex16 M V₀ V U S) {g : G}
     (hg : g ∈ centralizer (U : Set G)) : conjSubgroup V g ⊓ M ≤ F11.CTilde M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
   obtain ⟨hxV, hxM⟩ := Subgroup.mem_inf.1 hx
   have hp : IsPGroup 2 (conjSubgroup V g) := E3.isPGroup_conjSubgroup h.hyp.isPGroup g

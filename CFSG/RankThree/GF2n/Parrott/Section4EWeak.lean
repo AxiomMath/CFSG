@@ -51,6 +51,7 @@ theorem mem_imageQA45_iff {K : Subgroup G} (hK : K ≤ H z) (a : QA45.originalSu
   · rintro ⟨k, hk, rfl⟩
     exact ⟨⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem card_eq_card_inf_J_mul_card_imageQA45 {K : Subgroup G} (hK : K ≤ H z) :
     Nat.card K = Nat.card ↥(K ⊓ J z) * Nat.card (imageQA45 D hK) := by
   have h1 := Subgroup.card_ker_mul_card_range ((qH D).comp (Subgroup.inclusion hK))
@@ -78,6 +79,7 @@ section Action
 
 variable (h : Tim79a.ParrottHyp z)
 
+omit [Finite G] in
 theorem pi_mem_autFixedSubgroup_conjV {x : ↥(H z)} {b : G} (hb : b ∈ J z)
     (hxb : (x : G) * b = b * (x : G)) :
     QuotientV.pi z ⟨b, hb⟩ ∈ autFixedSubgroup (conjV h x) := by
@@ -88,6 +90,7 @@ theorem pi_mem_autFixedSubgroup_conjV {x : ↥(H z)} {b : G} (hb : b ∈ J z)
   calc (x : G) * b * (x : G)⁻¹ = b * (x : G) * (x : G)⁻¹ := by rw [hxb]
     _ = b := by group
 
+omit [Finite G] in
 theorem conjV_eq_of_qH_eq
     [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN) {a b : ↥(H z)}
     (hab : qH D a = qH D b) : conjV h a = conjV h b := by
@@ -97,6 +100,7 @@ theorem conjV_eq_of_qH_eq
 @[expose] noncomputable def imageInV {B : Subgroup G} (hB : B ≤ J z) : Subgroup (QuotientV.V z) :=
   ((QuotientV.pi z).comp (Subgroup.inclusion hB)).range
 
+omit [Finite G] in
 theorem mem_imageInV_iff {B : Subgroup G} (hB : B ≤ J z) (v : QuotientV.V z) :
     v ∈ imageInV hB ↔ ∃ b : G, ∃ hb : b ∈ B, QuotientV.pi z ⟨b, hB hb⟩ = v := by
   unfold imageInV
@@ -107,6 +111,7 @@ theorem mem_imageInV_iff {B : Subgroup G} (hB : B ≤ J z) (v : QuotientV.V z) :
   · rintro ⟨b, hb, rfl⟩
     exact ⟨⟨b, hb⟩, rfl⟩
 
+omit [Finite G] in
 theorem card_eq_card_inf_centerIn_mul_card_imageInV {B : Subgroup G} (hB : B ≤ J z) :
     Nat.card B = Nat.card ↥(B ⊓ centerIn (J z)) * Nat.card (imageInV hB) := by
   have h1 := Subgroup.card_ker_mul_card_range ((QuotientV.pi z).comp (Subgroup.inclusion hB))
@@ -145,6 +150,7 @@ variable (h : Tim79a.ParrottHyp z)
   letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   AddSubgroup.toZModSubmodule (n := 2) (Subgroup.toAddSubgroup S)
 
+omit [Finite G] in
 theorem mem_subgroupSubmoduleV_iff (S : Subgroup (QuotientV.V z)) (v : Additive (QuotientV.V z)) :
     v ∈ subgroupSubmoduleV h S ↔ Additive.toMul v ∈ S := by
   let _ : CommGroup (QuotientV.V z) := commGroupV h
@@ -267,6 +273,7 @@ theorem isPGroup_imageQA45 {K : Subgroup G} (hK : K ≤ H z) (hp : IsPGroup 2 K)
   IsPGroup.of_surjective hp
     (((qH D).comp (Subgroup.inclusion hK)).rangeRestrict) (MonoidHom.rangeRestrict_surjective _)
 
+omit [Finite G] in
 theorem imageQA45_le_Q {K : Subgroup G} (hK : K ≤ H z) (hKc : K ≤ ⁅H z, H z⁆ ⊔ J z) :
     imageQA45 D hK ≤ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   have hN' : ⁅H z, H z⁆ ⊔ J z ≤ (P_H D).map (H z).subtype := by

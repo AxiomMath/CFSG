@@ -92,7 +92,7 @@ theorem e6wd_ne_one {G : Type} [Group G] [Finite G]
     show d⁻¹ * (l : G) * d = (l : G) * (((l'⁻¹ * l)⁻¹ : ↥L) : G)
     have hl' : (l' : ↥L) = l * (l'⁻¹ * l)⁻¹ := by group
     rw [show d⁻¹ * (l : G) * d = (l' : G) from rfl]
-    simpa using congrArg (fun t : ↥L => (t : G)) hl' 
+    simp 
   have hcent : d ∈ Subgroup.centralizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.T171Sh.centralizes_of_conjRel_center hdL hcomm
       ⟨hS.qs.1⟩
@@ -172,7 +172,7 @@ theorem twwd_ne_one {G : Type} [Group G] [Finite G]
     show d⁻¹ * (l : G) * d = (l : G) * (((l'⁻¹ * l)⁻¹ : ↥L) : G)
     have hl' : (l' : ↥L) = l * (l'⁻¹ * l)⁻¹ := by group
     rw [show d⁻¹ * (l : G) * d = (l' : G) from rfl]
-    simpa using congrArg (fun t : ↥L => (t : G)) hl' 
+    simp 
   have hcent : d ∈ Subgroup.centralizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.T171Sh.centralizes_of_conjRel_center hdL hcomm
       ⟨hS.qs.1⟩
@@ -181,7 +181,7 @@ theorem twwd_ne_one {G : Type} [Group G] [Finite G]
   exact hS.d_ne (Subgroup.mem_bot.mp hmem)
 
 theorem e6RecipeConj_pow_three_eq_one_of {G : Type} [Group G] [Finite G]
-    {L J A : Subgroup G} {d b : G} (hS : Setup 3 L J A d b)
+    {L J A : Subgroup G} {d b : G} (_hS : Setup 3 L J A d b)
     {K : Type} [Field K] [Finite K]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* TableBExc.RecipeGroup Tag.E6 K}
     {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) (hgpow : g ^ 3 = 1)
@@ -221,9 +221,9 @@ theorem e6wb_pow_three_eq_one {G : Type} [Group G] [Finite G]
         hS.b_mem) (hS.elem.2 b hS.b_mem) hb)
 
 theorem twRecipeConj_pow_three_eq_one_of {G : Type} [Group G] [Finite G]
-    {L J A : Subgroup G} {d b : G} (hS : Setup 3 L J A d b)
+    {L J A : Subgroup G} {d b : G} (_hS : Setup 3 L J A d b)
     {K : Type} [Field K] [Finite K] {n : ℕ}
-    {σ : K ≃+* K} {ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃*
+    {σ : K ≃+* K} {_ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃*
       TwE6Delta.RecipeR K n}
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* TwE6Delta.RecipeR K n}
     {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) (hgpow : g ^ 3 = 1)
@@ -254,7 +254,7 @@ theorem twwb_pow_three_eq_one {G : Type} [Group G] [Finite G]
     wb ^ 3 = 1 :=
   tw_recipeConj_pow_three (K := K) (n := n) (σ := σ) (ε := ε) (wd := wb)
     hn hK hσ
-    (twRecipeConj_pow_three_eq_one_of (σ := σ) (ε := ε) hS
+    (twRecipeConj_pow_three_eq_one_of (σ := σ) (_ε := ε) hS
       ((CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag)
         hS.b_mem) (hS.elem.2 b hS.b_mem) hb)
 

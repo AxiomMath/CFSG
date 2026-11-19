@@ -147,7 +147,7 @@ theorem l2Rank3_holds : L2Rank3 := by
   have hq : CFSG.Open.IsQuasisimple ↥K := isQuasisimple_of_marking hK
   have hperf : commutator ↥K = ⊤ := hK.1
   obtain ⟨F0, _, _, hF0, ⟨θ0⟩⟩ := linear_datum hK
-  haveI : CharP F0 2 := charP_two_of_card hF0
+  have : CharP F0 2 := charP_two_of_card hF0
   have hdvd : 3 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K) := by
     rw [Nat.card_congr (θ0.trans (projEquiv F0)).toEquiv]
     exact three_dvd_card_sl2 F0 hF0
@@ -160,7 +160,7 @@ theorem l2Rank3_holds : L2Rank3 := by
   subst hP0
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨F, i1, i2, hF, hs, hna, θ, hlabeq, hBN, hind⟩ := hraw
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : CharP F 2 := charP_two_of_card hF
   have hcentR : Subgroup.center (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) = ⊥ :=
     center_eq_bot_of_mulEquiv (projEquiv F)
       (CFSG.HardMathSupport.Timmesfeld.ComponentBalance.SL2Char2.center_eq_bot F)

@@ -30,10 +30,10 @@ theorem sec8t84_exists_c (D : Sec8T84TData G t E T T1 T2 V1 V2 F1 F2)
     intro h
     exact hTPne (le_antisymm hTP (Subgroup.subgroupOf_eq_top.mp h))
   have hHlt : T.subgroupOf P < ⊤ := lt_top_iff_ne_top.mpr hHne
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPsyl.2.1
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPsyl.2.1
   have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
   have hlt : T.subgroupOf P < normalizer (T.subgroupOf P) := hnc (T.subgroupOf P) hHlt
-  obtain ⟨n, hn_norm, hn_notT⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨n, hn_norm, hn_notT⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hsub : n ∈ (normalizer (T : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hTP]
     exact hn_norm

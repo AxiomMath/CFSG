@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.GLTheoremA
 
 theorem isElemAbelian_of_le' {G : Type*} [Group G] {p : ℕ} {A B : Subgroup G} (h : A ≤ B)
     (hB : IsElemAbelian p B) : IsElemAbelian p A := by
-  haveI := hB.1
+  have := hB.1
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => hB.2 x (h hx)⟩
   have := congrArg Subtype.val (mul_comm' (⟨a, h a.2⟩ : ↥B) ⟨b, h b.2⟩)
   exact this
@@ -26,12 +26,12 @@ theorem card_le_of_meets_inner {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : 
     (D : Subgroup G) (hD : IsElemAbelian p D) :
     Nat.card D ≤ p * Nat.card ↥(D ⊓ I) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hCD, hbot, hsup⟩ :=
     CFSG.SignalizerFunctorTheorem.McBride.Near.Lemma212.exists_complement_of_isElemAbelian hp hD
       (inf_le_left : D ⊓ I ≤ D)
   have hcomm : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := fun x hx y hy => by
-    haveI := hD.1
+    have := hD.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥D) ⟨y, hy⟩)
   have hnorm : C ≤ Subgroup.normalizer ((D ⊓ I : Subgroup G) : Set G) := by
     intro c hc
@@ -84,7 +84,7 @@ theorem kd26f_psl {S : Type} [Group S] [Finite S] {n q p : ℕ}
   subst hmn
   have hn3 : 3 ≤ m + 1 := hp3.trans (Nat.le_of_dvd (by omega) hpn)
   obtain ⟨r, f, hr, hf, hFrf⟩ : ∃ r f : ℕ, r.Prime ∧ 0 < f ∧ Nat.card F = r ^ f := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, hp', hn⟩ := FiniteField.card F (ringChar F)
     exact ⟨ringChar F, n, hp', n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
   have hqr : q = r ^ f := by rw [← hFq, hFrf]

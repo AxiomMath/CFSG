@@ -88,13 +88,13 @@ theorem plane_of_two_commuting_prime_elements {p : ℕ} (hp : p.Prime) {y₁ y�
     (hne : Subgroup.zpowers y₁ ≠ Subgroup.zpowers y₂) :
     (∀ x ∈ Subgroup.closure ({y₁, y₂} : Set G), x ^ p = 1) ∧
       Nat.card (Subgroup.closure ({y₁, y₂} : Set G)) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set P : Subgroup G := Subgroup.zpowers y₁ with hP
   set Q : Subgroup G := Subgroup.zpowers y₂ with hQ
   have hPc : Nat.card P = p := by rw [hP, Nat.card_zpowers, orderOf_eq_prime h1 h1']
   have hQc : Nat.card Q = p := by rw [hQ, Nat.card_zpowers, orderOf_eq_prime h2 h2']
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; exact hp.ne_zero)
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQc]; exact hp.ne_zero)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; exact hp.ne_zero)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQc]; exact hp.ne_zero)
   have hdisj : Disjoint P Q := by
     rw [disjoint_iff]
     have hdvd : Nat.card ↥(P ⊓ Q) ∣ p := by
@@ -229,9 +229,9 @@ theorem routeC_summary_perfect (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ 
   have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   obtain ⟨F⟩ := rcl_exists_frame (ℓ := 2) (L := L) rfl hn1 hX hσ hε hp (by omega) hpd
   obtain ⟨e, hcompat, hT⟩ := exists_twistedEquiv_C0 σ n hn1 hX hσ
-  haveI : Finite (twistedGroup σ.toRingHom) := Finite.of_equiv (C0 σ) e.toEquiv
-  haveI := isSimpleGroup_C0 σ n hn1 hX hσ
-  haveI : IsSimpleGroup (twistedGroup σ.toRingHom) := e.symm.isSimpleGroup
+  have : Finite (twistedGroup σ.toRingHom) := Finite.of_equiv (C0 σ) e.toEquiv
+  have := isSimpleGroup_C0 σ n hn1 hX hσ
+  have : IsSimpleGroup (twistedGroup σ.toRingHom) := e.symm.isSimpleGroup
   have hgam : ∀ {S : Sylow p (C0 σ)} {c : C0 σ} {E : Subgroup (C0 σ)},
       ∀ (Ln : RceLines F S c E), rcgGamma Ln = ⊤ := by
     rcases hε with rfl | rfl
@@ -239,7 +239,7 @@ theorem routeC_summary_perfect (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ 
       exact rc3_gamma_eq_top hσ3 hT e hcompat Ln
     · intro S c E Ln
       exact rc6_gamma_eq_top hσ3 hT e hcompat Ln
-  obtain ⟨c, hc⟩ := F.hconj (S : Subgroup (C0 σ)) S.isPGroup'
+  obtain ⟨c, hc⟩ := F.hconj (S : Subgroup (C0 σ)) S.isPGroup
   obtain ⟨Ln⟩ := rce_exists_lines F S hc hES hEp hEc
   refine ⟨fun j => Ln.x j, fun j => rclPx (Ln.sp j), fun j => Ln.hx j, ?_,
     fun j => rclPx_le_centralizer (Ln.sp j), ?_, hgam Ln, ?_,
@@ -263,8 +263,8 @@ theorem exists_plane_in_sylow (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ n
     ∃ E : Subgroup (C0 σ), E ≤ (S : Subgroup (C0 σ)) ∧ (∀ y ∈ E, y ^ p = 1) ∧
       Nat.card E = p ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   have hsh := CFSG.RankThree.PartOne.K128.sylowShape_D4_36 (ℓ := 2) (f := n) (by omega) X hX σ hσ
     hε hp (by omega) hpd
@@ -276,7 +276,7 @@ theorem exists_plane_in_sylow (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ n
   have he : 1 ≤ (CFSG.RankThree.PartOne.KGD.d4T36d ε (2 ^ n)).factorization p :=
     hp.factorization_pos_of_dvd (CFSG.RankThree.PartOne.KGD.d4T36d_odd hε hq1).pos.ne' hd
   generalize (CFSG.RankThree.PartOne.KGD.d4T36d ε (2 ^ n)).factorization p = e at hsh he
-  obtain ⟨φ⟩ := hsh (S : Subgroup (C0 σ)) S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hsh (S : Subgroup (C0 σ)) S.isPGroup S.not_dvd_index
   have hpe : p * p ^ (e - 1) = p ^ e := by
     rw [← pow_succ']; congr 1; omega
   obtain ⟨g, hg1, hgp⟩ : ∃ g : Multiplicative (ZMod (p ^ e)), g ≠ 1 ∧ g ^ p = 1 := by

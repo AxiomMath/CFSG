@@ -50,12 +50,12 @@ theorem cz_mem : ∀ x ∈ tabS czGens 12960, CzP x := by
     exact czGens_czP 7 (by norm_num)
 
 theorem getD_mem {es : Array (List ℕ)} {t : ℕ} (ht : t < es.size) : es.getD t [] ∈ es := by
-  rw [Array.getD, dif_pos ht]
+  rw [Array.getD, dite_eq_left ht]
   exact Array.getElem_mem ht
 
 theorem sm8_eq (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) :
     sm8 M = Matrix.reindexAlgEquiv (ZMod 2) (ZMod 2) finSumFinEquiv.symm M := by
-  simp [sm8, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  simp [sm8, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
 
 theorem zE_eq_prod' (a : Fin 4 → ZMod 3) :
     CFSG.KC.Sp8Planes.zE a = CFSG.KC.Sp8Planes.zE ![1, 0, 0, 0] ^ (a 0).val *
@@ -65,7 +65,7 @@ theorem zE_eq_prod' (a : Fin 4 → ZMod 3) :
       (a 3).val • ![0, 0, 0, 1] := by
     funext p
     fin_cases p <;>
-      simp [Pi.add_apply, Pi.smul_apply, nsmul_eq_mul, ZMod.natCast_zmod_val, -ZMod.natCast_val]
+      simp [Pi.add_apply, nsmul_eq_mul, ZMod.natCast_zmod_val, -ZMod.natCast_val]
   conv_lhs => rw [ha]
   rw [CFSG.KC.Sp8Planes.zE_add, CFSG.KC.Sp8Planes.zE_add, CFSG.KC.Sp8Planes.zE_add,
     CFSG.KC.Sp8Planes.zE_nsmul, CFSG.KC.Sp8Planes.zE_nsmul, CFSG.KC.Sp8Planes.zE_nsmul,
@@ -228,20 +228,20 @@ theorem card_cW'S : cW'S.card = cntW' := by
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun r _ => ?_
   by_cases h1 : b4N p r = true
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     refine Finset.sum_congr rfl fun q _ => ?_
     by_cases h2 : (!b4N p q && !b4N r q) = true
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       refine Finset.sum_congr rfl fun s _ => ?_
       refine if_congr ?_ rfl rfl
       simp only [condW', Bool.and_eq_true] at h2 ⊢
       tauto
-    · rw [if_neg h2]
-      refine Finset.sum_eq_zero fun s _ => if_neg fun hc => h2 ?_
+    · rw [ite_eq_right h2]
+      refine Finset.sum_eq_zero fun s _ => ite_eq_right fun hc => h2 ?_
       simp only [condW', Bool.and_eq_true] at hc ⊢
       tauto
-  · rw [if_neg h1]
-    refine Finset.sum_eq_zero fun q _ => Finset.sum_eq_zero fun s _ => if_neg fun hc => h1 ?_
+  · rw [ite_eq_right h1]
+    refine Finset.sum_eq_zero fun q _ => Finset.sum_eq_zero fun s _ => ite_eq_right fun hc => h1 ?_
     simp only [condW', Bool.and_eq_true] at hc
     tauto
 

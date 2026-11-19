@@ -78,9 +78,9 @@ private theorem l10sdsu_subsingleton_SU {F : Type} [Field F] {σ : F ≃+* F} {m
     (hm : m ≤ 1) : Subsingleton (Unitary.SU σ m) := by
   have hm0 : m = 0 ∨ m = 1 := by omega
   rcases hm0 with rfl | rfl
-  · haveI : Subsingleton (Matrix (Fin 0) (Fin 0) F) :=
+  · have : Subsingleton (Matrix (Fin 0) (Fin 0) F) :=
       ⟨fun _ _ => funext fun i => Fin.elim0 i⟩
-    haveI : Subsingleton (GL (Fin 0) F) :=
+    have : Subsingleton (GL (Fin 0) F) :=
       ⟨fun A B => Units.ext (Subsingleton.elim (A : Matrix (Fin 0) (Fin 0) F)
         (B : Matrix (Fin 0) (Fin 0) F))⟩
     exact ⟨fun A B => Subtype.ext (Subsingleton.elim A.1 B.1)⟩
@@ -151,9 +151,9 @@ theorem jDim_selfDual_psu
     · subst hf0
       have h0 : (ggU .PSU m 0).K = Matrix.SpecialLinearGroup (Fin 1) (ZMod 2) := by
         simp only [ggU, lieUniversal]
-        rw [dif_neg (show ¬ 1 ≤ 0 by omega)]
+        rw [dite_eq_right (show ¬ 1 ≤ 0 by omega)]
         rfl
-      haveI : Subsingleton (ggU .PSU m 0).K := by
+      have : Subsingleton (ggU .PSU m 0).K := by
         rw [h0]
         exact CFSG.StandardType.subsingleton_specialLinear_of_card_le_one (Q := ZMod 2) (by simp)
       infer_instance
@@ -162,18 +162,18 @@ theorem jDim_selfDual_psu
           Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * f)) 2 f) m := by
         simp only [ggU, lieUniversal, hf, ↓reduceDIte]
       rcases h with hm | ⟨hm3, hf1⟩
-      · haveI : Subsingleton (ggU .PSU m f).K := by
+      · have : Subsingleton (ggU .PSU m f).K := by
           rw [hK]
           exact l10sdsu_subsingleton_SU hm
         infer_instance
       · have hf_eq : f = 1 := by omega
         subst hf_eq
         interval_cases m
-        · haveI : Subsingleton (ggU .PSU 0 1).K := by
+        · have : Subsingleton (ggU .PSU 0 1).K := by
             rw [hK]
             exact l10sdsu_subsingleton_SU (by omega : 0 ≤ 1)
           infer_instance
-        · haveI : Subsingleton (ggU .PSU 1 1).K := by
+        · have : Subsingleton (ggU .PSU 1 1).K := by
             rw [hK]
             exact l10sdsu_subsingleton_SU (by omega : 1 ≤ 1)
           infer_instance
@@ -185,11 +185,11 @@ theorem jDim_selfDual_psu
             (by rw [GaloisField.card 2 (2 * 1) (by norm_num)]; norm_num) rfl
   constructor
   · by_contra hm
-    haveI : Group.IsSolvable (ggU .PSU m f).K := hsmall (m := m) (f := f) (Or.inl (by omega))
+    have : Group.IsSolvable (ggU .PSU m f).K := hsmall (m := m) (f := f) (Or.inl (by omega))
     exact hns (Group.isSolvable_of_surjective φ.rangeRestrict_surjective)
   · intro hm3
     by_contra hf2
-    haveI : Group.IsSolvable (ggU .PSU m f).K := hsmall (m := m) (f := f) (Or.inr ⟨hm3, by omega⟩)
+    have : Group.IsSolvable (ggU .PSU m f).K := hsmall (m := m) (f := f) (Or.inr ⟨hm3, by omega⟩)
     exact hns (Group.isSolvable_of_surjective φ.rangeRestrict_surjective)
 
 theorem ggSixLieKnownPos_PSU_of_explicit
@@ -205,9 +205,9 @@ theorem ggSixLieKnownPos_PSU_of_explicit
     ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19,
       h20, h21, h22, h23, h24, h25, h26, h27, h28, h29, h30, h31⟩
   have hJns : ¬ Group.IsSolvable ↥J := by
-    haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h15.2.2.1
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h15.2.2.2
-    haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+    have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h15.2.2.1
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h15.2.2.2
+    have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
     exact Group.IsPerfect.not_isSolvable ↥J
   obtain ⟨R, Rm, hRJ, hRmJ, hf, hcase⟩ := hpos X n f ψ p G₀ B₁ D J L x hH
   rcases hcase with

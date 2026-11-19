@@ -12,18 +12,18 @@ theorem exists_commuting_conjugate_of_noncentral {P : Type*} [Group P] [Finite P
     (hp : p.Prime) (hP : IsPGroup p P) {x : P} (hx : x ∉ Subgroup.center P) :
     ∃ g : P, g * x * g⁻¹ ≠ x ∧ (g * x * g⁻¹) * x = x * (g * x * g⁻¹) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let C : Subgroup P := Subgroup.centralizer ({x} : Set P)
   let X : Type u_1 := ↥(MulAction.orbit (ConjAct P) x)
-  haveI : Finite X := by
+  have : Finite X := by
     dsimp [X]
     infer_instance
-  haveI : Nonempty X := ⟨⟨x, MulAction.mem_orbit_self x⟩⟩
-  haveI : MulAction (ConjAct P) X := by
+  have : Nonempty X := ⟨⟨x, MulAction.mem_orbit_self x⟩⟩
+  have : MulAction (ConjAct P) X := by
     dsimp [X]
     infer_instance
-  haveI : Fintype X := Fintype.ofFinite X
-  letI : MulAction C X :=
+  have : Fintype X := Fintype.ofFinite X
+  let : MulAction C X :=
     { smul := fun c y =>
       ⟨(c : P) * (y : P) * (c : P)⁻¹, by
         have h := MulAction.mem_orbit_of_mem_orbit (ConjAct.toConjAct (c : P)) y.property

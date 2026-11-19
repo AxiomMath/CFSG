@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveEighteen
 
+omit [Finite G] in
 private theorem conjSubgroup_inv_le_iff (B M : Subgroup G) (g : G) :
     conjSubgroup B g⁻¹ ≤ M ↔ B ≤ conjSubgroup M g :=
   (E3.le_conjSubgroup_iff_inv_le g).symm

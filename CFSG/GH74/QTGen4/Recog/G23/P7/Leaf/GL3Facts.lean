@@ -15,23 +15,23 @@ open CFSG.Open CFSG.Quasithin.G23Type CFSG.GH74.QTGen4.Recog.G23 CFSG.CosetTable
 variable {G : Type} [Group G]
 
 private lemma card_vec3 : Nat.card (Fin 3 → ZMod 3) = 27 := by
-  simp [Nat.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 private lemma fixed_eq_zero_of_order13 (g : GL (Fin 3) (ZMod 3)) (hg : orderOf g = 13)
     (u : Fin 3 → ZMod 3) (hu : Matrix.mulVec (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) u = u) :
     u = 0 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   set N : Matrix (Fin 3) (Fin 3) (ZMod 3) := (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) with hN
   let F : AddSubgroup (Fin 3 → ZMod 3) :=
     { carrier := {v | Matrix.mulVec N v = v}
       add_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [Matrix.mulVec_add, ha, hb]
       zero_mem' := by simp
       neg_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [Matrix.mulVec_neg, ha] }
   have hdiv : Nat.card F ∣ 27 := by
     have := AddSubgroup.card_addSubgroup_dvd_card F
@@ -207,11 +207,11 @@ private lemma blk_mul (M N : Matrix (Fin 2) (Fin 2) (ZMod 3)) :
     blk (M * N) = blk M * blk N := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blk, Matrix.mul_apply, Fin.sum_univ_three, Matrix.det_mul, Matrix.det_fin_two] <;> ring
+    simp [blk, Matrix.mul_apply, Fin.sum_univ_three, Matrix.det_mul, Matrix.det_fin_two]
 
 private lemma blk_one : blk 1 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blk, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blk]
 
 private def blkHom : Matrix (Fin 2) (Fin 2) (ZMod 3) →* Matrix (Fin 3) (Fin 3) (ZMod 3) where
   toFun := blk
@@ -246,7 +246,7 @@ private lemma blkGL_injective : Function.Injective blkGL := by
   exact this
 
 private lemma blkGL_mem (h : GL (Fin 2) (ZMod 3)) : blkGL h ∈ Y0Set := by
-  simp only [Y0Set, Set.mem_setOf_eq, blkGL_val]
+  simp only [Y0Set, Set.mem_ofPred_eq, blkGL_val]
   simp [blk, Matrix.det_fin_two]
 
 private noncomputable def gM (M : Matrix (Fin 2) (Fin 2) (ZMod 3)) (hM : M.det ≠ 0) : GL (Fin 3) (ZMod 3) :=
@@ -562,7 +562,7 @@ private lemma overgroup_part (Y : Subgroup (GL (Fin 3) (ZMod 3)))
       decide
     have hMu3 : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) ^ 3 = 1 := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [pow_succ, Matrix.mul_fin_two] <;> decide
+      fin_cases i <;> fin_cases j <;> simp [pow_succ]; decide
     have hblk3 : blk (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) ^ 3 = 1 := by
       show blkHom _ ^ 3 = 1
       rw [← map_pow, hMu3, map_one]
@@ -581,7 +581,7 @@ private lemma overgroup_part (Y : Subgroup (GL (Fin 3) (ZMod 3)))
       have hb : blk (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 1 :=
         congrArg Units.val h
       have h12 := congrFun (congrFun hb 1) 2
-      simp [blk, Matrix.one_apply] at h12
+      simp [blk] at h12
     have hxord : orderOf (⟨y, hyS⟩ : MulAction.stabilizer (↥Y) e0) = 3 := by
       rw [Subgroup.orderOf_mk, ← Subgroup.orderOf_coe, orderOf_eq_prime hypow hyne]
     have hdvd := orderOf_dvd_natCard (⟨y, hyS⟩ : MulAction.stabilizer (↥Y) e0)

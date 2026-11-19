@@ -120,7 +120,7 @@ theorem l154_uni_fieldOn_sl2 [Finite K]
   classical
   obtain ⟨F, instF, finF, k, ι, N, hk2, hcardF, hN, hinj, hline, hmem, hcen, hJPiff⟩ := hblock
   have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-  haveI : CharP F 2 := charP_two_of_card_pow hcardF
+  have : CharP F 2 := charP_two_of_card_pow hcardF
   have hF2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
   have h22 : (2 : ℕ) ≠ 2 ∨ Nat.card F ≠ 2 := Or.inr (by rw [hcardF]; omega)
   have h23 : (2 : ℕ) ≠ 2 ∨ Nat.card F ≠ 3 := Or.inr (by rw [hcardF]; omega)

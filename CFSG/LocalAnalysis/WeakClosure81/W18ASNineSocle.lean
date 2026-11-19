@@ -27,9 +27,9 @@ variable {Kk F : Subgroup Y}
 theorem le_sup_of_not_le (h : SimpleSocleMod Kk F) {N N₁ : Subgroup Y} (hN : N.Normal)
     (hN₁N : N₁ ≤ N) (hN₁ : (N₁.subgroupOf N).Normal) (hnot : ¬ N₁ ≤ Kk) :
     F ≤ N₁ ⊔ Kk := by
-  haveI := h.normal_left
-  haveI := h.normal_right
-  haveI := hN
+  have := h.normal_left
+  have := h.normal_right
+  have := hN
   have hFN : F ≤ N ⊔ Kk := by
     have hKT : Kk ≤ F ⊓ (N ⊔ Kk) := le_inf h.le le_sup_right
     have hTnorm : ((F ⊓ (N ⊔ Kk)).subgroupOf F).Normal :=
@@ -104,7 +104,7 @@ theorem exists_not_commute (h : SimpleSocleMod Kk F) {N N₁ N₂ : Subgroup Y} 
   by_contra hcomm
   have hcomm' : ∀ x ∈ N₁, ∀ y ∈ N₂, x * y = y * x := fun x hx y hy =>
     by_contra fun hne => hcomm ⟨x, hx, y, hy, hne⟩
-  haveI := h.normal_left
+  have := h.normal_left
   have h1 := h.le_sup_of_not_le hN hN₁N hN₁ h₁
   have h2 := h.le_sup_of_not_le hN hN₂N hN₂ h₂
   obtain ⟨f₁, hf₁, f₂, hf₂, hnk⟩ := h.not_abelian
@@ -129,7 +129,7 @@ theorem exists_conj_normalClosure (h : SimpleSocleMod Kk F) {a : Y} (ha : a ∉ 
   have hne' : ∀ n ∈ Subgroup.normalClosure ({a} : Set Y), b ≠ n * a * n⁻¹ :=
     fun n hn hEq => hne ⟨n, hn, hb ▸ hEq⟩
   set N : Subgroup Y := Subgroup.normalClosure ({a} : Set Y) with hNdef
-  haveI hN : N.Normal := Subgroup.normalClosure_normal
+  have hN : N.Normal := Subgroup.normalClosure_normal
   have haN : a ∈ N := Subgroup.subset_normalClosure rfl
   have hbN : b ∈ N := by rw [hb]; exact hN.conj_mem a haN y
   have hstable : ∀ (S : Set Y), (∀ m ∈ N, ∀ s ∈ S, m * s * m⁻¹ ∈ S) →
@@ -284,7 +284,7 @@ theorem exists_hom_subgroupOf_of_le_sup {Kk F N : Subgroup Y} (hN : N.Normal) (h
     (hker : ∀ k : ↥F, φ k = 1 ↔ (k : Y) ∈ Kk) :
     ∃ ψ : ↥(F.subgroupOf N) →* S, Function.Surjective ψ ∧
       ∀ k : ↥(F.subgroupOf N), ψ k = 1 ↔ ((k : ↥N) : Y) ∈ Kk := by
-  haveI := hN
+  have := hN
   let ι : ↥(F.subgroupOf N) →* ↥F :=
     ((N.subtype).comp (F.subgroupOf N).subtype).codRestrict F (fun k => k.2)
   refine ⟨φ.comp ι, ?_, fun k => hker (ι k)⟩
@@ -302,7 +302,7 @@ theorem exists_hom_subgroupOf_of_le_sup {Kk F N : Subgroup Y} (hN : N.Normal) (h
   rw [h1, map_mul, (hker ⟨κ⁻¹, hκF⟩).2 (Kk.inv_mem hκ), mul_one]
 
 theorem exists_hom_map_of_ker_le {Y' : Type*} [Group Y'] {Kk F : Subgroup Y} (π : Y →* Y')
-    (hker : π.ker ≤ Kk) (hKF : Kk ≤ F) {S : Type*} [Group S] {φ : ↥F →* S}
+    (hker : π.ker ≤ Kk) (_hKF : Kk ≤ F) {S : Type*} [Group S] {φ : ↥F →* S}
     (hφ : Function.Surjective φ) (hker' : ∀ k : ↥F, φ k = 1 ↔ (k : Y) ∈ Kk) :
     ∃ ψ : ↥(F.map π) →* S, Function.Surjective ψ ∧
       ∀ k : ↥(F.map π), ψ k = 1 ↔ (k : Y') ∈ Kk.map π := by

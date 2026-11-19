@@ -66,13 +66,13 @@ theorem tensorMatrix_zero_right (A : Matrix (Fin 2) (Fin 2) K) : tensorMatrix A 
 
 theorem exists_sq_add_sq_eq_neg_three {r : ℕ} (hr : r.Prime) [CharP K r] [Finite K] :
     ∃ p q : K, p ^ 2 + q ^ 2 = -3 := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   obtain ⟨a, b, h⟩ := CharP.sq_add_sq K r (-3)
   exact ⟨a, b, by simpa using h⟩
 
 theorem exists_sq_add_sq_eq_neg_one {r : ℕ} (hr : r.Prime) [CharP K r] [Finite K] :
     ∃ a b : K, a ^ 2 + b ^ 2 + 1 = 0 := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   obtain ⟨a, b, h⟩ := CharP.sq_add_sq K r (-1)
   exact ⟨a, b, by linear_combination (by simpa using h : (a : K) ^ 2 + (b : K) ^ 2 = -1)⟩
 
@@ -96,7 +96,7 @@ theorem blockMatrix_pair (A A' : Matrix (Fin 2) (Fin 2) K) :
       tensorMatrix A' (diagonal ![0, 0, 1]) := by
   unfold blockMatrix tensorMatrix
   rw [fromBlocks_add]
-  congr 1 <;> (ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply])
+  congr 1 <;> (ext i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem fromBlocks_form_eq_tensorMatrix :
     (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) =
@@ -133,8 +133,7 @@ theorem skewPart_adjoint {s : SL(2, K)} (hs : IsCubeRootBlock s) :
       !![0, 1; -1, 0] * ((2 : K) • (s : Matrix (Fin 2) (Fin 2) K) + 1)
       = (2 : K) • ((s : Matrix (Fin 2) (Fin 2) K)ᵀ * !![0, 1; -1, 0]) + !![0, 1; -1, 0] +
         ((2 : K) • (!![0, 1; -1, 0] * (s : Matrix (Fin 2) (Fin 2) K)) + !![0, 1; -1, 0]) := by
-        simp [Matrix.transpose_add, Matrix.transpose_smul, Matrix.add_mul, Matrix.mul_add,
-          Matrix.smul_mul, Matrix.mul_smul]
+        simp [Matrix.transpose_add, Matrix.transpose_smul, Matrix.add_mul, Matrix.mul_add]
     _ = (2 : K) • (!![0, 1; -1, 0] * ((s : Matrix (Fin 2) (Fin 2) K) ^ 2 +
           (s : Matrix (Fin 2) (Fin 2) K) + 1)) := by
         rw [h2]
@@ -208,8 +207,8 @@ theorem coe_unipotentSp_pow (X : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K)
   | succ n ih =>
     rw [pow_succ, Subgroup.coe_mul, Units.val_mul, ih, coe_unipotentSp]
     calc (1 + (n : K) • X) * (1 + X) = 1 + ((n : K) + 1) • X + (n : K) • (X * X) := by
-          simp only [add_smul, smul_add, one_smul, Matrix.add_mul, Matrix.mul_add,
-            Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul, Matrix.mul_smul]
+          simp only [add_smul, one_smul, Matrix.add_mul, Matrix.mul_add,
+            Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul]
           abel
       _ = 1 + ((n + 1 : ℕ) : K) • X := by rw [hX2, smul_zero, add_zero, Nat.cast_succ]
 
@@ -253,7 +252,7 @@ theorem orderOf_unipotentSp {r : ℕ} (hr : r.Prime) [CharP K r]
     (X : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K)
     (hX : Xᵀ * fromBlocks 0 1 (-1) 0 + fromBlocks 0 1 (-1) 0 * X = 0) (hX2 : X * X = 0)
     (hX0 : X ≠ 0) : orderOf (unipotentSp X hX hX2) = r := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     apply Units.ext
@@ -291,7 +290,7 @@ theorem coe_orthBlock_pow (M : Matrix (Fin 3) (Fin 3) K) (hM : Mᵀ * M = 1) (n 
 
 theorem orderOf_orthBlock {r : ℕ} (hr : r.Prime) (M : Matrix (Fin 3) (Fin 3) K)
     (hM : Mᵀ * M = 1) (hMr : M ^ r = 1) (hM1 : M ≠ 1) : orderOf (orthBlock M hM) = r := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     apply Units.ext

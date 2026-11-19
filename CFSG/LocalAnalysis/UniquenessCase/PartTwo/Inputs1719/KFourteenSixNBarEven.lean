@@ -59,7 +59,7 @@ theorem psu3_sup_sylow_eq_top {f : ℕ} (h : StatedClassicalModel X .PSU 3 2 f) 
   let e' : ↥(⊤ : Subgroup X) ≃*
       CFSG.BenderSuzuki.MatrixGroups.ProjectiveSpecialUnitaryMatrixGroup J :=
     Subgroup.topEquiv.trans e
-  have hT : quasithinIsSylowTwo (P : Subgroup X) := ⟨P.isPGroup', P.not_dvd_index⟩
+  have hT : quasithinIsSylowTwo (P : Subgroup X) := ⟨P.isPGroup, P.not_dvd_index⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P Q
   have hg' : CFSG.Quasithin.A1b.conjSub g (P : Subgroup X) = (Q : Subgroup X) := by
     rw [← CFSG.Quasithin.Vol2.Ch11.SecE3.Lie3.coe_smul_sylow g P, hg]

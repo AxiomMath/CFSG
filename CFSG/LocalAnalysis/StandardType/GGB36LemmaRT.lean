@@ -71,7 +71,7 @@ theorem card_le_of_kernel_le_zpowers {p : ℕ} (hp : p.Prime) {X : Type} [Group 
       rcases MonoidHom.mem_range.mp x.2 with ⟨a, ha⟩
       rcases MonoidHom.mem_range.mp y.2 with ⟨b, hb⟩
       rw [← ha, ← hb]
-      simpa only [← map_mul, hAb.1.is_comm.comm a b]
+      simp only [← map_mul, hAb.1.is_comm.comm a b]
     · intro x hx
       rcases MonoidHom.mem_range.mp hx with ⟨a, rfl⟩
       rw [← map_pow]

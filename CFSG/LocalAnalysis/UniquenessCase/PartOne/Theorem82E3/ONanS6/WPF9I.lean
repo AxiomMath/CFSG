@@ -28,7 +28,7 @@ theorem exists_elemAbelian_27_of_mem_inf_L
     {e : G} (he : e ∈ P ⊓ c.L) (heZ : e ∉ zSub P c.L) :
     ∃ A : Subgroup G, CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 ∧
       e ∈ A ∧ A ≤ P ⊓ c.L ∧ zSub P c.L ≤ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := P ⊓ c.L
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
@@ -184,25 +184,25 @@ theorem Ia_eq_closure_three (hTC : IsTripleCover (↥(Ia c a) ⧸ CFSG.Open.pCor
   let L : Subgroup G := Ia c a
   let O : Subgroup ↥L := CFSG.pCore 2 ↥L
   let X := ↥L ⧸ O
-  haveI hO : O.Normal := CFSG.pCore_normal
-  haveI : Group.IsPerfect ↥L := Ia_perfect c a
+  have hO : O.Normal := CFSG.pCore_normal
+  have : Group.IsPerfect ↥L := Ia_perfect c a
   have hperf : ⁅L, L⁆ = L := Subgroup.commutator_eq_self
-  haveI hXperf : Group.IsPerfect X :=
+  have hXperf : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' O) (QuotientGroup.mk'_surjective O)
   have hQ : CFSG.IsQuasisimple X := by
     refine ⟨hXperf, ?_, ?_⟩
     · obtain ⟨e⟩ := hTC.2
-      haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
       exact MulEquiv.isSimpleGroup e
     · obtain ⟨e⟩ := hTC.2
-      haveI : Nontrivial (alternatingGroup (Fin 6)) :=
+      have : Nontrivial (alternatingGroup (Fin 6)) :=
         alternatingGroup.nontrivial_of_three_le_card (by simp)
-      haveI : Nontrivial (X ⧸ Subgroup.center X) := e.toEquiv.nontrivial
+      have : Nontrivial (X ⧸ Subgroup.center X) := e.toEquiv.nontrivial
       by_contra h
       have hc : ∀ a b : X ⧸ Subgroup.center X, a * b = b * a := fun a b => by
         by_contra hab
         exact h ⟨a, b, hab⟩
-      haveI : IsMulCommutative (X ⧸ Subgroup.center X) := ⟨⟨hc⟩⟩
+      have : IsMulCommutative (X ⧸ Subgroup.center X) := ⟨⟨hc⟩⟩
       have hbot : commutator (X ⧸ Subgroup.center X) = ⊥ :=
         commutator_eq_bot (X ⧸ Subgroup.center X)
       have htop : commutator (X ⧸ Subgroup.center X) = ⊤ := Group.IsPerfect.commutator_eq_top
@@ -242,8 +242,8 @@ theorem Ia_eq_closure_three (hTC : IsTripleCover (↥(Ia c a) ⧸ CFSG.Open.pCor
 theorem f9_perfectCore'
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
-    (hK2 : K2ONanCentralizer) :
+    (haL : a ∈ P ⊓ c.L) (_ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
+    (_hK2 : K2ONanCentralizer) :
     F9Input c P a := by
   obtain ⟨E, hEea, hE27, haE, hEPL, hZE⟩ :=
     exists_elemAbelian_27_of_mem_inf_L K3_holds' c hON hP haL haZ

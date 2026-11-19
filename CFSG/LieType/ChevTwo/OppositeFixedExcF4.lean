@@ -26,8 +26,8 @@ theorem uniqueNormalFormTw_F4 [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card
     {R : Subgroup (MulAut ↥(C0 (1 : RingAut K)))} (hR : ∀ α ∈ R, Odd (orderOf α)) :
     UniqueNormalFormTw (1 : RingAut K) R := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
-  haveI : CharP K ReeTag.F4.prime := (inferInstance : CharP K 2)
+  have : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K ReeTag.F4.prime := (inferInstance : CharP K 2)
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨hΓ, -, -, -, ⟨Ψ, hΨ, -, -, -⟩, -, hσ, -⟩ :=
     even_E6_pure_graph_fixed_group_exact_F4 K hK2
@@ -161,14 +161,14 @@ theorem odd_orderOf_of_isPGroup {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) (
 
 theorem oppositeFixed_C0_F4 [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) :
     OppositeFixed ↥(C0 (1 : RingAut K)) := by
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   exact oppositeFixed_C0 (σ₀ := 1) (fun c => rfl) (fun δ => by simp)
     (fun p hp hp2 R hR => uniqueNormalFormTw_F4 hf hK (odd_orderOf_of_isPGroup hp hp2 hR))
 
 theorem oppositeFixed_of_untwistedChevalleyModel_F4 {S : Type} [Group S] {f : ℕ} (hf : 1 ≤ f)
     (h : UntwistedChevalleyModel S Tag.F4 (2 ^ f)) : OppositeFixed S := by
   obtain ⟨K', _, hfin, hcard, ⟨e⟩⟩ := h
-  haveI : CharP K' 2 := charP_two_of_card_two_pow hcard
+  have : CharP K' 2 := charP_two_of_card_two_pow hcard
   obtain ⟨Ψ''⟩ := nonempty_C0_equiv_F4 (K := K') (ringChar.eq K' 2)
   have e' : S ≃* ↥(adjointGroup Tag.F4 K') := e.trans
     ((QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := Tag.F4) (K := K'))).trans

@@ -58,7 +58,7 @@ theorem exists_simpleSection_map {K Y : Type} [Group K] [Finite K] [Group Y] [Fi
       MonoidHom.ext hφψ
     rw [← Subgroup.map_comap_eq_self_of_surjective hψs φ.ker, MonoidHom.comap_ker, hcomp,
       QuotientGroup.ker_mk']
-  haveI := hsimple
+  have := hsimple
   refine ⟨φ.ker.map (L.map π).subtype, S622IsSimpleSection.of_surjective φ hφs hnab, ?_, ?_⟩
   · have hsub : (φ.ker.map (L.map π).subtype).subgroupOf (L.map π) = φ.ker :=
       Subgroup.comap_map_eq_self_of_injective (L.map π).subtype_injective φ.ker
@@ -90,7 +90,7 @@ theorem not_dvd_card_torus {Y : Type} [Group Y] [Finite K] {π : K →* Y} {M : 
     (h : BorelQuotient D n H π M) {p : ℕ} (hp : p.Prime) (hpM : ¬ p ∣ M) :
     ¬ p ∣ Nat.card (⨆ i, H i : Subgroup K) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(⨆ i, H i : Subgroup K)) p hdvd
   have hmem : (t : K) ∈ Subgroup.closure (⋃ i, (H i : Set K)) := by
     rw [← Subgroup.iSup_eq_closure]

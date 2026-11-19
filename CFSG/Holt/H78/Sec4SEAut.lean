@@ -82,7 +82,7 @@ theorem seRadical_eq_map (hA : IsBenderAction ↥L Δ n i e) {b : Δ} {Q : Sylow
       Subgroup.zpowers_le.mpr (mem_stabilizer_iff.mpr hxb)
     exact ⟨⟨x, hxL⟩, hA.le_sylow_of_isPGroup hQ hP hPb (Subgroup.mem_zpowers _), rfl⟩
   · rintro _ ⟨q, hq, rfl⟩
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨q, hq⟩
     exact mem_seRadical_of_pow_eq_one q.2 (hQ hq) (k := k)
       (by simpa using congrArg Subtype.val (congrArg Subtype.val hk))
 
@@ -120,7 +120,7 @@ theorem isPGroup_seRadical (hL : IsNaturalSE L) (b : Δ) : IsPGroup 2 (seRadical
   obtain ⟨n, i, e, hA⟩ := hL.exists_isBenderAction
   obtain ⟨Q, hQ⟩ := hA.exists_sylow_le_stabilizer b
   rw [hA.seRadical_eq_map hQ]
-  exact Q.isPGroup'.map _
+  exact Q.isPGroup.map _
 
 theorem mem_seRadical_iff (hL : IsNaturalSE L) {x : Equiv.Perm Δ} :
     x ∈ seRadical L b ↔ x ∈ L ∧ x b = b ∧ ∃ k : ℕ, x ^ 2 ^ k = 1 := by

@@ -68,9 +68,9 @@ theorem eq_one_or_eY_of_inv {u : G6.PermMod 24} (hu : u ∈ evenSupp tFix)
     funext i
     rw [toAdd_eY]
     by_cases hi : i ∈ tFix
-    · rw [if_pos hi, eq_fixPt_colOf hi]
+    · rw [ite_eq_left hi, eq_fixPt_colOf hi]
       exact (hpair (colOf i) 0).trans h0
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact hsupp i hi
 
 theorem fixV_img11_Nt : fixV (img11 Nt) = Subgroup.zpowers z0 := by
@@ -81,8 +81,8 @@ theorem fixV_img11_Nt : fixV (img11 Nt) = Subgroup.zpowers z0 := by
     rw [G6.permAct_apply, toAdd_eY, toAdd_eY]
     have hiff : n⁻¹ i ∈ tFix ↔ i ∈ tFix := mem_tFix_iff_of_mem_Nt (Nt.inv_mem hn) i
     by_cases hi : i ∈ tFix
-    · rw [if_pos (hiff.2 hi), if_pos hi]
-    · rw [if_neg (fun h => hi (hiff.1 h)), if_neg hi]
+    · rw [ite_eq_left (hiff.2 hi), ite_eq_left hi]
+    · rw [ite_eq_right (fun h => hi (hiff.1 h)), ite_eq_right hi]
   refine le_antisymm ?_ (Subgroup.zpowers_le.2 ?_)
   · intro w hw
     have hwt : w ∈ fixW tA := by

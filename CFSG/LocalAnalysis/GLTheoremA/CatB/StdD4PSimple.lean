@@ -26,7 +26,7 @@ theorem psimple_equiv_center_quot {G : Type} [Group G] (p : ℕ) (L : Subgroup G
     rw [← map_mul, ← map_mul, hzx]
   have hWb : (W.map (QuotientGroup.mk' (Subgroup.center ↥L))).Normal :=
     Subgroup.Normal.map hWn _ (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W.map (QuotientGroup.mk' (Subgroup.center ↥L))) with hb | ht
   ·
     have hWeq : Subgroup.center ↥L = W := by

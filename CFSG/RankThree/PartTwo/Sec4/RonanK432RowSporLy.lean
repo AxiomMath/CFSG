@@ -20,7 +20,7 @@ theorem listRow_of_lyConfig {G : Type} [Group G] [Finite G] {a b c s u : G}
     (hs : s * a * s⁻¹ = b) (hua : u * a * u⁻¹ = a) (hub : u * b * u⁻¹ = c)
     (hnb : b ∉ Subgroup.zpowers a) (hnc : a * c ∉ Subgroup.zpowers (a * b))
     (h45 : ∀ g : G, orderOf g = 3 → IsConj g a ∨ IsConj g (a * b)) : ListRow G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcab : Commute a b := hab
   have hab3 : (a * b) ^ 3 = 1 := by
     rw [hcab.mul_pow, ha3, hb3, one_mul]

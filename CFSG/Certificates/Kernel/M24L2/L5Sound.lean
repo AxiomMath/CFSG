@@ -562,7 +562,7 @@ theorem s1Body_sound {L : List Nat} (hR : ReachL L) {G : Nat}
     rw [betaT_eq, conjVia_of hR (betaC_lt 0) (ev2K_lt _ _)
       ⟨e.2, hG _ hvalid, Nat.eq_of_beq_eq_true hconj⟩]
     simp only [Bool.not_true, Bool.and_false, Bool.not_false, Bool.true_or]
-  · simp only [Bool.and_true, Bool.or_true]
+  · simp only [Bool.or_true]
 
 theorem stage1L_of {L : List Nat} (hR : ReachL L) (hL : ∀ m ∈ L, m < 65536) {G : Nat}
     (hG : ∀ n, validK G n = true → n ∈ (mkCtx ()).codes) (hrep : rep2Code ∈ (mkCtx ()).codes)

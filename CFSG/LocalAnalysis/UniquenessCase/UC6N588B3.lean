@@ -68,7 +68,7 @@ theorem exists_diag_mem_cartan (b : Module.Basis (Fin 3) (ZMod p) (Fin 3 → ZMo
     have h1 : e (dL v) = D (e v) := by simp [dL]
     have h2 := congrFun h1 j
     simp only [e, Module.Basis.equivFun_apply, D, LinearEquiv.piCongrRight_apply,
-      LinearEquiv.smulOfUnit, Units.smul_def, smul_eq_mul] at h2
+      LinearEquiv.smulOfUnit] at h2
     exact h2
   refine ⟨CFSG.RankThree.PartOne.LinAlg.toGL dL, fun i v => ?_, hcoord⟩
   rw [hb, hb]
@@ -329,6 +329,7 @@ theorem bsub_inf (B B' : Subgroup G) : bsub f (B ⊓ B') = bsub f B ⊓ bsub f B
   ext v
   rfl
 
+omit [Fact (Nat.Prime m.r)] in
 theorem map_conj_le_A {w : G} (hw : w ∈ m.W) {B : Subgroup G} (hB : B ≤ m.A) :
     B.map (MulAut.conj w).toMonoidHom ≤ m.A := by
   rintro _ ⟨b, hb, rfl⟩
@@ -347,7 +348,7 @@ theorem exists_pair_of_k322 (hK : UCK.K322) (h69 : R6_9 (dataOfSetup4 m.hS m.hU 
       (∃ w ∈ m.W, m.Z.map (MulAut.conj w).toMonoidHom = Z₂) ∧
       (∃ w ∈ m.W, m.Z.map (MulAut.conj w).toMonoidHom = Z₃) := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨f⟩ := m.exists_coords_A
   have hs1 : s % m.r ≠ 1 := by
     intro h1
@@ -384,7 +385,7 @@ theorem exists_pair_of_k322 (hK : UCK.K322) (h69 : R6_9 (dataOfSetup4 m.hS m.hU 
   have hfix : {v : Fin 3 → ZMod m.r | (((x ^ 2 : GL (Fin 3) (ZMod m.r)) :
       Matrix (Fin 3) (Fin 3) (ZMod m.r)) *ᵥ v = v)} = (bsub f m.Z : Set (Fin 3 → ZMod m.r)) := by
     ext v
-    rw [Set.mem_setOf_eq, SetLike.mem_coe, hx, ← map_pow, m.wActionGL_mulVec_eq_iff,
+    rw [Set.mem_ofPred_eq, SetLike.mem_coe, hx, ← map_pow, m.wActionGL_mulVec_eq_iff,
       CFSG.RankThree.PartOne.LinAlg.mem_bsub]
     have h := m.sq_fixed_iff h620 h621 hy hyB hs2 (f (Multiplicative.ofAdd v)).2
     simpa [hyW] using h

@@ -15,10 +15,10 @@ theorem k_18_10_Sp_holds : K_18_10_Sp := by
   intro W _ _ hWexp H f p hp hmod _hSp4 hNat v hv
   classical
   obtain ⟨-, K, instK, instFin, hKcard, hreal⟩ := hNat
-  letI := instK
-  letI := instFin
-  letI : Fintype K := Fintype.ofFinite K
-  letI : DecidableEq K := Classical.decEq K
+  let := instK
+  let := instFin
+  let : Fintype K := Fintype.ofFinite K
+  let : DecidableEq K := Classical.decEq K
   rw [show 4 / 2 = 2 from by norm_num] at hreal
   obtain ⟨π, hπ⟩ := hreal
   obtain ⟨φ, hφadd, hφker, hφsurj, hφeq⟩ :=
@@ -41,7 +41,7 @@ theorem k_18_10_Sp_holds : K_18_10_Sp := by
   let ρ : StatedSp 2 K →* ((Fin 2 ⊕ Fin 2 → K) ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv K (Fin 2 ⊕ Fin 2 → K)).toMonoidHom.comp
       (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp (Subgroup.subtype (StatedSp 2 K)))
-  letI : DistribMulAction (StatedSp 2 K) (Fin 2 ⊕ Fin 2 → K) :=
+  let : DistribMulAction (StatedSp 2 K) (Fin 2 ⊕ Fin 2 → K) :=
     DistribMulAction.compHom (Fin 2 ⊕ Fin 2 → K) ρ
   have hsmul : ∀ (g : StatedSp 2 K) (y : Fin 2 ⊕ Fin 2 → K),
       g • y = ((g : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) K) :
@@ -49,7 +49,7 @@ theorem k_18_10_Sp_holds : K_18_10_Sp := by
     intro g y
     show (ρ g) • y = _
     rw [LinearEquiv.smul_def]
-    simp [ρ, Matrix.GeneralLinearGroup.toLin_apply, Matrix.mulVecLin_apply]
+    simp [ρ]
   have hsmul_apply : ∀ (g : StatedSp 2 K) (y : Fin 2 ⊕ Fin 2 → K), g • y = (ρ g) y := by
     intro g y
     show (ρ g) • y = (ρ g) y
@@ -63,7 +63,7 @@ theorem k_18_10_Sp_holds : K_18_10_Sp := by
     intro h0
     exact hv ((hφker v (Subgroup.mem_top v)).mp h0)
   set St : Subgroup (StatedSp 2 K) := MulAction.stabilizer (StatedSp 2 K) x with hSt
-  haveI : Fintype (StatedSp 2 K) := Fintype.ofFinite _
+  have : Fintype (StatedSp 2 K) := Fintype.ofFinite _
   have hcardM : Nat.card (Fin 2 ⊕ Fin 2 → K) = q ^ 4 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_sum, hq']
     norm_num
@@ -136,7 +136,7 @@ theorem k_18_10_Sp_holds : K_18_10_Sp := by
   have hpdvdSt : p ∣ Nat.card St := by
     rw [hStCard]
     exact dvd_mul_of_dvd_right hpq2 (q ^ 4)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hgord⟩ := exists_prime_orderOf_dvd_card' p hpdvdSt
   have hπinj : Function.Injective π :=
     CFSG.Quasithin.G64.RealizesVia.injective_of_faithful'

@@ -121,9 +121,9 @@ theorem geoNormRaw_of_excBridgeSub
     exact h
   have habs := hbridge.absBridge
   obtain ⟨ρ, Θ, hρ, hρG, hΘ, hI, hconj, hF⟩ := habs
-  haveI : Finite (MulAut R) := Finite.of_injective (fun φ : MulAut R => (φ : R → R))
+  have : Finite (MulAut R) := Finite.of_injective (fun φ : MulAut R => (φ : R → R))
     (fun a b h => MulEquiv.ext (congrFun h))
-  haveI : Finite ↥((endPow (CFSG.LieType.Ree.ReeTag.F4.reeEndo L hf a₀) p).eqLocus
+  have : Finite ↥((endPow (CFSG.LieType.Ree.ReeTag.F4.reeEndo L hf a₀) p).eqLocus
       (MonoidHom.id (adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag L))) := Finite.of_injective Θ hΘ
   exact geo_of_absBridge hp (eqLocus_endPow_stab _ _) (fun g hg => hg) hbridge.absBridge
     (hrec hsimple hnonab).2.1 (hRee L p hp hp2 hp3 hf a₀ inferInstance) Ebar f hfF hfp hEab hEcard
@@ -174,7 +174,7 @@ theorem ggL45NtGeoNormOn_exTw
       (largeEvenLabelAll_and (hF4 (AlgebraicClosure (ZMod 2)) p hp hp2 lab hlab hkg ⟨hS, htw⟩)
         (hstruct p hp hp2 lab hlab hkg hS))
       (hrec p hp hp2 lab hlab hkg hS)).mono fun R _ I F ⟨⟨h1, hfin, _⟩, h2⟩ => by
-        haveI := hfin
+        have := hfin
         exact geoNormRaw_of_excBridgeSub hp hp2 hS.1.1 htw hRee h1 h2
 
 end CFSG.StandardType

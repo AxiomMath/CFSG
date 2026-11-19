@@ -39,9 +39,9 @@ theorem ab_spec {x : ℕ} (hx : x = 2 ∨ x = 3) :
   have h := ab_ok
   simp only [Bool.and_eq_true, beq_iff_eq] at h
   rcases hx with rfl | rfl
-  · rw [abF, if_pos rfl, if_pos rfl, spinHom_aHat, h.1]
+  · rw [abF, ite_eq_left rfl, ite_eq_left rfl, spinHom_aHat, h.1]
     exact word_spec _
-  · rw [abF, if_neg (by norm_num), if_neg (by norm_num), spinHom_bHat, h.2]
+  · rw [abF, ite_eq_right (by norm_num), ite_eq_right (by norm_num), spinHom_bHat, h.2]
     exact word_spec _
 
 theorem gen_spec :

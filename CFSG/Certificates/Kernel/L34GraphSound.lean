@@ -51,7 +51,7 @@ theorem decompOK_of (hG : GensG G) (h : decK G = true) : decompOK = true := by
   intro k hk
   have h' := CFSG.KS.Raw.Orb.allN_iff.1 h k hk
   rw [strictB_app] at h'
-  simp only [List.any_map, Function.comp_apply] at h'
+  simp only [List.any_map] at h'
   obtain ⟨k₁, hk₁, h1⟩ := List.any_eq_true.1 h'
   obtain ⟨m, hm, h2⟩ := List.any_eq_true.1 h1
   unfold anyBelow

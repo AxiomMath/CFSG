@@ -51,7 +51,7 @@ private theorem l10se7c_map_highestRootRadical
   have hiff : γ ∈ {γ | γ ∈ (e7Datum K).roots ∧ 0 < rootForm (e7Datum K) γ (highRoot .E7)} ↔
       γ ∈ {γ | γ ∈ (adjDatum (rootOperatorFamily .E7) K).roots ∧
         0 < rootForm (adjDatum (rootOperatorFamily .E7) K) γ (highRoot .E7)} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
   exact iSup_congr_Prop hiff fun h =>
     map_e7MinEquivAdjoint_rootGroup (K := K) ((l10se7c_mem_roots (K := K)).1 h.1)
 

@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem QHyp.exists_odd_complement {L A D Q : Subgroup G} {t : G} (hQ : QHyp L A D t Q) :
     ∃ O : Subgroup G, (∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x)) ∧
       ∀ x, (∀ q ∈ Q, x * q = q * x) → ∃ q ∈ Q, ∃ o ∈ O, x = q * o := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmem : ∀ x, x ∈ centralizer (Q : Set G) ↔ ∀ q ∈ Q, x * q = q * x := fun x => by
     rw [mem_centralizer_iff]
     exact forall₂_congr fun q _ => eq_comm

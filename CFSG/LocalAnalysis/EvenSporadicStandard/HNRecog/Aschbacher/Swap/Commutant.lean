@@ -11,13 +11,16 @@ open Module CFSG.EvenSporadicStandard.HNRecog.Fpf
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private lemma neg_eq_self_zmod_two (v : V) : -v = v := by
   rw [← neg_one_smul (ZMod 2) v, show (-1 : ZMod 2) = 1 by decide, one_smul]
 
+omit [Finite V] in
 private lemma add_self_eq_zero_zmod_two (v : V) : v + v = 0 := by
   have h : (2 : ZMod 2) • v = 0 := by rw [show (2 : ZMod 2) = 0 by decide, zero_smul]
   simpa [two_smul] using h
 
+omit [Finite V] in
 private lemma sub_sub_self_sub_self (a b : V) : (a - b) - (b - a) = 0 := by
   rw [sub_eq_add_neg, sub_eq_add_neg, sub_eq_add_neg, neg_add_rev, neg_neg]
   simp only [neg_eq_self_zmod_two]
@@ -42,7 +45,7 @@ theorem eq_one_of_commute_of_isometry (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) 
   have hn02 : (n₀ : A5) ^ 2 = 1 := by decide +kernel
   have hα5 : α ^ 5 = 1 := by
     have hp : ((a₀, 1) : A5 × A5) ^ 5 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha05]
+      ext <;> simp [ha05]
     have h := congrArg σ hp
     rw [map_pow, map_one] at h
     simpa [α] using h
@@ -73,13 +76,13 @@ theorem eq_one_of_commute_of_isometry (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) 
     rw [← hp, ← map_mul]
   have hn2 : n * n = 1 := by
     have hp : ((n₀, n₀) : A5 × A5) ^ 2 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, hn02]
+      ext <;> simp [hn02]
     have h := congrArg σ hp
     rw [map_pow, map_one] at h
     simpa [n, pow_two] using h
   have hν12 : ν₁ * ν₁ = 1 := by
     have hp : ((n₀, 1) : A5 × A5) ^ 2 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, hn02]
+      ext <;> simp [hn02]
     have h := congrArg σ hp
     rw [map_pow, map_one] at h
     simpa [ν₁, pow_two] using h
@@ -112,7 +115,6 @@ theorem eq_one_of_commute_of_isometry (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) 
   have huFp : ∀ x ∈ Fp, u x ∈ Fp := by
     intro x hx
     rw [hE.mem_plus] at hx ⊢
-    change (σ (a₀ ^ (5 - c), a₀)) (u x) = u x
     have happ := congrArg (fun e : V ≃ₗ[ZMod 2] V => e x) (hu (a₀ ^ (5 - c), a₀))
     simp only [LinearEquiv.mul_apply] at happ
     rw [← happ, hx]

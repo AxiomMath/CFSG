@@ -52,7 +52,7 @@ theorem sub_append_eq {gs : List Elt} {y y' : Elt} (h : y'.sem = y.sem) :
     sub (gs ++ [y']) = sub (gs ++ [y]) := by
   have hs : semSet (gs ++ [y']) = semSet (gs ++ [y]) := by
     ext x
-    simp only [semSet, Set.mem_setOf_eq, List.mem_append, List.mem_singleton]
+    simp only [semSet, Set.mem_ofPred_eq, List.mem_append, List.mem_singleton]
     constructor
     · rintro ⟨g, hg | rfl, rfl⟩
       · exact ⟨g, Or.inl hg, rfl⟩

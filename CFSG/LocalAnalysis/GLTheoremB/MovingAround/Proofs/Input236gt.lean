@@ -40,7 +40,7 @@ theorem mulAut_alt_eq_one {n p : ℕ} (hp : p.Prime) (h5 : 5 ≤ n) (hnp : n < p
     have hc : p ∣ Nat.card (MulAut (alternatingGroup (Fin n))) := hpo ▸ orderOf_dvd_natCard φ
     by_cases h6 : n = 6
     · subst h6
-      haveI := finite_mulAut (alternatingGroup (Fin 6))
+      have := finite_mulAut (alternatingGroup (Fin 6))
       have hpos : 0 < Nat.card (MulAut (alternatingGroup (Fin 6))) := Nat.card_pos
       have hle :=
         CFSG.ComponentClassification.CatalogueSchreierAlternating.DegreeSix.automorphism_card_le
@@ -100,11 +100,11 @@ theorem mem_centralizer_of_mem_normalizer {K : Subgroup X} {n p : ℕ} (hp : p.P
 theorem five_le_of_isQuasisimple {K : Type*} [Group K] {n : ℕ} (hK : CFSG.Open.IsQuasisimple K)
     (e : K ≃* alternatingGroup (Fin n)) : 5 ≤ n := by
   by_contra h
-  haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+  have : Group.IsSolvable (alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
-  haveI : Group.IsSolvable K :=
+  have : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK
+  have : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK
   have := Group.IsSolvable.commutator_lt_top_of_nontrivial K
   rw [hK.1] at this
   exact lt_irrefl _ this

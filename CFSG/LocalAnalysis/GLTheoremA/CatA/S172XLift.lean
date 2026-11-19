@@ -21,7 +21,7 @@ private lemma exists_comm_closure_lift {K R : Type} [Group K] [Finite K] [Group 
       E ≤ (Subgroup.closure (Set.range h)).comap φ ∧
       E.map φ = Subgroup.closure (Set.range h) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup R := Subgroup.closure (Set.range h) with hD
   have hDcard : Nat.card D = p ^ k := hind
   have hFcomm := comap_closure_comm_of_cross hφ hker hp hp2 hcomm hpow hinv hcross

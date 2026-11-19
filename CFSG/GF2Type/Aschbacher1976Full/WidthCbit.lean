@@ -12,7 +12,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G]
 
 open Classical in
-@[expose] noncomputable def cbit (z x y : G) : ZMod 2 := if ⁅x, y⁆ = 1 then 0 else 1
+@[expose] noncomputable def cbit (_z x y : G) : ZMod 2 := if ⁅x, y⁆ = 1 then 0 else 1
 
 structure CData (z : G) (F : Subgroup G) : Prop where
   zF : z ∈ F
@@ -67,7 +67,7 @@ theorem cbit_mul_right (hF : CData z F) {x y y' : G} (hx : x ∈ F) (hy : y ∈ 
 theorem cbit_self (x : G) : cbit z x x = 0 := by
   simp [cbit]
 
-theorem cbit_central (hF : CData z F) {c y : G} (hy : y ∈ F) (hc : ∀ f ∈ F, c * f = f * c) :
+theorem cbit_central (_hF : CData z F) {c y : G} (hy : y ∈ F) (hc : ∀ f ∈ F, c * f = f * c) :
     cbit z c y = 0 := by
   have h : ⁅c, y⁆ = 1 := by
     have e : c * y = y * c := hc y hy

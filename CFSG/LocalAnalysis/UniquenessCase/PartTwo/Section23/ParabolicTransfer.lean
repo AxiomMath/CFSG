@@ -19,7 +19,7 @@ private theorem card_subgroupOf_map_conj {H : Subgroup X} (S : Sylow 2 X)
     (hx : x ∈ Subgroup.normalizer (H : Set X)) :
     Nat.card (((S : Subgroup X).map (MulAut.conj x).toMonoidHom).subgroupOf H) =
       2 ^ (Nat.card H).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAH : (S : Subgroup X).map (MulAut.conj x).toMonoidHom ≤ H := by
     rintro _ ⟨s, hs, rfl⟩
     exact (Subgroup.mem_normalizer_iff.mp hx s).mp (hSH hs)
@@ -37,7 +37,7 @@ private theorem exists_mulAut_conj_map_eq_of_mem_normalizer {H : Subgroup X}
     (S : Sylow 2 X) (hSH : (S : Subgroup X) ≤ H) {x : X}
     (hx : x ∈ Subgroup.normalizer (H : Set X)) :
     ∃ h : X, h ∈ H ∧ (S : Subgroup X).map (MulAut.conj (h * x)).toMonoidHom = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup X := (S : Subgroup X).map (MulAut.conj x).toMonoidHom
   have hAH : A ≤ H := by
     rintro _ ⟨s, hs, rfl⟩
@@ -115,8 +115,8 @@ theorem IsParabolicTwo.map {P : Subgroup X} (hP : IsParabolicTwo X P)
 theorem IsParabolicTwo.comap (f : X →* Y) (hf : Function.Surjective f)
     {Q : Subgroup Y} (hQ : IsParabolicTwo Y Q) :
     IsParabolicTwo X (Q.comap f) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective f hf
   obtain ⟨S', hN⟩ := hQ
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective (f := f) hf 2 S'
   refine ⟨S, ?_⟩
@@ -137,7 +137,7 @@ theorem IsParabolicTwo.normalizer_le {P : Subgroup X} (hP : IsParabolicTwo X P)
     Subgroup.normalizer (S : Set X) ≤ P := by
   obtain ⟨S₀, hS₀N⟩ := hP
   have hS₀P : (S₀ : Subgroup X) ≤ P := Subgroup.le_normalizer.trans hS₀N
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S' : Sylow 2 P := S.subtype hSP
   let S₀' : Sylow 2 P := S₀.subtype hS₀P
   obtain ⟨p, hp⟩ := MulAction.exists_smul_eq P S₀' S'
@@ -176,7 +176,7 @@ theorem IsParabolicTwo.le_of_le_normalizer {P R : Subgroup X} (hP : IsParabolicT
     (hR : IsPGroup 2 R) (hRN : R ≤ Subgroup.normalizer (P : Set X)) : R ≤ P := by
   obtain ⟨S, hN⟩ := hP
   have hSP : (S : Subgroup X) ≤ P := Subgroup.le_normalizer.trans hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := Subgroup.normalizer (P : Set X)
   have hSN : (S : Subgroup X) ≤ N := hSP.trans (Subgroup.le_normalizer)
   let S' : Sylow 2 N := S.subtype hSN
@@ -205,11 +205,12 @@ theorem IsParabolicTwo.le_of_le_normalizer {P R : Subgroup X} (hP : IsParabolicT
   have hleP : (S : Subgroup X).map (MulAut.conj ((n : X)⁻¹)).toMonoidHom ≤ P := by
     rintro _ ⟨s, hs, rfl⟩
     have hninN : (n : X)⁻¹ ∈ N := by
-      simpa using N.inv_mem n.2
+      simp
     simpa [MulAut.conj_apply] using
       (Subgroup.mem_normalizer_iff.mp hninN s).mp (hSP hs)
   exact fun r hr => hleP (hRle hr)
 
+omit [Finite X] in
 theorem IsParabolicTwo.center_le {P : Subgroup X} (hP : IsParabolicTwo X P) :
     Subgroup.center X ≤ P := by
   obtain ⟨S, hN⟩ := hP

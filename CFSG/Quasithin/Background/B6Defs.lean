@@ -319,7 +319,7 @@ theorem exists_isSylowTwoOf_ge [Finite G] {J X : Subgroup G} (hX : IsPGroup 2 X)
   have hX' : IsPGroup 2 (X.subgroupOf J) :=
     hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXJ).symm
   obtain ⟨P, hP⟩ := hX'.exists_le_sylow
-  refine ⟨P.map J.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup'.map J.subtype, ?_⟩, ?_⟩
+  refine ⟨P.map J.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup.map J.subtype, ?_⟩, ?_⟩
   · have : (P.map J.subtype : Subgroup G).subgroupOf J = (P : Subgroup ↥J) :=
       Subgroup.comap_map_eq_self_of_injective J.subtype_injective _
     rw [this]

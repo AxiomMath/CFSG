@@ -18,22 +18,22 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 open CFSG.Timmesfeld.Connectivity CFSG.OddTranspositions.QZ
 
 theorem minusL_eq_commutator : minusL = commutator minusPerm := by
-  haveI : IsSimpleGroup minusL := isSimpleGroup_minusL
+  have : IsSimpleGroup minusL := isSimpleGroup_minusL
   have hnc : ¬ IsMulCommutative minusL := by
     intro hcomm
-    haveI : IsMulCommutative minusL := hcomm
+    have : IsMulCommutative minusL := hcomm
     have hp : Nat.Prime (Nat.card minusL) :=
       (Group.is_simple_iff_prime_card (α := minusL)).mp inferInstance
     rw [card_minusL] at hp
     norm_num at hp
-  haveI : Group.IsPerfect minusL :=
+  have : Group.IsPerfect minusL :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   refine le_antisymm ?_ ?_
   · calc minusL = ⁅minusL, minusL⁆ := Subgroup.commutator_eq_self.symm
       _ ≤ ⁅(⊤ : Subgroup minusPerm), ⊤⁆ := Subgroup.commutator_mono le_top le_top
       _ = commutator minusPerm := by rw [commutator_def]
   · have hidx : minusL.index = 2 := index_minusL
-    haveI : minusL.Normal := minusL_normal
+    have : minusL.Normal := minusL_normal
     rw [commutator_def]
     refine Subgroup.commutator_le.2 ?_
     intro g₁ _ g₂ _

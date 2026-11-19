@@ -97,6 +97,7 @@ theorem rhoL_of_acts {c : G} (hc : c ∈ S.M) {T : ↥(adjointGroup .E7 (ZMod 2)
 variable {t u : G} (htM : t ∈ S.M) (huM : u ∈ S.M) (hAt : Acts S φ t xT) (hAu : Acts S φ u xTn)
 
 include hAt hAu in
+omit [Finite G] in
 theorem mem_V0_of_cent2 {q : G} (hq : q ∈ S.QG) (hqt : Commute q t) (hqu : Commute q u) :
     φ (S.cl q) ∈ V0 := by
   have hfix : ∀ {x : G}, Commute q x → x * q * x⁻¹ = q := fun {x} hqx => by

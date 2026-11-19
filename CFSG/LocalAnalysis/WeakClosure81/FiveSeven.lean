@@ -53,7 +53,7 @@ theorem five_seven (hR : R3_1) {H M A : Subgroup G} (h : Sec5Hyp H M A) {n : ℕ
       Subgroup.card_map_of_injective hιinj
     rw [← e1, ← e2]
     exact hcard4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨eH⟩, isSylowIn_of_card_eq hAH ?_⟩
   have hf : (60 : ℕ).factorization 2 = 2 := by
     rw [Nat.factorization_def _ Nat.prime_two]

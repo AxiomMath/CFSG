@@ -18,8 +18,8 @@ theorem card_modEq_card_inf_centralizer [Finite G] {W : Subgroup G} {k : G} (hk 
     (hkW : k ∈ Subgroup.normalizer (W : Set G)) :
     Nat.card W ≡ Nat.card ↥(W ⊓ Subgroup.centralizer {k}) [MOD 5] := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : Fintype ↥W := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fintype ↥W := Fintype.ofFinite _
   have hmem : ∀ w ∈ W, k * w * k⁻¹ ∈ W := fun w hw =>
     (Subgroup.mem_normalizer_iff.mp hkW w).mp hw
   let f : Function.End ↥W := fun w => ⟨k * w * k⁻¹, hmem w w.2⟩
@@ -163,9 +163,8 @@ theorem eq_of_orderOf_five [Finite G] {Q W : Subgroup G} {k z : G} (hQ : Nat.car
         exact (Subgroup.one_lt_card_iff_ne_bot _).mpr hne
     rw [hca, hWC] at hmodW
     interval_cases a
-    all_goals first
+    all_goals try first
       | (exfalso; revert hmodW; decide)
-      | skip
     swap
     · exact Subgroup.eq_of_le_of_card_ge hWQ (by rw [hQ, hca]; norm_num)
     exfalso
@@ -213,9 +212,8 @@ theorem eq_of_orderOf_five [Finite G] {Q W : Subgroup G} {k z : G} (hQ : Nat.car
       · exact absurd (h ▸ hc1) hzW
     rw [hca, hWC] at hmodW
     interval_cases a
-    all_goals first
+    all_goals try first
       | (exfalso; revert hmodW; decide)
-      | skip
     ·
       exact absurd (Subgroup.card_eq_one.mp hca) hW1
     ·

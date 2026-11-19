@@ -27,15 +27,15 @@ theorem exists_mulEquiv_twE6C_quot_of_isLabel {X : Type} [Group X] [Finite X] {l
   obtain ⟨-, -, hM⟩ := rk2_model_of_isLabel hX
   obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨e1⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.exists_twistedE6RootGroup_of_marked (u6_model_twE6 ht hM)
-  letI : Field F := hField
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hField
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 ^ (lab.n * 2) := by
     rw [hcard, pow_mul]
   have hcardF : Fintype.card F = 2 ^ (lab.n * 2) := by
     rw [← Nat.card_eq_fintype_card, hcard2]
   have hcharF : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := lab.n * 2) hcardF
-  letI : CharP F 2 := hcharF
+  let : CharP F 2 := hcharF
   let Ω := AlgebraicClosure F
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 lab.n
   have hFr : ∀ c, Fr c = c ^ (2 ^ lab.n) := fun c => iterateFrobenius_def 2 lab.n c
@@ -101,15 +101,15 @@ theorem eleven_mul_le_twoRank_of_isLabel_twE6 {X : Type} [Group X] [Finite X]
   obtain ⟨-, -, hM⟩ := rk2_model_of_isLabel hX
   obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨e1⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.exists_twistedE6RootGroup_of_marked (u6_model_twE6 ht hM)
-  letI : Field F := hField
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hField
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 ^ (lab.n * 2) := by
     rw [hcard, pow_mul]
   have hcardF : Fintype.card F = 2 ^ (lab.n * 2) := by
     rw [← Nat.card_eq_fintype_card, hcard2]
   have hcharF : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := lab.n * 2) hcardF
-  letI : CharP F 2 := hcharF
+  let : CharP F 2 := hcharF
   let π : X →* twistedE6RootGroup F σ :=
     e1.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   have hπ : Function.Surjective π :=

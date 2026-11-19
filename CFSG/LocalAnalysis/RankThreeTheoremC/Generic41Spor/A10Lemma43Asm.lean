@@ -24,6 +24,7 @@ theorem a10_mem_normalizer_of_conj {Z : Type} [Group Z] {H : Subgroup Z} {a : Z}
   have := h2 _ hh
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem a10_pi_mem_normalizer {Y : Subgroup G} {g : G} (hgM : g ∈ M)
     (hg : g ∈ Subgroup.normalizer (Y : Set G)) :
     QuotientGroup.mk' (primeComplementCore (G := ↥M) 5) ⟨g, hgM⟩ ∈

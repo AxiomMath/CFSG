@@ -23,6 +23,7 @@ section Generic
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem isElemAbelian_subgroupOf_of {p : ℕ} {X E : Subgroup Γ} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.subgroupOf X) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
@@ -30,17 +31,20 @@ theorem isElemAbelian_subgroupOf_of {p : ℕ} {X E : Subgroup Γ} (hE : IsElemAb
   · rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hE.2 _ (Subgroup.mem_subgroupOf.1 hx)
 
+omit [Finite Γ] in
 theorem card_subgroupOf_of_le {X E : Subgroup Γ} (hE : E ≤ X) :
     Nat.card (E.subgroupOf X) = Nat.card E :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE).toEquiv
 
+omit [Finite Γ] in
 theorem isPGroup_subgroupOf_of {p : ℕ} {X U : Subgroup Γ} (hU : IsPGroup p U) (hUX : U ≤ X) :
     IsPGroup p (U.subgroupOf X) :=
   IsPGroup.of_injective hU (Subgroup.subgroupOfEquivOfLe hUX).toMonoidHom
     (Subgroup.subgroupOfEquivOfLe hUX).injective
 
+omit [Finite Γ] in
 theorem isElemAbelian_map_of_injective {A : Type} [Group A] [Finite A] {p : ℕ} {f : A →* Γ}
-    (hf : Function.Injective f) {E : Subgroup A} (hE : IsElemAbelian p E) :
+    (_hf : Function.Injective f) {E : Subgroup A} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨x, hx⟩ := x
@@ -59,7 +63,7 @@ theorem pRank_subgroupOf_eq {p : ℕ} {X B : Subgroup Γ} (hBX : B ≤ X) :
   unfold CFSG.Open.pRank
   congr 1
   ext k
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨E, hE, hel, hcard⟩
     refine ⟨E.map X.subtype, ?_, isElemAbelian_map_of_injective X.subtype_injective hel, ?_⟩
@@ -75,6 +79,7 @@ theorem pRank_subgroupOf_eq {p : ℕ} {X B : Subgroup Γ} (hBX : B ≤ X) :
     · rw [card_subgroupOf_of_le (hE.trans hBX)]
       exact hcard
 
+omit [Finite Γ] in
 theorem mem_normalizer_subgroupOf_iff {X K : Subgroup Γ} (hK : K ≤ X) {b : Γ} (hb : b ∈ X) :
     (⟨b, hb⟩ : ↥X) ∈ Subgroup.normalizer ((K.subgroupOf X : Subgroup ↥X) : Set ↥X) ↔
       b ∈ Subgroup.normalizer (K : Set Γ) := by
@@ -99,6 +104,7 @@ theorem mem_normalizer_subgroupOf_iff {X K : Subgroup Γ} (hK : K ≤ X) {b : Γ
     have h' := h g.1
     simpa [Subgroup.mem_subgroupOf] using h'
 
+omit [Finite Γ] in
 theorem le_normalizer_subgroupOf_iff {X B K : Subgroup Γ} (hB : B ≤ X) (hK : K ≤ X) :
     B.subgroupOf X ≤ Subgroup.normalizer ((K.subgroupOf X : Subgroup ↥X) : Set ↥X) ↔
       B ≤ Subgroup.normalizer (K : Set Γ) := by
@@ -149,6 +155,7 @@ theorem nonempty_centerQuot_of_equiv {A B : Type} [Group A] [Group B] (e : A ≃
     Nonempty (A ⧸ Subgroup.center A ≃* B ⧸ Subgroup.center B) :=
   ⟨QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)⟩
 
+omit [Finite Γ] in
 theorem nonempty_pSimple_subgroupOf (p : ℕ) {X K : Subgroup Γ} (hK : K ≤ X) :
     Nonempty (PSimple p (K.subgroupOf X) ≃* PSimple p K) := by
   obtain ⟨e⟩ := nonempty_pQuot_equiv_subgroupOf p hK

@@ -74,9 +74,9 @@ theorem lm_eq (c : ℕ) : lm c = if c % 2 = 1 then Mr (c / 2) else Mi (c / 2) :=
   unfold lm Mr Mi
   rw [CertificateChecks.KernelWP.letC_div]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     rfl
-  · simp only [h, decide_false, if_false]
+  · simp only [h, decide_false, ite_false]
     change OM (RB (Nat.add (Nat.succ 13) (c / 2))) = _
     rfl
 
@@ -176,7 +176,7 @@ theorem word_root {k g : ℕ} (hk : k < 86) (hg : g < 13) {u : List ℕ} (hu : W
     (u.map lm).prod = Mr g := by
   have h := word_one hk
   rw [hu, List.map_append, List.prod_append, List.map_singleton, List.prod_singleton,
-    lm_eq, if_neg (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
+    lm_eq, ite_eq_right (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
   have h2 : Mi g * Mr g = 1 := mul_comm_of_one (pair g hg)
   calc (u.map lm).prod = (u.map lm).prod * (Mi g * Mr g) := by rw [h2, mul_one]
     _ = Mr g := by rw [← mul_assoc, h, one_mul]
@@ -301,7 +301,6 @@ theorem mat_gs : ∀ g < 6, mat Dt (gs Dt g) = Mr g := by
       rw [CFSG.Sporadic.Fi23.slpG_eq, mat_wordG, List.map_map]
       congr 1
       refine List.map_congr_left fun z hz => ?_
-      beta_reduce
       change _ = lm (slpCode z)
       rw [lm_eq]
       have hai := mat_inv_of (x := a Dt) (g := 0) (by norm_num) mat_a
@@ -312,25 +311,25 @@ theorem mat_gs : ∀ g < 6, mat Dt (gs Dt g) = Mr g := by
       · simp [genG, slpCode, mat_b]
       · simp [genG, slpCode, hbi]
       · have hz2 : ¬ z.natAbs ≤ 2 := by omega
-        rw [if_neg hz2, if_pos h4]
+        rw [ite_eq_right hz2, ite_eq_left h4]
         have hk : slpCode z / 2 = z.natAbs - 3 := by
           unfold slpCode
-          rw [if_neg hz2]
+          rw [ite_eq_right hz2]
           split_ifs <;> omega
         rw [hk]
         have hg' := ih (z.natAbs - 3) h4 (by omega)
         by_cases hp : 0 < z
         · have hc : slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_pos hp]
+            rw [ite_eq_right hz2, ite_eq_left hp]
             omega
-          rw [if_pos hp, if_pos hc]
+          rw [ite_eq_left hp, ite_eq_left hc]
           exact hg'
         · have hc : ¬ slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_neg hp]
+            rw [ite_eq_right hz2, ite_eq_right hp]
             omega
-          rw [if_neg hp, if_neg hc]
+          rw [ite_eq_right hp, ite_eq_right hc]
           exact mat_inv_of (by omega) hg'
 
 theorem mat_pairG {l : ℕ} (hl : l < 12) : mat Dt (CFSG.Perm.pairG (gs Dt) l) = lm (cc l) := by
@@ -338,10 +337,10 @@ theorem mat_pairG {l : ℕ} (hl : l < 12) : mat Dt (CFSG.Perm.pairG (gs Dt) l) =
   by_cases h : l % 2 = 0
   · have hc : (2 * (l / 2) + 1) % 2 = 1 := by omega
     have hd : (2 * (l / 2) + 1) / 2 = l / 2 := by omega
-    rw [if_pos h, if_pos h, lm_eq, if_pos hc, hd]
+    rw [ite_eq_left h, ite_eq_left h, lm_eq, ite_eq_left hc, hd]
     exact mat_gs _ (by omega)
   · have hc : ¬ (2 * (l / 2)) % 2 = 1 := by omega
-    rw [if_neg h, if_neg h, lm_eq, if_neg hc, Nat.mul_div_cancel_left _ (by norm_num)]
+    rw [ite_eq_right h, ite_eq_right h, lm_eq, ite_eq_right hc, Nat.mul_div_cancel_left _ (by norm_num)]
     exact mat_inv_of (by omega) (mat_gs _ (by omega))
 
 theorem mat_gf : ∀ i < 7, mat Dt (gf i) = Mr (6 + i) := by
@@ -382,12 +381,12 @@ theorem wordProd_gf (v : List (ℕ × Bool)) (hv : ∀ l ∈ v, l.1 < 7) :
   cases s
   · change mat Dt (gf i)⁻¹ = lm (genCode (i, false))
     have hc : genCode (i, false) = 2 * (6 + i) := by simp [genCode]
-    rw [hc, lm_eq, if_neg (by omega : ¬ 2 * (6 + i) % 2 = 1),
+    rw [hc, lm_eq, ite_eq_right (by omega : ¬ 2 * (6 + i) % 2 = 1),
       Nat.mul_div_cancel_left _ (by norm_num)]
     exact mat_inv_of (by omega) hE
   · change mat Dt (gf i) = lm (genCode (i, true))
     have hc : genCode (i, true) = 2 * (6 + i) + 1 := by simp [genCode]
-    rw [hc, lm_eq, if_pos (by omega : (2 * (6 + i) + 1) % 2 = 1),
+    rw [hc, lm_eq, ite_eq_left (by omega : (2 * (6 + i) + 1) % 2 = 1),
       (by omega : (2 * (6 + i) + 1) / 2 = 6 + i)]
     exact hE
 
@@ -414,7 +413,7 @@ theorem closure_gf : Subgroup.closure (Set.range fun i : Fin 7 => gf i.val) = �
     intro c h1 h2
     have he : E (c / 2) = gf (c / 2 - 6) := by
       unfold E
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     have hin : gf (c / 2 - 6) ∈ Subgroup.closure (Set.range fun i : Fin 7 => gf i.val) :=
       Subgroup.subset_closure ⟨⟨c / 2 - 6, by omega⟩, rfl⟩
     unfold el

@@ -117,7 +117,7 @@ theorem ggSecFiveDataResAt_phanA
     GGSecFiveDataResAt (fun M => GGIsWeylMatrixA M) := by
   intro G _ _ p B Bs x L D J 𝒦 hcfg hNotReg ι M e hpres hAm
   obtain ⟨m, e', hm1, hM⟩ := hAm
-  haveI : Fintype ι := Fintype.ofEquiv (Fin m) e'
+  have : Fintype ι := Fintype.ofEquiv (Fin m) e'
   have hcard : Fintype.card ι = m := by rw [Fintype.card_congr e'.symm, Fintype.card_fin]
   have hm3 : 3 ≤ m := hcard ▸ ggSecFive_three_le_card_of_tbfix hT hcfg hpres
   by_cases hs : GGSplitLie p L

@@ -17,6 +17,7 @@ variable {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {Bs : Subgroup G} {V : Ty
   {C : Matrix Λ Λ ℤ} {b c : Λ} {h : Λ → V} {α : Λ → Module.Dual (ZMod p) V} {ha : V}
   {αa : Module.Dual (ZMod p) V}
 
+omit [Fintype Λ] in
 theorem ggReflDatum_of_fork_zero (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs)
     (ι : Additive ↥Bs ≃+ V) (hF : GGForkPairing C b c h α ha αa) {φ : Λ → MulAut ↥Bs}
     {φa : MulAut ↥Bs} (hφ : ∀ i, φ i ∈ ggInduced ⊤ Bs) (hφa : φa ∈ ggInduced ⊤ Bs)
@@ -51,6 +52,7 @@ theorem ggReflDatum_of_fork_zero (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs)
     · rfl
     · exact hF.diag i
 
+omit [Fintype Λ] in
 theorem ggReflDatum_of_fork_one (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs)
     (ι : Additive ↥Bs ≃+ V) (hF : GGForkPairing C b c h α ha αa) {φ : Λ → MulAut ↥Bs}
     {φa : MulAut ↥Bs} (hφ : ∀ i, φ i ∈ ggInduced ⊤ Bs) (hφa : φa ∈ ggInduced ⊤ Bs)

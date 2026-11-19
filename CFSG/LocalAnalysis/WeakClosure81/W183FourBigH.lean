@@ -35,7 +35,7 @@ private theorem w183fourbig_card_PSL_3_2_1 {T : Type} [Group T] (hO : LieOrderFo
   have hd : lieOrderDivisor .PSL 3 (2 ^ 1) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
 
 private theorem w183fourbig_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : CFSG.Blueprint.LieModel T .PSL 3 2 2) : Nat.card T = 20160 := by
@@ -43,7 +43,7 @@ private theorem w183fourbig_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFo
   have hd : lieOrderDivisor .PSL 3 (2 ^ 2) = 3 := by decide
   rw [hd] at hM
   have hnum : lieOrderNumerator .PSL 3 (2 ^ 2) = 60480 := by
-    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
   rw [hnum] at hM
   omega
 
@@ -53,7 +53,7 @@ private theorem w183fourbig_card_PSp_2_2_2 {T : Type} [Group T] (hO : LieOrderFo
   have hd : lieOrderDivisor .PSp 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
 
 private theorem w183fourbig_nonab_of_simple_of_card {X : Type} [Group X] (hs : IsSimpleGroup X)
     {n : ℕ} (hcard : Nat.card X = n) (hn : ¬ n.Prime) : ∃ a b : X, a * b ≠ b * a := by
@@ -61,7 +61,7 @@ private theorem w183fourbig_nonab_of_simple_of_card {X : Type} [Group X] (hs : I
   have hcomm : IsMulCommutative X := IsMulCommutative.of_comm (fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩)
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   have hp : (Nat.card X).Prime := CommGroup.is_simple_iff_prime_card.mp hs
   rw [hcard] at hp
   exact hn hp
@@ -116,6 +116,7 @@ private theorem w183fourbig_two_le_mRank_of_mem {D : Data G} {V₀ V H : Subgrou
   have hlog := Nat.le_log_of_pow_le (by norm_num : 1 < 2) hp
   simpa only [mRank] using hlog
 
+omit [Finite G] in
 theorem w183four_big_three_dvd (hO : LieOrderFormulasInput) {K L : Subgroup G}
     (hX : HasQuotShape L (K : Set G)
       (fun X _ => IsAlt X 6 ∨ IsL3 X 1 ∨ IsL3 X 2 ∨ IsSp4 X 2)) : 3 ∣ K.relIndex L := by
@@ -153,7 +154,7 @@ theorem w183four_big_one (rows : Br1Rows) {D : Data G} {V₀ V H : Subgroup G} {
     (hbig : ∀ g' : G, Gam183 V H (eOmegaZ H D.T) i g' →
       3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g')) {g : G}
     (hgK : ¬ vInH V H g ≤ kerMV V H) (hgi : E3.mQuot (conjSubgroup V g) (vInH V H g) ≤ i)
-    (hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
+    (_hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
     False := by
   classical
   have hQ : HasQuotShape L (kerMV V H : Set G)
@@ -183,7 +184,7 @@ theorem w183four_big_one (rows : Br1Rows) {D : Data G} {V₀ V H : Subgroup G} {
   have hne : (Ctx188.packFamilyU D V H i M).Nonempty :=
     ⟨M.img (vInH V H g), ⟨g, hgam, rfl⟩⟩
   have hall : ∀ A ∈ Ctx188.packFamilyU D V H i M, 2 ≤ mRank A :=
-    fun A hA => w183fourbig_two_le_mRank_of_mem x M hbig hA
+    fun A _hA => w183fourbig_two_le_mRank_of_mem x M hbig _hA
   exact br1_master_one_big rows hB hbase.1 hbase.2.1 hbase.2.2.1 hbase.2.2.2.1
     hbase.2.2.2.2 hshape hτ hne hall (fun _ => hPT)
 
@@ -204,7 +205,7 @@ theorem w183four_big_two (hO : LieOrderFormulasInput) (rows : Br1Rows) {D : Data
     (hbig : ∀ g' : G, Gam183 V H (eOmegaZ H D.T) i g' →
       3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g')) {g : G}
     (hgK : ¬ vInH V H g ≤ kerMV V H) (hgi : E3.mQuot (conjSubgroup V g) (vInH V H g) ≤ i)
-    (hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
+    (_hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
     False := by
   classical
   have hLH : L ≤ H := hL.2.2.1
@@ -237,7 +238,7 @@ theorem w183four_big_two (hO : LieOrderFormulasInput) (rows : Br1Rows) {D : Data
   have hneΓ : (Ctx188.packFamilyU D V H i M).Nonempty :=
     ⟨M.img (vInH V H g), ⟨g, hgam, rfl⟩⟩
   have hall' : ∀ A ∈ Ctx188.packFamilyU D V H i M, 2 ≤ mRank A :=
-    fun A hA => w183fourbig_two_le_mRank_of_mem x M hbig hA
+    fun A _hA => w183fourbig_two_le_mRank_of_mem x M hbig _hA
   obtain ⟨ED, hED⟩ := x.br2ED M
   have h5' : IsSp4 ↥(M.img L) 2 → ∀ A ∈ Ctx188.packFamilyU D V H i M,
       ∀ P : Subgroup (LGL 2 M.W),

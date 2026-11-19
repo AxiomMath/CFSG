@@ -70,7 +70,7 @@ noncomputable def gen
 theorem gen_lt
     {l : ℕ} (h : l < 4) :
     (gen l).1 = permOfArr 3510 (fi22OuterStrong3510 4)[tj l]! := by
-  rw [gen, dif_pos h]
+  rw [gen, dite_eq_left h]
 
 noncomputable def els :
     List fi22P :=

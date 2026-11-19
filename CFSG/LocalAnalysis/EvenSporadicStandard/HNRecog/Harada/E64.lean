@@ -10,7 +10,7 @@ open Subgroup CFSG.EvenSporadicStandard.TwoHS CFSG.EvenSporadicStandard.HNRecog.
 
 variable {G : Type} [Group G] {t z b z₁ : G} {S Eg T T' W0 : Subgroup G} {ι : Elem2 6 →* G}
 
-private theorem isElemAbelian_range (hι : Function.Injective ι) :
+private theorem isElemAbelian_range (_hι : Function.Injective ι) :
     CFSG.Open.IsElemAbelian 2 (ι.range : Subgroup G) := by
   refine ⟨inferInstance, fun x hx => ?_⟩
   obtain ⟨y, rfl⟩ := MonoidHom.mem_range.mp hx
@@ -105,7 +105,7 @@ theorem HData.exists_normalizer_conj_t (hD : HData G t z b z₁ S Eg T T' W0 ι)
       have h1 : h * a * h⁻¹ ∈ B := by
         rw [hh_eq]
         exact Subgroup.mem_map.mpr
-          ⟨a, ha, by simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]⟩
+          ⟨a, ha, by simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]⟩
       rw [hB_def] at h1
       obtain ⟨a', ha', ha'eq⟩ := Subgroup.mem_map.mp h1
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] at ha'eq
@@ -122,7 +122,7 @@ theorem HData.exists_normalizer_conj_t (hD : HData G t z b z₁ S Eg T T' W0 ι)
         · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]; group
       rw [hh_eq] at h1
       obtain ⟨a', ha', ha'eq⟩ := Subgroup.mem_map.mp h1
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] at ha'eq
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at ha'eq
       have : a' = a := by
         have h2 : h * a' = h * a := mul_right_cancel ha'eq
         exact mul_left_cancel h2

@@ -63,7 +63,7 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
       refine le_antisymm le_top ?_
       show (⊤ : Subgroup (oTwoQuot ↥(⊤ : Subgroup H))) ≤
         oTwoUpper (⊤ : Subgroup (oTwoQuot ↥(⊤ : Subgroup H)))
-      haveI : Group.IsPerfect (oTwoQuot ↥(⊤ : Subgroup H)) := hperf
+      have : Group.IsPerfect (oTwoQuot ↥(⊤ : Subgroup H)) := hperf
       have hperf' : Group.IsPerfect ↥(⊤ : Subgroup (oTwoQuot ↥(⊤ : Subgroup H))) :=
         Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv).symm.toMonoidHom)
           (by simpa using (Subgroup.topEquiv).symm.surjective)
@@ -271,7 +271,7 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
       { toFun := fun v => ⟨Multiplicative.toAdd v.1,
           (img_relCent_iff A hA v.1).mp v.2⟩
         invFun := fun v => ⟨Multiplicative.ofAdd v.1,
-          (img_relCent_iff A hA (Multiplicative.ofAdd v.1)).mpr (by simpa using v.2)⟩
+          (img_relCent_iff A hA (Multiplicative.ofAdd v.1)).mpr (by simp)⟩
         left_inv := fun v => by apply Subtype.ext; simp
         right_inv := fun v => by apply Subtype.ext; simp }
   have natCard_imgβ_eq_relIndex : ∀ (K : Subgroup H), centerOf (⊤ : Subgroup H) ≤ K → K ≤ E →
@@ -336,7 +336,7 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
     have h1 : β.ker.index = Nat.card (Multiplicative (Fin 2 → F)) := by
       rw [Subgroup.index_ker, MonoidHom.range_eq_top.mpr hβ, Subgroup.card_top]
     have h2 : (Subgroup.map e.toMonoidHom β.ker).index = β.ker.index := by
-      simpa using Subgroup.index_map_equiv β.ker e
+      simp
     rw [Subgroup.relIndex, ← hmap, h2, h1]
     rw [Nat.card_congr
       (Multiplicative.toAdd : Multiplicative (Fin 2 → F) ≃ (Fin 2 → F)),
@@ -442,7 +442,7 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
             have hgen' : Multiplicative.toAdd (β c) ∈ SL2Nat.fixedSub R := by
               rwa [hcomm_eq] at hgen
             rw [show Multiplicative.toAdd ((β c)⁻¹) = -Multiplicative.toAdd (β c) by
-              simp [sub_eq_add_neg]]
+              simp]
             exact (SL2Nat.fixedSub R).neg_mem hgen'
           have hxrel : ((x : ↥(⊤ : Subgroup H)) : H) ∈
               relCent E (centerOf (⊤ : Subgroup H)) A :=
@@ -596,7 +596,7 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
         change Module.finrank F ↥(SL2Nat.fixedSub R') = 1
         exact SL2Nat.finrank_fixedSub_of_card hR' hR'card
       have hfinV : Module.finrank F (Fin 2 → F) = 2 := by
-        simpa using (Module.finrank_fin_fun F (n := 2))
+        simp
       have hWne : W ≠ W' := by
         intro hEq
         have hvW : v ∈ W := by
@@ -830,16 +830,16 @@ private theorem natQuot_of_isL2Quot_top {P : Subgroup H} {n : ℕ} (hn : 2 ≤ n
         exact Subgroup.comap_map_eq_self_of_injective (⊤ : Subgroup H).subtype_injective _
       rw [← h1, hEtop]
       exact Subgroup.subgroupOf_self ⊤
-    haveI : Nontrivial (oTwoQuot ↥(⊤ : Subgroup H)) := by
+    have : Nontrivial (oTwoQuot ↥(⊤ : Subgroup H)) := by
       obtain ⟨e⟩ := hq
       have hF4 : 4 ≤ Nat.card (GaloisField 2 n) := by
         rw [GaloisField.card 2 n (by omega)]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-      haveI : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+      have : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
         (Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF4).toNontrivial
       exact e.toEquiv.nontrivial
-    haveI : Subsingleton (oTwoQuot ↥(⊤ : Subgroup H)) := by
+    have : Subsingleton (oTwoQuot ↥(⊤ : Subgroup H)) := by
       show Subsingleton (↥(⊤ : Subgroup H) ⧸ CFSG.pCore 2 ↥(⊤ : Subgroup H))
       rw [hcore]
       exact QuotientGroup.subsingleton_quotient_top
@@ -877,7 +877,6 @@ theorem natQuot_of_isL2Quot {G : Type} [Group G] {L P : Subgroup G} [Finite ↥L
         simpa using congrArg Subtype.val (hx ⟨y, hy⟩ (Subgroup.mem_top _))
       · rintro ⟨-, hx⟩
         refine ⟨Subgroup.mem_top x, ?_⟩
-        change x ∈ Subgroup.centralizer (⊤ : Set ↥L)
         rw [Subgroup.mem_centralizer_iff]
         intro y _
         apply Subtype.ext

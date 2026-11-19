@@ -150,6 +150,7 @@ section Main
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_of_le_centralizer {L : Subgroup G} (hL : IsComponent L) {c : G}
     (hLc : L ≤ Subgroup.centralizer {c})
     {K : Subgroup (L ⊓ Subgroup.centralizer {c} : Subgroup G)} (hK : IsComponent K)
@@ -160,7 +161,7 @@ theorem eq_of_le_centralizer {L : Subgroup G} (hL : IsComponent L) {c : G}
   let eK : K ≃* K' := (K.equivMapOfInjective _ (Subgroup.subtype_injective _)).trans
     (MulEquiv.subgroupCongr hK'.symm)
   have hK'q : IsQuasisimple K' := CFSG.LocalCores.isQuasisimple_of_mulEquiv eK hK.1
-  haveI : Group.IsPerfect K' := hK'q.1
+  have : Group.IsPerfect K' := hK'q.1
   have hnt : Nontrivial K' := by
     obtain ⟨a, b, hab⟩ := hK'q.2.2
     by_contra h
@@ -177,7 +178,7 @@ theorem eq_of_le_centralizer {L : Subgroup G} (hL : IsComponent L) {c : G}
     have heq : K.map (e : (L ⊓ Subgroup.centralizer ({c} : Set G) : Subgroup G) →* L) =
         K'.subgroupOf L := by
       ext ⟨x, hx⟩
-      simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe, hK']
+      simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass, hK']
       constructor
       · rintro ⟨k, hk, hkx⟩
         refine ⟨k, hk, ?_⟩

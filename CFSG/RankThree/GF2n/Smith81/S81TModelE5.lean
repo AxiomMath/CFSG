@@ -19,20 +19,24 @@ variable {K : Type} [Field K] [CharP K 2]
 
 theorem closedL5 : ClosedL okD5 inL5 := fun _ _ _ _ _ => Iff.rfl
 
+omit [CharP K 2] in
 theorem mem_supported_univ (c : V K) :
     c ∈ Finsupp.supported K K {a : Fin e7Data.d | inL5 a} := by
   rw [Finsupp.mem_supported']
   intro x hx
   exact absurd trivial hx
 
+omit [CharP K 2] in
 theorem vAut_mem_EAut {u : (Module.End K (V K))ˣ} (hu : u ∈ EGrp K) : vAut K u ∈ EAut K :=
   Subgroup.mem_map_of_mem _ hu
 
+omit [CharP K 2] in
 theorem grpR5_le : GrpR K okD5 ≤ EGrp K := by
   rw [GrpR, Subgroup.closure_le]
   rintro g ⟨β, hβ, -, c, rfl⟩
   exact e7Data_valid.xu_mem K β c
 
+omit [CharP K 2] in
 theorem vAut_mul_comm {S : List Rt} {u : (Module.End K (V K))ˣ}
     (h : Commute (u : Module.End K (V K)) (tOp K S)) {t : V K ≃ₗ[K] V K}
     (ht : ∀ v, t v = tOp K S v) : vAut K u * t = t * vAut K u := by
@@ -42,23 +46,27 @@ theorem vAut_mul_comm {S : List Rt} {u : (Module.End K (V K))ˣ}
     LinearMap.congr_fun h.eq v
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, ht, ht, vAut_apply, vAut_apply, h1]
 
+omit [CharP K 2] in
 theorem Cw_iff {S : List Rt} {t : V K ≃ₗ[K] V K} (ht : ∀ v, t v = tOp K S v) {c : V K} :
     c ∈ CwE t ↔ NOp K S c = 0 := by
   show t c = c ↔ _
   rw [ht, NOp_eq, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
 
+omit [CharP K 2] in
 theorem RangeL_subset_Rw {S : List Rt} {t : V K ≃ₗ[K] V K} (ht : ∀ v, t v = tOp K S v) {r : V K}
     (hr : r ∈ RangeL K S inL5) : r ∈ RwE t := by
   obtain ⟨w, -, rfl⟩ := hr
   refine ⟨w, ?_⟩
   rw [ht, NOp_eq, LinearMap.sub_apply, Module.End.one_apply]
 
+omit [CharP K 2] in
 theorem Rw_subset_range {S : List Rt} {t : V K ≃ₗ[K] V K} (ht : ∀ v, t v = tOp K S v) {r : V K}
     (hr : r ∈ RwE t) : r ∈ LinearMap.range (NOp K S) := by
   obtain ⟨w, rfl⟩ := hr
   refine ⟨w, ?_⟩
   rw [ht, NOp_eq, LinearMap.sub_apply, Module.End.one_apply]
 
+omit [CharP K 2] in
 theorem Rw_subset_range' {S : List Rt} {t : V K ≃ₗ[K] V K} (ht : ∀ v, t v = tOp K S v) {r : V K}
     (hr : r ∈ LinearMap.range (NOp K S)) : r ∈ RwE t := by
   obtain ⟨w, rfl⟩ := hr
@@ -143,6 +151,7 @@ theorem involK12_E5 (hK4 : 4 ≤ Nat.card K) {S : List Rt} (hS : K12Cond okD5 in
     exact ⟨p, hpS, hp0, vAut K g, vAut_mem_EAut hg, c, by rw [vAut_apply]; exact hc.symm⟩
 
 set_option maxRecDepth 20000 in
+omit [Finite K] in
 theorem involK3_E5 {S : List Rt} (hS : K3Cond okD5 inL5 S) {t : V K ≃ₗ[K] V K}
     (ht : ∀ v, t v = tOp K S v) : InvolK3 (EAut K) beta t := by
   have hSo : SOrth S := sOrth_of_K3 hS

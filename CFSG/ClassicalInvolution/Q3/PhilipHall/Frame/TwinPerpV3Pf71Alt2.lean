@@ -25,11 +25,11 @@ section Alt2
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {W : Subgroup G}
 
-theorem exists_noncomm_rep (hP : Q3CL.PartIHypG Ω) (hW : W ∈ WSet Ω)
+theorem exists_noncomm_rep (_hP : Q3CL.PartIHypG Ω) (_hW : W ∈ WSet Ω)
     (hnab : ¬ ∀ x y : ↥(muGroup Ω W), x * y = y * x) :
     ∃ ρ σ : Rep Ω W, ρ.img * σ.img ≠ σ.img * ρ.img := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hnab
   have hcomm : ∀ x ∈ muDelta Ω W, ∀ y ∈ muDelta Ω W, x * y = y * x := by
     intro x hx y hy
@@ -69,7 +69,7 @@ theorem false_of_alt2_of_noncomm (hP : Q3CL.PartIHypG Ω) (hW : W ∈ WSet Ω) {
     (ρ σ : Rep Ω W) (hnc : ρ.img * σ.img ≠ σ.img * ρ.img) : False := by
   have c : Q3CL.Thompson.Ctx Ω W := Q3CL.T8.ctxOf hP hW
   have hΩ := hP.hyp
-  have hS₀2 : IsPGroup 2 ↥(S₀ : Subgroup G) := S₀.isPGroup'
+  have hS₀2 : IsPGroup 2 ↥(S₀ : Subgroup G) := S₀.isPGroup
   have hbig : ∀ τ : Rep Ω W, 4 ≤ Nat.card ↥(τ.K ⊓ (S₀ : Subgroup G)) := by
     intro τ
     have h := Q3CL.Thompson.inf_W_of_mem_D hΩ hW τ.hR τ.hK τ.hRK
@@ -113,7 +113,7 @@ variable {n : ℕ}
 theorem v3WAlt2_proved : V3WAlt2 n := by
   intro Y _ _ R S t K K' K₃ u₁ u₂ u₃ K₄ hin S₀ ⟨η, hη, hinv⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hStd, -⟩ := hin
   have hCore := CoreData.of_S hStd.perp.core
   have hPI : Q3CL.PartIHypG (CoreAssembly.conjClass (tightCore R)) := hCore.partIHypG

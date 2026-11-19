@@ -155,7 +155,7 @@ theorem inf_centerOf_wClos_two_ne_bot_19 {D : Data G} {V₀ V : Subgroup G}
 
 theorem exists_inCalO_two_not_one_19 {D : Data G} {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) (hm : 4 < mSub V₀) {H Q A : Subgroup G}
-    (hQH : Q ≤ H) (hHQ : H ≤ normalizer (Q : Set G)) (hAH : A ≤ H)
+    (_hQH : Q ≤ H) (hHQ : H ≤ normalizer (Q : Set G)) (_hAH : A ≤ H)
     (hA : A ∈ E3.gammaSet V₀ 0 D.T) (hq : E3.mQuot A (A ⊓ Q) = 2)
     (hZ : A ⊓ centerOf (E3.wClos V₀ 2 Q) ≠ ⊥) {x : G} (hxH : x ∈ H)
     (hx : ∀ a ∈ A, a ∈ normalizer (conjSubgroup A x : Set G) → a ∈ Q)

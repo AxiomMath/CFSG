@@ -15,7 +15,7 @@ theorem frattini_isSylowIn {p : ℕ} [Fact p.Prime] {H Y S : Subgroup G} (hYH : 
     (hY : (Y.subgroupOf H).Normal) (hS : IsSylowIn p S Y) :
     ∀ x ∈ H, ∃ y ∈ Y, ∃ n ∈ H, n ∈ normalizer (S : Set G) ∧ y * n = x := by
   intro x hx
-  haveI := hY
+  have := hY
   have hSY : S ≤ Y := hS.le
   have hSH : S ≤ H := hSY.trans hYH
   set N : Subgroup H := Y.subgroupOf H with hN

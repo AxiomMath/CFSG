@@ -18,7 +18,7 @@ theorem card_barSub_eq_two_of_mem_omegaSet (h : Hyp711 V H E) {X : Type} [Group 
     (hV2 : Nat.card (barSub (kSub V H E) φ V) = 2) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : Nat.card (barSub (kSub V H E) φ U) = 2 := by
   obtain ⟨k, hk, rfl⟩ := h.transitive U hU
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   rw [barSub_conjSubgroup (φ := φ) V ⟨k, hk⟩]
   exact (card_conjSubgroup' (φ ⟨k, hk⟩) (barSub (kSub V H E) φ V)).trans hV2
 

@@ -34,6 +34,7 @@ section Criteria
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem isSubnormal_of_normal {M C : Subgroup S} (hMC : M ≤ C) (hMn : (M.subgroupOf C).Normal) :
     CFSG.Open.IsSubnormal M C :=
   CFSG.Open.IsSubnormal.step hMC hMn (CFSG.Open.IsSubnormal.refl _)
@@ -66,12 +67,14 @@ theorem twoInCoreLayer_of_normal' {β : MulAut S} {p : ℕ} (hp : p.Prime) (M : 
     · right
       rwa [hM', Subgroup.card_map_of_injective (fixSubgroup β).subtype_injective]
 
+omit [Finite S] in
 theorem twoInCoreLayer_of_fixSubgroup_eq {β γ : MulAut S} {p : ℕ} (h : fixSubgroup β = fixSubgroup γ)
     (hβ : TwoInCoreLayer p β) : TwoInCoreLayer p γ := by
   intro x hx hx2
   rw [← h] at hx ⊢
   exact hβ x hx hx2
 
+omit [Finite S] in
 theorem twoInCoreLayer_of_pow_pow {β : MulAut S} {p r s : ℕ} (hrs : (β ^ r) ^ s = β)
     (h : TwoInCoreLayer p (β ^ r)) : TwoInCoreLayer p β :=
   twoInCoreLayer_of_fixSubgroup_eq
@@ -165,7 +168,7 @@ theorem twoInCoreLayer_entrywiseAdjointAut (τ : Tag) {K : Type} [Field K] [Fini
   classical
   obtain ⟨J, hJle, hJn, ⟨eJ⟩, hJ2⟩ := exists_fixed_normal_two τ σ
   refine twoInCoreLayer_of_normal hp J hJle hJn hJ2 ?_
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   by_cases hsmall : τ = .G2 ∧ Nat.card (fixSubfield σ) = 2
   · right
     obtain ⟨rfl, hk2⟩ := hsmall
@@ -182,7 +185,7 @@ theorem twoInCoreLayer_entrywiseAdjointAut (τ : Tag) {K : Type} [Field K] [Fini
     obtain ⟨hs, hnc⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isSimpleGroup_adjointGroup_of_perfect τ
         (fixSubfield σ) hperf
-    haveI := hs
+    have := hs
     exact CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple
       (CFSG.LocalCores.isQuasisimple_of_mulEquiv eJ.symm (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnc).1)
 
@@ -202,9 +205,9 @@ theorem twoInCoreLayer_fieldActor_twE6 {d m : ℕ} (hd : 1 ≤ d) (hm : 3 ≤ m)
     (hε : ∀ c, ε c = c ^ 2 ^ (d * (m + 1))) {p : ℕ} (hp : p.Prime) :
     TwoInCoreLayer p (fieldActor (t := TwistTag.E6) σ ε) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * d * m) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * d * m) (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨-, -, hJC, -, hder, hsimpleJ, hncJ, -⟩ :=
     CFSG.RankThree.Chevalley.twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer
       Nat.prime_two hd hm hmodd K hK κ hκ σ hσ σ₀ hσ₀ ε hε
@@ -256,7 +259,7 @@ theorem twoInCoreLayer_fieldActor_twE6 {d m : ℕ} (hd : 1 ≤ d) (hm : 3 ≤ m)
   have e1 : ↥(commutator ↥F) ≃* ↥(J.subgroupOf C) :=
     ((commutator ↥F).equivMapOfInjective F.subtype F.subtype_injective).trans
       (MulEquiv.subgroupCongr ((Subgroup.map_subtype_commutator F).trans hder'))
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hncJ' : ∃ a b : ↥J, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -355,7 +358,7 @@ theorem twoInCoreLayer_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ 
     (hβ1 : β ≠ 1) (hβout : β ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     TwoInCoreLayer p β := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβord : orderOf β = p := orderOf_eq_prime hβ hβ1
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   obtain ⟨hηord, hpf, ⟨h₀, hh₀⟩, -⟩ :=
@@ -398,15 +401,15 @@ theorem twoInCoreLayer_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ 
   obtain ⟨-, -, -, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     CFSG.RankThree.Chevalley.triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd
       hp.two_le hm3 K hK' σ hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   have e3 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype_injective).trans
       (MulEquiv.subgroupCongr hfixJ)
-  haveI hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) :=
+  have hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) :=
     e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
@@ -501,7 +504,7 @@ theorem exists_odd_pow_of_mem_center_orbit (hK2 : ringChar K = 2) {a : Fin τ.ra
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -563,10 +566,10 @@ theorem mem_iSup_ratTwo (hK2 : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp2 : p
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 hk).1, (Subgroup.mem_inf.1 hk).2⟩
   have hkU := mem_rootSpan_of_two_p hK2 hp hp2 hap hkX hk2
   have hkF : S.D.step k = k := hΓfix k (Subgroup.mem_inf.1 hk).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
-  haveI : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
+  have : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ (AlgebraicClosure K)) :=
     fun O => rootSpan τ (AlgebraicClosure K) O.1
   have hc : ∀ O O', O ≠ O' → ∀ x ∈ A O, ∀ y ∈ A O', Commute x y := by
@@ -801,14 +804,14 @@ theorem ratTwo_inner_or (hK2 : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp5 : 5
         Nonempty (↥⁅ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model,
           ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model⁆ ≃* alternatingGroup (Fin 6))) := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model with hTdef
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -972,7 +975,7 @@ theorem ratTwo_inner_or (hK2 : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp5 : 5
       rw [e]
       exact inv_mem ihy
   have hTeq : T = ν.range := le_antisymm hTν hνT
-  haveI : Finite (fixSubfield σ) := by
+  have : Finite (fixSubfield σ) := by
     obtain ⟨hfin, -⟩ := ncard_pow_eq_self (L := AlgebraicClosure K) 2 (e * s) hes
     have hset : (fixSubfield σ : Set (AlgebraicClosure K)) =
         {c : AlgebraicClosure K | c ^ (2 ^ (e * s)) = c} := by
@@ -982,9 +985,9 @@ theorem ratTwo_inner_or (hK2 : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp5 : 5
       rfl
     have h1 : (fixSubfield σ : Set (AlgebraicClosure K)).Finite := by rw [hset]; exact hfin
     exact h1.to_subtype
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) := Subtype.finite
-  haveI : Finite ↥(CQ σ i) := by
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) := Subtype.finite
+  have : Finite ↥(CQ σ i) := by
     rw [CQ_eq_map]
     exact Finite.of_equiv _ ((componentRootSpan (fixSubfield σ) (rootCharHom a) i).equivMapOfInjective _
       (baseChangeGL_injective _)).toEquiv
@@ -1202,7 +1205,7 @@ theorem twoDecomp_langCentralizer (hout : LangOuterTwo) (hK2 : ringChar K = 2) {
       Nat.Coprime p (Nat.card N) ∧ k ∈ W ⊔ N := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite S.D.model := S.finite
+  have : Finite S.D.model := S.finite
   set L := AlgebraicClosure K
   set M := S.D.model with hMdef
   set d := rootDiagUnit τ a with hd
@@ -1359,8 +1362,8 @@ theorem twoInCoreLayer_of_langSetup_of_inner
           ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model ∨
         Nat.Coprime p (Nat.card (ratTwo (rationalRoots S.ρ (rootCharHom a) i) S.D.model))) :
     TwoInCoreLayer p β := by
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]

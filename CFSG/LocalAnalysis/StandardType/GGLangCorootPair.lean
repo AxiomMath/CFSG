@@ -139,7 +139,7 @@ theorem langCorootPairFactor_of_orthogonal
       ξ ^ corootPair (S.ρ α) (Pi.single j 1)) ∈ S.D.torus) :
     rootDiagUnit τ (fun j => ζ ^ corootPair α (Pi.single j 1) *
       ξ ^ corootPair (S.ρ α) (Pi.single j 1)) ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hr : IsRoot τ α := isRoot_of_mem_rationalRoots S i hα
   have hrβ : IsRoot τ (S.ρ α) := (S.frob.isRoot_iff α).2 hr
   have hβ : S.ρ α ∈ rationalRoots S.ρ (rootCharHom a) i := by
@@ -192,7 +192,7 @@ theorem langCorootPairFactor_of_orthogonal
     rw [commutatorElement_HSL_WSL]
     ext i j
     simp only [pow_two, Matrix.SpecialLinearGroup.coe_mul, coe_HSL]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, sq]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   have hsq : Φ (HSL (ζ ^ m), HSL (ξ ^ m)) ^ 2 =
       ⁅Φ (HSL (ζ ^ m), HSL (ξ ^ m)), Φ (WSL, WSL)⁆ := by
     rw [← map_pow, ← map_commutatorElement]

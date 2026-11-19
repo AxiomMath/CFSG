@@ -183,7 +183,7 @@ theorem sylOK_all : ∀ j < 6,
   unfold sylOK
   dsimp only
   rw [F.ok, F.gens.1, F.size]
-  simp only [Bool.and_true, Bool.true_and, Bool.and_eq_true, beq_self_eq_true]
+  simp only [Bool.and_true, Bool.and_eq_true, beq_self_eq_true]
   refine ⟨?_, ?_⟩
   · rw [CFSG.KS.BfsReplay.allBelow_iff]
     intro i hi
@@ -256,7 +256,7 @@ theorem cover_ok : coverScan (pts 42 6 20160 L34S.T) ((Array.range 6).map fun j 
         rw [commB cq c2] at h3
         have hs := CFSG.KS.Raw.Orb.allN_iff.1 hJ q hq
         rw [strictB_app, h1, h2, h3] at hs
-        simp only [andB_eq, Bool.and_true, notB_eq, Bool.not_true, orB_eq, Bool.false_or] at hs
+        simp only [andB_eq, Bool.and_true, Bool.not_true, Bool.false_or] at hs
         rw [foundSY hj cq]
         exact hs
   · simp

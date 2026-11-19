@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k]
   {S : Sylow 2 G} {ρ : G →* Matrix.SpecialLinearGroup (Fin 2) k}
   {ψ : Ecore G →* Multiplicative (Fin 2 → k)}
 
+omit [Finite G] in
 private theorem aimg_normal_of_normal {S₀ Y : Subgroup G} [Y.Normal]
     (α : S₀ ≃* S₀) {s x : G} (hs : s ∈ S₀) (hx : x ∈ aimg S₀ α Y) :
     s * x * s⁻¹ ∈ aimg S₀ α Y := by
@@ -24,7 +25,7 @@ private theorem aimg_normal_of_normal {S₀ Y : Subgroup G} [Y.Normal]
         ⟨s, hs⟩ * α y * ⟨s, hs⟩⁻¹ := by
       rw [map_mul, map_mul, map_inv, α.apply_symm_apply]
     rw [h1]
-    simpa only [Subgroup.coe_mul, Subgroup.coe_inv, hyx]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, hyx]
 
 theorem isMaxElemAbelian_JS_iff (A : Subgroup G) :
     CFSG.Quasithin.IsMaxElemAbelian (CFSG.Quasithin.thompsonJ (S : Subgroup G)) A ↔
@@ -58,6 +59,7 @@ theorem aimgJ_Fcore_normal (α : MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgro
     s * x * s⁻¹ ∈ aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Fcore G) :=
   aimg_normal_of_normal (S₀ := CFSG.Quasithin.thompsonJ (S : Subgroup G)) (Y := Fcore G) α hs hx
 
+omit [Finite G] in
 theorem aimgJ_Zfix_central
     (α : MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgroup G))) {s z : G}
     (hs : s ∈ CFSG.Quasithin.thompsonJ (S : Subgroup G))

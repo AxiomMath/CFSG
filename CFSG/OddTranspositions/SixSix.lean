@@ -19,7 +19,7 @@ theorem exists_l2Wreath_of_not_isSimpleGroup_minimalNormal
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
     {M : Subgroup G} (hM : Asc72.IsMinimalNormal M) (hMns : ¬ IsSimpleGroup M) :
     ∃ f n : ℕ, 2 ≤ f ∧ Nonempty (G ≃* L2Wreath f n) := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   obtain ⟨W⟩ := nonempty_wreathData hC.setup hrad hM hMns
   have hcent : Subgroup.centralizer (M : Set G) = ⊥ :=
     centralizer_eq_bot_of_minimal hC.setup hrad hM
@@ -32,8 +32,8 @@ theorem le_blockKernel_of_ne_bot (hC : HypothesisC (G := G) D)
     M ≤ blockKernel hC.alpha := by
   classical
   by_contra hnot
-  haveI : M.Normal := hM.1
-  haveI : (blockKernel hC.alpha).Normal := blockKernel_normal hC.alpha
+  have : M.Normal := hM.1
+  have : (blockKernel hC.alpha).Normal := blockKernel_normal hC.alpha
   have hInfNormal : (M ⊓ blockKernel hC.alpha).Normal := inferInstance
   have hInf := hM.2.2 (M ⊓ blockKernel hC.alpha) hInfNormal inf_le_left
   rcases hInf with hbot | htop

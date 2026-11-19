@@ -31,9 +31,9 @@ private theorem Conj.inv {ν : X} {u z : Fin 5 → ZMod 2} (h : Conj g ν u z) :
   rw [← h]
   group
 
-private theorem Conj.zero (hg : IsE5 g) (ν : X) : Conj g ν 0 0 := by
+private theorem Conj.zero (_hg : IsE5 g) (ν : X) : Conj g ν 0 0 := by
   unfold Conj
-  rw [hg.mono_zero]
+  rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero]
   group
 
 private theorem Conj.add (hg : IsE5 g) {ν : X} {p p' q q' : Fin 5 → ZMod 2}

@@ -176,15 +176,15 @@ theorem Psi_eq_of_cl_eq {a b : T.H} (ha : (a : G) ∈ S.QG) (hb : (b : G) ∈ S.
   · have : b = a * ⟨S.z, T.z_mem_H⟩ := Subtype.ext h1
     rw [this, map_mul, T.Psi_z, mul_one]
 
-theorem exists_Phi : ∃ Φ : S.Qt → S.O, ∀ (y : G) (hyQ : y ∈ S.QG) (hy : y ∈ T.H),
+theorem exists_Phi : ∃ Φ : S.Qt → S.O, ∀ (y : G) (_hyQ : y ∈ S.QG) (hy : y ∈ T.H),
     Φ (S.cl y) = T.Psi ⟨y, hy⟩ := by
   classical
   refine ⟨fun w => if h : ∃ yh : T.H, (yh : G) ∈ S.QG ∧ S.cl yh = w then T.Psi h.choose else 1,
-    fun y hyQ hy => ?_⟩
-  have h : ∃ yh : T.H, (yh : G) ∈ S.QG ∧ S.cl yh = S.cl y := ⟨⟨y, hy⟩, hyQ, rfl⟩
+    fun y _hyQ hy => ?_⟩
+  have h : ∃ yh : T.H, (yh : G) ∈ S.QG ∧ S.cl yh = S.cl y := ⟨⟨y, hy⟩, _hyQ, rfl⟩
   dsimp only
-  rw [dif_pos h]
-  exact T.Psi_eq_of_cl_eq h.choose_spec.1 hyQ h.choose_spec.2
+  rw [dite_eq_left h]
+  exact T.Psi_eq_of_cl_eq h.choose_spec.1 _hyQ h.choose_spec.2
 
 @[expose] noncomputable def Phi : S.Qt → S.O := Classical.choose T.exists_Phi
 

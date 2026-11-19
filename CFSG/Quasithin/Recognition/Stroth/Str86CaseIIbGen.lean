@@ -134,7 +134,6 @@ theorem str86_caseIIb_generation
     rw [CFSG.Quasithin.mem_conjSubgroup_iff]
     constructor
     · intro hy
-      change y ∈ ((conjSubgroup A g).subgroupOf H).map π
       change gbar * y * gbar⁻¹ ∈ (A.subgroupOf H).map π at hy
       rw [Subgroup.mem_map] at hy
       obtain ⟨a, ha, haπ⟩ := hy
@@ -191,7 +190,7 @@ theorem str86_caseIIb_sq_le_relIndex
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     {m : ℕ} (hm : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥L2))
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hJZ : ⁅Z2 L1 L2 S, thompsonJ S⁆ ≠ ⊥)
     {K : Subgroup G} (hKQ : K ⊔ Q2 L1 L2 S = u3H L1 L2 S) :
     (2 ^ m) ^ 2 ≤ (Z2 L1 L2 S ⊓ Subgroup.centralizer (K : Set G)).relIndex

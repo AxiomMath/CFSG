@@ -70,6 +70,9 @@ namespace GD
 variable {c : Ctx G L z v H₁ ψ} {g : GLV V} (d : GD c g)
 include d
 
+omit d in
+include c in
+variable (c) in
 theorem H₁_le_normalizer : H₁ ≤ G ⊓ Subgroup.normalizer (HH G L v : Set (GLV V)) := by
   intro h hh
   refine ⟨c.H₁_le_G hh, Subgroup.mem_normalizer_iff.2 fun y => ⟨fun hy => c.conj_mem_H hh hy,
@@ -83,9 +86,9 @@ theorem card_dvd_of_le_normalizer (haut : CaseIIAut) (hG1 : CaseIIG1) {Y : Subgr
   set M := G ⊓ Subgroup.normalizer (HH G L v : Set (GLV V)) with hM
   set CH := G ⊓ Subgroup.centralizer (HH G L v : Set (GLV V)) with hCH
   have hCHM : CH ≤ M := fun k hk => ⟨hk.1, mem_normalizer_of_mem_centralizer hk.2⟩
-  have hH₁M : H₁ ≤ M := d.H₁_le_normalizer
+  have hH₁M : H₁ ≤ M := (CFSG.CGT.Foote82.CaseII.GD.H₁_le_normalizer c)
   have hodd : Odd (Nat.card ↥CH) := d.odd_card_CH hG1
-  haveI hN : (CH.subgroupOf M).Normal := by
+  have hN : (CH.subgroupOf M).Normal := by
     refine ⟨fun k hk m => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     have hm := m.2
@@ -145,7 +148,7 @@ theorem exists_T : ∃ T : Subgroup (GLV V), T ≤ H₁ ∧ IsPGroup 2 T ∧
   set zz : ↥H₁ := ⟨z, c.z_mem⟩
   set uu : ↥H₁ := ⟨g * z * g⁻¹, d.u_mem_H₁⟩
   have hzz : orderOf zz = 2 := by rw [Subgroup.orderOf_mk, c.orderOf_z]
-  have huu : uu * uu = 1 := Subtype.ext d.u_mul_u
+  have huu : uu * uu = 1 := Subtype.ext (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c)
   have hp : ∀ x : ↥H₁, x * x = 1 → IsPGroup 2 (Subgroup.zpowers x) := by
     intro x hx
     rw [IsPGroup.iff_card, Nat.card_zpowers]
@@ -164,13 +167,14 @@ theorem exists_T : ∃ T : Subgroup (GLV V), T ≤ H₁ ∧ IsPGroup 2 T ∧
   have hE := IsPGroup.to_sup_of_normal_left' (hp zz hzz2) (hp uu huu) hnorm
   obtain ⟨S, hS⟩ := hE.exists_le_sylow
   refine ⟨(S : Subgroup ↥H₁).map H₁.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_, ?_⟩
-  · exact (S.isPGroup').map _
+  · exact (S.isPGroup).map _
   · rw [Subgroup.card_map_of_injective H₁.subtype_injective, Sylow.card_eq_multiplicity]
   · exact ⟨zz, hS (Subgroup.mem_sup_left (Subgroup.mem_zpowers zz)), rfl⟩
   · exact ⟨uu, hS (Subgroup.mem_sup_right (Subgroup.mem_zpowers uu)), rfl⟩
 
 end GD
 
+omit [Finite V] in
 theorem commSpace_conj (y a : GLV V) (ha : a * a = 1) :
     commSpace (Subgroup.zpowers (y * a * y⁻¹)) ⊤ =
       (commSpace (Subgroup.zpowers a) ⊤).map (y : V →ₗ[ZMod 2] V) := by
@@ -196,7 +200,7 @@ theorem lemma57 (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {T : Subg
   by_contra hne
   have hlt : T < P := lt_of_le_of_ne hTP (Ne.symm hne)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hT' : T.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
@@ -205,7 +209,7 @@ theorem lemma57 (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {T : Subg
     intro x hx
     have : (⟨x, hx⟩ : ↥P) ∈ T.subgroupOf P := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨y', hy'N, hy'T⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hT')
+  obtain ⟨y', hy'N, hy'T⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hT')
   have hyP : (y' : GLV V) ∈ P := y'.2
   have hyG : (y' : GLV V) ∈ G := hPG hyP
   have hyT : (y' : GLV V) ∉ T := fun h => hy'T (Subgroup.mem_subgroupOf.2 h)
@@ -267,7 +271,7 @@ theorem lemma57 (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {T : Subg
   have hYP : Y ≤ P := sup_le hTP (Subgroup.zpowers_le.2 hyP)
   have hY2 : IsPGroup 2 ↥Y := hP2.to_le hYP
   have hYN : Y ≤ G ⊓ Subgroup.normalizer (HH G L v : Set (GLV V)) :=
-    sup_le (hTH₁.trans d.H₁_le_normalizer) (Subgroup.zpowers_le.2 ⟨hyG, hyN⟩)
+    sup_le (hTH₁.trans (CFSG.CGT.Foote82.CaseII.GD.H₁_le_normalizer c)) (Subgroup.zpowers_le.2 ⟨hyG, hyN⟩)
   have hdvd := d.card_dvd_of_le_normalizer haut hG1 hY2 hYN
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card.1 hY2)
   rw [hk] at hdvd

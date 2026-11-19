@@ -139,13 +139,13 @@ theorem spread_P_step (t j : Nat) :
   · intro h1
     rw [h1] at hk
     subst hk
-    simp only [Nat.add_mul, Nat.mul_add, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm, Nat.one_mul]
+    simp only [Nat.add_mul, Nat.mul_assoc, Nat.mul_comm, Nat.one_mul]
     omega
   · intro h1
     have h0 : d % 2 = 0 := by omega
     rw [h0] at hk
     subst hk
-    simp only [Nat.add_zero, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+    simp only [Nat.add_zero, Nat.mul_assoc, Nat.mul_comm]
 
 theorem spread_and_seven {a : Nat} (ha : a < 8) : a &&& 7 = a := by
   rw [show (7 : Nat) = 2 ^ 3 - 1 from rfl, Nat.and_two_pow_sub_one_eq_mod]
@@ -223,7 +223,6 @@ theorem spread_maskB_rec (t n : Nat) :
   refine spread_rec_inv _ _ (fun n a => a = spread_V (spread_P (t + 1)) (spread_g t) n) rfl ?_ n
   intro n a ha
   subst ha
-  beta_reduce
   rw [spread_V_succ]
   have hb : Nat.land (Nat.shiftRight n t) 1 = n / 2 ^ t % 2 := by
     change n >>> t &&& 1 = _
@@ -284,6 +283,7 @@ theorem spread_mod (x N : Nat) :
     rw [show 3 * (N + 1) = 3 * N + 3 by omega, Nat.pow_add, Nat.mod_mul, ih, spread_V_succ,
       Nat.mul_comm (2 ^ (3 * N))]
 
+set_option exponentiation.threshold 399 in
 theorem spread_init {x : Nat} (hx : x < 2 ^ 399) :
     x = spread_V (spread_P 8) (fun j => x / 2 ^ (3 * j) % 8) 133 := by
   have h1 := spread_mod x 133
@@ -330,7 +330,6 @@ theorem spread_iter {MS x : Nat} (hm : masksOK MS = true) (hx : x < 2 ^ 399) :
     (fun k a => k ≤ 8 → a = spread_V (spread_P (8 - k)) (fun j => x / 2 ^ (3 * j) % 8) 133)
     (fun _ => spread_init hx) ?_
   intro k a ih hk
-  beta_reduce
   rw [ih (by omega), loopStrictN_eq]
   unfold sp1
   rw [loopStrictN_eq]

@@ -118,7 +118,7 @@ theorem core_not_centralizer_le_sup {A B : Subgroup G} {a : G}
   intro hle
   rcases hD with hsolv | ⟨N, hNC, hNcomm, hq, x, hxN, hxc, hx1, hx3⟩
   ·
-    haveI : Group.IsSolvable ↥B :=
+    have : Group.IsSolvable ↥B :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hBC)
     have hne : (⊤ : Subgroup ↥B) ≠ ⊥ := by
       intro htop
@@ -142,7 +142,7 @@ theorem core_not_centralizer_le_sup {A B : Subgroup G} {a : G}
     have hNle : N ≤ A ⊔ B := fun g hg => hle (hNC hg)
     have hBN : B ≤ N := core_B_le_N hBC hNcomm hperf
     have hBnorm : (B.subgroupOf N).Normal := core_subgroupOf_normal hnorm hNle
-    haveI hMnorm : ((B.subgroupOf N).map (QuotientGroup.mk' (Subgroup.center ↥N))).Normal :=
+    have hMnorm : ((B.subgroupOf N).map (QuotientGroup.mk' (Subgroup.center ↥N))).Normal :=
       Subgroup.Normal.map hBnorm (QuotientGroup.mk' (Subgroup.center ↥N))
         (QuotientGroup.mk'_surjective (Subgroup.center ↥N))
     rcases hSimple.eq_bot_or_eq_top_of_normal

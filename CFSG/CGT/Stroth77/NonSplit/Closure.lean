@@ -112,6 +112,7 @@ theorem one_mem_bfsList (gens : List G) (fuel : ℕ) : (1 : G) ∈ bfsList gens 
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem closure_subset_of_closed (gens : List G) (L : List G) (h1 : 1 ∈ L)
     (hS : ∀ s ∈ L, ∀ g ∈ gens, s * g ∈ L) : ∀ c ∈ Subgroup.closure {g | g ∈ gens}, c ∈ L := by
   classical
@@ -141,12 +142,14 @@ theorem closure_subset_of_closed (gens : List G) (L : List G) (h1 : 1 ∈ L)
   have := hle hc 1 (by simpa [S] using h1)
   simpa [S] using this
 
+omit [Finite G] in
 theorem mem_closure_iff_of_stable (gens L : List G) (h1 : 1 ∈ L)
     (hsub : ∀ s ∈ L, s ∈ Subgroup.closure {g | g ∈ gens})
     (hst : ∀ s ∈ L, ∀ g ∈ gens, s * g ∈ L) (g : G) :
     g ∈ Subgroup.closure {g | g ∈ gens} ↔ g ∈ L :=
   ⟨closure_subset_of_closed gens L h1 hst g, hsub g⟩
 
+omit [Finite G] in
 theorem card_closure_of_stable (gens L : List G) (h1 : 1 ∈ L)
     (hsub : ∀ s ∈ L, s ∈ Subgroup.closure {g | g ∈ gens})
     (hst : ∀ s ∈ L, ∀ g ∈ gens, s * g ∈ L) :
@@ -160,15 +163,18 @@ theorem card_closure_of_stable (gens L : List G) (h1 : 1 ∈ L)
 
 @[expose] def stableB (gens L : List G) : Bool := L.all fun s => gens.all fun g => decide (s * g ∈ L)
 
+omit [Finite G] in
 theorem stableB_iff (gens L : List G) :
     stableB gens L = true ↔ ∀ s ∈ L, ∀ g ∈ gens, s * g ∈ L := by
   simp [stableB]
 
+omit [Finite G] in
 theorem mem_closure_bfs (gens : List G) (fuel : ℕ) (h : stableB gens (bfsList gens fuel) = true)
     (g : G) : g ∈ Subgroup.closure {g | g ∈ gens} ↔ g ∈ bfsList gens fuel :=
   mem_closure_iff_of_stable gens _ (one_mem_bfsList gens fuel) (bfsList_subset gens fuel)
     ((stableB_iff _ _).1 h) g
 
+omit [Finite G] in
 theorem card_closure_bfs (gens : List G) (fuel : ℕ) (h : stableB gens (bfsList gens fuel) = true) :
     Nat.card (Subgroup.closure {g | g ∈ gens}) = (bfsList gens fuel).toFinset.card :=
   card_closure_of_stable gens _ (one_mem_bfsList gens fuel) (bfsList_subset gens fuel)

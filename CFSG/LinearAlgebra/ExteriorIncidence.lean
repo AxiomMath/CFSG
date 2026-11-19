@@ -52,16 +52,16 @@ theorem coordinateContract_incidence_basis (b : Module.Basis I k V) (s : Finset 
       TauCeti.ExteriorAlgebra.basisEraseSign i s • (ExteriorAlgebra.ι k (b i) * q) := by
   rw [incidence_tmul, map_sum]
   rw [Finset.sum_eq_single i]
-  · rw [TauCeti.ExteriorAlgebra.contractLeft_coord_basis, if_pos hi]
+  · rw [TauCeti.ExteriorAlgebra.contractLeft_coord_basis, ite_eq_left hi]
     rcases Int.units_eq_one_or (TauCeti.ExteriorAlgebra.basisEraseSign i s) with h | h <;>
-      simp [h, coordinateContract_tmul, Module.Basis.coord_apply]
+      simp [coordinateContract_tmul, Module.Basis.coord_apply]
   · intro j _ hji
     rw [TauCeti.ExteriorAlgebra.contractLeft_coord_basis]
     by_cases hj : j ∈ s
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       have hne := erase_ne_erase s hi hji
       rcases Int.units_eq_one_or (TauCeti.ExteriorAlgebra.basisEraseSign j s) with h | h <;>
-        simp [h, coordinateContract_tmul, Module.Basis.coord_apply, hne.symm]
+        simp [coordinateContract_tmul, Module.Basis.coord_apply, hne.symm]
     · simp [hj]
   · simp
 
@@ -124,7 +124,7 @@ theorem coord_eq_zero_of_incidence_basis (b : Module.Basis I k V) (s t : Finset 
       CliffordAlgebra.contractLeft (Q := (0 : QuadraticForm k V)) (b.coord i) q :=
     sub_eq_zero.mp hc'
   have hcoord := coord_creation_contraction b i t q
-  rw [← he, if_neg hit] at hcoord
+  rw [← he, ite_eq_right hit] at hcoord
   exact hcoord
 
 omit [Fintype I] in
@@ -254,7 +254,7 @@ theorem contract_map_basis (b : Module.Basis I k V) (e : V ≃ₗ[k] V) (i : I)
     intro s
     by_cases hi : i ∈ s
     · rcases Int.units_eq_one_or (TauCeti.ExteriorAlgebra.basisEraseSign i s) with hs | hs <;>
-        simp [Module.Basis.map_exteriorAlgebra, hi, hs]
+        simp [Module.Basis.map_exteriorAlgebra, hi]
     · simp [Module.Basis.map_exteriorAlgebra, hi]
   exact congrArg (fun f : ExteriorAlgebra k V →ₗ[k] ExteriorAlgebra k V => f p) h
 
@@ -265,8 +265,7 @@ theorem incidence_map (b : Module.Basis I k V) (e : V ≃ₗ[k] V)
           (ExteriorAlgebra.map e.toLinearMap).toLinearMap z) =
       TensorProduct.map (ExteriorAlgebra.map e.toLinearMap).toLinearMap
         (ExteriorAlgebra.map e.toLinearMap).toLinearMap (incidence b z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul p q =>
     rw [TensorProduct.map_tmul, incidence_tmul, incidence_tmul, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_

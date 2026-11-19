@@ -67,7 +67,7 @@ theorem t130_u_apply_ca {m : ℕ} {i F G N K J : ℤ} (h : Type130.Data m i F G 
         y • gen (Type130.k m) 2 := by
   rw [map_add, map_zsmul, map_zsmul, t130_u_c_data h, t130_u_a_data h]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul] <;> ring
+  fin_cases i <;> simp [gen, zsmul_eq_mul]; ring
 
 theorem t130_u_apply_gens {m : ℕ} {i F G N K J : ℤ} (h : Type130.Data m i F G N K J)
     (x y w : ℤ) :
@@ -80,7 +80,7 @@ theorem t130_u_apply_gens {m : ℕ} {i F G N K J : ℤ} (h : Type130.Data m i F 
   rw [map_add, map_add, map_zsmul, map_zsmul, map_zsmul, t130_u_c_data h,
     t130_u_a_data h, t130_u_b_data h]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul] <;> ring
+  fin_cases i <;> simp [gen, zsmul_eq_mul]; ring
 
 theorem t130_uvM_cols (i F G N : ℤ) :
     Type130.uvM i F G N 0 0 = -i ∧
@@ -90,8 +90,7 @@ theorem t130_uvM_cols (i F G N : ℤ) :
       Type130.uvM i F G N 2 0 = -2 ∧
       Type130.uvM i F G N 2 1 = 2 * i := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    simp [Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, ofCols_apply,
-      Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_three] <;>
+    simp [Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, ofCols_apply] <;>
     ring
 
 theorem t130_uv_c_data {m : ℕ} {i F G N K J : ℤ} (h : Type130.Data m i F G N K J) :
@@ -118,7 +117,7 @@ theorem t130_uv_apply_ca {m : ℕ} {i F G N K J : ℤ} (h : Type130.Data m i F G
         ((-2) * x + (2 * i) * y) • gen (Type130.k m) 2 := by
   rw [map_add, map_zsmul, map_zsmul, t130_uv_c_data h, t130_uv_a_data h]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul] <;> ring
+  fin_cases i <;> simp [gen, zsmul_eq_mul] <;> ring
 
 theorem t130_u_a_half :
     (StrothTypeIndex.t130 m hm).action.φu
@@ -137,7 +136,7 @@ theorem t130_u_a_half :
     ?_ ?_ ?_
   · simpa only [zero_smul, zero_add, add_zero] using h
   · refine ⟨4 * Type120.FV (m + 1), ?_⟩
-    simp only [Type130.k, Fin.zero_eta, Fin.isValue]
+    simp only [Type130.k, Fin.isValue]
     push_cast
     ring
   · exact ⟨0, by ring⟩
@@ -163,16 +162,16 @@ theorem t130_uv_fixes_a_half :
     ?_ ?_ ?_
   · simpa only [zero_smul, zero_add, add_zero] using h
   · refine ⟨-(2 * Type120.iV (m + 1) * Type120.FV (m + 1)), ?_⟩
-    simp only [Type130.k, Fin.zero_eta, Fin.isValue]
+    simp only [Type130.k, Fin.isValue]
     push_cast
     ring
   · refine ⟨20 * Type120.GV (m + 1) + 48, ?_⟩
-    simp only [Type130.k, Fin.mk_one, Fin.isValue]
+    simp only [Type130.k, Fin.isValue]
     push_cast
     rw [hi]
     ring
   · refine ⟨-Type120.iV (m + 1), ?_⟩
-    simp only [Type130.k, Fin.reduceFinMk, Fin.isValue]
+    simp only [Type130.k, Fin.isValue]
     push_cast
     ring
 
@@ -346,6 +345,7 @@ theorem t130_φuv_ab_half :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t130_u_swaps_a_half :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ m) * dD.u = (dD.b : G) ^ 2 ^ m := by
   have h := dD.conj_ofTorus dD.u_mem dD.u_conj
@@ -355,6 +355,7 @@ theorem t130_u_swaps_a_half :
   rw [StrothWeakTypeData.ofTorus_nsmul, ← dD.b_eq] at h
   exact h
 
+omit [Finite G] in
 theorem t130_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t130 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t130 m hm).n - 2) =
@@ -381,8 +382,8 @@ theorem t130_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 3 ≤
   set bh : G := (dD.b : G) ^ 2 ^ m with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 1) * ab ^ 2 ^ (m - 1) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (m + 1) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -607,8 +608,8 @@ theorem t130_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 3 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

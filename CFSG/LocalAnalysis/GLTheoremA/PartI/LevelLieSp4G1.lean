@@ -32,7 +32,7 @@ theorem card_F8 : Nat.card F8 = 8 := by
 
 theorem no_root_F8 (x : F8) : x * x + x + 1 ≠ 0 := by
   classical
-  haveI : Fintype F8 := Fintype.ofFinite F8
+  have : Fintype F8 := Fintype.ofFinite F8
   exact no_root (by rw [← Nat.card_eq_fintype_card]; exact card_F8) x
 
 theorem natDegree_h0 (K : Type) [Field K] : (h0 K).natDegree = 2 := by
@@ -108,7 +108,7 @@ theorem ne_one_of_Pm {K : Type} [Field K] [CharP K 2] {A : ↥(StatedSp 2 K)}
 
 theorem orderOf_proj_of_Pm (A : ↥(StatedSp 2 F8)) (hA3 : A ^ 3 = 1) (hP : Pm (mat A) = 0) :
     orderOf (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj 2 F8 A) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · rw [← map_pow, hA3, map_one]
   · intro h1
@@ -123,7 +123,7 @@ theorem orderOf_proj_of_Pm (A : ↥(StatedSp 2 F8)) (hA3 : A ^ 3 = 1) (hP : Pm (
       rfl
     have h := congrFun (congrFun hP (Sum.inl 0)) (Sum.inl 0)
     rw [hm] at h
-    simp [Pm, Matrix.scalar_apply, sq] at h
+    simp [Pm, Matrix.scalar_apply] at h
     exact no_root_F8 c h
 
 end CFSG.LocalAnalysis.GLTheoremA.LevelLieSp4G

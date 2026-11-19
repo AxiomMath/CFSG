@@ -46,9 +46,9 @@ lemma le_center_of_commSub_eq_top {M : Type} [Group M] (σ : MulAut M)
 
 lemma smul_mem_complement {q : ℕ} (hq : q.Prime) {M : Type} [Group M] [Finite M]
     (σ : MulAut M) {N C : Subgroup M} (hqind : ¬ q ∣ N.index) (hNpg : IsPGroup q N)
-    (hcenter : N ≤ Subgroup.center M) (hfixN : ∀ n ∈ N, σ n = n)
+    (hcenter : N ≤ Subgroup.center M) (_hfixN : ∀ n ∈ N, σ n = n)
     (hC : Subgroup.IsComplement' N C) : ∀ c ∈ C, σ c ∈ C := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcardC : Nat.card C = N.index := hC.card_right
   have hqC : ∀ x ∈ C, ¬ q ∣ orderOf (x : M) := by
     intro x hx
@@ -98,8 +98,8 @@ lemma commSub_le_complement {M : Type} [Group M] (σ : MulAut M) {N C : Subgroup
 
 theorem chiefAb_holds : K22p.ChiefAb := by
   intro q hq M _ _ σ hcomm N hNnormal hNpg hqind hfix
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : N.Normal := hNnormal
+  have : Fact q.Prime := ⟨hq⟩
+  have : N.Normal := hNnormal
   have hfixN : ∀ n ∈ N, σ n = n :=
     fun n hn => smul_eq_of_mem_of_normal_isPGroup σ hNpg hfix hn
   have hcenter : N ≤ Subgroup.center M :=

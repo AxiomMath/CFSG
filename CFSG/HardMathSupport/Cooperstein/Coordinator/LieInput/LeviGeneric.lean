@@ -16,7 +16,7 @@ variable {K Y : Type} [Group K] [Group Y]
 
 theorem leviM_mono_gen {D : UniversalRootDatum K} {J J' : Set (Fin D.rank)} (h : J ⊆ J') :
     leviM D J ≤ leviM D J' :=
-  iSup₂_le fun i hi => rankOne_le_leviM (h hi)
+  iSup₂_le fun _i hi => rankOne_le_leviM (h hi)
 
 theorem leviM_le_centralizer_of_rankOne {D : UniversalRootDatum K} {J J' : Set (Fin D.rank)}
     (h : ∀ i ∈ J, ∀ j ∈ J', rankOne D.rootGroup i ≤
@@ -51,7 +51,7 @@ theorem decomp_of_chev (π : K →* Y)
 variable {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K}
 
 theorem leviOb_of_node_family
-    (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
+    (_hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H)
     (hext : SteinbergExtras D n H) (π : K →* Y) (I : Set (Fin D.rank))
     {β : Type} [Fintype β] (J : β → Set (Fin D.rank))

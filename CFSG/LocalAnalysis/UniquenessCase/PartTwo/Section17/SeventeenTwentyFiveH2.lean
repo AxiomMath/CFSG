@@ -103,10 +103,10 @@ theorem pRank_centSection_quotient_le_two
     CFSG.SectionRank.pRank_top_le_of_injective (p := 5) (by norm_num)
       (QuotientGroup.kerLift (psiM (D := D) (L := L) hNL))
       (QuotientGroup.kerLift_injective _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fintype (CFSG.Blueprint.NativeSporadic.Carrier .J2) := Fintype.ofFinite _
-  haveI : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .J2)) :=
+  have : Fintype (CFSG.Blueprint.NativeSporadic.Carrier .J2) := Fintype.ofFinite _
+  have : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .J2)) :=
     Finite.of_fintype _
   obtain ⟨e⟩ := hJ2
   have hcard := CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 5) (by norm_num)
@@ -126,15 +126,15 @@ theorem five_dvd_centSection
     (hSg : UC6S846.SigmaStd D) (hsig : D.sig = {5}) :
     5 ∣ Nat.card (centSection D.M L (pCoreOf 2 L)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h5sig : 5 ∈ D.sig := by rw [hsig]; simp
   have h3 : 3 ≤ CFSG.Open.pRank 5 D.M := hSg.three_le 5 h5sig
   obtain ⟨E, hEM, hEel, hEcard⟩ :=
     CFSG.PreuniquenessRankFour.Helpers.pRank_attained 5 Nat.prime_five D.M
   by_contra hnot
   have hker := psiM_ker (D := D) (L := L) hNL
-  haveI : ((centSection D.M L (pCoreOf 2 L)).subgroupOf D.M).Normal := by
+  have : ((centSection D.M L (pCoreOf 2 L)).subgroupOf D.M).Normal := by
     rw [← hker]; infer_instance
   have hEinf : E ⊓ centSection D.M L (pCoreOf 2 L) = ⊥ := by
     rw [eq_bot_iff]
@@ -212,7 +212,7 @@ theorem not_strong3_of_J2
     (c : Ctx17_17 D V₀ V L) :
     ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := by
   intro hsp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
   rcases h17_22 L P (centerOf P) c hP rfl with hHe | ⟨-, -, hnotΓ, -⟩
   · exact absurd (h17_23 L c) (not_isSpor_He_of_isSpor_J2 (Bar2 L) hHe)
@@ -235,20 +235,21 @@ theorem two_le_pRank_bar2_J2
     (hJ2 : IsSpor (Bar2 L) .J2) :
     2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup (Bar2 L)) := by
   classical
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fintype (CFSG.Blueprint.NativeSporadic.Carrier .J2) := Fintype.ofFinite _
+  have : Fintype (CFSG.Blueprint.NativeSporadic.Carrier .J2) := Fintype.ofFinite _
   obtain ⟨e⟩ := hJ2
   have hrank := CFSG.RankThree.PartTwo.Sec17.G1724.two_le_pRank_five_J2
   have heq := CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 5) (by norm_num) e
   rw [heq]
   exact hrank
 
+omit [Finite G] in
 theorem center_bar2_eq_bot
     (hJ2 : IsSpor (Bar2 L) .J2) :
     Subgroup.center (Bar2 L) = ⊥ := by
   obtain ⟨e⟩ := hJ2
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     (MulEquiv.isSimpleGroup_congr e).mpr CFSG.Sporadic.J2.isSimpleGroup_J2
   refine CFSG.Quasithin.H13.FiveNorm.center_eq_bot_of_card_not_prime ?_
   rw [(Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J2.card_J2]
@@ -316,18 +317,18 @@ theorem centralizer_map_bar2_eq_top
     ((L ⊓ Subgroup.centralizer (F : Set G)).subgroupOf L).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let B : Subgroup ↥L := CFSG.pCore 2 ↥L
   let π : ↥L →* Bar2 L := QuotientGroup.mk' B
   have hFL : F ≤ Subgroup.normalizer (L : Set G) :=
     hFC.trans ((centSection_le _ _ _).trans hNL)
   let ρ : ↥F →* MulAut ↥L :=
     (Subgroup.normalizerMonoidHom (H := L)).comp (Subgroup.inclusion hFL)
-  letI : MulDistribMulAction ↥F ↥L := MulDistribMulAction.compHom ↥L ρ
+  let : MulDistribMulAction ↥F ↥L := MulDistribMulAction.compHom ↥L ρ
   let ρbar : ↥F →* MulAut (Bar2 L) :=
     (MulAut.mapQuotient B).comp ρ
-  letI : MulDistribMulAction ↥F (Bar2 L) := MulDistribMulAction.compHom (Bar2 L) ρbar
+  let : MulDistribMulAction ↥F (Bar2 L) := MulDistribMulAction.compHom (Bar2 L) ρbar
   have hequiv : ∀ (a : ↥F) (x : ↥L), π (a • x) = a • π x := by
     intro a x
     change π (ρ a x) = (MulAut.mapQuotient B) (ρ a) (π x)
@@ -375,8 +376,8 @@ theorem two_le_pRank_centralizer
     (hF5 : IsPGroup 5 F) :
     2 ≤ CFSG.Open.pRank 5 (L ⊓ Subgroup.centralizer (F : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let CL : Subgroup G := L ⊓ Subgroup.centralizer (F : Set G)
   have hCLle : CL ≤ L := inf_le_left
   let K : Subgroup ↥L := CL.subgroupOf L
@@ -444,8 +445,8 @@ theorem pRank_five_centSection_le_one
     (c : Ctx17_17 D V₀ V L) :
     CFSG.Open.pRank 5 (centSection D.M L (pCoreOf 2 L)) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   have h2C : 2 ≤ CFSG.Open.pRank 5 (centSection D.M L (pCoreOf 2 L)) := by omega
   obtain ⟨F, hFC, hFel, hFcard⟩ :=
@@ -523,7 +524,7 @@ theorem pRank_five_centSection_eq_one
     (c : Ctx17_17 D V₀ V L) :
     CFSG.Open.pRank 5 (centSection D.M L (pCoreOf 2 L)) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5dvd : 5 ∣ Nat.card (centSection D.M L (pCoreOf 2 L)) :=
     five_dvd_centSection (D := D) (L := L) hNL hJ2 hJ2aut hSg hsig
   have h1 : 1 ≤ CFSG.Open.pRank 5 (centSection D.M L (pCoreOf 2 L)) := by
@@ -549,7 +550,7 @@ theorem solvable_centSection_of_J2
     (h17_22 : R17_22At D V₀ V) (h17_23 : R17_23At D V₀ V)
     (c : Ctx17_17 D V₀ V L) :
     Group.IsSolvable ↥(centSection D.M L (pCoreOf 2 L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
   rcases h17_22 L P (centerOf P) c hP rfl with hHe | ⟨-, -, -, -, -, -, hsolv⟩
   · exact absurd (h17_23 L c) (not_isSpor_He_of_isSpor_J2 (Bar2 L) hHe)
@@ -561,7 +562,7 @@ theorem solvable_sup_T_centSection
     (c : Ctx17_17 D V₀ V L) :
     Group.IsSolvable ↥(D.T ⊔ centSection D.M L (pCoreOf 2 L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centSection D.M L (pCoreOf 2 L)
   let Y : Subgroup G := D.T ⊔ C
   have hCY : C ≤ Y := le_sup_right
@@ -591,8 +592,8 @@ theorem pRank_five_sup_le_one
     (c : Ctx17_17 D V₀ V L) :
     CFSG.Open.pRank 5 (D.T ⊔ centSection D.M L (pCoreOf 2 L)) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centSection D.M L (pCoreOf 2 L)
   let Y : Subgroup G := D.T ⊔ C
   have hCY : C ≤ Y := le_sup_right
@@ -605,12 +606,11 @@ theorem pRank_five_sup_le_one
       (centSection_le_normalizer (M := D.M) (L := L) hNL)
   have hNnormalY : (C.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCY).mpr hYnorm
-  letI := hNnormalY
+  let := hNnormalY
   have hQ2 : IsPGroup 2 (↥Y ⧸ (C.subgroupOf Y)) :=
     CFSG.GroupTheory.isPGroup_quotient_sup_left (p := 2) D.sylowM.isPGroup
   have hYP : ∀ E : Subgroup G, E ≤ Y → IsElemAbelian 5 E → E ≤ C := by
-    intro E hEY hEel
-    intro e he
+    intro E hEY hEel e he
     let eY : ↥Y := ⟨e, hEY he⟩
     have hpow : e ^ 5 = 1 := hEel.2 e he
     have hdvd5 : orderOf (QuotientGroup.mk' (C.subgroupOf Y) eY) ∣ 5 := by

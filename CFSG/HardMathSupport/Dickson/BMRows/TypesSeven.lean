@@ -20,7 +20,7 @@ theorem card_mulAut_of_equiv_alt {T : Type} [Group T] {n : ℕ} (hn : 5 ≤ n) (
 theorem isSimpleGroup_of_catalog_A1 {T : Type} [Group T] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) (hq : 4 ≤ q.card)
     (e : T ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) : IsSimpleGroup T := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   exact (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)).isSimpleGroup_congr.2
@@ -30,7 +30,7 @@ theorem isSimpleGroup_of_catalog_A1 {T : Type} [Group T] (q : TauCeti.PrimePower
 theorem card_mulAut_of_catalog_A2_four {T : Type} [Group T] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) (hq : q.card = 4)
     (e : T ≃* (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩).Group) : Nat.card (MulAut T) = 241920 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF : Nat.card (GaloisField q.p q.exponent) = 4 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def, hq]
   let f : T ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3
@@ -50,7 +50,7 @@ theorem not_sq_seven_dvd_card_mulAut_of_chev_dvd_80640
     rintro ⟨d, hv⟩ ⟨e⟩
     have hn := hb ⟨d, hv⟩ T ⟨e⟩
     obtain ⟨q, ⟨rfl, hq | hq⟩ | ⟨rfl, hq⟩⟩ := Lie80640.lieOrderFormula_dvd_80640 hv (hn ▸ hd)
-    · haveI := isSimpleGroup_of_catalog_A1 q hv (by omega) e
+    · have := isSimpleGroup_of_catalog_A1 q hv (by omega) e
       have h168 : Nat.card T = 168 := by
         rw [hn]
         show orderA 1 q.card = 168

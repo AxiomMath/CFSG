@@ -110,8 +110,8 @@ theorem uc22s2114_pRank_three_of_lieRank_four (hT : LieOddRankChev) (hN : uc22p2
       Nat.prime_three (by norm_num)]
     by_cases hev : Even f
     · exact Or.inl (le_trans (by omega)
-        (uc22p20v_rkLin_true_one (m := m) (by rw [uc22p20v_eP_three, if_pos hev])))
-    · rw [uc22p20v_rkLin_true_two (by rw [uc22p20v_eP_three, if_neg hev] : eP (2 ^ f) 3 = 2)]
+        (uc22p20v_rkLin_true_one (m := m) (by rw [uc22p20v_eP_three, ite_eq_left hev])))
+    · rw [uc22p20v_rkLin_true_two (by rw [uc22p20v_eP_three, ite_eq_right hev] : eP (2 ^ f) 3 = 2)]
       by_cases hm5 : m = 5
       · exact Or.inr ⟨rfl, hm5, Nat.not_even_iff_odd.1 hev, by omega⟩
       · exact Or.inl (by omega)

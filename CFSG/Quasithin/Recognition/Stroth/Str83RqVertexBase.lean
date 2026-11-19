@@ -18,7 +18,7 @@ theorem exists_sylow_oTwoQuot_of_isSylowTwoOf {L T : Subgroup G} [Finite ↥L]
     ∃ P : Sylow 2 (oTwoQuot ↥L), (P : Subgroup (oTwoQuot ↥L)) =
       (T.subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := F7.isSylowTwoOf_exists_sylow hT
   refine ⟨S.mapSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   rw [Sylow.coe_mapSurjective, hS]

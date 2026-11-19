@@ -109,7 +109,7 @@ theorem s16c4_r52_root_group (D : Data G) (h22 : R1622 D) {V₀ V L : Subgroup G
       refine ⟨hBA hb, ?_⟩
       rw [Subgroup.mem_centralizer_iff]
       intro z hz
-      simp only [hZ, Subgroup.mem_inf] at hz
+      simp only [hZ] at hz
       exact (Subgroup.mem_centralizer_iff.1 hz.2 b hb).symm
   have he : mSub B = 5 + mSub V₀ := by
     have hcard := s16c7_card_mul_card_preBarSub hV hAst hBbarA

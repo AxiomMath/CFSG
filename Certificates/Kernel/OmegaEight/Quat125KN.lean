@@ -48,7 +48,7 @@ theorem neg125Fix : Bool.not (strictB e4U (fun U => strictB om0V fun V =>
       bIf(bAnd(Nat.beq (pg 9 511 U q) q, Nat.beq (pg 9 511 V q) q), false, true)))) = true := by
   quickRfl
 
-theorem neg125Cl : Bool.not (strictB (pinv e4U) fun Ui => strictB (pinv om0V) fun Vi =>
+theorem neg125Cl : Bool.not (strictB (pinv e4U) fun _Ui => strictB (pinv om0V) fun _Vi =>
     q125AllL (e4L.take 7) (fun x => bAnd(e4Mem (e4L.take 7) (pc e4U x),
       e4Mem (e4L.take 7) (pc om0V x)))) = true := by quickRfl
 

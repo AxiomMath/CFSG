@@ -17,11 +17,12 @@ section Quotient
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem prime_mul_card_dvd_card {B M : Subgroup G} (hBM : B ≤ M)
     (hN : ∀ m ∈ M, ∀ b ∈ B, m * b * m⁻¹ ∈ B) {p : ℕ} (hp : p.Prime) {r : G}
     (hr : r ∈ M) (hrB : r ∉ B) (hrp : r ^ p ∈ B) : p * Nat.card B ∣ Nat.card M := by
   classical
-  haveI hnorm : (B.subgroupOf M).Normal :=
+  have hnorm : (B.subgroupOf M).Normal :=
     ⟨fun n hn m => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hN m m.2 n hn⟩
@@ -87,7 +88,7 @@ theorem ctx_lmodel_of (h : Ctx0 t L S x₁ x₂ lam rho) : CtxLModelFacts L x₁
       refine Subgroup.mem_inf.mpr ⟨hBL hb, ?_⟩
       rw [Subgroup.mem_centralizer_iff]
       intro g hg
-      haveI : IsMulCommutative (baseGrp x₁ x₂) := hAbel
+      have : IsMulCommutative (baseGrp x₁ x₂) := hAbel
       exact congrArg Subtype.val (mul_comm' (⟨g, hg⟩ : baseGrp x₁ x₂) ⟨b, hb⟩)
   refine ⟨hcent, ?_⟩
   have hlamsq : lam * lam = 1 := by
@@ -190,7 +191,7 @@ theorem ctx_lmodel_of (h : Ctx0 t L S x₁ x₂ lam rho) : CtxLModelFacts L x₁
   have hlamB' : lam ∉ baseGrp x₁ x₂ := by
     intro hl
     have hc : lam * x₁ = x₁ * lam := by
-      haveI : IsMulCommutative (baseGrp x₁ x₂) := hAbel
+      have : IsMulCommutative (baseGrp x₁ x₂) := hAbel
       exact congrArg Subtype.val (mul_comm' (⟨lam, hl⟩ : baseGrp x₁ x₂) ⟨x₁, hx₁B⟩)
     have h21 : x₂ = x₁ := by
       rw [← h.wreath.conj_x₁, hc]

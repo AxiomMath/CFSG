@@ -23,7 +23,7 @@ theorem not_h2a_of_E_p2 {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     ∃ F : Subgroup (MulAut S), F ≤ (MulAut.conj : S →* MulAut S).range ∧
       CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ 2 ∧
       ∃ T : Subgroup S, T ≠ ⊥ ∧ IsPGroup 2 T ∧ ∀ φ ∈ F, T.map φ.toMonoidHom = T := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcentre : ∀ g : S, (∀ x : S, g * x = x * g) → g = 1 := by
     intro g hg
     rcases hS.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
@@ -191,8 +191,8 @@ private lemma gl12kC2_core {K : Type} [Field K] (x : K) (hx0 : x ≠ 0) (hx13 : 
     ∃ a b z : Matrix.ProjectiveSpecialLinearGroup (Fin 4) K,
       a * b = b * a ∧ orderOf a = 13 ∧ orderOf b = 13 ∧ b ∉ Subgroup.zpowers a ∧
         orderOf z = 2 ∧ a * z = z * a ∧ b * z = z * b := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : (1 : K) ≠ -1 := by
     intro h
     apply h2
@@ -315,7 +315,7 @@ theorem exists_E_p2_of_A3_27 {q : PrimePower} (hv : (LieTypeIndex.A 3 q).Valid) 
     {T : Type} [Group T] (e : T ≃* ValidLieTypeIndex.Group ⟨.A 3 q, hv⟩) :
     ∃ a b z : T, a * b = b * a ∧ orderOf a = 13 ∧ orderOf b = 13 ∧ b ∉ Subgroup.zpowers a ∧
       orderOf z = 2 ∧ a * z = z * a ∧ b * z = z * b := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : q.p ^ q.exponent = 27 := (PrimePower.card_def q).symm.trans hq
   have hexp : q.exponent ≠ 0 := q.exponent_pos.ne'
   have hKcard : Nat.card (GaloisField q.p q.exponent) = 27 := by
@@ -324,7 +324,7 @@ theorem exists_E_p2_of_A3_27 {q : PrimePower} (hv : (LieTypeIndex.A 3 q).Valid) 
   have hdvd : 13 ∣ Nat.card (GaloisField q.p q.exponent)ˣ := by
     rw [Nat.card_units, hKcard]
     norm_num
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 13 hdvd
   have hu1 : u ≠ 1 := by
     intro h
@@ -377,7 +377,7 @@ private lemma gl12kC3_pow {K : Type} [Field K] (a b c : K) (n : ℕ) :
   induction n with
   | zero =>
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [gl12kC3_tri, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp [gl12kC3_tri]
   | succ n ih =>
     rw [pow_succ, ih]
     ext i j
@@ -397,7 +397,7 @@ private def gl12kC3_U (K : Type) [Field K] : Subgroup (Matrix.SpecialLinearGroup
     refine ⟨-a, -b, a * b - c, ?_⟩
     rw [Matrix.SpecialLinearGroup.coe_inv, hg, Matrix.adjugate_fin_three_of]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp <;> ring
+    fin_cases i <;> fin_cases j <;> simp
 
 private def gl12kC3_x (K : Type) [Field K] : Matrix.SpecialLinearGroup (Fin 3) K :=
   ⟨!![1, 1, 0; 0, 1, 0; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
@@ -474,7 +474,7 @@ private theorem gl12kC3_main {K : Type} [Field K] (hchar : ((13 : ℕ) : K) = 0)
     rw [Matrix.SpecialLinearGroup.coe_pow, hu, gl12kC3_pow, Matrix.SpecialLinearGroup.coe_one,
       gl12kC3_tri_thirteen]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hchar', h78, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp [hchar', h78]
   have hT : ∀ x ∈ gl12kC3_Q K φ, x ^ 13 = 1 := by
     intro x hx
     obtain ⟨u, hu, hux⟩ := Subgroup.mem_map.mp ((gl12kC3_mem_Q K φ x).mp hx)
@@ -507,7 +507,7 @@ private theorem gl12kC3_main {K : Type} [Field K] (hchar : ((13 : ℕ) : K) = 0)
 theorem exists_nonabelian_pSubgroup_of_A2_13 {q : PrimePower} (hv : (LieTypeIndex.A 2 q).Valid)
     (hq : q.card = 13) {T : Type} [Group T] (e : T ≃* ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩) :
     ∃ Q : Subgroup T, IsPGroup 13 Q ∧ ∃ a ∈ Q, ∃ b ∈ Q, a * b ≠ b * a := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : q.p ^ q.exponent = 13 := (PrimePower.card_def q).symm.trans hq
   have hdvd : q.p ∣ 13 := by
     rw [← hcard]
@@ -662,7 +662,7 @@ theorem kF135GL12_of_inputs
             ∃ T : Subgroup S, T ≠ ⊥ ∧ IsPGroup 2 T ∧ ∀ φ ∈ F, T.map φ.toMonoidHom = T) :
     KF135GL12 := by
   intro S _ _ hK hS hnab hGL p hp hp7 P hP hcard hexp hH2a
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPinn : ∀ x ∈ P, x ∈ (MulAut.conj : S →* MulAut S).range := by
     intro x hx
     by_cases hx1 : x = 1
@@ -697,7 +697,7 @@ theorem kF135GL12_of_inputs
     have h2 : 3 ≤ k := (Nat.pow_le_pow_iff_right (by norm_num)).mp h1
     exact ((pow_dvd_pow 13 h2).trans (hk ▸ dvd_refl _)).trans
       (hk ▸ Subgroup.card_subgroup_dvd_card P0)
-  haveI := hS
+  have := hS
   obtain ⟨i, ⟨e'⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.SmallRank.isCatalogGroup_of_isKGroup_simple hK
   cases i with
@@ -710,7 +710,7 @@ theorem kF135GL12_of_inputs
     exact mul_comm _ _
   | alternating m hm =>
     exfalso
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hcardS : Nat.card S = m.factorial / 2 := by
       have h1 : Nat.card S = Nat.card (alternatingGroup (Fin m)) := Nat.card_congr e'.toEquiv
       rw [h1, nat_card_alternatingGroup (α := Fin m)]

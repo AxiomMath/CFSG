@@ -142,7 +142,7 @@ theorem zc_isPGroup_zpowers {G : Type*} [Group G] {t : G} {n : ℕ} (ht : t ^ 2 
 theorem zc_exists_conj_mem_of_card {M : Type*} [Group M] [Finite M] (S : Subgroup M) (k : ℕ)
     (hS : Nat.card S = 2 ^ k) (hk : ¬ 2 ^ (k + 1) ∣ Nat.card M) {u : M} (hu : u * u = 1) :
     ∃ g : M, g * u * g⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ^ k ∣ Nat.card M := by
     rw [← hS]
     exact Subgroup.card_subgroup_dvd_card S
@@ -157,7 +157,7 @@ theorem zc_exists_conj_mem_of_card {M : Type*} [Group M] [Finite M] (S : Subgrou
   have hP : (P : Subgroup M) = S := rfl
   have hut : u ^ 2 ^ 1 = 1 := by rw [pow_one, pow_two]; exact hu
   obtain ⟨R, hR⟩ := (zc_isPGroup_zpowers hut).exists_le_sylow
-  haveI : Finite (Sylow 2 M) :=
+  have : Finite (Sylow 2 M) :=
     Finite.of_injective (fun Q : Sylow 2 M => (Q : Set M)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq M R P
   refine ⟨g, ?_⟩
@@ -239,7 +239,7 @@ theorem zc_exists_pow_lt_of_mem_zpowers {G : Type*} [Group G] [Finite G] {z g : 
 
 theorem zc_orderOf_mk_eq_prime {M : Subgroup A} {z : A} (hzM : z ∈ M) {p : ℕ} (hp : p.Prime)
     (hz : z ^ p = 1) (hz1 : z ≠ 1) : orderOf (⟨z, hzM⟩ : M) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (Subtype.ext (by simpa using hz))
     (fun e => hz1 (by simpa using congrArg Subtype.val e))
 
@@ -251,7 +251,7 @@ theorem zc_mem_zConjClosure_iff [Finite A] {M : Subgroup A} {z₀ u : A} (hz : z
     rw [zConjClosure, MonoidHom.map_closure]
     congr 1
     ext c
-    simp only [Set.mem_image, Set.mem_setOf_eq, hcs]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, hcs]
     constructor
     · rintro ⟨x, ⟨g, hg, rfl⟩, rfl⟩
       obtain ⟨i, hi, rfl⟩ := zc_exists_pow_lt_of_mem_zpowers hord hg

@@ -82,14 +82,14 @@ theorem ggQ2s08_a6f_jPos
     obtain ⟨s₀, hs₀⟩ : S.Nonempty := Finset.card_pos.mp (by omega)
     have hinj : Function.Injective (fun p : ({i // i ∉ S} → ZMod 3) × ZMod 3 =>
         (⟨fun i => if h : i ∈ S then p.2 else p.1 ⟨i, h⟩, fun a ha a' ha' => by
-          simp only [dif_pos ha, dif_pos ha']⟩ : T)) := by
+          simp only [dite_eq_left ha, dite_eq_left ha']⟩ : T)) := by
       rintro ⟨g, α⟩ ⟨g', α'⟩ h
       have h' := congrArg Subtype.val h
       refine Prod.ext (funext fun i => ?_) ?_
       · have := congrFun h' i.1
-        simpa only [dif_neg i.2] using this
+        simpa only [dite_eq_right i.2] using this
       · have := congrFun h' s₀
-        simpa only [dif_pos hs₀] using this
+        simpa only [dite_eq_left hs₀] using this
     have hcard : Nat.card (({i // i ∉ S} → ZMod 3) × ZMod 3) ≤ Nat.card T :=
       Nat.card_le_card_of_injective _ hinj
     have hc : Nat.card (({i // i ∉ S} → ZMod 3) × ZMod 3) = 81 := by

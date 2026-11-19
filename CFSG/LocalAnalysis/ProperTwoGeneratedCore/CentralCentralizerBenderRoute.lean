@@ -165,7 +165,7 @@ theorem bender_route_quasisimple
     isComponent_of_normal_of_simple_quotient (commutator_eq_top_of_commutator_self_eq hPperf)
       e.isSimpleGroup
   obtain ⟨U, hUH, hcore⟩ := hq.sylow
-  have hUP : (U : Subgroup (EscapingQuotient x)) ≤ P := le_of_normal_of_odd_index hPidx U.isPGroup'
+  have hUP : (U : Subgroup (EscapingQuotient x)) ≤ P := le_of_normal_of_odd_index hPidx U.isPGroup
   have hPrank : 2 ≤ CFSG.Open.pRank 2 P := by
     have h1 := CFSG.SectionRank.pRank_mono (by decide : 1 < 2) hUP
     rw [CFSG.ProperTwoGeneratedCore.sylow_two_rank_eq] at h1

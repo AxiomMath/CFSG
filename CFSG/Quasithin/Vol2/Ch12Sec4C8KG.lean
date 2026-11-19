@@ -116,7 +116,7 @@ theorem l33ExclusionFact : L33ExclusionFact := by
   have hr : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
     obtain ⟨-, -, hr⟩ := CFSG.SectionRank.classical_model_rank (by norm_num) h
     rcases hr with ⟨-, ⟨h3, -⟩ | ⟨-, hfr⟩ | h4⟩ | ⟨h5, -⟩ | ⟨h5, -⟩ | h4 <;>
-      first | omega | (simp at h3) | (simp at h5)
+      first | omega | (simp at h5)
   have hcard : Nat.card X = 5616 := by
     have hc := card_psl3_mul_gcd h
     norm_num at hc

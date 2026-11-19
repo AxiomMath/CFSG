@@ -16,6 +16,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_isSylowOf_ge' {p : ℕ} [Fact p.Prime] {R H : Subgroup G}
     (hR : IsPGroup p R) (hRH : R ≤ H) :
     ∃ T : Subgroup G, R ≤ T ∧ CFSG.ABGLocalTools.IsSylowOf p T H := by

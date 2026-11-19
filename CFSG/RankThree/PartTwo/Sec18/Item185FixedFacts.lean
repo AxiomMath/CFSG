@@ -12,7 +12,7 @@ open scoped commutatorElement
 theorem fixedFactsAt_of_simple {S : Type} [Group S] {σ : MulAut S}
     (hs : IsSimpleGroup (fixedSubgroup σ)) (hna : ¬ ∀ x y : fixedSubgroup σ, x * y = y * x) :
     FixedFactsAt σ := by
-  haveI := hs
+  have := hs
   unfold FixedFactsAt
   left
   refine ⟨⊤, inferInstance, Subgroup.topEquiv.isSimpleGroup, ?_, ?_⟩
@@ -42,7 +42,7 @@ theorem fixedFactsAt_of_normal {S : Type} [Group S] {σ : MulAut S} {P : Subgrou
       group
     rw [hgn]
     exact P.mul_mem (hcomm _ g.2 _ n.2) hn
-  · haveI := hs
+  · have := hs
     exact (Subgroup.subgroupOfEquivOfLe hPC).isSimpleGroup
   · intro hc
     apply hna

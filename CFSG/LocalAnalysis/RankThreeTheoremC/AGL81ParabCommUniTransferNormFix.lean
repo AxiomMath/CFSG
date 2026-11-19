@@ -50,9 +50,11 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {f : ℕ} {K : Type}
   (((Y.subtype).comp C.σ).comp (flagStabilizer h (t + s) ε ↑I).subtype).codRestrict P
     fun q => (C.mem_flag_iff q.1).mp q.2
 
+omit [Finite A] in
 @[simp] theorem UniCover.coe_toP (x : ↥(flagStabilizer h (t + s) ε ↑I)) :
     ((C.toP x : ↥P) : A) = ((C.σ x : ↥Y) : A) := rfl
 
+omit [Finite A] in
 theorem UniCover.toP_surjective (hPY : P ≤ Y) : Function.Surjective C.toP := by
   rintro ⟨w, hw⟩
   obtain ⟨g, hg⟩ := C.surjective ⟨w, hPY hw⟩
@@ -65,9 +67,11 @@ theorem UniCover.toP_surjective (hPY : P ≤ Y) : Function.Surjective C.toP := b
     ↥(flagStabilizer h (t + s) ε ↑I) →* ↥P ⧸ CFSG.pCore 2 ↥P :=
   (QuotientGroup.mk' (CFSG.pCore 2 ↥P)).comp C.toP
 
+omit [Finite A] in
 theorem UniCover.toHat_surjective (hPY : P ≤ Y) : Function.Surjective C.toHat :=
   (QuotientGroup.mk'_surjective _).comp (C.toP_surjective hPY)
 
+omit [Finite A] in
 theorem UniCover.toP_mem_pCore_of_mem_ker (hε : ε ≤ 1) (hI : IsTopCut I t) (hPY : P ≤ Y)
     {u : ↥(flagStabilizer h (t + s) ε ↑I)} (hu : u ∈ (uniLeviHom (s := s) h hε hI).ker) :
     C.toP u ∈ CFSG.pCore 2 ↥P := by
@@ -81,6 +85,7 @@ theorem UniCover.toP_mem_pCore_of_mem_ker (hε : ε ≤ 1) (hI : IsTopCut I t) (
   exact hmap (Subgroup.mem_map_of_mem _ hu)
 
 include C in
+omit [Finite A] in
 theorem UniCover.exists_big_block (hε : ε ≤ 1) (hI : IsTopCut I t) (hPY : P ≤ Y)
     (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) : ∃ j, IsBigBlock s ε I j := by
   by_contra hno
@@ -95,7 +100,7 @@ theorem UniCover.exists_big_block (hε : ε ≤ 1) (hI : IsTopCut I t) (hPY : P 
     rcases j with _ | b
     · have hj := hno none
       simp only [IsBigBlock, not_le] at hj
-      haveI := subsingleton_hypIndex (s := s) (ε := ε) (by omega)
+      have := subsingleton_hypIndex (s := s) (ε := ε) (by omega)
       exact gl_mul_comm_of_subsingleton _ _
     · have hj := hno (some b)
       simp only [IsBigBlock, not_le] at hj
@@ -104,6 +109,7 @@ theorem UniCover.exists_big_block (hε : ε ≤ 1) (hI : IsTopCut I t) (hPY : P 
   rw [map_commutatorElement, hx', hy'] at h3
   exact ⟨_, h3, rfl⟩
 
+omit [Finite A] in
 theorem UniCover.mem_hypScalars_of_toP_eq_one {z : ↥(flagStabilizer h (t + s) ε ↑I)}
     (hz : C.toP z = 1) : (z : hypSU h (t + s) ε) ∈ hypScalars h (t + s) ε := by
   apply C.ker_le
@@ -111,13 +117,14 @@ theorem UniCover.mem_hypScalars_of_toP_eq_one {z : ↥(flagStabilizer h (t + s) 
   have h1 : ((C.σ (z : hypSU h (t + s) ε) : ↥Y) : A) = 1 := congrArg (fun w : ↥P => (w : A)) hz
   exact Subtype.ext h1
 
+omit [Finite A] in
 theorem UniCover.exists_mul_of_toP_mem_pCore (hε : ε ≤ 1) (hI : IsTopCut I t)
     (q : ↥(flagStabilizer h (t + s) ε ↑I)) (hq : C.toP q ∈ CFSG.pCore 2 ↥P) :
     ∃ s' ∈ (uniLeviHom (s := s) h hε hI).ker, ∃ z : ↥(flagStabilizer h (t + s) ε ↑I),
       C.toP z = 1 ∧ q = s' * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   have hker : C.toP.ker ≤ Subgroup.center ↥(flagStabilizer h (t + s) ε ↑I) := by
     intro z hz
     rw [Subgroup.mem_center_iff]
@@ -135,6 +142,7 @@ theorem UniCover.exists_mul_of_toP_mem_pCore (hε : ε ≤ 1) (hI : IsTopCut I t
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(flagStabilizer h (t + s) ε ↑I))) hs', z,
     MonoidHom.mem_ker.mp hz, hsz⟩
 
+omit [Finite A] in
 theorem UniCover.proj_mem_projUni (hε : ε ≤ 1) (hI : IsTopCut I t)
     (q : ↥(flagStabilizer h (t + s) ε ↑I)) (hq : C.toP q ∈ CFSG.pCore 2 ↥P) :
     hypProj h (t + s) ε (q : hypSU h (t + s) ε) ∈ projUni h hε hI := by
@@ -152,12 +160,12 @@ variable {f : ℕ} {K : Type} [Field K] {s ε : ℕ} {I : Finset ℕ}
 
 theorem nonempty_mulEquiv_perm_three_hypSU (h : UnitaryFieldData 2 1 K) :
     Nonempty (↥(hypSU h 1 0) ≃* Equiv.Perm (Fin 3)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   obtain ⟨F, hF, hFfin, hcard, ⟨e⟩⟩ := exists_hypSU_one_zero_mulEquiv h
   rw [pow_one] at hcard
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hcard, pow_one])
   obtain ⟨e'⟩ := Lin.nonempty_mulEquiv_perm_three_of_card_two (K := F) hcard
   exact ⟨e.trans e'⟩
@@ -166,7 +174,7 @@ theorem hypSU_type (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) (hres : 2 ≤ 2
     (CFSG.Open.IsQuasisimple ↥(hypSU h s ε) ∨ Nonempty (↥(hypSU h s ε) ≃* Equiv.Perm (Fin 3))) ∨
       ∃ (K' : Type) (_ : Field K') (_ : Finite K'), Nat.card K' = 4 ∧
         Nonempty (↥(hypSU h s ε) ≃* ↥(StatedSU 3 2 K')) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h3 : 3 ≤ 2 * s + ε
   · by_cases hmq : (2 * s + ε, 2 ^ f) = (3, 2)
     · rw [Prod.mk.injEq] at hmq
@@ -275,8 +283,8 @@ theorem UniCover.toHat_mem_wSup (hε : ε ≤ 1) (hI : IsTopCut I t) (hPY : P �
     C.toHat x ∈ CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.wSup
       (↥P ⧸ CFSG.pCore 2 ↥P) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   set D := blockSubgroup (s := s) h hε hI j with hD
   have hxD : x ∈ D := ⟨hx1, hx2⟩
   let ℓ : ↥D →* ↥(uniBlockSub (s := s) (ε := ε) h I j) :=

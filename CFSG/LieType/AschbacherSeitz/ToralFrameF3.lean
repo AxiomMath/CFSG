@@ -71,13 +71,13 @@ theorem f3_of_rankOneFrame_of_central (t : StatedLieTag) (ht : GGExcFive t)
     (F : GGStdForm p Bs ψ.range (ggU (absTag t) 6 f).D S π f)
     (hRF : GGRankOneFrame t n f ψ p Bs S π F) :
     ∀ α ∈ (ggU (absTag t) 6 f).D.roots, latPerm π α = α →
-      ∃ (γ : Fin (ggU t n f).D.rank → ℤ) (u : (ggU t n f).K),
-        GGRootClass (ggU t n f).D t γ ∧
+      ∃ (_γ : Fin (ggU t n f).D.rank → ℤ) (u : (ggU t n f).K),
+        GGRootClass (ggU t n f).D t _γ ∧
         (∀ b : Bs, latChar p (Multiplicative.toAdd (F.coord b)) α = 0 →
-          (b : G) ∈ Subgroup.centralizer (ggRootSub (ggU t n f).D ψ γ u : Set G)) ∧
-        ∃ r ∈ ggRootSub (ggU t n f).D ψ γ u, orderOf r = 2 :=
+          (b : G) ∈ Subgroup.centralizer (ggRootSub (ggU t n f).D ψ _γ u : Set G)) ∧
+        ∃ r ∈ ggRootSub (ggU t n f).D ψ _γ u, orderOf r = 2 :=
   f3_of_rankOneFrame t n f ψ p Bs S π F hRF
-    (fun γ u hclass =>
+    (fun _γ u hclass =>
       rootGroupInvolutionPsiAt t ht n f hf ψ hker hclass.1 hclass u)
 
 end FullCertificates

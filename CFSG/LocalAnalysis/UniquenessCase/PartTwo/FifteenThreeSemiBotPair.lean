@@ -81,8 +81,8 @@ private theorem s15_semiBot_map_conj_ne {K₁ K₂ N : Subgroup A} (hne : K₂ �
 private theorem s15_semiBot_component_commutator_fittingOf {V : Type*} [CommGroup V] [Finite V]
     {H C : Subgroup (MulAut V)} (hC : IsComponentOf C H) :
     ⁅fittingOf H, C⁆ = ⊥ := by
-  haveI : Nontrivial ↥C := by
-    haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+  have : Nontrivial ↥C := by
+    have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥C ⧸ Subgroup.center ↥C)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b

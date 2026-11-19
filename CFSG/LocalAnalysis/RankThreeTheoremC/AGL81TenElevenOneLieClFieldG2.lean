@@ -53,7 +53,7 @@ theorem kFactTenElevenOneLieAutField_of_g2 (hF : KFactTenElevenOneLieAutFieldG2)
     obtain ⟨d, hv⟩ := d
     simp only at hdq
     subst hdq
-    haveI := hLn
+    have := hLn
     obtain ⟨e⟩ := he
     exact LieClAut.false_of_autThreePowInner_of_index hq hC3
       (autThreePowInner_of_not_three_dvd_outer

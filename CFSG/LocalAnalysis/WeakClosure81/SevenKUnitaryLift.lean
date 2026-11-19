@@ -36,8 +36,8 @@ theorem exists_blkSU_lift
         (QuotientGroup.mk (CFSG.OddStandard.GH71.S55.C5U.blkSU hU 0 (by omega) h) :
           StatedProj (StatedSU m (2 ^ n) F₀))) ∧
       ∀ h, α h ∈ commutator X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F₀ 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 := hU.charP
   have hK : Nat.card F₀ = (2 ^ n) ^ 2 := by rw [hU.card, ← pow_mul, mul_comm]
   let B4 : StatedSU 4 (2 ^ n) F₀ →* StatedSU m (2 ^ n) F₀ :=
     CFSG.OddStandard.GH71.S55.C5U.blkSU hU 0 (show 0 + 4 ≤ m by omega)

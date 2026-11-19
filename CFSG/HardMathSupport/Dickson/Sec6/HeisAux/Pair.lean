@@ -48,6 +48,7 @@ end Rat
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K] {ω : K} {σ : K ≃+* K}
 
+omit [CharP K 2] [Finite K] in
 theorem cube_mul_comm {R : Type*} [Ring R] [Algebra K R] {X Y : R} {ζ : K} (hζ : ζ ^ 3 = 1)
     (h : X * Y = ζ • (Y * X)) : (X * Y) ^ 3 = X ^ 3 * Y ^ 3 := by
   have hba : Y * X = ζ ^ 2 • (X * Y) := by
@@ -66,10 +67,12 @@ theorem cube_mul_comm {R : Type*} [Ring R] [Algebra K R] {X Y : R} {ζ : K} (hζ
       _ = 1 := by rw [hζ, one_pow]
   rw [e3, h6, one_smul]
 
+omit [CharP K 2] [Finite K] in
 theorem cube_root_nontrivial {t : K} (h3 : t ^ 3 = 1) (h1 : t ≠ 1) : t ^ 2 + t + 1 = 0 := by
   have : (t - 1) * (t ^ 2 + t + 1) = 0 := by linear_combination h3
   exact (mul_eq_zero.1 this).resolve_left (sub_ne_zero.2 h1)
 
+omit [CharP K 2] [Finite K] in
 theorem swap_comm {X Y : Matrix (Fin 3) (Fin 3) K} {z : K} (hz3 : z ^ 3 = 1)
     (h : X * Y = z • (Y * X)) : Y * X = z ^ 2 • (X * Y) := by
   calc Y * X = (z ^ 3) • (Y * X) := by rw [hz3, one_smul]
@@ -85,7 +88,7 @@ theorem pair_gen_distinct (hK : Nat.card K = 64) (hσ : orderOf σ = 3) (hω : �
     (hcomm : (u1 : Matrix (Fin 3) (Fin 3) K) * u2 = z • ((u2 : Matrix (Fin 3) (Fin 3) K) * u1))
     (t1 t2 : K) (ht1 : (u1 : Matrix (Fin 3) (Fin 3) K) ^ 3 = t1 • (1 : Matrix (Fin 3) (Fin 3) K))
     (ht2 : (u2 : Matrix (Fin 3) (Fin 3) K) ^ 3 = t2 • (1 : Matrix (Fin 3) (Fin 3) K))
-    (ht1c : t1 ^ 3 = 1) (ht2c : t2 ^ 3 = 1) (ht1σ : σ t1 = t1) (ht2σ : σ t2 = t2)
+    (ht1c : t1 ^ 3 = 1) (ht2c : t2 ^ 3 = 1) (ht1σ : σ t1 = t1) (_ht2σ : σ t2 = t2)
     (h1 : t1 ≠ 1) (h2 : t2 ≠ 1) (h12 : t1 ≠ t2) : GenP A := by
   have hz3 : z ^ 3 = 1 := by linear_combination (z - 1) * hz
   have ht1r := cube_root_nontrivial ht1c h1

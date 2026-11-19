@@ -183,7 +183,7 @@ private theorem probe_FU_centralizes_X_of_inverted
     (hXle : X ≤ c.Hhat)
     (hsH : s0 ∈ c.Hhat) (hsI : IsInvolution s0)
     (hsV : s0 ∉ twoCoreOf c.Hhat)
-    (hsNorm : s0 ∈ Subgroup.normalizer (X : Set G))
+    (_hsNorm : s0 ∈ Subgroup.normalizer (X : Set G))
     (hsInv : ∀ x : G, x ∈ X → s0 * x * s0⁻¹ = x⁻¹) :
     c.FU ≤ Subgroup.centralizer (X : Set G) := by
   obtain ⟨_d, _K, _hHall, _hKne, hKall⟩ :=
@@ -232,7 +232,7 @@ private theorem probe_dihedral_three_no_order_six
     rw [h] at hdvd
     norm_num at hdvd
   · have hsq : (DihedralGroup.sr i : DihedralGroup 3)^2 = 1 := by
-      simpa [pow_two] using DihedralGroup.sr_mul_self i
+      simp [pow_two]
     have hdvd : orderOf (DihedralGroup.sr i : DihedralGroup 3) ∣ 2 :=
       orderOf_dvd_of_pow_eq_one hsq
     intro h
@@ -360,7 +360,7 @@ private theorem probe_X_inf_B_bot
     (hfirst : FirstCase c)
     (hklein : IsKleinFour (pCore 2 c.Hhat))
     {y : G} (hy : IsInvolution y) (hyH : y ∉ c.Hhat)
-    {X : Subgroup G} (hXle : X ≤ c.Hhat)
+    {X : Subgroup G} (_hXle : X ≤ c.Hhat)
     (hXinv : ∀ x : G, x ∈ X → x ∈ invertedElements c.Hhat y) :
     X ⊓ (twoCoreOf c.Hhat ⊔ c.U) = ⊥ := by
   let B : Subgroup G := twoCoreOf c.Hhat ⊔ c.U
@@ -387,7 +387,7 @@ public theorem firstCase_klein_restrictionSeven_core
     (hXne : X ≠ ⊥) (hXle : X ≤ c.Hhat)
     (hXodd : Nat.Coprime 2 (Nat.card X))
     (hXinv : ∀ x : G, x ∈ X → x ∈ invertedElements c.Hhat y)
-    (hC_even : Even (Nat.card (Subgroup.centralizer (X : Set G))))
+    (_hC_even : Even (Nat.card (Subgroup.centralizer (X : Set G))))
     (hN_even : Even (Nat.card
       (Subgroup.normalizer (X : Set G) ⊓ c.Hhat : Subgroup G))) :
     Nat.card X = 3 ∧ c.FU ≤ Subgroup.centralizer (X : Set G) := by
@@ -487,7 +487,7 @@ public theorem firstCase_klein_restrictionSeven_core
     simpa [s] using (Subgroup.orderOf_coe sN).trans hsNorder
   have hsI : IsInvolution s := ⟨by
     intro hs1
-    have : orderOf s = 1 := by simpa [hs1]
+    have : orderOf s = 1 := by simp [hs1]
     rw [hsord] at this
     omega, by rw [← hsord]; exact pow_orderOf_eq_one s⟩
   have hsNorm : s ∈ Subgroup.normalizer (X : Set G) := sN.2.1
@@ -499,7 +499,7 @@ public theorem firstCase_klein_restrictionSeven_core
   · have hsCentX : ∀ x : G, x ∈ X → s * x * s⁻¹ = x := by
       intro x hx
       let xX : X := ⟨x, hx⟩
-      have hfix : alpha xX = xX := by simpa [halpha]
+      have hfix : alpha xX = xX := by simp [halpha]
       simpa [alpha, sNorm, Subgroup.normalizerMonoidHom_apply_apply_coe] using
         congrArg Subtype.val hfix
     by_cases hsB : s ∈ B
@@ -516,7 +516,7 @@ public theorem firstCase_klein_restrictionSeven_core
         have hxone : x = 1 := Subgroup.mem_bot.mp hxbot
         have hxne : x ≠ 1 := by
           intro hxone'
-          have h1 : orderOf x = 1 := by simpa [hxone']
+          have h1 : orderOf x = 1 := by simp [hxone']
           have h3 : orderOf x = 3 := by
             simpa [x] using (Subgroup.orderOf_coe xX).trans hxXorder
           omega

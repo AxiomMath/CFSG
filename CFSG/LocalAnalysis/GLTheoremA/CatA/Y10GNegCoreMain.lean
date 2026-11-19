@@ -16,6 +16,7 @@ section Eigen
 @[expose] def Pj (B : Matrix (Fin 6) (Fin 6) F) (ζ : F) (j : ℕ) : Matrix (Fin 6) (Fin 6) F :=
   ∑ k ∈ Finset.range 5, (ζ ^ (4 * j * k)) • (B ^ k)
 
+omit [CharP F 2] in
 theorem Pj_mulVec (B : Matrix (Fin 6) (Fin 6) F) (ζ : F) (j : ℕ) (v : Fin 6 → F) :
     Pj B ζ j *ᵥ v = pr B ζ j v := by
   unfold Pj pr
@@ -79,6 +80,7 @@ theorem Pj_selfadj {B : Matrix (Fin 6) (Fin 6) F} {ζ : F} (hU : (B.map (fun x :
       exact absurd hj' h
   rw [hbexp, haexp]
 
+omit [CharP F 2] in
 theorem Pj_comm {B Y : Matrix (Fin 6) (Fin 6) F} (hYB : Commute Y B) (ζ : F) (j : ℕ) :
     Commute Y (Pj B ζ j) := by
   unfold Pj
@@ -109,6 +111,7 @@ end Eigen
 
 section KeyLemma
 
+omit [CharP F 2] in
 theorem isometry_pow {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm (Y *ᵥ a) (Y *ᵥ b) = herm a b) (k : ℕ) (a b : Fin 6 → F) :
     herm ((Y ^ k) *ᵥ a) ((Y ^ k) *ᵥ b) = herm a b := by

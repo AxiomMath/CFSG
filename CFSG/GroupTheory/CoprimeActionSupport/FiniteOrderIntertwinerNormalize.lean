@@ -27,7 +27,7 @@ theorem exists_normalized {F : Type*} [Field F] [IsAlgClosed F]
   let f : Representation.IntertwiningMap η η :=
     { toLinearMap := ((U ^ r : W ≃ₗ[F] W) : W →ₗ[F] W)
       isIntertwining' := fun g => by ext v; exact hcomm g v }
-  haveI := hη
+  have := hη
   obtain ⟨c, hc⟩ := (Representation.IsIrreducible.algebraMap_intertwiningMap_bijective_of_isAlgClosed
     (k := F) (ρ := η)).2 f
   have hc' : ∀ w, (U ^ r : W ≃ₗ[F] W) w = c • w := by

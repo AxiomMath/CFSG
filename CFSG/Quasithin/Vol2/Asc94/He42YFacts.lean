@@ -25,6 +25,7 @@ private theorem he42yf_val_comm {a b : GL2} (h : Commute a b) : a.val * b.val = 
   have := congrArg Units.val h.eq
   simpa only [Units.val_mul] using this
 
+omit [Finite G] in
 private theorem he42yf_conj_mem_iff (H : Subgroup G) {n : G} (hn : n ∈ H) (x : G) :
     x ∈ H ↔ n * x * n⁻¹ ∈ H := by
   constructor
@@ -35,6 +36,7 @@ private theorem he42yf_conj_mem_iff (H : Subgroup G) {n : G} (hn : n ∈ H) (x :
     have e : n⁻¹ * (n * x * n⁻¹) * n = x := by group
     rwa [e] at h
 
+omit [Finite G] in
 private theorem he42yf_cent_iff (H : Set G) {n : G} (hH : ∀ b, b ∈ H ↔ n * b * n⁻¹ ∈ H) (x : G) :
     x ∈ centralizer H ↔ n * x * n⁻¹ ∈ centralizer H := by
   rw [mem_centralizer_iff, mem_centralizer_iff]
@@ -91,9 +93,9 @@ private theorem he42yf_w_conj {n : G} (hn : n ∈ S.N) {x : G} (hx : x ∈ S.A')
 private theorem he42yf_B_fwd {n : G} (hn : n ∈ S.N) {P Q : GL2} (hρ : S.rhoG n = (P, Q))
     (hP : Commute S.g P) (hQ : Commute S.g Q) : ∀ b ∈ S.B, n * b * n⁻¹ ∈ S.B := by
   intro b hb
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hb' : b ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G) := hb
-  obtain ⟨hbZ, hbc⟩ := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).mp hb'
+  obtain ⟨hbZ, hbc⟩ := (S.hD.mem_B_iff S.hxN S.hxa).mp hb'
   have hbc' : S.g.val * S.m b = S.m b * S.g.val := hbc
   have hnbZ : n * b * n⁻¹ ∈ S.A ⊓ S.A' := S.hD.mem_Z_conj hn hbZ
   have hm : S.m (n * b * n⁻¹) = (P : M2) * S.m b * (Q : M2)ᵀ := S.he42yf_m_conj' hn hρ hbZ
@@ -105,7 +107,7 @@ private theorem he42yf_B_fwd {n : G} (hn : n ∈ S.N) {P Q : GL2} (hρ : S.rhoG 
     rw [Matrix.transpose_mul, Matrix.transpose_mul, hgT] at h
     exact h.symm
   show n * b * n⁻¹ ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G)
-  refine (S.hD.mem_B_iff S.hxN S.hxa S.hx3).mpr ⟨hnbZ, ?_⟩
+  refine (S.hD.mem_B_iff S.hxN S.hxa).mpr ⟨hnbZ, ?_⟩
   rw [hm]
   show S.g.val * ((P : M2) * S.m b * (Q : M2)ᵀ) = ((P : M2) * S.m b * (Q : M2)ᵀ) * S.g.val
   calc S.g.val * ((P : M2) * S.m b * (Q : M2)ᵀ)
@@ -122,14 +124,14 @@ private theorem he42yf_B_iff {n : G} (hn : n ∈ S.N) {P Q : GL2} (hρ : S.rhoG 
   intro b
   refine ⟨S.he42yf_B_fwd hn hρ hP hQ b, fun hb => ?_⟩
   have hρ' : S.rhoG n⁻¹ = (P⁻¹, Q⁻¹) := by
-    rw [S.he42yf_rhoG_inv hn, hρ] <;> rfl
+    rw [S.he42yf_rhoG_inv hn, hρ]; rfl
   have h := S.he42yf_B_fwd (S.N.inv_mem hn) hρ' hP.inv_right hQ.inv_right (n * b * n⁻¹) hb
   have e : n⁻¹ * (n * b * n⁻¹) * n⁻¹⁻¹ = b := by group
   rwa [e] at h
 
 end HeSetup
 
-theorem HeSetup.stepYnorm (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
+theorem HeSetup.stepYnorm (S : HeSetup G) (_hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
     S.StepYnorm y₁ y₂ := by
   have hr₁' : (S.rhoG y₁).2 = 1 := by simp only [hY.rho₁]
   have hr₂ : (S.rhoG y₂).1 = 1 := by simp only [hY.rho₂]
@@ -195,9 +197,9 @@ theorem HeSetup.stepYnorm (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY
     rw [e]
     exact S.A'.mul_mem (S.A'.mul_mem ha₁' hd) (S.A'.inv_mem ha₁)
 
-theorem HeSetup.stepYfpf (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
+theorem HeSetup.stepYfpf (S : HeSetup G) (_hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
     S.StepYfpf y₁ y₂ := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hr₁ : (S.rhoG y₁).1 = S.g := by simp only [hY.rho₁]
   have hr₁' : (S.rhoG y₁).2 = 1 := by simp only [hY.rho₁]
@@ -240,9 +242,9 @@ theorem HeSetup.stepYfpf (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY 
     have hma : S.m a = 0 := he42yf_gl2_right_fpf S.g hg3 hg1 _ hm
     exact S.hD.hT.minj a haZ 1 (Subgroup.one_mem _) (by rw [hma, S.hD.hT.m_one])
 
-theorem HeSetup.stepY0 (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
+theorem HeSetup.stepY0 (S : HeSetup G) (_hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
     S.StepY0 y₁ y₂ := by
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hy₂i : y₂⁻¹ ∈ S.N := S.N.inv_mem hY.mem₂
   have hy₀ : y₁ * y₂⁻¹ ∈ S.N := S.N.mul_mem hY.mem₁ hy₂i
@@ -275,7 +277,7 @@ theorem HeSetup.stepY0 (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : 
     rw [mem_centralizer_iff]
     intro b hb
     have hb' : b ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G) := hb
-    obtain ⟨hbZ, hbc⟩ := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).mp hb'
+    obtain ⟨hbZ, hbc⟩ := (S.hD.mem_B_iff S.hxN S.hxa).mp hb'
     have hbc' : S.g.val * S.m b = S.m b * S.g.val := hbc
     have hgi3 : (S.g⁻¹) ^ 3 = 1 := by rw [inv_pow, hg3, inv_one]
     have hgT' : Matrix.transpose (S.g⁻¹ : GL2).val = (S.g⁻¹ : GL2).val :=
@@ -290,7 +292,7 @@ theorem HeSetup.stepY0 (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : 
       S.hD.hT.minj _ (S.hD.mem_Z_conj hy₀ hbZ) _ hbZ hm
     have h3 : y₁ * y₂⁻¹ * b = b * (y₁ * y₂⁻¹) := mul_inv_eq_iff_eq_mul.mp hconj
     exact h3.symm
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hpow hne
 
 end CFSG.Quasithin.A94.He42

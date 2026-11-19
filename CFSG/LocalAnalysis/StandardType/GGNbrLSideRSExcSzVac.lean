@@ -33,8 +33,8 @@ theorem ggNbrLSideNoPSL3_twB2 {a : ℕ} {K : Type} [Field K]
     GGNbrLSideNoPSL3 (LargeEvenInnSet (LargeEvenCenterQuot (LargeEvenSzGroup a K))) := by
   intro φ _ _ _ J _ F _ _ _
   refine ⟨fun e => ?_⟩
-  haveI : Finite ↥(LargeEvenSzGroup a K) := Subtype.finite
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenSzGroup a K)) :=
+  have : Finite ↥(LargeEvenSzGroup a K) := Subtype.finite
+  have : Finite (LargeEvenCenterQuot (LargeEvenSzGroup a K)) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hnotSz : ¬ 3 ∣ Nat.card ↥(LargeEvenSzGroup a K) := by
     rw [largeEvenSzGroup_eq a K, CFSG.LieType.Ree.suzuki_order (a := a) (K := K) hK]

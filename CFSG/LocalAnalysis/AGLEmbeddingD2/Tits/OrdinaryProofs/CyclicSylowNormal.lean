@@ -410,7 +410,7 @@ theorem exists_normal_order_three_of_cyclic_sylow
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S0, hS0D⟩ := hD
   set S : Subgroup ↥C := (S0 : Subgroup ↥C) with hSdef
-  have hSp : IsPGroup 3 S := S0.isPGroup'
+  have hSp : IsPGroup 3 S := S0.isPGroup
   have hSi : ¬ 3 ∣ S.index := Sylow.not_dvd_index S0
   have hSne : S ≠ ⊥ := by
     intro h

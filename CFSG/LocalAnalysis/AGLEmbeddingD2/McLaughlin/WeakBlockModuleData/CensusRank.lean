@@ -111,7 +111,7 @@ theorem a5_overgroup_false {Y : Type} [Group Y] [Finite Y] (e : Y ≃* alternati
   have hker : IsPGroup 2 e.toMonoidHom.ker := by
     rw [e.toMonoidHom.ker_eq_bot_iff.mpr e.injective]
     exact IsPGroup.of_card (n := 0) (by rw [pow_zero]; exact Subgroup.card_bot)
-  have hrel := relIndex_normalizer_of_surj e.toMonoidHom e.surjective hker T'.isPGroup' hodd
+  have hrel := relIndex_normalizer_of_surj e.toMonoidHom e.surjective hker T'.isPGroup hodd
   have hle : (T' : Subgroup Y) ≤ Subgroup.normalizer ((T' : Subgroup Y) : Set Y) :=
     Subgroup.le_normalizer
   have h1 := Subgroup.relIndex_mul_index hle

@@ -548,7 +548,7 @@ theorem qrc_order_two_original_core_image_produces_dihedral_pair {H : Type*} [Gr
       exact h2
     · exact inf_le_inf_right I hTV
   have hVO2MI : V ≤ inSubgroup (pCore 2) (M ⊓ I) := by
-    refine le_inSubgroup_pCore (le_inf (hVT.trans hTM) hVI) ?_ ((T.isPGroup').to_le hVT)
+    refine le_inSubgroup_pCore (le_inf (hVT.trans hTM) hVI) ?_ ((T.isPGroup).to_le hVT)
     rw [hMI]
     exact inf_le_left.trans hTV
   have hQnormI : Q ≤ normalizer (I : Set H) := by
@@ -632,7 +632,7 @@ theorem qrc_order_two_original_core_image_produces_dihedral_pair {H : Type*} [Gr
     have hle : S.map π ≤ Db := by
       rw [← hID]
       exact map_mono inf_le_right
-    have hp2 : IsPGroup 2 (S.map π) := ((T.isPGroup').to_le inf_le_left).map π
+    have hp2 : IsPGroup 2 (S.map π) := ((T.isPGroup).to_le inf_le_left).map π
     have hc := h2subD _ hle hp2
     have hc2 : Nat.card (V.map π) ≤ Nat.card (S.map π) := card_le_of_le (map_mono hVS)
     omega
@@ -642,7 +642,7 @@ theorem qrc_order_two_original_core_image_produces_dihedral_pair {H : Type*} [Gr
     rw [← h1, mul_comm]
   have hSsyl : IsSylowOf 2 S I := by
     rw [isSylowOf_iff]
-    refine ⟨inf_le_right, (T.isPGroup').to_le inf_le_left, ?_⟩
+    refine ⟨inf_le_right, (T.isPGroup).to_le inf_le_left, ?_⟩
     have h1 := relIndex_mul_card S I
     rw [inf_eq_left.2 (inf_le_right : S ≤ I), hcardS, hcardI] at h1
     have hc : 0 < 2 * Nat.card (I ⊓ Q : Subgroup H) := Nat.mul_pos two_pos Nat.card_pos

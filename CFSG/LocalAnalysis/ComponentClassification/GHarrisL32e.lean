@@ -61,7 +61,7 @@ theorem not_conj_x_a1l :
       exact absurd ⟨g * h, by
         rw [show (g * h)⁻¹ * D.x * (g * h) = h⁻¹ * (g⁻¹ * D.x * g) * h by group, hg, hh]⟩ hxt
     exact SE.invRepCent_le_of_two_le i hi0 hi1
-  obtain ⟨g₁, -, hX⟩ := exists_conj_extremal D.S.isPGroup' ha
+  obtain ⟨g₁, -, hX⟩ := exists_conj_extremal D.S.isPGroup ha
     (show g⁻¹⁻¹ * D.a1l * g⁻¹ = D.x by rw [← hg]; group)
   have hmem : ∀ c₀ : {c : SE // c * SE.gen 6 = SE.gen 6 * c ∧ c * c = 1 ∧ c ≠ 1},
       g₁⁻¹ * D.toG c₀.1 * g₁ ∈ (D.S : Subgroup G) ⊓ centralizer ({D.a1l} : Set G) := by

@@ -17,8 +17,8 @@ theorem glaPComponent_eq_of_glaPLayer {p : ℕ} {X L : Subgroup G}
   have hbar : barX p X K ≤ barX p X L := barX_mono p hKL
   have hne : barX p X K ≠ ⊥ := by
     rintro hbot
-    haveI : IsSimpleGroup (↥(barX p X K) ⧸ Subgroup.center ↥(barX p X K)) := hK.2.2.1.2.2.2
-    haveI : Nontrivial ↥(barX p X K) :=
+    have : IsSimpleGroup (↥(barX p X K) ⧸ Subgroup.center ↥(barX p X K)) := hK.2.2.1.2.2.2
+    have : Nontrivial ↥(barX p X K) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(barX p X K))).nontrivial
     rw [hbot] at this
     exact not_subsingleton_iff_nontrivial.2 this inferInstance
@@ -29,7 +29,7 @@ theorem glaPComponent_eq_of_glaPLayer {p : ℕ} {X L : Subgroup G}
     have h := CFSG.LocalAnalysis.GLTheoremB.isSubnormal_comap' (barX p X L).subtype
       (isSubnormal_of_le_of_le hK.2.2.1.2.1 hbar le_top)
     rwa [show (barX p X L).comap (barX p X L).subtype = ⊤ from by ext; simp] at h
-  haveI : Group.IsPerfect ↥(barX p X K) :=
+  have : Group.IsPerfect ↥(barX p X K) :=
     Subgroup.isPerfect_iff.mpr (barX_perfect_of_glaPComponent hK)
   have hperf : Group.IsPerfect ↥S :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hbar).symm.toMonoidHom)

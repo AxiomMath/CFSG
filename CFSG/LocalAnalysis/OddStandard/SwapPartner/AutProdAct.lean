@@ -187,7 +187,7 @@ theorem mem_centralizer_of_actPerm_eq_one (e : K ⧸ center K ≃* alternatingGr
     map_one' := by simp
     map_mul' := fun a b => wt_normalizerHom_mul_inv_mul_comm y (hf_center b) }
   let F : K →* Subgroup.center K := f.codRestrict (Subgroup.center K) hf_center
-  haveI : Group.IsPerfect K := (Subgroup.isPerfect_iff).mpr hK
+  have : Group.IsPerfect K := (Subgroup.isPerfect_iff).mpr hK
   have hcomm : commutator K ≤ F.ker := Abelianization.commutator_subset_ker F
   have hker_top : F.ker = ⊤ := by
     rw [eq_top_iff, ← Group.IsPerfect.commutator_eq_top]

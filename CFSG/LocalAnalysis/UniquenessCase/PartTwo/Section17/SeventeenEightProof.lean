@@ -25,12 +25,12 @@ variable {G : Type} [Group G] [Finite G]
     Nat.card V₀ ≤ 4
 
 @[expose] def Gap17_8_normal (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   D.T ≤ Subgroup.normalizer (L : Set G) → D.k = 1 →
     (IsL3Odd (Bar2 L) 3 ∨ LieModel (Bar2 L) .PSU 3 3 1) → False
 
 @[expose] def Gap17_8_nonnormal (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   ¬ D.T ≤ Subgroup.normalizer (L : Set G) → D.k = 1 →
     (IsL3Odd (Bar2 L) 3 ∨ LieModel (Bar2 L) .PSU 3 3 1) → False
 

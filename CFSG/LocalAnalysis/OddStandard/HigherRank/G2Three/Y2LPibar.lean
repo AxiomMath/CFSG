@@ -39,8 +39,8 @@ theorem y2l_ker_pibar (hC : centralizer (M : Set X) = M) (ψ : X →* GL (Fin 3)
   have hsq : ∀ x ∈ (y2l_pibar τ).ker, x * x ∈ M := fun x hx => by
     rw [← y2l_rho_eq_one_iff τ hC, map_mul]
     exact y2l_sq_of_red ((y2l_pibar_eq_one_iff τ).mp (MonoidHom.mem_ker.mp hx))
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI := (y2l_pibar τ).normal_ker.map ψ hψ
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have := (y2l_pibar τ).normal_ker.map ψ hψ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((y2l_pibar τ).ker.map ψ) with h | h
   · rwa [Subgroup.map_eq_bot_iff, hker] at h
   · have hg : y2l_g3 ∈ (y2l_pibar τ).ker.map ψ := by

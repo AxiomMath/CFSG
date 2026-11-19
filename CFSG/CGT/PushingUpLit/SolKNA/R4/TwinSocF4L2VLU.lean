@@ -62,7 +62,7 @@ theorem false_of_aut_core_lu {r : ℕ} (hL3 : SocF4L3 r) (hU3 : SocF4U3 r) (hr :
       have : (⟨x, hx⟩ : ↥(socSL T z)) ∈ (U ⊓ socSL T z).subgroupOf (socSL T z) :=
         htop ▸ Subgroup.mem_top _
       exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp this)).1
-  haveI : Group.IsPerfect ↥(socSL T z) := isPerfect_of_equiv_sl2 hK4 eE
+  have : Group.IsPerfect ↥(socSL T z) := isPerfect_of_equiv_sl2 hK4 eE
   have hSLN : socSL T z ≤ N := by
     have h1 : ⁅socSL T z, socSL T z⁆ = socSL T z := Subgroup.commutator_eq_self
     rw [← h1, Subgroup.commutator_le]

@@ -127,11 +127,11 @@ variable {D : Data G}
 
 theorem normalizer_thetaComp_of_three_element_c
     (c : Ctx82E3 D) {P : Subgroup G} {a : G}
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3)
-    (haZ : a ∉ zSub P c.L)
+    (_haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3)
+    (_haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
     {u : G} (hu : u ∈ Subgroup.centralizer ({a} : Set G)) (hu3 : IsPGroup 3 (Subgroup.zpowers u)) :
     u ∈ Subgroup.normalizer (J : Set G) := by
@@ -214,6 +214,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem commutator_le_of_le_normalizer {J Z : Subgroup G}
     (hZJ : Z ≤ Subgroup.normalizer (J : Set G)) : ⁅J, Z⁆ ≤ J := by
   refine Subgroup.commutator_le.mpr ?_
@@ -223,6 +224,7 @@ theorem commutator_le_of_le_normalizer {J Z : Subgroup G}
   have h : x * (z * x⁻¹ * z⁻¹) ∈ J := J.mul_mem hx hzx
   simpa [commutatorElement_def, mul_assoc] using h
 
+omit [Finite G] in
 theorem commutator_le_normalizer_commutator {J Z : Subgroup G} :
     J ≤ Subgroup.normalizer ((⁅J, Z⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.le_normalizer_iff]
@@ -277,7 +279,7 @@ theorem exists_commutator_not_mem_theta_wPZ3c {J : Subgroup G} {z : G}
   have hsub : (⟨z * (x : G) * z⁻¹, hzxmem⟩ : ↥J) =
       (⟨⁅z, (x : G)⁆, hcommJ⟩ : ↥J) * x := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     rw [commutatorElement_def]
     group
   rw [hsub]
@@ -356,7 +358,7 @@ theorem commutator_map_theta_eq_top {J : Subgroup G}
         have hu : (⟨z * (x : G) * z⁻¹, hzxmem⟩ : ↥J) * x⁻¹ =
             (⟨⁅(x : G), z⁆, hcommJ x⟩ : ↥J)⁻¹ := by
           ext
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
           rw [commutatorElement_def]
           group
         have hdiv : σ (x : Jtilde J) / (x : Jtilde J) =
@@ -369,7 +371,7 @@ theorem commutator_map_theta_eq_top {J : Subgroup G}
         rw [hdiv]
         exact (Subgroup.center (Jtilde J)).inv_mem (hcomm_center x)
     have hσ : σ = 1 := by
-      haveI : Group.IsPerfect (Jtilde J) := jtilde_perfect (a := a) hJ
+      have : Group.IsPerfect (Jtilde J) := jtilde_perfect (a := a) hJ
       exact CFSG.ClassicalInvolution.Disconnected.AschTight.eq_one_of_centerQuotientAut_eq_one
         hσcenter
     exact hπ hσ
@@ -386,7 +388,7 @@ theorem two_le_pRank_three_jtilde_of_f9 (hF9 : F9Input c P a)
     (hπ : thetaQuotMulAut J (J.normalizerMonoidHom ⟨z, hzN⟩) ≠ 1) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (Jtilde J)) := by
   classical
-  haveI hIperf : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
+  have hIperf : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
   have hIJ : Ia c a ≤ Subgroup.normalizer (J : Set G) :=
     Ia_le_normalizer_of_f9_c c hF9 hON h7 hP hNZ haL ha3 haZ hJ h3
   have hzI : z ∈ Ia c a := hF9.2.1 hzZ
@@ -399,7 +401,7 @@ theorem two_le_pRank_three_jtilde_of_f9 (hF9 : F9Input c P a)
   let A : Subgroup (MulAut (Jtilde J)) := φ.range
   let Q : Subgroup A := O.map φ.rangeRestrict
   have hQ2 : IsPGroup 2 Q := hO2.map φ.rangeRestrict
-  haveI hQnorm : Q.Normal :=
+  have hQnorm : Q.Normal :=
     (CFSG.pCore_normal (p := 2) (G := ↥(Ia c a))).map φ.rangeRestrict
       φ.rangeRestrict_surjective
   let T := ↥(Ia c a) ⧸ O
@@ -520,7 +522,7 @@ theorem two_le_pRank_three_jtilde_of_f9 (hF9 : F9Input c P a)
         (QuotientGroup.quotientKerEquivRange (MulAut.conj : Jtilde J →* MulAut (Jtilde J)))
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) eInn]
     exact hInnrank'
-  haveI : Group.IsPerfect (Jtilde J) := jtilde_perfect (a := a) hJ
+  have : Group.IsPerfect (Jtilde J) := jtilde_perfect (a := a) hJ
   exact CFSG.QuasithinUnique.Vol2Native.two_le_pRank_of_quotient_center
     (L := Jtilde J) Nat.prime_three (by norm_num) hJ0rank
 
@@ -1033,7 +1035,7 @@ theorem thetaJ_ne_bot'_of_card
     {e : G} (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) :
     thetaJ 3 (zSub P c.L ⊔ Subgroup.zpowers e) ≠ ⊥ := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcent : zSub P c.L ≤
       Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) := inf_le_right
   have hcomm : ∀ a ∈ zSub P c.L, a * e = e * a := by
@@ -1106,7 +1108,7 @@ theorem thetaJ_ne_bot'_of_card
       rw [← he3, ← Nat.card_zpowers]
       exact Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr heQ)
     exact (CFSG.GroupTheory.not_dvd_card_of_isPGroup hQ2 Nat.prime_three (by norm_num)) hdvd
-  haveI : CFSG.IsElementaryAbelian 3 ↥(zSub P c.L ⊔ Subgroup.zpowers e) :=
+  have : CFSG.IsElementaryAbelian 3 ↥(zSub P c.L ⊔ Subgroup.zpowers e) :=
     hEea.isElementaryAbelian
   exact thetaJ_ne_bot_of_le_theta (E := zSub P c.L ⊔ Subgroup.zpowers e)
     (Q := CFSG.Open.pCoreOf 2 D.M) hQ2 hEN hEcard9 hθ hnc
@@ -1155,7 +1157,7 @@ theorem alpha_ne_bot
       (zSub P c.L ⊔ Subgroup.zpowers e) ≤ P ∧
       thetaAlpha 3 (zSub P c.L ⊔ Subgroup.zpowers e) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a ∈ zSub P c.L, a * e = e * a := by
     intro a ha
     change a ∈ ((P ⊓ c.L : Subgroup G) ⊓
@@ -1190,7 +1192,7 @@ theorem onanCentralizerSetup_of_inputs
     ONanCentralizerSetup := by
   intro G _ _ hS hUC hC S hSig c h811 hON hsig P hP hNZ x hx hx3 hxZ
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card (zSub P c.L) = 3 := c.card_inf_centralizer_of_onan hON hP
   have hlocal : ∀ A : Subgroup G, CFSG.Open.IsElemAbelian 3 A → Nat.card A = 27 →
       zSub P c.L ≤ A → A ≤ P ⊓ c.L →

@@ -43,7 +43,7 @@ private theorem extract_getElem! {S : Array Tab} (h4 : 4 ≤ S.size) {k : ℕ} (
     rw [Nat.min_eq_left h4, Nat.sub_zero]
     exact hk
   rw [Array.getElem!_eq_getD, Array.getElem!_eq_getD, Array.getD_eq_getD_getElem?,
-    Array.getD_eq_getD_getElem?, Array.getElem?_extract, if_pos hmin, Nat.zero_add]
+    Array.getD_eq_getD_getElem?, Array.getElem?_extract, ite_eq_left hmin, Nat.zero_add]
 
 private theorem strongTabs_getElem! (b : Array Tab) {k : ℕ} (hk : k < sgsWords.length) :
     (strongTabs b)[k]! = wordIn b (sgsWords.getD k []) := by
@@ -65,7 +65,7 @@ private theorem strongTabs_getElem!_lt_four (b : Array Tab) {k : ℕ} (hk : k < 
 
 private theorem wordVal_single {G : Type*} [Group G] (L : List G) (k : ℕ) :
     wordVal L (((k : ℤ) + 1) :: []) = L.getD k 1 := by
-  rw [wordVal, if_pos (by positivity), Int.toNat_natCast_add_one, Nat.add_sub_cancel]
+  rw [wordVal, ite_eq_left (by positivity), Int.toNat_natCast_add_one, Nat.add_sub_cancel]
   show L.getD k 1 * 1 = L.getD k 1
   rw [mul_one]
 

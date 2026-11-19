@@ -19,9 +19,9 @@ theorem sum_two_pow_mul_bdeg {m : ℕ} (ε : Fin f → Finset (Fin m)) :
   rw [Finset.mul_sum, ← Finset.sum_filter_add_sum_filter_not Finset.univ (· ∈ ε i)]
   have h0 : ∑ j ∈ Finset.univ.filter (fun j => j ∉ ε i), 2 ^ (i : ℕ) * bdeg ε (i, j) = 0 :=
     Finset.sum_eq_zero fun j hj => by
-      rw [bdeg, if_neg (Finset.mem_filter.mp hj).2, mul_zero]
+      rw [bdeg, ite_eq_right (Finset.mem_filter.mp hj).2, mul_zero]
   rw [h0, add_zero, Finset.filter_mem_eq_inter, Finset.univ_inter]
-  exact Finset.sum_congr rfl fun j hj => by rw [bdeg, if_pos hj]
+  exact Finset.sum_congr rfl fun j hj => by rw [bdeg, ite_eq_left hj]
 
 theorem suRep_scalar_bTop (φ₀ : K →+* k) {m : ℕ} (ε : Fin f → Finset (Fin m)) {c : Kˣ}
     (hc : GeneralLinearGroup.scalar (Fin m) c ∈ SU (unitaryInvolution K 2 f) m) :

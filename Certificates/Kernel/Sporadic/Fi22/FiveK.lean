@@ -433,9 +433,9 @@ theorem nProd_eq : ∀ w : List Nat,
     have e2 : nProdK N1 N2 (k :: w) = Fi22X.c (if k = 1 then N1 else N2) (nProdK N1 N2 w) := rfl
     rw [e, e2, ih1]
     by_cases hk : k = 1
-    · rw [if_pos hk, if_pos hk, h1, Fi22X.comp_eq c1 ih2]
+    · rw [ite_eq_left hk, ite_eq_left hk, h1, Fi22X.comp_eq c1 ih2]
       exact ⟨rfl, Fi22X.cn_c c1 ih2⟩
-    · rw [if_neg hk, if_neg hk, h2, Fi22X.comp_eq c2 ih2]
+    · rw [ite_eq_right hk, ite_eq_right hk, h2, Fi22X.comp_eq c2 ih2]
       exact ⟨rfl, Fi22X.cn_c c2 ih2⟩
 
 include h1 h2 c1 c2 in

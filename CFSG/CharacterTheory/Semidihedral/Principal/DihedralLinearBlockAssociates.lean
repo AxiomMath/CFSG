@@ -317,7 +317,7 @@ theorem dihedral_distinct_linear_block_associates_have_four_group_defect {G : Ty
     (CFSG.Wreathed.linear_character_block_has_sylow_defect localBasis ideal 2 ν νLabel hν SC).1
   have hBdefect : coefficientBlockDefect basis ideal 2 B S := by
     obtain ⟨-, E, hE, hSE⟩ := centralizer_brauer_image_defect_contains_local_defect basis ideal 2
-      (Subgroup.zpowers t) htp S S.isPGroup' hPS hSC localBasis νLabel hνdefect B hB
+      (Subgroup.zpowers t) htp S S.isPGroup hPS hSC localBasis νLabel hνdefect B hB
     have hEp := coefficientBlockDefect_isPGroup basis ideal hE
     have hES := CompatibleFamily.pSubgroup_subconjugate_sylow S hEp
     exact coefficientBlockDefect_of_conj basis ideal hE
@@ -410,7 +410,7 @@ theorem dihedral_distinct_linear_block_associates_have_four_group_defect {G : Ty
       exact hcard4 _ hxS hxA
   · obtain ⟨-, -, -, hinj⟩ := intermediate_normalizer_controlled_defect_correspondence
       basis ideal 2 (Subgroup.zpowers t) htp C le_rfl (Subgroup.centralizer_le_normalizer _) S
-      S.isPGroup' hPS hSC (hNS hn3) localBasis
+      S.isPGroup hPS hSC (hNS hn3) localBasis
     exact hinj νLabel b hνdefect hbS (hB.trans hbB.symm)
   · obtain ⟨x, hxS, hxA, hxdef⟩ := hmain b hb hbB
     obtain ⟨j, rfl⟩ := hform x hxS hxA

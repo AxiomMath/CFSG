@@ -53,8 +53,8 @@ theorem isSolvable_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
   obtain ⟨hKs, -, hKn, hKC⟩ :=
     spe_fstar Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded
@@ -62,7 +62,7 @@ theorem isSolvable_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded
-      hN hPK (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      hN hPK (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -76,12 +76,12 @@ theorem isSolvable_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
     Group.isSolvable_of_comm (outer_comm_of_mulEquiv_psl2GF e)
   have hTn : (T.subgroupOf (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))).Normal :=
     Subgroup.normal_in_normalizer
-  letI : IsCyclic J := hJ
+  let : IsCyclic J := hJ
   have hsol : Group.IsSolvable (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K)) :=
     CFSG.Quasithin.H13.QRC.isSolvable_of_le_sup_cyclic
       (B := Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))
       (U := (T : Subgroup ↥K)) (T := J) Subgroup.le_normalizer
-      (by rw [hJe]; exact le_sup_right) hTn T.isPGroup' hJe.symm
+      (by rw [hJe]; exact le_sup_right) hTn T.isPGroup hJe.symm
   exact isSolvable_of_isCoatom_normalizer
     hKC hout hmax hsol hle hne
 
@@ -92,7 +92,7 @@ theorem commutator_le_inf_of_mulEquiv_psl2GF (hO : CFSG.pPrimeCore p X = ⊥) {N
   obtain ⟨-, -, hKn, hKC⟩ :=
     spe_fstar Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hOut : ∀ x y : Outer ↥K, x * y = y * x := outer_comm_of_mulEquiv_psl2GF e
   let φ : X ⧸ K →* Outer ↥K :=
     QuotientGroup.lift K (CFSG.RankThree.PartOne.CTP.outerHom K)
@@ -119,8 +119,8 @@ theorem pRank_three_le_one_inf_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
   obtain ⟨hKs, -, hKn, -⟩ :=
     spe_fstar Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded
@@ -128,7 +128,7 @@ theorem pRank_three_le_one_inf_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded
-      hN hPK (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      hN hPK (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -142,7 +142,7 @@ theorem pRank_three_le_one_inf_of_mulEquiv_psl2GF (hp5 : 5 ≤ p) (hn : 1 ≤ n)
       hp2 hn e T
   have hrank : CFSG.Open.pRank 3
       (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K)) ≤ 1 :=
-    CFSG.SectionRank.pRank_le_one_of_isPGroup_sup_cyclic Nat.prime_three hp3 T.isPGroup' hJ
+    CFSG.SectionRank.pRank_le_one_of_isPGroup_sup_cyclic Nat.prime_three hp3 T.isPGroup hJ
       hJe.symm le_rfl
   have hB : (N ⊓ K).subgroupOf K = N.subgroupOf K := by
     ext x

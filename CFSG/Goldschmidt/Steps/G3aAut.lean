@@ -122,7 +122,7 @@ theorem mem_normalizer_of_map (P : Sylow 2 K) {n : K}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (Subgroup.center K) with hπ
   have hle : (P : Subgroup K).map (MulAut.conj n).toMonoidHom ≤ P := by
-    apply le_of_le_sup_center P (P.isPGroup'.map _)
+    apply le_of_le_sup_center P (P.isPGroup.map _)
     rintro _ ⟨t, ht, rfl⟩
     have h1 : π (n * t * n⁻¹) ∈ (P : Subgroup K).map π := by
       rw [map_mul, map_mul, map_inv]

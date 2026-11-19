@@ -17,6 +17,7 @@ section CaseOneTwo
 open CFSG.LocalAnalysis.GLTheoremB.Prop95Iv
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem S_cases (h : Setup28 W K S) {a : X} (haS : a ∈ S) (hna : a ∉ kerAct W K S)
     (hc : Nat.card ↥(indAut W K S) = 2) : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S := by
   have hidx : ((kerAct W K S).subgroupOf S).index = 2 := by
@@ -25,7 +26,7 @@ theorem S_cases (h : Setup28 W K S) {a : X} (haS : a ∈ S) (hna : a ∉ kerAct 
     exact h1.symm
   intro s hs
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hmul := Subgroup.mul_mem_iff_of_index_two hidx (a := (⟨a⁻¹, S.inv_mem haS⟩ : ↥S))
     (b := (⟨s, hs⟩ : ↥S))
   have hiff : (⟨a⁻¹, S.inv_mem haS⟩ : ↥S) ∈ (kerAct W K S).subgroupOf S ↔
@@ -34,7 +35,7 @@ theorem S_cases (h : Setup28 W K S) {a : X} (haS : a ∈ S) (hna : a ∉ kerAct 
     exact iff_of_false (fun h' => hna (by simpa using (kerAct W K S).inv_mem h')) hcon.1
   exact hcon.2 (Subgroup.mem_subgroupOf.mp (hmul.mpr hiff))
 
-theorem ccent_normalizes (h : Setup28 W K S) {k : X} (hkS : ∀ s ∈ S, ⁅k, s⁆ ∈ kerAct W K S) :
+theorem ccent_normalizes (_h : Setup28 W K S) {k : X} (hkS : ∀ s ∈ S, ⁅k, s⁆ ∈ kerAct W K S) :
     k ∈ Subgroup.normalizer (S : Set X) := by
   refine Subgroup.mem_normalizer_fintype (S := (S : Set X)) fun n hn => ?_
   have h1 : k * n * k⁻¹ = ⁅k, n⁆ * n := by simp only [commutatorElement_def]; group

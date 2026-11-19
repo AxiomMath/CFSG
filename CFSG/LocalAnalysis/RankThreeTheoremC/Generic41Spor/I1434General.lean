@@ -31,6 +31,7 @@ theorem primeComplementCore_ne_top {H : Type} [Group H] [Finite H] (h5 : 5 ∣ N
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem barX_sup_le {C A B : Subgroup K} (hA : A ≤ C) (hB : B ≤ C) :
     barX 5 C (A ⊔ B) ≤ barX 5 C A ⊔ barX 5 C B := by
   unfold barX
@@ -41,7 +42,7 @@ theorem card_quotient_eq_sixty_of_subnormal_quasisimple {C J₁ J₂ H : Subgrou
     (h5 : 5 ∣ Nat.card H) :
     Nat.card (↥H ⧸ primeComplementCore (G := ↥H) 5) = 60 := by
   have hp5 : Nat.Prime 5 := Nat.prime_five
-  haveI : (primeComplementCore (G := ↥H) 5).Normal :=
+  have : (primeComplementCore (G := ↥H) 5).Normal :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_normal 5
   have hcen : primeComplementCore (G := ↥H) 5 ≤ Subgroup.center ↥H :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hq _
@@ -82,13 +83,13 @@ theorem card_quotient_eq_sixty_of_subnormal_quasisimple {C J₁ J₂ H : Subgrou
     exact h2
   have hab : barX 5 C H ≤ Subgroup.centralizer (barX 5 C H : Set _) :=
     hHle.trans (sup_le e₁ e₂)
-  haveI : IsMulCommutative ↥(barX 5 C H) := Subgroup.le_centralizer_iff_isMulCommutative.1 hab
+  have : IsMulCommutative ↥(barX 5 C H) := Subgroup.le_centralizer_iff_isMulCommutative.1 hab
   have hperf : commutator ↥(barX 5 C H) = ⊤ := hQX.1
   have hbot : commutator ↥(barX 5 C H) = ⊥ := by
     rw [commutator_eq_bot_iff_center_eq_top]
     exact Subgroup.center_eq_top
   rw [hbot] at hperf
-  haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hQX
+  have := CFSG.ComponentClassification.Quasisimple.nontrivial hQX
   obtain ⟨a, ha⟩ := exists_ne (1 : ↥(barX 5 C H))
   have : a ∈ (⊤ : Subgroup ↥(barX 5 C H)) := Subgroup.mem_top a
   rw [← hperf, Subgroup.mem_bot] at this
@@ -110,16 +111,20 @@ variable {C J₁ J₂ : Subgroup K} (hF : FiveLayerData C J₁ J₂)
 
 include hF
 
+omit [Finite K] in
 theorem perfect₁ : ⁅J₁, J₁⁆ = J₁ := component_perfect hF.comp₁
 
+omit [Finite K] in
 theorem perfect₂ : ⁅J₂, J₂⁆ = J₂ := component_perfect hF.comp₂
 
 theorem sixty_dvd_card₁ : 60 ∣ Nat.card ↥J₁ := sixty_dvd_card_of_component hF.comp₁ hF.quot₁
 
 theorem sixty_dvd_card₂ : 60 ∣ Nat.card ↥J₂ := sixty_dvd_card_of_component hF.comp₂ hF.quot₂
 
+omit [Finite K] in
 theorem le₁ : J₁ ≤ C := hF.comp₁.1
 
+omit [Finite K] in
 theorem le₂ : J₂ ≤ C := hF.comp₂.1
 
 end FiveLayerData
@@ -186,7 +191,7 @@ theorem exists_conj_mem_sylow {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p
 
 theorem card_le_of_isElemAbelian {Q : Sylow 5 K} (hQ : CFSG.Open.pRank 5 (Q : Subgroup K) = 3)
     {E : Subgroup K} (hE : IsElemAbelian 5 E) : Nat.card ↥E ≤ 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hEp : IsPGroup 5 E := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE.2 g g.2)⟩
@@ -205,7 +210,7 @@ theorem card_le_of_isElemAbelian {Q : Sylow 5 K} (hQ : CFSG.Open.pRank 5 (Q : Su
 
 theorem isMulCommutative_of_isPGroup {Q : Sylow 5 K} (hQ : IsMulCommutative (Q : Subgroup K))
     {P : Subgroup K} (hP : IsPGroup 5 P) : IsMulCommutative P := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := exists_conj_mem_sylow Q hP
   refine ⟨⟨fun a b => ?_⟩⟩
   apply Subtype.ext
@@ -221,7 +226,7 @@ theorem isMulCommutative_of_isPGroup {Q : Sylow 5 K} (hQ : IsMulCommutative (Q :
 
 theorem commute_of_mem_isPGroup {Q : Sylow 5 K} (hQ : IsMulCommutative (Q : Subgroup K))
     {P : Subgroup K} (hP : IsPGroup 5 P) {a b : K} (ha : a ∈ P) (hb : b ∈ P) : a * b = b * a := by
-  haveI := isMulCommutative_of_isPGroup hQ hP
+  have := isMulCommutative_of_isPGroup hQ hP
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : P) ⟨b, hb⟩)
 
 end General

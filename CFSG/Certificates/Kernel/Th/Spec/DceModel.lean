@@ -57,12 +57,12 @@ theorem letV_xor1 {G : Type*} [Group G] (y : ℕ → G) {k : ℕ} (hk : k < 254)
     letV y (Nat.xor k 1) = (letV y k)⁻¹ := by
   obtain ⟨h1, h2, h3, h4⟩ := xor1_facts k hk
   unfold letV
-  rw [if_neg h3, if_neg h4, h2]
+  rw [ite_eq_right h3, ite_eq_right h4, h2]
   by_cases hp : k % 2 = 0
   · have : ¬ (Nat.xor k 1) % 2 = 0 := by omega
-    rw [if_neg this, if_pos hp]
+    rw [ite_eq_right this, ite_eq_left hp]
   · have : (Nat.xor k 1) % 2 = 0 := by omega
-    rw [if_pos this, if_neg hp, inv_inv]
+    rw [ite_eq_left this, ite_eq_right hp, inv_inv]
 
 theorem xl_u {G : Type*} [Group G] (xg : ℕ → G) {LT LC LI TL VL NL : ℕ}
     (hL : LetOK LT LC LI TL VL NL) :
@@ -236,7 +236,7 @@ theorem Lm_inv {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL) {c : ℕ
 
 @[expose] noncomputable def Lgen (LT LI TL VL NL g : ℕ) : Mat24ˣ := Lm LT LI TL VL NL (2 * g)
 
-@[expose] noncomputable abbrev Mgrp (LT LI TL VL NL : ℕ) : Subgroup Mat24ˣ :=
+noncomputable abbrev Mgrp (LT LI TL VL NL : ℕ) : Subgroup Mat24ˣ :=
   Subgroup.closure (Lgen LT LI TL VL NL '' {g | g < 7})
 
 theorem letV_Lgen {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL)
@@ -244,13 +244,13 @@ theorem letV_Lgen {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL)
     (hc : c < 14) : letV (Lgen LT LI TL VL NL) c = Lm LT LI TL VL NL c := by
   have hx : ∀ g < 7, Nat.xor (2 * g) 1 = 2 * g + 1 := by decide
   unfold letV
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   by_cases hp : c % 2 = 0
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     unfold Lgen
     congr 2
     omega
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have hg : 2 * (c / 2) + 1 = c := by omega
     have h2 : isN TL VL NL (2 * (c / 2)) = true := (hl _).2 (by omega)
     have := Lm_inv hL h2
@@ -267,7 +267,7 @@ theorem wv_Lm_of_segProd {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL
     { hL := hL
       hM := fun c _ => Subgroup.mem_top _
       hφ := fun c hc => by
-        simp only [x0, if_pos hc]
+        simp only [x0, ite_eq_left hc]
         rfl
       hu := by
         have h1 : isN TL VL NL TL = false := by
@@ -292,7 +292,7 @@ theorem wv_Lm_of_segProd {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL
     intro i hi
     have hi' := List.mem_range.1 hi
     rw [Nat.zero_add, ← byte_eq_byteG]
-    simp only [x0, if_pos (hN i hi')]
+    simp only [x0, ite_eq_left (hN i hi')]
   rw [e, ← hv]
 
 theorem Lgen_rel {RR : ℕ → ℕ} {LT LC LI TL VL NL RH NR : ℕ} (hL : LetOK LT LC LI TL VL NL)
@@ -334,9 +334,9 @@ theorem Lgen_rel {RR : ℕ → ℕ} {LT LC LI TL VL NL RH NR : ℕ} (hL : LetOK 
 theorem letV_mem {G : Type*} [Group G] (y : ℕ → G) {c : ℕ} (hc : c < 14) :
     letV y c ∈ Subgroup.closure (y '' {g | g < 7}) := by
   unfold letV
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   have hg : y (c / 2) ∈ Subgroup.closure (y '' {g | g < 7}) :=
-    Subgroup.subset_closure ⟨c / 2, by simp only [Set.mem_setOf_eq]; omega, rfl⟩
+    Subgroup.subset_closure ⟨c / 2, by simp only [Set.mem_ofPred_eq]; omega, rfl⟩
   split_ifs
   · exact hg
   · exact Subgroup.inv_mem _ hg
@@ -346,13 +346,13 @@ theorem phi_letV {G : Type*} [Group G] {M : Subgroup Mat24ˣ} (φ : M →* G) (y
     {z : Mat24ˣ} (hz : z ∈ M) (hzc : z = letV y c) : φ ⟨z, hz⟩ = letV x c := by
   have hc255 : c ≠ 255 := by omega
   unfold letV at hzc ⊢
-  rw [if_neg hc255] at hzc ⊢
+  rw [ite_eq_right hc255] at hzc ⊢
   obtain ⟨hm, hφ⟩ := hy (c / 2) (by omega)
   by_cases hp : c % 2 = 0
-  · rw [if_pos hp] at hzc ⊢
+  · rw [ite_eq_left hp] at hzc ⊢
     subst hzc
     exact hφ
-  · rw [if_neg hp] at hzc ⊢
+  · rw [ite_eq_right hp] at hzc ⊢
     subst hzc
     have : (⟨(y (c / 2))⁻¹, hz⟩ : M) = (⟨y (c / 2), hm⟩ : M)⁻¹ := rfl
     rw [this, map_inv, hφ]

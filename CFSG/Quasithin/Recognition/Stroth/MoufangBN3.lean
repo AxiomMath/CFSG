@@ -79,7 +79,7 @@ theorem stabilizer_vertex1_subset {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
       intro yv hyv
       have hyvD : ((yv : ↥(littleGroup D Γ n)) : D) ∈ aptRoot D Γ n t 1 := by
         have hyv' := hyv
-        rw [rootL, Subgroup.mem_subgroupOf, rootD, if_pos (by norm_num)] at hyv'
+        rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_left (by norm_num)] at hyv'
         exact hyv'
       have h := aptRoot_fix (t := t) ht (g := ((yv : ↥(littleGroup D Γ n)) : D)) hyvD hn
         (k := 1) (r := (n : ℤ)) (by omega) (by omega)
@@ -103,7 +103,7 @@ theorem stabilizer_vertex1_subset {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
         (k := 1) (y := y) (y' := y') (by rwa [hcast]) (by rwa [hcast])
         (by rwa [hprev]) (by rwa [hprev])
       refine ⟨⟨yv, aptRoot_le_littleGroup ht (by omega) 1 hyv⟩, ?_, hyvact⟩
-      rw [rootL, Subgroup.mem_subgroupOf, rootD, if_pos (by norm_num)]
+      rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_left (by norm_num)]
       exact hyv)
     (g := g) hgv
 
@@ -192,7 +192,7 @@ theorem parabolic_titsW1_eq_stabilizer {t : ZMod (2 * n) → V}
     rw [parabolicSet, bruhatSet, closure_titsW1_eq (t := t) ht hn hP hT hM]
     ext x
     simp only [Set.mem_iUnion, Set.mem_insert_iff, Set.mem_singleton_iff,
-      Set.mem_union, dc_one]
+      Set.mem_union]
     constructor
     · rintro ⟨u, rfl | rfl, hx⟩
       · exact Or.inl (by simpa [dc_one] using hx)
@@ -282,7 +282,7 @@ theorem stabilizer_vertex2_subset {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
       intro yv hyv
       have hyvD : ((yv : ↥(littleGroup D Γ n)) : D) ∈ aptRoot D Γ n t (n : ℤ) := by
         have hyv' := hyv
-        rw [rootL, Subgroup.mem_subgroupOf, rootD, if_pos (by omega)] at hyv'
+        rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_left (by omega)] at hyv'
         exact hyv'
       have h := aptRoot_fix (t := t) ht (g := ((yv : ↥(littleGroup D Γ n)) : D)) hyvD hn
         (k := (n : ℤ)) (r := 0) le_rfl (by omega)
@@ -303,7 +303,7 @@ theorem stabilizer_vertex2_subset {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
         (k := (n : ℤ)) (y := y) (y' := y') (by rwa [hcast]) (by rwa [hcast])
         (by rwa [hprev]) (by rwa [hprev])
       refine ⟨⟨yv, aptRoot_le_littleGroup ht (by omega) (n : ℤ) hyv⟩, ?_, hyvact⟩
-      rw [rootL, Subgroup.mem_subgroupOf, rootD, if_pos (by omega)]
+      rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_left (by omega)]
       exact hyv)
     (g := g) hgv
 
@@ -325,7 +325,7 @@ theorem parabolic_titsW2_eq_stabilizer {t : ZMod (2 * n) → V}
     rw [parabolicSet, bruhatSet, closure_titsW2_eq (t := t) ht hn hP hT hM]
     ext x
     simp only [Set.mem_iUnion, Set.mem_insert_iff, Set.mem_singleton_iff,
-      Set.mem_union, dc_one]
+      Set.mem_union]
     constructor
     · rintro ⟨u, rfl | rfl, hx⟩
       · exact Or.inl (by simpa [dc_one] using hx)

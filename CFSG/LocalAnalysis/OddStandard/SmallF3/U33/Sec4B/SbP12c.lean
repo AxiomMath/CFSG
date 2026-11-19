@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -109,7 +110,7 @@ theorem l12_card_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) : Nat.card ↥(ctxW t
     simpa using hmem
   have hcard := card_sup_of_commute (P := twoCore t) (Q := baseGrp x₁ x₂) hcomm hinf
   change Nat.card ↥(twoCore t ⊔ baseGrp x₁ x₂) = 32
-  rw [hcard, hPcard, hBcard] <;> norm_num
+  rw [hcard, hPcard, hBcard]
 
 theorem l12_tau_normalizes_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     ∀ w ∈ ctxW t x₁ x₂, tau * w * tau⁻¹ ∈ ctxW t x₁ x₂ := by
@@ -140,7 +141,7 @@ theorem l12_tau_normalizes_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
         exact Subgroup.inv_mem _ (Subgroup.subset_closure (by simp))
       · rw [hc.tau_x₂]
         exact Subgroup.inv_mem _ (Subgroup.subset_closure (by simp))
-    · simpa using Subgroup.one_mem (Subgroup.closure ({x₁, x₂} : Set G))
+    · simp
     · intro a b _ _ ha hb
       have h : tau * (a * b) * tau⁻¹ = (tau * a * tau⁻¹) * (tau * b * tau⁻¹) := by group
       rw [h]
@@ -230,5 +231,5 @@ theorem l12_CRt_eq (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     ctxR t tau x₁ x₂ ⊓ centralizer ({t} : Set G) = ctxW t x₁ x₂ ⊔ zpowers tau := by
   symm
   refine eq_of_le_of_card_ge (l12_W_tau_le_CRt hc) ?_
-  rw [l12_card_CRt hc, l12_card_W_tau hc.toCtx4] <;> norm_num
+  rw [l12_card_CRt hc, l12_card_W_tau hc.toCtx4]
 end CFSG.OddStandard.SmallF3.HarrisU33.S4B

@@ -39,9 +39,9 @@ public theorem secondCase_linear_aligned_A_conjugate_eq_A
     (hK : IsOddPrimePower (Nat.card K))
     (e : Nonempty ((d.E ⧸ Subgroup.center d.E) ≃* PSL2 K))
     (post : SecondCaseLinearPostNineData c w d K)
-    (hP_notConjP0 : ¬ ∃ z : G, conjugateSubgroup post.od.P z = post.od.P0)
+    (_hP_notConjP0 : ¬ ∃ z : G, conjugateSubgroup post.od.P z = post.od.P0)
     {X : Subgroup G} {h : G}
-    (hXleA : X ≤ post.od.A) (hXneP : X ≠ post.od.P)
+    (hXleA : X ≤ post.od.A) (_hXneP : X ≠ post.od.P)
     (hX : X = conjugateSubgroup post.od.P h)
     (hfix : h * c.t * h⁻¹ = c.t) :
     conjugateSubgroup post.od.A h = post.od.A := by

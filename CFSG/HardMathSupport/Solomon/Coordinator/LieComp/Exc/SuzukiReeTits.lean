@@ -34,7 +34,7 @@ theorem lieCompOn_suzukiReeTits (hchar3 : ReeG2Char3Export) : LieCompOn .suzukiR
   by_cases hβ1 : β = 1
   · subst hβ1
     obtain ⟨e⟩ := he
-    haveI := hs
+    have := hs
     refine Or.inl (lieCompExport_one hna idx ⟨e⟩ ⟨fun f => ?_⟩)
     obtain ⟨d, hv⟩ := idx
     cases d with
@@ -47,7 +47,7 @@ theorem lieCompOn_suzukiReeTits (hchar3 : ReeG2Char3Export) : LieCompOn .suzukiR
   | suzuki m =>
     exact Or.inr (noThreeComponents_suzuki m hv he β)
   | tits =>
-    haveI := hs
+    have := hs
     exact Or.inr (noThreeComponents_tits hv hna he hβ hβ1)
   | reeF4 m =>
     exact Or.inl (lieCompExport_reeF4 m hv he hβ hβ1)

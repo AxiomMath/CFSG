@@ -14,7 +14,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 theorem claim153ObsR_of_155w
     (h155 : Item155wJ2R) (hloc : Claim1411LocalR) (h152b : Item152BigR)
-    (h153J2 : Item153MainJ2R) (h316 : Sec19.Item316) (h149 : Sec16.Item149S14) (h148 : Item148R)
+    (h153J2 : Item153MainJ2R) (_h316 : Sec19.Item316) (h149 : Sec16.Item149S14) (h148 : Item148R)
     (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_15) (hSz : KFacts.KPSz) :
     Claim153ObsR :=
   F153Obs.claim153ObsR_of F153Obs.theoremA881

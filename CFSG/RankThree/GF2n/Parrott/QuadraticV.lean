@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem sq_eq_one_of_mem_card_two {A : Subgroup G} (hA : Nat.card A = 2) {a : G}
     (ha : a ∈ A) : a * a = 1 := by
   have h1 : (⟨a, ha⟩ : A) ^ Nat.card A = 1 := pow_card_eq_one'
@@ -57,6 +58,7 @@ theorem sq_mem_zpowers_z (h : Tim79a.ParrottHyp z) {x : G} (hx : x ∈ J z) :
   rw [heq, ← hcenter]
   exact hff
 
+omit [Finite G] in
 theorem commutator_mem_zpowers_z (h : Tim79a.ParrottHyp z) {x y : G}
     (hx : x ∈ J z) (hy : y ∈ J z) : ⁅x, y⁆ ∈ Subgroup.zpowers z := by
   have hJcomm : ⁅J z, J z⁆ = Subgroup.zpowers z := by
@@ -65,6 +67,7 @@ theorem commutator_mem_zpowers_z (h : Tim79a.ParrottHyp z) {x y : G}
   rw [← hJcomm]
   exact Subgroup.commutator_mem_commutator hx hy
 
+omit [Finite G] in
 theorem sq_eq_one_of_mem_zpowers (h : Tim79a.ParrottHyp z) {a : G}
     (ha : a ∈ Subgroup.zpowers z) : a * a = 1 := by
   have hdvd : orderOf a ∣ 2 := by
@@ -73,16 +76,19 @@ theorem sq_eq_one_of_mem_zpowers (h : Tim79a.ParrottHyp z) {a : G}
   have h2 : a ^ 2 = 1 := (orderOf_dvd_iff_pow_eq_one).mp hdvd
   simpa [pow_two] using h2
 
-theorem zpowers_commute (h : Tim79a.ParrottHyp z) {a b : G}
+omit [Finite G] in
+theorem zpowers_commute (_h : Tim79a.ParrottHyp z) {a b : G}
     (ha : a ∈ Subgroup.zpowers z) (hb : b ∈ Subgroup.zpowers z) : a * b = b * a := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
   rw [← zpow_add, ← zpow_add, add_comm]
 
+omit [Finite G] in
 theorem zpowers_centralizes_J (h : Tim79a.ParrottHyp z) {a : G}
     (ha : a ∈ Subgroup.zpowers z) : a ∈ Subgroup.centralizer (J z) :=
   Subgroup.zpowers_le_of_mem (z_centralizes_J h) ha
 
+omit [Finite G] in
 theorem zpowers_centralizes_H (h : Tim79a.ParrottHyp z) {a : G}
     (ha : a ∈ Subgroup.zpowers z) : a ∈ Subgroup.centralizer (H z) :=
   Subgroup.zpowers_le_of_mem (z_centralizes_H h) ha
@@ -131,6 +137,7 @@ theorem qJ_eq_of_mem_centerIn (h : Tim79a.ParrottHyp z) {a b : J z}
 @[simp] theorem qV_pi_coe (h : Tim79a.ParrottHyp z) (x : J z) :
     ((qV h (QuotientV.pi z x) : Subgroup.zpowers z) : G) = (x : G) ^ 2 := rfl
 
+omit [Finite G] in
 private theorem mul_sq_of_commute {x y : G} (h : Commute x ⁅y, x⁆) :
     (x * y) ^ 2 = ⁅y, x⁆ * x ^ 2 * y ^ 2 := by
   have hyx : y * x = ⁅y, x⁆ * x * y := by
@@ -208,7 +215,7 @@ theorem polarV_pi (h : Tim79a.ParrottHyp z) (x y : J z) :
   unfold polarV
   rw [← map_mul (QuotientV.pi z) x y, qV_pi, qV_pi, qV_pi, qJ_mul]
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+  simp only [Subgroup.coe_mul]
   exact mul_self_mul_self_mul_eq_of_comm
     ((qJ h x : Subgroup.zpowers z) : G) ((qJ h y : Subgroup.zpowers z) : G)
     ⁅(x : G), (y : G)⁆
@@ -246,6 +253,7 @@ noncomputable def zpowersEquivZModTwo (h : Tim79a.ParrottHyp z) :
       exact Subgroup.mem_zpowers_iff.mpr ⟨k, Subtype.ext (by simpa using hk)⟩)
     (n := 2) (by rw [Nat.card_zpowers, h.1])).symm
 
+omit [Finite G] in
 @[simp] theorem zpowersEquivZModTwo_apply_z (h : Tim79a.ParrottHyp z) :
     zpowersEquivZModTwo h ⟨z, Subgroup.mem_zpowers z⟩ = Multiplicative.ofAdd 1 := by
   unfold zpowersEquivZModTwo
@@ -261,7 +269,7 @@ theorem qV_mul_polar (h : Tim79a.ParrottHyp z) (v w : QuotientV.V z) :
     qV h (v * w) = qV h v * qV h w * polarV h v w := by
   unfold polarV
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+  simp only [Subgroup.coe_mul]
   exact (mul_mul_mul_self_mul_self
     ((qV h v : Subgroup.zpowers z) : G) ((qV h w : Subgroup.zpowers z) : G)
     ((qV h (v * w) : Subgroup.zpowers z) : G)
@@ -292,7 +300,7 @@ theorem polarV_comm (h : Tim79a.ParrottHyp z) (v w : QuotientV.V z) :
   have hinv : ⁅(x : G), (y : G)⁆⁻¹ = ⁅(x : G), (y : G)⁆ :=
     inv_eq_of_mul_eq_one_right hc2
   apply Subtype.ext
-  simp only [Subgroup.coe_mk]
+  simp only
   calc ⁅(x : G), (y : G)⁆ = (⁅(x : G), (y : G)⁆)⁻¹ := hinv.symm
     _ = ⁅(y : G), (x : G)⁆ := by
           rw [commutatorElement_def, commutatorElement_def]

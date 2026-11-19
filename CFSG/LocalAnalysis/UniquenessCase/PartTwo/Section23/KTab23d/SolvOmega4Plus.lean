@@ -24,7 +24,7 @@ variable {K : Type} [Field K]
 
 private lemma quadP_apply_D08 (v : ιP → K) :
     StatedQuadPlus 2 K v = v x₀ * v y₀ + v x₁ * v y₁ := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [StatedQuadPlus, Fin.sum_univ_two]
 
 private lemma mulVec_apply_D08 (M : Matrix ιP ιP K) (v : ιP → K) (i : ιP) :
     (M *ᵥ v) i = M i x₀ * v x₀ + M i x₁ * v x₁ + M i y₀ * v y₀ + M i y₁ * v y₁ := by
@@ -178,23 +178,23 @@ private theorem exists_swapHom_D08 {G : Type} [Group G] (m : G → Matrix ιP ι
         have hne : m (g * h) x₁ x₁ ≠ 0 := by
           rw [hgh, hg0, hh0, zero_mul, zero_add]
           exact mul_ne_zero hb hc
-        simp only [hne, hg0, hh0, if_false, if_true, ← ofAdd_add]
+        simp only [hne, hg0, hh0, ite_false, ite_true, ← ofAdd_add]
         decide
       · obtain ⟨hc, -⟩ := (hs h).diag hh0
         have h0 : m (g * h) x₁ x₁ = 0 := by
           rw [hgh, hg0, hc]
           ring
-        simp only [h0, hg0, hh0, if_false, if_true, mul_one]
+        simp only [h0, hg0, hh0, ite_false, ite_true, mul_one]
     · obtain ⟨-, hb⟩ := (hs g).diag hg0
       by_cases hh0 : m h x₁ x₁ = 0
       · have h0 : m (g * h) x₁ x₁ = 0 := by
           rw [hgh, hh0, hb]
           ring
-        simp only [h0, hg0, hh0, if_false, if_true, one_mul]
+        simp only [h0, hg0, hh0, ite_false, ite_true, one_mul]
       · have hne : m (g * h) x₁ x₁ ≠ 0 := by
           rw [hgh, hb, zero_mul, add_zero]
           exact mul_ne_zero hg0 hh0
-        simp only [hne, hg0, hh0, if_false, mul_one]
+        simp only [hne, hg0, hh0, ite_false, mul_one]
   · simp [h0] at hg
 
 private theorem isSolvable_of_shape_D08 {G : Type} [Group G] (m : G → Matrix ιP ιP K)

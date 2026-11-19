@@ -210,7 +210,7 @@ theorem exchange_cyclic_aux [IsAlgClosed Ω] {q : ℕ} (hq3 : q % 3 = 1) (hq2 : 
   have hq1 : 1 ≤ q := by omega
   have hp3 : p ≠ 3 := by
     rintro rfl
-    haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+    have : Fact (Nat.Prime 3) := ⟨hp⟩
     have h1 : ((q ^ 2 : ℕ) : ZMod 3) ^ 3 = 1 := by
       have := pow_orderOf_eq_one ((q ^ 2 : ℕ) : ZMod 3)
       rwa [hord] at this
@@ -219,8 +219,8 @@ theorem exchange_cyclic_aux [IsAlgClosed Ω] {q : ℕ} (hq3 : q % 3 = 1) (hq2 : 
     rw [h1, orderOf_one] at hord
     omega
   have hcop : Nat.Coprime 3 p := (Nat.coprime_primes Nat.prime_three hp).2 (Ne.symm hp3)
-  haveI hFfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
-  haveI : Fintype F := Fintype.ofFinite F
+  have hFfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = q ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hFcard
   set σS : SL(3, Ω) →* SL(3, Ω) := SpecialLinearGroup.map σ with hσSdef
   have hσS : ∀ X : SL(3, Ω), (σS X : M₃) = (X : M₃).map σ := fun X => rfl
@@ -319,7 +319,7 @@ theorem exchange_cyclic_aux [IsAlgClosed Ω] {q : ℕ} (hq3 : q % 3 = 1) (hq2 : 
       exact map_one ν
     rw [h2, orderOf_one] at hyord
     exact hp.one_lt.ne' hyord.symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAord : orderOf A = p := orderOf_eq_prime hAp' hA1
   obtain ⟨E, hEF, hEfin, ψ, hψ⟩ := exists_field_centralizer hp (by rw [hFc]; exact hord) hAord
   let W := GL (Fin 3) Ω ⧸ Subgroup.center (GL (Fin 3) Ω)
@@ -329,9 +329,9 @@ theorem exchange_cyclic_aux [IsAlgClosed Ω] {q : ℕ} (hq3 : q % 3 = 1) (hq2 : 
   let ψ' : E →+* M₃ := F.subtype.mapMatrix.comp ψ
   let lam : Eˣ →* W := (QuotientGroup.mk' (Subgroup.center (GL (Fin 3) Ω))).comp
     (Units.map ψ'.toMonoidHom)
-  haveI : IsCyclic Eˣ := inferInstance
+  have : IsCyclic Eˣ := inferInstance
   let T : Subgroup W := lam.range
-  haveI hTcyc : IsCyclic T :=
+  have hTcyc : IsCyclic T :=
     isCyclic_of_surjective lam.rangeRestrict lam.rangeRestrict_surjective
   set Cn : Subgroup Q := (Subgroup.centralizer ({y} : Set ↥(fixSubgroup θ))).map
     (fixSubgroup θ).subtype with hCn
@@ -342,7 +342,7 @@ theorem exchange_cyclic_aux [IsAlgClosed Ω] {q : ℕ} (hq3 : q % 3 = 1) (hq2 : 
     have := Subgroup.mem_centralizer_iff.1 hw y (Set.mem_singleton y)
     exact congrArg Subtype.val this
   suffices hcyc : IsCyclic Cn by
-    haveI := hcyc
+    have := hcyc
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective _ _ (Subgroup.subtype_injective _)).symm.toMonoidHom
       (MulEquiv.surjective _)
@@ -580,9 +580,9 @@ theorem exchange_cyclic {Q : Type*} [Group Q] (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       have hF2 : ∀ c : Ω, c ∈ k₂ ↔ c ^ ℓ ^ (2 * f) = c := fun c => by rw [hk₂, hq2]
       rw [hq2, ← natCard_setOf_pow_eq_self (Ω := Ω) (ℓ := ℓ) (by omega : 2 * f ≠ 0)]
       exact Nat.card_congr (Equiv.subtypeEquivRight hF2)
-    haveI : Finite k₂ := Nat.finite_of_card_ne_zero (by
+    have : Finite k₂ := Nat.finite_of_card_ne_zero (by
       rw [hk₂card]; exact (pow_pos (pow_pos hℓ.pos f) 2).ne')
-    haveI : Fintype k₂ := Fintype.ofFinite k₂
+    have : Fintype k₂ := Fintype.ofFinite k₂
     have hFc : Fintype.card k₂ = (ℓ ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hk₂card
     intro y hy
     exact isCyclic_centralizer_of_injective_hom_sl hp (by norm_num : 2 ≤ 3)

@@ -23,7 +23,7 @@ theorem ext_image_card {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime) 
     ∃ E : Subgroup (MulAut R),
       E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) ∧
         IsElemAbelian p E ∧ p ^ 3 ≤ Nat.card E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   choose! φ hφI hφ using hind
   have hBc : ∀ u v : ↥B, (u : Y) * v = v * u := fun u v => isElemAbelian_commute hB u.2 v.2
   have hmem : ∀ (b : Y), b ∈ B → ∀ l : ↥S, b⁻¹ * (l : Y) * b ∈ S := by

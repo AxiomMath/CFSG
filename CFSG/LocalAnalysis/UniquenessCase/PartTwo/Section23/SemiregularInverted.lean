@@ -87,7 +87,7 @@ private theorem exists_qSubgroup_le_barPreimage_of_commute {D : Data G} {d : G}
     ∃ X : Subgroup G, X ≠ ⊥ ∧ IsPGroup q ↥X ∧
       X ≤ Subgroup.centralizer ({d} : Set G) ∧ X ≤ barPreimage D.M Y := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hbodd : Odd (orderOf (⟨d, hdM⟩ : ↥D.M)) := by
     rw [← Subgroup.orderOf_coe]
     exact hd
@@ -114,7 +114,7 @@ private theorem exists_mem_pCore_pow_eq_prime_of_commute {M : Subgroup G} {p : �
     (hp : p.Prime) {b x : Bar2 M} (hxP : x ∈ CFSG.pCore p (Bar2 M)) (hx1 : x ≠ 1)
     (hxb : b * x = x * b) :
     ∃ y ∈ CFSG.pCore p (Bar2 M), y ≠ 1 ∧ y ^ p = 1 ∧ b * y = y * b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ orderOf x := by
     simpa only [Subgroup.orderOf_mk] using
       (CFSG.pCore_isPGroup (p := p) (G := Bar2 M)).dvd_orderOf
@@ -168,7 +168,7 @@ theorem pCore_inf_centralizer_bar_eq_bot_of_inverted (c : Ctx23L D Ch)
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨d, hdM⟩ : ↥D.M)} :
         Set (Bar2 D.M)) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_antisymm ?_ bot_le
   intro x hx
   rw [Subgroup.mem_bot]

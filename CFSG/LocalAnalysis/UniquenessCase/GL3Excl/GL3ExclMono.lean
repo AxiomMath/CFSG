@@ -27,10 +27,10 @@ theorem false_of_isTransitiveMonomial {r p : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (hyd : (y : Matrix (Fin 3) (Fin 3) (ZMod r)) = diagonal α) (hyns : ∃ i j, α i ≠ α j) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
   have hneg : (-1 : ZMod r) ≠ 1 := by
-    haveI : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
+    have : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
     exact ZMod.neg_one_ne_one
   obtain ⟨L, hL, hrk, hperm, -⟩ := hmono
   have hinj := CFSG.Quasithin.A38c15.monoLines_injective hL hrk

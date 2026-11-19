@@ -62,7 +62,7 @@ private theorem rho_embW_colH (hK : Nat.card K = (2 ^ 1) ^ 2) (A : SL(2, K)) (c 
 
 theorem col_mem_commOnR (hK : Nat.card K = (2 ^ 1) ^ 2) (c : Fin 2 → K) :
     colH hK c ∈ commOnR ⊤ (LW hK) := by
-  have h4 : 4 ≤ Nat.card K := by rw [hK] <;> norm_num
+  have h4 : 4 ≤ Nat.card K := by rw [hK]; norm_num
   let S : AddSubgroup (Fin 2 → K) :=
     { carrier := {x | colH hK x ∈ commOnR ⊤ (LW hK)}
       add_mem' := by

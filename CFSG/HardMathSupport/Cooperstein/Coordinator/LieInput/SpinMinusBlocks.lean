@@ -37,7 +37,7 @@ theorem ofStdB_pair {m : ℕ} (i j k : Fin m) (hij : i ≠ j) :
       · simp [h1]
         split_ifs <;> simp
       · simp [h1, h2]
-  simp only [key, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [key, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 
 variable {lo hi : ℕ} (hlh : lo ≤ hi) (hhi : hi + 2 < n)
@@ -80,6 +80,7 @@ theorem runIdx_disj (hn1 : 1 ≤ n) (u v : Fin (hi - lo + 2)) :
   map_one' := levMat_one _
   map_mul' := levMat_mul _ (runIdx_disj hlh hhi hn1)
 
+omit [Finite F] [CharP F 2] in
 theorem runMu_injective (hn1 : 1 ≤ n) : Function.Injective (runMu (F := F) hlh hhi hn1) := by
   intro g h hgh
   have key : ∀ g : Matrix.SpecialLinearGroup (Fin (hi - lo + 2)) F,
@@ -104,13 +105,15 @@ theorem runMu_injective (hn1 : 1 ≤ n) : Function.Injective (runMu (F := F) hlh
   simp only [key] at h2
   exact Subtype.ext h2
 
-theorem run_matM_longRoot (hn1 : 1 ≤ n) {u v : Fin (hi - lo + 2)} (huv : u ≠ v) (x : F)
+omit [Finite F] [CharP F 2] in
+theorem run_matM_longRoot (hn1 : 1 ≤ n) {u v : Fin (hi - lo + 2)} (_huv : u ≠ v) (x : F)
     (hij : runCoord hlh hhi u ≠ runCoord hlh hhi v) :
     matM hn1 ((minusFrame n b c).longRoot hij true false (.ofAdd x)) =
       rootMatrix (RingEquiv.refl F) (runIdx hlh hhi hn1 u) (runIdx hlh hhi hn1 v) x := by
   rw [matM_longRoot hn1 hij true false x]
   rfl
 
+omit [CharP F 2] in
 theorem run_E1 (hn : 4 ≤ n) (hn1 : 1 ≤ n) (g : Matrix.SpecialLinearGroup (Fin (hi - lo + 2)) F) :
     ∃ t ∈ leviM (minusDatum n hirr) (runNodes n lo hi), matM hn1 t = runMu hlh hhi hn1 g := by
   classical
@@ -163,6 +166,7 @@ theorem run_E1 (hn : 4 ≤ n) (hn1 : 1 ≤ n) (g : Matrix.SpecialLinearGroup (Fi
       _ = runMu hlh hhi hn1 x⁻¹ := by rw [← map_mul, inv_mul_cancel, map_one, one_mul]
 
 
+omit [Finite F] [CharP F 2] in
 theorem run_E2 (hn1 : 1 ≤ n) :
     leviM (minusDatum n hirr) (runNodes n lo hi) ≤
       liftImage (matM (b := b) (c := c) hn1) (runMu hlh hhi hn1) := by

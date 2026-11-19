@@ -157,8 +157,7 @@ theorem langRatTorusFixedMemKind_of_localNorm
     induction l' with
     | nil =>
       intro _
-      simpa [CFSG.LieType.Chevalley.rootDiagUnit_one] using
-        (rationalComponent S.ρ S.Γ (rootCharHom b) i).one_mem
+      simp [CFSG.LieType.Chevalley.rootDiagUnit_one]
     | cons p l' ih =>
       intro h
       rw [List.map_cons, List.sum_cons, map_add, toMul_add,

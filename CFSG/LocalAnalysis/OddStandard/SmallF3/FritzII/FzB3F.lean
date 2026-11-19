@@ -13,23 +13,28 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 private lemma fzbs_3f_A_mul {a b : G} :
     q⁻¹ * ((a * b) * q * (a * b)⁻¹)
       = (q⁻¹ * (a * q * a⁻¹)) * (a * (q⁻¹ * (b * q * b⁻¹)) * a⁻¹) := by
   group
 
+omit [Finite G] in
 private lemma fzbs_3f_A_inv {a : G} :
     q⁻¹ * (a⁻¹ * q * a) = a⁻¹ * (q⁻¹ * (a * q * a⁻¹))⁻¹ * a := by
   group
 
+omit [Finite G] in
 private lemma fzbs_3f_comm_mul (s a b : G) :
     ⁅s, a * b⁆ = ⁅s, a⁆ * (a * ⁅s, b⁆ * a⁻¹) := by
   rw [commutatorElement_def]; group
 
+omit [Finite G] in
 private lemma fzbs_3f_comm_inv (s a : G) :
     ⁅s, a⁻¹⁆ = a⁻¹ * ⁅s, a⁆⁻¹ * a := by
   rw [commutatorElement_def]; group
 
+omit [Finite G] in
 private lemma fzbs_3f_sq_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {a b : G}
     (ha : a ∈ W) (hb : b ∈ W) : (a * b) ^ 2 = a ^ 2 * b ^ 2 := by
   rw [pow_two, pow_two, pow_two]
@@ -37,6 +42,7 @@ private lemma fzbs_3f_sq_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {a b :
     _ = a * (a * b) * b := by rw [hS.W_comm b hb a ha]
     _ = a * a * (b * b) := by group
 
+omit [Finite G] in
 private lemma fzbs_3f_conj_mem_E (hS : FzbsStr t q tau lam rho u Z E X W R T)
     {g₁ g₂ x : G} (hg₁ : g₁ ∈ R) (hg₂ : g₂ ∈ zpowers rho) (hx : x ∈ X) :
     x * (g₁ * (g₂ * (g₁⁻¹ * x⁻¹ * g₁) * g₂⁻¹) * g₁⁻¹) ∈ E := by
@@ -86,6 +92,7 @@ private lemma fzbs_3f_conj_mem_E (hS : FzbsStr t q tau lam rho u Z E X W R T)
   rw [show x * (x⁻¹ * e₃) = e₃ from by group]
   exact he₃E
 
+omit [Finite G] in
 theorem fzbs_P_aq (hS : FzbsStr t q tau lam rho u Z E X W R T) {p : G}
     (hp : p ∈ ⁅R, zpowers rho⁆) : q⁻¹ * (p * q * p⁻¹) ∈ E := by
   classical

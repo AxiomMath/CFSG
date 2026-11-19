@@ -27,6 +27,7 @@ private theorem lemma34_exists_isSylowOf_ge {P K : Subgroup G} (hPK : P ≤ K)
   refine ⟨(Q : Subgroup K).map K.subtype, ⟨Q, rfl⟩, fun x hx => ?_⟩
   exact ⟨⟨x, hPK hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
 
+omit [Finite G] in
 private theorem lemma34_isPGroup_sup_J (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) : IsPGroup 2 (J z ⊔ E : Subgroup G) := by
   have h1 := Subgroup.relIndex_mul_card E (J z ⊔ E)
@@ -38,6 +39,7 @@ section Perm
 
 variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 private theorem lemma34_mem_sup_J_iff_qH (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) (x : ↥(H z)) :
     (x : G) ∈ J z ⊔ E ↔ qH D x ∈ imageQA45 D hE.1 := by
@@ -57,6 +59,7 @@ private theorem lemma34_mem_sup_J_iff_qH (h : Tim79a.ParrottHyp z) {E : Subgroup
     rw [h3]
     exact Subgroup.mul_mem_sup h2 hk
 
+omit [Finite G] in
 private theorem lemma34_qH_mem_normalizer (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) {m : G} (hm : m ∈ Subgroup.normalizer (E : Set G) ⊓ H z) :
     qH D ⟨m, hm.2⟩ ∈ Subgroup.normalizer (imageQA45 D hE.1 : Set QA45.originalSubgroup) := by
@@ -72,6 +75,7 @@ private theorem lemma34_qH_mem_normalizer (h : Tim79a.ParrottHyp z) {E : Subgrou
   rw [e, ← lemma34_mem_sup_J_iff_qH D h hE, ← lemma34_mem_sup_J_iff_qH D h hE]
   exact Subgroup.mem_normalizer_iff.mp hmN x
 
+omit [Finite G] in
 theorem lemma34_exists_qH_eq_of_mem_normalizer (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E)
     (hweak : ∀ T : Subgroup G, IsSylowOf 2 T (H z) → E ≤ T →
@@ -111,6 +115,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 set_option quotPrecheck false in
 local notation "A45" => ↥QA45.originalSubgroup
 
+omit [Finite G] in
 theorem lemma34_exists_conj_sQA45 {E : Subgroup G} (hE : IsParrottE z E) :
     ∃ c : A45, ∀ s : A45, s ∈ sQA45 ↔ c⁻¹ * s * c ∈ imageQA45 D hE.1 := by
   have hEbar_ab : IsElemAbelian 2 (imageQA45 D hE.1) :=
@@ -136,6 +141,7 @@ theorem lemma34_exists_conj_sQA45 {E : Subgroup G} (hE : IsParrottE z E) :
 
 include D
 
+omit [Finite G] in
 theorem exists_perm_five_of_isParrottE (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E)
     (hweak : ∀ T : Subgroup G, IsSylowOf 2 T (H z) → E ≤ T →

@@ -29,6 +29,7 @@ private def dotLin (f : ι → K) : (ι → K) →ₗ[K] K where
   map_add' x y := dotProduct_add f x y
   map_smul' c x := by simp [dotProduct, Finset.mul_sum, mul_left_comm]
 
+omit [DecidableEq ι] in
 private theorem dotLin_apply (f x : ι → K) : dotLin f x = f ⬝ᵥ x :=
   rfl
 

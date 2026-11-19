@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_sup_mul_card_inf_aux {A B : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (B : Set G)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
@@ -25,6 +26,7 @@ private theorem card_sup_mul_card_inf_aux {A B : Subgroup G}
   rw [← h2, ← h3, inf_comm]
   ring
 
+omit [Finite G] in
 private theorem le_normalizer_of_forall_mem {Q W : Subgroup G}
     (h : ∀ q ∈ Q, ∀ w ∈ W, q * w * q⁻¹ ∈ W) : Q ≤ Subgroup.normalizer (W : Set G) := by
   intro q hq
@@ -34,6 +36,7 @@ private theorem le_normalizer_of_forall_mem {Q W : Subgroup G}
   have := h q⁻¹ (Q.inv_mem hq) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem not_le_centralizer_symm {W W' : Subgroup G}
     (hne : ¬ W' ≤ Subgroup.centralizer (W : Set G)) :
     ¬ W ≤ Subgroup.centralizer (W' : Set G) := by
@@ -44,10 +47,11 @@ theorem not_le_centralizer_symm {W W' : Subgroup G}
   intro w hw
   exact (Subgroup.mem_centralizer_iff.1 (h hw) y hy).symm
 
+omit [Finite G] in
 theorem TransvPair.inf_centralizer_eq {Q W S W' S' : Subgroup G} (h : TransvPair Q W S)
     (h' : TransvPair Q W' S') (hne : ¬ W' ≤ Subgroup.centralizer (W : Set G)) :
     W ⊓ Subgroup.centralizer (W' : Set G) = S := by
-  obtain ⟨y, hyW', hyC⟩ := SetLike.not_le_iff_exists.1 hne
+  obtain ⟨y, hyW', hyC⟩ := IsConcreteLE.not_le_iff_exists.1 hne
   apply le_antisymm
   · intro z hz
     obtain ⟨hzW, hzC⟩ := Subgroup.mem_inf.1 hz

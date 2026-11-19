@@ -12,6 +12,7 @@ open Matrix CFSG.Open CFSG.ComponentClassification.Burgoyne.U
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem scalars_subgroupOf_bot (hF : Nat.card F = (2 ^ 2) ^ 2) :
     (StatedScalars (Fin 6) F).subgroupOf (StatedSU 6 (2 ^ 2) F) = ⊥ := by
   rw [eq_bot_iff]
@@ -38,18 +39,22 @@ theorem scalars_subgroupOf_bot (hF : Nat.card F = (2 ^ 2) ^ 2) :
     StatedProj (StatedSU 6 (2 ^ 2) F) ≃* StatedSU 6 (2 ^ 2) F :=
   (QuotientGroup.quotientMulEquivOfEq (scalars_subgroupOf_bot hF)).trans QuotientGroup.quotientBot
 
+omit [DecidableEq F] [CharP F 2] in
 theorem projIso_projH (hF : Nat.card F = (2 ^ 2) ^ 2) (x : StatedSU 6 (2 ^ 2) F) :
     projIso hF (projH _ x) = x :=
   rfl
 
+omit [DecidableEq F] [CharP F 2] in
 theorem projH_injective (hF : Nat.card F = (2 ^ 2) ^ 2) {x y : StatedSU 6 (2 ^ 2) F}
     (h : projH _ x = projH _ y) : x = y := by
   rw [← projIso_projH hF x, ← projIso_projH hF y, h]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem projH_eq_symm (hF : Nat.card F = (2 ^ 2) ^ 2) (y : StatedSU 6 (2 ^ 2) F) :
     (projIso hF).symm y = projH _ y := by
   rw [MulEquiv.symm_apply_eq, projIso_projH]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem transport_fix (hF : Nat.card F = (2 ^ 2) ^ 2) (α : MulAut (StatedSU 6 (2 ^ 2) F)) :
     ∃ A : GL (Fin 6) F, ((A : Matrix (Fin 6) (Fin 6) F).map (fun x : F => x ^ 4))ᵀ *
         (A : Matrix (Fin 6) (Fin 6) F) = 1 ∧

@@ -52,7 +52,7 @@ theorem qTwoGlobFour_selected_card [Finite W] [Module.Finite (ZMod 3) W]
     (hfac : N.factorial ∣ Nat.card A)
     (hneg : (LinearEquiv.neg (ZMod 3) : W ≃ₗ[ZMod 3] W) ∈ A → False) :
     N = 6 ∧ Nat.card A = 720 := by
-  letI : Finite A := Finite.of_injective
+  let : Finite A := Finite.of_injective
     (fun a : A => (⟨a.1, hle a.2⟩ : orthogonalGroup Q))
     (fun _ _ h => Subtype.ext
       (congrArg (fun z : orthogonalGroup Q => (z : W ≃ₗ[ZMod 3] W)) h))

@@ -16,8 +16,8 @@ theorem exists_isPGroup_sup_eq_of_isPGroup_quotient {p : ℕ} (hp : p.Prime) {N 
     (hquot : IsPGroup p (↥X ⧸ N.subgroupOf X)) :
     ∃ P : Subgroup G, IsPGroup p P ∧ P ≤ Subgroup.normalizer (N : Set G) ∧ N ⊔ P = X := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥X := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥X := Subtype.finite
   let S : Sylow p ↥X := Classical.choice (Sylow.nonempty (p := p) (G := ↥X))
   set q : ↥X →* (↥X ⧸ N.subgroupOf X) := QuotientGroup.mk' (N.subgroupOf X) with hq
   have hqsurj : Function.Surjective q := QuotientGroup.mk'_surjective _
@@ -27,7 +27,7 @@ theorem exists_isPGroup_sup_eq_of_isPGroup_quotient {p : ℕ} (hp : p.Prime) {N 
   have hsplitX : (N.subgroupOf X) ⊔ (S : Subgroup ↥X) = ⊤ := by
     rw [eq_top_iff]
     intro x _
-    haveI := hNnorm
+    have := hNnorm
     have hxT : q x ∈ (T : Subgroup (↥X ⧸ N.subgroupOf X)) := by
       rw [hTtop]
       exact Subgroup.mem_top _

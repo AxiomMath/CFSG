@@ -17,6 +17,7 @@ open QuadraticMap
 variable {F K : Type} [Field F] [Field K] [Algebra F K] [Finite K] [CharP K 2] {f : ℕ}
   (E : QuadExt F K (unitaryInvolution K 2 f))
 
+omit [Finite K] [CharP K 2] in
 private theorem finrank_coordAnchor_refl (n : ℕ) :
     Module.finrank F (coordAnchor (LinearEquiv.refl F ((F × F) × (Fin n → K)))) = 2 := by
   have hdim : Module.finrank F (coordAnchor (LinearEquiv.refl F ((F × F) × (Fin n → K)))) =
@@ -45,7 +46,7 @@ private theorem finrank_coordPlane_refl (E : QuadExt F K (unitaryInvolution K 2 
 private theorem supportedDerived_coordSupport_le (n : ℕ) (S : Finset (Fin n)) :
     supportedDerived (normHypForm E n)
         (coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S) ≤ normOmega E n := by
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   exact supportedDerived_le_orthDerived_of_regular
     (coordSupport_nondegenerate (ψ := LinearEquiv.refl F ((F × F) × (Fin n → K)))
       (hψ := normHypForm_apply_coord E n)
@@ -55,9 +56,9 @@ private theorem supportedDerived_coordSupport_le (n : ℕ) (S : Finset (Fin n)) 
 theorem normBlock_eq_iSup_pairs (n : ℕ) (S : Finset (Fin n)) (hS : 2 ≤ S.card) :
     normBlock E n S =
       ⨆ P : CFSG.Permutation.ProperSupportMaps.PairBelow S, normBlock E n (P : Finset (Fin n)) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   have hpairGen : supportedDerived (normHypForm E n)
         (coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S) =
       ⨆ P : CFSG.Permutation.ProperSupportMaps.PairBelow S,
@@ -73,7 +74,7 @@ theorem normBlock_eq_iSup_pairs (n : ℕ) (S : Finset (Fin n)) (hS : 2 ≤ S.car
           (ψ := LinearEquiv.refl F ((F × F) × (Fin n → K)))
           (hψ := normHypForm_apply_coord E n)
           (hQ := normHypForm_polarBilin_nondegenerate E n)
-          (hQE := normQuad_polarBilin_nondegenerate E))
+          (_hQE := normQuad_polarBilin_nondegenerate E))
         (hWdim := finrank_coordAnchor_refl (F := F) (K := K) n)
         (hWU := fun i w hw u hu =>
           polar_coordAnchor_plane (ψ := LinearEquiv.refl F ((F × F) × (Fin n → K)))
@@ -102,6 +103,7 @@ theorem normBlock_eq_iSup_pairs (n : ℕ) (S : Finset (Fin n)) (hS : 2 ≤ S.car
       refine iSup_congr fun P => ?_
       rw [normBlock, Subgroup.map_subgroupOf_eq_of_le
         (supportedDerived_coordSupport_le E n (P : Finset (Fin n)))]
+omit [Finite K] [CharP K 2] in
 private theorem coordAnchor_refl_eq_span_hypPair (n : ℕ) :
     coordAnchor (LinearEquiv.refl F ((F × F) × (Fin n → K))) =
       Submodule.span F
@@ -154,9 +156,9 @@ theorem iSup_singleton_normBlock_eq_top
     (E : QuadExt F K (unitaryInvolution K 2 f)) {n : ℕ} (hn : 2 ≤ n) :
     (⨆ i : Fin n, normBlock E n {i}) = ⊤ := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   let V := (F × F) × (Fin n → K)
   let Q : QuadraticForm F V := normHypForm E n
   let W : Submodule F V := coordAnchor (LinearEquiv.refl F V)
@@ -216,9 +218,9 @@ theorem normBlock_singleton_sup_singleton
     (E : QuadExt F K (unitaryInvolution K 2 f)) {n : ℕ} (i j : Fin n) :
     normBlock E n {i} ⊔ normBlock E n {j} = normBlock E n {i, j} := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   by_cases hij : i = j
   · subst j
     simp
@@ -258,7 +260,7 @@ theorem normBlock_singleton_sup_singleton
   have hWspan' : W' = Submodule.span F {PA.e, PA.f} := by
     apply Submodule.map_injective_of_injective A.subtype_injective
     rw [Submodule.map_comap_subtype, inf_eq_right.mpr hWA, Submodule.map_span, Set.image_pair]
-    simpa [PA, hspanW]
+    simp [PA, hspanW]
   have hsup_i : ({i} : Finset (Fin n)).sup
       (fun k => coordPlane (LinearEquiv.refl F V) k) = U i := by
     rw [Finset.sup_singleton]
@@ -272,7 +274,7 @@ theorem normBlock_singleton_sup_singleton
     coordAnchor_nondegenerate (ψ := LinearEquiv.refl F V)
       (hψ := normHypForm_apply_coord E n)
       (hQ := normHypForm_polarBilin_nondegenerate E n)
-      (hQE := normQuad_polarBilin_nondegenerate E)
+      (_hQE := normQuad_polarBilin_nondegenerate E)
   have hWU0 : ∀ k : Fin n, ∀ w ∈ W, ∀ u ∈ U k, polar Q w u = 0 := by
     intro k w hw u hu
     exact polar_coordAnchor_plane (ψ := LinearEquiv.refl F V)

@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem p131_pCore_le_glaPPrime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G) :
     pCoreOf 2 H ≤ GLAPPrimeCoreOf p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk : IsPGroup 2 ↥(pCoreOf 2 H) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
   obtain ⟨k, hkc⟩ := IsPGroup.iff_card.1 hk
   refine sec11_le_glaPPrimeCoreOf (CFSG.LieType.BorelTits.pCoreOf_le 2 H) ?_ ?_
@@ -30,7 +30,7 @@ theorem p131_pCore_le_glaPPrime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Su
 
 theorem p131_pCore_le_of_le {M N : Subgroup G} (hNM : N ≤ M) (hO : pCoreOf 2 M ≤ N) :
     pCoreOf 2 M ≤ pCoreOf 2 N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf 2 hO ?_ (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M)
   refine ⟨fun n hn g => Subgroup.mem_subgroupOf.2 ?_⟩
   have hnM : (n : G) ∈ pCoreOf 2 M := Subgroup.mem_subgroupOf.1 hn
@@ -85,7 +85,7 @@ theorem prop131_of_inputs (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDA : D ≤ A := hD.1
   have hD1 : IsElemAbelian p D := hD.2.1
   have hDcard : Nat.card D = p ^ 2 := hD.2.2
@@ -151,10 +151,10 @@ def Input7_1Inn : Prop :=
     IsPiTypeGroup p Y → ∀ P : Subgroup (MulAut Y), IsPGroup p ↥P →
       P ≤ CFSG.HardMathSupport.Solomon.LocalBalance.innerAut Y
 
+omit [Finite G] in
 theorem glaPComponent_ne_bot' {p : ℕ} {X K : Subgroup G} (hK : GLAPComponent p X K) : K ≠ ⊥ := by
   rintro rfl
   have hc := hK.2.2.1
-  unfold barX at hc
   rw [Subgroup.bot_subgroupOf, Subgroup.map_bot] at hc
   have hsub : Subsingleton (↥(⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)) ⧸
       Subgroup.center ↥(⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X))) := by
@@ -176,7 +176,7 @@ theorem prop95Hyp_of (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
   refine ⟨h.pre.1.1, hD.1.trans hAM, ⟨hD.2.1, hD.2.2⟩, ?_, ?_, ?_⟩
   · intro d hdD hd1
@@ -200,7 +200,7 @@ theorem iof_ne_bot_of (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB : IsBOneMax p B := h.bOne
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS hB h.pre
   obtain ⟨hpc, hcent, hcomp⟩ := hP95 G m p hS M D
@@ -239,7 +239,7 @@ theorem iof_ne_bot_of (h111 : Prop111Statement) (h1117 : Prop1117Statement)
         hT2'.to_le inf_le_left
       have hpp : IsPGroup p ↥(barX p M T ⊓ CFSG.Open.pCore p (↥M ⧸ GLAPPrimeCore p ↥M)) :=
         hpC.to_le inf_le_right
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 h2
       obtain ⟨b, hb⟩ := IsPGroup.iff_card.1 hpp
       have hb0 : b = 0 := by
@@ -301,6 +301,7 @@ section Lemma133Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_le_iff_of_mem {M : Subgroup G} {g : G} (hg : g ∈ M) (X : Subgroup G) :
     GLBConj g X ≤ M ↔ X ≤ M := by
   have hM : GLBConj g M = M := gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hg)
@@ -313,12 +314,14 @@ theorem gLBConj_le_iff_of_mem {M : Subgroup G} {g : G} (hg : g ∈ M) (X : Subgr
     have h' := gLBConj_mono g h
     rwa [hM] at h'
 
+omit [Finite G] in
 theorem centralizer_singleton_conj_eq (g d : G) :
     Subgroup.centralizer ({g * d * g⁻¹} : Set G) =
       GLBConj g⁻¹ (Subgroup.centralizer ({d} : Set G)) := by
   have := centralizer_singleton_gLBConj g⁻¹ d
   rwa [inv_inv] at this
 
+omit [Finite G] in
 theorem prop95Hyp_gLBConj {p : ℕ} {M D : Subgroup G} (h : CFSG.LocalAnalysis.GLTheoremB.Prop95Hyp p M D)
     {g : G} (hg : g ∈ M) : CFSG.LocalAnalysis.GLTheoremB.Prop95Hyp p M (GLBConj g D) := by
   have hαM : GLBConj g⁻¹ (alphaOf p M) = alphaOf p M := by
@@ -373,6 +376,7 @@ theorem IsPiTypeGroup.of_mulEquiv' {p : ℕ} {Y Y' : Type} [Group Y] [Group Y'] 
   · exact Or.inr (Or.inl ⟨n, ε, hn, IsOmegaTwo.of_mulEquiv e hΩ, hfp⟩)
   · exact Or.inr (Or.inr ⟨h3, ⟨e.symm.trans f⟩⟩)
 
+omit [Finite G] in
 theorem isPiTypeGroup_of_prop95 {p : ℕ} {M D L : Subgroup G}
     (h : Prop95Alpha p M D L ∨ Prop95Beta p M D L ∨ Prop95Gamma p M D L) :
     IsPiTypeGroup p ↥(barX p M L) := by
@@ -448,6 +452,7 @@ section Lemma133Layer
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isComponentOf_ne_bot' {K : Subgroup Q} (hK : IsComponentOf K ⊤) : K ≠ ⊥ := by
   rintro rfl
   have hsub : Subsingleton (↥(⊥ : Subgroup Q) ⧸ Subgroup.center ↥(⊥ : Subgroup Q)) := by
@@ -465,7 +470,7 @@ theorem isComponentOf_ne_bot' {K : Subgroup Q} (hK : IsComponentOf K ⊤) : K �
 theorem layer_mem {K : Subgroup Q} (hK : IsComponentOf K ⊤) {ι : Type} {F : ι → Subgroup Q}
     (hF : ∀ i, IsComponentOf (F i) ⊤) (hle : K ≤ ⨆ i, F i) : ∃ i, F i = K := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hcomm : ∀ i, K ≤ Subgroup.centralizer (F i : Set Q) := by
     intro i
     apply Subgroup.commutator_eq_bot_iff_le_centralizer.1
@@ -484,6 +489,7 @@ theorem layer_mem {K : Subgroup Q} (hK : IsComponentOf K ⊤) {ι : Type} {F : �
   have hKe : ⁅K, K⁆ = K := (Subgroup.isPerfect_iff (H := K)).mp (Group.isPerfect_def.2 hK.2.2.1)
   exact isComponentOf_ne_bot' hK (hKe.symm.trans hperf)
 
+omit [Finite Q] in
 theorem gLBConj_iSup_eq {ι : Sort*} (y : Q) (F : ι → Subgroup Q) :
     GLBConj y (⨆ i, F i) = ⨆ i, GLBConj y (F i) := by
   unfold GLBConj
@@ -545,10 +551,12 @@ section Lemma133Istar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Iof_le_M (p : ℕ) (M D : Subgroup G) : Iof p M D ≤ M := by
   unfold Iof
   exact iSup₂_le fun L hL => hL.1.1
 
+omit [Finite G] in
 theorem conj_iSup_mem_le {M I : Subgroup G} {g : G} (hg : g ∈ M) :
     GLBConj g (⨆ h ∈ M, GLBConj h I) ≤ ⨆ h ∈ M, GLBConj h I := by
   refine (le_of_eq (gLBConj_iSup_eq g (fun h : G => ⨆ (_ : h ∈ M), GLBConj h I))).trans ?_
@@ -558,10 +566,12 @@ theorem conj_iSup_mem_le {M I : Subgroup G} {g : G} (hg : g ∈ M) :
   rw [gLBConj_gLBConj]
   exact le_iSup₂_of_le (h * g) (M.mul_mem hh hg) le_rfl
 
+omit [Finite G] in
 theorem istar_conj_le (p : ℕ) {M D : Subgroup G} {g : G} (hg : g ∈ M) :
     GLBConj g (Istar p M D) ≤ Istar p M D :=
   conj_iSup_mem_le (I := Iof p M D) hg
 
+omit [Finite G] in
 theorem istar_conj_eq (p : ℕ) {M D : Subgroup G} {g : G} (hg : g ∈ M) :
     GLBConj g (Istar p M D) = Istar p M D := by
   refine le_antisymm (istar_conj_le p hg) ?_
@@ -569,11 +579,13 @@ theorem istar_conj_eq (p : ℕ) {M D : Subgroup G} {g : G} (hg : g ∈ M) :
   rw [gLBConj_gLBConj_inv] at h1
   exact h1
 
+omit [Finite G] in
 theorem istar_le_M (p : ℕ) (M D : Subgroup G) : Istar p M D ≤ M := by
   unfold Istar
   refine iSup₂_le fun g hg => ?_
   exact (gLBConj_le_iff_of_mem hg _).2 (Iof_le_M p M D)
 
+omit [Finite G] in
 theorem istar_isSubnormal (p : ℕ) (M D : Subgroup G) : IsSubnormal (Istar p M D) M := by
   refine IsSubnormal.step (istar_le_M p M D) ⟨fun n hn x => Subgroup.mem_subgroupOf.2 ?_⟩
     (IsSubnormal.refl M)
@@ -599,6 +611,7 @@ theorem gLBConj_le_iSup_of_le {Q : Type} [Group Q] [Finite Q] {S : Subgroup Q} {
     (y : Q) (h : S ≤ ⨆ i, F i) : GLBConj y S ≤ ⨆ i, GLBConj y (F i) :=
   (gLBConj_mono y h).trans (le_of_eq (gLBConj_iSup_eq y F))
 
+omit [Finite G] in
 theorem barX_istar_le {p : ℕ} {M I : Subgroup G} (hI : I ≤ M) :
     barX p M (⨆ j ∈ M, GLBConj j I) ≤ ⨆ y : (↥M ⧸ GLAPPrimeCore p ↥M), GLBConj y (barX p M I) := by
   have := barX_iSup_conj_le p (C := M) (Js := M) (S := I) le_rfl hI
@@ -618,11 +631,13 @@ theorem barX_le_iSup_conj_of {p : ℕ} {M K I : Subgroup G} {T : Type} (x : T �
   exact (gLBConj_le_iSup_of_le (fun t => barX p M (x t)) y h3).trans
     (iSup_le fun t => le_iSup_of_le (y, t) le_rfl)
 
+omit [Finite G] in
 theorem glaPComponent_conj_mem {p : ℕ} {M L0 : Subgroup G} (hL0 : GLAPComponent p M L0) {g : G}
     (hg : g ∈ M) : GLAPComponent p M (GLBConj g L0) := by
   have := glaPComponent_gLBConj hL0 g
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hg)] at this
 
+omit [Finite G] in
 theorem Iof_eq_iSup_subtype (p : ℕ) (M D : Subgroup G) :
     Iof p M D = ⨆ x : {L0 : Subgroup G // IsIComp p M D L0}, x.1 := by
   unfold Iof
@@ -684,7 +699,7 @@ section Lemma133Arith
 
 theorem pow_mul_eq_pow_mul_coprime {p α β u v : ℕ} (hp : p.Prime) (hu : ¬ p ∣ u) (hv : ¬ p ∣ v)
     (h : p ^ α * u = p ^ β * v) : α = β ∧ u = v := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hu0 : u ≠ 0 := fun h0 => hu (h0 ▸ dvd_zero p)
   have hv0 : v ≠ 0 := fun h0 => hv (h0 ▸ dvd_zero p)
   have hp0 : p ^ α ≠ 0 := pow_ne_zero _ hp.ne_zero
@@ -703,6 +718,7 @@ section SylowDecompCore
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem isPGroup_inf_eq_bot_of_not_dvd {p : ℕ} (hp : p.Prime) {S N : Subgroup H} (hS : IsPGroup p S)
     (hN : ¬ p ∣ Nat.card N) : S ⊓ N = ⊥ := by
   rw [eq_bot_iff]
@@ -721,6 +737,7 @@ theorem isPGroup_inf_eq_bot_of_not_dvd {p : ℕ} (hp : p.Prime) {S N : Subgroup 
   rw [Nat.Coprime.gcd_eq_one hcop, pow_one] at h1
   exact Subgroup.mem_bot.2 h1
 
+omit [Finite H] in
 theorem sylow_pieces_commute {p : ℕ} (hp : p.Prime) {L C : Subgroup H} {S : Subgroup H}
     (hS : IsPGroup p S) (hN0 : ¬ p ∣ Nat.card (L ⊓ C : Subgroup H))
     (hcomm : ∀ l ∈ L, ∀ c ∈ C, c * l * c⁻¹ * l⁻¹ ∈ L ⊓ C) :
@@ -744,8 +761,8 @@ theorem sylow_split {p : ℕ} (hp : p.Prime) {L C : Subgroup H}
     (hX : L ⊔ C = ⊤) (hN0 : ¬ p ∣ Nat.card (L ⊓ C : Subgroup H))
     (hcomm : ∀ l ∈ L, ∀ c ∈ C, c * l * c⁻¹ * l⁻¹ ∈ L ⊓ C) (S : Sylow p H) :
     S.toSubgroup = (S.toSubgroup ⊓ L) ⊔ (S.toSubgroup ⊓ C) := by
-  haveI := Fact.mk hp
-  have hSp : IsPGroup p S.toSubgroup := S.isPGroup'
+  have := Fact.mk hp
+  have hSp : IsPGroup p S.toSubgroup := S.isPGroup
   have hNL : Subgroup.normalizer (L : Set H) = ⊤ := by
     rw [eq_top_iff, ← hX]
     exact sup_le Subgroup.le_normalizer hCN
@@ -843,6 +860,7 @@ theorem exists_mul_of_mem_sup_of_commute {s t : Subgroup H} (hc : ∀ x ∈ s, �
   rw [h] at hx'
   exact Set.mem_mul.1 hx'
 
+omit [Finite H] in
 theorem factor_unique {s t : Subgroup H} (hint : s ⊓ t = ⊥) {l l' c c' : H} (hl : l ∈ s)
     (hl' : l' ∈ s) (hc : c ∈ t) (hc' : c' ∈ t) (h : l * c = l' * c') : l = l' ∧ c = c' := by
   have h1 : l'⁻¹ * l = c' * c⁻¹ := by
@@ -861,6 +879,7 @@ theorem factor_unique {s t : Subgroup H} (hint : s ⊓ t = ⊥) {l l' c c' : H} 
     exact (mul_inv_eq_one.1 h2).symm
   exact ⟨hll, hcc⟩
 
+omit [Finite H] in
 theorem isElemAbelian_of_comm_pow {p : ℕ} {E : Subgroup H} (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hpow : ∀ x ∈ E, x ^ p = 1) : IsElemAbelian p E := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hpow x hx⟩
@@ -876,7 +895,7 @@ theorem decomp_core {p : ℕ} (hp : p.Prime) {L C : Subgroup H}
     (∀ b ∈ B, ∃ l ∈ B ⊓ L, ∃ c ∈ B ⊓ C, b = l * c) ∧
       ∃ e : ℕ, Nat.card (B ⊓ (S.toSubgroup ⊓ L) : Subgroup H) = p ^ e ∧
         CFSG.Open.pRank p (S.toSubgroup ⊓ L : Subgroup H) = e := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp1 : 1 < p := hp.one_lt
   have hNL : Subgroup.normalizer (L : Set H) = ⊤ := by
     rw [eq_top_iff, ← hX]
@@ -887,7 +906,7 @@ theorem decomp_core {p : ℕ} (hp : p.Prime) {L C : Subgroup H}
     exact (Subgroup.mem_normalizer_iff.1 hg n).1 hn
   have hSdec := sylow_split hp hCN hLN hX hN0 hcomm S
   set Sg : Subgroup H := S.toSubgroup with hSgdef
-  have hSp : IsPGroup p Sg := S.isPGroup'
+  have hSp : IsPGroup p Sg := S.isPGroup
   have hcS := sylow_pieces_commute hp hSp hN0 hcomm
   have hint : (Sg ⊓ L) ⊓ (Sg ⊓ C) = ⊥ := by
     have e : (Sg ⊓ L) ⊓ (Sg ⊓ C) = Sg ⊓ (L ⊓ C) := by
@@ -965,7 +984,7 @@ theorem decomp_core {p : ℕ} (hp : p.Prime) {L C : Subgroup H}
   have hte : t + e = m := by
     have : p ^ (t + e) = p ^ m := by rw [pow_add, ← ht, hTE]
     exact Nat.pow_right_injective hp.two_le this
-  haveI := hLnorm
+  have := hLnorm
   have hfac : ∀ x ∈ T, ∃ b ∈ B, ∃ l ∈ Sg ⊓ L, b * l = x := by
     intro x hx
     have hxY : x ∈ B ⊔ L := sup_le_sup_left inf_le_right B (Subgroup.mem_inf.1 hx).1
@@ -1158,6 +1177,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barAut innerAut)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centK_iff {p : ℕ} {L : Subgroup G} {x : G} :
     x ∈ (MonoidHom.ker (barAut p L)).map (Subgroup.normalizer (L : Set G)).subtype ↔
       ∃ hx : x ∈ Subgroup.normalizer (L : Set G), barAut p L ⟨x, hx⟩ = 1 := by
@@ -1167,6 +1187,7 @@ theorem mem_centK_iff {p : ℕ} {L : Subgroup G} {x : G} :
   · rintro ⟨hx, h1⟩
     exact ⟨⟨x, hx⟩, MonoidHom.mem_ker.2 h1, rfl⟩
 
+omit [Finite G] in
 theorem barAut_eq_conj_mk {p : ℕ} {L : Subgroup G} {l : G} (hl : l ∈ L)
     (hN : l ∈ Subgroup.normalizer (L : Set G)) :
     barAut p L ⟨l, hN⟩ = MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L)) := by
@@ -1181,7 +1202,7 @@ theorem mem_pPrimeCore_of_barAut_eq_one {p : ℕ} {M L : Subgroup G} (hp : p.Pri
     (hL : GLAPComponent p M L) (hbl : IsGLBlock M L) {l : G} (hl : l ∈ L)
     (hN : l ∈ Subgroup.normalizer (L : Set G)) (h1 : barAut p L ⟨l, hN⟩ = 1) :
     (⟨l, hl⟩ : ↥L) ∈ GLAPPrimeCore p ↥L := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hZ := center_quotient_eq_bot_of_block hp hp2 hL hbl
   rw [barAut_eq_conj_mk hl hN] at h1
   have hc : (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : ↥L ⧸ GLAPPrimeCore p ↥L) ∈
@@ -1196,10 +1217,11 @@ theorem mem_pPrimeCore_of_barAut_eq_one {p : ℕ} {M L : Subgroup G} (hp : p.Pri
 
 theorem not_dvd_card_pPrimeCore {p : ℕ} (hp : p.Prime) (L : Subgroup G) :
     ¬ p ∣ Nat.card (GLAPPrimeCore p ↥L) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 hc
 
+omit [Finite G] in
 theorem isElemAbelian_map {p : ℕ} {K : Type} [Group K] (f : K →* G) {V : Subgroup K}
     (hV : IsElemAbelian p V) : IsElemAbelian p (V.map f) := by
   apply isElemAbelian_of_comm_pow
@@ -1211,7 +1233,8 @@ theorem isElemAbelian_map {p : ℕ} {K : Type} [Group K] (f : K →* G) {V : Sub
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.1 hx
     rw [← map_pow, hV.2 a ha, map_one]
 
-theorem isElemAbelian_subgroupOf {p : ℕ} {K V : Subgroup G} (hVK : V ≤ K) (hV : IsElemAbelian p V) :
+omit [Finite G] in
+theorem isElemAbelian_subgroupOf {p : ℕ} {K V : Subgroup G} (_hVK : V ≤ K) (hV : IsElemAbelian p V) :
     IsElemAbelian p (V.subgroupOf K) := by
   apply isElemAbelian_of_comm_pow
   · intro x hx y hy
@@ -1224,7 +1247,7 @@ theorem isElemAbelian_subgroupOf {p : ℕ} {K V : Subgroup G} (hVK : V ≤ K) (h
 theorem card_le_of_isTwoLocal {p m : ℕ} (hp : p.Prime)
     (hTLR : CFSG.Open.twoLocalPrimeRank p G = m) {M V : Subgroup G} (hM : CFSG.Open.IsTwoLocal M)
     (hVM : V ≤ M) (hV : IsElemAbelian p V) : Nat.card V ≤ p ^ m := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp1 : 1 < p := hp.one_lt
   have hbdd : BddAbove {k | ∃ H : Subgroup G, CFSG.Open.IsTwoLocal H ∧ CFSG.Open.pRank p H = k} := by
     refine ⟨Nat.card G, ?_⟩
@@ -1245,7 +1268,7 @@ theorem block_inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B M L : Subgroup G
     (hsn : IsSubnormal L M) (hPi : IsPiTypeGroup p ↥(barX p M L)) (hI71 : Input7_1Inn)
     (hZ : Subgroup.center (↥L ⧸ GLAPPrimeCore p ↥L) = ⊥) (b : G) (hb : b ∈ B) :
     ∃ (l : G) (hl : l ∈ L), barAut p L ⟨b, hBN hb⟩ = barAut p L ⟨l, Subgroup.le_normalizer hl⟩ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hY : IsPiTypeGroup p (↥L ⧸ GLAPPrimeCore p ↥L) :=
     IsPiTypeGroup.of_mulEquiv' (quotEquivBarX hp hLM hsn).symm hPi
   have hBn : IsPGroup p ↥(B.subgroupOf (Subgroup.normalizer (L : Set G))) :=
@@ -1264,6 +1287,7 @@ theorem block_inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B M L : Subgroup G
   rw [barAut_eq_conj_mk x.2 (Subgroup.le_normalizer x.2)]
   exact hy.symm
 
+omit [Finite G] in
 theorem block_cover {p : ℕ} {B L : Subgroup G} (hBN : B ≤ Subgroup.normalizer (L : Set G))
     (hinner : ∀ (b : G) (hb : b ∈ B), ∃ (l : G) (hl : l ∈ L),
       barAut p L ⟨b, hBN hb⟩ = barAut p L ⟨l, Subgroup.le_normalizer hl⟩) :
@@ -1302,7 +1326,7 @@ theorem block_decomp {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B M L : Subgrou
     (hI71 : Input7_1Inn) :
     B = (B ⊓ L) ⊔ centBar p B L ∧ (B ⊓ L) ⊓ centBar p B L = ⊥ ∧
       CFSG.Open.pRank p (B ⊓ L) = CFSG.Open.pRank p L := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp1 : 1 < p := hp.one_lt
   have hLM : L ≤ M := hbl.le
   have hBp : IsPGroup p ↥B := IsPGroup.iff_card.2 ⟨m, hBcard⟩
@@ -1412,11 +1436,11 @@ theorem block_decomp {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B M L : Subgrou
   have hBhp : IsPGroup p ↥Bh := IsPGroup.iff_card.2 ⟨m, hBHsc⟩
   obtain ⟨S, hBS⟩ := hBhp.exists_le_sylow
   have hCN : Ch ≤ Subgroup.normalizer (Lh : Set ↥Hs) := by
-    haveI := hLn
+    have := hLn
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hLN : Lh ≤ Subgroup.normalizer (Ch : Set ↥Hs) := by
-    haveI := hCn
+    have := hCn
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   obtain ⟨hdec, e, he, hre⟩ := decomp_core hp hCN hLN hX hN0 hcomm hrank Bh hBhel hBHsc S hBS
@@ -1506,11 +1530,11 @@ theorem block_decomp {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B M L : Subgrou
         have hyL : y ∈ Lh := Subgroup.mem_subgroupOf.2 (hEL (Subgroup.mem_subgroupOf.1 hy))
         refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
         · have e3 : f y = (MulAut.conj g)⁻¹ • y := by
-            simp [hf, MulAut.conj_apply]
+            simp [hf]
           rw [e3]
           exact hyQ
         · have e4 : f y = g⁻¹ * y * g⁻¹⁻¹ := by
-            simp [hf, MulAut.conj_apply]
+            simp [hf]
           rw [e4]
           exact hLn.conj_mem y hyL g⁻¹
       have hle := CFSG.SectionRank.le_pRank hp1 hEsub hEel' hEc
@@ -1529,7 +1553,7 @@ theorem lemma133_of_inputs (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB : IsBOneMax p B := h.bOne
   have hM : IsPreUniquenessTwoLocal p B M := h.pre
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS hB hM

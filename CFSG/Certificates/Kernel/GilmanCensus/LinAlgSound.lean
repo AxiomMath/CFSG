@@ -213,14 +213,14 @@ theorem foldl_rows {α : Type} [Inhabited α] (p : Nat → α → Bool) (g : α 
       · simp [hs]
       · intro i h1 h2
         have := hS i (by omega)
-        rw [getElem!_pos S i h1, if_pos (by omega)] at this
+        rw [getElem!_pos S i h1, ite_eq_left (by omega)] at this
         rw [Array.getElem_mapIdx]
         exact this
     | succ n ih =>
       intro a S ha hs hS
       rw [List.range'_succ, List.foldl_cons]
       have hSa := hS a (by omega)
-      rw [if_neg (by omega)] at hSa
+      rw [ite_eq_right (by omega)] at hSa
       apply ih (a + 1) _ (by omega)
       · split <;> simp [hs]
       · intro i hi
@@ -228,10 +228,10 @@ theorem foldl_rows {α : Type} [Inhabited α] (p : Nat → α → Bool) (g : α 
         by_cases hia : i = a
         · subst hia
           by_cases hp : p i R[i] = true
-          · rw [if_pos hp, Array.set!_eq_setIfInBounds,
+          · rw [ite_eq_left hp, Array.set!_eq_setIfInBounds,
               getElem!_pos _ i (by simp [hs]; omega), Array.getElem_setIfInBounds_self]
             simp [hp]
-          · rw [if_neg hp]
+          · rw [ite_eq_right hp]
             have := hS i hi
             simp [hp, this]
         · have e : (if p a R[a] = true then S.set! a (g R[a]) else S)[i]! = S[i]! := by
@@ -452,7 +452,7 @@ theorem mapIdx_elim (A B : List (List Nat)) (x : List Nat) (Q : List Nat → Boo
       · simp
       · intro i h1 h2
         have : (i + 1 + A.length != A.length) = true := by simp
-        simp [this]
+        simp
 
 @[expose] def RRInv (nc m : Nat) (s : Array (Array Nat) × Array Nat × Nat)
     (st : List (List Nat) × List (List Nat) × List Nat) : Prop :=
@@ -472,7 +472,7 @@ theorem set_app {α : Type} (A B : List α) (t : Nat) (x : α) :
   simp
 
 theorem set_app0 {α : Type} (A B : List α) (x : α) : (A ++ B).set A.length x = A ++ B.set 0 x := by
-  simpa using set_app A B 0 x
+  simp
 
 theorem length_subRow (t : Nat) (a b : List Nat) (n : Nat) (ha : a.length = n) (hb : b.length = n) :
     (subRow t a b).length = n := by
@@ -496,7 +496,7 @@ theorem rr_step (nc m j : Nat) (s : Array (Array Nat) × Array Nat × Nat)
   dsimp only
   rw [pickQ_spec]
   by_cases hlt : A.length < m
-  · rw [if_pos hlt, hF]
+  · rw [ite_eq_left hlt, hF]
     cases ht : rest.findIdx? (fun r => r.getD j 0 != 0) with
     | none => exact ⟨hL, rfl, hp, hm, hsz⟩
     | some t =>
@@ -592,7 +592,7 @@ theorem rr_step (nc m j : Nat) (s : Array (Array Nat) × Array Nat × Nat)
             split
             · exact length_subRow _ _ _ _ this hpkl
             · exact this
-  · rw [if_neg hlt]
+  · rw [ite_eq_right hlt]
     have h0 : rest = [] := List.eq_nil_of_length_eq_zero (by omega)
     subst h0
     exact ⟨hL, rfl, hp, hm, hsz⟩
@@ -730,7 +730,7 @@ theorem size_foldl_set (ps : List (Nat × Nat)) :
   | cons q ps ih => intro v; rw [List.foldl_cons, ih]; simp
 
 theorem nullInner_eq (R : Array (Array Nat)) (piv : Array Nat) (d j : Nat)
-    (hnd : piv.toList.Nodup) (hlt : ∀ x ∈ piv.toList, x < d) (hR : R.size = piv.size)
+    (hnd : piv.toList.Nodup) (_hlt : ∀ x ∈ piv.toList, x < d) (hR : R.size = piv.size)
     (hj : j < d) (hjp : j ∉ piv.toList) :
     (nullInner R piv d j).toList = (List.range d).map (nullEnt (LL R) piv.toList j) := by
   have hps : (List.range' 0 piv.size).map (fun i => (piv[i]!, (3 - R[i]![j]!) % 3)) =
@@ -813,7 +813,7 @@ theorem null3_eq (rows : Array (Array Nat)) (d : Nat) (h : ∀ r ∈ rows.toList
   obtain ⟨hR, hP⟩ := rowRed3_eq rows d h
   obtain ⟨hnd, hlt, hlen⟩ := rr3_piv (LL rows) d
   rw [null3_fold, null3K, LL, foldl_push_filterMap, List.range_eq_range']
-  simp only [Array.toList_empty, List.nil_append, List.map_filterMap]
+  simp only [List.nil_append, List.map_filterMap]
   apply filterMap_congr'
   intro j hj
   have hjd : j < d := by simpa using hj

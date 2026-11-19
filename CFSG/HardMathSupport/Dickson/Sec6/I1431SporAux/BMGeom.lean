@@ -27,8 +27,8 @@ variable {G : Type*} [Group G]
 theorem ncard_modEq_fixed [Finite G] {p : ℕ} (hp : p.Prime) {a : G} (ha : orderOf a = p)
     {F : Set G} (hF : ∀ g ∈ zpowers a, ∀ s ∈ F, g * s * g⁻¹ ∈ F) :
     F.ncard ≡ {s | s ∈ F ∧ a * s = s * a}.ncard [MOD p] := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction (zpowers a) F := conjSMulOn (zpowers a) F hF
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction (zpowers a) F := conjSMulOn (zpowers a) F hF
   have hP : IsPGroup p (zpowers a) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ha, pow_one])
   have h := hP.card_modEq_card_fixedPoints (α := F)
@@ -141,7 +141,7 @@ theorem three_dvd_ncard_invComm [Finite G] {x f f' : G} (hf : f ∈ invComm x)
     (conj_closed_invComm (x := x) (a := f * f') hjx.eq)
   have hempty : {s | s ∈ invComm x ∧ (f * f') * s = s * (f * f')} = ∅ := by
     ext s
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨hs, hcomm⟩
     by_cases hsf : s = f
     · rw [hsf] at hcomm

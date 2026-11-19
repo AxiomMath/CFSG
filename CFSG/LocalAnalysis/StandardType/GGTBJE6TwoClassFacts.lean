@@ -49,8 +49,8 @@ theorem e6Two_classFacts {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.c
         ∃ y ∈ Y, ∀ s, y * ι₀ (Multiplicative.ofAdd s) * y⁻¹ =
           ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .F4 3 (rootReflection c) s))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set a₆ : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ :=
     TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.twE6ThreeFrame t) with ha₆
@@ -162,13 +162,13 @@ theorem e6Two_classFacts {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.c
       intro hYs
       obtain ⟨-, -, hperf, hsimp⟩ := hY
       have htop := e6c_top_eq_bot hYs hperf
-      haveI : Subsingleton ↥Y := by
+      have : Subsingleton ↥Y := by
         refine ⟨fun a b => ?_⟩
         have ha : a ∈ (⊥ : Subgroup ↥Y) := htop ▸ Subgroup.mem_top a
         have hb : b ∈ (⊥ : Subgroup ↥Y) := htop ▸ Subgroup.mem_top b
         rw [Subgroup.mem_bot] at ha hb
         rw [ha, hb]
-      haveI : Subsingleton (↥Y ⧸ Subgroup.center ↥Y) := inferInstance
+      have : Subsingleton (↥Y ⧸ Subgroup.center ↥Y) := inferInstance
       exact hsimp.toNontrivial.exists_pair_ne.elim fun a ⟨b, hab⟩ => hab (Subsingleton.elim a b)
     have ht0 : t ≠ 0 := by
       intro h

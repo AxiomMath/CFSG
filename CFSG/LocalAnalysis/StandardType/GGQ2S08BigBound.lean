@@ -14,7 +14,7 @@ private theorem ggQ2s08bf2_card_bs (M : GGQ2LDatum 3 Bs L x) {n : ℕ}
     (κ : M.V ≃ₗ[ZMod 3] Vn n) : Nat.card ↥Bs = 3 ^ n := by
   have hV : Nat.card M.V = 3 ^ n := by
     rw [Nat.card_congr κ.toEquiv]
-    simp [Vn, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
+    simp [Vn]
   calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := rfl
     _ = Nat.card M.V := Nat.card_congr M.model.toEquiv
     _ = 3 ^ n := hV
@@ -167,7 +167,7 @@ theorem ggQ2s08_big_bound [Finite G]
       have hspan1 : Module.finrank (ZMod 3) ↥(ZMod 3 ∙ κ M.xV) = 1 :=
         finrank_span_singleton hxVκ
       have hVn : Module.finrank (ZMod 3) (Vn (lab.rank + 1)) = lab.rank + 1 := by
-        simp [Vn, Module.finrank_fin_fun]
+        simp [Vn]
       rw [hspan1, hVn] at hcompl
       omega
     have hidx : H'.index = 3 := by

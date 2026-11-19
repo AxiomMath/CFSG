@@ -10,6 +10,7 @@ namespace CFSG.StandardType
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggPairConcl_of_automizer_conj {X Bs : Subgroup G} {a r s : MulAut ↥Bs}
     (ha : a ∈ ggAutomizer X Bs) (hp : GGPairConcl Bs X r s) :
     GGPairConcl Bs X (a * r * a⁻¹) (a * s * a⁻¹) := by

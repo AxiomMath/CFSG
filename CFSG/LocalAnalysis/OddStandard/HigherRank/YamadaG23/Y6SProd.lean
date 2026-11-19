@@ -13,8 +13,8 @@ variable {G : Type} [Group G]
 
 theorem y6_card_sup_mul_inf [Finite G] {H N : Subgroup G} (hHN : H ≤ normalizer (N : Set G)) :
     Nat.card ↥(H ⊔ N) * Nat.card ↥(H ⊓ N) = Nat.card ↥H * Nat.card ↥N := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hHN
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHN
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hHN
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHN
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hHN
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf (H ⊔ N))
   have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf H)

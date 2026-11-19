@@ -38,8 +38,8 @@ theorem transvection_of_data
     group
   let ρ : KGC.QA H D →* MulAut ↥V := QuotientGroup.lift (D.subgroupOf H) ρ₀ hker
   have hρ : ∀ h : ↥H, ρ (KGC.qmk H D h) = ρ₀ h := fun h => rfl
-  haveI : IsMulCommutative ↥V := (isElemAbelian_omegaCenter D).1
-  letI : CommGroup ↥V := { (inferInstance : Group ↥V) with mul_comm := fun a b => mul_comm' a b }
+  have : IsMulCommutative ↥V := (isElemAbelian_omegaCenter D).1
+  let : CommGroup ↥V := { (inferInstance : Group ↥V) with mul_comm := fun a b => mul_comm' a b }
   have hVel : IsElemAbelianTwo ↥V := fun v => Subtype.ext (by simpa [pow_two] using v.2.2.1)
   have hchar : ∀ S₀ : Subgroup G, S₀ ≤ S → S₀ ≠ ⊥ → (S₀.subgroupOf S).Characteristic →
       normalizer (S₀ : Set G) ≤ M := d3.char_le
@@ -150,7 +150,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 theorem kgStep6Cyc_of_inputs (hT : KGTransvCent) (h241 : KFact2401ThreeOmega) : KGStep6Cyc := by
   intro G _ _ p P M x z hS hx hz H S hopt hO hΩ hnpc h2 L _ d3 hG hc hcase
   obtain ⟨hbot, hcyc⟩ := hcase
-  haveI := hcyc
+  have := hcyc
   exact KGSix.false_of_data hT h241 d3 hG hc hbot
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty

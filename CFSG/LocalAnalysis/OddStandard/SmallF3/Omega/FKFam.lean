@@ -106,14 +106,16 @@ theorem fk_pres_conj {ρ α : MulAut Spin₈}
     · exact a2
   have hbbinj : ∀ i j, bb i = bb j → i = j := by
     intro i j h
-    fin_cases i <;> fin_cases j <;> first | rfl | (exfalso; simp only [bb] at h) <;>
-      first
-      | exact absurd h hbb₁
-      | exact absurd h.symm hbb₁
-      | exact absurd h hbb₂
-      | exact absurd h.symm hbb₂
-      | exact absurd h hb₁b₂
-      | exact absurd h.symm hb₁b₂
+    fin_cases i <;> fin_cases j <;> first
+      | rfl
+      | (exfalso; simp only [bb] at h
+         first
+         | exact absurd h hbb₁
+         | exact absurd h.symm hbb₁
+         | exact absurd h hbb₂
+         | exact absurd h.symm hbb₂
+         | exact absurd h hb₁b₂
+         | exact absurd h.symm hb₁b₂)
   set G : Fin 3 → Set (Subgroup Proj₈) := fun i => Q3MFOD.descAut (τ i) • 𝔉 with hG
   have hGne : ∀ i j, i ≠ j → G i ≠ G j := by
     intro i j hij hGij

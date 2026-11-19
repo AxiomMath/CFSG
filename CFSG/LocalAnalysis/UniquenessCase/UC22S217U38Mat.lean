@@ -65,20 +65,22 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 private def uc22s217u38_d (t : K) : Fin 3 → K := fun s => if s = 1 then t ^ 7 else t
 
+omit [Finite K] [CharP K 2] in
 private theorem uc22s217u38_d_pow {t : K} (ht : t ^ 9 = 1) (s : Fin 3) :
     uc22s217u38_d t s ^ 9 = 1 := by
   by_cases hs : s = 1
-  · rw [show uc22s217u38_d t s = t ^ 7 from if_pos hs, ← pow_mul, show 7 * 9 = 9 * 7 from rfl,
+  · rw [show uc22s217u38_d t s = t ^ 7 from ite_eq_left hs, ← pow_mul, show 7 * 9 = 9 * 7 from rfl,
       pow_mul, ht, one_pow]
-  · rw [show uc22s217u38_d t s = t from if_neg hs, ht]
+  · rw [show uc22s217u38_d t s = t from ite_eq_right hs, ht]
 
+omit [Finite K] [CharP K 2] in
 private theorem uc22s217u38_d_eq {t : K} {a b : Fin 3} (hab : a = 1 ↔ b = 1) :
     uc22s217u38_d t a = uc22s217u38_d t b := by
   by_cases ha : a = 1
-  · rw [show uc22s217u38_d t a = t ^ 7 from if_pos ha,
-      show uc22s217u38_d t b = t ^ 7 from if_pos (hab.1 ha)]
-  · rw [show uc22s217u38_d t a = t from if_neg ha,
-      show uc22s217u38_d t b = t from if_neg (fun hb => ha (hab.2 hb))]
+  · rw [show uc22s217u38_d t a = t ^ 7 from ite_eq_left ha,
+      show uc22s217u38_d t b = t ^ 7 from ite_eq_left (hab.1 ha)]
+  · rw [show uc22s217u38_d t a = t from ite_eq_right ha,
+      show uc22s217u38_d t b = t from ite_eq_right (fun hb => ha (hab.2 hb))]
 
 private theorem uc22s217u38_d_unitary {t : K} (ht : t ^ 9 = 1) (s : Fin 3) :
     unitaryInvolution K 2 3 (uc22s217u38_d t s) * uc22s217u38_d t (Fin.rev s) = 1 := by
@@ -86,12 +88,13 @@ private theorem uc22s217u38_d_unitary {t : K} (ht : t ^ 9 = 1) (s : Fin 3) :
     show 2 ^ 3 = 8 from rfl, ← pow_succ]
   exact uc22s217u38_d_pow ht s
 
+omit [Finite K] [CharP K 2] in
 private theorem uc22s217u38_d_det {t : K} (ht : t ^ 9 = 1) :
     (diagonal (uc22s217u38_d t)).det = 1 := by
   rw [Matrix.det_diagonal, Fin.prod_univ_three]
-  have h0 : uc22s217u38_d t 0 = t := if_neg (by decide)
-  have h1 : uc22s217u38_d t 1 = t ^ 7 := if_pos rfl
-  have h2 : uc22s217u38_d t 2 = t := if_neg (by decide)
+  have h0 : uc22s217u38_d t 0 = t := ite_eq_right (by decide)
+  have h1 : uc22s217u38_d t 1 = t ^ 7 := ite_eq_left rfl
+  have h2 : uc22s217u38_d t 2 = t := ite_eq_right (by decide)
   rw [h0, h1, h2, show t * t ^ 7 * t = t ^ 9 by ring, ht]
 
 private noncomputable def uc22s217u38_h {t : K} (ht : t ^ 9 = 1) :
@@ -108,10 +111,12 @@ private theorem uc22s217u38_σ_ι (a : ZMod 2) :
     unitaryInvolution K 2 3 ((ι₂ K) a) = (ι₂ K) a :=
   RingHom.congr_fun (Subsingleton.elim ((unitaryInvolution K 2 3).toRingHom.comp (ι₂ K)) (ι₂ K)) a
 
+omit [Finite K] in
 private theorem uc22s217u38_yK_cube :
     (ι₂ K).mapMatrix Y₂ * (ι₂ K).mapMatrix Y₂ * (ι₂ K).mapMatrix Y₂ = 1 := by
   rw [← map_mul, ← map_mul, uc22s217u38_y₂_cube, map_one]
 
+omit [Finite K] in
 private theorem uc22s217u38_yK_det : ((ι₂ K).mapMatrix Y₂).det = 1 := by
   rw [← RingHom.map_det, uc22s217u38_y₂_det, map_one]
 
@@ -141,7 +146,7 @@ private theorem uc22s217u38_y_mat :
 theorem uc22s217u38_exists_hy (hK : Nat.card K = (2 ^ 3) ^ 2) :
     ∃ h y : SU (unitaryInvolution K 2 3) 3, h * y = y * h ∧ h ^ 9 = 1 ∧ y ^ 9 = 1 ∧
       ∀ i j : ℕ, h ^ i * y ^ j ∈ center (SU (unitaryInvolution K 2 3) 3) → 3 ∣ i ∧ 3 ∣ j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t, ht9, ht3⟩ := uc22s217u38_exists_root (hK.trans (by norm_num))
   have ht0 : t ≠ 0 := fun h0 => by
     rw [h0, zero_pow (by norm_num)] at ht9
@@ -183,8 +188,8 @@ theorem uc22s217u38_exists_hy (hK : Nat.card K = (2 ^ 3) ^ 2) :
     have hentry : ∀ a b : Fin 3, uc22s217u38_d t a ^ i * (ι₂ K) ((Y₂ ^ (j % 3)) a b) =
         Matrix.scalar (Fin 3) c a b := fun a b => by
       rw [← hm, Matrix.diagonal_mul, Pi.pow_apply, RingHom.mapMatrix_apply, Matrix.map_apply]
-    have hd0 : uc22s217u38_d t 0 = t := if_neg (by decide)
-    have hd1 : uc22s217u38_d t 1 = t ^ 7 := if_pos rfl
+    have hd0 : uc22s217u38_d t 0 = t := ite_eq_right (by decide)
+    have hd1 : uc22s217u38_d t 1 = t ^ 7 := ite_eq_left rfl
     have hj : j % 3 = 0 ∨ j % 3 = 1 ∨ j % 3 = 2 := by omega
     rcases hj with hj | hj | hj
     ·
@@ -225,7 +230,7 @@ theorem uc22s217u38_pRank_of_su38
     (hnN : ¬ M ≤ normalizer (L : Set G)) (hX : IsSU3 (Bar2 L) 3) : 4 ≤ Open.pRank 3 M := by
   obtain ⟨hq, hU3⟩ := hX
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hU3 (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two (n := 6) (hK.trans (by norm_num))
+  have : CharP K 2 := uc22pwlie_charP_two (n := 6) (hK.trans (by norm_num))
   obtain ⟨α, hα, hαc, -⟩ := uc22pwsu3_exists_cover (by norm_num) hK hq e₁
   obtain ⟨h, y, hhy, hh9, hy9, hZ⟩ := uc22s217u38_exists_hy hK
   exact uc22s217u38_pRank_of_cover hL hnN (uc22pwsu3_commutator_eq_top (by norm_num) hK) hα hαc

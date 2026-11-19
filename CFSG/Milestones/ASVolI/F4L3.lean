@@ -95,7 +95,7 @@ theorem burnsideF4d_Y1_mem_stabilizer_iff {n : ℕ} {K : Type} [Field K]
 theorem burnsideF4d_Y1_coordinateSpace_flag {K : Type} [Field K] (i : ℕ) (v : Fin 3 → K) :
     v ∈ coordinateSpace ({p : Fin 3 | (p : ℕ) < i} : Set (Fin 3)) ↔ v ∈ flagSpace 3 K i := by
   rw [mem_flagSpace]
-  simp only [coordinateSpace, Set.mem_setOf_eq, not_lt]
+  simp only [coordinateSpace, Set.mem_ofPred_eq, not_lt]
 
 theorem burnsideF4d_Y1_image_one {index : Type} [Fintype index] [DecidableEq index] {K : Type}
     [Field K] (S : Set (index → K)) :
@@ -128,8 +128,8 @@ private theorem burnsideF4d_Y1_comap_nativeParabolic (q : ℕ) (K : Type) [Field
     subst hS
     simp only [burnsideF4d_Y1_coordinateSpace_flag]
   cases b
-  · exact key _ 1 (by ext p; simp [flagOne] <;> omega)
-  · exact key _ 2 (by ext p; simp [flagTwo] <;> omega)
+  · exact key _ 1 (by ext p; simp [flagOne])
+  · exact key _ 2 (by ext p; simp [flagTwo]; omega)
 
 private noncomputable def burnsideF4d_Y1_psi {f : ℕ} {H : Type} [Group H]
     (marking : ClassicalRoots.Marking .L3 2 f H) : H ≃* projectiveSL 3 marking.field :=
@@ -223,7 +223,7 @@ theorem burnsideF4d_Y1_yam_of_marking {f : ℕ} {H : Type} [Group H]
     · exact absurd (e1.trans e2.symm) hne
   have hm0 := burnsideF4d_Y1_map_parabolic marking false
   have hm1 := burnsideF4d_Y1_map_parabolic marking true
-  simp only [Bool.false_eq_true, if_false, if_true] at hm0 hm1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at hm0 hm1
   refine ⟨(projUnitriangular 3 marking.field).map
     (burnsideF4d_Y1_psi marking).symm.toMonoidHom, ?_⟩
   have := hY'.map (burnsideF4d_Y1_psi marking).symm
@@ -279,7 +279,7 @@ theorem burnsideF4d_Y1_lieModel {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
 theorem burnsideF4d_Y1_simple {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (h : CFSG.ASVolI.ChF.HypF_4_4g .L3 2 f Gp M₁ M₂) : IsSimpleGroup ↥Gp := by
   obtain ⟨-, -, K, hK, hKfin, -, ⟨e⟩⟩ := h.model
-  haveI : IsSimpleGroup (projectiveSL 3 K) :=
+  have : IsSimpleGroup (projectiveSL 3 K) :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3) (K := K) le_rfl
   exact (e.trans (CFSG.QuasithinUnique.Id2519.projectiveSLEquivStatedProj 3 K).symm).isSimpleGroup
 
@@ -400,7 +400,7 @@ theorem burnsideF4d_inf_subgroupOf (Gp M₁ M₂ : Subgroup E) :
       rintro _ ⟨d, rfl⟩
       refine ⟨(d : E), ?_⟩
       ext x
-      simp [burnsideF4d_rho_apply]
+      simp
     yam := hyam
     diag := by
       rintro φ ⟨e, rfl⟩ hφ
@@ -487,7 +487,7 @@ theorem burnsideF4d_N2_eq [Finite E] [Gp.Normal] (hyp : ChF.HypF_4_4g κ p f Gp 
 theorem burnsideF4d_K_eq [Finite E] (hyp : ChF.HypF_4_4g κ p f Gp M₁ M₂) {TD : Subgroup ↥Gp}
     (hyam : IsYAmalgamPair TD (M₁.subgroupOf Gp) (M₂.subgroupOf Gp)) :
     (burnsideF4d_amalgamExt hyp TD hyam).K = (haveI := hyp.normal; burnsideF4d_rho Gp).range := by
-  haveI := hyp.normal
+  have := hyp.normal
   have h1 := burnsideF4d_N1_eq hyp hyam
   have h2 := burnsideF4d_N2_eq hyp hyam
   show (burnsideF4d_rho Gp).range ⊓ autStab (M₁.subgroupOf Gp) ⊔
@@ -581,7 +581,7 @@ theorem burnsideF4d_L3_datumE {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fin
     Nonempty (L3Datum M₁ M₂) := by
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam hyp
   have hmodel := burnsideF4d_Y1_lieModel hyp
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   let X := burnsideF4d_lieExtE hyp hyam
@@ -602,7 +602,7 @@ theorem burnsideF4d_L3_datumM {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M : Type} [Group M]
     {ε : Y →* M} {z : M} (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) (hodd : Odd Gp.index) :
     Nonempty (L3Datum (MiOne β ε) (MiTwo β ε)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨D⟩ := burnsideF4d_L3_datumE hf hyp.amalgam.toHypF_4_4g hodd
   exact D.nonempty_transport (burnsideF4d_amalgIsoM β hyp.faithful ε hyp.inj)
 
@@ -932,7 +932,7 @@ theorem burnsideF4d_Y2_setup {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fini
       M₂ = Subgroup.normalizer ((R₂.map Φ : Subgroup E) : Set E) := by
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam h
   have hmodel := burnsideF4d_Y1_lieModel h
-  haveI := h.normal
+  have := h.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective h.centralizer_trivial
   obtain ⟨F, hFf, hFfin, hFchar, E', hFcard, hP⟩ :=
@@ -951,7 +951,7 @@ theorem burnsideF4d_Y2_setup {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fini
     rcases hP with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · exact ⟨_, _, _, _, hdata, Or.inl ⟨rfl, rfl⟩, h1, h2⟩
     · exact ⟨_, _, _, _, hdata.swap, Or.inr ⟨rfl, rfl⟩, h1, h2⟩
-  haveI : Finite (projectiveSL 3 F) := Finite.of_equiv ↥Gp E'.toEquiv
+  have : Finite (projectiveSL 3 F) := Finite.of_equiv ↥Gp E'.toEquiv
   obtain ⟨Φ, hΦdef⟩ : ∃ Φ : projectiveSL 3 F →* E, ∀ p, Φ p = ((E'.symm p : ↥Gp) : E) :=
     ⟨Gp.subtype.comp E'.symm.toMonoidHom, fun p => rfl⟩
   have hΦinj : Function.Injective Φ := fun a b hab =>
@@ -1064,9 +1064,9 @@ theorem burnsideF4d_Y2_pCore_le {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [F
     pCoreOf 2 (M₁ ⊓ M₂) ≤ Gp := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hD, hO, h₁, h₂⟩ :=
     burnsideF4d_Y2_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI := h.normal
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have := h.normal
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   rw [(burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).2, ← hrange]
   exact Subgroup.map_le_range Φ _
 
@@ -1075,9 +1075,9 @@ theorem burnsideF4d_Y2_card_Z {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fin
     Nat.card ↥(CFSG.ASVolI.ChF.ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))) = 2 ^ f := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hD, hO, h₁, h₂⟩ :=
     burnsideF4d_Y2_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI := h.normal
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have := h.normal
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have := (burnsideF4d_Y2_cards Φ hΦ hD hO hN h₁ h₂).1
   rw [hrange] at this
@@ -1088,9 +1088,9 @@ theorem burnsideF4d_Y2_card_S {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fin
     Nat.card ↥(pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) = (2 ^ f) ^ 3 := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hD, hO, h₁, h₂⟩ :=
     burnsideF4d_Y2_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI := h.normal
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have := h.normal
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have := (burnsideF4d_Y2_cards Φ hΦ hD hO hN h₁ h₂).2.2.2
   rw [hrange, hFcard] at this
@@ -1101,9 +1101,9 @@ theorem burnsideF4d_Y2_card_Q1 {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fi
     Nat.card ↥(pCoreOf 2 (Gp ⊓ M₁)) = (2 ^ f) ^ 2 := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hD, hO, h₁, h₂⟩ :=
     burnsideF4d_Y2_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI := h.normal
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have := h.normal
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have := (burnsideF4d_Y2_cards Φ hΦ hD hO hN h₁ h₂).2.1
   rw [hrange, hFcard] at this
@@ -1114,9 +1114,9 @@ theorem burnsideF4d_Y2_card_Q2 {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Fi
     Nat.card ↥(pCoreOf 2 (Gp ⊓ M₂)) = (2 ^ f) ^ 2 := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hD, hO, h₁, h₂⟩ :=
     burnsideF4d_Y2_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI := h.normal
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have := h.normal
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have := (burnsideF4d_Y2_cards Φ hΦ hD hO hN h₁ h₂).2.2.1
   rw [hrange, hFcard] at this
@@ -1262,10 +1262,10 @@ theorem burnsideF4d_L3_odd {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] {Gp M�
     {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M : Type} [Group M] {ε : Y →* M} {z : M}
     (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) : Odd Gp.index := by
   by_contra hnodd
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   have hyp4 := hyp.amalgam.toHypF_4_4g
-  haveI := hyp4.normal
+  have := hyp4.normal
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam hyp4
   have hmodel := burnsideF4d_Y1_lieModel hyp4
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
@@ -1341,7 +1341,7 @@ theorem burnsideF4d_le_normalizer_oPPrime (H : Subgroup E) :
       refine Subgroup.subset_closure ⟨H.mul_mem (H.mul_mem hg hyH) (H.inv_mem hg), k, ?_⟩
       rw [← hk]
       exact (MulEquiv.orderOf_eq (MulAut.conj g) y)
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul a b _ _ ha hb =>
       have : g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
       rw [this]; exact Subgroup.mul_mem _ ha hb
@@ -1526,9 +1526,9 @@ theorem burnsideF4d_L3_setup {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] {Gp M
     ∃ D : L3Datum (MiOne β ε) (MiTwo β ε), D.Good ∧ z ∈ D.Z ∧ D.S = SinM Gp β ε ∧
       D.Q₁ = pCoreOf 2 (oPPrime 2 (GiOne Gp β ε)) ∧
       D.Q₂ = pCoreOf 2 (oPPrime 2 (GiTwo Gp β ε)) := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.toHypF_4_4g.normal
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.toHypF_4_4g.normal
   have hodd : Odd Gp.index := burnsideF4d_L3_odd hf hyp
   obtain ⟨D⟩ := burnsideF4d_L3_datumM hf hyp hodd
   have hS : SinM Gp β ε = pCoreOf 2 (MiOne β ε ⊓ MiTwo β ε) :=
@@ -1561,9 +1561,9 @@ theorem burnsideF4d_L3_cards {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] {Gp M
     (hQ₂ : D.Q₂ = pCoreOf 2 (oPPrime 2 (GiTwo Gp β ε))) :
     Nat.card D.S = (2 ^ f) ^ 3 ∧ Nat.card D.Z = 2 ^ f ∧ Nat.card D.Q₁ = (2 ^ f) ^ 2 ∧
       Nat.card D.Q₂ = (2 ^ f) ^ 2 := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.toHypF_4_4g.normal
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.toHypF_4_4g.normal
   have hyp4 := hyp.amalgam.toHypF_4_4g
   have hodd : Odd Gp.index := burnsideF4d_L3_odd hf hyp
   have hb1 : Function.Injective (burnsideF4d_bOne β ε) := hyp.inj.comp (f1_injective β hyp.faithful)
@@ -1609,6 +1609,7 @@ section TwoElt
 
 variable {E : Type} [Group E] [Finite E] {Gp : Subgroup E} [Gp.Normal]
 
+omit [Finite E] in
 theorem burnsideF4d_two_elt_mem (hodd : Odd Gp.index) {x : E} {k : ℕ} (hx : x ^ (2 ^ k) = 1) :
     x ∈ Gp := by
   have h1 : orderOf (QuotientGroup.mk x : E ⧸ Gp) ∣ 2 ^ k :=
@@ -1752,7 +1753,7 @@ theorem burnsideF4d_Z1_involution_centralizer (hG : D.Good) {j : G} (hj1 : j ≠
   rw [conjSub_top] at this
   exact ⟨this.1, this.2.1, this.2.2⟩
 
-theorem burnsideF4d_Z1_weak (hG : D.Good) {Q Q' Mi : Subgroup G}
+theorem burnsideF4d_Z1_weak (_hG : D.Good) {Q Q' Mi : Subgroup G}
     (hF : Frame D.S Q Q') (hnc : ∀ x : G, conjSub x Q ≠ Q') (hSyl : IsSylowTwoOf D.S Mi)
     (hnorm : ∀ n : G, (∀ x ∈ Q, n * x * n⁻¹ ∈ Q) → n ∈ Mi)
     (hMi : ∀ m ∈ Mi, conjSub m Q = Q) {g : G} (hg : conjSub g Q ≤ Mi) :
@@ -1832,13 +1833,14 @@ section Z1Count
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem burnsideF4d_Z1_card_ne_one (W : Subgroup G) :
     Nat.card {x : G // x ∈ W ∧ x ≠ 1} = Nat.card W - 1 := by
   have h1 : Nat.card {x : G // x ∈ W ∧ x ≠ 1} = ((W : Set G) \ {1}).ncard := by
     rw [← Nat.card_coe_set_eq]
     exact Nat.card_congr (Equiv.subtypeEquivRight (fun x => by simp))
   have h2 : (W : Set G).ncard = Nat.card W := (Nat.card_coe_set_eq (W : Set G)).symm
-  rw [h1, Set.ncard_diff_singleton_of_mem (show (1 : G) ∈ (W : Set G) from W.one_mem), h2]
+  rw [h1, Set.ncard_sdiff_singleton_of_mem (show (1 : G) ∈ (W : Set G) from W.one_mem), h2]
 
 theorem burnsideF4d_Z1_count (𝒲 : Set (Subgroup G)) (Q : Subgroup G) {q : ℕ}
     (hq : 2 ≤ q) (hQ : Nat.card Q = q ^ 2)
@@ -1847,9 +1849,9 @@ theorem burnsideF4d_Z1_count (𝒲 : Set (Subgroup G)) (Q : Subgroup G) {q : ℕ
     (huniq : ∀ W ∈ 𝒲, ∀ W' ∈ 𝒲, ∀ x : G, x ∈ W → x ∈ W' → x ≠ 1 → W = W') :
     𝒲.ncard = q + 1 := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (SetLike.coe : Subgroup G → Set G) SetLike.coe_injective
-  haveI : Fintype 𝒲 := Fintype.ofFinite _
+  have : Fintype 𝒲 := Fintype.ofFinite _
   let φ : (Σ W : 𝒲, {x : G // x ∈ (W : Subgroup G) ∧ x ≠ 1}) → {x : G // x ∈ Q ∧ x ≠ 1} :=
     fun p => ⟨p.2.1, (hW p.1 p.1.2).1 p.2.2.1, p.2.2.2⟩
   have hinj : Function.Injective φ := by
@@ -1944,9 +1946,9 @@ theorem as_F_4_46 : F_4_46 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hnotL43 hκ T hT
   subst hκ
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
-  haveI : Finite E := hyp.amalgam.finite
-  haveI : Finite M := hyp.finite_M
-  haveI : Gp.Normal := hyp.amalgam.toHypF_4_4g.normal
+  have : Finite E := hyp.amalgam.finite
+  have : Finite M := hyp.finite_M
+  have : Gp.Normal := hyp.amalgam.toHypF_4_4g.normal
   obtain ⟨D, hG, hzD, hDS, hQ₁, hQ₂⟩ := burnsideF4d_L3_setup hf hyp
   obtain ⟨-, hcZ, hcQ₁, hcQ₂⟩ := burnsideF4d_L3_cards hf hyp D hDS hQ₁ hQ₂
   have hT' : IsSylowTwoOf T (MiOne β ε ⊓ MiTwo β ε) := hT
@@ -2242,7 +2244,7 @@ theorem as_F_4_48 : F_4_48 := by
   subst hκ
   have hf := burnsideF4d_L3_two_le_f hyp
   obtain ⟨D, hG, hzD, hDS, hQ₁, hQ₂⟩ := burnsideF4d_L3_setup hf hyp
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hTS : T = D.S := burnsideF4d_sylow_eq_S D hT
   subst hTS
   obtain ⟨-, hZ, hQ1, -⟩ := burnsideF4d_L3_cards hf hyp D hDS hQ₁ hQ₂
@@ -2289,8 +2291,8 @@ theorem burnsideF4d_Z3_solvable_of_normal {G : Type} [Group G] [Finite G] {A N :
     apply Subtype.ext
     apply Subtype.ext
     exact congrArg (fun x : ↥(A ⊓ N) => (x : G)) h
-  haveI : Group.IsSolvable ↥(N.subgroupOf A) := Group.isSolvable_of_isSolvable_injective hι
-  haveI : Group.IsSolvable (↥A ⧸ N.subgroupOf A) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable ↥(N.subgroupOf A) := Group.isSolvable_of_isSolvable_injective hι
+  have : Group.IsSolvable (↥A ⧸ N.subgroupOf A) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   exact Group.isSolvable_of_ker_le_range (N.subgroupOf A).subtype
     (QuotientGroup.mk' (N.subgroupOf A))
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
@@ -2331,7 +2333,7 @@ theorem burnsideF4d_Z3_solvable_of_borel {G : Type} [Group G] [Finite G] {M₀ K
     apply Subtype.ext
     apply Subtype.ext
     exact congrArg (fun x : T => ((x : L) : G)) hab
-  haveI : Group.IsSolvable ↥g.ker := Group.isSolvable_of_isSolvable_injective hθ
+  have : Group.IsSolvable ↥g.ker := Group.isSolvable_of_isSolvable_injective hθ
   exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 
 theorem burnsideF4d_Z3_elemAbelian_le_core {G : Type} [Group G] {Q : Subgroup G}
@@ -2461,7 +2463,7 @@ open CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.Completion CFSG
 theorem as_F_4_45 : F_4_45 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp _ hκ
   subst hκ
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   obtain ⟨D, hG, hz, hDS, hQ₁, hQ₂⟩ := burnsideF4d_L3_setup hf hyp
   obtain ⟨hS, hZ, hQ1, hQ2⟩ := burnsideF4d_L3_cards hf hyp D hDS hQ₁ hQ₂
@@ -2483,6 +2485,7 @@ section ConjDatum
 
 variable {M : Type} [Group M] [Finite M] {M₁ M₂ : Subgroup M}
 
+omit [Finite M] in
 theorem burnsideF4d_Z4_mem_conjSub_inv_mul {n m x : M} {K : Subgroup M} :
     x ∈ conjSub (n⁻¹ * m) K ↔ n * x * n⁻¹ ∈ conjSub m K := by
   rw [mem_conjSub, mem_conjSub]
@@ -2722,6 +2725,7 @@ open CFSG.Quasithin.H13.F431.L3.L3Datum
 
 variable {M : Type} [Group M] [Finite M] {M₁ M₂ : Subgroup M}
 
+omit [Finite M] in
 theorem burnsideF4d_Z4_conjSub_eq_of_normedBy {B K : Subgroup M} (h : NormedBy B K) {b : M}
     (hb : b ∈ B) : conjSub b K = K := by
   refine le_antisymm (fun x hx => ?_) (fun x hx => ?_)
@@ -2732,6 +2736,7 @@ theorem burnsideF4d_Z4_conjSub_eq_of_normedBy {B K : Subgroup M} (h : NormedBy B
     have := h b⁻¹ (B.inv_mem hb) x hx
     rwa [inv_inv] at this
 
+omit [Finite M] in
 theorem burnsideF4d_Z4_pow_mul {B : Subgroup M} {ρ : M} (hρ : ρ ∈ Subgroup.normalizer (B : Set M))
     {c : M} (hc : c ∈ B) (n : ℕ) : ∃ c' ∈ B, (c * ρ) ^ n = c' * ρ ^ n := by
   induction n with
@@ -2747,7 +2752,7 @@ theorem burnsideF4d_Z4_pow_mul {B : Subgroup M} {ρ : M} (hρ : ρ ∈ Subgroup.
 theorem burnsideF4d_Z4_parts_datum (D : L3Datum M₁ M₂) (hG : D.Good) {B' : Subgroup M}
     (hB' : D.B = B') {s₁ s₂ : M}
     (h1 : s₁ ∈ M₁) (h1N : s₁ ∈ Subgroup.normalizer (B' : Set M)) (h1H : s₁ ∉ M₁ ⊓ M₂)
-    (h1sq : s₁ * s₁ = 1)
+    (_h1sq : s₁ * s₁ = 1)
     (h2 : s₂ ∈ M₂) (h2N : s₂ ∈ Subgroup.normalizer (B' : Set M)) (h2H : s₂ ∉ M₁ ⊓ M₂)
     (h2sq : s₂ * s₂ = 1) :
     ((cj s₁ D.Z ∈ BInvMembers B' D.Z D.Q₁ ∧ ∀ W ∈ BInvMembers B' D.Z D.Q₁, W = cj s₁ D.Z) ∧
@@ -2857,7 +2862,7 @@ theorem burnsideF4d_Z4_datum {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     ∃ D : L3Datum (MiOne β ε) (MiTwo β ε), D.Good ∧ D.B = imB β ε Bbar ∧
       D.S = SinM Gp β ε ∧ D.Q₁ = pCoreOf 2 (oPPrime 2 (GiOne Gp β ε)) ∧
       D.Q₂ = pCoreOf 2 (oPPrime 2 (GiTwo Gp β ε)) := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨D, hG, -, hDS, hQ₁, hQ₂⟩ := burnsideF4d_L3_setup (burnsideF4d_L3_two_le_f hyp) hyp
   obtain ⟨hBH, hBodd, hBcard⟩ := burnsideF4d_Z4_imB_hall β hyp.faithful ε hyp.inj hB
   obtain ⟨n, hn, hBn⟩ := burnsideF4d_Z4_exists_conj D hG hBH hBodd hBcard
@@ -2884,7 +2889,7 @@ theorem burnsideF4d_Z4_parts {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
       (∃ b ∈ imB β ε Bbar, b * g ≠ 1 ∧ (b * g) * (b * g) = 1) ∨ T ⊓ cj g T = T ∨
         T ⊓ cj g T = cj s₁ (ctr T) ∨ T ⊓ cj g T = cj s₂ (ctr T)) ∧
     ((s₁ * s₂) ^ 3 ∈ imB β ε Bbar ∧ s₁ * s₂ ∉ imB β ε Bbar) := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨D, hG, hDB, hDS, hQ₁, hQ₂⟩ := burnsideF4d_Z4_datum hyp hB
   have hTS : T = D.S := burnsideF4d_sylow_eq_S D hT
   rw [← hQ₁, ← hQ₂, hTS]
@@ -2899,7 +2904,7 @@ theorem burnsideF4d_Z4_exists {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
       s₁ ∉ MiOne β ε ⊓ MiTwo β ε ∧ s₁ * s₁ = 1 ∧
       s₂ ∈ MiTwo β ε ∧ s₂ ∈ Subgroup.normalizer ((imB β ε Bbar : Subgroup M) : Set M) ∧
       s₂ ∉ MiOne β ε ⊓ MiTwo β ε ∧ s₂ * s₂ = 1 := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨D, -, hDB, -, -, -⟩ := burnsideF4d_Z4_datum hyp hB
   refine ⟨D.s₁, D.s₂, D.s₁_mem, ?_, fun h => D.s₁_not h.2, D.s₁_sq, D.s₂_mem, ?_,
     fun h => D.s₂_not h.1, D.s₂_sq⟩
@@ -2957,16 +2962,16 @@ theorem burnsideF4d_Z5_uniqueGeod_congr {G : Type} [Group G] {A B A' B' : Subgro
 
 theorem burnsideF4d_Z5_uniqueGeod {f : ℕ} {Gp : Subgroup E} {β : Cpl M₁ M₂ Y} {ε : Y →* M}
     {z : M} (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) : UniqueGeod β.graph 3 := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   have hyp4 := hyp.amalgam.toHypF_4_4g
-  haveI := hyp4.normal
+  have := hyp4.normal
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam hyp4
   have hmodel := burnsideF4d_Y1_lieModel hyp4
   let X := burnsideF4d_lieExtE hyp4 hyam
   have hS := f431Facts45_psl f (f431ModelFacts_psl3 f) ↥Gp hmodel X.toLieAmalgamExt
-  haveI : Finite β.G0 := Finite.of_injective _ hyp.inj
-  haveI : Finite Y := Finite.of_injective
+  have : Finite β.G0 := Finite.of_injective _ hyp.inj
+  have : Finite Y := Finite.of_injective
     (fun y : Y => (⟨y, by rw [β.gen]; exact Subgroup.mem_top y⟩ : β.G0))
     (fun a b h => congrArg Subtype.val h)
   let β' : (RankTwoAmalgam.ofSubgroups X.N1 X.N2).Completion Y := precompIso (isoSymm X.iso) β
@@ -3148,7 +3153,7 @@ variable {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF4d_Z6_F_4_33_L3 (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) {T : Subgroup M}
     (hT : IsSylowOf 2 T (MiOne β ε ⊓ MiTwo β ε)) : IsSylowOf 2 T ⊤ := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨D, hG, -, -, -, -⟩ := burnsideF4d_L3_setup (burnsideF4d_L3_two_le_f hyp) hyp
   have hT' : IsSylowTwoOf T (MiOne β ε ⊓ MiTwo β ε) := hT
   have hTS : T = D.S := burnsideF4d_sylow_eq_S D hT'
@@ -3158,7 +3163,7 @@ theorem burnsideF4d_Z6_F_4_33_L3 (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) {T
 theorem burnsideF4d_Z6_F_4_34_L3 (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) :
     IsTISet (ctr (SinM Gp β ε)) ∧
       MiOne β ε ⊓ MiTwo β ε = Subgroup.normalizer ((ctr (SinM Gp β ε) : Subgroup M) : Set M) := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨D, hG, -, hDS, -, -⟩ := burnsideF4d_L3_setup (burnsideF4d_L3_two_le_f hyp) hyp
   rw [← hDS]
   have hctr : ctr D.S = D.Z := rfl
@@ -3171,7 +3176,7 @@ theorem burnsideF4d_Z6_F_4_34_L3 (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) :
   · left
     have hex : ∃ x ∈ D.Z ⊓ cj g D.Z, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hbot ((Subgroup.eq_bot_iff_forall _).mpr hcon)
     obtain ⟨x, hx, hx1⟩ := hex
     have h1 : x ∈ conjSub 1 D.Z := by

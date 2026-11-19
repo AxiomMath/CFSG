@@ -685,7 +685,7 @@ theorem exists_sylow_ge {p : ℕ} (hp : p.Prime) {K E : Subgroup G} (hEK : E ≤
   refine ⟨(S : Subgroup ↥K).map K.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hEK hx⟩, hS ((Subgroup.mem_subgroupOf).2 hx), rfl⟩
-  · exact S.isPGroup'.map K.subtype
+  · exact S.isPGroup.map K.subtype
   · rw [Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity S]
 
 end G3

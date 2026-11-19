@@ -46,12 +46,12 @@ theorem isTwoLocal_centralizer_of_involution {G : Type*} [Group G] {t : G} (ht1 
 
 theorem pCoreOf_le_sylow_of_le {G : Type} [Group G] [Finite G] (W : Sylow 2 G) {L : Subgroup G}
     (hWL : (W : Subgroup G) ≤ L) : pCoreOf 2 L ≤ (W : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (pCoreOf 2 L) := CFSG.CGT.PushingUpLit.SolK.isPGroup_pCoreOf' L
   have hWN : (W : Subgroup G) ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
     hWL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
   have hsup : IsPGroup 2 ((W : Subgroup G) ⊔ pCoreOf 2 L : Subgroup G) :=
-    W.isPGroup'.to_sup_of_normal_right' hQ2 hWN
+    W.isPGroup.to_sup_of_normal_right' hQ2 hWN
   have := W.maximal_isPGroup.le_of_ge hsup le_sup_left
   exact le_sup_right.trans this
 
@@ -86,32 +86,41 @@ variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
 @[expose] noncomputable def π12 : G := Y.ι ⟨wPi12, wPi12_mem_Wsub⟩
 
+omit [Finite G] in
 theorem π3_mem_C : Y.π3 ∈ Subgroup.centralizer ({z} : Set G) := Y.ι_mem_C _
 
+omit [Finite G] in
 theorem π12_mem_C : Y.π12 ∈ Subgroup.centralizer ({z} : Set G) := Y.ι_mem_C _
 
+omit [Finite G] in
 theorem ϑ_π3 : (Y.ϑ ⟨Y.π3, Y.π3_mem_C⟩ : Wr 6) = wPi3 := congrArg Subtype.val (Y.ϑ_ι _)
 
+omit [Finite G] in
 theorem ϑ_π12 : (Y.ϑ ⟨Y.π12, Y.π12_mem_C⟩ : Wr 6) = wPi12 := congrArg Subtype.val (Y.ϑ_ι _)
 
+omit [Finite G] in
 theorem ι_mul (a b : ↥Wsub) : Y.ι (a * b) = Y.ι a * Y.ι b := map_mul _ _ _
 
+omit [Finite G] in
 theorem ϑ_mul_coe {x y : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
     (hy : y ∈ Subgroup.centralizer ({z} : Set G)) :
     (Y.ϑ ⟨x * y, Subgroup.mul_mem _ hx hy⟩ : Wr 6) = Y.ϑ ⟨x, hx⟩ * Y.ϑ ⟨y, hy⟩ := by
   rw [← Subgroup.coe_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem ϑ_inv_coe {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) :
     (Y.ϑ ⟨x⁻¹, Subgroup.inv_mem _ hx⟩ : Wr 6) = (Y.ϑ ⟨x, hx⟩ : Wr 6)⁻¹ := by
   rw [← Subgroup.coe_inv, ← map_inv]
   rfl
 
+omit [Finite G] in
 theorem eq_of_ϑ_eq {x y : G} {hx : x ∈ Subgroup.centralizer ({z} : Set G)}
     {hy : y ∈ Subgroup.centralizer ({z} : Set G)}
     (h : (Y.ϑ ⟨x, hx⟩ : Wr 6) = Y.ϑ ⟨y, hy⟩) : x = y :=
   congrArg Subtype.val (Y.ϑ.injective (Subtype.ext h))
 
+omit [Finite G] in
 theorem commute_of_ϑ {x y : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
     (hy : y ∈ Subgroup.centralizer ({z} : Set G))
     (h : (Y.ϑ ⟨x, hx⟩ : Wr 6) * Y.ϑ ⟨y, hy⟩ = Y.ϑ ⟨y, hy⟩ * Y.ϑ ⟨x, hx⟩) : x * y = y * x := by
@@ -121,6 +130,7 @@ theorem commute_of_ϑ {x y : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
     exact h
   exact congrArg Subtype.val (Y.ϑ.injective h1)
 
+omit [Finite G] in
 theorem ϑ_commute {x y : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
     (hy : y ∈ Subgroup.centralizer ({z} : Set G)) (h : x * y = y * x) :
     (Y.ϑ ⟨x, hx⟩ : Wr 6) * Y.ϑ ⟨y, hy⟩ = Y.ϑ ⟨y, hy⟩ * Y.ϑ ⟨x, hx⟩ := by
@@ -129,6 +139,7 @@ theorem ϑ_commute {x y : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
   have h2 := congrArg (fun c => (Y.ϑ c : Wr 6)) h1
   simpa only [map_mul, Subgroup.coe_mul] using h2
 
+omit [Finite G] in
 theorem commute_of_mem_T {t : G} (ht : t ∈ Y.T) :
     t * Y.π3 = Y.π3 * t ∧ t * Y.π12 = Y.π12 * t ∧ t * z = z * t := by
   obtain ⟨htC, htD⟩ := Y.mem_lift.mp ht
@@ -139,24 +150,29 @@ theorem commute_of_mem_T {t : G} (ht : t ∈ Y.T) :
   · rw [Y.ϑ_π12]
     exact commute_wPi12_of_mem_DW htD
 
+omit [Finite G] in
 theorem π3_ne_one : Y.π3 ≠ 1 := by
   intro h
   have : (⟨wPi3, wPi3_mem_Wsub⟩ : ↥Wsub) = 1 := Y.ι_injective (by rw [map_one]; exact h)
   exact absurd (congrArg Subtype.val this) (by decide)
 
+omit [Finite G] in
 theorem π12_ne_one : Y.π12 ≠ 1 := by
   intro h
   have : (⟨wPi12, wPi12_mem_Wsub⟩ : ↥Wsub) = 1 := Y.ι_injective (by rw [map_one]; exact h)
   exact absurd (congrArg Subtype.val this) (by decide)
 
+omit [Finite G] in
 theorem π3_mul_self : Y.π3 * Y.π3 = 1 := by
   rw [π3, ← Y.ι_mul, show (⟨wPi3, wPi3_mem_Wsub⟩ : ↥Wsub) * ⟨wPi3, wPi3_mem_Wsub⟩ = 1 from
     Subtype.ext (by decide), map_one]
 
+omit [Finite G] in
 theorem π12_mul_self : Y.π12 * Y.π12 = 1 := by
   rw [π12, ← Y.ι_mul, show (⟨wPi12, wPi12_mem_Wsub⟩ : ↥Wsub) * ⟨wPi12, wPi12_mem_Wsub⟩ = 1 from
     Subtype.ext (by decide), map_one]
 
+omit [Finite G] in
 theorem z_mul_π3 : z * Y.π3 = Y.π12 := by
   have h : Y.ι ⟨Wr.allOnes 6, allOnes_mem_Wsub⟩ * Y.π3 = Y.π12 := by
     rw [π3, ← Y.ι_mul, π12]
@@ -256,6 +272,7 @@ theorem conj_z_perm (hchar : IsCharTwoType G) (P : Sylow 2 G) (hP : (P : Subgrou
     simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, hϑk]
   exact ⟨hconjC g hg, perm_of_commuting_class hX hinv hcomm hconj _ ⟨g, hg, hconjC g hg, rfl⟩⟩
 
+omit [Finite G] in
 theorem isConj_of_ϑ {x x' : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
     (hx' : x' ∈ Subgroup.centralizer ({z} : Set G)) {k : Wr 6} (hk : k ∈ Wsub)
     (h : k * (Y.ϑ ⟨x, hx⟩ : Wr 6) * k⁻¹ = Y.ϑ ⟨x', hx'⟩) : IsConj x x' := by
@@ -272,6 +289,7 @@ theorem isConj_of_ϑ {x x' : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G))
 theorem vec_e04 : ∀ v : Fin 6 → ZMod 2,
     v6 [0, 4] + v + pact (swap 4 5) (v6 [0, 4]) = v + pact (swap 4 5) (v6 [4, 5]) := by decide
 
+omit [Finite G] in
 theorem eq_z_of_perm_one (hz : orderOf z = 2) (h3 : ¬ IsConj z Y.π3) (h12 : ¬ IsConj z Y.π12)
     {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) (hzx : IsConj z x)
     (hp : (Y.ϑ ⟨x, hx⟩ : Wr 6).perm = 1) : x = z := by

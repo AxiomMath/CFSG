@@ -21,6 +21,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {v : Fin 4 → G} {hv : EBasis v} {M : Subgroup G}
 
+omit [Finite G] in
 theorem alt7_card (hle : eSub hv ≤ M) (α : ↥M →* ↥(alternatingGroup (Fin 7)))
     (hα : Function.Surjective α) (hker : α.ker = (eSub hv).subgroupOf M) :
     Nat.card M = 40320 := by
@@ -52,7 +53,7 @@ theorem alt7_isFFModule (hd : RefData (eSub hv) M) (α : ↥M →* ↥(alternati
     (hα : Function.Surjective α) (hker : α.ker = (eSub hv).subgroupOf M)
     [IsMulCommutative ↥(eSub hv)] : IsFFModule (autOn M (eSub hv)) := by
   let V := eSub hv
-  letI : IsMulCommutative ↥V := ‹IsMulCommutative ↥(eSub hv)›
+  let : IsMulCommutative ↥V := ‹IsMulCommutative ↥(eSub hv)›
   let ρ : ↥M →* MulAut ↥V := (conjAct V).comp (Subgroup.inclusion hd.norm)
   have hρker : ρ.ker = V.subgroupOf M := by
     ext x
@@ -163,7 +164,7 @@ theorem conclK_of_alt7 (hd : RefData (eSub hv) M) (α : ↥M →* ↥(alternatin
     Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨e⟩))))
   have hcommV : IsMulCommutative ↥(eSub hv) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm hv x y hx hy
-  letI : IsMulCommutative ↥(eSub hv) := hcommV
+  let : IsMulCommutative ↥(eSub hv) := hcommV
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub hv : Set G)) (eSub hv)) :=
     isFFModule_of_le (autOn_mono' hd.norm) (alt7_isFFModule hd α hα hker)
   refine Or.inl ⟨hq, hshape, Or.inl ⟨⟨hcommV, hFF⟩, ?_, ?_, ?_, ?_⟩⟩

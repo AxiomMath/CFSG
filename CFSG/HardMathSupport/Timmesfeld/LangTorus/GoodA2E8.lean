@@ -23,7 +23,7 @@ section E8Two
 
 variable {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
 
-theorem prime_eq_seven_of_order_three (hp : p.Prime) (hq : ((2 : ℕ) : ZMod p) ≠ 0 ∨ True)
+theorem prime_eq_seven_of_order_three (hp : p.Prime) (_hq : ((2 : ℕ) : ZMod p) ≠ 0 ∨ True)
     (he : orderOf (((2 : ℕ)) : ZMod p) = 3) : p = 7 := by
   have h8 : ((2 : ℕ) : ZMod p) ^ 3 = 1 := by
     rw [← he]; exact pow_orderOf_eq_one _

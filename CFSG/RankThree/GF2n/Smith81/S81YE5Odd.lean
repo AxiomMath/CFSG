@@ -16,7 +16,7 @@ theorem sl2_orderOf_odd [CharP K 2] [Finite K] (m : Matrix.SpecialLinearGroup (F
     (h10 : (m : Matrix (Fin 2) (Fin 2) K) 1 0 ≠ 0)
     (ht : (m : Matrix (Fin 2) (Fin 2) K) 0 0 + (m : Matrix (Fin 2) (Fin 2) K) 1 1 ≠ 0) :
     Odd (orderOf m) := by
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Finite.of_injective (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
       (x : Matrix (Fin 2) (Fin 2) K)) (fun x y h => Subtype.ext h)
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -27,7 +27,7 @@ theorem sl2_orderOf_odd [CharP K 2] [Finite K] (m : Matrix.SpecialLinearGroup (F
   set M : Matrix (Fin 2) (Fin 2) K := (m : Matrix (Fin 2) (Fin 2) K) with hM
   have hCH : M * M = (M 0 0 + M 1 1) • M + 1 := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
     all_goals first
       | ring1
       | linear_combination (-1 : K) * hdet - h2

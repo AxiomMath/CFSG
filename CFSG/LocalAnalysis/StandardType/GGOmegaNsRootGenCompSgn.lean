@@ -52,18 +52,22 @@ section FrameCalculus
 noncomputable def frameProj (hF : IsPlaneFrame Q p U e E) (i : Fin k) : V →ₗ[F] V :=
   (U i).projection (polarPerp Q (U i)) (isCompl_polarPerp (hF.nondeg i))
 
+omit [Finite F] [CharP F 2] in
 theorem frameProj_mem (hF : IsPlaneFrame Q p U e E) (i : Fin k) (v : V) :
     frameProj hF i v ∈ U i :=
   Submodule.projection_apply_mem (isCompl_polarPerp (hF.nondeg i)) v
 
+omit [Finite F] [CharP F 2] in
 theorem frameProj_apply_left (hF : IsPlaneFrame Q p U e E) (i : Fin k) {v : V}
     (hv : v ∈ U i) : frameProj hF i v = v :=
   Submodule.projection_apply_of_mem_left (isCompl_polarPerp (hF.nondeg i)) hv
 
+omit [Finite F] [CharP F 2] in
 private theorem frameProj_ker (hF : IsPlaneFrame Q p U e E) (i : Fin k) :
     LinearMap.ker (frameProj hF i) = polarPerp Q (U i) :=
   Submodule.ker_projection (isCompl_polarPerp (hF.nondeg i))
 
+omit [Finite F] [CharP F 2] in
 theorem frameProj_apply_right (hF : IsPlaneFrame Q p U e E) (i : Fin k) {v : V}
     (hv : v ∈ polarPerp Q (U i)) : frameProj hF i v = 0 := by
   have h : v ∈ LinearMap.ker (frameProj hF i) := by
@@ -71,6 +75,7 @@ theorem frameProj_apply_right (hF : IsPlaneFrame Q p U e E) (i : Fin k) {v : V}
     exact hv
   exact LinearMap.mem_ker.mp h
 
+omit [Finite F] [CharP F 2] in
 theorem eq_sum_frameProj (hF : IsPlaneFrame Q p U e E) {s : V}
     (hs : s ∈ ⨆ j, U j) : s = ∑ i, frameProj hF i s := by
   classical
@@ -111,6 +116,7 @@ theorem eq_sum_frameProj (hF : IsPlaneFrame Q p U e E) {s : V}
   rw [hr] at h0
   exact sub_eq_zero.mp h0
 
+omit [Finite F] [CharP F 2] in
 theorem fixedSpace_signElt (hF : IsPlaneFrame Q p U e E) (a : Fin k) {x : ↥(orthDerived Q)}
     (hx : x ∈ E ∧ (∀ v ∈ U a, (x : V ≃ₗ[F] V) v = v) ∧
       ∀ j, j ≠ a → ∀ v ∈ U j, (x : V ≃ₗ[F] V) v = (e j : V ≃ₗ[F] V) v) :
@@ -176,6 +182,7 @@ end FrameCalculus
 
 section LinearAlgebra
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem oddOrderIsometry_of_mem_frame (hF : IsPlaneFrame Q p U e E)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {x : ↥(orthDerived Q)} (hxE : x ∈ E) :
@@ -194,6 +201,7 @@ private theorem oddOrderIsometry_of_mem_frame (hF : IsPlaneFrame Q p U e E)
       congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V)) hxp
   · simpa using hv w
 
+omit [Finite F] [CharP F 2] in
 private theorem polarNondegOn_polarPerp (hF : IsPlaneFrame Q p U e E)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     PolarNondegOn Q (polarPerp Q (⨆ j, U j)) := by
@@ -209,6 +217,7 @@ private theorem polarNondegOn_polarPerp (hF : IsPlaneFrame Q p U e E)
     exact mem_polarPerp_iff.1 hw s hs
   rw [h1, hww r hr, add_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem disjoint_plane_polarPerp (hF : IsPlaneFrame Q p U e E) (a : Fin k) :
     Disjoint (U a) (polarPerp Q (⨆ j, U j)) := by
   rw [disjoint_iff_inf_le]
@@ -219,6 +228,7 @@ private theorem disjoint_plane_polarPerp (hF : IsPlaneFrame Q p U e E) (a : Fin 
     exact mem_polarPerp_iff.1 hvW (y : V) (le_iSup U a y.2)
   exact (Submodule.mem_bot F).mpr (congrArg Subtype.val h)
 
+omit [Finite F] [CharP F 2] in
 private theorem polarNondegOn_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {x : ↥(orthDerived Q)}
     (hx : x ∈ E ∧ (∀ v ∈ U a, (x : V ≃ₗ[F] V) v = v) ∧
@@ -244,6 +254,7 @@ private theorem polarNondegOn_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin 
     rwa [hu0, zero_add] at hy
   rw [hu0, hw0, add_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem finrank_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     (hW : Module.finrank F ↥(polarPerp Q (⨆ j, U j)) = 2) {x : ↥(orthDerived Q)}
     (hx : x ∈ E ∧ (∀ v ∈ U a, (x : V ≃ₗ[F] V) v = v) ∧
@@ -255,6 +266,7 @@ private theorem finrank_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     hF.finrank_eq a, hW] at h
   omega
 
+omit [Finite F] in
 private theorem polarPerp_fixedSpace_eq_othersSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     {x : ↥(orthDerived Q)}
@@ -273,6 +285,7 @@ private theorem polarPerp_fixedSpace_eq_othersSpace (hF : IsPlaneFrame Q p U e E
     have h := Submodule.finrank_add_eq_of_isCompl hc
     omega
 
+omit [CharP F 2] in
 private theorem not_isPlusType_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hW : Module.finrank F ↥(polarPerp Q (⨆ j, U j)) = 2)
@@ -287,7 +300,7 @@ private theorem not_isPlusType_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin
     have hfW : f ∈ W := hf
     have hf0 : f ≠ 0 := by
       rintro rfl
-      simpa using hpolar
+      simp at hpolar
     have hne : (⟨f, hfW⟩ : W) ≠ 0 := fun h => hf0 (congrArg Subtype.val h)
     refine ⟨Submodule.span F {(⟨f, hfW⟩ : W)}, ?_, ?_⟩
     · rw [finrank_span_singleton hne, hWdim]
@@ -314,6 +327,7 @@ private theorem not_isPlusType_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin
   intro hplus
   exact hnp ((isPlusType_congr e1).mp hplus)
 
+omit [CharP F 2] in
 private theorem no_singular_plane_fixedSpace (hF : IsPlaneFrame Q p U e E) (a : Fin k)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hW : Module.finrank F ↥(polarPerp Q (⨆ j, U j)) = 2)
@@ -354,7 +368,7 @@ private theorem isQuasisimple_supportedFixedDerived_signElt (hF : IsPlaneFrame Q
     obtain ⟨E', _, _, D, ψ, ρ, -, -, -, -, hder, hsimple, -, hnonab, -, -, -, -⟩ :=
       CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction
         (Q.comp (fixedSpace (x : V ≃ₗ[F] V)).subtype) hR hdim hts
-    haveI : IsSimpleGroup ↥ρ.range := hsimple
+    have : IsSimpleGroup ↥ρ.range := hsimple
     have hqA : CFSG.IsQuasisimple ↥ρ.range :=
       CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_of_simple_nonabelian hnonab
     exact CFSG.LocalCores.isQuasisimple_of_mulEquiv (MulEquiv.subgroupCongr hder.symm) hqA
@@ -470,7 +484,7 @@ theorem e_mem_signBlock (hF : IsPlaneFrame Q p U e E) (a : Fin k)
       refine ⟨fun u => TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup
         (orthDerived_le_orthogonalGroup (e a).2) u, fun u => ?_⟩
       have hcomm : e a * x = x * e a := by
-        haveI : IsMulCommutative ↥E := hF.isElemAbelian.1
+        have : IsMulCommutative ↥E := hF.isElemAbelian.1
         exact setLike_mul_comm (s := E) (hF.mem a) hx.1
       exact congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V) u) hcomm
     · intro u hu

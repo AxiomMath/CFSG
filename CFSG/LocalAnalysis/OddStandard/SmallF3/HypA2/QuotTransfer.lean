@@ -24,7 +24,7 @@ private noncomputable def descCenter (K : Type*) [Group K] :
     ext z
     induction z using QuotientGroup.induction_on with
     | H z =>
-      simp only [map_mul, MulAut.mul_apply]
+      simp only [MulAut.mul_apply]
       rfl
 
 theorem exists_properFixedComponent_quotient {K : Type} [Group K] [Finite K]

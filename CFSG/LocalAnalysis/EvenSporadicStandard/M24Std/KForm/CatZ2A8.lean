@@ -164,7 +164,7 @@ theorem alt8_outcome {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     {D : Subgroup ↥(fixedSubgroup σ)} [D.Normal] (e : ↥D ≃* alternatingGroup (Fin 8)) :
     (∃ m : ℕ, 5 ≤ m ∧ Nonempty (S ≃* alternatingGroup (Fin (2 * m)))) ∨ IsSporadic S .HS ∨
       LieModel S .PSL 4 2 2 := by
-  haveI := alt8_simple
+  have := alt8_simple
   have hD : CFSG.IsComponent D := isComponent_of_simple_iso alt8_nonab D e
   obtain ⟨eQ⟩ := quotient_center_iso_of_simple_iso alt8_nonab e
   rcases clause1_of_inputs armInputs_holds evenOuterTypedInput_holds heSuzONNoAltEight_proved
@@ -180,7 +180,7 @@ theorem inner_alt8 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (hna : ∃ a b : S, a * b ≠ b * a) (hcat : Catalog S) (z : S) (hz : orderOf z = 2)
     (e : ↥(centralizer ({z} : Set S)) ≃* Multiplicative (ZMod 2) × alternatingGroup (Fin 8)) :
     LieModel S .PSL 4 2 2 := by
-  haveI := alt8_simple
+  have := alt8_simple
   have hI : Function.Injective (MulAut.conj : S →* MulAut S) :=
     mulAut_conj_injective_of_simple hna
   have hσ : orderOf (MulAut.conj z : MulAut S) = 2 :=
@@ -192,7 +192,7 @@ theorem inner_alt8 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     rw [mul_inv_eq_iff_eq_mul]
     exact eq_comm
   obtain ⟨D, hDn, ⟨eD⟩⟩ := exists_normal_of_prod ((MulEquiv.subgroupCongr hfix).trans e)
-  haveI := hDn
+  have := hDn
   rcases alt8_outcome hna hcat hσ eD with ⟨m, hm5, ⟨θ⟩⟩ | hHS | hL
   · exact absurd ⟨e⟩ (alt_not_centralizer_Z2_alt8 (by omega) θ z hz)
   · exfalso
@@ -222,7 +222,7 @@ end KForm
 theorem catZ2A8_holds : CatZ2A8 := by
   intro K _ _ S hSn hSs hcat hcent z hz hne
   obtain ⟨φ⟩ := hne
-  haveI := KForm.alt8_simple
+  have := KForm.alt8_simple
   have hSna : ∃ a b : ↥S, a * b ≠ b * a := KForm.nonabelian_of_centralizer_eq_bot S hcent
   have hL : LieModel ↥S .PSL 4 2 2 := by
     rcases KForm.z2_reduction KForm.alt8_nonab S hcent hz φ with

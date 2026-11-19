@@ -99,7 +99,7 @@ theorem ggL45TA_pairing_eq_one {p : ℕ} (hp : p.Prime) {E M : Type*} [CommGroup
     intro a b
     exact hP a (h1 ▸ Subgroup.mem_top a) b
   have hcard : Nat.card (E ⧸ P) = p := by rw [← Subgroup.index_eq_card, hpi]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ : ∃ g : E, g ∉ P := by
     by_contra h
     push Not at h
@@ -114,7 +114,7 @@ theorem ggL45TA_pairing_eq_one {p : ℕ} (hp : p.Prime) {E M : Type*} [CommGroup
       zpowers_eq_top_of_prime_card hcard hne
     have ha : (QuotientGroup.mk a : E ⧸ P) ∈ Subgroup.zpowers (QuotientGroup.mk g : E ⧸ P) := by
       rw [htop]; exact Subgroup.mem_top _
-    haveI : Finite (E ⧸ P) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+    have : Finite (E ⧸ P) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
     obtain ⟨n, hn⟩ := (Submonoid.mem_powers_iff _ _).mp (mem_powers_iff_mem_zpowers.mpr ha)
     refine ⟨n, ?_⟩
     rw [← QuotientGroup.eq, QuotientGroup.mk_pow, hn]

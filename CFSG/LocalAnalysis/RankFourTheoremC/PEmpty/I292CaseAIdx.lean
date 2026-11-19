@@ -14,9 +14,9 @@ theorem not_dvd_index_comap_of_commutator {p : ℕ} (hp : p.Prime) {Y G : Type*}
     (hperf : ∀ (N : Subgroup Y) [N.Normal], IsPGroup p (Y ⧸ N) → N = ⊤) :
     ¬ p ∣ (D.comap θ).index := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup Y := D.comap θ with hN
-  haveI : N.Normal := Subgroup.normal_comap θ
+  have : N.Normal := Subgroup.normal_comap θ
   have hcomm : ∀ a b : Y ⧸ N, a * b = b * a := by
     intro a b
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective a
@@ -37,7 +37,7 @@ theorem not_dvd_index_comap_of_commutator {p : ℕ} (hp : p.Prime) {Y G : Type*}
       map_one' := one_pow m
       map_mul' := fun a b => (Commute.mul_pow (hcomm a b) m) }
   let ρ : Y →* (Y ⧸ N) := ψ.comp (QuotientGroup.mk' N)
-  haveI : ρ.ker.Normal := MonoidHom.normal_ker ρ
+  have : ρ.ker.Normal := MonoidHom.normal_ker ρ
   have hρp : IsPGroup p ρ.range := by
     intro g
     obtain ⟨y, hy⟩ := g.2

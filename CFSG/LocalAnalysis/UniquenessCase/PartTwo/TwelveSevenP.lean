@@ -39,7 +39,7 @@ theorem normalizer_le_of_gamma_le {p : ℕ} (hp : p.Prime) {X Y M : Subgroup G}
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hyp, one_zpow]
   have hcard : Nat.card (zpowers y) = p ^ 1 := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_eq_prime hyp hy1'
   have h1 : 1 ≤ CFSG.Open.pRank p Y :=
@@ -67,7 +67,7 @@ theorem inf_conjSubgroup_eq_bot (D : Data G) (h63 : UC6.R6_3 D) {X : Subgroup G}
   obtain ⟨p, hp, hp2, hXM, hXp, hexp, -, -, hΓX, hsp | ⟨Y, hYnc, ⟨P, hPsyl, hYP, hPY⟩, hΓY⟩⟩ := hX
   · by_contra hne
     have hX1p : IsPGroup p ↥(X ⊓ conjSubgroup D.M g) := hXp.to_le inf_le_left
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hdvd : p ∣ Nat.card ↥(X ⊓ conjSubgroup D.M g) := by
       rcases hX1p.card_eq_or_dvd with h1 | h
       · exact absurd (Subgroup.card_eq_one.1 h1) hne
@@ -76,7 +76,7 @@ theorem inf_conjSubgroup_eq_bot (D : Data G) (h63 : UC6.R6_3 D) {X : Subgroup G}
     apply hsp.2.2 g⁻¹ hg'
     exact hdvd.trans (Subgroup.card_dvd_of_le (le_inf (inf_le_left.trans hXM) inf_le_right))
   · by_contra hne
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hPp : IsPGroup p P := hPsyl.isPGroup
     have hPM : P ≤ D.M := hPsyl.le
     obtain ⟨E, hEY, hPE, hEcard, hEexp, hEab⟩ :=

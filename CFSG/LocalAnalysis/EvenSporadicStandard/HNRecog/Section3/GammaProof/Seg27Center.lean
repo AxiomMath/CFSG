@@ -86,6 +86,7 @@ theorem gamma_center_eq {M : Subgroup G} (hM : IsShapeTwoTwoTimesA8 ↥M) {b y :
     exact hcard
   exact (Set.eq_of_subset_of_ncard_le hsub (by rw [hcenter, hS])).symm
 
+omit [Finite G] in
 theorem gamma_inf_center_eq {M L : Subgroup G} {b y w : G} (hbM : b ∈ M) (hyM : y ∈ M)
     (hwM : w ∈ M) (hw : w = y ∨ w = b)
     (hZ : (Subgroup.center ↥M : Set ↥M) = {1, ⟨y, hyM⟩, ⟨b, hbM⟩, ⟨y, hyM⟩ * ⟨b, hbM⟩})

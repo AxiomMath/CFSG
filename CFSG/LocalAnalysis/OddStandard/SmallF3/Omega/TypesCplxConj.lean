@@ -33,8 +33,8 @@ private theorem aux_conj_forward :
     · subst hn0
       have hV : Module.finrank (ZMod 3) V = 0 := hdim
       have hV' : Module.finrank (ZMod 3) V' = 0 := hdim'
-      haveI : Subsingleton V := Module.finrank_zero_iff.mp hV
-      haveI : Subsingleton V' := Module.finrank_zero_iff.mp hV'
+      have : Subsingleton V := Module.finrank_zero_iff.mp hV
+      have : Subsingleton V' := Module.finrank_zero_iff.mp hV'
       let eLin : V ≃ₗ[ZMod 3] V' := LinearEquiv.ofBijective (0 : V →ₗ[ZMod 3] V')
         ⟨fun x y _ => Subsingleton.elim x y, fun y => ⟨0, Subsingleton.elim _ _⟩⟩
       refine ⟨{ toLinearEquiv := eLin, map_app' := ?_ }, fun v => Subsingleton.elim _ _⟩

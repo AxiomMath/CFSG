@@ -18,8 +18,8 @@ set_option linter.unusedSectionVars false
 theorem leaf_l33 {n : ℕ} :
     TwinLeafS n fun F _ => CFSG.Blueprint.LieModel F .PSL 3 3 1 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hF => by
-    haveI := h.core.simple
-    haveI := genFittingFStar_normal Y
+    have := h.core.simple
+    have := genFittingFStar_normal Y
     obtain ⟨e⟩ := L33.equiv_of_lieModel hF
     obtain ⟨M, -, hA⟩ := L33.autModel e
     obtain ⟨f, hf⟩ := embedsAut_of_autModel M Y (genFittingFStar Y) ⟨MulEquiv.refl _⟩

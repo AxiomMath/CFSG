@@ -65,8 +65,6 @@ theorem center_eq_bot_of_isBOfTwo
     simp only [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional, hg, he]
     first
       | exact Nat.card_unique
-      | (rw [Nat.card_eq_fintype_card]; rfl)
-      | decide
   have hdvd := CFSG.RankThree.PerfectCover.card_center_dvd_hopf hperf
   rw [hcard] at hdvd
   exact Subgroup.card_eq_one.1 (Nat.dvd_one.1 hdvd)

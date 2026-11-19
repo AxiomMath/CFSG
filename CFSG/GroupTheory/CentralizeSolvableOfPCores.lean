@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
-theorem commutator_eq_bot_of_forall_pCoreOf {J K : Subgroup G} (hK : IsSolvable K)
+theorem commutator_eq_bot_of_forall_pCoreOf {J K : Subgroup G} (hK : Group.IsSolvable K)
     (hJ : ⁅J, J⁆ = J) (hJK : J ≤ Subgroup.normalizer (K : Set G))
     (h : ∀ q : ℕ, q.Prime → ⁅J, CFSG.Open.pCoreOf q K⁆ = ⊥) :
     ⁅J, K⁆ = ⊥ := by

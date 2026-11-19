@@ -39,6 +39,7 @@ private theorem exists_isMaxTwoLocal_ge {H : Subgroup G} (hH : CFSG.Open.IsTwoLo
   have hKS : K ∈ S := ⟨hK, hHN.trans hNK⟩
   exact (Subgroup.eq_of_le_of_card_ge hNK (hmax K hKS)).symm
 
+omit [Finite G] in
 theorem uniqueMax_conjSubgroup {K X : Subgroup G} (h : UniqueMax K X) (g : G) :
     UniqueMax (conjSubgroup K g) (conjSubgroup X g) := by
   change calMOf (conjSubgroup X g) = {conjSubgroup K g}
@@ -68,6 +69,7 @@ theorem uniqueMax_conjSubgroup {K X : Subgroup G} (h : UniqueMax K X) (g : G) :
     exact ⟨UC6.isMaxTwoLocal_conj (show IsMaxTwoLocalSubgroup K from hKmem.1) g,
       Subgroup.map_mono hKmem.2⟩
 
+omit [Finite G] in
 theorem uniqueMax_conjSubgroup_of_mem {M X : Subgroup G} {g a : G}
     (hX : ∀ w ∈ X, w ≠ 1 → UniqueMax M (M ⊓ centralizer ({w} : Set G)))
     (ha : a ∈ conjSubgroup X g) (ha1 : a ≠ 1) :

@@ -129,7 +129,7 @@ theorem factorization_A10 : (Nat.card A10).factorization 5 = 2 := by
 open scoped Pointwise in
 theorem exists_iso_sylow {K : Type} [Group K] [Finite K] (e : K ≃* A10) (S : Sylow 5 K) :
     ∃ ψ : K ≃* A10, ∀ x : K, x ∈ (S : Subgroup K) ↔ ψ x ∈ S₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let S' : Sylow 5 A10 := S.mapSurjective (f := e.toMonoidHom) e.surjective
   let Q : Sylow 5 A10 := Sylow.ofCard S₀ (by rw [card_S₀, factorization_A10]; norm_num)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq A10 Q S'
@@ -158,7 +158,7 @@ theorem zpowers_pow_eq {G : Type} [Group G] {x : G} (hx : orderOf x = 5) {j : �
 
 theorem eq_zpowers_of_card_five {G : Type} [Group G] {L : Subgroup G} (hL : Nat.card L = 5)
     {x : G} (hxL : x ∈ L) (hx1 : x ≠ 1) : L = zpowers x := by
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
   have hord : orderOf x = 5 := by
     have h1 : orderOf x ∣ 5 := hL ▸ Subgroup.orderOf_dvd_natCard L hxL
     rcases (Nat.dvd_prime Nat.prime_five).1 h1 with h | h
@@ -170,12 +170,12 @@ theorem eq_zpowers_of_card_five {G : Type} [Group G] {L : Subgroup G} (hL : Nat.
 
 theorem card_zpowers_of_pow_eq {G : Type} [Group G] {x : G} (hx : x ^ 5 = 1) (hx1 : x ≠ 1) :
     Nat.card (zpowers x) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Nat.card_zpowers, orderOf_eq_prime hx hx1]
 
 theorem orderOf_eq_five {G : Type} [Group G] {x : G} (hx : x ^ 5 = 1) (hx1 : x ≠ 1) :
     orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime hx hx1
 
 theorem conj_gen (n : A10) (i j : ℕ) :
@@ -306,7 +306,7 @@ theorem orbit_pair {n : A10} (hn : n ∈ normalizer (S₀ : Set A10)) :
 theorem line_data {L : Subgroup A10} (hLS : L ≤ S₀) (hL : Nat.card L = 5) (h1 : L ≠ line₁)
     (h2 : L ≠ line₂) :
     ∃ u v : Fin 5, u ≠ 0 ∧ v ≠ 0 ∧ L = zpowers (a₁ ^ (u : ℕ) * a₂ ^ (v : ℕ)) := by
-  haveI : Nontrivial L := Finite.one_lt_card_iff_nontrivial.1 (by rw [hL]; norm_num)
+  have : Nontrivial L := Finite.one_lt_card_iff_nontrivial.1 (by rw [hL]; norm_num)
   obtain ⟨⟨x, hxL⟩, hx1⟩ := exists_ne (1 : L)
   have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
   have hLx : L = zpowers x := eq_zpowers_of_card_five hL hxL hx1'

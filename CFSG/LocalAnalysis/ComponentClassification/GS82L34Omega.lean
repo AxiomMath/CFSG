@@ -75,6 +75,7 @@ theorem conj_mem_pPrimeCoreOf [Finite G] {Λ : Subgroup G} {g n : G} (hg : g ∈
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem exists_mul_comm_of_odd {Λ O : Subgroup G} (hOΛ : O ≤ Λ)
     (hodd : Odd (Nat.card O)) {c : G} (hc2 : c * c = 1) {y : G} (hy : y ∈ Λ)
     (hn : y⁻¹ * (c⁻¹ * y * c) ∈ O) :
@@ -138,7 +139,6 @@ theorem layer_image {P : Type} [Group P] [Finite P] (L : Subgroup G) {t : G} (ht
     have h := mem_centralizer_singleton_iff.mp q.2.2
     first
       | exact Subtype.ext h
-      | exact Subtype.ext h.symm
   set Ψ : ↥Q →* ↥Z := (psi L t φ).codRestrict Z hrange with hΨ
   have hsurj : Function.Surjective Ψ := by
     rintro ⟨z, hz⟩
@@ -150,7 +150,6 @@ theorem layer_image {P : Type} [Group P] [Finite P] (L : Subgroup G) {t : G} (ht
       rw [map_mul, map_mul]
       first
         | exact h
-        | exact h.symm
     have h2 : π y = π ((⟨t, htL⟩ : ↥L)⁻¹ * y * ⟨t, htL⟩) := by
       rw [map_mul, map_mul, map_inv, mul_assoc, hcomm, ← mul_assoc, inv_mul_cancel, one_mul]
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at h2
@@ -161,7 +160,6 @@ theorem layer_image {P : Type} [Group P] [Finite P] (L : Subgroup G) {t : G} (ht
     have hq : (y : G) * m ∈ Q := by
       refine ⟨hym, mem_centralizer_singleton_iff.mpr ?_⟩
       first
-        | exact hcomm'
         | exact hcomm'.symm
     refine ⟨⟨_, hq⟩, ?_⟩
     apply Subtype.ext
@@ -225,7 +223,7 @@ theorem Eight2.CtxA0.lemmaOmega_of
       (∀ a b : SL(2, ZMod 7), α (proj 4 (ZMod 7) (blk a b)) = proj 4 (ZMod 7) (blk a b)) →
       α * α ≠ MulAut.conj (proj 4 (ZMod 7) dSL))
     (hωB : ω ∈ centralizer (c.s.h.secB0 c.s.y : Set X))
-    (hω2 : ω ^ 2 = c.s.h.a * c.b * c.Z.z) (hω : ∃ n : ℕ, ω ^ 2 ^ n = 1)
+    (hω2 : ω ^ 2 = c.s.h.a * c.b * c.Z.z) (_hω : ∃ n : ℕ, ω ^ 2 ^ n = 1)
     (hωc : ∀ y ∈ GH74.GLS.pLayerOf 2 (centralizer ({c.s.h.a * c.b * c.Z.z} : Set X)),
       y⁻¹ * (ω⁻¹ * y * ω) ∈
         GH74.GLS.pPrimeCoreOf 2 (centralizer ({c.s.h.a * c.b * c.Z.z} : Set X))) :

@@ -190,7 +190,7 @@ theorem card_sylow_and (S : Sylow 2 G) (htS : h.t ∈ S) :
   have h1 := Subgroup.relIndex_mul_card ((S : Subgroup G) ⊓ h.F) S
   rw [h.relIndex_inf_F S htS, inf_assoc, inf_comm h.F, ← inf_assoc, inf_idem] at h1
   have hV4 : Nat.card ((S : Subgroup G) ⊓ h.F : Subgroup G) ∣ 4 :=
-    A5Sub.card_dvd_four_of_isPGroup h.iso inf_le_right (S.isPGroup'.to_le inf_le_left)
+    A5Sub.card_dvd_four_of_isPGroup h.iso inf_le_right (S.isPGroup.to_le inf_le_left)
   have h8 : 8 ∣ Nat.card (S : Subgroup G) := by
     have : 2 ^ 3 ∣ Nat.card G := by
       have := Subgroup.card_subgroup_dvd_card (Subgroup.centralizer ({h.t} : Set G))
@@ -210,7 +210,7 @@ theorem card_inf_F (S : Sylow 2 G) (htS : h.t ∈ S) :
 
 theorem mul_self_of_mem_inf_F {S : Sylow 2 G} {x : G} (hx : x ∈ (S : Subgroup G) ⊓ h.F) :
     x * x = 1 := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx.1⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx.1⟩
   have hk' := congrArg Subtype.val hk
   simp only [Subgroup.coe_pow, Subgroup.coe_one] at hk'
   rw [← pow_two]

@@ -128,7 +128,7 @@ theorem chainW_sound {n w m idn : ℕ} {G0 B : List ℕ} {R T S Ref Nn : List (L
       rw [hb, bAnd_iff] at hrest
       obtain ⟨hs, hrest'⟩ := hrest
       have hG' : i + 1 < B.length → getLs S i = chainGens G0 S (i + 1) := fun _ => by
-        rw [chainGens, if_neg (by omega), getLs_eq]
+        rw [chainGens, ite_eq_right (by omega), getLs_eq]
         rfl
       obtain ⟨hlen, hall⟩ := ih (i + 1) _ hL' hiT hG' hrest'
       refine ⟨hlen, fun j hj hjT => ?_⟩

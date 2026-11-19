@@ -95,7 +95,7 @@ theorem zpow_mod_three_aux {G : Type*} [Group G] (g : G) (h3 : g ^ 3 = 1) (k : �
   interval_cases r
   · exact Or.inl (zpow_zero g)
   · exact Or.inr (Or.inl (zpow_one g))
-  · exact Or.inr (Or.inr (by simpa using zpow_two g))
+  · exact Or.inr (Or.inr (by simp))
 
 theorem zpowers_wa_cases {x : WeylGroup Tag.F4} (hx : x ∈ Subgroup.zpowers wa) :
     x = 1 ∨ x = wa ∨ x = wa ^ 2 := by
@@ -130,7 +130,7 @@ theorem finite_W : Finite (WeylGroup Tag.F4) :=
   Nat.finite_of_card_ne_zero (by rw [card_weylGroup_F4]; norm_num)
 
 theorem QF4_card : Nat.card QF4 = 9 := by
-  haveI := finite_W
+  have := finite_W
   obtain ⟨k, hk⟩ := QF4_pGroup.exists_card_eq
   have hdvd : Nat.card QF4 ∣ 1152 := by
     rw [← card_weylGroup_F4]
@@ -174,8 +174,8 @@ noncomputable def QF4Sylow : Sylow 3 (WeylGroup Tag.F4) :=
 
 theorem exists_conj_mem_QF4 (x : WeylGroup Tag.F4) (hx : x ^ 3 = 1) :
     ∃ w : WeylGroup Tag.F4, w * x * w⁻¹ ∈ QF4 := by
-  haveI := finite_W
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_W
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers x) := by
     rintro ⟨g, hg⟩
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg

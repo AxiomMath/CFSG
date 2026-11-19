@@ -130,7 +130,7 @@ private theorem exists_char_two_subgroup {D : Type*} [Group D] [Finite D] [Group
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₂⟩ : Nonempty (Sylow 2 D) := Sylow.nonempty
   have hN : (P₂ : Subgroup D).Normal := inferInstance
-  refine ⟨(P₂ : Subgroup D), Sylow.characteristic_of_normal P₂ hN, P₂.isPGroup', ?_⟩
+  refine ⟨(P₂ : Subgroup D), Sylow.characteristic_of_normal P₂ hN, P₂.isPGroup, ?_⟩
   rintro y ⟨k, hk⟩
   have hp : IsPGroup 2 ↥(Subgroup.zpowers y) :=
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
@@ -258,7 +258,7 @@ theorem commutator_le_pCoreOf_of_map [Finite G] (φ : G →* G') {W C C' : Subgr
   rw [Subgroup.commutator_le]
   let D : Subgroup G :=
     { carrier := {x | x ∈ W ∧ ∀ y ∈ C', ⁅x, y⁆ ∈ pCoreOf 2 W}
-      one_mem' := ⟨W.one_mem, fun y _ => by simpa using (pCoreOf 2 W).one_mem⟩
+      one_mem' := ⟨W.one_mem, fun y _ => by simp⟩
       mul_mem' := fun {x₁ x₂} hx₁ hx₂ => ⟨W.mul_mem hx₁.1 hx₂.1, fun y hy => by
         have e : ⁅x₁ * x₂, y⁆ = x₁ * ⁅x₂, y⁆ * x₁⁻¹ * ⁅x₁, y⁆ := by
           simp only [commutatorElement_def]; group

@@ -66,7 +66,7 @@ theorem ELabelling.subgroupOf {Γ : Type*} [Group Γ] {M E' : Subgroup Γ} {t : 
       ∀ k < 32, ((elt' k : ↥M) : Γ) = elt k := by
   have hM : ∀ k < 32, elt k ∈ M := fun k hk => hEM (h.mem k hk)
   let elt' : ℕ → ↥M := fun k => if hk : k < 32 then ⟨elt k, hM k hk⟩ else 1
-  have hval : ∀ k (hk : k < 32), elt' k = ⟨elt k, hM k hk⟩ := fun k hk => dif_pos hk
+  have hval : ∀ k (hk : k < 32), elt' k = ⟨elt k, hM k hk⟩ := fun k hk => dite_eq_left hk
   have hcoe : ∀ k < 32, ((elt' k : ↥M) : Γ) = elt k := fun k hk =>
     congrArg Subtype.val (hval k hk)
   refine ⟨elt', ⟨?_, ?_, ?_, ?_, ?_, ?_, h.tI_lt, ?_⟩, hcoe⟩

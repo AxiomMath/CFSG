@@ -49,7 +49,7 @@ theorem ggTorusRootSL2_psu_coprime
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n))) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have h := TableBU.unitaryFieldData_of_card hK (by omega)
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one (by omega) hpq
   have hq4 : 4 ≤ 2 ^ n := by
@@ -83,11 +83,11 @@ theorem ggTorusRootSL2_psu_coprime
       omega
     obtain ⟨φ, hφs, hφker, hM⟩ :=
       exists_isDiagTorusModelU hK hn hd4 hp hpq hpd hψ hker hperf hAe hAI hsc
-    haveI : Finite (MulAut L') :=
+    have : Finite (MulAut L') :=
       Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
         ext x
         exact congrFun h x
-    haveI : Finite ↥A := Subtype.finite
+    have : Finite ↥A := Subtype.finite
     obtain ⟨Θ, -, hΘsurj, hΘperm⟩ := exists_permModel hp
       (TableBUE.center_proj_eq_bot hK (by omega) hdq)
       (fun φa hφa hφap => InndiagSU.ggOutdiagPrime_unitary hK (by omega) (by omega) hdq hp hpq
@@ -162,7 +162,7 @@ theorem ggTorusRootSL2_psu_coprime
       rw [hπ]
       exact hrefl
     have hisSwap : π.IsSwap := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       exact isSwap_of_ggIsReflection hp2 hAe E' hE'inj
         (fun x y hxy => by
           rw [hswapU x y hxy]
@@ -187,7 +187,7 @@ theorem ggTorusRootSL2_psu_coprime
       by_cases ha1 : a = 1
       ·
         subst ha1
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hSUq : CFSG.IsQuasisimple ↥(unitarySU 2 n K d) :=
           (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) (p := 2)
             (f := n) hK (by omega) hdq).1

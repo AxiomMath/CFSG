@@ -24,8 +24,8 @@ theorem exists_inndiag_conj_eq_on_diag3 [Finite K] {ζ : Kˣ} (hζ : ζ ^ 3 = 1)
     ∃ h ∈ (hatAut .E6 K).range, ∀ x : Fin Tag.E6.rank → ZMod 3,
       α * diag3 ζ hζ (Multiplicative.ofAdd x) * α⁻¹ =
         h * diag3 ζ hζ (Multiplicative.ofAdd x) * h⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero (exactE .E6) := ⟨(exactE_pos .E6).ne'⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero (exactE .E6) := ⟨(exactE_pos .E6).ne'⟩
   obtain ⟨Θ, -, hΘ, -, -, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions .E6 (Or.inl rfl) K
   obtain ⟨g, a, σ, ε, hαe⟩ := exists_conj_mul_exactNormalAut (K := K) (Or.inl rfl) α

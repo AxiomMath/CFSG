@@ -88,7 +88,7 @@ theorem IsCentralCover.isPElt_mul (h : IsCentralCover π p) {P : Subgroup G}
   have hxS := hsyl ⟨x, hxM⟩ hx' S
   have hyS := hsyl ⟨y, hyM⟩ hy' S
   have hmul := mul_mem hxS hyS
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨_, hmul⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨_, hmul⟩
   exact ⟨k, by simpa using congrArg Subtype.val (congrArg Subtype.val hk)⟩
 
 end Closure

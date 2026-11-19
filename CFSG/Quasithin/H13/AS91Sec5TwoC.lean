@@ -19,6 +19,7 @@ namespace Loc49
 
 variable {G : Type} [Group G] [Finite G] {z : G} (c : Loc49 G z)
 
+omit [Finite G] in
 theorem mem_conjSub_iff (E : Subgroup G) (g x : G) :
     x ∈ E.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ E := by
   constructor

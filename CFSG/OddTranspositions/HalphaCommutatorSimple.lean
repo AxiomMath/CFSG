@@ -12,6 +12,7 @@ open CFSG.OddTranspositions.QZ
 
 variable {G : Type} [Group G] [Finite G] {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
+omit [Finite G] in
 theorem reach_imp_commGraph_reachable {x y : D}
     (h : Reach D (x : G) (y : G)) : (commGraph D).Reachable x y := by
   have key : ∀ {a : G}, Reach D a (y : G) → ∀ ha : a ∈ D,
@@ -29,15 +30,18 @@ theorem reach_imp_commGraph_reachable {x y : D}
           ⟨hEq, hstep.2.2⟩)).reachable.trans (ih hstep.2.1)
   simpa using key h x.2
 
+omit [Finite G] in
 theorem commGraph_reachable_imp_reach {x y : D}
     (h : (commGraph D).Reachable x y) : Reach D (x : G) (y : G) := by
   rw [SimpleGraph.reachable_iff_reflTransGen] at h
   exact h.lift Subtype.val (fun a b hab => ⟨a.2, b.2, hab.2⟩)
 
+omit [Finite G] in
 theorem reach_iff_commGraph_reachable {x y : D} :
     Reach D (x : G) (y : G) ↔ (commGraph D).Reachable x y :=
   ⟨reach_imp_commGraph_reachable, commGraph_reachable_imp_reach⟩
 
+omit [Finite G] in
 theorem commGraph_connected_of_not_disconnected (hne : D.Nonempty)
     (h : ¬ Disconnected D) : (commGraph D).Connected := by
   obtain ⟨x, hx⟩ := hne

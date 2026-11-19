@@ -54,8 +54,8 @@ variable (a : ℕ) (K : Type) [Field K] [Finite K] [CharP K ReeTag.F4.prime]
 theorem e9MoveOdd_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     E9MoveOdd (ReeTag.F4.reeGamma K a) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro B hB hB9 c hcB hc1
   have hc3 : c ^ 3 = 1 := hB.2 c hcB
   have hBc : ∀ x ∈ B, ∀ z ∈ B, x * z = z * x := fun x hx z hz =>
@@ -75,7 +75,7 @@ theorem e9MoveOdd_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
   set Fq := GaloisField 2 (2 * (2 * a + 1)) with hFq
   have hU : UnitaryFieldData 2 (2 * a + 1) Fq :=
     ⟨Nat.prime_two, by omega, GaloisField.card 2 _ (by omega)⟩
-  haveI := hU.finite
+  have := hU.finite
   have hpq := three_dvd_two_pow_odd_add_one a
   set C := Subgroup.centralizer ({y} : Set (ReeTag.F4.reeGamma K a)) with hCdef
   have hBC : B ≤ C := fun x hx => Subgroup.mem_centralizer_singleton_iff.mpr (hBc x hx y hyB)
@@ -302,7 +302,7 @@ theorem pow_three_mem_commutator_reeFixed_zmod_two {y : ↥(reeFixed ReeTag.F4 (
   have hT := CFSG.LieType.Simplicity.titsData (ZMod 2) (Nat.card_zmod 2)
   have hsup := hT.commutator_sup_zpowers_eq_top (Nat.card_zmod 2)
   have hg2 := hT.g₁_sq_mem
-  haveI : (_root_.commutator ↥(reeFixed ReeTag.F4 (ZMod 2) 0)).Normal :=
+  have : (_root_.commutator ↥(reeFixed ReeTag.F4 (ZMod 2) 0)).Normal :=
     Subgroup.commutator_normal ⊤ ⊤
   exact CFSG.RankThree.PartOne.FieldFix.mem_of_odd_pow_of_sup_zpowers hsup hg2 (m := 3)
     (by decide) hy

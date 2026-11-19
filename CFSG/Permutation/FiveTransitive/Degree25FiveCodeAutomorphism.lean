@@ -167,7 +167,7 @@ theorem fourFive_subgroup_weight_preserving_mulAut_order_ne_five
       exact congrArg (fun z : A => z.1) happ''
     rw [haOne, orderOf_one] at haOrder
     norm_num at haOrder
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hlinOrder : orderOf linAut = 5 :=
     orderOf_eq_prime hlinPow hlinNe
   exact

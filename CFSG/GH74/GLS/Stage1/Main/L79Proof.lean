@@ -138,7 +138,7 @@ theorem model_structure (h412 : IVK412Nc) {Gs : Type} [Group Gs] [Finite Gs] {q 
       (∀ a ∈ D₁, u' * a = a * u') ∧ u' ∈ D₁ := by
   set C : Subgroup Gs := centralizer ({u'} : Set Gs) with hC
   set A : Subgroup Gs := (S' : Subgroup Gs) ⊓ C with hA
-  have hApg : IsPGroup 2 ↥A := S'.isPGroup'.to_inf_left
+  have hApg : IsPGroup 2 ↥A := S'.isPGroup.to_inf_left
   obtain ⟨P, hP, hAP⟩ := exists_syl2In_ge hApg (inf_le_right : A ≤ C)
   obtain ⟨D₁, D₂, n, hn, hmap, hcomm, hinf, hd1, hd2, hcen, hSyc, hT⟩ := h412 hq h5 hK hu'2 hnc (toSylow hP)
   have hmapP : (toSylow hP).map C.subtype = P := by

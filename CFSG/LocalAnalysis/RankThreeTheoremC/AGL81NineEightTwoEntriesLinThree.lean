@@ -20,6 +20,7 @@ section LinThree
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem centralizer_theta_le_normalizer (p : ℕ) [Fact p.Prime] [CharP F p] (hp2 : p ≠ 2) :
     centralizer ({theta (⟨0, 0, 1⟩ : Heis F)} : Set (projectiveSL 3 F)) ≤
       normalizer (projUnitriangular 3 F : Set (projectiveSL 3 F)) := by
@@ -138,7 +139,7 @@ theorem centralizer_map_conj_projUnitriangular_le (p : ℕ) [Fact p.Prime] [Char
 theorem card_le_four_of_isElemAbelian_projectiveSL (p : ℕ) [Fact p.Prime] [CharP F p]
     (hp2 : p ≠ 2)
     {E : Subgroup (projectiveSL 3 F)} (hE : IsElemAbelian 2 E) : Nat.card E ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : F) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h
@@ -208,7 +209,7 @@ theorem mulAut_eq_bot_of_le_normalizer_projUnitriangular (p : ℕ) [Fact p.Prime
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := F) p (n := 3) (by norm_num)
   have hUp : IsPGroup p (projUnitriangular 3 F) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have hzU : theta (⟨0, 0, 1⟩ : Heis F) ∈ projUnitriangular 3 F :=
     mem_map_of_mem _ (heisSL_mem_unitriangular _)
   have hUz : projUnitriangular 3 F ≤
@@ -234,7 +235,7 @@ theorem kFactNineThreeNoTwoAt_linThree {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨x, hv⟩ := d
   change x = _ at hdq
   subst hdq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   let e : TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩ ≃*
       projectiveSL 3 (GaloisField q.p q.exponent) :=
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans
@@ -243,7 +244,7 @@ theorem kFactNineThreeNoTwoAt_linThree {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (by norm_num)
   have hU : IsPGroup q.p (projUnitriangular 3 (GaloisField q.p q.exponent)) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   exact kFactNineThreeNoTwoAt_of_model hp ⟨e.symm⟩ hU fun V hV hN =>
     mulAut_eq_bot_of_le_normalizer_projUnitriangular q.p hp2 V hV fun u hu => hN ⟨u, hu, rfl⟩
 

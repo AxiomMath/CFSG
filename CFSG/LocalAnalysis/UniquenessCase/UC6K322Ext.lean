@@ -13,6 +13,7 @@ section Abstract
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem eq_one_of_sq_eq_one_of_mem {Z : Subgroup H} (hZ : Nat.card Z = 3) {z : H} (hz : z ∈ Z)
     (h2 : z ^ 2 = 1) : z = 1 := by
   have h3 : z ^ 3 = 1 := by
@@ -22,6 +23,7 @@ theorem eq_one_of_sq_eq_one_of_mem {Z : Subgroup H} (hZ : Nat.card Z = 3) {z : H
   calc z = z ^ 3 * (z ^ 2)⁻¹ := by group
     _ = 1 := by rw [h2, h3]; group
 
+omit [Finite H] in
 theorem commutator_mem_center (hex : CFSG.IsExtraspecialPGroup 3 H) (a b : H) :
     a * b * a⁻¹ * b⁻¹ ∈ center H := by
   rw [← hex.2.1]
@@ -29,7 +31,7 @@ theorem commutator_mem_center (hex : CFSG.IsExtraspecialPGroup 3 H) (a b : H) :
 
 theorem pow_three_mem_center (hcard : Nat.card H = 27) (hex : CFSG.IsExtraspecialPGroup 3 H)
     (y : H) : y ^ 3 ∈ center H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Nat.card (center H) = 3 := hex.2.2.2
   have hQ : Nat.card (H ⧸ center H) = 9 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (center H)
@@ -42,9 +44,9 @@ theorem pow_three_mem_center (hcard : Nat.card H = 27) (hex : CFSG.IsExtraspecia
   obtain ⟨k, hk, hkq⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvd
   have hk2 : k ≠ 2 := by
     rintro rfl
-    haveI : IsCyclic (H ⧸ center H) := isCyclic_of_orderOf_eq_card q (by rw [hkq, hQ]; norm_num)
-    have hcomm := commutative_of_cyclic_center_quotient (QuotientGroup.mk' (center H))
-      (by rw [QuotientGroup.ker_mk'])
+    have : IsCyclic (H ⧸ center H) := isCyclic_of_orderOf_eq_card q (by rw [hkq, hQ]; norm_num)
+    have hcomm := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (center H))
+      (by rw [QuotientGroup.ker_mk'])).is_comm.comm
     have htop : center H = ⊤ := eq_top_iff.2 fun x _ =>
       Subgroup.mem_center_iff.2 fun g => hcomm g x
     rw [htop, Subgroup.card_top, hcard] at hZ
@@ -153,7 +155,7 @@ theorem eq_or_exponent_three (hcard : Nat.card H = 27) (hex : CFSG.IsExtraspecia
     rw [hcdef] at hc1
     calc a * b = a * b * a⁻¹ * b⁻¹ * (b * a) := by group
       _ = b * a := by rw [hc1, one_mul]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup H := zpowers a ⊔ center H with hAdef
   set C : Subgroup H := centralizer {a} with hCdef
   have hAC : A ≤ C := sup_le (Subgroup.zpowers_le.2 (Subgroup.mem_centralizer_singleton_iff.2 rfl))
@@ -314,7 +316,7 @@ theorem exponent_three_of_involution {H : Subgroup (GL (Fin 3) F)}
     apply Units.ext
     rw [Units.val_mul, Units.val_mul, hc, ← Algebra.commutes c, Matrix.mul_assoc,
       ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.mul_one]
-  haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rcases eq_or_exponent_three hcard hex φ hφ2 hφZ with hid | hexp
   · exfalso
     set K : Submodule F (Fin 3 → F) :=

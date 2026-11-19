@@ -72,7 +72,7 @@ private theorem normalizerMonoidHom_surjective :
       rw [← hnorm, hq, hquot]
     rw [hker] at hq'
     omega
-  haveI : Finite ↥H12Cert.G :=
+  have : Finite ↥H12Cert.G :=
     (Nat.card_ne_zero.mp (by rw [H12Cert.card_G]; norm_num)).2
   have htop : H12Cert.G.normalizerMonoidHom.range = ⊤ := by
     refine Subgroup.eq_of_le_of_card_ge le_top ?_
@@ -111,8 +111,8 @@ theorem modIso_of_faithIrr12
     (hΛ : IsHat Λ ↥CFSG.Blueprint.NativeSporadic.M22) {V₁ V₂ : Type} [CommGroup V₁]
     [CommGroup V₂] {ρ₁ : Λ →* MulAut V₁} {ρ₂ : Λ →* MulAut V₂} (h₁ : IsFaithIrr12 ρ₁)
     (h₂ : IsFaithIrr12 ρ₂) : ModIso ρ₁ ρ₂ := by
-  haveI hfin₁ : Finite V₁ := (Nat.card_ne_zero.mp (by rw [h₁.2.1]; norm_num)).2
-  haveI hfin₂ : Finite V₂ := (Nat.card_ne_zero.mp (by rw [h₂.2.1]; norm_num)).2
+  have hfin₁ : Finite V₁ := (Nat.card_ne_zero.mp (by rw [h₁.2.1]; norm_num)).2
+  have hfin₂ : Finite V₂ := (Nat.card_ne_zero.mp (by rw [h₂.2.1]; norm_num)).2
   let L₁ : Subgroup (MulAut V₁) := ρ₁.range
   let L₂ : Subgroup (MulAut V₂) := ρ₂.range
   let ι₁ : Λ ≃* ↥L₁ := MonoidHom.ofInjective h₁.2.2.1

@@ -145,7 +145,7 @@ theorem V4.toV_vmul (x : V4) (m : M16) : (x.vmul m).toV = x.toV ᵥ* m.toM := by
 
 theorem M16.toM_refl (w ψ : V4) : (M16.refl w ψ).toM = 1 + vecMulVec w.toV ψ.toV := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [M16.toM, M16.refl, V4.toV, Matrix.one_apply, vecMulVec_apply]
+  fin_cases i <;> fin_cases j <;> simp [M16.toM, M16.refl, V4.toV]
 
 theorem V4.toV_neg (x : V4) : x.neg.toV = -x.toV := by
   ext i; fin_cases i <;> simp [V4.toV, V4.neg]

@@ -50,9 +50,9 @@ theorem s172FactB_of_models (hRig : CFSG.StandardType.GGLabelRigidInput)
     · have hn5' : 5 ≤ n := by omega
       obtain ⟨V, instV, instVM, instVFD, Q, hQ, hdim, hplus, hθ⟩ :=
         S172B.exists_omegaPlusTwo_model (n := n) (by omega : 4 ≤ n)
-      letI := instV
-      letI := instVM
-      letI := instVFD
+      let := instV
+      let := instVM
+      let := instVFD
       have hR := S172B.liftableRank_orthDerived hQ hdim hplus hn3' hodd
       have hBin := S172B.mem_sup_centralizer_of_innerDiagMarking_plus hRig hcfg.qs
         (by omega : 4 ≤ n) (k := 1) (by simpa using hS) hcfg.idiag

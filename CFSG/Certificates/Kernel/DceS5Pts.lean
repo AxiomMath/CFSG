@@ -153,7 +153,7 @@ omit hc in
 theorem perm3 (Pq : ℕ → Finset (Submodule F5 Vec7)) {a b c : ℕ} (ha : a < 3) (hb : b < 3)
     (hc3 : c < 3) (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     ({Pq a, Pq b, Pq c} : Pt) = {Pq 0, Pq 1, Pq 2} := by
-  interval_cases a <;> interval_cases b <;> interval_cases c <;> first | omega | skip
+  interval_cases a <;> interval_cases b <;> interval_cases c <;> try omega
   all_goals
     ext x
     simp only [Finset.mem_insert, Finset.mem_singleton]

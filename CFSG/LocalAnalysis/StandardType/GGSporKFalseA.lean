@@ -17,7 +17,7 @@ theorem ggSporK_sylow_dvd_card {W : Type} [Group W] [Finite W] {p : ℕ} {H E : 
     (hyp : GGHypThreeSixteenFlat p H E) :
     p ^ (Nat.card W).factorization p ∣ Nat.card ↥H := by
   have hp : p.Prime := hyp.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : IsElemAbelian p E := hyp.1.2.2.1
   have hfus : GGControlsStrongFusion H E := hyp.1.2.2.2.2
   have hE1 : E ⊓ ⊤ ≠ ⊥ := by

@@ -63,7 +63,7 @@ private lemma lk0xlcaff_sum_smul_single {τ : Tag} (g : Fin τ.rank → ℕ) (i 
   · simp
   · intro x _ hx
     rw [Pi.smul_apply]
-    simp [Pi.single_apply, hx]
+    simp [hx]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -238,7 +238,7 @@ theorem exists_ncoord_pos_of_ne_ext
       rw [hdec, hsum, add_zero]
     have ha1 : a.1 = -((n0 : ℤ) • theta τ) := by
       rw [ha_eq]
-      simp [extAff, theta]
+      simp [extAff]
     obtain ⟨w, j, -⟩ := isRoot_iff_exists_smul_single.1 hT.2.1
     have hj : (0 : ℤ) < (hr τ j : ℤ) := by exact_mod_cast hT.2.2 j
     have hroot : IsRoot τ ((n0 : ℤ) • theta τ) := by

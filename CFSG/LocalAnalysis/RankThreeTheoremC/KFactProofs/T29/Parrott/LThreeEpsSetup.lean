@@ -25,13 +25,13 @@ theorem T29Setup.ne_one (h : T29Setup X L x) : x ≠ 1 := by
 
 theorem T29Setup.centralizer_le_of_card_pCore (h : T29Setup X L x)
     (hO : Nat.card (CFSG.pCore 3 X) < 9) : centralizer (L : Set X) ≤ L := by
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hZ : center ↥L = ⊥
   · rw [h.centralizer_eq_bot hZ]
     exact bot_le
   set Z : Subgroup X := (center ↥L).map L.subtype with hZdef
-  haveI hZn : Z.Normal := normal_map_center_subtype L
+  have hZn : Z.Normal := normal_map_center_subtype L
   have hZp : IsPGroup 3 Z := h.center_isPGroup.map L.subtype
   have hZO : Z ≤ CFSG.pCore 3 X := normal_pGroup_le_pCore 3 Z hZn hZp
   have hZL : Z ≤ L := Subgroup.map_subtype_le _
@@ -84,7 +84,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem exists_E27_le_sylow (hX : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3) (P : Sylow 3 X) :
     ∃ V : Subgroup X, V ≤ P ∧ IsElemAbelian 3 V ∧ Nat.card V = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V₀, hV₀, hV27⟩ := exists_elemAbelian_27 hX
   have hp : IsPGroup 3 V₀ := IsPGroup.of_card (n := 3) (by rw [hV27]; norm_num)
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
@@ -100,8 +100,8 @@ theorem three_le_of_mem_normal_E9 (hX : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3
     (hUP : U ≤ P) (hU : IsElemAbelian 3 U) (hU9 : Nat.card U = 9)
     (hnorm : (P : Subgroup X) ≤ normalizer (U : Set X)) {u : X} (hu : u ∈ U) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({u} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
   have hU1 : U ≠ ⊥ := by
     intro h1
     rw [h1, Subgroup.card_bot] at hU9

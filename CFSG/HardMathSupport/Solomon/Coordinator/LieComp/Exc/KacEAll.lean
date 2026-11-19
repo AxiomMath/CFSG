@@ -69,7 +69,7 @@ theorem rationalLieType_of_eClass_E6 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_eClass (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check e6_lt
-    e6_card e6_ecount e6_etrees e6_elen (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i
+    e6_card e6_ecount e6_etrees e6_elen (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i
     h6 hn hinner
 
 end E6Rat
@@ -125,7 +125,7 @@ theorem rationalLieType_of_eClass_E7 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_eClass (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7 e7_tree e7_adj e7_check e7_lt
-    e7_card e7_ecount e7_etrees e7_elen (fun {F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i
+    e7_card e7_ecount e7_etrees e7_elen (fun {_F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i
     h6 hn hinner
 
 end E7Rat
@@ -181,7 +181,7 @@ theorem rationalLieType_of_eClass_E8 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_eClass (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8 e8_tree e8_adj e8_check e8_lt
-    e8_card e8_ecount e8_etrees e8_elen (fun {F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i
+    e8_card e8_ecount e8_etrees e8_elen (fun {_F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i
     h6 hn hinner
 
 end E8Rat

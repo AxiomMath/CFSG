@@ -275,7 +275,7 @@ theorem exists_semisim_preserving_planes_of_normalizes_anchored_supportedDerived
     rintro ⟨T, hTdim, hTsing⟩
     exact hnot ⟨T, by omega, hTsing⟩
   have hQne : ∃ v, Q v ≠ 0 := by
-    haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hVdim]; omega)
+    have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hVdim]; omega)
     obtain ⟨x, hx0⟩ := exists_ne (0 : V)
     by_contra h
     push Not at h
@@ -533,7 +533,7 @@ theorem exists_semisim_extension_prod_isometric
     apply T.e.injective
     rw [T.e.apply_symm_apply, hTcoord]
     refine Prod.ext (Equiv.apply_symm_apply S.e x).symm ?_
-    simp only [Prod.snd]
+    simp only
     rw [← hC_apply]
     exact (Equiv.apply_symm_apply C y).symm
   have hbeta_incl : ∀ g : orthDerived Q,
@@ -551,10 +551,10 @@ theorem exists_semisim_extension_prod_isometric
         orthDerived (Q.prod R)) : (V × E) ≃ₗ[K] (V × E)) (x, y))
     rw [coe_orthDerivedProdIncl, coe_orthDerivedProdIncl, hTsymm,
       LinearEquiv.prodCongr_apply, LinearEquiv.prodCongr_apply, hTcoord]
-    simp only [Prod.fst, Prod.snd, LinearEquiv.refl_apply]
+    simp only [LinearEquiv.refl_apply]
     rw [hα g x]
     refine Prod.ext rfl ?_
-    simp only [Prod.snd]
+    simp only
     rw [← hC_apply]
     exact Equiv.apply_symm_apply C y
   have hprodBot : ∀ P : Submodule K V, S.mapSub P = P →
@@ -571,7 +571,7 @@ theorem exists_semisim_extension_prod_isometric
       rw [Submodule.mem_bot] at hp2
       change T.e p ∈ P.prod (⊥ : Submodule K E)
       rw [Submodule.mem_prod, Submodule.mem_bot, hTcoord, hp2, hC0]
-      simp only [Prod.fst, Prod.snd]
+      simp only
       refine ⟨?_, trivial⟩
       have hmem : S.e p.1 ∈ S.mapSub P := S.e_mem_mapSub.mpr hp1
       rwa [hP] at hmem
@@ -641,8 +641,8 @@ theorem exists_semisim_extension_prod_isometric
       have hmem : semilinConj F T.σ hF (x : (V × E) ≃ₗ[K] (V × E)) ∈
           H.map (semilinConj F T.σ hF) := Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
       rwa [hraw] at hmem
-    haveI : Finite (V × E) := Module.finite_of_finite K
-    haveI : Finite ((V × E) ≃ₗ[K] (V × E)) :=
+    have : Finite (V × E) := Module.finite_of_finite K
+    have : Finite ((V × E) ≃ₗ[K] (V × E)) :=
       Finite.of_injective (fun e : (V × E) ≃ₗ[K] (V × E) => (e : (V × E) → (V × E)))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
     have hcard : Nat.card (H.subgroupOf (orthDerived (Q.prod R))) ≤

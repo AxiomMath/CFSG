@@ -13,11 +13,11 @@ namespace CFSG.GH74.QTGen4.DSGen4.L34
 
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
-@[expose] noncomputable abbrev mdlM1 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
+noncomputable abbrev mdlM1 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
   Subgroup.normalizer ((CFSG.QuasithinUnique.Fin257.L3.V2 :
     Subgroup (projectiveSL 3 (GaloisField 2 2))) : Set (projectiveSL 3 (GaloisField 2 2)))
 
-@[expose] noncomputable abbrev mdlM2 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
+noncomputable abbrev mdlM2 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
   Subgroup.normalizer ((CFSG.QuasithinUnique.Fin257.L3.V1 :
     Subgroup (projectiveSL 3 (GaloisField 2 2))) : Set (projectiveSL 3 (GaloisField 2 2)))
 
@@ -78,10 +78,10 @@ theorem mdl_elem2 : CFSG.Open.IsElemAbelian 2 (CFSG.Open.pCoreOf 2 mdlM2) := by
   exact CFSG.QuasithinUnique.Fin257.L3.isElemAbelian_V1
 
 theorem mdl_card1 : Nat.card ↥(CFSG.Open.pCoreOf 2 mdlM1) = 16 := by
-  rw [CFSG.QuasithinUnique.Fin257.L3.core_V2, card_V2, natCard_gf4] <;> norm_num
+  rw [CFSG.QuasithinUnique.Fin257.L3.core_V2, card_V2, natCard_gf4]; norm_num
 
 theorem mdl_card2 : Nat.card ↥(CFSG.Open.pCoreOf 2 mdlM2) = 16 := by
-  rw [CFSG.QuasithinUnique.Fin257.L3.core_V1, card_V1, natCard_gf4] <;> norm_num
+  rw [CFSG.QuasithinUnique.Fin257.L3.core_V1, card_V1, natCard_gf4]; norm_num
 
 theorem mdl_ne : CFSG.Open.pCoreOf 2 mdlM1 ≠ CFSG.Open.pCoreOf 2 mdlM2 := by
   rw [CFSG.QuasithinUnique.Fin257.L3.core_V2, CFSG.QuasithinUnique.Fin257.L3.core_V1]

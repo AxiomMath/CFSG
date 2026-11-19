@@ -51,7 +51,7 @@ theorem card_order_five_alt7 {A : Type} [Group A] [Finite A] (e : A ≃* ↥(alt
 theorem even_card_of_fixedPointFree_involution {α : Type*} [Fintype α] (f : α → α)
     (hf : ∀ x, f (f x) = x) (hfix : ∀ x, f x ≠ x) : Even (Fintype.card α) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F' : Function.End α := f
   have hpow : F' ^ (2 ^ 1) = 1 := by
     rw [pow_one, pow_two]

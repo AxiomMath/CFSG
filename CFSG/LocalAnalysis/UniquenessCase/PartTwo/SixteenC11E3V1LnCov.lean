@@ -92,7 +92,7 @@ private theorem s1611e3_realizes_of_resHom_map {V : Type} [CommGroup V] {L : Sub
 
 theorem s1611e3_v1_ln3_cover {D : Data G} (h : S1611e3Std D) {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 1)
-    (hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
+    (_hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
     (hL₀ : IsLn ↥L₀ 3 1) (hL : IsLn ↥(lBar ⊥ V hV L) 3 1)

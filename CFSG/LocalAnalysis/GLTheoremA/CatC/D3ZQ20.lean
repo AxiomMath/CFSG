@@ -33,7 +33,7 @@ theorem J2_typeS_fix (hK2 : ringChar K ≠ 2) {φ : ModGL Tag.D4 K →* ModGL Ta
       Nat.card (fixSp (lconj G.n₁ (show (1 : ℤ) ≤ 2 by norm_num)) ⊓
         fixSp (lconj G.n₂ (show (1 : ℤ) ≤ 2 by norm_num)) : Submodule (ZMod 3)
           (Lyr (isLayer_degSeries (K := K) (J := Jtwo) (show (1 : ℤ) ≤ 2 by norm_num)))) = 1 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hd1 : (1 : ℤ) ≤ 1 := le_refl 1
   have hd2 : (1 : ℤ) ≤ 2 := by norm_num
   have hT₁ : ∀ {d : ℤ} (hd : 1 ≤ d) (z : Lyr (isLayer_degSeries (K := K) (J := Jtwo) hd)),

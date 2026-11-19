@@ -16,9 +16,9 @@ theorem exists_rankOne_pair {P₁ P₂ L H E : Subgroup G}
     (hH : H = P₁ ⊔ P₂)
     (hL₁ : P₁ ≤ Subgroup.normalizer (L : Set G)) (hL₂ : P₂ ≤ Subgroup.normalizer (L : Set G))
     (hcomm₁ : ∀ p ∈ P₁, ∀ p' ∈ P₁, ⁅p, p'⁆ ∈ Subgroup.centralizer (L : Set G))
-    (hcomm₂ : ∀ u ∈ P₂, ∀ u' ∈ P₂, ⁅u, u'⁆ ∈ Subgroup.centralizer (L : Set G))
+    (_hcomm₂ : ∀ u ∈ P₂, ∀ u' ∈ P₂, ⁅u, u'⁆ ∈ Subgroup.centralizer (L : Set G))
     (hsq₁ : ∀ p ∈ P₁, p * p ∈ Subgroup.centralizer (L : Set G))
-    (hsq₂ : ∀ u ∈ P₂, u * u ∈ Subgroup.centralizer (L : Set G))
+    (_hsq₂ : ∀ u ∈ P₂, u * u ∈ Subgroup.centralizer (L : Set G))
     (hMouf : ∀ p ∈ P₁, p ∉ Subgroup.centralizer (L : Set G) →
       ∃ u ∈ P₂, u ∉ Subgroup.centralizer (L : Set G) ∧ conjSubgroup u P₁ = conjSubgroup p P₂)
     (hMouf' : ∀ u ∈ P₂, u ∉ Subgroup.centralizer (L : Set G) →
@@ -88,7 +88,7 @@ theorem exists_rankOne_pair {P₁ P₂ L H E : Subgroup G}
       exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
     · intro hAB
       obtain ⟨a, ha, ha1⟩ : ∃ a ∈ A, a ≠ 1 := by
-        haveI : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+        have : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp (by omega)
         obtain ⟨a, ha1⟩ := exists_ne (1 : A)
         exact ⟨a, a.2, fun h => ha1 (Subtype.ext h)⟩
       obtain ⟨p, hp, rfl⟩ := hmemA a ha

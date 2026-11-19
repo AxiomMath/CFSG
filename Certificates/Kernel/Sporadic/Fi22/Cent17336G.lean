@@ -21,9 +21,9 @@ theorem cntN_succ (T : ℕ → ℕ) (n : ℕ) :
   · have hne : T n ≠ n := fun e => by
       rw [e, Nat.beq_refl] at h
       exact Bool.noConfusion h
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     rfl
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
     rfl
 
 theorem cntN_eq_card (T : ℕ → ℕ) (n : ℕ) : cntN T n = Nat.card {x : Fin n // T x = x} := by
@@ -219,11 +219,11 @@ variable (gq : ℕ → Equiv.Perm (Fin 3510)) (par lab : ℕ → ℕ)
   | f + 1, p => if p = 0 then 1 else gq (lab p) * tQ f (par p)
 
 theorem tQ_succ {f p : ℕ} (hp : p ≠ 0) : tQ gq par lab (f + 1) p = gq (lab p) * tQ gq par lab f (par p) :=
-  if_neg hp
+  ite_eq_right hp
 
 theorem tQ_zero_pt : ∀ f, tQ gq par lab f 0 = 1
   | 0 => rfl
-  | _ + 1 => if_pos rfl
+  | _ + 1 => ite_eq_left rfl
 
 variable {gq par lab}
 
@@ -264,19 +264,19 @@ theorem tQ_mem (hm : ∀ j, gq j ∈ fi22P) : ∀ f p, tQ gq par lab f p ∈ fi2
 theorem tQ_zero_aux {dep : ℕ → ℕ}
     (ht : ∀ p < 3510, p ≠ 0 → par p < 3510 ∧ dep (par p) + 1 = dep p ∧
       ∀ h : par p < 3510, ((gq (lab p) ⟨par p, h⟩ : Fin 3510) : ℕ) = p) :
-    ∀ (n p : ℕ) (hp : p < 3510), dep p ≤ n → ((tQ gq par lab n p (0 : Fin 3510) : Fin 3510) : ℕ) = p
-  | 0, p, hp, hd => by
+    ∀ (n p : ℕ) (_hp : p < 3510), dep p ≤ n → ((tQ gq par lab n p (0 : Fin 3510) : Fin 3510) : ℕ) = p
+  | 0, p, _hp, hd => by
     by_cases hp0 : p = 0
     · subst hp0
       rfl
-    · obtain ⟨-, h3, -⟩ := ht p hp hp0
+    · obtain ⟨-, h3, -⟩ := ht p _hp hp0
       omega
-  | n + 1, p, hp, hd => by
+  | n + 1, p, _hp, hd => by
     by_cases hp0 : p = 0
     · subst hp0
       rw [tQ_zero_pt]
       rfl
-    · obtain ⟨h2, h3, h5⟩ := ht p hp hp0
+    · obtain ⟨h2, h3, h5⟩ := ht p _hp hp0
       rw [tQ_succ gq par lab hp0, Equiv.Perm.mul_apply]
       have e : tQ gq par lab n (par p) 0 = ⟨par p, h2⟩ :=
         Fin.ext (tQ_zero_aux ht n (par p) h2 (by omega))

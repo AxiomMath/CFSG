@@ -32,7 +32,7 @@ private theorem simple_oddCore_of_l281 [Finite G] {X : Subgroup G} (h : IsL281 X
 
 private theorem odd_card_oddCore {H : Type*} [Group H] [Finite H] :
     Odd (Nat.card (CFSG.oddCore H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : CFSG.oddCore H ≤ CFSG.pPrimeCore 2 H :=
     sSup_le fun N hN => le_sSup ⟨hN.1, Nat.coprime_two_left.mpr hN.2⟩
   exact Nat.coprime_two_left.mp
@@ -49,7 +49,7 @@ private theorem odd_orderOf_of_mem_oddCore {H : Type*} [Group H] [Finite H] {m :
 theorem sec63_two_le_pRank [Finite G] {X : Subgroup G} (hq : IsQuasisimple ↥X)
     (h : IsL29 X ∨ IsL281 X) : 2 ≤ CFSG.Open.pRank 2 X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs : IsSimpleGroup (X ⧸ CFSG.oddCore X) := by
     rcases h with h | h
     · exact simple_oddCore_of_l29 h
@@ -65,8 +65,8 @@ theorem sec63_two_le_pRank [Finite G] {X : Subgroup G} (hq : IsQuasisimple ↥X)
       exact ctrQ_of_l281 hq h
   have heven : Even (Nat.card (X ⧸ CFSG.oddCore X)) := by
     rcases hcard with h | h <;> rw [h] <;> norm_num
-  haveI : Group.IsPerfect ↥X := hq.1
-  haveI : IsSimpleGroup (X ⧸ CFSG.oddCore X) := hs
+  have : Group.IsPerfect ↥X := hq.1
+  have : IsSimpleGroup (X ⧸ CFSG.oddCore X) := hs
   have hnc : ¬ IsMulCommutative (X ⧸ CFSG.oddCore X) :=
     Group.IsPerfect.not_isMulCommutative (X ⧸ CFSG.oddCore X)
   have hnonab : ∃ a b : (X ⧸ CFSG.oddCore X), a * b ≠ b * a := by

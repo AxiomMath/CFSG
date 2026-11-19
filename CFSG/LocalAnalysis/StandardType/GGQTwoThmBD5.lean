@@ -146,15 +146,15 @@ private lemma ggQ2xD5a_dsimple_zero (i : Fin 5) (hi : i ≠ 0) :
     have h2 : ¬ ((0 : Fin 5) : ℕ) = (i : ℕ) + 1 := by
       intro h
       omega
-    rw [ggQ2_DW_eval_chain 3 5 i hlt (0 : Fin 5), if_neg h1, if_neg h2, add_zero]
+    rw [ggQ2_DW_eval_chain 3 5 i hlt (0 : Fin 5), ite_eq_right h1, ite_eq_right h2, add_zero]
   · rw [ggQ2_DW_eval_fork 3 5 i (Nat.not_lt.mpr hge) (0 : Fin 5)]
     simp
 
 private theorem ggQ2xD5_tau_x (D : GGQ2Lin 3) (e : Fin 5 ≃ D.ι)
-    (hD : D.coxeter = (ggCoxeterMatrixD 5).reindex e) (ha : D.a = e 0) (x : D.V)
+    (_hD : D.coxeter = (ggCoxeterMatrixD 5).reindex e) (ha : D.a = e 0) (x : D.V)
     (hx : ∀ v, (∀ g ∈ D.parab {k | k ≠ D.a}, g v = v) ↔ v ∈ Submodule.span (ZMod 3) {x})
     (τ : D.V ≃ₗ[ZMod 3] GGBCV 5)
-    (hcor : ∀ i, τ (D.coroot (e i)) = ggDSimple 3 5 i)
+    (_hcor : ∀ i, τ (D.coroot (e i)) = ggDSimple 3 5 i)
     (hroot : ∀ i v, D.root (e i) v = ∑ j, ggDSimple 3 5 i j * τ v j) :
     Submodule.span (ZMod 3) {τ x} = Submodule.span (ZMod 3) {(Pi.single 0 1 : GGBCV 5)} := by
   have hxroot : ∀ i : Fin 5, i ≠ 0 → D.root (e i) x = 0 :=
@@ -810,10 +810,10 @@ private theorem ggQ2xD5z_step_sound (Z : Set (GGBCV 5))
     | some w =>
       rw [h2, Option.bind_some] at h
       by_cases hz : z ⬝ᵥ z = 0
-      · rw [if_pos hz] at h; exact absurd h (by simp)
-      · rw [if_neg hz] at h
+      · rw [ite_eq_left hz] at h; exact absurd h (by simp)
+      · rw [ite_eq_right hz] at h
         by_cases hr : ggQ2xD5z_rf z w = ggQ2xD5z_vec e.2.2
-        · rw [if_pos hr] at h
+        · rw [ite_eq_left hr] at h
           have hSeq : S ++ [ggQ2xD5z_vec e.2.2] = S' := Option.some.inj h
           rw [← hSeq] at hx
           rcases List.mem_append.mp hx with hxS | hx1
@@ -826,7 +826,7 @@ private theorem ggQ2xD5z_step_sound (Z : Set (GGBCV 5))
               exact hZcl z (hS z hzmem) w (hS w hwmem) (by simpa using hz)
             rw [← hx1'] at hplayer
             exact hplayer
-        · rw [if_neg hr] at h; exact absurd h (by simp)
+        · rw [ite_eq_right hr] at h; exact absurd h (by simp)
 
 private theorem ggQ2xD5z_deriveAll_sound (Z : Set (GGBCV 5))
     (hZcl : ∀ z ∈ Z, ∀ w ∈ Z, ∀ hz : z ⬝ᵥ z ≠ 0, ggBCRefl z hz w ∈ Z) :
@@ -890,7 +890,7 @@ private theorem ggQ2xD5z_rep1_mem (Z : Set (GGBCV 5))
   obtain ⟨v, hvZ, hvwt⟩ := h1
   obtain ⟨p, hpmem, hpd⟩ := ggQ2xD5z_toRep1_cov v hvwt
   obtain ⟨pl, word⟩ := p
-  simp only [Prod.fst, Prod.snd] at hpd
+  simp only at hpd
   have hmem : (ggQ2xD5z_digits v, word) ∈ ggQ2xD5z_toRep1 := by rw [hpd]; exact hpmem
   have hvZ' : ggQ2xD5z_vec (ggQ2xD5z_digits v) ∈ Z := by rwa [ggQ2xD5z_vec_digits]
   exact ggQ2xD5z_toRep_sound Z hZ0 hZcl hZroots _ _ ggQ2xD5z_toRep1_good hmem hvZ'
@@ -902,7 +902,7 @@ private theorem ggQ2xD5z_rep4_mem (Z : Set (GGBCV 5))
   obtain ⟨v, hvZ, hvwt⟩ := h4
   obtain ⟨p, hpmem, hpd⟩ := ggQ2xD5z_toRep4_cov v hvwt
   obtain ⟨pl, word⟩ := p
-  simp only [Prod.fst, Prod.snd] at hpd
+  simp only at hpd
   have hmem : (ggQ2xD5z_digits v, word) ∈ ggQ2xD5z_toRep4 := by rw [hpd]; exact hpmem
   have hvZ' : ggQ2xD5z_vec (ggQ2xD5z_digits v) ∈ Z := by rwa [ggQ2xD5z_vec_digits]
   exact ggQ2xD5z_toRep_sound Z hZ0 hZcl hZroots _ _ ggQ2xD5z_toRep4_good hmem hvZ'
@@ -914,7 +914,7 @@ private theorem ggQ2xD5z_rep5_mem (Z : Set (GGBCV 5))
   obtain ⟨v, hvZ, hvwt⟩ := h5
   obtain ⟨p, hpmem, hpd⟩ := ggQ2xD5z_toRep5_cov v hvwt
   obtain ⟨pl, word⟩ := p
-  simp only [Prod.fst, Prod.snd] at hpd
+  simp only at hpd
   have hmem : (ggQ2xD5z_digits v, word) ∈ ggQ2xD5z_toRep5 := by rw [hpd]; exact hpmem
   have hvZ' : ggQ2xD5z_vec (ggQ2xD5z_digits v) ∈ Z := by rwa [ggQ2xD5z_vec_digits]
   have hg := ggQ2xD5z_toRep5_good (ggQ2xD5z_digits v, word) hmem
@@ -1024,7 +1024,7 @@ private lemma ggQ2xD5c_wt_one {v : GGBCV 5} (h : ggBCWt v = 1) :
 
 private lemma ggQ2xD5c_single_dot (a : Fin 5) (v : GGBCV 5) :
     (Pi.single a (1 : ZMod 3) : GGBCV 5) ⬝ᵥ v = v a := by
-  simpa [ggQ2_DW_fvec, ggQ2_DW_dotLin] using ggQ2_DW_dotLin_fvec_left 3 5 a v
+  simp
 
 private lemma ggQ2xD5c_span_smul (x : GGBCV 5) (c : ZMod 3) (hc : c ≠ 0) :
     Submodule.span (ZMod 3) {c • x} = Submodule.span (ZMod 3) {x} := by

@@ -184,7 +184,7 @@ theorem borelStd_blockEmbed222 (hA : IsUpperGL A) (σ : F ≃+* F) (ε : ℕ)
     have hstd : borelStd (c + 4) F A σ ε = CFSG.QuasithinUnique.K1.stdAut A σ 0 := by
       rw [borelStd, hγ, mul_one]
     have hbs : blockStd222 c F A hA σ ε = blockStd222Even c F A hA σ := by
-      rw [blockStd222, if_pos hε]
+      rw [blockStd222, ite_eq_left hε]
     rw [hstd, hbs]
     exact blockQuotient_of_blockDiagonal c F A hA σ (blockEmbed222 c F g)
       g.1 g.2.1 g.2.2 (reindex_blockEmbed222 c F g)
@@ -195,7 +195,7 @@ theorem borelStd_blockEmbed222 (hA : IsUpperGL A) (σ : F ≃+* F) (ε : ℕ)
         CFSG.QuasithinUnique.K1.stdAut A σ 0 * borelGraph (c + 4) F := by
       rw [borelStd, hγ]
     have hbs : blockStd222 c F A hA σ ε = blockStd222Odd c F A hA σ := by
-      rw [blockStd222, if_neg (by omega)]
+      rw [blockStd222, ite_eq_right (by omega)]
     rw [hstd, hbs, MulAut.mul_apply]
     exact blockQuotient_of_blockDiagonal c F A hA σ
       (borelGraph (c + 4) F (blockEmbed222 c F g))

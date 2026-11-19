@@ -25,8 +25,8 @@ private theorem sec7l771_ind_perm {p₀ : Fin 5} {σ : Equiv.Perm (Fin 5)} (hσ 
   have hiff : σ.symm i = p₀ ↔ i = p₀ := by rw [Equiv.symm_apply_eq, hσ]
   simp only [permVec, Function.comp_apply, sec7l771_ind]
   by_cases h : σ.symm i = p₀
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
 
 private theorem sec7l771_ind_fix {p₀ : Fin 5} {σ : Equiv.Perm (Fin 5)}
     (hσ : permVec σ (sec7l771_ind p₀) = sec7l771_ind p₀) : σ p₀ = p₀ := by
@@ -99,7 +99,7 @@ private theorem sec7l771_E_elem [Finite G] (h : Sec7E16Act N B φ) (p₀ : Fin 5
     rw [hcard, sec7l771_card_W p₀]
     norm_num
 
-private theorem sec7l771_E_normalizes (h : Sec7E16Act N B φ) (p₀ : Fin 5) {x : G} (hx : x ∈ N)
+private theorem sec7l771_E_normalizes (h : Sec7E16Act N B φ) (p₀ : Fin 5) {x : G} (_hx : x ∈ N)
     {σ : Equiv.Perm (Fin 5)} (hσ : ∀ v, IsEvenVec v → x * φ v * x⁻¹ = φ (permVec σ v))
     (hp : σ p₀ = p₀) : x ∈ normalizer (sec7l771_E h p₀ : Set G) := by
   rw [mem_normalizer_iff]
@@ -134,7 +134,7 @@ private theorem sec7l771_cent_z_act (h : Sec7E16Act N B φ) {p₀ : Fin 5} {x : 
   rw [← h.rho_spec ⟨x, hx⟩ (sec7l771_ind_even p₀), hxz]
   group
 
-private theorem sec7l771_comm_z (h : Sec7E16Act N B φ) {p₀ : Fin 5} {x : G}
+private theorem sec7l771_comm_z (_h : Sec7E16Act N B φ) {p₀ : Fin 5} {x : G}
     {σ : Equiv.Perm (Fin 5)} (hσ : ∀ v, IsEvenVec v → x * φ v * x⁻¹ = φ (permVec σ v))
     (hp : σ p₀ = p₀) : x * φ (sec7l771_ind p₀) = φ (sec7l771_ind p₀) * x := by
   have h1 : x * φ (sec7l771_ind p₀) * x⁻¹ = φ (sec7l771_ind p₀) := by

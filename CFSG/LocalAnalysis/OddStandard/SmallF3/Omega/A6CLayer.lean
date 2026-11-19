@@ -20,11 +20,11 @@ variable {A B : Type} [Group A] [Group B] {ρ : A →* B}
 theorem a6c_cover_layer_map [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) [E.Normal]
     (hE : IsSimpleGroup ↥E) (hnc : ∃ a b : ↥E, a * b ≠ b * a) (hev : 2 ∣ Nat.card ↥E)
     (h2 : IsPGroup 2 (B ⧸ E)) : (CFSG.layer A).map ρ = E := by
-  haveI : Finite B := Finite.of_surjective ρ hρ.surjective
+  have : Finite B := Finite.of_surjective ρ hρ.surjective
   obtain ⟨hLBE, -⟩ := ff_layer_ffX_eq_of_normal_simple E hE hnc hev h2
-  haveI hLAperf : Group.IsPerfect ↥(CFSG.layer A) := CFSG.LocalCores.layer_isPerfect
+  have hLAperf : Group.IsPerfect ↥(CFSG.layer A) := CFSG.LocalCores.layer_isPerfect
   apply le_antisymm
-  · haveI : Group.IsPerfect ↥((CFSG.layer A).map ρ) := Group.IsPerfect.map (f := ρ)
+  · have : Group.IsPerfect ↥((CFSG.layer A).map ρ) := Group.IsPerfect.map (f := ρ)
     exact ff_perfect_le_of_quot_two E h2 ((CFSG.layer A).map ρ) inferInstance
   · have h := hρ.layer_le_map_layer
     rwa [hLBE] at h
@@ -32,13 +32,13 @@ theorem a6c_cover_layer_map [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup 
 theorem a6c_perfect_le_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) [E.Normal]
     (hmap : (CFSG.layer A).map ρ = E) (h2 : IsPGroup 2 (B ⧸ E)) (X : Subgroup A)
     (hX : Group.IsPerfect ↥X) : X ≤ CFSG.layer A := by
-  haveI := hX
-  haveI : Finite B := Finite.of_surjective ρ hρ.surjective
+  have := hX
+  have : Finite B := Finite.of_surjective ρ hρ.surjective
   have hXE : X.map ρ ≤ E := by
-    haveI : Group.IsPerfect ↥(X.map ρ) := Group.IsPerfect.map (f := ρ)
+    have : Group.IsPerfect ↥(X.map ρ) := Group.IsPerfect.map (f := ρ)
     exact ff_perfect_le_of_quot_two E h2 (X.map ρ) inferInstance
-  haveI hLAchar : (CFSG.layer A).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLAnormal : (CFSG.layer A).Normal := inferInstance
+  have hLAchar : (CFSG.layer A).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLAnormal : (CFSG.layer A).Normal := inferInstance
   let q : A →* A ⧸ CFSG.layer A := QuotientGroup.mk' (CFSG.layer A)
   let f : ↥X →* A ⧸ CFSG.layer A := q.comp X.subtype
   have hcent : ∀ x : ↥X, f x ∈ Subgroup.center (A ⧸ CFSG.layer A) := by
@@ -94,7 +94,7 @@ theorem a6c_cover_data [Finite G] (h : IsOm6M L) {hQ : Q.Nondegenerate}
       (CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))).map ρ = E := by
   obtain ⟨ρ, hρ, hρφ⟩ := a6c_exists_centCover hQ h2 e (ff6m_odd_center h) hs hss
   obtain ⟨E, hE, hlie, hp⟩ := ff6m_K2_layerModel hQ hdim hsgn hx
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   obtain ⟨hsE, hnc⟩ := ff_simple_of_lieModel_psp hlie
   have hev : 2 ∣ Nat.card ↥E := by rw [ff_card_model_psp hlie]; norm_num
   exact ⟨ρ, E, hE, hρ, hρφ, hlie, hp, a6c_cover_layer_map hρ E hsE hnc hev hp⟩

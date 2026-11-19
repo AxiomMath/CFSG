@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Ctx23L
 
+omit [Finite G] in
 private theorem conj_pow_eq_inv_pow {t y : G} (h : t * y * t⁻¹ = y⁻¹) (k : ℕ) :
     t * y ^ k * t⁻¹ = (y ^ k)⁻¹ := by
   have hc : MulAut.conj t y = y⁻¹ := by
@@ -25,6 +26,7 @@ private theorem conj_pow_eq_inv_pow {t y : G} (h : t * y * t⁻¹ = y⁻¹) (k :
     _ = (y⁻¹) ^ k := by rw [hc]
     _ = (y ^ k)⁻¹ := inv_pow y k
 
+omit [Finite G] in
 private theorem map_normalizerMonoidHom_subgroupOf {E K : Subgroup G} {m : G}
     (hmE : m ∈ Subgroup.normalizer (E : Set G))
     (hmK : m ∈ Subgroup.normalizer (K : Set G)) :
@@ -64,6 +66,7 @@ private def quotientConjAut {E K : Subgroup G} [(K.subgroupOf E).Normal] {m : G}
     (Subgroup.normalizerMonoidHom E ⟨m, hmE⟩)
     (map_normalizerMonoidHom_subgroupOf hmE hmK)
 
+omit [Finite G] in
 private theorem quotientConjAut_apply_mk {E K : Subgroup G} [(K.subgroupOf E).Normal] {m : G}
     (hmE : m ∈ Subgroup.normalizer (E : Set G))
     (hmK : m ∈ Subgroup.normalizer (K : Set G)) (e : ↥E) :
@@ -71,6 +74,7 @@ private theorem quotientConjAut_apply_mk {E K : Subgroup G} [(K.subgroupOf E).No
       QuotientGroup.mk ((Subgroup.normalizerMonoidHom E ⟨m, hmE⟩) e) := by
   rw [quotientConjAut, QuotientGroup.congr_mk]
 
+omit [Finite G] in
 private theorem quotientConjAut_mul {E K : Subgroup G} [(K.subgroupOf E).Normal] {m₁ m₂ : G}
     (h1E : m₁ ∈ Subgroup.normalizer (E : Set G))
     (h2E : m₂ ∈ Subgroup.normalizer (E : Set G))
@@ -88,6 +92,7 @@ private theorem quotientConjAut_mul {E K : Subgroup G} [(K.subgroupOf E).Normal]
     simp only [Subgroup.normalizerMonoidHom_apply_apply_coe]
     group
 
+omit [Finite G] in
 private theorem quotientConjAut_one {E K : Subgroup G} [(K.subgroupOf E).Normal] :
     quotientConjAut (E := E) (K := K) (Subgroup.one_mem _) (Subgroup.one_mem _) = 1 := by
   ext q
@@ -106,6 +111,7 @@ private def quotientConjHom (M E K : Subgroup G) (hE : M ≤ Subgroup.normalizer
   map_one' := quotientConjAut_one
   map_mul' m₁ m₂ := quotientConjAut_mul (hE m₁.2) (hE m₂.2) (hK m₁.2) (hK m₂.2)
 
+omit [Finite G] in
 private theorem quotientConjHom_apply_mk {M E K : Subgroup G} [(K.subgroupOf E).Normal]
     (hE : M ≤ Subgroup.normalizer (E : Set G)) (hK : M ≤ Subgroup.normalizer (K : Set G))
     (m : M) (e : E) :
@@ -116,8 +122,9 @@ private theorem quotientConjHom_apply_mk {M E K : Subgroup G} [(K.subgroupOf E).
   rw [quotientConjAut_apply_mk]
   apply congrArg QuotientGroup.mk
   apply Subtype.ext
-  simpa only [Subgroup.normalizerMonoidHom_apply_apply_coe]
+  simp only [Subgroup.normalizerMonoidHom_apply_apply_coe]
 
+omit [Finite G] in
 private theorem quotient_sq_eq_one {E K : Subgroup G} [(K.subgroupOf E).Normal]
     (hE : ∀ e ∈ E, e ^ 2 = 1) (q : ↥E ⧸ K.subgroupOf E) : q ^ 2 = 1 := by
   obtain ⟨e, rfl⟩ := QuotientGroup.mk'_surjective (K.subgroupOf E) q
@@ -126,6 +133,7 @@ private theorem quotient_sq_eq_one {E K : Subgroup G} [(K.subgroupOf E).Normal]
 
 namespace S2341Frame
 
+omit [Finite G] in
 private theorem inv_sq_eq_conj_mul {x v : G} (hv2 : v * v = 1)
     (hinv : v * x * v⁻¹ = x⁻¹) : x⁻¹ ^ 2 = (x⁻¹ * v * x) * v := by
   have hvx : v * x = x⁻¹ * v := by
@@ -255,7 +263,7 @@ private theorem quotientConjHom_fixes_mul_inv {D : Data G} {Ch : Choice2011 G}
 
 private theorem quotientConjHom_fixed_F_le_fixed_v {D : Data G} {Ch : Choice2011 G}
     {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
-    (h39 : S23_39 D Ch) (h40 : S23_40 D Ch) (h1930 : H1930 D)
+    (h39 : S23_39 D Ch) (_h40 : S23_40 D Ch) (h1930 : H1930 D)
     (hneq : ⁅X.W, X.F⁆ ≠ ⊥) {hM_E : D.M ≤ Subgroup.normalizer (c.E : Set G)}
     {hM_Z : D.M ≤ Subgroup.normalizer (D.Z : Set G)} [(D.Z.subgroupOf c.E).Normal]
     {v w : ↥D.M} (hvW : (v : G) ∈ X.W) (hwW : (w : G) ∈ X.W)
@@ -383,7 +391,7 @@ private theorem quotientConjAut_card_le_four_mul_card_fixed {D : Data G} {Ch : C
     (hM_E := hM_E) (hM_Z := hM_Z) hxM hxodd hvM hvW hinv hwM hwW
   obtain ⟨hvwQ, hwxQ⟩ := quotientConjAut_hypotheses₂ X h4 h1930
     (hM_E := hM_E) (hM_Z := hM_Z) hxM hvM hvW hwM hwW hxw
-  haveI hQcomm : IsMulCommutative Q := by
+  have hQcomm : IsMulCommutative Q := by
     constructor
     constructor
     intro a b
@@ -508,7 +516,7 @@ private theorem exists_mem_Zh_of_fixed {D : Data G} {Ch : Choice2011 G}
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ CFSG.Open.pRank 2 D.Z := Nat.pow_le_pow_right (by norm_num) hn3
   have h2 := two_le_card_inf_of_index_le_four C Zb hCindex hZb8
-  haveI hnt : Nontrivial ↥(C ⊓ Zb) :=
+  have hnt : Nontrivial ↥(C ⊓ Zb) :=
     (Finite.one_lt_card_iff_nontrivial).mp (by omega : 1 < Nat.card ↥(C ⊓ Zb))
   obtain ⟨q, hq1⟩ := exists_ne (1 : ↥(C ⊓ Zb))
   obtain ⟨hqC, hqZb⟩ := q.2
@@ -550,7 +558,7 @@ private theorem exists_mem_Zh_commutator_mem_Z_of_not_mem {D : Data G} {Ch : Cho
     exact (h4 h1930 c).2.2
   have hE_Z : c.E ≤ Subgroup.normalizer (D.Z : Set G) :=
     (c.E_le_pCoreOf_M h39 h1930).trans ((CFSG.openPCoreOf_le 2 D.M).trans hM_Z)
-  haveI : (D.Z.subgroupOf c.E).Normal :=
+  have : (D.Z.subgroupOf c.E).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hE_Z
   let Q := ↥c.E ⧸ (D.Z.subgroupOf c.E)
   let Cq : Subgroup Q :=
@@ -571,6 +579,7 @@ private theorem exists_mem_Zh_commutator_mem_Z_of_not_mem {D : Data G} {Ch : Cho
   exact exists_mem_Zh_of_fixed X h4 h23 h39 h40 h1930 hneq hn3
     (hM_E := hM_E) (hM_Z := hM_Z) hxM Cq hCq hCindex
 
+omit [Finite G] in
 private theorem conj_pow_eq_of_conj_eq {x z : G} (h : x * z * x⁻¹ = z) (k : ℕ) :
     x * z ^ k * x⁻¹ = z ^ k := by
   induction k with
@@ -581,7 +590,8 @@ private theorem conj_pow_eq_of_conj_eq {x z : G} (h : x * z * x⁻¹ = z) (k : �
       _ = z ^ k * z := by rw [ih, h]
       _ = z ^ (k + 1) := by rw [pow_succ]
 
-private theorem pow_conj_eq_mul_pow {x y z : G} (hzy : z * y = y * z)
+omit [Finite G] in
+private theorem pow_conj_eq_mul_pow {x y z : G} (_hzy : z * y = y * z)
     (hxyeq : x * y * x⁻¹ = y * z) (hxzeq : x * z * x⁻¹ = z) (k : ℕ) :
     x ^ k * y * (x ^ k)⁻¹ = y * z ^ k := by
   induction k with
@@ -594,6 +604,7 @@ private theorem pow_conj_eq_mul_pow {x y z : G} (hzy : z * y = y * z)
       _ = (y * z) * z ^ k := by rw [hxyeq, conj_pow_eq_of_conj_eq hxzeq]
       _ = y * z ^ (k + 1) := by rw [pow_succ]; group
 
+omit [Finite G] in
 private theorem pow_eq_one_of_pow_conj {x y z : G}
     (hzpow : ∀ k : ℕ, x ^ k * y * (x ^ k)⁻¹ = y * z ^ k) : z ^ orderOf x = 1 := by
   have hk := hzpow (orderOf x)
@@ -650,7 +661,7 @@ private theorem exists_mem_Zh_commutator_mem_Z_of_mem {D : Data G} {Ch : Choice2
     rw [X.card_Zh h4 h1930]
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ CFSG.Open.pRank 2 D.Z := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Nontrivial X.Zh := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
+  have : Nontrivial X.Zh := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
   obtain ⟨y, hy⟩ := exists_ne (1 : X.Zh)
   refine ⟨(y : G), y.2, ?_, hxcent.2.2 (y : G) (hZhE y.2)⟩
   intro h1
@@ -671,7 +682,7 @@ private theorem exists_mem_Zh_commutator_mem_Z {D : Data G} {Ch : Choice2011 G}
       hxodd hvW hinv hwW hwZh hxw hxcent
 
 private theorem eq_one_of_inv_sq_mem_conj_pCore {D : Data G} {Ch : Choice2011 G}
-    {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (h1930 : H1930 D) {x : G}
+    {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (_h1930 : H1930 D) {x : G}
     (hxodd : Odd (orderOf x))
     (hx2O : x⁻¹ ^ 2 ∈ conjSubgroup (CFSG.Open.pCoreOf 2 D.M) X.h) : x = 1 := by
   have hO2p : IsPGroup 2 (CFSG.Open.pCoreOf 2 D.M) :=
@@ -757,6 +768,7 @@ private theorem pCoreOf_le_centModE {D : Data G} {Ch : Choice2011 G} {c : Ctx23L
     group
   rwa [h1] at hinv
 
+omit [Finite G] in
 private theorem conj_lift_eq_inv {x0 v : G} (hv2 : v * v = 1) :
     v * (x0⁻¹ * v * x0 * v) * v⁻¹ = (x0⁻¹ * v * x0 * v)⁻¹ := by
   have ha2 : (x0⁻¹ * v * x0) ^ 2 = 1 := by
@@ -804,7 +816,7 @@ private theorem noOddInverted_lift {D : Data G} {Ch : Choice2011 G} {c : Ctx23L 
   exact ⟨y0, hy0M, conj_lift_eq_inv hv2, hy0map⟩
 
 private theorem noOddInverted_oddPart {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    (X : S2341Frame D Ch c) (h1930 : H1930 D) {x : Bar2 D.M} {v : ↥D.M} {y0 : G}
+    (_X : S2341Frame D Ch c) (_h1930 : H1930 D) {x : Bar2 D.M} {v : ↥D.M} {y0 : G}
     (hy0M : y0 ∈ D.M) (hvy0 : (v : G) * y0 * (v : G)⁻¹ = y0⁻¹)
     (hy0map : QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨y0, hy0M⟩ = (x ^ 2)⁻¹)
     (x1 : x ≠ 1) (xodd : Odd (orderOf x)) :

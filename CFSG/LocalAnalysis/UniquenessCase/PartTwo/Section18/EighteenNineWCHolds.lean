@@ -45,6 +45,7 @@ theorem le_normalizer_wClos_of_fixFree (hKL2 : Inputs1719.K_L2SzAutRank)
   obtain ⟨c, hc, n, hn, rfl⟩ := E3.e3_18_factor hV hT hXU hU hi' x hx
   exact Subgroup.mul_mem _ (hTN (hKT hc)) hn.2
 
+omit [Finite G] in
 theorem isL2_bar2_barSub_of_le {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {L J : Subgroup G}
     (hLS : L ≤ stabTil V₀ V)
     (hker : ∀ x (hxL : x ∈ L), actTil V₀ V hV ⟨x, hLS hxL⟩ = 1 → x ∈ pCoreOf 2 L)

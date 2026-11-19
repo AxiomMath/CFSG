@@ -75,7 +75,7 @@ section Torus
 variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {ℓ f : ℕ}
 
 theorem frameTorus_le_frameNorm (F : D4PhiFrame K σ (ℓ ^ f) (-1)) :
-    frameTorus F ≤ frameNorm F := fun y hy =>
+    frameTorus F ≤ frameNorm F := fun _y hy =>
   torusGroup_le_monomialSubgroup (mem_twistedTorusOf.1 hy).1
 
 theorem frameTorus_mem_ker (F : D4PhiFrame K σ (ℓ ^ f) (-1)) {y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}

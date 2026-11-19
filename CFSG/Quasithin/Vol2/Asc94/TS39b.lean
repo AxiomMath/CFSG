@@ -25,6 +25,7 @@ structure Frame1 (G : Type) [Group G] (z : G) extends Frame0 G z where
 
 @[expose] def InZG (z x : G) : Prop := ∃ g : G, x = g⁻¹ * z * g
 
+omit [Finite G] in
 theorem eq_one_or_of_mem_zpowers {x w : G} (hx : orderOf x = 2) (hw : w ∈ Subgroup.zpowers x) :
     w = 1 ∨ w = x := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
@@ -39,6 +40,7 @@ theorem eq_one_or_of_mem_zpowers {x w : G} (hx : orderOf x = 2) (hw : w ∈ Subg
   · right
     rw [h, zpow_one]
 
+omit [Finite G] in
 theorem conj_mem_derived2 {S : Subgroup G} {x w : G} (hx : x ∈ Subgroup.normalizer (S : Set G))
     (hw : w ∈ ⁅⁅S, S⁆, ⁅S, S⁆⁆) : x * w * x⁻¹ ∈ ⁅⁅S, S⁆, ⁅S, S⁆⁆ := by
   have hS : S.map (MulAut.conj x).toMonoidHom = S := by
@@ -58,6 +60,7 @@ theorem conj_mem_derived2 {S : Subgroup G} {x w : G} (hx : x ∈ Subgroup.normal
   rw [← hmap]
   exact ⟨w, hw, rfl⟩
 
+omit [Finite G] in
 theorem Frame1.normalizer_S_le_H (F : Frame1 G z) {t : G} (ht : t ∈ F.TQ) :
     ∀ x ∈ Subgroup.normalizer ((Cz z ⊓ Cz t : Subgroup G) : Set G), x ∈ Cz z := by
   intro x hx
@@ -78,6 +81,7 @@ theorem Frame1.normalizer_S_le_H (F : Frame1 G z) {t : G} (ht : t ∈ F.TQ) :
     calc x * z = (x * z * x⁻¹) * x := by group
       _ = z * x := by rw [h]
 
+omit [Finite G] in
 theorem Frame1.isPGroup_S (F : Frame1 G z) {t : G} (ht : t ∈ F.TQ) :
     IsPGroup 2 ↥(Cz z ⊓ Cz t) :=
   IsPGroup.of_card (F.TQ_card t ht)
@@ -91,7 +95,7 @@ theorem Frame1.S_maximal (F : Frame1 G z) {t : G} (ht : t ∈ F.TQ) :
 
 theorem s39_4 (F : Frame1 G z) : ∀ t ∈ F.TQ, ∀ g : G, g⁻¹ * z * g ≠ t := by
   intro t ht g hg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := Cz t with hK
   set S : Subgroup G := Cz z ⊓ Cz t with hS
   have hSK : S ≤ K := inf_le_right

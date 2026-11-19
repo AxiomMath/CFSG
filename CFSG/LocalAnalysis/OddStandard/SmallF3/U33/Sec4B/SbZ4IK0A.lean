@@ -57,6 +57,7 @@ lemma fixed_mod_V (h : ZIKData Q Y V V' B K ρ) {q : H} (hq : q ∈ Q)
   have hqw : q = (w : H) := mul_inv_eq_one.mp hq1
   rw [hqw]; exact w.2
 
+omit [Finite H] in
 lemma rep_comm_mem_V (h : ZIKData Q Y V V' B K ρ) {a b c : H}
     (haK : a ∈ K) (hbK : b ∈ K) (hc : c = (a * b)⁻¹) (hw : ⁅a, b⁆ ∈ V) :
     ∀ r1 ∈ ({1, a, b, c} : Set H), ∀ r2 ∈ ({1, a, b, c} : Set H), ⁅r1, r2⁆ ∈ V := by
@@ -69,7 +70,7 @@ lemma rep_comm_mem_V (h : ZIKData Q Y V V' B K ρ) {a b c : H}
     rw [hc, commutatorElement_inv_right]
     have h1 : ⁅a * b, a⁆ = ⁅a, b⁆⁻¹ := by
       have h2 : ⁅a * b, a⁆ = ⁅a, a * b⁆⁻¹ := by
-        simpa [inv_inv] using congrArg Inv.inv (commutatorElement_inv (a * b) a)
+        simp
       rw [h2, commutatorElement_mul_right_eq_mul_conj, commutatorElement_self, one_mul]
       rw [show a * ⁅a, b⁆ * a⁻¹ = ⁅a, b⁆ from by rw [hVc a haK ⁅a,b⁆ hw]; group]
     rw [h1, show (a * b)⁻¹ * ⁅a, b⁆⁻¹ * (a * b) = ⁅a, b⁆⁻¹ from by
@@ -105,6 +106,7 @@ lemma rep_comm_mem_V (h : ZIKData Q Y V V' B K ρ) {a b c : H}
   · simpa [commutatorElement_inv] using V.inv_mem hbc'
   · simp
 
+omit [Finite H] in
 lemma comm_mem_V_of (h : ZIKData Q Y V V' B K ρ) {q1 q2 r1 r2 : H}
     (hq1 : q1 ∈ Q) (hq2 : q2 ∈ Q) (hr1 : r1 ∈ K) (hr2 : r2 ∈ K) (hrr : ⁅r1, r2⁆ ∈ V) :
     ⁅q1 * r1, q2 * r2⁆ ∈ V := by
@@ -120,7 +122,7 @@ lemma comm_mem_V_of (h : ZIKData Q Y V V' B K ρ) {q1 q2 r1 r2 : H}
   have hq1r2 : ⁅q1, r2⁆ ∈ V := by
     have h0 : ⁅r2, q1⁆ ∈ V := h.comm_KQ r2 hr2 q1 hq1
     have h1 : ⁅q1, r2⁆ = ⁅r2, q1⁆⁻¹ := by
-      simpa [inv_inv] using congrArg Inv.inv (commutatorElement_inv q1 r2)
+      simp
     rw [h1]; exact V.inv_mem h0
   have h4eq : ⁅r1, q2 * r2⁆ = ⁅r1, q2⁆ * ⁅r1, r2⁆ := by
     rw [commutatorElement_mul_right_eq_mul_conj,
@@ -157,7 +159,7 @@ theorem comm_mem_V (h : ZIKData Q Y V V' B K ρ) :
       rw [show (y : H) * (x : H) * (y : H)⁻¹ =
         ((y : H) * (x : H) * (y : H)⁻¹ * (x : H)⁻¹) * (x : H) by group]
       exact Q.mul_mem (hVQ h1) hxQ)
-  haveI : Qn.Normal := hQnNorm
+  have : Qn.Normal := hQnNorm
   let T := K ⧸ Qn
   let π : K →* T := QuotientGroup.mk' Qn
   have hcardT : Nat.card T = 4 := h.relIndex_K
@@ -192,7 +194,7 @@ theorem comm_mem_V (h : ZIKData Q Y V V' B K ρ) :
         simpa [mul_assoc] using h3
       have hkQn : k ∈ Qn := Subgroup.mem_subgroupOf.mpr (h.rho_fpf_KQ k k.2 h2)
       exact (QuotientGroup.eq_one_iff k).mpr hkQn
-  haveI : IsMulCommutative T :=
+  have : IsMulCommutative T :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := T)
       (by rw [hcardT]; norm_num)
   have hcommT : ∀ a b : T, a * b = b * a := fun a b => mul_comm' a b

@@ -20,6 +20,7 @@ private theorem triaAmb_card_conj {X : Type} [Group X] (g : X) (A : Subgroup X) 
     Nat.card (conjSubgroup A g) = Nat.card A :=
   Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 private theorem triaAmb_barSub_pCoreOf_eq_bot {K : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) :
     barSub K φ (pCoreOf 2 K) = ⊥ := by
@@ -28,8 +29,9 @@ private theorem triaAmb_barSub_pCoreOf_eq_bot {K : Subgroup G} {X : Type} [Group
   rw [MonoidHom.mem_ker]
   exact (hφ.ker_iff k).mpr (Subgroup.mem_subgroupOf.mp hk)
 
+omit [Finite G] in
 private theorem card_barSub_of_mem_omegaSet (h : Hyp711 V H E) {X : Type} [Group X]
-    {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
+    {φ : ↥(kSub V H E) →* X} (_hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : Nat.card (barSub (kSub V H E) φ U) = 2 := by
   obtain ⟨k, hk, hUeq⟩ := h.transitive U hU
@@ -40,6 +42,7 @@ private theorem card_barSub_of_mem_omegaSet (h : Hyp711 V H E) {X : Type} [Group
     exact barSub_conjSubgroup φ V k'
   rw [hbar, triaAmb_card_conj, hS]
 
+omit [Finite G] in
 private theorem triaAmb_bar_eq_zpowers (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {U : Subgroup G}
@@ -108,7 +111,7 @@ theorem commute_of_commuting_images (h : Hyp711 V H E) {X : Type} [Group X]
     (hd : (d : G) ∈ U) (he : (e : G) ∈ W) (hd1 : (d : G) ∉ pCoreOf 2 H)
     (he1 : (e : G) ∉ pCoreOf 2 H) (hcomm : φ d * φ e = φ e * φ d) :
     ∀ u ∈ U, ∀ w ∈ W, u * w = w * u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hd2, -, hdUbar⟩ := triaAmb_bar_eq_zpowers h hφ hS hU hd hd1
   obtain ⟨-, he2, -, heWbar⟩ := triaAmb_bar_eq_zpowers h hφ hS hW he he1
   have hcommC : Commute (φ d) (φ e) := hcomm
@@ -172,7 +175,7 @@ theorem orderOf_mul_eq_three_of_images (h : Hyp711 V H E) {X : Type} [Group X]
     (hd : (d : G) ∈ U) (he : (e : G) ∈ W) (hd1 : (d : G) ∉ pCoreOf 2 H)
     (he1 : (e : G) ∉ pCoreOf 2 H) (h3 : orderOf (φ d * φ e) = 3) :
     orderOf (d * e) = 3 ∧ U ⊓ W = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnotP : ¬ IsPGroup 2 (Subgroup.closure ({(d : G), (e : G)} : Set G)) := by
     intro hP
     have hmem : (d : G) * (e : G) ∈ Subgroup.closure ({(d : G), (e : G)} : Set G) :=

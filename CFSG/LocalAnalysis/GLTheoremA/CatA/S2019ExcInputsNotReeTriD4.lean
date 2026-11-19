@@ -31,9 +31,9 @@ theorem s2019OuterComp_trialityD4 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   set ℓ := q.p with hℓdef
   set f := q.exponent with hfdef
   have hℓ : ℓ.Prime := q.prime_p
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hf : 1 ≤ f := q.exponent_pos
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C := graphFixedRootGroup TwistTag.D4 K₃ σ.toRingHom with hC
   let e' : K ≃* C := eK.trans eC
   set φ := MulAut.congr e' β with hφdef
@@ -85,7 +85,7 @@ theorem s2019OuterComp_trialityD4 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   obtain ⟨-, -, hk, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd hp.two_le hm3 K₃ hK' σ
       hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   set δ₀ := fieldActor (t := TwistTag.D4) σ δc with hδ₀
   have e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K₃ σ.toRingHom).subtype
@@ -93,13 +93,13 @@ theorem s2019OuterComp_trialityD4 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       (MulEquiv.subgroupCongr hfixJ)
   have hsimE : IsSimpleGroup ↥(fixSubgroup δ₀) := e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup δ₀), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
     simp only [map_mul, MulEquiv.apply_symm_apply] at h'
     exact h'
-  haveI : Finite (fixSubfield δc) := Subtype.finite
+  have : Finite (fixSubfield δc) := Subtype.finite
   have hk3 : Nat.card (fixSubfield δc) = (ℓ ^ f') ^ 3 := by rw [hk, ← pow_mul, mul_comm]
   obtain ⟨r, hr, hσr⟩ := exists_cubic_exponent_exc hp (by omega) (fixSubfield δc) hk σ hσ'
   let q' : TauCeti.PrimePower := ⟨ℓ, f', hℓ, hd⟩

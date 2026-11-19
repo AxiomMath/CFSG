@@ -95,17 +95,17 @@ theorem expoK_spec {c : Lay} {Vk P : ℕ → ℕ} {N : ℕ} (hV : Vals c Vk P N)
     intro t ht h
     rw [expoK] at h ⊢
     by_cases h1 : t = a
-    · rw [if_pos h1] at h ⊢
+    · rw [ite_eq_left h1] at h ⊢
       rw [h1, pow_one]
-    · rw [if_neg h1] at h ⊢
+    · rw [ite_eq_right h1] at h ⊢
       by_cases h2 : t = 2
-      · rw [if_pos h2] at h ⊢
+      · rw [ite_eq_left h2] at h ⊢
         rw [h2, hV.two, pow_zero]
-      · rw [if_neg h2] at h ⊢
+      · rw [ite_eq_right h2] at h ⊢
         by_cases h3 : t < 2
-        · rw [if_pos h3] at h
+        · rw [ite_eq_left h3] at h
           exact absurd h (lt_irrefl _)
-        · rw [if_neg h3] at h ⊢
+        · rw [ite_eq_right h3] at h ⊢
           have ht3 : 3 ≤ t := by omega
           have htN : t < N := by
             rcases ht with h' | h' <;> omega

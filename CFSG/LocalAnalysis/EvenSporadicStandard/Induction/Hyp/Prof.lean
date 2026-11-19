@@ -28,7 +28,7 @@ theorem twoSubgroupsAbelian_of_surjective {C Q : Type*} [Group C] [Finite C] [Gr
   obtain ⟨S₀, rfl⟩ := Sylow.mapSurjective_surjective hπ 2 S
   obtain ⟨a, ha, rfl⟩ := hS hx
   obtain ⟨b, hb, rfl⟩ := hS hy
-  have := h (S₀ : Subgroup C) S₀.isPGroup' a ha b hb
+  have := h (S₀ : Subgroup C) S₀.isPGroup a ha b hb
   rw [← map_mul, ← map_mul, this]
 
 theorem twoSubgroupsAbelian_of_section {Y X : Type} [Group Y] [Finite Y] [Group X]

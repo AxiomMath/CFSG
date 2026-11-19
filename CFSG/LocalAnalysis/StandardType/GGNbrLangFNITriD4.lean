@@ -36,7 +36,7 @@ theorem kgFieldRestrictionCont_triD4 {K : Type} [Field K] [Finite K] {n p : ℕ}
       (RecipeFieldExcInn.markFieldImage (IsRoot TwistTag.D4.tag) K
         (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
   have hK3 : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK3
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK3
   obtain ⟨-, -, -, -, -, -, hZ, -⟩ :=
     even_triality_exact_automorphism_normal_form hn K hK σ hσ
   have hOneModel := kgfniTw_hOne_model (t := TwistTag.D4) hp hp2 hn hK σ hσ
@@ -126,7 +126,7 @@ theorem kgFieldRestrictionCont_triD4 {K : Type} [Field K] [Finite K] {n p : ℕ}
         (fun c' => rfl)
         (fun c' => CFSG.LocalAnalysis.GLTheoremA.K155X.excTriD4_coe_fieldActor_mul
           hK σ hσ (p % 3) T c') hp1 hc1 hfixφ'
-    haveI : Finite C :=
+    have : Finite C :=
       Finite.of_injective (Subtype.val : C → ModGL TwistTag.D4.tag K) Subtype.val_injective
     have hφeq : φ = MulAut.congr eC (f ^ k) := by
       change fieldActor (t := TwistTag.D4) (K := K) σ (σ ^ (2 * (p % 3)) * T) =

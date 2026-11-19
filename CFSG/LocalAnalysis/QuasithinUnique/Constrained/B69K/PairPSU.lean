@@ -83,8 +83,8 @@ theorem psu_index_ne {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
 theorem parabolicPair_hypPSU {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) (r ε : ℕ)
     (hr : 2 ≤ r) (hε : ε ≤ 1) :
     ∃ U : Subgroup (hypPSU h r ε), IsSylowTwoOf U ⊤ ∧ ParabolicPair U := by
-  haveI : Finite K := h.finite
-  haveI : Finite (hypPSU h r ε) := inferInstance
+  have : Finite K := h.finite
+  have : Finite (hypPSU h r ε) := inferInstance
   have hr1 : 1 ≤ r := by omega
   obtain ⟨-, -, -, -, ⟨P0, hP0⟩, -⟩ := unitary_order_and_Sylow h (r := r) (ε := ε) hr1 hε
   have hU0 : IsSylowTwoOf (hypProjUnitriangular h r ε) ⊤ := by

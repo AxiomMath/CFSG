@@ -13,7 +13,7 @@ variable {X : Type} [Group X] [Finite X] {J D E : Subgroup X} {a : X}
 theorem GomiU42Data.exists_involution_aut (h : GomiU42Data X J D E a) :
     ∃ α : MulAut D, α ^ 2 = 1 ∧ α ≠ 1 ∧
       Nat.card ↥(α.toMonoidHom.eqLocus (MonoidHom.id D)) ∣ 51840 := by
-  haveI := h.normal
+  have := h.normal
   have hord := h.fixedRoot_conjNormal.1
   refine ⟨MulAut.conjNormal a, ?_, ?_, ?_⟩
   · rw [← hord]

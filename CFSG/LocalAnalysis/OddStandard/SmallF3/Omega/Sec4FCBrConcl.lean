@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 private theorem sec4FC_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -54,8 +54,8 @@ theorem sec4FC_oddCent_odd [Finite G] {L : Subgroup G} (hL : IsOmega7Group L) {E
       ⟨.POmegaOdd, 3, 3, 1, hmodel⟩).2.2
   have hne : oddCore ↥L ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial (↥L ⧸ oddCore ↥L) := hsimple.toNontrivial
-    haveI : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
+    have : Nontrivial (↥L ⧸ oddCore ↥L) := hsimple.toNontrivial
+    have : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
     exact not_subsingleton (↥L ⧸ oddCore ↥L) inferInstance
   have hle : oddCore ↥L ≤ Subgroup.center ↥L := oddCore_le_center_of_isQuasisimple hL.1 hne
   refine ⟨?_, ?_⟩

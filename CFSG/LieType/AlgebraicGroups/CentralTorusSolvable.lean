@@ -137,8 +137,7 @@ theorem basePointsRepresentation_dual_apply {H : Type u} [CommRing H] [HopfAlgeb
     rw [← Comodule.dualTensorHom_dualCoact_apply, Comodule.matrixCoefficient_def,
       Comodule.dual_coact]
     generalize Comodule.dualCoact (R := k) (H := H) (M := W) φ = x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul ψ h => simp [dualTensorHom_apply]
     | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
   rw [h2, show g.ofConv (HopfAlgebra.antipode k (Comodule.matrixCoefficient (C := H) φ w)) =

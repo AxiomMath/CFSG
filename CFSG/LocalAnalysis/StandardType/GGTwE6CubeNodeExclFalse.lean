@@ -33,7 +33,7 @@ theorem cube_killer_false {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite 
           (algebraMap K (AlgebraicClosure K)) (c : ModGL TwistTag.E6.tag K) * g)) :
     False := by
   have hζo : orderOf ζ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hζ hζ1
   obtain ⟨Ψ, hΨinj, -, hΨ⟩ := exists_cubeHom hn hK σ hσ Fr hFr h3 hg hgn hζ hζo
   obtain ⟨_, hΨv⟩ := hΨ (Multiplicative.ofAdd v)

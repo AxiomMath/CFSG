@@ -17,7 +17,7 @@ theorem index_two_unique {Γ : Type*} [Group Γ] [Finite Γ] (T R D : Subgroup �
     D = R := by
   by_contra hne
   have hnle : ¬ D ≤ R := fun h => hne (Subgroup.eq_of_le_of_card_ge h hD.ge)
-  obtain ⟨y, hyD, hyR⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨y, hyD, hyR⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have hrelT : R.relIndex T = 2 := by
     have h := Subgroup.relIndex_mul_card (H := R) (K := T)
     rw [inf_eq_left.2 hRT, hT] at h

@@ -184,7 +184,7 @@ theorem omegaModel_frame {K : Type} [Field K] [Finite K] [CharP K 2] {n p : ℕ}
     have hnz : (Pi.single ⟨0, hpos⟩ (1 : K) : Fin (2 * n) → K) ≠ 0 := by
       intro hc
       have := congrFun hc ⟨0, hpos⟩
-      simpa using this
+      simp at this
     exact hnz (hnd.1 _ fun y => by
       simp [polarBilin_apply_apply, QuadraticMap.polar, hzero])
   have h1 : CFSG.RankThree.PartOne.AUTSL.conjAct Q (S ^ p) = 1 := by
@@ -225,7 +225,7 @@ theorem omegaModel_frame {K : Type} [Field K] [Finite K] [CharP K 2] {n p : ℕ}
     have hf1 : CFSG.RankThree.PartOne.AUTSL.conjAct Q S = 1 := hFinn hfinn
     have hp1 : p = 1 := by rw [← hfp, hf1, orderOf_one]
     exact hp.ne_one hp1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hσright : orderOf S.val.right = p := orderOf_eq_prime hσpv hσ1
   obtain ⟨H, hH⟩ := RecipeFieldOmega.exists_fixed_basis_pair (d := 2 * n) hp hσright rfl hSpv
   let K₀ : Subfield K := ((S.val.right : K ≃+* K) : K →+* K).eqLocusField (RingHom.id K)
@@ -333,7 +333,7 @@ private lemma cM5_inner_mem_range {K : Type} [Field K] {n : ℕ}
   rw [hB, CFSG.RankThree.PartOne.AUTSL.conjAct_inclusion_of_mem _ r.2]
 
 theorem omegaModel_E0_lift {K : Type} [Field K] [Finite K] [CharP K 2] {n p : ℕ} (hn : 1 ≤ n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (Q : QuadraticForm K (Fin (2 * n) → K))
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (Q : QuadraticForm K (Fin (2 * n) → K))
     (hnd : (polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K (Fin (2 * n) → K), Module.finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0)
     (hAP : CFSG.ComponentClassification.CatalogueBOrthogonalPointAction.ActionProperties Q
@@ -532,9 +532,9 @@ private theorem cM8_mat_eq_of_dotProduct_eq {K : Type} [Field K] {d : ℕ}
   exact h x y
 
 private theorem cM8_isElemAbelian_map {G G' : Type*} [Group G] [Group G'] {p : ℕ}
-    {E : Subgroup G} (hE : IsElemAbelian p E) (f : G →* G') (hf : Function.Injective f) :
+    {E : Subgroup G} (hE : IsElemAbelian p E) (f : G →* G') (_hf : Function.Injective f) :
     IsElemAbelian p (E.map f) := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
   · obtain ⟨x, hx, hax⟩ := Subgroup.mem_map.1 a.2
     obtain ⟨z, hz, hbz⟩ := Subgroup.mem_map.1 b.2
@@ -551,7 +551,7 @@ private theorem cM8_sigma_single {K : Type} [Field K] {d : ℕ} (σ : K ≃+* K)
   intro j
   by_cases h : j = i
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private theorem cM8_polar_sigma_fixed {K : Type} [Field K] {d : ℕ}
     (Q : QuadraticForm K (Fin d → K)) (σ : K ≃+* K)
@@ -628,7 +628,7 @@ theorem ntCore_omega_single {K : Type} [Field K] [Finite K] [CharP K 2] {n p : �
       CFSG.RankThree.PartOne.AUTSL.conjAct Q S = 1) :
     GGL45NtCore p ↥(matrixDerived Q) (LargeEvenInnSet ↥(matrixDerived Q))
       {CFSG.RankThree.PartOne.AUTSL.conjAct Q S} := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   refine ntCore_of_conj p (LargeEvenInnSet ↥(matrixDerived Q))
     {CFSG.RankThree.PartOne.AUTSL.conjAct Q S} ?_ ?_ ?_
   · rintro x ⟨a, rfl⟩ y ⟨b, rfl⟩

@@ -11,28 +11,35 @@ open CFSG.Open
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem comm_of_mem {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {g h : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (hh : h ∈ E) : g * h = h * g :=
   congrArg Subtype.val (hE.1.is_comm.comm ⟨g, hg⟩ ⟨h, hh⟩)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow3_eq_one_of_mem {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) : g ^ 3 = 1 :=
   hE.2 g hg
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem cube_apply {ρ : V ≃ₗ[ZMod 2] V} (h : ρ ^ 3 = 1) (x : V) :
     ρ (ρ (ρ x)) = x := by
   have h3 : (ρ ^ 3) x = x := by rw [h]; rfl
   simpa [pow_succ, LinearEquiv.mul_apply] using h3
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_one_apply (ρ : V ≃ₗ[ZMod 2] V) (x : V) : (ρ ^ (1 : ℕ)) x = ρ x := by
   rw [pow_one]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_two_apply (ρ : V ≃ₗ[ZMod 2] V) (x : V) : (ρ ^ (2 : ℕ)) x = ρ (ρ x) := by
   rw [pow_two, LinearEquiv.mul_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_zero_apply (ρ : V ≃ₗ[ZMod 2] V) (x : V) : (ρ ^ (0 : ℕ)) x = x := by
   rw [pow_zero]; rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fixed_free {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {X : Submodule (ZMod 2) V} (hXinv : Inv2 E X) (hirr : IsIrrE E X)
     {ρ : V ≃ₗ[ZMod 2] V} (hρ : ρ ∈ E) (hnf : ∃ x ∈ X, ρ x ≠ x) :
@@ -64,6 +71,7 @@ theorem fixed_free {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     exact (Submodule.mem_bot _).1 hmem
   · exact absurd h hne
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem quad_of_fixed {E : Subgroup (V ≃ₗ[ZMod 2] V)} {X : Submodule (ZMod 2) V}
     (hXinv : Inv2 E X) {ρ : V ≃ₗ[ZMod 2] V} (hρ : ρ ∈ E)
     (hfix : ∀ x ∈ X, ρ x = x → x = 0) (hρ3 : ∀ x ∈ X, ρ (ρ (ρ x)) = x) :
@@ -76,11 +84,12 @@ theorem quad_of_fixed {E : Subgroup (V ≃ₗ[ZMod 2] V)} {X : Submodule (ZMod 2
   rw [map_add, map_add, hρ3 x hx]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem uniform_exponent {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {X : Submodule (ZMod 2) V} (hXinv : Inv2 E X) (hirr : IsIrrE E X)
     {ρ : V ≃ₗ[ZMod 2] V} (hρ : ρ ∈ E)
-    (hfix : ∀ x ∈ X, ρ x = x → x = 0) (hρ3 : ∀ x ∈ X, ρ (ρ (ρ x)) = x)
-    (hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0)
+    (hfix : ∀ x ∈ X, ρ x = x → x = 0) (_hρ3 : ∀ x ∈ X, ρ (ρ (ρ x)) = x)
+    (_hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0)
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) :
     ∃ k : Fin 3, ∀ x ∈ X, g x = (ρ ^ (k : ℕ)) x := by
   classical
@@ -138,7 +147,7 @@ theorem uniform_exponent {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
   have hquadz' : ρ (ρ (g (g x))) + ρ (g (g x)) + g (g x) = 0 :=
     quad_of_fixed hXinv hρ hfix (fun y _ => cube_apply (pow3_eq_one_of_mem hE hρ) y) _ hz'
   have hwexpr : w = (ρ (ρ (g x)) + ρ (g x) + g x) - (ρ (ρ (g (g x))) + ρ (g (g x)) + g (g x)) := by
-    simp only [hw, hv, hu, map_sub, map_add, hA, hg3, hρ3x]
+    simp only [hw, hv, hu, map_sub, hA, hg3, hρ3x]
     abel
   have hwzero : w = 0 := by
     rw [hwexpr, hquadz, hquadz', sub_zero]
@@ -153,6 +162,7 @@ theorem uniform_exponent {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
     rw [pow_zero_apply, ← hw]; exact h0))
   exact hw0 hwzero
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_ne_zero_of_ne_bot {X : Submodule (ZMod 2) V} (h : X ≠ ⊥) :
     ∃ x ∈ X, x ≠ 0 := by
   by_contra hall
@@ -162,9 +172,11 @@ theorem exists_ne_zero_of_ne_bot {X : Submodule (ZMod 2) V} (h : X ≠ ⊥) :
   intro y hy
   exact (Submodule.mem_bot _).2 (hall y hy)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem add_self_eq_zero' (y : V) : y + y = 0 := by
   rw [← two_smul (ZMod 2) y, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem irr_trichotomy {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {X : Submodule (ZMod 2) V} (hXinv : Inv2 E X) (hirr : IsIrrE E X) :
     ((∀ g ∈ E, ∀ x ∈ X, g x = x) ∧ Module.finrank (ZMod 2) X = 1) ∨
@@ -198,7 +210,7 @@ theorem irr_trichotomy {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3
     obtain ⟨x₁, hx₁X, hx₁⟩ := exists_ne_zero_of_ne_bot hirr.1
     have hr : Set.range ![x₁, ρ x₁] = {x₁, ρ x₁} := by
       ext y
-      simp [Fin.exists_fin_two, or_comm]
+      simp [or_comm]
     set S : Submodule (ZMod 2) V := Submodule.span (ZMod 2) (Set.range ![x₁, ρ x₁]) with hS
     have hmemS : ∀ y, y ∈ S ↔ ∃ a b : ZMod 2, a • x₁ + b • ρ x₁ = y := by
       intro y
@@ -272,6 +284,7 @@ theorem irr_trichotomy {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3
     rw [← hSeq]
     exact hfr
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_fin3_unique {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {X : Submodule (ZMod 2) V} (hirr : IsIrrE E X) {ρ : V ≃ₗ[ZMod 2] V} (hρ : ρ ∈ E)
     (hfix : ∀ x ∈ X, ρ x = x → x = 0) {k k' : Fin 3}

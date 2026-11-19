@@ -26,6 +26,7 @@ theorem s16h_three_dvd_card_of_pRank_eq_one {K : Subgroup G} (h : CFSG.Open.pRan
   have h3 : Nat.card E ∣ Nat.card K := Subgroup.card_dvd_of_le hEK
   rwa [hE] at h3
 
+omit [Finite G] in
 theorem s16h_card_barSub_dvd (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {X : Subgroup G}
     (hX : X ≤ stabTil V₀ V) : Nat.card (barSub V₀ V hV X) ∣ Nat.card X := by
   have h1 := Subgroup.card_map_dvd (X.subgroupOf (stabTil V₀ V)) (actTil V₀ V hV)

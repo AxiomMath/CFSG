@@ -150,7 +150,7 @@ theorem patternFact (y1 y2 y4 y8 : U0) (h1 : y1 = E1 ∨ y1 = zc * E1)
     (h2 : y2 = E2 ∨ y2 = zc * E2) (h4 : y4 = E4 ∨ y4 = zc * E4) (h8 : y8 = E8 ∨ y8 = zc * E8) :
     ∃ v < 16, elU v * E1 * (elU v)⁻¹ = y1 ∧ elU v * E2 * (elU v)⁻¹ = y2 ∧
       elU v * E4 * (elU v)⁻¹ = y4 ∧ elU v * E8 * (elU v)⁻¹ = y8 := by
-  letI : DecidableEq U0 := fun x y =>
+  let : DecidableEq U0 := fun x y =>
     if h : (x : Mc).left = (y : Mc).left ∧ (x : Mc).right = (y : Mc).right then
       isTrue (Subtype.ext (SemidirectProduct.ext h.1 h.2))
     else
@@ -221,7 +221,7 @@ theorem tupF_mul (α β : MulAut U0) : tupF (α * β) = comp (tupF α) (tupF β)
   rfl
 
 theorem sq_elU : ∀ u, u < 16 → elU u * elU u = if qf u then zc else 1 := by
-  letI : DecidableEq U0 := fun x y =>
+  let : DecidableEq U0 := fun x y =>
     if h : (x : Mc).left = (y : Mc).left ∧ (x : Mc).right = (y : Mc).right then
       isTrue (Subtype.ext (SemidirectProduct.ext h.1 h.2))
     else
@@ -230,7 +230,7 @@ theorem sq_elU : ∀ u, u < 16 → elU u * elU u = if qf u then zc else 1 := by
   decide
 
 theorem zc_sq : zc * zc = 1 := by
-  letI : DecidableEq U0 := fun x y =>
+  let : DecidableEq U0 := fun x y =>
     if h : (x : Mc).left = (y : Mc).left ∧ (x : Mc).right = (y : Mc).right then
       isTrue (Subtype.ext (SemidirectProduct.ext h.1 h.2))
     else
@@ -238,7 +238,7 @@ theorem zc_sq : zc * zc = 1 := by
         congrArg (fun u : U0 => (u : Mc).right) hxy⟩)
   decide
 
-theorem central_sq (z e : U0) (hz : z * z = 1) (hc : e * z = z * e) :
+theorem central_sq (z e : U0) (_hz : z * z = 1) (hc : e * z = z * e) :
     (z * e) * (z * e) = (z * z) * (e * e) := by
   simp only [mul_assoc]
   rw [← mul_assoc e z e, hc]

@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G} [(Q.subgroupOf M).Normal]
   (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.ActionModel M Q Z)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameB_mulVec_e0_ne_zero :
     (D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K) *ᵥ Sec108.e₀ AM.K ≠ 0 := by
   intro h
@@ -139,7 +140,7 @@ private theorem mulVec_beta_of_frame_mulVec_e0 {K : Type} [Field K]
 
 private theorem mulVec_e0_eq_col {K : Type} [Field K] (A : Matrix (Fin 3) (Fin 3) K) :
     A *ᵥ Sec108.e₀ K = A.col 0 := by
-  simpa [Sec108.e₀] using Matrix.mulVec_single_one A 0
+  simp [Sec108.e₀]
 
 theorem Sec108Data.rho_LB (l : Mbar M Q) (hl : l ∈ bar M Q (LB M Q B)) :
     ∃ u : Fin 3 → AM.K, u 0 = 0 ∧
@@ -162,7 +163,7 @@ theorem Sec108Data.rho_LB (l : Mbar M Q) (hl : l ∈ bar M Q (LB M Q B)) :
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [mul_comm (μ j)]
       congr 1
-      simp [β, Sec108.e₀]
+      simp [β]
     rw [hdot, hμβ]
   · have hrho := D.rho_piM AM hrRt
       (hc.bar_LB_le_bar_Rt D.good.1.mem_LB (by assumption))
@@ -200,6 +201,7 @@ theorem Sec108Data.exists_LB_rho (u : Fin 3 → AM.K) (hu : u 0 = 0) :
   rw [← transpose_mulVec_invTranspose P u]
   exact frame_conj_vecMulVec P μ
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem bV_sum_ne_zero {β : Fin 3 → AM.K} (hβ : β ≠ 0) :
     (∑ i, β i • (D.bV AM i : AM.M₀.E)) ≠ 0 := by
   intro h
@@ -212,12 +214,14 @@ private theorem bV_sum_ne_zero {β : Fin 3 → AM.K} (hβ : β ≠ 0) :
   refine funext fun i => ?_
   simpa using hβ0 i
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem B_eV_sum (β : Fin 3 → AM.K) (i : Fin 3) :
     AM.M₀.B (D.eV AM i) (∑ j, β j • (D.bV AM j : AM.M₀.E)) = β i := by
   rw [map_sum]
   simp only [map_smul, smul_eq_mul, D.B_eV_bV, mul_ite, mul_one, mul_zero]
   simp
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem maps_Bsp_of_mem_normalizer_sup {r : G} (hrH : r ∈ H0 M Z)
     (hrN : r ∈ Subgroup.normalizer ((B ⊔ Z : Subgroup G) : Set G)) :
     ∀ w ∈ D.Bsp AM, AM.φ ⟨r, hrH⟩ w ∈ D.Bsp AM := by
@@ -232,6 +236,7 @@ private theorem maps_Bsp_of_mem_normalizer_sup {r : G} (hrH : r ∈ H0 M Z)
   rw [AM.M₀.π_mul b' (hc.le hb'B) z (hc.Z_le_Q hzZ), hker, add_zero]
   exact AM.M₀.pi_mem_img hb'B (hc.le hb'B)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem mem_normalizer_sup_of_maps_Bsp {r : G} (hrH : r ∈ H0 M Z)
     (hmap : ∀ w ∈ D.Bsp AM, AM.φ ⟨r, hrH⟩ w ∈ D.Bsp AM) :
     r ∈ Subgroup.normalizer ((B ⊔ Z : Subgroup G) : Set G) := by
@@ -254,6 +259,7 @@ private theorem mem_normalizer_sup_of_maps_Bsp {r : G} (hrH : r ∈ H0 M Z)
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hrH.1) z).mp hzZ
   exact (B ⊔ Z).mul_mem hb'Z (Subgroup.mem_sup_right hz')
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem matV_mulVec_eq_smul_of_maps_Bsp {r : G} (hrH : r ∈ H0 M Z)
     {β : Fin 3 → AM.K} (hβ : β ≠ 0)
     (hβB : ∑ i, β i • (D.bV AM i : AM.M₀.E) ∈ D.Bsp AM)
@@ -270,13 +276,14 @@ private theorem matV_mulVec_eq_smul_of_maps_Bsp {r : G} (hrH : r ∈ H0 M Z)
       AM.M₀.B (D.eV AM i) (AM.φ ⟨r, hrH⟩ v) := by
     intro i
     simp only [Matrix.mulVec, dotProduct, D.matV_apply, v, map_sum, map_smul,
-      smul_eq_mul, Finset.mul_sum]
+      smul_eq_mul]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [mul_comm]
   ext i
   rw [hcoord i, ← hc, map_smul, B_eV_sum D AM]
   rfl
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem phi_bV_sum_eq_smul {r : G} (hrR : r ∈ Rt M (LB M Q B) t)
     {β : Fin 3 → AM.K} {c : AM.K}
     (hA : D.matV AM ⟨r, D.Rt_le_H0 hrR⟩ *ᵥ β = c • β) :
@@ -309,6 +316,7 @@ private theorem phi_bV_sum_eq_smul {r : G} (hrR : r ∈ Rt M (LB M Q B) t)
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [smul_smul]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem maps_Bsp_of_matV_mulVec_eq_smul {r : G} (hrR : r ∈ Rt M (LB M Q B) t)
     {β : Fin 3 → AM.K} (hβ : β ≠ 0)
     (hβB : ∑ i, β i • (D.bV AM i : AM.M₀.E) ∈ D.Bsp AM)
@@ -344,7 +352,7 @@ private theorem mem_normalizer_of_piM_mem_normalizer (hc : Ctx M Q Z B) {L : Sub
   rwa [show r * x * r⁻¹ = h * ((h⁻¹ * r) * x * (h⁻¹ * r)⁻¹) * h⁻¹ by group]
 
 private theorem mem_normalizer_bar_LB_iff_mem_normalizer_sup
-    (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.ActionModel M Q Z) {r : G}
+    (D : Sec108Data hc t Y) (_AM : Smith81.Smith23E1.ActionModel M Q Z) {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t) :
     HS6.piM M Q r ∈ Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q)) ↔
       r ∈ Subgroup.normalizer ((B ⊔ Z : Subgroup G) : Set G) := by
@@ -357,6 +365,7 @@ private theorem mem_normalizer_bar_LB_iff_mem_normalizer_sup
     exact HS6.piM_mem_normalizer (hc.hyp.Q_normal.1) hrM
       (conjSubgroup_eq_self_iff.mpr ((stroth_11_1a hc D.hyp.width (by norm_num) hrM).mp h))
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem matV_mulVec_smul_iff_mem_normalizer_sup {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t) {β : Fin 3 → AM.K} (hβ : β ≠ 0)
     (hβB : ∑ i, β i • (D.bV AM i : AM.M₀.E) ∈ D.Bsp AM) :
@@ -370,12 +379,14 @@ private theorem matV_mulVec_smul_iff_mem_normalizer_sup {r : G}
     exact matV_mulVec_eq_smul_of_maps_Bsp D AM (D.Rt_le_H0 hrR) hβ hβB
       (maps_Bsp_of_mem_normalizer_sup D AM (D.Rt_le_H0 hrR) hN)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem rhoMat_eq_frame {r : G} (hrR : r ∈ Rt M (LB M Q B) t) :
     (D.rhoMat AM ⟨r, hrR⟩ : Matrix (Fin 3) (Fin 3) AM.K) =
       (((D.frameB AM)⁻¹ : Matrix.SpecialLinearGroup (Fin 3) AM.K) :
         Matrix (Fin 3) (Fin 3) AM.K) * D.matV AM ⟨r, D.Rt_le_H0 hrR⟩ *
         (D.frameB AM : Matrix (Fin 3) (Fin 3) AM.K) := rfl
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem rhoMat_entries_of_matV_mulVec_smul {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t) {c : AM.K}
     (hA : D.matV AM ⟨r, D.Rt_le_H0 hrR⟩ *ᵥ
@@ -392,6 +403,7 @@ private theorem rhoMat_entries_of_matV_mulVec_smul {r : G}
   · have h := congrFun hRho 2
     simpa [Sec108.e₀, Matrix.col_apply] using h
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem matV_mulVec_smul_of_rhoMat_entries {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t)
     (h10 : (D.rhoMat AM ⟨r, hrR⟩) 1 0 = 0)
@@ -417,6 +429,7 @@ private theorem matV_mulVec_smul_of_rhoMat_entries {r : G}
     · simpa [A, h20'] using h20'
   exact ⟨c, mulVec_beta_of_frame_mulVec_e0 P hRho⟩
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem matV_mulVec_smul_iff_rhoMat_entries {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t) :
     (∃ c : AM.K, D.matV AM ⟨r, D.Rt_le_H0 hrR⟩ *ᵥ

@@ -23,7 +23,7 @@ theorem IsMaxFrame.ncard_frameResidue_eq_of_ne [Finite H] (hΔ : IsTransvectionC
     (hF : IsMaxFrame Δ P Q) {j k : Fin r} (hjk : j ≠ k) :
     (frameResidue Δ P Q j).ncard = (frameResidue Δ P Q k).ncard := by
   classical
-  letI : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
+  let : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
   have hT := hF.isThickQuadrangle_residueAdj hΔ hpts hML hthick hjk
   have hPQk : ¬ residueAdj Δ P Q j k
       ⟨P k, hF.toIsFrame.memP_rankTwoResidue_right j k⟩
@@ -91,10 +91,10 @@ private theorem exists_order_data (h : TransvectionHyp H Δ) (hML : MeetsLines �
     ∃ s t, 2 ≤ s ∧ IsQuadrangleOfOrder (residueAdj Δ P Q j k) s t ∧
       t = Nat.card (P k) ^ 3 ∧ s ≤ Nat.card (P k) ^ 2 := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hΔ := h.cls
   have hthick := thickLines_of_meetsLines hΔ h.center hML
-  letI : Nonempty ↥(rankTwoResidue Δ P Q j k) :=
+  let : Nonempty ↥(rankTwoResidue Δ P Q j k) :=
     ⟨⟨P j, hF.toIsFrame.memP_rankTwoResidue_left j k⟩⟩
   obtain ⟨s, t, hs2, -, hO⟩ :=
     (hF.isThickQuadrangle_residueAdj hΔ h.points hML hthick hjk).exists_order
@@ -132,7 +132,7 @@ private theorem order_and_span (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
       (span2 (residueAdj Δ P Q j k) ⟨P j, hF.toIsFrame.memP_rankTwoResidue_left j k⟩
         ⟨Q j, hF.toIsFrame.memQ_rankTwoResidue_left j k⟩).card = Nat.card (P k) + 1 := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   obtain ⟨s, t, hs2, hO, ht, hs⟩ := exists_order_data h hML hq hF hjk hns
   have ht1 : 1 ≤ t := by
     rw [ht]
@@ -172,7 +172,7 @@ theorem IsMaxFrame.not_isSmallFrame_of_ne (h : TransvectionHyp H Δ) (hML : Meet
     (hq : ∀ A ∈ Δ, 4 ≤ Nat.card A) (hF : IsMaxFrame Δ P Q) {j k : Fin r} (hjk : j ≠ k)
     (hns : ¬ IsSmallFrame Δ P Q j) : ¬ IsSmallFrame Δ P Q k := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   intro hs
   have hthick := thickLines_of_meetsLines h.cls h.center hML
   have hsub : frameResidue Δ P Q k ⊆
@@ -222,7 +222,7 @@ theorem IsMaxFrame.image_span2_residueAdj_eq_lineOf (h : TransvectionHyp H Δ)
       ⟨Q j, hF.toIsFrame.memQ_rankTwoResidue_left j k⟩) : Set ↥(rankTwoResidue Δ P Q j k)) =
       lineOf Δ (P j) (Q j) := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hspan := (order_and_span h hML hq hF hjk hns).2
   have hsub := IsFrame.lineOf_subset_image_span2 hF.toIsFrame j k
   have himg : (Subtype.val '' (↑(span2 (residueAdj Δ P Q j k)
@@ -250,8 +250,8 @@ theorem IsMaxFrame.ncard_lineOf_eq_of_mem_rankTwoResidue (h : TransvectionHyp H 
     (hX : X ∈ rankTwoResidue Δ P Q j k) (hY : Y ∈ rankTwoResidue Δ P Q j k) (hXY : X ≠ Y)
     (hc : Commuting X Y) : (lineOf Δ X Y).ncard = Nat.card (P k) ^ 2 + 1 := by
   classical
-  haveI : Finite H := h.finite
-  letI : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
+  have : Finite H := h.finite
+  let : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
   have hXY' : (⟨X, hX⟩ : ↥(rankTwoResidue Δ P Q j k)) ≠ ⟨Y, hY⟩ :=
     fun e => hXY (congrArg Subtype.val e)
   rw [← hF.image_perp2_residueAdj_eq_lineOf h.cls h.points hML hX hY hXY hc,

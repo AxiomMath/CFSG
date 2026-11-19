@@ -25,7 +25,7 @@ theorem exists_lift_of_isPGroup {X Q : Type*} [Group X] [Finite X] [Group Q] (π
     have hk : π (a⁻¹ * b) = 1 := by rw [map_mul, map_inv, hab, inv_mul_cancel]
     obtain ⟨i, hi⟩ := hker _ hk
     have hs : a⁻¹ * b ∈ (S : Subgroup X) := Subgroup.mul_mem _ (Subgroup.inv_mem _ ha) hb
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨_, hs⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨_, hs⟩
     have hj' : (a⁻¹ * b) ^ p ^ j = 1 := by simpa using congrArg Subtype.val hj
     have h1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.coprime_dvd_left
       (orderOf_dvd_of_pow_eq_one hi) (Nat.Coprime.pow_left i

@@ -161,16 +161,16 @@ theorem twoNilpotent_quotient_of_three_point [Finite A] (N : Subgroup A) [N.Norm
       · exact ⟨a₁, ha₁⟩
       · exact ⟨κ * a₁, by show (κ * a₁) • F = _; rw [mul_smul, ha₁, hκy]⟩
   set O := MulAction.orbit A F with hOdef
-  haveI : Finite O := Finite.of_surjective (fun a : A => (⟨a • F, MulAction.mem_orbit F a⟩ : O))
+  have : Finite O := Finite.of_surjective (fun a : A => (⟨a • F, MulAction.mem_orbit F a⟩ : O))
     (by rintro ⟨_, a, rfl⟩; exact ⟨a, rfl⟩)
-  letI : Fintype O := Fintype.ofFinite O
+  let : Fintype O := Fintype.ofFinite O
   have hcardO : Nat.card O = 3 := by
     rw [Nat.card_coe_set_eq, horb, Set.ncard_eq_three.mpr ⟨F, y, z, hFy, hFz, hyz, rfl⟩]
-  haveI : Nontrivial O := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial O := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   have hcardAlt : Nat.card (alternatingGroup O) = 3 := by
     rw [nat_card_alternatingGroup, hcardO]
     decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ψ : A →* Equiv.Perm O := MulAction.toPermHom A O with hψ
   have hT : ∀ α : A, ψ α = 1 → ∀ γ : A, ⁅γ, α⁆ ∈ N := by
     intro α hα
@@ -201,7 +201,7 @@ theorem twoNilpotent_quotient_of_three_point [Finite A] (N : Subgroup A) [N.Norm
       rw [e]
       exact hT _ ht α
   set Mbar : Subgroup (A ⧸ N) := M.map (QuotientGroup.mk' N) with hMbar
-  haveI : Mbar.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
+  have : Mbar.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
   refine TwoNilpotent.of_normal_comm Mbar ?_ fun x => ?_
   · rintro _ ⟨α, hα, rfl⟩ _ ⟨β, hβ, rfl⟩
     exact hmk α β (hMcomm α hα β hβ)

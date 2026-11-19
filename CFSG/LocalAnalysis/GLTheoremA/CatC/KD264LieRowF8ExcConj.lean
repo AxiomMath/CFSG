@@ -24,9 +24,9 @@ theorem exists_conj_entrywise (τ : Tag) (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .
     (hxo : x ∉ innAutDerived (adjointGroup τ K)) :
     ∃ (σ : K ≃+* K) (ψ : MulAut (adjointGroup τ K)), ψ * x * ψ⁻¹ = entrywiseAdjointAut τ σ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ 3 := by norm_num
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       hf hK
   have hxinner : x ∉ (MulAut.conj : ↥(adjointGroup τ K) →*
@@ -39,7 +39,7 @@ theorem exists_conj_entrywise (τ : Tag) (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .
     exact hxord
   rcases hτ with rfl | rfl | hτ'
   ·
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
       rw [show CFSG.LieType.Ree.ReeTag.F4.prime = 2 from rfl]
       exact hchar
     have hNF := (even_F4_exact_automorphism_normal_form hf K hK).2.1
@@ -73,7 +73,7 @@ theorem exists_fixed_rank_four_of_outer (τ : Tag)
     ∃ E : Subgroup (adjointGroup τ K), E ≤ fixSubgroup x ∧ IsElemAbelian 3 E ∧
       3 ^ 4 ≤ Nat.card E := by
   classical
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hK
   obtain ⟨σ, ψ, hψ⟩ := exists_conj_entrywise τ hτ hK hx3 hxo

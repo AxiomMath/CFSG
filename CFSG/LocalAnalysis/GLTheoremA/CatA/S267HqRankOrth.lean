@@ -467,9 +467,9 @@ theorem six_le_twoLocalRank_B {n : ℕ} (hn : 4 ≤ n) (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B n Q).Valid) (hq2 : Q.p ≠ 2) {X : Type} [Group X] [Finite X]
     (φ : X →* (TauCeti.CFSGIndex.lie ⟨.B n Q, hv⟩).Group) (hφ : Function.Surjective φ) :
     6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]
@@ -480,7 +480,7 @@ theorem six_le_twoLocalRank_B {n : ℕ} (hn : 4 ≤ n) (Q : TauCeti.PrimePower)
     ⟨⟨Q.prime_p, Q.exponent_pos, by omega, hq2⟩, _, inferInstance, inferInstance, hcard, ⟨eB⟩⟩
   obtain ⟨-, hnt, hsimp, hperf⟩ :=
     CFSG.LieType.SeitzGeneration.orth_facts_of_model (Or.inl rfl) hMd
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.B n Q, hv⟩).Group := Finite.of_equiv _ eB.symm.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.B n Q, hv⟩).Group := Finite.of_equiv _ eB.symm.toEquiv
   have h2 : (2 : Fx) ≠ 0 := Ring.two_ne_zero (by
     have : CharP Fx Q.p := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Q.prime_p Q.exponent_pos hcard
@@ -518,9 +518,9 @@ theorem six_le_twoLocalRank_D
     (hv : (TauCeti.LieTypeIndex.D n Q).Valid) (hq2 : Q.p ≠ 2) {X : Type} [Group X] [Finite X]
     (φ : X →* (TauCeti.CFSGIndex.lie ⟨.D n Q, hv⟩).Group) (hφ : Function.Surjective φ) :
     6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]
@@ -530,7 +530,7 @@ theorem six_le_twoLocalRank_D
     ⟨⟨Q.prime_p, Q.exponent_pos, by omega⟩, _, inferInstance, inferInstance, hcard, ⟨eD⟩⟩
   obtain ⟨-, hnt, hsimp, hperf⟩ :=
     CFSG.LieType.SeitzGeneration.orth_facts_of_model (Or.inr (Or.inl rfl)) hMd
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.D n Q, hv⟩).Group := Finite.of_equiv _ eD.symm.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.D n Q, hv⟩).Group := Finite.of_equiv _ eD.symm.toEquiv
   obtain ⟨e₂⟩ := CFSG.RankThree.CentralLift.nonempty_statedProj_mulEquiv_projOrthDerived
     (CFSG.LieType.Universal.Spin.coe_quadPlus n Fx)
   have hM : ¬ Q.p ∣ Nat.card (CFSG.Open.griessHopfMultiplier
@@ -549,7 +549,7 @@ theorem six_le_twoLocalRank_D
     have hodd : ¬ Even (Q.p ^ Q.exponent) :=
       Nat.not_even_iff_odd.2 (Q.prime_p.odd_of_ne_two hq2).pow
     simp only [generic, exceptional, hex, Nat.card_prod, Nat.card_congr Multiplicative.toAdd,
-      Nat.card_zmod, genericOrders, hodd, if_false]
+      Nat.card_zmod, genericOrders, hodd, ite_false]
     refine not_dvd_of_dvd_four Q.prime_p hq2 ?_
     split
     · norm_num
@@ -566,9 +566,9 @@ theorem six_le_twoLocalRank_twistedD
     (hv : (TauCeti.LieTypeIndex.twistedD n Q).Valid) (hq2 : Q.p ≠ 2) {X : Type} [Group X]
     [Finite X] (φ : X →* (TauCeti.CFSGIndex.lie ⟨.twistedD n Q, hv⟩).Group)
     (hφ : Function.Surjective φ) : 6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]
@@ -581,7 +581,7 @@ theorem six_le_twoLocalRank_twistedD
       ⟨eD⟩⟩
   obtain ⟨-, hnt, hsimp, hperf⟩ :=
     CFSG.LieType.SeitzGeneration.orth_facts_of_model (Or.inr (Or.inr rfl)) hMd
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n Q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n Q, hv⟩).Group :=
     Finite.of_equiv _ eD.symm.toEquiv
   obtain ⟨e₂⟩ := CFSG.RankThree.CentralLift.nonempty_statedProj_mulEquiv_projOrthDerived
     (CFSG.LieType.Universal.Spin.coe_quadMinus n Fx b c)

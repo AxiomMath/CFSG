@@ -66,7 +66,7 @@ private theorem theorem_13_19_H_card_coprime_pq
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h19 with
     ⟨hLmax, hHMF, hTypeI, _he, _hDadeL, _hPunctL, _hcohL,
       _hφmem, _hφdeg, _hφτ, _hβL, _hβS⟩
@@ -120,7 +120,7 @@ private theorem theorem_13_19_support_disjoint_source
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases _h19 with
     ⟨hLmax, hHMF, hTypeI, _he, hDadeL, _hPunctL, _hcohL,
       _hφmem, _hφdeg, _hφτ, _hβL, _hβS⟩
@@ -262,7 +262,7 @@ private theorem theorem_13_19_Lfam_conj_orthogonal
     Section12.section16MFSubgroup_subgroupOf_normal hMF
   have hoddL : Odd (Nat.card L) :=
     Section12.odd_card_of_typeIDefinitionData L H hTypeI
-  letI : (H.subgroupOf L).Normal := hHnormal
+  let : (H.subgroupOf L).Normal := hHnormal
   rcases (hPunctL ψ).mp hψ with ⟨θ, hθirr, hθne, hψeq⟩
   rcases hθirr with ⟨n, ρ, hρirr, hθeq⟩
   have hθrep_ne_principal :
@@ -312,7 +312,7 @@ private theorem theorem_13_19_Lfam_irreducible_of_source
   rcases h19 with
     ⟨hLmax, hMF, hTypeI, _he, hDadeL, hPunctL, _hcohL,
       _hφmem, _hφdeg, _hφτ, _hβL, _hβS⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have h12 :
       Section12.hypothesis_12_1_data L H Lfam R τL :=
     ⟨hLmax, hMF, hTypeI, hPunctL, hDadeL⟩
@@ -716,7 +716,7 @@ private theorem theorem_13_19_sub_conj_CFOn_typeIASet
   have hHleL : H ≤ L := Section12.section16MFSubgroup_le hMF
   have hHnormal : (H.subgroupOf L).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
-  letI : (H.subgroupOf L).Normal := hHnormal
+  let : (H.subgroupOf L).Normal := hHnormal
   have hψchar : Section1.IsCharacter ψ := by
     rcases (hPunctL ψ).mp hψ with ⟨θ, hθirr, _hθne, hψeq⟩
     rw [hψeq]
@@ -1284,7 +1284,7 @@ private theorem theorem_13_19_betaInput_CFOn_typeIASet
       (Section7.theorem_7_8_betaInput L H φL) := by
   classical
   have hHleL : H ≤ L := Section12.section16MFSubgroup_le hMF
-  haveI : (H.subgroupOf L).Normal :=
+  have : (H.subgroupOf L).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
   rcases (hPunct φL).mp hφmem with ⟨θφ, _hθφ, _hθφne, hφeq⟩
   have hprincipalClass :
@@ -1708,7 +1708,7 @@ private theorem theorem_13_19_pf78_setup
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hnotation,
       _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h19 with
     ⟨hLmax, hMF, hTypeI, he, hDade, hPunctured, hExt,
       hφmem, hφdeg, _hφτ, _hβL, _hβS⟩
@@ -1803,7 +1803,7 @@ private theorem theorem_13_19_pf78_setup
                 (H.relIndex L : ℂ) :=
             Section7.theorem_7_8_principalInduced_self_scalar hHnormal
           have hrel_ne : (H.relIndex L : ℂ) ≠ 0 := by
-            haveI : (H.subgroupOf L).FiniteIndex := inferInstance
+            have : (H.subgroupOf L).FiniteIndex := inferInstance
             have hrel : H.relIndex L ≠ 0 := by
               simpa [Subgroup.relIndex] using
                 (Subgroup.FiniteIndex.index_ne_zero (H := H.subgroupOf L))
@@ -1848,7 +1848,7 @@ private theorem theorem_13_19_tauL1_conjugate
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hnotation,
       _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h19 with
     ⟨_hLmax, hMF, hTypeI, _he, hDade, hPunctured, hExt,
       _hφmem, _hφdeg, _hφτ, _hβL, _hβS⟩
@@ -2019,7 +2019,7 @@ private theorem theorem_13_19_alternative_source
       _hdCard, _hUCard, _hVCard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases hnotation with
     ⟨hωData, _hσmap, _hη, _hδ, _hδ', _hμirr, _hνirr,
       _hμzero_nonprincipal, _hνzero_nonprincipal, _hμind, _hνind,
@@ -2088,7 +2088,7 @@ private theorem theorem_13_19_alternative_source
         simp [Pi.add_apply, hβinputOn.1 x g, hdiffOn.1 x g]
       · intro x hx
         simp [Pi.add_apply, hβinputOn.2 x hx, hdiffOn.2 x hx]
-    letI : (H.subgroupOf L).Normal :=
+    let : (H.subgroupOf L).Normal :=
       Section12.section16MFSubgroup_subgroupOf_normal hMF
     have hprincipalInducedReal :
         Section1.conjugateCharacter (Section7.principalInducedCharacter L H) =
@@ -2404,8 +2404,8 @@ private theorem theorem_13_19_alternative_source
         _ = (zS : ℂ) := by rw [hk]
         _ = Section1.scalarProduct G βS φ := hzS.symm
     · let I := ↑Lfam
-      letI : Finite I := Fintype.finite (Finset.fintypeCoeSort Lfam)
-      letI : Fintype I := Fintype.ofFinite I
+      let : Finite I := Fintype.finite (Finset.fintypeCoeSort Lfam)
+      let : Fintype I := Fintype.ofFinite I
       let χ : I → Section1.ClassFunction G := fun ψ => τL1 ψ.1
       have hχorth : ∀ ψ θ : I,
           Section1.scalarProduct G (χ ψ) (χ θ) = if ψ = θ then 1 else 0 := by
@@ -2417,7 +2417,7 @@ private theorem theorem_13_19_alternative_source
         rw [hIso]
         by_cases hψθ : ψ = θ
         · subst θ
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           exact theorem_13_19_Lfam_scalarProduct_self
             (Smax := Smax) (Tmax := Tmax) (W := W) (W1 := W1) (W2 := W2)
             (P := P) (Q := Q) (U := U) (V := V) (C := C) (D := D)
@@ -2426,7 +2426,7 @@ private theorem theorem_13_19_alternative_source
             (φL := φL) (βL := βL) (βS := βS) (φ := φ) (μ := μ)
             (p := p) (q := q) (u := u) (v := v) (c := c) (d := d) (e := e)
             hsourceOrig h19Orig ψ.2
-        · rw [if_neg hψθ]
+        · rw [ite_eq_right hψθ]
           have hψirr := theorem_13_19_Lfam_irreducible_of_source
             (Smax := Smax) (Tmax := Tmax) (W := W) (W1 := W1) (W2 := W2)
             (P := P) (Q := Q) (U := U) (V := V) (C := C) (D := D)
@@ -2570,7 +2570,7 @@ private theorem theorem_13_19_alternative_source
         rw [← hXY, hΓcoeff, hcomboCoeff ψ]
       have heNe : e ≠ 0 := by
         rw [he]
-        haveI : (H.subgroupOf L).FiniteIndex := inferInstance
+        have : (H.subgroupOf L).FiniteIndex := inferInstance
         simpa [Subgroup.relIndex] using
           (Subgroup.FiniteIndex.index_ne_zero (H := H.subgroupOf L))
       have heRNe : (e : ℝ) ≠ 0 := by exact_mod_cast heNe
@@ -2682,7 +2682,7 @@ private theorem theorem_13_19_alternative_source
         intro j k hjk
         apply Subtype.ext
         exact congrArg Fin.val hjk
-      letI : Finite J := Finite.of_injective toFin htoFin
+      let : Finite J := Finite.of_injective toFin htoFin
       let χ : J → Section1.ClassFunction G := fun j => η 0 j.1
       have hχorth : ∀ j k : J,
           Section1.scalarProduct G (χ j) (χ k) = if j = k then 1 else 0 := by

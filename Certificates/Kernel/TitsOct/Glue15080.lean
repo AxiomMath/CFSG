@@ -117,7 +117,7 @@ theorem facts15080 :
       simpa [vCode] using this
     obtain ⟨k, hk, e⟩ := (nbOK.1 0 (by norm_num) _).1 hadj
     rw [degK_eq] at hk
-    simp only [show (0 : ℕ) < 1755 by norm_num, if_true] at hk
+    simp only [show (0 : ℕ) < 1755 by norm_num, ite_true] at hk
     rw [nbK_pt (by norm_num)] at e
     have hpk : plK PL 0 k = v := by omega
     by_cases hv0 : v = 0

@@ -115,7 +115,7 @@ public theorem CFSG.thompson_bender_centralizer_pCore_quotient_le_pCore
     simpa [M] using (pPrimeCore_coprime_card (G := G) (p := p))
   have hTG_p : IsPGroup p TG := by
     simpa [TG] using
-      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup'
+      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup
         (Op_p'p p G).subtype)
   have hTG_le_op : TG ≤ Op_p'p p G := by
     simpa [TG] using

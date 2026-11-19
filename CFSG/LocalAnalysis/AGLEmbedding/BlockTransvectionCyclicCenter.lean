@@ -135,7 +135,7 @@ theorem not_perfectCyclicSylow_three_of_sp
   have hAJ : A ≤ J := by
     rintro _ ⟨_, -, rfl⟩
     exact Subtype.property _
-  have hA3 : IsPGroup 3 A := (P.isPGroup'.map _).map _
+  have hA3 : IsPGroup 3 A := (P.isPGroup.map _).map _
   have hAc := hperf _ (perfectJoin_le _) (perfectJoin_perfect _) A
     (le_perfectJoin_of_quotient_perfect Nat.prime_three (by norm_num) φ hQ hAJ hA3) hA3
   apply hEnc

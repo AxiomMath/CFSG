@@ -12,10 +12,12 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo
 
 variable {M : Type} [Group M] [Finite M] {Ybar Abar Xbar Rbar : Subgroup M} {abar : M}
 
+omit [Finite M] in
 theorem normal_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) : Xbar.Normal := by
   rw [← Subgroup.normalizer_eq_top_iff]
   exact top_le_iff.mp (hset.sup_eq_top ▸ hset.le_normalizer_X)
 
+omit [Finite M] in
 theorem le_centralizer_Y_of_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) {e : M}
     (he : e ∈ Abar) (hX : Xbar ≤ Subgroup.centralizer ({e} : Set M)) :
     Ybar ≤ Subgroup.centralizer ({e} : Set M) := by
@@ -24,6 +26,7 @@ theorem le_centralizer_Y_of_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) {e
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (Subgroup.mem_centralizer_iff.mp (hset.le_centralizer_R hr) e he).symm
 
+omit [Finite M] in
 theorem abar_not_mem (hset : HJCoreSetting Ybar Abar Xbar Rbar abar)
     (hcen : Function.Injective (MulAut.conj : ↥Xbar →* MulAut ↥Xbar)) : abar ∉ Xbar := by
   intro ha
@@ -45,10 +48,12 @@ variable (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) [hXn : Xbar.Normal]
 include hset hcen hinner
 
 omit hinner in
+omit [Finite M] hset hcen in
 theorem conjNormal_coe (x : ↥Xbar) : MulAut.conjNormal (x : M) = MulAut.conj x := by
   ext y
   simp [MulAut.conjNormal_apply, MulAut.conj_apply]
 
+omit [Finite M] in
 theorem exists_inner {e : M} (he : e ∈ Abar) :
     ∃ x : ↥Xbar, (x : M) ∈ Abar ∧ MulAut.conjNormal e = MulAut.conj x ∧
       e * (x : M)⁻¹ ∈ Subgroup.zpowers abar := by
@@ -101,6 +106,7 @@ theorem exists_inner {e : M} (he : e ∈ Abar) :
   rw [h4]
   exact h3.symm
 
+omit [Finite M] in
 theorem eq_inf_sup : Abar = Abar ⊓ Xbar ⊔ Subgroup.zpowers abar := by
   refine le_antisymm (fun e he => ?_) (sup_le inf_le_left (Subgroup.zpowers_le.mpr hset.mem_A))
   obtain ⟨x, hxA, -, hxa⟩ := exists_inner hset hcen hinner he
@@ -109,6 +115,7 @@ theorem eq_inf_sup : Abar = Abar ⊓ Xbar ⊔ Subgroup.zpowers abar := by
   exact mul_mem (Subgroup.mem_sup_right hxa) (Subgroup.mem_sup_left ⟨hxA, x.2⟩)
 
 omit hinner in
+omit hXn in
 theorem zpowers_inf_eq_bot : Subgroup.zpowers abar ⊓ Xbar = ⊥ := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3 : Nat.card (Subgroup.zpowers abar) = 3 := by
@@ -139,6 +146,7 @@ theorem card_inf : Nat.card (Abar ⊓ Xbar : Subgroup M) = 9 := by
     orderOf_eq_prime (hset.isElemAbelian.2 abar hset.mem_A) hset.ne_one] at h
   omega
 
+omit hinner hcen in
 theorem Y_eq_X (hcent : ∀ α : MulAut ↥Xbar,
     (∀ x : ↥Xbar, (x : M) ∈ Abar → α * MulAut.conj x = MulAut.conj x * α) →
     ¬ 3 ∣ orderOf α → α = 1) : Ybar = Xbar := by
@@ -146,7 +154,7 @@ theorem Y_eq_X (hcent : ∀ α : MulAut ↥Xbar,
     intro r hr
     have hα : MulAut.conjNormal (H := Xbar) r = 1 := by
       refine hcent _ (fun x hx => ?_) fun h3 => ?_
-      · rw [← conjNormal_coe hset hcen x, ← map_mul, ← map_mul]
+      · rw [← conjNormal_coe x, ← map_mul, ← map_mul]
         congr 1
         exact (Subgroup.mem_centralizer_iff.mp (hset.le_centralizer_R hr) x hx).symm
       · apply hset.not_three_dvd_R
@@ -170,6 +178,7 @@ theorem Y_eq_X (hcent : ∀ α : MulAut ↥Xbar,
   rw [hset.eq_sup, hR1, sup_bot_eq]
 
 omit hcen hinner in
+omit hXn in
 theorem mem_normalizer_A (hAeq : Abar = Abar ⊓ Xbar ⊔ Subgroup.zpowers abar) {n : M}
     (hnX : n ∈ Xbar) (hn : n ∈ Subgroup.normalizer ((Abar ⊓ Xbar : Subgroup M) : Set M)) :
     n ∈ Subgroup.normalizer (Abar : Set M) := by
@@ -188,6 +197,7 @@ theorem mem_normalizer_A (hAeq : Abar = Abar ⊓ Xbar ⊔ Subgroup.zpowers abar)
   exact h (Subgroup.mem_zpowers n)
 
 omit hcen hinner in
+omit hXn in
 theorem le_normalizer_of_inf (hAeq : Abar = Abar ⊓ Xbar ⊔ Subgroup.zpowers abar)
     {U : Subgroup M} (hUY : U ≤ Ybar)
     (hU : Abar ⊓ Xbar ≤ Subgroup.normalizer (U : Set M)) :

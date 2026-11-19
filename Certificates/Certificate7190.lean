@@ -24,7 +24,7 @@ theorem certificate7190 :
     intro y hy
     rw [T12.lenF] at hy
     rw [fixTab_get FixTab12.tab y (by simp [hMc]; omega)]
-    simp [fixMasks, List.getD_eq_getElem?_getD, List.getElem?_take, hy]
+    simp [fixMasks, List.getD_eq_getElem?_getD, hy]
   refine forallGreedyAll_fixT T12.gtabsF (by rw [T12.lenF]; exact T12.lenOK.2)
     (fun x => T12s2.posArr_spec _ x) T12.Mc FixTab12.F12 10 hFs (predR 10 act12s2) (predRK 10)
     (fun l hl _ => ?_) 3 (by rw [T12.lenF]; exact C7190.search)

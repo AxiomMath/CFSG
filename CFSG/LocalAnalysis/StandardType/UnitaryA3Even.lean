@@ -83,7 +83,7 @@ theorem commute_of_pow_three_eq_one (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ 
     have h := hzpow 3
     rw [hA₁, mul_one, one_mul] at h
     exact mul_right_cancel (h.symm.trans (one_mul A₂).symm)
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hz3c : (Matrix.GeneralLinearGroup.scalar (Fin n) c) ^ 3 = 1 := by
     simpa only [hzdef] using hz3
   have hc3 : c ^ 3 = 1 := by

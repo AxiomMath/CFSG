@@ -38,7 +38,7 @@ theorem w135c2_psu_label_ext {m f : ℕ} (hm : 3 ≤ m) (hf : 0 < f) {K : Type} 
       (∀ p : ℕ, 0 < p → p < s → (rotEps hf)^[p] ε ≠ ε) ∧
       ((∀ r, (ε r).image labelStar = ε r) → s ≤ f) := by
   classical
-  haveI : ρ.IsIrreducible := hirr
+  have : ρ.IsIrreducible := hirr
   obtain ⟨s, hs0, hE⟩ := exists_card_endField_eq_two_pow (ρ := ρ)
   obtain ⟨ε, hε, ht⟩ := exists_hasUnitaryLabel (by omega : 2 ≤ m) hK ρ hne
   have h0 := w135c2_psu_zero_not_mem_of_hasUnitaryLabel (by omega : 2 ≤ m) hK ρ hε

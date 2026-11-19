@@ -213,7 +213,7 @@ theorem excOnlyE6_of_certs
 theorem chev2RankTwoInverts_of_certs
     : Chev2RankTwoInverts :=
   chev2RankTwoInverts_of_hyps g2NoKlein_of_certs excOnlyE6_of_certs
-    (fun _ _ h A hA => chev2RankTwoInverts_E6_of_certs h hA) chev2RankTwoInverts_orthPlus
+    (fun _ _ h _A hA => chev2RankTwoInverts_E6_of_certs h hA) chev2RankTwoInverts_orthPlus
     chev2RankTwoInverts_orthMinus
 
 end CFSG.LieType.ChevTwo

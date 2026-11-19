@@ -21,8 +21,8 @@ theorem exists_conj_zpowers_u3Field_of_card_seven {p f : ℕ} {K : Type} [Field 
     ∃ (g : MulAut (U3 h)) (σ : K ≃+* K), orderOf σ = 7 ∧
       Nat.card K = Nat.card (fixSubfield σ) ^ 7 ∧
       W = (Subgroup.zpowers (u3Field h σ)).map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite K := h.finite
   have hcyc : IsCyclic ↥W := isCyclic_of_prime_card hW
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hordg : orderOf g = 7 := by
@@ -84,7 +84,7 @@ theorem exists_conj_zpowers_u3Field_of_card_seven {p f : ℕ} {K : Type} [Field 
       have houter' : Nat.card (D ⧸ I.subgroupOf D) = Nat.gcd 3 (p ^ f + 1) :=
         houter.2.2.1
       rw [houter', hgcd]
-    haveI : Subsingleton (D ⧸ I.subgroupOf D) :=
+    have : Subsingleton (D ⧸ I.subgroupOf D) :=
       Finite.card_le_one_iff_subsingleton.mp (by simp [hquot])
     have hDleI : D ≤ I := by
       intro x hx

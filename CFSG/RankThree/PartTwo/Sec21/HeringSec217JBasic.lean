@@ -132,6 +132,7 @@ section Contradiction
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem j217_mem_zpowers_of_cube {g x : G} (hg : g ^ 3 = 1) (hx : x ∈ Subgroup.zpowers g)
     (hx1 : x ≠ 1) : g ∈ Subgroup.zpowers x := by
   rcases mem_zpowers_of_pow_three hg hx with h | h | h
@@ -145,7 +146,7 @@ theorem j217_mem_zpowers_of_cube {g x : G} (hg : g ^ 3 = 1) (hx : x ∈ Subgroup
     rw [hgg]
     exact Subgroup.pow_mem _ (Subgroup.mem_zpowers x) 2
 
-theorem j217_false_of_card_inf_le {A F J : Subgroup G} {d t : G} (hdF : d ∈ F) (hFA : F ≤ A)
+theorem j217_false_of_card_inf_le {A F J : Subgroup G} {d t : G} (hdF : d ∈ F) (_hFA : F ≤ A)
     (hF27 : Nat.card F = 27) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (hdJ : d ∉ J)
     (htJ : t ∈ Subgroup.normalizer (J : Set G))
     (hfix : ∀ y ∈ A, (t * y * t⁻¹ = y ↔ y ∈ F))

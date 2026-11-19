@@ -38,7 +38,7 @@ private theorem isSimpleGroup_of_isComponent
     (hZmap : (Subgroup.center (layer G)).map (layer G).subtype = ⊥)
     {K : Subgroup G} (hK : IsComponent K) : IsSimpleGroup K := by
   have hKZ := center_eq_bot_of_isComponent hZmap hK
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2.1
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2.1
   have e : K ⧸ Subgroup.center K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hKZ).trans QuotientGroup.quotientBot
   exact e.symm.isSimpleGroup
@@ -77,7 +77,7 @@ private theorem map_conj_eq_self_of_isComponent
     simpa using congrArg Subtype.val hz1
   have hnoPrime : ∀ p : ℕ, p.Prime → 3 < p → ¬ p ∣ Nat.card K := by
     intro p hp hp3 hdvd
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := K) p hdvd
     let xG : G := (x : G)
     have hxGord : orderOf xG = p := by
@@ -136,7 +136,7 @@ private theorem map_conj_eq_self_of_isComponent
     conv_lhs => rw [← Nat.prod_factorization_pow_eq_self Nat.card_pos.ne']
     rw [Finsupp.prod_of_support_subset _ hsupp _ fun _ _ => pow_zero _]
     simp
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hsolvK : Group.IsSolvable K :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       Nat.prime_two Nat.prime_three (by norm_num)
@@ -154,6 +154,7 @@ private theorem normal_of_isComponent
   refine Subgroup.mem_normalizer_iff_map_conj_eq.mpr ?_
   simpa using map_conj_eq_self_of_isComponent hP hZmap hK hd
 
+omit [Finite G] in
 private theorem not_forall_commute_of_isComponent
     (hP : Pair G D) (hcenter : Subgroup.center G = ⊥)
     {K : Subgroup G} (hK : IsComponent K) (hKn : K.Normal) {d : G} (hd : d ∈ D) :
@@ -198,7 +199,7 @@ private theorem exists_commuting_conj_of_isComponent
     intro x hx hxc
     by_contra hne
     exact hcon ⟨x, hx, hne, hxc⟩
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   let H : Subgroup G := K ⊔ Subgroup.zpowers d
   have hdHmem : d ∈ H := Subgroup.mem_sup_right (Subgroup.mem_zpowers d)
   let dH : H := ⟨d, hdHmem⟩
@@ -262,7 +263,7 @@ private theorem exists_commuting_conj_of_isComponent
     change (g : G) * d * (g : G)⁻¹ = d
     rw [hconjk]
     simpa [MulAut.conj_apply] using hkd
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   obtain ⟨N, hNn, hNodd, hN⟩ :=
     CFSG.ZStar.glauberman_zStar H dH hdH1 hdH2 hiso
   let KH : Subgroup H := K.subgroupOf H
@@ -270,7 +271,7 @@ private theorem exists_commuting_conj_of_isComponent
     dsimp [KH]
     infer_instance
   have hKHsimple : IsSimpleGroup KH := by
-    haveI : IsSimpleGroup K := isSimpleGroup_of_isComponent hZmap hK
+    have : IsSimpleGroup K := isSimpleGroup_of_isComponent hZmap hK
     dsimp [KH]
     exact (Subgroup.subgroupOfEquivOfLe (le_sup_left : K ≤ H)).isSimpleGroup
   let M : Subgroup H := ⁅KH, Subgroup.zpowers dH⁆
@@ -297,7 +298,7 @@ private theorem exists_commuting_conj_of_isComponent
       have := hN a
       simpa [M, commutatorElement_def, hdHinv] using this
   have hNinter : N.subgroupOf KH = ⊥ ∨ N.subgroupOf KH = ⊤ := by
-    haveI : (N.subgroupOf KH).Normal := inferInstance
+    have : (N.subgroupOf KH).Normal := inferInstance
     exact hKHsimple.eq_bot_or_eq_top_of_normal (N.subgroupOf KH)
   rcases hNinter with hbot | htop
   · have hMbot : M = ⊥ := by
@@ -340,7 +341,7 @@ private theorem exists_order_three_of_isComponent
   have hno3 : ∀ y ∈ K, orderOf (d * MulAut.conj y d) ≠ 3 := by
     intro y hy h3
     exact hcon ⟨y, hy, h3⟩
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   let H : Subgroup G := K ⊔ Subgroup.zpowers d
   have hdHmem : d ∈ H := Subgroup.mem_sup_right (Subgroup.mem_zpowers d)
   let dH : H := ⟨d, hdHmem⟩
@@ -366,7 +367,7 @@ private theorem exists_order_three_of_isComponent
     dsimp [KH]
     infer_instance
   have hKHsimple : IsSimpleGroup KH := by
-    haveI : IsSimpleGroup K := isSimpleGroup_of_isComponent hZmap hK
+    have : IsSimpleGroup K := isSimpleGroup_of_isComponent hZmap hK
     dsimp [KH]
     exact (Subgroup.subgroupOfEquivOfLe (le_sup_left : K ≤ H)).isSimpleGroup
   let M : Subgroup H := ⁅KH, Subgroup.zpowers dH⁆
@@ -434,7 +435,7 @@ private theorem exists_order_three_of_isComponent
     CFSG.commutator_normal_in_sup KH (Subgroup.zpowers dH)
   have hMleSup : M ≤ KH ⊔ Subgroup.zpowers dH := hMleK.trans le_sup_left
   have hKHleNorm : KH ≤ Subgroup.normalizer (M : Set H) := by
-    haveI : (M.subgroupOf (KH ⊔ Subgroup.zpowers dH)).Normal := hMnormSup
+    have : (M.subgroupOf (KH ⊔ Subgroup.zpowers dH)).Normal := hMnormSup
     exact le_trans le_sup_left (Subgroup.le_normalizer_of_normal_subgroupOf hMleSup)
   have hMnormK : (M.subgroupOf KH).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMleK).mpr hKHleNorm
@@ -487,7 +488,7 @@ theorem commutator_isSimpleGroup_of_threeTranspositions
       CFSG.solvableRadical G
     refine sSup_le ?_
     intro N hN
-    exact le_sSup ⟨hN.1, by letI := hN.2; infer_instance⟩
+    exact le_sSup ⟨hN.1, by let := hN.2; infer_instance⟩
   have hfitBot : fittingSubgroup G = ⊥ := by
     apply le_bot_iff.mp
     calc fittingSubgroup G ≤ CFSG.solvableRadical G := hfit_le
@@ -549,7 +550,6 @@ theorem commutator_isSimpleGroup_of_threeTranspositions
       rw [commutatorElement_def, MulAut.conj_apply, Pair.inv_eq hP hd₀]
       group
     have hCx2 : MulAut.conj x d₀ * MulAut.conj x d₀ = 1 := by
-      change MulAut.conj x d₀ * MulAut.conj x d₀ = 1
       rw [← map_mul, Pair.mul_self hP hd₀, map_one]
     have hCxOrd : orderOf ⁅d₀, x⁆ = 2 := by
       rw [hCxEq]

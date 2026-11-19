@@ -32,7 +32,7 @@ theorem chainCounts_snoc {A M : Subgroup G} {a b : ℕ} (h : ChainCounts F X tru
 theorem exists_chain_odd [Finite G] {A B : Subgroup G} (hAB : A ≤ B) (hA : Inv X A)
     (hB : Inv X B) (hnorm : ∀ y ∈ B, ∀ z ∈ A, y * z * y⁻¹ ∈ A) (hodd : Odd (A.relIndex B)) :
     ChainCounts F X true A B 0 0 := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have key : ∀ T : Subgroup G, Inv X T → ∀ S : Subgroup G, S ≤ T → Inv X S →
       (∀ y ∈ T, ∀ z ∈ S, y * z * y⁻¹ ∈ S) → Odd (S.relIndex T) →

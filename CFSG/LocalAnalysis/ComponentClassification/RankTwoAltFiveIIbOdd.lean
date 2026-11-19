@@ -254,7 +254,7 @@ theorem false_of_transitive_odd [Finite G] {W V₀ Y B : Subgroup G} (hWe : IsEl
       _ = f * t := by rw [hrf]
   obtain ⟨k, hk⟩ : ∃ k : ℕ, f ^ 5 ^ k = 1 := by
     obtain ⟨y, hyF, rfl⟩ := hfF
-    obtain ⟨k, hk⟩ := F.isPGroup' ⟨y, hyF⟩
+    obtain ⟨k, hk⟩ := F.isPGroup ⟨y, hyF⟩
     refine ⟨k, ?_⟩
     have h1 : y ^ 5 ^ k = 1 := by
       have := congrArg Subtype.val hk

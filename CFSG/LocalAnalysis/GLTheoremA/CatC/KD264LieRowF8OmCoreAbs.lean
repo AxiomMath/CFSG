@@ -105,7 +105,7 @@ section Conj
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {Q : QuadraticForm (ZMod 2) V}
 
 theorem fixW_conj_mem' {W : Submodule (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V}
-    (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hs : ∀ w ∈ W, g w ∈ W)
+    (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (_hs : ∀ w ∈ W, g w ∈ W)
     (hs' : ∀ w ∈ W, g⁻¹ w ∈ W) {h : V ≃ₗ[ZMod 2] V} (hh : h ∈ fixW Q W) :
     g * h * g⁻¹ ∈ fixW Q W := by
   refine ⟨mul_mem (mul_mem hg hh.1) (inv_mem hg), fun w hw => ?_⟩
@@ -163,7 +163,7 @@ theorem exists_component_single (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction
       (Q.restrict (perpOf Q (Wspan lI))) hndU hd' hts'
   obtain ⟨e⟩ := commutator_fixW_equiv (Q := Q) hW
-  haveI : IsSimpleGroup ↥⁅fixW Q (Wspan lI), fixW Q (Wspan lI)⁆ := e.isSimpleGroup
+  have : IsSimpleGroup ↥⁅fixW Q (Wspan lI), fixW Q (Wspan lI)⁆ := e.isSimpleGroup
   have hna : ¬ ∀ x y : ↥⁅fixW Q (Wspan lI), fixW Q (Wspan lI)⁆, x * y = y * x := by
     intro h
     apply hnc
@@ -207,7 +207,7 @@ theorem exists_component_single (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
       hmem p.2 (fun q hq => ⟨(hpp q hq).2.2.1, (hpp q hq).2.2.2⟩)
     have hρ : rot Q p.1 p.2 ∈ ⁅fixW Q (Wspan lI), fixW Q (Wspan lI)⁆ :=
       rot_mem_commutator_of hp _ (reflect_mem_fixW h1) (reflect_mem_fixW h2)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hne : rot Q p.1 p.2 ≠ 1 := by
       intro h1
       have := rot_apply_left hp

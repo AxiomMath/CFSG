@@ -40,11 +40,11 @@ theorem diag2n_swap {i j : Fin (m + 1)} (hij : i ≠ j) {a : F} (ha : a ≠ 0) :
   funext r
   by_cases h1 : r = i
   · subst r
-    rw [if_pos rfl, if_neg hij, if_pos rfl, inv_inv]
+    rw [ite_eq_left rfl, ite_eq_right hij, ite_eq_left rfl, inv_inv]
   · by_cases h2 : r = j
     · subst r
-      rw [if_neg h1, if_pos rfl, if_pos rfl]
-    · rw [if_neg h1, if_neg h2, if_neg h2, if_neg h1]
+      rw [ite_eq_right h1, ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, ite_eq_right h1]
 
 theorem diag2n_mul_mid {i l j : Fin (m + 1)} (hil : i ≠ l) (hlj : l ≠ j) (hij : i ≠ j)
     {a : F} (ha : a ≠ 0) :
@@ -57,15 +57,15 @@ theorem diag2n_mul_mid {i l j : Fin (m + 1)} (hil : i ≠ l) (hlj : l ≠ j) (hi
   funext r
   by_cases h1 : r = i
   · subst r
-    simp only [if_neg hil, if_neg hij, mul_one]
+    simp only [ite_eq_right hil, ite_eq_right hij, mul_one]
   · by_cases h2 : r = l
     · subst r
-      simp only [if_neg h1, if_neg hlj]
+      simp only [ite_eq_right h1, ite_eq_right hlj]
       exact inv_mul_cancel₀ ha
     · by_cases h3 : r = j
       · subst r
-        simp only [if_neg h1, if_neg h2, one_mul]
-      · simp only [if_neg h1, if_neg h2, if_neg h3, mul_one]
+        simp only [ite_eq_right h1, ite_eq_right h2, one_mul]
+      · simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, mul_one]
 
 private theorem diag2n_congr {i j i' j' : Fin (m + 1)} (hi : i = i') (hj : j = j')
     (hij : i ≠ j) (hij' : i' ≠ j') {a : F} (ha : a ≠ 0) :

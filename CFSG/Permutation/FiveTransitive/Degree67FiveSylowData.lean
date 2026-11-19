@@ -57,7 +57,7 @@ theorem fixed_card_eq_twelve
   rcases Degree67FiveFixedCases.five_fixed_card_cases P hcard h5 hnotAlt s hs S hS with hF | hF
   · let Q := sylowImage X P s S
     let _ : Fintype (FixedNormalizerAction.Fixed (X := X) Q) := Fintype.ofFinite _
-    have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+    have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
     have hAlt := alternating_image_of_fixed_seven P hcard h5 hnotAlt s hs S hF
     exact (Degree67FiveSevenObstruction.excluded P hcard hseven Q hQ hF hAlt).elim
   · exact hF

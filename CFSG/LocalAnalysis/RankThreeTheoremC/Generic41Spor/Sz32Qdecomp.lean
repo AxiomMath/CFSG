@@ -20,9 +20,9 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 
 theorem sz32_A_T (hdata : Sz32DataFacts) (hc : PointConfig IsSz32Type G 5 P M x J) :
     ∃ a : G, a ∈ u3S P x ∧ a ∈ J ∧ orderOf a = 25 ∧ Subgroup.zpowers a = u3T P x J := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   obtain ⟨Tsyl, hTsyl, hTinj⟩ := sps_sylow_data hc.generic hc.le_cent hc.cent_le ψ hker
   obtain ⟨Tb, hTb⟩ : ∃ Tb : Sylow 5 Q, (Tb : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
     ⟨Tsyl.mapSurjective hψ, Sylow.coe_mapSurjective hψ Tsyl⟩
@@ -62,7 +62,7 @@ theorem sz32_A_D (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     ∃ c : G, c ∈ u3S P x ∧ c ∈ u3K0 5 x J ∧
       (∀ q ∈ u3S P x, q ∈ u3K0 5 x J → q ∈ Subgroup.zpowers c) ∧
       (∃ m : ℕ, 1 ≤ m ∧ orderOf c = 5 ^ m) ∧ x ∈ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcyc := (point_prop31_ii hS hD1 hU0 hc).1
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
@@ -73,7 +73,7 @@ theorem sz32_A_D (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨q, hq⟩)
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hgP : (g : G) ∈ (P : Subgroup G) := g.2.1.1
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨(g : G), hgP⟩
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨(g : G), hgP⟩
   have hm' : orderOf (g : G) = 5 ^ m := by
     rw [← Subgroup.orderOf_mk (g : G) hgP]
     exact hm
@@ -88,10 +88,10 @@ theorem sz32_A_D (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
 
 theorem sz32_P_inf_core (P : Sylow 5 G) (J : Subgroup G) :
     (P : Subgroup G) ⊓ rankThreePrimeCore 5 J = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hOcop : (5 : ℕ).Coprime (Nat.card (rankThreePrimeCore 5 J)) :=
     CFSG.AGLEmbedding.glbPrimeCore_coprime 5 J
-  have hPp : IsPGroup 5 ↥((P : Subgroup G) ⊓ rankThreePrimeCore 5 J) := P.isPGroup'.to_inf_left
+  have hPp : IsPGroup 5 ↥((P : Subgroup G) ⊓ rankThreePrimeCore 5 J) := P.isPGroup.to_inf_left
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
   have hdvd : Nat.card ((P : Subgroup G) ⊓ rankThreePrimeCore 5 J : Subgroup G) ∣
       Nat.card (rankThreePrimeCore 5 J) := Subgroup.card_dvd_of_le inf_le_right
@@ -152,10 +152,10 @@ theorem sz32_A_out (hdata : Sz32DataFacts) (hc : PointConfig IsSz32Type G 5 P M 
     (hTa : Subgroup.zpowers a = u3T P x J)
     (hQC : ∀ q ∈ u3S P x, q ∈ u3K0 5 x J → q ∈ Subgroup.zpowers c) :
     ∀ s ∈ u3S P x, s * a = a * s → s ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro s hsS hsa
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   obtain ⟨Tsyl, hTsyl, hTinj⟩ := sps_sylow_data hc.generic hc.le_cent hc.cent_le ψ hker
   have hTsyl' : (Tsyl : Subgroup ↥J) = (u3T P x J).subgroupOf J := hTsyl
   obtain ⟨Tb, hTb⟩ : ∃ Tb : Sylow 5 Q, (Tb : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
@@ -218,8 +218,8 @@ theorem sz32_card_pSubgroup_aut_le (Q : Type) [Group Q] [Finite Q] (hZ : Subgrou
     (hOut : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer Q) = 5)
     (hSyl : ∀ T : Sylow 5 Q, Nat.card (T : Subgroup Q) = 5 ^ 2) (R : Subgroup (MulAut Q))
     (hR : IsPGroup 5 R) : Nat.card R ≤ 125 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite (MulAut Q) :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite (MulAut Q) :=
     Finite.of_injective (fun f : MulAut Q => (f : Q → Q)) DFunLike.coe_injective
   have hcinj : Function.Injective (MulAut.conj : Q →* MulAut Q) := by
     rw [injective_iff_map_eq_one]
@@ -269,9 +269,9 @@ theorem sz32_A_card (hSz : Sz32Facts) (hc : PointConfig IsSz32Type G 5 P M x J) 
     (hao : orderOf a = 25) (hinf : Subgroup.zpowers a ⊓ Subgroup.zpowers c = ⊥)
     (hQC : ∀ q ∈ u3S P x, q ∈ u3K0 5 x J → q ∈ Subgroup.zpowers c) :
     Nat.card (u3S P x) ≤ 5 * Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers c) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   obtain ⟨ρ, hρ⟩ := sps_exists_action (p := 5) (C := Subgroup.centralizer ({x} : Set G))
     hc.cent_le ψ hψ hker
   have hρk := sz32_rho_ker ψ hψ hker hc ρ hρ
@@ -291,7 +291,7 @@ theorem sz32_A_card (hSz : Sz32Facts) (hc : PointConfig IsSz32Type G 5 P M x J) 
       simpa using this
     exact Subtype.ext (Subtype.ext h1)
   have hpg : IsPGroup 5 ↥φ.range :=
-    IsPGroup.of_surjective (P.isPGroup'.to_le (inf_le_left : u3S P x ≤ (P : Subgroup G)))
+    IsPGroup.of_surjective (P.isPGroup.to_le (inf_le_left : u3S P x ≤ (P : Subgroup G)))
       φ.rangeRestrict φ.rangeRestrict_surjective
   have hrange : Nat.card φ.range ≤ 125 :=
     sz32_card_pSubgroup_aut_le Q hZ (hSz.outer Q hQ) (fun T => (hSz.sylow Q hQ T).2) φ.range hpg
@@ -331,7 +331,7 @@ theorem sz32_A_omega {a c x : G} (hac : a * c = c * a) (hao : orderOf a = 25)
     (hx1 : x ≠ 1) (hxp : x ^ 5 = 1) :
     ∀ q ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers c, q ^ 5 = 1 →
       q ∈ Subgroup.zpowers (a ^ 5) ⊔ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro q hq hq5
   have hcomm : ∀ u ∈ Subgroup.zpowers a, ∀ v ∈ Subgroup.zpowers c, u * v = v * u := by
     intro u hu v hv
@@ -364,7 +364,7 @@ theorem sz32_A_card_omega {a c x : G} (hao : orderOf a = 25) (hac : a * c = c * 
     (hinf : Subgroup.zpowers a ⊓ Subgroup.zpowers c = ⊥) (hxc : x ∈ Subgroup.zpowers c)
     (hx1 : x ≠ 1) (hxp : x ^ 5 = 1) :
     Nat.card ↥(Subgroup.zpowers (a ^ 5) ⊔ Subgroup.zpowers x) = 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxa : x ∉ Subgroup.zpowers (a ^ 5) := by
     intro hx
     have h1 : x ∈ Subgroup.zpowers a := (Subgroup.zpowers_le.mpr (Subgroup.pow_mem _ (Subgroup.mem_zpowers a) 5)) hx
@@ -382,7 +382,7 @@ theorem sz32_A_card_omega {a c x : G} (hao : orderOf a = 25) (hac : a * c = c * 
 
 theorem sz32_conj_mod5 {X : Type*} [Group X] {y g : X} {n : ℤ} {k : ℕ} (hk : 1 ≤ k)
     (hg : orderOf g = 5 ^ k) (hy : y ^ 5 = 1) (hn : y * g * y⁻¹ = g ^ n) : n % 5 = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpow : ∀ i : ℕ, y ^ i * g * (y ^ i)⁻¹ = g ^ (n ^ i) := by
     intro i
     induction i with
@@ -418,7 +418,7 @@ theorem sz32_conj_mod5 {X : Type*} [Group X] {y g : X} {n : ℤ} {k : ℕ} (hk :
 theorem sz32_Q_decomp (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hSz : Sz32Facts)
     (hdata : Sz32DataFacts) (hc : PointConfig IsSz32Type G 5 P M x J) :
     ∃ a c y : G, Sz32QDecomp P x J a c y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp5 : Nat.Prime 5 := by norm_num
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ 5 = 1 := hc.generic.2.1.2.2.1
@@ -439,7 +439,7 @@ theorem sz32_Q_decomp (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal 
   rw [hrank3] at hEcard
   obtain ⟨y, hyE, hyQ⟩ : ∃ y ∈ E, y ∉ Subgroup.zpowers a ⊔ Subgroup.zpowers c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEW : E ≤ Subgroup.zpowers (a ^ 5) ⊔ Subgroup.zpowers x :=
       fun q hq => hOm q (hcon q hq) (hEel.2 q hq)
     have := Subgroup.card_le_of_le hEW
@@ -459,9 +459,9 @@ theorem sz32_Q_decomp (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal 
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   have hcardlt := Subgroup.card_lt_of_lt hlt
   have hSP : u3S P x ≤ (P : Subgroup G) := inf_le_left
-  have hp0 : IsPGroup 5 ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers c) := P.isPGroup'.to_le (hQ0le.trans hSP)
+  have hp0 : IsPGroup 5 ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers c) := P.isPGroup.to_le (hQ0le.trans hSP)
   have hp1 : IsPGroup 5 ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers c ⊔ Subgroup.zpowers y) :=
-    P.isPGroup'.to_le (hQ1le.trans hSP)
+    P.isPGroup.to_le (hQ1le.trans hSP)
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp hp0
   obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp hp1
   rw [hj, hi] at hcardlt

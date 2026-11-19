@@ -19,8 +19,8 @@ theorem spFourCore_holds : SpFourCore := by
   have hKc : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (le_refl 1) (by rw [hK, pow_one])
-  haveI := SpFin.finite_statedSp_group (K := K) (m := 4)
-  haveI := finite_units_end (K := K) (V := Fin 4 ⊕ Fin 4 → K)
+  have := SpFin.finite_statedSp_group (K := K) (m := 4)
+  have := finite_units_end (K := K) (V := Fin 4 ⊕ Fin 4 → K)
   obtain ⟨U, hU1, hU2, hUÃ⟩ := hU
   obtain ⟨T, hT0, hTiso, hTÃ, -⟩ := SmallRule.exists_isotropic_card_sq_le hK (spLin 4 K)
     spLin_injective (spForm 4 K) spForm_nondegenerate spForm_isAlt.isRefl

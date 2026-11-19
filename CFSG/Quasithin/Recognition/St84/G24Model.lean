@@ -26,7 +26,7 @@ theorem natCard_F4 : Nat.card F4 = 4 := by
 @[expose] def omegaU : F4ˣ := ⟨F4.ω, F4.ω * F4.ω, rfl, rfl⟩
 
 instance instFiniteY : Finite Y := by
-  haveI : Finite (ModGL .G2 F4) := finite_modGL
+  have : Finite (ModGL .G2 F4) := finite_modGL
   exact Subtype.finite
 
 section Elements

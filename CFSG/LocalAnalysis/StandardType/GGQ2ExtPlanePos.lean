@@ -66,7 +66,7 @@ theorem vanish_of_mem_span_pair {t : ℕ} {b c : Fin t} {v : V t}
     (h : v ∈ Submodule.span F {unitVec t b, unitVec t c}) {i : Fin t} (hb : i ≠ b) (hc : i ≠ c) :
     v i = 0 := by
   obtain ⟨x, y, rfl⟩ := Submodule.mem_span_pair.mp h
-  simp [unitVec, Pi.single_apply, hb, hc]
+  simp [unitVec, hb, hc]
 
 theorem unit_mem_span_pair {t : ℕ} {b c d : Fin t} {s : F} (hs : s ≠ 0)
     (h : s • unitVec t d ∈ Submodule.span F {unitVec t b, unitVec t c}) : d = b ∨ d = c := by
@@ -93,14 +93,14 @@ theorem unit_mem_span_ext {t : ℕ} (ht : 3 ≤ t) {b : Fin t} {e' : V t} (he'i 
   have hy : y = 0 := by
     have := congrFun hxy i
     simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, unitVec, Pi.single_apply, hib, hic,
-      if_false, mul_zero, zero_add] at this
+      ite_false, mul_zero, zero_add] at this
     rcases mul_eq_zero.mp this with h0 | h0
     · exact h0
     · exact absurd h0 (he'i i hib)
   by_contra hcb
   have := congrFun hxy c
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, unitVec, Pi.single_apply, hcb, if_false,
-    if_true, mul_zero, zero_add, hy, mul_one, zero_mul] at this
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, unitVec, Pi.single_apply, hcb, ite_false,
+    ite_true, mul_zero, zero_add, hy, mul_one, zero_mul] at this
   exact hs this.symm
 
 theorem full_mem_span_ext {t : ℕ} (ht : 3 ≤ t) {b : Fin t} {e' : V t} (he'b : e' b = 0)
@@ -118,7 +118,7 @@ theorem full_mem_span_ext {t : ℕ} (ht : 3 ≤ t) {b : Fin t} {e' : V t} (he'b 
     obtain ⟨i, hib, -⟩ := exists_ne_two ht b b
     apply hv i
     rw [← hxy]
-    simp [unitVec, Pi.single_apply, hib, hy0]
+    simp [unitVec, hib, hy0]
   refine ⟨y, x * y⁻¹, hy, mul_ne_zero hx (inv_ne_zero hy), ?_⟩
   rw [← hxy]
   funext i
@@ -126,7 +126,7 @@ theorem full_mem_span_ext {t : ℕ} (ht : 3 ≤ t) {b : Fin t} {e' : V t} (he'b 
   · subst hi
     simp [unitVec, he'b]
     field_simp
-  · simp [unitVec, Pi.single_apply, hi]
+  · simp [unitVec, hi]
 
 theorem eq_neg_of_ne {σ τ : F} (hσ : σ ≠ 0) (hτ : τ ≠ 0) (h : τ ≠ σ) : τ = -σ := by
   revert σ τ

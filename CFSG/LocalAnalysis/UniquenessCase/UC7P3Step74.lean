@@ -18,12 +18,12 @@ theorem card_pCoreOf_inf_le_two {M H : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2
       ↥(((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)))) ≤ 2) :
     Nat.card ↥(CFSG.Open.pCoreOf 2 M ⊓ H) ≤ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 M
   let R : Subgroup G := Q ⊓ H
   let K : Subgroup ↥H := CFSG.pPrimeCore p ↥H
-  haveI : K.Normal := CFSG.pPrimeCore_normal
+  have : K.Normal := CFSG.pPrimeCore_normal
   let q : ↥H →* ↥H ⧸ K := QuotientGroup.mk' K
   let B : Subgroup ↥H := (H ⊓ M).subgroupOf H
   let A : Subgroup ↥H := R.subgroupOf H
@@ -54,7 +54,7 @@ theorem card_pCoreOf_inf_le_two {M H : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2
       (Subgroup.mem_normalizer_iff.mp (hB0N hkB) (h : G)).mp hhR
     exact Subgroup.mem_subgroupOf.mpr (by simpa using hmem)
   have hRbar_le_Nbar : Rbar ≤ Nbar := Subgroup.map_mono hAB
-  haveI : (A.subgroupOf B).Normal := hAnorm
+  have : (A.subgroupOf B).Normal := hAnorm
   have hRbarSubNorm : (Rbar.subgroupOf Nbar).Normal :=
     CFSG.SignalizerFunctorTheorem.normal_map_subgroupOf q hAB
   have hR2sub : IsPGroup 2 ↥(R.subgroupOf H) :=

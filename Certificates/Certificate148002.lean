@@ -20,7 +20,7 @@ theorem mrep_e27C {j : ℕ} (hj : j < 2) {i : ℕ} (hi : i < 9) :
   rw [CFSG.KC.Misc.F7.nIf_eq, CFSG.KC.Misc.F7.nIf_eq]
   by_cases h8 : i < 8
   · have hb : Nat.blt i 8 = true := by simp [Nat.blt_eq, h8]
-    simp only [hb, if_true, h8]
+    simp only [hb, ite_true, h8]
     have hn := regOKK _ (e27NReg_lt hj h8)
     have hk := regOKK _ (e27KReg_lt i)
     refine ⟨?_, ?_⟩
@@ -33,7 +33,7 @@ theorem mrep_e27C {j : ℕ} (hj : j < 2) {i : ℕ} (hi : i < 9) :
       cases h : Nat.blt i 8
       · rfl
       · exact absurd (Nat.blt_eq.mp h) h8
-    simp only [hb, h8, Bool.false_eq_true, if_false]
+    simp only [hb, h8, Bool.false_eq_true, ite_false]
     exact regOKK 7 (by norm_num)
 
 theorem forceL_eq (l : List ℕ) (k : List ℕ → Bool) : forceL l k = k l := by

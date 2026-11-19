@@ -152,12 +152,12 @@ theorem fzb_adm {r aq as ay : Array ℕ}
     apply Finset.card_bij (fun x _ => fzbEnc x)
     · intro x hx
       simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
-      simp only [Finset.mem_filter, Finset.mem_range, beq_iff_eq]
+      simp only [Finset.mem_filter, Finset.mem_range]
       exact ⟨fzbEnc_lt x, by rw [← eQ, ← eQ, hx]⟩
     · intro x _ y _ e
       exact fzbEnc_inj e
     · intro n hn
-      simp only [Finset.mem_filter, Finset.mem_range, beq_iff_eq] at hn
+      simp only [Finset.mem_filter, Finset.mem_range] at hn
       refine ⟨fzbDecB n, ?_, fzbEnc_decB' hn.1⟩
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
       apply fzbEnc_inj

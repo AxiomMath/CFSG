@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem case2d_facts {T N K K0 : Subgroup G} (hc : CFSG.Quasithin.Gap6R2.E22Case2d K T N K0) :
     T ≤ Subgroup.normalizer (K0 : Set G) ∧
     ∀ x : G, x ∈ kerIn N K ↔ x ∈ K0 ⊔ pCoreOf 2 K ∧
@@ -26,14 +27,17 @@ section Basic
 
 variable {T N K K0 : Subgroup G}
 
+omit [Finite G] in
 theorem K0_le_normalizer (hKK0 : K = K0 ⊔ T) (hTn : T ≤ Subgroup.normalizer (K0 : Set G)) :
     K ≤ Subgroup.normalizer (K0 : Set G) := by
   rw [hKK0]
   exact sup_le Subgroup.le_normalizer hTn
 
+omit [Finite G] in
 theorem D_le_K (hK0 : K0 ∈ cComp K) : K0 ⊔ pCoreOf 2 K ≤ K :=
   sup_le (le_of_mem_cComp hK0) (pCoreOf_le 2 K)
 
+omit [Finite G] in
 theorem Q_le_J (hK0 : K0 ∈ cComp K)
     (hker : ∀ x : G, x ∈ kerIn N K ↔ x ∈ K0 ⊔ pCoreOf 2 K ∧
       ∀ y ∈ K0 ⊔ pCoreOf 2 K, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 K) :

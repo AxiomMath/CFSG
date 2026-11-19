@@ -288,7 +288,7 @@ theorem eq_top_of_normal_of_le (hDB : D ≤ B) (hD : CFSG.Open.IsElemAbelian 2 D
     (hCent : ∀ d ∈ D, d ≠ 1 → Subgroup.centralizer ({d} : Set K) ≤ B)
     {L : Subgroup K} (hL : L.Normal) (hLB : L ≤ B) (hDL : D ≤ L) {t : K} (htL : t ∈ L)
     (htD : t ∉ D) : B = ⊤ := by
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hmapn : ((L.subgroupOf B).map π).Normal := (hL.subgroupOf B).map π hs
   have htop : (L.subgroupOf B).map π = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top ((L.subgroupOf B).map π) with h | h

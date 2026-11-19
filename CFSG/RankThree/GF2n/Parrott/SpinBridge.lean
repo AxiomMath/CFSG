@@ -64,6 +64,7 @@ section Certified
 
 variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
+omit hN in
 theorem qVZMod_seven_eq (h : Tim79a.ParrottHyp z) (a b c : QuotientV.V z) :
     qVZMod h (a * b * c) + qVZMod h (a * b) + qVZMod h (a * c) + qVZMod h (b * c) +
       qVZMod h a + qVZMod h b + qVZMod h c = 0 := by

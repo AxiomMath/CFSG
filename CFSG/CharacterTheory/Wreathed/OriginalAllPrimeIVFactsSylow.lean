@@ -240,7 +240,7 @@ theorem wreath_C_odd_le_oddCore [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2
       c ∈ oddCoreIn (wreathedSetting n S e p f).C := by
   intro c hc hodd
   have hP : IsPGroup 2 (wreathedSetting n S e p f).F₀ :=
-    S.isPGroup'.to_le ((inf_le_left : (wreathedSetting n S e p f).F₀ ≤ _).trans inf_le_left)
+    S.isPGroup.to_le ((inf_le_left : (wreathedSetting n S e p f).F₀ ≤ _).trans inf_le_left)
   exact mem_oddCoreIn_of_odd hP (TIFacts.wreathedSetting_C_eq n hn S e p f) hc hodd
 
 theorem wreath_C_le_oddCore_sup_D [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G)

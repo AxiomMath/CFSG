@@ -34,6 +34,7 @@ theorem good427_of_nine_dvd {C : Subgroup S}
   rw [ha] at h9
   exact not_dvd_sixty_of_nine_dvd dvd_rfl a h9
 
+omit [Finite S] in
 theorem good427_fixSubgroup_of_conj (γ β : MulAut S)
     (h : Good427 (fixSubgroup (γ⁻¹ * β * γ))) : Good427 (fixSubgroup β) := by
   refine Good427.of_map γ⁻¹.toMonoidHom γ⁻¹.injective ?_
@@ -115,7 +116,7 @@ end Model
 section Good
 
 theorem good427_P58 (β : MulAut P58) (h3 : β ^ 3 = 1) (h1 : β ≠ 1) : Good427 (fixSubgroup β) := by
-  haveI := hU8.finite
+  have := hU8.finite
   obtain ⟨P0, σ, hσ3, hP⟩ := uni_aut_normal_form hU8 (Or.inr rfl) (by norm_num) (by norm_num)
     ({β} : Set (MulAut P58)) (by simp) (by simp [h3])
   obtain ⟨D, hD, hD3, k, hk⟩ := hP β rfl
@@ -160,9 +161,9 @@ section Row
 theorem rowOf427_su58
     : RowOf427 (projSU 5 2 3) :=
   rowOf427_of_noCfgS fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     let φ : S ≃* P58 := e.trans u58Equiv
-    haveI : Finite P58 := Finite.of_equiv S φ.toEquiv
+    have : Finite P58 := Finite.of_equiv S φ.toEquiv
     refine ⟨NoCfgS427.of_mulEquiv φ fun β h3 h1 => ?_, noONS427_of_card ?_⟩
     · rw [autFix_eq_fixSubgroup]
       exact good427_P58 β h3 h1

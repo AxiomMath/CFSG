@@ -119,7 +119,7 @@ theorem card_residual_fixedSubgroup_minorAut_pow {n : ℕ}
     · have hperf : Group.IsPerfect (antiSp k) :=
         antiSp_isPerfect (by rw [← Nat.card_eq_fintype_card]; exact hcard) hm2
       rw [residual_eq_top_of_perfect hperf, Subgroup.card_top, card_antiSp hcard,
-        outerResidualOrder, if_neg (by omega), if_pos (even_two_mul m),
+        outerResidualOrder, ite_eq_right (by omega), ite_eq_left (even_two_mul m),
         show 2 * m / 2 = m by omega]
       exact (Nat.mul_assoc _ _ _).symm
     · have hm1 : m = 1 := by omega
@@ -133,7 +133,7 @@ theorem card_residual_fixedSubgroup_minorAut_pow {n : ℕ}
         (fixedSubgroupEtaEquiv hK).symm.surjective
     have hodd : ¬ Even (2 * m + 1) := Nat.not_even_iff_odd.mpr (odd_two_mul_add_one m)
     rw [residual_eq_top_of_perfect hperf, Subgroup.card_top, card_fixedSubgroup_eta hK,
-      outerResidualOrder, if_neg (by omega), if_neg hodd]
+      outerResidualOrder, ite_eq_right (by omega), ite_eq_right hodd]
 
 theorem card_residual_fixedSubgroup {n : ℕ} (hn : 2 ≤ n)
     (hK : Nat.card K = 2 ^ n) (θ : MulAut (antiSp K)) (hθ : θ * θ = 1)
@@ -164,9 +164,9 @@ theorem not_sq_dvd_card_antiSp {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n
       have h5 : ((2 : ℕ) ^ m) ^ 2 = 2 ^ n := by
         rw [hnm, ← pow_mul]
         ring_nf
-      rw [outerResidualOrder, if_neg h2, if_pos ⟨m, hm⟩, show n / 2 = m by omega, h4, h5]
+      rw [outerResidualOrder, ite_eq_right h2, ite_eq_left ⟨m, hm⟩, show n / 2 = m by omega, h4, h5]
       exact outerResidual_sq_not_dvd_even hqe hq4
-    · rw [outerResidualOrder, if_neg h2, if_neg hev]
+    · rw [outerResidualOrder, ite_eq_right h2, ite_eq_right hev]
       exact outerResidual_sq_not_dvd_odd hqe (Nat.le_self_pow (by omega) 2)
 
 end Model

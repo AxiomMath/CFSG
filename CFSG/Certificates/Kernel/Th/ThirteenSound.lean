@@ -13,7 +13,7 @@ open CFSG.KC.Th.Expr CFSG.KC.Th.Spec CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 
 variable {k : K}
 
-theorem pk_letK (c : Ctx k) {P Q Q2 : Nat} {RP RQ : Array V4} (hP : pkMat P = rowsMatrix RP)
+theorem pk_letK (_c : Ctx k) {P Q Q2 : Nat} {RP RQ : Array V4} (hP : pkMat P = rowsMatrix RP)
     (hQ : pkMat Q = rowsMatrix RQ) (hQ2 : pkMat Q2 = rowsMatrix (Native.mulRows RQ RQ)) (l : Int) :
     pkMat (letK P Q Q2 l) =
       rowsMatrix (if l = 1 ∨ l = -1 then RP else if l = 2 then RQ else Native.mulRows RQ RQ) := by

@@ -98,7 +98,7 @@ theorem exists_involution_not_zStar (hyp : Hyp25 p f Ω K K' W S R R' z t u₁ u
   intro a haA ha1
   by_contra hza
   have hA2 : IsPGroup 2 ↥(Subgroup.zpowers a) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hAS haA))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hAS haA))
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp hA2) ⟨a, Subgroup.mem_zpowers a⟩
   have hao : orderOf a = 2 ^ m := by
     rw [← hm]; exact (Subgroup.orderOf_mk a (Subgroup.mem_zpowers a)).symm

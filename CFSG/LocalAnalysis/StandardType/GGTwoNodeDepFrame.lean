@@ -63,15 +63,15 @@ private theorem l05nTC_cartan_of_reindex {m : ℕ} {Λ : Type} [Fintype Λ] [Dec
     have hne : eA i ≠ eA j := fun h => hij (eA.injective h)
     by_cases h3 : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
     · have hM3 : ML (eA i) (eA j) = 3 := by
-        rw [hentryM, l05nTC_coxeterA_entry, if_neg hij]
-        rw [if_pos (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
+        rw [hentryM, l05nTC_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_left (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
       have hthree := l05nTC_ggIntCartan_three hCL hne hM3
-      rw [hthree.1, l05nTC_cartanA_entry, if_neg hij, if_pos h3]
+      rw [hthree.1, l05nTC_cartanA_entry, ite_eq_right hij, ite_eq_left h3]
     · have hM2 : ML (eA i) (eA j) = 2 := by
-        rw [hentryM, l05nTC_coxeterA_entry, if_neg hij]
-        rw [if_neg (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
+        rw [hentryM, l05nTC_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_right (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
       have htwo := l05nTC_ggIntCartan_two hCL hne hM2
-      rw [htwo.1, l05nTC_cartanA_entry, if_neg hij, if_neg h3]
+      rw [htwo.1, l05nTC_cartanA_entry, ite_eq_right hij, ite_eq_right h3]
 
 private theorem l05nTC_two_mul_pred_sub {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 2 ≤ N) :
     (2 : ZMod p) * ((N - 1 : ℕ) : ZMod p) - ((N - 2 : ℕ) : ZMod p) = 0 := by
@@ -100,26 +100,26 @@ private theorem l05nTC_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega
@@ -223,7 +223,7 @@ theorem ggXDatumA_dep (hFix : GGTBFixInput) {G : Type} [Group G] [Finite G] {p :
     have hd0 : d = 0 := funext fun i =>
       (Fintype.linearIndependent_iff.mp hlie) d (by simpa [v, d] using hv) i
     have h1 : d ⟨0, by omega⟩ = 0 := congrFun hd0 ⟨0, by omega⟩
-    have h2 : (1 : ZMod p) = 0 := by simpa [d] using h1
+    have h2 : (1 : ZMod p) = 0 := by simp [d] at h1
     exact one_ne_zero h2
   have hαv : ∀ k : Λ, α k v = 0 := by
     intro k
@@ -420,7 +420,7 @@ private theorem l05nTG_fix (hFix : GGTBFixInput) {G : Type} [Group G] [Finite G]
 
 theorem ggXDatumA_frame (hFix : GGTBFixInput) {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G}
-    {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K) (hx : x ∈ Bs) {N : ℕ} (hN : 5 ≤ N)
+    {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K) (hx : x ∈ Bs) {N : ℕ} (_hN : 5 ≤ N)
     (hpN : p ∣ N) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML : CoxeterMatrix Λ}
     {CL : Matrix Λ Λ ℤ} (e : Fin (N - 1) ≃ Λ) (hML : ML = (CoxeterMatrix.A (N - 1)).reindex e)
     (hCL : GGIntCartan ML CL) {V : Type} [AddCommGroup V] [Module (ZMod p) V]

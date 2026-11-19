@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 private theorem nine3_isSylowIn_of_le_top {H T : Subgroup G} (hTG : IsSylowIn 2 T ⊤)
     (hTH : T ≤ H) : IsSylowIn 2 T H := by
   refine ⟨hTH, hTG.isPGroup, ?_⟩
@@ -18,6 +19,7 @@ private theorem nine3_isSylowIn_of_le_top {H T : Subgroup G} (hTG : IsSylowIn 2 
   have h1 := Subgroup.relIndex_mul_relIndex T H ⊤ hTH le_top
   exact hTG.not_dvd_relIndex (h1 ▸ dvd_mul_of_dvd_left hdvd (H.relIndex ⊤))
 
+omit [Finite G] in
 private theorem nine3_isSylowIn_conj {P H : Subgroup G} (hP : IsSylowIn 2 P H) (g : G) :
     IsSylowIn 2 (conjSubgroup P g) (conjSubgroup H g) := by
   refine ⟨E3.conjSubgroup_mono_left g hP.le, E3.isPGroup_conjSubgroup hP.isPGroup g, ?_⟩
@@ -27,7 +29,7 @@ private theorem nine3_isSylowIn_conj {P H : Subgroup G} (hP : IsSylowIn 2 P H) (
 private theorem nine3_exists_conj_of_isSylowIn {H P Q : Subgroup G}
     (hP : IsSylowIn 2 P H) (hQ : IsSylowIn 2 Q H) :
     ∃ h ∈ H, conjSubgroup P h = Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h, hh, hle⟩ := E3.exists_le_conj_of_isSylowIn hP hQ.le hQ.isPGroup
   refine ⟨h, hh, (Subgroup.eq_of_le_of_card_ge hle ?_).symm⟩
   rw [E3.card_conjSubgroup, IsSylowIn.card_eq hP, IsSylowIn.card_eq hQ]
@@ -83,8 +85,8 @@ theorem nine3_normal_of_card_delta_two (h : Nine3Core V T A K S X p)
           _ = V := hVtinv
       exact h.ne hAV
     · exact ⟨htT, conjSubgroup_eq_iff_mem_normalizer.mp hcase⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hnil : Group.IsNilpotent ↥T := IsPGroup.isNilpotent h.h9.sylow.isPGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hnil : Group.IsNilpotent ↥T := IsPGroup.isNilpotent h.h9.sylow.isPGroup
   have hnc : NormalizerCondition ↥T := Group.normalizerCondition_of_isNilpotent
   have hnormeq : normalizer (N₁.subgroupOf T) = N₁.subgroupOf T := by
     have h1 : (normalizer (N₁ : Set G)).subgroupOf T = normalizer (N₁.subgroupOf T) :=
@@ -104,7 +106,7 @@ theorem nine3_eq_of_normal_of_sylow {V T A : Subgroup G}
     (hN : normalizer (T : Set G) ≤ normalizer (V : Set G)) (hA : IsGConj V A)
     (hAT : T ≤ normalizer (A : Set G)) : A = V := by
   obtain ⟨g, hg⟩ := hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM1 : IsSylowIn 2 T (normalizer (A : Set G)) := nine3_isSylowIn_of_le_top hTG hAT
   have hMg : conjSubgroup (normalizer (V : Set G)) g = normalizer (A : Set G) := by
     rw [hg]

@@ -73,7 +73,7 @@ theorem Vt_le_of_not_inf_CN_le_Q (h34 : Stroth34Statement) (h311a : Stroth311aSt
     (hA : ¬ Z0 ⊓ hc.CN x ≤ Q) :
     Vt M (LB M Q B) B Z t ≤ Vt M (LB M Q B) B Z x := by
   classical
-  obtain ⟨s, hs0, hsQ⟩ := SetLike.not_le_iff_exists.mp hA
+  obtain ⟨s, hs0, hsQ⟩ := IsConcreteLE.not_le_iff_exists.mp hA
   obtain ⟨hsZ, hsN⟩ := Subgroup.mem_inf.mp hs0
   have hcommS := comm_CN_mem_Q_of_mem_inf h34 h311a h311bComm h311bCard cfg hxK hxQ hP4 hsZ hsN
   have hs := cfg.hs

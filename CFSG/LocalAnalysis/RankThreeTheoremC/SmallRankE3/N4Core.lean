@@ -90,7 +90,7 @@ theorem n4_exists_elemAbelian_cube_of_sylow {p : ℕ} {P : Sylow p G} {M : Subgr
     ∃ A : Subgroup G, A ≤ (R : Subgroup G) ∧ CFSG.IsElementaryAbelian p A ∧
       Nat.card A = p ^ 3 := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hP3 := (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).2
   have h3 : 3 ≤ Open.pRank p (R : Subgroup G) := by
     rw [(CFSG.SectionRank.pRank_sylow R).1, ← (CFSG.SectionRank.pRank_sylow P).1]
@@ -108,7 +108,7 @@ theorem n4_x_not_mem_frattini {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS : S
     (hQ : IsPGroup p Q) : x ∉ (frattini ↥Q).map Q.subtype := by
   classical
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp2 : p ≠ 2 := sigmaA_odd p hsit.mem_sigmaA
   rintro ⟨q, hqfr, hqx⟩
   obtain ⟨R, hQR⟩ := hQ.exists_le_sylow
@@ -132,7 +132,7 @@ theorem n4_x_not_mem_frattini {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS : S
     (Nat.card_congr (subgroupOfEquivOfLe hAR).toEquiv).trans hAc
   have hxp : (⟨x, hxR⟩ : ↥(R : Subgroup G)) ^ p = 1 := Subtype.ext hx.pow_eq_one
   obtain ⟨E, hEC, hEe, hE3⟩ := exists_centralizer_rank_three_of_mem_frattini hp2
-    R.isPGroup' hxp hxQ hA' hAc'
+    R.isPGroup hxp hxQ hA' hAc'
   have hE : IsElemAbelian p (E.map (R : Subgroup G).subtype) := by
     have h := CFSG.IsElementaryAbelian.map_subtype (p := p) (K := (R : Subgroup G)) (H := E)
     exact ⟨h.toIsMulCommutative, fun y hy => CFSG.elemPow_eq_one_of_isElementaryAbelian y hy⟩
@@ -174,8 +174,8 @@ theorem n4_isPGroup_two_primeCore {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS
       zpowers x ⊔ zpowers z ≤ normalizer (F : Set G) → normalizer (F : Set G) ≤ M) :
     IsPGroup 2 (rankThreePrimeCore p H) := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   obtain ⟨f, hf, hfdvd, hf2⟩ : ∃ f : ℕ, f.Prime ∧ f ∣ Nat.card (rankThreePrimeCore p H) ∧ f ≠ 2 := by
     by_contra hcon
@@ -184,7 +184,7 @@ theorem n4_isPGroup_two_primeCore {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS
     rw [IsPGroup.iff_card]
     exact ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne'
       (fun {d} hd hdn => hcon d hd hdn)⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hpl := SmallRankPlane.of_situation hS hsit hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=
     IsPGroup.of_card (n := 2) hpl.card_eq
@@ -226,7 +226,7 @@ theorem n4_exists_kgData3Pre (hKF : KFact64iiL) {p : ℕ} {P : Sylow p G} {M : S
     ∃ L : Subgroup G,
       KGData3Pre p H (rankThreePrimeCore p H) S (zpowers x ⊔ zpowers z) L M z := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp2 : p ≠ 2 := sigmaA_odd p hsit.mem_sigmaA
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
@@ -307,7 +307,7 @@ theorem n4_strong_of_alpha {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS : Sett
   intro f hf hf2 hfp Y hYM hzY hsec hrel
   exfalso
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   have hzc : ∀ g ∈ (P : Subgroup G), g * z = z * g := fun g hg =>
@@ -324,13 +324,13 @@ theorem n4_false_of_kgData3 (hzj : CFSG.LocalAnalysis.RankFourTheoremC.KFactZJFa
     (h241 : KFact2401ThreeOmega) {A : Type} [Group A] [Finite A] {p : ℕ}
     {H D S B L M : Subgroup A} {z : A} (d3 : KGC.KGData3 p H D S B L M z)
     (hG : KGC.KGStrongEmb p M z) : False := by
-  haveI : (D.subgroupOf H).Normal := d3.toData.normal_subgroupOf
+  have : (D.subgroupOf H).Normal := d3.toData.normal_subgroupOf
   have hchev := d3.chev_or_alt hzj
   have hc := KGQ.kgroup_step4 d3.toData.cfg (d3.toData.strong_img hG) hAutO hAutE h2024 h2401
     hAlt6 hchev
   by_cases hbot : KGC.img H D S ⊓ KGC.img H D L = ⊥
   · by_cases hcyc : IsCyclic ↥(KGC.img H D S)
-    · haveI := hcyc
+    · have := hcyc
       exact KGSix.false_of_data hT h241 d3 hG hc hbot
     · exact h6n _ p _ _ _ _ _ d3.toData.cfg hc hbot hcyc
   · by_cases hsyl : CFSG.ABGLocalTools.IsSylowOf 2

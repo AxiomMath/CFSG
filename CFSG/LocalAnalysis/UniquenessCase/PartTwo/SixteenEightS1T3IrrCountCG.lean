@@ -13,10 +13,10 @@ variable {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q] [MulDistribMulAction 
 
 theorem s16t3_isotypicOfLength_isoComp [Finite Q] {Λ : Subgroup Γ} {ι : Type*} [Finite ι]
     {S : ι → Subgroup Q} (hS : ∀ i, XMod.IsIrr ↥Λ (S i)) (hind : iSupIndep S)
-    (htop : (⨆ i, S i) = ⊤) {Y : Subgroup Q} (hY : XMod.IsIrr ↥Λ Y) :
+    (htop : (⨆ i, S i) = ⊤) {Y : Subgroup Q} (_hY : XMod.IsIrr ↥Λ Y) :
     IsotypicOfLength ↥Λ (isoComp ↥Λ Y) Y (Nat.card {i : ι // XMod.Iso ↥Λ (S i) Y}) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   set T : Finset ι := Finset.univ.filter (fun i => XMod.Iso ↥Λ (S i) Y) with hT
   set P : Subgroup Q := ⨆ i ∈ T, S i with hP
   set R : Subgroup Q := ⨆ i : {i : ι // i ∉ T}, S i.1 with hR

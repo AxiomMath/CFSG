@@ -132,9 +132,9 @@ theorem exists_eps_of_isCurtisType (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} (hn
   · funext s
     by_cases hfs : IsFullNode ε' s
     · have hmu : μ s = -1 := (hnode s).mp hfs
-      rw [muEps, if_pos hfs, hmu]
+      rw [muEps, ite_eq_left hfs, hmu]
     · have hmu : μ s ≠ -1 := fun h => hfs ((hnode s).mpr h)
-      rw [muEps, if_neg hfs]
+      rw [muEps, ite_eq_right hfs]
       rcases ht.mu_eq s with h0 | hd
       · exact h0
       · by_cases htriv : ∃ t ∈ levelTorus (unitaryInvolution F 2 f) (n := n) s, χ t ≠ 1

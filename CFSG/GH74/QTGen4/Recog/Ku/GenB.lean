@@ -64,7 +64,7 @@ theorem top_of_conj_z [Finite G] [IsSimpleGroup G] {z : G}
   have hG2 : Even (Nat.card G) := by
     have hzo : orderOf z = 2 := orderOf_eq_prime hzsq hz1
     exact even_iff_two_dvd.mpr (hzo ▸ orderOf_dvd_natCard z)
-  rcases CFSG.Open.Open.bender_strongly_embedded G M hF with hcyc |
+  rcases CFSG.Open.Thm.bender_strongly_embedded G M hF with hcyc |
       ⟨M', N', hM', hN', hMN', -, hodd, hidx, hB⟩
   ·
     obtain ⟨a, ha2, ha1, haz, S, hzS, haS⟩ := hcomm
@@ -103,13 +103,13 @@ theorem top_of_conj_z [Finite G] [IsSimpleGroup G] {z : G}
       rw [h2, ← hmap, Subgroup.card_map_of_injective ψ.injective, hS] at hcard
       omega
     rcases hB with ⟨f, hf, ⟨e⟩⟩ | ⟨f, hf, ⟨e⟩⟩ | ⟨a, ha, ⟨e⟩⟩
-    · exact key (e₀.symm.trans e) (CFSG.Open.Open.bender_psl2_borel f hf)
+    · exact key (e₀.symm.trans e) (CFSG.Open.Thm.bender_psl2_borel f hf)
         (by calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf)
-    · exact key (e₀.symm.trans e) (CFSG.Open.Open.bender_psu3_borel f hf)
+    · exact key (e₀.symm.trans e) (CFSG.Open.Thm.bender_psu3_borel f hf)
         (by calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf)
-    · exact key (e₀.symm.trans e) (CFSG.Open.Open.bender_suzuki_borel a ha)
+    · exact key (e₀.symm.trans e) (CFSG.Open.Thm.bender_suzuki_borel a ha)
         (by calc 4 ≤ 2 ^ 3 := by norm_num
           _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega))
 

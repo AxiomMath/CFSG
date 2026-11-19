@@ -40,7 +40,7 @@ open scoped commutatorElement
 
 @[expose] def UniTypeOneNonComm : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (p N n : ℕ) (L J A : Subgroup G) (d b : G)
-    (K : Type) [Field K] [Finite K] (h : UnitaryFieldData 2 n K),
+    (K : Type) [Field K] [Finite K] (_h : UnitaryFieldData 2 n K),
     p.Prime → p ∣ 2 ^ n + 1 → 3 ≤ N → (N, 2 ^ n) ≠ (3, 2) →
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K N)) →
     (hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage
@@ -83,12 +83,12 @@ theorem linUniBoundOther_of_block (hLB : LinBlockInnDiag) (hUB : UniBlockInnDiag
     have hp3 : 3 ≤ p :=
       Nat.succ_le_of_lt (Nat.lt_of_le_of_ne hsetup.prime.two_le (Ne.symm hsetup.odd))
     have hNpos : 0 < N := by omega
-    haveI : Nonempty (Fin N) := ⟨⟨0, hNpos⟩⟩
+    have : Nonempty (Fin N) := ⟨⟨0, hNpos⟩⟩
     have hN : 3 ≤ N := le_trans hp3 (Nat.le_of_dvd hNpos hpN)
     obtain ⟨K, hK, hKfin, hKcard, θ, hact⟩ :=
       linMarking_holds G p L J A d b N q0.exponent hsetup.toWSetup hcatLin
-    letI := hK
-    letI := hKfin
+    let := hK
+    let := hKfin
     have hS : (Set.univ : Set (GL (Fin N) K)) ⊆ Subgroup.normalizer
         (LargeEvenSLGroup (Fin N) K : Set (GL (Fin N) K)) := by
       intro x _
@@ -135,7 +135,7 @@ theorem linUniBoundOther_of_block (hLB : LinBlockInnDiag) (hUB : UniBlockInnDiag
     have hp3 : 3 ≤ p :=
       Nat.succ_le_of_lt (Nat.lt_of_le_of_ne hsetup.prime.two_le (Ne.symm hsetup.odd))
     have hNpos : 0 < N := by omega
-    haveI : Nonempty (Fin N) := ⟨⟨0, hNpos⟩⟩
+    have : Nonempty (Fin N) := ⟨⟨0, hNpos⟩⟩
     have hN : 3 ≤ N := le_trans hp3 (Nat.le_of_dvd hNpos hpN)
     have hpq : p ∣ 2 ^ q0.exponent + 1 := by
       have h : p ∣ N.gcd (q0.card + 1) := by
@@ -154,8 +154,8 @@ theorem linUniBoundOther_of_block (hLB : LinBlockInnDiag) (hUB : UniBlockInnDiag
       omega
     obtain ⟨K, hK, hKfin, hUF, θ, hact⟩ :=
       uniMarking_holds G p L J A d b N q0.exponent hsetup.toWSetup hcatUni
-    letI := hK
-    letI := hKfin
+    let := hK
+    let := hKfin
     have hS : LargeEvenGUSet (Fin N) K (2 ^ q0.exponent) ⊆ Subgroup.normalizer
         (unitarySU 2 q0.exponent K N : Set (GL (Fin N) K)) :=
       TableBUE.gu_subset_normalizer hUF

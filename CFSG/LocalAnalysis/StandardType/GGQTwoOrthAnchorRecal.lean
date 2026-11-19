@@ -124,11 +124,12 @@ theorem normOmegaCast_normPlaneTorus {r r' : ℕ} (h : r ≤ r') (hr : 2 ≤ r) 
   refine Prod.ext rfl (funext fun j => ?_)
   dsimp only
   by_cases hj : (j : ℕ) < r
-  · simp only [dif_pos hj]
+  · simp only [dite_eq_left hj]
     rfl
-  · simp only [dif_neg hj]
+  · simp only [dite_eq_right hj]
     rw [map_one, Units.val_one, one_mul]
 
+omit [Finite K] [CharP K 2] in
 theorem castEquiv_planeDiag_comm {r r' : ℕ} (h : r ≤ r') (χ : Multiplicative (ZMod p) →* Kˣ)
     {g : ((F × F) × (Fin r → K)) ≃ₗ[F] ((F × F) × (Fin r → K))}
     (hg : ∀ (a : Fin r → Multiplicative (ZMod p)) (v : (F × F) × (Fin r → K)),
@@ -143,10 +144,10 @@ theorem castEquiv_planeDiag_comm {r r' : ℕ} (h : r ≤ r') (χ : Multiplicativ
     rw [oaJ_castRestr_planeDiag, hg']
   · dsimp only
     by_cases hj : (j : ℕ) < r
-    · simp only [dif_pos hj]
+    · simp only [dite_eq_left hj]
       rw [oaJ_castRestr_planeDiag, hg']
       rfl
-    · simp only [dif_neg hj]
+    · simp only [dite_eq_right hj]
 
 theorem normOmegaConj_castEquiv_normOmegaCast {r r' : ℕ} (h : r ≤ r')
     {g : ((F × F) × (Fin r → K)) ≃ₗ[F] ((F × F) × (Fin r → K))}

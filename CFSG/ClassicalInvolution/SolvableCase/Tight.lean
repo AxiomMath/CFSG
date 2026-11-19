@@ -73,7 +73,7 @@ theorem nonempty_mulEquiv_sylow_of_normal_odd_index {G : Type*} [Group G] [Finit
 private theorem natCard_sylow_of_natCard_eq_24 {Y : Type*} [Group Y] [Finite Y]
     (h : Nat.card Y = 24) (P : Sylow 2 Y) : Nat.card (P : Subgroup Y) = 8 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
   have hidx := Subgroup.card_mul_index (P : Subgroup Y)
   have hodd : ¬ 2 ∣ (P : Subgroup Y).index := P.not_dvd_index
   rw [ha, h] at hidx

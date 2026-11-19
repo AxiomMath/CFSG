@@ -29,11 +29,13 @@ noncomputable abbrev thetaQuot_wPL9 (e : G) : Type :=
 noncomputable abbrev thetaMap_wPL9 (e : G) : thetaCen_wPL9 e →* thetaQuot_wPL9 e :=
   QuotientGroup.mk' (thetaCore_wPL9 e)
 
+omit [Finite G] in
 theorem thetaComponent_le_cen_wPL9 {e : G} {L : Subgroup G}
     (hL : L ∈ thetaComponentsAt 3 e) : L ≤ thetaCen_wPL9 e := by
   obtain ⟨L₀, -, rfl⟩ := hL
   exact Subgroup.map_subtype_le L₀
 
+omit [Finite G] in
 theorem thetaComponent_isSubnormal_wPL9 {e : G} {L : Subgroup G}
     (hL : L ∈ thetaComponentsAt 3 e) : (L.subgroupOf (thetaCen_wPL9 e)).IsSubnormal := by
   obtain ⟨L₀, hL₀, rfl⟩ := hL
@@ -59,7 +61,7 @@ theorem inSubgroup_core_le_core_wPL9 {e : G} {L : Subgroup G}
   exact inf_le_right
 
 theorem thetaMap_conj_eq_of_autThetaQuot_bot_wPL9
-    (c : Ctx82E3 D) {P : Subgroup G} {e : G} (he : e ∈ P ⊓ c.L)
+    (c : Ctx82E3 D) {P : Subgroup G} {e : G} (_he : e ∈ P ⊓ c.L)
     {L : Subgroup G} (hL : L ∈ thetaComponentsAt 3 e)
     {z : G} (hzZ : z ∈ zSub P c.L)
     (hzN : z ∈ Subgroup.normalizer (L : Set G))
@@ -120,7 +122,7 @@ theorem centralizer_zSub_le_normalizer_twoCore_wPL9
     intro hbot
     rw [hbot, Subgroup.card_bot] at hZcard
     norm_num at hZcard
-  haveI : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZne
+  have : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZne
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥Z)
   have hzZ : (z : G) ∈ Z := z.2
   have hzK : (z : G) ∈ K := hZK hzZ
@@ -187,7 +189,7 @@ theorem exists_E27_frame_at_wPL9
     ∃ A : Subgroup G, CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 ∧
       e ∈ A ∧ A ≤ P ⊓ c.L ∧ zSub P c.L ≤ A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := P ⊓ c.L
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O

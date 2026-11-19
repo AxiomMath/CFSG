@@ -41,8 +41,8 @@ private lemma cpl_orient_apply {t : ℕ} (e : PlaneRaw.V t) (v : PlaneRaw.V t) (
   simp only [PlaneRaw.orientEquiv, LinearEquiv.piCongrRight_apply]
   unfold cplSign
   by_cases h : e k = -1
-  · rw [if_pos h, if_pos h, LinearEquiv.neg_apply]; ring
-  · rw [if_neg h, if_neg h, LinearEquiv.refl_apply]; ring
+  · rw [ite_eq_left h, ite_eq_left h, LinearEquiv.neg_apply]; ring
+  · rw [ite_eq_right h, ite_eq_right h, LinearEquiv.refl_apply]; ring
 
 private lemma cpl_orient_mul_self {t : ℕ} (e : PlaneRaw.V t) :
     PlaneRaw.orientEquiv t e * PlaneRaw.orientEquiv t e = 1 := by
@@ -59,12 +59,12 @@ private lemma cpl_swapEquiv_apply {t : ℕ} (i j : Fin t) (v : PlaneRaw.V t) (k 
   rw [PlaneRaw.swapEquiv, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply]
   by_cases hki : k = i
   · subst hki
-    rw [if_pos rfl, Equiv.swap_apply_left]
-  · rw [if_neg hki]
+    rw [ite_eq_left rfl, Equiv.swap_apply_left]
+  · rw [ite_eq_right hki]
     by_cases hkj : k = j
     · subst hkj
-      rw [if_pos rfl, Equiv.swap_apply_right]
-    · rw [if_neg hkj, Equiv.swap_apply_def, if_neg hki, if_neg hkj]
+      rw [ite_eq_left rfl, Equiv.swap_apply_right]
+    · rw [ite_eq_right hkj, Equiv.swap_apply_def, ite_eq_right hki, ite_eq_right hkj]
 
 private lemma cpl_swapTwist_apply {t : ℕ} (e : PlaneRaw.V t) {i j : Fin t} (hij : i ≠ j)
     (v : PlaneRaw.V t) (k : Fin t) :
@@ -77,24 +77,24 @@ private lemma cpl_swapTwist_apply {t : ℕ} (e : PlaneRaw.V t) {i j : Fin t} (hi
   simp only [cpl_orient_apply, cpl_swapEquiv_apply]
   by_cases hki : k = i
   · subst hki
-    simp only [if_true]
+    simp only [ite_true]
     ring
   · by_cases hkj : k = j
     · subst hkj
-      simp only [if_neg hki, if_true]
+      simp only [ite_eq_right hki, ite_true]
       ring
-    · simp only [if_neg hki, if_neg hkj]
+    · simp only [ite_eq_right hki, ite_eq_right hkj]
       rw [← mul_assoc, cplSign_sq, one_mul]
 
 private lemma cplSign_eq_one {t : ℕ} {e : PlaneRaw.V t} {k : Fin t} (h : e k = 1) :
     cplSign e k = 1 := by
   unfold cplSign
-  rw [h, if_neg (by decide : (1 : PlaneRaw.F) ≠ -1)]
+  rw [h, ite_eq_right (by decide : (1 : PlaneRaw.F) ≠ -1)]
 
 private lemma cplSign_eq_neg_one {t : ℕ} {e : PlaneRaw.V t} {k : Fin t} (h : e k = -1) :
     cplSign e k = -1 := by
   unfold cplSign
-  rw [h, if_pos rfl]
+  rw [h, ite_eq_left rfl]
 
 private lemma cplSign_mul_eq {t : ℕ} {e : PlaneRaw.V t} {i j : Fin t} (hi : e i ≠ 0)
     (hj : e j ≠ 0) : cplSign e i * cplSign e j = e i * e j := by
@@ -271,7 +271,7 @@ private lemma cpl_zero_normalizer_symp {t : ℕ} (ht : 4 ≤ t) (i : Fin t) :
   have hcard : (Finset.univ.erase i : Finset (Fin t)).card = t - 1 := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ, Fintype.card_fin]
   simp only [PlaneRaw.normalizerOf]
-  rw [if_neg]
+  rw [ite_eq_right]
   omega
 
 private lemma cpl_zero_normalizer_orth {t : ℕ} (δ : Fin 2) (i : Fin t) :
@@ -489,9 +489,9 @@ private theorem cpl_twisted_le_zero_normalizer (k : PlaneRaw.PlaneKind) (t : ℕ
   | orthogonal δ =>
       rw [cpl_zero_normalizer_orth]
       by_cases hδ : δ.val = 0
-      · rw [if_pos hδ]
+      · rw [ite_eq_left hδ]
         exact cpl_twisted_le_evenSigned hsupp
-      · rw [if_neg hδ]
+      · rw [ite_eq_right hδ]
         exact cpl_twisted_le_signed hsupp
 
 private theorem cpl_chainWitness_zero_left (k : PlaneRaw.PlaneKind) (t : ℕ) (ht : 4 ≤ t)
@@ -508,9 +508,9 @@ private theorem cpl_chainWitness_zero_left (k : PlaneRaw.PlaneKind) (t : ℕ) (h
   | orthogonal δ =>
       rw [cpl_zero_normalizer_orth]
       by_cases hδ : δ.val = 0
-      · rw [if_pos hδ]
+      · rw [ite_eq_left hδ]
         exact (PlaneRaw.leafModelEvenSigned_holds _ ht _ hz i₁).swap.chainWitnessOn
-      · rw [if_neg hδ]
+      · rw [ite_eq_right hδ]
         exact (PlaneRaw.leafModelSigned_holds _ ht _ hz i₁).swap.chainWitnessOn
 
 private theorem cpl_chainWitness_zero_right (k : PlaneRaw.PlaneKind) (t : ℕ) (ht : 4 ≤ t)
@@ -527,9 +527,9 @@ private theorem cpl_chainWitness_zero_right (k : PlaneRaw.PlaneKind) (t : ℕ) (
   | orthogonal δ =>
       rw [cpl_zero_normalizer_orth]
       by_cases hδ : δ.val = 0
-      · rw [if_pos hδ]
+      · rw [ite_eq_left hδ]
         exact (PlaneRaw.leafModelEvenSigned_holds _ ht _ he i₀).chainWitnessOn
-      · rw [if_neg hδ]
+      · rw [ite_eq_right hδ]
         exact (PlaneRaw.leafModelSigned_holds _ ht _ he i₀).chainWitnessOn
 
 private theorem cpl_ambient_zero (k : PlaneRaw.PlaneKind) (t : ℕ) (ht : 4 ≤ t)
@@ -554,10 +554,10 @@ private theorem cpl_ambient_zero (k : PlaneRaw.PlaneKind) (t : ℕ) (ht : 4 ≤ 
       have h2 := cpl_zero_normalizer_orth (t := t) δ i₂
       by_cases hδ : δ.val = 0
       · rw [h1, h2]
-        simp only [if_pos hδ]
+        simp only [ite_eq_left hδ]
         exact PlaneRaw.ambientChainOn_evenSigned ht h
       · rw [h1, h2]
-        simp only [if_neg hδ]
+        simp only [ite_eq_right hδ]
         exact PlaneRaw.ambientChainOn_signed ht h
 
 private lemma cpl_orient_add_single {t : ℕ} {e : PlaneRaw.V t} {i₁ : Fin t} (hi : e i₁ = 0) :
@@ -568,8 +568,8 @@ private lemma cpl_orient_add_single {t : ℕ} {e : PlaneRaw.V t} {i₁ : Fin t} 
   simp only [PlaneRaw.orientEquiv, LinearEquiv.piCongrRight_apply]
   by_cases hk : k = i₁
   · subst hk
-    rw [Pi.add_apply, Pi.single_eq_same, hi, zero_add, if_neg (by decide : (1 : PlaneRaw.F) ≠ -1),
-      if_neg (by decide : (0 : PlaneRaw.F) ≠ -1)]
+    rw [Pi.add_apply, Pi.single_eq_same, hi, zero_add, ite_eq_right (by decide : (1 : PlaneRaw.F) ≠ -1),
+      ite_eq_right (by decide : (0 : PlaneRaw.F) ≠ -1)]
   · rw [Pi.add_apply, Pi.single_eq_of_ne hk, add_zero]
 
 private lemma cpl_twisted_le_twisted_add_single {t : ℕ} {e : PlaneRaw.V t} {i₁ : Fin t}

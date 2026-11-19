@@ -31,7 +31,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
 local notation "GL8" => Matrix.GeneralLinearGroup (Fin 8) (ZMod 2)
 
-private theorem qH_sigma1Nine_mul_sigma2_inv_eq_spin (h : Tim79a.ParrottHyp z)
+private theorem qH_sigma1Nine_mul_sigma2_inv_eq_spin (_h : Tim79a.ParrottHyp z)
     {σ₂ : ↥(H z)}
     (hq₂ : qH (z := z) D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup)) :
     qH (z := z) D (sigma1Nine (z := z) D * σ₂⁻¹) =
@@ -242,7 +242,7 @@ private theorem qH_eq_one_of_mem_centerIn_spin (h : Tim79a.ParrottHyp z)
   have hdimge : 4 ≤ fixDimV h (σ * x') :=
     four_le_fixDimV_sigma_mul_of_mem_centerIn_spin (z := z) D h P hP hσ₂ hq₂ hc₂ hT₂ hx
   by_contra hqxne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hT₂.isPGroup.exists_orderOf_eq_pow (⟨(x' : G), hxT⟩ : ↥T₂)
   have hkx : orderOf x' = 2 ^ k := by
     rw [← Subgroup.orderOf_coe x', Subgroup.orderOf_coe (⟨(x' : G), hxT⟩ : ↥T₂)]

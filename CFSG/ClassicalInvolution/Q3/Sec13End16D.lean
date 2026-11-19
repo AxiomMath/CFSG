@@ -18,6 +18,7 @@ namespace Sit16
 
 variable {Ω : Set (Subgroup G)} {K K' W : Subgroup G} {z u e g : G}
 
+omit [Finite G] in
 private theorem e16d_card_sup_of_normal {N H : Subgroup G} [N.Normal] (hd : N ⊓ H = ⊥) :
     Nat.card ↥(N ⊔ H) = Nat.card N * Nat.card H := by
   have hinj : Function.Injective (fun p : N × H => (p.1 : G) * (p.2 : G)) :=
@@ -50,8 +51,8 @@ private theorem e16d_ofPerm_mem_aeSub {σ : Equiv.Perm (Fin 6)}
 theorem exists_complement (c : Sit16 Ω K K' W z u e g)
     (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) :
     ∃ H : Subgroup G, (zGroup Ω).IsComplement' H := by
-  haveI hDN : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
-  haveI hDc : IsMulCommutative ↥(zGroup Ω) :=
+  have hDN : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
+  have hDc : IsMulCommutative ↥(zGroup Ω) :=
     ⟨⟨fun a b => Subtype.ext (h.zGroup_comm h9 a.1 a.2 b.1 b.2)⟩⟩
   have hD2 : IsPGroup 2 (zGroup Ω) := IsPGroup.to_le CFSG.pCore_isPGroup h.zGroup_le_pCore
   have hD64 := natCard_zGroup_eq_sixtyFour c h h9 h13
@@ -98,7 +99,7 @@ theorem exists_complement (c : Sit16 Ω K K' W z u e g)
     rw [sup_comm]
     exact hS2.to_sup_of_normal_right' hD2 hSN
   obtain ⟨P, hDSP⟩ := hDS2.exists_le_sylow
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdvd : 2 ^ n ∣ Nat.card G := hn ▸ Subgroup.card_subgroup_dvd_card _
   have hn9 : n ≤ 9 := by
     by_contra hcon

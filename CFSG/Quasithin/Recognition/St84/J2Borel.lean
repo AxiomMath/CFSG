@@ -39,7 +39,7 @@ theorem exists_mulEquiv_map_sylowTwoOf_Y3 [Finite G]
       (T.subgroupOf L).map (e' : ↥L →* ↥(j2CtxA.Y 3)) =
         j2CtxA.S.subgroupOf (j2CtxA.Y 3) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₂, hS₂⟩ := CFSG.Quasithin.F7.isSylowTwoOf_exists_sylow hT
   have hSY3 : IsSylowTwoOf j2CtxA.S (j2CtxA.Y 3) :=
     CFSG.Quasithin.F7.isSylowTwoOf_mono_right j2A_sylow (j2CtxA.S_le_Y 3) le_top
@@ -69,7 +69,7 @@ theorem exists_mulEquiv_map_sylowTwoOf_Y3 [Finite G]
 theorem exists_orderOf_three_mem_normalizer :
     ∃ x ∈ Subgroup.normalizer (j2CtxA.S : Set ↥CFSG.Sporadic.J2.J), orderOf x = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C2 : Subgroup (Equiv.Perm (Fin 315)) := genOf 315 j2C2Gens with hC2
   have hC2card : Nat.card C2 = 1920 := by
     rw [hC2]
@@ -172,7 +172,7 @@ theorem card_inf_normalizer_of_mulEquiv [Finite G]
     (hT : IsSylowTwoOf T L) :
     Nat.card ↥(L ⊓ Subgroup.normalizer (T : Set G)) = 384 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e', he⟩ := exists_mulEquiv_map_sylowTwoOf_Y3 e hT
   set NJ := Subgroup.normalizer (j2CtxA.S : Set ↥CFSG.Sporadic.J2.J) with hNJ
   have hsub : Nat.card ↥(L ⊓ Subgroup.normalizer (T : Set G)) =
@@ -211,7 +211,7 @@ theorem J2LocalData.nonempty_mulEquiv_borel [Finite G]
     (h1 : VS3 L1) (h2 : VA5 L2) (hD : J2LocalData L1 L2 S) :
     Nonempty (↥(bigB L2 L1 S) ≃* ↥(j2CtxA.Y 3 ⊓ j2CtxA.Y 2)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : S ≤ L2 := J2LocalData.S_le_right hF h1 h2 hD
   have hBL : bigB L2 L1 S = L2 ⊓ Subgroup.normalizer (S : Set G) := by
     rw [CFSG.Quasithin.F1.bigB_eq_parabolic_inf (hyp111R_of_vs3_va5 hF h1 h2).symm,

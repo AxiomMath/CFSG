@@ -20,8 +20,8 @@ theorem uc22ine229_l34_pRank_le {M Y N : Subgroup G} (hYM : Y ≤ M)
     (hMN : ∀ m ∈ M, ∃ h ∈ N, ∃ y ∈ Y, m = h * y)
     (hN9 : ∀ R : Subgroup G, R ≤ N → IsPGroup 3 R → Nat.card R ≤ 3 ^ 2) :
     CFSG.Open.pRank 3 M ≤ CFSG.Open.pRank 3 Y + 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (Y.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYM).2 hnorm
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (Y.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYM).2 hnorm
   let φ : ↥N →* ↥M ⧸ Y.subgroupOf M :=
     (QuotientGroup.mk' (Y.subgroupOf M)).comp (Subgroup.inclusion hN)
   have hφ : Function.Surjective φ := by
@@ -44,7 +44,7 @@ theorem uc22ine229_l34_pRank_le {M Y N : Subgroup G} (hYM : Y ≤ M)
       rw [← hP, Sylow.coe_mapSurjective]
       exact Nat.le_of_dvd Nat.card_pos (Subgroup.card_map_dvd _ φ)
     have h3 : Nat.card P.toSubgroup ≤ 9 := by
-      have := hN9 (P.map N.subtype) (Subgroup.map_subtype_le _) (P.isPGroup'.map N.subtype)
+      have := hN9 (P.map N.subtype) (Subgroup.map_subtype_le _) (P.isPGroup.map N.subtype)
       rwa [Subgroup.card_map_of_injective N.subtype_injective] at this
     omega
   refine CFSG.SectionRank.pRank_le (by norm_num) fun E hEM hE => ?_

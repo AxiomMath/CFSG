@@ -46,7 +46,7 @@ theorem a6c_toMat_mulN (n : ℕ) (x y : Mat) :
   have hp : n * i.val + k.val < n * n := idx_lt n i k
   simp only [A6CToMat, Matrix.of_apply, Matrix.mul_apply]
   rw [getElem!_pos (mulN n x y) (n * i.val + k.val) (by simpa [mulN] using hp)]
-  simp only [mulN, Array.getElem_ofFn, Fin.val_mk]
+  simp only [mulN, Array.getElem_ofFn]
   rw [idx_div, idx_mod, foldl_range_add, ZMod.natCast_mod, Nat.cast_sum,
     ← Fin.sum_univ_eq_sum_range
       (fun j => ((x[n * i.val + j]! * y[n * j + k.val]! : ℕ) : ZMod 3))]
@@ -57,7 +57,7 @@ theorem a6c_toMat_trN (n : ℕ) (x : Mat) : A6CToMat n (trN n x) = (A6CToMat n x
   have hp : n * i.val + j.val < n * n := idx_lt n i j
   simp only [A6CToMat, Matrix.of_apply, Matrix.transpose_apply]
   rw [getElem!_pos (trN n x) (n * i.val + j.val) (by simpa [trN] using hp)]
-  simp only [trN, Array.getElem_ofFn, Fin.val_mk]
+  simp only [trN, Array.getElem_ofFn]
   rw [idx_div, idx_mod]
 
 theorem a6c_toMat_negM (n : ℕ) (x : Mat) : A6CToMat n (negM x) = -A6CToMat n x := by
@@ -81,7 +81,7 @@ theorem a6c_toMat_idN (n : ℕ) : A6CToMat n (idN n) = 1 := by
   have hp : n * i.val + j.val < n * n := idx_lt n i j
   simp only [A6CToMat, Matrix.of_apply]
   rw [getElem!_pos (idN n) (n * i.val + j.val) (by simpa [idN] using hp)]
-  simp only [idN, Array.getElem_ofFn, Fin.val_mk]
+  simp only [idN, Array.getElem_ofFn]
   rw [idx_div, idx_mod, Matrix.one_apply]
   by_cases h : i = j
   · subst h
@@ -96,7 +96,7 @@ theorem a6c_toMat_addM (n : ℕ) (x y : Mat) (hx : n * n ≤ x.size) :
   have hp' : n * i.val + j.val < x.size := lt_of_lt_of_le hp hx
   simp only [A6CToMat, Matrix.of_apply, Matrix.add_apply]
   rw [getElem!_pos (addM x y) (n * i.val + j.val) (by simpa [addM] using hp')]
-  simp only [addM, Array.getElem_ofFn, Fin.val_mk]
+  simp only [addM, Array.getElem_ofFn]
   rw [ZMod.natCast_mod, Nat.cast_add]
 
 theorem a6c_toMat_powM (n : ℕ) (x : Mat) (k : ℕ) :

@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B X : Subgroup G} {n : ℕ} {V₁ V₂ : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem le_normalizer_of_le_of_abelian {V A C : Subgroup G}
     (hab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hA : A ≤ V) (hC : C ≤ V) :
     C ≤ Subgroup.normalizer (A : Set G) := by
@@ -37,6 +38,7 @@ theorem le_normalizer_of_le_of_abelian {V A C : Subgroup G}
     rw [e]
     exact hh
 
+omit [Finite G] in
 theorem exists_eq_commutator_of_mem_comm_zpowers {V : Subgroup G} {x : G} (hx2 : x * x = 1)
     (hab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hn : ∀ v ∈ V, x * v * x⁻¹ ∈ V) {e : G}
     (he : e ∈ ⁅V, Subgroup.zpowers x⁆) : ∃ v ∈ V, e = ⁅v, x⁆ := by
@@ -76,6 +78,7 @@ theorem exists_eq_commutator_of_mem_comm_zpowers {V : Subgroup G} {x : G} (hx2 :
   rw [commutator_zpowers_eq_closure hx2] at he
   exact hgen he
 
+omit [Finite G] in
 theorem hasDimOn_contradiction {V Z C₀ : Subgroup G} {x : G} {k m : ℕ}
     (hab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hxn : x ∈ Subgroup.normalizer (V : Set G))
     (hZV : Z ≤ V) (hCV : C₀ ≤ V) (hEZ : ⁅V, Subgroup.zpowers x⁆ ⊓ Z = ⊥)
@@ -99,7 +102,7 @@ theorem hasDimOn_contradiction {V Z C₀ : Subgroup G} {x : G} {k m : ℕ}
     intro h0
     rw [h0, mul_zero] at hP2
     omega
-  haveI : Finite ↥(E ⊓ C₀) := Nat.finite_of_card_ne_zero hK0
+  have : Finite ↥(E ⊓ C₀) := Nat.finite_of_card_ne_zero hK0
   have hKne : E ⊓ C₀ ≠ ⊥ := by
     intro h
     apply hc1
@@ -128,6 +131,7 @@ theorem OddSetup.inf_QB_eq {V V' : Subgroup G} (S : OddSetup M Q Z B V V') {Y : 
     · exact absurd hbY (S.not_mem_QB_of_dual hY hYZ hYV hb hbZ)
   · exact le_inf S.VQ hα
 
+omit [Finite G] in
 theorem caseII_iff_comm (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) :
     (∀ z' ∈ Z, ∀ q ∈ Q, q⁻¹ * x * q = x * z' → z' = 1) ↔
       (∀ q ∈ Q, ⁅q, x⁆ ∈ Z → ⁅q, x⁆ = 1) := by

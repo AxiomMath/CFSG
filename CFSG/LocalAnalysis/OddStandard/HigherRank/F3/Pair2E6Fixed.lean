@@ -26,7 +26,7 @@ theorem coe_fixedRestrict (σ : G →* G) (σ' : A →* A) (Θ : A →* G)
 
 theorem fixedRestrict_injective (σ : G →* G) (σ' : A →* A) (Θ : A →* G)
     (hσ : σ.comp Θ = Θ.comp σ') (hinj : Function.Injective Θ) :
-    Function.Injective (fixedRestrict σ σ' Θ hσ) := fun a b h =>
+    Function.Injective (fixedRestrict σ σ' Θ hσ) := fun _a _b h =>
   Subtype.ext (hinj (congrArg Subtype.val h))
 
 theorem normal_range_fixedRestrict (σ : G →* G) (σ' : A →* A) (Θ : A →* G)

@@ -32,12 +32,12 @@ theorem rk2_low_twe6_three (K : Type) [Group K] [Finite K] (lab : GLALabel)
   ·
     obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨eK⟩⟩ :=
       exists_twistedE6RootGroup_of_isLabel hK htag hc
-    letI : Field F := hField
-    letI : Finite F := hFin
+    let : Field F := hField
+    let : Finite F := hFin
     have hF : Nat.card F = (2 ^ 3) ^ 2 := by rw [hcard, hn]
     have hσ' : ∀ c, σ c = c ^ (2 ^ 3) := by rw [← hn]; exact hσ
     have h5 : 5 ≤ CFSG.Open.twoLocalPrimeRank 3 ↥(twistedE6RootGroup F σ) := by
-      haveI : CharP F 2 :=
+      have : CharP F 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (k := 3 * 2) (by norm_num) (by rw [hF, pow_mul])
       obtain ⟨σ₀, hσ₀, -, hσ₀2, S, hSmem, hScard⟩ :=
@@ -67,7 +67,7 @@ theorem rk2_low_twe6_three (K : Type) [Group K] [Finite K] (lab : GLALabel)
         have hpow : (2 : ℕ) ^ 3 = 8 := by norm_num
         rw [hpow]
         unfold rkLin
-        simp only [Bool.false_eq_true, if_false, if_true]
+        simp only [Bool.false_eq_true, ite_false]
         have he : eM 8 3 = 1 := uc22p20v_eM_of_dvd (n := 3) (p := 3) (by norm_num)
         rw [he]
         have h9 : padicValNat 3 (8 + 1) = 2 := by
@@ -83,7 +83,7 @@ theorem rk2_low_twe6_three (K : Type) [Group K] [Finite K] (lab : GLALabel)
           rintro ⟨-, -, -, hle⟩
           rw [h9, h6] at hle
           omega
-        rw [if_neg hcond]
+        rw [ite_eq_right hcond]
         norm_num
       obtain ⟨E, hEle, hEel, hEcard⟩ :=
         CFSG.RankThreeEvenClassification.Helpers.pRank_attained 3 Nat.prime_three

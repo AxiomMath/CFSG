@@ -153,11 +153,11 @@ private def ggQ2s6_sR (j : Fin 6) :
   toFun := fun x => x - ggQ2s6_phi j x • Pi.single j 1
   map_add' := by
     intro x y
-    simp only [map_add, Pi.add_apply, add_smul, sub_eq_add_neg]
+    simp only [map_add, add_smul, sub_eq_add_neg]
     abel
   map_smul' := by
     intro a x
-    simp only [map_smul, Pi.smul_apply, smul_sub, smul_smul, smul_eq_mul, RingHom.id_apply]
+    simp only [map_smul, smul_sub, smul_smul, smul_eq_mul, RingHom.id_apply]
 
 private lemma ggQ2s6_sR_apply (j : Fin 6) (x : Fin 6 → ZMod 3) :
     ggQ2s6_sR j x = x - ggQ2s6_phi j x • Pi.single j 1 := rfl
@@ -207,7 +207,7 @@ private lemma ggQ2s6_matOf_foldl (l : List (Fin 6))
     (A : (Fin 6 → ZMod 3) →ₗ[ZMod 3] (Fin 6 → ZMod 3)) :
     ggQ2s6_matOf (l.foldl (fun M j => ggQ2s6_sR j * M) A) = ggQ2s6_mm l * ggQ2s6_matOf A := by
   induction l generalizing A with
-  | nil => simp [ggQ2s6_mm, ggQ2s6_matOf_one]
+  | nil => simp [ggQ2s6_mm]
   | cons j l ih =>
       rw [List.foldl_cons, ih, ggQ2s6_matOf_mul, ggQ2s6_matOf_sR, ggQ2s6_mm, Matrix.mul_assoc]
 

@@ -40,8 +40,8 @@ theorem four_le_of_isSLThreePiAt {Y : Type} [Group Y] [Finite Y] {m : ℕ}
         rfl
       rw [h216]
       decide
-    haveI : Nontrivial Y := CFSG.LocalCores.isQuasisimple_nontrivial hq
-    haveI : Group.IsPerfect Y := hq.1
+    have : Nontrivial Y := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect Y := hq.1
     exact Group.IsPerfect.not_isSolvable Y hsolv
 
 @[expose] def Gap127D4Even : Prop :=

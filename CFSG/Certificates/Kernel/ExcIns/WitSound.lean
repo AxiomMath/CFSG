@@ -36,7 +36,7 @@ theorem sgnOK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K f
   revert hc
   rw [bit_eq, bit_eq]
   cases hsi : s.testBit i.val <;> cases hsj : s.testBit j.val <;> intro hc <;>
-    simp only [sgnEq, bnot, Nat.beq_eq, Nat.add_eq, Bool.false_eq_true, if_true, if_false] at hc ⊢ <;>
+    simp only [sgnEq, bnot, Nat.beq_eq, Nat.add_eq, Bool.false_eq_true, ite_true, ite_false] at hc ⊢ <;>
     omega
 
 theorem sgnsFrom_sound {K : KT} {n : Nat} :
@@ -364,9 +364,9 @@ theorem satK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx
     generalize invRow K w.B a w.b[j]! w.k 0 = R at hc hsum
     by_cases haj : a = j
     · subst haj
-      simp only [Nat.zero_add, if_true] at hc ⊢
+      simp only [Nat.zero_add, ite_true] at hc ⊢
       omega
-    · simp only [Nat.zero_add, haj, if_false] at hc ⊢
+    · simp only [Nat.zero_add, haj, ite_false] at hc ⊢
       omega
 
 theorem orthK_mask_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx hx fx' hx')

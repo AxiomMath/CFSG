@@ -91,7 +91,7 @@ open CFSG.Adapters.RankTwoModelTransports (glCongr statedProjCongr glCongr_state
 
 theorem bigElem_plus_two_four (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     BigElem (StatedProj (StatedOmega (StatedQuadPlus 4 K))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

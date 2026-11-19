@@ -40,13 +40,13 @@ theorem commutator_eq_top_of_isL2OrA7 {L : Type*} [Group L] {qmin : ℕ} (hq : 5
 theorem isSimpleGroup_of_isL2OrA7 {L : Type*} [Group L] {qmin : ℕ} (hq : 5 ≤ qmin)
     (h : IsL2OrA7 L qmin) : IsSimpleGroup L := by
   rcases h with ⟨⟨e⟩⟩ | ⟨p, k, _, hp2, hpk, ⟨e⟩⟩
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  · have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
     exact (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
   · have hk : k ≠ 0 := by
       rintro rfl
       rw [pow_zero] at hpk
       omega
-    haveI : IsSimpleGroup (PSL(2, GaloisField p k)) :=
+    have : IsSimpleGroup (PSL(2, GaloisField p k)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [GaloisField.card p k hk]; omega)
     exact (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
 
@@ -90,13 +90,13 @@ theorem gw_isL2OrA7_or_pgl2_of_isPGroup_quotient
     (h2 : IsPGroup 2 (L ⧸ F)) (hD : HasDihedralSylowTwo L) :
     IsL2OrA7 L 5 ∨ ∃ p k : ℕ, ∃ _ : Fact p.Prime, p ≠ 2 ∧ 5 ≤ p ^ k ∧
       Nonempty (L ≃* PGL2 (GaloisField p k)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFperf : commutator F = ⊤ := commutator_eq_top_of_isL2OrA7 le_rfl hF
-  haveI hFsimp : IsSimpleGroup F := isSimpleGroup_of_isL2OrA7 le_rfl hF
+  have hFsimp : IsSimpleGroup F := isSimpleGroup_of_isL2OrA7 le_rfl hF
   have hF60 : 60 ≤ Nat.card F := sixty_le_card_of_isL2OrA7 le_rfl hF
   have hFns : ¬ Group.IsSolvable F := by
     intro hs
-    haveI : Group.IsPerfect F := ⟨hFperf⟩
+    have : Group.IsPerfect F := ⟨hFperf⟩
     exact Group.IsPerfect.not_isSolvable F hs
   have hO : CFSG.oddCore L = ⊥ := by
     set O := CFSG.oddCore L
@@ -126,10 +126,10 @@ theorem gw_isL2OrA7_or_pgl2_of_isPGroup_quotient
     · rw [hn, pow_succ] at hOodd
       exact absurd hOodd (Nat.not_odd_iff_even.mpr (even_two.mul_left _))
   rcases CFSG.QuasiDihedralFusion.gw_cases hD hO with hP | ⟨⟨e7⟩⟩ | ⟨K, _, _, hK, M, hMn, hModd, hM⟩
-  · haveI : Group.IsNilpotent F := (hP.to_subgroup F).isNilpotent
+  · have : Group.IsNilpotent F := (hP.to_subgroup F).isNilpotent
     exact absurd (inferInstance : Group.IsSolvable F) hFns
   · exact Or.inl (Or.inl ⟨e7⟩)
-  · haveI := hMn
+  · have := hMn
     have hFM : F ≤ M := le_of_commutator_eq_top_of_odd_index M hModd F hFperf
     have hMtop : M = ⊤ := by
       obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp h2
@@ -142,7 +142,7 @@ theorem gw_isL2OrA7_or_pgl2_of_isPGroup_quotient
     let eM : L ≃* M := (MulEquiv.subgroupCongr hMtop.symm).symm.trans topEquiv |>.symm
     have hLF : Nat.card F ≤ Nat.card L := card_le_card_group F
     obtain ⟨p, n, hp, hpodd, hn, hq⟩ := hK
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hp2 : p ≠ 2 := by
       rintro rfl
       exact absurd hpodd (by decide)

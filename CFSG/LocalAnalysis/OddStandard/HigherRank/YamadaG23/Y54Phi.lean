@@ -45,7 +45,7 @@ theorem y54_phi_mul {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     _ = f3phi s y' * f3phi s y := by rw [hcomm]; group
     _ = f3phi s y * f3phi s y' := hab
 
-theorem y54_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y54_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     ∀ y ∈ f4Y s, (f3phi s y = 1 ↔ y ∈ f4X0 s) := by
   intro y hy
   have h1 : f3phi s y = 1 ↔ y * s.t * y⁻¹ = s.t := by
@@ -66,7 +66,7 @@ theorem y54_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
   rw [h1, h2, hHiff]
   exact ⟨fun hh => ⟨hh, hy.2⟩, fun hx => hx.1⟩
 
-theorem y54_phi_conj {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y54_phi_conj {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     ∀ n ∈ f4N s, ∀ y : G, f3phi s (n * y * n⁻¹) = n * f3phi s y * n⁻¹ := by
   intro n hn y
   have hnt : n * s.t = s.t * n := Subgroup.mem_centralizer_singleton_iff.mp hn.1

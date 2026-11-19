@@ -65,6 +65,7 @@ theorem kd291_orderOf_mk {p : ℕ} (hp : p.Prime) {x : X} (hx : orderOf x = p) :
     exact hp.ne_one hpone
   · exact hpx
 
+omit [Finite X] in
 theorem kd291_perf_quot {p : ℕ}
     (hperf : ∀ (N : Subgroup X) [N.Normal], IsPGroup p (X ⧸ N) → N = ⊤) :
     ∀ (N : Subgroup (X ⧸ primeComplementCore (G := X) p)) [N.Normal],
@@ -92,7 +93,7 @@ theorem kd291_exists_sylow_map {p : ℕ} (hp : p.Prime) (P : Sylow p X) :
     ∃ Q : Sylow p (X ⧸ primeComplementCore (G := X) p),
       (Q : Subgroup (X ⧸ primeComplementCore (G := X) p)) =
         (P : Subgroup X).map (QuotientGroup.mk' (primeComplementCore (G := X) p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ⟨Sylow.mapSurjective (QuotientGroup.mk'_surjective (primeComplementCore (G := X) p)) P,
     rfl⟩
 
@@ -134,7 +135,7 @@ theorem kd291_aux_T2_cent_map {p : ℕ} (hp : p.Prime) {x : X} (hx : orderOf x =
 theorem kd291_pRank_quot {p : ℕ} (hp : p.Prime) (P : Sylow p X) {n : ℕ}
     (hP : Open.pRank p (P : Subgroup X) = n) :
     Open.pRank p (⊤ : Subgroup (X ⧸ primeComplementCore (G := X) p)) = n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_quotient_pRank_eq (G := X) p hp,
     ← (CFSG.SectionRank.pRank_sylow P).1, hP]
 
@@ -167,7 +168,7 @@ theorem kd291_step0a {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y] (Q
     ∃ w ∈ (Q : Subgroup Y), orderOf w = p ∧ (∀ y ∈ (Q : Subgroup Y), y * w = w * y) ∧
       (∀ z ∈ (Q : Subgroup Y), (∀ y ∈ (Q : Subgroup Y), y * z = z * y) → z ^ p = 1 →
         z ∈ zpowers w) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hx
@@ -185,10 +186,10 @@ theorem kd291_step0a {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y] (Q
     omega
   obtain ⟨w, hwQ, hw5, hwc⟩ : ∃ w ∈ (Q : Subgroup Y), orderOf w = p ∧
       (∀ y ∈ (Q : Subgroup Y), y * w = w * y) := by
-    haveI : Nontrivial ↥(Q : Subgroup Y) :=
+    have : Nontrivial ↥(Q : Subgroup Y) :=
       ⟨⟨⟨x, hxQ⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-    have hQp : IsPGroup p ↥(Q : Subgroup Y) := Q.isPGroup'
-    haveI : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup Y)) := hQp.center_nontrivial
+    have hQp : IsPGroup p ↥(Q : Subgroup Y) := Q.isPGroup
+    have : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup Y)) := hQp.center_nontrivial
     have hZp : IsPGroup p ↥(Subgroup.center ↥(Q : Subgroup Y)) := hQp.to_subgroup _
     have hZ1 : 1 < Nat.card ↥(Subgroup.center ↥(Q : Subgroup Y)) := Finite.one_lt_card
     have hZdvd : p ∣ Nat.card ↥(Subgroup.center ↥(Q : Subgroup Y)) := by
@@ -299,12 +300,12 @@ theorem kd291_aux_S0B_pow_prime {G : Type} [Group G] (p : ℕ) (k : ℕ) :
 
 theorem kd291_step0b {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
     (hY : primeComplementCore (G := Y) p = ⊥) (Q : Sylow p Y) {w : Y}
-    (hwQ : w ∈ (Q : Subgroup Y)) (hwo : orderOf w = p)
-    (hwc : ∀ y ∈ (Q : Subgroup Y), y * w = w * y)
+    (_hwQ : w ∈ (Q : Subgroup Y)) (hwo : orderOf w = p)
+    (_hwc : ∀ y ∈ (Q : Subgroup Y), y * w = w * y)
     (hu : ∀ z ∈ (Q : Subgroup Y), (∀ y ∈ (Q : Subgroup Y), y * z = z * y) → z ^ p = 1 →
       z ∈ zpowers w)
     (N : Subgroup Y) [N.Normal] (hN : N ≠ ⊥) : w ∈ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpN : p ∣ Nat.card N := by
     by_contra h
     have hcop : Nat.Coprime p (Nat.card N) :=
@@ -333,7 +334,7 @@ theorem kd291_step0b {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
     intro h
     apply hx1
     simpa using h
-  haveI : Group.IsNilpotent (Q : Subgroup Y) := IsPGroup.isNilpotent Q.isPGroup'
+  have : Group.IsNilpotent (Q : Subgroup Y) := IsPGroup.isNilpotent Q.isPGroup
   have hM : N.subgroupOf (Q : Subgroup Y) ≠ ⊥ := by
     refine Subgroup.ne_bot_iff_exists_ne_one.2
       ⟨⟨⟨g * (x : Y) * g⁻¹, hmQ⟩, Subgroup.mem_subgroupOf.2 hmN⟩, fun h => hm1 ?_⟩
@@ -345,7 +346,7 @@ theorem kd291_step0b {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hM)
     obtain ⟨hz'M, hz'c⟩ := Subgroup.mem_inf.1 hz'
     have hz'1 : z' ≠ 1 := fun h => ha (Subtype.ext h)
-    obtain ⟨k, hk⟩ := Q.isPGroup' z'
+    obtain ⟨k, hk⟩ := Q.isPGroup z'
     refine ⟨(z' : Y), Subgroup.mem_subgroupOf.1 hz'M, z'.2, ?_,
       fun h => hz'1 (Subtype.ext h), k, ?_⟩
     · intro y hy
@@ -374,7 +375,7 @@ theorem kd291_mem_of_perf {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hΔ : KDInnd
     (hlu : ¬ IsLinearOrUnitaryAt p L) (hC : centralizer (L : Set Y) = ⊥)
     (hperf : ∀ (N : Subgroup Y) [N.Normal], IsPGroup p (Y ⧸ N) → N = ⊤) {x : Y}
     (hx : orderOf x = p) : x ∈ L := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   by_contra hxL
   have hxp : IsPGroup p (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
@@ -383,7 +384,7 @@ theorem kd291_mem_of_perf {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hΔ : KDInnd
     have hle := focalSubgroup_le_of_kdInndiag hΔ hp hp5 L hs hn hc hlu hC P
     rw [hF] at hle
     exact hle (hP (mem_zpowers x)))
-  haveI := hHn
+  have := hHn
   have hpg : IsPGroup p (Y ⧸ H) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [← Subgroup.index_eq_card, hHi, pow_one]

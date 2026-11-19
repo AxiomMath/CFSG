@@ -40,15 +40,15 @@ theorem tabMThree_shapeRkAt'_of_th (hOut : SporadicOuterLeTwo)
   have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
+    let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
     have hpr := IsSimpleGroup.prime_card (α := ↥H)
     rw [hcard] at hpr
     norm_num at hpr
   have hZ : Subgroup.center ↥H = ⊥ := by
-    haveI := hs
+    have := hs
     exact center_eq_bot_of_simple_nonab hnab
   have hq : CFSG.Open.IsQuasisimple ↥H := by
-    haveI := hs
+    have := hs
     exact tabMFive_quasisimple_of_simple_nonab hnab
   have eTh : ↥H ≃* (TauCeti.CFSGIndex.sporadic .Th).Group := e.trans (hBr .Th).some
   have eQ : ↥H ⧸ Subgroup.center ↥H ≃* (TauCeti.CFSGIndex.sporadic .Th).Group :=
@@ -82,7 +82,7 @@ theorem tabMThree_shapeRkAt'_of_cover (hOut : SporadicOuterLeTwo)
       rcases (Nat.dvd_prime Nat.prime_three).1 hZ with h | h
       · exact ⟨0, by simpa using h⟩
       · exact ⟨1, by simpa using h⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.of_card hn
   have hcent : IsPGroup 3 ↥(C ⊓ Subgroup.centralizer (C : Set G)) := by
     intro g

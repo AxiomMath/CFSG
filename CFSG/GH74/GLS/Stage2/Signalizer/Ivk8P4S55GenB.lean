@@ -74,7 +74,7 @@ theorem Mod55.actYHom_eq_of_invariant (hf : Mod55 p ρ K a P) {r : ℕ} (hr : r.
   obtain ⟨Sy⟩ : Nonempty (Sylow r ↥T) := inferInstance
   let ι : ↥T →* Γ := K.subtype.comp T.subtype
   let Qt : Subgroup Γ := (Sy : Subgroup ↥T).map ι
-  have hQt : IsPGroup r ↥Qt := Sy.isPGroup'.map ι
+  have hQt : IsPGroup r ↥Qt := Sy.isPGroup.map ι
   have hconj : ∀ x ∈ Qt, a * x * a⁻¹ ∈ Qt := by
     rintro _ ⟨s, hs, rfl⟩
     set k : ↥K := (s : ↥K) with hk
@@ -83,7 +83,7 @@ theorem Mod55.actYHom_eq_of_invariant (hf : Mod55 p ρ K a P) {r : ℕ} (hr : r.
       have : π (MulAut.conjNormal a k : ↥K) = actYHom (K := K) a (π k) := rfl
       rw [this]
       exact hinv _ hπk
-    obtain ⟨n, hn⟩ := Sy.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := Sy.isPGroup ⟨s, hs⟩
     have hsn : s ^ r ^ n = 1 := congrArg Subtype.val hn
     have hkn : k ^ r ^ n = 1 := by
       have := congrArg (fun t : ↥T => (t : ↥K)) hsn

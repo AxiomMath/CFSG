@@ -3,7 +3,7 @@ module
 public import CFSG.LinearAlgebra.LinearGroups.ProjectiveSimple
 public import CFSG.LinearAlgebra.SL2MinimalFaithfulMatrix
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 
 public section
@@ -30,7 +30,7 @@ theorem isSimpleGroup_sl2_charTwo_aux1 {F : Type} [Field F] [CharP F 2] :
 theorem isSimpleGroup_sl2_charTwo_aux2 {F : Type} [Field F] [CharP F 2]
     (hsimple : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := by
-  haveI := hsimple
+  have := hsimple
   have hcenter := isSimpleGroup_sl2_charTwo_aux1 (F := F)
   let π : Matrix.SpecialLinearGroup (Fin 2) F →* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F :=
     QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F))
@@ -70,7 +70,7 @@ theorem sl2_dvd_card_of_dvd_succ {F : Type} [Field F] [Finite F] {p : ℕ}
   rw [hsq]
   exact dvd_mul_of_dvd_right (dvd_mul_of_dvd_right hpF _) _
 
-theorem sl2_card_ne_of_dvd_succ {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
+theorem sl2_card_ne_of_dvd_succ {F : Type} [Field F] [Finite F] {p : ℕ} (_hp : p.Prime)
     (hpF : p ∣ Nat.card F + 1) (h4 : 4 ≤ Nat.card F) :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) ≠ p := by
   intro h

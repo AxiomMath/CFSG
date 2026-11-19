@@ -33,6 +33,7 @@ theorem img_mono {X Y : Subgroup G} (h : X ≤ Y) : img M O X ≤ img M O Y := b
   obtain ⟨g, hg, hgM, rfl⟩ := mem_img_iff.mp hz
   exact mk_mem_img (h hg) hgM
 
+omit [(O.subgroupOf M).Normal] in
 theorem mk_eq_iff {g h : G} (hg : g ∈ M) (hh : h ∈ M) :
     (QuotientGroup.mk ⟨g, hg⟩ : M ⧸ O.subgroupOf M) = QuotientGroup.mk ⟨h, hh⟩ ↔
       g⁻¹ * h ∈ O := by
@@ -43,6 +44,7 @@ theorem mk_eq_one_iff {g : G} (hg : g ∈ M) :
     (QuotientGroup.mk ⟨g, hg⟩ : M ⧸ O.subgroupOf M) = 1 ↔ g ∈ O := by
   rw [QuotientGroup.eq_one_iff, mem_subgroupOf]
 
+omit [(O.subgroupOf M).Normal] in
 theorem exists_mk (z : M ⧸ O.subgroupOf M) :
     ∃ g : G, ∃ hg : g ∈ M, (QuotientGroup.mk ⟨g, hg⟩ : M ⧸ O.subgroupOf M) = z := by
   obtain ⟨⟨g, hg⟩, rfl⟩ := QuotientGroup.mk_surjective z
@@ -53,7 +55,7 @@ theorem isPGroup_img {p : ℕ} {X : Subgroup G} (hX : IsPGroup p X) : IsPGroup p
 
 theorem isElemAbelian_img {p : ℕ} {X : Subgroup G} (hX : IsElemAbelian p X) :
     IsElemAbelian p (img M O X) := by
-  haveI := hX.1
+  have := hX.1
   refine ⟨IsMulCommutative.of_setLike_mul_comm fun a ha b hb => ?_, fun z hz => ?_⟩
   · obtain ⟨g, hg, hgM, rfl⟩ := mem_img_iff.mp ha
     obtain ⟨h, hh, hhM, rfl⟩ := mem_img_iff.mp hb

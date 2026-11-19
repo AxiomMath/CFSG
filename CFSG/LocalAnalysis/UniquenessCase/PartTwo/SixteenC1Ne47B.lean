@@ -24,7 +24,7 @@ theorem s16c1_trivial_of_hyperplane {V₀ V : Subgroup G} {hV : IsElemAbelian 2 
     (ht : t ∈ stabTil V₀ V) (htH : actTil V₀ V hV ⟨t, ht⟩ ∈ H)
     (hcent : ∀ u ∈ U₁, t * u * t⁻¹ = u) :
     ∀ v ∈ V, t * v * t⁻¹ * v⁻¹ ∈ V₀ := by
-  haveI : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥V := hV.1
   have htV : t ∈ normalizer (V : Set G) := stabTil_le_normalizer V₀ V ht
   have hrel : U₁.relIndex V = 2 := by
     have h := Subgroup.relIndex_mul_card (H := U₁) (K := V)

@@ -14,10 +14,13 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def pairSub (A : Subgroup G) (k : G) : Subgroup G := A ⊔ conjSubgroup A k
 
+omit [Finite G] in
 theorem le_pairSub_left (A : Subgroup G) (k : G) : A ≤ pairSub A k := le_sup_left
 
+omit [Finite G] in
 theorem le_pairSub_right (A : Subgroup G) (k : G) : conjSubgroup A k ≤ pairSub A k := le_sup_right
 
+omit [Finite G] in
 theorem pairSub_le {A K : Subgroup G} (hA : A ≤ K) {k : G} (hk : k ∈ K) : pairSub A k ≤ K := by
   refine sup_le hA fun x hx => ?_
   rw [mem_conjSubgroup_iff] at hx
@@ -31,7 +34,7 @@ variable {D : Data G} {V₀ : Subgroup G} {p : ℕ} {X : Subgroup G}
 
 theorem exists_orderOf_of_not_isPGroup (h : Hyp193 D V₀ p X) {L : Subgroup G}
     (hLH : L ≤ X ⊔ D.T) (hL : ¬ IsPGroup 2 L) : ∃ x ∈ L, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 h.isPGroup
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 D.sylowM.isPGroup
   have hdvd : Nat.card ↥L ∣ 2 ^ b * p ^ a := by
@@ -96,7 +99,7 @@ theorem inf_J193_eq_inf_K (c : MinCex193 D V₀ V p X) (h162 : W3Thm162Gt2 G)
     (hc : Conf196 D V X g K) : X ⊓ J193 D X (conjSubgroup V g) K = X ⊓ K := by
   have hle : X ⊓ K ≤ X ⊓ J193 D X (conjSubgroup V g) K := inf_le_inf_left X hc.K_le_J193
   have hcard := c.card_inf_J193 h162 h763 hc
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hpK : p ≤ Nat.card ↥(X ⊓ K) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (c.hyp.isPGroup.to_le (inf_le_left : X ⊓ K ≤ X))
     rw [hn]
@@ -116,7 +119,7 @@ theorem mem_sup_pCoreOf_of_mem_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V 
     (hxK : x ∈ K) (hx : x ^ p = 1) :
     x ∈ (X ⊓ J193 D X (conjSubgroup V g) K) ⊔ pCoreOf 2 (X ⊔ D.T) := by
   set Q := pCoreOf 2 (X ⊔ D.T) with hQ
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hXQ : X ≤ normalizer (Q : Set G) :=
     le_sup_left.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _)
   have hPp : IsPGroup p (Subgroup.zpowers x) := by

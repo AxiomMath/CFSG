@@ -178,7 +178,7 @@ theorem card_E_eq [Finite Y] {K : Subgroup Y} {x y : Y} (hyK : y ∈ K)
     (hy₁3 : orderOf (x * y * x⁻¹) = 3)
     (hnc₁ : ∃ z ∈ cj x K, z * (x * y * x⁻¹) ≠ (x * y * x⁻¹) * z)
     (hy₂3 : orderOf ((x * x) * y * (x * x)⁻¹) = 3)
-    (hnc₂ : ∃ z ∈ cj (x * x) K, z * ((x * x) * y * (x * x)⁻¹) ≠ ((x * x) * y * (x * x)⁻¹) * z) :
+    (_hnc₂ : ∃ z ∈ cj (x * x) K, z * ((x * x) * y * (x * x)⁻¹) ≠ ((x * x) * y * (x * x)⁻¹) * z) :
     Nat.card ↥(Subgroup.zpowers y ⊔ (Subgroup.zpowers (x * y * x⁻¹) ⊔
       Subgroup.zpowers ((x * x) * y * (x * x)⁻¹))) = 27 := by
   obtain ⟨-, hzM⟩ := ms_data hyK hKK₂ hKK₃

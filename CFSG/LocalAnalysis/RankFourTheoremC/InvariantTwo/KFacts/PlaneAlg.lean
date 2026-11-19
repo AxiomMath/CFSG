@@ -93,14 +93,14 @@ theorem inf_centralizer_eq_of_isPGroup (hp : p.Prime) (h : Lemma212ConfigGe n p 
 
 theorem inf_centralizer_eq (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) :
     (P : Subgroup H) ⊓ centralizer (D : Set H) = D :=
-  h.inf_centralizer_eq_of_isPGroup hp P.isPGroup' h.le
+  h.inf_centralizer_eq_of_isPGroup hp P.isPGroup h.le
 
 theorem exists_mem_normalizer_inf_notMem (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) :
     ∃ t ∈ normalizer (D : Set H) ⊓ (P : Subgroup H), t ∉ D ∧ t ∈ centralizer ({z} : Set H) := by
   have hDP : D < (P : Subgroup H) := lt_of_le_of_ne h.le fun heq =>
     h.notNormal (by rw [← heq]; exact le_normalizer)
-  obtain ⟨t, ⟨htP, htN⟩, htD⟩ := SetLike.exists_of_lt
-    (pGroup_proper_subgroup_lt_internal_normalizer p hp (P : Subgroup H) D P.isPGroup' hDP)
+  obtain ⟨t, ⟨htP, htN⟩, htD⟩ := _root_.IsConcreteLE.exists_of_lt
+    (pGroup_proper_subgroup_lt_internal_normalizer p hp (P : Subgroup H) D P.isPGroup hDP)
   exact ⟨t, ⟨htN, htP⟩, htD, mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp h.central
     t htP)⟩
 
@@ -109,7 +109,7 @@ theorem exists_transvection (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) :
       t ∉ centralizer (D : Set H) := by
   obtain ⟨t, ⟨htN, htP⟩, htD, htz⟩ := h.exists_mem_normalizer_inf_notMem hp
   refine ⟨t, ?_, htN, mem_centralizer_singleton_iff.mp htz, fun htC => htD ?_⟩
-  · obtain ⟨k, hk⟩ := P.isPGroup' ⟨t, htP⟩
+  · obtain ⟨k, hk⟩ := P.isPGroup ⟨t, htP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   · rw [← h.inf_centralizer_eq hp]
     exact ⟨htP, htC⟩
@@ -123,14 +123,14 @@ theorem exists_transvection_of_three_le_pRank (hp : p.Prime) (h : Lemma212Config
   obtain ⟨S, hS⟩ := (h.isPGroup.comap_subtype (K := centralizer ({d} : Set H))).exists_le_sylow
   set R : Subgroup H := (S : Subgroup (centralizer ({d} : Set H))).map
     (centralizer ({d} : Set H)).subtype
-  have hRp : IsPGroup p R := S.isPGroup'.map _
+  have hRp : IsPGroup p R := S.isPGroup.map _
   have hRC : R ≤ centralizer ({d} : Set H) := map_subtype_le _
   have hDR : D ≤ R := fun x hx => ⟨⟨x, hDC hx⟩, hS hx, rfl⟩
   have hRD : D < R := by
     refine lt_of_le_of_ne hDR fun heq => ?_
     have := pRank_le_of_isSylowOf hp (K := centralizer ({d} : Set H)) ⟨S, heq.symm⟩ h.card
     omega
-  obtain ⟨t, ⟨htR, htN⟩, htD⟩ := SetLike.exists_of_lt
+  obtain ⟨t, ⟨htR, htN⟩, htD⟩ := _root_.IsConcreteLE.exists_of_lt
     (pGroup_proper_subgroup_lt_internal_normalizer p hp R D hRp hRD)
   refine ⟨t, ?_, htN, mem_centralizer_singleton_iff.mp (hRC htR), fun htC => htD ?_⟩
   · obtain ⟨k, hk⟩ := hRp ⟨t, htR⟩
@@ -209,7 +209,7 @@ theorem le_three_of_prime_three {P : Sylow 3 H} (h : Lemma212ConfigGe n 3 P z D)
   obtain ⟨d, hd, hdz⟩ := h.exists_mem_notMem_zpowers Nat.prime_three
   have h3 := three_le_pRank_inf_centralizer
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.gl83NormalElementaryRankFour_holds
-    P.isPGroup' ((Nat.succ_le_of_lt hn).trans h.rank) (h.le hd) (h.elem.2 d hd)
+    P.isPGroup ((Nat.succ_le_of_lt hn).trans h.rank) (h.le hd) (h.elem.2 d hd)
   have := h.pRank_inf_centralizer_singleton Nat.prime_three hd hdz
   omega
 

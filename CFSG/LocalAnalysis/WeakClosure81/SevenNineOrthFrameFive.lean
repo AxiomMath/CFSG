@@ -69,8 +69,7 @@ private theorem eq_zero_of_singular_orth
   have hss' : f s' s = 1 := by rw [hf s' s]; exact hpair
   have hc : c = 0 := by
     have h := congrArg (fun v => f s' v) hsum
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, hss', hs'u, map_zero] at h
+    simp only [map_add, map_smul, smul_eq_mul, hss', hs'u, map_zero] at h
     simpa using h
   have hd : d ≠ 0 := by
     rcases hcd with hc0 | hd0
@@ -101,7 +100,7 @@ private theorem exists_norm_one_orth_four [Fact (Nat.Prime 5)]
     (hW : ∀ a b : Fin 4 → ZMod 5, f a a = 0 → f a b = 0 → f b b = 0 →
       ∃ c d : ZMod 5, (c ≠ 0 ∨ d ≠ 0) ∧ c • a + d • b = 0)
     {a s s' : Fin 4 → ZMod 5} (ha : f a a = -2) (hss : f s s = 0)
-    (hs's' : f s' s' = 0) (hpair : f s s' = 1) (hsa : f s a = 0) (hs'a : f s' a = 0) :
+    (_hs's' : f s' s' = 0) (hpair : f s s' = 1) (hsa : f s a = 0) (hs'a : f s' a = 0) :
     ∃ b : Fin 4 → ZMod 5, f b s = 0 ∧ f b s' = 0 ∧ f b a = 0 ∧ f b b = 1 := by
   obtain ⟨b0, hb0, hb⟩ := exists_ne_zero_orth f (p := 5) (m := 4) ![s, s', a] (by decide)
   have hb0s : f b0 s = 0 := by simpa using hb 0
@@ -120,7 +119,7 @@ private theorem exists_norm_one_orth_four [Fact (Nat.Prime 5)]
     have hus : f (a + b0) s = 0 := by
       simp [map_add, LinearMap.add_apply, has, hb0s]
     have hs'u : f s' (a + b0) = 0 := by
-      simp [map_add, LinearMap.add_apply, hs'a, hs'b0]
+      simp [map_add, hs'a, hs'b0]
     have hfa : f (a + b0) a = -2 := by
       simp [map_add, LinearMap.add_apply, ha, hb0a]
     have hne : a + b0 ≠ 0 := by
@@ -137,7 +136,7 @@ private theorem exists_norm_one_orth_four [Fact (Nat.Prime 5)]
       simp [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
         has, hb0s]
     have hs'u : f s' ((2 : ZMod 5) • a + b0) = 0 := by
-      simp [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp [map_add, map_smul, smul_eq_mul,
         hs'a, hs'b0]
     have hfa : f ((2 : ZMod 5) • a + b0) a = 1 := by
       simp [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
@@ -207,7 +206,7 @@ theorem exists_orthFrameFive (f : LinearMap.BilinForm (ZMod 5) (Fin 4 → ZMod 5
     (hW : ∀ a b : Fin 4 → ZMod 5, f a a = 0 → f a b = 0 → f b b = 0 →
       ∃ c d : ZMod 5, (c ≠ 0 ∨ d ≠ 0) ∧ c • a + d • b = 0)
     {a : Fin 4 → ZMod 5} (ha : f a a = -2) : ∃ F : OrthFrameFive f, F.a = a := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨s, hs0, hss, hsa⟩ := exists_singular_orth_a f a
   obtain ⟨s', hpair, hs's', hs'a⟩ :=
     exists_hyperbolic_partner_orth_a f hf hnd ha hs0 hss hsa

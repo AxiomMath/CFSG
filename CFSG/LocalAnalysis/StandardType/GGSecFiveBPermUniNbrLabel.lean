@@ -83,7 +83,7 @@ theorem card_bstar_inf_center_le_of_fixedPoints {G : Type} [Group G] {p n : ℕ}
     (hH : H ≤ (ggAutomizer X Bs).map (MulAut.congr eta).toMonoidHom)
     (hfix : Nat.card {v : Fin n → Multiplicative (ZMod p) // ∀ h ∈ H, h v = v} ≤ p) :
     Nat.card ↥(Bs ⊓ X ⊓ Subgroup.centralizer (X : Set G)) ≤ p := by
-  haveI : Finite ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) :=
+  have : Finite ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   exact (Nat.card_le_card_of_injective
     (Subgroup.inclusion (le_inf (inf_le_left.trans inf_le_left) inf_le_right))
@@ -247,18 +247,18 @@ private theorem ggMultDatumC_twn {p nf d : ℕ} (mm : List ℕ) :
   unfold ggMultDatumC
   dsimp only
   by_cases h0 : mm.headD 0 = 1
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact twn_append (twn_singleton (twn_of_tag_ne (by simp) (by simp)))
       (twn_map (fun x _ => ggMultBlockA_n (mm.getD x 0 - 1) nf d))
   by_cases h1 : mm.headD 0 = 2 ∧ nf = 1
-  · rw [if_neg h0, if_pos h1]
+  · rw [ite_eq_right h0, ite_eq_left h1]
     exact twn_append (twn_singleton (twn_of_tag_ne (by simp) (by simp)))
       (twn_map (fun x _ => ggMultBlockA_n (mm.getD x 0 - 1) nf d))
   by_cases h2 : 2 ≤ mm.headD 0
-  · rw [if_neg h0, if_neg h1, if_pos h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2]
     exact twn_append (twn_singleton (twn_of_tag_ne (by simp) (by simp)))
       (twn_map (fun x _ => ggMultBlockA_n (mm.getD x 0 - 1) nf d))
-  · rw [if_neg h0, if_neg h1, if_neg h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2]
     exact twn_append (by simp)
       (twn_map (fun x _ => ggMultBlockA_n (mm.getD x 0 - 1) nf d))
 
@@ -276,17 +276,17 @@ private theorem ggMultDatumA_twisted_n {p nf d : ℕ} {tw : Bool} (mm : List ℕ
   unfold ggMultDatumA
   dsimp only
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
-  · rw [if_pos htriv]
+  · rw [ite_eq_left htriv]
     exact twn_map (fun x _ => ggMultBlockA_n (mm.getD x 0 - 1) nf d)
-  · rw [if_neg htriv]
+  · rw [ite_eq_right htriv]
     by_cases h2 : 2 ≤ mm.headD 0
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       dsimp only
       have htwf : ¬ (tw = false) := by rw [htw]; decide
-      rw [if_neg htwf]
+      rw [ite_eq_right htwf]
       exact twn_append (twn_cons (fun _ => ggMultBlockA_n (mm.headD 0 - 1) nf 2) twn_nil)
         twn_map_A
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       exact twn_append twn_nil twn_map_A
 
 private theorem ggMultDatumA_notTwisted {p nf d : ℕ} {tw : Bool} (mm : List ℕ) (htw : tw = false) :
@@ -295,20 +295,20 @@ private theorem ggMultDatumA_notTwisted {p nf d : ℕ} {tw : Bool} (mm : List �
   unfold ggMultDatumA
   dsimp only
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
-  · rw [if_pos htriv]
+  · rw [ite_eq_left htriv]
     have hd1 : d = 1 := by
       rcases htriv with ⟨-, h⟩ | ⟨h, -⟩
       · exact h
       · rw [htw] at h; exact absurd h (by decide)
     subst hd1
     exact ntwn_map (fun x => ggMultBlockA_one_notTwisted (mm.getD x 0 - 1) nf)
-  · rw [if_neg htriv]
+  · rw [ite_eq_right htriv]
     by_cases h2 : 2 ≤ mm.headD 0
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       dsimp only
-      rw [if_pos htw]
+      rw [ite_eq_left htw]
       exact ntwn_append (ntwn_singleton (by simp)) (ntwn_map (fun _ => by simp))
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       exact ntwn_append (by simp) (ntwn_map (fun _ => by simp))
 
 theorem ggMultValidCl_twisted_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDatum}
@@ -336,70 +336,70 @@ theorem ggMultValidCl_twisted_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacD
   | B =>
     simp only [ggKacTypeClOfLabel] at hlab
     by_cases h2r : 2 ≤ r
-    · rw [if_pos h2r] at hlab
+    · rw [ite_eq_left h2r] at hlab
       simp only [Option.some.injEq, Prod.mk.injEq] at hlab
       obtain ⟨rfl, rfl, rfl⟩ := hlab
       obtain ⟨mm, -, -, hDeq⟩ :=
         (mem_ggMultTableCl_C (r := r) (p := p) (n := e) (D := D) hord).mp hDmem
       rw [hDeq] at ho
       exact ⟨ggMultDatumC_twn mm o ho htw, by simp⟩
-    · rw [if_neg h2r] at hlab
+    · rw [ite_eq_right h2r] at hlab
       simp at hlab
   | C =>
     simp only [ggKacTypeClOfLabel] at hlab
     by_cases h2r : 2 ≤ r
-    · rw [if_pos h2r] at hlab
+    · rw [ite_eq_left h2r] at hlab
       simp only [Option.some.injEq, Prod.mk.injEq] at hlab
       obtain ⟨rfl, rfl, rfl⟩ := hlab
       obtain ⟨mm, -, -, hDeq⟩ :=
         (mem_ggMultTableCl_C (r := r) (p := p) (n := e) (D := D) hord).mp hDmem
       rw [hDeq] at ho
       exact ⟨ggMultDatumC_twn mm o ho htw, by simp⟩
-    · rw [if_neg h2r] at hlab
+    · rw [ite_eq_right h2r] at hlab
       simp at hlab
   | D =>
     simp only [ggKacTypeClOfLabel] at hlab
     by_cases h4r : 4 ≤ r
-    · rw [if_pos h4r] at hlab
+    · rw [ite_eq_left h4r] at hlab
       simp only [Option.some.injEq, Prod.mk.injEq] at hlab
       obtain ⟨rfl, rfl, rfl⟩ := hlab
       obtain ⟨mm, -, -, -, hDeq⟩ :=
         (mem_ggMultTableCl_D (r := r) (p := p) (n := e) (tw := false) (D := D) hord).mp hDmem
       rw [hDeq] at ho
       exact ⟨ggMultDatumD_twn false mm o ho htw, by simp⟩
-    · rw [if_neg h4r] at hlab
+    · rw [ite_eq_right h4r] at hlab
       by_cases hr3 : r = 3
-      · rw [if_pos hr3] at hlab
+      · rw [ite_eq_left hr3] at hlab
         simp only [Option.some.injEq, Prod.mk.injEq] at hlab
         obtain ⟨rfl, rfl, rfl⟩ := hlab
         obtain ⟨mm, -, -, -, hDeq⟩ :=
           (mem_ggMultTableCl_A (r := 3) (p := p) (n := e) (tw := false) (D := D) hord).mp hDmem
         rw [hDeq] at ho
         exact absurd htw (ggMultDatumA_notTwisted mm rfl o ho)
-      · rw [if_neg hr3] at hlab
+      · rw [ite_eq_right hr3] at hlab
         simp at hlab
   | twD =>
     simp only [ggKacTypeClOfLabel] at hlab
     by_cases h4r : 4 ≤ r
-    · rw [if_pos h4r] at hlab
+    · rw [ite_eq_left h4r] at hlab
       simp only [Option.some.injEq, Prod.mk.injEq] at hlab
       obtain ⟨rfl, rfl, rfl⟩ := hlab
       obtain ⟨mm, -, -, -, hDeq⟩ :=
         (mem_ggMultTableCl_D (r := r) (p := p) (n := e) (tw := true) (D := D) hord).mp hDmem
       rw [hDeq] at ho
       exact ⟨ggMultDatumD_twn true mm o ho htw, by simp⟩
-    · rw [if_neg h4r] at hlab
+    · rw [ite_eq_right h4r] at hlab
       by_cases hr3 : r = 3
-      · rw [if_pos hr3] at hlab
+      · rw [ite_eq_left hr3] at hlab
         simp only [Option.some.injEq, Prod.mk.injEq] at hlab
         obtain ⟨rfl, rfl, rfl⟩ := hlab
         obtain ⟨mm, -, -, -, hDeq⟩ :=
           (mem_ggMultTableCl_A (r := 3) (p := p) (n := e) (tw := true) (D := D) hord).mp hDmem
         rw [hDeq] at ho
         exact ⟨ggMultDatumA_twisted_n mm rfl o ho htw, by simp⟩
-      · rw [if_neg hr3] at hlab
+      · rw [ite_eq_right hr3] at hlab
         by_cases hr2 : r = 2
-        · rw [if_pos hr2] at hlab
+        · rw [ite_eq_left hr2] at hlab
           simp only [Option.some.injEq, Prod.mk.injEq] at hlab
           obtain ⟨rfl, rfl, rfl⟩ := hlab
           obtain ⟨mm, -, -, -, hDeq⟩ :=
@@ -407,7 +407,7 @@ theorem ggMultValidCl_twisted_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacD
               hord).mp hDmem
           rw [hDeq] at ho
           exact absurd htw (ggMultDatumA_notTwisted mm rfl o ho)
-        · rw [if_neg hr2] at hlab
+        · rw [ite_eq_right hr2] at hlab
           simp at hlab
   | E6 => simp [ggKacTypeClOfLabel] at hlab
   | E7 => simp [ggKacTypeClOfLabel] at hlab

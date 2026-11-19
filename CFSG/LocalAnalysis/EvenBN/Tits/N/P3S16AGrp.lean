@@ -12,9 +12,10 @@ variable {Q : Type*} [Group Q] [Finite Q]
 
 namespace Grp
 
+omit [Finite Q] in
 theorem card_centralizer_le {S : Subgroup Q} (hS2 : S.index = 2) (y : Q) :
     Nat.card ↥(centralizer ({y} : Set Q)) ≤ 2 * Nat.card ↥(S ⊓ centralizer ({y} : Set Q)) := by
-  haveI : S.Normal := normal_of_index_eq_two hS2
+  have : S.Normal := normal_of_index_eq_two hS2
   have h1 : S.relIndex (centralizer ({y} : Set Q)) ≤ 2 :=
     Nat.le_of_dvd (by norm_num) (hS2 ▸ relIndex_dvd_index_of_normal S _)
   calc Nat.card ↥(centralizer ({y} : Set Q))
@@ -22,6 +23,7 @@ theorem card_centralizer_le {S : Subgroup Q} (hS2 : S.index = 2) (y : Q) :
         (relIndex_mul_card (H := S) (K := centralizer ({y} : Set Q))).symm
     _ ≤ 2 * Nat.card ↥(S ⊓ centralizer ({y} : Set Q)) := Nat.mul_le_mul_right _ h1
 
+omit [Finite Q] in
 theorem card_le_two_mul_ncard_conjugatesOf {S : Subgroup Q} (hS2 : S.index = 2) {y : Q}
     (hC : Nat.card ↥(S ⊓ centralizer ({y} : Set Q)) = 2) :
     Nat.card S ≤ 2 * (conjugatesOf y).ncard := by
@@ -39,6 +41,7 @@ theorem card_le_two_mul_ncard_conjugatesOf {S : Subgroup Q} (hS2 : S.index = 2) 
       _ = 4 * (conjugatesOf y).ncard := by norm_num
   omega
 
+omit [Finite Q] in
 theorem exists_mem_of_isConj {S : Subgroup Q} (hS2 : S.index = 2) {x y : Q} (hx : x ∉ S)
     (h : IsConj x y) : ∃ u ∈ S, u * x * u⁻¹ = y := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h
@@ -50,6 +53,7 @@ theorem exists_mem_of_isConj {S : Subgroup Q} (hS2 : S.index = 2) {x y : Q} (hx 
     · rw [← hc]
       group
 
+omit [Finite Q] in
 theorem conjugatesOf_subset_compl {S : Subgroup Q} [hN : S.Normal] {x : Q} (hx : x ∉ S) :
     conjugatesOf x ⊆ (S : Set Q)ᶜ := by
   intro z hz hzS
@@ -59,10 +63,11 @@ theorem conjugatesOf_subset_compl {S : Subgroup Q} [hN : S.Normal] {x : Q} (hx :
   rw [← hc] at h
   simpa [mul_assoc] using h
 
+omit [Finite Q] in
 theorem inf_centralizer_eq_of_isMulCommutative {S : Subgroup Q} (hS : IsMulCommutative S)
     (hS2 : S.index = 2) {t : Q} (htS : t ∉ S) {x : Q} (hx : x ∉ S) :
     S ⊓ centralizer ({x} : Set Q) = S ⊓ centralizer ({t} : Set Q) := by
-  haveI := hS
+  have := hS
   have hc : x * t⁻¹ ∈ S := by
     rw [mul_mem_iff_of_index_two hS2]
     exact iff_of_false hx (by simpa using htS)
@@ -83,6 +88,7 @@ theorem index_zpowers_r_one (n : ℕ) [NeZero n] :
   have hn : 0 < n := Nat.pos_of_ne_zero (NeZero.ne n)
   exact Nat.eq_of_mul_eq_mul_left hn (by rw [h1, mul_comm])
 
+omit [Finite Q] in
 theorem exists_cyclic_index_two_of_equiv {G : Type*} [Group G] (e : Q ≃* G) (g : G)
     (hg : (zpowers g).index = 2) : ∃ R : Subgroup Q, IsCyclic R ∧ R.index = 2 := by
   refine ⟨zpowers (e.symm g), inferInstance, ?_⟩
@@ -91,6 +97,7 @@ theorem exists_cyclic_index_two_of_equiv {G : Type*} [Group G] (e : Q ≃* G) (g
   rw [h]
   exact (Subgroup.index_map_equiv (zpowers g) e.symm).trans hg
 
+omit [Finite Q] in
 theorem mem_of_mem_cyclic_index_two {R S : Subgroup Q} (hR : IsCyclic R) (hS2 : S.index = 2)
     (h4 : 4 ∣ Nat.card R) {y : Q} (hyR : y ∈ R) (hy2 : y * y = 1) : y ∈ S := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := R)
@@ -117,11 +124,11 @@ theorem mem_of_mem_cyclic_index_two {R S : Subgroup Q} (hR : IsCyclic R) (hS2 : 
 end Grp
 
 theorem two_orbits_of_abelian {S : Subgroup Q} (hS : IsMulCommutative S) (hS2 : S.index = 2) {t : Q}
-    (htS : t ∉ S) (ht2 : t * t = 1) (hC : Nat.card ↥(S ⊓ centralizer ({t} : Set Q)) = 2)
+    (htS : t ∉ S) (_ht2 : t * t = 1) (hC : Nat.card ↥(S ⊓ centralizer ({t} : Set Q)) = 2)
     {x₁ x₂ x₃ : Q} (h₁ : x₁ ∉ S) (h₂ : x₂ ∉ S) (h₃ : x₃ ∉ S) :
     (∃ u ∈ S, u * x₁ * u⁻¹ = x₂) ∨ (∃ u ∈ S, u * x₁ * u⁻¹ = x₃) ∨
       ∃ u ∈ S, u * x₂ * u⁻¹ = x₃ := by
-  haveI hN : S.Normal := normal_of_index_eq_two hS2
+  have hN : S.Normal := normal_of_index_eq_two hS2
   have hcls : ∀ x : Q, x ∉ S → Nat.card S ≤ 2 * (conjugatesOf x).ncard := fun x hx =>
     Grp.card_le_two_mul_ncard_conjugatesOf hS2
       (by rw [Grp.inf_centralizer_eq_of_isMulCommutative hS hS2 htS hx]; exact hC)
@@ -152,12 +159,13 @@ theorem two_orbits_of_abelian {S : Subgroup Q} (hS : IsMulCommutative S) (hS2 : 
   have := hcls x₃ h₃
   omega
 
+omit [Finite Q] in
 theorem exists_cyclic_index_two
     (hQ : (∃ m : ℕ, 1 ≤ m ∧ Nonempty (Q ≃* DihedralGroup (2 ^ m))) ∨
       ∃ k : ℕ, 4 ≤ k ∧ Nonempty (Q ≃* SemidihedralGroup k)) :
     ∃ R : Subgroup Q, IsCyclic R ∧ R.index = 2 := by
   rcases hQ with ⟨m, -, ⟨e⟩⟩ | ⟨k, hk, ⟨e⟩⟩
-  · haveI : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
+  · have : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
     exact Grp.exists_cyclic_index_two_of_equiv e (DihedralGroup.r 1)
       (Grp.index_zpowers_r_one (2 ^ m))
   · exact Grp.exists_cyclic_index_two_of_equiv e (CFSG.Semidihedral.r k)
@@ -167,7 +175,7 @@ theorem conj_of_cyclic_index_two (hQ : IsPGroup 2 Q) {R S : Subgroup Q} (hR : Is
     (hR2 : R.index = 2) (hS2 : S.index = 2) (hne : S ≠ R) (hS4 : 4 ≤ Nat.card S) {t : Q}
     (htS : t ∉ S) (ht2 : t * t = 1) (hC : Nat.card ↥(S ⊓ centralizer ({t} : Set Q)) = 2)
     {x : Q} (hxS : x ∉ S) (hx2 : x * x = 1) : ∃ u ∈ S, u * t * u⁻¹ = x := by
-  haveI hN : S.Normal := normal_of_index_eq_two hS2
+  have hN : S.Normal := normal_of_index_eq_two hS2
   have hRS : Nat.card R = Nat.card S := by
     have h1 := Subgroup.card_mul_index R
     have h2 := Subgroup.card_mul_index S

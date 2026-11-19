@@ -28,7 +28,7 @@ theorem psu_graph_has27_false
     (hmem : ∀ g, ι₀ g ∈ commutingUnitary (idForm h n)
       (semilinearMatrixMap h ((A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)))
     (h27 : PSUHas27Sub G) : False := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨Q, _, j, hj, hperf, hd⟩ := h27
   obtain ⟨ρ, -, hρ⟩ := psu_exists_hom_fixed_graph h A φ hφ (ι₀.comp j) (hι₀.comp hj)
     (fun x => mem_sesqSpecialUnitaryGroup.mpr ⟨(hmem (j x)).1,
@@ -45,7 +45,7 @@ theorem psu_graph_pair_false
     (hmem : ∀ g, ι₀ g ∈ commutingUnitary (idForm h n)
       (semilinearMatrixMap h ((A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)))
     (hp : PSUHasPair360 G) : False := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨Q₁, Q₂, _, _, j₁, j₂, hj₁, hj₂, hQ₁, hQ₂, hc₁, hc₂, hcomm⟩ := hp
   obtain ⟨ρ₁, hρ₁, hk₁⟩ := psu_exists_hom_fixed_graph h A φ hφ (ι₀.comp j₁) (hι₀.comp hj₁)
     (fun x => mem_sesqSpecialUnitaryGroup.mpr ⟨(hmem (j₁ x)).1,
@@ -69,8 +69,8 @@ theorem psuGraph_false (hO : LieOrderFormulasInput) {n f : ℕ} {K : Type} [Fiel
     (hA : orderOf (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩) = 2)
     {D : Subgroup ↥(fixedSubgroup (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩))}
     (hD : A6Hyp (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩) D) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   have hfpos := h.one_le
   have hx2 : primeFormPsi h hC (⟨A, φ⟩ * ⟨A, φ⟩) = 1 := by

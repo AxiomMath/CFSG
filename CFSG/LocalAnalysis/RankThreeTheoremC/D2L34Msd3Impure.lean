@@ -46,11 +46,11 @@ theorem exists_conj_pRank_centralizer_le_of_sylow {p : ℕ} [hp : Fact p.Prime] 
   have hp1 : 1 < p := hp.out.one_lt
   set C₀ : Subgroup G := Subgroup.centralizer ({x₀} : Set G) with hC₀
   have hxC₀ : x₀ ∈ C₀ := Subgroup.mem_centralizer_singleton_iff.mpr rfl
-  have hT : IsPGroup p ↥((P : Subgroup G) ⊓ C₀) := P.isPGroup'.to_inf_left
+  have hT : IsPGroup p ↥((P : Subgroup G) ⊓ C₀) := P.isPGroup.to_inf_left
   have hT' : IsPGroup p (((P : Subgroup G) ⊓ C₀).subgroupOf C₀) := hT.comap_subtype
   obtain ⟨S, hS⟩ := hT'.exists_le_sylow
   set S' : Subgroup G := (S : Subgroup C₀).map C₀.subtype with hS'
-  have hS'p : IsPGroup p S' := S.isPGroup'.map C₀.subtype
+  have hS'p : IsPGroup p S' := S.isPGroup.map C₀.subtype
   have hS'C : S' ≤ C₀ := Subgroup.map_subtype_le _
   have hx₀S' : x₀ ∈ S' := by
     refine Subgroup.mem_map.mpr ⟨⟨x₀, hxC₀⟩, hS ?_, rfl⟩

@@ -17,12 +17,14 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem CJ_eq_inf_centralizer_zpowers (x : G) :
     CJ z x = J z ⊓ Subgroup.centralizer ((Subgroup.zpowers x : Subgroup G) : Set G) := by
   ext y
   rw [mem_CJ, Subgroup.mem_inf, CFSG.GroupTheory.centralizer_zpowers_eq]
   exact And.comm
 
+omit [Finite G] in
 private theorem prop5_data_of_orderOf_three {x : ↥(H z)} (hx : orderOf x = 3) :
     IsPGroup 3 (Subgroup.zpowers (x : G)) ∧
       Subgroup.zpowers (x : G) ≤ Subgroup.normalizer (J z : Set G) := by

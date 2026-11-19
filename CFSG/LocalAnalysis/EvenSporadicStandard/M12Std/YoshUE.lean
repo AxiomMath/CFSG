@@ -26,13 +26,13 @@ theorem ue_unique {Γ : Type*} [Group Γ] [Finite Γ] (S E D : Subgroup Γ) (c :
   classical
   by_contra hne
   have hnle : ¬ D ≤ E := fun h => hne (Subgroup.eq_of_le_of_card_ge h (by rw [hD, hE]))
-  obtain ⟨y₀, hy₀D, hy₀E⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨y₀, hy₀D, hy₀E⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   obtain ⟨N, hNmem, hNcard⟩ : ∃ N : Subgroup S, (∀ s : S, s ∈ N ↔ (s : Γ) ∈ E) ∧
       Nat.card N = 128 := by
     refine ⟨E.subgroupOf S, fun s => Subgroup.mem_subgroupOf, ?_⟩
     rw [← hE]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hES).toEquiv
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [hNmem] at hn ⊢
     simpa using hnorm g g.2 n hn⟩
   have hV : Nat.card (S ⧸ N) = 8 := by

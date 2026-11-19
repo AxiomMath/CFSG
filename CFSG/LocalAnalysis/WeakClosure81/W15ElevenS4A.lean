@@ -26,11 +26,13 @@ theorem card_le_four_of_order_eight {E A : Subgroup G} (hE : Nat.card E = 8)
   subst hAeq
   exact hnc hA.1
 
+omit [Finite G] in
 private theorem b15_S4A_comm {p : ℕ} {A : Subgroup G} (hA : IsElemAbelian p A) {x y : G}
     (hx : x ∈ A) (hy : y ∈ A) : x * y = y * x := by
   have := hA.1
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem b15_S4A_inv_mul_mem {A B : Subgroup G} (hindex : A.relIndex B = 2)
     {x y : G} (hx : x ∈ B) (hy : y ∈ B) (hxA : x ∉ A) (hyA : y ∉ A) : x⁻¹ * y ∈ A := by
   have h2 : (A.subgroupOf B).index = 2 := hindex
@@ -43,6 +45,7 @@ private theorem b15_S4A_inv_mul_mem {A B : Subgroup G} (hindex : A.relIndex B = 
     (b := (⟨y, hy⟩ : B))).2 (iff_of_false hx' hy')
   simpa using Subgroup.mem_subgroupOf.mp key
 
+omit [Finite G] in
 private theorem b15_S4A_card_sup {U U' : Subgroup G} (hcomm : U' ≤ centralizer (U : Set G))
     (hdisj : U ⊓ U' = ⊥) : Nat.card (U ⊔ U' : Subgroup G) = Nat.card U * Nat.card U' := by
   have hc : ∀ (m : U) (n : U'), Commute (U.subtype m) (U'.subtype n) := fun m n =>
@@ -57,6 +60,7 @@ private theorem b15_S4A_card_sup {U U' : Subgroup G} (hcomm : U' ≤ centralizer
   rw [← hrange, ← Nat.card_prod]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite G] in
 private theorem b15_S4A_isElemAbelian_sup {A B : Subgroup G} (hA : IsElemAbelian 2 A)
     (hB : IsElemAbelian 2 B) (hAB : B ≤ centralizer (A : Set G)) : IsElemAbelian 2 (A ⊔ B) := by
   have hAn : A ≤ normalizer (B : Set G) :=
@@ -87,13 +91,15 @@ private theorem b15_S4A_isElemAbelian_sup {A B : Subgroup G} (hA : IsElemAbelian
     have hab : Commute a b := hcom ha hb
     rw [hab.mul_pow, hA.2 a ha, hB.2 b hb, one_mul]
 
+omit [Finite G] in
 private theorem b15_S4A_ncard_coe (B : Subgroup G) : (B : Set G).ncard = Nat.card B := by
   rw [← Nat.card_coe_set_eq]
   rfl
 
+omit [Finite G] in
 private theorem b15_S4A_ncard_nonid (B : Subgroup G) :
     ((B : Set G) \ {1}).ncard = Nat.card B - 1 := by
-  rw [Set.ncard_diff_singleton_of_mem B.one_mem, b15_S4A_ncard_coe]
+  rw [Set.ncard_sdiff_singleton_of_mem B.one_mem, b15_S4A_ncard_coe]
 
 private theorem b15_S4A_ncard_nonid_inter_le {B B' : Subgroup G} (h4 : Nat.card B = 4)
     (h4' : Nat.card B' = 4) (hne : B ≠ B') :
@@ -101,7 +107,7 @@ private theorem b15_S4A_ncard_nonid_inter_le {B B' : Subgroup G} (h4 : Nat.card 
   have hset : ((B : Set G) \ {1}) ∩ ((B' : Set G) \ {1}) =
       ((B ⊓ B' : Subgroup G) : Set G) \ {1} := by
     ext x
-    simp only [Set.mem_inter_iff, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff,
+    simp only [Set.mem_inter_iff, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff,
       Subgroup.mem_inf]
     tauto
   rw [hset, b15_S4A_ncard_nonid]
@@ -116,6 +122,7 @@ private theorem b15_S4A_ncard_nonid_inter_le {B B' : Subgroup G} (h4 : Nat.card 
   generalize Nat.card (B ⊓ B' : Subgroup G) = m at hdvd hne4 hle4
   interval_cases m <;> simp_all
 
+omit [Group G] in
 private theorem b15_S4A_six_le_ncard_union {X Y Z : Set G} (hX : X.ncard = 3) (hY : Y.ncard = 3)
     (hZ : Z.ncard = 3) (hXY : (X ∩ Y).ncard ≤ 1) (hXZ : (X ∩ Z).ncard ≤ 1)
     (hYZ : (Y ∩ Z).ncard ≤ 1) : 6 ≤ (X ∪ Y ∪ Z).ncard := by
@@ -246,7 +253,7 @@ theorem elemFamilyIn_two_eq_of_order_eight {T E C I W : Subgroup G} (hT : T = E 
     (hIE : I ≤ E) (hI : IsElemAbelian 2 I) (hI4 : Nat.card I = 4)
     (hWE : W ≤ E) (hW : IsElemAbelian 2 W) (hW4 : Nat.card W = 4) (hIW : I ≠ W) :
     elemFamilyIn 2 T = {I ⊔ C, W ⊔ C} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEn : E ≤ normalizer (C : Set G) :=
     (Subgroup.le_centralizer_iff.1 hEC).trans (Subgroup.centralizer_le_normalizer _)
   have hdecomp : ∀ t ∈ T, ∃ e ∈ E, ∃ c ∈ C, t = e * c := by

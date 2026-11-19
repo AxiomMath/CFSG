@@ -68,7 +68,7 @@ theorem Esub_sq (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) :
     calc x⁻¹ * x⁻¹ = (x * x)⁻¹ := by group
       _ = 1 := by rw [h, inv_one]
 
-theorem Esub_eq_sup (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) :
+theorem Esub_eq_sup (_hone : G23One H H₁ H₂) (_hlet : HLetters H H₁ H₂ e) :
     Esub e = Subgroup.zpowers (e 4) ⊔ Subgroup.zpowers (zOf e) := by
   apply le_antisymm
   · unfold Esub

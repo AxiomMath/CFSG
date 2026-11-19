@@ -44,11 +44,11 @@ theorem exists_hasUnitaryLabel {m f : ℕ} (hm : 2 ≤ m) {K : Type} [Field K] [
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E := End (ZMod 2)[SU (unitaryInvolution K 2 f) m] ρ.asModule
-  haveI : CharP E 2 := endField_charP ρ 2
+  have : CharP E 2 := endField_charP ρ 2
   let k := AlgebraicClosure E
   obtain ⟨φ₀⟩ := nonempty_ringHom_algebraicClosure (K := E) (F₀ := K) (p := 2)
-  letI : Algebra K k := φ₀.toAlgebra
-  haveI : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
+  let : Algebra K k := φ₀.toAlgebra
+  have : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
   have hsimp : IsSimpleRep (CFSG.Theory.Representation.extendScalars k (CFSG.endFieldRep ρ)) :=
     isSimpleRep_extendScalars_endFieldRep (ρ := ρ) (k := k)
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero (p := 2) hK

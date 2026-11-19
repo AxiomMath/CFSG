@@ -200,7 +200,7 @@ theorem card_CY_lam_eq :
     have hwN : w ∈ N := by
       have h := himg v₁ hv1Y
       rwa [hcomm_v1] at h
-    letI : Fintype ↥N := Fintype.ofFinite ↥N
+    let : Fintype ↥N := Fintype.ofFinite ↥N
     let a0 : ↥N := ⟨1, N.one_mem⟩
     let a1 : ↥N := ⟨z, hzN⟩
     let a2 : ↥N := ⟨w, hwN⟩

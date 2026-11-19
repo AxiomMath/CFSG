@@ -36,6 +36,7 @@ private theorem exists_eq_of_card_two {H : Type*} [Group H] {A : Subgroup H}
       have e2 : (⟨b, hbA⟩ : ↥A) = y := hy _ hb1
       exact congrArg Subtype.val (e1.trans e2.symm)
 
+omit [Finite V] in
 theorem commSub_le_fixSub_of_card_two {A : Subgroup (LGL 2 V)} (hA2 : Nat.card A = 2) :
     commSub A ≤ fixSub A := by
   obtain ⟨b, hbA, hbb, huniq⟩ := exists_eq_of_card_two hA2
@@ -69,6 +70,7 @@ theorem commSub_le_fixSub_of_card_two {A : Subgroup (LGL 2 V)} (hA2 : Nat.card A
   · rw [h1]
     exact hfix u hu
 
+omit [Finite V] in
 theorem mRank_cj_le_one {A : Subgroup (LGL 2 V)} (hA2 : Nat.card A = 2) (g : LGL 2 V) :
     mRank (cj g A) ≤ 1 := by
   unfold mRank
@@ -76,20 +78,23 @@ theorem mRank_cj_le_one {A : Subgroup (LGL 2 V)} (hA2 : Nat.card A = 2) (g : LGL
   have : Nat.log 2 2 = 1 := (Nat.log_eq_iff (Or.inl one_ne_zero)).mpr ⟨by norm_num, by norm_num⟩
   omega
 
+omit [Finite V] in
 theorem orbit_trans' {G A : Subgroup (LGL 2 V)} :
     ∀ B ∈ {B | ∃ g ∈ G, B = cj g A}, ∀ B' ∈ {B | ∃ g ∈ G, B = cj g A}, ∃ g ∈ G, B' = cj g B := by
   rintro B ⟨g₀, hg₀, rfl⟩ B' ⟨g₁, hg₁, rfl⟩
   refine ⟨g₁ * g₀⁻¹, G.mul_mem hg₁ (G.inv_mem hg₀), ?_⟩
   rw [← cj_mul]
-  simp [cj_one, mul_assoc]
+  simp [mul_assoc]
 
 variable {G : Subgroup (LGL 2 V)}
 
 @[expose] def JR (G : Subgroup (LGL 2 V)) : Subgroup (VG G) :=
   (pCoreOf 2 G).comap (projG G)
 
+omit [Finite V] in
 theorem mem_JR {x : VG G} : x ∈ JR G ↔ projG G x ∈ pCoreOf 2 G := Iff.rfl
 
+omit [Finite V] in
 theorem normal_JR : (JR G).Normal := by
   refine ⟨fun x hx y => ?_⟩
   rw [mem_JR] at hx ⊢
@@ -98,17 +103,20 @@ theorem normal_JR : (JR G).Normal := by
   exact (Subgroup.mem_normalizer_iff.1
     (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 G hy) _).1 hx
 
+omit [Finite V] in
 theorem vHat_le_JR : vHat G ≤ JR G := by
   intro x hx
   obtain ⟨v, -, rfl⟩ := mem_wHat.mp hx
   rw [mem_JR, projG_inl]
   exact Subgroup.one_mem _
 
+omit [Finite V] in
 theorem inr_mem_JR {r : G} (hr : (r : LGL 2 V) ∈ pCoreOf 2 G) :
     (SemidirectProduct.inr r : VG G) ∈ JR G := by
   rw [mem_JR, projG_inr]
   exact hr
 
+omit [Finite V] in
 theorem ker_projG_le_vHat : (projG G).ker ≤ vHat G := by
   intro x hx
   rw [MonoidHom.mem_ker] at hx
@@ -119,7 +127,7 @@ theorem ker_projG_le_vHat : (projG G).ker ≤ vHat G := by
   rw [hx1, map_one, mul_one]
 
 theorem isPGroup_JR : IsPGroup 2 (JR G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : IsPGroup 2 ↥(projG G).ker :=
     (isElemAbelian_wHat (G := G) ⊤).isPGroup.to_le ker_projG_le_vHat
   exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 G).comap_of_ker_isPGroup (projG G) hker
@@ -127,8 +135,9 @@ theorem isPGroup_JR : IsPGroup 2 (JR G) := by
 theorem JR_le_pCoreOf : JR G ≤ pCoreOf 2 (⊤ : Subgroup (VG G)) :=
   CFSG.LieType.BorelTits.le_pCoreOf 2 le_top (normal_JR.subgroupOf _) isPGroup_JR
 
+omit [Finite V] in
 theorem inf_UAOf_JR {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
-    (hstab : ∀ a ∈ A, conjSub a (VA A) = VA A) (hAG : A ≤ G) (hA : A ⊓ pCoreOf 2 G = ⊥) :
+    (hstab : ∀ a ∈ A, conjSub a (VA A) = VA A) (_hAG : A ≤ G) (hA : A ⊓ pCoreOf 2 G = ⊥) :
     UAOf G VA A ⊓ JR G = wHat G (VA A) := by
   apply le_antisymm
   · rintro x ⟨hx1, hx2⟩

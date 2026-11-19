@@ -67,7 +67,7 @@ theorem exists_orderOf_eq_centralizer_of_mulEquiv_alt {X : Type} [Group X] {p : 
     (hdp : d ^ p = 1) :
     ∃ σ : alternatingGroup (Fin n), orderOf (σ : Equiv.Perm (Fin n)) = p ∧
       (J.subgroupOf K).map φ.toMonoidHom ≤ Subgroup.centralizer {σ} := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set α : MulAut K := Subgroup.normalizerMonoidHom K ⟨d, hdN⟩ with hα
   have hαk : ∀ k : K, ((α k : K) : X) = d * k * d⁻¹ := fun k =>
     Subgroup.normalizerMonoidHom_apply_apply_coe _ _ _
@@ -130,9 +130,9 @@ private noncomputable def imageEquiv {X A : Type*} [Group X] [Group A] {J K : Su
 private theorem not_le_solvable_image {X A : Type*} [Group X] [Group A] {J K : Subgroup X}
     [Group.IsPerfect J] [Nontrivial J] (hJK : J ≤ K) (φ : K ≃* A) {C : Subgroup A}
     (hC : Group.IsSolvable C) (hJC : (J.subgroupOf K).map φ.toMonoidHom ≤ C) : False := by
-  haveI := hC
+  have := hC
   exact Group.IsPerfect.not_isSolvable J
-    (solvable_of_solvable_injective
+    (Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.inclusion hJC).comp (imageEquiv hJK φ).toMonoidHom)
       ((Subgroup.inclusion_injective hJC).comp (imageEquiv hJK φ).injective))
 
@@ -144,17 +144,17 @@ theorem false_of_mulEquiv_alt8 {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p
     (hBK : B ≤ Subgroup.normalizer (K : Set X)) (hDK : ¬ D ≤ Subgroup.centralizer (K : Set X))
     (φ : K ≃* alternatingGroup (Fin 8)) : False := by
   classical
-  obtain ⟨d, hdD, hdK⟩ := SetLike.not_le_iff_exists.1 hDK
+  obtain ⟨d, hdD, hdK⟩ := IsConcreteLE.not_le_iff_exists.1 hDK
   have hdC : d ∈ Subgroup.centralizer (J : Set X) := by
     have h := hdD
     rw [← hBC] at h
     exact h.2
   obtain ⟨σ, hσp, hσJ⟩ := exists_orderOf_eq_centralizer_of_mulEquiv_alt hp hp2
     (by norm_num) le_rfl φ (hBK (hDB hdD)) hdK hdC (hBexp d (hDB hdD))
-  haveI : Group.IsPerfect ((J.subgroupOf K).map φ.toMonoidHom) :=
+  have : Group.IsPerfect ((J.subgroupOf K).map φ.toMonoidHom) :=
     Group.IsPerfect.ofSurjective (f := (imageEquiv hJK φ).toMonoidHom)
       (imageEquiv hJK φ).surjective
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨m, hm⟩ := Equiv.Perm.cycleType_prime_order (σ := (σ : Equiv.Perm (Fin 8)))
     (by rw [hσp]; exact hp)
   rw [hσp] at hm
@@ -187,7 +187,7 @@ theorem false_of_mulEquiv_alt8 {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p
 
 private theorem perfect_nontrivial_of_isQuasisimple {G : Type*} [Group G]
     (hG : CFSG.Assembly.IsQuasisimple G) : Group.IsPerfect G ∧ Nontrivial G := by
-  haveI := hG.2
+  have := hG.2
   exact ⟨⟨hG.1⟩, (QuotientGroup.mk'_surjective (Subgroup.center G)).nontrivial⟩
 
 theorem strictNeighbour_isEmpty_mulEquiv_alt8

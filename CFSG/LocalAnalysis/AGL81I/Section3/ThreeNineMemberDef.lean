@@ -29,7 +29,7 @@ theorem threeNineDefRankOne_holds : ThreeNineDefRankOne := by
 
 theorem threeNineDefL3_holds : ThreeNineDefL3 := by
   intro G _ _ p d Y hp hp5 hd hd2 hdp hdG hK hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hK
   have hY₀ : IsBorelDLocal p d (Y.map e.toMonoidHom) := hY.map_equiv e
   have hdG' : d ∣ Nat.card PSL(3, ZMod p) := Nat.card_congr e.toEquiv ▸ hdG

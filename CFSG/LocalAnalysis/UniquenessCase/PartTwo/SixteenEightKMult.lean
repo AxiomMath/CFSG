@@ -74,17 +74,17 @@ private theorem s16k_omegaMinus6_center_mult (hGA : CFSG.Open.GriessAllModelsSta
           CFSG.Blueprint.Multiplier.exceptional .PSU 4 2 a)) := by
   simp only [IsOmegaMinus, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, b, c, hcard, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := a) hcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := a) hcard
   obtain ⟨E, hEfield, hEU, ⟨eSU⟩⟩ :=
     CFSG.ComponentClassification.RankTwoClassical.nonempty_statedOmega_quadMinus_three_equiv
       (m := a) hcard hirr
-  letI : Field E := hEfield
-  haveI : Finite E := hEU.finite
-  haveI : CharP E 2 := hEU.charP
+  let : Field E := hEfield
+  have : Finite E := hEU.finite
+  have : CharP E 2 := hEU.charP
   have hE : Nat.card E = (2 ^ a) ^ 2 := by
     rw [hEU.card, ← pow_mul, Nat.mul_comm]
   have hnq : ((4 : ℕ), 2 ^ a) ≠ (3, 2) := fun hh =>
@@ -109,7 +109,7 @@ private theorem s16k_omegaMinus6_center_mult (hGA : CFSG.Open.GriessAllModelsSta
     (QuotientGroup.quotientMulEquivOfEq hSUbot).trans QuotientGroup.quotientBot
   have hmodeliso : X ≃* StatedProj (StatedSU 4 (2 ^ a) E) :=
     e.trans (hprojΩ.trans (eSU.trans hprojSU.symm))
-  haveI : Group.IsPerfect (StatedSU 4 (2 ^ a) E) := hSU.1.1
+  have : Group.IsPerfect (StatedSU 4 (2 ^ a) E) := hSU.1.1
   have hZproj : Subgroup.center (StatedProj (StatedSU 4 (2 ^ a) E)) = ⊥ :=
     s16k_center_eq_bot_of_mulEquiv (QuotientGroup.quotientMulEquivOfEq hSU.2.symm)
       (Group.IsPerfect.center_quotient_center_eq_bot (G := StatedSU 4 (2 ^ a) E))
@@ -125,9 +125,9 @@ theorem s16k_trivial_sp4_four (hGA : CFSG.Open.GriessAllModelsStatement) {X : Ty
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
   simp only [IsSpn, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK4 : Nat.card K = 4 := by rw [hcard]; norm_num
   have hbot : Subgroup.center (StatedSp 2 K) = ⊥ := s16k_center_statedSp_eq_bot hK4 2
   have hclass : StatedClassicalModel X .PSp 2 2 2 :=

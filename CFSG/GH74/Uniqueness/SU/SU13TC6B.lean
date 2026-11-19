@@ -220,7 +220,7 @@ theorem card_Zy_ne_three : Nat.card X.Zy ≠ 3 := by
   have hQeq : (Q : Subgroup G) = Ys :=
     eq_of_isPGroup_le_of_normalizer (p := 3) (H := normalizer (zpowers X.L.e.s₂ : Set G))
       (E := zpowers X.L.e.s₂) (Es := Ys) (R := Q) le_rfl
-      (fun g hg => mem_normalizer_of_center hPc hPT hZYs hg) hmax Q.isPGroup' hQ
+      (fun g hg => mem_normalizer_of_center hPc hPT hZYs hg) hmax Q.isPGroup hQ
   have hQcard : Nat.card Q = 3 ^ 8 := by
     have : Nat.card (Q : Subgroup G) = Nat.card Ys := by rw [hQeq]
     rw [← hYs8]; exact this

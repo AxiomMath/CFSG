@@ -14,8 +14,9 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 private theorem barSub_eq_bot_of_le_ker {K J : Subgroup G} {X : Type} [Group X]
-    {φ : ↥K →* X} (hφ : IsBarMap K J φ) {A : Subgroup G} (hA : A ≤ K) (hAJ : A ≤ J) :
+    {φ : ↥K →* X} (hφ : IsBarMap K J φ) {A : Subgroup G} (_hA : A ≤ K) (hAJ : A ≤ J) :
     barSub K φ A = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro x hx
@@ -23,6 +24,7 @@ private theorem barSub_eq_bot_of_le_ker {K J : Subgroup G} {X : Type} [Group X]
   rw [← hax]
   exact (hφ.ker_iff a).mpr (hAJ haA)
 
+omit [Finite G] in
 private theorem conj_commutatorElement (k u r : G) :
     k⁻¹ * ⁅k * u * k⁻¹, k * r * k⁻¹⁆ * k = ⁅u, r⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
@@ -32,7 +34,7 @@ theorem fusionOddCore_le_center_of_two_lt_card (h : Hyp711 V H E) {X : Type} [Gr
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hbig : 2 < Nat.card (barSub (kSub V H E) φ V)) :
     fusionOddCore X ≤ Subgroup.center X := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let J : Subgroup G := pCoreOf 2 K
   have hJleK : J ≤ K := CFSG.LieType.BorelTits.pCoreOf_le (r := 2) K
@@ -140,7 +142,7 @@ theorem fusionOddCore_le_center_of_two_lt_card (h : Hyp711 V H E) {X : Type} [Gr
 theorem isTI_barSub (h : Hyp711 V H E) {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) :
     IsTI (barSub (kSub V H E) φ V) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let J : Subgroup G := pCoreOf 2 K
   have hJleK : J ≤ K := CFSG.LieType.BorelTits.pCoreOf_le (r := 2) K
@@ -206,6 +208,7 @@ theorem isTI_barSub (h : Hyp711 V H E) {X : Type} [Group X] {φ : ↥(kSub V H E
     rw [hconjT]
     exact inf_eq_left.mpr le_rfl
 
+omit [Finite G] in
 theorem normalClosure_barSub_eq_top (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) :
     Subgroup.normalClosure (barSub (kSub V H E) φ V : Set X) = ⊤ := by
@@ -250,7 +253,7 @@ theorem normalClosure_barSub_eq_top (h : Hyp711 V H E) {X : Type} [Group X]
 theorem two_le_card_barSub (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) :
     2 ≤ Nat.card (barSub (kSub V H E) φ V) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let J : Subgroup G := pCoreOf 2 K
   have hnle : ¬ V ≤ J := not_le_pCoreOf_kSub h

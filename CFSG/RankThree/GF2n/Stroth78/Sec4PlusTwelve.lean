@@ -39,7 +39,7 @@ theorem not_lieModel_psp_three_of_card_ZQ_eq_four
   · exact CFSG.ComponentClassification.Foote5.card_outer_eq_one_of_psp_three_two
       (hX.statedClassicalModel (by decide))
   · intro r hr P A hA2 hAc hrA hAr hAP
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨hr1, hr2⟩ := hD.1.2.2.1 r hr
     have hro : orderOf r = 2 := orderOf_eq_prime (by rw [sq]; exact hr2) hr1
     exact CFSG.EvenSmallLie.Sp6.card_le_eight_of_rootClass hX hD.1.2.1 hD.1.2.2.2.1 hD.2.1 hr

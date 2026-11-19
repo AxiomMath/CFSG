@@ -460,7 +460,7 @@ theorem congr_eq_conj_imp {K C : Type} [Group K] [Group C] (e : K ≃* C) (α : 
   refine MulEquiv.ext fun k => ?_
   apply e.injective
   have hk := congrArg (fun φ : MulAut C => φ (e k)) h
-  simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at hk
+  simp only [MulAut.congr_apply, MulAut.conj_apply] at hk
   rw [MulAut.conj_apply, map_mul, map_mul]
   simp only [MulEquiv.apply_symm_apply, map_inv]
   rw [← hk]
@@ -471,7 +471,7 @@ theorem exists_mulEquiv_adjointD4 {S : Type} [Group S] {q : TauCeti.PrimePower}
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.D 4 q, hv⟩) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : S ≃* ↥(adjointGroup Tag.D4 K)),
       Nat.card K = 2 ^ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 3) = q.card := by
     rw [GaloisField.card 2 3 (by norm_num), TauCeti.PrimePower.card_def, hq.1, hq.2]
   obtain ⟨eB⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_adjointQuotient_D4_equiv
@@ -491,7 +491,7 @@ theorem d4_cube_trichotomy_model {K : Type} [Field K] [Finite K] (hK : Nat.card 
         (ε = 1 ∨ ε = 2) ∧
           α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hK
@@ -586,7 +586,7 @@ theorem exists_mulEquiv_twE6 {S : Type} [Group S] {q : TauCeti.PrimePower}
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (σq : K →+* K)
       (_ : S ≃* DerivedCentralQuotient (twistedFixedGroup TwistTag.E6 K σq)),
       Nat.card K = (2 ^ 3) ^ 2 ∧ ∀ c, σq c = c ^ (2 ^ 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqc : q.card = 2 ^ 3 := by rw [TauCeti.PrimePower.card_def, hq.1, hq.2]
   have hK : Nat.card (GaloisField 2 6) = q.card ^ TwistTag.E6.order := by
     rw [GaloisField.card 2 6 (by norm_num), hqc]
@@ -755,8 +755,8 @@ theorem isPerfect_adjointGroup_D4 (F : Type) [Field F] [Finite F] :
   obtain ⟨e⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   have hK : CFSG.IsQuasisimple (StatedOmega (StatedQuadPlus 4 F)) :=
     CFSG.LieType.Universal.Spin.isQuasisimple_statedOmega_quadPlus (by norm_num)
-  haveI := hK.1
-  haveI : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadPlus 4 F))) :=
+  have := hK.1
+  have : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadPlus 4 F))) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
 
@@ -793,7 +793,7 @@ theorem d4FieldFixed_holds :
             IsLieQuot ↥(K ⊓ Subgroup.centralizer ({a} : Set X)) IsD4TwoIndex := by
   intro X _ _ K a ha hK hLie hA3 hField
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKq : CFSG.IsQuasisimple K := D4FixedAux.isQuasisimple_of_open_aux hK.2.2
   obtain ⟨d, hdD4, ⟨eL⟩⟩ := hLie
   obtain ⟨d₀, hv⟩ := d
@@ -835,7 +835,7 @@ theorem d4FieldFixed_holds :
       obtain ⟨g', hg', hg''⟩ := hmat g
       rw [hg'']
       exact Subtype.ext hg'
-    haveI : CharP K' 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K' 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by norm_num) hK'
     have hchar : ringChar K' = 2 := ringChar.eq K' 2
     obtain ⟨hdvd, hcardfix⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield

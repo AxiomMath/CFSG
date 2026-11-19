@@ -12,6 +12,7 @@ open CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.Offender
 
 variable {G : Type} [Group G] [Finite G] {S L : Subgroup G}
 
+omit [Finite G] in
 theorem iSup_offenders_eq_map_thompsonJ {M : Subgroup G} (hSM : S ≤ M) {Ω : Type*}
     (θ : ↥M →* Perm Ω) :
     (⨆ A : {A : Subgroup G // IsMaxElemAbelian S A}, (A.1.subgroupOf M).map θ) =

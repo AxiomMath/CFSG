@@ -23,8 +23,8 @@ theorem false_of_orthClass (X : GGSmallD2Ctx p N A T AT)
     (hcell : (p = 5 ∧ N = 5) ∨ (p = 7 ∧ N = 7) ∨ (p = 5 ∧ N = 10))
     {Q : QuadraticForm (ZMod p) ↥T} {c : ZMod p} (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hc : c ≠ 0) (hA : AT = Subgroup.closure (ZS.ClassRefl p Q c)) : False := by
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Module.Finite (ZMod p) ↥T := X.finite_T
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Module.Finite (ZMod p) ↥T := X.finite_T
   rcases hcell with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · rcases X.finrank_T with hd | hd
     · have hd4 : Module.finrank (ZMod 5) ↥T = 4 := by omega
@@ -35,8 +35,8 @@ theorem false_of_orthClass (X : GGSmallD2Ctx p N A T AT)
         exact X.false_of_neg_mem hneg
       · exact X.ne_top (GGExtCtx.eq_top_of_classRefl_minus_four X.ext hd4 hQ hplus hc hA)
     · have hd3 : Module.finrank (ZMod 5) ↥T = 3 := by omega
-      haveI : Finite ↥T := Module.finite_of_finite (ZMod 5)
-      haveI : Finite (↥T ≃ₗ[ZMod 5] ↥T) :=
+      have : Finite ↥T := Module.finite_of_finite (ZMod 5)
+      have : Finite (↥T ≃ₗ[ZMod 5] ↥T) :=
         Finite.of_injective
           (fun e : ↥T ≃ₗ[ZMod 5] ↥T => (e : ↥T → ↥T))
           (fun e f h => LinearEquiv.ext (congrFun h))

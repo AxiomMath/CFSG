@@ -60,7 +60,7 @@ theorem tf4_of_index_four [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow 2 G
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRsyl.1
-    hR'syl.1 (S.isPGroup'.to_le (sup_le hRS hR'S))
+    hR'syl.1 (S.isPGroup.to_le (sup_le hRS hR'S))
   obtain ⟨g, hg'⟩ := hg
   have ht2 : t' * t' = 1 := by
     rw [← hg']

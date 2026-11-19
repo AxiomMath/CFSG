@@ -14,12 +14,12 @@ theorem orderA_one_eq (n : ℕ) : orderA 1 n = n * (n ^ 2 - 1) / Nat.gcd 2 (n - 
 theorem orderA_two_eq (n : ℕ) :
     orderA 2 n = n ^ 3 * ((n ^ 2 - 1) * (n ^ 3 - 1)) / Nat.gcd 3 (n - 1) := by
   have hI : Finset.Icc 2 3 = {2, 3} := by decide
-  simp [orderA, hI, Finset.prod_pair]
+  simp [orderA, hI]
 
 theorem orderTwistedA_two_eq (n : ℕ) :
     orderTwistedA 2 n = n ^ 3 * ((n ^ 2 - 1) * (n ^ 3 + 1)) / Nat.gcd 3 (n + 1) := by
   have hI : Finset.Icc 2 3 = {2, 3} := by decide
-  simp [orderTwistedA, hI, Finset.prod_pair, Nat.even_iff]
+  simp [orderTwistedA, hI, Nat.even_iff]
 
 theorem A1_ne (n : ℕ) (hn : n % 2 = 0) (h2 : 2 ≤ n) : orderA 1 n ≠ 174182400 := by
   intro h

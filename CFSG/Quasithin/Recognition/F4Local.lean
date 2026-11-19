@@ -186,10 +186,10 @@ theorem F431Lie.lemma_F433 (D : F431Lie T M1 M2 z t) (C : F431Comp M1 M2 b1 b2)
     rw [Subgroup.relIndex_top_right, h]
     exact S.not_dvd_index
   obtain ⟨n, hnS, hnN, hnP⟩ :=
-    exists_mem_normalizer_not_mem_of_isPGroup S.isPGroup' hPS hPneS
+    exists_mem_normalizer_not_mem_of_isPGroup S.isPGroup hPS hPneS
   set N : Subgroup M := P ⊔ Subgroup.zpowers n with hN
   have hNS : N ≤ S := sup_le hPS (Subgroup.zpowers_le.2 hnS)
-  have hNp : IsPGroup 2 N := S.isPGroup'.to_le hNS
+  have hNp : IsPGroup 2 N := S.isPGroup.to_le hNS
   have hNnorm : N ≤ Subgroup.normalizer (P : Set M) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 hnN)
   have hnN' : n ∈ N := Subgroup.mem_sup_right (Subgroup.mem_zpowers n)

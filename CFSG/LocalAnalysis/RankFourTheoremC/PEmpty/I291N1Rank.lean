@@ -22,9 +22,9 @@ theorem ne_zero_of_not_comm {S : Type} [Group S] (n : ℕ) {K : Type} [Field K]
   apply hab
   have : Subsingleton (StatedProj H) := by
     have : Subsingleton (Matrix.GeneralLinearGroup (Fin 0) K) := by
-      haveI : Subsingleton (Matrix (Fin 0) (Fin 0) K) := inferInstance
+      have : Subsingleton (Matrix (Fin 0) (Fin 0) K) := inferInstance
       infer_instance
-    haveI : Subsingleton ↥H := inferInstance
+    have : Subsingleton ↥H := inferInstance
     infer_instance
   exact e.injective (Subsingleton.elim _ _)
 

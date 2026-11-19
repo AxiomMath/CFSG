@@ -43,7 +43,7 @@ theorem exists_mulEquiv_comp_eq {k m : ℕ} {τ' : Multiplicative (Fin k → ZMo
   have h1 := (MonoidHom.ofInjective hχ).apply_symm_apply
     (MulEquiv.subgroupCongr hrange (MonoidHom.ofInjective hτ' f))
   have h2 := congrArg Subtype.val h1
-  simpa [MonoidHom.ofInjective_apply] using h2
+  simp [MonoidHom.ofInjective_apply]
 
 end Coordinates
 

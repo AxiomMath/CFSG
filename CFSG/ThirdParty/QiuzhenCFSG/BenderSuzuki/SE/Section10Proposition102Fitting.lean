@@ -34,7 +34,7 @@ public theorem proposition102_nilpotent_internalDirectProduct_pCore_pPrimeCore
     (p : ℕ) (hp : Nat.Prime p) (hnil : Group.IsNilpotent Q) :
     Section2.IsInternalDirectProduct (⊤ : Subgroup Q)
       (pCore p Q) (pPrimeCore p Q) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hsup : pCore p Q ⊔ pPrimeCore p Q = (⊤ : Subgroup Q) :=
     top_unique (nilpotent_top_le_pCore_sup_pPrimeCore hnil)
   have hcop : Nat.Coprime (Nat.card (pCore p Q))
@@ -43,7 +43,7 @@ public theorem proposition102_nilpotent_internalDirectProduct_pCore_pPrimeCore
     rw [hn]
     exact (pPrimeCore_coprime_card (G := Q) (p := p)).pow_left n
   have hinf : pCore p Q ⊓ pPrimeCore p Q = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime hcop
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   refine
     { left_le := le_top
       right_le := le_top
@@ -121,13 +121,13 @@ public theorem proposition102_normal_sylow_eq_pCore
     {r : ℕ} (hr : r.Prime) (P : Sylow r G)
     (hPnormal : (P : Subgroup G).Normal) :
     pCore r G = (P : Subgroup G) := by
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : Unique (Sylow r G) := Sylow.unique_of_normal P hPnormal
+  let : Fact r.Prime := ⟨hr⟩
+  let : Unique (Sylow r G) := Sylow.unique_of_normal P hPnormal
   apply le_antisymm
   · obtain ⟨Q, hcoreQ⟩ :=
       (pCore_isPGroup (p := r) (G := G)).exists_le_sylow
     simpa [Subsingleton.elim Q P] using hcoreQ
-  · exact le_sSup ⟨hPnormal, P.isPGroup'⟩
+  · exact le_sSup ⟨hPnormal, P.isPGroup⟩
 
 /-- If `R` is a normal Sylow `r`-subgroup of `V`, the ambient Fitting
 subgroup of `V` splits internally as `R` times its `r'`-core. -/
@@ -142,14 +142,14 @@ public theorem proposition102_fitting_internalDirectProduct_of_normal_sylow
       Section2.IsInternalDirectProduct (fittingSubgroupOf V) R Q ∧
       Q = (pPrimeCore r (fittingSubgroupOf V)).map
         (fittingSubgroupOf V).subtype := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let F : Subgroup X := fittingSubgroupOf V
   have hRnil : Group.IsNilpotent R := by
     exact IsPGroup.isNilpotent (by
       rcases hRsyl with ⟨S, hS⟩
       have hSp : IsPGroup r R := by
         rw [hS]
-        exact S.isPGroup'.map V.subtype
+        exact S.isPGroup.map V.subtype
       exact hSp)
   have hRnilV : Group.IsNilpotent (R.subgroupOf V) := by
     exact Group.nilpotent_of_mulEquiv (_h := hRnil)
@@ -197,7 +197,7 @@ public theorem proposition102_commutator_eq_bot_of_coprime_centralizer
     (hQR : ⁅Q, R⁆ = ⊥)
     (hQCR : Q ≤ Subgroup.centralizer (subgroupCentralizerIn S R : Set X)) :
     ⁅Q, S⁆ = ⊥ := by
-  letI : Subgroup.Normalizes Q S := ⟨hQnormS⟩
+  let : Subgroup.Normalizes Q S := ⟨hQnormS⟩
   have hnil : Group.IsNilpotent S := IsPGroup.isNilpotent hSr
   have hR_le_CQ : R ≤ subgroupCentralizerIn S Q := by
     have hQ_le_CR : Q ≤ Subgroup.centralizer (R : Set X) :=

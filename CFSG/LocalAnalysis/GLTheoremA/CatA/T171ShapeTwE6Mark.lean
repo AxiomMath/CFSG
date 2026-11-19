@@ -42,11 +42,11 @@ theorem twE6Marking_holds :
     have hvalid : (TauCeti.LieTypeIndex.twistedE6 q).Valid := by
       rw [← hidx]
       exact idx.2
-    haveI hsimpleCat : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := by
+    have hsimpleCat : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := by
       rw [show idx = ⟨.twistedE6 q, hvalid⟩ from Subtype.ext hidx]
       exact (CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_twistedE6
         hvalid).2
-    haveI : IsSimpleGroup (PSimple 3 L) := e0.isSimpleGroup
+    have : IsSimpleGroup (PSimple 3 L) := e0.isSimpleGroup
     have hn : 1 ≤ q.exponent := q.exponent_pos
     have h3dvd : 3 ∣ 2 ^ q.exponent + 1 := by
       have h := h3q

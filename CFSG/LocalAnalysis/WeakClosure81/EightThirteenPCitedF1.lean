@@ -17,7 +17,7 @@ theorem involutionCentralizerOn_of_facts (Sh : ShapePred)
     InvolutionCentralizerOn Sh := by
   intro Y _ _ L b hLsh hb hb2 hx
   obtain ⟨hq, hodd, -⟩ := hSh Y L hLsh
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   let α : MulAut ↥L := Subgroup.normalizerMonoidHom (H := L) ⟨b, hb⟩
   have hαcoe : ∀ x : ↥L, ((α x : ↥L) : Y) = b * (x : Y) * b⁻¹ := by
     intro x

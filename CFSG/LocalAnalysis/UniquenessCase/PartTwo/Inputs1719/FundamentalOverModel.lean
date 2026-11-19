@@ -72,7 +72,7 @@ theorem exists_model_of_isFundamentalOver {X : Type} [Group X] [Finite X] {r f q
   have hp_eq' : hp = Fact.out := Subsingleton.elim _ _
   subst hp_eq'
   have hψ1 : ∃ x : (CFSG.ClassicalInvolution.Generic.modelUniv t n r f Fact.out).K, ψ x ≠ 1 := by
-    obtain ⟨y, ⟨x, -, rfl⟩, hy⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hKb_ne)
+    obtain ⟨y, ⟨x, -, rfl⟩, hy⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hKb_ne)
     exact ⟨x, fun h => hy (Subgroup.mem_bot.mpr h)⟩
   have hnA1 : ¬ (t = .PSL ∧ n = 2) := by
     rintro ⟨rfl, rfl⟩

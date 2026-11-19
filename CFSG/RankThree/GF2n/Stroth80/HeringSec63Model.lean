@@ -96,11 +96,11 @@ theorem Env.exists_model (I : Inputs) (e : Env hc n t m X) :
   have hnatSO := natSO_of_omega e.hm e.hΩ
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
   rcases e.hΩ with ⟨K, fK, finK, hK, hnat⟩ | ⟨K, fK, finK, hK, b, c, hirr, hnat⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by have := e.hm; omega⟩⟩
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by have := e.hm; omega⟩⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hgeom := omegaGeom_plus (K := K) e.hm
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [hgeom.dim]; have := e.hm; omega
@@ -113,11 +113,11 @@ theorem Env.exists_model (I : Inputs) (e : Env hc n t m X) :
     exact ⟨Fin m ⊕ Fin m, inferInstance, inferInstance, K, fK, finK, inferInstance, quadPlus m K,
       _, ElemMatrixIso.plus e.hm, φ, hn, ψ, u, hK, hgeom,
       ⟨hφ, hker, hψ, hQu, hu0, hB, hL, fun r => (hr' r).2⟩⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hgeom := omegaGeom_minus (K := K) e.hm hirr
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [hgeom.dim]; have := e.hm; omega

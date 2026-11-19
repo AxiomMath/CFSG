@@ -37,7 +37,7 @@ theorem s16c167_card_vtil_le_of_case168_10 (D : Data G) {V L : Subgroup G}
   obtain ⟨t, -, -, -, -, hsup, -⟩ := hc.conc
   have hd : dParam 7 = 3 := by
     unfold dParam
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime (p := 3) (by decide) (by decide)
   rw [hd] at hrk
   let Ts : Set (Subgroup (MulAut (Vtil ⊥ V hV))) :=

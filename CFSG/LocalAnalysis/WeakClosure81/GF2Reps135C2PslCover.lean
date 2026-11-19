@@ -26,8 +26,8 @@ theorem w135c2_psl_cover
         φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K) ∧
         Odd (Nat.card φ.ker) := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Finite (MulAut W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun a b h => MulEquiv.ext (congr_fun h))
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← pow_two]; exact hW w
@@ -41,11 +41,11 @@ theorem w135c2_psl_cover
   obtain ⟨K, hKfield, hKfinite, hKcard, hKchar, hm2, φ', hφ', hker, _⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.exists_cover_of_psl_model
       (L := ↥L) hperf hodd hf hsc
-  letI : Field K := hKfield
-  haveI : Finite K := hKfinite
+  let : Field K := hKfield
+  have : Finite K := hKfinite
   let fK : Fintype K := Fintype.ofFinite K
-  letI : Fintype K := fK
-  haveI : CharP K 2 := hKchar
+  let : Fintype K := fK
+  have : CharP K 2 := hKchar
   have hKcardF : Fintype.card K = 2 ^ f := by
     rw [Fintype.card_eq_nat_card]
     exact hKcard
@@ -62,7 +62,7 @@ theorem w135c2_psl_rep_irreducible {W : Type} [CommGroup W] [Finite W]
     (pslRep φ).IsIrreducible := by
   rw [CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff]
   refine ⟨?_, ?_⟩
-  · haveI : Nontrivial W := by
+  · have : Nontrivial W := by
       have hne : (⊤ : Subgroup W) ≠ ⊥ := (ne_of_lt hIrr.1).symm
       obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
       exact ⟨(a : W), 1, fun h => ha (Subtype.ext h)⟩

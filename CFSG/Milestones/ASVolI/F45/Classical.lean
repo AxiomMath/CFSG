@@ -21,9 +21,9 @@ theorem burnsideF45_hasSystem_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
   · have hc : c' = .Sp4 := by
       cases c' <;> first | rfl | exact absurd hk (by decide)
     subst hc
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-    haveI : CharP marking.field p :=
+    have : CharP marking.field p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
         marking.exponent_pos hK
     exact ⟨_, inferInstance, marking.identification, 4, burnsideF45_sp4System marking.field, rfl,
@@ -37,12 +37,12 @@ open CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits CFSG.Quasithin.H13.F4
 
 theorem burnsideF45_hasSystem_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 p f Gp M₁ M₂) (hp : p.Prime) : burnsideF45_HasSystem .U4 p Gp := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U4) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inl rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inl rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   let θ₀ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃*
       StatedProj (nativeGroup .U4 (p ^ f) marking.field)).trans marking.identification
@@ -51,12 +51,12 @@ theorem burnsideF45_hasSystem_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
 
 theorem burnsideF45_hasSystem_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 p f Gp M₁ M₂) (hp : p.Prime) : burnsideF45_HasSystem .U5 p Gp := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U5) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inr rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inr rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   let θ₀ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃*
       StatedProj (nativeGroup .U5 (p ^ f) marking.field)).trans marking.identification

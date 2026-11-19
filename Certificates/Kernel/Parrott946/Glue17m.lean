@@ -96,7 +96,7 @@ open Classical in
 theorem jOf_spec {x : P45} (hx : x ∈ T0g) (h2 : x * x = 1) (h1 : x ≠ 1) :
     jOf x < 43 ∧ x = xI (jOf x) := by
   have h := inv_eq_xI hx h2 h1
-  rw [jOf, dif_pos h]
+  rw [jOf, dite_eq_left h]
   exact Classical.choose_spec h
 
 theorem mem_invs {x : P45} (hx : x ∈ involutionsOf (T0list ())) :
@@ -124,7 +124,6 @@ theorem span_dup {l : List P45} (hl : l.length = 4) (hinv : ∀ x ∈ l, x * x =
     rw [List.mem_toFinset]
     refine mem_prodSpan_of_mem_closure _ (fun y hy => hinv y (List.mem_dedup.1 hy))
       (fun a ha b hb => hcomm a (List.mem_dedup.1 ha) b (List.mem_dedup.1 hb)) x ?_
-    change x ∈ closure {x | x ∈ l.dedup}
     rw [← e]
     exact hxH
   have h1 := len_le_of_sub hsp hsub

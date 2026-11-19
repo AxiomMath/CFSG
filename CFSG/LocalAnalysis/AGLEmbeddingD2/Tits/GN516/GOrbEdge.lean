@@ -23,7 +23,7 @@ variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRo
 
 theorem quasisimpleModTwoNonab_of_edgeLevi (h : BorelQuotient D n H π M) {u v : Fin D.rank}
     (he : EdgeLevi D u v) : QuasisimpleModTwoNonab ↥(twoResidual ((unipJ D {u, v}).map π)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hct := h.ct
   have hext := h.extras
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos hext h.pGroup
@@ -33,7 +33,7 @@ theorem quasisimpleModTwoNonab_of_edgeLevi (h : BorelQuotient D n H π M) {u v :
     exact ⟨k, congrArg Subtype.val hk⟩
   have hN : unipJ D {u, v} =
       unipRad D {u, v} ⊔ (rankOne D.rootGroup u ⊔ rankOne D.rootGroup v) := by
-    rw [unipJ_eq_sup hct hext, iSup_pair]
+    rw [unipJ_eq_sup hct, iSup_pair]
   have hL_norm : rankOne D.rootGroup u ⊔ rankOne D.rootGroup v ≤
       Subgroup.normalizer ((unipRad D {u, v} : Subgroup K) : Set K) :=
     sup_le ((rankOne_le_parJ (Set.mem_insert _ _)).trans (parJ_le_normalizer_unipRad hct hext _))
@@ -91,8 +91,8 @@ theorem quasisimpleModTwoNonab_of_simple {Y : Type} [Group Y] [Finite Y] {L : Su
     (hs : IsSimpleGroup ↥L)
     (hQ : ∃ Q : Subgroup ↥L, IsPGroup 2 Q ∧ ∃ a ∈ Q, ∃ b ∈ Q, a * b ≠ b * a) :
     QuasisimpleModTwoNonab ↥(twoResidual (pElementSubgroup 2 L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hs
   obtain ⟨Q, hQ2, a, ha, b, hb, hab⟩ := hQ
   have hquasi : IsQuasisimpleTwoNonab ↥L :=
     isQuasisimpleTwoNonab_of_simple hs
@@ -120,7 +120,7 @@ theorem quasisimpleModTwoNonab_of_simple {Y : Type} [Group Y] [Finite Y] {L : Su
         Subgroup.mem_comap.1 (key g⁻¹ (L.inv_mem hg) hx)
       have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
       rwa [e] at h2
-    haveI := EdgeAux.normal_subgroupOf_of_le_normalizer hLN
+    have := EdgeAux.normal_subgroupOf_of_le_normalizer hLN
     apply le_antisymm (pElementSubgroup_le (p := 2) L)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((pElementSubgroup 2 L).subgroupOf L) with h0 | h1
@@ -140,7 +140,7 @@ theorem quasisimpleModTwoNonab_of_simple {Y : Type} [Group Y] [Finite Y] {L : Su
   have hO : twoResidual L = L := by
     have hLN : L ≤ Subgroup.normalizer ((twoResidual L : Subgroup Y) : Set Y) :=
       le_normalizer_twoResidual L
-    haveI := EdgeAux.normal_subgroupOf_of_le_normalizer hLN
+    have := EdgeAux.normal_subgroupOf_of_le_normalizer hLN
     apply le_antisymm (twoResidual_le L)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((twoResidual L).subgroupOf L) with h0 | h1
     · exfalso
@@ -172,10 +172,11 @@ theorem quasisimpleModTwoNonab_of_simple {Y : Type} [Group Y] [Finite Y] {L : Su
   exact quasisimpleModTwoNonab_of_mulEquiv
     ((QuotientGroup.quotientMulEquivOfEq hC).trans QuotientGroup.quotientBot) hquasi
 
+omit [Finite K] [Finite S] in
 theorem exists_nonabelian_two_of_adj (h : BorelQuotient D n H π M) {j k : Fin D.rank}
     (hjk : j ≠ k) (hc : D.cartan j k ≠ 0) :
     ∃ Q : Subgroup S, IsPGroup 2 Q ∧ ∃ a ∈ Q, ∃ b ∈ Q, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos h.extras h.pGroup
   obtain ⟨a, ha, c, hcc, hac⟩ := exists_not_commute_of_cartan_ne_zero h.ct h.extras hjk hc
   have haU : a ∈ posUnipotent D :=

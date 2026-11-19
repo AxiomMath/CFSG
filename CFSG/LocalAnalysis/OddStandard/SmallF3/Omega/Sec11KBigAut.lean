@@ -16,7 +16,7 @@ private lemma conj_mem_of_mem_normalizer {X : Subgroup G} {g x : G}
 
 private lemma oddCore_inf_sylow_eq_bot [Finite G] {X P : Subgroup G} (hP : IsSylow2Of P X) :
     oddCoreIn X ⊓ P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
   rw [Subgroup.mem_inf] at hg
@@ -231,7 +231,7 @@ private lemma conj_mem_oddCore_of_sylow [Finite G] {X P : Subgroup G} (hP : IsSy
     (hXP : oddCoreIn X ⊔ P = X) (hAut : IsPGroup 2 (MulAut ↥P)) {h : G}
     (hh : h ∈ Subgroup.normalizer (X : Set G)) (hodd : Odd (orderOf h)) {p : G} (hp : p ∈ P) :
     h * p * h⁻¹ * p⁻¹ ∈ oddCoreIn X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : orderOf (phiAuto hP hXP ⟨h, hh⟩) ∣ orderOf h :=
     orderOf_dvd_of_pow_eq_one (phiAuto_pow_orderOf_eq_one hP hXP hh)
   have hcop : Nat.Coprime (orderOf (phiAuto hP hXP ⟨h, hh⟩)) (orderOf h) :=

@@ -149,7 +149,7 @@ theorem isPGroup_preimOf {V H : Subgroup G} {S : Subgroup (Hbar V H)}
   exact hj'
 
 theorem normal_oddCoreX (V H : Subgroup G) : (oddCoreX V H).Normal := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   exact normal_map_subtype_of_characteristic (CFSG.oddCore (Xbar V H))
 
 theorem oddCoreX_le (V H : Subgroup G) : oddCoreX V H ≤ barOf V H (xOf V H) := by

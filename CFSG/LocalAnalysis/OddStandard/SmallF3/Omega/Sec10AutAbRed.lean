@@ -37,7 +37,7 @@ theorem autQuot_mk (H : Type*) [Group H] (N : Subgroup H) [N.Normal] [N.Characte
 theorem eq_one_of_autQuot_eq_one [Finite G] {I : Subgroup G} (hI : IsQuasisimple I)
     (hs : IsSimpleGroup (↥I ⧸ oddCore ↥I)) {α : MulAut ↥I}
     (h : (haveI := oddCore_characteristic_of ↥I; autQuot ↥I (oddCore ↥I) α) = 1) : α = 1 := by
-  haveI : (oddCore ↥I).Characteristic := oddCore_characteristic_of ↥I
+  have : (oddCore ↥I).Characteristic := oddCore_characteristic_of ↥I
   have hcen : center ↥I = oddCore ↥I := center_eq_oddCore_of_simple hI hs
   have hz : ∀ x : ↥I, x⁻¹ * α x ∈ center ↥I := by
     intro x
@@ -70,7 +70,7 @@ theorem exists_aut_embedding [Finite G] {I : Subgroup G} (hI : IsQuasisimple I)
     (hs : IsSimpleGroup (↥I ⧸ oddCore ↥I)) {Y : Subgroup G}
     (hYN : Y ≤ normalizer (I : Set G)) (hYC : Y ⊓ centralizer (I : Set G) = ⊥) :
     ∃ ρ : ↥Y →* MulAut (↥I ⧸ oddCore ↥I), Function.Injective ρ := by
-  haveI : (oddCore ↥I).Characteristic := oddCore_characteristic_of ↥I
+  have : (oddCore ↥I).Characteristic := oddCore_characteristic_of ↥I
   let c : ↥Y →* MulAut ↥I := I.normalizerMonoidHom.comp (Subgroup.inclusion hYN)
   refine ⟨(autQuot ↥I (oddCore ↥I)).comp c, ?_⟩
   rw [injective_iff_map_eq_one]
@@ -95,7 +95,7 @@ theorem card_le_of_aut_embedding [Finite G] {I : Subgroup G} (hI : IsQuasisimple
       Nat.card X ≤ n) : Nat.card Y ≤ n := by
   obtain ⟨ρ, hρ⟩ := exists_aut_embedding hI hs hYN hYC
   have hX2 : IsPGroup 2 ρ.range := hp.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
-  haveI := hc
+  have := hc
   have hcard : Nat.card ρ.range = Nat.card Y :=
     (Nat.card_congr (MonoidHom.ofInjective hρ).toEquiv).symm
   rw [← hcard]

@@ -97,7 +97,7 @@ theorem lBar_sup_range_aBarHom (h : Sec13Data G A c L) :
 theorem commutator_lBarA_le (h : Sec13Data G A c L) :
     commutator (lBarA c L A) ≤ (Sec12.lBar c L).subgroupOf (lBarA c L A) := by
   have := lBar_normal h
-  haveI : IsMulCommutative (aBarHom h).range := by
+  have : IsMulCommutative (aBarHom h).range := by
     refine ⟨⟨?_⟩⟩
     rintro ⟨_, ⟨a, rfl⟩⟩ ⟨_, ⟨b, rfl⟩⟩
     apply Subtype.ext

@@ -20,11 +20,12 @@ theorem f12_mulE_lt (x y : ℕ) : mulE P x y < 128 := atR_lt _ _
 theorem f12_ord2 (x : Γ) : orderOf x = 2 ↔ x ≠ 1 ∧ x * x = 1 := by
   rw [orderOf_eq_prime_iff, pow_two, and_comm]
 
+omit [Group Γ] in
 theorem f12_gens {l : List ℕ} {X : Set Γ} (h : {x | x ∈ l.map elt} = X) :
     {x | ∃ g ∈ l, elt g = x} = X := by
   rw [← h]
   ext x
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
 
 theorem f12_getD_mem {α : Type} (l : List α) (d : α) {j : ℕ} (h : j < l.length) :
     l.getD j d ∈ l := by
@@ -34,7 +35,7 @@ theorem f12_getD_mem {α : Type} (l : List α) (d : α) {j : ℕ} (h : j < l.len
 theorem f12_cls_eq (T : Subgroup Γ) (y : Γ) :
     {g | ∃ x ∈ (T : Set Γ), x * y * x⁻¹ = g} = conjClass T y := by
   ext g
-  simp only [conjClass, Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [conjClass, Set.mem_ofPred_eq, SetLike.mem_coe]
   exact exists_congr fun t => and_congr_right fun _ => eq_comm
 
 theorem f12_conjClass_eq {T : Subgroup Γ} {x y : Γ} (hy : y ∈ conjClass T x) :
@@ -66,8 +67,7 @@ theorem f12_prodEquiv {X U W : Subgroup Γ} (h : IsInternalDirect X U W) :
       map_mul' := by
         rintro ⟨u₁, v₁⟩ ⟨u₂, v₂⟩
         apply Subtype.ext
-        simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul, MonoidHom.coe_mk,
-          OneHom.coe_mk]
+        simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul]
         calc (↑u₁ * ↑u₂ : Γ) * (↑v₁ * ↑v₂)
             = ↑u₁ * (↑u₂ * ↑v₁) * ↑v₂ := by group
           _ = ↑u₁ * (↑v₁ * ↑u₂) * ↑v₂ := by rw [hcomm u₂ u₂.2 v₁ v₁.2]
@@ -114,7 +114,6 @@ theorem f12_prodEquiv {X U W : Subgroup Γ} (h : IsInternalDirect X U W) :
         inv_mem' := by
           rintro a ⟨u, hu, v, hv, rfl⟩
           refine ⟨u⁻¹, U.inv_mem hu, v⁻¹, W.inv_mem hv, ?_⟩
-          change u⁻¹ * v⁻¹ = (u * v)⁻¹
           rw [mul_inv_rev]
           exact hcomm u⁻¹ (U.inv_mem hu) v⁻¹ (W.inv_mem hv) }
     have hle : U ⊔ W ≤ M :=
@@ -134,7 +133,7 @@ theorem f12_cen {Sm : ℕ} {T : Subgroup Γ} (hS : mset elt Sm = (T : Set Γ)) {
     (hy : y < 128) : mset elt (cenE P C Sm y) = (centEl T (elt y) : Set Γ) := by
   rw [cenE_mset hR Sm hy, hS]
   ext x
-  simp only [centEl, Subgroup.coe_inf, Set.mem_inter_iff, SetLike.mem_coe, Set.mem_setOf_eq,
+  simp only [centEl, Subgroup.coe_inf, Set.mem_inter_iff, SetLike.mem_coe, Set.mem_ofPred_eq,
     Subgroup.mem_centralizer_singleton_iff]
 
 theorem f12_clos {gs : List ℕ} (hgs : ∀ g ∈ gs, g < 128) {R : ℕ} (hc : closOK C gs R = true)
@@ -151,7 +150,7 @@ theorem f12_dec {Sm : ℕ} {T : Subgroup Γ} (hS : mset elt Sm = (T : Set Γ)) {
   have hgs : {x | ∃ g ∈ [g1, g2], elt g = x} = {elt g1, elt g2} := by
     refine f12_gens ?_
     ext x
-    simp only [Set.mem_setOf_eq, List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil,
+    simp only [Set.mem_ofPred_eq, List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil,
       or_false, Set.mem_insert_iff, Set.mem_singleton_iff]
   rw [hgs] at hD
   have hXset : (centEl T (elt c) : Set Γ) =
@@ -224,6 +223,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {fr : Frame Γ} {elt : ℕ → Γ} {
   (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s)
 include hR hg
 
+omit [Finite Γ] in
 theorem f12_elts : elt 1 = fr.a₁ ∧ elt 2 = fr.b₁ ∧ elt 3 = fr.a₂ ∧ elt 4 = fr.b₂ ∧
     elt 5 = fr.h₀ ∧ elt (atR Q 2) = fr.z := by
   have e2 : elt 2 = fr.b₁ := (hg 1 (by norm_num)).trans (sGen_one fr)
@@ -238,6 +238,7 @@ theorem f12_cls_lt : ∀ c ∈ cls12K P (atR Q 2) 1 2 3 4 5, ∀ x ∈ c, x < 12
 omit hR hg in
 theorem f12_cls_len : (cls12K P (atR Q 2) 1 2 3 4 5).length = 7 := rfl
 
+omit [Finite Γ] in
 theorem f12_hset (j : Fin 7) :
     mset elt (lstM ((cls12K P (atR Q 2) 1 2 3 4 5).getD j [])) = fr.classes12 j := by
   obtain ⟨e1, e2, e3, e4, e5, ez⟩ := f12_elts hR hg
@@ -247,9 +248,10 @@ theorem f12_hset (j : Fin 7) :
   rw [lstM_mset (f12_cls_lt _ (f12_getD_mem _ _ hj))]
   refine f12_gens ?_
   fin_cases j <;> ext x <;>
-    simp [cls12K, List.getD, List.getElem?_cons_zero, List.getElem?_cons_succ, Option.getD_some,
+    simp [cls12K, List.getD, Option.getD_some,
       Frame.classes12, Matrix.cons_val, mulE_elt hR, f12_mulE_lt, atR_lt, e1, e2, e3, e4, e5, ez]
 
+omit [Finite Γ] in
 theorem f12_classes {Sm : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
     (h : listsOK P C V Sm (involM Q Sm) (cls12K P (atR Q 2) 1 2 3 4 5) = true) :
     {X : Set Γ | ∃ y ∈ invols fr.S, X = conjClass fr.S y} = Set.range fr.classes12 ∧
@@ -258,7 +260,7 @@ theorem f12_classes {Sm : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
   have hI : mset elt (involM Q Sm) = invols fr.S := by
     rw [involM_mset hR, hS]
     ext x
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, invols, f12_ord2]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, invols, f12_ord2]
   have hcl : ∀ c ∈ cls12K P (atR Q 2) 1 2 3 4 5,
       mset elt (lstM c) = conjClass fr.S (elt (hdL c)) ∧ elt (hdL c) ∈ invols fr.S := by
     intro c hc
@@ -309,6 +311,7 @@ theorem f12_classes {Sm : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
     · exact key i k hlt hik
     · exact key k i hlt hik.symm
 
+omit [Finite Γ] in
 theorem f12_cent {Sm R : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
     (h1 : cenE P C Sm (atR Q 2) = Sm) (h2 : closOK C [mulE P 1 3, 2, 4, 5] R = true)
     (h3 : cenE P C Sm (mulE P 2 4) = closK C [mulE P 1 3, 2, 4, 5] R)
@@ -338,13 +341,13 @@ theorem f12_cent {Sm R : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
     refine f12_clos hR (by simp [f12_mulE_lt]) h2 (f12_gens ?_)
     simp only [List.map_cons, List.map_nil, e13, e2, e4, e5]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
       Set.mem_singleton_iff]
   · rw [hE]
     refine f12_clos hR (by simp [f12_mulE_lt, atR_lt]) h4 (f12_gens ?_)
     simp only [List.map_cons, List.map_nil, e24, e5, ez]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
       Set.mem_singleton_iff]
   · have hab := elemAbK_spec hR h6
     have hmem : ∀ x : Γ, x ∈ centEl fr.S fr.h₀ → x ∈ mset elt (closK C [mulE P 2 4, 5, atR Q 2] R) :=
@@ -361,6 +364,7 @@ theorem f12_cent {Sm R : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
         pop_sound hR.inj (repM_mset hR.inj _), h7]
       norm_num
 
+omit [Finite Γ] in
 theorem f12_decs {Sm R : ℕ} (hS : mset elt Sm = (fr.S : Set Γ))
     (d1 : z2d8K P C Q (cenE P C Sm (mulE P 1 3)) (mulE P 1 3) 1 (mulE P 2 4) R = true)
     (d2 : z2d8K P C Q (cenE P C Sm (mulE P 1 4)) (mulE P 1 4) 1 (mulE P 2 3) R = true)
@@ -408,7 +412,7 @@ theorem fact12_of_twin {Γ : Type} [Group Γ] [Finite Γ] {fr : Frame Γ}
     refine f12_clos hR (by simp) hcl (f12_gens ?_)
     simp only [List.map_cons, List.map_nil, e1, e2, e3, e4, e5]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
       Set.mem_singleton_iff]
   unfold f12ClassK at hcls
   rw [strictB_eq] at hcls

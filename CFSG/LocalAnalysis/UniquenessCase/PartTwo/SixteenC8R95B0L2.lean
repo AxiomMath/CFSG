@@ -22,11 +22,11 @@ theorem r95_gB_L2 {Q : Type} [Group Q] [Finite Q] {p f : ℕ}
     W = ⊤ := by
   obtain ⟨A, hAE, hA⟩ := r95_exists_order_three_of_hasL32Quot hE
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
-  haveI : Finite Qm := Finite.of_surjective π hπ
+  let : Group Qm := hQm
+  have : Finite Qm := Finite.of_surjective π hπ
   have hp7 : p = 7 := r95_char_seven_of_section hQ π hπ hm
   obtain ⟨⟨hp, -⟩, F, _, _, hF, ⟨eF⟩⟩ := hQ.statedClassicalModel (by decide)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let e : Q ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F :=
     eF.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
   obtain ⟨hsimple, hcard⟩ :=
@@ -35,7 +35,7 @@ theorem r95_gB_L2 {Q : Type} [Group Q] [Finite Q] {p f : ℕ}
     have hpr := (Group.is_simple_iff_prime_card (α := Qm)).mp hsimple
     rw [hcard] at hpr
     norm_num at hpr
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW : ¬ CFSG.HallHigman.IsPSolvable 3 ↥W := fun hW3 =>
     CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.false_of_isPSolvable_surj
       (CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure.isPSolvable_of_le

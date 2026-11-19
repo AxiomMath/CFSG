@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7a_conj_closure_mem {S : Set G} {K : Subgroup G} {x : G}
     (hgen : ∀ y ∈ S, x * y * x⁻¹ ∈ K) :
     ∀ c ∈ Subgroup.closure S, x * c * x⁻¹ ∈ K := by
@@ -24,6 +25,7 @@ private lemma y7a_conj_closure_mem {S : Set G} {K : Subgroup G} {x : G}
   intro c hc
   exact Subgroup.mem_comap.mp (hle hc)
 
+omit [Finite G] in
 private lemma y7a_comm_conj_mem {H : Subgroup G} {x : G}
     (hx : ∀ m ∈ H, x * m * x⁻¹ ∈ H) :
     ∀ d ∈ ⁅H, H⁆, x * d * x⁻¹ ∈ ⁅H, H⁆ := by
@@ -36,6 +38,7 @@ private lemma y7a_comm_conj_mem {H : Subgroup G} {x : G}
   rw [he]
   exact Subgroup.commutator_mem_commutator (hx g₁ hg₁) (hx g₂ hg₂)
 
+omit [Finite G] in
 private lemma y7a_mem_normalizer_of_conj {H : Subgroup G} {x : G}
     (h : ∀ y ∈ H, x * y * x⁻¹ ∈ H) (hi : ∀ y ∈ H, x⁻¹ * y * x ∈ H) :
     x ∈ Subgroup.normalizer (H : Set G) := by
@@ -45,6 +48,7 @@ private lemma y7a_mem_normalizer_of_conj {H : Subgroup G} {x : G}
   have := hi (x * y * x⁻¹) hy
   rwa [show x⁻¹ * (x * y * x⁻¹) * x = y by group] at this
 
+omit [Finite G] in
 private lemma y7a_mem_normalizer_sup {H K : Subgroup G} {x : G}
     (hH : x ∈ Subgroup.normalizer (H : Set G))
     (hK : x ∈ Subgroup.normalizer (K : Set G)) :

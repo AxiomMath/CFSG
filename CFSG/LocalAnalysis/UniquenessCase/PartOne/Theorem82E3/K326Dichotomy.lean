@@ -45,7 +45,7 @@ theorem k326_dichotomy_of_E27 (hK : K326P2S) (hKG : CFSG.Open.IsKProper G)
     H ≤ (H ⊓ M) ⊔ CFSG.Open.relPPrimeCore 3 H ∨
       (n = 1 ∧ K326Exceptional (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let X := ↥H ⧸ O
   let π : ↥H →* X := QuotientGroup.mk' O
@@ -258,6 +258,7 @@ theorem k326_dichotomy_of_E27 (hK : K326P2S) (hKG : CFSG.Open.IsKProper G)
     exact Subgroup.mul_mem_sup hm' hxO
   · exact Or.inr ⟨hn1, hc27, hr648, hle'⟩
 
+omit [Finite G] in
 private theorem center_eq_bot_of_simple_nonab (hs : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) : Subgroup.center G = ⊥ := by
   rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h | h

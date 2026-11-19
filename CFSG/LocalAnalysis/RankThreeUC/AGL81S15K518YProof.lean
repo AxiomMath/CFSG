@@ -28,7 +28,7 @@ theorem k518Y_of_cover
   · exact mem_sup_centralizer_of_classical hG hO hX hg hp hp2 hLs hinv m1 m2 n1 n2 hn hcl hr
       hxp hxT
   · have hN : toStar T x ∈ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)) := by
-      haveI := hn
+      have := hn
       rw [Subgroup.normalizer_eq_top]
       exact Subgroup.mem_top _
     obtain ⟨k, hk⟩ := hxp

@@ -25,12 +25,12 @@ theorem centralizer_oPPrimeHull_three_eq_bot {X : Type} [Group X] [Finite X] {n 
     Subgroup.centralizer ((oPPrimeHull 3 (⊤ : Subgroup (X ⧸ CFSG.pPrimeCore 3 X)) :
       Set (X ⧸ CFSG.pPrimeCore 3 X))) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y := X ⧸ CFSG.pPrimeCore 3 X
   let O : Subgroup Y := oPPrimeHull 3 (⊤ : Subgroup Y)
   let C : Subgroup Y := Subgroup.centralizer (O : Set Y)
-  haveI hOnormal : O.Normal := oPPrimeHull_top_normal 3
-  haveI hCnormal : C.Normal := Subgroup.normal_centralizer
+  have hOnormal : O.Normal := oPPrimeHull_top_normal 3
+  have hCnormal : C.Normal := Subgroup.normal_centralizer
   have hAncenter : Subgroup.center (alternatingGroup (Fin n)) = ⊥ :=
     alternatingGroup.center_eq_bot (by rw [Nat.card_fin]; omega)
   have hcenter : Subgroup.center O = ⊥ := by
@@ -73,10 +73,10 @@ theorem nonempty_quotient_mulEquiv_of_alternating {X : Type} [Group X] [Finite X
       Nonempty (X ⧸ CFSG.pPrimeCore 3 X ≃* alternatingGroup (Fin 11)) ∨
       Nonempty (X ⧸ CFSG.pPrimeCore 3 X ≃* Equiv.Perm (Fin 11)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y := X ⧸ CFSG.pPrimeCore 3 X
   let O : Subgroup Y := oPPrimeHull 3 (⊤ : Subgroup Y)
-  haveI hOnormal : O.Normal := oPPrimeHull_top_normal 3
+  have hOnormal : O.Normal := oPPrimeHull_top_normal 3
   have hn5 : 5 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hn6 : n ≠ 6 := by rcases hn with rfl | rfl <;> norm_num
   have hC : Subgroup.centralizer (O : Set Y) = ⊥ := by
@@ -91,7 +91,7 @@ theorem nonempty_quotient_mulEquiv_of_alternating {X : Type} [Group X] [Finite X
     refine MonoidHom.mem_range.mpr ⟨(x : Y), ?_⟩
     rw [hιN x]
     exact congrArg Subtype.val hx
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hRindex_dvd : R.index ∣ 2 := by
     have h := Subgroup.index_dvd_of_le hAle
     rwa [alternatingGroup.index_eq_two] at h
@@ -169,7 +169,7 @@ theorem S14Choice.caseTwo_quotient {M H E Q : Subgroup G}
         Nonempty (↥M ⧸ CFSG.pPrimeCore 3 ↥M ≃* alternatingGroup (Fin 11)) ∨
         Nonempty (↥M ⧸ CFSG.pPrimeCore 3 ↥M ≃* Equiv.Perm (Fin 11))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h9 : Nat.factorial 9 ∣ Nat.card (↥M ⧸ CFSG.pPrimeCore 3 ↥M) :=
     h.factorial_nine_dvd_card_quotient h2 hK hU hL hKF
   have h13 := h.fourteenThirteen hA h2 hpre hK hU hL hKF h514 h525 hX h73 h711

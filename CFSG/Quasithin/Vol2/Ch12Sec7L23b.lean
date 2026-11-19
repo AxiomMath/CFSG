@@ -51,6 +51,7 @@ theorem not_orderOf_three_of_mem_centralizer (h1222 : Stmt12_2_2) (h128 : Stmt12
   have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
   omega
 
+omit [Finite G] in
 theorem card_autOn_L {L V : Subgroup G} (h : HatA6Quot L V)
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) : Nat.card (autOn L V) = 1080 := by
   have h1080 := card_quot_of_hatA6Quot h
@@ -98,8 +99,8 @@ theorem relIndex_z (h1222 : Stmt12_2_2) {T L V : Subgroup G} {t z : G}
 
 omit [Finite G] in
 theorem autOn_le_normalizer_autOn {T L V : Subgroup G}
-    (hTL : T ≤ Subgroup.normalizer (L : Set G)) (hTV : T ≤ Subgroup.normalizer (V : Set G))
-    (hLV : L ≤ Subgroup.normalizer (V : Set G)) :
+    (hTL : T ≤ Subgroup.normalizer (L : Set G)) (_hTV : T ≤ Subgroup.normalizer (V : Set G))
+    (_hLV : L ≤ Subgroup.normalizer (V : Set G)) :
     autOn T V ≤ Subgroup.normalizer (autOn L V : Set (MulAut ↥V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hTL
 

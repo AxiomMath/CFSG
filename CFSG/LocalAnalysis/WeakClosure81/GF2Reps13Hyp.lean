@@ -32,7 +32,7 @@ private theorem w16g_zpow_pow_eq_one {G : Type*} [Group G] {p : ℕ} {z : G} (hz
     _ = 1 := by rw [hz, one_zpow]
 
 private theorem w16g_inf_zpowers_eq_bot {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {z k : G}
-    (hz : orderOf z = p) (hk : orderOf k = p) (hzk : Commute z k)
+    (hz : orderOf z = p) (hk : orderOf k = p) (_hzk : Commute z k)
     (hkz : k ∉ Subgroup.zpowers z) :
     Subgroup.zpowers z ⊓ Subgroup.zpowers k = ⊥ := by
   rw [eq_bot_iff]
@@ -47,11 +47,11 @@ private theorem w16g_inf_zpowers_eq_bot {G : Type*} [Group G] {p : ℕ} (hp : p.
   have hAz : Nat.card ↥(Subgroup.zpowers z) = p := by rw [Nat.card_zpowers, hz]
   have hBk : Nat.card ↥(Subgroup.zpowers k) = p := by rw [Nat.card_zpowers, hk]
   have hxx : Nat.card ↥(Subgroup.zpowers x) = p := by rw [Nat.card_zpowers, hxord]
-  haveI : Finite ↥(Subgroup.zpowers z) :=
+  have : Finite ↥(Subgroup.zpowers z) :=
     Nat.finite_of_card_ne_zero (by rw [hAz]; exact hp.ne_zero)
-  haveI : Finite ↥(Subgroup.zpowers k) :=
+  have : Finite ↥(Subgroup.zpowers k) :=
     Nat.finite_of_card_ne_zero (by rw [hBk]; exact hp.ne_zero)
-  haveI : Finite ↥(Subgroup.zpowers x) :=
+  have : Finite ↥(Subgroup.zpowers x) :=
     Nat.finite_of_card_ne_zero (by rw [hxx]; exact hp.ne_zero)
   have hxA : Subgroup.zpowers x ≤ Subgroup.zpowers z := Subgroup.zpowers_le.mpr hx.1
   have hxAeq : Subgroup.zpowers x = Subgroup.zpowers z :=
@@ -98,11 +98,11 @@ theorem w16g_isElemAbelian_sup_zpowers {G : Type*} [Group G] {p : ℕ} {z k : G}
     rw [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
     rcases ha with ha | ha
     · rcases hb with hb | hb
-      · simpa [ha, hb] using Commute.refl z
+      · simp [ha, hb]
       · simpa [ha, hb] using hzk
     · rcases hb with hb | hb
       · simpa [ha, hb] using hzk.symm
-      · simpa [ha, hb] using Commute.refl k
+      · simp [ha, hb]
   have hEc : IsMulCommutative ↥(Subgroup.zpowers z ⊔ Subgroup.zpowers k) := by
     have hcl : Subgroup.closure ({z, k} : Set G) =
         Subgroup.zpowers z ⊔ Subgroup.zpowers k := by
@@ -131,7 +131,7 @@ theorem w16g_card_sup_zpowers {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {z 
 private theorem w16g_orderOf_mul_pow {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {z k : G}
     (hz : orderOf z = p) (hk : orderOf k = p) (hzk : Commute z k)
     (hkz : k ∉ Subgroup.zpowers z) (i : Fin p) : orderOf (k * z ^ (i : ℕ)) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz1 : z ^ p = 1 := by rw [← hz, pow_orderOf_eq_one]
   have hk1 : k ^ p = 1 := by rw [← hk, pow_orderOf_eq_one]
   have hne : k * z ^ (i : ℕ) ≠ 1 := by
@@ -139,7 +139,7 @@ private theorem w16g_orderOf_mul_pow {G : Type*} [Group G] {p : ℕ} (hp : p.Pri
     apply hkz
     have hk_eq : k = (z ^ (i : ℕ))⁻¹ := eq_inv_of_mul_eq_one_left h
     rw [hk_eq, ← zpow_natCast]
-    simpa [zpow_neg] using Subgroup.zpow_mem_zpowers z (-(i : ℤ))
+    simp
   refine orderOf_eq_prime ?_ hne
   rw [Commute.mul_pow ((hzk.symm).pow_right (i : ℕ)) p, hk1, ← pow_mul, Nat.mul_comm,
     pow_mul, hz1, one_pow, mul_one]
@@ -170,7 +170,7 @@ theorem w16g_zpowers_mul_pow_injective {G : Type*} [Group G] {p : ℕ} (hp : p.P
       have h : k ^ (1 - m) = (z ^ ((i : ℤ) - (j : ℤ) * m))⁻¹ :=
         eq_inv_of_mul_eq_one_left hkey
       rw [h]
-      simpa [zpow_neg] using Subgroup.zpow_mem_zpowers z (-((i : ℤ) - (j : ℤ) * m))
+      simp
     have hmemB : k ^ (1 - m) ∈ Subgroup.zpowers k := Subgroup.zpow_mem_zpowers k _
     have hkone : k ^ (1 - m) = 1 := by
       have hmem : k ^ (1 - m) ∈ Subgroup.zpowers z ⊓ Subgroup.zpowers k :=
@@ -216,7 +216,7 @@ theorem w16g_hyperplanes_sup_zpowers {G : Type} [Group G] {p : ℕ} (hp : p.Prim
     CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes p
         (Subgroup.zpowers z ⊔ Subgroup.zpowers k) =
       {Subgroup.zpowers z} ∪ Set.range (fun i : Fin p => Subgroup.zpowers (k * z ^ (i : ℕ))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A : Subgroup G := Subgroup.zpowers z with hA
   set B : Subgroup G := Subgroup.zpowers k with hB
   set E : Subgroup G := A ⊔ B with hE
@@ -225,7 +225,7 @@ theorem w16g_hyperplanes_sup_zpowers {G : Type} [Group G] {p : ℕ} (hp : p.Prim
   have hk1 : k ^ p = 1 := by rw [← hk, pow_orderOf_eq_one]
   have hEelem : IsElemAbelian p E := w16g_isElemAbelian_sup_zpowers hz1 hk1 hzk
   have hcardE : Nat.card ↥E = p ^ 2 := w16g_card_sup_zpowers hp hz hk hzk hkz
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcardE]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcardE]; exact pow_ne_zero 2 hp.ne_zero)
   have hsub : ({A} ∪ Set.range (fun i : Fin p => Subgroup.zpowers (k * z ^ (i : ℕ)))) ⊆
       CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes p E := by
     rintro D (hD | ⟨i, rfl⟩)

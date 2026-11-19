@@ -104,7 +104,7 @@ theorem comm_R_EL (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {e x : G} (he : e �
   (m.hZ.sixteen h69).1 e he.1 x hx
 
 theorem exists_orderOf_eq_pow_of_mem_R {x : G} (hx : x ∈ m.R) : ∃ k : ℕ, orderOf x = m.r ^ k := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 m.d.sylow.isPGroup) ⟨x, hx⟩
   exact ⟨k, by rwa [Subgroup.orderOf_mk] at hk⟩
 
@@ -183,7 +183,7 @@ theorem R_le_CenMod (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {e : G} (he : e �
 
 theorem exists_gen_R_inf_K (h625 : m.C625) :
     ∃ g ∈ m.R ⊓ m.K, ∀ x ∈ m.R ⊓ m.K, ∃ k : ℤ, g ^ k = x := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hsyl : IsSylowOf m.r (m.R ⊓ m.K) m.K :=
     m.d.sylow.inf_of_le_normalizer m.K_le_M (fun g hg => m.mem_normalizer_K hg)
   obtain ⟨Q, hQ⟩ := hsyl.exists_sylow_eq_subgroupOf
@@ -192,7 +192,7 @@ theorem exists_gen_R_inf_K (h625 : m.C625) :
     rw [← hQ]
     exact hcyc
   have hle : m.R ⊓ m.K ≤ m.K := inf_le_right
-  haveI : IsCyclic ↥(m.R ⊓ m.K) :=
+  have : IsCyclic ↥(m.R ⊓ m.K) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hle).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hle).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(m.R ⊓ m.K))
@@ -203,7 +203,7 @@ theorem exists_gen_R_inf_K (h625 : m.C625) :
 theorem exists_normalizer_R (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (hKC : m.KC633) {l : G}
     (hlL : l ∈ m.L) (hlA : l ∈ normalizer (m.A : Set G)) :
     ∃ c ∈ m.R ⊔ (m.KerL ⊓ m.H), l * c ∈ normalizer (m.R : Set G) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hRH : m.R ≤ m.H := m.hZ.R_le_centralizer h69
   have hJH : m.R ⊔ (m.KerL ⊓ m.H) ≤ m.H := sup_le hRH inf_le_right
   have hSylJ : IsSylowOf m.r m.R (m.R ⊔ (m.KerL ⊓ m.H)) :=
@@ -322,7 +322,7 @@ theorem rElt_trivial_on_Lbar (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m
     ∀ y ∈ m.K ⊓ normalizer (m.L : Set G), (∃ k : ℕ, orderOf y = m.r ^ k) →
       ⁅zpowers y, m.L⁆ ≤ m.OL := by
   rintro y hy ⟨k, hk⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   refine (m.mem_KerL_iff hy.2).1 ?_
   have hsyl : IsSylowOf m.r (m.R ⊓ m.K) m.K :=
     m.d.sylow.inf_of_le_normalizer m.K_le_M (fun g hg => m.mem_normalizer_K hg)

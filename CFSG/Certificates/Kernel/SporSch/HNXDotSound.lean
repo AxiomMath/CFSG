@@ -140,7 +140,6 @@ theorem spreadR_fld {MS REP ONES L1 MR : Nat} (hm : masksOK MS = true)
       · simp only [hr, ↓reduceIte]
     · intro k x ih hk
       have hx := ih (by omega)
-      beta_reduce
       rw [loopStrictN_eq]
       unfold sp1
       rw [loopStrictN_eq]
@@ -324,19 +323,19 @@ theorem ones_lane {e : Nat → Nat} (he : ∀ u, e u ≤ 28) {r : Nat} (hr : r <
       Finset.sum_eq_zero fun x hx => by
         have hx' := Finset.mem_range.1 hx
         have hc : ¬ (k ≤ x ∧ x - k < 8512) := by omega
-        rw [if_neg hc, Nat.zero_mul]
+        rw [ite_eq_right hc, Nat.zero_mul]
     have z2 : ∑ x ∈ range (133 - k), (if k ≤ k + 8512 + x ∧ k + 8512 + x - k < 8512 then
         e (k + 8512 + x - k) else 0) * 2 ^ (13 * (k + 8512 + x)) = 0 :=
       Finset.sum_eq_zero fun x _ => by
         have hc : ¬ (k ≤ k + 8512 + x ∧ k + 8512 + x - k < 8512) := by omega
-        rw [if_neg hc, Nat.zero_mul]
+        rw [ite_eq_right hc, Nat.zero_mul]
     rw [z1, z2, Nat.zero_add, Nat.add_zero]
     refine Finset.sum_congr rfl fun u hu => ?_
     have hu' := Finset.mem_range.1 hu
     have hc : k ≤ k + u ∧ k + u - k < 8512 := by omega
     have hku : k + u - k = u := by omega
     beta_reduce
-    rw [if_pos hc, hku, Nat.mul_assoc, ← Nat.pow_add]
+    rw [ite_eq_left hc, hku, Nat.mul_assoc, ← Nat.pow_add]
     congr 2
     ring
   have hP : pk 13 8512 e * pk 13 133 (fun _ => 1) = pk 13 (8512 + 133) p := by
@@ -363,9 +362,8 @@ theorem ones_lane {e : Nat → Nat} (he : ∀ u, e u ≤ 28) {r : Nat} (hr : r <
   refine Finset.sum_congr rfl fun k hk => ?_
   have hk' := Finset.mem_range.1 hk
   have hc : k ≤ 133 * r + 132 ∧ 133 * r + 132 - k < 8512 := by omega
-  beta_reduce
   have hk2 : 133 * r + 132 - k = 133 * r + (133 - 1 - k) := by omega
-  rw [if_pos hc, hk2]
+  rw [ite_eq_left hc, hk2]
 
 theorem cntRows_eq (P v : Nat) : ∀ c, cntRows P v c =
     ((range c).filter fun r => fldW P (1729 * r + 1716) 13 % 5 = v).card
@@ -375,9 +373,9 @@ theorem cntRows_eq (P v : Nat) : ∀ c, cntRows P v c =
       (Nat.beq (fldW P (1729 * c + 1716) 13 % 5) v)) = _
     rw [cntRows_eq P v c, Finset.card_filter, Finset.card_filter, Finset.sum_range_succ]
     cases hb : Nat.beq (fldW P (1729 * c + 1716) 13 % 5) v
-    · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
       rfl
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
       rfl
 
 theorem mulC_pk {CM3 M A G : Nat} (hc : constsOK CM3 M = true) {a : Nat → Nat}
@@ -419,12 +417,12 @@ theorem mulC_pk {CM3 M A G : Nat} (hc : constsOK CM3 M = true) {a : Nat → Nat}
       * 2 ^ (13 * (8512 + x)) = 0 :=
     Finset.sum_eq_zero fun x _ => by
       have hc : ¬ ((8512 + x) / 133 < 64) := by omega
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       simp
   rw [z, Nat.add_zero]
   refine Finset.sum_congr rfl fun u hu => ?_
   have hc : u / 133 < 64 := by have := Finset.mem_range.1 hu; omega
-  rw [if_pos hc]
+  rw [ite_eq_left hc]
   rfl
 
 noncomputable def yD (a : Nat → Nat) (G u : Nat) : Nat :=
@@ -489,7 +487,7 @@ theorem dotLeaf_eq {T : Nat → Nat} {CM3 M MS REP ONES L1 MR G v : Nat} (hc : c
   rw [ones_lane he hr64]
   have hrow : rowA (T b) c r = xv T (64 * b + r) := by
     unfold rowA
-    rw [if_pos hr', xv_leaf T b r hr64]
+    rw [ite_eq_left hr', xv_leaf T b r hr64]
   have hdk : ∀ k, rdig (rowA (T b) c) r k = xe T (64 * b + r) k := fun k => by
     unfold rdig xe
     rw [hrow]
@@ -501,7 +499,7 @@ theorem dotLeaf_eq {T : Nat → Nat} {CM3 M MS REP ONES L1 MR G v : Nat} (hc : c
     have e1 : (133 * r + l) / 133 = r := by omega
     have e2 : (133 * r + l) % 133 = l := by omega
     unfold yD dgt
-    rw [e1, e2, if_pos hr64, hdk]
+    rw [e1, e2, ite_eq_left hr64, hdk]
     simp only [hdk]
   rw [hsum]
   have hiff : ∀ N : Nat, N % 5 = v ↔ ((N : Nat) : ZMod 5) = (v : ZMod 5) := fun N => by

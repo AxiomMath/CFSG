@@ -24,7 +24,7 @@ theorem stronglyEmbeddedThree_at {p : ℕ} (hp3 : p = 3) (hK : StronglyEmbeddedT
     CoverActsTriviallyOnSmall p ↥(CFSG.generalizedFitting X) ∧
       Nat.card ↥(CFSG.pPrimeCore p ↥N) ≤ 2 ∧
       CentralizerHasPElementOutside p N ∧
-      IsSolvable ↥N := by
+      Group.IsSolvable ↥N := by
   subst hp3
   exact hK X hKX hO hrank N hN
 
@@ -37,7 +37,7 @@ theorem kInputThree (k : Sec7Core4 G) (hp3 : k.p = 3) (hK : StronglyEmbeddedThre
         ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)))) ≤ 2 ∧
       CentralizerHasPElementOutside k.p
         (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∧
-      IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
+      Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) := by
   have hKH : CFSG.Open.IsKGroup ↥H :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper k.standing.kProper hH.ne_top

@@ -25,9 +25,8 @@ theorem blueprintLieModel_of_models
     cases t <;> first | decide | exact hcl.2.elim
   · subst h0
     cases t
-    all_goals first
+    all_goals try first
       | (exfalso; cases idx <;> simp only [CFSG.Models.NamesTag] at hnames; done)
-      | skip
     case G2 =>
       cases idx <;> simp only [CFSG.Models.NamesTag] at hnames
       rename_i q

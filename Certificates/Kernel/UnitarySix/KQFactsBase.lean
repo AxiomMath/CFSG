@@ -18,7 +18,7 @@ open CFSG.KC.U6 CFSG.EvenSmallLie.UnitarySix
 theorem perm : allN 7 (fun j => permOK 693 10 (mask 10) (693 * 10) (S j) (SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) := Array.ofFn (n := 7) fun j => unpack 693 10 (S j.val)
+noncomputable def SA : Array (Array Nat) := Array.ofFn (n := 7) fun j => unpack 693 10 (S j.val)
 
 theorem binds : Binds 693 10 S 7 3 BP SA kBase := by
   refine ⟨by norm_num, by norm_num, by norm_num, by simp [SA], fun j hj => ?_, rfl, ?_⟩

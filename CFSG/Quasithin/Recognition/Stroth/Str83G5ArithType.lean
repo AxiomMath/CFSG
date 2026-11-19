@@ -296,7 +296,7 @@ private theorem redA_eq {A : ℤ → Bool → Prop} {Δ r : ℕ} {e : Bool}
       by_cases h1 : Odd (t₁ / r) <;> by_cases h2 : Odd q <;>
         simp [h1, h2, Int.odd_add, ← Int.not_odd_iff_even]
     unfold redA
-    rw [if_neg hr.ne', if_neg hr.ne', hmod, hdiv, hodd]
+    rw [ite_eq_right hr.ne', ite_eq_right hr.ne', hmod, hdiv, hodd]
     rw [bool_aux ε₁ ε₂ e (decide (Odd (t₁ / r))) (decide (Odd q)) hη]
 
 section Aux
@@ -470,7 +470,7 @@ private def HasLink : Prop :=
   ∃ (s : ℤ) (u : ℕ) (η δ : Bool), mPow k₀ m₀ s (chi k₀) =
     ((2 : ZMod (2 ^ n - 1)) ^ u * sgn (n := n) η * wt n δ) • psi m₀
 
-private theorem linked_gen (hn : Odd n) (h5 : 5 ≤ n) {r : ℕ} (hr : 0 < r) {e : Bool}
+private theorem linked_gen (_hn : Odd n) (_h5 : 5 ≤ n) {r : ℕ} (hr : 0 < r) {e : Bool}
     (hgen : ∀ s η, Apsi k₀ m₀ s η → (r : ℤ) ∣ s ∧ η = (e && decide (Odd (s / r))))
     {s₀ : ℤ} {L : ZMod (2 ^ n - 1)} (hL : IsUnit L)
     (hl : mPow k₀ m₀ s₀ (chi k₀) = L • psi m₀) :

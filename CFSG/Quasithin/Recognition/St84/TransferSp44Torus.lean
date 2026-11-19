@@ -43,11 +43,12 @@ private theorem centerOf_oTwoPrime_eq_inf_centralizer {E : Subgroup G} (hchar : 
 
 end Generic
 
+omit [Finite H] in
 theorem transferVertexData_of_sp44VertexData {E : Subgroup H} (h : Sp44VertexData E)
     (hchar : CharTwo E) :
     TransferVertexData E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ := centerOf_oTwoPrime_eq_inf_centralizer hchar
   have hZle : centerOf (oTwoPrime E) ≤ pCoreOf 2 E := by
     rw [hZ]

@@ -307,7 +307,7 @@ theorem odd_fixedGeneration {group : Type*} [Group group] [Finite group]
     prime odd_group first second first_involutive second_involutive commutes
   refine ⟨sylow, ?_⟩
   apply Subgroup.subgroupOf_eq_top.mp
-  apply odd_pGroup_fixedGeneration prime sylow.isPGroup'
+  apply odd_pGroup_fixedGeneration prime sylow.isPGroup
     (odd_group.of_dvd_nat (sylow : Subgroup group).card_subgroup_dvd_card)
     (CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism first sylow first_invariant)
     (CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism second sylow second_invariant)

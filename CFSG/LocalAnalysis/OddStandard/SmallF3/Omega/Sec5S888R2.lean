@@ -59,10 +59,10 @@ theorem card_inf_centralizer_of_extra {R : Subgroup G} {z : G} (hR : Nat.card �
         exact s888_commute_of_commutator_eq_one hc
       rwa [hbot, Subgroup.mem_bot] at hxzp
     rw [hRbot] at hR
-    have h1' : (1 : ℕ) = 32 := by simpa using hR
+    have h1' : (1 : ℕ) = 32 := by simp at hR
     omega
   have hzord : orderOf z = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rwa [pow_two]) hz1
   have hzcent : ∀ x ∈ R, x * z = z * x := by
     intro x hx
@@ -174,7 +174,7 @@ private theorem s888_card_le_two_of_isCyclic {A : Type*} [Group A] [Finite A] [I
 theorem card_le_two_of_sq_eq_one [Finite G] {C P : Subgroup G} (hPC : P ≤ C)
     (hcyc : ∀ S : Sylow 2 ↥C, IsCyclic (S : Subgroup ↥C)) (hsq : ∀ x ∈ P, x * x = 1) :
     Nat.card ↥P ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq' : ∀ x ∈ P.subgroupOf C, x * x = 1 := by
     intro x hx
     exact Subtype.ext (by
@@ -185,8 +185,8 @@ theorem card_le_two_of_sq_eq_one [Finite G] {C P : Subgroup G} (hPC : P ≤ C)
       apply Subtype.ext
       simpa [pow_two] using hsq' (x : ↥C) x.2⟩
   obtain ⟨S, hP'S⟩ := hP'p.exists_le_sylow
-  haveI : IsCyclic ↥(S : Subgroup ↥C) := hcyc S
-  haveI : IsCyclic ↥(P.subgroupOf C) := Subgroup.isCyclic_of_le hP'S
+  have : IsCyclic ↥(S : Subgroup ↥C) := hcyc S
+  have : IsCyclic ↥(P.subgroupOf C) := Subgroup.isCyclic_of_le hP'S
   have h1 : Nat.card ↥(P.subgroupOf C) ≤ 2 := by
     have h := s888_card_le_two_of_isCyclic (⊤ : Subgroup ↥(P.subgroupOf C))
       (fun x _ => by

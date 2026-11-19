@@ -141,10 +141,10 @@ theorem burnsideF4n_overgroups_tits
     {p f : ℕ} {E : Type} [Group E] {M₁ M₂ : Subgroup E} (hyp : HypF_4_4 GLKind.Tits p f ⊤ M₁ M₂) :
     (∀ X : Subgroup E, M₁ ⊓ M₂ ≤ X → Nonempty (↥X ≃* ↥M₁) → X = M₁) ∧
       (∀ X : Subgroup E, M₁ ⊓ M₂ ≤ X → Nonempty (↥X ≃* ↥M₂) → X = M₂) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨hp2, -, hmodel⟩ := hyp.model
   subst hp2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ψ₀⟩ := titsModelEquiv _ 2 f hmodel
   let ψ₁ : E ≃* ↥titsD := Subgroup.topEquiv.symm.trans ψ₀
   obtain ⟨⟨S₀, ⟨-, hSp, hSi⟩, hB⟩, -⟩ := burnsideF4n_parabolics_at hyp

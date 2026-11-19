@@ -35,7 +35,7 @@ theorem exists_mem_mul_pow_of_frame {A L E F K : Subgroup G} {c x y t e : G}
   obtain ⟨k₀, hk₀N, hk₀K, hk₀σ⟩ := Sec4.mem_autIn_iff.mp σ.2
   have hmove : ∃ x₁ : E, (σ : MulAut E) x₁ ≠ x₁ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hσ1 (MulEquiv.ext hall)
   obtain ⟨x₁, hx₁⟩ := hmove
   rw [← hk₀σ] at hx₁

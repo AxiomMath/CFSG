@@ -139,9 +139,9 @@ private lemma p9SignOm_even_finrank_commSpace_tor (C : OmCoord K Q A)
       if f i = 0 then 0 else 2 := by
     intro i
     by_cases hi : f i = 0
-    · rw [if_pos hi, hi]
+    · rw [ite_eq_left hi, hi]
       simp [zpow_zero]
-    · rw [if_neg hi, p9SignOm_finrank_range_zpow_sub hi]
+    · rw [ite_eq_right hi, p9SignOm_finrank_range_zpow_sub hi]
   rw [Finset.sum_congr rfl (fun i _ => hterm i)]
   have hsum : (∑ i, if f i = 0 then 0 else 2) =
       2 * (Finset.univ.filter fun i => f i ≠ 0).card := by

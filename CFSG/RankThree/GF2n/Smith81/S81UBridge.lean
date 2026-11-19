@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {e : K ≃+* Fσ σ}
   {ψ : M₀.E ≃ₗ[K] E3UWspace σ e} {φ : Lgen M (LB M Q B) →* (E3UWspace σ e ≃ₗ[K] E3UWspace σ e)}
 
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
 theorem exists_lift_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     (g : SUid σ 6) : ∃ s : Lgen M (LB M Q B), φ s = e3uWact σ e g := by
   have hgG : e3uWact σ e g ∈ e3uGam σ e := ⟨g, rfl⟩
@@ -29,12 +30,14 @@ theorem exists_lift_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e
   obtain ⟨s, hs⟩ := hgG
   exact ⟨s, hs⟩
 
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
 theorem psi_T_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e)) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : SUid σ 6}
     (hφ : φ ⟨x, hxL⟩ = e3uWact σ e t) (e' : M₀.E) : ψ (Tx.T e') = e3uWact σ e t (ψ e') := by
   obtain ⟨y, hy, rfl⟩ := M₀.π_surj e'
   rw [← Tx.hπ y hy, d.equivariant ⟨x, hxL⟩ y hy, hφ]
 
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
 theorem mem_Cs_iff_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     {x : G} (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : SUid σ 6}
     (hφ : φ ⟨x, hxL⟩ = e3uWact σ e t) {e' : M₀.E} :
@@ -42,6 +45,7 @@ theorem mem_Cs_iff_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e)
   rw [mem_Cs, ← ψ.injective.eq_iff, psi_T_U d hxL Tx hφ]
   exact Iff.rfl
 
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
 theorem mem_Rs_iff_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     {x : G} (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : SUid σ 6}
     (hφ : φ ⟨x, hxL⟩ = e3uWact σ e t) {r : M₀.E} :
@@ -58,6 +62,7 @@ theorem mem_Rs_iff_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e)
     rw [map_sub, psi_T_U d hxL Tx hφ, LinearEquiv.apply_symm_apply]
     exact hw.symm
 
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
 theorem comm_mem_Q_of_lift_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     {x u : G} (hxL : x ∈ Lgen M (LB M Q B)) (hu : u ∈ Lgen M (LB M Q B)) {t g : SUid σ 6}
     (hφx : φ ⟨x, hxL⟩ = e3uWact σ e t) (hφu : φ ⟨u, hu⟩ = e3uWact σ e g)
@@ -71,12 +76,15 @@ theorem comm_mem_Q_of_lift_U (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3u
   have := (d.ker _).mp h1
   simpa [commutatorElement_def] using this
 
+omit [Finite K] [CharP K 2] [Finite F] [CharP F 2] in
 private theorem e3uVal_smul_K_U (k : K) (y : E3UWspace σ e) :
     e3uVal (k • y) = ((e k : Fσ σ) : F) • e3uVal y := rfl
 
+omit [Finite K] [CharP K 2] [Finite F] [CharP F 2] in
 private theorem e3uVal_injective_U {w w' : E3UWspace σ e} (h : e3uVal w = e3uVal w') : w = w' :=
   Subtype.ext h
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem exists_root_group_U
     (hRoot : ∀ ξ ∈ RootPt σ, ∃ (g : SUid σ 6) (c : F), c ≠ 0 ∧ σ c = c ∧
       ξ = c • rho F (g : GL (Fin 6) F) (pt0 F))
@@ -139,6 +147,7 @@ theorem exists_root_group_U
     apply hw0
     rw [← hψa, (M₀.π_ker _ haQ).mpr haZ, map_zero]
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem rootPt_of_RootPt_U
     (hRoot : ∀ ξ ∈ RootPt σ, ∃ (g : SUid σ 6) (c : F), c ≠ 0 ∧ σ c = c ∧
       ξ = c • rho F (g : GL (Fin 6) F) (pt0 F))
@@ -147,6 +156,7 @@ theorem rootPt_of_RootPt_U
   obtain ⟨A, hA, hAQ, hAZ, a, haA, ha⟩ := exists_root_group_U hRoot d Hs hw
   exact Or.inr ⟨A, hA, hAQ, hAZ, a, haA, by rw [← ha, LinearEquiv.symm_apply_apply]⟩
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem B_invariant_U (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e)) (g : SUid σ 6)
     (u v : E3UWspace σ e) :
@@ -186,6 +196,7 @@ theorem B_invariant_U (hc : Ctx M Q Z B)
     _ = M₀.B (M₀.π a) (M₀.π b) := M₀.comm_eq a ha b hb
     _ = M₀.B (ψ.symm u) (ψ.symm v) := by rw [haπ, hbπ]
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem hform_U
     (hForm : ∀ (B' : Wform σ →ₗ[Fσ σ] Wform σ →ₗ[Fσ σ] Fσ σ),
       (∀ (g : SUid σ 6) (u v : Wform σ), B' (Wact σ g u) (Wact σ g v) = B' u v) →
@@ -306,7 +317,8 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : M₀.E ≃ₗ[K] E3UWspace σ e} {φ : Lgen M (LB M Q B) →* (E3UWspace σ e ≃ₗ[K] E3UWspace σ e)}
   {X : Subgroup G} {x : G}
 
-theorem covW_transport (hc : Ctx M Q Z B)
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
+theorem covW_transport (_hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e)) {t : SUid σ 6}
     (hW : ∀ w : Wform σ,
       w ∈ AddSubgroup.closure {v | ∃ g ∈ Gcent σ t, ∃ w' : Wform σ, v = Wact σ g w' - w'}) :
@@ -330,7 +342,8 @@ theorem covW_transport (hc : Ctx M Q Z B)
   refine ⟨(s : G), ⟨s.2, g, hg, hs⟩, a, ha, ?_⟩
   rw [map_sub, hsym, haπ]
 
-theorem covC_transport (hc : Ctx M Q Z B)
+omit [Finite G] [Finite K] [CharP K 2] [Finite F] in
+theorem covC_transport (_hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : SUid σ 6}
     (hφ : φ ⟨x, hxL⟩ = e3uWact σ e t)
@@ -373,6 +386,7 @@ theorem covC_transport (hc : Ctx M Q Z B)
   exact ⟨ψ.symm (show E3UWspace σ e from r), hr',
     c - ψ.symm (show E3UWspace σ e from r), h2 ▸ hz, by abel⟩
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem P3_transport (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (e3uGam σ e) (e3uP0 σ e) (e3uU0 σ e))
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : SUid σ 6}
@@ -416,6 +430,7 @@ theorem P3_transport (hc : Ctx M Q Z B)
     rw [hsu, hwe, h1] at h2
     exact h2.symm
 
+omit [Finite K] [CharP K 2] [Finite F] in
 theorem P2_transport (hc : Ctx M Q Z B)
     (hRoot : ∀ ξ ∈ RootPt σ, ∃ (g : SUid σ 6) (c : F), c ≠ 0 ∧ σ c = c ∧
       ξ = c • rho F (g : GL (Fin 6) F) (pt0 F))
@@ -471,6 +486,7 @@ theorem P2_transport (hc : Ctx M Q Z B)
   have hr := rootPt_of_RootPt_U hRoot d hc.hyp hw
   rwa [LinearEquiv.symm_apply_apply] at hr
 
+omit [Finite K] [Finite F] in
 theorem e3u28_of_involModel12 (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hRoot : ∀ ξ ∈ RootPt σ, ∃ (g : SUid σ 6) (c : F), c ≠ 0 ∧ σ c = c ∧
       ξ = c • rho F (g : GL (Fin 6) F) (pt0 F))
@@ -496,6 +512,7 @@ theorem e3u28_of_involModel12 (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ 
   exact e3l28_root_of_coinv hs hD Tx hQf _ hV0 hVx (covC_transport hc d hxL Tx hφ hM.covC)
     _ hU0 hUx hUCG hUfixG (P2_transport hc hRoot d hxL Tx hφ hM.P2) hne
 
+omit [Finite F] in
 theorem e3u28_of_involModel3 (hD : GlobalModelData M Q Z γ M₀)
     (hRoot : ∀ ξ ∈ RootPt σ, ∃ (g : SUid σ 6) (c : F), c ≠ 0 ∧ σ c = c ∧
       ξ = c • rho F (g : GL (Fin 6) F) (pt0 F))

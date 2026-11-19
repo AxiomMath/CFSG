@@ -11,7 +11,7 @@ open CFSG.LieType.SpecialLinear.ExteriorModel
 open CFSG.HardMathSupport.GuralnickMalle
 
 private lemma c2sldad_natCast_three (k : Type) [Field k] [CharP k 2] : ((3 : ℕ) : k) = 1 := by
-  rw [CharTwo.natCast_eq_ite, if_neg (by decide : ¬ Even 3)]
+  rw [CharTwo.natCast_eq_ite, ite_eq_right (by decide : ¬ Even 3)]
 
 private lemma c2sldad_trace_one_fin_three (k : Type) [Field k] [CharP k 2] :
     Matrix.trace (1 : Matrix (Fin 3) (Fin 3) k) = 1 := by

@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isSylowOf_inf_of_mem_calC {S L K : Subgroup G}
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ L) L) (hK : K ∈ calC L) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ K) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have aux : ∀ {A B : Subgroup G}, CFSG.Open.IsSubnormal A B →
       CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ B) B →
       CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ A) A := by
@@ -34,8 +34,9 @@ theorem isSylowOf_inf_of_mem_calC {S L K : Subgroup G}
         rwa [inf_assoc, inf_eq_right.mpr hle] at this
   exact aux hK.1 hS
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_calLOf {T M H L : Subgroup G}
-    (hL : L ∈ calLOf T M H) (hTH : T ≤ H) {y : G}
+    (hL : L ∈ calLOf T M H) (_hTH : T ≤ H) {y : G}
     (hy : ∀ K ∈ calC H, y ∈ Subgroup.normalizer (K : Set G)) :
     y ∈ Subgroup.normalizer (L : Set G) := by
   obtain ⟨hLcal, hLsub⟩ := hL
@@ -80,7 +81,7 @@ private theorem exists_sylowBar_invariant_of_odd (hKD : KDiag) (D : Data G) (h19
         uc22p20uInd L y hyL x ∈
           ((P.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   let θ : MulAut (Bar2 L) := uc22p20uInd L y hyL
   let Pbar : Subgroup (Bar2 L) := (P.subgroupOf L).map π
@@ -125,7 +126,7 @@ theorem mem_normalizer_hinf_of_kDiag (hKD : KDiag) (D : Data G) (h1930 : H1930 D
     (hyL : y ∈ Subgroup.normalizer (L : Set G)) :
     y ∈ Subgroup.normalizer (Hinf P : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   let Pbar : Subgroup (Bar2 L) := (P.subgroupOf L).map π
   obtain ⟨_, _, _, _, hPinv⟩ :=
@@ -190,7 +191,7 @@ theorem exists_calLLow_le_calLOf_normalizer (D : Data G) (h1930 : H1930 D) (hR :
   have hCeq : (C.subgroupOf D.T).map D.T.subtype = C := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hCT]
   have hNC : Subgroup.normalizer (D.T : Set G) ≤ Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf D.T).Characteristic := hCchar
+    have : (C.subgroupOf D.T).Characteristic := hCchar
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := D.T) (K := C.subgroupOf D.T)
     simpa [hCeq] using h
@@ -212,18 +213,21 @@ theorem exists_calLLow_le_calLOf_normalizer (D : Data G) (h1930 : H1930 D) (hR :
   obtain ⟨P, hP, hPeq⟩ := (h20_9 h1930 L' hL'.1 L₁).1 ⟨hL₁low, hL₁le⟩
   exact ⟨C, hCne, hCT, hNC, L', hL', L₁, hL₁low, hL₁le, P, hP, hPeq⟩
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {L : Subgroup G} {b x : G} (hb : b ∈ L)
     (hx : x ∈ CFSG.Open.pCoreOf 2 L) :
     b * x * b⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
   obtain ⟨x', hx', rfl⟩ := hx
   exact ⟨⟨b, hb⟩ * x' * ⟨b, hb⟩⁻¹, CFSG.pCore_normal.conj_mem x' hx' ⟨b, hb⟩, rfl⟩
 
+omit [Finite G] in
 private theorem mem_pCore_of_mem_pCoreOf {L : Subgroup G} {x : L}
     (hx : (x : G) ∈ CFSG.Open.pCoreOf 2 L) : x ∈ CFSG.pCore 2 L := by
   obtain ⟨y, hy, hyx⟩ := hx
   rw [Subtype.ext hyx] at hy
   exact hy
 
+omit [Finite G] in
 private theorem commutator_mem_pCoreOf_of_ind_eq_one {L : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G))
     (hθ : uc22p20uInd L x hx = 1) {b : G} (hb : b ∈ L) :
@@ -238,13 +242,14 @@ private theorem commutator_mem_pCoreOf_of_ind_eq_one {L : Subgroup G} {x : G}
     ⟨_, h2, by simp [mul_assoc]⟩
   have h5 : (x * b⁻¹ * x⁻¹ * b)⁻¹ ∈ CFSG.Open.pCoreOf 2 L := inv_mem h4
   have h6 : b⁻¹ * x * b * x⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
-    convert h5 using 1 <;> group
+    convert h5 using 1; group
   have h7 : b * (b⁻¹ * x * b * x⁻¹) * b⁻¹ ∈ CFSG.Open.pCoreOf 2 L :=
     conj_mem_pCoreOf hb h6
   have e : b * (b⁻¹ * x * b * x⁻¹) * b⁻¹ = (b * x * b⁻¹ * x⁻¹)⁻¹ := by group
   rw [e] at h7
   simpa using inv_mem h7
 
+omit [Finite G] in
 private theorem ind_eq_one_of_commutator_mem_pCoreOf {L : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G))
     (h : ∀ b ∈ L, b * x * b⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
@@ -257,8 +262,9 @@ private theorem ind_eq_one_of_commutator_mem_pCoreOf {L : Subgroup G} {x : G}
   have hc : (b : ↥L)⁻¹ * ((b : ↥L) * x * (b : ↥L)⁻¹ * x⁻¹) * (b : ↥L) ∈
       CFSG.Open.pCoreOf 2 L := by
     simpa using conj_mem_pCoreOf (L.inv_mem b.2) (h (b : G) b.2)
-  convert hc using 1 <;> simp [mul_assoc]
+  convert hc using 1; simp [mul_assoc]
 
+omit [Finite G] in
 theorem commutator_mem_pCoreOf_zpowers {L : Subgroup G} {y : G}
     (hyL : y ∈ Subgroup.normalizer (L : Set G))
     (h : ∀ b ∈ L, b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
@@ -274,13 +280,14 @@ theorem commutator_mem_pCoreOf_zpowers {L : Subgroup G} {y : G}
     have hsub : (⟨x, hxN⟩ : ↥(Subgroup.normalizer (L : Set G))) =
         (⟨y, hyL⟩ : ↥(Subgroup.normalizer (L : Set G))) ^ k := by
       ext
-      simpa [hk]
+      simp [hk]
     rw [hsub, map_zpow, hy1, one_zpow]
   change uc22p20uInd L x hxN = 1 at hx1
   exact commutator_mem_pCoreOf_of_ind_eq_one hxN hx1 hb
 
+omit [Finite G] in
 private theorem exists_commutator_mem_pCoreOf_subgroup {L : Subgroup G} {y : G}
-    (hyL : y ∈ Subgroup.normalizer (L : Set G)) :
+    (_hyL : y ∈ Subgroup.normalizer (L : Set G)) :
     ∃ A : Subgroup G, A ≤ L ∧ ∀ b : G, b ∈ A ↔
       b ∈ L ∧ b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
   let A : Subgroup G :=
@@ -307,13 +314,14 @@ private theorem exists_commutator_mem_pCoreOf_subgroup {L : Subgroup G} {y : G}
         simpa using inv_mem hc }
   refine ⟨A, fun b hb => hb.1, fun b => Iff.rfl⟩
 
+omit [Finite G] in
 theorem commutator_mem_pCoreOf_sup {L L₁ L₂ : Subgroup G} (h₁ : L₁ ∈ calC L)
     (h₂ : L₂ ∈ calC L) (hL : L = L₁ ⊔ L₂) {y : G}
     (hyL : y ∈ Subgroup.normalizer (L : Set G))
     (hy₁ : ∀ b ∈ L₁, b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L₁)
     (hy₂ : ∀ b ∈ L₂, b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L₂) :
     ∀ b ∈ L, b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAL, hA⟩ := exists_commutator_mem_pCoreOf_subgroup hyL
   have h₁A : L₁ ≤ A := by
     intro b hb
@@ -342,7 +350,7 @@ theorem commutator_mem_pCoreOf_of_kOrdBorel (hKO : KOrdBorel) {L S : Subgroup G}
     (hyL : y ∈ Subgroup.normalizer (L : Set G)) :
     ∀ b ∈ L, b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Syl, hSyl⟩ := hS.exists_sylow_eq_subgroupOf
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   let Q : Sylow 2 (Bar2 L) := Sylow.mapSurjective (QuotientGroup.mk'_surjective _) Syl

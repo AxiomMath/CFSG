@@ -75,7 +75,7 @@ theorem L3Three.largeEvenLabelAll_rowKX_of_dvd {lab : LargeEvenLabel}
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, _, _, hK, hQ', hlt⟩ :=
     recipeLinear_card_lt_three (N := 2 ^ n) Nat.prime_three dvd_rfl h3 hQ
-  haveI : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
+  have : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
   obtain ⟨hK2, hK4⟩ := L3Three.two_pow_ne_two_four hn3
   refine ⟨K, inferInstance, inferInstance, hK, hQ', fun g => ?_, ?_, fun _ _ => ⟨?_, ?_⟩⟩
   · have := RecipeFieldLinear.conj_mem_recI (d := 2 + 1) (K := K) g

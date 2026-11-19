@@ -247,8 +247,8 @@ theorem f4_root [LySeed] :
       rw [e3] at this
       simpa using fvld_canon this.1)
     (fun e c hec hc => absurd hc (by omega)) (fun j hj => absurd hj (Nat.not_lt_zero _))
-    (cRange_sound (CFSG.KD.LyF4.leavesOK 0 (by norm_num)) 0 (by change 64 * 0 ≤ 0; omega)
-      (by change 0 < 64 * (0 + 1); omega) (by rw [CFSG.KD.LyF4.n_eq]; norm_num))
+    (cRange_sound (CFSG.KD.LyF4.leavesOK 0 (by norm_num)) 0 (by omega)
+      (by omega) (by rw [CFSG.KD.LyF4.n_eq]; norm_num))
   exact ⟨hs.2.1, hs.1⟩
 
 theorem k2_gens

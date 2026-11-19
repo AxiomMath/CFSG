@@ -14,12 +14,12 @@ theorem omq_rep_eq_one_of_isCurtisType_zero {G : Type*} [Group G] [Finite G] {B 
     {σ : Representation k G V} (hσ : IsSimpleRep σ) {y : V} {χ : G → k}
     (ht : D.IsCurtisType σ y χ 0) (hχ : ∀ h ∈ D.H, χ h = 1) (g : G) : σ g = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ : IsSimpleRep (Representation.trivial k G k) :=
     ⟨inferInstance, fun W _ => Ideal.eq_bot_or_top W⟩
   have htτ : D.IsCurtisType (Representation.trivial k G k) 1 χ 0 := by
     refine ⟨fun u _ => rfl, one_ne_zero, fun h hh => by rw [hχ h hh, one_smul]; rfl, fun s => ?_⟩
-    haveI : Fintype (D.X s) := Fintype.ofFinite _
+    have : Fintype (D.X s) := Fintype.ofFinite _
     rw [CurtisDatum.heckeT_apply D (Representation.trivial k G k) s 1]
     have hterm : ∀ x : D.X s, Representation.trivial k G k ((x : G) * D.n s) 1 = 1 :=
       fun x => by rw [Representation.trivial_apply]

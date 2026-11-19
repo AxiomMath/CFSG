@@ -119,7 +119,7 @@ theorem not_isSylowOf_of_not_mem_S2
         _ = g * (w * c) * g⁻¹ := by rw [hcw]
         _ = u * (g * c * g⁻¹) := by rw [hw]; group
     have hQ2 : IsPGroup 2 Q :=
-      (D.S.isPGroup'.to_le inf_le_left).map _
+      (D.S.isPGroup.to_le inf_le_left).map _
     obtain ⟨c, -, hc⟩ := exists_conj_le_of_isSylowOf hext hQK hQ2
     have hle : Q.map (MulAut.conj c).toMonoidHom ≤
         (D.S : Subgroup G) ⊓ centralizer ({u} : Set G) := by
@@ -129,7 +129,7 @@ theorem not_isSylowOf_of_not_mem_S2
     rw [card_map_of_injective (MulAut.conj c).injective,
       card_map_of_injective (MulAut.conj g).injective, hu32] at hcard
     omega
-  obtain ⟨N, hN, hN2⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson D.S.isPGroup'
+  obtain ⟨N, hN, hN2⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson D.S.isPGroup
     D.S.not_dvd_index D.S2_le_S D.relIndex_S2 hu huS (fun y hy hyS => by
       have hy1 : y ≠ 1 := fun h => hyS (h ▸ one_mem _)
       have h2 : orderOf u = 2 := orderOf_eq_prime (by rw [sq]; exact hu2) hu1

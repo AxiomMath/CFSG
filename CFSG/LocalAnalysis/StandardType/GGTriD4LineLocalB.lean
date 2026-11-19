@@ -21,7 +21,7 @@ private lemma triD4Line_norm_algebraMap_units (k K : Type) [Field k] [Field K] [
 private lemma triD4Line_cubeKer_card (k : Type) [Field k] [Finite k]
     (h3 : 3 ∣ Nat.card k - 1) :
     Nat.card ((powMonoidHom 3 : kˣ →* kˣ).ker) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := kˣ) 3 (by rwa [Nat.card_units])
   have hprim : IsPrimitiveRoot (ω : k) 3 :=
     IsPrimitiveRoot.coe_units_iff.mpr (hω ▸ IsPrimitiveRoot.orderOf ω)
@@ -38,7 +38,7 @@ private lemma triD4Line_cube_decomp (G : Type) [CommGroup G] [Finite G]
     have h := Subgroup.card_ker_mul_card_range f
     rw [show f.ker = (powMonoidHom 3 : G →* G).ker from rfl, hker] at h
     rwa [mul_comm] at h
-  haveI : Nonempty f.range := ⟨⟨1, f.range.one_mem⟩⟩
+  have : Nonempty f.range := ⟨⟨1, f.range.one_mem⟩⟩
   have hindex : f.range.index = 3 :=
     Nat.mul_left_cancel (Nat.card_pos (α := f.range))
       (by rw [Subgroup.card_mul_index, hcardC])
@@ -203,7 +203,7 @@ theorem triD4LineX_moves_line_of_not_le_N0 (k K : Type) [Field k] [Field K] [Alg
       (∀ e ∈ E, e ∉ Subgroup.zpowers z₀ → n * e * n⁻¹ ∉ Subgroup.zpowers e) ∧
       n * (x * triD4LineSigma k K σ n * x⁻¹)⁻¹ ∈ E := by
   classical
-  haveI : Finite k := Finite.of_injective _ (algebraMap k K).injective
+  have : Finite k := Finite.of_injective _ (algebraMap k K).injective
   obtain ⟨ζ, hζ3, hζne1, hζdet, hz0eq⟩ :=
     triD4Line_eq_mk_of_mem_center k K h3 hzc hz₀
   have hz0N : z₀ ∈ triD4LineN0 k K := by
@@ -240,7 +240,7 @@ theorem triD4LineX_moves_line_of_not_le_N0 (k K : Type) [Field k] [Field K] [Alg
   have hnotN : ∀ e ∈ E, e ∉ Subgroup.zpowers z₀ → e ∉ triD4LineN0 k K := by
     intro e he hez heN
     exact hez (hinf ▸ ⟨he, heN⟩)
-  obtain ⟨e₁, he₁E, he₁N⟩ := SetLike.not_le_iff_exists.mp hEN
+  obtain ⟨e₁, he₁E, he₁N⟩ := IsConcreteLE.not_le_iff_exists.mp hEN
   obtain ⟨gx, cx, hcx, rfl⟩ := triD4LineMk_surjective k K x
   obtain ⟨g₁, c₁, h₁, lam₁, he₁eq, _, hc₁, hlam₁3⟩ :=
     triD4Line_lambda_exists k K σ gx cx hcx e₁ (hx e₁ he₁E)

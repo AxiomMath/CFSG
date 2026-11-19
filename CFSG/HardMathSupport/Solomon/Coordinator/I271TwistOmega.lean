@@ -64,8 +64,8 @@ theorem i224T_hyp1 [Finite Ω] (hc : I224CtxT p B L) {c : Ω} (hcB : c ∈ B)
       exact (hc.dist 1 B.one_mem c hcB hne y (by simpa using i224_mem_cj_self (g := (1 : Ω)) hyL)
         u hu).symm
     refine mem_i224Adm.2 ⟨hyL, y, ⟨hyW, hyc⟩, ?_⟩
-    simpa using (Subgroup.centralizer (L : Set Ω)).one_mem
-  · push_neg at hII
+    simp
+  · push Not at hII
     obtain ⟨a₀, ha₀, l₀, hl₀, hne₀⟩ := hII
     set M : Subgroup Ω := i224Adm L W (Subgroup.centralizer (i224Cj c L : Set Ω)) with hM
     have hnormA : ∀ a ∈ A, a ∈ Subgroup.normalizer (L : Set Ω) := fun a ha => ha.2
@@ -203,7 +203,7 @@ theorem i224T_hyp1 [Finite Ω] (hc : I224CtxT p B L) {c : Ω} (hcB : c ∈ B)
           refine M.mul_mem hmM ?_
           have := (Subgroup.mem_normalizer_iff.1 (hLN (L.inv_mem hm)) _).1 hlM
           simpa using this
-        one_mem' := ⟨L.one_mem, by simpa using M.one_mem⟩
+        one_mem' := ⟨L.one_mem, by simp⟩
         inv_mem' := by
           rintro l ⟨hl, hlM⟩
           refine ⟨L.inv_mem hl, ?_⟩
@@ -234,7 +234,7 @@ theorem i224T_omega [Finite Ω] (hc : I224CtxT p B L) : i224K B L ≤ i224W p B 
   set W : Subgroup Ω := i224W p B (i224K B L) with hW
   have hAB : A ≤ B := inf_le_left
   obtain ⟨C, hCB, hAC, hAsup, -⟩ := i224_exists_complement hc.elem hAB
-  haveI : Fintype ↥C := Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
   have hBc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy => i224_elem_comm hc.elem hx hy
   have hKconj : ∀ b ∈ B, ∀ x ∈ i224K B L, b * x * b⁻¹ ∈ i224K B L :=
     fun b hb x hx => i224K_conj hb hx

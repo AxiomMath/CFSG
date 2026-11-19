@@ -192,7 +192,7 @@ theorem mem_centralizer_tauPerm_iff {g : Equiv.Perm (Fin 45)} (hg : g ∈ P) (j 
    [32, 1], [33], [28], [31], [27, 1], [14, 3], [41, 1], [39], [42], [37], [42, 1], [43], [38],
    [41], [37, 1]]
 
-theorem transW_spec : ∀ j (hj : j < 45), (wtab (transW.getD j [])).getD 0 0 = j := by
+theorem transW_spec : ∀ j (_hj : j < 45), (wtab (transW.getD j [])).getD 0 0 = j := by
   decide +kernel
 
 theorem exists_mem_P_apply_zero (j : Fin 45) : ∃ g ∈ P, g 0 = j := by

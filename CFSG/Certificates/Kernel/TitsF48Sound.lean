@@ -79,7 +79,7 @@ theorem halfF_sound {ORD PA LB : ℕ} (h : halfF ORD PA LB = true) :
   have h' := h i hi
   clear h
   simp only [bIf_d, nIf_d, beq_d, blt_d, ble_d] at h'
-  by_cases hr : fw 4 LB i = 15 <;> by_cases h5 : i < 512 <;> simp_all <;> omega
+  by_cases hr : fw 4 LB i = 15 <;> by_cases h5 : i < 512 <;> simp_all
 
 theorem invF_sound {FA FAI : ℕ → ℕ} (h : invF FA FAI = true) :
     ∀ j < 6, ∀ x < 1755, gp (FAI j) (gp (FA j) x) = x := by
@@ -102,11 +102,11 @@ theorem smallF_sound {lp FA : ℕ → ℕ} {PL nG t b1 b2 : ℕ} (h : smallF lp 
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := h
   refine ⟨h1, h2, h3, h4, h5, h6, h7, fun k hk hne => ?_, fun p hp hp0 hfix => ?_⟩
   · have h' := h8 k hk
-    rw [bIf_d, if_neg (by simpa using hne)] at h'
+    rw [bIf_d, ite_eq_right (by simpa using hne)] at h'
     exact anyN_iffD.1 h'
   · have h' := h9 p hp
-    rw [bIf_d (decide (p = 0)), if_neg (by simpa using hp0), bIf_d,
-      if_pos (decide_eq_true hfix)] at h'
+    rw [bIf_d (decide (p = 0)), ite_eq_right (by simpa using hp0), bIf_d,
+      ite_eq_left (decide_eq_true hfix)] at h'
     obtain ⟨j, hj, hm⟩ := anyN_iffD.1 h'
     exact ⟨j, hj, by simpa using hm⟩
 
@@ -146,14 +146,14 @@ theorem rowA_sound {FA FAI : ℕ → ℕ} {LAY ORD PA LB PS nG q0 b1 b2 : ℕ} {
   rw [bIf_d (decide (i < 512))] at h
   constructor
   · intro hi
-    rw [if_pos (decide_eq_true hi), bIf_d] at h
+    rw [ite_eq_left (decide_eq_true hi), bIf_d] at h
     split_ifs at h with h0
     · left
       simp only [Bool.and_eq_true, decide_eq_true_eq] at h h0
       exact ⟨h0, h.1, h.2⟩
     · exact Or.inr h
   · intro hi
-    rw [if_neg (by simpa using hi)] at h
+    rw [ite_eq_right (by simpa using hi)] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     exact h
 
@@ -171,14 +171,14 @@ theorem rowB_sound {FA FAI : ℕ → ℕ} {LAY ORD PA LB PS nG q0 b1 b2 : ℕ} {
   rw [bIf_d (decide (512 ≤ i))] at h
   constructor
   · intro hi
-    rw [if_pos (decide_eq_true hi), bIf_d] at h
+    rw [ite_eq_left (decide_eq_true hi), bIf_d] at h
     split_ifs at h with h0
     · left
       simp only [Bool.and_eq_true, decide_eq_true_eq] at h h0
       exact ⟨h0, h.1, h.2⟩
     · exact Or.inr h
   · intro hi
-    rw [if_neg (by simp only [decide_eq_true_eq]; omega)] at h
+    rw [ite_eq_right (by simp only [decide_eq_true_eq]; omega)] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     exact h
 
@@ -211,9 +211,9 @@ theorem gpS_P {a : ℕ} {g : Pm} (ha : PR a g) : PartOf g (gpS a) := by
   intro y
   rw [gpS_eq]
   by_cases hy : y < 1755
-  · rw [if_pos hy, gp_ev ha hy]
+  · rw [ite_eq_left hy, gp_ev ha hy]
     exact Or.inr ⟨hy, rfl⟩
-  · rw [if_neg hy]
+  · rw [ite_eq_right hy]
     exact Or.inl rfl
 
 theorem part_comp {σ τ ρ : Pm} {s t : ℕ → ℕ} (hs : PartOf σ s) (ht : PartOf τ t) (ρ_eq : ρ = σ * τ) :
@@ -341,13 +341,13 @@ theorem sgR_half (hrec : recR lp FA 6 isR 8 1024 LAY ORD PA LB PS = true)
     intro j hj hjn
     rw [sgR_succ, sgR_succ, sgR_succ]
     by_cases hr : fw 4 LB j = 15
-    · simp only [hr, if_true]
+    · simp only [hr, ite_true]
       constructor
       · intro h
         simp [h]
       · intro h
         simp [show ¬ j < 512 by omega]
-    · simp only [hr, if_false]
+    · simp only [hr, ite_false]
       obtain ⟨hp, -, -⟩ := ((recR_sound hrec).1 j hj).2.2 hr
       have hhp := (halfF_sound hhalf j hj).2 hr
       have e := ih (fw 12 PA j) (by omega) (by omega)
@@ -367,9 +367,9 @@ theorem sgR_lt (hFA : ∀ j < 6, PR (FA j) (f j))
     intro j hj hjn
     rw [sgR_succ]
     by_cases hr : fw 4 LB j = 15
-    · simp only [hr, if_true]
+    · simp only [hr, ite_true]
       split_ifs <;> assumption
-    · simp only [hr, if_false]
+    · simp only [hr, ite_false]
       obtain ⟨hp, hlb, -⟩ := ((recR_sound hrec).1 j hj).2.2 hr
       have hu := ih (fw 12 PA j) (by omega) (by omega)
       rw [gp_ev (hFA _ hlb) hu]
@@ -386,9 +386,9 @@ theorem fiR_inv (hFA : ∀ j < 6, PR (FA j) (f j))
     intro j hj hjn
     rw [sgR_succ, fiR_succ]
     by_cases hr : fw 4 LB j = 15
-    · simp only [hr, if_true]
+    · simp only [hr, ite_true]
       split_ifs <;> rfl
-    · simp only [hr, if_false]
+    · simp only [hr, ite_false]
       obtain ⟨hp, hlb, -⟩ := ((recR_sound hrec).1 j hj).2.2 hr
       rw [hinv _ hlb _ (sgR_lt hFA hrec hc hc n _ (by omega) (by omega))]
       exact ih _ (by omega) (by omega)
@@ -405,9 +405,9 @@ theorem sig_rec (hFA : ∀ j < 6, PR (FA j) (f j))
     intro j hj hjn
     rw [sgR_succ]
     by_cases hr : fw 4 LB j = 15
-    · rw [if_pos hr, (halfF_sound hhalf j hj).1 hr]
+    · rw [ite_eq_left hr, (halfF_sound hhalf j hj).1 hr]
       by_cases h5 : j < 512 <;> simp [h5]
-    · rw [if_neg hr]
+    · rw [ite_eq_right hr]
       obtain ⟨hpi, hlb, e⟩ := (hpts j hj).2 hr
       have hp := (hpts (fw 12 PA j) (by omega)).1
       rw [← ih _ (by omega) (by omega), gp_ev (hFA _ hlb) (ev_lt σ hp), ← e, ← ev_mul _ _ hp,
@@ -421,11 +421,11 @@ theorem sig_eq2 (hFA : ∀ j < 6, PR (FA j) (f j))
   obtain ⟨-, hcov⟩ := recR_sound hrec
   obtain ⟨-, hfar'⟩ := farK_sound hfar
   intro x hx
-  rw [sF_eq, if_pos hx]
+  rw [sF_eq, ite_eq_left hx]
   by_cases hl : layAt LAY x ≤ 6
-  · rw [if_pos hl]
+  · rw [ite_eq_left hl]
     exact h6 x hx hl
-  · rw [if_neg hl]
+  · rw [ite_eq_right hl]
     obtain ⟨hq, e⟩ := hcov x (by omega) ((hfar' x hx).resolve_left hl)
     rw [← sig_rec hFA hrec hhalf hc _ _ hq (by omega), e]
 
@@ -438,20 +438,20 @@ theorem half_true (hFA : ∀ j < 6, PR (FA j) (f j))
   intro x
   rw [sH_true_eq]
   by_cases hx : x < 1755
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     by_cases hl : layAt LAY x ≤ 6
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact Or.inr ⟨hx, (h6 x hx hl).symm⟩
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       obtain ⟨hq, e⟩ := hcov x (by omega) ((hfar' x hx).resolve_left hl)
       by_cases hj : fw 13 PS x < 512
-      · rw [if_pos hj]
+      · rw [ite_eq_left hj]
         refine Or.inr ⟨hx, ?_⟩
         rw [← (sgR_half hrec hhalf (ev σ 87) (ev σ 133) _ _ hq (by omega)).1 hj,
           ← sig_rec hFA hrec hhalf hc _ _ hq (by omega), e]
-      · rw [if_neg hj]
+      · rw [ite_eq_right hj]
         exact Or.inl rfl
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     exact Or.inl rfl
 
 theorem half_false (hFA : ∀ j < 6, PR (FA j) (f j))
@@ -463,20 +463,20 @@ theorem half_false (hFA : ∀ j < 6, PR (FA j) (f j))
   intro x
   rw [sH_false_eq]
   by_cases hx : x < 1755
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     by_cases hl : layAt LAY x ≤ 6
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact Or.inr ⟨hx, (h6 x hx hl).symm⟩
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       obtain ⟨hq, e⟩ := hcov x (by omega) ((hfar' x hx).resolve_left hl)
       by_cases hj : 512 ≤ fw 13 PS x
-      · rw [if_pos hj]
+      · rw [ite_eq_left hj]
         refine Or.inr ⟨hx, ?_⟩
         rw [← (sgR_half hrec hhalf (ev σ 87) (ev σ 133) _ _ hq (by omega)).2 hj,
           ← sig_rec hFA hrec hhalf hc _ _ hq (by omega), e]
-      · rw [if_neg hj]
+      · rw [ite_eq_right hj]
         exact Or.inl rfl
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     exact Or.inl rfl
 
 theorem lay8 (hfar : farK LAY = true) {σ : Pm} (h6 : ∀ x < 1755, layAt LAY x ≤ 6 → ev σ x = x)
@@ -514,7 +514,7 @@ theorem rigid2 (hFA : ∀ j < 6, PR (FA j) (f j)) (hinv : invF FA FAI = true)
     by_cases hx : x < 1755
     · exact Or.inr ⟨hx, (hs x hx).symm⟩
     · left
-      rw [sF_eq, if_neg hx]
+      rw [sF_eq, ite_eq_right hx]
   have kH : ∀ r s, PartOf σ s → witS nG q0 b1 b2 s r false = true → False := fun r s hs' hw =>
     kill hn hq hb1 hb2 h2 hr1 hr2 hX hs' (fun h => absurd h Bool.false_ne_true) hw
   have hn2 : ∀ z < 1755, ev n (ev n z) = z := by

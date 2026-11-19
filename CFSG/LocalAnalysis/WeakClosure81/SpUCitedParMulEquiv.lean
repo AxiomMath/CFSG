@@ -14,7 +14,7 @@ private lemma spUCited_conjSubgroup_map {L L' : Type} [Group L] [Group L'] (φ :
   have hhom : (MulAut.conj ((φ g)⁻¹)).toMonoidHom.comp φ.toMonoidHom
       = φ.toMonoidHom.comp (MulAut.conj (g⁻¹)).toMonoidHom := by
     ext y
-    simp [MulAut.conj_apply]
+    simp
   unfold conjSubgroup
   simp only [Subgroup.map_map]
   rw [hhom]
@@ -57,7 +57,7 @@ theorem rootParabolic_of_mulEquiv {L L' : Type} [Group L] [Group L'] (φ : L ≃
       maximal := ?_
       invariant := ?_ }
   · have hmem := h.mem
-    simp only [rootGroupsIn, Set.mem_setOf_eq] at hmem
+    simp only [rootGroupsIn, Set.mem_ofPred_eq] at hmem
     obtain ⟨⟨g', hg'⟩, hle'⟩ := hmem
     refine ⟨⟨φ.symm g', ?_⟩, ?_⟩
     · apply Subgroup.map_injective (f := φ.toMonoidHom) φ.injective

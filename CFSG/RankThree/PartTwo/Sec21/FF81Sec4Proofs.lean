@@ -96,7 +96,7 @@ theorem ff81_4_11 : FF81_4_11 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 (Nor B)) := inferInstance
   set P' := (P : Subgroup (Nor B)).map (Nor B).subtype with hP'
-  have hP'p : IsPGroup 3 P' := P.isPGroup'.map _
+  have hP'p : IsPGroup 3 P' := P.isPGroup.map _
   have hP'N : P' ≤ Nor B := Subgroup.map_subtype_le _
   have hBP : B ≤ P' := by
     have hBp : IsPGroup 3 B := IsPGroup.of_card hB4.2
@@ -108,7 +108,7 @@ theorem ff81_4_11 : FF81_4_11 := by
   obtain ⟨Q, hQ⟩ := (hP'p.comap_of_injective Y.subtype Subtype.coe_injective).exists_le_sylow
   set Q' := (Q : Subgroup Y).map Y.subtype with hQ'
   have hPQ : P' ≤ Q' := fun x hx => ⟨⟨x, hP'Y hx⟩, hQ (Subgroup.mem_comap.mpr hx), rfl⟩
-  have hQ'p : IsPGroup 3 Q' := Q.isPGroup'.map _
+  have hQ'p : IsPGroup 3 Q' := Q.isPGroup.map _
   have hQsyl : IsSylowOf 3 Q' Y := by
     refine ⟨Subgroup.map_subtype_le _, hQ'p, ?_⟩
     show Nat.Coprime 3 ((Q'.subgroupOf Y).index)

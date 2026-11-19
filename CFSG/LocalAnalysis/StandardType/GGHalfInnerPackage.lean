@@ -78,7 +78,7 @@ private theorem ggHalfInnerCommA_labJ'_eq_of_iso {m : ℕ} (hm : 3 ≤ m) {labJ'
   · exact absurd (show LargeEvenLieTag.A = LargeEvenLieTag.twD from congrArg LargeEvenLabel.tag h.1)
       (by decide)
 
-private theorem ggHalfInnerCommA_row_A {m : ℕ} (hm : 3 ≤ m) {lab : LargeEvenLabel}
+private theorem ggHalfInnerCommA_row_A {m : ℕ} (_hm : 3 ≤ m) {lab : LargeEvenLabel}
     (hrow : GGTablePRow 3 (⟨.A, m, 1⟩ : LargeEvenLabel) lab) :
     lab = ⟨.A, m + 2, 1⟩ ∨ (m + 2 = 5 ∧ lab = ⟨.twD, 4, 1⟩) ∨
       (m + 2 = 7 ∧ lab = ⟨.E6, 0, 1⟩) := by

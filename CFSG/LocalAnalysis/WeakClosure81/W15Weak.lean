@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_centralizer {V : Subgroup G} {x : G}
     (hx : x ∈ normalizer (V : Set G)) : x ∈ normalizer (centralizer (V : Set G) : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer] at hx ⊢
@@ -41,7 +42,7 @@ private theorem exists_mem_normalizer_of_lt {S P : Subgroup G} (hP : IsPGroup 2 
     exact absurd hSP (not_lt_of_ge (Subgroup.subgroupOf_eq_top.mp htop))
   have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent (G := ↥P)
-  obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt (hnc _ hIP)
+  obtain ⟨x, hxN, hxS⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hIP)
   refine ⟨x, x.2, fun hx => hxS (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   have hxsub : x ∈ (normalizer (S : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hSP.le]
@@ -52,10 +53,13 @@ namespace Cex15
 
 variable {M V₀ V U S : Subgroup G}
 
+omit [Finite G] in
 theorem V₀_le_S (h : Cex15 M V₀ V U S) : V₀ ≤ S := h.hyp.h6.le.trans h.V_le_S
 
+omit [Finite G] in
 theorem S_le_M (h : Cex15 M V₀ V U S) : S ≤ M := h.sylow.le.trans inf_le_left
 
+omit [Finite G] in
 theorem S_le_centralizer (h : Cex15 M V₀ V U S) : S ≤ centralizer (U : Set G) :=
   h.sylow.le.trans inf_le_right
 
@@ -89,7 +93,7 @@ theorem wClos_le_centralizer (h : Cex15 M V₀ V U S) :
 
 theorem uniqueMax_normalizer_wClos (h : Cex15 M V₀ V U S) :
     UniqueMax M (M ⊓ normalizer (E3.wClos V₀ 0 S : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := h.hyp
   set Q : Subgroup G := S ⊓ (M ⊓ centralizer (V : Set G)) with hQ
   have hNH : M ⊓ centralizer (V : Set G) ≤ M ⊓ centralizer (U : Set G) :=
@@ -112,6 +116,7 @@ theorem uniqueMax_normalizer_wClos (h : Cex15 M V₀ V U S) :
     exact E3.normalizer_le_normalizer_wClos Q
   exact InCalU.mono hH.isMax (hH.qclause Q hSyl) (inf_le_inf_left M hNQ) inf_le_left
 
+omit [Finite G] in
 theorem wClos_ne_bot (h : Cex15 M V₀ V U S) : E3.wClos V₀ 0 S ≠ ⊥ := by
   intro hb
   have hle : V₀ ≤ E3.wClos V₀ 0 S :=
@@ -127,7 +132,7 @@ theorem normalizer_wClos_zero_le (h : Cex15 M V₀ V U S) :
 
 theorem isSylowIn_centralizer (h : Cex15 M V₀ V U S) :
     IsSylowIn 2 S (centralizer (U : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP, hSP⟩ := exists_isSylowIn_ge 2 h.S_le_centralizer h.sylow.isPGroup
   have hPS : P ≤ S := by
     by_contra hne

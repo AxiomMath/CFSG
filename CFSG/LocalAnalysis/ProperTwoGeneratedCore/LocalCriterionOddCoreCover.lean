@@ -201,7 +201,7 @@ theorem local_point_odd_core_cover_central_weakly_closed
       ∀ g : G, g⁻¹ * z * g ∈ (S : Subgroup G) → g⁻¹ * z * g = z := by
   let zS : (S : Subgroup G) := ⟨z, hzS⟩
   have hcenter : zS ∈ Subgroup.center (S : Subgroup G) := by
-    apply LocalCriterionGeometry.central_of_no_distinct_commuting_conjugate S.isPGroup' zS
+    apply LocalCriterionGeometry.central_of_no_distinct_commuting_conjugate S.isPGroup zS
     intro g hcomm
     apply Subtype.ext
     apply local_point_isolated_of_odd_core_cover h hcover

@@ -80,11 +80,11 @@ theorem s16h_not_mBarGT_of_bar (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : U
   have hV := h.hyp125.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
   obtain ⟨Xbar, hXn', hXe', hXc', hXd'⟩ := s16h_exists_xbar_of_bar h hXn hXe hXd hcard
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have h1110 : R1110Core D := r1110Core_holds D hSig h61 h63 h77 h869 h111 h112 hThin hCyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (F11.O2p p D.M)
   refine twelve_twelve D h63 h126 h1211 h111W h6161ii h.hyp125 hm
     (F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)) ?_

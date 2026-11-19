@@ -97,7 +97,7 @@ theorem rank_le_one_of_card_fix {K : Type*} [Field K] [Fintype K] [DecidableEq K
       = Fintype.card (LinearMap.ker (M - 1).mulVecLin) := by
     rw [← Fintype.card_subtype]
     exact Fintype.card_congr (Equiv.subtypeEquivRight fun v => by
-      simp [LinearMap.mem_ker, Matrix.sub_mulVec, sub_eq_zero])
+      simp [LinearMap.mem_ker, sub_eq_zero])
   have hcard := Module.card_eq_pow_finrank (K := K) (V := LinearMap.ker (M - 1).mulVecLin)
   rw [hK] at hcard
   have hk : 3 ≤ Module.finrank K (LinearMap.ker (M - 1).mulVecLin) := by

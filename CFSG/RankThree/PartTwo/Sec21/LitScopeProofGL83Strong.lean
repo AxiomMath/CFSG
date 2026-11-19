@@ -16,7 +16,7 @@ theorem gl83StronglyEmbeddedNoSimpleThree_of_kFactStrongThreeSolv
   have hKo : CFSG.Open.IsKGroup X := CFSG.KCore.KGroupAllSimple.kGroupNonab hK
   by_cases hab : ∀ a b : H, a * b = b * a
   ·
-    letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hab }
+    let : CommGroup H := { (inferInstance : Group H) with mul_comm := hab }
     have hp : (Nat.card H).Prime := IsSimpleGroup.prime_card (α := H)
     by_cases h3 : 3 ∣ Nat.card H
     · left
@@ -24,7 +24,7 @@ theorem gl83StronglyEmbeddedNoSimpleThree_of_kFactStrongThreeSolv
     · right
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3
   ·
-    push_neg at hab
+    push Not at hab
     have hperf : ⁅H, H⁆ = H := by
       rw [← Subgroup.isPerfect_iff, Group.isPerfect_def]
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator H) with h0 | h0

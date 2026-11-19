@@ -39,7 +39,7 @@ theorem ker_chevQuotHom_eq_center_of_dvd_card {G : Type} [Group G] [Finite G] {p
     (hp : p.Prime) {J : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥J) (hdvd : p ∣ Nat.card J) :
     (chevQuotHom p J).ker = Subgroup.center ↥J := by
   have hN := glaPPrimeCore_le_center_of_dvd_card hp hq hdvd
-  haveI : Group.IsPerfect ↥J := ⟨hq.1⟩
+  have : Group.IsPerfect ↥J := ⟨hq.1⟩
   apply le_antisymm
   · intro x hx
     rw [MonoidHom.mem_ker] at hx
@@ -82,7 +82,7 @@ private theorem valid_A3 {Q : PrimePower} (h2 : Q.card ≠ 2) : (LieTypeIndex.A 
   rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff,
     LieTypeIndex.isDuplicateRepresentative_iff]
   simp only [Nat.reduceEqDiff, OfNat.ofNat_ne_one, IsEmpty.forall_iff, and_true, false_and,
-    or_false, h2, not_false_eq_true, and_self, true_and, le_refl]
+    or_false, h2, not_false_eq_true, and_self, true_and]
   omega
 
 private theorem valid_twistedA3 (Q : PrimePower) : (LieTypeIndex.twistedA 3 Q).Valid := by

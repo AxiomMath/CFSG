@@ -190,8 +190,8 @@ private theorem p9uFD_torus_mem (hext : SteinbergExtras D n H) (F : FrobData D n
 private theorem p9uFD_pos_mem
     (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H)
-    (hext : SteinbergExtras D n H) (F : FrobData D n H w₀) {n₀ : K} (L : StdLevi F n₀)
-    (hop : ∀ i, F.op i = i) (hdiv : D.divisible = ∅)
+    (hext : SteinbergExtras D n H) (F : FrobData D n H w₀) {n₀ : K} (_L : StdLevi F n₀)
+    (_hop : ∀ i, F.op i = i) (_hdiv : D.divisible = ∅)
     (hφX : ∀ γ ∈ D.roots, (D.rootGroup γ).map F.φ ≤ D.rootGroup γ)
     {Y : Type} [Group Y] (β : Y →* K)
     (hX : ∀ γ ∈ D.roots, ∀ x ∈ D.rootGroup γ, F.φ x = x → x ∈ β.range)
@@ -238,6 +238,7 @@ private theorem p9uFD_pos_mem
   exact hX γ (hr γ hγ) (f γ) (hf γ hγ) (hfix γ hγ)
 
 include hct hext hw₀ in
+omit hw₀ in
 theorem frobFix_eq_range_of_descent (hBU : BruhatExtras D H) {n₀ : K} (L : StdLevi F n₀)
     (hop : ∀ i, F.op i = i) (hdiv : D.divisible = ∅)
     (hφX : ∀ γ ∈ D.roots, (D.rootGroup γ).map F.φ ≤ D.rootGroup γ)
@@ -257,12 +258,13 @@ theorem frobFix_eq_range_of_descent (hBU : BruhatExtras D H) {n₀ : K} (L : Std
   · rintro _ ⟨y, rfl⟩
     exact hβ y
 
+omit hw₀ in
 @[expose] noncomputable def frobFixEquivOfDescent (hBU : BruhatExtras D H) {n₀ : K}
     (L : StdLevi F n₀) (hop : ∀ i, F.op i = i) (hdiv : D.divisible = ∅)
     (hφX : ∀ γ ∈ D.roots, (D.rootGroup γ).map F.φ ≤ D.rootGroup γ)
     {Y : Type} [Group Y] (β : Y →* K) (hβi : Function.Injective β) (hβ : ∀ y, F.φ (β y) = β y)
     (hX : ∀ γ ∈ D.roots, ∀ x ∈ D.rootGroup γ, F.φ x = x → x ∈ β.range) : Y ≃* frobFix F :=
   (MonoidHom.ofInjective hβi).trans (MulEquiv.subgroupCongr
-    (frobFix_eq_range_of_descent hct F hext hw₀ hBU L hop hdiv hφX β hβ hX).symm)
+    (frobFix_eq_range_of_descent hct F hext hBU L hop hdiv hφX β hβ hX).symm)
 
 end CFSG.ClassicalInvolution.Phan.PhanE

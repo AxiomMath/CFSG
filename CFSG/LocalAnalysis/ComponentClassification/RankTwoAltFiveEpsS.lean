@@ -57,7 +57,7 @@ theorem outer_sylow (hGold : Asc76X.GoldschmidtTheoremA) (hGs : IsSimpleGroup G)
       ∀ E : Subgroup G, E ≤ S → IsElemAbelian 2 E → Nat.card E = 16 → E = R ⊔ T ∨ E = V' := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVP : R ⊔ T ≤ P := hPC ▸ inf_le_left
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hS₁ := h.outer_isSylowOf_sup hP hPC hx hP64
   have hS₁S' : P ⊔ zpowers x < S :=
     lt_of_le_of_ne hS₁S (h.outer_sup_ne_sylow hP hPC hx hV' hGold hGs hP64 S).symm
@@ -265,7 +265,7 @@ theorem outer_le_normalizer_V₀ : (S : Subgroup G) ≤ normalizer (V₀ : Set G
 theorem outer_mul_mem_centralizer_V₀ {s : G} (hs : s ∈ (S : Subgroup G))
     (hsC : s ∉ centralizer (V₀ : Set G)) : s * x ∈ centralizer (V₀ : Set G) :=
   mul_mem_centralizer_of_card_four h.card_V₀ (fun _ hw => h.mul_self (h.V₀_le hw))
-    S.isPGroup' (h.outer_le_normalizer_V₀ hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S) hs
+    S.isPGroup (h.outer_le_normalizer_V₀ hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S) hs
     (hS₁S (mem_sup_right (mem_zpowers x))) hsC (h.outer_not_mem_centralizer_V₀ hx)
 
 theorem outer_comm_z {s : G} (hs : s ∈ (S : Subgroup G)) : s * z = z * s := by
@@ -290,7 +290,7 @@ theorem outer_sq_mem {s : G} (hs : s ∈ (S : Subgroup G)) : s * s ∈ P := by
     by_cases hsC : s ∈ centralizer (V₀ : Set G)
     · exact mul_mem hsC hsC
     · exact mul_mem_centralizer_of_card_four h.card_V₀ (fun _ hw => h.mul_self (h.V₀_le hw))
-        S.isPGroup' (h.outer_le_normalizer_V₀ hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S) hs hs
+        S.isPGroup (h.outer_le_normalizer_V₀ hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S) hs hs
         hsC hsC
   exact h.outer_mem_P_of_mem_centralizer_V₀ hP hx hs1 hs2
 

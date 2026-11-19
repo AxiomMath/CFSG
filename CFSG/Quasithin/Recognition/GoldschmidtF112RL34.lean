@@ -77,6 +77,7 @@ end Model
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem parabolic_le_normalizer_left {L1 L2 S : Subgroup G} (h : Hyp111 L1 L2 S) :
     L1 ⊔ bigB L1 L2 S ≤ Subgroup.normalizer (L1 : Set G) := by
   refine sup_le Subgroup.le_normalizer (sup_le (sup_le ?_ h.h1.borel_le) h.h1.normalizes)
@@ -86,8 +87,8 @@ theorem l34_vertex {H : Type} [Group H] {N : Subgroup H} {L P : Subgroup G} (hL 
     (hLP : L ≤ P) (hPL : P ≤ Subgroup.normalizer (L : Set G)) (hct : CharTwo P) (ψ : ↥P ≃* ↥N)
     (hN : L34Par N) :
     L = P ∧ IsBlock2 L L ∧ IsLin2Type L 2 ∧ ⁅L, L⁆ = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hN960, hN16, hNE, hNnat⟩ := hN
   have hP960 : Nat.card P = 960 := (Nat.card_congr ψ.toEquiv).trans hN960
   have hP16 : Nat.card (pCoreOf 2 P) = 16 := (card_pCoreOf_of_mulEquiv ψ 2).trans hN16
@@ -138,8 +139,8 @@ theorem l34_vertex {H : Type} [Group H] {N : Subgroup H} {L P : Subgroup G} (hL 
     Subgroup.eq_of_le_of_card_ge hLP (by rw [hP960, hc, hO2L, hQ, hP16])
   subst hLeq
   have hE : IsElemAbelian 2 (pCoreOf 2 L) := isElemAbelian_pCoreOf_of_mulEquiv ψ hNE
-  haveI : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
-  haveI : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
+  have : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
+  have : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
   have hshort := leafShort2OfA5 hL hct hE hP16
   refine ⟨rfl, Gold14610.isBlock2_of_short hshort le_rfl Subgroup.le_normalizer,
     leafLin2OfNatural hL hct hE hP16 hPnat, ?_⟩

@@ -57,7 +57,7 @@ theorem cD_normalizes (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) 
   hN d (mem_cD.1 hd).1 h hh
 
 theorem le_cD (hHΓ : H ≤ Γ) : H ≤ cD Γ H := fun h hh =>
-  mem_cD.2 ⟨hHΓ hh, fun c hc => (((mem_cC.1 hc).2) h hh).symm⟩
+  mem_cD.2 ⟨hHΓ hh, fun _c hc => (((mem_cC.1 hc).2) h hh).symm⟩
 
 theorem exists_decomp (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H)
     (e : ↥(cC Γ H) ≃* Equiv.Perm (Fin 3)) :
@@ -120,8 +120,8 @@ theorem cC_inf_cD (e : ↥(cC Γ H) ≃* Equiv.Perm (Fin 3)) : cC Γ H ⊓ cD Γ
   rw [Subgroup.mem_bot]
   exact congrArg Subtype.val this
 
-@[expose] def prodMap (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hHΓ : H ≤ Γ)
-    (e : ↥(cC Γ H) ≃* Equiv.Perm (Fin 3)) :
+@[expose] def prodMap (_hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (_hHΓ : H ≤ Γ)
+    (_e : ↥(cC Γ H) ≃* Equiv.Perm (Fin 3)) :
     (↥(cC Γ H) × ↥(cD Γ H)) →* ↥Γ where
   toFun p := ⟨(p.1 : G) * (p.2 : G), Γ.mul_mem (cC_le p.1.2) (cD_le p.2.2)⟩
   map_one' := by
@@ -174,7 +174,7 @@ theorem eΓ_prod (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hHΓ
   have := congrArg Subtype.val h'
   exact this
 
-@[expose] noncomputable def actD (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hHΓ : H ≤ Γ) :
+@[expose] noncomputable def actD (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (_hHΓ : H ≤ Γ) :
     ↥(cD Γ H) →* MulAut ↥H :=
   let hDnorm : cD Γ H ≤ Subgroup.normalizer (H : Set G) := fun d hd => by
     rw [Subgroup.mem_normalizer_iff]
@@ -218,6 +218,7 @@ section Iso
 
 variable {Γ H : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem card_H_eq (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) : Nat.card H = 60 := by
   rw [Nat.card_congr φ.toEquiv]
   have h1 := two_mul_nat_card_alternatingGroup (α := Fin 5)
@@ -227,6 +228,7 @@ theorem card_H_eq (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) : Nat.card H = 
   rw [Nat.card_perm, h2] at h1
   omega
 
+omit [Finite G] in
 theorem card_mulAut_H (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) (hAut : G118.AutA5Input) :
     Nat.card (MulAut ↥H) = 120 := by
   rw [Nat.card_congr (MulAut.congr φ).toEquiv, ← Nat.card_congr (Equiv.ofBijective _ hAut),
@@ -293,6 +295,7 @@ noncomputable def eD120 (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H
   (MulEquiv.ofBijective (actD hN hHΓ) hbij).trans
     ((MulAut.congr φ).trans (MulEquiv.ofBijective _ hAut).symm)
 
+omit [Finite G] in
 theorem eD120_conj (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hHΓ : H ≤ Γ)
     (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) (hAut : G118.AutA5Input)
     (hbij : Function.Bijective (actD hN hHΓ)) (d : ↥(cD Γ H)) :
@@ -300,6 +303,7 @@ theorem eD120_conj (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hH
   (MulEquiv.ofBijective (MulAut.conjNormal :
     Equiv.Perm (Fin 5) →* MulAut ↥(alternatingGroup (Fin 5))) hAut).apply_symm_apply _
 
+omit [Finite G] in
 theorem eD120_apply (hN : ∀ γ ∈ Γ, ∀ h ∈ H, γ * h * γ⁻¹ ∈ H) (hHΓ : H ≤ Γ)
     (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) (hAut : G118.AutA5Input)
     (hbij : Function.Bijective (actD hN hHΓ)) (d : ↥(cD Γ H)) (h : ↥H) :

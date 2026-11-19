@@ -13,7 +13,7 @@ variable {S : Type*} [Group S] [Finite S] {B C S' : Subgroup S} {m : ℕ}
 theorem zmod_castHom_eq_zero_iff_two_mul {k : ℕ} (hk : 1 ≤ k) (x : ZMod (2 ^ k)) :
     ZMod.castHom (n := 2 ^ k) (m := 2) (pow_dvd_pow 2 hk) (ZMod 2) x = 0 ↔
       ∃ y : ZMod (2 ^ k), 2 * y = x := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   constructor
   · intro h
     have h' : ((x.val : ℕ) : ZMod 2) = 0 := by
@@ -54,9 +54,9 @@ theorem parityTorus_gen (k : Fin 3 → ℕ) (hk : ∀ i, 1 ≤ k i) (j : Fin 3) 
   funext i
   by_cases h : i = j
   · subst h
-    simp [parityTorus, gen, Pi.single_apply]
+    simp [parityTorus, gen]
     exact ZMod.cast_one (m := 2) (pow_dvd_pow 2 (hk i))
-  · simp [parityTorus, gen, Pi.single_apply, h]
+  · simp [parityTorus, gen, h]
 
 section SquareSubgroup
 
@@ -73,10 +73,12 @@ section SquareSubgroup
     refine ⟨-z, ?_⟩
     rw [D.ec_inv, hz, smul_neg]
 
+omit [Finite S] in
 theorem mem_sqSubgroup_iff (D : StrothTypeData B (StrothTypeIndex.t100 m)) {x : B} :
     x ∈ sqSubgroup D ↔ ∃ z : Torus (StrothTypeIndex.t100 m).k, D.ec x = 2 • z :=
   Iff.rfl
 
+omit [Finite S] in
 theorem mem_sqSubgroup_iff_isSquare (D : StrothTypeData B (StrothTypeIndex.t100 m))
     {x : B} : x ∈ sqSubgroup D ↔ IsSquareInSubgroup B (x : S) := by
   rw [mem_sqSubgroup_iff]
@@ -91,6 +93,7 @@ instance sqSubgroup_normal (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
   rw [D.ec_mul, D.ec_mul, D.ec_inv, hz]
   abel
 
+omit [Finite S] in
 theorem sq_mem_sqSubgroup (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x : B) :
     x ^ 2 ∈ sqSubgroup D := by
   refine ⟨D.ec x, ?_⟩
@@ -128,6 +131,7 @@ theorem t100_two_dvd (hm : 1 ≤ m) (i : Fin 3) : 2 ∣ 2 ^ (StrothTypeIndex.t10
     rw [D.ec_mul]
     simp [Pi.add_apply, map_add]
 
+omit [Finite S] in
 theorem parityHom_apply (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (x : B) : parityHom D hm x =
       Multiplicative.ofAdd (parityTorus (StrothTypeIndex.t100 m).k
@@ -144,27 +148,33 @@ theorem parityHom_apply (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 
     simp only [toAdd_mul]
     simp [cParity, D.ec_mul, Pi.add_apply, map_add]
 
+omit [Finite S] in
 @[simp]
 theorem cParityHom_apply (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (x : B) : cParityHom D hm x = Multiplicative.ofAdd (cParity D hm x) := rfl
 
+omit [Finite S] in
 theorem parityHom_a (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     parityHom D hm D.a = Multiplicative.ofAdd (Pi.single (1 : Fin 3) 1) := by
   rw [parityHom_apply, D.ec_a, parityTorus_gen]
 
+omit [Finite S] in
 theorem parityHom_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     parityHom D hm D.b = Multiplicative.ofAdd (Pi.single (2 : Fin 3) 1) := by
   rw [parityHom_apply, D.ec_b, parityTorus_gen]
 
+omit [Finite S] in
 theorem parityHom_c (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     parityHom D hm D.c = Multiplicative.ofAdd (Pi.single (0 : Fin 3) 1) := by
   rw [parityHom_apply, D.ec_c, parityTorus_gen]
 
+omit [Finite S] in
 theorem parityHom_a_mul_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     parityHom D hm (D.a * D.b) =
       Multiplicative.ofAdd (Pi.single (1 : Fin 3) 1 + Pi.single (2 : Fin 3) 1) := by
   rw [map_mul, parityHom_a, parityHom_b, ← ofAdd_add]
 
+omit [Finite S] in
 theorem parityHom_ker_eq_sqSubgroup (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hm : 1 ≤ m) : (parityHom D hm).ker = sqSubgroup D := by
   ext x
@@ -194,6 +204,7 @@ theorem parityHom_ker_eq_sqSubgroup (D : StrothTypeData B (StrothTypeIndex.t100 
     have h2 : (2 : ZMod 2) = 0 := by decide
     rw [h2, zero_mul]
 
+omit [Finite S] in
 theorem parityHom_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     Function.Surjective (parityHom D hm) := by
   intro v
@@ -211,6 +222,7 @@ theorem parityHom_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm
   rw [hDt]
   exact congrFun ht i
 
+omit [Finite S] in
 theorem sqSubgroup_index (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     (sqSubgroup D).index = 8 := by
   rw [← parityHom_ker_eq_sqSubgroup D hm, Subgroup.index_ker]
@@ -249,6 +261,7 @@ theorem sq_mem_of_not_cyclic_quotient_four
   have hx2 : x * x ∈ B.subgroupOf C := (QuotientGroup.eq_one_iff (x * x)).mp hq
   simpa [Subgroup.mem_subgroupOf] using hx2
 
+omit [Finite S] in
 theorem exists_sq_eq_of_mem_sqSubgroup
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) {x : B}
     (hx : x ∈ sqSubgroup D) : ∃ b : B, b * b = x := by
@@ -295,7 +308,7 @@ theorem mem_of_sq_mem_sq
     simpa using congrArg (fun z : C => (z : S)) hy2
   by_cases hyB : (y : S) ∈ B
   · have hx_eq : (x : S) = (y : S) * (b : S) := by
-      simp only [y, bC, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [y, bC, Subgroup.coe_mul, Subgroup.coe_inv]
       group
     rw [hx_eq]
     exact B.mul_mem hyB b.2
@@ -375,28 +388,30 @@ end Squaring
 
 section ParityInvariance
 
+omit [Finite S] in
 theorem cParity_conj_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (y : B) : cParity D hm (conjBy D.u_mem y) = cParity D hm y := by
   obtain ⟨i, j, l, hy⟩ := torus_eq_zsmul_gens (StrothTypeIndex.t100 m).k (D.ec y)
   have h1 : D.ec (conjBy D.u_mem y) 0 =
       (i : ZMod (2 ^ (StrothTypeIndex.t100 m).k 0)) := by
     rw [ec_conj_u D y, hy, Φu_apply_gens]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have h2 : D.ec y 0 = (i : ZMod (2 ^ (StrothTypeIndex.t100 m).k 0)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   rw [cParity, cParity, h1, h2]
 
+omit [Finite S] in
 theorem cParity_conj_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (y : B) : cParity D hm (conjBy D.ρ_mem y) = cParity D hm y := by
   obtain ⟨i, j, l, hy⟩ := torus_eq_zsmul_gens (StrothTypeIndex.t100 m).k (D.ec y)
   have h1 : D.ec (conjBy D.ρ_mem y) 0 =
       ((i - 2 * l : ℤ) : ZMod (2 ^ (StrothTypeIndex.t100 m).k 0)) := by
     rw [ec_conj_ρ D y, hy, Φρ_apply_gens]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have h2 : D.ec y 0 = (i : ZMod (2 ^ (StrothTypeIndex.t100 m).k 0)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   rw [cParity, cParity, h1, h2]
   rw [Int.cast_sub, Int.cast_mul, Int.cast_ofNat]
   rw [map_sub, map_mul, map_ofNat]
@@ -404,10 +419,12 @@ theorem cParity_conj_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 
   rw [h2z, zero_mul]
   exact sub_zero _
 
+omit [Finite S] in
 theorem cParityHom_conj_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (y : B) : cParityHom D hm (conjBy D.u_mem y) = cParityHom D hm y := by
   rw [cParityHom_apply, cParityHom_apply, cParity_conj_u]
 
+omit [Finite S] in
 theorem cParityHom_conj_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (y : B) : cParityHom D hm (conjBy D.ρ_mem y) = cParityHom D hm y := by
   rw [cParityHom_apply, cParityHom_apply, cParity_conj_ρ]
@@ -416,6 +433,7 @@ end ParityInvariance
 
 section QuotientParity
 
+omit [Finite S] in
 theorem sqSubgroup_le_cParityHom_ker (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hm : 1 ≤ m) : sqSubgroup D ≤ (cParityHom D hm).ker := by
   intro x hx
@@ -436,12 +454,14 @@ noncomputable def cParityQuotient (D : StrothTypeData B (StrothTypeIndex.t100 m)
     (hm : 1 ≤ m) : (B ⧸ sqSubgroup D) →* Multiplicative (ZMod 2) :=
   QuotientGroup.lift (sqSubgroup D) (cParityHom D hm) (sqSubgroup_le_cParityHom_ker D hm)
 
+omit [Finite S] in
 @[simp]
 theorem cParityQuotient_mk (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (x : B) :
     cParityQuotient D hm (QuotientGroup.mk' (sqSubgroup D) x) = cParityHom D hm x :=
   QuotientGroup.lift_mk' _ _ x
 
+omit [Finite S] in
 theorem cParityHom_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     Function.Surjective (cParityHom D hm) := by
   intro w
@@ -455,6 +475,7 @@ theorem cParityHom_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m)) (h
   rw [← h', h]
   simp [v]
 
+omit [Finite S] in
 theorem cParityQuotient_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hm : 1 ≤ m) : Function.Surjective (cParityQuotient D hm) := by
   intro w
@@ -463,6 +484,7 @@ theorem cParityQuotient_surjective (D : StrothTypeData B (StrothTypeIndex.t100 m
     rw [cParityQuotient_mk]
     exact hx⟩
 
+omit [Finite S] in
 theorem cParityQuotient_ker_card (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hm : 1 ≤ m) : Nat.card (cParityQuotient D hm).ker = 4 := by
   have hsurj := cParityQuotient_surjective D hm
@@ -480,12 +502,14 @@ end QuotientParity
 
 section MainImage
 
+omit [Finite S] in
 theorem conjBy_inv_conjBy {g : S} (hg : g ∈ Subgroup.normalizer C) (x : C) :
     conjBy (Subgroup.inv_mem _ hg) (conjBy hg x) = x := by
   apply Subtype.ext
   simp only [conjBy, Subgroup.coe_mk]
   group
 
+omit [Finite S] in
 theorem conjBy_conjBy_of_sq {g : S} (hg : g ∈ Subgroup.normalizer C) (hg2 : g * g = 1)
     (x : C) : conjBy hg (conjBy hg x) = x := by
   apply Subtype.ext
@@ -505,6 +529,7 @@ structure TorusBasisEquivFour (D : StrothTypeData B (StrothTypeIndex.t100 m))
   E_gen1 : E (gen (Type200.k m) 1) = Additive.ofMul e
   E_gen2 : E (gen (Type200.k m) 2) = Additive.ofMul f
 
+omit [Finite S] in
 theorem natCard_torus_type200_eq (hrel : Nat.card C = 4 * Nat.card B)
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Nat.card (Torus (Type200.k m)) = Nat.card C := by
@@ -512,6 +537,7 @@ theorem natCard_torus_type200_eq (hrel : Nat.card C = 4 * Nat.card B)
   simp [Type100.k]
   ring
 
+omit [Finite S] in
 theorem torusBasisEquivFour_of_generators
     (hcommC : IsMulCommutative C)
     (D : StrothTypeData B (StrothTypeIndex.t100 m))

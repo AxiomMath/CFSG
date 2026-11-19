@@ -47,7 +47,7 @@ theorem isConj_mul_z (hti : HSTI z) {u : G} (hu : IsConj z u) (hne : u ≠ z)
         hall b (hD.sup_eq ▸ Subgroup.mem_sup_right hb)
       exact hne (Width.involution_eq hD hz (Width.mem_Z_of_comm hD hz huF hA)
         (by rw [sq]; exact hu2) hu1)
-    · push_neg at hall
+    · push Not at hall
       obtain ⟨f, hfF, hf⟩ := hall
       rcases Width.comm_F hD hz hfF huF with h | h
       · exact absurd (commutatorElement_eq_one_iff_mul_comm.mp h).symm hf
@@ -196,7 +196,7 @@ theorem hsV (hti : HSTI z) (hcard : Nat.card (ET (T : Subgroup G) z) = 8)
       exact one_mem _
     · obtain ⟨hvc, hvW⟩ := (c.mem_VS_iff).mp hv
       refine (c.mem_ET_iff hti).mpr (Or.inr ((c.mem_VS_iff).mpr ⟨(isConj_conj_iff t).mpr hvc, ?_⟩))
-      exact (Subgroup.mem_normalizer_iff.mp (c.T_le_normalizer ht) v).mp hvW
+      exact (Subgroup.mem_normalizer_iff.mp (CFSG.GF2Type.Aschbacher1976Full.HS.BL.Ctx.T_le_normalizer ht) v).mp hvW
   isConj := fun v hv hv1 => (((c.mem_ET_iff hti).mp hv).resolve_left hv1).1
   ZF_le := fun v hv hv1 => (((c.mem_ET_iff hti).mp hv).resolve_left hv1).2
   ZF_comm := by

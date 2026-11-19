@@ -135,9 +135,9 @@ theorem quotient_center_of_isOmegaMinus_four {X : Type} [Group X] {k : ℕ}
     IsSimpleGroup (X ⧸ center X) ∧ Nat.card (X ⧸ center X) = ordA 1 (2 ^ (2 * k)) := by
   classical
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, ⟨e⟩⟩ := hX
-  letI := hKf
-  letI := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let := hKf
+  let := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let Q : QuadraticForm K (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus 2 K b c
   have hQ : ⇑Q = StatedQuadMinus 2 K b c := CFSG.LieType.Universal.Spin.coe_quadMinus 2 K b c
@@ -158,7 +158,7 @@ theorem quotient_center_of_isOmegaMinus_four {X : Type} [Group X] {k : ℕ}
   have hnab : ¬ IsMulCommutative ↥(StatedOmega (StatedQuadMinus 2 K b c)) := by
     rw [isMulCommutative_iff]
     exact hsmall.2.2
-  haveI hSΩ : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 K b c)) := hsmall.1
+  have hSΩ : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 K b c)) := hsmall.1
   have hcΩ := TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnab
   have hcProj : Subgroup.center (StatedProj (StatedOmega (StatedQuadMinus 2 K b c))) = ⊥ :=
     center_eq_bot_of_mulEquiv eΩ hcΩ
@@ -174,9 +174,9 @@ theorem quotient_center_of_isOmegaMinus_six {X : Type} [Group X] {k : ℕ}
     IsSimpleGroup (X ⧸ center X) ∧ Nat.card (X ⧸ center X) = ordTwistedA 3 (2 ^ k) := by
   classical
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, ⟨e⟩⟩ := hX
-  letI := hKf
-  letI := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let := hKf
+  let := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let Q : QuadraticForm K (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus 3 K b c
   have hQ : ⇑Q = StatedQuadMinus 3 K b c := CFSG.LieType.Universal.Spin.coe_quadMinus 3 K b c
@@ -197,7 +197,7 @@ theorem quotient_center_of_isOmegaMinus_six {X : Type} [Group X] {k : ℕ}
   have hnab : ¬ IsMulCommutative ↥(StatedOmega (StatedQuadMinus 3 K b c)) := by
     rw [isMulCommutative_iff]
     exact hsmall.2.2
-  haveI hSΩ : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 K b c)) := hsmall.1
+  have hSΩ : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 K b c)) := hsmall.1
   have hcΩ := TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnab
   have hcProj : Subgroup.center (StatedProj (StatedOmega (StatedQuadMinus 3 K b c))) = ⊥ :=
     center_eq_bot_of_mulEquiv eΩ hcΩ
@@ -213,9 +213,9 @@ theorem quotient_center_of_isOmegaPlus_six {X : Type} [Group X] {k : ℕ}
     IsSimpleGroup (X ⧸ center X) ∧ Nat.card (X ⧸ center X) = ordA 3 (2 ^ k) := by
   classical
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hX
-  letI := hKf
-  letI := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let := hKf
+  let := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let Q : QuadraticForm K (Fin 3 ⊕ Fin 3 → K) := CFSG.LieType.Universal.Spin.quadPlus 3 K
   have hQ : ⇑Q = StatedQuadPlus 3 K := CFSG.LieType.Universal.Spin.coe_quadPlus 3 K
   let P := CFSG.ClassicalGroups.Orthogonal.plusPair K (⟨0, by norm_num⟩ : Fin 3)
@@ -233,7 +233,7 @@ theorem quotient_center_of_isOmegaPlus_six {X : Type} [Group X] {k : ℕ}
   have hcProj : Subgroup.center (StatedProj (StatedOmega (StatedQuadPlus 3 K))) = ⊥ :=
     center_eq_bot_of_mulEquiv eΩ hcΩ
   have hcX : Subgroup.center X = ⊥ := center_eq_bot_of_mulEquiv e hcProj
-  haveI hSP : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus 3 K))) :=
+  have hSP : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus 3 K))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus
       (K := K) (n := 3) (by norm_num)
   have hSX : IsSimpleGroup X := e.isSimpleGroup
@@ -251,9 +251,9 @@ theorem quotient_center_of_isOmega8m {X : Type} [Group X] {k : ℕ} (hX : IsOmeg
   have hcard : Nat.card X = ordTwistedD 4 (2 ^ k) :=
     (CFSG.Timmesfeld.card_statedClassicalModel_two hSC).2.2.2.2 rfl
   obtain ⟨-, K, hKf, hKfin, hKcard, b, c, hirr, ⟨e⟩⟩ := hSC
-  letI := hKf
-  letI := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let := hKf
+  let := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let Q : QuadraticForm K (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus 4 K b c
   have hQ : ⇑Q = StatedQuadMinus 4 K b c := CFSG.LieType.Universal.Spin.coe_quadMinus 4 K b c

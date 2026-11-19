@@ -32,13 +32,12 @@ theorem ggL45NtAut_of_inputs {p : ℕ} (hp : p.Prime) {R : Type} [Group R] {I F 
         change MulAut.conj r ∈ (J : Set (MulAut R))
         rw [hJcoe]
         exact hinn r
-      · change x ∈ (J : Set (MulAut R))
-        rwa [hJcoe]
+      · rwa [hJcoe]
     have hnI : n ∈ I := by rw [← hJcoe]; exact hn
     exact hle (hID hs hna g n hnI)
   refine ⟨⟨J, hJ, hJcoe⟩, fun α hαP hαI hαp f hfF hford => ?_⟩
-  haveI : (J.subgroupOf S).Normal := hJnorm
-  haveI : IsCyclic (S ⧸ J.subgroupOf S) := ggL45NtAutAsm_isCyclic_quotient hJnorm hgen
+  have : (J.subgroupOf S).Normal := hJnorm
+  have : IsCyclic (S ⧸ J.subgroupOf S) := ggL45NtAutAsm_isCyclic_quotient hJnorm hgen
   have hmk : ∀ x : S, (QuotientGroup.mk x : S ⧸ J.subgroupOf S) = 1 ↔ (x : MulAut R) ∈ I := by
     intro x
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, ← hJcoe]
@@ -82,7 +81,7 @@ theorem ggL45NtSimpOn_famTypeA : GGL45NtSimpOn GGL45FamTypeA := by
       have hn : 2 ≤ n := hl2n (by omega)
       have : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact recipeUnitary_and (fun K _ _ hK _ =>
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hK (rank + 1) hd hdq) hQ
 

@@ -40,7 +40,7 @@ theorem bar_step (hg : g ∈ borelGroup Tag.D4 K)
       ((semiDirect_levi (K := K) ({0, 1, 3} : Set (Fin Tag.D4.rank))).bar (phiG g a σ ε) t)⁻¹ * m *
         (semiDirect_levi (K := K) ({0, 1, 3} : Set (Fin Tag.D4.rank))).bar (phiG g a σ ε) t ∈
         Subgroup.normalizer (Uk K ((d4Rho ^ ε) k) : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {0, 1, 3} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inr rfl
   have hS := semiDirect_levi (K := K) J
@@ -95,7 +95,7 @@ theorem split_all_factors (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4
     (hbm : (semiDirect_levi (K := K) ({0, 1, 3} : Set (Fin Tag.D4.rank))).bar (phiG g a σ ε) m = m) :
     ∀ j ∈ ({0, 1, 3} : Set (Fin Tag.D4.rank)), ∃ e : SL2 K,
       (ρ j e)⁻¹ * m * ρ j e ∈ Subgroup.normalizer (Uk K j : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨k₀, hk₀, e₀, he₀⟩ := split_three hK2 hm hm2
   have hn₀ : (ρ k₀ e₀)⁻¹ * m * ρ k₀ e₀ ∈ Subgroup.normalizer (Uk K k₀ : Set (ModGL Tag.D4 K)) := by
     refine mem_normalizer_of_forall_conj_mem _ fun u hu => ?_

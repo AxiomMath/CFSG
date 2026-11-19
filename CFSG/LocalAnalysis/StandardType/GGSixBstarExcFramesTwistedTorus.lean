@@ -110,7 +110,7 @@ theorem sylowTorus_twistedE6_one {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     refine CFSG.LieType.SeitzGeneration.not_dvd_small hp h5 ?_
     have hd' : d ∈ [2, 5, 6, 8, 9, 12] := by simpa [degreesE] using hd
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hd'
-    rcases hd' with rfl | rfl | rfl | rfl | rfl | rfl <;> first | decide | (exfalso; omega)
+    rcases hd' with rfl | rfl | rfl | rfl | rfl | rfl <;> first | decide
   have h : SylowTorus (twistedE6RootGroup K σ) p ([1, 1, 1, 1, 2, 2].count 1) :=
     sylowTorus_twistedE6_of_blocks_of_three_lt hℓ hf K hK σ hσ hp hp3 hpq _ hv
       [1, 1, 1, 1, 2, 2] twE6One_charpoly (by norm_num) twE6One_pow (Or.inr (by decide)) he he'
@@ -141,7 +141,7 @@ theorem sylowTorus_twistedE6_two {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
 
 theorem orderOf_eq_one_of_four_le_card_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (K : Type) [Field K] (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K)
-    (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpq : ¬ p ∣ ℓ ^ f)
+    (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) {p : ℕ} (hp : p.Prime) (_h5 : 5 ≤ p) (hpq : ¬ p ∣ ℓ ^ f)
     (hpq1 : ¬ p ∣ ℓ ^ f + 1) {A : Subgroup (twistedE6RootGroup K σ)} (hA : IsElemAbelian p A)
     (hAc : p ^ 4 ≤ Nat.card A) : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = 1 := by
   have : Fact p.Prime := ⟨hp⟩

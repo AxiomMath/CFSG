@@ -58,19 +58,19 @@ theorem typeLayer_fieldAut_psuW (hD : LieSOutTypeW T tm tf tN) (h : UnitaryField
   ·
     obtain ⟨rfl, hq2⟩ := hq0
     have hcard72 := card_primeFormP_three_two h₀ hq2
-    haveI : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
+    have : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
         Matrix (Fin 3) (Fin 3) (fixSubfield σ))) :=
       CFSG.SignalizerFunctorTheorem.McBride.UnitaryHeisenberg.isSolvable_of_card_dvd_seventy_two
         (by rw [hcard72])
-    haveI : Group.IsSolvable ↥j.range :=
+    have : Group.IsSolvable ↥j.range :=
       Group.isSolvable_of_isSolvable_injective (f := eJ.symm.toMonoidHom) eJ.symm.injective
     exact typeSub_of_commutator_solvable _ j.range hCC inferInstance
   ·
     have hs₀ := isSimpleGroup_primeFormP_one h₀ hn hq0
     have hnc₀ := not_commute_primeFormP_one h₀ hn hq0
-    haveI : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
+    have : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
         Matrix (Fin n) (Fin n) (fixSubfield σ))) := hs₀
-    haveI : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
+    have : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
     have hnab : ∃ a b : ↥j.range, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
@@ -91,7 +91,7 @@ theorem typeLayer_fieldAut_psuW (hD : LieSOutTypeW T tm tf tN) (h : UnitaryField
           ⟨(eJ.symm.trans eP).trans (unitaryPSUEquiv h₀ (by omega))⟩⟩
     refine typeLayer_of_simple_commutator _ j.range (le_antisymm ?_ hCC) inferInstance hnab
       fun hT => ?_
-    · haveI hperf₀ : Group.IsPerfect (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
+    · have hperf₀ : Group.IsPerfect (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
           Matrix (Fin n) (Fin n) (fixSubfield σ))) := by
         have := isPerfect_gramSU_one h₀ hn hq0
         exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _)
@@ -105,8 +105,8 @@ theorem lieSOut_uni_modelW (hD : LieSOutTypeW T tm tf tN) {n f : ℕ} (hn : 3 �
     (hm : Blueprint.LieModel S .PSU n 2 f) (α : MulAut S) (hα : α ∉ innAutDerived S)
     (hp : TypePumpup T S α) : False := by
   obtain ⟨K, _, h, ⟨e⟩⟩ := exists_psu_model hadm hm
-  haveI := h.finite
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have := h.finite
+  have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv S e.toEquiv
   have hne : ¬(n = 3 ∧ 2 ^ f = 2) := fun ⟨h1, h2⟩ => hadm.2.2.2 (by rw [h1, h2])
   have hψ3 : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]

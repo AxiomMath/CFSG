@@ -33,7 +33,7 @@ theorem exists_minimalNormal_commutator_eq (hP : Pair X E)
     ∃ N : Subgroup (X ⧸ Subgroup.center X), N.Normal ∧ IsSimpleGroup ↥N ∧
       ¬ Group.IsSolvable ↥N ∧ Subgroup.centralizer (N : Set (X ⧸ Subgroup.center X)) = ⊥ ∧
       ⁅threeResidualQuot d, threeResidualQuot d⁆ = N := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   obtain ⟨N, hNn, hNbot, hNs, hNsol, hcent⟩ := exists_minimalNormal_quotient_center hP h2 h3
   have hPq : Pair (X ⧸ Subgroup.center X) ((QuotientGroup.mk' (Subgroup.center X)) '' E) :=
     pair_quot_center hP h2
@@ -94,10 +94,10 @@ private theorem exists_card_dvd_of_perm {k : ℕ} (hk : 5 ≤ k) (hP : Pair X E)
     (hd : d ∈ E) (φ : ↥(threeResidualQuot d) ≃* Perm (Fin k)) :
     ∃ N : Subgroup (X ⧸ Subgroup.center X), ∃ _ : ↥N ≃* alternatingGroup (Fin k),
       Nat.card (X ⧸ Subgroup.center X) ∣ Nat.card N * Nat.card (Outer N) := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   obtain ⟨N, hNn, hNs, hNsol, hcent, hcomm⟩ := exists_minimalNormal_commutator_eq hP h2 h3 hd
   obtain ⟨e⟩ := nonempty_mulEquiv_alternating hk φ hcomm
-  haveI := hNn
+  have := hNn
   exact ⟨N, e, CFSG.LargeExtraspecial.card_dvd_card_mul_card_outer_of_normal hcent
     (center_eq_bot_of_simple hNs hNsol)⟩
 
@@ -106,7 +106,7 @@ theorem threeResidualQuot_eq_top_of_perm_six (hP : Pair X E)
     (h3 : ∀ N : Subgroup X, N.Normal → IsPGroup 3 N → N ≤ Subgroup.center X) {d : X}
     (hd : d ∈ E) (φ : ↥(threeResidualQuot d) ≃* Perm (Fin 6)) :
     threeResidualQuot d = ⊤ := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   obtain ⟨N, e, hdvd⟩ := exists_card_dvd_of_perm (by norm_num) hP h2 h3 hd φ
   have hNcard : Nat.card N = 360 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card (α := Fin 6),
@@ -122,7 +122,7 @@ theorem threeResidualQuot_eq_top_of_perm_six (hP : Pair X E)
   have hmul := Subgroup.card_mul_index (threeResidualQuot d)
   have hpos : 0 < Nat.card (X ⧸ Subgroup.center X) := Nat.card_pos
   have hle : Nat.card (X ⧸ Subgroup.center X) ≤ 1440 := by
-    haveI : Finite (Outer N) := inferInstance
+    have : Finite (Outer N) := inferInstance
     have h1 := Nat.le_of_dvd (Nat.mul_pos Nat.card_pos Nat.card_pos) hdvd
     rw [hNcard] at h1
     calc Nat.card (X ⧸ Subgroup.center X) ≤ 360 * Nat.card (Outer N) := h1

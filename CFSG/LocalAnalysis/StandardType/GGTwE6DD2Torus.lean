@@ -25,7 +25,7 @@ theorem isElemAbelian_cubeTorus :
     IsElemAbelian 3 ((cubeRootTuples Ω).map (rootDiagUnitHom Tag.E6 Ω)) :=
   CFSG.HardMathSupport.Lang.E6Descent.isElemAbelian_map (rootDiagUnitHom Tag.E6 Ω)
     (cubeRootTuples Ω)
-    (fun a ha => funext fun i => mem_cubeRootTuples.1 ha i)
+    (fun _a ha => funext fun i => mem_cubeRootTuples.1 ha i)
 
 theorem rootDiagUnit_mem_cubeTorus {b : Fin Tag.E6.rank → Ωˣ} (hb : ∀ i, b i ^ 3 = 1) :
     rootDiagUnit Tag.E6 b ∈ (cubeRootTuples Ω).map (rootDiagUnitHom Tag.E6 Ω) :=
@@ -117,10 +117,10 @@ theorem isElemAbelian_langCube (g : ModGL Tag.E6 Ω) :
 theorem card_langCube (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω}
     (hg : g ∈ adjointGroup Tag.E6 Ω) (hgn : g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω) :
     Nat.card (langCube hn hK σ hσ Fr hFr g) = 3 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hn h3
   have hle := conj_cubeTorus_le_Rgrp Fr hFr h3 hg hgn
   calc Nat.card (langCube hn hK σ hσ Fr hFr g) = Nat.card ((((cubeRootTuples Ω).map
@@ -208,10 +208,10 @@ theorem exists_cubeTorus_lang {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fin
     ∃ g ∈ adjointGroup Tag.E6 Ω, g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω ∧
       S ≤ langCube hn hK σ hσ Fr hFr g := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hq0 : ((2 ^ n : ℕ) : Ω) = 0 := by
     rw [Nat.cast_pow, CharP.cast_eq_zero Ω 2, zero_pow (by omega)]
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hn h3
@@ -302,7 +302,7 @@ theorem exists_eq_langCube {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite
   obtain ⟨g, hg, hgn, hle⟩ := exists_cubeTorus_lang hn hK σ hσ h3 Fr hFr hY hYI
     (by rw [hYc]; norm_num)
   have hc := card_langCube hn hK σ hσ Fr hFr h3 hg hgn
-  haveI : Finite ↥(langCube hn hK σ hσ Fr hFr g) :=
+  have : Finite ↥(langCube hn hK σ hσ Fr hFr g) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   exact ⟨g, hg, hgn, Subgroup.eq_of_le_of_card_ge hle (by rw [hc, hYc])⟩
 
@@ -314,9 +314,9 @@ theorem exists_conj_of_card {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finit
     (hY₁c : Nat.card Y₁ = 3 ^ 6) (hY₂ : IsElemAbelian 3 Y₂)
     (hY₂I : Y₂ ≤ (RecipeExcLang.twConj K σ).range) (hY₂c : Nat.card Y₂ = 3 ^ 6) :
     ∃ β ∈ (RecipeExcLang.twConj K σ).range, Y₁.map (MulAut.conj β).toMonoidHom = Y₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c
@@ -339,11 +339,11 @@ theorem exists_cubeTorus {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K
           (∀ w ∈ W, ∀ w' ∈ W, w * w' = w' * w) ∧ (∀ w ∈ W, w ^ 9 = 1) ∧
           ∀ y ∈ Y, ∃ w ∈ W, w ^ 3 = y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   set Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   set Fr : Ω →+* Ω := iterateFrobenius Ω 2 n with hFrdef
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   set Φ := rgrpConjAut hn hK σ hσ Fr hFr with hΦdef

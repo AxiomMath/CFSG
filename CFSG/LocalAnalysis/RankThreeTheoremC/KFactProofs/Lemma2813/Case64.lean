@@ -13,6 +13,7 @@ section CT
 
 variable {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
 
+omit [DistribMulAction GL32 M] in
 theorem c64_card_add (E L P : AddSubgroup M) (hLE : L ≤ E) (hPE : P ≤ E)
     (hcover : ∀ w ∈ E, w ∈ L ∨ w ∈ P) (hinter : ∀ w ∈ L, w ∈ P → w = 0) :
     Nat.card E + 1 = Nat.card L + Nat.card P := by
@@ -37,6 +38,7 @@ theorem c64_card_add (E L P : AddSubgroup M) (hLE : L ≤ E) (hPE : P ≤ E)
   rw [h1, h2, Set.ncard_singleton] at h3
   exact h3
 
+omit [Finite M] in
 theorem c64_Pset_act {w : M} {d : GL32} (hw : d • w = w) (z : V3) :
     act d z ∈ Pset M w ↔ z ∈ Pset M w := by
   have h := Pset_smul d w (act d z)
@@ -44,7 +46,7 @@ theorem c64_Pset_act {w : M} {d : GL32} (hw : d • w = w) (z : V3) :
   exact h
 
 theorem ct_case_64 {p₀ : V3} {d : GL32} (h : CTHyp M p₀ d) (hn : Nat.card M = 64)
-    (ha : Nat.card (fixSub M (Spt p₀)) = 16)
+    (_ha : Nat.card (fixSub M (Spt p₀)) = 16)
     (hb : ∀ p q : V3, p ≠ 0 → q ≠ 0 → p ≠ q → Nat.card (fixSub M (Spt p ⊔ Spt q)) = 4)
     (hN : Ncnt M 0 = 0) : CTConcl M p₀ d := by
   obtain ⟨p, q, hp, hq, hpq, hdpq, hdp, hdq, hfix⟩ := order3_exists_invariant_pair h.hd
@@ -77,7 +79,7 @@ theorem ct_case_64 {p₀ : V3} {d : GL32} (h : CTHyp M p₀ d) (hn : Nat.card M 
         intro h0
         have hpos : 0 < Ncnt M 0 := by
           unfold Ncnt
-          haveI : Nonempty {w : M // w ≠ 0 ∧ (Pset M w).card = 0} := ⟨⟨w, hw, h0⟩⟩
+          have : Nonempty {w : M // w ≠ 0 ∧ (Pset M w).card = 0} := ⟨⟨w, hw, h0⟩⟩
           exact Nat.card_pos
         omega
       rcases Pset_card_cases h.fixed hw with h0 | h1 | ⟨x, y, hx, hy, hxy, hxyP⟩

@@ -99,7 +99,7 @@ theorem eight_le_card_Lbar (S : Setting G) (hw : S.width = 10) {g : G}
   omega
 
 theorem card_le_two_of_inf_Mbar0_eq_bot (S : Setting G) (hw : S.width = 10)
-    (hU : Nonempty (Mbar0 S ≃* PSL(6, ZMod 2))) {K : Subgroup S.Mbar} (hK : IsPGroup 2 K)
+    (hU : Nonempty (Mbar0 S ≃* PSL(6, ZMod 2))) {K : Subgroup S.Mbar} (_hK : IsPGroup 2 K)
     (hKM : K ⊓ Mbar0 S = ⊥) : Nat.card K ≤ 2 := by
   have : (Mbar0 S).Normal := timmesfeldFStar_normal S.Mbar
   have h1 : (Mbar0 S).relIndex K ∣ (Mbar0 S).index := relIndex_dvd_index_of_normal _ _

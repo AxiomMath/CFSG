@@ -85,7 +85,7 @@ theorem reeG2_sylow_cyclic_of_dvd_add_one (a : ℕ) (ha : 1 ≤ a) (K : Type) [F
   have hodd3 : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card K) := by
     unfold CFSG.GorensteinWalter.IsOddPrimePower
     exact ⟨3, 2 * a + 1, Nat.prime_three, by norm_num, by omega, hK⟩
-  haveI : Finite (ModGL ReeTag.G2.tag K) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ModGL ReeTag.G2.tag K) := CFSG.LieType.Chevalley.finite_modGL
   obtain ⟨w₀, hw₀, -⟩ := CFSG.LieType.Chevalley.weyl_longest_element ReeTag.G2.tag
   obtain ⟨ψ, hψC, -, -, -, -, -, -, e, -⟩ :=
     CFSG.Walter.Ree.Model.small_Ree_involution_centralizer_PSL2_structure a K hK w₀ hw₀

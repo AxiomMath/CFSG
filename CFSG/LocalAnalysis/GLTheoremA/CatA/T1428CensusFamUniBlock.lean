@@ -47,13 +47,13 @@ theorem good_block_cases (hq : 2 ≤ ℓ ^ f) (H : UnitaryPrimaryData hK.bar B x
           Fintype.card E = ℓ ^ (2 * (f * (a : K[X]).natDegree)) ∧ 2 ≤ m ∧
           4 ≤ Fintype.card E ∧
           Nonempty (↥(specialBlock B x (a : K[X])) ≃* Matrix.SpecialLinearGroup (Fin m) E)) := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have hcharE : ringChar (AdjoinRoot (a : K[X])) = ℓ :=
     (Algebra.ringChar_eq K (AdjoinRoot (a : K[X]))).symm.trans (ringChar.eq K ℓ)
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
@@ -72,13 +72,13 @@ theorem good_block_cases (hq : 2 ≤ ℓ ^ f) (H : UnitaryPrimaryData hK.bar B x
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
-      letI : Fintype hE.fixedField := Fintype.ofFinite _
+      have : Finite hE.fixedField := inferInstance
+      let : Fintype hE.fixedField := Fintype.ofFinite _
       have hcardF : Fintype.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := by
         rw [← Nat.card_eq_fintype_card]
         exact hE.card_fixedField
-      haveI : Fact ℓ.Prime := ⟨hK.prime⟩
-      haveI : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+      have : Fact ℓ.Prime := ⟨hK.prime⟩
+      have : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
       have hcharF : ringChar hE.fixedField = ℓ := ringChar.eq _ _
       have h4 : 4 ≤ Fintype.card hE.fixedField := by
         rw [hcardF]

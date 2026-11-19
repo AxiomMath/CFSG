@@ -52,7 +52,7 @@ private theorem pCoreOf_conj_mem {p : ℕ} {G : Type} [Group G] {H : Subgroup G}
   unfold CFSG.Open.pCoreOf at *
   obtain ⟨k0, hk0, rfl⟩ := Subgroup.mem_map.mp hk
   rw [openpCore_eq] at *
-  haveI := (CFSG.pCore_normal (p := p) (G := ↥H))
+  have := (CFSG.pCore_normal (p := p) (G := ↥H))
   refine Subgroup.mem_map.mpr ⟨(⟨b, hb⟩ : H)⁻¹ * k0 * ⟨b, hb⟩, ?_, rfl⟩
   simpa using (CFSG.pCore_normal (p := p) (G := ↥H)).conj_mem k0 hk0 ((⟨b, hb⟩ : H)⁻¹)
 
@@ -132,10 +132,10 @@ theorem pCoreOf_char {G : Type} [Group G] [Finite G] {B : Subgroup G} (q : ℕ) 
   rw [this]
   exact CFSG.pCore_map_iso q φ
 
-theorem exists_noncommuting_pair {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G] [Finite G]
+theorem exists_noncommuting_pair {p : ℕ} [_hp : Fact p.Prime] {G : Type} [Group G] [Finite G]
     {P T B : Subgroup G} {e : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
-    (h51 : OddPrimeClassTwoAction G p P T B e) (h53 : FaithfulBinaryIrreducibleAction G p P T B ρ) {q : ℕ} (hq : q ∈ piOf B)
+    (h51 : OddPrimeClassTwoAction G p P T B e) (h53 : FaithfulBinaryIrreducibleAction G p P T B ρ) {q : ℕ} (_hq : q ∈ piOf B)
     (hAne : CFSG.Open.pCoreOf q B ≠ ⊥) :
     ∃ k ∈ CFSG.Open.pCoreOf 2 (B ⊔ T), ∃ a ∈ CFSG.Open.pCoreOf q B, ∃ x ∈ P,
       ⁅k, a⁆ * x * ⁅k, a⁆⁻¹ ≠ x := by
@@ -164,15 +164,15 @@ theorem exists_noncommuting_pair {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group
 
 theorem pCoreOf_ne_bot {G : Type} [Group G] [Finite G] {B : Subgroup G} (hB : IsMulCommutative B)
     {q : ℕ} (hq : q ∈ piOf B) : CFSG.Open.pCoreOf q B ≠ ⊥ := by
-  haveI : Fact q.Prime := ⟨hq.1⟩
+  have : Fact q.Prime := ⟨hq.1⟩
   classical
-  haveI : Fintype B := Fintype.ofFinite _
+  have : Fintype B := Fintype.ofFinite _
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card (G := ↥B) q (by rw [← Nat.card_eq_fintype_card]; exact hq.2)
   have hbne : b ≠ 1 := by
     intro h; rw [h, orderOf_one] at hb; exact hq.1.one_lt.ne hb
   have hN : (Subgroup.zpowers b).Normal := by
-    haveI : IsMulCommutative B := hB
-    exact Subgroup.normal_of_comm _
+    have : IsMulCommutative B := hB
+    exact Subgroup.normal_of_isMulCommutative _
   have hp : IsPGroup q (Subgroup.zpowers b) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, hb, pow_one]
@@ -209,7 +209,7 @@ theorem exists_detecting_action {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group 
     CFSG.LocalAnalysis.RankThreeUC.Section5.ElementaryNormalizerRepresentation.exists_faithful_image h51 h53 hEA
   refine ⟨J, hJg, hJf, W, hW, hWm, hWf, τ, f, ι, h1, h2, h3, h4, h5, h6, h7, ?_⟩
   classical
-  haveI : Fact q.Prime := ⟨hq.1⟩
+  have : Fact q.Prime := ⟨hq.1⟩
   have hBT : B ⊔ T ≤ (Subgroup.normalizer (P : Set G)) := sup_le h51.setting.normB h51.setting.normT
   have hAne : CFSG.Open.pCoreOf q B ≠ ⊥ := pCoreOf_ne_bot h51.setting.abelian hq
   have hAB : CFSG.Open.pCoreOf q B ≤ B := Subgroup.map_subtype_le _

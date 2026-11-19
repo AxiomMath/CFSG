@@ -52,6 +52,7 @@ theorem rootDiagUnit_eq_mul_ZGrp_gen {S : Set (Fin ReeTag.F4.tag.rank → ℤ)}
     _ = _ := by group
 
 omit [IsAlgClosed L] in
+omit [CharP L 2] in
 theorem ZGrp_inf_rootSpan_eq_bot_gen {S : Set (Fin ReeTag.F4.tag.rank → ℤ)}
     (hS : ∀ α ∈ S, IsRoot ReeTag.F4.tag α) (u : WeylGroup ReeTag.F4.tag)
     {J : Set (Fin ReeTag.F4.tag.rank)}
@@ -218,6 +219,7 @@ theorem smul_dualRoot_mem_parabolic_gen {S : Set (Fin ReeTag.F4.tag.rank → ℤ
   show u • (w • ReeTag.F4.dualRoot β) = _
   rw [ReeTag.dualRoot_smul u hβr, mul_smul, mul_smul, inv_smul_smul]
 
+omit [IsAlgClosure K L] in
 theorem rootSpan_inf_twistedFixed_equiv_a1 (hK : Nat.card K = 2 ^ (2 * a + 1))
     (w : WeylGroup ReeTag.F4.tag) {S : Set (Fin ReeTag.F4.tag.rank → ℤ)}
     (hS : ∀ α ∈ S, IsRoot ReeTag.F4.tag α)
@@ -239,6 +241,7 @@ theorem rootSpan_inf_twistedFixed_equiv_a1 (hK : Nat.card K = 2 ^ (2 * a + 1))
   rw [← hΦ] at e
   exact CFSG.RankThree.PartOne.TCX.Ree.transport_iso u hS _ e
 
+omit [IsAlgClosure K L] in
 theorem rootSpan_inf_twistedFixed_equiv_b2 (hK : Nat.card K = 2 ^ (2 * a + 1))
     (w : WeylGroup ReeTag.F4.tag) {S : Set (Fin ReeTag.F4.tag.rank → ℤ)}
     (hS : ∀ α ∈ S, IsRoot ReeTag.F4.tag α)
@@ -256,6 +259,7 @@ theorem rootSpan_inf_twistedFixed_equiv_b2 (hK : Nat.card K = 2 ^ (2 * a + 1))
   rw [← hΦ] at e
   exact CFSG.RankThree.PartOne.TCX.Ree.transport_iso u hS _ e
 
+omit [CharP L 2] [IsAlgClosed L] in
 theorem sg_equiv_of {g₀ : ModGL ReeTag.F4.tag L} (hg₀ : g₀ ∈ adjointGroup ReeTag.F4.tag L)
     (w : WeylGroup ReeTag.F4.tag)
     (hFg₀ : Fext D.F g₀ = g₀ * canonicalRep (coxeterSystem ReeTag.F4.tag) L w)

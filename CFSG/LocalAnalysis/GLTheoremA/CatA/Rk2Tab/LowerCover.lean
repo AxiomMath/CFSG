@@ -41,7 +41,7 @@ theorem le_evenRank_of_map {S K : Type} [Group S] [Group K] [Finite K]
   exact le_evenRank_of_normalizer hr hr2 hXα hX2' hE' hEcard' hXE'
 
 theorem le_twoLocalPrimeRank_of_map {S K : Type} [Group S] [Group K] [Finite K]
-    (α : S →* K) {r k : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+    (α : S →* K) {r k : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     {X E : Subgroup S} (hX2 : IsPGroup 2 X) (hXα : X.map α ≠ ⊥)
     (hE : IsElemAbelian r E) (hEcard : Nat.card E = r ^ k)
     (hinj : E ⊓ α.ker = ⊥)
@@ -211,14 +211,14 @@ theorem rk2_low_e6_cover (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E6 rfl hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hcardF : Nat.card F = 4 := by rw [hFcard]; norm_num
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := 2) (by norm_num) hFcard
   let S₀ : Type := ↥(e6Data_valid.minGroup F)
-  haveI hS₀fin : Finite S₀ :=
+  have hS₀fin : Finite S₀ :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' (K := F) e6Data_valid
   have hS₀perf : Group.IsPerfect S₀ := CFSG.LieType.CurtisTits.isPerfect_e6 F
   have hS₀center : Nat.card (Subgroup.center S₀) = 3 := by
@@ -242,7 +242,7 @@ theorem rk2_low_e6_cover (K : Type) [Group K] [Finite K] (lab : GLALabel)
           ZMod (Nat.gcd 3 (Nat.card F - 1))),
       Nat.card_zmod, hcardF]
     norm_num
-  haveI : Finite (CFSG.Open.griessHopfMultiplier J) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier J) :=
     Nat.finite_of_card_ne_zero (by rw [hMcard]; norm_num)
   have hdvd : Nat.card (Subgroup.center K) ∣ 3 := by
     have h := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ' φ

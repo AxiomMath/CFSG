@@ -17,8 +17,8 @@ theorem exists_fixed_norm_one_order {K : Type} [Field K] {m n : ℕ} (h : Unitar
   classical
   have hfin : Finite K := h.finite
   set S := semilinearFixedSubfield φ with hS
-  haveI : Finite S := Subtype.finite
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Finite S := Subtype.finite
+  have : Fintype S := Fintype.ofFinite S
   have hunits : Nat.card Sˣ = (2 ^ m) ^ 2 - 1 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hcard]
   have hdN : d ∣ Nat.card Sˣ := by

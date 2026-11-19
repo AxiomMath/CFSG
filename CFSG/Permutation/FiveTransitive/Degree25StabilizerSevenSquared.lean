@@ -99,7 +99,7 @@ theorem seven_squared_not_dvd_five_point_stabilizer_of_not_alternating
   have hfactorization :
       (Nat.card P).factorization 7 = 3 := by
     omega
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Sylow 7 P := Sylow.nonempty.some
   have hScard : Nat.card S = 343 := by
     rw [S.card_eq_multiplicity, hfactorization]

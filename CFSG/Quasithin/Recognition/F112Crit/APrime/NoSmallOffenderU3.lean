@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique.Setup.X5 CFSG.LocalAnalysis.ComponentIn
 
 private theorem mem_of_normalizerAct_inner_of_mem {V : Type} [CommGroup V]
     {L X : Subgroup (MulAut V)} [Group.IsPerfect L]
-    (hLX : L ≤ X) (hXL : X ≤ Subgroup.normalizer (L : Set (MulAut V)))
+    (hLX : L ≤ X) (_hXL : X ≤ Subgroup.normalizer (L : Set (MulAut V)))
     (hC : X ⊓ Subgroup.centralizer (L : Set (MulAut V)) ≤ L)
     {a : MulAut V} (haX : a ∈ X) (haN : a ∈ Subgroup.normalizer (L : Set (MulAut V)))
     (hinner : normalizerAct L ⟨a, haN⟩ ∈
@@ -44,13 +44,13 @@ theorem two_mul_card_lt_index_fixV_psu3
     (α : ↥L ⧸ Subgroup.center ↥L ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ f) F))
     {A : Subgroup (MulAut V)} (hAX : A ≤ X) (hA : A ≠ ⊥) (hAe : IsElemAbelian2 A) :
     2 * Nat.card A < (fixV A).index := by
-  haveI : Group.IsPerfect ↥L := hperf
-  haveI : Finite (MulAut V) :=
+  have : Group.IsPerfect ↥L := hperf
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun σ : MulAut V => (σ : V → V)) DFunLike.coe_injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : UnitaryFieldData 2 f F :=
     ⟨Nat.prime_two, by omega, by rw [hF, ← pow_mul, mul_comm]⟩
-  haveI : CharP F 2 := hU.charP
+  have : CharP F 2 := hU.charP
   let α' : ↥L ⧸ Subgroup.center ↥L ≃* unitaryPSU hU 3 :=
     α.trans (unitaryPSUEquiv hU (by norm_num)).symm
   obtain ⟨φ, hφs, hφk, hφZ, -⟩ := exists_cover_map hf hU hZ α'
@@ -153,7 +153,7 @@ theorem two_mul_card_lt_index_fixV_psu3
       _ < 2 ^ (2 * f) := hlt
       _ ≤ (fixV (Subgroup.zpowers (a : MulAut V))).index := h1
       _ ≤ (fixV A).index := h2
-  · rcases SetLike.not_le_iff_exists.mp hAL with ⟨a, haA, haL⟩
+  · rcases IsConcreteLE.not_le_iff_exists.mp hAL with ⟨a, haA, haL⟩
     have houta : normalizerAct L ⟨a, hAN haA⟩ ∉
         (MulAut.conj : (L ⧸ Subgroup.center L) →* MulAut (L ⧸ Subgroup.center L)).range :=
       fun hin => haL (mem_of_normalizerAct_inner_of_mem hLX hXL hC (hAX haA) (hAN haA) hin)

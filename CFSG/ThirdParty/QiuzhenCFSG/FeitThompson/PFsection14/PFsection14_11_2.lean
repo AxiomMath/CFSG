@@ -641,7 +641,7 @@ public theorem section14_betaInput_CFOn_typeIASet
       (Section7.theorem_7_8_betaInput M K ψ) := by
   classical
   have hKleM : K ≤ M := Section12.section16MFSubgroup_le hMF
-  haveI : (K.subgroupOf M).Normal :=
+  have : (K.subgroupOf M).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
   rcases (hPunct ψ).mp hψmem with ⟨θψ, _hθψ, _hθψne, hψeq⟩
   have hprincipalClass :
@@ -934,7 +934,7 @@ public theorem section14_theorem_7_8_hypothesis_of_typeI_punctured
     Section7.theorem_7_8_hypothesis L H
       (insert (Section7.principalInducedCharacter L H) S) S τ τ₁ ζ := by
   classical
-  letI : Fintype L := Fintype.ofFinite L
+  let : Fintype L := Fintype.ofFinite L
   have hHL : H ≤ L := Section12.section16MFSubgroup_le hMF
   have hHnormal : (H.subgroupOf L).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
@@ -973,7 +973,7 @@ public theorem section14_theorem_7_8_hypothesis_of_typeI_punctured
               (Section7.principalInducedCharacter L H) = (H.relIndex L : ℂ) :=
         Section7.theorem_7_8_principalInduced_self_scalar hHnormal
       have hrel_ne : (H.relIndex L : ℂ) ≠ 0 := by
-        haveI : (H.subgroupOf L).FiniteIndex := inferInstance
+        have : (H.subgroupOf L).FiniteIndex := inferInstance
         have hrel : H.relIndex L ≠ 0 := by
           simpa [Subgroup.relIndex] using
             (Subgroup.FiniteIndex.index_ne_zero (H := H.subgroupOf L))
@@ -1001,7 +1001,7 @@ public theorem section14_frobenius_relIndex_two_mul_le_kernel_pred
     2 * H.relIndex L ≤ Nat.card H - 1 := by
   rcases hfrob with ⟨hHL, hHnormal, R, hcomp, hHne, _hRne, hcent⟩
   let Hsub : Subgroup L := H.subgroupOf L
-  haveI : Hsub.Normal := by
+  have : Hsub.Normal := by
     simpa [Hsub] using hHnormal
   have hindex : H.relIndex L = Nat.card R := by
     rw [Subgroup.relIndex, hcomp.symm.index_eq_card]
@@ -1009,7 +1009,7 @@ public theorem section14_frobenius_relIndex_two_mul_le_kernel_pred
     simpa [Hsub] using
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHL).toEquiv
   have hdvdSub : Nat.card R ∣ Nat.card Hsub - 1 := by
-    letI : MulDistribMulAction R Hsub :=
+    let : MulDistribMulAction R Hsub :=
       Subgroup.conjMulDistribMulActionOfLeNormalizer (G := L) R Hsub
         (Subgroup.le_normalizer_of_normal (H := Hsub))
     have hfree : ∀ a : R, a ≠ 1 → ∀ g : Hsub, a • g = g → g = 1 := by
@@ -1430,7 +1430,7 @@ public theorem section14_tauM1_mfam_sigma_orthogonal_of_pf13_19_source
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases h1410 with
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, _hψirr, hψdeg, hβM⟩
@@ -1521,7 +1521,7 @@ public theorem section14_theorem_14_11_2_off_base_bound_source_bridge
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases h1410 with
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, hβM⟩
@@ -1787,14 +1787,14 @@ public theorem section14_theorem_14_11_2_off_base_bound_without_111_source_bridg
               ((e - 1 : ℕ) : ℝ) := by
   intro hctx h1410 heq
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   have h1410_saved := h1410
   rcases hctx.1 with
     ⟨_hcase, _hSTypeP, _hTTypeP, _hp, _hq, _hC, _hD, _hc, _hd,
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases h1410 with
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, hβM⟩
@@ -2072,7 +2072,7 @@ public theorem section14_betaM_tau_self_scalar_of_hypothesis_14_10
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, hβM⟩
   rcases hDadePkg with ⟨RM, hDadeM, _hSupportM⟩
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   let MfullFam : Finset (Section1.ClassFunction M) :=
     insert (Section7.principalInducedCharacter M K) Mfam
   have hMfullNotation :
@@ -2136,7 +2136,7 @@ public theorem section14_tauM1_psi_diff_conjugate_betaM_tau_scalar_of_hypothesis
     ⟨hMmax, hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, hβM⟩
   rcases hDadePkg with ⟨RM, hDadeM, _hSupportM⟩
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   let MfullFam : Finset (Section1.ClassFunction M) :=
     insert (Section7.principalInducedCharacter M K) Mfam
   have hMfullNotation :
@@ -2176,7 +2176,7 @@ public theorem section14_tauM1_psi_diff_conjugate_betaM_tau_scalar_of_hypothesis
   have hψchar : Section1.IsCharacter ψ :=
     Section12.isCharacter_of_isIrreducibleCharacterOnGroup hψirr
   have hrel_ne : (K.relIndex M : ℂ) ≠ 0 := by
-    haveI : (K.subgroupOf M).FiniteIndex := inferInstance
+    have : (K.subgroupOf M).FiniteIndex := inferInstance
     have hrel : K.relIndex M ≠ 0 := by
       simpa [Subgroup.relIndex] using
         (Subgroup.FiniteIndex.index_ne_zero (H := K.subgroupOf M))
@@ -2200,7 +2200,7 @@ public theorem section14_tauM1_psi_diff_conjugate_betaM_tau_scalar_of_hypothesis
     have hne : Section1.conjugateCharacter ψ ≠ ψ := by
       intro h
       exact hψ_ne_bar h.symm
-    rw [if_neg hne] at hraw
+    rw [ite_eq_right hne] at hraw
     simpa [hψbar_one_div] using hraw
   have hβdiff_right :
       Section1.scalarProduct G (τM βM)
@@ -2648,7 +2648,7 @@ public theorem section14_coefficients_normSq_sum_eq_relIndex_source_bridge
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases section14_theorem_14_11_1_K_index_source_inputs_bridge
       Smax Tmax W W1 W2 P Q U V C D L H Sfam Tfam τS τT
       Lfam RL τL τL₁ φ μ01 ν10 βS βT βL
@@ -2869,7 +2869,7 @@ public theorem section14_theorem_14_11_2_norm_one_remainder_self_diff_source_bri
           _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
           _hChoice, hMin, _hFourSixS, _hFourSixT⟩
       exact hMin
-    haveI : IsMinCE G := hMin
+    have : IsMinCE G := hMin
     have hBetaSelf :
         Section1.scalarProduct G (τM βM) (τM βM) = (e : ℂ) + 1 := by
       simpa [heq] using
@@ -2893,7 +2893,7 @@ public theorem section14_theorem_14_11_2_norm_one_remainder_self_diff_source_bri
           _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
           _hChoice, hMin, _hFourSixS, _hFourSixT⟩
       exact hMin
-    haveI : IsMinCE G := hMin
+    have : IsMinCE G := hMin
     have h1410Saved := h1410
     rcases h1410 with
       ⟨_hMmax, _hModd, _hNormVleM, hKMF, _hTypeI, _hDadePkg, hPunctM,
@@ -3571,7 +3571,7 @@ public theorem section14_theorem_14_11_2_pf36_coefficients_source_bridge
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases section14_theorem_14_11_1_K_index_source_inputs_bridge
       Smax Tmax W W1 W2 P Q U V C D L H Sfam Tfam τS τT
       Lfam RL τL τL₁ φ μ01 ν10 βS βT βL

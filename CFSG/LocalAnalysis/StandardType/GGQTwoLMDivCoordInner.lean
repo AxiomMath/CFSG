@@ -23,10 +23,10 @@ theorem qTwoLMSkel_divCoord_suInner {G : Type} [Group G] [Finite G] {B Bs L D J 
     ∃ C : QTwoDivCoords m (QTwoHm m h3) ↥(sumZero m 3) Bs L x hN,
       IsHmModel m h3 (QTwoHm m h3) C.permV ∧
         IsAugModel m ↥(sumZero m 3) C.permVT := by
-  letI := hFrameL.fieldF0
-  letI := hFrameL.finiteF0
-  letI := hFrameL.charF0
-  letI := hFrameL.groupL0
+  let := hFrameL.fieldF0
+  let := hFrameL.finiteF0
+  let := hFrameL.charF0
+  let := hFrameL.groupL0
   subst hFm
   exact qTwoLMDivCoordInner_su_assembly hG hBs hN hm h3 (F0 := hFrameL.F0) (L0 := hFrameL.L0)
     (c := hFrameL.c) (π := hFrameL.πSU) (ρ := hFrameL.ρ)
@@ -43,10 +43,10 @@ theorem qTwoLMSkel_divCoord_psuInner {G : Type} [Group G] [Finite G] {B Bs L D J
     ∃ C : QTwoDivCoords m (QTwoHm m h3) (QTwoHm m h3) Bs L x hN,
       IsHmModel m h3 (QTwoHm m h3) C.permV ∧
         IsHmModel m h3 (QTwoHm m h3) C.permVT := by
-  letI := hFrameL.fieldF0
-  letI := hFrameL.finiteF0
-  letI := hFrameL.charF0
-  letI := hFrameL.groupL0
+  let := hFrameL.fieldF0
+  let := hFrameL.finiteF0
+  let := hFrameL.charF0
+  let := hFrameL.groupL0
   subst hFm
   exact qTwoLMDivCoordInner_psu_assembly hG hBs hN hm h3 (F0 := hFrameL.F0) (L0 := hFrameL.L0)
     (c := hFrameL.c) (π := hFrameL.πSU) (ρ := hFrameL.ρ)

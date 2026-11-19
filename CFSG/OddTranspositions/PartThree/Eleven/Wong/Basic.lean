@@ -46,14 +46,16 @@ private theorem two_pow_factorization_14400 : 2 ^ (14400 : ℕ).factorization 2 
     padicValNat.eq_zero_of_not_dvd (by norm_num : ¬ (2 : ℕ) ∣ 225)]
   norm_num
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_sup (h : WongHyp t L₁ L₂) :
     Subgroup.centralizer ({t} : Set G) ≤ Subgroup.normalizer ((L₁ ⊔ L₂ : Subgroup G) : Set G) := by
   have hK : L₁ ⊔ L₂ ≤ Subgroup.centralizer ({t} : Set G) := sup_le_centralizer h
-  haveI : ((L₁ ⊔ L₂).subgroupOf (Subgroup.centralizer ({t} : Set G))).Normal :=
+  have : ((L₁ ⊔ L₂).subgroupOf (Subgroup.centralizer ({t} : Set G))).Normal :=
     Subgroup.normal_of_index_eq_two h.relIndex_eq
   exact Subgroup.le_normalizer_of_normal_subgroupOf (H := L₁ ⊔ L₂)
     (K := Subgroup.centralizer ({t} : Set G)) hK
 
+omit [Finite G] in
 theorem sup_zpowers_eq_centralizer (h : WongHyp t L₁ L₂) {n : G}
     (hn : n ∈ Subgroup.centralizer ({t} : Set G)) (hnK : n ∉ L₁ ⊔ L₂) :
     L₁ ⊔ L₂ ⊔ Subgroup.zpowers n = Subgroup.centralizer ({t} : Set G) := by
@@ -85,6 +87,7 @@ theorem sup_zpowers_eq_centralizer (h : WongHyp t L₁ L₂) {n : G}
     Subgroup.relIndex_eq_one.mp hrel1
   exact le_antisymm hHC hCH
 
+omit [Finite G] in
 theorem mul_mem_sup_of_not_mem (h : WongHyp t L₁ L₂) {g k : G}
     (hg : g ∈ Subgroup.centralizer ({t} : Set G)) (hk : k ∈ Subgroup.centralizer ({t} : Set G))
     (hgK : g ∉ L₁ ⊔ L₂) (hkK : k ∉ L₁ ⊔ L₂) : g * k ∈ L₁ ⊔ L₂ := by
@@ -107,6 +110,7 @@ theorem mul_mem_sup_of_not_mem (h : WongHyp t L₁ L₂) {g k : G}
     exact ⟨fun hh => absurd hh hgN, fun hh => absurd hh hkN⟩
   simpa only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] using hprod
 
+omit [Finite G] in
 theorem sq_mem_sup (h : WongHyp t L₁ L₂) {g : G} (hg : g ∈ Subgroup.centralizer ({t} : Set G)) :
     g ^ 2 ∈ L₁ ⊔ L₂ := by
   by_cases hgK : g ∈ L₁ ⊔ L₂

@@ -35,7 +35,7 @@ theorem raLin_ggInducedAut_trans {X : Type} [Group X] {R R' : Type} [Group R]
   ext x
   rfl
 
-theorem raLin_model {p : ℕ} (hp : p.Prime) {X : Type} [Group X] [Finite X]
+theorem raLin_model {p : ℕ} (_hp : p.Prime) {X : Type} [Group X] [Finite X]
     {A : Subgroup (MulAut X)} {σ : MulAut X} {J : Subgroup X}
     (hloc : GGTPNLocalCore p A σ J) {labX : LargeEvenLabel}
     (hA : labX.tag = .A) (hm : GGTPNMarked p (fun _ lab => lab = labX) A) :
@@ -59,8 +59,8 @@ theorem raLin_model {p : ℕ} (hp : p.Prime) {X : Type} [Group X] [Finite X]
   subst hA
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   obtain ⟨K, hFld, hFin, hKcard, hQR⟩ := hraw
-  letI : Field K := hFld
-  haveI : Finite K := hFin
+  let : Field K := hFld
+  have : Finite K := hFin
   obtain ⟨-, -, θ, -, -, hind⟩ := hQR
   refine ⟨K, hFld, hFin, hKcard, ?_⟩
   let e := TypeA.recipeEquiv (r + 1) K
@@ -108,8 +108,8 @@ theorem raLin_nonSplit_component {p N : ℕ} {K : Type} [Field K] [Finite K]
         Nonempty (↥T ⧸ Subgroup.center ↥T ≃* projectiveSL (N / p) E) := by
   obtain ⟨hpN, hp2, -, E, hEfld, hEfin, hEcard, f, hfsurj, hfker⟩ :=
     LieComp.linear_fieldType_component (n := N) (k := K) hp hpk hg hc hT
-  letI : Field E := hEfld
-  haveI : Fintype E := hEfin
+  let : Field E := hEfld
+  have : Fintype E := hEfin
   have hE4 : 4 ≤ Nat.card E := by
     rw [hEcard]
     have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -170,6 +170,7 @@ section Split
 
 variable {N : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem raLin_specialFactor_triv {D : GL (Fin N) K} {f : K[X]}
     (x : ↥(specialFactor D f)) {j : K[X]}
     (hj : j ∈ primaryFactors (glA D : Module.End K (Fin N → K))) (hjf : j ≠ f)
@@ -177,6 +178,7 @@ theorem raLin_specialFactor_triv {D : GL (Fin N) K} {f : K[X]}
     (slGL N K (x : Matrix.SpecialLinearGroup (Fin N) K) : Module.End K (Fin N → K)) v = v :=
   (mem_linearSpecialBlock.mp (Subgroup.mem_comap.mp x.2)).2.1 j hj hjf v hv
 
+omit [Finite K] in
 theorem raLin_specialFactor_mul_apply_scalar {D : GL (Fin N) K} {f : K[X]}
     (hcon : ∀ (x : ↥(specialFactor D f))
       (v : ↥(primaryComponent (glA D : Module.End K (Fin N → K)) f)),
@@ -224,9 +226,10 @@ theorem raLin_specialFactor_mul_apply_scalar {D : GL (Fin N) K} {f : K[X]}
     rw [Module.End.mul_apply, hx, LinearMap.map_smul, hy, smul_smul, Subtype.coe_mk, mul_comm]
   rw [hxy, hyx, mul_comm]
 
+omit [Finite K] in
 theorem raLin_specialFactor_commutative_of_scalar {D : GL (Fin N) K}
     (hsq : Squarefree (minpoly K (glA D : Module.End K (Fin N → K))))
-    {f : K[X]} (hf : f ∈ primaryFactors (glA D : Module.End K (Fin N → K)))
+    {f : K[X]} (_hf : f ∈ primaryFactors (glA D : Module.End K (Fin N → K)))
     (hcon : ∀ (x : ↥(specialFactor D f))
       (v : ↥(primaryComponent (glA D : Module.End K (Fin N → K)) f)),
       ∃ c : K, (slGL N K (x : Matrix.SpecialLinearGroup (Fin N) K) : Module.End K (Fin N → K))
@@ -291,13 +294,13 @@ theorem raLin_exists_nonScalarOn {D : GL (Fin N) K}
     intro y _
     exact hcomm y x
   have hq := isQuasisimple_specialFactor hsq hf hgood
-  haveI := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have := CFSG.LocalCores.isQuasisimple_nontrivial hq
   exact (bot_ne_top : (⊥ : Subgroup ↥(specialFactor D f)) ≠ ⊤)
     (hbot.symm.trans hq.1.commutator_eq_top)
 
 theorem raLin_components_ne {D : GL (Fin N) K}
     (hsq : Squarefree (minpoly K (glA D : Module.End K (Fin N → K))))
-    {j f : K[X]} (hj : j ∈ primaryFactors (glA D : Module.End K (Fin N → K)))
+    {j f : K[X]} (_hj : j ∈ primaryFactors (glA D : Module.End K (Fin N → K)))
     (hf : f ∈ primaryFactors (glA D : Module.End K (Fin N → K))) (hjf : j ≠ f)
     (hgood : IsGoodFactor D f) :
     (specialFactor D j).map (proj N K) ≠ (specialFactor D f).map (proj N K) := by
@@ -318,7 +321,7 @@ theorem raLin_components_ne {D : GL (Fin N) K}
     have hz : (slGL N K (y⁻¹ * (x : Matrix.SpecialLinearGroup (Fin N) K)) :
         Module.End K (Fin N → K)) (v : Fin N → K) = (c : K) • (v : Fin N → K) := by
       rw [coe_slGL, hcmat]
-      simp [Matrix.toLin'_apply, Matrix.mulVec_diagonal]
+      simp [Matrix.toLin'_apply]
     have hyv : (slGL N K y : Module.End K (Fin N → K)) (v : Fin N → K) = v :=
       (mem_linearSpecialBlock.mp (Subgroup.mem_comap.mp hymem)).2.1 f hf hjf.symm v v.2
     rw [hxeq, map_mul]
@@ -330,14 +333,14 @@ theorem raLin_components_ne {D : GL (Fin N) K}
       (v : Fin N → K)).trans (by rw [hyv])
   exact hx c hcx
 
-theorem raLin_dvd_card_specialFactor {p : ℕ} (hp : p.Prime) {D : GL (Fin N) K}
+theorem raLin_dvd_card_specialFactor {p : ℕ} (_hp : p.Prime) {D : GL (Fin N) K}
     (hsq : Squarefree (minpoly K (glA D : Module.End K (Fin N → K))))
     {a : K[X]} (ha : a ∈ primaryFactors (glA D : Module.End K (Fin N → K)))
     (hdeg : a.natDegree = 1)
     (hm2 : 2 ≤ primaryMultiplicity (glA D : Module.End K (Fin N → K)) a)
     (hpq : p ∣ Nat.card K - 1) :
     p ∣ Nat.card (specialFactor D a) := by
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   obtain ⟨eSL⟩ := nonempty_mulEquiv_specialFactor (A := D) hsq ha
   rw [← Nat.card_congr eSL.toEquiv]
   have hE : Nat.card (AdjoinRoot a) = Nat.card K := by
@@ -355,6 +358,7 @@ theorem raLin_dvd_card_specialFactor {p : ℕ} (hp : p.Prime) {D : GL (Fin N) K}
   exact hq2.trans (Finset.dvd_prod_of_mem (fun j => Nat.card (AdjoinRoot a) ^ j - 1) hmem)
 
 
+omit [Finite K] in
 theorem raLin_conjAut_eq_one_of_single_primaryFactor {g : GL (Fin N) K}
     (hsq : Squarefree (minpoly K (glA g : Module.End K (Fin N → K)))) {h : K[X]} {ε : K}
     (hh : h ∈ primaryFactors (glA g : Module.End K (Fin N → K))) (hlin : h = X - C ε)
@@ -362,7 +366,7 @@ theorem raLin_conjAut_eq_one_of_single_primaryFactor {g : GL (Fin N) K}
     (hSe : primaryFactors (glA g : Module.End K (Fin N → K)) = {h}) :
     conjAut N K g = 1 := by
   have hdeg : h.natDegree = 1 := by rw [hlin]; simp
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hsum := finrank_eq_sum_degree_mul_multiplicity (x := (glA g : Module.End K (Fin N → K)))
     hsq
   have hfinN : Module.finrank K (Fin N → K) = N := by simp
@@ -396,8 +400,7 @@ theorem raLin_conjAut_eq_one_of_single_primaryFactor {g : GL (Fin N) K}
     apply Units.ext
     rw [hgl]
     ext v i
-    simp [Matrix.GeneralLinearGroup.toLin, Matrix.toLin'_apply,
-      Matrix.GeneralLinearGroup.coe_scalar, Matrix.mulVec_diagonal]
+    simp [Matrix.GeneralLinearGroup.toLin, Matrix.GeneralLinearGroup.coe_scalar, Matrix.mulVec_diagonal]
   rw [hg_eq, conjAut_scalar]
 
 theorem raLin_split_factor {p N : ℕ} {K : Type} [Field K] [Finite K]
@@ -425,7 +428,7 @@ theorem raLin_split_factor {p N : ℕ} {K : Type} [Field K] [Finite K]
     obtain ⟨μ, hμ, -⟩ :=
       eq_X_sub_C_of_mem_primaryFactors_of_pow_eq_one hp.ne_zero hω hg' ha
     rw [hμ]; simp
-  haveI : Fact (Irreducible hmem) := ⟨irreducible_of_mem_primaryFactors hmemP⟩
+  have : Fact (Irreducible hmem) := ⟨irreducible_of_mem_primaryFactors hmemP⟩
   have hEcard : Nat.card (AdjoinRoot hmem) = Nat.card K := by
     rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot, hdeg, pow_one]
   have hK4 : 4 ≤ Nat.card K := by
@@ -504,10 +507,10 @@ theorem raLin_split_mult_one {p N : ℕ} {K : Type} [Field K] [Finite K]
       primaryMultiplicity (glA g : Module.End K (Fin N → K)) a = 1 := by
   classical
   intro a haS hane
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors haS⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors haS⟩
   have hpos : 0 < primaryMultiplicity (glA g : Module.End K (Fin N → K)) a := by
     have hne := primaryComponent_ne_bot hsq haS
-    haveI : Nontrivial ↥(primaryComponent (glA g : Module.End K (Fin N → K)) a) :=
+    have : Nontrivial ↥(primaryComponent (glA g : Module.End K (Fin N → K)) a) :=
       Submodule.nontrivial_iff_ne_bot.mpr hne
     exact Module.finrank_pos
   by_contra hne1
@@ -515,7 +518,7 @@ theorem raLin_split_mult_one {p N : ℕ} {K : Type} [Field K] [Finite K]
   have hdega : a.natDegree = 1 := hdegS a haS
   have hgooda : IsGoodFactor g a := by
     refine Or.inr ⟨hm2a, ?_⟩
-    haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors haS⟩
+    have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors haS⟩
     calc 4 ≤ Nat.card K := hK4
       _ ≤ Nat.card (AdjoinRoot a) := Nat.card_le_card_of_injective _
         (algebraMap K (AdjoinRoot a)).injective
@@ -629,13 +632,13 @@ theorem raLin_split_structure {p N : ℕ} {K : Type} [Field K] [Finite K]
     squarefree_minpoly_glA hpk (c := 1) (by simpa using hg)
   obtain ⟨h, ε, hh, hgood, hform, hε0, hdeg, hdegS, -, hK4, -, hTeq⟩ :=
     raLin_split_factor hp hp2 hpk hpq hg hT
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨hEcard, hm2, ⟨eT⟩⟩ := raLin_split_centralQuot hpk hg hh hgood hdeg hTeq
   have hmult1 := raLin_split_mult_one hp hpq hsq hTonly hh hgood hTeq hdegS hK4
   have hS_card := raLin_split_card_primaryFactors hp hpq hg hsq
   have hN := raLin_split_finrank hsq hh hdeg hdegS hmult1
   have hcard2 := raLin_split_card_ge_two hsq hh hform hε0 hgne
-  haveI hEfin : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have hEfin : Finite (AdjoinRoot h) := Module.finite_of_finite K
   refine ⟨primaryMultiplicity (glA g : Module.End K (Fin N → K)) h,
     List.replicate ((primaryFactors (glA g : Module.End K (Fin N → K))).card - 1) 1,
     AdjoinRoot h, inferInstance, Fintype.ofFinite (AdjoinRoot h), hEcard, hm2, ?_, ?_, ?_, ?_,
@@ -674,7 +677,7 @@ theorem raLin_arith {p n : ℕ} {K : Type} [Field K] [Finite K]
     have hpos : 1 ≤ 2 ^ n := Nat.one_le_two_pow
     rw [Nat.sub_sub_self hpos] at h1
     omega
-  haveI hchar : CharP K 2 := charP_two_of_card hKcard
+  have hchar : CharP K 2 := charP_two_of_card hKcard
   have hpk : (p : K) ≠ 0 := by
     intro h0
     have h2dvd : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp h0
@@ -779,7 +782,7 @@ theorem raLin_split_label {N : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem raLin_split_case {p N : ℕ} {X : Type} [Group X] [Finite X]
     {J : Subgroup X} {K : Type} [Field K] [Finite K] {labX : LargeEvenLabel}
-    (hA : labX.tag = .A) (hn1 : 1 ≤ labX.n) (hn2 : 2 ≤ labX.n)
+    (_hA : labX.tag = .A) (hn1 : 1 ≤ labX.n) (hn2 : 2 ≤ labX.n)
     (hKcard : Nat.card K = 2 ^ labX.n)
     {g : GL (Fin N) K} {u : Kˣ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpk : (p : K) ≠ 0) (hpq : p ∣ Nat.card K - 1)
@@ -803,8 +806,8 @@ theorem raLin_split_case {p N : ℕ} {X : Type} [Group X] [Finite X]
     rw [hconj']; exact huniq
   obtain ⟨a, ds, E, hEfld, hEfin, hEcard, ha2, hN, hdsne, hdslt, hds1, ⟨eT⟩⟩ :=
     raLin_split_structure (N := N) hp hp2 hpk hpq hgp' hgne' hJbarOpen' huniq'
-  letI : Field E := hEfld
-  haveI : Fintype E := hEfin
+  let : Field E := hEfld
+  have : Fintype E := hEfin
   have hEcard' : Nat.card E = 2 ^ labX.n := by rw [hEcard, hKcard]
   obtain ⟨eJZ⟩ := hequiv
   obtain ⟨hΛ, hlabJ⟩ := raLin_split_label (J := J) (Jbar := Jbar) hn1 hn2 ha2 hEcard' eJZ eT
@@ -889,8 +892,8 @@ theorem raLin_nonSplit_case {p N : ℕ} {X : Type} [Group X] [Finite X]
       GGHasLabel ⟨.A, N / p - 1, p * labX.n⟩ (↥J ⧸ Subgroup.center ↥J) := by
   obtain ⟨hpN2, E, hEfld, hEfin, hEcard, ⟨eT⟩⟩ :=
     raLin_nonSplit_component (N := N) hp hp2 hpk hgu hc hJbarOpen
-  letI : Field E := hEfld
-  haveI : Fintype E := hEfin
+  let : Field E := hEfld
+  have : Fintype E := hEfin
   have hEcard' : Nat.card E = 2 ^ (p * labX.n) := by
     rw [hEcard, hKcard, ← pow_mul, Nat.mul_comm]
   obtain ⟨eJZ⟩ := hequiv
@@ -917,13 +920,13 @@ theorem split_or_fieldType_of_ggKacRA_linear {p : ℕ} (hp : p.Prime) {X : Type}
             (↥J ⧸ Subgroup.center ↥J)))) := by
   classical
   obtain ⟨K, hFld, hFin, hKcard, θ, hAll, g, ⟨u, hgu⟩, hgl, hcomm⟩ := raLin_model hp hloc hA hm
-  letI : Field K := hFld
-  haveI : Finite K := hFin
+  let : Field K := hFld
+  have : Finite K := hFin
   let N : ℕ := labX.rank + 1
   rcases hRA with ⟨-, hpN, hpq2⟩ | ⟨htw, -⟩
   · obtain ⟨hp2, hpk, hn1, hpq⟩ := raLin_arith (K := K) hp hKcard hpq2
     have hn2 := raLin_two_le_n hp hn1 hpq2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hJcomp : IsComponentOf J (ggAutFixedSubgroup σ) := hloc.2.2.2.1
     have hσbar : ggInducedAut θ σ = conjAut N K g := by
       ext x

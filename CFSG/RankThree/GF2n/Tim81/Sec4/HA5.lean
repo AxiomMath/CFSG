@@ -20,7 +20,7 @@ theorem ha5Statement :
     CFSG.Quasithin.A5Model.card_sl2_gf4
   obtain ⟨e5⟩ := CFSG.Quasithin.A5Model.sl2_four_equiv_alt5 (GaloisField 2 2)
     CFSG.Quasithin.A5Model.card_gf4 hcardSL4
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have h4 : 4 ≤ Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, CFSG.Quasithin.A5Model.card_gf4]
   have hL : IsL2OrSz V (Pc M V ⊔ conjSubgroup g (Pc M V)) :=
@@ -29,9 +29,9 @@ theorem ha5Statement :
   have hS : Sec45Shape M V (Pc M V ⊔ conjSubgroup g (Pc M V)) g :=
     RootHyp.sec45Shape_of_isL2OrSz h hmem hVH hL
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hsw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hcardH : Nat.card (HBar V (Pc M V ⊔ conjSubgroup g (Pc M V))) = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     norm_num
@@ -45,7 +45,7 @@ theorem ha5Statement :
     have h16 : 16 ∣ 4 ^ l := by
       obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le h2
       rw [pow_add]
-      simpa using dvd_mul_right 16 (4 ^ k)
+      simp
     have hpow : 2 ^ (2 * l) = 4 ^ l := by
       rw [pow_mul]
       norm_num

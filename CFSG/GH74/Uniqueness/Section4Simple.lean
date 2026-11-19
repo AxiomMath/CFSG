@@ -87,7 +87,7 @@ theorem eq_one_of_mem_odd_of_mem_isPGroup {N P : Subgroup X} (hN : Odd (Nat.card
 theorem isSylowOf_top (T : Sylow 2 X) : IsSylowOf 2 (T : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isSylowOf_iff]
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index
 
@@ -537,7 +537,7 @@ theorem exists_involution_normal_inf_center {A : Subgroup X} (hAn : A.Normal)
   obtain ⟨y, hy, hy2⟩ := exists_mem_inf_orderOf_eq_two (isSylowOf_top T) le_top
     (le_normalizer_of_normal hAn ⊤) hAe
   obtain ⟨hyT, hyA⟩ := Subgroup.mem_inf.mp hy
-  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup.isNilpotent
   have hN : (A.subgroupOf (T : Subgroup X)).Normal := hAn.subgroupOf _
   have hN0 : A.subgroupOf (T : Subgroup X) ≠ ⊥ := by
     intro h
@@ -549,7 +549,7 @@ theorem exists_involution_normal_inf_center {A : Subgroup X} (hAn : A.Normal)
     exact absurd hy2 (by norm_num)
   have h1 := Group.IsNilpotent.inf_center_ne_bot_of_normal hN0
   have hKp : IsPGroup 2 ↥(A.subgroupOf (T : Subgroup X) ⊓ center ↥(T : Subgroup X)) :=
-    T.isPGroup'.to_subgroup _
+    T.isPGroup.to_subgroup _
   obtain ⟨κ, hκ, hκ2⟩ := exists_mem_orderOf_eq_two_of_isPGroup hKp h1
   obtain ⟨hκA, hκC⟩ := Subgroup.mem_inf.mp hκ
   refine ⟨(κ : X), hκA, κ.2, (Subgroup.orderOf_coe κ).trans hκ2, fun s hs => ?_⟩
@@ -671,7 +671,7 @@ theorem ZDSetup.lemma410 (S : ZDSetup X Z M)
       simpa [mul_assoc] using this
     have h4 : (g * z * g⁻¹) * (g * y * g⁻¹)⁻¹ ∈ (P : Subgroup X) :=
       (P : Subgroup X).mul_mem hgz ((P : Subgroup X).inv_mem hgy)
-    have h5 := Simple.eq_one_of_mem_odd_of_mem_isPGroup hodd P.isPGroup' h3 h4
+    have h5 := Simple.eq_one_of_mem_odd_of_mem_isPGroup hodd P.isPGroup h3 h4
     apply hyne
     have h6 : g * z * g⁻¹ = g * y * g⁻¹ := mul_inv_eq_one.mp h5
     have := mul_left_cancel (mul_right_cancel h6)

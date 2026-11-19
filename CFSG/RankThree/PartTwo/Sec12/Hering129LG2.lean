@@ -21,6 +21,7 @@ section Tools
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem inSubgroup_perfectResidual_le_commutator' (C : Subgroup X) :
     inSubgroup perfectResidual C ≤ ⁅C, C⁆ := by
   have h1 : perfectResidual C ≤ derivedSeries C 1 := iInf_le _ 1
@@ -70,12 +71,12 @@ theorem g2_centralizer_threeA (hK3 : ringChar K ≠ 3) (hK4 : 4 ≤ Nat.card K)
     refine ⟨Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective, ?_⟩
     exact ⟨K, inferInstance, inferInstance, Or.inl ⟨rfl, by omega,
       ⟨e.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 K)⟩⟩⟩
-  · haveI : Fintype K := Fintype.ofFinite K
+  · have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
-    haveI : Fact (ringChar K).Prime := ⟨hp⟩
+    have : Fact (ringChar K).Prime := ⟨hp⟩
     have hK : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
     obtain ⟨L, _, _, _, -, hdeg, -⟩ := exists_quadratic_ext' K
-    haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+    have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
     obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU hK h31 hdeg hzS hz3 hz1
     refine ⟨(KS11Lie7Proof.isQuasisimple_centralizer_threeA h31 hK4 hzS hz3 hz1).1, ?_⟩
     refine ⟨L, inferInstance, inferInstance, Or.inr ⟨natCard_quadratic hdeg, by omega, ⟨?_⟩⟩⟩
@@ -101,10 +102,10 @@ theorem g2_threeLocalModel (r : TauCeti.PrimePower) (hK : Nat.card K = r.card)
     ThreeLocalModel (adjointGroup .G2 K) r r.card (g2ShortSL2 K) (g2LongSL2 K) := by
   obtain ⟨eS⟩ := nonempty_mulEquiv_g2ShortSL2 (K := K)
   obtain ⟨eM⟩ := nonempty_mulEquiv_g2LongSL2 (K := K)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨?_, isPerfect_g2LongSL2 hK4, fun a ha b hb => g2Short_commute_g2Long ha hb, ?_, ?_,
     ?_, ?_, ?_⟩
-  · haveI : Fintype K := Fintype.ofFinite K
+  · have : Fintype K := Fintype.ofFinite K
     exact ⟨K, inferInstance, inferInstance, by rw [← Nat.card_eq_fintype_card, hK], ⟨eS.symm⟩⟩
   ·
     intro x hxS hxM hx3

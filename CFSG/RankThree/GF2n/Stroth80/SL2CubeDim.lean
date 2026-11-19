@@ -100,7 +100,7 @@ theorem minimal_dichotomy {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 ≤ k
   by_cases htriv : ∀ g, ∀ n ∈ N, ρ g n = n
   · exact Or.inl htriv
   · right
-    haveI : Fact (subRep ρ N hN).IsIrreducible := ⟨subRep_irreducible ρ N hN0 hN hmin⟩
+    have : Fact (subRep ρ N hN).IsIrreducible := ⟨subRep_irreducible ρ N hN0 hN hmin⟩
     push Not at htriv
     obtain ⟨g, n, hn, hne⟩ := htriv
     have hnt : ∃ g, subRep ρ N hN g ≠ 1 := by
@@ -194,7 +194,7 @@ theorem trivial_of_finrank_le {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 �
     intro hd X _ _ _ ρ hX g
     by_cases hlt : Module.finrank K X ≤ d
     · exact ih (by omega) X ρ hlt g
-    · haveI : Finite X := Module.finite_of_finite K
+    · have : Finite X := Module.finite_of_finite K
       have hX0 : (⊤ : Submodule K X) ≠ ⊥ := by
         intro h
         have h1 : Module.finrank K (⊤ : Submodule K X) = 0 := by rw [h, finrank_bot]
@@ -208,7 +208,7 @@ theorem trivial_of_finrank_le {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 �
         · exfalso
           have := Submodule.finrank_le N
           omega
-      haveI : Nontrivial N := Submodule.nontrivial_iff_ne_bot.mpr hN0
+      have : Nontrivial N := Submodule.nontrivial_iff_ne_bot.mpr hN0
       have hNpos : 0 < Module.finrank K N := Module.finrank_pos
       have hQ : Module.finrank K (X ⧸ N) ≤ d := by
         have := Submodule.finrank_quotient_add_finrank N

@@ -14,11 +14,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_commutes_of_mem_normalizer {R T : Subgroup G} {x g u : G}
     (hTNR : T ≤ normalizer (R : Set G)) (hgR : g ∈ normalizer (R : Set G))
     (huR : u ∈ normalizer (R : Set G)) (hgN : g ∈ normalizer ((T ⊔ R : Subgroup G) : Set G))
     (hTR : T ⊓ R = ⊥) (hxcT : ∀ t ∈ T, x * t = t * x)
-    (huT : ∀ t ∈ T, u * t = t * u) (hux : u * x = x * u)
+    (huT : ∀ t ∈ T, u * t = t * u) (_hux : u * x = x * u)
     (huV : g⁻¹ * u * g ∈ T ⊔ zpowers x) :
     ∀ v ∈ T ⊔ zpowers x, (g⁻¹ * u * g) * v = v * (g⁻¹ * u * g) := by
   have hVnorm : T ⊔ zpowers x ≤ normalizer (T : Set G) := by
@@ -101,10 +102,11 @@ theorem conj_commutes_of_mem_normalizer {R T : Subgroup G} {x g u : G}
   intro v hv
   exact (Subgroup.mem_centralizer_iff.mp (hC hv)) (g⁻¹ * u * g) (Set.mem_singleton _)
 
+omit [Finite G] in
 theorem conj_commutes_of_hnorm {M R T : Subgroup G} {x : G}
-    (hRM : R ≤ M) (hRn : M ≤ normalizer (R : Set G))
+    (_hRM : R ≤ M) (hRn : M ≤ normalizer (R : Set G))
     (hNn : M ≤ normalizer ((T ⊔ R : Subgroup G) : Set G)) (hTM : T ≤ M)
-    (hTR : T ⊓ R = ⊥) (hxM : x ∈ M) (hxcT : ∀ t ∈ T, x * t = t * x)
+    (hTR : T ⊓ R = ⊥) (_hxM : x ∈ M) (hxcT : ∀ t ∈ T, x * t = t * x)
     {g u : G} (hg : g ∈ M) (hu : u ∈ M) (huT : ∀ t ∈ T, u * t = t * u) (hux : u * x = x * u)
     (huV : g⁻¹ * u * g ∈ T ⊔ zpowers x) :
     ∀ v ∈ T ⊔ zpowers x, (g⁻¹ * u * g) * v = v * (g⁻¹ * u * g) :=

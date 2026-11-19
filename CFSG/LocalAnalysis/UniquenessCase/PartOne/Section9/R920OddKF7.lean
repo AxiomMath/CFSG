@@ -33,7 +33,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 
 theorem isPerfect_bar2_opp (S : SliceCore D L D₃ Y H) : Group.IsPerfect (Bar2 (Opp 3 Y)) := by
   obtain ⟨e⟩ := S.nonempty_bar2_L_opp_equiv
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr S.L_mem.2.2.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr S.L_mem.2.2.1
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
 
 theorem false_of_kf7Use (hKF7 : KF7Use D) (hSg : UC6S846.SigmaStd D) (S : SliceCore D L D₃ Y H)
@@ -49,14 +49,14 @@ theorem false_of_kf7Use (hKF7 : KF7Use D) (hSg : UC6S846.SigmaStd D) (S : SliceC
       ((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) :=
     Subgroup.map_mono (Subgroup.comap_mono (le_inf hXH S.opp_le_M))
   rcases hKF with hsolv | ⟨-, hquot⟩
-  · haveI : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
+  · have : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := hsolv
-    haveI : Group.IsSolvable ↥(((Opp 3 Y).subgroupOf H).map
+    have : Group.IsSolvable ↥(((Opp 3 Y).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
-    exact S.not_isSolvable_bar2_opp (solvable_of_surjective hf)
-  · haveI := S.isPerfect_bar2_opp
+    exact S.not_isSolvable_bar2_opp (Group.isSolvable_of_surjective hf)
+  · have := S.isPerfect_bar2_opp
     obtain ⟨P, hPperf, hPmap⟩ := exists_perfect_map_eq_top f hf
     let N := ((Opp 3 Y).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))
     let e := P.equivMapOfInjective N.subtype N.subtype_injective

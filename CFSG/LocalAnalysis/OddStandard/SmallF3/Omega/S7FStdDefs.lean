@@ -38,10 +38,10 @@ theorem s7f_bddAbove_pRank (P : Type*) [Group P] [Finite P] :
 theorem s7f_two_le_pRank_of_commute {P : Type*} [Group P] [Finite P] {u v : P}
     (hu : orderOf u = 2) (hv : orderOf v = 2) (huv : u * v = v * u) (hne : u ≠ v) :
     2 ≤ CFSG.pRank 2 P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsElementaryAbelian 2 (zpowers u) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsElementaryAbelian 2 (zpowers u) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (by rw [← hu]; exact pow_orderOf_eq_one u)
-  haveI : IsElementaryAbelian 2 (zpowers v) :=
+  have : IsElementaryAbelian 2 (zpowers v) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (by rw [← hv]; exact pow_orderOf_eq_one v)
   have hle : zpowers v ≤ centralizer (zpowers u : Set P) := by
     rw [zpowers_le, mem_centralizer_iff]
@@ -49,7 +49,7 @@ theorem s7f_two_le_pRank_of_commute {P : Type*} [Group P] [Finite P] {u v : P}
     rcases s7f_mem_zpowers_two hu hx with rfl | rfl
     · rw [one_mul, mul_one]
     · exact huv
-  haveI hA : IsElementaryAbelian 2 ↥(zpowers u ⊔ zpowers v) :=
+  have hA : IsElementaryAbelian 2 ↥(zpowers u ⊔ zpowers v) :=
     IsElementaryAbelian.sup_of_le_centralizer hle
   obtain ⟨k, hk⟩ := (IsElementaryAbelian.isPGroup 2 ↥(zpowers u ⊔ zpowers v)).exists_card_eq
   have hk2 : 2 ≤ k := by

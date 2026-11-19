@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_le_self_1933 {T B : Subgroup G}
     (h : B ≤ Subgroup.normalizer (T : Set G)) : (⁅T, B⁆ : Subgroup G) ≤ T := by
   refine Subgroup.commutator_le.2 fun t ht β hβ => ?_
@@ -25,6 +26,7 @@ private theorem commutator_le_self_1933 {T B : Subgroup G}
   rw [h2]
   exact T.mul_mem ht h1
 
+omit [Finite G] in
 private theorem barX_oPPrimeP_1933 (p : ℕ) (X : Subgroup G) :
     barX p X (oPPrimeP p X) = CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   have hJg : (oPPrimeP p X).subgroupOf X =
@@ -34,6 +36,7 @@ private theorem barX_oPPrimeP_1933 (p : ℕ) (X : Subgroup G) :
   rw [hJg]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) _
 
+omit [Finite G] in
 private theorem barX_le_centralizer_1933 {p : ℕ} {X S T : Subgroup G}
     (h : ∀ t ∈ T, ∀ s ∈ S, ⁅t, s⁆ ∈ GLAPPrimeCoreOf p X) :
     barX p X S ≤ Subgroup.centralizer (barX p X T : Set (↥X ⧸ GLAPPrimeCore p ↥X)) := by
@@ -45,7 +48,7 @@ private theorem eq_bot_of_le_fitting_1933 {Q : Type} [Group Q] [Finite Q]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hcore : CFSG.pPrimeCore p Q = ⊥)
     {T : Subgroup Q} (hT : IsPGroup 2 T)
     (hc : T ≤ Subgroup.centralizer (CFSG.generalizedFitting Q : Set Q)) : T = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : T ≤ CFSG.fittingSubgroup Q := by
     have h := CFSG.ComponentClassification.GeneralizedFitting.centralizer_le_fitting Q
     rw [← CFSG.generalizedFitting_eq_componentClassification] at h
@@ -59,7 +62,7 @@ private theorem le_glaPPrimeCoreOf_of_component_commutators_1933 {p : ℕ} (hp :
     (hQ : (⁅oPPrimeP p X, S⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X)
     (hJ : ∀ J : Subgroup G, GLAPComponent p X J → (⁅J, S⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X) :
     S ≤ GLAPPrimeCoreOf p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : CFSG.pPrimeCore p (↥X ⧸ GLAPPrimeCore p ↥X) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p
   have hS2' : IsPGroup 2 (barX p X S) :=

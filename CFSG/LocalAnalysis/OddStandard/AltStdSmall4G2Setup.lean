@@ -77,6 +77,7 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
 @[expose] def Yodd (L : Subgroup G) (z : G) : Subgroup G :=
   AltStdBal.oddPart (centralizer (L : Set G) ⊓ centralizer ({z} : Set G))
 
+omit [Finite G] in
 theorem Lfree_eq (L : Subgroup G) (z : G) : Lfree L z = L ⊔ Yodd L z := rfl
 
 theorem zpowers_eq (c : Config G L Q n θ z) : zpowers z = Q :=
@@ -332,35 +333,44 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
   classical
   exact if IsASmall L n z then 2 ^ 7 else 2 ^ 8
 
+omit [Finite G] in
 theorem expo_of_ASmall (h : IsASmall L n z) : expo L n z = 4 := by
-  simp only [expo, if_pos h]
+  simp only [expo, ite_eq_left h]
 
+omit [Finite G] in
 theorem expo_of_not_ASmall (h : ¬ IsASmall L n z) : expo L n z = 8 := by
-  simp only [expo, if_neg h]
+  simp only [expo, ite_eq_right h]
 
+omit [Finite G] in
 theorem expo_of_A9 (h : n = 9 ∧ centralizer ({z} : Set G) ≤ L ⊔ centralizer (L : Set G)) :
     expo L n z = 4 :=
   expo_of_ASmall ⟨Or.inr h.1, h.2⟩
 
+omit [Finite G] in
 theorem cardN_of_ASmall (h : IsASmall L n z) : cardN L n z = 2 ^ 7 := by
-  simp only [cardN, if_pos h]
+  simp only [cardN, ite_eq_left h]
 
+omit [Finite G] in
 theorem cardN_of_not_ASmall (h : ¬ IsASmall L n z) : cardN L n z = 2 ^ 8 := by
-  simp only [cardN, if_neg h]
+  simp only [cardN, ite_eq_right h]
 
+omit [Finite G] in
 theorem cardN_of_A9 (h : n = 9 ∧ centralizer ({z} : Set G) ≤ L ⊔ centralizer (L : Set G)) :
     cardN L n z = 2 ^ 7 :=
   cardN_of_ASmall ⟨Or.inr h.1, h.2⟩
 
+omit [Finite G] in
 theorem expo_eq_four_or_eight (L : Subgroup G) (n : ℕ) (z : G) :
     expo L n z = 4 ∨ expo L n z = 8 := by
   by_cases h : IsASmall L n z
   · exact Or.inl (expo_of_ASmall h)
   · exact Or.inr (expo_of_not_ASmall h)
 
+omit [Finite G] in
 theorem expo_dvd_eight (L : Subgroup G) (n : ℕ) (z : G) : expo L n z ∣ 8 := by
-  rcases expo_eq_four_or_eight L n z with h | h <;> rw [h] <;> norm_num
+  rcases expo_eq_four_or_eight L n z with h | h <;> rw [h]; norm_num
 
+omit [Finite G] in
 theorem pow_four_of_mem_L_of_le (θ : L ≃* alternatingGroup (Fin n)) (hn : n ≤ 9) {l : G}
     (hl : l ∈ L) {j : ℕ} (hj : l ^ 2 ^ j = 1) : l ^ 4 = 1 := by
   have h1 : (⟨l, hl⟩ : L) ^ 2 ^ j = 1 := Subtype.ext (by simpa using hj)
@@ -375,10 +385,12 @@ theorem pow_four_of_mem_L_of_le (θ : L ≃* alternatingGroup (Fin n)) (hn : n �
     exact θ.injective h4
   simpa using congrArg Subtype.val h5
 
+omit [Finite G] in
 theorem pow_four_of_mem_L (θ : L ≃* alternatingGroup (Fin 9)) {l : G} (hl : l ∈ L) {j : ℕ}
     (hj : l ^ 2 ^ j = 1) : l ^ 4 = 1 :=
   pow_four_of_mem_L_of_le θ le_rfl hl hj
 
+omit [Finite G] in
 theorem pow_eight_of_mem_L (θ : L ≃* alternatingGroup (Fin n)) (hn : n ≤ 15) {l : G} (hl : l ∈ L)
     {j : ℕ} (hj : l ^ 2 ^ j = 1) : l ^ 8 = 1 := by
   have h1 : (⟨l, hl⟩ : L) ^ 2 ^ j = 1 := Subtype.ext (by simpa using hj)

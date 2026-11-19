@@ -225,7 +225,7 @@ theorem isTIWithNormalizer_hallCoreSharp_of_fittingRawSharp
       have hH : MulAut.conj g '' (((hallCore M).map M.subtype : Subgroup G) : Set G)
           = (((hallCore M).map M.subtype : Subgroup G) : Set G) :=
         Subgroup.mem_normalizer_iff_conj_image_eq.1 (le_normalizer_map_subtype_hallCore M hg)
-      rw [Set.image_diff (MulAut.conj g).injective, hH, Set.image_singleton]
+      rw [Set.image_sdiff (MulAut.conj g).injective, hH, Set.image_singleton]
       simp
   disjoint_conj_image g hg :=
     ((hTI.disjoint_conj_image g hg).mono_left (hallCoreSharp_subset_fittingRawSharp M)).mono_right

@@ -68,7 +68,7 @@ theorem isCyclic_of_isCyclic_comap [Finite F] (ε : X ≃* PSL2 F) {P : Subgroup
   have hf : Function.Surjective f := by
     intro α
     obtain ⟨g, hg⟩ := hP α.2
-    exact ⟨⟨g, by simpa [hg] using α.2⟩, Subtype.ext hg⟩
+    exact ⟨⟨g, by simp [hg]⟩, Subtype.ext hg⟩
   exact isCyclic_of_surjective f hf
 
 theorem comap_ne_bot [Finite F] (ε : X ≃* PSL2 F) {P : Subgroup (MulAut X)}

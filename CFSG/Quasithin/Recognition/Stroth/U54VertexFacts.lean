@@ -89,7 +89,7 @@ private theorem normal_two_eq_bot_of_quasisimple {Q : Type*} [Group Q] [Finite Q
     (hQ : CFSG.GorensteinWalter.IsQuasisimple Q)
     (hZ : Odd (Nat.card (Subgroup.center Q)))
     {R : Subgroup Q} (hR : R.Normal) (hR2 : IsPGroup 2 R) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases CFSG.GorensteinWalter.normal_subgroup_le_center_or_eq_top hQ R hR with hle | htop
   · by_contra hne
     have hcard_ne : Nat.card R ≠ 1 := fun h => hne (Subgroup.eq_bot_of_card_eq R h)
@@ -97,7 +97,7 @@ private theorem normal_two_eq_bot_of_quasisimple {Q : Type*} [Group Q] [Finite Q
     exact hZ.not_two_dvd_nat (hdvd.trans (Subgroup.card_dvd_of_le hle))
   · subst htop
     have hQ2 : IsPGroup 2 Q := hR2.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial Q := hQ.1
+    have : Nontrivial Q := hQ.1
     have hc : Nontrivial ↥(Subgroup.center Q) := hQ2.center_nontrivial
     have hc2 : IsPGroup 2 (Subgroup.center Q) :=
       IsPGroup.of_injective hQ2 (Subgroup.center Q).subtype Subtype.val_injective
@@ -156,13 +156,13 @@ private theorem n2_quasisimple (hf : 2 ≤ f) :
     (by norm_num) hmq
   have hqN : CFSG.Open.IsQuasisimple (N₂sub h) := hq.of_mulEquiv (N₂equiv h).symm
   refine ⟨?_, hqN.1, hqN.2⟩
-  haveI : Nontrivial (↥(N₂sub h) ⧸ Subgroup.center ↥(N₂sub h)) := hqN.2.1
+  have : Nontrivial (↥(N₂sub h) ⧸ Subgroup.center ↥(N₂sub h)) := hqN.2.1
   exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(N₂sub h))).nontrivial
 
 private theorem n2_center_odd (hf : 2 ≤ f) :
     Odd (Nat.card (Subgroup.center ↥(N₂sub h))) := by
-  letI : Finite K := h.finite
-  letI : CharP K 2 := h.charP
+  let : Finite K := h.finite
+  let : CharP K 2 := h.charP
   have hF : Nat.card K = (2 ^ f) ^ 2 := by
     rw [h.card, mul_comm, pow_mul]
   obtain ⟨R, hR⟩ := CFSG.ClassicalGroups.UnitaryFlag.exists_isHypTransport h (r := 1) (ε := 1)
@@ -347,7 +347,7 @@ theorem perfectCore_u5PtStab (hf : 2 ≤ f) :
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHP).2
       (u5PtStab_le_normalizer_H h)
   have hsolv : Group.IsSolvable ↥(Isub h) :=
-    isSolvable_of_comm fun a b => Subtype.ext (torus_comm (h := h) a.2 b.2)
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (torus_comm (h := h) a.2 b.2)
   apply le_antisymm
   · have hP : u5PtStab h = H ⊔ Isub h := by
       rw [u5PtStab_eq_sup]
@@ -383,16 +383,16 @@ theorem pCoreOf_a2sub_sup_n2sub (hf : 2 ≤ f) :
     · rw [hHdef]
       exact sup_le (by simpa [hAdef, hNdef] using hNA) (Subgroup.le_normalizer)
     · simpa [hAdef] using a2_isPGroup (h := h)
-  haveI hAN_normal : (A.subgroupOf N).Normal :=
+  have hAN_normal : (A.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNA
   have hH_le_normA : H ≤ Subgroup.normalizer (A : Set (hypSU h 2 1)) := by
     rw [hHdef]
     exact sup_le hNA (Subgroup.le_normalizer)
-  haveI hAH_normal : (A.subgroupOf H).Normal :=
+  have hAH_normal : (A.subgroupOf H).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hH_le_normA
   have hNA' : (N ⊔ A) ≤ Subgroup.normalizer (A : Set (hypSU h 2 1)) :=
     sup_le hNA (Subgroup.le_normalizer)
-  haveI hAN_normal2 : (A.subgroupOf (N ⊔ A)).Normal :=
+  have hAN_normal2 : (A.subgroupOf (N ⊔ A)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNA'
   let e := QuotientGroup.quotientInfEquivProdNormalizerQuotient N A hNA
   let eN : (↥H ⧸ A.subgroupOf H) ≃* ↥N :=
@@ -486,10 +486,10 @@ theorem injOn_hypProj_a2sub_sup_n2sub :
     rw [hcm b d, hμ]
     by_cases hbd : b = d
     · subst hbd
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       change (1 : K) = (1 : Matrix (HypIndex 2 1) (HypIndex 2 1) K) b b
       rw [one_apply_eq]
-    · rw [if_neg hbd]
+    · rw [ite_eq_right hbd]
       change (0 : K) = (1 : Matrix (HypIndex 2 1) (HypIndex 2 1) K) b d
       rw [one_apply_ne hbd]
   have hx1 : (x : hypSU h 2 1) = y := by
@@ -530,12 +530,12 @@ theorem pCoreOf_perfectCore_u5PtP (hf : 2 ≤ f) :
 
 section Special
 
-theorem isSpecialPow_A2 (hf : 2 ≤ f) :
+theorem isSpecialPow_A2 (_hf : 2 ≤ f) :
     IsSpecialPow 2 (2 ^ f) 3 ↥(A₂sub h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup (hypSU h 2 1) := A₂sub h with hAdef
   have hP : IsPGroup 2 ↥A := a2_isPGroup (h := h)
-  haveI : Fact (IsPGroup 2 ↥A) := ⟨hP⟩
+  have : Fact (IsPGroup 2 ↥A) := ⟨hP⟩
   have hcommAmb : ⁅A, A⁆ = ZPsub h := by
     apply le_antisymm
     · refine Subgroup.commutator_le.mpr ?_

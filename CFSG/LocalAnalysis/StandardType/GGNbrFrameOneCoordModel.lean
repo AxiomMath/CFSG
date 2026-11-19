@@ -12,7 +12,7 @@ namespace CFSG.StandardType
 open CFSG.Assembly TableB Multiplicative NbrFrameOne
 
 theorem ggTorusCoordModel {p r : ℕ} {R : Type} [Group R] {I : Set (MulAut R)}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hZ : Subgroup.center R = ⊥)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hZ : Subgroup.center R = ⊥)
     (hIp : ∀ φ ∈ I, φ ^ p = 1 → φ ∈ Set.range (MulAut.conj : R →* MulAut R))
     (hcp : GGCenterPrime p R)
     (Q : ∀ k : ℕ, (Multiplicative (Fin k → ZMod p) →* R) → Prop)

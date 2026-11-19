@@ -37,6 +37,7 @@ private lemma aux_neg_one_pow_sq (k : ℕ) : (-1 : ℤˣ) ^ (k * k) = (-1 : ℤ�
   rw [aux_pow_neg_one (k * k), aux_pow_neg_one k, Nat.cast_mul]
   exact Int.negOnePow_mul_self (k : ℤ)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem toProj_mem_centralizer_iff {s : OGroup Q} (hs : s * s = 1) (g : OGroup Q) :
     toProj Q g ∈ Subgroup.centralizer ({toProj Q s} : Set (ProjOrth Q)) ↔
       g * s * g⁻¹ = s ∨ g * s * g⁻¹ = piOrth Q * s := by
@@ -85,6 +86,7 @@ theorem toProj_mem_centralizer_iff {s : OGroup Q} (hs : s * s = 1) (g : OGroup Q
         _ = (toProj Q (piOrth Q) * toProj Q s) * toProj Q g := by rw [map_mul]
         _ = toProj Q s * toProj Q g := by rw [hpi, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem map_centralizer_le_centralizer_toProj (s : OGroup Q) :
     (Subgroup.centralizer ({s} : Set (OGroup Q))).map (toProj Q) ≤
       Subgroup.centralizer ({toProj Q s} : Set (ProjOrth Q)) := by
@@ -129,7 +131,8 @@ theorem isConj_piOrth_mul_iff (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s 
       rw [hpow, hσ]
       exact aux_sandwich _ _ (aux_unit_mul_self _)
 
-theorem centralizer_toProj_eq_map (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
+omit [FiniteDimensional (ZMod 3) V] in
+theorem centralizer_toProj_eq_map (_hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     (h : ¬ IsConj (piOrth Q * s) s) :
     Subgroup.centralizer ({toProj Q s} : Set (ProjOrth Q)) =
       (Subgroup.centralizer ({s} : Set (OGroup Q))).map (toProj Q) := by

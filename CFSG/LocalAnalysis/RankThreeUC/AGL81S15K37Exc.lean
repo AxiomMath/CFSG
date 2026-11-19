@@ -23,7 +23,7 @@ theorem center_eq_bot_of_not_coverIndex
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hpd : 3 ≠ d.1.characteristic) (hci : ¬ QuasiHigh.CoverIndex 3 d.1) :
     Subgroup.center ↥K = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h.isPGroup_center.card_eq_or_dvd with h1 | h3
   · exact Subgroup.eq_bot_of_card_eq _ h1
   · exact absurd (QuasiHigh.coverIndex_of_dvd_card_center hGA Nat.prime_three (by norm_num)
@@ -52,7 +52,7 @@ theorem center_eq_bot (hGA : CFSG.ComponentClassification.TBLit.GriessMultiplier
 theorem orderOf_of_inner (h : K37Setting X K E S) (hZ : Subgroup.center ↥K = ⊥) {e k : X}
     (he : e ∈ E) (he1 : e ≠ 1) (hk : k ∈ K) (hek : ∀ y ∈ K, e * y * e⁻¹ = k * y * k⁻¹) :
     orderOf (⟨k, hk⟩ : ↥K) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj := CFSG.RankThree.PartOne.HNB.conj_injective_of_center_eq_bot hZ
   set n : ↥(Subgroup.normalizer (K : Set X)) := ⟨e, h.le_normalizer_K he⟩ with hn
   have hφ : K.normalizerMonoidHom n = MulAut.conj (⟨k, hk⟩ : ↥K) :=
@@ -75,21 +75,21 @@ theorem exists_card_eq_le_gamma (h : K37Setting X K E S) (hZ : Subgroup.center �
     (hin : autIm E K ≤ (MulAut.conj : ↥K →* MulAut ↥K).range) (h27 : 3 ^ 3 ∣ Nat.card ↥K) :
     ∃ R : Subgroup ↥K, Nat.card R = 3 ^ 3 ∧ ∀ g ∈ R, (g : X) ∈ rankThreeGamma 1 3 E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj := CFSG.RankThree.PartOne.HNB.conj_injective_of_center_eq_bot hZ
   set F : Subgroup ↥K := (autIm E K).comap (MulAut.conj : ↥K →* MulAut ↥K) with hF
   have hF9 : Nat.card F = 3 ^ 2 := by
     rw [← h.card_autIm, ← Subgroup.map_comap_eq_self hin, Subgroup.card_map_of_injective hinj]
   obtain ⟨R, hR, hFR⟩ := Sylow.exists_subgroup_card_pow_prime_le 3 h27 F hF9 (by norm_num)
   refine ⟨R, hR, ?_⟩
-  haveI : Group.IsNilpotent ↥R := (IsPGroup.of_card hR).isNilpotent
+  have : Group.IsNilpotent ↥R := (IsPGroup.of_card hR).isNilpotent
   have hrel : (F.subgroupOf R).index = 3 := by
     have h1 := Subgroup.relIndex_mul_card (H := F) (K := R)
     rw [inf_of_le_left hFR, hF9, hR] at h1
     change F.relIndex R = 3
     norm_num at h1
     omega
-  haveI : (F.subgroupOf R).Normal :=
+  have : (F.subgroupOf R).Normal :=
     Subgroup.normal_of_index_eq_minFac_card (by rw [hrel, hR]; norm_num)
   have hne : F.subgroupOf R ≠ ⊥ := by
     intro hb
@@ -136,7 +136,7 @@ variable {F : Type} [Field F] [Finite F]
 theorem eq_bot_of_normalizes_sp6 (hF : Nat.card F = 2) {U R : Subgroup (StatedSp 3 F)}
     (hU : IsPGroup 2 U) (hR : Nat.card R = 3 ^ 3)
     (hRU : R ≤ Subgroup.normalizer (U : Set (StatedSp 3 F))) : U = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   obtain ⟨a, ha1, ha3, hdvd⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UCK.exists_card_dvd_of_normalizes_sp hF hU hne

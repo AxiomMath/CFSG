@@ -29,7 +29,7 @@ theorem isSimpleGroup_omegaProj_seven (hQ : Q.Nondegenerate)
 theorem eq_one_of_central_omegaProj_seven (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 7) (hσ : quadSign Q = 1) {w : ProjOrth Q}
     (hw : w ∈ omegaProj hQ) (hc : ∀ w' ∈ omegaProj hQ, w * w' = w' * w) : w = 1 := by
-  haveI := isSimpleGroup_omegaProj_seven hQ hdim hσ
+  have := isSimpleGroup_omegaProj_seven hQ hdim hσ
   have hcen : (⟨w, hw⟩ : omegaProj hQ) ∈ Subgroup.center (omegaProj hQ) := by
     rw [Subgroup.mem_center_iff]
     intro z
@@ -38,7 +38,7 @@ theorem eq_one_of_central_omegaProj_seven (hQ : Q.Nondegenerate)
   · rw [h, Subgroup.mem_bot] at hcen
     exact congrArg Subtype.val hcen
   · exfalso
-    letI : CommGroup (omegaProj hQ) := Group.commGroupOfCenterEqTop h
+    let : CommGroup (omegaProj hQ) := Group.commGroupOfCenterEqTop h
     have hp := IsSimpleGroup.prime_card (α := omegaProj hQ)
     rw [natCard_omegaProj_seven hQ hdim] at hp
     exact absurd hp (by norm_num)

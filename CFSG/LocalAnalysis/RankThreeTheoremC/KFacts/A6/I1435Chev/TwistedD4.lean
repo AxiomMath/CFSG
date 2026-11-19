@@ -47,7 +47,7 @@ theorem familyAt_twistedD4 (q : PrimePower) (hq : q.p = 2) : FamilyAt (.twistedD
   obtain ⟨-, F, _, _, hF, b, c, hirr, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD 4 q hv e
   rw [hq] at hF
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       q.exponent_pos hF
   have hW := witness_projOmegaMinus8 hF q.exponent_pos hirr

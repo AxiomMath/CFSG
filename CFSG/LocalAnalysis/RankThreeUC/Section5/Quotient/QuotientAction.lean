@@ -95,7 +95,7 @@ variable {p : ℕ} [Fact p.Prime] [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] [Fact (Mono
   { MulEquiv.toAdditive f with
     map_smul' := fun c x => ZMod.map_smul (MulEquiv.toAdditive f).toAddMonoidHom c x }
 
-@[expose] def action (p : ℕ) [Fact p.Prime] [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] [Fact (Monoid.exponent ↥P = p)]
+@[expose] def action (p : ℕ) [Fact p.Prime] [Fact (Monoid.exponent ↥P = p)]
     (hB : B ≤ Subgroup.normalizer (P : Set G)) :
     B →* (Additive (Pbar P) ≃ₗ[ZMod p] Additive (Pbar P)) where
   toFun b := linearOfMulAut (actionMul hB b)
@@ -119,6 +119,7 @@ theorem fixed_iff_commutator_mem_center (hB : B ≤ Subgroup.normalizer (P : Set
     mem_centerP]
   exact ⟨fun h => ⟨h1, h⟩, fun ⟨_, h⟩ => h⟩
 
+omit [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] [Fact (Monoid.exponent ↥P = p)] in
 theorem nontrivial_Pbar_of_extraspecial (hP : CFSG.IsExtraspecialPGroup p ↥P) :
     Nontrivial (Pbar P) := by
   by_contra hnt

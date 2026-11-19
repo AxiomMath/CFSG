@@ -27,7 +27,7 @@ private lemma pjb_isComponentOf_subgroupOf {G : Type} [Group G] {L H K : Subgrou
     CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hHL) h.2.2⟩
 
 private lemma pjb_isElemAbelian_subgroupOf {G : Type} [Group G] {p : ℕ} {H K : Subgroup G}
-    (hHK : H ≤ K) (h : IsElemAbelian p H) : IsElemAbelian p (H.subgroupOf K) := by
+    (_hHK : H ≤ K) (h : IsElemAbelian p H) : IsElemAbelian p (H.subgroupOf K) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
   · apply Subtype.ext
     apply Subtype.ext
@@ -58,9 +58,9 @@ private theorem pjb_ggMaxRankJReflection_side
   have hXE8 : GGHasLabel ⟨.E8, 0, labJ.n⟩ (↥X ⧸ Subgroup.center ↥X) := hXeq ▸ hXlab
   obtain ⟨Kf, hKf_field, hKf_fin, hKf_char, hKf_card, θ, hZL, hnorm, hinnerL⟩ :=
     ggMaxRank_model hLab hΛE8 hinn hXE8
-  letI : Field Kf := hKf_field
-  letI : Finite Kf := hKf_fin
-  letI : CharP Kf 2 := hKf_char
+  let : Field Kf := hKf_field
+  let : Finite Kf := hKf_fin
+  let : CharP Kf 2 := hKf_char
   have hsplit := ggBstar_split_of_inner hBstar hZL hnorm hinnerL
   have hcard_split := card_ggBstar_split hBstar hZL hnorm hinnerL
   have hcard_E8 := ggResE8Separated_card (Bs := Bs) (X := X) hD

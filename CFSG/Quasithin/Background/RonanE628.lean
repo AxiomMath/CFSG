@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem normalizer_ne_top {T M V : Subgroup G} (h : HypE61 T M V) :
     Subgroup.normalizer (V : Set G) ≠ ⊤ := by
   intro htop
-  haveI : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
   rcases h.simple.eq_bot_or_eq_top_of_normal V with hb | ht
   · exact h.ne_bot hb
   · obtain ⟨a, b, hab⟩ := h.nonabelian
@@ -53,7 +53,7 @@ theorem lt_pRank_of_lt_rParam {T M V X : Subgroup G} (h : HypE61 T M V) (hVX : V
 
 theorem le_inf_centralizer_of_le {T M V U : Subgroup G} (h : HypE61 T M V) (hUV : U ≤ V) :
     V ≤ M ⊓ Subgroup.centralizer (U : Set G) :=
-  le_inf (h.le.trans h.inM.2) fun v hv => Subgroup.mem_centralizer_iff.2 fun u hu =>
+  le_inf (h.le.trans h.inM.2) fun _v hv => Subgroup.mem_centralizer_iff.2 fun _u hu =>
     B2F.isElemAbelian_comm h.isElemAbelian (hUV hu) hv
 
 theorem mem_alphaBeta_of_ne_bot (hPT : ParabolicTorusFact) {T M V U : Subgroup G}

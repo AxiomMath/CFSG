@@ -51,9 +51,9 @@ theorem twE6Marking_of_innerDiagMarking_of_isTE6n
   cases idx with
   | twistedE6 q =>
     obtain ⟨-, hqn⟩ := hP
-    haveI hsimpleCat : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.twistedE6 q, hvalid⟩) :=
+    have hsimpleCat : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.twistedE6 q, hvalid⟩) :=
       (finite_isSimpleGroup_cat_twistedE6 hvalid).2
-    haveI : IsSimpleGroup (PSimple 3 L) := e0.isSimpleGroup
+    have : IsSimpleGroup (PSimple 3 L) := e0.isSimpleGroup
     have hn : 1 ≤ n := hqn ▸ q.exponent_pos
     obtain ⟨eP⟩ := HSubT.psimple_nonempty_equiv_quotCenter 3 L hqs inferInstance
     have hcatZ : catalogIs (↥L ⧸ Subgroup.center ↥L) (S10.isTE6n n) := (catalogIs_congr eP).mp hcat
@@ -174,11 +174,11 @@ theorem t158E6ModelData_tw_of_marking
     have huniq := T171Sh.largeEvenInduces_unique e1 e2
       (T171Sh.conjRel_total (Subgroup.mul_mem _ hdN hbN))
     exact hinjc (by rw [map_mul, map_mul]; exact huniq)
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmon : MonomialToralAt Tag.E6 3 :=
     monomialToralAt_exc monomialToralAt_E6_five monomialToralAt_E7_five (by simp) Nat.prime_three

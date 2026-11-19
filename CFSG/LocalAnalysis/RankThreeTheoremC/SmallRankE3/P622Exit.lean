@@ -16,6 +16,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem p622Exit_hno {x : G} (hbot : rankThreePrimeCore 3 (centralizer ({x} : Set G)) = ⊥) :
     ∀ N : Subgroup ↥(centralizer ({x} : Set G)), N.Normal → Nat.Coprime 3 (Nat.card N) →
       N = ⊥ := by
@@ -42,7 +43,7 @@ theorem p622Exit_hrk {x : G} (h : CFSG.Open.pRank 3 (centralizer ({x} : Set G)) 
     ∀ E : Subgroup ↥(centralizer ({x} : Set G)), IsElemAbelian 3 E → Nat.card E ≤ 9 := by
   intro E hE
   obtain ⟨hcomm, hexp⟩ := hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEC : E.map (centralizer ({x} : Set G)).subtype ≤ centralizer ({x} : Set G) :=
     Subgroup.map_subtype_le E
   have hEcomm : IsElemAbelian 3 (E.map (centralizer ({x} : Set G)).subtype) := by
@@ -85,6 +86,7 @@ theorem p622Exit_hrk {x : G} (h : CFSG.Open.pRank 3 (centralizer ({x} : Set G)) 
 def p622ExitX (x : G) : ↥(centralizer ({x} : Set G)) :=
   ⟨x, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
 
+omit [Finite G] in
 theorem p622ExitX_mem_center (x : G) : p622ExitX x ∈ Subgroup.center ↥(centralizer ({x} : Set G)) := by
   rw [Subgroup.mem_center_iff]
   intro g
@@ -95,7 +97,7 @@ theorem p622Exit_hcube (hS : Setting G) {P : Sylow 3 G} {M : Subgroup G}
     (hsit : SmallRankSituation G 3 P M) {x : G} (hx : SmallRankPoint P M x) :
     ∀ y : ↥(centralizer ({x} : Set G)), (∃ k : ℕ, y ^ 3 ^ k = 1) → y ^ 3 ≠ p622ExitX x := by
   rintro y ⟨k, hk⟩ hy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyk : (y : G) ^ 3 ^ k = 1 := by
     have h := congrArg Subtype.val hk
     simpa using h
@@ -123,9 +125,9 @@ theorem p622L27Exit_holds : P622L27Exit := by
   have hsit := c.conf.failure.situation
   have hx := c.conf.failure.point
   have hz := c.conf.failure.central
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLC : L ≤ centralizer ({x} : Set G) := c.le_C
-  haveI hLn : (L.subgroupOf (centralizer ({x} : Set G))).Normal :=
+  have hLn : (L.subgroupOf (centralizer ({x} : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLC).mpr c.normC
   let e' : ↥(L.subgroupOf (centralizer ({x} : Set G))) ≃* PSL(3, ZMod 2) :=
     (Subgroup.subgroupOfEquivOfLe hLC).trans e

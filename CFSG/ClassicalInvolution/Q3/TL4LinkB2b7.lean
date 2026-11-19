@@ -61,7 +61,7 @@ theorem no_type2_central (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : Ri
     · rw [hx]; exact Subgroup.mem_centralizer_singleton_iff.mpr hyt.symm
     · rw [Set.mem_singleton_iff.mp hx]; exact Subgroup.mem_centralizer_singleton_iff.mpr hyu.symm
   obtain ⟨R, hR, hRinv⟩ := T3.exists_sylow_normalized
-    (S.isPGroup'.to_le hEle) (hEy.trans (fun w hw => h.fam.tight L hL y hy hw))
+    (S.isPGroup.to_le hEle) (hEy.trans (fun w hw => h.fam.tight L hL y hy hw))
   have hnorm : ∀ w ∈ Subgroup.closure ({t, u} : Set G),
       w ∈ Subgroup.normalizer (R : Set G) := fun w hw =>
     mem_normalizer_iff_conjSub_eq.mpr (hRinv w hw)
@@ -76,7 +76,7 @@ theorem no_type2_central (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : Ri
     have hLB : L ∈ omegaNbr Ω B := Q3CL.T3.omegaNbr_symm Sec6Gen.l6_2Gen hΩ hL hB hBL
     refine hyE (h.mem_E_of_adj hBKJM hb hLB hy
       (X := (S : Subgroup G) ⊓ Subgroup.centralizer ({b} : Set G))
-      (S.isPGroup'.to_le inf_le_left) inf_le_right
+      (S.isPGroup.to_le inf_le_left) inf_le_right
       (Subgroup.mem_inf.mpr ⟨htS, Subgroup.mem_centralizer_singleton_iff.mpr hbt.symm⟩)
       (Subgroup.mem_inf.mpr ⟨huS, Subgroup.mem_centralizer_singleton_iff.mpr hbu.symm⟩)
       (Subgroup.mem_inf.mpr ⟨hyS, Subgroup.mem_centralizer_singleton_iff.mpr hyb⟩))
@@ -107,14 +107,14 @@ theorem no_type2_swap (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : Rigid
   have hnadj : K ∉ omegaNbr Ω L := fun hKL =>
     hyE (h.mem_E_of_adj (Or.inl rfl) h.inv_K
       (Q3CL.T3.omegaNbr_symm Sec6Gen.l6_2Gen hΩ hL h.mem hKL) hy
-      (S.isPGroup'.to_le inf_le_left) inf_le_right
+      (S.isPGroup.to_le inf_le_left) inf_le_right
       (Subgroup.mem_inf.mpr ⟨htS, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩)
       (Subgroup.mem_inf.mpr ⟨huS, Subgroup.mem_centralizer_singleton_iff.mpr h.comm_tu.symm⟩)
       (Subgroup.mem_inf.mpr ⟨hyS, Subgroup.mem_centralizer_singleton_iff.mpr hyt⟩))
   have hout := outer_of_not_adj hQ h hr hL h.mem hy h.inv_K
     (fun e => hyE (e ▸ Subgroup.subset_closure (by simp))) hyt hnadj
   obtain ⟨e⟩ := h.fam.quat J hs.mem_J T hs.syl_T
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ two_ne_zero⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ two_ne_zero⟩
   obtain ⟨s, hsT, hso⟩ : ∃ s ∈ T, orderOf s = 4 :=
     ⟨_, (e.symm (QuaternionGroup.xa 0)).2, by
       rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq, QuaternionGroup.orderOf_xa]⟩
@@ -134,7 +134,7 @@ theorem no_type2_swap (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : Rigid
   have hsyT' : y * s * y⁻¹ ∈ T' := by
     have h1 : y * s * y⁻¹ ∈ conjSub y J := conj_mem_conjSub (hs.syl_T.1 hsT)
     rw [hyJ] at h1
-    rw [← hs.syl_T'.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left
+    rw [← hs.syl_T'.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left
       (le_inf hs.syl_T'.1 hs.le_T')]
     exact Subgroup.mem_inf.mpr ⟨h1, (S : Subgroup G).mul_mem
       ((S : Subgroup G).mul_mem hyS (hs.le_T hsT)) ((S : Subgroup G).inv_mem hyS)⟩
@@ -154,7 +154,7 @@ theorem no_type2_swap (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : Rigid
     exact (mul_inv_eq_iff_eq_mul.mp e1).symm
   have hdS : d ∈ (S : Subgroup G) := hd ▸ (S : Subgroup G).mul_mem (hs.le_T hsT) (hs.le_T' hsyT')
   obtain ⟨R, hR, hRd⟩ := T3.exists_sylow_normalized
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hdS))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hdS))
     ((Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr hdy)).trans
       (h.fam.tight L hL y hy))
   have hdR : d ∈ Subgroup.normalizer (R : Set G) :=

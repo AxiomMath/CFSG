@@ -24,7 +24,7 @@ open scoped Matrix
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-private theorem e7Lift_det : (CartanMatrix.E₇).det = 2 := by
+private theorem e7Lift_det : ((CartanMatrix.E 7)).det = 2 := by
   rw [← CFSG.LieType.Chevalley.laplaceDet_eq_det]
   decide +kernel
 
@@ -92,7 +92,7 @@ private theorem e7Lift_mem_closure_rootReflection_of_fix
         s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have huC' : u ∈ Subgroup.closure {s : WeylGroup .E7 | ∃ γ ∈ componentRoots (rootCharHom a) i,
       s = rootReflection γ} := hset ▸ huC
@@ -167,7 +167,7 @@ theorem ggTBJE7Levi_mem_closure_of_fix
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ : Fin 7 → MulAut ↥Bs} {h : Fin 7 → V} {α : Fin 7 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i)
     {L : Type} [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot (ζ : L) p)
@@ -237,7 +237,7 @@ theorem ggTBJE7Levi_mem_closure_of_fix
     have hli8 : LinearIndependent (ZMod p) h := by
       have hdet : (Matrix.of fun j k => α j (h k)).det ≠ 0 := by
         have hmat : (Matrix.of fun j k => α j (h k)) =
-            (CartanMatrix.E₇).map (Int.cast : ℤ → ZMod p) := by
+            ((CartanMatrix.E 7)).map (Int.cast : ℤ → ZMod p) := by
           ext j k
           simpa using hpair j k
         rw [hmat, ← Int.cast_det, e7Lift_det]
@@ -285,13 +285,13 @@ theorem ggTBJE7Levi_mem_closure_of_fix
 private theorem e7Lift_exists_section {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) {Bs : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (_ι : Additive ↥Bs ≃+ V) {h : Fin 7 → V} {α : Fin 7 → Module.Dual (ZMod p) V}
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p)) :
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p)) :
     ∃ σ : (Fin 7 → ZMod p) →ₗ[ZMod p] V,
       ∀ t, LinearMap.pi α (σ t) = t := by
   classical
   let M : Matrix (Fin 7) (Fin 7) (ZMod p) := Matrix.of fun i j => α i (h j)
   have hMdet : M.det = (2 : ZMod p) := by
-    have hmat : M = (CartanMatrix.E₇).map (Int.cast : ℤ → ZMod p) := by
+    have hmat : M = ((CartanMatrix.E 7)).map (Int.cast : ℤ → ZMod p) := by
       ext i j
       exact hpair i j
     rw [hmat, ← Int.cast_det, e7Lift_det]
@@ -334,7 +334,7 @@ private theorem e7Lift_finrank_rootAnn {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] (hp2 : p ≠ 2) {Bs : Subgroup G} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V) {h : Fin 7 → V}
     {α : Fin 7 → Module.Dual (ZMod p) V}
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (hX : ∃ b : ↥Bs, b ≠ 1 ∧ ∀ j, α j (ι (Additive.ofMul b)) = 0)
     (Ψ : Set (Fin Tag.E7.rank → ℤ))
     (hcount : Nat.card {b : ↥Bs // ∀ c ∈ Ψ,
@@ -429,7 +429,7 @@ theorem ggTBJE7Levi_of_class
     {φ : Fin 7 → MulAut ↥Bs} {h : Fin 7 → V} {α : Fin 7 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
     (hrefl : ∀ i, GGIsReflection p (φ i))
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i)
     (hclos : ggAutomizer X Bs = Subgroup.closure (Set.range φ))
@@ -485,7 +485,7 @@ theorem ggTBJE7Levi_of_class
       Subgroup.closure {s : WeylGroup .E7 | ∃ γ ∈ Ψ, s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have hJrefl : ggAutomizer J Bs = Subgroup.closure
       ((fun c => ((F (rootReflection c) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs)) '' Ψ) := by
@@ -523,7 +523,7 @@ theorem ggTBJE7Levi_of_class
         (fun j : {j : Fin 7 // j ∉ S} =>
           (f u : MulAut ↥Bs) * φ j.1 * (f u : MulAut ↥Bs)⁻¹) := funext hgen
     rw [hfunext]
-  exact ggE7LeviDatum_of_conj (p := p) (M := CoxeterMatrix.E₇) (C := CartanMatrix.E₇)
+  exact ggE7LeviDatum_of_conj (p := p) (M := CoxeterMatrix.E₇) (C := (CartanMatrix.E 7))
     hp2 rfl ggIntCartan_E₇ hlin hrefl hpair hf hclos u hS hJ'
 
 end CFSG.StandardType

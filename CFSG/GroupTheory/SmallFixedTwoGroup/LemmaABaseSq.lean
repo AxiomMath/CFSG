@@ -24,7 +24,7 @@ theorem sq_cases_of_card_sixteen {T : Type*} [Group T] [Finite T] (hcard : Nat.c
     ∀ g : T, g * g = 1 ∨ g * g = z := by
   have horderz : orderOf z = 2 := orderOf_eq_prime (by rwa [pow_two]) hz1
   let N : Subgroup T := zpowers z
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     apply Subgroup.normal_of_le_center
     show zpowers z ≤ center T
     exact Subgroup.zpowers_le.mpr hz

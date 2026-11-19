@@ -37,7 +37,7 @@ private theorem lemma2_conjDefect_val
     {P : Type u} [Group P] {A : Subgroup P}
     (hA_normal : A.Normal) (hA_abelian : IsMulCommutative A) (u : P) (a : A) :
     ((lemma2_conjDefect hA_normal hA_abelian u a : A) : P) = ⁅u, (a : P)⁆ := by
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   simp [lemma2_conjDefect, lemma2_conjAut_restrict, commutatorElement_def,
     MulAut.conjNormal_apply, mul_assoc]
 private theorem lemma2_linearMap_factor_n
@@ -107,7 +107,7 @@ private theorem lemma2_powerClosure_eq_range
     (hA_abelian : IsMulCommutative A) (n : ℕ) :
     Subgroup.closure {x : P | ∃ a : A, (a : P) ^ n = x} =
       (powMonoidHom n : A →* A).range.map A.subtype := by
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   apply le_antisymm
   · rw [Subgroup.closure_le]
     rintro x ⟨a, rfl⟩
@@ -131,7 +131,7 @@ private theorem lemma2_conj_defect_lift_fourth_power
         Subgroup.closure {x : P | ∃ a : A, (a : P) ^ 4 = x}) :
     ∃ alpha : A →* A,
       ∀ a, lemma2_conjDefect hA_normal hA_abelian u a = (alpha a) ^ 4 := by
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   obtain ⟨e, r, ⟨hA⟩, _⟩ :=
     lemma1_abelian_invariant_homocyclic hP hXtrans hA_abelian hA_X
   apply lemma2_endomorphism_power_root_of_homocyclic hA 4
@@ -193,7 +193,7 @@ private theorem lemma2_choose_square_correction
     (hu_sq : u ^ 2 ∈
       Subgroup.closure {x : P | ∃ a : A, (a : P) ^ 2 = x}) :
     ∃ a : A, ((a * (alpha a) ^ 2 : A) : P) ^ 2 = (u ^ 2)⁻¹ := by
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   rw [lemma2_powerClosure_eq_range hA_abelian 2] at hu_sq
   rcases Subgroup.mem_map.mp hu_sq with ⟨y, hy, hyval⟩
   rcases MonoidHom.mem_range.mp hy with ⟨c, rfl⟩
@@ -212,7 +212,7 @@ private theorem lemma2_corrected_element_isInvolution
     (a : A)
     (hcorr : ((a * (alpha a) ^ 2 : A) : P) ^ 2 = (u ^ 2)⁻¹) :
     IsInvolution ((a : P) * u) := by
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   have hcomm_alpha : ⁅u, (a : P)⁆ = ((alpha a : A) : P) ^ 4 := by
     rw [← lemma2_conjDefect_val hA_normal hA_abelian u a]
     exact congrArg A.subtype (hdef a)
@@ -271,7 +271,7 @@ public theorem lemma2_no_external_square_commutator_exception
             Subgroup.closure {x : P | ∃ a : A, (a : P) ^ 4 = x}) := by
   intro hA_ne u hu_not
   rintro ⟨hu_sq, hu_comm⟩
-  letI : IsMulCommutative A := hA_abelian
+  let : IsMulCommutative A := hA_abelian
   obtain ⟨e, r, ⟨hA⟩, _⟩ :=
     lemma1_abelian_invariant_homocyclic hP hXtrans hA_abelian hA_X
   obtain ⟨alpha, hdef⟩ :=

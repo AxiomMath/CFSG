@@ -25,13 +25,13 @@ theorem heisU_ne_three_two {L : Type} [Group L] [Finite L] (hperf : Group.IsPerf
     have := CFSG.Open.StatedAPI.card_statedProj_statedSU_three_of_prime (K := K) Nat.prime_two hK'
     rw [pow_one, this]
     norm_num
-  haveI := Fintype.ofFinite (L ⧸ Subgroup.center L)
+  have := Fintype.ofFinite (L ⧸ Subgroup.center L)
   have hsolv : Group.IsSolvable (L ⧸ Subgroup.center L) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 2)
       Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [← Nat.card_eq_fintype_card, hcardX]; norm_num)
-  haveI := hperf
-  haveI := hsimple
+  have := hperf
+  have := hsimple
   exact Group.IsPerfect.not_isSolvable (L ⧸ Subgroup.center L) hsolv
 
 theorem heisU_exists_cover
@@ -42,8 +42,8 @@ theorem heisU_exists_cover
     ∃ ρ : StatedSU n (2 ^ f) K →* L, Function.Surjective ρ ∧
       ∀ g, ρ g ∈ Subgroup.center L ↔ (g : GL (Fin n) K) ∈ StatedScalars (Fin n) K := by
   have hnq := heisU_ne_three_two hperf hsimple hK e
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * f)
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])
   let e₀ : (⊤ : Subgroup L) ≃* L := Subgroup.topEquiv
   have hmap : (Subgroup.center ↥(⊤ : Subgroup L)).map e₀.toMonoidHom = Subgroup.center L := by

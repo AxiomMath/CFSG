@@ -22,6 +22,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian2_barSub {V₀ V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : IsElemAbelian 2 X) : IsElemAbelian2 (barSub V₀ V hV X) := by
   refine ⟨?_, ?_⟩
@@ -37,6 +38,7 @@ theorem isElemAbelian2_barSub {V₀ V X : Subgroup G} (hV : IsElemAbelian 2 V)
     have hga2 : ga ^ 2 = 1 := Subtype.ext (by simpa using hX.2 (ga : G) hga)
     rw [hga2, map_one]
 
+omit [Finite G] in
 theorem preCTilde_eq_inf_centralizer_of {V₀ V D : Subgroup G} (hV : IsElemAbelian 2 V)
     (hD : D ≤ stabTil V₀ V)
     (hc : ∀ v ∈ V, (∀ d ∈ D, ⁅v, d⁆ ∈ V₀) → v ∈ centralizer (D : Set G)) :
@@ -53,6 +55,7 @@ theorem preCTilde_eq_inf_centralizer_of {V₀ V D : Subgroup G} (hV : IsElemAbel
     rw [h1]
     exact V₀.one_mem
 
+omit [Finite G] in
 theorem fixV_barSub_eq_of_preCTilde_eq {V₀ V B D : Subgroup G} (hV : IsElemAbelian 2 V)
     (h : preCTilde V₀ V B hV = preCTilde V₀ V D hV) :
     fixV (barSub V₀ V hV B) = fixV (barSub V₀ V hV D) := by

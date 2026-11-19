@@ -133,7 +133,7 @@ theorem noL3U3Layer_of_langSetup {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     NoL3U3Layer β := by
   have hP : PerfectInLayer β :=
     perfectInLayer_of_langSetup_of_prime S hp ι hι hrange β hβ hT hap h1 hTame
-  haveI : Finite S.Γ := by
+  have : Finite S.Γ := by
     rw [← hrange]
     exact Finite.of_surjective _ ι.rangeRestrict_surjective
   refine noL3U3Layer_of_embedding ι hι β (rootDiagUnit τ a) hβ hP fun K hK hKT => ?_

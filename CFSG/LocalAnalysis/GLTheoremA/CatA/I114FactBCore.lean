@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.GLTheoremA.CatB.SL3Tor CFSG.RankThree.PartTwo.Sec4
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private lemma mul_comm_of_slConj_eq_one {A : GL (Fin 3) F}
     (h : CatalogueBHigherLinearAction.slConjugation 3 F A = 1)
     (g : Matrix.SpecialLinearGroup (Fin 3) F) :
@@ -33,6 +34,7 @@ private lemma mul_comm_of_slConj_eq_one {A : GL (Fin 3) F}
   calc A * (g : GL (Fin 3) F) = A * (g : GL (Fin 3) F) * A⁻¹ * A := by group
     _ = (g : GL (Fin 3) F) * A := by rw [h1]
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_scalar_of_slConj_eq_one {A : GL (Fin 3) F}
     (h : CatalogueBHigherLinearAction.slConjugation 3 F A = 1) :
     ∃ c : Fˣ, A = GeneralLinearGroup.scalar (Fin 3) c := by
@@ -62,6 +64,7 @@ private lemma exists_scalar_of_slConj_eq_one {A : GL (Fin 3) F}
   rw [GeneralLinearGroup.coe_scalar, Units.val_mk0]
   exact hc.symm
 
+omit [Finite F] [CharP F 2] in
 private lemma slConj_eq_of_div_mem_statedScalars {A B : GL (Fin 3) F}
     (h : A / B ∈ StatedScalars (Fin 3) F) :
     CatalogueBHigherLinearAction.slConjugation 3 F A =
@@ -72,6 +75,7 @@ private lemma slConj_eq_of_div_mem_statedScalars {A B : GL (Fin 3) F}
   rw [map_div] at h1
   exact div_eq_one.mp h1
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_gl_of_mem {f : ℕ} (hf : 1 ≤ f) (hk : Nat.card F = 2 ^ f) (h3 : ¬ 3 ∣ f)
     {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))} (hH : IsElemAbelian 3 H)
     {h : MulAut (Matrix.SpecialLinearGroup (Fin 3) F)} (hh : h ∈ H) :
@@ -85,6 +89,7 @@ private def pglImage (H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F)
   (H.comap (CatalogueBHigherLinearAction.slConjugation 3 F)).map
     (QuotientGroup.mk' (StatedScalars (Fin 3) F))
 
+omit [Finite F] [CharP F 2] in
 private lemma mem_pglImage {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {A : GL (Fin 3) F} :
     QuotientGroup.mk' (StatedScalars (Fin 3) F) A ∈ pglImage H ↔
@@ -99,6 +104,7 @@ private lemma mem_pglImage {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin
   · intro hA
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_comap.mpr hA)
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_lift_of_mem_pglImage
     {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {x : GL (Fin 3) F ⧸ StatedScalars (Fin 3) F} (hx : x ∈ pglImage H) :
@@ -107,6 +113,7 @@ private lemma exists_lift_of_mem_pglImage
   obtain ⟨A, hA⟩ := QuotientGroup.mk'_surjective (StatedScalars (Fin 3) F) x
   exact ⟨A, hA, mem_pglImage.mp (hA ▸ hx)⟩
 
+omit [Finite F] [CharP F 2] in
 private lemma pglImage_comm {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     (hH : IsElemAbelian 3 H) :
     ∀ x ∈ pglImage H, ∀ y ∈ pglImage H, x * y = y * x := by
@@ -135,6 +142,7 @@ private lemma pglImage_comm {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fi
     simpa [mul_assoc] using h3
   exact mul_inv_eq_one.mp h3'
 
+omit [Finite F] [CharP F 2] in
 private lemma pglImage_pow_three {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     (hH : IsElemAbelian 3 H) : ∀ x ∈ pglImage H, x ^ 3 = 1 := by
   intro x hx
@@ -147,6 +155,7 @@ private lemma pglImage_pow_three {H : Subgroup (MulAut (Matrix.SpecialLinearGrou
     (QuotientGroup.eq_one_iff _).mpr h2
   rwa [map_pow] at h3
 
+omit [CharP F 2] in
 private lemma three_lt_card_pglImage {f : ℕ} (hf : 1 ≤ f) (hk : Nat.card F = 2 ^ f)
     (h3 : ¬ 3 ∣ f) {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     (hH : IsElemAbelian 3 H) (hHcard : Nat.card H = 9) : 3 < Nat.card (pglImage H) := by
@@ -193,6 +202,7 @@ private lemma fixedSpace_ne_bot {S : Subgroup (Matrix.SpecialLinearGroup (Fin 3)
   rw [hbot] at hvW
   exact hv0 (by simpa using hvW)
 
+omit [Finite F] [CharP F 2] in
 private lemma fixedSpace_ne_top {S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)}
     (hSbot : S ≠ ⊥) : fixedSpace S ≠ ⊤ := by
   intro htop
@@ -210,6 +220,7 @@ private lemma fixedSpace_ne_top {S : Subgroup (Matrix.SpecialLinearGroup (Fin 3)
   have h3 : (s : Matrix.SpecialLinearGroup (Fin 3) F) = 1 := Subtype.ext h2
   exact h3
 
+omit [Finite F] [CharP F 2] in
 private lemma fixedSpace_map {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)}
     (hSnorm : ∀ h ∈ H, S.map h.toMonoidHom = S) {A : GL (Fin 3) F}
@@ -316,6 +327,7 @@ private lemma false_of_heisenberg {H : Subgroup (MulAut (Matrix.SpecialLinearGro
 
 private def frameDiag (c : Fin 3 → Fˣ) : GL (Fin 3) F := diagUnit (c 0) (c 1) (c 2)
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_val (c : Fin 3 → Fˣ) :
     ((frameDiag c : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = diagonal fun i => (c i : F) := by
   rw [frameDiag, diagUnit_val]
@@ -323,15 +335,18 @@ private lemma frameDiag_val (c : Fin 3 → Fˣ) :
   funext i
   fin_cases i <;> rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_mul (c c' : Fin 3 → Fˣ) :
     frameDiag c * frameDiag c' = frameDiag (c * c') := by
   rw [frameDiag, frameDiag, frameDiag, diagUnit_mul]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_inv (c : Fin 3 → Fˣ) : (frameDiag c)⁻¹ = frameDiag c⁻¹ := by
   rw [frameDiag, frameDiag, diagUnit_inv]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_comm (c c' : Fin 3 → Fˣ) :
     frameDiag c * frameDiag c' = frameDiag c' * frameDiag c := by
   rw [frameDiag_mul, frameDiag_mul]
@@ -339,20 +354,24 @@ private lemma frameDiag_comm (c c' : Fin 3 → Fˣ) :
   funext i
   exact mul_comm _ _
 
+omit [Finite F] [CharP F 2] in
 private lemma det_frameDiag (c : Fin 3 → Fˣ) :
     ((frameDiag c : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).det =
       (c 0 : F) * (c 1 : F) * (c 2 : F) := by
   rw [frameDiag, det_diagUnit]
 
+omit [CharP F 2] in
 private lemma frameDiag_conj_mem_utriG (c : Fin 3 → Fˣ) (u : GL (Fin 3) F)
     (hu : u ∈ utriG (K := F)) :
     frameDiag c * u * (frameDiag c)⁻¹ ∈ utriG (K := F) := by
   simpa [frameDiag] using conj_diagUnit_mem_utriG (c 0) (c 1) (c 2) u hu
 
+omit [CharP F 2] in
 private lemma frameDiag_mem_normalizer (c : Fin 3 → Fˣ) :
     frameDiag c ∈ Subgroup.normalizer ((utriG (K := F)) : Set (GL (Fin 3) F)) := by
   simpa [frameDiag] using diagUnit_mem_normalizer (K := F) (c 0) (c 1) (c 2)
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_frame_gl {b : Fin 3 → (Fin 3 → F)} (hb : LinearIndependent F b) :
     ∃ g : GL (Fin 3) F, (g : Matrix (Fin 3) (Fin 3) F) = colMat b ∧
       ∀ i, (g : Matrix (Fin 3) (Fin 3) F) *ᵥ Pi.single i 1 = b i := by
@@ -362,6 +381,7 @@ private lemma exists_frame_gl {b : Fin 3 → (Fin 3 → F)} (hb : LinearIndepend
   funext r
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma frame_diag {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {b : Fin 3 → (Fin 3 → F)} (hb : LinearIndependent F b)
     (hdiag : ∀ y : GL (Fin 3) F, (y : GL (Fin 3) F ⧸ StatedScalars (Fin 3) F) ∈ pglImage H →
@@ -395,10 +415,12 @@ private def frameConj (g : GL (Fin 3) F) :
     Matrix.SpecialLinearGroup (Fin 3) F →* GL (Fin 3) F :=
   (MulAut.conj g⁻¹).toMonoidHom.comp Matrix.SpecialLinearGroup.toGL
 
+omit [Finite F] [CharP F 2] in
 private lemma frameConj_apply (g : GL (Fin 3) F) (s : Matrix.SpecialLinearGroup (Fin 3) F) :
     frameConj g s = g⁻¹ * (s : GL (Fin 3) F) * g := by
-  simp [frameConj, MulAut.conj_apply]
+  simp [frameConj]
 
+omit [Finite F] [CharP F 2] in
 private lemma frameConj_injective (g : GL (Fin 3) F) : Function.Injective (frameConj g) := by
   intro a b hab
   apply Matrix.SpecialLinearGroup.toGL_injective
@@ -408,15 +430,18 @@ private lemma frameConj_injective (g : GL (Fin 3) F) : Function.Injective (frame
       show g * frameConj g b * g⁻¹ = (b : GL (Fin 3) F) from by
         rw [frameConj_apply]; group] at h
 
+omit [Finite F] [CharP F 2] in
 private lemma frameConj_mul_apply (g : GL (Fin 3) F) (a b : Matrix.SpecialLinearGroup (Fin 3) F) :
     frameConj g (a * b) = frameConj g a * frameConj g b := map_mul _ _ _
 
 private def frameU (g : GL (Fin 3) F) : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F) :=
   (utriG (K := F)).comap (frameConj g)
 
+omit [CharP F 2] in
 private lemma mem_frameU {g : GL (Fin 3) F} {s : Matrix.SpecialLinearGroup (Fin 3) F} :
     s ∈ frameU g ↔ frameConj g s ∈ utriG (K := F) := Subgroup.mem_comap
 
+omit [CharP F 2] in
 private lemma frameConj_mem_normalizer {g : GL (Fin 3) F} {w : Matrix.SpecialLinearGroup (Fin 3) F}
     (hw : frameConj g w ∈ Subgroup.normalizer ((utriG (K := F)) : Set (GL (Fin 3) F))) :
     w ∈ Subgroup.normalizer (frameU g : Set (Matrix.SpecialLinearGroup (Fin 3) F)) := by
@@ -432,23 +457,29 @@ private lemma frameConj_mem_normalizer {g : GL (Fin 3) F} {w : Matrix.SpecialLin
 
 private def omegaVec (ω : Fˣ) : Fin 3 → Fˣ := fun i => ω ^ (i : ℕ)
 
+omit [Finite F] [CharP F 2] in
 private lemma omegaVec_zero {ω : Fˣ} : omegaVec ω 0 = 1 := pow_zero ω
 
+omit [Finite F] [CharP F 2] in
 private lemma omegaVec_one {ω : Fˣ} : omegaVec ω 1 = ω := pow_one ω
 
+omit [Finite F] [CharP F 2] in
 private lemma omegaVec_two {ω : Fˣ} : omegaVec ω 2 = ω ^ 2 := rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma omegaVec_pow_three {ω : Fˣ} (hω : ω ^ 3 = 1) : omegaVec ω ^ 3 = 1 := by
   funext i
   show (ω ^ (i : ℕ)) ^ 3 = 1
   rw [← pow_mul, mul_comm, pow_mul, hω, one_pow]
 
+omit [Finite F] [CharP F 2] in
 private lemma omegaVec_ne_one {ω : Fˣ} (hω : ω ≠ 1) : omegaVec ω ≠ 1 := by
   intro h
   apply hω
   have := congrFun h 1
   simpa [omegaVec] using this
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_eq_one {c : Fin 3 → Fˣ} (h : frameDiag c = 1) : c = 1 := by
   obtain ⟨h0, h1, h2⟩ :=
     diagUnit_eq_one (x := c 0) (y := c 1) (z := c 2) (by rw [← frameDiag]; exact h)
@@ -458,6 +489,7 @@ private lemma frameDiag_eq_one {c : Fin 3 → Fˣ} (h : frameDiag c = 1) : c = 1
   · exact h1
   · exact h2
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_injective : Function.Injective (frameDiag (F := F)) := by
   intro c c' h
   have h1 : frameDiag (c * c'⁻¹) = 1 := by
@@ -467,6 +499,7 @@ private lemma frameDiag_injective : Function.Injective (frameDiag (F := F)) := b
   have h3 := congrFun h2 i
   exact mul_inv_eq_one.mp (by simpa [Pi.mul_apply] using h3)
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_const (β : Fˣ) :
     frameDiag (fun _ => β) = GeneralLinearGroup.scalar (Fin 3) β := by
   apply Units.ext
@@ -483,24 +516,24 @@ private lemma utriInvol_mem : utriInvol (F := F) ∈ utriG (K := F) := by
   constructor
   · intro hji
     fin_cases i <;> fin_cases j <;>
-      simp_all [utriInvol, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-        Matrix.single_apply]
+      simp_all [utriInvol, Matrix.transvection, Matrix.add_apply]
   · intro hij
     subst hij
     fin_cases i <;>
-      simp [utriInvol, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-        Matrix.single_apply]
+      simp [utriInvol, Matrix.transvection, Matrix.add_apply]
 
+omit [Finite F] in
 private lemma utriInvol_det : Matrix.GeneralLinearGroup.det (utriInvol (F := F)) = 1 := by
   apply Units.ext
   rw [Units.val_one]
   exact Matrix.det_transvection_of_ne (i := 0) (j := 1) (by decide) 1
 
+omit [Finite F] in
 private lemma utriInvol_ne_one : utriInvol (F := F) ≠ 1 := by
   intro h
   have h01 := congrArg (fun x : GL (Fin 3) F => ((x : Matrix (Fin 3) (Fin 3) F)) 0 1) h
   have h1 : ((utriInvol (F := F) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 0 1 = 1 := by
-    simp [utriInvol, Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [utriInvol, Matrix.transvection, Matrix.add_apply]
   rw [h1] at h01
   simp at h01
 
@@ -511,17 +544,20 @@ private def slOfConj (g x : GL (Fin 3) F) (hx : GeneralLinearGroup.det x = 1) :
       rw [map_mul, map_mul, map_inv, hx, mul_one, mul_inv_cancel]
     exact congrArg (fun u : Fˣ => (u : F)) h⟩
 
+omit [Finite F] [CharP F 2] in
 private lemma slOfConj_val (g x : GL (Fin 3) F) (hx : GeneralLinearGroup.det x = 1) :
     ((slOfConj g x hx : GL (Fin 3) F)) = g * x * g⁻¹ := by
   refine Units.ext ?_
   rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma frameConj_slOfConj (g x : GL (Fin 3) F) (hx : GeneralLinearGroup.det x = 1) :
     frameConj g (slOfConj g x hx) = x := by
   rw [frameConj_apply, slOfConj_val]
   group
 
+omit [Finite F] [CharP F 2] in
 private lemma frameConj_slConj (g : GL (Fin 3) F) (c : Fin 3 → Fˣ)
     (s : Matrix.SpecialLinearGroup (Fin 3) F) :
     frameConj g (CatalogueBHigherLinearAction.slConjugation 3 F (g * frameDiag c * g⁻¹) s) =
@@ -543,6 +579,7 @@ private lemma frameU_ne_bot (g : GL (Fin 3) F) : frameU g ≠ ⊥ := by
     rw [← frameConj_slOfConj g utriInvol utriInvol_det, h2, map_one]
   exact utriInvol_ne_one (F := F) h3
 
+omit [CharP F 2] in
 private lemma frameU_map {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {g : GL (Fin 3) F}
     (hframe : ∀ α ∈ H, ∃ c : Fin 3 → Fˣ,
@@ -570,10 +607,12 @@ private lemma frameU_map {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3
       ⟨(h⁻¹ : MulAut (Matrix.SpecialLinearGroup (Fin 3) F)) s, hinv,
         MulEquiv.apply_symm_apply h s⟩
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_one : frameDiag (fun _ : Fin 3 => (1 : Fˣ)) = 1 := by
   rw [show frameDiag (fun _ : Fin 3 => (1 : Fˣ)) = diagUnit (1 : Fˣ) 1 1 from rfl]
   exact diagUnit_one
 
+omit [Finite F] [CharP F 2] in
 private lemma det_frameDiag_omegaVec {ω : Fˣ} (hω : ω ^ 3 = 1) :
     Matrix.GeneralLinearGroup.det (frameDiag (omegaVec ω)) = 1 := by
   have h : omegaVec ω 0 * omegaVec ω 1 * omegaVec ω 2 = 1 := by
@@ -589,10 +628,12 @@ private def frameY (g : GL (Fin 3) F) (ω : Fˣ) (hω : ω ^ 3 = 1) :
     Matrix.SpecialLinearGroup (Fin 3) F :=
   slOfConj g (frameDiag (omegaVec ω)) (det_frameDiag_omegaVec hω)
 
+omit [Finite F] [CharP F 2] in
 private lemma conj_frameY (g : GL (Fin 3) F) (ω : Fˣ) (hω : ω ^ 3 = 1) :
     frameConj g (frameY g ω hω) = frameDiag (omegaVec ω) :=
   frameConj_slOfConj g _ _
 
+omit [Finite F] [CharP F 2] in
 private lemma orderOf_frameY {g : GL (Fin 3) F} {ω : Fˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     orderOf (frameY g ω hω3) = 3 := by
   rw [← orderOf_injective (frameConj g) (frameConj_injective g), conj_frameY]
@@ -603,6 +644,7 @@ private lemma orderOf_frameY {g : GL (Fin 3) F} {ω : Fˣ} (hω3 : ω ^ 3 = 1) (
   · intro h
     exact omegaVec_ne_one hω1 (frameDiag_eq_one (c := omegaVec ω) h)
 
+omit [Finite F] in
 private lemma utriInvol_frameDiag_ne (ω : Fˣ) (hω1 : ω ≠ 1) :
     utriInvol * frameDiag (omegaVec ω) ≠ frameDiag (omegaVec ω) * utriInvol := by
   intro h
@@ -611,16 +653,17 @@ private lemma utriInvol_frameDiag_ne (ω : Fˣ) (hω1 : ω ≠ 1) :
   rw [Units.val_mul, Units.val_mul] at h01
   have h1 : (((utriInvol (F := F) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *
       (frameDiag (omegaVec ω) : Matrix (Fin 3) (Fin 3) F)) 0 1 = (ω : F) := by
-    simp [utriInvol, frameDiag_val, Matrix.mul_apply, Fin.sum_univ_three, Matrix.transvection,
+    simp [utriInvol, frameDiag_val, Matrix.mul_apply, Matrix.transvection,
       Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, Matrix.diagonal_apply, omegaVec_one]
   have h2 : ((frameDiag (omegaVec ω) : Matrix (Fin 3) (Fin 3) F) *
       ((utriInvol (F := F) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) 0 1 = 1 := by
-    simp [utriInvol, frameDiag_val, Matrix.mul_apply, Fin.sum_univ_three, Matrix.transvection,
+    simp [utriInvol, frameDiag_val, Matrix.mul_apply, Matrix.transvection,
       Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, Matrix.diagonal_apply,
       omegaVec_zero]
   rw [h1, h2] at h01
   exact hω1F h01
 
+omit [Finite F] in
 private lemma frameY_not_central (g : GL (Fin 3) F) (ω : Fˣ) (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     ∃ z : Matrix.SpecialLinearGroup (Fin 3) F, z * frameY g ω hω3 ≠ frameY g ω hω3 * z := by
   refine ⟨slOfConj g utriInvol utriInvol_det, ?_⟩
@@ -629,6 +672,7 @@ private lemma frameY_not_central (g : GL (Fin 3) F) (ω : Fˣ) (hω3 : ω ^ 3 = 
   have h' := congrArg (frameConj g) h
   rwa [map_mul, map_mul, frameConj_slOfConj, conj_frameY] at h'
 
+omit [CharP F 2] in
 private lemma frameY_mem_normalizer (g : GL (Fin 3) F) (ω : Fˣ) (hω3 : ω ^ 3 = 1) :
     frameY g ω hω3 ∈
       Subgroup.normalizer (frameU g : Set (Matrix.SpecialLinearGroup (Fin 3) F)) := by
@@ -636,6 +680,7 @@ private lemma frameY_mem_normalizer (g : GL (Fin 3) F) (ω : Fˣ) (hω3 : ω ^ 3
   rw [conj_frameY]
   exact frameDiag_mem_normalizer (omegaVec ω)
 
+omit [Finite F] [CharP F 2] in
 private lemma frameY_fixed {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {g : GL (Fin 3) F} {ω : Fˣ} (hω3 : ω ^ 3 = 1)
     (hframe : ∀ α ∈ H, ∃ c : Fin 3 → Fˣ,
@@ -647,17 +692,20 @@ private lemma frameY_fixed {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin
   rw [hc, frameConj_slConj, conj_frameY]
   rw [frameDiag_comm c (omegaVec ω), mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite F] [CharP F 2] in
 private lemma frameDiag_smul (β : Fˣ) (c : Fin 3 → Fˣ) :
     frameDiag (fun i => β * c i) = GeneralLinearGroup.scalar (Fin 3) β * frameDiag c := by
   rw [← frameDiag_const β, frameDiag_mul]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma det_frameDiag_units (c : Fin 3 → Fˣ) :
     Matrix.GeneralLinearGroup.det (frameDiag c) = c 0 * c 1 * c 2 := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul]
   simpa using det_frameDiag c
 
+omit [Finite F] [CharP F 2] in
 private lemma cube_ratio {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
     (h3 : CatalogueBHigherLinearAction.slConjugation 3 F (g * frameDiag c * g⁻¹) ^ 3 = 1) :
     c 1 ^ 3 = c 0 ^ 3 ∧ c 2 ^ 3 = c 0 ^ 3 := by
@@ -692,6 +740,7 @@ private lemma cube_ratio {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
   have h2' : c 2 ^ 3 = μ := by simpa using congrFun hc 2
   exact ⟨by rw [h1', h0'], by rw [h2', h0']⟩
 
+omit [Finite F] [CharP F 2] in
 private lemma det_cube_of_inner {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
     {k : Matrix.SpecialLinearGroup (Fin 3) F}
     (hk : ∀ z, CatalogueBHigherLinearAction.slConjugation 3 F (g * frameDiag c * g⁻¹) z =
@@ -719,7 +768,7 @@ private lemma det_cube_of_inner {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
       Matrix.GeneralLinearGroup.det (frameDiag c) := by
     rw [map_mul, map_inv, Matrix.SpecialLinearGroup.coeToGL_det, inv_one, mul_one]
     rw [map_mul, map_mul, map_inv]
-    simp [mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_assoc]
   have hdet2 : Matrix.GeneralLinearGroup.det (GeneralLinearGroup.scalar (Fin 3) lam) =
       Matrix.GeneralLinearGroup.det (frameDiag c) := by
     rw [← hlam]
@@ -733,6 +782,7 @@ private lemma det_cube_of_inner {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
         (det_frameDiag_units c).symm
     _ = lam ^ 3 := h3.symm
 
+omit [CharP F 2] in
 private lemma ratio_eq_one {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
     (h9 : ¬ 9 ∣ Nat.card F - 1)
     (hord : CatalogueBHigherLinearAction.slConjugation 3 F (g * frameDiag c * g⁻¹) ^ 3 = 1)
@@ -755,6 +805,7 @@ private lemma ratio_eq_one {g : GL (Fin 3) F} {c : Fin 3 → Fˣ}
   exact CFSG.FiniteField.pow_three_ne_of_not_nine_dvd h9 hx3
     (fun h => hx1 (Units.ext h)) ((lam : F) / (c 0 : F)) hx.symm
 
+omit [Finite F] [CharP F 2] in
 private lemma ratio_injective {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     {g : GL (Fin 3) F} {c : H → Fin 3 → Fˣ}
     (hc : ∀ α : H, (α : MulAut (Matrix.SpecialLinearGroup (Fin 3) F)) =
@@ -775,11 +826,11 @@ private lemma ratio_injective {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (
     · calc c α' 1 = (c α' 1 / c α' 0) * c α' 0 := (div_mul_cancel _ _).symm
         _ = (c α 1 / c α 0) * c α' 0 := by rw [← hrr]
         _ = (c α' 0 / c α 0) * c α 1 := by
-          simp [div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm]
+          simp [div_eq_mul_inv, mul_assoc, mul_comm]
     · calc c α' 2 = (c α' 2 / c α' 0) * c α' 0 := (div_mul_cancel _ _).symm
         _ = (c α 2 / c α 0) * c α' 0 := by rw [hx2]
         _ = (c α' 0 / c α 0) * c α 2 := by
-          simp [div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm]
+          simp [div_eq_mul_inv, mul_assoc, mul_comm]
   have hdiag : frameDiag (c α') =
       GeneralLinearGroup.scalar (Fin 3) (c α' 0 / c α 0) * frameDiag (c α) := by
     conv_lhs => rw [hpoint]
@@ -814,6 +865,7 @@ private lemma ratio_injective {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (
         (g * frameDiag (c α') * g⁻¹) := (slConj_eq_of_div_mem_statedScalars hmem).symm
     _ = (α' : MulAut (Matrix.SpecialLinearGroup (Fin 3) F)) := (hc α').symm
 
+omit [CharP F 2] in
 private lemma false_of_all_inner {H : Subgroup (MulAut (Matrix.SpecialLinearGroup (Fin 3) F))}
     (h9 : ¬ 9 ∣ Nat.card F - 1) (hH : IsElemAbelian 3 H) (hHcard : Nat.card H = 9)
     {g : GL (Fin 3) F}
@@ -822,7 +874,7 @@ private lemma false_of_all_inner {H : Subgroup (MulAut (Matrix.SpecialLinearGrou
     (hInner : ∀ α ∈ H, orderOf α = 3 →
       ∃ k : Matrix.SpecialLinearGroup (Fin 3) F, ∀ z, α z = k * z * k⁻¹) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hex : ∀ α : H, ∃ c : Fin 3 → Fˣ,
       (α : MulAut (Matrix.SpecialLinearGroup (Fin 3) F)) =
         CatalogueBHigherLinearAction.slConjugation 3 F (g * frameDiag c * g⁻¹) ∧
@@ -876,7 +928,7 @@ theorem i114CoreSL_holds : I114CoreSL := by
     rcases hmod with h | h <;> omega
   have h3dvd : 3 ∣ Nat.card F - 1 := by
     rcases hmod with h | h <;> omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (by rwa [Nat.card_units])
   have hω3 : ω ^ 3 = 1 := by
     rw [← hω]

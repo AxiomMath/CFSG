@@ -29,13 +29,14 @@ theorem isPiSubgroup_piOf_two_of_isPGroup {H : Subgroup G} (hH : IsPGroup 2 H) :
   have h2 : (p : ℕ) ∣ 2 := p.2.dvd_of_dvd_pow hp
   exact (Nat.prime_dvd_prime_iff_eq p.2 Nat.prime_two).mp h2
 
+omit [Finite G] in
 theorem pPrimeCoreOf_three_le (K : Subgroup G) : pPrimeCoreOf 3 K ≤ K :=
   Subgroup.map_subtype_le _
 
 theorem not_three_dvd_of_oPrimeResidualOf_eq_bot {Y : Subgroup G}
     (hY : oPrimeResidualOf 3 Y = ⊥) : ¬ 3 ∣ Nat.card Y := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Y) 3 h3
   have hmem : (x : G) ∈ oPrimeResidualOf 3 Y := by
     rw [oPrimeResidualOf_eq_closure]
@@ -53,6 +54,7 @@ theorem not_three_dvd_of_oPrimeResidualOf_eq_bot {Y : Subgroup G}
   rw [hx1, orderOf_one] at hx
   norm_num at hx
 
+omit [Finite G] in
 theorem conj_mem_pCoreOf {Z : Subgroup G} {z r : G} (hz : z ∈ Z)
     (hr : r ∈ CFSG.Open.pCoreOf 2 Z) : z * r * z⁻¹ ∈ CFSG.Open.pCoreOf 2 Z := by
   rw [CFSG.openPCoreOf_eq_map_pCore] at hr ⊢
@@ -60,6 +62,7 @@ theorem conj_mem_pCoreOf {Z : Subgroup G} {z r : G} (hz : z ∈ Z)
   have hn : (CFSG.pCore 2 Z).Normal := CFSG.pCore_normal
   exact Subgroup.mem_map.mpr ⟨(⟨z, hz⟩ : Z) * p * (⟨z, hz⟩ : Z)⁻¹, hn.conj_mem p hp _, rfl⟩
 
+omit [Finite G] in
 theorem commutator_pCoreOf_le (Z : Subgroup G) :
     ⁅CFSG.Open.pCoreOf 2 Z, Z⁆ ≤ CFSG.Open.pCoreOf 2 Z := by
   rw [Subgroup.commutator_le]
@@ -223,6 +226,7 @@ theorem pCoreOf_delta_cQuot_sup_ne_bot (h : Sec17Std G A c L Y₀) (h149 : Item1
     exact le_sup_left
   exact c174F3_pCoreOf_ne_bot hZH hnorm hne hZfit
 
+omit [Finite G] in
 theorem oPrimeResidualOf_bot_aux {Y : Subgroup G} (hY3 : ¬ 3 ∣ Nat.card Y) :
     oPrimeResidualOf 3 Y = ⊥ := by
   have key : oPrimeResidual 3 ↥Y = ⊥ := by
@@ -238,7 +242,7 @@ theorem oPrimeResidualOf_bot_aux {Y : Subgroup G} (hY3 : ¬ 3 ∣ Nat.card Y) :
   unfold oPrimeResidualOf
   rw [key, Subgroup.map_bot]
 
-theorem delta_mem_scriptY1 (hA : IsE27 A) (h146 : Item146 A (lB A)) {Z M : Subgroup G}
+theorem delta_mem_scriptY1 (_hA : IsE27 A) (_h146 : Item146 A (lB A)) {Z M : Subgroup G}
     (hZM : Z ≤ M) (hM : M ≠ ⊤) (h3 : ¬ 3 ∣ Nat.card ↥(delta A (lB A) Z))
     (h2 : CFSG.Open.pCoreOf 2 (delta A (lB A) Z) ≠ ⊥) :
     delta A (lB A) Z ∈ scriptY1 A (lB A) := by
@@ -255,6 +259,7 @@ theorem delta_mem_scriptY1 (hA : IsE27 A) (h146 : Item146 A (lB A)) {Z M : Subgr
   have hO : oPrimeResidualOf 3 (delta A (lB A) Z) = ⊥ := oPrimeResidualOf_bot_aux h3
   exact ⟨⟨⟨⟨hDtop, hAD⟩, h2⟩, hDD⟩, hO⟩
 
+omit [Finite G] in
 theorem exists_conjugateJoin_le {X K C : Subgroup G} (hAX : A ≤ Subgroup.normalizer (X : Set G))
     (hKX : K ≤ X) (hAC : A ≤ Subgroup.normalizer (C : Set G)) (hKC : K ≤ C) :
     ∃ KA : Subgroup G, K ≤ KA ∧ KA ≤ X ∧ KA ≤ C ∧ A ≤ Subgroup.normalizer (KA : Set G) := by
@@ -281,7 +286,7 @@ theorem exists_conjugateJoin_le {X K C : Subgroup G} (hAX : A ≤ Subgroup.norma
     rw [hKA]
     refine le_iSup_of_le ⟨1, A.one_mem⟩ ?_
     rintro x hx
-    exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    exact ⟨x, hx, by simp⟩
   have hconj : ∀ b ∈ A, KA.map (MulAut.conj b).toMonoidHom ≤ KA := by
     intro b hb
     rw [hKA, Subgroup.map_iSup]
@@ -303,13 +308,14 @@ theorem exists_conjugateJoin_le {X K C : Subgroup G} (hAX : A ≤ Subgroup.norma
     have h'' := hconj b⁻¹ (A.inv_mem hb) h'
     simpa [MulAut.conj_apply, mul_assoc] using h''
 
+omit [Finite G] in
 theorem not_three_dvd_of_normal_sup {D N C : Subgroup G} (hsup : N ⊔ C = D) (hND : N ≤ D)
     (hCD : C ≤ D) (hnorm : D ≤ Subgroup.normalizer (N : Set G))
     (hN : Nat.Coprime 3 (Nat.card ↥N)) (hC : Nat.Coprime 3 (Nat.card ↥C)) :
     ¬ 3 ∣ Nat.card ↥D := by
   have hnormal : (N.subgroupOf D).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hND).mpr hnorm
-  haveI := hnormal
+  have := hnormal
   have hsupD : N.subgroupOf D ⊔ C.subgroupOf D = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hND hCD, hsup, Subgroup.subgroupOf_self]
   let f : ↥C →* ↥D ⧸ (N.subgroupOf D) :=

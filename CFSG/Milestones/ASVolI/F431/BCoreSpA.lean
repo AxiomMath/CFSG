@@ -96,6 +96,7 @@ section TorusU
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem burnsideF4m_sp_dElt_mul_uElt (l : Fˣ) (a b c d : F) :
     dElt l * uElt a b c d = uElt ((l : F) * a) ((l : F) * b) ((l : F) ^ 2 * c) d * dElt l :=
   mat_ext (by
@@ -106,6 +107,7 @@ theorem burnsideF4m_sp_dElt_mul_uElt (l : Fˣ) (a b c d : F) :
     fin_cases i <;> fin_cases j <;>
       simp [dMat, uMat, Matrix.mul_apply, Fin.sum_univ_four] <;> grind)
 
+omit [Finite F] in
 theorem burnsideF4m_sp_dElt_mem_normalizer (l : Fˣ) :
     dElt l ∈ Subgroup.normalizer (antiUnipotent F : Set (antiSp F)) := by
   have key : ∀ (m : Fˣ), ∀ x ∈ antiUnipotent F, dElt m * x * (dElt m)⁻¹ ∈ antiUnipotent F := by

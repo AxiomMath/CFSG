@@ -37,6 +37,7 @@ theorem mem_sup_iff_map_mem {G H : Type*} [Group G] [Group H] {R N L : Subgroup 
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.exists_centSub (hc : Ctx M Q Z B) (S : Set G) :
     ∃ T : Subgroup G, ∀ x, x ∈ T ↔ x ∈ LB M Q B ∧ ∀ y ∈ S, ⁅x, y⁆ ∈ Z := by
   have hZn : ∀ a ∈ M, ∀ z ∈ Z, a * z * a⁻¹ ∈ Z := fun a ha z hz =>
@@ -189,7 +190,7 @@ theorem Ctx.sp_perp_data (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} 
     [Finite K] (hK : Nat.card K = Nat.card Z) {m : ℕ} (hm : 2 ≤ m)
     (φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K)
     (hφ : φ.range = StatedSp m K)
-    (hker : φ.ker = (hc.CN t).subgroupOf (Rt M (LB M Q B) t))
+    (_hker : φ.ker = (hc.CN t).subgroupOf (Rt M (LB M Q B) t))
     [hn : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal]
     (ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
       Multiplicative (Fin m ⊕ Fin m → K))
@@ -217,7 +218,7 @@ theorem Ctx.sp_perp_data (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} 
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   let D := hc.natCommData ht hchi.1 hchi.2
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ, M₀, h, θ, hθ⟩ :=
     hc.exists_globalRingEquiv ht hK addCommutantScalar_statedSp φ hφ ψ hψ
   obtain ⟨b₀, hb₀B, hu0, hBiff⟩ := hc.exists_point_of_le hBV ψ h θ hθ

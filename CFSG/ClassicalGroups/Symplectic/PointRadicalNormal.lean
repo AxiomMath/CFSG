@@ -137,7 +137,7 @@ theorem eq_Lsp_of_normalized [FiniteDimensional K V] [Finite K] [CharP K 2] (hB 
       (fun y hy => hcon y (hy 0) (hy 1))
     obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun K).1 hmem
     rw [Fin.sum_univ_two] at hc
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hc
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hc
     have h0 : B w₀ z₁' = 0 := by
       rw [← hc, map_add, map_smul, map_smul, hflip u w₀ hw₀, hBflip, smul_zero, smul_zero,
         add_zero]

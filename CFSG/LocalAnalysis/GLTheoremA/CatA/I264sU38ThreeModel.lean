@@ -29,7 +29,7 @@ theorem card_stab2_mul {G : Subgroup (Equiv.Perm (Fin n))}
   classical
   have horb : MulAction.orbit G (P, Q) = {x : Fin n × Fin n | x.1 ≠ x.2} := by
     ext ⟨a, b⟩
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq, Prod.smul_mk, Prod.mk.injEq, Subgroup.smul_def,
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq, Prod.smul_mk, Prod.mk.injEq, Subgroup.smul_def,
       Equiv.Perm.smul_def]
     constructor
     · rintro ⟨g, rfl, rfl⟩ h
@@ -89,7 +89,7 @@ theorem card_stab2_X' {P Q : Fin 513} (hPQ : P ≠ Q) : Nat.card (stab2 X' P Q) 
 theorem eq_of_fix_two {T : Subgroup (Equiv.Perm (Fin 513))} (hTX : T ≤ X') (hT2 : IsPGroup 2 T)
     (hT1 : T ≠ ⊥) {P Q : Fin 513} (hP : ∀ t ∈ T, t P = P) (hQ : ∀ t ∈ T, t Q = Q) : P = Q := by
   by_contra hPQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd : Nat.card T ∣ 21 := by
     rw [← card_stab2_X' hPQ]
     exact Subgroup.card_dvd_of_le fun t ht => mem_stab2.2 ⟨hTX ht, hP t ht, hQ t ht⟩
@@ -102,7 +102,7 @@ end X'
 
 theorem exists_fix_of_two {T : Subgroup (Equiv.Perm (Fin 513))} (hT2 : IsPGroup 2 T) :
     ∃ P : Fin 513, ∀ t ∈ T, t P = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := hT2.card_modEq_card_fixedPoints (Fin 513)
   rw [Nat.card_eq_fintype_card, Fintype.card_fin] at h
   by_contra hno
@@ -117,7 +117,7 @@ theorem exists_fix_of_two {T : Subgroup (Equiv.Perm (Fin 513))} (hT2 : IsPGroup 
 
 theorem exists_fix_ne_of_three {A : Subgroup (Equiv.Perm (Fin 513))} (hA3 : IsPGroup 3 A) {P : Fin 513}
     (hP : ∀ a ∈ A, a P = P) : ∃ P', P' ≠ P ∧ ∀ a ∈ A, a P' = P' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := hA3.card_modEq_card_fixedPoints (Fin 513)
   rw [Nat.card_eq_fintype_card, Fintype.card_fin] at h
   by_contra hno
@@ -238,10 +238,10 @@ theorem L28_card : Nat.card L28 = 504 := Certificates.certificate810201.2.2.2.2.
 theorem L28_simple : IsSimpleGroup L28 := Certificates.certificate810201.2.2.2.2.2.2.2.2.2.1
 
 theorem L28_nonabelian : ∃ a b : L28, a * b ≠ b * a := by
-  haveI := L28_simple
+  have := L28_simple
   by_contra h
   push Not at h
-  letI : CommGroup L28 := { (inferInstance : Group L28) with mul_comm := h }
+  let : CommGroup L28 := { (inferInstance : Group L28) with mul_comm := h }
   have hp : (Nat.card L28).Prime := IsSimpleGroup.prime_card
   rw [L28_card] at hp
   norm_num at hp
@@ -257,7 +257,7 @@ theorem le_normalizer_L28 :
 
 theorem glaPLayer_centralizer_D0 :
     GLAPLayer 3 (Subgroup.centralizer ({D0} : Set (Equiv.Perm (Fin 513))) ⊓ X') ≠ ⊥ := by
-  haveI := L28_simple
+  have := L28_simple
   have hn : (L28.subgroupOf (Subgroup.centralizer ({D0} : Set (Equiv.Perm (Fin 513))) ⊓ X')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer L28_le).2 le_normalizer_L28
   have hle := CFSG.HardMathSupport.Solomon.Coordinator.le_glaPLayer_of_normal_simple Nat.prime_three L28_le hn

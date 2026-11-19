@@ -73,6 +73,7 @@ noncomputable def mbarEquivBarSub {M V : Subgroup G} (hMV : M ≤ normalizer (V 
     ((QuotientGroup.quotientKerEquivRange φ).trans (MulEquiv.subgroupCongr hrange))
 
 
+omit [Finite G] in
 theorem map_barImage11_mbarEquivBarSub {M V X : Subgroup G} (hMV : M ≤ normalizer (V : Set G))
     (hV : IsElemAbelian 2 V) [hN : ((F11.CTilde M ⊥ V).subgroupOf M).Normal]
     (hXM : X ≤ M) :

@@ -76,11 +76,11 @@ theorem component_splits_of_card_le_four {X : Type} [Group X] [Finite X] [Group.
     L.Normal ∧ IsSimpleGroup ↥L ∧ ∃ C : Subgroup X, C.Normal ∧ Disjoint L C ∧ L ⊔ C = ⊤ ∧
       ∀ l ∈ L, ∀ c ∈ C, l * c = c * l := by
   classical
-  haveI : Group.IsSolvable (Equiv.Perm (CFSG.LocalCores.ComponentIndex X)) :=
+  have : Group.IsSolvable (Equiv.Perm (CFSG.LocalCores.ComponentIndex X)) :=
     CFSG.OrderReductions.PermutationReduction.permutation_solvable_of_card_le_four _ hcard
   let P : X →* Equiv.Perm (CFSG.LocalCores.ComponentIndex X) :=
     MulAction.toPermHom X (CFSG.LocalCores.ComponentIndex X)
-  haveI : Group.IsPerfect P.range := Group.IsPerfect.range P
+  have : Group.IsPerfect P.range := Group.IsPerfect.range P
   have hrange_self : ⁅P.range, P.range⁆ = P.range := Subgroup.commutator_eq_self
   have hrange_bot : P.range = ⊥ := by
     by_contra hne
@@ -107,16 +107,16 @@ theorem component_splits_of_card_le_four {X : Type} [Group X] [Finite X] [Group.
     have hmem : g * n * g⁻¹ ∈ L.map (MulAut.conj g).toMonoidHom :=
       ⟨n, hn, by simp [MulAut.conj_apply]⟩
     rwa [hLmap g] at hmem
-  haveI : L.Normal := hLnorm
-  haveI hPerfectL : Group.IsPerfect ↥L := hL.1.1
-  haveI hSimpleQuot : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have : L.Normal := hLnorm
+  have hPerfectL : Group.IsPerfect ↥L := hL.1.1
+  have hSimpleQuot : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   have hCatalog : CFSG.Blueprint.Catalog (↥L ⧸ Subgroup.center ↥L) :=
     CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK L
       (QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)
-  haveI hOuterQuot : Group.IsSolvable
+  have hOuterQuot : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (↥L ⧸ Subgroup.center ↥L)) :=
     hS (↥L ⧸ Subgroup.center ↥L) hL.1.2.2 hCatalog
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥L) :=
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥L) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥L
   have hsup : L ⊔ Subgroup.centralizer (L : Set X) = ⊤ := by
     rw [eq_top_iff]
@@ -190,7 +190,7 @@ theorem exists_split (hSch : SchreierFor Catalog) (hP : P12Facts) (hKg : IsKGrou
     (hK : SolomonA12HypK K) :
     ∃ L C : Subgroup K, L.Normal ∧ IsSimpleGroup ↥L ∧ (∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) ∧
       C.Normal ∧ Disjoint L C ∧ L ⊔ C = ⊤ ∧ ∀ l ∈ L, ∀ c ∈ C, l * c = c * l := by
-  haveI : Group.IsPerfect K := isPerfect_of_hyp hP hK
+  have : Group.IsPerfect K := isPerfect_of_hyp hP hK
   obtain ⟨L, hL⟩ := exists_component hP hK
   have hcard : Nat.card (ComponentIndex K) ≤ 4 := card_componentIndex_le_four hP hK
   have hZ : center K = ⊥ := hK.fusionSimple.2.1

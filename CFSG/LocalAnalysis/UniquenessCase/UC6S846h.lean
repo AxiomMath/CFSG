@@ -19,10 +19,10 @@ theorem solvable_of_sigmaTwo4 (hU : CFSG.Open.uniqueFourUnique G) {M : Subgroup 
     (h2 : SigmaTwo4 G p) : Group.IsSolvable ↥M := by
   obtain ⟨-, N, hN, hpN, hcl⟩ := h2
   obtain ⟨-, -, -, -, hNsolv, -⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   obtain ⟨PM, hPM, -⟩ := UC6.exists_sylow_le_of_sigma hU hM hp
   obtain ⟨PN, hPN, -⟩ := UC6.exists_sylow_le_of_sigma hU hN hpN
-  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow (PM.isPGroup') PN
+  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow (PM.isPGroup) PN
   have hPMN : (PM : Subgroup G) ≤ CFSG.Open.uniqueFourConj g N :=
     hg.trans (UC6.uniqueFourConj_mono hPN g)
   have hN' : CFSG.Open.uniqueFourIsMaxTwoLocal (CFSG.Open.uniqueFourConj g N) :=
@@ -37,7 +37,7 @@ theorem solvable_of_sigmaTwo4 (hU : CFSG.Open.uniqueFourUnique G) {M : Subgroup 
   have hsurj : Function.Surjective
       (Subgroup.equivMapOfInjective N (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective).toMonoidHom :=
     (Subgroup.equivMapOfInjective N _ _).surjective
-  haveI := hNsolv
+  have := hNsolv
   exact Group.isSolvable_of_surjective hsurj
 
 theorem sigmaStd_dataOfSetup4 (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G) :
@@ -71,10 +71,10 @@ theorem sigmaStd_dataOfSetup (hS : CFSG.LocalAnalysis.RankThreeUC.Standing G)
   three_le := (dataExt_ofSetup hS S).three_le
   sig1_sp := by
     rintro p ⟨hσ, Q, hw, hΓ⟩
-    haveI : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hσ⟩
+    have : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hσ⟩
     have hP3 := CFSG.RankThreeCoreUniqueness.Helpers.selected_sylow_rank_at_least_three hS.rank p hσ Q
     have hM : S.M ≠ ⊤ := by
-      haveI := hS.simple
+      have := hS.simple
       exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hw.maxLocal.1
     exact (CFSG.LocalAnalysis.RankThreeUC.gamma_one_le_iff_isStronglyPEmbedded
       (hw.sylow_le hS hσ) hM (ne_bot_of_three_le_pRank (Fact.out : p.Prime) hP3)).1 hΓ

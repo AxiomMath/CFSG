@@ -197,7 +197,7 @@ theorem card_mul_card_fix_le (hm : 1 ≤ m) (hF : Nat.card F = 2 ^ (2 * m))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF2 : Nat.card F = (2 ^ m) ^ 2 := by rw [hF, ← pow_mul, mul_comm]
   obtain ⟨P, hBP⟩ := hB.exists_le_sylow
-  obtain ⟨g, hgP, -⟩ := exists_conj_unip hF P.isPGroup' P.not_dvd_index
+  obtain ⟨g, hgP, -⟩ := exists_conj_unip hF P.isPGroup P.not_dvd_index
   set X : Subgroup (Multiplicative F) := (B.map (MulAut.conj g).toMonoidHom).comap unipHom
     with hXdef
   have hmemX : ∀ x : F, Multiplicative.ofAdd x ∈ X ↔ ∃ γ ∈ B, g * γ * g⁻¹ = unipSL x := by

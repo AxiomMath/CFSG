@@ -15,12 +15,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem w16l_conj_img_eq (D : ModDataE H (iSub16 V H)) (hVH : V ≤ H) {j : ↥H} :
     conjSubgroup (D.img V) (D.ρ j) = D.img (conjSubgroup V (j : G)) := by
   have h := D.img_conj hVH (j⁻¹)
   rw [map_inv, Subgroup.coe_inv, inv_inv] at h
   exact h
 
+omit [Finite G] in
 private theorem w16l_map_top_projG (D : ModDataE H (iSub16 V H)) :
     (⊤ : Subgroup (VG (D.img H))).map (projG (D.img H)) = D.img H := by
   rw [← MonoidHom.range_eq_map]

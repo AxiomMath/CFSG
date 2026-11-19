@@ -38,7 +38,7 @@ theorem e9_le_center_sylow_of_omega {P Q E : Subgroup G} (hQP : Q ≤ P)
     exact hpz
 
 theorem stronglyPEmbedded_of_e9_le_center_sylow [Finite G]
-    (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
+    (_hS : Standing4 G) (_hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
     (h614 : Theorem614At S.M)
     (hsub : CFSG.Open.uniqueFourSigma S.M ⊆ SigmaOne4 G)
     (h3 : 3 ∉ CFSG.Open.uniqueFourSigma S.M)

@@ -66,7 +66,7 @@ theorem card_commRange_of_sq [Finite V] (h2 : ∀ v : V, v * v = 1) (hV : Nat.ca
           Nat.mul_le_mul_right _ hle
       _ = 16 := hcard.symm
   have h16 : Nat.card (commMap g).range ≤ 16 := Nat.le_of_dvd (by norm_num) hdvd
-  interval_cases h : Nat.card (commMap g).range <;> simp_all <;> omega
+  interval_cases h : Nat.card (commMap g).range <;> simp_all
 
 theorem commMap_conj (g h : MulAut V) (v : V) :
     commMap (h * g * h⁻¹) v = h (commMap g (h⁻¹ v)) := by
@@ -227,8 +227,8 @@ theorem eight_dvd_sum_card_commKer (ρ : Perm (Fin 6) →* MulAut V) :
       swap 2 3 * swap 4 5, swap 0 1 * swap 2 3 * swap 4 5} : Finset (Perm (Fin 6))),
         Nat.card (commMap (ρ σ)).ker := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
-  letI : MulAction (Multiplicative (Fin 3 → ZMod 2)) V := MulAction.compHom V (ρ.comp e8Hom)
+  have : Fintype V := Fintype.ofFinite V
+  let : MulAction (Multiplicative (Fin 3 → ZMod 2)) V := MulAction.compHom V (ρ.comp e8Hom)
   have hfix : ∀ s : Multiplicative (Fin 3 → ZMod 2),
       Fintype.card (MulAction.fixedBy V s) = Nat.card (commMap (ρ (e8Perm s.toAdd))).ker := by
     intro s
@@ -248,14 +248,17 @@ theorem eight_dvd_sum_card_commKer (ρ : Perm (Fin 6) →* MulAut V) :
   rw [← image_e8Perm, ← hsum, hB]
   exact Dvd.intro_left _ rfl
 
+omit [Finite V] in
 theorem rho_sq_of_sq (ρ : Perm (Fin 6) →* MulAut V) {x : Perm (Fin 6)} (hx : x * x = 1) :
     ρ x * ρ x = 1 := by
   rw [← map_mul, hx, map_one]
 
+omit [Finite V] in
 theorem card_commKer_rho_conj (ρ : Perm (Fin 6) →* MulAut V) (σ x : Perm (Fin 6)) :
     Nat.card (commMap (ρ (σ * x * σ⁻¹))).ker = Nat.card (commMap (ρ x)).ker := by
   rw [map_mul, map_mul, map_inv, card_commKer_conj]
 
+omit [Finite V] in
 theorem card_commRange_rho_conj (ρ : Perm (Fin 6) →* MulAut V) (σ x : Perm (Fin 6)) :
     Nat.card (commMap (ρ (σ * x * σ⁻¹))).range = Nat.card (commMap (ρ x)).range := by
   rw [map_mul, map_mul, map_inv, card_commRange_conj]
@@ -334,6 +337,7 @@ section Centre
 
 variable {V : Type*} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem exists_of_card_eq_two {H : Subgroup V} (h : Nat.card H = 2) :
     ∃ e ∈ H, e ≠ 1 ∧ ∀ x ∈ H, x = 1 ∨ x = e := by
   obtain ⟨y, hy, huniq⟩ := (Nat.card_eq_two_iff' (1 : H)).mp h
@@ -350,23 +354,27 @@ section
 variable {g : MulAut V} (hg : Nat.card (commMap g).range = 2)
 include hg
 
+omit [Finite V] in
 theorem tvCentre_mem : tvCentre g ∈ (commMap g).range := by
-  rw [tvCentre, dif_pos hg]
+  rw [tvCentre, dite_eq_left hg]
   exact (exists_of_card_eq_two hg).choose_spec.1
 
+omit [Finite V] in
 theorem tvCentre_ne_one : tvCentre g ≠ 1 := by
-  rw [tvCentre, dif_pos hg]
+  rw [tvCentre, dite_eq_left hg]
   exact (exists_of_card_eq_two hg).choose_spec.2.1
 
+omit [Finite V] in
 theorem mem_commRange_iff {x : V} : x ∈ (commMap g).range ↔ x = 1 ∨ x = tvCentre g := by
   constructor
   · intro hx
-    rw [tvCentre, dif_pos hg]
+    rw [tvCentre, dite_eq_left hg]
     exact (exists_of_card_eq_two hg).choose_spec.2.2 x hx
   · rintro (rfl | rfl)
     · exact (commMap g).range.one_mem
     · exact tvCentre_mem hg
 
+omit [Finite V] in
 theorem tvCentre_conj (k : MulAut V) : tvCentre (k * g * k⁻¹) = k (tvCentre g) := by
   have hk : Nat.card (commMap (k * g * k⁻¹)).range = 2 := by rw [card_commRange_conj]; exact hg
   have hmem : k (tvCentre g) ∈ (commMap (k * g * k⁻¹)).range := by
@@ -378,6 +386,7 @@ theorem tvCentre_conj (k : MulAut V) : tvCentre (k * g * k⁻¹) = k (tvCentre g
 
 end
 
+omit [Finite V] in
 theorem commRange_eq_of_tvCentre_eq {g h : MulAut V} (hg : Nat.card (commMap g).range = 2)
     (hh : Nat.card (commMap h).range = 2) (heq : tvCentre g = tvCentre h) :
     (commMap g).range = (commMap h).range := by
@@ -414,6 +423,7 @@ theorem sum_allOnes_add_pairVec : ∀ i j : Fin 6, ∑ l, (allOnes 6 + pairVec i
 theorem exists_ne_ne_fin_six : ∀ i j : Fin 6, ∃ k, k ≠ i ∧ k ≠ j := by
   decide
 
+omit [Finite V] in
 theorem pow_val_add_of_sq {v : V} (hv : v * v = 1) (a b : ZMod 2) :
     v ^ (a + b).val = v ^ a.val * v ^ b.val := by
   rcases zmod_two_cases a with rfl | rfl <;> rcases zmod_two_cases b with rfl | rfl
@@ -434,6 +444,7 @@ variable (h2 : ∀ v : V, v * v = 1)
 
 variable {ρ}
 
+omit [Finite V] in
 theorem natMap_single (k : Fin 6) :
     natMap ρ h2 (Pi.single k 1) = Additive.ofMul (baseCentre ρ k) := by
   show Additive.ofMul (∏ j, baseCentre ρ j ^ ((Pi.single k (1 : ZMod 2) : Fin 6 → ZMod 2) j).val)
@@ -442,6 +453,7 @@ theorem natMap_single (k : Fin 6) :
     pow_zero]) (fun h => absurd (Finset.mem_univ k) h), Pi.single_eq_same, ZMod.val_one,
     pow_one]
 
+omit [Finite V] in
 theorem natMap_pairVec (i j : Fin 6) :
     natMap ρ h2 (pairVec i j) = Additive.ofMul (baseCentre ρ i * baseCentre ρ j) := by
   rw [pairVec, map_add, natMap_single, natMap_single, ofMul_mul]
@@ -479,24 +491,28 @@ section Swap
 variable (hρ : Function.Injective ρ) (htv : Nat.card (commMap (ρ (swap 0 1))).range = 2)
 include htv
 
+omit [Finite V] in
 theorem card_commRange_swap {i j : Fin 6} (hij : i ≠ j) :
     Nat.card (commMap (ρ (swap i j))).range = 2 := by
   obtain ⟨c, hc⟩ := isConj_iff.mp (Equiv.Perm.isConj_swap (by decide : (0 : Fin 6) ≠ 1) hij)
   rw [← hc, card_commRange_rho_conj, htv]
 
+omit [Finite V] in
 theorem rho_swapCentre (σ : Perm (Fin 6)) {i j : Fin 6} (hij : i ≠ j) :
     ρ σ (swapCentre ρ i j) = swapCentre ρ (σ i) (σ j) := by
   rw [swapCentre, swapCentre, swap_apply_apply, map_mul, map_mul, map_inv,
     tvCentre_conj (card_commRange_swap htv hij)]
 
+omit [Finite V] in
 theorem swapCentre_ne_one {i j : Fin 6} (hij : i ≠ j) : swapCentre ρ i j ≠ 1 :=
   tvCentre_ne_one (card_commRange_swap htv hij)
 
-omit htv in
+omit htv [Finite V] in
 theorem swapCentre_comm (i j : Fin 6) : swapCentre ρ i j = swapCentre ρ j i := by
   rw [swapCentre, swapCentre, swap_comm]
 
 include h2 hρ in
+omit [Finite V] in
 theorem swapCentre_ne {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
     swapCentre ρ i j ≠ swapCentre ρ j k := by
   intro heq
@@ -509,6 +525,7 @@ theorem swapCentre_ne {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) (hik : i �
   exact hjk this
 
 include h2 hρ in
+omit [Finite V] in
 theorem swapCentre_mul {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
     swapCentre ρ i k = swapCentre ρ i j * swapCentre ρ j k := by
   have h1 : swapCentre ρ i k = ρ (swap j k) (swapCentre ρ i j) := by
@@ -525,23 +542,26 @@ theorem swapCentre_mul {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) (hik : i 
     rfl
 
 include h2 hρ in
+omit [Finite V] in
 theorem baseCentre_mul {i j : Fin 6} (hij : i ≠ j) :
     baseCentre ρ i * baseCentre ρ j = swapCentre ρ i j := by
   by_cases hi : i = 0
   · subst hi
-    rw [baseCentre, if_pos rfl, one_mul, baseCentre, if_neg (Ne.symm hij)]
+    rw [baseCentre, ite_eq_left rfl, one_mul, baseCentre, ite_eq_right (Ne.symm hij)]
   by_cases hj : j = 0
   · subst hj
-    rw [baseCentre, if_neg hi, baseCentre, if_pos rfl, mul_one, swapCentre_comm]
-  rw [baseCentre, if_neg hi, baseCentre, if_neg hj, swapCentre_comm 0 i]
+    rw [baseCentre, ite_eq_right hi, baseCentre, ite_eq_left rfl, mul_one, swapCentre_comm]
+  rw [baseCentre, ite_eq_right hi, baseCentre, ite_eq_right hj, swapCentre_comm 0 i]
   exact (swapCentre_mul h2 hρ htv hi (Ne.symm hj) hij).symm
 
 include hρ in
+omit [Finite V] in
 theorem natMap_pairVec_of_ne {i j : Fin 6} (hij : i ≠ j) :
     natMap ρ h2 (pairVec i j) = Additive.ofMul (swapCentre ρ i j) := by
   rw [natMap_pairVec, baseCentre_mul h2 hρ htv hij]
 
 include hρ in
+omit [Finite V] in
 theorem natMap_permVec (σ : Perm (Fin 6)) {x : Fin 6 → ZMod 2} (hx : ∑ k, x k = 0) :
     natMap ρ h2 (permVec σ x) = (ρ σ).toMonoidHom.toAdditive (natMap ρ h2 x) := by
   have hgen : ∀ j, natMap ρ h2 (permVec σ (pairVec 0 j)) =

@@ -22,6 +22,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def cyclic : adjointGroup .E7 K := CFSG.SectionRank.LargeRee.nrepHom .E7 K gamma
 
+omit [CharP K 2] in
 theorem cartanChar_scalar (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     cartanChar (cubeChar ζ scalarCochar) = cubeChar ζ scalarExp := by
   funext j
@@ -35,6 +36,7 @@ theorem cartanChar_scalar (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
       fin_cases j <;> rfl
     _ = ζ ^ scalarExp j := (zpow_eq_zpow_emod' _ hζ).symm
 
+omit [CharP K 2] in
 theorem cartanChar_paired (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     cartanChar (cubeChar ζ pairedCochar) = cubeChar ζ pairedExp := by
   funext j
@@ -48,6 +50,7 @@ theorem cartanChar_paired (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
       fin_cases j <;> rfl
     _ = ζ ^ pairedExp j := (zpow_eq_zpow_emod' _ hζ).symm
 
+omit [CharP K 2] in
 theorem scalarWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (scalarWord ζ : ModGL .E7 K) = rootDiagUnit .E7 (cubeChar ζ scalarExp) := by
   rw [scalarWord, Subgroup.val_list_prod, List.map_map]
@@ -56,6 +59,7 @@ theorem scalarWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   change rootDiagUnit .E7 (cartanChar (cubeChar ζ scalarCochar)) = _
   rw [cartanChar_scalar ζ hζ]
 
+omit [CharP K 2] in
 theorem pairedWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (pairedWord ζ : ModGL .E7 K) = rootDiagUnit .E7 (cubeChar ζ pairedExp) := by
   rw [pairedWord, Subgroup.val_list_prod, List.map_map]
@@ -64,6 +68,7 @@ theorem pairedWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   change rootDiagUnit .E7 (cartanChar (cubeChar ζ pairedCochar)) = _
   rw [cartanChar_paired ζ hζ]
 
+omit [CharP K 2] in
 theorem scalarWord_mem_torusGroup (ζ : Kˣ) :
     (scalarWord ζ : ModGL .E7 K) ∈ torusGroup .E7 K := by
   rw [scalarWord, Subgroup.val_list_prod, List.map_map]
@@ -73,6 +78,7 @@ theorem scalarWord_mem_torusGroup (ζ : Kˣ) :
   obtain ⟨i, -, rfl⟩ := List.mem_map.1 hx
   exact torusElt_mem_torusGroup i _
 
+omit [CharP K 2] in
 theorem pairedWord_mem_torusGroup (ζ : Kˣ) :
     (pairedWord ζ : ModGL .E7 K) ∈ torusGroup .E7 K := by
   rw [pairedWord, Subgroup.val_list_prod, List.map_map]
@@ -97,6 +103,7 @@ theorem three_dvd_of_cyclic_pow_mem_torusGroup (n : ℕ)
     (mapsRootLines_canonicalRep (gamma ^ n)).unique (mapsRootLines_of_mem_torusGroup hn)
   simpa only [orderOf_gamma] using orderOf_dvd_of_pow_eq_one hpow
 
+omit [CharP K 2] in
 theorem scalarWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : scalarWord ζ ^ 3 = 1 := by
   apply Subtype.ext
   change (scalarWord ζ : ModGL .E7 K) ^ 3 = 1
@@ -104,6 +111,7 @@ theorem scalarWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : scalarWord ζ ^ 3 =
   change (rootDiagUnitHom .E7 K (cubeChar ζ scalarExp)) ^ 3 = 1
   rw [← map_pow, cubeChar_pow_three ζ hζ scalarExp, map_one]
 
+omit [CharP K 2] in
 theorem pairedWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : pairedWord ζ ^ 3 = 1 := by
   apply Subtype.ext
   change (pairedWord ζ : ModGL .E7 K) ^ 3 = 1
@@ -113,6 +121,7 @@ theorem pairedWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : pairedWord ζ ^ 3 =
 
 theorem cyclic_pow_three : (cyclic (K := K)) ^ 3 = 1 := nrep_gamma_pow_three
 
+omit [CharP K 2] in
 theorem scalar_paired_commute (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     Commute (scalarWord ζ) (pairedWord ζ) := by
   change scalarWord ζ * pairedWord ζ = pairedWord ζ * scalarWord ζ
@@ -177,7 +186,7 @@ theorem generators_commute (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (Fin 3 → Multiplicative (ZMod 3)) →* adjointGroup .E7 K :=
   MonoidHom.noncommPiCoprod
     (fun i => zmodPowHom (generators ζ i) (generators_pow_three ζ hζ i))
-    (fun i j _ x y => (generators_commute ζ hζ i j).pow_pow _ _)
+    (fun i j _ _x _y => (generators_commute ζ hζ i j).pow_pow _ _)
 
 theorem cubeHom_apply (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
     (f : Fin 3 → Multiplicative (ZMod 3)) :
@@ -310,17 +319,20 @@ theorem generators_mem_range (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     rw [cubeHom_apply]
     simp [generators, h1]
 
+omit [CharP K 2] in
 theorem cubeChar_neg (ζ : Kˣ) (a : Fin Tag.E7.rank → ℤ) :
     cubeChar ζ (-a) = (cubeChar ζ a)⁻¹ := by
   funext i
   change ζ ^ (-a i) = (ζ ^ a i)⁻¹
   exact zpow_neg _ _
 
+omit [CharP K 2] in
 theorem cubeChar_add (ζ : Kˣ) (a b : Fin Tag.E7.rank → ℤ) :
     cubeChar ζ (fun i => a i + b i) = cubeChar ζ a * cubeChar ζ b := by
   funext i
   exact zpow_add _ _ _
 
+omit [CharP K 2] in
 theorem cubeChar_two (ζ : Kˣ) (a : Fin Tag.E7.rank → ℤ) :
     cubeChar ζ (fun i => 2 * a i) = cubeChar ζ a ^ 2 := by
   funext i
@@ -383,9 +395,10 @@ theorem a5CycleElement_mem_normalizer (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     a5CycleElement (K := K) ∈
       Subgroup.normalizer ((cubeHom ζ hζ).range : Set (adjointGroup .E7 K)) := by
   classical
-  letI : Fintype (cubeHom ζ hζ).range := MonoidHom.fintypeRange (cubeHom ζ hζ)
+  let : Fintype (cubeHom ζ hζ).range := MonoidHom.fintypeRange (cubeHom ζ hζ)
   exact Subgroup.mem_normalizer_fintype (fun y hy => a5CycleElement_conj_mem_range ζ hζ hy)
 
+omit [CharP K 2] in
 theorem rootDiagUnit_cubeChar_neg (ζ : Kˣ) (a : Fin Tag.E7.rank → ℤ) :
     rootDiagUnit .E7 (cubeChar ζ (-a)) = (rootDiagUnit .E7 (cubeChar ζ a))⁻¹ := by
   rw [cubeChar_neg]

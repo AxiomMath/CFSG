@@ -48,7 +48,7 @@ theorem normal_eq_bot_of_fixes {G : Type*} [Group G] {Ω : Type*} [MulAction G �
 theorem normal_five_eq_bot {G : Type*} [Group G] {Ω : Type*} [MulAction G Ω] [Finite Ω]
     [FaithfulSMul G Ω] [MulAction.IsPretransitive G Ω] (hΩ : Nat.card Ω = 16)
     {K : Subgroup G} [K.Normal] (hK : IsPGroup 5 K) : K = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hmod := hK.card_modEq_card_fixedPoints Ω
   rw [hΩ] at hmod
   have hne : Nat.card (MulAction.fixedPoints K Ω) ≠ 0 := by
@@ -105,7 +105,7 @@ theorem card_eq_two_pow_mul_five {G : Type*} [Group G] {Ω : Type*} [MulAction G
 theorem isSolvable_of_stabilizer_card {G : Type*} [Group G] [Finite G] {Ω : Type*} [MulAction G Ω]
     [MulAction.IsPretransitive G Ω] (hΩ : Nat.card Ω = 16) (ω : Ω)
     (hS : Nat.card (MulAction.stabilizer G ω) = 20) : Group.IsSolvable G := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_five (by norm_num)
     (by rw [← Nat.card_eq_fintype_card]; exact card_eq_two_pow_mul_five hΩ ω hS)
@@ -115,16 +115,16 @@ theorem exists_normal_elementary_two {G : Type*} [Group G] [Finite G] {Ω : Type
     (hS : Nat.card (MulAction.stabilizer G ω) = 20) :
     ∃ N : Subgroup G, N.Normal ∧ N ≠ ⊥ ∧ (∀ a ∈ N, ∀ b ∈ N, a * b = b * a) ∧
       ∀ a ∈ N, a * a = 1 := by
-  haveI := isSolvable_of_stabilizer_card hΩ ω hS
+  have := isSolvable_of_stabilizer_card hΩ ω hS
   have hG : Nat.card G = 2 ^ 6 * 5 ^ 1 := card_eq_two_pow_mul_five hΩ ω hS
-  haveI : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by rw [hG]; norm_num)
+  have : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by rw [hG]; norm_num)
   obtain ⟨A, hAn, hAne, hAab⟩ := exists_abelian_normal_of_isSolvable (G := G)
   refine ⟨twoTorsionSub A hAab, twoTorsionSub_normal hAab, ?_,
     fun a ha b hb => hAab a ha.1 b hb.1, fun a ha => ha.2⟩
   intro hbot
   have h2 : ¬ 2 ∣ Nat.card A := by
     intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
     have ha2 : a ^ 2 = 1 := by
       have := pow_orderOf_eq_one a
@@ -170,7 +170,7 @@ theorem normal_two_transitive {G : Type*} [Group G] {Ω : Type*} [MulAction G Ω
     {M : Subgroup G} [M.Normal] (hM : IsPGroup 2 M) (hne : M ≠ ⊥) :
     ∀ α : Ω, ∃ m ∈ M, m • ω = α := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxB : ∀ α ∈ MulAction.orbit M ω, x • α ∈ MulAction.orbit M ω := by
     intro α hα
     obtain ⟨m, rfl⟩ := MulAction.mem_orbit_iff.1 hα
@@ -244,7 +244,6 @@ theorem card_normal_two {G : Type*} [Group G] [Finite G] {Ω : Type*} [MulAction
     have h1 : (b : G)⁻¹ * a = 1 := by
       refine hreg _ (M.mul_mem (M.inv_mem b.2) a.2) ?_
       rw [mul_smul]
-      change (b : G)⁻¹ • ((a : G) • ω) = ω
       rw [show (a : G) • ω = (b : G) • ω from hab, inv_smul_smul]
     exact Subtype.ext (inv_mul_eq_one.1 h1).symm
   have hsurj : Function.Surjective f := fun α => by
@@ -263,7 +262,7 @@ theorem exists_regular_normal_two {G : Type*} [Group G] [Finite G] {Ω : Type*} 
       (∀ α β : Ω, ∃ r ∈ R, r • α = β) ∧ (∀ r ∈ R, r • ω = ω → r = 1) ∧
       (∀ M : Subgroup G, M.Normal → IsPGroup 2 M → M ≤ R) := by
   obtain ⟨N, hNn, hNne, hNab, hN2⟩ := exists_normal_elementary_two hΩ ω hS
-  haveI := hNn
+  have := hNn
   have hNP : IsPGroup 2 N := fun g => ⟨1, Subtype.ext (by simpa [pow_two] using hN2 g g.2)⟩
   have htr := normal_two_transitive hΩ ω hx5 hxω hfix hNP hNne
   refine ⟨N, hNn, hNP, card_normal_two hΩ ω hx5 hxω hfix hnorm hcent hNP hNne, hNab, hN2, ?_,
@@ -273,8 +272,8 @@ theorem exists_regular_normal_two {G : Type*} [Group G] [Finite G] {Ω : Type*} 
     obtain ⟨t, ht, rfl⟩ := htr β
     exact ⟨t * s⁻¹, N.mul_mem ht (N.inv_mem hs), by rw [mul_smul, inv_smul_smul]⟩
   · intro M hMn hM2
-    haveI := hMn
-    haveI : (M ⊔ N).Normal := inferInstance
+    have := hMn
+    have : (M ⊔ N).Normal := inferInstance
     have hK2 : IsPGroup 2 (M ⊔ N : Subgroup G) := hM2.to_sup_of_normal_right hNP
     have hKne : (M ⊔ N : Subgroup G) ≠ ⊥ := fun h => hNne (le_bot_iff.1 (h ▸ le_sup_right))
     have hKcard := card_normal_two hΩ ω hx5 hxω hfix hnorm hcent hK2 hKne

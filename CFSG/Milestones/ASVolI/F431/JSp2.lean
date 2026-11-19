@@ -26,7 +26,7 @@ theorem burnsideF4jb_coords {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   let φ : StatedSp 2 marking.field →* E := Gp.subtype.comp marking.transport
   have hφinj : Function.Injective φ := by
@@ -156,7 +156,7 @@ theorem burnsideF4jb_F_4_42_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
       1, Gp.one_mem, ?_⟩
     · rw [ht]
       exact (Subgroup.mem_inf.1 htGM).1
-    · rw [if_pos rfl, one_mul, inv_one, mul_one, hshort, ht]
+    · rw [ite_eq_left rfl, one_mul, inv_one, mul_one, hshort, ht]
       exact Subgroup.mem_map_of_mem φ (burnsideF4gSpInv_mem_Xs.2 ⟨1, rfl⟩)
   ·
     have hψ : Function.Injective (burnsideF4d_bTwo β ε) :=

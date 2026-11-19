@@ -103,12 +103,12 @@ theorem lrSub_le : lrSub L S hSN hrS hr2 ≤ S := by
   · exact S.mul_mem (Subgroup.mem_inf.1 hl).1 hrS
 
 theorem exists_char {N : Subgroup G} {t : G} (htS : t ∈ S) (htc : ∀ x ∈ S, x * t = t * x)
-    (ht2 : t * t = 1) (hNS : N ≤ S) (htN : t ∉ N) (hcov : ∀ x ∈ S, x ∈ N ∨ x * t ∈ N) :
+    (ht2 : t * t = 1) (_hNS : N ≤ S) (htN : t ∉ N) (hcov : ∀ x ∈ S, x ∈ N ∨ x * t ∈ N) :
     ∃ c : ↥S →* ℤˣ, (∀ x : ↥S, c x = 1 ↔ (x : G) ∈ N) ∧ c ⟨t, htS⟩ = -1 := by
   classical
   have hne : (-1 : ℤˣ) ≠ 1 := by decide
   refine ⟨{ toFun := fun x => if (x : G) ∈ N then 1 else -1
-            map_one' := if_pos N.one_mem
+            map_one' := ite_eq_left N.one_mem
             map_mul' := ?_ }, ?_, ?_⟩
   · intro x y
     show (if ((x : G) * (y : G)) ∈ N then (1 : ℤˣ) else -1) =
@@ -138,7 +138,7 @@ theorem exists_char {N : Subgroup G} {t : G} (htS : t ∈ S) (htc : ∀ x ∈ S,
     · simp [hx]
     · simp [hx, hne]
   · show (if t ∈ N then (1 : ℤˣ) else -1) = -1
-    exact if_neg htN
+    exact ite_eq_right htN
 
 end Lr
 
@@ -156,6 +156,7 @@ variable
   (hrS : r ∈ S) (hr2 : r * r = 1) (hrT0 : F.phiG r ∉ QT0.originalSubgroup)
 
 include h hFP hrT0 in
+omit [Finite G] in
 theorem t_not_mem_lr : t ∉ lrSub L S h.S_le_N hrS hr2 := by
   rintro ⟨l, hl, e | e⟩
   · obtain ⟨hlS, hlL⟩ := Subgroup.mem_inf.1 hl
@@ -176,6 +177,7 @@ theorem t_not_mem_lr : t ∉ lrSub L S h.S_le_N hrS hr2 := by
     exact (F.img (S ⊓ L)).inv_mem (PspFrame.psi_mem_img.2 hl)
 
 include h hFP hrT0 in
+omit [Finite G] in
 theorem cover_lr {x : G} (hx : x ∈ S) :
     x ∈ lrSub L S h.S_le_N hrS hr2 ∨ x * t ∈ lrSub L S h.S_le_N hrS hr2 := by
   have hN := h.S_le_N
@@ -203,6 +205,7 @@ theorem cover_lr {x : G} (hx : x ∈ S) :
       rw [e, mul_assoc, h.t_sq, mul_one]
 
 include h hFP hrS hr2 hrT0 in
+omit [Finite G] in
 theorem exists_split :
     ∃ Φ : ↥S →* P45 × ℤˣ, Function.Injective Φ ∧ (∀ x : ↥S, (Φ x).1 = F.phiG x) ∧
       Φ ⟨t, h.t_mem⟩ = (1, -1) ∧ (∀ x : ↥S, (x : G) ∈ L → (Φ x).2 = 1) ∧

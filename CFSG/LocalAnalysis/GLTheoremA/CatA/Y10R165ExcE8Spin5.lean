@@ -27,14 +27,14 @@ private theorem mem_e8SpinW1_of_polar_spinW2 {K : Type} [Field K]
     rw [mem_e8SpinW2]
     intro m' hm'
     refine ⟨?_, ?_⟩ <;>
-      simp only [Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq, if_neg (by omega : ¬ m' = m),
-        if_neg (by simp : ¬ ((.inl m' : Fin 8 ⊕ Fin 8) = .inr m))]
+      simp only [Pi.single_apply, Sum.inr.injEq, ite_eq_right (by omega : ¬ m' = m),
+        ite_eq_right (by simp : ¬ ((.inl m' : Fin 8 ⊕ Fin 8) = .inr m))]
   have hmem2 : Pi.single (.inl m) (1 : K) ∈ e8SpinW2 K := by
     rw [mem_e8SpinW2]
     intro m' hm'
     refine ⟨?_, ?_⟩ <;>
-      simp only [Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq, if_neg (by omega : ¬ m' = m),
-        if_neg (by simp : ¬ ((.inr m' : Fin 8 ⊕ Fin 8) = .inl m))]
+      simp only [Pi.single_apply, Sum.inl.injEq, ite_eq_right (by omega : ¬ m' = m),
+        ite_eq_right (by simp : ¬ ((.inr m' : Fin 8 ⊕ Fin 8) = .inl m))]
   constructor
   · have h := hv (Pi.single (.inr m) 1) hmem1
     rwa [polar_quadPlus_single_inr] at h
@@ -48,12 +48,12 @@ private def sixIdx : Fin 3 ⊕ Fin 3 → Fin 8 ⊕ Fin 8
 private theorem sixIdx_injective : Function.Injective sixIdx := by
   rintro (i | i) (j | j) h
   · have h' := Sum.inl.inj h
-    simp only [sixIdx, Fin.mk.injEq] at h'
+    simp only [Fin.mk.injEq] at h'
     rw [Fin.ext h']
   · exact absurd h (by simp [sixIdx])
   · exact absurd h (by simp [sixIdx])
   · have h' := Sum.inr.inj h
-    simp only [sixIdx, Fin.mk.injEq] at h'
+    simp only [Fin.mk.injEq] at h'
     rw [Fin.ext h']
 
 private theorem sixIdx_linearIndependent (K : Type) [Field K] :
@@ -67,7 +67,7 @@ private theorem sixIdx_linearIndependent (K : Type) [Field K] :
   · simpa using h
   · intro x _ hxi
     have hne : ¬ (sixIdx i = sixIdx x) := fun h' => hxi (sixIdx_injective h'.symm)
-    simp only [Pi.smul_apply, smul_eq_mul, Pi.single_apply, hne, if_false, mul_zero]
+    simp only [Pi.smul_apply, smul_eq_mul, Pi.single_apply, hne, ite_false, mul_zero]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -103,8 +103,8 @@ private theorem six_le_finrank_fixedSpace {K : Type} [Field K] [Finite K] [CharP
     rw [CFSG.RankThree.PartOne.KCOrthogonal.mem_fixedSpace]
     have hW2 : (Pi.single (sixIdx i) (1 : K) : Fin 8 ⊕ Fin 8 → K) ∈ e8SpinW2 K := by
       rcases i with i | i
-      · exact single_mem_spinW2_inl (a := ⟨(i : ℕ), by omega⟩) (by simp only [Fin.val_mk]; omega)
-      · exact single_mem_spinW2_inr (a := ⟨(i : ℕ), by omega⟩) (by simp only [Fin.val_mk]; omega)
+      · exact single_mem_spinW2_inl (a := ⟨(i : ℕ), by omega⟩) (by simp only; omega)
+      · exact single_mem_spinW2_inr (a := ⟨(i : ℕ), by omega⟩) (by simp only; omega)
     exact e8D4Levi_fixes_e8SpinW2 K (y := x) hxL hW2
   set S : Submodule K (Fin 8 ⊕ Fin 8 → K) :=
     Submodule.span K (Set.range fun i : Fin 3 ⊕ Fin 3 =>
@@ -133,6 +133,7 @@ private theorem theta_fixes_spinW2 (x : ↥(⨆ k, e8D8Chain K k))
       (Fin 8 ⊕ Fin 8 → K) ≃ₗ[K] (Fin 8 ⊕ Fin 8 → K)) w = w :=
   e8D4Levi_fixes_e8SpinW2 K (y := x) hxL hw
 
+omit [Finite K] [CharP K 2] in
 private theorem regular_quadPlus_eight {v : Fin 8 ⊕ Fin 8 → K}
     (hv : ∀ w, QuadraticMap.polar (quadPlus 8 K) v w = 0) : v = 0 := by
   funext x
@@ -163,6 +164,7 @@ private theorem oddOrderIsometry_theta {p : ℕ} (hp : p.Prime) (hpo : p ≠ 2)
   · intro v hv
     exact regular_quadPlus_eight hv
 
+omit [Finite K] [CharP K 2] in
 private theorem polar_sum_left {ι : Type*} (Q : QuadraticForm K (Fin 8 ⊕ Fin 8 → K))
     (s : Finset ι) (f : ι → Fin 8 ⊕ Fin 8 → K) (u : Fin 8 ⊕ Fin 8 → K) :
     QuadraticMap.polar Q (∑ i ∈ s, f i) u = ∑ i ∈ s, QuadraticMap.polar Q (f i) u := by

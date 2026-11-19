@@ -24,7 +24,7 @@ private theorem kd147_table {p f : ℕ} (hq3 : ¬ (p = 3 ∧ f = 1)) :
   · exact (hq3 h31).elim
   refine ⟨1, 1, ?_, by norm_num, by norm_num⟩
   unfold exceptionalOrders
-  split <;> first | rfl | simp_all | omega
+  split <;> first | rfl | simp_all
 
 theorem kd147_clause_a {S : Type} [Group S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.G2 q).Valid) (hq3 : ¬ 3 ∣ q.card)
@@ -52,7 +52,7 @@ theorem kd147_clause_a {S : Type} [Group S] {q : TauCeti.PrimePower}
     (by simpa using hpos.ne')
   have h2 : Nat.card (Subgroup.center E) ∣ 2 := hdvd.trans (by simpa using hdiv)
   by_contra hne
-  haveI : Nontrivial (Subgroup.center E) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center E) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact false_of_pGroup_dvd Nat.prime_three hZ h2 (by norm_num)
 
 private def kd147M (K : Type) [Field K] : Matrix.SpecialLinearGroup (Fin 2) K :=
@@ -83,7 +83,7 @@ private theorem kd147_e9_of_commuting {K G : Type} [Field K] [Group G] [Finite G
     (h₂ : Function.Injective ι₂)
     (hc : ∀ A B : Matrix.SpecialLinearGroup (Fin 2) K, ι₁ A * ι₂ B = ι₂ B * ι₁ A) :
     ∃ P : Subgroup G, IsElemAbelian 3 P ∧ Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : ι₁ (kd147M K) ^ 3 = 1 := by rw [← map_pow, kd147M_pow_three, map_one]
   have hy3 : ι₂ (kd147M K) ^ 3 = 1 := by rw [← map_pow, kd147M_pow_three, map_one]
   have hx1 : ι₁ (kd147M K) ≠ 1 := fun h => kd147M_ne_one K (h₁ (by rw [h, map_one]))
@@ -158,7 +158,7 @@ private theorem kd147_e9_of_commuting {K G : Type} [Field K] [Group G] [Finite G
     · exact hxy
     · exact hxy.symm
     · exact Commute.refl _
-  haveI : IsMulCommutative (Subgroup.closure ({ι₁ (kd147M K), ι₂ (kd147M K)} : Set G)) :=
+  have : IsMulCommutative (Subgroup.closure ({ι₁ (kd147M K), ι₂ (kd147M K)} : Set G)) :=
     Subgroup.isMulCommutative_closure hcomm
   have hexp : ∀ g ∈ Subgroup.closure ({ι₁ (kd147M K), ι₂ (kd147M K)} : Set G), g ^ 3 = 1 := by
     intro g hg
@@ -194,7 +194,7 @@ theorem kd147_clause_b {S : Type} [Group S] [Finite S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.G2 q).Valid)
     (eS : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) :
     ∃ P : Subgroup S, IsElemAbelian 3 P ∧ Nat.card P = 9 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨eQ⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv

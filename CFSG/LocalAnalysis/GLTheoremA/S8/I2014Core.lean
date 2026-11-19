@@ -31,7 +31,7 @@ theorem comm_of_fix' {n k : ℕ} {σ a : Perm (Fin n)} (hσ : ∀ i : Fin n, i.v
       Perm.sign_swap (by decide)]; rfl⟩
 
 theorem orderOf_c3A : orderOf c3A = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (Subtype.ext (by unfold c3A; decide)) ?_
   intro h
   have := congrArg (fun σ : alternatingGroup (Fin 8) => (σ : Perm (Fin 8)) 0) h
@@ -146,6 +146,7 @@ theorem mem_normalizer_of_conj_le {Q : Type*} [Group Q] [Finite Q] {T : Subgroup
 
 
 
+omit [Finite Y] in
 theorem card_sup_of_inf_bot {H T : Subgroup Y} (hN : H ≤ Subgroup.normalizer (T : Set Y))
     (hb : H ⊓ T = ⊥) : Nat.card ↥(H ⊔ T) = Nat.card H * Nat.card T := by
   have hset := Subgroup.coe_mul_of_left_le_normalizer_right H T hN
@@ -176,14 +177,15 @@ theorem card_sup_of_inf_bot {H T : Subgroup Y} (hN : H ≤ Subgroup.normalizer (
       exact ⟨(⟨a, ha⟩, ⟨b, hb'⟩), rfl⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf), Nat.card_prod]
 
+omit [Finite Y] in
 theorem le_of_simple {S K : Subgroup Y} (hS : IsSimpleGroup S)
     (hKn : ∀ g ∈ S, ∀ k ∈ K, g * k * g⁻¹ ∈ K) {x : Y} (hxS : x ∈ S) (hxK : x ∈ K) (hx1 : x ≠ 1) :
     S ≤ K := by
   have hN : (K.subgroupOf S).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hKn g g.2 n hn⟩
-  haveI := hS
-  haveI := hN
+  have := hS
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf S) with h | h
   · exfalso
     have : (⟨x, hxS⟩ : S) ∈ K.subgroupOf S := Subgroup.mem_subgroupOf.2 hxK
@@ -193,6 +195,7 @@ theorem le_of_simple {S K : Subgroup Y} (hS : IsSimpleGroup S)
     have : (⟨s, hs⟩ : S) ∈ K.subgroupOf S := by rw [h]; trivial
     exact Subgroup.mem_subgroupOf.1 this
 
+omit [Finite Y] in
 theorem centralizer_conj (g x : Y) :
     Subgroup.centralizer ({g * x * g⁻¹} : Set Y) =
       (Subgroup.centralizer ({x} : Set Y)).map (MulAut.conj g).toMonoidHom := by
@@ -209,7 +212,7 @@ theorem centralizer_conj (g x : Y) :
     simpa using this
   · rintro ⟨u, hu, rfl⟩
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff] at hu
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     calc g * u * g⁻¹ * (g * x * g⁻¹) = g * (u * x) * g⁻¹ := by group
       _ = g * (x * u) * g⁻¹ := by rw [hu]
       _ = g * x * g⁻¹ * (g * u * g⁻¹) := by group
@@ -217,6 +220,7 @@ theorem centralizer_conj (g x : Y) :
 
 
 
+omit [Finite Y] in
 theorem conj_mem_centralizer {T : Subgroup Y} {g k : Y} (hg : g ∈ Subgroup.normalizer (T : Set Y))
     (hk : k ∈ Subgroup.centralizer (T : Set Y)) :
     g * k * g⁻¹ ∈ Subgroup.centralizer (T : Set Y) := by
@@ -229,6 +233,7 @@ theorem conj_mem_centralizer {T : Subgroup Y} {g k : Y} (hg : g ∈ Subgroup.nor
     _ = g * (k * (g⁻¹ * r * g⁻¹⁻¹)) * g⁻¹ := by rw [h]
     _ = g * k * g⁻¹ * r := by group
 
+omit [Finite Y] in
 theorem commutator_eq_self_of_simple {H : Subgroup Y} (hS : IsSimpleGroup H)
     (hnab : ∃ a b : H, a * b ≠ b * a) : ⁅H, H⁆ = H := by
   have hle : ⁅H, H⁆ ≤ H := Subgroup.commutator_le.2 fun a ha b hb => by
@@ -248,6 +253,7 @@ theorem commutator_eq_self_of_simple {H : Subgroup Y} (hS : IsSimpleGroup H)
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.commutator_mem_commutator hg hkH) hk
 
+omit [Finite Y] in
 theorem eq_one_of_two_elem {d z l : Y} {L' : Subgroup Y} (hd3 : d ^ 3 = 1)
     (hz : z ∈ Subgroup.zpowers d) (hl : l ∈ L') (hzl : z * l = l * z)
     (hinf : Subgroup.zpowers d ⊓ L' = ⊥) {k : ℕ} (ht : (z * l) ^ (2 ^ k) = 1) : z = 1 := by
@@ -292,9 +298,9 @@ theorem i2014_core (hc : A9.A9Fact) {s₁ s₃ : Y} {L : Subgroup Y}
     (hIR : I ≤ Subgroup.normalizer (R : Set Y)) (hsR : s₁ ∈ Subgroup.normalizer (R : Set Y)) :
     I ≤ Subgroup.centralizer (R : Set Y) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hIs : IsSimpleGroup I := eI.isSimpleGroup_congr.2 (alternatingGroup.isSimpleGroup (by simp))
   set y : Y := ((eI.symm c3A : I) : Y) with hy
   set H : Subgroup Y := (fix3.map eI.symm.toMonoidHom).map I.subtype with hHdef
@@ -339,7 +345,7 @@ theorem i2014_core (hc : A9.A9Fact) {s₁ s₃ : Y} {L : Subgroup Y}
   suffices hH : H ≤ Subgroup.centralizer (R : Set Y) by
     obtain ⟨x, hxH, hx1⟩ : ∃ x ∈ H, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : H = ⊥ := (Subgroup.eq_bot_iff_forall H).2 hcon
       rw [this, Subgroup.card_bot] at hHc
       norm_num at hHc

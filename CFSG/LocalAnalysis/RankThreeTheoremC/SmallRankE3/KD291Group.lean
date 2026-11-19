@@ -18,6 +18,7 @@ open CFSG CFSG.Open Subgroup
 section E0
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] in
 theorem kd291_aux_A_mem_sup {E F : Subgroup G} (hc : ∀ a ∈ E, ∀ b ∈ F, a * b = b * a)
     {g : G} (hg : g ∈ E ⊔ F) : ∃ a ∈ E, ∃ b ∈ F, a * b = g := by
   have hEFc : E ⊔ F = Subgroup.closure ((E : Set G) ∪ F) := by
@@ -57,6 +58,7 @@ theorem kd291_aux_A_inf_eq_bot {E F : Subgroup G} (hF : Nat.card F = p) (hFE : �
     have hy' : y ∈ E ⊓ F := by rw [hKeq]; exact hy
     exact (Subgroup.mem_inf.1 hy').1
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem kd291_aux_A_isElemAbelian_zpowers {y : G} (hy : y ^ p = 1) :
     IsElemAbelian p (zpowers y) := by
   rw [Subgroup.zpowers_eq_closure]
@@ -67,6 +69,7 @@ theorem kd291_aux_A_isElemAbelian_zpowers {y : G} (hy : y ^ p = 1) :
     rw [Set.mem_singleton_iff.1 ha]
     exact hy
 
+omit [Finite G] in
 theorem kd291_card_sup_of_commute {E F : Subgroup G} (hEF : E ⊓ F = ⊥)
     (hc : ∀ a ∈ E, ∀ b ∈ F, a * b = b * a) :
     Nat.card ↥(E ⊔ F) = Nat.card E * Nat.card F := by
@@ -154,10 +157,12 @@ theorem kd291_mem_of_rank (hG : pRank p (⊤ : Subgroup G) ≤ 2) {B : Subgroup 
     exact le_of_lt (lt_of_lt_of_le h2 h3)
   omega
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem kd291_pCore_le_sylow (Q : Sylow p G) : CFSG.pCore p G ≤ (Q : Subgroup G) := by
-  haveI hN : (CFSG.pCore p G).Normal := CFSG.pCore_normal
+  have hN : (CFSG.pCore p G).Normal := CFSG.pCore_normal
   exact IsPGroup.le_sylow_of_normal CFSG.pCore_isPGroup Q
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem kd291_aux_B_comm {x z : G} (hxc : x ∈ Subgroup.center G)
     (hzR : ∀ y ∈ CFSG.pCore p G, y * z = z * y) {r : G} (hr : r ∈ CFSG.pCore p G) :
     ∀ b ∈ (zpowers x ⊔ zpowers z : Subgroup G), r * b = b * r := by
@@ -183,7 +188,7 @@ theorem kd291_aux_B_coprime_eq_one (hp2 : p ≠ 2) {x z : G} (hxc : x ∈ Subgro
     (hcop : Nat.Coprime (orderOf a) p) : a = 1 := by
   have hxz : Commute x z := (Subgroup.mem_center_iff.1 hxc z).symm
   obtain ⟨hBab, hBc⟩ := kd291_pair_data hxz hx hz hzx
-  haveI hN : (CFSG.pCore p G).Normal := CFSG.pCore_normal
+  have hN : (CFSG.pCore p G).Normal := CFSG.pCore_normal
   obtain ⟨α, hαdef⟩ : ∃ α : MulAut (CFSG.pCore p G),
       α = MulAut.conjNormal (H := CFSG.pCore p G) a := ⟨_, rfl⟩
   have hαapply : ∀ r : CFSG.pCore p G, ((α r : CFSG.pCore p G) : G) = a * (r : G) * a⁻¹ := by
@@ -257,7 +262,7 @@ theorem kd291_isPGroup_centralizer_pair (hp2 : p ≠ 2) {x z : G} (hxc : x ∈ S
       d ∣ Nat.card (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) → d = p := by
     intro d hd hdA
     by_contra hne
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' d hdA
     have hbG : orderOf (b : G) = d := (Subgroup.orderOf_coe b).trans hb
     have hcop : Nat.Coprime (orderOf (b : G)) p := by
@@ -270,6 +275,7 @@ theorem kd291_isPGroup_centralizer_pair (hp2 : p ≠ 2) {x z : G} (hxc : x ∈ S
     omega
   exact IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd hpos hprime)
 
+omit [Finite G] in
 theorem kd291_aux_C_mul_pair {x z : G} (hxz : Commute x z) (a b c d : ℤ) :
     x ^ a * z ^ b * (x ^ c * z ^ d) = x ^ (a + c) * z ^ (b + d) := by
   have h1 : z ^ b * x ^ c = x ^ c * z ^ b := (hxz.zpow_zpow c b).eq.symm
@@ -279,6 +285,7 @@ theorem kd291_aux_C_mul_pair {x z : G} (hxz : Commute x z) (a b c d : ℤ) :
     _ = (x ^ a * x ^ c) * (z ^ b * z ^ d) := by simp only [mul_assoc]
     _ = x ^ (a + c) * z ^ (b + d) := by rw [zpow_add, zpow_add]
 
+omit [Finite G] in
 theorem kd291_aux_C_unique {x z : G} (hx : orderOf x = p) (hz : orderOf z = p)
     (hzx : z ∉ zpowers x) (i j : ℤ) (h : x ^ i * z ^ j = 1) :
     (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j := by
@@ -307,6 +314,7 @@ theorem kd291_aux_C_unique {x z : G} (hx : orderOf x = p) (hz : orderOf z = p)
   rw [hx] at hxi'
   exact ⟨hxi', hzj⟩
 
+omit [Finite G] in
 theorem kd291_aux_C_eq {x z : G} (hxz : Commute x z) (hx : orderOf x = p)
     (hz : orderOf z = p) (hzx : z ∉ zpowers x) (i j k l : ℤ)
     (h : x ^ i * z ^ j = x ^ k * z ^ l) :
@@ -319,6 +327,7 @@ theorem kd291_aux_C_eq {x z : G} (hxz : Commute x z) (hx : orderOf x = p)
   exact ⟨((ZMod.intCast_eq_intCast_iff_dvd_sub k i p).mpr hi).symm,
     ((ZMod.intCast_eq_intCast_iff_dvd_sub l j p).mpr hj).symm⟩
 
+omit [Finite G] in
 theorem kd291_aux_C_form {x z : G} (hxz : Commute x z) :
     ∀ b ∈ (zpowers x ⊔ zpowers z : Subgroup G), ∃ i j : ℤ, b = x ^ i * z ^ j := by
   let S : Subgroup G :=
@@ -344,6 +353,7 @@ theorem kd291_aux_C_form {x z : G} (hxz : Commute x z) :
   obtain ⟨i, j, hij⟩ := hle hb
   exact ⟨i, j, hij⟩
 
+omit [Finite G] in
 theorem kd291_derivedSeries_two_le {x z : G} (hxc : x ∈ Subgroup.center G) (hx : orderOf x = p)
     (hz : orderOf z = p) (hzx : z ∉ zpowers x)
     (hBn : ∀ g : G, g * z * g⁻¹ ∈ (zpowers x ⊔ zpowers z : Subgroup G)) :
@@ -472,7 +482,7 @@ theorem kd291_solvable_of_pair (hp2 : p ≠ 2) {x z : G} (hxc : x ∈ Subgroup.c
     (hG : pRank p (⊤ : Subgroup G) ≤ 2)
     (hcon : centralizer ((CFSG.pCore p G : Subgroup G) : Set G) ≤ CFSG.pCore p G)
     (hzR : ∀ y ∈ CFSG.pCore p G, y * z = z * y) :
-    IsSolvable G := by
+    Group.IsSolvable G := by
   have hBn : ∀ g : G, g * z * g⁻¹ ∈ (zpowers x ⊔ zpowers z : Subgroup G) :=
     kd291_pair_normal hxc hx hz hzx hG hcon hzR
   have hBconj : ∀ g : G, (zpowers x ⊔ zpowers z : Subgroup G).map (MulAut.conj g).toMonoidHom ≤
@@ -486,17 +496,17 @@ theorem kd291_solvable_of_pair (hp2 : p ≠ 2) {x z : G} (hxc : x ∈ Subgroup.c
       rw [hxg]
       exact le_sup_left
     · exact zpowers_le.2 (hBn g)
-  haveI hBN : (zpowers x ⊔ zpowers z : Subgroup G).Normal :=
+  have hBN : (zpowers x ⊔ zpowers z : Subgroup G).Normal :=
     ⟨fun n hn g => hBconj g (Subgroup.mem_map_of_mem _ hn)⟩
   have hAp : IsPGroup p (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) :=
     kd291_isPGroup_centralizer_pair hp2 hxc hx hz hzx hG hcon hzR
   have hDS : derivedSeries G 2 ≤ centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G) :=
     kd291_derivedSeries_two_le hxc hx hz hzx hBn
-  haveI hAn : (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)).Normal :=
+  have hAn : (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)).Normal :=
     inferInstance
-  haveI hAnil : Group.IsNilpotent (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) :=
+  have hAnil : Group.IsNilpotent (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) :=
     IsPGroup.isNilpotent hAp
-  haveI hQ : Group.IsSolvable (G ⧸ centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) := by
+  have hQ : Group.IsSolvable (G ⧸ centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G)) := by
     refine ⟨⟨2, ?_⟩⟩
     rw [← map_derivedSeries_eq (QuotientGroup.mk'_surjective
       (centralizer ((zpowers x ⊔ zpowers z : Subgroup G) : Set G))) 2]
@@ -514,18 +524,18 @@ theorem kd291_aux_D_pRank_sub (K : Subgroup Y) : CFSG.pRank p K = CFSG.Open.pRan
   unfold CFSG.pRank CFSG.Open.pRank
   congr 1
   ext r
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨A, hA, hcard⟩
     refine ⟨A.map K.subtype, Subgroup.map_subtype_le A, ?_, ?_⟩
-    · haveI : IsElementaryAbelian p (A.map K.subtype) :=
+    · have : IsElementaryAbelian p (A.map K.subtype) :=
         IsElementaryAbelian.map_subtype (K := K) (H := A)
       exact ⟨this.toIsMulCommutative,
         fun x hx => elemPow_eq_one_of_isElementaryAbelian (p := p) x hx⟩
     · rw [Subgroup.card_map_of_injective K.subtype_injective]
       exact hcard
   · rintro ⟨E, hEK, hE, hcard⟩
-    haveI : IsElementaryAbelian p E :=
+    have : IsElementaryAbelian p E :=
       { toIsMulCommutative := hE.1
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
           Subtype.ext (by rw [Subgroup.coe_pow, hE.2 x x.2, Subgroup.coe_one]) }
@@ -542,7 +552,7 @@ theorem kd291_pRank_top_le_sylow (Q : Sylow p Y) :
     refine isPGroup_iff_pow_pow_eq_one.2 fun g => ⟨1, Subtype.ext ?_⟩
     simpa using hE.2 g.1 g.2
   obtain ⟨Q0, hEQ0⟩ := hEp.exists_le_sylow
-  haveI : Finite (Sylow p Y) :=
+  have : Finite (Sylow p Y) :=
     Finite.of_injective (fun P : Sylow p Y => (P : Set Y)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y Q0 Q
   have hinj : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
@@ -586,7 +596,7 @@ theorem kd291_aux_E_main {x : Y} (hx : orderOf x = p)
     omega
   have hxC : x ∈ C := (hCx x).2 rfl
   obtain ⟨Qc⟩ : Nonempty (Sylow p ↥C) := inferInstance
-  have hPm : IsPGroup p ((Qc : Subgroup ↥C).map C.subtype) := Qc.isPGroup'.map C.subtype
+  have hPm : IsPGroup p ((Qc : Subgroup ↥C).map C.subtype) := Qc.isPGroup.map C.subtype
   obtain ⟨Q', hQ'le⟩ := IsPGroup.exists_le_sylow hPm
   have hxC_ord : orderOf (⟨x, hxC⟩ : ↥C) = p :=
     (Subgroup.orderOf_coe (⟨x, hxC⟩ : ↥C)).symm.trans hx
@@ -619,9 +629,9 @@ theorem kd291_aux_E_main {x : Y} (hx : orderOf x = p)
   have hcentral : ∃ z : Y, z ∈ (Q' : Subgroup Y) ∧
       (∀ g ∈ (Q' : Subgroup Y), g * z = z * g) ∧ orderOf z = p := by
     have hx1Q : (⟨x, hxQ'⟩ : ↥(Q' : Subgroup Y)) ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
-    haveI : Nontrivial ↥(Q' : Subgroup Y) := nontrivial_of_ne _ _ hx1Q
-    have hR : IsPGroup p ↥(Q' : Subgroup Y) := Q'.isPGroup'
-    haveI : Nontrivial ↥(Subgroup.center ↥(Q' : Subgroup Y)) := hR.center_nontrivial
+    have : Nontrivial ↥(Q' : Subgroup Y) := nontrivial_of_ne _ _ hx1Q
+    have hR : IsPGroup p ↥(Q' : Subgroup Y) := Q'.isPGroup
+    have : Nontrivial ↥(Subgroup.center ↥(Q' : Subgroup Y)) := hR.center_nontrivial
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hR
     have hZdvd : Nat.card ↥(Subgroup.center ↥(Q' : Subgroup Y)) ∣ p ^ n := by
       rw [← hn]
@@ -680,13 +690,15 @@ theorem kd291_exists_central_pair {x : Y} (hx : orderOf x = p)
       z ∉ zpowers (⟨x, Subgroup.mem_centralizer_singleton_iff.2 rfl⟩ :
         ↥(centralizer ({x} : Set Y))) :=
   kd291_aux_E_main hx hY (centralizer ({x} : Set Y))
-    (fun g => Subgroup.mem_centralizer_singleton_iff) hC
+    (fun _g => Subgroup.mem_centralizer_singleton_iff) hC
 
+omit [Fact (Nat.Prime p)] in
 theorem kd291_aux_F_pRank_coe {Z : Type*} [Group Z] [Finite Z] (H : Subgroup Z) :
     CFSG.pRank p ↥H = CFSG.Open.pRank p H :=
   (CFSG.SectionRank.pRank_eq_open_pRank_top p H).trans
     (CFSG.SectionRank.pRank_eq_pRank_top_subgroup H).symm
 
+omit [Finite Y] [Fact (Nat.Prime p)] in
 theorem kd291_aux_F_group_form (C : Subgroup Y)
     (hcon : C ⊓ centralizer (pCoreOf p C : Set Y) ≤ pCoreOf p C) :
     centralizer ((CFSG.pCore p ↥C : Subgroup ↥C) : Set ↥C) ≤ CFSG.pCore p ↥C := by
@@ -710,7 +722,7 @@ theorem kd291_solvable_centralizer (hp2 : p ≠ 2) {x : Y} (hx : orderOf x = p)
     (hY : 3 ≤ pRank p (⊤ : Subgroup Y)) (hC : pRank p (centralizer ({x} : Set Y)) ≤ 2)
     (hcon : centralizer ({x} : Set Y) ⊓ centralizer (pCoreOf p (centralizer ({x} : Set Y)) : Set Y) ≤
       pCoreOf p (centralizer ({x} : Set Y))) :
-    IsSolvable ↥(centralizer ({x} : Set Y)) := by
+    Group.IsSolvable ↥(centralizer ({x} : Set Y)) := by
   have hp : 1 < p := (Fact.out : p.Prime).one_lt
   have hxC : x ∈ centralizer ({x} : Set Y) := Subgroup.mem_centralizer_singleton_iff.2 rfl
   obtain ⟨z, hzR, hz, hzx⟩ := kd291_exists_central_pair hx hY hC
@@ -741,7 +753,7 @@ theorem kd291_solvable_centralizer_open (hp2 : p ≠ 2) {x : Y} (hx : orderOf x 
     (hC : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2)
     (hcon : centralizer ({x} : Set Y) ⊓ centralizer (pCoreOf p (centralizer ({x} : Set Y)) : Set Y) ≤
       pCoreOf p (centralizer ({x} : Set Y))) :
-    IsSolvable ↥(centralizer ({x} : Set Y)) := by
+    Group.IsSolvable ↥(centralizer ({x} : Set Y)) := by
   refine kd291_solvable_centralizer hp2 hx ?_ ?_ hcon
   · rw [kd291_aux_D_pRank_sub]
     exact hY

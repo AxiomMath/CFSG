@@ -153,7 +153,7 @@ theorem l33_core (A : Subgroup (MulAut L33P)) (hA : Nat.card A = 4) (hAe : IsEle
           ((M : Matrix (Fin 2) (Fin 2) (ZMod 3)))⁻¹ = 1 := by
         have h := congrArg (fun u : GL (Fin 2) (ZMod 3) =>
           (u : Matrix (Fin 2) (Fin 2) (ZMod 3))) (mul_inv_cancel M)
-        simpa [Units.val_mul, Units.val_one, ← Units.val_inv_eq_inv_val] using h
+        simp
       calc (M : Matrix (Fin 2) (Fin 2) (ZMod 3)).transpose
           = 1 * (M : Matrix (Fin 2) (Fin 2) (ZMod 3)).transpose := (one_mul _).symm
         _ = ((M : Matrix (Fin 2) (Fin 2) (ZMod 3)) *

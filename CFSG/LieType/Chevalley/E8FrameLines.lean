@@ -159,7 +159,7 @@ theorem apply_lo_of_signVec {g : Equiv.Perm (Fin 16)} (hg : ∀ i, lineFun g i =
   by_cases h1 : g (lo i) = lo i
   · simp [signVec, h1]
   · have h2 : signVec g i = 1 := by simp [signVec, h1]
-    rw [h2, if_neg (by decide)]
+    rw [h2, ite_eq_right (by decide)]
     exact (apply_lo_eq_or hg i).resolve_left h1
 
 theorem signVec_mul {a b : Equiv.Perm (Fin 16)} (ha : a * frameNeg = frameNeg * a)

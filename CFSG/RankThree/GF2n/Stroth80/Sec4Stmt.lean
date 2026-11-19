@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def Stroth41iiStatement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     (¬ ∃ X : Subgroup (Mbar M Q), X ≤ bar M Q (Lgen M (LB M Q B)) ∧
       (X.subgroupOf (bar M Q (Lgen M (LB M Q B)))).Normal ∧
       IsSLModel 2 (Nat.card Z) ↥X) →
@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def Stroth42Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     layer (Mbar M Q) ≠ ⊥ →
     (¬ ∃ X : Subgroup (Mbar M Q), X ≤ layer (Mbar M Q) ∧
       (X.subgroupOf (layer (Mbar M Q))).Normal ∧ IsSLModel 2 (Nat.card Z) ↥X) →
@@ -33,7 +33,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def Stroth43Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     (∃! Y : Subgroup (Mbar M Q), IsComponent Y ∧ IsSLModel 2 (Nat.card Z) ↥Y) →
     ¬ IsSLModel 2 (Nat.card Z) ↥(layer (Mbar M Q)) →
     ∃ X Y : Subgroup (Mbar M Q), X ⊔ Y = layer (Mbar M Q) ∧ X ⊓ Y = ⊥ ∧
@@ -42,7 +42,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def Stroth44Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     ∀ (A : Subgroup (Mbar M Q)), A ≤ bar M Q (H0 M Z) →
       bar M Q (LB M Q B) ≤ Subgroup.normalizer (A : Set (Mbar M Q)) →
       Odd (Nat.card A) → A = ⊥

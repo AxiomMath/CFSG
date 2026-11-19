@@ -56,7 +56,7 @@ theorem z_ne : z ≠ 1 := h.oe.cfg.z_ne
 
 theorem z_ne_t : z ≠ t := h.oe.cfg.z_ne_t
 
-theorem S_comm_E : ∀ s ∈ S, ∀ e ∈ E, s * e = e * s := fun s hs e he =>
+theorem S_comm_E : ∀ _s ∈ S, ∀ e ∈ E, _s * e = e * _s := fun _s hs e he =>
   (mem_centralizer_iff.1 (h.SC hs) e he).symm
 
 theorem t_comm_S : ∀ s ∈ S, s * t = t * s := fun s hs => h.S_comm_E s hs t h.t_mem_E
@@ -203,7 +203,7 @@ theorem exists_fus : ∃ e ∈ E, e * e = 1 ∧ e ≠ 1 ∧ e ≠ t ∧ ∃ g : 
   have hcfg := h.outerE.cfg
   have hex : ∃ e ∈ E, e * e = 1 ∧ e ≠ 1 ∧ e ≠ t := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨e₁, he₁, e₂, he₂, hne⟩ := hE.nonab
     apply hne
     have hle : E ≤ zpowers t := by

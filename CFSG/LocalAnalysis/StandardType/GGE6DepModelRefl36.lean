@@ -97,7 +97,7 @@ private lemma refl36_mul_self_aux :
 private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
   @of_decide_eq_true p i h
 
-private def decEqMat6Fast : DecidableEq Mat6 := fun A B =>
+@[instance_reducible] private def decEqMat6Fast : DecidableEq Mat6 := fun A B =>
   decidable_of_iff (((List.finRange 6).all fun i => (List.finRange 6).all fun j =>
       decide (A i j = B i j)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]

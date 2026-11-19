@@ -374,7 +374,7 @@ private theorem false_of_rigid_actor_commutator_witness
   let R : Subgroup G := (P : Subgroup ↥L).map L.subtype
   let E : Subgroup G := R ⊔ Z
   have hR2 : IsPGroup 2 ↥R := by
-    simpa [R] using P.isPGroup'.map L.subtype
+    simpa [R] using P.isPGroup.map L.subtype
   have hZNR : Z ≤ Subgroup.normalizer (R : Set G) := by
     have hforward : ∀ z : G, z ∈ Z → ∀ r : G, r ∈ R → z * r * z⁻¹ ∈ R := by
       intro z hz r hr

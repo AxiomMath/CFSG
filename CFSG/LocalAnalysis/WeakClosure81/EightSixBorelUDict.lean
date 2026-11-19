@@ -38,11 +38,13 @@ open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher (glAut)
 
 variable {m n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem borel86_ud_val_mul_self {G : StatedSU m (2 ^ n) F} (hG : G * G = 1) :
     (G : GL (Fin m) F).val * (G : GL (Fin m) F).val = 1 := by
   have h := congrArg (fun x : StatedSU m (2 ^ n) F => (x : GL (Fin m) F).val) hG
   simpa using h
 
+omit [Finite F] in
 private theorem borel86_ud_adjM_eq (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^ n) F}
     (hG : G * G = 1) :
     adjM h.bar (G : GL (Fin m) F).val = (G : GL (Fin m) F).val := by
@@ -55,17 +57,19 @@ private theorem borel86_ud_adjM_eq (h : UnitaryFieldData 2 n F) {G : StatedSU m 
           (G : GL (Fin m) F).val := by rw [mul_assoc]
     _ = (G : GL (Fin m) F).val := by rw [h1, one_mul]
 
+omit [Finite F] in
 private theorem borel86_ud_one_le_of_ne_zero {u : Fin m → F} (hu : u ≠ 0) : 1 ≤ m := by
   by_contra h
   have hm0 : m = 0 := by omega
   subst hm0
   exact hu (funext fun i => i.elim0)
 
+omit [Finite F] in
 private theorem borel86_ud_one_add_sq (h : UnitaryFieldData 2 n F) (hm : 1 ≤ m) {u : Fin m → F}
     (huu : hform h.bar u u = 0) {b : F} :
     (1 + b • vecMulVec u (h.bar ∘ u)) * (1 + b • vecMulVec u (h.bar ∘ u)) = 1 := by
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
-  haveI := h.charP
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have := h.charP
   have hW2 : vecMulVec u (h.bar ∘ u) * vecMulVec u (h.bar ∘ u) = 0 :=
     CFSG.ComponentClassification.RankTwoClassical.URigid.vecMulVec_mul_self h huu
   have hc2 : (b • vecMulVec u (h.bar ∘ u)) * (b • vecMulVec u (h.bar ∘ u)) = 0 := by
@@ -80,6 +84,7 @@ private theorem borel86_ud_pow_two_pow_add_one {G : Type*} [Group G] {g : G} (hg
     rw [pow_succ']; simp
   rw [pow_succ, h2n, pow_mul, hg, one_pow, one_mul]
 
+omit [Finite F] in
 theorem borel86_ud_exists_lift (h : UnitaryFieldData 2 n F) (hm : 1 ≤ m)
     {g : StatedProj (StatedSU m (2 ^ n) F)} (hg : g * g = 1) :
     ∃ G : StatedSU m (2 ^ n) F,
@@ -109,6 +114,7 @@ theorem borel86_ud_exists_lift (h : UnitaryFieldData 2 n F) (hm : 1 ≤ m)
       rw [← pow_add, ← pow_two, ← pow_mul, two_mul]
     rw [hmulpow, ← Subgroup.coe_mul, ← hc, ← map_pow, hcSU, map_one]
 
+omit [Finite F] in
 private theorem borel86_ud_conj_val (h : UnitaryFieldData 2 n F) {σ : F ≃+* F}
     {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
@@ -159,6 +165,7 @@ private theorem borel86_ud_conj_val (h : UnitaryFieldData 2 n F) {σ : F ≃+* F
   rw [hcoe, hmapN, Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul, Matrix.add_mul,
     Matrix.smul_mul, hAmulT, key]
 
+omit [Finite F] in
 theorem borel86_ud_fix_iff (h : UnitaryFieldData 2 n F) {σ : F ≃+* F} {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
     {α : MulAut (StatedProj (StatedSU m (2 ^ n) F))}
@@ -169,7 +176,7 @@ theorem borel86_ud_fix_iff (h : UnitaryFieldData 2 n F) {σ : F ≃+* F} {A : GL
     {N : StatedSU m (2 ^ n) F} (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u)) :
     α (QuotientGroup.mk N) = QuotientGroup.mk N ↔
       ∃ κ : F, (A : Matrix (Fin m) (Fin m) F) *ᵥ (σ ∘ u) = κ • u ∧ σ b * (h.bar κ * κ) = b := by
-  haveI := h.charP
+  have := h.charP
   have hm : 1 ≤ m := borel86_ud_one_le_of_ne_zero hu
   have hN2 : N * N = 1 := mul_self_eq_one_of_val hN (borel86_ud_one_add_sq h hm huu (b := b))
   obtain ⟨j, hj⟩ : ∃ j, u j ≠ 0 := by
@@ -281,6 +288,7 @@ theorem borel86_ud_fix_iff (h : UnitaryFieldData 2 n F) {σ : F ≃+* F} {A : GL
       rw [hconj, hN]
     rw [hαN, heq]
 
+omit [Finite F] in
 theorem borel86_ud_commute_iff (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^ n) F}
     (hG : G * G = 1) {u : Fin m → F} (hu : u ≠ 0) (huu : hform h.bar u u = 0) {b : F}
     (hb0 : b ≠ 0) {N : StatedSU m (2 ^ n) F}
@@ -288,7 +296,7 @@ theorem borel86_ud_commute_iff (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^
     (QuotientGroup.mk G * QuotientGroup.mk N : StatedProj (StatedSU m (2 ^ n) F)) =
         QuotientGroup.mk N * QuotientGroup.mk G ↔
       (G : GL (Fin m) F).val *ᵥ u = u := by
-  haveI := h.charP
+  have := h.charP
   have hm : 1 ≤ m := borel86_ud_one_le_of_ne_zero hu
   have hN2 : N * N = 1 := mul_self_eq_one_of_val hN (borel86_ud_one_add_sq h hm huu (b := b))
   constructor
@@ -322,11 +330,13 @@ theorem borel86_ud_commute_iff (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^
         h G.2 hGu]
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hGN]
 
+omit [Finite F] in
 theorem borel86_ud_hform_mulVec_left (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^ n) F}
     (hG : G * G = 1) (v w : Fin m → F) :
     hform h.bar ((G : GL (Fin m) F).val *ᵥ v) w = hform h.bar v ((G : GL (Fin m) F).val *ᵥ w) := by
   rw [hform_mulVec, borel86_ud_adjM_eq h hG]
 
+omit [Finite F] in
 theorem borel86_ud_mulVec_add_self {G : StatedSU m (2 ^ n) F} (hG : G * G = 1) (v : Fin m → F) :
     (G : GL (Fin m) F).val *ᵥ ((G : GL (Fin m) F).val *ᵥ v + v) =
       (G : GL (Fin m) F).val *ᵥ v + v := by
@@ -337,10 +347,11 @@ theorem borel86_ud_mulVec_add_self {G : StatedSU m (2 ^ n) F} (hG : G * G = 1) (
       _ = v := by rw [borel86_ud_val_mul_self hG, one_mulVec]
   rw [mulVec_add, h2, add_comm]
 
+omit [Finite F] in
 theorem borel86_ud_hform_add_self (h : UnitaryFieldData 2 n F) {G : StatedSU m (2 ^ n) F}
     (hG : G * G = 1) (v w : Fin m → F) :
     hform h.bar ((G : GL (Fin m) F).val *ᵥ v + v) ((G : GL (Fin m) F).val *ᵥ w + w) = 0 := by
-  haveI := h.charP
+  have := h.charP
   rw [hform_add_left, hform_add_right, hform_add_right,
     hform_mulVec_mulVec h G v w, borel86_ud_hform_mulVec_left h hG v w]
   have key : ∀ a b : F, (a + b) + (b + a) = 0 := by
@@ -349,11 +360,12 @@ theorem borel86_ud_hform_add_self (h : UnitaryFieldData 2 n F) {G : StatedSU m (
       CharTwo.add_self_eq_zero, CharTwo.add_self_eq_zero, add_zero]
   exact key _ _
 
+omit [Finite F] in
 theorem borel86_ud_exists_fixed_isotropic (h : UnitaryFieldData 2 n F)
     {G : StatedSU m (2 ^ n) F} (hG : G * G = 1) (hG1 : G ≠ 1) :
     ∃ a : Fin m → F, a ≠ 0 ∧ hform h.bar a a = 0 ∧ (G : GL (Fin m) F).val *ᵥ a = a ∧
       ∀ u : Fin m → F, (G : GL (Fin m) F).val *ᵥ u = u → hform h.bar a u = 0 := by
-  haveI := h.charP
+  have := h.charP
   have hmat_ne : (G : GL (Fin m) F).val ≠ 1 := by
     intro h1
     exact hG1 (Subtype.ext (Units.ext h1))

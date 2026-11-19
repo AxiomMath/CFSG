@@ -18,9 +18,9 @@ theorem card_le_q4_of_elemAbelian (hL : IsU4Group n L) {E : Subgroup (MulAut S)}
     (hE : IsElemAbelian2 E) (hEL : E ≤ L) : Nat.card E ≤ (2 ^ n) ^ 4 := by
   classical
   obtain ⟨K, _, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : CharP K 2 := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_gramSU_miyamotoJ4 h
+  have : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_gramSU_miyamotoJ4 h
   obtain ⟨U, hU⟩ := exists_sylow_miyamotoP h
   set E₁ : Subgroup (gramSU h (miyamotoJ4 K)) := (E.subgroupOf L).map η.toMonoidHom with hE₁
   have hmem₁ : ∀ a ∈ E₁, ∃ x : L, (x : MulAut S) ∈ E ∧ η x = a := by
@@ -49,7 +49,7 @@ theorem card_le_q4_of_elemAbelian (hL : IsU4Group n L) {E : Subgroup (MulAut S)}
     have := hg a ha
     rw [hU, Subgroup.mem_subgroupOf] at this
     simpa [χ, MulAut.conj_apply] using this
-  haveI : CFSG.IsElementaryAbelian 2 E₂ := by
+  have : CFSG.IsElementaryAbelian 2 E₂ := by
     refine CFSG.IsElementaryAbelian.two_of_forall_mul_self ?_ ?_
     · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
       rw [← map_mul, ← map_mul, hcomm₁ a ha b hb]

@@ -134,7 +134,7 @@ theorem barX_pCoreOf_two_le {X : Subgroup G} {z : G} (hzX : z ∈ X) (hz2 : z ^ 
     barX 3 X (pCoreOf 2 (cx z) ⊓ X) ≤
       pCoreOf 2 (Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) ⟨z, hzX⟩} : Set (↥X ⧸ GLAPPrimeCore 3 ↥X))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddO : Odd (Nat.card (GLAPPrimeCore 3 ↥X)) := by
     have h := hodd
     unfold GLAPPrimeCoreOf at h
@@ -241,10 +241,10 @@ theorem barX_pCoreOf_two_le {X : Subgroup G} {z : G} (hzX : z ∈ X) (hz2 : z ^ 
 
 theorem no_two_group_centralizing_component {Y : Type} [Group Y] [Finite Y]
     (hO : GLAPPrimeCore 3 Y = ⊥) {K : Subgroup Y} (hK : IsComponentOf K ⊤) {z : Y} (hzK : z ∈ K)
-    {S : Subgroup Y} (hS2 : IsPGroup 2 S)
+    {S : Subgroup Y} (_hS2 : IsPGroup 2 S)
     (hSz : S ≤ pCoreOf 2 (Subgroup.centralizer ({z} : Set Y)))
     (hSK : S ≤ Subgroup.centralizer (K : Set Y)) : S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm2 : ∀ M : Subgroup Y, M.Normal → IsPGroup 2 M → M = ⊥ := by
     intro M hMn hM2
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hM2
@@ -339,7 +339,7 @@ theorem no_two_group_centralizing_component {Y : Type} [Group Y] [Finite Y]
         intro f hf
         rw [Subgroup.mem_normalizer_iff]
         intro x
-        simp only [SetLike.mem_coe, Subgroup.mem_inf]
+        simp only [Subgroup.mem_inf]
         exact and_congr (Subgroup.mem_normalizer_iff.1 (hTN (hFN hf)) x)
           (Subgroup.mem_normalizer_iff.1 (Subgroup.le_normalizer hf) x)
       rw [hP0] at hle
@@ -373,7 +373,7 @@ theorem no_two_group_centralizing_component {Y : Type} [Group Y] [Finite Y]
       intro r hr
       rw [Subgroup.mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, Subgroup.mem_inf]
+      simp only [Subgroup.mem_inf]
       exact and_congr
         (Subgroup.mem_normalizer_iff.1
           (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _ (hcR r hr)) x)
@@ -387,7 +387,7 @@ theorem not_le_centMod_of_two_core {X K S : Subgroup G} {z : G} (hK : GLAPCompon
     ¬ S ≤ centModSubgroup 3 K := by
   intro hSCM
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzX : z ∈ X := hK.1 hzK
   have hY : GLAPPrimeCore 3 (↥X ⧸ GLAPPrimeCore 3 ↥X) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
@@ -420,13 +420,13 @@ theorem not_le_centMod_of_two_core {X K S : Subgroup G} {z : G} (hK : GLAPCompon
 
 theorem Z_not_le_centMod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {X K Z T : Subgroup G} {z : G}
     (hK : GLAPComponent 3 X K) (hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 X))) (hzK : z ∈ K)
-    (hz2 : z ^ 2 = 1) (hZX : Z ≤ X) (hTX : T ≤ X) (hZq : IsPGroup q Z) (hT2 : IsPGroup 2 T)
-    (hTz : T ≤ pCoreOf 2 (cx z)) (hZN : Z ≤ Subgroup.normalizer (K : Set G))
+    (hz2 : z ^ 2 = 1) (_hZX : Z ≤ X) (hTX : T ≤ X) (hZq : IsPGroup q Z) (hT2 : IsPGroup 2 T)
+    (hTz : T ≤ pCoreOf 2 (cx z)) (_hZN : Z ≤ Subgroup.normalizer (K : Set G))
     (hTN : T ≤ Subgroup.normalizer (K : Set G)) (hZT : Z ≤ Subgroup.normalizer (T : Set G))
     (hST : (⁅Z, T⁆ : Subgroup G) ≠ ⊥) : ¬ Z ≤ centModSubgroup 3 K := by
   intro hZ
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup G := ⁅Z, T⁆ with hSdef
   have hSle : S ≤ T := by
     rw [hSdef, Subgroup.commutator_le]
@@ -438,7 +438,7 @@ theorem Z_not_le_centMod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {X K Z T : Sub
   have hcop : Nat.Coprime (Nat.card Z) (Nat.card T) :=
     IsPGroup.coprime_card_of_ne q 2 hq2 Z T hZq hT2
   have hsolv : Group.IsSolvable ↥T := by
-    haveI := hT2.isNilpotent
+    have := hT2.isNilpotent
     infer_instance
   have hdbl : (⁅⁅T, Z⁆, Z⁆ : Subgroup G) = ⁅T, Z⁆ := GL83.commutator_double_eq_self Z T hZT hcop hsolv
   have hSS : (⁅S, Z⁆ : Subgroup G) = S := by
@@ -449,7 +449,7 @@ theorem Z_not_le_centMod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {X K Z T : Sub
 
 theorem pCoreOf_le_glaPPrimeCoreOf_of_ne {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p)
     (X : Subgroup G) : pCoreOf q X ≤ GLAPPrimeCoreOf p X := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   refine Subgroup.map_mono (le_sSup ⟨CFSG.LieType.BorelTits.pCore_normal q, ?_⟩)
   obtain ⟨k, hk⟩ := (CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥X) q).exists_card_eq
   rw [hk]
@@ -487,8 +487,8 @@ theorem Z_le_centMod_of_table (htab : U4TableAt G) {q : ℕ} (hq : q.Prime) (hq2
     (hJt : catalogIs (PSimple 3 J) isU4two) (hKt : catalogIs (PSimple 3 K) isTableU4) :
     Z ≤ centModSubgroup 3 K := by
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZN : Z ≤ Subgroup.normalizer (K : Set G) := le_sup_right.trans hSZN
   have hW : Bs ⊔ (S ⊔ Z) ⊔ K ≤ Subgroup.normalizer (K : Set G) :=
     sup_le (sup_le hBN hSZN) Subgroup.le_normalizer
@@ -504,9 +504,10 @@ theorem Z_le_centMod_of_table (htab : U4TableAt G) {q : ℕ} (hq : q.Prime) (hq2
   rw [hbot, Subgroup.mem_bot] at hmem
   exact centMod_iff.1 (centMod_of_barAut_eq_one (hZN hw) hmem)
 
+omit [Finite G] in
 theorem orderOf_eq_three {D : Subgroup G} (hD : IsElemAbelian 3 D) {a : G} (haD : a ∈ D)
     (ha1 : a ≠ 1) : orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (hD.2 a haD) ha1
 
 theorem not_mem_zpowers_symm {a x : G} (ha3 : orderOf a = 3) (hx3 : orderOf x = 3)
@@ -532,7 +533,7 @@ theorem final_contra (hc : S9Ctx G 3) (hrank : GLATwoLocalRank 3 G = 4) (h183 : 
   have hq3 : q ≠ 3 := hC.setup.ne_p
   set Z : Subgroup G := Q₁ ⊓ Subgroup.centralizer (Q₁ : Set G) with hZdef
   have hQ₁q : IsPGroup q Q₁ := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup q L).to_le hC.setup.le_core
   have hZne : Z ≠ ⊥ := center_ne_bot_of_isPGroup hq hQ₁q hC.setup.ne_bot
   have hZq : IsPGroup q Z := hQ₁q.to_le inf_le_left
@@ -583,7 +584,7 @@ theorem final_contra (hc : S9Ctx G 3) (hrank : GLATwoLocalRank 3 G = 4) (h183 : 
   have hTa : T ≤ cx a := inf_le_right
   have hTN : T ≤ Subgroup.normalizer (K : Set G) := fun u hu => hnorm ⟨hTa hu, hTcz hu⟩
   have hT2 : IsPGroup 2 T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (cx z)).to_le inf_le_left
   have hZT : Z ≤ Subgroup.normalizer (T : Set G) := by
     intro u hu

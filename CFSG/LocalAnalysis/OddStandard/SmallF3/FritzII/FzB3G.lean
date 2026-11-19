@@ -11,33 +11,41 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 private lemma fzbs_3g_u4 (hS : FzbsStr t q tau lam rho u Z E X W R T) : u ^ (4 : ℕ) = 1 := by
   have h : (u ^ 2) ^ 2 = 1 := hS.Z_sq (u ^ 2) (hS.E_sq u hS.u_mem)
   simpa [show (u ^ 2) ^ 2 = u ^ 4 by group] using h
 
+omit [Finite G] in
 private lemma fzbs_3g_u2sq (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     u ^ 2 * u ^ 2 = 1 := by
   rw [← pow_two]
   exact hS.Z_sq (u ^ 2) (hS.E_sq u hS.u_mem)
 
+omit [Finite G] in
 private lemma fzbs_3g_u2_inv (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     (u ^ 2)⁻¹ = u ^ 2 := inv_eq_of_mul_eq_one_right (fzbs_3g_u2sq hS)
 
+omit [Finite G] in
 private lemma fzbs_3g_u3_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     u ^ 3 * u ^ 3 = u ^ 2 := by
   rw [← pow_add, show (3 : ℕ) + 3 = 4 + 2 by norm_num, pow_add, fzbs_3g_u4 hS, one_mul]
 
+omit [Finite G] in
 private lemma fzbs_3g_tt (hS : FzbsStr t q tau lam rho u Z E X W R T) : t * t = 1 := by
   rw [← pow_two]; exact hS.t_sq
 
+omit [Finite G] in
 private lemma fzbs_3g_u2_mul_u2 (hS : FzbsStr t q tau lam rho u Z E X W R T) (x : G) :
     u ^ 2 * (u ^ 2 * x) = x := by
   rw [← mul_assoc, fzbs_3g_u2sq hS, one_mul]
 
+omit [Finite G] in
 private lemma fzbs_3g_mul_u2sq (hS : FzbsStr t q tau lam rho u Z E X W R T) (x : G) :
     x * u ^ 2 * u ^ 2 = x := by
   rw [mul_assoc, fzbs_3g_u2sq hS, mul_one]
 
+omit [Finite G] in
 private lemma fzbs_3g_zpowers_u_cases (hS : FzbsStr t q tau lam rho u Z E X W R T) {x : G}
     (hx : x ∈ zpowers u) : x = 1 ∨ x = u ∨ x = u ^ 2 ∨ x = u ^ 3 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -47,6 +55,7 @@ private lemma fzbs_3g_zpowers_u_cases (hS : FzbsStr t q tau lam rho u Z E X W R 
   have hlt := Int.emod_lt_of_pos k (show (0 : ℤ) < 4 by norm_num)
   interval_cases (k % 4) <;> simp [zpow_ofNat]
 
+omit [Finite G] in
 private lemma fzbs_3g_sq_eq_one (hS : FzbsStr t q tau lam rho u Z E X W R T) {x : G}
     (hx : x ∈ zpowers u) (hx2 : x ^ 2 = 1) : x = 1 ∨ x = u ^ 2 := by
   rcases fzbs_3g_zpowers_u_cases hS hx with h | h | h | h
@@ -59,10 +68,12 @@ private lemma fzbs_3g_sq_eq_one (hS : FzbsStr t q tau lam rho u Z E X W R T) {x 
     rw [h3] at hx2
     exact hS.u_sq_ne hx2
 
+omit [Finite G] in
 private lemma fzbs_3g_conj_eq_of_comm_one {a b : G} (h : ⁅a, b⁆ = 1) :
     a * b * a⁻¹ = b :=
   mul_inv_eq_one.mp h
 
+omit [Finite G] in
 private lemma fzbs_3g_comm_r_mul_u (hS : FzbsStr t q tau lam rho u Z E X W R T) {r s : G}
     (hrR : r ∈ R) (hs : s = tau ∨ s = q * tau) : ⁅s, r * u⁆ = ⁅s, r⁆ * u ^ 2 := by
   have huX : u ∈ X := hS.EX hS.u_mem
@@ -257,6 +268,7 @@ theorem fzbs_r3 (hS : FzbsStr t q tau lam rho u Z E X W R T) :
           fzbs_3g_u2sq hS])⟩
   · exact step (by rw [hc, pow_two (u ^ 3)]; exact fzbs_3g_u3_mul hS)
 
+omit [Finite G] in
 theorem fzbs_r3_sq (hS : FzbsStr t q tau lam rho u Z E X W R T) {s r₃ : G}
     (hs : s = tau ∨ s = q * tau) (hr₃ : r₃ ∈ ⁅R, zpowers rho⁆)
     (hr₃t : r₃ * t * r₃⁻¹ = t * u ^ 2) (hr₃l : lam * r₃ * lam⁻¹ = r₃)

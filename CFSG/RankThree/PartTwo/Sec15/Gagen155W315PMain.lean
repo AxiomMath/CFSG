@@ -40,7 +40,7 @@ theorem step155W315P_of
   intro h X K Y M T P hC _ _ hE hRP hWO
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : Proof155Wx.Facts155W A X Y M P := Proof155Wx.facts155W_of h h148 h149 hC hE hRP
-  letI : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
+  let : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
   have hX : X ∈ thetaComponentsIn M := hE.mem_x
   obtain ⟨d, hdA, hd1, hdW, h5X, htype⟩ := cases148_of_not_le h h148 h149 hf hX hWO
   set W := w155 A M X with hWdef
@@ -55,7 +55,7 @@ theorem step155W315P_of
   have h5 : 5 ∣ ((W ⊓ pPrimeCoreOf 3 M).subgroupOf W).index := by
     rw [hNeq, ← card_img148_eq_index (A := A) hWM]
     exact (type155_facts htype).2.2.1
-  have hsol : IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M) :=
+  have hsol : Group.IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M) :=
     isSolvable_of_pRank_five_le_one hSz hK hWM hWp inf_le_left hNn hN3
       (le_inf (Subgroup.map_subtype_le _) hθO) h5 (pRank_five_w155_le_one h hf hX h5X)
   obtain ⟨hθ, hWc⟩ := theta_w155_eq_and_mem_comp3In hWM hf.subnormal_w_m hWΔ

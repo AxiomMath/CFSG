@@ -52,7 +52,7 @@ theorem commGens_le : Subgroup.closure {s | s ∈ m22E8CommGens} ≤
   have hg : ∀ j < 3, m22UGens1.getD j 1 ∈ U := fun j hj =>
     Subgroup.subset_closure (getD_mem (by rw [lenU, ngU3]; exact hj))
   refine (Subgroup.closure_le U).2 fun c hc' => ?_
-  simp only [Set.mem_setOf_eq, m22E8CommGens, List.mem_cons, List.not_mem_nil, or_false] at hc'
+  simp only [Set.mem_ofPred_eq, m22E8CommGens, List.mem_cons, List.not_mem_nil, or_false] at hc'
   rcases hc' with rfl | rfl | rfl
   · exact hc _ (hg 0 (by norm_num)) _ (hg 1 (by norm_num))
   · exact hc _ (hg 0 (by norm_num)) _ (hg 2 (by norm_num))

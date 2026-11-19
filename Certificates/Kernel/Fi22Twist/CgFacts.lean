@@ -106,7 +106,7 @@ theorem cgP_comm_gen {j m : ℕ} (hj : j < 5) (hm : m < t12 ngC j) {t e : ℕ}
     ap_eq hwR (pt_lt (MonoidHom.id _) (permOfArr 3510 (unpack 3510 12 (CG (t12 gofC j + m)))) hb),
     ← pt_mul, ← pt_mul] at k
   unfold pt at k
-  rw [dif_pos hb, dif_pos hb] at k
+  rw [dite_eq_left hb, dite_eq_left hb] at k
   exact k
 
 theorem cSub_le_P {j : ℕ} (hj : j < 5) : cSub j ≤ fi22P := by

@@ -86,6 +86,7 @@ theorem pair_dual_closed {σ : K →+* K} {B : V →ₛₗ[σ] V →ₗ[K] K} {x
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem fix_of_scalar_on_block (h2 : (2 : K) = 0) {x : LinearMap.GeneralLinearGroup K V} {a : K[X]}
     (ha : a ∈ primaryFactors (x : Module.End K V)) {B g s zt : LinearMap.GeneralLinearGroup K V}
     (hgc : g ∈ gl_centralizer x) {l : Kˣ}
@@ -111,6 +112,7 @@ theorem fix_of_scalar_on_block (h2 : (2 : K) = 0) {x : LinearMap.GeneralLinearGr
   exact SD.Lin.eq_of_smul_of_two_pow h2 ha hzt2 (c := algebraMap K (AdjoinRoot a) μ)
     (fun w => by rw [coe_algebraMap_smul_primaryComponent]; exact hact w w.2) ⟨v, hv⟩
 
+omit [Finite K] in
 theorem exists_good_block_uni (h2 : (2 : K) = 0) {ℓ f : ℕ} (hK : UnitaryFieldData ℓ f K)
     {x : LinearMap.GeneralLinearGroup K V} (hsq : Squarefree (minpoly K (x : Module.End K V)))
     {y : LinearMap.GeneralLinearGroup K V} (hyc : y ∈ gl_centralizer x) {k : ℕ}
@@ -124,7 +126,7 @@ theorem exists_good_block_uni (h2 : (2 : K) = 0) {ℓ f : ℕ} (hK : UnitaryFiel
   refine ⟨⟨b, hb⟩, ?_, v, hv, hne⟩
   by_contra hng
   by_cases hm : primaryMultiplicity (x : Module.End K V) b ≤ 1
-  · haveI : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
+  · have : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
     obtain ⟨c, hc⟩ := SD.Lin.exists_smul_of_finrank_le_one hm
       (commutantRestrict b ⟨(y : Module.End K V), mem_commutant_of_mem_gl_centralizer hyc⟩)
     exact hne (SD.Lin.eq_of_smul_of_two_pow h2 hb hy (c := c) (fun w => congrArg Subtype.val (hc w))
@@ -143,7 +145,7 @@ theorem dvd_card_specialBlock_of_dvd {ℓ f : ℕ} {hK : UnitaryFieldData ℓ f 
     (hm : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X])) {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ Nat.card (AdjoinRoot (a : K[X])) - 1) :
     p ∣ Nat.card (specialBlock B x (a : K[X])) := by
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · obtain ⟨hE, Hf, hHf, hHfl, ⟨e⟩⟩ :=
       nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
@@ -184,6 +186,7 @@ local notation "𝒜" => Matrix.GeneralLinearGroup.toLin ((A : GL (Fin d) K))
 local notation "𝒳" => ((Matrix.GeneralLinearGroup.toLin ((A : GL (Fin d) K)) :
   LinearMap.GeneralLinearGroup K (Fin d → K)) : Module.End K (Fin d → K))
 
+omit [Finite K] in
 theorem fix_of_scalar_conj {B : primeFormUnitary h (idGram K d)} {g zt : ↥(gramSU h (idGram K d))}
     (hgc : toLinSU h d g ∈ gl_centralizer 𝒜)
     (hs : (primeFormConjSU h (idGram K d) B g * g⁻¹)⁻¹ * zt ∈
@@ -193,7 +196,7 @@ theorem fix_of_scalar_conj {B : primeFormUnitary h (idGram K d)} {g zt : ↥(gra
       ((Matrix.GeneralLinearGroup.toLin (B : GL (Fin d) K) : LinearMap.GeneralLinearGroup K (Fin d → K)) :
         Module.End K (Fin d → K)) v = (l : K) • v) :
     ∀ v ∈ primaryComponent 𝒳 b, (toLinSU h d zt : Module.End K (Fin d → K)) v = v := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   obtain ⟨s, hsZ, rfl⟩ : ∃ s ∈ normOneScalars h (gramSU h (idGram K d)) d,
       zt = primeFormConjSU h (idGram K d) B g * g⁻¹ * s :=
@@ -209,6 +212,7 @@ theorem fix_of_scalar_conj {B : primeFormUnitary h (idGram K d)} {g zt : ↥(gra
   · rw [map_mul, map_mul, map_inv, KD264Lie.toLinSU_primeFormConjSU h B g]
   · rw [← map_pow, hzt2, map_one]
 
+omit [Finite K] in
 theorem toLin_mem_unitaryCentralizer_of_comm {B : primeFormUnitary h (idGram K d)}
     (hBA : (B : GL (Fin d) K) * A = A * B) :
     Matrix.GeneralLinearGroup.toLin (B : GL (Fin d) K) ∈ unitaryCentralizer (idForm h d) 𝒜 := by
@@ -308,8 +312,8 @@ theorem dvd_card_specialBlock_of_not_dvd (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime)
     (hne : (toLinSU h d zt : Module.End K (Fin d → K)) v ≠ v) :
     p ∣ Nat.card (specialBlock (idForm h d) 𝒜 (a : K[X])) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   have hd0 : 0 < d := by omega
   obtain ⟨c, hAc⟩ := pow_scalar_of_conj_pow h hd A hAp
   obtain ⟨ζ, hζ⟩ := comm_scalar_of_conj_comm h hd hBA
@@ -376,6 +380,7 @@ theorem dvd_card_specialBlock_of_not_dvd (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime)
   rw [← hord]
   exact orderOf_dvd_natCard _
 
+omit [Finite K] in
 theorem exists_noncomm_uni (hd : 0 < d) (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq : 2 ≤ 2 ^ n)
     (a : primaryFactors 𝒳) (ha : IsGoodBlock h 𝒜 a) {zt : ↥(gramSU h (idGram K d))}
     (hztc : toLinSU h d zt ∈ unitaryCentralizer (idForm h d) 𝒜) {k : ℕ} (hzt2 : zt ^ (2 ^ k) = 1)
@@ -409,11 +414,12 @@ theorem exists_noncomm_uni (hd : 0 < d) (H : UnitaryPrimaryData h.bar (idForm h 
     show toLinSU h d zt * toLinSU h d f = toLinSU h d f * toLinSU h d zt
     rw [← map_mul, ← map_mul, h3]
   obtain ⟨c, hc⟩ := (commute_specialBlock_iff_scalar H hq a ha hztc).1 hcomm
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have hzt2' : (toLinSU h d zt) ^ (2 ^ k) = 1 := by rw [← map_pow, hzt2, map_one]
   exact hne (SD.Lin.eq_of_smul_of_two_pow h2 a.2 hzt2' hc ⟨v, hv⟩)
 
+omit [Finite K] in
 theorem exists_decomp_uni (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq : 2 ≤ 2 ^ n)
     (a : primaryFactors 𝒳) (ha : IsGoodBlock h 𝒜 a) {y : ↥(gramSU h (idGram K d))}
     (hyc : toLinSU h d y ∈ unitaryCentralizer (idForm h d) 𝒜) {k : ℕ} (hy : y ^ (2 ^ k) = 1) :
@@ -421,8 +427,8 @@ theorem exists_decomp_uni (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq :
       toLinSU h d w₂ ∈ unitaryCentralizer (idForm h d) 𝒜 ∧
       (∀ f ∈ KD264Lie.unitaryPreimageBlock h (x := 𝒜) (a : K[X]), w₂ * f = f * w₂) ∧ y = w₂ * w₁ := by
   classical
-  haveI : CharP K 2 := h.charP
-  haveI : CharP (AdjoinRoot (a : K[X])) 2 :=
+  have : CharP K 2 := h.charP
+  have : CharP (AdjoinRoot (a : K[X])) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (a : K[X]))).injective 2
   obtain ⟨w, hwO, hwy⟩ := exists_component H (pair_dual_closed H a.2) hyc
   have hwc : w ∈ gl_centralizer 𝒜 := supportedUnitary_le_gl_centralizer _ hwO

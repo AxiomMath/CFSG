@@ -56,8 +56,8 @@ theorem sit_sym (h14 : FF79_1_4) (h41 : FF79_4_1)
       (Lay (OUp 3 (Cen (b₁ * b₂)) ⊓ Cen b))
       (Lay (OUp 3 (Cen (b₁ * b₂)) ⊓ Cen (b₁ ^ 2 * b₂))) (Opp 3 (Cen b)) where
   cenβ := m42_OUp_le 3 _
-  Hnorm := fun g hg x hx => m42_OUp_conj_mem hg hx
-  H3 := fun g hg hc => m42_mem_OUp hg hc
+  Hnorm := fun _g hg _x hx => m42_OUp_conj_mem hg hx
+  H3 := fun _g hg hc => m42_mem_OUp hg hc
   e_mem := (m42_Lay_le _ hbL).1
   f_mem := (m42_Lay_le _ hγK).1
   ord_e := h.ord_b
@@ -73,7 +73,7 @@ theorem sit_sym (h14 : FF79_1_4) (h41 : FF79_4_1)
   Xe := h.X_b h14 h41
   Xf := h.X_γ h14 h41
   Xodd := h41 G b J B b₁ b₂ h
-  kgn := fun M hM => h.kgn_H hM
+  kgn := fun _M hM => h.kgn_H hM
 
 end FF79Sec4
 

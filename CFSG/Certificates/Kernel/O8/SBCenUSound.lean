@@ -32,7 +32,7 @@ theorem ext_uu (e g : ℕ) :
   have h2 : e + 128 * (g + 512) - 65536 = e + 128 * g := by omega
   rw [extMulF_eq]
   unfold extMul
-  rw [if_neg h1, if_neg h1, h2]
+  rw [ite_eq_right h1, ite_eq_right h1, h2]
 
 theorem ext_ul {e g q : ℕ} (hq : q < 65536) :
     extMulF 65536 mul F z (e + 128 * (g + 512)) q = mul (e + 128 * g) (F q) + 65536 := by
@@ -40,7 +40,7 @@ theorem ext_ul {e g q : ℕ} (hq : q < 65536) :
   have h2 : e + 128 * (g + 512) - 65536 = e + 128 * g := by omega
   rw [extMulF_eq]
   unfold extMul
-  rw [if_neg h1, if_pos hq, h2]
+  rw [ite_eq_right h1, ite_eq_left hq, h2]
 
 theorem ext_lu {e g q : ℕ} (hq : q < 65536) :
     extMulF 65536 mul F z q (e + 128 * (g + 512)) = mul q (e + 128 * g) + 65536 := by
@@ -48,7 +48,7 @@ theorem ext_lu {e g q : ℕ} (hq : q < 65536) :
   have h2 : e + 128 * (g + 512) - 65536 = e + 128 * g := by omega
   rw [extMulF_eq]
   unfold extMul
-  rw [if_pos hq, if_neg h1, h2]
+  rw [ite_eq_left hq, ite_eq_right h1, h2]
 
 include hmul hF in
 theorem lowCntV_eq {g q : ℕ} (hg : g < 512) (hq : q < 65536) (p : ℕ → Bool) :
@@ -73,7 +73,7 @@ theorem lowCntV_eq {g q : ℕ} (hg : g < 512) (hq : q < 65536) (p : ℕ → Bool
   generalize v >>> 7 = vg at hvs hvg ⊢
   subst hqs hvs
   by_cases hm : (MR g >>> (9 * vg)) &&& 511 = (MR h >>> (9 * g)) &&& 511
-  · rw [if_pos hm, zl_eq, flg_and, pop_eq]
+  · rw [ite_eq_left hm, zl_eq, flg_and, pop_eq]
     refine Finset.sum_congr rfl fun e he => ?_
     have he := Finset.mem_range.1 he
     simp only [ln_xor]
@@ -81,8 +81,8 @@ theorem lowCntV_eq {g q : ℕ} (hg : g < 512) (hq : q < 65536) (p : ℕ → Bool
       mul_code AR MR hmul he' hh he hg, hm, xor4]
     simp only [code_eq (xor_lt he (ln_lt _ _)) (xor_lt he' (ln_lt _ _))]
     by_cases hx : e ^^^ ((AR g >>> (7 * ve)) &&& 127) = e' ^^^ ((AR h >>> (7 * e)) &&& 127) <;>
-      simp [hx, xor_eq_zero]
-  · rw [if_neg hm]
+      simp [hx]
+  · rw [ite_eq_right hm]
     symm
     apply Finset.sum_eq_zero
     intro e he
@@ -171,6 +171,7 @@ theorem uWalkU_eq {g : ℕ} (hg : g < 512) (p : ℕ → Bool) : ∀ U : List ℕ
     rw [h1]
 
 include hmul hF hz in
+omit hmul hF hz in
 theorem zIU_eq (g : ℕ) (hg : g < 512) :
     lanesK (fun e => strictN (Nat.add e (Nat.mul 128 g)) fun a => strictN (F a) fun u =>
       strictN (mul (mul a u) z) fun s => nIf(Nat.beq s 0, 64, 0)) 128 =
@@ -181,7 +182,7 @@ theorem zIU_eq (g : ℕ) (hg : g < 512) :
   refine congrArg (fun f => lanes 7 f 128) (funext fun e => ?_)
   simp only [cen_strictN, cen_nIf, cen_beq, Nat.add_eq, Nat.mul_eq, ext_uu (mul := mul) F z e g]
   have : e + 128 * (g + 512) ≠ 0 := by omega
-  simp [this]
+  simp
 
 include hmul hF hz in
 theorem zOU_eq (g : ℕ) (hg : g < 512) :
@@ -211,7 +212,7 @@ theorem zOU_eq (g : ℕ) (hg : g < 512) :
       mul (mul (mul (e + 128 * g) (F (e + 128 * g))) z) (mul (mul (e + 128 * g) (F (e + 128 * g))) z) := by
     rw [extMulF_eq]
     unfold extMul
-    rw [if_pos hs, if_pos hs]
+    rw [ite_eq_left hs, ite_eq_left hs]
   rw [hss]
 
 include hmul hF hz in
@@ -219,7 +220,7 @@ theorem grpU_eq {g : ℕ} (hg : g < 512) {Q U : List ℕ} (hU : ∀ u ∈ U, u <
     grpU mul AR MR F z Q U nQ g =
       ∑ e ∈ Finset.range 128, cen (extMulF 65536 mul F z) Q U nQ (e + 128 * (g + 512)) := by
   unfold grpU
-  rw [zIU_eq AR MR F z hmul hF hz g hg, zOU_eq AR MR F z hmul hF hz g hg]
+  rw [zIU_eq F z g hg, zOU_eq AR MR F z hmul hF hz g hg]
   simp only [cen_strictN]
   simp only [Nat.add_eq, cen_shl, Nat.mul_eq, Nat.succ_eq_add_one]
   have hq := qWalkU_eq AR MR F z hmul hF hg (fun e => decide

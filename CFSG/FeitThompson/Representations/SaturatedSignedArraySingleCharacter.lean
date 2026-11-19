@@ -35,17 +35,17 @@ variable [DecidableEq ι]
 theorem IsOrthonormalFamily.cfInner_right_sum_smul {η : ι → α → ℂ} (hη : IsOrthonormalFamily η)
     (ε : ι → ℂ) (i : ι) : cfInner (η i) (∑ j, ε j • η j) = conj (ε i) := by
   rw [cfInner_sum_smul_right, Finset.sum_eq_single i]
-  · rw [hη.cfInner_eq_ite i i, if_pos rfl, mul_one]
+  · rw [hη.cfInner_eq_ite i i, ite_eq_left rfl, mul_one]
   · intro j _ hji
-    rw [hη.cfInner_eq_ite i j, if_neg (Ne.symm hji), mul_zero]
+    rw [hη.cfInner_eq_ite i j, ite_eq_right (Ne.symm hji), mul_zero]
   · simp
 
 theorem IsOrthonormalFamily.cfInner_left_sum_smul {η : ι → α → ℂ} (hη : IsOrthonormalFamily η)
     (ε : ι → ℂ) (i : ι) : cfInner (∑ j, ε j • η j) (η i) = ε i := by
   rw [cfInner_sum_smul_left, Finset.sum_eq_single i]
-  · rw [hη.cfInner_eq_ite i i, if_pos rfl, mul_one]
+  · rw [hη.cfInner_eq_ite i i, ite_eq_left rfl, mul_one]
   · intro j _ hji
-    rw [hη.cfInner_eq_ite j i, if_neg hji, mul_zero]
+    rw [hη.cfInner_eq_ite j i, ite_eq_right hji, mul_zero]
   · simp
 
 theorem IsOrthonormalFamily.cfInner_self_sum_smul {η : ι → α → ℂ} (hη : IsOrthonormalFamily η)
@@ -73,6 +73,7 @@ theorem sum_sign_smul_mem_span_Irr (hηZ : ∀ i, η i ∈ Submodule.span ℤ (I
 
 variable [Fintype G]
 
+omit [Group G] in
 theorem cfInner_self_sum_smul_sub_eq_one [DecidableEq ι] (hη : IsOrthonormalFamily η)
     (hε : ∀ i, ε i = 1 ∨ ε i = -1) (hβ : cfInner β β = (Fintype.card ι : ℂ) + 1)
     (hperp : ∀ i, IsOrthogonal (β - ∑ i, ε i • η i) (η i)) :
@@ -90,6 +91,7 @@ theorem cfInner_self_sum_smul_sub_eq_one [DecidableEq ι] (hη : IsOrthonormalFa
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right, h1, h2, hXX, hβ]
   ring
 
+omit [Group G] in
 theorem isOrthogonal_sum_smul_sub (hperp : ∀ i, IsOrthogonal (β - ∑ i, ε i • η i) (η i)) (i : ι) :
     IsOrthogonal (∑ i, ε i • η i - β) (η i) := by
   rw [isOrthogonal_iff, show (∑ i, ε i • η i) - β = -(β - ∑ i, ε i • η i) by ring,

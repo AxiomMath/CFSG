@@ -112,7 +112,7 @@ theorem smaller_recognition_sylow_centralizer_commutator
         (Subgroup.centralizer ({t} : Set K)).subtype⁆ ≤ CFSG.oddCore K := by
   apply smaller_wreathed_recognition_gives_proper_subgroup_odd_core_commutator_control
     hrec K hproper n hn S e hfusion hindex t ht
-  · exact P.isPGroup'.map _
+  · exact P.isPGroup.map _
   · rintro a ⟨c, _, rfl⟩
     exact c.property
 

@@ -143,7 +143,7 @@ theorem card_le_of_outer_of_mulAut {K : Type} [Group K] [Finite K] {p : ℕ} (hp
     rwa [Subgroup.map_comap_eq_self_of_surjective hπs] at h1
   let P : Sylow p F := default
   let A : Subgroup (MulAut K) := (P : Subgroup F).map F.subtype
-  have hpA : IsPGroup p A := P.isPGroup'.map F.subtype
+  have hpA : IsPGroup p A := P.isPGroup.map F.subtype
   have hAF : ∀ x ∈ A, π x ∈ E := by
     rintro x ⟨y, -, rfl⟩
     exact y.2

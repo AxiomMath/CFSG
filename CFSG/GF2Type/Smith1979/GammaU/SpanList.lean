@@ -43,7 +43,7 @@ abbrev spanOf (vs : List ℕ) : Submodule (ZMod 2) V12 :=
 theorem setOf_cons (v : ℕ) (vs : List ℕ) :
     {x | ∃ w ∈ v :: vs, vecOf w = x} = insert (vecOf v) {x | ∃ w ∈ vs, vecOf w = x} := by
   ext x
-  simp only [List.mem_cons, Set.mem_setOf_eq, Set.mem_insert_iff]
+  simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_insert_iff]
   constructor
   · rintro ⟨w, rfl | hw, rfl⟩
     · exact Or.inl rfl

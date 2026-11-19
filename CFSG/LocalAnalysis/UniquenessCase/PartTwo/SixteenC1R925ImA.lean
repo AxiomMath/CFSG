@@ -18,7 +18,7 @@ private theorem r925_card_eq_sixty_of_isAlt_five {X : Type} [Group X] (h : IsAlt
 private theorem r925_sixty_dvd_card_of_isPerfA5Cover {X : Type} [Group X] [Finite X]
     (h : IsPerfA5Cover X) : 60 ∣ Nat.card X := by
   obtain ⟨-, Z, hZn, -, he⟩ := h
-  haveI := hZn
+  have := hZn
   have hcard : Nat.card X = Nat.card (X ⧸ Z) * Nat.card Z :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup Z
   rw [hcard, r925_card_eq_sixty_of_isAlt_five he]
@@ -32,7 +32,7 @@ private theorem r925_im_alt5_hmap {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Su
 private theorem r925_im_alt5_hDvd {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) (hle : K.map (toModO3p Γ) ≤ M.map (toModO3p Γ)) :
     Nat.card ↥(K.map (toModO3p Γ)) ∣ 51840 ∨ ¬ 3 ∣ Nat.card ↥(K.map (toModO3p Γ)) := by
-  haveI : IsSimpleGroup ↥(K.map (toModO3p Γ)) := r925_kbar_simple h
+  have : IsSimpleGroup ↥(K.map (toModO3p Γ)) := r925_kbar_simple h
   exact CFSG.KCore.KGroupNonab.catalogue_self (isoInvariant_dvdOrThreeFree 51840)
     (r925_im_alt5_hmap h hle) (r925_kbar_nonabelian h)
 

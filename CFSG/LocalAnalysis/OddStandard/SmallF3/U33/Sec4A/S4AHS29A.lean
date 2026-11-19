@@ -47,8 +47,8 @@ theorem hs29_transport [Finite G] {R : Subgroup G} (hcard : Nat.card R = 64)
       (Nonempty (↥(R ⊓ centralizer ({a} : Set G)) ≃* DihedralGroup 4) ∨
         Nonempty (↥(R ⊓ centralizer ({a} : Set G)) ≃* QuaternionGroup 2)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set rT : MulAut R := R.normalizerMonoidHom ⟨ρ, hρ⟩ with hrT
   set aT : MulAut R := R.normalizerMonoidHom ⟨a, ha⟩ with haT
   have hrT_apply : ∀ r : R, ((rT r : R) : G) = ρ * (r : G) * ρ⁻¹ := fun r => rfl

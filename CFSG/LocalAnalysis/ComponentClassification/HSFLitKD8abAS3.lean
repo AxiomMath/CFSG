@@ -91,7 +91,7 @@ theorem φ_injective {φ : (Fin 3 → Multiplicative (ZMod 2)) →* X} (e0 : φ 
   rw [mem_bot]
   rcases vec_cases v with h | h | h | h | h | h | h | h <;> rw [h] at hv ⊢ <;>
     simp only [map_mul, e0, e1, e2] at hv <;>
-    first | rfl | exact absurd hv P.z_ne | exact absurd hv P.k_ne₁ | exact absurd hv P.w_ne₁ |
+    first | exact absurd hv P.z_ne | exact absurd hv P.k_ne₁ | exact absurd hv P.w_ne₁ |
       exact absurd hv hk1 | exact absurd hv hw1 | exact absurd hv hkw1 | exact absurd hv hzkw1
 
 omit [Finite X] in

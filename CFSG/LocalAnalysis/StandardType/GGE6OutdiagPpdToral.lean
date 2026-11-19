@@ -61,18 +61,18 @@ theorem ggInndiagToral_of_twist_mem_kernelReflectionGroup
     (hw : w ∈ kernelReflectionGroup a) :
     LayerSixE.GGInndiagToral Tag.E6 K (Subgroup.zpowers (TableBExc.E6Three.hatAut Tag.E6 K x)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n', hpn, hcard⟩ := FiniteField.card K (ringChar K)
   obtain ⟨p, hp⟩ : ∃ p, p = ringChar K := ⟨_, rfl⟩
   rw [← hp] at hpn hcard
-  haveI : Fact p.Prime := ⟨hpn⟩
-  haveI : CharP K p := hp ▸ ringChar.charP K
+  have : Fact p.Prime := ⟨hpn⟩
+  have : CharP K p := hp ▸ ringChar.charP K
   obtain ⟨e, he⟩ : ∃ e : ℕ, e = (n' : ℕ) := ⟨_, rfl⟩
   have hK : Nat.card K = p ^ e := by rw [Nat.card_eq_fintype_card, hcard, he]
   have he1 : 1 ≤ e := by
     rw [he]
     exact n'.pos
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hFrEq : Fr = iterateFrobenius (AlgebraicClosure K) p e :=
     RingHom.ext fun c => by rw [hFr, iterateFrobenius_def, hK]
@@ -163,7 +163,7 @@ theorem ggInndiagToral_of_twist_mem_kernelReflectionGroup
     have hai : ((a i : (AlgebraicClosure K)ˣ) : AlgebraicClosure K) ^ Nat.card K = (a i : _) := by
       have h := congrArg (fun t : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ =>
         ((t i : (AlgebraicClosure K)ˣ) : AlgebraicClosure K)) hFa
-      simp only [Units.coe_map, MonoidHom.coe_coe, RingHom.toMonoidHom_eq_coe] at h
+      simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass, RingHom.toMonoidHom_eq_coe] at h
       rw [← hFr]
       exact h
     obtain ⟨c, hc⟩ := CFSG.RankThree.PartOne.KE.mem_range_algebraMap_of_pow_card_eq hai
@@ -172,7 +172,7 @@ theorem ggInndiagToral_of_twist_mem_kernelReflectionGroup
       apply (a i).ne_zero
       rw [← hc, h0, map_zero]
     refine ⟨Units.mk0 c hc0, Units.ext ?_⟩
-    simp only [Units.coe_map, MonoidHom.coe_coe, RingHom.toMonoidHom_eq_coe, Units.val_mk0]
+    simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass, RingHom.toMonoidHom_eq_coe, Units.val_mk0]
     exact hc
   choose a' ha'' using ha'
   have hda' : baseChangeGL (algebraMap K (AlgebraicClosure K)) (rootDiagUnit Tag.E6 a') =

@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_of_le {T H C : Subgroup G} (hTH : T ≤ H)
     (hHC : H ≤ normalizer (C : Set G)) : T ≤ normalizer ((T ⊓ C : Subgroup G) : Set G) := by
   intro t ht
@@ -33,9 +34,10 @@ theorem Sit813.v1Grp_le_omegaOneCenterOf_pCoreOf {V H T A L K : Subgroup G} {i :
 private def oTwoSetNV (N K : Subgroup G) : Set (Subgroup G) :=
   {W | N ≤ W ∧ W ≤ K ∧ (W.subgroupOf K).Normal ∧ ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N}
 
+omit [Finite G] in
 theorem exists_two_pow_mem_of_mem_oTwoMod {C K : Subgroup G} (hC : (C.subgroupOf K).Normal)
     {n : G} (hn : n ∈ oTwoMod C K) : ∃ k : ℕ, n ^ 2 ^ k ∈ C := by
-  haveI : (C.subgroupOf K).Normal := hC
+  have : (C.subgroupOf K).Normal := hC
   let Sset : Set (Subgroup G) := oTwoSetNV C K
   have hsup : (⨆ x : Sset, (x : Subgroup G)) = oTwoMod C K :=
     (iSup_subtype'' Sset id).trans rfl
@@ -45,8 +47,7 @@ theorem exists_two_pow_mem_of_mem_oTwoMod {C K : Subgroup G} (hC : (C.subgroupOf
   let P : Subgroup Q := ⨆ W ∈ Sset, (W.subgroupOf K).map q
   have hP2 : IsPGroup 2 P := by
     refine Sylow.biSup_of_normal Sset (fun W => (W.subgroupOf K).map q) ?_ ?_
-    · intro W hW
-      intro y
+    · intro W hW y
       obtain ⟨w, hw, hwy⟩ := Subgroup.mem_map.mp y.2
       have hk := hW.2.2.2 (w : G) (by simpa [Subgroup.mem_subgroupOf] using hw)
       obtain ⟨k, hk⟩ := hk
@@ -96,7 +97,7 @@ theorem exists_two_pow_mem_of_mem_oTwoMod {C K : Subgroup G} (hC : (C.subgroupOf
 theorem Sit813.exists_mul_eq_of_mem_oTwoMod {V H T A L K : Subgroup G} {i : ℕ}
     (h : Sit813 V H T i A L K) {n : G} (hn : n ∈ oTwoMod (cGrp H T) K) :
     ∃ s ∈ T ⊓ oTwoMod (cGrp H T) K, ∃ c ∈ cGrp H T, n = s * c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCnormK : ((cGrp H T).subgroupOf K).Normal := h.cGrp_normal
   have hCD : cGrp H T ≤ oTwoMod (cGrp H T) K := h.cGrp_le_oTwoMod
   have hDK : oTwoMod (cGrp H T) K ≤ K := oTwoMod_le_self

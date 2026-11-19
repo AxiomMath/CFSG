@@ -95,7 +95,7 @@ theorem ncard_le_of_pairwise_polar (S : Setting G) {A : Set S.Qt} (h0 : (0 : S.Q
     omega
   have hsub : A ⊆ (W : Set S.Qt) \ {0} := fun x hx => ⟨hAW hx, fun h => h0 (h ▸ hx)⟩
   calc A.ncard ≤ ((W : Set S.Qt) \ {0}).ncard := Set.ncard_le_ncard hsub
-    _ = (W : Set S.Qt).ncard - 1 := Set.ncard_diff_singleton_of_mem W.zero_mem
+    _ = (W : Set S.Qt).ncard - 1 := Set.ncard_sdiff_singleton_of_mem W.zero_mem
     _ = 2 ^ finrank (ZMod 2) W - 1 := by
         rw [← Nat.card_coe_set_eq, SetLike.coe_sort_coe, S.card_submodule]
     _ ≤ 2 ^ S.width - 1 := Nat.sub_le_sub_right (Nat.pow_le_pow_right (by norm_num) hdim) 1

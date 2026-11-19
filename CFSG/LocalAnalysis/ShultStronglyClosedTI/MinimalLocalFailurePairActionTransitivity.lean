@@ -54,7 +54,7 @@ theorem minimalLocalFailurePairAction_odd_pair_sylow_in_triple
   let P₀G := (P₀ : Subgroup B).map B.subtype
   have hP₀B : P₀G ≤ B := Subgroup.map_subtype_le _
   have hP₀H : P₀G ≤ H := hP₀B.trans (pairPointStabilizer_le_point H beta)
-  have hP₀p : IsPGroup p P₀G := P₀.isPGroup'.map B.subtype
+  have hP₀p : IsPGroup p P₀G := P₀.isPGroup.map B.subtype
   have hfixed : 2 ≤ Nat.card (pointFixedSet H P₀G) :=
     two_le_pointFixedSet_card_of_pair H P₀G (rightCosetMk H 1) beta (Ne.symm hbeta)
       ((mem_pointFixedSet_iff H P₀G _).mpr (hP₀B.trans inf_le_left))

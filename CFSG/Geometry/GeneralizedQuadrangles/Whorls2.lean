@@ -83,6 +83,7 @@ section Trace
 variable {Γ : SimpleGraph V} {H : Type v} [Group H] [MulAction H V] [GraphAction H Γ]
 variable [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem smul_eq_of_mem_traceSet (hP : IsGeneralizedPolygon Γ 4) {θ : H} {p y a : V}
     (hpN : ∀ L, Γ.Adj p L → θ • L = L) (hyN : ∀ L, Γ.Adj y L → θ • L = L)
     (hpy : Γ.dist p y = 4) (ha : a ∈ traceSet Γ p y) : θ • a = a := by
@@ -195,10 +196,10 @@ theorem whorl_projection_data (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       ⟨hxNx.symm, hxM⟩
   have ht2 : 2 ≤ t := by
     have h := hT p
-    rw [hdeg p, if_pos hp] at h
+    rw [hdeg p, ite_eq_left hp] at h
     omega
   have hcard : 1 < (traceSet Γ p z).ncard := by
-    rw [ncard_trace hP hzp, hdeg p, if_pos hp]
+    rw [ncard_trace hP hzp, hdeg p, ite_eq_left hp]
     omega
   obtain ⟨a, ha_mem, hax⟩ := Set.exists_ne_of_one_lt_ncard hcard x
   have ha_fix : θ • a = a := htr_z a ha_mem
@@ -339,6 +340,7 @@ section Count
 variable {Γ : SimpleGraph V} {H : Type v} [Group H] [MulAction H V] [GraphAction H Γ]
 variable [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem ncard_fixed_neighborSet_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4)
     {θ : H} {L M : V} (hLM : Γ.dist L M = 4) (hLfix : θ • L = L)
     (hMfix : θ • M = M) :
@@ -350,14 +352,14 @@ theorem ncard_fixed_neighborSet_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ
   have hdist : ∀ a ∈ s, Γ.dist a M = 3 := by
     intro a ha
     have haL : Γ.Adj L a := by
-      simpa only [s, Set.mem_inter_iff, Set.mem_setOf_eq, mem_neighborSet] using ha |>.1
+      simpa only [s, Set.mem_inter_iff, Set.mem_ofPred_eq, mem_neighborSet] using ha |>.1
     have h := dist_eq_three_of_adj_of_dist_eq_four hP hLM haL
     rw [SimpleGraph.dist_comm]
     exact h
   have hdist' : ∀ b ∈ t, Γ.dist b L = 3 := by
     intro b hb
     have hbM : Γ.Adj M b := by
-      simpa only [t, Set.mem_inter_iff, Set.mem_setOf_eq, mem_neighborSet] using hb |>.1
+      simpa only [t, Set.mem_inter_iff, Set.mem_ofPred_eq, mem_neighborSet] using hb |>.1
     have h := dist_eq_three_of_adj_of_dist_eq_four hP
       (by rw [SimpleGraph.dist_comm]; exact hLM) hbM
     rw [SimpleGraph.dist_comm]
@@ -365,7 +367,7 @@ theorem ncard_fixed_neighborSet_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ
   refine Set.ncard_congr (fun a ha => proj hP (hdist a ha)) ?_ ?_ ?_
   · rintro a ha
     have hafix : θ • a = a := by
-      simpa only [s, Set.mem_inter_iff, Set.mem_setOf_eq] using ha |>.2
+      simpa only [s, Set.mem_inter_iff, Set.mem_ofPred_eq] using ha |>.2
     have hpadj : Γ.Adj M (proj hP (hdist a ha)) := proj_adj hP (hdist a ha)
     have hpdist : Γ.dist a (proj hP (hdist a ha)) = 2 := proj_dist hP (hdist a ha)
     have hθadj : Γ.Adj M (θ • proj hP (hdist a ha)) := by
@@ -380,11 +382,11 @@ theorem ncard_fixed_neighborSet_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ
       eq_proj hP (hdist a ha) hθadj hθdist⟩
   · intro a b ha hb heq
     have hafix : θ • a = a := by
-      simpa only [s, Set.mem_inter_iff, Set.mem_setOf_eq] using ha |>.2
+      simpa only [s, Set.mem_inter_iff, Set.mem_ofPred_eq] using ha |>.2
     have hbL : Γ.Adj L b := by
-      simpa only [s, Set.mem_inter_iff, Set.mem_setOf_eq, mem_neighborSet] using hb |>.1
+      simpa only [s, Set.mem_inter_iff, Set.mem_ofPred_eq, mem_neighborSet] using hb |>.1
     have haL : Γ.Adj L a := by
-      simpa only [s, Set.mem_inter_iff, Set.mem_setOf_eq, mem_neighborSet] using ha |>.1
+      simpa only [s, Set.mem_inter_iff, Set.mem_ofPred_eq, mem_neighborSet] using ha |>.1
     have hqM : Γ.Adj M (proj hP (hdist a ha)) := proj_adj hP (hdist a ha)
     have hqL : Γ.dist (proj hP (hdist a ha)) L = 3 := by
       have h := dist_eq_three_of_adj_of_dist_eq_four hP
@@ -400,9 +402,9 @@ theorem ncard_fixed_neighborSet_eq_of_dist_eq_four (hP : IsGeneralizedPolygon Γ
       _ = b := (eq_proj hP hqL hbL (by rw [SimpleGraph.dist_comm]; exact hbq)).symm
   · intro b hb
     have hbM : Γ.Adj M b := by
-      simpa only [t, Set.mem_inter_iff, Set.mem_setOf_eq, mem_neighborSet] using hb |>.1
+      simpa only [t, Set.mem_inter_iff, Set.mem_ofPred_eq, mem_neighborSet] using hb |>.1
     have hbfix : θ • b = b := by
-      simpa only [t, Set.mem_inter_iff, Set.mem_setOf_eq] using hb |>.2
+      simpa only [t, Set.mem_inter_iff, Set.mem_ofPred_eq] using hb |>.2
     have hbL : Γ.dist b L = 3 := hdist' b hb
     let a : V := proj hP hbL
     have haL : Γ.Adj L a := proj_adj hP hbL

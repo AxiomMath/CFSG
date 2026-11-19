@@ -50,7 +50,7 @@ theorem smul_flagChamber_eq_of_blockEmb_window {m a len : ℕ}
       rw [stdDChamber_elt_eq_alt_coordSpan hjlast hj]
       refine map_coordSpan_eq_of_blockEmb (K := K) E h A (Or.inl ?_) (Or.inr ?_)
       · intro i hi₁ hi₂
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       · intro j' hj'
         simp only [Set.mem_singleton_iff] at hj'
@@ -70,11 +70,11 @@ theorem smul_flagChamber_eq_of_blockEmb_window {m a len : ℕ}
       rcases hle with hle | hle
       · left
         intro i hi₁ hi₂
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       · right
         intro i hi₁ hi₂
-        simp only [Set.mem_setOf_eq] at hi₁
+        simp only [Set.mem_ofPred_eq] at hi₁
         omega
 
 theorem qTwoStdFamily_levi_le_qTwoParab_of_last_not_mem (hK : Nat.card K = 4)

@@ -24,8 +24,8 @@ theorem ggKGUs_signed_frame_hypSU {n r p : ℕ} {K : Type} [Field K]
       ∀ g : hypSU h r 0, (∀ e ∈ E, g * e * g⁻¹ ∈ E) →
         ∃ (π : Equiv.Perm (Fin k)) (ε : Fin k → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
           ∀ f f', g * τ f * g⁻¹ = τ f' → ∀ i, toAdd (f' (π i)) = ε i * toAdd (f i) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd_two_pow_sub_one h hp hpq
   have hbar : h.bar ζ = ζ := bar_eq_self_of_pow_eq_one h hpq hζ.pow_eq_one
   obtain ⟨ι, hι⟩ := exists_hypTorusHom (r := r) h hp hζ hbar
@@ -99,9 +99,9 @@ theorem ggKGUs_signed_frame_hypSU {n r p : ℕ} {K : Type} [Field K]
         Subgroup.zpowers (-1 : (ZMod p)ˣ) := by
       intro l
       by_cases hl : l = i
-      · rw [hl, Function.update_apply, if_pos rfl]
+      · rw [hl, Function.update_apply, ite_eq_left rfl]
         exact Subgroup.mem_zpowers (-1)
-      · rw [Function.update_apply, if_neg hl]
+      · rw [Function.update_apply, ite_eq_right hl]
         exact Subgroup.one_mem _
     obtain ⟨u, -, hu⟩ :=
       exists_hypTorus_move h hp hp2 hζ hbar ι hι (Equiv.refl (Fin r))
@@ -113,8 +113,8 @@ theorem ggKGUs_signed_frame_hypSU {n r p : ℕ} {K : Type} [Field K]
       rw [SpCoord.sgnAut_apply]
       by_cases hl : l = i
       · subst hl
-        simp [Function.update_apply]
-      · simp [Function.update_apply, hl]
+        simp
+      · simp [hl]
     have hu' : u⁻¹ * ι' f * u = ι' (SpCoord.sgnAut i f) := by
       have h1 := hu (fun l => toAdd (f l))
       simp only [Equiv.refl_apply] at h1

@@ -27,8 +27,8 @@ theorem exists_mem_B_of_normalizes {N D : Subgroup G} (hNQ : N ≤ Q) (hBN : B �
     (hND : N ≤ Subgroup.normalizer (D : Set G)) : ∃ b ∈ D, b ∈ B ∧ b ≠ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN2 : IsPGroup 2 N := H.isPGroup_Q.to_le hNQ
-  haveI : Group.IsNilpotent ↥N := hN2.isNilpotent
-  haveI : (D.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDN).mpr hND
+  have : Group.IsNilpotent ↥N := hN2.isNilpotent
+  have : (D.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDN).mpr hND
   have hne : D.subgroupOf N ≠ ⊥ := by
     obtain ⟨⟨d, hd⟩, hd1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hD
     intro hbot
@@ -125,6 +125,7 @@ theorem le_Q_of_stabilizes {A : Subgroup G} (hAM : A ≤ M)
 
 
 omit H in
+omit [Finite G] in
 theorem mem_normalizer_conj_of_mem_conj {N : Subgroup G} (hMN : M ≤ Subgroup.normalizer (N : Set G))
     {g m : G} (hm : m ∈ conjSubgroup g M) : m ∈ Subgroup.normalizer (conjSubgroup g N : Set G) := by
   rw [normalizer_conjSubgroup]
@@ -201,7 +202,7 @@ theorem comm_sq_mem_conj {g : G} {N : Subgroup G} (hBN : B ≤ N) (hNQ : N ≤ Q
   intro s hs
   by_cases hy2 : y ^ 2 = 1
   · rw [hy2]
-    simpa using (conjSubgroup g B).one_mem
+    simp
   set S := conjSubgroup g N with hSdef
   have hS2 : IsPGroup 2 S := (H.isPGroup_Q.to_le hNQ).map _
   have hΦ : inSubgroup frattini S ≤ S ⊓ Subgroup.centralizer (S : Set G) :=
@@ -240,6 +241,7 @@ theorem comm_sq_mem_conj {g : G} {N : Subgroup G} (hBN : B ≤ N) (hNQ : N ≤ Q
 
 
 omit H in
+omit [Finite G] in
 theorem commutator_eq_one_of_rotate {x y z : G} (h1 : ⁅y, ⁅z⁻¹, x⁻¹⁆⁆ = 1)
     (h2 : ⁅x⁻¹, ⁅y⁻¹, z⁆⁆ = 1) : ⁅z, ⁅x, y⁆⁆ = 1 := by
   have e : ⁅z, ⁅x, y⁆⁆ = x * z * ⁅y, ⁅z⁻¹, x⁻¹⁆⁆⁻¹ * z⁻¹ * y * ⁅x⁻¹, ⁅y⁻¹, z⁆⁆⁻¹ * y⁻¹ * x⁻¹ := by
@@ -248,6 +250,7 @@ theorem commutator_eq_one_of_rotate {x y z : G} (h1 : ⁅y, ⁅z⁻¹, x⁻¹⁆
   group
 
 
+omit [Finite G] in
 theorem conj_T_le_centralizer_conj_P (g : G) :
     ∀ s ∈ conjSubgroup g T, ∀ a ∈ conjSubgroup g P, s * a = a * s := by
   intro s hs a ha

@@ -28,7 +28,7 @@ theorem original {G : Type*} [Group G] [Finite G]
   have hbound : firstTwo ≤ firstOverlap := Subgroup.map_subtype_le _
   have hab := BlockTwoProductAbelian.reverse component context.even context.universal context.quasisimple context.card
     context.control first second.val fixed hfirst second.property context.fixed_mem (fun heq => hsecond (Subtype.ext heq.symm))
-      actor context.outside firstTwo ⊥ (sylow.isPGroup'.map firstOverlap.subtype) (by
+      actor context.outside firstTwo ⊥ (sylow.isPGroup.map firstOverlap.subtype) (by
         intro member
         exact ⟨0, Subsingleton.elim _ _⟩)
           (BlockCommonSylowNontrivial.image_ne_bot context.original context.positive first hfirst sylow)
@@ -52,10 +52,10 @@ theorem opposite {G : Type*} [Group G] [Finite G]
   let image := (sylow : Subgroup overlap).map overlap.subtype
   have hbound : image ≤ overlap := Subgroup.map_subtype_le _
   obtain ⟨first, hfirst, hnormalizes⟩ := OddBlockSylowAbelian.fixed_factor component context.even context.universal context.quasisimple
-    context.odd image (sylow.isPGroup'.map overlap.subtype) (hbound.trans inf_le_right)
+    context.odd image (sylow.isPGroup.map overlap.subtype) (hbound.trans inf_le_right)
   have hab := BlockTwoProductAbelian.forward component context.even context.universal context.quasisimple context.card
     context.control first second third.val hfirst hsecond third.property (fun heq => hthird (Subtype.ext heq.symm)) actor context.outside
-      image ⊥ (sylow.isPGroup'.map overlap.subtype) (by
+      image ⊥ (sylow.isPGroup.map overlap.subtype) (by
         intro member
         exact ⟨0, Subsingleton.elim _ _⟩)
           (BlockCommonSylowNontrivial.image_ne_bot context.opposite context.positive (UniversalOrbitBlock.conjugate second actor)

@@ -600,7 +600,7 @@ public theorem CFSG.section12_piCore_isHallSubgroup_of_nilpotent
     have hPnorm : (P : Subgroup R).Normal :=
       Group.IsNilpotent.sylow_normal hnil p.val P
     have hPπ : IsPiSubgroup (G := R) π (P : Subgroup R) :=
-      section12_isPiSubgroup_of_isPGroup_of_mem P.isPGroup' hpπ
+      section12_isPiSubgroup_of_isPGroup_of_mem P.isPGroup hpπ
     have : (P : Subgroup R).Normal := hPnorm
     have hP_le_core : (P : Subgroup R) ≤ piCore π R :=
       le_piCore_of_normal_isPiSubgroup (G := R) π (P : Subgroup R) hPπ
@@ -709,7 +709,7 @@ public theorem CFSG.section12_sylow_cyclic_of_primeRank_le_one
   classical
   have : Fact p.val.Prime := ⟨p.2⟩
   by_contra hPcyc
-  have : Fact (IsPGroup p.val (P : Subgroup E)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p.val (P : Subgroup E)) := ⟨P.isPGroup⟩
   obtain ⟨A, _hAnorm, hAcard, hAelem⟩ :=
     lemma_4_5_a (R := (P : Subgroup E)) (p := p.val) hpodd hPcyc
   have : IsElementaryAbelian p.val A := hAelem
@@ -767,7 +767,7 @@ public theorem CFSG.section12_tau3_sylow_le_derived
           D.subtype_injective).1 (by simpa [Qmap] using hQmap_bot)
       exact hQ_ne_bot hQ_bot
     have hQmap_p : IsPGroup p.val Qmap :=
-      IsPGroup.map Q.isPGroup' D.subtype
+      IsPGroup.map Q.isPGroup D.subtype
     have hDnil : Group.IsNilpotent D :=
       section12_nilpotent_derivedSubgroup_of_ambient hnilE
     have hQ_normal_D : (Q : Subgroup D).Normal :=
@@ -945,12 +945,12 @@ public theorem CFSG.section12_primeRank_pos_of_mem_subgroupPrimeSet
     (Subgroup.nontrivial_iff_ne_bot (H := (P : Subgroup R))).2 hP_ne_bot
   let ZP : Subgroup (P : Subgroup R) := Subgroup.center (P : Subgroup R)
   have hZP_nontrivial : Nontrivial ZP :=
-    IsPGroup.center_nontrivial (p := p.val) (G := (P : Subgroup R)) P.isPGroup'
+    IsPGroup.center_nontrivial (p := p.val) (G := (P : Subgroup R)) P.isPGroup
   have hZP_ne_bot : ZP ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot (H := ZP)).1 hZP_nontrivial
   let Z : Subgroup R := ZP.map (P : Subgroup R).subtype
   have hZp : IsPGroup p.val Z := by
-    have hZPp : IsPGroup p.val ZP := P.isPGroup'.to_subgroup ZP
+    have hZPp : IsPGroup p.val ZP := P.isPGroup.to_subgroup ZP
     exact IsPGroup.map hZPp (P : Subgroup R).subtype
   have hZcomm : IsMulCommutative Z := by
     simpa [Z, ZP] using
@@ -1286,7 +1286,7 @@ public theorem CFSG.section12_isZGroup_of_prime_support_rank_le_one
     let f : K →* E := K.subtype.codRestrict E (fun x => hKE x.property)
     let Qmap : Subgroup E := (Q : Subgroup K).map f
     have hQmap_p : IsPGroup p.val Qmap :=
-      IsPGroup.map (p := p.val) (H := (Q : Subgroup K)) Q.isPGroup' f
+      IsPGroup.map (p := p.val) (H := (Q : Subgroup K)) Q.isPGroup f
     obtain ⟨S, hQmap_le_S⟩ := IsPGroup.exists_le_sylow (G := E) (p := p.val) hQmap_p
     have hS_cyc : IsCyclic (S : Subgroup E) :=
       section12_sylow_cyclic_of_primeRank_le_one hpodd (hrank p hpπ) S
@@ -1306,7 +1306,7 @@ public theorem CFSG.section12_isZGroup_of_prime_support_rank_le_one
         (Subgroup.nontrivial_iff_ne_bot (H := (Q : Subgroup K))).2 hQne
       have hpQ : p.val ∣ Nat.card (Q : Subgroup K) :=
         section12_prime_dvd_card_of_nontrivial_pSubgroup
-          (p := p) (B := (Q : Subgroup K)) Q.isPGroup' inferInstance
+          (p := p) (B := (Q : Subgroup K)) Q.isPGroup inferInstance
       exact hpK (hpQ.trans (Subgroup.card_subgroup_dvd_card (Q : Subgroup K)))
     have : Subsingleton (Q : Subgroup K) := by
       rw [hQbot]

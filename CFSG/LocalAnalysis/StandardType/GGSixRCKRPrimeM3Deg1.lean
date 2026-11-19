@@ -21,11 +21,11 @@ private theorem rckM3d1_blockDegree_eq_one {ι F : Type} [Fintype ι] [Decidable
     let M : Submodule F (Matrix ι ι F) :=
       (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
     have heM : e ∈ M :=
-      ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+      ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
     have hne : (⟨e, heM⟩ : M) ≠ 0 := by
       intro h
       exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-    haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+    have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
     have hpos' : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
     change 1 ≤ Module.finrank F M
     omega
@@ -54,7 +54,7 @@ private theorem rckM3d1_vecMulVec_mul_self {ι F : Type} [Fintype ι] [Decidable
   have hφ : Matrix.vecMul φ (Matrix.vecMulVec v φ) = (φ ⬝ᵥ v) • φ := by
     ext j
     simp [Matrix.vecMul_apply, Matrix.vecMulVec_apply, Matrix.col_apply, dotProduct,
-      Finset.mul_sum, mul_assoc, mul_comm, mul_left_comm]
+      Finset.mul_sum, mul_comm, mul_left_comm]
   rw [hφ, hdot, zero_smul]
   ext i j
   simp [Matrix.vecMulVec]
@@ -168,7 +168,7 @@ private theorem rckM3d1_ker_smul {ι F : Type} [Fintype ι] [DecidableEq ι] [Fi
 
 theorem rckM3_PSL_deg1
     (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (GaloisField 2 g)))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin (m + 1)) (Fin (m + 1)) (GaloisField 2 g)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 g) (Units.val '' S)) e)
     {J' : Subgroup (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g))}
@@ -226,7 +226,7 @@ theorem rckM3_PSL_deg1
     rw [← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, ← Matrix.SpecialLinearGroup.coe_mul,
       inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one, Matrix.one_mulVec, hφv]
   have hdisj : (SpecialLinear.rootDatum k (GaloisField 2 g)).rootGroup β ⊓ ι.ker = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨n, hn⟩ :=
       (CFSG.StandardType.GGRootSL.isPGroup_rootGroup (m := k) (F := GaloisField 2 g) hβ').exists_card_eq
     rw [hn]

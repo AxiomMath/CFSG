@@ -34,10 +34,10 @@ theorem br4_false_one_comp (h : Asch5_14_13Prime) {Y L A : Subgroup (LGL 2 V)} (
       rwa [h''] at h'
   have hSnormal : S.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLY).mpr hYle
-  haveI : S.Normal := hSnormal
+  have : S.Normal := hSnormal
   let e : S ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLY
-  haveI : IsSimpleGroup ↥L := hLs
-  haveI hSsimple : IsSimpleGroup ↥S := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := hLs
+  have hSsimple : IsSimpleGroup ↥S := e.isSimpleGroup
   have hnabS : ∃ a ∈ S, ∃ b ∈ S, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hLab
     refine ⟨⟨a, hLY ha⟩, ha, ⟨b, hLY hb⟩, hb, fun hcon => hab ?_⟩
@@ -63,7 +63,7 @@ theorem br4_false_one_comp (h : Asch5_14_13Prime) {Y L A : Subgroup (LGL 2 V)} (
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr hsolv a b)
   have hbot_case : ∀ P : Subgroup ↥Y, P.Normal → (P ⊓ S).subgroupOf S = ⊥ → P = ⊥ := by
     intro P hPn hbot
-    haveI : P.Normal := hPn
+    have : P.Normal := hPn
     have hdisj : Disjoint (P ⊓ S) S := Subgroup.subgroupOf_eq_bot.mp hbot
     have hPS : P ⊓ S = ⊥ := by
       rw [disjoint_iff, inf_assoc, inf_idem] at hdisj
@@ -82,19 +82,19 @@ theorem br4_false_one_comp (h : Asch5_14_13Prime) {Y L A : Subgroup (LGL 2 V)} (
     simpa using hp1
   have hO2 : ∀ P : Subgroup ↥Y, P.Normal → IsPGroup 2 P → P = ⊥ := by
     intro P hPn hP2
-    haveI : P.Normal := hPn
+    have : P.Normal := hPn
     rcases Subgroup.Normal.eq_bot_or_eq_top ((P ⊓ S).subgroupOf S) with hbot | htop
     · exact hbot_case P hPn hbot
     · have hSP : S ≤ P := (Subgroup.subgroupOf_eq_top.mp htop).trans inf_le_left
       have hSP2 : IsPGroup 2 ↥S :=
         hP2.of_injective (Subgroup.inclusion hSP) (Subgroup.inclusion_injective hSP)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI hnil : Group.IsNilpotent ↥S := hSP2.isNilpotent
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have hnil : Group.IsNilpotent ↥S := hSP2.isNilpotent
       obtain ⟨a, b, hab⟩ := hnabSs
       exact (hab ((IsSimpleGroup.comm_iff_isSolvable).mpr inferInstance a b)).elim
   have hO : ∀ P : Subgroup ↥Y, P.Normal → Odd (Nat.card P) → P = ⊥ := by
     intro P hPn hPodd
-    haveI : P.Normal := hPn
+    have : P.Normal := hPn
     rcases Subgroup.Normal.eq_bot_or_eq_top ((P ⊓ S).subgroupOf S) with hbot | htop
     · exact hbot_case P hPn hbot
     · have hSP : S ≤ P := (Subgroup.subgroupOf_eq_top.mp htop).trans inf_le_left

@@ -180,7 +180,7 @@ theorem exists_cocycle_inputs2311v {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ
     (β : MulAut (C0 σ)) (hβ3 : β ^ 3 = 1) (hβout : β ∉ innerAut (C0 σ)) :
     ∃ g : C0 σ, normSeq (tauAut σ) g 3 = 1 ∧
       (MulAut.conj g * tauAut σ = β ∨ MulAut.conj g * tauAut σ = β⁻¹) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hβ1 : β ≠ 1 := fun h => hβout (h ▸ one_mem _)
   have hord : orderOf β = 3 := orderOf_eq_prime hβ3 hβ1
   obtain ⟨g, hg, hφ⟩ := d4_outer_three_normal_form hℓ hℓ2 hf K hK σ hσ β hord hβout
@@ -304,7 +304,7 @@ theorem exists_fixed_embedding_minusToral_inputs2311v {ℓ f : ℕ} (hℓ : ℓ.
     CFSG.LieType.SeitzGeneration.ExcWideThree.Parrott.ClosingMinus.Escape.toral_pow_three_and_fixed
       hℓ σ hσ hs
   obtain ⟨L, _, _, _, _, g₀, b, ⟨hg₀C, hg₀P, hg₀F⟩, -, -, hsL⟩ := hs
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   set F := CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom with hFdef

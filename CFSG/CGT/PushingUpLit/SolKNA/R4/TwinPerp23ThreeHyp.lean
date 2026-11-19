@@ -186,7 +186,7 @@ theorem tightInO2_twinHull {x : Y} (hx : x ∈ tightCore R ⊔ d.K') :
   rw [Subgroup.coe_pow, ← hkq]
   exact hi
 
-theorem u_ne_one (he1 : d.D.ce ≠ 1) : d.D.u ≠ 1 := by
+theorem u_ne_one (_he1 : d.D.ce ≠ 1) : d.D.u ≠ 1 := by
   intro h
   have h1 := e_mul_j d.D d.hc
   rw [h] at h1

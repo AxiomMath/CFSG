@@ -93,7 +93,7 @@ theorem ncard_Vt_diff_zero {t : S.O} :
   have hcard : Nat.card (Vt S g t) = 2 ^ finrank (ZMod 2) (Vt S g t) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
   have hmem : (0 : S.Qt) ∈ (Vt S g t : Set S.Qt) := (Vt S g t).zero_mem
-  rw [Set.ncard_diff_singleton_add_one hmem, ← hcard]
+  rw [Set.ncard_sdiff_singleton_add_one hmem, ← hcard]
   exact (Nat.card_coe_set_eq _).symm
 
 theorem card_Dset_add_one_of_transitive (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g)
@@ -149,7 +149,7 @@ theorem card_Dset_add_one_of_omega (H : Hyp4 S g) (C : Cons311 S g) {t : S.O}
       (Dset S g t).ncard + 1 = 2 ^ (k - 1) * (2 ^ k - 1)) := by
   obtain ⟨k, hk⟩ := even_finrank_Vt H C ht ht1 hVQ
   have h4 := four_le_finrank_Vt H C ht ht1 hVQ hNo
-  haveI : Module.Finite (ZMod 2) (Vt S g t) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Vt S g t) := Module.Finite.of_finite
   obtain ⟨Q, hQ, -, -, -, hQiff⟩ := hΩ.exists_form
   have hk2 : 2 ≤ k := by omega
   have hB : ∀ h : S.M, t ∈ S.Lbar ((h : G) * g) →
@@ -175,7 +175,7 @@ theorem card_Dset_add_one_of_omega (H : Hyp4 S g) (C : Cons311 S g) {t : S.O}
       exact (mem_orbitOf_RmodN_iff H.conj_mem ht).mp ((hQiff w hw0).mp hQw)
   have hD : (Dset S g t).ncard + 1 = {x : ↥(Vt S g t) | Q x = 0}.ncard := by
     rw [ncard_Dset_eq_ncard_orbit H ht hB, hO, Set.ncard_image_of_injective _ Subtype.val_injective,
-      Set.ncard_diff_singleton_add_one (show (0 : ↥(Vt S g t)) ∈ {x | Q x = 0} from map_zero Q)]
+      Set.ncard_sdiff_singleton_add_one (show (0 : ↥(Vt S g t)) ∈ {x | Q x = 0} from map_zero Q)]
   refine ⟨k, hk2, ?_⟩
   rw [hD]
   exact ncard_zero_quadratic_eq Q hQ (by omega) (by omega)

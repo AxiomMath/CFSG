@@ -44,16 +44,19 @@ private noncomputable def B_T1J1 (hσ : IsUnitaryInvolution σ) :
       rw [Subfield.smul_def, herm_smul_right, map_mul, ha]
       ring))
 
+omit [Finite F] in
 private lemma B_T1J1_val (hσ : IsUnitaryInvolution σ) (x y : Fin 4 → F) :
     (B_T1J1 hσ x y : F) = herm σ x y + σ (herm σ x y) := rfl
 
+omit [Finite F] in
 private lemma B_T1J1_comm (hσ : IsUnitaryInvolution σ) (x y : Fin 4 → F) :
     B_T1J1 hσ x y = B_T1J1 hσ y x := by
   apply Subtype.ext
   rw [B_T1J1_val, B_T1J1_val, herm_conj σ hσ.invol x y, hσ.invol]
   ring
 
-private lemma B_T1J1_sepLeft (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) :
+omit [Finite F] in
+private lemma B_T1J1_sepLeft (hσ : IsUnitaryInvolution σ) (_h2 : (2 : F) = 0) :
     (B_T1J1 hσ).SeparatingLeft := by
   intro x hx
   by_contra hx0
@@ -67,11 +70,13 @@ private lemma B_T1J1_sepLeft (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) :
   rw [hB] at h0
   exact one_ne_zero h0
 
+omit [Finite F] in
 private lemma B_T1J1_nondegenerate (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) :
     (B_T1J1 hσ).Nondegenerate :=
   ⟨B_T1J1_sepLeft hσ h2, fun y hy =>
     B_T1J1_sepLeft hσ h2 y (fun z => by rw [B_T1J1_comm hσ y z]; exact hy z)⟩
 
+omit [Finite F] in
 private lemma B_T1J1_vanishes_span (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     (S : Set (Fin 4 → F)) (hS : ∀ x ∈ S, ∀ y ∈ S, σ (herm σ x y) = herm σ x y) :
     ∀ a ∈ Submodule.span ↥(fixedField_T1J1 σ) S,
@@ -100,7 +105,7 @@ private lemma B_T1J1_vanishes_span (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) 
   exact hle ha
 
 private lemma two_le_two_pow_T1J1 (hF : Nat.card F = (2 ^ n) ^ 2) : 2 ≤ 2 ^ n := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardF : 1 < Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -114,6 +119,7 @@ private lemma two_le_two_pow_T1J1 (hF : Nat.card F = (2 ^ n) ^ 2) : 2 ≤ 2 ^ n 
       _ = 1 := by norm_num
   omega
 
+omit [Finite F] in
 private lemma card_fixedField_T1J1 (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     (hF : Nat.card F = (2 ^ n) ^ 2) :
     Nat.card ↥(fixedField_T1J1 σ) = 2 ^ n := by

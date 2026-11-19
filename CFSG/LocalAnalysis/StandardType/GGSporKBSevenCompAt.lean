@@ -66,7 +66,7 @@ theorem bSevenCompAt_of_quasisimple {K : Type} [Group K] [Finite K] {x : K} (hx 
   have hXcard : Nat.card ↥X = 7 := by
     rw [hXdef, Nat.card_zpowers, hx]
   have hinf : X ⊓ J = ⊥ := by
-    haveI : Fact (Nat.card ↥X).Prime := ⟨by rw [hXcard]; norm_num⟩
+    have : Fact (Nat.card ↥X).Prime := ⟨by rw [hXcard]; norm_num⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((X ⊓ J).subgroupOf X) with h | h
     · have hbot : (X ⊓ J) ⊓ X = ⊥ := (Subgroup.subgroupOf_eq_bot.1 h).eq_bot
       rwa [inf_eq_left.2 inf_le_left] at hbot
@@ -97,7 +97,7 @@ theorem bSevenCompAt_of_quasisimple {K : Type} [Group K] [Finite K] {x : K} (hx 
     rw [hgen]
     exact Subgroup.isCyclic_zpowers _
   have hcomp : Subgroup.IsComplement' (X.subgroupOf D0) (J.subgroupOf D0) := by
-    haveI : (J.subgroupOf D0).Normal := hJnormalD0
+    have : (J.subgroupOf D0).Normal := hJnormalD0
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
     · refine disjoint_iff.2 ?_
       rw [eq_bot_iff]
@@ -162,19 +162,19 @@ theorem bSevenCompAt_of_quasisimple {K : Type} [Group K] [Finite K] {x : K} (hx 
     · rw [Subgroup.index_eq_one.1 h]; exact Subgroup.normal_top
     · exact Subgroup.normal_of_index_eq_two h
   have hquotC : IsMulCommutative (↥C ⧸ (D0.subgroupOf C)) := by
-    haveI : (D0.subgroupOf C).Normal := hD0'normal
+    have : (D0.subgroupOf C).Normal := hD0'normal
     have hdvdcard : Nat.card (↥C ⧸ (D0.subgroupOf C)) ∣ 2 := by
       rw [← Subgroup.index_eq_card]
       exact hindex_dvd
-    haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-    haveI : IsCyclic (↥C ⧸ (D0.subgroupOf C)) := isCyclic_of_card_dvd_prime hdvdcard
+    have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+    have : IsCyclic (↥C ⧸ (D0.subgroupOf C)) := isCyclic_of_card_dvd_prime hdvdcard
     exact IsCyclic.isMulCommutative
   have hcommC : _root_.commutator ↥C ≤ D0.subgroupOf C :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := D0.subgroupOf C)).1 hquotC
   have hquotD0 : IsMulCommutative (↥D0 ⧸ (J.subgroupOf D0)) := by
-    haveI : (J.subgroupOf D0).Normal := hJnormalD0
-    haveI : IsCyclic ↥(X.subgroupOf D0) := hX'cyc
-    haveI : IsCyclic (↥D0 ⧸ (J.subgroupOf D0)) :=
+    have : (J.subgroupOf D0).Normal := hJnormalD0
+    have : IsCyclic ↥(X.subgroupOf D0) := hX'cyc
+    have : IsCyclic (↥D0 ⧸ (J.subgroupOf D0)) :=
       (hcomp.QuotientMulEquiv).isCyclic.2 hX'cyc
     exact IsCyclic.isMulCommutative
   have hcommD0 : _root_.commutator ↥D0 ≤ J.subgroupOf D0 :=

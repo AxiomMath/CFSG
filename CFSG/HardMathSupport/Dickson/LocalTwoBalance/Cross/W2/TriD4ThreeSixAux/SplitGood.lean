@@ -53,7 +53,7 @@ theorem tri_shape (hrel : ∀ δ, IsRoot τ δ → S.ρ (S.ρ δ) = -S.ρ δ - �
   have r2 : finRotate 3 2 = 0 := by decide
   refine ⟨fun i j hij => ?_, ?_⟩
   · fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · show S.ρ (σ 0 1) = σ (finRotate 3 0) (finRotate 3 1)
       rw [r0, r1, h01, h12]
     · show S.ρ (σ 0 2) = σ (finRotate 3 0) (finRotate 3 2)
@@ -77,7 +77,7 @@ theorem tri_shape (hrel : ∀ δ, IsRoot τ δ → S.ρ (S.ρ δ) = -S.ρ δ - �
       show S.ρ (S.ρ (-γ)) = _
       rw [e3, e4]
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · exact ⟨0, Or.inl (h01.trans i0.symm)⟩
     · exact ⟨2, Or.inr (h02.trans n2.symm)⟩
     · exact ⟨0, Or.inr (h10.trans n0.symm)⟩
@@ -190,10 +190,10 @@ theorem isGoodRoot_of_splitFrame (hτ : τ ≠ .G2) (hsl : SimplyLacedTag τ) (h
       ∀ z : ModGL τ L, ¬ ∀ y ∈ Y,
         z * Units.map (entrywiseHom (iterateFrobenius L r j)) y * z⁻¹ = y := by
     intro r f j _ hr hq' hj0 hjf z hz
-    letI : Fintype k := Fintype.ofFinite k
+    let : Fintype k := Fintype.ofFinite k
     have hK : Fintype.card k = S.D.q ^ 1 := by
       rw [← Nat.card_eq_fintype_card, hk, pow_one]
-    haveI : NeZero 1 := ⟨one_ne_zero⟩
+    have : NeZero 1 := ⟨one_ne_zero⟩
     refine false_of_fixed_by_twist_of_norm (m := 1) S hτ (ρ' H) hβ (algebraMap k L) hK hr hq'
       (Or.inr hsl) hj0 hjf z (fun t => ?_)
     rw [normElt_one']

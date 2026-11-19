@@ -15,12 +15,13 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G} {n f : ℕ}
 
+omit [Finite G] in
 theorem IsL2Gen.exists_orderOf_eq_card_add_one {A B : Subgroup G} (h : IsL2Gen A B) :
     ∃ x ∈ A ⊔ B, orderOf x = Nat.card A + 1 := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, -, -⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   obtain ⟨t, ht⟩ := CFSG.SeitzReduction.F4Pilot.exists_orderOf_eq_natCard_add_one (K := F)
   refine ⟨((φ.symm t : ↥(A ⊔ B)) : G), (φ.symm t).2, ?_⟩
   rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq φ.symm t, ht, hcard]
@@ -33,12 +34,14 @@ theorem IsL2Gen.inf_cenOf_eq_bot {A B : Subgroup G} (h : IsL2Gen A B) : A ⊓ ce
   obtain ⟨b, hbB, hnb⟩ := h.exists_not_commute hxA hx1
   exact hnb (Subgroup.mem_centralizer_iff.mp hxC b hbB).symm
 
+omit [Finite G] in
 theorem exists_l2Datum {A B : Subgroup G} (hA : A ∈ sigmaSet M V) (hB : B ∈ sigmaSet M V)
     (hAB : IsL2Gen A B) : ∃ h : G, L2Datum M V A B h := by
   obtain ⟨g, rfl, hH⟩ := hA
   obtain ⟨x, hx, hord⟩ := hAB.exists_orderOf_eq_card_add_one
   exact ⟨x, ⟨g, rfl, hH⟩, hB, hAB, hx, by rw [hord, card_conjSubgroup]⟩
 
+omit [Finite G] in
 theorem imgQ_conjSubgroup (y : ↥M) (D : Subgroup G) :
     imgQ M (conjSubgroup (y : G) D) =
       conjSubgroup (QuotientGroup.mk' (pCore 2 ↥M) y) (imgQ M D) := by
@@ -79,7 +82,7 @@ theorem Sec6Hyp.le_sup_Pc_of_imgQ_le (hS : Sec6Hyp M V) {U U' : Subgroup G} (hU 
 theorem Sec5Hyp.card_conj_Pc (hS : Sec5Hyp M V) {U : Subgroup G} (hU : U ∈ sigmaSet M V) :
     Nat.card {U' : Subgroup G // ∃ p ∈ Pc M V, U' = conjSubgroup p U} = Nat.card V ^ 2 := by
   classical
-  letI : MulAction ↥(Pc M V) (Subgroup G) :=
+  let : MulAction ↥(Pc M V) (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp (Pc M V).subtype)
   rw [← hS.card_orbit_Pc hU]
   refine Nat.card_congr
@@ -148,7 +151,7 @@ theorem Sec6Hyp.card_sigmaSet (hS : Sec6Hyp M V) :
     exact card_fiber_imgQ hS hU₀
   have hmain : Nat.card ↥(sigmaSet M V) =
       Nat.card ↥(imgQ M '' sigmaSet M V) * Nat.card V ^ 2 := by
-    haveI : Fintype ↥(imgQ M '' sigmaSet M V) := Fintype.ofFinite _
+    have : Fintype ↥(imgQ M '' sigmaSet M V) := Fintype.ofFinite _
     rw [Nat.card_congr (Equiv.sigmaFiberEquiv F).symm, Nat.card_sigma]
     simp only [hfib, Finset.sum_const, Finset.card_univ, smul_eq_mul, Nat.card_eq_fintype_card]
   rw [hmain, mul_comm]

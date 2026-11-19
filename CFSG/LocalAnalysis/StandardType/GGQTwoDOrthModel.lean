@@ -26,7 +26,7 @@ theorem qtwoDL1OrthModel_holds : QTwoDL1OrthModel := by
   have hdim := Φ.Δ.finrank_eq_two_mul_of_noFixed Φ.hfix
   let eX : ↥X ≃* ↥(orthDerived Φ.Q) :=
     ((MonoidHom.ofInjective Φ.hinj).trans (MulEquiv.subgroupCongr Φ.hrange)).symm
-  letI : Fintype Φ.F := Fintype.ofFinite Φ.F
+  let : Fintype Φ.F := Fintype.ofFinite Φ.F
   have hcardF : Fintype.card Φ.F = 2 := by rw [← Nat.card_eq_fintype_card, hF]
   let φ : Φ.F ≃+* ZMod 2 := (ZMod.ringEquivOfPrime Φ.F Nat.prime_two hcardF).symm
   obtain ⟨n, hn⟩ : ∃ n, Φ.r = n + 1 := ⟨Φ.r - 1, by omega⟩
@@ -38,7 +38,7 @@ theorem qtwoDL1OrthModel_holds : QTwoDL1OrthModel := by
     have hφ : ∀ v : Fin (n + 1) ⊕ Fin (n + 1) → Φ.F,
         StatedQuadPlus (n + 1) (ZMod 2) (φ ∘ v) = φ (StatedQuadPlus (n + 1) Φ.F v) := by
       intro v
-      simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Function.comp_apply,
+      simp only [StatedQuadPlus, Function.comp_apply,
         map_sum, map_mul]
     refine ⟨Fin (n + 1) ⊕ Fin (n + 1), inferInstance, inferInstance,
       StatedQuadPlus (n + 1) (ZMod 2), ?_, goodQ_plus (n := n) (by omega),
@@ -65,8 +65,8 @@ theorem qtwoDL1OrthModel_holds : QTwoDL1OrthModel := by
         StatedQuadMinus (n + 1) (ZMod 2) 1 1 (φ ∘ v) =
           φ (StatedQuadMinus (n + 1) Φ.F 1 1 v) := by
       intro v
-      simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Function.comp_apply,
-        map_add, map_mul, map_pow, map_sum, map_one, one_mul]
+      simp only [StatedQuadMinus, Function.comp_apply,
+        map_add, map_mul, map_pow, map_sum, one_mul]
     refine ⟨Fin (n + 1 - 1) ⊕ Fin (n + 1 - 1) ⊕ Fin 2, inferInstance, inferInstance,
       StatedQuadMinus (n + 1) (ZMod 2) 1 1, ?_, goodQ_minus (n := n) (by omega),
       omegaTwoAutInduced_minus_of_three_le (n := n) (by omega), ?_⟩

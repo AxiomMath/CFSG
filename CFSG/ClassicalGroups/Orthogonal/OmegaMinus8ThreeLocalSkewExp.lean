@@ -48,17 +48,15 @@ private theorem two_mul_map_skew {ψ : V →ₗ[K] V}
 
 @[expose] noncomputable def expSkew (ψ : V →ₗ[K] V) (h2 : (2 : K) ≠ 0)
     (hψ : ∀ x, ψ (ψ (ψ x)) = 0) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (LinearMap.id + ψ + (2⁻¹ : K) • (ψ ∘ₗ ψ)) (LinearMap.id - ψ + (2⁻¹ : K) • (ψ ∘ₗ ψ))
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, LinearMap.add_apply, LinearMap.sub_apply,
-        LinearMap.smul_apply, LinearMap.id_apply, map_add, map_sub, map_smul, hψ x, hψ (ψ x),
-        map_zero, smul_zero, add_zero]
+        LinearMap.smul_apply, LinearMap.id_apply, map_add, map_sub, map_smul, hψ x, map_zero, smul_zero, add_zero]
       match_scalars <;> field_simp <;> ring)
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, LinearMap.add_apply, LinearMap.sub_apply,
-        LinearMap.smul_apply, LinearMap.id_apply, map_add, map_sub, map_smul, hψ x, hψ (ψ x),
-        map_zero, smul_zero, add_zero]
+        LinearMap.smul_apply, LinearMap.id_apply, map_add, map_smul, hψ x, map_zero, smul_zero, add_zero]
       match_scalars <;> field_simp <;> ring)
 
 theorem expSkew_apply (ψ : V →ₗ[K] V) (h2 : (2 : K) ≠ 0) (hψ : ∀ x, ψ (ψ (ψ x)) = 0) (x : V) :
@@ -95,12 +93,12 @@ theorem expSkew_zpow (ψ : V →ₗ[K] V) (h2 : (2 : K) ≠ 0) (hψ : ∀ x, ψ 
   | zero => simp
   | succ k ih =>
     rw [zpow_add_one, LinearEquiv.mul_apply, ih, expSkew_apply]
-    simp only [map_add, map_smul, hψ x, map_zero, smul_zero, add_zero]
+    simp only [map_add, map_smul, hψ x, smul_zero, add_zero]
     push_cast
     match_scalars <;> field_simp <;> ring
   | pred k ih =>
     rw [zpow_sub_one, LinearEquiv.mul_apply, ih, expSkew_inv_apply]
-    simp only [map_add, map_sub, map_smul, hψ x, map_zero, smul_zero, add_zero]
+    simp only [map_add, map_sub, map_smul, hψ x, smul_zero, add_zero]
     push_cast
     match_scalars <;> field_simp <;> ring
 
@@ -127,7 +125,7 @@ theorem expSkew_ne_one {ψ : V →ₗ[K] V} (h2 : (2 : K) ≠ 0) (hψ : ∀ x, �
 theorem orderOf_expSkew_of_charP {ψ : V →ₗ[K] V} (h2 : (2 : K) ≠ 0)
     (hψ : ∀ x, ψ (ψ (ψ x)) = 0) {p : ℕ} (hp : p.Prime) [CharP K p] (hne : ψ ≠ 0) :
     orderOf (expSkew ψ h2 hψ) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime ?_ (expSkew_ne_one h2 hψ hne)
   refine LinearEquiv.ext fun x => ?_
   have h := expSkew_zpow ψ h2 hψ (p : ℤ) x
@@ -164,7 +162,7 @@ theorem expSkew_not_mem_zpowers {ψ ψ' : V →ₗ[K] V} (h2 : (2 : K) ≠ 0)
   have h4 : (k : K) ^ 2 • ψ (ψ x₀) = 0 := by
     have h5 := hψ'2 x₀
     rw [h1 x₀, map_add, map_smul, map_smul, h1 (ψ x₀), h1 (ψ (ψ x₀))] at h5
-    simp only [map_add, map_smul, hψ x₀, hψ (ψ x₀), map_zero, smul_zero, add_zero] at h5
+    simp only [hψ x₀, map_zero, smul_zero, add_zero] at h5
     rw [smul_smul, ← _root_.sq] at h5
     exact h5
   have h6 : (k : K) = 0 := by

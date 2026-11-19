@@ -93,7 +93,7 @@ theorem cgsIn_ne_of_isAlt {X Y S : Subgroup G} (hXY : X ≤ Y) (hYX : Y ≤ norm
       hstep C hCS hC hchar
   have hn : (S.subgroupOf X).Normal :=
     normal_subgroupOf_iff_le_normalizer_inf.2 (hXY.trans (hcgs.symm.le.trans hcgsle))
-  haveI : ((S.subgroupOf X).map φ).Normal := hn.map φ hφ
+  have : ((S.subgroupOf X).map φ).Normal := hn.map φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((S.subgroupOf X).map φ) with h | h <;>
     rw [h] at h4
   · rw [card_bot] at h4

@@ -102,7 +102,7 @@ theorem ncard_members_eq_six_of_labels {G : Type} [Group G] [Finite G] {Ω : Set
           (((A.subgroupOf B).map Ψ : Subgroup ↥Sp62Rec.I1.Wsub) : Set ↥Sp62Rec.I1.Wsub)} := by
     rintro L₁ ⟨h₁, -⟩ L₂ ⟨h₂, -⟩ h12
     have h12' : AE.memAt L₁.1 h₁ L₁.2 = AE.memAt L₂.1 h₂ L₂.2 := by
-      simpa only [dif_pos h₁, dif_pos h₂] using h12
+      simpa only [dite_eq_left h₁, dite_eq_left h₂] using h12
     refine Sp62Rec.I1.eq_of_forall_mem_iff h₁ h₂ fun x => ?_
     rw [← Sp62Rec.I1.mem_memAt_iff_mem_memAtL L₁.1 h₁ L₁.2 x,
       ← Sp62Rec.I1.mem_memAt_iff_mem_memAtL L₂.1 h₂ L₂.2 x, h12']
@@ -123,14 +123,14 @@ theorem ncard_members_eq_six_of_labels {G : Type} [Group G] [Finite G] {Ω : Set
         rw [← hmem hJE hb]
         exact (key J (hJE.trans D.E_le_B)).mpr hJN
       · show (if h : α.card = 4 then AE.memAt α h b else ⊥) = (J.subgroupOf E).map f
-        rw [dif_pos h, hb]
+        rw [dite_eq_left h, hb]
     · rintro ⟨L, ⟨h, hLN⟩, rfl⟩
       obtain ⟨J, hJ, hJE, hb⟩ := ML.surj L.1 h L.2
       refine ⟨J, ⟨hJ, (key J (hJE.trans D.E_le_B)).mp ?_, hJE.trans hEC⟩, ?_⟩
       · rw [hmem hJE hb]
         exact hLN
       · show (J.subgroupOf E).map f = if h : L.1.card = 4 then AE.memAt L.1 h L.2 else ⊥
-        rw [dif_pos h, hb]
+        rw [dite_eq_left h, hb]
   have hcount := hFi.ncard_image
   rw [himg, hGi.ncard_image] at hcount
   exact hcount.symm.trans hsix

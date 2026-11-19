@@ -23,7 +23,7 @@ theorem pRank_map_subtype_eq (X : Subgroup G) (Y : Subgroup ↥X) :
 
 theorem isSylowOf_subgroupOf_top {H P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P H) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P.subgroupOf H) (⊤ : Subgroup ↥H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff H, Subgroup.subgroupOf_map_subtype,
     inf_eq_left.2 hP.le, Subgroup.map_top, Subgroup.range_subtype]
   exact hP
@@ -43,7 +43,7 @@ theorem exists_normal_pRank_eq_one (hK : UCK.K332Cyc) (h82 : F08.R82 D) (hSg : U
     ∃ E N : Subgroup G, E ≤ Opp 3 Y ∧ Nat.card E = 3 ∧ E ≤ N ∧ N ≤ H ∧
       H ≤ normalizer (N : Set G) ∧ CFSG.Open.pRank 3 N = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEX, hE3, hEU⟩ := S.exists_order_three_le_opp
   have hEp : IsPGroup 3 ↥E := IsPGroup.of_card (n := 1) (by simpa using hE3)
   obtain ⟨P, hP, hEP, hPM⟩ := S.exists_sylow_le_M hEX hEp hEU
@@ -75,7 +75,7 @@ theorem exists_normal_pRank_eq_one (hK : UCK.K332Cyc) (h82 : F08.R82 D) (hSg : U
       rw [Subgroup.mem_subgroupOf] at hz ⊢
       have h1 : (((MulAut.conj g⁻¹).toMonoidHom z : ↥H) : G) ∈
           E.map (MulAut.conj ((g⁻¹ : ↥H) : G)).toMonoidHom :=
-        Subgroup.mem_map.2 ⟨z, hz, by simp [MulAut.conj_apply]⟩
+        Subgroup.mem_map.2 ⟨z, hz, by simp⟩
       rwa [hEq] at h1
     · intro hx
       have hx' : (x : G) ∈ E := Subgroup.mem_subgroupOf.1 hx

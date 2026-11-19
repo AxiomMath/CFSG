@@ -47,7 +47,7 @@ theorem card_le_of_conjs {G : Type*} [Group G] (S : Subgroup G) (hS : Nat.card S
       QuotientGroup.mk 1
     have hconj : ∀ u ∈ us, ∀ v ∈ us, f u = f v → u * x * u⁻¹ = v * x * v⁻¹ := by
       intro u hu v hv h
-      simp only [f, dif_pos (hus u hu), dif_pos (hus v hv)] at h
+      simp only [f, dite_eq_left (hus u hu), dite_eq_left (hus v hv)] at h
       rw [QuotientGroup.eq, Subgroup.mem_centralizer_singleton_iff] at h
       have h' := congrArg Subtype.val h
       simp only [Subgroup.coe_mul, Subgroup.coe_inv, x'] at h'

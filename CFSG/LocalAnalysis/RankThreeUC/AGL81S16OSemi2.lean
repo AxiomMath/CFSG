@@ -111,11 +111,11 @@ theorem semi_similitude (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (σ : OW F �
   let S : AddSubgroup (OW F) :=
     { carrier := {x | R x = 0}
       add_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [hRadd, hx, hy, add_zero]
       zero_mem' := hR0
       neg_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         have := hRadd x (-x)
         rw [add_neg_cancel, hR0, hx, zero_add] at this
         exact this.symm }

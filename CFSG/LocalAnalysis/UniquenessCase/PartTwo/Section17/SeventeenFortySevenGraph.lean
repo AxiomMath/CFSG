@@ -49,7 +49,7 @@ theorem s17_47_exists_T0_of_powerMap {D : Data G} {L : Subgroup G}
     (hTL : D.T ≤ normalizer (L : Set G))
     (hpow : ∀ t ∈ D.T, ∃ j : ℕ, ∀ b ∈ L ⊓ normalizer ((D.T ⊓ L : Subgroup G) : Set G),
       t * b * t⁻¹ * (b ^ 2 ^ j)⁻¹ ∈ D.T ⊓ L)
-    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {E : Subgroup G} (hEL : E ≤ L)
+    {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2) {E : Subgroup G} (hEL : E ≤ L)
     (hEN : E ≤ normalizer ((D.T ⊓ L : Subgroup G) : Set G))
     (hEexp : ∀ e ∈ E, e ^ r = 1) (hperm : Permutes E D.T) :
     ∃ T₀ : Subgroup G, T₀ ≤ D.T ∧ D.T ≤ normalizer (T₀ : Set G) ∧
@@ -352,8 +352,6 @@ theorem swapsParabolics_barSub_of_calC {D : Data G} {V₀ V : Subgroup G} (h : H
         exact Subgroup.mem_subgroupOf.mp h2
       have heq : (D.T ⊓ L).map (MulAut.conj (x : G)).toMonoidHom = D.T ⊓ L :=
         Subgroup.eq_of_le_of_card_ge hmap (by
-          change Nat.card ↥(D.T ⊓ L) ≤
-            Nat.card ↥((D.T ⊓ L).map (MulAut.conj (x : G)).toMonoidHom)
           rw [Subgroup.card_map_of_injective (MulAut.conj (x : G)).injective])
       exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq
     · intro hx

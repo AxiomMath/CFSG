@@ -27,6 +27,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_mul_inv_mem_sup {g : MulAut W} {A B C : Subgroup W}
     (hA : ∀ a ∈ A, g a * a⁻¹ ∈ C) (hB : ∀ b ∈ B, g b * b⁻¹ ∈ C) :
     ∀ w ∈ A ⊔ B, g w * w⁻¹ ∈ C := by
@@ -184,7 +185,7 @@ theorem move_isSL3 (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
     (MulAut.congr em).trans (CFSG.Quasithin.S153E58.mulAutPiEquivGL 3)
   let e3 : GL (Fin 3) (ZMod 2) ≃* ↥(StatedSL 3 (ZMod 2)) :=
     Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr htop.symm)
-  exact ⟨ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod], ⟨e1.trans (e2.trans e3)⟩⟩
+  exact ⟨ZMod 2, inferInstance, inferInstance, by simp, ⟨e1.trans (e2.trans e3)⟩⟩
 
 theorem move_natural (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {I : Subgroup W} (S : Move136 Y t L I) (hT : Tcl Y L) :
@@ -302,9 +303,8 @@ theorem move_sum_of_nat (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {
     · change J 1 ⊓ (Cd L ⊔ ⨆ (j : Fin 2) (_ : j ≠ (1 : Fin 2)), J j) ≤ Cd L
       rw [hJ1]
       simpa [J, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] using hindep_t
-  · change Cd L ⊔ (⨆ i : Fin 2, J i) = Wd L
-    rw [hsupJ]
-    simp only [J, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  · rw [hsupJ]
+    simp only [J, Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [move_W hw2 S]
     apply le_antisymm
     · exact sup_le (hCdI.trans le_sup_left) le_rfl

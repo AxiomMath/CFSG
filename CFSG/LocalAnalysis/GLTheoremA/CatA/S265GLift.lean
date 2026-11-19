@@ -49,8 +49,8 @@ theorem map_fixSubgroup_congr_symm (ε : C ≃* H) (α : MulAut H) :
 theorem eq_one_of_conj_mem_zpowers [Finite C] {p : ℕ} (hp : p.Prime)
     (hZ : Subgroup.center C = ⊥) {δ : MulAut C} (hδ : δ ∉ (MulAut.conj : C →* MulAut C).range)
     (hδp : δ ^ p = 1) {c : C} (hc : MulAut.conj c ∈ Subgroup.zpowers δ) : c = 1 := by
-  haveI : Finite (MulAut C) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI := Fact.mk hp
+  have : Finite (MulAut C) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have := Fact.mk hp
   by_contra hc1
   have hconj1 : MulAut.conj c ≠ 1 := fun h =>
     hc1 (conj_injective_of_center hZ (h.trans (map_one _).symm))
@@ -153,6 +153,7 @@ theorem exists_lift {S : Subgroup Ω} (hcomp : GLAPComponent 3 (⊤ : Subgroup �
     rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply, MulEquiv.symm_symm,
       MulEquiv.apply_symm_apply, key, Subgroup.normalizerMonoidHom_apply_apply_coe]
 
+omit [Finite Ω] in
 theorem conj_eq_of_lift {C : Type*} [Group C] {Φ : Ω →* MulAut C} {Λ : C →* Ω}
     (hΛ : Function.Injective Λ) (hΛg : ∀ g c, Λ (Φ g c) = g * Λ c * g⁻¹) (c : C) :
     Φ (Λ c) = MulAut.conj c := by
@@ -202,7 +203,6 @@ theorem qUConcl_of_fix {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg p
     rw [Subgroup.mem_centralizer_singleton_iff]
     first
     | exact cfg.xcen s
-    | exact (cfg.xcen s).symm
   exact Or.inl (S265F3.exists_e3_of_layer hp cfg.elem cfg.xB cfg.x1 hSx cfg.hb cfg.hbx heB heD hne)
 
 end Lift

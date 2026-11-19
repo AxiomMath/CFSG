@@ -25,6 +25,7 @@ theorem isoO_map_omegaGroup (hQ : Q.Nondegenerate) (hQ' : Q'.Nondegenerate)
     commutator_def, commutator_def, Subgroup.map_commutator,
     Subgroup.map_top_of_surjective _ (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).surjective]
 
+omit [FiniteDimensional (ZMod 3) V] [FiniteDimensional (ZMod 3) V'] in
 theorem isoO_map_piGroup (e : Q.IsometryEquiv Q') :
     (piGroup Q).map (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom = piGroup Q' := by
   have hpi : QuadraticMap.IsometryEquiv.orthogonalGroupCongr e (piOrth Q) = piOrth Q' := by
@@ -39,6 +40,7 @@ theorem isoO_map_piGroup (e : Q.IsometryEquiv Q') :
 @[expose] noncomputable def projOrthCongr (e : Q.IsometryEquiv Q') : ProjOrth Q ≃* ProjOrth Q' :=
   QuotientGroup.congr (piGroup Q) (piGroup Q') (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e) (isoO_map_piGroup e)
 
+omit [FiniteDimensional (ZMod 3) V] [FiniteDimensional (ZMod 3) V'] in
 theorem projOrthCongr_toProj (e : Q.IsometryEquiv Q') (t : OGroup Q) :
     projOrthCongr e (toProj Q t) = toProj Q' (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e t) :=
   QuotientGroup.congr_mk' (piGroup Q) (piGroup Q') (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e) (isoO_map_piGroup e) t

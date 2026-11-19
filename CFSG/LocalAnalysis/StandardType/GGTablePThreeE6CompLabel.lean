@@ -29,12 +29,12 @@ theorem twistKind_outerD (ρ : Equiv.Perm (Fin τ.rank → ℤ))
     twistKind ρ χ i = .twoD ∨ (twistKind ρ χ i = .exc ∧ compRank (componentRoots χ i) = 4) := by
   classical
   unfold twistKind
-  rw [if_neg hout]
+  rw [ite_eq_right hout]
   by_cases hex : (compRank (componentRoots χ i) = 6 ∧ (componentRoots χ i).ncard = 72) ∨
       (compRank (componentRoots χ i) = 4 ∧ (componentRoots χ i).ncard = 24 ∧
         ¬ twistInner (componentRoots χ i)
           ((ρ : (Fin τ.rank → ℤ) → _)^[2 * componentOrbitLength ρ (componentRoots χ i)]))
-  · rw [if_pos hex]
+  · rw [ite_eq_left hex]
     right
     refine ⟨rfl, ?_⟩
     rcases hex with ⟨h6, h72⟩ | ⟨h4, -⟩
@@ -43,7 +43,7 @@ theorem twistKind_outerD (ρ : Equiv.Perm (Fin τ.rank → ℤ))
       rw [h72, h6] at this
       omega
     · exact h4
-  · rw [if_neg hex, if_pos hshape]
+  · rw [ite_eq_right hex, ite_eq_left hshape]
     left; rfl
 
 theorem twistKind_A2_of_not_inner (ρ : Equiv.Perm (Fin τ.rank → ℤ))
@@ -54,7 +54,7 @@ theorem twistKind_A2_of_not_inner (ρ : Equiv.Perm (Fin τ.rank → ℤ))
     twistKind ρ χ i = .suN := by
   classical
   unfold twistKind
-  rw [if_neg hout]
+  rw [ite_eq_right hout]
   have hex : ¬ ((compRank (componentRoots χ i) = 6 ∧ (componentRoots χ i).ncard = 72) ∨
       (compRank (componentRoots χ i) = 4 ∧ (componentRoots χ i).ncard = 24 ∧
         ¬ twistInner (componentRoots χ i)
@@ -63,7 +63,7 @@ theorem twistKind_A2_of_not_inner (ρ : Equiv.Perm (Fin τ.rank → ℤ))
   have htw : ¬ (4 ≤ compRank (componentRoots χ i) ∧ (componentRoots χ i).ncard =
       2 * compRank (componentRoots χ i) * (compRank (componentRoots χ i) - 1)) := by
     rintro ⟨h4, -⟩; omega
-  rw [if_neg hex, if_neg htw, if_pos]
+  rw [ite_eq_right hex, ite_eq_right htw, ite_eq_left]
   exact ⟨by omega, by rw [hn, hr]⟩
 
 theorem e6CompLabel_of_outerD {q m : ℕ} {lab : LargeEvenLabel} {r : ℕ} (k : TwistKind)

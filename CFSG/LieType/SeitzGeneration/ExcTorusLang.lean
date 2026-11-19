@@ -73,7 +73,7 @@ theorem sylowTorus_of_twisted_torus {τ : Tag} {C : Type} [Group C] [Finite C] {
     set P1 : Subgroup (ModGL τ L) :=
       ((P0 : Subgroup (twistedTorusOf n Φ)).map (twistedTorusOf n Φ).subtype).map cg with hP1
     have hP1X : P1 ≤ X := Subgroup.map_mono (Subgroup.map_subtype_le _)
-    have hP1p : IsPGroup p P1 := (P0.isPGroup'.map _).map cg
+    have hP1p : IsPGroup p P1 := (P0.isPGroup.map _).map cg
     have hP1range : P1 ≤ ι.range := hpg P1 hP1X hP1p
     set P : Subgroup C := P1.comap ι with hP
     have hPmap : P.map ι = P1 := by

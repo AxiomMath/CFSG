@@ -47,7 +47,7 @@ theorem not_dvd_three_index_fixE6 (K : Type) [Field K] [Finite K] (hK : Nat.card
 theorem conj_into_fixE6_two (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
     {E₀ : Subgroup (adjointGroup .E6 K)} (hexp : ∀ x ∈ E₀, x ^ 3 = 1) :
     ∃ g : adjointGroup .E6 K, ∀ x ∈ E₀, g * x * g⁻¹ ∈ (embE6F4 K).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E₀ := fun x => ⟨1, by
     rw [pow_one]
     apply Subtype.ext
@@ -186,7 +186,7 @@ theorem hClose_one_of_purity_emb
   obtain ⟨ω, hω⟩ := exists_units_orderOf_three K hK
   obtain ⟨D, hD⟩ := hReg K hK E₃ hexp hcard hnF
   have hnt : Nontrivial E₃ := by
-    haveI : Fintype E₃ := Fintype.ofFinite E₃
+    have : Fintype E₃ := Fintype.ofFinite E₃
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcard]
     norm_num
   obtain ⟨x, hx⟩ := exists_ne (1 : E₃)
@@ -254,7 +254,7 @@ theorem e6HighInF4_one (hConj : ConjOne) (hNR : LangPlaneKillsRoot Tag.F4) (hPur
   e6HighInF4_of_closing_emb hConj (hClose_one_of_purity_emb (hReg_of_NR hNR) hPure)
 
 theorem e6HighInF4_two (hF : TwistedFrameTwo) : E6HighInF4 2 :=
-  e6HighInF4_of_closing_emb (fun K _ _ hK E₀ hexp _ _ => conj_into_fixE6_two K hK hexp)
+  e6HighInF4_of_closing_emb (fun K _ _ hK _E₀ hexp _ _ => conj_into_fixE6_two K hK hexp)
     (hClose_two_of_frame hF)
 
 end CFSG.LieType.SeitzGeneration.ExcHighThree

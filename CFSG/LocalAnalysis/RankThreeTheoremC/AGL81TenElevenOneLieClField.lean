@@ -130,7 +130,7 @@ theorem kFactTenElevenOneLieAutOuter_of_field (hF : KFactTenElevenOneLieAutField
   intro Y _ _ L hLn hq hO2 d hd hlist hA2 he hu hJ hC3 hrk hE hN
   by_cases h3 : LieClAut.FieldExponentThree d.1
   · exact hF Y L hLn hq hO2 d hd hlist hA2 h3 he hu hJ hC3 hrk hE hN
-  · haveI := hLn
+  · have := hLn
     obtain ⟨e⟩ := he
     exact LieClAut.false_of_autThreePowInner_of_index hq hC3
       (autThreePowInner_of_not_three_dvd_outer

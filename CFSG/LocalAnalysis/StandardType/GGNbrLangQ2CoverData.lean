@@ -14,7 +14,7 @@ open scoped commutatorElement
   θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
 
 private theorem l02qq2cd_commutatorElement_mul_right_center {X : Type*} [Group X] {x y z : X}
-    (hy : ⁅x, y⁆ ∈ Subgroup.center X) (hz : ⁅x, z⁆ ∈ Subgroup.center X) :
+    (_hy : ⁅x, y⁆ ∈ Subgroup.center X) (hz : ⁅x, z⁆ ∈ Subgroup.center X) :
     ⁅x, y * z⁆ = ⁅x, y⁆ * ⁅x, z⁆ := by
   have h1 : x * y * x⁻¹ = ⁅x, y⁆ * y := by rw [commutatorElement_def]; group
   have h2 : x * z * x⁻¹ = ⁅x, z⁆ * z := by rw [commutatorElement_def]; group
@@ -99,7 +99,7 @@ private theorem l02qq2cd_exists_quotientCentralEquiv
   rw [MulEquiv.ofBijective_apply]
   exact hFmk x
 
-theorem q2_cover_data {X R : Type} [Group X] [Finite X] [Group R] (hX : commutator X = ⊤)
+theorem q2_cover_data {X R : Type} [Group X] [Finite X] [Group R] (_hX : commutator X = ⊤)
     (θ : X ⧸ Subgroup.center X ≃* R) (u : MulAut X) (J : Subgroup X)
     (hJ : CFSG.Open.IsComponentOf J (ggAutFixedSubgroup u)) :
     CFSG.Open.IsComponentOf (J.map (q2CoverMap θ)) (ggAutFixedSubgroup (ggInducedAut θ u)) ∧

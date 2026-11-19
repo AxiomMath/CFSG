@@ -432,7 +432,7 @@ public def CFSG.coindCosetSubrep (q : G ⧸ H) :
       simpa [mul_assoc] using H.mul_mem h.prop hx
     change (if hhx' : ((h : G) * x) * g⁻¹ ∈ H then ρ ⟨((h : G) * x) * g⁻¹, hhx'⟩ v else 0) =
       ρ h ((if hx' : x * g⁻¹ ∈ H then ρ ⟨x * g⁻¹, hx'⟩ v else 0))
-    rw [dif_pos hhx, dif_pos hx]
+    rw [dite_eq_left hhx, dite_eq_left hx]
     have hmul : ⟨((h : G) * x) * g⁻¹, hhx⟩ = h * ⟨x * g⁻¹, hx⟩ := by
       apply Subtype.ext
       simp [mul_assoc]
@@ -449,7 +449,7 @@ public def CFSG.coindCosetSubrep (q : G ⧸ H) :
 @[simp] public theorem CFSG.coindEval_base (g : G) (v : V) :
     coindEval (ρ := ρ) g (coindBaseFunctionAt (ρ := ρ) g v) = v := by
   change (if hg : g * g⁻¹ ∈ H then ρ ⟨g * g⁻¹, hg⟩ v else 0) = v
-  rw [dif_pos]
+  rw [dite_eq_left]
   · have hone : ⟨g * g⁻¹, by simp⟩ = (1 : H) := by
       apply Subtype.ext
       simp
@@ -465,7 +465,7 @@ public theorem CFSG.coindBaseFunctionAt_mem_coset (g : G) (v : V) :
     coindBaseFunctionAt (ρ := ρ) g v ∈ (coindCosetSubrep (ρ := ρ) (g : G ⧸ H)).toSubmodule := by
   intro x hx
   change (if hx' : x * g⁻¹ ∈ H then ρ ⟨x * g⁻¹, hx'⟩ v else 0) = 0
-  rw [dif_neg]
+  rw [dite_eq_right]
   intro hmem
   apply hx
   exact (QuotientGroup.eq_iff_div_mem).2 (by simpa [div_eq_mul_inv] using hmem)
@@ -474,7 +474,7 @@ public theorem CFSG.coindBaseFunctionAt_mem_coset (g : G) (v : V) :
     {g x : G} (hx : (x : G ⧸ H) ≠ (g : G ⧸ H)) (v : V) :
     coindEval (ρ := ρ) x (coindBaseFunctionAt (ρ := ρ) g v) = 0 := by
   change (if hx' : x * g⁻¹ ∈ H then ρ ⟨x * g⁻¹, hx'⟩ v else 0) = 0
-  rw [dif_neg]
+  rw [dite_eq_right]
   intro hmem
   apply hx
   exact (QuotientGroup.eq_iff_div_mem).2 (by simpa [div_eq_mul_inv] using hmem)

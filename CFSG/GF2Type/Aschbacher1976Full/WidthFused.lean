@@ -13,6 +13,7 @@ open CFSG CFSG.Blueprint CFSG.GF2Type.CenterFour Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 theorem exists_pair_of_card_le_two {F : Subgroup G} (s : Finset G) (hs : s.card ≤ 2)
     (hsF : ∀ t ∈ s, t ∈ F) : ∃ x y : G, x ∈ F ∧ y ∈ F ∧ ∀ t ∈ s, t = x ∨ t = y := by
   classical
@@ -30,7 +31,7 @@ section Fused
 
 variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
-theorem not_twoGen_F (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))
+theorem not_twoGen_F (hD : Z4Data z w Z A) (hz : orderOf z = 2) (_hF2 : IsPGroup 2 (Fz z))
     (hw : 2 ≤ w) : ¬ ∃ s : Finset G, s.card ≤ 2 ∧ closure (s : Set G) = Fz z := by
   rintro ⟨s, hs, hcl⟩
   have hsF : ∀ t ∈ s, t ∈ Fz z := fun t ht => hcl ▸ Subgroup.subset_closure (Finset.mem_coe.mpr ht)

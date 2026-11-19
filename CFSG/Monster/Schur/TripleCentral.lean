@@ -168,7 +168,7 @@ theorem false_of_complement_sylow {E G : Type} [Group E] [Finite E] [Group G] [F
     simp [Nat.factorization_eq_zero_of_not_dvd hidx, Nat.Prime.factorization_self Nat.prime_three]
   obtain ⟨R⟩ : Nonempty (Sylow 3 S) := inferInstance
   set R' : Subgroup E := (R : Subgroup S).map S.subtype with hR'
-  have hR'p : IsPGroup 3 R' := R.isPGroup'.map S.subtype
+  have hR'p : IsPGroup 3 R' := R.isPGroup.map S.subtype
   have hR'S : R' ≤ S := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

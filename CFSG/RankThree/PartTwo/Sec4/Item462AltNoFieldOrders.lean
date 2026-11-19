@@ -331,11 +331,11 @@ theorem pow_padic_le_of_not_sq {l a : ℕ} [hl : Fact l.Prime] (h : ¬ l ^ 2 ∣
   calc l ^ padicValNat l a ≤ l ^ 1 := Nat.pow_le_pow_right hl.out.pos (by omega)
     _ = l := pow_one l
 
-theorem pow_padic_le_self {l a : ℕ} [hl : Fact l.Prime] (ha : a ≠ 0) :
+theorem pow_padic_le_self {l a : ℕ} [_hl : Fact l.Prime] (ha : a ≠ 0) :
     l ^ padicValNat l a ≤ a :=
   Nat.le_of_dvd (Nat.pos_of_ne_zero ha) pow_padicValNat_dvd
 
-theorem pow_padic_le_one {l a : ℕ} [hl : Fact l.Prime] (h : ¬ l ∣ a) :
+theorem pow_padic_le_one {l a : ℕ} [_hl : Fact l.Prime] (h : ¬ l ∣ a) :
     l ^ padicValNat l a ≤ 1 := by
   simp [padicValNat.eq_zero_of_not_dvd h]
 
@@ -636,7 +636,7 @@ theorem ordSU_succ_ne_zero {r : ℕ} (hr : 4 ≤ r) : ordSU (r + 1) ≠ 0 := by
 
 theorem cube_two_SL {N c r : ℕ} (hr : 4 ≤ r) (hev : r % 2 = 0) (hc : c = 1 ∨ c = 3)
     (hN : N ≠ 0) (hM : N * c = ordSL (r + 1)) : 2 ^ (3 * padicValNat 2 N) ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (show r % 4 = 0 ∨ r % 4 = 2 by omega) with h4 | h4
   · exact cube_val_le_of_mul hc hN hM (two_SL_A hr h4) (by rw [ordSL_succ]; exact poly_SL_A hr)
   · exact cube_val_le_of_mul hc hN hM (two_SL_B hr h4) (by rw [ordSL_succ]; exact poly_SL_B hr)
@@ -644,7 +644,7 @@ theorem cube_two_SL {N c r : ℕ} (hr : 4 ≤ r) (hev : r % 2 = 0) (hc : c = 1 �
 theorem cube_two_SU {N c r : ℕ} (hr : 4 ≤ r) (hev : r % 2 = 0) (h3 : r % 3 = 1)
     (hc : c = 1 ∨ c = 3) (hN : N ≠ 0) (hM : N * c = ordSU (r + 1)) :
     2 ^ (3 * padicValNat 2 N) ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (show r % 4 = 0 ∨ r % 4 = 2 by omega) with h4 | h4
   · exact cube_val_le_of_mul hc hN hM (two_SU_A hr h4) (by rw [ordSU_succ]; exact poly_SU_A hr)
   · exact cube_val_le_of_mul hc hN hM (two_SU_B hr h4)
@@ -652,13 +652,13 @@ theorem cube_two_SU {N c r : ℕ} (hr : 4 ≤ r) (hev : r % 2 = 0) (h3 : r % 3 =
 
 theorem cube_three_SL {N c r : ℕ} (hr : 4 ≤ r) (h3 : r % 3 = 0) (hc : c = 1 ∨ c = 3)
     (hN : N ≠ 0) (hM : N * c = ordSL (r + 1)) : 3 ^ (3 * padicValNat 3 N) ≤ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact cube_val_le_of_mul hc hN hM (three_SL hr h3) (by rw [ordSL_succ]; exact poly_SL_C hr)
 
 theorem cube_three_SU {N c r : ℕ} (hr : 4 ≤ r) (h3 : r % 3 = 1) (hne : r ≠ 7)
     (hc : c = 1 ∨ c = 3) (hN : N ≠ 0) (hM : N * c = ordSU (r + 1)) :
     3 ^ (3 * padicValNat 3 N) ≤ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h9 : 9 ∣ r + 2
   · exact cube_val_le_of_mul hc hN hM (three_SU_b hr h3)
       (by rw [ordSU_succ]; exact poly_SU_D (by omega))
@@ -667,12 +667,12 @@ theorem cube_three_SU {N c r : ℕ} (hr : 4 ≤ r) (h3 : r % 3 = 1) (hne : r ≠
 
 theorem A1_a_SL {p e N c : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
     (hc : c = 1 ∨ c = 3) (hM : N * c = ordSL (p ^ e)) : padicValNat p N = 3 * e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact padicValNat_ordSL h5 he hc hM
 
 theorem A1_a_SU {p e N c : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
     (hc : c = 1 ∨ c = 3) (hM : N * c = ordSU (p ^ e)) : padicValNat p N = 3 * e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact padicValNat_ordSU h5 he hc hM
 
 theorem A1_c_SL {p e N c l : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
@@ -703,7 +703,7 @@ theorem A1_c_SL {p e N c l : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
   rcases hl3 with rfl | rfl | h5l
   · exact cube_two_SL hr4 hev hc hN hM
   · exact cube_three_SL hr4 h3 hc hN hM
-  · haveI : Fact l.Prime := ⟨hl⟩
+  · have : Fact l.Prime := ⟨hl⟩
     have hlq : ¬ l ∣ r + 1 := by
       intro h
       rw [← hr] at h
@@ -727,7 +727,7 @@ theorem A1_c_SU {p e N c l : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
       rw [← h8]
       exact dvd_pow_self p (by omega)
     have hle : p ≤ 8 := Nat.le_of_dvd (by norm_num) hpd
-    interval_cases p <;> first | omega | (have h2 := hp.eq_one_or_self_of_dvd 2 ⟨4, rfl⟩; omega)
+    interval_cases p <;> first | omega
   rw [hr] at hM
   have hN : N ≠ 0 := by
     intro h0
@@ -746,7 +746,7 @@ theorem A1_c_SU {p e N c l : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (he : 1 ≤ e)
   rcases hl3 with rfl | rfl | h5l
   · exact cube_two_SU hr4 hev h3 hc hN hM
   · exact cube_three_SU hr4 h3 hne hc hN hM
-  · haveI : Fact l.Prime := ⟨hl⟩
+  · have : Fact l.Prime := ⟨hl⟩
     have hlq : ¬ l ∣ r + 1 := by
       intro h
       rw [← hr] at h

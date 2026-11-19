@@ -69,7 +69,7 @@ theorem sylow_ker_eq_bot_of_pKernel {p : ℕ} [hp : Fact p.Prime] {S : Type*} [G
     rw [hbot, mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
     exact h1.2
   refine eq_bot_iff.2 fun x hx => ?_
-  obtain ⟨k, hk⟩ := Cp.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := Cp.isPGroup ⟨x, hx⟩
   have hk' : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hcopx : (orderOf x).Coprime p := by
     rw [← Subgroup.orderOf_coe]

@@ -51,7 +51,7 @@ theorem listNoPerfectOut_holds : ListNoPerfectOutStatement := by
     CFSG.RankThree.PartTwo.Sec19.SolSeven.inCatalog_of_listGroup hD
   have hsolv : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer D) :=
     CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds D hnonab hcat
-  haveI : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hP
+  have : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hP
   intro x hx
   obtain ⟨g, hg⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
     P.subtype (⟨x, hx⟩ : P)

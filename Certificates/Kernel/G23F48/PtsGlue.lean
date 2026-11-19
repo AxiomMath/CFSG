@@ -129,7 +129,7 @@ private theorem mulVec_get {MA p r : Nat} (hr : r < 14) :
     refine List.map_congr_left fun c hc => ?_
     rw [List.mem_range] at hc
     rw [unpack_get (by omega), unpack_get hc]
-  simp only [burnsideF48t_g23Dot, Fin.val_mk]
+  simp only [burnsideF48t_g23Dot]
   rw [hm]
 
 theorem pts_gen {k i : ℕ} (hk : k < 4) (hi : i < 728) :
@@ -151,7 +151,7 @@ theorem pts_gen {k i : ℕ} (hk : k < 4) (hi : i < 728) :
       rw [mulVec_get hr, hrow r hr, Nat.one_mul]
     have hf := find_lead (c := 1) (by rw [hsz]; exact ht)
       (fun s hs => by rw [hw s (by omega)]; exact hb s hs) (by rw [hw t ht]; exact hc) (by decide)
-    rw [hf, if_neg (by decide)]
+    rw [hf, ite_eq_right (by decide)]
     apply Array.ext (by rw [hsz]; simp [unpack])
     intro r h1 h2
     have hr : r < 14 := by simpa [unpack] using h1
@@ -163,7 +163,7 @@ theorem pts_gen {k i : ℕ} (hk : k < 4) (hi : i < 728) :
       omega
     have hf := find_lead (c := 2) (by rw [hsz]; exact ht)
       (fun s hs => by rw [hw s (by omega), hb s hs]) (by rw [hw t ht, hc]) (by decide)
-    rw [hf, if_pos (by decide)]
+    rw [hf, ite_eq_left (by decide)]
     apply Array.ext (by rw [Array.size_map, hsz]; simp [unpack])
     intro r h1 h2
     have hr : r < 14 := by simpa [unpack] using h1

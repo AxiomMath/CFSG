@@ -30,7 +30,7 @@ theorem fieldActor_eq_self_of_mem_centralizer (P : D4ParOdd ℓ f X σ) {c : C0 
     (hc : c ∈ Subgroup.centralizer
       ((KS11Lie4Proof.d4ShortSL2 X σ.toRingHom : Subgroup (C0 σ)) : Set (C0 σ))) :
     fieldActor (t := TwistTag.D4) σ σ c = c := by
-  haveI : Fact ℓ.Prime := ⟨P.prime⟩
+  have : Fact ℓ.Prime := ⟨P.prime⟩
   exact bModel_fieldActor_eq_self_of_mem_centralizer P.one_le P.ne_three P.card P.frob hc
 
 theorem conj_mem_short_of_mem_cen (P : D4ParOdd ℓ f X σ) {z : C0 σ}
@@ -53,7 +53,7 @@ theorem exists_GL2_action (P : D4ParOdd ℓ f X σ) {z : C0 σ}
     ∃ N : GL (Fin 2) X, ∀ A : Matrix.SpecialLinearGroup (Fin 2) X,
       g * ((bModelPsi P A : KS11Lie4Proof.d4ShortSL2 X σ.toRingHom) : C0 σ) * g⁻¹ =
         ((bModelPsi P (glConjSL N A) : KS11Lie4Proof.d4ShortSL2 X σ.toRingHom) : C0 σ) := by
-  haveI := P.charP
+  have := P.charP
   have h2 : (2 : X) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : X) = 0 := by exact_mod_cast h
@@ -120,7 +120,7 @@ theorem mem_zpowers_of_mem_centralizer_short (P : D4ParOdd ℓ f X σ) {z b : C0
     (hbS : b ∈ Subgroup.centralizer
       ((KS11Lie4Proof.d4ShortSL2 X σ.toRingHom : Subgroup (C0 σ)) : Set (C0 σ)))
     (hb3 : b ^ 3 = 1) (hbz : b * z = z * b) : b ∈ Subgroup.zpowers z := by
-  haveI : Fact ℓ.Prime := ⟨P.prime⟩
+  have : Fact ℓ.Prime := ⟨P.prime⟩
   exact bModel_mem_zpowers_of_mem_centralizer P.one_le P.ne_three P.card P.frob hzS hz3 hz1 hbS hb3
     hbz
 

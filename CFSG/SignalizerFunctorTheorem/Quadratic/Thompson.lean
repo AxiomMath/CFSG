@@ -33,7 +33,7 @@ private theorem thm_isSylowOf_iff_max {S : Subgroup G} :
       ∀ Q : Subgroup G, Q ≤ U → IsPGroup q Q → S ≤ Q → Q = S := by
   constructor
   · rintro ⟨P, rfl⟩
-    refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map U.subtype, fun Q hQU hQ hle => ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map U.subtype, fun Q hQU hQ hle => ?_⟩
     have h1 : (P : Subgroup U) ≤ Q.subgroupOf U := fun x hx => hle ⟨x, hx, rfl⟩
     have h2 : Q.subgroupOf U = P := le_antisymm (P.maximal_isPGroup.2 (hQ.comap_subtype) h1) h1
     rw [← inf_eq_left.mpr hQU, ← Subgroup.subgroupOf_map_subtype, h2]

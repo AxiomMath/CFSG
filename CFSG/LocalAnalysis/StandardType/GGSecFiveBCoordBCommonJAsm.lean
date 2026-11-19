@@ -32,7 +32,7 @@ theorem ggCommonJ_core_of_rowData (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
         (fun labJ _ _ _ _ _ => GGSecFiveBCoordBJDenseLabelCore L (m + 1) p lab labJ)) ∨
       (GGSecFiveBCoordSparse eta i0 D ∧ LargeEvenMarking J
         (fun labJ _ _ _ _ _ => GGSecFiveBCoordBJSparseLabel (m + 1) p lab labJ)) := by
-  haveI : IsSimpleGroup R := hRs
+  have : IsSimpleGroup R := hRs
   have hR : Subgroup.center R = ⊥ := by
     obtain ⟨a, b, hab⟩ := hRnc
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with h | h

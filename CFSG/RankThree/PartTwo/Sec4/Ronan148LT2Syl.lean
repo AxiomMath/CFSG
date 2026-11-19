@@ -16,7 +16,7 @@ open Matrix
 theorem noCQ425_of_isCyclic_sylow {S : Type} [Group S] [Finite S]
     (h : ∀ Q : Sylow 3 S, IsCyclic Q) : NoCQ425 S :=
   noCC425_of_abelian_sylow fun P a b ha hb => by
-    letI := (h P).commGroup
+    let := (h P).commGroup
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : (P : Subgroup S)) ⟨b, hb⟩)
 
 theorem comm_sylow_projImage {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
@@ -32,12 +32,12 @@ theorem comm_sylow_projImage {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type
   rw [Sylow.coe_mapSurjective] at ha hb
   obtain ⟨a', ha', rfl⟩ := ha
   obtain ⟨b', hb', rfl⟩ := hb
-  rw [← map_mul f, ← map_mul f, hH S S.isPGroup' a' ha' b' hb']
+  rw [← map_mul f, ← map_mul f, hH S S.isPGroup a' ha' b' hb']
 
 theorem comm_of_isPGroup_GL4 {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
     (P : Subgroup (GL (Fin 4) K)) (hP : IsPGroup 3 P) : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype K := Fintype.ofFinite K
   have hq : Fintype.card K % 3 = 2 := by rwa [Fintype.card_eq_nat_card]
   have h0 : ¬ 3 ∣ Fintype.card K := by omega
   have hd : 3 ∣ Fintype.card K ^ 2 - 1 := by
@@ -76,12 +76,12 @@ theorem sp4_card_fac (n : ℕ) (hn : 1 ≤ n) :
 
 theorem comm_of_isPGroup_Sp4_mod_one {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 1)
     (P : Subgroup (StatedSp 2 K)) (hP : IsPGroup 3 P) : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set τ := CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.torusHom (r := 2) (k := K)
   have hτ : Function.Injective τ :=
     CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.torusHom_injective
   set T := τ.range with hT
-  haveI : IsMulCommutative T := ⟨⟨by
+  have : IsMulCommutative T := ⟨⟨by
     rintro ⟨_, x, rfl⟩ ⟨_, y, rfl⟩
     apply Subtype.ext
     change τ x * τ y = τ y * τ x
@@ -131,7 +131,7 @@ theorem kT2_SU3_mod_one {p f : ℕ} [Fact p.Prime] (hf : f ≠ 0) (hq : p ^ f % 
 
 theorem kT2_SL4_mod_two {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2) :
     RowOf425 (projSL 4 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine rowOf425_of_noCQ' (noCC425_of_abelian_sylow ?_)
   rw [← CFSG.RankThree.PartOne.projImage_statedSL_eq_projSL 4 K]
   refine comm_sylow_projImage fun P hP a ha b hb => ?_
@@ -141,7 +141,7 @@ theorem kT2_SL4_mod_two {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2
 
 theorem kT2_Sp4_mod_two {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2) :
     RowOf425 (projSp 2 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine rowOf425_of_noCQ' (noCC425_of_abelian_sylow ?_)
   rw [← CFSG.RankThree.PartOne.projImage_statedSp_eq_projSp 2 K]
   refine comm_sylow_projImage fun P hP a ha b hb => ?_
@@ -154,7 +154,7 @@ theorem kT2_Sp4_mod_two {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2
 
 theorem kT2_Sp4_mod_one {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 1) :
     RowOf425 (projSp 2 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine rowOf425_of_noCQ' (noCC425_of_abelian_sylow ?_)
   rw [← CFSG.RankThree.PartOne.projImage_statedSp_eq_projSp 2 K]
   exact comm_sylow_projImage fun P hP => comm_of_isPGroup_Sp4_mod_one hK P hP

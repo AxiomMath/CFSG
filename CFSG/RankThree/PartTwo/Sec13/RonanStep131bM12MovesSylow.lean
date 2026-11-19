@@ -10,12 +10,12 @@ open scoped Pointwise
 
 theorem s4_holds : S4 := by
   intro G _ _ B N S₁ S₂ hΩ hNB h1 h2 hp1 hp2 _ hc2 he1 he2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp1' : IsPGroup 3 (S₁.comap N.subtype) := hp1.comap_subtype (K := N)
   have hp2' : IsPGroup 3 (S₂.comap N.subtype) := hp2.comap_subtype (K := N)
   obtain ⟨R₁, hR₁⟩ := hp1'.exists_le_sylow
   obtain ⟨R₂, hR₂⟩ := hp2'.exists_le_sylow
-  haveI : Finite (Sylow 3 N) := Sylow.finite_of_finiteIndex R₁
+  have : Finite (Sylow 3 N) := Sylow.finite_of_finiteIndex R₁
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N R₁ R₂
   have hgS : MulAut.conj g • (R₁ : Subgroup N) = (R₂ : Subgroup N) := by
     rw [← Sylow.coe_subgroup_smul, hg]
@@ -24,7 +24,7 @@ theorem s4_holds : S4 := by
     rw [← hgS]
     exact Subgroup.smul_mem_pointwise_smul x (MulAut.conj g) _ hx
   set R₂G : Subgroup G := (R₂ : Subgroup N).map N.subtype with hR₂G
-  have hR₂p : IsPGroup 3 R₂G := R₂.isPGroup'.map _
+  have hR₂p : IsPGroup 3 R₂G := R₂.isPGroup.map _
   have hR₂B : R₂G ≤ B := by
     rintro _ ⟨y, -, rfl⟩
     exact hNB y.2

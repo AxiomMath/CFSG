@@ -18,12 +18,12 @@ variable {G : Type} [Group G] [Finite G]
 theorem csl_comm (h52a : Asc82Lemma52a) {t : G} {L S : Subgroup G} {z r : G} {B A : Subgroup G}
     (c : Sec5RCtx G t L S z r B A) :
     ∀ a ∈ S ⊓ centralizer (L : Set G), ∀ b ∈ S ⊓ centralizer (L : Set G), a * b = b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H := centralizer (L : Set G) with hH
   have hP : IsPGroup 2 ↥((S ⊓ H).subgroupOf H) :=
     (c.sylow.2.1.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
-  haveI := h52a G t L c.toSec5Setting Q
+  have := h52a G t L c.toSec5Setting Q
   intro a ha b hb
   have ha' : (⟨a, ha.2⟩ : H) ∈ (Q : Subgroup H) := hPQ (Subgroup.mem_subgroupOf.mpr ha)
   have hb' : (⟨b, hb.2⟩ : H) ∈ (Q : Subgroup H) := hPQ (Subgroup.mem_subgroupOf.mpr hb)

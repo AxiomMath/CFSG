@@ -33,12 +33,13 @@ theorem t263VHyp_of_data {S B : Subgroup Ω} (hSn : S.Normal) (hSq : CFSG.Open.I
   obtain ⟨T, hTne, hT2, hTS, hBT⟩ := hT
   exact ⟨hSn, hSq, hSp, hBel, hBcard ▸ Nat.pow_le_pow_right hp.pos h4, T, hTS, hT2, hTne, hBT⟩
 
+omit [Finite Ω] in
 theorem t263_normalizer_of_normal {K : Subgroup Ω} (hK : K.Normal) {g : Ω} :
     g ∈ Subgroup.normalizer (K : Set Ω) :=
   Subgroup.normalizer_eq_top_iff.2 hK ▸ Subgroup.mem_top g
 
 theorem t263_actionHom_eq_one_iff (hp : p.Prime) {S B : Subgroup Ω} (h : T263VHyp p S B) (b : ↥B) :
-    actionHom S B (fun g _ => t263_normalizer_of_normal h.normal) p b = 1 ↔
+    actionHom S B (fun _g _ => t263_normalizer_of_normal h.normal) p b = 1 ↔
       (b : Ω) ∈ Subgroup.centralizer (S : Set Ω) := by
   have hcomp : GLAPComponent p S S := glaPComponent_self_p h.qs h.core
   have hbN : (b : Ω) ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal h.normal
@@ -68,7 +69,7 @@ theorem t263_false_of_not_sq_dvd (hp : p.Prime) {S B : Subgroup Ω} (h : T263VHy
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (S : Set Ω)) < p ^ 3) {S' : Type} [Group S']
     (e : ↥S ⧸ Subgroup.center ↥S ≃* S') (hS : ¬ p ^ 2 ∣ Nat.card (MulAut S')) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBK : B ≤ Subgroup.normalizer (S : Set Ω) := fun g _ => t263_normalizer_of_normal h.normal
   set ψ := actionHom S B hBK p with hψ
   have hcard := t263_card_actionHom hp h hBK
@@ -124,8 +125,8 @@ theorem t263_false_of_rank_bound' (hp : p.Prime) (hp2 : p ≠ 2) {S B : Subgroup
       E ≤ Subgroup.normalizer (T : Set S') → Nat.card E ≤ r)
     (hmr : m * r < p ^ 2) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite S' := Finite.of_equiv _ e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite S' := Finite.of_equiv _ e.toEquiv
   have hBK : B ≤ Subgroup.normalizer (S : Set Ω) := fun g _ => t263_normalizer_of_normal h.normal
   let eS : PSimple p S ≃* S' := (pSimpleEquiv h.core).trans e
   set ψ := actionHom S B hBK p with hψ

@@ -12,6 +12,7 @@ open CFSG CFSG.Open CFSG.ABGLocalTools CFSG.GroupTheory Subgroup
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem conjV_pi_eq_self_of_mem_centerIn (h : Tim79a.ParrottHyp z) {x : ↥(H z)}
     {y : G} (hy : y ∈ centerIn (J z ⊓ centralizer ({(x : G)} : Set G))) :
     conjV h x (QuotientV.pi z ⟨y, hy.1.1⟩) = QuotientV.pi z ⟨y, hy.1.1⟩ := by
@@ -25,6 +26,7 @@ private theorem conjV_pi_eq_self_of_mem_centerIn (h : Tim79a.ParrottHyp z) {x : 
   calc (x : G) * (y : G) * (x : G)⁻¹ = (y : G) * (x : G) * (x : G)⁻¹ := by rw [hxy]
     _ = (y : G) := by group
 
+omit [Finite G] in
 private theorem conjV_trace_eq_self (h : Tim79a.ParrottHyp z) {x : ↥(H z)} (hx3 : x ^ 3 = 1)
     (w : QuotientV.V z) :
     conjV h x (w * conjV h x w * conjV h x (conjV h x w)) =
@@ -64,6 +66,7 @@ private theorem mem_centralizer_of_mem_centerIn_J_inf_centralizer (h : Tim79a.Pa
   exact (polarVZMod_pi_eq_zero_iff h ⟨y, hy.1.1⟩ j').mpr
     (Subgroup.mem_centralizer_iff.mp hy.2 (j' : G) hj'K).symm
 
+omit [Finite G] in
 theorem J_inf_centralizer_le_of_isSylowOf (h : Tim79a.ParrottHyp z) {x : G} {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ centralizer ({x} : Set G))) :
     J z ⊓ centralizer ({x} : Set G) ≤ T := by
@@ -119,7 +122,7 @@ private theorem exists_three_of_eight_le_card (F : Subgroup (QuotientV.V z))
     (hF8 : 8 ≤ Nat.card ↥F) :
     ∃ a b c : ↥F, a ≠ 1 ∧ b ≠ 1 ∧ c ≠ 1 ∧ b ≠ a ∧ c ≠ a ∧ c ≠ b ∧ c ≠ a * b := by
   classical
-  haveI : Fintype ↥F := Fintype.ofFinite _
+  have : Fintype ↥F := Fintype.ofFinite _
   let s : Finset ↥F := Finset.univ
   have hs_card : s.card = Nat.card ↥F := by
     rw [Finset.card_univ, Nat.card_eq_fintype_card]

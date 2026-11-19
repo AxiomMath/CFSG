@@ -113,7 +113,7 @@ theorem sec74_B_dec [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (h73 : 
 theorem sec74_B_uv_Lg [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (hF : Asc82AutFacts)
     {t : G} {L S : Subgroup G} {z g : G} (hA : Sec74Ass G t L S z g) {u v' : G}
     (hne : layerCent (CFSG.conjugate L g) t ≠ ⊥) (hu : u ∈ layerCent (CFSG.conjugate L g) t)
-    (hu2 : orderOf u = 2) (hv'L : v' ∈ CFSG.conjugate L g) (hv'2 : orderOf v' = 2)
+    (hu2 : orderOf u = 2) (hv'L : v' ∈ CFSG.conjugate L g) (_hv'2 : orderOf v' = 2)
     (hv'B : InducesTypeSome (CFSG.conjugate L g) v' 6 1 2 (-1))
     (hts : t = (g⁻¹ * t * g) * v') :
     ∃ m ∈ CFSG.conjugate L g, u * v' = m * (g⁻¹ * z * g) * m⁻¹ := by

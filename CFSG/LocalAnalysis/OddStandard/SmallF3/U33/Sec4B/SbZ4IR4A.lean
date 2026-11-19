@@ -43,11 +43,11 @@ theorem z4i_card_sub (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {A : Subgroup G}
     (hA : A ≤ ctxNQ t tau x₁ x₂ rho) : Nat.card (hz.z4iSub A) = Nat.card A :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv
 
-theorem z4i_Q_le_NQ (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
+theorem z4i_Q_le_NQ (_hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
     ctxQ t tau x₁ x₂ rho ≤ ctxNQ t tau x₁ x₂ rho :=
   Subgroup.le_normalizer
 
-theorem z4i_exists_odd (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
+theorem z4i_exists_odd (_hz : Ctx4Z t L S x₁ x₂ lam rho tau)
     (hsyl : IsSylowIn 2 (ctxQ t tau x₁ x₂ rho) (ctxCQ t tau x₁ x₂ rho)) :
     ∃ Ng : Subgroup G, Z4IOdd t tau x₁ x₂ rho Ng := by
   have hcent : ∀ c ∈ ctxCQ t tau x₁ x₂ rho, ∀ q ∈ ctxQ t tau x₁ x₂ rho,
@@ -62,12 +62,14 @@ namespace Z4IOdd
 
 variable {Ng : Subgroup G}
 
+omit [Finite G] in
 theorem le_NQ (hN : Z4IOdd t tau x₁ x₂ rho Ng) : Ng ≤ ctxNQ t tau x₁ x₂ rho :=
   hN.le_C.trans (ctxCQ_le_ctxNQ t tau x₁ x₂ rho)
 
+omit [Finite G] in
 theorem conj_mem (hN : Z4IOdd t tau x₁ x₂ rho Ng) {g n : G}
     (hg : g ∈ ctxNQ t tau x₁ x₂ rho) (hn : n ∈ Ng) : g * n * g⁻¹ ∈ Ng :=
-  S4B.z4i_odd_core_normal hN.iff_odd hN.le_C (fun c hc => conj_mem_ctxCQ hg hc) n hn
+  S4B.z4i_odd_core_normal hN.iff_odd hN.le_C (fun _c hc => conj_mem_ctxCQ hg hc) n hn
 
 end Z4IOdd
 

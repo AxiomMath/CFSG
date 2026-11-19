@@ -71,7 +71,7 @@ private theorem card_modEq_fixedPoints_set {α : Type*} [Fintype α] [DecidableE
             rw [Function.iterate_succ_apply', Function.iterate_succ_apply', ih]
             show g (f^[n] a) = f (f^[n] a)
             simp only [g]
-            rw [if_pos (hmem n)]
+            rw [ite_eq_left (hmem n)]
       rw [hpow p, hf]
     · have hpow : ∀ n, g^[n] a = a := by
         intro n
@@ -80,7 +80,7 @@ private theorem card_modEq_fixedPoints_set {α : Type*} [Fintype α] [DecidableE
         | succ n ih =>
             rw [Function.iterate_succ_apply', ih]
             simp only [g]
-            rw [if_neg ha]
+            rw [ite_eq_right ha]
       rw [hpow p]
       rfl
   have h := card_modEq_fixedPoints_fun g hg
@@ -106,12 +106,12 @@ private def fixedSubgroup {X : Type*} [Group X] (φ : MulAut X) : Subgroup X whe
   carrier := {x | φ x = x}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 private theorem mem_fixedSubgroup {X : Type*} [Group X] (φ : MulAut X) (x : X) :

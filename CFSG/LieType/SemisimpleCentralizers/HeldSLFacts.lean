@@ -34,20 +34,20 @@ theorem mul_single_entry {d : ℕ} (M : Matrix (Fin d) (Fin d) E) (i j r s : Fin
     (M * Matrix.single i j (1 : E)) r s = M r i * (if j = s then 1 else 0) := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · by_cases hjs : j = s
-    · subst hjs; simp [Matrix.single_apply]
-    · simp [Matrix.single_apply, hjs]
+    · subst hjs; simp
+    · simp [hjs]
   · intro k _ hk
-    simp [Matrix.single_apply, Ne.symm hk]
+    simp [Ne.symm hk]
   · intro h; exact absurd (Finset.mem_univ i) h
 
 theorem single_mul_entry {d : ℕ} (M : Matrix (Fin d) (Fin d) E) (i j r s : Fin d) :
     (Matrix.single i j (1 : E) * M) r s = (if r = i then 1 else 0) * M j s := by
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
   · by_cases hri : r = i
-    · subst hri; simp [Matrix.single_apply]
-    · simp [Matrix.single_apply, hri, Ne.symm hri]
+    · subst hri; simp
+    · simp [hri, Ne.symm hri]
   · intro k _ hk
-    simp [Matrix.single_apply, hk, Ne.symm hk]
+    simp [Ne.symm hk]
   · intro h; exact absurd (Finset.mem_univ j) h
 
 theorem matrix_eq_scalar_of_commute_transvection {d : ℕ} (M : Matrix (Fin d) (Fin d) E)
@@ -70,12 +70,12 @@ theorem matrix_eq_scalar_of_commute_transvection {d : ℕ} (M : Matrix (Fin d) (
   have hoff : ∀ r s : Fin d, r ≠ s → M r s = 0 := by
     intro r s hrs
     have h1 := hentry s r (Ne.symm hrs) s s
-    rw [if_neg hrs, if_pos rfl, mul_zero, one_mul] at h1
+    rw [ite_eq_right hrs, ite_eq_left rfl, mul_zero, one_mul] at h1
     exact h1.symm
   have hdiag : ∀ a b : Fin d, a ≠ b → M a a = M b b := by
     intro a b hab
     have h1 := hentry a b hab a b
-    rw [if_pos rfl, if_pos rfl, mul_one, one_mul] at h1
+    rw [ite_eq_left rfl, ite_eq_left rfl, mul_one, one_mul] at h1
     exact h1
   rcases Nat.eq_zero_or_pos d with rfl | hd
   · exact ⟨0, Subsingleton.elim _ _⟩
@@ -115,7 +115,7 @@ theorem center_statedSL_eq (d : ℕ) :
         obtain ⟨c, hc⟩ := matrix_eq_scalar_of_commute_transvection _ hM
         have hc0 : c ≠ 0 := by
           intro hc0
-          haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+          have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
           have hmul : ((x : GL (Fin d) E) : Matrix (Fin d) (Fin d) E) *
               (((x : GL (Fin d) E))⁻¹ : GL (Fin d) E) = 1 := by
             rw [← Units.val_mul, mul_inv_cancel, Units.val_one]

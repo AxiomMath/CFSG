@@ -28,14 +28,14 @@ theorem negSucc_eq' (r : Nat) : -((r + 1 : Nat) : ℤ) = Int.negSucc r := by
 theorem letterPerm_pos {G : Type*} [Group G] (π : ℕ → G) {m k : Nat} (hk : k < m) :
     letterPerm π m ((k : ℤ) + 1) = π k := by
   unfold letterPerm
-  rw [if_pos ⟨by omega, by omega⟩]
+  rw [ite_eq_left ⟨by omega, by omega⟩]
   congr 1
   omega
 
 theorem letterPerm_neg {G : Type*} [Group G] (π : ℕ → G) {m k : Nat} (hk : k < m) :
     letterPerm π m (-((k : ℤ) + 1)) = (π k)⁻¹ := by
   unfold letterPerm
-  rw [if_neg (by omega), if_pos ⟨by omega, by omega⟩]
+  rw [ite_eq_right (by omega), ite_eq_left ⟨by omega, by omega⟩]
   congr 2
   omega
 
@@ -49,11 +49,11 @@ theorem wordG_y332Word {π : ℕ → Perm Pt} (hπ : ∀ j < 71, π j = gY (yReg
   intro p hp
   obtain ⟨h1, h2⟩ := h p hp
   by_cases hs : p.2 < 0
-  · rw [if_pos hs, wordG_replicate, letterPerm_neg π h1, hπ _ h1, h2]
+  · rw [ite_eq_left hs, wordG_replicate, letterPerm_neg π h1, hπ _ h1, h2]
     have hp2 : p.2 = -(p.2.natAbs : ℤ) := by omega
     conv_rhs => rw [hp2]
     rw [zpow_neg, zpow_natCast, inv_pow]
-  · rw [if_neg hs, wordG_replicate, letterPerm_pos π h1, hπ _ h1, h2]
+  · rw [ite_eq_right hs, wordG_replicate, letterPerm_pos π h1, hπ _ h1, h2]
     have hp2 : p.2 = (p.2.natAbs : ℤ) := by omega
     conv_rhs => rw [hp2]
     rw [zpow_natCast]
@@ -234,7 +234,7 @@ theorem y332OKAt_of (hm : Rep 920808 (mTabs ())[0]! (gY 0) ∧ Rep 920808 (mTabs
       rfl
     · rw [allIn_eq_true]
       intro j _ hj
-      rw [y332Letters_get (by omega), y332Letters_get (by omega), if_pos (by omega), if_neg (by omega),
+      rw [y332Letters_get (by omega), y332Letters_get (by omega), ite_eq_left (by omega), ite_eq_right (by omega),
         show (2 * j + 1) / 2 = j by omega, show 2 * j / 2 = j by omega]
       exact invOK_invT_of_rep hn32 (hG j hj)
     · simp [levelTrees, hbsz]
@@ -250,7 +250,7 @@ theorem y332OKAt_of (hm : Rep 920808 (mTabs ())[0]! (gY 0) ∧ Rep 920808 (mTabs
         have : y332Starts[i + 1]! ≤ 71 := by interval_cases i <;> decide
         omega
       obtain ⟨h9, hb⟩ := base_facts i hi j hjs ⟨hi1, hj1, hj2⟩
-      rw [beq_iff_eq, y332Letters_get (by omega), if_pos (by omega), show 2 * j / 2 = j by omega,
+      rw [beq_iff_eq, y332Letters_get (by omega), ite_eq_left (by omega), show 2 * j / 2 = j by omega,
         y332Gens_get hjs]
       have h := ybase_all (j - 9) (by have h' : j - 9 < 62 := (by omega); exact h')
       unfold ybase9 at h
@@ -292,7 +292,7 @@ theorem y332OKAt_of (hm : Rep 920808 (mTabs ())[0]! (gY 0) ∧ Rep 920808 (mTabs
         · rw [← hapL l (hlv i hi l hl') N hN']
           exact hP N hN l hl'
         · unfold eL
-          rw [if_neg hN']
+          rw [ite_eq_right hN']
           exact hN
       · rw [← hcnt]
         exact congrArg List.length (List.filter_congr fun x hx => by
@@ -340,7 +340,7 @@ theorem y332OKAt_of (hm : Rep 920808 (mTabs ())[0]! (gY 0) ∧ Rep 920808 (mTabs
       (fun p hp => (hls (j + 39) (by rw [hsK]; exact hℓ) p hp).1) hspec.1 hspec.2
     have e : lineProd (fun r => gT NWY KAY KBY (r + 0)) y332LinesK.toArray[j + 39]! =
         lineProd gY y332LinesK.toArray[j + 39]! := lineProd_congr fun p _ => rfl
-    rw [e, show 2 + (j + 39) = yReg j by unfold yReg; rw [if_neg (by omega)]; omega] at hline
+    rw [e, show 2 + (j + 39) = yReg j by unfold yReg; rw [ite_eq_right (by omega)]; omega] at hline
     rw [← hline, y332Gens_get hjs]
     exact hR _ (yReg_lt hjs)
   unfold y332OKAt

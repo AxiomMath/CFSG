@@ -94,7 +94,7 @@ theorem eq_one_of_commute_scalar {p : ℕ} [Fact p.Prime] {R : Subgroup X} [Fini
     (hg : ∀ x ∈ R, ∃ z ∈ R ⊓ Subgroup.centralizer (R : Set X), g * x * g⁻¹ = x ^ μ * z)
     {x : X} (hx : x ∈ R) (hgx : g * x = x * g) : x = 1 := by
   classical
-  haveI : Fact p.Prime := inferInstance
+  have : Fact p.Prime := inferInstance
   have hp : p.Prime := Fact.out
   have hcl : ⁅R, R⁆ ≤ Subgroup.centralizer (R : Set X) := by rw [hRR]; exact inf_le_right
   have hfix : g * x * g⁻¹ = x := by
@@ -242,7 +242,6 @@ theorem card_normalizer_dvd {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Fini
         have hmemZR : (⁅y, x⁆ : ↥R) ∈ ZR := by
           rw [hZReq]
           refine Subgroup.mem_subgroupOf.mpr ?_
-          change (((⁅y, x⁆ : ↥R) : X)) ∈ Z
           rw [show Z = ⁅R, R⁆ from hRR.symm]
           exact Subgroup.commutator_mem_commutator y.2 x.2
         have hmem1 : (QuotientGroup.mk' ZR ⁅y, x⁆ : W) = 1 := by
@@ -272,7 +271,7 @@ theorem card_normalizer_dvd {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Fini
   have hW1 : 1 < Nat.card W := by
     rw [hWcard]
     nlinarith [hp.one_lt]
-  haveI : Nontrivial W := (Finite.one_lt_card_iff_nontrivial).mp hW1
+  have : Nontrivial W := (Finite.one_lt_card_iff_nontrivial).mp hW1
   obtain ⟨w₁, hw₁⟩ := exists_ne (1 : W)
   have hw₁p : w₁ ^ p = 1 := hWexp w₁
   have hw₁ord : orderOf w₁ = p := orderOf_eq_prime hw₁p hw₁
@@ -285,7 +284,7 @@ theorem card_normalizer_dvd {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Fini
     rw [hAcard, hWcard] at hcard
     have hlt : p < p ^ 2 := by nlinarith [hp.one_lt]
     omega
-  obtain ⟨w₂, -, hw₂⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hAne)
+  obtain ⟨w₂, -, hw₂⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hAne)
   have hw₂p : w₂ ^ p = 1 := hWexp w₂
   have hw₂ne : w₂ ≠ 1 := by
     intro h
@@ -406,7 +405,6 @@ theorem card_normalizer_dvd {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Fini
     have hmemZR : (⁅r, x⁆ : ↥R) ∈ ZR := by
       rw [hZReq]
       refine Subgroup.mem_subgroupOf.mpr ?_
-      change (((⁅r, x⁆ : ↥R) : X)) ∈ Z
       rw [show Z = ⁅R, R⁆ from hRR.symm]
       exact Subgroup.commutator_mem_commutator r.2 x.2
     rw [div_eq_mul_inv, MulAut.conj_apply]
@@ -432,7 +430,7 @@ theorem card_normalizer_dvd {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Fini
         intro x hx
         have h := congrArg (fun φ : MulAut ↥R => ((φ ⟨x, hx⟩ : ↥R) : X)) hr.symm
         simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.conj_apply,
-          Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_subtype] at h
+          Subgroup.coe_mul, Subgroup.coe_inv] at h
         have h' : (((r : ↥R) : X)⁻¹ * (n : X)) * x =
             x * (((r : ↥R) : X)⁻¹ * (n : X)) := by
           calc (((r : ↥R) : X)⁻¹ * (n : X)) * x

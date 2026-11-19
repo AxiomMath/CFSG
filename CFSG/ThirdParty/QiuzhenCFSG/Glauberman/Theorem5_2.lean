@@ -154,7 +154,7 @@ private lemma sylow_subgroupOf_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
   have hT_p : IsPGroup p T := by
     intro x
     let xs : ↥(S : Subgroup G) := ⟨x.1.1, x.2⟩
-    rcases (S.isPGroup' xs) with ⟨n, hn⟩
+    rcases (S.isPGroup xs) with ⟨n, hn⟩
     refine ⟨n, ?_⟩
     apply Subtype.ext
     apply Subtype.ext
@@ -303,7 +303,7 @@ private lemma theorem52_sylow_inf_normal {p : ℕ} [Fact p.Prime]
   have hT_map : T.map C.subtype = (P : Subgroup H) ⊓ C := by
     simp [T, Subgroup.subgroupOf_map_subtype]
   have hT_p : IsPGroup p T := by
-    have hPC_p : IsPGroup p ((P : Subgroup H) ⊓ C : Subgroup H) := P.isPGroup'.to_inf_left
+    have hPC_p : IsPGroup p ((P : Subgroup H) ⊓ C : Subgroup H) := P.isPGroup.to_inf_left
     exact hPC_p.of_equiv
       ((Subgroup.subgroupOfEquivOfLe (H := (P : Subgroup H) ⊓ C) (K := C) inf_le_right).symm.trans
         (MulEquiv.subgroupCongr (by rfl : ((P : Subgroup H) ⊓ C).subgroupOf C = T)))
@@ -679,7 +679,7 @@ public theorem theorem5_2_step_I {p : ℕ} [Fact p.Prime] {G : Type u} [Group G]
     simpa [RNR, NR] using (Subgroup.normal_in_normalizer (H := R))
   let : RNR.Normal := hRNR_normal
   have hRNR_p : IsPGroup p RNR := by
-    have hR_p : IsPGroup p R := S.isPGroup'.to_inf_left
+    have hR_p : IsPGroup p R := S.isPGroup.to_inf_left
     exact hR_p.of_equiv (Subgroup.subgroupOfEquivOfLe hR_le_NR).symm
   have hRNR_le_SNR : RNR ≤ (SNR : Subgroup (↥NR)) := by
     intro x hx
@@ -733,7 +733,7 @@ public theorem theorem5_2_step_I {p : ℕ} [Fact p.Prime] {G : Type u} [Group G]
       Function.Injective (q.comp (SNR : Subgroup (↥NR)).subtype) := by
     simpa [q, M] using
       (quotient_pPrimeCore_subgroupMap_injective (G := ↥NR) (p := p)
-        (SNR : Subgroup (↥NR)) SNR.isPGroup')
+        (SNR : Subgroup (↥NR)) SNR.isPGroup)
   have hKmap : K.K (Sbar : Subgroup (↥NR ⧸ M)) = SK.map q := by
     simpa [Sbar, SK] using
       (K_commutes_of_injective_on K q (SNR : Subgroup (↥NR)) hq_inj_SNR)
@@ -909,7 +909,7 @@ public theorem theorem5_2_step_II {p : ℕ} [Fact p.Prime] {G : Type u} [Group G
   let W₀ : Subgroup G := Subgroup.closure W
   have hW₀_le_S : W₀ ≤ (S : Subgroup G) :=
     (Subgroup.closure_le (K := (S : Subgroup G))).mpr hWle
-  have hW₀p : IsPGroup p W₀ := IsPGroup.to_le S.isPGroup' hW₀_le_S
+  have hW₀p : IsPGroup p W₀ := IsPGroup.to_le S.isPGroup hW₀_le_S
   have hW₀g_le_S : conjSubgroup g W₀ ≤ (S : Subgroup G) := by
     rw [conjSubgroup, MonoidHom.map_closure]
     refine (Subgroup.closure_le (K := (S : Subgroup G))).mpr ?_
@@ -1050,7 +1050,7 @@ public theorem theorem5_2_step_III {p : ℕ} [Fact p.Prime] {G : Type u} [Group 
     exact hqw₀_ne (by simpa using this)
   let Kbar : Subgroup (G ⧸ P) := K.K (Sbar : Subgroup (G ⧸ P))
   have hKbar_ne : Kbar ≠ ⊥ := by
-    exact K.K_nontrivial (Sbar : Subgroup (G ⧸ P)) Sbar.isPGroup' hSbar_ne
+    exact K.K_nontrivial (Sbar : Subgroup (G ⧸ P)) Sbar.isPGroup hSbar_ne
   have hcomap_Sbar : (Sbar : Subgroup (G ⧸ P)).comap q = (S : Subgroup G) := by
     simpa [Sbar, q, QuotientGroup.ker_mk'] using
       (Subgroup.comap_map_eq_self (f := q) (H := (S : Subgroup G))
@@ -1062,7 +1062,7 @@ public theorem theorem5_2_step_III {p : ℕ} [Fact p.Prime] {G : Type u} [Group 
       _ ≤ (Sbar : Subgroup (G ⧸ P)).comap q :=
         Subgroup.comap_mono (K.K_le (Sbar : Subgroup (G ⧸ P)))
       _ = (S : Subgroup G) := hcomap_Sbar
-  have hTp : IsPGroup p T := IsPGroup.to_le S.isPGroup' hT_le_S
+  have hTp : IsPGroup p T := IsPGroup.to_le S.isPGroup hT_le_S
   have hP_le_T : P ≤ T := by
     intro x hxP
     change q x ∈ Kbar
@@ -1307,11 +1307,11 @@ public theorem theorem5_2_step_IV {p : ℕ} [Fact p.Prime] {G : Type u} [Group G
       change qC s = qC x
       have hqc : qC c = 1 := (QuotientGroup.eq_one_iff c).mpr hc
       rw [hxs, map_mul, hqc, one_mul]
-    exact S.isPGroup'.of_surjective f hf
+    exact S.isPGroup.of_surjective f hf
   let H : Subgroup G := Subgroup.closure W
   have hH_le_S : H ≤ (S : Subgroup G) :=
     (Subgroup.closure_le (K := (S : Subgroup G))).mpr hWle
-  have hHp : IsPGroup p H := IsPGroup.to_le S.isPGroup' hH_le_S
+  have hHp : IsPGroup p H := IsPGroup.to_le S.isPGroup hH_le_S
   have hHg_le_S : conjSubgroup g H ≤ (S : Subgroup G) := by
     rw [conjSubgroup, MonoidHom.map_closure]
     refine (Subgroup.closure_le (K := (S : Subgroup G))).mpr ?_
@@ -1413,7 +1413,7 @@ public theorem theorem5_2_step_IV {p : ℕ} [Fact p.Prime] {G : Type u} [Group G
     let T : Subgroup G := P ⊔ U
     let D : Subgroup G := Subgroup.centralizer (T : Set G)
     have hT_le_S : T ≤ (S : Subgroup G) := sup_le hP_le_S hU_le_S
-    have hTp : IsPGroup p T := IsPGroup.to_le S.isPGroup' hT_le_S
+    have hTp : IsPGroup p T := IsPGroup.to_le S.isPGroup hT_le_S
     have hPmap : P.map q = (⊥ : Subgroup (G ⧸ P)) := by
       apply le_antisymm
       · intro z hz
@@ -1445,7 +1445,7 @@ public theorem theorem5_2_step_IV {p : ℕ} [Fact p.Prime] {G : Type u} [Group G
         exact T.mul_mem (Subgroup.mem_sup_left hdiffP) (Subgroup.mem_sup_right hbU)
       have hprod : (c * a * c⁻¹) * (c * b * c⁻¹) ∈ T :=
         T.mul_mem (Subgroup.mem_sup_left hcaP) hcbT
-      convert hprod using 1 <;> group
+      convert hprod using 1; group
     have hC0_le_normalizer_T : C0 ≤ Subgroup.normalizer (T : Set G) := by
       intro c hc
       rw [Subgroup.mem_normalizer_iff]

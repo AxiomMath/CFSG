@@ -366,7 +366,7 @@ private theorem e6CenW_conj_c (y : M3) (hy3 : y ^ 3 = 1) (hy : y.right = .ofAdd 
   rw [← eq_ofAdd_vec3 n] at hw
   refine SemidirectProduct.ext ?_ ?_
   · simp only [SemidirectProduct.mul_left, SemidirectProduct.inv_left, SemidirectProduct.mul_right,
-      SemidirectProduct.inv_right, SemidirectProduct.left_inl, SemidirectProduct.right_inl, hy,
+      SemidirectProduct.left_inl, SemidirectProduct.right_inl, hy,
       inv_one, map_one, MulAut.one_apply, one_mul, phi_ofAdd_one, map_inv, ← hn]
     exact hw
   · simp [hy]

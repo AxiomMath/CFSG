@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
     Nat.card P = 3 ^ (Nat.card H).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hcop⟩ := h
   obtain ⟨a, ha⟩ := hp.exists_card_eq
   have h1 := Subgroup.relIndex_mul_card P H
@@ -38,7 +38,7 @@ private theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
 
 private theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
     (hc : Nat.card P = 3 ^ (Nat.card H).factorization 3) : IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hle, IsPGroup.of_card hc, ?_⟩
   have h1 := Subgroup.relIndex_mul_card P H
   rw [inf_of_le_left hle, hc] at h1
@@ -57,19 +57,19 @@ private theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
   omega
 
 private theorem exists_sylowOf (H : Subgroup G) : ∃ P : Subgroup G, IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (P.not_dvd_index)
 
 private theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hQH : Q ≤ H)
     (hQ : IsPGroup 3 Q) : ∃ k ∈ H, ∀ x ∈ Q, k * x * k⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPH, hPp, hPi⟩ := hP
   let A : Subgroup ↥H := P.subgroupOf H
   let Q' : Subgroup ↥H := Q.subgroupOf H
@@ -97,7 +97,7 @@ private theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P 
 
 private theorem isSylowOf_inf_normal {H B N : Subgroup G} (hB : IsSylowOf 3 B H) (hNH : N ≤ H)
     (hnorm : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) : IsSylowOf 3 (B ⊓ N) N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := exists_sylowOf (G := G) N
   obtain ⟨k, hkH, hk⟩ := exists_conj_le_sylowOf hB (hQ.1.trans hNH) hQ.2.1
   let Q' : Subgroup G := Q.map (MulAut.conj k).toMonoidHom
@@ -122,7 +122,7 @@ private theorem decomp_of_sylow {C J C₀ B : Subgroup G} (hB : IsSylowOf 3 B C)
     (hBM : ∀ x ∈ B, ∃ j ∈ J, ∃ c ∈ C₀, x = j * c) :
     IsSylowOf 3 (B ⊓ J) J ∧ (∀ x ∈ B, ∃ u ∈ B ⊓ J, ∃ v ∈ B ⊓ C₀, x = u * v) ∧
       Nat.card B = Nat.card ↥(B ⊓ J) * Nat.card ↥(B ⊓ C₀) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBJ := isSylowOf_inf_normal hB hJC hJn
   have hBC₀ := isSylowOf_inf_normal hB hC₀C hC₀n
   have hBp : IsPGroup 3 B := hB.2.1
@@ -195,7 +195,7 @@ private theorem mem_zpowers_of_orderOf_three {Z : Type*} [Group Z] [Finite Z] [I
 private theorem cyclic_dichotomy {B₁ : Subgroup G} [IsCyclic ↥B₁] (hp : IsPGroup 3 B₁) {b : G}
     (hb : b ∈ B₁) (hb3 : orderOf b = 3) :
     B₁ = Subgroup.zpowers b ∨ ∃ w ∈ B₁, w ^ 3 = b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hp.exists_card_eq
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥B₁)
   have hgo : orderOf g = 3 ^ m := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hm]
@@ -226,6 +226,7 @@ private theorem cyclic_dichotomy {B₁ : Subgroup G} [IsCyclic ↥B₁] (hp : Is
         _ = 3 := by norm_num
     exact (Subgroup.eq_of_le_of_card_ge hzle (by omega)).symm
 
+omit [Finite G] in
 private theorem mem_cen_iff {x z : G} : z ∈ Cen x ↔ z * x = x * z :=
   Subgroup.mem_centralizer_singleton_iff
 
@@ -234,7 +235,7 @@ private theorem nsc_contra {b : G} {B : Subgroup G} (hb3 : orderOf b = 3)
     (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hS : ∀ z ∈ B, z ^ 3 = 1 → (∃ w ∈ B, w ^ 3 = z) → z ∈ Subgroup.zpowers b)
     (hcube : ∃ w ∈ B, w ^ 3 = b) (hnsc : FFNotStronglyClosed b) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx, g, hg1, hg2⟩ := hnsc
   obtain ⟨w, hwB, hwb⟩ := hcube
   have hxB : x ∈ B := (Subgroup.zpowers_le.mpr hbB) hx
@@ -245,7 +246,7 @@ private theorem nsc_contra {b : G} {B : Subgroup G} (hb3 : orderOf b = 3)
     intro h
     apply hg2
     rw [h]
-    simpa using Subgroup.one_mem _
+    simp
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hx
   have hxcube : ∃ w' ∈ B, w' ^ 3 = x := by
@@ -337,13 +338,14 @@ private theorem nsc_contra {b : G} {B : Subgroup G} (hb3 : orderOf b = 3)
   rw [this, mul_assoc, ← hcy]
   simpa using hyS
 
+omit [Finite G] in
 private theorem isCyclic_of_le_centralizer {J Q : Subgroup G} (hcyc : FFCentCyclicSylow J)
     (hQ : Q ≤ CenS J) (hp : IsPGroup 3 Q) : IsCyclic ↥Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ'p : IsPGroup 3 (Q.subgroupOf (CenS J)) :=
     hp.of_equiv (Subgroup.subgroupOfEquivOfLe hQ).symm
   obtain ⟨P, hP⟩ := hQ'p.exists_le_sylow
-  haveI := hcyc P
+  have := hcyc P
   have h2 : IsCyclic ↥(Q.subgroupOf (CenS J)) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hP)
       (Subgroup.subgroupOfEquivOfLe hP).surjective
@@ -366,7 +368,7 @@ theorem ff79_1_3_struct (hK : FF79KTypeLn) {G : Type} [Group G] [Finite G] {n : 
     (hB : IsSylowOf 3 B (Cen b)) :
     IsElemAb 3 3 B ∧ IsElemAb 3 2 (B ⊓ J) ∧ Subgroup.zpowers b ⊔ (B ⊓ J) = B ∧
       B ⊓ CenS J = Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJC, hcomp, huniq⟩ := h.std
   have hJq : CFSG.IsQuasisimple ↥J :=
     CFSG.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hJC).symm hcomp.1
@@ -454,9 +456,9 @@ theorem ff79_1_3_struct (hK : FF79KTypeLn) {G : Type} [Group G] [Finite G] {n : 
     have := hSyl (hp.toSylow hi)
     rwa [IsPGroup.toSylow_coe, Subgroup.subgroupOf_map_subtype,
       inf_of_le_left inf_le_right] at this
-  haveI : IsElementaryAbelian 3 ↥(B ⊓ J) := hB₀.1
+  have : IsElementaryAbelian 3 ↥(B ⊓ J) := hB₀.1
   have hB₁p : IsPGroup 3 ↥(B ⊓ CenS J) := hB.2.1.to_le inf_le_left
-  haveI hB₁cyc : IsCyclic ↥(B ⊓ CenS J) := isCyclic_of_le_centralizer h.cyc inf_le_right hB₁p
+  have hB₁cyc : IsCyclic ↥(B ⊓ CenS J) := isCyclic_of_le_centralizer h.cyc inf_le_right hB₁p
   have hcomm₀₁ : ∀ u ∈ B ⊓ J, ∀ v ∈ B ⊓ CenS J, u * v = v * u := fun u hu v hv =>
     Subgroup.mem_centralizer_iff.mp hv.2 u hu.2
   have hdec' : ∀ x ∈ B, ∃ u ∈ B ⊓ J, ∃ v ∈ B ⊓ CenS J, x = u * v := by
@@ -506,7 +508,7 @@ theorem ff79_1_3_struct (hK : FF79KTypeLn) {G : Type} [Group G] [Finite G] {n : 
     rw [hcomm₀₁ u hu v (hB₁ ▸ hv)]
     exact Subgroup.mul_mem_sup hv hu
   refine ⟨⟨?_, ?_⟩, hB₀, hsup, hB₁⟩
-  · haveI : IsElementaryAbelian 3 ↥(Subgroup.zpowers b) :=
+  · have : IsElementaryAbelian 3 ↥(Subgroup.zpowers b) :=
       IsElementaryAbelian.zpowers_of_pow_eq_one hb3pow
     have hCE : Subgroup.zpowers b ≤ Subgroup.centralizer ((B ⊓ J : Subgroup G) : Set G) := by
       refine Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_iff.mpr fun u hu => ?_)

@@ -232,7 +232,7 @@ theorem eq_of_shared_involution {X X' : Subgroup R} (hX : IsSymThree X) (hX' : I
     rcases hy with rfl | rfl
     · exact ha'X
     · exact hs
-  haveI := finite_symThree hX
+  have := finite_symThree hX
   exact (Subgroup.eq_of_le_of_card_ge hX'X (by rw [card_symThree hX, card_symThree hX'])).symm
 
 theorem mem_normalizer_zpowers_of_comm {v g : R} (h : g * v * g⁻¹ = v) :

@@ -21,9 +21,9 @@ theorem exists_odd_prime_dvd {S : Type*} [Group S] [Finite S] (hS : IsSimpleGrou
   push Not at h
   have h2 : ∀ {d : ℕ}, d.Prime → d ∣ Nat.card S → d = 2 := fun hd hdvd =>
     by_contra fun hne => h _ hd hne hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 S := IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' h2)
-  haveI : Nontrivial S := hS.toNontrivial
+  have : Nontrivial S := hS.toNontrivial
   have hZ := hP.center_nontrivial
   have hZtop : center S = ⊤ := by
     rcases hS.eq_bot_or_eq_top_of_normal (center S) with h0 | h0
@@ -49,7 +49,7 @@ theorem moved_factor_false {X : Type*} [Group X] [Finite X] {N D W S : Subgroup 
     (hSs : IsSimpleGroup S) (hSn : (S.subgroupOf W).Normal) (hSab : ¬ IsMulCommutative S) {d : X}
     (hd : d ∈ D) (hdS : d ∉ normalizer (S : Set X)) : False := by
   obtain ⟨p, hp, hp2, hpS⟩ := exists_odd_prime_dvd hSs hSab
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDW : D ≤ normalizer (W : Set X) := by
     rw [normalizer_eq_top_iff.2 hWn]
     exact le_top
@@ -59,7 +59,7 @@ theorem moved_factor_false {X : Type*} [Group X] [Finite X] {N D W S : Subgroup 
   have hQS : Q ⊓ S ≠ ⊥ := by
     intro hbot
     obtain ⟨P, hP⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hQ
-    haveI : (S.subgroupOf W).Normal := hSn
+    have : (S.subgroupOf W).Normal := hSn
     have hc := CFSG.GH74.GLS.IVK.card_sylow_inf_normal p P (S.subgroupOf W)
     have h1 : (P : Subgroup W) ⊓ S.subgroupOf W = ⊥ := by
       rw [eq_bot_iff]
@@ -87,7 +87,7 @@ theorem moved_factor_false {X : Type*} [Group X] [Finite X] {N D W S : Subgroup 
     refine ⟨fun t ht s => ?_⟩
     rw [mem_subgroupOf] at ht ⊢
     exact ⟨(s * t * s⁻¹).2, by simpa using hSdW s (hSW s.2) t ht.2⟩
-  haveI := hTn
+  have := hTn
   rcases hSs.eq_bot_or_eq_top_of_normal ((S ⊓ Sd).subgroupOf S) with hT | hT
   · have hdisj : S ⊓ Sd = ⊥ := by
       have h := subgroupOf_eq_bot.1 hT
@@ -126,7 +126,7 @@ theorem fixed_factor_false (hKSz : KSz) {X : Type} [Group X] [Finite X] (hX : CF
     {N D S : Subgroup X} (hD3 : Nat.card D = 3) (hcop : Nat.Coprime 3 (Nat.card N)) (hb : OddInvCent N D)
     (hSN : S ≤ N) (hSs : IsSimpleGroup S) (hSab : ¬ IsMulCommutative S) {d : X} (hd : d ∈ D)
     (hdS : d ∈ normalizer (S : Set X)) {s : X} (hs : s ∈ S) (hds : d * s ≠ s * d) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 : d ≠ 1 := by
     rintro rfl
     exact hds (by simp)
@@ -160,7 +160,7 @@ theorem fixed_factor_false (hKSz : KSz) {X : Type} [Group X] [Finite X] (hX : CF
   have hαord : orderOf α = 3 := orderOf_eq_prime hα3 hα1
   have hS3 : Nat.Coprime 3 (Nat.card S) := Nat.Coprime.coprime_dvd_right (card_dvd_of_le hSN) hcop
   obtain ⟨p, hp, hp2, hndvd⟩ := hKSz S (hX.subgroup S) hSs hSab hS3 α hαord
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQ, hDQ⟩ := exists_inv_sylow hp hD3 hS3 hDS
   have hQC : Q ≤ centralizer (D : Set X) := hb p hp hp2 Q (hQ.1.trans hSN) hQ.2.1 hDQ
   apply hndvd
@@ -224,7 +224,7 @@ theorem nonabelian_case_false (hKSz : KSz) {X : Type} [Group X] [Finite X] (hX :
     exact mem_centralizer_iff.1 (hkey hbN) a (hSW i₀ a.2)
   · push Not at hall
     obtain ⟨i, hi⟩ := hall
-    obtain ⟨s, hs, hsD⟩ := SetLike.not_le_iff_exists.1 hi
+    obtain ⟨s, hs, hsD⟩ := IsConcreteLE.not_le_iff_exists.1 hi
     rw [mem_centralizer_iff] at hsD
     push Not at hsD
     obtain ⟨d, hd, hds⟩ := hsD
@@ -243,7 +243,7 @@ theorem lemmaC_step (hKSz : KSz) {X : Type} [Group X] [Finite X] (hX : CFSG.Open
     · exact ⟨0, by rw [hcomm, hN1, card_bot, pow_zero]⟩
     obtain ⟨W, ⟨hWn, hW1, hWN⟩, hWmin⟩ :=
       (Set.toFinite {W : Subgroup X | W.Normal ∧ W ≠ ⊥ ∧ W ≤ N}).exists_minimal ⟨N, hNn, hN1, le_rfl⟩
-    haveI := hWn
+    have := hWn
     have hmin : ∀ M : Subgroup X, M.Normal → M ≤ W → M = ⊥ ∨ M = W := fun M hM hle =>
       (em (M = ⊥)).imp id fun hM1 => le_antisymm hle (hWmin ⟨hM, hM1, hle.trans hWN⟩ hle)
     obtain ⟨k, hk⟩ := card_eq_two_pow_mul hX hNn hD3 hcop hb hcomm hWN hW1 IH
@@ -256,8 +256,8 @@ theorem lemmaC_step (hKSz : KSz) {X : Type} [Group X] [Finite X] (hX : CFSG.Open
       rw [hg, CFSG.conjugate, card_map_of_injective (MulAut.conj g⁻¹).injective]
     by_cases hab : IsMulCommutative (S i₀)
     ·
-      haveI := hab
-      haveI := hSs i₀
+      have := hab
+      have := hSs i₀
       have hq : (Nat.card (S i₀)).Prime := IsSimpleGroup.prime_card
       have hW : Nat.card W = Nat.card (S i₀) ^ r := by
         rw [← Nat.card_congr e.toEquiv, Nat.card_pi]

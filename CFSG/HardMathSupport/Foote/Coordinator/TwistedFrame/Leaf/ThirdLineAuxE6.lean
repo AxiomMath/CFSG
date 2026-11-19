@@ -20,17 +20,17 @@ open scoped Matrix Pointwise
 set_option linter.unusedSectionVars false
 
 
-theorem twThirdLine_e6Six (K : Type) [Field K] [Finite K] (hK3 : 3 ≤ Nat.card K) {p : ℕ}
+theorem twThirdLine_e6Six (K : Type) [Field K] [Finite K] (_hK3 : 3 ≤ Nat.card K) {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p)
     (hord : orderOf ((Nat.card K : ℕ) : ZMod p) = 6) : TwThirdLine .E6 K p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := by omega
   obtain ⟨ℓ, f, hℓ', hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hℓ : ℓ.Prime := Fact.out
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c

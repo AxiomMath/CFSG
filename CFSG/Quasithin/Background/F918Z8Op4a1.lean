@@ -65,7 +65,7 @@ theorem opq4a_exists_involution_inverts_sylow [Finite G] {q N : ℕ} (hperf : co
     refine le_antisymm (fun z hz => ?_) ((Subgroup.zpowers_le).mpr hyS)
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (hy ⟨z, hz⟩)
     exact Subgroup.mem_zpowers_iff.mpr ⟨n, by simpa using congrArg Subtype.val hn⟩
-  have hyp : IsPGroup p (Subgroup.zpowers y) := hSy ▸ S.isPGroup'
+  have hyp : IsPGroup p (Subgroup.zpowers y) := hSy ▸ S.isPGroup
   have hy1 : y ≠ 1 := by
     intro h
     apply hS1

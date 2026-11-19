@@ -17,7 +17,7 @@ variable {G : Type*} [Group G]
 theorem relIndex_sup_le_mul [Finite G] {A B N : Subgroup G}
     (hAB : A ≤ normalizer (B : Set G)) (hN : A ⊔ B ≤ normalizer (N : Set G)) :
     N.relIndex (A ⊔ B) ≤ N.relIndex A * N.relIndex B := by
-  haveI hNn : (N.subgroupOf (A ⊔ B)).Normal := ⟨fun n hn g => by
+  have hNn : (N.subgroupOf (A ⊔ B)).Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     exact (mem_normalizer_iff.mp (hN g.2) n).mp hn⟩
   set f := QuotientGroup.mk' (N.subgroupOf (A ⊔ B)) with hf
@@ -133,18 +133,18 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
     (hstep : ∀ k : K, (∀ y, k * θ y * k⁻¹ ∈ T) → ∀ t ∈ U₀, k⁻¹ * t * k ∈ img θ (X W P u)) :
     False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (pResidual 2 K).Normal := normal_pResidual 2 K
+  have : (pResidual 2 K).Normal := normal_pResidual 2 K
   obtain ⟨VK, hVK⟩ : ∃ VK, ⁅V₀, pResidual 2 K⁆ = VK := ⟨_, rfl⟩
   obtain ⟨V₁K, hV₁K⟩ : ∃ V₁K, ⁅VK, oTwo K⁆ = V₁K := ⟨_, rfl⟩
-  haveI hVKn : VK.Normal := hVK ▸ inferInstance
-  haveI hV₁Kn : V₁K.Normal := hV₁K ▸ inferInstance
+  have hVKn : VK.Normal := hVK ▸ inferInstance
+  have hV₁Kn : V₁K.Normal := hV₁K ▸ inferInstance
   rw [hVK] at hV hV₀A
   obtain ⟨Tsyl, hTsyl⟩ := hTsyl
   have hOT : oTwo K ≤ T := hTsyl ▸ (Stell.oTwo_isPGroup K).le_sylow_of_normal Tsyl
   have hXY : X W P u ≤ X W P u ⊔ W := le_sup_left
   have hWY : W ≤ X W P u ⊔ W := le_sup_right
-  have hAY : A W P ≤ X W P u ⊔ W := h.A_le_X.trans hXY
-  have hBY : B W P u ≤ X W P u ⊔ W := h.B_le_X.trans hXY
+  have hAY : A W P ≤ X W P u ⊔ W := CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_X.trans hXY
+  have hBY : B W P u ≤ X W P u ⊔ W := CFSG.RankThree.S4Free.Stell33.LCfgCore.B_le_X.trans hXY
   have hrange : img θ W ≤ θ.range := map_le_range _ _
   have hVKV₀ : VK ≤ V₀ := hVK ▸ commutator_le_left _ _
   have hVKW : VK ≤ img θ W := hVKV₀.trans hV₀W
@@ -156,7 +156,7 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
   have hVhX : ¬ pre θ VK ≤ X W P u := by
     intro hle
     apply hV₀X
-    refine hV₀A.trans (sup_le ?_ (img_mono θ h.A_le_X))
+    refine hV₀A.trans (sup_le ?_ (img_mono θ CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_X))
     intro k hk
     obtain ⟨y, hyW, rfl⟩ := hVKW hk
     exact ⟨y, hle ((mem_pre θ y.2).mpr hk), rfl⟩
@@ -167,7 +167,7 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
       _ = 2 := h.relIndex_eq
   have hDn : D W P u ≤ normalizer ((pre θ VK ⊓ A W P : Subgroup H) : Set H) := by
     refine le_normalizer_of_forall_conj_mem (fun d hd z hz => ?_)
-    have hzL : z ∈ L := h.X_le_L (h.A_le_X hz.2)
+    have hzL : z ∈ L := h.X_le_L (CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_X hz.2)
     rw [← h.comm_D hd hzL, mul_inv_cancel_right]
     exact hz
   have hcomm : ∀ x ∈ X W P u, ∀ b ∈ B W P u, b ∈ pre θ (oTwo K) →
@@ -177,7 +177,7 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
     have ha1 := hA1 ha
     rw [← SetLike.mem_coe, coe_mul_of_right_le_normalizer_left _ _ hDn, Set.mem_mul] at ha1
     obtain ⟨a', ha', d, hd, rfl⟩ := ha1
-    have hbL : b ∈ L := h.X_le_L (h.B_le_X hb)
+    have hbL : b ∈ L := h.X_le_L (CFSG.RankThree.S4Free.Stell33.LCfgCore.B_le_X hb)
     have h1 : b' * b = b * b' := h.comm_Wu hb'.1 hb.1
     have h2 : b * d = d * b := h.comm_D hd hbL
     have e : a' * d * b' * b * (a' * d * b')⁻¹ * b⁻¹ = a' * b * a'⁻¹ * b⁻¹ := by
@@ -221,11 +221,11 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
     exact hy.2 _ hx'
   have hDX₁ : D W P u ≤ X₁ := by
     intro d hd
-    refine ⟨(h.D_le_A.trans h.A_le_X) hd, fun x hx => ?_⟩
+    refine ⟨(CFSG.RankThree.S4Free.Stell33.LCfgCore.D_le_A.trans CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_X) hd, fun x hx => ?_⟩
     rw [h.comm_D hd (h.X_le_L hx), mul_inv_cancel_right, mul_inv_cancel]
     exact one_mem _
   have hBQX₁ : B W P u ⊓ pre θ (oTwo K) ≤ X₁ := fun y hy =>
-    ⟨h.B_le_X hy.1, fun x hx => hcomm x hx y hy.1 hy.2⟩
+    ⟨CFSG.RankThree.S4Free.Stell33.LCfgCore.B_le_X hy.1, fun x hx => hcomm x hx y hy.1 hy.2⟩
   have hV₀T : V₀ ≤ T := by
     intro k hk
     obtain ⟨y, -, rfl⟩ := hV₀W hk
@@ -243,7 +243,7 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
     hWc x (hV₀W hx) y (hV₀W hy)
   have hV₀2 : ∀ x ∈ V₀, x * x = 1 := fun x hx => hW2 x (hV₀W hx)
   have hθD : ∀ y : ↥(X W P u ⊔ W), (y : H) ∈ D W P u → θ y ∈ oTwo K := fun y hy =>
-    hθW (mem_img_of_mem θ y.2 ((h.D_le_A.trans h.A_le_W) hy))
+    hθW (mem_img_of_mem θ y.2 ((CFSG.RankThree.S4Free.Stell33.LCfgCore.D_le_A.trans CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_W) hy))
   have hTA : ∀ E : Subgroup K, E ≤ T → (∀ e ∈ E, e * e ∈ oTwo K) →
       (∀ e₁ ∈ E, ∀ e₂ ∈ E, e₁ * e₂ * e₁⁻¹ * e₂⁻¹ ∈ oTwo K) →
       ((oTwo K).relIndex E) ^ 2 ≤ (centMod VK V₁K E).relIndex VK := fun E hET hE2 hEc =>
@@ -272,7 +272,7 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
       refine mem_centMod.mpr ⟨(mem_pre θ y.2).mp hy'.1, ?_⟩
       rintro _ ⟨z, hz, rfl⟩
       rw [← map_inv, ← map_inv, ← map_mul, ← map_mul, ← map_mul]
-      have h2 := ((hmemX₁ z).mp (mem_subgroupOf.mp hz)).2 y (h.A_le_X hy'.2)
+      have h2 := ((hmemX₁ z).mp (mem_subgroupOf.mp hz)).2 y (CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_X hy'.2)
       have e : (z : H) * y * (z : H)⁻¹ * (y : H)⁻¹ =
           ((y : H) * z * (y : H)⁻¹ * (z : H)⁻¹)⁻¹ := by group
       have h3 : (z : H) * y * (z : H)⁻¹ * (y : H)⁻¹ ∈ pre θ V₁K := by
@@ -335,9 +335,9 @@ theorem false_of_step_of_thmA [Finite H] (h3 : ¬ 3 ∣ Nat.card L) {𝒦 : Host
       rintro _ ⟨z, hz, rfl⟩
       rw [← map_inv, ← map_inv, ← map_mul, ← map_mul, ← map_mul]
       exact (mem_pre θ (z * y * z⁻¹ * y⁻¹).2).mp
-        (((hmemX₁ y).mp hy'.2).2 z (h.B_le_X (mem_subgroupOf.mp hz)))
+        (((hmemX₁ y).mp hy'.2).2 z (CFSG.RankThree.S4Free.Stell33.LCfgCore.B_le_X (mem_subgroupOf.mp hz)))
     have hinf : X₁ ⊓ pre θ VK ≤ A W P := fun y hy =>
-      ⟨hVhW hy.2, h.X_le_P (hX₁X hy.1)⟩
+      ⟨hVhW hy.2, CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P (hX₁X hy.1)⟩
     have e1 := relIndex_inf_mul_relIndex X₁ (A W P) (pre θ VK)
     have e2 : (X₁ ⊓ A W P).relIndex (pre θ VK) = X₁.relIndex (pre θ VK) := by
       have e4 : X₁ ⊓ A W P ⊓ pre θ VK = X₁ ⊓ pre θ VK :=

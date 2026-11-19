@@ -23,7 +23,7 @@ theorem exists_conj_into_hPO (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod
     ∃ n ∈ normalizer (ffP0 hQ fr : Set (OGroup Q)), n * t * n⁻¹ ∈ hPO fr := by
   classical
   let N : Subgroup (OGroup Q) := normalizer (ffP0 hQ fr : Set (OGroup Q))
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_oGroup_six_minus hQ hdim hsgn]; norm_num)
   have hPO2 : IsPGroup 2 (hPO fr) := IsPGroup.of_card (p := 2) (n := 10) (hPO_card fr)
   have hPOle : hPO fr ≤ N := hPO_le_normalizer hQ fr
@@ -31,7 +31,7 @@ theorem exists_conj_into_hPO (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod
     refine ⟨hPOle, hPO2, ?_⟩
     intro hdvd
     obtain ⟨R, hRsyl, hleR⟩ := exists_isSylow2Of_ge hPO2 hPOle
-    haveI : Finite R := Subtype.finite
+    have : Finite R := Subtype.finite
     obtain ⟨m, hRm⟩ := hRsyl.2.1.exists_card_eq
     have hdvdR : 2 ^ m ∣ 2 ^ 10 * 25515 := by
       have h := R.card_subgroup_dvd_card

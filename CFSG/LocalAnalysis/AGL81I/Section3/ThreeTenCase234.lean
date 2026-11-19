@@ -18,7 +18,7 @@ theorem centralizer_inf_eq_bot_of_threeTenHyp {I D P Y : Subgroup H} {p d : ℕ}
     D ⊓ Subgroup.centralizer (I : Set H) = ⊥ := by
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
   by_contra hne
-  haveI hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
+  have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
   have hCnormal : (Subgroup.centralizer (I : Set H)).Normal := inferInstance
   let A : Subgroup H := D ⊓ Subgroup.centralizer (I : Set H)
   have hAne : A ≠ ⊥ := hne
@@ -79,8 +79,8 @@ theorem dvd_card_mulAut_of_threeTenHyp {I D P Y : Subgroup H} {p d : ℕ}
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
   have hhyp' : ThreeTenHyp I D P Y p d :=
     ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩
-  haveI : I.Normal := normal_of_oPPrimeHull_eq hI
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : I.Normal := normal_of_oPPrimeHull_eq hI
+  have : Fact d.Prime := ⟨hd⟩
   have hcent : D ⊓ Subgroup.centralizer (I : Set H) = ⊥ :=
     centralizer_inf_eq_bot_of_threeTenHyp hhyp'
   have hdvdD : d ∣ Nat.card ↥D := by
@@ -224,8 +224,8 @@ theorem threeTenCase2_of_finiteInput (h : ThreeTenCase2FiniteInput) : ThreeTenCa
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
   have hhyp' : ThreeTenHyp I D P Y 7 d :=
     ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 7) := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 7) := ⟨hp⟩
   have hdvdAut : d ∣ Nat.card (MulAut ↥I) := dvd_card_mulAut_of_threeTenHyp hhyp'
   have hdvdI : d ∣ Nat.card ↥I := h.1 ↥I htype d hd hd2 hdp hdvdAut
   have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
@@ -259,8 +259,8 @@ theorem threeTenCase3_of_finiteInput (h : ThreeTenCase3FiniteInput) : ThreeTenCa
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
   have hhyp' : ThreeTenHyp I D P Y 5 d :=
     ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hdvdAut : d ∣ Nat.card (MulAut ↥I) := dvd_card_mulAut_of_threeTenHyp hhyp'
   have hdvdI : d ∣ Nat.card ↥I := h.1 ↥I htype d hd hd2 hdp hdvdAut
   have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
@@ -294,8 +294,8 @@ theorem threeTenCase4_of_finiteInput (h : ThreeTenCase4FiniteInput) : ThreeTenCa
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
   have hhyp' : ThreeTenHyp I D P Y 3 d :=
     ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hdvdAut : d ∣ Nat.card (MulAut ↥I) := dvd_card_mulAut_of_threeTenHyp hhyp'
   have hdvdI : d ∣ Nat.card ↥I := h.1 ↥I htype d hd hd2 hdp hdvdAut
   have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI

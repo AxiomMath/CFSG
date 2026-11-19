@@ -38,7 +38,8 @@ variable {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
 @[expose] noncomputable def actorNormalizer (A : Subgroup (MulAut L')) : Subgroup L' :=
   (Subgroup.normalizer (A : Set (MulAut L'))).comap (MulAut.conj : L' →* MulAut L')
 
-def actorNormalizerMem (n : actorNormalizer A) :
+omit [Finite L'] in
+theorem actorNormalizerMem (n : actorNormalizer A) :
     MulAut.conj (n : L') ∈ Subgroup.normalizer (A : Set (MulAut L')) := n.2
 
 @[expose] def actorNormalizerToNormalizer (A : Subgroup (MulAut L')) :
@@ -70,14 +71,15 @@ def actorNormalizerMem (n : actorNormalizer A) :
     (recipeActorModelEquiv hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI).toMonoidHom
 
 @[expose] noncomputable def actorMatrixModel
-    (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
-    (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
-    (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
+    (_hn : 1 ≤ n) (_hK : Nat.card K = (2 ^ n) ^ 2)
+    (σ : K ≃+* K) (_hσ : ∀ c, σ c = c ^ 2 ^ n)
+    (Fr : Ω →+* Ω) (_hFr : ∀ c, Fr c = c ^ 2 ^ n)
     (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
     (ψ : L' →* TwE6Delta.RecipeR K n) :
     actorNormalizer A →* ModGL Tag.E6 Ω :=
   (recipeMatrixHom σ ε (ψ := ψ)).comp (actorNormalizer A).subtype
 
+omit [Finite L'] in
 theorem actorModel_mem_adjoint
     (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
@@ -95,6 +97,7 @@ theorem actorModel_mem_adjoint
     (rgrpModel_le_Rgrp hn hK σ hσ Fr hFr ε _
       (recipeActorModelEquiv hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI a).2)).1
 
+omit [Finite L'] in
 theorem actorMatrixModel_mem_adjoint
     (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
@@ -136,8 +139,8 @@ theorem exists_finite_actor_descent
   let _ : Algebra (ZMod 2) Ω := ZMod.algebra Ω 2
   have : Algebra.IsAlgebraic (ZMod 2) Ω :=
     CFSG.RankThree.PartOne.KE.isAlgebraic_zmod_of_isAlgClosure (k := K)
-  haveI : Finite A := Subtype.finite
-  haveI : Finite (actorNormalizer A) := Subtype.finite
+  have : Finite A := Subtype.finite
+  have : Finite (actorNormalizer A) := Subtype.finite
   have hact : ∀ n : actorNormalizer A,
       actorNormalizerAction A n = ggConjAut A (actorNormalizerMem (A := A) n) := by
     intro n
@@ -173,6 +176,7 @@ theorem exists_finite_actor_descent
     apply Subtype.ext
     exact hab
 
+omit [Finite L'] in
 theorem actorNormalizerAction_eq_ggConjAut (n : actorNormalizer A) :
     actorNormalizerAction A n = ggConjAut A (actorNormalizerMem (A := A) n) := by
   apply MulEquiv.ext
@@ -220,7 +224,7 @@ theorem isNilpotent_endOfPoint_sub_one_of_two_pow_eq_one
     IsNilpotent (TauCeti.Comodule.endOfPoint M g.ofConv - 1) := by
   refine ⟨2 ^ n, ?_⟩
   rcases subsingleton_or_nontrivial (TensorProduct k k M) with hV | hV
-  · haveI := hV
+  · have := hV
     have : Subsingleton (Module.End k (TensorProduct k k M)) :=
       ⟨fun a b => LinearMap.ext fun m => Subsingleton.elim _ _⟩
     exact Subsingleton.elim _ _
@@ -245,7 +249,7 @@ theorem isUnipotentPoint_of_two_pow_eq_one
     TauCeti.HopfAlgebra.IsUnipotentPoint g := by
   rw [TauCeti.HopfAlgebra.isUnipotentPoint_iff_forall_isNilpotent_endOfPoint_sub_one]
   intro M
-  haveI : Module.Finite k M.obj := TauCeti.FGComoduleCat.instFiniteCarrier M
+  have : Module.Finite k M.obj := TauCeti.FGComoduleCat.instFiniteCarrier M
   exact isNilpotent_endOfPoint_sub_one_of_two_pow_eq_one (M := M.obj) g n hg
 
 theorem isUnipotentPoint_of_isPGroup_two
@@ -295,6 +299,7 @@ section FiniteFixedCentralizer
 
 variable [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [CharP Ω 2] in
 theorem componentPointsHom_eq_one_of_connectedSpace
     (H : TauCeti.FiniteTypeCommHopfAlgCat Ω)
     [ConnectedSpace (PrimeSpectrum H)]
@@ -303,7 +308,7 @@ theorem componentPointsHom_eq_one_of_connectedSpace
     H.componentPointsHom (CommAlgCat.of Ω Ω) x = 1 := by
   rw [componentPointsHom_eq_one_iff]
   rw [TauCeti.FiniteTypeCommHopfAlgCat.rationalComponentMap_apply]
-  haveI : Subsingleton (ConnectedComponents (PrimeSpectrum H)) :=
+  have : Subsingleton (ConnectedComponents (PrimeSpectrum H)) :=
     ConnectedComponents.subsingleton
   exact Subsingleton.elim _ _
 
@@ -325,7 +330,7 @@ theorem connectedSpace_coordinateHopf_inf_centralizer_of_finite_elemAbelian_thre
         (M ⊓ Subgroup.centralizer (H : Set (ModGL Tag.E6 Ω)))) ∧
       IsPGroup 2 ↥(M ⊓ Subgroup.centralizer (H : Set (ModGL Tag.E6 Ω))) := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let G := ModGL Tag.E6 Ω
   let Ms : Finset H → Subgroup G := fun s =>
     M ⊓ Subgroup.centralizer (((s : Set H).image (Subtype.val : H → G)) : Set G)
@@ -341,15 +346,14 @@ theorem connectedSpace_coordinateHopf_inf_centralizer_of_finite_elemAbelian_thre
     dsimp [Ms]
     congr 1
     ext x
-    simp [Subtype.coe_image, Set.range]
+    simp [Set.range]
   have hMs_insert : ∀ (s : Finset H) (h : H),
       Ms (insert h s) = Ms s ⊓ Subgroup.centralizer ({(h : G)} : Set G) := by
     intro s h
     dsimp [Ms]
-    simp only [Finset.coe_insert, Set.image_insert_eq, Set.insert_eq, Set.centralizer_union]
+    simp only [Finset.coe_insert, Set.insert_eq]
     ext x
-    simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_inter_iff, Set.mem_union,
-      Set.mem_singleton_iff]
+    simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hxM, hx⟩
       refine ⟨⟨hxM, ?_⟩, ?_⟩
@@ -410,8 +414,8 @@ theorem connectedSpace_coordinateHopf_inf_centralizer_of_finite_elemAbelian_thre
               _ = (h : G) * y * ((k : G) * (h : G)⁻¹) := by group
               _ = (h : G) * y * ((h : G)⁻¹ * (k : G)) := by rw [← hcomm_inv]
               _ = (h : G) * y * (h : G)⁻¹ * (k : G) := by group
-        letI : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf (Ms s))) := ih.1
-        letI : Algebra.Smooth Ω (MatrixComponents.coordinateHopf (Ms s)) := ih.2.1
+        let : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf (Ms s))) := ih.1
+        let : Algebra.Smooth Ω (MatrixComponents.coordinateHopf (Ms s)) := ih.2.1
         exact connectedSpace_coordinateHopf_inf_centralizer (Ms s) hMs_pointclosed ih.2.2
           (h : G) hha h3 hh3
   have hfin := hmain (Finset.univ : Finset H)
@@ -457,9 +461,9 @@ theorem le_closedIdentityComponent_inf_centralizer_of_finite_elemAbelian_three
     let φ := (MatrixComponents.coordinatePointsMulEquiv Z hZpc).symm ⟨t, ht⟩
     have hcomp : (MatrixComponents.coordinateHopf Z).componentPointsHom
         (CommAlgCat.of Ω Ω) φ = 1 := by
-      letI : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf Z)) := hZconn
+      let : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf Z)) := hZconn
       exact componentPointsHom_eq_one_of_connectedSpace (MatrixComponents.coordinateHopf Z) φ
-    letI : Group (ConnectedComponents (PrimeSpectrum (MatrixComponents.coordinateHopf Z))) :=
+    let : Group (ConnectedComponents (PrimeSpectrum (MatrixComponents.coordinateHopf Z))) :=
       TauCeti.FiniteTypeCommHopfAlgCat.instGroupConnectedComponents
         (MatrixComponents.coordinateHopf Z)
     have hrat : (MatrixComponents.coordinateHopf Z).rationalComponentMap φ = 1 :=

@@ -426,7 +426,7 @@ omit
 theorem frameConj_two (σ : K →+* K) :
     frameConj σ 2 = (orbitN TwistTag.E6 K σ ⟨0, by decide⟩ 1 : ModGL TwistTag.E6.tag K) *
       (orbitN TwistTag.E6 K σ ⟨1, by decide⟩ 1 : ModGL TwistTag.E6.tag K) := by
-  simp [frameConj, frameSeq] <;> rfl
+  simp [frameConj, frameSeq]; rfl
 
 omit [Finite K]
   in
@@ -442,7 +442,7 @@ theorem commute_frameConj_center (σ : K →+* K) (i : Fin 4) (hi : i = 1 ∨ i 
 
 omit
   [Finite K] in
-theorem centerHom_injective (σ : K →+* K) : Function.Injective (centerHom σ) := fun A B h =>
+theorem centerHom_injective (σ : K →+* K) : Function.Injective (centerHom σ) := fun _A _B h =>
   rankOneFix_injective σ orbCenter orbCenter_card (congrArg Subtype.val h)
 
 omit [Finite K]
@@ -454,7 +454,7 @@ theorem conj_frameConj_leaf_center (σ : K →+* K) (i : Fin 4) (hi : i = 1 ∨ 
         graphFixedRootGroup TwistTag.E6 K σ)).toMonoidHom.comp (centerHom σ) = centerHom σ := by
   refine ⟨MonoidHom.ext fun A => Subtype.ext ?_, MonoidHom.ext fun A => Subtype.ext ?_⟩
   · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
-      Subgroup.coe_mul, Subgroup.coe_inv, coe_frameHom, coe_frameHom_zero]
+      Subgroup.coe_mul, Subgroup.coe_inv, coe_frameHom]
     rfl
   · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
       Subgroup.coe_mul, Subgroup.coe_inv, coe_centerHom]
@@ -905,7 +905,7 @@ theorem not_dvd_card_ker_noncommCoprod_tw {G A B : Type*} [Group G] [Group A] [G
     (hgk : g.ker ≤ Subgroup.center B) (hcen : ¬ p ∣ Nat.card (Subgroup.center B)) :
     ¬ p ∣ Nat.card (MonoidHom.noncommCoprod f g hc).ker := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hdvd
   obtain ⟨⟨a, b⟩, hzk⟩ := z
   have hψ : f a * g b = 1 := hzk
@@ -970,7 +970,7 @@ open CFSG.Assembly.LowTwoRank CFSG.LieType.Universal CFSG.LieType.Universal.Spin
 theorem finite_spinPlus_four (k : Type) [Field k] [Finite k] :
     Finite (spinGroup (Spin.quadPlus 4 k)) := by
   classical
-  haveI : NeZero 4 := ⟨by norm_num⟩
+  have : NeZero 4 := ⟨by norm_num⟩
   have : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl ⟨0, by omega⟩⟩
   exact CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
 
@@ -981,7 +981,7 @@ theorem not_dvd_card_center_spinPlus_four {k : Type} [Field k] [Finite k] {p : �
   have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ 4 := by norm_num
-  haveI := finite_spinPlus_four k
+  have := finite_spinPlus_four k
   obtain ⟨-, hcomap, hZ⟩ := spinToStatedProj_quadPlus (n := 4) (K := k) hn3
   exact not_dvd_card_center_spin_of_not_dvd_pred (Spin.quadPlus 4 k)
     (range_spinMatrix_quadPlus hn3) hZ hcomap
@@ -1009,7 +1009,7 @@ theorem twE6D4Cover : TwE6D4Cover := by
     rw [show ℓ ^ f + 1 - (ℓ ^ f - 1) = 2 by omega] at h1
     have := Nat.le_of_dvd (by norm_num) h1
     omega
-  haveI := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
+  have := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
   have hcen := not_dvd_card_center_spinPlus_four hpF.out (by omega) hpq1
   have hcomm : ∀ (t : ↥(normOne σ.toRingHom) × ↥(normOne σ.toRingHom))
       (x : spinGroup (Spin.quadPlus 4 (RingHom.eqLocusField σ.toRingHom (RingHom.id K)))),

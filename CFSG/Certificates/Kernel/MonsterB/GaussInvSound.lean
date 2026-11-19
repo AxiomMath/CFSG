@@ -38,7 +38,7 @@ private theorem gi_eq_fold (n : ℕ) (rows : Array ℕ) :
     gaussInv n rows = ((List.range' 0 n).foldl (giStep n) (giInit n rows)).map (·.2) := by
   simp only [gaussInv, Id.run, Std.Legacy.Range.forIn_eq_forIn_range',
     Std.Legacy.Range.size, gi_ite_pure_yield, List.forIn_pure_yield_eq_foldl, pure_bind,
-    Nat.add_sub_cancel, Nat.div_one, Nat.sub_zero, Prod.mk.eta, giStep, giElim, giPivot, giInit]
+    Nat.add_sub_cancel, Nat.div_one, Nat.sub_zero, giInit]
   rfl
 
 private theorem gi_get_set {M : Array (ℕ × ℕ)} {n : ℕ} (hM : M.size = n) {i j : ℕ} (hj : j < n)
@@ -269,16 +269,16 @@ private theorem gi_swap_good {n : ℕ} {rows : Array ℕ} {A : Array (ℕ × ℕ
   · refine gi_units_of_cov hU fun φ hφ hv i hi => ?_
     by_cases h1 : i = c
     · have := hv p hp
-      rw [gi_swap_get hA hp, if_pos rfl] at this
+      rw [gi_swap_get hA hp, ite_eq_left rfl] at this
       rw [h1]
       exact this
     · by_cases h2 : i = p
       · have := hv c hc
-        rw [gi_swap_get hA hc, if_neg (by omega), if_pos rfl] at this
+        rw [gi_swap_get hA hc, ite_eq_right (by omega), ite_eq_left rfl] at this
         rw [h2]
         exact this
       · have := hv i hi
-        rw [gi_swap_get hA hi, if_neg (by omega), if_neg (by omega)] at this
+        rw [gi_swap_get hA hi, ite_eq_right (by omega), ite_eq_right (by omega)] at this
         exact this
 
 private theorem gi_swap_col {n : ℕ} {A : Array (ℕ × ℕ)} (hA : A.size = n) {c p : ℕ}
@@ -312,21 +312,21 @@ private theorem gi_elim_fold {n c : ℕ} (hc : c < n) {B : Array (ℕ × ℕ)} (
     unfold giElim
     rw [hBk, hBc]
     by_cases hcond : (k != c && (B[k]!).1.testBit c) = true
-    · rw [if_pos hcond]
+    · rw [ite_eq_left hcond]
       have hcond' : k ≠ c ∧ (B[k]!).1.testBit c = true := by simpa using hcond
       refine ⟨by rw [gi_size_set, hs], fun t ht => ?_⟩
       rw [gi_get_set hs ht]
       by_cases e : k = t
       · subst e
-        rw [if_pos rfl, if_pos ⟨by omega, hcond'⟩]
-      · rw [if_neg e, hget t ht]
+        rw [ite_eq_left rfl, ite_eq_left ⟨by omega, hcond'⟩]
+      · rw [ite_eq_right e, hget t ht]
         have h3 : (t < k + 1) ↔ (t < k) := by omega
         simp only [h3]
-    · rw [if_neg hcond]
+    · rw [ite_eq_right hcond]
       refine ⟨hs, fun t ht => ?_⟩
       by_cases e : k = t
       · subst e
-        rw [hBk, if_neg]
+        rw [hBk, ite_eq_right]
         intro h
         exact hcond (by simpa using h.2)
       · rw [hget t ht]
@@ -380,14 +380,14 @@ private theorem gi_elim_good {n c : ℕ} {rows : Array ℕ} (hc : c < n) {B : Ar
     · have hjc' : j = c := by omega
       rw [hjc']
       by_cases hic : i = c
-      · rw [if_neg (fun h => h.1 hic), hic]
+      · rw [ite_eq_right (fun h => h.1 hic), hic]
         simp [hbit]
       · by_cases hbi : (B[i]!).1.testBit c = true
-        · rw [if_pos ⟨hic, hbi⟩]
+        · rw [ite_eq_left ⟨hic, hbi⟩]
           dsimp only
           rw [Nat.testBit_xor, hbi, hbit]
           simp [hic]
-        · rw [if_neg (fun h => hbi h.2)]
+        · rw [ite_eq_right (fun h => hbi h.2)]
           have hbi' : (B[i]!).1.testBit c = false := by simpa using hbi
           rw [hbi']
           simp [hic]
@@ -400,7 +400,7 @@ private theorem gi_init_good {n : ℕ} {rows : Array ℕ} {D : ℕ → ℕ}
   refine ⟨by simp [giInit], fun i hi => ?_, fun φ hφ hv c hc => ?_⟩
   · rw [hget i hi]
     dsimp only
-    rw [gi_selXor_pow, if_pos hi]
+    rw [gi_selXor_pow, ite_eq_left hi]
   · rw [← hD c hc]
     refine gi_selXor_lin hφ rows (D c) n fun j hj => ?_
     have := hv j hj
@@ -412,18 +412,18 @@ private theorem gi_step {n : ℕ} {rows : Array ℕ} {A : Array (ℕ × ℕ)} {c
   obtain ⟨hp1, hp2⟩ := gi_pivot_spec hc A
   unfold giStep
   by_cases hp : giPivot n c A < n
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     obtain ⟨hcp, hbit⟩ := hp1 hp
     generalize giPivot n c A = p at hp hcp hbit ⊢
     have hA := hG.1
     have hBc : ((A.set! c A[p]!).set! p A[c]!)[c]! = A[p]! := by
       rw [gi_swap_get hA hc]
       by_cases e : p = c
-      · rw [if_pos e, e]
-      · rw [if_neg e, if_pos rfl]
+      · rw [ite_eq_left e, e]
+      · rw [ite_eq_right e, ite_eq_left rfl]
     exact gi_elim_good hc (gi_swap_good hG hc hp) (gi_swap_col hA hc hp hcp hC)
       (by rw [hBc]; exact hbit)
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     exact (gi_nopivot hG.2.2 hc hC (fun r h1 h2 => hp2 hp r h1 h2)).elim
 
 private theorem gi_fold {n : ℕ} {rows : Array ℕ} {D : ℕ → ℕ}

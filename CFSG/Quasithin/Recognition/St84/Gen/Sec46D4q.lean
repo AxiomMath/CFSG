@@ -72,7 +72,7 @@ theorem CaseAGen.irred_Q0 (A : X.CaseAGen) (hn : X.n 1 < X.n 0) :
   by_contra hne
   push Not at hne
   obtain ⟨hWZ, hWQ'⟩ := hne
-  haveI := s46d4q_finite X 0
+  have := s46d4q_finite X 0
   have hquot := s46d4q_quot X 0
   have hm : 1 ≤ X.n 0 := by have := A.two_le_n1; omega
   have hQL := s46d4q_Q_le_L X 0
@@ -123,7 +123,7 @@ theorem CaseAGen.irred_Q0 (A : X.CaseAGen) (hn : X.n 1 < X.n 0) :
 
 theorem CaseAGen.n0_eq (A : X.CaseAGen) (hn : X.n 1 ≠ X.n 0) : X.n 0 = 3 * X.n 1 := by
   have hlt : X.n 1 < X.n 0 := lt_of_le_of_ne A.n1_le_n0 hn
-  haveI := s46d4q_finite X 0
+  have := s46d4q_finite X 0
   have hNQ : X.L 0 ≤ Subgroup.normalizer (X.Q 0 : Set G) :=
     (X.L_le_Gi 0).trans (s46d4q_Gi_le_normalizer_Q X 0)
   have hNZ : X.L 0 ≤ Subgroup.normalizer (X.Z 0 : Set G) :=
@@ -234,15 +234,15 @@ theorem CaseAGen.nat_right (A : X.CaseAGen) :
       ∃ α : ↥(X.L 1) →* SL(2, F), Function.Surjective α ∧ α.ker = CFSG.pCore 2 ↥(X.L 1) ∧
         IsNatSecOf (X.L 1) (centerOf (pCoreOf 2 (X.L 1))) ⊥ α := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := s46d4q_finite X 1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := s46d4q_finite X 1
   have hn := A.two_le_n1
   have hZA : X.Z 1 ≤ X.Q 0 ⊓ X.Q 2 := by
     rw [A.A1_eq]
     exact le_sup_right
   have hZQ : X.Z 1 ≤ X.Q 1 := (X.Z_le_center 1).trans inf_le_left
   have hZL : X.Z 1 ≤ X.L 1 := hZQ.trans (s46d4q_Q_le_L X 1)
-  haveI : Finite ↥(X.Z 1) :=
+  have : Finite ↥(X.Z 1) :=
     Finite.of_injective (Subgroup.inclusion hZL) (Subgroup.inclusion_injective hZL)
   have hT : IsSylowTwoOf X.S (X.L 1) := by
     rw [← X.edgeSylow_zero]
@@ -262,7 +262,7 @@ theorem CaseAGen.nat_right (A : X.CaseAGen) :
     rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm, hc]
   have hEZ : X.Z 1 ≤ Subgroup.normalizer ((⊥ : Subgroup G) : Set G) := fun g _ =>
     Subgroup.mem_normalizer_iff.mpr fun x => by
-      simp only [SetLike.mem_coe, Subgroup.mem_bot]
+      simp only [Subgroup.mem_bot]
       constructor
       · rintro rfl
         group
@@ -284,7 +284,7 @@ theorem CaseAGen.nat_right (A : X.CaseAGen) :
   obtain ⟨α, hα, hker, hnat⟩ := exists_isNatSecOf_of_two_pow_le (L := X.L 1) (E := X.Z 1)
     (Z := ⊥) (T := X.S) hn (s46d4q_quot X 1) hsec A.natZ1.normal hcore A.natZ1.index hnt hT
     (A.natZ1.line X.S hT).ge
-  letI : Fintype (GaloisField 2 (X.n 1)) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (X.n 1)) := Fintype.ofFinite _
   refine ⟨GaloisField 2 (X.n 1), inferInstance, inferInstance, ?_, α, hα, ?_, ?_⟩
   · rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 (X.n 1) (by omega)
@@ -332,9 +332,9 @@ private theorem s46d4q_mid_right (A : X.CaseAGen) (h3 : X.n 0 = 3 * X.n 1) :
     rw [A.A1_eq]
     exact le_sup_left
   have hQfin : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
-  haveI : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.Ki 1 : Set G)) :=
+  have : Finite ↥(X.Q 1 ⊓ Subgroup.centralizer (X.Ki 1 : Set G)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(X.Z 1) :=
+  have : Finite ↥(X.Z 1) :=
     Finite.of_injective (Subgroup.inclusion (hZA.trans A.sec_W1.1))
       (Subgroup.inclusion_injective _)
   have hDZ : X.Q 1 ⊓ Subgroup.centralizer (X.Ki 1 : Set G) ≤

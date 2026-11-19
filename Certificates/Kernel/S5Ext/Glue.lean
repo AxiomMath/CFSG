@@ -349,7 +349,7 @@ noncomputable def iface : S5Iface where
     have hw' := pwit_conj hw hs
     have hset : {x | s⁻¹ * x * s ∈ F.catSet k} = (H : Set (Equiv.Perm (Fin 32))) := by
       ext x
-      rw [Set.mem_setOf_eq, ← hRk, SetLike.mem_coe, hRmem, SetLike.mem_coe]
+      rw [Set.mem_ofPred_eq, ← hRk, SetLike.mem_coe, hRmem, SetLike.mem_coe]
       simp [mul_assoc]
     rw [hset] at hw'
     obtain ⟨hlen, has, hts, hP, hQ⟩ := hw'

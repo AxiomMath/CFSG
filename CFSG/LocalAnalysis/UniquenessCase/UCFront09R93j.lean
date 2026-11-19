@@ -21,10 +21,10 @@ theorem lieModel_of_mulEquiv_psl {Y : Type} [Group Y] {F : Type} [Field F] [Fini
     (h4 : 4 ≤ Nat.card F) (e : Y ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :
     ∃ p f : ℕ, CFSG.Blueprint.LieModel Y .PSL 2 p f := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, -, k, hp, hk⟩ := FiniteField.card' F
   rw [← Nat.card_eq_fintype_card] at hk
-  refine ⟨p, k, Or.inl ⟨by decide, ⟨hp, k.one_le, le_rfl, fun h => ?_, fun h => ?_⟩, F,
+  refine ⟨p, k, Or.inl ⟨by decide, ⟨hp, (_root_.one_le (a := k)), le_rfl, fun h => ?_, fun h => ?_⟩, F,
     inferInstance, inferInstance, hk,
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F)⟩⟩⟩
   · have h2 := congrArg Prod.snd h
@@ -39,7 +39,7 @@ theorem lieModel_of_mulEquiv_psl {Y : Type} [Group Y] {F : Type} [Field F] [Fini
 theorem card_sl_two_le_of_card_le_three {F : Type} [Field F] [Finite F] (h3 : Nat.card F ≤ 3) :
     Nat.card (SL(2, F)) ≤ 24 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : 2 ≤ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card]
     exact Finite.one_lt_card
@@ -59,7 +59,7 @@ theorem exists_lieModel_of_quot_cases {Γ : Type} [Group Γ] [Finite Γ]
         (fun Y _ => CFSG.Quasithin.IsAlt 5 Y)) :
     ∃ p f : ℕ, CFSG.Blueprint.LieModel (Γ ⧸ CFSG.pPrimeCore 3 Γ) .PSL 2 p f := by
   classical
-  haveI := hS
+  have := hS
   have hNO : N ≤ (QuotientGroup.mk' (CFSG.pPrimeCore 3 Γ)).ker := by
     rw [QuotientGroup.ker_mk']
     exact le_sSup ⟨inferInstance, (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hN3⟩
@@ -96,29 +96,29 @@ theorem exists_lieModel_of_quot_cases {Γ : Type} [Group Γ] [Finite Γ]
       have hle := Nat.card_le_card_of_surjective φ₁ hφ₁
       have hSL := card_sl_two_le_of_card_le_three (F := F) (by omega)
       omega
-    haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+    have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     obtain ⟨e₂⟩ := hiso (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)
       (QuotientGroup.lift _ φ₁ hZ) (QuotientGroup.lift_surjective_of_surjective _ φ₁ hφ₁ hZ)
     exact lieModel_of_mulEquiv_psl h4 e₂
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
     obtain ⟨e⟩ := hiso (Γ ⧸ N) ψ hψ
     exact ⟨2, n, CFSG.Blueprint.LieModel.of_mulEquiv e.symm hn⟩
   · have hE32 : Nat.card E = 32 := by
       have h := (CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8.facts hE).1
       rwa [Subgroup.card_top] at h
     have hEψ : E ≤ ψ.ker := by
-      haveI : (E.map ψ).Normal := hEn.map ψ hψ
+      have : (E.map ψ).Normal := hEn.map ψ hψ
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (E.map ψ) with h | h
       · exact (Subgroup.map_eq_bot_iff E).mp h
       · exfalso
         have hle := Nat.le_of_dvd (by omega) (Subgroup.card_map_dvd E ψ)
         rw [h, Subgroup.card_top] at hle
         omega
-    haveI : IsSimpleGroup ((Γ ⧸ N) ⧸ E) := eA.isSimpleGroup
+    have : IsSimpleGroup ((Γ ⧸ N) ⧸ E) := eA.isSimpleGroup
     obtain ⟨e₃⟩ := hiso ((Γ ⧸ N) ⧸ E) (QuotientGroup.lift E ψ hEψ)
       (QuotientGroup.lift_surjective_of_surjective E ψ hψ hEψ)
     obtain ⟨eP⟩ := CFSG.Quasithin.Dickson.nonempty_psl2_five_equiv_alt
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact lieModel_of_mulEquiv_psl (F := ZMod 5) (by rw [Nat.card_zmod]; norm_num)
       ((e₃.trans eA).trans eP.symm)
 

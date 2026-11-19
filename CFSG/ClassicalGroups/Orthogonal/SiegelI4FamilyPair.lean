@@ -11,6 +11,7 @@ open CFSG.HardMathSupport.Kantor79 QuadraticMap Module
 variable {K : Type*} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module K V]
   {Qf : QuadraticForm K V}
 
+omit [CharP K 2] in
 theorem le_orthogonal_symm {A B : Submodule K V}
     (h : A ≤ LinearMap.BilinForm.orthogonal (polarBilin Qf) B) :
     B ≤ LinearMap.BilinForm.orthogonal (polarBilin Qf) A := by

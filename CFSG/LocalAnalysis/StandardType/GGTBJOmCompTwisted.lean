@@ -25,7 +25,7 @@ private lemma tbjT_conj_diagAut_permAut_apply {s : Fin r → ZMod p} (hs : ∀ i
     Function.comp_apply, diagAut_apply, toAdd_ofAdd]
 
 private lemma tbjT_conj_diagAut_swap_apply_eq {s : Fin r → ZMod p} (hs : ∀ i, s i * s i = 1)
-    {i k : Fin r} (hik : i ≠ k) (hc : s i * s k = 1) (f : Fin r → Multiplicative (ZMod p)) :
+    {i k : Fin r} (_hik : i ≠ k) (hc : s i * s k = 1) (f : Fin r → Multiplicative (ZMod p)) :
     MulAut.conj (diagAut s hs) (permAut (p := p) (Equiv.swap i k)) f =
       permAut (p := p) (Equiv.swap i k) f := by
   funext l
@@ -76,7 +76,8 @@ private lemma tbjT_conj_diagAut_swap_apply_dinv {s : Fin r → ZMod p}
         show s l * (s l * toAdd (f l)) = toAdd (f l) from by
           rw [← mul_assoc, hs l, one_mul], tbjT_dinv_apply_of_ne hli hlk f, ofAdd_toAdd]
 
-theorem TBJOmData.torusAut_twisted_of_blockData [Fact p.Prime] (hp2 : p ≠ 2)
+omit [Finite K] [FiniteDimensional K V] in
+theorem TBJOmData.torusAut_twisted_of_blockData [Fact p.Prime] (_hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {f₀ : Fin r → Multiplicative (ZMod p)} {J : Subgroup ↥(orthDerived Q)}
     (hJc : J ≤ Subgroup.centralizer ({Δ.τΩ hA f₀} : Set ↥(orthDerived Q)))
@@ -106,17 +107,17 @@ theorem TBJOmData.torusAut_twisted_of_blockData [Fact p.Prime] (hp2 : p ≠ 2)
     intro i
     simp only [hsdef]
     by_cases hi : P i
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       rcases hP i hi with h | h <;> rw [h]
       · rw [div_self ha, one_mul]
       · rw [neg_div, div_self ha]
         ring
-    · rw [if_neg hi, one_mul]
+    · rw [ite_eq_right hi, one_mul]
   have hf₀ : ∀ i ∈ S, toAdd (f₀ i) = a * s i := by
     intro i hi
     have hiP : P i := (hmemS i).mp hi
     simp only [hsdef]
-    rw [if_pos hiP, ← mul_div_assoc, mul_div_cancel_left₀ _ ha]
+    rw [ite_eq_left hiP, ← mul_div_assoc, mul_div_cancel_left₀ _ ha]
   have h3 : 3 ≤ S.card := by
     have h := tbjA_three_le_card_class_of_ne_zero (Fact.out : p.Prime) (Δ.τΩ hA) f₀ J a P ha
       hP hcent hcount
@@ -154,10 +155,10 @@ theorem TBJOmData.torusAut_twisted_of_blockData [Fact p.Prime] (hp2 : p ≠ 2)
         simpa using h
       have hpi : π i = i := by
         by_contra hne
-        rw [if_neg hne] at hval
+        rw [ite_eq_right hne] at hval
         exact (coord_sign_ne_zero (Fact.out : p.Prime) (hε i)) hval.symm
       refine ⟨hpi, ?_⟩
-      rw [hpi, if_pos rfl] at hval
+      rw [hpi, ite_eq_left rfl] at hval
       exact hval.symm
     exact tbjA_mem_twistedPermAut_of S s hs hε (fun i hi => (hnotS i hi).1)
       (fun i hi => (hnotS i hi).2) hu ha hf₀ hfix

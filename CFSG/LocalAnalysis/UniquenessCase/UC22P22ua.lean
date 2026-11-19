@@ -11,6 +11,7 @@ open CFSG.Open Subgroup CFSG.CGT.Timmesfeld75
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22u_normalizes_cent {M V : Subgroup G} (hMV : M ≤ normalizer (V : Set G)) :
     M ≤ normalizer ((M ⊓ centralizer (V : Set G) : Subgroup G) : Set G) := by
   intro m hm
@@ -36,6 +37,7 @@ theorem uc22p22u_normalizes_cent {M V : Subgroup G} (hMV : M ≤ normalizer (V :
       have := congrArg (fun y => m⁻¹ * y * m) hc
       simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22u_mem_normalizer_sup {A B : Subgroup G} {m : G} (hA : m ∈ normalizer (A : Set G))
     (hB : m ∈ normalizer (B : Set G)) : m ∈ normalizer ((A ⊔ B : Subgroup G) : Set G) := by
   have key : ∀ (S : Subgroup G), m ∈ normalizer (S : Set G) → S.map (MulAut.conj m).toMonoidHom = S := by
@@ -102,6 +104,7 @@ theorem uc22p22u_pCore_le_cent {M T V : Subgroup G} (hW : InCalW M T V) :
   have hred := hW.2.2 J hJM (fun m hm => uc22p22u_mem_normalizer_sup (hMO hm) (hMH hm)) hHJ ⟨m, hm⟩
   exact hOJ.trans hred
 
+omit [Finite G] in
 theorem uc22p22u_barImage_normal {M X : Subgroup G} (hn : M ≤ normalizer (X : Set G)) :
     (barImage M X).Normal := by
   refine ⟨fun q hq q' => ?_⟩
@@ -111,6 +114,7 @@ theorem uc22p22u_barImage_normal {M X : Subgroup G} (hn : M ≤ normalizer (X : 
   have := (mem_normalizer_iff.1 (hn m.2)) (x : G)
   exact this.1 hx
 
+omit [Finite G] in
 theorem uc22p22u_barPreimage_normalizes {M : Subgroup G} {D : Subgroup (Bar2 M)} [hD : D.Normal] :
     M ≤ normalizer ((barPreimage M D : Subgroup G) : Set G) := by
   intro m hm
@@ -135,6 +139,7 @@ theorem uc22p22u_barPreimage_normalizes {M : Subgroup G} {D : Subgroup (Bar2 M)}
     have := hD.conj_mem _ hyD ((uc22p21cPi M ⟨m, hm⟩)⁻¹)
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22u_barImage_pCore (M : Subgroup G) : barImage M (pCoreOf 2 M) = ⊥ := by
   rw [eq_bot_iff]
   intro q hq
@@ -144,6 +149,7 @@ theorem uc22p22u_barImage_pCore (M : Subgroup G) : barImage M (pCoreOf 2 M) = �
   have : y = m := Subtype.ext hyx
   exact (QuotientGroup.eq_one_iff m).2 (this ▸ hy)
 
+omit [Finite G] in
 theorem uc22p22u_barPreimage_le {M X : Subgroup G} (hO : pCoreOf 2 M ≤ X) {D : Subgroup (Bar2 M)}
     (hD : D ≤ barImage M X) : barPreimage M D ≤ X := by
   intro y hy

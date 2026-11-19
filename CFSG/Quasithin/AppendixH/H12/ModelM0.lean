@@ -49,8 +49,8 @@ theorem zU_not_mem_Q0 : zU ∉ Q0 := by
     simpa only [gmv] using h1
   exact omega_ne (by norm_num) (by norm_num) h2
 
-theorem zU_comm_M0 : ∀ m ∈ M0, m * zU = zU * m :=
-  fun m hm => zU_comm (M0_le_G0 hm)
+theorem zU_comm_M0 : ∀ _m ∈ M0, _m * zU = zU * _m :=
+  fun _m hm => zU_comm (M0_le_G0 hm)
 
 @[expose] def planeWords : List (List ℕ) := [
     [], [1], [0, 1], [1, 1], [0, 1, 1], [1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1, 1],
@@ -739,7 +739,7 @@ theorem structure_M0 :
 theorem card_of_isExtHatOf_A6 {X : Type*} [Group X] [Finite X] {C E : Subgroup X}
     (h : IsExtHatOf C E ↥(alternatingGroup (Fin 6))) : Nat.card C = Nat.card E * 1080 := by
   obtain ⟨hE, Q, hQgrp, f, hf, hker, hHat⟩ := h
-  letI := hQgrp
+  let := hQgrp
   obtain ⟨eQ⟩ := hHat.2.2
   have hcardQ : Nat.card Q = 1080 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center Q)
@@ -810,7 +810,7 @@ private theorem qFixCheck_eq : qFixCheck = true := by
       ModelM0K.qQL.all fun X => mvN (CFSG.KC.Mat12P.unpackQ X) c == c :=
     fun c => ModelM0K.all_tW qWords _ hq (fun A => mvN A c == c)
   unfold qFixCheck
-  simp only [e, ModelM0K.contains_Wb_raw, CFSG.KC.Mat12P.mvN_toR]
+  simp only [ModelM0K.contains_Wb_raw, CFSG.KC.Mat12P.mvN_toR]
   decide +kernel
 
 set_option maxRecDepth 200000 in

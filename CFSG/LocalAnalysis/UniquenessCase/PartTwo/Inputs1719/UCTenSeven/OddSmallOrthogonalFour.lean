@@ -318,7 +318,7 @@ theorem exists_central_reflection_of_finrank_eq_four (hodd : Odd (Nat.card K))
   have hzR : Subgroup.zpowers rC ≤ R := IsPGroup.le_sylow_of_normal hz2 R
   have hrR : rC ∈ R := hzR (Subgroup.mem_zpowers_iff.mpr ⟨1, pow_one rC⟩)
   let S : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q) := R.map C.subtype
-  have hSg : IsPGroup 2 ↥S := IsPGroup.map (Sylow.isPGroup' R) C.subtype
+  have hSg : IsPGroup 2 ↥S := IsPGroup.map (Sylow.isPGroup R) C.subtype
   have hSidx : S.index = R.index * C.index := Subgroup.index_map_subtype (H := C) R
   have hSnd : ¬ 2 ∣ S.index := by
     rw [hSidx, Nat.Prime.dvd_mul Nat.prime_two]

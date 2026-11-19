@@ -34,8 +34,8 @@ private theorem w1369_isPGroup_zpowers_of_sq_eq_one {A : Type*} [Group A] {d : A
 
 theorem Std139.alpha_context (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     (hn : 3 ≤ n) {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) (hirr : IsIrrOn K ⊤ ⊥)
-    {d : MulAut W} (hd : d ∈ D) (hd1 : d ≠ 1) : Is135Context (K ⊔ Subgroup.zpowers d) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    {d : MulAut W} (hd : d ∈ D) (_hd1 : d ≠ 1) : Is135Context (K ⊔ Subgroup.zpowers d) K := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdG : d ∈ G := S.DG hd
   have hKG : K ≤ G := hK.comp.1
   have hY1G : K ⊔ Subgroup.zpowers d ≤ G :=
@@ -100,8 +100,8 @@ theorem Std139.alpha_context (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y 
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hx'
     have hK2 : IsPGroup 2 K := hQ2.to_le hKleQ
-    haveI hnt : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hqK
-    haveI hperf : Group.IsPerfect ↥K := hqK.1
+    have hnt : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hqK
+    have hperf : Group.IsPerfect ↥K := hqK.1
     exact Group.IsPerfect.not_isNilpotent ↥K hK2.isNilpotent
   have hQcenter : (pCoreOf 2 (K ⊔ Subgroup.zpowers d)).subgroupOf K ≤
       Subgroup.center ↥K :=

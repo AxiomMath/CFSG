@@ -142,10 +142,10 @@ private theorem ggHalfInnerCommA_lt_pair_image (m : ℕ) :
   ext i
   constructor
   · rintro ⟨h2, hlt⟩
-    exact ⟨⟨i.val - 2, by omega⟩, by simp only [Set.mem_setOf_eq]; omega,
-      Fin.ext (by simp only [Fin.val_succ, Fin.val_mk]; omega)⟩
+    exact ⟨⟨i.val - 2, by omega⟩, by simp only [Set.mem_ofPred_eq]; omega,
+      Fin.ext (by simp only [Fin.val_succ]; omega)⟩
   · rintro ⟨j, hj, rfl⟩
-    simp only [Set.mem_setOf_eq, Fin.val_succ] at hj ⊢
+    simp only [Set.mem_ofPred_eq, Fin.val_succ] at hj ⊢
     omega
 
 private theorem ggHalfInnerCommA_upper_image (m : ℕ) :
@@ -156,9 +156,9 @@ private theorem ggHalfInnerCommA_upper_image (m : ℕ) :
   constructor
   · intro hi
     have hlt : i.val < m + 1 := Nat.lt_succ_of_lt hi
-    exact ⟨⟨i.val, hlt⟩, hi, Fin.ext (by simp only [Fin.val_castSucc, Fin.val_mk])⟩
+    exact ⟨⟨i.val, hlt⟩, hi, Fin.ext (by simp only [Fin.val_castSucc])⟩
   · rintro ⟨j, hj, rfl⟩
-    simpa only [Set.mem_setOf_eq, Fin.val_castSucc] using hj
+    simpa only [Set.mem_ofPred_eq, Fin.val_castSucc] using hj
 
 private theorem ggHalfInnerCommA_zero_m_image (m : ℕ) :
     ({i : Fin (m + 1 + 1 + 1) | i.val = 0 ∨ i.val = m} :
@@ -175,7 +175,7 @@ private theorem ggHalfInnerCommA_zero_m_image (m : ℕ) :
       apply Fin.ext
       simpa only [Fin.val_castSucc, Fin.val_mk] using hi.symm
   · rintro ⟨j, hj, rfl⟩
-    simp only [Set.mem_setOf_eq, Fin.val_castSucc]
+    simp only [Set.mem_ofPred_eq, Fin.val_castSucc]
     exact hj
 
 private theorem ggHalfInnerCommA_low_image (m : ℕ) :
@@ -192,10 +192,10 @@ private theorem ggHalfInnerCommA_low_image (m : ℕ) :
       omega
     · refine ⟨⟨m, by omega⟩, Or.inr rfl, ?_⟩
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk]
+      simp only [Fin.val_succ]
       omega
   · rintro ⟨j, hj, rfl⟩
-    simp only [Set.mem_setOf_eq, Fin.val_succ]
+    simp only [Set.mem_ofPred_eq, Fin.val_succ]
     rcases hj with hj | hj
     · left; omega
     · right; omega
@@ -225,7 +225,7 @@ private theorem ggHalfInnerCommA_tau_image (m : ℕ) (hm : 2 ≤ m) :
       simp only [Fin.val_last] at hv
       omega
   ext i
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨j, hj, rfl⟩
     rcases hj with hj | hj
@@ -248,7 +248,7 @@ private theorem ggHalfInnerCommA_tau_image (m : ℕ) (hm : 2 ≤ m) :
 private theorem ggHalfInnerCommA_mid_eq_conj {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J K : Subgroup G} {m : ℕ} {y : G}
     {φ₁ φ₂ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2 →* G}
-    (h : GGHalfCtx p B Bs x L D J m y K φ₁ φ₂) (hm : 2 ≤ m) :
+    (_h : GGHalfCtx p B Bs x L D J m y K φ₁ φ₂) (hm : 2 ≤ m) :
     (slOn (m + 1 + 1 + 1) {i | i.val = m ∨ i.val = m + 1}).map φ₂ =
       ((slOn (m + 1 + 1 + 1) {i | i.val = 0 ∨ i.val = m}).map φ₂).map
         (MulAut.conj (hElt φ₂)).toMonoidHom := by
@@ -304,7 +304,7 @@ private theorem ggHalfInnerCommA_mid_comm_left {G : Type} [Group G] [Finite G] {
       Set (Fin (m + 1 + 1 + 1))) {i : Fin (m + 1 + 1 + 1) | i.val < m} := by
     refine Set.disjoint_left.mpr ?_
     intro i hi hj
-    simp only [Set.mem_setOf_eq] at hi hj
+    simp only [Set.mem_ofPred_eq] at hi hj
     rcases hi with hi | hi <;> omega
   have hcommSL := ggHalfInnerCommA_slOn_commute_of_disjoint hdisj ha hupper_mem
   simpa only [map_mul] using congrArg φ₂ hcommSL
@@ -338,7 +338,7 @@ private theorem ggHalfInnerCommA_mid_comm_right {G : Type} [Group G] [Finite G] 
       Set (Fin (m + 1 + 1 + 1))) ({0, 1, 4} : Set (Fin (m + 1 + 1 + 1))) := by
     refine Set.disjoint_left.mpr ?_
     intro i hi hj
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hj
     have hmod : 4 % (m + 1 + 1 + 1) = 4 :=
       Nat.mod_eq_of_lt (by omega)
@@ -433,9 +433,9 @@ theorem slOn_last_pair_comm {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Su
         apply Fin.ext
         simpa only [Fin.val_succ, Fin.val_mk] using hv
     · rintro (rfl | rfl)
-      · simp only [Set.mem_setOf_eq, Fin.val_castSucc, Fin.val_mk]
+      · simp only [Set.mem_ofPred_eq, Fin.val_castSucc]
         omega
-      · simp only [Set.mem_setOf_eq, Fin.val_succ, Fin.val_mk]
+      · simp only [Set.mem_ofPred_eq, Fin.val_succ]
         omega
   have hle : slOn (m + 1 + 1 + 1) {i | m + 1 ≤ i.val} ≤
       (Subgroup.centralizer (L : Set G)).comap φ₂ := by

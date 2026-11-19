@@ -47,6 +47,7 @@ namespace ProductCommuteAux
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductCommuteAux
   (dg mem_dg_iff dg_eq_of_le transport_all)
 
+omit [Finite G] [Finite K] in
 theorem roots_le_S (d : G2Data L K) :
     d.rootGroup g2r ≤ d.S ∧ d.rootGroup g2a ≤ d.S ∧ d.rootGroup g2u ≤ d.S ∧
       d.rootGroup g2v ≤ d.S ∧ d.rootGroup g2b ≤ d.S ∧ d.rootGroup g2c ≤ d.S := by
@@ -61,19 +62,23 @@ theorem roots_le_S (d : G2Data L K) :
   · exact (le_sup_left.trans hY.le).trans (hYX.trans (hXF.trans hFS))
   · exact (show d.rootGroup g2c = d.U from rfl) ▸ hUY.trans (hYX.trans (hXF.trans hFS))
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem wa_mem_leviA (d : G2Data L K) : d.wa ∈ d.leviA :=
   d.emb_mem_image (weylElt_mem_g2RankOne g2ir 1)
 
+omit [Finite G] in
 theorem wa_mem_yamadaK₁ (d : G2Data L K) (hK : 4 ≤ Nat.card K) : d.wa ∈ yamadaK₁ d := by
   rw [yamadaK₁_eq d hK]
   exact mem_sup_right (wa_mem_leviA d)
 
+omit [Finite G] in
 theorem wb_mem_yamadaK₂ (d : G2Data L K) (hK : 4 ≤ Nat.card K) : d.wb ∈ yamadaK₂ d := by
   rw [yamadaK₂_eq d hK]
   exact mem_sup_right d.wb_mem_leviB
 
 variable {d : G2Data L K} (X : DiagonalPair d t)
 
+omit [Finite G] [Finite K] in
 theorem mem_hat_iff {T : Subgroup G} {y : G} :
     y ∈ X.hat T ↔ y ∈ X.P₀ ∧ y * (t⁻¹ * y * t) ∈ T := by
   constructor
@@ -82,14 +87,18 @@ theorem mem_hat_iff {T : Subgroup G} {y : G} :
   · rintro ⟨hy, hyT⟩
     exact ⟨⟨y, X.le₁ hy⟩, ⟨hyT, hy⟩, rfl⟩
 
+omit [Finite G] [Finite K] in
 theorem hat_le (T : Subgroup G) : X.hat T ≤ X.P₀ := fun _ hy => ((mem_hat_iff X).1 hy).1
 
+omit [Finite G] [Finite K] in
 theorem dg₁_P₀ : dg X.A₁ X.comm₁ X.P₀ = d.S := X.rangeP
 
+omit [Finite G] [Finite K] in
 theorem dg₂_P₀ : dg X.A₂ X.comm₂ X.P₀ = d.S := by
   rw [← dg₁_P₀ X]
   exact dg_eq_of_le X.le₂ X.le₁
 
+omit [Finite G] [Finite K] in
 theorem diag₁_hat {T : Subgroup G} (hT : T ≤ d.S) : X.diag₁ (X.hat T) = T := by
   ext y
   change y ∈ dg X.A₁ X.comm₁ (X.hat T) ↔ y ∈ T
@@ -102,6 +111,7 @@ theorem diag₁_hat {T : Subgroup G} (hT : T ≤ d.S) : X.diag₁ (X.hat T) = T 
     obtain ⟨x, hxA, hxP, rfl⟩ := mem_dg_iff.1 hy'
     exact ⟨x, hxA, (mem_hat_iff X).2 ⟨hxP, hy⟩, rfl⟩
 
+omit [Finite G] [Finite K] in
 theorem diag₂_hat {T : Subgroup G} (hT : T ≤ d.S) : X.diag₂ (X.hat T) = T := by
   ext y
   change y ∈ dg X.A₂ X.comm₂ (X.hat T) ↔ y ∈ T
@@ -114,16 +124,19 @@ theorem diag₂_hat {T : Subgroup G} (hT : T ≤ d.S) : X.diag₂ (X.hat T) = T 
     obtain ⟨x, hxA, hxP, rfl⟩ := mem_dg_iff.1 hy'
     exact ⟨x, hxA, (mem_hat_iff X).2 ⟨hxP, hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem exists_a₁ (hK : 4 ≤ Nat.card K) : ∃ a : X.A₁, X.Δ₁ a = d.wa := by
   have hu : d.wa ∈ (diagonalHom X.A₁ t X.comm₁).range := X.range₁ ▸ wa_mem_yamadaK₁ d hK
   obtain ⟨a, ha⟩ := hu
   exact ⟨a, ha⟩
 
+omit [Finite G] in
 theorem exists_a₂ (hK : 4 ≤ Nat.card K) : ∃ a : X.A₂, X.Δ₂ a = d.wb := by
   have hv : d.wb ∈ (diagonalHom X.A₂ t X.comm₂).range := X.range₂ ▸ wb_mem_yamadaK₂ d hK
   obtain ⟨a, ha⟩ := hv
   exact ⟨a, ha⟩
 
+omit [Finite G] in
 theorem hat_conj_wa_eq (hK : 4 ≤ Nat.card K) {T T' : Subgroup G} (hT : T ≤ d.S)
     (hT' : T' ≤ d.S) (h : Tᵍ[d.wa] = T') : (X.hat T)ᵍ[d.wa] = X.hat T' := by
   subst h
@@ -134,6 +147,7 @@ theorem hat_conj_wa_eq (hK : 4 ≤ Nat.card K) {T T' : Subgroup G} (hT : T ≤ d
   ext y
   rw [hiff y, mem_hat_iff]
 
+omit [Finite G] in
 theorem hat_conj_wb_eq (hK : 4 ≤ Nat.card K) {T T' : Subgroup G} (hT : T ≤ d.S)
     (hT' : T' ≤ d.S) (h : Tᵍ[d.wb] = T') : (X.hat T)ᵍ[d.wb] = X.hat T' := by
   subst h
@@ -156,8 +170,9 @@ open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductCommuteAux
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase (map_conj_inv_map_conj_inv)
 open ProductCommuteAux
 
-theorem eq_sup_conj (hK : 4 ≤ Nat.card K) (htt : t * t = 1)
-    (htL : t ∈ centralizer (L : Set G)) :
+omit [Finite G] in
+theorem eq_sup_conj (hK : 4 ≤ Nat.card K) (_htt : t * t = 1)
+    (_htL : t ∈ centralizer (L : Set G)) :
     X.A₁ = X.P₀ ⊔ X.P₀ᵍ[d.wa] ∧ X.A₂ = X.P₀ ⊔ X.P₀ᵍ[d.wb] := by
   obtain ⟨-, -, -, ⟨hK₁, hK₂⟩, -⟩ := d.weyl_facts hK
   obtain ⟨a₁, ha₁⟩ := exists_a₁ X hK
@@ -182,7 +197,8 @@ theorem eq_sup_conj (hK : 4 ≤ Nat.card K) (htt : t * t = 1)
       rw [dg_sup X.le₂ hPv, T₂.1.2.2, dg₂_P₀ X, hK₂]
     exact eq_of_dg_eq X.injective₂ le_rfl (sup_le X.le₂ hPv) (e1.trans e2.symm)
 
-theorem paths (hK : 4 ≤ Nat.card K) (htt : t * t = 1) (htL : t ∈ centralizer (L : Set G)) :
+omit [Finite G] in
+theorem paths (hK : 4 ≤ Nat.card K) (_htt : t * t = 1) (_htL : t ∈ centralizer (L : Set G)) :
     ((X.hat (d.rootGroup g2r))ᵍ[d.wb] = X.hat (d.rootGroup g2u) ∧
       ((X.hat (d.rootGroup g2r))ᵍ[d.wb])ᵍ[d.wa] = X.hat (d.rootGroup g2v) ∧
       (((X.hat (d.rootGroup g2r))ᵍ[d.wb])ᵍ[d.wa])ᵍ[d.wb] = X.hat (d.rootGroup g2v) ∧
@@ -242,8 +258,9 @@ theorem paths (hK : 4 ≤ Nat.card K) (htt : t * t = 1) (htL : t ∈ centralizer
     rw [e] at h7
     exact h7
 
-theorem factorizations (hK : 4 ≤ Nat.card K) (htt : t * t = 1)
-    (htL : t ∈ centralizer (L : Set G)) :
+omit [Finite G] in
+theorem factorizations (hK : 4 ≤ Nat.card K) (_htt : t * t = 1)
+    (_htL : t ∈ centralizer (L : Set G)) :
     (X.P₀ᵍ[d.wa] = (X.hat (d.rootGroup g2r))ᵍ[d.wa] ⊔ X.hat d.D ∧
       (X.hat (d.rootGroup g2r))ᵍ[d.wa] ≤ X.A₁) ∧
     (X.P₀ᵍ[d.wb] = X.hat d.M ⊔ (X.hat (d.rootGroup g2a))ᵍ[d.wb] ∧
@@ -274,6 +291,7 @@ theorem factorizations (hK : 4 ≤ Nat.card K) (htt : t * t = 1)
       show dg X.A₂ X.comm₂ (X.hat d.M) = d.M from diag₂_hat X hMS, hS₂, conjSub_sup, hMb,
       sup_comm]
 
+omit [Finite G] in
 theorem commutator_cross_eq_bot (hK : 4 ≤ Nat.card K) (htt : t * t = 1)
     (htL : t ∈ centralizer (L : Set G)) :
     ⁅X.A₁, X.A₂ᵍ[t]⁆ = ⊥ ∧ ⁅X.A₁ᵍ[t], X.A₂⁆ = ⊥ := by

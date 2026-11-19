@@ -26,7 +26,7 @@ theorem not_dvd_card_gnC_of_inf {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X �
     (hg : IsGNPair T T₁ T₂) (hL : LiftOf T L Ls) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hA : p ∣ Nat.card (gnA T T₁ Ls)) (hN : mN T₁ p ≤ 1)
     (hLC : ∀ c ∈ L ⊓ gnC T, orderOf c ≠ p) : ¬ p ∣ Nat.card (gnC T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hpC
   set N := Subgroup.normalizer (T₁ : Set X)
   have hN' : CFSG.Open.pRank p N ≤ 1 := hN
@@ -62,7 +62,7 @@ theorem not_dvd_card_gnC_of_inf {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X �
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
     exact ⟨c, hcQ (Subgroup.mem_zpowers c), rfl⟩
   set E : Subgroup X := (P : Subgroup ↥N).map N.subtype
-  have hEp : IsPGroup p E := P.isPGroup'.map N.subtype
+  have hEp : IsPGroup p E := P.isPGroup.map N.subtype
   have hEc : IsCyclic E := by
     by_contra hnc
     have h1 := CFSG.LocalAnalysis.RankThreeTheoremC.two_le_pRank_of_not_isCyclic hp hp2 hEp hnc

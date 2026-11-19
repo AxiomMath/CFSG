@@ -13,6 +13,7 @@ variable (K : Type) [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
 variable {K f}
 
+omit [Finite K] [CharP K 2] in
 theorem PhanCode.connected_sys (code : PhanCode) : (code.sys K).Connected := by
   induction code with
   | exchA1A1 =>
@@ -22,6 +23,7 @@ theorem PhanCode.connected_sys (code : PhanCode) : (code.sys K).Connected := by
   | prod c c' ihc ihc' => exact q2cFCo_prod_connected ihc ihc'
   | _ => exact flagSys_connected K _
 
+omit [Finite K] [CharP K 2] in
 theorem PhanCode.cdist_le_diam (code : PhanCode) (x y : code.Ω K) :
     cdist (code.sys K) x y ≤ code.diam := by
   revert x y
@@ -56,6 +58,7 @@ theorem PhanCode.cdist_le_diam (code : PhanCode) (x y : code.Ω K) :
       intro x y
       exact le_trans (cdist_flagSys_le K _ x y) (by decide)
 
+omit [Finite K] [CharP K 2] in
 theorem PhanCode.exists_cdist_eq_diam (code : PhanCode) :
     ∃ x y : code.Ω K, cdist (code.sys K) x y = code.diam := by
   induction code with
@@ -72,6 +75,7 @@ theorem PhanCode.exists_cdist_eq_diam (code : PhanCode) :
       obtain ⟨x, y, h⟩ := q2cFCo_exists_cdist_eq_diam_flag (K := K) _
       exact ⟨x, y, h.trans (by decide)⟩
 
+omit [Finite K] [CharP K 2] in
 theorem PhanCode.R0_nonempty (code : PhanCode) : (code.R0 K).Nonempty := by
   induction code with
   | a1far => exact ⟨stdFlag K 2, stdFlag_mem_refSet q2cFCo_isCut_012⟩
@@ -204,7 +208,7 @@ theorem PhanCode.exists_diam_psi (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^
             Classical.choose (exists_psiA2A1 (K := K) (f := f) (c := (stdFlag K 3, F))
               hK hxmem) := by
           unfold psiA2A1
-          rw [dif_pos hxmem]
+          rw [dite_eq_left hxmem]
         have hspec := Classical.choose_spec (exists_psiA2A1 (K := K) (f := f)
           (c := (stdFlag K 3, F)) hK hxmem)
         rw [cdist_prod (flagSys_connected K 2) (flagSys_connected K 1)]

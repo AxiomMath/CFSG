@@ -20,7 +20,7 @@ private theorem card_modEq_card_inf {X : Type*} [Group X] {p n : ℕ} [Fact p.Pr
     (hH : ∀ h ∈ H, σ h ∈ H) (hF : ∀ x, x ∈ F ↔ σ x = x) :
     Nat.card H ≡ Nat.card ↥(H ⊓ F) [MOD p] := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun h => ⟨σ h, hH h h.2⟩
   have hpow : ∀ (k : ℕ) (h : H), (((f ^ k) h : H) : X) = (σ ^ k) h := by
     intro k
@@ -48,7 +48,7 @@ private theorem card_modEq_card_inf {X : Type*} [Group X] {p n : ℕ} [Fact p.Pr
 private theorem card_modEq_one_of_fixedPointFree {X : Type*} [Group X] {P H : Subgroup X}
     [Finite H] (hHP : H ≤ P) {γ : MulAut X} (hγ3 : γ ^ 3 = 1) (hH : ∀ h ∈ H, γ h ∈ H)
     (hfpf : ∀ x ∈ P, γ x = x → x = 1) : Nat.card H ≡ 1 [MOD 3] := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := card_modEq_card_inf (p := 3) (n := 1) (σ := γ) (by rwa [pow_one])
     (F := MonoidHom.eqLocus (γ : X →* X) (MonoidHom.id X)) hH (fun x => Iff.rfl)
   have hbot : H ⊓ MonoidHom.eqLocus (γ : X →* X) (MonoidHom.id X) = ⊥ := by
@@ -71,7 +71,7 @@ private theorem exists_fixed_mul_mem {X : Type*} [Group X] [Finite X] {Y P : Sub
   have ht : y⁻¹ * γ y ∈ P := by
     have := conj_mem_of_normal hPY hPn (inv_mem hy) (hγc y hy)
     simpa [mul_assoc] using this
-  letI : Fintype P := Fintype.ofFinite P
+  let : Fintype P := Fintype.ofFinite P
   let f : Function.End P := fun x => ⟨(y⁻¹ * γ y) * γ x, mul_mem ht (hγP x x.2)⟩
   have hf : f ^ 3 = 1 := by
     funext x
@@ -79,7 +79,7 @@ private theorem exists_fixed_mul_mem {X : Type*} [Group X] [Finite X] {Y P : Sub
     show (y⁻¹ * γ y) * γ ((y⁻¹ * γ y) * γ ((y⁻¹ * γ y) * γ x)) = x
     simp only [map_mul, map_inv, hγ3']
     group
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 3) (n := 1) (by rwa [pow_one])
   by_contra hne
   push Not at hne
@@ -263,7 +263,7 @@ private theorem exists_centralized_four_le {X : Type*} [Group X] [Finite X] {Y P
     (hγa : γ a = a) (hγb : γ b = b) (haa : a * a = 1) (hbb : b * b = 1) (hab : a * b = b * a) :
     ∃ W : Subgroup X, W ≤ P ∧ CFSG.Open.IsElemAbelian 2 W ∧
       (∀ x ∈ W, x * a = a * x ∧ x * b = b * x) ∧ 4 ≤ Nat.card W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hγ3' := apply_apply_apply_eq hγ3
   have hconj2 : ∀ {t : X}, t * t = 1 → (MulAut.conj t) ^ 2 ^ 1 = 1 := fun {t} ht => by
     rw [pow_one, ← map_pow, pow_two, ht, map_one]
@@ -431,8 +431,8 @@ private theorem false_of_index_three {G : Type*} [Group G] [Finite G] [IsSimpleG
 private theorem ker_eq_of_ker_le {Y : Type*} [Group Y] [Finite Y] {N : Subgroup Y}
     (hN : IsPGroup 2 N) (hY60 : Nat.card Y = 60 * Nat.card N)
     (f : Y →* alternatingGroup (Fin 6)) (hKN : f.ker ≤ N) : f.ker = N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hs6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hs6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hrange := Subgroup.card_ker_mul_card_range f
   have hdvd := Subgroup.card_subgroup_dvd_card f.range
@@ -471,9 +471,9 @@ private theorem ker_eq_of_ker_le {Y : Type*} [Group Y] [Finite Y] {N : Subgroup 
 private theorem apply_eq_one_of_perfect {Y H : Type*} [Group Y] [Group H] [Finite H]
     (hY : Group.IsPerfect Y) {N : Subgroup Y} (hN : IsPGroup 2 N) (f : Y →* H)
     (hall : ∀ y : Y, ∃ n ∈ N, f y = f n) (y : Y) : f y = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hY
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hY
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hR2 : IsPGroup 2 f.range := by
     intro g
     obtain ⟨y, hy⟩ := g.2
@@ -495,10 +495,10 @@ theorem le_ker_of_hom_A6 {Y : Type*} [Group Y] [Finite Y] (hY : Group.IsPerfect 
     (hA5 : Nonempty (Y ⧸ N ≃* alternatingGroup (Fin 5)))
     (f : Y →* alternatingGroup (Fin 6)) : N ≤ f.ker := by
   obtain ⟨e⟩ := hA5
-  haveI hs5 : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hs5 : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hs : IsSimpleGroup (Y ⧸ N) := e.isSimpleGroup
-  haveI hKn : (f.ker.map (QuotientGroup.mk' N)).Normal :=
+  have hs : IsSimpleGroup (Y ⧸ N) := e.isSimpleGroup
+  have hKn : (f.ker.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (f.ker.map (QuotientGroup.mk' N)) with
     hbot | htop
@@ -551,7 +551,7 @@ private theorem exists_hom_A6_ker_eq {X : Type*} [Group X] {U V : Subgroup X} [V
         invFun := fun x => ⟨⟨x.1, x.2.1⟩, (hker0 _).2 x.2.2⟩
         left_inv := fun u => rfl
         right_inv := fun x => rfl }
-  haveI : Finite (Subgroup.center ↥U) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Finite (Subgroup.center ↥U) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hker : g.ker = Subgroup.center ↥U :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [hZ, hcard'])
   let ψ : X ⧸ V ≃* alternatingGroup (Fin 6) :=
@@ -566,7 +566,7 @@ private theorem exists_hom_A6_ker_eq {X : Type*} [Group X] {U V : Subgroup X} [V
 
 private theorem eq_bot_of_le_of_card_three {X : Type*} [Group X] {P Z : Subgroup X} [Finite P]
     (hP : IsPGroup 2 P) (hle : P ≤ Z) (hZ : Nat.card Z = 3) : P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).1 hP
   have hdvd : Nat.card P ∣ Nat.card Z := Subgroup.card_dvd_of_le hle
   rw [hm, hZ] at hdvd

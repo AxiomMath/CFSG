@@ -67,7 +67,7 @@ theorem q8Elt_F {x y : ℕ} (hx : Fp n w x) (hy : Fp n w y) (j : ℕ) :
     have e : q8EltK n w x y (pcomp n w (mask w) x x) (j + 8) =
         pcomp n w (mask w) y (pcomp n w (mask w) (pcomp n w (mask w) x x) x) := by
       simp only [q8EltK, hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
-        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), cond_false]
+        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), Bool.cond_false]
     rw [e, q8Elt, compA_F hx hx, compA_F hs hx, compA_F hy (hs.mul hx)] <;> omega
 
 theorem wit4_eq {x y c : ℕ} (hx : Fp n w x) (hy : Fp n w y) (hc : Fp n w c) :

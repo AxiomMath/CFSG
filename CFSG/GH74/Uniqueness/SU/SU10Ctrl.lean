@@ -101,7 +101,7 @@ theorem exists_pGroup_containing_conj {C A B : Subgroup G} (hA : IsPGroup 2 A) (
   obtain ⟨Q₁, hQ₁⟩ := (hA.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := (hB.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C Q₂ Q₁
-  refine ⟨(Q₁ : Subgroup C).map C.subtype, Q₁.isPGroup'.map _, Subgroup.map_subtype_le _, ?_, c,
+  refine ⟨(Q₁ : Subgroup C).map C.subtype, Q₁.isPGroup.map _, Subgroup.map_subtype_le _, ?_, c,
     c.2, ?_⟩
   · intro a ha
     exact ⟨⟨a, hAC ha⟩, hQ₁ ha, rfl⟩
@@ -122,7 +122,7 @@ theorem exists_mem_normalizer_omegaOne (S : Sylow 2 G)
   have hsq : ∀ x ∈ omegaOne (S : Subgroup G), x * x = 1 := fun x hx => by
     have := (SU1.isElemAbelian_iff.mp hel).2 x hx
     rwa [sq] at this
-  have hAp : IsPGroup 2 (omegaOne (S : Subgroup G)) := S.isPGroup'.to_le (omegaOne_le _)
+  have hAp : IsPGroup 2 (omegaOne (S : Subgroup G)) := S.isPGroup.to_le (omegaOne_le _)
   have hAC : omegaOne (S : Subgroup G) ≤ centralizer ({b} : Set G) := fun x hx => by
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact hAcomm x hx b hb

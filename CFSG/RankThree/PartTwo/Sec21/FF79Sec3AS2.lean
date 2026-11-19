@@ -16,6 +16,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {b : G} {J B A P D : Subgroup G}
 
+omit [Finite G] in
 theorem comm_of_conj {g a : G} (h : g * a * g⁻¹ = a) : a * g = g * a := by
   calc a * g = g * a * g⁻¹ * g := by rw [h]
     _ = g * a := by group
@@ -34,7 +35,7 @@ theorem comm_B (h : FF79Sec34Pre b J B A P D) {x y : G} (hx : x ∈ B) (hy : y �
   congrArg Subtype.val (h.elemB.1.toIsMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
 theorem pow3_A (h : FF79Sec34Pre b J B A P D) {x : G} (hx : x ∈ A) : x ^ 3 = 1 := by
-  haveI := h.elemA.1
+  have := h.elemA.1
   exact elemPow_eq_one_of_isElementaryAbelian (A := A) x hx
 
 theorem b_mem_B (h : FF79Sec34Pre b J B A P D) : b ∈ B :=
@@ -42,8 +43,8 @@ theorem b_mem_B (h : FF79Sec34Pre b J B A P D) : b ∈ B :=
 
 theorem B0_le_A (h : FF79Sec34Pre b J B A P D) : B ⊓ J ≤ A := h.B0A
 
-theorem A_le_cenS (h : FF79Sec34Pre b J B A P D) : A ≤ CenS A := fun x hx =>
-  Subgroup.mem_centralizer_iff.mpr fun y hy => comm_A h hy hx
+theorem A_le_cenS (h : FF79Sec34Pre b J B A P D) : A ≤ CenS A := fun _x hx =>
+  Subgroup.mem_centralizer_iff.mpr fun _y hy => comm_A h hy hx
 
 theorem cenS_le_nor (A : Subgroup G) : CenS A ≤ Nor A := fun c hc =>
   L41.mem_nor_of_forall fun a ha => by
@@ -52,6 +53,7 @@ theorem cenS_le_nor (A : Subgroup G) : CenS A ≤ Nor A := fun c hc =>
 theorem isPGroup_A (h : FF79Sec34Pre b J B A P D) : IsPGroup 3 A :=
   IsPGroup.of_card (n := 4) h.elemA.2
 
+omit [Finite G] in
 theorem zpowers_isPGroup_of_mem {X : Subgroup G} (hX : IsPGroup 3 X) {x : G} (hx : x ∈ X) :
     IsPGroup 3 (Subgroup.zpowers x) :=
   hX.to_le ((Subgroup.zpowers_le).mpr hx)

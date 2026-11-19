@@ -67,7 +67,7 @@ theorem exists_sigma_of (hK : Nat.card K0 = 2160) (hB : Nat.card B3 = 27) (hBK :
     intro h
     rw [← h, hB] at hP
     norm_num at hP
-  obtain ⟨σ, hσP, hσB⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hBP hne)
+  obtain ⟨σ, hσP, hσB⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hBP hne)
   have hσX : σ ∈ X := hPX hσP
   have hσN : σ ∈ Subgroup.normalizer (B3 : Set G6) := syl_mem_normalizer P B3 hBP hB hP hσP
   refine ⟨σ, hσX, hσN, ?_, ?_⟩

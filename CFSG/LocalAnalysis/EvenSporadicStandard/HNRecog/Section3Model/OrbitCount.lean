@@ -66,7 +66,7 @@ theorem orbitPartition_of_rows {G : Type} [Group G] [Finite G] {ι : Type} [Fint
     have hstab' : Nat.card ↥(K ⊓ centralizer ({c i} : Set G)) = n i := hstab i
     rw [hstab'] at h1
     have hpos : 0 < n i := by
-      haveI : Nonempty ↥(K ⊓ centralizer ({c i} : Set G)) := ⟨1, by simp⟩
+      have : Nonempty ↥(K ⊓ centralizer ({c i} : Set G)) := ⟨1, by simp⟩
       rw [← hstab']
       exact Nat.card_pos
     have h2 : Nat.card K = (O i).ncard * n i := h1.symm

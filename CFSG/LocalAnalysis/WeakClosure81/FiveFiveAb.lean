@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma b5_FiveFiveAb_conj_mem {H X : Subgroup G} (hXH : X ≤ H)
     (hXn : (X.subgroupOf H).Normal) {g x : G} (hg : g ∈ H) (hx : x ∈ X) :
     g * x * g⁻¹ ∈ X := by
@@ -19,6 +20,7 @@ private lemma b5_FiveFiveAb_conj_mem {H X : Subgroup G} (hXH : X ≤ H)
   rw [Subgroup.mem_subgroupOf] at h
   simpa using h
 
+omit [Finite G] in
 private lemma b5_FiveFiveAb_normal_of_conj_mem {H X A F : Subgroup G} (hXH : X ≤ H)
     (hAH : A ≤ H) (hXn : (X.subgroupOf H).Normal) (hHXA : H = X ⊔ A)
     (hXF : ∀ x ∈ X, ∀ f ∈ F, x * f * x⁻¹ ∈ F)
@@ -54,11 +56,11 @@ theorem five_five_abelian {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : maxOv
     congrArg Subtype.val (h.isElemAbelian.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hA1 : ∃ a ∈ A, a ≠ 1 := by
     rw [hO2] at hA
-    obtain ⟨a, haA, ha⟩ := SetLike.not_le_iff_exists.mp hA
+    obtain ⟨a, haA, ha⟩ := IsConcreteLE.not_le_iff_exists.mp hA
     exact ⟨a, haA, fun h1 => ha (Subgroup.mem_bot.mpr h1)⟩
   have hcardX_ne_one : Nat.card X ≠ 1 := fun hc => hXbot (Subgroup.card_eq_one.mp hc)
   obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd hcardX_ne_one
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x₀, hx₀order⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) p hpdvd
   let Y : Subgroup G :=
     { carrier := {x | x ∈ X ∧ x ^ p = 1}
@@ -215,7 +217,7 @@ theorem five_five_abelian {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : maxOv
         rw [eq_inv_of_mul_eq_one_right hab_ne, inv_eq_of_mul_eq_one_right (ha2 a haA)]
       rw [hb_eq]; exact Subgroup.mem_zpowers a
   have horder_a : orderOf a = 2 := by
-    haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+    have : Fact (Nat.Prime 2) := Nat.fact_prime_two
     have ha_sq : a ^ 2 = 1 := by rw [pow_two]; exact ha2 a haA
     exact orderOf_eq_prime ha_sq ha1
   have hcardA : Nat.card A = 2 := by

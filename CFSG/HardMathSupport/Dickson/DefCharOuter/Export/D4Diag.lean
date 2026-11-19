@@ -111,7 +111,7 @@ theorem sq_mem_innerDiag (b : Fin 4 → Kˣ) : b ^ 2 ∈ InnerDiag K := by
     funext j
     fin_cases j <;> simp [cartanD4_apply] <;>
       (apply Additive.ofMul.injective
-       simp only [ofMul_mul, ofMul_inv, ofMul_pow, ofMul_zpow]
+       simp only [ofMul_mul, ofMul_inv, ofMul_pow]
        abel)
   rw [h]
   exact mul_mem (mul_mem (mul_mem (gen_mem_innerDiag 0 _) (gen_mem_innerDiag 1 _))
@@ -127,7 +127,7 @@ theorem const_mem_innerDiag (x y : Kˣ) :
     funext j
     fin_cases j <;> simp [cartanD4_apply] <;>
       (apply Additive.ofMul.injective
-       simp only [ofMul_mul, ofMul_inv, ofMul_pow, ofMul_zpow]
+       simp only [ofMul_mul, ofMul_inv, ofMul_pow]
        abel)
   rw [h]
   exact mul_mem (mul_mem (mul_mem (gen_mem_innerDiag 0 _) (gen_mem_innerDiag 1 _))
@@ -140,7 +140,7 @@ theorem norm_twist (b : Fin 4 → Kˣ) :
   fin_cases j <;>
     simp [twistDiag_apply, d4Rho_symm_zero, d4Rho_symm_one, d4Rho_symm_two, d4Rho_symm_three] <;>
       (apply Additive.ofMul.injective
-       simp only [ofMul_mul, ofMul_inv, ofMul_pow, ofMul_zpow]
+       simp only [ofMul_mul, ofMul_pow]
        abel)
 
 theorem mem_innerDiag_of_mul_twist_inv {b : Fin 4 → Kˣ}

@@ -22,10 +22,10 @@ theorem uc22p20m_le_of_perfect_sup {Y : Type*} [Group Y] [Finite Y] {X N O : Sub
     X ≤ N := by
   have hNU : N ≤ N ⊔ O := le_sup_left
   have hUn : N ⊔ O ≤ normalizer (N : Set Y) := sup_le Subgroup.le_normalizer hOn
-  haveI hNn : (N.subgroupOf (N ⊔ O)).Normal :=
+  have hNn : (N.subgroupOf (N ⊔ O)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNU).2 hUn
-  haveI : Group.IsNilpotent ↥O := hO.isNilpotent
-  haveI : Group.IsSolvable ↥O := inferInstance
+  have : Group.IsNilpotent ↥O := hO.isNilpotent
+  have : Group.IsSolvable ↥O := inferInstance
   have hsurj : Function.Surjective ((QuotientGroup.mk' (N.subgroupOf (N ⊔ O))).comp
       (Subgroup.inclusion (le_sup_right : O ≤ N ⊔ O))) := by
     intro q
@@ -49,7 +49,7 @@ theorem uc22p20m_eq_hinf_of_bar (D : Data G) {L K Q : Subgroup G} (hL : L ∈ ca
     (hQL : Q ≤ L) (hOQ : pCoreOf 2 L ≤ Q)
     (hbar : Hinf ((Q.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) =
       (K.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) : K = Hinf Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hπ
   set O : Subgroup ↥L := CFSG.pCore 2 ↥L with hO
   set Q' : Subgroup ↥L := Q.subgroupOf L with hQ'
@@ -108,7 +108,7 @@ theorem uc22p20m_conj_mem_pCoreOf (D : Data G) {L : Subgroup G} (hL : L ∈ calL
     have hl' : t⁻¹ * l * t ∈ L := by
       simpa using (Subgroup.mem_normalizer_iff.1 (hTL (D.T.inv_mem ht)) l).1 hl
     refine ⟨(t⁻¹ * l * t) * y * (t⁻¹ * l * t)⁻¹, uc22p20b_conj_mem_pCoreOf_self hl' hy, ?_⟩
-    simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+    simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
     group
   exact uc22p20b_le_pCoreOf hmapL hmap2 hmapn ⟨x, hx, rfl⟩
 
@@ -130,7 +130,7 @@ open CFSG.RankThree.PartTwo.Sec18 in
 theorem uc22p20m_l0Parabolic_of_sandwich (D : Data G)
     (hS : H1930 D → ∀ L ∈ calL D.T D.M, uc22p20jSandwich (Bar2 L)) : L0Parabolic D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h1930 L hL K hK hKL
   obtain ⟨hKT, hKperf, -, -⟩ := hK.prop
   have hTL : D.T ≤ normalizer (L : Set G) := hL.1
@@ -155,7 +155,7 @@ theorem uc22p20m_l0Parabolic_of_sandwich (D : Data G)
   have hmemQ : ∀ x : G, x ∈ Q ↔ ∀ t : D.T, (t : G)⁻¹ * x * (t : G) ∈ Q₀ := by
     intro x
     simp only [hQ, Subgroup.mem_iInf, Subgroup.mem_comap, MulAut.conj_apply,
-      MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, inv_inv]
+      MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, inv_inv]
   have hQQ₀ : Q ≤ Q₀ := fun x hx => by simpa using (hmemQ x).1 hx ⟨1, D.T.one_mem⟩
   have hQL : Q ≤ L := fun x hx => ((hmem₀ x).1 (hQQ₀ hx)).1
   have hTconj : ∀ t ∈ D.T, ∀ l : G, l ∈ L → t⁻¹ * l * t ∈ L := fun t ht l hl => by
@@ -255,7 +255,7 @@ theorem uc22p20m_l0Parabolic_of_sandwich (D : Data G)
   have hbar : Hinf ((Q.subgroupOf L).map π) = Kb := by
     refine le_antisymm ?_ ?_
     · refine uc22p20m_le_of_perfect_sup (commutator_inSubgroup_perfectResidual _) ?_ hUKb
-        U.isPGroup'
+        U.isPGroup
       exact (inSubgroup_perfectResidual_mono hRP).trans hPinf
     · exact le_inSubgroup_perfectResidual hKbperf hKR
   have hEq : K = Hinf Q := uc22p20m_eq_hinf_of_bar D hL hKL hKT hKperf hQL hOQ hbar

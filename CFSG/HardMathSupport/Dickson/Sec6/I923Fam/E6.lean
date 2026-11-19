@@ -21,7 +21,7 @@ section
 theorem y923_e6_holds : Y923_E6 := by
   intro Y _ _ hq hcore hL2 t n p f hadm ht hF hm α h3 hnot J hJ r hr
   obtain rfl := hF
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   have hn0 : n = 0 ∧ UntwistedChevalleyModel (Y ⧸ Subgroup.center Y) .E6 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨hn, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
     · exact absurd ht' (by decide)

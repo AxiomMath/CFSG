@@ -171,8 +171,8 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {n : ℕ}
 
 theorem exists_cube_root_bar (h : UnitaryFieldData ℓ f K) (h3 : 3 ∣ ℓ ^ f + 1) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ h.bar ω = ω ^ 2 := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t, ht⟩ := h3
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card, pow_mul']
@@ -198,7 +198,7 @@ theorem exists_unitary_isDiag_conj (h : UnitaryFieldData ℓ f K) (h3 : 3 ∣ �
     ∃ P ∈ primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K),
       ∀ x ∈ E, ((P⁻¹ * x * P : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).IsDiag := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨ω, hω, hω1, hσω⟩ := exists_cube_root_bar h h3
   obtain ⟨c₀, hc₀⟩ := h.exists_bar_ne
   have hnorm : ∀ d : K, h.bar d = d → d ≠ 0 → ∃ c, h.bar c * c = d := fun d hd _ => by

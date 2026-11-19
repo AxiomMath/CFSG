@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
   {ρ : ↥K →* Equiv.Perm (ZMod p)}
 
+omit [Finite G] in
 private theorem nine3_inv_mul_mem_of_relIndex_two {L K' : Subgroup G}
     (hrel : L.relIndex K' = 2) {a b : G} (ha : a ∈ K') (hb : b ∈ K') (haL : a ∉ L)
     (hbL : b ∉ L) : a⁻¹ * b ∈ L := by
@@ -35,7 +36,7 @@ theorem nine3_mk_eq_of_mem (hc : Nine3Choice V T A K S X p g x) {U : Subgroup G}
 
 theorem nine3_eq_of_mk_eq (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S)
     {U U' : Subgroup G} (hU : U ∈ omegaIn V K (nineE V K)) (hU' : U' ∈ omegaIn V K (nineE V K))
-    {u u' : ↥(nineH V K)} (hu : (u : G) ∈ U) (hu' : (u' : G) ∈ U') (huR : (u : G) ∉ pCoreOf 2 K)
+    {u u' : ↥(nineH V K)} (hu : (u : G) ∈ U) (hu' : (u' : G) ∈ U') (_huR : (u : G) ∉ pCoreOf 2 K)
     (hu'R : (u' : G) ∉ pCoreOf 2 K)
     (h : (QuotientGroup.mk u : Nine3Hbar V K) = QuotientGroup.mk u') : U = U' := by
   have hmemI : (u : G)⁻¹ * (u' : G) ∈ nineI V K := by
@@ -57,6 +58,7 @@ theorem nine3_eq_of_mk_eq (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts
         (Subgroup.mem_sup_right hwI)
   exact (nine3_eq_of_le_sup_nineI hc hI hU hU' hle).symm
 
+omit [Finite G] in
 theorem nine3_fib_conj {U : Subgroup G} {c t : ZMod p} (h : Nine3Fib K p ρ U c) {k : ↥K}
     (hk : ∀ i : ZMod p, ρ k i = i + t) : Nine3Fib K p ρ (conjSubgroup U (k : G)) (c - t) := by
   intro w hw hwR
@@ -84,7 +86,7 @@ theorem nine3_fib_conj {U : Subgroup G} {c t : ZMod p} (h : Nine3Fib K p ρ U c)
 theorem nine3_exists_translation (hc : Nine3Choice V T A K S X p g x)
     (hρ : Nine3FibreAct K S p x ρ) (t : ZMod p) :
     ∃ k : ↥K, (k : G) ∈ X ∧ (t ≠ 0 → (k : G) ≠ 1) ∧ ∀ i : ZMod p, ρ k i = i + t := by
-  haveI : NeZero p := ⟨hc.core.hyp.base.prime.ne_zero⟩
+  have : NeZero p := ⟨hc.core.hyp.base.prime.ne_zero⟩
   have hxK : x ∈ K := hc.core.hyp.base.toTwoPTwo.sylowP.le hc.x_mem
   let x₀ : ↥K := ⟨x, hxK⟩
   have hx₀ : (x₀ : G) = x := rfl
@@ -138,6 +140,7 @@ theorem nine3_dbar_over (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3FibreAc
   · rwa [hcc'] at hc'
   · exact ⟨u, hu, huR, hd_eq⟩
 
+omit [Finite G] in
 theorem nine3_mk_mem_dbar {U : Subgroup G} (hU : U ∈ omegaIn V K (nineE V K))
     (hker : ∀ k : ↥K, (k : G) ∈ pCoreOf 2 K → ρ k = 1) {c : ZMod p} (h : Nine3Fib K p ρ U c)
     {u : ↥(nineH V K)} (hu : (u : G) ∈ U) (huR : (u : G) ∉ pCoreOf 2 K) :

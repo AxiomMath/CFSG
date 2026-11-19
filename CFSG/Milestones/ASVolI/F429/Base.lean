@@ -13,17 +13,17 @@ section Generic
 
 variable {G : Type} [Group G]
 
-theorem burnsideF429_perfectCore_le_of_odd_index [Finite G] {P N : Subgroup G} (hNP : N ≤ P)
+theorem burnsideF429_perfectCore_le_of_odd_index [Finite G] {P N : Subgroup G} (_hNP : N ≤ P)
     (hnorm : ∀ g ∈ P, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hodd : ¬ 2 ∣ N.relIndex P) :
     perfectCore P ≤ N := by
-  haveI hN : (N.subgroupOf P).Normal := ⟨fun n hn k => by
+  have hN : (N.subgroupOf P).Normal := ⟨fun n hn k => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm k.1 k.2 n.1 hn⟩
   have hcard : Odd (Nat.card (↥P ⧸ N.subgroupOf P)) := by
     rw [← Subgroup.index_eq_card]
     exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 hodd)
   have hsolv : Group.IsSolvable (↥P ⧸ N.subgroupOf P) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hcard
-  obtain ⟨n, hn⟩ := (isSolvable_def (G := ↥P ⧸ N.subgroupOf P)).1 hsolv
+  obtain ⟨n, hn⟩ := (Group.isSolvable_def (G := ↥P ⧸ N.subgroupOf P)).1 hsolv
   have hle : derivedSeries ↥P n ≤ N.subgroupOf P := by
     intro x hx
     have h1 := map_derivedSeries_le_derivedSeries (QuotientGroup.mk' (N.subgroupOf P)) n
@@ -49,7 +49,7 @@ theorem burnsideF429_oPPrime_eq_perfectCore [Finite G] {P S : Subgroup G}
   · have hOP : oPPrime 2 P ≤ P := (Subgroup.closure_le P).2 fun _ hx => hx.1
     have hSO : S ≤ oPPrime 2 P := by
       intro s hs
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hS.2.1) ⟨s, hs⟩
       refine Subgroup.subset_closure ⟨hS.1 hs, k, ?_⟩
       rw [← hk, Subgroup.orderOf_mk]
@@ -139,7 +139,7 @@ theorem burnsideF429_clause3_of {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     (h2 : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂)) :
     oPPrime 2 (Gp ⊓ M₁) = perfectCore (Gp ⊓ M₁) ∧
       oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   exact ⟨burnsideF429_oPPrime_eq_perfectCore (burnsideF429_sylowBar_inf hyp inf_le_left) h1,
     burnsideF429_oPPrime_eq_perfectCore (burnsideF429_sylowBar_inf hyp inf_le_right) h2⟩
 

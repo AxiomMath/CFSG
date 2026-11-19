@@ -384,8 +384,8 @@ variable {K : IntermediateField (ZMod 2) F}
 theorem finrank_two_of_natCard_eq_sixteen_subfield_four
     (hF16 : Nat.card F = 16) (hK4 : Nat.card K = 4) :
     Module.finrank K F = 2 := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF16]; norm_num)
-  haveI : Module.Finite K F := Module.Finite.of_finite
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF16]; norm_num)
+  have : Module.Finite K F := Module.Finite.of_finite
   have h := Module.natCard_eq_pow_finrank (K := K) (V := F)
   rw [hF16, hK4] at h
   have hpow : 4 ^ Module.finrank K F = 4 ^ 2 := by
@@ -609,7 +609,7 @@ theorem mem_normalizer_zpowers_fifth_of_semilinear_fourth_roots
     (IsCyclic.subgroup_eq_iff_card_eq (G := Kˣ)).mpr hcard
   have hmem : κu y ∈ Subgroup.zpowers y := by
     rw [← hsub]
-    simpa using Subgroup.npow_mem_zpowers (κu y) 1
+    simp
   have hcases : κu y = 1 ∨ κu y = y ∨ κu y = y ^ 2 := by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
     have hy3z : y ^ (3 : ℤ) = 1 := by simpa using hy3u
@@ -658,7 +658,6 @@ theorem mem_normalizer_zpowers_fifth_of_semilinear_fourth_roots
     rw [← hycoe]
     rw [mul_comm ((y : K)) ((eR (η⁻¹ r)).toAdd)]
     rw [hκ (y : K) hy4 ((eR (η⁻¹ r)).toAdd)]
-    change Multiplicative.ofAdd (κ (y : K) * γ ((eR (η⁻¹ r)).toAdd)) = _
     rw [hηinv r]
   have hδ10eq : δ ^ 10 = (δ ^ 5) ^ 2 := by
     rw [← pow_mul]
@@ -689,7 +688,7 @@ theorem mem_normalizer_zpowers_fifth_of_semilinear_fourth_roots
     · exact TauCeti.mem_normalizer_zpowers_of_mul_mul_inv_eq_pow
         (t := δ ^ 5) (s := η) (q := 2) ht (by simpa [hδ10eq] using h)
   have hgen : δ ^ 5 ∈ Subgroup.zpowers (δ ^ 5) := by
-    simpa using Subgroup.npow_mem_zpowers (δ ^ 5) 1
+    simp
   have hconj_mem : η * δ ^ 5 * η⁻¹ ∈ Subgroup.zpowers (δ ^ 5) :=
     (Subgroup.mem_normalizer_iff.mp hηN (δ ^ 5)).mp hgen
   have hηinvN :

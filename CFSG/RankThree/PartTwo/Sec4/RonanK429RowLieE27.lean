@@ -66,7 +66,7 @@ theorem conj_injective_of_center {S : Type*} [Group S]
 theorem center_trivial_of_isSimpleGroup {S : Type*} [Group S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) : ∀ s : S, (∀ t : S, s * t = t * s) → s = 1 := by
   intro s hs'
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · have hm : s ∈ Subgroup.center S := Subgroup.mem_center_iff.mpr fun t => (hs' t).symm
     rw [h] at hm
@@ -127,7 +127,7 @@ theorem false_of_fix_e9 {S : Type*} [Group S] [Finite S] (D : Subgroup (MulAut S
   have he1 : e = 1 := by
     refine hZK e he (fun k hk => ?_)
     have h := hfix k hk
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply] at h
+    simp only [MulAut.conj_apply] at h
     calc e * k = e * k * e⁻¹ * e := by group
       _ = k * e := by rw [h]
   rw [he1, map_one]

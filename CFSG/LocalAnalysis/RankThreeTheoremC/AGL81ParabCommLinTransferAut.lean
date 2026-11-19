@@ -70,7 +70,7 @@ theorem LinCover.map_projFlag (b : ↥(Subgroup.normalizer (Y : Set A)))
     rw [C.mem_flag_iff, hg']
     exact hy
   ext z
-  simp only [Subgroup.mem_map, MonoidHom.coe_coe, MulEquiv.toMonoidHom_eq_coe]
+  simp only [Subgroup.mem_map, _root_.MonoidHom.coe_ofClass, MulEquiv.toMonoidHom_eq_coe]
   constructor
   · rintro ⟨w, ⟨g, hg, rfl⟩, rfl⟩
     obtain ⟨g', hg', h'⟩ := key b hbP g hg

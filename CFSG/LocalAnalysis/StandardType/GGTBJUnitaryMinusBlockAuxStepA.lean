@@ -94,7 +94,7 @@ theorem exists_mem_hypSU_of_diagonal {d : HypIndex m ε → F}
 
 private theorem prod_ite_single_of_mem {ι : Type*} [DecidableEq ι] {s : Finset ι} {i : ι}
     (hi : i ∈ s) (c : F) : s.prod (fun j => if j = i then c else (1 : F)) = c := by
-  rw [Finset.prod_eq_single i (fun j _ hj => by rw [if_neg hj]) (fun h => absurd hi h)]
+  rw [Finset.prod_eq_single i (fun j _ hj => by rw [ite_eq_right hj]) (fun h => absurd hi h)]
   simp
 
 private theorem prod_ite_single {ι : Type*} [Fintype ι] [DecidableEq ι] (i : ι) (c : F) :
@@ -109,11 +109,11 @@ private theorem prod_ite_two {ι : Type*} [Fintype ι] [DecidableEq ι] {i j : �
       (if k = i then a else if k = j then b else (1 : F)) =
         if k = j then b else 1 := by
     intro k hk
-    rw [if_neg (Finset.ne_of_mem_erase hk)]
+    rw [ite_eq_right (Finset.ne_of_mem_erase hk)]
   rw [Finset.prod_congr rfl h1,
     prod_ite_single_of_mem (s := Finset.univ.erase i) (i := j)
       (Finset.mem_erase.mpr ⟨Ne.symm hij, Finset.mem_univ j⟩) b]
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   ring
 
 theorem exists_diagOne (i : Fin m) {c : F} (hc0 : c ≠ 0) (hcb : h.bar c = c) :
@@ -132,17 +132,17 @@ theorem exists_diagOne (i : Fin m) {c : F} (hc0 : c ≠ 0) (hcb : h.bar c = c) :
     rcases x with j | k | j
     · rw [hypPartner, diagOne_inl, diagOne_inr]
       by_cases hji : j = i
-      · rw [if_pos hji, if_pos hji, hcb]
+      · rw [ite_eq_left hji, ite_eq_left hji, hcb]
         exact mul_inv_cancel₀ hc0
-      · rw [if_neg hji, if_neg hji]
+      · rw [ite_eq_right hji, ite_eq_right hji]
         simp
     · rw [hypPartner, diagOne_z]
       simp
     · rw [hypPartner, diagOne_inr, diagOne_inl]
       by_cases hji : j = i
-      · rw [if_pos hji, if_pos hji, map_inv₀, hcb]
+      · rw [ite_eq_left hji, ite_eq_left hji, map_inv₀, hcb]
         exact inv_mul_cancel₀ hc0
-      · rw [if_neg hji, if_neg hji]
+      · rw [ite_eq_right hji, ite_eq_right hji]
         simp
   have hdet : (∏ x, diagOne (ε := ε) i c x) = 1 := by
     rw [Fintype.prod_sum_type, Fintype.prod_sum_type]
@@ -165,23 +165,23 @@ theorem exists_diagTwo (i j : Fin m) (hij : i ≠ j) {c : F} (hc0 : c ≠ 0) :
     rcases x with k | l | k
     · simp only [diagTwo_inl]
       by_cases hki : k = i
-      · rw [if_pos hki]
+      · rw [ite_eq_left hki]
         exact hc0
       · by_cases hkj : k = j
-        · rw [if_neg hki, if_pos hkj]
+        · rw [ite_eq_right hki, ite_eq_left hkj]
           exact inv_ne_zero hc0
-        · rw [if_neg hki, if_neg hkj]
+        · rw [ite_eq_right hki, ite_eq_right hkj]
           exact one_ne_zero
     · rw [diagTwo_z]
       exact one_ne_zero
     · simp only [diagTwo_inr]
       by_cases hki : k = i
-      · rw [if_pos hki]
+      · rw [ite_eq_left hki]
         exact inv_ne_zero hbarc
       · by_cases hkj : k = j
-        · rw [if_neg hki, if_pos hkj]
+        · rw [ite_eq_right hki, ite_eq_left hkj]
           exact hbarc
-        · rw [if_neg hki, if_neg hkj]
+        · rw [ite_eq_right hki, ite_eq_right hkj]
           exact one_ne_zero
   have hunit : ∀ x, h.bar (diagTwo (h := h) (ε := ε) i j c x) *
       diagTwo (h := h) (ε := ε) i j c (hypPartner x) = 1 := by
@@ -189,23 +189,23 @@ theorem exists_diagTwo (i j : Fin m) (hij : i ≠ j) {c : F} (hc0 : c ≠ 0) :
     rcases x with k | l | k
     · rw [hypPartner, diagTwo_inl, diagTwo_inr]
       by_cases hki : k = i
-      · simp only [if_pos hki]
+      · simp only [ite_eq_left hki]
         exact mul_inv_cancel₀ hbarc
       · by_cases hkj : k = j
-        · simp only [if_neg hki, if_pos hkj, map_inv₀]
+        · simp only [ite_eq_right hki, ite_eq_left hkj, map_inv₀]
           exact inv_mul_cancel₀ hbarc
-        · simp only [if_neg hki, if_neg hkj]
+        · simp only [ite_eq_right hki, ite_eq_right hkj]
           simp
     · rw [hypPartner, diagTwo_z]
       simp
     · rw [hypPartner, diagTwo_inr, diagTwo_inl]
       by_cases hki : k = i
-      · simp only [if_pos hki, map_inv₀, h.bar_bar]
+      · simp only [ite_eq_left hki, map_inv₀, h.bar_bar]
         exact inv_mul_cancel₀ hc0
       · by_cases hkj : k = j
-        · simp only [if_neg hki, if_pos hkj, h.bar_bar]
+        · simp only [ite_eq_right hki, ite_eq_left hkj, h.bar_bar]
           exact mul_inv_cancel₀ hc0
-        · simp only [if_neg hki, if_neg hkj]
+        · simp only [ite_eq_right hki, ite_eq_right hkj]
           simp
   have hdet : (∏ x, diagTwo (h := h) (ε := ε) i j c x) = 1 := by
     rw [Fintype.prod_sum_type, Fintype.prod_sum_type]
@@ -269,11 +269,11 @@ theorem mem_hypBlock_of_diagonal {P : Set (HypIndex m ε)} {d : HypIndex m ε �
   rw [hg, Matrix.diagonal_apply, Matrix.one_apply]
   by_cases h : a = b
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     rcases hab with ha | hb
     · exact hd a ha
     · exact hd a hb
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 theorem diagOne_eq_one_of_not_mem {P : Set (HypIndex m ε)} {i : Fin m} {c : F}
     (hi : (.inl i : HypIndex m ε) ∈ P)
@@ -283,12 +283,12 @@ theorem diagOne_eq_one_of_not_mem {P : Set (HypIndex m ε)} {i : Fin m} {c : F}
   · simp only [diagOne_inl]
     by_cases hki : k = i
     · exact absurd (hki ▸ hi) hx
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
   · rw [diagOne_z]
   · simp only [diagOne_inr]
     by_cases hki : k = i
     · exact absurd (hki ▸ fi) hx
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
 
 theorem diagTwo_eq_one_of_not_mem {P : Set (HypIndex m ε)} {i j : Fin m} {c : F}
     (hi : (.inl i : HypIndex m ε) ∈ P)
@@ -302,14 +302,14 @@ theorem diagTwo_eq_one_of_not_mem {P : Set (HypIndex m ε)} {i j : Fin m} {c : F
     · exact absurd (hki ▸ hi) hx
     · by_cases hkj : k = j
       · exact absurd (hkj ▸ hj) hx
-      · rw [if_neg hki, if_neg hkj]
+      · rw [ite_eq_right hki, ite_eq_right hkj]
   · rw [diagTwo_z]
   · simp only [diagTwo_inr]
     by_cases hki : k = i
     · exact absurd (hki ▸ fi) hx
     · by_cases hkj : k = j
       · exact absurd (hkj ▸ fj) hx
-      · rw [if_neg hki, if_neg hkj]
+      · rw [ite_eq_right hki, ite_eq_right hkj]
 
 theorem ne_inv_of_bar_ne {c : F} (hc : h.bar c ≠ c) : c ≠ c⁻¹ := by
   have : CharP F 2 := h.charP

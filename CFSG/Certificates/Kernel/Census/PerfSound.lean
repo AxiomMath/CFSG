@@ -37,13 +37,13 @@ theorem gPt_eq {pc : List (List ℕ × List ℕ)} (hpc : GenOK h pc) {t : ℕ} (
   unfold gPt genPerm
   by_cases htr : t < pc.length
   · have hb : Nat.blt t pc.length = true := Nat.blt_eq.mpr htr
-    rw [hb, cond_true, if_pos htr]
+    rw [hb, _root_.Bool.cond_true, ite_eq_left htr]
     exact commPt_eq H (hpc t htr).1 (hpc t htr).2 p hp
   · have hb : Nat.blt t pc.length = false := by
       cases h' : Nat.blt t pc.length
       · rfl
       · exact absurd (Nat.blt_eq.mp h') htr
-    rw [hb, cond_false, if_neg htr]
+    rw [hb, Bool.cond_false, ite_eq_right htr]
     have e : Nat.sub t pc.length = t - pc.length := rfl
     rw [e]
     exact commPt_eq H (hpc _ (by omega)).2 (hpc _ (by omega)).1 p hp
@@ -133,7 +133,7 @@ theorem pWitness_of_perfB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P)
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨hc, hrl⟩, hjl⟩, hrw⟩, hyw⟩, hjw⟩, hrel⟩, hy⟩, hcj⟩ := hp
   have hxP : ∀ g ∈ xw.map (wordPerm ℓ), g ∈ P := fun g hg => by
     obtain ⟨y, hy, rfl⟩ := List.mem_map.1 hg
-    exact wordPerm_mem H hℓ (hx y hy)
+    exact wordPerm_mem hℓ (hx y hy)
   set X := pcG (xw.map (wordPerm ℓ)) mx with hXdef
   have hXP : X ∈ P := pcG_mem_of hxP mx
   have hcget : ∀ s < pc.length, pc.getD s ([], []) ∈ pc := fun s hs => by
@@ -159,9 +159,9 @@ theorem pWitness_of_perfB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P)
     have key : ∀ c, WordOK h c → (∀ b ∈ bs, Nat.beq (wPt w L c (pcwPt w L xw mx b))
         (pcwPt w L xw mx (wPt w L c b)) = true) → wordPerm ℓ c ∈ P ⊓ centralizer {X} := by
       intro c hcw hcb
-      refine ⟨wordPerm_mem H hℓ hcw, mem_centralizer_singleton_iff.2 ?_⟩
-      refine eq_of_base hB (P.mul_mem (wordPerm_mem H hℓ hcw) hXP)
-        (P.mul_mem hXP (wordPerm_mem H hℓ hcw)) fun b hb hbs => ?_
+      refine ⟨wordPerm_mem hℓ hcw, mem_centralizer_singleton_iff.2 ?_⟩
+      refine eq_of_base hB (P.mul_mem (wordPerm_mem hℓ hcw) hXP)
+        (P.mul_mem hXP (wordPerm_mem hℓ hcw)) fun b hb hbs => ?_
       have e := Nat.eq_of_beq_eq_true (hcb b hbs)
       rw [pcwPt_eq H xw hx mx b hb, wPt_eq H c hcw _ (Fin.isLt _), wPt_eq H c hcw b hb,
         pcwPt_eq H xw hx mx _ (Fin.isLt _)] at e
@@ -174,7 +174,7 @@ theorem pWitness_of_perfB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P)
     · exact subset_closure ⟨⟨s, hsr⟩, rfl⟩
     · have e : genPerm ℓ pc s = (genPerm ℓ pc (s - pc.length))⁻¹ := by
         have := genPerm_lsw (ℓ := ℓ) pc (t := s - pc.length) (by omega)
-        rw [lsw_eq, if_pos (by omega), show pc.length + (s - pc.length) = s by omega] at this
+        rw [lsw_eq, ite_eq_left (by omega), show pc.length + (s - pc.length) = s by omega] at this
         exact this
       rw [e]
       exact Q.inv_mem (subset_closure ⟨⟨s - pc.length, by omega⟩, rfl⟩)
@@ -202,7 +202,7 @@ theorem pWitness_of_perfB (hB : BaseOf P bs) (hℓ : ∀ k < 2 * h, ℓ k ∈ P)
   have hgP : ∀ s, s < pc.length → genPerm ℓ pc s = ⁅wordPerm ℓ (pc.getD s ([], [])).1,
       wordPerm ℓ (pc.getD s ([], [])).2⁆ := fun s hs => by
     unfold genPerm
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
   refine ⟨Q, ?_, le_antisymm ?_ ?_, ?_, gwPerm ℓ pc py, hgwQ _ (hgw _ hyw), ?_, ?_⟩
   ·
     have hΓ : centDer P X ≤ gammaE P E := le_iSup₂_of_le X hxE (le_iSup_of_le hX1 le_rfl)

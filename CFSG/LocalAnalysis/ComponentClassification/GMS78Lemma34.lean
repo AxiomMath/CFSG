@@ -210,7 +210,7 @@ theorem false_of_card_dvd_four (h : BenderHyp G L) {k : ℕ}
   have h8 := h.eight_le_card_sylow T
   have hTX : Nat.card (T : Subgroup L) ∣ Nat.card (rankTwoX L) :=
     (card_subgroup_dvd_card _).trans (card_dvd_of_le le_normalClosure)
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp T.isPGroup
   have h2 : 2 ^ m ∣ 4 :=
     (Nat.Coprime.pow_left m (Nat.coprime_two_left.mpr hk)).dvd_of_dvd_mul_right
       (hm ▸ hTX.trans hdvd)
@@ -230,7 +230,7 @@ theorem false_of_reeJ1
   have hLX : L ≤ X := le_normalClosure
   obtain ⟨T⟩ : Nonempty (Sylow 2 L) := inferInstance
   set T' := (T : Subgroup L).map L.subtype with hT'def
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have hT'L : T' ≤ L := map_subtype_le _
   have hT'X : T' ≤ X := hT'L.trans hLX
   obtain ⟨P, hP⟩ := (hT'2.comap_subtype (K := X)).exists_le_sylow

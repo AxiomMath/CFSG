@@ -28,7 +28,7 @@ variable {G : Type} [Group G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
       obtain ⟨-, hu, -⟩ := spec
       show (⋃ i, emb e '' (Classical.choose L52.B_orbits i)) =
         ((tr e L52.A1 ⊓ tr e L52.A2 : Subgroup G) : Set G) \ {1}
-      rw [← Set.image_iUnion, hu, Set.image_diff (emb_injective e), Set.image_singleton, map_one,
+      rw [← Set.image_iUnion, hu, Set.image_sdiff (emb_injective e), Set.image_singleton, map_one,
         ← tr_inf]
       rfl
     Γ_inv := by
@@ -53,14 +53,14 @@ variable {G : Type} [Group G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
       obtain ⟨-, -, -, -, -, -, h1, -⟩ := spec
       show emb e '' (Classical.choose L52.B_orbits 1) =
         ((tr e L52.A1 ⊓ tr e L52.A2 ⊓ tr e L52.U1 : Subgroup G) : Set G) \ {1, z}
-      rw [h1, Set.image_diff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf,
+      rw [h1, Set.image_sdiff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf,
         ← tr_inf]
       rfl
     Γ2 := by
       obtain ⟨-, -, -, -, -, -, -, h2, -⟩ := spec
       show emb e '' (Classical.choose L52.B_orbits 2) =
         ((tr e L52.A1 ⊓ tr e L52.A2 ⊓ tr e L52.U2 : Subgroup G) : Set G) \ {1, z}
-      rw [h2, Set.image_diff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf,
+      rw [h2, Set.image_sdiff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf,
         ← tr_inf]
       rfl
     Γ3 := by

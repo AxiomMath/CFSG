@@ -167,14 +167,17 @@ noncomputable def Xi (e₁ : Pt A₁ ≃ Fin 3) (e₂ : Pt A₂ ≃ Fin 3) :
 
 variable (e₁ : Pt A₁ ≃ Fin 3) (e₂ : Pt A₂ ≃ Fin 3)
 
+omit [Finite Y] in
 theorem Xi_fst_eq_iff (g : ↥(Subgroup.normalizer (A : Set Y))) (v w : Pt A₁) :
     (Xi h e₁ e₂ g).1 (e₁ v) = e₁ w ↔ (g : Y) * v.1 * (g : Y)⁻¹ = w.1 :=
   actF_eq_iff A₁ e₁ _ v w
 
+omit [Finite Y] in
 theorem Xi_snd_eq_iff (g : ↥(Subgroup.normalizer (A : Set Y))) (v w : Pt A₂) :
     (Xi h e₁ e₂ g).2 (e₂ v) = e₂ w ↔ (g : Y) * v.1 * (g : Y)⁻¹ = w.1 :=
   actF_eq_iff A₂ e₂ _ v w
 
+omit [Finite Y] in
 theorem fst_one_cent {g : ↥(Subgroup.normalizer (A : Set Y))} (hg : (Xi h e₁ e₂ g).1 = 1) :
     ∀ a ∈ A₁, (g : Y) * a * (g : Y)⁻¹ = a := by
   intro a ha
@@ -183,6 +186,7 @@ theorem fst_one_cent {g : ↥(Subgroup.normalizer (A : Set Y))} (hg : (Xi h e₁
   · have := (Xi_fst_eq_iff h e₁ e₂ g ⟨a, ha, ha1⟩ ⟨a, ha, ha1⟩).1 (by rw [hg]; rfl)
     exact this
 
+omit [Finite Y] in
 theorem snd_one_cent {g : ↥(Subgroup.normalizer (A : Set Y))} (hg : (Xi h e₁ e₂ g).2 = 1) :
     ∀ a ∈ A₂, (g : Y) * a * (g : Y)⁻¹ = a := by
   intro a ha
@@ -213,6 +217,7 @@ theorem cent_of_Xi_eq_one {g : ↥(Subgroup.normalizer (A : Set Y))} (hg : Xi h 
             group
         _ = a * b := by rw [e1, e2]
 
+omit [Finite Y] in
 theorem Xi_eq_one_of_cent {g : ↥(Subgroup.normalizer (A : Set Y))}
     (hg : (g : Y) ∈ Subgroup.centralizer (A : Set Y)) : Xi h e₁ e₂ g = 1 := by
   have hc : ∀ a ∈ A, (g : Y) * a * (g : Y)⁻¹ = a := by
@@ -288,6 +293,7 @@ theorem mul_self_mem_A {s : Y} (hs : s ∈ T) : s * s ∈ A := by
   have := Subgroup.mul_self_mem_of_index_two hidx ⟨s, hs⟩
   exact this
 
+omit [Finite Y] in
 theorem Xi_sq {s : Y} (hs : s ∈ T) :
     (Xi h e₁ e₂ (sN h hs)) * (Xi h e₁ e₂ (sN h hs)) = 1 := by
   rw [← map_mul]
@@ -321,6 +327,7 @@ theorem Xi_snd_ne_one {s : Y} (hs : s ∈ T) (hsA : s ∉ A) : (Xi h e₁ e₂ (
   have := h.cent s hs hsA
   omega
 
+omit [Finite Y] in
 theorem trans_fst
     (hfus : ∀ a ∈ A, ∀ b ∈ A, ∀ g : Y, g⁻¹ * a * g = b →
       ∃ n ∈ Subgroup.normalizer (A : Set Y), n⁻¹ * a * n = b)
@@ -358,6 +365,7 @@ theorem trans_fst
     rw [h.disj, Subgroup.mem_bot] at this
     exact v.2.2 this
 
+omit [Finite Y] in
 theorem trans_snd
     (hfus : ∀ a ∈ A, ∀ b ∈ A, ∀ g : Y, g⁻¹ * a * g = b →
       ∃ n ∈ Subgroup.normalizer (A : Set Y), n⁻¹ * a * n = b)
@@ -400,6 +408,7 @@ theorem coe_sN_mul {s : Y} (hs : s ∈ T) (n : ↥(Subgroup.normalizer (A : Set 
       ⁅s, (n : Y)⁆ := by
   simp [sN, commutatorElement_def]
 
+omit [Finite Y] in
 theorem comm_trick {s : Y} (hs : s ∈ T) (n : ↥(Subgroup.normalizer (A : Set Y)))
     (hn3 : (Xi h e₁ e₂ n) ^ 3 = 1)
     (hσ : Xi h e₁ e₂ (sN h hs) * Xi h e₁ e₂ n * (Xi h e₁ e₂ (sN h hs))⁻¹ = (Xi h e₁ e₂ n)⁻¹) :
@@ -418,6 +427,7 @@ theorem comm_trick {s : Y} (hs : s ∈ T) (n : ↥(Subgroup.normalizer (A : Set 
       _ = γ ^ 3 * γ := by group
       _ = γ := by rw [hn3, one_mul]
 
+omit [Finite Y] in
 theorem cube_of_mem_comm (hAc : A ≤ commutator Y) (hSyl : IsSylow2In A (commutator Y))
     (n : ↥(Subgroup.normalizer (A : Set Y))) (hn : (n : Y) ∈ commutator Y) :
     (Xi h e₁ e₂ n) ^ 3 = 1 := by

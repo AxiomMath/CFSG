@@ -24,7 +24,7 @@ theorem qtwoOrthMemberFacts_of_cfg {G : Type} [Group G] [Finite G] {p : ℕ}
     (hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3) (hcell : qtwoOrthL G L 𝒦) :
     QTwoOrthMemberFacts p Bs L := by
   obtain ⟨hp, -⟩ := ggRouteCfg_prime hcfg.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1.1
   obtain ⟨-, hBs, -, -, -⟩ := hconf.tableB_facts
   obtain ⟨lab, hΛ, hhas, hn, htag⟩ := hcell

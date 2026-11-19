@@ -70,7 +70,7 @@ theorem qArr_get {i : ℕ} (hi : i < 512) : qArr[i]! = qElt Native.one iotaARows
 
 theorem twoAQg_mem {j : ℕ} (hj : j < 8) : twoAQg j ∈ twoAQ := by
   show twoAQg j ∈ Subgroup.closure (twoAQg '' {l | l < twoAQRows.length})
-  exact Subgroup.subset_closure ⟨j, by rw [Set.mem_setOf_eq, twoAQRows_length]; exact hj, rfl⟩
+  exact Subgroup.subset_closure ⟨j, by rw [Set.mem_ofPred_eq, twoAQRows_length]; exact hj, rfl⟩
 
 theorem rep_qG (i : ℕ) : MRep (qElt Native.one iotaARows twoAQRows i) (qG i) := by
   have key : ∀ l : List ℕ, (∀ j ∈ l, j < 8) → ∀ (R : Rows) (x : GL24), MRep R x →

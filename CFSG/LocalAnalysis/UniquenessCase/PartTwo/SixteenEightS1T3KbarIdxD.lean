@@ -35,8 +35,8 @@ theorem s16t3_normalizer_index_le_two (h : ThreeNat A L T) {J₀ : Subgroup W}
     exact s16t3_index_le_two_of_normIdx hN
   rcases hcases with ⟨hIs, hsum⟩ | ⟨hIs, hsum⟩ | ⟨hIs, hsum⟩ | ⟨hIs, hsum⟩ | ⟨hIs, hsum⟩
   · obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := s16t3_sumOfNat_one hsum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hR⟩ := hReal
     have hgL : ∀ (γ : ↥(StatedSL n K)) (u : ↥J₀),
@@ -47,8 +47,8 @@ theorem s16t3_normalizer_index_le_two (h : ThreeNat A L T) {J₀ : Subgroup W}
       exact hg (Subgroup.inclusion h.le (π γ)) (π γ).2 u hu
     exact finish (s16t3_normIdx_of_realizes_nat hK2 (s16t3_normIdx_sl hK2 n) hR gL hgL)
   · obtain ⟨-, K, hKfield, hKfin, hKcard, hReal⟩ := s16t3_sumOfNat_one hsum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hR⟩ := hReal
     have hgL : ∀ (γ : ↥(StatedSp (n / 2) K)) (u : ↥J₀),
@@ -60,8 +60,8 @@ theorem s16t3_normalizer_index_le_two (h : ThreeNat A L T) {J₀ : Subgroup W}
     exact finish
       (s16t3_normIdx_of_realizes_nat hK2 (s16t3_normIdx_sp hK2 (n / 2)) hR gL hgL)
   · obtain ⟨-, K, hKfield, hKfin, hKcard, hReal⟩ := s16t3_sumOfNat_one hsum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     have hm3 : 3 ≤ n / 2 := by have := s16k_six_le_of_isOmegaPlus hq hIs; omega
     obtain ⟨π, hR⟩ := hReal
@@ -75,8 +75,8 @@ theorem s16t3_normalizer_index_le_two (h : ThreeNat A L T) {J₀ : Subgroup W}
       (s16t3_normIdx_of_realizes_nat hK2 (s16t3_normIdx_omplus hK2 hm3) hR gL hgL)
   · obtain ⟨hEven, K, hKfield, hKfin, b, c, hKcard, hpoly, hReal⟩ :=
       s16t3_sumOfNat_one hsum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     have hm2 : 2 ≤ n / 2 := by have := s16k_four_le_of_isOmegaMinus hq hIs; omega
     obtain ⟨π, hR⟩ := hReal

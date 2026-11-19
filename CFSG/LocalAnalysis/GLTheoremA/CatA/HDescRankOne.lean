@@ -33,6 +33,7 @@ section SLevel
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem mem_normalizer_of_conj_stable {A : Subgroup (MulAut S)} {T : Subgroup S}
     (hAT : ∀ α ∈ A, T.map α.toMonoidHom = T) {s : S} (hs : MulAut.conj s ∈ A) :
     s ∈ Subgroup.normalizer (T : Set S) := by
@@ -59,7 +60,7 @@ theorem sLevel_rankOne {p : ℕ} (hp : p.Prime) (hZ : Subgroup.center S = ⊥)
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) (hcard : p ^ 2 ≤ Nat.card A)
     {T : Subgroup S} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥) (hAT : ∀ α ∈ A, T.map α.toMonoidHom = T) :
     Nat.card A = p ^ 2 ∧ ∃ α ∈ A, α ≠ 1 ∧ GLAPLayer p (fixSubgroup α) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcjinj : Function.Injective (MulAut.conj : S →* MulAut S) :=
     conj_injective_of_center_eq_bot hZ
   obtain ⟨hel, hcardE⟩ := inner_part_elemAbelian hZ hA
@@ -127,15 +128,15 @@ theorem kConcl_of_rankOne {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgro
     {S : Type} [Group S] [Finite S] (e : ↥K ⧸ Subgroup.center ↥K ≃* S)
     (hout : OutPRankLE1 p S) (h2 : TwoLocalRankLE1 p S) (hfix : OuterFixLayer p S)
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < p ^ 3) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBN := le_normalizer_of_normal (B := B) h.normal
   have hZ : Subgroup.center S = ⊥ := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
-    haveI : IsSimpleGroup S := e.symm.isSimpleGroup
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+    have : IsSimpleGroup S := e.symm.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h1 | h1
     · exact h1
     · exfalso
-      letI : CommGroup S := { ‹Group S› with
+      let : CommGroup S := { ‹Group S› with
         mul_comm := fun a b => (Subgroup.mem_center_iff.mp (h1 ▸ Subgroup.mem_top b)) a }
       exact false_of_quasisimple_comm_quotient h.qs e
   obtain ⟨hcard, -⟩ := card_range_ge hp h hBN e hc

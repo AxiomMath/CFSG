@@ -173,7 +173,7 @@ theorem gls3PlusCase_lie_of_offChar_ne (hOff : OffCharGen) (hOut : SeitzOuterLow
       exact not_isCyclic_of_elemAbelian_card_sq hE₀el hE₀c (isCyclic_of_injective χ hχ)
     ·
       have hdvd : 3 ∣ Nat.card (T : Subgroup ↥K) := by
-        obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp T.isPGroup')
+        obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp T.isPGroup)
         rcases n with _ | n
         · exfalso
           apply hT1

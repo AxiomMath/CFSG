@@ -51,11 +51,11 @@ theorem bijective_of_bijective_lTensor_of_isLocalRing {L K M N : Type*} [CommRin
   have hinj : Function.Injective (f.lTensor κ) ↔ Function.Injective (f.lTensor K) := by
     rw [hconj, EquivLike.comp_injective, EquivLike.injective_comp,
       Module.FaithfullyFlat.lTensor_injective_iff_injective κ K (f.baseChange κ),
-      LinearMap.baseChange_eq_ltensor]
+      LinearMap.baseChange_eq_lTensor]
   have hsurj : Function.Surjective (f.lTensor κ) ↔ Function.Surjective (f.lTensor K) := by
     rw [hconj, EquivLike.comp_surjective, EquivLike.surjective_comp,
       Module.FaithfullyFlat.lTensor_surjective_iff_surjective κ K (f.baseChange κ),
-      LinearMap.baseChange_eq_ltensor]
+      LinearMap.baseChange_eq_lTensor]
   constructor
   · obtain ⟨l, hl⟩ :=
       (IsLocalRing.split_injective_iff_lTensor_residueField_injective f).2 (hinj.2 hf.1)

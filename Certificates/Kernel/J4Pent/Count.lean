@@ -29,7 +29,7 @@ theorem pairLt_eq (p q : Nat × Nat) : pairLt p q = true ↔ LexLt p q := by
       · rw [Nat.blt_eq] at h
         exact absurd h hlt
     rw [e]
-    simp only [Bool.false_eq_true, if_false, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq]
+    simp only [Bool.false_eq_true, ite_false, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq]
     constructor
     · intro h'
       exact Or.inr h'
@@ -188,7 +188,7 @@ theorem runSum_cons (p : Nat × Nat) (L : List (Nat × Nat)) (l f : Nat) :
   · by_cases h2 : 0 < f
     · have e1 : Nat.beq p.1 l = true := by rw [Nat.beq_eq]; exact h1
       have e2 : Nat.blt 0 f = true := by rw [Nat.blt_eq]; exact h2
-      rw [e1, e2, if_pos ⟨h1, h2⟩]
+      rw [e1, e2, ite_eq_left ⟨h1, h2⟩]
       rfl
     · have e2 : Nat.blt 0 f = false := by
         cases h : Nat.blt 0 f
@@ -197,13 +197,13 @@ theorem runSum_cons (p : Nat × Nat) (L : List (Nat × Nat)) (l f : Nat) :
           exact absurd h h2
       have hf : f = 0 := by omega
       subst hf
-      rw [e2, Bool.and_false, if_neg (by omega), if_pos rfl]
+      rw [e2, Bool.and_false, ite_eq_right (by omega), ite_eq_left rfl]
       rfl
   · have e1 : Nat.beq p.1 l = false := by
       cases h : Nat.beq p.1 l
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) h1
-    rw [e1, Bool.false_and, if_neg (by tauto)]
+    rw [e1, Bool.false_and, ite_eq_right (by tauto)]
     cases f with
     | zero => rfl
     | succ f => rfl
@@ -234,12 +234,12 @@ theorem runSum_spec (N : Nat) : ∀ (L : List (Nat × Nat)) (l f : Nat),
     by_cases h0 : f = 0
     · subst h0
       simp [cnt, Finset.sum_const, Finset.card_range, mul_comm]
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hl := hf (Nat.pos_of_ne_zero h0)
       refine ⟨?_, by simp only; omega⟩
       simp only [cnt, List.countP_nil, Nat.zero_add]
       rw [sum_erase_const hl (fun x => 6720 / (1 + if x = l then f else 0))
-        (fun x hx => by simp [hx]), if_pos rfl, Nat.add_comm 1 f]
+        (fun x hx => by simp [hx]), ite_eq_left rfl, Nat.add_comm 1 f]
   | p :: L, l, f, hpw, hL, hf => by
     have hpw' := List.pairwise_cons.1 hpw
     have hp := hL p (List.mem_cons_self ..)
@@ -250,7 +250,7 @@ theorem runSum_spec (N : Nat) : ∀ (L : List (Nat × Nat)) (l f : Nat),
       by_cases h : p.1 = x <;> simp [h]
     rw [runSum_cons]
     by_cases hc : p.1 = l ∧ 0 < f
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       obtain ⟨ih1, ih2⟩ := runSum_spec N L l (f + 1) hpw'.2
         (fun q hq => hL q (List.mem_cons_of_mem _ hq)) (fun _ => hc.1 ▸ hp.2)
       refine ⟨?_, ih2⟩
@@ -260,16 +260,16 @@ theorem runSum_spec (N : Nat) : ∀ (L : List (Nat × Nat)) (l f : Nat),
       rw [hcnt]
       by_cases hx : x = l
       · subst hx
-        rw [if_pos rfl, if_pos hc.1, if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_left hc.1, ite_eq_left rfl]
         congr 1
         omega
       · simp [hx, show p.1 ≠ x by rw [hc.1]; exact Ne.symm hx]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       obtain ⟨ih1, ih2⟩ := runSum_spec N L p.1 1 hpw'.2
         (fun q hq => ⟨hpw'.1 q hq, (hL q (List.mem_cons_of_mem _ hq)).2⟩) (fun _ => hp.2)
       by_cases h0 : f = 0
       · subst h0
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         refine ⟨?_, by omega⟩
         rw [← ih1]
         congr 1
@@ -279,7 +279,7 @@ theorem runSum_spec (N : Nat) : ∀ (L : List (Nat × Nat)) (l f : Nat),
         · subst hx
           simp
         · simp [hx, Ne.symm hx]
-      · rw [if_neg h0]
+      · rw [ite_eq_right h0]
         have hne : p.1 ≠ l := fun e => hc ⟨e, Nat.pos_of_ne_zero h0⟩
         have hlt : l < p.1 := lt_of_le_of_ne hp.1 (Ne.symm hne)
         have hl := hf (Nat.pos_of_ne_zero h0)
@@ -295,12 +295,12 @@ theorem runSum_spec (N : Nat) : ∀ (L : List (Nat × Nat)) (l f : Nat),
           (g1 := fun x => 6720 / (1 + (cnt (p :: L) x + if x = l then f else 0)))
           (g2 := fun x => 6720 / (1 + (cnt L x + if x = p.1 then 1 else 0)))
           (fun x hx => by
-            rw [hcnt, if_neg hx]
+            rw [hcnt, ite_eq_right hx]
             by_cases hxp : x = p.1
             · subst hxp
               simp
             · simp [hxp, Ne.symm hxp])
-        rw [hcl, if_neg hne.symm, if_pos rfl, hcnt, hcl, if_neg hne] at e1
+        rw [hcl, ite_eq_right hne.symm, ite_eq_left rfl, hcnt, hcl, ite_eq_right hne] at e1
         simp only [Nat.zero_add, Nat.add_zero, Nat.div_one] at e1
         rw [Nat.add_comm 1 f] at e1
         generalize 6720 / (f + 1) = A at e1 ⊢

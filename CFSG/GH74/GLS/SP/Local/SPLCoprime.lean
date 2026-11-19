@@ -305,7 +305,7 @@ theorem exists_pgroup_containing_fixed_points {G : Type} [Group G] [Finite G] (V
     rw [hF] at h1
     exact mem_subgroupOf.mp h1
   refine ⟨(Q : Subgroup ↥V).map V.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map V.subtype, ?_, ?_, ?_, ?_⟩
+    Q.isPGroup.map V.subtype, ?_, ?_, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hXV hx⟩, hXQ (mem_subgroupOf.mpr hx), rfl⟩
   · intro x hx

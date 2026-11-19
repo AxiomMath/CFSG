@@ -186,7 +186,7 @@ public theorem CFSG.hasNormalPComplement_of_quotient [Finite G] (p : ℕ) (N : S
     let e1 : (G ⧸ N) ⧸ Mbar ≃* (G ⧸ N) ⧸ M.map q :=
       QuotientGroup.quotientMulEquivOfEq hMmap.symm
     exact hQbarP.of_equiv e1
-  letI : M.Normal := hMnorm
+  let : M.Normal := hMnorm
   let e2 : (G ⧸ N) ⧸ M.map q ≃* G ⧸ M :=
     QuotientGroup.quotientQuotientEquivQuotient (N := N) (M := M) hN_le_M
   have hQp : IsPGroup p (G ⧸ M) := hQmid.of_equiv e2
@@ -324,7 +324,7 @@ variable (p : ℕ) [Fact p.Prime]
 public theorem CFSG.pPrimeCore_map_subtype_le_pPrimeCore_of_normal (H : Subgroup G) [H.Normal] :
     (pPrimeCore p (↥H)).map H.subtype ≤ pPrimeCore p G := by
   have hmap_normal : ((pPrimeCore p (↥H)).map H.subtype).Normal := by
-    letI : (pPrimeCore p (↥H)).Characteristic := pPrimeCore_characteristic (p := p) (G := ↥H)
+    let : (pPrimeCore p (↥H)).Characteristic := pPrimeCore_characteristic (p := p) (G := ↥H)
     infer_instance
   have hmap_coprime : Nat.Coprime p (Nat.card ((pPrimeCore p (↥H)).map H.subtype)) := by
     have hcard_map :
@@ -343,7 +343,7 @@ public theorem CFSG.isPGroup_quotient_pPrimeCore_of_hasNormalPComplement
     IsPGroup p (H ⧸ pPrimeCore p H) := by
   let _ := (inferInstance : Finite H)
   rcases hcomp with ⟨N, hNnorm, hNcop, hQp⟩
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   have hN_le_core : N ≤ pPrimeCore p H := by
     exact le_sSup ⟨hNnorm, hNcop⟩
   have hN_le_core' : N ≤ (pPrimeCore p H).comap (MonoidHom.id H) := by
@@ -364,8 +364,8 @@ public theorem CFSG.pElementsSubgroup_le_Op_p'p_of_hasNormalPComplement
     (hcomp : HasNormalPComplement p (↥(pElementsSubgroup p G))) :
     pElementsSubgroup p G ≤ Op_p'p p G := by
   let P : Subgroup G := pElementsSubgroup p G
-  letI : P.Characteristic := pElementsSubgroup_characteristic (p := p) G
-  letI : P.Normal := by infer_instance
+  let : P.Characteristic := pElementsSubgroup_characteristic (p := p) G
+  let : P.Normal := by infer_instance
   let q : G →* (G ⧸ pPrimeCore p G) := QuotientGroup.mk' (pPrimeCore p G)
   let Pbar : Subgroup (G ⧸ pPrimeCore p G) := P.map q
   have hPquot : IsPGroup p (P ⧸ pPrimeCore p P) :=

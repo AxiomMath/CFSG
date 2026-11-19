@@ -128,7 +128,7 @@ theorem burnsideF429b_G2_exists_R0 (K : Type) [Field K] [Finite K] [CharP K 2] :
 theorem burnsideF429b_G2_card_abelian_le_U {F : Type} [Field F] [Finite F] [CharP F 2]
     {E : Subgroup (H13.F431.G2.C F)} (hE : E ≤ H13.F431.G2.U F)
     (hab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) : Nat.card E ≤ Nat.card F ^ 4 := by
-  haveI : Finite (ModGL Tag.G2 F) := finite_modGL
+  have : Finite (ModGL Tag.G2 F) := finite_modGL
   have h1 : Nat.card ↥(H13.F431.G2.Q1 F ⊓ E) ≤ Nat.card F ^ 3 :=
     H13.F431.G2.card_abelian_le_Q1 inf_le_left (fun x hx y hy => hab x hx.2 y hy.2)
   have hQU : H13.F431.G2.Q1 F ≤ H13.F431.G2.U F := H13.F431.G2.Q1_le_U
@@ -151,8 +151,8 @@ theorem burnsideF429b_G2_card_abelian_le_U {F : Type} [Field F] [Finite F] [Char
 theorem burnsideF429b_G2_card_elemAb_le {F : Type} [Field F] [Finite F] [CharP F 2]
     (E : Subgroup (H13.F431.G2.C F)) (hab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (h2 : ∀ x ∈ E, x * x = 1) : Nat.card E ≤ Nat.card F ^ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL Tag.G2 F) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL Tag.G2 F) := finite_modGL
   obtain ⟨-, hp, hi⟩ := CFSG.Quasithin.H13.Sec53F.G2.g2_sylow (K := F)
   have hi' : ¬ 2 ∣ (posUnipotentSub Tag.G2 F).index := by
     rw [← Subgroup.relIndex_top_right]
@@ -172,7 +172,7 @@ theorem burnsideF429b_G2_card_fixed_le {K : Type} [Field K] [Finite K] [CharP K 
     (h2 : ∀ x ∈ B, x * x = 1)
     (hfix : ∀ x ∈ B, Units.map (entrywiseHom σ.toRingHom) (x : ModGL Tag.G2 K) = x) :
     Nat.card B ≤ Nat.card (fixSubfield σ) ^ 4 := by
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hι := adjointBaseChangeHom_injective Tag.G2 (fixSubfield σ).subtype
   have hrange : B ≤ (adjointBaseChangeHom Tag.G2 (fixSubfield σ).subtype).range := by
     intro x hx
@@ -223,8 +223,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem burnsideF429b_c6_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .G2 f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, hcard, Ψ, -, hB⟩ := burnsideF429b_G2_chartB hyp.toHypF_4_4g
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set φ : H13.F431.G2.C K →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
@@ -248,7 +248,7 @@ theorem burnsideF429b_c6_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
     exact Subgroup.map_mono hR₀U
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.1 hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.1 hAS
     have hinvA : ∀ a ∈ A, a * a = 1 := fun a ha => by rw [← sq]; exact hAe.2 a ha
     have hcommA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := isMulCommutative_iff_of_setLike.mp hAe.1
     have hnotG : ∀ a ∈ A, a ∉ S → a ∉ Gp := fun a ha haS haG => haS (hmemS a (hAT ha) haG)

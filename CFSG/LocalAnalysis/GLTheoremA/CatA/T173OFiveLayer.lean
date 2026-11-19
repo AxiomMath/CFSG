@@ -137,7 +137,7 @@ theorem le_stdLayerD_E6_of_perfect {F : Type} [Field F] [Finite F] [CharP F 2]
         (by rw [h, map_one])
     exact hd1 (by simpa using congrArg Subtype.val h1)
   have h3F : ¬ 3 ∣ Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨n, -, hcard⟩ := FiniteField.card F 2
     intro h3
     rw [Nat.card_eq_fintype_card, hcard] at h3

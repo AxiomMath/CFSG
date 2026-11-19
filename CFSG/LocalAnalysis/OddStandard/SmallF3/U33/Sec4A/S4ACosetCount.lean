@@ -20,6 +20,7 @@ private def cosetMap {H L Y : Subgroup G} (hYH : Y ≤ H) :
     rw [Subgroup.mem_subgroupOf]
     simpa using hL)
 
+omit [Finite G] in
 private lemma cosetMap_injective {H L Y : Subgroup G} (hYH : Y ≤ H) :
     Function.Injective (cosetMap (L := L) hYH) := by
   refine Quotient.ind₂' ?_
@@ -34,11 +35,12 @@ private lemma cosetMap_injective {H L Y : Subgroup G} (hYH : Y ≤ H) :
     (Subgroup.mem_subgroupOf).mp hHmem
   simpa using hL
 
+omit [Finite G] in
 private lemma card_subgroupOf_inf {Y L : Subgroup G} :
     Nat.card ((Y ⊓ L).subgroupOf Y) = Nat.card (Y ⊓ L : Subgroup G) :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
 
-theorem card_le_card_inf_mul_relIndex {H L Y : Subgroup G} (hLH : L ≤ H) (hYH : Y ≤ H) :
+theorem card_le_card_inf_mul_relIndex {H L Y : Subgroup G} (_hLH : L ≤ H) (hYH : Y ≤ H) :
     Nat.card Y ≤ Nat.card (Y ⊓ L : Subgroup G) * L.relIndex H := by
   have hLag := Subgroup.card_eq_card_quotient_mul_card_subgroup
     (s := (Y ⊓ L).subgroupOf Y)
@@ -55,7 +57,7 @@ theorem card_le_card_inf_mul_relIndex {H L Y : Subgroup G} (hLH : L ≤ H) (hYH 
       rw [mul_comm]
       rfl
 
-theorem exists_mem_coset_of_card_eq {H L Y : Subgroup G} (hLH : L ≤ H) (hYH : Y ≤ H)
+theorem exists_mem_coset_of_card_eq {H L Y : Subgroup G} (_hLH : L ≤ H) (hYH : Y ≤ H)
     (hcard : Nat.card Y = Nat.card (Y ⊓ L : Subgroup G) * L.relIndex H) :
     ∀ g ∈ H, ∃ y ∈ Y, g⁻¹ * y ∈ L := by
   have hLag := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -85,6 +87,7 @@ theorem exists_mem_coset_of_card_eq {H L Y : Subgroup G} (hLH : L ≤ H) (hYH : 
     simpa [x, cosetMap] using hy.symm
   simpa using (Subgroup.mem_subgroupOf).mp hmem
 
+omit [Finite G] in
 theorem ncard_coset_inter {Y L : Subgroup G} {g : G} (hg : ∃ y ∈ Y, g⁻¹ * y ∈ L) :
     {u : G | u ∈ Y ∧ g⁻¹ * u ∈ L}.ncard = Nat.card (Y ⊓ L : Subgroup G) := by
   obtain ⟨w, hwY, hgwL⟩ := hg

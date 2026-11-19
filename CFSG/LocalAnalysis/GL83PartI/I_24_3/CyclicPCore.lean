@@ -15,11 +15,11 @@ theorem isCyclic_pCore_of_omega {X : Type*} [Group X] [Finite X] {p : ℕ} (hp :
     IsCyclic ↥(CFSG.pCore p ↥K) := by
   have : Fact p.Prime := ⟨hp⟩
   have hPc : CFSG.pCore p ↥K ≤ center ↥K := pCore_le_center hp hq
-  haveI : IsMulCommutative (CFSG.pCore p ↥K) :=
+  have : IsMulCommutative (CFSG.pCore p ↥K) :=
     ⟨⟨fun a b => Subtype.ext (by
       have := Subgroup.mem_center_iff.mp (hPc b.2) (a : ↥K)
       exact this)⟩⟩
-  letI : CommGroup (CFSG.pCore p ↥K) := IsMulCommutative.instCommGroup
+  let : CommGroup (CFSG.pCore p ↥K) := IsMulCommutative.instCommGroup
   refine isCyclic_of_isPGroup_of_card_pow_le hp CFSG.pCore_isPGroup ?_
   have hcard : Nat.card (Subgroup.zpowers z) = p := by rw [Nat.card_zpowers, hzp]
   have hmem : ∀ x : {x : CFSG.pCore p ↥K // x ^ p = 1},

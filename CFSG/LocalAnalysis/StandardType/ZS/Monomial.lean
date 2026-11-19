@@ -25,9 +25,9 @@ theorem basisSumSq_apply (v : W) : basisSumSq f v = ∑ m, f.repr v m * f.repr v
 
 private theorem basisSumSq_basis (a : Fin n) : basisSumSq f (f a) = 1 := by
   rw [basisSumSq_apply, Fintype.sum_eq_single a]
-  · rw [Module.Basis.repr_self_apply, if_pos rfl, mul_one]
+  · rw [Module.Basis.repr_self_apply, ite_eq_left rfl, mul_one]
   · intro m hm
-    rw [Module.Basis.repr_self_apply, if_neg (Ne.symm hm), zero_mul]
+    rw [Module.Basis.repr_self_apply, ite_eq_right (Ne.symm hm), zero_mul]
 
 private theorem basisSumSq_add_basis (a b : Fin n) :
     basisSumSq f (f a + f b) = if a = b then 4 else 2 := by
@@ -40,7 +40,7 @@ private theorem basisSumSq_add_basis (a b : Fin n) :
   simp only [hrepr]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h4 : ∀ m, ((if a = m then 1 else 0) + (if a = m then 1 else 0)) *
         ((if a = m then 1 else 0) + (if a = m then 1 else 0)) =
         if a = m then (4 : ZMod p) else 0 := by
@@ -49,7 +49,7 @@ private theorem basisSumSq_add_basis (a b : Fin n) :
       · norm_num [hm]
       · norm_num [hm]
     rw [Fintype.sum_congr _ _ h4, Fintype.sum_ite_eq]
-  · rw [if_neg hab]
+  · rw [ite_eq_right hab]
     have h1 : ∀ m, ((if a = m then (1 : ZMod p) else 0) +
         (if b = m then (1 : ZMod p) else 0)) *
         ((if a = m then (1 : ZMod p) else 0) + (if b = m then (1 : ZMod p) else 0)) =
@@ -70,8 +70,8 @@ theorem polar_basisSumSq_basis (a b : Fin n) :
   simp only [QuadraticMap.polar]
   rw [basisSumSq_add_basis, basisSumSq_basis, basisSumSq_basis]
   by_cases hab : a = b
-  · rw [if_pos hab, if_pos hab]; ring
-  · rw [if_neg hab, if_neg hab]; ring
+  · rw [ite_eq_left hab, ite_eq_left hab]; ring
+  · rw [ite_eq_right hab, ite_eq_right hab]; ring
 
 private theorem polarBilin_basisSumSq_basis_eq (a b : Fin n) :
     QuadraticMap.polarBilin (basisSumSq f) (f a) (f b) = if a = b then 2 else 0 := by
@@ -100,7 +100,7 @@ private theorem polarBilin_basisSumSq_separatingLeft (hp : p ≠ 2) (x : W)
     · have hb2 : f.repr x b * 2 = 0 := by simpa using hb
       exact (mul_eq_zero.mp hb2).resolve_right h2
     · intro a ha
-      rw [if_neg ha, mul_zero]
+      rw [ite_eq_right ha, mul_zero]
   have hx0 : f.repr x = 0 := by
     ext b
     rw [hcoord b]
@@ -145,15 +145,15 @@ theorem eq_of_diagMap_mul_permMap_eq {d d' : Fin n → (ZMod p)ˣ} {σ σ' : Equ
     have h1 := congrArg (fun g : W ≃ₗ[ZMod p] W => f.repr (g (f (σ.symm m))) m) h
     have hl : f.repr ((diagMap p f d * permMap p f σ) (f (σ.symm m))) m = (d m : ZMod p) := by
       rw [LinearEquiv.mul_apply, repr_diagMap, repr_permMap, Module.Basis.repr_self_apply,
-        if_pos rfl, mul_one]
+        ite_eq_left rfl, mul_one]
     have hr : f.repr ((diagMap p f d' * permMap p f σ') (f (σ.symm m))) m =
         (d' m : ZMod p) * (if σ.symm m = σ'.symm m then 1 else 0) := by
       rw [LinearEquiv.mul_apply, repr_diagMap, repr_permMap, Module.Basis.repr_self_apply]
     rw [hl, hr] at h1
     by_cases hσ : σ.symm m = σ'.symm m
-    · rw [if_pos hσ, mul_one] at h1
+    · rw [ite_eq_left hσ, mul_one] at h1
       exact ⟨h1, hσ⟩
-    · rw [if_neg hσ, mul_zero] at h1
+    · rw [ite_eq_right hσ, mul_zero] at h1
       exact absurd h1 (Units.ne_zero (d m))
   refine ⟨funext fun m => Units.ext (hmain m).1, ?_⟩
   have hsym : σ.symm = σ'.symm := Equiv.ext fun m => (hmain m).2

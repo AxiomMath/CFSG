@@ -23,10 +23,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s13g_orderOf_mk {M : Subgroup G} {x₀ : G} (hx₀M : x₀ ∈ M) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) (hx₀r : orderOf x₀ = r) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x₀, hx₀M⟩ : Bar2 M) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine orderOf_eq_prime ?_ ?_
   · have hx₀1 : x₀ ^ r = 1 := by
       rw [← hx₀r]
@@ -51,7 +52,7 @@ theorem uc22s13g_L_side (hThin : PartTwo.ThinList13)
       centralizer (barImage D.M L : Set (Bar2 D.M)) ∧
     (Odd n → ∀ t : Bar2 D.M, t * x = x * t → ∀ k : ℕ, t ^ (2 ^ k) = 1 →
       t ∈ centralizer (barImage D.M L : Set (Bar2 D.M))) := by
-  haveI : (barImage D.M L).Normal := PartTwo.s13_barImage_normal (hS.hyp131.normal L hL)
+  have : (barImage D.M L).Normal := PartTwo.s13_barImage_normal (hS.hyp131.normal L hL)
   obtain ⟨e⟩ := PartTwo.s13_bar_equiv hL
   have hTL : IsL2 ↥(barImage D.M L) n ∨ IsSz ↥(barImage D.M L) n :=
     hshape.imp (fun h => LieModel.of_mulEquiv e h) (fun h => LieModel.of_mulEquiv e h)
@@ -87,7 +88,7 @@ theorem uc22s13g_exists_w (hThin : PartTwo.ThinList13)
   have hLM : L ≤ D.M := PartTwo.s13_le_of_mem_calC hL
   have hKn := hS.hyp131.normal K hK
   have hLn := hS.hyp131.normal L hL
-  haveI : (barImage D.M K).Normal := PartTwo.s13_barImage_normal hKn
+  have : (barImage D.M K).Normal := PartTwo.s13_barImage_normal hKn
   have hx₀M : x₀ ∈ D.M := hLM hx₀L
   have hyr : (g * x₀ * g⁻¹) ^ r = 1 := by
     rw [conj_pow, ← hx₀r, pow_orderOf_eq_one, mul_one, mul_inv_cancel]
@@ -100,7 +101,7 @@ theorem uc22s13g_exists_w (hThin : PartTwo.ThinList13)
   have hyr' : (⟨g * x₀ * g⁻¹, hyM⟩ : ↥D.M) ^ r = 1 := Subtype.ext (by simpa using hyr)
   have hαr : α ^ r = 1 := by rw [hα, hu, ← map_pow, ← map_pow, hyr', map_one, map_one]
   have hα1 : α ≠ 1 := fun h => hinn (by rw [h]; exact one_mem _)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hord : orderOf α = r := orderOf_eq_prime hαr hα1
   have hcomm : ∀ f ∈ fixSub α, u * (f : Bar2 D.M) = f * u := by
     intro f hf
@@ -161,7 +162,7 @@ theorem uc22s13g_endgame (hThin : PartTwo.ThinList13) (hCyc : CyclicSylowThreeOu
   have hNA : normalizer ((zpowers (w ^ (orderOf w / q)) : Subgroup G) : Set G) ≤ D.M :=
     h847 K hK _ hAK q hq hq2 hAq p hp hthin
   have hconj : ∀ u : G, (MulAut.conj g⁻¹).toMonoidHom u = g⁻¹ * u * g := fun u => by
-    simp [MulAut.conj_apply]
+    simp
   set A := (zpowers (w ^ (orderOf w / q))).map (MulAut.conj g⁻¹).toMonoidHom with hA
   have hAL : A ≤ cMStar D.M L := by
     rintro _ ⟨a, ha, rfl⟩
@@ -222,7 +223,7 @@ theorem r133_of (hThin : PartTwo.ThinList13)
   · rw [hx1, mul_one, mul_inv_cancel]
     exact one_mem _
   have hx₀r : orderOf x₀ = r := by
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     refine orderOf_eq_prime ?_ hx1
     have h1 := Subgroup.orderOf_dvd_natCard X hx₀X
     rw [hXr] at h1

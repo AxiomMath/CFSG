@@ -60,6 +60,7 @@ theorem LocalSetting.of_normal {p : ℕ} {M V U : Subgroup G} (hS : LocalSetting
   spe := hS.spe
   u2 := hS.u2
 
+omit [Finite G] in
 theorem pow_two_pow_eq_one_of_centralizes {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type}
     [Field F] {H : Subgroup (GL ι F)} {L U : Subgroup G} (ε : ↥L →* ↥H)
     (φ : ↥U →* Multiplicative (ι → F)) (hφ : Function.Surjective φ)
@@ -124,7 +125,7 @@ theorem unitary_branch {p n : ℕ} {P : Sylow p G} {M T V L : Subgroup G}
     have := pRank_le_pElementSubgroup hprime M
     rw [hLdef]
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ L) L := hT.inf_of_le_normalizer hLM hML
   obtain ⟨Q, hQS, x, hxQ', hx1, hxp, hP⟩ := hUc G p n L ⁅V, L⁆ dC hprime hpq hn
     (hLM.trans (le_normalizer_commutator hMV hML)) (T ⊓ L) hS'
@@ -212,7 +213,7 @@ theorem orth_branch {p n : ℕ} {P : Sylow p G} {M T V L : Subgroup G}
     have := pRank_le_pElementSubgroup hprime M
     rw [hLdef]
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ L) L := hT.inf_of_le_normalizer hLM hML
   obtain ⟨Q, hQS, x, hxQ', hx1, hxp, hP⟩ := hOc G p n L ⁅V, L⁆ dC hprime hpq hn
     (hLM.trans (le_normalizer_commutator hMV hML)) (T ⊓ L) hS'

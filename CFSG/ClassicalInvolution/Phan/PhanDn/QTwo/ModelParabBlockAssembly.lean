@@ -86,7 +86,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     have hj : b a ≤ j.val ∧ j.val < b a + k a := by
       have hb := hbk a
       have hi := i.isLt
-      simp only [j, Fin.val_mk]
+      simp only [j]
       constructor <;> omega
     have hpa : pick j = a := by
       by_contra hne
@@ -97,7 +97,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     have hk_eq : k (pick j) = k a := congrArg k hpa
     have hidx : HEq idx i := by
       apply (Fin.heq_ext_iff hk_eq).mpr
-      simp only [idx, Fin.val_mk]
+      simp only [idx]
       have hjv : j.val = b a + i.val := by simp [j]
       have hb_eq : b (pick j) = b a := congrArg b hpa
       omega
@@ -122,7 +122,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     have hja_col : b a ≤ col.val ∧ col.val < b a + k a := by
       constructor
       · simp [col]
-      · simpa [col] using j'.isLt
+      · simp [col]
     have hcol : col = j := by
       apply Fin.ext
       simp [col, j']
@@ -146,12 +146,12 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
               ⟨i.val - b a, by omega⟩ j') else 0 := by
       rw [coe_coe_blockEmb]
       by_cases hi : b a ≤ i.val ∧ i.val < b a + k a
-      · rw [dif_pos hi, blockMat_apply, dif_pos ⟨hi, hja_col⟩]
+      · rw [dite_eq_left hi, blockMat_apply, dite_eq_left ⟨hi, hja_col⟩]
         have hcol_idx : (⟨col.val - b a, by omega⟩ : Fin (k a)) = j' := by
           apply Fin.ext
           simp [col]
         rw [hcol_idx]
-      · rw [dif_neg hi]
+      · rw [dite_eq_right hi]
         rw [blockMat_apply_of_not_mem_left (F := K) (m := m + 1) (k := k a) (i := b a)
           (((u a : GL (Fin (k a)) K) : Matrix (Fin (k a)) (Fin (k a)) K)) hi]
         have hne : i ≠ col := by
@@ -159,7 +159,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
           apply hi
           rw [h]
           exact hja_col
-        simp [Matrix.one_apply, hne]
+        simp [hne]
     by_cases hi : b a ≤ i.val ∧ i.val < b a + k a
     · have hleft : sM i col =
           (((d a ⟨i.val - b a, by omega⟩ : normOne σ) : Kˣ) : K) *
@@ -172,7 +172,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
           omega
         convert h using 2
         apply Fin.ext
-        simp [blockIdx]
+        simp
         omega
       have hdiag : dglob i = d a ⟨i.val - b a, by omega⟩ := by
         have hi_eq : i = blockIdx (b a) (hbk a) ⟨i.val - b a, by omega⟩ := by
@@ -181,7 +181,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
           omega
         convert hdglob_block a ⟨i.val - b a, by omega⟩ using 2
         apply Fin.ext
-        simp [blockIdx]
+        simp
         omega
       calc
         sM i col = (((d a ⟨i.val - b a, by omega⟩ : normOne σ) : Kˣ) : K) *
@@ -191,7 +191,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
             (((u a : GL (Fin (k a)) K) : Matrix (Fin (k a)) (Fin (k a)) K)
               ⟨i.val - b a, by omega⟩ j') := by rw [hdiag]
         _ = (D * UM) i col := by
-          rw [Matrix.diagonal_mul, hUentry, hblock_entry, dif_pos hi]
+          rw [Matrix.diagonal_mul, hUentry, hblock_entry, dite_eq_left hi]
     · have hout : i.val < b a ∨ b a + k a ≤ i.val := by omega
       have hleft : sM i col = 0 := by
         have h := hoff a i j' hout
@@ -199,7 +199,7 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
       calc
         sM i col = 0 := hleft
         _ = (D * UM) i col := by
-          rw [Matrix.diagonal_mul, hUentry, hblock_entry, dif_neg hi]
+          rw [Matrix.diagonal_mul, hUentry, hblock_entry, dite_eq_right hi]
           simp
 
   have hdiag_mem : diagHom F σ (m + 1) dglob ∈ diagTorusV F σ (m + 1) := ⟨dglob, rfl⟩
@@ -217,12 +217,12 @@ theorem qTwo_su_prod_of_intervals (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
       hbk hdisj u (φ := suEndN (F := F) σ (m + 1)) (H := L) ?_
     intro a
     by_cases hk1 : k a = 1
-    · haveI : Subsingleton (Su K 2 1 (k a)) := by
+    · have : Subsingleton (Su K 2 1 (k a)) := by
         rw [hk1]
         exact su_one_subsingleton (K := K)
       have hu : u a = 1 := Subsingleton.elim (u a) 1
       rw [hu]
-      simpa using L.one_mem
+      simp
     · have hk2 : 2 ≤ k a := by
         have hkp := hk a
         omega

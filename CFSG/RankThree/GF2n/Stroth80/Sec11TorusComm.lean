@@ -32,6 +32,7 @@ theorem Ctx.rootSwap (hc : Ctx M Q Z B) : Ctx (Subgroup.normalizer (B : Set G)) 
       le := (Ctx.Z_le_QB hc).1
       ne := hc.ne.symm }
 
+omit [Finite G] in
 theorem Ctx.conj_Q_QB_of_swap (hc : Ctx M Q Z B) {n : G} (hZ : conjSubgroup n Z = B)
     (hB : conjSubgroup n B = Z) : conjSubgroup n Q = QB B ∧ conjSubgroup n (QB B) = Q := by
   constructor

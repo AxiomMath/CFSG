@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemAbelian_bot_three : IsElemAbelian 3 (⊥ : Subgroup G) :=
   ⟨⟨⟨fun a b => Subtype.ext (by simp [Subgroup.mem_bot.1 a.2, Subgroup.mem_bot.1 b.2])⟩⟩,
     fun y hy => by rw [Subgroup.mem_bot.1 hy, one_pow]⟩
@@ -53,7 +54,7 @@ private theorem pow_succ_le_of_center {L : Subgroup G} {x : G} (hx3 : x ^ 3 = 1)
       (S8.L84.eq_one_of_mem_core Nat.prime_three hcore ((isElemAbelian_zpowers hx3).2 y hyA))
   have h := le_glaTwoLocalRank_of_pQuot (isElemAbelian_zpowers hx3) hAL
     (fun a ha l hl => (Subgroup.mem_centralizer_iff.1 (hAc ha) l hl).symm) hE₀ hcard hV hV2 hEV
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rwa [Nat.card_zpowers, orderOf_eq_prime hx3 hx1, ← pow_succ] at h
 
 theorem i1017_not_fi22 (hA : I1017FiTwoTwoAttained) (hC : I1017CoverFiTwoTwo) {L : Subgroup G}

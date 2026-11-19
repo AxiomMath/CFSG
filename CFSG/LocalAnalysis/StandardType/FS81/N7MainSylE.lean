@@ -28,7 +28,7 @@ private theorem nm_F1grp_le_closure_E6 {X : Type} [Group X] [Finite X] (S : N7MS
       obtain ⟨x, hx⟩ := S.surj_H1 t ht_even
       obtain ⟨g, hg, hg_prod⟩ := ih (fun u hu => hl u (by simp [hu]))
       refine ⟨x * g, Subgroup.mul_mem _ (Subgroup.subset_closure ?_) hg, ?_⟩
-      · rw [Set.mem_setOf_eq, hx]
+      · rw [Set.mem_ofPred_eq, hx]
         exact ht_mem
       · rw [map_mul, hx, hg_prod, List.prod_cons]
   obtain ⟨g, hg, hg_prod⟩ := h l hl_mem
@@ -171,7 +171,7 @@ theorem nm_sylow_E6 {X : Type} [Group X] [Finite X] (S : N7MSetup X) (hW : S.Wea
       (P : Subgroup X).mul_mem ((P : Subgroup X).mul_mem hy hτP) ((P : Subgroup X).inv_mem hy)
     have hH : y * τ * y⁻¹ ∈ S.H1grp := hPH hyτP
     exact hW τ y hτ ((S.mem_H1grp _).mp hH)
-  obtain ⟨t, ht, hcent⟩ := q2nN7_exists_central (P : Subgroup X) P.isPGroup'
+  obtain ⟨t, ht, hcent⟩ := q2nN7_exists_central (P : Subgroup X) P.isPGroup
     {x : X | S.ρ x ∈ nmE6} (Set.toFinite _) hE_not_dvd hconjE
   exact ⟨P, t, hPH, hFP, ht, hcent⟩
 

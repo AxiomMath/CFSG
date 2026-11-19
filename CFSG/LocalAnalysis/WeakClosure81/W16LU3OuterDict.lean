@@ -46,7 +46,7 @@ theorem IsU3Shape.exists_lift_data {X : Type} [Group X] [Finite X] {n : ℕ} (hX
   have hQroot : rootCenter (Q : Subgroup (X ⧸ Z)) = Y.map π := hQ
   have hB : BenderType (X ⧸ Z) n 3 ((2 ^ n + 1) / Nat.gcd 3 (2 ^ n + 1)) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.SporadicBender.benderType_of_lieModel_PSU3 hX.2.1
-  have hQ2 : IsPGroup 2 (Q : Subgroup (X ⧸ Z)) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup (X ⧸ Z)) := Q.isPGroup
   have hQrange : (Q : Subgroup (X ⧸ Z)) ≤ π.range := by
     rw [MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective Z)]
     exact le_top

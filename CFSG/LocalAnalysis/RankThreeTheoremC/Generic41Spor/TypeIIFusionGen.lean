@@ -33,7 +33,7 @@ theorem typeSE_j4 : TypeSE IsJ4Type 11 := by
 theorem typeTorusOnCenter_of_transCenter (hp : p.Prime) (hX : ExtraFacts Typ p Shape) :
     TypeTorusOnCenter Typ p := by
   intro K _ _ hK T c hcT hcZ hc1 k hk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcp : c ^ p = 1 := (hX.sylow K hK T).2.2 c hcT
   have hco : orderOf c = p := orderOf_eq_prime hcp hc1
   have hZin : ∀ z ∈ (T : Subgroup K), z ∈ Subgroup.centralizer ((T : Subgroup K) : Set K) →
@@ -55,11 +55,11 @@ theorem typeTorusOnCenter_of_transCenter (hp : p.Prime) (hX : ExtraFacts Typ p S
   obtain ⟨n, hn, hnc⟩ := hX.transCenter K hK T c (hZin c hcT hcZ) hc1 (c ^ k) (hZin _ hck hckZ) hck1
   exact ⟨n, hn, hnc⟩
 
-theorem typeII_fusion_core_of_se (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem typeII_fusion_core_of_se (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hK : TypeIIKFacts) (hX : ExtraFacts Typ p Shape) (hSE : TypeSE Typ p)
     (hc : PointConfig Typ G p P M x J) :
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hA : FusionStruct p P x J := ⟨typeII_T_structure hX hc, typeII_S_decomp hX hc, typeII_U0_facts hX hc⟩
   have hTorQ : TypeTorusOnCenter Typ p := typeTorusOnCenter_of_transCenter hc.prime hX
   have hTor : TypeTorusLift p P x J := fun c hcT hcZ hc1 k hk => by

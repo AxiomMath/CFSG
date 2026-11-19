@@ -125,7 +125,7 @@ private theorem eq_sup_span_of_card_le {K E : Type} [Field K] [Finite K] [AddCom
   have hcardW : Nat.card ↥W ≤ Nat.card ↥(V ⊔ Submodule.span K {v}) := by
     rw [hHcard]
     exact hcard
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   exact SetLike.coe_injective (Set.Finite.eq_of_subset_of_card_le
     (Set.toFinite (W : Set E)) hHle hcardW).symm
 
@@ -252,7 +252,7 @@ theorem Good101.card_le_of_centralizes_Q1
   · have hPQ : P ≤ Q := fun x hx => hmemQ x hx fun r hr => hPQ1 x hx r (hcase hr)
     rw [inf_eq_left.mpr hPQ]
     exact Nat.le_mul_of_pos_left _ Nat.card_pos
-  · obtain ⟨r₀, hr₀A, hr₀Q1⟩ := SetLike.not_le_iff_exists.mp hcase
+  · obtain ⟨r₀, hr₀A, hr₀Q1⟩ := IsConcreteLE.not_le_iff_exists.mp hcase
     have htM : t ∈ M := hc.LB_le_M ht.mem_LB
     obtain ⟨τ, hτπ, -, -⟩ := hM.linear_of_centralizes htM (hc.LB_centralizes_Z ht.mem_LB)
     let φ : ↥P →* ↥C := commRightHom hC hP (Subgroup.mem_inf.mp hr₀A).2

@@ -60,14 +60,13 @@ theorem diagMap_smul_embSUid (c : Fin 3) (a : Fin 3 → K') (hac : ∀ l l' : Fi
   funext l
   fin_cases c <;> fin_cases l <;>
     simp (config := { decide := true }) [smul_def, coe_embSUid, diagMap_apply, embPair,
-      Matrix.mulVec_apply_eq_sum, Fin.sum_univ_three, Fin.sum_univ_two, Matrix.vecHead,
+      Matrix.mulVec_apply_eq_sum, Fin.sum_univ_three, Matrix.vecHead,
       Matrix.vecTail]
   all_goals
     try rw [hac 0 1 (by decide) (by decide)]
     try rw [hac 0 2 (by decide) (by decide)]
     try rw [hac 1 2 (by decide) (by decide)]
     try ring_nf
-    try simp
 
 theorem normTriple_theta_mul_comm (hσ : IsUnitaryInvolution σ) (T : NormTriple Q σ)
     (S : V ≃ₗ[K] V) (hS : ∀ x, Q (S x) = Q x) (M M' : (Fin 3 → K') →ₗ[K] (Fin 3 → K'))
@@ -187,6 +186,7 @@ theorem embSUid_range_closure (hf : Nat.card K = 2 ^ f) (hK' : Nat.card K' = (2 
     change ι s ∈ ι.range ∧ (ι s) ^ 2 = 1
     exact ⟨⟨s, rfl⟩, by rw [← map_pow, hs, map_one]⟩
 
+omit [CharP K 2] in
 theorem embSUid_range_natCard (hf : Nat.card K = 2 ^ f) (hK' : Nat.card K' = (2 ^ f) ^ 2)
     (c : Fin 3) :
     Nat.card (embSUid (unitaryInvolution K' 2 f) c).range =

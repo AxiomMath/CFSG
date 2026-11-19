@@ -107,8 +107,7 @@ theorem hod_inducesInner {G : Type} [Group G] (L : Subgroup G) (b : G)
     rfl
   have e2 : (((β ⟨y, hy⟩)⁻¹ * α ⟨y, hy⟩ : ↥L) : G) =
       (((l₁ : G)⁻¹)⁻¹ * y * (l₁ : G)⁻¹)⁻¹ * (b⁻¹ * y * b) := by
-    simp only [β, α, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, inv_inv]
-    try group
+    simp only [β, α, Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
   have e3 : (((l₁ : G)⁻¹)⁻¹ * y * (l₁ : G)⁻¹)⁻¹ * (b⁻¹ * y * b) = 1 := e2 ▸ e1
   rw [e3]
   exact Subgroup.one_mem _

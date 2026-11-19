@@ -223,7 +223,7 @@ theorem a6vi_core {P : Sylow 3 G} {x : G} {T : Subgroup G} {n n' : G}
   have hSR : (S : Subgroup G) = R := by
     by_contra hne
     have hlt : R < S := lt_of_le_of_ne hRS (Ne.symm hne)
-    obtain ⟨s, hsS, hsN, hsR⟩ := sr628_exists_mem_normalizer_not_mem S.isPGroup' hlt
+    obtain ⟨s, hsS, hsN, hsR⟩ := sr628_exists_mem_normalizer_not_mem S.isPGroup hlt
     have hsQ : s ∈ normalizer (Q : Set G) := by
       apply a6vi_mem_normalizer_of_map_eq
       refine hU _ (a6vi_map_conj_le hsN hQR) ?_ ?_
@@ -241,7 +241,7 @@ theorem a6vi_core {P : Sylow 3 G} {x : G} {T : Subgroup G} {n n' : G}
       · exact ⟨t ^ 2, pow_mem htR 2, pow_mem htN 2, by rw [h, ← hry', hC2']⟩
     set u := v⁻¹ * s with hu
     have huS : u ∈ (S : Subgroup G) := mul_mem (inv_mem (hRS hvR)) hsS
-    obtain ⟨e, he⟩ := S.isPGroup' ⟨u, huS⟩
+    obtain ⟨e, he⟩ := S.isPGroup ⟨u, huS⟩
     have hue : u ^ (3 ^ e) = 1 := by
       have := congrArg Subtype.val he
       simpa using this

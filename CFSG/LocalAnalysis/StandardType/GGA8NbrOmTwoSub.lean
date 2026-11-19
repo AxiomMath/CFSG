@@ -313,7 +313,7 @@ private theorem om9_class_eichler {K : Type} [Field K] [Finite K] [CharP K 2] {V
   have hQe : Q e = 0 := om9_singular_of_eigen hT he hμ2
   have hrec := hx.reciprocalPolynomial_mem hh
   rw [omf_reciprocalPolynomial_X_sub_C hμ0] at hrec
-  haveI : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
+  have : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
   have hdimh : 2 ≤ finrank K (primaryComponent a.toLinearMap (X - C μ)) := by
     rw [finrank_primaryComponent, natDegree_X_sub_C, one_mul]
     exact hm
@@ -855,7 +855,7 @@ end Main
 
 
 theorem omComp_twoSubgroup {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (hAΩ : A ≤ omΩ)
-    (F : SevOm.Frame omQ 7 A 3) {β : Fin 3 → ZMod 7} (hβ0 : β ≠ 0)
+    (F : SevOm.Frame omQ 7 A 3) {β : Fin 3 → ZMod 7} (_hβ0 : β ≠ 0)
     {J : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)}
     (hJ : IsComponentOf J (omΩ ⊓ Subgroup.centralizer {F.ι (ofAdd β)})) :
     ∃ T : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV), T ≠ ⊥ ∧ IsPGroup 2 T ∧ T ≤ J ∧

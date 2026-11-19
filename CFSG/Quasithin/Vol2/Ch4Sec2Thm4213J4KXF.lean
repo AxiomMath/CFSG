@@ -37,7 +37,7 @@ theorem centralizer_ne_top_of_simple {G : Type} [Group G] (hsimp : IsSimpleGroup
     exact Subgroup.mem_top g
   exact Subgroup.mem_centralizer_singleton_iff.mp hg
 
-theorem mem_normalizer_subgroupOf {G : Type} [Group G] {C KX : Subgroup G} (hKX : KX ≤ C)
+theorem mem_normalizer_subgroupOf {G : Type} [Group G] {C KX : Subgroup G} (_hKX : KX ≤ C)
     {g : G} (hg : g ∈ C) (hN : g ∈ Subgroup.normalizer (KX : Set G)) :
     (⟨g, hg⟩ : C) ∈ Subgroup.normalizer ((KX.subgroupOf C : Subgroup C) : Set C) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -100,7 +100,7 @@ theorem j4KXNormal6_of
     (h38N : CFSG.QuasithinUnique.Vol2Native.A38ForSQTKCat) :
     J4KXNormal6 := by
   intro G _ _ T M L Mm I H K hy hIH c h6 r hr hr1 hr2 hrI x hxLH hx3 hq hcard hM22
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hK, -, hG⟩ := hy.qtke
   have hsimp : IsSimpleGroup G := hy.simple
   have hnab : ∃ a b : G, a * b ≠ b * a := hy.nonabelian

@@ -16,14 +16,17 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem mem_cenOrbit_iff {hC : HypothesisC D} {a b : G} :
     b ∈ cenOrbit hC a ↔ ∃ x ∈ cenGen hC, b = x * a * x⁻¹ := Iff.rfl
 
+omit [Finite G] in
 theorem mem_GammaComp_of_commute {hC : HypothesisC D} {a b c : G} (ha : a ∈ Gamma hC)
     (hb : b ∈ GammaComp hC a) (hc : c ∈ Gamma hC) (hbc : Commute b c) :
     c ∈ GammaComp hC a :=
   Relation.ReflTransGen.tail hb ⟨GammaComp_mem_Gamma ha hb, hc, hbc⟩
 
+omit [Finite G] in
 theorem GammaComp_subset_of_closed {hC : HypothesisC D} {x : G} {S : Set G} (hx : x ∈ S)
     (hS : ∀ z ∈ S, ∀ w ∈ Gamma hC, z ∈ Gamma hC → Commute z w → w ∈ S) :
     GammaComp hC x ⊆ S := by
@@ -98,7 +101,7 @@ theorem commSet_conj (hN : ∀ g x : G, x ∈ D → g * x * g⁻¹ ∈ D) (g d :
     constructor
     · intro h h'; apply h; rw [← h']; group
     · intro h h'; apply h; rw [h']; group
-  simp only [commSet, Set.mem_setOf_eq]
+  simp only [commSet, Set.mem_ofPred_eq]
   rw [inv_conj_mem_D_iff hN, h1, h2]
 
 theorem closure_cimg (g : G) (S : Set G) :
@@ -109,7 +112,7 @@ theorem closure_cimg (g : G) (S : Set G) :
 theorem orbitIn_conj (hN : ∀ g x : G, x ∈ D → g * x * g⁻¹ ∈ D) (g d e : G) :
     orbitIn D (g * d * g⁻¹) (g * e * g⁻¹) = cimg g (orbitIn D d e) := by
   ext x
-  simp only [orbitIn, Set.mem_setOf_eq, mem_cimg, commSet_conj hN, closure_cimg]
+  simp only [orbitIn, Set.mem_ofPred_eq, mem_cimg, commSet_conj hN, closure_cimg]
   constructor
   · rintro ⟨h, hh, rfl⟩
     obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.mp hh
@@ -150,9 +153,9 @@ theorem normalizer_cimg {g x : G} {S : Set G} :
 theorem normSet_diff_conj (hN : ∀ g x : G, x ∈ D → g * x * g⁻¹ ∈ D) (g : G) (E : Set G) :
     normSet D (cimg g E) \ cimg g E = cimg g (normSet D E \ E) := by
   ext x
-  simp only [Set.mem_diff, normSet, Set.mem_setOf_eq]
+  simp only [Set.mem_sdiff, normSet, Set.mem_ofPred_eq]
   rw [mem_cimg, mem_cimg, normalizer_cimg]
-  simp only [Set.mem_diff, Set.mem_setOf_eq, inv_conj_mem_D_iff hN]
+  simp only [Set.mem_sdiff, Set.mem_ofPred_eq, inv_conj_mem_D_iff hN]
 
 @[expose] def HypothesisC.conj (hC : HypothesisC D) (g : G) : HypothesisC D where
   setup := hC.setup
@@ -179,6 +182,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_conj_iff (g x d : G) :
     Commute x (g * d * g⁻¹) ↔ Commute (g⁻¹ * x * g) d := by
   rw [← Commute.conj_iff g⁻¹]; simp [mul_assoc]
@@ -188,6 +192,7 @@ theorem mem_Gamma_conj_iff (hC : HypothesisC D) (g x : G) :
   rw [mem_Gamma_iff, mem_Gamma_iff, HypothesisC.conj_d, HypothesisC.conj_alpha, mem_cimg,
     inv_conj_mem_D_iff hC.setup.normal, commute_conj_iff]
 
+omit [Finite G] in
 theorem cenGen_conj (hC : HypothesisC D) (g : G) :
     cenGen (hC.conj g) = (cenGen hC).map (MulAut.conj g).toMonoidHom := by
   rw [cenGen, cenGen, ← closure_cimg]
@@ -203,6 +208,7 @@ theorem cenGen_conj (hC : HypothesisC D) (g : G) :
   · rintro ⟨h1, h2⟩
     exact ⟨h1, this.mpr h2⟩
 
+omit [Finite G] in
 theorem cenOrbit_conj (hC : HypothesisC D) (g a : G) :
     cenOrbit (hC.conj g) (g * a * g⁻¹) = cimg g (cenOrbit hC a) := by
   ext x
@@ -283,8 +289,8 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 theorem key3_of_containment (hC : HypothesisC D)
     (hsecond : ∀ u w v : G, IsTriangle D u w v → orderOf (u * v * w) = 4)
     {a c : G} (hCc : HypothesisC D) (hCc_d : hCc.d = c)
-    (ha : a ∈ Gamma hC) (hc : c ∈ Gamma hC)
-    {A : Set G} (hA : A = GammaComp hC a) (hcA : c ∉ A)
+    (_ha : a ∈ Gamma hC) (_hc : c ∈ Gamma hC)
+    {A : Set G} (_hA : A = GammaComp hC a) (_hcA : c ∉ A)
     (hmaxc : (cenOrbit hCc a).ncard ≤ (GammaComp hC a).ncard)
     (hBΓc : GammaComp hC a ⊆ Gamma hCc) :
     ∀ d ∈ D, Commute d c → (fun x => d * x * d⁻¹) '' GammaComp hC a = GammaComp hC a := by
@@ -449,6 +455,7 @@ theorem exists_mem_Dalpha (hC : HypothesisC D) : ∃ δ, δ ∈ Dalpha D hC.alph
   obtain ⟨β, hβ, -⟩ := heE
   exact ⟨β, hβ⟩
 
+omit [Finite G] in
 theorem blockClass_nonempty {α β : Set G} (hα : α.Nonempty) (hβ : β ∈ blockClass α) :
     β.Nonempty := by
   obtain ⟨g, rfl⟩ := mem_blockClass_iff.mp hβ
@@ -467,6 +474,7 @@ theorem Walpha_alpha_eq_singleton (hC : HypothesisC D) :
   rw [hδW.2] at hαδ
   exact Dalpha.ne_self hαδ rfl
 
+omit [Finite G] in
 theorem ncard_Dalpha_conj (hN : IsNormalSet D) (g : G) (β : Set G) :
     (Dalpha D ((fun x => g * x * g⁻¹) '' β)).ncard = (Dalpha D β).ncard := by
   rw [← Dalpha_conj_image hN g]
@@ -475,6 +483,7 @@ theorem ncard_Dalpha_conj (hN : IsNormalSet D) (g : G) (β : Set G) :
   have := congrArg (fun S => (fun x => g⁻¹ * x * g) '' S) h
   simpa [Set.image_image, mul_assoc] using this
 
+omit [Finite G] in
 theorem ncard_perp_conj (hN : IsNormalSet D) (g : G) (β : Set G) :
     (perp D ((fun x => g * x * g⁻¹) '' β)).ncard = (perp D β).ncard := by
   rw [← perp_conj_image hN g]
@@ -487,7 +496,7 @@ theorem exists_DalphaStar_not_commute (hC : HypothesisC D) {a : G} (ha : a ∈ G
     ∃ d ∈ DalphaStar D hC.alpha, ¬ Commute d a := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨β, hβc, haβ⟩ :=
     exists_mem_blockClass_of_mem hC.setup.isClass hC.isBlock_alpha (Gamma_subset_D ha)
   have hβα : β ≠ hC.alpha := fun e => not_mem_alpha_of_mem_Gamma ha (e ▸ haβ)
@@ -526,6 +535,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem cenGen_le_normalizer_cenOrbit (hC : HypothesisC D) (b : G) :
     cenGen hC ≤ Subgroup.normalizer (cenOrbit hC b) := by
   intro x hx
@@ -537,6 +547,7 @@ theorem cenGen_le_normalizer_cenOrbit (hC : HypothesisC D) (b : G) :
     have := cenOrbit_invariant hC (Subgroup.inv_mem _ hx) _ hh
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_blockClass_trans {α β γ : Set G} (hβ : β ∈ blockClass α) (hγ : γ ∈ blockClass β) :
     γ ∈ blockClass α :=
   mem_blockClass_of_mem_blockClass (mem_blockClass_of_mem_blockClass hβ (mem_blockClass_self α))

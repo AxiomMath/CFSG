@@ -10,6 +10,7 @@ open Subgroup CFSG.Open CFSG.Goldschmidt
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_conjNormal_oddCore (A : Subgroup X) (g : X) :
     (goldschmidtOddCore ↥(nc A)).map (MulAut.conjNormal g : MulAut ↥(nc A)).toMonoidHom =
       goldschmidtOddCore ↥(nc A) := by
@@ -20,15 +21,18 @@ theorem map_conjNormal_oddCore (A : Subgroup X) (g : X) :
   QuotientGroup.congr (goldschmidtOddCore ↥(nc A)) (goldschmidtOddCore ↥(nc A))
     (MulAut.conjNormal g) (map_conjNormal_oddCore A g)
 
+omit [Finite X] in
 theorem rhoAut_proj (A : Subgroup X) (g : X) (m : ↥(nc A)) :
     rhoAut A g (proj A m) = proj A (MulAut.conjNormal g m) := rfl
 
+omit [Finite X] in
 theorem rhoAut_one (A : Subgroup X) : rhoAut A 1 = 1 := by
   ext q
   obtain ⟨m, rfl⟩ := QuotientGroup.mk'_surjective (goldschmidtOddCore ↥(nc A)) q
   rw [rhoAut_proj]
   simp
 
+omit [Finite X] in
 theorem rhoAut_mul (A : Subgroup X) (g h : X) : rhoAut A (g * h) = rhoAut A g * rhoAut A h := by
   ext q
   obtain ⟨m, rfl⟩ := QuotientGroup.mk'_surjective (goldschmidtOddCore ↥(nc A)) q
@@ -40,10 +44,12 @@ theorem rhoAut_mul (A : Subgroup X) (g h : X) : rhoAut A (g * h) = rhoAut A g * 
   map_one' := rhoAut_one A
   map_mul' := rhoAut_mul A
 
+omit [Finite X] in
 theorem map_rhoHom_pCore (A : Subgroup X) (g : X) :
     (pCore 2 (Mbar A)).map (rhoHom A g).toMonoidHom = pCore 2 (Mbar A) :=
   CFSG.pCore_map_iso 2 (rhoHom A g)
 
+omit [Finite X] in
 theorem rhoHom_mem_pCore (A : Subgroup X) (g : X) {q : Mbar A} (hq : q ∈ pCore 2 (Mbar A)) :
     rhoHom A g q ∈ pCore 2 (Mbar A) := by
   rw [← map_rhoHom_pCore A g]

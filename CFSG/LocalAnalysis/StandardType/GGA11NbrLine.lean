@@ -25,12 +25,12 @@ private lemma a11nl_fPow_add {G : Type} [Group G] (f : Fin 4 → G)
     (hfcomm : ∀ i j, f i * f j = f j * f i) (hford : ∀ i, orderOf (f i) = 7)
     (u v : Fin 4 → ZMod 7) : fPow f (u + v) = fPow f u * fPow f v := by
   let Bs := Subgroup.closure (Set.range f)
-  haveI : IsMulCommutative ↥Bs := Subgroup.isMulCommutative_closure (k := Set.range f) (by
+  have : IsMulCommutative ↥Bs := Subgroup.isMulCommutative_closure (k := Set.range f) (by
     intro a ha b hb _
     rcases ha with ⟨i, rfl⟩
     rcases hb with ⟨j, rfl⟩
     exact hfcomm i j)
-  letI : CommGroup ↥Bs := IsMulCommutative.instCommGroup
+  let : CommGroup ↥Bs := IsMulCommutative.instCommGroup
   have hFG : ∀ w : Fin 4 → ZMod 7,
       ((∏ i : Fin 4, (⟨f i, Subgroup.subset_closure (k := Set.range f) (Set.mem_range_self i)⟩ : ↥Bs) ^ (w i).val : ↥Bs) : G) = fPow f w := by
     intro w
@@ -121,7 +121,7 @@ private lemma a11nl_fPow_single {G : Type} [Group G] (f : Fin 4 → G) :
 private lemma a11nl_fPow_ell {G : Type} [Group G] (f : Fin 4 → G) (c : ZMod 7) :
     fPow f (fun i : Fin 4 => if i = 3 then c else 1) = ell f c := by
   unfold fPow ell
-  simp [ZMod.val_zero, (show ZMod.val (1 : ZMod 7) = 1 from rfl)]
+  simp [(show ZMod.val (1 : ZMod 7) = 1 from rfl)]
 
 private lemma a11nl_mem_closure_pair_of_commute {G : Type} [Group G] {x y z : G} (hxy : Commute x y)
     (hz : z ∈ Subgroup.closure ({x, y} : Set G)) :
@@ -153,7 +153,7 @@ private lemma a11nl_mem_closure_pair_of_commute {G : Type} [Group G] {x y z : G}
 private lemma a11nl_zpowers_eq_of_mem {G : Type} [Group G] [Finite G] {p : ℕ} (hp : Nat.Prime p)
     {y z : G} (hpow : y ^ p = 1) (hz : z ≠ 1) (hzy : z ∈ Subgroup.zpowers y) :
     Subgroup.zpowers z = Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hy_ne : y ≠ 1 := by
     intro hy
     have : z ∈ (⊥ : Subgroup G) := by simpa [hy] using hzy
@@ -197,7 +197,7 @@ private lemma a11nl_f3_not_mem_zpowers {G : Type} [Group G] (f : Fin 4 → G)
 
 theorem a11NbrLineInput_holds : A11NbrLineInput := by
   intro G _ _ B Bs x L D J y K φ₃ f n Φ ρ hctx y' K' hnb
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨hrest, hcfg, hframe, hextra, hcoh, hrho⟩ := hctx
   obtain ⟨hglue, hφK, hnbK, hBs, hx, hy, hD, hnL, hJK, hJ9, hL⟩ := hframe
   obtain ⟨hfinj, hfcast, hfcomm, hford, hfcard, hn3, hnconj, hcomp⟩ := hglue

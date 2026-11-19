@@ -285,14 +285,14 @@ private lemma hdRo7A9E8Aux_gen_lift (t : Fin 8 → V ≃ₗ[ZMod 3] V)
     A9Lift θ z (hdRo7A9E8Aux_gen t r i) (hdRo7A9E8Aux_letterMap i) := by
   by_cases h : i.val < 7
   · rw [show hdRo7A9E8Aux_gen t r i = t i from by
-        unfold hdRo7A9E8Aux_gen; rw [if_pos h],
+        unfold hdRo7A9E8Aux_gen; rw [ite_eq_left h],
       show hdRo7A9E8Aux_letterMap i = a9Perm (Equiv.swap i.castSucc i.succ) from by
-        unfold hdRo7A9E8Aux_letterMap; rw [if_pos h]]
+        unfold hdRo7A9E8Aux_letterMap; rw [ite_eq_left h]]
     exact a9Lift_perm (ht i) (htz i)
   · rw [show hdRo7A9E8Aux_gen t r i = r from by
-        unfold hdRo7A9E8Aux_gen; rw [if_neg h],
+        unfold hdRo7A9E8Aux_gen; rw [ite_eq_right h],
       show hdRo7A9E8Aux_letterMap i = a9Act a9T a9T 2 from by
-        unfold hdRo7A9E8Aux_letterMap; rw [if_neg h]]
+        unfold hdRo7A9E8Aux_letterMap; rw [ite_eq_right h]]
     exact hr
 
 private lemma hdRo7A9E8Aux_lift_elt (t : Fin 8 → V ≃ₗ[ZMod 3] V)
@@ -412,10 +412,10 @@ private theorem hdRo7A9E8Aux_linWeyl (hfr : A3Frame 3 9 θ z)
     intro i
     by_cases h : i.val < 7
     · rw [show hdRo7A9E8Aux_gen t r i = t i from by
-        unfold hdRo7A9E8Aux_gen; rw [if_pos h]]
+        unfold hdRo7A9E8Aux_gen; rw [ite_eq_left h]]
       exact ht_mem i h
     · rw [show hdRo7A9E8Aux_gen t r i = r from by
-        unfold hdRo7A9E8Aux_gen; rw [if_neg h]]
+        unfold hdRo7A9E8Aux_gen; rw [ite_eq_right h]]
       exact hr_mem
   have helt_mem : ∀ l : List (Fin 8),
       hdRo7A9E8Aux_elt t r l ∈ Subgroup.closure (Set.range Phi) := by

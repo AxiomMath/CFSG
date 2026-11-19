@@ -16,7 +16,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.Assembly.LowTwoRank CFSG.Bluep
 
 theorem leaf_twistedG2 {n : ℕ} : TwinLeafS n SmallTwistedG2 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨f, hm⟩ := hF
     rcases hm with ⟨htag, -⟩ | ⟨-, htag, -⟩ | ⟨-, -, hree⟩ | ⟨-, htag, -⟩
     · exact absurd htag (by decide)

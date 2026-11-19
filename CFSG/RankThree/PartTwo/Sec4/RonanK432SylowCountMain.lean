@@ -83,7 +83,7 @@ theorem ncard_pow_three_eq (hD : SylowThreeData G xA xB g' m) (P : Sylow 3 G) :
       insert 1 ({y : G | y ∈ (P : Subgroup G) ∧ IsConj xA y} ∪
         {y : G | y ∈ conjugatesOf xB ∧ y ∈ (P : Subgroup G)}) := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_union]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_union]
     constructor
     · rintro ⟨hyP, hy3⟩
       by_cases hy1 : y = 1

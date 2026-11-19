@@ -63,8 +63,8 @@ theorem exists_star
       apply hT
       rw [hbot] at hTT₀
       exact le_bot_iff.mp hTT₀
-    haveI : IsSimpleGroup G := h.sec13Data.isSimpleGroup
-    haveI : T₀.Normal := hnormal
+    have : IsSimpleGroup G := h.sec13Data.isSimpleGroup
+    have : T₀.Normal := hnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T₀ with hbot | htop'
     · exact hT₀ne hbot
     · have h3dvdG : 3 ∣ Nat.card G := by
@@ -76,7 +76,7 @@ theorem exists_star
         exact hn
       have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three (hG ▸ h3dvdG)
       norm_num at h32
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hcases : Item148Cases A (lB A) (Subgroup.normalizer (T₀ : Set G)) := by
     have hAt := (item148_iff A (lB A)).mp h148 (Subgroup.normalizer (T₀ : Set G)) hY
     exact hAt.2

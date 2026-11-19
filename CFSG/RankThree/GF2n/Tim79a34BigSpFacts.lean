@@ -73,7 +73,7 @@ theorem eq_of_card_statedSp_dvd_m12 {m f : ℕ} (hm : 1 ≤ m) (hf : 2 ≤ f)
     exact Dvd.intro _ rfl
   have hle : f * m ^ 2 ≤ 6 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h128 : 2 ^ 7 ∣ 95040 := dvd_trans (pow_dvd_pow 2 hlt) h2
     norm_num at h128
   have hm1 : m = 1 := by

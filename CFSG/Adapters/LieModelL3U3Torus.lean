@@ -21,10 +21,10 @@ variable {X : Type} [Group X]
 
 theorem LieModel.two_le_pRank_psl3_of_dvd [Finite X] {p f r : ℕ} (h : LieModel X .PSL 3 p f)
     (hr : r.Prime) (hrq : r ∣ p ^ f - 1) : 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hdvd : r ∣ Nat.card K - 1 := by rw [hK]; exact hrq
   rw [pRank_top_eq_of_mulEquiv hr.one_lt e]
   exact CFSG.QuasithinUnique.Lin2.OddRank.two_le_pRank_psl3 (F := K) hdvd
@@ -36,9 +36,9 @@ theorem LieModel.two_le_pRank_psu3_of_dvd [Finite X] {p f r : ℕ} (h : LieModel
   · subst hr3
     exact CFSG.HardMathSupport.Timmesfeld.FieldBonus.two_le_pRank_three_psu_three_of_dvd hC hrq
   · obtain ⟨⟨hp, -, -, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ := hC
-    letI : Field K := hfield
-    letI : Finite K := hfinite
-    haveI : Fact r.Prime := ⟨hr⟩
+    let : Field K := hfield
+    let : Finite K := hfinite
+    have : Fact r.Prime := ⟨hr⟩
     have hq : p ^ f ≠ 0 := (pow_pos hp.pos f).ne'
     have hcard : Nat.card Kˣ = (p ^ f + 1) * (p ^ f - 1) := by
       rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]
@@ -60,10 +60,10 @@ theorem LieModel.two_le_pRank_psu3_of_dvd [Finite X] {p f r : ℕ} (h : LieModel
 theorem LieModel.isMulCommutative_sylow_psl3 [Finite X] {p f r : ℕ} (h : LieModel X .PSL 3 p f)
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrp : r ≠ p) (P : Sylow r X) :
     IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hpK : ¬ r ∣ Nat.card K := by
     rw [hK]
     intro hd
@@ -75,11 +75,11 @@ theorem LieModel.isMulCommutative_sylow_psl3 [Finite X] {p f r : ℕ} (h : LieMo
 theorem LieModel.isMulCommutative_sylow_psu3 [Finite X] {p f r : ℕ} (h : LieModel X .PSU 3 p f)
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrp : r ≠ p) (P : Sylow r X) :
     IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, -, -, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero
     (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hpK : ¬ r ∣ Nat.card K := by
     rw [hK]
     intro hd
@@ -93,8 +93,8 @@ theorem LieModel.card_outer_psl3_dvd {p f : ℕ} (h : LieModel X .PSL 3 p f) :
     Nat.card (Outer X) ∣ 2 * f * Nat.gcd 3 (p ^ f - 1) := by
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have e' : X ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 K :=
     (e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 K)
@@ -107,8 +107,8 @@ theorem LieModel.card_outer_psu3 {p f : ℕ} (h : LieModel X .PSU 3 p f) :
     Nat.card (Outer X) = 2 * f * Nat.gcd 3 (p ^ f + 1) := by
   obtain ⟨⟨hp, hf, -, hne⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hq : ¬ (3 = 3 ∧ p ^ f = 2) := by
@@ -165,8 +165,8 @@ theorem LieModel.not_dvd_card_outer_psu3 {p f r : ℕ} (h : LieModel X .PSU 3 p 
 theorem LieModel.three_thousand_six_hundred_lt_card_psl3 {p f : ℕ} (h : LieModel X .PSL 3 p f)
     (hq : 3 ≤ p ^ f) : 3600 < Nat.card X := by
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hcard : Nat.card X = Nat.card (StatedProj (StatedSL 3 K)) := Nat.card_congr e.toEquiv
   have hform := CFSG.Timmesfeld.ClassicalOrders.card_psl_three_mul_gcd (K := K)
   have hqK : 3 ≤ Nat.card K := by rw [hK]; exact hq
@@ -198,8 +198,8 @@ theorem LieModel.three_thousand_six_hundred_lt_card_psu3 {p f : ℕ} (h : LieMod
     (hq : 3 ≤ p ^ f) : 3600 < Nat.card X := by
   obtain ⟨⟨hp, hf, -, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hcard : Nat.card X = Nat.card (StatedProj (StatedSU 3 (p ^ f) K)) :=
     Nat.card_congr e.toEquiv
   have hform := CFSG.Timmesfeld.ClassicalOrders.card_psu_three_mul_gcd (K := K) hp hf hK

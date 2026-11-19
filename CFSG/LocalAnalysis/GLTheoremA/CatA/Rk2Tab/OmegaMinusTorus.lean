@@ -16,7 +16,7 @@ open CFSG CFSG.Open CFSG.StandardType CFSG.Assembly CFSG.LieType.Universal.Spin
 
 private theorem exists_card_eq_two_pow (F : Type) [Field F] [Finite F] [CharP F 2] :
     ∃ n : ℕ, Nat.card F = 2 ^ n := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 

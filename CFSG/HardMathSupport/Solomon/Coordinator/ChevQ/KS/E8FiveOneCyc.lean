@@ -92,7 +92,7 @@ theorem cyclic_core (hζ : IsPrimitiveRoot ζ 5) {E : Subgroup (adjointGroup Tag
     (hR : (rhoE hEN).range = Subgroup.zpowers griessW) :
     ∃ a : Fin Tag.E8.rank → Kˣ, E = griessCubeT hζ a := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y0, hy0⟩ : ∃ y : E, rhoE hEN y = griessW := by
     have : griessW ∈ (rhoE hEN).range := hR ▸ Subgroup.mem_zpowers _
     exact this

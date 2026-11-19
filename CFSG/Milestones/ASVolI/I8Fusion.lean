@@ -24,7 +24,7 @@ open scoped MatrixGroups
 theorem burnsideI8h_stabilizer_eq {G : Type} [Group G] (M : Subgroup G) :
     MulAction.stabilizer G ((1 : G) : G ⧸ M) = M := by
   ext g
-  simp [MulAction.mem_stabilizer_iff, MulAction.Quotient.smul_mk, QuotientGroup.eq]
+  simp
 
 theorem burnsideI8h_conjugate_eq_iff {G : Type} [Group G] (K : Subgroup G) (g : G) :
     CFSG.conjugate K g = K ↔ g ∈ Subgroup.normalizer (K : Set G) := by
@@ -91,7 +91,7 @@ theorem burnsideI8h_mem_of_conj_mem {G : Type} [Group G] [Finite G] {K : Subgrou
     simpa [MulAut.conj_apply, mul_assoc] using this
   have hyJ : g⁻¹ * q * g ∈ CFSG.conjugate K g := by
     refine ⟨q, hqK, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have hle : Subgroup.zpowers (g⁻¹ * q * g) ≤
       CFSG.conjugate K g ⊓ Subgroup.normalizer (K : Set G) :=
     Subgroup.zpowers_le.2 ⟨hyJ, hg⟩
@@ -151,7 +151,7 @@ theorem burnsideI8h_zpowers_elemAbelian {X : Type} [Group X] {z : X} (hz2 : z ^ 
   apply Subtype.ext
   show (x : X) ^ 2 = 1
   rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-  simp [← zpow_natCast, hz2]
+  simp [hz2]
 
 theorem burnsideI8h_oddCore_eq (G : Type*) [Group G] : CFSG.oddCore G = CFSG.pPrimeCore 2 G := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -169,7 +169,7 @@ theorem burnsideI8h_rank_one {X : Type} [Group X] [Finite X]
     {z : X} (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1) :
     CFSG.pRank 2 X = 1 ∧ CFSG.oddCore X ⊔ Subgroup.zpowers z = ⊤ ∧ ¬ 4 ∣ Nat.card X := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   set O := CFSG.oddCore X with hO
   have hOodd : Odd (Nat.card O) := burnsideI8h_odd_card_oddCore X
   have hcent : ∀ t : X, t ^ 2 = 1 → t ≠ 1 → ∀ g : X, g * t * g⁻¹ * t⁻¹ ∈ O := by
@@ -255,7 +255,7 @@ theorem burnsideI8h_rank_one {X : Type} [Group X] [Finite X]
     have hj1 : j ≠ 0 := by
       rintro rfl
       rw [pow_zero] at hj
-      haveI : Subsingleton (X ⧸ O) := (Nat.card_eq_one_iff_unique.1 hj).1
+      have : Subsingleton (X ⧸ O) := (Nat.card_eq_one_iff_unique.1 hj).1
       exact hπz (Subsingleton.elim _ _)
     have hj2 : j ≤ 1 := by
       by_contra hj2
@@ -352,7 +352,7 @@ theorem burnsideI8h_isBender_of_fusion {X : Type} [Group X]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-    haveI : Finite (GaloisField 2 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+    have : Finite (GaloisField 2 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
     refine ⟨f, ⟨Nat.prime_two, by omega, le_rfl, ?_, ?_⟩, GaloisField 2 f, inferInstance,
       inferInstance, hcard, ⟨e.trans
         (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL (GaloisField 2 f) 2 2 f
@@ -367,7 +367,7 @@ theorem burnsideI8h_isBender_of_fusion {X : Type} [Group X]
     right
     have hcard : Nat.card (GaloisField 2 (2 * f)) = 2 ^ (2 * f) :=
       GaloisField.card 2 (2 * f) (by omega)
-    haveI : Finite (GaloisField 2 (2 * f)) :=
+    have : Finite (GaloisField 2 (2 * f)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
     have hq4 : 4 ≤ 2 ^ f := by
       calc 4 = 2 ^ 2 := by norm_num
@@ -383,7 +383,7 @@ theorem burnsideI8h_isBender_of_fusion {X : Type} [Group X]
     left
     have hcard : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
       GaloisField.card 2 (2 * a + 1) (by omega)
-    haveI : Finite (GaloisField 2 (2 * a + 1)) :=
+    have : Finite (GaloisField 2 (2 * a + 1)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
     refine ⟨2 * a + 1, rfl, a, ha, GaloisField 2 (2 * a + 1), inferInstance, inferInstance, rfl,
       hcard, ⟨?_⟩⟩
@@ -425,7 +425,7 @@ theorem burnsideI8h_central_odd_borel {X : Type} [Group X] [Finite X]
     have hos : s⁻¹ * x ∈ O := by
       have := (QuotientGroup.eq (s := O)).1 hxs.symm
       simpa using this
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨s, hs⟩
     have hsj : s ^ 2 ^ j = 1 := by
       have := congrArg Subtype.val hj
       simpa using this
@@ -448,7 +448,7 @@ theorem burnsideI8h_central_odd_borel {X : Type} [Group X] [Finite X]
       simpa using this
     have hmem : w⁻¹ * y ∈ (S : Subgroup X) := (S : Subgroup X).mul_mem
       ((S : Subgroup X).inv_mem hw) hy
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨w⁻¹ * y, hmem⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨w⁻¹ * y, hmem⟩
     have hwj : (w⁻¹ * y) ^ 2 ^ j = 1 := by
       have := congrArg Subtype.val hj
       simpa using this
@@ -482,7 +482,7 @@ theorem burnsideI8h_central_odd_borel {X : Type} [Group X] [Finite X]
     rw [← hSπ] at hQ'
     obtain ⟨s, hs, hsπ⟩ := hQ'
     refine hE4 (b * h * b⁻¹) s ?_ hs hsπ.symm
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨h, hh⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨h, hh⟩
     refine ⟨j, ?_⟩
     have hj' : h ^ 2 ^ j = 1 := by
       have := congrArg Subtype.val hj
@@ -530,7 +530,7 @@ theorem burnsideI8h_central_odd_borel {X : Type} [Group X] [Finite X]
   have hVS : V ≤ (S : Subgroup X) := by
     have hVp : IsPGroup 2 (V.subgroupOf B) :=
       hVp0.of_equiv (Subgroup.subgroupOfEquivOfLe hVB).symm
-    haveI := hVn
+    have := hVn
     have hle := hVp.le_sylow_of_normal (S.subtype hSB)
     intro v hv
     have hvB : v ∈ B := hVB hv
@@ -709,23 +709,23 @@ theorem burnsideI8h_solvable_of_out {G : Type} [Group G] [Finite G] {L V : Subgr
     exact (B' ⊔ C).mul_mem (Subgroup.mem_sup_right hcC) (Subgroup.mem_sup_left hlB)
   have hCJ : C ≤ ψ.ker ⊔ C := le_sup_right
   have hG'' : Group.IsSolvable (↥N ⧸ (ψ.ker ⊔ C)) := by
-    haveI : Group.IsSolvable ψ.range := inferInstance
-    haveI : Group.IsSolvable (↥N ⧸ ψ.ker) :=
+    have : Group.IsSolvable ψ.range := inferInstance
+    have : Group.IsSolvable (↥N ⧸ ψ.ker) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (QuotientGroup.quotientKerEquivRange ψ).toMonoidHom)
         (QuotientGroup.quotientKerEquivRange ψ).injective
     exact Group.isSolvable_of_surjective
       (f := QuotientGroup.map ψ.ker (ψ.ker ⊔ C) (MonoidHom.id _)
-        (by simpa using (le_sup_left : ψ.ker ≤ ψ.ker ⊔ C)))
+        (by simp))
       (QuotientGroup.map_surjective_of_surjective _ _ _
         (by simpa using QuotientGroup.mk_surjective) _)
-  haveI hsolvB' : Group.IsSolvable ↥B' :=
+  have hsolvB' : Group.IsSolvable ↥B' :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : N ⊓ L ≤ N)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : N ⊓ L ≤ N)).injective
-  haveI := hG''
+  have := hG''
   refine Group.isSolvable_of_ker_le_range (u.comp B'.subtype)
-    (QuotientGroup.map C (ψ.ker ⊔ C) (MonoidHom.id _) (by simpa using hCJ)) ?_
+    (QuotientGroup.map C (ψ.ker ⊔ C) (MonoidHom.id _) (by simp)) ?_
   rw [QuotientGroup.ker_map]
   have hCu : C.map u = ⊥ := (Subgroup.map_eq_bot_iff C).2 (le_of_eq (QuotientGroup.ker_mk' C).symm)
   have h1 : (ψ.ker ⊔ C).map u ≤ B'.map u := by
@@ -786,7 +786,7 @@ theorem burnsideI8h_oddCore_central {G : Type} [Group G] [Finite G] {V : Subgrou
     (hOle : CFSG.oddCore ↥(involutionNormalClosure V) ≤
       (Subgroup.normalizer (V : Set G)).subgroupOf (involutionNormalClosure V)) :
     CFSG.oddCore ↥(involutionNormalClosure V) ≤ Subgroup.center ↥(involutionNormalClosure V) := by
-  haveI : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
+  have : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
   set L := involutionNormalClosure V with hL
   intro o ho
   rw [Subgroup.mem_center_iff]
@@ -883,7 +883,7 @@ theorem burnsideI8h_le_closure {G : Type} [Group G] {V : Subgroup G} (hV2 : ∀ 
 
 theorem burnsideI8h_exists_conj_mem_sylow {X : Type} [Group X] [Finite X] (S₀ : Sylow 2 X) {x : X}
     (hx : x ^ 2 = 1) : ∃ l : X, l⁻¹ * x * l ∈ S₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (Subgroup.zpowers x) := by
     intro g
     refine ⟨1, ?_⟩
@@ -898,7 +898,7 @@ theorem burnsideI8h_exists_conj_mem_sylow {X : Type} [Group X] [Finite X] (S₀ 
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hxS
   refine ⟨l, ?_⟩
   have h3 : (MulAut.conj l)⁻¹ • x ∈ (S₀ : Subgroup X) := hxS
-  have h4 : (MulAut.conj l)⁻¹ • x = l⁻¹ * x * l := by simp [MulAut.conj_inv_apply]
+  have h4 : (MulAut.conj l)⁻¹ • x = l⁻¹ * x * l := by simp
   rw [h4] at h3
   exact h3
 
@@ -951,7 +951,7 @@ theorem burnsideI8h_sylow_data
       CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.commute_of_mul_self_eq_one hK Q hy hy2 z hz)
     (fun x y hx hx1 hy hy1 =>
       CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_normalizer_conj hK Q hx hx1 hy hy1)
-  refine ⟨(S₀ : Subgroup ↥L).map L.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map _, ?_⟩,
+  refine ⟨(S₀ : Subgroup ↥L).map L.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map _, ?_⟩,
     ?_, ?_, ?_, ?_, ?_⟩
   · have hsub : ((S₀ : Subgroup ↥L).map L.subtype).subgroupOf L = (S₀ : Subgroup ↥L) :=
       Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
@@ -1033,7 +1033,7 @@ theorem burnsideI8h_sylow_data
         have hsz' : (s : ↥L ⧸ CFSG.oddCore ↥L) = z₀ := hsz
         rw [QuotientGroup.mk_pow, hsz', pow_two]
         exact hz2
-      obtain ⟨j, hj⟩ := S₀.isPGroup' ⟨s, hs⟩
+      obtain ⟨j, hj⟩ := S₀.isPGroup ⟨s, hs⟩
       have hsj : s ^ 2 ^ j = 1 := by
         have := congrArg Subtype.val hj
         simpa using this
@@ -1076,12 +1076,12 @@ theorem burnsideI8h_conjClosure_eq {G : Type} [Group G] {V : Subgroup G}
     by_cases hv1 : v = 1
     · rw [hv1, map_one]
       exact Subgroup.one_mem _
-    · exact Subgroup.subset_closure ⟨y, v, hv, hV2 v hv, hv1, by simp [MulAut.conj_apply]⟩
+    · exact Subgroup.subset_closure ⟨y, v, hv, hV2 v hv, hv1, by simp⟩
   · refine (Subgroup.closure_le _).2 ?_
     rintro x ⟨g, i, hiV, -, -, rfl⟩
     refine (le_iSup₂ (f := fun y (_ : y ∈ (⊤ : Subgroup G)) => CFSG.conjugate V y) g
       (Subgroup.mem_top g)) ?_
-    exact ⟨i, hiV, by simp [MulAut.conj_apply]⟩
+    exact ⟨i, hiV, by simp⟩
 
 open CFSG.Assembly.LowTwoRank CFSG.Blueprint in
 theorem burnsideI8h_outer_solvable_of_bender
@@ -1106,8 +1106,8 @@ theorem burnsideI8h_solvable_normalizer {G : Type} [Group G] [Finite G] {V : Sub
   set N := Subgroup.normalizer (V : Set G) with hN
   set B' : Subgroup ↥L := N.subgroupOf L with hB'
   set O := CFSG.oddCore ↥L with hO
-  haveI : Group.IsSolvable ↥O := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (burnsideI8h_odd_card_oddCore _)
-  haveI : Group.IsSolvable ↥(B'.map (QuotientGroup.mk' O)) := hBorel.1
+  have : Group.IsSolvable ↥O := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (burnsideI8h_odd_card_oddCore _)
+  have : Group.IsSolvable ↥(B'.map (QuotientGroup.mk' O)) := hBorel.1
   let g : ↥B' →* ↥(B'.map (QuotientGroup.mk' O)) :=
     MonoidHom.codRestrict ((QuotientGroup.mk' O).comp B'.subtype) (B'.map (QuotientGroup.mk' O))
       (fun b => Subgroup.mem_map.2 ⟨b, b.2, rfl⟩)
@@ -1194,7 +1194,7 @@ theorem burnsideI8h_hopf_bijective {S E : Type} [Group S] [Finite S] [Group.IsPe
     (hker : q.ker ≤ Subgroup.center E)
     (hcard : Nat.card q.ker = Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier S)) :
     ∃ h : CFSG.RankThree.PerfectCover.HopfCover S →* E, Function.Bijective h := by
-  haveI := CFSG.RankThree.PerfectCover.finite_hopfMultiplier (inferInstance : Group.IsPerfect S)
+  have := CFSG.RankThree.PerfectCover.finite_hopfMultiplier (inferInstance : Group.IsPerfect S)
   obtain ⟨-, h, hcomp, -, hsurj, hmap, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier q hq hker
   refine ⟨h, ?_, hsurj⟩
@@ -1229,9 +1229,9 @@ theorem burnsideI8h_su3_cover {X : Type} [Group X] [Finite X] (hperf : Group.IsP
     (hhopf : Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier (X ⧸ CFSG.oddCore X)) = 3) :
     Nonempty (X ≃* ↥(StatedSU 3 (2 ^ m) K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := CFSG.oddCore X with hO
-  haveI : Group.IsPerfect (X ⧸ O) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective O)
+  have : Group.IsPerfect (X ⧸ O) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective O)
   have hπ : Function.Surjective (QuotientGroup.mk' O) := QuotientGroup.mk'_surjective O
   have hker : (QuotientGroup.mk' O).ker ≤ Subgroup.center X := by
     rw [QuotientGroup.ker_mk']
@@ -1262,13 +1262,13 @@ theorem burnsideI8h_su3_cover {X : Type} [Group X] [Finite X] (hperf : Group.IsP
     have h2 : 2 ^ m = 2 ^ 1 := by simpa using he
     have := Nat.pow_right_injective le_rfl h2
     omega
-  haveI : Group.IsPerfect ↥SU :=
+  have : Group.IsPerfect ↥SU :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := m) hK le_rfl hq
   have hdvd := burnsideI8h_card_ker_dvd p' hp's hp'c hhopf
   have h3K : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK, CFSG.Open.StatedCenterThree.sq_sub_one_eq (Nat.one_le_two_pow)]
     exact Dvd.dvd.mul_left h3 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h3K
   have hζ3 : ζ ^ 3 = 1 := by
     rw [← hζ]
@@ -1307,7 +1307,7 @@ theorem burnsideI8h_lift_models
   classical
   set O := CFSG.oddCore X with hO
   have hOodd : Odd (Nat.card O) := burnsideI8h_odd_card_oddCore X
-  haveI : Group.IsPerfect (X ⧸ O) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective O)
+  have : Group.IsPerfect (X ⧸ O) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective O)
   have hπ : Function.Surjective (QuotientGroup.mk' O) := QuotientGroup.mk'_surjective O
   have hker : (QuotientGroup.mk' O).ker ≤ Subgroup.center X := by
     rw [QuotientGroup.ker_mk']
@@ -1328,7 +1328,7 @@ theorem burnsideI8h_lift_models
     have h4 : Nat.card O ≤ 4 := Nat.le_of_dvd (by norm_num) h3
     have h5 : 0 < Nat.card O := Nat.card_pos
     obtain ⟨k, hk⟩ := hOodd
-    interval_cases hc : Nat.card O <;> first | rfl | omega | (exfalso; revert h3; decide)
+    interval_cases hc : Nat.card O <;> first | rfl | omega
   rcases hmod with hP | hS | hU
   ·
     have hLie : LieModel (X ⧸ O) .PSL 2 2 m := Or.inl ⟨by decide, hP⟩
@@ -1348,7 +1348,7 @@ theorem burnsideI8h_lift_models
         decide
       · have e : exceptionalOrders .PSL 2 2 m = (1, 1) := by
           unfold exceptionalOrders
-          split <;> first | rfl | omega | (simp_all)
+          split <;> first | rfl | omega
         rw [e]
         decide
     obtain ⟨e⟩ := hiso hO1
@@ -1380,7 +1380,7 @@ theorem burnsideI8h_lift_models
       unfold exceptionalOrders
       split <;> first | rfl | omega | (simp_all)
     rw [hg, he] at hhopf
-    simp only [mul_one, one_mul] at hhopf
+    simp only [mul_one] at hhopf
     have hOd : Nat.card O ∣ Nat.gcd 3 (2 ^ m + 1) := hdvd hhopf
     have hO3 : Nat.card O ∣ 3 := hOd.trans (Nat.gcd_dvd_left _ _)
     rcases (Nat.dvd_prime Nat.prime_three).1 hO3 with h1 | h3
@@ -1401,7 +1401,7 @@ theorem burnsideI8h_stated_psl {Y : Type} [Group Y] {f : ℕ} (hf : 2 ≤ f)
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : Finite (GaloisField 2 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have : Finite (GaloisField 2 f) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   refine ⟨⟨Nat.prime_two, by omega, le_rfl, ?_, ?_⟩, GaloisField 2 f, inferInstance,
     inferInstance, hcard, ⟨e.trans
       (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL (GaloisField 2 f) 2 2 f
@@ -1418,7 +1418,7 @@ theorem burnsideI8h_stated_psu {Y : Type} [Group Y] {f : ℕ} (hf : 2 ≤ f)
     CFSG.Assembly.LowTwoRank.StatedClassicalModel Y .PSU 3 2 f := by
   have hcard : Nat.card (GaloisField 2 (2 * f)) = 2 ^ (2 * f) :=
     GaloisField.card 2 (2 * f) (by omega)
-  haveI : Finite (GaloisField 2 (2 * f)) :=
+  have : Finite (GaloisField 2 (2 * f)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   have hq4 : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -1435,7 +1435,7 @@ theorem burnsideI8h_stated_sz {Y : Type} [Group Y] {a : ℕ} (ha : 1 ≤ a) (e :
     CFSG.Blueprint.SuzukiModel Y 2 (2 * a + 1) := by
   have hcard : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
-  haveI : Finite (GaloisField 2 (2 * a + 1)) :=
+  have : Finite (GaloisField 2 (2 * a + 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   refine ⟨rfl, a, ha, GaloisField 2 (2 * a + 1), inferInstance, inferInstance, rfl, hcard, ⟨?_⟩⟩
   exact e.trans ((MulEquiv.subgroupCongr
@@ -1493,7 +1493,7 @@ theorem burnsideI8h_ne_bot_of_pRank {G : Type} [Group G] {V : Subgroup G}
 
 theorem burnsideI8h_exists_sylow_of_top {G : Type} [Group G] [Finite G] {T : Subgroup G}
     (hT : IsSylowTwoIn T ⊤) : ∃ S : Sylow 2 G, (S : Subgroup G) = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ T.index := by
     have := hT.2.2
     rwa [← Subgroup.relIndex, Subgroup.relIndex_top_right] at this
@@ -1618,7 +1618,7 @@ theorem as_I_8_5 : I_8_5 := by
   have hSE := burnsideI8h_stronglyEmbedded hVeven hnn hJ
   have hgen := burnsideI8h_gen V
   have hconj := burnsideI8h_conjClosure_eq hV2
-  haveI hLn : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
+  have hLn : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
   have hVL : V ≤ involutionNormalClosure V := burnsideI8h_le_closure hV2
   rcases burnsideI8h_SE_dichotomy hgen hSE with hrank | ⟨hBender, hOle, hBorel⟩
   ·
@@ -1684,7 +1684,7 @@ theorem as_I_8_5 : I_8_5 := by
         rw [hCtop]
         exact Subgroup.normal_top
       refine ⟨hCn, ?_⟩
-      haveI : Subsingleton (↥(Subgroup.normalizer (V : Set G)) ⧸
+      have : Subsingleton (↥(Subgroup.normalizer (V : Set G)) ⧸
           (Subgroup.centralizer (V : Set G)).subgroupOf (Subgroup.normalizer (V : Set G))) := by
         refine ⟨fun a b => ?_⟩
         obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
@@ -1730,8 +1730,8 @@ theorem as_I_8_5 : I_8_5 := by
       (Or.inr ⟨hqs, hBenderStated, ⟨S, hS, hΩeq⟩, inf_comm _ _, ⟨S, hS, hN.symm⟩⟩), ?_⟩
     have hOut : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
         ↥(involutionNormalClosure V)) := by
-      haveI : Group.IsPerfect ↥(involutionNormalClosure V) := hperf
-      haveI := burnsideI8h_outer_solvable_of_bender hBenderStated
+      have : Group.IsPerfect ↥(involutionNormalClosure V) := hperf
+      have := burnsideI8h_outer_solvable_of_bender hBenderStated
       exact Group.isSolvable_of_isSolvable_injective
         (f := CFSG.ComponentClassification.OuterAutomorphisms.centerQuotientOuterHom
           ↥(involutionNormalClosure V))
@@ -1767,7 +1767,7 @@ theorem as_I_8_3 : I_8_3 := by
     obtain ⟨w, hw, hwx⟩ := hx
     have hxeq : x = g⁻¹ * w * g := by
       rw [← hwx]
-      simp [MulAut.conj_apply]
+      simp
     have hx2 : x ^ 2 = 1 := by
       rw [hxeq]
       calc (g⁻¹ * w * g) ^ 2 = g⁻¹ * w ^ 2 * g := by simp only [pow_two]; group
@@ -1789,7 +1789,7 @@ theorem as_I_8_3 : I_8_3 := by
       have h1 := hS' hy
       rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at h1
       have h3 : (MulAut.conj h)⁻¹ • y ∈ (S₀ : Subgroup G) := h1
-      have h4 : (MulAut.conj h)⁻¹ • y = h⁻¹ * y * h := by simp [MulAut.conj_inv_apply]
+      have h4 : (MulAut.conj h)⁻¹ • y = h⁻¹ * y * h := by simp
       rw [h4, hS₀] at h3
       exact h3
     have hhV : ∀ a ∈ V, h⁻¹ * a * h ∈ V := fun a ha =>
@@ -1836,7 +1836,7 @@ theorem as_I_8_3 : I_8_3 := by
   have hSE := burnsideI8h_stronglyEmbedded hVeven hnn hJ
   have hgen := burnsideI8h_gen V
   have hconj := burnsideI8h_conjClosure_eq hV2
-  haveI hLn : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
+  have hLn : (involutionNormalClosure V).Normal := burnsideI8h_closure_normal V
   have hVL : V ≤ involutionNormalClosure V := burnsideI8h_le_closure hV2
   rw [hconj]
   rcases burnsideI8h_SE_dichotomy hgen hSE with hrank | ⟨hBender, hOle, hBorel⟩

@@ -28,9 +28,9 @@ private theorem t263CI_u38_three {Y : Type} [Group Y] [Finite Y] {K B : Subgroup
     (hc : catalogIs (↥K ⧸ Subgroup.center ↥K) fU38)
     (hcB : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3) : KConcl 3 K B := by
   classical
-  haveI : K.Normal := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : Group.IsPerfect ↥K := ⟨hKq.1⟩
   have hBN : B ≤ Subgroup.normalizer (K : Set Y) := fun b _ =>
     Subgroup.mem_normalizer_iff.2 fun k => ⟨fun hk => hKn.conj_mem k hk b, fun hk => by

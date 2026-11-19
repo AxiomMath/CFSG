@@ -10,12 +10,13 @@ open Subgroup
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_maximal_pgroup {Y T : Subgroup X} (hTY : T ≤ Y) (hT : IsPGroup 2 T) :
     ∃ S : Subgroup X, T ≤ S ∧ S ≤ Y ∧ IsPGroup 2 S ∧
       ∀ T' : Subgroup X, T' ≤ Y → IsPGroup 2 T' → S ≤ T' → T' = S := by
   have hTY2 : IsPGroup 2 (T.subgroupOf Y) := hT.comap_subtype
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hTY2
-  refine ⟨(Q : Subgroup Y).map Y.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+  refine ⟨(Q : Subgroup Y).map Y.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩
   · intro t ht
     have htY : (⟨t, hTY ht⟩ : ↥Y) ∈ T.subgroupOf Y := Subgroup.mem_subgroupOf.mpr ht
     exact Subgroup.mem_map.mpr ⟨⟨t, hTY ht⟩, hQ htY, rfl⟩
@@ -28,6 +29,7 @@ theorem exists_maximal_pgroup {Y T : Subgroup X} (hTY : T ≤ Y) (hT : IsPGroup 
       (le_antisymm hQR (Q.maximal_isPGroup.2 hR hQR)).symm
     rw [← hEq, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hT'Y]
 
+omit [Finite X] in
 theorem subgroupOf_sylow_max {Hn S : Subgroup X} (hSH : S ≤ Hn)
     (hS : ∀ U : Subgroup X, U ≤ Hn → IsPGroup 2 U → S ≤ U → U = S) :
     ∀ {Q : Subgroup ↥Hn}, IsPGroup 2 Q → S.subgroupOf Hn ≤ Q → Q = S.subgroupOf Hn := by
@@ -66,6 +68,7 @@ namespace TIConfig
 
 variable {H V N : Subgroup X}
 
+omit [Finite X] in
 theorem ne_bot_of_N_le (h : TIConfig H V N) {S : Subgroup X} (hNS : N ≤ S) : S ≠ ⊥ := by
   intro h0
   apply h.V_ne_bot
@@ -116,7 +119,7 @@ theorem frattini_core {Hn X' : Subgroup X} (hHX : Hn ≤ X')
   let T : Subgroup X := S.comap (MulAut.conj g⁻¹).toMonoidHom
   have hTmem : ∀ x : X, x ∈ T ↔ g⁻¹ * x * g ∈ S := by
     intro x
-    simp [T, MulAut.conj_apply]
+    simp [T]
   have hTH : T ≤ Hn := by
     intro x hx
     have h1 : g⁻¹ * x * g ∈ Hn := hSH ((hTmem x).mp hx)

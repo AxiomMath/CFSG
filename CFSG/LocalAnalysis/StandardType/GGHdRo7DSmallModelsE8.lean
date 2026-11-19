@@ -135,7 +135,7 @@ private lemma hdRo7DSmE8Aux_reindex_refl {ι : Type*} (M : CoxeterMatrix ι) :
   CoxeterMatrix.ext (Matrix.ext fun _ _ => rfl)
 
 private lemma hdRo7DSmE8Aux_H_mem (i : Fin 8) : hdRo7DSmE8Aux_H i ∈ dPhiE8 1 := by
-  fin_cases i <;> (simp only [dPhiE8, Set.mem_setOf_eq]; decide)
+  fin_cases i <;> (simp only [dPhiE8, Set.mem_ofPred_eq]; decide)
 
 private lemma hdRo7DSmE8Aux_Phi_mem (i : Fin 8) :
     hdRo7DSmE8Aux_Phi i ∈ Subgroup.closure (Set.range hdRo7DSmE8Aux_Phi) :=

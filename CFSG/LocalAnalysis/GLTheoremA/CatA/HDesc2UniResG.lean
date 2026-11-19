@@ -23,6 +23,7 @@ section Six
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [CharP K 2] [Finite K] in
 theorem le_primeFormD_six (h : UnitaryFieldData 2 1 K)
     {A : Subgroup (MulAut (primeFormP h (idGram K 6)))} (hA : ∀ a ∈ A, a ^ 3 = 1) :
     A ≤ primeFormD h (idGram K 6) := by
@@ -41,18 +42,22 @@ theorem le_primeFormD_six (h : UnitaryFieldData 2 1 K)
       _ = 1 := by rw [hx3, e, inv_one, mul_one]
   exact key _ (by rw [← map_pow, hA a ha, map_one])
 
+omit [CharP K 2] [Finite K] in
 private theorem card_units_four (h : UnitaryFieldData 2 1 K) : Nat.card Kˣ = 3 := by
   have := Nat.card_units K
   rw [h.card] at this
   simpa using this
 
+omit [CharP K 2] [Finite K] in
 private theorem units_pow_three_four (h : UnitaryFieldData 2 1 K) (u : Kˣ) : u ^ 3 = 1 := by
   rw [← card_units_four h]
   exact pow_card_eq_one'
 
+omit [CharP K 2] [Finite K] in
 private theorem norm_eq_one_four (h : UnitaryFieldData 2 1 K) (u : Kˣ) : h.norm (u : K) = 1 :=
   (pow_succ_eq_one_iff_norm h u).mp (units_pow_three_four h u)
 
+omit [CharP K 2] [Finite K] in
 private theorem scalar_mulVec_six (z : Kˣ) (v : Fin 6 → K) :
     ((GeneralLinearGroup.scalar (Fin 6) z : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ v =
       (z : K) • v := by
@@ -60,6 +65,7 @@ private theorem scalar_mulVec_six (z : Kˣ) (v : Fin 6 → K) :
   rw [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal, Pi.smul_apply,
     smul_eq_mul]
 
+omit [CharP K 2] [Finite K] in
 private theorem eq_zero_of_mulVec_eq_zero_six (g : GL (Fin 6) K) {v : Fin 6 → K}
     (hv : (g : Matrix (Fin 6) (Fin 6) K) *ᵥ v = 0) : v = 0 := by
   have e : ((g⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ
@@ -68,6 +74,7 @@ private theorem eq_zero_of_mulVec_eq_zero_six (g : GL (Fin 6) K) {v : Fin 6 → 
   rw [hv, Matrix.mulVec_zero] at e
   exact e.symm
 
+omit [CharP K 2] [Finite K] in
 private theorem exists_lift_group_six (h : UnitaryFieldData 2 1 K)
     {A : Subgroup (MulAut (primeFormP h (idGram K 6)))} (hA : IsElemAbelian 3 A)
     (hAD : A ≤ primeFormD h (idGram K 6)) {w : Fin 6 → K} (hw0 : w ≠ 0)
@@ -138,6 +145,7 @@ private theorem exists_lift_group_six (h : UnitaryFieldData 2 1 K)
     rw [map_pow, map_one]
     exact hA.2 _ ((hmemE X).1 hX).1
 
+omit [CharP K 2] in
 private theorem exists_orthonormal_eigenbasis_subgroup {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K)
     {n : ℕ} (h3q : 3 ∣ ℓ ^ f + 1) (E : Subgroup (primeFormUnitary h (idGram K n)))
     (hcomm : ∀ X ∈ E, ∀ Y ∈ E, X * Y = Y * X) (h3 : ∀ X ∈ E, X ^ 3 = 1) :
@@ -145,7 +153,7 @@ private theorem exists_orthonormal_eigenbasis_subgroup {ℓ f : ℕ} (h : Unitar
       ∀ (X : E) (i : Fin n), (((X : primeFormUnitary h (idGram K n)) : GL (Fin n) K) :
         Matrix (Fin n) (Fin n) K) *ᵥ b i = μ X i • b i := by
   classical
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ :=
     CFSG.RankThree.PartOne.KCUnitaryPlane.exists_primitiveRoot_of_dvd h Nat.prime_three h3q
   let g : E → Module.End K (Fin n → K) := fun X =>
@@ -173,6 +181,7 @@ private theorem exists_orthonormal_eigenbasis_subgroup {ℓ f : ℕ} (h : Unitar
   · rw [Module.Basis.reindex_apply]
     exact hbμ X _
 
+omit [CharP K 2] [Finite K] in
 private theorem idForm_basis_eq_repr {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) {n : ℕ}
     {b : Module.Basis (Fin n) K (Fin n → K)} (hb : IsOrthonormalFamily h b) (v : Fin n → K)
     (t : Fin n) : idForm h n (b t) v = b.repr v t := by
@@ -180,8 +189,9 @@ private theorem idForm_basis_eq_repr {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K
   conv_lhs => rw [← b.sum_repr v]
   rw [map_sum]
   simp only [map_smul, smul_eq_mul, hb t, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
+omit [CharP K 2] [Finite K] in
 private theorem exists_two_coord_ne_zero {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) {n : ℕ}
     {b : Module.Basis (Fin n) K (Fin n → K)} (hb : IsOrthonormalFamily h b) {w : Fin n → K}
     (hw0 : w ≠ 0) (hwiso : idForm h n w w = 0) :
@@ -201,12 +211,13 @@ private theorem exists_two_coord_ne_zero {ℓ f : ℕ} (h : UnitaryFieldData ℓ
     · intro h0
       exact absurd (Finset.mem_univ _) h0
   rw [hw] at hwiso
-  simp only [map_smulₛₗ, LinearMap.smul_apply, map_smul, smul_eq_mul, hb t₀ t₀, if_true,
+  simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, hb t₀ t₀, ite_true,
     mul_one] at hwiso
   rcases mul_eq_zero.1 hwiso with h0 | h0
   · exact ht₀ (by simpa using h0)
   · exact ht₀ ((map_eq_zero h.bar).1 h0)
 
+omit [CharP K 2] [Finite K] in
 private theorem weight_eq_one_of_coord_ne_zero {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) {n : ℕ}
     {b : Module.Basis (Fin n) K (Fin n → K)} (hb : IsOrthonormalFamily h b)
     {X : GL (Fin n) K} (hXU : X ∈ primeFormUnitary h (idGram K n)) {w : Fin n → K}
@@ -233,6 +244,7 @@ private theorem exists_perm_zero_one {t₀ t₁ : Fin 6} (ht : t₀ ≠ t₁) :
       Equiv.swap_apply_left]
   · rw [Equiv.Perm.mul_apply, Equiv.swap_apply_left, hu, Equiv.swap_apply_self]
 
+omit [CharP K 2] in
 theorem exists_frame_six (h : UnitaryFieldData 2 1 K) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {A : Subgroup (MulAut (primeFormP h (idGram K 6)))} (hA : IsElemAbelian 3 A)
     (h81 : 3 ^ 4 ≤ Nat.card A) (hAD : A ≤ primeFormD h (idGram K 6))
@@ -338,7 +350,7 @@ private theorem card_closure_pair_eq_nine {G : Type*} [Group G] [Finite G] {A : 
     (hA : IsElemAbelian 3 A) {a b : G} (ha : a ∈ A) (hb : b ∈ A) (ha1 : a ≠ 1)
     (hba : b ∉ Subgroup.zpowers a) : Nat.card (Subgroup.closure ({a, b} : Set G)) = 3 ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hab : Commute a b := congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hle : Nat.card (Subgroup.closure ({a, b} : Set G)) ≤ 9 :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.card_closure_pair_le hab (hA.2 a ha)
@@ -372,6 +384,7 @@ private theorem card_closure_pair_eq_nine {G : Type*} [Group G] [Finite G] {A : 
     have : 3 ^ 3 ≤ 3 ^ (n + 1 + 1 + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
 
+omit [CharP K 2] [Finite K] in
 private theorem exists_scalar_of_conjHom_eq_six (h : UnitaryFieldData 2 1 K)
     {Y Z : primeFormUnitary h (idGram K 6)}
     (hYZ : primeFormConjHom h (idGram K 6) Y = primeFormConjHom h (idGram K 6) Z) :
@@ -383,6 +396,7 @@ private theorem exists_scalar_of_conjHom_eq_six (h : UnitaryFieldData 2 1 K)
   refine ⟨z, ?_⟩
   rw [← hz, Subgroup.coe_mul, Subgroup.coe_inv, inv_mul_cancel_right]
 
+omit [CharP K 2] [Finite K] in
 private theorem diag_entries_of_conjHom_eq_six (h : UnitaryFieldData 2 1 K)
     {Y Z : primeFormUnitary h (idGram K 6)} {d e : Fin 6 → K}
     (hY : ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = diagonal d)
@@ -405,7 +419,7 @@ theorem goodSub_primeFormP_six (h : UnitaryFieldData 2 1 K)
     (hT : T ≠ ⊥) (hAT : ∀ α ∈ A, T.map α.toMonoidHom = T) :
     (∃ F ≤ A, Nat.card F = 3 ^ 1 ∧ IsGood 3 F) ∧ (∃ F ≤ A, Nat.card F = 3 ^ 2 ∧ IsGood 3 F) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : ¬ (6 = 3 ∧ 2 ^ 1 = 2) := by norm_num
   have hAD := le_primeFormD_six h (A := A) (fun a ha => hA.2 a ha)
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.KCUnitaryPlane.exists_primitiveRoot_of_dvd h
@@ -465,7 +479,7 @@ theorem goodSub_primeFormP_six (h : UnitaryFieldData 2 1 K)
     calc 81 < 2 * 3 ^ 4 := by norm_num
       _ ≤ Nat.card ψ.ker * Nat.card A := Nat.mul_le_mul h2 h81
   obtain ⟨w, hw0, hwW, hwX⟩ := exists_common_eigenvector_six h hÂ3 hÂGU hcard hW hWiso hWÂ
-  have hwiso : idForm h 6 w w = 0 := Submodule.mem_orthogonalBilin_iff.mp (hWiso hwW) w hwW
+  have hwiso : idForm h 6 w w = 0 := Submodule.mem_orthogonalBilin.mp (hWiso hwW) w hwW
   obtain ⟨X₁, X₂, R, hX₁A, hX₂A, hY₁, hY₂⟩ := exists_frame_six h hω hA h81 hAD hw0 hwiso
     (fun X hX => hwX _ ⟨X, hX, rfl⟩)
   have hconj : ∀ X, primeFormConjHom h (idGram K 6) (R * X * R⁻¹) =
@@ -619,7 +633,7 @@ theorem goodSubAtLow_twistedA_five (q : TauCeti.PrimePower)
     KD264Lie.exists_primeFormP_mulEquiv_of_isUnitaryIdx (d := ⟨.twistedA 5 q, hv⟩) trivial
   injection hdA with hr hqq
   subst hr hqq
-  haveI := hU.finite
+  have := hU.finite
   have hq2 : q.p ^ q.exponent = 2 ^ 1 := by
     rw [← TauCeti.PrimePower.card_def, h2, pow_one]
   have hp2 : q.p = 2 := by
@@ -628,8 +642,8 @@ theorem goodSubAtLow_twistedA_five (q : TauCeti.PrimePower)
   have he1 : q.exponent = 1 := by
     rw [hp2] at hq2
     exact Nat.pow_right_injective (le_refl 2) hq2
-  haveI : CharP K 2 := by
-    haveI := hU.charP
+  have : CharP K 2 := by
+    have := hU.charP
     exact CharP.congr q.p hp2
   have hS1 : GoodSubPow (primeFormP hU (idGram K 6)) 4 1 := fun A hA h81 T hT2 hT hAT =>
     (goodSub_primeFormP_six_of_eq hU hp2 he1 A hA h81 T hT2 hT hAT).1

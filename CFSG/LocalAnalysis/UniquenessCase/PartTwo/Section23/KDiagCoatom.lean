@@ -23,7 +23,7 @@ theorem kDiag_of_sylow_normalizer_coatom
   · rw [hPtop]
     exact Subgroup.mem_top x
   · have hSP' : (S : Subgroup X) ≤ P :=
-      IsParabolicTwo.le_of_le_normalizer ⟨S₀, hS₀P⟩ S.isPGroup' hSP
+      IsParabolicTwo.le_of_le_normalizer ⟨S₀, hS₀P⟩ S.isPGroup hSP
     have hS₀P' : (S₀ : Subgroup X) ≤ P := Subgroup.le_normalizer.trans hS₀P
     have hnorm : (S₀.subgroupOf P).Normal := by
       refine (Subgroup.normal_subgroupOf_iff_le_normalizer hS₀P').mpr ?_
@@ -33,7 +33,7 @@ theorem kDiag_of_sylow_normalizer_coatom
     let T₂ : Sylow 2 P := S.subtype hSP'
     have hnormT₁ : (T₁ : Subgroup P).Normal := hnorm
     have hT₂T₁ : T₂ = T₁ := by
-      haveI : (T₁ : Subgroup P).Normal := hnormT₁
+      have : (T₁ : Subgroup P).Normal := hnormT₁
       obtain ⟨p, hp⟩ := MulAction.exists_smul_eq P T₁ T₂
       rw [← hp, Sylow.smul_eq_of_normal]
     have hSS₀ : S = S₀ := Sylow.subtype_injective hT₂T₁

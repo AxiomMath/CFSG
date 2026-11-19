@@ -16,9 +16,9 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
     (hmax : ∀ L : Subgroup Q, T ≤ L → L ≠ ⊤ → L ≤ N) :
     E1.oTwoPTwo Q p = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype Q := Fintype.ofFinite Q
   have hdisj : Disjoint X T := IsPGroup.disjoint_of_ne p 2 hp2 X T hX hT
   have hcomp : X.IsComplement' T :=
     Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hXT
@@ -32,7 +32,7 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
   have hsolv : Group.IsSolvable Q :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp Nat.prime_two
       hp2 hcardF
-  haveI : Group.IsSolvable Q := hsolv
+  have : Group.IsSolvable Q := hsolv
   have hTsyl : IsSylowIn 2 T (⊤ : Subgroup Q) := by
     refine ⟨le_top, hT, ?_⟩
     rw [Subgroup.relIndex_top_right]
@@ -44,13 +44,13 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
     have h2pa : 2 ∣ p ^ a := by rwa [hTi] at h2dvd
     have h2p : 2 ∣ p := Nat.prime_two.dvd_of_dvd_pow h2pa
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h2p).symm
-  haveI : Fintype (Subgroup Q) := Fintype.ofFinite _
+  have : Fintype (Subgroup Q) := Fintype.ofFinite _
   obtain ⟨F, -, hFmin⟩ := exists_minimal_le_of_wellFoundedLT
     (fun F : Subgroup Q => F.Normal ∧ ¬ F ≤ N) ⊤
     ⟨inferInstance, by simpa [top_le_iff] using hN⟩
   have hFnorm : F.Normal := hFmin.1.1
   have hFnotN : ¬ F ≤ N := hFmin.1.2
-  haveI : F.Normal := hFnorm
+  have : F.Normal := hFnorm
   have hFmin_le : ∀ F' : Subgroup Q, F' < F → F'.Normal → F' ≤ N := by
     intro F' hlt hF'norm
     by_contra hne
@@ -81,7 +81,7 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
     apply Subgroup.sSup_normal
     rintro F' ⟨-, hnorm⟩
     exact hnorm
-  haveI : Φ.Normal := hΦnorm
+  have : Φ.Normal := hΦnorm
   have hΦleF : Φ ≤ F := by
     apply sSup_le
     rintro F' ⟨hlt, -⟩
@@ -107,8 +107,8 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
   let cf : CFSG.ChiefFactor Q := { V := Φ, U := F, isChief := hchief }
   obtain ⟨r, hrprime, hrEA⟩ :=
     CFSG.chiefFactor_quotient_exists_isElementaryAbelian (G := Q) hsolv cf
-  haveI : Fact r.Prime := ⟨hrprime⟩
-  haveI : CFSG.IsElementaryAbelian r (↥(F.map (QuotientGroup.mk' (Φ : Subgroup Q)))) := hrEA
+  have : Fact r.Prime := ⟨hrprime⟩
+  have : CFSG.IsElementaryAbelian r (↥(F.map (QuotientGroup.mk' (Φ : Subgroup Q)))) := hrEA
   have hpow : ∀ x ∈ F, x ^ r ∈ Φ := by
     intro x hx
     have hxUq : QuotientGroup.mk' Φ x ∈ F.map (QuotientGroup.mk' (Φ : Subgroup Q)) :=
@@ -120,7 +120,7 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
         (QuotientGroup.mk' Φ x) hxUq
     exact (QuotientGroup.eq_one_iff (N := Φ) (x ^ r)).mp h1
   have hUq_ne_bot : F.map (QuotientGroup.mk' Φ) ≠ ⊥ := by
-    obtain ⟨x, hxF, hxnotΦ⟩ := SetLike.exists_of_lt hΦltF
+    obtain ⟨x, hxF, hxnotΦ⟩ := _root_.IsConcreteLE.exists_of_lt hΦltF
     intro hbot
     have hxUq : QuotientGroup.mk' Φ x ∈ F.map (QuotientGroup.mk' Φ) :=
       Subgroup.mem_map_of_mem _ hxF
@@ -186,7 +186,7 @@ theorem oTwoPTwo_eq_top_of_unique_max {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
       rw [← hfratt]
       exact sup_le hleN hΦleN
     exact hN (top_le_iff.mp htop)
-  haveI : (T ⊓ Φ).Normal := hDnorm
+  have : (T ⊓ Φ).Normal := hDnorm
   have hDindex_dvd : (T ⊓ Φ).relIndex Φ ∣ p ^ a * 2 ^ b := by
     rw [← hcardQ]
     exact (Subgroup.relIndex_dvd_index_of_le (inf_le_right : T ⊓ Φ ≤ Φ)).trans

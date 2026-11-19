@@ -13,7 +13,7 @@ open CFSG.GH74.GLS.Bg.TwoGroups (E2 Z4Z4 commAut)
 
 theorem q15_card_E2 (n : ℕ) : Nat.card (E2 n) = 2 ^ n := by
   rw [E2, Nat.card_congr Multiplicative.toAdd, Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
 section Q15E
 
@@ -24,7 +24,7 @@ theorem q15_hs27 (h : L41GPh10 t L S x₁ x₂ lam rho) :
       Nat.card (l41Q1 t x₁ x₂ rho) = 2 ^ 8 ∧
       (Sec4SectionIso (l41Q1 t x₁ x₂ rho) (l41Y t x₁ x₂ rho) (E2 4) ∨
         Sec4SectionIso (l41Q1 t x₁ x₂ rho) (l41Y t x₁ x₂ rho) Z4Z4) := by
-  haveI := q14_normal_YQ h
+  have := q14_normal_YQ h
   have hρM : rho ∈ l41M t x₁ x₂ rho := q14_rho_mem_M h.toL41GPh8
   have hρQ : rho ∈ normalizer ((l41Q t x₁ x₂ rho : Subgroup G) : Set G) :=
     q14_mem_normalizer_Q hρM

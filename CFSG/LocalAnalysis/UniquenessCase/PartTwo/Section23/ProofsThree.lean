@@ -44,6 +44,7 @@ private theorem exists_second_ctx (c : Ctx23L D Ch) (h205 : S20_5 D) (h208 : S20
     { c.toCtx23 with L := L₂, hL := hL₂, hL0L := hL0L₁.trans hL₁L₂, N := N₂, hN := hN }
   exact ⟨L₁, L₂, c₂, hL₁, hL0L₁, hL₁L₂, hL₂, rfl, rfl⟩
 
+omit [Finite G] in
 private theorem le_of_calMOf_eq_singleton {X N : Subgroup G} (h : calMOf X = {N}) : X ≤ N := by
   have hN : N ∈ calMOf X := h ▸ rfl
   exact hN.2
@@ -88,7 +89,7 @@ private theorem factorization_of_eq_mul (c : Ctx23L D Ch)
       exact X.mul_mem ha.2 hb.2
   · exact absurd h hob
 
-private theorem center_wClos_le_cClos (c : Ctx23L D Ch) :
+private theorem center_wClos_le_cClos (_c : Ctx23L D Ch) :
     E3.wClos D.U 1 D.T ⊓ Subgroup.centralizer (E3.wClos D.U 1 D.T : Set G) ≤
       E3.cClos D.U 1 D.T :=
   le_inf (inf_le_left.trans (E3.wClos_le 1 D.T)) inf_le_right

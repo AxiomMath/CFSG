@@ -29,13 +29,13 @@ variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2
 
 theorem layer_pair_two_group {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
     (hΩ : HypOmegaGen Ω)
-    (h2 : ∀ M ∈ Ω, IsPGroup 2 (↥M ⧸ classicalInvolutionOddCore ↥M))
+    (_h2 : ∀ M ∈ Ω, IsPGroup 2 (↥M ⧸ classicalInvolutionOddCore ↥M))
     (hc2 : IsPGroup 2 (Subgroup.zpowers c))
     (hS : Q8Section (↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c))
       (TwinDisc.secFam Ω c)) {J₁ J₂ : Subgroup G}
     (hJ₁ : J₁ ∈ tqMembers3 Ω c) (hJ₂ : J₂ ∈ tqMembers3 Ω c) {w : G}
     (hw₁ : IsUniqueInvolution J₁ w) (hw₂ : IsUniqueInvolution J₂ w) {T₁ : Subgroup G}
-    (hT₁ : IsSylow2In T₁ J₁) (hT₁c : T₁ ≤ Subgroup.centralizer ({c} : Set G))
+    (_hT₁ : IsSylow2In T₁ J₁) (_hT₁c : T₁ ≤ Subgroup.centralizer ({c} : Set G))
     (hpair : ∀ M ∈ TwinDisc.secFam Ω c, M = TwinDisc.secImg Ω c J₁ ∨ M = TwinDisc.secImg Ω c J₂)
     (hedge : TwinDisc.secImg Ω c J₂ ∈ omegaNbr (TwinDisc.secFam Ω c) (TwinDisc.secImg Ω c J₁)) :
     ∃ k : ℕ, Nat.card (↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c)) = 2 ^ k := by

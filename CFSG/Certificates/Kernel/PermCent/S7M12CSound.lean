@@ -29,7 +29,7 @@ theorem ev_cvL {c : List ℕ} {σ : Equiv.Perm (Fin 12)} (h : IsCode c σ) : ev 
   have hk := codeOK_of_isCode h
   ext i
   rw [ev_apply]
-  simp only [cvL, dif_pos hk]
+  simp only [cvL, dite_eq_left hk]
   change pg (wC 12) (CFSG.KS.mask (wC 12)) (pmk 12 (wC 12) (nth 0 c)) i = _
   rw [pg_pmk Small.lt (fun x hx => (codeOK_lt hk x hx).trans hw) i.2]
   exact h.2 i
@@ -41,7 +41,7 @@ theorem fixPts_ev (c : CV 12) : M12Model.fixPts (ev c) = fpC c := by
   have e : (Finset.univ.filter fun i : Fin 12 => ev c i = i) =
       ((List.finRange 12).filter fun i => decide (ev c i = i)).toFinset := by
     ext i
-    simp [List.mem_filter, List.mem_finRange]
+    simp
   rw [e, List.toFinset_card_of_nodup ((List.nodup_finRange 12).filter _)]
 
 theorem sub_eltM {x : ℕ} (hx : x < 64) :

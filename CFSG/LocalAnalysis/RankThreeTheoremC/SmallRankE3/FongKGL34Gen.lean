@@ -82,7 +82,7 @@ section SteinbergStep
 open Matrix Subgroup CFSG.LargeExtraspecial.A2Mod
 
 theorem transvection_row_mem_of_tv {n : ℕ} {F : Type*} [Field F]
-    (H : Subgroup (SpecialLinearGroup (Fin n) F)) (p j₀ k : Fin n) (hpj : p ≠ j₀) (hpk : p ≠ k)
+    (H : Subgroup (SpecialLinearGroup (Fin n) F)) (p j₀ k : Fin n) (_hpj : p ≠ j₀) (hpk : p ≠ k)
     (hjk : j₀ ≠ k) (r : Fin n → F) (hrp : r p = 0) (hrj : r j₀ ≠ 0)
     (h1 : SpecialLinearGroup.transvection hjk (1 : F) ∈ H)
     (hX : ∀ c : F, tv (Pi.single p 1) (c • r) ∈ H) (c : F) :
@@ -100,10 +100,10 @@ theorem transvection_row_mem_of_tv {n : ℕ} {F : Type*} [Field F]
     rw [single_dotProduct, Pi.single_eq_of_ne hpk.symm, mul_zero]
   have hdp : ∀ d : F, (d • r) ⬝ᵥ Pi.single p 1 = 0 := by
     intro d
-    simp [smul_dotProduct, dotProduct_single, hrp]
+    simp [dotProduct_single, hrp]
   have hdj : ∀ d : F, (d • r) ⬝ᵥ Pi.single j₀ 1 = d * r j₀ := by
     intro d
-    simp [smul_dotProduct, dotProduct_single]
+    simp [dotProduct_single]
   have hgp : ((tv (Pi.single j₀ 1) (Pi.single k 1) : SpecialLinearGroup (Fin n) F) :
       Matrix (Fin n) (Fin n) F) *ᵥ Pi.single p 1 = Pi.single p 1 := by
     rw [tv_mulVec hkj, hkp 1, zero_smul, add_zero]

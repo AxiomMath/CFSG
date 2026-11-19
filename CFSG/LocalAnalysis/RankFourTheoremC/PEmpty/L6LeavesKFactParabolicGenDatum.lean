@@ -17,7 +17,7 @@ variable {K : Type} [Group K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
 
 theorem posUnipotentExcept_ne_bot (hext : SteinbergExtras D n H) (hrank : 2 ≤ D.rank)
     (i : Fin D.rank) : posUnipotentExcept D i ≠ ⊥ := by
-  haveI : Nontrivial (Fin D.rank) := Fin.nontrivial_iff_two_le.mpr hrank
+  have : Nontrivial (Fin D.rank) := Fin.nontrivial_iff_two_le.mpr hrank
   obtain ⟨j, hji⟩ := exists_ne i
   intro hbot
   have hα : (Pi.single j 1 : Fin D.rank → ℤ) ∈
@@ -63,7 +63,7 @@ theorem hasParGen_of_datum [Finite K]
       (weylAction D.isFiniteType) D.roots D.rootGroup n H)
     (hext : SteinbergExtras D n H) (hBN : IsSplitBNPair 2 (borel D H) (weylN n H))
     (hU : IsPGroup 2 (posUnipotent D)) (hrank : 2 ≤ D.rank) : HasParGen K := by
-  haveI : Nonempty (Fin D.rank) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin D.rank) := ⟨⟨0, by omega⟩⟩
   refine hasParGen_of_bn_family (B := borel D H) (hBN.exists_sylow_normalizer Nat.prime_two) n
     (fun i => posUnipotentExcept D i) ?_ (fun i => hU.to_le (posUnipotentExcept_le_posUnipotent i))
     (posUnipotentExcept_ne_bot hext hrank)

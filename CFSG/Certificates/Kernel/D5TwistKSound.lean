@@ -147,10 +147,10 @@ theorem fold_mem (seen L : List Nat) :
     rcases ih _ t ht with h | h
     · by_cases hc : (seen.contains a || acc.contains a) = true
       · simp only [stepN] at h
-        rw [if_pos hc] at h
+        rw [ite_eq_left hc] at h
         exact Or.inl h
       · simp only [stepN] at h
-        rw [if_neg hc] at h
+        rw [ite_eq_right hc] at h
         rcases List.mem_append.mp h with h | h
         · exact Or.inl h
         · rw [List.mem_singleton.mp h]
@@ -171,11 +171,11 @@ theorem fold_sim (seen : List Nat) (hs : ∀ x ∈ seen, x < 4 ^ 25) :
     simp only [List.map_cons, List.foldl_cons]
     rw [contains_decN hs ha, contains_decN hacc ha]
     by_cases hc : (seen.contains a || acc.contains a) = true
-    · simp only [stepN, hc, if_true]
+    · simp only [stepN, hc, ite_true]
       exact ih acc hL' hacc
     · simp only [stepN, hc]
       have e : acc.map (decN 25) ++ [decN 25 a] = (acc ++ [a]).map (decN 25) := by simp
-      rw [if_neg (by simpa using hc), e]
+      rw [ite_eq_right (by simp), e]
       refine ih (acc ++ [a]) hL' ?_
       intro x hx
       rcases List.mem_append.mp hx with hx | hx

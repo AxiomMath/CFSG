@@ -120,7 +120,6 @@ theorem nB_of {e9 : Fin 3 → Fin 3 → Perm (Fin 7)}
     (hC : enc c = C) (h : ∃ i j : Fin 3, g * c = e9 i j * g) : nB C (enc g) = true := by
   obtain ⟨i, j, hij⟩ := h
   refine anyK_iff.2 ⟨enc (e9 i j), hc9 i j, ?_⟩
-  change Nat.beq (mulK 7 (enc g) C) (mulK 7 (enc (e9 i j)) (enc g)) = true
   rw [← hC, ← enc_mul h16, ← enc_mul h16, hij]
   exact Nat.beq_refl _
 

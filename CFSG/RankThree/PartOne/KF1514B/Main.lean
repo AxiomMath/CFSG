@@ -62,7 +62,7 @@ theorem isSylowOf_U0 (hirr : ∀ s : GaloisField 2 f, s ^ 2 + b * s + c ≠ 0) :
     (by norm_num : 3 ≤ 3) hani hreg hm
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   · rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
 

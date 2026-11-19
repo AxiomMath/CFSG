@@ -43,7 +43,7 @@ omit [Finite G] in
 private theorem bar_of_mem (hC : HypothesisC D) {x : G} (hx : x ∈ Halpha D hC.alpha) :
     bar hC x =
       ((⟨x, hx⟩ : Halpha D hC.alpha) : Halpha D hC.alpha ⧸ Subgroup.center (Halpha D hC.alpha)) :=
-  dif_pos hx
+  dite_eq_left hx
 
 omit [Finite G] in
 private theorem bar_mul (hC : HypothesisC D) {x y : G} (hx : x ∈ Halpha D hC.alpha)
@@ -508,7 +508,7 @@ private theorem card_centralizer_closure_dvd_ncard
     have hXeq : {x | x ∈ commSet D hC.d ∧ ¬ Commute x v} =
         commSet D hC.d \ {x | x ∈ commSet D hC.d ∧ Commute x v} := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_diff]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff]
       tauto
     have h := Set.ncard_sdiff_add_ncard_of_subset hsub
     rw [← hXeq, ncard_commSet_d hC hH h3 hB, ncard_commute hC hH h3 hB hv,

@@ -15,10 +15,12 @@ open Module QuadraticMap CFSG.GroupTheory.WeirSylow CFSG.RankThree.PartOne.K159
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {m : ℕ} {U : Fin m → Submodule F V}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isPlusType_comp_top_iff :
     IsPlusType (Q.comp (⊤ : Submodule F V).subtype) ↔ IsPlusType Q :=
   isPlusType_congr ⟨Submodule.topEquiv, fun _ => rfl⟩
 
+omit [CharP F 2] in
 theorem IsPlaneSystem.isPlusType_biSup_iff (hF : IsPlaneSystem Q U) (s : Finset (Fin m)) :
     IsPlusType (Q.comp (⨆ j ∈ s, U j).subtype) ↔ Even s.card := by
   induction s using Finset.induction_on with
@@ -26,8 +28,8 @@ theorem IsPlaneSystem.isPlusType_biSup_iff (hF : IsPlaneSystem Q U) (s : Finset 
     have hbot : (⨆ j ∈ (∅ : Finset (Fin m)), U j) = (⊥ : Submodule F V) := by simp
     rw [hbot]
     refine ⟨fun _ => ?_, fun _ => ?_⟩
-    · simpa using Even.zero
-    · haveI : Subsingleton ↥(⊥ : Submodule F V) :=
+    · simp
+    · have : Subsingleton ↥(⊥ : Submodule F V) :=
         ⟨fun x y => Subtype.ext (by
           rw [(Submodule.mem_bot F).1 x.2, (Submodule.mem_bot F).1 y.2])⟩
       exact isPlusType_of_subsingleton _
@@ -53,6 +55,7 @@ theorem IsPlaneSystem.isPlusType_biSup_iff (hF : IsPlaneSystem Q U) (s : Finset 
       exact ⟨fun h he => hF.not_isPlusType a (h.2 he),
         fun hne => ⟨fun hp => absurd hp (hF.not_isPlusType a), fun he => absurd he hne⟩⟩
 
+omit [CharP F 2] in
 theorem IsPlaneSystem.isPlusType_iff_of_finrank (hF : IsPlaneSystem Q U)
     (hdim : Module.finrank F V = 2 * m) : IsPlusType Q ↔ Even m := by
   have htop : (⨆ j ∈ (Finset.univ : Finset (Fin m)), U j : Submodule F V) = ⊤ := by

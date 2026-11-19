@@ -24,7 +24,7 @@ theorem inFSq_of_isSp4_of_normal_sup {H K T : Subgroup G} {n : ℕ}
     (hswap : S17.SwapsParabolics T K) :
     CFSG.LocalAnalysis.WeakClosure81.InFSq n H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimpleK : IsSimpleGroup (Bar2 K) := (uc22p22a_sp4_simple (Bar2 K) n hSp).1
   obtain ⟨⟨eKC⟩, -, hsimpleC, -, hFstar, -, -⟩ :=
     fstar_imageBar2_of_normal hKH hKn hTsyl hsup hperf hsimpleK

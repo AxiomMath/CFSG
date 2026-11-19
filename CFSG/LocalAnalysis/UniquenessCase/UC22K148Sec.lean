@@ -239,7 +239,6 @@ theorem secCost_map [Finite V] {D : Subgroup G} {g : G} (hg : ∀ a ∈ D, g * a
       exact hz
     · rintro ⟨y, ⟨hy, hyf⟩, rfl⟩
       refine ⟨⟨y, hy, rfl⟩, fun a ha => ⟨ρ a y - y, hyf a ha, ?_⟩⟩
-      change ρ g (ρ a y - y) = ρ a (ρ g y) - ρ g y
       rw [map_sub, ← Module.End.mul_apply, ← Module.End.mul_apply, ← map_mul, ← map_mul, hg a ha]
   unfold secCost
   rw [e, ← LinearEquiv.finrank_eq (Submodule.equivMapOfInjective _ hinj _),
@@ -323,7 +322,7 @@ theorem commute_of_mem_secKer {L : Subgroup G} [IsSimpleGroup ↥L] {Y Z : Submo
     _ = b * l := by rw [h4, one_mul]
 
 theorem exists_maximal_invariant [Finite V] {H : Subgroup G} {X : Submodule (ZMod 2) V}
-    (hX : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X) (hne : X ≠ ⊥) :
+    (_hX : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X) (hne : X ≠ ⊥) :
     ∃ X' : Submodule (ZMod 2) V, X' < X ∧ CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X' ∧
       ∀ W : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H W → X' ≤ W → W ≤ X → W = X' ∨ W = X := by
   let M : Set (Submodule (ZMod 2) V) := {W | CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H W ∧ W < X}
@@ -336,7 +335,7 @@ theorem exists_maximal_invariant [Finite V] {H : Subgroup G} {X : Submodule (ZMo
   · exact Or.inr hWe
   · exact Or.inl (eq_of_le_of_not_lt hX'W (hX'max W ⟨hW, lt_of_le_of_ne hWX hWe⟩)).symm
 
-theorem exists_irr_section [Finite V] {H L : Subgroup G} (hLH : L ≤ H) (hLp : Group.IsPerfect ↥L)
+theorem exists_irr_section [Finite V] {H L : Subgroup G} (_hLH : L ≤ H) (hLp : Group.IsPerfect ↥L)
     {X : Submodule (ZMod 2) V} (hX : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X) (hnt : ∃ l ∈ L, ∃ x ∈ X, ρ l x ≠ x) :
     ∃ Y Z : Submodule (ZMod 2) V, Z ≤ Y ∧ Y ≤ X ∧ CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H Y ∧ CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H Z ∧
       (∀ W : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H W → Z ≤ W → W ≤ Y → W = Z ∨ W = Y) ∧

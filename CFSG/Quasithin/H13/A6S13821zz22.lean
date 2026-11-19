@@ -83,7 +83,7 @@ theorem exists_slPi_of_case2List {Q : Type} [Group Q] [Finite Q]
         rcases hQ with h' | h' <;> rw [h'] at hlow <;> omega
       have key : q = 8 := by
         interval_cases q <;> rcases hQ with h' | h' <;> rw [h'] at hcU <;>
-          first | rfl | (norm_num at hcU)
+          (norm_num at hcU)
       have hp' : p = 2 := hp2 (k := 3) (by rw [key]; norm_num) (by norm_num)
       subst hp'
       have he3 : e = 3 := by
@@ -111,7 +111,7 @@ theorem exists_slPi_of_case2List {Q : Type} [Group Q] [Finite Q]
         rcases hQ with h' | h' <;> rw [h'] at hlow <;> omega
       have key : q = 4 := by
         interval_cases q <;> rcases hQ with h' | h' <;> rw [h'] at hcL <;>
-          first | rfl | (norm_num at hcL)
+          (norm_num at hcL)
       have hp' : p = 2 := hp2 (k := 2) (by rw [key]; norm_num) (by norm_num)
       subst hp'
       have he2 : e = 2 := by

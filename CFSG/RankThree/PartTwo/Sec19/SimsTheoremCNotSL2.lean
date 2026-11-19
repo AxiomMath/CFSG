@@ -12,7 +12,7 @@ open CFSG CFSG.QuasithinUnique CFSG.RankThree.PartTwo
 @[expose] def sigma6 : alternatingGroup (Fin 6) :=
   ⟨Equiv.swap 0 1 * Equiv.swap 1 2 * Equiv.swap 2 3 * Equiv.swap 4 5, by
     rw [Equiv.Perm.mem_alternatingGroup]
-    simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]⟩
+    simp [Equiv.Perm.sign_mul]⟩
 
 theorem orderOf_sigma6 : orderOf sigma6 = 4 := by
   rw [orderOf_eq_iff (by norm_num)]

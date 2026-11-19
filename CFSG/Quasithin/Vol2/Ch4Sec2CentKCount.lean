@@ -32,8 +32,8 @@ theorem omega_inf_eq_of_card {K Q V R : Subgroup G} {F : Type} [Field F] [Fintyp
   have hCcard : Nat.card ↥(Q ⊓ Subgroup.centralizer ({g₀} : Set G)) ≤ Nat.card ↥V := by
     rw [hVcard]
     exact card_inf_centralizer_le hco hg₀K hg₀α
-  haveI : Finite ↥Q := Finite.of_injective _ hco.inj
-  haveI : Finite ↥(Q ⊓ Subgroup.centralizer ({g₀} : Set G)) :=
+  have : Finite ↥Q := Finite.of_injective _ hco.inj
+  have : Finite ↥(Q ⊓ Subgroup.centralizer ({g₀} : Set G)) :=
     Finite.of_injective
       (Subgroup.inclusion (inf_le_left : Q ⊓ Subgroup.centralizer ({g₀} : Set G) ≤ Q))
       (Subgroup.inclusion_injective _)

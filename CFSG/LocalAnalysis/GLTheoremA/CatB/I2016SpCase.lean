@@ -60,8 +60,8 @@ theorem exclude_m1 {g : StatedSp 4 (ZMod 2)} {A₀ A₁ : Subgroup (StatedSp 4 (
     (hI : CFSG.Open.IsSubnormal I (Subgroup.centralizer ({g} : Set (StatedSp 4 (ZMod 2)))))
     (hq : QuotU4 I) : False := by
   obtain ⟨e₀⟩ : Nonempty (↥A₀ ≃* StatedSp 3 (ZMod 2)) := (hC.fixed.resolve_left (by norm_num)).2
-  haveI := isSimpleGroup_sp_three
-  haveI : IsSimpleGroup ↥A₀ := e₀.isSimpleGroup
+  have := isSimpleGroup_sp_three
+  have : IsSimpleGroup ↥A₀ := e₀.isSimpleGroup
   have hcardA₀ : Nat.card ↥A₀ = 1451520 := by
     rw [Nat.card_congr e₀.toEquiv]; exact card_sp_three
   obtain ⟨E, _, hE, W, _, _, _, Hf, hsymm, hsep, hdim, ⟨e₁⟩⟩ := hC.unitary

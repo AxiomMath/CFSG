@@ -111,6 +111,7 @@ theorem exists_fixed_mul_isDiag (h : UnitaryFieldData ℓ f K) {σ : K ≃+* K} 
     exact (hy i).2
   rw [map_mul, hσP, mul_assoc, hXY]
 
+omit [Finite K] in
 theorem coe_pow_of_isDiag {h : UnitaryFieldData ℓ f K} {s : SG h}
     (hs : ((s : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).IsDiag) (n : ℕ) :
     ((s ^ n : SG h) : GL (Fin 3) K) =

@@ -50,8 +50,8 @@ theorem exists_swap (hstar : C19_11aTmp p f) (hd : Sec19DataT p f K z S W L t V)
   have hstar' := fun x hx hxt => Hall196.mem_inf_of_commute hstar hd ef (x := x) hx hxt
   have hCP : W ⊓ sec19Y K z ≤ (S : Subgroup G) ⊓ sec19Y K z := inf_le_inf_right _ hd0.hWS
   have hC4 : 4 ≤ Nat.card ↥(W ⊓ sec19Y K z) := ef.card ▸ ef.four
-  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd0.hWS)
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hd.leW.trans hd0.hWS)
+  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd0.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hd.leW.trans hd0.hWS)
   obtain ⟨q, hqP, hqC, zc, hzcC, hzc1, hzc2, -, hqt, hqinv, -, hq2, hcoset, hcardP, -⟩ :=
     Hall196.exists_swap_of_not_le ef.comm hd.leW inf_le_left ef.cyclic hVcyc ef.card.symm hC4 hC2
       hV2 hd.memT hd.invL.ne_one hd.invL.sq hCP ef.normalizes hcomm hstar' hPC

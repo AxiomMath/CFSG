@@ -12,6 +12,7 @@ theorem card_alternatingGroup_fin_eight : Nat.card (alternatingGroup (Fin 8)) = 
   rw [nat_card_alternatingGroup, Nat.card_fin]
   norm_num [Nat.factorial]
 
+omit [Finite J] in
 theorem IsAlternatingEightCover.card_eq (hJ : IsAlternatingEightCover J) :
     Nat.card J = 20160 * Nat.card (Subgroup.center J) := by
   obtain ⟨-, ⟨e⟩, -⟩ := hJ
@@ -21,14 +22,14 @@ theorem IsAlternatingEightCover.card_eq (hJ : IsAlternatingEightCover J) :
 
 theorem IsAlternatingEightCover.nontrivial (hJ : IsAlternatingEightCover J) : Nontrivial J := by
   rw [← Finite.one_lt_card_iff_nontrivial, IsAlternatingEightCover.card_eq hJ]
-  haveI : Nonempty (Subgroup.center J) := ⟨1, Subgroup.one_mem _⟩
+  have : Nonempty (Subgroup.center J) := ⟨1, Subgroup.one_mem _⟩
   have hpos : 0 < Nat.card (Subgroup.center J) := Nat.card_pos
   nlinarith
 
 theorem IsAlternatingEightCover.not_dvd_card_twentySeven (hJ : IsAlternatingEightCover J) :
     ¬ 27 ∣ Nat.card J := by
   intro h27
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hJ.2.2
   rw [IsAlternatingEightCover.card_eq hJ, hk] at h27
   have hcop : Nat.Coprime 27 (2 ^ k) := (by norm_num : Nat.Coprime 27 2).pow_right k

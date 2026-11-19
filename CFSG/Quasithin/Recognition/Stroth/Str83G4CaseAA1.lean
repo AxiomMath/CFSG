@@ -114,6 +114,7 @@ theorem caseA_N_le_Y
     intro z hz
     exact caseA_commute_Z hb huv hβ'v hdist hz hy
 
+omit [Finite G] in
 theorem caseA_stab_le_normalizer_N (v : f112Gamma L1 L2 S) :
     CosetGeom.stab v ≤ Subgroup.normalizer (caseAN v : Set (f112Amalgam L1 L2 S).Ghat) := by
   intro x hx
@@ -246,7 +247,7 @@ private theorem a1b_ar_le_an
 
 private theorem a1b_an_le_ar
     {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S)
+    (hfr : Str83G4Frame L1 L2 S a) (_hA : str83R L1 L2 S ≤ Q1 L1 L2 S)
     {α β : f112Gamma L1 L2 S} (hα : CosetGeom.vtype α = false)
     (hβ : β ∈ CosetGeom.nbrs α)
     (h : twoResidual (caseALhat α) ≤
@@ -437,8 +438,8 @@ theorem caseA_sq_le_relIndex_centralizerMod_N
     (htQ : t ∉ CosetGeom.Qy α) :
     (2 ^ (2 * a + 1)) ^ 2 ≤
       (centralizerMod (caseAX α) (caseAN α) (Subgroup.zpowers t)).relIndex (caseAN α) := by
-  haveI : Finite ↥(CosetGeom.stab α) := caseA_finite_stab L1 L2 S α
-  haveI : Finite ↥(caseALhat α) :=
+  have : Finite ↥(CosetGeom.stab α) := caseA_finite_stab L1 L2 S α
+  have : Finite ↥(caseALhat α) :=
     Finite.of_injective (Subgroup.inclusion (caseALhat_le_stab α))
       (Subgroup.inclusion_injective (caseALhat_le_stab α))
   have hcore := a1d_pCoreOf_Lhat_eq_Qy hfr hα hτ

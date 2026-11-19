@@ -29,7 +29,7 @@ theorem branch_nf (S : KSetting H K Q T κ) {N : List Nat}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) (hnf : nfOK T N (phiList T N) = true) : False := by
   unfold nfOK at hnf
   simp only [List.any_eq_true, Bool.and_eq_true, Bool.not_eq_true', List.all_eq_true,
-    List.contains_iff_mem, decide_eq_true_eq] at hnf
+    List.contains_iff_mem] at hnf
   obtain ⟨x, hxK, hxN, hcomm⟩ := hnf
   obtain ⟨k, hk, hkx⟩ := S.hκ.surj x hxK
   subst hkx

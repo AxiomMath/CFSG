@@ -21,7 +21,7 @@ theorem HasAbelianSylowTwo.subgroup [Finite G] (hG : HasAbelianSylowTwo G) (H : 
     HasAbelianSylowTwo H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P
-  obtain ⟨Q, hQ⟩ := (P.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (P.isPGroup.map H.subtype).exists_le_sylow
   have := hG Q
   have : IsMulCommutative ((P : Subgroup H).map H.subtype) := isMulCommutative_anti hQ
   have h := Subgroup.comap_injective_isMulCommutative (H := (P : Subgroup H).map H.subtype)

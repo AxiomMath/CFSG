@@ -504,7 +504,7 @@ theorem hasTwoGeneratingOvergroups_of_le_semilinear
   have hU : IsSylowOf 2 (projUnitriangular 3 F) ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · rw [← hPu]; exact Pu.isPGroup'
+    · rw [← hPu]; exact Pu.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hPu]; exact Pu.not_dvd_index
   refine lift_weak center_projectiveSL_eq_bot hU
     (not_normal_projStabilizer_flag (by norm_num) (by norm_num))

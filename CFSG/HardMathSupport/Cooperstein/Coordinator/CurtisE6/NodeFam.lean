@@ -69,7 +69,7 @@ theorem node_dim_of_sep [Module.Finite k V] {ρ : Representation k ↥(e6Data_va
   have hcard : Nat.card Kˣ = 2 ^ n - 1 := by rw [Nat.card_units, hK]
   have hli : LinearIndependent k v := by
     refine linearIndependent_of_wt ρ v x hv (fun c => ?_)
-    haveI : Subsingleton {p : Fin A × Fin B // wcls K k (x p) = c} :=
+    have : Subsingleton {p : Fin A × Fin B // wcls K k (x p) = c} :=
       ⟨fun p q => Subtype.ext (hsep p.1 q.1 (fun i => by
         have := dvd_of_wcls_eq (p.2.trans q.2.symm) i
         rwa [hcard] at this))⟩

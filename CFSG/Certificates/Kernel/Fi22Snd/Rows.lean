@@ -32,10 +32,10 @@ theorem lor_two_pow {B c : Nat} (hc : c < 2 ^ 64) (p : Nat) :
   rw [Nat.testBit_or, Nat.testBit_two_pow_mul_add _ hc, Nat.testBit_two_pow_mul_add _ hc,
     Nat.testBit_two_pow]
   by_cases hj : j < 64
-  · rw [if_pos hj, if_pos hj]
+  · rw [ite_eq_left hj, ite_eq_left hj]
     have : ¬ 64 + p = j := by omega
     simp [this]
-  · rw [if_neg hj, if_neg hj, Nat.testBit_or, Nat.testBit_two_pow]
+  · rw [ite_eq_right hj, ite_eq_right hj, Nat.testBit_or, Nat.testBit_two_pow]
     have e : decide (64 + p = j) = decide (p = j - 64) := decide_eq_decide.2 (by omega)
     rw [e]
 

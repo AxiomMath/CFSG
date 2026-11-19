@@ -52,7 +52,7 @@ theorem step18_of'
     rw [mem_centralizer_singleton_iff]
     exact congrArg Subtype.val (hF.elemE.1.is_comm.comm ⟨r, hF.R_le_E hr⟩ ⟨z, hzE⟩)
   have hS : IsSylowOf 2 (S : Subgroup G) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   let eL : ↥(closureIn A (normalizer (AS76b.oddCoreIn (centralizer ({z} : Set G)) : Set G))) ≃*
       ↥(rankTwoX
         (A.subgroupOf (normalizer (AS76b.oddCoreIn (centralizer ({z} : Set G)) : Set G)))) :=

@@ -39,13 +39,13 @@ theorem outTwoGen_projectiveSL_odd {K : Type} [Field K] [Finite K] {n : ℕ} (hn
   obtain ⟨hgenTop, -⟩ := automorphism_generation (K := K) hn
   obtain ⟨-, -, hDn, hEn, -, hbE, hcE, -, -, -⟩ := standard_outer_quotients (n := n) (K := K)
   have : Finite (MulAut (projectiveSL n K)) := finite_mulAut_projectiveSL n
-  haveI hDnorm : (linearAutGroup n K).Normal := by
+  have hDnorm : (linearAutGroup n K).Normal := by
     refine ⟨fun d hd γ => ?_⟩
     have hγ : γ ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top γ
     have hd' : d ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top d
     have := hDn.conj_mem ⟨d, hd'⟩ (mem_subgroupOf.mpr hd) ⟨γ, hγ⟩
     exact mem_subgroupOf.mp this
-  haveI hEnorm : (semilinearAutGroup n K).Normal := by
+  have hEnorm : (semilinearAutGroup n K).Normal := by
     refine ⟨fun d hd γ => ?_⟩
     have hγ : γ ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top γ
     have hd' : d ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top d
@@ -61,13 +61,13 @@ theorem outTwoGen_projectiveSL_prime {K : Type} [Field K] [Finite K] {n : ℕ} (
   obtain ⟨hgenTop, -⟩ := automorphism_generation (K := K) hn
   obtain ⟨-, -, hDn, -, -, -, hcE, -, -, -⟩ := standard_outer_quotients (n := n) (K := K)
   have : Finite (MulAut (projectiveSL n K)) := finite_mulAut_projectiveSL n
-  haveI hDnorm : (linearAutGroup n K).Normal := by
+  have hDnorm : (linearAutGroup n K).Normal := by
     refine ⟨fun d hd γ => ?_⟩
     have hγ : γ ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top γ
     have hd' : d ∈ standardAutGroup n K := hgenTop ▸ Subgroup.mem_top d
     have := hDn.conj_mem ⟨d, hd'⟩ (mem_subgroupOf.mpr hd) ⟨γ, hγ⟩
     exact mem_subgroupOf.mp this
-  haveI : ((MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range).Normal :=
+  have : ((MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   refine outTwoGen_of_tower (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range
     (linearAutGroup n K) (fun δ hδ _ _ => hδ) (ot_linear_D_cyclic_mod_inner (by omega)) ?_
@@ -86,10 +86,10 @@ theorem tg_psl {X : Type} [Group X] [Finite X] {n ℓ f : ℕ} (hn : 3 ≤ n)
   refine outTwoGen_of_mulEquiv e' ?_
   rcases hc with hc | rfl
   · exact outTwoGen_projectiveSL_odd hn (by rwa [hK])
-  · have hring := card_ringAut_and_isCyclic hℓ K (by rwa [pow_one] at hK ⊢)
+  · have hring := card_ringAut_and_isCyclic hℓ K (by rw [pow_one] at hK ⊢; assumption)
     have h1 : Nat.card (K ≃+* K) = 1 := hring.1
-    haveI : Subsingleton (K ≃+* K) := by
-      haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [h1]; omega)
+    have : Subsingleton (K ≃+* K) := by
+      have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [h1]; omega)
       exact (Nat.card_eq_one_iff_unique.mp h1).1
     exact outTwoGen_projectiveSL_prime hn inferInstance
 
@@ -103,7 +103,7 @@ theorem outTwoGen_primeFormP {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     unitary_prime_form_full_semilinear_realization h hC hn hq
   obtain ⟨-, hDcyc, -, -, -, -⟩ := unitary_full_diagonal_outer_order h hn hq
   have hring := card_ringAut_and_isCyclic h.prime K h.card
-  haveI : IsCyclic (RingAut K) := hring.2
+  have : IsCyclic (RingAut K) := hring.2
   refine outTwoGen_of_hom_cyclic (primeFormFieldFactor h hC hn hq) ?_
   rw [hFker]
   exact ot_cyclic_mod_of_isCyclic_quotient _ _ hDcyc
@@ -117,15 +117,15 @@ theorem tg_psu {X : Type} [Group X] [Finite X] {n r m : ℕ}
     (isPrimeFormGram_one (n := n)) hn3 hq
   have e' : X ≃* primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) :=
     (e.trans (unitaryPSUEquiv hU (by omega)).symm).trans eT.symm
-  haveI : Finite (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have : Finite (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv X e'.toEquiv
   exact outTwoGen_of_mulEquiv e' (outTwoGen_primeFormP hU hn3 hq)
 
 theorem tg_psp_two_odd {T : Type} [Group T] [Finite T] {ℓ : ℕ} (hℓ : ℓ.Prime)
     (hcl : StatedClassicalModel T .PSp 2 ℓ 1) : OutTwoGen T := by
   obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := hcl
-  letI : Field K := hF
-  haveI : Finite K := hFin
+  let : Field K := hF
+  have : Finite K := hFin
   have hdvd := (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.outer_card_dvd (K := K)
     (r := 2) hℓ le_rfl hK le_rfl).1
   have hcard : Nat.card (Outer T) =
@@ -155,7 +155,7 @@ theorem outTwoGen_PSL2_field (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fact
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   have : Finite (PSL2 K) := inferInstance
   let N : Subgroup (PGammaL2 K) := (SemidirectProduct.inl : PGL2 K →* PGammaL2 K).range
-  haveI hcyc : IsCyclic (PGammaL2 K ⧸ N) := pGammaL2_quotient_pgl_isCyclic K hK
+  have hcyc : IsCyclic (PGammaL2 K ⧸ N) := pGammaL2_quotient_pgl_isCyclic K hK
   let Θ : MulAut (PSL2 K) →* PGammaL2 K ⧸ N :=
     (QuotientGroup.mk' N).comp Ψe.symm.toMonoidHom
   have hΨinl : ∀ g : PGL2 K, Ψe (SemidirectProduct.inl g) = pgl2InnerAutPSL2 K hK hcard g :=

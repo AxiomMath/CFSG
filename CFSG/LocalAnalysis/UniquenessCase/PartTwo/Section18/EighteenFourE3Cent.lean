@@ -27,7 +27,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 private theorem barImage_sup_normal {D : Data G} {V₀ V L K : Subgroup G}
-    (c : A5Data18 D V₀ V L) (hK : K ∈ calC D.M) (hKne : K ≠ L)
+    (c : A5Data18 D V₀ V L) (hK : K ∈ calC D.M) (_hKne : K ≠ L)
     (hdich : (UC22.conjClosure D.M L = L ⊔ K ∧ ∃ x ∈ D.M, K = conjSubgroup L x) ∨
       (UC22.conjClosure D.M L = L ∧ (L.subgroupOf D.M).Normal ∧ (K.subgroupOf D.M).Normal)) :
     (barImage D.M (L ⊔ K)).Normal := by
@@ -415,7 +415,7 @@ theorem A5Data18.stronglyEmbedded_three
     CFSG.GroupTheory.not_dvd_card_of_isPGroup hN2 Nat.prime_three (by norm_num)
   have hN5 : ¬ 5 ∣ Nat.card ↥(CFSG.pCore 2 ↥D.M) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup hN2 Nat.prime_five (by norm_num)
-  have hQ3 : IsPGroup 3 Qsub := show IsPGroup 3 Qsub from Q.isPGroup'
+  have hQ3 : IsPGroup 3 Qsub := show IsPGroup 3 Qsub from Q.isPGroup
   have hbot : Qsub ⊓ CFSG.pCore 2 ↥D.M = ⊥ :=
     CFSG.GroupTheory.SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hN3 hQ3
   obtain ⟨rM, hrMQ, hrMmap⟩ :=
@@ -597,7 +597,6 @@ theorem A5Data18.stronglyEmbedded_three
     · rw [h]; exact Subgroup.mem_centralizer_iff.mp hzPC.2 k (hK₀A hk)
   have hK₀_le : K₀ ≤ Subgroup.centralizer (Ebar : Set B) := by
     intro k hk
-    change k ∈ Subgroup.centralizer (Ebar : Set B)
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     exact (Subgroup.mem_centralizer_iff.mp (hEbar_le_centK hy) k hk).symm

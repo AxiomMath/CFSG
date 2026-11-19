@@ -25,17 +25,17 @@ theorem kd264I5Aut_triality (e : TauCeti.ValidLieTypeIndex)
   obtain ⟨d, hd⟩ := e
   change d = _ at he
   subst he
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, σ, -, -, ⟨Θ, hker⟩, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hd
-  haveI := Finite.of_equiv _ e.toEquiv
+  have := Finite.of_equiv _ e.toEquiv
   have hinjCat := CFSG.HardMathSupport.Timmesfeld.CrossChar.conj_injective_cat_trialityD4 q hd
   have hinjC := CFSG.LieType.SeitzGeneration.conj_injective_of_mulEquiv e.symm hinjCat
   have hR := CFSG.LieType.SeitzGeneration.RankLE2.of_mulEquiv e
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.rankLE2_three_cat_trialityD4 q hd hq3)
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun f : K ≃+* K => (f : K → K)) DFunLike.coe_injective
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have h := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.I5Aut.pRank_mulAut_le_three_of_hom Θ hker hinjC
     (CFSG.LocalAnalysis.GLTheoremA.KD264Lie.I5Aut.pRank_le_two_of_rankLE2 hR)

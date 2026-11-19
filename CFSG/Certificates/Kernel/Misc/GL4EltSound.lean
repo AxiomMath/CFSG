@@ -13,7 +13,7 @@ open Matrix CFSG.KC.LQT.P CFSG.KC.Ord
 open CFSG.KC.Misc.Clos (ClosEnc ExactList clos_card sort_distinct treeAt sortAt closedAt)
 open Certificates.A5GL42 (Mat4 Vec4 ofCode vecOfCode)
 open Certificates.A5A7GL42 (Pset)
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 
 theorem finite_gl4 : Finite GL4 := Finite.of_injective (fun g : GL4 => (g : Mat4)) Units.val_injective
 
@@ -54,7 +54,7 @@ theorem exists_of_invOK {c : ℕ} (h : invOK c = true) : ∃ g : GL4, enc4 g = c
 noncomputable def u4 (c : ℕ) : GL4 := if h : ∃ g : GL4, enc4 g = c then h.choose else 1
 
 theorem enc4_u4 {c : ℕ} (h : ∃ g : GL4, enc4 g = c) : enc4 (u4 c) = c := by
-  rw [u4, dif_pos h]
+  rw [u4, dite_eq_left h]
   exact h.choose_spec
 
 theorem coe_eq_of_enc4 {g : GL4} {c : ℕ} (h : enc4 g = c) : (g : Mat4) = ofCode c := by
@@ -74,7 +74,7 @@ theorem sg_eq (l : List ℕ) (hl : ∀ c ∈ l, invOK c = true) :
   unfold sg
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
   constructor
   · rintro ⟨c, hc, e⟩
     obtain ⟨h, hh⟩ := exists_of_invOK (hl c hc)

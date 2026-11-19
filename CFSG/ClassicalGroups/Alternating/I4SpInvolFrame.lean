@@ -46,13 +46,11 @@ theorem exists_hyperbolic_frame [CharP K 2] (hBN : BN.IsAlt) (hBNnd : BN.Nondege
   · simp only [_root_.map_add, _root_.map_smul, LinearMap.add_apply, LinearMap.smul_apply,
       smul_eq_mul]
     rw [hcv, mul_one, hsymm w₁ v, ← two_mul, h2, zero_mul]
-  · simp only [_root_.map_add, _root_.map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul]
+  · simp only [_root_.map_add, _root_.map_smul, smul_eq_mul]
     rw [haw₁, hPP v w₁, mul_zero, add_zero]
   · rw [hsymm (t.phi v) v]
     exact hself v
-  · simp only [_root_.map_add, _root_.map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul]
+  · simp only [_root_.map_add, _root_.map_smul, smul_eq_mul]
     rw [hsymm (t.phi w₁) w₁, hself w₁, hBN.self_eq_zero (t.phi w₁), mul_zero, add_zero]
   · exact happ v
   · rw [happ, hφw]
@@ -102,7 +100,7 @@ theorem isCompl_span_four_orthogonal [CharP K 2] (hBN : BN.IsAlt) {a c w v : N}
     obtain ⟨γ, z₃, hz₃, rfl⟩ := Submodule.mem_span_insert.1 hz₂
     obtain ⟨δ, rfl⟩ := Submodule.mem_span_singleton.1 hz₃
     simp only [map_add, map_smul, smul_eq_mul, haa, hac, haw, hav, hca, hcc, hcw, hcv, hwa,
-      hwc, hww, hwv, hva, hvc, hvw, hvv, mul_zero, zero_mul, mul_one, add_zero, zero_add]
+      hwc, hww, hwv, hva, hvc, hvw, hvv, mul_zero, mul_one, add_zero, zero_add]
       at hBa hBc hBw hBv
     have hγ : γ = 0 := by linear_combination hBa
     have hδ : δ = 0 := by linear_combination hBc
@@ -123,7 +121,7 @@ theorem isCompl_span_four_orthogonal [CharP K 2] (hBN : BN.IsAlt) {a c w v : N}
         (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
     · rw [mem_orthogonal_span_four]
       simp only [map_sub, map_add, map_smul, smul_eq_mul, haa, hac, haw, hav, hca, hcc, hcw,
-        hcv, hwa, hwc, hww, hwv, hva, hvc, hvw, hvv, mul_zero, zero_mul, mul_one, add_zero,
+        hcv, hwa, hwc, hww, hwv, hva, hvc, hvw, hvv, mul_zero, mul_one, add_zero,
         zero_add]
       refine ⟨?_, ?_, ?_, ?_⟩
       · linear_combination form_comm_charTwo hBN a x

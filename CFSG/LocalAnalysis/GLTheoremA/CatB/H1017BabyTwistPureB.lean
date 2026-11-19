@@ -42,7 +42,7 @@ private theorem pureB_injective_comp {H K P : Type*} [Group H] [Group K] [Group 
 
 private theorem pureB_isElemAbelian_range {G K : Type*} [Group G] [Group K] {D : Subgroup G}
     (hD : IsElemAbelian 3 D) (f : D →* K) : IsElemAbelian 3 f.range := by
-  haveI := hD.1
+  have := hD.1
   refine ⟨Subgroup.range_isMulCommutative f, ?_⟩
   rintro _ ⟨d, rfl⟩
   rw [← map_pow, show d ^ 3 = 1 from Subtype.ext (by simpa using hD.2 d d.2), map_one]
@@ -89,7 +89,7 @@ theorem babyNoPureFourAt_one_of
       Nat.card D₀ = 3 ^ 4 ∧ ∃ y ∈ D₀, IsConj y (BThreeFi23.phiB (BThreeFi23.t3 0))) :
     BabyNoPureFourAt 1 := by
   intro t ht D hDt hD hDcard
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨t₁, ht₁, D₀, hD₀t, hD₀, hD₀card, y, hy, hyc⟩ := hD0
   obtain ⟨F, hF, hker⟩ := exists_hom_centralizer_xB
   obtain ⟨c, hc⟩ := isConj_iff.1 (CFSG.Monster.Existence.babyTableIII.2 1 t xB ht babyInv_one_xB)

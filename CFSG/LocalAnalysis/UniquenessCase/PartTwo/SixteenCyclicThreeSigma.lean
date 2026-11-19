@@ -21,7 +21,7 @@ theorem sig_eq_three_of_mbar_card_dvd_362880
     {V₀ V : Subgroup G} (h16 : Hyp16 D V₀ V) (hV : IsElemAbelian 2 V)
     (hcard : Nat.card ↥(Mbar D.M V₀ V hV) ∣ 362880) :
     D.sig = {3} := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) :=
+  have : Finite (MulAut (Vtil V₀ V hV)) :=
     Finite.of_injective
       (fun f : MulAut (Vtil V₀ V hV) => (f : Vtil V₀ V hV → Vtil V₀ V hV))
       (fun _ _ h => MulEquiv.ext (congrFun h))
@@ -117,7 +117,7 @@ theorem cyclic_three_rank_six_s1_sigma_and_pRank
       (c23_card_v0_le_four D h16) h3
   refine ⟨hsig, hrank, ?_⟩
   intro J _ hJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx := CFSG.LocalAnalysis.RankThreeUC.S15.RankChevProof.pRank_top_eq_of_index_two
     (r := 3) (by norm_num) J hJ
   have htop := (CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3)

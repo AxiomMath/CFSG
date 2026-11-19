@@ -112,14 +112,14 @@ theorem mk_ne_one_of_diag_ne {A : GL (Fin 3) K} {i k : Fin 3}
   intro h1
   obtain ⟨u, hu⟩ := exists_scalar_of_mk_eq_one h1
   apply h
-  rw [hu, hu, if_pos rfl, if_pos rfl]
+  rw [hu, hu, ite_eq_left rfl, ite_eq_left rfl]
 
 theorem mk_ne_one_of_offdiag_ne {A : GL (Fin 3) K} {i k : Fin 3} (hik : i ≠ k)
     (h : (A : Matrix (Fin 3) (Fin 3) K) i k ≠ 0) : ProjGenLinGroup.mk A ≠ 1 := by
   intro h1
   obtain ⟨u, hu⟩ := exists_scalar_of_mk_eq_one h1
   apply h
-  rw [hu, if_neg hik]
+  rw [hu, ite_eq_right hik]
 
 theorem exists_scalar_of_mk_eq_mk {A B : GL (Fin 3) K}
     (h : ProjGenLinGroup.mk A = ProjGenLinGroup.mk B) :
@@ -139,7 +139,7 @@ variable {K : Type} [Field K]
 theorem diagTau_pow_entry {τ : K} (hτ : τ ^ 3 = 1) {m : ℕ} (hm : m < 3) :
     ((diagTau hτ ^ m : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 0 = τ ^ m := by
   interval_cases m <;>
-    simp [Units.val_pow_eq_pow_val, coe_diagTau, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]
+    simp [coe_diagTau, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem mk_diagTau_pow_ne_cycThree {τ : K} (hτ : τ ^ 3 = 1) (hτ0 : τ ≠ 0) {m : ℕ} (hm : m < 3) :
     ProjGenLinGroup.mk (diagTau hτ ^ m) ≠ ProjGenLinGroup.mk (cycThree : GL (Fin 3) K) := by
@@ -163,7 +163,7 @@ theorem mk_diagTau_mul_cycThree {τ : K} (hτ : τ ^ 3 = 1) (hτ0 : τ ≠ 0) :
     rw [Units.val_mul, cycThree_conj_diagTau hτ, GeneralLinearGroup.coe_scalar, coe_diagTau]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal_apply] <;>
+      simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply] <;>
       field_simp
   rw [map_mul, map_mul, map_inv] at h1
   rw [map_mul, map_mul]
@@ -215,7 +215,7 @@ theorem negDiag_mem_slPi {π : Bool} (hπ : π = false → UnitaryFieldData p f 
     refine ⟨hdet, ?_⟩
     rw [coe_negDiag]
     ext i j; fin_cases i <;> fin_cases j <;>
-      simp [mul_apply, Fin.sum_univ_three, transpose_apply, diagonal_apply]
+      simp [mul_apply, diagonal_apply]
   · rw [mem_slPi_true]
     exact hdet
 
@@ -231,7 +231,7 @@ theorem diagTau_mul_negDiag {τ : K} (hτ : τ ^ 3 = 1) :
     diagTau hτ * (negDiag : GL (Fin 3) K) = negDiag * diagTau hτ := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_negDiag, coe_diagTau]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal_apply]
 
 theorem elemWitness_odd {π : Bool} (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     (hp2 : p ≠ 2) : ElemWitness (projImage (slPi π 3 (p ^ f) K)) := by
@@ -303,7 +303,7 @@ theorem diagUnits_mul_negSwap01 (a c : Kˣ) :
     diagUnits a a c * (negSwap01 : GL (Fin 3) K) = negSwap01 * diagUnits a a c := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_diagUnits, coe_negSwap01]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal_apply]
 
 theorem elemWitness_unitary_nine (hK : PiField false 2 f K) (h9 : 9 ∣ 2 ^ f + 1) :
     ElemWitness (projImage (slPi false 3 (2 ^ f) K)) := by
@@ -396,7 +396,7 @@ theorem elemWitness_unitary_nine (hK : PiField false 2 f K) (h9 : 9 ∣ 2 ^ f + 
   · congr 1
     apply Units.ext
     rw [Units.val_mul, Units.val_mul, hJdef, coe_diagUnits, coe_diagTau]
-    ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal_apply] <;>
+    ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal_apply] <;>
       ring
   · intro m hm heq
     obtain ⟨u, hu⟩ := exists_scalar_of_mk_eq_mk heq
@@ -434,12 +434,12 @@ theorem transvec02_add (a b : K) : transvec02 (a + b) = transvec02 a * transvec0
 theorem transvec02_zero : transvec02 (0 : K) = 1 := by
   apply Units.ext
   rw [coe_transvec02, Units.val_one]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp
 
 @[expose] noncomputable def transvecHom : Multiplicative K →* GL (Fin 3) K where
   toFun a := transvec02 (Multiplicative.toAdd a)
   map_one' := transvec02_zero
-  map_mul' a b := transvec02_add _ _
+  map_mul' _a _b := transvec02_add _ _
 
 theorem transvec02_mem_slPi_true (q : ℕ) (a : K) : transvec02 a ∈ slPi true 3 q K := by
   rw [mem_slPi_true, coe_transvec02, det_fin_three]
@@ -523,8 +523,8 @@ theorem k13PZeroElem_holds : K13PZeroElem := by
         have he1 : e = 1 := by omega
         subst he1
         have hs := Sec13.isSolvable_projSU_two
-        have hsolv : IsSolvable X :=
-          solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+        have hsolv : Group.IsSolvable X :=
+          Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
         have : Group.IsPerfect X := hXq.1
         have : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hXq
         exact Group.IsPerfect.not_isSolvable X hsolv

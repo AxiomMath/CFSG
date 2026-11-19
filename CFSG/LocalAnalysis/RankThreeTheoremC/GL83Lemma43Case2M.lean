@@ -172,7 +172,7 @@ theorem l43_conj_mem_sup_of_moving
       normalizes_O := hnormO
       normalizes_ZO := hnormZO }
   have hZp : Z ≤ CFSG.pCore 3 (M ⧸ O) := hdata.le_pCore hInn hWC hK3
-  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup', fun hdvd =>
+  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   obtain ⟨R, hR⟩ : ∃ R : Sylow 3 (M ⧸ O), (R : Subgroup (M ⧸ O)) =
       ((P : Subgroup G).subgroupOf M).map π := by
@@ -230,7 +230,7 @@ theorem l43_normalizer_sup_of_moving
   have hK₀M : K₀ ≤ M := hK₀P.trans hPM
   have hPO : (P : Subgroup G) ≤ normalizer (GLBPrimeCore 3 M : Set G) := hPM.trans hMO
   have hPsylW : IsSylowOf 3 (P : Subgroup G) ((P : Subgroup G) ⊔ GLBPrimeCore 3 M) :=
-    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup', fun hdvd => P.not_dvd_index
+    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup, fun hdvd => P.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le le_sup_left))⟩
   have hK₀p : IsPGroup 3 K₀ := elementary_isPGroup 3 K₀ hK₀el
   have hstar : ∀ m ∈ M, ∀ a ∈ K₀, m * a * m⁻¹ ∈ K₀ ⊔ GLBPrimeCore 3 M := by

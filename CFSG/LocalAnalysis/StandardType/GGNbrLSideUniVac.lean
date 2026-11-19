@@ -90,7 +90,7 @@ private lemma pairMod3_three_dvd_sq_two_pow_sub_one (j : ℕ) : 3 ∣ (2 ^ j) ^ 
 
 private lemma pairMod3_exists_cube_root_unity_of_three_dvd {L : Type} [Field L] [Finite L]
     (h : 3 ∣ Nat.card L - 1) : ∃ w : L, w ^ 3 = 1 ∧ w ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3u : 3 ∣ Nat.card Lˣ := by rwa [Nat.card_units]
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Lˣ) 3 h3u
   have hω3 : ω ^ 3 = 1 := by simpa [hω] using pow_orderOf_eq_one ω

@@ -139,11 +139,11 @@ theorem exists_int_of_mem_t0Sub [NeZero p] {g : Fin τ.rank → ZMod p} (hg : g 
   obtain ⟨c, hc⟩ := (mem_t0Sub_iff g).1 hg
   refine ⟨fun j => ((c j).val : ℤ), fun i => ?_⟩
   rw [hc i]
-  simp [ZMod.natCast_zmod_val]
+  simp
 
 theorem t0Sub_eq_top (hp : p.Prime) (hdet : ¬ (p : ℤ) ∣ τ.cartan.det) : t0Sub τ p = ⊤ := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   refine eq_top_iff.mpr fun f _ => ?_
   rw [mem_t0Sub_iff]
   let A : Matrix (Fin τ.rank) (Fin τ.rank) (ZMod p) := τ.cartan.map fun x => (x : ZMod p)
@@ -273,7 +273,7 @@ theorem eq_t0Sub_or_top_E6 {V : Submodule (ZMod 3) (Fin Tag.E6.rank → ZMod 3)}
   by_cases hV : V ≤ t0Sub .E6 3
   · exact Or.inl (le_antisymm hV h)
   · right
-    obtain ⟨v, hvV, hvn⟩ := SetLike.not_le_iff_exists.mp hV
+    obtain ⟨v, hvV, hvn⟩ := IsConcreteLE.not_le_iff_exists.mp hV
     have hφv : e6Func v ≠ 0 := fun h0 => hvn ((mem_t0Sub_E6_three).2 h0)
     refine eq_top_iff.mpr fun w _ => ?_
     have hlin : ∀ (c : ZMod 3) (a : Fin Tag.E6.rank → ZMod 3), e6Func (a - c • v) =
@@ -388,6 +388,7 @@ theorem imageSub_le_V (H : Subgroup G) : fr.imageSub H ≤ fr.V := by
 theorem toAdd_coord_mem_V (b : Bs) : Multiplicative.toAdd (fr.coord b) ∈ fr.V :=
   (fr.mem_V).2 ⟨b, rfl⟩
 
+omit [NeZero p] in
 theorem coord_ne_zero {b : Bs} (hb : b ≠ 1) : Multiplicative.toAdd (fr.coord b) ≠ 0 := by
   intro h
   apply hb

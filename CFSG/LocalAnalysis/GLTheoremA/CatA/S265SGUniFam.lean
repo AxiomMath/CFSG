@@ -115,29 +115,29 @@ private theorem SG.HypPairsF.swap (h : SG.HypPairsF σ S u w) (hinv : ∀ c, σ 
     · exact hi (hij.2 hi)
   refine ⟨fun i j => ?_, fun i j => ?_, fun i j => ?_, fun i => ?_, fun i => ?_⟩
   · by_cases hi : P i <;> by_cases hj : P j
-    · simp only [if_pos hi, if_pos hj, h.ww i j]
-    · simp only [if_pos hi, if_neg hj, h.wu hinv, if_neg (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
-    · simp only [if_neg hi, if_pos hj, h.uw, if_neg (hne i j ⟨fun h' => (hi h').elim,
+    · simp only [ite_eq_left hi, ite_eq_left hj, h.ww i j]
+    · simp only [ite_eq_left hi, ite_eq_right hj, h.wu hinv, ite_eq_right (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
+    · simp only [ite_eq_right hi, ite_eq_left hj, h.uw, ite_eq_right (hne i j ⟨fun h' => (hi h').elim,
         fun h' => (h' hj).elim⟩)]
-    · simp only [if_neg hi, if_neg hj, h.uu i j]
+    · simp only [ite_eq_right hi, ite_eq_right hj, h.uu i j]
   · by_cases hi : P i <;> by_cases hj : P j
-    · simp only [if_pos hi, if_pos hj, h.uu i j]
-    · simp only [if_pos hi, if_neg hj, h.uw, if_neg (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
-    · simp only [if_neg hi, if_pos hj, h.wu hinv, if_neg (hne i j ⟨fun h' => (hi h').elim,
+    · simp only [ite_eq_left hi, ite_eq_left hj, h.uu i j]
+    · simp only [ite_eq_left hi, ite_eq_right hj, h.uw, ite_eq_right (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
+    · simp only [ite_eq_right hi, ite_eq_left hj, h.wu hinv, ite_eq_right (hne i j ⟨fun h' => (hi h').elim,
         fun h' => (h' hj).elim⟩)]
-    · simp only [if_neg hi, if_neg hj, h.ww i j]
+    · simp only [ite_eq_right hi, ite_eq_right hj, h.ww i j]
   · by_cases hi : P i <;> by_cases hj : P j
-    · simp only [if_pos hi, if_pos hj, h.wu hinv i j]
-    · simp only [if_pos hi, if_neg hj, h.ww, if_neg (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
-    · simp only [if_neg hi, if_pos hj, h.uu, if_neg (hne i j ⟨fun h' => (hi h').elim,
+    · simp only [ite_eq_left hi, ite_eq_left hj, h.wu hinv i j]
+    · simp only [ite_eq_left hi, ite_eq_right hj, h.ww, ite_eq_right (hne i j ⟨fun _ => hj, fun _ => hi⟩)]
+    · simp only [ite_eq_right hi, ite_eq_left hj, h.uu, ite_eq_right (hne i j ⟨fun h' => (hi h').elim,
         fun h' => (h' hj).elim⟩)]
-    · simp only [if_neg hi, if_neg hj, h.uw i j]
+    · simp only [ite_eq_right hi, ite_eq_right hj, h.uw i j]
   · by_cases hi : P i
-    · simpa only [if_pos hi] using h.ew i
-    · simpa only [if_neg hi] using h.eu i
+    · simpa only [ite_eq_left hi] using h.ew i
+    · simpa only [ite_eq_right hi] using h.eu i
   · by_cases hi : P i
-    · simpa only [if_pos hi] using h.eu i
-    · simpa only [if_neg hi] using h.ew i
+    · simpa only [ite_eq_left hi] using h.eu i
+    · simpa only [ite_eq_right hi] using h.ew i
 
 theorem SG.exists_hypPairs_family (hσ : IsUnitaryInvolution σ) {ω : K}
     (hω : IsPrimitiveRoot ω 3) (hσω : σ ω = ω) [Finite ι]
@@ -146,7 +146,7 @@ theorem SG.exists_hypPairs_family (hσ : IsUnitaryInvolution σ) {ω : K}
     ∃ u w : Fin k → Fin n → K, (∀ i, HypPairs σ (S i) u w) ∧
       ∀ j, S i₀ (u j) = u j ∨ S i₀ (u j) = ω • u j := by
   classical
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   obtain ⟨u, w, h⟩ := SG.exists_hypPairsF hσ hω hσω hcomm hSp hS k hk
   refine ⟨_, _, fun s => (h.swap hσ.invol fun j => S i₀ (u j) = ω ^ 2 • u j).hyp s, fun j => ?_⟩
   have hu0 : u j ≠ 0 := fun h0 => by
@@ -154,16 +154,16 @@ theorem SG.exists_hypPairs_family (hσ : IsUnitaryInvolution σ) {ω : K}
     rw [h0, herm_zero_left] at this
     simp at this
   by_cases hj : S i₀ (u j) = ω ^ 2 • u j
-  · simp only [hj, if_true]
+  · simp only [hj, ite_true]
     right
     obtain ⟨b, hb⟩ := h.ew j i₀
     have h1 := hS i₀ (u j) (w j)
-    rw [hj, hb, herm_smul_left, herm_smul_right, h.uw j j, if_pos rfl, map_pow, hσω] at h1
+    rw [hj, hb, herm_smul_left, herm_smul_right, h.uw j j, ite_eq_left rfl, map_pow, hσω] at h1
     have hb' : b = ω := by
       have h3 : ω ^ 3 = 1 := hω.pow_eq_one
       linear_combination (ω : K) * h1 - b * h3
     rw [hb, hb']
-  · simp only [hj, if_false]
+  · simp only [hj, ite_false]
     obtain ⟨a, ha⟩ := h.eu j i₀
     obtain ⟨i, hi3, hia⟩ := hω.eq_pow_of_pow_eq_one (eigen_cube (hSp i₀) ha hu0)
     interval_cases i

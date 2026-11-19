@@ -65,7 +65,7 @@ theorem levTwoS3e7_patStep_testBit (m acc i j : ℕ) :
         (i = j ∧ levTwoS3e7_inPat m (levTwoS3e7_roots.getD i []) = true) := by
   unfold levTwoS3e7_patStep
   by_cases h : levTwoS3e7_inPat m (levTwoS3e7_roots.getD i [])
-  · rw [if_pos h, Nat.testBit_lor, Bool.or_eq_true, levTwoS3b_testBit_one_shiftLeft]
+  · rw [ite_eq_left h, Nat.testBit_lor, Bool.or_eq_true, levTwoS3b_testBit_one_shiftLeft]
     constructor
     · rintro (hacc | hji)
       · exact Or.inl hacc
@@ -73,7 +73,7 @@ theorem levTwoS3e7_patStep_testBit (m acc i j : ℕ) :
     · rintro (hacc | ⟨hij, -⟩)
       · exact Or.inl hacc
       · exact Or.inr hij.symm
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     constructor
     · intro hacc; exact Or.inl hacc
     · rintro (hacc | ⟨-, hpat⟩)

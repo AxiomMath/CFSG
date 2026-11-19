@@ -25,7 +25,7 @@ theorem exists_fixed_of_odd {G X : Type} [Group G] [MulAction G X] [Finite X]
   have hdvd6 : Nat.card ρ.range ∣ 6 := by
     have h1 : Nat.card ρ.range ∣ Nat.card (Equiv.Perm X) := Subgroup.card_subgroup_dvd_card _
     have h2 : Nat.card (Equiv.Perm X) = (Nat.card X).factorial := by
-      haveI := Fintype.ofFinite X
+      have := Fintype.ofFinite X
       rw [Nat.card_eq_fintype_card, Fintype.card_perm, Nat.card_eq_fintype_card]
     rw [h2] at h1
     refine h1.trans ?_
@@ -35,7 +35,7 @@ theorem exists_fixed_of_odd {G X : Type} [Group G] [MulAction G X] [Finite X]
   have hdvd2 : Nat.card ρ.range ∣ 2 := by
     have h : Nat.card ρ.range ∣ 2 * 3 := hdvd6
     exact Nat.Coprime.dvd_of_dvd_mul_right hcop.symm h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ρ.range := by
     rcases (Nat.dvd_prime Nat.prime_two).1 hdvd2 with h | h
     · exact IsPGroup.of_card (n := 0) (by simpa using h)
@@ -46,7 +46,7 @@ theorem exists_fixed_of_odd {G X : Type} [Group G] [MulAction G X] [Finite X]
     rw [h0] at hmod
     have h2 : 2 ∣ Nat.card X := Nat.modEq_zero_iff_dvd.1 hmod
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 h2)
-  haveI : Nonempty (MulAction.fixedPoints ρ.range X) :=
+  have : Nonempty (MulAction.fixedPoints ρ.range X) :=
     Nat.card_pos_iff.1 (Nat.pos_of_ne_zero hfix) |>.1
   obtain ⟨x⟩ := this
   refine ⟨x.1, fun g => ?_⟩
@@ -83,17 +83,17 @@ private noncomputable def conjHom (Y G : Subgroup M)
     simp [mul_assoc]
 
 theorem exists_fixed_involution (Y : Subgroup M) (hY : Nat.card Y = 6) (G : Subgroup M)
-    (hGY : ∀ g ∈ G, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (N : Subgroup M) (hNG : N ≤ G)
+    (hGY : ∀ g ∈ G, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (N : Subgroup M) (_hNG : N ≤ G)
     (hNY : ∀ n ∈ N, ∀ y ∈ Y, n * y = y * n) (hidx : Nat.Coprime 3 (N.subgroupOf G).index) :
     ∃ t ∈ Y, t ≠ 1 ∧ t * t = 1 ∧ ∀ g ∈ G, g * t * g⁻¹ = t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulDistribMulAction ↥G ↥Y := MulDistribMulAction.compHom ↥Y (conjHom Y G hGY)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulDistribMulAction ↥G ↥Y := MulDistribMulAction.compHom ↥Y (conjHom Y G hGY)
   have hsmul : ∀ (g : ↥G) (y : ↥Y), ((g • y : ↥Y) : M) = (g : M) * y * (g : M)⁻¹ :=
     fun g y => rfl
   have hcard : ∀ P : Sylow 2 ↥Y, Nat.card (P : Subgroup ↥Y) = 2 := by
     intro P
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
     have hdvd : Nat.card (P : Subgroup ↥Y) ∣ 6 := hY ▸ Subgroup.card_subgroup_dvd_card _
     have h2 : 2 ∣ Nat.card (P : Subgroup ↥Y) := P.dvd_card_of_dvd_card (by rw [hY]; norm_num)
     rw [hk] at hdvd h2 ⊢

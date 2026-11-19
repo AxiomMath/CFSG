@@ -113,7 +113,7 @@ theorem pCore_two_ne_bot_of_isNilpotent {W : Type*} [Group W] [Finite W]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain P : Sylow 2 W := default
   have hPn : (P : Subgroup W).Normal := Group.IsNilpotent.sylow_normal hW 2 P
-  have hle : (P : Subgroup W) ≤ CFSG.pCore 2 W := le_sSup ⟨hPn, P.isPGroup'⟩
+  have hle : (P : Subgroup W) ≤ CFSG.pCore 2 W := le_sSup ⟨hPn, P.isPGroup⟩
   exact fun h => Sylow.ne_bot_of_dvd_card P h2 (le_bot_iff.mp (h ▸ hle))
 
 open CFSG.Assembly.RankThreeEven (localRank) in

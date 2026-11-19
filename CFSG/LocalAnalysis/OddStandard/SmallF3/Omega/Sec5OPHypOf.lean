@@ -33,7 +33,7 @@ theorem sec5op_exists_hyp_gen (h : Sec510Ctx G t L S z r ρ B A φ)
       Sec5OPHyp t z (sec5p510_T t z (sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂))) π := by
   let H : Subgroup G := centralizer ({z} : Set G)
   let N : Subgroup ↥H := (zpowers z).subgroupOf H
-  haveI : N.Normal := sec5ophyp_h_normal z
+  have : N.Normal := sec5ophyp_h_normal z
   refine ⟨↥H ⧸ N, inferInstance, QuotientGroup.mk' N, ?_⟩
   exact
     { tH := by

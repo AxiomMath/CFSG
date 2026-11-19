@@ -362,7 +362,7 @@ theorem burnsideI2BN_exists_isBNPair {p : ℕ} {B N : Subgroup G} [(cartan B N).
 open CFSG.GH74.BNPair CFSG.GroupTheory.TitsSystem in
 theorem burnsideI2BN_normalizer_borel {p : ℕ} {B N : Subgroup G} (hBN : burnsideI2BN_Pre p B N) :
     Subgroup.normalizer (B : Set G) = B := by
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : (cartan B N).Normal := hBN.normal_inter
   obtain ⟨S, hS⟩ := burnsideI2BN_exists_isBNPair hBN
   have := hS.normalizer_parabolic (J := ∅) (Set.empty_subset _)
   rwa [parabolic_empty] at this
@@ -388,8 +388,8 @@ open CFSG.GH74.BNPair CFSG.GroupTheory.TitsSystem in
 theorem IsSplitBNPair.exists_sylow_normalizer [Finite G] {p : ℕ} (hp : p.Prime)
     {B N : Subgroup G} (hBN : IsSplitBNPair p B N) :
     ∃ U : Sylow p G, Subgroup.normalizer ((U : Subgroup G) : Set G) = B := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : Fact p.Prime := ⟨hp⟩
+  have : (cartan B N).Normal := hBN.normal_inter
   obtain ⟨S, hS⟩ := burnsideI2BN_exists_isBNPair (burnsideI2BN_toPre hBN)
   obtain ⟨U, hUB, hUn, hUp, hUi, hUN, hUH, -⟩ := hBN.split
   have hBU : B ≤ Subgroup.normalizer (U : Set G) :=
@@ -421,7 +421,7 @@ theorem burnsideI2BN_mem_conjugate {B : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 theorem burnsideI2BN_mem_iInf_conjugate {B N : Subgroup G} {x : G} :
     x ∈ (⨅ n ∈ N, CFSG.conjugate B n) ↔ ∀ n ∈ N, n * x * n⁻¹ ∈ B := by
@@ -531,12 +531,12 @@ theorem burnsideI2BN_exists_lift {X : Type} [Group X] [Finite G] {p : ℕ} (hp :
     ∃ U : Subgroup G, U ≤ U'.comap q ∧ IsPGroup p U ∧ U ⊓ q.ker = ⊥ ∧ U ⊔ q.ker = U'.comap q ∧
       (∀ v ∈ U'.comap q, (∃ n : ℕ, v ^ (p ^ n) = 1) → v ∈ U) ∧
       U.index = U'.index * Nat.card q.ker := by
-  haveI : Finite X := Finite.of_surjective q hq
+  have : Finite X := Finite.of_surjective q hq
   set V : Subgroup G := U'.comap q with hV
   have hKV : q.ker ≤ V := fun k hk => by
     rw [hV, Subgroup.mem_comap, (MonoidHom.mem_ker).1 hk]; exact U'.one_mem
   set KV : Subgroup V := q.ker.subgroupOf V with hKVdef
-  haveI : KV.Normal := ⟨fun k hk v => by
+  have : KV.Normal := ⟨fun k hk v => by
     rw [hKVdef, Subgroup.mem_subgroupOf] at hk ⊢
     have hc : (v : G) * (k : G) = (k : G) * (v : G) :=
       Subgroup.mem_center_iff.1 (hker hk) (v : G)
@@ -644,7 +644,7 @@ theorem burnsideI2BN_comap {X : Type} [Group X] [Finite G] {p : ℕ} (hp : p.Pri
     {B' N' : Subgroup X} (hBN : IsSplitBNPair p B' N') (q : G →* X)
     (hq : Function.Surjective q) (hker : q.ker ≤ Subgroup.center G)
     (hcop : ¬ p ∣ Nat.card q.ker) : IsSplitBNPair p (B'.comap q) (N'.comap q) := by
-  haveI : Finite X := Finite.of_surjective q hq
+  have : Finite X := Finite.of_surjective q hq
   have hKcomap : ∀ H : Subgroup X, q.ker ≤ H.comap q := fun H k hk => by
     rw [Subgroup.mem_comap, (MonoidHom.mem_ker).1 hk]; exact H.one_mem
   have hKB : q.ker ≤ B'.comap q := hKcomap B'
@@ -766,7 +766,7 @@ theorem burnsideI2BN_index_eq {B U H : Subgroup G} (hUB : U ≤ B)
     (hUn : (U.subgroupOf B).Normal) (hHB : H ≤ B) (hUH : U ⊔ H = B) (hinf : U ⊓ H = ⊥) :
     U.index = Nat.card H * B.index := by
   have h1 : U.relIndex B = Nat.card H := by
-    haveI : (U.subgroupOf B).Normal := hUn
+    have : (U.subgroupOf B).Normal := hUn
     have hsup : H.subgroupOf B ⊔ U.subgroupOf B = ⊤ := by
       have := Subgroup.comap_sup_eq_of_le_range (f := B.subtype) (H := H) (K := U)
         (by rw [Subgroup.range_subtype]; exact hHB) (by rw [Subgroup.range_subtype]; exact hUB)
@@ -789,8 +789,8 @@ theorem burnsideI2BN_index_eq {B U H : Subgroup G} (hUB : U ≤ B)
 open CFSG.GH74.BNPair CFSG.GroupTheory.TitsSystem in
 theorem burnsideI2BN_index_borel [Finite G] {p : ℕ} (hp : p.Prime) {B N : Subgroup G}
     (hBN : burnsideI2BN_Pre p B N) : ¬ p ∣ B.index := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : Fact p.Prime := ⟨hp⟩
+  have : (cartan B N).Normal := hBN.normal_inter
   obtain ⟨S, hS⟩ := burnsideI2BN_exists_isBNPair hBN
   obtain ⟨U, hUB, hUn, hUp, hUN, hUH, hsat⟩ := hBN.split
   have hfix : MulAction.fixedPoints U (G ⧸ B) = {(QuotientGroup.mk (1 : G) : G ⧸ B)} := by
@@ -997,7 +997,7 @@ variable {G : Type} [Group G]
 theorem burnsideI2BN_charP_of_card {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Prime)
     (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) : CharP K p := by
   have : Fintype K := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hp', hn⟩ := FiniteField.card K (ringChar K)
   rw [← Nat.card_eq_fintype_card, hK] at hn
   have hdvd : p ∣ ringChar K ^ (n : ℕ) := by
@@ -1311,7 +1311,7 @@ theorem burnsideI2BN_of_datum {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.
     (hext : SteinbergExtras D n H) (hBE : BruhatExtras D H)
     (hU : IsPGroup p (posUnipotent D)) (hT : ¬ p ∣ Nat.card (⨆ i, H i : Subgroup K)) :
     IsSplitBNPair p (borel D H) (weylN n H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnil : Group.IsNilpotent (posUnipotent D) := hU.isNilpotent
   refine burnsideI2BN_of_splitBN hp (splitBN_of_datum hct hext hnil) hU
     (burnsideI2BN_sat_of_isSaturated (isSaturated_of_datum hct hext hBE)) ?_
@@ -1320,10 +1320,10 @@ theorem burnsideI2BN_of_datum {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.
 
 open CFSG.LieType.Universal.Symplectic CFSG.LieType.Universal.Symplectic.SpExtras in
 theorem statedSp_has_splitBNPair {p f d : ℕ} (hp : p.Prime) (hf : 0 < f)
-    (hd : 1 ≤ d) (F : Type) [Field F] [Finite F] (hF : Nat.card F = p ^ f) :
+    (_hd : 1 ≤ d) (F : Type) [Field F] [Finite F] (hF : Nat.card F = p ^ f) :
     ∃ B N : Subgroup ↥(StatedSp d F), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := burnsideI2BN_charP_of_card hp hf hF
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := burnsideI2BN_charP_of_card hp hf hF
   refine ⟨_, _, burnsideI2BN_of_datum hp (D := Symplectic.rootDatum d F)
     (n := Symplectic.weylRep d F) (H := Symplectic.torus d F) (Symplectic.isCTGroupDatum d F)
     (Symplectic.steinbergExtras d F) CFSG.StandardType.GGRootSp.bruhatExtras ?_ ?_⟩
@@ -1371,7 +1371,7 @@ theorem burnsideI2BN_SL_torus {p m : ℕ} (hp : p.Prime) {F : Type} [Field F] [F
     (hdvd : p ∣ Nat.card F) :
     ¬ p ∣ Nat.card (⨆ i, SpecialLinear.torus m F i :
       Subgroup (SpecialLinearGroup (Fin (m + 1)) F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine burnsideI2BN_not_dvd_card_of_pow_eq_one (m := Nat.card F - 1) (fun g hg => ?_)
     (burnsideI2BN_not_dvd_card_sub_one hp hdvd)
   have hdiag : (g : Matrix (Fin (m + 1)) (Fin (m + 1)) F).IsDiag :=
@@ -1401,8 +1401,8 @@ theorem burnsideI2BN_SL_torus {p m : ℕ} (hp : p.Prime) {F : Type} [Field F] [F
 theorem statedSL_has_splitBNPair {p f d : ℕ} (hp : p.Prime) (hf : 0 < f)
     (hd : 2 ≤ d) (F : Type) [Field F] [Finite F] (hF : Nat.card F = p ^ f) :
     ∃ B N : Subgroup ↥(StatedSL d F), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := burnsideI2BN_charP_of_card hp hf hF
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := burnsideI2BN_charP_of_card hp hf hF
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
   have hSL := burnsideI2BN_of_datum hp (D := SpecialLinear.rootDatum m F)
     (n := SpecialLinear.weylRep m F) (H := SpecialLinear.torus m F)
@@ -1427,8 +1427,8 @@ open CFSG.LieType.Universal.Unitary CFSG.LieType.Universal.Unitary.SUExtras
 theorem statedSU_has_splitBNPair {p f d : ℕ} (hp : p.Prime) (hf : 0 < f)
     (hd : 3 ≤ d) (F : Type) [Field F] [Finite F] (hF : Nat.card F = (p ^ f) ^ 2) :
     ∃ B N : Subgroup ↥(StatedSU d (p ^ f) F), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := burnsideI2BN_charP_of_card hp (f := f * 2) (by omega) (by rw [hF, pow_mul])
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := burnsideI2BN_charP_of_card hp (f := f * 2) (by omega) (by rw [hF, pow_mul])
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
   have hd2 : 2 ≤ d := by omega
   have hσ := unitaryInvolution_involutive hF
@@ -1494,8 +1494,8 @@ theorem adjointGroup_has_splitBNPair {p f : ℕ} (hp : p.Prime) (hf : 0 < f)
     (hF : Nat.card F = p ^ f) :
     ∃ B N : Subgroup ↥(CFSG.Blueprint.Chevalley.adjointGroup t F),
       IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := burnsideI2BN_charP_of_card hp hf hF
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := burnsideI2BN_charP_of_card hp hf hF
   obtain ⟨hsb, hBN, -, -, -, -, -, hpg⟩ := chevalley_split_bn_pair t F
   have hfinG : Finite (adjointGroup t F) := inferInstance
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element t
@@ -1566,7 +1566,7 @@ theorem suzukiGroup_has_splitBNPair (a : ℕ) (F : Type) [Field F] [Finite F]
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer (suzukiU_le_suzukiB a F)]
     exact sup_le Subgroup.le_normalizer (suzukiT_le_normalizer hK)
   have hUp : IsPGroup 2 (suzukiU a F) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.of_card (n := (2 * a + 1) * 2) (by
       rw [(suzuki_unipotent_structure hK).2.1, pow_mul])
   have hopp : ∀ z ∈ suzukiB a F, (suzukiWElt a F)⁻¹ * z * suzukiWElt a F ∈ suzukiB a F →
@@ -1657,9 +1657,9 @@ theorem burnsideI2BN_ree_hasSplit
     (t : ReeTag) (a : ℕ) (K : Type) [Field K] [Finite K]
     [CharP K t.prime] (hp : t.prime.Prime) :
     ∃ B N : Subgroup ↥(t.reeGamma K a), IsSplitBNPair t.prime B N := by
-  haveI : Fact t.prime.Prime := ⟨hp⟩
-  haveI : Finite (ModGL t.tag K) := finite_modGL
-  haveI : Finite ↥(t.reeGamma K a) := inferInstance
+  have : Fact t.prime.Prime := ⟨hp⟩
+  have : Finite (ModGL t.tag K) := finite_modGL
+  have : Finite ↥(t.reeGamma K a) := inferInstance
   obtain ⟨-, hord, -, -, -, -, hW7, -, -, -, -, -, -, -, -, -, -, -, -, hlong, hmax⟩ :=
     ree_fixed_Weyl_structure
   obtain ⟨w₀, hw₀⟩ := hlong t
@@ -1951,9 +1951,9 @@ theorem burnsideI2BN_not_dvd_card_iSup_range_units {U : Type} [Group U] [Finite 
 theorem burnsideI2BN_spinPlus {p n : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finite K]
     (hdvd : p ∣ Nat.card K) [CharP K p] (hn : 3 ≤ n) :
     ∃ B N : Subgroup ↥(spinGroup (quadPlus n K)), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadPlus (n := n) (K := K))
   have hext := plusDatum_steinbergExtras (K := K) hn
   refine ⟨_, _, burnsideI2BN_of_datum hp (D := plusDatum n K hn) (n := weylD K hn)
@@ -1977,8 +1977,8 @@ theorem burnsideI2BN_spinMinus {p n : ℕ} (hp : p.Prime) {K : Type} [Field K] [
     (hdvd : p ∣ Nat.card K) [CharP K p] {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (hn : 4 ≤ n) :
     ∃ B N : Subgroup ↥(spinGroup (quadMinus n K b c)), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (spinGroup (quadMinus n K b c)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (spinGroup (quadMinus n K b c)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadMinus hirr)
   have hext := minusDatum_steinbergExtras n hirr
   refine ⟨_, _, burnsideI2BN_of_datum hp (D := minusDatum n hirr) (n := minusWeyl n hirr)
@@ -1998,7 +1998,7 @@ theorem burnsideI2BN_POmegaPlus {G : Type} [Group G] {p n f : ℕ} (hp : p.Prime
     ∃ B N : Subgroup G, IsSplitBNPair p B N := by
   obtain ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩ := h
   obtain ⟨-, hf, hn⟩ := hadm
-  haveI : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
+  have : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
   have hn3 : 3 ≤ n := by omega
   exact burnsideI2BN_exists_of_mulEquiv ((spinQuotientCenterEquivQuadPlus hn3).trans e.symm)
     (burnsideI2BN_exists_quotient_center
@@ -2010,7 +2010,7 @@ theorem burnsideI2BN_POmegaMinus {G : Type} [Group G] {p n f : ℕ} (hp : p.Prim
     ∃ B N : Subgroup G, IsSplitBNPair p B N := by
   obtain ⟨-, K, hK, hKf, hcard, b, c, hirr, ⟨e⟩⟩ := h
   obtain ⟨-, hf, hn⟩ := hadm
-  haveI : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
+  have : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
   exact burnsideI2BN_exists_of_mulEquiv ((spinQuotientCenterEquivQuadMinus hn hirr).trans e.symm)
     (burnsideI2BN_exists_quotient_center
       (burnsideI2BN_spinMinus hp (hcard ▸ dvd_pow_self p (by omega)) hirr hn))
@@ -2099,8 +2099,8 @@ open CFSG.LieType.Universal CFSG.LieType.Universal.Spin CFSG.LieType.Steinberg
 theorem burnsideI2BN_spinOdd {p n : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finite K]
     (hdvd : p ∣ Nat.card K) [CharP K p] (h2 : (2 : K) ≠ 0) (hn : 3 ≤ n) :
     ∃ B N : Subgroup ↥(spinGroup (quadOdd n K)), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (spinGroup (quadOdd n K)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (spinGroup (quadOdd n K)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadOdd h2)
   have hext := oddDatum_steinbergExtras (n := n) h2
   refine ⟨_, _, burnsideI2BN_of_datum hp (D := oddDatum n K) (n := weylB K)
@@ -2117,7 +2117,7 @@ theorem burnsideI2BN_POmegaOdd {G : Type} [Group G] {p n f : ℕ} (hp : p.Prime)
     ∃ B N : Subgroup G, IsSplitBNPair p B N := by
   obtain ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩ := h
   obtain ⟨-, hf, hn, hp2⟩ := hadm
-  haveI : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
+  have : CharP K p := burnsideI2BN_charP_of_card hp hf hcard
   have h2 : (2 : K) ≠ 0 := by
     intro h0
     have hdvd : p ∣ 2 := (CharP.cast_eq_zero_iff K p 2).1 (by exact_mod_cast h0)
@@ -2155,8 +2155,8 @@ theorem burnsideI2BN_twistedG2
   obtain ⟨-, a, hfa, K, hK, hKf, hcard, ⟨e⟩⟩ := h
   obtain ⟨hp, -, -, hp3, -, h3f⟩ := hadm
   subst hp3 hfa
-  haveI : CharP K 3 := burnsideI2BN_charP_of_card Nat.prime_three (by omega) hcard
-  haveI : CharP K ReeTag.G2.prime := ‹CharP K 3›
+  have : CharP K 3 := burnsideI2BN_charP_of_card Nat.prime_three (by omega) hcard
+  have : CharP K ReeTag.G2.prime := ‹CharP K 3›
   exact burnsideI2BN_exists_of_mulEquiv e.symm
     (burnsideI2BN_ree_derived ReeTag.G2 a (by omega) K Nat.prime_three hcard)
 
@@ -2167,8 +2167,8 @@ theorem burnsideI2BN_twistedF4
   obtain ⟨-, a, hfa, K, hK, hKf, hcard, ⟨e⟩⟩ := h
   obtain ⟨hp, -, -, hp2, -, h3f⟩ := hadm
   subst hp2 hfa
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (by omega) hcard
-  haveI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (by omega) hcard
+  have : CharP K ReeTag.F4.prime := ‹CharP K 2›
   exact burnsideI2BN_exists_of_mulEquiv e.symm
     (burnsideI2BN_ree_derived ReeTag.F4 a (by omega) K Nat.prime_two hcard)
 
@@ -2183,9 +2183,9 @@ theorem burnsideI2BN_graphFixed_hasSplit
     (t : TwistTag) (K : Type) [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) [CharP K p] (σ : K ≃+* K) :
     ∃ B N : Subgroup ↥(graphFixedRootGroup t K σ.toRingHom), IsSplitBNPair p B N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL t.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup t K σ.toRingHom) := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL t.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup t K σ.toRingHom) := inferInstance
   obtain ⟨hBeq, -, huniq, -, hUB, hUn, -, -, -, -, -, -, hΓgen, -⟩ :=
     fixed_root_Bruhat_decomposition t K σ
   obtain ⟨hmonN, -, hker, hHnorm, -, -, hNeq⟩ := fixed_root_monomial_quotient t K σ.toRingHom
@@ -2406,7 +2406,7 @@ theorem burnsideI2BN_twisted_model
     ∃ B N : Subgroup G, IsSplitBNPair p B N := by
   obtain ⟨K, hK, hKf, hcard, σ, hσ, ⟨e⟩⟩ := h
   have hord := two_le_order_twistTag t
-  haveI : CharP K p := burnsideI2BN_charP_of_card hp (f := f * t.order)
+  have : CharP K p := burnsideI2BN_charP_of_card hp (f := f * t.order)
     (Nat.mul_pos hf (by omega)) (by rw [hcard, pow_mul])
   have hsurj : Function.Surjective σ := Finite.surjective_of_injective σ.injective
   obtain ⟨σ', rfl⟩ : ∃ σ' : K ≃+* K, σ'.toRingHom = σ :=
@@ -2741,7 +2741,7 @@ private theorem burnsideI2a_two_lt_pRank_of_central_quotient {G Gs : Type} [Grou
     [Group Gs] [Finite Gs] (φ : G →* Gs) (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center G)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Gs)) : 2 < CFSG.pRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   have hG : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]
@@ -2754,7 +2754,7 @@ private theorem burnsideI2a_two_lt_pRank_of_central_quotient {G Gs : Type} [Grou
 private theorem burnsideI2a_four_le_pRank_of_elem {Gs T : Type} [Group Gs] [Finite Gs] [Group T]
     (e : Gs ≃* T) (hT : ∃ E : Subgroup T, CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Gs) := by
-  haveI : Finite T := Finite.of_equiv _ e.toEquiv
+  have : Finite T := Finite.of_equiv _ e.toEquiv
   obtain ⟨E, hE, hcard⟩ := hT
   have h := CFSG.SectionRank.le_pRank (by norm_num : 1 < 3) (le_top : E ≤ ⊤) hE hcard
   rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) e] at h
@@ -2772,8 +2772,8 @@ section
 
 theorem as_I_2_1 : I_2_1 := by
   intro G _ _ Gs _ φ hφ _ hker hcen hmod
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Gs := Finite.of_surjective φ hφ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Gs := Finite.of_surjective φ hφ
   rcases hmod with hU | hG2 | hO | hON | hJ3 | hMcL
   ·
     obtain ⟨-, -, hrk⟩ := CFSG.SectionRank.classical_model_rank (by norm_num) hU
@@ -2804,7 +2804,7 @@ theorem as_I_2_1 : I_2_1 := by
     obtain ⟨e⟩ := hJ3
     obtain ⟨K, hKp, Q, x, y, h, cc, a, b, c, d, -, hQ, hQcard, hcyc, hhK, hgen, hx, hy, hdet, hcK,
       hcc, hcK1⟩ := CFSG.SectionRank.J3_perfect_local_det_witness
-    haveI : Finite CFSG.Blueprint.NativeSporadic.J3 := Finite.of_equiv _ e.toEquiv
+    have : Finite CFSG.Blueprint.NativeSporadic.J3 := Finite.of_equiv _ e.toEquiv
     let π : G →* CFSG.Blueprint.NativeSporadic.J3 := e.toMonoidHom.comp φ
     have hπ : Function.Surjective π := e.surjective.comp hφ
     have hπker : π.ker ≤ Subgroup.center G := fun g hg => hker (by

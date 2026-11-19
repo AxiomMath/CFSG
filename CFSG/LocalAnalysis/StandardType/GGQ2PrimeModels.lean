@@ -30,9 +30,9 @@ theorem u42Nonabelian : U42Nonabelian := by
   intro K _ _ hK
   have hmod := model_SU K 4 le_rfl hK
   have hcard := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_four_two hmod
-  haveI : Finite (StatedProj (StatedSU 4 (2 ^ 1) K)) :=
+  have : Finite (StatedProj (StatedSU 4 (2 ^ 1) K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
+  have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
   exact exists_noncomm_of_simple Nat.prime_two (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)
 
 theorem prop_10_10_not_component_closed {G : Type} [Group G] [Finite G]

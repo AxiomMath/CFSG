@@ -121,6 +121,7 @@ variable {Rs : Subgroup G} (hR : c.IsRs Rs)
 
 include hR
 
+omit [Finite G] hR in
 theorem conj_inv_mem {n s : G} (hn : n ∈ normalizer (Rs : Set G)) (hs : s ∈ Rs) :
     n⁻¹ * s * n ∈ Rs := by
   apply (mem_normalizer_iff.1 hn (n⁻¹ * s * n)).2
@@ -222,7 +223,7 @@ theorem normalizer_t {n : G} (hn : n ∈ normalizer (Rs : Set G)) : n * t * n⁻
   have huR : n * t * n⁻¹ ∈ Rs := (mem_normalizer_iff.1 hn t).1 ht
   have hcomm_u : ∀ s ∈ Rs, (n * t * n⁻¹) * s * (n * t * n⁻¹)⁻¹ = s := by
     intro s hs
-    have hs' : n⁻¹ * s * n ∈ Rs := hR.conj_inv_mem hn hs
+    have hs' : n⁻¹ * s * n ∈ Rs := IsRs.conj_inv_mem hn hs
     have hts' : (n⁻¹ * s * n) * t = t * (n⁻¹ * s * n) := by
       have h := c.Nc_t (hR.le_Nc hs')
       calc (n⁻¹ * s * n) * t = ((n⁻¹ * s * n) * t * (n⁻¹ * s * n)⁻¹) * (n⁻¹ * s * n) := by group
@@ -255,7 +256,7 @@ theorem normalizer_Zs {n x : G} (hn : n ∈ normalizer (Rs : Set G)) (hx : x ∈
     n * x * n⁻¹ ∈ c.Zs := by
   obtain ⟨hxR, hcomm⟩ := (hR.mem_Zs_iff).1 hx
   refine (hR.mem_Zs_iff).2 ⟨(mem_normalizer_iff.1 hn x).1 hxR, fun s hs => ?_⟩
-  have hs' : n⁻¹ * s * n ∈ Rs := hR.conj_inv_mem hn hs
+  have hs' : n⁻¹ * s * n ∈ Rs := IsRs.conj_inv_mem hn hs
   have key : n * x * n⁻¹ * s * (n * x * n⁻¹)⁻¹ * s⁻¹ =
       n * (x * (n⁻¹ * s * n) * x⁻¹ * (n⁻¹ * s * n)⁻¹) * n⁻¹ := by
     group

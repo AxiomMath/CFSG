@@ -133,8 +133,8 @@ theorem planeQ_lift (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
           if (j : ℕ) < t then w (Sum.inl j) ^ 2 + w (Sum.inr j) ^ 2 else 0) else 0) := by
     intro j
     by_cases hj : j ∈ liftSupport t δ S
-    · rw [if_pos hj]
-    · rw [if_neg hj, hw (Sum.inl j) (by simpa using hj), hw (Sum.inr j) (by simpa using hj)]
+    · rw [ite_eq_left hj]
+    · rw [ite_eq_right hj, hw (Sum.inl j) (by simpa using hj), hw (Sum.inr j) (by simpa using hj)]
       simp
   calc planeQ (K := K) t δ w
       = ∑ j : Fin (t + δ.val),
@@ -168,8 +168,8 @@ theorem planeQ_lift (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
         simp only [Sum.map_inl, Sum.map_inr]
         have hlt := emb_plane_lt_iff (δ := δ) (S := S) k
         by_cases hk : (k : ℕ) < S.card
-        · rw [if_pos (hlt.2 hk), if_pos hk]
-        · rw [if_neg (fun h => hk (hlt.1 h)), if_neg hk]
+        · rw [ite_eq_left (hlt.2 hk), ite_eq_left hk]
+        · rw [ite_eq_right (fun h => hk (hlt.1 h)), ite_eq_right hk]
     _ = planeQ (K := K) S.card δ
           (fun z => w (Sum.map (emb t δ S) (emb t δ S) z)) := rfl
 

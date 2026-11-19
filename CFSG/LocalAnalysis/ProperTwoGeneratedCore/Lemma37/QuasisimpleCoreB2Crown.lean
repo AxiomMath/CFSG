@@ -25,7 +25,7 @@ theorem PartC.false_of_caseB2_of_normalized (h : Setting J Q B) {T R P : Subgrou
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ⟩ := hφ
   have hZ : ∀ x, x ∈ Subgroup.center J ↔ x = 1 ∨ x = centralElt J := fun _ => h.mem_center_iff
-  have hS2 : IsPGroup 2 (S : Subgroup J) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup J) := S.isPGroup
   obtain ⟨x, hxS, hxN, hxT⟩ := exists_mem_normalizer_not_mem_of_lt_sylow S hTS hne
   have hSN := hc.le_normalizer_of_caseB2Normalized _ hT φ hn hZ h.center_card hS2 hTS hxS hxN
     hxT

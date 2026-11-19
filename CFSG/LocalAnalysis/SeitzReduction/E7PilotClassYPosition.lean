@@ -45,7 +45,7 @@ theorem exists_rootProd_yPsi_eq_pinnedX (a b : L) :
     obtain ⟨γ, hγ, rfl⟩ := List.mem_map.1 hx
     have hc : c γ = 0 := by
       simp only [c]
-      exact if_neg (yLowHigh_not_mem_yFrame.1 γ hγ)
+      exact ite_eq_right (yLowHigh_not_mem_yFrame.1 γ hγ)
     rw [hc, pinnedX_zero]
   have hhigh : (yHigh.map fun γ => pinnedX .E7 L γ (c γ)).prod = 1 := by
     apply List.prod_eq_one
@@ -53,7 +53,7 @@ theorem exists_rootProd_yPsi_eq_pinnedX (a b : L) :
     obtain ⟨γ, hγ, rfl⟩ := List.mem_map.1 hx
     have hc : c γ = 0 := by
       simp only [c]
-      exact if_neg (yLowHigh_not_mem_yFrame.2 γ hγ)
+      exact ite_eq_right (yLowHigh_not_mem_yFrame.2 γ hγ)
     rw [hc, pinnedX_zero]
   rw [rootProd, yPsi, List.append_assoc, List.map_append, List.prod_append, hframe,
     List.map_append, List.prod_append, hlow, hhigh, mul_one, mul_one]

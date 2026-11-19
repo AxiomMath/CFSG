@@ -86,6 +86,7 @@ theorem rho_normalizes_Dg (h12812 : Lemma12_8_12_two) {T L V V₁ V₂ : Subgrou
     (Subgroup.mem_normalizer_iff.1 hyN d).1 (Subgroup.mem_sup_left hdDg)
   exact (hK hmem).2
 
+omit [Finite G] in
 theorem rho_stab_S {V V₁ : Subgroup G} (D : HatModelU (u128 V V₁)) {S : Submodule (ZMod 2) D.V}
     (hSV : ∀ v ∈ V, D.π v ∈ S) (hSπ : ∀ s ∈ S, ∃ v ∈ V, D.π v = s)
     {x : G} (hxV : x ∈ Subgroup.normalizer (V : Set G))
@@ -123,7 +124,7 @@ theorem rho_Dg_ne_one (h12813 : Lemma12_8_13) {T L V V₁ V₂ : Subgroup G}
     ∃ d ∈ CFSG.conjugate (zU128 V V₁) g, ∃ hd : d ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨d, hd⟩ ≠ 1 := by
   have hnot := (h12813 G T L V 4 V₁ V₂ hs g hgP hgN).2.2.1 hlt
-  rw [SetLike.le_def] at hnot
+  rw [_root_.IsConcreteLE.le_iff] at hnot
   push Not at hnot
   obtain ⟨d, hd, hdC⟩ := hnot
   have hdN : d ∈ Subgroup.normalizer (u128 V V₁ : Set G) := le_normalizer_conjClosure V _ (hDgN1 d hd)

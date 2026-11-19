@@ -127,7 +127,7 @@ theorem J2_not_typeN {φ : ModGL Tag.D4 K →* ModGL Tag.D4 K} {Γ₁ Γ₂ c₁
         Nat.card (Lyr (isLayer_degSeries (K := K) (J := ({2} : Set (Fin Tag.D4.rank)))
           (le_refl (1 : ℤ)))) := by
   have hd : (1 : ℤ) ≤ 1 := le_refl 1
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set T₁ := lconj G.n₁ hd with hT₁
   set T₂ := lconj G.n₂ hd with hT₂
   have e12 : Nat.card (fixSp T₂) = Nat.card (fixSp T₁) :=

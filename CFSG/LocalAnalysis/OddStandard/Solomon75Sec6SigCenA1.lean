@@ -20,6 +20,7 @@ section SigCen
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem sigcen_isPCompIn_of_sec6KComp {n : ℕ} {H L : Subgroup X}
     (hL : Sec6KComp X n H L) : IsPCompIn 2 H L := by
   rcases hL with ⟨⟨u, hu⟩, -⟩ | ⟨hM, -⟩
@@ -52,18 +53,21 @@ private theorem sigcen_two_dvd_card {E : Subgroup X} (hq : IsTwoGenQuasi ↥E) :
   exact not_le_oddCoreOf_of_isTwoGenQuasi hq
     (le_oddCoreOf_of_normalized le_rfl Subgroup.le_normalizer hodd)
 
+omit [Finite X] in
 private theorem sigcen_map_map_symm (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.symm.toMonoidHom).map φ.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.toMonoidHom.comp φ.symm.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem sigcen_map_symm_map (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.toMonoidHom).map φ.symm.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.symm.toMonoidHom.comp φ.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem sigcen_isElemAbelian_map (φ : X ≃* X) {B : Subgroup X}
     (hB : CFSG.Open.IsElemAbelian 2 B) : CFSG.Open.IsElemAbelian 2 (B.map φ.toMonoidHom) := by
   have h2 : ∀ y ∈ B.map φ.toMonoidHom, y ^ 2 = 1 := by
@@ -71,6 +75,7 @@ private theorem sigcen_isElemAbelian_map (φ : X ≃* X) {B : Subgroup X}
     rw [← map_pow, hB.2 b hb, map_one]
   exact ⟨⟨⟨fun a b => Subtype.ext (comm_of_sq_eq_one h2 a.2 b.2)⟩⟩, h2⟩
 
+omit [Finite X] in
 private theorem sigcen_map_sigB_le (φ : X ≃* X) (B : Subgroup X) :
     (⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)).map φ.toMonoidHom ≤
       ⨆ (b : X) (_ : b ∈ B.map φ.toMonoidHom) (_ : b ≠ 1), oddCoreOf (cen b) := by
@@ -80,6 +85,7 @@ private theorem sigcen_map_sigB_le (φ : X ≃* X) (B : Subgroup X) :
   exact le_iSup_of_le (φ b) (le_iSup_of_le (Subgroup.mem_map_of_mem φ.toMonoidHom hb)
     (le_iSup_of_le (fun h => hb1 ((MulEquiv.map_eq_one_iff φ).1 h)) le_rfl))
 
+omit [Finite X] in
 private theorem sigcen_sigB_map (φ : X ≃* X) (B : Subgroup X) :
     (⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)).map φ.toMonoidHom =
       ⨆ (b : X) (_ : b ∈ B.map φ.toMonoidHom) (_ : b ≠ 1), oddCoreOf (cen b) := by
@@ -114,7 +120,7 @@ private theorem sigcen_exists_conj_le_of_normal {G : Type*} [Group G] [Finite G]
   let A₀ : Subgroup ↥(A ⊔ N) := A.subgroupOf (A ⊔ N)
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥A₀) := inferInstance
   let T₁ : Subgroup ↥(A ⊔ N) := (T : Subgroup ↥A₀).map A₀.subtype
-  have hT₁p : IsPGroup 2 T₁ := T.isPGroup'.map A₀.subtype
+  have hT₁p : IsPGroup 2 T₁ := T.isPGroup.map A₀.subtype
   have hT₁idx : ¬ 2 ∣ T₁.index := by
     rw [Subgroup.index_map_subtype]
     intro hd
@@ -432,7 +438,7 @@ theorem sec6SigCen_of_A_eq_bot_of_centerFree (hcf : McLLyCenterFree) {X : Type} 
 
 theorem sec6SigCen_of_A_eq_bot
     {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
-    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
+    (hS : Sec6Setting X n t) (_hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
     (hA1 : K0 X n (cen t) = ⊥)
     (hU : ∀ x ∈ Sec6M X n (cen t), orderOf x = 2 → ∀ L F : Subgroup X, Sec6MComp X n (cen t) L →
       Sec6KComp X n (cen x) F → sec6Piece L x ≤ F → F = oddCoreOf F ⊔ sec6Piece L x)

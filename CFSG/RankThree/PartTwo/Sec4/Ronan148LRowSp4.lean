@@ -28,7 +28,7 @@ theorem padicValNat_ordSp4_two_pow {n : ℕ} (hn : 1 ≤ n) :
     padicValNat.prime_pow, mul_comm]
 
 theorem charP_fixedField_of_card {F : Type} [Field F] [Finite F] (φ : F ≃+* F) {m : ℕ}
-    (hm : Nat.card (fixedField φ) = 2 ^ m) (hm1 : 1 ≤ m) : CharP (fixedField φ) 2 := by
+    (hm : Nat.card (fixedField φ) = 2 ^ m) (_hm1 : 1 ≤ m) : CharP (fixedField φ) 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := Fintype.ofFinite (fixedField φ)
   exact charP_of_card_eq_prime_pow (p := 2) (f := m) (by rw [← Nat.card_eq_fintype_card, hm])
@@ -64,10 +64,10 @@ theorem false_of_sp4_cover (k : Type) [Field k] [Finite k] [CharP k 2] {n : ℕ}
       rw [hk]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (StatedProj (StatedSp 2 k)) :=
+    have : IsSimpleGroup (StatedProj (StatedSp 2 k)) :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp k 2 (by norm_num)
         (Or.inl (Or.inr h4))
-    haveI hCs : IsSimpleGroup C := eC.isSimpleGroup
+    have hCs : IsSimpleGroup C := eC.isSimpleGroup
     rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hCs hsub with h | h
     ·
       have hY1 : Y = ⊥ := by
@@ -88,7 +88,7 @@ theorem false_of_sp4_cover (k : Type) [Field k] [Finite k] [CharP k 2] {n : ℕ}
           exact Subgroup.mem_top _
         exact this
       have eY : Y ≃* C := MulEquiv.subgroupCongr hYeq
-      haveI : IsSimpleGroup Y := eY.isSimpleGroup
+      have : IsSimpleGroup Y := eY.isSimpleGroup
       have hcY := card_eq_of_isSimpleGroup_surj π hπ hU1
       have hv := padicValNat_ordSp4_two_pow hn
       rw [← hcardC, ← Nat.card_congr eY.toEquiv, hcY, hU] at hv
@@ -143,7 +143,7 @@ theorem rowU3_Sp4 {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     have hm' : 1 ≤ m' := by omega
     have hcard : Nat.card (fixedField φ) = 2 ^ m' :=
       card_fixedField_of_orderOf_eq_three hφ (by rw [hFcard, ← pow_mul, mul_comm])
-    haveI := charP_fixedField_of_card φ hcard hm'
+    have := charP_fixedField_of_card φ hcard hm'
     have hfixeq : Sec4.autFix (fieldAut 2 F φ) = ((proj 2 F).comp (spIncl φ)).range := by
       ext y
       rw [Sec4.mem_autFix, mem_range_proj_spIncl_iff φ y]

@@ -24,11 +24,11 @@ theorem i1431YD4Two_holds : I1431YD4Two := by
   intro Q _ _ σ A I T hQ hZ hcat hσ3 hAσ hA6 hIs hIt hT0 hT2 hTσ hAN
   have hcat9 : catalogIs (Q ⧸ Subgroup.center Q) S9.isD4two := hcat
   obtain ⟨eS⟩ := bridge_d4two hcat9
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   have hcardOm : Nat.card ↥CFSG.AGLEmbedding.Om8 = 3 ^ 5 * 716800 := by
     rw [← Nat.card_congr eS.toEquiv]
     exact CFSG.LocalAnalysis.GLTheoremA.card_o8p2 hcat9
-  haveI : IsSimpleGroup ↥CFSG.AGLEmbedding.Om8 := CatB.U42Cat.isSimple_om8
+  have : IsSimpleGroup ↥CFSG.AGLEmbedding.Om8 := CatB.U42Cat.isSimple_om8
   let π : Q →* ↥CFSG.AGLEmbedding.Om8 :=
     eS.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Q))
   have hπs : Function.Surjective π := eS.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -67,7 +67,7 @@ theorem i1431YD4Two_holds : I1431YD4Two := by
   have hT2' : IsPGroup 2 ↥(T.map π) := hT2.map π
   obtain ⟨A₀, S₆, hS₆g, f, hA₀A, hSc, hf⟩ := hA6
   obtain ⟨hSsimp, hS360⟩ := isA6_isSimpleGroup hSc
-  haveI : IsSimpleGroup S₆ := hSsimp
+  have : IsSimpleGroup S₆ := hSsimp
   have hS₆nc : ¬ ∀ a b : S₆, a * b = b * a :=
     U4Sp8.not_comm_of_simple_of_card (by rw [hS360]; norm_num)
   obtain ⟨φh, hφh, -⟩ := descend_simple hS₆nc π hπk f hf
@@ -79,7 +79,7 @@ theorem i1431YD4Two_holds : I1431YD4Two := by
   have hIcat : catalogIs (PSimple 3 I) S9.isU4two := by
     obtain ⟨i, hi, ⟨e⟩⟩ := hIt.1
     exact ⟨i, isU4two_of_isPSp43 hi, ⟨e⟩⟩
-  haveI hT4s : IsSimpleGroup (PSimple 3 I) :=
+  have hT4s : IsSimpleGroup (PSimple 3 I) :=
     CFSG.LocalAnalysis.GLTheoremA.S10.isSimple_of_isU4two hIcat
   have hT4c : Nat.card (PSimple 3 I) = 25920 := card_of_catalogIs_u4two hIcat
   have hT4nc := not_comm_of_card_25920 hT4c
@@ -135,7 +135,7 @@ theorem i1431YD4Two_holds : I1431YD4Two := by
     have hIs' : CFSG.Open.IsSubnormal (I.map π) ⊤ := by
       have h := CFSG.Open.IsSubnormal.map π hIs
       rwa [Subgroup.map_top_of_surjective π hπs] at h
-    haveI : Finite (PSimple 3 I) := Nat.finite_of_card_ne_zero (by rw [hT4c]; norm_num)
+    have : Finite (PSimple 3 I) := Nat.finite_of_card_ne_zero (by rw [hT4c]; norm_num)
     rcases CFSG.Open.IsSubnormal.eq_bot_or_top hIs' with hbot | htop
     · apply hT4nc
       intro s t
@@ -152,7 +152,7 @@ theorem i1431YD4Two_holds : I1431YD4Two := by
     · have hrt : (π.comp I.subtype).range = ⊤ := by
         rw [MonoidHom.range_comp, Subgroup.range_subtype]
         exact htop
-      haveI : IsSimpleGroup ↥(π.comp I.subtype).range := by
+      have : IsSimpleGroup ↥(π.comp I.subtype).range := by
         rw [hrt]
         exact Subgroup.topEquiv.isSimpleGroup
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φI.ker with hk | hk

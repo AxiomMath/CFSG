@@ -91,14 +91,14 @@ theorem quotConj_pow_three {Q N : Subgroup G} [(N.subgroupOf Q).Normal] {g : G}
 theorem q14_quot_E4 {X : Type} [Group X] [Finite X] (hX : Nat.card X = 4) (α : MulAut X)
     (hα : α ^ 3 = 1) (hfix : ∀ x : X, α x = x → x = 1) :
     Nonempty (X ≃* CFSG.GH74.GLS.Bg.TwoGroups.E2 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : ∀ a b : X, a * b = b * a := by
     intro a b
-    haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := X) (by rw [hX]; norm_num)
+    have := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := X) (by rw [hX]; norm_num)
     exact mul_comm' a b
   have h2 : ∀ x : X, x * x = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨x, hx⟩ := hcon
     have hdvd : orderOf x ∣ 4 := hX ▸ orderOf_dvd_natCard x
     have hne2 : orderOf x ≠ 2 := by
@@ -122,7 +122,7 @@ theorem q14_quot_E4 {X : Type} [Group X] [Finite X] (hX : Nat.card X = 4) (α : 
       · rw [h] at hdvd
         omega
       · exact h
-    haveI : IsCyclic X := isCyclic_of_orderOf_eq_card x (by rw [h4, hX])
+    have : IsCyclic X := isCyclic_of_orderOf_eq_card x (by rw [h4, hX])
     have hcard : Nat.card (MulAut X) = 2 := by
       rw [IsCyclic.card_mulAut, hX]
       decide

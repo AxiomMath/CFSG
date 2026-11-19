@@ -26,9 +26,9 @@ private theorem wc85ce_center_eq_bot_of_mulEquiv {G H : Type} [Group G] [Group H
 theorem center_eq_bot_of_isSpGp {L : Type} [Group L] {m n : ℕ} (hL : IsSpGp L m n) :
     Subgroup.center L = ⊥ := by
   obtain ⟨k, -, F, hFld, hFin, hFcard, ⟨e⟩⟩ := hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   have hcenter : Subgroup.center (↥(StatedSp k F)) = ⊥ :=
     (CFSG.LieType.Universal.Symplectic.center_eq k F).trans
@@ -41,7 +41,7 @@ theorem center_eq_bot_of_isPSUGp {L : Type} [Group L] {m n : ℕ} (hm : 4 ≤ m)
   obtain ⟨-, hn1, -, hne⟩ := hadm
   obtain ⟨⟨-, -, -, -⟩, K, hKf, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimple : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hKcard m
       (by omega) hne
@@ -54,7 +54,7 @@ theorem center_eq_bot_of_isPSUGp {L : Type} [Group L] {m n : ℕ} (hm : 4 ≤ m)
       (Subgroup.center (StatedProj (StatedSU m (2 ^ n) K))) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (StatedProj (StatedSU m (2 ^ n) K)) :=
+      have : IsMulCommutative (StatedProj (StatedSU m (2 ^ n) K)) :=
         Subgroup.center_eq_top_iff.mp h
       have hp : (Nat.card (StatedProj (StatedSU m (2 ^ n) K))).Prime :=
         (Group.is_simple_iff_prime_card (α := StatedProj (StatedSU m (2 ^ n) K))).mp hsimple

@@ -17,7 +17,7 @@ theorem cGrp_le_centralizer_omegaOneCenterOf_pCoreOf {H T : Subgroup G} (hTH : I
     (hE : eGrp H T ≤ omegaOneCenterOf (pCoreOf 2 H))
     (hCQ : T ⊓ cGrp H T ≤ pCoreOf 2 H) :
     cGrp H T ≤ centralizer (omegaOneCenterOf (pCoreOf 2 H) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := pCoreOf 2 H
   let Z0 := omegaOneCenterOf Q
   let C := cGrp H T
@@ -33,7 +33,7 @@ theorem cGrp_le_centralizer_omegaOneCenterOf_pCoreOf {H T : Subgroup G} (hTH : I
   have hZ0_le_Q : Z0 ≤ Q := omegaOneCenterOf_le Q
   have hZ0_le_H : Z0 ≤ H := hZ0_le_Q.trans hQ_le_H
   have hZ0e : IsElemAbelian 2 Z0 := B2F.isElemAbelian_omegaOneCenterOf Q
-  haveI : IsMulCommutative ↥Z0 := hZ0e.1
+  have : IsMulCommutative ↥Z0 := hZ0e.1
   have hQ_le_C : Q ≤ C := by
     intro q hq
     refine Subgroup.mem_inf.mpr ⟨hQ_le_H hq, ?_⟩
@@ -57,7 +57,7 @@ theorem cGrp_le_centralizer_omegaOneCenterOf_pCoreOf {H T : Subgroup G} (hTH : I
         (H := H) (K := centralizer (eGrp H T : Set G)))
     exact h3
   have hC_le_N : C ≤ normalizer (Z0 : Set G) := hC_le_H.trans hH_norm_Z0
-  haveI hCnormH : (C.subgroupOf H).Normal :=
+  have hCnormH : (C.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hC_le_H).mpr hH_norm_C
   have hCsyl : IsSylowIn 2 (T ⊓ C) C := hTH.inf_normal hC_le_H hCnormH
   have hCQ' : T ⊓ C ≤ Q := hCQ

@@ -28,6 +28,7 @@ private theorem pgl_beta_left_zero {U₁ U₂ : Submodule (ZMod 2) W} {β : W �
 
 variable [Finite W]
 
+omit [Finite W] in
 private theorem pgl_add_self_eq_zero (x : W) : x + x = 0 := by
   rw [← two_smul (ZMod 2) x, show (2 : ZMod 2) = 0 from by decide, zero_smul]
 
@@ -46,8 +47,8 @@ theorem pgl_dual_equiv {U₁ U₂ : Submodule (ZMod 2) W}
       ∀ (x : Fin 3 → ZMod 2) (v : ↥U₂),
         β (φ₁.symm x) (v : W) = dotProduct x (φ₂ v) := by
   classical
-  haveI : FiniteDimensional (ZMod 2) W := by
-    haveI : FiniteDimensional (ZMod 2) (⊤ : Submodule (ZMod 2) W) := by
+  have : FiniteDimensional (ZMod 2) W := by
+    have : FiniteDimensional (ZMod 2) (⊤ : Submodule (ZMod 2) W) := by
       rw [show (⊤ : Submodule (ZMod 2) W) = Submodule.span (ZMod 2) Set.univ from
         Submodule.span_univ.symm]
       exact Module.Finite.span_of_finite (ZMod 2) (A := Set.univ)

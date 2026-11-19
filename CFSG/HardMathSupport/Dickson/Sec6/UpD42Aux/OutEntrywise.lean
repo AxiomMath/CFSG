@@ -25,8 +25,8 @@ theorem UpD42Pumpup.isD42_fixSubfield_of_entrywise {τ : Tag} {K : Type} [Field 
     (adjointGroup τ (fixSubfield σ)).equivMapOfInjective _ hinj
   let e : ↥J ≃* ↥(adjointGroup τ (fixSubfield σ)) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans eJ.symm
-  haveI := hs
-  haveI : IsSimpleGroup ↥J := e.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥J := e.isSimpleGroup
   have hJfix : J ≤ fixSubgroup (entrywiseAdjointAut τ σ) := by
     rw [I923.fixSubgroup_entrywiseAdjointAut]
     intro x hx

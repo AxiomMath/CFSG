@@ -43,7 +43,7 @@ theorem outTwoCyclic_primeFormP {p f : ℕ} {K : Type} [Field K] (h : UnitaryFie
     unitary_prime_form_full_semilinear_realization h (isPrimeFormGram_one (n := 3) (K := K))
       le_rfl hq
   obtain ⟨-, -, hcard, -⟩ := unitary_full_diagonal_outer_order h (n := 3) le_rfl hq
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   refine ⟨K ≃+* K, inferInstance, inferInstance,
     primeFormFieldFactor h isPrimeFormGram_one le_rfl hq, fun α hα ⟨k, hk⟩ => ?_⟩
   rw [hFker] at hα

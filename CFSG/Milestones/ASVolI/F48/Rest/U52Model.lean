@@ -35,7 +35,7 @@ variable {K : Type} [Field K] {ω : K}
 theorem burnsideF48t_gf4D_inj (h2 : (2 : K) = 0) (hω : ω ^ 2 = ω + 1) {a b : ℕ} (ha : a < 4)
     (hb : b < 4) (h : burnsideF48t_gf4D ω a = burnsideF48t_gf4D ω b) : a = b := by
   interval_cases a <;> interval_cases b <;>
-    first | rfl | (simp only [burnsideF48t_gf4D] at h; (try norm_num at h) <;> grind)
+    first | rfl | (simp only [burnsideF48t_gf4D] at h; (try norm_num at h); try grind)
 
 end Codes
 

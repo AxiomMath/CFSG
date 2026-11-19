@@ -62,7 +62,7 @@ theorem gen_ext' (F : ℕ → ℕ) (z : ℕ) {gens : List ℕ} (hgens : ∀ g �
       have hgN := hgens _ hg
       refine ⟨hmul _ _ hc hgN, ?_⟩
       have e : extMul N mul F z c g = mul c g := by
-        rw [extMul, if_pos hc, if_pos hgN]
+        rw [extMul, ite_eq_left hc, ite_eq_left hgN]
       rw [← e]
       exact Reach.step hr (List.mem_append_left _ hg)
   intro c hc
@@ -70,7 +70,7 @@ theorem gen_ext' (F : ℕ → ℕ) (z : ℕ) {gens : List ℕ} (hgens : ∀ g �
   · exact (key c (hG c hcN)).2
   · have h1 := (key (c - N) (hG _ (by omega))).2
     have e : extMul N mul F z (c - N) N = c := by
-      rw [extMul, if_pos (by omega : c - N < N), if_neg (lt_irrefl N), Nat.sub_self,
+      rw [extMul, ite_eq_left (by omega : c - N < N), ite_eq_right (lt_irrefl N), Nat.sub_self,
         mul_zero_c Φ h0 (by omega)]
       omega
     rw [← e]
@@ -78,7 +78,7 @@ theorem gen_ext' (F : ℕ → ℕ) (z : ℕ) {gens : List ℕ} (hgens : ∀ g �
 
 include Φ h0 in
 theorem ext00 : extMul N mul F z 0 0 = 0 := by
-  rw [extMul, if_pos Φ.pos, if_pos Φ.pos, h0]
+  rw [extMul, ite_eq_left Φ.pos, ite_eq_left Φ.pos, h0]
 
 theorem f_g₁ {c : ℕ} (hc : c < N) : Φ₁.f (Φ₁.g c) = c := Φ₁.f_g (by omega)
 
@@ -88,7 +88,7 @@ theorem f_g₁ {c : ℕ} (hc : c < N) : Φ₁.f (Φ₁.g c) = c := Φ₁.f_g (by
   map_mul' s t := by
     refine Φ₁.inj ?_
     rw [Φ₁.map_mul, f_g₁ Φ₁ (Φ.lt _), f_g₁ Φ₁ (Φ.lt _), f_g₁ Φ₁ (Φ.lt _), Φ.map_mul, extMul,
-      if_pos (Φ.lt s), if_pos (Φ.lt t)]
+      ite_eq_left (Φ.lt s), ite_eq_left (Φ.lt t)]
 
 theorem f_jH (s : S) : Φ₁.f (jH Φ Φ₁ h0 s) = Φ.f s := f_g₁ Φ₁ (Φ.lt s)
 
@@ -103,8 +103,8 @@ theorem X_mul_jH (s : S) : Φ₁.g N * jH Φ Φ₁ h0 s = jH Φ Φ₁ h0 (Φ.g (
   have hN : N < 2 * N := by have := Φ.pos; omega
   have hF := hFlt _ (Φ.lt s)
   refine Φ₁.inj ?_
-  rw [Φ₁.map_mul, Φ₁.map_mul, Φ₁.f_g hN, f_jH, f_jH, Φ.f_g hF, extMul, extMul, if_neg (lt_irrefl N),
-    if_pos (Φ.lt s), if_pos hF, if_neg (lt_irrefl N), Nat.sub_self, zero_mul_c Φ h0 hF,
+  rw [Φ₁.map_mul, Φ₁.map_mul, Φ₁.f_g hN, f_jH, f_jH, Φ.f_g hF, extMul, extMul, ite_eq_right (lt_irrefl N),
+    ite_eq_left (Φ.lt s), ite_eq_left hF, ite_eq_right (lt_irrefl N), Nat.sub_self, zero_mul_c Φ h0 hF,
     mul_zero_c Φ h0 hF]
 
 include hFlt in
@@ -120,8 +120,8 @@ theorem cases_H (h : H) : (∃ s, h = jH Φ Φ₁ h0 s) ∨ (∃ s, h = jH Φ Φ
     rw [f_jH, Φ.f_g hc]
   · have hlt := Φ₁.lt h
     refine Or.inr ⟨Φ.g (Φ₁.f h - N), Φ₁.inj ?_⟩
-    rw [Φ₁.map_mul, f_jH, Φ.f_g (by omega), Φ₁.f_g hN, extMul, if_pos (by omega),
-      if_neg (lt_irrefl N), Nat.sub_self, mul_zero_c Φ h0 (by omega)]
+    rw [Φ₁.map_mul, f_jH, Φ.f_g (by omega), Φ₁.f_g hN, extMul, ite_eq_left (by omega),
+      ite_eq_right (lt_irrefl N), Nat.sub_self, mul_zero_c Φ h0 (by omega)]
     omega
 
 variable (hinv : invOK mul inv N = true)

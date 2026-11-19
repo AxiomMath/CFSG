@@ -28,7 +28,7 @@ structure CocycleData (β : MulAut G) (N : ℕ → Subgroup G) (d : ℕ) {A : �
   stable : ∀ k, ∀ x ∈ N k, β x ∈ N k
   conj : ∀ k, k < d → ∀ g ∈ N 0, ∀ x : N k,
     ∃ hx : g * (x : G) * g⁻¹ ∈ N k, Φ k ⟨g * (x : G) * g⁻¹, hx⟩ = Φ k x
-  act : ∀ k (hk : k < d) (x : N k), Φ k ⟨β x, stable k x x.2⟩ = τ k (Φ k x)
+  act : ∀ k (_hk : k < d) (x : N k), Φ k ⟨β x, stable k x x.2⟩ = τ k (Φ k x)
   triv : ∀ k, k < d → ∀ x : N k, (x : G) ∈ N (k + 1) → Φ k x = 1
   ker : ∀ k, k < d → ∀ x : N k, Φ k x = 1 → (x : G) ∈ N (k + 1)
   bound : ∀ k, k < d →
@@ -129,7 +129,7 @@ theorem card_fibre_le (h : CocycleData β N d Φ τ b) {k : ℕ} (hk : k < d) {y
     intro y hy
     have hyk := hmem y hy
     have hy' := mem_cocycleSet.1 (Finset.mem_filter.1 hy).1
-    simp only [g, dif_pos hyk]
+    simp only [g, dite_eq_left hyk]
     refine ⟨⟨_, rfl⟩, ?_⟩
     obtain ⟨hX, hΦ⟩ := h.corr_mem hk hy₀'.1 ⟨y₀⁻¹ * y, hyk⟩
     have hcorr : corr β y₀ (y₀⁻¹ * y) = cocycleProd β y * (cocycleProd β y₀)⁻¹ := by
@@ -168,13 +168,13 @@ theorem card_fibre_le (h : CocycleData β N d Φ τ b) {k : ℕ} (hk : k < d) {y
       have hyk := hmem y hyF.1
       have hy1k := hmem y₁ hy₁
       have hg := hyF.2
-      simp only [g, dif_pos hyk, dif_pos hy1k] at hg
+      simp only [g, dite_eq_left hyk, dite_eq_left hy1k] at hg
       have hone : Φ k ⟨(y₀⁻¹ * y₁)⁻¹ * (y₀⁻¹ * y), mul_mem (inv_mem hy1k) hyk⟩ = 1 := by
         have : (⟨(y₀⁻¹ * y₁)⁻¹ * (y₀⁻¹ * y), mul_mem (inv_mem hy1k) hyk⟩ : N k) =
             (⟨y₀⁻¹ * y₁, hy1k⟩ : N k)⁻¹ * ⟨y₀⁻¹ * y, hyk⟩ := rfl
         rw [this, map_mul, map_inv, hg, inv_mul_cancel]
       have := h.ker k hk _ hone
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
       have e : (y₀⁻¹ * y₁)⁻¹ * (y₀⁻¹ * y) = y₁⁻¹ * y := by group
       simpa [e] using this
     · intro y _ y' _ hyy
@@ -192,6 +192,7 @@ variable [Fintype G] [∀ k, Finite (A k)]
 
 
 open Classical in
+omit [∀ (k : ℕ), Finite (A k)] in
 theorem card_image_mul_le (h : CocycleData β N d Φ τ b) {k : ℕ} (hk : k < d) :
     ((cocycleSet β N (k + 1)).image (fun y : G => (y : G ⧸ N k))).card * Nat.card (N k) ≤
       (cocycleSet β N k).card := by
@@ -207,7 +208,7 @@ theorem card_image_mul_le (h : CocycleData β N d Φ τ b) {k : ℕ} (hk : k < d
     · intro n hn'
       have hn'' : n ∈ N k := by simpa using hn'
       have hmem := h.mul_mem_cocycleSet hk hy₀k hn''
-      simp only [Finset.coe_filter, Set.mem_setOf_eq, hs, Finset.mem_filter]
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, hs, Finset.mem_filter]
       refine ⟨⟨hmem, ?_⟩, ?_⟩
       · have : ((y₀ * n : G) : G ⧸ N k) = (y₀ : G ⧸ N k) :=
           QuotientGroup.eq.2 (by simpa using hn'')
@@ -238,6 +239,7 @@ theorem card_step (h : CocycleData β N d Φ τ b) {k : ℕ} (hk : k < d) :
     _ ≤ b k * Nat.card (N (k + 1)) * (cocycleSet β N k).card := Nat.mul_le_mul_left _ h2
 
 open Classical in
+omit [∀ (k : ℕ), Finite (A k)] in
 theorem card_cocycleSet_zero (h : CocycleData β N d Φ τ b) :
     (cocycleSet β N 0).card = Nat.card (N 0) := by
   rw [← card_filter_mem (N 0)]
@@ -318,7 +320,7 @@ theorem card_le_card_cocycle_mul_card_fixed (β : MulAut G) (hβ3 : β ^ 3 = 1) 
       have hwF := Finset.mem_filter.1 hw
       have hwH : w ∈ H := (Finset.mem_filter.1 hwF.1).2
       have hw₁H : w₁ ∈ H := (Finset.mem_filter.1 hw₁).2
-      simp only [hC, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [hC, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
       refine ⟨mul_mem (inv_mem hw₁H) hwH, ?_⟩
       have h2 : w * (β w)⁻¹ = w₁ * (β w₁)⁻¹ := hwF.2
       simp only [map_mul, map_inv]

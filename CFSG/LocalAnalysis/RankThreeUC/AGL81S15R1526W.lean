@@ -30,6 +30,7 @@ variable {G : Type} [Group G] [Finite G]
             ((⁅gnV (T.subgroupOf M), yLifts (T.subgroupOf M) T₁ T₂⁆ : Subgroup ↥M) :
               Set ↥M)).map M.subtype)
 
+omit [Finite G] in
 theorem wSub_map_conj_le {M T : Subgroup G} (U : Subgroup ↥M) {n : G}
     (hn : n ∈ Subgroup.normalizer (T : Set G)) :
     (wSub G M T U).map (MulAut.conj n).toMonoidHom ≤ wSub G M T U := by
@@ -59,6 +60,7 @@ theorem T_le_normalizer_wSub (M T : Subgroup G) (U : Subgroup ↥M) :
     T ≤ Subgroup.normalizer ((wSub G M T U : Subgroup G) : Set G) :=
   Subgroup.le_normalizer.trans (normalizer_le_normalizer_wSub M T U)
 
+omit [Finite G] in
 theorem wSub_props (M T : Subgroup G) (hT : IsPGroup 2 T) (U : Subgroup ↥M)
     (hUT : U.map M.subtype ≤ T) (hU : U ≠ ⊥) :
     IsPGroup 2 (wSub G M T U) ∧ wSub G M T U ≠ ⊥ := by
@@ -72,7 +74,7 @@ theorem wSub_props (M T : Subgroup G) (hT : IsPGroup 2 T) (U : Subgroup ↥M)
     unfold wSub
     refine le_iSup₂_of_le (U.map M.subtype) ⟨⟨1, ?_⟩, hUT⟩ le_rfl
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [hW, le_bot_iff] at hUW
   exact (Subgroup.map_eq_bot_iff_of_injective U M.subtype_injective).1 hUW
 

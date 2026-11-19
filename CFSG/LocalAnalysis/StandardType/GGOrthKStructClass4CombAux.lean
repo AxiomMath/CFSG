@@ -32,8 +32,8 @@ theorem okCl_IsSigned_gen (n p : ℕ) (i : Fin n) :
     rw [spReflPerm_of_not_lt n p i hi, Equiv.Perm.one_apply, coordInv_apply]
     by_cases hji : j = i
     · subst hji
-      simp [Function.update_apply]
-    · simp [Function.update_apply, hji]
+      simp
+    · simp [hji]
 
 theorem okCl_IsSigned_mul {n p : ℕ} {g₁ g₂ : Equiv.Perm (Fin n → Multiplicative (ZMod p))}
     (h₁ : okCl_IsSigned n p g₁) (h₂ : okCl_IsSigned n p g₂) :
@@ -58,11 +58,11 @@ theorem okCl_IsSigned_inv {n p : ℕ} {g : Equiv.Perm (Fin n → Multiplicative 
   have key := h (g⁻¹ v) (σ.symm j)
   rw [hgv, Equiv.apply_symm_apply] at key
   by_cases hA : s (σ.symm j)
-  · rw [if_pos hA] at key
-    rw [if_pos hA]
+  · rw [ite_eq_left hA] at key
+    rw [ite_eq_left hA]
     rw [key, inv_inv]
-  · rw [if_neg hA] at key
-    rw [if_neg hA]
+  · rw [ite_eq_right hA] at key
+    rw [ite_eq_right hA]
     exact key.symm
 
 theorem okCl_IsSigned_closure (n p : ℕ) {g : Equiv.Perm (Fin n → Multiplicative (ZMod p))}

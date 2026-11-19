@@ -25,13 +25,13 @@ theorem ggTBJE6Levi_of_threeCoordData
     (hcardJ : Nat.card ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) ≤ 3 ^ 3) :
     GGResSideDatum 3 Bs X J ∨ GGResLeviSideDatumLE3 3 Bs X J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ι, φ, h, α, f, κW, cd, K, hKfield, ζ, hζ, hζo, hlin,
     hrefl, hpair, hf, hclos, hκW, hcd, hrange, hcdW, hTD, hkerX, hg1, i, hCENT, hLow,
     hD4cl⟩ := hC
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  letI : Field K := hKfield
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  let : Field K := hKfield
   let gB : ↥Bs := ⟨g, hgBs⟩
   let x_g : Fin Tag.E6.rank → ZMod 3 := Multiplicative.toAdd (cd gB)
   let a : Fin Tag.E6.rank → Kˣ := TableBExc.E6Three.zetaVec ζ hζ x_g
@@ -121,7 +121,6 @@ theorem ggTBJE6Levi_of_threeCoordData
     have hwstab : w ∈ rootCharStabilizerSubgroup a := by
       rw [mem_rootCharStabilizerSubgroup]
       intro c
-      change rootChar a (w • c) = rootChar a c
       rw [NoOffE8Five.rootChar_zetaVec hζ, NoOffE8Five.rootChar_zetaVec hζ]
       have hdot : (∑ j, ((w • c) j : ZMod 3) * x_g j) =
           ∑ j, (c j : ZMod 3) * x_g j := by

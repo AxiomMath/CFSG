@@ -33,6 +33,7 @@ theorem exists_borelQuotient_map_posUnipotent_eq (h : BorelQuotient D n H π M) 
     fun z hz => h.ker_central z (hker ▸ hz), fun z hz => h.ker_pow z (hker ▸ hz)⟩, ?_⟩
   rw [← hconj, hQ]
 
+omit [Finite K] in
 theorem isGomiAtom_iff_exists_eq_map_parJ (h : BorelQuotient D n H π M) {A : Subgroup K} :
     IsGomiAtom ⊤ ((posUnipotent D).map π) A ↔ ∃ i, A = (parJ D H {i}).map π := by
   rw [isGomiAtom_iff_isMinOverBorel ⊤ ((posUnipotent D).map π) A]
@@ -40,6 +41,7 @@ theorem isGomiAtom_iff_exists_eq_map_parJ (h : BorelQuotient D n H π M) {A : Su
   rintro ⟨i, rfl⟩
   exact isMinOverBorel_map_parJ h i
 
+omit [Finite K] in
 theorem exists_map_map_parJ_eq (h : BorelQuotient D n H π M) {α : MulAut K}
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) : ∃ j, ((parJ D H {i}).map π).map α.toMonoidHom = (parJ D H {j}).map π := by
@@ -73,6 +75,7 @@ theorem diagramGraph_adj_iff_mul_ne_sup (h : BorelQuotient D n H π M) {j k : Fi
     exact ⟨fun hh => ⟨hh.1, fun h0 => hh.2 (hiff.1 h0)⟩,
       fun hh => ⟨hh.1, fun h0 => hh.2 (hiff.2 h0)⟩⟩
 
+omit [Finite K₀] [Finite K] in
 theorem diagramGraph_adj_iff_of_map_map_parJ_eq (h : BorelQuotient D n H π M) (α : MulAut K)
     {i j i' j' : Fin D.rank}
     (hi : ((parJ D H {i}).map π).map α.toMonoidHom = (parJ D H {i'}).map π)

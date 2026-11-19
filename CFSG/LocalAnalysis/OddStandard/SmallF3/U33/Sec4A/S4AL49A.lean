@@ -14,22 +14,27 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 @[expose] def ctxYt (t tau x₁ x₂ : G) : Subgroup G :=
   closure {t, (x₁ * x₂) ^ 2, x₁ ^ 2, tau * (x₁ * x₂)}
 
+omit [Finite G] in
 private lemma y_mem_baseGrp (x₁ x₂ : G) : x₁ ^ 2 ∈ baseGrp x₁ x₂ := by
   rw [baseGrp]
   exact Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) 2
 
+omit [Finite G] in
 private lemma z_mem_baseGrp (x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ baseGrp x₁ x₂ := by
   rw [baseGrp]
   exact Subgroup.pow_mem _
     (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
       (Subgroup.subset_closure (by simp))) 2
 
+omit [Finite G] in
 private lemma x1x2_mem_baseGrp (x₁ x₂ : G) : x₁ * x₂ ∈ baseGrp x₁ x₂ :=
   Subgroup.mul_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 private lemma x1x2_mem_m12Grp (x₁ x₂ lam tau : G) : x₁ * x₂ ∈ m12Grp x₁ x₂ lam tau :=
   Subgroup.mul_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 private lemma baseGrp_le_wreathGrp (x₁ x₂ lam : G) : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂ lam := by
   rw [baseGrp, wreathGrp]
   refine Subgroup.closure_mono ?_
@@ -43,18 +48,22 @@ private lemma wreathGrp_le_S (h : Ctx t L S x₁ x₂ lam rho tau) : wreathGrp x
 private lemma baseGrp_le_S (h : Ctx t L S x₁ x₂ lam rho tau) : baseGrp x₁ x₂ ≤ S :=
   (baseGrp_le_wreathGrp x₁ x₂ lam).trans (wreathGrp_le_S h)
 
+omit [Finite G] in
 private lemma t_mem_ctxX (t tau x₁ x₂ : G) : t ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma t_mem_ctxE (t x₁ x₂ : G) : t ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_ctxE (t x₁ x₂ : G) : x₁ ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma z_mem_ctxE (t x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
@@ -69,6 +78,7 @@ private lemma commute_t_of_mem_S (h : Ctx t L S x₁ x₂ lam rho tau) {g : G} (
 private lemma x1x2_mem_S (h : Ctx t L S x₁ x₂ lam rho tau) : x₁ * x₂ ∈ S :=
   m12Grp_le_S h (x1x2_mem_m12Grp x₁ x₂ lam tau)
 
+omit [Finite G] in
 private lemma tau_mem_ctxX (t tau x₁ x₂ : G) : tau ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]
   exact Subgroup.subset_closure (by simp)
@@ -82,7 +92,7 @@ private lemma commute_z_tau (h : Ctx t L S x₁ x₂ lam rho tau) :
 
 private lemma baseGrp_commute (h : Ctx t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : Commute a b := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : baseGrp x₁ x₂) ⟨b, hb⟩)
 
 private lemma tau_conj_x1x2_of (h : Ctx t L S x₁ x₂ lam rho tau) :
@@ -104,6 +114,7 @@ private lemma x1x2_tau_sq (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 =
     _ = (x₁ * x₂)⁻¹ * 1 * (x₁ * x₂) := by rw [hconj, hτ2]
     _ = 1 := by group
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -121,6 +132,7 @@ private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zp
         · exact Or.inr (by rw [inv_eq_of_mul_eq_one_right hz]) }
   exact (Subgroup.zpowers_le.mpr (show z ∈ H from Or.inr rfl)) hg
 
+omit [Finite G] in
 private lemma closure_gen_eq_ctxX (t tau x₁ x₂ : G) :
     closure ({t, (x₁ * x₂) ^ 2, x₁ ^ 2, tau} : Set G) = ctxX t tau x₁ x₂ := by
   rw [ctxX]

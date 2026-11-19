@@ -241,7 +241,7 @@ private theorem six_e3 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) {y : MulAu
   rw [e, hg1, mul_one, mul_inv_cancel]
 
 theorem part6 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
-    {M : Subgroup (MulAut (HMod n K))} (hLM : img hK ≤ M) (hMN : M ≤ norm hK) :
+    {M : Subgroup (MulAut (HMod n K))} (_hLM : img hK ≤ M) (hMN : M ≤ norm hK) :
     ∀ i ∈ M, i ∉ img hK → orderOf i = 2 →
       rk ↥(fixV (Subgroup.zpowers i)) = 6 * n ∧
       M ⊓ centSub (fixV (Subgroup.zpowers i)) = Subgroup.zpowers i ∧

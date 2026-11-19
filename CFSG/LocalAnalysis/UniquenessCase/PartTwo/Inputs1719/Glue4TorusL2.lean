@@ -84,7 +84,7 @@ private theorem g4l2_sl2W_conj (t : Fˣ) : sl2W F * sl2D t * (sl2W F)⁻¹ = (sl
 private theorem g4l2_diagSub_equiv [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     Nonempty (diagSub F ≃* Multiplicative (ZMod (2 ^ n - 1))) := by
   have e : diagSub F ≃* Fˣ := (MonoidHom.ofInjective diagHom_injective).symm
-  haveI : IsCyclic (diagSub F) := (MulEquiv.isCyclic e).2 inferInstance
+  have : IsCyclic (diagSub F) := (MulEquiv.isCyclic e).2 inferInstance
   have hcard : Nat.card (diagSub F) = 2 ^ n - 1 := by rw [card_diagSub, hF]
   have e' := (zmodCyclicMulEquiv (inferInstance : IsCyclic (diagSub F))).symm
   rw [hcard] at e'
@@ -92,7 +92,7 @@ private theorem g4l2_diagSub_equiv [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n
 
 private theorem g4l2_isSylowOf_upperSub [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     CFSG.ABGLocalTools.IsSylowOf 2 (upperSub F) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
   rw [Subgroup.card_top,
     CFSG.GH74.GLS.IVK.Proofs2.Sl2Inv.factorization_card_SL2 Nat.prime_two hF, card_upperSub, hF]
@@ -121,9 +121,9 @@ private theorem g4l2_exists_sl2 {Y : Type} [Group Y] {n : ℕ} (h : IsL2 Y n) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 2 ^ n ∧
       Nonempty (Y ≃* Matrix.SpecialLinearGroup (Fin 2) F) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ⟨K, inferInstance, inferInstance, hK,
     ⟨e.trans (CFSG.QuasithinUnique.Setup.Family.statedProjSL_two_equiv K)⟩⟩

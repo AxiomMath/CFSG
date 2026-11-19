@@ -23,12 +23,12 @@ private theorem exists_card_three_le_normal_of_isPGroup_three {S : Type*} [Group
     ∃ A₀ : Subgroup S, A₀ ≤ N ∧ Nat.card A₀ = 3 ∧
       ∀ x ∈ A₀, ∀ s : S, x * s = s * x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 S) := ⟨hS⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 S) := ⟨hS⟩
   obtain ⟨x, hxne, hxcenter⟩ := CFSG.exists_nontrivial_center_mem_normal (N := N) (p := 3)
   let I : Subgroup S := N ⊓ Subgroup.center S
   have hxI : (x : S) ∈ I := ⟨x.2, hxcenter⟩
-  haveI : Nontrivial ↥I := ⟨⟨(x : S), hxI⟩, 1, by
+  have : Nontrivial ↥I := ⟨⟨(x : S), hxI⟩, 1, by
     intro h
     exact hxne (Subtype.ext (congrArg (fun w : ↥I => (w : S)) h))⟩
   have hI3 : IsPGroup 3 ↥I := hS.to_subgroup I
@@ -81,7 +81,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {L₁ L₂ :
 theorem exists_card_three_le₁ (h : P812Hyp G M p L₁ L₂) {S : Subgroup G}
     (hS : IsSylowOf 3 S M) :
     ∃ A₁ : Subgroup G, A₁ ≤ L₁ ∧ A₁ ≤ S ∧ Nat.card A₁ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNM : M ≤ Subgroup.normalizer (L₁ : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le₁).mp h.normal₁
   have hSinf : IsSylowOf 3 (S ⊓ L₁) L₁ := hS.inf_of_le_normalizer h.le₁ hNM
@@ -106,7 +106,7 @@ theorem exists_card_three_le₂ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {S : Subgroup G}
     (hS : IsSylowOf 3 S M) :
     ∃ A₂ : Subgroup G, A₂ ≤ L₂ ∧ A₂ ≤ S ∧ Nat.card A₂ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNM : S ⊔ L₂ ≤ Subgroup.normalizer (L₂ : Set G) := by
     refine sup_le ?_ Subgroup.le_normalizer
     intro s hs
@@ -140,7 +140,7 @@ theorem mem_uniqueSet_of_omega_le_sup (h : P812Hyp G M p L₁ L₂)
     (hΩ : ∀ x ∈ S, x ^ 3 = 1 → x ∈ A₁ ⊔ A₂) :
     A₁ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M ∧
       A₂ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x := fun x hx y hy =>
     h.central₁ hS.le hS.isPGroup hA₁ hA₁S hA₁3 x hx y (hA₂S hy)
   have hAel : CFSG.Open.IsElemAbelian 3 (A₁ ⊔ A₂) :=
@@ -158,7 +158,7 @@ theorem mem_uniqueSet_of_omega_le_sup (h : P812Hyp G M p L₁ L₂)
 
 
 private theorem caseOne_exists_A0_of_center_ne_bot (h : P812Hyp G M p L₁ L₂)
-    (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {S A₁ A₂ : Subgroup G}
+    (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {S _A₁ _A₂ : Subgroup G}
     (hS : IsSylowOf 3 S M)
     (hCne : (S ⊓ (CFSG.LocalAnalysis.GLTheoremA.centModSubgroup p L₁ ⊓
       CFSG.LocalAnalysis.GLTheoremA.centModSubgroup p L₂)) ≠ ⊥) :
@@ -191,7 +191,7 @@ private theorem caseOne_exists_A0_of_center_ne_bot (h : P812Hyp G M p L₁ L₂)
     refine (le_inf Subgroup.le_normalizer hD).trans ?_
     intro g hg
     exact Subgroup.inf_normalizer_le_normalizer_inf hg
-  letI : (C.subgroupOf S).Normal :=
+  let : (C.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCS).mpr hS_C
   have hCSne : C.subgroupOf S ≠ ⊥ := by
     intro hbot
@@ -199,7 +199,7 @@ private theorem caseOne_exists_A0_of_center_ne_bot (h : P812Hyp G M p L₁ L₂)
       have hle : C ⊓ S ≤ ⊥ := disjoint_iff_inf_le.mp (Subgroup.subgroupOf_eq_bot.mp hbot)
       rw [inf_eq_left.mpr hCS] at hle
       exact le_bot_iff.mp hle)
-  haveI : Nontrivial ↥(C.subgroupOf S) := (Subgroup.nontrivial_iff_ne_bot _).mpr hCSne
+  have : Nontrivial ↥(C.subgroupOf S) := (Subgroup.nontrivial_iff_ne_bot _).mpr hCSne
   obtain ⟨A₀', hA₀'C, hA₀'3, hA₀'Z⟩ :=
     exists_card_three_le_normal_of_isPGroup_three (S := ↥S) (N := C.subgroupOf S)
       hS.isPGroup inferInstance
@@ -250,8 +250,8 @@ private theorem omega_or_caseTwo_of_center_eq_bot {S A₁ A₂ : Subgroup G}
 
 theorem caseOne_or_omega_le_sup_or_caseTwo (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {S A₁ A₂ : Subgroup G}
-    (hS : IsSylowOf 3 S M) (hA₁ : A₁ ≤ L₁) (hA₁S : A₁ ≤ S) (hA₁3 : Nat.card A₁ = 3)
-    (hA₂ : A₂ ≤ L₂) (hA₂S : A₂ ≤ S) (hA₂3 : Nat.card A₂ = 3) :
+    (hS : IsSylowOf 3 S M) (_hA₁ : A₁ ≤ L₁) (_hA₁S : A₁ ≤ S) (_hA₁3 : Nat.card A₁ = 3)
+    (_hA₂ : A₂ ≤ L₂) (_hA₂S : A₂ ≤ S) (_hA₂3 : Nat.card A₂ = 3) :
     (∃ A₀ : Subgroup G, A₀ ≤ S ∧ Nat.card A₀ = 3 ∧
         (∀ x ∈ A₀, ∀ s ∈ S, x * s = s * x) ∧
         ⁅A₀, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype ∧
@@ -261,7 +261,7 @@ theorem caseOne_or_omega_le_sup_or_caseTwo (h : P812Hyp G M p L₁ L₂)
           ⁅Subgroup.zpowers x, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype → x = 1) ∧
         ∃ x ∈ S, x ^ 3 = 1 ∧ x ∉ A₁ ⊔ A₂) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := S ⊓ (CFSG.LocalAnalysis.GLTheoremA.centModSubgroup p L₁ ⊓
     CFSG.LocalAnalysis.GLTheoremA.centModSubgroup p L₂)
   by_cases hCbot : C = ⊥
@@ -269,7 +269,7 @@ theorem caseOne_or_omega_le_sup_or_caseTwo (h : P812Hyp G M p L₁ L₂)
     exact omega_or_caseTwo_of_center_eq_bot (p := p) (L₁ := L₁) (L₂ := L₂)
       (by simpa [C] using hCbot)
   · left
-    exact caseOne_exists_A0_of_center_ne_bot (A₁ := A₁) (A₂ := A₂) h hSch hS
+    exact caseOne_exists_A0_of_center_ne_bot (_A₁ := A₁) (_A₂ := A₂) h hSch hS
       (by simpa [C] using hCbot)
 
 theorem mem_uniqueSet_or_caseTwo

@@ -25,7 +25,7 @@ theorem card_center_quotient_eq_sixty {J : Subgroup K} (hq : CFSG.Open.IsQuasisi
     have hmul := (primeComplementCore (G := ↥J) 5).card_eq_card_quotient_mul_card_subgroup
     rw [h60] at hmul
     exact ⟨12 * Nat.card (primeComplementCore (G := ↥J) 5), by rw [hmul]; ring⟩
-  haveI : (primeComplementCore (G := ↥J) 5).Normal :=
+  have : (primeComplementCore (G := ↥J) 5).Normal :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_normal 5
   have hcen : primeComplementCore (G := ↥J) 5 ≤ Subgroup.center ↥J :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hq _
@@ -36,18 +36,19 @@ theorem card_center_quotient_eq_sixty {J : Subgroup K} (hq : CFSG.Open.IsQuasisi
     intro y
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective y
     exact ⟨QuotientGroup.mk a, rfl⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup (↥J ⧸ primeComplementCore (G := ↥J) 5) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup (↥J ⧸ primeComplementCore (G := ↥J) 5) := e.isSimpleGroup
   rcases (MonoidHom.normal_ker π).eq_bot_or_eq_top with hk | hk
   · have hinj : Function.Injective π := (MonoidHom.ker_eq_bot_iff π).1 hk
     rw [← Nat.card_congr (Equiv.ofBijective π ⟨hinj, hπ⟩)]
     exact h60
   · exfalso
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     obtain ⟨y, hy⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
     obtain ⟨z, rfl⟩ := hπ y
     exact hy ((MonoidHom.mem_ker.1 (hk ▸ Subgroup.mem_top z)))
 
+omit [Finite K] in
 theorem fixSubgroup_congr {T : Type} [Group T] (φ : K ≃* T) (β : MulAut K) :
     fixSubgroup (MulAut.congr φ β) = (fixSubgroup β).map (φ : K →* T) := by
   ext y
@@ -57,6 +58,7 @@ theorem fixSubgroup_congr {T : Type} [Group T] (φ : K ≃* T) (β : MulAut K) :
   show φ (β (φ.symm y)) = y ↔ β (φ.symm y) = φ.symm y
   exact φ.eq_symm_apply.symm
 
+omit [Finite K] in
 theorem congr_conj_eq {T : Type} [Group T] (φ : K ≃* T) (x : K) :
     MulAut.congr φ (MulAut.conj x) = MulAut.conj (φ x) := by
   ext y
@@ -80,6 +82,7 @@ theorem isComponentOf_map_of_five {T : Type} [Group T] (φ : K ≃* T) {x : K}
   rw [fixSubgroup_congr]
   exact CFSG.SignalizerFunctorTheorem.TransportA.isComponentOf_map φ hc
 
+omit [Finite K] in
 theorem card_quotient_center_map {T : Type} [Group T] (φ : K ≃* T) (J : Subgroup K) :
     Nat.card (↥(J.map (φ : K →* T)) ⧸ Subgroup.center ↥(J.map (φ : K →* T))) =
       Nat.card (↥J ⧸ Subgroup.center ↥J) := by

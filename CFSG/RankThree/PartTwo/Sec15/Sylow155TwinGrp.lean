@@ -148,7 +148,7 @@ theorem le_normalizer_inf_of_le {Q : Type*} [Group Q] {P X Y : Subgroup Q}
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.mp (hX hg) h)
     (Subgroup.mem_normalizer_iff.mp (hY hg) h)
 
@@ -250,7 +250,7 @@ theorem exists_isPGroup_inf_not_le {Q : Type*} [Group Q] [Finite Q] {p : ℕ} [h
       MulAut.smul_def, ← map_inv, MulAut.conj_apply, inv_inv,
       show k⁻¹ * (k * ⟨f, hfH⟩ * k⁻¹) * k = ⟨f, hfH⟩ by group]
     exact hR₀ (Subgroup.mem_zpowers _)
-  refine ⟨(T₀ : Subgroup H).map H.subtype, T₀.isPGroup'.map H.subtype,
+  refine ⟨(T₀ : Subgroup H).map H.subtype, T₀.isPGroup.map H.subtype,
     fun a ha => ⟨⟨a, hĀW ha⟩, hT₀ ha, rfl⟩, Subgroup.map_subtype_le _, fun hle => hfC ?_⟩
   have hf'W : (k : Q) * f * (k : Q)⁻¹ ∈ W := (Subgroup.mem_normalizer_iff.mp k.2 f).mp hfW
   have hf'T : (k : Q) * f * (k : Q)⁻¹ ∈ (T₀ : Subgroup H).map H.subtype :=

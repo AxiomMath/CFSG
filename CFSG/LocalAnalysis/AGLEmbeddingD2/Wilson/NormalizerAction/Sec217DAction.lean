@@ -114,13 +114,14 @@ theorem kap_add (x y : ZMod 3 × ZMod 3) : kap a c (x + y) = kap a c x * kap a c
     _ = c ^ x.1.val * (a ^ x.2.val * c ^ y.1.val) * a ^ y.2.val := by rw [← h]
     _ = _ := by group
 
+omit hca ha3 hc3 in
 theorem kap_zero : kap a c 0 = 1 := by simp [kap]
 
 
 theorem kap_neg (x : ZMod 3 × ZMod 3) : kap a c (-x) = (kap a c x)⁻¹ := by
   have h0 : x + -x = 0 := add_neg_cancel x
   have := kap_add hca ha3 hc3 x (-x)
-  rw [h0, kap_zero hca ha3 hc3] at this
+  rw [h0, kap_zero] at this
   exact eq_inv_of_mul_eq_one_right this.symm
 
 theorem kap_inj (ha1 : a ≠ 1) (hc1 : c ≠ 1) (hnot : c ∉ Subgroup.zpowers a)
@@ -146,7 +147,7 @@ theorem mem_D_iff {x : G} : x ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers c ↔
     ∃ v : ZMod 3 × ZMod 3, x = kap a c v := by
   let R : Subgroup G :=
     { carrier := Set.range (kap a c)
-      one_mem' := ⟨0, kap_zero hca ha3 hc3⟩
+      one_mem' := ⟨0, kap_zero⟩
       mul_mem' := by
         rintro _ _ ⟨x, rfl⟩ ⟨y, rfl⟩
         exact ⟨x + y, kap_add hca ha3 hc3 x y⟩
@@ -190,6 +191,7 @@ theorem acts_unique {g : G} {f f' : ZMod 3 × ZMod 3 → ZMod 3 × ZMod 3} (h : 
   funext x
   exact kap_inj hca ha3 hc3 ha1 hc1 hnot ((h x).trans (h' x).symm)
 
+omit hca ha3 hc3 ha1 hc1 hnot in
 theorem acts_mul {g h' : G} {f f' : ZMod 3 × ZMod 3 → ZMod 3 × ZMod 3} (hf : Acts a c g f)
     (hf' : Acts a c h' f') : Acts a c (g * h') (f ∘ f') := by
   intro x
@@ -197,6 +199,7 @@ theorem acts_mul {g h' : G} {f f' : ZMod 3 × ZMod 3 → ZMod 3 × ZMod 3} (hf :
   rw [hf, hf']
   group
 
+omit hca ha3 hc3 ha1 hc1 hnot in
 theorem acts_one : Acts a c (1 : G) id := by
   intro x; simp
 

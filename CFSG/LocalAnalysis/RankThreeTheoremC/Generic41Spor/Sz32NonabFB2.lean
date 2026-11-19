@@ -15,7 +15,7 @@ section Part
 variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y}
 
 private theorem nf5_pCore_le_F (h : NF5 F Γ B R₀ x) : CFSG.pCore 5 Y ≤ F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, hP, hdvd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff (p := 5)).mp h.sylow
   rw [Subgroup.relIndex_top_right] at hdvd
   have hS : ((hP.toSylow hdvd : Sylow 5 Y) : Subgroup Y) = F := IsPGroup.toSylow_coe hP hdvd
@@ -24,10 +24,10 @@ private theorem nf5_pCore_le_F (h : NF5 F Γ B R₀ x) : CFSG.pCore 5 Y ≤ F :=
 
 private theorem nf5_comp_le_centralizer_pCore {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     L ≤ Subgroup.centralizer (CFSG.pCore 5 Y : Set Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
-  haveI : Group.IsNilpotent (CFSG.pCore 5 Y) := (CFSG.pCore_isPGroup (p := 5)).isNilpotent
-  haveI : Group.IsSolvable (CFSG.pCore 5 Y) := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have : Group.IsNilpotent (CFSG.pCore 5 Y) := (CFSG.pCore_isPGroup (p := 5)).isNilpotent
+  have : Group.IsSolvable (CFSG.pCore 5 Y) := inferInstance
   have hsub : IsSubnormal (CFSG.pCore 5 Y) ⊤ :=
     CFSG.ComponentClassification.Components.chain_of_mathlib_subnormal hRn.isSubnormal
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp
@@ -38,7 +38,7 @@ theorem nf5_pCore_bot (h : NF5 F Γ B R₀ x)
     (hZ : ∀ L : Subgroup Y, IsComponentOf L ⊤ → Subgroup.center ↥L = ⊥) {z : Y} (hz : NF5Z F z)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) : CFSG.pCore 5 Y = ⊥ := by
   by_contra hne
-  haveI hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
   have hzP : z ∈ CFSG.pCore 5 Y :=
     nf5_normal_contains h hz (nf5_pCore_le_F h) (fun f _ n hn => hRn.conj_mem n hn f) hne
   have hLC := nf5_comp_le_centralizer_pCore hL
@@ -55,6 +55,7 @@ theorem nf5_pCore_bot (h : NF5 F Γ B R₀ x)
   rw [hz1, orderOf_one] at hord
   norm_num at hord
 
+omit [Finite Y] in
 private theorem nf5_normal_of_unique {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L) : L.Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -64,6 +65,7 @@ private theorem nf5_normal_of_unique {L : Subgroup Y} (hL : IsComponentOf L ⊤)
   rw [hall _ hc] at hmem
   exact hmem
 
+omit [Finite Y] in
 private theorem nf5_layer_comp_eq {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L) : CFSG.layer Y = L := by
   rw [CFSG.layer.eq_sSup]
@@ -77,7 +79,7 @@ private theorem nf5_centralizer_eq_bot (hcore : primeComplementCore (G := Y) 5 =
     (hbot : CFSG.pCore 5 Y = ⊥) {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L) :
     Subgroup.centralizer (L : Set Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc := CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.centralizer_layer_inf_centralizer_pCore_le
     (Y := Y) (p := 5) hcore
   rw [hbot, nf5_layer_comp_eq hL hall] at hc
@@ -112,6 +114,7 @@ theorem nf5_layer_eq {L : Subgroup Y} {z : Y} (hc : NF5Cfg F Γ B R₀ x L z) :
   · exact sSup_le fun K hK => (hc.uniq K hK).le
   · exact le_sSup hc.comp
 
+omit [Finite Y] in
 theorem nf5_layer_bot (hno : ∀ L : Subgroup Y, ¬ IsComponentOf L ⊤) : GLALayer (⊤ : Subgroup Y) = ⊥ := by
   unfold GLALayer
   rw [eq_bot_iff]

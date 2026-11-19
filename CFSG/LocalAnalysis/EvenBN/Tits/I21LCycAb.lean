@@ -13,15 +13,15 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
     (hab : ∀ a ∈ O, ∀ b ∈ O, a * b = b * a)
     (hirr : ∀ U : Submodule (ZMod 2) V, (∀ g ∈ O, Stable g U) → U = ⊥ ∨ U = ⊤) : IsCyclic O := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V)) DFunLike.coe_injective
-  haveI : Finite (Module.End (ZMod 2) V) :=
+  have : Finite (Module.End (ZMod 2) V) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) V => (f : V → V)) DFunLike.coe_injective
   rcases subsingleton_or_nontrivial V with hV | hV
-  · haveI : Subsingleton (V ≃ₗ[ZMod 2] V) :=
+  · have : Subsingleton (V ≃ₗ[ZMod 2] V) :=
       ⟨fun f g => LinearEquiv.ext fun v => Subsingleton.elim _ _⟩
-    haveI : Subsingleton O := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
+    have : Subsingleton O := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     infer_instance
   let S : Set (Module.End (ZMod 2) V) :=
     (fun g : V ≃ₗ[ZMod 2] V => (g : V →ₗ[ZMod 2] V)) '' (O : Set (V ≃ₗ[ZMod 2] V))
@@ -31,7 +31,7 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
     have := congrArg (fun f : V ≃ₗ[ZMod 2] V => f v) (hab g hg k hk)
     simpa using this
   let A : Subalgebra (ZMod 2) (Module.End (ZMod 2) V) := Algebra.adjoin (ZMod 2) S
-  letI : CommRing A := by
+  let : CommRing A := by
     haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin (ZMod 2)
       (fun a ha b hb _ => hSc a ha b hb)
     open scoped IsMulCommutative in exact inferInstance
@@ -46,7 +46,7 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
       congrArg Subtype.val h
     have := congrArg (fun f : Module.End (ZMod 2) V => f v) h1
     exact hv (by simpa using this.symm)
-  haveI : NoZeroDivisors A := by
+  have : NoZeroDivisors A := by
     refine ⟨fun {a b} hab0 => ?_⟩
     by_cases hb0 : b = 0
     · exact Or.inr hb0
@@ -75,8 +75,8 @@ theorem isCyclic_of_irreducible_abelian {V : Type*} [AddCommGroup V]
         ext v
         have : v ∈ LinearMap.ker (b : Module.End (ZMod 2) V) := by rw [h]; trivial
         simpa using this
-  haveI : IsDomain A := NoZeroDivisors.to_isDomain A
-  haveI : Finite A := Subtype.finite
+  have : IsDomain A := NoZeroDivisors.to_isDomain A
+  have : Finite A := Subtype.finite
   let φ : O →* A :=
     { toFun := fun g => ⟨((g : V ≃ₗ[ZMod 2] V) : Module.End (ZMod 2) V),
         Algebra.subset_adjoin ⟨g, g.2, rfl⟩⟩

@@ -61,7 +61,7 @@ theorem orderOf_negOneSix {K : Type} [Field K] (h2 : (2 : K) ≠ 0) :
     exact h2 this
 
 theorem gf3_eq_zero_or_one_or_neg_one (x : GaloisField 3 1) : x = 0 ∨ x = 1 ∨ x = -1 := by
-  letI : Fintype (GaloisField 3 1) := Fintype.ofFinite _
+  let : Fintype (GaloisField 3 1) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 3 1) = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact CFSG.ClassicalInvolution.Q3.Q3W.card_gf3
@@ -90,7 +90,7 @@ theorem eq_one_or_eq_negOneSix_of_mem_center {g : SL(6, GaloisField 3 1)}
     rw [← hrg]
     ext i j
     by_cases h : i = j <;>
-      simp [negOneSix, Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply, h]
+      simp [negOneSix, Matrix.scalar_apply, h]
 
 theorem blockMat_six_neg_one_eq_diagonal {K : Type} [Field K] (i : ℕ) :
     CFSG.ClassicalInvolution.Phan.blockMat 6 i (-1 : Matrix (Fin 2) (Fin 2) K) =
@@ -104,15 +104,15 @@ theorem blockMat_six_neg_one_eq_diagonal {K : Type} [Field K] (i : ℕ) :
     · simp [ha]
   · have hab' : a.val ≠ b.val := fun h => hab (Fin.ext h)
     by_cases hA : (i ≤ a.val ∧ a.val < i + 2) ∧ (i ≤ b.val ∧ b.val < i + 2)
-    · rw [dif_pos hA, Matrix.diagonal_apply_ne _ hab]
+    · rw [dite_eq_left hA, Matrix.diagonal_apply_ne _ hab]
       have : (⟨a.val - i, by omega⟩ : Fin 2) ≠ ⟨b.val - i, by omega⟩ := by
         intro h
         have := congrArg Fin.val h
         simp only at this
         omega
-      simp [Matrix.one_apply, this]
-    · rw [dif_neg hA, Matrix.diagonal_apply_ne _ hab]
-      simp [Matrix.one_apply, hab]
+      simp [this]
+    · rw [dite_eq_right hA, Matrix.diagonal_apply_ne _ hab]
+      simp [hab]
 
 theorem negOneSix_eq_mul_blocks (K : Type) [Field K] :
     negOneSix K = blockSL2 K 5 0 (negOneTwo K) * blockSL2 K 5 2 (negOneTwo K) *
@@ -130,7 +130,7 @@ theorem negOneSix_eq_mul_blocks (K : Type) [Field K] :
   by_cases hab : a = b
   · subst hab
     fin_cases a <;> simp
-  · simp [Matrix.one_apply, hab, Matrix.diagonal_apply_ne _ hab]
+  · simp [hab]
 
 end Matrices
 

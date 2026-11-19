@@ -17,6 +17,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixK_k5_aux_sylow (hS : SCSetting L K n φ t i) :
     ∃ Syl : Sylow 2 ↥(centralizer ({t} : Set G)),
       P φ ⊔ zpowers t ≤
@@ -26,6 +27,7 @@ theorem sixK_k5_aux_sylow (hS : SCSetting L K n φ t i) :
     (hS.fc.setup.Q_two.of_equiv (subgroupOfEquivOfLe hQC).symm).exists_le_sylow
   exact ⟨Syl, fun q hq => ⟨⟨q, hQC hq⟩, hQSyl (mem_subgroupOf.mpr hq), rfl⟩⟩
 
+omit [IsSimpleGroup G] in
 theorem sixK_k5
     (hS : SCSetting L K n φ t i) : K5Concl n φ t := by
   intro E hEC hEX hEc
@@ -35,7 +37,7 @@ theorem sixK_k5
     Subgroup.map_subtype_le _
   have hRG2 : IsPGroup 2 ((Syl : Subgroup (centralizer ({t} : Set G))).map
       (centralizer ({t} : Set G)).subtype) :=
-    Syl.isPGroup'.map _
+    Syl.isPGroup.map _
   have hEXs : ∀ x : E, x * x = 1 := fun x => Subtype.ext (hEX (x : G) x.2)
   have hE2 : IsPGroup 2 E := IsPGroup.of_card (two_pow_rank_eq_card_of_sq hEXs).symm
   obtain ⟨c, -, hconj⟩ := GomiFusion.Setup.exists_conj_le_sylow Syl hEC hE2
@@ -64,7 +66,7 @@ theorem sixK_k5
     obtain ⟨a, ha, rfl⟩ := hmemE' x hx
     obtain ⟨b, hb, rfl⟩ := hmemE' y hy
     rw [← map_mul, ← map_mul, hEc a ha b hb]
-  haveI : IsMulCommutative E' := isMulCommutative_iff_of_setLike.mpr hE'c
+  have : IsMulCommutative E' := isMulCommutative_iff_of_setLike.mpr hE'c
   have hrank : Group.rank E' ≤ 3 * n + 1 :=
     (hS.fc.setup.rank_bound hRGC hRG2 hQSyl hE'RG).1
   have h2 : 2 ^ Group.rank E' = Nat.card E' :=
@@ -120,6 +122,7 @@ theorem sixK_k6_aux_mulAut (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n)
   exact Nat.le_of_dvd (Nat.mul_pos (pow_pos hqpos 4) (by omega))
     (hcop.dvd_of_dvd_mul_right hdvd)
 
+omit [IsSimpleGroup G] in
 theorem sixK_k6
     (hS : SCSetting L K n φ t i) : K6Concl n φ t := by
   intro R hR hRC

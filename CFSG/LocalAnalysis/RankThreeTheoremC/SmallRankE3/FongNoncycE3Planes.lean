@@ -25,27 +25,23 @@ noncomputable def pairPlane {K : Type} [Field K] {n : ℕ} {i j : Fin n} (hij : 
     ((LinearMap.proj (Sum.inr j) : (Fin n ⊕ Fin n → K) →ₗ[K] K) + LinearMap.proj (Sum.inl j))
   isPolar_a := isPolar_hypPlus i
   isPolar_b := (isPolar_plus_inl (K := K) i).add (isPolar_hypPlus j)
-    (by simp [Pi.single_apply, hij, Ne.symm hij])
-  f_b := by simp [Pi.single_apply, hij, Ne.symm hij]
+    (by simp [Ne.symm hij])
+  f_b := by simp [hij]
 
 theorem pairPlane_orth_twin {K : Type} [Field K] [CharP K 2] {n : ℕ} {i j : Fin n}
     (hij : i ≠ j) : (pairPlane (K := K) hij).Orth (pairPlane (K := K) hij.symm) :=
-  ⟨by simp [pairPlane, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlane, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlane, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlane, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero]⟩
+  ⟨by simp [pairPlane, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlane, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlane, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlane, Ne.symm hij, CharTwo.add_self_eq_zero]⟩
 
 theorem pairPlane_orth_disjoint {K : Type} [Field K] {n : ℕ} {i j k l : Fin n}
     (hij : i ≠ j) (hkl : k ≠ l) (hik : i ≠ k) (hil : i ≠ l) (hjk : j ≠ k) (hjl : j ≠ l) :
     (pairPlane (K := K) hij).Orth (pairPlane (K := K) hkl) :=
-  ⟨by simp [pairPlane, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlane, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlane, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlane, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl]⟩
+  ⟨by simp [pairPlane, hik],
+    by simp [pairPlane, hik, hil],
+    by simp [pairPlane, hik, hjk],
+    by simp [pairPlane, hil, hjk, hjl]⟩
 
 theorem omegaPlus_four_le_pRank_three_F2 {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hn : 4 ≤ n) :
@@ -86,29 +82,25 @@ noncomputable def pairPlaneMinus {K : Type} [Field K] {n : ℕ} (b₀ c₀ : K) 
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) →ₗ[K] K) + LinearMap.proj (Sum.inl j))
   isPolar_a := isPolar_hypMinus b₀ c₀ i
   isPolar_b := (isPolar_minus_inl b₀ c₀ i).add (isPolar_hypMinus b₀ c₀ j)
-    (by simp [Pi.single_apply, hij, Ne.symm hij])
-  f_b := by simp [Pi.single_apply, hij, Ne.symm hij]
+    (by simp [Ne.symm hij])
+  f_b := by simp [hij]
 
 theorem pairPlaneMinus_orth_twin {K : Type} [Field K] [CharP K 2] {n : ℕ} (b₀ c₀ : K)
     {i j : Fin (n - 1)} (hij : i ≠ j) :
     (pairPlaneMinus b₀ c₀ hij).Orth (pairPlaneMinus b₀ c₀ hij.symm) :=
-  ⟨by simp [pairPlaneMinus, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlaneMinus, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlaneMinus, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero],
-    by simp [pairPlaneMinus, Pi.single_apply, hij, Ne.symm hij, CharTwo.add_self_eq_zero]⟩
+  ⟨by simp [pairPlaneMinus, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlaneMinus, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlaneMinus, hij, CharTwo.add_self_eq_zero],
+    by simp [pairPlaneMinus, Ne.symm hij, CharTwo.add_self_eq_zero]⟩
 
 theorem pairPlaneMinus_orth_disjoint {K : Type} [Field K] {n : ℕ} (b₀ c₀ : K)
     {i j k l : Fin (n - 1)} (hij : i ≠ j) (hkl : k ≠ l) (hik : i ≠ k) (hil : i ≠ l)
     (hjk : j ≠ k) (hjl : j ≠ l) :
     (pairPlaneMinus b₀ c₀ hij).Orth (pairPlaneMinus b₀ c₀ hkl) :=
-  ⟨by simp [pairPlaneMinus, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlaneMinus, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlaneMinus, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl],
-    by simp [pairPlaneMinus, Pi.single_apply, hik, hil, hjk, hjl, Ne.symm hik, Ne.symm hil,
-      Ne.symm hjk, Ne.symm hjl]⟩
+  ⟨by simp [pairPlaneMinus, hik],
+    by simp [pairPlaneMinus, hik, hil],
+    by simp [pairPlaneMinus, hik, hjk],
+    by simp [pairPlaneMinus, hil, hjk, hjl]⟩
 
 theorem omegaMinus_four_le_pRank_three_F2 {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hn : 5 ≤ n) (b c : K) :

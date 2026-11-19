@@ -60,7 +60,7 @@ theorem uc22s217c_false_of_chev (D : Data G) (Ch : Choice2011 G) (h212 : S21_12 
   have hLM : L ≤ D.M := hL.1.le
   have hnN' : ¬ D.M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   have hKm : L.map (MulAut.conj m).toMonoidHom ∈ conjSetOf D.M L := ⟨m, hmM, rfl⟩
   have hne : L.map (MulAut.conj m).toMonoidHom ≠ L := fun he =>
     hmN (UC6S846.mem_normalizer_iff_map_conj.2 he)
@@ -98,7 +98,7 @@ theorem uc22s217c_not_isL2Odd (D : Data G) (Ch : Choice2011 G) (h212 : S21_12 D 
       obtain ⟨g, -, rfl⟩ := hK
       obtain ⟨e⟩ := uc22p20d_bar2_conj g L
       exact CFSG.Blueprint.LieModel.of_mulEquiv e hLq
-    haveI : IsSimpleGroup (Bar2 K) :=
+    have : IsSimpleGroup (Bar2 K) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hKq
     obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hKC.2.2 (uc22p21k_center_eq_bot hKC.2.2)
     exact ⟨q, hq, by omega, .PSL, 2, 1, hKq.admissible,

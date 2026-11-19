@@ -114,7 +114,7 @@ theorem blockGraph_connected_of_connected {D : Set G} (hS : Setup G D) {α : Set
     intro a ha b hb
     by_contra hab
     exact h ⟨a, ha, b, hb, hab⟩
-  haveI : Nonempty (blockClass α) := ⟨⟨α, mem_blockClass_self α⟩⟩
+  have : Nonempty (blockClass α) := ⟨⟨α, mem_blockClass_self α⟩⟩
   exact ⟨fun β γ => reach_blockGraph_of_connected hS hα hconn⟩
 
 end CFSG.OddTranspositions

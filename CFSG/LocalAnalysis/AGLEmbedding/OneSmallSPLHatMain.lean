@@ -112,13 +112,13 @@ theorem D1OneSmallData.center_le_map_R [Fact p.Prime] (hβ : KFactBeta) (hKO : K
         rw [← Subgroup.orderOf_coe]; simp
       rw [e1, ← e2]
       exact hOC.coprime_dvd_right h2
-    obtain ⟨k, hk⟩ := P'.isPGroup' ⟨t, htP'⟩
+    obtain ⟨k, hk⟩ := P'.isPGroup ⟨t, htP'⟩
     have hk' : t' ^ p ^ k = 1 := Subtype.ext (by simpa [ht'] using congrArg Subtype.val hk)
     have hmem := mem_of_mul_inv_mem_of_coprime hp hk' ho
       (by rw [mul_inv_rev, inv_inv, mul_inv_cancel_left]; exact hw'N)
     exact (Subgroup.mem_subgroupOf.mp hmem).1
   have htH : (t : G) ∈ H := (h3.pCorePreimage_le_inf h84 hD2 htY).1
-  have htR : (t : G) ∈ R := hd.mem_of_mem_inf P'.isPGroup' hRP' htP' htH
+  have htR : (t : G) ∈ R := hd.mem_of_mem_inf P'.isPGroup hRP' htP' htH
   exact ⟨t, Subgroup.mem_subgroupOf.mpr htR, rfl⟩
 
 end Config

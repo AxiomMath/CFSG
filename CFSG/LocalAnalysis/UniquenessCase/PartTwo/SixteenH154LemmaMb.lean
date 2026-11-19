@@ -12,12 +12,14 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma s16h_mb_conj_eq_self {K : Subgroup G} {g : G}
     (h : ∀ z ∈ K, g * z = z * g) {z : G} (hz : z ∈ K) :
     g * z * g⁻¹ = z := by
   rw [h z hz]
   group
 
+omit [Finite G] in
 private lemma s16h_mb_map_conj_eq_of_centralizes {K : Subgroup G} {g : G}
     (h : ∀ z ∈ K, g * z = z * g) : K.map (MulAut.conj g).toMonoidHom = K := by
   apply le_antisymm
@@ -32,15 +34,18 @@ private lemma s16h_mb_map_conj_eq_of_centralizes {K : Subgroup G} {g : G}
     change g * z * g⁻¹ = z
     exact s16h_mb_conj_eq_self h hz
 
+omit [Finite G] in
 private lemma s16h_mb_Z₁_le {M B₀ Y Z₁ : Subgroup G} {x : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) : Z₁ ≤ Y := by
   rw [hB.sup]; exact le_sup_left
 
+omit [Finite G] in
 private lemma s16h_mb_Z₂_le {M B₀ Y Z₁ : Subgroup G} {x : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) :
     Z₁.map (MulAut.conj x).toMonoidHom ≤ Y := by
   rw [hB.sup]; exact le_sup_right
 
+omit [Finite G] in
 private lemma s16h_mb_Z₂_ne_Z₁ {Z₁ : Subgroup G} {x e : G}
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
     (heZ₂ : ∃ z ∈ Z₁.map (MulAut.conj x).toMonoidHom, e * z ≠ z * e) :
@@ -49,6 +54,7 @@ private lemma s16h_mb_Z₂_ne_Z₁ {Z₁ : Subgroup G} {x e : G}
   obtain ⟨z, hz, hne⟩ := heZ₂
   exact hne (heZ₁ z (h ▸ hz))
 
+omit [Finite G] in
 private lemma s16h_mb_Z₂_map_conj_e {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -60,6 +66,7 @@ private lemma s16h_mb_Z₂_map_conj_e {M B₀ Y Z₁ : Subgroup G} {x e : G}
   · exact absurd (h1 ▸ s16h_mb_map_conj_eq_of_centralizes heZ₁)
       (s16h_mb_Z₂_ne_Z₁ heZ₁ heZ₂)
 
+omit [Finite G] in
 private lemma s16h_mb_Z₂_map_conj_x {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -69,16 +76,19 @@ private lemma s16h_mb_Z₂_map_conj_x {M B₀ Y Z₁ : Subgroup G} {x e : G}
   · exact absurd h1 (s16h_mb_Z₂_ne_Z₁ heZ₁ heZ₂)
   · exact h2
 
+omit [Finite G] in
 private lemma s16h_mb_f_mem_M {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M) : x * e * x⁻¹ ∈ M :=
   M.mul_mem (M.mul_mem hB.mem heM) (M.inv_mem hB.mem)
 
+omit [Finite G] in
 private lemma s16h_mb_f_pow {x e : G} {q : ℕ} (heq : e ^ q = 1) :
     (x * e * x⁻¹) ^ q = 1 := by
   have h : ((MulAut.conj x).toMonoidHom e) ^ q = 1 := by
     rw [← map_pow, heq, map_one]
   simpa using h
 
+omit [Finite G] in
 private lemma s16h_mb_f_centralizes_Z₂ {Z₁ : Subgroup G} {x e : G}
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e) :
     ∀ z ∈ Z₁.map (MulAut.conj x).toMonoidHom,
@@ -89,6 +99,7 @@ private lemma s16h_mb_f_centralizes_Z₂ {Z₁ : Subgroup G} {x e : G}
     (MulAut.conj x).toMonoidHom z' * (MulAut.conj x).toMonoidHom e
   rw [← map_mul, heZ₁ z' hz', map_mul]
 
+omit [Finite G] in
 private lemma s16h_mb_f_moves_Z₁ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -113,6 +124,7 @@ private lemma s16h_mb_f_moves_Z₁ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     calc e * z₂ = e * z₂ * e⁻¹ * e := by group
       _ = z₂ * e := by rw [hconj]
 
+omit [Finite G] in
 private lemma s16h_mb_f_mem_B₀ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -129,6 +141,7 @@ private lemma s16h_mb_f_mem_B₀ {M B₀ Y Z₁ : Subgroup G} {x e : G}
         (s16h_mb_f_centralizes_Z₂ (x := x) heZ₁)
     exact (s16h_mb_Z₂_ne_Z₁ heZ₁ heZ₂) (h2.symm.trans hZ₂f).symm
 
+omit [Finite G] in
 private lemma s16h_mb_dvd_of_zpow_centralizes {x z : G} {q : ℕ} (hq : q.Prime)
     (hxq : x ^ q = 1) (hxz : x * z ≠ z * x) {k : ℤ}
     (hk : x ^ k * z = z * x ^ k) : (q : ℤ) ∣ k := by
@@ -142,7 +155,7 @@ private lemma s16h_mb_dvd_of_zpow_centralizes {x z : G} {q : ℕ} (hq : q.Prime)
     · exact absurd h1 hord_ne1
     · exact h1
   let P : Subgroup G := Subgroup.zpowers x
-  haveI : Fact (Nat.card ↥P).Prime := ⟨by rw [Nat.card_zpowers, hord]; exact hq⟩
+  have : Fact (Nat.card ↥P).Prime := ⟨by rw [Nat.card_zpowers, hord]; exact hq⟩
   let K : Subgroup ↥P := (Subgroup.centralizer ({z} : Set G)).subgroupOf P
   have hKne : K ≠ ⊤ := by
     intro htop
@@ -166,6 +179,7 @@ private lemma s16h_mb_dvd_of_zpow_centralizes {x z : G} {q : ℕ} (hq : q.Prime)
     exact Subtype.ext_iff.mp (Subgroup.mem_bot.mp h)
   have hdvd : (orderOf x : ℤ) ∣ k := orderOf_dvd_iff_zpow_eq_one.mpr hxk1
   rwa [hord] at hdvd
+omit [Finite G] in
 private lemma s16h_mb_commutator_mem_centralizer {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -303,8 +317,8 @@ theorem s16h_mixed_uniqueMax (D : Data G) (h61 : UC6.R6_1 D) {B₀ Y Z₁ : Subg
     UniqueMax D.M (D.M ⊓ normalizer ((D.T ⊓ centralizer (Y : Set G) : Subgroup G) : Set G)) := by
   classical
   have hqp : q.Prime := (D.sig_prime q hq).1
-  haveI : Fact (Nat.Prime q) := ⟨hqp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime q) := ⟨hqp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := D.M ⊓ centralizer (Y : Set G)
   let S : Subgroup G := D.T ⊓ centralizer (Y : Set G)
   let N : Subgroup G := D.M ⊓ normalizer (S : Set G)
@@ -319,7 +333,7 @@ theorem s16h_mixed_uniqueMax (D : Data G) (h61 : UC6.R6_1 D) {B₀ Y Z₁ : Subg
       (Subgroup.inf_normalizer_le_normalizer_inf (H := D.M)
         (K := centralizer (Y : Set G)))
     simpa [C] using h3
-  haveI hCnormal : (C.subgroupOf D.M).Normal :=
+  have hCnormal : (C.subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hnormC
   have hSyleq : D.T ⊓ C = S := by
     ext g
@@ -416,7 +430,7 @@ theorem s16h_mixed_uniqueMax (D : Data G) (h61 : UC6.R6_1 D) {B₀ Y Z₁ : Subg
     · exact hcomm_quot
     · exact hcomm_quot.symm
     · exact absurd rfl hne'
-  haveI hEcomm : IsMulCommutative ↥E :=
+  have hEcomm : IsMulCommutative ↥E :=
     Subgroup.isMulCommutative_closure (k := ({ehat, fhat} : Set Hq)) hpair
   have hcommE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
     intro a ha b hb
@@ -479,7 +493,7 @@ theorem s16h_mixed_uniqueMax (D : Data G) (h61 : UC6.R6_1 D) {B₀ Y Z₁ : Subg
     rwa [hek1, inv_one, mul_one] at hmemG
   have hEnc : ¬ IsCyclic ↥E := by
     intro hcyc
-    haveI : IsCyclic ↥E := hcyc
+    have : IsCyclic ↥E := hcyc
     have hexp_eq : Monoid.exponent ↥E = Nat.card ↥E := IsCyclic.exponent_eq_card
     have hcard : Nat.card ↥E = q := by
       have hne1 : Monoid.exponent ↥E ≠ 1 := by

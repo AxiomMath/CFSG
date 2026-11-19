@@ -46,7 +46,7 @@ private theorem exists_chief_step49 {H Q : Subgroup G} (hQ : IsPGroup 2 Q)
     (p := fun Y : Subgroup G => Φ ≤ Y ∧ Y ≤ Q ∧ Y ≠ Q ∧ H ≤ Subgroup.normalizer (Y : Set G))
     ⟨le_rfl, hΦQ, hΦne, hΦH⟩
   obtain ⟨-, hMQ, hMne, hMH⟩ := hmax.prop
-  haveI : Fact (IsPGroup 2 Q) := ⟨hQ⟩
+  have : Fact (IsPGroup 2 Q) := ⟨hQ⟩
   have hcommΦ : ⁅Q, Q⁆ ≤ Φ := by
     rw [← Subgroup.map_subtype_commutator Q, hΦdef]
     exact Subgroup.map_mono (CFSG.commutator_le_frattini_of_isPGroup (p := 2) (R := Q))
@@ -137,7 +137,7 @@ theorem wprod49 {Z Q : Subgroup G} (n : ℕ) (N : ℕ → Subgroup G) (h0 : N 0 
   have hmain := tel n le_rfl
   have hlast : (N n ⊓ Subgroup.centralizer (Z : Set G)).relIndex (N n) = 1 := by
     rw [hn]
-    simp [Subgroup.relIndex_bot_right]
+    simp
   rw [hlast, mul_one, h0] at hmain
   exact hmain
 

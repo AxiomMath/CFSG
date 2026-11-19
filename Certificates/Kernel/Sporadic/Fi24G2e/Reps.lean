@@ -73,10 +73,10 @@ theorem cn_HS : Cn HS := cn_of_beq cn_H1 cn_H1 CFSG.KD.Fi24G2e.RA.hs
 
 theorem HR_facts {z : ℕ} (hz : z = 1 ∨ z = 2 ∨ z = 3) : Cn (HR z) ∧ Mt (HR z) = hm z := by
   rcases hz with rfl | rfl | rfl
-  · exact ⟨cn_H0, by rw [hm, if_pos rfl]; rfl⟩
-  · exact ⟨cn_H1, by rw [hm, if_neg (by norm_num), if_pos rfl]; rfl⟩
+  · exact ⟨cn_H0, by rw [hm, ite_eq_left rfl]; rfl⟩
+  · exact ⟨cn_H1, by rw [hm, ite_eq_right (by norm_num), ite_eq_left rfl]; rfl⟩
   · refine ⟨cn_HS, ?_⟩
-    rw [hm, if_neg (by norm_num), if_neg (by norm_num)]
+    rw [hm, ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
     exact (mt_mul_eq cn_H1 cn_H1 CFSG.KD.Fi24G2e.RA.hs).symm
 
 theorem wordMul_HR {Y : ℕ} (hY : Cn Y) : ∀ w : List ℕ, (∀ z ∈ w, z = 1 ∨ z = 2 ∨ z = 3) →

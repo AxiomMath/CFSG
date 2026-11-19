@@ -20,9 +20,9 @@ theorem det_mono_val (σ : Perm (Fin 3)) (a : Fin 3 → Kˣ) :
     ext i j
     by_cases h : i = σ j
     · subst h
-      simp [mono_val, monoMat_apply, Matrix.diagonal_apply]
+      simp [mono_val, monoMat_apply]
     · have h' : σ.symm i ≠ j := fun hs => h (by rw [← hs]; simp)
-      simp [mono_val, monoMat_apply, Matrix.diagonal_apply, h, h']
+      simp [mono_val, monoMat_apply, h, h']
   rw [hM, Matrix.det_permute, Matrix.det_diagonal, Equiv.Perm.sign_symm]
 
 theorem det_mono_eq_prod_of_mem_alternating (σ : Perm (Fin 3))
@@ -66,7 +66,7 @@ private theorem cube_mono_eq_one_of_mem_alternating (hcard : Nat.card Kˣ = 3)
   have hb : (fun j : Fin 3 => a ((σ ^ 2) j) * a (σ j) * a j) = fun _ => (1 : Kˣ) := by
     by_cases hσ1 : σ = 1
     · funext j
-      simp only [hσ1, pow_one, pow_two]
+      simp only [hσ1, pow_two]
       show a j * a j * a j = 1
       simpa [pow_three, mul_assoc] using hunit (a j)
     · have hsign : Equiv.Perm.sign σ = 1 := Equiv.Perm.mem_alternatingGroup.mp hσ
@@ -136,7 +136,7 @@ private theorem det_kernel_structure_of_even_monomial_frame [Finite K]
   let H := W ⊓ (Matrix.GeneralLinearGroup.det : GL (Fin 3) K →* Kˣ).ker
   have hcard_units : Nat.card Kˣ = 3 := by
     rw [Nat.card_units, hK]
-  haveI : Nontrivial Kˣ :=
+  have : Nontrivial Kˣ :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard_units]; norm_num)
   obtain ⟨lam, hlam⟩ := exists_ne (1 : Kˣ)
   let dvec : Fin 3 → Kˣ := ![lam, lam⁻¹, 1]
@@ -252,7 +252,7 @@ private theorem det_kernel_structure_of_even_monomial_frame [Finite K]
     intro hcomm
     obtain ⟨x, y, hxy⟩ := hncH
     exact hxy (isMulCommutative_iff.mp hcomm x y)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 H := IsPGroup.of_card (n := 3) (by rw [hcardH]; norm_num)
   have hext : CFSG.IsExtraspecialPGroup 3 H :=
     CFSG.RankThree.PartTwo.isExtraspecialPGroup_of_card_eq_pow_three hP
@@ -355,7 +355,7 @@ theorem det_kernel_structure_of_transitive_monomial_card_eighty_one
         _ = Matrix.GeneralLinearGroup.scalar (Fin 3) c := by simp
     rw [hfix] at hcpre
     exact hcpre
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnc : ¬ IsMulCommutative H := by
     intro hcomm
     obtain ⟨x, y, hxy⟩ := hncH

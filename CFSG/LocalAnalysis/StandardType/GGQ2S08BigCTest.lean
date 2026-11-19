@@ -177,7 +177,7 @@ private theorem ggQ2s08ct_commutator_eq {n : ℕ}
     rw [hs]
     simp only [map_sub, map_smul, hαh]
     funext i
-    simp only [Pi.sub_apply, Pi.smul_apply, Pi.neg_apply, smul_eq_mul]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     ring
   calc (s * k * s⁻¹ * k⁻¹) v
       = s (k (s⁻¹ (k⁻¹ v))) := by simp only [LinearEquiv.mul_apply]

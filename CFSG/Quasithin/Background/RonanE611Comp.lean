@@ -146,6 +146,7 @@ theorem pCoreOf_eq_centerOf (hq : CFSG.IsQuasisimple ↥L)
     obtain ⟨z, hz, rfl⟩ := mem_centerOf_iff_center.1 hx
     exact ⟨z, CFSG.LieType.BorelTits.le_pCore 2 inferInstance hZ hz, rfl⟩
 
+omit [Finite G] in
 theorem commutator_le_left (hXN : X ≤ Subgroup.normalizer (V : Set G)) : ⁅V, X⁆ ≤ V := by
   rw [Subgroup.commutator_le]
   intro v hv x hx
@@ -276,6 +277,7 @@ section Sp4
 
 variable {G : Type} [Group G] [Finite G] {T M V U L X : Subgroup G}
 
+omit [Finite G] in
 theorem perfect_le_centralizer (hV : IsElemAbelian 2 V) {P C : Subgroup G}
     (hPN : P ≤ Subgroup.normalizer (V : Set G)) (hcyc : IsCyclic ↥(autI hV P)) (hCP : C ≤ P)
     (hC : ⁅C, C⁆ = C) : C ≤ Subgroup.centralizer (V : Set G) := by
@@ -401,7 +403,7 @@ section Cases
 
 variable {G : Type} [Group G] [Finite G] {T M V U L : Subgroup G}
 
-theorem cv_eq (h : HypE61 T M V) (hU : U ∈ gammaE64 V M)
+theorem cv_eq (_h : HypE61 T M V) (hU : U ∈ gammaE64 V M)
     (hmax : ∀ W : Subgroup G, U < W → W ≤ V → Subgroup.centralizer (W : Set G) ≤ M)
     (hL : IsComponentIn L (Subgroup.centralizer (U : Set G))) (hLM : ¬ L ≤ M) :
     V ⊓ Subgroup.centralizer (L : Set G) = U := by

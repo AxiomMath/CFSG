@@ -20,7 +20,7 @@ theorem cubePerm_pow_three {α : Type*} (f : α → α) (hf : ∀ x, f (f (f x))
 
 theorem exists_fixed_of_pow_three {α : Type*} [Finite α] (σ : Equiv.Perm α) (hσ : σ ^ 3 = 1)
     (h3 : ¬ 3 ∣ Nat.card α) : ∃ a, σ a = a := by
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   rw [Nat.card_eq_fintype_card] at h3
   have hσ' : σ ^ 3 ^ 1 = 1 := by rw [pow_one]; exact hσ
   exact Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1) h3 hσ'
@@ -72,7 +72,7 @@ theorem exists_unique_fixed_of_orbit {G : Type*} [Group G] {Q : Subgroup G} [Fin
     ∃ q ∈ Q, θ * (q * y * q⁻¹) * θ⁻¹ = q * y * q⁻¹ ∧ x * (q * y * q⁻¹) * x⁻¹ = q * y * q⁻¹ := by
   obtain ⟨qθ, hqθ, hθy'⟩ := hθy
   obtain ⟨qx, hqx, hxy'⟩ := hxy
-  letI : MulAction Q G :=
+  let : MulAction Q G :=
     { smul := fun q z => (q : G) * z * (q : G)⁻¹
       one_smul := fun z => by
         show ((1 : Q) : G) * z * ((1 : Q) : G)⁻¹ = z
@@ -89,7 +89,7 @@ theorem exists_unique_fixed_of_orbit {G : Type*} [Group G] {Q : Subgroup G} [Fin
       exact ⟨(q : G), q.2, rfl⟩
     · rintro ⟨q, hq, rfl⟩
       exact ⟨⟨q, hq⟩, rfl⟩
-  haveI hSfin : Finite (MulAction.orbit Q y) :=
+  have hSfin : Finite (MulAction.orbit Q y) :=
     (Set.finite_range fun q : Q => q • y).to_subtype
   have h3S : ¬ 3 ∣ Nat.card (MulAction.orbit Q y) := by
     obtain ⟨n, hn⟩ := hQ.card_orbit y
@@ -153,7 +153,7 @@ theorem exists_unique_fixed_of_orbit {G : Type*} [Group G] {Q : Subgroup G} [Fin
         _ = q⁻¹ * (θ * (q * v * q⁻¹) * θ⁻¹) * q := by rw [hθv']; group
         _ = q⁻¹ * (q * v * q⁻¹) * q := by rw [hfix]
         _ = v := by group
-    haveI hCfin : Finite C := by
+    have hCfin : Finite C := by
       refine Finite.of_injective (fun c : C => (⟨c.1, c.2.1⟩ : Q)) ?_
       intro a b hab
       apply Subtype.ext

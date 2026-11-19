@@ -75,9 +75,9 @@ theorem qh_perm : ∀ k < QH.ng, permOK 100 7 (mask 7) (100 * 7) (QH.G k)
 theorem qo_gens : onWit.size = QO.ng ∧ ∀ k < QO.ng, onWit[k]! = unpack 32 6 (QO.G k) :=
   ⟨by simp [onWit, onWitWords, QO.ng], fun k hk => (qO hk).1⟩
 
-theorem qo_perm : ∀ k < QO.ng, permOK 32 6 (mask 6) (32 * 6) (QO.G k)
-    (pinvS 32 6 (mask 6) (QO.G k)) = true :=
-  fun k hk => CFSG.KC.Misc.ArrEnum.permB_of_pp (qO hk).2
+theorem qo_perm : ∀ _k < QO.ng, permOK 32 6 (mask 6) (32 * 6) (QO.G _k)
+    (pinvS 32 6 (mask 6) (QO.G _k)) = true :=
+  fun _k hk => CFSG.KC.Misc.ArrEnum.permB_of_pp (qO hk).2
 
 theorem hsK : CFSG.ComponentClassification.GrSLit.L34Facts.FourCube.hsKeys = [0, 1, 2, 3, 4] := rfl
 

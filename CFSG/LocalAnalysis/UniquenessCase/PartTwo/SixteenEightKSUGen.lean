@@ -20,9 +20,9 @@ theorem s16k_fixNc_statedSU_of_elem {K : Type} [Field K] [Finite K] (hK : Nat.ca
     (hE : ∀ x ∈ E, x ^ p = 1) (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedSU n 2 K) p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard2 : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
   let σ : K ≃+* K := unitaryInvolution K 2 1
   have hσ : IsUnitaryInvolution σ :=
     isUnitaryInvolution_unitaryInvolution (p := 2) (f := 1) hcard2

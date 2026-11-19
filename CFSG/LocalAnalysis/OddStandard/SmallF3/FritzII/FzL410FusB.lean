@@ -60,7 +60,7 @@ theorem fz410_sylow_conj [Finite G] {B R R' : Subgroup G} (hR : R ≤ B) (hR' : 
     (hRp : IsPGroup 2 R) (hR'p : IsPGroup 2 R')
     (hmax : ∀ Y : Subgroup G, Y ≤ B → IsPGroup 2 Y → Nat.card Y ≤ Nat.card R)
     (hcard : Nat.card R' = Nat.card R) : ∃ b ∈ B, ∀ x : G, x ∈ R' ↔ b * x * b⁻¹ ∈ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRsub : Nat.card (R.subgroupOf B) = Nat.card R :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR).toEquiv
   have hR'sub : Nat.card (R'.subgroupOf B) = Nat.card R' :=
@@ -92,7 +92,7 @@ theorem fz410_sylow_conj [Finite G] {B R R' : Subgroup G} (hR : R ≤ B) (hR' : 
         exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hR'card]; exact hQR)).ge }
   have hP : (P : Subgroup ↥B) = R.subgroupOf B := rfl
   have hP' : (P' : Subgroup ↥B) = R'.subgroupOf B := rfl
-  haveI : Finite (Sylow 2 ↥B) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥B) := Sylow.finite_of_finiteIndex P
   obtain ⟨b, hb⟩ := MulAction.exists_smul_eq (↥B) P' P
   have hb' : MulAut.conj b • (R'.subgroupOf B) = R.subgroupOf B := by
     have h := congrArg (fun S : Sylow 2 ↥B => (S : Subgroup ↥B)) hb
@@ -143,7 +143,7 @@ theorem R_le_B {i : G} (hi : Fz410Fus R Z i) : R ≤ fz410B Z i := by
 
 theorem B_bound (Y : Subgroup G) (hY : Y ≤ fz410B Z t) (hp : IsPGroup 2 Y) :
     Nat.card Y ≤ 2 ^ 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : ∀ y ∈ Y, ∀ w ∈ Z, y * w = w * y := fun y hy => (hY hy).1
   have hconj : ∀ y ∈ Y, ∃ w ∈ Z, y * t * y⁻¹ = t * w := fun y hy => (hY hy).2
   let φ : Y →* G :=
@@ -236,6 +236,7 @@ theorem B_bound (Y : Subgroup G) (hY : Y ≤ fz410B Z t) (hp : IsPGroup 2 Y) :
     _ ≤ 64 * 4 := Nat.mul_le_mul hK64 hrange_card
     _ = 2 ^ 8 := by norm_num
 
+omit [Finite G] D in
 theorem conj_B {i k : G} (hk : k * t * k⁻¹ = i) (hkZ : ∀ z : G, k * z * k⁻¹ ∈ Z ↔ z ∈ Z)
     (y : G) : y ∈ fz410B Z t ↔ k * y * k⁻¹ ∈ fz410B Z i := by
   constructor

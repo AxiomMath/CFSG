@@ -63,6 +63,7 @@ open CFSG.GH74.Uniqueness.Bender
 open scoped Pointwise commutatorElement MatrixGroups
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_commutator_mem_w {L1 L2 S : Subgroup G} {W : Subgroup G}
     (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W) {h x : G}
     (hh : h ∈ u3H L1 L2 S) (hx : x ∈ Z2 L1 L2 S) :
@@ -135,9 +136,9 @@ theorem str86_natural_case_false
     (hB2 : VBig L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
+    (_h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
     {W : Subgroup G} (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
-    (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
+    (_hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (_hWZ2 : W ≤ Z2 L1 L2 S)
     (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
     (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 n))
@@ -148,11 +149,11 @@ theorem str86_natural_case_false
       letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
       IsNaturalModule (l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e)) : False := by
   classical
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   have hnat' : IsNaturalModule ρ := hnat
   let A : Subgroup (SL(2, GaloisField 2 n)) := (T : Subgroup _).map e.toMonoidHom
@@ -312,13 +313,13 @@ theorem str86_orth_case_cards
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hn : 2 ≤ n) (hL2 : IsL2Quot n (oTwoQuot ↥L2))
-    (hB2 : VBig L2)
-    (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hB2 : VBig L2)
+    (_hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
+    (_h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
     {W : Subgroup G} (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
-    (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
-    (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W)
+    (_hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
+    (_hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
     (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 n))
     (T : Sylow 2 (oTwoQuot ↥(u3H L1 L2 S)))
@@ -333,8 +334,8 @@ theorem str86_orth_case_cards
   classical
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   have horth' : IsOrthModule hl ρ := horth
   let A : Subgroup (SL(2, GaloisField 2 n)) := (T : Subgroup _).map e.toMonoidHom
@@ -376,7 +377,7 @@ theorem str86_orth_case_cards
   have hfixcard : Nat.card (fixedSub ρ A) = 2 ^ l := by
     exact IsOrthModule.card_fixedSub (hF := hl) horth' A hA2 hAcard
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
-  obtain ⟨g, hgL1, hgborel⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgborel⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR)
   have hgB : g ∉ bigB L1 L2 S := by
     intro h
     apply hgborel

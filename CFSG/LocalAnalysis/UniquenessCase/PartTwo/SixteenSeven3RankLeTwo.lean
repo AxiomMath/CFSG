@@ -19,6 +19,7 @@ private theorem s16c167_padic_le_two_of_le_four {n : ℕ} (hpos : 0 < n) (h4 : n
   have h8 : 8 ≤ n := by simpa using Nat.le_of_dvd hpos hdvd
   omega
 
+omit [Finite G] in
 theorem s16c167_vtil_mul_self {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     ∀ x : Vtil ⊥ V hV, x * x = 1 := by
   intro x
@@ -31,7 +32,7 @@ theorem s16c167_card_le_four_of_le_normalizer_lbar {W : Type} [CommGroup W] [Fin
     (hXn : X ≤ Subgroup.normalizer (L : Set (MulAut W))) (hX : IsElemAbelian2 X) :
     Nat.card X ≤ 4 := by
   classical
-  haveI hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 :=
     CFSG.IsExtraspecial.center_order_p 3 ↥L
   let κ : ↥X →* MulAut ↥L :=
@@ -81,7 +82,7 @@ theorem s16c167_card_le_four_of_le_normalizer_lbar {W : Type} [CommGroup W] [Fin
       apply Subtype.ext
       apply Subtype.ext
       simpa using h2'
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hKp
     have hn2 : 2 ≤ n := by
       by_contra h
@@ -152,7 +153,7 @@ theorem s16c167_rk_le_two_of_case168_3 (D : Data G) {V L : Subgroup G}
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6

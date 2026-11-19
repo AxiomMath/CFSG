@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 open Module
 
 private theorem w135c2_two_mul_finrank_range_sub_one_eq {V : Type} [AddCommGroup V]
-    [Module (ZMod 2) V] [Finite V] (τ : V →ₗ[ZMod 2] V) (hτ : ∀ v, τ (τ v) = v)
+    [Module (ZMod 2) V] [Finite V] (τ : V →ₗ[ZMod 2] V) (_hτ : ∀ v, τ (τ v) = v)
     (hcard : Nat.card {w : V // τ w = w} ^ 2 = Nat.card V) :
     2 * finrank (ZMod 2) (LinearMap.range (τ - 1)) = finrank (ZMod 2) V := by
   classical
@@ -34,7 +34,7 @@ theorem w135c2_psu_semilinear_finrank {G V : Type} [Group G] [AddCommGroup V]
       τ (T (τ v)) ≠ T v) :
     2 * finrank (ZMod 2) (LinearMap.range ((τ : V →ₗ[ZMod 2] V) - 1)) = finrank (ZMod 2) V := by
   classical
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hD' : ∃ d : CFSG.QuasithinUnique.Setup.SL2Modules.EndRing ρ,
       ∃ w : V, τ (d (τ w)) ≠ d w := by
     obtain ⟨T, v, hv⟩ := hD

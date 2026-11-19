@@ -24,7 +24,7 @@ namespace CFSG.HardMathSupport.Solomon.LocalBalance
 open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.Coordinator
 open CFSG.HardMathSupport.Solomon.UniquenessMaximal
 
-theorem input19_2_4' : Input19_2_4 := fun G _ _ _ h1 h2 p hp hp2 B hB k hk h =>
+theorem input19_2_4' : Input19_2_4 := fun G _ _ _ h1 h2 p hp _hp2 B hB k hk h =>
   Coordinator.input19_2_4Pos_holds G h1
     (CFSG.ComponentClassification.CatalogueKProper.isKProper_iff_kProper.mpr
       (CFSG.ComponentClassification.CatalogueKProper.open_isKProper_iff.1 h2))

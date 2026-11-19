@@ -29,13 +29,16 @@ open Matrix
 variable {F : Type} [Field F] [Finite F]
 
 
+omit [Finite F] in
 private theorem card_units_eq_three (hF : Nat.card F = 4) : Nat.card Fˣ = 3 := by
   rw [Nat.card_units, hF]
 
+omit [Finite F] in
 theorem units_pow_three (hF : Nat.card F = 4) (u : Fˣ) : u ^ 3 = 1 := by
   have h : u ^ Nat.card Fˣ = 1 := pow_card_eq_one'
   rwa [card_units_eq_three hF] at h
 
+omit [Finite F] in
 private theorem units_eq_one_of_pow_four (hF : Nat.card F = 4) {u : Fˣ} (hu : u ^ 4 = 1) :
     u = 1 := by
   have h3 := units_pow_three hF u
@@ -55,10 +58,12 @@ noncomputable def diagSL {n : ℕ} (d : Fin n → F) (h : ∏ i, d i = 1) :
     SpecialLinearGroup (Fin n) F :=
   ⟨Matrix.diagonal d, by rw [Matrix.det_diagonal]; exact h⟩
 
+omit [Finite F] in
 @[simp]
 private theorem coe_diagSL {n : ℕ} (d : Fin n → F) (h : ∏ i, d i = 1) :
     (diagSL d h : Matrix (Fin n) (Fin n) F) = Matrix.diagonal d := rfl
 
+omit [Finite F] in
 private theorem diagSL_mul {n : ℕ} (d d' : Fin n → F) (h : ∏ i, d i = 1)
     (h' : ∏ i, d' i = 1) :
     diagSL d h * diagSL d' h' =
@@ -72,16 +77,22 @@ private theorem diagSL_mul {n : ℕ} (d d' : Fin n → F) (h : ∏ i, d i = 1)
 def phiUnits (a u v w : Fˣ) : Fin 6 → Fˣ :=
   ![a, a ^ 2, u, v, w, (u * v * w)⁻¹]
 
+omit [Finite F] in
 @[simp]
 theorem phiUnits_zero (a u v w : Fˣ) : phiUnits a u v w 0 = a := rfl
+omit [Finite F] in
 @[simp]
 theorem phiUnits_one (a u v w : Fˣ) : phiUnits a u v w 1 = a ^ 2 := rfl
+omit [Finite F] in
 @[simp]
 theorem phiUnits_two (a u v w : Fˣ) : phiUnits a u v w 2 = u := rfl
+omit [Finite F] in
 @[simp]
 theorem phiUnits_three (a u v w : Fˣ) : phiUnits a u v w 3 = v := rfl
+omit [Finite F] in
 @[simp]
 theorem phiUnits_four (a u v w : Fˣ) : phiUnits a u v w 4 = w := rfl
+omit [Finite F] in
 @[simp]
 theorem phiUnits_five (a u v w : Fˣ) :
     phiUnits a u v w 5 = (u * v * w)⁻¹ := rfl
@@ -246,7 +257,7 @@ theorem psi_injective (hF : Nat.card F = 4) : Function.Injective (psi hF) := by
   rw [ha', hu', hv', hw']
 
 theorem card_Bs (hF : Nat.card F = 4) : Nat.card (Bs hF) = 81 := by
-  haveI : Finite (Fˣ × Fˣ × Fˣ × Fˣ) := inferInstance
+  have : Finite (Fˣ × Fˣ × Fˣ × Fˣ) := inferInstance
   rw [Bs, MonoidHom.range_eq_map, Subgroup.card_map_of_injective (psi_injective hF),
     Subgroup.card_top, Nat.card_prod, Nat.card_prod, Nat.card_prod, card_units_eq_three hF]
 
@@ -288,21 +299,25 @@ theorem xw_ne_one (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
   omega
 
 
+omit [Finite F] in
 theorem omega_pow_three {ω : Fˣ} (hω : orderOf ω = 3) : ω ^ 3 = 1 := by
   rw [← hω]
   exact pow_orderOf_eq_one ω
 
+omit [Finite F] in
 theorem omega_ne_one {ω : Fˣ} (hω : orderOf ω = 3) : ω ≠ 1 := by
   intro h
   rw [h, orderOf_one] at hω
   omega
 
+omit [Finite F] in
 theorem omega_sq_ne_one {ω : Fˣ} (hω : orderOf ω = 3) : ω ^ 2 ≠ 1 := by
   intro h
   have h2 : orderOf ω ∣ 2 := orderOf_dvd_of_pow_eq_one h
   rw [hω] at h2
   omega
 
+omit [Finite F] in
 private theorem omega_ne_sq {ω : Fˣ} (hω : orderOf ω = 3) : ω ≠ ω ^ 2 := by
   intro h
   have h1 : ω ^ 2 * ω⁻¹ = ω := by rw [pow_two, mul_assoc, mul_inv_cancel, mul_one]
@@ -335,7 +350,7 @@ theorem xw_eq_proj_hsplit (hF : Nat.card F = 4) (ω : Fˣ) :
 @[expose]
 def I01 : Finset (Fin 6) := {0, 1}
 
-private theorem hsplit_mem_block (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
+private theorem hsplit_mem_block (hF : Nat.card F = 4) {ω : Fˣ} (_hω : orderOf ω = 3) :
     hsplit hF ω ∈ blockSpecialLinear I01 := by
   rw [mem_blockSpecialLinear]
   intro i j hij
@@ -377,6 +392,7 @@ theorem J_le_centralizer_xw (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω =
   exact hcomm.map (LinearFlag.proj 6 F)
 
 
+omit [Finite F] in
 private theorem matrix_diag_single {d : Fin 6 → F} (hd : ∀ k, d k ≠ 0) {i j : Fin 6}
     (hij : i ≠ j) (c : F) :
     Matrix.diagonal d * (1 + Matrix.single i j c) =
@@ -389,7 +405,7 @@ private theorem matrix_diag_single {d : Fin 6 → F} (hd : ∀ k, d k ≠ 0) {i 
       simp [Matrix.mul_apply, Matrix.single_apply, Matrix.diagonal_apply, Finset.sum_ite_eq,
         Finset.mem_univ, hij.symm]
     · simp [Matrix.mul_apply, Matrix.single_apply, Matrix.diagonal_apply, Finset.sum_ite_eq,
-        Finset.mem_univ, hki, Ne.symm hki]
+        Finset.mem_univ, Ne.symm hki]
   · by_cases hki : k = i <;> by_cases hlj : l = j
     · subst hki; subst hlj
       have hdl : d l ≠ 0 := hd l
@@ -399,10 +415,11 @@ private theorem matrix_diag_single {d : Fin 6 → F} (hd : ∀ k, d k ≠ 0) {i 
       simp [Matrix.mul_apply, Matrix.single_apply, Matrix.diagonal_apply, hkl, Ne.symm hlj]
     · subst hlj
       simp [Matrix.mul_apply, Matrix.single_apply, Matrix.diagonal_apply, hkl, Ne.symm hki]
-    · simp [Matrix.mul_apply, Matrix.single_apply, Matrix.diagonal_apply, hkl, Ne.symm hki,
+    · simp [Matrix.mul_apply, Matrix.diagonal_apply, hkl, Ne.symm hki,
         Ne.symm hlj]
 
-theorem diagSL_conj_transvection (hF : Nat.card F = 4) {e : Fin 6 → Fˣ}
+omit [Finite F] in
+theorem diagSL_conj_transvection (_hF : Nat.card F = 4) {e : Fin 6 → Fˣ}
     (h : ∏ i, (e i : F) = 1) {i j : Fin 6} (hij : i ≠ j) (c : F) :
     diagSL (fun k => (e k : F)) h * SpecialLinearGroup.transvection hij c *
         (diagSL (fun k => (e k : F)) h)⁻¹ =

@@ -57,6 +57,7 @@ section Conj
 variable {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L A : Subgroup G} {t : G}
   {B : Subgroup G} {r : ℕ} {Y N Dsub H S : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem map_conj_mem_calC (hD : Dsub ∈ calC N) (ha : a ∈ normalizer (N : Set G)) :
     Dsub.map (MulAut.conj a).toMonoidHom ∈ calC N := by
   have hNmap : N.map (MulAut.conj a).toMonoidHom = N :=
@@ -158,7 +159,7 @@ theorem one_lt_ncard_conjSetOf (h : Ctx19_14 D V₀ V p L A t B r Y N Dsub H S)
   have hDmem : Dsub ∈ conjSetOf A Dsub := by
     refine ⟨1, A.one_mem, ?_⟩
     ext x
-    simp [MulAut.conj_apply]
+    simp
   obtain ⟨a, ha, hane⟩ := Set.not_subset.mp hnot
   have hne : Dsub.map (MulAut.conj a).toMonoidHom ≠ Dsub := by
     intro hEq
@@ -688,7 +689,7 @@ theorem nineteen_seventeen_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     show φ ⟨y, hyΩ⟩ = ⟨z, hzΩ⟩
     rw [hφapply]
     apply Subtype.ext
-    simp [c, z, y₂, MulAut.conj_apply]
+    simp [c, z, y₂]
   have hz3 : z ^ 3 = 1 := hΩel.2 z hzΩ
   have hzaΩ : a * z * a⁻¹ ∈ Ω := hconjΩ z hzΩ
   let φrange : Subgroup G := φ.range.map Ω.subtype

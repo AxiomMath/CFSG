@@ -29,7 +29,7 @@ private theorem ggKGNo_lte_even {p q d : ℕ} (hp : p.Prime) (hq : 1 < q)
     (hpq : p ∣ q + 1) (hpodd : Odd p) (hp_not_dvd_q : ¬ p ∣ q)
     (hp_not_dvd_qm1 : ¬ p ∣ q - 1) (hd : Even d) (hd0 : d ≠ 0) :
     padicValNat p (q ^ d - 1) = padicValNat p (q + 1) + padicValNat p (d / 2) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : 1 < q ^ 2 := one_lt_pow₀ hq (by norm_num)
   have hsq : q ^ 2 - 1 = (q - 1) * (q + 1) := by
     zify [hq.le, hq2.le]
@@ -58,7 +58,7 @@ private theorem ggKGNo_val_even_degrees {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ 
     padicValNat p (l.map (fun d => q ^ d - 1)).prod =
       l.length * padicValNat p (q + 1) +
         padicValNat p ((l.map (fun d => d / 2)).prod) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := by
     rcases hp.eq_two_or_odd with h | h
     · omega
@@ -104,7 +104,7 @@ private theorem ggKGNo_val_even_degrees {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ 
 
 private theorem ggKGNo_padicValNat_2903040 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     padicValNat p 2903040 = padicValNat p 22680 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfac : 2903040 = 2 ^ 7 * 22680 := by norm_num
   rw [hfac, padicValNat.mul (by norm_num) (by norm_num)]
   have h2 : ¬ p ∣ 2 ^ 7 := by
@@ -115,7 +115,7 @@ private theorem ggKGNo_padicValNat_2903040 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤
 
 private theorem ggKGNo_padicValNat_696729600 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     padicValNat p 696729600 = padicValNat p 2721600 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfac : 696729600 = 2 ^ 8 * 2721600 := by norm_num
   rw [hfac, padicValNat.mul (by norm_num) (by norm_num)]
   have h2 : ¬ p ∣ 2 ^ 8 := by
@@ -129,7 +129,7 @@ private theorem ggKGNo_E7_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1
     padicValNat p (q ^ 63 * (q ^ 18 - 1) * (q ^ 14 - 1) * (q ^ 12 - 1) * (q ^ 10 - 1) *
         (q ^ 8 - 1) * (q ^ 6 - 1) * (q ^ 2 - 1)) =
       7 * padicValNat p (q + 1) + padicValNat p 2903040 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro hd
     have h1 : p ∣ (q + 1) - q := Nat.dvd_sub hpq hd
@@ -161,7 +161,7 @@ private theorem ggKGNo_E8_val {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1
     padicValNat p (q ^ 120 * (q ^ 30 - 1) * (q ^ 24 - 1) * (q ^ 20 - 1) * (q ^ 18 - 1) *
         (q ^ 14 - 1) * (q ^ 12 - 1) * (q ^ 8 - 1) * (q ^ 2 - 1)) =
       8 * padicValNat p (q + 1) + padicValNat p 696729600 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro hd
     have h1 : p ∣ (q + 1) - q := Nat.dvd_sub hpq hd

@@ -67,7 +67,7 @@ theorem torus_mem_char {τ : Tag}
         MonoidHom.mul_apply, Units.val_mul, mul_comm]
   | inv x _ hx =>
     obtain ⟨θx, hxf, hxr⟩ := hx
-    refine ⟨MonoidHom.mk' (fun y => (θx y)⁻¹) (fun a b => by simp [mul_inv, mul_comm]), fun j => ?_,
+    refine ⟨MonoidHom.mk' (fun y => (θx y)⁻¹) (fun a b => by simp [mul_comm]), fun j => ?_,
       fun β hβ => ?_⟩
     · exact units_inv_apply_of_apply x (hxf j)
     · have hc : ((θx (Multiplicative.ofAdd β) : Kˣ) : K) ≠ 0 :=

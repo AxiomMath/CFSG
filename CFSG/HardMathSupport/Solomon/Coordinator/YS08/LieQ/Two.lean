@@ -19,9 +19,9 @@ section Two
 
 
 theorem twoFamilies_of_ree (hree : ReeFamily) : TwoFamilies :=
-  ⟨fun S _ _ hs t n f ht h hBT => radRigid_classical S hs t n f ht h hBT,
-    fun S _ _ hs f h hBT => radRigid_of_suzukiModel hs hBT h, hree,
-    fun S _ _ hs h hBT => radRigid_u33 S hs h hBT⟩
+  ⟨fun _S _ _ hs t n _f ht h hBT => radRigid_classical _S hs t n _f ht h hBT,
+    fun _S _ _ hs _f h hBT => radRigid_of_suzukiModel hs hBT h, hree,
+    fun _S _ _ hs h hBT => radRigid_u33 _S hs h hBT⟩
 
 theorem lieQConstrained_two_of_ree (hree : ReeFamily) : LieQConstrained 2 :=
   lieQConstrained_two (twoFamilies_of_ree hree)

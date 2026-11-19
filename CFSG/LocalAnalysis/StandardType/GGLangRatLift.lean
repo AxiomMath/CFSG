@@ -38,11 +38,11 @@ noncomputable def wRestrict {τ : Tag} (Ψ : Set (Fin τ.rank → ℤ)) (w : Wey
     (hw : ∀ γ ∈ Ψ, w • γ ∈ Ψ) :
     ↥(Submodule.span ℤ Ψ) →ₗ[ℤ] ↥(Submodule.span ℤ Ψ) :=
   LinearMap.restrict
-    ({ toFun := fun x => w • x, map_add' := smul_add w, map_smul' := fun c x => smul_comm w c x } :
+    ({ toFun := fun _x => w • _x, map_add' := smul_add w, map_smul' := fun c _x => smul_comm w c _x } :
       (Fin τ.rank → ℤ) →ₗ[ℤ] (Fin τ.rank → ℤ))
     (p := Submodule.span ℤ Ψ) (q := Submodule.span ℤ Ψ)
-    (fun x hx => (Submodule.span_le (p := (Submodule.span ℤ Ψ).comap
-      ({ toFun := fun x => w • x, map_add' := smul_add w, map_smul' := fun c x => smul_comm w c x } :
+    (fun _x hx => (Submodule.span_le (p := (Submodule.span ℤ Ψ).comap
+      ({ toFun := fun _x => w • _x, map_add' := smul_add w, map_smul' := fun c _x => smul_comm w c _x } :
         (Fin τ.rank → ℤ) →ₗ[ℤ] (Fin τ.rank → ℤ)))).2
       (fun γ hγ => Submodule.subset_span (hw γ hγ)) hx)
 
@@ -61,22 +61,22 @@ noncomputable def langRatPiT
         refine congrArg Additive.ofMul (funext fun l => ?_)
         show (Additive.toMul u) ^ iform ((γ : Fin τ.rank → ℤ) + (γ' : Fin τ.rank → ℤ))
             (Pi.single l 1) = _ * _
-        rw [iform_add_left, zpow_add] <;> rfl)
+        rw [iform_add_left, zpow_add]; rfl)
       (fun c γ u => by
         refine congrArg Additive.ofMul (funext fun l => ?_)
         show (Additive.toMul u) ^ iform (c • (γ : Fin τ.rank → ℤ)) (Pi.single l 1) =
           ((Additive.toMul u) ^ iform (γ : Fin τ.rank → ℤ) (Pi.single l 1)) ^ c
-        rw [iform_smul_left, zpow_mul'] <;> rfl)
+        rw [iform_smul_left, zpow_mul'])
       (fun γ u u' => by
         refine congrArg Additive.ofMul (funext fun l => ?_)
         show (Additive.toMul u * Additive.toMul u') ^ iform (γ : Fin τ.rank → ℤ) (Pi.single l 1) =
           _ * _
-        rw [mul_zpow] <;> rfl)
+        rw [mul_zpow]; rfl)
       (fun c γ u => by
         refine congrArg Additive.ofMul (funext fun l => ?_)
         show (Additive.toMul u ^ c) ^ iform (γ : Fin τ.rank → ℤ) (Pi.single l 1) =
           ((Additive.toMul u) ^ iform (γ : Fin τ.rank → ℤ) (Pi.single l 1)) ^ c
-        rw [← zpow_mul, ← zpow_mul, mul_comm] <;> rfl))
+        rw [← zpow_mul, ← zpow_mul, mul_comm]))
 
 noncomputable def langRatSigmaT {τ : Tag} (Ψ : Set (Fin τ.rank → ℤ)) (L : Type) [Field L] (w : WeylGroup τ)
     (hw : ∀ γ ∈ Ψ, w • γ ∈ Ψ) (q : ℕ) : TSc Ψ L →ₗ[ℤ] TSc Ψ L :=

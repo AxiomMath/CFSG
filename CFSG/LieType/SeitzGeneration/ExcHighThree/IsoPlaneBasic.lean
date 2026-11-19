@@ -23,8 +23,8 @@ theorem exists_le_card_eq_pow_of_isElemAbelian {p : ℕ} (hp : p.Prime) {A : Sub
 theorem exists_plane_mem_of_isElemAbelian {p : ℕ} (hp : p.Prime) {A : Subgroup G}
     (hA : IsElemAbelian p A) (h : p ^ 2 ≤ Nat.card A) {a : G} (haA : a ∈ A) (ha1 : a ≠ 1) :
     ∃ E : Subgroup G, E ≤ A ∧ Nat.card E = p ^ 2 ∧ a ∈ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by
     have := pow_pos hp.pos 2
     omega)
   have hord : orderOf a = p := orderOf_eq_prime (hA.2 a haA) ha1

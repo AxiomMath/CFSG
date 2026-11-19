@@ -106,7 +106,7 @@ theorem normalizer_le_of_stronglyEmbedded {T : Sylow 2 X}
     Subgroup.normalizer (P : Set X) ≤ Subgroup.normalizer ((T : Subgroup X) : Set X) := by
   set B := Subgroup.normalizer ((T : Subgroup X) : Set X) with hB
   have hTB : (T : Subgroup X) ≤ B := Subgroup.le_normalizer
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le hPT
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le hPT
   intro g hg
   by_contra hgB
   have hgodd := hSE.2.2 g hgB
@@ -129,7 +129,7 @@ theorem isSolvable_normalizer_of_borelSetup {T : Sylow 2 X} {D : Subgroup X}
   have hN : ((T : Subgroup X).subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTB).2 le_rfl
   have hT2 : IsPGroup 2 ↥((T : Subgroup X).subgroupOf B) :=
-    T.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hTB).symm
+    T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hTB).symm
   have : Group.IsSolvable ↥((T : Subgroup X).subgroupOf B) := by
     have : Group.IsNilpotent ↥((T : Subgroup X).subgroupOf B) := hT2.isNilpotent
     infer_instance

@@ -80,6 +80,6 @@ theorem partTwoE_of_norm2e {G : Type} [Group G] [Finite G] {E Y : Subgroup G} {b
   obtain ⟨S, hSN, hS1⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two E T' hE3 hEN hcop h2
-  exact ⟨hEe, hE27, _, hS1, S.isPGroup'.map _, hSN⟩
+  exact ⟨hEe, hE27, _, hS1, S.isPGroup.map _, hSN⟩
 
 end CFSG.RankThree.PartTwo.Sec13.RonanStep131b

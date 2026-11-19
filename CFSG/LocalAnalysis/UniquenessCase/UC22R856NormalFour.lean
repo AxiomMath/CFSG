@@ -2247,8 +2247,8 @@ theorem weaklyClosed_of_ok69_of_rank_two_cyclic_center
   have hcR : c ∈ (R : Subgroup Y) := hR0R (mem_sup_right (mem_zpowers c))
   have hRrank : CFSG.Open.pRank 3 (R : Subgroup Y) ≤ 2 :=
     (CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt le_top).trans hRank
-  have haz := mem_center_of_ok69_of_rank_le_two R.isPGroup' hRrank haR ha3 hok hFix
-  have hcz := mem_center_of_ok69_of_rank_le_two R.isPGroup' hRrank hcR hc3
+  have haz := mem_center_of_ok69_of_rank_le_two R.isPGroup hRrank haR ha3 hok hFix
+  have hcz := mem_center_of_ok69_of_rank_le_two R.isPGroup hRrank hcR hc3
     (ok69_conj g hok) (fixes_abelian_conj_mulEquiv (MulAut.conj g) hFix)
   let Z : Subgroup Y := (center (R : Subgroup Y)).map (R : Subgroup Y).subtype
   have : IsCyclic (center (R : Subgroup Y)) := hCyc R

@@ -127,7 +127,7 @@ theorem conclK_of_duad {G : Type} [Group G] [Finite G] {v : Fin 4 → G} (hv : E
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub hv) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm hv x y hx hy
-  letI : IsMulCommutative ↥(eSub hv) := hcommV
+  let : IsMulCommutative ↥(eSub hv) := hcommV
   have hFFM : IsFFModule (autOn M (eSub hv)) :=
     FFn.isFFModule_autOn_of_sum (n := 1) (k := 1) (by decide) le_rfl le_rfl hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub hv : Set G)) (eSub hv)) :=

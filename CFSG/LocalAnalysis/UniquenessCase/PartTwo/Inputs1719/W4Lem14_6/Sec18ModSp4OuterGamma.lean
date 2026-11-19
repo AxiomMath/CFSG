@@ -180,7 +180,7 @@ theorem sum_weight_le_codim_of_gsIrreducible (hF : Fintype.card F = 2 ^ f) (hf :
           (tensorRepS_absolutely_irreducible_and_distinct (k := F) hF hf).2 A hA C (hO C hC)
             ⟨e.trans e'⟩
         subst hCA
-        rw [if_pos ⟨e'⟩, if_pos rfl, mul_one]
+        rw [ite_eq_left ⟨e'⟩, ite_eq_left rfl, mul_one]
       · simp [hne]
     have hsum : ∑ C ∈ O, 3 * C.card * repMultiplicity ρ' (matRep (tensorRepS (F := F) F C)) ≤
         3 * A.card := by

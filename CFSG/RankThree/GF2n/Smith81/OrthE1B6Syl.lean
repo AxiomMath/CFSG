@@ -19,6 +19,7 @@ instance b6s_finite_aut : Finite (Cube 3 K ≃ₗ[K] Cube 3 K) :=
   Finite.of_injective (fun f : Cube 3 K ≃ₗ[K] Cube 3 K => (f : Cube 3 K → Cube 3 K))
     DFunLike.coe_injective
 
+omit [Finite K] in
 theorem b6s_comm_cubeU {g h : Cube 3 K ≃ₗ[K] Cube 3 K} (hg : g ∈ cubeU 3 K)
     (hh : h ∈ cubeU 3 K) : g * h = h * g := by
   have h1 := cubeU_mul_self hg
@@ -38,6 +39,7 @@ theorem b6s_inter_trivial (hq : 4 ≤ Nat.card K) {i j : Fin 3} (hij : i ≠ j) 
     (Subgroup.mem_inf.mp hx).1
     (fun y hy => hF.comm i j hij y hy x (Subgroup.mem_inf.mp hx).2)
 
+omit [Finite K] [CharP K 2] in
 theorem b6s_uniKron_mulSingle_mem (a : Fin 3) (β : K) :
     uniKron 3 K (Pi.mulSingle a (Multiplicative.ofAdd β)) ∈ cubeF 3 K a := by
   refine mem_cubeF.mpr ⟨uniMat β, uniMat_det β, fun v => ?_⟩
@@ -198,6 +200,7 @@ theorem b6s_main_hom (hq : 4 ≤ Nat.card K) (S : Subgroup (Cube 3 K ≃ₗ[K] C
     intro i x
     exact hF.conj_iff i (cubeU_le_cubeE hsU) x
 
+omit [CharP K 2] in
 theorem b6s_relIndex_le_two {S : Subgroup (Cube 3 K ≃ₗ[K] Cube 3 K)} (hS2 : IsPGroup 2 S)
     (φ : S →* Equiv.Perm (Fin 3))
     (hker : ∀ s : S, φ s = 1 ↔ (s : Cube 3 K ≃ₗ[K] Cube 3 K) ∈ cubeU 3 K) :

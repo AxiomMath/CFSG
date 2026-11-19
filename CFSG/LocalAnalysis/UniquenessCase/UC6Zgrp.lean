@@ -20,9 +20,9 @@ theorem exists_regular_zgroup_data {X V Z : Subgroup G}
       Nat.card Y = q ∧ (∀ y ∈ Y, ∀ z ∈ Z, y * z = z * y) ∧
       ¬ Q ≤ (commutator ↥X).map X.subtype := by
   classical
-  letI : MulDistribMulAction ↥X ↥V := Subgroup.conjMulDistribMulActionOfLeNormalizer X V hXV
-  haveI : Nontrivial ↥V := (Subgroup.nontrivial_iff_ne_bot V).2 hV
-  haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).2 hX1
+  let : MulDistribMulAction ↥X ↥V := Subgroup.conjMulDistribMulActionOfLeNormalizer X V hXV
+  have : Nontrivial ↥V := (Subgroup.nontrivial_iff_ne_bot V).2 hV
+  have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).2 hX1
   have hregA : CFSG.ActsRegularly ↥X ↥V := by
     intro a ha1
     rw [Subgroup.eq_bot_iff_forall]
@@ -31,25 +31,25 @@ theorem exists_regular_zgroup_data {X V Z : Subgroup G}
     have hay' : (a : G) * (y : G) * (a : G)⁻¹ = (y : G) := congrArg Subtype.val hay
     have ha1' : (a : G) ≠ 1 := fun h => ha1 (Subtype.ext h)
     exact Subtype.ext (hreg (a : G) a.2 ha1' (y : G) y.2 hay')
-  haveI hZG : IsZGroup ↥X := by
+  have hZG : IsZGroup ↥X := by
     rw [isZGroup_iff]
     intro p hp P
-    haveI : Fact p.Prime := ⟨hp⟩
-    exact CFSG.isCyclic_of_odd_regular_pSubgroup (H := ↥V) (R := ↥X) hp hodd hregA P.isPGroup'
+    have : Fact p.Prime := ⟨hp⟩
+    exact CFSG.isCyclic_of_odd_regular_pSubgroup (H := ↥V) (R := ↥X) hp hodd hregA P.isPGroup
   have hcomm_lt : commutator ↥X < ⊤ := IsZGroup.commutator_lt ↥X
   have hidx : (commutator ↥X).index ≠ 1 := by
     intro h
     exact hcomm_lt.ne (Subgroup.index_eq_one.1 h)
   set q : ℕ := Nat.minFac (commutator ↥X).index with hqdef
   have hq : q.Prime := Nat.minFac_prime hidx
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqidx : q ∣ (commutator ↥X).index := Nat.minFac_dvd _
   obtain ⟨Q⟩ : Nonempty (Sylow q ↥X) := inferInstance
   have hQnot : ¬ (Q : Subgroup ↥X) ≤ commutator ↥X := by
     intro hle
     have h1 : (commutator ↥X).index ∣ (Q : Subgroup ↥X).index := Subgroup.index_dvd_of_le hle
     exact Q.not_dvd_index (hqidx.trans h1)
-  haveI hQcyc : IsCyclic ↥Q := hZG.isZGroup q hq Q
+  have hQcyc : IsCyclic ↥Q := hZG.isZGroup q hq Q
   set QG : Subgroup G := (Q : Subgroup ↥X).map X.subtype with hQG
   have hQGsyl : IsSylowOf q QG X := ⟨Q, rfl⟩
   have hQGcyc : IsCyclic QG := by

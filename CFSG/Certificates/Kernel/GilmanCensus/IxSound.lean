@@ -47,7 +47,7 @@ theorem ix_prefix (R : Array IVec) (hnd : (LLI R).Nodup) (v : IVec) : ∀ k, k �
     have hkl : k < (LLI R).length := by rw [length_LLI]; omega
     have hRk : (LLI R)[k] = (R[k]!).toList := by
       simp [LLI, getElem!_pos R k (by omega)]
-    rw [List.take_succ, List.getElem?_eq_getElem hkl, Option.toList_some, idxI_snoc,
+    rw [List.take_add_one, List.getElem?_eq_getElem hkl, Option.toList_some, idxI_snoc,
       List.length_take_of_le (by omega), Nat.zero_add, hRk, arr_beq]
     by_cases e : v.toList = (R[k]!).toList
     · have hnot : v.toList ∉ (LLI R).take k := by

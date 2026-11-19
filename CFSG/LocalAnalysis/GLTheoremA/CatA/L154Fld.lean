@@ -37,16 +37,17 @@ theorem canonNIDFacts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenL
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fieldOn_of_notInner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hgp : g ^ p = 1)
-    (hP : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab R _ I _ θ =>
+    (hP : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab _R _ I _ θ =>
       (lab.tag ≠ .triD4 ∨ p ≠ 3) ∧ ¬ (lab.tag = .D ∧ lab.rank = 4 ∧ p = 3) ∧
         MulAut.congr θ (indAut p L g hg) ∉ I) :
     FieldOn p g L := by
   have h := canon_marking_and_labelAll_simple' (P' := fun lab => NIDFacts p lab)
     (fun lab hlab => canonNIDFacts hp hp2 hlab) hP
   refine ⟨hg, Canonical.largeEvenMarking_mono ?_ h⟩
-  rintro lab R _ I F θ ⟨⟨hlt, hD, hnot⟩, hO, hLS⟩
+  rintro lab _R _ I F θ ⟨⟨hlt, hD, hnot⟩, hO, hLS⟩
   have h3 : ¬ (lab.tag = .triD4 ∧ p = 3) := by
     rintro ⟨h, h'⟩
     rcases hlt with h0 | h0

@@ -18,7 +18,7 @@ theorem exists_surjective_perm_fin_three_of_sylow {H : Type} [Group H] [Finite H
     ∃ φ : H →* Equiv.Perm (Fin 3), Function.Surjective φ ∧ IsPGroup 2 φ.ker ∧
       ∀ N : Subgroup H, N.Normal → IsPGroup 2 ↥N → N ≤ φ.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : H →* Equiv.Perm (Sylow 2 H) := MulAction.toPermHom H (Sylow 2 H)
   let e3 : Sylow 2 H ≃ Fin 3 := Finite.equivFinOfCardEq hcard
   let φ : H →* Equiv.Perm (Fin 3) := (Equiv.permCongrHom e3).toMonoidHom.comp ψ
@@ -45,7 +45,7 @@ theorem exists_surjective_perm_fin_three_of_sylow {H : Type} [Group H] [Finite H
     exact hψ
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 H) := inferInstance
   have hle : φ.ker ≤ (T₀ : Subgroup H) := fun g hg => (hmem g).mp hg T₀
-  refine ⟨φ, ?_, (T₀.isPGroup').to_le hle, ?_⟩
+  refine ⟨φ, ?_, (T₀.isPGroup).to_le hle, ?_⟩
   ·
     have hHcard : Nat.card H = 3 * Nat.card (T₀ : Subgroup H) := by
       have h := Subgroup.card_mul_index (T₀ : Subgroup H)
@@ -92,7 +92,7 @@ theorem exists_surjective_perm_fin_three_of_sylow {H : Type} [Group H] [Finite H
     exact MonoidHom.range_eq_top.mp htop
   ·
     intro N hNn hN2 g hg
-    haveI := hNn
+    have := hNn
     exact (hmem g).mpr fun T => IsPGroup.le_sylow_of_normal hN2 T hg
 
 theorem isPGroup_quotient_subgroupOf_comap {G N : Type} [Group G] [Group N] {p : ℕ} {π : G →* N}
@@ -119,7 +119,7 @@ theorem exists_symThree_quotient_of_not_normal_sylow {J : Type} [Group J] [Finit
       Function.Surjective f ∧ f.ker ≤ Z.map (QuotientGroup.mk' (CFSG.pCore 2 J)) ∧
       Odd (Nat.card f.ker) ∧ ∀ k ∈ f.ker, ∀ y, k * y = y * k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : J →* J ⧸ Z := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -165,7 +165,7 @@ theorem exists_symThree_quotient_of_not_normal_sylow {J : Type} [Group J] [Finit
   obtain ⟨φ, hφs, hφ2, hφN⟩ := exists_surjective_perm_fin_three_of_sylow hcard hnorm
   have hpc_le : CFSG.pCore 2 J ≤ (φ.comp π).ker := by
     have hle : (CFSG.pCore 2 J).map π ≤ φ.ker := by
-      haveI : ((CFSG.pCore 2 J).map π).Normal :=
+      have : ((CFSG.pCore 2 J).map π).Normal :=
         (CFSG.pCore_normal (p := 2) (G := J)).map π hπs
       exact hφN _ inferInstance ((CFSG.pCore_isPGroup (p := 2) (G := J)).map π)
     intro x hx
@@ -221,7 +221,7 @@ theorem not_two_dvd_index_wSup_of_card_dvd {J : Type} [Group J] [Finite J] {Z : 
     [Z.Normal] (hZ : Z ≤ center J) (hZo : Odd (Nat.card Z)) (h96 : Nat.card (J ⧸ Z) ∣ 96) :
     ¬ 2 ∣ (wSup (J ⧸ CFSG.pCore 2 J)).index := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : J →* J ⧸ Z := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -244,11 +244,11 @@ theorem not_two_dvd_index_wSup_of_card_dvd {J : Type} [Group J] [Finite J] {Z : 
         rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]; exact hz]
       exact (T₀ : Subgroup (J ⧸ Z)).one_mem
     have hquot : IsPGroup 2 (↥M ⧸ Z.subgroupOf M) :=
-      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup'
+      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup
     have hMD : M ≤ Z ⊔ CFSG.pCore 2 J :=
       le_sup_pCore_two_of_central_odd_quotient_two hMn hZM hZ hZo hquot
     have hpcM : CFSG.pCore 2 J ≤ M := by
-      haveI hn : ((CFSG.pCore 2 J).map π).Normal :=
+      have hn : ((CFSG.pCore 2 J).map π).Normal :=
         (CFSG.pCore_normal (p := 2) (G := J)).map π hπs
       have hle : (CFSG.pCore 2 J).map π ≤ (T₀ : Subgroup (J ⧸ Z)) :=
         IsPGroup.le_sylow_of_normal

@@ -12,7 +12,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.GH74.Uniqueness.SU CFSG
 
 variable {Z : Type} [Group Z] [Finite Z] {p : ℕ}
 
-theorem mem_zpowers_of_central_of_cyclic (hp : p.Prime) {Q : Subgroup Z}
+theorem mem_zpowers_of_central_of_cyclic (_hp : p.Prime) {Q : Subgroup Z}
     (hZc : IsCyclic (center Q)) {z w : Z} (hzQ : z ∈ Q) (hzo : orderOf z = p)
     (hzc : ∀ q ∈ Q, q * z = z * q) (hwQ : w ∈ Q) (hwo : orderOf w = p)
     (hwc : ∀ q ∈ Q, q * w = w * q) : w ∈ zpowers z := by
@@ -34,12 +34,12 @@ theorem mem_zpowers_of_central_of_cyclic (hp : p.Prime) {Q : Subgroup Z}
   rw [← hk']
   exact mem_zpowers_iff.mpr ⟨k, rfl⟩
 
-theorem w_mem_of_normal (hp : p.Prime) (hp2 : p ≠ 2) (hZ : primeComplementCore (G := Z) p = ⊥)
+theorem w_mem_of_normal (hp : p.Prime) (_hp2 : p ≠ 2) (hZ : primeComplementCore (G := Z) p = ⊥)
     (Q : Sylow p Z) (hZc : IsCyclic (center (Q : Subgroup Z))) {w : Z}
     (hwQ : w ∈ (Q : Subgroup Z)) (hwo : orderOf w = p)
     (hwc : ∀ q ∈ (Q : Subgroup Z), q * w = w * q) {N : Subgroup Z} [hN : N.Normal]
     (hne : N ≠ ⊥) : w ∈ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card N := by
     by_contra hnd
     apply hne
@@ -70,10 +70,11 @@ theorem exists_noncomm_of_ne (hp : p.Prime) {Q B U : Subgroup Z} (hQ : Open.pRan
   have := SU1.le_pRank hp.one_lt (sup_le hBQ hUQ : B ⊔ U ≤ Q) hel hm
   omega
 
+omit [Finite Z] in
 theorem isSimpleGroup_of_center_eq_bot {K : Subgroup Z} (hK : IsComponentOf K ⊤)
     (hcen : Subgroup.center ↥K = ⊥) : IsSimpleGroup ↥K ∧ ∃ a b : ↥K, a * b ≠ b * a := by
   have hsimp := hK.2.2.2
-  haveI : IsSimpleGroup ↥K := by
+  have : IsSimpleGroup ↥K := by
     have e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
       (QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot
     exact e.symm.isSimpleGroup

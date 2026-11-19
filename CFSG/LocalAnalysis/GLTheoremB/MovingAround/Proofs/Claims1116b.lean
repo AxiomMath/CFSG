@@ -36,7 +36,7 @@ theorem center_eq_bot_of_simple {X : Type} [Group X] [IsSimpleGroup X]
 
 theorem dvd_card_barOf {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {X I : Subgroup G}
     (hI : GLAPComponent p X I) : p ∣ Nat.card (barOf p I) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnd
   have hnt : Nontrivial (barOf p I) := PumpDefChar.nontrivial_barOf hp hI
   have hbot : GLAPPrimeCore p (barOf p I) = ⊥ :=
@@ -138,7 +138,7 @@ theorem typedOrBot_A1Pair [IsAlgClosed L] (ha : 1 ≤ a)
     TypedOrBot K a (rootSpan ReeTag.F4.tag L (parabolicRoots ReeTag.F4.tag
       (({i, j} : Finset (Fin ReeTag.F4.tag.rank)) : Set (Fin ReeTag.F4.tag.rank))) ⊓
         twistedFixed D.F n') := by
-  haveI hsimple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have hsimple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.LieType.Ree.LargeReeInvolution.isSimpleGroup_SL2 ha hK
   have hns : ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) := by
     obtain ⟨x, y, hxy⟩ := CFSG.LieType.Ree.LargeReeInvolution.exists_SL2_mul_ne_mul (K := K)
@@ -495,7 +495,7 @@ theorem center_eq_bot_of_equiv_quasisimple {Y X : Type} [Group Y] [Group X] [IsS
     E.injective (by rw [map_mul, map_mul, hcon])
   have hZ : Subgroup.center Y = ⊤ :=
     eq_top_iff.2 fun u _ => Subgroup.mem_center_iff.2 fun v => hcomm v u
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   obtain ⟨u, hu⟩ := exists_ne (1 : Y ⧸ Subgroup.center Y)
   induction u using QuotientGroup.induction_on with
   | H u => exact hu ((QuotientGroup.eq_one_iff u).2 (hZ ▸ Subgroup.mem_top u))
@@ -510,8 +510,8 @@ theorem isSolvable_fixSubgroup_suzukiGroup_five {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * 2 + 1)) {β : MulAut ↥(suzukiGroup 2 K)} (hβ : β ^ 5 = 1)
     (hβ1 : β ≠ 1) : Group.IsSolvable ↥(fixSubgroup β) := by
   have hp : (5 : ℕ).Prime := by norm_num
-  haveI : Fact (5 : ℕ).Prime := ⟨hp⟩
-  haveI hfin : Finite (suzukiGroup 2 K) := (suzuki_simple (by norm_num) hK).1
+  have : Fact (5 : ℕ).Prime := ⟨hp⟩
+  have hfin : Finite (suzukiGroup 2 K) := (suzuki_simple (by norm_num) hK).1
   have hord : orderOf β = 5 := orderOf_eq_prime hβ hβ1
   by_cases hin : β ∈ inner (suzukiGroup 2 K)
   · obtain ⟨x, rfl, hxp, hx1⟩ := exists_eq_conj_of_mem_range
@@ -530,9 +530,9 @@ theorem isSolvable_fixSubgroup_suzukiGroup_five {K : Type} [Field K] [Finite K]
     have hb0 : b = 0 := by omega
     subst hb0
     have hk2 : Nat.card k = 2 := by rw [hk]; norm_num
-    haveI : Finite (suzukiGroup 0 k) := finite_suzukiGroup hk
+    have : Finite (suzukiGroup 0 k) := finite_suzukiGroup hk
     have hcard := (suzuki_two_normal_five_complement_core_trivial hk2).1
-    haveI hsolv : Group.IsSolvable (suzukiGroup 0 k) :=
+    have hsolv : Group.IsSolvable (suzukiGroup 0 k) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable (by rw [hcard]; norm_num)
     have hφ : MulAut.congr (MulAut.conj h : suzukiGroup 2 K ≃* suzukiGroup 2 K) β =
         szFieldAut 2 K σ := by
@@ -570,14 +570,14 @@ theorem exc5_down_reeF4 (hv : (TauCeti.LieTypeIndex.reeF4 2).Valid)
   classical
   have hp : (5 : ℕ).Prime := by norm_num
   have hp2 : (5 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (5 : ℕ).Prime := ⟨hp⟩
+  have : Fact (5 : ℕ).Prime := ⟨hp⟩
   have hR := CFSG.HardMathSupport.Timmesfeld.DefChar.lot_reeTitsModel_twistedF4_of_index 2 hv e0
   obtain ⟨-, a, ha, hfa, K, _, _, _, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.exists_mulEquiv_reeGamma hR
   have ha2 : a = 2 := by omega
   subst ha2
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have hI' : GLAPComponent 5 (Lemma1314.fixSub α) I := by
     rw [PumpDefChar.fixSub_eq_fixSubgroup]
     exact hI
@@ -597,10 +597,10 @@ theorem exc5_down_reeF4 (hv : (TauCeti.LieTypeIndex.reeF4 2).Valid)
       have hCN' : ⁅fixSubgroup (MulAut.conj y), fixSubgroup (MulAut.conj y)⁆ ≤ N := by
         rw [hC]
         exact hCN
-      haveI := normal_subgroupOf_of_commutator_le hCN'
+      have := normal_subgroupOf_of_commutator_le hCN'
       obtain ⟨E0⟩ := PumpDefChar.nonempty_barOf_equiv hp e hy hNC' hNs
         (isSolvable_quotient_of_commutator_le hCN') hI'
-      haveI := hNs
+      have := hNs
       rcases hty with hf | hf
       · exfalso
         obtain ⟨f⟩ := hf
@@ -627,8 +627,8 @@ theorem exc5_down_reeF4 (hv : (TauCeti.LieTypeIndex.reeF4 2).Valid)
       have := Nat.pow_right_injective (le_refl 2) h
       omega
     subst hb0
-    haveI := hchar
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have := hchar
+    have : Finite (fixSubfield σ) := Subtype.finite
     have hk2 : Nat.card (fixSubfield σ) = 2 := by rw [hkcard]; norm_num
     obtain ⟨hs, -, ⟨hcat⟩⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.commutator_reeGamma_F4_zero_data hk2
@@ -642,7 +642,7 @@ theorem exc5_down_reeF4 (hv : (TauCeti.LieTypeIndex.reeF4 2).Valid)
       · rw [hD, commutator_def]
         exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
       · simp [commutatorElement_def]
-    haveI := normal_subgroupOf_of_commutator_le hCJ
+    have := normal_subgroupOf_of_commutator_le hCJ
     have hmap : D.map eC.toMonoidHom = commutator ↥(ReeTag.F4.reeGamma (fixSubfield σ) 0) := by
       rw [hD, commutator_def, commutator_def, Subgroup.map_commutator,
         Subgroup.map_top_of_surjective _ eC.surjective]
@@ -650,8 +650,8 @@ theorem exc5_down_reeF4 (hv : (TauCeti.LieTypeIndex.reeF4 2).Valid)
       (D.equivMapOfInjective eC.toMonoidHom eC.injective).trans (MulEquiv.subgroupCongr hmap)
     let eJ : ↥J ≃* ↥(commutator ↥(ReeTag.F4.reeGamma (fixSubfield σ) 0)) :=
       (D.equivMapOfInjective C.subtype C.subtype_injective).symm.trans eDR
-    haveI := hs
-    haveI hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
+    have := hs
+    have hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
     obtain ⟨E0⟩ := PumpDefChar.nonempty_barOf_equiv hp _ hcongr hJC hJs
       (isSolvable_quotient_of_commutator_le hCJ) hI'
     obtain ⟨E1⟩ := nonempty_pSimple_equiv hI E0
@@ -663,7 +663,7 @@ theorem exc5_down (S : Type) [Group S] [Finite S] (hs : IsSimpleGroup S)
     (I : Subgroup S) (hI : GLAPComponent 5 (fixSubgroup α) I) :
     Claims1116.Exc5 (PSimple 5 I) := by
   have hp : (5 : ℕ).Prime := by norm_num
-  haveI := hs
+  have := hs
   by_cases hα1 : α = 1
   · subst hα1
     rw [fixSubgroup_one_eq_top] at hI
@@ -692,7 +692,7 @@ theorem config_cases {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (h
         GLAPComponent p (J1 ⊓ Subgroup.centralizer ({a} : Set G)) J0) ∨
       Nonempty (PSimple p J0 ≃* PSimple p J1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Js : Subgroup G := ⨆ g ∈ Subgroup.zpowers a, GLBConj g J1 with hJs
   rw [hKx] at hJ0
   have hcomp : ∀ g ∈ Subgroup.zpowers a, GLAPComponent p (Cg e) (GLBConj g J1) := by
@@ -918,7 +918,7 @@ theorem exists_le_of_normalizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : 
     intro X hX
     rw [Input183.OJ_eq_fin hb hp0]
     simp only [horb X hX]
-    haveI : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
+    have : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
     exact iSup_const
   have hSO : ∀ X ∈ 𝓛, ∀ o ∈ Input183.OJ b X, ∀ z ∈ L ⊓ Subgroup.centralizer (L : Set Y),
       b * o * b⁻¹ = o * z → o ∈ cstar L b X ⊔ (L ⊓ Subgroup.centralizer (L : Set Y)) := by
@@ -1052,7 +1052,7 @@ theorem exists_le_of_normalizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : 
     have hmX := Subgroup.mem_normalizer_iff.1 (hLN X hX (Subgroup.mem_inf.1 hm).1) n
     have hmC := Subgroup.mem_normalizer_iff.1
       (Subgroup.le_normalizer (Subgroup.mem_inf.1 hm).2) n
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at hmX hmC ⊢
+    simp only [Subgroup.mem_inf] at hmX hmC ⊢
     exact ⟨fun h => ⟨hmX.1 h.1, hmC.1 h.2⟩, fun h => ⟨hmX.2 h.1, hmC.2 h.2⟩⟩
   have hex : ∃ X ∈ 𝓛, R ≤ X ⊓ Subgroup.centralizer ({b} : Set Y) := by
     by_contra hno
@@ -1062,7 +1062,7 @@ theorem exists_le_of_normalizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : 
         (QuotientGroup.mk' (GLAPPrimeCore p ↥M))).map M.subtype with hT
     have hDT : ∀ X ∈ 𝓛, X ⊓ Subgroup.centralizer ({b} : Set Y) ≤ T := by
       intro X hX
-      haveI : ((X ⊓ Subgroup.centralizer ({b} : Set Y)).subgroupOf M).Normal :=
+      have : ((X ⊓ Subgroup.centralizer ({b} : Set Y)).subgroupOf M).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer (hNXM X hX)).2 fun m hm => hMnorm X hX m hm
       rcases CFSG.HardMathSupport.Solomon.Coordinator.i183_le_or_commutator_eq_bot hp hR
           (hNXM X hX) with h | h
@@ -1085,7 +1085,7 @@ theorem le_of_barX_le_comp {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
     (hbK : b ∈ Subgroup.normalizer (K' : Set G)) (hbp : b ^ p = 1)
     (hJ : GLAPComponent p (C ⊓ Subgroup.centralizer ({b} : Set G)) J)
     (hle : barX p C J ≤ barX p C K') : J ≤ K' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd : IsPGroup p (Subgroup.zpowers b) :=
     Prop1116Design.elemAbelian_isPGroup (Claims1116.isElemAbelian_zpowers hbp)
   set A : Subgroup G := K' ⊓ Subgroup.centralizer ({b} : Set G) with hA
@@ -1133,8 +1133,8 @@ theorem valid_A_two_q3 : (TauCeti.LieTypeIndex.A 2 q3).Valid := by
 theorem isLieOverField_of_isLpType_three_three {X : Type} [Group X]
     (h : IsLpType 3 3 (X ⧸ Subgroup.center X)) : Prop1116Design.IsLieOverField 3 X := by
   obtain ⟨F, hF, hFin, hc, ⟨f⟩⟩ := h
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
-  haveI : Fact q3.p.Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact q3.p.Prime := ⟨Nat.prime_three⟩
   have hc' : Nat.card F = 3 ^ 1 := by rw [hc]; norm_num
   let eK := CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 3 3 1 (by norm_num) hc'
   let eC := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q3 valid_A_two_q3
@@ -1189,7 +1189,7 @@ theorem input14_4_1Field_of_input (h : InputL33Down) : Claims1116.Input14_4_1Fie
   classical
   have hp : (13 : ℕ).Prime := by norm_num
   have hp2 : (13 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (13 : ℕ).Prime := ⟨hp⟩
+  have : Fact (13 : ℕ).Prime := ⟨hp⟩
   set C := Cg a with hCdef
   have heC : e ∈ C := hA0C heA0
   have hep : e ^ 13 = 1 := hA0el.2 e heA0

@@ -120,8 +120,8 @@ theorem ggDelU_torus_le_card
     simp [Nat.sub_add_cancel hN1]
   obtain ⟨K, hKfield, hKfin, hcard, θ, hind⟩ :=
     ggDelUTorus_exists_unitary_model (labX := (⟨.twA, N - 1, 1⟩ : LargeEvenLabel)) rfl hm'
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hcard4 : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hcard
   have hA3 : IsPGroup 3 A := isPGroup_of_isElemAbelian hA
   obtain ⟨k, hk⟩ := hA3.exists_card_eq

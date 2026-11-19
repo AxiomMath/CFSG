@@ -367,7 +367,7 @@ theorem tight_or_dihedral_plus (hE2 : SolomonTimmesfeldTight) (hE3a : WCBlockCen
         (Subgroup.centralizer (X : Set G)).subtype ≤ Subgroup.centralizer (X : Set G) :=
       Subgroup.map_subtype_le _
     have hR2 : IsPGroup 2 ((R : Subgroup ↥(Subgroup.centralizer (X : Set G))).map
-        (Subgroup.centralizer (X : Set G)).subtype) := R.isPGroup'.map _
+        (Subgroup.centralizer (X : Set G)).subtype) := R.isPGroup.map _
     rcases h27 with ⟨hRO, hab, g₀, hg₀N, hg₀ne⟩ | ⟨-, hdih⟩ | ⟨hQ8, hgrp⟩ |
         ⟨⟨H, -, hHR, ⟨hHe⟩, -⟩, hL34⟩ | hSz | ⟨-, hel, h4, hTI6, hNR, hWC⟩
     ·

@@ -97,6 +97,7 @@ def CaseOneFalse (M : Subgroup G) : Prop :=
 def CaseTwoFalse (M : Subgroup G) : Prop :=
   ∀ H E Q J : Subgroup G, S14Choice G M H E Q J → ¬ TypeA M H → ¬ TypeB M H
 
+omit [Finite G] in
 theorem FiveTypes.caseThree {M H : Subgroup G} (h : FiveTypes M H) (hA : ¬ TypeA M H)
     (hB : ¬ TypeB M H) : CaseThree M H := by
   unfold CaseThree

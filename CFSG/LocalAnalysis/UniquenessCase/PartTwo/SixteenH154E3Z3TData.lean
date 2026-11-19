@@ -17,7 +17,7 @@ theorem s16h_e3_z3_t_data {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w
     {A L L₂ : Subgroup (MulAut W)} {x : MulAut W} (hB : s16h_Z3Blocks A L L₂ x)
     (hL : Nat.card ↥L = 3) (hrk : rk ↥(commSub (⊤ : Subgroup W) L) = 6)
     (hfix : commSub (⊤ : Subgroup W) L ⊓ fixV L = ⊥)
-    {t : MulAut W} (htA : t ∈ A) (ht2 : t ^ 2 = 1)
+    {t : MulAut W} (htA : t ∈ A) (_ht2 : t ^ 2 = 1)
     (htr : rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers t)) ≤ 3)
     (htL : ⁅L, Subgroup.zpowers t⁆ ≠ ⊥) :
     t ∈ centSub (commSub (⊤ : Subgroup W) L₂) ∧ ∀ l ∈ L, t * l * t⁻¹ = l⁻¹ := by

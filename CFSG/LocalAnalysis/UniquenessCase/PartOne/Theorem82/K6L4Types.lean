@@ -46,12 +46,14 @@ theorem exists_adapted (hf : ModelFacts H ζ r π) {A : Subgroup Y} (hA : IsElem
     Multiplicative (Fin 4 → ZMod 3) →* Y :=
   π'.comp (stdDiagHomH ζ hstd)
 
+omit [Finite K] [Finite Y] in
 private theorem c0_spec_range (hstd : D₀ ζ ≤ H) {π' : H →* Y} {A : Subgroup Y}
     (hA : ((D₀ ζ).subgroupOf H).map π' = A) : (c0 ζ hstd π').range = A := by
   have hrange_std : (stdDiagHomH ζ hstd).range = (D₀ ζ).subgroupOf H :=
     (MonoidHom.subgroupOf_range_eq_of_le (stdDiagHom ζ) hstd).symm
   rw [c0, MonoidHom.range_comp, hrange_std, hA]
 
+omit [Finite K] [Finite Y] in
 private theorem c0_spec_ker (hstd : D₀ ζ ≤ H) {π' : H →* Y} {A : Subgroup Y}
     (hrange : (c0 ζ hstd π').range = A) (h27 : Nat.card A = 27) :
     ∀ v, c0 ζ hstd π' v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t := by
@@ -64,6 +66,7 @@ private theorem c0_spec_ker (hstd : D₀ ζ ≤ H) {π' : H →* Y} {A : Subgrou
       π' (stdDiagHomH ζ hstd (Multiplicative.ofAdd fun _ => t)) from rfl, h1, map_one]
   exact ker_of_card (c0 ζ hstd π') (by rw [hrange, h27]) hconst
 
+omit [Finite Y] in
 private theorem c0_spec_normalizer (hstd : D₀ ζ ≤ H) {π' : H →* Y} (hπ' : TwoQuot π')
     {A : Subgroup Y} (hA : ((D₀ ζ).subgroupOf H).map π' = A) :
     ∀ n ∈ Subgroup.normalizer (A : Set Y), ∃ ρ : Equiv.Perm (Fin 4), ∀ v,
@@ -101,6 +104,7 @@ private theorem c0_spec_normalizer (hstd : D₀ ζ ≤ H) {π' : H →* Y} (hπ'
         rw [hH]
     _ = c0 ζ hstd π' (Multiplicative.ofAdd fun i => Multiplicative.toAdd v (ρ i)) := rfl
 
+omit [Finite Y] in
 theorem c0_spec (hstd : D₀ ζ ≤ H) {π' : H →* Y} (hπ' : TwoQuot π') {A : Subgroup Y}
     (hA : ((D₀ ζ).subgroupOf H).map π' = A) (h27 : Nat.card A = 27) :
     (c0 ζ hstd π').range = A ∧
@@ -123,6 +127,7 @@ private theorem centralizer_inv_singleton {G : Type*} [Group G] (x : G) :
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
   exact Commute.inv_right_iff
 
+omit [Finite Y] in
 private theorem exists_conj_centralizer {c : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (hc4 : ∀ σ : Equiv.Perm (Fin 4), ∃ n : Y, ∀ v, n * c v * n⁻¹ =
       c (Multiplicative.ofAdd fun i => Multiplicative.toAdd v (σ i)))
@@ -164,6 +169,7 @@ private theorem exists_conj_centralizer {c : Multiplicative (Fin 4 → ZMod 3) �
     rw [← hz, centralizer_inv_singleton]
     exact centralizer_conj n (c (Multiplicative.ofAdd a))
 
+omit [Finite Y] in
 private theorem cmp_centralizer_hc0 {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {ε : ZMod 3} {τ : Equiv.Perm (Fin 4)} (hε : ε ≠ 0)
     (hcmp : ∀ v, c v = c₀ (Multiplicative.ofAdd fun i => ε * Multiplicative.toAdd v (τ i)))
@@ -179,6 +185,7 @@ private theorem cmp_centralizer_hc0 {c c₀ : Multiplicative (Fin 4 → ZMod 3) 
     rw [show τ⁻¹ (τ i) = i from Equiv.symm_apply_apply τ i, ← mul_assoc, hε2, one_mul]] at h
   exact h.symm
 
+omit [Finite Y] in
 private theorem cmp_centralizer_conj {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {ε : ZMod 3} {τ : Equiv.Perm (Fin 4)} (hε : ε ≠ 0) {a : Fin 4 → ZMod 3} {n : Y}
     (hz : n * c (Multiplicative.ofAdd a) * n⁻¹ =
@@ -207,6 +214,7 @@ private theorem cmp_centralizer_conj {c c₀ : Multiplicative (Fin 4 → ZMod 3)
     rw [← hz, centralizer_inv_singleton]
     exact centralizer_conj n (c (Multiplicative.ofAdd a))
 
+omit [Finite Y] in
 theorem cmp_centralizer {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (hc4 : ∀ σ : Equiv.Perm (Fin 4), ∃ n : Y, ∀ v, n * c v * n⁻¹ =
       c (Multiplicative.ofAdd fun i => Multiplicative.toAdd v (σ i)))
@@ -343,7 +351,7 @@ theorem sylow_vii {A : Subgroup Y} {x : Y} (hx : x ∈ A)
       (Nat.card (centralizer ({x} : Set Y))).factorization 3) :
     ∀ Q : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf 3 Q (centralizer (A : Set Y)) →
       CFSG.ABGLocalTools.IsSylowOf 3 Q (centralizer ({x} : Set Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro Q hQ
   have hle : Subgroup.centralizer (A : Set Y) ≤ Subgroup.centralizer ({x} : Set Y) :=
     Subgroup.centralizer_le (by
@@ -370,10 +378,10 @@ theorem l4Local_of_facts (hf : ModelFacts H ζ r π) :
         CFSG.ABGLocalTools.IsSylowOf 3 Q
           (centralizer ({c (.ofAdd ![1, -1, 0, 0])} : Set Y))) ∧
       (∃ K : Subgroup Y, K ≤ centralizer ({c (.ofAdd ![1, 1, -1, -1])} : Set Y) ∧
-        ¬ IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧ Nat.card K = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 ∧
+        ¬ Group.IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧ Nat.card K = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 ∧
         ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) → N = ⊥) ∧
       (∃ K : Subgroup Y, K ≤ centralizer ({c (.ofAdd ![1, 1, 1, 0])} : Set Y) ∧
-        ¬ IsSolvable ↥K ∧
+        ¬ Group.IsSolvable ↥K ∧
         ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) →
           N ≤ centralizer (K : Set Y)) := by
   intro A hA h27 c hc
@@ -396,7 +404,7 @@ theorem k6d_of_facts (hf : ModelFacts H ζ r π) {A : Subgroup Y} (hA : IsElemAb
   have hcent := hπ'.centralizer_map (S := (D₀ ζ).subgroupOf H) hS
   rw [hA'] at hcent
   rw [hcent]
-  haveI : IsMulCommutative ↥(Subgroup.centralizer
+  have : IsMulCommutative ↥(Subgroup.centralizer
       (((D₀ ζ).subgroupOf H : Subgroup H) : Set H)) := centralizer_D₀_comm ζ hstd
   exact Subgroup.map_isMulCommutative (Subgroup.centralizer
     (((D₀ ζ).subgroupOf H : Subgroup H) : Set H)) π'

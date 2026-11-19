@@ -377,10 +377,10 @@ theorem transportPoints_centralizer (T : Set (ModGL τ k)) :
   rw [mem_transportPoints_modGLPoint, Set.mem_iInter, SetLike.mem_coe,
     Subgroup.mem_centralizer_iff]
   refine ⟨fun h A => ?_, fun h A hA => ?_⟩
-  · rw [Set.mem_setOf_eq, comp_innerCo_modGLPoint_eq_iff, Subgroup.mem_centralizer_singleton_iff]
+  · rw [Set.mem_ofPred_eq, comp_innerCo_modGLPoint_eq_iff, Subgroup.mem_centralizer_singleton_iff]
     exact (h A A.2).symm
   · have h' := h ⟨A, hA⟩
-    rw [Set.mem_setOf_eq, comp_innerCo_modGLPoint_eq_iff,
+    rw [Set.mem_ofPred_eq, comp_innerCo_modGLPoint_eq_iff,
       Subgroup.mem_centralizer_singleton_iff] at h'
     exact h'.symm
 

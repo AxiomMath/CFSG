@@ -180,7 +180,7 @@ theorem bigIdent_conj_le_W (hZ : Sec34CentreTrivialStatement) (hN : BigNaturalSt
     have h1 : g⁻¹ * y * g ∈ B ⊓ P := Subgroup.mem_inf.mpr ⟨hy', (Subgroup.mem_inf.mp hb₁P).1⟩
     rw [hBP, Subgroup.mem_bot] at h1
     exact hb1 h1
-  obtain ⟨v₀, hv₀V, hv₀W⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v₀, hv₀V, hv₀W⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   obtain ⟨μ, hμ, hact⟩ := bigRW_conj_act_eq_trans hVH hNat hTT hTV hv₀V hv₀W
   have hev₀ : ⁅e, v₀⁆ ∈ V ⊓ wOf V H := by
     refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩

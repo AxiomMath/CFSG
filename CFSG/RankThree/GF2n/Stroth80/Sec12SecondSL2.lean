@@ -78,11 +78,11 @@ private theorem charTwo_of_card_two_pow (K : Type) [Field K] [Finite K] {a : ℕ
 private theorem sl2_not_commutative {F : Type} [Field F] [CharP F 2] (h4 : 4 ≤ Nat.card F) :
     ¬ ∀ x y : Matrix.SpecialLinearGroup (Fin 2) F, x * y = y * x := by
   intro hc
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.RankThree.PartOne.KCOrthogonal.sl2_isSimpleGroup h4
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.RankThree.PartOne.KCOrthogonal.sl2_isPerfect h4
-  haveI : IsMulCommutative (Matrix.SpecialLinearGroup (Fin 2) F) := ⟨⟨fun a b => hc a b⟩⟩
+  have : IsMulCommutative (Matrix.SpecialLinearGroup (Fin 2) F) := ⟨⟨fun a b => hc a b⟩⟩
   exact Group.IsPerfect.not_isMulCommutative (Matrix.SpecialLinearGroup (Fin 2) F) inferInstance
 
 theorem isSLModel_two_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 ≤ a ∧ q = 2 ^ a)
@@ -92,10 +92,10 @@ theorem isSLModel_two_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 
   obtain ⟨K, _, _, hKq, ⟨eX⟩⟩ := h
   obtain ⟨a, ha2, ha⟩ := hq
   obtain ⟨hchar, h4⟩ := charTwo_of_card_two_pow K ha2 (hKq.trans ha)
-  haveI := hchar
+  have := hchar
   let eSL : X ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     eX.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.RankThree.PartOne.KCOrthogonal.sl2_isSimpleGroup h4
   refine ⟨eSL.isSimpleGroup, exists_ne_comm_of_equiv eSL (sl2_not_commutative h4), ?_, ?_⟩
   · exact CFSG.ComponentClassification.CatalogueSchreierLinearTwo.outer_solvable_of_equiv K
@@ -109,11 +109,11 @@ theorem isOmegaMinus_two_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ,
   obtain ⟨K, _, _, hKq, b, c, hirr, ⟨eX⟩⟩ := h
   obtain ⟨a, ha2, ha⟩ := hq
   obtain ⟨hchar, -⟩ := charTwo_of_card_two_pow K ha2 (hKq.trans ha)
-  haveI := hchar
+  have := hchar
   obtain ⟨hsimp, -, hna⟩ :=
     CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
       (n := 2) (Or.inl rfl) hirr
-  haveI := hsimp
+  have := hsimp
   obtain ⟨E, _, _, D, _, ρ, -, -, hinj, -, hrange, -, -, -, hcard, -, -, -⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction
       (CFSG.LieType.Universal.Spin.quadMinus 2 K b c)
@@ -122,8 +122,8 @@ theorem isOmegaMinus_two_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ,
       (fun U hU =>
         CFSG.ComponentClassification.RankTwoClassical.exists_ne_zero_of_finrank_eq_quadMinus
           (n := 2) (by norm_num) hirr U (by rw [hU, Module.finrank_fintype_fun_eq_card]; simp))
-  haveI : Finite E := D.finite_E
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
+  have : Finite E := D.finite_E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
   let eρ : X ≃* ↥ρ.range := eX.trans
     ((CFSG.ComponentClassification.RankTwoClassical.statedOmegaEquivCommutator
       (CFSG.LieType.Universal.Spin.quadMinus 2 K b c)
@@ -143,7 +143,7 @@ theorem isOmegaPlus_two_split {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 
   obtain ⟨K, _, _, hKq, ⟨eX⟩⟩ := h
   obtain ⟨a, ha2, ha⟩ := hq
   obtain ⟨hchar, h4⟩ := charTwo_of_card_two_pow K ha2 (hKq.trans ha)
-  haveI := hchar
+  have := hchar
   obtain ⟨eP⟩ := statedOmega_plus_four_nonempty_equiv K h4
   exact ⟨↥(CFSG.Open.StatedSL 2 K), ↥(CFSG.Open.StatedSL 2 K), inferInstance, inferInstance,
     ⟨K, inferInstance, inferInstance, hKq, ⟨MulEquiv.refl _⟩⟩,

@@ -48,8 +48,8 @@ theorem s16nt_sum_omPlus (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     inf_le_right (c := 2 * 1) (d := n) ?_ (by omega) hsum
   intro I hI
   obtain ⟨-, K, hKf, hKfin, hKcard, hreal⟩ := hI
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   refine ⟨FFModel.nat (StatedOmega (StatedQuadPlus (n / 2) K)),
     s16nt_cover_omPlus (a := 1) hr hKcard, hreal, ?_⟩
   rw [s16nt_card_natMod (StatedOmega (StatedQuadPlus (n / 2) K)), hKcard]
@@ -77,8 +77,8 @@ theorem s16nt_sum_omMinus (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     inf_le_right (c := 2 * 1) (d := n) ?_ (by omega) hsum
   intro I hI
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, hreal⟩ := hI
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   refine ⟨FFModel.nat (StatedOmega (StatedQuadMinus (n / 2) K b c)),
     s16nt_cover_omMinus (a := 1) hr hKcard hirr, hreal, ?_⟩
   rw [s16nt_card_natMod (StatedOmega (StatedQuadMinus (n / 2) K b c)), hKcard]
@@ -98,8 +98,8 @@ theorem s16nt_irr_omPlus (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨hshape, hnat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hnat.2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hr := s16nt_range_omPlus hqs (s16nt_pRank_nt_top hnt) hshape
   have hr3 : 3 ≤ n / 2 := by
     rw [Nat.le_div_iff_mul_le (by norm_num : 0 < 2)]
@@ -128,8 +128,8 @@ theorem s16nt_irr_omMinus (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨hshape, hnat⟩ := h
   obtain ⟨K, hKf, hKfin, b, c, hKcard, hirrK, hreal⟩ := hnat.2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hr := s16nt_range_omMinus hqs (s16nt_pRank_nt_top hnt) hshape
   have hr3 : 3 ≤ n / 2 := by
     rw [Nat.le_div_iff_mul_le (by norm_num : 0 < 2)]
@@ -160,8 +160,8 @@ theorem s16nt_irr_su (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨hshape, hnat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hnat
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hn4 := s16nt_range_su hqs (s16nt_pRank_nt_top hnt) hshape
   have hK4 : Nat.card K = 4 := by
     rw [hKcard]

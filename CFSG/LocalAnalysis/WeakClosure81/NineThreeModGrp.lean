@@ -12,7 +12,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem nineThree_exists_rep {W W₀ L : Subgroup G} (hW : IsElemAbelian 2 W) (hW₀ : W₀ ≤ W)
+omit [Finite G] in
+theorem nineThree_exists_rep {W W₀ L : Subgroup G} (hW : IsElemAbelian 2 W) (_hW₀ : W₀ ≤ W)
     (hLW : L ≤ normalizer (W : Set G)) (hLW₀ : L ≤ normalizer (W₀ : Set G)) :
     ∃ (M : Type) (_ : AddCommGroup M) (_ : Module (ZMod 2) M)
       (ρ : ↥L →* LinearMap.GeneralLinearGroup (ZMod 2) M) (π : Additive ↥W →+ M),
@@ -20,9 +21,9 @@ theorem nineThree_exists_rep {W W₀ L : Subgroup G} (hW : IsElemAbelian 2 W) (h
       ∀ (l : ↥L) (w w' : ↥W), (w' : G) = l * w * l⁻¹ →
         π (Additive.ofMul w') = (ρ l : M →ₗ[ZMod 2] M) (π (Additive.ofMul w)) := by
   classical
-  letI : CommGroup ↥W := @IsMulCommutative.instCommGroup _ _ hW.1
+  let : CommGroup ↥W := @IsMulCommutative.instCommGroup _ _ hW.1
   let N : Subgroup ↥W := W₀.subgroupOf W
-  haveI : N.Normal := Subgroup.normal_of_comm N
+  have : N.Normal := normal_of_isMulCommutative N
   let conjAut : ↥L → (↥W ≃* ↥W) := fun l =>
     { toFun := fun a =>
         ⟨(l : G) * a * (l : G)⁻¹, (Subgroup.mem_normalizer_iff.mp (hLW l.2) a).mp a.2⟩
@@ -45,7 +46,7 @@ theorem nineThree_exists_rep {W W₀ L : Subgroup G} (hW : IsElemAbelian 2 W) (h
     rw [toMul_nsmul]
     simp only [toMul_ofMul, toMul_zero]
     rw [← QuotientGroup.mk_pow, hsq, QuotientGroup.mk_one]
-  letI : Module (ZMod 2) (Additive (↥W ⧸ N)) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive (↥W ⧸ N)) := AddCommGroup.zmodModule h2
   let eQ : ↥L → ((↥W ⧸ N) ≃* (↥W ⧸ N)) := fun l =>
     QuotientGroup.congr N N (conjAut l) (by
       ext a

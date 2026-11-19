@@ -15,7 +15,7 @@ public section
 namespace CFSG.GroupTheory
 
 theorem exists_mem_orderOf_eq_prime_of_mem_map {L H : Type} [Group L] [Finite L] [Group H]
-    {p : ℕ} [Fact p.Prime] (f : L →* H) (hf : Function.Surjective f)
+    {p : ℕ} [Fact p.Prime] (f : L →* H) (_hf : Function.Surjective f)
     (hN : ¬ p ∣ Nat.card f.ker) {C : Subgroup L} {x : H}
     (hxC : x ∈ C.map f) (hx : orderOf x = p) :
     ∃ a ∈ C, orderOf a = p ∧ f a = x := by
@@ -144,15 +144,15 @@ private theorem exists_component_of_B23 {D : Data G} {Ch : Choice2011 G}
     (hK_ne_bot : Hinf (D.M ⊓ c.L) ≠ ⊥) :
     ∃ Y : Subgroup G, Y ∈ calC D.M ∧ Hinf (D.M ⊓ c.L) ≤ Y := by
   let n : ℕ := CFSG.Open.pRank 2 D.Z
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let Pℓ : Subgroup ↥(c.H hV) :=
@@ -189,7 +189,7 @@ namespace Ctx23L
 private theorem exists_zpowers_eq_of_prime_card {H : Type} [Group H] (A : Subgroup H)
     [Finite ↥A] {p : ℕ} (hp : p.Prime) (hcard : Nat.card ↥A = p) :
     ∃ x ∈ A, orderOf x = p ∧ A = Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA_nontriv : Nontrivial ↥A :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; exact hp.one_lt)
   obtain ⟨x, hxA, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial A
@@ -216,7 +216,7 @@ theorem exists_mem_orderOf_eq_prime_of_le_Hinf {D : Data G} {Ch : Choice2011 G}
     (hAstar_le : Astar ≤ Kstar) (hAstar_card : Nat.card ↥Astar = p) :
     ∃ a : ↥c.L, a ∈ (Hinf (D.M ⊓ c.L)).subgroupOf c.L ∧ orderOf a = p ∧
       c.phiL hV a ∈ Astar ∧ Astar = Subgroup.zpowers (c.phiL hV a) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hxA, hxorder, hAeq⟩ := exists_zpowers_eq_of_prime_card Astar hp hAstar_card
   have hxImage : x ∈ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) := by
     rw [hKstar_eq]
@@ -281,7 +281,7 @@ private theorem comap_zpowers_eq_ker_sup_and_isSylowOf {D : Data G} {Ch : Choice
         (c.phiL hV).ker ⊔ Subgroup.zpowers a ∧
       CFSG.ABGLocalTools.IsSylowOf p (Subgroup.zpowers a)
         ((Subgroup.zpowers (c.phiL hV a)).comap (c.phiL hV)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hR_eq : (Subgroup.zpowers (c.phiL hV a)).comap (c.phiL hV) =
       (c.phiL hV).ker ⊔ Subgroup.zpowers a := by
     rw [← MonoidHom.map_zpowers, Subgroup.comap_map_eq, sup_comm]
@@ -397,7 +397,7 @@ theorem mem_stabilizer_of_forall_normalizer_le_M {D : Data G} {Ch : Choice2011 G
       c.phiL hV a ∈ Astar →
       Subgroup.normalizer (Subgroup.zpowers (a : G) : Set G) ≤ D.M)
     {g : ↥c.L} (hgφ : c.phiL hV g = w) : w ∈ Pℓ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, haK, haord, haφA, hAeq⟩ :=
     c.exists_mem_orderOf_eq_prime_of_le_Hinf hV hp hp2 hker_eq hKstar_eq hAstar_le hAstar_card
   have hw_norm_sub : w ∈ Subgroup.normalizer (Astar : Set ↥(c.H hV)) :=
@@ -449,15 +449,15 @@ theorem map_inf_eq_pointStabilizer_and_residual {D : Data G} {Ch : Choice2011 G}
     ((D.M ⊓ c.L).subgroupOf c.L).map (c.phiL hV) = pointStabilizer c hV ∧
       ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) =
         residualPointStabilizer c hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) = c.Ztil hV :=
@@ -481,15 +481,15 @@ private theorem exists_KGen_order_three {D : Data G} {Ch : Choice2011 G}
     ∃ A : Subgroup ↥(c.H hV), A ≤ residualPointStabilizer c hV ∧
       Nat.card ↥A = 3 ∧ ∃ w : ↥(c.H hV), w ∉ pointStabilizer c hV ∧
         ∀ a ∈ A, w * a * w⁻¹ ∈ A := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   rcases hline with ⟨hSp, hNatSp⟩ | ⟨a, hn2, hSU, hNatSU⟩ | ⟨hOm, hNatOm⟩

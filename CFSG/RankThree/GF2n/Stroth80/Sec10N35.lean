@@ -50,7 +50,7 @@ private theorem exists_flagData_LB_of_action {K : Type} [Field K] [Finite K] [Ch
     (hφker : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q)
     (hφiso : ∀ (m : H0 M Z) e, M₀.Qf (φ m e) = M₀.Qf e)
     {b : M₀.E} (hb0 : b ≠ 0) (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
-    (hcent : ∀ x ∈ Q, x ∈ Subgroup.centralizer (B : Set G) ↔ M₀.B (M₀.π x) b = 0)
+    (_hcent : ∀ x ∈ Q, x ∈ Subgroup.centralizer (B : Set G) ↔ M₀.B (M₀.π x) b = 0)
     {W : Submodule K M₀.E} (hWmem : ∀ e, e ∈ M₀.img (Q ⊓ QB B) ↔ e ∈ W)
     (hWperp : ∀ v, (∀ u ∈ W, M₀.B v u = 0) → v ∈ W) (hbW : b ∈ W) :
     ∃ Λ : Subgroup (M₀.E ≃ₗ[K] M₀.E),

@@ -122,14 +122,14 @@ private theorem false_of_orthogonal_label_iso_A {d n : ℕ} (hd : 3 ≤ d) (hd4 
         change 4 ≤ rank at hr
         have hr3 : rank ≠ 3 := by omega
         have htag := congrArg LargeEvenLabel.tag hcanon
-        simpa [canonLabel, hr3] using htag
+        simp [canonLabel, hr3] at htag
       · change tag = .twD at hD
         cases hD
         change 4 ≤ rank at hr
         have hr3 : rank ≠ 3 := by omega
         have hr2 : rank ≠ 2 := by omega
         have htag := congrArg LargeEvenLabel.tag hcanon
-        simpa [canonLabel, hr3, hr2] using htag
+        simp [canonLabel, hr3, hr2] at htag
     · change tag = .A at hA1
       cases hA1
       change rank = 1 at hr
@@ -193,7 +193,7 @@ theorem exists_selected_glBlock_omegaPlus
       Nonempty (↥C ⧸ Subgroup.center ↥C ≃*
         LargeEvenProj (LargeEvenSLGroup (Fin m) E)) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let b : GL ι K := s
   have hb : b ∈ StatedOmega ⇑Φ := s.2
   have hordb : orderOf b = p := by simpa [b] using hs
@@ -290,8 +290,8 @@ theorem exists_selected_glBlock_omegaPlus
     ·
       obtain ⟨ι₁, hFintype₁, hDecEq₁, Q₁, -, hform₁, hcases₁⟩ :=
         blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd hεprim h1
-      letI : Fintype ι₁ := hFintype₁
-      letI : DecidableEq ι₁ := hDecEq₁
+      let : Fintype ι₁ := hFintype₁
+      let : DecidableEq ι₁ := hDecEq₁
       obtain ⟨Φ₁, hQ₁, hΦ₁⟩ := hform₁
       rcases hcases₁ with ⟨⟨eF⟩, -⟩ | ⟨-, -, hsol, -⟩
       · let eF' : ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype ({b} : Set (GL ι K)) ε) ≃*
@@ -316,11 +316,11 @@ theorem exists_selected_glBlock_omegaPlus
   ·
     obtain ⟨db, m, E, hEfld, hEfin, -, hcardE, -, -, ⟨eGL⟩⟩ :=
       blockGroup_iso_Omega_linear Φ hΦ h8 b hb hodd hεprim he he' hne' hεe
-    letI : Field E := hEfld
-    letI : Fintype E := hEfin
+    let : Field E := hEfld
+    let : Fintype E := hEfin
     have hEfinite : Finite E := Fintype.finite hEfin
-    letI : Finite E := hEfinite
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Finite E := hEfinite
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hEtwo : Fintype.card E = 2 ^ ((nK : ℕ) * db) := by
       rw [hcardE, hKcardF, ← pow_mul]
     have hcharE : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := (nK : ℕ) * db) hEtwo
@@ -369,8 +369,8 @@ theorem exists_selected_glBlock_omegaPlus_of_cardEq
       Nonempty (↥C ⧸ Subgroup.center ↥C ≃*
         LargeEvenProj (LargeEvenSLGroup (Fin m) E)) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite F := Fintype.finite (inferInstance : Fintype F)
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite F := Fintype.finite (inferInstance : Fintype F)
   have hcardKF : Fintype.card K = Fintype.card F := by
     simpa [Nat.card_eq_fintype_card] using hKF
   let τ : K ≃+* F := FiniteField.ringEquivOfCardEq hcardKF

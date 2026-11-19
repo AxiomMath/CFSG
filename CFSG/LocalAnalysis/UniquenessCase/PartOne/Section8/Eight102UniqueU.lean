@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_conj_eq_self_of_mem {M : Subgroup G} {g : G} (hg : g ∈ M) :
     M.map (MulAut.conj g).toMonoidHom = M := by
   ext x
@@ -62,10 +63,10 @@ private theorem exists_conj_centralizer_of_le {M S X : Subgroup G} {r : ℕ} [Fa
       _ = (k * g) * y * (k * g)⁻¹ * ((k * g) * s * (k * g)⁻¹) := by group
 
 theorem mem_uniqueSet_of_centralizer_le {M S X : Subgroup G} {r q : ℕ} (hr : r.Prime)
-    (hS : IsSylowOf r S M) (hq : q.Prime) (hqM : IsStronglyPEmbedded q M) {y : G}
+    (hS : IsSylowOf r S M) (_hq : q.Prime) (hqM : IsStronglyPEmbedded q M) {y : G}
     (hyM : y ∈ M) (hyS : y ∈ centralizer (S : Set G)) (hy : orderOf y = q) (hXS : X ≤ S)
     (hXC : centralizer (X : Set G) ≤ M) : X ∈ uniqueSet M := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine ⟨hXS.trans hS.le, fun g hXg => ?_⟩
   by_contra hne
   have hgM : g ∉ M := fun hg => hne (map_conj_eq_self_of_mem hg)
@@ -88,6 +89,7 @@ private theorem ne_zero_of_isU45 {X : Type} [Group X] {n : ℕ} (hX : IsU45 X n)
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
 
+omit [Finite G] in
 private theorem conj_mem_of_isSylowOf {L P S : Subgroup G} (hP : IsSylowOf 3 P L)
     (hS : IsPGroup 3 S) (hSN : S ≤ normalizer (L : Set G)) (hPS : P ≤ S) {g x : G}
     (hg : g ∈ S) (hx : x ∈ P) : g * x * g⁻¹ ∈ P := by
@@ -102,6 +104,7 @@ private theorem conj_mem_of_isSylowOf {L P S : Subgroup G} (hP : IsSylowOf 3 P L
     exact Subgroup.mem_subgroupOf.mpr ⟨S.mul_mem (S.mul_mem hg (hPS hx)) (S.inv_mem hg), hwL⟩
   exact ⟨_, hw, rfl⟩
 
+omit [Finite G] in
 private theorem rhoL_mem_barImage {L P S : Subgroup G} (hP : IsSylowOf 3 P L)
     (hS : IsPGroup 3 S) (hSN : S ≤ normalizer (L : Set G)) (hPS : P ≤ S) :
     ∀ α ∈ (S.subgroupOf (normalizer (L : Set G))).map (rhoL L), ∀ s ∈ barImage L P,
@@ -112,10 +115,11 @@ private theorem rhoL_mem_barImage {L P S : Subgroup G} (hP : IsSylowOf 3 P L)
   rw [UC6S846.rhoL_mk_coe]
   exact conj_mem_of_isSylowOf hP hS hSN hPS (Subgroup.mem_subgroupOf.mp hg) hm
 
+omit [Finite G] in
 private theorem exists_lift_orderOf {L : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {xb : Bar2 L} (hxb : orderOf xb = q) :
     ∃ (x : ↥L) (j : ℕ), (QuotientGroup.mk x : Bar2 L) = xb ^ 2 ^ j ∧ orderOf x = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x₀, rfl⟩ := QuotientGroup.mk_surjective xb
   have hmem : x₀ ^ q ∈ CFSG.pCore 2 ↥L := by
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow, ← hxb, pow_orderOf_eq_one]
@@ -134,7 +138,7 @@ private theorem exists_centralizing_lift {L S : Subgroup G} {q : ℕ} (hq : q.Pr
     (hfix : ∀ (s : G) (hs : s ∈ S), rhoL L ⟨s, hSN hs⟩ (QuotientGroup.mk x : Bar2 L) =
       QuotientGroup.mk x) :
     ∃ y ∈ L, orderOf y = q ∧ y ∈ centralizer (S : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hN := UC6S846.normalizer_le_normalizer_pCoreOf L
   have hA : IsPGroup q (zpowers (x : G)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_coe, hxq, pow_one])

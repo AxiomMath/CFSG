@@ -40,6 +40,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s2113_inducedBarInfAutHom_of_mem {L : Subgroup G} {x : G} (hx : x ∈ L) :
     inducedBarInfAutHom L ⟨x, le_normalizer hx⟩ = MulAut.conj ((⟨x, hx⟩ : ↥L) : BarInf L) := by
   ext q
@@ -52,12 +53,12 @@ theorem uc22s2113_inducedBarInfAutHom_of_mem {L : Subgroup G} {x : G} (hx : x �
 theorem uc22s2113_centralizesBar_of_inducedBarInfAutHom_eq_one {L : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 L)) {b : G} (hb : b ∈ normalizer (L : Set G))
     (h1 : inducedBarInfAutHom L ⟨b, hb⟩ = 1) : CentralizesBar b L := by
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   let c : ↥L →* ↥L := (L.normalizerMonoidHom ⟨b, hb⟩).toMonoidHom
   have hc : CFSG.pCore 2 ↥L ≤ (CFSG.pCore 2 ↥L).comap c :=
     Subgroup.characteristic_iff_le_comap.mp inferInstance (L.normalizerMonoidHom ⟨b, hb⟩)
   let σ : Bar2 L →* Bar2 L := QuotientGroup.map _ _ c hc
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
   have hR : ∀ l : ↥L, l⁻¹ * c l ∈ CFSG.solvableRadical ↥L := by
     intro l
     have h : ((c l : ↥L) : BarInf L) = (l : BarInf L) :=
@@ -82,14 +83,14 @@ theorem uc22s2113_centralizesBar_of_inducedBarInfAutHom_eq_one {L : Subgroup G}
 theorem uc22s2113_five_le_of_isAlt {M L : Subgroup G} (hL : L ∈ calC M) {m : ℕ}
     (e : BarInf L ≃* alternatingGroup (Fin m)) : 5 ≤ m := by
   by_contra hm
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.2.1
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.2.1
   obtain ⟨e'⟩ := uc22p21k_barInf_equiv hL.2.2
-  haveI : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hL.2.2.2
-  haveI : Nontrivial (BarInf L) := e'.surjective.nontrivial
-  haveI : Group.IsSolvable (alternatingGroup (Fin m)) :=
+  have : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hL.2.2.2
+  have : Nontrivial (BarInf L) := e'.surjective.nontrivial
+  have : Group.IsSolvable (alternatingGroup (Fin m)) :=
     alternatingGroup.isSolvable (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
   exact Group.IsPerfect.not_isSolvable (G := BarInf L)
-    (solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective)
+    (Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective)
 
 theorem uc22s2113_not_thin8_of_isAlt {L : Subgroup G} {m : ℕ} (hm : 6 ≤ m)
     (e : BarInf L ≃* alternatingGroup (Fin m)) : ¬ F08.Thin8 L := by
@@ -110,7 +111,7 @@ theorem uc22s2113_isPGroup_three_of_isAlt {L B T : Subgroup G} {m : ℕ} (hm : 5
     (hBo : Odd (Nat.card ↥B))
     (hfaith : ∀ b (hb : b ∈ B), inducedBarInfAutHom L ⟨b, hBN hb⟩ = 1 → b = 1) :
     IsPGroup 3 ↥B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := normalizer (L : Set G) with hNdef
   set φ := inducedBarInfAutHom L with hφdef
   set X : Subgroup (MulAut (BarInf L)) :=
@@ -133,7 +134,7 @@ theorem uc22s2113_isPGroup_three_of_isAlt {L B T : Subgroup G} {m : ℕ} (hm : 5
       mem_bot] at hc
     exact e.injective (by rw [hc, map_one])
   let eX : BarInf L ≃* ↥X := MonoidHom.ofInjective hinj
-  haveI : Finite ↥X := Finite.of_equiv _ eX.toEquiv
+  have : Finite ↥X := Finite.of_equiv _ eX.toEquiv
   set Bφ : Subgroup (MulAut (BarInf L)) := (B.subgroupOf N).map φ with hBφdef
   set Sφ : Subgroup (MulAut (BarInf L)) := ((T ⊓ N).subgroupOf N).map φ with hSφdef
   have hBX : Bφ ≤ X := by
@@ -175,8 +176,8 @@ theorem uc22s2113_isPGroup_three_of_isAlt {L B T : Subgroup G} {m : ℕ} (hm : 5
       exact fun h2 => hidx
         (h2.trans ((Subgroup.index_dvd_of_le hle).trans (Subgroup.index_map_dvd _ hf)))
   have eBX : ↥(Bφ.subgroupOf X) ≃* ↥Bφ := subgroupOfEquivOfLe hBX
-  haveI : IsMulCommutative ↥(B.subgroupOf N) := inferInstance
-  haveI : IsMulCommutative ↥Bφ := Subgroup.map_isMulCommutative _ _
+  have : IsMulCommutative ↥(B.subgroupOf N) := inferInstance
+  have : IsMulCommutative ↥Bφ := Subgroup.map_isMulCommutative _ _
   have hBn : Group.IsNilpotent ↥(Bφ.subgroupOf X) := Group.nilpotent_of_mulEquiv eBX.symm
   have hBo' : Odd (Nat.card ↥(Bφ.subgroupOf X)) := by
     rw [Nat.card_congr eBX.toEquiv]
@@ -201,7 +202,7 @@ theorem s21_13_of {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D Ch) (h5 : S21_5
   have hBN : c.B0 ≤ normalizer (L : Set G) := h5 hH c₀ L hL
   have hthin := uc22s2113_not_thin8_of_isAlt (by omega) e
   obtain ⟨-, hBab, -, -, -, -, -, -, -, hBT, -, -⟩ := c.hB0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBo : Odd (Nat.card ↥c.B0) := by
     by_contra h
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at h
@@ -218,7 +219,7 @@ theorem s21_13_of {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D Ch) (h5 : S21_5
   have hpB : p ∣ Nat.card ↥c.B0 := by
     have hpi : p ∈ piSet c.B0 := by rw [c.hpi]; exact ⟨hp, hpd⟩
     exact hpi.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hB3.exists_card_eq
   rw [hk] at hpB
   exact hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow hpB))

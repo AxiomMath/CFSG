@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15InnerCount
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 public import Mathlib.RingTheory.Etale.Weakly
 public import Mathlib.RingTheory.TotallySplit
@@ -72,7 +72,7 @@ theorem card_fix_le_of_ne_bot [Fintype F] [CharP F 2] (hs : AllSemilin E A)
     (h2 : ∀ a ∈ A, a * a = 1) (hc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (a₀ : A)
     (hnl : mu hs a₀ ≠ 1) (hH : (muHom hs).ker ≠ ⊥) :
     Nat.card {y : Y // ∀ a ∈ A, a y = y} ≤ Fintype.card F := by
-  haveI : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
+  have : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
   have hC : fixLin hs h2 ≠ ⊤ := by
     obtain ⟨h, h1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hH
     have hg1 : toSL hs h2 h ≠ 1 := fun hh =>
@@ -250,7 +250,7 @@ theorem card_ker_le_of_ne_bot [Fintype F] [CharP F 2] (hs : AllSemilin E A)
     (h2 : ∀ a ∈ A, a * a = 1) (hc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (a₀ : A)
     (hnl : mu hs a₀ ≠ 1) (hH : (muHom hs).ker ≠ ⊥) :
     Nat.card (muHom hs).ker ≤ Fintype.card F := by
-  haveI : Finite (Module.End F (Fin 3 → F)) := Module.finite_of_finite F
+  have : Finite (Module.End F (Fin 3 → F)) := Module.finite_of_finite F
   have hB2 : ∀ b ∈ (toSL hs h2).range, b * b = 1 := by
     rintro _ ⟨a, rfl⟩
     rw [← map_mul]
@@ -311,7 +311,7 @@ include hn hF h2 hc hsemi
 theorem card_mul_card_fix_lt
     (hnl : ∃ a ∈ A, ∃ (c : F) (y : Y), E (a (E.symm (c • E y))) ≠ c • E (a y)) :
     Nat.card A * Nat.card {y : Y // ∀ a ∈ A, a y = y} < Fintype.card F ^ 3 := by
-  haveI : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
+  have : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
   obtain ⟨a₀, ha₀, c, y, hne⟩ := hnl
   have hq : 4 ≤ Fintype.card F := by
     rw [hF]

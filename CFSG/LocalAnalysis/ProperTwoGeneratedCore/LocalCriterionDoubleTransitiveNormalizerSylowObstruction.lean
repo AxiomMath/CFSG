@@ -41,8 +41,8 @@ theorem not_sylow_of_own_normalizer_of_not_ambient
   let N := Subgroup.normalizer (A : Set G)
   let R := (Q : Subgroup G) ⊓ N
   have hgrowth : A < R := pSubgroup_lt_normalizer_intersection p hp A
-    (Q : Subgroup G) Q.isPGroup' hstrict
-  have hRp : IsPGroup p R := Q.isPGroup'.of_injective
+    (Q : Subgroup G) Q.isPGroup hstrict
+  have hRp : IsPGroup p R := Q.isPGroup.of_injective
     (Subgroup.inclusion (show R ≤ (Q : Subgroup G) from inf_le_left))
     (Subgroup.inclusion_injective _)
   have hRN : R ≤ N := inf_le_right
@@ -81,7 +81,7 @@ theorem original_triple_sylow_full_fixed_count_and_sylow_obstructions
       (¬ ∃ Q : Sylow p N, (Q : Subgroup N).map N.subtype = U) := by
   let U : Subgroup G := (P : Subgroup (triplePointStabilizer H z beta)).map
     (triplePointStabilizer H z beta).subtype
-  have hUp : IsPGroup p U := P.isPGroup'.map _
+  have hUp : IsPGroup p U := P.isPGroup.map _
   have ha := original_triple_sylow_normalizer_action
     h S hzS hzcenter hdoubly beta hbeta p hp P hzP
   have hthree : 3 ≤ Nat.card (pointFixedSet H U) :=
@@ -95,7 +95,7 @@ theorem original_triple_sylow_full_fixed_count_and_sylow_obstructions
     omega
   let Q : Sylow p G := Classical.choice inferInstance
   have hdegree : Nat.card (pointRightCosetSpace H) ≡ 2 [MOD p] := by
-    have hc := pointFixedSet_card_modEq p hp H (Q : Subgroup G) Q.isPGroup'
+    have hc := pointFixedSet_card_modEq p hp H (Q : Subgroup G) Q.isPGroup
     rwa [hambient Q] at hc
   have hcount : Nat.card (pointFixedSet H U) ≡ 2 [MOD p] :=
     (pointFixedSet_card_modEq p hp H U hUp).symm.trans hdegree

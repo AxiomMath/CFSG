@@ -16,8 +16,8 @@ theorem pRank_top_le_one_of_isCyclic {T : Type*} [Group T] [Finite T] {p : ℕ} 
     (h : IsCyclic T) : CFSG.Open.pRank p (⊤ : Subgroup T) ≤ 1 := by
   refine CFSG.SectionRank.pRank_le hp.one_lt ?_
   intro E _ hE
-  haveI hT : IsCyclic T := h
-  haveI hEcyc : IsCyclic E := Subgroup.isCyclic_of_le (le_top : E ≤ ⊤)
+  have hT : IsCyclic T := h
+  have hEcyc : IsCyclic E := Subgroup.isCyclic_of_le (le_top : E ≤ ⊤)
   have hexp : Monoid.exponent E ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
       Subtype.ext (by simpa using hE.2 (x : T) x.2)
@@ -71,9 +71,9 @@ theorem isCyclic_quotient_subgroupOf_of_le {A B C : Subgroup G} (hBC : B ≤ C)
       Subgroup.mem_subgroupOf]
     rfl
   have hr : IsCyclic φ.range := by
-    haveI := hC
+    have := hC
     exact Subgroup.isCyclic_of_le le_top
-  haveI : IsCyclic (↥B ⧸ φ.ker) :=
+  have : IsCyclic (↥B ⧸ φ.ker) :=
     (MulEquiv.isCyclic (QuotientGroup.quotientKerEquivRange φ)).mpr hr
   exact isCyclic_of_surjective (QuotientGroup.quotientMulEquivOfEq hker)
     (QuotientGroup.quotientMulEquivOfEq hker).surjective
@@ -103,7 +103,7 @@ theorem k31_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     CFSG.Open.pRank p P ≤ 2 := by
   have hXp : IsPGroup p X := hP.to_le hXP
   have hXcyc : IsCyclic X := isCyclic_of_pRank_le_one hp hp2 hXp hXle
-  haveI hX'cyc : IsCyclic (X.subgroupOf P) :=
+  have hX'cyc : IsCyclic (X.subgroupOf P) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hXP)).mpr hXcyc
   have hQXs : Q.subgroupOf P ⊔ X.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hQP hXP, ← hPQX, Subgroup.subgroupOf_self]
@@ -119,12 +119,12 @@ theorem k31_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       Subgroup.mem_subgroupOf.mp (Subgroup.mem_inf.mp hx).2⟩
   have hcommP : _root_.commutator ↥P ≤ X.subgroupOf P :=
     (le_inf hcommP_Q hcommP_S).trans hRS_le
-  haveI : (X.subgroupOf P).Normal :=
+  have : (X.subgroupOf P).Normal :=
     Subgroup.Normal.of_commutator_le (G := ↥P) (H := X.subgroupOf P) hcommP
   have hPnS : P ≤ Subgroup.normalizer (S : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (H := S) (K := P) hSP
   have hQnS : Q ≤ Subgroup.normalizer (S : Set G) := hQP.trans hPnS
-  haveI hSnQ : (S.subgroupOf Q).Normal :=
+  have hSnQ : (S.subgroupOf Q).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQnS
   have hScycQ : IsCyclic (↥Q ⧸ S.subgroupOf Q) :=
     isCyclic_quotient_subgroupOf_of_le (A := S) (B := Q) (C := P) hQP hPS
@@ -142,7 +142,7 @@ theorem k31_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       rw [hQXs]
       exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
     rwa [Subgroup.map_sup, QuotientGroup.map_mk'_self, sup_bot_eq] at h1
-  haveI : IsCyclic (↥Q ⧸ S.subgroupOf Q) := hScycQ
+  have : IsCyclic (↥Q ⧸ S.subgroupOf Q) := hScycQ
   have hXcycP : IsCyclic (↥P ⧸ X.subgroupOf P) :=
     isCyclic_of_surjective
       (QuotientGroup.map (N := S.subgroupOf Q) (X.subgroupOf P)

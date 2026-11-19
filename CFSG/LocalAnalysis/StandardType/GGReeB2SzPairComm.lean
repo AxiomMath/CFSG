@@ -153,7 +153,7 @@ private theorem reeFixedEmb_relNrepHom
     (w : ReeTag.F4.relWeylRee) :
     reeFixedEmb K m (relNrepHom K m w) =
       canonicalRep (coxeterSystem F4.tag) K (w : WeylGroup F4.tag) := by
-  letI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  let : CharP K ReeTag.F4.prime := ‹CharP K 2›
   change ((relNrepHom K m w : adjointGroup F4.tag K) : ModGL F4.tag K) = _
   rw [coe_relNrepHom]
   rfl

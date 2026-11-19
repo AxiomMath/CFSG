@@ -67,7 +67,7 @@ theorem exists_sylow_inv {B₀ : Finset (Fin n)} {H R₁ R₂ : List (Finset (Fi
   have hSK : S₀ ≤ K₀ := by
     rintro _ ⟨k, -, rfl⟩
     exact k.2
-  refine ⟨S₀, P.isPGroup'.map K₀.subtype, ?_, ?_⟩
+  refine ⟨S₀, P.isPGroup.map K₀.subtype, ?_, ?_⟩
   · have h1 := Subgroup.card_mul_index S₀
     rw [hS₀card, hX] at h1
     have h2 : S₀.index = u := Nat.eq_of_mul_eq_mul_left (by positivity) h1

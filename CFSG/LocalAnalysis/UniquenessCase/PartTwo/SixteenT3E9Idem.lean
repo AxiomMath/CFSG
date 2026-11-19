@@ -92,7 +92,7 @@ private theorem s16t_idem_trace {T : Type*} [CommGroup T] {a : MulAut T} (ha : a
 private theorem s16t_idem_mem_commV_of_fpf {T : Type*} [CommGroup T]
     (hT : ∀ t : T, t ^ 2 = 1) {c z : MulAut T} (hc : c ^ 3 = 1)
     (hzc : z * c * z⁻¹ = c⁻¹) {U : Subgroup T}
-    (hUc : ∀ w ∈ U, c w ∈ U) (hUz : ∀ w ∈ U, z w ∈ U)
+    (hUc : ∀ w ∈ U, c w ∈ U) (_hUz : ∀ w ∈ U, z w ∈ U)
     (hfpf : ∀ w ∈ U, c w = w → w = 1) :
     U ⊓ fixV (Subgroup.zpowers z) ≤ commV (Subgroup.zpowers z) := by
   rintro v ⟨hvU, hvz⟩

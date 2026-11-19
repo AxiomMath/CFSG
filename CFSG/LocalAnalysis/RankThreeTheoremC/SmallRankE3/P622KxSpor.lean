@@ -81,7 +81,7 @@ theorem le_of_section_three_spor (hL613 : P622L613) (hp3 : p ≠ 3) (h2401 : KFa
     (hs : s ≠ .M11) {H N : Subgroup G} (hHL : H ≤ L) (hHM : H ≤ M)
     (hsec : S622IsSimpleSection H N) (hzH : z ∈ H) (hzN : z ∉ N) (h3d : 3 ∣ N.relIndex H) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsE : GLBStronglyEmbedded 3 M :=
     c.stronglyEmbedded hL613 hp3 hHL hHM hsec hzH hzN Nat.prime_three (by norm_num) (by omega) h3d
   have h3H : 3 ∣ Nat.card H := h3d.trans (Subgroup.index_dvd_card (N.subgroupOf H))
@@ -108,7 +108,7 @@ theorem le_of_section_three_spor (hL613 : P622L613) (hp3 : p ≠ 3) (h2401 : KFa
   · exact absurd h hs
 
 theorem false_of_sporadic_rank3 (hL613 : P622L613) (hp3 : p ≠ 3) (h2401 : KFact2401Spor)
-    (hloc : KFactSporLocal) (hOp : rankThreePrimeCore p (centralizer ({x} : Set G)) = ⊥)
+    (hloc : KFactSporLocal) (_hOp : rankThreePrimeCore p (centralizer ({x} : Set G)) = ⊥)
     (c : P622KxCfg p P M x z T S L) {s : TauCeti.SporadicName}
     (e : Nonempty (↥L ≃* (TauCeti.CFSGIndex.sporadic s).Group))
     (h3 : 2 ≤ CFSG.Open.pRank 3 L) : False := by

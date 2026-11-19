@@ -18,6 +18,7 @@ section Transfer
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.Normal]
 
+omit [Finite X] in
 theorem conjNormal_not_mem_inner (hC : Subgroup.centralizer (L : Set X) = ⊥) {d : X}
     (hdL : d ∉ L) : (MulAut.conjNormal d : MulAut ↥L) ∉ inner ↥L := by
   rintro ⟨y, hy⟩
@@ -50,6 +51,7 @@ theorem outerPElement_false_of_fixesPair {p : ℕ} (hp : p.Prime)
   exact false_of_outer_fixesPair hp hconj (hE : RankLE2 p X)
     (MulAut.conjNormal : X →* MulAut ↥L) hψ L hL hdp (conjNormal_not_mem_inner hC hdL) h
 
+omit [Finite X] in
 theorem false_of_inner_of_pow {p : ℕ} (hC : Subgroup.centralizer (L : Set X) = ⊥) {d : X}
     (hdL : d ∉ L) (hdp : d ^ p = 1)
     (hin : ∀ α : MulAut ↥L, α ^ p = 1 → α ∈ inner ↥L) : False :=
@@ -77,7 +79,7 @@ section ThirdDisjunct
 theorem card_catA_one_seven {q : TauCeti.PrimePower} (hq7 : q.card = 7)
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) :
     Nat.card (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group = 168 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   rw [Nat.card_congr (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv).toEquiv]
   have hcardK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -103,7 +105,7 @@ theorem false_of_pRank_catA_one_seven {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     rwa [hEc, hL] at this
   have hle : p ^ 2 ≤ 168 := Nat.le_of_dvd (by norm_num) hdvd
   have hp12 : p ≤ 12 := by nlinarith
-  interval_cases p <;> first | omega | (exfalso; norm_num at hp) | exact hp2 rfl
+  interval_cases p <;> first | omega | (exfalso; norm_num at hp)
 
 theorem inner_of_pow_catTwistedA_two_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Type}
     [Group L] {q : TauCeti.PrimePower} (hq3 : q.card = 3)

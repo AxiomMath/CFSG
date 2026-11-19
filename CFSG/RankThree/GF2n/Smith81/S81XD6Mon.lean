@@ -34,7 +34,7 @@ theorem single_mem_Perp (i : Fin (Tag.rank .E7)) (hi : 1 ≤ i.val) :
     intro h
     subst h
     exact absurd hi (by decide)
-  exact perp_iff.2 ⟨isRoot_single .E7 i, by rw [Pi.single_apply, if_neg (Ne.symm hne)]⟩
+  exact perp_iff.2 ⟨isRoot_single .E7 i, by rw [Pi.single_apply, ite_eq_right (Ne.symm hne)]⟩
 
 theorem nm_mem_LamG (i : Fin (Tag.rank .E7)) (hi : 1 ≤ i.val) : e7Data_valid.nm K i ∈ LamG K := by
   have hsP : (Pi.single i 1 : Fin (Tag.rank .E7) → ℤ) ∈ Perp := single_mem_Perp i hi
@@ -87,6 +87,7 @@ theorem exists_isMonL_of_weight (c : Fin e7Data.d) (hc : pr c theta = 0) :
     (weightWordsD6_letters c) b0 ⟨1, id, id, one_mem _, IsMon.one, rfl⟩
   exact ⟨n, σ, ρ, hn, hm, Fin.ext (hσ.trans (weightWordsD6_correct c hc))⟩
 
+omit [CharP K 2] in
 private theorem d6mon_tor_conj_UL {t : Gp K} (ht : t ∈ Tor K) :
     ∀ g ∈ UL K, (t : (Module.End K (V K))ˣ) * g * (t : (Module.End K (V K))ˣ)⁻¹ ∈ UL K := by
   intro g hg
@@ -105,6 +106,7 @@ private theorem d6mon_tor_conj_UL {t : Gp K} (ht : t ∈ Tor K) :
     exact hmem
   exact key hg
 
+omit [CharP K 2] in
 theorem tor_conj_ULG {t : Gp K} (ht : t ∈ Tor K) {u : Gp K} (hu : u ∈ ULG K) : t * u * t⁻¹ ∈ ULG K := by
   rw [mem_ULG] at hu ⊢
   exact d6mon_tor_conj_UL ht _ hu

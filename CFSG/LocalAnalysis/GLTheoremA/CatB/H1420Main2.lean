@@ -133,7 +133,7 @@ theorem in8910_i1432_of_facts (G : Type) [Group G] [Finite G] (hI112 : I112NormA
     (hWFi : I1432WitFi24) (hCent : I1432Cent) (hBD4 : I1432BD4) : I1432At G := by
   intro X K B I U b y hX hK hB hBX hUX hU hU2 hBU hb hb1 hbC hyB hI hnot
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hBel : CFSG.Open.IsElemAbelian 3 B := hB.1
   have hBcard : Nat.card B = 3 ^ GLATwoLocalRank 3 G := hB.2.1
   have hyX : y ∈ X := hBX hyB

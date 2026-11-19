@@ -23,8 +23,8 @@ theorem eq_bot_or_isSimpleGroup_of_isJ1 {S : Type} [Group S] [Finite S] (hS : Is
   by_cases hbot : Y = ⊥
   · exact Or.inl hbot
   right
-  haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hbot
+  have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hbot
   have hScard : Nat.card S = 175560 :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KNL23.card_isJ1 hS
   obtain ⟨e⟩ := hS
@@ -49,7 +49,7 @@ theorem eq_bot_or_isSimpleGroup_of_isJ1 {S : Type} [Group S] [Finite S] (hS : Is
     all_goals norm_num at h'
   exact CFSG.isSimpleGroup_of_isPerfect_of_card
     (fun P x hx y hy => by
-      haveI := hYab P
+      have := hYab P
       exact setLike_mul_comm hx hy) h16 hsq
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KS23

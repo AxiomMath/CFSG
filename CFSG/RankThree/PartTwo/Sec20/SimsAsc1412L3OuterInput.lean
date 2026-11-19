@@ -37,7 +37,7 @@ theorem outerInput1412_of_isL3eps1412 {G : Type} [Group G] [Finite G] {L : Subgr
     exact absurd (h4 ▸ (Fact.out : p.Prime)) (by norm_num)
   obtain ⟨⟨e⟩, hnorm, hcent, hcard⟩ := outerData1412 hC hL hbL hb2
   have hF := exists_ne_zero_sq_ne_one1412 hp5
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple' hF
   refine ⟨e.isSimpleGroup, ?_, hnorm, hcent, ?_, hgen⟩
   ·

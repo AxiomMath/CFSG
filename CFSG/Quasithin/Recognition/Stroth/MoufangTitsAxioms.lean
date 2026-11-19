@@ -30,8 +30,9 @@ theorem aptRoot_eq_one_of_fix_adj_start {t : ZMod (2 * n) → V} (ht : IsPolygon
     (by rwa [hlast]) (by rwa [hpen]) hgw
   rwa [← aptRoot_eq_pathRootGroupRev (by omega) ht k]
 
+omit [FaithfulSMul D V] in
 theorem aptRoot_ne_bot {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
-    (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
+    (_hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) (hM : MoufangCondition D Γ n) (k : ℤ) :
     aptRoot D Γ n t k ≠ ⊥ := by
   classical
@@ -182,6 +183,7 @@ theorem aptSegRev_isGeodesic {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
     (isGenPolygon_of_isGeneralizedPolygon (by omega) hP hT) hk (aptSegRev ht.2 a k hk)
     (aptSegRev_noBack (by omega) ht a hk)
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_fix_prev {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     {g : D} {k : ℤ} (hg : g ∈ aptRoot D Γ n t (k + (n : ℤ))) :
     g • apt t (k - 1) = apt t (k - 1) := by
@@ -190,6 +192,7 @@ theorem aptRoot_fix_prev {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
     apt_add_two_mul] at h
   exact h
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_fix_shift {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     {g : D} {k : ℤ} (hg : g ∈ aptRoot D Γ n t (k + (n : ℤ))) : g • apt t k = apt t k := by
   have h := aptRoot_fix ht hg hn (r := (n : ℤ)) (by omega) (by omega)

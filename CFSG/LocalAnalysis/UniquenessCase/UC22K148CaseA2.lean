@@ -89,7 +89,7 @@ theorem commute_of_rank_two [Finite G] [Finite V] (hρ : Function.Injective ρ)
     (hr₂ : Module.finrank (ZMod 2) ↥(commOn ρ Q₂ ⊤) = 2) (hne : Q₁ ≠ Q₂) :
     (∀ x ∈ Q₁, ∀ y ∈ Q₂, x * y = y * x) ∧ commOn ρ Q₁ ⊤ ⊓ commOn ρ Q₂ ⊤ = ⊥ ∧
       commOn ρ Q₁ ⊤ ≤ fixSub ρ Q₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTp : IsPGroup 3 ↥(Q₁ ⊔ Q₂) := hS.to_le (sup_le h₁ h₂)
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hTp
   have hodd : ∀ t ∈ Q₁ ⊔ Q₂, Odd (orderOf t) := fun t ht =>
@@ -177,7 +177,7 @@ theorem eq_conj_of_rank_two [Finite G] [Finite V] (hρ : Function.Injective ρ)
     (hXY : X ≤ ⨆ d ∈ D, Q.map (MulAut.conj d).toMonoidHom) (hX3 : Nat.card ↥X = 3)
     (hXV : Module.finrank (ZMod 2) ↥(commOn ρ X ⊤) = 2) :
     ∃ d ∈ D, X = Q.map (MulAut.conj d).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjS : ∀ d ∈ D, Q.map (MulAut.conj d).toMonoidHom ≤ S := fun d hd => by
     rw [Subgroup.map_le_iff_le_comap]
     intro q hq

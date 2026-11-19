@@ -77,7 +77,7 @@ theorem centralOrTop_of_valid {c : CompData} (hc : c.Valid) (hne : c ≠ CompDat
   · exact le_center_or_eq_top_of_isQuasisimple
       (ModelFacts.modelClauseZero t n 3 1 Nat.prime_three hFT hadm).1 N
   · exact absurd h hne
-  · haveI := (CFSG.Sporadic.Mathieu.fam_m11_simplicity).2.2
+  · have := (CFSG.Sporadic.Mathieu.fam_m11_simplicity).2.2
     rcases hN.eq_bot_or_eq_top with h | h
     · exact Or.inl (h ▸ bot_le)
     · exact Or.inr h
@@ -174,9 +174,10 @@ section Exclusion
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem card_fStarQuot_of_fStarSimple (hs : FStarSimple H) :
     Nat.card (TL4.FStarQuot H) = Nat.card (genFittingFStar H) := by
-  haveI := hs.1
+  have := hs.1
   have hZ : Subgroup.center ↥(genFittingFStar H) = ⊥ := TL4.center_eq_bot_of_isSimpleGroup hs.2
   exact Nat.card_congr
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).toEquiv
@@ -189,6 +190,7 @@ theorem card_dvd_factorial_of_mulEquiv_m12 {G : Type} [Group G]
   rw [Nat.card_congr e.toEquiv]
   exact h
 
+omit [Finite H] in
 theorem not_thm6Exit_of_card_fStar (hs : FStarSimple H)
     (hx : TL4.Thm6Exit H) (hc : Nat.card (genFittingFStar H) = 4245696) : False := by
   have hq : Nat.card (TL4.FStarQuot H) = 4245696 := (card_fStarQuot_of_fStarSimple hs).trans hc

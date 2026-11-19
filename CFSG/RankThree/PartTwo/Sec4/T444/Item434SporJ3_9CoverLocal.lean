@@ -149,7 +149,7 @@ theorem j3_e9_split
   obtain ⟨-, hover⟩ := j3CoverFacts J ⟨eJ⟩
   obtain ⟨S, Z, φ, hsetup⟩ := exists_outerSetup hOR J ⟨eJ⟩
   obtain ⟨z, hzU, hz1, T, hzT⟩ := exists_centralizer_sylow hsetup hU hU3 hU9
-  refine e9_split_of_dichotomy hover (fun T => not_five_dvd_card_normalizer T.isPGroup'
+  refine e9_split_of_dichotomy hover (fun T => not_five_dvd_card_normalizer T.isPGroup
     (kFactJ3Sylow J ⟨eJ⟩ T)) (fun u hu => ?_) hU3 hzU hz1 hzT
   exact dich_of_mulEquiv (eJ.trans (b.symm.trans j3PermEquiv)) u hu
 

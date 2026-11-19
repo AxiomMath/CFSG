@@ -26,6 +26,7 @@ theorem m42_mem_Nor_of_le {U : Subgroup G} {g : G} (hU : ∀ x ∈ U, g * x * g�
   have : x' = x := (MulAut.conj g).injective (by simpa using hxx')
   rw [← this]; exact hx'
 
+omit [Finite G] in
 theorem m42_orderOf_pGroup_ne_three {W : Subgroup G} (hW : IsPGroup 2 W) {x : G} (hx : x ∈ W) :
     orderOf x ≠ 3 := by
   intro h3

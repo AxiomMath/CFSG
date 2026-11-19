@@ -12,12 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_commutator_subgroupOf_le_of_normalizer {T H₁ H₂ H₃ N : Subgroup G}
     (hNT : N ≤ T) (hTN : T ≤ Subgroup.normalizer (N : Set G))
     (h1 : ⁅⁅H₂.subgroupOf T, H₃.subgroupOf T⁆, H₁.subgroupOf T⁆ ≤ N.subgroupOf T)
     (h2 : ⁅⁅H₃.subgroupOf T, H₁.subgroupOf T⁆, H₂.subgroupOf T⁆ ≤ N.subgroupOf T) :
     ⁅⁅H₁.subgroupOf T, H₂.subgroupOf T⁆, H₃.subgroupOf T⁆ ≤ N.subgroupOf T := by
-  haveI : (N.subgroupOf T).Normal :=
+  have : (N.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNT).mpr hTN
   let φ : ↥T →* ↥T ⧸ N.subgroupOf T := QuotientGroup.mk' (N.subgroupOf T)
   have hker : (N.subgroupOf T).map φ = ⊥ := by
@@ -45,6 +46,7 @@ private theorem commutator_commutator_subgroupOf_le_of_normalizer {T H₁ H₂ H
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hle2
   exact hle2
 
+omit [Finite G] in
 theorem commutator_commutator_le_of_normalizer {H₁ H₂ H₃ N : Subgroup G}
     (hN : H₁ ⊔ H₂ ⊔ H₃ ≤ Subgroup.normalizer (N : Set G))
     (h1 : ⁅⁅H₂, H₃⁆, H₁⁆ ≤ N) (h2 : ⁅⁅H₃, H₁⁆, H₂⁆ ≤ N) :
@@ -76,6 +78,7 @@ theorem commutator_commutator_le_of_normalizer {H₁ H₂ H₃ N : Subgroup G}
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hH₁T, inf_eq_left.mpr hH₂T,
     inf_eq_left.mpr hH₃T, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hNT] at hle3
 
+omit [Finite G] in
 theorem commutator_le_of_two_step {D Y Y₁ Y₂ : Subgroup G} (hperf : ⁅D, D⁆ = D)
     (hYn : Y ≤ Subgroup.normalizer (Y₂ : Set G)) (hDn : D ≤ Subgroup.normalizer (Y₂ : Set G))
     (h1 : ⁅Y, D⁆ ≤ Y₁) (h2 : ⁅Y₁, D⁆ ≤ Y₂) : ⁅Y, D⁆ ≤ Y₂ := by
@@ -88,6 +91,7 @@ theorem commutator_le_of_two_step {D Y Y₁ Y₂ : Subgroup G} (hperf : ⁅D, D�
   rw [hperf, Subgroup.commutator_comm D Y] at hrot
   exact hrot
 
+omit [Finite G] in
 theorem commutator_le_of_series {D : Subgroup G} (hperf : ⁅D, D⁆ = D) (Y : ℕ → Subgroup G) :
     ∀ k, (∀ i ≤ k, D ≤ Subgroup.normalizer (Y i : Set G)) →
       (∀ i ≤ k, Y 0 ≤ Subgroup.normalizer (Y i : Set G)) →
@@ -155,6 +159,7 @@ theorem wIdx_eq_one_of_commutator_le {Z N M : Subgroup G}
     exact M.inv_mem hnd
   simpa only [commutatorElement_def] using hdn
 
+omit [Finite G] in
 theorem le_normalizer_commutator {S A B : Subgroup G}
     (hA : S ≤ Subgroup.normalizer (A : Set G)) (hB : S ≤ Subgroup.normalizer (B : Set G)) :
     S ≤ Subgroup.normalizer (⁅A, B⁆ : Subgroup G) := by
@@ -163,6 +168,7 @@ theorem le_normalizer_commutator {S A B : Subgroup G}
   rw [Subgroup.map_commutator, Subgroup.mem_normalizer_iff_map_conj_eq.mp (hA hs),
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hB hs)]
 
+omit [Finite G] in
 private theorem chief_series49_facts {H Q : Subgroup G} {m : ℕ} {N : ℕ → Subgroup G}
     (hQH : H ≤ Subgroup.normalizer (Q : Set G)) (hN0 : N 0 = Q)
     (hchief : ∀ i < m, HChief H (N i) (N (i + 1))) :
@@ -214,13 +220,13 @@ private theorem weight_one_or_large {H X L Q I : Subgroup G} (h : Setup49 H X L 
         64 ≤ wIdx (Z49 X A) (N i) (N (i + 1))) := by
   have hZcard : Nat.card ↥(Z49 X A) = 3 := hd.reg.2.2.2.2
   have hZ_le_I : Z49 X A ≤ I := (inf_le_left : Z49 X A ≤ A).trans hd.A_le
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hone : ∀ i < m, ⁅N i, I⁆ ≤ N (i + 1) →
       wIdx (Z49 X A) (N i) (N (i + 1)) = 1 := by
     intro i hi hIi
     have hNiQ : N i ≤ Q := hNQ i (le_of_lt hi)
-    haveI : Group.IsNilpotent ↥(N i) := (hQ2.to_le hNiQ).isNilpotent
+    have : Group.IsNilpotent ↥(N i) := (hQ2.to_le hNiQ).isNilpotent
     refine wIdx_eq_one_of_commutator_le (hanti i hi) (hnorm i hi)
       (hZ_le_I.trans (hIH.trans (hHN i (le_of_lt hi))))
       (hZ_le_I.trans (hIH.trans (hHN (i + 1) hi)))
@@ -257,6 +263,7 @@ private theorem exists_unique_weight_index {H X L Q I : Subgroup G} (h : Setup49
     have h1 := hkrest j (Finset.mem_range.mpr hjm) hjk
     omega
 
+omit [Finite G] in
 private theorem commutator_below_and_above_trivial {H X L Q I : Subgroup G}
     (h : Setup49 H X L Q I) {k m : ℕ} {N : ℕ → Subgroup G} (hkm : k < m)
     (hN0 : N 0 = Q) (hNm : N m = ⊥) (hNQ : ∀ i ≤ m, N i ≤ Q)

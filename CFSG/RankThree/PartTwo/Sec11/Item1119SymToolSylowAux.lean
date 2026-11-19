@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 theorem aux_SylowAux_map_conj_one {G : Type*} [Group G] (H : Subgroup G) :
     H.map (MulAut.conj (1 : G)).toMonoidHom = H := by
   ext x
-  simp [MulAut.conj_apply, Subgroup.mem_map]
+  simp [Subgroup.mem_map]
 
 theorem aux_SylowAux_map_pow_succ {G : Type*} [Group G] (s : G) (n : ℕ) (H : Subgroup G) :
     H.map (MulAut.conj (s ^ (n + 1))).toMonoidHom =

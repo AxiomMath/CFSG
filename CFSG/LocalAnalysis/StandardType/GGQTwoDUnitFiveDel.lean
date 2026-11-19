@@ -53,18 +53,21 @@ theorem qtwoDU5_center_eq_bot (hF0 : Nat.card F0 = 4) {n : ℕ} (hn : 3 ≤ n) (
   rw [hlam, hlam1]
   simp
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDU5_pow_val_add {ω : F0ˣ} (hω : orderOf ω = 3) (a b : ZMod 3) :
     ω ^ (a + b).val = ω ^ a.val * ω ^ b.val := by
   rw [← pow_add, pow_inj_mod, hω, ZMod.val_add, Nat.mod_mod]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDU5_prod_pow_val {ω : F0ˣ} (hω : orderOf ω = 3) (a : Fin 5 → ZMod 3) :
     ∏ i, ω ^ (a i).val = ω ^ (∑ i, a i).val := by
   rw [Finset.prod_pow_eq_pow_sum, pow_inj_mod, hω]
   have h : ((∑ i, (a i).val : ℕ) : ZMod 3) = ∑ i, a i := by
     rw [Nat.cast_sum]
-    simp [ZMod.natCast_zmod_val]
+    simp
   rw [← h, ZMod.val_natCast, Nat.mod_mod]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDU5_pow_val_inj {ω : F0ˣ} (hω : orderOf ω = 3) {a b : ZMod 3}
     (h : ω ^ a.val = ω ^ b.val) : a = b := by
   rw [pow_inj_mod, hω, Nat.mod_eq_of_lt (ZMod.val_lt a), Nat.mod_eq_of_lt (ZMod.val_lt b)] at h
@@ -117,7 +120,7 @@ theorem qtwoDU5_fixed_isSolvable (hF0 : Nat.card F0 = 4) {ω : F0ˣ} (hω : orde
     · push Not at hy
       rw [Finset.filter_false_of_mem fun i _ => hy i, Finset.card_empty]
       norm_num
-  haveI := CFSG.LocalAnalysis.GLTheoremA.LevelLieU.centralizer_diag_solvable (E w₀) d' hg hcnt'
+  have := CFSG.LocalAnalysis.GLTheoremA.LevelLieU.centralizer_diag_solvable (E w₀) d' hg hcnt'
   have hcomm : ∀ u ∈ fixedGroup δ, w₀ * u = u * w₀ := by
     intro u hu
     have h := (qtwoDB39_mem_fixed_iff hF0 _ u).mp hu
@@ -226,17 +229,17 @@ theorem qtwoDU5_DJ (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
         rw [qtwoDU5_center_eq_bot hF0 (by norm_num) (by norm_num)] at h
         exact Subgroup.mem_bot.mp h
       exact Subgroup.mem_map.mpr ⟨u, mem_fixedGroup.mpr (mul_inv_eq_one.mp h1), rfl⟩
-    haveI : Group.IsSolvable ↥(fixedGroup δ) := qtwoDU5_fixed_isSolvable hF0 hω v hcnt
-    haveI : Group.IsSolvable ↥((fixedGroup δ).map ψ) :=
+    have : Group.IsSolvable ↥(fixedGroup δ) := qtwoDU5_fixed_isSolvable hF0 hω v hcnt
+    have : Group.IsSolvable ↥((fixedGroup δ).map ψ) :=
       Group.isSolvable_of_surjective (ψ.subgroupMap_surjective (fixedGroup δ))
     have hJle : J ≤ (fixedGroup δ).map ψ :=
       hJcomp.1.trans ((inf_le_inf_left L
         (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hdD))).trans hHle)
-    haveI : Group.IsSolvable ↥J :=
+    have : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJle)
     have hq := hJcomp.2.2
-    haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hq.2.toNontrivial
-    haveI : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
+    have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hq.2.toNontrivial
+    have : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J).ne hq.1
   ·
     push Not at hcnt

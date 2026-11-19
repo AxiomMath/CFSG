@@ -61,7 +61,7 @@ theorem sq_mem_of_q8SqIn (D : Q8WitData) (hD : q8WitCheck D = true) {T : Array (
     (hη : η ∈ Subgroup.closure (permsA D.syl.n (qGens D.syl))) (hq : IsQ8Pair ξ η) :
     ξ ^ 2 ∈ H := by
   unfold q8WitCheck q8WitCheck' at hD
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc] at hD
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at hD
   obtain ⟨-, hkeys, -, hQenum, -⟩ := hD
   have hqk : ∀ p ∈ D.syl.qKeys, p < D.syl.n := fun p hp => by
     simpa using List.all_eq_true.1 hkeys p hp
@@ -193,7 +193,7 @@ theorem oddCore_centralizer_of_l34
     calc g ^ 256 = c * (c⁻¹ * g ^ 256 * c⁻¹⁻¹) * c⁻¹ := by group
       _ = 1 := by rw [← conj_pow, key]; group
   set H := Subgroup.centralizer ({t} : Set Y) with hH
-  haveI : (CFSG.oddCore ↥H).Normal := CFSG.oddCore_normal (G := ↥H)
+  have : (CFSG.oddCore ↥H).Normal := CFSG.oddCore_normal (G := ↥H)
   have hOodd : Odd (Nat.card ↥(CFSG.oddCore ↥H)) :=
     CFSG.ComponentClassification.SmallLocal.odd_card_oddCore
   have hoddo : ∀ o ∈ CFSG.oddCore ↥H, Odd (orderOf o) := fun o ho =>
@@ -234,8 +234,8 @@ theorem oddCore_centralizer_of_l34
 theorem isPGroup_core_of_l34 {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R' : Subgroup Y}
     {S : Sylow 2 R'} {t : Y} (hP : PerpHypS n Y R' S t)
     (θ : ↥(genFittingFStar Y) ≃* ↥PSL3Four.S) : IsPGroup 2 ↥(tightCore R') := by
-  haveI := hP.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := hP.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot hP.core.nonab
   have hM := l34SmallAutModel
@@ -259,7 +259,7 @@ theorem isPGroup_core_of_l34 {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R' : Sub
       R'.subtype_injective).symm.trans e'⟩⟩
   obtain ⟨p, hp, q, hq, hpq⟩ :=
     CFSG.ComponentClassification.AschbacherTheorem5.DeltaLocal.exists_q8Pair hQ
-  have hS'2 : IsPGroup 2 ↥S' := S.isPGroup'.map R'.subtype
+  have hS'2 : IsPGroup 2 ↥S' := S.isPGroup.map R'.subtype
   have hpK : p ∈ tightCore R' := hP.core.datum.sylow_core.1 hp
   have hpt : p ^ 2 = t := by
     have hz := uniqueInv_core hP

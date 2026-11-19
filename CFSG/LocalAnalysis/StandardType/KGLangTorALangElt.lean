@@ -12,20 +12,20 @@ theorem kgLangTorA_exists_dual_normal {F : Type} [Field F] [Finite F] {p : ℕ} 
     ∃ a b : F, ∀ k < p,
       ∑ i ∈ Finset.range p, (σ ^ i) (a * (σ ^ k) b) = if k = 0 then 1 else 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hσfin : IsOfFinOrder σ :=
     isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, by rw [← hσ]; exact pow_orderOf_eq_one σ⟩
   let G : Subgroup (F ≃+* F) := Subgroup.zpowers σ
-  haveI : Finite G := finite_zpowers.mpr hσfin
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Finite (F ≃+* F) :=
+  have : Finite G := finite_zpowers.mpr hσfin
+  have : Fintype G := Fintype.ofFinite G
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun f : F ≃+* F => (f : F → F)) (fun f g h => by ext x; exact congr_fun h x)
   let K : Subfield F := FixedPoints.subfield G F
-  haveI : IsGalois K F := IsGalois.of_fixed_field F G
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
-  haveI : PerfectField K := PerfectField.ofFinite
-  haveI : Algebra.IsSeparable K F := Algebra.IsAlgebraic.isSeparable_of_perfectField
+  have : IsGalois K F := IsGalois.of_fixed_field F G
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
+  have : PerfectField K := PerfectField.ofFinite
+  have : Algebra.IsSeparable K F := Algebra.IsAlgebraic.isSeparable_of_perfectField
   let e : G ≃* (F ≃ₐ[K] F) := FixedPoints.toAlgAutMulEquiv G F
   have he_apply : ∀ (g : G) (x : F), e g x = g • x := by
     intro g x
@@ -69,7 +69,7 @@ theorem kgLangTorA_exists_dual_normal {F : Type} [Field F] [Finite F] {p : ℕ} 
       if (⟨σ ^ k, Subgroup.npow_mem_zpowers σ k⟩ : G) = 1 then 1 else 0 := by
     rw [← hnb]
     have h := Module.Basis.trace_traceDual_mul nb 1 (e ⟨σ ^ k, Subgroup.npow_mem_zpowers σ k⟩)
-    simpa [a] using h
+    simp [a]
   have hcond : (⟨σ ^ k, Subgroup.npow_mem_zpowers σ k⟩ : G) = 1 ↔ k = 0 := by
     rw [Subtype.ext_iff]
     change σ ^ k = 1 ↔ k = 0
@@ -112,9 +112,9 @@ private lemma kgLangTorALangAux_sub_add_mod {p c k : ℕ} (hp : 0 < p) (hc : c �
     exact h1.trans (h3.trans (by simpa [Nat.add_comm] using h4))
   exact Nat.ModEq.eq_of_lt_of_lt hcancel (Nat.mod_lt _ hp) hk
 
-private lemma kgLangTorALangAux_exp_succ_mod {p i : ℕ} (hp : 0 < p) (hi : i < p) :
+private lemma kgLangTorALangAux_exp_succ_mod {p i : ℕ} (_hp : 0 < p) (_hi : i < p) :
     (((p - i) % p) + 1) % p = (p - i + 1) % p := by
-  simpa using Nat.ModEq.add_right 1 (Nat.mod_modEq (p - i) p)
+  simp
 
 private lemma kgLangTorALangAux_exp_shift_mod {p i : ℕ} (hp : 0 < p) (hi : i < p) :
     (p - i) % p = (p - (i + 1) % p + 1) % p := by

@@ -36,7 +36,7 @@ theorem inF_top_of_inFGroup (j : ℕ) {Q : Type} [Group Q] [Finite Q]
 theorem isEP_zero_false {G : Type} [Group G] [Finite G] {H T A K : Subgroup G}
     (h : IsEP 0 H T A K) : False := by
   obtain ⟨-, -, -, hcase⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hcase with ⟨hE1, hcard⟩ | ⟨hE2, hcard⟩
   · obtain ⟨p, hp, hp2, -, -, -, hbar⟩ := hE1
     rw [hbar] at hcard
@@ -49,7 +49,7 @@ theorem isEP_zero_false {G : Type} [Group G] [Finite G] {H T A K : Subgroup G}
     rcases hdisj with hLbot | ⟨-, hcard2⟩
     · rw [hbar, Subgroup.commutator_bot_right] at hLbot
       have hsub : Subsingleton ↥L := by rw [hLbot]; infer_instance
-      haveI := hsub
+      have := hsub
       obtain ⟨-, -, a, b, hab⟩ := hL.1
       exact hab (Subsingleton.elim (a * b) (b * a))
     · omega
@@ -102,7 +102,7 @@ theorem mul_eq_top_of_chiefFactor_perfect {Q : Type} [Group Q] [Finite Q]
     (hW2 : IsPGroup 2 W) (hWne : W ≠ ⊥)
     (hcover : F = Z ⊔ ((E ⊔ T) ⊓ F) ∨ F = Z ⊔ (Subgroup.normalizer (W : Set Q) ⊓ F)) :
     ((E : Subgroup Q) : Set Q) * (T : Set Q) = ((⊤ : Subgroup Q) : Set Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFn : F.Normal :=
     Subgroup.normalizer_eq_top_iff.mp (eq_top_iff.mpr hchief.2.1.2)
   have hZF : Z ≤ F := hchief.2.2.1.le
@@ -188,7 +188,7 @@ theorem inF_top_of_chiefFactor_perfect (h43c : W3Lem45_2Chief) {Q : Type} [Group
     (hFT : ∀ T : Subgroup Q, CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ → F ⊔ T = ⊤)
     (hcf : ∀ T : Subgroup Q, CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ → CompFactorAutInF j ⊤ T) :
     InF j (⊤ : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFn : F.Normal :=
     Subgroup.normalizer_eq_top_iff.mp (eq_top_iff.mpr hchief.2.1.2)
   intro T hT Ω hΩ hne hbot

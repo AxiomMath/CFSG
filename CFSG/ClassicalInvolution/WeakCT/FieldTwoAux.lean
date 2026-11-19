@@ -58,7 +58,7 @@ theorem tv01_ne_one : (tv 0 1 (1 : K) : SL(2, K)) ≠ 1 := by
       ((g : SL(2, K)) : Matrix (Fin 2) (Fin 2) K)) h) 0) 1
     simpa using h2
   rw [tv01_eq_sl2Upper, coe_sl2Upper] at h'
-  simpa using h'
+  simp at h'
 
 theorem tv10_ne_one : (tv 1 0 (1 : K) : SL(2, K)) ≠ 1 := by
   intro h
@@ -67,7 +67,7 @@ theorem tv10_ne_one : (tv 1 0 (1 : K) : SL(2, K)) ≠ 1 := by
       ((g : SL(2, K)) : Matrix (Fin 2) (Fin 2) K)) h) 1) 0
     simpa using h2
   rw [tv10_eq_sl2Lower, coe_sl2Lower] at h'
-  simpa using h'
+  simp at h'
 
 theorem tv01_ne_tv10 : (tv 0 1 (1 : K) : SL(2, K)) ≠ tv 1 0 1 := by
   intro h

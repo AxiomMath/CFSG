@@ -31,7 +31,7 @@ theorem exists_pow_eq_one_mem_normalizer_not_mem [Finite G] {p : ℕ} [Fact p.Pr
       exact Subgroup.mem_subgroupOf.1 this
     have := Subgroup.card_le_of_le hle
     omega
-  have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hlt := Group.normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.2 hne)
   obtain ⟨x, hxN, hxE⟩ := IsConcreteLE.exists_of_lt hlt
   have hxN' : (x : K) ∈ Subgroup.normalizer ((E.subgroupOf K : Subgroup K) : Set K) := by
@@ -42,7 +42,7 @@ theorem exists_pow_eq_one_mem_normalizer_not_mem [Finite G] {p : ℕ} [Fact p.Pr
     exact Subgroup.mem_subgroupOf.1 hxN'
   refine ⟨((x : K) : G), (x : K).2, fun hxE' => hxE ?_, hxN'', ?_⟩
   · exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_subgroupOf.2 hxE')
-  · obtain ⟨k, hk⟩ := P.isPGroup' x
+  · obtain ⟨k, hk⟩ := P.isPGroup x
     exact ⟨k, by simpa using congrArg (fun z : P => ((z : K) : G)) hk⟩
 
 theorem mem_centralizer_of_mem_normalizer_of_sylow_le [Finite G] {p : ℕ} [Fact p.Prime]
@@ -82,7 +82,7 @@ theorem exists_conj_mem_axis [Finite G] {S : Sylow 2 G} (h : CrownSetting (S : S
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
     exact h.card_le.trans_lt hcard
   obtain ⟨r, hrC, hrE, hrN, hrp⟩ := exists_pow_eq_one_mem_normalizer_not_mem inf_le_right
-    (S.isPGroup'.to_le inf_le_left) hHC (hWp.map _) hlt
+    (S.isPGroup.to_le inf_le_left) hHC (hWp.map _) hlt
   obtain ⟨n, hnN, hnr⟩ := LyonsUnitaryFour.exists_conj_mem_sylow_of_le S h.le_normalizer hrN hrp
   have hnE := Subgroup.mem_normalizer_iff.1 hnN
   have hry : r * y = y * r := Subgroup.mem_centralizer_singleton_iff.1 hrC

@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 
 private lemma mem_map_mk'_iff {G X : Type} [Group G] [Group X] {H U : Subgroup G}
     (π : ↥H →* X) {z : G} (hker : π.ker = (zpowers z).subgroupOf H)
-    (hUH : U ≤ H) (hzU : z ∈ U) (u : ↥H) :
+    (_hUH : U ≤ H) (hzU : z ∈ U) (u : ↥H) :
     π u ∈ (U.subgroupOf H).map π ↔ u ∈ U.subgroupOf H := by
   constructor
   · intro hu
@@ -32,7 +32,7 @@ private lemma mem_map_mk'_iff {G X : Type} [Group G] [Group X] {H U : Subgroup G
 
 private lemma isPGroup_map_of_sylow {G X : Type} [Group G] [Group X] {H S : Subgroup G}
     (π : ↥H →* X) (hsurj : Function.Surjective π) {z : G} (hker : π.ker = (zpowers z).subgroupOf H)
-    (hSH : S ≤ H) (hp : IsPGroup 2 S) (hndvd : ¬ 2 ∣ S.relIndex H) (hzS : z ∈ S) :
+    (_hSH : S ≤ H) (hp : IsPGroup 2 S) (hndvd : ¬ 2 ∣ S.relIndex H) (hzS : z ∈ S) :
     IsPGroup 2 ((S.subgroupOf H).map π) ∧ ¬ 2 ∣ ((S.subgroupOf H).map π).index := by
   have hS'2 : IsPGroup 2 (S.subgroupOf H) := hp.comap_subtype (K := H)
   refine ⟨hS'2.map π, ?_⟩
@@ -50,7 +50,7 @@ private lemma isPGroup_map_of_sylow {G X : Type} [Group G] [Group X] {H S : Subg
 
 private lemma commutator_map_comm {G X : Type} [Group G] [Group X] {H W : Subgroup G}
     (π : ↥H →* X) {z : G} (hker : π.ker = (zpowers z).subgroupOf H)
-    (hWH : W ≤ H) (hzW : z ∈ W)
+    (_hWH : W ≤ H) (_hzW : z ∈ W)
     (hab : ∀ a ∈ W, ∀ b ∈ W, a * b * a⁻¹ * b⁻¹ ∈ zpowers z) :
     ∀ x ∈ (W.subgroupOf H).map π, ∀ y ∈ (W.subgroupOf H).map π, x * y = y * x := by
   intro x hx y hy
@@ -74,7 +74,7 @@ private lemma commutator_map_comm {G X : Type} [Group G] [Group X] {H W : Subgro
 private lemma conjugate_map_weaklyClosed {G X : Type} [Group G] [Group X]
     {H S W : Subgroup G} (π : ↥H →* X) {z : G}
     (hker : π.ker = (zpowers z).subgroupOf H) (hsurj : Function.Surjective π)
-    (hSH : S ≤ H) (hWH : W ≤ H) (hWS : W ≤ S) (hzS : z ∈ S) (hzW : z ∈ W)
+    (hSH : S ≤ H) (hWH : W ≤ H) (_hWS : W ≤ S) (hzS : z ∈ S) (_hzW : z ∈ W)
     (hweak : ∀ h ∈ H, CFSG.conjugate W h ≤ S → CFSG.conjugate W h = W) :
     ∀ x : X, CFSG.conjugate ((W.subgroupOf H).map π) x ≤ (S.subgroupOf H).map π →
       CFSG.conjugate ((W.subgroupOf H).map π) x = (W.subgroupOf H).map π := by
@@ -103,7 +103,7 @@ private lemma conjugate_map_weaklyClosed {G X : Type} [Group G] [Group X]
   have hcomp : (MulAut.conj (π h)⁻¹).toMonoidHom.comp π
       = π.comp (MulAut.conj h⁻¹).toMonoidHom := by
     ext v
-    simp [MulAut.conj_apply]
+    simp
   have hconj : CFSG.conjugate (W'.map π) (π h) = (CFSG.conjugate W' h).map π := by
     rw [CFSG.conjugate, CFSG.conjugate]
     change (W'.map π).map (MulAut.conj (π h)⁻¹).toMonoidHom
@@ -112,7 +112,7 @@ private lemma conjugate_map_weaklyClosed {G X : Type} [Group G] [Group X]
   have hcompH : H.subtype.comp (MulAut.conj h⁻¹).toMonoidHom
       = (MulAut.conj (h : G)⁻¹).toMonoidHom.comp H.subtype := by
     ext v
-    simp [MulAut.conj_apply]
+    simp
   have hconjH : (CFSG.conjugate W' h).map H.subtype = CFSG.conjugate W (h : G) := by
     rw [CFSG.conjugate, CFSG.conjugate, ← Subgroup.map_subgroupOf_eq_of_le hWH]
     rw [Subgroup.map_map, Subgroup.map_map, hcompH]
@@ -145,10 +145,10 @@ theorem sec10_burnside_mod [Finite G] {H S W : Subgroup G} {z : G}
     have hyc : (y : G) ∈ Subgroup.centralizer ({(u : G)} : Set G) :=
       (Subgroup.zpowers_le.mpr hzc) hyz
     exact (Subgroup.mem_centralizer_singleton_iff.mp hyc).symm
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZle_center
+  have : Z.Normal := Subgroup.normal_of_le_center hZle_center
   let X := ↥H ⧸ Z
   let π : ↥H →* X := QuotientGroup.mk' Z
-  haveI : Finite X := Finite.of_surjective π (QuotientGroup.mk'_surjective Z)
+  have : Finite X := Finite.of_surjective π (QuotientGroup.mk'_surjective Z)
   have hker : π.ker = (zpowers z).subgroupOf H := QuotientGroup.ker_mk' Z
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hW'S' : W.subgroupOf H ≤ S.subgroupOf H := Subgroup.subgroupOf_mono H hWS

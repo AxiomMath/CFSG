@@ -74,7 +74,7 @@ theorem card_eq_two_pow_add_one_of_semiregular [FaithfulSMul P Ω] [IsPretransit
         Set (Subgroup.normalClosure ({z} : Set P)))).index =
         Nat.card (Sylow 2 (Subgroup.normalClosure ({z} : Set P))) :=
       (Sylow.card_eq_index_normalizer S).symm
-    obtain ⟨e, he⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨e, he⟩ := S.isPGroup.exists_card_eq
     refine ⟨e, ?_⟩
     rw [← @index_stabilizer_of_transitive _ _ _ _ α hL, hstab, hS, hsyl,
       CFSG.ComponentClassification.Asc76.L26.card_sylow_of_isBender hB S, he]

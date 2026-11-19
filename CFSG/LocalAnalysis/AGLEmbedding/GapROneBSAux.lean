@@ -190,7 +190,7 @@ theorem D1PhaseThree.false_of_preimage_le {p : ℕ} {P : Sylow p G} {M H R : Sub
   obtain ⟨E, hESh, hE, hEcard⟩ := pRank_attained s hs Sh
   have hEM : E ≤ M := hESh.trans hShM
   obtain ⟨TM, hETM⟩ := ((IsPGroup.of_card hEcard).comap_subtype (K := M)).exists_le_sylow
-  obtain ⟨Ts, hTMTs⟩ := ((TM.isPGroup').map M.subtype).exists_le_sylow
+  obtain ⟨Ts, hTMTs⟩ := ((TM.isPGroup).map M.subtype).exists_le_sylow
   have hETs : E ≤ Ts := fun x hx =>
     hTMTs ⟨⟨x, hEM hx⟩, hETM (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hrank : ∀ K : Subgroup G, E ≤ K → 3 ≤ Open.pRank s K := fun K hEK =>

@@ -98,7 +98,7 @@ private theorem actPi_eq_iff {G : Type} [Group G] {V H : Subgroup G} {x y : ↥H
     intro w
     apply Subtype.ext
     apply Subtype.ext
-    simp only [actW, MulAut.conjNormal_apply, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [actW]
     exact h _ (Subgroup.mem_subgroupOf.mp w.2)
 
 private theorem actPi_eq_one_iff {G : Type} [Group G] {V H : Subgroup G} {x : ↥H} :
@@ -136,9 +136,11 @@ private theorem exists_actLift :
     (actPi V H).mem_ker.mpr (hc.actPi_eq_one_of_mem_wOf (Subgroup.mem_subgroupOf.mp hx))
   exact ⟨QuotientGroup.lift _ (actPi V H) hle, fun x => QuotientGroup.lift_mk _ hle x⟩
 
+omit [Finite G] in
 private theorem isPGroup_actPi_P : IsPGroup 2 ↥((P.subgroupOf H).map (actPi V H)) :=
   IsPGroup.map hc.isPGroup_P.comap_subtype _
 
+omit [Finite G] in
 private theorem actPi_TI
     (hTI : ∀ g ∈ H, conjSubgroup g V ≠ V → ∀ x ∈ P, ∀ y ∈ conjSubgroup g P,
       (∀ w ∈ wOf V H, x * w * x⁻¹ = y * w * y⁻¹) → ∀ w ∈ wOf V H, x * w = w * x)
@@ -196,7 +198,7 @@ private theorem actPi_commute_of_central
       (((P.subgroupOf H).map (actPi V H) : Subgroup (ActImage V H)) : Set (ActImage V H)))
     {v : ↥H} (hv : (v : G) ∈ V) (h : ↥H) :
     Commute (actPi V H h) (actPi V H v) := by
-  haveI := normal_oddCoreX V H
+  have := normal_oddCoreX V H
   have hhX : (h : G) ∈ xOf V H ⊔ P := by rw [hc.xOf_sup_P_eq_H]; exact h.2
   obtain ⟨x, hx, p, hp, hxp⟩ := exists_mul_of_mem_sup
     (fun _ hp => H_le_normalizer_xOf V H (hc.PleH hp)) hhX
@@ -234,7 +236,7 @@ theorem act_eq_of_sq_central (hq : Nat.card (barOf V H V) = 2)
   by_contra hcon
   push Not at hcon
   obtain ⟨φ, hφ⟩ := hc.exists_actLift
-  obtain ⟨v₀, hv₀V, hv₀W⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v₀, hv₀V, hv₀W⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hv₀H : v₀ ∈ H := hc.V_le_H hv₀V
   have htH : t ∈ H := hc.PleH ht
   obtain ⟨g₀, hg₀H, hg₀V⟩ := hEx
@@ -267,7 +269,7 @@ theorem act_eq_of_sq_central (hq : Nat.card (barOf V H V) = 2)
   have hne : actPi V H v₀' ≠ actPi V H t' := fun h => by
     obtain ⟨w, hw, hne⟩ := hcon v₀ hv₀V
     exact hne (actPi_eq_iff.mp h w hw).symm
-  haveI : ((oddCoreX V H).map φ).Normal := by
+  have : ((oddCoreX V H).map φ).Normal := by
     refine (normal_oddCoreX V H).map φ ?_
     intro k
     obtain ⟨x, rfl⟩ := actPi_surjective V H k

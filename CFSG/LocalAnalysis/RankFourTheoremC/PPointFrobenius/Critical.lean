@@ -289,7 +289,7 @@ theorem criticalRankFour :
   have hUp : IsPGroup p U := IsPGroup.of_card (n := n) hUcard
   obtain ⟨q, D, hq, -, hqp, hDn, hD1, hDO, hDexp, hDcl, hUD⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.exists_critical_normal hsolv hodd' hO hpk hUp hJ hperf'
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hED, hEab, hEcard⟩ :=
     exists_rank_four_of_critical hqp.symm (by omega) hD1 hDexp hDcl hUcard hUexp hUcomm hσ hUD
   obtain ⟨m, hm⟩ := (isPGroup_of_isElemAbelian hEab).exists_card_eq

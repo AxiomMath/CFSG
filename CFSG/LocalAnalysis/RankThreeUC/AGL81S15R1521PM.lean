@@ -256,12 +256,12 @@ theorem normal_big_of_not_L3_gen {G : Type} [Group G] [Finite G] {M T : Subgroup
     apply hnot
     rcases hprod with ⟨P, _, hP, ⟨φ⟩⟩ | ⟨P, _, hP, ⟨φ⟩⟩
     · obtain ⟨hs, -⟩ := small1522_simple_center (Or.inl hP)
-      haveI := hs
+      have := hs
       obtain ⟨e⟩ := normal_big_of_not_L3_aux_sq hC φ
       exact normal_big_of_not_L3_aux_lthree
         ((Subgroup.subgroupOfEquivOfLe hLJ).symm.trans e) hP
     · obtain ⟨hs, -⟩ := small1522_simple_center (Or.inl hP)
-      haveI := hs
+      have := hs
       obtain ⟨e⟩ := normal_big_of_not_L3_aux_cube hC φ
       exact normal_big_of_not_L3_aux_lthree
         ((Subgroup.subgroupOfEquivOfLe hLJ).symm.trans e) hP
@@ -364,7 +364,7 @@ theorem exists_E9_of_order_three_aux_w {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     {E₀ : Subgroup Y} (hE₀ : IsElemAbelian p E₀) (hcard : p < Nat.card E₀) {a : Y}
     (ha : orderOf a = p) :
     ∃ w : Y, orderOf w = p ∧ a * w = w * a ∧ w ∉ Subgroup.zpowers a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE₀p : IsPGroup p E₀ := fun x => ⟨1, Subtype.ext (by simpa using hE₀.2 x.1 x.2)⟩
   have hA : Nat.card (Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, ha]
   have hza : IsPGroup p (Subgroup.zpowers a) := IsPGroup.of_card (n := 1) (by rw [hA, pow_one])
@@ -396,9 +396,9 @@ theorem exists_E9_of_order_three_aux_w {Y : Type} [Group Y] [Finite Y] {p : ℕ}
   ·
     push Not at hz
     obtain ⟨s, hsS, hs⟩ := hz
-    have hSp : IsPGroup p (S : Subgroup Y) := S.isPGroup'
-    haveI : Nontrivial (S : Subgroup Y) := ⟨⟨⟨a, haS⟩, 1, fun h => ha1 (congrArg Subtype.val h)⟩⟩
-    haveI := hSp.center_nontrivial
+    have hSp : IsPGroup p (S : Subgroup Y) := S.isPGroup
+    have : Nontrivial (S : Subgroup Y) := ⟨⟨⟨a, haS⟩, 1, fun h => ha1 (congrArg Subtype.val h)⟩⟩
+    have := hSp.center_nontrivial
     have hCp : IsPGroup p (Subgroup.center (S : Subgroup Y)) := hSp.to_subgroup _
     have hCdvd : p ∣ Nat.card (Subgroup.center (S : Subgroup Y)) := by
       rcases hCp.card_eq_or_dvd with h | h
@@ -436,7 +436,7 @@ theorem exists_E9_of_order_three_aux_perm {α : Type} [Fintype α] [DecidableEq 
     {H : Subgroup (Equiv.Perm α)} {a w : Equiv.Perm α} (haH : a ∈ H) (hwH : w ∈ H)
     (ha3 : a ^ 3 = 1) (hw3 : w ^ 3 = 1) (ha1 : a ≠ 1) (hw1 : w ≠ 1) (hcomm : a * w = w * a)
     (hfix : ∃ x, a x = x ∧ w x ≠ x) : 2 ≤ CFSG.Open.pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hax, hwx⟩ := hfix
   refine exists_E9_of_order_three_aux_rank haH hwH (orderOf_eq_prime ha3 ha1)
     (orderOf_eq_prime hw3 hw1) hcomm fun hmem => ?_
@@ -492,7 +492,7 @@ private def gl5w : GL (Fin 5) (ZMod 2) :=
 
 theorem exists_E9_of_order_three_aux_gl5 :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (GL (Fin 5) (ZMod 2))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3 : gl5a ^ 3 = 1 := by decide
   have hw3 : gl5w ^ 3 = 1 := by decide
   have ha1 : gl5a ≠ 1 := by decide
@@ -521,7 +521,7 @@ theorem exists_E9_of_order_three_gen {X : Type} [Group X] [Finite X] {T T₁ T�
     {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L)
     (hbig : Big1525 ↥Ls) {A : Subgroup X} (hAL : A ≤ L) (hA : Nat.card A = 3) :
     ∃ E : Subgroup X, A ≤ E ∧ E ≤ L ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : 2 ≤ CFSG.Open.pRank 3 (L.map (toStar T)) := by
     rw [hl.lift.2, CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact exists_E9_of_order_three_aux_big hbig

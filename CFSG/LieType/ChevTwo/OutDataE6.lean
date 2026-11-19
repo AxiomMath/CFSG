@@ -71,8 +71,8 @@ theorem outOddAbelian_of_twistedE6
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
       exact h1
   have hpg : IsPGroup 3 Φ.ker := fun x => ⟨1, by rw [pow_one]; exact h3 x⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Outer (twistedE6RootGroup K σ')) := finite_outer_of_finite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Outer (twistedE6RootGroup K σ')) := finite_outer_of_finite _
   obtain ⟨n, hn⟩ := hpg.exists_card_eq
   refine OutOddAbelian.of_mulEquiv (e.trans E).symm
     ⟨RingAut K, inferInstance, Φ, CFSG.RankThree.PartOne.OutStructure.ringAut_comm K, ?_,

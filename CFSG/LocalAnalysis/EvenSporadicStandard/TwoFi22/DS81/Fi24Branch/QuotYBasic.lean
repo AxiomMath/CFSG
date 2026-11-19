@@ -20,10 +20,12 @@ private theorem mul_inv_mem_of_relIndex_two {G : Type} [Group G] {O R : Subgroup
   rw [key]
   simpa only [Subgroup.mem_subgroupOf, Subgroup.inv_mem_iff] using h
 
+omit [Finite C] in
 theorem O_le_R (hK : KDataC c t R J K O Y) : O ≤ R := by
   rw [← hK.O_eq]
   exact inf_le_left
 
+omit [Finite C] in
 theorem bar_Y_normalizes_R (hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
     ∀ y ∈ c.bar Y, ∀ r ∈ c.bar R, y * r * y⁻¹ ∈ c.bar R := by
   rintro y hy r hr
@@ -33,6 +35,7 @@ theorem bar_Y_normalizes_R (hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
   · exact hJ.R_normal y' (hK.K_le_J (hK.Y_le hy'Y)) r' hr'R
   · simp
 
+omit [Finite C] in
 theorem comm_Y_R_mem_O (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
     ∀ y ∈ Y, ∀ r ∈ R, y * r * y⁻¹ * r⁻¹ ∈ O := by
   intro y hy r hr
@@ -58,6 +61,7 @@ theorem comm_Y_R_mem_O (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R 
     exact Nat.eq_of_mul_eq_mul_right (by norm_num) hrel
   exact mul_inv_mem_of_relIndex_two hidx hr''R hr hmem.symm
 
+omit [Finite C] in
 theorem bar_Y_comm_R_mem_bar_O (hR : RData c R) (hJ : JData c t R J)
     (hK : KDataC c t R J K O Y) :
     ∀ y ∈ c.bar Y, ∀ r ∈ c.bar R, y * r * y⁻¹ * r⁻¹ ∈ c.bar O := by
@@ -68,6 +72,7 @@ theorem bar_Y_comm_R_mem_bar_O (hR : RData c R) (hJ : JData c t R J)
     comm_Y_R_mem_O hR hJ hK y' hy'Y r' hr'R, ?_⟩
   simp
 
+omit [Finite C] in
 theorem bar_Y_normalizes_V (hK : KDataC c t R J K O Y) :
     ∀ y ∈ c.bar Y, ∀ v ∈ c.bar (closure {t, c.z}), y * v * y⁻¹ ∈ c.bar (closure {t, c.z}) := by
   rintro y hy v hv
@@ -91,6 +96,7 @@ theorem bar_Y_normalizes_V (hK : KDataC c t R J K O Y) :
     exact hv'V
   · simp
 
+omit [Finite C] in
 theorem card_bar_V (hK : KDataC c t R J K O Y) :
     Nat.card ↥(c.bar (closure {t, c.z})) = 2 := by
   have hzV : zpowers c.z ≤ closure ({t, c.z} : Set C) := by
@@ -100,6 +106,7 @@ theorem card_bar_V (hK : KDataC c t R J K O Y) :
   rw [hK.V_card] at h
   omega
 
+omit [Finite C] in
 theorem card_bar_O (hK : KDataC c t R J K O Y) : Nat.card ↥(c.bar O) = 2 ^ 11 := by
   have hzV : zpowers c.z ≤ closure ({t, c.z} : Set C) := by
     rw [Subgroup.zpowers_le]
@@ -110,13 +117,16 @@ theorem card_bar_O (hK : KDataC c t R J K O Y) : Nat.card ↥(c.bar O) = 2 ^ 11 
   rw [show (2 : ℕ) ^ 12 = 2 * 2 ^ 11 by ring] at h
   exact (Nat.eq_of_mul_eq_mul_left (by norm_num) h).symm
 
+omit [Finite C] in
 theorem bar_V_le_bar_O (hK : KDataC c t R J K O Y) :
     c.bar (closure {t, c.z}) ≤ c.bar O :=
   c.bar_mono hK.V_le
 
+omit [Finite C] in
 theorem bar_O_le_bar_R (hK : KDataC c t R J K O Y) : c.bar O ≤ c.bar R :=
   c.bar_mono (O_le_R hK)
 
+omit [Finite C] in
 theorem bar_lattice (hK : KDataC c t R J K O Y) (U : Subgroup c.Qt)
     (hVU : c.bar (closure {t, c.z}) ≤ U) (hUO : U ≤ c.bar O)
     (hY : ∀ y ∈ c.bar Y, ∀ u ∈ U, y * u * y⁻¹ ∈ U) :

@@ -34,20 +34,23 @@ structure PointsHyp (V L : Subgroup G) (z : G) : Prop where
 @[expose] def hallPts (V L : Subgroup G) : Set (Subgroup G) :=
   {P | ∃ s ∈ L, orderOf s = 5 ∧ P = V ⊓ Subgroup.centralizer ({s} : Set G)}
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_smul_eq_self {W : Subgroup G} {g : G}
     (h : MulAut.conj g • W = W) : g ∈ Subgroup.normalizer (W : Set G) := by
   rw [Subgroup.mem_normalizer_iff'']
   intro x
   calc x ∈ W ↔ x ∈ MulAut.conj g • W := by rw [h]
     _ ↔ (MulAut.conj g)⁻¹ • x ∈ W := Subgroup.mem_pointwise_smul_iff_inv_smul_mem
-    _ ↔ g⁻¹ * x * g ∈ W := by simp [MulAut.conj_inv_apply]
+    _ ↔ g⁻¹ * x * g ∈ W := by simp
 
+omit [Finite G] in
 theorem conj_smul_eq_self_of_mem_normalizer {W : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (W : Set G)) : MulAut.conj g • W = W := by
   ext x
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def, MulAut.conj_inv_apply]
   exact (Subgroup.mem_normalizer_iff''.mp hg x).symm
 
+omit [Finite G] in
 theorem conj_smul_inf_centralizer {V : Subgroup G} {g s : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) :
     MulAut.conj g • (V ⊓ Subgroup.centralizer ({s} : Set G)) =
@@ -70,6 +73,7 @@ theorem conj_smul_inf_centralizer {V : Subgroup G} {g s : G}
         _ = g⁻¹ * ((g * s * g⁻¹) * x) * g := by rw [hxs]
         _ = s * (g⁻¹ * x * g) := by group
 
+omit [Finite G] in
 theorem centralizer_singleton_eq_of_zpowers_eq {a b : G}
     (h : Subgroup.zpowers a = Subgroup.zpowers b) :
     Subgroup.centralizer ({a} : Set G) = Subgroup.centralizer ({b} : Set G) := by
@@ -111,7 +115,7 @@ theorem exists_conj_zpowers_of_order_five {H : Subgroup G} (hnot25 : ¬ 25 ∣ N
     (hao : orderOf a = 5) (hbo : orderOf b = 5) :
     ∃ g ∈ H, Subgroup.zpowers (g * a * g⁻¹) = Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let x : H := ⟨a, ha⟩
   let y : H := ⟨b, hb⟩
   let Hx : Subgroup H := Subgroup.zpowers x
@@ -171,6 +175,7 @@ theorem exists_conj_zpowers_of_order_five {H : Subgroup G} (hnot25 : ¬ 25 ∣ N
   rw [MonoidHom.map_zpowers, MonoidHom.map_zpowers] at hmap
   exact ⟨(g : G), g.2, by simpa using hmap⟩
 
+omit [Finite G] in
 theorem natCard_inf_centralizer_eq_fixedPoints {W : Subgroup G} {s : G}
     (hs : s ∈ Subgroup.normalizer (W : Set G)) :
     Nat.card ↥(W ⊓ Subgroup.centralizer ({s} : Set G)) =
@@ -200,7 +205,7 @@ theorem card_inf_centralizer_modEq_of_conj_smul_eq_self {W : Subgroup G} {s : G}
     (h5 : orderOf s = 5) (hfix : MulAut.conj s • W = W) :
     Nat.card ↥(W ⊓ Subgroup.centralizer ({s} : Set G)) ≡ Nat.card W [MOD 5] := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hsN : s ∈ Subgroup.normalizer (W : Set G) := mem_normalizer_of_conj_smul_eq_self hfix
   let σ : Equiv.Perm ↥W := conjX W ⟨s, hsN⟩
   have hsub : (⟨s, hsN⟩ : ↥(Subgroup.normalizer (W : Set G))) ^ 5 = 1 := by
@@ -211,7 +216,7 @@ theorem card_inf_centralizer_modEq_of_conj_smul_eq_self {W : Subgroup G} {s : G}
   have hσ5 : σ ^ 5 = 1 := by
     calc σ ^ 5 = conjX W (⟨s, hsN⟩ ^ 5) := by rw [map_pow]
       _ = 1 := by rw [hsub, map_one]
-  haveI : Fintype ↥W := Fintype.ofFinite ↥W
+  have : Fintype ↥W := Fintype.ofFinite ↥W
   have hmod := Equiv.Perm.card_fixedPoints_modEq
     (f := (⇑σ : Function.End ↥W)) (p := 5) (n := 1) (by
       rw [pow_one]
@@ -370,7 +375,8 @@ theorem PointsHyp.card_fix (h : PointsHyp V L z) {s : G} (hs : s ∈ L) (h5 : or
     calc s * v * s⁻¹ = (v * s) * s⁻¹ := by rw [← hcomm]
       _ = v := by group
 
-theorem PointsHyp.le_of_mem (h : PointsHyp V L z) {P : Subgroup G}
+omit [Finite G] in
+theorem PointsHyp.le_of_mem (_h : PointsHyp V L z) {P : Subgroup G}
     (hP : P ∈ hallPts V L) : P ≤ V := by
   obtain ⟨s, hs, -, rfl⟩ := hP
   exact inf_le_left
@@ -380,6 +386,7 @@ theorem PointsHyp.card_of_mem (h : PointsHyp V L z) {P : Subgroup G}
   obtain ⟨s, hs, h5, rfl⟩ := hP
   exact h.card_fix hs h5
 
+omit [Finite G] in
 theorem PointsHyp.z_conj_mem (h : PointsHyp V L z) {P : Subgroup G}
     (hP : P ∈ hallPts V L) {x : G} (hx : x ∈ P) : z * x * z⁻¹ ∈ P := by
   obtain ⟨s, hsL, -, rfl⟩ := hP
@@ -480,7 +487,7 @@ theorem PointsHyp.inf_eq_bot_of_ne (h : PointsHyp V L z) {P Q : Subgroup G}
 theorem PointsHyp.card_hallPts_le (h : PointsHyp V L z) :
     Nat.card (hallPts V L) ≤ 21 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let nonone : Subgroup G → Finset G := fun P =>
     ((Finset.univ : Finset P).erase ⟨1, P.one_mem⟩).image Subtype.val
   have mem_nonone : ∀ {P : Subgroup G} {x : G},
@@ -545,6 +552,7 @@ theorem PointsHyp.card_hallPts_le (h : PointsHyp V L z) :
   omega
 
 
+omit [Finite G] in
 theorem smul_mem_hallPts {V L : Subgroup G} {g : G}
     (hgV : g ∈ Subgroup.normalizer (V : Set G))
     (hgL : g ∈ Subgroup.normalizer (L : Set G))
@@ -561,8 +569,8 @@ theorem smul_mem_hallPts {V L : Subgroup G} {g : G}
 theorem PointsHyp.card_hallPts (h : PointsHyp V L z) :
     Nat.card (hallPts V L) = 6 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨s₀L, hs₀ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥L) 5 (by simpa using h.five)
   let s₀ : G := (s₀L : G)
@@ -571,7 +579,7 @@ theorem PointsHyp.card_hallPts (h : PointsHyp V L z) :
   let P₀ : Subgroup G := V ⊓ Subgroup.centralizer ({s₀} : Set G)
   have hP₀mem : P₀ ∈ hallPts V L := ⟨s₀, hs₀L, h5₀, rfl⟩
   have hP₀card : Nat.card P₀ = 4 := h.card_fix hs₀L h5₀
-  letI : MulAction ↥L (Subgroup G) :=
+  let : MulAction ↥L (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp L.subtype)
   have hsmul : ∀ (g : ↥L) (P : Subgroup G), g • P = MulAut.conj (g : G) • P :=
     fun g P => MulAction.compHom_smul_def _ g P
@@ -761,7 +769,7 @@ theorem PointsHyp.inf_sup_eq_bot (h : PointsHyp V L z) :
       P ≠ P' → P ≠ P'' → P' ≠ P'' → P'' ⊓ (P ⊔ P') = ⊥ := by
   intro P hP P' hP' P'' hP'' hPP' hPP'' hP'P''
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra hne
   let ℓ : Subgroup G := P ⊔ P'
   have hPcard : Nat.card P = 4 := h.card_of_mem hP
@@ -825,9 +833,9 @@ theorem PointsHyp.inf_sup_eq_bot (h : PointsHyp V L z) :
   have hHcard : Nat.card H = 5 := by
     rw [Nat.card_zpowers]
     exact (Subgroup.orderOf_mk s hsL).trans h5s
-  letI : MulAction ↥L (Subgroup G) :=
+  let : MulAction ↥L (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp L.subtype)
-  letI : MulAction H (Subgroup G) := MulAction.compHom (Subgroup G) H.subtype
+  let : MulAction H (Subgroup G) := MulAction.compHom (Subgroup G) H.subtype
   have hHsmul : ∀ (k : H) (Q : Subgroup G), k • Q = MulAut.conj (k : G) • Q := by
     intro k Q
     simp [MulAction.compHom_smul_def]
@@ -882,7 +890,7 @@ theorem PointsHyp.inf_sup_eq_bot (h : PointsHyp V L z) :
       _ = 5 := hdiff
   have hO_one : Nat.card O ≠ 1 := by
     intro h1
-    haveI : Subsingleton O := (Nat.card_eq_one_iff_unique.mp h1).1
+    have : Subsingleton O := (Nat.card_eq_one_iff_unique.mp h1).1
     have hmem₁ : h₀ • P' ∈ O := MulAction.mem_orbit P' h₀
     have hmem₂ : P' ∈ O := MulAction.mem_orbit_self P'
     have hEq : (⟨h₀ • P', hmem₁⟩ : O) = ⟨P', hmem₂⟩ := Subsingleton.elim _ _
@@ -950,6 +958,7 @@ theorem PointsHyp.inf_sup_eq_bot (h : PointsHyp V L z) :
     conj_smul_eq_self_of_le_centralizer (le_trans le_sup_right hℓleC)
   exact hP'P'' (huP'fix.symm.trans huP')
 
+omit [Finite G] in
 theorem conj_mem_hallPts {V L : Subgroup G} {g : G}
     (hgV : g ∈ Subgroup.normalizer (V : Set G))
     (hgL : g ∈ Subgroup.normalizer (L : Set G))
@@ -969,6 +978,7 @@ theorem conj_mem_hallPts {V L : Subgroup G} {g : G}
     rw [← hsm]
     exact Subgroup.smul_mem_pointwise_smul x (MulAut.conj g) _ hx
 
+omit [Finite G] in
 theorem _root_.CFSG.ComponentClassification.AS81.HexaCoord.psi_mem_hexaM_of_maps
     {X R : Subgroup G} {pts : Set (Subgroup G)} {rep : Fin 64 → G}
     (hc : HexaCoord X R pts rep) (hc15 : hexaCheck = true) (hS : hexaStabCheck = true)
@@ -998,7 +1008,7 @@ theorem PointsHyp.exists_hexaCoord (h : PointsHyp V L z)
     (hS : CFSG.ComponentClassification.AS81.Hexa.hexaStabCheck = true) :
     ∃ R ∈ hallPts V L, ∃ rep : Fin 64 → G, HexaCoord V R (hallPts V L) rep := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨s₀L, hs₀ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥L) 5 (by simpa using h.five)
   let s₀ : G := (s₀L : G)

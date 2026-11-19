@@ -27,7 +27,7 @@ open Matrix Module CFSG CFSG.Assembly CFSG.AGLEmbedding
 private theorem exists_cubeRoot {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) :
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : 1 ≤ q := by
     rcases Nat.eq_zero_or_pos q with h | h
     · exfalso
@@ -114,8 +114,8 @@ private theorem cube_block_dim_eq_two {K F : Type} [Field K] [Finite K] [CharP K
     k = 2 := by
   by_contra hkne
   have hk3 : 3 ≤ k := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hpow : Nat.card K = 2 ^ Module.finrank (ZMod 2) K :=
     (FiniteField.pow_finrank_eq_natCard 2 K).symm
   have hq_dvd : q ∣ 2 ^ Module.finrank (ZMod 2) K := by
@@ -158,11 +158,11 @@ private theorem cube_block_dim_eq_two {K F : Type} [Field K] [Finite K] [CharP K
 theorem uni6_cube_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1)
     {d : GL (Fin 6) K} (hd : IsHermIsometry q (d : Matrix (Fin 6) (Fin 6) K)) (hd3 : d ^ 3 = 1)
-    (hdn : ∀ c : K, (d : Matrix (Fin 6) (Fin 6) K) ≠ c • (1 : Matrix (Fin 6) (Fin 6) K))
+    (_hdn : ∀ c : K, (d : Matrix (Fin 6) (Fin 6) K) ≠ c • (1 : Matrix (Fin 6) (Fin 6) K))
     {δ' : MulAut (PSUg 6 K q)} (hδ : IsConjBy d δ')
     {J' : Subgroup (PSUg 6 K q)} (hJc : IsComponentOf J' (ggAutFixedSubgroup δ'))
     (huniq : ∀ Q : Subgroup (PSUg 6 K q), IsComponentOf Q (ggAutFixedSubgroup δ') → Q = J')
-    {F : Type} [Field F] [Finite F] (hF : 4 ≤ Nat.card F)
+    {F : Type} [Field F] [Finite F] (_hF : 4 ≤ Nat.card F)
     (hA1 : Nonempty (J' ⧸ Subgroup.center J' ≃* LargeEvenProj (LargeEvenSLGroup (Fin 2) F))) : False := by
   obtain ⟨ω, hω⟩ := exists_cubeRoot hK hq3
   obtain ⟨_, hsumω⟩ := uni_cube_eigen hK hq3 hd hd3

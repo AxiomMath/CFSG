@@ -152,6 +152,7 @@ theorem simple_of_natural [Finite K'] (ρ : Γ →* Multiplicative (AddAut E)) (
   rw [hweq] at hwT
   exact hwT
 
+omit [DecidableEq ι] in
 theorem card_of_natural [Finite K] (W : Submodule K E) (θ : K ≃+* K') (Ψ : W ≃+ (ι → K'))
     [Finite K'] : Nat.card W = Nat.card K ^ Fintype.card ι := by
   rw [Nat.card_congr Ψ.toEquiv, Nat.card_fun, ← Nat.card_congr θ.toEquiv,
@@ -160,7 +161,7 @@ theorem card_of_natural [Finite K] (W : Submodule K E) (θ : K ≃+* K') (Ψ : W
 
 theorem nontriv_of_natural (ρ : Γ →* Multiplicative (AddAut E)) (X : Subgroup Γ)
     (W : Submodule K E) (Xcl : Subgroup (GL ι K')) (Ψ : W ≃+ (ι → K'))
-    (φ : ↥X →* GL ι K') (hφ : φ.range = Xcl) (hφinj : Function.Injective φ)
+    (φ : ↥X →* GL ι K') (hφ : φ.range = Xcl) (_hφinj : Function.Injective φ)
     (hinv : ∀ x ∈ X, ∀ w ∈ W, (ρ x).toAdd w ∈ W)
     (hΨφ : ∀ (x : ↥X) (w : W), Ψ ⟨(ρ (x : Γ)).toAdd w, hinv x x.2 w w.2⟩ =
       (φ x : Matrix ι ι K') *ᵥ Ψ w)

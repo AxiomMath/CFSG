@@ -239,12 +239,12 @@ theorem M42GL3.card (h : M42GL3 M) : Nat.card M = 168 := by
 
 theorem M42A5.simple (h : M42A5 M) : IsSimpleGroup ↥M := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact MulEquiv.isSimpleGroup e
 
 theorem M42GL3.simple (h : M42GL3 M) : IsSimpleGroup ↥M := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   exact MulEquiv.isSimpleGroup e
 
@@ -274,7 +274,7 @@ variable [Finite G]
 theorem m42_conj3 (hM : (Nat.card M).factorization 3 = 1) {x y : G} (hx : x ∈ M) (hy : y ∈ M)
     (hox : orderOf x = 3) (hoy : orderOf y = 3) :
     ∃ k ∈ M, k * x * k⁻¹ ∈ Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∀ z : ↥M, orderOf z = 3 →
       ∃ Q : Sylow 3 ↥M, (Q : Subgroup ↥M) = Subgroup.zpowers z := by
     intro z hz
@@ -296,6 +296,7 @@ theorem m42_conj3 (hM : (Nat.card M).factorization 3 = 1) {x y : G} (hx : x ∈ 
 
 
 
+omit [Finite G] in
 theorem m42_orderOf_conj (k x : G) : orderOf (k * x * k⁻¹) = orderOf x :=
   MulEquiv.orderOf_eq (MulAut.conj k) x
 
@@ -338,7 +339,7 @@ variable {G : Type} [Group G]
 
 theorem m42_comm_A5_GL3 {Δ Λ : Subgroup G} (hΔ : M42A5 Δ) (hΛ : M42GL3 Λ)
     (hn : ∀ l ∈ Λ, ∀ d ∈ Δ, l * d * l⁻¹ ∈ Δ) : ∀ l ∈ Λ, ∀ d ∈ Δ, l * d = d * l := by
-  haveI : IsSimpleGroup ↥Λ := hΛ.simple
+  have : IsSimpleGroup ↥Λ := hΛ.simple
   let ψ : ↥Λ → MulAut ↥Δ := fun l =>
     { toFun := fun d => ⟨l.1 * d.1 * l.1⁻¹, hn l.1 l.2 d.1 d.2⟩
       invFun := fun d => ⟨l.1⁻¹ * d.1 * l.1, by
@@ -358,7 +359,7 @@ theorem m42_comm_A5_GL3 {Δ Λ : Subgroup G} (hΔ : M42A5 Δ) (hΛ : M42GL3 Λ)
       (CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj 5 le_rfl (by omega))
     rw [h1, ← h2]
     simp [Nat.card_eq_fintype_card, Fintype.card_perm, Nat.factorial]
-  haveI : Finite (MulAut ↥Δ) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (MulAut ↥Δ) := Nat.finite_of_card_ne_zero (by omega)
   have hker : φ.ker = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
     · exfalso

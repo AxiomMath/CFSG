@@ -13,7 +13,7 @@ open CFSG.Open
 theorem goldschmidtOddCore_eq_bot_of_normal {X : Type} [Group X] [Finite X]
     (hX : ∀ N : Subgroup X, N.Normal → Odd (Nat.card N) → N = ⊥) {M : Subgroup X}
     (hM : M.Normal) : goldschmidtOddCore M = ⊥ := by
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   rw [CFSG.Goldschmidt.goldschmidtOddCore_eq_pPrimeCore M]
   have hodd : Odd (Nat.card ((CFSG.pPrimeCore 2 ↥M).map M.subtype)) := by
     rw [Subgroup.card_map_of_injective M.subtype_injective]

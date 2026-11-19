@@ -85,7 +85,7 @@ section Setup
 variable {G : Type} [Group G] [Finite G]
 
 theorem s43_center_gl5 : Subgroup.center (GL (Fin 5) (ZMod 2)) = ⊥ := by
-  haveI : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
+  have : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (GL (Fin 5) (ZMod 2))) with
     h | h
   · exact h
@@ -94,6 +94,7 @@ theorem s43_center_gl5 : Subgroup.center (GL (Fin 5) (ZMod 2)) = ⊥ := by
     have : b ∈ Subgroup.center (GL (Fin 5) (ZMod 2)) := by rw [h]; trivial
     exact (Subgroup.mem_center_iff.mp this) a
 
+omit [Finite G] in
 theorem s43_center_of_equiv {J : Subgroup G} (e : J ≃* GL (Fin 5) (ZMod 2)) :
     Subgroup.center J = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -128,14 +129,14 @@ theorem s43_orders {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J
 
 theorem setup_of_sec4 {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂)
     (e : J ≃* GL (Fin 5) (ZMod 2)) : Setup14 5 b J B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hb₁3, hb₂3, hb₁b₂, hK1, hcardE, hE3⟩ := sec4_facts h4
   have hZ : Subgroup.center J = ⊥ := s43_center_of_equiv e
   obtain ⟨hJC, hcomp, huniq⟩ := h4.hyp.std
   have hq : CFSG.IsQuasisimple ↥J :=
     CFSG.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hJC).symm hcomp.1
   obtain ⟨he27, hcardB⟩ := h4.mono.1
-  haveI := he27
+  have := he27
   have hBeq := h4.mono.2.1
   have hbo : orderOf b = 3 := h4.hyp.ord
   have hbB : b ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)

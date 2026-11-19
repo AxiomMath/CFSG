@@ -119,7 +119,7 @@ theorem burnsideJ4NP_encJ_of_mem {g : J} (hg : g ∈ Hj) :
     burnsideJ4NP_encJ g = burnsideJ4NP_enc ⟨g, hg⟩ := by
   classical
   unfold burnsideJ4NP_encJ
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem burnsideJ4NP_treeElt_mem_P0 {ce : ℕ × ℕ}
     (he : ce.2 < 1024) : burnsideJ4NP_treeElt ce ∈ P0 :=

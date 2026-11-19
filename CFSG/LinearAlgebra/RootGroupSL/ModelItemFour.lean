@@ -37,6 +37,7 @@ private lemma smulOfUnit_conj {k V : Type*} [Field k] [AddCommGroup V] [Module k
     LinearEquiv.smulOfUnit μ * y * (LinearEquiv.smulOfUnit μ)⁻¹ = y := by
   rw [smulOfUnit_mul_comm μ y, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite E] [CharP k 2] in
 private lemma exists_conj_of_sup_eq_modelP
     {U P : Subgroup (SpecialLinearGroup k (VJ × V₀))}
     (hUP : modelJ k E VJ V₀ ⊔ U = P)
@@ -52,7 +53,7 @@ private lemma exists_conj_of_sup_eq_modelP
     ∃ h : SpecialLinearGroup k (VJ × V₀), ∀ x : ↥(modelJ k E VJ V₀ ⊔ U),
       ((α x : ↥(modelJ k E VJ V₀ ⊔ U)) : SpecialLinearGroup k (VJ × V₀)) =
         h * (x : SpecialLinearGroup k (VJ × V₀)) * h⁻¹ := by
-  haveI : Module.Finite k (VJ × V₀) := Module.Finite.prod
+  have : Module.Finite k (VJ × V₀) := Module.Finite.prod
   obtain ⟨α', hα'⟩ := transport_mulAut hUP α
   have hα'J : ∀ j : ↥P,
       (j : SpecialLinearGroup k (VJ × V₀)) ∈ modelJ k E VJ V₀ → α' j = j := by

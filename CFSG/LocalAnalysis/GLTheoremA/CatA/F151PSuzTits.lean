@@ -19,14 +19,14 @@ open CFSG.HardMathSupport.Solomon.Coordinator.LieComp (isSolvable_centralizer_ti
 
 private theorem false_of_glaPComponent_of_isSolvable {G : Type} [Group G] [Finite G] {p : ℕ}
     {X J : Subgroup G} (hX : Group.IsSolvable ↥X) (hJ : GLAPComponent p X J) : False := by
-  haveI : Group.IsSolvable ↥X := hX
+  have : Group.IsSolvable ↥X := hX
   have hJX : J ≤ X := hJ.1
-  haveI : Group.IsPerfect ↥J :=
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
-  haveI : Group.IsSolvable ↥J :=
+  have : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJX)
       (Subgroup.inclusion_injective hJX)
-  haveI : Nontrivial ↥J :=
+  have : Nontrivial ↥J :=
     (Subgroup.nontrivial_iff_ne_bot J).2
       (CFSG.LocalAnalysis.GLTheoremA.glaPComponent_ne_bot' hJ)
   exact Group.IsPerfect.not_isSolvable (G := ↥J) inferInstance
@@ -69,7 +69,7 @@ private theorem shapeModel_tits {S : Type} [Group S] [Finite S]
   have hfinj : Function.Injective f := fun a b hab =>
     Subtype.ext (eTD.injective (Subtype.ext_iff.mp hab))
   have hsolv : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set S)) := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({eTD x} : Set titsD)) := hsolv'
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({eTD x} : Set titsD)) := hsolv'
     exact Group.isSolvable_of_isSolvable_injective (f := f) hfinj
   exact false_of_glaPComponent_of_isSolvable hsolv hJ
 

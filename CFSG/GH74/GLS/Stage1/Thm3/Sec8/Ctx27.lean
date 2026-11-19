@@ -18,8 +18,8 @@ namespace Setup8
 
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
 
-theorem A_le_gen (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
-    (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {x : G} (hVx : Vof S K₁ W₂ = zpowers x) :
+theorem A_le_gen (_hII : II4_4_4_center) (_hq : II4_4_quat) (_hrec : Bg.B_reciprocity)
+    (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {x : G} (hVx : Vof S K₁ W₂ = zpowers x) :
     Aof S K₁ W₂ h ≤ zpowers x ⊔ zpowers (h⁻¹ * x * h) := by
   have hVh : conjugate (Vof S K₁ W₂) h ≤ zpowers (h⁻¹ * x * h) := by
     intro a₂ ha₂
@@ -83,6 +83,7 @@ theorem theta_surj (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_recipro
   obtain ⟨a, ha⟩ := Finite.injective_iff_surjective.1 hinj ⟨b, hb⟩
   exact ⟨a, a.2, congrArg Subtype.val ha⟩
 
+omit [Finite G] in
 theorem mem_Dsub_iff {d : G} : d ∈ Dsub S U h ↔ d ∈ Wsub S U ∧ d * h = h * d := by
   unfold Dsub
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]

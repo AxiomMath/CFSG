@@ -19,7 +19,7 @@ theorem toList_getD (a : Array Nat) (j : Nat) : a.toList.getD j 0 = a.getD j 0 :
   simp [Array.getD_eq_getD_getElem?, List.getD_eq_getElem?_getD]
 
 theorem toList_cmpA (a b : Array Nat) : (cmpA a b).toList = compL a.toList b.toList := by
-  simp [cmpA, compL, toList_getD]
+  simp [cmpA, compL]
 
 theorem toList_idA : idA.toList = List.range 45 := by
   simp [idA]

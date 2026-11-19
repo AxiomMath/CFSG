@@ -16,7 +16,7 @@ private theorem y4aA5Index_pow_six :
 
 theorem y4a_eq_top_of_index_le_four {H : Subgroup (alternatingGroup (Fin 5))}
     (h : H.index ≤ 4) : H = ⊤ := by
-  have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   let φ : ↥(alternatingGroup (Fin 5)) →* Equiv.Perm (↥(alternatingGroup (Fin 5)) ⧸ H) :=
     MulAction.toPermHom _ _
   rcases hsimple.eq_bot_or_eq_top_of_normal φ.ker with h0 | h1
@@ -43,9 +43,9 @@ theorem y4a_eq_top_of_index_le_four {H : Subgroup (alternatingGroup (Fin 5))}
 theorem y4a_exists_not_comm_of_card_six {H : Subgroup (alternatingGroup (Fin 5))}
     (h : Nat.card ↥H = 6) : ∃ x ∈ H, ∃ y ∈ H, x * y ≠ y * x := by
   by_contra hcomm
-  push_neg at hcomm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  push Not at hcomm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) 2 (by rw [h]; norm_num)
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) 3 (by rw [h]; norm_num)
   have hxy : Commute x y := Subtype.ext (hcomm x x.2 y y.2)

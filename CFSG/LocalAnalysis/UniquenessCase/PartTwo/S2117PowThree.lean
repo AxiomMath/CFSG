@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s21_17R_one_pow_of_three (he : evenRank G = 3) (hG : GriessAllModelsStatement)
     (D : Data G) (Ch : Choice2011 G) :
-    H1930 D → ∀ c : Ctx21 D Ch, ∀ L ∈ calC D.M, ¬ (L.subgroupOf D.M).Normal →
+    H1930 D → ∀ _c : Ctx21 D Ch, ∀ L ∈ calC D.M, ¬ (L.subgroupOf D.M).Normal →
       ∀ n : ℕ, IsPowTwo n → ¬ IsSU3 (Bar2 L) n := by
   intro _ _ L hL hnN n hn hX
   have hn2 : 2 ≤ n := UCK.u3Range (Bar2 L) n hX

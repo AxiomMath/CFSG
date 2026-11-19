@@ -59,9 +59,9 @@ theorem bitOp_posVec (M : BM) {c : ℕ} (hc : c < 28) :
     bitOp K M (posVec Tag.D4 K c) = vecOfBits K (M.getD c 0) := by
   have hc' : c < dim Tag.D4 := hc
   rw [bitOp, LinearMap.sum_apply, Finset.sum_eq_single c]
-  · rw [LinearMap.smulRight_apply, posCoord_posVec hc', if_pos rfl, one_smul]
+  · rw [LinearMap.smulRight_apply, posCoord_posVec hc', ite_eq_left rfl, one_smul]
   · intro b _ hb
-    rw [LinearMap.smulRight_apply, posCoord_posVec hc', if_neg hb, zero_smul]
+    rw [LinearMap.smulRight_apply, posCoord_posVec hc', ite_eq_right hb, zero_smul]
   · intro h
     exact absurd (Finset.mem_range.2 hc) h
 
@@ -125,7 +125,7 @@ theorem entriesOp_posVec_eq (h2 : (2 : K) = 0) {L : List Entry}
       posCoord_posVec hc', ih hL', intCast_eq_of_two h2]
     simp only [parityCol]
     by_cases hec : e.1 = c <;> by_cases hz : e.2.2 % 2 = 1
-    · simp only [hec, hz, and_self, if_true, one_smul, vecOfBits_xor h2, vecOfBits_two_pow he]
+    · simp only [hec, hz, and_self, ite_true, one_smul, vecOfBits_xor h2, vecOfBits_two_pow he]
       exact add_comm _ _
     · simp [hec, hz]
     · simp [hec, hz]
@@ -274,11 +274,11 @@ theorem natOp_posVec (M : ℕ) {c : ℕ} (hc : c < 28) :
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [LinearMap.sum_apply, Finset.sum_eq_single c]
   · split_ifs
-    · rw [LinearMap.smulRight_apply, posCoord_posVec hc', if_pos rfl, one_smul]
+    · rw [LinearMap.smulRight_apply, posCoord_posVec hc', ite_eq_left rfl, one_smul]
     · rfl
   · intro b _ hb
     split_ifs
-    · rw [LinearMap.smulRight_apply, posCoord_posVec hc', if_neg hb, zero_smul]
+    · rw [LinearMap.smulRight_apply, posCoord_posVec hc', ite_eq_right hb, zero_smul]
     · rfl
   · intro h
     exact absurd (Finset.mem_range.2 hc) h
@@ -354,7 +354,7 @@ theorem testBit_lmulAux (M : ℕ) (S : List (List ℕ)) (i₀ : ℕ) {i c : ℕ}
 theorem testBit_lmul (S : List (List ℕ)) (M : ℕ) {i c : ℕ} (hc : c < 28) :
     (lmul S M).testBit (28 * i + c) =
       xorAll ((S.getD i []).map fun j => M.testBit (28 * j + c)) := by
-  rw [lmul, testBit_lmulAux M S 0 hc, if_pos (Nat.zero_le i), Nat.sub_zero,
+  rw [lmul, testBit_lmulAux M S 0 hc, ite_eq_left (Nat.zero_le i), Nat.sub_zero,
     testBit_xorRows M _ hc]
 
 theorem testBit_idN : ∀ j < 28, ∀ c < 28, idN.testBit (28 * j + c) = decide (j = c) := by
@@ -604,11 +604,11 @@ theorem posCoord_natOp {M p c : ℕ} (hp : p < 28) (hc : c < 28) :
       if M.testBit (28 * p + c) then 1 else 0 := by
   rw [natOp_posVec _ hc, map_sum, Finset.sum_eq_single p]
   · split_ifs
-    · rw [posCoord_posVec (show p < dim Tag.D4 from hp), if_pos rfl]
+    · rw [posCoord_posVec (show p < dim Tag.D4 from hp), ite_eq_left rfl]
     · exact map_zero _
   · intro b hb hbp
     split_ifs
-    · rw [posCoord_posVec (show b < dim Tag.D4 from Finset.mem_range.1 hb), if_neg (Ne.symm hbp)]
+    · rw [posCoord_posVec (show b < dim Tag.D4 from Finset.mem_range.1 hb), ite_eq_right (Ne.symm hbp)]
     · exact map_zero _
   · intro h
     exact absurd (Finset.mem_range.2 hp) h
@@ -627,7 +627,6 @@ theorem eq_of_natOp_eq {M M' : ℕ} (hM : M < 2 ^ (28 * (0 + 28)))
     cases h1 : M.testBit (28 * (n / 28) + n % 28) <;>
       cases h2 : M'.testBit (28 * (n / 28) + n % 28) <;> rw [h1, h2] at e <;>
       first
-      | rfl
       | exact absurd e (by simp)
   · have hn2 : 28 * (0 + 28) ≤ n := Nat.le_of_not_lt hn
     rw [Nat.testBit_lt_two_pow (hM.trans_le (Nat.pow_le_pow_right (by norm_num) hn2)),

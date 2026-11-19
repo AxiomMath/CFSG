@@ -116,7 +116,7 @@ private theorem exists_conj_swap_mem {β : Type*} [Fintype β] [DecidableEq β]
     ∃ g : Perm β, swap a b ∈ conjSub g M := by
   obtain ⟨S, hS⟩ := (isPGroup_zpowers_of_pow_eq_one (swap_sq a b)).exists_le_sylow
   obtain ⟨g, hg⟩ := hM.exists_conj_ge (P := (S : Subgroup (Perm β)))
-    ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   exact ⟨g, hg (hS (mem_zpowers _))⟩
 
 end Embedded

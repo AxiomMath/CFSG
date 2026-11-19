@@ -33,7 +33,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_subgroup_of_rank_ge_tw
   obtain ⟨p, B, hBp, _hBcomm, hBgen⟩ :=
     section10_exists_pSubgroup_two_le_generatorRank_of_two_le_groupRank_pre
       (R := R) hRrank
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hBnoncyc : ¬ IsCyclic B := by
     intro hcyc
     have hle : generatorRank B ≤ 1 := generatorRank_le_one_of_isCyclic (G := B) hcyc
@@ -43,7 +43,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_subgroup_of_rank_ge_tw
       (p := p.val) (R := R) (B := B) hBp hBgen).trans
       (Subgroup.card_subgroup_dvd_card R)
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
-  haveI : Fact (IsPGroup p.val B) := ⟨hBp⟩
+  have : Fact (IsPGroup p.val B) := ⟨hBp⟩
   obtain ⟨E0, _hE0norm, hE0card, hE0elem⟩ :=
     lemma_4_5_a (R := B) (p := p.val) hpodd hBnoncyc
   let E : Subgroup R := E0.map B.subtype
@@ -55,7 +55,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_subgroup_of_rank_ge_tw
           (K := E0) (f := B.subtype) B.subtype_injective
       _ = p.val ^ 2 := hE0card
   have hEelem : IsElementaryAbelian p.val E := by
-    letI : IsElementaryAbelian p.val E0 := hE0elem
+    let : IsElementaryAbelian p.val E0 := hE0elem
     simpa [E] using
       section10_isElementaryAbelian_map_early
         (G := B) (p := p.val) (A := E0) (G' := R) B.subtype
@@ -70,7 +70,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_subgroup_of_rank_ge_tw
           (K := E) (f := R.subtype) R.subtype_injective
       _ = p.val ^ 2 := hEcard
   have hAelem : IsElementaryAbelian p.val A := by
-    letI : IsElementaryAbelian p.val E := hEelem
+    let : IsElementaryAbelian p.val E := hEelem
     simpa [A] using
       section10_isElementaryAbelian_map_early
         (G := R) (p := p.val) (A := E) (G' := G) R.subtype
@@ -114,11 +114,11 @@ private theorem CFSG.section10_ambientDerived_nilpotent_of_malpha_bot
       (QuotientGroup.quotientMulEquivOfEq hKsubD_bot).trans QuotientGroup.quotientBot
     have hquot_nil' : Group.IsNilpotent (D ⧸ KsubD) := by
       simpa [D, K, KsubD] using hquot_nil
-    letI : Group.IsNilpotent (D ⧸ KsubD) := hquot_nil'
+    let : Group.IsNilpotent (D ⧸ KsubD) := hquot_nil'
     exact Group.nilpotent_of_mulEquiv (G := D ⧸ KsubD) (G' := D) e
   let eD : D ≃* ambientDerivedSubgroup M :=
     Subgroup.equivMapOfInjective (f := M.subtype) D M.subtype_injective
-  letI : Group.IsNilpotent D := hDnil
+  let : Group.IsNilpotent D := hDnil
   exact Group.nilpotent_of_mulEquiv (G := D) (G' := ambientDerivedSubgroup M) eD
 
 omit [Finite G] [IsMinCE G] in
@@ -135,9 +135,9 @@ private theorem CFSG.section10_mem_section7HStarFamily_top_of_sylow_le_normalize
     (hAQ : A ≤ Subgroup.normalizer ((Q : Subgroup G) : Set G)) :
     (Q : Subgroup G) ∈ section7HStarFamily (⊤ : Subgroup G) A {q} := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   refine ⟨⟨le_top, ?_, hAQ⟩, ?_⟩
-  · exact section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup'
+  · exact section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup
   · intro R hQR hRfam
     have hRq : IsPGroup q.val R :=
       section8_isPGroup_of_isPiSubgroup_singleton hRfam.2.1
@@ -151,7 +151,7 @@ private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
     (hPne : (P : Subgroup G) ≠ ⊥) :
     p ∈ section10SigmaPrimes M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hP_le_M : (P : Subgroup G) ≤ M :=
     hPD.trans section10_ambientDerivedSubgroup_le_base
   let PM : Sylow p.val M := P.subtype hP_le_M
@@ -167,7 +167,7 @@ private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
   have hPnontr : Nontrivial (P : Subgroup G) :=
     (Subgroup.nontrivial_iff_ne_bot (P : Subgroup G)).2 hPne
   have hp_dvd_P : p.val ∣ Nat.card (P : Subgroup G) := by
-    obtain ⟨n, hnpos, hcard⟩ := P.isPGroup'.nontrivial_iff_card.mp hPnontr
+    obtain ⟨n, hnpos, hcard⟩ := P.isPGroup.nontrivial_iff_card.mp hPnontr
     rw [hcard]
     exact dvd_pow_self p.val (Nat.ne_zero_of_lt hnpos)
   have hp_dvd_M : p.val ∣ Nat.card M :=
@@ -176,7 +176,7 @@ private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
   have hDnil_local : Group.IsNilpotent D := by
     let eD : D ≃* ambientDerivedSubgroup M :=
       Subgroup.equivMapOfInjective (f := M.subtype) D M.subtype_injective
-    letI : Group.IsNilpotent (ambientDerivedSubgroup M) := hDnil
+    let : Group.IsNilpotent (ambientDerivedSubgroup M) := hDnil
     exact Group.nilpotent_of_mulEquiv (G := ambientDerivedSubgroup M) (G' := D) eD.symm
   have hPM_le_D : (PM : Subgroup M) ≤ D := by
     intro x hx
@@ -210,7 +210,7 @@ private theorem CFSG.section10_sigma_of_global_sylow_le_nilpotent_ambientDerived
   have hPMnormal : (PM : Subgroup M).Normal := by
     rw [← hcore_eq]
     infer_instance
-  letI : (PM : Subgroup M).Normal := hPMnormal
+  let : (PM : Subgroup M).Normal := hPMnormal
   have hPMne : (PM : Subgroup M) ≠ ⊥ := by
     intro hbot
     apply hPne
@@ -243,11 +243,11 @@ public theorem CFSG.proposition_10_11_b
   obtain ⟨p, A, hA_le_C, hAcard, hAelem⟩ :=
     section10_exists_rank_two_elementary_subgroup_of_rank_ge_two
       (G := G) (R := C) hCrank
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hA_le_K : A ≤ K := hA_le_C.trans inf_le_left
   have hA_le_M : A ≤ M := hA_le_K.trans hKle
   have hAp : IsPGroup p.val A := by
-    letI : IsElementaryAbelian p.val A := hAelem
+    let : IsElementaryAbelian p.val A := hAelem
     exact IsElementaryAbelian.isPGroup p.val A
   have hp_not_sigma : p ∉ section10SigmaPrimes M := by
     have hp_dvd_A : p.val ∣ Nat.card A := by
@@ -307,11 +307,11 @@ public theorem CFSG.proposition_10_11_b
       intro hKαbot
       apply hMalpha_ne
       simp [section10Malpha, Kα, hKαbot]
-    letI : Nontrivial Kα := (Subgroup.nontrivial_iff_ne_bot Kα).2 hKαne
+    let : Nontrivial Kα := (Subgroup.nontrivial_iff_ne_bot Kα).2 hKαne
     obtain ⟨q, hqLargest⟩ := section10_exists_largest_prime_divisor_of_nontrivial Kα
     have hqα : q ∈ section10AlphaPrimes M :=
       (section10_malphaSubgroup_isHall hM).p_in_pi_of_p_dvd_card q hqLargest.2.1
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     let Pα : Sylow q.val (section10Malpha M) :=
       Classical.choice (Sylow.nonempty (p := q.val) (G := section10Malpha M))
     have hPαrank : 3 ≤ groupRank (Pα : Subgroup (section10Malpha M)) :=
@@ -337,7 +337,7 @@ public theorem CFSG.proposition_10_11_b
     simpa [section10Malpha] using hMalpha_bot
   obtain ⟨q, hqσ, hqM⟩ :=
     section10_exists_sigma_prime_of_malpha_eq_bot hM hMalphaSubgroup_bot
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let QM : Sylow q.val M := Classical.choice (Sylow.nonempty (p := q.val) (G := M))
   let QG : Subgroup G := section10AmbientSylowSubgroup M QM
   have hQM_le_Msigma :
@@ -350,7 +350,7 @@ public theorem CFSG.proposition_10_11_b
     exact Subgroup.mem_map.mpr ⟨y, hQM_le_Msigma hyQM, rfl⟩
   have hQGp : IsPGroup q.val QG := by
     change IsPGroup q.val ((QM : Subgroup M).map M.subtype)
-    exact IsPGroup.map (p := q.val) (H := (QM : Subgroup M)) QM.isPGroup' M.subtype
+    exact IsPGroup.map (p := q.val) (H := (QM : Subgroup M)) QM.isPGroup M.subtype
   obtain ⟨Q, hQGQ⟩ := IsPGroup.exists_le_sylow (G := G) (p := q.val) hQGp
   have hQ_eq_QG : (Q : Subgroup G) = QG :=
     section10_sigma_ambient_sylow_eq_of_le_sylow hqσ QM Q hQGQ

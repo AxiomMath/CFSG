@@ -155,7 +155,7 @@ theorem spPlaneConj_split [Finite F] [Fact p.Prime] (hp2 : p ≠ 2) (hpF : (p : 
   have hS : Function.Injective S := Subgroup.subtype_injective (StatedSp n F)
   have hE₁ : IsElemAbelian p (E.map S) := by
     refine ⟨?_, ?_⟩
-    · haveI := hE.1
+    · have := hE.1
       infer_instance
     · intro x hx
       obtain ⟨y, hy, rfl⟩ := hx
@@ -175,7 +175,7 @@ theorem spPlaneConj_split [Finite F] [Fact p.Prime] (hp2 : p ≠ 2) (hpF : (p : 
   have hcomp : S.comp (MulAut.conj c).toMonoidHom =
       (MulAut.conj P⁻¹).toMonoidHom.comp S := by
     ext x
-    simp [c, S, MulAut.conj_apply, map_mul, map_inv]
+    simp [c, S, MulAut.conj_apply, map_inv]
   calc
     (E.map (MulAut.conj c).toMonoidHom).map S
         = E.map (S.comp (MulAut.conj c).toMonoidHom) :=

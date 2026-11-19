@@ -40,8 +40,8 @@ theorem specialFactor_multiplicity_eq_two
     rcases hgood with h3 | ⟨h2, -⟩
     · exact h3
     · omega
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have h2 : IsTypeL2 r (linearSpecialBlock (glA g) h) :=
     p6_isTypeL2_of_equiv (specialFactorEquiv hsq hh) hT
   let b : Module.Basis (Fin (primaryMultiplicity (glA g : Module.End K (Fin n → K)) h))
@@ -55,6 +55,7 @@ theorem specialFactor_multiplicity_eq_two
   have h3 := p6_isTypeL2_of_equiv ((Matrix.SpecialLinearGroup.toLin_equiv b).trans e₁.symm).symm h2
   exact not_isTypeL2_specialLinear hO hm3 hr h3
 
+omit [Finite K] in
 theorem key_specialFactor {g : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA g : Module.End K (Fin n → K)))) {h : K[X]}
     (hh : h ∈ primaryFactors (glA g : Module.End K (Fin n → K)))

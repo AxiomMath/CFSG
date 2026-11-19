@@ -128,7 +128,7 @@ theorem exists_toIsom_of_mem_Dsub (h : UnitaryFieldData 2 3 F) {σ : F ≃+* F} 
   obtain ⟨Ym, hu, he, hWd⟩ := exists_toIsom_of_commute h hσ hωι hc
   exact ⟨Ym, hu, he, by rw [← hW, hWd]⟩
 
-theorem suConj_toIsom_eq_one_iff (h : UnitaryFieldData 2 3 F) {ι : Q8 →+* F} (hι : Function.Surjective ι)
+theorem suConj_toIsom_eq_one_iff (h : UnitaryFieldData 2 3 F) {ι : Q8 →+* F} (_hι : Function.Surjective ι)
     (Ym : M3 Q8) (hu : unitaryOk Ym = true) :
     suConj h (toIsom h ι Ym hu) = 1 ↔ isScalar Ym = true := by
   constructor
@@ -140,7 +140,7 @@ theorem suConj_toIsom_eq_one_iff (h : UnitaryFieldData 2 3 F) {ι : Q8 →+* F} 
     exact suConj_eq_one_of_scalar_u38 h (c := ι Ym.a00) (by rw [coe_toIsom]; exact toMat_scalar_of_isScalar ι h1)
 
 theorem suConj_toIsom_pow_eq_one_iff (h : UnitaryFieldData 2 3 F) {ι : Q8 →+* F}
-    (hι : Function.Surjective ι) (Ym : M3 Q8) (hu : unitaryOk Ym = true) (n : ℕ) :
+    (_hι : Function.Surjective ι) (Ym : M3 Q8) (hu : unitaryOk Ym = true) (n : ℕ) :
     suConj h (toIsom h ι Ym hu) ^ n = 1 ↔ isScalar (KSU38R.mpow Ym n) = true := by
   constructor
   · intro h1

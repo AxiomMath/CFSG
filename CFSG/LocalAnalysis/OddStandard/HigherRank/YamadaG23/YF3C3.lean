@@ -43,8 +43,8 @@ theorem f3_mem_T₂ {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   mem_sup_of_normalizes (f3_T_norm_C₂ hH)
 
 theorem f3_T1_fix_z {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
-    ∀ x ∈ e.T₁, x * s.fr.z * x⁻¹ = s.fr.z :=
-  fun x hx => s3_conj_z s (lfactsA_of_setting hH.hS hH.hZ s) e hH.h32 hx
+    ∀ _x ∈ e.T₁, _x * s.fr.z * _x⁻¹ = s.fr.z :=
+  fun _x hx => s3_conj_z s (lfactsA_of_setting hH.hS hH.hZ s) e hH.h32 hx
 
 theorem f3_T2_fix_z {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     ∀ x ∈ s.T₂, x * s.fr.z * x⁻¹ = s.fr.z := by

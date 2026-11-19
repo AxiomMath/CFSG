@@ -11,12 +11,15 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 private lemma fzc_sy3_z_mem_fourGrp : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma fzc_sy3_x₁_mem_base : x₁ ∈ baseGrp x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma fzc_sy3_x₂_mem_base : x₂ ∈ baseGrp x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 

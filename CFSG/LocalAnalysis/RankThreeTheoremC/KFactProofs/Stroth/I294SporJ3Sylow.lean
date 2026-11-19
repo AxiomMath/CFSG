@@ -90,7 +90,7 @@ theorem pow_three_dvd_card_centralizer_of_sylow_central {G : Type*} [Group G] [F
     have h' : g⁻¹ * x * g ∈ (S : Subgroup G) := by simpa [MulAut.conj_inv_apply] using h
     exact h'
   have hcard := sylowCentral_card_centralizer_mulEquiv (MulAut.conj g⁻¹) x
-  have hconj : (MulAut.conj g⁻¹) x = g⁻¹ * x * g := by simp [MulAut.conj_apply]
+  have hconj : (MulAut.conj g⁻¹) x = g⁻¹ * x * g := by simp
   rw [hconj] at hcard
   rw [← hcard]
   exact pow_three_dvd_card_centralizer_of_mem ⟨_, hP⟩ hP3 hZP hZc hZ hy

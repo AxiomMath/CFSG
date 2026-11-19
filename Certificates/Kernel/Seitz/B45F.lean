@@ -76,7 +76,7 @@ theorem mul_parts {i j : Nat} (hi : i < 256) (hj : j < 256) :
 theorem mtF_eq (i j : Nat) : mtF i j = mtT i j := by
   unfold mtF mtT mtB
   by_cases hk : 256 * i + j < 65536
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     set k := 256 * i + j
     have hi : k / 256 < 256 := by omega
     have hj : k % 256 < 256 := Nat.mod_lt _ (by omega)
@@ -89,8 +89,8 @@ theorem mtF_eq (i j : Nat) : mtF i j = mtT i j := by
     rw [hm]
     unfold mtT mtB
     have ek' : 256 * (k / 256) + k % 256 = k := by omega
-    rw [ek', if_pos hk]
-  · rw [if_neg hk, getElem!_neg _ _ (by rw [mtArr_get.1]; exact hk)]
+    rw [ek', ite_eq_left hk]
+  · rw [ite_eq_right hk, getElem!_neg _ _ (by rw [mtArr_get.1]; exact hk)]
     rfl
 
 theorem bind_parts :
@@ -119,7 +119,7 @@ theorem invArr_eq (i : Nat) : invArr[i]! = invT i := by
     simp only [mtF_eq]
   · rw [getElem!_neg _ _ (by simpa using hi)]
     unfold invT vB
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     rfl
 
 theorem isUArr_eq (i : Nat) : isUArr[i]! = isUT i := by
@@ -141,7 +141,7 @@ theorem isUArr_eq (i : Nat) : isUArr[i]! = isUT i := by
       exact Array.getElem_mem _
   · rw [getElem!_neg _ _ (by simpa [etl_size] using hi)]
     unfold isUT uB vB
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     rfl
 
 theorem repArr_eq (i : Nat) : repArr[i]! = repT i := by
@@ -151,7 +151,7 @@ theorem repArr_eq (i : Nat) : repArr[i]! = repT i := by
     simp only [mtF_eq, invArr_eq, isUArr_eq]
   · rw [getElem!_neg _ _ (by simpa using hi)]
     unfold repT vB
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     rfl
 
 theorem repArr_size : repArr.size = 256 := by simp [repArr]
@@ -171,7 +171,7 @@ theorem repsArr_get (p : Nat) : repsArr[p]! = rsT p := by
   | p + 4 =>
     rw [getElem!_neg _ _ (by simp)]
     unfold rsT rsB
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     rfl
 
 theorem labArr_eq (i : Nat) : labArr[i]! = labT i := by
@@ -182,7 +182,7 @@ theorem labArr_eq (i : Nat) : labArr[i]! = labT i := by
       List.findIdx?_toArray, bind_parts.2.2.2.2.2 i hi]
   · rw [getElem!_neg _ _ (by simpa [repArr_size] using hi)]
     unfold labT vB
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     rfl
 
 theorem labF_eq (i : Nat) : labF i = labT i := labArr_eq i

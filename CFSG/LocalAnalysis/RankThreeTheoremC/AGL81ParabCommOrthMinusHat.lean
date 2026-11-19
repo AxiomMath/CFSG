@@ -27,7 +27,7 @@ theorem eq_bot_of_isPGroup_of_norm_SL {k : ℕ} (T : Subgroup (GL (Fin k) K)) (h
     (hnorm : ∀ (B : SpecialLinearGroup (Fin k) K), ∀ t ∈ T,
       (SpecialLinearGroup.toGL B : GL (Fin k) K) * t * (SpecialLinearGroup.toGL B)⁻¹ ∈ T) :
     T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ : SpecialLinearGroup (Fin k) K →* GL (Fin k) K := SpecialLinearGroup.toGL with hρ
   have hnormal : (T.comap ρ).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_comap, map_mul, map_mul, map_inv]
@@ -60,7 +60,7 @@ theorem eq_bot_of_isPGroup_of_norm_orthDerived {b c : K} {m : ℕ} (hm : 1 ≤ m
     (hRO : R ≤ TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)))
     (hnorm : ∀ g ∈ orthDerived (quadTail m (minusTailForm K b c)), ∀ x ∈ R, g * x * g⁻¹ ∈ R) :
     R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q' := quadTail m (minusTailForm K b c) with hQ'
   set Ω := orthDerived Q' with hΩ
   obtain ⟨f, hK⟩ : ∃ f, Nat.card K = 2 ^ f := by
@@ -77,8 +77,8 @@ theorem eq_bot_of_isPGroup_of_norm_orthDerived {b c : K} {m : ℕ} (hm : 1 ≤ m
     have := hnorm ω ω.2 y hy.1
     simpa using this⟩
   have hbot : (R ⊓ Ω).subgroupOf Ω = ⊥ := by
-    haveI : IsSimpleGroup ↥Ω := hsimple
-    haveI := hW
+    have : IsSimpleGroup ↥Ω := hsimple
+    have := hW
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((R ⊓ Ω).subgroupOf Ω) with h | h
     · exact h
     · exfalso
@@ -86,10 +86,10 @@ theorem eq_bot_of_isPGroup_of_norm_orthDerived {b c : K} {m : ℕ} (hm : 1 ≤ m
         have : (⟨ω, hω⟩ : ↥Ω) ∈ (R ⊓ Ω).subgroupOf Ω := h ▸ Subgroup.mem_top _
         exact (Subgroup.mem_inf.1 (Subgroup.mem_subgroupOf.1 this)).1
       have hp : IsPGroup 2 ↥Ω := hR.to_le hΩR
-      haveI : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
+      have : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
           ((Fin m ⊕ Fin m → K) × (Fin 2 → K))) := finite_orthLinearEquiv
-      haveI : Finite ↥Ω := inferInstance
-      haveI : Group.IsNilpotent ↥Ω := hp.isNilpotent
+      have : Finite ↥Ω := inferInstance
+      have : Group.IsNilpotent ↥Ω := hp.isNilpotent
       have hsol : Group.IsSolvable ↥Ω := inferInstance
       exact not_isSolvable_of_isQuasisimple (orthMinus_isQuasisimple_of_simple hnc).1 hsol
   rw [eq_bot_iff]
@@ -172,24 +172,27 @@ theorem ker_toHat_eq : C.toHat.ker = (CFSG.pCore 2 ↥P).comap C.toP := by
 
 variable [Finite A] [Finite K] [CharP K 2]
 
+omit [Finite A] [Finite K] [CharP K 2] in
 theorem isPGroup_ker_toHat : IsPGroup 2 C.toHat.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [ker_toHat_eq]
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥P)).comap_of_injective C.toP C.toP_injective
 
+omit [Finite A] [Finite K] in
 theorem ker_orthLeviHom_le_ker_toHat (hd : OrthCuts r d) (hPY : P ≤ Y) :
     (orthLeviHom b c hd).ker ≤ C.toHat.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
-  haveI : ((orthLeviHom b c hd).ker.map C.toP).Normal :=
+  have : ((orthLeviHom b c hd).ker.map C.toP).Normal :=
     (MonoidHom.normal_ker (orthLeviHom b c hd)).map C.toP (C.toP_surjective hPY)
   have hle : (orthLeviHom b c hd).ker.map C.toP ≤ CFSG.pCore 2 ↥P :=
     le_sSup ⟨inferInstance, (isPGroup_ker_orthLeviHom hd).map _⟩
   rw [ker_toHat_eq]
   exact hle ⟨x, hx, rfl⟩
 
+omit [Finite A] in
 theorem orthBlockHom_eq_one_of_mem_ker_toHat (hd : OrthCuts r d) (hr : 3 ≤ r)
-    (hPY : P ≤ Y) (l : Fin s) {x : ↥(orthParab r (minusTailForm K b c) d)}
+    (_hPY : P ≤ Y) (l : Fin s) {x : ↥(orthParab r (minusTailForm K b c) d)}
     (hx : x ∈ C.toHat.ker) : orthBlockHom (minusTailForm K b c) hd l x = 1 := by
   set T := C.toHat.ker.map (orthBlockHom (minusTailForm K b c) hd l) with hT
   have hTp : IsPGroup 2 T := (isPGroup_ker_toHat C).map _
@@ -204,8 +207,9 @@ theorem orthBlockHom_eq_one_of_mem_ker_toHat (hd : OrthCuts r d) (hr : 3 ≤ r)
   rw [hbot, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit [Finite A] in
 theorem orthResHom_eq_one_of_mem_ker_toHat (hd : OrthCuts r d) (hr : 3 ≤ r)
-    (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (hPY : P ≤ Y) (hm : 1 ≤ r - d (Fin.last s))
+    (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (_hPY : P ≤ Y) (hm : 1 ≤ r - d (Fin.last s))
     {x : ↥(orthParab r (minusTailForm K b c) d)} (hx : x ∈ C.toHat.ker) :
     orthResHom (minusTailForm K b c) hd x = 1 := by
   set R := C.toHat.ker.map (orthResHom (minusTailForm K b c) hd) with hR

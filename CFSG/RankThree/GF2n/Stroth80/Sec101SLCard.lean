@@ -20,20 +20,20 @@ theorem Sec10Hyp.Rt_ne_LB_of_SLMNat (h34 : Stroth34Statement) {hc : Ctx M Q Z B}
   intro hRL
   have hp : IsPGroup 2 ↥(LB M Q B) := hc.isPGroup_LB h34 H.width H.n_gt H.noA2 H.gen
   obtain ⟨K, fK, finK, hK, φ, hφr, -, -⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpR : IsPGroup 2 ↥(Rt M (LB M Q B) t) := hRL.symm ▸ hp
   have hpr : IsPGroup 2 ↥(StatedSL m K) := by
     rw [← hφr]
     exact hpR.of_surjective φ.rangeRestrict (MonoidHom.rangeRestrict_surjective φ)
   have hq : CFSG.IsQuasisimple ↥(StatedSL m K) :=
     statedSL_quasisimple_of_card m K hm2 (hK ▸ hc.hyp.q4)
-  haveI : Group.IsPerfect ↥(StatedSL m K) := hq.1
-  haveI : Nontrivial (↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K)) := hq.2.1.toNontrivial
+  have : Group.IsPerfect ↥(StatedSL m K) := hq.1
+  have : Nontrivial (↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K)) := hq.2.1.toNontrivial
   have hnt : Nontrivial ↥(StatedSL m K) :=
     (QuotientGroup.mk_surjective :
       Function.Surjective (QuotientGroup.mk : ↥(StatedSL m K) →
         ↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K))).nontrivial
-  haveI : Nontrivial ↥(StatedSL m K) := hnt
+  have : Nontrivial ↥(StatedSL m K) := hnt
   exact Group.IsPerfect.not_isNilpotent ↥(StatedSL m K) hpr.isNilpotent
 
 theorem Sec10Hyp.card_LB_le_mul_card_LB_inf_CN_of_SL (h34 : Stroth34Statement)

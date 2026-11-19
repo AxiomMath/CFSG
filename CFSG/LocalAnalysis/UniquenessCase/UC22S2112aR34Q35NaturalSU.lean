@@ -149,10 +149,6 @@ private theorem planeSwap_det_matrix :
         | rw [Matrix.fromBlocks_apply₁₂]
         | rw [Matrix.fromBlocks_apply₂₁]
         | rw [Matrix.fromBlocks_apply₂₂]
-        | rw [suPairSwap_inl_zero]
-        | rw [suPairSwap_inl_one]
-        | rw [suPairSwap_inr_zero]
-        | rw [suPairSwap_inr_one]
       rfl
   rw [hS, Matrix.det_submatrix_equiv_self _, hD]
 
@@ -230,13 +226,13 @@ theorem adjoin_suP0_eq_top (hK : ringChar K ≠ 2) {i : K} (h : i ^ 2 + 0 ^ 2 = 
       rw [suP0] at hg
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hg
       refine ⟨(y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K), ⟨y, hy, rfl⟩, ?_⟩
-      rw [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+      rw [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
       exact (Equiv.coe_reindexGL suPlaneOrder K y).symm
     · rintro ⟨M, ⟨y, hy, rfl⟩, rfl⟩
       refine ⟨(suPlaneOrder.reindexGL K) y, ?_, ?_⟩
       · rw [suP0]
         exact Subgroup.mem_map_of_mem (suPlaneOrder.reindexGL K).toMonoidHom hy
-      · rw [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+      · rw [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
         exact Equiv.coe_reindexGL suPlaneOrder K y
   rw [hset, ← AlgEquiv.coe_toAlgHom, Algebra.adjoin_image, adjoin_planeP0_eq_top hK h,
     Algebra.map_top, AlgHom.range_eq_top]

@@ -137,7 +137,7 @@ private theorem p12_mul_p02 : p 1 * p 2 * (p 0 * p 2) = p 0 * p 1 := by
 
 private theorem sign_p0 : Perm.sign (p 0) = -1 := by
   unfold p
-  exact Perm.sign_swap (by simp [Fin.ext_iff])
+  exact Perm.sign_swap (by simp)
 
 end PermFacts
 
@@ -197,7 +197,7 @@ private theorem Lam_odd : Odd (Nat.card ↥(Lam M ρ s t)) := by
   have h3 : (rhoX ρ y) ^ 3 = 1 := Stab6_alt_pow_three hyS (Z.rho_mem_alt hyM)
   have h3M : y ^ 3 ∈ M := pow_mem hyM 3
   have h31 : ρ ⟨y ^ 3, le_normalizer h3M⟩ = 1 := by
-    rw [← rhoX_of_mem (le_normalizer h3M), Z.rhoX_pow hyN, h3]
+    rw [← rhoX_of_mem (le_normalizer h3M), CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow hyN, h3]
   have hodd := odd_orderOf_of_rho_eq_one Z.hρ h3M h31
   have hdvd : orderOf y ∣ 3 * orderOf (y ^ 3) := by
     apply orderOf_dvd_of_pow_eq_one
@@ -380,8 +380,8 @@ theorem exists_conj_gamma {n : X} (hnt : n * t * n⁻¹ = s) (hns : n * s * n⁻
         (Subgroup.closure (Set.range ![s, t, w₀, w₁, x])).map (MulAut.conj f).toMonoidHom :=
   frattini_E32 Z.rhoG F.gam_range Z.gam_ker F.gam_A_le F.E5.isPGroup_closure
     (F.E5.card_closure_of_injective F.mono_injective) (Λ := Lam M ρ s t) Lam_le
-    (fun g hg l hl => Z.Lam_normal hg hl) Z.Lam_odd (fun γ hγ e he => F.gam_hEΛ hγ e he)
-    (fun g hg => conj_mem Z.hs2 hnt hns hg) (fun g hg => conj_inv_mem hnt hns hg)
+    (fun _g hg _l hl => Z.Lam_normal hg hl) Z.Lam_odd (fun _γ hγ e he => F.gam_hEΛ hγ e he)
+    (fun _g hg => conj_mem Z.hs2 hnt hns hg) (fun _g hg => conj_inv_mem hnt hns hg)
 
 end IsFrame
 

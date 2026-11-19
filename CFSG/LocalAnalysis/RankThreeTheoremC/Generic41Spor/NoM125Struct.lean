@@ -109,19 +109,19 @@ private theorem eq_of_card_gt (h : IsM125 p S) {H : Subgroup G} (hH : H ≤ S)
     by_contra hne
     have hle : p ^ k ≤ p ^ 2 := Nat.pow_le_pow_right hp.pos (by omega)
     omega
-  haveI := finite_S h
+  have := finite_S h
   exact Subgroup.eq_of_le_of_card_ge hH (le_of_eq (by rw [h.card, hk', hk3]))
 
 private theorem card_Zs (h : IsM125 p S) : Nat.card (Zs S) = p := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Zs S) := finite_of_le h Zs_le
-  haveI : Finite S := finite_S h
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Zs S) := finite_of_le h Zs_le
+  have : Finite S := finite_S h
   have hd : Nat.card (Zs S) ∣ p ^ 3 := h.card ▸ Subgroup.card_dvd_of_le Zs_le
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow hp).1 hd
   have hSp : IsPGroup p S := IsPGroup.of_card h.card
-  haveI : Nontrivial S := (IsPGroup.nontrivial_iff_card hSp).2 ⟨3, by norm_num, h.card⟩
-  haveI : Nontrivial (Subgroup.center S) := IsPGroup.center_nontrivial hSp
+  have : Nontrivial S := (IsPGroup.nontrivial_iff_card hSp).2 ⟨3, by norm_num, h.card⟩
+  have : Nontrivial (Subgroup.center S) := IsPGroup.center_nontrivial hSp
   have hZbot : Zs S ≠ ⊥ := by
     obtain ⟨x, hx⟩ := exists_ne (1 : Subgroup.center S)
     intro hbot
@@ -164,7 +164,7 @@ private theorem card_Zs (h : IsM125 p S) : Nat.card (Zs S) = p := by
       rw [hC, Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
       exact ⟨fun g hg => by rw [Set.mem_singleton_iff] at hg; rw [hg]; exact hzc x hxS, hzS⟩
     have hne : Zs S ≠ C := fun heq => hxZ (by rw [heq]; exact hxC)
-    haveI : Finite C := finite_of_le h hCS
+    have : Finite C := finite_of_le h hCS
     have hlt : Nat.card (Zs S) < Nat.card C := Subgroup.card_lt_of_lt (lt_of_le_of_ne hZC hne)
     have hCeq : C = S := eq_of_card_gt h hCS (by rw [hk'] at hlt; exact hlt)
     apply hxZ
@@ -185,8 +185,8 @@ private theorem pow_eq_one_of_mem_Zs (h : IsM125 p S) {z : G} (hz : z ∈ Zs S) 
 private theorem commutator_mem_Zs (h : IsM125 p S) {s t : G} (hs : s ∈ S) (ht : t ∈ S) :
     s * t * s⁻¹ * t⁻¹ ∈ Zs S := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Zs S) := finite_of_le h Zs_le
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Zs S) := finite_of_le h Zs_le
   obtain ⟨N, hN⟩ : ∃ N : Subgroup S, N = (Zs S).subgroupOf S := ⟨_, rfl⟩
   have hNnorm : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -282,21 +282,21 @@ theorem mem_E (h : IsM125 p S) {s : G} : s ∈ h.E ↔ s ∈ S ∧ s ^ p = 1 := 
 theorem E_le (h : IsM125 p S) : h.E ≤ S := fun _ hs => hs.1
 
 private theorem Zs_le_E (h : IsM125 p S) : Zs S ≤ h.E :=
-  fun z hz => ⟨(mem_Zs.1 hz).1, pow_eq_one_of_mem_Zs h hz⟩
+  fun _z hz => ⟨(mem_Zs.1 hz).1, pow_eq_one_of_mem_Zs h hz⟩
 
 private theorem card_eq_of_le_Zs (h : IsM125 p S) {H : Subgroup G} (hH : H ≤ Zs S)
     (hne : H ≠ ⊥) : Nat.card H = p := by
   have hd : Nat.card H ∣ p := by
     have := Subgroup.card_dvd_of_le hH
     rwa [card_Zs h] at this
-  haveI : Finite H := finite_of_le h (hH.trans Zs_le)
+  have : Finite H := finite_of_le h (hH.trans Zs_le)
   rcases Nat.Prime.eq_one_or_self_of_dvd h.prime _ hd with h1 | h1
   · exact absurd ((Subgroup.card_le_one_iff_eq_bot H).1 h1.le) hne
   · exact h1
 
 theorem card_E (h : IsM125 p S) : Nat.card h.E = p ^ 2 := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : S →* G := MonoidHom.mk' (fun x : S => (x : G) ^ p) (fun x y => h.mul_pow x.2 y.2)
   have hφ : ∀ x : S, φ x = (x : G) ^ p := fun x => rfl
   have hker : φ.ker = h.E.subgroupOf S := by
@@ -337,7 +337,7 @@ private theorem exists_mem_E_not_Z (h : IsM125 p S) : ∃ e ∈ h.E, e ∉ Zs S 
   by_contra hcon
   push Not at hcon
   have hle : h.E ≤ Zs S := fun e he => hcon e he
-  haveI : Finite (Zs S) := finite_of_le h Zs_le
+  have : Finite (Zs S) := finite_of_le h Zs_le
   have h1 : Nat.card h.E ≤ Nat.card (Zs S) := Subgroup.card_le_of_le hle
   rw [card_E h, card_Zs h] at h1
   have := Nat.pow_lt_pow_right h.prime.one_lt (show 1 < 2 by norm_num)
@@ -348,7 +348,7 @@ theorem Z_le_E (h : IsM125 p S) : centralizer (S : Set G) ⊓ S ≤ h.E :=
   Zs_le_E h
 
 theorem E_comm (h : IsM125 p S) {a b : G} (ha : a ∈ h.E) (hb : b ∈ h.E) : a * b = b * a := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hc : IsMulCommutative h.E := IsPGroup.isMulCommutative_of_card_eq_prime_sq (card_E h)
   have h2 : (⟨a, ha⟩ : h.E) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := hc.is_comm.comm _ _
   exact congrArg Subtype.val h2
@@ -382,7 +382,7 @@ theorem mem_E_of_commute (h : IsM125 p S) {e s : G} (he : e ∈ h.E)
     by_contra hlt
     push Not at hlt
     exact hCne (eq_of_card_gt h hCS hlt)
-  haveI : Finite C := finite_of_le h hCS
+  have : Finite C := finite_of_le h hCS
   have hEC' : h.E = C := Subgroup.eq_of_le_of_card_ge hEC (by rw [card_E h]; exact hCcard)
   rw [hEC']
   exact hsC
@@ -390,7 +390,7 @@ theorem mem_E_of_commute (h : IsM125 p S) {e s : G} (he : e ∈ h.E)
 theorem eq_E (h : IsM125 p S) {A : Subgroup G} (hA : A ≤ S) (hAp : ∀ a ∈ A, a ^ p = 1)
     (hcard : Nat.card A = p ^ 2) : A = h.E := by
   have hAE : A ≤ h.E := fun a ha => ⟨hA ha, hAp a ha⟩
-  haveI : Finite h.E := finite_of_le h (E_le h)
+  have : Finite h.E := finite_of_le h (E_le h)
   exact Subgroup.eq_of_le_of_card_ge hAE (le_of_eq (by rw [card_E h, hcard]))
 
 private theorem comm_mul_hom (h : IsM125 p S) {g x y : G} (hg : g ∈ S) (hx : x ∈ S)
@@ -414,10 +414,10 @@ private theorem comm_pow_hom (h : IsM125 p S) {g x : G} (hg : g ∈ S) (hx : x �
 private theorem exists_pow_eq_of_mem_Zs (h : IsM125 p S) {w z : G} (hw : w ∈ Zs S)
     (hw1 : w ≠ 1) (hz : z ∈ Zs S) : ∃ m : ℕ, z = w ^ m := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf w = p := orderOf_eq_prime (pow_eq_one_of_mem_Zs h hw) hw1
   have hle : Subgroup.zpowers w ≤ Zs S := Subgroup.zpowers_le.2 hw
-  haveI : Finite (Zs S) := finite_of_le h Zs_le
+  have : Finite (Zs S) := finite_of_le h Zs_le
   have hcard : Nat.card (Subgroup.zpowers w) = p := by rw [Nat.card_zpowers, hord]
   have heq : Subgroup.zpowers w = Zs S :=
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (by rw [hcard, card_Zs h]))
@@ -452,7 +452,7 @@ private theorem comm_ne_one (h : IsM125 p S) {a b : G} (haS : a ∈ S) (haE : a 
     rw [Set.mem_singleton_iff] at hg
     rw [hg]
     exact hab
-  haveI : Finite C := finite_of_le h hCS
+  have : Finite C := finite_of_le h hCS
   have hgt : p ^ 2 < Nat.card C := by
     by_contra hle
     push Not at hle
@@ -517,7 +517,7 @@ theorem conj_mul_inv_mem_Z (h : IsM125 p S) {n : G} (hn : n ∈ normalizer (S : 
     (he : e ∈ h.E) : n * e * n⁻¹ * e⁻¹ ∈ centralizer (S : Set G) ⊓ S := by
   show n * e * n⁻¹ * e⁻¹ ∈ Zs S
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnS : ∀ x ∈ S, n * x * n⁻¹ ∈ S := fun x hx => (mem_set_normalizer_iff.1 hn x).1 hx
   have hnS' : ∀ x ∈ S, n⁻¹ * x * n ∈ S := by
     intro x hx
@@ -620,7 +620,7 @@ theorem conj_mul_inv_mem_Z (h : IsM125 p S) {n : G} (hn : n ∈ normalizer (S : 
       ∀ x, x ∈ H' ↔ (x ∈ h.E ∧ n * x * n⁻¹ * x⁻¹ ∈ Zs S) := by
     refine ⟨{ carrier := {x | x ∈ h.E ∧ n * x * n⁻¹ * x⁻¹ ∈ Zs S}
               mul_mem' := fun {x y} hx hy => ⟨h.E.mul_mem hx.1 hy.1, P_mul hx.1.1 hx.2 hy.2⟩
-              one_mem' := ⟨h.E.one_mem, by simpa using (Zs S).one_mem⟩
+              one_mem' := ⟨h.E.one_mem, by simp⟩
               inv_mem' := fun {x} hx => ⟨h.E.inv_mem hx.1, P_inv hx.1.1 hx.2⟩ }, fun x => Iff.rfl⟩
   have hbH' : b ∈ H' := (hH' b).2 ⟨hbE, hPb⟩
   have hZH' : Zs S ≤ H' := fun z hz => (hH' z).2 ⟨Zs_le_E h hz, hPZ z hz⟩
@@ -631,7 +631,7 @@ theorem conj_mul_inv_mem_Z (h : IsM125 p S) {n : G} (hn : n ∈ normalizer (S : 
     have hKE_le : K ≤ h.E := by
       rw [hK]
       exact sup_le (Subgroup.zpowers_le.2 hbE) (Zs_le_E h)
-    haveI : Finite K := finite_of_le h (hKE_le.trans (E_le h))
+    have : Finite K := finite_of_le h (hKE_le.trans (E_le h))
     have hZK : Zs S < K := by
       refine lt_of_le_of_ne (by rw [hK]; exact le_sup_right) ?_
       intro heq
@@ -650,7 +650,7 @@ theorem conj_mul_inv_mem_Z (h : IsM125 p S) {n : G} (hn : n ∈ normalizer (S : 
       have hle : p ^ k ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos (by omega)
       rw [pow_one] at hle
       omega
-    haveI : Finite h.E := finite_of_le h (E_le h)
+    have : Finite h.E := finite_of_le h (E_le h)
     exact Subgroup.eq_of_le_of_card_ge hKE_le (le_of_eq (by rw [card_E h, hk', hk2]))
   have heK : e ∈ Subgroup.zpowers b ⊔ Zs S := by
     rw [hKE]

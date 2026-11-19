@@ -32,7 +32,7 @@ theorem orderOf_tvec : orderOf FF81.Am4.tvec = 2 := by
   · rw [pow_two, siegDiag_mul, show (1 : ZMod 2) + 1 = 0 from rfl, siegDiag_zero]
   · intro h
     have e := congrArg (fun g => mat 4 (ZMod 2) g (Sum.inl 3) (Sum.inr 3)) h
-    simp [mat_siegDiag_one, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] at e
+    simp [mat_siegDiag_one, Matrix.add_apply] at e
 
 theorem Svec_le_Pvec : FF81.Am4.Svec ≤ FF81.Am4.Pvec := by
   rw [show FF81.Am4.Pvec = centralizer ({siegDiag (ZMod 2) (3 : Fin 4) 1} : Set _) by
@@ -130,7 +130,7 @@ theorem eq_siegDiag_of_psi8 {q : ↥(transvRadical (ZMod 2) (3 : Fin 4))} (h : p
 theorem siegDiag_entry (c : ZMod 2) :
     mat 4 (ZMod 2) (siegDiag (ZMod 2) (3 : Fin 4) c) (Sum.inl 3) (Sum.inr 3) = c := by
   rw [mat_siegDiag]
-  simp [Matrix.fromBlocks_apply₁₂, Matrix.single_apply]
+  simp [Matrix.fromBlocks_apply₁₂]
 
 theorem psi8_siegDiag (c : ZMod 2)
     (h : siegDiag (ZMod 2) (3 : Fin 4) c ∈ transvRadical (ZMod 2) (3 : Fin 4)) :
@@ -138,8 +138,7 @@ theorem psi8_siegDiag (c : ZMod 2)
   apply Multiplicative.toAdd.injective
   funext i
   rw [psi8_mk, mat_siegDiag, toAdd_one, Pi.zero_apply]
-  fin_cases i <;> simp [emb6, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
-    Matrix.one_apply, Matrix.single_apply]
+  fin_cases i <;> simp [emb6, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂]
 
 theorem card_ker_psi8 : Nat.card psi8.ker = 2 := by
   have e : psi8.ker ≃ ZMod 2 :=
@@ -174,8 +173,8 @@ theorem psi8_surjective : Function.Surjective psi8 := by
     rw [mul_one, map_one, one_mul] at e
     rw [e, Matrix.one_apply_ne htp, zero_add, Matrix.one_apply]
     by_cases h : t = Sum.inl j
-    · rw [if_pos h.symm, if_pos h]
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_left h.symm, ite_eq_left h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   have hsieg : ∀ (j : Fin 4) (hj : (3 : Fin 4) ≠ j) (t : Fin 4 ⊕ Fin 4),
       t ∉ coords (3 : Fin 4) → mat 4 (ZMod 2) (siegPair (ZMod 2) 3 j 1) (Sum.inl 3) t =
         if t = Sum.inr j then 1 else 0 := by
@@ -185,8 +184,8 @@ theorem psi8_surjective : Function.Surjective psi8 := by
     rw [mul_one, map_one, one_mul] at e
     rw [e, Matrix.one_apply_ne htp, zero_add, Matrix.one_apply]
     by_cases h : t = Sum.inr j
-    · rw [if_pos h.symm, if_pos h]
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_left h.symm, ite_eq_left h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   have hbasis : ∀ i : Fin 6, Multiplicative.ofAdd (Pi.single i 1) ∈ psi8.range := by
     intro i
     fin_cases i
@@ -244,7 +243,7 @@ theorem mul_self_Q3 {q : StatedSp 4 (ZMod 2)} (hq : q ∈ transvRadical (ZMod 2)
           have : x = 3 := Sum.inr_injective h.symm
           exact htp (congrArg Sum.inl this)
         · exact fun h => Sum.inr_ne_inl h
-      rw [if_neg hne] at key
+      rw [ite_eq_right hne] at key
       have hsgn : sgn (ZMod 2) t = 1 := by
         rcases t with x | x
         · rfl

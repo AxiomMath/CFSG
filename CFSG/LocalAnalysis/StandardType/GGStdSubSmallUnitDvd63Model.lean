@@ -112,8 +112,8 @@ theorem exists_diagModel_frame
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   refine ⟨φ, ⟨h, hφs, hφker⟩, ?_⟩
   intro a ha
   obtain ⟨xa, hxaI, hxa⟩ := hAI a ha

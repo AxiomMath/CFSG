@@ -38,7 +38,7 @@ theorem compIdxEnnolaAt_adjointGroup
   classical
   intro β hβmem hβp hβ1 J hJ
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := hinn β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpK : ¬ p ∣ Nat.card K := fun hd => hp.not_dvd_one ((Nat.dvd_add_iff_right hd).2 hpq)
@@ -113,7 +113,7 @@ theorem compIdxEnnolaAt_excUntw_of_rationalCatalogueExpAt
   | F4 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpqK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
     exact compIdxEnnolaAt_of_mulEquiv eK.symm
@@ -123,7 +123,7 @@ theorem compIdxEnnolaAt_excUntw_of_rationalCatalogueExpAt
   | E7 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpqK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
     exact compIdxEnnolaAt_of_mulEquiv eK.symm
@@ -134,7 +134,7 @@ theorem compIdxEnnolaAt_excUntw_of_rationalCatalogueExpAt
   | E8 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpqK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
     exact compIdxEnnolaAt_of_mulEquiv eK.symm
@@ -153,11 +153,11 @@ theorem compIdxEnnolaAt_cat_twistedE6_of_rational
     CompIdxEnnolaAt p (.twistedE6 q) (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   refine compIdxEnnolaAt_of_mulEquiv eK.symm ?_
   intro β hβ hβp hβ1 J hJ
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -⟩, -⟩ :=

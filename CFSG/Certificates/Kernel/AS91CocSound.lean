@@ -62,6 +62,7 @@ theorem relA_img (l : CocL) : RelA (cocImg l) (imgLetK l) := by
   · exact hB
   · exact hBi
 
+omit hAi hBi in
 theorem val_eq (x y : Nat) (l : CocL) : cocVal x y l = valK x y l := by
   cases l
   · rfl
@@ -77,7 +78,7 @@ theorem fold_twin (x y : Nat) : ∀ w : List CocL,
     refine ⟨relA_cArr h1 (relA_inv hA hAi hB hBi l), ?_⟩
     change act11 (cocInvArrOf x y ls) (cocVal x y l) ^^^ cocMaskVal x y ls =
       act11K (foldK x y ls).1 (valK x y l) ^^^ (foldK x y ls).2
-    rw [act11_eq h1, val_eq hA hAi hB hBi, h2]
+    rw [act11_eq h1, val_eq hA hB, h2]
 
 theorem rel_twin : ∀ w : List CocL, RelA (cocRelArr w) (relK w)
   | [] => relA_id

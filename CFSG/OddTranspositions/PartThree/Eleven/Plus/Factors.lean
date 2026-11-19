@@ -262,25 +262,25 @@ private theorem A_not_commutative : ¬ IsMulCommutative A := by
   exact Bool.false_ne_true hna.symm
 
 private theorem A_perfect : Group.IsPerfect A := by
-  haveI : IsSimpleGroup A := simpleA
+  have : IsSimpleGroup A := simpleA
   exact TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative A_not_commutative
 
 private theorem A_le_commutator : A ≤ commutator plusPerm := by
-  haveI : Group.IsPerfect A := A_perfect
+  have : Group.IsPerfect A := A_perfect
   have h : ⁅A, A⁆ = A := Subgroup.commutator_eq_self
   calc A = ⁅A, A⁆ := h.symm
     _ ≤ ⁅(⊤ : Subgroup plusPerm), ⊤⁆ := Subgroup.commutator_mono le_top le_top
     _ = commutator plusPerm := by rw [commutator_def]
 
 private theorem B_le_commutator : B ≤ commutator plusPerm := by
-  haveI : IsSimpleGroup B := simpleB
+  have : IsSimpleGroup B := simpleB
   have hnc : ¬ IsMulCommutative B := by
     intro hcomm
-    haveI : IsMulCommutative B := hcomm
+    have : IsMulCommutative B := hcomm
     have hprime := (Group.is_simple_iff_prime_card (α := B)).mp simpleB
     rw [cardB] at hprime
     exact (by norm_num : ¬ Nat.Prime 60) hprime
-  haveI : Group.IsPerfect B :=
+  have : Group.IsPerfect B :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have h : ⁅B, B⁆ = B := Subgroup.commutator_eq_self
   calc B = ⁅B, B⁆ := h.symm
@@ -314,7 +314,7 @@ private theorem index_sup_eq : (A ⊔ B).index = 2 := by
 private theorem commutator_le_sup : commutator plusPerm ≤ A ⊔ B := by
   have hidx : (A ⊔ B).index = 2 := index_sup_eq
   have hnormal : (A ⊔ B).Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI : (A ⊔ B).Normal := hnormal
+  have : (A ⊔ B).Normal := hnormal
   rw [commutator_def]
   refine Subgroup.commutator_le.2 ?_
   intro g₁ _ g₂ _

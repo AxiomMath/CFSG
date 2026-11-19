@@ -55,7 +55,7 @@ theorem blockParabolic_eq_of_cfg (h984 : AGL81NineEightFour G) (hS : Setting G)
   rw [hT.toTwoLocalPair.normalizer_twoCore_H]
 
 theorem card_blockParabolic_dvd_of_cfg (h984 : AGL81NineEightFour G) (hS : Setting G)
-    (hd : AGL81CfgData p P M H Q K) {L : Subgroup G} (hLM : L ≤ M) :
+    (hd : AGL81CfgData p P M H Q K) {L : Subgroup G} (_hLM : L ≤ M) :
     Nat.card (blockParabolic M (pCoreOf 2 H) L) ∣ Nat.card H := by
   rw [blockParabolic_eq_of_cfg h984 hS hd L]
   show Nat.card (((H ⊓ L).subgroupOf M).map
@@ -79,7 +79,7 @@ theorem barM_le_blockParabolic_of_cfg (h984 : AGL81NineEightFour G) (hS : Settin
   exact barM_mono hV
 
 theorem blockParabolic_le_normalizer_barM_of_cfg (h984 : AGL81NineEightFour G) (hS : Setting G)
-    (hd : AGL81CfgData p P M H Q K) {L V : Subgroup G} (hLM : L ≤ M)
+    (hd : AGL81CfgData p P M H Q K) {L V : Subgroup G} (_hLM : L ≤ M)
     (hN : H ⊓ L ≤ normalizer (V : Set G)) :
     blockParabolic M (pCoreOf 2 H) L ≤
       normalizer (barM M V : Set (↥M ⧸ CFSG.pCore 2 ↥M)) := by

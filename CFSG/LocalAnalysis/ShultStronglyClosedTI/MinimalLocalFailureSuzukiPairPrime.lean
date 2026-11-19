@@ -143,7 +143,7 @@ theorem suzuki_pair_prime_sylow
       exact ⟨⟨x, hPV hx⟩, hR hx, rfl⟩
     have hR'CW : R' ≤ H ⊓ Subgroup.centralizer (W : Set G) := by
       rintro _ ⟨r, hr, rfl⟩
-      obtain ⟨n', hn'⟩ := R.isPGroup' ⟨r, hr⟩
+      obtain ⟨n', hn'⟩ := R.isPGroup ⟨r, hr⟩
       have hrn : (r : G) ^ 3 ^ n' = 1 := by
         simpa using congrArg (fun x : (R : Subgroup V) => ((x : V) : G)) hn'
       exact ⟨r.2.1, mem_centralizer_of_card_three hW3
@@ -197,7 +197,7 @@ theorem minimalLocalFailure_suzuki_pair_prime_exception_of_conclusions
     have hsyl : ∀ S : Sylow p B, Nat.card Q = 8 ∧ p = 3 ∧ Nat.card S = 3 := fun S => by
       rw [← Subgroup.card_map_of_injective B.subtype_injective]
       exact suzuki_pair_prime_sylow h hcomm hsmallerR1 hbeta ht hproper hBinv hexcl hreg hSz hp
-        hpN hpB (Subgroup.map_subtype_le _) (S.isPGroup'.map B.subtype)
+        hpN hpB (Subgroup.map_subtype_le _) (S.isPGroup.map B.subtype)
         (by rw [Subgroup.card_map_of_injective B.subtype_injective, S.card_eq_multiplicity])
     obtain ⟨hq8, hp3, -⟩ := hsyl default
     refine ⟨hq8, hp3, fun S => ?_⟩

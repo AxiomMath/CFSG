@@ -18,7 +18,7 @@ theorem concA_of_C3 {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup
     (e : PSimple 3 S ≃* (TauCeti.CFSGIndex.lie ⟨.C 3 Q, hv⟩).Group) : S267ConcA 3 S B := by
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e₁⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeC 3 Q hv e
-  haveI : CharP K Q.p :=
+  have : CharP K Q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have hp2 : Q.p ≠ 2 := hQq ▸ H.two
   have hp3 : Q.p ≠ 3 := hQq ▸ H.three

@@ -30,7 +30,7 @@ theorem transvection_pair_cube (a b : Fin 3) (hab : a ≠ b) :
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.transvection_coe, Matrix.SpecialLinearGroup.transvection_coe,
     Matrix.SpecialLinearGroup.coe_one]
-  fin_cases a <;> fin_cases b <;> first | exact absurd rfl hab | skip
+  fin_cases a <;> fin_cases b <;> try exact absurd rfl hab
   all_goals
     ext i j
     fin_cases i <;> fin_cases j <;>
@@ -119,7 +119,7 @@ theorem noFiveIndex_projectiveSL_three (hK3 : ∀ x : K, x ≠ 0 → x ^ 3 = 1) 
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) 2 (by norm_num : 1 ≤ 3)
   have hS : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [isSylowTwoOf_top_iff, ← hP]
-    exact ⟨P.isPGroup', P.not_dvd_index⟩
+    exact ⟨P.isPGroup, P.not_dvd_index⟩
   refine noFiveIndex_of_dichotomy (B := projUpperTriangular 3 K) hS ?_ ?_ ?_
   · rintro _ ⟨b, hb, rfl⟩ _ ⟨s, hs, rfl⟩
     exact ⟨b * s * b⁻¹, conj_mem_unitriangular hb hs, by simp⟩

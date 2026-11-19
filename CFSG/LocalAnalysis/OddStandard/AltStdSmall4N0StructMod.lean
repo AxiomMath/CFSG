@@ -40,6 +40,7 @@ include c
 theorem bz_mem_E {g : G} (hg : g ∈ N0 θ hn z) : bz z g ∈ E θ hn := comm_z_mem_E hn c hg
 
 omit c in
+omit [Finite G] in
 theorem bz_eq_one_iff (g : G) : bz z g = 1 ↔ g * z = z * g := by
   rw [bz]
   constructor
@@ -56,12 +57,13 @@ theorem bz_mul {x y : G} (hx : x ∈ D0 θ hn z) (hy : y ∈ D0 θ hn z) :
   have hv := bz_mem_E hn c (Subgroup.mem_inf.1 hx).1
   have hxu : x * bz z y = bz z y * x :=
     ((mem_centralizer_iff.1 (Subgroup.mem_inf.1 hx).2) _ hu).symm
-  have huv := E_comm hn c hu hv
+  have huv := E_comm hn hu hv
   calc bz z (x * y) = x * bz z y * (z * x⁻¹ * z⁻¹) := by simp only [bz]; group
     _ = bz z y * x * (z * x⁻¹ * z⁻¹) := by rw [hxu]
     _ = bz z y * bz z x := by simp only [bz]; group
     _ = bz z x * bz z y := huv
 
+omit [Finite G] c in
 theorem bz_conj_of_comm {g : G} (hg : g * z = z * g) (x : G) :
     bz z (g * x * g⁻¹) = g * bz z x * g⁻¹ := by
   have hg' : g⁻¹ * z * g = z := by rw [mul_assoc, ← hg]; group
@@ -73,6 +75,7 @@ theorem bz_conj_of_comm {g : G} (hg : g * z = z * g) (x : G) :
         rw [this]; simp only [bz]; group
 
 omit c in
+omit [Finite G] in
 theorem bz_of_comm {g : G} (hg : g * z = z * g) : bz z g = 1 := by
   rw [bz, hg]; group
 
@@ -118,29 +121,36 @@ theorem B0_mul_mem_E_iff {x y : G} (hx : x ∈ B0 θ hn z) (hy : y ∈ B0 θ hn 
 
 include hS
 
+omit [Finite G] c in
 theorem P_le_N0 : P ≤ N0 θ hn z := fun _ hx => (Subgroup.mem_inf.1 (hS.P_le hx)).1
 
+omit [Finite G] c in
 theorem P_comm_eps {p : G} (hp : p ∈ P) (i : Fin 8) : p * eps θ hn i = eps θ hn i * p :=
   (mem_centralizer_E_iff θ hn p).1 (Subgroup.mem_inf.1 (hS.P_le hp)).2 i
 
+omit [Finite G] c in
 theorem P_comm_E {p : G} (hp : p ∈ P) {e : G} (he : e ∈ E θ hn) : p * e = e * p := by
   obtain ⟨i, rfl⟩ := (mem_E_iff θ hn e).1 he
-  exact P_comm_eps hn c hS hp i
+  exact P_comm_eps hn hS hp i
 
+omit [Finite G] c in
 theorem conj_s_mem {p : G} (hp : p ∈ P) : s * p * s⁻¹ ∈ P :=
   (mem_normalizer_iff.1 hS.s_norm p).1 hp
 
+omit [Finite G] c in
 theorem conj_s_pow_mem (k : ℕ) {p : G} (hp : p ∈ P) : s ^ k * p * (s ^ k)⁻¹ ∈ P :=
   (mem_normalizer_iff.1 (pow_mem hS.s_norm k) p).1 hp
 
+omit [Finite G] c in
 theorem s_pow_comm_z (k : ℕ) : s ^ k * z = z * s ^ k := (Commute.pow_left hS.s_comm k).eq
 
+omit [Finite G] c in
 theorem s_pow_conj_eps (k : ℕ) (i : Fin 8) :
     s ^ k * eps θ hn i * (s ^ k)⁻¹ = eps θ hn ((mPerm ^ k) i) :=
   pow_conj_eps θ hn hS.s_conj k i
 
 theorem P_mem_B0_of_comm {p : G} (hp : p ∈ P) (hpz : p * z = z * p) : p ∈ B0 θ hn z := by
-  have hpC : p ∈ C0 θ hn z := (mem_C0_iff hn c p).2 ⟨fun i => P_comm_eps hn c hS hp i, hpz⟩
+  have hpC : p ∈ C0 θ hn z := (mem_C0_iff hn c p).2 ⟨fun i => P_comm_eps hn hS hp i, hpz⟩
   obtain ⟨k, hk⟩ := hS.P_pgroup ⟨p, hp⟩
   have : p ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
@@ -211,55 +221,58 @@ theorem forall_of_gen {X : Subgroup G} {K : Set G} (hXN : X ≤ D0 θ hn z) (hKX
   exact hFmul _ habd _ (hKX hk) (hFmul _ (mul_mem haX hbX) _ hdX (hFmul _ haX _ hbX hFa hFb) hFd)
     (hFK _ hk)
 
+omit [Finite G] c hS in
 theorem cm_mem_P {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ P := by
   rw [cm]
   exact mul_mem (mul_mem (mul_mem hp hq) (inv_mem hp)) (inv_mem hq)
 
 theorem cm_mem_B0 {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ B0 θ hn z := by
-  apply P_mem_B0_of_comm hn c hS (cm_mem_P hn c hS hp hq)
+  apply P_mem_B0_of_comm hn c hS (cm_mem_P hp hq)
   rw [← bz_eq_one_iff]
   have hpD := hS.P_le hp
   have hqD := hS.P_le hq
   rw [cm, bz_mul hn c (mul_mem (mul_mem hpD hqD) (inv_mem hpD)) (inv_mem hqD),
     bz_mul hn c (mul_mem hpD hqD) (inv_mem hpD), bz_mul hn c hpD hqD, bz_inv hn c hpD,
     bz_inv hn c hqD]
-  have hE := E_comm hn c (bz_mem_E hn c (P_le_N0 hn c hS hp))
-    (bz_mem_E hn c (P_le_N0 hn c hS hq))
+  have hE := E_comm hn (bz_mem_E hn c (P_le_N0 hn hS hp))
+    (bz_mem_E hn c (P_le_N0 hn hS hq))
   rw [hE]
   group
 
+omit [Finite G] c in
 theorem conj_P_mem_B0 {p : G} (hp : p ∈ P) {x : G} (hx : x ∈ B0 θ hn z) :
     p * x * p⁻¹ ∈ B0 θ hn z :=
-  (mem_normalizer_iff.1 (P_le_N0 hn c hS hp) x).1 hx
+  (mem_normalizer_iff.1 (P_le_N0 hn hS hp) x).1 hx
 
 include hF
 
+omit hS in
 theorem conj_mem_E_iff {g : G} (hg : g ∈ N0 θ hn z) (x : G) :
     g * x * g⁻¹ ∈ E θ hn ↔ x ∈ E θ hn :=
   ((mem_normalizer_iff.1 (N0_le_normalizer_E hn c hF hg)) x).symm
 
 theorem cc_mul_left {p p' q : G} (hp : p ∈ P) (hp' : p' ∈ P) (hq : q ∈ P) :
     cm (p * p') q ∈ E θ hn ↔ (cm p q ∈ E θ hn ↔ cm p' q ∈ E θ hn) := by
-  rw [cm_mul_left, B0_mul_mem_E_iff hn c (conj_P_mem_B0 hn c hS hp (cm_mem_B0 hn c hS hp' hq))
-    (cm_mem_B0 hn c hS hp hq), conj_mem_E_iff hn c hF hS (P_le_N0 hn c hS hp)]
+  rw [cm_mul_left, B0_mul_mem_E_iff hn c (conj_P_mem_B0 hn hS hp (cm_mem_B0 hn c hS hp' hq))
+    (cm_mem_B0 hn c hS hp hq), conj_mem_E_iff hn c hF (P_le_N0 hn hS hp)]
   exact iff_comm
 
-omit hF in
+omit hF [Finite G] c hS in
 theorem cc_symm (p q : G) : cm q p ∈ E θ hn ↔ cm p q ∈ E θ hn := by
   rw [← cm_inv, inv_mem_iff]
 
 omit hF in
 theorem cc_B0 {x : G} (hx : x ∈ B0 θ hn z) {q : G} (hq : q ∈ P) : cm x q ∈ E θ hn := by
   obtain ⟨i, rfl | rfl⟩ := (mem_B0_iff hn c x).1 hx
-  · rw [cm, ← P_comm_eps hn c hS hq i, mul_inv_cancel_right, mul_inv_cancel]
+  · rw [cm, ← P_comm_eps hn hS hq i, mul_inv_cancel_right, mul_inv_cancel]
     exact one_mem _
   · rw [cm_mul_left, show cm (eps θ hn i) q = 1 by
-      rw [cm, ← P_comm_eps hn c hS hq i, mul_inv_cancel_right, mul_inv_cancel],
+      rw [cm, ← P_comm_eps hn hS hq i, mul_inv_cancel_right, mul_inv_cancel],
       mul_one, mul_inv_cancel, one_mul, ← cm_inv]
-    exact inv_mem (bz_mem_E hn c (P_le_N0 hn c hS hq))
+    exact inv_mem (bz_mem_E hn c (P_le_N0 hn hS hq))
 
 theorem cc_s {p q : G} : cm (s * p * s⁻¹) (s * q * s⁻¹) ∈ E θ hn ↔ cm p q ∈ E θ hn := by
-  rw [cm_conj, conj_mem_E_iff hn c hF hS hS.s_N0]
+  rw [cm_conj, conj_mem_E_iff hn c hF hS.s_N0]
 
 theorem cc_congr_left {p p' q : G} (hp : p ∈ P) (hp' : p' ∈ P) (hq : q ∈ P)
     (h : bz z p = bz z p') : cm p q ∈ E θ hn ↔ cm p' q ∈ E θ hn := by
@@ -271,10 +284,10 @@ theorem cc_congr_left {p p' q : G} (hp : p ∈ P) (hp' : p' ∈ P) (hq : q ∈ P
 theorem cm_mem_E {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ E θ hn := by
   obtain ⟨p₀, hp₀, hb₀⟩ := P_trans hn c hF hS 1
   set pk : ℕ → G := fun k => s ^ k * p₀ * (s ^ k)⁻¹ with hpk
-  have hpkP : ∀ k, pk k ∈ P := fun k => conj_s_pow_mem hn c hS k hp₀
+  have hpkP : ∀ k, pk k ∈ P := fun k => conj_s_pow_mem hn hS k hp₀
   have hbk : ∀ k, bz z (pk k) = eps θ hn ((mPerm ^ k) 1) := by
     intro k
-    rw [hpk, bz_conj_of_comm c (s_pow_comm_z hn c hS k), hb₀, s_pow_conj_eps hn c hS]
+    rw [hpk, bz_conj_of_comm (s_pow_comm_z hn hS k), hb₀, s_pow_conj_eps hn hS]
   have hsucc : ∀ k, pk (k + 1) = s * pk k * s⁻¹ := by
     intro k
     simp only [hpk, pow_succ']
@@ -304,7 +317,7 @@ theorem cm_mem_E {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ E θ hn :=
   set A := cm (pk 0) (pk 1) ∈ E θ hn with hA
   have hX' : cm (pk 0) (pk 2) ∈ E θ hn := by
     have e1 : cm (pk 2) (pk 3) ∈ E θ hn ↔ A := hadj 2
-    have e2 := cc_symm hn c hS (pk 2) (pk 3)
+    have e2 := cc_symm (L := L) (θ := θ) hn (pk 2) (pk 3)
     have e3 := cc_congr_left hn c hF hS (hpkP 3) (mul_mem (hpkP 0) (hpkP 1)) (hpkP 2)
       (by rw [hb3, hb01])
     have e4 := cc_mul_left hn c hF hS (hpkP 0) (hpkP 1) (hpkP 2)
@@ -320,9 +333,9 @@ theorem cm_mem_E {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ E θ hn :=
     have e2 := cc_congr_left hn c hF hS (hpkP 6) (mul_mem (hpkP 0) (hpkP 2)) (hpkP 7)
       (by rw [hb6, hb02])
     have e3 := cc_mul_left hn c hF hS (hpkP 0) (hpkP 2) (hpkP 7)
-    have e4 := cc_symm hn c hS (pk 0) (pk 7)
+    have e4 := cc_symm (L := L) (θ := θ) hn (pk 0) (pk 7)
     have e5 := cc_congr_left hn c hF hS (hpkP 7) (hpkP 0) (hpkP 0) (by rw [hb7, hb0])
-    have e6 := cc_symm hn c hS (pk 2) (pk 7)
+    have e6 := cc_symm (L := L) (θ := θ) hn (pk 2) (pk 7)
     have e7 := cc_congr_left hn c hF hS (hpkP 7) (hpkP 0) (hpkP 2) (by rw [hb7, hb0])
     have h00 : cm (pk 0) (pk 0) ∈ E θ hn := by rw [cm_self]; exact one_mem _
     have h07 : cm (pk 0) (pk 7) ∈ E θ hn := e4.1 (e5.2 h00)
@@ -344,14 +357,14 @@ theorem cm_mem_E {p q : G} (hp : p ∈ P) (hq : q ∈ P) : cm p q ∈ E θ hn :=
         | exact hA'
         | exact h12
         | exact h02
-        | exact (cc_symm hn c hS _ _).2 hA'
-        | exact (cc_symm hn c hS _ _).2 h12
-        | exact (cc_symm hn c hS _ _).2 h02
+        | exact (cc_symm (L := L) (θ := θ) hn _ _).2 hA'
+        | exact (cc_symm (L := L) (θ := θ) hn _ _).2 h12
+        | exact (cc_symm (L := L) (θ := θ) hn _ _).2 h02
   have hstep2 : ∀ q ∈ P, cm p q ∈ E θ hn := by
     refine hgen (fun q => cm p q ∈ E θ hn)
-      (fun x hx => (cc_symm hn c hS _ _).1 (cc_B0 hn c hS hx hp))
-      (fun x hx y hy h1 h2 => (cc_symm hn c hS _ _).1 ((cc_mul_left hn c hF hS hx hy hp).2
-        (iff_of_true ((cc_symm hn c hS _ _).2 h1) ((cc_symm hn c hS _ _).2 h2))))
+      (fun x hx => (cc_symm (L := L) (θ := θ) hn _ _).1 (cc_B0 hn c hS hx hp))
+      (fun x hx y hy h1 h2 => (cc_symm (L := L) (θ := θ) hn _ _).1 ((cc_mul_left hn c hF hS hx hy hp).2
+        (iff_of_true ((cc_symm (L := L) (θ := θ) hn _ _).2 h1) ((cc_symm (L := L) (θ := θ) hn _ _).2 h2))))
       (hstep1 0 p hp) (hstep1 1 p hp) (hstep1 2 p hp)
       (by rw [cm, mul_one, inv_one, mul_one, mul_inv_cancel]; exact one_mem _)
   exact hstep2 q hq

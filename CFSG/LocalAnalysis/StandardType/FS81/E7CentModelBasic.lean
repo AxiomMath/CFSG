@@ -105,7 +105,7 @@ private theorem e7CentRootRankOne_classify
     rootSL2_eq_of_order_three .E7 (ZMod 2) (Nat.card_zmod 2) hα hx h3 h1
 
 theorem e7CentRootSL2_conj
-    {a b : Fin (Tag.rank .E7) → ℤ} (ha : IsRoot .E7 a)
+    {a b : Fin (Tag.rank .E7) → ℤ} (_ha : IsRoot .E7 a)
     (hb : IsRoot .E7 b) {n : ModGL .E7 (ZMod 2)} (hn : n ∈ adjointGroup .E7 (ZMod 2))
     (hmap : (rootRankOneGroup .E7 (ZMod 2) a).map (MulAut.conj n).toMonoidHom =
       rootRankOneGroup .E7 (ZMod 2) b) :

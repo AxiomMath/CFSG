@@ -54,17 +54,17 @@ theorem dotE_single (x y : Fin n) (a b : ℤ) :
   unfold dotE
   by_cases hxy : x = y
   · subst hxy; simp [Pi.single_apply]
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
     refine Finset.sum_eq_zero fun c _ => ?_
     by_cases hc : c = x
-    · subst hc; simp [Pi.single_apply, Ne.symm hxy]
+    · subst hc; simp [Ne.symm hxy]
     · simp [Pi.single_apply, hc]
 
 theorem dotE_root {x y : Fin n} (hxy : x ≠ y) (s t : Bool) :
     dotE (Pi.single x (boolSign s) + Pi.single y (boolSign t) : Fin n → ℤ)
       (Pi.single x (boolSign s) + Pi.single y (boolSign t)) = 2 := by
   rw [dotE_add_left, dotE_add_right, dotE_add_right, dotE_single, dotE_single, dotE_single,
-    dotE_single, if_pos rfl, if_pos rfl, if_neg hxy, if_neg (Ne.symm hxy)]
+    dotE_single, ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hxy, ite_eq_right (Ne.symm hxy)]
   cases s <;> cases t <;> simp [boolSign]
 
 
@@ -157,7 +157,7 @@ theorem commute_rootGroups (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j) (hadj : 
     have h2 := congrFun hab j
     have hij' : j ≠ i := Ne.symm hij
     rcases hγ with rfl | rfl <;> rcases hδ with rfl | rfl <;>
-    · simp [Pi.single_apply, hij, hij'] at h1 h2
+    · simp [hij, hij'] at h1 h2
       exact ⟨h1, h2⟩
   have hcomm := (plusDatum_steinbergExtras (K := F) hn).commutator_mem γ hγr δ hδr hind x hx y hy
   have hnone : ∀ ε, ε ∉ openCone (plusDatum n F hn).roots γ δ := by

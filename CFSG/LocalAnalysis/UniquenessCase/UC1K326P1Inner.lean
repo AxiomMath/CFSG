@@ -11,6 +11,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {P : Subgroup G}
 
+omit [Finite G] in
 theorem normalizer_odd_inner {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L) {X : Type} [Group X]
     (e : (↥L ⧸ Subgroup.center ↥L) ≃* X) (hX : CFSG.Quasithin.OddInner X) {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) (hodd : Odd (orderOf x)) :
@@ -26,6 +27,7 @@ theorem normalizer_odd_inner {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L
   exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2711.exists_inner_of_quot hq hx
     ⟨k, hk.symm⟩
 
+omit [Finite G] in
 theorem le_normalizer_of_inner {L : Subgroup G}
     (hin : ∀ x ∈ P, ∃ l ∈ L, l⁻¹ * x ∈ Subgroup.centralizer (L : Set G)) :
     P ≤ Subgroup.normalizer (L : Set G) := by
@@ -36,6 +38,7 @@ theorem le_normalizer_of_inner {L : Subgroup G}
   exact Subgroup.mul_mem _ (Subgroup.le_normalizer hl)
     (Subgroup.centralizer_le_normalizer (L : Set G) hc)
 
+omit [Finite G] in
 theorem ker_normalizerMonoidHom_comp_inclusion {L : Subgroup G}
     (hPN : P ≤ Subgroup.normalizer (L : Set G)) :
     (L.normalizerMonoidHom.comp (Subgroup.inclusion hPN)).ker =
@@ -49,6 +52,7 @@ theorem ker_normalizerMonoidHom_comp_inclusion {L : Subgroup G}
   rw [MonoidHom.mem_ker, h1, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
   exact ⟨fun hc => ⟨x.2, hc⟩, fun hc => hc.2⟩
 
+omit [Finite G] in
 theorem range_normalizerMonoidHom_comp_inclusion_le_conj {L : Subgroup G}
     (hPN : P ≤ Subgroup.normalizer (L : Set G))
     (hin : ∀ x ∈ P, ∃ l ∈ L, l⁻¹ * x ∈ Subgroup.centralizer (L : Set G)) :
@@ -66,6 +70,7 @@ theorem range_normalizerMonoidHom_comp_inclusion_le_conj {L : Subgroup G}
     _ = l * ((l⁻¹ * x) * y) * (l⁻¹ * x)⁻¹ * l⁻¹ := by rw [hcy]
     _ = (x : G) * (y : G) * (x : G)⁻¹ := by group
 
+omit [Finite G] in
 theorem ker_conj_eq_center (L : Subgroup G) :
     (MulAut.conj : ↥L →* MulAut ↥L).ker = Subgroup.center ↥L := by
   ext g
@@ -97,7 +102,7 @@ theorem card_le_of_inner {L : Subgroup G} (hP : IsPGroup 3 ↥P)
     (hin : ∀ x ∈ P, ∃ l ∈ L, l⁻¹ * x ∈ Subgroup.centralizer (L : Set G)) {k : ℕ}
     (hk : ¬ 3 ^ (k + 1) ∣ Nat.card (↥L ⧸ Subgroup.center ↥L)) :
     Nat.card ↥P ≤ Nat.card ↥(P ⊓ Subgroup.centralizer (L : Set G)) * 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPN : P ≤ Subgroup.normalizer (L : Set G) := le_normalizer_of_inner hin
   let ρ : ↥P →* MulAut ↥L := L.normalizerMonoidHom.comp (Subgroup.inclusion hPN)
   have hker : ρ.ker = (P ⊓ Subgroup.centralizer (L : Set G)).subgroupOf P :=
@@ -130,7 +135,7 @@ theorem card_sylow_of_cover {L T : Subgroup G} (hT : IsSylowOf 3 T L)
     (hz : Nat.card (Subgroup.center ↥L) = 3) {k : ℕ}
     (hk : 3 ^ k ∣ Nat.card (↥L ⧸ Subgroup.center ↥L))
     (hk' : ¬ 3 ^ (k + 1) ∣ Nat.card (↥L ⧸ Subgroup.center ↥L)) : Nat.card ↥T = 3 ^ (k + 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hT.card_eq]
   have hm0 : Nat.card (↥L ⧸ Subgroup.center ↥L) ≠ 0 := Nat.card_pos.ne'
   have hcard : Nat.card ↥L = 3 * Nat.card (↥L ⧸ Subgroup.center ↥L) := by
@@ -140,8 +145,7 @@ theorem card_sylow_of_cover {L T : Subgroup G} (hT : IsSylowOf 3 T L)
   have h2 : ¬ k + 1 ≤ (Nat.card (↥L ⧸ Subgroup.center ↥L)).factorization 3 := fun h =>
     hk' ((Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hm0).2 h)
   rw [hcard, Nat.factorization_mul (by norm_num) hm0]
-  simp only [Finsupp.add_apply, Nat.Prime.factorization_self Nat.prime_three,
-    Finsupp.single_eq_same]
+  simp only [Finsupp.add_apply, Nat.Prime.factorization_self Nat.prime_three]
   congr 1
   omega
 

@@ -13,6 +13,7 @@ open Module CFSG.StandardType.TwoThree CFSG.Assembly TableB
 variable {K : Type*} [Field K] [CharP K 2] [Finite K] {V : Type*} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [CharP K 2] in
 theorem exists_fixed_ne_zero (hK : Nat.card K = 2) {G : Type*} [Group G]
     (ρ : G →* (Module.End K V)ˣ) {P : Subgroup G} (hP : IsPGroup 2 P) {W : Submodule K V}
     (hW0 : W ≠ ⊥) (hW : ∀ p ∈ P, ∀ w ∈ W, (ρ p : Module.End K V) w ∈ W) :
@@ -43,7 +44,7 @@ theorem card_sq_le_of_isotropic (hK : Nat.card K = 2) (B : LinearMap.BilinForm K
     (hB : B.Nondegenerate) (hr : B.IsRefl) (X : Subgroup (Module.End K V)ˣ)
     (hcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) (hexp : ∀ x ∈ X, x ^ 3 = 1)
     (hinv : ∀ x ∈ X, ∀ v w, B ((x : Module.End K V) v) ((x : Module.End K V) w) = B v w)
-    {T : Submodule K V} (hT0 : T ≠ ⊥) (hTiso : ∀ u ∈ T, ∀ v ∈ T, B u v = 0)
+    {T : Submodule K V} (_hT0 : T ≠ ⊥) (hTiso : ∀ u ∈ T, ∀ v ∈ T, B u v = 0)
     (hTX : ∀ x ∈ X, ∀ t ∈ T, (x : Module.End K V) t ∈ T) :
     Nat.card X ^ 2 ≤ 3 ^ (finrank K V - finrank K T) := by
   classical
@@ -103,14 +104,17 @@ theorem card_sq_le_of_isotropic (hK : Nat.card K = 2) (B : LinearMap.BilinForm K
   zero_mem' := fun u _ => map_zero _
   smul_mem' := fun c v hv u hu => by rw [map_smul, hv u hu]
 
+omit [CharP K 2] [Finite K] [FiniteDimensional K V] in
 theorem mem_fixSpaceOf {G : Type*} [Group G] {ρ : G →* (Module.End K V)ˣ} {U : Subgroup G}
     {v : V} : v ∈ fixSpaceOf ρ U ↔ ∀ u ∈ U, (ρ u : Module.End K V) v = v :=
   Iff.rfl
 
+omit [CharP K 2] [Finite K] [FiniteDimensional K V] in
 theorem rho_mul_apply {G : Type*} [Group G] (ρ : G →* (Module.End K V)ˣ) (g h : G) (v : V) :
     (ρ (g * h) : Module.End K V) v = (ρ g : Module.End K V) ((ρ h : Module.End K V) v) := by
   rw [map_mul, Units.val_mul, Module.End.mul_apply]
 
+omit [CharP K 2] in
 theorem exists_isotropic_of_normalizes_two (hK : Nat.card K = 2) {G : Type*} [Group G]
     (ρ : G →* (Module.End K V)ˣ) (hρ : Function.Injective ρ) (B : LinearMap.BilinForm K V)
     (hB : B.Nondegenerate) (hr : B.IsRefl)

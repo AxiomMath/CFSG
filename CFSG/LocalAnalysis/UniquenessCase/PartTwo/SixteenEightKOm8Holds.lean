@@ -13,7 +13,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 
 theorem s16kOmega8OutInner_holds : S16kOmega8OutInner := by
   intro K _ _ hK α θ hα hαθ hθ
-  haveI : CharP K 2 := CFSG.EvenSmallLie.OmegaEight.charP_two_of_card_eq_two hK
+  have : CharP K 2 := CFSG.EvenSmallLie.OmegaEight.charP_two_of_card_eq_two hK
   let e := statedDerivedPlusEquiv K 4
   have hα' : MulAut.congr e α ∈ om8Stab K := by
     have h := (s16kTwistIso_iff_om8 1 α).1 hα

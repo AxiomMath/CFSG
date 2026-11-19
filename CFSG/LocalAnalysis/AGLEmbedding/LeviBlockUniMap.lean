@@ -170,7 +170,7 @@ theorem isPGroup_ker_uniLeviHom (h : UnitaryFieldData p f K) (hε : ε ≤ 1) {I
   have : Finite K := h.finite
   have hr : 1 ≤ t + s := (hI.le t hI.mem).1.trans (Nat.le_add_right t s)
   obtain ⟨P, hP⟩ := (unitary_order_and_Sylow h hr hε).2.1
-  have hU : IsPGroup p (hypUnitriangular h (t + s) ε) := hP ▸ P.isPGroup'
+  have hU : IsPGroup p (hypUnitriangular h (t + s) ε) := hP ▸ P.isPGroup
   exact (hU.comap_subtype).to_le (ker_uniLeviHom_le h hε hI)
 
 end CFSG.AGLEmbedding.LeviBlock

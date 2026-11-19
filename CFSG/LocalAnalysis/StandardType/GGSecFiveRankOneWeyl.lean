@@ -8,6 +8,7 @@ namespace CFSG.StandardType
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggRankOneIn_le (X Bs : Subgroup G) (r : MulAut ↥Bs) : ggRankOneIn X Bs r ≤ X := by
   rw [ggRankOneIn, ggOTwoPrime]
   exact (Subgroup.closure_le X).mpr fun y hy => (Subgroup.mem_inf.mp hy.1).1
@@ -67,6 +68,7 @@ theorem ggRankOnePerf_commute_transport {Bs H : Subgroup G} {a r r' : MulAut ↥
     _ = (g * y' * g⁻¹) * (g * x' * g⁻¹) := by group
     _ = y * x := by rw [hy'eq, hx'eq]
 
+omit [Finite G] in
 theorem ggExists_mem_induces_of_simple {Bs N : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A)
     (hN : ∀ i : ι, ∃ n ∈ N, n ∈ Subgroup.normalizer (Bs : Set G) ∧

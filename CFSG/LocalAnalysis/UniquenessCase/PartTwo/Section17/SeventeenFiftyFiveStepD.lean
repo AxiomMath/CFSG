@@ -19,6 +19,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22g_opEq_of_surjective {M : Subgroup G}
     {H : Type} [Group H] (π : ↥M →* H) (hπ : Function.Surjective π) {p : ℕ} (hp : p.Prime)
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.OpRes p M = M) : uc22p22g_OpEq p H := by
@@ -64,7 +65,7 @@ theorem exists_sigma_prime_1755 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   have hbot : D.M ≤ normalizer ((⊥ : Subgroup G) : Set G) := by
     rw [Subgroup.normalizer_eq_top]; exact le_top
   have hMs : D.M ≤ stabTil (⊥ : Subgroup G) V := le_stabTil hVin.2.2.1 hbot
-  haveI : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hVin.2.2.2 hMs
   have hle := uc22p2251a_pRank_sub_one_le D h61 hVin hTI (p := p) hpσ
   rw [UC22.pRank_mbar D.M V p, s15_Three_pRank_MBar11 hVin.2.2.2 hMs p] at hle
@@ -80,10 +81,10 @@ theorem exists_order_prime_centralizer_1755 (D : Data G) {V₀ V : Subgroup G}
     ∃ c ∈ Mbar D.M V₀ V hV, c ≠ 1 ∧ c ^ p = 1 ∧
       ∀ l ∈ barSub V₀ V hV L, c * l = l * c := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLbM : barSub V₀ V hV L ≤ Mbar D.M V₀ V hV :=
     barSub_mono V₀ V hV hLM
-  haveI : ((barSub V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
+  have : ((barSub V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
     barSub_subgroupOf_mbar_normal hV hLM hNL
   have hL2' : IsL2 ↥((barSub V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)) n :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLbM).symm hL2
@@ -128,6 +129,7 @@ theorem exists_order_prime_centralizer_1755 (D : Data G) {V₀ V : Subgroup G}
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top] at hle
   omega
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_actTil_eq_one_of_isSimpleGroup {V : Subgroup G}
     (hV : IsElemAbelian 2 V) {L : Subgroup G} (hLS : L ≤ stabTil (⊥ : Subgroup G) V)
     (h2 : barSub (⊥ : Subgroup G) V hV (pCoreOf 2 L) = ⊥)
@@ -158,7 +160,7 @@ theorem mem_pCoreOf_of_actTil_eq_one_of_isSimpleGroup {V : Subgroup G}
     rcases Subgroup.Normal.eq_bot_or_eq_top ψ.ker with hbot | htop
     · exact hbot
     · exfalso
-      haveI : Nontrivial ↥(barSub (⊥ : Subgroup G) V hV L) :=
+      have : Nontrivial ↥(barSub (⊥ : Subgroup G) V hV L) :=
         (Subgroup.nontrivial_iff_ne_bot _).2 hL1
       obtain ⟨y, hy1⟩ := exists_ne (1 : ↥(barSub (⊥ : Subgroup G) V hV L))
       obtain ⟨a, ha⟩ := hψ y
@@ -311,7 +313,7 @@ theorem mem_barSub_Q0_of_commute_1755 (D : Data G) {V : Subgroup G}
     (hcL : ∀ l ∈ barSub (⊥ : Subgroup G) V hV L, c * l = l * c) :
     c ∈ barSub (⊥ : Subgroup G) V hV (cStar1755 D L hNL ⊓ Q0_1755 D L hNL) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 2 ≤ n := (P22fin.isL2Ev_of_isL2 hL2).2
   have hoddPred : Odd (2 ^ n - 1) := by
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
@@ -393,7 +395,7 @@ theorem mem_barSub_Q0_of_commute_1755 (D : Data G) {V : Subgroup G}
     exact hmC
   have hK0normal : (K0.subgroupOf (cStar1755 D L hNL)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hK0leC).2 hK0n
-  haveI : (K0.subgroupOf (cStar1755 D L hNL)).Normal := hK0normal
+  have : (K0.subgroupOf (cStar1755 D L hNL)).Normal := hK0normal
   have hmSupC : (⟨m, hmC⟩ : ↥(cStar1755 D L hNL)) ∈
       (K0.subgroupOf (cStar1755 D L hNL)) ⊔
         ((cStar1755 D L hNL ⊓ normalizer
@@ -488,7 +490,7 @@ theorem not_isCyclic_of_isSylowOf_Q0_1755 (D : Data G) {V : Subgroup G}
     {S : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf p S (Q0_1755 D L hNL)) :
     ¬ IsCyclic ↥S := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcOrd : orderOf c = p := orderOf_eq_prime hcp hc1
   have hpDvd : p ∣ 2 ^ n - 1 := by
     have hdvd : orderOf c ∣ 2 ^ n - 1 := orderOf_dvd_of_pow_eq_one (hodd c hcL)
@@ -542,8 +544,8 @@ theorem not_isCyclic_of_isSylowOf_Q0_1755 (D : Data G) {V : Subgroup G}
     have hstp : (⟨x, hMs hxM⟩ : stabTil (⊥ : Subgroup G) V) ^ p = 1 := Subtype.ext hxp
     rw [hstp, map_one]
   have hEel : IsElementaryAbelian p ↥(A ⊔ B) := by
-    haveI : IsElementaryAbelian p ↥A := IsElementaryAbelian.zpowers_of_pow_eq_one hxp_bar
-    haveI : IsElementaryAbelian p ↥B := IsElementaryAbelian.zpowers_of_pow_eq_one hcp
+    have : IsElementaryAbelian p ↥A := IsElementaryAbelian.zpowers_of_pow_eq_one hxp_bar
+    have : IsElementaryAbelian p ↥B := IsElementaryAbelian.zpowers_of_pow_eq_one hcp
     exact IsElementaryAbelian.sup_of_le_centralizer hBA
   have hcommAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a := by
     intro a ha b hb
@@ -575,7 +577,7 @@ theorem not_isCyclic_of_isSylowOf_Q0_1755 (D : Data G) {V : Subgroup G}
   have hcardE : Nat.card ↥(A ⊔ B) = p ^ 2 := by
     rw [hcardA, hcardB, hcardInf, mul_one] at hcardAB
     rw [hcardAB, sq]
-  haveI : IsElementaryAbelian p ↥(A ⊔ B) := hEel
+  have : IsElementaryAbelian p ↥(A ⊔ B) := hEel
   have hEnc : ¬ IsCyclic ↥(A ⊔ B) :=
     CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hcardE
   have hEp : IsPGroup p ↥(A ⊔ B) := IsElementaryAbelian.isPGroup p ↥(A ⊔ B)
@@ -610,7 +612,7 @@ theorem seventeen_fiftyfive_inPStar_of_natural (D : Data G) (hx : DataExt D)
   have hbar : barSub (⊥ : Subgroup G) V hV K ≠ ⊥ := by
     intro hbotK
     have hn2 : 2 ≤ n := (P22fin.isL2Ev_of_isL2 hnat.1).2
-    haveI : IsSimpleGroup ↥(barSub (⊥ : Subgroup G) V hV K) :=
+    have : IsSimpleGroup ↥(barSub (⊥ : Subgroup G) V hV K) :=
       P22y.isSimpleGroup_of_isL2Ev (P22fin.isL2Ev_of_isL2 hnat.1).1 hn2
     obtain ⟨y, hy⟩ := exists_ne (1 : ↥(barSub (⊥ : Subgroup G) V hV K))
     have hy1 : (y : MulAut (Vtil (⊥ : Subgroup G) V hV)) ∈
@@ -636,9 +638,9 @@ theorem seventeen_fiftyfive_inPStar_of_natural (D : Data G) (hx : DataExt D)
       hodd hp hp2 hcM hc1 hcp hcL hS
   obtain ⟨X, hXQ, hXp, hXexp, hXnc, hTX⟩ := exists_X_1755 D hLM hNL hp hp2 hnc
   obtain ⟨-, -, -, hT0T, hTT0, -, hQT0, -, hQM, -⟩ := cStar_T0_Q0_facts_1755 D hLM hNL
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 K)) :=
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 K)) :=
     (outer_finite_isCyclic_1755 hL2).1
-  haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 K)) :=
+  have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 K)) :=
     (outer_finite_isCyclic_1755 hL2).2
   refine ⟨X, ?_⟩
   exact inPStar_of_strongly_of_le_normalizer_sup hp hp2 hstr (hXQ.trans hQM) hXp hXexp hXnc

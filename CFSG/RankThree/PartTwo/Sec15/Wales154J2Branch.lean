@@ -91,6 +91,7 @@ theorem trivial_of_mem_centralizerSection {Y : Subgroup G} {x : G}
   rw [e]
   exact inv_mem (hx.2.2 y hy)
 
+omit [Finite G] in
 theorem pPrimeCoreOf_eq_pCoreOf {Y : Subgroup G}
     (heq : CFSG.pPrimeCore 3 ↥Y = CFSG.pCore 2 ↥Y) :
     pPrimeCoreOf 3 Y = CFSG.Open.pCoreOf 2 Y := by

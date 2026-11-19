@@ -29,9 +29,9 @@ private theorem ompInv_funCongrLeft_single {ι : Type*} [DecidableEq ι] (π : E
   rw [LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : π i = j
   · have h' : i = π.symm j := by rw [← h, Equiv.symm_apply_apply]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : i ≠ π.symm j := fun hh => h (by rw [hh, Equiv.apply_symm_apply])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 private theorem ompInv_funCongrLeft_mul {ι : Type*} (π σ : Equiv.Perm ι) :
     LinearEquiv.funCongrLeft K K π * LinearEquiv.funCongrLeft K K σ =
@@ -65,7 +65,7 @@ private theorem ompInv_linearIndependent_single_sub_single {ι' : Type*} [Fintyp
       (c j • (Pi.single (a j) (1:K) - Pi.single (b j) 1 : ι → K)) (a i) = 0 := by
     intro j hji
     simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_apply, smul_eq_mul]
-    rw [if_neg (fun h : a i = a j => hji (hinj h).symm), if_neg (hne i j)]
+    rw [ite_eq_right (fun h : a i = a j => hji (hinj h).symm), ite_eq_right (hne i j)]
     simp
   have h := congrArg (fun v : ι → K => v (a i)) hc
   simp only [Finset.sum_apply, Pi.zero_apply] at h
@@ -209,7 +209,7 @@ private theorem ompInv_spMonoPerm_inl_ne_iff {n : ℕ} {π : Equiv.Perm (Fin n)}
     (spMonoPerm π s (Sum.inl a) ≠ Sum.inl a ↔ π a ≠ a ∨ s a ≠ 1) := by
   rw [spMonoPerm_inl]
   by_cases h : s a = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     constructor
     · intro hh
       left
@@ -219,7 +219,7 @@ private theorem ompInv_spMonoPerm_inl_ne_iff {n : ℕ} {π : Equiv.Perm (Fin n)}
       · intro hh
         exact hpa (Sum.inl.inj hh)
       · exact absurd h hsne
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun _ => Or.inr h, fun _ => Sum.inr_ne_inl⟩
 
 private theorem ompInv_spMonoPerm_inr_ne_iff {n : ℕ} {π : Equiv.Perm (Fin n)} {s : Fin n → ℤ}
@@ -227,7 +227,7 @@ private theorem ompInv_spMonoPerm_inr_ne_iff {n : ℕ} {π : Equiv.Perm (Fin n)}
     (spMonoPerm π s (Sum.inr a) ≠ Sum.inr a ↔ π a ≠ a ∨ s a ≠ 1) := by
   rw [spMonoPerm_inr]
   by_cases h : s a = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     constructor
     · intro hh
       left
@@ -237,7 +237,7 @@ private theorem ompInv_spMonoPerm_inr_ne_iff {n : ℕ} {π : Equiv.Perm (Fin n)}
       · intro hh
         exact hpa (Sum.inr_injective hh)
       · exact absurd h hsne
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun _ => Or.inr h, fun _ => Sum.inl_ne_inr⟩
 
 private theorem ompInv_filter_spMonoPerm_ne_eq_image {n : ℕ} {π : Equiv.Perm (Fin n)}
@@ -299,10 +299,10 @@ private theorem ompInv_pairMap_involutive (n j : ℕ) (h : 2 * j ≤ n) :
   intro a
   by_cases ha : a.val < 2 * j
   · have h1 : a.val ^^^ 1 < 2 * j := ompInv_xor_one_lt_of_lt_two_mul ha
-    simp only [ompInv_pairMap, dif_pos ha, dif_pos h1]
+    simp only [ompInv_pairMap, dite_eq_left ha, dite_eq_left h1]
     apply Fin.ext
     simp only [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
-  · simp only [ompInv_pairMap, dif_neg ha]
+  · simp only [ompInv_pairMap, dite_eq_right ha]
 
 private def ompInv_pairPerm (n j : ℕ) (h : 2 * j ≤ n) : Equiv.Perm (Fin n) :=
   Function.Involutive.toPerm (ompInv_pairMap n j h) (ompInv_pairMap_involutive n j h)
@@ -312,12 +312,12 @@ private theorem ompInv_pairPerm_apply_of_lt {n j : ℕ} (h : 2 * j ≤ n) {a : F
     ompInv_pairPerm n j h a =
       ⟨a.val ^^^ 1, lt_of_lt_of_le (ompInv_xor_one_lt_of_lt_two_mul ha) h⟩ := by
   show ompInv_pairMap n j h a = _
-  rw [ompInv_pairMap, dif_pos ha]
+  rw [ompInv_pairMap, dite_eq_left ha]
 
 private theorem ompInv_pairPerm_apply_of_not_lt {n j : ℕ} (h : 2 * j ≤ n) {a : Fin n}
     (ha : ¬ a.val < 2 * j) : ompInv_pairPerm n j h a = a := by
   show ompInv_pairMap n j h a = a
-  rw [ompInv_pairMap, dif_neg ha]
+  rw [ompInv_pairMap, dite_eq_right ha]
 
 private def ompInv_cidx {n : ℕ} : Fin n ⊕ Fin n → Fin n
   | Sum.inl i => i
@@ -407,8 +407,8 @@ private theorem ompInv_sa_pairPerm {n r : ℕ} (h : 2 * r ≤ n) (c : Fin n) :
   by_cases hc : c.val < 2 * r
   · rw [ompInv_pairPerm_apply_of_lt h hc]
     by_cases h2 : c.val < 2
-    · rw [if_pos (ompInv_xor_one_lt_two.mpr h2), if_pos h2]
-    · rw [if_neg (fun hh => h2 (ompInv_xor_one_lt_two.mp hh)), if_neg h2]
+    · rw [ite_eq_left (ompInv_xor_one_lt_two.mpr h2), ite_eq_left h2]
+    · rw [ite_eq_right (fun hh => h2 (ompInv_xor_one_lt_two.mp hh)), ite_eq_right h2]
   · rw [ompInv_pairPerm_apply_of_not_lt h hc]
 
 private def ompInv_pairMapC (n r : ℕ) (h : 2 * r ≤ n) (a : Fin n) : Fin n :=
@@ -420,11 +420,11 @@ private theorem ompInv_pairMapC_apply_of_lt {n r : ℕ} (h : 2 * r ≤ n) {a : F
     (ha : 2 ≤ a.val ∧ a.val < 2 * r) :
     ompInv_pairMapC n r h a =
       ⟨a.val ^^^ 1, lt_of_lt_of_le (ompInv_xor_one_lt_of_lt_two_mul ha.2) h⟩ :=
-  dif_pos ha
+  dite_eq_left ha
 
 private theorem ompInv_pairMapC_apply_of_not_lt {n r : ℕ} (h : 2 * r ≤ n) {a : Fin n}
     (ha : ¬ (2 ≤ a.val ∧ a.val < 2 * r)) : ompInv_pairMapC n r h a = a :=
-  dif_neg ha
+  dite_eq_right ha
 
 private theorem ompInv_pairMapC_involutive (n r : ℕ) (h : 2 * r ≤ n) :
     Function.Involutive (ompInv_pairMapC n r h) := by
@@ -446,12 +446,12 @@ private theorem ompInv_pairPermC_apply_of_lt {n r : ℕ} (h : 2 * r ≤ n) {a : 
     ompInv_pairPermC n r h a =
       ⟨a.val ^^^ 1, lt_of_lt_of_le (ompInv_xor_one_lt_of_lt_two_mul ha.2) h⟩ := by
   show ompInv_pairMapC n r h a = _
-  rw [ompInv_pairMapC, dif_pos ha]
+  rw [ompInv_pairMapC, dite_eq_left ha]
 
 private theorem ompInv_pairPermC_apply_of_not_lt {n r : ℕ} (h : 2 * r ≤ n) {a : Fin n}
     (ha : ¬ (2 ≤ a.val ∧ a.val < 2 * r)) : ompInv_pairPermC n r h a = a := by
   show ompInv_pairMapC n r h a = a
-  rw [ompInv_pairMapC, dif_neg ha]
+  rw [ompInv_pairMapC, dite_eq_right ha]
 
 private theorem ompInv_pairPermC_mul_self {n r : ℕ} (h : 2 * r ≤ n) :
     ompInv_pairPermC n r h * ompInv_pairPermC n r h = 1 := by
@@ -465,8 +465,8 @@ private theorem ompInv_sa_pairPermC {n r : ℕ} (h : 2 * r ≤ n) (c : Fin n) :
   by_cases hc : 2 ≤ c.val ∧ c.val < 2 * r
   · rw [ompInv_pairPermC_apply_of_lt h hc]
     by_cases h2 : c.val < 2
-    · rw [if_pos (ompInv_xor_one_lt_two.mpr h2), if_pos h2]
-    · rw [if_neg (fun hh => h2 (ompInv_xor_one_lt_two.mp hh)), if_neg h2]
+    · rw [ite_eq_left (ompInv_xor_one_lt_two.mpr h2), ite_eq_left h2]
+    · rw [ite_eq_right (fun hh => h2 (ompInv_xor_one_lt_two.mp hh)), ite_eq_right h2]
   · rw [ompInv_pairPermC_apply_of_not_lt h hc]
 
 private theorem ompInv_spMonoPerm_sq {n : ℕ} {π : Equiv.Perm (Fin n)} {s : Fin n → ℤ}
@@ -542,7 +542,7 @@ private theorem ompInv_funCongrLeft_injective {ι : Type*} [DecidableEq ι] :
   by_cases h' : e.symm x = f.symm x
   · exact h'
   · have hc := congrFun hx (e.symm x)
-    simp only [Pi.single_apply, if_true, if_neg h'] at hc
+    simp only [Pi.single_apply, ite_true, ite_eq_right h'] at hc
     exact (one_ne_zero hc).elim
 
 private theorem ompInv_orderOf_funCongrLeft {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -589,12 +589,12 @@ private theorem ompInv_pairPermC_ne_iff {n r : ℕ} (h : 2 * r ≤ n) (a : Fin n
 private theorem ompInv_sa_eq_one {n : ℕ} {a : Fin n} (ha : ¬ a.val < 2) :
     ompInv_sa n a = 1 := by
   unfold ompInv_sa
-  rw [if_neg ha]
+  rw [ite_eq_right ha]
 
 private theorem ompInv_sa_ne_one {n : ℕ} {a : Fin n} (ha : a.val < 2) :
     ompInv_sa n a ≠ 1 := by
   unfold ompInv_sa
-  rw [if_pos ha]
+  rw [ite_eq_left ha]
   norm_num
 
 private theorem ompInv_sa_ne_one_iff {n : ℕ} (a : Fin n) :
@@ -640,7 +640,7 @@ private theorem ompInv_ec_ne_one {n r : ℕ} (h : 2 * r ≤ n) (hr : 1 ≤ r) :
     ompInv_ec h ≠ 1 := by
   intro h1
   have hh := congrFun (congrArg DFunLike.coe h1) (Sum.inl ⟨0, by omega⟩)
-  rw [ompInv_ec_inl, if_neg (ompInv_sa_ne_one (by show (0:ℕ) < 2; omega)),
+  rw [ompInv_ec_inl, ite_eq_right (ompInv_sa_ne_one (by show (0:ℕ) < 2; omega)),
     ompInv_pairPermC_apply_of_not_lt h (by show ¬ (2 ≤ (0:ℕ) ∧ (0:ℕ) < 2 * r); omega)]
     at hh
   simp only [Equiv.Perm.one_apply] at hh
@@ -740,7 +740,7 @@ private theorem ompInv_quadPlus_sub_single {n : ℕ} (hn : 0 < n) :
     have hx : (Pi.single (Sum.inr (⟨0, hn⟩ : Fin n)) (1:K)
         - Pi.single (Sum.inl (⟨0, hn⟩ : Fin n)) 1 : Fin n ⊕ Fin n → K) (Sum.inl b) = 0 := by
       simp only [Pi.sub_apply, Pi.single_apply]
-      rw [if_neg (Sum.inl_ne_inr), if_neg hb']
+      rw [ite_eq_right (Sum.inl_ne_inr), ite_eq_right hb']
       ring
     rw [hx, zero_mul]
   · intro hm
@@ -757,7 +757,7 @@ private theorem ompInv_suzukiLetter_ec [CharP K 2] {n r : ℕ} (h : 2 * r ≤ n)
     have hinv : (ompInv_ec h).symm = ompInv_ec h :=
       inv_eq_of_mul_eq_one_right (ompInv_ec_mul_self h)
     have hfix : ompInv_ec h (Sum.inl ⟨0, hn0⟩) = Sum.inr ⟨0, hn0⟩ := by
-      rw [ompInv_ec_inl, if_neg (ompInv_sa_ne_one (by show (0:ℕ) < 2; omega)),
+      rw [ompInv_ec_inl, ite_eq_right (ompInv_sa_ne_one (by show (0:ℕ) < 2; omega)),
         ompInv_pairPermC_apply_of_not_lt h
           (by show ¬ (2 ≤ (0:ℕ) ∧ (0:ℕ) < 2 * r); omega)]
     have hz : LinearEquiv.funCongrLeft K K (ompInv_ec h) (Pi.single (Sum.inl ⟨0, hn0⟩) 1) =
@@ -799,10 +799,10 @@ private theorem ompInv_d_finrank {n : ℕ} (hn : 2 ≤ n) :
     · rintro (h | h)
       · exact absurd rfl h
       · by_contra hx
-        exact h (by rw [spSgn, if_neg hx])
+        exact h (by rw [spSgn, ite_eq_right hx])
     · intro hx
       right
-      rw [hx, spSgn, if_pos rfl]
+      rw [hx, spSgn, ite_eq_left rfl]
       norm_num]
   simp
 
@@ -812,7 +812,7 @@ private theorem ompInv_sgn_mul_sgn_pairPerm {n r : ℕ} (h : 2 * r ≤ n) (hr : 
   funext c
   rw [ompInv_sa]
   by_cases hc : c.val < 2
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     have hc' : c.val = 0 ∨ c.val = 1 := by omega
     rcases hc' with h0 | h1
     · have hc0 : c = (⟨0, by omega⟩ : Fin n) := Fin.ext h0
@@ -823,7 +823,7 @@ private theorem ompInv_sgn_mul_sgn_pairPerm {n r : ℕ} (h : 2 * r ≤ n) (hr : 
       rw [hc1]
       rw [ompInv_pairPerm_apply_of_lt h (by show (1:ℕ) < 2 * r; omega)]
       norm_num [spSgn]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have hge : 2 ≤ (ompInv_pairPerm n r h c).val := by
       by_cases hlt : c.val < 2 * r
       · rw [ompInv_pairPerm_apply_of_lt h hlt]
@@ -843,9 +843,9 @@ private theorem ompInv_sgn_mul_sgn_pairPerm {n r : ℕ} (h : 2 * r ≤ n) (hr : 
       dsimp only at this
       omega
     have hσc : spSgn (⟨1, by omega⟩ : Fin n) c = 1 := by
-      unfold spSgn; rw [if_neg hc1]
+      unfold spSgn; rw [ite_eq_right hc1]
     have hσπ : spSgn (⟨1, by omega⟩ : Fin n) (ompInv_pairPerm n r h c) = 1 := by
-      unfold spSgn; rw [if_neg hπ1]
+      unfold spSgn; rw [ite_eq_right hπ1]
     rw [hσc, hσπ, one_mul]
 
 private theorem ompInv_e2_eq_conj {n r : ℕ} (h : 2 * r ≤ n) (hr : 1 ≤ r) :
@@ -885,7 +885,7 @@ private theorem ompInv_prod_sa {n : ℕ} (hn : 2 ≤ n) :
     intro a
     unfold ompInv_sa spSgn
     by_cases h : a.val < 2
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have ha : a = (⟨0, by omega⟩ : Fin n) ∨ a = (⟨1, by omega⟩ : Fin n) := by
         rcases (by omega : a.val = 0 ∨ a.val = 1) with h0 | h1
         · exact Or.inl (Fin.ext h0)
@@ -893,12 +893,12 @@ private theorem ompInv_prod_sa {n : ℕ} (hn : 2 ≤ n) :
       rcases ha with h0 | h1
       · rw [h0]; norm_num
       · rw [h1]; norm_num
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have h0 : a ≠ (⟨0, by omega⟩ : Fin n) := by
         intro hh; have := congrArg Fin.val hh; dsimp only at this; omega
       have h1 : a ≠ (⟨1, by omega⟩ : Fin n) := by
         intro hh; have := congrArg Fin.val hh; dsimp only at this; omega
-      rw [if_neg h0, if_neg h1, one_mul]
+      rw [ite_eq_right h0, ite_eq_right h1, one_mul]
   calc ∏ a : Fin n, ompInv_sa n a
       = ∏ a : Fin n, (spSgn (⟨0, by omega⟩ : Fin n) a * spSgn (⟨1, by omega⟩ : Fin n) a) :=
         Finset.prod_congr rfl fun a _ => hsa a
@@ -922,7 +922,7 @@ private theorem ompInv_shape_ec {n r : ℕ} (h : 2 * r ≤ n) (hr : 1 ≤ r) :
       ompInv_sa n ⟨0, by omega⟩ = -1) := by
   refine ⟨?_, ?_⟩
   · rw [ompInv_pairPermC_apply_of_not_lt h (by show ¬ (2 ≤ (0:ℕ) ∧ (0:ℕ) < 2 * r); omega)]
-  · unfold ompInv_sa; rw [if_pos (by norm_num)]
+  · unfold ompInv_sa; rw [ite_eq_left (by norm_num)]
 
 private theorem ompInv_shape_e2 {n r : ℕ} (h : 2 * r ≤ n) (hr : 1 ≤ r) :
     (ompInv_pairPerm n r h ⟨0, by omega⟩ = ⟨1, by omega⟩ ∧
@@ -931,7 +931,7 @@ private theorem ompInv_shape_e2 {n r : ℕ} (h : 2 * r ≤ n) (hr : 1 ≤ r) :
   refine ⟨?_, ?_, ?_⟩
   · rw [ompInv_pairPerm_apply_of_lt h (by show (0:ℕ) < 2 * r; omega)]; norm_num
   · rw [ompInv_pairPerm_apply_of_lt h (by show (1:ℕ) < 2 * r; omega)]; norm_num
-  · unfold ompInv_sa; rw [if_pos (by norm_num), if_pos (by norm_num)]
+  · unfold ompInv_sa; rw [ite_eq_left (by norm_num), ite_eq_left (by norm_num)]
 
 private theorem ompInv_half_e2 {n r : ℕ} (hn : 3 ≤ n) [Finite K] [CharP K 2]
     (hr : 1 ≤ r) (hnr : n = 2 * r)

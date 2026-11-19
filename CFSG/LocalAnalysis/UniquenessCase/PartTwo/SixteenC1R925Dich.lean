@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem r925_dich (hOdd : OddIdxAll) {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) (hnot : ¬ K.map (toModO3p Γ) ≤ M.map (toModO3p Γ)) :
     IsL3Five ↥(K.map (toModO3p Γ)) ∧ IsSL2Prime ↥(Y.map (toModO3p Γ)) 5 := by
-  haveI : K.Normal := h.normal_k
+  have : K.Normal := h.normal_k
   have hJ : ∀ x ∈ CFSG.pPrimeCore 3 Γ, ¬ 3 ∣ orderOf x := r925_pPrimeCore_orderOf
   obtain ⟨D, hDY, hD3⟩ := h.y_cover.exists_subgroup_card_three
   have hDM : D ≤ M := hDY.trans h.y_le

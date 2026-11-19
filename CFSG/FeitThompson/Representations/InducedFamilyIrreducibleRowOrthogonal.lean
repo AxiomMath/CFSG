@@ -23,8 +23,8 @@ theorem cfInner_primeTIirr_primeTIrow [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyc
     cfInner (h.primeTIirr σ i j) (h.primeTIrow σ j) = 1 := by
   classical
   rw [primeTIrow_def, cfInner_sum_right, Finset.sum_eq_single_of_mem i (Finset.mem_univ i)
-    (fun k _ hki => by rw [h.cfInner_primeTIirr hσ, if_neg (by simp [Ne.symm hki])]),
-    h.cfInner_primeTIirr hσ, if_pos ⟨rfl, rfl⟩]
+    (fun k _ hki => by rw [h.cfInner_primeTIirr hσ, ite_eq_right (by simp [Ne.symm hki])]),
+    h.cfInner_primeTIirr hσ, ite_eq_left ⟨rfl, rfl⟩]
 
 theorem primeTIrow_mem_indFam [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) (j : Irr ↥W₂) :

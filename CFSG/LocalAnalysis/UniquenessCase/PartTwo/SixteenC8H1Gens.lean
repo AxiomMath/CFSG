@@ -204,7 +204,7 @@ private theorem sixteenC8H1Gens_transvection_mem (i j : Fin 3) (hij : i ≠ j) (
   · rw [show (Matrix.TransvectionStruct.mk i j hij (0 : ZMod 2)).toSpecialLinearGroup = 1
         from by
       apply Subtype.ext
-      simp [Matrix.TransvectionStruct.toMatrix_mk, Matrix.transvection_zero]]
+      simp]
     exact Subgroup.one_mem _
   · have hword : (Matrix.TransvectionStruct.mk i j hij (1 : ZMod 2)).toSpecialLinearGroup =
         wordEval ![genA, genB] (sixteenC8H1Gens_tw i j) := by
@@ -232,7 +232,7 @@ private noncomputable def sixteenC8H1Gens_iota :
   map_one' := sixteenC8H1Gens_sEH_zero
   map_mul' g₁ g₂ := by
     rw [sixteenC8H1Gens_sEH_mul]
-    simp [Matrix.adjugate_one]
+    simp
 
 private theorem sixteenC8H1Gens_mem_g (g : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :
     sEH 0 0 g ∈ sixteenC8H1Gens_S := by

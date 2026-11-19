@@ -10,8 +10,8 @@ open scoped commutatorElement
 namespace CFSG.OddStandard.SmallF3.Omega
 
 theorem fg_oz_comm_inv {E : Type*} [Group E] {w u v z₁ z₂ : E}
-    (hcv : Commute ⁅u, v⁆ v) (hz₁u : Commute z₁ u) (hz₁v : Commute z₁ v)
-    (hz₁z₂ : Commute z₁ z₂) (hz₂u : Commute z₂ u) (hz₂v : Commute z₂ v)
+    (hcv : Commute ⁅u, v⁆ v) (_hz₁u : Commute z₁ u) (hz₁v : Commute z₁ v)
+    (hz₁z₂ : Commute z₁ z₂) (hz₂u : Commute z₂ u) (_hz₂v : Commute z₂ v)
     (hu : w * u * w⁻¹ = u * z₁) (hv : w * v * w⁻¹ = v⁻¹ * z₂) :
     w * ⁅u, v⁆ * w⁻¹ = ⁅u, v⁆⁻¹ := by
   have hz₁ : ⁅z₁, v⁻¹ * z₂⁆ = 1 := (hz₁v.inv_right.mul_right hz₁z₂).commutator_eq

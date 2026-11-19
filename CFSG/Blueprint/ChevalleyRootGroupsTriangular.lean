@@ -35,7 +35,7 @@ theorem Precedes.trans {a b c : Label τ} (hab : a.Precedes b) (hbc : b.Precedes
   · exact .inl (by omega)
   · refine .inr ⟨h₁.trans h₂, ?_⟩
     rcases a with i | α <;> rcases b with j | β <;> rcases c with k | γ <;>
-      simp only at h₁' h₂' ⊢ <;> first | exact h₁'.elim | exact h₂'.elim | exact lt_trans h₁' h₂'
+      simp only at h₁' h₂' ⊢ <;> exact lt_trans h₁' h₂'
 
 theorem precedes_or_precedes {a b : Label τ} (hab : a ≠ b) : a.Precedes b ∨ b.Precedes a := by
   unfold Precedes

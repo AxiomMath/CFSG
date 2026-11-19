@@ -37,7 +37,7 @@ theorem exists_normalizer_seven
   let rho := toPermHom (sylowNormalizer X P s S) F
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 5
   obtain ⟨hF,hAlt⟩ := Degree79FiveFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 9 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF

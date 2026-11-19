@@ -21,6 +21,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.GH74.KGroups
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl24_cover_orth3L_eq_map_autSub
     {L : Subgroup (MulAut W)}
     {ψ : ↥(commSub ⊤ L) ≃* Orth3} {π : ↥(StatedSL 2 GF4) →* ↥L}
@@ -63,6 +64,7 @@ theorem s16h_sl24_cover_orth3L_eq_map_autSub
     rw [← hg_eq]
     exact ⟨γ, (hpoint γ).symm⟩
 
+omit [Finite W] in
 theorem s16h_sl24_cover_resHom_normalizer {L : Subgroup (MulAut W)} {n : MulAut W}
     (hn : n ∈ Subgroup.normalizer (L : Set (MulAut W)))
     (hnU : n ∈ stabSub (commSub ⊤ L)) :

@@ -13,7 +13,7 @@ theorem conjugate_map_subtype {X : Type*} [Group X] (D : Subgroup X) (M : Subgro
   have hcomp : (MulAut.conj (a : X)⁻¹).toMonoidHom.comp D.subtype =
       D.subtype.comp (MulAut.conj (a⁻¹ : D)).toMonoidHom := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   unfold conjugate
   rw [Subgroup.map_map, Subgroup.map_map, hcomp]
 

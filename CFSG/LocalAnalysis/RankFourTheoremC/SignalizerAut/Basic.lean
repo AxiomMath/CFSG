@@ -24,7 +24,7 @@ theorem centralizes_of_inner {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.
     (hin : B ≤ (MulAut.conj : K →* MulAut K).range) :
     B ≤ centralizer (Y : Set (MulAut K)) := by
   set c : K →* MulAut K := MulAut.conj with hc
-  haveI : c.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
+  have : c.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
   have hinj : Function.Injective c := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff, ← hZ]
     intro k hk

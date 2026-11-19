@@ -23,7 +23,7 @@ private theorem fgt_flagTyp_of_not_solid {U : FlagVert σ m}
       have hle := IsFlipflopSub.finrank_le U.2.1
       omega⟩ := by
   unfold flagTyp
-  rw [if_neg hU]
+  rw [ite_eq_right hU]
   apply Fin.ext
   exact min_eq_left (by
     have hle := IsFlipflopSub.finrank_le U.2.1
@@ -34,7 +34,7 @@ private theorem fgt_flagTyp_of_solid {U : FlagVert σ m}
     flagTyp U = if Even ((m + 1) - Module.finrank K ↥(U.1 ⊓ stdLag (m + 1) K)) then
       Fin.last m else ⟨m - 1, by omega⟩ := by
   unfold flagTyp
-  rw [if_pos hU]
+  rw [ite_eq_left hU]
 
 private theorem fgt_flagTyp_ne_of_lt {U W : FlagVert σ m} (h : U.1 < W.1) :
     flagTyp U ≠ flagTyp W := by
@@ -52,13 +52,13 @@ private theorem fgt_flagTyp_ne_of_lt {U W : FlagVert σ m} (h : U.1 < W.1) :
   · have hUs : Module.finrank K U.1 ≠ m + 1 := by omega
     rw [fgt_flagTyp_of_not_solid hUs, fgt_flagTyp_of_solid hWs]
     by_cases hE : Even ((m + 1) - Module.finrank K ↥(W.1 ⊓ stdLag (m + 1) K))
-    · rw [if_pos hE]
+    · rw [ite_eq_left hE]
       intro heq
       have hval := congrArg Fin.val heq
       have hlast : ((Fin.last m : Fin (m + 1)) : ℕ) = m := Fin.val_last m
       simp only at hval
       omega
-    · rw [if_neg hE]
+    · rw [ite_eq_right hE]
       intro heq
       have hval := congrArg Fin.val heq
       have hlast : ((Fin.last m : Fin (m + 1)) : ℕ) = m := Fin.val_last m
@@ -103,13 +103,13 @@ theorem flagTyp_ne_of_adj (hσ : ∀ x, σ (σ x) = x) (hm : 1 ≤ m) {U W : Fla
       · exact absurd (hUM'.trans hWM'.symm) hUW
     rw [fgt_flagTyp_of_solid hU, fgt_flagTyp_of_solid hW]
     by_cases hE : Even ((m + 1) - Module.finrank K ↥(U.1 ⊓ stdLag (m + 1) K))
-    · rw [if_pos hE, if_neg (hpar.mp hE)]
+    · rw [ite_eq_left hE, ite_eq_right (hpar.mp hE)]
       intro heq
       have hval := congrArg Fin.val heq
       have hlast : ((Fin.last m : Fin (m + 1)) : ℕ) = m := Fin.val_last m
       simp only at hval
       omega
-    · rw [if_neg hE, if_pos (by by_contra h; exact hE (hpar.mpr h))]
+    · rw [ite_eq_right hE, ite_eq_left (by by_contra h; exact hE (hpar.mpr h))]
       intro heq
       have hval := congrArg Fin.val heq
       have hlast : ((Fin.last m : Fin (m + 1)) : ℕ) = m := Fin.val_last m
@@ -131,8 +131,8 @@ theorem flagTyp_smul [CharP K 2] (E : QuadExt F K σ)
       (orthDerived_le_rulingGroup E (m + 1) g.2) hL
     rw [coe_smul_flagVert]
     by_cases hE : Even ((m + 1) - Module.finrank K ↥(U.1 ⊓ stdLag (m + 1) K))
-    · rw [if_pos (hiff.mpr hE), if_pos hE]
-    · rw [if_neg (fun h => hE (hiff.mp h)), if_neg hE]
+    · rw [ite_eq_left (hiff.mpr hE), ite_eq_left hE]
+    · rw [ite_eq_right (fun h => hE (hiff.mp h)), ite_eq_right hE]
   · have hgU : Module.finrank K (g • U).1 ≠ m + 1 := by rw [hfin]; exact hU
     rw [fgt_flagTyp_of_not_solid hU, fgt_flagTyp_of_not_solid hgU]
     apply Fin.ext
@@ -240,7 +240,7 @@ private theorem fgt_span_append_left {k l d : ℕ}
     exact (fgt_append_val_lt u v i hi').symm
   · rintro ⟨i, hi, rfl⟩
     refine ⟨Fin.castAdd l i, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, Fin.val_castAdd]
+    · simp only [Set.mem_ofPred_eq, Fin.val_castAdd]
       exact hi
     · exact fgt_append_val_lt u v (Fin.castAdd l i) (by simp)
 
@@ -297,7 +297,7 @@ private theorem fgtSpan_succ {k : ℕ} (w : Fin k → (Fin (m + 1) ⊕ Fin (m + 
   rw [fgtSpan, fgtSpan]
   have hset : {i : Fin k | (i : ℕ) < d + 1} = {i : Fin k | (i : ℕ) < d} ∪ {⟨d, hd⟩} := by
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
     constructor
     · intro h
       by_cases hid : (i : ℕ) < d
@@ -446,26 +446,26 @@ private theorem fgt_exists_adapted_basis (hσ : ∀ x, σ (σ x) = x) (hne : ∃
                   apply Fin.ext
                   change (i : ℕ) = (j : ℕ)
                   rw [h]
-                rw [if_pos hc, if_pos h]
-              · rw [if_neg (by
+                rw [ite_eq_left hc, ite_eq_left h]
+              · rw [ite_eq_right (by
                     intro hh
                     exact h (Fin.ext (by
                       have := congrArg Fin.val hh
-                      simpa using this))), if_neg h]
+                      simpa using this))), ite_eq_right h]
             · rw [hw_left i hi, hw_right j (by omega)]
-              rw [if_neg (by omega)]
+              rw [ite_eq_right (by omega)]
               exact (mem_flipOrth.mp (BD _).2.2) _ (hwx _)
           · by_cases hj : (j : ℕ) < Module.finrank K x.1
             · rw [hw_right i (by omega), hw_left j hj]
-              rw [if_neg (by omega)]
+              rw [ite_eq_right (by omega)]
               exact (flipHerm_eq_zero_iff hσ).mp
                 ((mem_flipOrth.mp (BD _).2.2) _ (hwx _))
             · rw [hw_right i (by omega), hw_right j (by omega)]
               rw [hu_orth]
               by_cases hij : i = j
               · subst hij
-                rw [if_pos rfl, if_pos (by apply Fin.ext; rfl)]
-              · rw [if_neg hij, if_neg (by
+                rw [ite_eq_left rfl, ite_eq_left (by apply Fin.ext; rfl)]
+              · rw [ite_eq_right hij, ite_eq_right (by
                   intro h
                   apply hij
                   apply Fin.ext
@@ -670,9 +670,9 @@ private theorem fgt_exists_chamber (E : QuadExt F K σ)
       induction i using Fin.lastCases with
       | last =>
         induction j using Fin.lastCases with
-        | last => rw [hv_last, if_pos rfl]; exact hpNorm
+        | last => rw [hv_last, ite_eq_left rfl]; exact hpNorm
         | cast j =>
-          rw [hv_last, hv_cast, if_neg (by
+          rw [hv_last, hv_cast, ite_eq_right (by
             intro h
             have := congrArg Fin.val h
             simp at this
@@ -681,7 +681,7 @@ private theorem fgt_exists_chamber (E : QuadExt F K σ)
       | cast i =>
         induction j using Fin.lastCases with
         | last =>
-          rw [hv_cast, hv_last, if_neg (by
+          rw [hv_cast, hv_last, ite_eq_right (by
             intro h
             have := congrArg Fin.val h
             simp at this
@@ -692,8 +692,8 @@ private theorem fgt_exists_chamber (E : QuadExt F K σ)
           have hiff : (i.castSucc = j.castSucc) ↔ i = j :=
             ⟨fun h => Fin.castSucc_injective m h, fun h => by rw [h]⟩
           by_cases hij : i = j
-          · rw [if_pos (hiff.mpr hij), if_pos hij]
-          · rw [if_neg (fun h => hij (hiff.mp h)), if_neg hij]
+          · rw [ite_eq_left (hiff.mpr hij), ite_eq_left hij]
+          · rw [ite_eq_right (fun h => hij (hiff.mp h)), ite_eq_right hij]
   let f : FlipFrame σ (m + 1) :=
     FlipFrame.ofOrthonormal v hv.1 (fun i j _ => hv.2.1 i j) hv.2.2
   have hline : ∀ i : Fin m, f.line i.castSucc = K ∙ w i := fun i => by
@@ -894,8 +894,8 @@ theorem exists_dChamber_of_isFlag (E : QuadExt F K σ) (hm : 2 ≤ m) {S : Set (
             rw [h] at hxpar
             exact hodd hxpar
         have htyp : flagTyp x = Fin.last m := by
-          rw [fgt_flagTyp_of_solid hxsolid, if_pos hxpar]
-        rw [hxMe, htyp, FlipFrame.elt, if_pos rfl,
+          rw [fgt_flagTyp_of_solid hxsolid, ite_eq_left hxpar]
+        rw [hxMe, htyp, FlipFrame.elt, ite_eq_left rfl,
           c.toFlipFrame.sub_of_le (le_refl (m + 1)), hspan]
       · have hxMo : x.1 = M_odd := by
           rcases hxun with h | h
@@ -904,7 +904,7 @@ theorem exists_dChamber_of_isFlag (E : QuadExt F K σ) (hm : 2 ≤ m) {S : Set (
             exact hxpar heven
           · exact h
         have htyp : flagTyp x = ⟨m - 1, by omega⟩ := by
-          rw [fgt_flagTyp_of_solid hxsolid, if_neg hxpar]
+          rw [fgt_flagTyp_of_solid hxsolid, ite_eq_right hxpar]
         have hnotlast : (⟨m - 1, by omega⟩ : Fin (m + 1)) ≠ Fin.last m := by
           intro h
           have := congrArg Fin.val h
@@ -913,7 +913,7 @@ theorem exists_dChamber_of_isFlag (E : QuadExt F K σ) (hm : 2 ≤ m) {S : Set (
         have hnear : ((⟨m - 1, by omega⟩ : Fin (m + 1)) : ℕ) + 1 = m := by
           simp
           omega
-        rw [hxMo, htyp, FlipFrame.elt, if_neg hnotlast, if_pos hnear, hAlt]
+        rw [hxMo, htyp, FlipFrame.elt, ite_eq_right hnotlast, ite_eq_left hnear, hAlt]
     · have hxSns : x ∈ Sns := by
         exact Finset.mem_filter.mpr ⟨hxSf, hxsolid⟩
       have hxle := IsFlipflopSub.finrank_le x.2.1
@@ -940,7 +940,7 @@ theorem exists_dChamber_of_isFlag (E : QuadExt F K σ) (hm : 2 ≤ m) {S : Set (
         rw [htyp]
         simp
         omega
-      rw [FlipFrame.elt, if_neg hnotlast, if_neg hnotalt, hidx]
+      rw [FlipFrame.elt, ite_eq_right hnotlast, ite_eq_right hnotalt, hidx]
       exact (hsub x hxSns).symm
   have hcard0 : Ssol.card = 0 ∨ Ssol.card = 1 ∨ Ssol.card = 2 := by
     omega

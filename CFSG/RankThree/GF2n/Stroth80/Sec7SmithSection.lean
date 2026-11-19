@@ -30,15 +30,15 @@ theorem sec7_point_data (h34 : Stroth34Statement) (hRoot : Stroth310RootStatemen
           conjSubgroup (r : G) (LB M Q B) = LB M Q B := by
   classical
   obtain ⟨K, fK, finK, hK, hnat⟩ := h4
-  letI := fK
-  letI := finK
+  let := fK
+  let := finK
   have hm : 3 ≤ 4 := by norm_num
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inl ⟨4, hm, hnat⟩⟩
-  haveI hchar : CharP K 2 := by
+  have hchar : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin 4 ⊕ Fin 4 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     norm_num
@@ -46,7 +46,7 @@ theorem sec7_point_data (h34 : Stroth34Statement) (hRoot : Stroth310RootStatemen
   have hX := addCommutantScalar_statedOmegaPlus (K := K) (m := 4) hm
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.plus hm) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, hQu, hu0, hBiff, -, hL, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -100,7 +100,7 @@ theorem sec7_irred_E (hSec : Sec7WVSecCardStatement) {n' : ℕ} (hs : Sec7Hyp hc
     A = (hc.VtSub hS.model t).toAddSubgroup ∨ A = P.toAddSubgroup := by
   classical
   have ht : t ∈ LB M Q B := hs.toSec5.mem
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card

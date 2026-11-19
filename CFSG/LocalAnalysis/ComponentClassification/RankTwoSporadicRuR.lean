@@ -110,20 +110,20 @@ theorem ruLetters_of {L : ℕ → ℕ}
     have hget : ∀ p < 4060, ((ruField4060 3)[k]!)[p]! = at' 12 (L k) p := by
       intro p hp
       have := allLt_spec he hp
-      rw [beq_iff_eq, SP.unpackP_get, if_pos hp] at this
+      rw [beq_iff_eq, SP.unpackP_get, ite_eq_left hp] at this
       exact this.symm
     refine ⟨(rep_permOfArr (r := unpackP 4060 12 (L (18 + k))) ?_).1, hget⟩
     unfold isInvA
     rw [allLt_iff]
     intro i hi
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-    rw [hget i hi, SP.unpackP_get, if_pos (hinv k hk i hi).1]
+    rw [hget i hi, SP.unpackP_get, ite_eq_left (hinv k hk i hi).1]
     exact hinv k hk i hi
   refine ⟨fun k hk p hp => ?_, fun k hk => ?_⟩
   · by_cases h18 : k < 18
-    · rw [ruLet, if_pos h18, ← (hrep k h18).1.apply hp, (hrep k h18).2 p hp]
+    · rw [ruLet, ite_eq_left h18, ← (hrep k h18).1.apply hp, (hrep k h18).2 p hp]
     · have hj : k - 18 < 18 := by omega
-      rw [ruLet, if_neg h18]
+      rw [ruLet, ite_eq_right h18]
       set g := permOfArr 4060 (ruField4060 3)[k - 18]!
       set q := g⁻¹ ⟨p, hp⟩
       have hq : at' 12 (L (k - 18)) q = p := by
@@ -133,7 +133,7 @@ theorem ruLetters_of {L : ℕ → ℕ}
       have := (hinv _ hj q q.2).2
       rw [hq, show 18 + (k - 18) = k by omega] at this
       exact this
-  · simp only [ruLet, if_pos hk, if_neg (show ¬ 18 + k < 18 by omega),
+  · simp only [ruLet, ite_eq_left hk, ite_eq_right (show ¬ 18 + k < 18 by omega),
       show 18 + k - 18 = k by omega]
 
 theorem ruLet_mem {k : ℕ} (hk : k < 2 * 18) : ruLet k ∈ ruP := by
@@ -169,7 +169,7 @@ theorem permsA_ruE0_pair :
     permsA 4060 ruE0 = {permOfArr 4060 ruE0[0]!, permOfArr 4060 ruE0[1]!} := by
   have hs : ruE0.size = 2 := rfl
   ext g
-  simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff, hs]
   constructor
   · rintro ⟨k, hk, rfl⟩
@@ -207,7 +207,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
   have hXP : ∀ g ∈ X, g ∈ ruP := fun g hg => by
     rw [hXdef] at hg
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hg
-    exact wordPerm_mem HL hℓ (hxw x hx)
+    exact wordPerm_mem hℓ (hxw x hx)
   have hrelX : PcRel X := hXdef ▸ pcRel_of_pcRelB HL ruBase hℓ xw d.rs d.cjs hxw hrel
   obtain ⟨S4, hS4def⟩ : ∃ S4 : Subgroup (Equiv.Perm (Fin 4060)), S4 = closure {a | a ∈ X} :=
     ⟨_, rfl⟩
@@ -264,16 +264,16 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
     rw [hq q]
     congr 1
     apply Fin.ext
-    rw [← hrep.apply q.2, SP.unpackP_get, if_pos q.2]
+    rw [← hrep.apply q.2, SP.unpackP_get, ite_eq_left q.2]
   have hmemX : ∀ j (hj : j < 14), wordPerm ruLet xw[j] ∈ S4 := fun j hj => by
     rw [hS4def]
     refine subset_closure ?_
-    rw [Set.mem_setOf_eq, hXdef]
+    rw [Set.mem_ofPred_eq, hXdef]
     exact List.mem_map_of_mem (List.getElem_mem _)
   have hS4stab : S4 ≤ stab Of := by
     rw [hS4def, closure_le]
     intro g hg
-    rw [Set.mem_setOf_eq, hXdef] at hg
+    rw [Set.mem_ofPred_eq, hXdef] at hg
     obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hg
     rw [List.getElem_map]
     exact (hgen j (by simpa [hxwl'] using hj)).1
@@ -433,7 +433,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
       rw [SetLike.mem_coe, mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       rcases hg with rfl | hg
       · exact hgenE _ (by rw [hxsU]; exact hme)
-      · simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hg
+      · simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hg
         obtain ⟨g', hg', rfl⟩ := hg
         exact hgenE _ (by rw [hxsU]; exact hmt g' hg')
     have hs4P : (s4 : Equiv.Perm (Fin 4060)) ∈ ruP := hS4P s4.2
@@ -473,7 +473,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
         {f (pcG XW em[0]!), f (pcG XW em[1]!)} := by
       have hs : (e0.map (unpackP 128 7)).size = 2 := by rw [Array.size_map, he0s']
       ext g
-      simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+      simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
         Set.mem_singleton_iff, hs]
       constructor
       · rintro ⟨k, hk, rfl⟩
@@ -493,7 +493,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
       ext g
       simp [MulAut.conj_apply]
     obtain ⟨Y, hY⟩ : ∃ Y, Y = wordPerm ruLet yw := ⟨_, rfl⟩
-    have hYP : Y ∈ ruP := hY ▸ wordPerm_mem HL hℓ (hwok yw hywk)
+    have hYP : Y ∈ ruP := hY ▸ wordPerm_mem hℓ (hwok yw hywk)
     have hpe : ∀ k < 2, permOfArr 4060 ruE0[k]! = Y⁻¹ * pcG X em[k]! * Y := by
       intro k hk
       have hck : conjB 12 L (List.range 4060) xw em[k]! yw pe[k]! = true := by
@@ -516,7 +516,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
         wPt_eq HL yw (hwok yw hywk) _ hbl, ← hXdef, ← hY] at e1
       have e2 : (ruE0[k]!)[(b : ℕ)]! = at' 12 pe[k]! b := by
         have := allLt_spec hpk b.2
-        rw [beq_iff_eq, SP.unpackP_get, if_pos b.2] at this
+        rw [beq_iff_eq, SP.unpackP_get, ite_eq_left b.2] at this
         exact this.symm
       have e3 : (pcG X em[k]!) (Y b) = Y ⟨at' 12 pe[k]! b, hbl⟩ := Fin.ext e1
       have e4 : Y⁻¹ (Y ⟨at' 12 pe[k]! b, hbl⟩) = ⟨at' 12 pe[k]! b, hbl⟩ := by simp
@@ -525,7 +525,7 @@ theorem census_of_ruCheckR {d : ConjDataP} {ps : List ℕ} {e0 : Array ℕ} {L :
         (MulAut.conj Y⁻¹).toMonoidHom := by
       rw [ruE0Sub, permsA_ruE0_pair, hpe 0 (by norm_num), hpe 1 (by norm_num),
         MonoidHom.map_closure, Set.image_pair]
-      simp [MulAut.conj_apply]
+      simp
     refine ⟨(w4 : Equiv.Perm (Fin 4060)) * Y, ruP.mul_mem (hS4P w4.2) hYP, ?_⟩
     rw [← hE4def, ← hEWmap, hEW, hE0sub, map_conj_map_conj, map_map]
     have hsub : (E0W.map S4.subtype) = closure {pcG X em[0]!, pcG X em[1]!} := by

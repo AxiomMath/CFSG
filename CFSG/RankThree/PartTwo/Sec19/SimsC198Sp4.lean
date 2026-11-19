@@ -117,7 +117,7 @@ theorem noLocalDatum_statedSp_two {K : Type} [Field K] [Finite K] [CharP K 2] :
   obtain ⟨P, -, hP3, hPnc⟩ := hLD.exists_nonabelian
   exact hPnc (isMulCommutative_of_isPGroup_three_sp4 hP3)
 
-theorem noLocalDatum_projSp_two_even (n : ℕ) (hn : 1 ≤ n) :
+theorem noLocalDatum_projSp_two_even (n : ℕ) (_hn : 1 ≤ n) :
     NoLocalDatum (CFSG.Assembly.RankThreeEven.projSp 2 (GaloisField 2 n)) :=
   NoLocalDatum.of_mulEquiv (KFacts.statedSpEquivProjSpOfCharTwo (GaloisField 2 n)).symm
     noLocalDatum_statedSp_two

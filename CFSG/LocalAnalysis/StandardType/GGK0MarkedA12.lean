@@ -138,7 +138,7 @@ theorem a12_fullFactor_commutes_components
 
 theorem fixed_preimage_map_eq
     {L R : Type} [Group L] [Group R] (psi : L →* R)
-    (e u : MulAut L) (phi v : MulAut R)
+    (e u : MulAut L) (_phi v : MulAut R)
     (hu : Commute u e) (hInd : ∀ l, v (psi l) = psi (u l))
     (F : Subgroup R) (hF : F.map v.toMonoidHom = F) :
     ((F.comap psi) ⊓ ggFixSub e).map u.toMonoidHom = (F.comap psi) ⊓ ggFixSub e := by
@@ -159,14 +159,12 @@ theorem fixed_preimage_map_eq
     refine Subgroup.mem_map.mpr ⟨u⁻¹ x, ?_, by simp⟩
     refine ⟨?_, ?_⟩
     · have hxF : psi x ∈ F.map v.toMonoidHom := by
-        change psi x ∈ F.map v.toMonoidHom
         rw [hF]
         exact hx.1
       obtain ⟨y, hy, hey⟩ := hxF
       have hpre : psi (u⁻¹ x) = y := by
         apply v.injective
         rw [hInd]
-        change psi (u (u⁻¹ x)) = v y
         rw [show u (u⁻¹ x) = x from u.apply_symm_apply x]
         exact hey.symm
       change psi (u⁻¹ x) ∈ F

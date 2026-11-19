@@ -33,7 +33,7 @@ theorem barImage_T_sylow_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ calC 
     CFSG.ABGLocalTools.isSylowOf_iff.mp (D.sylowM.of_le le_sup_right hHM)
   exact WeakClosure81.isSylowIn_barImage hT
 
-theorem orbitClosure_sup_of_calC {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
+theorem orbitClosure_sup_of_calC {D : Data G} {L : Subgroup G} (_hL : L ∈ calC D.M) :
     orbitClosure (UC22.barImage (L ⊔ D.T) L) (UC22.barImage (L ⊔ D.T) D.T) ⊔
         UC22.barImage (L ⊔ D.T) D.T = ⊤ := by
   have hgen : UC22.barImage (L ⊔ D.T) L ⊔ UC22.barImage (L ⊔ D.T) D.T = ⊤ := by

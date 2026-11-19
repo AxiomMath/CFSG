@@ -236,7 +236,7 @@ theorem ker_eq_bot_of_sylow_quaternion
       rw [MonoidHom.mem_ker, map_mul, map_inv, map_mul, map_zpow, hx, hy, hi, zpow_natCast,
         inv_mul_cancel]
   have hTc : ⁅T, T⁆ ≤ Subgroup.zpowers (x ^ 2 * α⁻¹) := commutator_le_zpowers hα hyx hT
-  have hTp : IsPGroup 2 T := IsPGroup.comap_of_ker_isPGroup S.isPGroup' η h2
+  have hTp : IsPGroup 2 T := IsPGroup.comap_of_ker_isPGroup S.isPGroup η h2
   have hTodd : Odd T.index := by
     rw [hTdef, Subgroup.index_comap_of_surjective _ hη]
     exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 S.not_dvd_index)

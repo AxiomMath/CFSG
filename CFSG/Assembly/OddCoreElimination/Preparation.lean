@@ -62,7 +62,7 @@ theorem completedSpanPreparation : CompletedSpanPreparationStatement := by
     exact hrank
   obtain ⟨E₀, hE₀S, hE₀⟩ := exists_mem_E3_le hSrank
   have : (U.subgroupOf P).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUS).mpr hSU
-  obtain ⟨E', hUE', hE', -, hpaths⟩ := rankThree_normal_four_common_vertex S.isPGroup'
+  obtain ⟨E', hUE', hE', -, hpaths⟩ := rankThree_normal_four_common_vertex S.isPGroup
     (U.subgroupOf P) (isElemAbelian_subgroupOf hUS hU)
     ((rankThree_card_subgroupOf_eq U P hUS).trans hUcard) (E₀.subgroupOf P)
     (subgroupOf_mem_E3 hE₀S hE₀)

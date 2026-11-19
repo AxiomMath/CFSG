@@ -13,7 +13,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 theorem nonempty_pSimple_equiv_map_of_central {G H : Type} [Group G] [Group H] [Finite G] (p : ℕ)
     [Fact p.Prime] (f : G →* H) (hf : ∀ g : G, f g = 1 → g ∈ Subgroup.center G) {L : Subgroup G}
     (hL : Group.IsPerfect ↥L) : Nonempty (PSimple p L ≃* PSimple p (L.map f)) := by
-  haveI := hL
+  have := hL
   let φ : ↥L →* ↥(L.map f) := f.subgroupMap L
   have hφ : Function.Surjective φ := f.subgroupMap_surjective L
   have hker : φ.ker ≤ Subgroup.center ↥L := by
@@ -47,7 +47,7 @@ theorem nonempty_pSimple_equiv_map_of_central {G H : Type} [Group G] [Group H] [
     obtain ⟨g', rfl⟩ := QuotientGroup.mk_surjective g
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     exact congrArg QuotientGroup.mk (Subgroup.mem_center_iff.1 hz g')
-  haveI : Group.IsPerfect (PQuot p L) :=
+  have : Group.IsPerfect (PQuot p L) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (GLAPPrimeCore p ↥L))
       (QuotientGroup.mk'_surjective _)
   exact Y10F.quotEquiv_of_perfect_central ψ hψ inferInstance hψker
@@ -95,7 +95,7 @@ theorem conjHom_eq_self_of_mem_centralizer {K : Subgroup ↥S} (hK : Group.IsPer
     simp only [commutatorElement_def, MonoidHom.mem_ker, map_mul, map_inv]
     calc χ a * χ c * (χ a)⁻¹ * (χ c)⁻¹ = χ c * χ a * (χ a)⁻¹ * (χ c)⁻¹ := by rw [h]
       _ = 1 := by group
-  haveI := hK
+  have := hK
   rw [Group.IsPerfect.commutator_eq_top] at hker
   have h1 : χ ⟨k, hk⟩ = 1 := MonoidHom.mem_ker.1 (hker (Subgroup.mem_top _))
   exact mul_inv_eq_one.1 h1

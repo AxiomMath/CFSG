@@ -28,8 +28,8 @@ theorem eq_bot_of_perfect_le_centralizer_even {n : ℕ} (hn : 1 ≤ n) (hne : Ev
     (hYC : Y ≤ Subgroup.centralizer ({x} : Set (projSU 4 2 n))) : Y = ⊥ := by
   set K := GaloisField 2 (2 * n) with hKdef
   have hU : UnitaryFieldData 2 n K := ⟨Nat.prime_two, hn, GaloisField.card 2 (2 * n) (by omega)⟩
-  haveI := hU.finite
-  haveI : CharP K 2 := hU.charP
+  have := hU.finite
+  have : CharP K 2 := hU.charP
   set ψ₀ := Sec4.Res417Six.unitarySUEquivProjSU hn
   set s := ψ₀.symm x with hs
   have hdvd : 3 ∣ Nat.card K - 1 := by
@@ -94,12 +94,12 @@ theorem b3Fix_projSU_four_inner_charTwo {n : ℕ} (hn : 1 ≤ n) {x : projSU 4 2
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact (mul_one z).trans (one_mul z).symm
     rw [hC]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hs : IsSimpleGroup (projSU 4 2 n) :=
       CFSG.PGLModel.isSimpleGroup_projSU_of_admissible
         ⟨Nat.prime_two, hn, by norm_num, fun h => by have := congrArg Prod.fst h; simp at this⟩
-    haveI : Finite (projSU 4 2 n) := inferInstance
+    have : Finite (projSU 4 2 n) := inferInstance
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3
       (Sec13.Res5Proof.three_dvd_card_projSU_four 2 n)
     have hy3 : y ^ 3 = 1 := by
@@ -121,8 +121,8 @@ theorem b3Fix_projSU_four_outer {n : ℕ} (hn : 1 ≤ n) {β : MulAut (projSU 4 
     Subgroup.ext fun z => by rw [hC z, Sec4.Item426.mem_fixSub]
   subst hCeq
   obtain ⟨hs, k, -, hcard⟩ := Sec8.Hering611.outer_fixSub_simple hn hβ hout
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (projSU 4 2 n) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (projSU 4 2 n) := inferInstance
   have h3 : 3 ∣ Nat.card (Sec4.Item426.fixSub β) := by
     rw [hcard]
     exact Dvd.dvd.mul_left (Dvd.dvd.mul_right (Dvd.dvd.mul_right

@@ -28,6 +28,7 @@ section Cover
 
 variable [Fintype K] {p r n : ℕ} {Y : Type*} [Group Y] [Finite Y]
 
+omit [Fintype K] in
 theorem lowerUni_of_cover (hK : UnitaryFieldData ℓ f K) (hℓ2 : ℓ = 2) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) (hn : 3 ≤ n) (hnr : r + 3 = n)
     {φ : Y →* unitaryPSU hK n} (hφ : Function.Surjective φ)
@@ -342,8 +343,8 @@ end Cover
 theorem lowerUni_holds : LowerUni := by
   intro G _ _ L p N hp hp2 hN hq hcat
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨m, rfl⟩ : ∃ m, N = m + 1 := ⟨N - 1, by omega⟩
   obtain ⟨i, hQi, ⟨eCat⟩⟩ := hcat
   rcases i with ⟨pr, hpr⟩ | ⟨deg, hdeg⟩ | d | s
@@ -363,30 +364,30 @@ theorem lowerUni_holds : LowerUni := by
     obtain ⟨hadm, K, hKfield, hKfin, hKcard, ⟨eStated⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hlm
         (by decide : StatedLieTag.PSU ∈ CFSG.Blueprint.classicalTags)
-    letI := hKfield
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hKfield
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
     have hKcard' : Nat.card K = (2 ^ q.exponent) ^ 2 := hKcard
     have hK : UnitaryFieldData 2 q.exponent K :=
       ⟨Nat.prime_two, q.exponent_pos, by rw [hKcard', ← pow_mul, mul_comm]⟩
     have hpq' : p ∣ 2 ^ q.exponent + 1 := by
       rw [← hq2, ← TauCeti.PrimePower.card_def q]
       exact hpq
-    haveI hU : Nontrivial (unitaryPSU hK (m + 1)) := by
+    have hU : Nontrivial (unitaryPSU hK (m + 1)) := by
       obtain ⟨-, U, -, -, hU1, -, -⟩ :=
         lowerUni_of_cover (hK := hK) (Y := unitaryPSU hK (m + 1)) (p := p) (r := m - 2)
           (n := m + 1) rfl hp hp2 hpq' (by omega) (by omega) (φ := MonoidHom.id _)
           Function.surjective_id (by simp)
       have hx : ∃ x ∈ U, x ≠ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         refine hU1 (by
           rw [Subgroup.eq_bot_iff_forall]
           intro x hxU
           exact h x hxU)
       obtain ⟨x, hxU, hx1⟩ := hx
       exact ⟨x, 1, by simpa using hx1⟩
-    haveI hNtriv : Nontrivial (PSimple p L) := by
+    have hNtriv : Nontrivial (PSimple p L) := by
       let ePN : PSimple p L ≃* unitaryPSU hK (m + 1) :=
         eStated.trans (unitaryPSUEquiv hK (by omega)).symm
       obtain ⟨x, hx⟩ := exists_ne (1 : unitaryPSU hK (m + 1))
@@ -395,16 +396,16 @@ theorem lowerUni_holds : LowerUni := by
         simpa using this)⟩
     have hO : GLAPPrimeCore p ↥L ≠ ⊤ := by
       intro htop
-      haveI : Subsingleton (PQuot p L) := by
+      have : Subsingleton (PQuot p L) := by
         rw [PQuot, htop]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton (PSimple p L) :=
+      have : Subsingleton (PSimple p L) :=
         (QuotientGroup.mk'_surjective (Subgroup.center (PQuot p L))).subsingleton
       obtain ⟨x, hx⟩ := exists_ne (1 : PSimple p L)
       exact hx (Subsingleton.elim x 1)
     have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
       CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq inferInstance hO
-    haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+    have : Group.IsPerfect ↥L := ⟨hq.1⟩
     let eP : (↥L ⧸ Subgroup.center ↥L) ≃* PSimple p L :=
       CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hOZ
     let eAll : (↥L ⧸ Subgroup.center ↥L) ≃* unitaryPSU hK (m + 1) :=

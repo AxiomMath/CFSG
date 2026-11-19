@@ -67,7 +67,7 @@ theorem outRankLeOne_of_pRank {J : Type} [Group J] [Finite J]
     (h : CFSG.Open.pRank 5 (⊤ : Subgroup (CFSG.ComponentClassification.OuterAutomorphisms.Outer J)) ≤ 1) :
     Claims1110d.OutRankLeOne J := by
   intro X hX hc h5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set N := CFSG.ComponentClassification.OuterAutomorphisms.inner J with hN
   set q := QuotientGroup.mk' N with hq
   have hker : q.ker = innerAut J := by
@@ -105,7 +105,7 @@ theorem outRankLeOne_of_pRank {J : Type} [Group J] [Finite J]
 theorem outRankLeOne_of_isAltType_five {Y : Type} [Group Y] [Finite Y] (hY : IsAltType 5 Y) :
     Claims1110d.OutRankLeOne Y := by
   intro X hX _ _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨ψ⟩ := hY
   have hA : Nat.card (MulAut Y) = 120 := by
     rw [CFSG.LargeExtraspecial.S12Tri.card_mulAut_congr ψ]
@@ -136,7 +136,7 @@ theorem alt_of_eqv {e a : G} {J₁ L : Subgroup G} (hJ₁ : GLAPComponent 5 (Cg 
         q * QuotientGroup.mk' (GLAPPrimeCore 5 ↥(Cg e)) ⟨a, hae⟩) :
     Subgroup.center (barOf 5 J₁) = ⊥ ∧ IsAltType 5 (barOf 5 J₁) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hBel : IsElemAbelian 5 (Subgroup.zpowers a) := Claims1116.isElemAbelian_zpowers ha5
   have hBC : Subgroup.zpowers a ≤ Cg e := (Subgroup.zpowers_le).2 hae
   have hL' : GLAPComponent 5 (Cg e ⊓ Subgroup.centralizer ({a} : Set G)) L := by
@@ -207,6 +207,7 @@ theorem isElemAbelian_subgroupOf {p : ℕ} {A : Subgroup G} (hA : IsElemAbelian 
   · have hx' : ((x : ↥H) : G) ∈ A := Subgroup.mem_subgroupOf.1 hx
     simpa using hA.2 _ hx'
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_commute' (L R : Subgroup G)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup G) * Nat.card (L ⊓ R : Subgroup G) = Nat.card L * Nat.card R := by
@@ -266,7 +267,7 @@ theorem le_M_of_seitz (hSeitz : Claims1116.Input23_10) (h111 : Prop111Statement)
     (hchev : IsChevSimple 2 (barOf 5 J₁ ⧸ Subgroup.center (barOf 5 J₁)))
     (hexc : ¬ Claims1116.Exc5 (barOf 5 J₁ ⧸ Subgroup.center (barOf 5 J₁))) : J₁ ≤ M := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨B₃, ⟨-, hB₃el, hB₃c⟩, hB₃B₁⟩ := Claims1110.exists_isEkIn_le (k := 3) (X := ⊤) le_top hB₁el
     (by rw [hB₁c]; exact Nat.pow_le_pow_right (by norm_num) (by omega))
   have hB₃C : B₃ ≤ Cg e := hB₃B₁.trans hB₁C
@@ -350,7 +351,7 @@ theorem comm_of_U5 {J₁ B₁ F R : Subgroup G} {m : ℕ} (hRp : IsPGroup 5 ↥R
         ∀ β ∈ E, ∀ f ∈ F, β f = f) :
     ∀ b ∈ B₁, ∀ f ∈ F, b * f = f * b := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set N := Subgroup.normalizer (J₁ : Set G) with hN
   set πJ : ↥J₁ →* barOf 5 J₁ := QuotientGroup.mk' (GLAPPrimeCore 5 ↥J₁) with hπJ
   set Z1 := omegaOne 5 (Subgroup.center (barOf 5 J₁)) with hZ1
@@ -518,7 +519,7 @@ theorem false_of_isUpType (h119 : Lemma119Statement) (h111 : Prop111Statement)
         5 ^ 3 ≤ Nat.card (F.map (MulAut.conj : barOf 5 J₁ →* MulAut (barOf 5 J₁))) →
         ∀ β ∈ E, ∀ f ∈ F, β f = f) : False := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   obtain ⟨hrk, -, -, -⟩ := h119 h
   have hRp : IsPGroup 5 ↥R := hR.2.1
@@ -700,7 +701,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isKHat_barOf {m : ℕ} (hS : GLStanding G m 5) {e : G} (he1 : e ≠ 1) {J : Subgroup G}
     (hJ : GLAPComponent 5 (Cg e) J) : CFSG.LocalAnalysis.GLTheoremA.IsKHat (barOf 5 J) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hq : CFSG.Open.IsQuasisimple (barOf 5 J) := Lemma1313.isQuasisimple_barOf_of_pComp hJ
   have hX : CFSG.Open.IsKGroup ↥(Cg e) :=
     hS.kProper.isKGroup (Cg e) (centralizer_singleton_ne_top hS he1)
@@ -712,7 +713,7 @@ theorem pumpup_of_single {e a : G} {J₁ L : Subgroup G} (hJ₁ : GLAPComponent 
     (ha : a ∈ Subgroup.normalizer (J₁ : Set G)) (hx1 : barAut 5 J₁ ⟨a, ha⟩ ≠ 1) :
     Lemma1314.PumpupVia 5 ↥(alternatingGroup (Fin 5)) (barOf 5 J₁) (barAut 5 J₁ ⟨a, ha⟩) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hxp : (barAut 5 J₁ ⟨a, ha⟩) ^ 5 = 1 := by
     rw [← map_pow]
     have : (⟨a, ha⟩ : ↥(Subgroup.normalizer (J₁ : Set G))) ^ 5 = 1 := Subtype.ext (by simpa using ha5)
@@ -774,7 +775,7 @@ theorem exists_J1_data (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemma119St
       Subgroup.center (barOf 5 J₁) = ⊥ ∧ Claims1110d.OutRankLeOne (barOf 5 J₁) ∧
       (a ∉ Subgroup.normalizer (J₁ : Set G) → IsAltType 5 (barOf 5 J₁)) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -830,7 +831,7 @@ theorem conj_mem_of_cRIe_isCyclic {K : Subgroup G} {e a : G} {J₁ : Subgroup G}
     (heI : e ∉ Claims1110c.IeStarOf K e) (hcyc : IsCyclic ↥(Claims1110b.CRIe R K e)) :
     ∀ c ∈ Cg e, ∃ g ∈ Subgroup.zpowers a, GLBConj c J₁ = GLBConj g J₁ := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   intro c hc
   by_contra hne
   push Not at hne
@@ -902,7 +903,7 @@ theorem conj_mem_of_cRIe_isCyclic {K : Subgroup G} {e a : G} {J₁ : Subgroup G}
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
     exact (Commute.zpow_zpow (show Commute x e from hxe) i j).eq
   set T' : Subgroup ↥(Claims1110b.CRIe R K e) := T.subgroupOf (Claims1110b.CRIe R K e) with hT'
-  haveI : IsCyclic ↥(Claims1110b.CRIe R K e) := hcyc
+  have : IsCyclic ↥(Claims1110b.CRIe R K e) := hcyc
   have hT'card : Nat.card ↥T' = Nat.card ↥T :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTV).toEquiv
   have h5 := Claims1110b.card_le_of_isCyclic_of_pow (T := T') inferInstance (fun t ht => Subtype.ext
@@ -918,7 +919,7 @@ theorem ieLayerClaim_of (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemma119S
     (h183 : Prop115.Input18_3Gen) : Claims1110b.IeLayerClaim := by
   intro G _ _ m p B M E A a K h hb R hR hEAR e heZ he1
   obtain ⟨rfl, hfi⟩ := hb
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   have hZle : omegaOne 5 (centerOf R) ≤ E ⊓ A :=
@@ -948,7 +949,7 @@ theorem ieStarClaim_of (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemma119St
   intro G _ _ m p B M E A a K h hb R hR hEAR e heZ he1
   obtain ⟨rfl, hfi⟩ := hb
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨J₁, hJ₁, hI, hZ, hOut, hA5'⟩ :=
     exists_J1_data hI1421 hF h119 h111 h112 h183 hSeitz hA5 h hfi hR hEAR heZ he1
   have hS := h.toCex117Base.toSec11.toSec10Fails

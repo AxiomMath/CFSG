@@ -67,7 +67,7 @@ theorem pRank_le_one_of_isCyclic {L : Type} [Group L] [Finite L] (Z : Subgroup L
   classical
   refine csSup_le' ?_
   rintro k ⟨E, hEZ, ⟨hEc, hE3⟩, hEcard⟩
-  haveI := Fintype.ofFinite Z
+  have := Fintype.ofFinite Z
   have h1 := IsCyclic.card_pow_eq_one_le (α := Z) (n := 3) (by norm_num)
   have hinj : Function.Injective (fun x : E => (⟨⟨(x : L), hEZ x.2⟩, Subtype.ext (hE3 x.1 x.2)⟩ :
       {a : Z // a ^ 3 = 1})) := by
@@ -91,7 +91,7 @@ theorem kd264I5Universal_linear (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCet
     (hout : onCenterQuotient β ∉ innAutDerived (L ⧸ Subgroup.center L)) :
     ∃ E : Subgroup L, E ≤ CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β ∧ IsElemAbelian 3 E ∧
       (n - 1) + CFSG.Open.pRank 3 (Subgroup.center L) ≤ CFSG.Open.pRank 3 E := by
-  haveI hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
+  have hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
   by_cases hne : n = 2 ∧ q.card = 4
   · exact (false_of_outer_three_A_small n q hd h3n (by omega) L hL β hβ3 hout).elim
   · obtain ⟨K, _, _, hK, ⟨e'⟩⟩ := i5CoverIsSL_of_ne n q hd h3n h3q hne L hL
@@ -111,7 +111,7 @@ theorem kd264I5Universal_unitary (hSU : I5SUClosed) (n : ℕ) (q : TauCeti.Prime
     (hout : onCenterQuotient β ∉ innAutDerived (L ⧸ Subgroup.center L)) :
     ∃ E : Subgroup L, E ≤ CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β ∧ IsElemAbelian 3 E ∧
       (n - 1) + CFSG.Open.pRank 3 (Subgroup.center L) ≤ CFSG.Open.pRank 3 E := by
-  haveI hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
+  have hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
   have hN : 3 ≤ n + 1 := Nat.le_of_dvd (by omega) h3n
   by_cases hq8 : q.card < 8
   · exact (false_of_outer_three_twistedA_small n q hd hN hq8 L hL β hβ3 hout).elim

@@ -83,7 +83,7 @@ include H
 
 theorem card_lt : Nat.card (p23XE R e x) < n := by
   have hC := H.cfg.std.perp.core
-  haveI := hC.simple
+  have := hC.simple
   rw [← hC.card]
   exact lt_of_le_of_ne (Subgroup.card_le_card_group _) fun heq =>
     H.top ((Subgroup.card_eq_iff_eq_top _).mp heq)

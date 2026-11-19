@@ -41,11 +41,11 @@ theorem s16t_a_case168_4_two_three_small (D : Data G) (hx : DataExt D) (h61 : UC
     (hS : SymSumOfConj (Mbar D.M ⊥ V hV) (⊤ : Subgroup (Vtil ⊥ V hV)) 2 (dParam 3))
     (h3σ : 3 ∈ D.sig) (hsmall : ¬ 3 ^ 3 ∣ Nat.card (Mbar D.M ⊥ V hV)) : Insp1613U D V := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h125 : Hyp125 D ⊥ V := hc.setting.hyp16.hyp125
   have hcore := s16n9b_case4_pcore D hV hc (by norm_num : Nat.Prime 3) (by norm_num : 1 < 2) hL
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   have hLM : lBar ⊥ V hV L ≤ Mbar D.M ⊥ V hV := barSub_mono ⊥ V hV hc.setting.hyp151.le
   have hLcard : Nat.card ↥(lBar ⊥ V hV L) = 9 := by
     rw [s16c167_card_isElemAbelianOfRank hL]
@@ -110,7 +110,7 @@ theorem s16t_a_case168_4_two_three_norm (D : Data G) (hx : DataExt D) (h61 : UC6
   have hMn : D.M ≤ normalizer (V : Set G) := hpf.le_normalizer
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
   have hEst : E ≤ stabTil ⊥ V := hEM.trans hMst
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hc4 : Nat.card (⊥ : Subgroup G) ≤ 4 := by simp
   have h115 : F11.R115 D := uc22p22q_r115_of D hx h61
   obtain ⟨-, -, -, hY'⟩ := exists_rank_data h115 (Hyp125.hyp11 h127 h) hc4 h3σ

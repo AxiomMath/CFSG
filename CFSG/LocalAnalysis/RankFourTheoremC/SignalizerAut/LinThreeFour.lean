@@ -75,7 +75,7 @@ theorem weakTI_sylow_linThreeFour {K : Type} [Group K] [Finite K]
 theorem signalizerInnAt_linThreeFour {d : TauCeti.ValidLieTypeIndex}
     (hd : IsLThreeFourIndex d) : SignalizerInnAt 3 (.lie d) := by
   rintro K _ _ ⟨e⟩ B Y hB hBc hY hBY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R₀⟩ := (Sylow.nonempty : Nonempty (Sylow 3 K))
   exact centralizes_of_sylow_weakTI Nat.prime_three R₀
     (weakTI_sylow_linThreeFour (isRankThreeL34_of_linThreeFour hd e) R₀) hB hBc

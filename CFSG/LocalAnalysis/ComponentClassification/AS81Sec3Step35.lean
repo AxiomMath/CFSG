@@ -412,7 +412,7 @@ theorem step35_of
       IsPGroup 2 (D.subgroupOf (centralizer (P : Set G)))).exists_le_sylow
     have hDS : D ≤ (S : Subgroup ↥(centralizer (P : Set G))).map
         (centralizer (P : Set G)).subtype := fun d hd => ⟨⟨d, hDP hd⟩, hS' hd, rfl⟩
-    exact ⟨S, le_antisymm (hmax _ hDS (map_subtype_le _) (S.isPGroup'.map _)) hDS⟩
+    exact ⟨S, le_antisymm (hmax _ hDS (map_subtype_le _) (S.isPGroup.map _)) hDS⟩
   refine ⟨le_antisymm ?_ ?_, hsyl⟩
   ·
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hDP (fun w hw => ?_) hD2

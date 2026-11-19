@@ -65,7 +65,7 @@ theorem s2d_of_lift : S2d := by
   have hlift := s2lift_holds
   intro G _ _ Θ E b c v v' hΘ3 hEe hcE hbE hEN hvN hv'N hv3 hv'3 hvv' hEv hEv' hb hnot
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3 : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hEe.2 g g.2)⟩
   have hconj : ∀ g ∈ Subgroup.normalizer (Θ : Set G), ∀ u ∈ Θ, g * u * g⁻¹ ∈ Θ :=
     fun g hg u hu => (Subgroup.mem_normalizer_iff.mp hg u).mp hu

@@ -34,7 +34,7 @@ private theorem conj_mem_iSup {ι : Type*} {A : Subgroup X} (F : ι → Subgroup
 private theorem isSolvable_of_surjective_of_ker_le {A G Q : Type*} [Group A] [Group G] [Group Q]
     [Group.IsSolvable Q] (ψ : A →* Q) (φ : A →* G) (hφ : Function.Surjective φ)
     (hker : ψ.ker ≤ φ.ker) : Group.IsSolvable G := by
-  haveI : Group.IsSolvable (A ⧸ ψ.ker) :=
+  have : Group.IsSolvable (A ⧸ ψ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective ψ)
   exact Group.isSolvable_of_surjective
     (QuotientGroup.lift_surjective_of_surjective ψ.ker φ hφ hker)
@@ -61,7 +61,7 @@ private theorem perfect_le_iSup_map (π : X →* T) (hπ : Function.Surjective �
     P ≤ ⨆ i, (F i).map π := by
   have hDα : (⨆ i, F i) ≤ fixSubgroup α := iSup_le hFα
   have hMN : (⨆ i, F i).map π ≤ (fixSubgroup α).map π := Subgroup.map_mono hDα
-  haveI : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+  have : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
     normal_map_subgroupOf_map π (conj_mem_iSup F hFn)
   have hNM : Group.IsSolvable (↥((fixSubgroup α).map π) ⧸
       ((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)) := by
@@ -83,9 +83,9 @@ private theorem isComponentOf_map_fixSubgroup (π : X →* T) (hπ : Function.Su
     (hFn : ∀ c ∈ fixSubgroup α, ∀ g ∈ F, c * g * c⁻¹ ∈ F) (hFq : CFSG.IsQuasisimple F) :
     IsComponentOf (F.map π) (fixSubgroup β) := by
   have hNC : (fixSubgroup α).map π ≤ fixSubgroup β := map_fixSubgroup_le π hker α β hαβ
-  haveI hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
+  have hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
     normal_map_fixSubgroup π hker α β hαβ hπ
-  haveI : ((F.map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+  have : ((F.map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
     normal_map_subgroupOf_map π hFn
   exact isComponentOf_of_normal_normal (Subgroup.map_mono hFα) hNC inferInstance hNn
     (CFSG.LocalCores.isQuasisimple_map hFq π (not_le_ker_of_isQuasisimple π hker hFq))
@@ -99,7 +99,7 @@ theorem components_of_centralQuotient [Finite T] (π : X →* T) (hπ : Function
     (ψ : ↥(fixSubgroup α) →* Q) (hψ : ∀ x : ↥(fixSubgroup α), ψ x = 1 → (x : X) ∈ ⨆ i, F i) :
     ∀ K : Subgroup T, IsComponentOf K (fixSubgroup β) → ∃ i, K = (F i).map π := by
   intro K hK
-  haveI : Finite (Subgroup T) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup T) := Finite.of_injective _ SetLike.coe_injective
   let R : Set (Subgroup T) := Set.range fun i => (F i).map π
   obtain ⟨⟨_, i, rfl⟩, hKi⟩ := component_mem_named_factors (ι := R) (fun r => (r : Subgroup T))
     (fun ⟨_, i, hi⟩ => hi ▸ isComponentOf_map_fixSubgroup π hπ hker α β hαβ (hFα i) (hFn i) (hFq i))

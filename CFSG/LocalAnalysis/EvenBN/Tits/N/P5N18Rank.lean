@@ -13,10 +13,10 @@ section Rank
 variable {W : Type*} [Group W]
 
 theorem card_le_fixSub_mul_commImg_sq [Finite W] (hc : ∀ a b : W, a * b = b * a)
-    (h2 : ∀ w : W, w * w = 1) {x d : MulAut W} (hd : d * d = 1) (hx5 : x ^ 5 = 1)
+    (h2 : ∀ w : W, w * w = 1) {x d : MulAut W} (_hd : d * d = 1) (hx5 : x ^ 5 = 1)
     (hdx : d * x * d⁻¹ = x⁻¹) :
     Nat.card W ≤ Nat.card (fixSub x) * Nat.card (CFSG.LocalAnalysis.EvenBN.Tits.N.commImg d) ^ 2 := by
-  letI : CommGroup W := { ‹Group W› with mul_comm := hc }
+  let : CommGroup W := { ‹Group W› with mul_comm := hc }
   have hx4 : x⁻¹ = x ^ 4 :=
     inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact hx5)
   have e1 : d * x = x ^ 4 * d := by rw [← hx4]; exact mul_inv_eq_iff_eq_mul.1 hdx
@@ -50,7 +50,7 @@ theorem card_le_fixSub_mul_commImg_sq [Finite W] (hc : ∀ a b : W, a * b = b * 
     have hn : x (c * x c * x (x c) * x (x (x c)) * x (x (x (x c)))) =
         c * x c * x (x c) * x (x (x c)) * x (x (x (x c))) := by
       simp only [map_mul, p5]
-      simp only [mul_assoc, mul_comm, mul_left_comm]
+      simp only [mul_comm, mul_left_comm]
     have hw : twistHom hc d (x c * x (x c)) = x c * x (x c) * (x (x (x (x c))) * x (x (x c))) := by
       rw [twistHom_apply, map_mul, h1, h2']
     refine ⟨(⟨c * x c * x (x c) * x (x (x c)) * x (x (x (x c))), hn⟩, ⟨twistHom hc d (x c * x (x c)),
@@ -66,7 +66,7 @@ theorem card_le_fixSub_mul_commImg_sq [Finite W] (hc : ∀ a b : W, a * b = b * 
         (x c * x (x c) * (x (x (x (x c))) * x (x (x c)))) =
         c * ((x c * x (x c) * x (x (x (x c))) * x (x (x c))) *
           (x c * x (x c) * x (x (x (x c))) * x (x (x c)))) := by
-          simp only [mul_assoc, mul_comm, mul_left_comm]
+          simp only [mul_comm, mul_left_comm]
       _ = c := by rw [hsq, mul_one]
   have hcard1 : Nat.card (fixSub d) ≤ Nat.card (fixSub x) * Nat.card (twistHom hc d).range := by
     have hle : Nat.card (fixSub d) ≤ Nat.card (Set.range

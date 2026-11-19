@@ -30,14 +30,14 @@ private theorem r920l2_isCyclic_sylow_of_oddPrime {D : Data G} {L D₃ A : Subgr
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := p) L]
     exact h1
   exact CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one hp hp2
-    T.isPGroup' ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono p hp.one_lt le_top).trans htop)
+    T.isPGroup ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono p hp.one_lt le_top).trans htop)
 
 private theorem r920l2_mem_uniqueSet_of_card_eq_prime {D : Data G} {L D₃ A : Subgroup G} {n : ℕ}
     (c : R920CfgL2 D L D₃ A n) {p : ℕ} (hp : p.Prime) {X E : Subgroup G} (hXL : X ≤ L)
     (hXc : Nat.card X = p) (hXmem : X ∈ uniqueSet D.M)
     (hcyc : ∀ T : Sylow p ↥L, IsCyclic T) (hEL : E ≤ L) (hE : Nat.card E = p) :
     E ∈ uniqueSet D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := CFSG.AGLEmbeddingD2.exists_eq_map_conj_of_isCyclic (J := ↥L) (p := p)
     hcyc (Y₀ := X.subgroupOf L) (Y₁ := E.subgroupOf L)
     (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXL).toEquiv, hXc])
@@ -128,7 +128,7 @@ private theorem r920l2_normalizer_le_img9_of_pGroup {D : Data G} {L H : Subgroup
   classical
   have hBH : B ≤ H := hBL.trans hLH
   let N : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
-  haveI hNnorm : N.Normal := CFSG.pPrimeCore_normal
+  have hNnorm : N.Normal := CFSG.pPrimeCore_normal
   let π : ↥H →* F09.Hbar9 H := QuotientGroup.mk' N
   let H₁ : Subgroup ↥H := Pb.comap π
   have hB₁ : B.subgroupOf H ≤ H₁ := fun x hx => hBimg (Subgroup.mem_map_of_mem π hx)
@@ -164,6 +164,7 @@ private theorem r920l2_normalizer_le_img9_of_pGroup {D : Data G} {L H : Subgroup
     normalizer_le_map_normalizer_of_sylow N hPmap hP₁syl
   exact hfrat.trans hmap_le_img
 
+omit [Finite G] in
 private theorem r920l2_map_subtype_le_img9 {L Y H : Subgroup G} (hY : Opp 3 Y = L)
     {E : Subgroup (F09.Lbar9 Y H)} (hE : E ≤ xbar9 Y H) :
     E.map (F09.img9 H (F09.L9 Y H)).subtype ≤ F09.img9 H L := by
@@ -181,7 +182,7 @@ private theorem r920l2_normalizer_le_of_card_three {D : Data G} {L D₃ A : Subg
     (c : R920CfgL2 D L D₃ A n) {Y H : Subgroup G} (hY : Opp 3 Y = L) (hLH : L ≤ H)
     {E : Subgroup (F09.Lbar9 Y H)} (hE : E ≤ xbar9 Y H) (hEcard : Nat.card E = 3) :
     normalizer (E : Set (F09.Lbar9 Y H)) ≤ wbar9 D Y H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Kb : Subgroup (F09.Hbar9 H) := F09.img9 H (F09.L9 Y H)
   have hEbL : E.map Kb.subtype ≤ F09.img9 H L := r920l2_map_subtype_le_img9 hY hE
   have hEbc : Nat.card (E.map Kb.subtype) = 3 := by
@@ -204,7 +205,7 @@ private theorem r920l2_normalizer_le_of_isPGroup_card_A {D : Data G} {L D₃ A :
     (hBcard : Nat.card B = Nat.card A) {P : Subgroup (F09.Lbar9 Y H)}
     (hP : IsPGroup (Nat.card A) ↥P) (hBP : B ≤ P) :
     normalizer (P : Set (F09.Lbar9 Y H)) ≤ wbar9 D Y H := by
-  haveI : Fact (Nat.card A).Prime := ⟨c.A_prime⟩
+  have : Fact (Nat.card A).Prime := ⟨c.A_prime⟩
   let Kb : Subgroup (F09.Hbar9 H) := F09.img9 H (F09.L9 Y H)
   have hBbL : B.map Kb.subtype ≤ F09.img9 H L := r920l2_map_subtype_le_img9 hY hBX
   have hBbc : Nat.card (B.map Kb.subtype) = Nat.card A := by
@@ -228,7 +229,7 @@ theorem kCfgL2Odd_of_hyp97 {D : Data G} {L D₃ A : Subgroup G} {n : ℕ}
     (hY : Opp 3 Y = L) (hSH : IsSylowOf 2 S H) :
     KCfgL2Odd (PartOne.Section9.xbar9 Y H) (PartOne.Section9.wbar9 D Y H)
       ((F09.img9 H S).subgroupOf (F09.img9 H (F09.L9 Y H))) n (Nat.card A) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYH : Y ≤ H := h97.1.2.1.1
   have hLH : L ≤ H := by
     rw [← hY]

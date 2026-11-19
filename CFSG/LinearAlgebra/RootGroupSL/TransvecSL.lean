@@ -16,17 +16,20 @@ open scoped Classical in
 @[expose] noncomputable def transvecSL (w : V) (f : Module.Dual k V) : SpecialLinearGroup k V :=
   if h : f w = 0 then ⟨LinearEquiv.transvection h, LinearEquiv.transvection.det_eq_one h⟩ else 1
 
+omit [Module.Finite k V] in
 private lemma add_self_eq_zero_module [CharP k 2] (y : V) : y + y = 0 := by
   have h2 : ((2 : ℕ) : k) = 0 := CharP.cast_eq_zero k 2
   calc y + y = (2 : k) • y := (two_smul k y).symm
     _ = ((2 : ℕ) : k) • y := by rw [← Nat.cast_ofNat (R := k)]
     _ = 0 := by rw [h2, zero_smul]
 
+omit [Module.Finite k V] in
 theorem transvecSL_apply {w : V} {f : Module.Dual k V} (h : f w = 0) (x : V) :
     transvecSL w f x = x + f x • w := by
-  simp only [transvecSL, dif_pos h]
+  simp only [transvecSL, dite_eq_left h]
   exact LinearEquiv.transvection.apply h x
 
+omit [Module.Finite k V] in
 private lemma transvecSL_mul_self [CharP k 2] {w : V} {f : Module.Dual k V} (h : f w = 0) :
     transvecSL w f * transvecSL w f = 1 := by
   apply SpecialLinearGroup.ext
@@ -36,6 +39,7 @@ private lemma transvecSL_mul_self [CharP k 2] {w : V} {f : Module.Dual k V} (h :
   rw [map_add, map_smul, smul_eq_mul, h, mul_zero, add_zero]
   rw [add_assoc, add_self_eq_zero_module (k := k) (f x • w), add_zero]
 
+omit [Module.Finite k V] in
 theorem transvecSL_conj (g : SpecialLinearGroup k V) {w : V} {f : Module.Dual k V}
     (h : f w = 0) :
     g * transvecSL w f * g⁻¹ =
@@ -52,6 +56,7 @@ theorem transvecSL_conj (g : SpecialLinearGroup k V) {w : V} {f : Module.Dual k 
   rw [map_add, map_smul, hg]
   rfl
 
+omit [Module.Finite k V] in
 theorem commutator_transvecSL [CharP k 2] {w v : V} {f f' : Module.Dual k V} (hw : f' w = 0)
     (hv : f v = 0) (hfw : f w = 0) (h1 : f' v = 1) :
     ⁅transvecSL w f', transvecSL v f⁆ = transvecSL w f := by
@@ -69,7 +74,7 @@ theorem commutator_transvecSL [CharP k 2] {w v : V} {f f' : Module.Dual k V} (hw
     simp only [e1, map_add, map_smul, smul_eq_mul, hfw, mul_zero, add_zero, hv]
   have e3 : f' (((x + f x • v) + f' (x + f x • v) • w) +
       f ((x + f x • v) + f' (x + f x • v) • w) • v) = f' x := by
-    simp only [e2, e1, map_add, map_smul, smul_eq_mul, hfw, hw, hv, h1, mul_zero, mul_one,
+    simp only [e1, map_add, map_smul, smul_eq_mul, hfw, hw, hv, h1, mul_zero, mul_one,
       add_zero]
     rw [add_assoc, CharTwo.add_self_eq_zero (f x), add_zero]
   rw [e3, e2, e1, add_smul]
@@ -79,6 +84,7 @@ theorem commutator_transvecSL [CharP k 2] {w v : V} {f f' : Module.Dual k V} (hw
     add_self_eq_zero_module (k := k) (f' x • w)]
   simp
 
+omit [Module.Finite k V] in
 private lemma toLin_transvection_apply {ι : Type*} [Fintype ι] [DecidableEq ι]
     (b : Module.Basis ι k V) (i j : ι) (c : k) (v : V) :
     Matrix.toLin b b (Matrix.transvection i j c) v = v + c • (b.coord j v • b i) := by
@@ -91,9 +97,10 @@ private lemma toLin_transvection_apply {ι : Type*} [Fintype ι] [DecidableEq ι
   congr 1
   rw [Finset.sum_eq_single i]
   · simp [smul_smul, Module.Basis.coord_apply]
-  · intro j' _ hj'; simp [Pi.single_apply, hj']
+  · intro j' _ hj'; simp [hj']
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
+omit [Module.Finite k V] in
 private lemma toLin_equiv_transvection {n : ℕ} (b : Module.Basis (Fin n) k V) {i j : Fin n}
     (hij : i ≠ j) (c : k) :
     Matrix.SpecialLinearGroup.toLin_equiv b (Matrix.SpecialLinearGroup.transvection hij c) =
@@ -112,9 +119,9 @@ theorem eq_top_of_transvecSL_mem (H : Subgroup (SpecialLinearGroup k V))
     (h : ∀ (w : V) (f : Module.Dual k V), f w = 0 → transvecSL w f ∈ H) : H = ⊤ := by
   classical
   by_cases hn : Module.finrank k V ≤ 1
-  · haveI : Subsingleton (SpecialLinearGroup k V) := by
+  · have : Subsingleton (SpecialLinearGroup k V) := by
       rcases (by omega : Module.finrank k V = 0 ∨ Module.finrank k V = 1) with h0 | h1
-      · haveI : Subsingleton V := (Module.finrank_eq_zero_iff_of_free (R := k) V).mp h0
+      · have : Subsingleton V := (Module.finrank_eq_zero_iff_of_free (R := k) V).mp h0
         exact ⟨fun a b => Subtype.ext (LinearEquiv.ext fun x => Subsingleton.elim _ _)⟩
       · exact SpecialLinearGroup.subsingleton_of_finrank_eq_one h1
     exact le_antisymm le_top fun x _ => by
@@ -123,7 +130,7 @@ theorem eq_top_of_transvecSL_mem (H : Subgroup (SpecialLinearGroup k V))
     let b : Module.Basis (Fin (Module.finrank k V)) k V := Module.finBasis k V
     let e : Matrix.SpecialLinearGroup (Fin (Module.finrank k V)) k ≃* SpecialLinearGroup k V :=
       Matrix.SpecialLinearGroup.toLin_equiv b
-    haveI : Nontrivial (Fin (Module.finrank k V)) :=
+    have : Nontrivial (Fin (Module.finrank k V)) :=
       Fin.nontrivial_iff_two_le.mpr hn2
     have hmap : H.map e.symm.toMonoidHom = ⊤ := by
       apply CFSG.ClassicalGroups.SpecialLinear.eq_top_of_forall_transvection_mem

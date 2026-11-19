@@ -26,7 +26,7 @@ theorem ne_top_of_fstar (h : Hyp141 D L₁ L₂ X) {H : Subgroup G} (hXH : X ≤
     rw [hXbot, Subgroup.card_bot] at hX9
     norm_num at hX9
   obtain ⟨N, hN, hHN⟩ := exists_isMaxTwoLocal_ge_of_fstar hF hHne
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   intro hHtop
   have hNtop : N = ⊤ := top_le_iff.1 (hHtop ▸ hHN)
   exact (CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1) hNtop
@@ -44,6 +44,7 @@ theorem le_of_eq_sup_pCoreOf (h : Hyp141 D L₁ L₂ X) (h1422 : Thm1422 D) {L :
       exact Set.mem_singleton_iff.mp hA_mem
     exact hHA.trans (le_of_eq hA_eq)
 
+omit [Finite G] in
 private theorem barImage_conj_eq_of_acts_trivially {L : Subgroup G} {g v : G}
     (hgN : g ∈ normalizer (L : Set G)) (hvL : v ∈ L)
     (hact : ∀ l ∈ L, (v⁻¹ * g) * l * (v⁻¹ * g)⁻¹ * l⁻¹ ∈ pCoreOf 2 L) (l : ↥L) :
@@ -176,7 +177,7 @@ theorem acts_trivially_of_not_le (h : Hyp141 D L₁ L₂ X) (h1422 : Thm1422 D)
       have h1 : Nat.card (X.subgroupOf L) = 1 := by rw [hbot, Subgroup.card_bot]
       rw [hcardA] at h1
       norm_num at h1
-    haveI : Nontrivial ↥(X.subgroupOf L) :=
+    have : Nontrivial ↥(X.subgroupOf L) :=
       (Subgroup.nontrivial_iff_ne_bot (X.subgroupOf L)).mpr hsub_ne
     obtain ⟨k, hk, hk1⟩ :=
       (Subgroup.nontrivial_iff_exists_ne_one (X.subgroupOf L)).mp inferInstance
@@ -264,7 +265,7 @@ theorem acts_trivially_of_not_le (h : Hyp141 D L₁ L₂ X) (h1422 : Thm1422 D)
           (Subgroup.mem_inf.mpr ⟨Subgroup.mem_subgroupOf.mp hk, k.2⟩)
       have hxeq : x = ((⟨x, hxL⟩ / k : ↥L) : G) * (k : G) := by
         rw [Subgroup.coe_div]
-        simp only [Subtype.coe_mk]
+        simp only
         rw [div_eq_mul_inv]
         group
       rw [hxeq]

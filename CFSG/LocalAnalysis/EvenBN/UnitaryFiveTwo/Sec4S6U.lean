@@ -162,7 +162,7 @@ theorem Data.Hyp.V₃_cen_MY : ∀ x ∈ d.V₃, ∀ q ∈ d.M ⊔ d.Y, q * x * 
     rw [show y * x * y⁻¹ * x⁻¹ = y * (x * y⁻¹ * x⁻¹) by group]
     have e' : x * y⁻¹ = y⁻¹ * x := (Data.Hyp.D₂_comm_Y' hx2 (inv_mem hy)).symm.symm
     rw [e']
-    simpa using d.Y.one_mem
+    simp
   have hMYc : d.M ⊔ d.Y ≤ cenMod d.Y d.V₃ := sup_le hMc hYc
   intro x hx q hq
   exact (hMYc hq).2 x hx
@@ -187,11 +187,11 @@ theorem Data.Hyp.tcU₁_le_normDY : d.tc (Data.U₁ h hf) ≤ ModSplit.normDY d.
 
 include h in
 theorem Data.Hyp.v_mem_normalizer_D₂ : d.v ∈ normalizer (d.D₂ : Set G) :=
-  mem_normalizer_fintype fun y hy => h.conj_mem_D₂ h.v_mem_XC₀ hy
+  mem_normalizer_fintype fun _y hy => h.conj_mem_D₂ h.v_mem_XC₀ hy
 
 include h in
 theorem Data.Hyp.t_mem_normalizer_D₂ : d.t ∈ normalizer (d.D₂ : Set G) :=
-  mem_normalizer_fintype fun y hy => h.conj_mem_D₂ h.t_mem_XC₀ hy
+  mem_normalizer_fintype fun _y hy => h.conj_mem_D₂ h.t_mem_XC₀ hy
 
 include h hKU hD in
 theorem Data.Hyp.Lam₁_le_normalizer_D₂ : Data.Lam₁ h hKU hf ≤ normalizer (d.D₂ : Set G) := by
@@ -332,7 +332,7 @@ theorem Data.Hyp.splitting_D₂ :
   have hΓ₂ : d.tc (Data.Lam₁ h hKU hf) ≤ ModSplit.normDY d.D₂ d.Y :=
     le_inf (h.tcLam₁_le_normalizer_D₂ hKU hf hD) (h.tcLam₁_le_normalizer_Y hKU hf)
   have hp₁ : IsPGroup 2 ↥(Data.U₁ h hf) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hX₂ : IsPGroup 2 ↥d.X₂ := IsPGroup.of_card (n := 2) (by rw [Data.Hyp.card_X₂ (d := d)]; norm_num)
     exact (hX₂.comap_of_injective (Data.theta h hf) (Data.theta_injective h hf)).map K₀.subtype
   have hp₂ : IsPGroup 2 ↥(d.tc (Data.U₁ h hf)) := hp₁.map (MulAut.conj d.t).toMonoidHom

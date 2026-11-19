@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 private theorem m6z_mem_of_commute [Finite G] {C S : Subgroup G} (hS : IsSylow2Of S C) {z : G}
     (hzC : z ∈ C) (hz2 : z * z = 1) (hcomm : ∀ s ∈ S, s * z = z * s) : z ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS.exists_sylow
   have hord : orderOf z ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hz2)
   have hzp : IsPGroup 2 ↥(Subgroup.zpowers z) := by

@@ -65,7 +65,7 @@ theorem Sec9Hyp.card_W (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t
     (Vt M (LB M Q B) B Z t) (Wt Q (Vt M (LB M Q B) B Z t)) rfl rfl rfl
   obtain ⟨K, fK, finK, hK, φ, -, -, hsec⟩ := hs.plus4
   obtain ⟨-, hN, -⟩ := hsec
-  haveI := hN
+  have := hN
   have hc' := card_mul_card_of_isChiIso hchi (inf_le_left : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q)
     (sec39_Z_le_Vt : Z ≤ Vt M (LB M Q B) B Z t)
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega

@@ -56,7 +56,7 @@ theorem involutionFixesElem_of_sylow_char {K : Type*} [Group K] [Finite K] {T : 
     InvolutionFixesElem K (2 ^ i) := by
   classical
   intro α _ hαα
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSα⟩ := exists_sylow_two_fixed α hαα
   obtain ⟨φ⟩ := hiso S
   have hSsub : α • (S : Subgroup K) = (S : Subgroup K) := by

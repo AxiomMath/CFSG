@@ -123,7 +123,7 @@ theorem pCoreOf_graphFixedParabolic_prime [Finite K] (r : ℕ) [Fact r.Prime] [C
   have hU₀P : U₀ ≤ P := graphFixedPosUnipotent_le_graphFixedRootBorel.trans le_sup_left
   have hU₀C : U₀ ≤ C₀ := hU₀P.trans hPC
   have hU₀2 : IsPGroup r U₀ := by
-    have h := S.isPGroup'
+    have h := S.isPGroup
     rw [hS] at h
     exact h.of_equiv (Subgroup.subgroupOfEquivOfLe hU₀C)
   have hOU2 : IsPGroup r (O ⊔ U₀ : Subgroup (ModGL t.tag K)) :=

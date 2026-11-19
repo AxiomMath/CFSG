@@ -1011,7 +1011,7 @@ theorem isMulCommutative_of_isSylowOf_seven_nonMain
   have hQcomm : IsMulCommutative (Q : Subgroup ↥D.M) := by
     have hcopQ : Nat.Coprime (Nat.card ↥(Q : Subgroup ↥D.M))
         (Nat.card ↥(CFSG.pCore 2 ↥D.M)) := by
-      obtain ⟨a, ha⟩ := Q.isPGroup'.exists_card_eq
+      obtain ⟨a, ha⟩ := Q.isPGroup.exists_card_eq
       obtain ⟨b, hb⟩ :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥D.M)).exists_card_eq
       rw [ha, hb]

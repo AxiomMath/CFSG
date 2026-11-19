@@ -32,7 +32,7 @@ theorem kFact2715_holds : KFact2715 := by
     intro a ha
     rw [hNQ]
     exact (Subgroup.zpowers_le.mpr hzT) ha
-  obtain ⟨q', hq'Q, hq'⟩ := hcore.exists_conj_cartan_of_odd Q.isPGroup' hA'M hodd
+  obtain ⟨q', hq'Q, hq'⟩ := hcore.exists_conj_cartan_of_odd Q.isPGroup hA'M hodd
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right hcore.sq_eq_one
   let B1 : Subgroup ↥K := A'.map (MulAut.conj q').toMonoidHom
   let B2 : Subgroup ↥K := B1.map (MulAut.conj t).toMonoidHom

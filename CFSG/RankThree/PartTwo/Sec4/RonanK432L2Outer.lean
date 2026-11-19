@@ -12,7 +12,7 @@ public section
 
 namespace CFSG.RankThree.PartTwo.Sec4.RonanK432
 
-theorem three_dvd_of_card_relations {N N₀ i g a : ℕ} (ha : 2 ≤ a) (hg : 0 < g) (hN : N = N₀ * i)
+theorem three_dvd_of_card_relations {N N₀ i g a : ℕ} (ha : 2 ≤ a) (_hg : 0 < g) (hN : N = N₀ * i)
     (h1 : N * g = a ^ 3 * (a ^ 6 - 1)) (h0 : N₀ * g = a * (a ^ 2 - 1)) : 3 ∣ i := by
   obtain ⟨m, hm⟩ : ∃ m, a ^ 2 = m + 1 := ⟨a ^ 2 - 1, by have := Nat.one_le_pow 2 a (by omega); omega⟩
   have hm0 : 0 < m := by

@@ -65,12 +65,12 @@ theorem kFCensus46Five_M24 :
   have hφs : ((φ s : NativeSporadic.M24) : Equiv.Perm (Fin 24)) = tp 24 r.rep := by
     have : ((φ s : NativeSporadic.M24) : Equiv.Perm (Fin 24)) =
         g⁻¹ * (s : Equiv.Perm (Fin 24)) * g := by
-      simp [hφ, hgP, MulAut.conj_apply]
+      simp [hφ, hgP]
     rw [this, hgr]
     group
   set ψ : Q ≃* NativeSporadic.M24 := e.trans φ with hψ
   have hψc : ψ c = φ s := rfl
-  haveI : Finite NativeSporadic.M24 := Finite.of_equiv Q ψ.toEquiv
+  have : Finite NativeSporadic.M24 := Finite.of_equiv Q ψ.toEquiv
   obtain ⟨g', hg'⟩ := (ppair_self hD).map ψ
   rcases hr with rfl | rfl
   ·

@@ -29,6 +29,7 @@ open CFSG.LocalAnalysis.RankThreeUC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma X_le_normalizer_fittingSubgroupOf (X : Subgroup G) :
     X ≤ normalizer (CFSG.fittingSubgroupOf X : Set G) := by
   have hR : (CFSG.fittingSubgroupOf X).subgroupOf X = fittingSubgroup ↥X := by
@@ -47,7 +48,7 @@ private lemma V_inf_fittingSubgroupOf_eq_bot {X V : Subgroup G}
   have hcop : Nat.Coprime (Nat.card V) (Nat.card (CFSG.fittingSubgroupOf X)) := by
     rw [hn]
     exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr hF_odd)
-  exact Subgroup.inf_eq_bot_of_coprime hcop
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
 
 private lemma X_inf_DM_le_normalizer_inf {D : Data G} (X : Subgroup G) :
     X ⊓ D.M ≤ normalizer (pCoreOf 2 D.M ⊓ X : Subgroup G) := by
@@ -80,6 +81,7 @@ private lemma X_inf_DM_le_normalizer_K {D : Data G} (B : Subgroup G) {L : Subgro
       (L ⊓ centralizer (B : Set G))
   simpa only [F08.KOf8103, F08.DerInf8, CFSG.perfectResidual] using h hxNLX
 
+omit [Finite G] in
 private lemma K_ne_bot_of_prime_dvd_card {K : Subgroup G} {p : ℕ}
     (hpK : p ∣ Nat.card K) (hp : p.Prime) : K ≠ ⊥ := by
   intro h
@@ -103,7 +105,7 @@ private lemma two_le_of_even_of_ne_zero {n : ℕ} (hn : Even n) (hn0 : n ≠ 0) 
 
 private lemma centralizer_ne_top_of_card_eq_three {D : Data G} {B : Subgroup G}
     (hB : Nat.card B = 3) : centralizer (B : Set G) ≠ ⊤ := by
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   intro hX
   have hBZ : B ≤ Subgroup.center G := Subgroup.centralizer_eq_top_iff_subset.mp hX
   have hZ : Subgroup.center G = ⊥ := by
@@ -171,7 +173,7 @@ private lemma isMulCommutative_of_isPGroup_le_centralizer {C P Q : Subgroup G}
     (hP : IsSylowOf 3 P C) (hPab : IsMulCommutative ↥P) (hQC : Q ≤ C) (hQ3 : IsPGroup 3 Q) :
     IsMulCommutative ↥Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQsub : IsPGroup 3 (Q.subgroupOf C) := hQ3.comap_subtype
   obtain ⟨P', hQP'⟩ := hQsub.exists_le_sylow
   have hP'syl : IsSylowOf 3 ((P' : Subgroup ↥C).map C.subtype) C := ⟨P', rfl⟩
@@ -203,7 +205,7 @@ private lemma inf_notationB8103_eq_bot {L P B Y : Subgroup G} {n : ℕ}
       IsMulCommutative ↥Q) :
     B ⊓ Y = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   intro b hb
   obtain ⟨hbB, hbY⟩ := Subgroup.mem_inf.1 hb
@@ -231,9 +233,9 @@ private lemma inf_notationB8103_eq_bot {L P B Y : Subgroup G} {n : ℕ}
     rintro - ⟨s, -, rfl⟩
     exact hY.1 s.2
   have hScomm_img : IsMulCommutative ↥((S : Subgroup ↥Y).map Y.subtype) :=
-    hC3 _ hSimg (S.isPGroup'.map Y.subtype)
+    hC3 _ hSimg (S.isPGroup.map Y.subtype)
   let e := Subgroup.equivMapOfInjective (S : Subgroup ↥Y) Y.subtype Y.subtype_injective
-  haveI hScomm : IsMulCommutative ↥(S : Subgroup ↥Y) := by
+  have hScomm : IsMulCommutative ↥(S : Subgroup ↥Y) := by
     refine IsMulCommutative.of_comm fun a c => e.injective ?_
     rw [map_mul, map_mul]
     exact (IsMulCommutative.is_comm (M := ↥((S : Subgroup ↥Y).map Y.subtype))).comm (e a) (e c)
@@ -293,7 +295,7 @@ private theorem pRank_three_le_one_of_r8103 (hK1 : KU45Lines) (hK2 : KU45Syl3) {
     (hH : F08.Hyp8102 D L P p n) (hB : F08.NotationB8103 L P n B)
     (hX : IsU45 (Bar2 L) n) (hY : CFSG.Open.IsComponentOf Y (centralizer (B : Set G))) :
     Open.pRank 3 Y ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSyl : IsSylowOf 3 P ⊤ := h8103.2.2.2.2.2.2.2
   have hPsylowM : IsSylowOf 3 P D.M :=
     hSyl.of_le (hH.2.2.2.2.le.trans (CFSG.Open.IsSubnormal.le hH.1.1)) le_top
@@ -372,6 +374,7 @@ private lemma normalizerK_le_DM {D : Data G} {p : ℕ} [Fact p.Prime]
   have hFr := CFSG.GH74.GLS.Balance.t59_frattini hNX hNn hQin
   exact hFr.trans (sup_le hKleM (inf_le_right.trans hNQ))
 
+omit [Finite G] in
 private lemma commutator_le_inf_of_mutual_normalizer {A B : Subgroup G}
     (hAB : A ≤ normalizer (B : Set G)) (hBA : B ≤ normalizer (A : Set G)) :
     ⁅A, B⁆ ≤ A ⊓ B := by
@@ -409,7 +412,7 @@ private lemma kOf8103_facts {D : Data G} {L P B : Subgroup G} {p n : ℕ} [Fact 
       p ∣ Nat.card (F08.KOf8103 L B) ∧ normalizer (F08.KOf8103 L B : Set G) ≤ D.M := by
   have hKleM : F08.KOf8103 L B ≤ D.M :=
     ((Subgroup.map_subtype_le _).trans inf_le_left).trans (CFSG.Open.IsSubnormal.le hH.1.1)
-  haveI : Group.IsPerfect ↥(F08.KOf8103 L B) :=
+  have : Group.IsPerfect ↥(F08.KOf8103 L B) :=
     isPerfect_derInf8 (L ⊓ centralizer (B : Set G))
   have hpK : p ∣ Nat.card (F08.KOf8103 L B) := dvd_card_of_isL2 hn0 hB.2.2 hpn
   exact ⟨(Subgroup.map_subtype_le _).trans inf_le_right, hKleM,
@@ -465,7 +468,7 @@ theorem r8106_at_of_inputs (hK1 : KU45Lines) (hK2 : KU45Syl3) (hK462 : UCK.K462)
   by_contra hV
   obtain ⟨hEven, hMod, he, -, hBM, hX, hN, hp, hpn, hMp⟩ :=
     dataFromR8103 hK2 hSg h8103 hH hB
-  haveI : Fact p.Prime := ⟨hp.1⟩
+  have : Fact p.Prime := ⟨hp.1⟩
   have hn0 : n ≠ 0 := ne_zero_of_two_pow_modEq_neg_one hp.1 hp.2.1 hMod
   have hKf := kOf8103_facts hH hB hn0 hpn hMp hp.1
   have hX2 := pCoreOf_two_centralizer_eq_bot_at hK2 h8105 hH hX hB hBM hV

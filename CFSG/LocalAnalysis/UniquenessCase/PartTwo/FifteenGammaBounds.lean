@@ -100,7 +100,7 @@ theorem three_le_gamma15_of_not_solvable (D : Data G) (h1217 : R1217 D)
   have hL : barSub V₀ V h.isElemAbelian L ≠ ⊥ := by
     intro hbot
     apply hsolv
-    haveI : Subsingleton ↥(barSub V₀ V h.isElemAbelian L) := by
+    have : Subsingleton ↥(barSub V₀ V h.isElemAbelian L) := by
       rw [hbot]
       infer_instance
     exact Group.isSolvable_of_comm fun a b => Subsingleton.elim (a * b) (b * a)
@@ -110,8 +110,8 @@ theorem three_le_gamma15_of_not_solvable (D : Data G) (h1217 : R1217 D)
   have hcard : Nat.card ↥(barSub V₀ V h.isElemAbelian L) = 3 :=
     s15_TwoD_card_eq_three D h1217 h h.isElemAbelian hL hγ
   apply hsolv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥(barSub V₀ V h.isElemAbelian L) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥(barSub V₀ V h.isElemAbelian L) :=
     isCyclic_of_prime_card hcard
   exact Group.isSolvable_of_comm fun a b =>
     (isCyclic_of_prime_card hcard).isMulCommutative.is_comm.comm a b

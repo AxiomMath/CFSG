@@ -152,7 +152,7 @@ theorem rank_sub_one_le_of_commute_orderOf_five (hι : Fintype.card ι ≤ 8)
   have hWle : Module.finrank (ZMod 2) W ≤ Module.finrank (ZMod 2) (ι → ZMod 2) :=
     Submodule.finrank_le W
   have hdimV : Module.finrank (ZMod 2) (ι → ZMod 2) = Fintype.card ι := by
-    simpa using Module.finrank_fintype_fun_eq_card (R := ZMod 2)
+    simp
   have hfinWpos : 0 < Module.finrank (ZMod 2) W := by
     rw [Nat.pos_iff_ne_zero]
     intro h0

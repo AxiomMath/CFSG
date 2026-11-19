@@ -124,7 +124,7 @@ theorem exists_sylow_centralizing (hSchur : SolAltLit.SchurAlternatingMultiplier
     push Not at hw
     obtain ⟨hw1, hwy⟩ := hw
     set I := Q ⊓ ZX with hI
-    have hI2 : IsPGroup 2 I := (S.isPGroup'.map D.subtype).to_inf_left
+    have hI2 : IsPGroup 2 I := (S.isPGroup.map D.subtype).to_inf_left
     have hIL : I ≤ L := inf_le_right.trans (map_subtype_le _)
     let f : I →* L ⧸ O := π.comp (inclusion hIL)
     have hfinj : Function.Injective f := by
@@ -180,7 +180,7 @@ theorem exists_sylow_centralizing (hSchur : SolAltLit.SchurAlternatingMultiplier
         _ ≤ (I : Set X).ncard := Set.ncard_le_ncard hsub (Set.toFinite _)
         _ = Nat.card I := (Nat.card_coe_set_eq _).symm
     omega
-  refine ⟨y, hyo, hyL, hyK, Q, S.isPGroup'.map D.subtype, hQD.trans inf_le_left,
+  refine ⟨y, hyo, hyL, hyK, Q, S.isPGroup.map D.subtype, hQD.trans inf_le_left,
     hQD.trans inf_le_right, ?_, ?_⟩
   · intro q hq
     rw [mem_centralizer_singleton_iff]

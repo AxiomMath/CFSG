@@ -116,7 +116,7 @@ theorem exists_cent_D6_aux {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Sub
     rw [← hi]
     exact (show Commute (y : G) b₀ from
       (Subgroup.mem_centralizer_iff.mp y.2.1 b₀ (by simp)).symm).zpow_right i
-  haveI hNnormal : N.Normal := Subgroup.normal_of_le_center hNcenter
+  have hNnormal : N.Normal := Subgroup.normal_of_le_center hNcenter
   have hNcard : Nat.card N = 3 := by
     have e := Subgroup.subgroupOfEquivOfLe (Subgroup.zpowers_le.mpr hb₀Z)
     calc Nat.card N = Nat.card ↥(Subgroup.zpowers b₀) := Nat.card_congr e.toEquiv
@@ -135,7 +135,7 @@ theorem exists_cent_D6_aux {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Sub
       simpa [show (3 : ℕ) ^ 2 = 9 by norm_num] using h)
   have hidx : ¬ 3 ∣ N.index := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd : 3 ∣ Nat.card (↥Z₀ ⧸ N) := by
       rwa [← Subgroup.index_eq_card]
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' 3 hdvd

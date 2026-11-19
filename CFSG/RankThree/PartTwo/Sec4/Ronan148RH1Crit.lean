@@ -15,9 +15,10 @@ section Type5
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem center_le_pCore_two_of_isA5Type [Group.IsPerfect X] (hT : IsA5Type (X ⧸ CFSG.pCore 2 X)) :
     Subgroup.center X ≤ CFSG.pCore 2 X := by
-  haveI := hT.isSimpleGroup
+  have := hT.isSimpleGroup
   have hZ : Subgroup.center (X ⧸ CFSG.pCore 2 X) = ⊥ :=
     center_eq_bot_of_isSimpleGroup_of_isPerfect
   intro z hz
@@ -29,9 +30,10 @@ theorem center_le_pCore_two_of_isA5Type [Group.IsPerfect X] (hT : IsA5Type (X �
   rw [hZ, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hz'
   exact hz'
 
+omit [Finite X] in
 theorem not_mem_pCore_two_of_orderOf {x : X} (hx : orderOf x = 3) : x ∉ CFSG.pCore 2 X := by
   intro hmem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 X)) ⟨x, hmem⟩
   have hk' : x ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have h3 : 3 ∣ 2 ^ k := hx ▸ orderOf_dvd_of_pow_eq_one hk'
@@ -44,7 +46,7 @@ theorem not_mem_pCore_two_of_orderOf {x : X} (hx : orderOf x = 3) : x ∉ CFSG.p
 theorem not_isA5Type_of_simple [IsSimpleGroup X] (hna : ∃ a b : X, a * b ≠ b * a)
     (h60 : Nat.card X ≠ 60) : ¬ IsA5Type (X ⧸ CFSG.pCore 2 X) := by
   intro hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (inferInstance : (CFSG.pCore 2 X).Normal).eq_bot_or_eq_top with h | h
   · apply h60
     rw [← hT.card]
@@ -56,8 +58,8 @@ theorem not_isA5Type_of_simple [IsSimpleGroup X] (hna : ∃ a b : X, a * b ≠ b
       obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 X))
         ⟨g, h ▸ Subgroup.mem_top g⟩
       exact ⟨k, congrArg Subtype.val hk⟩
-    haveI : Nontrivial X := ⟨⟨a * b, b * a, hab⟩⟩
-    haveI := h2.center_nontrivial
+    have : Nontrivial X := ⟨⟨a * b, b * a, hab⟩⟩
+    have := h2.center_nontrivial
     have hc : Subgroup.center X = ⊤ := by
       rcases (inferInstance : (Subgroup.center X).Normal).eq_bot_or_eq_top with hc | hc
       · exfalso
@@ -82,7 +84,7 @@ theorem good427_of_le_simple {C E : Subgroup S} (hEC : E ≤ C) [hEs : IsSimpleG
     (hna : ∃ a b : E, a * b ≠ b * a) (h60 : Nat.card E ≠ 60)
     (hle : ∀ K : Subgroup S, K ≤ C → Group.IsPerfect K → K ≤ E) : Good427 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hnt : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
   have hKE : K ≤ E := hle K hKC inferInstance
   have hsE : (K.subgroupOf E).IsSubnormal := isSubnormal_subgroupOf_of_le hEC hKE hKs
@@ -110,8 +112,8 @@ theorem good427_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
     (hLna : ∃ a b : L, a * b ≠ b * a) (h60 : Nat.card L ≠ 60)
     (hcent : ∀ g ∈ C, (∀ l ∈ L, l * g = g * l) → g ^ 3 = 1) : Good427 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
+  have : Group.IsPerfect K := hKq.1
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
   have hL'n : (L.subgroupOf C).Normal := normal_subgroupOf_of_forall_conj' hLn
   have hK'c : IsComponent (K.subgroupOf C) :=
     ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKC).symm hKq, hKs⟩
@@ -138,15 +140,15 @@ theorem good427_of_simpleNormal' {C L : Subgroup S} (hLC : L ≤ C)
       rw [hcomm, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
       exact (congrArg Subtype.val hmem).symm
     have hK3 : IsPGroup 3 K := isPGroup_three_of_pow_three hk3
-    haveI := hK3.isNilpotent
+    have := hK3.isNilpotent
     exact Group.IsPerfect.not_isSolvable K inferInstance
 
 theorem good427_of_central_of_not_nine_dvd {C : Subgroup S} {y : S} (hyC : y ∈ C)
     (hyc : ∀ c ∈ C, c * y = y * c) (hy : orderOf y = 3) (h9 : ¬ 9 ∣ Nat.card C) :
     Good427 C := by
   intro K hKC hKq _ hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect K := hKq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hyK : y ∈ K
   ·
     have hyZ : (⟨y, hyK⟩ : K) ∈ Subgroup.center K := by
@@ -186,9 +188,9 @@ theorem good427_of_five {C H : Subgroup S} (h25 : ¬ 25 ∣ Nat.card C)
     (hH : H ≤ Subgroup.closure {f : S | f ∈ C ∧ f ^ 5 = 1})
     (hH60 : ∀ a : ℕ, ¬ Nat.card H ∣ 60 * 2 ^ a) : Good427 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Group.IsPerfect K := hKq.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
   set K' : Subgroup C := K.subgroupOf C with hK'def
   have eK : K' ≃* K := Subgroup.subgroupOfEquivOfLe hKC
@@ -196,7 +198,7 @@ theorem good427_of_five {C H : Subgroup S} (h25 : ¬ 25 ∣ Nat.card C)
   have hK'c : IsComponent K' :=
     ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv eK.symm hKq, hKs⟩
   have hTK' : IsA5Type (K' ⧸ CFSG.pCore 2 K') := isA5Type_quot_congr eK hT
-  haveI : Group.IsPerfect K' := hK'c.1.1
+  have : Group.IsPerfect K' := hK'c.1.1
   have h2inf : ∀ c : C, ⁅K', K'.map (MulAut.conj c).toMonoidHom⁆ = ⊥ →
       IsPGroup 2 (K' ⊓ K'.map (MulAut.conj c).toMonoidHom : Subgroup C) := by
     intro c hc x
@@ -288,11 +290,11 @@ theorem good427_of_isExtOf {C : Subgroup S} {Y B : Type*} [Group Y] [Group B]
   have hρ : Function.Surjective ρ := eQ.surjective.comp (QuotientGroup.mk'_surjective N)
   have hker : ρ.ker = N := by
     ext x
-    simp [hρdef, QuotientGroup.eq_one_iff]
+    simp [hρdef]
   have hsolvN : Group.IsSolvable N :=
-    solvable_of_surjective (f := eN.symm.toMonoidHom) eN.symm.surjective
+    Group.isSolvable_of_surjective (f := eN.symm.toMonoidHom) eN.symm.surjective
   have hsolv : Group.IsSolvable ρ.ker :=
-    solvable_of_surjective (f := (MulEquiv.subgroupCongr hker).symm.toMonoidHom)
+    Group.isSolvable_of_surjective (f := (MulEquiv.subgroupCongr hker).symm.toMonoidHom)
       (MulEquiv.subgroupCongr hker).symm.surjective
   intro K hKC hKq hKs hT
   have hcomp : CFSG.IsComponent (K.subgroupOf C) :=
@@ -327,7 +329,7 @@ theorem NoCfgS427.of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h
 theorem simple_nonab_of_mulEquiv' {S T : Type} [Group S] [Group T] (e : T ≃* S)
     (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) :
     IsSimpleGroup T ∧ ∃ a b : T, a * b ≠ b * a := by
-  haveI := hs
+  have := hs
   refine ⟨e.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := hna
   refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩

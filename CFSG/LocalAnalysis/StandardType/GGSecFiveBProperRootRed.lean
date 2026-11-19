@@ -10,6 +10,7 @@ open CFSG.Assembly CFSG.ClassicalGroups.UnitaryFlag CFSG.StandardType.Line63.H5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem redMkL_gamma_eq {X Bs : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
     (hNbar : (redMkB hN).range ≤ Subgroup.normalizer ((redMkL X).range : Set (RedGrp X)))
@@ -22,6 +23,7 @@ private theorem redMkL_gamma_eq {X Bs : Subgroup G}
   rw [MonoidHom.ofInjective_apply]
   exact redMk_conj (L := X) (Subgroup.inclusion hN b) l
 
+omit [Finite G] in
 theorem exists_model_of_redMkL_of_twoCenter_eq_bot {X Bs : Subgroup G} (hz : twoCenter X = ⊥)
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
     (hNbar : (redMkB hN).range ≤ Subgroup.normalizer ((redMkL X).range : Set (RedGrp X)))

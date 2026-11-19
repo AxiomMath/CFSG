@@ -152,7 +152,7 @@ theorem ksm_noHyp_u42
     ⟨hadm, GaloisField 2 (2 * 1), inferInstance, inferInstance, hK,
       ⟨e.trans (CFSG.PGLModel.projSUEquivStatedProj 4 2 1)⟩⟩
   have hmod : CFSG.Blueprint.LieModel X .PSU 4 2 1 := Or.inl ⟨by decide, hm⟩
-  haveI : IsSimpleGroup X := CFSG.Quasithin.H13.F431.U42.isSimpleGroup_of_lieModel_PSU_four_two hmod
+  have : IsSimpleGroup X := CFSG.Quasithin.H13.F431.U42.isSimpleGroup_of_lieModel_PSU_four_two hmod
   obtain ⟨φ0⟩ := CFSG.Quasithin.H13.F431.U42.nonempty_mulEquiv_Y hmod
   let φ : X ≃* ↥CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.Mg :=
     φ0.trans (MulEquiv.subgroupCongr CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.mg_eq_Xs.symm)
@@ -160,7 +160,7 @@ theorem ksm_noHyp_u42
     (Nat.card_congr φ.toEquiv).trans CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.card_Mg
   have hns : ¬ Group.IsSolvable ↥CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.Mg := by
     intro hs
-    have hsS : Group.IsSolvable X := solvable_of_solvable_injective (f := φ.toMonoidHom) φ.injective
+    have hsS : Group.IsSolvable X := Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
     obtain ⟨a, b, hab⟩ :=
       CFSG.RankThree.PartTwo.Sec4.Ronan148R.exists_ne_comm_of_simple (E := X)
         (by rw [hcardS]; norm_num)
@@ -184,14 +184,14 @@ theorem ksm_u42_both
       ⟨hadm, GaloisField 2 (2 * 1), inferInstance, inferInstance, hK,
         ⟨e.trans (CFSG.PGLModel.projSUEquivStatedProj 4 2 1)⟩⟩
     have hmod : CFSG.Blueprint.LieModel X .PSU 4 2 1 := Or.inl ⟨by decide, hm⟩
-    haveI : IsSimpleGroup X :=
+    have : IsSimpleGroup X :=
       CFSG.Quasithin.H13.F431.U42.isSimpleGroup_of_lieModel_PSU_four_two hmod
     obtain ⟨φ0⟩ := CFSG.Quasithin.H13.F431.U42.nonempty_mulEquiv_Y hmod
     let φ : X ≃* ↥CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.Mg :=
       φ0.trans
         (MulEquiv.subgroupCongr CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.mg_eq_Xs.symm)
     exact (Nat.card_congr φ.toEquiv).trans CFSG.LocalAnalysis.RankThreeUC.S15.K21dU42Proof.card_Mg
-  haveI : IsSimpleGroup X := by
+  have : IsSimpleGroup X := by
     have hmod : CFSG.Blueprint.LieModel X .PSU 4 2 1 := by
       have hadm : CFSG.Open.StatedLieAdmissible .PSU 4 2 1 := by
         unfold CFSG.Open.StatedLieAdmissible

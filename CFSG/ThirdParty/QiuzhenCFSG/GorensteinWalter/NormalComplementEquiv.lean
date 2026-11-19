@@ -25,7 +25,7 @@ public theorem isComplement_map_mulEquiv
     (A.map e.toMonoidHom).IsComplement' (B.map e.toMonoidHom) := by
   apply Subgroup.isComplement'_of_card_mul_and_disjoint
   · rw [Subgroup.card_map_of_injective e.injective,
-      Subgroup.card_map_of_injective e.injective, h.card_mul,
+      Subgroup.card_map_of_injective e.injective, h.card_mul_card,
       Nat.card_congr e.toEquiv]
   · rw [disjoint_iff]
     apply le_antisymm

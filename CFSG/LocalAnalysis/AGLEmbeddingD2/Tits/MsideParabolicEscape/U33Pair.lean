@@ -21,7 +21,7 @@ theorem form_adj (σ : F →+* F) (A : Matrix (Fin 3) (Fin 3) F) (p q : Fin 3 �
 theorem exists_vec_ne_zero (ν : Matrix (Fin 3) (Fin 3) F) (h : ν ≠ 0) :
     ∃ a : Fin 3 → F, ν.mulVec a ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   ext i j
   have := congrFun (hcon (Pi.single j 1)) i
@@ -32,18 +32,18 @@ theorem image_mem_line (σ : F →+* F) (hσσ : ∀ x, σ (σ x) = x) (ν B : M
     (hν2 : ν * ν = 0) (a : Fin 3 → F) (hu : ν.mulVec a ≠ 0) (v : Fin 3 → F) :
     ∃ c : F, B.mulVec v = c • ν.mulVec a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hli : LinearIndependent F ![ν.mulVec a, B.mulVec v] := by
     rw [LinearIndependent.pair_iff' hu]
     intro c hc
     exact hcon c hc.symm
   refine no_two_isotropic σ hσσ (ν.mulVec a) (B.mulVec v) ?_ ?_ ?_ hli
   · rw [form_adj, hadjν]
-    simp [Matrix.mulVec_neg, Matrix.mulVec_mulVec, hν2]
+    simp [Matrix.mulVec_mulVec, hν2]
   · rw [form_adj, hadjν]
-    simp [Matrix.mulVec_neg, Matrix.mulVec_mulVec, hνB]
+    simp [Matrix.mulVec_mulVec, hνB]
   · rw [form_adj, hadjB]
-    simp [Matrix.mulVec_neg, Matrix.mulVec_mulVec, hBB]
+    simp [Matrix.mulVec_mulVec, hBB]
 
 theorem pair_proportional (σ : F →+* F) (hσσ : ∀ x, σ (σ x) = x) (ν μ : Matrix (Fin 3) (Fin 3) F)
     (hν2 : ν * ν = 0) (hμ2 : μ * μ = 0) (hνμ : ν * μ = 0)
@@ -75,7 +75,7 @@ theorem pair_proportional (σ : F →+* F) (hσσ : ∀ x, σ (σ x) = x) (ν μ
     rw [this, eμ i j]
   obtain ⟨i0, hi0⟩ : ∃ i0, u i0 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact ha (funext hcon)
   set p : F := -σ (κ i0) / u i0 with hp
   set q : F := -σ (l i0) / u i0 with hq

@@ -79,7 +79,7 @@ theorem typeHyp3_g2three : BMType.TypeHyp3 (S8.isG2of 3) 4245696 where
         have hcT : Nat.card T = 4245696 :=
           ClsRed.card_g2three CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
             ⟨_, hi, ⟨f⟩⟩
-        haveI : Finite (MulAut T) :=
+        have : Finite (MulAut T) :=
           Finite.of_injective (fun φ : MulAut T => (φ : T → T)) DFunLike.coe_injective
         have heq := card_outer_mul_card hZ
         rw [hcT] at heq

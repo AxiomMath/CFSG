@@ -46,6 +46,7 @@ theorem isPInv_map_iff (x : X) : IsPInvol φ.range (φ x) ↔ IsPInv x := by
   rw [IsPInvol, ← map_pow, Ne, map_eq_one_iff φ hφ, map_eq_one_iff φ hφ, pinv_map_iff hφ]
   exact ⟨fun h => h.2, fun h => ⟨⟨x, rfl⟩, h⟩⟩
 
+omit hφ in
 theorem conj_map {x y : X} (h : Conj x y) : ∃ k ∈ φ.range, φ x = k * φ y * k⁻¹ := by
   obtain ⟨k, rfl⟩ := h
   exact ⟨φ k, ⟨k, rfl⟩, by rw [map_mul, map_mul, map_inv]⟩
@@ -113,9 +114,8 @@ theorem map_ofConj_g : φ (ExtData.ofConj hφ hcN hc2).g = c ^ 2 :=
     obtain ⟨k, d⟩ := a
     obtain ⟨k', d'⟩ := b
     cases d <;> cases d' <;>
-      simp only [CycExt.mk_mul_mk, CycExt.pw, CycExt.sq, map_mul, map_one, map_ofConj_α,
-        map_ofConj_g, Bool.and_true, Bool.and_false, Bool.true_and, Bool.false_and,
-        Bool.xor_true, Bool.xor_false, Bool.not_true, Bool.not_false, Bool.false_eq_true,
+      simp only [CycExt.mk_mul_mk, CycExt.pw, CycExt.sq, map_mul, map_ofConj_α,
+        map_ofConj_g, Bool.and_true, Bool.and_false, Bool.xor_true, Bool.xor_false, Bool.not_true, Bool.not_false, Bool.false_eq_true,
         ite_true, ite_false, mul_one] <;> group
 
 theorem cycHom_mk (k : X) (d : Bool) :

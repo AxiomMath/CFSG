@@ -64,7 +64,7 @@ theorem exists_mem_not_mem_centralizer [Finite H] {D J : Subgroup H} (hD : Nat.c
     by_contra hdn
     exact hcon ⟨d, hd, hdn⟩
   have hle : D ≤ Subgroup.centralizer (J : Set H) := fun d hd => hall d hd
-  haveI hcyc : IsCyclic D := hsyl D hle (isPGroup_three_of_pow D hDexp)
+  have hcyc : IsCyclic D := hsyl D hle (isPGroup_three_of_pow D hDexp)
   have h3 := card_le_three_of_cyclic D hDexp
   rw [hD] at h3
   norm_num at h3

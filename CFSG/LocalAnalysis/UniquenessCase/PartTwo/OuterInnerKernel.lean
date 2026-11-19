@@ -21,7 +21,7 @@ theorem mem_T0_of_rhoL_mem_inner {D : Data G} {X : Subgroup G} (hX : X ∈ calC 
       CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 X)) :
     u ∈ (D.T ⊓ X) ⊔ (D.T ⊓ F08.CentOverO2 D.M X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   let S : Subgroup (Bar2 X) := ((D.T ⊓ X).subgroupOf X).map π
   have hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ :=

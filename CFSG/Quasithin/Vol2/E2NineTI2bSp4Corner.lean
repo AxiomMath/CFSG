@@ -17,15 +17,17 @@ variable {k : Type} [Field k] [CharP k 2]
 @[expose] def iotaMat (A : Matrix (Fin 2) (Fin 2) k) : Matrix (Fin 4) (Fin 4) k :=
   !![A 0 0, 0, 0, A 0 1; 0, 1, 0, 0; 0, 0, 1, 0; A 1 0, 0, 0, A 1 1]
 
+omit [CharP k 2] in
 theorem iotaMat_one : iotaMat (1 : Matrix (Fin 2) (Fin 2) k) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [iotaMat, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [iotaMat]
 
+omit [CharP k 2] in
 theorem iotaMat_mul (A B : Matrix (Fin 2) (Fin 2) k) :
     iotaMat (A * B) = iotaMat A * iotaMat B := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [iotaMat, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_four] <;> ring
+    simp [iotaMat, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_four]
 
 theorem iotaMat_mem_of_det (B : Matrix (Fin 2) (Fin 2) k)
     (hdet : B 0 0 * B 1 1 - B 0 1 * B 1 0 = 1) :
@@ -35,7 +37,6 @@ theorem iotaMat_mem_of_det (B : Matrix (Fin 2) (Fin 2) k)
   rw [transpose_mul_minorJ_mul_apply]
   fin_cases i <;> fin_cases j <;> simp [iotaMat, minorJ_apply] <;>
     (first
-      | ring1
       | linear_combination (B 0 0 * B 1 0) * h2
       | linear_combination (B 0 1 * B 1 1) * h2
       | linear_combination hdet + (B 0 1 * B 1 0) * h2)
@@ -48,12 +49,14 @@ theorem iotaMat_mem (A : SL(2, k)) :
   rw [Matrix.det_fin_two] at this
   exact this
 
+omit [CharP k 2] in
 theorem iotaMat_mul_inv (A : SL(2, k)) :
     iotaMat (A : Matrix (Fin 2) (Fin 2) k) *
       iotaMat ((A⁻¹ : SL(2, k)) : Matrix (Fin 2) (Fin 2) k) = 1 := by
   rw [← iotaMat_mul, ← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel,
     Matrix.SpecialLinearGroup.coe_one, iotaMat_one]
 
+omit [CharP k 2] in
 theorem iotaMat_inv_mul (A : SL(2, k)) :
     iotaMat ((A⁻¹ : SL(2, k)) : Matrix (Fin 2) (Fin 2) k) *
       iotaMat (A : Matrix (Fin 2) (Fin 2) k) = 1 := by
@@ -77,6 +80,7 @@ theorem iotaMat_inv_mul (A : SL(2, k)) :
 theorem glMat_iota (A : SL(2, k)) :
     glMat ((iota A : antiSp k) : GL (Fin 4) k) = iotaMat (A : Matrix (Fin 2) (Fin 2) k) := rfl
 
+omit [CharP k 2] in
 theorem iotaMat_inj {A B : Matrix (Fin 2) (Fin 2) k} (h : iotaMat A = iotaMat B) : A = B := by
   have e00 : A 0 0 = B 0 0 := by simpa [iotaMat] using congrFun (congrFun h 0) 0
   have e01 : A 0 1 = B 0 1 := by simpa [iotaMat] using congrFun (congrFun h 0) 3
@@ -103,13 +107,15 @@ theorem glMat_iota_lower (c : k) :
   rw [glMat_iota]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [iotaMat, CFSG.LocalAnalysis.ComponentInitial.coe_sl2Lower, Matrix.single_apply]
+    simp [iotaMat, CFSG.LocalAnalysis.ComponentInitial.coe_sl2Lower]
 
+omit [CharP k 2] in
 theorem glMat_mul_antiSp (x y : antiSp k) :
     glMat ((x * y : antiSp k) : GL (Fin 4) k) =
       glMat (x : GL (Fin 4) k) * glMat (y : GL (Fin 4) k) :=
   rfl
 
+omit [CharP k 2] in
 theorem corner_matrix_comm (G : Matrix (Fin 4) (Fin 4) k) (t c : k)
     (h00 : G 0 0 = 0) (h10 : G 1 0 = 0) (h20 : G 2 0 = 0) (h30 : G 3 0 = t)
     (r0 : G 0 0 * t = 0) (r1 : G 0 1 * t = 0) (r2 : G 0 2 * t = 0) (r3 : G 0 3 * t = 1) :
@@ -119,7 +125,6 @@ theorem corner_matrix_comm (G : Matrix (Fin 4) (Fin 4) k) (t c : k)
     simp [Matrix.mul_apply, Fin.sum_univ_four, uMat, Matrix.add_apply, Matrix.one_apply,
       Matrix.single_apply, -mul_eq_zero] <;>
     (first
-      | ring1
       | linear_combination c * h00
       | linear_combination c * h10
       | linear_combination c * h20

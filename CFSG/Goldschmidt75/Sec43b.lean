@@ -65,7 +65,7 @@ theorem MinCE.step_43 (h : MinCE G T S₁ S₂) {B : Subgroup G} (hB : B ≤ S�
   have hLON : L ≤ normalizer (ON : Set G) := le_normalizer_oddCoreOf_of_le_normalizer hLN
   set Y := N ⊓ centralizer (B₁ : Set G) with hY
   have hNY : N ≤ Y ⊔ ON :=
-    le_inf_centralizer_sup (T.isPGroup'.to_le (inf_le_left.trans h.le₁)) hONN
+    le_inf_centralizer_sup (T.isPGroup.to_le (inf_le_left.trans h.le₁)) hONN
       (sup_le (hNL.trans hLON) (hB₁L.trans hLON)) (Balance.odd_card_oddCoreOf N) hcommN
   have hYN : Y ≤ N := inf_le_left
   have hYL₁ : Y ≤ L₁ := inf_le_right.trans (centralizer_le_normalizer _)
@@ -141,7 +141,7 @@ theorem MinCE.le_normalizer_kSub_sup (h : MinCE G T S₁ S₂) {B : Subgroup G} 
       (Completion.le_normalizer_oddCoreOf _)
   · have hlt : B < S₁ := lt_of_le_of_ne hB hBS
     have hBB₁ : B < S₁ ⊓ normalizer (B : Set G) :=
-      lt_inf_normalizer (T.isPGroup'.to_le h.le₁) hlt
+      lt_inf_normalizer (T.isPGroup.to_le h.le₁) hlt
     have hc1 : Nat.card B < Nat.card (S₁ ⊓ normalizer (B : Set G) : Subgroup G) :=
       lt_of_le_of_ne (Subgroup.card_le_of_le hBB₁.le) fun he =>
         hBB₁.ne (Subgroup.eq_of_le_of_card_ge hBB₁.le he.ge)

@@ -158,8 +158,8 @@ theorem tmW8_range_eq :
 
 theorem tmW8_rangeRestrict_bijective :
     Function.Bijective tmW8_hom.rangeRestrict := by
-  haveI : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
-  haveI : Fintype ↥tmW8_hom.range := Fintype.ofFinite _
+  have : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
+  have : Fintype ↥tmW8_hom.range := Fintype.ofFinite _
   rw [Fintype.bijective_iff_surjective_and_card]
   refine ⟨tmW8_hom.rangeRestrict_surjective, ?_⟩
   rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, tmW8_range_eq,
@@ -208,8 +208,8 @@ theorem tmW8_card_le_of_ker_le {P : Type*} [Group P] [Finite P] {Z : Subgroup P}
 theorem tmW8_ker_sup_eq_top {P : Type*} [Group P] {Z : Subgroup P} [Z.Normal]
     [IsSimpleGroup (P ⧸ Z)] {M : Type*} [Group M] (f : P →* M) (hk : ¬ f.ker ≤ Z) :
     f.ker ⊔ Z = ⊤ := by
-  obtain ⟨x, hxker, hxZ⟩ := SetLike.not_le_iff_exists.mp hk
-  haveI : (f.ker.map (QuotientGroup.mk' Z)).Normal :=
+  obtain ⟨x, hxker, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hk
+  have : (f.ker.map (QuotientGroup.mk' Z)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have htop : f.ker.map (QuotientGroup.mk' Z) = ⊤ := by
     refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal _).resolve_left fun hbot => hxZ ?_
@@ -242,7 +242,7 @@ theorem tmW8_hom_trivial_of_center {P : Type*} [Group P] [Finite P]
 theorem tmW8_hom_trivial_of_le_ten
     {n : ℕ} (hn : n ≤ 10)
     (f : ↥(commutator (WeylGroup Tag.E8)) →* Equiv.Perm (Fin n)) : f = 1 := by
-  haveI : IsSimpleGroup (wPlus ⧸ Subgroup.center wPlus) :=
+  have : IsSimpleGroup (wPlus ⧸ Subgroup.center wPlus) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide)
       lieModel_wPlus_quotient
   have hbig : 2 * Nat.factorial n < Nat.card wPlus := by

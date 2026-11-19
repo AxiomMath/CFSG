@@ -46,7 +46,7 @@ theorem card_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀
   have h3 : Nat.card (Vtil V₀ V hV) = Nat.card ↥P * P.index :=
     (Subgroup.card_mul_index (H := P)).symm
   have hpos : 0 < P.index := by
-    haveI : Nonempty (Vtil V₀ V hV ⧸ P) := ⟨1⟩
+    have : Nonempty (Vtil V₀ V hV ⧸ P) := ⟨1⟩
     rw [Subgroup.index]
     exact Nat.card_pos
   rw [hmap]
@@ -59,6 +59,7 @@ theorem card_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀
     _ = Nat.card ↥V₀ * (Nat.card ↥P * P.index) := by rw [hkercard, h3]
     _ = Nat.card ↥V₀ * Nat.card ↥P * P.index := by rw [mul_assoc]
 
+omit [Finite G] in
 theorem commutator_mem_V₀_of_fixes {V₀ V B : Subgroup G} {hV : IsElemAbelian 2 V}
     (hBst : B ≤ stabTil V₀ V) {q : Vtil V₀ V hV}
     (hq : ∀ φ ∈ barSub V₀ V hV B, φ q = q) {x : G} (hxV : x ∈ V)

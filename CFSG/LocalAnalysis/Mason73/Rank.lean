@@ -32,9 +32,9 @@ theorem exists_eq_omegaEl (hn : 3 ≤ n) {a : L4Model n} (ha : a ∈ A n) (ha2 :
   refine ⟨(⟨χ 1, hχ2 1⟩, ⟨χ 2, hχ2 2⟩, ⟨χ 3, hχ2 3⟩), ?_⟩
   rw [omegaEl]
   rcases hcase with ⟨h, hpar, rfl⟩ | ⟨h, hpar, rfl⟩
-  · rw [dif_pos (by rw [hpat]; exact hpar)]
+  · rw [dite_eq_left (by rw [hpat]; exact hpar)]
     exact el_congr _ _ (by rw [hpat]) rfl
-  · rw [dif_neg (by rw [hpat]; omega)]
+  · rw [dite_eq_right (by rw [hpat]; omega)]
     exact el_congr _ _ (by rw [hpat]) rfl
 
 theorem patFix_of_comm (hn : 3 ≤ n) {s : L4Model n} {p : Fin 2 × Fin 2 × Fin 2}
@@ -166,7 +166,7 @@ theorem card_le_sixteen_of_mul_self (hn : 3 ≤ n) (E : Subgroup (L4Model n))
     have h8 := card_inf_A_le_eight hn E hE
     calc _ ≤ 8 * 1 := Nat.mul_le_mul h8 h1
       _ ≤ 16 := by norm_num
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨g, hg, hg1⟩ := hall
     have h4 := card_inf_A_le_four hn E hE hg1 fun x hx =>
       mul_comm_of_mul_self hE hg (Subgroup.mem_inf.1 hx).1
@@ -184,7 +184,7 @@ theorem card_le_eight_of_piT_mem (hn : 3 ≤ n) (E : Subgroup (L4Model n))
       exact (Subgroup.mem_bot).2 (hall x hx)
     calc _ ≤ 8 * 1 := Nat.mul_le_mul (card_inf_A_le_eight hn E hE) h1
       _ = 8 := rfl
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨g, hg, hg1⟩ := hall
     have h4 := card_inf_A_le_four hn E hE hg1 fun x hx =>
       mul_comm_of_mul_self hE hg (Subgroup.mem_inf.1 hx).1
@@ -205,7 +205,7 @@ theorem card_le_eight_of_le_centralizer (hn : 3 ≤ n) {g : L4Model n}
   · have h4 := card_inf_A_le_four hn E hE hg1 fun x hx => hcomm x (Subgroup.mem_inf.1 hx).1
     calc _ ≤ 4 * 2 := Nat.mul_le_mul h4 (card_map_piT_le_two E hall)
       _ = 8 := rfl
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨e, he, he1, heg⟩ := hall
     have hcomm' : (piT e : Perm (Fin 4)) * swap 2 3 = swap 2 3 * (piT e : Perm (Fin 4)) := by
       rw [← hg]

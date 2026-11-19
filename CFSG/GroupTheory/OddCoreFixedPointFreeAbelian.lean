@@ -20,7 +20,7 @@ theorem oddCore_commute_of_fixedPointFree_involution {X : Type*} [Group X] [Fini
         simp
       map_mul' := fun y z => by
         ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hφfree : MonoidHom.FixedPointFree φ := by
     intro y hy

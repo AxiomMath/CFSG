@@ -102,6 +102,7 @@ theorem exists_normalizer_lift148 (hA3 : IsPGroup 3 A) {g : ↥(Y ⊔ A) ⧸ ker
   · have hoα : QuotientGroup.mk' C o = 1 := (QuotientGroup.eq_one_iff o).mpr ho
     rw [map_mul, hoα, one_mul]
 
+omit [Finite G] in
 theorem alpha148_conj (w : ↥(Y ⊔ A)) {a : G} (ha : a ∈ A) (hwa : (w : G) * a * (w : G)⁻¹ ∈ A) :
     alpha148 A Y ((w : G) * a * (w : G)⁻¹) hwa =
       QuotientGroup.mk' (ker148 A Y) w * alpha148 A Y a ha *
@@ -109,9 +110,11 @@ theorem alpha148_conj (w : ↥(Y ⊔ A)) {a : G} (ha : a ∈ A) (hwa : (w : G) *
   rw [alpha148_eq_mk', alpha148_eq_mk', ← map_inv, ← map_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem alpha148_one' : alpha148 A Y 1 A.one_mem = 1 :=
   (alpha148_eq_mk' A.one_mem).trans (mk'_ker148_eq_one_iff.mpr (Subgroup.one_mem _))
 
+omit [Finite G] in
 theorem alpha148_mem_of_mem_zpowers (hA3 : ∀ a ∈ A, a ^ 3 = 1) {x v : G} (hx : x ∈ A)
     (hv : v ∈ A) (hvx : v ∈ Subgroup.zpowers x) {P : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)}
     (hxP : alpha148 A Y x hx ∈ P) : alpha148 A Y v hv ∈ P := by

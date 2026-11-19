@@ -27,8 +27,8 @@ theorem card_of_isSLn_two {S : Type} [Group S] [Finite S] {m : ℕ}
     (h : IsSLn S 2 m) :
     Nat.card S = 2 ^ m * ((2 ^ m) ^ 2 - 1) := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   calc Nat.card S = Nat.card ↥(CFSG.Open.StatedSL 2 K) := Nat.card_congr e.toEquiv
     _ = Nat.card K * (Nat.card K ^ 2 - 1) := CFSG.Open.StatedAPI.card_statedSL_two K
     _ = 2 ^ m * ((2 ^ m) ^ 2 - 1) := by rw [hKcard]
@@ -82,15 +82,15 @@ private theorem exists_upperUnipotent_image_isElemAbelian {S : Type} [Group S] [
     ∃ U : Subgroup S, IsPGroup 2 U ∧ Nat.card U = 2 ^ m ∧
       (∀ x ∈ U, x * x = 1) ∧ IsMulCommutative U := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eS⟩⟩ := hS
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   have hKeven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hKcard]
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hKchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  letI : CharP K 2 := hKchar ▸ ringChar.charP K
+  let : CharP K 2 := hKchar ▸ ringChar.charP K
   let eSL : S ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     eS.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm
   let U : Subgroup S := upperUnipotentImage eSL
@@ -156,21 +156,21 @@ private theorem false_of_pRank_le_one_of_abelian_quotient {P U : Type} [Group P]
     (hUcomm : IsMulCommutative U) (hUsq : ∀ x : U, x * x = 1)
     (f : P →* U) (hf : Function.Surjective f) {m : ℕ}
     (hUcard : Nat.card U = 2 ^ m) (hm4 : 4 ≤ m) : False := by
-  haveI : IsMulCommutative U := hUcomm
+  have : IsMulCommutative U := hUcomm
   have h16 : 16 ≤ 2 ^ m := by
     calc 16 = 2 ^ 4 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm4
   rcases (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification
     Nat.prime_two hP).mp hrank with hcyc | ⟨-, n, hn, ⟨eQ⟩⟩
-  · haveI : IsCyclic P := hcyc
-    haveI : IsCyclic U := isCyclic_of_surjective f hf
+  · have : IsCyclic P := hcyc
+    have : IsCyclic U := isCyclic_of_surjective f hf
     have hle2 := CFSG.GH74.Uniqueness.SU.K.R4.L82.card_le_two_of_cyclic_sq hUsq
     rw [hUcard] at hle2
     omega
   · have h2n : 2 ≤ 2 ^ (n - 2) := by
       calc 2 = 2 ^ 1 := by norm_num
         _ ≤ 2 ^ (n - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
-    haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
     have hcommidx : (commutator P).index ≤ 4 :=
       CFSG.GH74.Uniqueness.SU.K.R4.L82.index_commutator_le_four
         (n := 2 ^ (n - 2)) h2n eQ
@@ -192,8 +192,8 @@ theorem false_of_sl2_odd_surjective {H S : Type} [Group H] [Finite H] [Group S] 
       Nonempty (H ≃* Matrix.SpecialLinearGroup (Fin 2) F))
     (f : H →* S) (hf : Function.Surjective f) : False := by
   obtain ⟨F, hFfield, hFfinite, hFodd, ⟨e⟩⟩ := hH
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨z, hz2, hz1, hinv⟩ := exists_unique_involution_sl2_odd hFodd e
   obtain ⟨U, hU2, hUcard, hUsq, hUcomm⟩ :=
     exists_upperUnipotent_image_isElemAbelian hm4 hS
@@ -216,7 +216,7 @@ theorem false_of_sl2_odd_surjective {H S : Type} [Group H] [Finite H] [Group S] 
   have hrank : CFSG.pRank 2 ↥(P : Subgroup H) ≤ 1 := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact (CFSG.SectionRank.pRank_mono (by norm_num) (le_top)).trans hrankTop
-  exact false_of_pRank_le_one_of_abelian_quotient P.isPGroup' hrank hUcomm
+  exact false_of_pRank_le_one_of_abelian_quotient P.isPGroup hrank hUcomm
     (fun x => Subtype.ext (hUsq x x.2)) g hgsurj hUcard hm4
 
 private theorem false_of_card_eq_of_lieModel_psl_two {H S : Type} [Group H] [Finite H]
@@ -274,7 +274,7 @@ theorem false_of_lieModel_psl_odd_surjective {H S : Type} [Group H] [Finite H]
     [Group S] [Finite S] {m n : ℕ} (hm4 : 4 ≤ m) (hme : Even m) (hS : IsSLn S 2 m)
     (hn : Odd n) (hH : LieModel H .PSL 2 2 n)
     (f : H →* S) (hf : Function.Surjective f) : False := by
-  haveI : IsSimpleGroup H :=
+  have : IsSimpleGroup H :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (n := 2) (p := 2)
       (f := n) (by decide) hH
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with hbot | htop
@@ -300,7 +300,7 @@ theorem false_of_isExt_q8d8_alt_five_surjective {H S : Type} [Group H] [Finite H
     (hH : IsExt H (fun V _ => IsQ8D8 (⊤ : Subgroup V)) (fun Y _ => IsAlt 5 Y))
     (f : H →* S) (hf : Function.Surjective f) : False := by
   obtain ⟨V, hVn, hVq8, hValt⟩ := hH
-  letI : V.Normal := hVn
+  let : V.Normal := hVn
   have hVcard : Nat.card ↥V = 32 := by
     simpa [Subgroup.card_top] using (hVq8.facts).1
   have hValt' : Nonempty (H ⧸ V ≃* alternatingGroup (Fin 5)) := hValt

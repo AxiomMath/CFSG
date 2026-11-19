@@ -120,7 +120,7 @@ private lemma z_sec4_facts [Finite G] {b : G} {J B : Subgroup G} {b₁ b₂ : G}
   have hbB : b ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₁B : b₁ ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₂B : b₂ ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative B := hEA.1.toIsMulCommutative
+  have : IsMulCommutative B := hEA.1.toIsMulCommutative
   have hcomm : ∀ u v : G, u ∈ B → v ∈ B → u * v = v * u := fun u v hu hv =>
     congrArg Subtype.val (hEA.1.is_comm.comm (⟨u, hu⟩ : B) ⟨v, hv⟩)
   have hcube : ∀ u : G, u ∈ B → u ^ 3 = 1 := by
@@ -352,7 +352,7 @@ private theorem z_main_aux (hTc : FF79KTransvComm) (hTz : FF79KTransvCenter)
     obtain ⟨n, hn⟩ := z_op2_pow (Subgroup.mem_subgroupOf.mp ha).1
     refine ⟨n, Subtype.ext ?_⟩
     have : a ^ 2 ^ n = 1 := Subtype.ext hn
-    simp only [Subgroup.coe_pow, Subgroup.coe_one, MonoidHom.coe_coe]
+    simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [← map_pow, this, map_one]
   have hR'le : R' ≤ Subgroup.centralizer ({e t'} : Set (GL (Fin 5) (ZMod 2))) := by
     intro r hr
@@ -436,7 +436,7 @@ private def zCommSub (t d : G) : Subgroup G where
         (d * x * d⁻¹ * x⁻¹) * (x * (d * y * d⁻¹ * y⁻¹) * x⁻¹) := by group
     rw [h, conj_fix_zpowers hxC hy]
     exact Subgroup.mul_mem _ hx hy
-  one_mem' := ⟨Subgroup.one_mem _, by simpa using Subgroup.one_mem _⟩
+  one_mem' := ⟨Subgroup.one_mem _, by simp⟩
   inv_mem' := by
     rintro x ⟨hxC, hx⟩
     refine ⟨(Cen t).inv_mem hxC, ?_⟩
@@ -453,7 +453,7 @@ private def zCommY (t : G) : Subgroup G where
         (c₁ * (c₂ * x * c₂⁻¹ * x⁻¹) * c₁⁻¹) * (c₁ * x * c₁⁻¹ * x⁻¹) := by group
     rw [h, conj_fix_zpowers hc₁ (h₂ x hx)]
     exact Subgroup.mul_mem _ (h₂ x hx) (h₁ x hx)
-  one_mem' := ⟨Subgroup.one_mem _, fun x _ => by simpa using Subgroup.one_mem _⟩
+  one_mem' := ⟨Subgroup.one_mem _, fun x _ => by simp⟩
   inv_mem' := by
     rintro c ⟨hc, h⟩
     refine ⟨(Cen t).inv_mem hc, fun x hx => ?_⟩
@@ -530,7 +530,7 @@ theorem ff79_4_4Z_of (hstr : FF79_4_3Str) (hβ : FF79_4_4Beta) (hA5 : FF79KCentA
     (hL3 : FF79KCentL3NonAb) (hTc : FF79KTransvComm) (hTz : FF79KTransvCenter) :
     FF79_4_4Z := by
   intro G _ _ b J B b₁ b₂ h4 t ht y hy hyc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hb₁3, hb₂3, hcomm, hK1, hcardA, hA3⟩ := sec4_facts h4
   obtain ⟨-, -, -, hbb₁, hbb₂, -, hn₁, hn₂⟩ := z_sec4_facts h4
   have hS := hstr G b J B b₁ b₂ h4

@@ -60,7 +60,7 @@ theorem alt_arm_false (h : Cfg G S t)
   have h360 := dvd_card_fixed h ζ
   have hFS : Nat.card ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S)) ∣ Nat.card ↥S :=
     Subgroup.card_subgroup_dvd_card _
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hS_alt : Nat.card ↥S = n.factorial / 2 := by
     rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   by_cases hn6 : n = 5 ∨ n = 6

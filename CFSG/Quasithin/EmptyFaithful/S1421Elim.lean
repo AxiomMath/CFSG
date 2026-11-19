@@ -405,9 +405,9 @@ theorem f112_survivor_legacyBare {G : Type} [Group G] [Finite G] {K1 L2 S : Subg
 
 theorem f112_survivor {G : Type} [Group G] [Finite G] {K1 L2 S : Subgroup G}
     (hF : ListedGroupFacts)
-    (hyp : Hyp111 K1 L2 S)
-    (hqt : IsQuasithinSub (K1 ⊔ L2 ⊔ S))
-    (hnorm : (S.subgroupOf (S ⊔ borelOf L2 S)).Normal)
+    (_hyp : Hyp111 K1 L2 S)
+    (_hqt : IsQuasithinSub (K1 ⊔ L2 ⊔ S))
+    (_hnorm : (S.subgroupOf (S ⊔ borelOf L2 S)).Normal)
     (hK1 : K1 ∈ cComp (K1 ⊔ S))
     (hS3 : Nonempty (OTwoQuot L2 ≃* Equiv.Perm (Fin 3)))
     (hsolv : Group.IsSolvable ↥(L2 ⊔ S))

@@ -25,7 +25,7 @@ theorem eightynine_dvd_card_centralizer {n f : ℕ} {K : Type} [Field K] [Finite
   classical
   set θ : K →+* K := iterateFrobenius K 2 f with hθdef
   have hθ : ∀ c, θ c = c ^ (2 ^ f) := fun _ => rfl
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = (2 ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hθθ : ∀ c, θ (θ c) = c := by
     intro c
@@ -40,7 +40,7 @@ theorem eightynine_dvd_card_centralizer {n f : ℕ} {K : Type} [Field K] [Finite
       have h := (CFSG.LinearGroups.unitary_scalar_kernel Nat.prime_two hK (n := n) hn).1
       have := Set.ext_iff.1 h A
       simpa using this
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   obtain ⟨th, rfl⟩ := QuotientGroup.mk_surjective τ
   have hτ2 : (QuotientGroup.mk th : StatedProj (StatedSU n (2 ^ f) K)) ^ 2 = 1 := by
     have := pow_orderOf_eq_one (QuotientGroup.mk th : StatedProj (StatedSU n (2 ^ f) K))
@@ -107,8 +107,8 @@ theorem lie23To89_psu {X : Type} [Group X] [Finite X] {n f : ℕ}
     89 ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by
   obtain ⟨hadm, K, _, _, hcard, ⟨φ⟩⟩ := hm
   have hn : 3 ≤ n := hadm.2.2.1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hcard, pow_mul])
   rw [card_centralizer_eq φ τ] at h23 ⊢
   exact eightynine_dvd_card_centralizer (by omega) hcard (φ τ)

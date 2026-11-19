@@ -102,7 +102,7 @@ theorem tab12_code (f : ℕ → ℕ → List ℕ) :
       wordP (f 3 2)] : Array Pr).toList.map codePr64 =
     [wordQ (f 0 0), wordQ (f 0 1), wordQ (f 0 2), wordQ (f 1 0), wordQ (f 1 1), wordQ (f 1 2),
       wordQ (f 2 0), wordQ (f 2 1), wordQ (f 2 2), wordQ (f 3 0), wordQ (f 3 1), wordQ (f 3 2)] := by
-  simp only [List.map_toArray, List.map_cons, List.map_nil, codePr64_wordP]
+  simp only [List.map_cons, List.map_nil, codePr64_wordP]
 
 theorem ePTable_code : ePTable.toList.map codePr64 = ePTabQ := tab12_code eWord
 
@@ -133,7 +133,7 @@ theorem codePr64_pAlph (c s : ℕ) : codePr64 (pAlph c s) = pAlphQ c s := by
   · exact codePr64_nInvP c _
 
 theorem rBase_code (c : ℕ) : (rBase c).toList.map codePr64 = rBaseQ c := by
-  simp only [rBase, rBaseQ, List.map_toArray, List.map_cons, List.map_nil,
+  simp only [rBase, rBaseQ, List.map_cons, List.map_nil,
     codePr64_prodP (pAlph c) (pAlphQ c) (codePr64_pAlph c)]
 
 theorem slp_code (rules : List (ℕ × ℕ)) (tab : Array Pr) :

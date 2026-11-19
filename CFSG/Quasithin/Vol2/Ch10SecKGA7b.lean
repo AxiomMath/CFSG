@@ -95,7 +95,7 @@ theorem exists_commute_five {B O : Subgroup X} {x : X} (h25 : ¬ 25 ∣ Nat.card
   set P₀ := (P : Subgroup ↥D).map D.subtype with hP₀
   have hcP : Nat.card P₀ = Nat.card (P : Subgroup ↥D) :=
     Subgroup.card_map_of_injective Subtype.val_injective
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have h5D : 5 ∣ Nat.card ↥D := by
     rw [← hc₀5]
     exact (Subgroup.orderOf_mk c₀ (mem_sup_right (mem_zpowers c₀) : c₀ ∈ D)) ▸

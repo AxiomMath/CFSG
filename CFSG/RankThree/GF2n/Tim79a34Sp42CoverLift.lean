@@ -83,7 +83,7 @@ theorem sp42CoverLiftStatement_holds :
     apply Subtype.ext
     exact Subgroup.mem_center_iff.mp (hcen (Subgroup.mem_subgroupOf.mp hx)) (y : Γ)
   have hG'perf : Group.IsPerfect G' := by
-    haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
       ⟨commutator_alternatingGroup_eq_top (by norm_num)⟩
     exact Group.IsPerfect.ofSurjective
       (f := (commutatorSpTwoEquiv hF2).symm.toMonoidHom)
@@ -136,7 +136,7 @@ theorem sp42CoverLiftStatement_holds :
     have hcard4 : Nat.card (Γ ⧸ Γ'') = 4 := by
       rw [← Subgroup.index_eq_card]
       exact hidx
-    haveI : IsMulCommutative (Γ ⧸ Γ'') :=
+    have : IsMulCommutative (Γ ⧸ Γ'') :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hcard4]; norm_num)
     have hle : commutator Γ ≤ Γ'' :=
       (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := Γ'')).mp inferInstance
@@ -148,7 +148,7 @@ theorem sp42CoverLiftStatement_holds :
       apply Subgroup.map_injective (Subgroup.subtype_injective Γ')
       rw [Subgroup.map_subtype_commutator, hmap_top]
       exact hΓ'eq.symm
-    haveI : Group.IsPerfect ↥(commutator Γ') := hperfΓ''
+    have : Group.IsPerfect ↥(commutator Γ') := hperfΓ''
     exact Group.IsPerfect.ofSurjective (f := (commutator Γ').subtype)
       (by rw [← MonoidHom.range_eq_top, Subgroup.range_subtype]; exact hEtop)
   let π : Γ' →* alternatingGroup (Fin 6) :=

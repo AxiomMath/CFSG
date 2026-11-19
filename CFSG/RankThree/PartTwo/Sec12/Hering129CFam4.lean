@@ -15,7 +15,7 @@ namespace Hering129C
 theorem PPair.false_alternating {n : ℕ} (hn : n ≤ 14) {s : alternatingGroup (Fin n)}
     {J : Subgroup (alternatingGroup (Fin n))} {Lb : Type} [Group Lb] {g : ↥J →* Lb}
     (h : PPair s J g) : False := by
-  haveI : Group.IsPerfect J := h.isPerfect
+  have : Group.IsPerfect J := h.isPerfect
   have hKK : ⁅J, J⁆ = J := Subgroup.commutator_eq_self
   have hK'K : ⁅J.map (alternatingGroup (Fin n)).subtype,
       J.map (alternatingGroup (Fin n)).subtype⁆ =

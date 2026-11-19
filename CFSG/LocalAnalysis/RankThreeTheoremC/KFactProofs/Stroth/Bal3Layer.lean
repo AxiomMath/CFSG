@@ -98,7 +98,7 @@ variable {X : Type*} [Group X] [Finite X] {p : ℕ} {P : Sylow p X} {z : X} {D :
 theorem RedConfig.mem_of_mem_centralizer (h : RedConfig p P z D) {c : X} (hc : orderOf c = p)
     (hcC : c ∈ centralizer (D : Set X)) : c ∈ D := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcp : c ^ p = 1 := hc ▸ pow_orderOf_eq_one c
   have hcomm : D ≤ centralizer ((zpowers c : Subgroup X) : Set X) :=
     le_centralizer_iff.mp (zpowers_le.mpr hcC)

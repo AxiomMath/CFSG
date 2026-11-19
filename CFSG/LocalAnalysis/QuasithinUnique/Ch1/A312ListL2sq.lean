@@ -39,7 +39,7 @@ theorem dickson_nonsolvable_cases (hFcard : Nat.card F = p ^ f)
   · exact Or.inl ⟨⟨e⟩, h5⟩
   · exfalso
     apply hns
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hcomm : commutator H ≤ N :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := C) hsup
     have hNs : Group.IsSolvable N := by

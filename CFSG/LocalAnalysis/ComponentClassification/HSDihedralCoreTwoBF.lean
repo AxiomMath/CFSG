@@ -22,7 +22,7 @@ variable {φ : Δ.Fusion} (B : TwoBSplit φ)
 
 theorem T₁_eq : B.T₁ = (φ.T : Subgroup X) := by
   by_contra hne
-  have hnil : Group.IsNilpotent ↥(φ.T : Subgroup X) := φ.T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(φ.T : Subgroup X) := φ.T.isPGroup.isNilpotent
   have hlt : B.T₁.subgroupOf φ.T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm B.T₁_le fun y hy => ?_)
     have : (⟨y, hy⟩ : ↥(φ.T : Subgroup X)) ∈ B.T₁.subgroupOf φ.T := h ▸ mem_top _

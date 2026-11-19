@@ -63,7 +63,7 @@ theorem exists_conj_ne_commute (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g) (h
       by_contra hne
       exact hno e heE hne hcommS
     exact Subtype.ext (by rw [hval, het])
-  letI : Fintype Y := Fintype.ofFinite Y
+  let : Fintype Y := Fintype.ofFinite Y
   obtain ⟨N, hNnormal, hNodd, hNmem⟩ :=
     CFSG.ZStar.glauberman_zStar Y tY htY1 htY2 hisolated
   have hE_le_Mbar : E ≤ S.Mbar := by
@@ -78,7 +78,7 @@ theorem exists_conj_ne_commute (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g) (h
     exact (Subgroup.mem_normalizer_iff.mp (hEnorm hgM) (n : S.O)).mp hn
   let NE : Subgroup Y := N ⊓ E.subgroupOf Y
   have hNE_normal : NE.Normal := by
-    haveI : N.Normal := hNnormal
+    have : N.Normal := hNnormal
     refine ⟨fun n hn g => ⟨hNnormal.conj_mem n hn.1 g, hEnormY.conj_mem n hn.2 g⟩⟩
   let A : Subgroup S.O := NE.map Y.subtype
   have hA_le_E : A ≤ E := by
@@ -100,7 +100,7 @@ theorem exists_conj_ne_commute (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g) (h
   have hEeven : Even (Nat.card ↥E) := by
     have hnonab :=
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥E hqE
-    haveI : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hqE.2
+    have : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hqE.2
     have heven_quot : Even (Nat.card (↥E ⧸ Subgroup.center ↥E)) :=
       CFSG.GH74.even_card_of_nonabelian_simple hnonab
     exact even_iff_two_dvd.mpr
@@ -126,7 +126,7 @@ theorem exists_conj_ne_commute (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g) (h
     have hAE : A = E := le_antisymm hA_le_E hEA
     have hoddE : Odd (Nat.card E) := by rw [← hAE]; exact hAodd
     exact (Nat.not_even_iff_odd.mpr hoddE) hEeven
-  haveI : (A.subgroupOf E).Normal := hAnormE
+  have : (A.subgroupOf E).Normal := hAnormE
   have hAcenter : (A.subgroupOf E) ≤ Subgroup.center ↥E :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hqE _ hproper
   have hcenter_of_mem : ∀ e ∈ E,

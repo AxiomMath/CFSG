@@ -53,7 +53,7 @@ theorem sylow_fitting_map_eq_pCore {L : Type*} [Group L] [Finite L] {r : ℕ} [F
   have hSc := Sylow.characteristic_of_normal S hSn
   apply le_antisymm
   · apply le_sSup
-    refine ⟨⟨fun x hx g => ?_⟩, S.isPGroup'.map _⟩
+    refine ⟨⟨fun x hx g => ?_⟩, S.isPGroup.map _⟩
     have h1 := LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (S : Subgroup (CFSG.fittingSubgroup L))
       (show g ∈ normalizer ((CFSG.fittingSubgroup L : Subgroup L) : Set L) by

@@ -42,7 +42,7 @@ private theorem exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -213,9 +213,9 @@ theorem exists_unitTransvGroup_eq_conj_rootGroup_SU {F : Type} [Field F] [Finite
     abel
   have hσ := CFSG.LieType.BorelTits.unitaryInvolution_involutive hc
   refine ⟨mat _ n u *ᵥ Pi.single i 1, mat _ n u *ᵥ Pi.single (Fin.rev i) 1, ?_, ?_, ?_, ?_, ?_⟩
-  · rw [herm_mat, if_neg hi]
-  · rw [herm_mat, Fin.rev_rev, if_neg fun h => hi h.symm]
-  · rw [herm_mat, if_pos rfl]
+  · rw [herm_mat, ite_eq_right hi]
+  · rw [herm_mat, Fin.rev_rev, ite_eq_right fun h => hi h.symm]
+  · rw [herm_mat, ite_eq_left rfl]
   · refine map_conj_rootGroup_SU hσ hγ u _ fun c => ?_
     rw [crd_swap, hb]
     exact conj_single_rev u i c

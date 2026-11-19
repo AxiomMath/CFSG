@@ -46,7 +46,7 @@ theorem orderOf_two_le_four_of_conj_pair (hV : ∀ v : V, v ^ 2 = 1) {A : Subgro
     hP.trans (by calc _ ≤ 4 * 4 := Nat.mul_le_mul h4 h4
                     _ = 16 := rfl)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : 2 ^ 5 ≤ 2 ^ orderOf (2 : ZMod p) := Nat.pow_le_pow_right (by norm_num) hlt
   omega
 

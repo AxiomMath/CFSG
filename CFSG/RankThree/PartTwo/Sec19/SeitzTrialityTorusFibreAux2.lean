@@ -110,11 +110,13 @@ variable {ε : ℤ} {p : ℕ} {L : Type} [Field L] [Algebra X L] [IsAlgClosure X
 noncomputable def rcfaPhi (g0 : ModGL TwistTag.D4.tag L) (c : C0 σ) : C0 σ →* ModGL TwistTag.D4.tag L :=
   (MulAut.conj g0⁻¹).toMonoidHom.comp ((triEmb X σ L).comp (MulAut.conj c).toMonoidHom)
 
+omit [Finite X] [IsAlgClosure X L] [CharP L 2] in
 theorem rcfaPhi_apply (g0 : ModGL TwistTag.D4.tag L) (c y : C0 σ) :
     rcfaPhi g0 c y = g0⁻¹ * triEmb X σ L (c * y * c⁻¹) * g0 := by
   show (MulAut.conj g0⁻¹) (triEmb X σ L (MulAut.conj c y)) = _
   simp only [MulAut.conj_apply, inv_inv]
 
+omit [Finite X] [IsAlgClosure X L] [CharP L 2] in
 theorem rcfaPhi_injective (g0 : ModGL TwistTag.D4.tag L) (c : C0 σ) :
     Function.Injective (rcfaPhi g0 c) := by
   intro a b hab
@@ -123,6 +125,7 @@ theorem rcfaPhi_injective (g0 : ModGL TwistTag.D4.tag L) (c : C0 σ) :
   have h2 := triEmb_injective h1
   exact mul_left_cancel (mul_right_cancel h2)
 
+omit [Finite X] [IsAlgClosure X L] [CharP L 2] in
 theorem rcfaPhi_mem_adjointGroup {g0 : ModGL TwistTag.D4.tag L}
     (hg0 : g0 ∈ adjointGroup TwistTag.D4.tag L) (c y : C0 σ) :
     rcfaPhi g0 c y ∈ adjointGroup TwistTag.D4.tag L := by
@@ -130,6 +133,7 @@ theorem rcfaPhi_mem_adjointGroup {g0 : ModGL TwistTag.D4.tag L}
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hg0)
     (triEmb_mem_adjointGroup _)) hg0
 
+omit [CharP L 2] in
 theorem rcfa_toral_iff (r s : ℕ) (hr : r.Prime) (hs : s.Prime) (hr2 : r ≠ 2) (hs2 : s ≠ 2)
     (hrK : ringChar L ≠ r) (hsK : ringChar L ≠ s) (a b : Fin Tag.D4.rank → Lˣ)
     (ha : orderOf (rootDiagUnit Tag.D4 a) = r) (hb : orderOf (rootDiagUnit Tag.D4 b) = s)
@@ -156,7 +160,7 @@ theorem rcfa_zeta {x : C0 σ} {i : Fin 4} {F : RclFrame 2 n X σ ε p L} (sp : R
     (D : RclAlgData F i) {z : Matrix.SpecialLinearGroup (Fin 3) L} (hz : z ∈ fixSubgroup D.Φ')
     (hc : ∀ g : Matrix.SpecialLinearGroup (Fin 3) L, g * z = z * g) (hz3 : z ^ 3 = 1)
     (hz1 : z ≠ 1) :
-    ∃ ζ : C0 σ, ∃ hζ : ζ ∈ Subgroup.centralizer ({x} : Set (C0 σ)),
+    ∃ ζ : C0 σ, ∃ _hζ : ζ ∈ Subgroup.centralizer ({x} : Set (C0 σ)),
       ζ ∈ rclPx sp ∧ (∀ u ∈ rclPx sp, ζ * u = u * ζ) ∧ ζ ^ 3 = 1 ∧ ζ ≠ 1 := by
   classical
   have hinj : Function.Injective (rclPsi sp) :=
@@ -199,7 +203,6 @@ theorem rcfa_psi_eq {x : C0 σ} {i : Fin 4} {F : RclFrame 2 n X σ ε p L} (sp :
     {ζ : C0 σ} (hζ : ζ ∈ Subgroup.centralizer ({x} : Set (C0 σ))) :
     rclPsi sp ⟨ζ, hζ⟩ = rcfaPhi F.g0 sp.c ζ := by
   rw [rclPsi, d4QPsi_apply, rcfaPhi_apply]
-  all_goals rfl
 
 theorem rcfa_kernel {x : C0 σ} {i : Fin 4} {F : RclFrame 2 n X σ ε p L} (sp : RclSpecial F x i)
     {ζ : C0 σ} (hζ : ζ ∈ Subgroup.centralizer ({x} : Set (C0 σ)))
@@ -270,7 +273,7 @@ theorem rcfa_centralizer_eq {x : C0 σ} {i : Fin 4} {F : RclFrame 2 n X σ ε p 
     rw [hφx]
     exact (orderOf_injective _ hinj x).trans sp.hx
   have hordB : orderOf (rootDiagUnit TwistTag.D4.tag b') = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [hφζ, orderOf_injective _ hinj ζ]
     exact orderOf_eq_prime hζ3 hζ1
   obtain ⟨w0, -, -, hw0⟩ := exists_smul_d4StdA2 i

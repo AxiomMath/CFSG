@@ -166,10 +166,10 @@ lemma Group.exists_normal_abelian_gt_center [Group.IsNilpotent G]
       exact (lt_irrefl (⊤ : Subgroup G)) hbad
 
   rw [h_Z1_eq_center] at h_Z1_lt_Z2
-  obtain ⟨x, hx_in_Z2, hx_not_center⟩ := SetLike.exists_of_lt h_Z1_lt_Z2
+  obtain ⟨x, hx_in_Z2, hx_not_center⟩ := _root_.IsConcreteLE.exists_of_lt h_Z1_lt_Z2
   let A := Subgroup.closure (insert x (Subgroup.center G : Set G))
   have h_A_gt : Subgroup.center G < A := by
-    apply SetLike.lt_iff_le_and_exists.mpr
+    apply IsConcreteLE.lt_iff_le_and_exists.mpr
     constructor
     · intro z hz
       apply Subgroup.subset_closure

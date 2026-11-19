@@ -76,7 +76,7 @@ private theorem e6Isogeny_e6NWord_mem {K : Type} [Field K] [Finite K]
       (ih fun j hj => hω j (List.mem_cons_of_mem i hj))
 
 private theorem e6Isogeny_te6N_mem {K F : Type} [Field K] [Field F] [Finite K]
-    (θ : K →+* K) (j : F →+* K) (hj : ∀ x, θ (j x) = j x) (i : Fin 4)
+    (θ : K →+* K) (j : F →+* K) (_hj : ∀ x, θ (j x) = j x) (i : Fin 4)
     (hset : ∀ m ∈ te6Words i, m ∈ E6GraphLevi.setA) :
     ((e6Isogeny K ((te6N θ i : fixedGroup K θ) : e6Data_valid.minGroup K) :
         adjointGroup Tag.E6 K) : ModGL Tag.E6 K) ∈

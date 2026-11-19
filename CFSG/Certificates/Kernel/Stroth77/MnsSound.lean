@@ -73,15 +73,14 @@ theorem encN_mul (a b : Mns) : encN (a * b) = mulK (encN a) (encN b) := by
   obtain ⟨⟨a0, a1, a2, a3, a4⟩, ⟨p0, p1, p2, p3, p4, p5⟩, ⟨q0, q1, q2, q3, q4, q5⟩⟩ :=
     encN_fields a
   obtain ⟨-, ⟨r0, r1, r2, r3, r4, r5⟩, -⟩ := encN_fields b
-  simp only [mulK, Stroth77SP.mulR, Stroth77SP.mulV, a0, a1, a2, a3, a4, p0, p1, p2, p3, p4, p5,
-    q0, q1, q2, q3, q4, q5, r0, r1, r2, r3, r4, r5, vb_encN, im_encN, iv_encN]
+  simp only [mulK, Stroth77SP.mulR, Stroth77SP.mulV, a0, a1, a2, a3, a4, q0, q1, q2, q3, q4, q5, r0, r1, r2, r3, r4, r5, vb_encN, im_encN, iv_encN]
   simp only [encN, Mns.vec_mul, Mns.perm_mul, mul_inv_rev, Perm.mul_apply, nrm_apply,
     Pi.add_apply, pact_apply, a.vec_five, zero_add, zval_add]
 
 theorem encN_inv (a : Mns) : encN a⁻¹ = invK (encN a) := by
   obtain ⟨⟨a0, a1, a2, a3, a4⟩, ⟨p0, p1, p2, p3, p4, p5⟩, ⟨q0, q1, q2, q3, q4, q5⟩⟩ :=
     encN_fields a
-  simp only [invK, Stroth77SP.invR, a0, a1, a2, a3, a4, p0, p1, p2, p3, p4, p5, q0, q1, q2, q3,
+  simp only [invK, Stroth77SP.invR, p0, p1, p2, p3, p4, p5, q0, q1, q2, q3,
     q4, q5, vb_encN]
   simp only [encN, Mns.vec_inv, Mns.perm_inv, inv_inv, nrm_apply, pact_apply, zval_add]
 

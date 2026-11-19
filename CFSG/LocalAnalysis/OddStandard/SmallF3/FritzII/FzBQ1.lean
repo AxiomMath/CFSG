@@ -20,6 +20,7 @@ private lemma fzb_twoCore_le_invCent (h : Ctx t L S x₁ x₂ lam rho tau) :
   rw [← h.hyp.centralizer_eq]
   exact inf_le_right
 
+omit [Finite G] in
 private lemma fzb_mem_sup_of_commute {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, Commute a b) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
@@ -118,8 +119,8 @@ theorem fzb_H_cases (h : Ctx t L S x₁ x₂ lam rho tau) {a : G} (ha : a ∈ in
     simpa using hprod
 
 theorem fzb_KL_decomp (h : Ctx t L S x₁ x₂ lam rho tau) {x : G} (hx : x ∈ twoCore t ⊔ L) :
-    ∃ k ∈ twoCore t, ∃ ℓ ∈ L, x = k * ℓ :=
-  fzb_mem_sup_of_commute (fun k hk ℓ hℓ => fzb_K_comm_L h hk hℓ) hx
+    ∃ _k ∈ twoCore t, ∃ _ℓ ∈ L, x = _k * _ℓ :=
+  fzb_mem_sup_of_commute (fun _k hk _ℓ hℓ => fzb_K_comm_L h hk hℓ) hx
 
 theorem fzb_K_inf_N (h : Ctx t L S x₁ x₂ lam rho tau) {k : G} (hk : k ∈ twoCore t)
     (hkN : k ∈ zpowers t ⊔ L) : k ∈ zpowers t := by

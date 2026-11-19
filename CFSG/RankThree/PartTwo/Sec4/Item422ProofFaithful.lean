@@ -46,11 +46,13 @@ def faithfulAutA (Ab K₁ : Subgroup X) :
     Subgroup (autIn (componentNormalizer (X := X)) K₁) :=
   (autIn Ab K₁).subgroupOf (autIn (componentNormalizer (X := X)) K₁)
 
+omit [Finite X] in
 theorem mem_componentNormalizer {g : X} :
     g ∈ componentNormalizer (X := X) ↔
       ∀ K : Subgroup X, IsComponent K → g ∈ Subgroup.normalizer (K : Set X) := by
   simp only [componentNormalizer, Subgroup.mem_iInf]
 
+omit [Finite X] in
 theorem mem_faithfulCentralizer {Bb K₁ : Subgroup X} {g : X} :
     g ∈ faithfulCentralizer Bb K₁ ↔
       ∀ K ∈ faithfulComponents Bb K₁, g ∈ Subgroup.centralizer (K : Set X) := by
@@ -220,7 +222,7 @@ def componentSetup (s : BasicSetup (X := X)) : ComponentSetup (X := X) where
     · exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp h
   h𝒵c := by
     intro K hK
-    simp only [faithfulComponents, Set.mem_setOf_eq] at hK
+    simp only [faithfulComponents, Set.mem_ofPred_eq] at hK
     have h3 : 3 ∣ Nat.card (K ⧸ Subgroup.center K) := by
       by_contra h
       exact inf_centralizer_ne_bot_of_not_three_dvd s.hSz s.hKX s.hBb s.hBcard hK.1
@@ -413,18 +415,18 @@ def commutatorSetup (s : ActionSetup (X := X)) : CommutatorSetup (X := X) where
       intro K hK
       have hK' : IsComponent K ∧ K ≠ s.K₁ ∧
           s.Bb ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
-        simpa only [faithfulComponents, Set.mem_setOf_eq] using hK
+        simpa only [faithfulComponents, Set.mem_ofPred_eq] using hK
       exact exists_inner_of_fixComm (s.hKF K hK'.1 hK'.2.1 hK'.2.2) (s.h𝒵c K hK)
         s.hcbZ s.hcb3 (s.hWN K hK'.1 x.2) (s.hWN K hK'.1 y.2)
     obtain ⟨e, he, hec⟩ := exists_mem_iSup_conj (faithfulComponents s.Bb s.K₁)
-      (fun K hK => by simpa only [faithfulComponents, Set.mem_setOf_eq] using hK.1) g hinner
+      (fun K hK => by simpa only [faithfulComponents, Set.mem_ofPred_eq] using hK.1) g hinner
     have heW : e ∈ componentNormalizer (X := X) :=
       (iSup₂_le fun K hK => s.hcompW K (by
-        simpa only [faithfulComponents, Set.mem_setOf_eq] using hK.1)) he
+        simpa only [faithfulComponents, Set.mem_ofPred_eq] using hK.1)) he
     have heK₁ : e ∈ Subgroup.centralizer (s.K₁ : Set X) :=
       (iSup₂_le fun K hK => s.hcomm₁ K (by
-        simpa only [faithfulComponents, Set.mem_setOf_eq] using hK.1) (by
-        simpa only [faithfulComponents, Set.mem_setOf_eq] using hK.2.1)) he
+        simpa only [faithfulComponents, Set.mem_ofPred_eq] using hK.1) (by
+        simpa only [faithfulComponents, Set.mem_ofPred_eq] using hK.2.1)) he
     have h1 : (⟨e, heW⟩ : componentNormalizer (X := X)) ∈ s.φ.ker := (s.hφker _).mpr heK₁
     have h2 : (⟨e, heW⟩ : componentNormalizer (X := X))⁻¹ *
         (x * y * x⁻¹ * y⁻¹) ∈ faithfulK₀' s.Bb s.K₁ := by
@@ -499,7 +501,8 @@ def normalSetup (s : AutSetup (X := X)) : NormalSetup (X := X) where
     · rw [← map_inv, ← map_mul, ← map_mul]
       rfl
 
-theorem piece_image_ne_bot (s : NormalSetup (X := X)) {b : X} (hb : b ∈ s.Bb)
+omit [Finite X] [Fact (Nat.Prime 3)] in
+theorem piece_image_ne_bot (s : NormalSetup (X := X)) {b : X} (_hb : b ∈ s.Bb)
     (hVK : ¬ ⁅thetaCentralizer b, s.Bb⁆ ≤ Subgroup.centralizer (s.K₁ : Set X)) :
     ((⁅thetaCentralizer b, s.Bb⁆ : Subgroup X).subgroupOf
       (componentNormalizer (X := X))).map s.φ ≠ ⊥ := by
@@ -513,6 +516,7 @@ theorem piece_image_ne_bot (s : NormalSetup (X := X)) {b : X} (hb : b ∈ s.Bb)
   rw [hbot, Subgroup.mem_bot, ← MonoidHom.mem_ker, s.hφker] at hmem
   exact hmem
 
+omit [Fact (Nat.Prime 3)] in
 theorem piece_image_le_thetaJ (s : NormalSetup (X := X)) {b : X} (hb : b ∈ s.Bb)
     (hb1 : b ≠ 1) :
     ((⁅thetaCentralizer b, s.Bb⁆ : Subgroup X).subgroupOf
@@ -551,6 +555,7 @@ theorem piece_image_le_thetaJ (s : NormalSetup (X := X)) {b : X} (hb : b ∈ s.B
     _ ≤ thetaJ 3 (faithfulAutA s.Ab s.K₁) :=
         le_iSup₂_of_le (s.φ b') hβB (le_iSup_of_le hβ1 le_rfl)
 
+omit [Fact (Nat.Prime 3)] in
 theorem thetaAlpha_ne_bot_of_thetaT_le (s : NormalSetup (X := X))
     (hTK : thetaT 3 s.Bb ≤ Subgroup.centralizer (s.K₁ : Set X)) :
     thetaAlpha 3 (faithfulAutA s.Ab s.K₁) ≠ ⊥ := by
@@ -568,6 +573,7 @@ theorem thetaAlpha_ne_bot_of_thetaT_le (s : NormalSetup (X := X))
   rw [eq_bot_iff, ← hbot, thetaAlpha]
   exact hJle.trans le_sup_left
 
+omit [Finite X] [Fact (Nat.Prime 3)] in
 theorem thetaAlpha_ne_bot_of_not_thetaT_le (s : NormalSetup (X := X))
     (hTK : ¬ thetaT 3 s.Bb ≤ Subgroup.centralizer (s.K₁ : Set X)) :
     thetaAlpha 3 (faithfulAutA s.Ab s.K₁) ≠ ⊥ := by
@@ -596,6 +602,7 @@ theorem thetaAlpha_ne_bot_of_not_thetaT_le (s : NormalSetup (X := X))
   rw [eq_bot_iff, ← hbot, thetaAlpha]
   exact hTle.trans le_sup_right
 
+omit [Fact (Nat.Prime 3)] in
 theorem faithfulConclusion (s : NormalSetup (X := X)) :
     thetaAlpha 3 ((autIn s.Ab s.K₁).subgroupOf (autIn ⊤ s.K₁)) ≠ ⊥ := by
   have : Finite (MulAut s.K₁) :=
@@ -629,7 +636,7 @@ theorem thetaAlpha_autIn_ne_bot_of_fixComm_faithful
         σ * τ * σ⁻¹ * τ⁻¹ ∈ (MulAut.conj : K →* MulAut K).range) :
     thetaAlpha 3 ((autIn Ab K₁).subgroupOf (autIn ⊤ K₁)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let h : FaithfulHypotheses (X := X) :=
     { hSz := hSz, hθ := hθ, hKX := hKX, Ab := Ab, Bb := Bb, cb := cb, K₁ := K₁,
       hcbZ := hcbZ, hcb3 := hcb3, hBb := hBb, hBcard := hBcard, hBZ := hBZ, hABZ := hABZ,

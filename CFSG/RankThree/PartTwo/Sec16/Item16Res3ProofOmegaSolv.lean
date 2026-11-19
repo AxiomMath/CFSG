@@ -180,7 +180,7 @@ theorem step1616OmegaSolv_of (h1612 : Step1612) (hNoSz : KSL3PiNoSz) : Step1616O
         ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hP3) h2
     apply hQ1
     refine hCL _ ⟨(Subgroup.map_subtype_le _).trans hPCL, ?_, hQ⟩
-    exact (isPiSubgroup_piOf_iff Nat.prime_two _).mpr ((Q.isPGroup').map P.subtype)
+    exact (isPiSubgroup_piOf_iff Nat.prime_two _).mpr ((Q.isPGroup).map P.subtype)
   have hP'1 := eq_bot_of_isPerfect_of_coprime hKc (P.subgroupOf Cc)
     (by
       let eP : ↥(P.subgroupOf Cc) ≃* ↥P := Subgroup.subgroupOfEquivOfLe hPC

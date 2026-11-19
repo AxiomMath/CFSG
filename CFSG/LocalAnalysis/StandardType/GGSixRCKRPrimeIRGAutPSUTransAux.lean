@@ -115,9 +115,9 @@ theorem irgUB_exists_semilinear_of_admissible
   classical
   let K := irgU_F g
   let σ := irgU_sigma g
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := (irgUB_fieldData g hg).charP
-  haveI : Finite K := (irgUB_fieldData g hg).finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := (irgUB_fieldData g hg).charP
+  have : Finite K := (irgUB_fieldData g hg).finite
   have hK : Nat.card K = (2 ^ g) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 g hg
   let h : UnitaryFieldData 2 g K := irgUB_fieldData g hg

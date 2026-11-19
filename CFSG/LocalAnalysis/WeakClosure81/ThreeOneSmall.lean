@@ -12,11 +12,12 @@ namespace ThreeOne
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem card_mul_pred_dvd_card (h2 : 2 ≤ Fintype.card Ω) {K : Subgroup (Perm Ω)}
     (hK : MulAction.IsMultiplyPretransitive K Ω 2) :
     Fintype.card Ω * (Fintype.card Ω - 1) ∣ Nat.card K := by
   classical
-  haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨x, y, hxy⟩ := exists_pair_ne Ω
   have hncard : ({x, y} : Set Ω).ncard = 2 := Set.ncard_pair hxy
   have hidx := MulAction.IsMultiplyPretransitive.index_of_fixingSubgroup_eq (G := K)
@@ -34,7 +35,7 @@ theorem card_alternatingGroup_dvd_factorial (h5 : 5 ≤ Fintype.card Ω) {K : Su
     (hK : K ≤ alternatingGroup Ω) (hne : K ≠ alternatingGroup Ω) :
     Nat.card (alternatingGroup Ω) ∣ (K.relIndex (alternatingGroup Ω)).factorial := by
   classical
-  haveI : IsSimpleGroup (alternatingGroup Ω) :=
+  have : IsSimpleGroup (alternatingGroup Ω) :=
     alternatingGroup.isSimpleGroup (by simpa [Nat.card_eq_fintype_card] using h5)
   let K' : Subgroup (alternatingGroup Ω) := K.subgroupOf (alternatingGroup Ω)
   have hK'ne : K' ≠ ⊤ := by
@@ -55,7 +56,7 @@ theorem isSylowIn_inf_alternatingGroup {T : Subgroup (Perm Ω)} (hT : IsSylowIn 
 theorem two_mul_card_inf_alternatingGroup {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T ⊤)
     (h2 : 2 ≤ Fintype.card Ω) : 2 * Nat.card ↥(T ⊓ alternatingGroup Ω) = Nat.card T := by
   classical
-  haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   have hnotle : ¬ T ≤ alternatingGroup Ω := by
     intro hle
     have hprod : T.relIndex (alternatingGroup Ω) * (alternatingGroup Ω).relIndex ⊤

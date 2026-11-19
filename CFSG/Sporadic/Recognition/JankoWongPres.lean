@@ -34,7 +34,7 @@ theorem jwPresented_card_le {neg : Bool} (h : jwEnums neg = true) :
   have := c3.trans <| Nat.mul_le_mul_left _ <| c2.trans <| Nat.mul_le_mul_left _ c1
   exact this.trans (by norm_num)
 
-@[expose] abbrev JWFacts (neg : Bool) : Prop :=
+abbrev JWFacts (neg : Bool) : Prop :=
   (Finite (jwPresented neg) ∧ Nat.card (jwPresented neg) ≤ 898128000) ∧ jwTabCheck neg = true
 
 section Model

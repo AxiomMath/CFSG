@@ -33,7 +33,7 @@ theorem s15_Tools_mQuot_inf_centralizer_le_add {B D F : Subgroup G} {v : G} (hB 
   rw [h3] at h1
   omega
 
-theorem s15_Tools_mSub_le_mQuot {V U A : Subgroup G} (hV : IsPGroup 2 V) (hUV : U ≤ V)
+theorem s15_Tools_mSub_le_mQuot {V U A : Subgroup G} (hV : IsPGroup 2 V) (_hUV : U ≤ V)
     (hAV : A ≤ V) (hUA : U ⊓ A = ⊥) : mSub A ≤ E3.mQuot V U := by
   have hA2 : IsPGroup 2 A := hV.to_le hAV
   have h1 : U.relIndex A ≤ U.relIndex V :=
@@ -74,7 +74,7 @@ theorem s15_Tools_good_of_mem_sup_conj (D : Data G) {V₀ V L : Subgroup G} (h :
     rw [Set.ncard_singleton]
   have h3 : 1 < (wConj D.M V₀ V hV L \ {conjSubgroup (wSub V₀ V hV L) x,
       conjSubgroup (wSub V₀ V hV L) y}).ncard := by omega
-  obtain ⟨P, Q, hP, hQ, hPQ⟩ := (Set.one_lt_ncard_iff (hfin.diff)).1 h3
+  obtain ⟨P, Q, hP, hQ, hPQ⟩ := (Set.one_lt_ncard_iff (hfin.sdiff)).1 h3
   obtain ⟨⟨a, ha, rfl⟩, hPXY⟩ := hP
   obtain ⟨⟨b, hb, rfl⟩, hQXY⟩ := hQ
   have hPX : conjSubgroup (wSub V₀ V hV L) a ≠ conjSubgroup (wSub V₀ V hV L) x :=
@@ -179,7 +179,7 @@ theorem s15_Tools_mSub_S (D : Data G) {V₀ V L : Subgroup G}
   have hncard : 𝒲'.ncard = s15 D.M V₀ V hV L - 2 := by
     have h1 : 𝒲' = 𝒲 \ {W₁, W₂} := by
       ext X
-      simp only [h𝒲'def, Set.mem_setOf_eq, Set.mem_diff, Set.mem_insert_iff,
+      simp only [h𝒲'def, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_insert_iff,
         Set.mem_singleton_iff, not_or]
     have h2 : ({W₁, W₂} : Set (Subgroup G)) ⊆ 𝒲 := by
       intro X hX
@@ -264,7 +264,7 @@ theorem s15_Tools_inf_centralizer_eq_bot (D : Data G) {V₀ V L : Subgroup G}
     Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_singleton_iff.1 hbC).symm
   exact hwg ((centralizer_le_of_uniqueMax hK hb1 hb2 hu).1 hwb)
 
-theorem s15_Tools_orbit_mem (D : Data G) {V₀ V L : Subgroup G} (h : Hyp125 D V₀ V)
+theorem s15_Tools_orbit_mem (D : Data G) {V₀ V L : Subgroup G} (_h : Hyp125 D V₀ V)
     (hV : IsElemAbelian 2 V) {e w : G} (he : e⁻¹ ∈ normalizer (wSub V₀ V hV L : Set G))
     (hw : w ∈ wSub V₀ V hV L) (hc : e⁻¹ * w * e * w⁻¹ ∈ v1Sub D.M V₀ V hV L) :
     w⁻¹ * (e⁻¹ * w * e) ∈ v1Sub D.M V₀ V hV L ⊓ wSub V₀ V hV L := by
@@ -289,7 +289,7 @@ theorem s15_Tools_mSub_le_delta (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154
     (hEN : E ≤ normalizer (wSub V₀ V hV L : Set G))
     (hE : ∀ e ∈ E, ∀ w ∈ wSub V₀ V hV L, e * w * e⁻¹ * w⁻¹ ∈ v1Sub D.M V₀ V hV L)
     (hW : ¬ wSub V₀ V hV L ≤ conjSubgroup D.M g) : mSub E ≤ delta15 D.M V₀ V hV L := by
-  obtain ⟨w, hwW, hwg⟩ := SetLike.not_le_iff_exists.1 hW
+  obtain ⟨w, hwW, hwg⟩ := IsConcreteLE.not_le_iff_exists.1 hW
   have hcb := s15_Tools_inf_centralizer_eq_bot D h hV hB hwg
   have hWV : wSub V₀ V hV L ⊔ v1Sub D.M V₀ V hV L ≤ V :=
     sup_le (preTil_le V₀ V hV _) (s15_Infra_v1Sub_le h.hyp151.hyp125 hV)

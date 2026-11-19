@@ -105,7 +105,7 @@ theorem card_rowR0_leech : Nat.card ↥(leechQ z ⊓ Subgroup.centralizer ({d} :
   have hset : ((leechQ z ⊓ Subgroup.centralizer ({d} : Set G) : Subgroup G) : Set G) =
       {g | g ∈ leechQ z ∧ L.vec g ∈ co1Fix (L.φ ⟨d, hd⟩)} := by
     ext g
-    simp only [SetLike.mem_coe, Subgroup.mem_inf, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, Subgroup.mem_inf, Set.mem_ofPred_eq]
     refine and_congr_right fun hg => ⟨fun hgd => ?_, fun hfix => ?_⟩
     · show co1Act (L.φ ⟨d, hd⟩) (L.vec g) = L.vec g
       rw [← L.vec_conj' hd hg]
@@ -175,7 +175,7 @@ theorem isExtraSpec2_rowR0_leech (hf : 2 ≤ (co1Fix (L.φ ⟨d, hd⟩)).ncard) 
       have h4 := Subgroup.card_le_of_le hle
       rw [hR₀, card_rowR0_leech L hd hodd, Nat.card_zpowers, hz2] at h4
       omega
-    obtain ⟨x, hx, hxz⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨x, hx, hxz⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     by_contra hall
     push Not at hall
     exact hxz ((mem_zpowers_iff_of_orderOf_two hz2).2 ((hZ x hx).1 fun y hy => hall x hx y hy))

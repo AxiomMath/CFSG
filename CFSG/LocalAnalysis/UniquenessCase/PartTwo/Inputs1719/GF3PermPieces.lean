@@ -49,7 +49,7 @@ theorem permWitnessAt_of_commuting_pieces (U : Sylow 2 G)
   set R : Subgroup G := ⨆ K : 𝓕s, V K with hR
   have hVU : ∀ K : 𝓕s, V K ≤ (U : Subgroup G) := fun K => inf_le_left
   have hRU : R ≤ (U : Subgroup G) := by rw [hR]; exact iSup_le hVU
-  have hR2 : IsPGroup 2 R := U.isPGroup'.to_le hRU
+  have hR2 : IsPGroup 2 R := U.isPGroup.to_le hRU
   have hPX : ∀ K : 𝓕s, P K ≤ X := fun K => by
     rw [hX]
     exact le_iSup P K
@@ -283,7 +283,7 @@ theorem permWitnessAt_of_commuting_pieces (U : Sylow 2 G)
   have hcop : Nat.Coprime (Nat.card E) (Nat.card R) := by
     rw [show Nat.card E = 9 from hE9, hn]
     exact Nat.Coprime.pow (k := 3) (l := 2) 2 n (by norm_num)
-  have hdisj : E ⊓ R = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hdisj : E ⊓ R = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hcard :=
     CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit.card_sup_mul_card_inf_of_le_normalizer
       (G := G) (L := R) (E := E) hER

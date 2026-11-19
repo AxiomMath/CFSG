@@ -319,7 +319,7 @@ theorem bar_pumpup_eq (hr4 : pRank 2 G = 4) {x u : G} {K M : Subgroup G}
 theorem bar_pumpup_eq_smallQ {x u : G} {K M Q : Subgroup G}
     (hterm : IsTwoTerminal x K) (e7 : kBar K ≃* alternatingGroup (Fin 7))
     (hQ : IsSylowOf 2 Q (CxK x K)) (hQ4 : Nat.card ↥Q = 4)
-    (huQ : u ∈ Q) (hltM : PumpUpLT 2 x K u M)
+    (_huQ : u ∈ Q) (hltM : PumpUpLT 2 x K u M)
     {u' : G} (hu'Q : u' ∈ Q) {M' : Subgroup G} (hlt : PumpUpLT 2 u M u' M') :
     ∃ K'' : Subgroup G, PumpUpLT 2 x K u' K'' ∧ bar u' M' = bar u' K'' := by
   classical

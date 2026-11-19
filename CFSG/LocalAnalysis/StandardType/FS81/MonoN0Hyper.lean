@@ -28,12 +28,12 @@ private theorem monoHyper_coordRefl_mulVec_e0 {a : Fin (n + 1)} (ha : a ≠ 0) :
   by_cases hi : i = 0
   · subst hi
     rw [Pi.single_eq_same]
-    rw [if_neg (Ne.symm ha)]
+    rw [ite_eq_right (Ne.symm ha)]
   · rw [Pi.single_eq_of_ne hi]
     by_cases hia : i = a
-    · rw [if_pos hia]
+    · rw [ite_eq_left hia]
       exact neg_zero
-    · rw [if_neg hia]
+    · rw [ite_eq_right hia]
 
 private theorem monoHyper_eq_smul_single_of_coordRefl_eq_neg {a : Fin (n + 1)}
     {z : Fin (n + 1) → ZMod 3} (hz : coordRefl a *ᵥ z = -z) :
@@ -42,7 +42,7 @@ private theorem monoHyper_eq_smul_single_of_coordRefl_eq_neg {a : Fin (n + 1)}
     intro i hi
     have h := congrFun hz i
     simp only [coordRefl_mulVec, Pi.neg_apply] at h
-    rw [if_neg hi] at h
+    rw [ite_eq_right hi] at h
     exact zmod3_eq_zero_of_eq_neg (by simpa using h)
   funext i
   by_cases hi : i = a
@@ -95,17 +95,17 @@ private theorem monoHyper_spMat_conj_coordRefl {k : ℕ} {σ : Equiv.Perm (Fin k
     have hss : σ (σ a) = a := by
       have := congrArg (fun z => z a) hσ
       simpa [Equiv.Perm.mul_apply] using this
-    rw [if_pos hss, if_pos rfl]
+    rw [ite_eq_left hss, ite_eq_left rfl]
     change -1 * 1 = -1
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hne : σ j ≠ a := by
       intro hc
       exact h (by
         have hss : (σ * σ) j = j := by rw [hσ]; rfl
         rw [Equiv.Perm.mul_apply] at hss
         rw [← hss, hc])
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     change 1 * 1 = 1
     simp
 
@@ -122,7 +122,7 @@ private theorem monoHyper_mulVec_e0_eq_smul {M : Matrix (Fin (n + 1)) (Fin (n + 
       rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec,
         monoHyper_coordRefl_mulVec_e0 hi] at h
       have hi' := congrFun h i
-      simp only [coordRefl_mulVec, Pi.neg_apply] at hi'
+      simp only [coordRefl_mulVec] at hi'
       exact zmod3_eq_zero_of_eq_neg hi'
     rw [hzi, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero]
 
@@ -282,10 +282,10 @@ private theorem monoHyper_perm_conj {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     (h : MonoN0Hyp Xg) (hn : 4 ≤ n)
     {T₁ : GL (Fin (n + 1)) (ZMod 3)}
     (hT₁ : (T₁ : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl 1)
-    (hT₁X : T₁ ∈ Xg) {j : Fin (n + 1)} (hj : j ≠ 0)
+    (_hT₁X : T₁ ∈ Xg) {j : Fin (n + 1)} (hj : j ≠ 0)
     {Tj : GL (Fin (n + 1)) (ZMod 3)}
     (hTj : (Tj : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl j)
-    (hTjX : Tj ∈ Xg) :
+    (_hTjX : Tj ∈ Xg) :
     ∃ P : GL (Fin (n + 1)) (ZMod 3), P ∈ Xg ∧
       (P : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) =
         spMat (Equiv.swap (1 : Fin (n + 1)) j) 1 ∧ P * T₁ * P⁻¹ = Tj := by
@@ -397,9 +397,9 @@ private theorem monoHyper_d2 {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     funext k
     by_cases hk : k = 1
     · subst hk
-      rw [if_pos rfl, hv1]
+      rw [ite_eq_left rfl, hv1]
       exact neg_zero
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
   set U : GL (Fin (n + 1)) (ZMod 3) := x * T₁ * x⁻¹ with hU_def
   have hUv : (U : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ v = v := by
     have h := conj_coordRefl_mulVec_sub hT₁ x v
@@ -590,7 +590,7 @@ theorem false_of_not_orbN_single (hn : 4 ≤ n)
   have hzero : ((x : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ
       Pi.single 0 1) i = 0 := by
     have hcoord := congrFun hfix i
-    simp only [hTi, coordRefl_mulVec, Pi.neg_apply] at hcoord
+    simp only [hTi, coordRefl_mulVec] at hcoord
     exact zmod3_eq_zero_of_eq_neg hcoord.symm
   exact hxi (hwi ▸ hzero)
 

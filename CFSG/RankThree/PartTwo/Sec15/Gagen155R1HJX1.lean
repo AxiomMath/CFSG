@@ -171,12 +171,12 @@ theorem res1J2X1_of (h143 : Ronan148Q.Item143QS14) (h45 : Sec4.Item4_5) (h48 : S
   have hY4 : K ∈ scriptY4 A (lB A) := hK.prop.1
   have h143' : Ronan148Q.Item143Q A (lB A) := h143 G A c L hR.toSec14Std
   refine ⟨⟨fun φ => ?_⟩, fun ⟨hF, ⟨φ⟩⟩ => ?_⟩
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  · have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
     exact false_of_mulEquiv h143' h45 h48 h134 hR hJ hΩ hY4
       (by rw [Res9ON.card_alternatingGroup_seven]; norm_num) φ
       Sec10.Item1015Proof.card_le_nine_of_mulAut_alt7 (fun H' f' => not_surj_j2_alt7 h415 H' f')
       (by rw [Res9ON.card_alternatingGroup_seven]; norm_num)
-  · haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1)) :=
+  · have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1)) :=
       Sec4.Item462AltProof.isSimpleGroup_projSL_three _
     exact false_of_mulEquiv h143' h45 h48 h134 hR hJ hΩ hY4
       (by rw [Proof1515.card_projSL_three_seven]; norm_num) φ

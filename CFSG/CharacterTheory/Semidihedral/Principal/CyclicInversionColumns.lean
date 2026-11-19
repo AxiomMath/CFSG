@@ -440,12 +440,12 @@ theorem brauer_fiber_principal_iff (basis : FiniteIrreducibleCharacterBasis G)
     (localPrincipal : localBasis.index)
     (hlocalPrincipal : (localBasis.representation localPrincipal).character = 1)
     (θ : localBasis.index) :
-    brauerNormalizerCharacterResidueHom ideal p (W : Subgroup G) W.isPGroup'
+    brauerNormalizerCharacterResidueHom ideal p (W : Subgroup G) W.isPGroup
         (Subgroup.centralizer (W : Set G)) le_rfl (Subgroup.centralizer_le_normalizer _)
         localBasis θ = centralCharacterResidueHom basis ideal principal ↔
       θ ∈ coefficientBlock localBasis (localizedComplexIntegerRing ideal) localPrincipal := by
   have hiff := fun (ambientLabel : basis.index) himage =>
-    brauerNormalizer_principal_block_iff basis ideal p (W : Subgroup G) W.isPGroup'
+    brauerNormalizer_principal_block_iff basis ideal p (W : Subgroup G) W.isPGroup
       (Subgroup.centralizer (W : Set G)) (sylow_le_centralizer W) le_rfl
       (Subgroup.centralizer_le_normalizer _) localBasis principal hprincipal localPrincipal
       hlocalPrincipal θ ambientLabel himage
@@ -455,7 +455,7 @@ theorem brauer_fiber_principal_iff (basis : FiniteIrreducibleCharacterBasis G)
     exact (coefficientBlock_mem_iff _ _ _ _).mpr (sameCoefficientBlock_symm _ _ h)
   · intro hθ
     obtain ⟨label, himage⟩ := brauerNormalizer_block_image_exists basis ideal p
-      (W : Subgroup G) W.isPGroup' (Subgroup.centralizer (W : Set G)) le_rfl
+      (W : Subgroup G) W.isPGroup (Subgroup.centralizer (W : Set G)) le_rfl
       (Subgroup.centralizer_le_normalizer _) localBasis θ
     have hsame := (hiff label himage).mpr
       (sameCoefficientBlock_symm _ _ ((coefficientBlock_mem_iff _ _ _ _).mp hθ))
@@ -1775,7 +1775,7 @@ theorem cyclic_odd_sylow_inversion_normalizer_two_generator_supported_principal_
       (∀ h ∈ Subgroup.normalizer (W : Set G), h ∉ Subgroup.centralizer (W : Set G) →
         ∀ w ∈ (W : Subgroup G), h * w * h⁻¹ = w⁻¹) ∧
       (∀ θ : localBasis.index,
-        brauerNormalizerCharacterResidueHom ideal p (W : Subgroup G) W.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal p (W : Subgroup G) W.isPGroup
             (Subgroup.centralizer (W : Set G)) le_rfl (Subgroup.centralizer_le_normalizer _)
             localBasis θ = centralCharacterResidueHom basis ideal principal ↔
           θ ∈ coefficientBlock localBasis (localizedComplexIntegerRing ideal) localPrincipal) ∧

@@ -20,7 +20,7 @@ public theorem sfour_normalizer_not_cyclic
     ¬ IsCyclic (Subgroup.normalizer (P : Set H)) := by
   classical
   have hp : p = 3 := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hnpos : n ≠ 0 := by
       intro hn0
       rw [hn0, pow_zero] at hn
@@ -35,7 +35,7 @@ public theorem sfour_normalizer_not_cyclic
   obtain ⟨x, hxne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (show (P : Subgroup H) ≠ ⊥ by
       rw [← Subgroup.one_lt_card_iff_ne_bot]
-      simpa [hPcard])
+      simp [hPcard])
   have hxP : (x : H) ∈ (P : Subgroup H) := x.property
   have hxneH : (x : H) ≠ 1 := by
     intro h
@@ -99,7 +99,7 @@ public theorem sfour_normalizer_not_cyclic
   have hNcard : Nat.card N = 3 := by omega
   have hNP : N = (P : Subgroup H) := by
     exact (Subgroup.eq_of_le_of_card_ge hPsubN
-      (by simpa [hPcard, hNcard])).symm
+      (by simp [hPcard, hNcard])).symm
   have hSylowCount : Nat.card (Sylow 3 H) = 8 := by
     calc
       Nat.card (Sylow 3 H) = N.index := P.card_eq_index_normalizer
@@ -124,7 +124,7 @@ public theorem sfour_normalizer_not_cyclic_of_prime_card
     (he : Nonempty (H ≃* Equiv.Perm (Fin 4))) :
     ¬ IsCyclic (Subgroup.normalizer (P : Set H)) := by
   have hp3 : p = 3 := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hnpos : n ≠ 0 := by
       intro hn0
       rw [hn0, pow_zero] at hn
@@ -148,7 +148,7 @@ public theorem sfour_normalizer_not_cyclic_of_prime_card
       have hp2eq : p = 2 := by
         exact (Nat.dvd_prime Nat.prime_two).mp hp2' |>.resolve_left
           ((Fact.out : Nat.Prime p).ne_one)
-      exact (hpodd.not_two_dvd_nat (by simpa [hp2eq])).elim
+      exact (hpodd.not_two_dvd_nat (by simp [hp2eq])).elim
     · exact (Nat.dvd_prime Nat.prime_three).mp hp3 |>.resolve_left
         ((Fact.out : Nat.Prime p).ne_one)
   subst p

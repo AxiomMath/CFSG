@@ -153,7 +153,7 @@ theorem mem_of_normalizes {C Q : Subgroup G} {g : G} (hgC : g ∈ C) (hQC : Q �
   obtain ⟨T, hT⟩ := hQ
   set g' : C := ⟨g, hgC⟩ with hg'
   have hQ2 : IsPGroup 2 Q := by
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe hQC)
   obtain ⟨n, hn⟩ := hQ2 ⟨g * g, hg2⟩
@@ -175,7 +175,7 @@ theorem mem_of_normalizes {C Q : Subgroup G} {g : G} (hgC : g ∈ C) (hQC : Q �
     rw [hT, mem_subgroupOf, mem_subgroupOf]
     exact mem_normalizer_iff.mp hgN h
   have hle : zpowers g' ≤ normalizer ((T : Subgroup C) : Set C) := zpowers_le.mpr hgT
-  have hsup := hp.to_sup_of_normal_right' T.isPGroup' hle
+  have hsup := hp.to_sup_of_normal_right' T.isPGroup hle
   have heq := T.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hgT' : g' ∈ (T : Subgroup C) := heq ▸ mem_sup_left (mem_zpowers g')
   rw [hT] at hgT'

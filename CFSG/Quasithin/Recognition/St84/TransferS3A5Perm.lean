@@ -14,11 +14,13 @@ open scoped Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private lemma map_subtype_le_pCoreOf_of_isPGroup {P : Subgroup H} (M : Subgroup ↥P)
     (hM : M.Normal) (hp : IsPGroup 2 (M.map P.subtype)) : M.map P.subtype ≤ pCoreOf 2 P :=
   CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (Subgroup.map_subtype_le M)
     (@CFSG.ABGLocalTools.le_normalizer_map_subtype _ _ P M hM) hp
 
+omit [Finite H] in
 private lemma pCoreOf_P2_eq_QA {L1 L2 S : Subgroup H} (hB : S3A5VertexId L1 L2 S) :
     pCoreOf 2 (f112P2 L1 L2 S) = pCoreOf 2 (f112saP2' L1 L2 S) := by
   have h := hB.oTwo_right
@@ -26,6 +28,7 @@ private lemma pCoreOf_P2_eq_QA {L1 L2 S : Subgroup H} (hB : S3A5VertexId L1 L2 S
   rw [bigB_comm] at h
   exact h.symm.trans hB.QA_eq
 
+omit [Finite H] in
 private lemma pCoreOf_P1_eq_QS {L1 L2 S : Subgroup H} (hB : S3A5VertexId L1 L2 S) :
     pCoreOf 2 (f112P1 L1 L2 S) = pCoreOf 2 L1 := by
   have h := hB.oTwo_left
@@ -37,7 +40,7 @@ private theorem f112sa_le_pCoreOf_P2'_of_three_dvd
     {N : Subgroup H} (hNB : N ≤ bigB L1 L2 S) (hNPA : N ≤ f112P2 L1 L2 S)
     (hPN : f112P2 L1 L2 S ≤ Subgroup.normalizer (N : Set H))
     (h3 : 3 ∣ Nat.card ↥N) : N ≤ pCoreOf 2 (f112saP2' L1 L2 S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hxH3 : orderOf (x : H) = 3 := (Subgroup.orderOf_coe x).trans hx3
   have hxB : (x : H) ∈ bigB L1 L2 S := hNB x.2
@@ -81,7 +84,7 @@ private theorem f112sa_normalCore_bigB_P2 {L1 L2 S : Subgroup H}
     ((bigB L1 L2 S).subgroupOf (f112P2 L1 L2 S)).normalCore =
       (pCoreOf 2 (f112saP2' L1 L2 S)).subgroupOf (f112P2 L1 L2 S) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQAEA : pCoreOf 2 (f112saP2' L1 L2 S) ≤ f112saP2' L1 L2 S :=
     CFSG.LieType.BorelTits.pCoreOf_le 2 _
   have hEAPA : f112saP2' L1 L2 S ≤ f112P2 L1 L2 S := f112sa_P2'_le_P2 hF.toW
@@ -89,7 +92,7 @@ private theorem f112sa_normalCore_bigB_P2 {L1 L2 S : Subgroup H}
   have hPAN : f112P2 L1 L2 S ≤
       Subgroup.normalizer (pCoreOf 2 (f112saP2' L1 L2 S) : Set H) :=
     f112sa_P2_le_normalizer_QA hF
-  haveI : ((pCoreOf 2 (f112saP2' L1 L2 S)).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have : ((pCoreOf 2 (f112saP2' L1 L2 S)).subgroupOf (f112P2 L1 L2 S)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQAPA).mpr hPAN
   have hQAB : pCoreOf 2 (f112saP2' L1 L2 S) ≤ bigB L1 L2 S :=
     (f112sa_QA_le_T hF).trans (inf_le_right.trans (f112sa_K_le_bigB L1 L2 S))
@@ -246,6 +249,7 @@ private theorem f112sa_bigB_inf_L1_sup_S_le {L1 L2 S : Subgroup H}
     exact ⟨hlL, hlB⟩
   exact S.mul_mem hl.1 hsS
 
+omit [Finite H] in
 private lemma f112sa_ker_prod_eq {L1 L2 S : Subgroup H}
     {ρ₁ ρ₂ : ↥(f112P1 L1 L2 S) →* Equiv.Perm (Fin 3)}
     (hd : ∀ x : ↥(f112P1 L1 L2 S), ρ₁ x = 1 → ρ₂ x = 1 → (x : H) ∈ pCoreOf 2 L1)
@@ -310,7 +314,7 @@ theorem f112sa_exists_rhoPair {L1 L2 S : Subgroup H}
       (ρ₁.prod ρ₂).ker = (pCoreOf 2 L1).subgroupOf (f112P1 L1 L2 S) ∧
       (¬ S ≤ L2 → Function.Surjective (ρ₁.prod ρ₂)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx1 : (bigB L1 L2 S).relIndex (f112P1 L1 L2 S) = 3 := by
     rw [← f112_inf_eq_bigB hF.toW]
     exact f112sa_relIndex_left hF h1 le_rfl h2
@@ -322,7 +326,7 @@ theorem f112sa_exists_rhoPair {L1 L2 S : Subgroup H}
   have hP1N : f112P1 L1 L2 S ≤ Subgroup.normalizer (L1 : Set H) :=
     sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left
       (Hyp111R.of_hyp111 rankOneListedFacts hF.1)).1
-  haveI : (L1.subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have : (L1.subgroupOf (f112P1 L1 L2 S)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : L1 ≤ f112P1 L1 L2 S)).mpr hP1N
   have hL1ker : L1.subgroupOf (f112P1 L1 L2 S) ≤ ρ₂.ker := by
     rw [hker2]
@@ -363,7 +367,7 @@ theorem f112sa_exists_rhoPair {L1 L2 S : Subgroup H}
   have hQ1le : pCoreOf 2 L1 ≤ f112P1 L1 L2 S := hQ1B.trans le_sup_right
   have hP1NQ : f112P1 L1 L2 S ≤ Subgroup.normalizer (pCoreOf 2 L1 : Set H) :=
     hP1N.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L1)
-  haveI : ((pCoreOf 2 L1).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have : ((pCoreOf 2 L1).subgroupOf (f112P1 L1 L2 S)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ1le).mpr hP1NQ
   have he1 : (pCoreOf 2 L1).subgroupOf (f112P1 L1 L2 S) ≤ ρ₁.ker := by
     rw [hker1]

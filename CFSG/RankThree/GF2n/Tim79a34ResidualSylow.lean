@@ -8,7 +8,7 @@ namespace CFSG.RankThree.GF2n.Tim79a
 
 theorem sup_eq_top_of_sylow {G : Type} [Group G] [Finite G] {G₀ : Subgroup G} [G₀.Normal]
     (h2 : IsPGroup 2 (G ⧸ G₀)) (T : Sylow 2 G) : G₀ ⊔ (T : Subgroup G) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := h2.exists_card_eq
   have hG0 : G₀.index = 2 ^ m := hm
   have hodd : ¬ 2 ∣ (T : Subgroup G).index := T.not_dvd_index

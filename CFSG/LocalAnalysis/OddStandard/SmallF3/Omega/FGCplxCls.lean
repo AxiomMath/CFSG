@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_polar_of_similitude {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ c) (x y : V) :
     Q.polarBilin (σ x) (σ y) = (c : ZMod 3) * Q.polarBilin x y := by
@@ -22,6 +23,7 @@ theorem fg_polar_of_similitude {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
   rw [h, hσ x, hσ y]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_cplx_of_similitude {ρ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
     (hρ : IsSimilitude Q ρ c) (hρρ : ∀ v, ρ (ρ v) = -v) :
     FGCplx Q.polarBilin (ρ : V →ₗ[ZMod 3] V) (c : ZMod 3) where
@@ -34,6 +36,7 @@ theorem fg_cplx_of_similitude {ρ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
   sq := hρρ
   isom := fg_polar_of_similitude hρ
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_mk_eq_of_smul {γ γ' : ↥(simGroup Q)} {ε : ZMod 3} (hε : ε ≠ 0)
     (h : ∀ v, (γ : V ≃ₗ[ZMod 3] V) v = ε • (γ' : V ≃ₗ[ZMod 3] V) v) :
     (QuotientGroup.mk γ : ProjSim Q) = QuotientGroup.mk γ' := by
@@ -57,6 +60,7 @@ theorem fg_mk_eq_of_smul {γ γ' : ↥(simGroup Q)} {ε : ZMod 3} (hε : ε ≠ 
     rw [coe_piOrth_apply, map_neg, h v]
     simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_cplx_ab_zero {B : LinearMap.BilinForm (ZMod 3) V} {ρ : V →ₗ[ZMod 3] V}
     (h : FGCplx B ρ (-1)) (hB : B.Nondegenerate) [Nontrivial V] {α β μ : ZMod 3}
     (hγ : ∀ x y, B (α • x + β • ρ x) (α • y + β • ρ y) = μ * B x y) : α * β = 0 := by
@@ -93,6 +97,7 @@ theorem fg_cplx_ab_zero {B : LinearMap.BilinForm (ZMod 3) V} {ρ : V →ₗ[ZMod
   have h3 : ∀ a b : ZMod 3, a ≠ 0 → a * a + b * b ≠ 0 := by decide
   exact h3 s t hs e4
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_ab_ne_zero [Nontrivial V] {γ : V ≃ₗ[ZMod 3] V} {ρ : V →ₗ[ZMod 3] V} {α β : ZMod 3}
     (hγ : ∀ v, γ v = α • v + β • ρ v) : α ≠ 0 ∨ β ≠ 0 := by
   by_contra hc
@@ -103,6 +108,7 @@ theorem fg_ab_ne_zero [Nontrivial V] {γ : V ≃ₗ[ZMod 3] V} {ρ : V →ₗ[ZM
     simp
   exact hy (γ.injective h0)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_class_of_ab_zero [Nontrivial V] {ρ γ : ↥(simGroup Q)} {α β : ZMod 3}
     (hγ : ∀ v, (γ : V ≃ₗ[ZMod 3] V) v = α • v + β • (ρ : V ≃ₗ[ZMod 3] V) v) (hab : α * β = 0) :
     (QuotientGroup.mk γ : ProjSim Q) = 1 ∨
@@ -118,6 +124,7 @@ theorem fg_class_of_ab_zero [Nontrivial V] {ρ γ : ↥(simGroup Q)} {α β : ZM
     rw [this]
     rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_cplx_neg_class (hB : Q.polarBilin.Nondegenerate) [Nontrivial V] {ρ : ↥(simGroup Q)}
     (hρ : FGCplx Q.polarBilin (ρ : V ≃ₗ[ZMod 3] V).toLinearMap (-1)) {γ : ↥(simGroup Q)}
     {α β : ZMod 3}
@@ -132,6 +139,7 @@ theorem fg_cplx_neg_class (hB : Q.polarBilin.Nondegenerate) [Nontrivial V] {ρ :
     exact this
   exact fg_class_of_ab_zero hγ hab
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_cplx_ab_zero_pos {B : LinearMap.BilinForm (ZMod 3) V} {ρ : V →ₗ[ZMod 3] V}
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y) (hB : B.Nondegenerate)
     [Nontrivial V] {α β μ : ZMod 3} (hμ : μ ≠ 0)
@@ -157,6 +165,7 @@ theorem fg_cplx_ab_zero_pos {B : LinearMap.BilinForm (ZMod 3) V} {ρ : V →ₗ[
   have h3 : ∀ a b m : ZMod 3, m ≠ 0 → a * a - b * b - m = 0 → a * b = 0 := by decide
   exact h3 α β μ hμ h0
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_mk_sq_eq_one {ρ : ↥(simGroup Q)}
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) :
     (QuotientGroup.mk ρ : ProjSim Q) ^ 2 = 1 := by

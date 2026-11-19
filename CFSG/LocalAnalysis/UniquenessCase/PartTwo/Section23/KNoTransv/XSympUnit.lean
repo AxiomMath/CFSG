@@ -18,8 +18,8 @@ private theorem quotient_center_isSimpleGroup_and_card {X Y : Type} [Group X] [G
     (e : X ≃* Y) (hY : IsSimpleGroup Y) (hperf : Group.IsPerfect Y) {N : ℕ}
     (hcard : Nat.card Y = N) :
     IsSimpleGroup (X ⧸ center X) ∧ Nat.card (X ⧸ center X) = N := by
-  haveI := hY
-  haveI := hperf
+  have := hY
+  have := hperf
   have hcY : Subgroup.center Y = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with h | h
     · exact h
@@ -42,15 +42,15 @@ theorem quotient_center_of_isSp4 {X : Type} [Group X] {k : ℕ} (hX : IsSp4 X k)
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hperfSp : Group.IsPerfect ↥(StatedSp 2 K) :=
     (CFSG.LieType.Universal.Symplectic.isQuasisimple 2 K (by norm_num)
       (Or.inl (Or.inr h4))).1
   have hperf : Group.IsPerfect (StatedProj (StatedSp 2 K)) := by
-    haveI := hperfSp
+    have := hperfSp
     exact inferInstance
   have hY : IsSimpleGroup (StatedProj (StatedSp 2 K)) := by
-    haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
+    have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
     exact e.symm.isSimpleGroup
   have hcard : Nat.card (StatedProj (StatedSp 2 K)) = ordBC 2 (2 ^ k) := by
     rw [← Nat.card_congr e.toEquiv]
@@ -67,7 +67,7 @@ theorem quotient_center_of_isSpn_six {X : Type} [Group X] {k : ℕ} (hX : IsSpn 
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hY : IsSimpleGroup ↥(StatedSp 3 K) :=
     CFSG.SeitzReduction.SymplecticPilot.isSimpleGroup_statedSp_of_four_le (K := K) (n := 3)
       h4 (by norm_num)
@@ -87,7 +87,7 @@ theorem quotient_center_of_isSUn_four {X : Type} [Group X] {a : ℕ} (hX : IsSUn
     (ha : 2 ≤ a) :
     IsSimpleGroup (X ⧸ center X) ∧ Nat.card (X ⧸ center X) = ordTwistedA 3 (2 ^ a) := by
   obtain ⟨K, hK, hKfin, hKcard, ⟨e₀⟩⟩ := hX
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := a * 2) (by
       rw [hKcard, pow_mul])
   have hadm : StatedLieAdmissible .PSU 4 2 a :=
@@ -99,7 +99,7 @@ theorem quotient_center_of_isSUn_four {X : Type} [Group X] {a : ℕ} (hX : IsSUn
   have hperfSU : Group.IsPerfect ↥(StatedSU 4 (2 ^ a) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hKcard (by norm_num) (by simp)
   have hperf : Group.IsPerfect (StatedProj (StatedSU 4 (2 ^ a) K)) := by
-    haveI := hperfSU
+    have := hperfSU
     exact inferInstance
   have e : X ≃* StatedProj (StatedSU 4 (2 ^ a) K) :=
     e₀.trans (CFSG.LocalAnalysis.RankThreeUC.statedProj_statedSU4_equiv K (2 ^ a)).symm

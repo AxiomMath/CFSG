@@ -41,7 +41,7 @@ theorem card_eq_mul_pow_of_aSet {X : Subgroup (MulAut W)}
     (hA : A ∈ E3.aSet 2 X) {b : MulAut W} (hbA : b ∈ A) {U : Subgroup W}
     (hU : ∀ x : W, x ∈ U ↔ x * (b x)⁻¹ ∈ fixV A) :
     ∃ k : ℕ, Nat.card W = Nat.card U * Nat.card S.K ^ k := by
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
   have hSub : S.IsSub U := isSub_of_mem_iff_commutator S hX hA hbA hU
   obtain ⟨d, hd⟩ := S.exists_card_eq_pow hSub
   have hle : Nat.card U ≤ Nat.card W := Subgroup.card_le_card_group (H := U)
@@ -58,8 +58,8 @@ theorem exists_singular_line_of_fixV {X : Subgroup (MulAut W)}
     (hsing : ∀ x ∈ fixV A, S.Q x = 0) :
     ∃ e : W, e ≠ 1 ∧ S.Q e = 0 ∧ ∀ w : W, w ∈ fixV A ↔ ∃ c : S.K, w = S.smul c e := by
   classical
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
-  haveI : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
     have h1 := congrArg S.vec h
     rw [S.vec_one, S.vec_ofVec] at h1
     have h2 := congrFun h1 (Sum.inl 0)

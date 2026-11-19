@@ -54,7 +54,7 @@ theorem exists_langConjugator_split
       dsimp only [g0']
       rw [show ((y⁻¹ * x * y : adjointGroup .E6 K) : ModGL .E6 K) =
           (y : ModGL .E6 K)⁻¹ * (x : ModGL .E6 K) * (y : ModGL .E6 K) by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]]
+        simp [Subgroup.coe_mul]]
       rw [map_mul, map_mul, map_inv]
     rw [hconj]
     exact h
@@ -102,15 +102,15 @@ theorem excSCTorusInput_E6_split
     (hpq : p ∣ Nat.card K - 1) :
     ExcSCTorusInput .E6 K p 6 := by
   intro E hE h3 h6 hsc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, _, hcardK⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcardK]
   let L := AlgebraicClosure K
   let Fr : L →+* L := iterateFrobenius L 2 (n : ℕ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : ExpChar L 2 := expChar_prime L 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : ExpChar L 2 := expChar_prime L 2
   have hFr : ∀ c, Fr c = c ^ Nat.card K := by
     intro c
     rw [hcard]

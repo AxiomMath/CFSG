@@ -196,9 +196,9 @@ theorem card_eq_of_isSignedPerm_even (hp : p.Prime) (hp2 : p ≠ 2)
     have hgf : Function.LeftInverse g f := by
       intro x
       by_cases hx : x.1 ∈ H
-      · have hfx : f x = Sum.inl ⟨x.1, hx⟩ := dif_pos hx
+      · have hfx : f x = Sum.inl ⟨x.1, hx⟩ := dite_eq_left hx
         rw [hfx]
-      · have hfx : f x = Sum.inr ⟨x.1 * s, _⟩ := dif_neg hx
+      · have hfx : f x = Sum.inr ⟨x.1 * s, _⟩ := dite_eq_right hx
         rw [hfx]
         refine Subtype.ext ?_
         show (x.1 * s) * s = x.1
@@ -208,12 +208,12 @@ theorem card_eq_of_isSignedPerm_even (hp : p.Prime) (hp2 : p ≠ 2)
       rcases y with h | h
       · show f (g (Sum.inl h)) = Sum.inl h
         change f ⟨h.1, hH h.1 h.2⟩ = Sum.inl h
-        have hf : f ⟨h.1, hH h.1 h.2⟩ = Sum.inl ⟨h.1, h.2⟩ := dif_pos h.2
+        have hf : f ⟨h.1, hH h.1 h.2⟩ = Sum.inl ⟨h.1, h.2⟩ := dite_eq_left h.2
         rw [hf]
       · show f (g (Sum.inr h)) = Sum.inr h
         change f ⟨h.1 * s, isSignedPerm_mul_sgnAut (hH h.1 h.2) i₀⟩ = Sum.inr h
         have hf : f ⟨h.1 * s, isSignedPerm_mul_sgnAut (hH h.1 h.2) i₀⟩ =
-            Sum.inr ⟨(h.1 * s) * s, _⟩ := dif_neg (hnot h)
+            Sum.inr ⟨(h.1 * s) * s, _⟩ := dite_eq_right (hnot h)
         rw [hf]
         exact congrArg Sum.inr (Subtype.ext (by
           show (h.1 * s) * s = h.1

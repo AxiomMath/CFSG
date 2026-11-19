@@ -463,13 +463,13 @@ theorem subB_of_bfs (gens : List (List ℕ)) (hg : gens.all validB = true) (L : 
   have hE : elemsP (gens.map code64R) 100000 = L := by rw [elemsP_eq_T 16 65521, h]
   have hlt := (CFSG.KC.Mat8S.nInv_elemsP (gens.map code64R) 100000).2
   have c2 : closedB gens (elemsF gens 100000) = true := by
-    rw [CFSG.KC.Mat8S.closedB_elemsF, if_pos hg, closedP_elemsP_T 16 65521, closedTC, h]
+    rw [CFSG.KC.Mat8S.closedB_elemsF, ite_eq_left hg, closedP_elemsP_T 16 65521, closedTC, h]
     rfl
   have c3 : nodupB (elemsF gens 100000) = true := by
-    rw [nodupB_toP, CFSG.KC.Mat8S.nodupP_elemsF_if, if_pos hg]
+    rw [nodupB_toP, CFSG.KC.Mat8S.nodupP_elemsF_if, ite_eq_left hg]
   have c4 : (elemsF gens 100000).contains one8 = true := by
-    rw [elemsF, if_pos hg, ← oneP_eq, CFSG.KC.Mat8S.contains_map_unpackM _ hlt _ oneP_lt, hE, h1]
-  rw [elemsOf_toF, subB, CFSG.KC.Mat8S.all_validB_elemsF, if_pos hg, c2, c3, c4, hg]
+    rw [elemsF, ite_eq_left hg, ← oneP_eq, CFSG.KC.Mat8S.contains_map_unpackM _ hlt _ oneP_lt, hE, h1]
+  rw [elemsOf_toF, subB, CFSG.KC.Mat8S.all_validB_elemsF, ite_eq_left hg, c2, c3, c4, hg]
   rfl
 
 open CFSG.Quasithin.H13.Mat8Cert in

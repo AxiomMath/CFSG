@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_fixed_lift_of_pow_eq_one {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {y : G}
     (hys : y ∈ stabTil V₀ V) {q : ℕ} (hq : Odd q) (hyq : y ^ q = 1) {w : Vtil V₀ V hV}
     (hw : actTil V₀ V hV ⟨y, hys⟩ w = w) :
@@ -55,7 +56,7 @@ theorem exists_fixed_lift_of_pow_eq_one {V₀ V : Subgroup G} (hV : IsElemAbelia
   have hstep : ∀ i, (φ ^ i) x * x⁻¹ ∈ modNull V₀ V hV := by
     intro i
     induction i with
-    | zero => simpa using (modNull V₀ V hV).one_mem
+    | zero => simp
     | succ i ih =>
       have hs : (φ ^ (i + 1)) x * x⁻¹ = φ ((φ ^ i) x * x⁻¹) * (φ x * x⁻¹) := by
         rw [pow_succ', MulAut.mul_apply, map_mul, map_inv]
@@ -116,7 +117,7 @@ theorem r38_mQuot_UOf_eq (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig 
   have hidx_eq : (imgTil V₀ V hV (UOf D.M V g)).index = Nat.card S.K ^ k := by
     have hUpos : 0 < Nat.card (imgTil V₀ V hV (UOf D.M V g)) := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hUpos (by rw [hcardU, hk])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmQuot : E3.mQuot V (UOf D.M V g) = m * k := by
     rw [mQuot_UOf_eq_rkIdx h64' hgen, rkIdx, hidx_eq, hSK, ← pow_mul,
       padicValNat.prime_pow]

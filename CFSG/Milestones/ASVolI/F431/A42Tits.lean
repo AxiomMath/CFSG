@@ -97,8 +97,8 @@ theorem burnsideF4m_A42_Tits_cent (hyp : HypF_4_31 .Tits f Gp M₁ M₂ β ε z)
     (ht : θ.symm CFSG.Quasithin.H13.F431.TitsD.tD ∈ M₂) :
     Subgroup.centralizer ({epsG β ε (f2 (c := β) ⟨θ.symm CFSG.Quasithin.H13.F431.TitsD.tD, ht⟩)} :
       Set M) ≤ MiTwo β ε := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   obtain ⟨x, hx1, -, hxz, hθx⟩ := burnsideF4m_tits_zbar hyp θ h1
   obtain ⟨hC, hr1, hr2, -⟩ := burnsideF4m_comp_data hyp θ h1 h2
   set b1 := (burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1) with hb1
@@ -142,7 +142,7 @@ theorem burnsideF4m_A42_Tits_of
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .Tits Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hGp : Gp = ⊤ := hyp.amalgam.canonical (Or.inr rfl)
   obtain ⟨θ, h1, h2⟩ := burnsideF4m_tits_thetaD hyp.amalgam
   obtain ⟨x, hx1, hxZ, hxz, hθx⟩ := burnsideF4m_tits_zbar hyp θ h1

@@ -71,6 +71,7 @@ private theorem Good101.mem_B_of_mem_Vt_of_centralizes {hc : Ctx M Q Z B}
     ⟨⟨ha, haV⟩, hac⟩
   rwa [Good101.inf_Vt_inf_centralizer_eq ht hs h2 hcQ hcB hcW] at hmem
 
+omit [Finite G] in
 private theorem conj_eq_of_conj_eq_mul {w u a y : G} (hconj : u * w * u⁻¹ = w * a * y)
     (hww : w * w = 1) (hay2 : (a * y) * (a * y) = 1) (huy : u * y = y * u)
     (hu2w : (u * u) * w = w * (u * u)) : u * a * u⁻¹ = a := by
@@ -96,6 +97,7 @@ private theorem conj_eq_of_conj_eq_mul {w u a y : G} (hconj : u * w * u⁻¹ = w
     _ = (a * y) * y⁻¹ := by rw [h3, huy]; group
     _ = a := by group
 
+omit [Finite G] in
 private theorem conj_mul_conj_eq_of_conj {c t u k a b w y : G} (hw : w = c * t * c⁻¹)
     (hca : c⁻¹ * a * c = a) (hcb : c⁻¹ * b * c = b) (hkt : k * t * k⁻¹ = t * b)
     (hconj : u * w * u⁻¹ = w * a * y) (hbu : u * b * u⁻¹ = y⁻¹ * b) :
@@ -212,6 +214,7 @@ private theorem Good101.mem_centralizer_B_of_conj_eq_mul (h34 : Stroth34Statemen
     (Good101.mem_Vt_of_not_mem_centralizer_B h34 hspread H ht hs ha.1 ha.2 hcB hu hy hconj
       hex) ha.2)
 
+omit [Finite G] in
 private theorem conj_sq_eq_one_of_conj_eq_mul {w u a y : G}
     (hconj : u * w * u⁻¹ = w * a * y) (hww : w * w = 1)
     (hway : (a * y) * w = w * (a * y)) : (a * y) * (a * y) = 1 := by
@@ -279,6 +282,7 @@ theorem Good101.conj_eq_mul_facts (h34 : Stroth34Statement)
       hconj,
     Good101.commute_of_conj_eq_mul h34 hspread H ht hs hcQ hcB ha hu hy hconj⟩
 
+omit [Finite G] in
 private theorem mem_B_of_pi_mem_img_B_of_mem_Q {Y : Subgroup G} {K : Type} [Field K]
     {γ : G → K} {M₀ : Tim79.QuadModel (QB Y) Y K γ} {hc : Ctx M Q Z B} {x : G}
     (hZY : Y ⊓ Q = ⊥) (hxQ : x ∈ Q) (hxY : x ∈ QB Y) (hπ : M₀.π x ∈ M₀.img B) : x ∈ B := by
@@ -292,6 +296,7 @@ private theorem mem_B_of_pi_mem_img_B_of_mem_Q {Y : Subgroup G} {K : Type} [Fiel
       _ = x := by rw [h1, mul_one]
   rwa [← hxb]
 
+omit [Finite G] in
 private theorem mem_B_of_pi_eq_smul_of_mem_B {Y : Subgroup G} {K : Type} [Field K]
     {γ : G → K} {M₀ : Tim79.QuadModel (QB Y) Y K γ} {hc : Ctx M Q Z B} {b₀ : M₀.E}
     (hBline : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b₀)
@@ -304,6 +309,7 @@ private theorem mem_B_of_pi_eq_smul_of_mem_B {Y : Subgroup G} {K : Type} [Field 
   exact mem_B_of_pi_mem_img_B_of_mem_Q (Y := Y) (K := K) (γ := γ) (M₀ := M₀) (hc := hc)
     (x := a) hZY ha.1 ha.2 ((hBline _).mpr ⟨lam⁻¹ * s, by rw [h2, smul_smul]⟩)
 
+omit [Finite G] in
 private theorem centralizes_of_pi_eq_smul {Y : Subgroup G} {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel (QB Y) Y K γ}
     (hDY : GlobalModelData (Subgroup.normalizer (Y : Set G)) (QB Y) Y γ M₀)
@@ -358,6 +364,7 @@ theorem Good101.exists_mem_centralizer_scalar (h34 : Stroth34Statement)
   intro u hu hua
   exact centralizes_of_pi_eq_smul hDY hu ha.1.2 ha'.1.2 hua ha'π
 
+omit [Finite G] in
 private theorem mul_conj_eq_mul {w u₁ u₂ α a y₁ y₂ : G}
     (hconj₁ : u₁ * w * u₁⁻¹ = w * α * y₁) (hconj₂ : u₂ * w * u₂⁻¹ = w * a * y₂)
     (hcent : u₁ * a * u₁⁻¹ = a) (huy : u₁ * y₂ = y₂ * u₁) :

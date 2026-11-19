@@ -47,8 +47,8 @@ theorem exists_weyl_matrix (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n + 1
       (w : GL (Fin 6) K) * X = X * w ∧ (w : GL (Fin 6) K) * Z = Z * w ∧
         (w : GL (Fin 6) K) * Y = Y * Z * w := by
   classical
-  haveI : Finite K := hKd.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := hKd.finite
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨P, hP, η, ε, σ, hη, hε, hση, hσε, hη3, hε3⟩ :=
     exists_frame_data_heis hKd hpq hX hZ hX3 hZ3 hXY hXZ hYZ
   set Y' : GL (Fin 6) K := P⁻¹ * Y * P with hY'
@@ -333,9 +333,9 @@ theorem exists_actor_monomial_decomposition [Finite K]
     (hXN : X ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
     (hYN : Y ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
     (hZN : Z ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
-    (hXu : X ∈ primeFormUnitary hKd (idGram K 6))
-    (hYu : Y ∈ primeFormUnitary hKd (idGram K 6))
-    (hZu : Z ∈ primeFormUnitary hKd (idGram K 6))
+    (_hXu : X ∈ primeFormUnitary hKd (idGram K 6))
+    (_hYu : Y ∈ primeFormUnitary hKd (idGram K 6))
+    (_hZu : Z ∈ primeFormUnitary hKd (idGram K 6))
     {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3)
     (hXA : TableB.projConj (unitarySU 2 n K 6) ⟨X, hXN⟩ ∈ Ab)
     (hYA : TableB.projConj (unitarySU 2 n K 6) ⟨Y, hYN⟩ ∈ Ab)
@@ -373,13 +373,13 @@ theorem not_noTransvection_of_actual_triple [Finite K]
     (hφker : ∀ g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n)), φ g = 1 →
       ∃ c : Kˣ, (g : GL (Fin 6) K) = GeneralLinearGroup.scalar (Fin 6) c)
     (A : ↥Bs → GL (Fin 6) K)
-    (hAN : ∀ b, A b ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
-    (conjA : ∀ b : ↥Bs, ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n)) →
+    (hAN : ∀ _b, A _b ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
+    (conjA : ∀ _b : ↥Bs, ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n)) →
       ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n)))
-    (hconjA_coe : ∀ (b : ↥Bs) (g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))),
-      (conjA b g : GL (Fin 6) K) = A b * (g : GL (Fin 6) K) * (A b)⁻¹)
-    (hact : ∀ (b : ↥Bs) (g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))),
-      (b : G) * ((φ g : ↥J) : G) * (b : G)⁻¹ = ((φ (conjA b g) : ↥J) : G))
+    (hconjA_coe : ∀ (_b : ↥Bs) (g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))),
+      (conjA _b g : GL (Fin 6) K) = A _b * (g : GL (Fin 6) K) * (A _b)⁻¹)
+    (hact : ∀ (_b : ↥Bs) (g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))),
+      (_b : G) * ((φ g : ↥J) : G) * (_b : G)⁻¹ = ((φ (conjA _b g) : ↥J) : G))
     {X Y Z : GL (Fin 6) K}
     (hXN : X ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
     (hYN : Y ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
@@ -397,17 +397,17 @@ theorem not_noTransvection_of_actual_triple [Finite K]
     (hXA : TableB.projConj (unitarySU 2 n K 6) ⟨X, hXN⟩ ∈ Ab)
     (hYA : TableB.projConj (unitarySU 2 n K 6) ⟨Y, hYN⟩ ∈ Ab)
     (hZA : TableB.projConj (unitarySU 2 n K 6) ⟨Z, hZN⟩ ∈ Ab)
-    (hAA : ∀ b, TableB.projConj (unitarySU 2 n K 6) ⟨A b, hAN b⟩ ∈ Ab)
-    (hYreal : ∃ b : ↥Bs, TableB.projConj (unitarySU 2 n K 6) ⟨A b, hAN b⟩ =
+    (hAA : ∀ _b, TableB.projConj (unitarySU 2 n K 6) ⟨A _b, hAN _b⟩ ∈ Ab)
+    (hYreal : ∃ _b : ↥Bs, TableB.projConj (unitarySU 2 n K 6) ⟨A _b, hAN _b⟩ =
       TableB.projConj (unitarySU 2 n K 6) ⟨Y, hYN⟩) :
     ¬ CFSG.StandardType.GGNoTransvection 3 Bs := by
   classical
   obtain ⟨i, j, k, c, hlt, hAeq⟩ :=
     exists_actor_monomial_decomposition hKd hpq A hAN hAb hXN hYN hZN hXu hYu hZu hζ hXA hYA hZA
       hXY hXZ hYZ hZ3 hZs hAA
-  let M : ↥Bs → GL (Fin 6) K := fun b => X ^ (i b) * Y ^ (j b) * Z ^ (k b)
-  have hM : ∀ b, M b ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)) :=
-    fun b => Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.pow_mem _ hXN _)
+  let M : ↥Bs → GL (Fin 6) K := fun _b => X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)
+  have hM : ∀ _b, M _b ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)) :=
+    fun _b => Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.pow_mem _ hXN _)
       (Subgroup.pow_mem _ hYN _)) (Subgroup.pow_mem _ hZN _)
   obtain ⟨hZSU, w, hwX, hwZ, hwY⟩ :=
     exists_weyl_matrix hKd hpq hXu hZu hX3 hZ3 hζ hXY hXZ hYZ hZs
@@ -439,131 +439,131 @@ theorem not_noTransvection_of_actual_triple [Finite K]
       rw [show Z = GeneralLinearGroup.scalar (Fin 6) cc from ?_]
       · exact scalar_mem_largeEvenScalars cc
       · simpa [Zc] using hcc)
-  have hZM : ∀ a b d : ℕ, Z * (X ^ a * Y ^ b * Z ^ d) = (X ^ a * Y ^ b * Z ^ d) * Z := by
-    intro a b d
+  have hZM : ∀ a _b d : ℕ, Z * (X ^ a * Y ^ _b * Z ^ d) = (X ^ a * Y ^ _b * Z ^ d) * Z := by
+    intro a _b d
     have hZX : Commute Z X := hXZ.symm
     have hZY : Commute Z Y := hYZ.symm
     have hZZ : Commute Z Z := Commute.refl Z
-    have h := ((hZX.pow_right a).mul_right (hZY.pow_right b)).mul_right (hZZ.pow_right d)
+    have h := ((hZX.pow_right a).mul_right (hZY.pow_right _b)).mul_right (hZZ.pow_right d)
     simpa only [mul_assoc] using h.eq
   have hsc_comm : ∀ (r : Kˣ) (g : GL (Fin 6) K),
       GeneralLinearGroup.scalar (Fin 6) r * g = g * GeneralLinearGroup.scalar (Fin 6) r :=
     fun r g => (commute_scalar r g).symm.eq
-  have hAZ : ∀ b : ↥Bs, A b * Z = Z * A b := by
-    intro b
-    have hZMb := hZM (i b) (j b) (k b)
-    rw [hAeq b]
+  have hAZ : ∀ _b : ↥Bs, A _b * Z = Z * A _b := by
+    intro _b
+    have hZMb := hZM (i _b) (j _b) (k _b)
+    rw [hAeq _b]
     calc
-      (GeneralLinearGroup.scalar (Fin 6) (c b) * (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) * Z
-          = GeneralLinearGroup.scalar (Fin 6) (c b) *
-              ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * Z) := by group
-      _ = GeneralLinearGroup.scalar (Fin 6) (c b) *
-              (Z * (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) := by rw [hZMb]
-      _ = (GeneralLinearGroup.scalar (Fin 6) (c b) * Z) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) := by group
-      _ = (Z * GeneralLinearGroup.scalar (Fin 6) (c b)) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) := by rw [hsc_comm (c b) Z]
-      _ = Z * (GeneralLinearGroup.scalar (Fin 6) (c b) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) := by group
-  have hMw : ∀ b : ↥Bs,
-      (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (w : GL (Fin 6) K) *
-        (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ =
-      ((Z ^ (j b))⁻¹ * (w : GL (Fin 6) K)) := by
-    intro b
-    have hWm := weyl_mono hwX hwZ hwY hXZ hYZ (i b) (j b) (k b)
-    have hCZ : Commute Z (M b) := hZM (i b) (j b) (k b)
-    have hZjM : Commute (Z ^ (j b)) (M b) := hCZ.pow_left (j b)
+      (GeneralLinearGroup.scalar (Fin 6) (c _b) * (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) * Z
+          = GeneralLinearGroup.scalar (Fin 6) (c _b) *
+              ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * Z) := by group
+      _ = GeneralLinearGroup.scalar (Fin 6) (c _b) *
+              (Z * (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) := by rw [hZMb]
+      _ = (GeneralLinearGroup.scalar (Fin 6) (c _b) * Z) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) := by group
+      _ = (Z * GeneralLinearGroup.scalar (Fin 6) (c _b)) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) := by rw [hsc_comm (c _b) Z]
+      _ = Z * (GeneralLinearGroup.scalar (Fin 6) (c _b) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) := by group
+  have hMw : ∀ _b : ↥Bs,
+      (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (w : GL (Fin 6) K) *
+        (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ =
+      ((Z ^ (j _b))⁻¹ * (w : GL (Fin 6) K)) := by
+    intro _b
+    have hWm := weyl_mono hwX hwZ hwY hXZ hYZ (i _b) (j _b) (k _b)
+    have hCZ : Commute Z (M _b) := hZM (i _b) (j _b) (k _b)
+    have hZjM : Commute (Z ^ (j _b)) (M _b) := hCZ.pow_left (j _b)
     calc
-        (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (w : GL (Fin 6) K) *
-            (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹
-            = (Z ^ (j b))⁻¹ * (Z ^ (j b) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) * (w : GL (Fin 6) K) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by group
-        _ = (Z ^ (j b))⁻¹ * ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) *
-                (Z ^ (j b))) * (w : GL (Fin 6) K) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by rw [hZjM.eq]
-        _ = (Z ^ (j b))⁻¹ * ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) *
-                (Z ^ (j b)) * (w : GL (Fin 6) K)) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by group
-        _ = (Z ^ (j b))⁻¹ * ((w : GL (Fin 6) K) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by rw [← hWm]
-        _ = (Z ^ (j b))⁻¹ * (w : GL (Fin 6) K) := by group
-  have hAmw : ∀ b : ↥Bs,
-      A b * (wc : GL (Fin 6) K) * (A b)⁻¹ =
-        (((Zc ^ (j b))⁻¹ * wc : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))) : GL (Fin 6) K) := by
-    intro b
-    rw [hAeq b]
+        (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (w : GL (Fin 6) K) *
+            (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹
+            = (Z ^ (j _b))⁻¹ * (Z ^ (j _b) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) * (w : GL (Fin 6) K) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by group
+        _ = (Z ^ (j _b))⁻¹ * ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) *
+                (Z ^ (j _b))) * (w : GL (Fin 6) K) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by rw [hZjM.eq]
+        _ = (Z ^ (j _b))⁻¹ * ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) *
+                (Z ^ (j _b)) * (w : GL (Fin 6) K)) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by group
+        _ = (Z ^ (j _b))⁻¹ * ((w : GL (Fin 6) K) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by rw [← hWm]
+        _ = (Z ^ (j _b))⁻¹ * (w : GL (Fin 6) K) := by group
+  have hAmw : ∀ _b : ↥Bs,
+      A _b * (wc : GL (Fin 6) K) * (A _b)⁻¹ =
+        (((Zc ^ (j _b))⁻¹ * wc : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))) : GL (Fin 6) K) := by
+    intro _b
+    rw [hAeq _b]
     calc
-      (GeneralLinearGroup.scalar (Fin 6) (c b) * (X ^ (i b) * Y ^ (j b) * Z ^ (k b))) *
+      (GeneralLinearGroup.scalar (Fin 6) (c _b) * (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))) *
           (wc : GL (Fin 6) K) *
-          (GeneralLinearGroup.scalar (Fin 6) (c b) *
-            (X ^ (i b) * Y ^ (j b) * Z ^ (k b)))⁻¹
-          = GeneralLinearGroup.scalar (Fin 6) (c b) *
-              ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (wc : GL (Fin 6) K) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹) *
-              (GeneralLinearGroup.scalar (Fin 6) (c b))⁻¹ := by group
-      _ = ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (wc : GL (Fin 6) K) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹) *
-              GeneralLinearGroup.scalar (Fin 6) (c b) *
-              (GeneralLinearGroup.scalar (Fin 6) (c b))⁻¹ := by
-            rw [hsc_comm (c b)
-              ((X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (wc : GL (Fin 6) K) *
-                (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹)]
-      _ = (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (wc : GL (Fin 6) K) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by group
-      _ = (X ^ (i b) * Y ^ (j b) * Z ^ (k b)) * (w : GL (Fin 6) K) *
-              (X ^ (i b) * Y ^ (j b) * Z ^ (k b))⁻¹ := by
+          (GeneralLinearGroup.scalar (Fin 6) (c _b) *
+            (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)))⁻¹
+          = GeneralLinearGroup.scalar (Fin 6) (c _b) *
+              ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (wc : GL (Fin 6) K) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹) *
+              (GeneralLinearGroup.scalar (Fin 6) (c _b))⁻¹ := by group
+      _ = ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (wc : GL (Fin 6) K) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹) *
+              GeneralLinearGroup.scalar (Fin 6) (c _b) *
+              (GeneralLinearGroup.scalar (Fin 6) (c _b))⁻¹ := by
+            rw [hsc_comm (c _b)
+              ((X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (wc : GL (Fin 6) K) *
+                (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹)]
+      _ = (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (wc : GL (Fin 6) K) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by group
+      _ = (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b)) * (w : GL (Fin 6) K) *
+              (X ^ (i _b) * Y ^ (j _b) * Z ^ (k _b))⁻¹ := by
             rw [show (wc : GL (Fin 6) K) = (w : GL (Fin 6) K) from rfl]
-      _ = (Z ^ (j b))⁻¹ * (w : GL (Fin 6) K) := hMw b
-      _ = ((Zc ^ (j b))⁻¹ * wc : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))) := by
+      _ = (Z ^ (j _b))⁻¹ * (w : GL (Fin 6) K) := hMw _b
+      _ = ((Zc ^ (j _b))⁻¹ * wc : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))) := by
             simp [wc, Zc]
-  have hconjA : ∀ b : ↥Bs,
-      conjA b wc =
-        (⟨(Zc ^ (j b))⁻¹ * wc,
-          Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.pow_mem _ Zc.2 (j b))) wc.2⟩ :
+  have hconjA : ∀ _b : ↥Bs,
+      conjA _b wc =
+        (⟨(Zc ^ (j _b))⁻¹ * wc,
+          Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.pow_mem _ Zc.2 (j _b))) wc.2⟩ :
             ↥(LargeEvenSUGroup (Fin 6) K (2 ^ n))) := by
-    intro b
+    intro _b
     apply Subtype.ext
-    rw [hconjA_coe b wc]
-    exact hAmw b
-  have hconj_b : ∀ b : ↥Bs, nG * (b : G) * nG⁻¹ = z ^ (j b) * (b : G) := by
-    intro b
-    have hbn : (b : G) * nG * (b : G)⁻¹ = (z ^ (j b))⁻¹ * nG := by
-      have h := hact b wc
-      rw [hconjA b] at h
-      have hmap : ((φ ((Zc ^ (j b))⁻¹ * wc) : ↥J) : G) = (z ^ (j b))⁻¹ * nG := by
+    rw [hconjA_coe _b wc]
+    exact hAmw _b
+  have hconj_b : ∀ _b : ↥Bs, nG * (_b : G) * nG⁻¹ = z ^ (j _b) * (_b : G) := by
+    intro _b
+    have hbn : (_b : G) * nG * (_b : G)⁻¹ = (z ^ (j _b))⁻¹ * nG := by
+      have h := hact _b wc
+      rw [hconjA _b] at h
+      have hmap : ((φ ((Zc ^ (j _b))⁻¹ * wc) : ↥J) : G) = (z ^ (j _b))⁻¹ * nG := by
         simp [z, zJ, nG, nJ, map_mul, map_pow, map_inv]
       exact h.trans hmap
-    have hcomm_bn : (b : G) * nG * (b : G)⁻¹ * nG⁻¹ = (z ^ (j b))⁻¹ := by
+    have hcomm_bn : (_b : G) * nG * (_b : G)⁻¹ * nG⁻¹ = (z ^ (j _b))⁻¹ := by
       rw [hbn]
       group
-    have hcomm_nb : nG * (b : G) * nG⁻¹ * (b : G)⁻¹ = z ^ (j b) := by
-      calc nG * (b : G) * nG⁻¹ * (b : G)⁻¹
-          = ((b : G) * nG * (b : G)⁻¹ * nG⁻¹)⁻¹ := by group
-        _ = ((z ^ (j b))⁻¹)⁻¹ := by rw [hcomm_bn]
-        _ = z ^ (j b) := by simp
-    calc nG * (b : G) * nG⁻¹
-        = (nG * (b : G) * nG⁻¹ * (b : G)⁻¹) * (b : G) := by group
-      _ = z ^ (j b) * (b : G) := by rw [hcomm_nb]
-  have hz_comm : ∀ b : ↥Bs, (b : G) * z = z * (b : G) := by
-    intro b
-    have hbZ : (b : G) * z * (b : G)⁻¹ = z := by
-      have h := hact b Zc
-      have hAZc : conjA b Zc = Zc := by
+    have hcomm_nb : nG * (_b : G) * nG⁻¹ * (_b : G)⁻¹ = z ^ (j _b) := by
+      calc nG * (_b : G) * nG⁻¹ * (_b : G)⁻¹
+          = ((_b : G) * nG * (_b : G)⁻¹ * nG⁻¹)⁻¹ := by group
+        _ = ((z ^ (j _b))⁻¹)⁻¹ := by rw [hcomm_bn]
+        _ = z ^ (j _b) := by simp
+    calc nG * (_b : G) * nG⁻¹
+        = (nG * (_b : G) * nG⁻¹ * (_b : G)⁻¹) * (_b : G) := by group
+      _ = z ^ (j _b) * (_b : G) := by rw [hcomm_nb]
+  have hz_comm : ∀ _b : ↥Bs, (_b : G) * z = z * (_b : G) := by
+    intro _b
+    have hbZ : (_b : G) * z * (_b : G)⁻¹ = z := by
+      have h := hact _b Zc
+      have hAZc : conjA _b Zc = Zc := by
         apply Subtype.ext
-        rw [hconjA_coe b Zc]
-        change A b * Z * (A b)⁻¹ = Z
-        rw [hAZ b]
+        rw [hconjA_coe _b Zc]
+        change A _b * Z * (A _b)⁻¹ = Z
+        rw [hAZ _b]
         group
       rw [hAZc] at h
       simpa [z, zJ] using h
-    calc (b : G) * z = ((b : G) * z * (b : G)⁻¹) * (b : G) := by group
-      _ = z * (b : G) := by rw [hbZ]
+    calc (_b : G) * z = ((_b : G) * z * (_b : G)⁻¹) * (_b : G) := by group
+      _ = z * (_b : G) := by rw [hbZ]
   have hz_cent : z ∈ Subgroup.centralizer (Bs : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
-    intro b hb
-    exact hz_comm ⟨b, hb⟩
+    intro _b hb
+    exact hz_comm ⟨_b, hb⟩
   have hzBs : z ∈ Bs := hSC z hz_cent hz3
   have hna : nG * z * nG⁻¹ = z := by
     have hZw : wc * Zc = Zc * wc := by
@@ -576,38 +576,38 @@ theorem not_noTransvection_of_actual_triple [Finite K]
         _ = zJ := rfl
     dsimp [nG, z]
     simpa using congrArg (fun x : ↥J => (x : G)) hnzJ
-  have hn_conj_mem : ∀ b : ↥Bs, nG * (b : G) * nG⁻¹ ∈ Bs := by
-    intro b
-    rw [hconj_b b]
-    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ hzBs (j b)) b.2
+  have hn_conj_mem : ∀ _b : ↥Bs, nG * (_b : G) * nG⁻¹ ∈ Bs := by
+    intro _b
+    rw [hconj_b _b]
+    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ hzBs (j _b)) _b.2
   have hn_norm : nG ∈ Subgroup.normalizer (Bs : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
-    · rintro _ ⟨b, hb, rfl⟩
-      simpa [MulAut.conj_apply] using hn_conj_mem ⟨b, hb⟩
+    · rintro _ ⟨_b, hb, rfl⟩
+      simpa [MulAut.conj_apply] using hn_conj_mem ⟨_b, hb⟩
     · rw [Subgroup.card_map_of_injective (MulAut.conj nG).injective]
-  have himg : ∀ b ∈ Bs, nG * b * nG⁻¹ * b⁻¹ ∈ Subgroup.zpowers z := by
-    intro b hb
-    rw [hconj_b ⟨b, hb⟩]
+  have himg : ∀ _b ∈ Bs, nG * _b * nG⁻¹ * _b⁻¹ ∈ Subgroup.zpowers z := by
+    intro _b hb
+    rw [hconj_b ⟨_b, hb⟩]
     simp [mul_assoc]
   obtain ⟨bY, hbY⟩ := hYreal
-  have hproj : ∀ b : ↥Bs,
-      TableB.projConj (unitarySU 2 n K 6) ⟨A b, hAN b⟩ =
-        TableB.projConj (unitarySU 2 n K 6) ⟨M b, hM b⟩ := by
-    intro b
-    have hsub : (⟨A b, hAN b⟩ :
+  have hproj : ∀ _b : ↥Bs,
+      TableB.projConj (unitarySU 2 n K 6) ⟨A _b, hAN _b⟩ =
+        TableB.projConj (unitarySU 2 n K 6) ⟨M _b, hM _b⟩ := by
+    intro _b
+    have hsub : (⟨A _b, hAN _b⟩ :
         Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K))) =
-        (⟨GeneralLinearGroup.scalar (Fin 6) (c b),
-          TableB.scalar_mem_normalizer _ (scalar_mem_largeEvenScalars (c b))⟩ :
+        (⟨GeneralLinearGroup.scalar (Fin 6) (c _b),
+          TableB.scalar_mem_normalizer _ (scalar_mem_largeEvenScalars (c _b))⟩ :
           Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K))) *
-        ⟨M b, hM b⟩ := by
+        ⟨M _b, hM _b⟩ := by
       apply Subtype.ext
-      simpa [M] using hAeq b
+      simpa [M] using hAeq _b
     have hscalar_proj : TableB.projConj (unitarySU 2 n K 6)
-        (⟨GeneralLinearGroup.scalar (Fin 6) (c b),
-          TableB.scalar_mem_normalizer _ (scalar_mem_largeEvenScalars (c b))⟩ :
+        (⟨GeneralLinearGroup.scalar (Fin 6) (c _b),
+          TableB.scalar_mem_normalizer _ (scalar_mem_largeEvenScalars (c _b))⟩ :
           Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K))) = 1 :=
-      TableB.projConj_of_scalar _ (scalar_mem_largeEvenScalars (c b))
+      TableB.projConj_of_scalar _ (scalar_mem_largeEvenScalars (c _b))
     rw [hsub, map_mul, hscalar_proj, one_mul]
   have hjY : j bY ≠ 0 := by
     have hprojM : TableB.projConj (unitarySU 2 n K 6) ⟨M bY, hM bY⟩ =
@@ -627,7 +627,7 @@ theorem not_noTransvection_of_actual_triple [Finite K]
       (hlt bY).1 (by norm_num : 0 < 3) (hlt bY).2.2 (by norm_num : 0 < 3) hM_eq'
     omega
   clear hproj
-  have hmove : ∃ b ∈ Bs, nG * b * nG⁻¹ ≠ b := by
+  have hmove : ∃ _b ∈ Bs, nG * _b * nG⁻¹ ≠ _b := by
     refine ⟨bY, bY.2, ?_⟩
     intro hfix
     have hzpow_eq : z ^ (j bY) * (bY : G) = (bY : G) := by
@@ -642,10 +642,10 @@ theorem not_noTransvection_of_actual_triple [Finite K]
     have hj0 : j bY % 3 = 0 := Nat.dvd_iff_mod_eq_zero.mp hdvd
     have hjlt := (hlt bY).2.1
     omega
-  have hcomm : ∀ b ∈ Bs, ∀ c ∈ Bs, b * c = c * b := by
-    intro b hb c hc
-    exact congrArg Subtype.val (hBs.1.is_comm.comm ⟨b, hb⟩ ⟨c, hc⟩)
-  have hexp : ∀ b ∈ Bs, b ^ 3 = 1 := hBs.2
+  have hcomm : ∀ _b ∈ Bs, ∀ c ∈ Bs, _b * c = c * _b := by
+    intro _b hb c hc
+    exact congrArg Subtype.val (hBs.1.is_comm.comm ⟨_b, hb⟩ ⟨c, hc⟩)
+  have hexp : ∀ _b ∈ Bs, _b ^ 3 = 1 := hBs.2
   exact GGHalf.not_noTransvection_of_shear hcomm hexp hn_norm hzBs hz_ne hna himg hmove
 
 

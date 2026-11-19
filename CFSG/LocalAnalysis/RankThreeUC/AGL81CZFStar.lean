@@ -12,7 +12,7 @@ variable {X : Type*} [Group X] [Finite X]
 
 theorem pCore_le_centralizer_of_isComponent {p : ℕ} [Fact p.Prime] {C : Subgroup X}
     (hC : CFSG.IsComponent C) : CFSG.pCore p X ≤ centralizer (C : Set X) := by
-  haveI : Group.IsNilpotent (CFSG.pCore p X) := (CFSG.pCore_isPGroup (p := p) (G := X)).isNilpotent
+  have : Group.IsNilpotent (CFSG.pCore p X) := (CFSG.pCore_isPGroup (p := p) (G := X)).isNilpotent
   have hsub : (CFSG.pCore p X).IsSubnormal := (CFSG.pCore_normal (p := p) (G := X)).isSubnormal
   have h := (CFSG.LocalCores.component_solvable_centralizer (G := X) inferInstance hsub).1 C hC
   rw [Subgroup.commutator_comm] at h
@@ -22,7 +22,7 @@ theorem eq_bot_of_le_centralizer_pCore_of_isComponent {d : ℕ} (hd : d.Prime) (
     (hO : CFSG.pPrimeCore 3 X = ⊥) {T : Subgroup X} (hT : IsPGroup d T)
     (hTA : T ≤ centralizer (CFSG.pCore 3 X : Set X))
     (hTC : ∀ C : Subgroup X, CFSG.IsComponent C → T ≤ centralizer (C : Set X)) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgf : CFSG.generalizedFitting X = CFSG.pCore 3 X ⊔ CFSG.layer X := by
     rw [CFSG.generalizedFitting.eq_sup, CFSG.Fitting_eq_pcore X 3 hO]
   have h1 : CFSG.pCore 3 X ≤ centralizer (T : Set X) := Subgroup.le_centralizer_iff.mp hTA

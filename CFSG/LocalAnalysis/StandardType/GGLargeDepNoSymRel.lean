@@ -22,14 +22,14 @@ private lemma l04fRE_A_diag {m : ℕ} (i : Fin m) : CartanMatrix.A m i i = 2 := 
 private lemma l04fRE_A_adj {m : ℕ} {i j : Fin m}
     (h : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)) : CartanMatrix.A m i j = -1 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg (by intro hji; have hval : (i : ℕ) = (j : ℕ) := congrArg Fin.val hji; omega),
-    if_pos h]
+  rw [ite_eq_right (by intro hji; have hval : (i : ℕ) = (j : ℕ) := congrArg Fin.val hji; omega),
+    ite_eq_left h]
 
 private lemma l04fRE_A_far {m : ℕ} {i j : Fin m}
     (h : (i : ℕ) + 2 ≤ (j : ℕ) ∨ (j : ℕ) + 2 ≤ (i : ℕ)) : CartanMatrix.A m i j = 0 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg (by intro hji; have hval : (i : ℕ) = (j : ℕ) := congrArg Fin.val hji; omega),
-    if_neg (by rintro (h1 | h1) <;> omega)]
+  rw [ite_eq_right (by intro hji; have hval : (i : ℕ) = (j : ℕ) := congrArg Fin.val hji; omega),
+    ite_eq_right (by rintro (h1 | h1) <;> omega)]
 
 private lemma l04fRE_pair_diag {p m : ℕ} [Fact p.Prime] {W : Type} [AddCommGroup W]
     [Module (ZMod p) W] {u : Fin m → W} {a : Fin m → Module.Dual (ZMod p) W}

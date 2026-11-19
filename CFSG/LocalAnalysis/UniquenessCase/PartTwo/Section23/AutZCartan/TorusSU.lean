@@ -33,7 +33,7 @@ variable {K : Type} [Field K]
 
 private theorem exists_pow_two_eq [Finite K] [CharP K 2] {q : ℕ} (hK : Nat.card K = q ^ 2) :
     ∃ a : ℕ, q = 2 ^ a := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpchar, n, hprime, hcard⟩ := FiniteField.card' K
   have hp2 : p = 2 := CharP.eq K hpchar ‹CharP K 2›
   subst hp2
@@ -46,7 +46,7 @@ private theorem exists_pow_two_eq [Finite K] [CharP K 2] {q : ℕ} (hK : Nat.car
 private theorem exists_add_pow_eq_one [Finite K] [CharP K 2] {q a : ℕ} (hq : q = 2 ^ a)
     (hK : Nat.card K = q ^ 2) : ∃ s : K, s ^ q + s = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq2 : 2 ≤ q := by
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     rw [hK] at h1
@@ -56,7 +56,7 @@ private theorem exists_add_pow_eq_one [Finite K] [CharP K 2] {q a : ℕ} (hq : q
     intro h
     have hc := congrArg (fun p : Polynomial K => p.coeff q) h
     rw [Polynomial.coeff_add, Polynomial.coeff_X_pow, Polynomial.coeff_X, Polynomial.coeff_zero,
-      if_pos rfl, if_neg hq1, add_zero] at hc
+      ite_eq_left rfl, ite_eq_right hq1, add_zero] at hc
     exact one_ne_zero hc
   have hdeg : ((Polynomial.X ^ q + Polynomial.X : Polynomial K).natDegree : Cardinal) <
       Cardinal.mk K := by
@@ -119,13 +119,13 @@ private theorem hp_mul_hpInv [CharP K 2] (s : K) : hp s * hpInv s = 1 := by
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hp, hpInv, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_two] <;>
+    simp [hp, hpInv, Matrix.mul_apply, Fin.sum_univ_two] <;>
     (try ring_nf) <;> simp [h2]
 
 private theorem hJ_mul_hJ : (hJ : Matrix (Fin 2) (Fin 2) K) * hJ = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hJ, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_two]
+    simp [hJ, Matrix.mul_apply, Fin.sum_univ_two]
 
 private theorem hp_frob_transpose [CharP K 2] {q a : ℕ} (hq : q = 2 ^ a) {s : K}
     (hs : s ^ q + s = 1) :
@@ -144,8 +144,7 @@ private theorem hpInv_frob_transpose [CharP K 2] {q a : ℕ} (hq : q = 2 ^ a) {s
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [hp, hpInv, hJ, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
-      Fin.sum_univ_two, frob_one_add hq hs, frob_s hq hs] <;>
-    (try ring_nf) <;> simp [h2]
+      Fin.sum_univ_two, frob_one_add hq hs, frob_s hq hs]
 
 private theorem hD_frob [CharP K 2] {q a : ℕ} (hq : q = 2 ^ a) (T T' : K) :
     (hD T T').map (⇑(iterateFrobenius K 2 a)) = hD (T ^ q) (T' ^ q) := by
@@ -163,7 +162,7 @@ private theorem hD_J [CharP K 2] {q : ℕ} {T T' : K} (h1 : T ^ q * T' = 1)
   fin_cases i <;> fin_cases j <;>
     simp [hJ, Matrix.diagonal_mul, Matrix.mul_diagonal, h1, h2]
 
-private def block (q : ℕ) (s T T' : K) : Matrix (Fin 2) (Fin 2) K := hp s * hD T T' * hpInv s
+private def block (_q : ℕ) (s T T' : K) : Matrix (Fin 2) (Fin 2) K := hp s * hD T T' * hpInv s
 
 private theorem block_det [CharP K 2] (q : ℕ) (s T T' : K) :
     (block q s T T').det = T * T' := by
@@ -186,7 +185,7 @@ private theorem block_mulVec [CharP K 2] (q : ℕ) (s T T' : K) :
   have h2v : hD T T' *ᵥ ![1, 0] = ![T, 0] := by
     ext i
     fin_cases i <;>
-      simp [hD, Matrix.mulVec, dotProduct, Matrix.diagonal_apply, Fin.sum_univ_two]
+      simp [hD, Matrix.mulVec, dotProduct, Matrix.diagonal_apply]
   have h3 : hp s *ᵥ ![T, 0] = T • ![1, 1] := by
     ext i
     fin_cases i <;> simp [hp, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
@@ -286,7 +285,7 @@ private theorem gamma_mulVec [CharP K 2] (q : ℕ) (s : K) (t : Kˣ) :
       Sum.elim (![1, 1] : Fin 2 → K) (fun _ => 0) := by
     funext k
     rcases k with i | i <;> fin_cases i <;>
-      simp [hsum0, hsum1, hsum2, hsum3, e0, Pi.single_apply]
+      simp [hsum0, hsum1, hsum2, hsum3, e0]
   have hinl : ((Sum.elim (![1, 1] : Fin 2 → K) (fun _ => 0)) ∘
       (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2)) = ![1, 1] := by
     funext i; rfl
@@ -305,12 +304,12 @@ private theorem gamma_mulVec [CharP K 2] (q : ℕ) (s : K) (t : Kˣ) :
   obtain ⟨k, rfl⟩ := (finSumFinEquiv (m := 2) (n := 2)).surjective i
   simp only [Function.comp_apply, Equiv.symm_apply_apply]
   rcases k with j | j <;> fin_cases j <;>
-    simp [hsum0, hsum1, hsum2, hsum3, e0, Pi.single_apply]
+    simp [hsum0, hsum1, hsum2, hsum3, e0]
 
 theorem lineTorus_statedSU_four [Finite K] [CharP K 2] {q : ℕ} (hK : Nat.card K = q ^ 2) :
     LineTorus (StatedSU 4 q K) (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨a, hq⟩ := exists_pow_two_eq hK
   obtain ⟨s, hs⟩ := exists_add_pow_eq_one hq hK
   have hpow : ∀ x : K, x ^ (q * q) = x := fun x => by

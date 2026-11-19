@@ -87,9 +87,9 @@ theorem Psi.rootVec_apply_lab (ν : Fin TwistTag.E6.tag.rank → ℤ)
     rootVec TwistTag.E6.tag K ν (lab γ) = if ν = γ.1 - e6HighestRoot then 1 else 0 := by
   unfold rootVec
   by_cases hν : IsRoot TwistTag.E6.tag ν
-  · rw [dif_pos hν, lab, Finsupp.single_apply]
+  · rw [dite_eq_left hν, lab, Finsupp.single_apply]
     simp
-  · rw [dif_neg hν]
+  · rw [dite_eq_right hν]
     have : ν ≠ γ.1 - e6HighestRoot := fun e => hν (e ▸ isRoot_sub_highest γ)
     simp [this]
 
@@ -114,7 +114,7 @@ theorem Psi.piD_eq_zero_of_apply_eq_zero
 theorem psi_one : psi K (1 : ModGL TwistTag.E6.tag K) = 0 := by
   ext γ
   rw [psi_apply, Units.val_one, Module.End.one_apply, Psi.v0_eq, Finsupp.single_apply,
-    if_neg (Psi.lab_ne_lab0 γ).symm]
+    ite_eq_right (Psi.lab_ne_lab0 γ).symm]
   rfl
 
 theorem Psi.psi_conj (g z : ModGL TwistTag.E6.tag K) (l : K)

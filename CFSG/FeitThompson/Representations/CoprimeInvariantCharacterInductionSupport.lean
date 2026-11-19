@@ -28,7 +28,7 @@ variable {L : Type*} [Group L]
 
 theorem isMulCommutative_subgroup_of_le {A B : Subgroup L} [IsMulCommutative ↥B] (hAB : A ≤ B) :
     IsMulCommutative ↥A :=
-  IsMulCommutative.of_setLike_mul_comm fun a ha b hb => setLike_mul_comm (hAB ha) (hAB hb)
+  IsMulCommutative.of_setLike_mul_comm fun _a ha _b hb => setLike_mul_comm (hAB ha) (hAB hb)
 
 theorem mem_Irr_comp_inclusion_of_isMulCommutative {B : Subgroup L} [IsMulCommutative ↥B]
     {A : Subgroup L} (hAB : A ≤ B) {ψ : ↥B → ℂ} (hψ : ψ ∈ Irr ↥B) :

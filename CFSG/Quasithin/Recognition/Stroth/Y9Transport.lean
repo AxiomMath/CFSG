@@ -144,9 +144,9 @@ theorem pCoreOf_sup_eq_of_sylow_le {G : Type} [Group G] [Finite G]
 theorem le_of_isSylowTwoOf_normal {G : Type} [Group G] [Finite G]
     {U H T : Subgroup G} (hU : IsSylowTwoOf U H)
     (hUn : (U.subgroupOf H).Normal) (hT : T ≤ H) (hTp : IsPGroup 2 T) : T ≤ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥H := Subtype.finite
-  haveI : Finite (Sylow 2 ↥H) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥H := Subtype.finite
+  have : Finite (Sylow 2 ↥H) := inferInstance
   have hT' : IsPGroup 2 (T.subgroupOf H) :=
     hTp.of_equiv (Subgroup.subgroupOfEquivOfLe hT).symm
   obtain ⟨P, hTP⟩ := hT'.exists_le_sylow
@@ -155,7 +155,7 @@ theorem le_of_isSylowTwoOf_normal {G : Type} [Group G] [Finite G]
   let P₀ : Sylow 2 H := hU'.toSylow hU.2.2
   have hP₀coe : (P₀ : Subgroup H) = U.subgroupOf H := rfl
   have hP₀n : (P₀ : Subgroup H).Normal := by rw [hP₀coe]; exact hUn
-  letI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P₀ hP₀n
+  let : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P₀ hP₀n
   have huniq : P = P₀ := Subsingleton.elim P P₀
   intro x hx
   have hxP : (⟨x, hT hx⟩ : H) ∈ P := hTP hx

@@ -270,14 +270,14 @@ theorem card_inf_C2 :
 
 theorem exists_swap_Q : ∃ y : G, y * h.z * y⁻¹ = h.rG 2 ∧ y * h.rG 2 * y⁻¹ = h.z ∧
     (h.liftG (subW pWords3)).map (MulAut.conj y).toMonoidHom = h.liftG (subW pWords3) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨y, hy1, hy2⟩ := h.exists_swap
   refine exists_swap_normalizing (p := 2) hy1 hy2 h.le_inf_C2 ?_
   rw [h.card_inf_C2, factorization_two_eq (by norm_num : 589824 = 2 ^ 16 * 9) (by decide),
     card_liftG, sylCard3]
 
 theorem isConj_eight_nine : IsConj (h.rG 8) (h.rG 9) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨y, hy1, hy2, hyQ⟩ := h.exists_swap_Q
   have hA : h.ClassPred (IsConj h.z) {0, 2, 7} :=
     h.classPred_isConj (h.sq_eq_one_of_isConj_z (IsConj.refl _))

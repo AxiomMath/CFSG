@@ -38,7 +38,7 @@ theorem eq_of_mkQ_mul_eq_zBar {α β : Finset (Fin 7)} {hα : α.card = 4} {hβ 
       intro x hx
       by_contra hxα
       have h2 := (hs x hxα).1
-      rw [h1', zOf_vec_apply, if_pos hx] at h2
+      rw [h1', zOf_vec_apply, ite_eq_left hx] at h2
       exact one_ne_zero h2
     have h3 := range_eq_of_subset hsub
     rw [range_emb, range_emb] at h3

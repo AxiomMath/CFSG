@@ -7,7 +7,7 @@ public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.BGsection4.lemma_4_5_a
 public import CFSG.RankThree.Coprime.InvolutionFixedRankBound
 public import CFSG.GroupTheory.ABGLocalTools.CoreLemmas
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.BGsection1.CentralizerLemmas
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

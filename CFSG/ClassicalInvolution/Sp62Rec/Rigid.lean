@@ -37,7 +37,7 @@ theorem eq_of_maximal_in_centralizer [Finite G] (S : Sylow 2 G) (T : Subgroup G)
     (hmax : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer {e} → T ≤ Q → Q = T) :
     T = (S : Subgroup G) := by
   by_contra hne
-  haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   set T' : Subgroup ↥(S : Subgroup G) := T.subgroupOf (S : Subgroup G)
   have hlt : T' < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
@@ -45,7 +45,7 @@ theorem eq_of_maximal_in_centralizer [Finite G] (S : Sylow 2 G) (T : Subgroup G)
     have : (⟨x, hx⟩ : ↥(S : Subgroup G)) ∈ T' := by rw [h]; exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
   have hnc := (Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G))) T' hlt
-  obtain ⟨s, hsN, hsT'⟩ := SetLike.exists_of_lt hnc
+  obtain ⟨s, hsN, hsT'⟩ := _root_.IsConcreteLE.exists_of_lt hnc
   have hsN' : (s : G) ∈ Subgroup.normalizer (T : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro g
@@ -76,7 +76,7 @@ theorem eq_of_maximal_in_centralizer [Finite G] (S : Sylow 2 G) (T : Subgroup G)
     exact congrArg Subtype.val (θ.injective h1)
   have hQS : T ⊔ Subgroup.zpowers (s : G) ≤ (S : Subgroup G) :=
     sup_le hTS (Subgroup.zpowers_le.mpr s.2)
-  have hQp : IsPGroup 2 (T ⊔ Subgroup.zpowers (s : G) : Subgroup G) := S.isPGroup'.to_le hQS
+  have hQp : IsPGroup 2 (T ⊔ Subgroup.zpowers (s : G) : Subgroup G) := S.isPGroup.to_le hQS
   have hQC : T ⊔ Subgroup.zpowers (s : G) ≤ Subgroup.centralizer {e} :=
     sup_le hTC (Subgroup.zpowers_le.mpr hsC)
   have hQT := hmax _ hQp hQC le_sup_left

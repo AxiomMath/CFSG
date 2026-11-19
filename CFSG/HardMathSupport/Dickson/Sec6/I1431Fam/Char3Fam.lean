@@ -48,12 +48,12 @@ theorem y1431_noCfg_reeG2 (hKD : KDCharP 3) (hB : CFSG.TauCetiBridge.TypewiseBri
 
 theorem y1431_noCfg_g2High (hKD : KDCharP 3) (hB : CFSG.TauCetiBridge.TypewiseBridges)
     (hN : NoL2OuterAt FamG2) : Y1431NoCfgAt FamG2High :=
-  y1431NoCfgAt_char3_of_bridges hKD (.inr hB) (fun t n p f hF => hF.2)
-    (hOK_of_noL2OuterAt (noL2OuterAt_mono (fun t n p f hF => hF.1) hN))
+  y1431NoCfgAt_char3_of_bridges hKD (.inr hB) (fun _t _n _p _f hF => hF.2)
+    (hOK_of_noL2OuterAt (noL2OuterAt_mono (fun _t _n _p _f hF => hF.1) hN))
 
 theorem y1431_noCfg_triD4High (hKD : KDCharP 3) (hB : CFSG.TauCetiBridge.TypewiseBridges)
     (hOut : OutDerived3At FamTriD4High) : Y1431NoCfgAt FamTriD4High :=
-  y1431NoCfgAt_char3_of_outDerived hKD (.inr hB) (fun t n p f hF => hF.2) hOut
+  y1431NoCfgAt_char3_of_outDerived hKD (.inr hB) (fun _t _n _p _f hF => hF.2) hOut
 
 section Certified
 

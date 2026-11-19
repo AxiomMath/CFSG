@@ -78,8 +78,8 @@ theorem s16h_three_dvd_of_g2NaturalDerived
     {U Z : Subgroup W} (hH : CFSG.Open.IsQuasisimple ↥H) (h : G2NaturalDerived H U Z 1) :
     3 ∣ Nat.card ↥H := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π, hπ⟩ := hreal
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   obtain ⟨hDsimple, hDcard⟩ := CFSG.Quasithin.B69.g2Derived_simple_card (K := K) hK2
@@ -91,8 +91,8 @@ theorem s16h_three_dvd_of_g2NaturalDerived
 theorem s16h_three_dvd_of_tripleA6Six {H : Subgroup (MulAut W)} {U Z : Subgroup W}
     (hH : CFSG.Open.IsQuasisimple ↥H) (h : TripleA6Six H U Z) : 3 ∣ Nat.card ↥H := by
   obtain ⟨K, hKf, hKfin, Γ₀, hKcard, hdet, hHat, hcenter, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π₀, hπ₀⟩ := hreal
   let π : ↥Γ₀ →* ↥H := π₀
   have hsurj : Function.Surjective π := hπ₀.1
@@ -100,7 +100,7 @@ theorem s16h_three_dvd_of_tripleA6Six {H : Subgroup (MulAut W)} {U Z : Subgroup 
   have hmapnormal : ((MonoidHom.ker π).map (QuotientGroup.mk' (Subgroup.center ↥Γ₀))).Normal :=
     hNnormal.map _ (QuotientGroup.mk'_surjective _)
   have hQsimple : IsSimpleGroup (↥Γ₀ ⧸ Subgroup.center ↥Γ₀) := hHat.1.2.1
-  haveI := hmapnormal
+  have := hmapnormal
   rcases hQsimple.eq_bot_or_eq_top_of_normal
       ((MonoidHom.ker π).map (QuotientGroup.mk' (Subgroup.center ↥Γ₀))) with hbot | htop
   · have hNle : MonoidHom.ker π ≤ Subgroup.center ↥Γ₀ := by
@@ -125,7 +125,7 @@ theorem s16h_three_dvd_of_tripleA6Six {H : Subgroup (MulAut W)} {U Z : Subgroup 
     have hsup : MonoidHom.ker π ⊔ Subgroup.center ↥Γ₀ = ⊤ := by
       rw [sup_comm, ← QuotientGroup.comap_map_mk' (Subgroup.center ↥Γ₀) (MonoidHom.ker π), htop]
       simp
-    haveI hZcomm : IsMulCommutative ↥(Subgroup.center ↥Γ₀) := inferInstance
+    have hZcomm : IsMulCommutative ↥(Subgroup.center ↥Γ₀) := inferInstance
     have hcomm : commutator ↥Γ₀ ≤ MonoidHom.ker π :=
       hNnormal.commutator_le_of_self_sup_commutative_eq_top hsup
     have hkertop : MonoidHom.ker π = ⊤ := by

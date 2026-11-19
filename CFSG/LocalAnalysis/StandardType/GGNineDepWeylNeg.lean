@@ -14,8 +14,8 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 private theorem ggNineDepWeylNegAux_piSingle_apply {n : ℕ} (j r : Fin n) :
     (Pi.single j 1 : Fin n → ZMod 3) r = if r = j then 1 else 0 := by
   by_cases h : r = j
-  · rw [h, if_pos rfl, Pi.single_eq_same]
-  · rw [if_neg h, Pi.single_eq_of_ne h]
+  · rw [h, ite_eq_left rfl, Pi.single_eq_same]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne h]
 
 private noncomputable def ggNineDepWeylNegAux_matE {n : ℕ}
     (C : Matrix (Fin n) (Fin n) (ZMod 3)) (i : Fin n) :
@@ -73,8 +73,8 @@ private theorem ggNineDepWeylNegAux_neg_mem {U : Type} [AddCommGroup U] [Module 
     ext r
     rw [ggNineDepWeylNegAux_piSingle_apply j r, Basis.equivFun_self]
     by_cases h : j = r
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   have hφ_apply : ∀ i v, φ (s i v) = ggNineDepWeylNegAux_matE C i *ᵥ (φ v) := by
     intro i v
     have hlm : (φ : U →ₗ[ZMod 3] (Fin n → ZMod 3)).comp (s i : U →ₗ[ZMod 3] U) =

@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -94,7 +94,7 @@ theorem odd_isCoprime_two_pow {M : ℕ} (hM : Odd M) (b : ℕ) : IsCoprime (M : 
   exact ⟨1, -(k : ℤ), by push_cast; ring⟩
 
 theorem sep_beta_eq {M : ℕ} (hM : Odd M) {a : ℕ} (ha0 : ¬ (M : ℤ) ∣ a) {X Y : Fin r → ℤ}
-    (hXY : X ≠ Y) (hX : Cont2 (X - Y)) (h : ∀ i, (M : ℤ) ∣ (a : ℤ) * (X i - Y i)) : False :=
+    (_hXY : X ≠ Y) (hX : Cont2 (X - Y)) (h : ∀ i, (M : ℤ) ∣ (a : ℤ) * (X i - Y i)) : False :=
   ha0 (dvd_of_cont2 (δ := X - Y) hX hM h)
 
 theorem class_sep_gcd (X β : ι → Fin r → ℤ) (M a b : ℕ) (hM : Odd M) (hh : 3 ≤ Nat.gcd a M)
@@ -139,9 +139,8 @@ theorem key_cases (M a b : ℕ) (ν μ : ℤ) (hν : ν = 1 ∨ ν = -1 ∨ ν =
     (hA5 : ¬ (M : ℤ) ∣ (a : ℤ) - 2 ^ (b + 1)) (hA6 : ¬ (M : ℤ) ∣ (a : ℤ) + 2 ^ (b + 1)) : False := by
   have n1 : ∀ u : ℤ, (M : ℤ) ∣ -u → (M : ℤ) ∣ u := fun u h => by simpa using h
   rcases hν with rfl | rfl | rfl | rfl <;> rcases hμ with rfl | rfl | rfl | rfl <;>
-    first
+    try first
     | (exfalso; revert hcop; decide)
-    | skip
   · exact hA1 (by have : (a : ℤ) * 1 - 2 ^ b * 1 = a - 2 ^ b := by ring
                   rwa [this] at key)
   · exact hA2 (by have : (a : ℤ) * 1 - 2 ^ b * (-1) = a + 2 ^ b := by ring

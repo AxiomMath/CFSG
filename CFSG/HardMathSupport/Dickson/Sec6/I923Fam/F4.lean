@@ -51,7 +51,7 @@ theorem noL2OuterAt_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInp
     NoL2OuterAt FamF4 := by
   intro P _ _ t n p f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .F4 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -66,7 +66,7 @@ theorem noL2OuterAt_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInp
   obtain ⟨d, T, δ, hfd, hTo, hTc, hδ⟩ := F4_descent hf F hFcard _ hβ3 hβinn
   refine noL2Layer_congr θ (noL2Layer_of_conj_pow (r := 1) (j := 1) (by simp) (by simpa using hδ) ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.F4 ↥(fixSubfield T)) .F4 p d :=
     ⟨⟨hadm.1, hd, rfl⟩, untwisted_adjointGroup hTc⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_f4_simplicity _ p d hM

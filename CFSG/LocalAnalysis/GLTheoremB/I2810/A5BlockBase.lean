@@ -81,15 +81,18 @@ section Setting
 
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal] {n : ℕ}
 
+omit [Finite X] in
 theorem piOf_eq_one_iff
     (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))) (k : ↥K) :
     piOf e k = 1 ↔ (k : X) ∈ zPre W K :=
   (BlocksChief.piOf_props_aux e).2 k
 
+omit [Finite X] in
 theorem piOf_eq_one_of_mem {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))}
     {k : ↥K} (hk : (k : X) ∈ W) : piOf e k = 1 := by
   rw [piOf_apply, (BlocksChief.toBar_eq_one_iff k).2 hk, map_one]
 
+omit [Finite X] in
 theorem perfect_bar (h : Setup28 W K S) : commutator ↥(bar W K) = ⊤ := by
   have hK : (⁅(⊤ : Subgroup ↥K), ⊤⁆ : Subgroup ↥K) = ⊤ := by
     rw [← commutator_def]; exact A5Ind.commutator_K h
@@ -118,12 +121,14 @@ theorem central_eq_one_of_two_pow (h : Setup28 W K S) {z : ↥(bar W K)}
   have h3 : orderOf z = 1 := by rw [hi, hi0, pow_zero]
   exact orderOf_eq_one_iff.1 h3
 
+omit [Finite X] in
 theorem inf_le_zPre : K ⊓ W ≤ zPre W K := fun w hw =>
   ⟨hw.1, fun k _ => by
     have h1 : ⁅w, k⁆ = w * (k * w⁻¹ * k⁻¹) := by simp only [commutatorElement_def]; group
     rw [h1]
     exact W.mul_mem hw.2 (Subgroup.Normal.conj_mem inferInstance _ (W.inv_mem hw.2) k)⟩
 
+omit [Finite X] in
 theorem exists_two_pow_of_mem (h : Setup28 W K S) {s : X} (hs : s ∈ S) : ∃ m : ℕ, s ^ (2 ^ m) = 1 := by
   obtain ⟨m, hm⟩ := h.hS ⟨s, hs⟩
   exact ⟨m, by simpa using congrArg Subtype.val hm⟩

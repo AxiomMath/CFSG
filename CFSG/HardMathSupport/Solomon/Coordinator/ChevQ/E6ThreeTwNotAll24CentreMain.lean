@@ -31,7 +31,7 @@ theorem not_three_dvd_center_of_dim (K : Type) [Field K] [Finite K] (σ : K ≃+
     (hJ : CFSG.Open.IsComponentOf J (fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h)))) :
     ¬ 3 ∣ Nat.card (Subgroup.center J) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c
@@ -58,7 +58,7 @@ theorem not_three_dvd_center_of_dim (K : Type) [Field K] [Finite K] (σ : K ≃+
     (twistedE6InndiagConj K σ h) hconj hT hap h1 hTame hJ
   have e : J ≃* ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     (J.equivMapOfInjective ι hinj).trans (MulEquiv.subgroupCongr hi)
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := Finite.of_equiv J e.toEquiv
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := Finite.of_equiv J e.toEquiv
   have h3q' : 3 ∣ S.D.q + 1 := by rw [hDq, ← hqf]; exact h3q
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hDq]; exact hFr c
   rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv]

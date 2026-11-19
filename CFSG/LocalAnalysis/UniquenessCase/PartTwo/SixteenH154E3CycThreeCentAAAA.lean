@@ -134,7 +134,7 @@ theorem s16h_e3_three_summands_fixed_pair {Ω : Type} [CommGroup Ω] [Finite Ω]
       Nat.card ↥B ≤ 3 * Nat.card ↥(B ⊓ centSub X))
     {X Y : Subgroup Ω} (hX : X ∈ 𝒲) (hY : Y ∈ 𝒲) :
     ∃ e ∈ E, e ≠ 1 ∧ e ∈ centSub X ∧ e ∈ centSub Y := by
-  haveI hEcomm : IsMulCommutative ↥E := hE.1
+  have hEcomm : IsMulCommutative ↥E := hE.1
   have hWfin : 𝒲.Finite := Set.finite_of_ncard_ne_zero (by rw [hcard]; norm_num)
   have hstab_eq : ∀ Z : Subgroup Ω,
       MulAction.stabilizer ↥E Z = (E ⊓ stabSub Z).subgroupOf E := by

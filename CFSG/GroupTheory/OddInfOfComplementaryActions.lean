@@ -10,10 +10,11 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G] {Q E₁ E₂ P₁ P₂ O : Subgroup G}
 
+omit [Finite G] in
 private theorem eq_one_of_mem_Q_inf_O (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     {x : G} (hxQ : x ∈ Q) (hxO : x ∈ O) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (orderOf x) := ((hO x).mp hxO).2
   obtain ⟨k, hk⟩ := hQ.exists_orderOf_eq_pow ⟨x, hxQ⟩
   have hk' : orderOf x = 2 ^ k := by simpa only [Subgroup.orderOf_mk] using hk
@@ -40,27 +41,31 @@ private noncomputable def proj₂
     Classical.choose ((Classical.choose_spec (hEF q hq)).2)
   else 1
 
+omit [Finite G] in
 private theorem proj₁_mem (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     {q : G} (hq : q ∈ Q) : proj₁ hEF q ∈ E := by
   classical
   unfold proj₁
-  rw [dif_pos hq]
+  rw [dite_eq_left hq]
   exact (Classical.choose_spec (hEF q hq)).1
 
+omit [Finite G] in
 private theorem proj₂_mem (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     {q : G} (hq : q ∈ Q) : proj₂ hEF q ∈ F := by
   classical
   unfold proj₂
-  rw [dif_pos hq]
+  rw [dite_eq_left hq]
   exact (Classical.choose_spec ((Classical.choose_spec (hEF q hq)).2)).1
 
+omit [Finite G] in
 private theorem proj₁_mul_proj₂ (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     {q : G} (hq : q ∈ Q) : proj₁ hEF q * proj₂ hEF q = q := by
   classical
   unfold proj₁ proj₂
-  rw [dif_pos hq, dif_pos hq]
+  rw [dite_eq_left hq, dite_eq_left hq]
   exact (Classical.choose_spec ((Classical.choose_spec (hEF q hq)).2)).2.symm
 
+omit [Finite G] in
 private theorem proj₁_eq_of_decomp (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     (hbot : E ⊓ F = ⊥) {q e f : G} (hq : q ∈ Q) (he : e ∈ E) (hf : f ∈ F)
     (h : q = e * f) : e = proj₁ hEF q := by
@@ -82,6 +87,7 @@ private theorem proj₁_eq_of_decomp (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ 
   have hone : e⁻¹ * proj₁ hEF q = 1 := by simpa using hmem'
   exact inv_mul_eq_one.mp hone
 
+omit [Finite G] in
 private theorem proj₂_eq_of_decomp (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     (hbot : E ⊓ F = ⊥) {q e f : G} (hq : q ∈ Q) (he : e ∈ E) (hf : f ∈ F)
     (h : q = e * f) : f = proj₂ hEF q := by
@@ -103,6 +109,7 @@ private theorem proj₂_eq_of_decomp (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ 
   have hone : f * (proj₂ hEF q)⁻¹ = 1 := by simpa using hmem'
   exact mul_inv_eq_one.mp hone
 
+omit [Finite G] in
 private theorem proj₂_one (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
     (hbot : E ⊓ F = ⊥) : proj₂ hEF (1 : G) = 1 := by
   classical
@@ -110,6 +117,7 @@ private theorem proj₂_one (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e 
     (by simp : (1 : G) = 1 * 1)
   exact h.symm
 
+omit [Finite G] in
 private theorem proj₁_mul (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f) (hbot : E ⊓ F = ⊥)
     (hEQ : E ≤ Q) (hFQ : F ≤ Q)
@@ -134,6 +142,7 @@ private theorem proj₁_mul (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
   exact (proj₁_eq_of_decomp hEF hbot (Q.mul_mem hq hq')
     (E.mul_mem h₁ h₁') (F.mul_mem h₂ h₂') hdec).symm
 
+omit [Finite G] in
 private theorem proj₂_mul (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f) (hbot : E ⊓ F = ⊥)
     (hEQ : E ≤ Q) (hFQ : F ≤ Q)
@@ -158,6 +167,7 @@ private theorem proj₂_mul (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
   exact (proj₂_eq_of_decomp hEF hbot (Q.mul_mem hq hq')
     (E.mul_mem h₁ h₁') (F.mul_mem h₂ h₂') hdec).symm
 
+omit [Finite G] in
 private theorem proj₁_conj {U : Subgroup G}
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f) (hbot : E ⊓ F = ⊥)
     (hUQ : U ≤ Subgroup.normalizer (Q : Set G))
@@ -183,6 +193,7 @@ private theorem proj₁_conj {U : Subgroup G}
     (by rw [h₂]; exact proj₂_mem hEF hq) hdec
   exact h.symm
 
+omit [Finite G] in
 private theorem proj₂_conj {U : Subgroup G}
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f) (hbot : E ⊓ F = ⊥)
     (hUQ : U ≤ Subgroup.normalizer (Q : Set G))
@@ -209,6 +220,7 @@ private theorem proj₂_conj {U : Subgroup G}
   rw [h₂] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem proj₂_inv (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f) (hbot : E ⊓ F = ⊥)
     (hEQ : E ≤ Q) (hFQ : F ≤ Q) {q : G} (hq : q ∈ Q) :
@@ -238,6 +250,7 @@ private noncomputable def qPart
       (hCQ x fun q hq => (Subgroup.mem_centralizer_iff.mp hx q hq).symm)
   else 1
 
+omit [Finite G] in
 private theorem qPart_mem_and_spec
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
       ∃ q ∈ Q, ∃ o ∈ O, x = q * o)
@@ -245,10 +258,11 @@ private theorem qPart_mem_and_spec
     qPart hCQ x ∈ Q ∧ ∃ o ∈ O, x = qPart hCQ x * o := by
   classical
   unfold qPart
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   exact Classical.choose_spec
     (hCQ x fun q hq => (Subgroup.mem_centralizer_iff.mp hx q hq).symm)
 
+omit [Finite G] in
 private theorem qPart_eq_of_mem (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -272,6 +286,7 @@ private theorem qPart_eq_of_mem (hQ : IsPGroup 2 Q)
     eq_one_of_mem_Q_inf_O hQ hO hmem.1 hmem.2
   exact inv_mul_eq_one.mp hone
 
+omit [Finite G] in
 private theorem qPart_eq_one_of_mem_O (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -284,6 +299,7 @@ private theorem qPart_eq_one_of_mem_O (hQ : IsPGroup 2 Q)
   have h := qPart_eq_of_mem hQ hO hCQ hxcent (Q.one_mem) hx (by simp)
   exact h.symm
 
+omit [Finite G] in
 private theorem qPart_one (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -293,6 +309,7 @@ private theorem qPart_one (hQ : IsPGroup 2 Q)
     (by simp : (1 : G) = 1 * 1)
   exact h.symm
 
+omit [Finite G] in
 private theorem qPart_mul (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -318,6 +335,7 @@ private theorem qPart_mul (hQ : IsPGroup 2 Q)
   exact (qPart_eq_of_mem hQ hO hCQ hxy (Q.mul_mem hqx hqy) (O.mul_mem hox hoy)
     hdecomp).symm
 
+omit [Finite G] in
 private theorem qPart_inv (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -336,6 +354,7 @@ private theorem qPart_inv (hQ : IsPGroup 2 Q)
   have hprod : qPart hCQ x * qPart hCQ x⁻¹ = 1 := by rw [← hmul, hone]
   exact mul_eq_one_iff_eq_inv'.mp hprod
 
+omit [Finite G] in
 private theorem conj_mem_centralizer {n x : G}
     (hn : n ∈ Subgroup.normalizer (Q : Set G))
     (hx : x ∈ Subgroup.centralizer (Q : Set G)) :
@@ -348,6 +367,7 @@ private theorem conj_mem_centralizer {n x : G}
     _ = n * (x * (n⁻¹ * q * n)) * n⁻¹ := by rw [hxq]
     _ = (n * x * n⁻¹) * q := by group
 
+omit [Finite G] in
 private theorem conj_mem_O
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     {n o : G} (hn : n ∈ Subgroup.normalizer (Q : Set G)) (ho : o ∈ O) :
@@ -366,6 +386,7 @@ private theorem conj_mem_O
     rw [hord]
     exact ((hO o).mp ho).2
 
+omit [Finite G] in
 private theorem qPart_conj (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -384,6 +405,7 @@ private theorem qPart_conj (hQ : IsPGroup 2 Q)
     group
   exact (qPart_eq_of_mem hQ hO hCQ (conj_mem_centralizer hn hx) hqQ hoO hdec).symm
 
+omit [Finite G] in
 private theorem P₁_le_normalizer_Q
     (hE : ∀ q ∈ Q, ∃ e₁ ∈ E₁, ∃ e₂ ∈ E₂, q = e₁ * e₂)
     (hE₁ : E₁ ≤ Q) (hE₂ : E₂ ≤ Q)
@@ -403,6 +425,7 @@ private theorem P₁_le_normalizer_Q
   rw [hprod, h2]
   exact Q.mul_mem (hE₁ h1) (hE₂ he₂)
 
+omit [Finite G] in
 private theorem P₂_le_normalizer_Q
     (hE : ∀ q ∈ Q, ∃ e₁ ∈ E₁, ∃ e₂ ∈ E₂, q = e₁ * e₂)
     (hE₁ : E₁ ≤ Q) (hE₂ : E₂ ≤ Q)
@@ -422,6 +445,7 @@ private theorem P₂_le_normalizer_Q
   rw [hprod, h1]
   exact Q.mul_mem (hE₁ he₁) (hE₂ h2)
 
+omit [Finite G] in
 private theorem commutator_mem_centralizer
     {E F U V : Subgroup G}
     (hEF : ∀ q ∈ Q, ∃ e ∈ E, ∃ f ∈ F, q = e * f)
@@ -445,6 +469,7 @@ private theorem commutator_mem_centralizer
     _ = ((u * v * u⁻¹ * v⁻¹) * e) * f := by rw [hve]
     _ = (u * v * u⁻¹ * v⁻¹) * (e * f) := by group
 
+omit [Finite G] in
 private theorem proj₂_qPart_commutator_eq_one
     (hQ : IsPGroup 2 Q)
     (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
@@ -463,7 +488,7 @@ private theorem proj₂_qPart_commutator_eq_one
     {v : G} (hv : v ∈ V) {u : G} (hu : u ∈ U) :
     proj₂ hEF (qPart hCQ (u * v * u⁻¹ * v⁻¹)) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : G → G := fun a => proj₂ hEF (qPart hCQ (a * v * a⁻¹ * v⁻¹))
   have hf_mul : ∀ a ∈ U, ∀ a' ∈ U, f (a * a') = f a * f a' := by
     intro a ha a' ha'
@@ -568,6 +593,7 @@ private theorem proj₂_qPart_commutator_eq_one
         rw [hinv, ihb (hUle hb), inv_one]
   exact hf_all u hu
 
+omit [Finite G] in
 theorem commutator_mem_of_complementary_actions
     (hQ : IsPGroup 2 Q)
     (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
@@ -665,6 +691,7 @@ theorem commutator_mem_of_complementary_actions
   rw [hβeq]
   exact ho
 
+omit [Finite G] in
 private theorem conj_qPart_eq_of_commutator_mem_O (hQ : IsPGroup 2 Q)
     (hO : ∀ x, x ∈ O ↔ (∀ q ∈ Q, x * q = q * x) ∧ Odd (orderOf x))
     (hCQ : ∀ x, (∀ q ∈ Q, x * q = q * x) →
@@ -707,7 +734,7 @@ theorem odd_card_inf_of_complementary_actions
     (hC₂ : ∀ e ∈ E₂, (∀ y ∈ P₂, y * e * y⁻¹ = e) → e = 1) :
     Odd (Nat.card ↥(P₁ ⊓ P₂)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUE : P₁ ≤ Subgroup.normalizer (E₁ : Set G) := by
     rw [Subgroup.le_set_normalizer_iff]
     exact h₁₁

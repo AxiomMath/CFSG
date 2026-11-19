@@ -29,8 +29,8 @@ theorem burnsideB49x_four_card_le (hK : Nat.card K = 2)
       finrank (ZMod 2) X = 2 ∧
         burnsideB49x_hatW hV U G (burnsideB49_hG hreal) A = burnsideB49x_gl_Q X) := by
   set hG := burnsideB49_hG hreal with hGdef
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 4 := burnsideB49_finrank_W hV hK hreal hquot
   have hcard := burnsideB49x_card_hatW hV U G hG (burnsideB49_iota_injective hV hreal hquot) hAG
   obtain ⟨hc, hs⟩ := burnsideB49x_hatW_elem hV U G hG hA
@@ -58,8 +58,8 @@ theorem burnsideB49x_four_sixteen (hK : Nat.card K = 2)
     16 ≤ Nat.card A := by
   set hG := burnsideB49_hG hreal with hGdef
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 4 := burnsideB49_finrank_W hV hK hreal hquot
   have hcard := burnsideB49x_card_hatW hV U G hG (burnsideB49_iota_injective hV hreal hquot) hAG
   have h1 := burnsideB49x_offender_dual hV hK hreal hdual hAG hoff
@@ -115,8 +115,8 @@ theorem burnsideB49x_four_Jj (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   have hTG : T ≤ G := hT.1
   have hinj := burnsideB49_iota_injective hV hreal hquot
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 4 := burnsideB49_finrank_W hV hK hreal hquot
   have hTp : IsPGroup 2 (burnsideB49x_hatW hV U G hG T) := by
     have h1 : IsPGroup 2 (T.subgroupOf G) := hT.2.1.comap_subtype
@@ -188,8 +188,8 @@ theorem burnsideB49x_four_q (hK : Nat.card K = 2)
   have hle16 := (burnsideB49x_four_card_le hV hK hreal hquot hB.1 hB.2.2.1).1
   have hfix := burnsideB49x_card_fixV_le_dual hV hK hreal hdual B
   have hcardV := burnsideB49x_card_V_W hV hK hreal hquot
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 4 := burnsideB49_finrank_W hV hK hreal hquot
   set c := finrank (ZMod 2) (burnsideB49x_wfix (burnsideB49x_hatW hV U G hG B)) with hcdef
   set b := finrank (ZMod 2) (burnsideB49x_wcomm (burnsideB49x_hatW hV U G hG B)) with hbdef

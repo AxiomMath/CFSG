@@ -143,7 +143,7 @@ theorem fieldU6ExpAt_holds (G : Type) [Group G] [Finite G] : FieldU6ExpAt G := b
     cases d with
     | twistedA r q =>
       rcases r with _ | _ | _ | _ | _ | _ | r
-      all_goals first | exact hP.elim | skip
+      all_goals try exact hP.elim
       · have hm := lieModel_twistedA' 5 q hv e
         rw [hP.1, hP.2] at hm
         exact CFSG.Models.LieModel.toBlueprint (by decide) hm
@@ -158,7 +158,7 @@ theorem fieldU6ExpAt_holds (G : Type) [Group G] [Finite G] : FieldU6ExpAt G := b
   have hKc : Nat.card K' = (2 ^ m) ^ 2 := hK'
   have hUFD : UnitaryFieldData 2 m K' :=
     ⟨Nat.prime_two, hm1, by rw [hKc, ← pow_mul, mul_comm]⟩
-  haveI := hUFD.finite
+  have := hUFD.finite
   have hf6 := pow_eq_one_of_mem_field_unitary hUFD (by norm_num) hm1 hKc hf
   have h3 : 3 ∣ 2 * m := by
     rw [← hord]

@@ -25,9 +25,9 @@ open CFSG.SeitzReduction.SymplecticPilot (CatSp2mEvenOuterExact)
 theorem isQuasisimple_of_open {K : Type} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     CFSG.IsQuasisimple K := by
   obtain ⟨h1, h2⟩ := hK
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr h1
-  haveI : IsSimpleGroup (K ⧸ center K) := h2
-  haveI : Group.IsPerfect (K ⧸ center K) :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr h1
+  have : IsSimpleGroup (K ⧸ center K) := h2
+  have : Group.IsPerfect (K ⧸ center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (center K))
       (QuotientGroup.mk'_surjective _)
   exact ⟨‹_›, h2, exists_noncomm_of_perfect_simple Group.IsPerfect.commutator_eq_top⟩
@@ -57,7 +57,7 @@ theorem kdCo3Cat_of_inputs (I : ArmInputs) (hEven : CatSp2mEvenOuterExact 3)
   intro K _ _ hKq hcat h2 ζ hζ D hDle hDidx hD hZD
   have hKq' : CFSG.IsQuasisimple K := isQuasisimple_of_open hKq
   obtain ⟨hσ, hfix, hcomp, hmodel⟩ := kd_reduce hKq hζ hDle hDidx hD hZD
-  haveI : IsSimpleGroup (K ⧸ center K) := hKq.2
+  have : IsSimpleGroup (K ⧸ center K) := hKq.2
   obtain ⟨hout, hcases⟩ := kd_arms I hEven hKq'.2.2 hcat hσ hfix hcomp hmodel
   refine ⟨?_, ?_⟩
   · rcases hcases with hs | ht
@@ -65,7 +65,7 @@ theorem kdCo3Cat_of_inputs (I : ArmInputs) (hEven : CatSp2mEvenOuterExact 3)
     · exfalso
       have hbot := kd_center_eq_bot_of_trivial_multiplier hGA hKq' h2 ht
       have hc : Nat.card (center ↥D) = 2 := hD.2.1
-      haveI : Nontrivial (center ↥D) := by
+      have : Nontrivial (center ↥D) := by
         rw [← Finite.one_lt_card_iff_nontrivial, hc]
         norm_num
       obtain ⟨⟨d, hd⟩, hd1⟩ := exists_ne (1 : center ↥D)

@@ -39,7 +39,7 @@ theorem cfInner_single {X : Type*} [Fintype X] [DecidableEq X] (k : X → ℂ) (
     rw [Pi.single_apply]
     split <;> simp
   rw [cfInner_def, Finset.sum_congr rfl fun x _ => hstep x,
-    Finset.sum_ite_eq' Finset.univ v k, if_pos (Finset.mem_univ v)]
+    Finset.sum_ite_eq' Finset.univ v k, ite_eq_left (Finset.mem_univ v)]
 
 variable {G : Type*} [Group G] [Fintype G]
 

@@ -29,7 +29,7 @@ theorem exists_centralizing_lift {P : Subgroup Γ} {β : Γ}
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 P hβP
   have hOp : IsPGroup 2 O := (CFSG.pCore_isPGroup (p := 2) (G := ↥P)).map P.subtype
   have hsolv : Group.IsSolvable O := by
-    haveI := hOp.isNilpotent
+    have := hOp.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card (zpowers β)) (Nat.card O) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (G := O)).1 hOp

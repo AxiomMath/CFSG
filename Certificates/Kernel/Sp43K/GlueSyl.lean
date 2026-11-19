@@ -46,7 +46,7 @@ theorem kD_lt : ∀ m, m + 1 < 1296 → kD m < kD (m + 1) := by
   · obtain ⟨-, h⟩ := sylC_parts (j := (m + 1) / 162) (by omega)
     have hj0 : (m + 1) / 162 ≠ 0 := by omega
     have e1 : 162 * ((m + 1) / 162) - 1 = m := by omega
-    rw [if_neg hj0, e1] at h
+    rw [ite_eq_right hj0, e1] at h
     have := (sylGo_spec _ _ h).2.1 (by
       intro h'
       have := congrArg List.length h'

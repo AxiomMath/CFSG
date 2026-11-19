@@ -21,14 +21,14 @@ theorem uc22ine229_exists_mem_normalizer_not_mem_centralizer {H : Type*} [Group 
     (hperf : _root_.commutator H = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hrank : CFSG.Open.pRank q (⊤ : Subgroup H) ≤ 1) {X : Subgroup H} (hXc : Nat.card X = q) :
     ∃ w ∈ normalizer (X : Set H), w ∉ centralizer (X : Set H) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hXq : IsPGroup q X := IsPGroup.of_card (n := 1) (by rw [hXc, pow_one])
   obtain ⟨P, hXP⟩ := hXq.exists_le_sylow
   have hcyc : IsCyclic (P : Subgroup H) :=
     RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one hq2 hrank P
-  haveI := hcyc
-  haveI : IsMulCommutative (P : Subgroup H) := IsCyclic.isMulCommutative
-  haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by rw [hXc]; exact hq.one_lt)
+  have := hcyc
+  have : IsMulCommutative (P : Subgroup H) := IsCyclic.isMulCommutative
+  have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by rw [hXc]; exact hq.one_lt)
   obtain ⟨⟨x, hxX⟩, hx1⟩ := exists_ne (1 : X)
   by_contra hcon
   push Not at hcon
@@ -54,6 +54,7 @@ theorem uc22ine229_exists_lift {Y X : Subgroup G} (hXY : X ≤ Y) {q : ℕ} (hq 
   rw [← Subgroup.subgroupOf_normalizer_eq hXY, SetLike.mem_coe, Subgroup.mem_subgroupOf] at hy
   exact ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem uc22ine229_mk_mem_centralizer {Y X : Subgroup G} {y : ↥Y}
     (hy : (y : G) ∈ centralizer (X : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥Y) y ∈ centralizer
@@ -63,6 +64,7 @@ theorem uc22ine229_mk_mem_centralizer {Y X : Subgroup G} {y : ↥Y}
   rw [← map_mul, ← map_mul]
   exact congrArg _ (Subtype.ext (Subgroup.mem_centralizer_iff.1 hy x hx))
 
+omit [Finite G] in
 theorem uc22ine229_card_map {Y X : Subgroup G} (hXY : X ≤ Y) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hXc : Nat.card X = q) :
     Nat.card ((X.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))) = q := by
@@ -97,8 +99,8 @@ theorem uc22ine229_exists_prime_part {X : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hwC : w ∉ centralizer (X : Set G)) :
     ∃ ℓ : ℕ, ℓ.Prime ∧ ℓ ∣ q - 1 ∧ ∃ u ∈ zpowers w, (∃ e : ℕ, u ^ ℓ ^ e = 1) ∧
       u ∉ centralizer (X : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card hXc
+  have : Fact q.Prime := ⟨hq⟩
+  have : IsCyclic X := isCyclic_of_prime_card hXc
   have hker : ∀ n : normalizer (X : Set G), X.normalizerMonoidHom n = 1 →
       (n : G) ∈ centralizer (X : Set G) := by
     intro n hn

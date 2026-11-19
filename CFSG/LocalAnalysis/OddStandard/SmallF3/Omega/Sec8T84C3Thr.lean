@@ -39,10 +39,10 @@ theorem false_of_order_seventeen {V : Type} [CommGroup V] [Finite V] (hsq : ∀ 
       have := congrArg (fun m : MulAut V => m e) hcomm
       simpa [MulAut.mul_apply] using this.symm
     rw [h1, he]
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   have hmod := card_fix_modEq ζ (fixE x) hTinv 17 1 (by simpa using hζ)
   have hone : Nat.card {d : fixE x // ζ d = d} = 1 := by
-    haveI : Unique {d : fixE x // ζ d = d} :=
+    have : Unique {d : fixE x // ζ d = d} :=
       { default := ⟨1, by simp⟩
         uniq := fun d => Subtype.ext (Subtype.ext (hfix _ d.2)) }
     exact Nat.card_unique

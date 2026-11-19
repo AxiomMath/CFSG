@@ -17,7 +17,7 @@ section Field
 theorem triOdd_sigma_pow_three {X : Type} [Field X] [Finite X] (σ : X ≃+* X) (q : ℕ)
     (hX : Nat.card X = q ^ 3) (hσ : ∀ c : X, σ c = c ^ q) : σ ^ 3 = 1 := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   refine RingEquiv.ext fun c => ?_
   show (σ ^ 3) c = c
   rw [nf1_pow_apply σ q hσ 3 c, ← hX, Nat.card_eq_fintype_card]
@@ -52,7 +52,7 @@ theorem triOdd_plane_shape {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) 
   classical
   obtain ⟨-, hdec, ⟨Θ, hΘ, -, hker, -⟩, hcyc, hcard3, -, hZ, -⟩ :=
     odd_triality_exact_automorphism_normal_form hℓ hℓ2 hf X hX σ hσ
-  haveI : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
   have hq2 : 2 ≤ ℓ ^ f := by
     calc 2 ≤ ℓ := hℓ.two_le
       _ = ℓ ^ 1 := (pow_one ℓ).symm
@@ -60,8 +60,8 @@ theorem triOdd_plane_shape {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) 
   have hσ3 : σ ^ 3 = 1 := triOdd_sigma_pow_three σ (ℓ ^ f) hX hσ
   have hσ1 : σ ≠ 1 := triOdd_sigma_ne_one σ (ℓ ^ f) hq2 hX hσ
   have hσ2 : σ ^ 2 ≠ 1 := nf1_sq_ne_one σ hσ3 hσ1
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hsc : (Finset.univ : Finset E).card = 3 ^ 2 := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hcard]
   have hlt : ({1, σ, σ ^ 2} : Finset (X ≃+* X)).card < (Finset.univ : Finset E).card := by
@@ -222,6 +222,7 @@ theorem triOdd_exists_plane_with_tau {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : �
   rw [aut_conj_conj] at h1
   exact nf1_conj_injective hZ h1
 
+omit [Finite X] in
 theorem triOdd_closure_fixUnion_conj_iff (φ : MulAut (C0 σ)) (E : Subgroup (MulAut (C0 σ))) :
     Subgroup.closure (fixUnion (E.map (MulAut.congr φ).toMonoidHom)) = ⊤ ↔
       Subgroup.closure (fixUnion E) = ⊤ := by

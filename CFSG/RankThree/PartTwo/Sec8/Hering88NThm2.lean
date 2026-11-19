@@ -87,7 +87,7 @@ theorem even_two_part_of_isGammaIndex {G : Type} [Group G] [Finite G] {A M : Sub
     have hb1 : 1 ≤ b' := by omega
     have hperfF : Group.IsPerfect (ReeTag.F4.reeGamma k' b') :=
       ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb1 hk'⟩
-    haveI hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
+    have hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb1 hk'
     have hCperf : Group.IsPerfect C :=
       Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective

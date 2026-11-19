@@ -21,7 +21,7 @@ open CFSG CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 
 private theorem kgLangS1AUniFrameAux_dvd_add_one {p x : ℕ} (hp : p.Prime)
     (h : p ∣ x ^ p + 1) : p ∣ x + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : ((x ^ p + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).mpr h
   rw [Nat.cast_add, Nat.cast_pow, ZMod.pow_card, Nat.cast_one] at h1
   rw [← ZMod.natCast_eq_zero_iff]
@@ -138,9 +138,9 @@ theorem kgLangS1A_uni_frame {d n p : ℕ} {F : Type} [Field F] [Finite F]
     omega
   have hd3 : 3 ≤ d := by
     rcases hd with hdp | hdp <;> omega
-  haveI : CharP F 2 := h.charP
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GroupTheory.SteinbergBK.semilinearFixedSubfield σ) := Fintype.ofFinite _
+  have : CharP F 2 := h.charP
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GroupTheory.SteinbergBK.semilinearFixedSubfield σ) := Fintype.ofFinite _
   let ι : GL (Fin d) (GroupTheory.SteinbergBK.semilinearFixedSubfield σ) →* GL (Fin d) F :=
     Matrix.GeneralLinearGroup.map
       (GroupTheory.SteinbergBK.semilinearFixedSubfield σ).subtype
@@ -269,8 +269,7 @@ theorem kgLangS1A_uni_frame {d n p : ℕ} {F : Type} [Field F] [Finite F]
   let U : GL (Fin d) F := ι P
   have hbar_eq : h.bar = (unitaryFieldData_of_card hn hF).bar := by
     ext c
-    simp only [UnitaryFieldData.bar_apply h,
-      UnitaryFieldData.bar_apply (unitaryFieldData_of_card hn hF)]
+    simp only [UnitaryFieldData.bar_apply h]
   have hUσ : Matrix.GeneralLinearGroup.map (σ : F →+* F) U = U := by
     dsimp only [U]
     simpa using NbrLangTypeA.map_pow_map_subtype (σ := σ)

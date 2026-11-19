@@ -35,33 +35,41 @@ namespace Cfg1667Ne
 
 variable {M V₀ V W₁ W₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem comm_of_mem_of_isElemAbelian {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {x y : G} (hx : x ∈ A) (hy : y ∈ A) : x * y = y * x :=
   Subtype.ext_iff.mp (hA.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 theorem W₁_le (h : Cfg1667Ne M V₀ V W₁ W₂) : W₁ ≤ V := by
   rw [← h.sup_eq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem W₂_le (h : Cfg1667Ne M V₀ V W₁ W₂) : W₂ ≤ V := by
   rw [← h.sup_eq]
   exact le_sup_right
 
+omit [Finite G] in
 theorem V₀_le₁ (h : Cfg1667Ne M V₀ V W₁ W₂) : V₀ ≤ W₁ := by
   rw [← h.inf_eq]
   exact inf_le_left
 
+omit [Finite G] in
 theorem V₀_le₂ (h : Cfg1667Ne M V₀ V W₁ W₂) : V₀ ≤ W₂ := by
   rw [← h.inf_eq]
   exact inf_le_right
 
+omit [Finite G] in
 theorem V₀_le (h : Cfg1667Ne M V₀ V W₁ W₂) : V₀ ≤ V :=
   (V₀_le₁ h).trans (W₁_le h)
 
+omit [Finite G] in
 theorem le_M (h : Cfg1667Ne M V₀ V W₁ W₂) : V ≤ M := by
   rw [← h.normalizer_eq]
   exact Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem le_normalizer₀ (h : Cfg1667Ne M V₀ V W₁ W₂) : M ≤ normalizer (V₀ : Set G) :=
   h.normalizer₀.ge
 
@@ -83,6 +91,7 @@ theorem W₁_ne_W₂ (h : Cfg1667Ne M V₀ V W₁ W₂) : W₁ ≠ W₂ := by
   rw [hV₀W] at hcard
   omega
 
+omit [Finite G] in
 theorem inf_conj_eq_bot' (h : Cfg1667Ne M V₀ V W₁ W₂) {y : G} (hy : y ∉ M) :
     W₁ ⊓ conjSubgroup V y = ⊥ ∧ W₂ ⊓ conjSubgroup V y = ⊥ := by
   have hy' : y⁻¹ ∉ M := fun hmem => hy (by simpa using inv_mem hmem)
@@ -120,6 +129,7 @@ theorem inf_conj_eq_bot' (h : Cfg1667Ne M V₀ V W₁ W₂) {y : G} (hy : y ∉ 
     calc a = y⁻¹ * (y * a * y⁻¹) * y := by group
       _ = 1 := by rw [hone]; group
 
+omit [Finite G] in
 theorem inf_conj_V₀_eq_bot (h : Cfg1667Ne M V₀ V W₁ W₂) {y : G} (hy : y ∉ M) :
     V ⊓ conjSubgroup V₀ y = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -130,6 +140,7 @@ theorem inf_conj_V₀_eq_bot (h : Cfg1667Ne M V₀ V W₁ W₂) {y : G} (hy : y 
   rw [(h.inf_conj_eq_bot y hy).1] at hxW
   exact Subgroup.mem_bot.mp hxW
 
+omit [Finite G] in
 theorem V₀_inf_conj_eq_bot (h : Cfg1667Ne M V₀ V W₁ W₂) {y : G} (hy : y ∉ M) :
     V₀ ⊓ conjSubgroup V y = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -268,6 +279,7 @@ theorem lt_rMV (h : Cfg1667Ne M V₀ V W₁ W₂) : ((mSub V₀ + 1 : ℕ) : ℕ
         ENat.natCast_lt_natCast.mpr (by omega)
     _ ≤ rMV M V := hle
 
+omit [Finite G] in
 theorem swap (h : Cfg1667Ne M V₀ V W₁ W₂) : Cfg1667Ne M V₀ V W₂ W₁ := by
   refine ⟨h.elemAbelian, h.ne_bot, ?_, ?_, h.card₂, h.card₁, h.normalizer_eq, h.normalizer₀,
     h.isTI, ?_, ?_, ?_, h.comm_eq_bot⟩
@@ -285,11 +297,13 @@ theorem swap (h : Cfg1667Ne M V₀ V W₁ W₂) : Cfg1667Ne M V₀ V W₂ W₁ :
     obtain ⟨h1, h2⟩ := h.inf_conj_eq_bot y hy
     exact ⟨h2, h1⟩
 
+omit [Finite G] in
 private theorem conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_sup A B _
 
+omit [Finite G] in
 theorem conj (h : Cfg1667Ne M V₀ V W₁ W₂) (g : G) :
     Cfg1667Ne (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) (conjSubgroup W₁ g)
       (conjSubgroup W₂ g) := by

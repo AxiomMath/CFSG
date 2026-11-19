@@ -74,7 +74,7 @@ theorem exists_sylow_member (hd : Sec19DataT p f K z S W L t V) :
   have hWL : W ≤ Subgroup.normalizer (L : Set G) :=
     (le_centralizer_of_mem hd0 (mem_W hd)).trans
       (centralizer_le_normalizer_member htb hd.memL hd.invL)
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   obtain ⟨RL, hRL, hRLW⟩ := exists_sylow_normalized hW2 hWL
   have hWRL : W ≤ Subgroup.normalizer (RL : Set G) := fun w hw =>
     mem_normalizer_iff_conjSub_eq.mpr (hRLW w hw)
@@ -101,7 +101,7 @@ theorem inf_centralizer_inf_eq_bot (hd : Sec19DataT p f K z S W L t V) {RL : Sub
   intro x hx
   rw [Subgroup.mem_bot]
   by_contra hx1
-  obtain ⟨i, hi⟩ := AscL62.orderOf_eq_two_pow_of_isPGroup (S.isPGroup'.to_le hd.hWS) hx.1.1
+  obtain ⟨i, hi⟩ := AscL62.orderOf_eq_two_pow_of_isPGroup (S.isPGroup.to_le hd.hWS) hx.1.1
   obtain ⟨e, he, he2, he1⟩ := AscL62.exists_involution_pow hx1 hi
   have heW : e ∈ W := (Subgroup.zpowers_le.mpr hx.1.1) he
   have heC : e ∈ Subgroup.centralizer (((S : Subgroup G) ⊓ K : Subgroup G) : Set G) :=

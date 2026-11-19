@@ -13,18 +13,23 @@ namespace Data
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s56P0_def (d : Data G) : d.s56P0 = (CFSG.pCore 2 ↥d.N).map d.N.subtype := by
   simp only [s56P0]
 
+omit [Finite G] in
 theorem s56P_def (d : Data G) : d.s56P = d.s56P0 ⊓ centralizer (d.F : Set G) := by
   simp only [s56P]
 
+omit [Finite G] in
 theorem s56U11_def (d : Data G) : d.s56U11 = closure ({d.pv 11, d.pv 12} : Set G) := by
   simp only [s56U11]
 
+omit [Finite G] in
 theorem s56U10_def (d : Data G) : d.s56U10 = d.s56U11 ⊔ zpowers (d.pv 10) := by
   simp only [s56U10]
 
+omit [Finite G] in
 theorem s56P10_def (d : Data G) : d.s56P10 = d.s56P0 ⊓ centralizer (d.s56U10 : Set G) := by
   simp only [s56P10]
 

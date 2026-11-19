@@ -22,7 +22,7 @@ theorem relIndex_stab_inf_le_card_nbrs {α₁ α₂ : CosetGeom G₀ G₁ G₂} 
     (hW : W ≤ stab α₂) (hα₁ : α₁ ∈ nbrs α₂) :
     (W ⊓ stab α₁).relIndex W ≤ Nat.card (nbrs α₂) := by
   have hWG₀ : W ≤ G₀ := hW.trans (CosetGeom.stab_le α₂)
-  letI : MulAction ↥W (CosetGeom G₀ G₁ G₂) := MulAction.compHom _ (Subgroup.inclusion hWG₀)
+  let : MulAction ↥W (CosetGeom G₀ G₁ G₂) := MulAction.compHom _ (Subgroup.inclusion hWG₀)
   have hsm : ∀ g : ↥W, g • α₁ = (⟨(g : G), hWG₀ g.2⟩ : ↥G₀) • α₁ := fun g => rfl
   have horb : MulAction.orbit ↥W α₁ ⊆ nbrs α₂ := by
     rintro ε ⟨g, rfl⟩
@@ -64,6 +64,7 @@ theorem relIndex_stab_inf_le_card_nbrs_sub_one {α₁ α₂ : CosetGeom G₀ G�
       omega
   omega
 
+omit [Finite G] in
 theorem relIndex_stab_inf_stab_le_two (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₁ : Subgroup G}
     {α₁ α₂ : CosetGeom G₀ G₁ G₂} (h₁ : IsLocalReg α₁ p X₁) (hα₁ : α₁ ∈ nbrs (γ₀ G₀ G₁ G₂))
     (hα₂ : α₂ ∈ nbrs α₁) {W : Subgroup G} (hel2 : ∀ v ∈ W, v * v = 1) (hW : W ≤ stab α₂) :
@@ -134,7 +135,7 @@ theorem card_commSubgroup_Wv_le (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} 
     {z : G} (hz : z ∈ Z) (hzα' : z ∈ stab α') :
     Nat.card (ConjAut.commSubgroup (Wv Z α') z) ≤ 2 * (Nat.card (nbrs α₂) - 1) := by
   have hel : IsElemAbelian 2 (Wv Z α') := isElemAbelian_Wv hc hb hα'
-  haveI : IsMulCommutative ↥(Wv Z α') := hel.1
+  have : IsMulCommutative ↥(Wv Z α') := hel.1
   obtain ⟨X₁, h₁⟩ :=
     exists_isLocalReg_of_vtype hloc (vtype_eq_true_of_mem_nbrs CosetGeom.vtype_γ₀ hα₁)
   exact card_commSubgroup_le_aux hc h₁ hα₁ hα₂ (fun v hv => by rw [← pow_two]; exact hel.2 v hv)

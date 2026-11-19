@@ -25,7 +25,7 @@ theorem burnsideF4jb_odd_index_of_outer {E : Type} [Group E] [Finite E] {Gp : Su
     rintro _ ⟨d, rfl⟩
     refine ⟨(d : E), ?_⟩
     ext x
-    simp [burnsideF4d_rho_apply]
+    simp
   have h := CFSG.Quasithin.H13.F431.TwoF4.odd_card_div_of_outer hcen
     (burnsideF4d_rho Gp).range hS hOut
   have hcardE : Nat.card ↥(burnsideF4d_rho Gp).range = Nat.card E :=
@@ -48,8 +48,8 @@ open CFSG.ASVolI.ChF CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Cheval
 
 theorem burnsideF4jb_odd_index_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .D4tw 2 f Gp M₁ M₂) (hf : Odd f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨-, hf1, K, _, _, hK, σ, hσ, ⟨e⟩⟩ := hyp.model
   have hσinj : Function.Injective σ := σ.injective
   have hσsurj : Function.Surjective σ := Finite.injective_iff_surjective.mp hσinj
@@ -108,10 +108,10 @@ theorem burnsideF4jb_card_outer_G2 {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem burnsideF4jb_odd_index_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : Odd f) (hf2 : 2 ≤ f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨-, -, K, _, _, hK, ⟨e⟩⟩ := hyp.model
-  haveI : CharP K 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP K 2 := burnsideF4gSp_charP_of_card hK
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc (4 : ℕ) = 2 ^ 2 := by norm_num
@@ -138,9 +138,9 @@ open CFSG.ASVolI.ChF
 theorem burnsideF4jb_oPPrime_eq_of_simple {E : Type} [Group E] {Gp : Subgroup E}
     (hs : IsSimpleGroup ↥Gp) {x : E} (hxG : x ∈ Gp) (hx1 : x ≠ 1) {k : ℕ}
     (hk : orderOf x = 2 ^ k) : oPPrime 2 Gp = Gp := by
-  haveI := hs
+  have := hs
   have hNle : oPPrime 2 Gp ≤ Gp := burnsideF4d_oPPrime_le Gp
-  haveI : ((oPPrime 2 Gp).subgroupOf Gp).Normal :=
+  have : ((oPPrime 2 Gp).subgroupOf Gp).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr
       (burnsideF4d_le_normalizer_oPPrime Gp)
   have hne : (oPPrime 2 Gp).subgroupOf Gp ≠ ⊥ := by
@@ -230,7 +230,7 @@ theorem burnsideF4jb_swapGL_not_scalar {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
   rintro ⟨c, hc⟩
   have h := congrArg (fun A : GL (Fin n) K => (A : Matrix (Fin n) (Fin n) K) i j) hc
   simp only [Matrix.GeneralLinearGroup.coe_scalar, burnsideF4jb_swapGL_apply,
-    Equiv.swap_apply_left, if_true] at h
+    Equiv.swap_apply_left, ite_true] at h
   rw [Matrix.scalar_apply, Matrix.diagonal_apply_ne _ hij] at h
   exact zero_ne_one h
 
@@ -275,7 +275,7 @@ theorem burnsideF4jb_two_elt_of_proj {n : ℕ} {H : Subgroup (GL (Fin n) K)} {A 
 theorem burnsideF4jb_oPPrime_Gp_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .L3 2 f Gp M₁ M₂) : ChF.oPPrime 2 Gp = Gp := by
   obtain ⟨-, -, K, _, _, hK, ⟨e⟩⟩ := hyp.model
-  haveI : CharP K 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP K 2 := burnsideF4gSp_charP_of_card hK
   obtain ⟨x, hxG, hx1, k, hk⟩ := burnsideF4jb_two_elt_of_proj
     (burnsideF4jb_swapGL_mem_SL (K := K) (show (0 : Fin 3) ≠ 1 by decide))
     (burnsideF4jb_swapGL_mul_self 0 1)
@@ -286,8 +286,8 @@ theorem burnsideF4jb_oPPrime_Gp_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (hyp : ChF.HypF_4_4 .U4 2 f Gp M₁ M₂) : ChF.oPPrime 2 Gp = Gp := by
   obtain ⟨-, -, K, _, _, hK, ⟨e⟩⟩ := hyp.model
   have hK' : Nat.card K = 2 ^ (f * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := burnsideF4gSp_charP_of_card hK'
-  haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 4 (2 ^ f) K)) :=
+  have : CharP K 2 := burnsideF4gSp_charP_of_card hK'
+  have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 4 (2 ^ f) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 f hK 4 (by norm_num)
       (by simp)
   obtain ⟨x, hxG, hx1, k, hk⟩ := burnsideF4jb_two_elt_of_proj
@@ -301,8 +301,8 @@ theorem burnsideF4jb_oPPrime_Gp_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (hyp : ChF.HypF_4_4 .U5 2 f Gp M₁ M₂) : ChF.oPPrime 2 Gp = Gp := by
   obtain ⟨-, -, K, _, _, hK, ⟨e⟩⟩ := hyp.model
   have hK' : Nat.card K = 2 ^ (f * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := burnsideF4gSp_charP_of_card hK'
-  haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 5 (2 ^ f) K)) :=
+  have : CharP K 2 := burnsideF4gSp_charP_of_card hK'
+  have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 5 (2 ^ f) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 f hK 5 (by norm_num)
       (by simp)
   obtain ⟨x, hxG, hx1, k, hk⟩ := burnsideF4jb_two_elt_of_proj

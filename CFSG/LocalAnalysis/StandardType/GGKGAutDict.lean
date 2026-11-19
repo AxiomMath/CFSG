@@ -35,6 +35,7 @@ private noncomputable def coord (κ : A →* Multiplicative (Fin 6 → ZMod 3)) 
     Fin Tag.E6.rank → ZMod 3 :=
   Multiplicative.toAdd (κ a)
 
+omit [Finite L'] in
 private lemma kappa_eq_of_coord_eq {x y : A} (h : coord κ x = coord κ y) : κ x = κ y := by
   rw [← ofAdd_toAdd (κ x), ← ofAdd_toAdd (κ y)]
   exact congrArg Multiplicative.ofAdd h
@@ -43,18 +44,22 @@ private lemma zmod3_ne_zero (t : ZMod 3) (ht : t ≠ 0) : t = 1 ∨ t = -1 := by
   have h : ∀ s : ZMod 3, s ≠ 0 → s = 1 ∨ s = -1 := by decide
   exact h t ht
 
+omit [Finite L'] in
 theorem toAdd_mem_hypE6 (hF : KGAutFrame A κ) (a : A) :
     Multiplicative.toAdd (κ a) ∈ hypE6 := by
   exact (hF.range_iff _).1 (by rw [ofAdd_toAdd]; exact ⟨a, rfl⟩)
 
+omit [Finite L'] in
 theorem exists_of_mem_hypE6 (hF : KGAutFrame A κ) {x : Fin 6 → ZMod 3} (hx : x ∈ hypE6) :
     ∃ a : A, Multiplicative.toAdd (κ a) = x := by
   obtain ⟨a, ha⟩ := (hF.range_iff x).2 hx
   exact ⟨a, by rw [ha]; exact toAdd_ofAdd x⟩
 
+omit [Finite L'] in
 private theorem coord_mem (hF : KGAutFrame A κ) (a : A) : coord κ a ∈ hypE6 :=
   toAdd_mem_hypE6 hF a
 
+omit [Finite L'] in
 private theorem coord_exists (hF : KGAutFrame A κ) {x : Fin Tag.E6.rank → ZMod 3}
     (hx : x ∈ hypE6) : ∃ a : A, coord κ a = x := by
   obtain ⟨a, ha⟩ := exists_of_mem_hypE6 hF hx
@@ -78,12 +83,15 @@ private theorem coord_weyl (hF : KGAutFrame A κ) {φ : MulAut ↥A} (hφ : φ �
     ∃ u : WeylGroup Tag.E6, ∀ a : A, coord κ (φ a) = adAct Tag.E6 3 u (coord κ a) :=
   exists_weyl_of_mem hF hφ
 
+omit [Finite L'] in
 private theorem coord_mul (x y : A) : coord κ (x * y) = coord κ x + coord κ y :=
   (congrArg Multiplicative.toAdd (map_mul κ x y)).trans (toAdd_mul (κ x) (κ y))
 
+omit [Finite L'] in
 private theorem coord_inv (x : A) : coord κ x⁻¹ = -coord κ x :=
   (congrArg Multiplicative.toAdd (map_inv κ x)).trans (toAdd_inv (κ x))
 
+omit [Finite L'] in
 private theorem coord_zpow (x : A) (n : ℤ) : coord κ (x ^ n) = n • coord κ x :=
   (congrArg Multiplicative.toAdd (map_zpow κ x n)).trans (toAdd_zpow (κ x) n)
 
@@ -229,7 +237,6 @@ theorem exists_reflection (hF : KGAutFrame A κ) {γ : Fin Tag.E6.rank → ℤ} 
     apply hF.injective
     apply kappa_eq_of_coord_eq
     rw [pow_two, MulAut.mul_apply, MulAut.one_apply]
-    change coord κ (φ (φ a)) = coord κ a
     calc coord κ (φ (φ a)) = rootRefl γ (coord κ (φ a)) := hroot (φ a)
       _ = rootRefl γ (rootRefl γ (coord κ a)) := by rw [hroot a]
       _ = coord κ a := rootRefl_rootRefl hγ _

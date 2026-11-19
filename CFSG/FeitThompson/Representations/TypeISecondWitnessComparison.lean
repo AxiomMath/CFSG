@@ -45,7 +45,7 @@ theorem sdiff_commutator_hallCoreOf_nonempty (hG : IsMinimalSimpleOdd G)
     {M : Subgroup G} (hM : IsCoatom M) (hIM : IsTypeI M) :
     ((hallCoreOf M : Set G) \
       ((⁅hallCoreOf M, hallCoreOf M⁆ : Subgroup G) : Set G)).Nonempty := by
-  obtain ⟨x, hxK, hxC⟩ := SetLike.exists_of_lt (commutator_hallCoreOf_lt hG hM hIM)
+  obtain ⟨x, hxK, hxC⟩ := _root_.IsConcreteLE.exists_of_lt (commutator_hallCoreOf_lt hG hM hIM)
   exact ⟨x, hxK, hxC⟩
 
 omit [Finite G] in
@@ -351,11 +351,11 @@ theorem isOrthogonal_signedRootBlock_dadeRoot_of_isCoherentAt
   · rw [isOrthogonal_iff, ← cfIP_eq_cfInner]; exact hzero2
 
 theorem coherentImage_apply_mul_hallCoreOf_eq
-    (h₁ : _root_.CFSG.FeitThompson.Statements.FNI_p_configuration_kappa_factors.{u})
+    (_h₁ : _root_.CFSG.FeitThompson.Statements.FNI_p_configuration_kappa_factors.{u})
     (h₂ : _root_.CFSG.FeitThompson.Statements.FTS_canonical_signalizer_structure.{u})
-    (h₃ : _root_.CFSG.FeitThompson.Statements.FTS_kappa_positive_support_forces_cyclic_frobenius.{u})
+    (_h₃ : _root_.CFSG.FeitThompson.Statements.FTS_kappa_positive_support_forces_cyclic_frobenius.{u})
     (h₄ : _root_.CFSG.FeitThompson.Statements.FTS_sigma_prime_separation.{u})
-    (h₅ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_complement_structure.{u})
+    (_h₅ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_complement_structure.{u})
     (h₆ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_core_kappa_identity.{u})
     (h₇ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_dade_support.{u})
     {G : Type u} [Group G] [Finite G] (hG : IsMinimalSimpleOdd G)
@@ -591,11 +591,11 @@ theorem isOrthogonal_of_mem_rootPairSet_invDadeRoot
   · exact isOrthogonal_iff.2 h2
 
 theorem exists_rhoHall_eq_const_on_sdiff_commutator
-    (h₁ : _root_.CFSG.FeitThompson.Statements.FNI_p_configuration_kappa_factors.{u})
+    (_h₁ : _root_.CFSG.FeitThompson.Statements.FNI_p_configuration_kappa_factors.{u})
     (h₂ : _root_.CFSG.FeitThompson.Statements.FTS_canonical_signalizer_structure.{u})
-    (h₃ : _root_.CFSG.FeitThompson.Statements.FTS_kappa_positive_support_forces_cyclic_frobenius.{u})
+    (_h₃ : _root_.CFSG.FeitThompson.Statements.FTS_kappa_positive_support_forces_cyclic_frobenius.{u})
     (h₄ : _root_.CFSG.FeitThompson.Statements.FTS_sigma_prime_separation.{u})
-    (h₅ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_complement_structure.{u})
+    (_h₅ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_complement_structure.{u})
     (h₆ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_core_kappa_identity.{u})
     (h₇ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_dade_support.{u})
     {G : Type u} [Group G] [Finite G] (hG : IsMinimalSimpleOdd G)

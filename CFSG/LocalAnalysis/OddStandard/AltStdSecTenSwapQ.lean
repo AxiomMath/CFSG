@@ -57,17 +57,17 @@ theorem card_sup_zpowers_of_notMem {G : Type*} [Group G] [Fintype G] [DecidableE
       obtain ⟨⟨h₁, hh₁⟩, i₁⟩ := x
       obtain ⟨⟨h₂, hh₂⟩, i₂⟩ := y
       fin_cases i₁ <;> fin_cases i₂
-      · simp only [Fin.val_zero, pow_zero, mul_one] at hval
+      · simp only [pow_zero, mul_one] at hval
         exact Prod.ext (Subtype.ext hval) rfl
-      · simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one] at hval
+      · simp only [pow_zero, pow_one, mul_one] at hval
         exfalso
         exact haH ((show h₂⁻¹ * h₁ = a from by rw [hval]; group) ▸
           H.mul_mem (H.inv_mem hh₂) hh₁)
-      · simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one] at hval
+      · simp only [pow_zero, pow_one, mul_one] at hval
         exfalso
         exact haH ((show h₁⁻¹ * h₂ = a from by rw [← hval]; group) ▸
           H.mul_mem (H.inv_mem hh₁) hh₂)
-      · simp only [Fin.val_one, pow_one] at hval
+      · simp only [pow_one] at hval
         exact Prod.ext (Subtype.ext (mul_right_cancel hval)) rfl
     · intro y
       obtain ⟨h, hh, i, hy⟩ := exists_mul_zpowers_of_mem_sup ha hHa y.2
@@ -79,7 +79,7 @@ theorem card_sup_zpowers_of_notMem {G : Type*} [Group G] [Fintype G] [DecidableE
 
 theorem center_sup_zpowers {G : Type*} [Group G] [Finite G] [DecidableEq G] {H : Subgroup G}
     {a z : G}
-    (ha : orderOf a = 2) (hHa : H ≤ Subgroup.normalizer (Subgroup.zpowers a)) (haH : a ∉ H)
+    (ha : orderOf a = 2) (hHa : H ≤ Subgroup.normalizer (Subgroup.zpowers a)) (_haH : a ∉ H)
     (hza : z * a = a * z) (ha_comm : ∀ h ∈ H, h * a = a * h)
     (hH_center : ∀ q ∈ H, (∀ h ∈ H, q * h = h * q) → q = 1 ∨ q = z) :
     ∀ q ∈ H ⊔ Subgroup.zpowers a,
@@ -119,7 +119,7 @@ theorem center_sup_zpowers {G : Type*} [Group G] [Finite G] [DecidableEq G] {H :
     fin_cases i
     · right; right; left; simpa only [Fin.val_zero, pow_zero, mul_one] using hq_eq
     · right; right; right
-      simp only [Fin.val_one, pow_one] at hq_eq
+      simp only [pow_one] at hq_eq
       rw [hq_eq, hza]
 
 theorem exists_sylow_eight :
@@ -127,7 +127,7 @@ theorem exists_sylow_eight :
       (∀ p ∈ P, ρ₄' * p = p * ρ₄') ∧
       (∀ q ∈ P, (∀ p ∈ P, q * p = p * q) → q = 1 ∨ q = ρ₄') := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup (Perm (Fin 8)) := centralizer ({ρ₄'} : Set (Perm (Fin 8)))
   have hcardC : Nat.card C = 2 ^ 7 * 3 := by
     dsimp only [C]
@@ -155,7 +155,7 @@ theorem exists_sylow_eight :
   let P : Subgroup (Perm (Fin 8)) := (S : Subgroup ↥C).map C.subtype
   have hPpg : IsPGroup 2 P := by
     dsimp only [P]
-    exact S.isPGroup'.map C.subtype
+    exact S.isPGroup.map C.subtype
   have hcardP : Nat.card P = 2 ^ 7 := by
     dsimp only [P]
     rw [Subgroup.card_map_of_injective C.subtype_injective]
@@ -182,7 +182,7 @@ theorem exists_sylow_eight :
         intro h
         have hc := card_cycleType_ρ₄'
         rw [h] at hc
-        simpa using hc
+        simp at hc
       exact (CFSG.OddStandard.AltStdSmall.eq_of_mem_center_sylow_sym (n := 8)
         (by norm_num) (by norm_num) hPpg (hcardP ▸ dvd_refl _) hρP hq hρcommP hqcomm
         hρ1 hq1).symm
@@ -190,7 +190,7 @@ theorem exists_sylow_eight :
 
 theorem exists_goodQ : ∃ Q : Subgroup (Perm (Fin 10)), GoodQ Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hPpg, hcardP, hρ'P, hρ'commP, hcenterP⟩ := exists_sylow_eight
   let P' : Subgroup (Perm (Fin 10)) := P.map liftS8
   set Q : Subgroup (Perm (Fin 10)) := P' ⊔ zpowers τ₀ with hQdef

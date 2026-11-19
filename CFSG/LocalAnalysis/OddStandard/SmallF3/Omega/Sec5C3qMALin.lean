@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3qma_repr_eq_zero_of_comm (fr : NFrame Q (Fin 6) 1) {Z : Finset (Fin 6)}
     {g : OGroup Q} (hcomm : g * fr.signChange Z = fr.signChange Z * g) {i l : Fin 6}
     (hi : i ∈ Z) (hl : l ∉ Z) :
@@ -20,13 +21,14 @@ theorem sec5c3qma_repr_eq_zero_of_comm (fr : NFrame Q (Fin 6) 1) {Z : Finset (Fi
       ((fr.signChange Z : OGroup Q) : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) (fr.b i)) := by
     have := congrArg (fun e : OGroup Q => (e : V ≃ₗ[ZMod 3] V) (fr.b i)) hcomm
     simpa only [Subgroup.coe_mul, Submonoid.coe_mul, LinearEquiv.mul_apply] using this
-  rw [fr.signChange_basis Z i, if_pos hi, map_neg] at h1
+  rw [fr.signChange_basis Z i, ite_eq_left hi, map_neg] at h1
   have h2 := congrArg (fun v => fr.b.repr v l) h1
-  simp only [map_neg, Finsupp.neg_apply, fr.repr_signChange, if_neg hl] at h2
+  simp only [map_neg, Finsupp.neg_apply, fr.repr_signChange, ite_eq_right hl] at h2
   generalize fr.b.repr ((g : V ≃ₗ[ZMod 3] V) (fr.b i)) l = x at h2 ⊢
   revert x
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3qma_signChange_conj (fr : NFrame Q (Fin 6) 1) {Z J : Finset (Fin 6)}
     (hJ : ∀ i ∈ Z, ∀ j ∈ Z, (i ∈ J ↔ j ∈ J)) {g : OGroup Q}
     (hcomm : g * fr.signChange Z = fr.signChange Z * g)
@@ -38,7 +40,7 @@ theorem sec5c3qma_signChange_conj (fr : NFrame Q (Fin 6) 1) {Z J : Finset (Fin 6
   apply Subtype.ext
   apply fr.b.ext'
   intro i
-  simp only [Subgroup.coe_mul, Submonoid.coe_mul, LinearEquiv.mul_apply]
+  simp only [Subgroup.coe_mul, LinearEquiv.mul_apply]
   rw [fr.signChange_basis J i]
   by_cases hiZ : i ∈ Z
   · have hkey : ((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V)
@@ -56,10 +58,10 @@ theorem sec5c3qma_signChange_conj (fr : NFrame Q (Fin 6) 1) {Z J : Finset (Fin 6
       · have h0 := sec5c3qma_repr_eq_zero_of_comm fr hcomm hiZ hl
         by_cases hiJ : i ∈ J <;> simp [hiJ, h0]
     by_cases hiJ : i ∈ J
-    · rw [if_pos hiJ, map_neg, map_neg, hkey, if_pos hiJ, neg_neg]
-    · rw [if_neg hiJ, hkey, if_neg hiJ]
+    · rw [ite_eq_left hiJ, map_neg, map_neg, hkey, ite_eq_left hiJ, neg_neg]
+    · rw [ite_eq_right hiJ, hkey, ite_eq_right hiJ]
   · by_cases hiJ : i ∈ J
-    · rw [if_pos hiJ, map_neg, map_neg, hfix i hiZ, fr.signChange_basis J i, if_pos hiJ, neg_neg]
-    · rw [if_neg hiJ, hfix i hiZ, fr.signChange_basis J i, if_neg hiJ]
+    · rw [ite_eq_left hiJ, map_neg, map_neg, hfix i hiZ, fr.signChange_basis J i, ite_eq_left hiJ, neg_neg]
+    · rw [ite_eq_right hiJ, hfix i hiZ, fr.signChange_basis J i, ite_eq_right hiJ]
 
 end CFSG.OddStandard.SmallF3.Omega

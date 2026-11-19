@@ -20,15 +20,15 @@ private theorem fniSz_false_of_suzuki_centralizer {S : Type} [Group S] [Finite S
     (hS : CFSG.Blueprint.SuzukiModel S 2 f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {s : S}
     (hsp : s ^ p = 1) (hs1 : s ≠ 1) {T : Subgroup S} (hT : ⁅T, T⁆ = T) (hT1 : T ≠ ⊥)
     (hTs : ∀ t ∈ T, t * s = s * t) : False := by
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
-  haveI : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.2 hT
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.2 hT
   have hev : 2 ∣ Nat.card ↥T := by
     by_contra h2
     have hodd : Odd (Nat.card ↥T) := Nat.odd_iff.2 (by omega)
-    haveI := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+    have := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
     exact Group.IsPerfect.not_isSolvable ↥T inferInstance
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 hev
   obtain ⟨-, a, ha, K, _, _, hfa, hKcard, ⟨e⟩⟩ := hS
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hfa]; exact hKcard
@@ -44,7 +44,7 @@ private theorem fniSz_false_of_suzuki_centralizer {S : Type} [Group S] [Finite S
   have hsord : orderOf (e s) = p :=
     orderOf_eq_prime (by rw [← map_pow, hsp, map_one])
       (fun h1 => hs1 (e.injective (h1.trans (map_one e).symm)))
-  have hpS : IsPGroup 2 (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K)) := S₂.isPGroup'
+  have hpS : IsPGroup 2 (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K)) := S₂.isPGroup
   obtain ⟨k, hk⟩ := hpS ⟨e s, hsS⟩
   have hdvd : p ∣ 2 ^ k := by
     have h1 : orderOf (⟨e s, hsS⟩ : (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K))) ∣ 2 ^ k :=
@@ -60,8 +60,8 @@ theorem kgFieldRestrictionOn_suzuki : KGFieldRestrictionOn (kgfniRow .suzuki) :=
   intro Q hraw
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeSuzuki] at hraw ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   let R := LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K)
   let F := LargeEvenMatFieldImage (LargeEvenCenterMk (LargeEvenSzGroup ((n - 1) / 2) K))
   have hS : KGFNITwistedLabel ⟨.twB2, r, n⟩ := by
@@ -120,7 +120,7 @@ theorem kgFieldRestrictionOn_suzuki : KGFieldRestrictionOn (kgfniRow .suzuki) :=
       rw [Nat.one_le_div_iff (by norm_num : 0 < 2)]
       have hn3 : 3 ≤ n := hlab.2.2.2
       omega
-    haveI : Finite R := inferInstance
+    have : Finite R := inferInstance
     exfalso
     exact fniSz_false_of_suzuki_centralizer
       (suzukiModel_largeEvenSz ha K hK hnaR) hp hp2 hsp hs1 hperf hne hcent

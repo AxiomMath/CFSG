@@ -16,8 +16,8 @@ variable {f : ℕ} [Fact f.Prime] {V : Type*} [AddCommGroup V] [Module (ZMod f) 
 
 theorem card_pow_modEq_one_of_free {p : ℕ} (hp : p.Prime) (x : V ≃ₗ[ZMod f] V) (hx : x ^ p = 1)
     (hfree : ∀ v : V, x v = v → v = 0) : f ^ finrank (ZMod f) V ≡ 1 [MOD p] := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod f)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite (ZMod f)
   have hG : IsPGroup p ↥(Subgroup.zpowers x) := by
     refine isPGroup_iff_pow_pow_eq_one.mpr fun g => ⟨1, ?_⟩
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp g.2
@@ -90,7 +90,7 @@ theorem card_le_of_pgroup_gl_le_three {p : ℕ} (hp : p.Prime) (hpf : f + 1 < p)
     have hk2 : 2 ≤ k := by
       by_contra h
       rw [not_le] at h
-      interval_cases k <;> simp at hlt <;> omega
+      interval_cases k <;> simp at hlt; omega
     exact Nat.pow_le_pow_right hp.pos hk2
   obtain ⟨x, hxE, hx1, v, hv0, hxv⟩ := exists_fixed_of_sq_le_card hp hpK E hcomm hexp hsq
   have hc := isCompl_fixedSpace_commSpace hpK (hexp x hxE)
@@ -159,7 +159,7 @@ theorem card_le_of_pgroup_gl_le_four {p : ℕ} (hp : p.Prime) (hpf : f + 1 < p)
     have hk2 : 2 ≤ k := by
       by_contra h
       rw [not_le] at h
-      interval_cases k <;> simp at hlt <;> omega
+      interval_cases k <;> simp at hlt; omega
     exact Nat.pow_le_pow_right hp.pos hk2
   obtain ⟨x, hxE, hx1, v, hv0, hxv⟩ := exists_fixed_of_sq_le_card hp hrK E hcomm hexp hsq
   have hc := isCompl_fixedSpace_commSpace hrK (hexp x hxE)
@@ -300,7 +300,7 @@ theorem exists_rank_bound_ge5 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p
     (fun x hx y hy => Subgroup.commutator_mem_commutator hx hy)
     (fun x hx => by rw [hΩ.exp x hx]; exact one_mem _)
     hΩ.norm (fun g hg => normalizer_le_normalizer_commutator Ω (hΩ.norm hg))
-  haveI : Finite W := Module.finite_of_finite (ZMod f)
+  have : Finite W := Module.finite_of_finite (ZMod f)
   set d := Module.finrank (ZMod f) W with hd
   have hrK : ((p : ℕ) : ZMod f) ≠ 0 := by
     intro h
@@ -388,7 +388,7 @@ theorem exists_rank_bound_ge5 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p
         omega
     refine ⟨LinearEquiv.det.comp (actEquiv ρ), fun E hEN hEc hEp hχ => ?_⟩
     obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-    haveI := hfin
+    have := hfin
     refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
     by_cases hd1 : d ≤ 1
     · have h1 := CFSG.RankThree.PartOne.LIT.card_le_pow_finrank_sub hp hrK
@@ -410,7 +410,7 @@ theorem exists_rank_bound_ge5 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p
       rcases hdcase with h | ⟨h, -⟩ <;> omega
     refine ⟨1, fun E hEN hEc hEp _ => ?_⟩
     obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-    haveI := hfin
+    have := hfin
     refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
     exact card_le_of_pgroup_gl_le_four hp hlt hd4 _ hcomm hexp
 
@@ -423,9 +423,9 @@ theorem lemma69_ge5 {A : Type} [Group A] [Finite A] {p f : ℕ} (hp : p.Prime) (
     (hRN : R ≤ X ⊓ normalizer (Fs : Set A)) (hR3 : 3 ≤ Open.pRank p R)
     (hcyc : IsCyclic (R ⊓ centralizer (Fs : Set A) : Subgroup A))
     (hX3 : Open.pRank f X ≤ 3) : 3 ≤ Open.pRank f Fs ∧ p ≤ f + 1 := by
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero f := ⟨hf.ne_zero⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero f := ⟨hf.ne_zero⟩
   obtain ⟨E, hER, hEab, hEcard⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.exists_isElemAbelian_of_le_pRank hp hR3
   have hEN : E ≤ X ⊓ normalizer (Fs : Set A) := hER.trans hRN
@@ -484,7 +484,7 @@ theorem f_mem_sigmaA_of_pRank {G : Type} [Group G] [Finite G] (hrank : evenRank 
     {p f : ℕ} (hp7 : 7 ≤ p) (hp : p ∈ rankThreeSigmaA G) (hf : f.Prime) (hf5 : p < f)
     {M : Subgroup G} (hM : IsTwoLocal M) (h3 : 3 ≤ Open.pRank f M) : f ∈ rankThreeSigmaA G := by
   classical
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hle : Open.pRank f M ≤ 3 :=
     (local_pRank_le_evenRank f hf (by omega) M hM).trans hrank.le
   have hbdd : BddAbove {k | ∃ K : Subgroup G, IsTwoLocal K ∧ CFSG.Open.pRank f K = k} := by

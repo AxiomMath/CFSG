@@ -131,7 +131,7 @@ theorem sec8_invariant_section {R N P I L₁ L₂ A₁ A₂ U : Subgroup G} {m :
   classical
   have hsec : SecHyp R P I := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨Mo, iMo, iAct, κ, hκ, hkerAct⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   obtain ⟨e₁, e₂⟩ := fixedSub_eq_secSub_of_isOppDecomp hP hκ hd h₁ h₂
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   obtain ⟨g₀, hg₀, y₀, hy₀⟩ := exists_nonA2_mem_LspGL' hu
@@ -231,7 +231,7 @@ theorem sec8_section_commSec_card {R N P I L₁ L₂ A₁ A₂ : Subgroup G} {m 
   classical
   have hsec : SecHyp R P I := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨Mo, iMo, iAct, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   have hzL' : φ ⟨x, h₁ hxL⟩ ∈ LspGL m K u := by
     rw [← hL₁]

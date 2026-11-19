@@ -131,7 +131,7 @@ theorem card_eq_of_partition {G : Type} [Group G] [Finite G] {J : Subgroup G}
     (hti : ∀ A ∈ 𝒞, ∀ B ∈ 𝒞, A ≠ B → A ⊓ B = ⊥) (hcov : ∀ j ∈ J, ∃ A ∈ 𝒞, j ∈ A) :
     Nat.card J = 𝒞.ncard * (q - 1) + 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let S : Finset (Subgroup G) := (Set.toFinite 𝒞).toFinset
   let t : Subgroup G → Finset G := fun A => ((A : Set G).toFinset).erase 1
   have ht : ∀ A ∈ S, (t A).card = q - 1 := by

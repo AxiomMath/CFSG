@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_conjSubgroup_hConjClosure {z : G} (A : Subgroup G) {k : G}
     (hk : k ∈ centralizer ({z} : Set G)) :
     conjSubgroup (hConjClosure z A) k = hConjClosure z A := by
@@ -35,6 +36,7 @@ theorem s16c1_conjSubgroup_hConjClosure {z : G} (A : Subgroup G) {k : G}
     exact le_iSup (fun h : ↥(centralizer ({z} : Set G)) =>
       conjSubgroup A ((h : G) * k)) ⟨(h : G) * k⁻¹, mul_mem h.2 (inv_mem hk)⟩
 
+omit [Finite G] in
 theorem s16c1_centralizes_of_comm_le_zpowers {V : Subgroup G} {hV : IsElemAbelian 2 V}
     {H : Subgroup (MulAut (Vtil (⊥ : Subgroup G) V hV))} (hNT : OmegaNoTrans H)
     {z : G} (hz : z ∈ V) (hz1 : z ≠ 1) {t : G} (ht : t ∈ stabTil (⊥ : Subgroup G) V)

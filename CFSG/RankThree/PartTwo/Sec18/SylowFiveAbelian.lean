@@ -28,14 +28,15 @@ theorem commutator_mul_left_of {x y z : G} (hx : x ∈ qOf P B) (hy : y ∈ qOf 
   have hyz := hab y hy z hz
   have e : ⁅x * y, z⁆ = x * ⁅y, z⁆ * x⁻¹ * ⁅x, z⁆ := by
     simp only [commutatorElement_def]; group
-  rw [e, hS.commute_of_mem_qOf hx hyz, mul_inv_cancel_right]
+  rw [e, CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx hyz, mul_inv_cancel_right]
   exact hS.comm (hS.le hyz) (hS.le (hab x hx z hz))
 
+omit hab hS in
 theorem commutator_mul_right_of {x y z : G} (hy : y ∈ qOf P B) (hxz : ⁅x, z⁆ ∈ B) :
     ⁅x, y * z⁆ = ⁅x, y⁆ * ⁅x, z⁆ := by
   have e : ⁅x, y * z⁆ = ⁅x, y⁆ * (y * ⁅x, z⁆ * y⁻¹) := by
     simp only [commutatorElement_def]; group
-  rw [e, hS.commute_of_mem_qOf hy hxz, mul_inv_cancel_right]
+  rw [e, CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hy hxz, mul_inv_cancel_right]
 
 theorem mul_pow_three_of {x y : G} (hx : x ∈ qOf P B) (hy : y ∈ qOf P B) :
     (x * y) ^ 3 = x ^ 3 * y ^ 3 := by
@@ -43,11 +44,11 @@ theorem mul_pow_three_of {x y : G} (hx : x ∈ qOf P B) (hy : y ∈ qOf P B) :
   have hwB : w ∈ B := hab _ ((qOf P B).inv_mem hy) _ ((qOf P B).inv_mem hx)
   have h1 : x⁻¹ * y * x = y * w := by rw [hw, commutatorElement_def]; group
   have hwx : x⁻¹ * w * x = w := by
-    rw [mul_assoc, ← hS.commute_of_mem_qOf hx hwB, inv_mul_cancel_left]
+    rw [mul_assoc, ← CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx hwB, inv_mul_cancel_left]
   have h2 : x⁻¹ * (y * w) * x = y * w * w := by
     calc x⁻¹ * (y * w) * x = (x⁻¹ * y * x) * (x⁻¹ * w * x) := by group
       _ = y * w * w := by rw [h1, hwx]
-  have hwy : w * y = y * w := (hS.commute_of_mem_qOf hy hwB).symm
+  have hwy : w * y = y * w := (CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hy hwB).symm
   have e : (x * y) ^ 3 = x ^ 3 * ((x⁻¹ * (x⁻¹ * y * x) * x) * (x⁻¹ * y * x) * y) := by
     rw [_root_.pow_three, _root_.pow_three]; group
   rw [e, h1, h2]
@@ -100,8 +101,8 @@ theorem exists_pow_three_ne_one : ∃ t ∈ qOf P B, t ^ 3 ≠ 1 := by
     exact hS.comm (A.pow_mem hS.mem _) (A.pow_mem hS.mem _)
   have huv : ⁅u, v⁆ = 1 := by
     rw [hu, hS.commutator_mul_left_of hab hx₁ hcγ hvQ, hv,
-      hS.commutator_mul_right_of hab hx₂ (hab x₁ hx₁ _ hcα),
-      hS.commutator_mul_right_of hab hx₂ (hab _ hcγ _ hcα), hez, h1, h2, h3, mul_one]
+      CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commutator_mul_right_of hx₂ (hab x₁ hx₁ _ hcα),
+      CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commutator_mul_right_of hx₂ (hab _ hcγ _ hcα), hez, h1, h2, h3, mul_one]
     have hc : b₀ ^ γ * b₁ ^ (2 * α) = b₁ ^ (2 * α) * b₀ ^ γ :=
       hS.comm (hS.le (hb₀B γ)) (hS.le (hb₁B _))
     calc b₁ ^ α * b₀ ^ γ * b₁ ^ (2 * α) * (b₀ ^ γ)⁻¹
@@ -122,7 +123,7 @@ theorem exists_pow_three_ne_one : ∃ t ∈ qOf P B, t ^ 3 ≠ 1 := by
   set E := (Subgroup.zpowers u ⊔ Subgroup.zpowers v) ⊔ B with hE
   have hEel : CFSG.Assembly.IsElemAbelian 3 E :=
     CFSG.Open.IsElemAbelian.sup_of_commute hUV hS.isElemAbelian_plane fun a ha b hb =>
-      hS.commute_of_mem_qOf (hUVQ ha) hb
+      CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf (hUVQ ha) hb
   have hEQ : E ≤ qOf P B := sup_le hUVQ (hS.le.trans hS.le_qOf)
   have hδu : ⁅u, c⁆ = b₁ := by
     rw [hu, hS.commutator_mul hx₁ hcγ.1, hδ₁,

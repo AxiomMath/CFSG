@@ -44,8 +44,8 @@ theorem exists_hessF_frame (P : D4Par n X σ) {L : Type} [Field L] [Algebra X L]
       threeSixEmb' L X σ g c = rootDiagUnit TwistTag.D4.tag (tup ζ gT) ∧
       threeSixEmb' L X σ g y = nw L wT := by
   classical
-  haveI : Finite X := inferInstance
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : Finite X := inferInstance
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
   have hζ3 : ζ ^ 3 = 1 := pow_three_of_orderOf hζ
   have hrange := range_threeSixEmb Nat.prime_two P.one_le P.card P.frob Fr hFr
   have hΦ := mem_range_threeSixEmb' (K := X) (σ := σ) hrange hgG hFg

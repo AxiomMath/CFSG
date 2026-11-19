@@ -90,7 +90,7 @@ theorem false_of_field (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : h
   have hη2 : η * η = 1 := by
     have hη2T : η * η ∈ (T : Subgroup H) := mul_mem hηT hηT
     have hB : η * η ∈ h.B := by
-      refine mem_B_of_psiW (H₁ := H₁) T.isPGroup' hTW hBT hη2T ?_
+      refine mem_B_of_psiW (H₁ := H₁) T.isPGroup hTW hBT hη2T ?_
       have e : (⟨η * η, hTW hη2T⟩ : ↥h.W) = ⟨η, hTW hηT⟩ * ⟨η, hTW hηT⟩ := rfl
       rw [e, map_mul, hψη]
       exact hσ2
@@ -102,7 +102,7 @@ theorem false_of_field (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : h
     · exact h1
     · exact absurd (h1 ▸ hM) hbM
   set E'' : Subgroup ↥h.M3 := E.comap H₁.kloc.rho ⊓ (R : Subgroup ↥h.M3) with hE''
-  have hE''2 : IsPGroup 2 E'' := R.isPGroup'.to_le inf_le_right
+  have hE''2 : IsPGroup 2 E'' := R.isPGroup.to_le inf_le_right
   have hE''map : E''.map H₁.kloc.rho = E := by
     apply le_antisymm
     · rintro _ ⟨x, hx, rfl⟩
@@ -119,7 +119,7 @@ theorem false_of_field (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : h
   have hE'2 : ∀ e ∈ E', e * e = 1 := by
     rintro _ ⟨x, hx, rfl⟩
     obtain ⟨hxE, hxR⟩ := mem_inf.mp hx
-    have h1 := Eight.injOn_of_isPGroup hker R.isPGroup' (mul_mem hxR hxR) (one_mem _)
+    have h1 := Eight.injOn_of_isPGroup hker R.isPGroup (mul_mem hxR hxR) (one_mem _)
       (by rw [map_mul, map_one]; exact hE2 _ hxE)
     exact congrArg Subtype.val h1
   have hηE : ∀ e ∈ E', e * η = η * e := by
@@ -133,7 +133,7 @@ theorem false_of_field (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : h
         psiW_eq_rho (H₁ := H₁) x.2, hψη]
       have hc := mem_centralizer_iff.mp (hEC hxE) _ (Set.mem_singleton _)
       rw [hc, mul_inv_cancel_right]
-    have h2 := Eight.injOn_of_isPGroup hker R.isPGroup' ((hRmem _).mpr h1T) hxR hρ
+    have h2 := Eight.injOn_of_isPGroup hker R.isPGroup ((hRmem _).mpr h1T) hxR hρ
     have h3 : η * (x : H) * η⁻¹ = x := congrArg Subtype.val h2
     calc (x : H) * η = η * x * η⁻¹ * η := by rw [h3]
       _ = η * x := by group
@@ -192,7 +192,7 @@ theorem T_mod_Q0_cyclic (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : 
       exact hr
   obtain ⟨t₀, ht₀T, ht₀⟩ := exists_gen_mod_innA I.cf1 I.cf2 hJo hOut (T : Subgroup H) hTW
   have hpow : ∀ n : ℕ, ((t₀ ^ n : ↥h.W) : H) = (t₀ : H) ^ n := fun n => SubgroupClass.coe_pow _ _
-  obtain ⟨r, hr⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨t₀, ht₀T⟩
+  obtain ⟨r, hr⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨t₀, ht₀T⟩
   have hex : ∃ j : ℕ, H₁.psiW t₀ ^ 2 ^ j ∈ N := by
     refine ⟨r, ?_⟩
     have h1 : t₀ ^ 2 ^ r = 1 := by

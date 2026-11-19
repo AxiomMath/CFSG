@@ -14,7 +14,7 @@ open Matrix
 variable {K : Type} [Field K]
 
 theorem gu_multiplier_pow_eq_one {d n p : ℕ} {h : UnitaryFieldData 2 n K} {D : GL (Fin d) K}
-    {μ : K} (hd : 1 ≤ d) (hμ0 : μ ≠ 0)
+    {μ : K} (hd : 1 ≤ d) (_hμ0 : μ ≠ 0)
     (hμ : Matrix.transpose ((D : Matrix (Fin d) (Fin d) K).map h.bar) *
       (D : Matrix (Fin d) (Fin d) K) = μ • (1 : Matrix (Fin d) (Fin d) K))
     (hDp : D ^ p = 1) : μ ^ p = 1 := by
@@ -57,7 +57,7 @@ theorem gu_multiplier_pow_eq_one {d n p : ℕ} {h : UnitaryFieldData 2 n K} {D :
     by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.one_apply, hij]
   have hone : (1 : Matrix (Fin d) (Fin d) K) = μ ^ p • (1 : Matrix (Fin d) (Fin d) K) := by
     rw [← hmap]
-    simp [hDp, hbar1]
+    simp [hDp]
   have h := congrFun (congrFun hone ⟨0, by omega⟩) ⟨0, by omega⟩
   simpa [Matrix.smul_apply] using h.symm
 

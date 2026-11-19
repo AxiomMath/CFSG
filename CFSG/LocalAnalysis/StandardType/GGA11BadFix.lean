@@ -25,13 +25,13 @@ private lemma a11bf_mon_mul (π k π' k') :
   rw [Matrix.mul_apply]
   simp only [a11bf_mon, Matrix.of_apply]
   rw [Finset.sum_eq_single (π i)]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     by_cases h : π' (π i) = j
-    · rw [if_pos h, if_pos (show (Equiv.trans π π') i = j from h), a11bf_pow_add]
-    · rw [if_neg h,
-        if_neg (show ¬ (Equiv.trans π π') i = j from fun hc => h hc), mul_zero]
+    · rw [ite_eq_left h, ite_eq_left (show (Equiv.trans π π') i = j from h), a11bf_pow_add]
+    · rw [ite_eq_right h,
+        ite_eq_right (show ¬ (Equiv.trans π π') i = j from fun hc => h hc), mul_zero]
   · intro b _ hb
-    rw [if_neg (Ne.symm hb), zero_mul]
+    rw [ite_eq_right (Ne.symm hb), zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private def a11bf_monSub : Submonoid Certificates.A8Nbr476.M4 where
@@ -61,9 +61,9 @@ private lemma a11bf_minors_field {K : Type*} [Field K]
     ∀ i j k l : Fin 4, A i k * A j l = A i l * A j k := by
   have hspan : Module.finrank K (Submodule.span K (Set.range A.row)) ≤ 1 := by
     rw [Matrix.rank_eq_finrank_span_row A] at h; exact h
-  haveI : Module.Free K (Submodule.span K (Set.range A.row)) :=
+  have : Module.Free K (Submodule.span K (Set.range A.row)) :=
     Module.Free.of_divisionRing K _
-  haveI : Module.Finite K (Submodule.span K (Set.range A.row)) := inferInstance
+  have : Module.Finite K (Submodule.span K (Set.range A.row)) := inferInstance
   obtain ⟨v, hv⟩ :=
     (finrank_le_one_iff (K := K) (V := Submodule.span K (Set.range A.row))).mp hspan
   intro i j k l
@@ -88,7 +88,7 @@ private lemma a11bf_ne_one_field {K : Type*} [Field K]
 
 private lemma a11bf_rankOneB_of_rank (X : Certificates.A8Nbr476.M4)
     (h : (X - 1).rank = 1) : a11bf_rankOneB X := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact ⟨a11bf_ne_one_field X h, a11bf_minors_field (X - 1) (le_of_eq h)⟩
 
 private lemma a11bf_mon_fix_0 :

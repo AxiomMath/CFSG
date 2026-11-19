@@ -28,7 +28,7 @@ theorem third_roots_okN3M :
   have hr : List.range 4096 = (List.range 4096).filter fun _ => true :=
     (List.filter_eq_self.2 fun _ _ => rfl).symm
   have hb : ∀ v < 4096, (2 ^ 4096 - 1 : ℕ).testBit v = (fun _ => true) v := fun v hv => by
-    simp [Nat.testBit_two_pow_sub_one, hv]
+    rw [Nat.testBit_two_pow_sub_one]; simp [hv]
   rw [allRootsF_eq (base := List.range 4096) (fun v hv => List.mem_range.1 hv),
     invsOf_wN3M3, hr, allRoots_eqM PnSW_eq (Nat.sub_one_lt (by positivity)) hb, all_eq_range]
   refine all_range_of_blocks (s := 0) (nb := 512) (by decide +kernel) fun b hb => ?_

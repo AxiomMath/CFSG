@@ -50,7 +50,7 @@ theorem fieldAutData_five_of_lieModel {L : Type} [Group L] [Finite L] {t : State
 theorem kFactFieldGeneration5_holds : KFactFieldGeneration5 := by
   intro Y _ _ L hLn _ _ _ hC hnS hlie hcyc B x hB hBc hxB hxL hx1 hBL
   obtain ⟨t, n, ℓ, f, hℓ, hM⟩ := hlie
-  haveI := hLn
+  have := hLn
   exact le_iSup_centralizer_of_fieldAutData_of_card hC
     (fieldAutData_five_of_lieModel hM hℓ hnS hcyc) hB hBc hxB hxL hx1 hBL
 

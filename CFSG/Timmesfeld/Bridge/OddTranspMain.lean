@@ -109,12 +109,12 @@ theorem exists_conj_mem_of_isPGroup [Finite G] (hN : IsNormalSet D) (S₀ : Sylo
   have hCcomm : ∀ c ∈ C, Commute c a ∧ Commute c e := fun c hc =>
     ⟨(Subgroup.mem_centralizer_iff.mp hc a (by simp)).symm,
       (Subgroup.mem_centralizer_iff.mp hc e (by simp)).symm⟩
-  have hP1 : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf C) := S₀.isPGroup'.comap_subtype
+  have hP1 : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf C) := S₀.isPGroup.comap_subtype
   have hP2 : IsPGroup 2 (P.subgroupOf C) := hP.comap_subtype
   obtain ⟨R₁, hR₁⟩ := hP1.exists_le_sylow
   obtain ⟨R₂, hR₂⟩ := hP2.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C R₁ R₂
-  have hR₁G : IsPGroup 2 ((R₁ : Subgroup C).map C.subtype) := R₁.isPGroup'.map _
+  have hR₁G : IsPGroup 2 ((R₁ : Subgroup C).map C.subtype) := R₁.isPGroup.map _
   obtain ⟨S₂, hS₂⟩ := hR₁G.exists_le_sylow
   have hsub : D ∩ (S₀ : Set G) ⊆ D ∩ (S₂ : Set G) := by
     rintro s ⟨hsD, hsS⟩
@@ -244,7 +244,7 @@ theorem isBenderGroup_of_lt [Finite G] (hS : Setup G D)
   have hv₀₀ : v₀ ∈ D ∩ (S₀ : Set G) := ⟨hv₀, hmemS₀ v₀ (by simp)⟩
   have hav₀₀ : a * v₀ ∈ D ∩ (S₀ : Set G) := ⟨hav₀D, S₀.mul_mem ha₀.2 hv₀₀.2⟩
   have hLcomm : ∀ s ∈ D ∩ (S₀ : Set G), ∀ t ∈ D ∩ (S₀ : Set G), Commute s t :=
-    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup' hs.1 ht.1 hs.2 ht.2
+    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup hs.1 ht.1 hs.2 ht.2
   have hzabd : z = a * b * d := by
     rw [hddef, ← mul_assoc, IsTriangle.uv_mul_self hD htri, one_mul]
   have hLx : ∀ s ∈ D ∩ (S₀ : Set G), ¬ Commute s x := fun s hs hsx =>
@@ -304,7 +304,7 @@ theorem isBenderGroup_of_lt [Finite G] (hS : Setup G D)
     isBenderGroup_of_mulEquiv (QuotientGroup.quotientMulEquivOfEq hRX.symm) hBX
   have hperfX := commutator_eq_top hSX hMX
   have hnpc := noPerfectCentralExt_of_isBenderGroup hSX hperfX hBX'
-  have hP' : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf X) := S₀.isPGroup'.comap_subtype
+  have hP' : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf X) := S₀.isPGroup.comap_subtype
   obtain ⟨T, hT⟩ := hP'.exists_le_sylow
   have hLT : ∀ s (hs : s ∈ D ∩ (S₀ : Set G)), (⟨s, hLX s hs⟩ : X) ∈ T := fun s hs =>
     hT (Subgroup.mem_subgroupOf.mpr hs.2)
@@ -363,7 +363,7 @@ theorem isBenderGroup_of_lt [Finite G] (hS : Setup G D)
     exact Q.mul_mem hqQ h1
   set e : G := (e' : G) with hedef
   have he : e ∈ D := hEXD e' he'E
-  have hcae' : Commute a' e' := hSX.oddT.commute_of_isPGroup T.isPGroup' ha'E he'E
+  have hcae' : Commute a' e' := hSX.oddT.commute_of_isPGroup T.isPGroup ha'E he'E
     (hLT a ha₀) he'T
   have hcae : Commute a e := commute_coe_iff.mpr hcae'
   have hae : a ≠ e := by
@@ -453,7 +453,7 @@ theorem isBenderGroup_of_lt [Finite G] (hS : Setup G D)
   have hL : ∀ s ∈ D ∩ (S₀ : Set G), Commute s a ∧ Commute s e := by
     intro s hs
     refine ⟨hLcomm s hs a ha₀, ?_⟩
-    exact commute_coe_iff.mpr (hSX.oddT.commute_of_isPGroup T.isPGroup' (hmemX s hs) he'E
+    exact commute_coe_iff.mpr (hSX.oddT.commute_of_isPGroup T.isPGroup (hmemX s hs) he'E
       (hLT s hs) he'T)
   obtain ⟨g, hga, hge, hgP⟩ := exists_conj_mem_of_isPGroup hN S₀ hL hP₂ hPC
   set y₂ := g * y * g⁻¹ with hy₂def

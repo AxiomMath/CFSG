@@ -37,8 +37,8 @@ theorem card_mulAut_lie_A1_seven (q : TauCeti.PrimePower)
   have hcardG : Nat.card d.Group = 168 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_seven hclass
   obtain ⟨-, K, _, hfinK, hK, ⟨e⟩⟩ := hclass
-  haveI : Finite K := hfinK
-  haveI : Finite d.Group := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite K := hfinK
+  have : Finite d.Group := Finite.of_equiv _ e.symm.toEquiv
   let e1 : d.Group ≃* PSL2 K :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
   have hK7 : Nat.card K = 7 := by
@@ -95,13 +95,13 @@ theorem pRank_mulAut_lie_U33
     ⟨d, ⟨q, hq, rfl⟩, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨hsimple, hcardG, hcen⟩ :=
     CFSG.AGLEmbeddingD2.McLaughlin.u33_simple_card_center hX
-  haveI : Finite d.Group := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
+  have : Finite d.Group := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
   obtain ⟨-, hrank⟩ := CFSG.AGLEmbeddingD2.McLaughlin.u33FactsExact_proved d.Group hX
   have hperf : commutator d.Group = ⊤ := by
     have hnab : ∃ a b : d.Group, a * b ≠ b * a := by
       by_contra h
-      push_neg at h
-      haveI : IsMulCommutative d.Group := isMulCommutative_iff.2 (fun a b => h a b)
+      push Not at h
+      have : IsMulCommutative d.Group := isMulCommutative_iff.2 (fun a b => h a b)
       have hprime := (CommGroup.is_simple_iff_prime_card (α := d.Group)).1 hsimple
       rw [hcardG] at hprime
       norm_num at hprime

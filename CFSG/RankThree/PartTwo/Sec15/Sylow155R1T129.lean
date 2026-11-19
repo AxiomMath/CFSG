@@ -13,6 +13,7 @@ open CFSG CFSG.GH74.GLS
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_pCoreOf_le {p : ℕ} [Fact p.Prime] {L K : Subgroup G} (hLK : L ≤ K) :
     ⁅L, CFSG.Open.pCoreOf p K⁆ ≤ CFSG.Open.pCoreOf p K := by
   rw [Subgroup.commutator_le]
@@ -33,19 +34,19 @@ theorem eq_sup_commutator_of_eq_sup {L K : Subgroup G}
       _ = oPrimeResidualOf 3 (L ⊔ V) := congrArg (oPrimeResidualOf 3) hKL
       _ ≤ L ⊔ ⁅L, V⁆ :=
         Sec15.Proof155R2.oPrimeResidualOf_sup_le (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (commutator_pCoreOf_le hLK).trans hVK
 
 theorem inf_pCoreOf_two_eq_of_eq_sup {L K : Subgroup G}
     (hKL : K = L ⊔ CFSG.Open.pCoreOf 2 K) :
     L ⊓ CFSG.Open.pCoreOf 2 K = CFSG.Open.pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact inf_pCoreOf_eq_pCoreOf_of_le_sup (le_sup_left.trans hKL.ge) hKL.le
 
 theorem pCoreOf_two_eq_commutator_sup {L K : Subgroup G}
     (hKL : K = L ⊔ CFSG.Open.pCoreOf 2 K) (hK3 : oPrimeResidualOf 3 K = K) :
     CFSG.Open.pCoreOf 2 K = ⁅L, CFSG.Open.pCoreOf 2 K⁆ ⊔ CFSG.Open.pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hV
   have hLK : L ≤ K := le_sup_left.trans hKL.ge
   have hcV : ⁅L, V⁆ ≤ V := commutator_pCoreOf_le hLK

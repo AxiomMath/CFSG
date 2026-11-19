@@ -46,7 +46,7 @@ private theorem omS_lt_of_mem_yRels {w : List ℕ} (hw : w ∈ yRels 4 3 2) : �
     obtain ⟨l, ⟨-, rfl⟩, hcl⟩ := hc
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hcl
     rcases hcl with rfl | rfl <;> omega
-  · rw [if_pos (by omega)] at hsp
+  · rw [ite_eq_left (by omega)] at hsp
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hsp
     subst hsp
     simp only [spiderWord, List.mem_flatten, List.mem_replicate] at hc
@@ -312,7 +312,7 @@ private theorem omS_perms {N : ℕ} (π : ℕ → ℕ → ℕ)
       invFun := fun x => ⟨π c x, (hπ c hc x x.2).1⟩
       left_inv := fun x => Fin.ext (hπ c hc x x.2).2
       right_inv := fun x => Fin.ext (hπ c hc x x.2).2 } else 1, fun c hc x => ?_⟩
-  simp only [dif_pos hc]
+  simp only [dite_eq_left hc]
   rfl
 
 private theorem omS_evalWord_apply {N : ℕ} {σ : ℕ → Equiv.Perm (Fin N)} {π : ℕ → ℕ → ℕ}
@@ -463,7 +463,7 @@ theorem om_sound_aux {MS CB : ℕ → ℕ} {R : ℕ} (hm : masksOK19 MS = true)
       omS_evalWord_congr (g' := σ) fun c hc => hgen c (omS_letters hF c hc)]
     exact hrels _ hF
   · ext y
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     rw [omS_testBit_netApp19 hm hc, hgen c hc]
     constructor
     · intro h

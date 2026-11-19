@@ -31,7 +31,7 @@ section Ree
 variable {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime] {a : ℕ}
 
 theorem reeQJ_some_le_none (j : Fin ReeTag.F4.fixedOrbitCount) :
-    reeQJ ReeTag.F4 K a (some j) ≤ reeQJ ReeTag.F4 K a none := fun x hx =>
+    reeQJ ReeTag.F4 K a (some j) ≤ reeQJ ReeTag.F4 K a none := fun _x hx =>
   mem_reeQJ.2 (reeStd_posUnipotent_le_parabolicRadical_empty
     (parabolicRadical_le_posUnipotent _ (mem_reeQJ.1 hx)))
 
@@ -42,7 +42,7 @@ theorem reeLI_none (h : ReeLI K a) (x : ↥(ReeTag.F4.reeGamma K a))
 
 theorem reeGamma_centralizer_le (h : ReeLI K a) {R : Subgroup ↥(ReeTag.F4.reeGamma K a)}
     (hR : IsRadical 2 R) : ∀ x, (∀ r ∈ R, x * r = r * x) → x ∈ R := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   obtain ⟨h0, hp, hc, -⟩ := hR
   obtain ⟨g, j, hN, hQ⟩ := ree_standard_position (t := ReeTag.F4) R h0 hp
   obtain ⟨hRQ, -⟩ := CFSG.LieType.ChevTwo.std_position g hc (ree_QJ_pgroup j)
@@ -74,7 +74,7 @@ theorem reeGamma_centralizer_le (h : ReeLI K a) {R : Subgroup ↥(ReeTag.F4.reeG
 
 theorem radRigidInner_reeGamma_of_oddLI (h : ∀ j, ReeLIOddAt K a j) :
     RadRigidInner 2 ↥(ReeTag.F4.reeGamma K a) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   intro R hR x hx hxo
   obtain ⟨h0, hp, hc, -⟩ := hR
   obtain ⟨g, j, hN, hQ⟩ := ree_standard_position (t := ReeTag.F4) R h0 hp
@@ -172,7 +172,7 @@ theorem radicalGen_reeGamma (h : ReeLI K a) (U : Sylow 2 ↥(ReeTag.F4.reeGamma 
   exact reeQJ_some_le_none j
 
 theorem radRigid_reeGamma_of_LI (h : ReeLI K a) : RadRigid 2 ↥(ReeTag.F4.reeGamma K a) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   exact radRigid_of_gen (q := 2) ((holds_reeGamma ReeTag.F4 K a).holdsTits : HoldsTits _ 2)
     (fun R hR => reeGamma_centralizer_le h hR) (radicalGen_reeGamma h)
 

@@ -20,8 +20,8 @@ theorem catM10_of_arms (hI : A6InnerLieSmall) (hO : A6OuterLieSmall)
     CFSG.EvenSporadicStandard.CatM10AlmostSimple := by
   unfold CFSG.EvenSporadicStandard.CatM10AlmostSimple
   intro K _ _ S hSn hSs hcat hC z hz hfc hH
-  haveI := hSn
-  haveI := hSs
+  have := hSn
+  have := hSs
   obtain ⟨D, hDC, hDn, hDA, hzD, hcard, hinv, hsq⟩ := m10_unpack hz hfc hH
   have hna := nonabelian_of_centralizer_bot S hC
   have hsolv := CFSG.RankThree.PartOne.SPOR.schreierFor_catalog ↥S hna hcat

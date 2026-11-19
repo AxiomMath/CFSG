@@ -194,7 +194,7 @@ theorem eq_closure_fusionUnitA_fusionUnitB {H : Subgroup (GL (Fin 4) (ZMod 2))}
     rw [hP] at this
     simpa using congrArg Subtype.val this
   have hxA : x * fusionUnitA = fusionUnitA * x := by
-    have := IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (by rw [hP]; norm_num) (⟨x, hxP⟩ : P)
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hP]; norm_num)).is_comm.comm (⟨x, hxP⟩ : P)
       ⟨_, hAP⟩
     simpa using congrArg Subtype.val this
   have hcases : FusionCases (x : Matrix (Fin 4) (Fin 4) (ZMod 2)) := by
@@ -264,16 +264,16 @@ theorem eq_closure_fusionUnitA_fusionUnitB {H : Subgroup (GL (Fin 4) (ZMod 2))}
 private def fusionStab : Subgroup (GL (Fin 4) (ZMod 2)) where
   carrier := {g | ∀ p ∈ fusionPplus, p ᵥ* (g : Matrix (Fin 4) (Fin 4) (ZMod 2)) ∈ fusionPplus}
   mul_mem' {g g'} hg hg' := by
-    simp only [Set.mem_setOf_eq] at hg hg' ⊢
+    simp only [Set.mem_ofPred_eq] at hg hg' ⊢
     intro p hp
     rw [Units.val_mul, ← vecMul_vecMul]
     exact hg' _ (hg p hp)
   one_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro p hp
     simpa using hp
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     intro p hp
     obtain ⟨q, hq, rfl⟩ := Finset.surj_on_of_inj_on_of_card_le (s := fusionPplus)
       (t := fusionPplus) (fun q _ => q ᵥ* (g : Matrix (Fin 4) (Fin 4) (ZMod 2))) hg
@@ -347,11 +347,11 @@ theorem fusionUnitZ_mem {H : Subgroup (GL (Fin 4) (ZMod 2))}
 private def fusionStabT : Subgroup (GL (Fin 4) (ZMod 2)) where
   carrier := {g | ![1, 0, 0, 0] ᵥ* (g : Matrix (Fin 4) (Fin 4) (ZMod 2)) = ![1, 0, 0, 0]}
   mul_mem' {g g'} hg hg' := by
-    simp only [Set.mem_setOf_eq] at hg hg' ⊢
+    simp only [Set.mem_ofPred_eq] at hg hg' ⊢
     rw [Units.val_mul, ← vecMul_vecMul, hg, hg']
   one_mem' := by simp
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     calc ![1, 0, 0, 0] ᵥ* ((g⁻¹ : GL (Fin 4) (ZMod 2)) : Matrix (Fin 4) (Fin 4) (ZMod 2))
         = (![1, 0, 0, 0] ᵥ* (g : Matrix (Fin 4) (Fin 4) (ZMod 2))) ᵥ*
             ((g⁻¹ : GL (Fin 4) (ZMod 2)) : Matrix (Fin 4) (Fin 4) (ZMod 2)) := by rw [hg]

@@ -217,8 +217,8 @@ private theorem LinVertex.proj_surjective (h : LinVertex C A s vec) [(A.subgroup
   h.quotEquiv.symm.surjective.comp (QuotientGroup.mk'_surjective (A.subgroupOf C))
 
 private theorem LinVertex.pCore_eq [Finite G] (h : LinVertex C A s vec) : pCoreOf 2 C = A := by
-  haveI := h.normal_subgroupOf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.normal_subgroupOf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (CFSG.LieType.BorelTits.le_pCoreOf 2 h.A_le_C h.normal_subgroupOf
     h.isPGroup_A)
   have hm : (CFSG.pCore 2 C).map h.proj ≤ CFSG.pCore 2 (Matrix.SpecialLinearGroup (Fin 2) K) :=
@@ -333,7 +333,7 @@ private theorem LinVertex.blockZ_eq [Finite G] (h : LinVertex C A s vec) : block
   exact (h.vec_ker z hzA).mp (eq_zero_of_fixed_tr (hfix (trU K)) (hfix (trL K)))
 
 private theorem LinVertex.commutator_eq [Finite G] (h : LinVertex C A s vec) : ⁅C, C⁆ = C := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := h.S_perfect
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := h.S_perfect
   refine le_antisymm (Subgroup.commutator_le.mpr fun a ha b hb => ?_) ?_
   · rw [commutatorElement_def]
     exact C.mul_mem (C.mul_mem (C.mul_mem ha hb) (C.inv_mem ha)) (C.inv_mem hb)
@@ -365,16 +365,16 @@ private theorem LinVertex.A_ne_bot (h : LinVertex C A s vec) : A ≠ ⊥ := by
 
 theorem LinVertex.isShort2 [Finite G] [Finite K] (h : LinVertex C A s vec)
     (h4 : 4 ≤ Nat.card K) : IsShort2 C := by
-  haveI : Group.IsPerfect C := by
+  have : Group.IsPerfect C := by
     refine ⟨Subgroup.map_injective C.subtype_injective ?_⟩
     rw [Subgroup.map_subtype_commutator, h.commutator_eq, Subgroup.map_top,
       Subgroup.range_subtype]
-  haveI := h.normal_subgroupOf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.normal_subgroupOf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ?_, ?_, Or.inl ?_, ?_⟩
   · intro N _ hN
     by_contra hne
-    haveI : Nontrivial (C ⧸ N) := by
+    have : Nontrivial (C ⧸ N) := by
       rw [← not_subsingleton_iff_nontrivial]
       intro hsub
       apply hne
@@ -384,7 +384,7 @@ theorem LinVertex.isShort2 [Finite G] [Finite K] (h : LinVertex C A s vec)
       rwa [QuotientGroup.eq_one_iff] at hx
     have hperfQ : Group.IsPerfect (C ⧸ N) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-    haveI : Group.IsNilpotent (C ⧸ N) := hN.isNilpotent
+    have : Group.IsNilpotent (C ⧸ N) := hN.isNilpotent
     exact Group.IsPerfect.not_isSolvable (C ⧸ N) inferInstance
   · show C ⊓ Subgroup.centralizer (pCoreOf 2 C : Set G) ≤ pCoreOf 2 C
     rw [h.pCore_eq]
@@ -432,7 +432,7 @@ theorem LinVertex.isShort2 [Finite G] [Finite K] (h : LinVertex C A s vec)
 theorem LinVertex.isLin2Type [Finite G] (h : LinVertex C A s vec) [Fintype K] {n : ℕ}
     (hcard : Fintype.card K = 2 ^ n) : IsLin2Type C n := by
   classical
-  haveI := h.normal_subgroupOf
+  have := h.normal_subgroupOf
   have hU := h.blockU_eq
   have hZ := h.blockZ_eq
   have hker : (blockZ C).subgroupOf (blockU C) = ⊥ := by
@@ -506,8 +506,7 @@ private def blockV1 (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     0, (B : Matrix (Fin 2) (Fin 2) F) 0 1, (B : Matrix (Fin 2) (Fin 2) F) 0 0], by
     rw [Matrix.det_fin_three]
     simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-      Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-      zero_mul, sub_self, add_zero, one_mul]
+      mul_zero, sub_zero, zero_mul, add_zero, one_mul]
     have hB := B.2
     rw [Matrix.det_fin_two] at hB
     linear_combination hB⟩
@@ -530,6 +529,7 @@ private def levV1Hom : Matrix.SpecialLinearGroup (Fin 2) F →* Matrix.SpecialLi
 private noncomputable def levV1 : Matrix.SpecialLinearGroup (Fin 2) F →* projectiveSL 3 F :=
   (proj 3 F).comp levV1Hom
 
+omit [CharP F 2] in
 private theorem levV1_apply (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     levV1 B = proj 3 F (blockV1 B) := rfl
 
@@ -541,7 +541,7 @@ private noncomputable def vecV1 (g : projectiveSL 3 F) : Fin 2 → F := by
 
 private theorem vecV1_of_mem {g : projectiveSL 3 F} (h : g ∈ (V1 : Subgroup (projectiveSL 3 F))) :
     g = xP (vecV1 g 0) * wP (vecV1 g 1) := by
-  rw [vecV1, dif_pos h]
+  rw [vecV1, dite_eq_left h]
   simpa using Classical.choose_spec (Classical.choose_spec h)
 
 private theorem vecV1_xP_wP (a c : F) : vecV1 (xP a * wP c) = ![a, c] := by
@@ -575,7 +575,7 @@ private theorem vecV1_ker {z : projectiveSL 3 F} (hz : z ∈ (V1 : Subgroup (pro
   · intro h
     have h1 := congrFun h 0
     have h2 := congrFun h 1
-    simp only [Pi.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h1 h2
+    simp only [Pi.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h1 h2
     rw [h2, h1, xP_zero, wP_zero, mul_one]
   · intro h
     have h2 : vecV1 (xP a * wP c) = vecV1 (1 : projectiveSL 3 F) := by rw [h]
@@ -759,14 +759,12 @@ private theorem proj_mem_sup_of_mem_Q3 [Finite F] {M : Matrix.SpecialLinearGroup
     ⟨!![lam, 0, 0; 0, mu⁻¹, 0; 0, 0, mu * lam⁻¹], by
       rw [Matrix.det_fin_three]
       simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-        Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-        zero_mul, sub_self, add_zero, one_mul]
+        mul_zero, sub_zero, zero_mul, add_zero]
       field_simp⟩
   let B' : Matrix.SpecialLinearGroup (Fin 2) F :=
     ⟨!![mu * e, mu * d; mu * c, mu * b], by
       rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.tail_cons]
+      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
       have h1 : mu * mu * (b * e - c * d) = 1 := by rw [← hmu]; exact hdet
       linear_combination h1⟩
   let L : Matrix.SpecialLinearGroup (Fin 3) F := blockV1 B'
@@ -782,7 +780,7 @@ private theorem proj_mem_sup_of_mem_Q3 [Finite F] {M : Matrix.SpecialLinearGroup
     rw [hLmat]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [T, Matrix.mul_apply, Fin.sum_univ_three] <;> field_simp <;> try rw [hmu] <;> ring
+      simp [T, Matrix.mul_apply, Fin.sum_univ_three] <;> field_simp <;> try rw [hmu]; ring
   have hUmat : (U : Matrix (Fin 3) (Fin 3) F) = !![1, u1, u2; 0, 1, 0; 0, 0, 1] := by
     show (↑(xMat u1 * wMat u2) : Matrix (Fin 3) (Fin 3) F) = _
     rw [coe_xMat_mul_wMat]
@@ -809,7 +807,7 @@ private theorem proj_mem_sup_of_mem_Q3 [Finite F] {M : Matrix.SpecialLinearGroup
     have hT : T = dMat (Units.mk0 lam hlam0) (Units.mk0 mu⁻¹ (inv_ne_zero hmu0)) := by
       apply Subtype.ext
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [T, dMat, Matrix.diagonal_apply]
+      fin_cases i <;> fin_cases j <;> simp [T, dMat]
     rw [hT]
     exact dP_mem_torus3 _ _
   have hUmem : proj 3 F U ∈ (V1 : Subgroup (projectiveSL 3 F)) := by
@@ -876,8 +874,7 @@ private def twistTorus (a : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
   ⟨!![(B : Matrix (Fin 2) (Fin 2) F) 0 0, ((a : F)⁻¹) * (B : Matrix (Fin 2) (Fin 2) F) 0 1;
     (a : F) * (B : Matrix (Fin 2) (Fin 2) F) 1 0, (B : Matrix (Fin 2) (Fin 2) F) 1 1], by
     rw [Matrix.det_fin_two]
-    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.tail_cons]
+    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
     have h3 : (a : F)⁻¹ * (a : F) = 1 := by field_simp
     have h4 : (a : F)⁻¹ * (B : Matrix (Fin 2) (Fin 2) F) 0 1 *
         ((a : F) * (B : Matrix (Fin 2) (Fin 2) F) 1 0) =
@@ -893,6 +890,7 @@ private def twistTorus (a : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     rw [Matrix.det_fin_two] at h2
     exact h2⟩
 
+omit [CharP F 2] in
 private theorem conj_blockV1_dMat (t1 t2 : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     (dMat t1 t2 : Matrix.SpecialLinearGroup (Fin 3) F) * blockV1 B * (dMat t1 t2)⁻¹ =
       blockV1 (twistTorus (t1 * t2 * t2) B) := by
@@ -904,12 +902,12 @@ private theorem conj_blockV1_dMat (t1 t2 : Fˣ) (B : Matrix.SpecialLinearGroup (
         (dMat t1 t2 : Matrix (Fin 3) (Fin 3) F))
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [dMat, coe_dMat, blockV1, twistTorus, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.diagonal_apply] <;>
+      simp [dMat, blockV1, twistTorus, Matrix.mul_apply, Matrix.diagonal_apply] <;>
       field_simp
   rw [h1]
   group
 
+omit [CharP F 2] in
 private theorem conj_mem_range_torus {t : projectiveSL 3 F} (ht : t ∈ torus3 F)
     {x : projectiveSL 3 F} (hx : x ∈ (levV1 (F := F)).range) :
     t * x * t⁻¹ ∈ (levV1 (F := F)).range := by
@@ -928,8 +926,8 @@ private theorem torus3_le_normalizer_V1 [Finite F] :
   rw [normalizer_V1_eq]
   obtain ⟨t1, t2, rfl⟩ := mem_torus3.mp ht
   refine ⟨dMat t1 t2, ?_, rfl⟩
-  exact mem_Q3_zero_iff.mpr ⟨by simp [coe_dMat, Matrix.diagonal_apply],
-    by simp [coe_dMat, Matrix.diagonal_apply]⟩
+  exact mem_Q3_zero_iff.mpr ⟨by simp [coe_dMat],
+    by simp [coe_dMat]⟩
 
 private theorem normalizer_V1_eq_sup [Finite F] :
     Subgroup.normalizer ((V1 : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) =
@@ -940,6 +938,7 @@ private theorem normalizer_V1_eq_sup [Finite F] :
     exact proj_mem_sup_of_mem_Q3 hM
   · refine sup_le (sup_le Subgroup.le_normalizer range_le_normalizer_V1) torus3_le_normalizer_V1
 
+omit [CharP F 2] in
 private theorem isSolvable_torus3 [Finite F] : Group.IsSolvable (torus3 F) :=
   Group.isSolvable_of_surjective (f := (dHom F).rangeRestrict)
     (MonoidHom.rangeRestrict_surjective (dHom F))
@@ -1010,7 +1009,7 @@ theorem l3_vertex_V1 [Finite F] {n : ℕ} (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ 
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact hF
@@ -1037,8 +1036,8 @@ private def blockV2 (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     0, 0, 1], by
     rw [Matrix.det_fin_three]
     simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-      Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-      zero_mul, sub_self, add_zero, one_mul]
+      mul_zero, sub_zero, mul_one,
+      zero_mul, add_zero]
     have hB := B.2
     rw [Matrix.det_fin_two] at hB
     linear_combination hB⟩
@@ -1056,11 +1055,12 @@ private def levV2Hom : Matrix.SpecialLinearGroup (Fin 2) F →* Matrix.SpecialLi
         ((blockV2 C : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blockV2, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+      simp [blockV2, Matrix.mul_apply, Fin.sum_univ_three]
 
 private noncomputable def levV2 : Matrix.SpecialLinearGroup (Fin 2) F →* projectiveSL 3 F :=
   (proj 3 F).comp levV2Hom
 
+omit [CharP F 2] in
 private theorem levV2_apply (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     levV2 B = proj 3 F (blockV2 B) := rfl
 
@@ -1072,7 +1072,7 @@ private noncomputable def vecV2 (g : projectiveSL 3 F) : Fin 2 → F := by
 
 private theorem vecV2_of_mem {g : projectiveSL 3 F} (h : g ∈ (V2 : Subgroup (projectiveSL 3 F))) :
     g = yP (vecV2 g 1) * wP (vecV2 g 0) := by
-  rw [vecV2, dif_pos h]
+  rw [vecV2, dite_eq_left h]
   simpa using Classical.choose_spec (Classical.choose_spec h)
 
 private theorem vecV2_yP_wP (b c : F) : vecV2 (yP b * wP c) = ![c, b] := by
@@ -1106,7 +1106,7 @@ private theorem vecV2_ker {z : projectiveSL 3 F} (hz : z ∈ (V2 : Subgroup (pro
   · intro h
     have h1 := congrFun h 0
     have h2 := congrFun h 1
-    simp only [Pi.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h1 h2
+    simp only [Pi.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h1 h2
     rw [h1, h2, yP_zero, wP_zero, mul_one]
   · intro h
     have h2 : vecV2 (yP b * wP c) = vecV2 (1 : projectiveSL 3 F) := by rw [h]
@@ -1120,6 +1120,7 @@ private theorem vecV2_surj (v : Fin 2 → F) :
   funext i
   fin_cases i <;> simp
 
+omit [CharP F 2] in
 private theorem conj_levV2_yP_wP (B : Matrix.SpecialLinearGroup (Fin 2) F) (b c : F) :
     levV2 B * (yP b * wP c) * (levV2 B)⁻¹ =
       yP ((B : Matrix (Fin 2) (Fin 2) F) 1 1 * b + (B : Matrix (Fin 2) (Fin 2) F) 1 0 * c) *
@@ -1297,8 +1298,7 @@ private theorem proj_mem_sup_of_mem_Q3_one [Finite F] {M : Matrix.SpecialLinearG
   let C : Matrix.SpecialLinearGroup (Fin 2) F :=
     ⟨!![(nu * lam) * a, (nu * lam) * b; (nu * lam) * c, (nu * lam) * d], by
       rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.tail_cons]
+      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
       have h2 : (nu * lam) * a * ((nu * lam) * d) - (nu * lam) * b * ((nu * lam) * c) =
           (nu ^ 2 * lam) * (lam * (a * d - b * c)) := by ring
       rw [h2, h1, hdet, mul_one]⟩
@@ -1306,8 +1306,7 @@ private theorem proj_mem_sup_of_mem_Q3_one [Finite F] {M : Matrix.SpecialLinearG
     ⟨!![(nu * lam)⁻¹, 0, 0; 0, nu, 0; 0, 0, lam], by
       rw [Matrix.det_fin_three]
       simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val,
-        Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero, sub_zero, mul_one,
-        zero_mul, sub_self, add_zero, one_mul]
+        mul_zero, sub_zero, zero_mul, add_zero]
       field_simp⟩
   let L : Matrix.SpecialLinearGroup (Fin 3) F := blockV2 C
   let U : Matrix.SpecialLinearGroup (Fin 3) F := yMat (f * lam⁻¹) * wMat (e * lam⁻¹)
@@ -1324,14 +1323,12 @@ private theorem proj_mem_sup_of_mem_Q3_one [Finite F] {M : Matrix.SpecialLinearG
     rw [hLmat]
     have hTdiag : (T : Matrix (Fin 3) (Fin 3) F) = Matrix.diagonal ![(nu * lam)⁻¹, nu, lam] := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [T, Matrix.diagonal_apply]
+      fin_cases i <;> fin_cases j <;> simp [T]
     rw [hTdiag]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_mul, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.head_cons, Matrix.tail_cons] <;> field_simp
+      simp [Matrix.diagonal_mul, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one] <;> field_simp
     all_goals try rw [h1]
-    all_goals try rw [inv_mul_cancel_left₀ hnu0]
     all_goals ring
   have hUmat : (U : Matrix (Fin 3) (Fin 3) F) =
       !![1, 0, e * lam⁻¹; 0, 1, f * lam⁻¹; 0, 0, 1] := by
@@ -1344,18 +1341,14 @@ private theorem proj_mem_sup_of_mem_Q3_one [Finite F] {M : Matrix.SpecialLinearG
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.of_apply, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.head_cons, Matrix.tail_cons] <;> field_simp
-    all_goals try rw [h1]
-    all_goals try rw [inv_mul_cancel_left₀ hnu0]
-    all_goals ring
+        Matrix.cons_val_one] <;> field_simp
   have hTmem : proj 3 F T ∈ torus3 F := by
     have hT : T = dMat (Units.mk0 (nu * lam)⁻¹ (inv_ne_zero (mul_ne_zero hnu0 hlam0)))
         (Units.mk0 nu hnu0) := by
       apply Subtype.ext
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [T, dMat, Matrix.diagonal_apply]
+      fin_cases i <;> fin_cases j <;> simp [T, dMat]
       all_goals try rw [inv_mul_cancel_left₀ hnu0]
-      all_goals ring
     rw [hT]
     exact dP_mem_torus3 _ _
   have hLmem : proj 3 F L ∈ (levV2 (F := F)).range :=
@@ -1422,8 +1415,7 @@ private def twistTorusV2 (a : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
   ⟨!![(B : Matrix (Fin 2) (Fin 2) F) 0 0, (a : F) * (B : Matrix (Fin 2) (Fin 2) F) 0 1;
     (a : F)⁻¹ * (B : Matrix (Fin 2) (Fin 2) F) 1 0, (B : Matrix (Fin 2) (Fin 2) F) 1 1], by
     rw [Matrix.det_fin_two]
-    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.tail_cons]
+    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
     have h3 : (a : F) * (a : F)⁻¹ = 1 := by field_simp
     have h4 : (a : F) * (B : Matrix (Fin 2) (Fin 2) F) 0 1 *
         ((a : F)⁻¹ * (B : Matrix (Fin 2) (Fin 2) F) 1 0) =
@@ -1439,16 +1431,17 @@ private def twistTorusV2 (a : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     rw [Matrix.det_fin_two] at h2
     exact h2⟩
 
+omit [CharP F 2] in
 private theorem dMat_mul_blockV2 (t1 t2 : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     (dMat t1 t2 : Matrix (Fin 3) (Fin 3) F) * (blockV2 B : Matrix (Fin 3) (Fin 3) F) =
       (blockV2 (twistTorusV2 (t1 * t2⁻¹) B) : Matrix (Fin 3) (Fin 3) F) *
         (dMat t1 t2 : Matrix (Fin 3) (Fin 3) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dMat, coe_dMat, blockV2, twistTorusV2, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply] <;>
+    simp [dMat, blockV2, twistTorusV2, Matrix.mul_apply, Matrix.diagonal_apply] <;>
     field_simp
 
+omit [CharP F 2] in
 private theorem conj_blockV2_dMat (t1 t2 : Fˣ) (B : Matrix.SpecialLinearGroup (Fin 2) F) :
     (dMat t1 t2 : Matrix.SpecialLinearGroup (Fin 3) F) * blockV2 B * (dMat t1 t2)⁻¹ =
       blockV2 (twistTorusV2 (t1 * t2⁻¹) B) := by
@@ -1462,6 +1455,7 @@ private theorem conj_blockV2_dMat (t1 t2 : Fˣ) (B : Matrix.SpecialLinearGroup (
   rw [h1]
   group
 
+omit [CharP F 2] in
 private theorem conj_mem_rangeV2_torus {t : projectiveSL 3 F} (ht : t ∈ torus3 F)
     {x : projectiveSL 3 F} (hx : x ∈ (levV2 (F := F)).range) :
     t * x * t⁻¹ ∈ (levV2 (F := F)).range := by
@@ -1480,8 +1474,8 @@ private theorem torus3_le_normalizer_V2 [Finite F] :
   rw [normalizer_V2_eq]
   obtain ⟨t1, t2, rfl⟩ := mem_torus3.mp ht
   refine ⟨dMat t1 t2, ?_, rfl⟩
-  exact mem_Q3_one_iff.mpr ⟨by simp [coe_dMat, Matrix.diagonal_apply],
-    by simp [coe_dMat, Matrix.diagonal_apply]⟩
+  exact mem_Q3_one_iff.mpr ⟨by simp [coe_dMat],
+    by simp [coe_dMat]⟩
 
 private theorem normalizer_V2_eq_sup [Finite F] :
     Subgroup.normalizer ((V2 : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) =
@@ -1558,7 +1552,7 @@ theorem l3_vertex_V2 [Finite F] {n : ℕ} (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ 
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact hF

@@ -64,7 +64,7 @@ theorem k2At_of_shortAt_selfDual_sp_block
   obtain ⟨m, ι, E, W, hm1, hfield, hi, hrange, hE, hIso, hAct, hFix, hSplit, hOrth⟩ :=
     exists_linearBlockModel_selfDual_PSp n 1 S hS he hadj hdeg hJ hA6
   have hcard : Nat.card (GaloisField 2 1) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [GaloisField.card 2 1 (by norm_num : (1 : ℕ) ≠ 0)]
     norm_num
   have hm : 3 ≤ m := by
@@ -173,7 +173,7 @@ theorem three_le_rank_of_pure_shortRoot_fourGroup
       ?_ ?_ ?_ ?_ hy
     · rintro z ⟨j, rfl⟩
       fin_cases i <;> fin_cases j <;>
-        simp only [Fin.cons_zero, Fin.cons_one, Fin.cons_succ, ← spB_eq_spForm]
+        simp only [← spB_eq_spForm]
       all_goals first | exact spB_self _ | exact hab | exact hac | exact hbc |
         exact spB_refl hab | exact spB_refl hac | exact spB_refl hbc
     · exact (spForm m (GaloisField 2 1)).β_zero_left _

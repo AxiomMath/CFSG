@@ -11,7 +11,7 @@ theorem sylow_comm_of_subgroup {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
     ∀ S : Sylow p H, IsMulCommutative (S : Subgroup H) := by
   intro S
   have hS : IsPGroup p (S.map H.subtype) := by
-    obtain ⟨k, hk⟩ := (S.isPGroup').exists_card_eq
+    obtain ⟨k, hk⟩ := (S.isPGroup).exists_card_eq
     exact IsPGroup.of_card (n := k) (by rw [Subgroup.card_map_of_injective H.subtype_injective]; exact hk)
   obtain ⟨T, hT⟩ := hS.exists_le_sylow
   have hTc := h T

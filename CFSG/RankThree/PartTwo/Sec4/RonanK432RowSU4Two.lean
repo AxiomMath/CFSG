@@ -25,7 +25,7 @@ theorem not_three_dvd_card_outer_projSU_four_two {m : ℕ} (hm : 1 ≤ m) (h3 : 
   have hodd : Nat.gcd 4 (2 ^ m + 1) = 1 := by
     have h2 : (2 : ℕ) ^ m % 2 = 0 := by
       obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hm
-      simp [pow_add, Nat.mul_mod]
+      simp [pow_add]
     have hcop : Nat.Coprime 2 (2 ^ m + 1) := by
       rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
       omega

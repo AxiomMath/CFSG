@@ -80,7 +80,7 @@ private theorem epsTree_loop (tabs : Array Table) (p q : Nat) :
     have g2 := getElem!_map_range (epsPt tabs q) (m := s + 1) hlt
     unfold lowBit at g1 g2 hlt
     rw [g1, g2, epsPt_pos tabs p (Nat.succ_pos s), epsPt_pos tabs q (Nat.succ_pos s)]
-    simp only [epsPar, epsLab, Nat.succ_ne_zero, if_false, lowBit]
+    simp only [epsPar, epsLab, Nat.succ_ne_zero, ite_false, lowBit]
 
 theorem epsTreeData_eq (tabs : Array Table) (p q : Nat) :
     epsTreeData tabs p q =
@@ -88,8 +88,7 @@ theorem epsTreeData_eq (tabs : Array Table) (p q : Nat) :
         ((List.range 2048).map epsPar).toArray, ((List.range 2048).map epsLab).toArray⟩ := by
   unfold epsTreeData
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    List.forIn_pure_yield_eq_foldl, Nat.sub_zero,
-    Nat.add_sub_cancel, Nat.div_one, pure_bind, bind_pure, Prod.eta]
+    List.forIn_pure_yield_eq_foldl, Nat.add_sub_cancel, Nat.div_one, pure_bind]
   rw [epsTree_loop tabs p q (2048 - 1)]
   rfl
 
@@ -124,7 +123,7 @@ theorem epsTreeOK_of (tabs : Array Table)
     have hpar : k - 1 <<< lowBit k < k := sub_lowBit_lt (by omega)
     rw [getElem!_map_range _ hk, getElem!_map_range _ hk, getElem!_map_range _ hk,
       getElem!_map_range _ hk]
-    simp only [epsPar, epsLab, hk0, if_false]
+    simp only [epsPar, epsLab, hk0, ite_false]
     rw [getElem!_map_range _ (by omega : k - 1 <<< lowBit k < 2048),
       getElem!_map_range _ (by omega : k - 1 <<< lowBit k < 2048),
       ← epsPt_pos tabs 3 (by omega), ← epsPt_pos tabs 6 (by omega)]

@@ -64,7 +64,7 @@ theorem not_dvd_card_center_of_pRank_eq_one (h72 : KFactOmegaNotCentral) {X : Ty
     (hp : p.Prime) (hp2 : p ≠ 2) (hr : CFSG.Open.pRank p L = 1) :
     ¬ p ∣ Nat.card (center ↥L) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z₀, hz₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥(center ↥L)) p hdvd
   let z : X := ((z₀ : ↥L) : X)
   have hzval : z = ((z₀ : ↥L) : X) := rfl

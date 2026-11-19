@@ -235,7 +235,7 @@ theorem entry4207 (hF : J4Facts) {i : Nat} {w : String}
     · exact Subgroup.mem_sup_left (kJ_mem_P0 (by omega))
     · refine Subgroup.mem_sup_right (Subgroup.mem_map.2
         ⟨uJ (k - 15), Subgroup.subset_closure ⟨k - 15, by omega, rfl⟩, ?_⟩)
-      simp [MulAut.conj_apply]
+      simp
     · exact Subgroup.one_mem _
   · rw [hspow]
     exact eta_mem_Eg 11 le_rfl m

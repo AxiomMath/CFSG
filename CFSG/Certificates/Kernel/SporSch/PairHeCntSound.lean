@@ -154,12 +154,11 @@ theorem scanHeP_eq (hH : BaseFaithful H bs) (hbs : ∀ b ∈ bs, b < n) {X K Z Z
   · rw [blt_true hi]
     change strictN (nfX 5 (X i)) _ = _
     rw [strictN_val]
-    change strictN (K i) _ = _
     rw [strictN_val]
     cases hpre : preP (nfPtT w NR NL LT PT (nat_lit 5) (nfX (nat_lit 5) (X i))) Z ZI
       (Nat.mod (Nat.div (K i) D1) n) (Nat.mod (Nat.div (K i) D0) n)
     · change 0 = _
-      rw [hA, if_neg]
+      rw [hA, ite_eq_right]
       rintro ⟨-, h7, -⟩
       have h7' : (elt5 S base (nfX 5 (X i)) * z) ^ 7 = 1 := by
         rw [← h7]
@@ -168,8 +167,7 @@ theorem scanHeP_eq (hH : BaseFaithful H bs) (hbs : ∀ b ∈ bs, b < n) {X K Z Z
         (nfPtT5 hT (hV hi)).2 hZ hZI (hI hi) h7' hp (h1 hi) (h0 hi)
       exact Bool.false_ne_true (hpre.symm.trans hP)
     · rfl
-  · rw [blt_false hi, hA, if_neg fun h => hi h.1]
-    all_goals rfl
+  · rw [blt_false hi, hA, ite_eq_right fun h => hi h.1]
 
 theorem bind5_spec {F P : Nat} (hF : nfValidK 5 LR F = true)
     (h : ∀ x < n, bind5At n w NR NL LT PT F P x = true) :

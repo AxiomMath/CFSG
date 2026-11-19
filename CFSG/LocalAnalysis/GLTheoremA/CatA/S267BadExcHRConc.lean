@@ -24,7 +24,7 @@ theorem concA_of_adjointGroup {p : ℕ} (hp : p.Prime) {τ : Tag}
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) (hBle : Nat.card B ≤ p ^ (τ.rank + 1))
     (eX : ↥(adjointGroup τ K) ≃* PSimple p S) (hM : ModelAGen p τ.rank ↥(adjointGroup τ K)) :
     S267ConcA p S B := by
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set eS : PSimple p S ≃* ↥S := (psimpleEquivCenterQuotOfCore hcore).trans
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot) with heS
   set φ : ↥(adjointGroup τ K) →* Ω := S.subtype.comp (eX.trans eS).toMonoidHom with hφdef
@@ -51,19 +51,19 @@ theorem card_le_pow_add_two_of_hom {p r : ℕ} (hp : p.Prime) (hS : S.Normal) (h
     (hΘ : ∀ x ∈ Θ.ker, x ^ p = 1 → x ∈ (MulAut.conj : X →* MulAut X).range)
     (hX : ∀ F : Subgroup X, IsElemAbelian p F → Nat.card F ≤ p ^ r) :
     Nat.card B ≤ p ^ (r + 2) := by
-  haveI : Finite (PSimple p S) := Finite.of_equiv X eX.toEquiv
+  have : Finite (PSimple p S) := Finite.of_equiv X eX.toEquiv
   have hZ : Subgroup.center (PSimple p S) = ⊥ := by
     rw [← Subgroup.map_center_eq eX, hZX, Subgroup.map_bot]
   have hrk := pRank_mulAut_le_of_hom eX.symm Θ (f := p) hp hΘ
     (CFSG.LocalAnalysis.RankFourTheoremC.conj_injective_of_center_eq_bot hZ)
     (card_le_of_mulEquiv eX.symm hX) (fun h => absurd (dvd_refl p) h)
-  rw [if_pos (dvd_refl p)] at hrk
+  rw [ite_eq_left (dvd_refl p)] at hrk
   exact card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC hrk
 
 theorem card_le_or_eq_of_le {p r : ℕ} (hp : p.Prime) (hB : IsElemAbelian p B)
     (hle : Nat.card B ≤ p ^ (r + 2)) :
     Nat.card B ≤ p ^ (r + 1) ∨ Nat.card B = p ^ (r + 2) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p B := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by rw [Subgroup.coe_pow, Subgroup.coe_one]; exact hB.2 x x.2)⟩
@@ -81,7 +81,7 @@ theorem card_le_pow_rank_add_two_F4
     (eX : ↥(adjointGroup .F4 K) ≃* PSimple p S)
     (hX : ∀ F : Subgroup ↥(adjointGroup .F4 K), IsElemAbelian p F → Nat.card F ≤ p ^ Tag.F4.rank) :
     Nat.card B ≤ p ^ (Tag.F4.rank + 2) := by
-  haveI : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
   obtain ⟨C, _, _, Θ, -, hker⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_cyclic_F4 Q K hKQ
   exact card_le_pow_add_two_of_hom hp hS hperf hB hBC eX center_adjointGroup_eq_bot Θ
     (fun x hx _ => by rw [hker] at hx; exact hx) hX
@@ -100,7 +100,7 @@ theorem five_le_card_of_dvd_sub_one {K : Type} [Finite K] [Nontrivial K] {p : �
   have := Nat.le_of_dvd (by omega) hpK
   omega
 
-theorem not_dvd_of_dvd_three {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hn : n ∣ 3) : ¬ p ∣ n :=
+theorem not_dvd_of_dvd_three {p n : ℕ} (_hp : p.Prime) (hp5 : 5 ≤ p) (hn : n ∣ 3) : ¬ p ∣ n :=
   fun h => by
     have := Nat.le_of_dvd (by norm_num) (h.trans hn)
     omega
@@ -116,7 +116,7 @@ theorem concA_badExcCore_E6_of_dvd_sub_one_of_card_le {p q : ℕ} (hp : p.Prime)
     (hdvd : p ∣ Q.card - 1) (hBle : Nat.card B ≤ p ^ (Tag.E6.rank + 1)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2

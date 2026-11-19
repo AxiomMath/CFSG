@@ -380,7 +380,7 @@ theorem u_conj_mem {x : Equiv.Perm (Fin 22)} (hx : x ∈ H0) : u * x * u⁻¹ �
     rcases hy with rfl | rfl
     · exact u_conj_a_mem
     · exact u_conj_b_mem
-  | one => simpa using H0.one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
     have h : u * (a * b) * u⁻¹ = (u * a * u⁻¹) * (u * b * u⁻¹) := by group
     rw [h]
@@ -423,13 +423,13 @@ theorem N0_le_normalizer : N0 ≤ Subgroup.normalizer (H0 : Set (Equiv.Perm (Fin
   · exact u_mem_normalizer
 
 theorem sign_u : Equiv.Perm.sign u = -1 := by
-  simp [u, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [u, Equiv.Perm.sign_mul]
 
 theorem sign_S2_0 : Equiv.Perm.sign (S2 0) = 1 := by
-  simp [S2, List.formPerm, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [S2, List.formPerm, Equiv.Perm.sign_mul]
 
 theorem sign_S2_1 : Equiv.Perm.sign (S2 1) = 1 := by
-  simp [S2, List.formPerm, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [S2, List.formPerm, Equiv.Perm.sign_mul]
 
 theorem H0_le_alternating : H0 ≤ alternatingGroup (Fin 22) := by
   rw [← closure_range_S2, Subgroup.closure_le]

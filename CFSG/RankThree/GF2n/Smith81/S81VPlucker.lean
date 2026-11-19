@@ -55,13 +55,13 @@ private theorem pl1_sU_smul_fam (p : Fin 3 ⊕ Fin 3) :
       fam e3uT0Vec b (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p) := by
   rw [smul_fam hσ hf, gm_sU hσ hf,
     Fintype.sum_eq_single (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p)]
-  · rw [pl1_swapM_apply, Equiv.swap_apply_self, if_pos rfl, one_smul]
+  · rw [pl1_swapM_apply, Equiv.swap_apply_self, ite_eq_left rfl, one_smul]
   · intro q hq
     have hne : p ≠ Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) q := by
       intro h
       apply hq
       rw [h, Equiv.swap_apply_self]
-    rw [pl1_swapM_apply, if_neg hne, zero_smul]
+    rw [pl1_swapM_apply, ite_eq_right hne, zero_smul]
 
 private theorem pl1_uK_inl (H : HermK σ e₀) (j : Fin 3) :
     uK hσ hf H • fam e3uT0Vec b (Sum.inl j) = fam e3uT0Vec b (Sum.inl j) := by
@@ -72,7 +72,7 @@ private theorem pl1_uK_inr (H : HermK σ e₀) (j : Fin 3) :
     uK hσ hf H • fam e3uT0Vec b (Sum.inr j) =
       fam e3uT0Vec b (Sum.inr j) + ∑ i, H.mat i j • fam e3uT0Vec b (Sum.inl i) := by
   rw [smul_fam hσ hf, gm_uK hσ hf, Fintype.sum_sum_type]
-  simp [fam, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂, Matrix.one_apply] <;> abel
+  simp [fam, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂, Matrix.one_apply]; abel
 
 theorem rho_sU_pt0 :
     rho F ((sU hσ hf : SUid σ 6) : GL (Fin 6) F) (pt0 F) =
@@ -108,9 +108,9 @@ theorem rho_uK_sU_pt0 (t : K) :
   have hsumc : ∑ i, (t • n1K σ e₀).mat i 0 • fam e3uT0Vec b (Sum.inl i) =
       ((e₀ t : Fσ σ) : F) • e3uT0Vec 0 := by
     rw [hH, Fintype.sum_eq_single 0]
-    · simp [Matrix.smul_apply, Matrix.single_apply, fam]
+    · simp [Matrix.smul_apply, fam]
     · intro i hi
-      simp [Matrix.smul_apply, Matrix.single_apply, hi, Ne.symm hi]
+      simp [Matrix.smul_apply, Ne.symm hi]
   have hu0 : (((uK hσ hf (t • n1K σ e₀) : SUid σ 6) : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec
       (b 0) = b 0 + ((e₀ t : Fσ σ) : F) • e3uT0Vec 0 := by
     have h := pl1_uK_inr hσ hf e₀ (t • n1K σ e₀) 0

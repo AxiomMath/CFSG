@@ -45,7 +45,7 @@ def stab (P : Subgroup K) [P.Normal] (Z : Subgroup K) (hZc : ∀ g : K, ∀ z �
     exact Z.mul_mem (hb x hx) (ha x hx)
   one_mem' := by
     intro x _
-    simpa using Z.one_mem
+    simp
   inv_mem' := by
     intro k hk x hx
     have hy : k⁻¹ * x * k⁻¹⁻¹ ∈ P := Subgroup.Normal.conj_mem inferInstance _ hx k⁻¹
@@ -84,7 +84,7 @@ theorem sylow_normal_of_core {p : ℕ} [hp : Fact p.Prime] [Finite K]
     fun N hN hNp => le_pCore_of_normal_isPGroup hN hNp
   have hZP : Subgroup.zpowers c ≤ P₀ := hmaxP _ hZn hZp
   have hP₀S : P₀ ≤ S := by
-    haveI := hP₀n
+    have := hP₀n
     have h := hSmax (S ⊔ P₀) (IsPGroup.to_sup_of_normal_right hSp hP₀p) le_sup_left
     exact le_sup_right.trans h.le
   have hPdvd : Nat.card P₀ ∣ p ^ 3 := hS3 ▸ Subgroup.card_dvd_of_le hP₀S
@@ -261,7 +261,7 @@ theorem balance_of_sylow_core {p : ℕ} [hp : Fact p.Prime] [Finite K]
     {R Y : Subgroup K} (hR : CFSG.Open.IsElemAbelian p R) (hR2 : Nat.card R = p ^ 2)
     (hcR : c ∈ R) (hY : ¬ p ∣ Nat.card Y) (hRY : R ≤ Subgroup.normalizer (Y : Set K)) :
     Y = ⊥ := by
-  haveI hSNi : S.Normal := hSN
+  have hSNi : S.Normal := hSN
   have hcomm : ∀ g : K, g * c = c * g := fun g => Subgroup.mem_center_iff.1 hcz g
   have hcen : ∀ g : K, ∀ z ∈ Subgroup.zpowers c, g * z * g⁻¹ = z := by
     intro g z hz
@@ -291,7 +291,7 @@ theorem balance_of_sylow_core {p : ℕ} [hp : Fact p.Prime] [Finite K]
     simpa using h3
   have hZR : Subgroup.zpowers c ≤ R := (Subgroup.zpowers_le).2 hcR
   have hRS : R ≤ S := by
-    haveI := hSN
+    have := hSN
     have h := hSmax (R ⊔ S)
       (IsPGroup.to_sup_of_normal_right (CFSG.Open.IsElemAbelian.isPGroup hR) hSp) le_sup_right
     exact le_sup_left.trans h.le
@@ -395,7 +395,7 @@ theorem balance_of_sylow_core {p : ℕ} [hp : Fact p.Prime] [Finite K]
               (y * a * y⁻¹ * a⁻¹) * (a * (y * b * y⁻¹ * b⁻¹) * a⁻¹) := by group
           rw [e]
           exact R.mul_mem ha' (hRnorm a ha _ hb')
-        one_mem' := ⟨S.one_mem, by simpa using R.one_mem⟩
+        one_mem' := ⟨S.one_mem, by simp⟩
         inv_mem' := by
           rintro a ⟨ha, ha'⟩
           refine ⟨S.inv_mem ha, ?_⟩
@@ -407,13 +407,13 @@ theorem balance_of_sylow_core {p : ℕ} [hp : Fact p.Prime] [Finite K]
       refine ⟨hRS hr, ?_⟩
       show y * r * y⁻¹ * r⁻¹ ∈ R
       rw [hyr_gen r hr]
-      simpa using R.one_mem
+      simp
     have hxSgm : x ∈ Sg := ⟨hxS, hxSg⟩
     have hSgS : S ≤ Sg := by
       have h := sup_le hRSg (Subgroup.zpowers_le.2 hxSgm)
       rw [hTS] at h
       exact h
-    haveI : (R.subgroupOf S).Normal := hRn'
+    have : (R.subgroupOf S).Normal := hRn'
     have hfix : ∀ n ∈ R.subgroupOf S, CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.Monster13.conjRestr
         S y n = n := by
       intro n hn

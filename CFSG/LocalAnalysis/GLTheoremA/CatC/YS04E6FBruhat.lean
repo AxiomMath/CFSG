@@ -31,7 +31,7 @@ theorem entrywise_rootDiagUnit (T : K ≃+* K) (a : Fin τ.rank → Kˣ) :
   Units.ext (entrywise_rootDiag T.toRingHom a)
 
 theorem twU_mul (T : K ≃+* K) (a b : Fin τ.rank → Kˣ) : twU T (a * b) = twU T a * twU T b :=
-  funext fun i => map_mul _ _ _
+  funext fun _i => map_mul _ _ _
 
 theorem twU_weylAct (T : K ≃+* K) (w : WeylGroup τ) (a : Fin τ.rank → Kˣ) :
     twU T (wAct w a) = wAct w (twU T a) := by

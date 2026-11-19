@@ -15,9 +15,9 @@ theorem letAZ_spec (ch : Char) :
     rfl
   unfold letAZ
   by_cases h : 97 ≤ ch.toNat
-  · rw [if_pos (key.2 h), Nat.ble_eq_true_of_le h]
+  · rw [ite_eq_left (key.2 h), Nat.ble_eq_true_of_le h]
     rfl
-  · rw [if_neg (fun h' => h (key.1 h'))]
+  · rw [ite_eq_right (fun h' => h (key.1 h'))]
     have hb : Nat.ble 97 ch.toNat = false := by
       cases hb : Nat.ble 97 ch.toNat
       · rfl

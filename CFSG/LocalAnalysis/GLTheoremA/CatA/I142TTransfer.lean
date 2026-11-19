@@ -380,6 +380,7 @@ theorem typesA_iSup_coord {ι : Type} [Fintype ι] [DecidableEq ι] (ρ : A →*
     exact absurd hbot ((Subgroup.nontrivial_iff_ne_bot K).1
       (I142N.nontrivial_of_isQuasisimple hK.2.2))
 
+omit [Finite S] in
 private theorem coordFun_fixA_coord {ι : Type} [Fintype ι] [DecidableEq ι]
     (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) :
@@ -391,6 +392,7 @@ private theorem coordFun_fixA_coord {ι : Type} [Fintype ι] [DecidableEq ι]
   rw [I142N.coordFun_apply] at h2
   exact h2.symm
 
+omit [Finite S] in
 theorem coordPr_injOn_fixA {ι : Type} [Fintype ι] [DecidableEq ι]
     (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (i₀ : ι)
@@ -407,6 +409,7 @@ theorem coordPr_injOn_fixA {ι : Type} [Fintype ι] [DecidableEq ι]
   show ((g j : ↥(H j)) : S) = 1
   rw [h1, h2, map_one]
 
+omit [Finite S] in
 theorem map_coordPr_fixA {ι : Type} [Fintype ι] [DecidableEq ι]
     (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (i₀ : ι)
@@ -453,6 +456,7 @@ theorem map_coordPr_fixA {ι : Type} [Fintype ι] [DecidableEq ι]
     show ρ (c i₀) (y : S) = y
     exact hfixE _ (hc i₀)
 
+omit [Finite S] in
 theorem typesA_iSup_transitive {ι : Type} [Fintype ι] [DecidableEq ι]
     (ρ : A →* MulAut S) (H : ι → Subgroup S)
     (hcomm : ∀ i j, i ≠ j → ∀ x ∈ H i, ∀ y ∈ H j, Commute x y)

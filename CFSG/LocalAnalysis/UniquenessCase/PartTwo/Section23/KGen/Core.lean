@@ -17,7 +17,7 @@ theorem exists_A_of_perfect_prime_order {G : Type} [Group G] [Finite G] {P V : S
     (hwx : w * x * w⁻¹ ∈ Subgroup.zpowers x) :
     ∃ A : Subgroup G, A ≤ Hinf P ∧ Nat.card ↥A = p ∧
       ∃ w : G, w ∉ P ∧ ∀ a ∈ A, w * a * w⁻¹ ∈ A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨Subgroup.zpowers x, ?_, ?_, w, hwP, ?_⟩
   · exact (Subgroup.zpowers_le.2 hxV).trans (uc22p21c_le_Hinf hVP hV)
   · rw [Nat.card_zpowers, orderOf_eq_prime hxp hx1]

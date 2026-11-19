@@ -176,11 +176,11 @@ private theorem sSupIndep_insert_of_disjoint {α : Type*} [CompleteLattice α] [
     sSupIndep (insert a s) := by
   intro b hb
   rcases hb with rfl | hb
-  · rwa [Set.insert_sdiff_of_mem s (Set.mem_singleton b), Set.diff_singleton_eq_self ha]
+  · rwa [Set.insert_sdiff_of_mem s (Set.mem_singleton b), Set.sdiff_singleton_eq_self ha]
   · have hba : a ∉ ({b} : Set α) := fun h => ha (Set.mem_singleton_iff.mp h ▸ hb)
     rw [Set.insert_sdiff_of_notMem s hba, sSup_insert]
     have h2 : Disjoint (b ⊔ sSup (s \ {b})) a :=
-      (hd.mono_right (sup_le (le_sSup hb) (sSup_le_sSup Set.diff_subset))).symm
+      (hd.mono_right (sup_le (le_sSup hb) (sSup_le_sSup Set.sdiff_subset))).symm
     have h := (hs hb).disjoint_sup_right_of_disjoint_sup_left h2
     rwa [sup_comm] at h
 

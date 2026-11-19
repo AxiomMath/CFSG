@@ -378,7 +378,7 @@ theorem l154td4_exact_d4_E6 (S : LangSetup Tag.E6 L p₀) {p : ℕ} (hp : p.Prim
       ext1 g
       rw [hΦ, one_mul, inv_one, mul_one]
     obtain ⟨ℓ, f, hℓ, hchar, hf, hq⟩ := S.exists_char_pow
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have h := l154td4_d4_untw d4Base_E6 (d4SwapLayer_E6 e6FixDNAll_proved) d4SwapLayerFine_E6 S
       hFr hΦ' hn (fun γ hγ => S.rho_eq_smul_of_frob hFr hΦ' hn hγ) i v hv hρ hnin h2 hf hq
     exact l154td4_exact_of_lieModel ((ringChar.eq L ℓ).symm.trans hL2) (by decide) h

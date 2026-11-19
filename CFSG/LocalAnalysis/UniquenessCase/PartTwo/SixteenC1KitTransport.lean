@@ -72,7 +72,7 @@ private noncomputable def s16c1_kappa {W : Type} [CommGroup W]
   map_mul' := by
     intro g h
     ext x
-    simp [LinearEquiv.mul_apply, MulEquiv.trans_apply, AddEquiv.toMultiplicative_apply_apply]
+    simp [MulEquiv.trans_apply, AddEquiv.toMultiplicative_apply_apply]
 
 private lemma s16c1_kappa_apply {W : Type} [CommGroup W] (β : W ≃* Multiplicative V₀)
     (g : V₀ ≃ₗ[ZMod 2] V₀) (x : W) :

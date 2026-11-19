@@ -140,7 +140,7 @@ lemma lf_map_normal {M : Type*} [Group M] (R : Subgroup M) [R.Normal] (K P₀ : 
     map_inv]
 
 theorem lemmaF {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) (R : Subgroup M) [R.Normal]
-    (K E P₀ : Subgroup M) (hKperf : ⁅K, K⁆ = K) (hEK : ∀ e ∈ E, e ∈ normalizer (K : Set M))
+    (K E P₀ : Subgroup M) (_hKperf : ⁅K, K⁆ = K) (hEK : ∀ e ∈ E, e ∈ normalizer (K : Set M))
     (hP₀ : IsPGroup p P₀) (hEP₀ : E ≤ P₀) (hKP₀ : ∀ k ∈ K, k ∈ normalizer (P₀ : Set M))
     (hq : CFSG.IsQuasisimple (K.map (QuotientGroup.mk' R))) :
     ∀ e ∈ E, ∀ k ∈ K, ⁅(e : M ⧸ R), (k : M ⧸ R)⁆ = 1 := by

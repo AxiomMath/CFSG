@@ -151,12 +151,12 @@ theorem coordPlane_minusPlaneCoordinates (i : Fin (n - 1)) :
       · subst h
         simp [minusVec, eVec, fVec]
       · have hv0 : v (Sum.inl k) = 0 := hv _ (by simp [h])
-        simp [minusVec, eVec, fVec, Pi.single_apply, h, hv0]
+        simp [minusVec, eVec, fVec, h, hv0]
     · by_cases h : k = i
       · subst h
         simp [minusVec, eVec, fVec]
       · have hv0 : v (Sum.inr (Sum.inl k)) = 0 := hv _ (by simp [h])
-        simp [minusVec, eVec, fVec, Pi.single_apply, h, hv0]
+        simp [minusVec, eVec, fVec, h, hv0]
     · have hv0 : v (Sum.inr (Sum.inr t)) = 0 := hv _ (by simp)
       simp [minusVec, eVec, fVec, hv0]
 
@@ -164,9 +164,7 @@ theorem mem_activeCoords_insert {i : Fin (n - 1)} {S : Finset (Fin (n - 1))} {a 
     a ∈ activeCoords n (insert i S) ↔
       a ∈ activeCoords n S ∨ a = Sum.inl i ∨ a = Sum.inr (Sum.inl i) := by
   rcases a with k | k | t <;>
-    simp [activeCoords, eCoords, fCoords, planeCoords, Finset.mem_insert,
-      inl_mem_eCoords, inr_inl_mem_fCoords, inl_not_mem_fCoords,
-      inr_inl_not_mem_eCoords, inr_inr_mem_planeCoords] <;>
+    simp [activeCoords, eCoords, fCoords, planeCoords, Finset.mem_insert] <;>
     tauto
 
 theorem anchoredSupport_insert (i : Fin (n - 1)) (S : Finset (Fin (n - 1))) :

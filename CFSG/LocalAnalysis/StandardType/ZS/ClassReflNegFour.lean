@@ -25,7 +25,7 @@ private lemma negFourForm_apply [Fact (Nat.Prime 5)] (c : ZMod 5) (x : Fin 4 →
 private lemma negFourForm_apply_single [Fact (Nat.Prime 5)] (c : ZMod 5) (i : Fin 4) :
     negFourForm c (Pi.single i 1) = c := by
   rw [negFourForm_apply]
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 private lemma negFourForm_polar_single [Fact (Nat.Prime 5)] (c : ZMod 5)
     {i j : Fin 4} (hij : i ≠ j) :
@@ -35,14 +35,14 @@ private lemma negFourForm_polar_single [Fact (Nat.Prime 5)] (c : ZMod 5)
       (Pi.single j 1 : Fin 4 → ZMod 5) k) = 0 := by
     intro k
     by_cases hki : k = i
-    · rw [hki, Pi.single_eq_same, Pi.single_apply, if_neg hij, mul_zero, mul_zero]
+    · rw [hki, Pi.single_eq_same, Pi.single_apply, ite_eq_right hij, mul_zero, mul_zero]
     · simp [Pi.single_apply, hki]
   rw [Finset.sum_eq_zero (fun k _ => hterm k), mul_zero]
 
 private lemma negFourForm_polar_nondegenerate [Fact (Nat.Prime 5)] (c : ZMod 5) (hc : c ≠ 0) :
     (QuadraticMap.polarBilin (negFourForm c)).Nondegenerate := by
   have h2 : (2 : ZMod 5) ≠ 0 := ZMod.prime_ne_zero 5 2 (by norm_num)
-  letI : Invertible (2 : ZMod 5) := invertibleOfNonzero h2
+  let : Invertible (2 : ZMod 5) := invertibleOfNonzero h2
   have hnd : (negFourForm c).Nondegenerate :=
     QuadraticMap.nondegenerate_weightedSumSquares
       (fun _ : Fin 4 => isRegular_iff_ne_zero.mpr hc)
@@ -124,7 +124,7 @@ theorem neg_mem_closure_classRefl_of_isPlusType_four [Fact (Nat.Prime 5)] {U : T
   have hfQ : ∀ i, Q (f i) = c := by
     intro i
     rw [show Q (f i) = negFourForm c (Pi.single i 1) by
-      simpa [f] using e.symm.map_app (Pi.single i 1)]
+      simp [f]]
     exact negFourForm_apply_single c i
   have hfpol : ∀ i j, i ≠ j → QuadraticMap.polar Q (f i) (f j) = 0 := by
     intro i j hij
@@ -150,15 +150,15 @@ theorem neg_mem_closure_classRefl_of_isPlusType_four [Fact (Nat.Prime 5)] {U : T
   have hfac : ∀ i j, r i (f j) = (if i = j then (-1 : ZMod 5) else 1) • f j := by
     intro i j
     by_cases hij : i = j
-    · rw [if_pos hij, ← hij]
+    · rw [ite_eq_left hij, ← hij]
       dsimp only [r]
       rw [CFSG.StandardType.ZS.reflect_apply_self (by rw [hfQ i]; exact hc), neg_one_smul]
-    · rw [if_neg hij, CFSG.ClassicalGroups.Orthogonal.reflect_apply_of_polar_eq_zero
+    · rw [ite_eq_right hij, CFSG.ClassicalGroups.Orthogonal.reflect_apply_of_polar_eq_zero
         (hfpol i j hij), one_smul]
   have hPj : ∀ j, P (f j) = - f j := by
     intro j
     fin_cases j <;>
-      simp [P, r, LinearEquiv.mul_apply, hfac, smul_smul, neg_one_smul]
+      simp [P, r, LinearEquiv.mul_apply, hfac]
   let b : Module.Basis (Fin 4) (ZMod 5) U :=
     (Pi.basisFun (ZMod 5) (Fin 4)).map e.symm.toLinearEquiv
   have hb : ∀ i, b i = f i := by

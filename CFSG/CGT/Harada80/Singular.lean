@@ -53,6 +53,7 @@ private theorem blockW_le_centralizer_mul (S : Setting G M J m) (hE : BlockCase 
     _ = (u : G) * (w * b) := by rw [hE.comm b hb w hw]
     _ = ((u : G) * w) * b := by group
 
+omit [Finite G] in
 private theorem conj_eq_blockW_of_mem_J {w ℓ : G} (hw : w ∈ blockW J) (hℓJ : ℓ ∈ J) :
     ℓ * w * ℓ⁻¹ = w := by
   have hwC : w ∈ Subgroup.centralizer (J : Set G) :=
@@ -90,6 +91,7 @@ theorem conj_eq_of_mem_centralizer_mul (S : Setting G M J m) (hE : BlockCase J m
     rw [hcomm]; group
   exact ((S.conj_mul_eq_iff hE hxM u.2 hw).mp hconj).1
 
+omit [Finite G] in
 theorem mem_centralizer_mul_of_mem {u : ↥(blockU J)} {w ℓ : G} (hw : w ∈ blockW J)
     (hℓJ : ℓ ∈ J) (hℓu : ℓ * (u : G) * ℓ⁻¹ = u) :
     ℓ ∈ Subgroup.centralizer ({(u : G) * w} : Set G) := by
@@ -98,7 +100,7 @@ theorem mem_centralizer_mul_of_mem {u : ↥(blockU J)} {w ℓ : G} (hw : w ∈ b
   calc ℓ * ((u : G) * w) = (ℓ * (u : G) * ℓ⁻¹) * (ℓ * w * ℓ⁻¹) * ℓ := by group
     _ = ((u : G) * w) * ℓ := by rw [hℓu, hℓw]
 
-theorem mul_notMem_blockW (S : Setting G M J m) (hZ : blockZ J = ⊥)
+theorem mul_notMem_blockW (_S : Setting G M J m) (hZ : blockZ J = ⊥)
     {u : ↥(blockU J)} (hu1 : u ≠ 1) {w : G} (hw : w ∈ blockW J) :
     (u : G) * w ∉ blockW J := by
   intro h
@@ -107,7 +109,7 @@ theorem mul_notMem_blockW (S : Setting G M J m) (hZ : blockZ J = ⊥)
     rw [h2]
     exact (blockW J).mul_mem h ((blockW J).inv_mem hw)
   have hbot : (u : G) ∈ blockU J ⊓ blockW J := Subgroup.mem_inf.mpr ⟨u.2, huW⟩
-  rw [blockU_inf_blockW S hZ, Subgroup.mem_bot] at hbot
+  rw [blockU_inf_blockW hZ, Subgroup.mem_bot] at hbot
   exact hu1 (Subtype.ext hbot)
 
 theorem pCoreOf_le_centralizer_mul (S : Setting G M J m) (hE : BlockCase J m)
@@ -116,6 +118,7 @@ theorem pCoreOf_le_centralizer_mul (S : Setting G M J m) (hE : BlockCase J m)
   rw [pCoreOf_eq (S := S) hE]
   exact sup_le (blockU_le_centralizer_mul S hw) (blockW_le_centralizer_mul S hE hw)
 
+omit [Finite G] in
 theorem conj_mem_pCoreOf_centralizer_of_centralizes {u : ↥(blockU J)}
     {w ℓ x : G} (hw : w ∈ blockW J) (hℓJ : ℓ ∈ J)
     (hℓu : ℓ * (u : G) * ℓ⁻¹ = u)
@@ -229,7 +232,7 @@ private theorem eq_bot_of_card (hE : BlockCase J m) {u : ↥(blockU J)} (hu1 : u
       _ = Nat.card (pCoreOf 2 M) := by rw [S.card_pCoreOf hE, hcardA]
       _ ≤ Nat.card ↥B := hcard
   have hBpos : 0 < Nat.card ↥B := Nat.card_pos
-  have hle' : Nat.card ↥B * 2 ≤ Nat.card ↥B * 1 := by simpa using hle
+  have hle' : Nat.card ↥B * 2 ≤ Nat.card ↥B * 1 := by simp at hle
   have h21 : 2 ≤ 1 := (Nat.mul_le_mul_left_iff hBpos).mp hle'
   omega
 
@@ -237,10 +240,10 @@ private noncomputable abbrev fB (S : Setting G M J m) (hZ : blockZ J = ⊥)
     (B : Subgroup G) : ↥(B.subgroupOf M) →* (Vec m ≃ₗ[ZMod 2] Vec m) :=
   (S.lin hZ).comp (B.subgroupOf M).subtype
 
-private theorem exists_pOf_fixed (hE : BlockCase J m) {u : ↥(blockU J)} (hu1 : u ≠ 1)
-    (hu : quadQ m (S.vec u) = 0) {T : Subgroup G} (hTM : T ≤ M) (hT : IsPGroup 2 T)
-    (hTu : ∀ t ∈ T, t * (u : G) * t⁻¹ = u)
-    (hTn : ∀ ℓ ∈ J, ℓ * (u : G) * ℓ⁻¹ = u → ∀ t ∈ T, ℓ * t * ℓ⁻¹ ∈ T)
+private theorem exists_pOf_fixed (hE : BlockCase J m) {u : ↥(blockU J)} (_hu1 : u ≠ 1)
+    (_hu : quadQ m (S.vec u) = 0) {T : Subgroup G} (hTM : T ≤ M) (hT : IsPGroup 2 T)
+    (_hTu : ∀ t ∈ T, t * (u : G) * t⁻¹ = u)
+    (_hTn : ∀ ℓ ∈ J, ℓ * (u : G) * ℓ⁻¹ = u → ∀ t ∈ T, ℓ * t * ℓ⁻¹ ∈ T)
     {B : Subgroup G} (hBT : B ≤ T) (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hZ : blockZ J = ⊥) :
     ∃ pOf : ↥(fB S hZ B).ker → ↥(blockU J) × G,
@@ -352,6 +355,7 @@ theorem eq_pCoreOf_of_singular (hE : BlockCase J m) {u : ↥(blockU J)} (hu1 : u
     exact mem_pCoreOf_of_lin_eq_one (S := S) hE hZ hBM (hT.to_le hBT) hx (by simpa using hx1)
   exact Subgroup.eq_of_le_of_card_ge hB_le hcard
 
+omit [Finite G] in
 theorem pCoreOf_centralizer_conj {x y g : G} (h : g * x * g⁻¹ = y) :
     pCoreOf 2 (Subgroup.centralizer ({y} : Set G)) =
       (pCoreOf 2 (Subgroup.centralizer ({x} : Set G))).map (MulAut.conj g).toMonoidHom := by
@@ -444,7 +448,7 @@ theorem conj_ne_of_singular (hE : BlockCase J m) {u : ↥(blockU J)} (hu1 : u �
   exact mul_notMem_blockW S (S.blockZ_eq_bot hE.h1) hu1 hw htW
 
 theorem mem_of_conj_eq_of_singular_of_le (hE : BlockCase J m) {u u' : ↥(blockU J)}
-    (hu1 : u ≠ 1) (hu1' : u' ≠ 1) (hu : quadQ m (S.vec u) = 0)
+    (_hu1 : u ≠ 1) (hu1' : u' ≠ 1) (_hu : quadQ m (S.vec u) = 0)
     (hu' : quadQ m (S.vec u') = 0) {w w' : G} (hw : w ∈ blockW J) (hw' : w' ∈ blockW J)
     (hC : Subgroup.centralizer ({(u : G) * w} : Set G) ≤ M) {g : G}
     (hg : g * ((u : G) * w) * g⁻¹ = (u' : G) * w') : g ∈ M := by

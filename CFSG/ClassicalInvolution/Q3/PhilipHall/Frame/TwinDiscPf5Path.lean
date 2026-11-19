@@ -40,7 +40,7 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
 
-theorem coreAt_le_rLayer (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
+theorem coreAt_le_rLayer (_hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
     {J : Subgroup G} (hJ : J ∈ tqMembers3 Ω c) :
     TwinADescent.coreAt c J ≤ rLayer Ω c := by
   unfold TwinADescent.coreAt tightCore

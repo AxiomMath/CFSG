@@ -164,6 +164,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nineteen_seven_case_one_card_barSub_eq_sixty {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) {L : Subgroup G} (h : IsAlt ↥(barSub V₀ V hV L) 5) :
     Nat.card ↥(barSub V₀ V hV L) = 60 := by
@@ -200,7 +201,7 @@ theorem nineteen_seven_case_one_gamma15_eq_rk_wTil (D : Data G) {V₀ V : Subgro
 theorem nineteen_seven_case_one_isSimpleGroup_of_isAlt {X : Type} [Group X]
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.IsAlt X 5) : IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by norm_num : 5 ≤ Nat.card (Fin 5))
   exact e.isSimpleGroup
 
@@ -228,7 +229,7 @@ theorem nineteen_seven_case_one_normal_right_aux {X : Type*} [Group X]
   rwa [sup_comm] at h
 
 theorem nineteen_seven_case_one_normal_map_conj_aux {X : Type*} [Group X]
-    {A H : Subgroup (MulAut X)} {φ : MulAut X} (hAH : A ≤ H)
+    {A H : Subgroup (MulAut X)} {φ : MulAut X} (_hAH : A ≤ H)
     (hA : ∀ x ∈ A, ∀ h ∈ H, h * x * h⁻¹ ∈ A)
     (hHφ : ∀ h ∈ H, φ⁻¹ * h * φ ∈ H) :
     ∀ n ∈ A.map (MulAut.conj φ).toMonoidHom, ∀ h ∈ H,
@@ -325,8 +326,8 @@ theorem nineteen_seven_map_conj_eq (D : Data G) {V₀ V : Subgroup G} {p : ℕ} 
       hKnorm x hx.2 _ (hNle g.2)⟩
   have hNL : ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ⊓ barSub V₀ V hV L = ⊥) ∨
       ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ≤ barSub V₀ V hV L) := by
-    haveI := hsimpleN
-    haveI := hNLnormal
+    have := hsimpleN
+    have := hNLnormal
     obtain h | h := Subgroup.Normal.eq_bot_or_eq_top
       (((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ⊓ barSub V₀ V hV L).subgroupOf
         ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom))
@@ -339,8 +340,8 @@ theorem nineteen_seven_map_conj_eq (D : Data G) {V₀ V : Subgroup G} {p : ℕ} 
       exact (Subgroup.subgroupOf_eq_top.mp h hx).2
   have hNK : ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ⊓ barSub V₀ V hV K = ⊥) ∨
       ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ≤ barSub V₀ V hV K) := by
-    haveI := hsimpleN
-    haveI := hNKnormal
+    have := hsimpleN
+    have := hNKnormal
     obtain h | h := Subgroup.Normal.eq_bot_or_eq_top
       (((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom ⊓ barSub V₀ V hV K).subgroupOf
         ((barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom))
@@ -476,7 +477,7 @@ theorem nineteen_seven_hyp154_kbar_perfect (D : Data G) {V₀ V : Subgroup G} {p
     le_stabTil hS.ctx.hyp.hyp125.pairFacts.le_normalizer
       hS.ctx.hyp.hyp125.pairFacts.le_normalizer₀
   have hKst : K ≤ stabTil V₀ V := (s13_le_of_mem_calC hS.ctx.hK).trans hMs
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hS.ctx.hK.2.1
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hS.ctx.hK.2.1
   let ψ : ↥K →* MulAut (Vtil V₀ V hV) :=
     (actTil V₀ V hV).comp (Subgroup.inclusion hKst)
   have hrange : ψ.range = barSub V₀ V hV K := by

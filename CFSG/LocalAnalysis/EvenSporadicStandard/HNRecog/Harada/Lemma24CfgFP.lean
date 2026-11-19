@@ -83,7 +83,7 @@ theorem FY_center (h : Setting24 ι a) :
   have hx1 : (x : G) = 1 := F24_center h (x : G) hxG hcent
   exact Subtype.ext (by simpa using hx1)
 
-theorem PY_le_FY (h : Setting24 ι a) : PY ι a ≤ FY ι a := by
+theorem PY_le_FY (_h : Setting24 ι a) : PY ι a ≤ FY ι a := by
   rw [PY, FY]
   exact Subgroup.subgroupOf_mono (centralizer ({a} : Set G)) (P24_le_F24 (ι := ι) (a := a))
 

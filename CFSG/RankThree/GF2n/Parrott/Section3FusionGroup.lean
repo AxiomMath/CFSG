@@ -123,7 +123,7 @@ theorem eq_top_of_normalizer_le_of_isPGroup_centralizer {C : Type*} [Group C] [F
     F = ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hFP⟩ := hF.exists_le_sylow
-  have hFP_eq : F = (P : Subgroup C) := eq_of_normalizer_le P.isPGroup' hFP hN
+  have hFP_eq : F = (P : Subgroup C) := eq_of_normalizer_le P.isPGroup hFP hN
   have hnorm_eq : Subgroup.normalizer (P : Set C) = Subgroup.normalizer (F : Set C) :=
     congrArg (fun H : Subgroup C => Subgroup.normalizer (H : Set C)) hFP_eq.symm
   have hPN : Subgroup.normalizer (P : Set C) ≤ Subgroup.centralizer (P : Set C) := by

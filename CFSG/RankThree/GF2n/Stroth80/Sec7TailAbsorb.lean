@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B B' : Subgroup G}
 
+omit [Finite G] in
 theorem CN_eq_of_rt_vt (hc : Ctx M Q Z B) (hc' : Ctx M Q Z B') {t s : G}
     (hR : Rt M (LB M Q B') s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B') B' Z s = Vt M (LB M Q B) B Z t) : hc'.CN s = hc.CN t := by
@@ -20,6 +21,7 @@ theorem CN_eq_of_rt_vt (hc : Ctx M Q Z B) (hc' : Ctx M Q Z B') {t s : G}
   unfold CNt
   rw [hR, hV]
 
+omit [Finite G] in
 theorem omegaPlusNat_iff_of_rt_vt (hc : Ctx M Q Z B) (hc' : Ctx M Q Z B') {t s : G}
     (hR : Rt M (LB M Q B') s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B') B' Z s = Vt M (LB M Q B) B Z t) (k : ℕ) :
@@ -27,6 +29,7 @@ theorem omegaPlusNat_iff_of_rt_vt (hc : Ctx M Q Z B) (hc' : Ctx M Q Z B') {t s :
   unfold OmegaPlusNat
   rw [hR, hV, CN_eq_of_rt_vt hc hc' hR hV]
 
+omit [Finite G] in
 theorem omegaMinusNat_iff_of_rt_vt (hc : Ctx M Q Z B) (hc' : Ctx M Q Z B') {t s : G}
     (hR : Rt M (LB M Q B') s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B') B' Z s = Vt M (LB M Q B) B Z t) (k : ℕ) :

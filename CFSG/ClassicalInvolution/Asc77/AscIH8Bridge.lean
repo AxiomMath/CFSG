@@ -216,7 +216,7 @@ theorem ih8_nbr_sylow (hp : p ≠ 2) (hΩ : HypOmegaMod p f Ω) {K J : Subgroup 
   obtain ⟨-, -, A, hA, hAJ, hAN⟩ := hJ
   have hA' := hA
   obtain ⟨M, -, P, rfl⟩ := hA
-  exact ⟨_, P.isPGroup'.map _, hAJ, hAN, (hΩ.isQuatSub_of_mem_RSet hp hA').exists_not_commute⟩
+  exact ⟨_, P.isPGroup.map _, hAJ, hAN, (hΩ.isQuatSub_of_mem_RSet hp hA').exists_not_commute⟩
 
 end GroupLevel
 

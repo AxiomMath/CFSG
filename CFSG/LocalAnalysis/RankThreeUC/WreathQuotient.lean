@@ -155,7 +155,7 @@ private theorem exists_normal_index_three_of_wreath_aux :
     have hS3 : ∀ x ∈ (S : Subgroup X), x ^ 3 = 1 := fun x hx =>
       Subtype.ext_iff.mp (h3 ⟨x, hx⟩)
     have hcard : Nat.card (S : Subgroup X) = 3 ∨ Nat.card (S : Subgroup X) = 9 := by
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       have h1 : 1 < Nat.card (S : Subgroup X) := (Subgroup.one_lt_card_iff_ne_bot _).mpr hS
       rw [hk] at h1 h9 ⊢
       have hk2 : k ≤ 2 := by

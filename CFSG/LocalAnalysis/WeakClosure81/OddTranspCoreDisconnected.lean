@@ -119,11 +119,11 @@ theorem connected_commGraph_of_perm {G : Type} [Group G] {t : G} {n : ℕ} (hn :
       exists_two_ne hn p q (if r = p ∨ r = q then s else r)
     have hxr : x ≠ r ∧ x ≠ s ∧ y ≠ r ∧ y ≠ s := by
       by_cases hr : r = p ∨ r = q
-      · rw [if_pos hr] at hxw hyw
+      · rw [ite_eq_left hr] at hxw hyw
         rcases hr with rfl | rfl
         · exact ⟨hxp, hxw, hyp, hyw⟩
         · exact ⟨hxq, hxw, hyq, hyw⟩
-      · rw [if_neg hr] at hxw hyw
+      · rw [ite_eq_right hr] at hxw hyw
         have hs : s = p ∨ s = q := by
           by_contra hs
           push Not at hr hs
@@ -222,8 +222,8 @@ theorem hasCoreStar_of_not_connected
       apply hNsol
       have : Group.IsSolvable (Equiv.Perm (Fin n)) := Equiv.Perm.isSolvable (by simp; omega)
       have : Group.IsSolvable ↥W :=
-        solvable_of_solvable_injective (f := θ.toMonoidHom) θ.injective
-      exact solvable_of_solvable_injective (f := (Subgroup.subgroupOfEquivOfLe hNW).symm.toMonoidHom)
+        Group.isSolvable_of_isSolvable_injective (f := θ.toMonoidHom) θ.injective
+      exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hNW).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hNW).symm.injective
     let L : Subgroup (Equiv.Perm (Fin n)) := (N.subgroupOf W).map θ.toMonoidHom
     have hLn : L.Normal := (hNn.subgroupOf W).map θ.toMonoidHom θ.surjective

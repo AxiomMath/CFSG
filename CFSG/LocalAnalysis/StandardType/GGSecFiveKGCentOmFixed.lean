@@ -17,11 +17,11 @@ private noncomputable def kgcWt {K : Type} [Field K] {α : Type*} (L : Set α) (
 
 private theorem kgcWt_self {K : Type} [Field K] {α : Type*} {L : Set α} {ξ₀ : α → K} {ζ : Kˣ} :
     kgcWt L ξ₀ ξ₀ ζ = ζ :=
-  if_pos fun _ _ => rfl
+  ite_eq_left fun _ _ => rfl
 
 private theorem kgcWt_of_not {K : Type} [Field K] {α : Type*} {L : Set α} {ξ₀ ξ : α → K} {ζ : Kˣ}
     (hA : ¬ ∀ σ ∈ L, ξ σ = ξ₀ σ) (hB : ¬ ∀ σ ∈ L, ξ σ * ξ₀ σ = 1) : kgcWt L ξ₀ ξ ζ = 1 := by
-  rw [kgcWt, if_neg hA, if_neg hB]
+  rw [kgcWt, ite_eq_right hA, ite_eq_right hB]
 
 private theorem kgcWt_pow {K : Type} [Field K] {α : Type*} {L : Set α} {ξ₀ ξ : α → K} {ζ : Kˣ}
     {p : ℕ} (hζ : ζ ^ p = 1) : kgcWt L ξ₀ ξ ζ ^ p = 1 := by
@@ -42,19 +42,19 @@ private theorem kgcWt_mul_eq_one {K : Type} [Field K] {α : Type*} {L : Set α} 
       have h1 := hB' σ hσ
       rwa [hA' σ hσ] at h1
     unfold kgcWt
-    rw [if_pos hA, if_neg hA', if_pos hB', mul_inv_cancel]
+    rw [ite_eq_left hA, ite_eq_right hA', ite_eq_left hB', mul_inv_cancel]
   · by_cases hB : ∀ σ ∈ L, ξ σ * ξ₀ σ = 1
     · have hA' : ∀ σ ∈ L, ξ' σ = ξ₀ σ := fun σ hσ => by
         rw [eq_inv_of_mul_eq_one_right (h σ hσ), eq_inv_of_mul_eq_one_right (hB σ hσ)]
       unfold kgcWt
-      rw [if_neg hA, if_pos hB, if_pos hA', inv_mul_cancel]
+      rw [ite_eq_right hA, ite_eq_left hB, ite_eq_left hA', inv_mul_cancel]
     · have hA' : ¬ ∀ σ ∈ L, ξ' σ = ξ₀ σ := fun hA' => hB fun σ hσ => by
         rw [← hA' σ hσ]
         exact h σ hσ
       have hB' : ¬ ∀ σ ∈ L, ξ' σ * ξ₀ σ = 1 := fun hB' => hA fun σ hσ => by
         rw [eq_inv_of_mul_eq_one_left (h σ hσ), eq_inv_of_mul_eq_one_right (hB' σ hσ)]
       unfold kgcWt
-      rw [if_neg hA, if_neg hB, if_neg hA', if_neg hB', mul_one]
+      rw [ite_eq_right hA, ite_eq_right hB, ite_eq_right hA', ite_eq_right hB', mul_one]
 
 private theorem exists_mem_kgcTorusSet_cls {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     (hn : 3 ≤ n) {G : Type*} [Group G] {p : ℕ} {D : Subgroup G} {ψ : spinGroup (quadPlus n K) →* G}

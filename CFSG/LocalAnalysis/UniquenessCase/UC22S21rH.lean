@@ -15,7 +15,7 @@ variable {W : Type} [Group W] [Finite W]
 theorem uc22s21rh_le_of_coprime_elements {q : ℕ} [Fact q.Prime] {K : Subgroup W}
     (hK : ⁅K, K⁆ = K) {C : Subgroup W} (hC : ∀ k ∈ K, (orderOf k).Coprime q → k ∈ C) :
     K ≤ C := by
-  haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
+  have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
   have htop : CFSG.GH74.GLS.oResidual q ↥K = ⊤ :=
     CFSG.GH74.GLS.Balance.BenderExt.oResidual_eq_top_of_isPerfect inferInstance
   have hle : CFSG.GH74.GLS.oResidual q ↥K ≤ C.subgroupOf K := by
@@ -25,10 +25,11 @@ theorem uc22s21rh_le_of_coprime_elements {q : ℕ} [Fact q.Prime] {K : Subgroup 
   intro k hk
   exact hle (Subgroup.mem_top ⟨k, hk⟩)
 
+omit [Finite W] in
 theorem uc22s21rh_comm_of_cyclic {K X : Subgroup W} [X.Normal] (hK : ⁅K, K⁆ = K)
     (hX : IsCyclic X) (k : W) (hk : k ∈ K) (x : W) (hx : x ∈ X) : k * x * k⁻¹ = x := by
-  haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
-  haveI := hX
+  have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
+  have := hX
   let κ : ↥K →* MulAut ↥X := (MulAut.conjNormal (H := X)).comp K.subtype
   have h1 := uc22s21rk_map_eq_one_of_perfect
     ((IsCyclic.mulAutMulEquiv (G := ↥X)).toMonoidHom.comp κ) ⟨k, hk⟩
@@ -45,14 +46,14 @@ theorem uc22s21rh_exists_supercritical {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) 
     ∃ X : Subgroup W, X ≤ P ∧ X.Normal ∧ (ChA.frattiniOf X).Normal ∧ (∀ x ∈ X, x ^ q = 1) ∧
       ⁅⁅X, X⁆, X⁆ = ⊥ ∧ (∃ k ∈ K, ∃ x ∈ X, k * x * k⁻¹ * x⁻¹ ∉ ChA.frattiniOf X) ∧
       ¬ IsCyclic X := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨⟨X, hXsc, hfaith⟩, hall⟩ := as_A_1_21 W q hq hq2 P hP
   obtain ⟨hcl, -, -⟩ := hall X hXsc
   obtain ⟨hXP, hchar, -, -, hexp, -⟩ := hXsc
-  haveI hXn : X.Normal := by
+  have hXn : X.Normal := by
     have := ConjAct.normal_of_characteristic_of_normal (H := P) (K := X.subgroupOf P)
     rwa [Subgroup.map_subgroupOf_eq_of_le hXP] at this
-  haveI hfn : (ChA.frattiniOf X).Normal :=
+  have hfn : (ChA.frattiniOf X).Normal :=
     ConjAct.normal_of_characteristic_of_normal (H := X) (K := frattini ↥X)
   have hnt : ∃ k ∈ K, ∃ x ∈ X, k * x * k⁻¹ * x⁻¹ ∉ ChA.frattiniOf X := by
     by_contra htriv

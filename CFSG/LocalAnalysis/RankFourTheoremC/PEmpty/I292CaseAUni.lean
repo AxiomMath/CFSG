@@ -18,8 +18,8 @@ theorem exists_unitaryFieldData {q : ℕ} {K : Type} [Field K] [Finite K]
     ∃ r f : ℕ, q = r ^ f ∧ Nonempty (UnitaryFieldData r f K) := by
   obtain ⟨r, hr⟩ := CharP.exists K
   have hrp : r.Prime := CharP.char_is_prime K r
-  haveI : Fact r.Prime := ⟨hrp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hrp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm'⟩ := FiniteField.card K r
   have hm : Nat.card K = r ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -146,8 +146,8 @@ theorem kd292CaseAUni_holds : KD292CaseAUni := by
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le

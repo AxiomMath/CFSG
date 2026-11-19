@@ -21,7 +21,7 @@ private theorem vi_exists_normalized_sylow {O H : Subgroup G} (hnil : Group.IsNi
   have := hnil
   obtain ⟨K⟩ : Nonempty (Sylow q O) := inferInstance
   have : (K : Subgroup O).Characteristic := Sylow.characteristic_of_normal K inferInstance
-  refine ⟨(K : Subgroup O).map O.subtype, map_subtype_le _, K.isPGroup'.map O.subtype, ?_, ?_⟩
+  refine ⟨(K : Subgroup O).map O.subtype, map_subtype_le _, K.isPGroup.map O.subtype, ?_, ?_⟩
   · rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ O.subtype_injective]
     exact Sylow.ne_bot_of_dvd_card K hqO
   · exact hHO.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _)

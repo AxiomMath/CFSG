@@ -17,7 +17,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B.Co2 CFSG.Monster.VisCert CFSG
 
 attribute [local instance] wLeftAction
 
-@[expose] def Zsp : Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) (Set.range zVec)
+def Zsp : Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) (Set.range zVec)
 
 theorem zComb_eq (c : ℕ) :
     decW (Native.actD 6 zBasis c) = ∑ s : Fin 6, bvec 6 c s • zVec s := by
@@ -78,7 +78,7 @@ theorem linearIndependent_zVec : LinearIndependent (ZMod 2) zVec := by
 theorem finrank_Zsp : Module.finrank (ZMod 2) Zsp = 6 := by
   rw [Zsp, finrank_span_eq_card linearIndependent_zVec, Fintype.card_fin]
 
-@[expose] def zB : Module.Basis (Fin 6) (ZMod 2) Zsp := Module.Basis.span linearIndependent_zVec
+def zB : Module.Basis (Fin 6) (ZMod 2) Zsp := Module.Basis.span linearIndependent_zVec
 
 theorem coe_zB (t : Fin 6) : (zB t : Wv v0) = zVec t :=
   congrArg Subtype.val (Module.Basis.span_apply linearIndependent_zVec t)
@@ -94,7 +94,7 @@ theorem zB_comb
   refine Finset.sum_congr rfl fun s _ => ?_
   rw [Submodule.coe_smul, coe_zB]
 
-@[expose] def bZ : LinearMap.BilinForm (ZMod 2) Zsp := Matrix.toBilin zB gramMat
+def bZ : LinearMap.BilinForm (ZMod 2) Zsp := Matrix.toBilin zB gramMat
 
 theorem bZ_apply (x y : Zsp) :
     bZ x y = ∑ i, ∑ j, zB.repr x i * gramMat i j * zB.repr y j :=
@@ -144,7 +144,7 @@ instance finite_isometryGroup_bZ :
     Finite (TauCeti.BilinForm.isometryGroup bZ) :=
   Nat.finite_of_card_ne_zero (by rw [natCard_isometryGroup_bZ]; norm_num)
 
-@[expose] def resLin
+def resLin
     {g : Kstab v0} (hg : g ∈ wSetStab Zsp) : Zsp →ₗ[ZMod 2] Zsp :=
   (wAct v0 g).restrict fun x hx => hg x hx
 
@@ -152,7 +152,7 @@ theorem coe_resLin
     {g : Kstab v0} (hg : g ∈ wSetStab Zsp) (x : Zsp) :
     (resLin hg x : Wv v0) = wAct v0 g x := rfl
 
-@[expose] def resGL :
+def resGL :
     wSetStab Zsp →* (Zsp ≃ₗ[ZMod 2] Zsp) where
   toFun g := LinearEquiv.ofLinearMap (resLin ((wSetStab Zsp).inv_mem g.2)) (resLin g.2)
     (LinearMap.ext fun x => Subtype.ext (wAct_inv_apply (g : Kstab v0) x))

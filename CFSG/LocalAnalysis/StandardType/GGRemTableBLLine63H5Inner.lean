@@ -57,7 +57,7 @@ theorem isInner_of_det_eq_pow_six [Finite K] (hKd : UnitaryFieldData 2 n K) (hpq
     {M : GL (Fin 6) K} (hM : M ∈ primeFormUnitary hKd (idGram K 6)) {t : Kˣ}
     (ht : ((M : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).det = (t : K) ^ 6) : IsInner n M := by
   have hn : 1 ≤ n := hKd.one_le
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hnorm := bar_det_mul_det hKd hM
   rw [ht, map_pow, UnitaryFieldData.bar_apply, ← mul_pow, ← pow_succ] at hnorm
   have htq : (t : K) ^ (2 ^ n + 1) = 1 := by

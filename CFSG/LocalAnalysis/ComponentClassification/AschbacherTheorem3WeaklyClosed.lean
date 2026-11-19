@@ -344,7 +344,7 @@ theorem centralizes_of_layer_eq_top [Finite X] {G T S : Subgroup X} (h : Hyp42 G
           have h1 : IsSylowOf 2 ((RS : Subgroup K) ⊓ Subgroup.normalizer (Q' : Set K))
               (Subgroup.normalizer (Q' : Set K)) := by
             rw [isSylowOf_iff]
-            exact ⟨inf_le_right, RS.isPGroup'.to_inf_left,
+            exact ⟨inf_le_right, RS.isPGroup.to_inf_left,
               (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hQ.2.1⟩
           rw [← isSylowOf_map_subtype_iff K] at h1
           have hQ'eq : Q' = Q.subgroupOf K := by

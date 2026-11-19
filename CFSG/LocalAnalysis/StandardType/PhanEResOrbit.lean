@@ -15,7 +15,8 @@ open Matrix Module CFSG.LieType.Steinberg.CentralExt.SLClosed CFSG.Monster.B.Geo
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ} {d : List ℕ}
 
-private theorem plo_orbit_step (hd : IsCut (m + 1) d) {a b : FlagK K (m + 1)} {i : Fin m}
+omit [Finite K] in
+private theorem plo_orbit_step (_hd : IsCut (m + 1) d) {a b : FlagK K (m + 1)} {i : Fin m}
     (hi : i ∈ cutTypes m d)
     (ha : ∃ A ∈ blockSL K m d, a = flagAct (SpecialLinearGroup.toGL A) (stdFlag K (m + 1)))
     (hab : (flagSys K m).adj i a b) :
@@ -39,6 +40,7 @@ private theorem plo_orbit_step (hd : IsCut (m + 1) d) {a b : FlagK K (m + 1)} {i
   refine ⟨A * B, (blockSL K m d).mul_mem hA (Subgroup.closure_mono hsub hB), ?_⟩
   rw [← h1, hBy, ← flagAct_mul, ← map_mul]
 
+omit [Finite K] in
 private theorem plo_gallery_orbit_aux (hd : IsCut (m + 1) d) :
     ∀ (γ : List (Fin m × FlagK K (m + 1))) (a : FlagK K (m + 1)),
       (∃ A ∈ blockSL K m d, a = flagAct (SpecialLinearGroup.toGL A) (stdFlag K (m + 1))) →
@@ -57,6 +59,7 @@ private theorem plo_gallery_orbit_aux (hd : IsCut (m + 1) d) :
     have hstep := plo_orbit_step hd (hJ p.1 (by simp)) ha h1
     exact ih p.2 hstep h2 (fun i hi => hJ i (List.mem_cons_of_mem p.1 hi))
 
+omit [Finite K] in
 theorem exists_blockSL_of_mem_refSet (hd : IsCut (m + 1) d) {x : FlagK K (m + 1)}
     (hx : x ∈ refSet K (m + 1) d) :
     ∃ A ∈ blockSL K m d, x = flagAct (SpecialLinearGroup.toGL A) (stdFlag K (m + 1)) := by

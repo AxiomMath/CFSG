@@ -309,7 +309,7 @@ private theorem exists_irreducibleCharacter_separates_ne_one_23
   classical
   rcases Theory.Character.second_orthogonality (G := Q) with
     ⟨ι, hι, chi, hchi, horth⟩
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   by_contra hnone
   push Not at hnone
   have hvalues : ∀ i : ι,
@@ -400,7 +400,7 @@ private theorem frobeniusKernel_exists_with_mem_iff
     have hxker : x ∈ (rho i).ker := (Subgroup.mem_iInf.mp hx) i
     have hygker : g * x * g⁻¹ ∈ (rho i).ker :=
       (rho i).normal_ker.conj_mem x hxker g
-    letI : Representation.IsIrreducible (rho i) := (hrho i).1
+    let : Representation.IsIrreducible (rho i) := (hrho i).1
     have hcharEq := (suzuki_ch6_theorem_1_8_ii (rho i)
       (g * x * g⁻¹)).2 hygker
     have hstarEq : starChi i (g * x * g⁻¹) = starChi i 1 := by
@@ -416,7 +416,7 @@ private theorem frobeniusKernel_exists_with_mem_iff
   · intro hx
     rw [Subgroup.mem_iInf]
     intro i
-    letI : Representation.IsIrreducible (rho i) := (hrho i).1
+    let : Representation.IsIrreducible (rho i) := (hrho i).1
     apply (suzuki_ch6_theorem_1_8_ii (rho i) x).1
     rw [← (hrho i).2]
     have hleft := frobeniusExceptionalCharacter_apply_kernelSet R i.1 x hx

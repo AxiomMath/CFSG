@@ -28,7 +28,7 @@ private theorem lk0xttpart_exists_lam {G Y : Type} [Group G] [Group Y] {G₀ D :
   exact ⟨MonoidHom.mk' f hmul, fun d => ⟨hfΦ d, hfp d⟩⟩
 
 theorem exists_twE6_partner {X : Type} [Group X] [Finite X] {n f p : ℕ} (hf : 1 ≤ f)
-    {ψ : (ggU .twistedE6 n f).K →* X} {G₀ A : Subgroup X} (hp : p.Prime) (hp2 : p ≠ 2)
+    {ψ : (ggU .twistedE6 n f).K →* X} {G₀ A : Subgroup X} (_hp : p.Prime) (_hp2 : p ≠ 2)
     (hHyp : GGLieBridgeHyp .twistedE6 n f p ψ G₀ A) :
     ∃ (θ : ↥G₀ →* ModGL (langTag .twistedE6) GGL) (Θ : ↥A →* ModGL (langTag .twistedE6) GGL),
       (∀ (k : (ggU .twistedE6 n f).K) (h : ψ k ∈ G₀),

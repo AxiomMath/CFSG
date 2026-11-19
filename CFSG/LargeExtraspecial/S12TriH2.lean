@@ -51,7 +51,6 @@ theorem six_words_injective {G : Type*} [Group G] {a b : G} (ha : a * a = 1) (hb
     simp only [Fin.zero_eta, Fin.isValue, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val,
       Matrix.cons_val_zero, Matrix.cons_val_one] at hij ⊢ <;>
     first
-      | rfl
       | exact absurd hij ‹_›
       | exact absurd hij.symm ‹_›
 

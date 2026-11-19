@@ -120,7 +120,7 @@ theorem endBlk_endOfBlks (M : Fin 2 → Fin 2 → Matrix (Fin 2) (Fin 2) K) (j l
     endBlk (endOfBlks M) j l = M j l := by
   ext a b
   fin_cases b <;> fin_cases l <;>
-    simp [endBlk_apply, endOfBlks, Matrix.single_apply, Fin.sum_univ_two]
+    simp [endBlk_apply, endOfBlks, Fin.sum_univ_two]
 
 theorem kf10_specialLinear (hKF10 : H1TensorStatement) [Finite K] [CharP K 2]
     (hK : 4 ≤ Nat.card K)
@@ -279,7 +279,7 @@ theorem m2_eq_four (S : Matrix (Fin 2) (Fin 2) K) :
     S = S 0 0 • Matrix.single 0 0 1 + S 0 1 • Matrix.single 0 1 1 +
       S 1 0 • Matrix.single 1 0 1 + S 1 1 • Matrix.single 1 1 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem endM2_commutant (m : Module.End K (Matrix (Fin 2) (Fin 2) K))
     (hm : ∀ B : Matrix.SpecialLinearGroup (Fin 2) K, m * rhoLin (1, B) = rhoLin (1, B) * m) :
@@ -295,7 +295,7 @@ theorem endM2_commutant (m : Module.End K (Matrix (Fin 2) (Fin 2) K))
       ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
     have e : (S : Matrix (Fin 2) (Fin 2) K) = 1 + Matrix.single 0 1 1 := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [S, Matrix.single_apply]
+      fin_cases i <;> fin_cases j <;> simp [S]
     have h := h1 S X
     rw [e, Matrix.mul_add, Matrix.mul_one, map_add, Matrix.mul_add, Matrix.mul_one] at h
     exact add_left_cancel h
@@ -305,7 +305,7 @@ theorem endM2_commutant (m : Module.End K (Matrix (Fin 2) (Fin 2) K))
       ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
     have e : (S : Matrix (Fin 2) (Fin 2) K) = 1 + Matrix.single 1 0 1 := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [S, Matrix.single_apply]
+      fin_cases i <;> fin_cases j <;> simp [S]
     have h := h1 S X
     rw [e, Matrix.mul_add, Matrix.mul_one, map_add, Matrix.mul_add, Matrix.mul_one] at h
     exact add_left_cancel h
@@ -333,7 +333,7 @@ theorem endM2_commutant (m : Module.End K (Matrix (Fin 2) (Fin 2) K))
     rw [e, hall, lmulM2_apply]
     ext a j
     fin_cases l <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_two]
+      simp [Matrix.mul_apply, Matrix.single_apply]
   have := endM2_ext_basis key
   exact congrArg (fun f => f X) this
 
@@ -361,7 +361,7 @@ theorem cocycle_coboundary (hKF10 : H1TensorStatement) [Finite K] [CharP K 2]
   have hc₁ : ∀ g h, c₁ (g * h) = rhoLin g * c₁ h + c₁ g * rhoLin h := by
     intro g h
     rw [hc₁def, hc₁def, hc₁def, hc g h, rhoLin_mul]
-    simp only [mul_sub, sub_mul, mul_add, add_mul, mul_assoc]
+    simp only [mul_sub, sub_mul, mul_assoc]
     abel
   have hc₁_right : ∀ B, c₁ (1, B) = 0 := by
     intro B

@@ -96,7 +96,7 @@ theorem exists_involution_not_charTwo_of_local [Finite G] (T : Sylow 2 G) {H P :
   have hHQ : H ≤ normalizer (CFSG.Open.pCoreOf 2 H : Set G) :=
     CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 H
   have hTQ : (T : Subgroup G) ≤ normalizer (CFSG.Open.pCoreOf 2 H : Set G) := hTH.trans hHQ
-  obtain ⟨z, hz2, hzQ, hzT, hzc⟩ := exists_involution_mem_center T.isPGroup' hQT hTQ hQne
+  obtain ⟨z, hz2, hzQ, hzT, hzc⟩ := exists_involution_mem_center T.isPGroup hQT hTQ hQne
   refine ⟨z, hz2, hzT, hzc, ?_⟩
   intro hC
   have h1 : CharTwo (normalizer (zpowers z : Set G)) := by
@@ -105,7 +105,7 @@ theorem exists_involution_not_charTwo_of_local [Finite G] (T : Sylow 2 G) {H P :
   have h2 : CharTwo (normalizer (CFSG.Open.pCoreOf 2 H : Set G)) :=
     charTwo_normalizer_of_le (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 H)
       (zpowers_le.mpr hzQ) h1
-  exact hHnot (centralizer_pCoreOf_le_of_sylow (p := 2) hHQ T.isPGroup' hTH
+  exact hHnot (centralizer_pCoreOf_le_of_sylow (p := 2) hHQ T.isPGroup hTH
     (not_dvd_index_subgroupOf_of_sylow T (hTH.trans hHQ)) h2)
 
 theorem exists_involution_not_charTwo [Finite G]

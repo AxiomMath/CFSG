@@ -34,7 +34,7 @@ private theorem spUCited_blockMat_one_smul_single (i : Fin r) (t : K) :
       1 + t • Matrix.single (Sum.inl i) (Sum.inr i) (1 : K) := by
   ext x y
   rcases x with a | a <;> rcases y with b | b <;>
-    simp [blockMat, Matrix.single_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply]
+    simp [blockMat, Matrix.single_apply, Matrix.add_apply, Matrix.one_apply]
 
 private theorem spUCited_spTransvection_eq_pairRootElt (i : Fin r) (t : K) :
     spTransvection (Pi.single (Sum.inl i) (1 : K)) t =
@@ -101,7 +101,7 @@ private theorem spUCited_flag_one_eq (hr : 2 ≤ r) :
         (Pi.single (Sum.inl j) (1 : K) : Fin r ⊕ Fin r → K)) '' {j : Fin r | (j : ℕ) < 1} =
       {Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K)} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hj0 : j = (⟨0, by omega⟩ : Fin r) := by
@@ -171,7 +171,7 @@ theorem spUCited_root_le_unipotent (i : Fin r) : spUCitedRoot r K i ≤ unipoten
   obtain ⟨t, rfl⟩ := hx
   rw [mem_unipotent]
   refine ⟨1, (-t) • Matrix.single i i (1 : K), isUnitriangular_one, ?_, ?_⟩
-  · simp [Matrix.transpose_smul, Matrix.transpose_single]
+  · simp [Matrix.transpose_single]
   · exact spUCited_coe_spTransvection i t
 
 theorem spUCited_card_root [Finite K] (i : Fin r) :
@@ -239,7 +239,7 @@ theorem spUCited_conj_root_zero (hr : 2 ≤ r) :
       Sum.inl (⟨1, by omega⟩ : Fin r) := by
     rw [simpleRefl_inl]
     unfold simpleSnd
-    rw [dif_pos hlt]
+    rw [dite_eq_left hlt]
   have hmul := mulVec_single_of_isLinePerm hLP (Sum.inl (⟨0, by omega⟩ : Fin r))
   rw [hσ] at hmul
   have hc : (((weylRep K (⟨0, by omega⟩ : Fin r) : StatedSp r K) :

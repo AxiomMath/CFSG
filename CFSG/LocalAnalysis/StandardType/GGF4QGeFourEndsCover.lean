@@ -29,7 +29,7 @@ theorem ggF4Ends_centralImage_of_lieModel {t : StatedLieTag} {n f : ℕ} (ht : G
     {G : Type} [Group G] [Finite G] {X : Subgroup G} (hX : commutator ↥X = ⊤)
     (hM : CFSG.Blueprint.LieModel (↥X ⧸ Subgroup.center ↥X) t n 2 f) :
     GGCentralImage t n f X := by
-  haveI := LieKnownR2.OddCenter.finite_ggU ht hadm
+  have := LieKnownR2.OddCenter.finite_ggU ht hadm
   obtain ⟨ρ, hρ, hρc⟩ := LieOddCover.exists_ggU_central_cover_of_lieModel ht hadm hM
   obtain ⟨α, hα, hαc, -⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22pwlie_exists_cover_of_closed_fin hsplit hX
@@ -43,7 +43,7 @@ theorem ggF4Ends_centralImage_of_lieModel {t : StatedLieTag} {n f : ℕ} (ht : G
 theorem ggF4Ends_sp_split {f : ℕ} (hf : 2 ≤ f) (E : Type) [Group E] [Finite E]
     (π : E →* (ggU .PSp 3 f).K) (hπ : Function.Surjective π)
     (hcen : π.ker ≤ Subgroup.center E) : ∃ σ : (ggU .PSp 3 f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hK]
@@ -52,7 +52,7 @@ theorem ggF4Ends_sp_split {f : ℕ} (hf : 2 ≤ f) (E : Type) [Group E] [Finite 
   let Z := CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars 3 (GaloisField 2 f)
   have hZc : Z ≤ Subgroup.center (StatedSp 3 (GaloisField 2 f)) :=
     CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars_le_center
-  haveI : Group.IsPerfect (StatedSp 3 (GaloisField 2 f)) :=
+  have : Group.IsPerfect (StatedSp 3 (GaloisField 2 f)) :=
     CFSG.LieType.Steinberg.CentralExt.SpClosed.isPerfect_statedSp' (Or.inl h4)
   exact CFSG.LieType.Steinberg.CentralExt.CoverAssembly.exists_section_of_cover_and_coprime
     (p := 2) (θ := QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective _)
@@ -67,7 +67,7 @@ theorem ggF4Ends_spinMinus_split {f : ℕ} (hf : 2 ≤ f) (E : Type) [Group E] [
     (π : E →* (ggU .POmegaMinus 4 f).K) (hπ : Function.Surjective π)
     (hcen : π.ker ≤ Subgroup.center E) :
     ∃ σ : (ggU .POmegaMinus 4 f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hK]
@@ -110,7 +110,7 @@ theorem ggF4Ends_sl_split {m f : ℕ} (hm : 2 ≤ m) (hf : 2 ≤ f) (hm2 : ¬ (m
     (E : Type) [Group E] [Finite E] (π : E →* (ggU .PSL (m + 1) f).K)
     (hπ : Function.Surjective π) (hcen : π.ker ≤ Subgroup.center E) :
     ∃ σ : (ggU .PSL (m + 1) f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -137,7 +137,7 @@ theorem ggF4Ends_sl_split {m f : ℕ} (hm : 2 ≤ m) (hf : 2 ≤ f) (hm2 : ¬ (m
 theorem ggF4Ends_su_split {n f : ℕ} (hn : 4 ≤ n) (hf : 2 ≤ f) (E : Type) [Group E] [Finite E]
     (π : E →* (ggU .PSU n f).K) (hπ : Function.Surjective π)
     (hcen : π.ker ≤ Subgroup.center E) : ∃ σ : (ggU .PSU n f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf1 : 1 ≤ f := by omega
   have hF : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := card_galoisField_two_mul 2 f hf1
   have hK : ggU .PSU n f = ⟨Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution

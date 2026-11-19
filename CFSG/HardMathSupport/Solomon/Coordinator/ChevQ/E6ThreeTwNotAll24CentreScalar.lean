@@ -50,8 +50,8 @@ theorem frame_center_cube_eq_one [IsAlgClosed L]
     (hB : ∀ β ∈ B, IsRoot Tag.E6 β ∧ Commute (pinnedX Tag.E6 L β 1) (ψ A)) : ψ A = 1 := by
   classical
   by_contra hne
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ω₀ := hω₀.isUnit (by norm_num)
   set ω : Lˣ := hu.unit with hωdef
   have hωprim : IsPrimitiveRoot ω 3 :=

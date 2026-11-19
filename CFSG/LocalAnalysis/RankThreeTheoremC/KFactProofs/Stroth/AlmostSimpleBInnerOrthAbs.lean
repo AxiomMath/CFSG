@@ -19,6 +19,7 @@ section Index
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem mem_of_sq_mem_of_pow_eq_one (hp2 : p ≠ 2) (hp : p.Prime) (J : Subgroup G)
     (hJ : ∀ g : G, g ^ 2 ∈ J) {x : G} {k : ℕ} (hx : x ^ p ^ k = 1) : x ∈ J := by
   have hodd : Odd (p ^ k) := (hp.odd_of_ne_two hp2).pow
@@ -31,6 +32,7 @@ theorem mem_of_sq_mem_of_pow_eq_one (hp2 : p ≠ 2) (hp : p.Prime) (J : Subgroup
   rw [this]
   exact J.pow_mem (hJ x) _
 
+omit [Finite G] in
 theorem oddPCoreInClosure_of_sq_mem (hp : p.Prime) (hp2 : p ≠ 2) (J : Subgroup G) [J.Normal]
     (hJ : ∀ g : G, g ^ 2 ∈ J) (h : OddPCoreInClosure p ↥J) : OddPCoreInClosure p G := by
   intro K hK hKle hKcop
@@ -47,7 +49,7 @@ theorem oddPCoreInClosure_of_sq_mem (hp : p.Prime) (hp2 : p ≠ 2) (J : Subgroup
     refine hKle.trans ?_
     rw [hmap]
     exact Subgroup.map_subtype_le _
-  haveI : (K.subgroupOf J).Normal := Subgroup.Normal.subgroupOf hK J
+  have : (K.subgroupOf J).Normal := Subgroup.Normal.subgroupOf hK J
   have hle : K.subgroupOf J ≤ pElemClosure p ↥J := by
     intro y hy
     have hyK : (y : G) ∈ K := hy

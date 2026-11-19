@@ -25,7 +25,7 @@ section ClassTwo
 
 variable {G : Type*} [Group G]
 
-theorem class_two_pow_aux (x y : G) (hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
+theorem class_two_pow_aux (x y : G) (_hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
     y ^ n * x = ⁅y, x⁆ ^ n * (x * y ^ n) := by
   have hc : y * x = ⁅y, x⁆ * (x * y) := by
     rw [commutatorElement_def]; group
@@ -248,12 +248,12 @@ section Main
 
 theorem sdSpor_M7 : SDSporAt .M 7 := by
   intro K _ _ ⟨e⟩
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := NativeSporadic.Carrier .M) (MulEquiv.refl _)
   have φ : K ≃* CFSG.Monster.Generated.Gmat := e.trans ε
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.toEquiv
   exact @SylowDichotomyAt.of_mulEquiv K _ _ 7 CFSG.Monster.Generated.Gmat _ _ (by norm_num) φ
     M7Spor.sylowDichotomyAt_gmat_seven
 

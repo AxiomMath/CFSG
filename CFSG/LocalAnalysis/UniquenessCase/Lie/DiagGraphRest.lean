@@ -76,18 +76,18 @@ theorem uc22pdiag_classPres_of_innDiagField {S : Type} [Group S] [Finite S] [IsS
   refine uc22pdiag_ClassPres_mul ?_ ?_
   · rcases h₁ with ⟨x, rfl⟩ | ⟨n, K, _, _, e, c, hK, hc⟩ | ⟨n, K, _, _, e, c, hK, hc⟩
     · exact uc22pdiag_ClassPres_conj x
-    · haveI : CharP K 2 := uc22pwlie_charP_two hK
+    · have : CharP K 2 := uc22pwlie_charP_two hK
       exact uc22pdiag_ClassPres_of_congr e ψ₁ (uc22pdiag_classPres_L_conj (by norm_num) c _ hc)
     · exact (uc22pdiag_false_of_U3 hT h7 hK e).elim
   · rcases h₂ with ⟨n, K, _, _, e, σ, hK, hσ⟩ | ⟨n, K, _, _, e, σ, hK, hσ⟩ | ⟨n, K, _, _, e, σ, hK, -, -⟩ |
       ⟨n, K, _, _, e, σ, hK, hσ⟩ | ⟨a, K, _, _, e, σ, hK, -⟩ | ⟨n, K, _, _, e, σ, hK, hσ⟩ |
       ⟨n, K, _, _, σq, e, σ, hK, hσq, -, -⟩ | ⟨a, K, _, _, e, σ, hK, hσ⟩ | ⟨rfl, -⟩
-    · haveI : CharP K 2 := uc22pwlie_charP_two hK
+    · have : CharP K 2 := uc22pwlie_charP_two hK
       exact uc22pdiag_ClassPres_of_congr e ψ₂ (uc22pdiag_classPres_L_field (by norm_num) σ _ hσ)
-    · haveI : CharP K 2 := uc22pwlie_charP_two hK
+    · have : CharP K 2 := uc22pwlie_charP_two hK
       exact uc22pdiag_ClassPres_of_congr e ψ₂ (uc22pdiag_classPres_L_field (by norm_num) σ _ hσ)
     · exact (uc22pdiag_false_of_U3 hT h7 hK e).elim
-    · haveI : CharP K 2 := uc22pwlie_charP_two hK
+    · have : CharP K 2 := uc22pwlie_charP_two hK
       exact uc22pdiag_ClassPres_of_congr e ψ₂ (uc22pdiag_classPres_Sp4_field σ _ hσ)
     · exact (uc22pdiag_false_of_Sz hT h7 hK e).elim
     ·
@@ -149,7 +149,7 @@ theorem uc22pdiag_dvd_L3 {M : Type} [Group M] [Finite M] {n : ℕ} (h : LieModel
 theorem uc22pdiag_dvd_Sp4 {M : Type} [Group M] [Finite M] {n : ℕ} (h : LieModel M .PSp 2 2 n) (hn : 2 < n) :
     2 ^ 7 ∣ Nat.card M := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   rw [Nat.card_congr e.toEquiv]
   refine Dvd.dvd.trans ?_ (Subgroup.card_subgroup_dvd_card (SymplecticFlag.projUnipotent 2 K))
   rw [SymplecticFlag.card_projUnipotent (by norm_num), hK, ← pow_mul]
@@ -177,7 +177,7 @@ theorem uc22pdiag_graph_join {S : Type} [Group S] [Finite S] [IsSimpleGroup S] {
 
 theorem uc22p20uGraphInput_holds : uc22p20uGraphInput := by
   intro X _ _ hqs t m n hmodel U A hA ⟨hshape, hinn⟩
-  haveI : IsSimpleGroup (X ⧸ center X) := hqs.2
+  have : IsSimpleGroup (X ⧸ center X) := hqs.2
   let π : X →* X ⧸ center X := QuotientGroup.mk' (center X)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   let UB : Sylow 2 (X ⧸ center X) := Sylow.mapSurjective (f := π) hπ U

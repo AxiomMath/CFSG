@@ -13,18 +13,21 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_commutator_top {p : ℕ} (L : Subgroup G) :
     (⁅(⊤ : Subgroup ↥L), GLAPPrimeCore p ↥L⁆).map L.subtype =
       (⁅L, GLAPPrimeCoreOf p L⁆ : Subgroup G) := by
   rw [Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
   rfl
 
+omit [Finite G] in
 theorem card_commutator_top {p : ℕ} (L : Subgroup G) :
     Nat.card ↥(⁅(⊤ : Subgroup ↥L), GLAPPrimeCore p ↥L⁆) =
       Nat.card (⁅L, GLAPPrimeCoreOf p L⁆ : Subgroup G) := by
   rw [← map_commutator_top (p := p) L]
   exact (Subgroup.card_map_of_injective L.subtype_injective).symm
 
+omit [Finite G] in
 theorem coreOf_le {p : ℕ} {L : Subgroup G} : GLAPPrimeCoreOf p L ≤ L :=
   Subgroup.map_subtype_le _
 
@@ -34,7 +37,7 @@ theorem pRank_ltilde_le {p : ℕ} {L : Subgroup G}
   have hN : ¬ 2 ∣ Nat.card ↥(⁅(⊤ : Subgroup ↥L), GLAPPrimeCore p ↥L⁆) := by
     rw [card_commutator_top]
     exact Nat.odd_iff.1 hodd |> fun h => by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ((CFSG.SectionRank.pRank_quotient_eq (G := ↥L) _ hN).trans
     (CFSG.SectionRank.pRank_eq_pRank_top_subgroup L).symm).le
 
@@ -88,6 +91,7 @@ theorem card_le_two_pow_center {p : ℕ} {L E : Subgroup G}
   rw [hk]
   exact Nat.pow_le_pow_right (by norm_num) h2
 
+omit [Finite G] in
 theorem two_part_le_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L Q₁ S : Subgroup G}
     (hcent : L ⊓ Subgroup.centralizer (Q₁ : Set G) ≤ oPPrimeP p L) (hSL : S ≤ L)
     (hS : IsPGroup 2 S) :
@@ -118,6 +122,7 @@ theorem two_part_le_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L Q₁ S : Su
   rw [← hgs]
   exact Subgroup.mem_map_of_mem _ h3
 
+omit [Finite G] in
 theorem le_normalizer_of_le_elemAbelian {p : ℕ} {S A B : Subgroup G} (hS : IsElemAbelian p S)
     (hA : A ≤ S) (hB : B ≤ S) : B ≤ Subgroup.normalizer (A : Set G) := by
   intro b hb
@@ -137,6 +142,7 @@ theorem le_normalizer_of_le_elemAbelian {p : ℕ} {S A B : Subgroup G} (hS : IsE
     rw [this] at hba
     simpa using hba
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_elemAbelian {p : ℕ} {S A B : Subgroup G}
     (hS : IsElemAbelian p S) (hA : A ≤ S) (hB : B ≤ S) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B :=
@@ -155,11 +161,11 @@ theorem exists_complement {p : ℕ} (hp : p.Prime) {S S₀ : Subgroup G} (hS : I
   have hM : S₀ ⊔ S₁ = S := by
     by_contra hne
     have hlt : S₀ ⊔ S₁ < S := lt_of_le_of_ne (sup_le h hS₁.1) hne
-    obtain ⟨x, hxS, hxM⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxS, hxM⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     set M := S₀ ⊔ S₁ with hMdef
     set Z := Subgroup.zpowers x with hZdef
     have hx1 : x ≠ 1 := fun h1 => hxM (h1 ▸ M.one_mem)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hZcard : Nat.card Z = p := by
       rw [hZdef, Nat.card_zpowers]
       exact orderOf_eq_prime (hS.2 x hxS) hx1

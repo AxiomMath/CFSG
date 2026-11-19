@@ -106,7 +106,7 @@ private theorem false_of_item43 {X : Type} [Group X] [Finite X] (h : RankHyp X) 
     (h3 : 3 ∣ Nat.card (Subgroup.center X)) : False := by
   rcases Sec4.diag_item43_holds X (sectionFourHyp_of_rankHyp h) h.quasisimple h3 with
     ⟨p, e, hp, -, hL⟩ | e | e | hG | e | e | e | e | e
-  · haveI := hp
+  · have := hp
     exact not_isoLThreePi_of_card_spor hN hNs p e hL
   · obtain ⟨e⟩ := e
     have h6 : N = 360 := hN.symm.trans ((Nat.card_congr e.toEquiv).trans card_alt_six)
@@ -145,7 +145,7 @@ private theorem false_of_spor {X : Type} [Group X] [Finite X] (h : RankHyp X) {G
       N = 273030912000000 ∨ N = 90745943887872000)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G)) : False := by
   have hN' : Nat.card (X ⧸ Subgroup.center X) = N := (Nat.card_congr e.toEquiv).trans hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : ¬ 3 ∣ Nat.card (Subgroup.center X) := fun h3 => false_of_item43 h hN' hNs h3
   have hq := CFSG.SectionRank.pRank_quotient_eq (p := 3) (Subgroup.center X) hZ
   have he := CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e
@@ -156,7 +156,7 @@ theorem false_of_rankHyp_spor {X : Type} [Group X] [Finite X] (h : RankHyp X)
     {s : TauCeti.SporadicName}
     (hs : s = .Ly ∨ s = .Suz ∨ s = .Co3 ∨ s = .Co2 ∨ s = .HN ∨ s = .Th)
     (e : X ⧸ Subgroup.center X ≃* CFSG.RankThree.PartTwo.Sec4.Spor s) : False := by
-  haveI : Finite (Sec4.Spor s) := Finite.of_equiv _ e.toEquiv
+  have : Finite (Sec4.Spor s) := Finite.of_equiv _ e.toEquiv
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
   · obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Ly.nonempty_mulEquiv
     obtain ⟨E, hE, hc⟩ := CFSG.SectionRank.Ly_elementary_three_rank_four

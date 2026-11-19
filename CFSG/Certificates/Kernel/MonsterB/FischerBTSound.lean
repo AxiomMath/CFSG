@@ -73,19 +73,19 @@ theorem getB_setB : ∀ (d : Nat) (T : BT) (i v j : Nat), Full d T → i < 2 ^ d
     rw [setB_nd]
     rcases Nat.mod_two_eq_zero_or_one i with h | h <;>
       rcases Nat.mod_two_eq_zero_or_one j with h' | h'
-    · rw [if_neg (show ¬ i % 2 = 1 by omega), getB_nd, if_neg (show ¬ j % 2 = 1 by omega),
-        getB_setB d l _ v _ hl hi2 hj2, getB_nd, if_neg (show ¬ j % 2 = 1 by omega)]
+    · rw [ite_eq_right (show ¬ i % 2 = 1 by omega), getB_nd, ite_eq_right (show ¬ j % 2 = 1 by omega),
+        getB_setB d l _ v _ hl hi2 hj2, getB_nd, ite_eq_right (show ¬ j % 2 = 1 by omega)]
       by_cases e : i = j
-      · rw [if_pos (show i / 2 = j / 2 by omega), if_pos e]
-      · rw [if_neg (show ¬ i / 2 = j / 2 by omega), if_neg e]
-    · rw [if_neg (show ¬ i % 2 = 1 by omega), getB_nd, if_pos h', if_neg (show ¬ i = j by omega),
-        getB_nd, if_pos h']
-    · rw [if_pos h, getB_nd, if_neg (show ¬ j % 2 = 1 by omega), if_neg (show ¬ i = j by omega),
-        getB_nd, if_neg (show ¬ j % 2 = 1 by omega)]
-    · rw [if_pos h, getB_nd, if_pos h', getB_setB d r _ v _ hr hi2 hj2, getB_nd, if_pos h']
+      · rw [ite_eq_left (show i / 2 = j / 2 by omega), ite_eq_left e]
+      · rw [ite_eq_right (show ¬ i / 2 = j / 2 by omega), ite_eq_right e]
+    · rw [ite_eq_right (show ¬ i % 2 = 1 by omega), getB_nd, ite_eq_left h', ite_eq_right (show ¬ i = j by omega),
+        getB_nd, ite_eq_left h']
+    · rw [ite_eq_left h, getB_nd, ite_eq_right (show ¬ j % 2 = 1 by omega), ite_eq_right (show ¬ i = j by omega),
+        getB_nd, ite_eq_right (show ¬ j % 2 = 1 by omega)]
+    · rw [ite_eq_left h, getB_nd, ite_eq_left h', getB_setB d r _ v _ hr hi2 hj2, getB_nd, ite_eq_left h']
       by_cases e : i = j
-      · rw [if_pos (show i / 2 = j / 2 by omega), if_pos e]
-      · rw [if_neg (show ¬ i / 2 = j / 2 by omega), if_neg e]
+      · rw [ite_eq_left (show i / 2 = j / 2 by omega), ite_eq_left e]
+      · rw [ite_eq_right (show ¬ i / 2 = j / 2 by omega), ite_eq_right e]
   | 0, .nd _ _, _, _, _, h, _, _ => absurd h id
   | _ + 1, .lf _, _, _, _, h, _, _ => absurd h id
 
@@ -93,21 +93,21 @@ theorem getT_eq (T : BT) (i : Nat) : getT T i = if i < 2048 then getB T i else 0
   unfold getT
   by_cases h : i < 2048
   · have hb : Nat.blt i 2048 = true := by rw [Nat.blt_eq]; exact h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   · have hb : Nat.blt i 2048 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 theorem setT_eq (T : BT) (i v : Nat) : setT T i v = if i < 2048 then setB T i v else T := by
   unfold setT
   by_cases h : i < 2048
   · have hb : Nat.blt i 2048 = true := by rw [Nat.blt_eq]; exact h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   · have hb : Nat.blt i 2048 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 def RArr (a : Array Nat) (T : BT) : Prop := a.size = 2048 ∧ Full 11 T ∧ ∀ j, a[j]! = getT T j
 
@@ -115,8 +115,8 @@ theorem rArr_replicate (c : Nat) : RArr (Array.replicate 2048 c) (mkB c 11) := b
   refine ⟨Array.size_replicate, full_mkB c 11, fun j => ?_⟩
   rw [getT_eq, getB_mkB]
   by_cases h : j < 2048
-  · rw [if_pos h, getElem!_pos _ j (by simpa using h), Array.getElem_replicate]
-  · rw [if_neg h, getElem!_neg _ j (by simpa using h)]
+  · rw [ite_eq_left h, getElem!_pos _ j (by simpa using h), Array.getElem_replicate]
+  · rw [ite_eq_right h, getElem!_neg _ j (by simpa using h)]
     rfl
 
 theorem rArr_get {a : Array Nat} {T : BT} (h : RArr a T) (j : Nat) : a[j]! = getT T j := h.2.2 j
@@ -125,20 +125,20 @@ theorem rArr_set {a : Array Nat} {T : BT} (h : RArr a T) (i v : Nat) :
     RArr (a.set! i v) (setT T i v) := by
   obtain ⟨hs, hf, hg⟩ := h
   by_cases hi : i < 2048
-  · refine ⟨by rw [Array.size_set!, hs], by rw [setT_eq, if_pos hi]; exact full_setB 11 T i v hf,
+  · refine ⟨by rw [Array.size_set!, hs], by rw [setT_eq, ite_eq_left hi]; exact full_setB 11 T i v hf,
       fun j => ?_⟩
-    rw [setT_eq, if_pos hi, getT_eq]
+    rw [setT_eq, ite_eq_left hi, getT_eq]
     by_cases hj : j < 2048
-    · rw [if_pos hj, getB_setB 11 T i v j hf hi hj]
+    · rw [ite_eq_left hj, getB_setB 11 T i v j hf hi hj]
       by_cases e : i = j
       · subst e
-        rw [if_pos rfl, Array.getElem!_set!_self _ _ _ (by rw [hs]; exact hi)]
-      · rw [if_neg e, Array.getElem!_set!_ne _ _ _ _ e, hg j, getT_eq, if_pos hj]
-    · rw [if_neg hj, Array.getElem!_set!_ne _ _ _ _ (by omega), hg j, getT_eq, if_neg hj]
+        rw [ite_eq_left rfl, Array.getElem!_set!_self _ _ _ (by rw [hs]; exact hi)]
+      · rw [ite_eq_right e, Array.getElem!_set!_ne _ _ _ _ e, hg j, getT_eq, ite_eq_left hj]
+    · rw [ite_eq_right hj, Array.getElem!_set!_ne _ _ _ _ (by omega), hg j, getT_eq, ite_eq_right hj]
   · have ha : a.set! i v = a := by
       rw [Array.set!_eq_setIfInBounds]
       exact Array.setIfInBounds_eq_of_size_le (by omega)
-    rw [ha, setT_eq, if_neg hi]
+    rw [ha, setT_eq, ite_eq_right hi]
     exact ⟨hs, hf, hg⟩
 
 theorem forIn_rel {α β : Type} (R : α → β → Prop) (n : Nat) (f : Nat → α → Id (ForInStep α))

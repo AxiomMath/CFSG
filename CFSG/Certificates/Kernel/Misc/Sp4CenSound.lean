@@ -173,13 +173,13 @@ theorem invK_sound {RI : ℕ → ℕ} (h : invK RI = true) :
   refine ⟨fun k hk => Nat.le_of_ble_eq_true (h.1 k hk), fun c hc => ?_⟩
   rw [← sqPlane_bit hc, Nat.eq_of_beq_eq_true h.2, indK_bit]
 
-open Certificates.GL4 (GL4) in
+open Certificates.GL4Sub (GL4) in
 theorem f16_lt (r i : ℕ) : f16 r i < 65536 := by
   change Nat.land _ 65535 < 65536
   rw [landE]
   exact lt_of_le_of_lt Nat.and_le_right (by norm_num)
 
-open Certificates.GL4 (GL4) in
+open Certificates.GL4Sub (GL4) in
 theorem invW_sound {g gi : ℕ} (hg : g < 65536) (hgi : gi < 65536) (h : invW g gi = true) :
     ∃ u : GL4, enc4 u = g ∧ enc4 u⁻¹ = gi := by
   rw [invW, andB_iff] at h
@@ -189,7 +189,7 @@ theorem invW_sound {g gi : ℕ} (hg : g < 65536) (hgi : gi < 65536) (h : invW g 
     by rw [← mul4F_ofCode, h2, ofCode_id4]⟩
   exact ⟨u, code4_ofCode hg, code4_ofCode hgi⟩
 
-open Certificates.GL4 (GL4) in
+open Certificates.GL4Sub (GL4) in
 theorem relB_iff (u v : GL4) (n : ℕ) : relB (enc4 u) (enc4 v) n = true ↔ (u * v) ^ n = 1 := by
   rw [relB, ← gl4_enc.enc_mul, pow4F_enc]
   constructor
@@ -199,11 +199,11 @@ theorem relB_iff (u v : GL4) (n : ℕ) : relB (enc4 u) (enc4 v) n = true ↔ (u 
     rw [enc4_eq_id4.2 h]
     exact Nat.beq_refl _
 
-open Certificates.GL4 (GL4) in
+open Certificates.GL4Sub (GL4) in
 theorem conjF_enc (g x : GL4) : conjF (enc4 g) (enc4 x) (enc4 g⁻¹) = enc4 (g * x * g⁻¹) := by
   rw [conjF, ← gl4_enc.enc_mul, ← gl4_enc.enc_mul]
 
-open Certificates.GL4 (GL4) in
+open Certificates.GL4Sub (GL4) in
 theorem ofCode_formF_enc (w : ℕ) (g : GL4) :
     ofCode (formF w (enc4 g)) = (g : Mat4)ᵀ * ofCode w * (g : Mat4) := by
   rw [ofCode_formF, ← coe_eq_of_enc4 rfl]

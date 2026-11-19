@@ -26,7 +26,7 @@ theorem twoLocalWhen_E8
       omega
     · exact h0
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hform, -⟩ := hLie K .E8 n 2 f hadm hmodel
   have hpe : ¬ p ∣ 30 := by
     intro h
@@ -62,7 +62,7 @@ theorem twoLocalWhen_E8
     let θ : K ≃* adjointGroup Tag.E8 F := e.trans
       ((QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans
         QuotientGroup.quotientBot)
-    haveI : Fintype (WeylGroup .E8) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E8) := Fintype.ofFinite _
     obtain ⟨r, hr, hrdvd, hrq, hrN⟩ :=
       OLExc.exists_ppd_prime_not_dvd_normalizer .E8 hf hf₀ hFcard θ hp
       (by norm_num) (fun h => by omega) hpe

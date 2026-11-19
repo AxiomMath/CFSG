@@ -86,21 +86,21 @@ theorem mem_cline_iff {i : Fin 3} {v : Fin 3 → ZMod 3} :
   constructor
   · intro hv j hj
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hv
-    simp [ev, Pi.single_apply, hj]
+    simp [ev, hj]
   · intro h
     refine Submodule.mem_span_singleton.mpr ⟨v i, ?_⟩
     ext j
     by_cases hji : j = i
     · subst hji
       simp [ev]
-    · simp [ev, Pi.single_apply, hji, h j hji]
+    · simp [ev, hji, h j hji]
 
 theorem mem_cplane_iff {i : Fin 3} {v : Fin 3 → ZMod 3} : v ∈ cplane i ↔ v i = 0 := by
   constructor
   · intro hv
     refine Submodule.span_induction (p := fun v _ => v i = 0) ?_ ?_ ?_ ?_ hv
     · rintro _ ⟨j, hj, rfl⟩
-      simp [ev, Pi.single_apply, Ne.symm hj]
+      simp [ev, Ne.symm hj]
     · simp
     · intro x y _ _ hx hy
       simp [hx, hy]
@@ -109,7 +109,7 @@ theorem mem_cplane_iff {i : Fin 3} {v : Fin 3 → ZMod 3} : v ∈ cplane i ↔ v
   · intro h
     have hdec : v = (v 0) • ev 0 + (v 1) • ev 1 + (v 2) • ev 2 := by
       ext j
-      fin_cases j <;> simp [ev, Pi.single_apply]
+      fin_cases j <;> simp [ev]
     have hmem : ∀ j, j ≠ i → ev j ∈ cplane i := fun j hj =>
       Submodule.subset_span ⟨j, hj, rfl⟩
     rw [hdec]
@@ -144,7 +144,7 @@ theorem mem_iff_of_invariant {W : Submodule (ZMod 3) (Fin 3 → ZMod 3)}
           (2 * v 1) • ev 1 := by
         rw [dA_mulVec]
         ext j
-        fin_cases j <;> simp [ev, Pi.single_apply] <;> ring
+        fin_cases j <;> simp [ev]; ring
       rw [heq] at hsub
       obtain ⟨d, hd⟩ := hunit (2 * v 1) (mul_ne_zero h2 hv1)
       have := W.smul_mem d hsub
@@ -157,7 +157,7 @@ theorem mem_iff_of_invariant {W : Submodule (ZMod 3) (Fin 3 → ZMod 3)}
           (2 * v 2) • ev 2 := by
         rw [dB_mulVec]
         ext j
-        fin_cases j <;> simp [ev, Pi.single_apply] <;> ring
+        fin_cases j <;> simp [ev]; ring
       rw [heq] at hsub
       obtain ⟨d, hd⟩ := hunit (2 * v 2) (mul_ne_zero h2 hv2)
       have := W.smul_mem d hsub
@@ -173,7 +173,7 @@ theorem mem_iff_of_invariant {W : Submodule (ZMod 3) (Fin 3 → ZMod 3)}
     have h0' : v 0 • ev 0 ∈ W := by
       have : v 0 • ev 0 = v - v 1 • ev 1 - v 2 • ev 2 := by
         ext j
-        fin_cases j <;> simp [ev, Pi.single_apply]
+        fin_cases j <;> simp [ev]
       rw [this]
       exact W.sub_mem (W.sub_mem hv h1') h2''
     intro i hi
@@ -187,7 +187,7 @@ theorem mem_iff_of_invariant {W : Submodule (ZMod 3) (Fin 3 → ZMod 3)}
   · intro h
     have hdec : v = (v 0) • ev 0 + (v 1) • ev 1 + (v 2) • ev 2 := by
       ext j
-      fin_cases j <;> simp [ev, Pi.single_apply]
+      fin_cases j <;> simp [ev]
     have hterm : ∀ i, v i • ev i ∈ W := by
       intro i
       by_cases hi : v i = 0
@@ -205,7 +205,7 @@ variable {f : Multiplicative (Fin 3 → ZMod 3) ≃* A} {a : Fin 3 → G}
 theorem adapted_smul_ev (h : IsAdapted f a) (i : Fin 3) (c : ZMod 3) :
     ((f (Multiplicative.ofAdd (c • ev i)) : A) : G) = a i ^ c.val := by
   rw [h]
-  fin_cases i <;> simp [ev, Pi.single_apply]
+  fin_cases i <;> simp [ev]
 
 theorem adapted_ev (h : IsAdapted f a) (i : Fin 3) :
     ((f (Multiplicative.ofAdd (ev i)) : A) : G) = a i := by
@@ -247,9 +247,9 @@ theorem coordSub_cplane_sup (h : IsAdapted f a) (ha3 : ∀ i, a i ^ 3 = 1) {i j 
     have hdec : v = (v j) • ev j + (v k) • ev k := by
       ext l
       rcases hall l with rfl | rfl | rfl
-      · simp [ev, Pi.single_apply, hij.symm, hik.symm, hv]
-      · simp [ev, Pi.single_apply, hjk]
-      · simp [ev, Pi.single_apply, hjk.symm]
+      · simp [ev, hij.symm, hik.symm, hv]
+      · simp [ev, hjk]
+      · simp [ev, hjk.symm]
     rw [hdec]
     have hmul : ((f (Multiplicative.ofAdd ((v j) • ev j + (v k) • ev k)) : A) : G) =
         ((f (Multiplicative.ofAdd ((v j) • ev j)) : A) : G) *
@@ -263,11 +263,11 @@ theorem coordSub_cplane_sup (h : IsAdapted f a) (ha3 : ∀ i, a i ^ 3 = 1) {i j 
     · rw [cline, Submodule.span_le]
       rintro _ rfl
       rw [SetLike.mem_coe, mem_cplane_iff]
-      simp [ev, Pi.single_apply, hij.symm]
+      simp [ev, hij.symm]
     · rw [cline, Submodule.span_le]
       rintro _ rfl
       rw [SetLike.mem_coe, mem_cplane_iff]
-      simp [ev, Pi.single_apply, hik.symm]
+      simp [ev, hik.symm]
 
 theorem normalizer_le_of_centralizer_dvd [Finite G] {M X Y : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hM : ∀ g : G, g ∉ M →
@@ -275,7 +275,7 @@ theorem normalizer_le_of_centralizer_dvd [Finite G] {M X Y : Subgroup G} {p : �
     (hY : Subgroup.normalizer (Y : Set G) ≤ M) (hXY : Y ≤ X)
     (hC : p ∣ Nat.card ↥(M ⊓ Subgroup.centralizer (X : Set G))) :
     Subgroup.normalizer (X : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro g hg
   by_contra hgM
   obtain ⟨y, hy⟩ :=
@@ -382,7 +382,7 @@ theorem caseI_normalizer_le
     Subgroup.normalizer (A : Set G) ≤ M := by
   classical
   by_contra hW
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (hAel.1.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
   obtain ⟨f, -, -, -, hfv⟩ :=
@@ -523,7 +523,7 @@ theorem caseI_normalizer_le
         fin_cases i <;> contradiction
       rw [hv0]
       exact Submodule.zero_mem _
-  obtain ⟨w, hwN, hwM⟩ := SetLike.not_le_iff_exists.mp hW
+  obtain ⟨w, hwN, hwM⟩ := IsConcreteLE.not_le_iff_exists.mp hW
   rcases caseA_matrix _ hirr hdA hdB with ⟨i0, hall⟩ | ⟨h27H, htrans⟩
   ·
     rcases hall (psi f ⟨w, hwN⟩) ⟨⟨w, hwN⟩, rfl⟩ with hpres | hmap
@@ -592,7 +592,7 @@ theorem caseI_normalizer_le
       have hc := Subgroup.mem_centralizer_iff.mp (hSA hxS)
         ((f (Multiplicative.ofAdd (ev j)) : A) : G) (f (Multiplicative.ofAdd (ev j))).2
       rw [← hc, mul_assoc, mul_inv_cancel, mul_one]
-    letI : MulDistribMulAction (Subgroup.normalizer (A : Set G)) A :=
+    let : MulDistribMulAction (Subgroup.normalizer (A : Set G)) A :=
       MulDistribMulAction.compHom A A.normalizerMonoidHom
     have hact : ∀ (g : Subgroup.normalizer (A : Set G)) (x : A),
         ((g • x : A) : G) = (g : G) * (x : G) * (g : G)⁻¹ := fun _ _ => rfl
@@ -645,7 +645,7 @@ theorem caseI_normalizer_le
         Nat.card ↥(Subgroup.normalizer (A : Set G)) := by
       rw [← Subgroup.index_ker (psi f)]
       exact Subgroup.card_mul_index _
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hSdvdK : Nat.card S ∣ Nat.card ↥(psi f).ker := by
       have h := Subgroup.card_dvd_of_le hSK
       rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv] at h

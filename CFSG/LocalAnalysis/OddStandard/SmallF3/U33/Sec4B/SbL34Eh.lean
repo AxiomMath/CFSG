@@ -62,7 +62,7 @@ theorem exists_rep {G : Type} [Group G] [Finite G] (H N V : Subgroup G) {k : ℕ
         ∀ g : ↥H, ψ g = 1 ↔ ∀ a ∈ N, (g : G) * a * (g : G)⁻¹ * a⁻¹ ∈ V := by
   let V' : Subgroup ↥N := V.subgroupOf N
   have hV'normal : V'.Normal := normal_subgroupOf_of_comm N V hVN hcomm
-  letI : V'.Normal := hV'normal
+  let : V'.Normal := hV'normal
   let Q := ↥N ⧸ V'
   have hcommQ : ∀ x y : Q, x * y = y * x := by
     intro x y
@@ -83,9 +83,9 @@ theorem exists_rep {G : Type} [Group G] [Finite G] (H N V : Subgroup G) {k : ℕ
     rw [hw, ← ofMul_pow, ← QuotientGroup.mk_pow, pow_two,
       (QuotientGroup.eq_one_iff (s * s)).mpr (hsq (s : G) s.2)]
     rfl
-  letI : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) htwo
-  haveI : Finite (Additive Q) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive Q) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) htwo
+  have : Finite (Additive Q) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive Q) := Module.Finite.of_finite
   let φ : ↥H → (Q ≃* Q) := fun g =>
     QuotientGroup.congr V' V' (conjN H N hNH g) (map_conjN H N V hNH hVH g)
   have hmulQ : ∀ g h : ↥H, φ (g * h) = φ g * φ h := by
@@ -161,7 +161,7 @@ theorem exists_rep {G : Type} [Group G] [Finite G] (H N V : Subgroup G) {k : ℕ
     have hV'card : Nat.card V' = Nat.card V :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVN).toEquiv
     rw [hV'card] at h1
-    haveI : Nonempty ↥V := ⟨1, V.one_mem⟩
+    have : Nonempty ↥V := ⟨1, V.one_mem⟩
     have h2 : Nat.card Q * Nat.card V = 2 ^ k * Nat.card V := by
       rw [← h1]; exact hcard
     exact Nat.mul_right_cancel (Nat.card_pos (α := ↥V)) h2

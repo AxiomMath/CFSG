@@ -21,7 +21,7 @@ theorem IsHStar.exists_x (hH : IsHStar c H Nbar) (hR : FusR n c.hn8 Nbar Rbar k 
     ∃ x ∈ normalizer (sSyl c H Rbar : Set G), x⁻¹ * z * x = z * w θ c.hn8 ∧
       x⁻¹ * w θ c.hn8 * x = w θ c.hn8 := by
   have hS := c.ot.std
-  haveI := hS.simple
+  have := hS.simple
   obtain ⟨-, x, hxN, -, hxz, -⟩ := AltStdSmall.exists_normalizer_conj_mul hS.nonab
     (IsPGroup.of_card (hH.card_sSyl_eq hR)) z_mem_sSyl (by rw [sq]; exact z_mul_self c)
     (z_ne_one c) sSyl_le_cent (hH.sSyl_maximal hR hk) rStar_le_sSyl hH.relIndex_rStar
@@ -84,6 +84,7 @@ end Step1
 @[expose] def vOne (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) (z x : G) : Subgroup G :=
   (E θ hn ⊔ zpowers z).comap (MulAut.conj x).toMonoidHom
 
+omit [Finite G] in
 theorem mem_vOne_iff {hn : 8 ≤ n} {x g : G} :
     g ∈ vOne θ hn z x ↔ x * g * x⁻¹ ∈ E θ hn ⊔ zpowers z := Iff.rfl
 
@@ -100,6 +101,7 @@ theorem mem_xBar_iff {c : Config G L Q n θ z} {H : Subgroup G} {x : G} {σ : Pe
       ∃ g : centralizer ({z} : Set G), (g : G) ∈ xSub θ c.hn8 z x H ∧ rhoC c g = σ :=
   Iff.rfl
 
+omit [Finite G] in
 theorem w_mem_E (hn : 8 ≤ n) : w θ hn ∈ E θ hn := mem_E_of_mem_eBar θ hn (wBar_mem_eBar hn)
 
 section V0
@@ -131,7 +133,7 @@ theorem card_vOne (x : G) : Nat.card (vOne θ c.hn8 z x) = 16 := by
     { toFun := fun g => ⟨x * g * x⁻¹, mem_vOne_iff.1 g.2⟩
       invFun := fun v => ⟨x⁻¹ * v * x, by
         rw [mem_vOne_iff]
-        simpa [mul_assoc] using v.2⟩
+        simp [mul_assoc]⟩
       left_inv := fun g => Subtype.ext (by simp [mul_assoc])
       right_inv := fun v => Subtype.ext (by simp [mul_assoc]) }
 
@@ -147,6 +149,7 @@ section VOne
 
 variable {c : Config G L Q n θ z} {H : Subgroup G} {Nbar Rbar : Subgroup (Perm (Fin n))} {x : G}
 
+omit [Finite G] in
 theorem conj_w_eq {hn : 8 ≤ n} (hxw : x⁻¹ * w θ hn * x = w θ hn) : x * w θ hn * x⁻¹ = w θ hn := by
   calc x * w θ hn * x⁻¹ = x * (x⁻¹ * w θ hn * x) * x⁻¹ := by rw [hxw]
     _ = w θ hn := by group
@@ -167,6 +170,7 @@ theorem z_mem_vOne (c : Config G L Q n θ z) (hxz : x⁻¹ * z * x = z * w θ c.
   rw [mem_vOne_iff, conj_z_eq_mul c hxz hxw]
   exact mul_mem (mem_sup_right (mem_zpowers z)) (mem_sup_left (w_mem_E c.hn8))
 
+omit [Finite G] in
 theorem w_mem_vOne {hn : 8 ≤ n} (hxw : x⁻¹ * w θ hn * x = w θ hn) : w θ hn ∈ vOne θ hn z x := by
   rw [mem_vOne_iff, conj_w_eq hxw]
   exact mem_sup_left (w_mem_E hn)
@@ -182,8 +186,10 @@ theorem IsHStar.vOne_le_sSyl (hH : IsHStar c H Nbar) (htr : ∀ v : Fin 8, tr c.
   have h2 := (mem_normalizer_iff.1 (inv_mem hxN) _).1 h1
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem xSub_le_vOne {hn : 8 ≤ n} : xSub θ hn z x H ≤ vOne θ hn z x := inf_le_left
 
+omit [Finite G] in
 theorem xSub_le_H {hn : 8 ≤ n} : xSub θ hn z x H ≤ H := inf_le_right
 
 theorem IsHStar.xSub_le_rStar (hH : IsHStar c H Nbar) (htr : ∀ v : Fin 8, tr c.hn8 v ∈ Rbar)

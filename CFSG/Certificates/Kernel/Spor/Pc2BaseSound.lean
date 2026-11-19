@@ -65,8 +65,8 @@ theorem word_wW (e : ℕ) : ∀ (m k : ℕ), word ℓ (wW e k m) = wfrom ℓ e k
   | m + 1, k => by
     rw [wW_succ, wfrom_succ]
     by_cases h : e.testBit k
-    · rw [if_pos h, if_pos h, word_cons, word_wW e m (k + 1)]
-    · rw [if_neg h, if_neg h, word_wW e m (k + 1)]
+    · rw [ite_eq_left h, ite_eq_left h, word_cons, word_wW e m (k + 1)]
+    · rw [ite_eq_right h, ite_eq_right h, word_wW e m (k + 1)]
 
 theorem word_mem (hH : ∀ k < n, ℓ k ∈ H) {W : List ℕ} (hW : ∀ z ∈ W, z < n) :
     word ℓ W ∈ H := by
@@ -104,7 +104,7 @@ theorem rel_eqs (hL : ∀ z < n, PRep N w (L z) (ℓ z)) (hH : ∀ k < n, ℓ k 
   refine ⟨fun k hk => ?_, fun k j hkj hj => ?_⟩
   · have hk' := allN_iff.1 (h k hk) k hk
     beta_reduce at hk'
-    rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), bIf_eq, if_pos (by rw [Nat.beq_eq])] at hk'
+    rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), bIf_eq, ite_eq_left (by rw [Nat.beq_eq])] at hk'
     have e := eq_of_wEq hL hH hB (U := [k, k]) (fun z hz => by
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hz
       omega) (wW_lt _ n) hk'
@@ -113,7 +113,7 @@ theorem rel_eqs (hL : ∀ z < n, PRep N w (L z) (ℓ z)) (hH : ∀ k < n, ℓ k 
     simp [word]
   · have hk' := allN_iff.1 (h k (by omega)) j hj
     beta_reduce at hk'
-    rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), bIf_eq, if_neg (by rw [Nat.beq_eq]; omega)]
+    rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; omega)]
       at hk'
     have hV : ∀ z ∈ List.append (wW (rel R k j) 0 n) [k], z < n := fun z hz => by
       rcases List.mem_append.1 hz with hz | hz
@@ -140,20 +140,19 @@ theorem shape_facts {R : List (List ℕ)} {m : ℕ} (h : shapeOK R n m = true) {
   rw [shapeOK, allN_iff] at h
   have h1 := allN_iff.1 (h k (by omega)) j hj
   beta_reduce at h1
-  rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), strictB_eq] at h1
-  beta_reduce at h1
+  rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), strictB_eq] at h1
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq, p2_eq] at h1
   obtain ⟨hlt, hhi, hc⟩ := h1
   refine ⟨hlt, fun i hi => testBit_of_hiOnly hhi (by change i < k + 1; omega),
     fun hkm hmj i hi => ?_,
     fun hmk hjk => ?_, fun hmk hkj' => ?_⟩
-  · rw [bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hkm), bIf_eq,
-      if_neg (by rw [Nat.blt_eq]; omega)] at hc
+  · rw [bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hkm), bIf_eq,
+      ite_eq_right (by rw [Nat.blt_eq]; omega)] at hc
     exact testBit_of_hiOnly hc hi
-  · rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), bIf_eq, if_pos (by rw [Nat.beq_eq]; exact hjk),
+  · rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact hjk),
       Nat.beq_eq] at hc
     exact hc
-  · rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), bIf_eq, if_neg (by rw [Nat.beq_eq]; omega),
+  · rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; omega),
       Nat.beq_eq, p2_eq] at hc
     exact hc
 
@@ -221,7 +220,7 @@ theorem ne_wfrom_of_sepK (hL : ∀ z < n, PRep N w (L z) (ℓ z)) {k v x : ℕ} 
     rw [bAnd_eq, Bool.and_eq_true, allN_iff] at hy'
     have hj' := hy'.2 j hj
     beta_reduce at hj'
-    rw [bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hkj), memL_iff, hL j hj y] at hj'
+    rw [bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hkj), memL_iff, hL j hj y] at hj'
     exact hj'
   have hv' : ℓ k ⟨x, hxN⟩ ∈ S := by
     change ((ℓ k ⟨x, hxN⟩ : Fin N) : ℕ) ∈ O
@@ -296,11 +295,11 @@ theorem wfrom_two_pow (x : ℕ → G) {j : ℕ} :
     rw [wfrom_succ, Nat.testBit_two_pow]
     by_cases hjk : j = k
     · subst hjk
-      rw [if_pos (by simp), wfrom_eq_one x K (j + 1) fun i h3 _ => by
+      rw [ite_eq_left (by simp), wfrom_eq_one x K (j + 1) fun i h3 _ => by
         rw [Nat.testBit_two_pow]
         simp only [decide_eq_false_iff_not]
         omega, mul_one]
-    · rw [if_neg (by simp only [decide_eq_true_eq]; exact hjk)]
+    · rw [ite_eq_right (by simp only [decide_eq_true_eq]; exact hjk)]
       exact wfrom_two_pow x K (k + 1) (by omega) (by omega)
 
 theorem mod_two_pow_succ_xor (v t : ℕ) :
@@ -509,7 +508,7 @@ theorem coOK_rec {w mk : ℕ} {L : ℕ → ℕ} {B : List ℕ} {R : List (List �
     bIf_eq] at h1
   obtain ⟨hf, hb, hc⟩ := h1
   refine ⟨hf, fun b hb' => Nat.eq_of_beq_eq_true (hb b hb'), fun hlo => ?_⟩
-  rw [if_pos hlo, bAnd_eq, Bool.and_eq_true, allN_iff] at hc
+  rw [ite_eq_left hlo, bAnd_eq, Bool.and_eq_true, allN_iff] at hc
   obtain ⟨hc1, hc2⟩ := hc
   refine ⟨fun j hj => ?_, ?_⟩
   · have := hc1 j hj
@@ -554,7 +553,7 @@ theorem cenOK_facts {R : List (List ℕ)} {n m uI dI : ℕ} (hd1 : m ≤ dI) (hd
   refine ⟨fun e he he0 => ?_, fun a ha hk => (inZ_iff m uI dI a).1 ((hfix a ha).1 hk), ?_⟩
   · have := h1 e (by rw [p2_eq]; exact he)
     beta_reduce at this
-    rw [bIf_eq, if_neg (by rw [Nat.beq_eq]; exact he0)] at this
+    rw [bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact he0)] at this
     have h3 := notB_true this
     by_contra hall
     push Not at hall
@@ -614,6 +613,7 @@ theorem abelian_of_pc2OK :
     · rfl
     · exact (hc2 _ _ (by omega) (by omega) (by omega)).symm
 
+omit hL hH hB in
 theorem low_of_pc2OK {e : ℕ} (he : ∀ i < m, e.testBit i = false) :
     wfrom ℓ e 0 n = av ℓ m (n - m) (e / 2 ^ m) := by
   obtain ⟨hmd, hdn, -⟩ := pc2OK_parts hc
@@ -622,8 +622,9 @@ theorem low_of_pc2OK {e : ℕ} (he : ∀ i < m, e.testBit i = false) :
     ← Nat.add_zero m, wfrom_shift, Nat.add_zero, ← hn]
   rfl
 
+omit hL hH hB in
 theorem av_eq_wfrom (v : ℕ) : av ℓ m (n - m) v = wfrom ℓ (v * 2 ^ m) 0 n := by
-  rw [low_of_pc2OK hL hH hB hc fun i hi => ?_, Nat.mul_div_cancel v (Nat.two_pow_pos m)]
+  rw [low_of_pc2OK hc fun i hi => ?_, Nat.mul_div_cancel v (Nat.two_pow_pos m)]
   rw [← Nat.shiftLeft_eq, Nat.testBit_shiftLeft]
   simp only [ge_iff_le, Bool.and_eq_false_imp, decide_eq_true_eq]
   intro h
@@ -632,7 +633,7 @@ theorem av_eq_wfrom (v : ℕ) : av ℓ m (n - m) v = wfrom ℓ (v * 2 ^ m) 0 n :
 theorem av_inj {a b : ℕ} (ha : a < 2 ^ (n - m)) (hb : b < 2 ^ (n - m))
     (h : av ℓ m (n - m) a = av ℓ m (n - m) b) : a = b := by
   obtain ⟨hmd, hdn, -⟩ := pc2OK_parts hc
-  rw [av_eq_wfrom hL hH hB hc, av_eq_wfrom hL hH hB hc] at h
+  rw [av_eq_wfrom hc, av_eq_wfrom hc] at h
   apply Nat.eq_of_testBit_eq
   intro i
   rcases Nat.lt_or_ge i (n - m) with hi | hi
@@ -652,7 +653,7 @@ theorem conj_of_pc2OK {k : ℕ} (hk : k < m) (v : ℕ) :
     intro i hi
     change ℓ k * ℓ (m + i) * (ℓ k)⁻¹ = _
     rw [hcj k (m + i) (by omega) (by omega), mul_inv_cancel_right,
-      low_of_pc2OK hL hH hB hc ((shape_facts hs (by omega) (by omega)).2.2.1 hk (by omega))]
+      low_of_pc2OK hc ((shape_facts hs (by omega) (by omega)).2.2.1 hk (by omega))]
     change _ = av ℓ m (n - m) (rel R k (m + i) >>> m)
     rw [Nat.shiftRight_eq_div_pow]
   have := hom_av hsqA hcA (MulAut.conj (ℓ k)).toMonoidHom hφ v
@@ -669,6 +670,7 @@ theorem mw_conj_of_pc2OK (v : ℕ) :
     rw [← conj_of_pc2OK hL hH hB hc (hW z List.mem_cons_self), ← ih, word_cons]
     group
 
+omit hL hH hB hc in
 theorem mem_of_wfrom (e : ℕ) : wfrom ℓ e 0 n ∈ Subgroup.closure (ℓ '' Set.Ico 0 n) :=
   wfrom_mem' ℓ e (by omega)
 
@@ -699,6 +701,7 @@ theorem word_lt {e : ℕ} (hmn : m ≤ n) : ∀ z ∈ wW e 0 m, z < n := fun z h
   have := wW_mem e m 0 z hz
   omega
 
+omit hL hH hB in
 theorem relBound_of_pc2OK : ∀ k < m, ∀ i < n - m, rel R k (m + i) < 2 ^ n := by
   obtain ⟨hmd, hdn, -, -, -, hs, -⟩ := pc2OK_parts hc
   intro k hk i hi
@@ -715,7 +718,7 @@ theorem facts_of_pc2OK :
   obtain ⟨hmd, hdn, hmu, hun, hud, hs, hr, hp, hco, hcen, hwit⟩ := pc2OK_parts hc
   obtain ⟨hsqA, hcA⟩ := abelian_of_pc2OK hL hH hB hc
   obtain ⟨cen1, cen2, cen3⟩ := cenOK_facts hmd hdn hcen
-  have hR := relBound_of_pc2OK hL hH hB hc
+  have hR := relBound_of_pc2OK hc
   have hmn : m ≤ n := by omega
   have hWm0 : ∀ e, ∀ z ∈ wW e 0 m, z < m := fun e z hz => by
     have := (wW_mem e m 0 z hz).2
@@ -821,7 +824,7 @@ theorem facts_of_pc2OK :
     rw [key, hconj, hrr] at hsq'
     by_cases hlo : hiOnly f m = true
     · obtain ⟨hφ1, hφ2⟩ := hφ hlo
-      rw [low_of_pc2OK hL hH hB hc fun i hi => testBit_of_hiOnly hlo hi, av_xor hsqA hcA,
+      rw [low_of_pc2OK hc fun i hi => testBit_of_hiOnly hlo hi, av_xor hsqA hcA,
         av_xor hsqA hcA, hdA] at hsq'
       have hflt : f / 2 ^ m < 2 ^ (n - m) := Nat.div_lt_of_lt_mul (by
         rw [← Nat.pow_add, Nat.add_sub_cancel' hmn]
@@ -850,7 +853,7 @@ theorem facts_of_pc2OK :
           rw [← hsq']
           group
         rw [e3, av_inv hsqA hcA, av_inv hsqA hcA, hdA, av_xor hsqA hcA, av_xor hsqA hcA]
-      rw [av_eq_wfrom hL hH hB hc] at hrr'
+      rw [av_eq_wfrom hc] at hrr'
       rw [hiOnly_iff]
       apply Nat.eq_of_testBit_eq
       intro i
@@ -859,7 +862,7 @@ theorem facts_of_pc2OK :
       · rw [uniq_of_pc2OK hL hH hB hc hrr' (by omega), ← Nat.shiftLeft_eq, Nat.testBit_shiftLeft]
         simp [hi]
       · simp [hi]
-  · refine ⟨wfrom ℓ wit 0 n, mem_of_wfrom hL hH hB hc wit, ?_⟩
+  · refine ⟨wfrom ℓ wit 0 n, mem_of_wfrom wit, ?_⟩
     rw [← word_wW]
     refine eq_of_base hB (Subgroup.mul_mem _ (word_mem hH (wW_lt wit n))
       (word_mem hH (wW_lt wit n))) (Subgroup.mul_mem _ (hH uI hun) (hH dI hdn)) fun b hb hbN => ?_

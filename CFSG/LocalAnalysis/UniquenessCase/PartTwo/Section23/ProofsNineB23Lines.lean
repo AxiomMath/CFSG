@@ -38,7 +38,7 @@ theorem isSimpleGroup_of_isL2 {S : Type} [Group S] {m : ℕ} (h : IsL2 S m) : Is
 
 theorem center_eq_bot_of_b23Shape {S : Type} [Group S] [Finite S] (h : B23Shape S)
     (hq : CFSG.Open.IsQuasisimple S) : Subgroup.center S = ⊥ := by
-  haveI : IsSimpleGroup S := isSimpleGroup_of_b23Shape h
+  have : IsSimpleGroup S := isSimpleGroup_of_b23Shape h
   exact uc22p21k_center_eq_bot hq
 
 namespace Ctx23L
@@ -85,14 +85,14 @@ theorem Kstar_eq_Hinf_stabilizer_sylowStar (c : Ctx23L D Ch) (hV : IsElemAbelian
     Hinf (MulAction.stabilizer ↥(c.H hV)
       (((fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) : Subgroup (c.W hV)) :
         Set (c.W hV)))) = Kstar c hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   rw [c.fixedPointSubgroup_sylowStar_eq_Ztil hV ha hnat h4 h1930]
@@ -119,13 +119,13 @@ theorem Hinf_inf_L_eq_bot_of_Kstar_eq_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 
     (Subgroup.inclusion hleker).comp e.toMonoidHom
   have hinj : Function.Injective incl :=
     (Subgroup.inclusion_injective hleker).comp e.injective
-  haveI : Group.IsSolvable ↥(c.phiL hV).ker := c.phiL_ker_isSolvable hV hK hnat
+  have : Group.IsSolvable ↥(c.phiL hV).ker := c.phiL_ker_isSolvable hV hK hnat
   have hsolv : Group.IsSolvable ↥K₀ :=
     Group.isSolvable_of_isSolvable_injective (f := incl) hinj
   have hperf : ⁅K₀, K₀⁆ = K₀ := c.Hinf_inf_L_perfect
-  haveI : Group.IsPerfect ↥K₀ := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥K₀ := Subgroup.isPerfect_iff.mpr hperf
   by_contra hne
-  haveI : Nontrivial ↥K₀ := (Subgroup.nontrivial_iff_ne_bot K₀).mpr hne
+  have : Nontrivial ↥K₀ := (Subgroup.nontrivial_iff_ne_bot K₀).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥K₀ hsolv
 
 theorem Hinf_inf_L_eq_bot_of_bot_lines (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
@@ -171,11 +171,11 @@ private theorem RKbar_projection_eq_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 
     exact ⟨x, Subtype.ext hx⟩
   let R : Subgroup ↥Y := (RKbar c hV).map ρY
   have hRnorm : R.Normal := (RKbar_normal c hV).map ρY hρY
-  haveI : Group.IsSolvable ↥(RKbar c hV) := hR
+  have : Group.IsSolvable ↥(RKbar c hV) := hR
   have hRsolv : Group.IsSolvable ↥R :=
     Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective ρY (RKbar c hV))
-  haveI : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
-  haveI : Group.IsPerfect ↥Y := Group.IsPerfect.range ρ
+  have : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
+  have : Group.IsPerfect ↥Y := Group.IsPerfect.range ρ
   have hYpperf : ⁅Y, Y⁆ = Y := commutator_eq_self_of_isPerfect_subgroup
   have hRbot : R = ⊥ := hS.2.2 C hshape Y hYpperf R hRnorm hRsolv
   intro r hr
@@ -197,7 +197,7 @@ private theorem Kbar_eq_bot_of_large_lines (c : Ctx23L D Ch) (hV : IsElemAbelian
     Kbar c = ⊥ := by
   have hY : Kbar c ≤ CFSG.layer (Bar2 D.M) := c.barImage_Hinf_inf_L_le_layer hB1 h1930 h3
   have hYp : ⁅Kbar c, Kbar c⁆ = Kbar c := c.barImage_Hinf_inf_L_perfect
-  haveI : Group.IsSolvable ↥(RKbar c hV) := RKbar_isSolvable c hV hK hnat
+  have : Group.IsSolvable ↥(RKbar c hV) := RKbar_isSolvable c hV hK hnat
   have hcent : ∀ C : Subgroup (Bar2 D.M), CFSG.IsComponent C →
       Kbar c ≤ Subgroup.centralizer (C : Set (Bar2 D.M)) := by
     intro C hC
@@ -248,9 +248,9 @@ theorem Hinf_inf_L_eq_bot_of_Kbar_eq_bot (c : Ctx23L D Ch)
   have hp : IsPGroup 2 K₀ :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) D.M).to_le hle
   have hperf : ⁅K₀, K₀⁆ = K₀ := c.Hinf_inf_L_perfect
-  haveI : Group.IsPerfect ↥K₀ := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥K₀ := Subgroup.isPerfect_iff.mpr hperf
   by_contra hne
-  haveI : Nontrivial ↥K₀ := (Subgroup.nontrivial_iff_ne_bot K₀).mpr hne
+  have : Nontrivial ↥K₀ := (Subgroup.nontrivial_iff_ne_bot K₀).mpr hne
   exact Group.IsPerfect.not_isNilpotent ↥K₀ hp.isNilpotent
 
 private theorem T_le_normalizer_K (c : Ctx23L D Ch) :
@@ -300,8 +300,8 @@ theorem exists_sylow_component_le_normalizer_Kbar (c : Ctx23L D Ch)
     (hC : CFSG.IsComponent C) :
     ∃ T : Sylow 2 ↥C, ∀ t : T,
       ((t : ↥C) : Bar2 D.M) ∈ Subgroup.normalizer (Kbar c : Set (Bar2 D.M)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCnorm : C.Normal := component_normal_of_mem c h8 h1930 hC
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCnorm : C.Normal := component_normal_of_mem c h8 h1930 hC
   have hTbar := c.barImage_T_le_normalizer_Kbar
   have hp : IsPGroup 2 (barImage D.M D.T) :=
     (D.sylowG.isPGroup.comap_subtype (K := D.M)).map (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M))
@@ -340,8 +340,8 @@ private theorem RKbar_maximal (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
   by_cases htop : RKbar c hV = ⊤
   · exact Or.inl ((le_antisymm le_top (htop ▸ hRN)).trans htop.symm)
   · obtain ⟨q, hq⟩ := exists_surjective_KstarBar_quotient c hV
-    haveI : Nontrivial (↥(Kbar c) ⧸ RKbar c hV) := QuotientGroup.nontrivial_iff.mpr htop
-    haveI : IsSimpleGroup (↥(Kbar c) ⧸ RKbar c hV) :=
+    have : Nontrivial (↥(Kbar c) ⧸ RKbar c hV) := QuotientGroup.nontrivial_iff.mpr htop
+    have : IsSimpleGroup (↥(Kbar c) ⧸ RKbar c hV) :=
       hW.isSimpleGroup_of_surjective q hq
     let π : ↥(Kbar c) →* (↥(Kbar c) ⧸ RKbar c hV) := QuotientGroup.mk' (RKbar c hV)
     have hP : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective _)
@@ -552,15 +552,15 @@ private theorem pCore_K_eq_toKbar_ker (c : Ctx23L D Ch) (h8 : S23_8 D Ch)
     let R : Subgroup ↥(Kbar c) := (CFSG.pCore 2 ↥(K c)).map (toKbar c)
     have hRnorm : R.Normal := CFSG.pCore_normal.map (toKbar c) (toKbar_surjective c)
     have hRsolv : Group.IsSolvable ↥R := by
-      haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥(K c)) := by
+      have : Group.IsSolvable ↥(CFSG.pCore 2 ↥(K c)) := by
         have := (CFSG.pCore_isPGroup (p := 2) (G := ↥(K c))).isNilpotent
         infer_instance
       exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective (toKbar c) _)
-    haveI : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
+    have : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
     have htop : ⁅(⊤ : Subgroup ↥(Kbar c)), ⊤⁆ = ⊤ := Group.IsPerfect.commutator_eq_top
     have hR'norm : (R.subgroupOf ⊤).Normal := inferInstance
     have hR'solv : Group.IsSolvable ↥(R.subgroupOf ⊤) := by
-      haveI : Group.IsSolvable ↥R := hRsolv
+      have : Group.IsSolvable ↥R := hRsolv
       let e := Subgroup.subgroupOfEquivOfLe (le_top : R ≤ ⊤)
       exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hR'bot : R.subgroupOf ⊤ = ⊥ :=

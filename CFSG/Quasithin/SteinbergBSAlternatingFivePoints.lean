@@ -109,7 +109,7 @@ theorem sylow_alternating_five_fixed {P : Subgroup (Perm (Fin 5))}
         Finset.card_erase_of_mem (Finset.mem_univ α), Finset.card_univ, Fintype.card_fin] at hc
       omega
   ·
-    refine le_of_isPGroup_of_card hW ((Q.isPGroup').map _) ?_ hWL hle (m := 3) (by decide) ?_
+    refine le_of_isPGroup_of_card hW ((Q.isPGroup).map _) ?_ hWL hle (m := 3) (by decide) ?_
     · exact hWL.trans (hN ▸ inf_le_right)
     · rw [card_alternating_inf_stabilizer, card_map_of_injective
         (alternatingGroup (Fin 5)).subtype_injective, hcard]

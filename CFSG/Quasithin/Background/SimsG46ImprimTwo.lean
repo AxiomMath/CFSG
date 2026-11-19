@@ -64,7 +64,7 @@ theorem not_connected_of_two_summands (B : LinearMap.BilinForm F V) (halt : ∀ 
     (hind : iSupIndep W) (htop : (⨆ i, W i) = ⊤)
     (hmap : ∀ g ∈ G₀, ∀ i, ∃ j, (W i).map (g : V →ₗ[F] V) = W j)
     (hW2 : ∀ i, Module.finrank F (W i) = 2) : ¬ (advGraph G₀).Connected := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   have hWinj := summand_injective hne hind
   have h01 : (0 : Fin 2) ≠ 1 := by decide
   have hfin2 : ∀ i : Fin 2, i ≠ 0 → i = 1 := by decide

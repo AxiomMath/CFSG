@@ -62,6 +62,7 @@ theorem ambientConjGL_mul_conjGL [V.Normal]
 
 end Ambient
 
+set_option maxHeartbeats 400000 in
 theorem stmtWholeModuleComparison_of
     (hA7u : U3.SylowNormalizedMaximalLocalUniqueNormalizer)
     (hA7n : NQBlock.SylowNormalizedLocalNormalComponent) : StmtWholeModuleComparison := by
@@ -133,10 +134,10 @@ theorem stmtWholeModuleComparison_of
     (by
       rw [Nat.card_congr eQ.toEquiv]
       rcases hC.shape with ⟨hab, hcard⟩ | ⟨hnab, hcard⟩
-      · haveI := hab
+      · have := hab
         exact Or.inl ⟨eQ.symm.surjective.isMulCommutative, hcard⟩
       · refine Or.inr ⟨fun hab => ?_, hcard⟩
-        haveI := hab
+        have := hab
         exact hnab eQ.surjective.isMulCommutative)
     (by rw [Monoid.exponent_eq_of_mulEquiv eQ, hC.exponent])
     (by rw [NQRigid.card_frattini_subgroupOf hXE, hC.card_W])

@@ -37,7 +37,7 @@ theorem item2119EndShareTWeak_holds :
       x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hDe.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hD : Hering2119S.IsElem3 (CFSG.Open.thompsonSubgroup P) := ⟨hDc, fun x hx => hDe.2 x hx⟩
-  haveI : Fact (Hering2119S.IsElem3 (CFSG.Open.thompsonSubgroup P)) := ⟨hD⟩
+  have : Fact (Hering2119S.IsElem3 (CFSG.Open.thompsonSubgroup P)) := ⟨hD⟩
   obtain ⟨S, aN, bN, hS2, hSY, hSe, haS, hbS, hQ0, -⟩ := Hering2119S.quat_of_line _ hD81 hAbs
   have hsq := Hering2119S.sq_on_D (CFSG.Open.thompsonSubgroup P) aN hQ0.II
   obtain ⟨k, hk⟩ := hS2 ⟨(aN : G), haS⟩

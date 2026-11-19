@@ -446,7 +446,7 @@ theorem s3 : validA 100 a3 = true ∧ eqA 100 (pw a3 3) (idA 100) = true ∧
 
 theorem conjs_get {c : ℕ} (hc : c < 8) : conjs[c]! = unpack 100 7 (FX.F (Nat.add 13 c)) := by
   rw [conjs, getElem!_pos _ c (by simpa using hc), Array.getElem_ofFn]
-  exact tab_eq _ (by simp only [Nat.add_eq]; omega)
+  exact tab_eq _ (by simp only; omega)
 
 theorem s4 : (sCert.pts.toList.all fun s => eqA 100 s (idA 100) ||
     conjs.toList.any fun c => validA 100 c && s5InP c && eqA 100 (conjA 100 c a3) s) = true := by

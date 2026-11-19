@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem commutator_zpowers_le_of_forall {K N : Subgroup G} {d : G}
     (hdN : d ∈ Subgroup.normalizer (N : Set G))
     (h : ∀ x ∈ K, ⁅x, d⁆ ∈ N) :
@@ -77,6 +78,7 @@ private theorem commutatorElement_mem_of_mem_sup (h : Sec17Std G A c L Y₀)
     (Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hs) ⁅y, c⁆).mp h2
   exact S.mul_mem h3 h1
 
+omit [Finite G] in
 private theorem inf_pCoreOf_sup_le {J Q W : Subgroup G} (hJW : J ≤ W)
     (hWNQ : W ≤ Subgroup.normalizer (Q : Set G)) (hQ2 : IsPGroup 2 Q) :
     J ⊓ (CFSG.Open.pCoreOf 2 J ⊔ Q) ≤ CFSG.Open.pCoreOf 2 J := by
@@ -100,6 +102,7 @@ private theorem inf_pCoreOf_sup_le {J Q W : Subgroup G} (hJW : J ≤ W)
     simpa using h1
   exact (CFSG.Open.pCoreOf 2 J).mul_mem htO (hJQ ⟨hqQ, hqJ⟩)
 
+omit [Finite G] in
 private theorem commutator_le_pCoreOf_of_le_sup {S J U Q : Subgroup G}
     (hJY : J ≤ Y₀) (hSJ : ⁅S, J⁆ ≤ CFSG.Open.pCoreOf 2 J) (hQ2 : IsPGroup 2 Q)
     (hNQ : Y₀ ⊔ S ≤ Subgroup.normalizer (Q : Set G))
@@ -148,6 +151,7 @@ private theorem commutator_le_pCoreOf_of_le_sup {S J U Q : Subgroup G}
   rw [commutatorElement_mul_left_eq_conj_mul]
   exact hkey ⟨hmemJ, hmemO⟩
 
+omit [Finite G] in
 private theorem commutator_le_pCoreOf_of_le_inf {J Q₀ U : Subgroup G}
     (hUQ : U ≤ Q₀) (hUNJ : U ≤ Subgroup.normalizer (J : Set G))
     (hJNQ : J ≤ Subgroup.normalizer (Q₀ : Set G)) (hQ2 : IsPGroup 2 Q₀) :
@@ -204,7 +208,7 @@ theorem pCoreOf_y0_le_of_spade (h : Sec17Std G A c L Y₀) (hQ0 : Claim17Q0) {S 
       IsPGroup 2 U → U ≤ Subgroup.normalizer (J : Set G) ∧
         (⁅U, J⁆ ≤ CFSG.Open.pCoreOf 2 J → U ≤ S)) :
     CFSG.Open.pCoreOf 2 Y₀ ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q₀ : Subgroup G := CFSG.Open.pCoreOf 2 Y₀ with hQ₀
   set P : Subgroup G := Q₀ ⊔ S
   have hQ0mem : Q₀ ∈ scriptQ A (lB A) := by rw [hQ₀]; exact hQ0 G A c L Y₀ h
@@ -253,8 +257,8 @@ private theorem exists_centralizer_of_not_le (h : Sec17Std G A c L Y₀)
       U ≤ CFSG.Open.pCoreOf 2 (Y₀ ⊔ S) ⊔ S ∧ IsPGroup 2 U ∧
       U ≤ Subgroup.centralizer (Subgroup.zpowers c : Set G) ∧
       A ≤ Subgroup.normalizer (U : Set G) ∧ ¬ U ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set W : Subgroup G := Y₀ ⊔ S with hW
   set Q : Subgroup G := CFSG.Open.pCoreOf 2 W
   have hAY : A ≤ Subgroup.normalizer (Y₀ : Set G) := h.mem_y0Star.prop.1.1.2
@@ -339,7 +343,7 @@ private theorem exists_spade_counterexample (h : Sec17Std G A c L Y₀)
     (hQS : ¬ CFSG.Open.pCoreOf 2 (Y₀ ⊔ S) ≤ S) :
     ∃ U : Subgroup G, U ≤ Subgroup.normalizer (S : Set G) ∧ U ∈ scriptQ A (lB A) ∧
       IsPGroup 2 U ∧ ⁅U, J⁆ ≤ CFSG.Open.pCoreOf 2 J ∧ ¬ U ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := CFSG.Open.pCoreOf 2 (Y₀ ⊔ S)
   have hQ2 : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) (Y₀ ⊔ S)
   have hNQ : Y₀ ⊔ S ≤ Subgroup.normalizer (Q : Set G) :=

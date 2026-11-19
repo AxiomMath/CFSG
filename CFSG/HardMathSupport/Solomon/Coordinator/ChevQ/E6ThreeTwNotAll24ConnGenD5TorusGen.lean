@@ -86,7 +86,7 @@ theorem rootDiagUnit_coordTuple_orbit_mem (D : GenFixedRootDatum τ p₀ k M)
   let u : (D.orbitField O)ˣ := Units.mk0 ⟨(s : k), hmem⟩ hne
   have hu : ∀ j, Units.map (iterateFrobenius k p₀ (D.e * j)).toMonoidHom
       (Units.map (D.orbitField O).subtype.toMonoidHom u) = s ^ D.q ^ j := fun j =>
-    Units.ext (by simp [u, iterateFrobenius_def, GenFixedRootDatum.q, ← pow_mul])
+    Units.ext (by simp [u, GenFixedRootDatum.q, ← pow_mul])
   have hfac : ∀ j, D.orbitFactor O j (HSL u) =
       rootDiagUnit τ (fun i => c (D.orbitVec O j) ^ corootPair (D.orbitVec O j) (Pi.single i 1)) := by
     intro j
@@ -171,7 +171,7 @@ theorem fixedTorus_le_orbitGroupC_of_coords (D : GenFixedRootDatum τ p₀ k M)
     have h1 : ((mk (g₀ β) : adjointGroup τ k) : ModGL τ k) = rootSL2 τ k β (HSL (c β)) := by
       rw [hmk, rootSL2_HSL_eq (hroot β hβ)]
     have hu : Units.map (iterateFrobenius k p₀ D.e).toMonoidHom (c β) = c β ^ D.q :=
-      Units.ext (by simp [iterateFrobenius_def, GenFixedRootDatum.q])
+      Units.ext (by simp [GenFixedRootDatum.q])
     rw [D.map_rootSL2 β (hΔmem β hβ).1 (σ β) (hσθ β hβ) (HSL (c β)) _ h1, map_HSL_units, hu,
       rootSL2_HSL_eq (hroot _ (hσΔ β hβ)), hmk]
   have hFt : D.F t = mk ((Δ.toList.map g₁).prod) := by
@@ -220,10 +220,10 @@ theorem fixedTorus_le_orbitGroupC_of_coords (D : GenFixedRootDatum τ p₀ k M)
     rw [Finset.prod_apply, Finset.prod_eq_single_of_mem (thetaOrbit D.θ γ)
       (Finset.mem_image_of_mem _ hγ)]
     · show (if γ ∈ thetaOrbit D.θ γ then c γ else 1) = c γ
-      rw [if_pos ⟨0, by simp⟩]
+      rw [ite_eq_left ⟨0, by simp⟩]
     · intro O hO hne
       show (if γ ∈ O then c γ else 1) = 1
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hγO
       exact hne (D.eq_thetaOrbit_of_mem_orbits (hR O hO) hγO)
   have hmemP : ∀ O ∈ R, coordHom Δ (cO O) ∈ D.orbitGroup.comap (rootDiagUnitHom τ k) := by

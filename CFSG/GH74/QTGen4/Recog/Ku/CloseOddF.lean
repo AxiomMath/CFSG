@@ -168,6 +168,7 @@ namespace KuA6Model
 variable [Finite G] {E W V2 N : Subgroup G} {z : G} (Ψ : KuA6Model E W V2 N z)
 include Ψ
 
+omit [Finite G] in
 theorem cenConj_not_inner (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) {δ : G}
     (hδx : δ * x * δ⁻¹ = x⁻¹) (q : cenQuot x) : ∃ y : cenQuot x, cenConj hδx y ≠ q * y * q⁻¹ := by

@@ -134,7 +134,7 @@ private theorem tauL_eq_of_pairing_eq_zero {c x : ℕ} (h : pairing (bitVec c) (
     rw [← b0_apply, ← b0_symm, b0_apply]
     exact h
   unfold tauL
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h1
   rw [h'] at h1
   exact zero_ne_one h1

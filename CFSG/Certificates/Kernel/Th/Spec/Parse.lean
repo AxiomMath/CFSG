@@ -221,9 +221,9 @@ private theorem plDigit_of {ch : Char} (h : TsS.decV ch.toNat ≠ 10) :
   have h0 : '0'.toNat = 48 := rfl
   have h9 : '9'.toNat = 57 := rfl
   by_cases hc : 48 ≤ ch.toNat ∧ ch.toNat ≤ 57
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     exact ⟨Char.isDigit_iff_toNat.2 ⟨by omega, by omega⟩, rfl⟩
-  · rw [if_neg hc] at h
+  · rw [ite_eq_right hc] at h
     exact absurd rfl h
 
 private theorem plDec_run (T : ℕ → ℕ) (n : ℕ) : ∀ (l o : List Char) (ph i acc : ℕ),
@@ -243,7 +243,7 @@ private theorem plDec_run (T : ℕ → ℕ) (n : ℕ) : ∀ (l o : List Char) (p
       obtain ⟨hT, hn⟩ := h
       have hn' : n - i = 0 + 1 := by omega
       refine ⟨by omega, ?_⟩
-      rw [List.append_nil, plWords_free hsf, if_neg hne, hn']
+      rw [List.append_nil, plWords_free hsf, ite_eq_right hne, hn']
       simp [CFSG.KC.Str.toNat!_ofList hne hd, ← hacc, hT]
   | ch :: l', o, ph, i, acc, hsf, hd, hacc, hph, h => by
     by_cases hs : TsS.isSep ch.toNat = true
@@ -263,7 +263,7 @@ private theorem plDec_run (T : ℕ → ℕ) (n : ℕ) : ∀ (l o : List Char) (p
           (Or.inl ⟨rfl, rfl⟩) h'
         refine ⟨by omega, ?_⟩
         have hn' : n - i = (n - (i + 1)) + 1 := by omega
-        rw [plWords_sep hsf hsep l', if_neg hne, hn', List.range'_succ]
+        rw [plWords_sep hsf hsep l', ite_eq_right hne, hn', List.range'_succ]
         rw [List.nil_append] at hmap
         simp only [List.singleton_append, List.map_cons, hmap]
         rw [CFSG.KC.Str.toNat!_ofList hne hd, ← hacc, hT]
@@ -318,7 +318,7 @@ private theorem plHex_run (T : ℕ → ℕ) (n : ℕ) : ∀ (l o : List Char) (p
       obtain ⟨hT, hn⟩ := h
       have hn' : n - i = 0 + 1 := by omega
       refine ⟨by omega, ?_⟩
-      rw [List.append_nil, plWords_free hsf, if_neg (List.cons_ne_nil _ _), hn']
+      rw [List.append_nil, plWords_free hsf, ite_eq_right (List.cons_ne_nil _ _), hn']
       simp only [List.map_cons, List.map_nil, List.range'_succ, List.range'_zero, plHexNat, ← hacc,
         hT]
   | ch :: l', o, ph, i, acc, hsf, hph, h => by
@@ -343,7 +343,7 @@ private theorem plHex_run (T : ℕ → ℕ) (n : ℕ) : ∀ (l o : List Char) (p
           (Or.inl ⟨rfl, rfl, rfl⟩) h'
         refine ⟨by omega, ?_⟩
         have hn' : n - i = (n - (i + 1)) + 1 := by omega
-        rw [plWords_sep hsf hsep l', if_neg (List.cons_ne_nil _ _), hn', List.range'_succ]
+        rw [plWords_sep hsf hsep l', ite_eq_right (List.cons_ne_nil _ _), hn', List.range'_succ]
         rw [List.nil_append] at hmap
         simp only [List.singleton_append, List.map_cons, hmap]
         rw [plHexNat, ← hacc, hT]

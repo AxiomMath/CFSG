@@ -72,7 +72,7 @@ theorem exists_char_odd_comm_relIndex_le_two {Γ : Type*} [Group Γ] (N : Subgro
     have hTQ : T ∈ (Q : Subgroup N) := hQ (mem_zpowers T)
     have : Nontrivial (Q : Subgroup N) :=
       ⟨⟨⟨T, hTQ⟩, (1 : (Q : Subgroup N)), fun h => hT1 (congrArg Subtype.val h)⟩⟩
-    have := IsPGroup.center_nontrivial Q.isPGroup'
+    have := IsPGroup.center_nontrivial Q.isPGroup
     obtain ⟨⟨x, hx⟩, hx1⟩ := exists_ne (1 : Subgroup.center (Q : Subgroup N))
     have hxc : ∀ g : (Q : Subgroup N), g * x = x * g := fun g => Subgroup.mem_center_iff.mp hx g
     have hxN : ∀ g : (Q : Subgroup N), (g : N) * (x : N) = (x : N) * (g : N) :=

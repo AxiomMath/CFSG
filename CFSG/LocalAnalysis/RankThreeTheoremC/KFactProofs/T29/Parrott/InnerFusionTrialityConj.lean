@@ -17,6 +17,7 @@ section Reps
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem units_map_entrywiseHom_orbitN_one (σ : K ≃+* K) (a : Fin TwistTag.D4.foldedTag.rank) :
     Units.map (entrywiseHom σ.toRingHom)
         (orbitN TwistTag.D4 K σ.toRingHom a 1 : ModGL TwistTag.D4.tag K) =
@@ -48,6 +49,7 @@ theorem units_map_entrywiseHom_orbitN_one (σ : K ≃+* K) (a : Fin TwistTag.D4.
         map_one])
   rw [h1, h2]
 
+omit [Finite K] in
 theorem units_map_entrywiseHom_d4HT (σ : K ≃+* K) :
     Units.map (entrywiseHom σ.toRingHom) (d4HT σ) = d4HT σ := by
   rw [d4HT, map_list_prod, List.map_reverse, List.map_map]

@@ -14,11 +14,11 @@ theorem k_RankThreeCentTorus_holds :
   intro K _ _ t m f p r hadm hL hq hZ hf ht hp hp2 hpd hr hr5 hrd
   simp only [CFSG.SectionRank.pRank_coe_eq_openPRank]
   rcases ht with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     exact k_RankThreeCentTorus_u6 K f p r hadm hL hq hZ hp hp2 hpd hr hr5 hrd
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     exact k_RankThreeCentTorus_omegaMinus8 K f p r hadm hL hq hZ hf hp hp2 hpd hr hr5 hrd
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact k_RankThreeCentTorus_sp6 K f p r hadm hL hq hZ hf hp hp2 hpd hr hr5 hrd
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

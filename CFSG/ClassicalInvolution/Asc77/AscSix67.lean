@@ -12,7 +12,7 @@ variable (p f : ℕ) [Fact p.Prime]
 
 theorem l6_7_of_l6_6i (h : L6_6i p f) : L6_7 p f := by
   intro hp hq G _ _ Ω hΩ S R hR R' hR' hRS hR'S hne
-  refine h hp hq G Ω hΩ (S : Subgroup G) S.isPGroup' {A | A ∈ RSet Ω ∧ A ≤ (S : Subgroup G)}
+  refine h hp hq G Ω hΩ (S : Subgroup G) S.isPGroup {A | A ∈ RSet Ω ∧ A ≤ (S : Subgroup G)}
     (fun A hA => hA.2) ?_ (fun A hA => hA.1) R ⟨hR, hRS⟩ R' ⟨hR', hR'S⟩ hne
   intro A hA s hs
   refine ⟨RSet.conj hΩ.conjInvariant hA.1 s, fun x hx => ?_⟩

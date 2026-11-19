@@ -51,7 +51,7 @@ theorem exists_sylow_subgroupOf_eq_normalizer (h : ThreeNineHyp K E D X₁ p d)
   obtain ⟨Ebar, -, hEc, -, hN⟩ := h.exists_barE hZ hout
   obtain ⟨S, hES⟩ := (IsPGroup.of_card hEc).exists_le_sylow
   refine ⟨S, ?_⟩
-  rcases hmax S _ (hN S S.isPGroup' hES) with h1 | h1
+  rcases hmax S _ (hN S S.isPGroup hES) with h1 | h1
   · exact h1
   · refine absurd (fun x hx => ?_) h.not_K_le
     have : (⟨x, hx⟩ : ↥K) ∈ X₁.subgroupOf K := h1 ▸ Subgroup.mem_top _

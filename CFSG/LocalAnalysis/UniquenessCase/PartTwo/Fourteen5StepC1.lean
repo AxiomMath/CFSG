@@ -15,7 +15,7 @@ section Group
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem eq_top_of_isL3_of_dvd (h : IsL3 Y 1) {R : Subgroup Y} (h42 : 42 ∣ Nat.card R) : R = ⊤ := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   have hmul : Nat.card R * R.index = 168 := by
     rw [R.card_mul_index, card_eq_of_isL3 h]
   obtain ⟨k, hk⟩ := h42
@@ -118,7 +118,7 @@ theorem two_dvd_orderOf_of_inverts (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.car
 theorem eq_top_of_isL3_of_mem_normalizer (h : IsL3 Y 1) {K P : Subgroup Y} (hPK : P ≤ K)
     (hP : Nat.card P = 3) {a b : Y} (ha : a ∈ normalizer (K : Set Y)) (ha7 : 7 ∣ orderOf a)
     (hb : b ∈ normalizer (K : Set Y)) (hbP : ∀ x ∈ P, b * x * b⁻¹ = x⁻¹) : K = ⊤ := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   let N := normalizer (K : Set Y)
   have h3dvd : 3 ∣ Nat.card N := by
     have hle : P ≤ N := hPK.trans K.le_normalizer
@@ -133,7 +133,7 @@ theorem eq_top_of_isL3_of_mem_normalizer (h : IsL3 Y 1) {K P : Subgroup Y} (hPK 
     have h42' := (show Nat.Coprime 2 21 by decide).mul_dvd_of_dvd_of_dvd h2dvd h21
     simpa using h42'
   have hNtop : N = ⊤ := eq_top_of_isL3_of_dvd h h42
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff]
     exact hNtop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hbot | htop
@@ -144,9 +144,10 @@ theorem eq_top_of_isL3_of_mem_normalizer (h : IsL3 Y 1) {K P : Subgroup Y} (hPK 
     norm_num at hdvd
   · exact htop
 
+omit [Finite Y] in
 theorem exists_inner_of_isL3_of_odd (h : IsL3 Y 1) (φ : MulAut Y) (hφ : Odd (orderOf φ)) :
     ∃ y : Y, orderOf y = orderOf φ ∧ ∀ z : Y, φ z = y * z * y⁻¹ := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   let conj : Y →* MulAut Y := MulAut.conj
   have hker : conj.ker = Subgroup.center Y := by
     ext g
@@ -206,6 +207,7 @@ end Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_acts_eq_of_odd {L : Subgroup G} (hL : IsL3 (Bar2 L) 1) {w : G}
     (hwn : w ∈ normalizer (L : Set G)) (hw : Odd (orderOf w)) :
     ∃ v : ↥L, orderOf (QuotientGroup.mk v : Bar2 L) ∣ orderOf w ∧

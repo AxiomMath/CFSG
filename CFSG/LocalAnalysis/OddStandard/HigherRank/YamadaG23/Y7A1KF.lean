@@ -31,9 +31,9 @@ private theorem exists_three_elt {G : Type} [Group G] [Finite G] {K A : Subgroup
   exact ⟨k₀, k₀.2, (Subgroup.orderOf_coe k₀).trans hk₀⟩
 
 private theorem fpf_of_trans {G : Type} [Group G] [Finite G]
-    {F : Subgroup G} {z k : G} (hz2 : orderOf z = 2) (hzF : z ∈ F)
+    {F : Subgroup G} {z k : G} (hz2 : orderOf z = 2) (_hzF : z ∈ F)
     (hzc : ∀ f ∈ F, f * z = z * f) (hF8 : Nat.card F = 8)
-    (hkz : k * z * k⁻¹ = z) (hkN : k ∈ normalizer (F : Set G))
+    (hkz : k * z * k⁻¹ = z) (_hkN : k ∈ normalizer (F : Set G))
     (htrans : ActsTransitively (zpowers k) F (zpowers z)) :
     ∀ f ∈ F, k * f * k⁻¹ * f⁻¹ ∈ zpowers z → f ∈ zpowers z := by
   intro f hfF hfk

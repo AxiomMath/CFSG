@@ -61,6 +61,7 @@ section Embedding
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem exists_orthogonal_of_prod_comm {G : Type} [Group G] (X T : FormSpace K K)
     {QX : QuadraticForm K X.V} {QT : QuadraticForm K T.V} (hX : ∀ x y, X.F x y = QX x)
     (hT : ∀ x y, T.F x y = QT x) (φ : G →* X.isom) (hφ : Function.Injective φ) {V : Type}

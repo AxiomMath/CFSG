@@ -110,7 +110,7 @@ theorem normal_sylow_two_exists_odd_hall_complement
     · intro p hp
       change ¬ p.val ≠ 2
       rw [hcompl.index_eq_card] at hp
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := (P : Subgroup G))).mp P.isPGroup'
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := (P : Subgroup G))).mp P.isPGroup
       rw [hn] at hp
       exact not_not.mpr ((Nat.dvd_prime_two_le Nat.prime_two p.property.two_le).mp
         (p.property.dvd_of_dvd_pow hp))

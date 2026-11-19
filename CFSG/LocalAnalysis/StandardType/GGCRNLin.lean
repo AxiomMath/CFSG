@@ -13,7 +13,7 @@ namespace CFSG.StandardType
 
 open CFSG.Assembly TableB
 
-theorem ggCRN_lift_A_split {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
+theorem ggCRN_lift_A_split {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
     (htag : lab.tag = .A) (hd : 24 ≤ lab.rank + 1) (h3 : 3 ∣ 2 ^ lab.n - 1) :
     LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift 3 9 R :=
   (largeEvenLabelAll_torusLift_typeA Nat.prime_three htag (by omega) h3).mono

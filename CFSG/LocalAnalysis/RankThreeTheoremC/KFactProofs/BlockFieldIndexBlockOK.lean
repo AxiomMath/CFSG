@@ -23,7 +23,7 @@ theorem linTorus_injective {r n : ℕ} (hn : r + 1 ≤ n) :
   funext j
   have h1 := congrArg (fun A : SpecialLinearGroup (Fin n) F =>
     (A : Matrix (Fin n) (Fin n) F) ⟨j, by omega⟩ ⟨j, by omega⟩) ht
-  simp only [coe_linTorus, diagonal_apply_eq, SpecialLinearGroup.coe_one, one_apply_eq] at h1
+  simp only [coe_linTorus, diagonal_apply_eq] at h1
   have h2 : (linTorusVec t (⟨j, by omega⟩ : Fin n) : F) = (t j : F) := by
     simp [linTorusVec, j.isLt]
   rw [h2] at h1
@@ -42,7 +42,7 @@ theorem exists_elemAbelian_nine_sl [Finite F] {m : ℕ} (hm : 3 ≤ m) (h3 : 3 �
     have := pow_card_eq_one' (G := C) (x := x)
     rwa [hCcard] at this
   let f : (Fin 2 → C) →* SpecialLinearGroup (Fin m) F :=
-    (linTorus F 2 (by omega)).comp (Pi.monoidHom fun i => C.subtype.comp (Pi.evalMonoidHom _ i))
+    (linTorus F 2 (by omega)).comp (_root_.MonoidHom.pi fun i => C.subtype.comp (Pi.evalMonoidHom _ i))
   have hfinj : Function.Injective f := by
     refine (linTorus_injective (by omega)).comp ?_
     intro a b hab
@@ -77,6 +77,7 @@ section GLSL
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem scalar_mul_comm {m : ℕ} (u : Fˣ) (x : GL (Fin m) F) :
     GeneralLinearGroup.scalar (Fin m) u * x = x * GeneralLinearGroup.scalar (Fin m) u := by
   apply Units.ext

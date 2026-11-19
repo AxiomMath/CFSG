@@ -97,7 +97,7 @@ theorem ReducedNongeneration.isCyclic_of_le_sup_of_inf_eq_bot
     obtain ⟨l, hl⟩ := hinner a
     exact ⟨l, hl.symm⟩
   set B : Subgroup L₂ := (conjAut hN).range.comap (MulAut.conj : L₂ →* MulAut L₂) with hB
-  have hAp : IsPGroup p A := Rb.isPGroup'.to_le hAR
+  have hAp : IsPGroup p A := Rb.isPGroup.to_le hAR
   have hfp : IsPGroup p (conjAut hN).range :=
     hAp.of_surjective (conjAut hN).rangeRestrict (conjAut hN).rangeRestrict_surjective
   have hBp : IsPGroup p B := hfp.of_injective
@@ -209,9 +209,9 @@ theorem D1CompCore.exists_component_le_of_escape (hd : D1CompCore p P M H R Rbar
           by_contra hc₁
           exact hne (htwo₁ L₂ K₁ hL₂ hK₁
             (two_le_pRank_of_isPGroup_not_isCyclic hp hesc.ne_two
-              (Rb₁.isPGroup'.to_le inf_le_left) hc₂)
+              (Rb₁.isPGroup.to_le inf_le_left) hc₂)
             (two_le_pRank_of_isPGroup_not_isCyclic hp hesc.ne_two
-              (Rb₁.isPGroup'.to_le inf_le_left) hc₁))
+              (Rb₁.isPGroup.to_le inf_le_left) hc₁))
         exact hXtnc (hred₁.isCyclic_of_le_sup_of_inf_eq_bot hL₂ hK₁ hne hc₁ hXR
           (hXE.trans (hE.trans (sup_comm K₁ L₂).le)) (hXL L₂ hL₂))
     · push Not at h2
@@ -250,7 +250,7 @@ theorem exists_normal_component (hc : D1OneLieCompetitorData p P M H R Rbar K R�
     hc.escape.exists_reducedNongeneration_of_not_hasPrimeConstraint hd.cfg.glob.kProper
       hc.not_hasPrimeConstraint
   have hRbS : (Rb₁ : Subgroup _) = St := hRb₁
-  have hStp : IsPGroup p St := hRbS ▸ Rb₁.isPGroup'
+  have hStp : IsPGroup p St := hRbS ▸ Rb₁.isPGroup
   obtain ⟨L, hL, -, hJL⟩ := hd.toCore.exists_component_le_of_escape hd.cfg.glob.kProper hc.escape
     hc.nclIn_le (hc.liftX_le.trans hc.le_S) hSch hc.not_hasPrimeConstraint
   have hSL : St ≤ Subgroup.normalizer (L : Set (H₁ ⧸ primeComplementCore (G := H₁) p)) :=

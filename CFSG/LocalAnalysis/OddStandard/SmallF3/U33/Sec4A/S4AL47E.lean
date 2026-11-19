@@ -22,9 +22,11 @@ private lemma conj_mem_L (h : Ctx t L S x₁ x₂ lam rho tau) {k x : G}
     h.hyp.normal.conj_mem ⟨x, hxH⟩ (Subgroup.mem_subgroupOf.mpr hx) ⟨k, hk⟩
   simpa using (Subgroup.mem_subgroupOf.mp hmem)
 
+omit [Finite G] in
 private lemma htau2_of (h44 : tau ^ 2 = 1) : tau * tau = 1 := by
   simpa [pow_two] using h44
 
+omit [Finite G] in
 private lemma tau_inv_eq (h44 : tau ^ 2 = 1) : tau⁻¹ = tau :=
   inv_eq_of_mul_eq_one_right (htau2_of h44)
 
@@ -77,7 +79,7 @@ private lemma mem_sup_iff_mem_L_or (h : Ctx t L S x₁ x₂ lam rho tau)
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_left h.hyp.mem_twoCore)
         (Subgroup.mem_sup_right hx)
 
-private lemma conj_t_mul (h : Ctx t L S x₁ x₂ lam rho tau) {k : G}
+private lemma conj_t_mul (_h : Ctx t L S x₁ x₂ lam rho tau) {k : G}
     (hk : k ∈ invCent t) (x : G) : t * (k * x * k⁻¹) = k * (t * x) * k⁻¹ := by
   have hcomm : t * k = k * t := (mem_invCent_iff.mp hk).symm
   calc t * (k * x * k⁻¹) = (t * k) * x * k⁻¹ := by group

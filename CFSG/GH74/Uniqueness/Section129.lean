@@ -76,7 +76,7 @@ theorem false_of_unitary
   obtain ⟨-, -, h3⟩ := S.corollary712 _ hβ hβM p hp hp2 _ hP
   obtain ⟨hΩP, -⟩ := h3 hpz
   have hPp : IsPGroup p ((Q : Subgroup ↥(M ⊓ conjugate M c.t)).map
-      (M ⊓ conjugate M c.t).subtype) := Q.isPGroup'.map _
+      (M ⊓ conjugate M c.t).subtype) := Q.isPGroup.map _
   have hmod := ncard_omega_modEq_ncard_omegaFix (M := M) hp hPp
   rw [hΩP] at hmod
   exact Sec128.arith_unitary hq2 hp hp2 hpd hmod hΩ

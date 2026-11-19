@@ -139,7 +139,7 @@ theorem burnsideF48s_match_swap {X : Type} [Group X] {A B : Subgroup X} {m : ℕ
     (hM : M ≤ G₀) (hQ : Q ≤ H₀) (h : ∀ x : ↥G₀, (x : E) ∈ M ↔ ((θ x : ↥H₀) : X) ∈ Q) :
     ↥M ≃* ↥Q where
   toFun m := ⟨θ ⟨m, hM m.2⟩, (h _).1 m.2⟩
-  invFun q := ⟨θ.symm ⟨q, hQ q.2⟩, (h _).2 (by simpa using q.2)⟩
+  invFun q := ⟨θ.symm ⟨q, hQ q.2⟩, (h _).2 (by simp)⟩
   left_inv m := Subtype.ext (by simp)
   right_inv q := Subtype.ext (by simp)
   map_mul' a b := Subtype.ext (by

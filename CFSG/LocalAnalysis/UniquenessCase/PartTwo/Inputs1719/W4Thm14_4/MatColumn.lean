@@ -122,7 +122,7 @@ theorem matModel_column_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : 
     (Nat.card F = 2 ∧ d = 4 ∧ AlternatingNatural D (matColSub β j) ⊥ 5) ∨
       (Nat.card F = 4 ∧ d = 2) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardD : Nat.card ↥D = 60 := by
     obtain ⟨e⟩ := hD
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]

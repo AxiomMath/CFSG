@@ -99,7 +99,7 @@ theorem dTau_mem_dEven (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) :
 
 theorem dEven_equiv {m : ℕ} (hm : 4 ≤ m) :
     ∃ e : (ggCoxeterMatrixD m).Group ≃* dEven m, IsDEquiv m e := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   obtain ⟨e, he⟩ := ggRC_coxeterD_equiv_evenSigned (p := 3) (by decide) hm (dBasis m) (dEven m)
     (fun a => Iff.rfl)
   refine ⟨e, fun t => ?_⟩
@@ -110,7 +110,7 @@ theorem dEven_equiv {m : ℕ} (hm : 4 ≤ m) :
       Fin.ext (by simp [OrthTorus.simpleLo_of_last ht])
     have hhi : OrthTorus.simpleHi t = (⟨m - 1, by omega⟩ : Fin m) :=
       Fin.ext (by simp [OrthTorus.simpleHi_of_last ht])
-    rw [dif_pos hlast, hlo, hhi]
+    rw [dite_eq_left hlast, hlo, hhi]
     have hdec : decide (t.val + 1 = m) = true := by simp [ht]
     rw [hdec]
     rfl
@@ -119,7 +119,7 @@ theorem dEven_equiv {m : ℕ} (hm : 4 ≤ m) :
     have hlo : OrthTorus.simpleLo t = t := Fin.ext (by simp [OrthTorus.simpleLo_of_lt hlt])
     have hhi : OrthTorus.simpleHi t = (⟨t.val + 1, hlt⟩ : Fin m) :=
       Fin.ext (by simp [OrthTorus.simpleHi_of_lt hlt])
-    rw [dif_neg hlast, hlo, hhi]
+    rw [dite_eq_right hlast, hlo, hhi]
     have hdec : decide (t.val + 1 = m) = false := by simp [ht]
     rw [hdec]
     rfl

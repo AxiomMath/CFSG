@@ -18,7 +18,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR1E6Ne3
   obtain ⟨hp, -, -, -, -⟩ := hHyp.1.tableB_facts
   have hp2 : p ≠ 2 := hHyp.1.1.2.2.2.2.2.1.2.1
   have hp3 : p ≠ 3 := ggTBRowR1E6Ne3_p_ne_three hL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL6 : GGInnerDiagOnLabel (fun p lab => GGLabQFour p lab ∧ GGTBRowR1E6 p lab) p Bs L :=
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => ⟨⟨hP.1.1, hP.1.2.1⟩, hP.2⟩) hL
   obtain ⟨n, f, ψ, hadm, hker, hrange, hpf⟩ :=

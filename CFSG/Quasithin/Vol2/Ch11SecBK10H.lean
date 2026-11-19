@@ -200,7 +200,7 @@ theorem isSylowTwoOf_unip [CharP K 2] :
   obtain ⟨Q, hQ⟩ := psl2UpperUnipotent_isSylow K (p := 2) (f := n)
     (by rw [Nat.card_eq_fintype_card, hn])
   rw [← hQ]
-  refine ⟨le_top, Q.isPGroup', ?_⟩
+  refine ⟨le_top, Q.isPGroup, ?_⟩
   change ¬ 2 ∣ (Q : Subgroup (PSL2 K)).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Q.not_dvd_index

@@ -191,6 +191,7 @@ theorem two_zsmul_intCast_zmod_two_pow_eq_zero_iff {n : ℕ} (hn : 1 ≤ n) (a :
   exact mul_dvd_mul_iff_left (by norm_num : (2 : ℤ) ≠ 0)
 
 
+omit [Finite G] in
 theorem mem_mho_iff_exists_pow_of_comm {S : Subgroup G}
     (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) {n : ℕ} {x : G} :
     x ∈ mho S n ↔ ∃ d ∈ S, d ^ n = x := by
@@ -335,7 +336,7 @@ theorem exists_zpow_c_a_b (D : StrothWeakTypeData B τ) (x : B) :
   have hy : y = z 0 • gen τ.k 0 + z 1 • gen τ.k 1 + z 2 • gen τ.k 2 := by
     funext i
     fin_cases i <;>
-      simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply, Pi.smul_apply]
+      simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply]
   refine ⟨z 0, z 1, z 2, ?_⟩
   apply Additive.ofMul.injective
   apply D.e.injective
@@ -376,7 +377,7 @@ theorem mho_eq_closure_pow_of_closure_eq {G : Type*} [Group G] {S : Subgroup G} 
     refine Subgroup.closure_induction (p := fun g _ => g ^ n ∈ K) ?_ ?_ ?_ ?_ hd
     · intro t ht
       exact Subgroup.subset_closure ⟨t, ht, rfl⟩
-    · simpa using Subgroup.one_mem K
+    · simp
     · intro x y hx hy ihx ihy
       have hc : Commute x y := hcomm x (hS ▸ hx) y (hS ▸ hy)
       rw [hc.mul_pow n]
@@ -619,16 +620,16 @@ theorem conjBy_rho_sq_b_of_action (Z : StrothDatum X)
     funext i
     fin_cases i
     · simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_eq_same, Pi.single_eq_of_ne,
-        Pi.add_apply, Pi.smul_apply, hk0, hk1, hk2]
+        Pi.add_apply, Pi.smul_apply]
       norm_num
       exact (ZMod.natCast_eq_zero_iff 4 (2 ^ Z.τ.k 0)).mpr (by rw [hk0]; norm_num)
     · simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_eq_same, Pi.single_eq_of_ne,
-        Pi.add_apply, Pi.smul_apply, hk0, hk1, hk2]
+        Pi.add_apply, Pi.smul_apply]
       norm_num
       simpa using (ZMod.intCast_eq_intCast_iff_dvd_sub (-2) 6 (2 ^ Z.τ.k 1)).mpr
         (by rw [hk1]; norm_num)
     · simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_eq_same, Pi.single_eq_of_ne,
-        Pi.add_apply, Pi.smul_apply, hk0, hk1, hk2]
+        Pi.add_apply, Pi.smul_apply]
       norm_num
       simpa using (ZMod.intCast_eq_intCast_iff_dvd_sub (-2) 6 (2 ^ Z.τ.k 2)).mpr
         (by rw [hk2]; norm_num)
@@ -645,7 +646,7 @@ theorem conjBy_rho_sq_b_of_action (Z : StrothDatum X)
   simpa [conjBy] using congrArg (fun y : Z.D => (y : G)) (Additive.ofMul.injective heq)
 
 
-theorem mem_A_conj_iff (Z : StrothDatum X) {g : G} (hg : g ∈ X.L) (x : G) :
+theorem mem_A_conj_iff (_Z : StrothDatum X) {g : G} (hg : g ∈ X.L) (x : G) :
     g⁻¹ * x * g ∈ X.A ↔ x ∈ X.A :=
   (Subgroup.mem_normalizer_iff''.mp (X.L_le_normalizer_A hg) x).symm
 
@@ -655,7 +656,7 @@ theorem sq_gens_mem_A_of_conj (Z : StrothDatum X) (hk : ∀ i, 2 ≤ Z.τ.k i)
     (hb2Ω : (Z.dataD.b : G) ^ 2 ∈ omegaIn 2 Z.D)
     (hu : (Z.dataD.u : G)⁻¹ * ((Z.dataD.a : G) ^ 2) * Z.dataD.u =
       (Z.dataD.b : G) ^ 2)
-    (hρa : (Z.dataD.ρ : G)⁻¹ * ((Z.dataD.a : G) ^ 2) * Z.dataD.ρ =
+    (_hρa : (Z.dataD.ρ : G)⁻¹ * ((Z.dataD.a : G) ^ 2) * Z.dataD.ρ =
       (Z.dataD.b : G) ^ 2)
     (hρb : (Z.dataD.ρ : G)⁻¹ * ((Z.dataD.b : G) ^ 2) * Z.dataD.ρ =
       ((Z.dataD.a : G) ^ 2) * ((Z.dataD.b : G) ^ 2) *
@@ -798,7 +799,7 @@ theorem action_rho_a_of_family_one_two (Z : StrothDatum X)
       simpa using Type111.rho_a 0
   | _ =>
       exfalso
-      simp [StrothTypeIndex.k, Type100.k, Type101.k, Type110.k, Type111.k, Type120.k,
+      simp [StrothTypeIndex.k, Type120.k,
         Type121.k, Type130.k, Type131.k, Type200.k, Type201.k, Type210.k, Type211.k,
         Type220.k, Type221.k, Type230.k, Type231.k, Type300.k, Type310.k, Type32x.k,
         Type321.k, Type331.k] at hk0 hk1
@@ -840,7 +841,7 @@ theorem action_rho_b_of_family_one_two (Z : StrothDatum X)
       exact Type111.rho_b 0
   | _ =>
       exfalso
-      simp [StrothTypeIndex.k, Type100.k, Type101.k, Type110.k, Type111.k, Type120.k,
+      simp [StrothTypeIndex.k, Type120.k,
         Type121.k, Type130.k, Type131.k, Type200.k, Type201.k, Type210.k, Type211.k,
         Type220.k, Type221.k, Type230.k, Type231.k, Type300.k, Type310.k, Type32x.k,
         Type321.k, Type331.k] at hk0 hk1
@@ -857,7 +858,7 @@ theorem mhoOne_eq_closure_sq_of_two (Z : StrothDatum X) :
       z = (Z.dataD.b : G) ^ 2} = ({(Z.dataD.c : G) ^ 2, (Z.dataD.a : G) ^ 2,
         (Z.dataD.b : G) ^ 2} : Set G) := by
     ext z
-    simp [Set.mem_insert_iff, Set.mem_singleton_iff, or_assoc, or_left_comm, or_comm]
+    simp [Set.mem_insert_iff, Set.mem_singleton_iff, or_assoc, or_comm]
   simpa [hset] using h
 
 theorem A_eq_mhoOne_of_two_of_actions (Z : StrothDatum X) (hk : ∀ i, 2 ≤ Z.τ.k i)
@@ -915,7 +916,7 @@ theorem action_u_a_of_family_one_two (Z : StrothDatum X)
       simpa using Type111.u_a 0
   | _ =>
       exfalso
-      simp [StrothTypeIndex.k, Type100.k, Type101.k, Type110.k, Type111.k, Type120.k,
+      simp [StrothTypeIndex.k, Type120.k,
         Type121.k, Type130.k, Type131.k, Type200.k, Type201.k, Type210.k, Type211.k,
         Type220.k, Type221.k, Type230.k, Type231.k, Type300.k, Type310.k, Type32x.k,
         Type321.k, Type331.k] at hk0 hk1

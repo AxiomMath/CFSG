@@ -40,7 +40,7 @@ theorem q125WP_step (l W : Nat) (hl0 : 0 < l) (hl9 : l < 9) (hW : W < 2 ^ 76) :
     rw [q125m_Lt_eq, Nat.div_eq_of_lt (by norm_num at hW ⊢; omega)]
   have hl : q125LP l = toPerm 360 9 (AP.S (l - 1)) := by
     unfold q125LP
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   have A : ∀ f : Nat → Equiv.Perm (Fin 360), ((List.range 20).map f).prod =
       f 0 * ((List.range 19).map fun i => f (i + 1)).prod := fun f => by
     rw [List.range_succ_eq_map, List.map_cons, List.prod_cons, List.map_map]

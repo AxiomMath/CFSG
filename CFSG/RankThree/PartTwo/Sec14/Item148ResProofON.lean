@@ -199,7 +199,7 @@ theorem kf148ONInner_holds : KF148ONInner := by
     rw [← Subgroup.card_map_of_injective NP.subtype_injective]
     exact Subgroup.card_dvd_of_le hle
   have hQhp : IsPGroup 7 Qh := by
-    have hQp : IsPGroup 7 (Q : Subgroup H) := Q.isPGroup'
+    have hQp : IsPGroup 7 (Q : Subgroup H) := Q.isPGroup
     exact (hQp.map H.subtype).map NP.subtype
   obtain ⟨S, hS⟩ := hQhp.exists_le_sylow
   obtain ⟨hScard, hSN⟩ := sylow_seven_of_mulEquiv_Pv φ S

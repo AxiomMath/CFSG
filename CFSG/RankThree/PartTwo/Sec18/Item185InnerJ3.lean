@@ -54,7 +54,7 @@ private theorem ncard_compl_E27 {Q : Type} [Group Q] [Finite Q] {A B₁ : Subgro
   have hsub : (B₁ : Set Q) ⊆ (A : Set Q) := fun g hg => hB₁ hg
   have h1 : (A : Set Q).ncard = 27 := by rw [← Nat.card_coe_set_eq]; exact h27
   have h2 : (B₁ : Set Q).ncard = 9 := by rw [← Nat.card_coe_set_eq]; exact h9
-  have h3 := Set.ncard_diff hsub (Set.toFinite _)
+  have h3 := Set.ncard_sdiff hsub (Set.toFinite _)
   omega
 
 section J3
@@ -117,7 +117,7 @@ theorem j3_card_normalizer_E27 {Q : Type} [Group Q] [Finite Q] (e : Q ≃* Nativ
   omega
 
 private theorem j3_plane_classes {Q : Type} [Group Q] [Finite Q] (e : Q ≃* NativeSporadic.J3)
-    {A B₁ : Subgroup Q} (hA : IsElementaryAbelian 3 A) (h27 : Nat.card A = 27) (hB₁ : B₁ ≤ A)
+    {A B₁ : Subgroup Q} (hA : IsElementaryAbelian 3 A) (h27 : Nat.card A = 27) (_hB₁ : B₁ ≤ A)
     (h9 : Nat.card B₁ = 9)
     (hcl : ∀ x ∈ A, x ∉ B₁ → Nat.card (Subgroup.centralizer ({x} : Set Q)) = 1080) :
     ∀ z ∈ B₁, z ≠ 1 → Nat.card (Subgroup.centralizer ({z} : Set Q)) = 243 := by
@@ -352,7 +352,7 @@ theorem j3_oTwoThree_small {Q : Type} [Group Q] [Finite Q] (e : Q ≃* NativeSpo
         _ = j * i * j⁻¹ := by group
     rw [e1]
     exact hk
-  haveI hN'normal : (I.subgroupOf H).Normal := ⟨fun n hn g => by
+  have hN'normal : (I.subgroupOf H).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hconjI (g : Q) g.2 (n : Q) hn
     simpa using this⟩
@@ -365,7 +365,7 @@ theorem j3_oTwoThree_small {Q : Type} [Group Q] [Finite Q] (e : Q ≃* NativeSpo
     decide
   have hna : ¬ ∀ x y : ↥(I.subgroupOf H), x * y = y * x := by
     intro hcomm
-    letI : CommGroup ↥(I.subgroupOf H) :=
+    let : CommGroup ↥(I.subgroupOf H) :=
       { (inferInstance : Group ↥(I.subgroupOf H)) with mul_comm := hcomm }
     have hp : (Nat.card ↥(I.subgroupOf H)).Prime := CommGroup.is_simple_iff_prime_card.1 hsimple
     rw [hcard] at hp
@@ -419,7 +419,7 @@ theorem noInnerData_J3 : NoInnerData (Sec4.Spor .J3) := by
   intro A B c hd
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   let e : Sec4.Spor .J3 ≃* NativeSporadic.J3 := b.symm
-  haveI : Finite (Sec4.Spor .J3) := Finite.of_equiv _ b.toEquiv
+  have : Finite (Sec4.Spor .J3) := Finite.of_equiv _ b.toEquiv
   have hAe : IsElementaryAbelian 3 A :=
     Sec4.Item434Spor.isElementaryAbelian_of_isElemAbelian hd.isElemAbelian
   obtain ⟨B₁, hB₁A, hB₁9, -, hB₁3A⟩ := j3_e27_class_split e hAe hd.card_A

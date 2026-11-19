@@ -51,7 +51,7 @@ theorem SG.card_map_chevAut {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B T 
     IsElemAbelian p ((B.subgroupOf (Subgroup.normalizer (S : Set Ω))).map (chevAut p S)) ∧
       Nat.card ((B.subgroupOf (Subgroup.normalizer (S : Set Ω))).map (chevAut p S)) = p ^ 3 := by
   have hc := h.cfg
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   have hSN : B ≤ Subgroup.normalizer (S : Set Ω) := fun g _ =>
     (Subgroup.normalizer_eq_top_iff.2 hc.normal) ▸ Subgroup.mem_top g
   refine ⟨(hc.elem.subgroupOf _).map _, ?_⟩
@@ -72,7 +72,7 @@ theorem SG.exists_mem_D_not_zpowers {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω} (h : QSNL p S B T x D K) :
     ∃ d ∈ D, d ∉ Subgroup.zpowers x := by
   have hc := h.cfg
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   obtain ⟨-, -, hD, -⟩ := hc.std
   by_contra! hcon
   have hle := Subgroup.card_le_of_le (show D ≤ Subgroup.zpowers x from hcon)
@@ -95,7 +95,7 @@ theorem SG.false_of_simple_fix_congr {Ω : Type} [Group Ω] [Finite Ω] {S B T :
     (hY : Y.relIndex (((B.subgroupOf (Subgroup.normalizer (S : Set Ω))).map (chevAut 3 S)).map
       (MulAut.congr Ψ).toMonoidHom) ≤ 3) (hYA : ∀ ε ∈ Y, A ≤ fixSubgroup ε) : False := by
   set e := Subgroup.equivMapOfInjective A Ψ.symm.toMonoidHom Ψ.symm.injective
-  haveI : IsSimpleGroup ↥(A.map Ψ.symm.toMonoidHom) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(A.map Ψ.symm.toMonoidHom) := e.symm.isSimpleGroup
   have hnc' : ∃ a b : ↥(A.map Ψ.symm.toMonoidHom), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨e a, e b, fun h' => hab (e.injective (by rw [map_mul, map_mul, h']))⟩

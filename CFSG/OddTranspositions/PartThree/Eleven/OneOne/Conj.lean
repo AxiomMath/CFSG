@@ -10,6 +10,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem ElevenOneHyp.conj {hC : HypothesisC D} (h : ElevenOneHyp hC) (g : G) :
     ElevenOneHyp (hC.conj g) where
   rad := h.rad

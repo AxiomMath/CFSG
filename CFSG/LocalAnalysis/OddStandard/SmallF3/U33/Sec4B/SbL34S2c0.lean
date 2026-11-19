@@ -18,7 +18,7 @@ theorem rho_conj_mul_inv_not_mem (Q V : Subgroup G) (rho : G) (hVQ : V ≤ Q)
     (hfix : ∀ q ∈ Q, rho * q = q * rho → q = 1) {b : G} (hbQ : b ∈ Q) (hbV : b ∉ V) :
     rho * b * rho⁻¹ * b⁻¹ ∉ V := by
   classical
-  haveI : Finite V := Finite.of_injective (Subtype.val : V → G) Subtype.val_injective
+  have : Finite V := Finite.of_injective (Subtype.val : V → G) Subtype.val_injective
   let φ : MulAut G := MulAut.conj rho
   have hφ_apply : ∀ x : G, φ x = rho * x * rho⁻¹ := fun x => MulAut.conj_apply rho x
   have hφV : ∀ v ∈ V, φ v ∈ V := fun v hv => by rw [hφ_apply]; exact hρV v hv

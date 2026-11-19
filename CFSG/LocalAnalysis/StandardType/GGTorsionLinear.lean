@@ -15,7 +15,7 @@ section TorsionLinear
 
 private theorem tl_center_eq_bot {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hna
@@ -40,7 +40,7 @@ theorem ggTorsionKnownOver_typeA :
   obtain ⟨d, D, _, _, hd, hD2, -, ⟨e₁⟩⟩ :=
     ggTorsion_psl_components (m := r) (n := n) hF (tl_center_eq_bot hs hna) hp hp2 hδp' hI hJ'
   obtain ⟨e₂⟩ := ggTorsion_centerQuot_image_equiv θ hcomp.2.2.1
-  haveI := hD2
+  have := hD2
   exact ggTorsion_not_marking_psl hd (e₂.trans e₁) hJ
 
 end TorsionLinear

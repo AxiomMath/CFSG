@@ -38,7 +38,7 @@ theorem foldl_xor_foldr (l : List Nat) (c : Nat → Bool) (g : Nat → Nat) (a :
 
 theorem colsOf_getD (A : Nat) {i : Nat} (hi : i < 10) :
     (colsOf A).getD i 0 = rowF 10 A i := by
-  simp [colsOf, List.getD_eq_getElem?_getD, List.getElem?_range, hi]
+  simp [colsOf, List.getD_eq_getElem?_getD, hi]
 
 theorem colAct_cols (A x : Nat) : colAct (tabF (colsOf A)) x = vmF 10 A x := by
   unfold colAct
@@ -56,7 +56,7 @@ theorem compL_cols (A B : Nat) : compL (colsOf A) (colsOf B) = colsOf (mulF 10 B
 theorem tabsL_length : tabsL.length = 256 := by simp [tabsL]
 
 theorem tabsL_getD {i : Nat} (hi : i < 256) : tabsL.getD i [] = colsOf (PT i) := by
-  simp [tabsL, List.getD_eq_getElem?_getD, List.getElem?_range, hi]
+  simp [tabsL, List.getD_eq_getElem?_getD, hi]
 
 theorem mul_facts {s i : Nat} (hs : s < 256) (hi : i < 256) :
     mulL s i < 256 ∧ PT (mulL s i) = mulF 10 (PT i) (PT s) := by
@@ -229,7 +229,7 @@ theorem card_filter_range (n : Nat) (p : Nat → Bool) :
   | zero => simp
   | succ n ih =>
     rw [Fin.sum_univ_castSucc, List.range_succ, List.filter_append, List.length_append, ← ih]
-    simp only [Fin.coe_castSucc, Fin.val_last, List.filter_cons, List.filter_nil]
+    simp only [Fin.val_castSucc, Fin.val_last, List.filter_cons, List.filter_nil]
     by_cases hp : p n = true <;> simp [hp]
 
 theorem len_ok : lenOK = true := by

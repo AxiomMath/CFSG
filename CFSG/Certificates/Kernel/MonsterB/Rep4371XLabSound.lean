@@ -135,8 +135,8 @@ theorem labels_true {CH : List (Nat × Nat)}
     have hs := Nat.eq_of_beq_eq_true (allBelow_spec hspin (by decide) t ht')
     have hif : nIf(Nat.ble 1024 t, 2048, 0) = (if 1024 ≤ t then 2048 else 0) := by
       by_cases h : 1024 ≤ t
-      · rw [if_pos h, Nat.ble_eq_true_of_le h]
-      · rw [if_neg h, ble_false h]
+      · rw [ite_eq_left h, Nat.ble_eq_true_of_le h]
+      · rw [ite_eq_right h, ble_false h]
     rw [packetSpin_get ht', hhex _ _ (by omega), CFSG.Monster.B.Rep4371.native_oddCodes,
       oddCodes_get (Nat.mod_lt _ (by decide)), beq_iff_eq, ← hif,
       show 2300 * 14 + 1 + 3 * t = 32201 + 3 * t by omega]

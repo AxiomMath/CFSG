@@ -41,7 +41,7 @@ theorem compNormal_primeFormConjHom_of_not_dvd (h : UnitaryFieldData ℓ f K) {p
     {c : Kˣ} (hA : (A : GL (Fin n) K) ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     CompNormal (primeFormConjHom h (idGram K n) A) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -117,11 +117,11 @@ private theorem isQuasisimple_fixSubgroup_primeFormFieldSU (h : UnitaryFieldData
     (hn : 3 ≤ n) (hC : IsPrimeFormGram (1 : GL (Fin n) K)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {σ : K ≃+* K} (hσ : orderOf σ = p) (hq₀ : ¬ (n = 3 ∧ ℓ ^ (f / p) = 2)) :
     IsQuasisimple ↥(fixSubgroup (primeFormFieldSU h hC σ)) := by
-  haveI := h.finite
+  have := h.finite
   have h₀ : UnitaryFieldData ℓ (f / p) (fixSubfield σ) :=
     fixSubfield_unitaryFieldData h hp hp2 hσ
   have hbar := fixSubfield_unitaryFieldData_bar h hp hp2 hσ
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
   have hcard : Nat.card (fixSubfield σ) = (ℓ ^ (f / p)) ^ 2 := by
     rw [h₀.card, ← pow_mul, mul_comm]
   let e : ↥(CFSG.Open.StatedSU n (ℓ ^ (f / p)) (fixSubfield σ)) ≃*
@@ -137,7 +137,7 @@ theorem compNormal_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ 
     (hp : p.Prime) (hp2 : p ≠ 2) {σ : K ≃+* K} (hσ : orderOf σ = p) :
     CompNormal (primeFormFieldHom h (isPrimeFormGram_one (n := n)) σ) := by
   classical
-  haveI := h.finite
+  have := h.finite
   set hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   set X := gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
   set α : MulAut ↥X := primeFormFieldSU h hC σ

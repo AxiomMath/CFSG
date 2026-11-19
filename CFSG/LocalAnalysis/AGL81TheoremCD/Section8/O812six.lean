@@ -26,8 +26,8 @@ private theorem normalizer_ne_top_of_nontrivial_le {F M : Subgroup G} (hC : CSta
     (hFM : F ≤ M) (hFne : F ≠ ⊥) (hMne : M ≠ ⊤) :
     Subgroup.normalizer (F : Set G) ≠ ⊤ := by
   intro htop
-  haveI : F.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
-  haveI := hC.simple
+  have : F.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
+  have := hC.simple
   have htopF : F = ⊤ := (IsSimpleGroup.eq_bot_or_eq_top_of_normal F).resolve_left hFne
   exact hMne (top_le_iff.mp (htopF ▸ hFM))
 
@@ -50,7 +50,7 @@ private theorem isPSolvable_inf_of_solvable_map (k : S8Core G) {H : Subgroup G}
     CFSG.HallHigman.IsPSolvable k.q ↥(H ⊓ k.M) := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let π : ↥H →* (↥H ⧸ K) := QuotientGroup.mk' K
   let HM : Subgroup G := H ⊓ k.M
@@ -59,7 +59,7 @@ private theorem isPSolvable_inf_of_solvable_map (k : S8Core G) {H : Subgroup G}
   have hKle : KG ≤ HM := le_inf (Subgroup.map_subtype_le K) (k.pPrimeCore_le hH)
   have hKGnorm : H ≤ Subgroup.normalizer (KG : Set G) :=
     CFSG.ABGLocalTools.le_normalizer_map_subtype H K
-  haveI : KH.Normal :=
+  have : KH.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKle).mpr (inf_le_left.trans hKGnorm)
   have hcardKH : Nat.card ↥KH = Nat.card ↥K := by
     have h1 : Nat.card ↥KH = Nat.card ↥KG := CFSG.natCard_subgroupOf_eq KG HM hKle
@@ -89,11 +89,11 @@ private theorem isPSolvable_inf_of_solvable_map (k : S8Core G) {H : Subgroup G}
     rw [hφrange]
     exact hsol
   have hsolker : Group.IsSolvable (↥HM ⧸ φ.ker) := by
-    haveI := hsol'
+    have := hsol'
     exact Group.isSolvable_of_isSolvable_injective
       (QuotientGroup.quotientKerEquivRange φ).injective
   have hsolQ : Group.IsSolvable (↥HM ⧸ KH) := by
-    haveI := hsolker
+    have := hsolker
     exact Group.isSolvable_of_surjective
       (f := (QuotientGroup.quotientMulEquivOfEq hφker).toMonoidHom)
       (QuotientGroup.quotientMulEquivOfEq hφker).surjective
@@ -105,7 +105,7 @@ private theorem two_le_pRank_three_of_two_le_map (k : S8Core G) {H : Subgroup G}
       (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.q ↥H)))) :
     2 ≤ CFSG.Open.pRank 3 k.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let π : ↥H →* (↥H ⧸ K) := QuotientGroup.mk' K
   let HM : Subgroup G := H ⊓ k.M
@@ -129,7 +129,7 @@ private theorem two_le_pRank_three_of_two_le_map (k : S8Core G) {H : Subgroup G}
   have hTnc : ¬ IsCyclic (T : Subgroup ↥HM) := by
     intro hTcyc
     have hScyc : IsCyclic ((T : Subgroup ↥HM).map ψ) := by
-      haveI := hTcyc
+      have := hTcyc
       have hrange : (ψ.comp (T : Subgroup ↥HM).subtype).range =
           (T : Subgroup ↥HM).map ψ := by
         rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -149,7 +149,7 @@ private theorem two_le_pRank_three_of_two_le_map (k : S8Core G) {H : Subgroup G}
     omega
   have h2T : 2 ≤ CFSG.Open.pRank 3 (T : Subgroup ↥HM) :=
     CFSG.AGLEmbedding.two_le_pRank_of_isPGroup_not_isCyclic Nat.prime_three (by norm_num)
-      T.isPGroup' hTnc
+      T.isPGroup hTnc
   have h2HM : 2 ≤ CFSG.Open.pRank 3 HM := by
     rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup HM]
     exact h2T.trans (CFSG.SectionRank.pRank_mono (by norm_num : 1 < 3) le_top)
@@ -163,7 +163,7 @@ private theorem layerLift_map_alternatingTen (k : S8Core G) {H : Subgroup G} (hH
         φ.ker ≤ ((CFSG.pPrimeCore k.q ↥H).map H.subtype).subgroupOf (layerLift k.q H) := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let π : ↥H →* (↥H ⧸ K) := QuotientGroup.mk' K
   let Lbar : Subgroup (↥H ⧸ K) := CFSG.generalizedFitting (↥H ⧸ K)
@@ -171,7 +171,7 @@ private theorem layerLift_map_alternatingTen (k : S8Core G) {H : Subgroup G} (hH
   let KG : Subgroup G := K.map H.subtype
   have hJH : J ≤ H := layerLift_le k.q H
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -234,13 +234,13 @@ private theorem layerLift_ker_center_and_odd (k : S8Core G) {H : Subgroup G} (hH
     exact Odd.of_dvd_nat hoddKG hdiv
 
 private theorem exists_orderOf_eq_three_centralizing_layerLift (k : S8Core G)
-    {H : Subgroup G} {F : Subgroup G} (hFM : F ≤ k.M) (hF3 : IsPGroup 3 F) (hFne : F ≠ ⊥)
+    {H : Subgroup G} {F : Subgroup G} (_hFM : F ≤ k.M) (hF3 : IsPGroup 3 F) (hFne : F ≠ ⊥)
     (hFH : F ≤ H) (hHnorm : H ≤ Subgroup.normalizer (F : Set G)) (h5 : 5 ≤ k.q)
     (h75 : ⁅layerLift k.q H, (CFSG.pPrimeCore k.q ↥H).map H.subtype⁆ = ⊥) :
     ∃ z : G, orderOf z = 3 ∧ ∀ j ∈ layerLift k.q H, z * j = j * z := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   have hq3 : k.q ≠ 3 := by omega
   let K : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let J : Subgroup G := layerLift k.q H
@@ -284,7 +284,7 @@ private theorem false_of_normalizer_not_le (hSE : StronglyEmbeddedFive)
     (h3not : 3 ∉ sigmaSet G k.M) : False := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   have hstep75 : ∀ H : Subgroup G, k.Config H →
       ⁅layerLift k.q H, (CFSG.pPrimeCore k.q ↥H).map H.subtype⁆ = ⊥ :=
     k.step75_of_coverActsTriviallyOnSmall
@@ -336,7 +336,7 @@ theorem o812sixAt_of_inputs (hSE : StronglyEmbeddedFive)
   let k : S8Core G := S8Core.ofGen hC hM hq hs
   let H : Subgroup G := Subgroup.normalizer (F : Set G)
   by_cases h3 : 3 ∈ sigmaSet G M
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact (hs 3 h3).normalizer_le hFne hF3 hFM
   · by_contra hle
     have hH : k.Config H := config_of_normalizer k hFM hFne hrank hle

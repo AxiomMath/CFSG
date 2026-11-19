@@ -56,8 +56,9 @@ theorem rootDiagUnit_e8T3YColumn_mem_twistedTorus {L : Type} [Field L] {p : ℕ}
 variable {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime] {L : Type} [Field L]
   [Algebra K L] [IsAlgClosure K L] [CharP L ℓ] {ε : ℤ}
 
+omit [Finite K] in
 theorem rootDiagUnit_e8T3XColumn_mem_sigmaFactor (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
-    (hp : p.Prime) (hp3 : 3 < p) (hε : ε = 1 ∨ ε = -1) (hq2 : ε = -1 → 2 < ℓ ^ f)
+    (hp : p.Prime) (_hp3 : 3 < p) (hε : ε = 1 ∨ ε = -1) (hq2 : ε = -1 → 2 < ℓ ^ f)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + ε * (Nat.card K : ℤ) + 1)
     (n : ModGL Tag.E8 L) (hnm : n ∈ monomialSubgroup Tag.E8 L)
     (hnW : weylQuotientHom Tag.E8 L ⟨n, hnm⟩ = e8T3We ε) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) :
@@ -68,8 +69,8 @@ theorem rootDiagUnit_e8T3XColumn_mem_sigmaFactor (hf : 1 ≤ f) (hK : Nat.card K
       P ≤ twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) ∧
       rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3XColumn ε (Nat.card K : ZMod p) i).val) ∈ P := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ ℓ ^ f := fun c => iterateFrobenius_def ℓ f c
   have hFrK : ∀ c : L, iterateFrobenius L ℓ f c = c ^ Nat.card K := by
     intro c; rw [hFr, hK]
@@ -123,8 +124,9 @@ theorem exists_adjointGroup_e8T3XPoint (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f
   exact exists_adjointGroup_of_mem_perfectFixed_e8 n g0 hg0C hg0 hperf hPfin hPadj hPfix
     (CFSG.Quasithin.F6.InspRest.commutator_eq_self_of_isQuasisimple hPq) htP
 
+omit [Finite K] in
 theorem rootDiagUnit_e8T3YColumn_mem_sigmaFactor (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
-    (hp : p.Prime) (hp3 : 3 < p) (hε : ε = 1 ∨ ε = -1) (hq2 : ε = -1 → 2 < ℓ ^ f)
+    (hp : p.Prime) (_hp3 : 3 < p) (hε : ε = 1 ∨ ε = -1) (hq2 : ε = -1 → 2 < ℓ ^ f)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + ε * (Nat.card K : ℤ) + 1)
     (n : ModGL Tag.E8 L) (hnm : n ∈ monomialSubgroup Tag.E8 L)
     (hnW : weylQuotientHom Tag.E8 L ⟨n, hnm⟩ = e8T3We ε) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) :
@@ -135,8 +137,8 @@ theorem rootDiagUnit_e8T3YColumn_mem_sigmaFactor (hf : 1 ≤ f) (hK : Nat.card K
       P ≤ twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) ∧
       rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3YColumn ε (Nat.card K : ZMod p) i).val) ∈ P := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ ℓ ^ f := fun c => iterateFrobenius_def ℓ f c
   have hFrK : ∀ c : L, iterateFrobenius L ℓ f c = c ^ Nat.card K := by
     intro c; rw [hFr, hK]
@@ -227,7 +229,7 @@ theorem exists_adjointGroup_e8T3ZPoint (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f
         P ≤ (adjEmb Tag.E8 K L).range) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) :
     ∃ z : adjointGroup Tag.E8 K, adjEmb Tag.E8 K L z = g0 *
       rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3ZColumn ε (Nat.card K : ZMod p) i).val) * g0⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨x, hx⟩ := exists_adjointGroup_e8T3XPoint hf hK hp hp3 hε hq2 hpf n hnm hnW g0 hg0C
     hg0 hperf hζ
   obtain ⟨y, hy⟩ := exists_adjointGroup_e8T3YPoint hf hK hp hp3 hε hq2 hpf n hnm hnW g0 hg0C

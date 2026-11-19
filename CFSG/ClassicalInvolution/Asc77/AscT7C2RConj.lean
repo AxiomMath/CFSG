@@ -34,12 +34,12 @@ theorem exists_g0 [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow 2 G} {R R' 
     hd.hR'.2.2 hz'
   have hbR : b ∈ R := by
     have : K ⊓ (S : Subgroup G) = R :=
-      hRsyl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
+      hRsyl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
     rw [← this]
     exact ⟨hbKW.1, hd.hWS hbKW.2⟩
   have hb'R' : b' ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
     rw [← this]
     exact ⟨hb'KW.1, hd.hWS hb'KW.2⟩
   obtain ⟨huK, huW, hu2, hu1, huz⟩ := hd.hu

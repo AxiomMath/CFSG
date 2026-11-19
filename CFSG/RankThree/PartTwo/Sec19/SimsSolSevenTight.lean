@@ -187,7 +187,7 @@ theorem inCatalog_or_tightData
         (Subgroup.centralizer (X : Set G)).subtype ≤ Subgroup.centralizer (X : Set G) :=
       Subgroup.map_subtype_le _
     have hT2 : IsPGroup 2 ((T : Subgroup ↥(Subgroup.centralizer (X : Set G))).map
-        (Subgroup.centralizer (X : Set G)).subtype) := T.isPGroup'.map _
+        (Subgroup.centralizer (X : Set G)).subtype) := T.isPGroup.map _
     rcases hST G S.kProper S.simple S.nonab (Subgroup.centralizer (X : Set G))
         (S.tightlyEmbedded_C hev) hmax hF T with ⟨hTO, hab, -⟩ | ⟨-, hdih⟩ | ⟨hQ8, hgrp⟩ |
         ⟨⟨H, -, hHT, ⟨hHe⟩, -⟩, hL34⟩ | hSz | ⟨-, hel, h4, hTI, hNT, hWT⟩

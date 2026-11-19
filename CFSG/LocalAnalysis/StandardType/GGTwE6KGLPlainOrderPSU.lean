@@ -48,7 +48,7 @@ theorem ordTwistedA_five_two_pow_le_of_dvd {g n : ℕ} (hn : 1 ≤ n) (hgn : g �
   have h : 2 ^ g ≤ 2 ^ n := Nat.pow_le_pow_right two_pos (Nat.le_of_dvd hn hgn)
   unfold CFSG.Open.ordTwistedA
   exact Nat.div_le_div (Nat.mul_le_mul (Nat.pow_le_pow_left h _)
-    (Finset.prod_le_prod' fun i _ => toNat_factor_le_plainOrd h i)) (gcd_six_le_plainOrd hn hgn)
+    (Finset.prod_le_prod fun i _ => toNat_factor_le_plainOrd h i)) (gcd_six_le_plainOrd hn hgn)
     (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne'
 
 private theorem pow_le_toNat_factor_plainOrd {q i : ℕ} (hq : 2 ≤ q) (hi : 1 ≤ i) :
@@ -77,7 +77,7 @@ theorem pow_twentyNine_lt_ordTwistedA_five {g : ℕ} (hg : 1 ≤ g) :
     calc (2 ^ g) ^ 17 = ∏ i ∈ Finset.Icc 2 (5 + 1), (2 ^ g) ^ (i - 1 + i % 2) := by
           rw [Finset.prod_pow_eq_pow_sum,
             show ∑ i ∈ Finset.Icc 2 (5 + 1), (i - 1 + i % 2) = 17 by decide]
-      _ ≤ _ := Finset.prod_le_prod' fun i hi =>
+      _ ≤ _ := Finset.prod_le_prod fun i hi =>
           pow_le_toNat_factor_plainOrd hq (by simp only [Finset.mem_Icc] at hi; omega)
   have hgcd : Nat.gcd (5 + 1) (2 ^ g + 1) ≤ 3 := by
     show Nat.gcd 6 (2 ^ g + 1) ≤ 3

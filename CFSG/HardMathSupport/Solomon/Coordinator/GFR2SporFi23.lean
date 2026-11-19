@@ -137,8 +137,8 @@ theorem sporNoPumpup_Fi23
     (hSpM : SporadicMultipliers) (hOG : UniquenessMaximal.InputONGroup)
     (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) : SporNoPumpup .Fi23 := by
   have e0 : (TauCeti.CFSGIndex.sporadic .Fi23).Group ≃* NativeSporadic.Fi23 := (hbr .Fi23).some.symm
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Fi23).Group := Finite.of_equiv _ e0.symm.toEquiv
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .Fi23).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Fi23).Group := Finite.of_equiv _ e0.symm.toEquiv
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .Fi23).Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Fi23.isSimpleGroup_Fi23 e0
   let φ : (TauCeti.CFSGIndex.sporadic .Fi23).Group ≃* CFSG.Sporadic.Fi23.J :=
     e0.trans CFSG.Sporadic.Fi23.fi23EquivJ

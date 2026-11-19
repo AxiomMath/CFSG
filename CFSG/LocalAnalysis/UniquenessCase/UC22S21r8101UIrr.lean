@@ -132,7 +132,7 @@ theorem u81_isStronglyPEmbedded_map {H H' : Type*} [Group H] [Group H'] [Finite 
     [Fact p.Prime] {Y : Subgroup H} (hY : IsStronglyPEmbedded p Y) (f : H →* H')
     (hf : Function.Surjective f) (hkY : f.ker ≤ Y) (hpk : ¬ p ∣ Nat.card f.ker) :
     IsStronglyPEmbedded p (Y.map f) := by
-  haveI : Finite H' := Finite.of_surjective f hf
+  have : Finite H' := Finite.of_surjective f hf
   have hmem : ∀ g, f g ∈ Y.map f → g ∈ Y := fun g hg => by
     obtain ⟨y, hy, hyg⟩ := hg
     have hk : y⁻¹ * g ∈ f.ker := by

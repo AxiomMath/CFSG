@@ -99,7 +99,7 @@ private lemma s16c11_case2gen_map_conj_one (K : Subgroup (MulAut W)) :
   have h : (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) := by
     apply MonoidHom.ext
     intro x
-    simp [MulAut.conj_apply]
+    simp
   rw [h, Subgroup.map_id]
 
 private lemma s16c11_case2gen_mem_pairs_conj {L T₁ : Subgroup (MulAut W)} {J : Subgroup W}
@@ -185,14 +185,14 @@ theorem s16c11_exists_fixed_pair [Finite W] {L L₀ T₀ : Subgroup (MulAut W)} 
     (hodd : Odd (S16C11Pairs L J (T₀ ⊓ L) N).ncard) :
     ∃ p ∈ S16C11Pairs L J (T₀ ⊓ L) N,
       ∀ t ∈ T₀, t p.1 = p.1 ∧ p.2.map (MulAut.conj t).toMonoidHom = p.2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun e : MulAut W => (e : W → W))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
-  letI smulInst : SMul ↥T₀ ↥(S16C11Pairs L J (T₀ ⊓ L) N) :=
+  let smulInst : SMul ↥T₀ ↥(S16C11Pairs L J (T₀ ⊓ L) N) :=
     ⟨fun t p => ⟨(t.1 p.1.1, p.1.2.map (MulAut.conj t.1).toMonoidHom),
       s16c11_case2gen_mem_pairs_smul hL hJ hT₀ t.2 p.2⟩⟩
-  letI : MulAction ↥T₀ ↥(S16C11Pairs L J (T₀ ⊓ L) N) :=
+  let : MulAction ↥T₀ ↥(S16C11Pairs L J (T₀ ⊓ L) N) :=
     { toSMul := smulInst
       one_smul := by
         intro p
@@ -259,7 +259,7 @@ theorem s16c11_rf3_of_rf3Odd [Finite W] {L L₀ : Subgroup (MulAut W)} {J : Subg
   intro T₀ hT₀ hT₀p hT₀i
   have hnorm : L₀ ≤ normalizer (L : Set (MulAut W)) := fun x hx =>
     Subgroup.mem_normalizer_iff_map_conj_eq.2 (hL x hx)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS₀ : CFSG.ABGLocalTools.IsSylowOf 2 T₀ L₀ :=
     CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hT₀, hT₀p, hT₀i⟩
   have hS₁ : CFSG.ABGLocalTools.IsSylowOf 2 (T₀ ⊓ L) L := hS₀.inf_of_le_normalizer hLL₀ hnorm

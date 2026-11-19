@@ -11,12 +11,13 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Timmesfeld.Com
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem exists_noncentral {M : Subgroup Q}
     (hSyl : ∀ R : Sylow 3 ↥M, Nat.card (R : Subgroup ↥M) = 27 ∧
       (∃ r ∈ (R : Subgroup ↥M), ∃ s ∈ (R : Subgroup ↥M), r * s ≠ s * r) ∧
       ∀ r ∈ (R : Subgroup ↥M), r ^ 3 = 1) :
     ∃ y ∈ M, orderOf y = 3 ∧ ∃ m ∈ M, y * m ≠ m * y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 ↥M))
   obtain ⟨-, ⟨r, hr, s, -, hrs⟩, hexp⟩ := hSyl R
   have hr1 : r ≠ 1 := by
@@ -31,7 +32,7 @@ theorem exists_w {M : Subgroup Q}
       (∃ r ∈ (R : Subgroup ↥M), ∃ s ∈ (R : Subgroup ↥M), r * s ≠ s * r) ∧
       ∀ r ∈ (R : Subgroup ↥M), r ^ 3 = 1) {y : Q} (hy : y ∈ M) (hyo : orderOf y = 3) :
     ∃ w ∈ M, w ^ 3 = 1 ∧ y * w = w * y ∧ w ∉ Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set y' : ↥M := ⟨y, hy⟩ with hy'
   have hyo' : orderOf y' = 3 := by rw [hy', Subgroup.orderOf_mk]; exact hyo
   have hZp : IsPGroup 3 (Subgroup.zpowers y') :=
@@ -39,9 +40,9 @@ theorem exists_w {M : Subgroup Q}
   obtain ⟨R, hR⟩ := hZp.exists_le_sylow
   obtain ⟨hR27, -, hRexp⟩ := hSyl R
   have key : ∃ w' ∈ (R : Subgroup ↥M), y' * w' = w' * y' ∧ w' ∉ Subgroup.zpowers y' := by
-    haveI : Nontrivial ↥(R : Subgroup ↥M) := by
+    have : Nontrivial ↥(R : Subgroup ↥M) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hR27]; norm_num
-    haveI := R.isPGroup'.center_nontrivial
+    have := R.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center ↥(R : Subgroup ↥M))
     set z₀ : ↥M := ((z : ↥(R : Subgroup ↥M)) : ↥M) with hz₀
     have hz₀R : z₀ ∈ (R : Subgroup ↥M) := (z : ↥(R : Subgroup ↥M)).2
@@ -67,7 +68,7 @@ theorem exists_w {M : Subgroup Q}
         have := Subgroup.card_le_of_le hle
         rw [hR27, Nat.card_zpowers, hyo'] at this
         norm_num at this
-      obtain ⟨w', hw'R, hw'⟩ := SetLike.not_le_iff_exists.1 hnle
+      obtain ⟨w', hw'R, hw'⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
       exact ⟨w', hw'R, hyc w' hw'R, hw'⟩
     · exact ⟨z₀, hz₀R, hz₀c y' (hR (Subgroup.mem_zpowers y')), hzy⟩
   obtain ⟨w', hw'R, hcomm, hnot⟩ := key
@@ -89,7 +90,7 @@ theorem exists_inner {B M : Subgroup Q} {c : Q} (Tr : Triple3 B M c)
     (hH : 3 < Nat.card (t113H B M)) :
     ∃ y ∈ M, orderOf y = 3 ∧ (∃ m ∈ M, y * m ≠ m * y) ∧
       ∃ a ∈ t113A B M, ∀ l ∈ M, a * l * a⁻¹ = y * l * y⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H := t113H B M with hHdef
   have hHp : IsPGroup 3 H := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (Tr.H_elem.2 g g.2)⟩
   obtain ⟨S, hS⟩ := hHp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 ↥M)
@@ -104,7 +105,7 @@ theorem exists_inner {B M : Subgroup Q} {c : Q} (Tr : Triple3 B M c)
   obtain ⟨-, ⟨r, hr, t, -, hrt⟩, hSexp⟩ := hSyl S
   set Sh : Subgroup (MulAut ↥M) := (S : Subgroup ↥M).map (MulAut.conj : ↥M →* MulAut ↥M)
     with hShdef
-  have hShp : IsPGroup 3 Sh := S.isPGroup'.map _
+  have hShp : IsPGroup 3 Sh := S.isPGroup.map _
   have hconj : ∀ (φ : MulAut ↥M) (s : ↥M), φ * MulAut.conj s * φ⁻¹ = MulAut.conj (φ s) := by
     intro φ s
     refine MulEquiv.ext fun x => ?_
@@ -124,9 +125,9 @@ theorem exists_inner {B M : Subgroup Q} {c : Q} (Tr : Triple3 B M c)
   have hPp : IsPGroup 3 ↥(H ⊔ Sh) := IsPGroup.to_sup_of_normal_right' hHp hShp hle
   have hShP : Sh ≤ H ⊔ Sh := le_sup_right
   have hHP : H ≤ H ⊔ Sh := le_sup_left
-  haveI : (Sh.subgroupOf (H ⊔ Sh)).Normal :=
+  have : (Sh.subgroupOf (H ⊔ Sh)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hShP).2 (sup_le hle Subgroup.le_normalizer)
-  haveI : Group.IsNilpotent ↥(H ⊔ Sh) := hPp.isNilpotent
+  have : Group.IsNilpotent ↥(H ⊔ Sh) := hPp.isNilpotent
   have hconj_ne : MulAut.conj r ≠ 1 := by
     intro h
     apply hrt

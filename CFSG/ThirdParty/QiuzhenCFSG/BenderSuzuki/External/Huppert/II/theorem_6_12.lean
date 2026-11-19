@@ -40,7 +40,7 @@ public theorem huppert_II_6_12
       ∀ (N : Subgroup G), N.Normal → N ≠ ⊥ →
         MulAction.IsPretransitive N Omega := by
     intro N hN hNbot
-    letI : N.Normal := hN
+    let : N.Normal := hN
     apply MulAction.IsQuasiPreprimitive.isPretransitive_of_normal
     intro hfixed
     apply hNbot
@@ -54,8 +54,8 @@ public theorem huppert_II_6_12
   have hnormal_top :
       ∀ (N : Subgroup G), N.Normal → N ≠ ⊥ → N = ⊤ := by
     intro N hN hNbot
-    letI : N.Normal := hN
-    letI : Group.IsPerfect G := ⟨hperfect⟩
+    let : N.Normal := hN
+    let : Group.IsPerfect G := ⟨hperfect⟩
     let Q := G ⧸ N
     let q : G →* Q := QuotientGroup.mk' N
     have hKmapNormal : (K.map q).Normal := by
@@ -78,7 +78,7 @@ public theorem huppert_II_6_12
       refine ⟨s * k * s⁻¹, hconj, ?_⟩
       change q (s * k * s⁻¹) = q g * q k * (q g)⁻¹
       simp [s, hnq]
-    letI : (K.map q).Normal := hKmapNormal
+    let : (K.map q).Normal := hKmapNormal
     have htopmap : (⊤ : Subgroup G).map q = ⊤ := by
       rw [← MonoidHom.range_eq_map, MonoidHom.range_eq_top]
       exact QuotientGroup.mk'_surjective N
@@ -100,13 +100,13 @@ public theorem huppert_II_6_12
         fK.range = K.map q := by
           simp [fK, MonoidHom.range_comp]
         _ = ⊤ := hKmapTop
-    letI : Group.IsSolvable K := hKsolvable
+    let : Group.IsSolvable K := hKsolvable
     have hQsolvable : Group.IsSolvable Q := Group.isSolvable_of_surjective hfK
-    letI : Group.IsSolvable Q := hQsolvable
-    letI : Subsingleton Q := by
+    let : Group.IsSolvable Q := hQsolvable
+    let : Subsingleton Q := by
       rw [← not_nontrivial_iff_subsingleton]
       intro hQnontrivial
-      letI : Nontrivial Q := hQnontrivial
+      let : Nontrivial Q := hQnontrivial
       exact Group.IsPerfect.not_isSolvable Q hQsolvable
     apply top_unique
     intro g _

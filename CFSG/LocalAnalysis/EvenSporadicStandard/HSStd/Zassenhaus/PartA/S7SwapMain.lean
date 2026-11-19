@@ -16,8 +16,8 @@ theorem swap_normal_eq {X : Type} [Group X] [Finite X] {tt : X} (htt : orderOf t
     (N : Subgroup X) [N.Normal] (hNdef : N = normalClosureOf (centralizerDerived tt))
     (hB0 : centralizer (N : Set X) = ⊥) (φ : ↥N ≃* A6 × A6)
     (M : Subgroup X) [M.Normal] (hMN : M ≤ N) (hM : ∀ g ∈ N, ⁅tt, g⁆ ∈ M) : M = N := by
-  haveI := isSimple_alt6
-  haveI hK' : ((M.subgroupOf N).map φ.toMonoidHom).Normal :=
+  have := isSimple_alt6
+  have hK' : ((M.subgroupOf N).map φ.toMonoidHom).Normal :=
     Subgroup.Normal.map inferInstance φ.toMonoidHom φ.surjective
   have hmemK : ∀ (m : X) (hm : m ∈ M), φ ⟨m, hMN hm⟩ ∈ (M.subgroupOf N).map φ.toMonoidHom :=
     fun m hm => ⟨⟨m, hMN hm⟩, hm, rfl⟩

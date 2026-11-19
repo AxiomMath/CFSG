@@ -153,7 +153,7 @@ theorem GGQ2Lin.root_linearIndependent_of_finrank {p : ℕ} [Fact p.Prime] (hp :
       D.root i v = (Pi.single j (1 : ZMod p) : {k // k ≠ D.a} → ZMod p) i :=
     fun i => congrFun hv i
   simp only [hvi, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at h1
+    Finset.mem_univ, ite_true] at h1
   exact h1
 
 theorem GGQ2Lin.inner_of_ker (D : GGQ2Lin 3) (u : D.V) (hu0 : u ≠ 0)
@@ -290,7 +290,7 @@ theorem GGQ2Lin.card_le_finrank (D : GGQ2Lin 3) [FiniteDimensional (ZMod 3) D.V]
     rw [Fintype.sum_eq_add_sum_subtype_ne _ c]
     simp only [Matrix.transpose_apply, dite_true, mul_zero, zero_add]
     refine Eq.trans (Finset.sum_congr rfl fun j _ => ?_) h1
-    rw [dif_neg j.2, mul_comm]
+    rw [dite_eq_right j.2, mul_comm]
   have hbT : ∃! c, c ≠ D.b ∧ D.cartan.transpose D.b c ≠ 0 := by
     obtain ⟨c, ⟨hcb, hbc⟩, huniq⟩ := hb
     refine ⟨c, ⟨hcb, ?_⟩, fun d ⟨hdb, hbd⟩ => huniq d ⟨hdb, ?_⟩⟩
@@ -353,7 +353,7 @@ theorem GGQ2Lin.card_le_finrank_of_not_e6Branch (D : GGQ2Lin 3) [FiniteDimension
     rw [Fintype.sum_eq_add_sum_subtype_ne _ c]
     simp only [Matrix.transpose_apply, dite_true, mul_zero, zero_add]
     refine Eq.trans (Finset.sum_congr rfl fun j _ => ?_) h1
-    rw [dif_neg j.2, mul_comm]
+    rw [dite_eq_right j.2, mul_comm]
   obtain ⟨ra, hra, ia, hia⟩ := Fintype.not_linearIndependent_iff.mp hda
   obtain ⟨rb, hrb, ib, hib⟩ := Fintype.not_linearIndependent_iff.mp hdb
   obtain ⟨-, e, he, he1, he3⟩ := ggIntCartan_leaf_ker_branch D.isWeyl

@@ -12,9 +12,9 @@ open Subgroup CFSG.Blueprint
 theorem sec8t84_thompson_false {G : Type} [Group G] [Finite G] (hsimple : IsSimpleGroup G)
     (hcard : 2 < Nat.card G) {t : G} {T T0 : Subgroup G}
     (hT : IsSylow2Of T ⊤) (hT0 : T0 ≤ T) (hidx : T0.relIndex T = 2)
-    (ht2 : t * t = 1) (ht1 : t ≠ 1) (htT : t ∈ T)
+    (ht2 : t * t = 1) (ht1 : t ≠ 1) (_htT : t ∈ T)
     (hnc : ∀ x : G, x⁻¹ * t * x ∉ T0) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, -, hNn, hsq, htN⟩ :=
     CFSG.Quasithin.thompson_transfer_exists_normal_subgroup
       (X := ⊤) (P := T) (Q := T0) (u := t) le_top hT.2.1 hT.2.2 hT0 hidx
@@ -24,7 +24,7 @@ theorem sec8t84_thompson_false {G : Type} [Group G] [Finite G] (hsimple : IsSimp
   have hNnormal : N.Normal := by
     have h := hNn.map ((⊤ : Subgroup G).subtype) fun g => ⟨⟨g, Subgroup.mem_top g⟩, rfl⟩
     rwa [Subgroup.map_subgroupOf_eq_of_le (le_top : N ≤ ⊤)] at h
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNbot : N = ⊥ := by
     rcases hsimple.eq_bot_or_eq_top_of_normal N with hbot | htop
     · exact hbot
@@ -45,9 +45,9 @@ theorem sec8t84_thompson_false {G : Type} [Group G] [Finite G] (hsimple : IsSimp
       a * b = (a * b)⁻¹ := hab.symm
       _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
       _ = b * a := by rw [ha, hb]
-  haveI : IsMulCommutative G := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative G := IsMulCommutative.of_comm hcomm
   obtain ⟨g, hg⟩ : ∃ g : G, g ≠ 1 := exists_ne 1
-  haveI : (Subgroup.zpowers g).Normal := Subgroup.normal_of_comm _
+  have : (Subgroup.zpowers g).Normal := normal_of_isMulCommutative _
   have hne : Subgroup.zpowers g ≠ ⊥ := by
     intro h
     have hgH : g ∈ Subgroup.zpowers g := Subgroup.mem_zpowers g

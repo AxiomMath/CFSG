@@ -22,9 +22,9 @@ private theorem lenBarPt_injective (hn : 3 ≤ n) :
     CFSG.HardMathSupport.RichardWeiss.Proving.exists_ne_pair_heart hn a b
   rcases (mem_zmultiples_allOnes_iff _).1 (QuotientAddGroup.eq.1 hab) with h0 | h1
   · have := congrFun h0 a
-    simp [Pi.single_apply, hne] at this
+    simp [hne] at this
   · have := congrFun h1 c
-    simp [Pi.single_apply, hca, hcb, allOnes] at this
+    simp [hca, hcb, allOnes] at this
 
 private theorem lenBarPt_ne_zero (hn : 3 ≤ n) (a : Fin n) : barPt a ≠ 0 := by
   intro h
@@ -33,7 +33,7 @@ private theorem lenBarPt_ne_zero (hn : 3 ≤ n) (a : Fin n) : barPt a ≠ 0 := b
   · have := congrFun h0 a
     simp at this
   · have := congrFun h1 c
-    simp [Pi.single_apply, hca, allOnes] at this
+    simp [hca, allOnes] at this
 
 private theorem lenConj_mem_of_threeCycles {B : Finset (Fin n)}
     {N : Subgroup (Perm (Fin n))}

@@ -23,7 +23,7 @@ theorem QData.conclusionP (P : ∀ (G : Type) [Group G] [Finite G], Prop)
       (∀ o ∈ O, ∃ m : ℕ, Nat.Coprime 6 m ∧ o ^ m ∈ Z) ∧
       ∀ g ∈ Γ, ∃ o ∈ O, ∃ n ∈ Γ ⊓ Nor (Subgroup.zpowers b ⊔ Z), g = o * n := by
   classical
-  haveI hN : (Z.subgroupOf Γ).Normal := ⟨fun n hn g => by
+  have hN : (Z.subgroupOf Γ).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using D.Z_norm (g : H) g.2 (n : H) hn⟩
   let Q : Quo Γ Z (↥Γ ⧸ Z.subgroupOf Γ) :=
@@ -59,7 +59,7 @@ theorem QData.conclusionP (P : ∀ (G : Type) [Group G] [Finite G], Prop)
     have h2 : Nat.Coprime 2 (Nat.card (Opp 3 (⊤ : Subgroup (↥Γ ⧸ Z.subgroupOf Γ)))) :=
       Nat.coprime_two_left.mpr hodd
     have h3 : Nat.Coprime 3 (Nat.card (Opp 3 (⊤ : Subgroup (↥Γ ⧸ Z.subgroupOf Γ)))) := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact L14.Opp_coprime 3 _
     refine ⟨Nat.card (Opp 3 (⊤ : Subgroup (↥Γ ⧸ Z.subgroupOf Γ))), Nat.Coprime.mul_left h2 h3, ?_⟩
     have h1 : (⟨Q.φ ⟨o, hoΓ⟩, hoO⟩ : ↥(Opp 3 (⊤ : Subgroup (↥Γ ⧸ Z.subgroupOf Γ)))) ^
@@ -89,6 +89,7 @@ theorem QData.conclusionP (P : ∀ (G : Type) [Group G] [Finite G], Prop)
     · exact (Nor _).mul_mem hnN (Subgroup.le_normalizer (Subgroup.mem_sup_right hzmem))
     · group
 
+omit [Finite H] in
 theorem kGroupNonab_quotient (hK : KCore.KGroupNonab InCatalog H) (Γ : Subgroup H)
     (N : Subgroup ↥Γ) [N.Normal] : KCore.KGroupNonab InCatalog (↥Γ ⧸ N) :=
   (hK.subgroup CFSG.Assembly.inCatalog_isoInvariant Γ).quotient

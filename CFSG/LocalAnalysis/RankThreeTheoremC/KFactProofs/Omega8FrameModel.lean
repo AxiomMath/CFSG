@@ -18,7 +18,7 @@ theorem countP_range_eq_sum (n : ℕ) (p : ℕ → Bool) :
   | zero => simp
   | succ n ih =>
     rw [List.range_succ, List.countP_append, ih, Finset.sum_range_succ]
-    cases h : p n <;> simp [List.countP_cons, h]
+    cases h : p n <;> simp [h]
 
 theorem suppA_eq {t : Array ℕ} {g : Equiv.Perm (Fin 136)} (h : Rep 136 t g) :
     suppA t = g.support.card := by

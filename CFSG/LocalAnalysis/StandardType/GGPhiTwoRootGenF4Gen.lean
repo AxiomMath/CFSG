@@ -55,7 +55,7 @@ private theorem iform_single_left_F4 (i : Fin Tag.F4.rank) (y : Fin Tag.F4.rank 
     (fun h => absurd (Finset.mem_univ i) h)]
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
-  rw [symmetrizedCartan_apply_F4, if_pos rfl]
+  rw [symmetrizedCartan_apply_F4, ite_eq_left rfl]
   ring
 
 private theorem sum_cartan_mul_single_F4 (i : Fin Tag.F4.rank) :

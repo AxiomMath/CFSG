@@ -11,6 +11,6 @@ namespace Certificates
 open CertificateChecks
 
 theorem certificate2078 : CFSG.Sporadic.FischerOddCore.Wit2078Facts :=
-  by intros; exact KernelFi24G2g.wit2078_facts KernelFi24OrbL.pt_sp_rank
+  by exact KernelFi24G2g.wit2078_facts KernelFi24OrbL.pt_sp_rank
 
 end Certificates

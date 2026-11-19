@@ -310,7 +310,7 @@ theorem mem_kernelReflectionGroup_of_mapsTo_a2CubeClass {L : Type} [Field L]
       exact ⟨α, hα, rfl⟩
     rw [mul_smul]
     exact hwi _ h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isPGroup_quotient
     Nat.prime_three hap
   let e : kernelPosStabilizer (rootCharHom a) ≃* (↥(rootCharStabilizerSubgroup a) ⧸

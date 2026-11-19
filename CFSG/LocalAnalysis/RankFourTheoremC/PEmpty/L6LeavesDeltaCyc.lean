@@ -125,7 +125,7 @@ theorem isCyclic_of_pow_eq_one_mem {G : Type} [Group G] [Finite G] {p : ℕ} [hp
   exact Subgroup.eq_of_le_of_card_ge hVU (le_of_eq (hU₀.trans hV.symm))
 
 theorem comm_of_isCyclic {G : Type} [Group G] [IsCyclic G] (a b : G) : a * b = b * a := by
-  letI : CommGroup G := IsCyclic.commGroup
+  let : CommGroup G := IsCyclic.commGroup
   exact mul_comm a b
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6Delta

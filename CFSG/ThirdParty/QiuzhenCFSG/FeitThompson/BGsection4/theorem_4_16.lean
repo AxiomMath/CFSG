@@ -29,7 +29,7 @@ private theorem CFSG.generatorRank_at_least_three_of_elementaryAbelian_card_p3_l
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hA : Nat.card A = p ^ 3) :
     3 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -95,13 +95,13 @@ private theorem CFSG.theorem_4_16_prime_gt_three
   have hAcard_ne_one : Nat.card A ≠ 1 := by
     intro hAcard
     have hsub : Subsingleton A := (Nat.card_eq_one_iff_unique.mp hAcard).1
-    letI : Subsingleton A := hsub
+    let : Subsingleton A := hsub
     apply hntriv
     intro a r
     have ha : a = 1 := Subsingleton.elim a 1
     simp [ha]
   obtain ⟨q, hqprime, hqdvdA⟩ := Nat.exists_prime_and_dvd hAcard_ne_one
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   have hq_ne_two : q ≠ 2 := by
     intro hq
     have htwo_dvd : 2 ∣ Nat.card A := by simpa [hq] using hqdvdA
@@ -164,7 +164,7 @@ private theorem CFSG.theorem_4_16_large_omega_card_exp
   let Ω : Subgroup R := omega₁ (G := R) (p := p)
   have hΩexp : Monoid.exponent Ω = p := by
     rcases proposition_4_8_b (R := R) (p := p) hpgt hrank with hExpOne | hExpP
-    · haveI : Subsingleton Ω := (Monoid.exp_eq_one_iff (G := Ω)).mp hExpOne
+    · have : Subsingleton Ω := (Monoid.exp_eq_one_iff (G := Ω)).mp hExpOne
       have hΩcard_one : Nat.card Ω = 1 := by
         simp
       have hΩ_le : Nat.card Ω ≤ p ^ 2 := by
@@ -173,7 +173,7 @@ private theorem CFSG.theorem_4_16_large_omega_card_exp
       exact False.elim (hOmega_large (by simpa [Ω] using hΩ_le))
     · exact hExpP
   have hΩp : IsPGroup p Ω := (Fact.out : IsPGroup p R).to_subgroup Ω
-  letI : Fact (IsPGroup p Ω) := ⟨hΩp⟩
+  let : Fact (IsPGroup p Ω) := ⟨hΩp⟩
   have hΩrank : groupRank Ω ≤ 2 :=
     (groupRank_le_of_subgroup (R := R) (S := Ω)).trans hrank
   have hΩcard_le : Nat.card Ω ≤ p ^ 3 :=
@@ -206,7 +206,7 @@ private theorem CFSG.theorem_4_16_large_omega_not_commutative
     exponent_dvd_p := by
       rw [show Monoid.exponent Ω = p by simpa [Ω] using hΩexp]
   }
-  letI : IsElementaryAbelian p Ω := hΩelem
+  let : IsElementaryAbelian p Ω := hΩelem
   have hΩgen_three : 3 ≤ generatorRank Ω :=
     generatorRank_at_least_three_of_elementaryAbelian_card_p3_local
       (p := p) (A := Ω) (by simpa [Ω] using hΩcard)
@@ -227,7 +227,7 @@ public theorem CFSG.isExtraspecial_of_noncommutative_card_p3_exponent_p
       rw [hKcard]
       exact one_lt_pow₀ hp.one_lt (by decide)
     exact Finite.one_lt_card_iff_nontrivial.mp hcard_gt
-  letI : Nontrivial K := hKnontriv
+  let : Nontrivial K := hKnontriv
   have hclass2 : NilpotencyClassLe 2 K :=
     nilpotencyClassLe_of_card_le_p_cubed (R := K) (p := p) (by rw [hKcard])
   have hcomm_center : commutator K ≤ Subgroup.center K :=
@@ -282,7 +282,7 @@ public theorem CFSG.isExtraspecial_of_noncommutative_card_p3_exponent_p
       exact Nat.eq_of_mul_eq_mul_right (pow_pos hp.pos 2) hmul
     have hquot_cyc : IsCyclic (K ⧸ Subgroup.center K) :=
       isCyclic_of_prime_card (α := K ⧸ Subgroup.center K) hquot_card
-    letI : IsCyclic (K ⧸ Subgroup.center K) := hquot_cyc
+    let : IsCyclic (K ⧸ Subgroup.center K) := hquot_cyc
     apply hKnoncomm
     exact MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
       (QuotientGroup.mk' (Subgroup.center K))
@@ -291,14 +291,14 @@ public theorem CFSG.isExtraspecial_of_noncommutative_card_p3_exponent_p
     simpa [hm_eq_one] using hm
   have hquot_nontriv : Nontrivial (K ⧸ Subgroup.center K) := by
     by_contra htriv
-    haveI : Subsingleton (K ⧸ Subgroup.center K) := not_nontrivial_iff_subsingleton.mp htriv
+    have : Subsingleton (K ⧸ Subgroup.center K) := not_nontrivial_iff_subsingleton.mp htriv
     have hcenter_top : Subgroup.center K = ⊤ :=
       QuotientGroup.subgroup_eq_top_of_subsingleton (Subgroup.center K) inferInstance
     apply hKnoncomm
     refine ⟨⟨fun x y => ?_⟩⟩
     have hxcent : x ∈ Subgroup.center K := by simp [hcenter_top]
     exact (Subgroup.mem_center_iff.mp hxcent y).symm
-  letI : Nontrivial (K ⧸ Subgroup.center K) := hquot_nontriv
+  let : Nontrivial (K ⧸ Subgroup.center K) := hquot_nontriv
   exact {
     center_order_p := hcenter_card
     quotient_elementary_abelian :=
@@ -331,7 +331,7 @@ public theorem CFSG.derivedSubgroup_map_subtype_eq_center_map_subtype_of_isExtra
         have hxy_bot : ⁅x, y⁆ ∈ (⊥ : Subgroup S) := hcomm_le_bot hxy_mem
         have hxy_one : ⁅x, y⁆ = 1 := by simpa using hxy_bot
         exact commutatorElement_eq_one_iff_mul_comm.mp hxy_one
-      letI : IsMulCommutative S := hcommS
+      let : IsMulCommutative S := hcommS
       have hcenter_top : Subgroup.center S = ⊤ := by
         ext x
         constructor
@@ -363,7 +363,7 @@ private theorem CFSG.omega₁_centralizer_eq_derivedSubgroup_map_of_extraspecial
         (omega₁ (G := R) (p := p)).subtype := by
   classical
   let S : Subgroup R := omega₁ (G := R) (p := p)
-  letI : IsExtraspecial p S := by
+  let : IsExtraspecial p S := by
     simpa [S] using hΩextra
   let C : Subgroup R := Subgroup.centralizer ((S : Subgroup R) : Set R)
   let ΩC : Subgroup C := omega₁ (G := C) (p := p)
@@ -413,8 +413,8 @@ private theorem CFSG.omega₁_centralizer_eq_derivedSubgroup_map_of_extraspecial
   have hC_nontriv : Nontrivial C :=
     Finite.one_lt_card_iff_nontrivial.mp (lt_of_lt_of_le (Fact.out : Nat.Prime p).one_lt hC_card_ge_p)
   have hCp : IsPGroup p C := (Fact.out : IsPGroup p R).to_subgroup C
-  letI : Fact (IsPGroup p C) := ⟨hCp⟩
-  letI : Nontrivial C := hC_nontriv
+  let : Fact (IsPGroup p C) := ⟨hCp⟩
+  let : Nontrivial C := hC_nontriv
   have hΩC_ge_p : p ≤ Nat.card ΩC :=
     prime_le_natCard_omega₁_of_nontrivial_pGroup (G := C) (p := p)
   have hΩC_card : Nat.card ΩC = p := le_antisymm hΩC_le_p hΩC_ge_p
@@ -434,7 +434,7 @@ private theorem CFSG.centralizer_omega₁_cyclic_of_extraspecial_omega₁
     IsCyclic (Subgroup.centralizer (((omega₁ (G := R) (p := p)) : Subgroup R) : Set R)) := by
   classical
   let S : Subgroup R := omega₁ (G := R) (p := p)
-  letI : IsExtraspecial p S := by
+  let : IsExtraspecial p S := by
     simpa [S] using hΩextra
   let C : Subgroup R := Subgroup.centralizer ((S : Subgroup R) : Set R)
   let ΩC : Subgroup C := omega₁ (G := C) (p := p)
@@ -484,8 +484,8 @@ private theorem CFSG.centralizer_omega₁_cyclic_of_extraspecial_omega₁
   have hC_nontriv : Nontrivial C :=
     Finite.one_lt_card_iff_nontrivial.mp (lt_of_lt_of_le (Fact.out : Nat.Prime p).one_lt hC_card_ge_p)
   have hCp : IsPGroup p C := (Fact.out : IsPGroup p R).to_subgroup C
-  letI : Fact (IsPGroup p C) := ⟨hCp⟩
-  letI : Nontrivial C := hC_nontriv
+  let : Fact (IsPGroup p C) := ⟨hCp⟩
+  let : Nontrivial C := hC_nontriv
   have hΩC_ge_p : p ≤ Nat.card ΩC :=
     prime_le_natCard_omega₁_of_nontrivial_pGroup (G := C) (p := p)
   have hΩC_card : Nat.card ΩC = p := le_antisymm hΩC_le_p hΩC_ge_p
@@ -575,7 +575,7 @@ private theorem CFSG.theorem_4_16_noncentral_commutator_card
       rw [hScard]
       exact one_lt_pow₀ (Fact.out : Nat.Prime p).one_lt (by decide)
     exact Finite.one_lt_card_iff_nontrivial.mp hcard_gt
-  letI : Nontrivial S := hS_nontriv
+  let : Nontrivial S := hS_nontriv
   have hT_lt_S : T < S :=
     commutator_with_top_lt_of_nontrivial_normal_pSubgroup (R := R) (p := p) S
   have hT_p : IsPGroup p T := (Fact.out : IsPGroup p R).to_subgroup T
@@ -610,7 +610,7 @@ private theorem CFSG.theorem_4_16_noncentral_centralizer_control
   have hTnormal : T.Normal := by
     dsimp [T]
     infer_instance
-  letI : T.Normal := hTnormal
+  let : T.Normal := hTnormal
   have hTpow : ∀ x : T, x ^ p = 1 := by
     have hSexp_dvd : Monoid.exponent S ∣ p := by rw [hSexp]
     have hSforall : ∀ x : S, x ^ p = 1 :=
@@ -623,7 +623,7 @@ private theorem CFSG.theorem_4_16_noncentral_centralizer_control
   have hTelem : IsElementaryAbelian p T :=
     isElementaryAbelian_of_card_eq_p_sq_of_forall_pow_eq_one (S := T) (p := p)
       (by simpa [T] using hTcard) hTpow
-  letI : IsElementaryAbelian p T := hTelem
+  let : IsElementaryAbelian p T := hTelem
   have hD_eq_ZS : D = (Subgroup.center S).map S.subtype := by
     simpa [D] using
       derivedSubgroup_map_subtype_eq_center_map_subtype_of_isExtraspecial
@@ -773,7 +773,7 @@ private theorem CFSG.omega₁_centralizer_noncentral_eq_commutator_for_416
     theorem_4_16_noncentral_commutator_card (R := R) (p := p) S hScard hnot
   have hT_elementary : IsElementaryAbelian p T := by
     simpa [T] using hTelem
-  letI : IsElementaryAbelian p T := hT_elementary
+  let : IsElementaryAbelian p T := hT_elementary
   have hT_comm : IsMulCommutative T := hT_elementary.toIsMulCommutative
   have hT_le_CT : T ≤ C_T := by
     simpa [C_T] using (Subgroup.le_centralizer_iff_isMulCommutative (K := T)).2 hT_comm
@@ -797,13 +797,13 @@ private theorem CFSG.omega₁_centralizer_noncentral_eq_commutator_for_416
     rcases Subgroup.mem_map.mp hx with ⟨xC, hxCΩ, hxC_eq⟩
     have hxCpow : xC ^ p = 1 := by
       have hCTp : IsPGroup p C_T := (Fact.out : IsPGroup p R).to_subgroup C_T
-      letI : Fact (IsPGroup p C_T) := ⟨hCTp⟩
+      let : Fact (IsPGroup p C_T) := ⟨hCTp⟩
       have hCTrank : groupRank C_T ≤ 2 :=
         (groupRank_le_of_subgroup (R := R) C_T).trans hrank
       rcases proposition_4_8_b (R := C_T) (p := p) hpgt hCTrank with hΩexp_one | hΩexp_p
       · have hΩsub : Subsingleton ΩC := (Monoid.exp_eq_one_iff (G := ΩC)).mp
           (by simpa [ΩC] using hΩexp_one)
-        letI : Subsingleton ΩC := hΩsub
+        let : Subsingleton ΩC := hΩsub
         have hx_one : x = 1 := by
           have hxC_one : xC = 1 := by
             have hxΩ_one : (⟨xC, hxCΩ⟩ : ΩC) = 1 := Subsingleton.elim _ _
@@ -824,7 +824,7 @@ private theorem CFSG.omega₁_centralizer_noncentral_eq_commutator_for_416
         have hxC_eq' : (xC : R) = x := hxC_eq
         simpa [hxC_eq'] using hxpowR'
       simpa [Z] using isElementaryAbelian_zpowers_of_pow_eq_one_local (p := p) (G := R) hxpowR
-    letI : IsElementaryAbelian p Z := hZelem
+    let : IsElementaryAbelian p Z := hZelem
     have hZ_le_CT : Z ≤ C_T := by
       intro z hz
       rw [Subgroup.mem_zpowers_iff] at hz
@@ -894,7 +894,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         (R := R) (p := p) hrank hΩexp hΩcard
     have hΩp : IsPGroup p (omega₁ (G := R) (p := p)) :=
       (Fact.out : IsPGroup p R).to_subgroup (omega₁ (G := R) (p := p))
-    letI : Fact (IsPGroup p (omega₁ (G := R) (p := p))) := ⟨hΩp⟩
+    let : Fact (IsPGroup p (omega₁ (G := R) (p := p))) := ⟨hΩp⟩
     have hΩextraspecial : IsExtraspecial p (omega₁ (G := R) (p := p)) :=
       isExtraspecial_of_noncommutative_card_p3_exponent_p
         (K := omega₁ (G := R) (p := p)) (p := p) hΩcard hΩexp hΩnoncomm
@@ -907,8 +907,8 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
     let C : Subgroup R := Subgroup.centralizer ((S : Subgroup R) : Set R)
     have hΩextraspecialS : IsExtraspecial p S := by
       simpa [S] using hΩextraspecial
-    letI : IsExtraspecial p S := hΩextraspecialS
-    letI : S.Characteristic := by
+    let : IsExtraspecial p S := hΩextraspecialS
+    let : S.Characteristic := by
       simpa [S] using omega₁_characteristic (G := R) (p := p)
     have hΩC_eq_der :
         (omega₁ (G := C) (p := p)).map C.subtype =
@@ -919,7 +919,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
     by_cases hcent_quot : ⁅S, (⊤ : Subgroup R)⁆ ≤ (derivedSubgroup S).map S.subtype
     · have hS_normal : S.Normal := by
         infer_instance
-      letI : S.Normal := hS_normal
+      let : S.Normal := hS_normal
       have hC_normal : C.Normal := by
         dsimp [C]
         infer_instance
@@ -939,7 +939,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         hΩC_eq_der⟩
     · have hS_normal : S.Normal := by
         infer_instance
-      letI : S.Normal := hS_normal
+      let : S.Normal := hS_normal
       let T : Subgroup R := ⁅S, (⊤ : Subgroup R)⁆
       let C_T : Subgroup R := Subgroup.centralizer ((T : Subgroup R) : Set R)
       have hSexp : Monoid.exponent S = p := by
@@ -949,7 +949,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           (R := R) (p := p) S hSexp (by simpa [S] using hΩcard) hcent_quot
       have hT_elementary : IsElementaryAbelian p T := by
         simpa [T] using hTelem
-      letI : IsElementaryAbelian p T := hT_elementary
+      let : IsElementaryAbelian p T := hT_elementary
       have hSCT_top' : S ⊔ C_T = ⊤ := by
         simpa [T, C_T] using hSCT_top
       have hRmodCT_card' : Nat.card (R ⧸ C_T) = p := by
@@ -978,23 +978,23 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           _ = Nat.card T := by rw [hΩCT_eq_T]
           _ = p ^ 2 := by simpa [T] using hTcard
       have hCTp : IsPGroup p C_T := (Fact.out : IsPGroup p R).to_subgroup C_T
-      letI : Fact (IsPGroup p C_T) := ⟨hCTp⟩
+      let : Fact (IsPGroup p C_T) := ⟨hCTp⟩
       have hCTmeta : IsMetacyclic C_T :=
         proposition_4_11 (R := C_T) (p := p) hpgt (by rw [hΩCT_card])
       have hS_inv : IsInvariant A R S :=
         isInvariant_of_characteristic (A := A) (G := R) S
-      letI : IsInvariant A R S := hS_inv
+      let : IsInvariant A R S := hS_inv
       have htop_inv : IsInvariant A R (⊤ : Subgroup R) :=
         isInvariant_of_characteristic (A := A) (G := R) (⊤ : Subgroup R)
-      letI : IsInvariant A R (⊤ : Subgroup R) := htop_inv
+      let : IsInvariant A R (⊤ : Subgroup R) := htop_inv
       have hT_inv : IsInvariant A R T := by
         simpa [T] using
           isInvariant_commutator (A := A) S (⊤ : Subgroup R)
-      letI : IsInvariant A R T := hT_inv
+      let : IsInvariant A R T := hT_inv
       have hCT_inv : IsInvariant A R C_T := by
         simpa [C_T] using isInvariant_centralizer (A := A) T
-      letI : IsInvariant A R C_T := hCT_inv
-      letI : MulDistribMulAction A C_T := inferInstance
+      let : IsInvariant A R C_T := hCT_inv
+      let : MulDistribMulAction A C_T := inferInstance
       have hCT_comm_action :
           IsMulCommutative (commutatorAction (A := A) (G := C_T)) :=
         theorem_4_12_a (R := C_T) (A := A) (p := p) hpodd hcop hCTmeta
@@ -1011,16 +1011,16 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
             (R := R) (p := p) S
       have hD_normal : D.Normal := by
         rw [hD_eq_ZS]
-        letI : (Subgroup.center S).Characteristic := Subgroup.centerCharacteristic
+        let : (Subgroup.center S).Characteristic := Subgroup.centerCharacteristic
         exact ConjAct.normal_of_characteristic_of_normal
-      letI : D.Normal := hD_normal
+      let : D.Normal := hD_normal
       have hD_eq_comm : D = ⁅S, S⁆ := by
         change (derivedSubgroup S).map S.subtype = ⁅S, S⁆
         rw [derivedSubgroup, derivedSeries_one, Subgroup.map_subtype_commutator]
       have hD_inv : IsInvariant A R D := by
         rw [hD_eq_comm]
         simpa using isInvariant_commutator (A := A) S S
-      letI : IsInvariant A R D := hD_inv
+      let : IsInvariant A R D := hD_inv
       have hD_le_C : D ≤ C := by
         rw [hD_eq_ZS]
         intro x hx
@@ -1050,7 +1050,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         have hCT_normal : C_T.Normal := by
           dsimp [C_T]
           infer_instance
-        letI : C_T.Normal := hCT_normal
+        let : C_T.Normal := hCT_normal
         have hgen_mem :
             ∀ a : A, ∀ r : R, r ∈ S ⊔ C_T → r⁻¹ * (a • r) ∈ C_T := by
           intro a r hr
@@ -1134,18 +1134,18 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
       have hC_normal : C.Normal := by
         dsimp [C]
         infer_instance
-      letI : C.Normal := hC_normal
+      let : C.Normal := hC_normal
       let qC : R →* R ⧸ C := QuotientGroup.mk' C
       have hC_inv : IsInvariant A R C := by
         simpa [C] using isInvariant_centralizer (A := A) S
-      letI : IsInvariant A R C := hC_inv
-      letI : MulDistribMulAction A (R ⧸ C) :=
+      let : IsInvariant A R C := hC_inv
+      let : MulDistribMulAction A (R ⧸ C) :=
         quotientMulDistribMulAction (A := A) (G := R) C hC_inv
       let Q : Subgroup (R ⧸ C) := C_T.map qC
       have hQ_inv : IsInvariant A (R ⧸ C) Q := by
         simpa [Q, qC] using
           isInvariant_map_quotient (A := A) (G := R) (N := C) C_T
-      letI : IsInvariant A (R ⧸ C) Q := hQ_inv
+      let : IsInvariant A (R ⧸ C) Q := hQ_inv
       have hTmap_card : Nat.card (T.map qC) = p := by
         let qT : T →* R ⧸ C := qC.comp T.subtype
         have hrange_eq : qT.range = T.map qC := by
@@ -1206,11 +1206,11 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
             exact natCard_subgroupOf_eq Bq Q hBq_le_Q
           _ = p := by simpa [Bq] using hTmap_card
       have hB_inv : IsInvariant A Q B := by
-        letI : IsInvariant A (R ⧸ C) Bq := hBq_inv
+        let : IsInvariant A (R ⧸ C) Bq := hBq_inv
         simpa [B, Bq, Q] using isInvariant_subgroupOf Bq Q
       obtain ⟨y, hyS, hy_not_T⟩ :
           ∃ y : R, y ∈ S ∧ y ∉ T :=
-        SetLike.not_le_iff_exists.mp (not_le_of_gt hT_lt_S)
+        IsConcreteLE.not_le_iff_exists.mp (not_le_of_gt hT_lt_S)
       let θ : C_T →* T :=
         { toFun := fun c =>
             ⟨⁅y, (c : R)⁆, by
@@ -1257,7 +1257,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         infer_instance
       have hTsub_normal : Tsub.Normal :=
         Subgroup.Normal.subgroupOf (G := R) (hH := hT_normal) S
-      letI : Tsub.Normal := hTsub_normal
+      let : Tsub.Normal := hTsub_normal
       have hTsub_card : Nat.card Tsub = p ^ 2 := by
         calc
           Nat.card Tsub = Nat.card T := by
@@ -1284,7 +1284,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           (QuotientGroup.eq_one_iff (N := Tsub) (x := yS)).1 hyq
         exact hy_not_T hyTsub
       have hzy_order : orderOf (qTsub yS) = p := by
-        letI : Fintype (S ⧸ Tsub) := Fintype.ofFinite (S ⧸ Tsub)
+        let : Fintype (S ⧸ Tsub) := Fintype.ofFinite (S ⧸ Tsub)
         have hpow : (qTsub yS) ^ p = 1 := by
           have hcard_pow := pow_card_eq_one (x := qTsub yS)
           have hcard_fintype : Fintype.card (S ⧸ Tsub) = p := by
@@ -1392,12 +1392,12 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           have hCsub_mem : cT ^ p ∈ C.subgroupOf C_T := by
             simpa [hker_theta_eq_Csub] using hker_mem
           exact hCsub_mem
-      letI : IsElementaryAbelian p Q := hQ_elem
-      letI : IsInvariant A Q B := hB_inv
+      let : IsElementaryAbelian p Q := hQ_elem
+      let : IsInvariant A Q B := hB_inv
       obtain ⟨Y, hBY, hY_inv⟩ :=
         exists_isCompl_isInvariant_of_elementaryAbelian_coprime
           (G := Q) (A := A) (p := p) hcop B
-      letI : IsInvariant A Q Y := hY_inv
+      let : IsInvariant A Q Y := hY_inv
       let Ybar : Subgroup (R ⧸ C) := Y.map Q.subtype
       have hYbar_le_Q : Ybar ≤ Q := by
         exact Subgroup.map_subtype_le Y
@@ -1415,14 +1415,14 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
             ((a⁻¹ • yq : Q) : R ⧸ C) = a⁻¹ • (yq : R ⧸ C) := rfl
             _ = a⁻¹ • (a • g) := congrArg (fun z : R ⧸ C => a⁻¹ • z) hg
             _ = g := inv_smul_smul a g
-      letI : IsInvariant A (R ⧸ C) Ybar := hYbar_inv
+      let : IsInvariant A (R ⧸ C) Ybar := hYbar_inv
       let X : Subgroup R := Ybar.comap qC
       have hX_inv : IsInvariant A R X := by
         refine isInvariant_comap_quotient
           (A := A) (G := R) (N := C) Ybar ?_
         intro a g
         simp [MulAction.Quotient.smul_mk]
-      letI : IsInvariant A R X := hX_inv
+      let : IsInvariant A R X := hX_inv
       have hC_le_X : C ≤ X := by
         simpa [X, qC, QuotientGroup.ker_mk'] using
           (Subgroup.ker_le_comap (f := qC) (H := Ybar))
@@ -1509,13 +1509,13 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
               C.subtype_injective
           _ = p := hΩC_card_eq_p
       have hXp : IsPGroup p X := (Fact.out : IsPGroup p R).to_subgroup X
-      letI : Fact (IsPGroup p X) := ⟨hXp⟩
+      let : Fact (IsPGroup p X) := ⟨hXp⟩
       have hD_nontriv : Nontrivial D := by
         have hD_card_gt_one : 1 < Nat.card D := by
           rw [hDcard]
           exact (Fact.out : Nat.Prime p).one_lt
         exact Finite.one_lt_card_iff_nontrivial.mp hD_card_gt_one
-      letI : Nontrivial D := hD_nontriv
+      let : Nontrivial D := hD_nontriv
       have hX_nontriv : Nontrivial X := by
         rcases exists_ne (1 : D) with ⟨d, hdne⟩
         refine ⟨⟨⟨(d : R), hC_le_X (hD_le_C d.2)⟩, 1, ?_⟩⟩
@@ -1523,7 +1523,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         apply hdne
         apply Subtype.ext
         simpa using congrArg Subtype.val hdX
-      letI : Nontrivial X := hX_nontriv
+      let : Nontrivial X := hX_nontriv
       have hΩX_card_ge_p : p ≤ Nat.card (omega₁ (G := X) (p := p)) :=
         prime_le_natCard_omega₁_of_nontrivial_pGroup_early (G := X) (p := p)
       have hΩX_card : Nat.card (omega₁ (G := X) (p := p)) = p :=
@@ -1531,9 +1531,9 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
       have hXcyc : IsCyclic X :=
         isCyclic_of_natCard_omega₁_eq_prime (G := X) (p := p) hpodd hΩX_card
       have hCT_le_TX : C_T ≤ T ⊔ X := by
-        letI : CommGroup Q := IsMulCommutative.instCommGroup
-        letI : B.Normal := Subgroup.normal_of_isMulCommutative B
-        letI : T.Normal := hT_normal
+        let : CommGroup Q := IsMulCommutative.instCommGroup
+        let : B.Normal := Subgroup.normal_of_isMulCommutative B
+        let : T.Normal := hT_normal
         intro c hcCT
         have hcQ : qC c ∈ Q := ⟨c, hcCT, rfl⟩
         let cq : Q := ⟨qC c, hcQ⟩
@@ -1597,12 +1597,12 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           simpa [hcomm_eq] using hprod
         exact hcent_quot (by simpa [T, D] using hT_le_D)
       obtain ⟨z, hzT, hz_not_D⟩ : ∃ z : R, z ∈ T ∧ z ∉ D :=
-        SetLike.not_le_iff_exists.mp (by simpa [T, D] using hcent_quot)
+        IsConcreteLE.not_le_iff_exists.mp (by simpa [T, D] using hcent_quot)
       let zT : T := ⟨z, hzT⟩
       let DsubT : Subgroup T := D.subgroupOf T
       have hDsubT_normal : DsubT.Normal :=
         Subgroup.Normal.subgroupOf (G := R) (hH := hD_normal) T
-      letI : DsubT.Normal := hDsubT_normal
+      let : DsubT.Normal := hDsubT_normal
       have hDsubT_card : Nat.card DsubT = p := by
         calc
           Nat.card DsubT = Nat.card D := by
@@ -1629,7 +1629,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           (QuotientGroup.eq_one_iff (N := DsubT) (x := zT)).1 hzq
         exact hz_not_D hzDsubT
       have hzz_order : orderOf (qDsubT zT) = p := by
-        letI : Fintype (T ⧸ DsubT) := Fintype.ofFinite (T ⧸ DsubT)
+        let : Fintype (T ⧸ DsubT) := Fintype.ofFinite (T ⧸ DsubT)
         have hpow : (qDsubT zT) ^ p = 1 := by
           have hcard_pow := pow_card_eq_one (x := qDsubT zT)
           have hcard_fintype : Fintype.card (T ⧸ DsubT) = p := by
@@ -1833,7 +1833,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         have hyz_pow_p : ⁅y, z⁆ ^ p = 1 := by
           let yzD : D := ⟨⁅y, z⁆, hyz_mem_D⟩
           have hpowD : yzD ^ p = 1 := by
-            letI : Fintype D := Fintype.ofFinite D
+            let : Fintype D := Fintype.ofFinite D
             have hcard_pow := pow_card_eq_one (x := yzD)
             have hcard : Fintype.card D = p := by
               simpa [Nat.card_eq_fintype_card] using hDcard
@@ -1932,8 +1932,8 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
         by simpa using zmod_natCast_eq_of_pow_eq_of_orderOf hyz_order hyz_pow_i_eq_jk
       have hDsubT_inv : IsInvariant A T DsubT := by
         simpa [DsubT] using isInvariant_subgroupOf D T
-      letI : IsInvariant A T DsubT := hDsubT_inv
-      letI : MulDistribMulAction A (T ⧸ DsubT) :=
+      let : IsInvariant A T DsubT := hDsubT_inv
+      let : MulDistribMulAction A (T ⧸ DsubT) :=
         quotientMulDistribMulAction (A := A) (G := T) DsubT hDsubT_inv
       let xyT : T := ⟨⁅x, y⁆, hxy_mem_T⟩
       have hxyq_ne_one : qDsubT xyT ≠ 1 := by
@@ -1942,7 +1942,7 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           (QuotientGroup.eq_one_iff (N := DsubT) (x := xyT)).1 hxyq
         exact hxy_not_D hxyDsub
       have hxyq_order : orderOf (qDsubT xyT) = p := by
-        letI : Fintype (T ⧸ DsubT) := Fintype.ofFinite (T ⧸ DsubT)
+        let : Fintype (T ⧸ DsubT) := Fintype.ofFinite (T ⧸ DsubT)
         have hpow : (qDsubT xyT) ^ p = 1 := by
           have hcard_pow := pow_card_eq_one (x := qDsubT xyT)
           have hcard_fintype : Fintype.card (T ⧸ DsubT) = p := by
@@ -2087,8 +2087,8 @@ public theorem CFSG.theorem_4_16 {R A : Type*} [Group R] [Finite R] [Nontrivial 
           _ = (i : ZMod p) * 1 := by rw [mul_one]
       have hTsub_inv : IsInvariant A S Tsub := by
         simpa [Tsub] using isInvariant_subgroupOf T S
-      letI : IsInvariant A S Tsub := hTsub_inv
-      letI : MulDistribMulAction A (S ⧸ Tsub) :=
+      let : IsInvariant A S Tsub := hTsub_inv
+      let : MulDistribMulAction A (S ⧸ Tsub) :=
         quotientMulDistribMulAction (A := A) (G := S) Tsub hTsub_inv
       have hα_qy_eq_pow_j : α • qTsub yS = (qTsub yS) ^ j := by
         calc

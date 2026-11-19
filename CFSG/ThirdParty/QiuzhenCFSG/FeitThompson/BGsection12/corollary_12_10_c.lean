@@ -32,7 +32,7 @@ public theorem CFSG.section12_subgroupCentralizerIn_normal_of_normal
     section10NormalIn (subgroupCentralizerIn E A) E := by
   classical
   have hAE : A ≤ E := hAnorm.1
-  haveI : (A.subgroupOf E).Normal := hAnorm.2
+  have : (A.subgroupOf E).Normal := hAnorm.2
   have hC_le_E : subgroupCentralizerIn E A ≤ E := inf_le_left
   refine ⟨hC_le_E, ?_⟩
   have hCsub_eq :
@@ -82,7 +82,7 @@ private theorem CFSG.section12_rankTwo_tau2_disjoint_E3_subgroupOf
   apply section12_card_eq_one_of_no_prime_dvd
   intro q hqdiv
   have hq_eq_p : q = p := by
-    haveI : Fact p.val.Prime := ⟨p.2⟩
+    have : Fact p.val.Prime := ⟨p.2⟩
     have hqdiv_A : q.val ∣ Nat.card (A.subgroupOf E) :=
       hqdiv.trans (Subgroup.card_dvd_of_le (show
         (A.subgroupOf E) ⊓ (E₃.subgroupOf E) ≤ A.subgroupOf E from inf_le_left))
@@ -113,8 +113,8 @@ private theorem CFSG.section12_E3_le_centralizer_rankTwo_tau2
   have hE3norm : section10NormalIn E₃ E :=
     (lemma_12_1_b (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) hM hE).2
-  haveI : (A.subgroupOf E).Normal := hAnorm.2
-  haveI : (E₃.subgroupOf E).Normal := hE3norm.2
+  have : (A.subgroupOf E).Normal := hAnorm.2
+  have : (E₃.subgroupOf E).Normal := hE3norm.2
   have hInfBot : A.subgroupOf E ⊓ E₃.subgroupOf E = ⊥ :=
     section12_rankTwo_tau2_disjoint_E3_subgroupOf
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂) (E₁ := E₁)

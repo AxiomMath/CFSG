@@ -79,6 +79,7 @@ private lemma d_notMem_DalphaStar (hC : HypothesisC D) : hC.d ∉ DalphaStar D h
   rw [hC.alpha_eq_normSet_diff] at hdα
   exact hdα.2 hdE
 
+omit [Finite G] in
 private lemma mem_DalphaStar_of_mem_range (hF : ElevenTwoFrame hC S T r) (i : Fin 3) :
     ((r i : Halpha D hC.alpha) : G) ∈ DalphaStar D hC.alpha := by
   have hri : r i ∈ DstarH hC := by
@@ -122,7 +123,7 @@ private lemma exists_mul_mem_centralizer_d_inf (h : ElevenTwoHyp hC) (hF : Eleve
     have hle : Subgroup.zpowers hC.d ≤ Subgroup.centralizer ({(m : G)} : Set G) :=
       Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr hm.symm)
     simpa using (Subgroup.mem_centralizer_singleton_iff.mp (hle ha')).symm
-  haveI : A.Normal := hAnorm
+  have : A.Normal := hAnorm
   have hsup : A ⊔ B = ⊤ := by
     have hsub := Subgroup.subgroupOf_sup (A := Subgroup.zpowers hC.d)
       (A' := Halpha D hC.alpha ⊓ Subgroup.centralizer {frameT hC r}) hAle hBle
@@ -151,9 +152,9 @@ private lemma localGroup_centralizes_oddCore_image (h : ElevenTwoHyp hC)
   set PG : Subgroup G := NG ⊓ CG with hPG
   let ι : ↥LH →* G := (Halpha D hC.alpha).subtype.comp LH.subtype
   obtain ⟨eB⟩ := hF.frame.bender
-  haveI hPSLperfect : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model 2) :=
+  have hPSLperfect : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model 2) :=
     SetupQ.isPerfect_psl2Model (by norm_num)
-  haveI hperfQ : Group.IsPerfect (↥LH ⧸ Subgroup.center ↥LH) :=
+  have hperfQ : Group.IsPerfect (↥LH ⧸ Subgroup.center ↥LH) :=
     Group.IsPerfect.ofSurjective (f := eB.symm.toMonoidHom) eB.symm.surjective
   let J : Subgroup ↥LH := ⁅(⊤ : Subgroup ↥LH), (⊤ : Subgroup ↥LH)⁆
   have hJperf : ⁅J, J⁆ = J :=

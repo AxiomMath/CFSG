@@ -22,7 +22,7 @@ theorem card_Wt_mul_le_card_inf_Q1 (hc : Ctx M Q Z B) {α : G} (hαM : α ∈ M)
     Nat.card ↥W * Nat.card ↥Z ≤ Nat.card ↥(W ⊓ Q1 hc α) * Nat.card ↥T := by
   have hZQ : Z ≤ Q := hc.Z_le_Q
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule (sec7ctr_secHyp hc (le_refl M))
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   let α' : ↥M := ⟨α, hαM⟩
   let ε : Md →+ Md :=
     AddMonoidHom.mk' (fun a => α' • a - a) (fun a b => by rw [smul_add]; abel)
@@ -106,7 +106,7 @@ theorem sec73CardAlpha_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310Roo
       Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc s) * Nat.card ↥(Ut Q Z s) := by
     intro s hsL
     have hsM : s ∈ M := hc.LB_le_M hsL
-    haveI : (Z.subgroupOf (Ut Q Z s)).Normal :=
+    have : (Z.subgroupOf (Ut Q Z s)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q hsM hv)))
     exact card_mul_card_of_isChiIso (hc.isChiIso_Q1_Ut hsL) (hQ1Q s) (le_sup_right : Z ≤ Ut Q Z s)

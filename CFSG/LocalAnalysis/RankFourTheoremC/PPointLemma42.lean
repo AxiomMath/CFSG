@@ -53,7 +53,7 @@ theorem centralizer_le_of_not_mem_zpowers {P : Sylow 3 G} (hin : PPointThreeInpu
   have huo : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hP4 : 4 ≤ Open.pRank 3 (P : Subgroup G) := four_le_pRank_sylow hloc.beta P
   have hrank : 3 ≤ Open.pRank 3 (M ⊓ centralizer ({u} : Set G)) :=
-    (three_le_pRank_inf_centralizer hin.h313 P.isPGroup' hP4 huP hu3).trans
+    (three_le_pRank_inf_centralizer hin.h313 P.isPGroup hP4 huP hu3).trans
       (CFSG.PreuniquenessRankFour.Helpers.pRank_mono 3 hp (inf_le_inf_right _ hPM))
   obtain ⟨m, hmM, hu'⟩ := exists_isPPoint hFC hloc (show IsPElement 3 M u from
     ⟨hPM huP, huo, hrank, hCM⟩)

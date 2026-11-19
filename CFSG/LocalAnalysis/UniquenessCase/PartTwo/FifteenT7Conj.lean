@@ -27,11 +27,13 @@ variable {G : Type} [Group G] [Finite G]
           gamma15 D.M V₀ V h.hyp151.isElemAbelian L = 3 ∧
             s15 D.M V₀ V h.hyp151.isElemAbelian L = 2
 
+omit [Finite G] in
 theorem s15_T7_conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 theorem s15_T7_config_conj (M E U F C K : Subgroup G) (g : G)
     (h : s15T7Config (conjSubgroup M g) (conjSubgroup E g) (conjSubgroup U g) F C K) :
     s15T7Config M E U (conjSubgroup F g⁻¹) (conjSubgroup C g⁻¹) (conjSubgroup K g⁻¹) := by

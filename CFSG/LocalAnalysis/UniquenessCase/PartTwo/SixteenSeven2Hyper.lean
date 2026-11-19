@@ -39,8 +39,9 @@ theorem s16c167_barSub_mem_calABar_of_hyperplanes {M V₁ V A : Subgroup G}
       exact hhyp B hBA h1
   exact (congrArg fixV hbarB).symm.trans (fixV_barSub_eq_of_preCTilde_eq hV hpre)
 
+omit [Finite G] in
 theorem s16c167_barSub_le_stabSub_wTil {V₀ V L A : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hAst : A ≤ stabTil V₀ V) (hAW : A ≤ normalizer (wSub V₀ V hV L : Set G)) :
+    (_hAst : A ≤ stabTil V₀ V) (hAW : A ≤ normalizer (wSub V₀ V hV L : Set G)) :
     barSub V₀ V hV A ≤ stabSub (wTil V₀ V hV L) := by
   intro φ hφ
   obtain ⟨g, hgA, rfl⟩ := (mem_barSub V₀ V hV A φ).1 hφ

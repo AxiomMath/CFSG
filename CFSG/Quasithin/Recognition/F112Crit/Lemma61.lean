@@ -12,6 +12,7 @@ universe u
 
 variable {G : Type u} [Group G] [Finite G] {L₁ L₂ S : Subgroup G}
 
+omit [Finite G] in
 theorem P₁_le_normalizer (h : Hyp111R L₁ L₂ S) :
     P₁ L₁ L₂ S ≤ Subgroup.normalizer (L₁ : Set G) :=
   sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left h).1

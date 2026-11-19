@@ -12,10 +12,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem orderOf_conj' (z g : G) : orderOf (g⁻¹ * z * g) = orderOf z := by
   have h3 := orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulEquiv.injective _) z
   simpa [MulAut.conj_apply] using h3
 
+omit [Finite G] in
 private theorem involution_of_mem {z : G} {n : ℕ} (hC : Config z n) {b : G}
     (hb : Fused z b) : b ^ 2 = 1 ∧ b ≠ 1 := by
   obtain ⟨g, rfl⟩ := hb
@@ -53,6 +55,7 @@ private theorem mul_z_mem_F {z : G} {n : ℕ} (hC : Config z n) {b : G}
 private def FSet (G : Type) [Group G] (z : G) : Set G :=
   {w : G | Fused z w ∧ w ∈ coreAt z ∧ w ≠ z}
 
+omit [Finite G] in
 private theorem mem_FSet {z w : G} : w ∈ FSet G z ↔ Fused z w ∧ w ∈ coreAt z ∧ w ≠ z :=
   Iff.rfl
 
@@ -71,6 +74,7 @@ private theorem mem_PairSet {z t : G} :
     t ∈ PairSet G z ↔ (Fused z t ∧ t ∈ coreAt z ∧ t ≠ z) ∧ idxG G t < idxG G (t * z) :=
   Iff.rfl
 
+omit [Finite G] in
 private theorem z_mul_z {z : G} {n : ℕ} (hC : Config z n) (w : G) : w * z * z = w := by
   have hz2 : z ^ 2 = 1 := by
     rw [← hC.orderOf_eq]
@@ -106,7 +110,7 @@ private theorem CaseA.exists_partner {z : G} {n : ℕ} (hC : Config z n) (hA : C
     (hb : Fused z b) (hbQ : b ∈ coreAt z) (hbz : b ≠ z) :
     ∃ c, Fused z c ∧ c ∈ coreAt z ∧ c ≠ z ∧ b * c ≠ c * b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hba : b * a = a * b := hcon a ha haQ haz
   have hbx : b * x = x * b := hcon x hx hxQ hxz
   exact hax (CaseA.commute_of_commute hC hA hb hbQ hbz ha haQ hx hxQ hba hbx)
@@ -226,6 +230,7 @@ private theorem card_inter_centralizer_le {a x : G} {n : ℕ} (hCa : Config a n)
   exact hCa.card_elem_le_of_disjoint _ (inf_le_left.trans hP)
     (isElemAbelian_two_of_sq _ hsq) hdisj
 
+omit [Finite G] in
 private theorem card_centralizer_core {a z : G} {n : ℕ} (hCa : Config a n)
     (hzQ : z ∈ coreAt a) (hzZ : z ∉ centerAt a) :
     Nat.card (coreAt a ⊓ centralizer ({z} : Set G) : Subgroup G) = 2 ^ (2 * n + 1) := by
@@ -234,6 +239,7 @@ private theorem card_centralizer_core {a z : G} {n : ℕ} (hCa : Config a n)
   have h2 : (2 : ℕ) ^ (2 * n + 2) = 2 ^ (2 * n + 1) * 2 := by ring
   omega
 
+omit [Finite G] in
 private theorem conj_eq_of_comm {p x w : G} (hpw : p * w = w * p) (h : p * x * p⁻¹ = w) :
     x = w := by
   calc x = p⁻¹ * (p * x * p⁻¹) * p := by group
@@ -241,6 +247,7 @@ private theorem conj_eq_of_comm {p x w : G} (hpw : p * w = w * p) (h : p * x * p
     _ = p⁻¹ * (p * w) := by rw [hpw]
     _ = w := by group
 
+omit [Finite G] in
 private theorem conj_mem_FSet {z : G} {n : ℕ} (hC : Config z n) {p x : G}
     (hp : p ∈ centralizer ({z} : Set G)) (hx : x ∈ FSet G z) : p * x * p⁻¹ ∈ FSet G z := by
   rw [mem_FSet] at hx ⊢
@@ -253,6 +260,7 @@ private theorem conj_mem_FSet {z : G} {n : ℕ} (hC : Config z n) {p x : G}
     apply hxz
     exact conj_eq_of_comm hpz h
 
+omit [Finite G] in
 private theorem z_mem_core_base {z : G} {n : ℕ} (hC : Config z n) {g a : G}
     (hg : g⁻¹ * z * g = a) (haQ : a ∈ coreAt z) : z ∈ coreAt a := by
   have hCa : Config a n := by
@@ -284,6 +292,7 @@ private theorem z_not_mem_center_base {z a : G} {n : ℕ} (hC : Config z n) {g :
   intro hz
   exact haz (hCa.eq_of_mem_center hz hC.orderOf_eq).symm
 
+omit [Finite G] in
 private theorem conj_ne_base {z a x : G} {n : ℕ} (hC : Config z n) (hCa : Config a n)
     (ha : Fused z a) (haQ : a ∈ coreAt z) (hax : a * x ≠ x * a) {p : G}
     (hpa : p ∈ coreAt a) (hpz : p ∈ centralizer ({z} : Set G)) :
@@ -327,10 +336,11 @@ private theorem conj_ne_base {z a x : G} {n : ℕ} (hC : Config z n) (hCa : Conf
       (p : G) * ((q : G) * y * (q : G)⁻¹) * (p : G)⁻¹
     simp [mul_assoc]
 
+omit [Finite G] in
 private theorem card_eq_orbit_mul_stab (P : Subgroup G) (x : G) :
     Nat.card P = Set.ncard {w : G | ∃ p ∈ P, p * x * p⁻¹ = w} *
       Nat.card (P ⊓ centralizer ({x} : Set G) : Subgroup G) := by
-  letI := conjActP P
+  let := conjActP P
   have hidx := MulAction.index_stabilizer P x
   have hmul := (MulAction.stabilizer P x).index_mul_card
   have horb : MulAction.orbit P x = {w : G | ∃ p ∈ P, p * x * p⁻¹ = w} := by
@@ -350,6 +360,7 @@ private theorem card_eq_orbit_mul_stab (P : Subgroup G) (x : G) :
   rw [hidx, horb, hstab, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv] at hmul
   exact hmul.symm
 
+omit [Finite G] in
 private theorem orbit_mem_F {z a x : G} {n : ℕ} (hC : Config z n) (hCa : Config a n)
     (ha : Fused z a) (haQ : a ∈ coreAt z) (hax : a * x ≠ x * a) (hxF : x ∈ FSet G z) {p : G}
     (hp : p ∈ coreAt a ⊓ centralizer ({z} : Set G)) :
@@ -365,7 +376,7 @@ private theorem four_mul_lt_pow {n : ℕ} (hn : 3 ≤ n) : 4 * n < 2 ^ (n + 1) :
     rw [pow_succ]
     omega
 
-theorem CaseA.ncard_ge (hC : Config z n) (hA : CaseA z) {a x : G}
+theorem CaseA.ncard_ge (hC : Config z n) (_hA : CaseA z) {a x : G}
     (ha : Fused z a) (haQ : a ∈ coreAt z) (haz : a ≠ z)
     (hx : Fused z x) (hxQ : x ∈ coreAt z) (hxz : x ≠ z) (hax : a * x ≠ x * a) :
     2 ^ (n + 1) + 2 ≤ Set.ncard {w : G | Fused z w ∧ w ∈ coreAt z ∧ w ≠ z} := by

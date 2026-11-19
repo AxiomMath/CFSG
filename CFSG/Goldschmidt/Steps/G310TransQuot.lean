@@ -191,18 +191,18 @@ theorem nconj_of_quotient_odd {N : Subgroup X} [N.Normal] (hN : ¬ 2 ∣ Nat.car
     (hP' : IsMaxInv (A : Subgroup X) p P') : NConj (A : Subgroup X) P P' := by
   have hp : p.Prime := Fact.out
   set f := QuotientGroup.mk' N with hf
-  obtain ⟨y, hy, hyP⟩ := hQ _ _ (isMaxInv_map_mk hN A.isPGroup' hp2 hP)
-    (isMaxInv_map_mk hN A.isPGroup' hp2 hP')
+  obtain ⟨y, hy, hyP⟩ := hQ _ _ (isMaxInv_map_mk hN A.isPGroup hp2 hP)
+    (isMaxInv_map_mk hN A.isPGroup hp2 hP')
   obtain ⟨x, hx, rfl⟩ := exists_mem_normalizer_of_mk A hy
   have hP₁ := hP.conjSub hx
   have hmap : (conjSub x P).map f = P'.map f := by rw [map_conjSub, hyP]
   have hsup : conjSub x P ⊔ N = P' ⊔ N := by
     have h1 := congrArg (Subgroup.comap f) hmap
     rwa [Subgroup.comap_map_eq, Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at h1
-  obtain ⟨hS₁, -⟩ := fusionIsSylowIn_sup_of_isMaxInv hN A.isPGroup' hp2 hP₁
+  obtain ⟨hS₁, -⟩ := fusionIsSylowIn_sup_of_isMaxInv hN A.isPGroup hp2 hP₁
   rw [hsup] at hS₁
-  obtain ⟨hS', hodd⟩ := fusionIsSylowIn_sup_of_isMaxInv hN A.isPGroup' hp2 hP'
-  obtain ⟨c, hc, hcP⟩ := exists_conj_of_invariant_sylows Nat.prime_two hp A.isPGroup' hodd
+  obtain ⟨hS', hodd⟩ := fusionIsSylowIn_sup_of_isMaxInv hN A.isPGroup hp2 hP'
+  obtain ⟨c, hc, hcP⟩ := exists_conj_of_invariant_sylows Nat.prime_two hp A.isPGroup hodd
     (le_normalizer_sup hP'.isInv.2 le_normalizer_of_normal) hS₁ hS' hP₁.isInv.2 hP'.isInv.2
   refine ⟨x * c⁻¹, Subgroup.mul_mem _ hx
     (Subgroup.inv_mem _ (Subgroup.centralizer_le_normalizer _ (Subgroup.mem_inf.mp hc).2)), ?_⟩

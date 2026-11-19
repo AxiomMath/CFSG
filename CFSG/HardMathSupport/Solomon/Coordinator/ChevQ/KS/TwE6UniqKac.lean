@@ -147,7 +147,7 @@ theorem idxNode_zero' : idxNode (r := Tag.E6.rank) 0 = none := by
 theorem idxNode_succ' {j : ℕ} (hj : j < Tag.E6.rank) :
     idxNode (r := Tag.E6.rank) (j + 1) = some ⟨j, hj⟩ := by
   unfold idxNode
-  rw [dif_pos ⟨by omega, by simpa using hj⟩]
+  rw [dite_eq_left ⟨by omega, by simpa using hj⟩]
   rfl
 
 theorem mem_zeroIdx_iff (μ : Fin Tag.E6.rank → ℤ) (n : ℕ) :
@@ -162,7 +162,6 @@ theorem mem_zeroIdx_iff (μ : Fin Tag.E6.rank → ℤ) (n : ℕ) :
       simp [KacData.IsZ, zlC, hd]
     · rw [idxNode_succ' (j := 0) (by decide)]
       simp [KacData.IsZ, zlC]
-      try rfl
     · rw [idxNode_succ' (j := 1) (by decide)]
       simp [KacData.IsZ, zlC]
       try rfl
@@ -186,7 +185,7 @@ theorem mem_zeroIdx_iff (μ : Fin Tag.E6.rank → ℤ) (n : ℕ) :
 
 theorem compIdx_congr {n : ℕ} {tp : ℕ → ℕ → List ℕ} {zl zl' : List ℕ}
     (h : ∀ w, w ∈ zl ↔ w ∈ zl') (x : ℕ) : compIdx n tp zl x = compIdx n tp zl' x := by
-  simp [compIdx, List.elem_eq_mem, h]
+  simp [compIdx, h]
 
 theorem lt_of_mem_compIdx {n : ℕ} {tp : ℕ → ℕ → List ℕ} {zl : List ℕ} {x c : ℕ}
     (h : c ∈ compIdx n tp zl x) : c < n := by
@@ -203,7 +202,7 @@ theorem comp_eq_cmpF {μ : Fin Tag.E6.rank → ℤ} {x : Option (Fin Tag.E6.rank
     (nodeIdx x)
   rw [hcong]
   ext y
-  simp only [Set.mem_setOf_eq, cmpF, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+  simp only [Set.mem_ofPred_eq, cmpF, Finset.mem_coe, List.mem_toFinset, List.mem_map]
   constructor
   · intro hy
     exact ⟨nodeIdx y, hy, idxNode_nodeIdx y⟩
@@ -229,7 +228,7 @@ theorem kac_pinned_classes {L : Type} [Field L] [IsAlgClosed L] (h3 : ((3 : ℕ)
         (componentRoots (rootCharHom a) i).ncard = kacCount Tag.E6 kacE6.θ C := by
   classical
   have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot ((hu.unit : Lˣ) : L) 3 := by simpa using hζ₀
   obtain ⟨w, μ, hμ, hw⟩ := kacE6.exists_weyl_normal (by norm_num : 0 < 3) hζ a hap

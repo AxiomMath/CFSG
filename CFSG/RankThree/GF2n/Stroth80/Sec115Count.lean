@@ -47,11 +47,13 @@ noncomputable def xbarModConjAct (hc : Ctx M Q Z B) :
   (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom
     ↥(Xbar M Q Z B)).comp (barLBConjAct hc)
 
+omit [Finite G] in
 theorem xbarModConjAct_apply (hc : Ctx M Q Z B) (l : ↥(bar M Q (LB M Q B))) :
     xbarModConjAct hc l = centerQuotientHom ↥(Xbar M Q Z B) (barLBConjAct hc l) := by
   unfold xbarModConjAct
   exact MonoidHom.comp_apply _ _ _
 
+omit [Finite G] in
 theorem xbarModConjAct_apply_mk (hc : Ctx M Q Z B) (l : ↥(bar M Q (LB M Q B)))
     (x : ↥(Xbar M Q Z B)) :
     xbarModConjAct hc l (QuotientGroup.mk' (Subgroup.center ↥(Xbar M Q Z B)) x) =

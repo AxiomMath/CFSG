@@ -27,7 +27,7 @@ theorem noSmall_lie_tits (hv : TauCeti.LieTypeIndex.tits.Valid) :
   have hγ1 : MulAut.congr e α ≠ 1 := by
     intro h1
     exact hα1 ((MulAut.congr e).injective (h1.trans (map_one (MulAut.congr e)).symm))
-  haveI hsolv : Group.IsSolvable ↥(fixSubgroup α) :=
+  have hsolv : Group.IsSolvable ↥(fixSubgroup α) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SRT.isSolvable_fixSubgroup_of_congr e α
       (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_titsD
         CFSG.Sporadic.Schreier.Tits.titsD_center hγ3 hγ1)

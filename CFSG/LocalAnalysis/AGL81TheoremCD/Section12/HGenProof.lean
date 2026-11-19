@@ -18,12 +18,14 @@ open CFSG.LocalAnalysis.AGL81TheoremCD.Section12
 
 variable {G : Type} [Group G] [Finite G] {M Q H : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge [Fact p.Prime] {K : Subgroup G} (hQK : Q ≤ K)
     (hQ : IsPGroup p Q) : ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ Q ≤ P := by
   obtain ⟨S, hS⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
   exact ⟨(S : Subgroup K).map K.subtype, ⟨S, rfl⟩,
     fun q hq => ⟨⟨q, hQK hq⟩, hS (Subgroup.mem_comap.mpr hq), rfl⟩⟩
 
+omit [Finite G] in
 theorem le_kSub_of_isElemAbelian [Fact p.Prime] {E : Subgroup G} (hL : pLayerIn p H ≤ M)
     (hE : IsElemAbelian p E) (hEH : E ≤ H) : E ≤ kSub p M H := by
   intro x hx
@@ -37,7 +39,7 @@ theorem le_kSub_of_isElemAbelian [Fact p.Prime] {E : Subgroup G} (hL : pLayerIn 
 
 theorem le_kSub_sup_inf (h : TwelveCtx G M p Q H) (hI : NineNineOneInput)
     (hL : pLayerIn p H ≤ M) : H ≤ kSub p M H ⊔ (H ⊓ M) := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨E₀, hE₀Q, hE₀, hE₀c, hΓ⟩ := h.exists_E_sq
   have hd := h.hypCGen hE₀Q hE₀ hE₀c hΓ
   have hU : NineNineOne M p := hI G M E₀ H E₀ p hd.toNineSettingGen hd.not_mem_sigmaM

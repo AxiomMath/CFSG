@@ -74,8 +74,8 @@ theorem exists_centralizer_eq_sup_of_ON {X : Type} [Group X] (ψ : X ≃* GM) {u
   have eK₁ : ↥K0G ≃* ↥K₁ := K0G.equivMapOfInjective _ (MulAut.conj n).injective
   have eK : ↥K₁ ≃* ↥K := K₁.equivMapOfInjective _ ψ.symm.injective
   refine ⟨K, KFacts.KS14.isTripleCover_congr (eK₁.trans eK) isTripleCover_K0G, ?_, ?_, ?_, ?_⟩
-  · haveI := isPerfect_K0G
-    haveI : Group.IsPerfect ↥K₁ := Group.IsPerfect.ofSurjective (f := eK₁.toMonoidHom) eK₁.surjective
+  · have := isPerfect_K0G
+    have : Group.IsPerfect ↥K₁ := Group.IsPerfect.ofSurjective (f := eK₁.toMonoidHom) eK₁.surjective
     exact Group.IsPerfect.ofSurjective (f := eK.toMonoidHom) eK.surjective
   · have hc : (centralizer {u}).map ψ.toMonoidHom = centralizer {ψ u} := by
       ext y

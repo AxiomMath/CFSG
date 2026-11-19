@@ -33,6 +33,7 @@ variable {G : Type} [Group G] [Finite G]
       ∃ m n : ℕ, 3 < m ∧ (KBarCenterShape V H T (fun X _ => IsSpGp X m n) ∨
         KBarCenterShape V H T (fun X _ => IsPSUGp X m n))
 
+omit [Finite G] in
 private theorem not_isCyclic_of_isElemAbelian_of_two_lt_card {A : Subgroup G}
     (hA : IsElemAbelian 2 A) (hcard : 2 < Nat.card A) : ¬ IsCyclic A := by
   intro hcyc

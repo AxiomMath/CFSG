@@ -20,9 +20,9 @@ theorem isMulCommutative_plusProjectiveBorel_quotient {K : Type} [Field K] [Fini
     {k : ℕ} (hk : Nat.card K = 2 ^ k) (m : ℕ) (hm : 3 ≤ m) :
     IsMulCommutative (↥(plusProjectiveBorel m K) ⧸ CFSG.pCore 2 ↥(plusProjectiveBorel m K)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := k) (by simpa [Nat.card_eq_fintype_card] using hk)
   have hUle : plusProjectiveUnipotent m K ≤ plusProjectiveBorel m K := by
     rw [← plusProjectiveUnipotent_normalizer m K hm]
@@ -31,7 +31,7 @@ theorem isMulCommutative_plusProjectiveBorel_quotient {K : Type} [Field K] [Fini
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUle).mpr (by
       rw [plusProjectiveUnipotent_normalizer m K hm])
   obtain ⟨S, hS⟩ := plusProjectiveUnipotent_isSylow (n := m) (K := K) 2 hm
-  have hUP : IsPGroup 2 (plusProjectiveUnipotent m K) := hS ▸ S.isPGroup'
+  have hUP : IsPGroup 2 (plusProjectiveUnipotent m K) := hS ▸ S.isPGroup
   have hUsubP : IsPGroup 2 ((plusProjectiveUnipotent m K).subgroupOf (plusProjectiveBorel m K)) :=
     hUP.comap_subtype
   have hUlePc : (plusProjectiveUnipotent m K).subgroupOf (plusProjectiveBorel m K) ≤
@@ -61,11 +61,11 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_orth
       (↥(Subgroup.normalizer (U : Set L)) ⧸
         CFSG.pCore 2 ↥(Subgroup.normalizer (U : Set L))) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.D m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   let E := StatedProj (StatedOmega (StatedQuadPlus m F))
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
@@ -80,8 +80,8 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_orth
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -89,7 +89,7 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_orth
       rw [← hQcardpow]
       omega
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h4
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hm3 : 3 ≤ m := by omega
   have eD : D ≃* E :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid m Q hv

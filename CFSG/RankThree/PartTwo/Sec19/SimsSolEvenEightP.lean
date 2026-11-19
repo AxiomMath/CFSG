@@ -53,7 +53,7 @@ theorem x_ne_one {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M) {I : Finset (Fin n)}
   rw [barLen_barInd, hI, H4b.barLen_zero'] at h2
   omega
 
-theorem theta_conj_mem_of_normalized {x : G} {U : Subgroup G} (hUM : U ≤ M)
+theorem theta_conj_mem_of_normalized {x : G} {U : Subgroup G} (_hUM : U ≤ M)
     (hUn : ∀ k ∈ CMOf M x, ∀ u ∈ U, k * u * k⁻¹ ∈ U) {m : ↥M} (hm : (m : G) ∈ CMOf M x)
     {σ : Perm (Fin n)} (hσ : σ ∈ (U.subgroupOf M).map C.θ) :
     C.θ m * σ * (C.θ m)⁻¹ ∈ (U.subgroupOf M).map C.θ := by
@@ -134,6 +134,7 @@ theorem theta_P_le (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open
   exact Subgroup.map_mono fun m hm =>
     Subgroup.mem_subgroupOf.2 (P_le_TOf D hR hx hI hπ (Subgroup.mem_subgroupOf.1 hm))
 
+omit [Finite G] in
 theorem P_normalized {x k p : G} (hk : k ∈ CMOf M x) (hp : p ∈ CFSG.Open.pCoreOf 2 (CGOf x)) :
     k * p * k⁻¹ ∈ CFSG.Open.pCoreOf 2 (CGOf x) :=
   pCoreOf_normalized _ (Subgroup.mem_inf.1 hk).2 hp
@@ -162,13 +163,13 @@ theorem klein4_le_theta_P (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
   klein4_le_of_normalized hI (card_compl_eight hI) (theta_P_le D hR hx hI hπ)
     (theta_P_ne_bot D hR hx hI hπ hKM)
     (theta_normalized_of_normalized D hx hπ (P_le_M D hR hx hI hπ)
-      (fun k hk p hp => P_normalized hk hp) (Or.inl rfl))
+      (fun _k hk _p hp => P_normalized hk hp) (Or.inl rfl))
     (theta_normalized_of_normalized D hx hπ (P_le_M D hR hx hI hπ)
-      (fun k hk p hp => P_normalized hk hp) (Or.inr rfl))
+      (fun _k hk _p hp => P_normalized hk hp) (Or.inr rfl))
 
 theorem center_P_le_Q (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M)
     {I : Finset (Fin 8)} (hI : I.card = 4)
-    (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd I) (hKM : ¬ CGOf x ≤ M) {z : G}
+    (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd I) (_hKM : ¬ CGOf x ≤ M) {z : G}
     (hzP : z ∈ CFSG.Open.pCoreOf 2 (CGOf x))
     (hz : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), p * z = z * p) : z ∈ CFSG.Open.pCoreOf 2 M := by
   classical
@@ -265,7 +266,7 @@ theorem rc_eq_bot (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open.
     rw [C.S.R_eq_inf] at h
     exact (Subgroup.mem_inf.1 h).1
   have hr0K : r0 ∈ CGOf x := H4b.Q_le_CGOf C hR hx hr0Q
-  have hcons := H4b.twoConstrained_P C hR hx hx1
+  have hcons := H4b.twoConstrained_P C hx hx1
   have hr0cent : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), p * r0 = r0 * p := by
     intro p hp
     have h1 := C.R_central hR p (hPM hp) r0 hr0
@@ -325,7 +326,7 @@ theorem exists_swap (hrbot : Rc X = ⊥) {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2
     rw [hθm]
     have hmem : τ z ∈ Iᶜ ↔ z ∈ I := by
       rw [← hτI]
-      simp only [Finset.mem_map_equiv, Finset.mem_map, Equiv.toEmbedding_apply]
+      simp only [Finset.mem_map, Equiv.toEmbedding_apply]
       constructor
       · rintro ⟨w, hw, hwz⟩
         rw [← τ.injective hwz]

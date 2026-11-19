@@ -18,10 +18,10 @@ noncomputable abbrev pGen (l : ℕ) : Equiv.Perm (Fin 378) := if l = 0 then fi24
 theorem pGen_prep {l : ℕ} (hl : l < 2) :
     PRep 378 9 (Fi24PC.S l) (pGen l) ∧ PRep 378 9 (Fi24PC.SI l) (pGen l)⁻¹ := by
   interval_cases l
-  · simp only [pGen, if_true]
+  · simp only [pGen, ite_true]
     rw [fi24Pa_eq]
     exact prep_gen (permP' (by norm_num))
-  · simp only [pGen, one_ne_zero, if_false]
+  · simp only [pGen, one_ne_zero, ite_false]
     rw [fi24Pb_eq]
     exact prep_gen (permP' (by norm_num))
 
@@ -29,7 +29,7 @@ theorem fi24P_gen : fi24P = Subgroup.closure (pGen '' {l | l < 2}) := by
   rw [@fi24P_eq]
   congr 1
   ext g
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | rfl)
     · exact ⟨0, by norm_num, by simp [pGen]⟩

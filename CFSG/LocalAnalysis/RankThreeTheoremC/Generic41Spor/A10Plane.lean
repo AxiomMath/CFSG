@@ -15,11 +15,11 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3ZT u3U0 U3LineW
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem a10_plane (hX : A10Facts) (hXe : A10Ext) (hc : PointConfig IsA10Type G 5 P M x J)
+theorem a10_plane (hX : A10Facts) (_hXe : A10Ext) (hc : PointConfig IsA10Type G 5 P M x J)
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J) (hQ : IsA10Type 5 Q) :
     ∃ U : Subgroup G, IIPlane 5 P x J U ∧ A10PlaneShape J (u3T P x J) ψ U := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : (5 : ℕ).Prime := by norm_num
   have hJC : J ≤ Subgroup.centralizer ({x} : Set G) := hc.le_cent
   have hCJ : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer (J : Set G) := hc.cent_le

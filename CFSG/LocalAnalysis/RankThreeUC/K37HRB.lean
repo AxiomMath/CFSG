@@ -17,11 +17,11 @@ theorem K37RCoverRankFour.of_quasisimple_in_centralizer {S C : Type} [Group S] [
     (hcov : ∀ (Y : Type) [Group Y] [Finite Y] (f : Y →* C), Function.Surjective f →
       f.ker ≤ Subgroup.center Y → ∃ V : Subgroup Y, IsElemAbelian 3 V ∧ Nat.card V = 3 ^ 4) :
     K37RCoverRankFour S := by
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.1
   have hperf : commutator C = ⊤ :=
     k37R_commutator_eq_top_of_mulEquiv eQ.symm (k37R_commutator_eq_top_of_simple hK.2.2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥K) 2 (by rw [hZ])
   let P : Subgroup S := Subgroup.centralizer ({s} : Set S)
   let Mi : Subgroup S := K.map P.subtype

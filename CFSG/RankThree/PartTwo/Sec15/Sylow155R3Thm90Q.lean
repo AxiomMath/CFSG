@@ -19,11 +19,11 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.LocalRank
 @[expose] def fixedSubgroup {X : Type*} [Group X] (σ : MulAut X) : Subgroup X where
   carrier := {x | σ x = x}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq, map_mul] at *
+    simp only [Set.mem_ofPred_eq, map_mul] at *
     rw [ha, hb]
   one_mem' := by simp
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq, map_inv] at *
+    simp only [Set.mem_ofPred_eq, map_inv] at *
     rw [ha]
 
 theorem mem_fixedSubgroup {X : Type*} [Group X] {σ : MulAut X} {x : X} :
@@ -42,8 +42,8 @@ theorem false_of_perfect_fixed {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9Fo
     (hσ1 : σ ≠ 1) (P : Subgroup X) (hPfix : ∀ x ∈ P, σ x = x) (hPperf : Group.IsPerfect P)
     (hPsub : SubnormalIn P (fixedSubgroup σ)) (ψ : P →* J) (hψ : Function.Surjective ψ) :
     False := by
-  haveI : Group.IsPerfect X := hX.1
-  haveI := hPperf
+  have : Group.IsPerfect X := hX.1
+  have := hPperf
   set Z := Subgroup.center X with hZ
   let σb : MulAut (X ⧸ Z) := mulAutQuotientHom Z σ
   have hσb : ∀ x : X, σb (x : X ⧸ Z) = ((σ x : X) : X ⧸ Z) := fun x => rfl
@@ -85,7 +85,7 @@ theorem false_of_perfect_fixed {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9Fo
     Subgroup.map_mono hPC
   have hsub : SubnormalIn (P.map (QuotientGroup.mk' Z)) (fixedSubgroup σb) :=
     SubnormalIn.trans hPb_le hC0 (SubnormalIn.map hPC (QuotientGroup.mk' Z) hPsub) hnorm
-  haveI hPbperf : Group.IsPerfect (P.map (QuotientGroup.mk' Z)) :=
+  have hPbperf : Group.IsPerfect (P.map (QuotientGroup.mk' Z)) :=
     Group.IsPerfect.map (QuotientGroup.mk' Z)
   have hker : ((QuotientGroup.mk' Z).subgroupMap P).ker ≤ ψ.ker := by
     intro p hp

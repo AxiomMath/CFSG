@@ -166,7 +166,7 @@ theorem pow_four_eq_scalar {A : Matrix (Fin 3) (Fin 3) F} (h10 : A 1 0 = 0) (h20
   rw [show A ^ 4 = A ^ 2 * A ^ 2 by rw [← pow_add], hA2]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;>
-    (ring_nf <;> simp [h2])
+    (ring_nf; try simp [h2])
 
 theorem card_projUnitriangular_eq [Finite F] :
     Nat.card (projUnitriangular 3 F) = Nat.card F ^ 3 := by

@@ -153,7 +153,7 @@ theorem pairData_rep :
   · simpa [pairData, titsS] using TabRep.idTab (n := 1755)
 
 theorem sound_pairData (hinv : checkInv pairData = true) : Sound pairData titsS := by
-  have hlen : titsS.length = pairData.gT.size := by simp [titsS, pairData]
+  have hlen : titsS.length = pairData.gT.size := by simp [titsS]
   have hG : pairG pairData titsS = titsD := (titsD_eq_closure_titsS).symm
   refine ⟨pairData_rep, hlen, hinv, ?_⟩
   have h2 : Nat.card ↥(pairG pairData titsS) =
@@ -227,10 +227,10 @@ theorem isSimpleGroup_pairSide (hc : titsThreeCheck () = true) {k : ℕ} (hk : k
   have hgs : ∀ j, TabRep ((lLocalData k ()).gT.getD j (idTab (lLocalData k ()).n))
       ((sideGensVals k).getD j 1) := sideGens_rep hS k
   have hlen : (sideGensVals k).length = (lLocalData k ()).gT.size := by
-    simp [sideGensVals, lLocalData, sideGens]
+    simp [sideGensVals, sideGens]
   have hcard : Nat.card (Gsub (D := lLocalData k ()) (sideGensVals k)) =
       (lLocalData k ()).gOrder :=
-    (card_pairSide hS hSide (k := k) (by simp [pairData]; omega)).trans (sideOrder_getD hk).1
+    (card_pairSide hS hSide (k := k) (by simp; omega)).trans (sideOrder_getD hk).1
   have hRU : rU ∈ Rsub (lLocalData k ()) (sideGensVals k) := by
     apply Subgroup.subset_closure
     show rU ∈ [wordVal (sideGensVals k) [1], wordVal (sideGensVals k) [2]]
@@ -304,9 +304,9 @@ theorem solvableOrSimpleDerived_of_pairP_le (hc : titsThreeCheck () = true)
     intro k hk hYM
     obtain ⟨hsimple, -⟩ := isSimpleGroup_pairSide hc hk
     have hcardL : Nat.card ↥(pairSide pairData titsS k) = 5616 :=
-      (card_pairSide hS hSide (k := k) (by simp [pairData]; omega)).trans (sideOrder_getD hk).1
+      (card_pairSide hS hSide (k := k) (by simp; omega)).trans (sideOrder_getD hk).1
     have hcardM : Nat.card ↥(pairSide pairData titsS (k + 2)) = 11232 :=
-      (card_pairSide hS hSide (k := k + 2) (by simp [pairData]; omega)).trans (sideOrder_getD hk).2
+      (card_pairSide hS hSide (k := k + 2) (by simp; omega)).trans (sideOrder_getD hk).2
     exact SimpleOrderFiveSixOneSix.solvableOrSimpleDerived_of_le_index_two
       (Q := Equiv.Perm (Fin pairData.n)) (M := pairSide pairData titsS (k + 2))
       (L := pairSide pairData titsS k) (Y := Y) (P := pairP pairData titsS)
@@ -334,7 +334,7 @@ theorem ggSeitzExcTitsThreeInput_holds :
   subst hd'
   obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv K 2 1
     (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, he⟩)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : titsThreeCheck () = true := Certificates.certificate465005
   obtain ⟨hpair, -, -⟩ := titsThreeCheck_parts hc
   obtain ⟨hInv, hP, -, -, -, -, -, -⟩ := pairCheck_parts hpair

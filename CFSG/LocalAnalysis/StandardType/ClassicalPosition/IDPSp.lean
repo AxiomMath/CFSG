@@ -241,7 +241,7 @@ private theorem idSp_rankOne_scalar_product (F : Type) [Field F] [CharP F 2]
           map_one, Symplectic.SpExtras.toBlock_one (p := Sum.inl 0) (q := Sum.inr 0) Sum.inl_ne_inr]
           at hh
         have h01 := congrFun (congrFun hh 0) 1
-        simpa using h01
+        simp at h01
       exact one_ne_zero h1'
     exact hne hx
   have hmul : r * (r * s - 1) = 0 := by
@@ -415,7 +415,7 @@ private theorem idSp_exists_one (F : Type) [Field F] [CharP F 2] {X : Type} [Gro
             ψ u₀⁻¹ := by simp only [map_inv]; group
       _ = ψ u₀ * ψ (idSp_x F (Pi.single (0 : Fin 1) 1) (r * c)) * ψ u₀⁻¹ := by rw [hxα c]
       _ = ψ (u₀ * idSp_x F (Pi.single (0 : Fin 1) 1) (r * c) * u₀⁻¹) := by
-        simp only [← map_mul, ← map_inv]
+        simp only [← map_mul]
       _ = ψ ((u₀ * hpos) * idSp_x F (Pi.single (0 : Fin 1) 1) c * (u₀ * hpos)⁻¹) := by
         rw [← hr' c]
         congr 1
@@ -430,7 +430,7 @@ private theorem idSp_exists_one (F : Type) [Field F] [CharP F 2] {X : Type} [Gro
             ψ u₀⁻¹ := by simp only [map_inv]; group
       _ = ψ u₀ * ψ (idSp_x F (-Pi.single (0 : Fin 1) 1) (ρ * c)) * ψ u₀⁻¹ := by rw [hxβ c]
       _ = ψ (u₀ * idSp_x F (-Pi.single (0 : Fin 1) 1) (ρ * c) * u₀⁻¹) := by
-        simp only [← map_mul, ← map_inv]
+        simp only [← map_mul]
       _ = ψ ((u₀ * hpos) * idSp_x F (-Pi.single (0 : Fin 1) 1) c * (u₀ * hpos)⁻¹) := by
         rw [← hρ' c]
         congr 1
@@ -439,10 +439,10 @@ private theorem idSp_exists_one (F : Type) [Field F] [CharP F 2] {X : Type} [Gro
     { carrier := {u | φ₁ u = φ₂ u}
       one_mem' := by simp
       mul_mem' := fun {u v} hu hv => by
-        simp only [Set.mem_setOf_eq] at hu hv ⊢
+        simp only [Set.mem_ofPred_eq] at hu hv ⊢
         rw [map_mul, map_mul, hu, hv]
       inv_mem' := fun {u} hu => by
-        simp only [Set.mem_setOf_eq] at hu ⊢
+        simp only [Set.mem_ofPred_eq] at hu ⊢
         rw [map_inv, map_inv, hu] }
   have hE : (Symplectic.rootDatum 1 F).rootGroup (Pi.single (0 : Fin 1) 1) ⊔
       (Symplectic.rootDatum 1 F).rootGroup (-Pi.single (0 : Fin 1) 1) ≤ E := by

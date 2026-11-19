@@ -33,7 +33,7 @@ theorem zmod7_phi18_ne : ∀ x : ZMod 7, x ^ 6 - x ^ 3 + 1 ≠ 0 := by decide
 theorem E8_prime_five_or_seven {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (h7 : ¬ 7 < p) :
     p = 5 ∨ p = 7 := by
   have hle : p ≤ 7 := by omega
-  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num) | simp
+  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num)
 
 section
 
@@ -56,7 +56,7 @@ theorem untwCrossRankStep_E8 (g7 : CyclicSylowGap Tag.E8 7) (g9 : CyclicSylowGap
   refine untwCrossRankStep_of_row (D := [30, 24, 20, 18, 14, 12, 8, 2]) (N := 120) (by decide)
     (fun K _ _ => card_adjointGroup_E8_dvd K) ?_
   intro ℓ f₀ p hℓ hf₀ hp hp5 hne K k _ _ _ _ hK hk m hm hpm hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcong := natCast_card_eq_of_pow (p := p) hK hk
   have hpk : ¬ p ∣ Nat.card k := by
     rw [hk]

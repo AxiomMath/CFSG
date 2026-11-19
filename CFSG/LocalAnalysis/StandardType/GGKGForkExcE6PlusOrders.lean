@@ -85,7 +85,7 @@ private theorem ggKGE6c_not_dvd_V {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {q : 
 private theorem ggKGE6c_padicValNat_prodE6 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {q : ℕ} (hq1 : 1 ≤ q) (hpq : p ∣ q + 1) :
     padicValNat p (TableBExc.prodE6 q) = 4 * padicValNat p (q + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro hd
     have h1 : p ∣ (q + 1) - q := Nat.dvd_sub hpq hd
@@ -122,7 +122,7 @@ theorem padicValNat_card_adjointGroup
     {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ Nat.card K + 1) :
     padicValNat p (Nat.card (adjointGroup .E6 K)) = 4 * padicValNat p (Nat.card K + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hHdvd : Nat.card (torusGroup .E6 K) ∣ (Nat.card K - 1) ^ 6 :=
     (CFSG.Timmesfeld.ExceptionalOrders.card_torusGroup_E6 (K := K)) ▸ dvd_mul_right _ _

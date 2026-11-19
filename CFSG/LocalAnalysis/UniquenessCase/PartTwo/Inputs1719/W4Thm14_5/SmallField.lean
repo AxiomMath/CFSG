@@ -11,6 +11,7 @@ open CFSG.QuasithinUnique.Setup.SL2Modules
 
 variable {G W : Type} [Group G] [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 theorem conj_mem_endRing (ρ : Representation (ZMod 2) G W) (s : W ≃ₗ[ZMod 2] W)
     (hs : ∀ w, s (s w) = w) (hN : ∀ g, ∃ g', ∀ w, s (ρ g (s w)) = ρ g' w) (d : EndRing ρ) :
     ∃ ψ : EndRing ρ, (ψ : W → W) = fun w => s (d (s w)) := by

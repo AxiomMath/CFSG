@@ -34,10 +34,10 @@ theorem isFFModule_of_map {K K' : Type} [Group K] [Group K'] [Finite K] (π : K 
   have heV : ∀ v : ↥V, ((eV v : ↥(V.map π)) : K') = π v :=
     fun v => CFSG.QuasiDihedralFusion.equivMapOfIsPGroup_coe π hodd V hV2 v
   obtain ⟨hcommV', hFF'⟩ := hFF
-  haveI : IsMulCommutative ↥V := hV.1
-  haveI : IsMulCommutative ↥(V.map π) := hcommV'
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-  letI : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥(V.map π) := hcommV'
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
+  let : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
   have hN : Subgroup.normalizer ((V.map π : Subgroup K') : Set K') =
       (Subgroup.normalizer (V : Set K)).map π := by
     refine le_antisymm ?_ (Subgroup.le_normalizer_map π)
@@ -140,7 +140,7 @@ theorem KConf.isFFModule_of_threeA6
         Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L) ≃* alternatingGroup (Fin 6))) :
     ∃ _ : IsMulCommutative ↥V,
       IsFFModule (V := ↥V) (autOn (Subgroup.normalizer (V : Set K)) V) := by
-  haveI : Finite (NativeSporadic.Carrier .M22) := by
+  have : Finite (NativeSporadic.Carrier .M22) := by
     change Finite ↥NativeSporadic.M22
     infer_instance
   let Z := Subgroup.center K

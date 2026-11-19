@@ -37,7 +37,7 @@ theorem card_centralizer_mul_card_commutator_of_coprime {W X : Subgroup G} {p : 
       (p := p) (X := W) (N := (⁅W, X⁆ : Subgroup G)) (R := X)
       hJleW hXW hXnormJ hX hJnotp le_rfl
   have hdisj : (W ⊓ Subgroup.centralizer (X : Set G)) ⊓ (⁅W, X⁆ : Subgroup G) = ⊥ := by
-    letI : IsMulCommutative ↥W := hWab
+    let : IsMulCommutative ↥W := hWab
     have h0 := CFSG.Quasithin.Vol2.Ch10.SecA.commutator_inf_centralizer_eq_bot
       (W := W) (D := X) hWexp hXodd hXW
     refine le_antisymm ?_ bot_le

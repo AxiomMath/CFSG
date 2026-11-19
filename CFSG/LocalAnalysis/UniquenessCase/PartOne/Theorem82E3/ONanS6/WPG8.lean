@@ -17,11 +17,11 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (ThreeCover)
 variable {G : Type} [Group G] [Finite G] {D : Data G}
 
 theorem suzukiComponentStep_input''
-    (hK : K332Z3) (hK12 : K12SL) (hK9o : K9J2Order) (hK9out : K9J2Out)
-    (hK9f : K9Five) (hK9r : K9G2Rank) (hK2 : K2ONanCentralizer) (hK9b : K9bIn)
-    (hK4 : K4) (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
+    (_hK : K332Z3) (_hK12 : K12SL) (_hK9o : K9J2Order) (_hK9out : K9J2Out)
+    (_hK9f : K9Five) (_hK9r : K9G2Rank) (_hK2 : K2ONanCentralizer) (_hK9b : K9bIn)
+    (_hK4 : K4) (_hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
     (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
-    (hSzB : Sz.SzBorel) (hSzO : Sz.SzOutOdd) (hSzF : Sz.SzFix) (c : Ctx82E3 D)
+    (_hSzB : Sz.SzBorel) (_hSzO : Sz.SzOutOdd) (hSzF : Sz.SzFix) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     (P : Subgroup G) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)

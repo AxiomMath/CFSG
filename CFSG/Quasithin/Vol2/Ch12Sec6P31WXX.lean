@@ -17,6 +17,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G] {T L V H K : Subgroup G} [IsMulCommutative ↥V]
 
+omit [Finite G] in
 theorem star_three_dvd_of_isPSL3 {n : ℕ} (hX : IsPSL 3 2 n (starMod_w31 H K)) :
     3 ∣ Nat.card ↥(star H K) :=
   (three_dvd_card_isPSL3 hX).trans (by

@@ -98,7 +98,7 @@ theorem card_dvd_of_le_upperTriangular [CharP k 2] {Y : Subgroup (SpecialLinearG
     Nat.card Y ∣ Nat.card kˣ * Nat.card kˣ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := k) 2 (n := 3) (by norm_num)
-  have hU2 : IsPGroup 2 (unitriangular 3 k) := by rw [← hP]; exact P.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular 3 k) := by rw [← hP]; exact P.isPGroup
   set f : ↥Y →* kˣ × kˣ := diagTwo.comp (Subgroup.inclusion hY) with hf
   have hinj : Function.Injective f := by
     rw [injective_iff_map_eq_one]

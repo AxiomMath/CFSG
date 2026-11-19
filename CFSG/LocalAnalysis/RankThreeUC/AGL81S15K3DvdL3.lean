@@ -47,7 +47,7 @@ theorem K3DvdL3_holds : K3DvdL3 := by
   ·
     have ht' : t = TauCeti.LieTypeIndex.A 2 Q := ht
     subst ht'
-    haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+    have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
     have hK : Nat.card (GaloisField Q.p Q.exponent) = Q.card := by
       rw [TauCeti.PrimePower.card_def]
       exact GaloisField.card Q.p Q.exponent Q.exponent_pos.ne'
@@ -69,7 +69,7 @@ theorem K3DvdL3_holds : K3DvdL3 := by
   ·
     have ht' : t = TauCeti.LieTypeIndex.A 1 Q := ht
     subst ht'
-    haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+    have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
     have hK : Nat.card (GaloisField Q.p Q.exponent) = Q.card := by
       rw [TauCeti.PrimePower.card_def]
       exact GaloisField.card Q.p Q.exponent Q.exponent_pos.ne'

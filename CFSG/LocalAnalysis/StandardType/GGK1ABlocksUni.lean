@@ -266,7 +266,7 @@ private theorem ggK1Abu_iota_mem_sesqSpecialUnitary {nf N : ℕ} {K : Type} [Fie
 
 private theorem ggK1Abu_ringChar_two {nf : ℕ} {K : Type} [Field K] [Finite K]
     (hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [FiniteField.even_card_iff_char_two]
   rw [← Nat.card_eq_fintype_card, hK, pow_two]
   exact Nat.dvd_iff_mod_eq_zero.mp
@@ -409,7 +409,7 @@ private theorem ggK1Abu_comm {nf N : ℕ} {K : Type} [Field K]
     hne1 hne2 ha hb
   exact ggK1Abu_iota_injective N nf K (by rw [map_mul, map_mul, hc.eq])
 
-private theorem ggK1Abu_ordQ_eq_one {p nf : ℕ} (hp : p.Prime) {K : Type} [Field K] [Fintype K]
+private theorem ggK1Abu_ordQ_eq_one {p nf : ℕ} (_hp : p.Prime) {K : Type} [Field K] [Fintype K]
     (hK : Nat.card K = (2 ^ nf) ^ 2)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) :
     orderOf ((Fintype.card K : ℕ) : ZMod p) = 1 := by
@@ -439,7 +439,7 @@ private theorem ggK1Abu_natDegree_eq_one {p N nf : ℕ} {K : Type} [Field K] [Fi
     simpa using natDegree_X_sub_C (1 : K)
   · have hchar : ringChar K = 2 := ggK1Abu_ringChar_two hnf hK
     have hpchar : p ≠ ringChar K := by rw [hchar]; exact hp2
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hval : xhat.1 ^ p = 1 := by
       have := congrArg Subtype.val hxp
       simpa using this
@@ -452,7 +452,7 @@ private theorem ggK1Abu_primaryMultiplicity_X_sub_one {nf N : ℕ} {K : Type} [F
     (xhat : ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf))) :
     primaryMultiplicity (ggK1A_glEnd xhat.1) (X - 1) =
       Module.finrank K (primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) := by
-  haveI : Fact (Irreducible (X - C (1 : K) : K[X])) :=
+  have : Fact (Irreducible (X - C (1 : K) : K[X])) :=
     ⟨irreducible_X_sub_C (1 : K)⟩
   have h := finrank_primaryComponent (ggK1A_glEnd xhat.1) (X - C (1 : K))
   rw [natDegree_X_sub_C, one_mul] at h
@@ -463,7 +463,7 @@ private theorem ggK1Abu_X_sub_one_not_mem_mult {N nf : ℕ} {K : Type} [Field K]
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1)))
     (hmem : (X - 1) ∉ primaryFactors (ggK1A_glEnd xhat.1)) :
     primaryMultiplicity (ggK1A_glEnd xhat.1) (X - 1) = 0 := by
-  haveI : Fact (Irreducible (X - 1 : K[X])) :=
+  have : Fact (Irreducible (X - 1 : K[X])) :=
     ⟨show Irreducible (X - 1 : K[X]) from irreducible_X_sub_C (1 : K)⟩
   have hcop : IsCoprime (X - 1 : K[X]) (minpoly K (ggK1A_glEnd xhat.1)) := by
     rw [← prod_primaryFactors hsq]
@@ -493,7 +493,7 @@ private theorem ggK1Abu_X_sub_one_not_mem_mult {N nf : ℕ} {K : Type} [Field K]
     change LinearMap.ker (aeval (ggK1A_glEnd xhat.1) (X - 1 : K[X])) = ⊥
     rw [LinearMap.ker_eq_bot]
     exact hinj
-  haveI : Subsingleton ↥(primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
+  have : Subsingleton ↥(primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
     ⟨fun a b => Subtype.ext (by
       have ha : (a : Fin N → K) = 0 := by
         simpa using (show (a : Fin N → K) ∈ (⊥ : Submodule K (Fin N → K)) from hker ▸ a.2)
@@ -507,11 +507,11 @@ private theorem ggK1Abu_X_sub_one_mem_iff {N nf : ℕ} {K : Type} [Field K] [Fin
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1))) :
     (X - 1 : K[X]) ∈ primaryFactors (ggK1A_glEnd xhat.1) ↔
       0 < primaryMultiplicity (ggK1A_glEnd xhat.1) (X - 1) := by
-  haveI : Fact (Irreducible (X - 1 : K[X])) :=
+  have : Fact (Irreducible (X - 1 : K[X])) :=
     ⟨show Irreducible (X - 1 : K[X]) from irreducible_X_sub_C (1 : K)⟩
   constructor
   · intro hmem
-    haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
+    have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hmem)
     exact Module.finrank_pos
   · intro hpos
@@ -536,11 +536,11 @@ private theorem ggK1Abu_multOrd_eq_one_or_two {p nf : ℕ}
     ggMultOrd p nf = 1 ∨ ggMultOrd p nf = 2 := by
   unfold ggMultOrd
   by_cases h1 : p ∣ 2 ^ nf - 1
-  · left; rw [if_pos h1]
-  · right; rw [if_neg h1]
+  · left; rw [ite_eq_left h1]
+  · right; rw [ite_eq_right h1]
     rcases hdvd with h | h
     · exact absurd h h1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
 
 private theorem ggK1Abu_expected_trivial {p nf : ℕ} {m : List ℕ} (hd : ggMultOrd p nf = 2)
     (hlen : m.length = p) :
@@ -558,8 +558,7 @@ private theorem ggK1Abu_expected_trivial {p nf : ℕ} {m : List ℕ} (hd : ggMul
     intro k _
     simp [Nat.pos_iff_ne_zero]
   unfold ggK1ACo_expectedKinds ggK1ACo_expectedKindList
-  simp only [hd, if_true, if_false, Bool.false_eq_true, false_and, true_and, or_false, true_or,
-    or_true]
+  simp only [hd, ite_true, true_and, or_true]
   rw [hlist]
 
 private theorem ggK1Abu_expected_nontrivial {p nf : ℕ} {m : List ℕ} (hd : ggMultOrd p nf = 1) :
@@ -575,13 +574,13 @@ private theorem ggK1Abu_expected_nontrivial {p nf : ℕ} {m : List ℕ} (hd : gg
         (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).map
           (fun j => ggK1ACo_Kind.sl (m.getD j 0) 2) := by
     unfold ggK1ACo_expectedKindList
-    rw [if_neg (by rw [hd]; decide)]
-    simp only [Bool.false_eq_true, if_false, if_true]
+    rw [ite_eq_right (by rw [hd]; decide)]
+    simp only [ite_true]
   rw [ggK1ACo_expectedKinds, hlist, ← Multiset.coe_add]
   congr 1
   by_cases h0 : 0 < m.headD 0
-  · rw [if_pos h0, if_pos h0]; rfl
-  · rw [if_neg h0, if_neg h0]; rfl
+  · rw [ite_eq_left h0, ite_eq_left h0]; rfl
+  · rw [ite_eq_right h0, ite_eq_right h0]; rfl
 
 private theorem ggK1Abu_range_filter_sl (m : List ℕ) (e : ℕ) :
     ((List.range (e + 1)).filter (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).map
@@ -590,14 +589,14 @@ private theorem ggK1Abu_range_filter_sl (m : List ℕ) (e : ℕ) :
       (fun x => ggK1ACo_Kind.sl x 2) := by
   rw [List.range_succ_eq_map, List.filter_cons]
   have h0 : ¬ (((fun j => decide (1 ≤ j ∧ 0 < m.getD j 0)) 0) = true) := by simp
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   rw [ggK1CBl_map_filter_eq]
   conv_rhs => rw [ggK1CBl_map_filter_eq]
   rw [List.map_map, List.map_map]
   congr 1
   apply List.filter_congr
   intro k _
-  simp only [Function.comp_apply, Nat.succ_eq_add_one]
+  simp only [Nat.succ_eq_add_one]
   rw [decide_eq_decide]
   omega
 
@@ -646,11 +645,11 @@ private theorem ggK1Abu_selfDual_of_d2 {p N nf : ℕ} {K : Type} [Field K] [Fini
   have hp1 : p ∣ 2 ^ nf + 1 := by
     unfold ggMultOrd at hd2
     by_cases h1 : p ∣ 2 ^ nf - 1
-    · rw [if_pos h1] at hd2; omega
-    · rw [if_neg h1] at hd2
+    · rw [ite_eq_left h1] at hd2; omega
+    · rw [ite_eq_right h1] at hd2
       by_cases h2 : p ∣ 2 ^ nf + 1
       · exact h2
-      · rw [if_neg h2] at hd2; omega
+      · rw [ite_eq_right h2] at hd2; omega
   have hpow : μ ^ (2 ^ nf) = μ⁻¹ := by
     obtain ⟨k, hk⟩ := hp1
     have h1 : μ ^ (2 ^ nf) * μ = 1 := by
@@ -692,10 +691,10 @@ private theorem ggK1Abu_selfDual_eq_X_sub_one {p N nf : ℕ} {K : Type} [Field K
     unfold ggMultOrd at hd1
     by_cases h1 : p ∣ 2 ^ nf - 1
     · exact h1
-    · rw [if_neg h1] at hd1
+    · rw [ite_eq_right h1] at hd1
       by_cases h2 : p ∣ 2 ^ nf + 1
-      · rw [if_pos h2] at hd1; omega
-      · rw [if_neg h2] at hd1; omega
+      · rw [ite_eq_left h2] at hd1; omega
+      · rw [ite_eq_right h2] at hd1; omega
   have hpow : μ ^ (2 ^ nf) = μ := by
     obtain ⟨k, hk⟩ := hp1
     have hk' : 2 ^ nf = p * k + 1 := by
@@ -834,10 +833,10 @@ private theorem ggK1Abu_chosen_mem {nf N : ℕ} {K : Type} [Field K] [Finite K] 
     ggK1Abu_chosen h xhat P O ∈ P := by
   classical
   by_cases hmem : (ggK1Abu_rep h xhat O).1 ∈ P
-  · rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from if_pos hmem]
+  · rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from ite_eq_left hmem]
     exact hmem
   · rw [show ggK1Abu_chosen h xhat P O = dualPoly h.bar (ggK1Abu_rep h xhat O).1
-        from if_neg hmem]
+        from ite_eq_right hmem]
     rcases hP.2.1 _ (ggK1Abu_rep h xhat O).2 (Ne.symm hnsd) with hh | hh
     · exact absurd hh hmem
     · exact hh
@@ -846,15 +845,15 @@ private theorem ggK1Abu_chosen_orbit {nf N : ℕ} {K : Type} [Field K] [Finite K
     (h : UnitaryFieldData 2 nf K) (xhat : ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf)))
     (H : UnitaryPrimaryData h.bar (idForm h N) (ggK1Abu_iota N nf K xhat))
     (P : Finset K[X]) (O : adjointOrbits h (ggK1Abu_iota N nf K xhat))
-    (hnsd : dualPoly h.bar (ggK1Abu_rep h xhat O).1 ≠ (ggK1Abu_rep h xhat O).1) :
+    (_hnsd : dualPoly h.bar (ggK1Abu_rep h xhat O).1 ≠ (ggK1Abu_rep h xhat O).1) :
     O.1 = ({ggK1Abu_chosen h xhat P O, dualPoly h.bar (ggK1Abu_chosen h xhat P O)} :
       Set K[X]) := by
   classical
   by_cases hmem : (ggK1Abu_rep h xhat O).1 ∈ P
-  · rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from if_pos hmem]
+  · rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from ite_eq_left hmem]
     rw [ggK1Abu_rep_orbit h xhat O]
   · rw [show ggK1Abu_chosen h xhat P O = dualPoly h.bar (ggK1Abu_rep h xhat O).1
-        from if_neg hmem,
+        from ite_eq_right hmem,
       dualPoly_dualPoly_of_mem H (ggK1Abu_rep h xhat O).2]
     rw [← ggK1Abu_rep_orbit h xhat O, Set.pair_comm]
 
@@ -893,14 +892,14 @@ private theorem ggK1Abu_toSum_bijective {nf N : ℕ} {K : Type} [Field K] [Finit
         apply Subtype.ext
         rw [← ggK1Abu_rep_orbit h xhat O, ← ggK1Abu_rep_orbit h xhat O', h1, h2]
       · exfalso
-        simp only [ggK1Abu_toSum, dif_pos hsd, dif_neg hsd'] at hEq
+        simp only [ggK1Abu_toSum, dite_eq_left hsd, dite_eq_right hsd'] at hEq
         exact Sum.inl_ne_inr hEq
     · by_cases hsd' : dualPoly h.bar (ggK1Abu_rep h xhat O').1 = (ggK1Abu_rep h xhat O').1
       · exfalso
-        simp only [ggK1Abu_toSum, dif_neg hsd, dif_pos hsd'] at hEq
+        simp only [ggK1Abu_toSum, dite_eq_right hsd, dite_eq_left hsd'] at hEq
         exact Sum.inr_ne_inl hEq
       · have hval : ggK1Abu_chosen h xhat P O = ggK1Abu_chosen h xhat P O' := by
-          simp only [ggK1Abu_toSum, dif_neg hsd, dif_neg hsd'] at hEq
+          simp only [ggK1Abu_toSum, dite_eq_right hsd, dite_eq_right hsd'] at hEq
           exact congrArg Subtype.val (Sum.inr.inj hEq)
         apply Subtype.ext
         rw [ggK1Abu_chosen_orbit h xhat H P O hsd,
@@ -920,7 +919,7 @@ private theorem ggK1Abu_toSum_bijective {nf N : ℕ} {K : Type} [Field K] [Finit
       refine ⟨O, ?_⟩
       have hsd : dualPoly h.bar (ggK1Abu_rep h xhat O).1 = (ggK1Abu_rep h xhat O).1 := by
         rw [hrep, hda]
-      simp only [ggK1Abu_toSum, dif_pos hsd]
+      simp only [ggK1Abu_toSum, dite_eq_left hsd]
       apply congrArg Sum.inl
       exact Subtype.ext hrep
     · have hpΦ : p ∈ primaryFactors (ggK1A_glEnd xhat.1) := (hP.1 p hp).1
@@ -938,14 +937,14 @@ private theorem ggK1Abu_toSum_bijective {nf N : ℕ} {K : Type} [Field K] [Finit
       have hchosen : ggK1Abu_chosen h xhat P O = p := by
         rcases hrep_mem with hrep | hrep
         · have : (ggK1Abu_rep h xhat O).1 ∈ P := by rw [hrep]; exact hp
-          rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from if_pos this, hrep]
+          rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from ite_eq_left this, hrep]
         · have hnot : ¬ ((ggK1Abu_rep h xhat O).1 ∈ P) := by
             rw [hrep]
             exact fun h => hP.2.2 p hp h
           rw [show ggK1Abu_chosen h xhat P O = dualPoly h.bar (ggK1Abu_rep h xhat O).1
-              from if_neg hnot, hrep, dualPoly_dualPoly_of_mem H hpΦ]
+              from ite_eq_right hnot, hrep, dualPoly_dualPoly_of_mem H hpΦ]
       refine ⟨O, ?_⟩
-      simp only [ggK1Abu_toSum, dif_neg hnsd]
+      simp only [ggK1Abu_toSum, dite_eq_right hnsd]
       apply congrArg Sum.inr
       exact Subtype.ext hchosen
 
@@ -973,11 +972,11 @@ private theorem ggK1Abu_toSum_inl_rep {nf N : ℕ} {K : Type} [Field K] [Finite 
   by_cases hsd : dualPoly h.bar (ggK1Abu_rep h xhat O).1 = (ggK1Abu_rep h xhat O).1
   · have h1 : (ggK1Abu_rep h xhat O).1 = a.1 :=
       congrArg (fun x : ↥((primaryFactors (ggK1A_glEnd xhat.1)).filter (fun a => a = X - 1)) =>
-        (x : K[X])) (Sum.inl.inj (by simpa only [ggK1Abu_toSum, dif_pos hsd] using hO))
+        (x : K[X])) (Sum.inl.inj (by simpa only [ggK1Abu_toSum, dite_eq_left hsd] using hO))
     rw [h1]
     exact (Finset.mem_filter.mp a.2).2
   · have hcontra := hO
-    simp only [ggK1Abu_toSum, dif_neg hsd] at hcontra
+    simp only [ggK1Abu_toSum, dite_eq_right hsd] at hcontra
     exact absurd hcontra Sum.inr_ne_inl
 
 private theorem ggK1Abu_toSum_inr_mult {nf N : ℕ} {K : Type} [Field K] [Finite K]
@@ -993,20 +992,20 @@ private theorem ggK1Abu_toSum_inr_mult {nf N : ℕ} {K : Type} [Field K] [Finite
   classical
   by_cases hsd : dualPoly h.bar (ggK1Abu_rep h xhat O).1 = (ggK1Abu_rep h xhat O).1
   · have hcontra := hO
-    simp only [ggK1Abu_toSum, dif_pos hsd] at hcontra
+    simp only [ggK1Abu_toSum, dite_eq_left hsd] at hcontra
     exact absurd hcontra Sum.inl_ne_inr
   · have hchosen : ggK1Abu_chosen h xhat P O = p.1 :=
-      congrArg (fun x : ↥P => (x : K[X])) (Sum.inr.inj (by simpa only [ggK1Abu_toSum, dif_neg hsd]
+      congrArg (fun x : ↥P => (x : K[X])) (Sum.inr.inj (by simpa only [ggK1Abu_toSum, dite_eq_right hsd]
           using hO))
     by_cases hmem : (ggK1Abu_rep h xhat O).1 ∈ P
     · have hrep : (ggK1Abu_rep h xhat O).1 = p.1 := by
-        rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from if_pos hmem] at hchosen
+        rw [show ggK1Abu_chosen h xhat P O = (ggK1Abu_rep h xhat O).1 from ite_eq_left hmem] at hchosen
         exact hchosen
       rw [hrep]
     · have hrep : (ggK1Abu_rep h xhat O).1 = dualPoly h.bar p.1 := by
         have h1 : dualPoly h.bar (ggK1Abu_rep h xhat O).1 = p.1 := by
           rw [show ggK1Abu_chosen h xhat P O = dualPoly h.bar (ggK1Abu_rep h xhat O).1
-              from if_neg hmem] at hchosen
+              from ite_eq_right hmem] at hchosen
           exact hchosen
         have h2 := congrArg (dualPoly h.bar) h1
         rw [dualPoly_dualPoly_of_mem H (ggK1Abu_rep h xhat O).2] at h2
@@ -1095,7 +1094,7 @@ private theorem ggK1Abu_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
       ggK1Abu_kind h xhat a = ggK1ACo_Kind.su (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 1 := by
     intro a ha
     unfold ggK1Abu_kind
-    rw [if_pos (hself a ha)]
+    rw [ite_eq_left (hself a ha)]
   rw [ggK1Abu_orbitMap_eq_primary h xhat hself (fun a => ggK1Abu_kind h xhat a)]
   rw [Multiset.map_congr rfl (fun a ha => hkind a (Finset.mem_val.mp ha))]
   rw [ggK1Abu_expected_trivial hd2 hm.length_eq]
@@ -1123,7 +1122,7 @@ private theorem ggK1Abu_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
         if 0 < m.getD 0 0 then {m.getD 0 0} else 0 := by
       by_cases hX : (X - 1 : K[X]) ∈ primaryFactors (ggK1A_glEnd xhat.1)
       · have hpos : 0 < m.getD 0 0 := hmemX.mp hX
-        rw [if_pos hpos]
+        rw [ite_eq_left hpos]
         have hsing :
             (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun h => h = X - 1) = {X - 1} := by
           refine Finset.eq_singleton_iff_unique_mem.mpr ⟨?_, ?_⟩
@@ -1133,7 +1132,7 @@ private theorem ggK1Abu_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
           ggK1Abu_primaryMultiplicity_X_sub_one xhat]
         exact congrArg (fun x => ({x} : Multiset ℕ)) hhead.symm
       · have hneg : ¬ 0 < m.getD 0 0 := fun h => hX (hmemX.mpr h)
-        rw [if_neg hneg]
+        rw [ite_eq_right hneg]
         have hempty : (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun h => h = X - 1) = ∅ := by
           rw [Finset.filter_eq_empty_iff]
           intro h hh heq; exact hX (heq ▸ hh)
@@ -1145,8 +1144,8 @@ private theorem ggK1Abu_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
     rw [hsplit, Multiset.map_add, hX1, hSDF]
     rw [ggK1Abu_filter_cons m]
     by_cases h0 : m.getD 0 0 = 0
-    · rw [if_neg (by omega : ¬ 0 < m.getD 0 0), if_neg (by omega : ¬ m.getD 0 0 ≠ 0)]
-    · rw [if_pos (by omega : 0 < m.getD 0 0), if_pos (by omega : m.getD 0 0 ≠ 0)]
+    · rw [ite_eq_right (by omega : ¬ 0 < m.getD 0 0), ite_eq_right (by omega : ¬ m.getD 0 0 ≠ 0)]
+    · rw [ite_eq_left (by omega : 0 < m.getD 0 0), ite_eq_left (by omega : m.getD 0 0 ≠ 0)]
   rw [show (primaryFactors (ggK1A_glEnd xhat.1)).val.map
       (fun a => ggK1ACo_Kind.su (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 1) =
       ((primaryFactors (ggK1A_glEnd xhat.1)).val.map
@@ -1184,7 +1183,7 @@ private theorem ggK1Abu_kind_X1_filter {p nf N : ℕ} {K : Type} [Field K] [Fini
   · have hpos : 0 < m.headD 0 := by
       rw [List.headD_eq_getD]
       exact hmemX.mp hX
-    rw [if_pos hpos]
+    rw [ite_eq_left hpos]
     have hsing : (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun a => a = X - 1) = {X - 1} := by
       refine Finset.eq_singleton_iff_unique_mem.mpr ⟨?_, ?_⟩
       · rw [Finset.mem_filter]; exact ⟨hX, rfl⟩
@@ -1192,12 +1191,12 @@ private theorem ggK1Abu_kind_X1_filter {p nf N : ℕ} {K : Type} [Field K] [Fini
     rw [hsing, Finset.singleton_val, Multiset.map_singleton]
     have hkind : ggK1Abu_kind h xhat (X - 1) = ggK1ACo_Kind.su (m.getD 0 0) 1 := by
       unfold ggK1Abu_kind
-      rw [if_pos hdual, hmult]
+      rw [ite_eq_left hdual, hmult]
     rw [hkind, List.headD_eq_getD]
   · have hneg : ¬ 0 < m.headD 0 := by
       rw [List.headD_eq_getD]
       intro hpos; exact hX (hmemX.mpr hpos)
-    rw [if_neg hneg]
+    rw [ite_eq_right hneg]
     have hempty : (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun a => a = X - 1) = ∅ := by
       rw [Finset.filter_eq_empty_iff]
       intro a ha heq; exact hX (heq ▸ ha)
@@ -1211,7 +1210,7 @@ private theorem ggK1Abu_det_eq_one_of_mem_specialBlock {nf N : ℕ} {K : Type} [
     (hg : g ∈ specialBlock (idForm h N) (ggK1Abu_iota N nf K xhat) a) :
     LinearMap.det (g : Module.End K (Fin N → K)) = 1 := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   let a' : primaryFactors (ggK1Abu_iota N nf K xhat : Module.End K (Fin N → K)) := ⟨a, ha⟩
   by_cases hself : dualPoly h.bar a = a
   · obtain ⟨hE, Hf, hHf, hHfl, φ, hφ, hdetK⟩ :=
@@ -1315,9 +1314,9 @@ private theorem ggK1Abu_A_model {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     ggK1ACo_Kind.Model nf K (ggK1Abu_kind h xhat a) (ggK1Abu_A h xhat a) := by
   classical
   have hd1 : a.natDegree = 1 := ggK1Abu_natDegree_eq_one hp hp2 hnf hK hdvd hxp ha
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-  haveI : Finite (AdjoinRoot a) := Module.finite_of_finite K
-  haveI : Fintype (AdjoinRoot a) := Fintype.ofFinite _
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Finite (AdjoinRoot a) := Module.finite_of_finite K
+  have : Fintype (AdjoinRoot a) := Fintype.ofFinite _
   have hcard : Fintype.card (AdjoinRoot a) = (2 ^ nf) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, natCard_adjoinRoot h, hd1, mul_one]
     ring
@@ -1325,13 +1324,13 @@ private theorem ggK1Abu_A_model {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.su (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 1 := by
       unfold ggK1Abu_kind
-      rw [if_pos hself]
+      rw [ite_eq_left hself]
     rw [hkind]
     let e1 := ggK1Abu_A_equiv_specialBlock h xhat H ha
     obtain ⟨hE, Hf, hHf, hHfl, ⟨e2⟩⟩ :=
       CFSG.HardMathSupport.Dickson.Sec6.nonempty_specialBlock_mulEquiv_sesqSU hself
         (selfDualPrimaryBlock H ⟨a, ha⟩ hself)
-    haveI : FiniteDimensional (AdjoinRoot a) ↥(primaryComponent (ggK1A_glEnd xhat.1) a) :=
+    have : FiniteDimensional (AdjoinRoot a) ↥(primaryComponent (ggK1A_glEnd xhat.1) a) :=
       Module.Finite.of_restrictScalars_finite K (AdjoinRoot a) _
     obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis (B := Hf) hHf hHfl
     obtain ⟨e3⟩ := CFSG.RankThree.CentralLift.nonempty_sesqSpecialUnitaryGroup_mulEquiv_gramSU hE b
@@ -1352,7 +1351,7 @@ private theorem ggK1Abu_A_model {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.sl (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 2 := by
       unfold ggK1Abu_kind
-      rw [if_neg hself]
+      rw [ite_eq_right hself]
     rw [hkind]
     let e1 := ggK1Abu_A_equiv_specialBlock h xhat H ha
     obtain ⟨e2⟩ := CFSG.HardMathSupport.Dickson.Sec6.nonempty_specialBlock_mulEquiv_SL
@@ -1537,10 +1536,10 @@ private theorem ggK1Abu_kind_multiset_d1 {p nf N : ℕ} {K : Type} [Field K] [Fi
         intro hsd
         have hcontra : ggK1Abu_toSum h xhat honly P hP (e.symm (Sum.inr p)) = Sum.inr p :=
           Equiv.apply_symm_apply e (Sum.inr p)
-        simp only [ggK1Abu_toSum, dif_pos hsd] at hcontra
+        simp only [ggK1Abu_toSum, dite_eq_left hsd] at hcontra
         exact Sum.inl_ne_inr hcontra
       unfold ggK1Abu_kind
-      rw [if_neg hnsd, ggK1Abu_orbitEquivD1_inr h xhat H honly P hP p]
+      rw [ite_eq_right hnsd, ggK1Abu_orbitEquivD1_inr h xhat H honly P hP p]
     rw [hcongr, ggK1CBl_univ_map_subtype_val P
       (fun y => ggK1ACo_Kind.sl (primaryMultiplicity (ggK1A_glEnd xhat.1) y) 2)]
   rw [hA, hB, ggK1Abu_expected_nontrivial hd1]
@@ -1652,14 +1651,14 @@ private theorem ggK1Abu_qs_su {nf m : ℕ} (hm : 1 ≤ m) :
   rcases m with _ | _ | _ | m
   · exfalso; omega
   · simp [ggK1ACo_kindOrbit, ggK1Abu_Small]
-  · simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small, decide_eq_true_eq]
+  · simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small]
   · rcases m with _ | m
-    · simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small, decide_eq_true_eq]
+    · simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small]
     · have h1 : ¬ (m + 3 = 2) := by omega
       have h2 : ¬ (m + 4 = 2) := by omega
       have h3 : ¬ (m + 4 = 3) := by omega
       have h4 : ¬ (m + 4 ≤ 1) := by omega
-      simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small, decide_eq_true_eq, h1, h2, h3, h4]
+      simp [ggK1ACo_kindOrbit, ggMultBlockA, ggK1Abu_Small, h1, h2, h3, h4]
 
 private theorem ggK1Abu_qs_sl_two {nf m : ℕ} (hm : 1 ≤ m) :
     (ggK1ACo_kindOrbit nf (ggK1ACo_Kind.sl m 2)).qs = true ↔ 2 ≤ m := by
@@ -1668,7 +1667,7 @@ private theorem ggK1Abu_qs_sl_two {nf m : ℕ} (hm : 1 ≤ m) :
   · simp [ggK1ACo_kindOrbit]
   · have h : ¬ ((m + 2) - 1 = 1 ∧ 2 * nf = 1) := by
       rintro ⟨-, h⟩; omega
-    simp [ggK1ACo_kindOrbit, ggMultBlockA, decide_eq_true_eq, h]
+    simp [ggK1ACo_kindOrbit, ggMultBlockA]
 
 private theorem ggK1Abu_card_primeFactors_two_three (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     (2 ^ a * 3 ^ b).primeFactors.card ≤ 2 := by
@@ -1699,7 +1698,7 @@ private theorem ggK1Abu_isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : 
   have hq2 : 2 ≤ ℓ ^ g := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : g ≠ 0) hE.prime.one_lt
     omega
-  haveI := ggK1Abu_finite_generalLinearGroup hE (W := W)
+  have := ggK1Abu_finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · have hq : ¬ ((Module.finrank E W = 2 → 4 ≤ ℓ ^ g) ∧
         (Module.finrank E W = 3 → 3 ≤ ℓ ^ g)) := by
@@ -1760,15 +1759,15 @@ private theorem ggK1Abu_sesqSU_quasisimple_iff {g : ℕ} {E : Type} [Field E]
         (¬ ((Module.finrank E W = 2 → 4 ≤ 2 ^ g) ∧
           (Module.finrank E W = 3 → 3 ≤ 2 ^ g))) :=
       (ggK1Abu_small_iff hE.one_le).mpr hsmall
-    haveI : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
+    have : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
       ggK1Abu_isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl hsmall'
-    haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) :=
+    have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) :=
       Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion (sesqSpecialUnitaryGroup_le Hf))
         (Subgroup.inclusion_injective (sesqSpecialUnitaryGroup_le Hf))
-    haveI : Nontrivial ↥(sesqSpecialUnitaryGroup Hf) :=
+    have : Nontrivial ↥(sesqSpecialUnitaryGroup Hf) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hq
-    haveI : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) := hq.1
+    have : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) := hq.1
     exact (Group.IsPerfect.not_isSolvable ↥(sesqSpecialUnitaryGroup Hf)) inferInstance
   · intro hns
     obtain ⟨hm2, hq2, hq3⟩ := ggK1Abu_conditions_of_not_small hE.one_le hns
@@ -1782,8 +1781,8 @@ private theorem ggK1Abu_omega {E : Type} [Field E] {g : ℕ}
   obtain ⟨c, hc⟩ := hE.exists_bar_ne
   have hc0 : c ≠ 0 := by intro h; apply hc; rw [h]; simp
   have hc1 : c ≠ 1 := by intro h; apply hc; rw [h]; simp
-  haveI : Finite E := hE.finite
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := hE.finite
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = 4 := by
     rw [← Nat.card_eq_fintype_card, hE.card]; norm_num
   have hc3 : c ^ 3 = 1 := by
@@ -1910,8 +1909,8 @@ private theorem ggK1Abu_isQuasisimple_iff {p nf N : ℕ} {K : Type} [Field K] [F
     CFSG.IsQuasisimple ↥(ggK1Abu_A h xhat a) ↔
       (ggK1ACo_kindOrbit nf (ggK1Abu_kind h xhat a)).qs = true := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-  haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) a) :=
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) a) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq ha)
   have hm1 : 1 ≤ primaryMultiplicity (ggK1A_glEnd xhat.1) a := by
     have hpos := Module.finrank_pos (R := AdjoinRoot a)
@@ -1922,7 +1921,7 @@ private theorem ggK1Abu_isQuasisimple_iff {p nf N : ℕ} {K : Type} [Field K] [F
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.su (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 1 := by
       unfold ggK1Abu_kind
-      rw [if_pos hself]
+      rw [ite_eq_left hself]
     rw [hkind, ggK1Abu_qs_su hm1]
     obtain ⟨hE, Hf, hHf, hHfl, ⟨eSB⟩⟩ :=
       CFSG.HardMathSupport.Dickson.Sec6.nonempty_specialBlock_mulEquiv_sesqSU hself
@@ -1949,13 +1948,13 @@ private theorem ggK1Abu_isQuasisimple_iff {p nf N : ℕ} {K : Type} [Field K] [F
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.sl (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 2 := by
       unfold ggK1Abu_kind
-      rw [if_neg hself]
+      rw [ite_eq_right hself]
     rw [hkind, ggK1Abu_qs_sl_two hm1]
     have hmodel := ggK1Abu_A_model hp hp2 hnf hK hdvd hxp h H ha
     rw [hkind] at hmodel
     obtain ⟨E, hEfield, hEfintype, hcard, ⟨eA⟩⟩ := hmodel
-    letI : Field E := hEfield
-    letI : Fintype E := hEfintype
+    let : Field E := hEfield
+    let : Fintype E := hEfintype
     have hcard4 : 4 ≤ Fintype.card E := by
       rw [hcard]
       calc 4 = (2 ^ 1) ^ 2 := by norm_num
@@ -1969,7 +1968,7 @@ private theorem ggK1Abu_isQuasisimple_iff {p nf N : ℕ} {K : Type} [Field K] [F
         by_contra hmlt
         have hm01 : primaryMultiplicity (ggK1A_glEnd xhat.1) a = 0 ∨
             primaryMultiplicity (ggK1A_glEnd xhat.1) a = 1 := by omega
-        haveI : Subsingleton (Matrix.SpecialLinearGroup
+        have : Subsingleton (Matrix.SpecialLinearGroup
             (Fin (primaryMultiplicity (ggK1A_glEnd xhat.1) a)) E) := by
           rcases hm01 with h0 | h1
           · rw [h0]; exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
@@ -2012,8 +2011,8 @@ private theorem ggK1Abu_hsolv_aux {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     ∃ t ∈ ggK1Abu_A h xhat a, t ^ p = 1 ∧
       ∃ a' ∈ ggK1Abu_A h xhat a, a' * t ≠ t * a' := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-  haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) a) :=
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) a) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq ha)
   have hm1 : 1 ≤ primaryMultiplicity (ggK1A_glEnd xhat.1) a := by
     have hpos := Module.finrank_pos (R := AdjoinRoot a)
@@ -2024,7 +2023,7 @@ private theorem ggK1Abu_hsolv_aux {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.su (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 1 := by
       unfold ggK1Abu_kind
-      rw [if_pos hself]
+      rw [ite_eq_left hself]
     rw [hkind] at hh hqs
     have hmne : primaryMultiplicity (ggK1A_glEnd xhat.1) a ≠ 1 := by
       intro h1
@@ -2077,7 +2076,7 @@ private theorem ggK1Abu_hsolv_aux {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   · have hkind : ggK1Abu_kind h xhat a =
         ggK1ACo_Kind.sl (primaryMultiplicity (ggK1A_glEnd xhat.1) a) 2 := by
       unfold ggK1Abu_kind
-      rw [if_neg hself]
+      rw [ite_eq_right hself]
     rw [hkind] at hh hqs
     have hmne : primaryMultiplicity (ggK1A_glEnd xhat.1) a ≠ 1 := by
       intro h1
@@ -2179,7 +2178,7 @@ private theorem ggK1Abu_hcomp {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   let H : UnitaryPrimaryData h.bar (idForm h N) (ggK1Abu_iota N nf K xhat) :=
     ggK1Abu_primaryData hp hp2 hnf hK hxp
   let G : Type := ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf))
-  haveI : Finite G := inferInstance
+  have : Finite G := inferInstance
   let x : LinearMap.GeneralLinearGroup K (Fin N → K) := ggK1Abu_iota N nf K xhat
   have hq : 2 ≤ 2 ^ nf := by
     calc 2 = 2 ^ 1 := by norm_num
@@ -2217,11 +2216,11 @@ private theorem ggK1Abu_hcomp {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   let ρ : (b : bad) → ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj xhat)) →*
       blockGL (x : Module.End K (Fin N → K)) (b.1 : K[X]) := fun b =>
     (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b : bad, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b : bad, Group.IsSolvable ↥(ρ b).range := fun b =>
     CFSG.HardMathSupport.Dickson.Sec6.I1431.t6psuh_isSolvable_range_blockRestrict_of_not_good
       (hK := h) (B := idForm h N) (x := x) hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : bad) → ↥(ρ b).range) := ggK1Abu_isSolvable_pi_finite
-  haveI : Group.IsSolvable ((b : Φ) → (AdjoinRoot (b : K[X]))ˣ) := inferInstance
+  have : Group.IsSolvable ((b : bad) → ↥(ρ b).range) := ggK1Abu_isSolvable_pi_finite
+  have : Group.IsSolvable ((b : Φ) → (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj xhat)) →*
       ((b : Φ) → (AdjoinRoot (b : K[X]))ˣ) × ((b : bad) → ↥(ρ b).range) :=
     MonoidHom.prod (MonoidHom.pi fun b => (blockDetHom x (b : K[X])).comp φ)
@@ -2306,7 +2305,7 @@ theorem ggK1ACo_uni_blocks_exists {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   let h : UnitaryFieldData 2 nf K := ggK1Abu_unitaryFieldData hnf hK
   have hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1)) := ggK1Abu_hsq hp hp2 hnf hK hxp
   have H := ggK1Abu_primaryData hp hp2 hnf hK hxp
-  haveI hfin : Fintype (adjointOrbits h (ggK1Abu_iota N nf K xhat)) := by
+  have hfin : Fintype (adjointOrbits h (ggK1Abu_iota N nf K xhat)) := by
     rw [adjointOrbits]
     exact (Set.Finite.image _ (Finset.finite_toSet _)).fintype
   refine ⟨{

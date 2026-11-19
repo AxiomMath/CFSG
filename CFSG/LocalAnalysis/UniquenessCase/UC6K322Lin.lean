@@ -44,13 +44,13 @@ theorem mulVec_inv_mem_of_isInvariant {h : GL (Fin n) F} {W : Submodule F (Fin n
   have hf : Function.Injective f := by
     intro a b hab
     have h1 := congrArg Subtype.val hab
-    simp only [f, LinearMap.restrict_coe_apply, Matrix.toLin'_apply] at h1
+    simp only [f, _root_.LinearMap.coe_restrict_apply, Matrix.toLin'_apply] at h1
     apply Subtype.ext
     have h2 := congrArg (fun v => ((h⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v) h1
     simpa [Matrix.mulVec_mulVec] using h2
   obtain ⟨w', hw'⟩ := (LinearMap.injective_iff_surjective.1 hf) ⟨w, hw⟩
   have h1 := congrArg Subtype.val hw'
-  simp only [f, LinearMap.restrict_coe_apply, Matrix.toLin'_apply] at h1
+  simp only [f, _root_.LinearMap.coe_restrict_apply, Matrix.toLin'_apply] at h1
   rw [← h1, Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one,
     Matrix.one_mulVec]
   exact w'.2

@@ -17,8 +17,8 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2
 theorem gl4_inv_or_triv (hV : finrank (ZMod 2) V = 4) {a g : V ≃ₗ[ZMod 2] V} (ha5 : a ^ 5 = 1)
     (hfix : ∀ v : V, a v = v → v = 0) (hg : g * g = 1) {k : ℕ} (hk : g * a * g⁻¹ = a ^ k) :
     g = 1 ∨ g * a * g⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have ha1 : a ≠ 1 := by
     intro h
     obtain ⟨v, hv⟩ := exists_ne (0 : V)
@@ -91,7 +91,7 @@ theorem e25_dichotomy (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
       modA_restr M ⟨ρ s, hs⟩ * modA_resJ (Jbar ρ x) M sM ⟨ρ x, E25_rho_mem_Jbar ρ x⟩ *
         (modA_restr M ⟨ρ s, hs⟩)⁻¹ =
       (modA_resJ (Jbar ρ x) M sM ⟨ρ x, E25_rho_mem_Jbar ρ x⟩)⁻¹ := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   set a₁ : M ≃ₗ[ZMod 2] M := modA_resJ (Jbar ρ x) M sM ⟨ρ x, E25_rho_mem_Jbar ρ x⟩ with ha₁
   set g₁ : M ≃ₗ[ZMod 2] M := modA_restr M ⟨ρ s, hs⟩ with hg₁
   have hinv : (ρ s)⁻¹ = ρ s := inv_eq_of_mul_eq_one_right hs2
@@ -129,7 +129,7 @@ theorem e25_summand_facts (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
     (hs2 : ρ s * ρ s = 1) (hs : ρ s ∈ modA_stab M) :
     (rk (modA_restr M ⟨ρ s, hs⟩) = 0 ∨ rk (modA_restr M ⟨ρ s, hs⟩) = 2) ∧
       (rk (modA_restr M ⟨ρ s, hs⟩) = 0 ↔ ∀ v ∈ M, ρ s v = v) := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   refine ⟨modA_E25_rk_summand H hM sM hpow hs2 hs, ⟨fun h0 v hv => ?_, fun hv => ?_⟩⟩
   · have h1 := modA_eq_one_of_rk_zero h0
     exact congrArg (fun f : M ≃ₗ[ZMod 2] M => ((f ⟨v, hv⟩ : M) : V)) h1
@@ -144,7 +144,7 @@ theorem e25_prod_triv (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
     (hs : ρ s ∈ modA_stab M) (hs' : ρ s' ∈ modA_stab M)
     (hT : ¬ ∀ v ∈ M, ρ s v = v) (hT' : ¬ ∀ v ∈ M, ρ s' v = v) :
     ∀ v ∈ M, ρ (s * s') v = v := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   set a₁ : M ≃ₗ[ZMod 2] M := modA_resJ (Jbar ρ x) M sM ⟨ρ x, E25_rho_mem_Jbar ρ x⟩ with ha₁
   have hx5 : ρ x ^ 5 = 1 := by rw [← H.ord_x]; exact pow_orderOf_eq_one _
   have ha5 : a₁ ^ 5 = 1 := by
@@ -175,7 +175,7 @@ theorem e25_prod_triv (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
       (modA_restr M ⟨ρ s, hs⟩ * modA_restr M ⟨ρ s', hs'⟩) = 1 := by
     rw [← hr]
     exact hsq hss hmul
-  haveI : Module.Finite (ZMod 2) M := inferInstance
+  have : Module.Finite (ZMod 2) M := inferInstance
   have h1 := gl4_prod_triv hM ha5 hfix hgg hd hd' (hne hs2 hs hT) (hne hs2' hs' hT')
   rw [← hr] at h1
   intro v hv
@@ -247,7 +247,7 @@ theorem e25_abelian {Y : Type*} [Group Y] [Finite Y] {ρ : Y →* (V ≃ₗ[ZMod
     {t u x h : Y} (H : HypYW ρ t u x h) (hxO : x ∈ standardComponentOddCore Y) :
     ∀ a ∈ Jbar ρ x, ∀ b ∈ Jbar ρ x, a * b = b * a := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   have hx5 : ρ x ^ 5 = 1 := by
     rw [← map_pow, show x ^ 5 = 1 by rw [← H.ord_x]; exact pow_orderOf_eq_one x, map_one]
   set O' : Subgroup (V ≃ₗ[ZMod 2] V) := (standardComponentOddCore Y).map ρ with hO'
@@ -261,7 +261,7 @@ theorem e25_abelian {Y : Type*} [Group Y] [Finite Y] {ρ : Y →* (V ≃ₗ[ZMod
     unfold Jbar
     exact Subgroup.map_mono (Subgroup.normalClosure_le_normal (by simpa using hxO))
   suffices hab : ∀ a ∈ O', ∀ b ∈ O', a * b = b * a from fun a ha b hb => hab a (hJO ha) b (hJO hb)
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [H.dim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [H.dim]; norm_num)
   have hex : ∃ n, ∃ M : Submodule (ZMod 2) V, (∀ g ∈ O', Stable g M) ∧ M ≠ ⊥ ∧
       finrank (ZMod 2) M = n :=
     ⟨_, ⊤, fun g _ u _ => Submodule.mem_top, top_ne_bot, rfl⟩
@@ -322,8 +322,8 @@ theorem e25_abelian {Y : Type*} [Group Y] [Finite Y] {ρ : Y →* (V ≃ₗ[ZMod
     have hcomm : ∀ (P : Submodule (ZMod 2) V) (sP : ∀ g ∈ O', Stable g P),
         IsCyclic (modA_resJ O' P sP).range → ∀ v ∈ P, a (b v) = b (a v) := by
       intro P sP hcyc v hv
-      haveI := hcyc
-      letI : CommGroup (modA_resJ O' P sP).range := IsCyclic.commGroup
+      have := hcyc
+      let : CommGroup (modA_resJ O' P sP).range := IsCyclic.commGroup
       have := mul_comm (⟨modA_resJ O' P sP ⟨a, ha⟩, ⟨_, rfl⟩⟩ : (modA_resJ O' P sP).range)
         ⟨modA_resJ O' P sP ⟨b, hb⟩, ⟨_, rfl⟩⟩
       exact congrArg (fun f : (modA_resJ O' P sP).range => ((f.1 ⟨v, hv⟩ : P) : V)) this
@@ -347,8 +347,8 @@ theorem e25_abelian {Y : Type*} [Group Y] [Finite Y] {ρ : Y →* (V ≃ₗ[ZMod
         omega
     have hcyc := isCyclic_of_irreducible_odd O' hodd (j := 3) (by rw [H.dim]; norm_num) hirrV
     intro a ha b hb
-    haveI := hcyc
-    letI : CommGroup O' := IsCyclic.commGroup
+    have := hcyc
+    let : CommGroup O' := IsCyclic.commGroup
     have := mul_comm (⟨a, ha⟩ : O') ⟨b, hb⟩
     exact congrArg Subtype.val this
 
@@ -359,12 +359,13 @@ section Ranks
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] {Y : Type*} [Group Y] [Finite Y]
   {ρ : Y →* (V ≃ₗ[ZMod 2] V)} {t u x h : Y}
 
+omit [Finite Y] in
 theorem e25_ranks (H : HypYW ρ t u x h) (hsh : E25Shape ρ x t) :
     (∀ j : Y, j * j = 1 → j ≠ 1 → 2 ≤ rk (ρ j)) ∧
     (∀ F : Subgroup Y, (∀ f ∈ F, f * f = 1) → Nat.card F = 4 →
       ∃ j ∈ F, j ≠ 1 ∧ 4 ≤ rk (ρ j)) := by
   have HM := H.toHypM
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   obtain ⟨-, V₁, V₂, hd₁, hc, hV₂, hst, hperm, hact, -⟩ := hsh
   have hd₂ : finrank (ZMod 2) V₂ = 4 := by
     rw [hV₂]
@@ -488,7 +489,7 @@ theorem e25_ranks (H : HypYW ρ t u x h) (hsh : E25Shape ρ x t) :
         refine lt_of_le_of_ne ((Subgroup.zpowers_le).2 haF) fun hEq => ?_
         have : Nat.card F = 2 := by rw [← hEq, Nat.card_zpowers, ha2]
         omega
-      obtain ⟨b, hbF, hbn⟩ := SetLike.exists_of_lt hlt
+      obtain ⟨b, hbF, hbn⟩ := _root_.IsConcreteLE.exists_of_lt hlt
       have hb1 : b ≠ 1 := fun h1 => hbn (h1 ▸ one_mem _)
       have hab1 : a * b ≠ 1 := by
         intro h1

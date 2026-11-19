@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183_map_inclusion_subgroupOf {X Y A : Subgroup G} (hXY : X ≤ Y) (hA : A ≤ X) :
     (A.subgroupOf X).map (Subgroup.inclusion hXY) = A.subgroupOf Y := by
   ext y

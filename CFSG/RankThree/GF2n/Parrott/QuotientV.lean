@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem centerIn_subgroupOf_eq_center (z : G) :
     (centerIn (J z)).subgroupOf (J z) = Subgroup.center (J z) := by
   rw [centerIn_eq_map_center]
@@ -27,12 +28,15 @@ abbrev V (z : G) : Type :=
 @[expose] noncomputable def pi (z : G) : J z →* V z :=
   QuotientGroup.mk' ((centerIn (J z)).subgroupOf (J z))
 
+omit [Finite G] in
 theorem pi_surjective (z : G) : Function.Surjective (pi z) :=
   QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem pi_ker (z : G) : (pi z).ker = (centerIn (J z)).subgroupOf (J z) :=
   QuotientGroup.ker_mk' _
 
+omit [Finite G] in
 theorem card_V (h : Tim79a.ParrottHyp z) : Nat.card (V z) = 2 ^ 8 := by
   have hZsub : Nat.card ((centerIn (J z)).subgroupOf (J z)) = 4 := by
     rw [centerIn_subgroupOf_eq_center, ← card_centerIn_J h, centerIn_eq_map_center,
@@ -42,6 +46,7 @@ theorem card_V (h : Tim79a.ParrottHyp z) : Nat.card (V z) = 2 ^ 8 := by
   rw [card_J h, hZsub] at hcard
   exact Nat.eq_of_mul_eq_mul_right (by norm_num) (hcard.symm.trans (by norm_num))
 
+omit [Finite G] in
 theorem isMulCommutative_V (h : Tim79a.ParrottHyp z) : IsMulCommutative (V z) := by
   have hJcomm : ⁅J z, J z⁆ = Subgroup.zpowers z := by
     obtain ⟨-, -, hcomm, -, -⟩ := h
@@ -57,6 +62,7 @@ theorem isMulCommutative_V (h : Tim79a.ParrottHyp z) : IsMulCommutative (V z) :=
   rw [hJcomm] at hx'
   exact hzp hx'
 
+omit [Finite G] in
 theorem pow_two_eq_one_V (h : Tim79a.ParrottHyp z) (v : V z) : v ^ 2 = 1 := by
   obtain ⟨j, rfl⟩ := pi_surjective z v
   have hj : ((j : J z) : G) * ((j : J z) : G) ∈ centerIn (J z) :=

@@ -33,7 +33,7 @@ private theorem a11fa_fBasis_span_top (a : ZMod 7) (ha : a ≠ 0) :
     funext j; fin_cases j <;> simp [fBasis]
   have hrow3 : (fBasis a) 3 = (Pi.single 0 a : Fin 4 → ZMod 7) := by
     funext j; fin_cases j <;> simp [fBasis]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h0 : (Pi.single 0 (1 : ZMod 7) : Fin 4 → ZMod 7) = (a⁻¹).val • (fBasis a) 3 := by
     rw [hrow3, a11fa_nsmul_single (a⁻¹) a 0, inv_mul_cancel₀ ha]
   have hmem : (Pi.single i (1 : ZMod 7) : Fin 4 → ZMod 7) ∈
@@ -64,7 +64,7 @@ private theorem a11fa_fBasis_castSucc (a : ZMod 7) (i : Fin 3) :
 
 private theorem a11fa_fBasis_ne_zero (a : ZMod 7) (ha : a ≠ 0) (i : Fin 4) :
     (fBasis a) i ≠ 0 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro h
   fin_cases i
   · have hh : (1 : ZMod 7) = 0 := by simpa [fBasis] using congrFun h 1
@@ -87,7 +87,7 @@ private theorem a11fa_single_succ (i : Fin 3) :
 private theorem a11fa_single_zero (a : ZMod 7) (ha : a ≠ 0) :
     (Pi.single 0 (1 : ZMod 7) : Fin 4 → ZMod 7) =
       (a⁻¹).val • (Pi.single 0 a : Fin 4 → ZMod 7) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rw [a11fa_nsmul_single (a⁻¹) a 0, inv_mul_cancel₀ ha]
 
 private theorem a11fa_ofMul_mul {M : Type} [Mul M] (x y : M) :
@@ -110,10 +110,10 @@ private theorem a11fa_tC_add (c d : Fin 3 → ZMod 7) : tC c * tC d = tC (c + d)
 
 private theorem a11fa_fBasis_mul_fBasisInv (a : ZMod 7) (ha : a ≠ 0) :
     fBasis a * fBasisInv a = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [fBasis, fBasisInv, Matrix.mul_apply, Fin.sum_univ_four] <;>
+    simp [fBasis, fBasisInv, Matrix.mul_apply, Fin.sum_univ_four];
     exact mul_inv_cancel₀ ha
 
 private theorem a11fa_fBasis_mul_fPerm (a : ZMod 7) (ha : a ≠ 0) (σ : Equiv.Perm (Fin 4)) :
@@ -130,7 +130,7 @@ private theorem a11fa_a8PermMat_mul_fBasis (a : ZMod 7) (σ : Equiv.Perm (Fin 4)
   · simp [a8PermMat]
   · intro b _ hb
     simp only [a8PermMat, Matrix.of_apply]
-    rw [if_neg (Ne.symm hb), zero_mul]
+    rw [ite_eq_right (Ne.symm hb), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ (σ i)) h
 
@@ -281,7 +281,7 @@ theorem a11FrameAssembleInput_holds : A11FrameAssembleInput := by
     exact a11fa_fBasis_ne_zero a ha i (by rw [← hfb i, h2])
   have hf_order : ∀ i, orderOf (f i) = 7 := by
     intro i
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     refine orderOf_eq_prime ?_ (hf_ne_one i)
     show ((fb i : ↥Bs) : G) ^ 7 = 1
     rw [← Subgroup.coe_pow, hpowBs (fb i)]
@@ -309,7 +309,7 @@ theorem a11FrameAssembleInput_holds : A11FrameAssembleInput := by
     simpa [f] using this
   have hy7 : y ^ 7 = 1 := hnb.1.1.1.2 y hnb.1.2.1
   have hyorder : orderOf y = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hy7 hnb.1.2.2.1
   have hy_sub : (⟨y, hy⟩ : ↥Bs) = (fb 3) ^ ((a⁻¹).val) := by
     apply Additive.ofMul.injective
@@ -394,7 +394,7 @@ theorem a11FrameAssembleInput_holds : A11FrameAssembleInput := by
     fin_cases j <;> simp [Pi.single_eq_same, Pi.single_eq_of_ne, _root_.add_neg_cancel]
   have hb0D : (b0 : G) ∈ D := by
     rw [hb0_eq, Subgroup.coe_mul, Subgroup.coe_pow]
-    simp only [Subtype.coe_mk]
+    simp only
     refine D.mul_mem ?_ (D.pow_mem ?_ _)
     · rw [hnb.2.1]; exact Subgroup.subset_closure (Set.mem_insert _ _)
     · rw [hnb.2.1]
@@ -431,7 +431,7 @@ theorem a11FrameAssembleInput_holds : A11FrameAssembleInput := by
     rw [hJ9def, Subgroup.map_commutator (Subgroup.centralizer ({c0} : Set (SL 9)))
       (Subgroup.centralizer ({c0} : Set (SL 9))) φ₃, hmapC0]
   have hJleJ9 : J ≤ J9.map φ₃ := by
-    haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJq.1⟩
     have hcommJ : ⁅J, J⁆ = J := Subgroup.commutator_eq_self
     rw [← hcommJ, ← hJ9]
     exact Subgroup.commutator_mono hJ_C hJ_C
@@ -450,14 +450,14 @@ theorem a11FrameAssembleInput_holds : A11FrameAssembleInput := by
     intro l
     by_cases hl : l = 3
     · subst hl; rw [hn3]; exact L.one_mem
-    · simp only [n, if_neg hl]; exact (hgL l).1
+    · simp only [n, ite_eq_right hl]; exact (hgL l).1
   have hnact : ∀ l i, n l * f i * (n l)⁻¹ = f (Equiv.swap l 3 i) := by
     intro l i
     by_cases hl : l = 3
     · subst hl
       rw [hn3]
       simp
-    · have hn : n l = gL l := by simp [n, if_neg hl]
+    · have hn : n l = gL l := by simp [n, ite_eq_right hl]
       rw [hn]
       exact a11fa_conj_fb ι a ha fb hfb (Equiv.swap l 3) (gL l) (ψL l)
         (hgL l).2.2 (hψL l).2 i

@@ -16,6 +16,7 @@ section Sub
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_dvd_card_ker_subtype {p : ℕ} (hp : p.Prime) (H : Subgroup G) :
     ¬ p ∣ Nat.card (H.subtype : ↥H →* G).ker := by
   rw [Subgroup.ker_subtype, Subgroup.card_bot]

@@ -43,7 +43,7 @@ theorem partD_of_smithE7Input (hE7 : SmithE7Input) (hE8 : SmithE8Input) : PartD 
   have hfin : Finite Mbar := by
     obtain ⟨φ, hφ, -⟩ := hMbar
     exact Finite.of_surjective φ hφ
-  haveI : IsSimpleGroup Mbar := hMs
+  have : IsSimpleGroup Mbar := hMs
   have htext' :
       timmesfeldIsExtraspecial (timmesfeldFStar (Subgroup.centralizer ({t} : Set Mbar))) := by
     rw [← generalizedFitting_eq_timmesfeldFStar]

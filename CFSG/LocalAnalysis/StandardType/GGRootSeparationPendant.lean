@@ -27,6 +27,7 @@ private theorem rsForm_single_left (i : I) (y : I → ℤ) :
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [DecidableEq I] in
 private theorem rsForm_comm (hS : A.IsSymm) (x y : I → ℤ) : rsForm A x y = rsForm A y x := by
   have h : rsForm A y x = ∑ i, ∑ j, x i * (A i j * y j) := by
     simp only [rsForm, Finset.mul_sum]
@@ -46,10 +47,12 @@ private theorem rsForm_single_single (i : I) :
   rw [rsForm_single_left]
   simp [Pi.single_apply]
 
+omit [DecidableEq I] in
 private theorem rsForm_sub_left (x x' y : I → ℤ) :
     rsForm A (x - x') y = rsForm A x y - rsForm A x' y := by
   simp only [rsForm, Pi.sub_apply, sub_mul, Finset.sum_sub_distrib]
 
+omit [DecidableEq I] in
 private theorem rsForm_smul_left (a : ℤ) (x y : I → ℤ) :
     rsForm A (a • x) y = a * rsForm A x y := by
   simp only [rsForm, Pi.smul_apply, smul_eq_mul]
@@ -57,10 +60,12 @@ private theorem rsForm_smul_left (a : ℤ) (x y : I → ℤ) :
   refine Finset.sum_congr rfl fun i _ => ?_
   ring
 
+omit [DecidableEq I] in
 private theorem rsForm_sub_right (x y y' : I → ℤ) :
     rsForm A x (y - y') = rsForm A x y - rsForm A x y' := by
   simp only [rsForm, Pi.sub_apply, mul_sub, Finset.sum_sub_distrib]
 
+omit [DecidableEq I] in
 private theorem rsForm_smul_right (hS : A.IsSymm) (a : ℤ) (x y : I → ℤ) :
     rsForm A x (a • y) = a * rsForm A x y := by
   rw [rsForm_comm hS, rsForm_smul_left, rsForm_comm hS]
@@ -104,6 +109,7 @@ theorem rsForm_root (hA : TauCeti.IsFiniteType A) (hS : A.IsSymm) {γ : I → �
     simp [Pi.single_apply, hA.apply_self]
   · exact absurd hi (by simp)
 
+omit [DecidableEq I] in
 private theorem rsForm_eq_sum_support {J : Finset I} {x y : I → ℤ}
     (hx : ∀ k ∉ J, x k = 0) (hy : ∀ k ∉ J, y k = 0) :
     rsForm A x y = ∑ i ∈ J, x i * ∑ j ∈ J, A i j * y j := by
@@ -114,6 +120,7 @@ private theorem rsForm_eq_sum_support {J : Finset I} {x y : I → ℤ}
     exact fun j _ hj => by rw [hy j hj, mul_zero]
   · exact fun i _ hi => by rw [hx i hi, zero_mul]
 
+omit [DecidableEq I] in
 private theorem rsForm_eq_single {i : I} {x y : I → ℤ}
     (hx : ∀ k ∉ ({i} : Finset I), x k = 0) (hy : ∀ k ∉ ({i} : Finset I), y k = 0) :
     rsForm A x y = x i * (A i i * y i) := by
@@ -128,6 +135,7 @@ private theorem rsForm_eq_pair {i j : I} (hij : i ≠ j) {x y : I → ℤ}
   rw [rsForm_eq_sum_support (J := {i, j}) hx hy]
   rw [Finset.sum_pair hij, Finset.sum_pair hij, Finset.sum_pair hij]
 
+omit [DecidableEq I] [Fintype I] in
 private theorem apply_eq_zero_or_neg_one_of_ne (hA : TauCeti.IsFiniteType A) (hS : A.IsSymm)
     {i j : I} (hij : i ≠ j) : A i j = 0 ∨ A i j = -1 := by
   rcases cartan_pair_cases hA hij with ⟨h, _⟩ | ⟨h, _⟩ | ⟨h, h'⟩ | ⟨h, h'⟩ | ⟨h, h'⟩ |
@@ -308,6 +316,7 @@ private theorem eq_zero_of_dvd_coroot (hA : TauCeti.IsFiniteType A) (hS : A.IsSy
           · exact hb
           · exact hsupp k (by simp [hki, hkj])
 
+omit [DecidableEq I] in
 private theorem rsForm_cast_eq {α β : I → ℤ} {p : ℕ} (c : ZMod p)
     (hprop : ∀ i, ((∑ j, A i j * β j : ℤ) : ZMod p) =
       c * ((∑ j, A i j * α j : ℤ) : ZMod p)) (y : I → ℤ) :
@@ -334,7 +343,7 @@ private theorem rsForm_c_eq_pm_one (hA : TauCeti.IsFiniteType A) (hS : A.IsSymm)
     (hprop : ∀ i, ((∑ j, A i j * β j : ℤ) : ZMod p) =
       c * ((∑ j, A i j * α j : ℤ) : ZMod p)) :
     c = 1 ∨ c = -1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcast := rsForm_cast_eq (α := α) (β := β) c hprop
   have hαβ : ((rsForm A α β : ℤ) : ZMod p) = c * (2 : ZMod p) := by
     have h := hcast α
@@ -374,7 +383,7 @@ private theorem ggRootSeparation_aux (hA : TauCeti.IsFiniteType A) (hS : A.IsSym
       c * ((∑ j, A i j * α j : ℤ) : ZMod p))
     (ε : ℤ) (hε : ((ε : ℤ) : ZMod p) = c) (hεpm : ε = 1 ∨ ε = -1) :
     β = ε • α := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let v : I → ℤ := β - ε • α
   have hdiv : ∀ i, (p : ℤ) ∣ ∑ j, A i j * v j := by
     intro i
@@ -430,7 +439,7 @@ private theorem ggRootSeparation_aux (hA : TauCeti.IsFiniteType A) (hS : A.IsSym
   have hv2 : ∀ k, |v' k| ≤ 2 := by
     intro k
     have hk : v' k = β' k - ε * α' k := by
-      simp [v', Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
+      simp [v', Pi.sub_apply]
     rw [hk]
     calc
       |β' k - ε * α' k| ≤ |β' k| + |ε * α' k| := abs_sub _ _

@@ -54,7 +54,7 @@ theorem kFactSylowThreeAbelian_l34 {X : Type} [Group X] [Finite X] {K : Subgroup
     rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
       ← CFSG.ComponentClassification.PSL3Four.card_R]
     exact Subgroup.card_dvd_of_le hιR
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hRX : Nat.card (R : Subgroup X) ∣ 241920 := (Subgroup.card_subgroup_dvd_card _).trans hX
   have h9 : 3 ^ 2 ∣ 3 ^ n := by
     rw [← hn, show (3 : ℕ) ^ 2 = 9 by norm_num, ← hE9]

@@ -39,9 +39,9 @@ theorem cntNK_eq (n : ℕ) (f : ℕ → Bool) :
     change bitK (f n) + cntNK n f = _
     rw [ih, Finset.range_add_one, Finset.filter_insert, bitK_eq]
     by_cases h : f n = true
-    · rw [if_pos h, if_pos h, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left h, ite_eq_left h, Finset.card_insert_of_notMem (by simp)]
       omega
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       omega
 
 theorem cntRootsK_eq (rows : List ℕ) (n : ℕ) :
@@ -97,7 +97,7 @@ theorem enc_lt (c : Fin 4 → ZMod 5) : enc c < 625 := (enc_digits c).2.2.2.2
 theorem dec_enc (c : Fin 4 → ZMod 5) : dec (enc c) = c := by
   obtain ⟨h0, h1, h2, h3, -⟩ := enc_digits c
   funext k
-  fin_cases k <;> simp [dec, h0, h1, h2, h3, ZMod.natCast_zmod_val]
+  fin_cases k <;> simp [dec, h0, h1, h2, h3]
 
 theorem enc_dec {n : ℕ} (hn : n < 625) : enc (dec n) = n := by
   have e0 : dec n 0 = ((n % 5 : ℕ) : ZMod 5) := rfl
@@ -231,7 +231,7 @@ theorem fix1_eq : e8FiveFix1 = colMap mFix1 := by
 theorem fix2_eq : e8FiveFix2 = colMap mFix2 := by
   funext c i
   change Fin 8 at i
-  fin_cases i <;> simp [e8FiveFix2, colMap, mFix2, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> simp [e8FiveFix2, colMap, mFix2, Fin.sum_univ_four]; ring
 
 theorem t40_iff (M : List (List ℤ)) (c : Fin 4 → ZMod 5) :
     (c ≠ 0 ∧ e8Count5 (colMap M c) = 40) ↔

@@ -46,7 +46,7 @@ private theorem zsnc_smul_index_eq {n : ℕ} (e : Module.Basis (Fin n) (ZMod p) 
   by_contra hne
   have h1 := congrArg (fun w => e.repr w j) h
   simp only [map_smul, Finsupp.smul_apply, e.repr_self, Finsupp.single_apply, smul_eq_mul] at h1
-  rw [if_neg (Ne.symm hne)] at h1
+  rw [ite_eq_right (Ne.symm hne)] at h1
   simp at h1
   exact hc h1
 
@@ -334,7 +334,7 @@ private theorem zsnc_movedSpace_le {H : Subgroup (U ≃ₗ[ZMod p] U)}
   · subst hc2
     simpa using (HardMathSupport.Kantor79.commutatorSpace H).sub_mem
       ((HardMathSupport.Kantor79.commutatorSpace H).smul_mem (-1) hf2) hf2
-  · rw [if_neg hc2]; simp
+  · rw [ite_eq_right hc2]; simp
 
 omit [Module.Finite (ZMod p) U] in
 private theorem zsnc_commutatorSpace_closure_eq {H : Subgroup (U ≃ₗ[ZMod p] U)}
@@ -384,7 +384,7 @@ private theorem zsnc_centralizerSpace_closure_eq (S : ImpExtStd G H d e j₀ j�
       rw [hVH] at hv'
       obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hv'
       rw [← hc, map_smul, zsnc_diagSign_action f hrm 3,
-        if_neg (by simp [Fin.ext_iff]), one_smul]
+        ite_eq_right (by simp [Fin.ext_iff]), one_smul]
     rw [mem_centralizerSpace] at hv ⊢
     intro g hg
     have hfix : ∀ g ∈ Subgroup.closure (insert r (H : Set (U ≃ₗ[ZMod p] U))), g v = v := by

@@ -21,9 +21,9 @@ theorem testBit_ofBits : ∀ (n : ℕ) (f : ℕ → Bool) (j : ℕ), j < n →
   | n + 1, f, 0, _ => by
     rw [ofBits, Nat.testBit_zero]
     cases h : f 0
-    · simp only [Bool.false_eq_true, if_false, zero_add]
+    · simp only [Bool.false_eq_true, ite_false, zero_add]
       simp
-    · simp only [if_true]
+    · simp only [ite_true]
       simp [Nat.add_mul_mod_self_left]
   | n + 1, f, j + 1, hj => by
     rw [ofBits, Nat.testBit_succ]

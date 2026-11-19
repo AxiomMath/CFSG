@@ -17,7 +17,7 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (S B : Subgroup H) [S.Norm
     (htrans : ∀ x y : X, ∃ s : S, s.val • x = y) :
     ∃ x : X, ∀ b : B, b.val • x = x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 hS
   have hBcop : Nat.Coprime (Nat.card S) (Nat.card B) := by
     rw [hk]; exact Nat.Coprime.pow_left _ ((Nat.coprime_two_left).2 hB)
@@ -51,7 +51,7 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (S B : Subgroup H) [S.Norm
     rw [e]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_right s.2) (Subgroup.mem_sup_left this)
   set S' : Subgroup T := S.subgroupOf T with hS'
-  haveI : S'.Normal := Subgroup.Normal.subgroupOf inferInstance T
+  have : S'.Normal := Subgroup.Normal.subgroupOf inferInstance T
   have hS'p : IsPGroup 2 S' := hS.comap_subtype
   have hS'idx : S'.index = Nat.card B := by
     rw [← hindex]
@@ -71,8 +71,8 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (S B : Subgroup H) [S.Norm
     exact hC.symm.index_eq_card.symm
   have hC'c : Subgroup.IsComplement' S C' :=
     Subgroup.isComplement'_of_coprime (by rw [hcardC', hcardSB]) (by rw [hcardC']; exact hBcop)
-  haveI : Group.IsSolvable S := by
-    haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsSolvable S := by
+    have : Group.IsNilpotent S := hS.isNilpotent
     infer_instance
   obtain ⟨n, hn, hBeq⟩ := CFSG.SolvableHall.solvable_normal_hall_complement_conjugacy S
     inferInstance hSidx_odd (H := C') (K := B)
@@ -83,7 +83,7 @@ theorem exists_fixed {H : Type*} [Group H] [Finite H] (S B : Subgroup H) [S.Norm
   obtain ⟨c, hc, hcb⟩ := hb
   have hcx : c • x0 = x0 := hC'T hc
   have : (b : H) = n⁻¹ * c * n := by
-    rw [← hcb]; simp [MulAut.conj_apply]
+    rw [← hcb]; simp
   rw [this, mul_smul, mul_smul, smul_inv_smul, hcx]
 
 end CFSG.GroupTheory.CoprimeActionSupport.OddComplementFixedPoints

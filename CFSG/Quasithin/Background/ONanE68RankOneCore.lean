@@ -176,7 +176,7 @@ theorem inf_centralizer_eq_bot_of_abelian {Q : Sylow 2 S} {D : Subgroup S} (hD :
     rw [hQD, Subgroup.mem_bot] at this
     exact this
   have hcQ : p0 * d0 ∈ (Q : Subgroup S) := by rw [hd01, mul_one]; exact hp0
-  obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨p0 * d0, hcQ⟩
+  obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨p0 * d0, hcQ⟩
   rw [Subgroup.orderOf_mk, hc3] at hm
   cases m with
   | zero => omega

@@ -16,7 +16,7 @@ variable {X Q : Type} [Group X] [Finite X] [Group Q]
 theorem eq_one_of_mem_member_of_map_eq_one {M : Subgroup X} {z : X} (hz : IsUniqueInvolution M z)
     (h2 : IsPGroup 2 ↥M) (f : X →* Q) (hzf : z ∉ f.ker) {m : X} (hm : m ∈ M) (hfm : f m = 1) :
     m = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp h2 ⟨m, hm⟩
   rw [Subgroup.orderOf_mk] at hk
@@ -41,7 +41,7 @@ theorem inj_members_of_twoGroupKernel {Φ : Set (Subgroup X)} (hS : Q8Section X 
     (hno : ∀ K ∈ Φ, ∀ z : X, IsUniqueInvolution K z → z ∉ f.ker) :
     (∀ M ∈ Φ, ∀ m ∈ M, f m = 1 → m = 1) ∧
       (∀ M ∈ Φ, ∀ M' ∈ Φ, M.map f = M'.map f → M = M') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : ∀ M ∈ Φ, ∀ m ∈ M, f m = 1 → m = 1 := by
     intro M hM m hm hfm
     obtain ⟨z, hz⟩ := (hS.hyp.omega1 M hM).1

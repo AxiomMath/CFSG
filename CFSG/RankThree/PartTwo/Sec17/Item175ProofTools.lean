@@ -240,7 +240,7 @@ theorem exists_inv_mul_mem_thetaQuotCentralizer_of_inner
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hdvd
     have hp : IsPGroup 3 (Subgroup.zpowers q) :=
       IsPGroup.of_card (n := m) (by rw [Nat.card_zpowers, hm])
-    have hsup := hp.to_sup_of_normal_right' Sb.isPGroup' (Subgroup.zpowers_le.mpr hqN)
+    have hsup := hp.to_sup_of_normal_right' Sb.isPGroup (Subgroup.zpowers_le.mpr hqN)
     have heq := Sb.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact heq ▸ (le_sup_left : Subgroup.zpowers q ≤ _) (Subgroup.mem_zpowers q)
   rw [hSb] at hqS
@@ -437,7 +437,7 @@ theorem exponent_of_j2 (h415 : Sec4.Item4_15) {L S : Subgroup G}
   obtain ⟨Q, hQ⟩ := hS
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
   have hinj : Set.InjOn π ((Q : Subgroup ↥L) : Set ↥L) :=
-    injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup'
+    injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup
   set Sb : Sylow 3 (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     Q.mapSurjective (QuotientGroup.mk'_surjective _) with hSbdef
   have hSb : (Sb : Subgroup _) = (Q : Subgroup ↥L).map π := Sylow.coe_mapSurjective _ _

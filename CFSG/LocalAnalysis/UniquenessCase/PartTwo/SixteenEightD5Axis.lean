@@ -11,11 +11,13 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
   {K : Fin 4 → Subgroup (MulAut W)} {Z : Fin 4 → Subgroup W}
 
+omit [Finite W] in
 private theorem s16e_d5_comp_inv_toMonoidHom (g : MulAut W) :
     g.toMonoidHom.comp (g⁻¹).toMonoidHom = MonoidHom.id W := by
   ext v
-  simp [MulAut.mul_apply, MulAut.inv_def]
+  simp [MulAut.inv_def]
 
+omit [Finite W] in
 private theorem s16e_d5_map_inv_map (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [Subgroup.map_map, s16e_d5_comp_inv_toMonoidHom, Subgroup.map_id]
@@ -60,6 +62,6 @@ theorem s16e_d5_axis_conj (hfr : s16e_d5_Frame L K Z) {A : Subgroup (MulAut W)}
     have hafix : a (g⁻¹ z) = g⁻¹ z := hai k' hk'ne (g⁻¹ z) hz'
     calc (g * a * g⁻¹) z = g (a (g⁻¹ z)) := by rw [MulAut.mul_apply, MulAut.mul_apply]
       _ = g (g⁻¹ z) := by rw [hafix]
-      _ = z := by simpa [MulAut.inv_def] using g.apply_symm_apply z
+      _ = z := by simp [MulAut.inv_def]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

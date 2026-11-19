@@ -170,7 +170,7 @@ theorem q1TorLin_config :
       by_cases hd5 : rank + 1 ≤ 5
       · exact (Nat.pow_le_pow_right hp.pos (by omega : rank + 1 - 2 ≤ 3)).trans hcard3
       · have hd5' : 5 ≤ rank + 1 := by omega
-        haveI : CharP K 2 :=
+        have : CharP K 2 :=
           CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
             Nat.prime_two hn hKcard
         have hlift : GGTorusLift p (rank + 1 - 2)
@@ -184,7 +184,7 @@ theorem q1TorLin_config :
     have htop : IsElemAbelian p (⊤ : Subgroup ↥Bs) := by
       refine ⟨?_, ?_⟩
       · refine ⟨⟨fun a b => ?_⟩⟩
-        haveI : IsMulCommutative ↥Bs := hBs.1
+        have : IsMulCommutative ↥Bs := hBs.1
         exact Subtype.ext (mul_comm' a.1 b.1)
       · intro y _
         exact Subtype.ext (hBs.2 y.1 y.2)

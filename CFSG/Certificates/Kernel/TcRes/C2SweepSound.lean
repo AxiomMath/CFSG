@@ -122,17 +122,17 @@ theorem card_red5 : Nat.card {x : (Fin 4 → ZMod 5) × (Fin 4 → ZMod 5) // Is
       obtain ⟨a, ha, rfl⟩ := v5_surj x1
       obtain ⟨b, hb, rfl⟩ := v5_surj x2
       refine ⟨(a, b), ?_, rfl⟩
-      simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_setOf_eq]
+      simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_ofPred_eq]
       exact ⟨⟨ha, hb⟩, h⟩
     · simp only [Set.mem_image, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-        Set.mem_setOf_eq, Prod.exists]
+        Set.mem_ofPred_eq, Prod.exists]
       rintro ⟨a, b, hab, he⟩
       simp only [f, Prod.mk.injEq] at he
       obtain ⟨rfl, rfl⟩ := he
       exact hab.2
   have hinj : Set.InjOn f ↑S := by
     simp only [Set.InjOn, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-      Set.mem_setOf_eq, Prod.forall]
+      Set.mem_ofPred_eq, Prod.forall]
     intro a b hab a' b' hab' he
     simp only [f, Prod.mk.injEq] at he
     rw [v5_inj hab.1.1 hab'.1.1 he.1, v5_inj hab.1.2 hab'.1.2 he.2]
@@ -338,7 +338,7 @@ theorem exists_c2_record {vec : ℕ → Fin Tag.E8.rank → ℤ} {T0 B PV MW r a
       lam B c (⟨fld PV 3 k % 8, Nat.mod_lt _ (by norm_num)⟩ : Fin 8) = c k := by
     intro c k
     simp only [lam, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, hK.piv, mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hinj : Function.Injective (lamL B) := by
     intro c d hcd
     funext k

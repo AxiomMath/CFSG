@@ -313,7 +313,7 @@ theorem d_planeCount_holds : DPlaneCountLeaf := by
   have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hpq : 3 ∣ Nat.card F + 1 := by
-    simpa [hF] using (dvd_refl 3 : 3 ∣ 3)
+    simp [hF]
   obtain ⟨k, U, e, hframe, hcase⟩ :=
     exists_planeFrame_of_selfCentralizing (p := 3) hQ Nat.prime_three (by norm_num) hpq hdim
       (by omega) hE hsc

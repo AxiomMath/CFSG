@@ -327,7 +327,7 @@ theorem v2Block_col_N (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
     have hj : ¬ (2 + j.val ≤ 1) := by omega
     have hi2 : ¬ (2 + r.val < 2) := by omega
     have hj2 : ¬ (2 + j.val < 2) := by omega
-    simp [v2Block, Fin.natAdd, hi, hj, hi2, hj2]
+    simp [v2Block, Fin.natAdd, hi, hj]
     exact (Fin.append_right (fun i => X i j) (fun k => N k j) r).symm
 
 theorem v2Block_col_U (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
@@ -339,10 +339,10 @@ theorem v2Block_col_U (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
   refine Fin.addCases (m := 2) (n := 4) (fun l => ?_) (fun r => ?_) i
   · have hl : l.val ≤ 1 := by omega
     have hj : j.val ≤ 1 := by omega
-    simp [v2Block, Fin.castAdd, hl, hj, Fin.append_left]
+    simp [v2Block, Fin.castAdd, hl, hj]
   · have hi : ¬ (2 + r.val ≤ 1) := by omega
     have hj : j.val ≤ 1 := by omega
-    simp [v2Block, Fin.castAdd, hi, hj, Fin.append_right]
+    simp [v2Block, Fin.castAdd, hi, hj]
 
 theorem v2Frame_castAdd (k u : G) (n : Fin 4 → G) (j : Fin 2) :
     v2Frame k u n (Fin.castAdd 4 j) =
@@ -359,7 +359,7 @@ theorem v2Block_castAdd_castAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
   have ha : (Fin.castAdd 4 a).val < 2 := a.isLt
   have hb : (Fin.castAdd 4 b).val < 2 := b.isLt
   simp only [v2Block, Matrix.of_apply]
-  rw [dif_pos ha, dif_pos hb]
+  rw [dite_eq_left ha, dite_eq_left hb]
   simp
 
 theorem v2Block_castAdd_natAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
@@ -370,7 +370,7 @@ theorem v2Block_castAdd_natAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
     simp only [Fin.natAdd, Fin.val_mk]
     omega
   simp only [v2Block, Matrix.of_apply]
-  rw [dif_pos ha, dif_neg hd]
+  rw [dite_eq_left ha, dite_eq_right hd]
   simp
 
 theorem v2Block_natAdd_castAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
@@ -381,7 +381,7 @@ theorem v2Block_natAdd_castAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
     omega
   have hb : (Fin.castAdd 4 b).val < 2 := b.isLt
   simp only [v2Block, Matrix.of_apply]
-  rw [dif_neg hc, if_pos hb]
+  rw [dite_eq_right hc, ite_eq_left hb]
 
 theorem v2Block_natAdd_natAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
     (X : Matrix (Fin 2) (Fin 4) (ZMod 2)) (N : Matrix (Fin 4) (Fin 4) (ZMod 2))
@@ -393,7 +393,7 @@ theorem v2Block_natAdd_natAdd (U : Matrix (Fin 2) (Fin 2) (ZMod 2))
     simp only [Fin.natAdd, Fin.val_mk]
     omega
   simp only [v2Block, Matrix.of_apply]
-  rw [dif_neg hc, if_neg hd]
+  rw [dite_eq_right hc, ite_eq_right hd]
   simp
 
 end CFSG.Quasithin.F112R.St84

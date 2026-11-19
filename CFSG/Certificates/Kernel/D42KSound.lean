@@ -26,7 +26,7 @@ theorem toNat_inj {a b : GF8} (h : a.toNat = b.toNat) : a = b := by
 theorem entK_encM (A : Array GF8) {i j : Nat} (hi : i < 8) (hj : j < 8) :
     entK (encM A) i j = (A.getD (8 * i + j) 0).toNat := by
   unfold entK encM
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hi, hj]
+  simp [List.getD_eq_getElem?_getD, hi, hj]
 
 theorem getD_mulArr (A B : Array GF8) {i j : Nat} (hi : i < 8) (hj : j < 8) :
     (mulArr A B).getD (8 * i + j) 0 =

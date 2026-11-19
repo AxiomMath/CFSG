@@ -63,8 +63,8 @@ theorem exists_decomp_of_isolated_blocks {d : ℕ} (θ : ↥(L ⊔ S) →* Perm 
         exact hfix i hiB
 
 theorem not_mem_normalizer_of_cycle {d : ℕ} (W : Subgroup (Perm (Fin d))) (hW : IsPGroup 2 W)
-    {a₁ a₁' a₂ a₂' x : Fin d} (h12 : a₁ ≠ a₁') (h1 : a₂ ≠ a₂') (hd1 : a₁ ≠ a₂) (hd2 : a₁ ≠ a₂')
-    (hd3 : a₁' ≠ a₂) (hd4 : a₁' ≠ a₂') (hx1 : x ≠ a₁) (hx2 : x ≠ a₂) (hx3 : x ≠ a₁')
+    {a₁ a₁' a₂ a₂' x : Fin d} (h12 : a₁ ≠ a₁') (h1 : a₂ ≠ a₂') (hd1 : a₁ ≠ a₂) (_hd2 : a₁ ≠ a₂')
+    (hd3 : a₁' ≠ a₂) (hd4 : a₁' ≠ a₂') (hx1 : x ≠ a₁) (_hx2 : x ≠ a₂) (hx3 : x ≠ a₁')
     (hW1 : swap a₁ a₁' ∈ W) (hW2 : swap a₂ a₂' ∈ W) :
     swap a₁ a₂ * swap a₂ x ∉ Subgroup.normalizer (W : Set (Perm (Fin d))) := by
   intro hN

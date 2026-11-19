@@ -13,9 +13,9 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.R3c23 CFSG.Ass
 
 variable {V : Type} [CommGroup V] [Finite V]
 
-theorem l3Branch (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ Q : Subgroup (MulAut V)} {τ : MulAut V}
-    (P : JPair X L₁ L₂ τ) (h : TwoB56GenInv X L₁ L₂) (hL : IsL32 L₁) (hFF : IsFFModule X)
-    (hO2 : pCoreOf 2 X = ⊥) (𝒜 : Set (Subgroup (MulAut V))) (hQ2 : IsPGroup 2 Q) (hQJ : Q ≤ ffJ X)
+theorem l3Branch (_hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ Q : Subgroup (MulAut V)} {τ : MulAut V}
+    (P : JPair X L₁ L₂ τ) (h : TwoB56GenInv X L₁ L₂) (hL : IsL32 L₁) (_hFF : IsFFModule X)
+    (_hO2 : pCoreOf 2 X = ⊥) (𝒜 : Set (Subgroup (MulAut V))) (hQ2 : IsPGroup 2 Q) (hQJ : Q ≤ ffJ X)
     (hA : ∀ A ∈ 𝒜, IsFFStarOffender X A) (hAQ : ∀ A ∈ 𝒜, A ≤ Q) :
     ∃ w : V, w ∉ fixV L₁ ∧ w ∈ fixV L₂ ∧ ∀ A ∈ 𝒜, w ∈ fixV A := by
   obtain ⟨G₁, G₂, W₁, W₂, hJ, hbot, hcomm, hL₁, hL₂, hG₁, hG₂, hf₁, hf₂, hsup, hWinf, hp₁, hp₂,

@@ -320,8 +320,8 @@ open DSBUQ2
 
 theorem leafDSBUQ2 [DSLeaf LeafDSBUQ1] [DSLeaf LeafDSBUQQ] [DSLeaf LeafDSBS3Vertex] [DSLeaf LeafZiChief] [DSLeaf LeafM3] [DSLeaf LeafM7] [DSLeaf LeafFrattiniChief] : LeafDSBUQ2 := by
   intro G _ _ L1 L2 S h cU
-  haveI : DSLeaf LeafFrattiniFaithful := ⟨leafFrattiniFaithful⟩
-  haveI : DSLeaf LeafRankBounds := ⟨leafRankBounds⟩
+  have : DSLeaf LeafFrattiniFaithful := ⟨leafFrattiniFaithful⟩
+  have : DSLeaf LeafRankBounds := ⟨leafRankBounds⟩
   obtain ⟨hpc1, hZ1Q1, -, -, hcard1, hnat1, hcardQ2, hcardZ⟩ := dsbuq1 h cU
   obtain ⟨hQQ, hrelQ1, hZ1notQ2⟩ := dsbuqq h cU
   obtain ⟨hS2, hrelS, hd3B, -⟩ := dsbs3_vertex h
@@ -363,7 +363,7 @@ theorem leafDSBUQ2 [DSLeaf LeafDSBUQ1] [DSLeaf LeafDSBUQQ] [DSLeaf LeafDSBS3Vert
     have h3 : 3 ∣ Nat.card (oTwoQuot ↥L2) := by
       rw [Nat.card_congr e2.toEquiv, hp6]
       norm_num
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := oTwoQuot ↥L2) 3 h3
     obtain ⟨x, hx⟩ := QuotientGroup.mk'_surjective (pCore 2 ↥L2) c
     have h3x : 3 ∣ orderOf x := by
@@ -471,7 +471,7 @@ theorem leafDSBUQ2 [DSLeaf LeafDSBUQ1] [DSLeaf LeafDSBUQQ] [DSLeaf LeafDSBS3Vert
       obtain ⟨W1, W2, hΦW1, hW1Q, hΦW2, hW2Q, hPW1, hPW2, -, hjoin, -, -, hLW1, -, hdW2, -, -⟩ := h1
       have hW2N : W2 ≤ Subgroup.normalizer (W1 : Set G) := hW2Q.trans (hQ2P2.trans hPW1)
       obtain ⟨t, htZ, htnot⟩ : ∃ t ∈ dsZi L1 S, t ∉ dsQ L2 L1 S :=
-        SetLike.not_le_iff_exists.mp hZ1notQ2
+        IsConcreteLE.not_le_iff_exists.mp hZ1notQ2
       have htS : t ∈ S := hZ1S htZ
       have htP2 : t ∈ L2 ⊔ bigB L2 L1 S := hSP2 htS
       have hS2' : S = dsQ L2 L1 S ⊔ (S ⊓ L2) := by

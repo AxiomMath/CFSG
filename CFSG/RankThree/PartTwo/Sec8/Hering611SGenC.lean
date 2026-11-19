@@ -10,7 +10,7 @@ variable {G : Type} [Group G]
 
 theorem conj_eq_zpow_of_transvections {a d w u : G} (had : a * d = d * a) {ε δ : ℤ}
     (hε : ε = 1 ∨ ε = -1) (hδ : δ = 1 ∨ δ = -1)
-    (hw1 : w⁻¹ * a * w = a * d ^ ε) (hw2 : w⁻¹ * d * w = d)
+    (hw1 : w⁻¹ * a * w = a * d ^ ε) (_hw2 : w⁻¹ * d * w = d)
     (hu1 : u⁻¹ * a * u = a) (hu2 : u⁻¹ * d * u = d * a ^ δ) :
     (w * u ^ (-(ε * δ)))⁻¹ * a * (w * u ^ (-(ε * δ))) = d ^ ε := by
   have hau : a * u = u * a := by

@@ -19,7 +19,7 @@ private theorem str86U3nonab_not_commutator_le_pCoreOf
     ¬ ⁅T, T⁆ ≤ pCoreOf 2 L := by
   classical
   intro hcomm
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : ↥L →* K := ψ.comp (QuotientGroup.mk' (pCore 2 ↥L))
   have hf : Function.Surjective f := hψ.comp (QuotientGroup.mk'_surjective _)
   let T1 : Subgroup ↥L := T.subgroupOf L

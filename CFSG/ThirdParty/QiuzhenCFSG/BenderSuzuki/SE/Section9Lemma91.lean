@@ -69,7 +69,7 @@ private theorem section9_regular_of_complement
     simpa [alpha, beta] using QuotientGroup.eq.mp h
   let WM : Subgroup M := W.subgroupOf M
   let DM : Subgroup M := (M ⊓ rightConjugate M t).subgroupOf M
-  haveI : WM.Normal := by
+  have : WM.Normal := by
     simpa [WM] using hW.normal_in_M
   have hdisjointM : Disjoint WM DM := by
     rw [Subgroup.disjoint_def]
@@ -169,7 +169,7 @@ public theorem lemma_9_1
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNC.le_M).mp
       hNC.normal_in_M
   have hKnormW : K ≤ Subgroup.normalizer (W : Set X) :=
-    hKleD.trans (by simpa [D] using inf_le_left) |>.trans hMnormW
+    hKleD.trans (by simp [D]) |>.trans hMnormW
   have hKnontriv : ∃ y : X, y ∈ K ∧ y ≠ 1 :=
     ⟨x, Subgroup.mem_zpowers x, hxne⟩
   have hfixed : ∀ y : X, y ∈ K → y ≠ 1 →

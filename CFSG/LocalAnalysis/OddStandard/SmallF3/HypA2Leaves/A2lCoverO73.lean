@@ -16,16 +16,16 @@ theorem a2lCoverO73_holds
     (hC : HypA2.ChevOddInChev2) :
     a2lCoverOn fun S _ => LieModel S .POmegaOdd 3 3 1 := by
   intro K _ _ hq h2 hZ hm
-  haveI : Group.IsPerfect K := hq.1
+  have : Group.IsPerfect K := hq.1
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hF3 : Fintype.card F = 3 := by
     rw [← Nat.card_eq_fintype_card, hcard]
     norm_num
   have hk : ringChar F ≠ 2 := a2l_ringChar_ne_two (by rw [hF3]; decide)
   have h2F : (2 : F) ≠ 0 := Ring.two_ne_zero hk
   have hirr := a2l_irr_zero_one hF3 h2F
-  haveI := a2l_finite_spinOdd h2F 3
+  have := a2l_finite_spinOdd h2F 3
   have hN : Nat.card (center (spinGroup (quadOdd 3 F))) < 2 * 2 := by
     have := a2l_card_center_spinOdd_le_two h2F (n := 3) (by norm_num)
     omega

@@ -23,10 +23,12 @@ private def fzl_omega (P : Subgroup G)
     rintro a ⟨haP, ha2⟩
     exact ⟨P.inv_mem haP, by rw [inv_pow, ha2, inv_one]⟩
 
+omit [Finite G] in
 private lemma fzl_mem_omega {P : Subgroup G}
     (hcomm : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) {x : G} :
     x ∈ fzl_omega P hcomm ↔ x ∈ P ∧ x ^ 2 = 1 := Iff.rfl
 
+omit [Finite G] in
 private theorem fzl_prod_sup_equiv {H₁ H₂ : Subgroup G}
     (hcomm : ∀ x ∈ H₁, ∀ y ∈ H₂, Commute x y) (hdisj : H₁ ⊓ H₂ = ⊥) :
     Nonempty ((H₁ × H₂) ≃* (H₁ ⊔ H₂ : Subgroup G)) := by
@@ -41,6 +43,7 @@ private theorem fzl_prod_sup_equiv {H₁ H₂ : Subgroup G}
     rw [MonoidHom.noncommCoprod_range, Subgroup.range_subtype, Subgroup.range_subtype]
   exact ⟨(MonoidHom.ofInjective hf).trans (MulEquiv.subgroupCongr hrange)⟩
 
+omit [Finite G] in
 private lemma fzl_mem_sup_iff_of_commute {J L : Subgroup G}
     (h : ∀ x ∈ J, ∀ y ∈ L, Commute x y) {z : G} :
     z ∈ J ⊔ L ↔ ∃ j ∈ J, ∃ l ∈ L, j * l = z := by
@@ -68,6 +71,7 @@ private lemma fzl_mem_sup_iff_of_commute {J L : Subgroup G}
   · rintro ⟨j, hj, l, hl, rfl⟩
     exact mul_mem (Subgroup.mem_sup_left hj) (Subgroup.mem_sup_right hl)
 
+omit [Finite G] in
 private lemma fzl_orderOf_eq_two {y : G} (hy2 : y ^ 2 = 1) (hy1 : y ≠ 1) :
     orderOf y = 2 := by
   have hdvd : orderOf y ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr hy2
@@ -75,6 +79,7 @@ private lemma fzl_orderOf_eq_two {y : G} (hy2 : y ^ 2 = 1) (hy1 : y ≠ 1) :
   · exact absurd (orderOf_eq_one_iff.mp h) hy1
   · exact h
 
+omit [Finite G] in
 private lemma fzl_mem_zpowers_pair {y x : G} (hy2 : y ^ 2 = 1) (hy1 : y ≠ 1) :
     x ∈ zpowers y ↔ x = 1 ∨ x = y := by
   have hord : orderOf y = 2 := fzl_orderOf_eq_two hy2 hy1
@@ -107,7 +112,7 @@ theorem fzl_equiv_Z4422 {P E Z : Subgroup G}
     (fzl_mem_omega hcomm).mpr ⟨hEP (hZE hz), hZ2 z hz⟩
   have hex1 : ∃ y : G, y ∈ Ω ∧ y ∉ Z := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Nat.card Ω ≤ Nat.card Z := Subgroup.card_le_of_le fun x hx => h x hx
     rw [hΩcard, hcZ] at hle
     norm_num at hle
@@ -132,7 +137,7 @@ theorem fzl_equiv_Z4422 {P E Z : Subgroup G}
     rw [h1, hcZ, Nat.card_zpowers, hord1]
   have hex2 : ∃ y : G, y ∈ Ω ∧ y ∉ A := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Nat.card Ω ≤ Nat.card A := Subgroup.card_le_of_le fun x hx => h x hx
     rw [hΩcard, hAcard] at hle
     norm_num at hle

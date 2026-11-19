@@ -219,9 +219,9 @@ theorem dig_ofDigits (f : Nat → Nat) : ∀ d j, j < d → Chk.dig (Chk.ofDigit
 theorem dig_pow3 (k k' : Nat) : Chk.dig (3 ^ k) k' = if k = k' then 1 else 0 := by
   rw [Chk.dig]
   rcases Nat.lt_trichotomy k k' with hk | rfl | hk
-  · rw [if_neg (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by decide) hk)]
-  · rw [if_pos rfl, Nat.div_self (Nat.pow_pos (by decide : 0 < 3))]
-  · rw [if_neg (by omega), show k = k' + (k - k' - 1) + 1 by omega, pow_succ, pow_add,
+  · rw [ite_eq_right (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by decide) hk)]
+  · rw [ite_eq_left rfl, Nat.div_self (Nat.pow_pos (by decide : 0 < 3))]
+  · rw [ite_eq_right (by omega), show k = k' + (k - k' - 1) + 1 by omega, pow_succ, pow_add,
       Nat.mul_assoc, Nat.mul_div_cancel_left _ (Nat.pow_pos (by decide : 0 < 3)), Nat.mul_mod_left]
 
 theorem a8K_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx hx fx' hx')
@@ -336,7 +336,7 @@ theorem a8K_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx 
         rw [hn] at hkk'
         change Nat.beq (q + S) (8 + 8 * (e / 16 % 16 - e % 16)) = true at hkk'
         rw [Nat.beq_eq] at hkk'
-        rw [if_pos hneg]
+        rw [ite_eq_left hneg]
         omega
       · have hn : Nat.beq (e / 256) 1 = false := by
           rw [nbeq_eq]
@@ -344,7 +344,7 @@ theorem a8K_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx 
         rw [hn] at hkk'
         change Nat.beq (q + 8 * (e / 16 % 16 - e % 16)) (S + 8) = true at hkk'
         rw [Nat.beq_eq] at hkk'
-        rw [if_neg hneg]
+        rw [ite_eq_right hneg]
         omega
     · rw [Bool.not_eq_true] at hc
       rw [hc]
@@ -426,10 +426,10 @@ theorem a8K_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx 
       generalize Chk.dig w.cz k' = g at hi hdg ⊢
       generalize w.hyp[k].1 = x at hi hx ⊢
       by_cases hkk : k = k'
-      · simp only [hkk, beq_self_eq_true, if_true] at hi ⊢
+      · simp only [hkk, beq_self_eq_true, ite_true] at hi ⊢
         interval_cases x <;> interval_cases g <;> omega
       · have hkk2 : (k == k') = false := by simpa using hkk
-        simp only [hkk, hkk2, if_false, Bool.false_eq_true] at hi ⊢
+        simp only [hkk, hkk2, ite_false, Bool.false_eq_true] at hi ⊢
         interval_cases x <;> interval_cases g <;> omega
 
 theorem imgsFrom_sound {K : KT} {AP n c : Nat} :

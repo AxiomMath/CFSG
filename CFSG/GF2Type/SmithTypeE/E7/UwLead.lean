@@ -10,7 +10,7 @@ open scoped Matrix
 
 namespace UwLead
 
-noncomputable def fintypeGL6 : Fintype GL6 := Fintype.ofFinite _
+@[instance_reducible] noncomputable def fintypeGL6 : Fintype GL6 := Fintype.ofFinite _
 
 attribute [local instance] fintypeGL6
 

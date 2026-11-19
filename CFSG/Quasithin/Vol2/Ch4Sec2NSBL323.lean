@@ -15,12 +15,14 @@ section Lemma323
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_commutator_nsb323 {X Y : Subgroup G} {g : G}
     (hX : g ∈ Subgroup.normalizer (X : Set G)) (hY : g ∈ Subgroup.normalizer (Y : Set G)) :
     g ∈ Subgroup.normalizer ((⁅X, Y⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hX hY ⊢
   rw [Subgroup.map_commutator, hX, hY]
 
+omit [Finite G] in
 private theorem mem_normalizer_centralizer_nsb323 {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     ∀ c ∈ Subgroup.centralizer (X : Set G), g * c * g⁻¹ ∈ Subgroup.centralizer (X : Set G) := by
@@ -80,10 +82,11 @@ private theorem mem_centralizerSection_nsb323 (h37 : A37ForSQTK) (h38 : A38ForSQ
   rw [e]
   exact (pCoreOf 2 L).inv_mem hmem
 
-private theorem mem_of_pow_two_pow_nsb323 {D N : Subgroup G} (hND : N ≤ D)
+omit [Finite G] in
+private theorem mem_of_pow_two_pow_nsb323 {D N : Subgroup G} (_hND : N ≤ D)
     (hnorm : ∀ d ∈ D, ∀ n ∈ N, d * n * d⁻¹ ∈ N) (hodd : ¬ 2 ∣ N.relIndex D)
     {x : G} (hxD : x ∈ D) {k : ℕ} (hk : x ^ 2 ^ k = 1) : x ∈ N := by
-  haveI : (N.subgroupOf D).Normal := ⟨fun n hn g => by
+  have : (N.subgroupOf D).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hnorm g g.2 n hn⟩
   set q : ↥D ⧸ N.subgroupOf D := QuotientGroup.mk ⟨x, hxD⟩ with hq
@@ -98,6 +101,7 @@ private theorem mem_of_pow_two_pow_nsb323 {D N : Subgroup G} (hND : N ≤ D)
   rw [orderOf_eq_one_iff, hq, QuotientGroup.eq_one_iff] at h4
   exact Subgroup.mem_subgroupOf.1 h4
 
+omit [Finite G] in
 private theorem mem_centralizer_of_two_elt_nsb323 {C Nv W R : Subgroup G}
     (hRC : R ≤ C) (hRW : R ≤ W) (hWN : W ≤ Nv)
     (hNW : ∀ d ∈ Nv, ∀ w ∈ W, d * w * d⁻¹ ∈ W) (hodd : ¬ 2 ∣ R.relIndex C)

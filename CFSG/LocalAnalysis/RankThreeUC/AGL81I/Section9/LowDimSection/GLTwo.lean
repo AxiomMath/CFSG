@@ -102,7 +102,7 @@ theorem pslTwoLowDimSections_of (hD : DicksonPSLTwo) (q : ℕ) [Fact q.Prime] (h
     SimpleSectionsIn (IsLowDimSimpleSection q) PSL(2, ZMod q) := by
   intro L S _ _ hS ψ hψ
   rcases hD q hq L with hsol | rfl | he
-  · have : Group.IsSolvable S := solvable_of_surjective hψ
+  · have : Group.IsSolvable S := Group.isSolvable_of_surjective hψ
     exact (hS ⟨⟨IsSimpleGroup.comm_iff_isSolvable.2 inferInstance⟩⟩).elim
   · exact isLowDimSimpleSection_of_top q hq hS ψ hψ
   · obtain ⟨e⟩ := he

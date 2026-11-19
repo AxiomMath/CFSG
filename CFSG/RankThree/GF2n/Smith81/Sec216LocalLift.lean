@@ -25,6 +25,7 @@ section World
 
 variable [Finite G] {M Q Z B : Subgroup G} {z v : G}
 
+omit [Finite G] in
 theorem E3L45World.hStroth (h : E3L45World M Q Z B z v) : StrothHyp M Q Z := h.rem.ctx.hyp
 
 end World

@@ -13,12 +13,14 @@ variable {G : Type} [Group G] [Finite G] {t g : G} {Lam P S U P1 : Subgroup G}
 
 namespace NtAbs
 
+omit [Finite G] in
 theorem card_U (h : NtAbs t g Lam P S U P1) : Nat.card ↥U = 2 ^ 6 := by
   have h1 : Nat.card ↥U = Nat.card ↥(centEl P t) :=
     Nat.card_congr h.wr.centEquiv.toEquiv
   rw [h1, h.cent, h.card_S]
 
-theorem card_Z1_eq_U0 (h : NtAbs t g Lam P S U P1) :
+omit [Finite G] in
+theorem card_Z1_eq_U0 (_h : NtAbs t g Lam P S U P1) :
     Nat.card ↥(centIn P1 Lam) = Nat.card ↥(conjSub t (centIn P1 Lam)) := by
   exact (Subgroup.card_map_of_injective (K := centIn P1 Lam)
     (f := (MulAut.conj t).toMonoidHom) (MulAut.conj t).injective).symm
@@ -26,7 +28,7 @@ theorem card_Z1_eq_U0 (h : NtAbs t g Lam P S U P1) :
 theorem card_U0_cases (h : NtAbs t g Lam P S U P1) :
     Nat.card ↥(conjSub t (centIn P1 Lam)) = 2 ^ 6 ∨
       Nat.card ↥(conjSub t (centIn P1 Lam)) = 2 ^ 7 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set U0 := conjSub t (centIn P1 Lam)
   have hU0P1 : U0 ≤ P1 := (U0_le_P0 h).trans inf_le_left
   have hU0pg : IsPGroup 2 U0 := h.pgroup.to_le hU0P1
@@ -52,6 +54,7 @@ theorem card_U0_cases (h : NtAbs t g Lam P S U P1) :
   have hk67 : k = 6 ∨ k = 7 := by omega
   rcases hk67 with rfl | rfl <;> simp
 
+omit [Finite G] in
 theorem card_P0_le (h : NtAbs t g Lam P S U P1) :
     Nat.card ↥(normIn P1 Lam) ≤ 2 ^ 7 * Nat.card ↥(conjSub t (centIn P1 Lam)) := by
   have hP0pg : IsPGroup 2 (normIn P1 Lam) := h.pgroup.to_le inf_le_left

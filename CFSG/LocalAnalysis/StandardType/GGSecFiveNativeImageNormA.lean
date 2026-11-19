@@ -148,9 +148,9 @@ private theorem exists_coord_eq_of_commute_swap {n p : ℕ} (hn : 2 ≤ n)
     exact sub_eq_iff_eq_add.mp h
   refine ⟨α, β, fun i k => ?_⟩
   by_cases hki : k = i
-  · rw [hki, if_pos rfl, mul_one]
+  · rw [hki, ite_eq_left rfl, mul_one]
     exact hα_diag i
-  · rw [if_neg hki, mul_zero, zero_add]
+  · rw [ite_eq_right hki, mul_zero, zero_add]
     exact hβ_off i k hki
 
 private theorem add_form_of_commute_swap {n p : ℕ} [NeZero p]
@@ -187,9 +187,9 @@ private theorem add_form_of_commute_swap {n p : ℕ} [NeZero p]
               β * ((toAdd (f i)).val : ZMod p) := by
           intro i
           by_cases hki : k = i
-          · rw [if_pos hki, if_pos hki]
+          · rw [ite_eq_left hki, ite_eq_left hki]
             ring
-          · rw [if_neg hki, if_neg hki]
+          · rw [ite_eq_right hki, ite_eq_right hki]
             ring
         rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_add_distrib,
           ← Finset.mul_sum, ← Finset.mul_sum, Fintype.sum_ite_eq]
@@ -203,7 +203,7 @@ theorem exists_smul_perm_of_normalizes_aPermutationFull {n p : ℕ} (hp : p.Prim
       ∀ f : Fin n → Multiplicative (ZMod p), ∃ s : ZMod p, ∀ k : Fin n,
         toAdd (u f k) = α * toAdd (f (σ⁻¹ k)) + s := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn2 : 2 ≤ n := by omega
   have hn3 : 3 ≤ n := by omega
   have hP : aPermutationFull n p = (TypeBDatum.permAutHom n p).range :=
@@ -292,7 +292,6 @@ theorem exists_smul_perm_of_normalizes_aPermutationFull {n p : ℕ} (hp : p.Prim
     exact h1.symm
   refine ⟨α, π, fun f => ⟨β * ∑ i, toAdd (f i), fun k => ?_⟩⟩
   rw [hu_eq, MulAut.mul_apply]
-  change toAdd (permAut π (ψ f) k) = α * toAdd (f (π⁻¹ k)) + β * ∑ i, toAdd (f i)
   rw [SpCoord.permAut_apply, Function.comp_apply]
   exact hform f (π⁻¹ k)
 

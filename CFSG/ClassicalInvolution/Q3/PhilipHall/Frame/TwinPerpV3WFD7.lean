@@ -104,9 +104,9 @@ theorem WFFrame.x_mem_N (h : WFIn n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
 
 theorem WFFrame.P_mem_N (h : WFIn n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
     (hfr : WFFrame (CoreAssembly.conjClass (tightCore R)) K t W M a y) {x : Y}
-    (hxo : Odd (orderOf x)) (hxt : x * t = t * x)
+    (_hxo : Odd (orderOf x)) (hxt : x * t = t * x)
     (hxM : ∀ J ∈ twinSet (CoreAssembly.conjClass (tightCore R)) K, conjSub x J = J)
-    (hmv : ∀ i, ¬ ∀ m ∈ M i, x * m = m * x) {s e : Y} (hs : s = a 0 * a 1 * a 2 * a 3)
+    (_hmv : ∀ i, ¬ ∀ m ∈ M i, x * m = m * x) {s e : Y} (hs : s = a 0 * a 1 * a 2 * a 3)
     (he : e = x * s * x⁻¹) {p : Y} (hp : p ∈ M 0 ⊔ M 1 ⊔ M 2 ⊔ M 3) :
     p ∈ Subgroup.normalizer (Subgroup.closure ({t, s, e} : Set Y) : Set Y) := by
   have hq : ∀ i, Q8Facts (M i) t := fun i => h.q8 (hfr.mem i)

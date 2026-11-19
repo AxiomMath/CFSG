@@ -127,14 +127,14 @@ private lemma e6Two_setup_data (F : Type) [Field F] [Finite F] [CharP F 2]
       Subgroup.centralizer ({x0} : Set (adjointGroup .E6 F)) = X ⊔ a5Levi F ∧
       Disjoint X (a5Levi F) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega
   have hpq : p ∣ Nat.card F + 1 := by
     rw [hcard]
     exact (rk2Ord_eq_two_iff hp hp2).mp hrk
-  haveI : Finite (adjointGroup .E6 F) := Subtype.finite
+  have : Finite (adjointGroup .E6 F) := Subtype.finite
   obtain ⟨R3, hR3J, hR3el, hR3card, z, hzR, hz1, Q, hQle, hQq, hpQ, hQn⟩ :=
     hE F p hp hp3 hpq
   obtain ⟨X, hXJ, hXcyc, hXcard⟩ :=
@@ -159,7 +159,7 @@ private lemma e6Two_setup_data (F : Type) [Field F] [Finite F] [CharP F 2]
 
 private lemma e6Two_rank_data (F : Type) [Field F] [Finite F] [CharP F 2]
     [Finite ↥(e6Data_valid.minGroup F)] (n p : ℕ) (hcard : Nat.card F = 2 ^ n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hrk : rk2Ord p n = 2)
     (hbound : ∀ E : Subgroup (adjointGroup .E6 F), IsElemAbelian p E → Nat.card E ≤ p ^ 4)
     {Ã : Subgroup ↥(e6Data_valid.minGroup F)} (hAe : IsElemAbelian p Ã)
     (hmax : CFSG.Open.pRank p (⊤ : Subgroup ↥(e6Data_valid.minGroup F)) ≤
@@ -223,7 +223,7 @@ private lemma e6Two_rank_data (F : Type) [Field F] [Finite F] [CharP F 2]
   exact ⟨hAcard, hdisj, hinjOn, hmapElem, hmapCard, hker⟩
 
 private lemma e6Two_conj_lift (F : Type) [Field F] [Finite F] [CharP F 2]
-    [Finite ↥(e6Data_valid.minGroup F)] (p : ℕ) (hp : p.Prime)
+    [Finite ↥(e6Data_valid.minGroup F)] (p : ℕ) (_hp : p.Prime)
     (hconj : ∀ A A₀ : Subgroup (adjointGroup .E6 F), IsElemAbelian p A →
       Nat.card A = p ^ 4 → IsElemAbelian p A₀ → Nat.card A₀ = p ^ 4 →
       ∃ g : adjointGroup .E6 F, A.map (MulAut.conj g).toMonoidHom = A₀)
@@ -243,7 +243,7 @@ private lemma e6Two_conj_lift (F : Type) [Field F] [Finite F] [CharP F 2]
       xH ∈ Ã' ∧ zH ∈ Ã' ∧ e6Isogeny F xH = x0 ∧ e6Isogeny F zH = z ∧
       IsElemAbelian p Ã' ∧ xH ≠ 1 ∧ zH ∉ Subgroup.zpowers xH := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   obtain ⟨g, hg⟩ := hconj (Ã.map (e6Isogeny F)) A0 hmapElem hmapCard hA0el hA0card
   obtain ⟨gH, hgH⟩ := e6Isogeny_surjective F g
   let Ã' : Subgroup ↥(e6Data_valid.minGroup F) := Ã.map (MulAut.conj gH).toMonoidHom
@@ -293,7 +293,7 @@ private lemma e6Two_J_data (F : Type) [Field F] [Finite F] [CharP F 2]
         (Subgroup.centralizer ({x0} : Set (adjointGroup .E6 F)))).Normal ∧
       CFSG.Open.IsQuasisimple ↥(a5Levi F) ∧ p ∣ Nat.card (a5Levi F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJx : a5Levi F ≤ Subgroup.centralizer ({x0} : Set (adjointGroup .E6 F)) := by
     rw [hcentXJ]
     exact le_sup_right
@@ -308,7 +308,7 @@ private lemma e6Two_J_data (F : Type) [Field F] [Finite F] [CharP F 2]
 
 private lemma e6Two_qSubgroup_data (F : Type) [Field F] [Finite F] [CharP F 2]
     (n p q : ℕ) (hcard : Nat.card F = 2 ^ n)
-    (hp : p.Prime) (hp3 : 3 ≤ p) (hq : q.Prime) (hq2 : q ≠ 2)
+    (_hp : p.Prime) (_hp3 : 3 ≤ p) (hq : q.Prime) (hq2 : q ≠ 2)
     (hqdiv : q ∣ 2 ^ n - 1 ∨ n = 1 ∧ q = 3) (hF : E6TwoFData)
     {x0 z : adjointGroup .E6 F} {xH zH : ↥(e6Data_valid.minGroup F)}
     (hxHπ : e6Isogeny F xH = x0) (hzHπ : e6Isogeny F zH = z)
@@ -408,9 +408,9 @@ theorem e6TwoModel165At_two_of_rankConj
       Concl165Avoid ↥(e6Data_valid.minGroup F) p q Ã
         (Subgroup.center ↥(e6Data_valid.minGroup F)) := by
   classical
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   intro Ã hAe _hASC hmax _hA3
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -418,7 +418,7 @@ theorem e6TwoModel165At_two_of_rankConj
   have hpq : p ∣ Nat.card F + 1 := by
     rw [hcard]
     exact (rk2Ord_eq_two_iff hp hp2).mp hrk
-  haveI : Finite (adjointGroup .E6 F) := Subtype.finite
+  have : Finite (adjointGroup .E6 F) := Subtype.finite
   obtain ⟨R3, z, x0, Q, X, hR3J, hR3el, hR3card, hzR, hz1, hQle, hQq, hpQ, hQn,
     hXJ, hXcyc, hXcard, hx0X, hx0, hx0ne, hcentXJ, hdisjXJ⟩ :=
     e6Two_setup_data F n p hcard hp hp2 hrk hE
@@ -482,8 +482,8 @@ theorem e6TwoModel165At_two
   have hpq : p ∣ Nat.card F + 1 := by
     rw [hcard]
     exact (rk2Ord_eq_two_iff hp hp2).mp hrk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (adjointGroup .E6 F) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (adjointGroup .E6 F) := Subtype.finite
   have hS : SylowTorus (adjointGroup .E6 F) p 4 :=
     CFSG.StandardType.ExcFrames.sylowTorus_adjoint_E6_two F hp (by omega)
       (orderOf_natCard_zmod_eq_two hp (by omega) hpq)

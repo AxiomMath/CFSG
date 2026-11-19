@@ -87,7 +87,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
   have hCBD : CB ≤ D := le_inf hCBC hCBN
   have hDN : D ≤ Subgroup.normalizer (CB : Set G) :=
     inf_le_right.trans (ggNormalizer_le_normalizer_centralizer Bs)
-  haveI hnorm : (CB.subgroupOf D).Normal :=
+  have hnorm : (CB.subgroupOf D).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCBD).mpr hDN
   have hQp : IsPGroup p (D ⧸ CB.subgroupOf D) := by
     intro q
@@ -124,7 +124,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
     intro b hb
     have hb' := hninv b hb
     have hcomm := Subgroup.mem_centralizer_iff.mp (hUC hu) _ hb'
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     calc b * (n * u * n⁻¹) = n * ((n⁻¹ * b * n) * u) * n⁻¹ := by group
       _ = n * (u * (n⁻¹ * b * n)) * n⁻¹ := by rw [hcomm]
       _ = n * u * n⁻¹ * b := by group
@@ -173,7 +173,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
       rw [← hmapEq] at hb
       obtain ⟨b₀, hb₀, hb₀b⟩ := hb
       have : (g : G) * b * (g : G)⁻¹ = b₀ := by
-        rw [← hb₀b]; simp [MulAut.conj_apply]; group
+        rw [← hb₀b]; simp; group
       rw [this]; exact hb₀
     · intro hb
       have := hginv _ hb
@@ -190,7 +190,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
     intro y hy
     obtain ⟨s, hsU, hsy⟩ := hconj y hy
     refine ⟨u * s * u⁻¹, U.mul_mem (U.mul_mem hu hsU) (U.inv_mem hu), ?_⟩
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [← hsy, ← hhu]; group
   have hU'eq : U' = U.map (MulAut.conj h).toMonoidHom :=
     Subgroup.eq_of_le_of_card_ge hU'le (by
@@ -205,7 +205,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
       have h1 : n * y * n⁻¹ ∈ U' := ⟨y, hy, by simp [MulAut.conj_apply]⟩
       rw [hU'eq] at h1
       obtain ⟨z, hz, hzy⟩ := h1
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
       have : m * y * m⁻¹ = z := by
         rw [hm]
         calc h⁻¹ * n * y * (h⁻¹ * n)⁻¹ = h⁻¹ * (n * y * n⁻¹) * h := by group
@@ -216,7 +216,7 @@ theorem normalizer_le_of_phi {p : ℕ} [hp : Fact p.Prime] {Bs X U U₁ : Subgro
       have h1 : h * (m * y * m⁻¹) * h⁻¹ ∈ U' := by
         rw [hU'eq]; exact ⟨_, hy, by simp [MulAut.conj_apply]⟩
       obtain ⟨z, hz, hzy⟩ := h1
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
       have : z = y := by
         have hzy' : n * z * n⁻¹ = n * y * n⁻¹ := by rw [hzy, hm]; group
         simpa using hzy'
@@ -298,6 +298,7 @@ theorem phi_of_nbrField (hF : GGL48NbrFieldInput)
     rw [← hab]; simp only [zpow_mul, hxp, one_zpow, one_mul]
   rw [this]; exact hb
 
+omit [Finite G] in
 theorem inf_le_of_innerDiagPart (hsub : GGRawInnSubgroupInput) {U K U₁ : Subgroup G}
     (hID : GGInnerDiagPart U K U₁) : U ⊓ K ≤ U₁ := by
   obtain ⟨hUN, hle, hM⟩ := hID
@@ -324,7 +325,7 @@ theorem ggL48AutomizerFirst_of_nbrField {G : Type} [Group G] [Finite G] (hF : GG
     Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.normalizer (Bs : Set G) ≤
       ggL48H0 x U₁ ⊔ Subgroup.centralizer (Bs : Set G) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : ∀ b ∈ Bs, b ^ p = 1 := hS.1.1.2.1.2.1.2
   obtain ⟨hFC, -, h43, -, -, -, h45, -, hNU⟩ := id hS
   obtain ⟨-, -, hXN, -, hXn, -, -⟩ := hFC

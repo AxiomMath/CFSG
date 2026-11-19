@@ -144,7 +144,7 @@ theorem algebraize {E M : Type*} [Field E] [AddCommGroup M] [Module E M] (N : Su
     exact h u hu v hv
   refine ⟨fun v hv => ?_, fun v hv => ?_⟩
   · have h1 := key v hv 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons] at h1
+    simp only [Matrix.cons_val_one] at h1
     exact (N.smul_mem_iff hα).1 h1
   · have h2 := key v hv 2
     simp only [Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons] at h2

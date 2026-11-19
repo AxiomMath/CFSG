@@ -34,7 +34,7 @@ theorem exists_witness_of_normal {Ñ : Type} [Group Ñ] [Finite Ñ] (Lb R Ub : S
       have : y = x := Subtype.ext hyx
       rwa [this] at hy
   refine ⟨(P' : Subgroup Lb), (Ub ⊓ Lb).subgroupOf Lb, ⟨?_, ?_, ?_, ?_⟩, ?_⟩
-  · exact isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup', P'.not_dvd_index⟩
+  · exact isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup, P'.not_dvd_index⟩
   · intro x hx
     exact (hmemP x).mpr (hUR (Subgroup.mem_subgroupOf.mp hx).1)
   · exact isElemAbelian_subgroupOf (isElemAbelian_mono inf_le_left hUe)
@@ -123,7 +123,7 @@ theorem exists_stronglyClosedWitness_of_inner_action {G : Type} [Group G] [Finit
     rw [hRbar']
     exact Subgroup.map_mono hU'R'
   have hSbar : IsSylowTwoOf (Rbar : Subgroup (N ⧸ C)) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨Rbar.isPGroup', Rbar.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨Rbar.isPGroup, Rbar.not_dvd_index⟩
   obtain ⟨x, hxL, hx⟩ := hinner
   have hwN : w ∈ N := hUN hw
   let u' : N := ⟨w, hwN⟩

@@ -29,7 +29,7 @@ theorem exists_rational_scalar_mul_fin {k Ω : Type} [Field k] [Field Ω] [IsAlg
   classical
   obtain rfl | hn := Nat.eq_zero_or_pos n
   · exact ⟨1, 1, one_ne_zero, Matrix.ext fun i j => i.elim0⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set A : Matrix (Fin n) (Fin n) Ω := (N : Matrix (Fin n) (Fin n) Ω) with hA
   set A' : Matrix (Fin n) (Fin n) Ω := ((N⁻¹ : GL (Fin n) Ω) : Matrix (Fin n) (Fin n) Ω) with hA'
   have hAA' : A * A' = 1 := by rw [hA, hA', ← Units.val_mul, mul_inv_cancel, Units.val_one]

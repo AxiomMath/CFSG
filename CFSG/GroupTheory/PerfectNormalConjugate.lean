@@ -13,7 +13,7 @@ variable {H : Type*} [Group H]
 theorem le_or_sup_eq_top_of_normal_of_isSimpleGroup_quotient {N K : Subgroup H} [N.Normal]
     [K.Normal] (hsimple : IsSimpleGroup (H ⧸ N)) : K ≤ N ∨ K ⊔ N = ⊤ := by
   let π : H →* H ⧸ N := QuotientGroup.mk' N
-  haveI : (K.map π).Normal :=
+  have : (K.map π).Normal :=
     (inferInstance : K.Normal).map π (QuotientGroup.mk'_surjective N)
   rcases hsimple.eq_bot_or_eq_top_of_normal (K.map π) with hbot | htop
   · left

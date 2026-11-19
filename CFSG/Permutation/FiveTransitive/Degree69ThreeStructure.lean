@@ -50,7 +50,7 @@ theorem nine_family_ne_five
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 9
   obtain ⟨hF,him⟩ := Degree69ThreeSix.fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   obtain ⟨g,hg,hker⟩ := Degree54ThreeSixImage.exists_five_in_kernel hF hE rho sigma him
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : Nat.card (fixedBy X g.val) = 4 :=
     Degree69FiveFree.fixed_card_eq_four P hcard h5 hnotAlt g.val ((Subgroup.orderOf_coe g).trans hg)
   have hEcard : Nat.card E = 5 := hE

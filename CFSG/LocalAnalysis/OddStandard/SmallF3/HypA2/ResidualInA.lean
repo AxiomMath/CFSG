@@ -63,7 +63,7 @@ private theorem inSA_of_order {S : Type} [Group S] [Finite S]
 theorem inSA_of_alternating (hL : ResidualNotChevOdd) (hA8 : A8NotL34) (hO : SporadicOrders)
     {S : Type} [Group S] [Finite S] {n : ℕ} (hn : 8 ≤ n) (e : S ≃* alternatingGroup (Fin n)) :
     InSA S := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hcard : Nat.card S = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   obtain ⟨hHe, hM12, hJ2⟩ := factorial_div_two_ne_orders n hn

@@ -45,10 +45,10 @@ theorem eq_bot_of_isSolvable_of_normal {K : Type*} [Group K] (hK : CFSG.IsQuasis
   · exfalso
     have : Group.IsPerfect K := hK.1
     have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
-    have hsK : IsSolvable K := by
+    have hsK : Group.IsSolvable K := by
       subst h
-      haveI := hs
-      exact solvable_of_surjective (f := (⊤ : Subgroup K).subtype)
+      have := hs
+      exact Group.isSolvable_of_surjective (f := (⊤ : Subgroup K).subtype)
         (fun k => ⟨⟨k, Subgroup.mem_top k⟩, rfl⟩)
     exact Group.IsPerfect.not_isSolvable K hsK
 
@@ -174,7 +174,7 @@ theorem le_theta_of_le_thetaQuotCentralizer {L J Lx S₀ : Subgroup G}
       (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
   have hN : (Z₀.map ψ).Normal := hZ₀n.map ψ hψs
   have hNs : Group.IsSolvable (Z₀.map ψ) := by
-    haveI := hZ₀s
+    have := hZ₀s
     exact Group.isSolvable_of_surjective (f := ψ.subgroupMap Z₀) (ψ.subgroupMap_surjective Z₀)
   have hN1 := eq_bot_of_isSolvable_of_normal hLq hZ hN hNs
   intro s hs
@@ -282,12 +282,14 @@ theorem exists_e9_in {L J : Subgroup G} (hJL : J ≤ L)
     rw [Subgroup.coe_zpow]
     exact hi
 
+omit [Finite G] in
 theorem mem_normalizer_sup {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hH hK ⊢
   rw [Subgroup.map_sup, hH, hK]
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by

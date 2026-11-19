@@ -292,7 +292,7 @@ theorem symp_of_cols {Y : M4} {μ : F3}
 theorem colK_toV (h : M4C) (i : Fin 4) : (colK h i.val).toV = fun r => h.toM r i := by
   rw [← mulVec_ev, colK, mvK_eq, M4C.toV_mv]
   congr 1
-  fin_cases i <;> (ext r; fin_cases r <;> first | decide | simp [V4C.toV, ev])
+  fin_cases i <;> (ext r; fin_cases r <;> first | decide)
 
 theorem simK_sound {h : M4C} {m : Nat} (hs : simK h m = true) (x y : V4) :
     omega4 (h.toM *ᵥ x) (h.toM *ᵥ y) = (m : F3) * omega4 x y := by
@@ -425,7 +425,7 @@ theorem wordK_mem {Sg : Set M4} {X0 T0 X T : M4C} (h1 : X0.toM ∈ Submonoid.clo
     rcases selK_cases X0 T0 X T l with e | e | e | e <;> rw [e] <;> assumption
 
 theorem anzK_sound {v : V4C} (hv : v.Valid) (h : anzK v = true) : inA v.toV ∧ v.toV ≠ 0 := by
-  simp only [anzK, Bool.and_eq_true, Bool.not_eq_true', Bool.and_eq_false_iff, nat_beq_iff,
+  simp only [anzK, Bool.and_eq_true, Bool.not_eq_true', nat_beq_iff,
     Bool.eq_false_iff, ne_eq] at h
   obtain ⟨⟨hc, hd⟩, hab⟩ := h
   refine ⟨⟨by simp [V4C.toV, hc], by simp [V4C.toV, hd]⟩, fun h0 => ?_⟩

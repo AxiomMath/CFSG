@@ -49,7 +49,7 @@ theorem neZero_card_succ (F L : Type) [Field F] [Finite F] [Field L] [Algebra F 
 theorem natCard_μC : Nat.card (μC F L) = Nat.card F + 1 := by
   have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have := neZero_card_succ F L
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (Nat.card F + 1)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (Nat.card F + 1)
   exact hζ.card_rootsOfUnity
 
 instance isCyclic_μC : IsCyclic (μC F L) := inferInstanceAs (IsCyclic (rootsOfUnity _ L))

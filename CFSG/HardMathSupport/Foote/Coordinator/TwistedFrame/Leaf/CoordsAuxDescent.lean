@@ -58,7 +58,7 @@ theorem desc {x : ModGL τ D.L} (hx : x ∈ Qθ τ D.L) :
         by_cases hγ : γ = β
         · subst hγ
           simp
-        · simp [Pi.single_apply, hγ]
+        · simp [hγ]
       have hu : pinnedX τ D.L β t * (h * pinnedX τ D.L β 1 * h⁻¹)⁻¹ ∈ Uθ τ D.L :=
         mul_inv_mem_Uθ_of_coord_eq (pinnedX_mem_Qθ_of_mem_Deg1 hβ t) hhQ hcoord
       have hg : h * D.g = D.g * h := hcent D.g D.g_mem

@@ -87,8 +87,8 @@ theorem eq_emb {h : Equiv.Perm (Fin (50 + 126))} {p : Equiv.Perm (Fin 50)} {r : 
   ext y
   refine Fin.addCases (m := 50) (n := 126) (motive := fun y => (h y : ℕ) = (emb (p, r) y : ℕ))
     (fun x => ?_) (fun i => ?_) y
-  · rw [emb_castAdd, h1, Fin.coe_castAdd]
-  · rw [emb_natAdd, h2, Fin.coe_natAdd]
+  · rw [emb_castAdd, h1, Fin.val_castAdd]
+  · rw [emb_natAdd, h2, Fin.val_natAdd]
 
 @[expose] def decV (v : List ℕ) : Fin 3 → F25 := fun j => dec (lget v j)
 
@@ -165,16 +165,16 @@ theorem normV_of_isoPtOK {v : List ℕ} (h : isoPtOK v = true) :
     unfold NormV
     by_cases ha0 : a = 0
     · subst ha0
-      rw [if_neg (by simp)] at hf
+      rw [ite_eq_right (by simp)] at hf
       by_cases hb0 : b = 0
       · subst hb0
-        rw [if_neg (by simp)] at hf
+        rw [ite_eq_right (by simp)] at hf
         subst hf
         exact Or.inr (Or.inr ⟨dec_zero, dec_zero, dec_one⟩)
-      · rw [if_pos hb0] at hf
+      · rw [ite_eq_left hb0] at hf
         subst hf
         exact Or.inr (Or.inl ⟨dec_zero, dec_one⟩)
-    · rw [if_pos ha0] at hf
+    · rw [ite_eq_left ha0] at hf
       subst hf
       exact Or.inl dec_one
 
@@ -339,7 +339,7 @@ theorem LRep.unique {l : List ℕ} {g h : Equiv.Perm (Fin 50)} (hg : LRep l g) (
   Equiv.ext fun x => Fin.ext ((hg.2 x).symm.trans (hh.2 x))
 
 theorem lrep_range : LRep (List.range 50) 1 :=
-  ⟨by simp, fun x => by simp [lget, List.getElem?_range x.2]⟩
+  ⟨by simp, fun x => by simp [lget]⟩
 
 theorem lrep_compL {p q : List ℕ} {g h : Equiv.Perm (Fin 50)} (hp : LRep p g) (hq : LRep q h) :
     LRep (compL p q) (g * h) := by

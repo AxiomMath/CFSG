@@ -146,7 +146,7 @@ theorem exists_equiv_map_eq {X : Type} [Group X] {K : Subgroup X}
     obtain ⟨p, hp0, hpe⟩ := h1
     have h2 : ((ε.trans (MulAut.conj g⁻¹)) ⟨a, hAK ha⟩ : ↥S) = p := by
       have : ε ⟨a, hAK ha⟩ = g * p * g⁻¹ := hpe.symm
-      simp [MulEquiv.trans_apply, MulAut.conj_apply, this, mul_assoc]
+      simp [MulEquiv.trans_apply, this, mul_assoc]
     rw [h2]
     exact Subgroup.mem_subgroupOf.1 hp0
   · intro a ha
@@ -156,7 +156,7 @@ theorem exists_equiv_map_eq {X : Type} [Group X] {K : Subgroup X}
     obtain ⟨k, hk, hke⟩ := h1
     refine ⟨k, Subgroup.mem_subgroupOf.1 hk, ?_⟩
     have : ε k = g * ⟨a, hA₀S ha⟩ * g⁻¹ := hke
-    simp [MulEquiv.trans_apply, MulAut.conj_apply, this, mul_assoc]
+    simp [MulEquiv.trans_apply, this, mul_assoc]
 
 @[expose] def KFactL34CentralTwo : Prop :=
   ∀ d : TauCeti.ValidLieTypeIndex, IsL34Index d →

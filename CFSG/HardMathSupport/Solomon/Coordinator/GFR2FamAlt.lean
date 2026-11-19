@@ -38,11 +38,11 @@ theorem false_of_perfect_center_three {X : Type*} [Group X] (hperf : commutator 
           exact hz
         rw [htop a, htop b]
       have : Nat.card (Subgroup.center X) = 1 := by
-        haveI : Subsingleton (Subgroup.center X) := ⟨fun a b => Subtype.ext (hsub.elim _ _)⟩
+        have : Subsingleton (Subgroup.center X) := ⟨fun a b => Subtype.ext (hsub.elim _ _)⟩
         exact Nat.card_of_subsingleton (1 : Subgroup.center X)
       omega
   · have : Nat.card (Subgroup.center X) = 1 := by
-      haveI : Subsingleton (Subgroup.center X) := ⟨fun a b => Subtype.ext (hs.elim _ _)⟩
+      have : Subsingleton (Subgroup.center X) := ⟨fun a b => Subtype.ext (hs.elim _ _)⟩
       exact Nat.card_of_subsingleton (1 : Subgroup.center X)
     omega
 
@@ -59,7 +59,7 @@ theorem not_type_of_simple {Y : Type} [Group Y] [Finite Y] {J : Subgroup Y} (hs 
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥J) with hb | ht
   · have e : barOf 3 J ≃* ↥J :=
       (QuotientGroup.quotientMulEquivOfEq hb).trans QuotientGroup.quotientBot
-    haveI := hs
+    have := hs
     exact false_of_perfect_center_three hperf hZ (Or.inl e.isSimpleGroup)
   · refine false_of_perfect_center_three hperf hZ (Or.inr ?_)
     have : Subsingleton (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
@@ -73,11 +73,11 @@ theorem odd_card_center_of_core_bot {Y : Type} [Group Y] [Finite Y]
   have h2 : 2 ∣ Nat.card (Subgroup.center Y) := by
     rw [Nat.not_odd_iff_even] at hodd
     exact even_iff_two_dvd.1 hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 h2
   set N : Subgroup Y := Subgroup.zpowers (t : Y) with hN
   have hNc : N ≤ Subgroup.center Y := Subgroup.zpowers_le.2 t.2
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     have := Subgroup.mem_center_iff.1 (hNc hn) g
     rw [show g * n * g⁻¹ = n by rw [this]; group]
     exact hn⟩
@@ -213,9 +213,9 @@ theorem gapFinalPumpupAlt_holds :
     exact Subgroup.eq_bot_of_card_eq _ hk1
   have eJ₁ : ↥J₁ ≃* alternatingGroup (Function.fixedPoints σ) :=
     ((J₁.equivMapOfInjective π hπinj).trans ((J₁.map π).equivMapOfInjective ι hιinj)).trans eJ
-  haveI : IsSimpleGroup (alternatingGroup (Function.fixedPoints σ)) :=
+  have : IsSimpleGroup (alternatingGroup (Function.fixedPoints σ)) :=
     alternatingGroup.isSimpleGroup h5
-  haveI : IsSimpleGroup ↥J₁ := eJ₁.isSimpleGroup
+  have : IsSimpleGroup ↥J₁ := eJ₁.isSimpleGroup
   exact not_type_of_simple inferInstance hty
 
 end CFSG.HardMathSupport.Solomon.Coordinator

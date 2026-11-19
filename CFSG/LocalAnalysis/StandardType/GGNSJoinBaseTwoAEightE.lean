@@ -113,7 +113,7 @@ private theorem rowP_ESU_three_imp' {lab : LargeEvenLabel}
 private theorem eq_five_of_torusRank {l r : ℕ} (h3 : 3 ≤ l) (hdvd : 3 ∣ l + 1)
     (hrank : ggUnitaryTorusRank 3 (l + 1) + 1 ≤ r) (hr : r ≤ 6) : l = 5 := by
   unfold ggUnitaryTorusRank at hrank
-  rw [if_pos hdvd] at hrank
+  rw [ite_eq_left hdvd] at hrank
   obtain ⟨k, hk⟩ := hdvd
   omega
 
@@ -121,7 +121,7 @@ private theorem rank_eq_eight_of_torusRank {l r n : ℕ} (h3 : 3 ≤ l) (hdvd : 
     (hne5 : l ≠ 5) (hrank : ggUnitaryTorusRank 3 (l + 1) + 1 ≤ r) (hr : r ≤ n) (hn : n ≤ 8) :
     l = 8 := by
   unfold ggUnitaryTorusRank at hrank
-  rw [if_pos hdvd] at hrank
+  rw [ite_eq_left hdvd] at hrank
   obtain ⟨k, hk⟩ := hdvd
   omega
 

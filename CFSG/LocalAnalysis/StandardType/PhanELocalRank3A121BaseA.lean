@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_Vsub3 (v : Fin 4 → K) : v ∈ Vsub 4 3 ↔ v 3 = 0 := by
   constructor
   · intro hv
@@ -20,6 +21,7 @@ private theorem plh_mem_Vsub3 (v : Fin 4 → K) : v ∈ Vsub 4 3 ↔ v 3 = 0 := 
     subst hj3
     exact hv
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_span_inf_Vsub3_bot {c : Fin 4 → K} (hc : c 3 ≠ 0) :
     Submodule.span K {c} ⊓ Vsub 4 3 = ⊥ := by
   rw [eq_bot_iff]
@@ -40,7 +42,7 @@ private theorem plh_okL_D121 (p L : Submodule K (Fin 4 → K)) :
     (D121 (K := K) f).okL p L ↔ p ⊓ Vsub 4 3 = ⊥ ∧
       (L ⊓ Vsub 4 3) ⊓ sgS K f 4 (L ⊓ Vsub 4 3) = ⊥ := Iff.rfl
 
-theorem nrvec_smul (hK : Nat.card K = (2 ^ f) ^ 2) {a : K} (ha : a ≠ 0) {w : Fin 4 → K} :
+theorem nrvec_smul (_hK : Nat.card K = (2 ^ f) ^ 2) {a : K} (ha : a ≠ 0) {w : Fin 4 → K} :
     NRvec f (a • w) ↔ NRvec f w := by
   have hspan : Submodule.span K {a • w} = Submodule.span K {w} :=
     Submodule.span_singleton_smul_eq (isUnit_iff_ne_zero.mpr ha) w
@@ -55,6 +57,7 @@ theorem nrvec_smul (hK : Nat.card K = (2 ^ f) ^ 2) {a : K} (ha : a ≠ 0) {w : F
   simp only [NRvec, hspan]
   exact and_congr h0 Iff.rfl
 
+omit [Finite K] [CharP K 2] in
 theorem exists_gen_off_V3 {u : Submodule K (Fin 4 → K)} (hu : BPt u)
     (hu3 : u ⊓ Vsub 4 3 = ⊥) :
     ∃ u₀ : Fin 4 → K, u = Submodule.span K {u₀} ∧ u₀ ∈ (Vtail : Submodule K (Fin 4 → K)) ∧
@@ -68,6 +71,7 @@ theorem exists_gen_off_V3 {u : Submodule K (Fin 4 → K)} (hu : BPt u)
   rw [hu3] at hmem
   exact hu₀ne (by simpa using hmem)
 
+omit [Finite K] [CharP K 2] in
 theorem sup_inf_V3 {c₀ y₀ : Fin 4 → K} (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hy₀ : y₀ ∈ (Vtail : Submodule K (Fin 4 → K))) (hc3 : c₀ 3 ≠ 0) (hy3 : y₀ 3 ≠ 0)
     (hne : Submodule.span K {c₀} ≠ Submodule.span K {y₀}) :
@@ -144,7 +148,7 @@ theorem sup_inf_V3 {c₀ y₀ : Fin 4 → K} (hc₀ : c₀ ∈ (Vtail : Submodul
   refine ⟨(Submodule.eq_of_le_of_finrank_eq hspan_le ?_).symm, heW2, he_ne0⟩
   rw [finrank_span_singleton he_ne0, hfin]
 
-theorem badj121_iff_nrvec (hK : Nat.card K = (2 ^ f) ^ 2) {c₀ y₀ : Fin 4 → K}
+theorem badj121_iff_nrvec (_hK : Nat.card K = (2 ^ f) ^ 2) {c₀ y₀ : Fin 4 → K}
     (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K))) (hy₀ : y₀ ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hc3 : c₀ 3 ≠ 0) (hy3 : y₀ 3 ≠ 0) (hne : Submodule.span K {c₀} ≠ Submodule.span K {y₀}) :
     BAdj (D121 (K := K) f) (Submodule.span K {c₀}) (Submodule.span K {y₀}) ↔

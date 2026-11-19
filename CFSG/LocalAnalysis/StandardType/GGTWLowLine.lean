@@ -75,7 +75,7 @@ private lemma l05nLL_dot_cast {p N : ℕ} [Fact p.Prime] {a b : List ℕ}
 
 private lemma l05nLL_inv_spec {p : ℕ} [Fact p.Prime] {a : ℕ} (ha : (a : ZMod p) ≠ 0) :
     ((ggTWLInv p a : ℕ) : ZMod p) = ((a : ZMod p))⁻¹ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp : 0 < p := (Fact.out : p.Prime).pos
   set b : ZMod p := ((a : ZMod p))⁻¹ with hbdef
   have hb : b * (a : ZMod p) = 1 := by rw [hbdef]; exact inv_mul_cancel₀ ha
@@ -112,7 +112,7 @@ private lemma l05nLL_inv_spec {p : ℕ} [Fact p.Prime] {a : ℕ} (ha : (a : ZMod
   rw [hbdef]
   exact (ZMod.inv_eq_of_mul_eq_one p (a : ZMod p) (k' : ZMod p) hk'mul).symm
 
-theorem ggTWLY0_line {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos : GGTWPos)
+theorem ggTWLY0_line {p N : ℕ} [Fact p.Prime] (_hp : 3 ≤ p) (_hN : 5 ≤ N) (pos : GGTWPos)
     {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNValid p N q) (lam mu : ZMod p)
     (hlm : lam ≠ 0 ∨ mu ≠ 0)
     (hfix : ∀ q ∈ news, ggTWdot (ggTWNToZ p N q.2) (lam • ggTWx p N + mu • ggTWz p N pos) = 0)

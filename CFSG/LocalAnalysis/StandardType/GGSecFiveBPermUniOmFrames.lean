@@ -93,7 +93,7 @@ theorem GGSecFiveBPermOmKFrame.blockComm_eq_map_normBlock {G : Type} [Group G] [
     ggBlockComm Bs eta ((fun i : Fin m => π i.castSucc) '' (S : Set (Fin m))) =
       (normBlock E m S).map κ := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
   have hm3 : 3 ≤ m := by omega
   have hsimp : IsSimpleGroup ↥(normOmega E S.card) :=
     isSimpleGroup_normOmega E (k := S.card) (by omega)
@@ -149,7 +149,7 @@ theorem ggSecFiveBPermOmK_ggBlockComm_le_of_card {G : Type} [Group G] [Finite G]
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))} {π : Fin (m + 1) ≃ Fin n}
     {κ : normOmega E m →* G} {χ : Multiplicative (ZMod p) →* Kˣ}
     (hκ : GGSecFiveBPermOmKFrame E Bs X eta π κ χ) (hk : 2 ≤ k) (hkm : k < m)
-    (hsimp : IsSimpleGroup ↥(normOmega E k)) {T : Finset (Fin (m + 1))} (hT : T.card = k)
+    (_hsimp : IsSimpleGroup ↥(normOmega E k)) {T : Finset (Fin (m + 1))} (hT : T.card = k)
     (hlast : Fin.last m ∉ T) :
     ggBlockComm Bs eta (π '' (T : Set (Fin (m + 1)))) ≤ X := by
   classical

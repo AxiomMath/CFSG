@@ -349,8 +349,8 @@ private theorem map_eq_of_fixes_perp_span_T2J8 (P : HypPair Q) (g : V →ₗ[F] 
 
 private theorem map_dLin_T2J8 (ν : F) (hν0 : ν ≠ 0) (P : HypPair Q) (x : V) :
     Q (dLin_T2J8 ν P x) = Q x :=
-  map_eq_of_fixes_perp_span_T2J8 P (dLin_T2J8 ν P) (fun w hw => dLin_fix_perp_T2J8 ν P hw)
-    (fun p hp => dLin_mem_span_T2J8 ν P hp) (fun p hp => map_dLin_span_T2J8 ν hν0 P hp) x
+  map_eq_of_fixes_perp_span_T2J8 P (dLin_T2J8 ν P) (fun _w hw => dLin_fix_perp_T2J8 ν P hw)
+    (fun _p hp => dLin_mem_span_T2J8 ν P hp) (fun _p hp => map_dLin_span_T2J8 ν hν0 P hp) x
 
 private theorem dEquiv_mem_orthogonalGroup_T2J8 (ν : F) (hν0 : ν ≠ 0) (P : HypPair Q) :
     dEquiv_T2J8 ν hν0 P ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -431,8 +431,8 @@ private theorem map_swapLin_span_T2J8 (P : HypPair Q) {p : V}
 
 private theorem map_swapLin_T2J8 (P : HypPair Q) (x : V) :
     Q (swapLin_T2J8 P x) = Q x :=
-  map_eq_of_fixes_perp_span_T2J8 P (swapLin_T2J8 P) (fun w hw => swapLin_fix_perp_T2J8 P hw)
-    (fun p hp => swapLin_mem_span_T2J8 P hp) (fun p hp => map_swapLin_span_T2J8 P hp) x
+  map_eq_of_fixes_perp_span_T2J8 P (swapLin_T2J8 P) (fun _w hw => swapLin_fix_perp_T2J8 P hw)
+    (fun _p hp => swapLin_mem_span_T2J8 P hp) (fun _p hp => map_swapLin_span_T2J8 P hp) x
 
 private theorem swapEquiv_mem_orthogonalGroup_T2J8 (P : HypPair Q) :
     swapEquiv_T2J8 P ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by

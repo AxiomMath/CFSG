@@ -69,13 +69,14 @@ theorem card_S_eq_of_w_one (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W
   rw [hY.card_S hII hs, hcard]
   norm_num
 
-theorem relIndex_Y_S (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h)
+theorem relIndex_Y_S (_hII : II4_4_4_center) (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h)
     (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : Y.relIndex S = 4 := by
   have h1 := Basic.card_mul_relIndex_of_le cfg.hY.Y_le_S
   have h3 : Nat.card ↥S = 256 := by rw [cfg.hS256]; norm_num
   rw [cfg.hY.card, h3] at h1
   omega
 
+omit [Finite G] in
 theorem sq_mem_Y (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ s ∈ S, s * s ∈ Y := by
   intro s hs
   obtain ⟨y, hy, d', hd', rfl⟩ := cfg.hY.decomp s hs
@@ -86,6 +87,7 @@ theorem sq_mem_Y (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ s ∈ S, s * s �
   rw [h1]
   exact mul_mem hy (cfg.hY.norm_D d' hd' y hy)
 
+omit [Finite G] in
 theorem W_dec (cfg : Cfg88 z S K₁ W₂ U u h Y t w) :
     ∀ x ∈ Wsub S U, x ∈ Y ∨ ∃ y ∈ Y, x = y * w := by
   intro x hx
@@ -104,6 +106,7 @@ theorem W_dec (cfg : Cfg88 z S K₁ W₂ U u h Y t w) :
   · right
     exact ⟨y, hy, by rw [hxy, h1]⟩
 
+omit [Finite G] in
 theorem Nh_comm (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ a ∈ Nh S h, ∀ b ∈ Nh S h, a * b = b * a := by
   intro a ha b hb
   have h1 := Nh_sq cfg (a * b) (mul_mem ha hb)
@@ -162,8 +165,10 @@ theorem four_mul_card_cent_le (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K�
   have := Subgroup.card_le_of_le hsup
   omega
 
+omit [Finite G] in
 theorem d_mem_Nh (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : t * w ∈ Nh S h := mul_mem cfg.htD cfg.hwD
 
+omit [Finite G] in
 theorem d_not_W (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : t * w ∉ Wsub S U := by
   intro hd
   apply cfg.htW
@@ -171,6 +176,7 @@ theorem d_not_W (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : t * w ∉ Wsub S U := 
   rw [this]
   exact mul_mem hd (inv_mem cfg.hwW)
 
+omit [Finite G] in
 theorem d_ne_one (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : t * w ≠ 1 := fun e =>
   d_not_W cfg (e ▸ one_mem _)
 
@@ -190,6 +196,7 @@ theorem d_z (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h)
     _ = t * z * t⁻¹ := by rw [hw]
     _ = z := hzt
 
+omit [Finite G] in
 theorem d_swap (h87 : conjugate E₁ t = E₁) (h88 : conjugate E₁ w = E₂) :
     ∀ y, (t * w) * y * (t * w)⁻¹ ∈ E₁ ↔ y ∈ E₂ := by
   intro y
@@ -208,7 +215,7 @@ theorem d_swap (h87 : conjugate E₁ t = E₁) (h88 : conjugate E₁ w = E₂) :
     exact mem_conjugate_iff.1 h1
 
 theorem d_not_P (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hE : EData Y U E₁ E₂)
-    (cfg : Cfg88 z S K₁ W₂ U u h Y t w) (hII : II4_4_4_center)
+    (cfg : Cfg88 z S K₁ W₂ U u h Y t w) (_hII : II4_4_4_center)
     (h87 : ∀ s ∈ Pz S z, orderOf s = 2 → s⁻¹ * u * s = u * z →
       conjugate E₁ s = E₁ ∧ conjugate E₂ s = E₂)
     (hswap : ∀ y, (t * w) * y * (t * w)⁻¹ ∈ E₁ ↔ y ∈ E₂) : t * w ∉ Pz S z := by

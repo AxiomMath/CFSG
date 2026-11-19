@@ -21,11 +21,11 @@ theorem isElemAbelian_range_of_hom {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
       apply Multiplicative.toAdd.injective
       rw [toAdd_pow, toAdd_one]
       funext k
-      simp [ZMod.natCast_self]
+      simp
     rw [← map_pow, hap, map_one]
   · rw [← Nat.card_congr (MonoidHom.ofInjective hf).toEquiv,
       Nat.card_congr Multiplicative.toAdd]
-    simp [Nat.card_pi, Nat.card_zmod]
+    simp
 
 theorem exists_subgroup_of_hom {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     (f : Multiplicative (Fin 4 → ZMod p) →* G) (hf : Function.Injective f) (t : G)

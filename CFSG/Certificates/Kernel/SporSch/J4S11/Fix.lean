@@ -78,11 +78,11 @@ private theorem dK_enc (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) (k : Nat)
     rw [e]
     by_cases hp : p / 128 < 112
     · have hk : k ≤ p / 128 := by omega
-      rw [dRows_row k hp, idRows_row hp, if_neg (by omega)]
+      rw [dRows_row k hp, idRows_row hp, ite_eq_right (by omega)]
       simp [hp, h2]
     · simp [hp, h2]
   · by_cases hp : p / 128 < 112
-    · rw [dRows_row k hp, if_pos (by omega)]
+    · rw [dRows_row k hp, ite_eq_left (by omega)]
       simp [h2]
     · simp [hp, h2]
 

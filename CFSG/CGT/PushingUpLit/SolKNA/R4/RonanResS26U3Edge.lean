@@ -23,7 +23,7 @@ open scoped MatrixGroups commutatorElement
 theorem cyclic_sq_eq_one_or_eq {G : Type} [Group G] [Finite G] [IsCyclic G] {u v : G}
     (hu : u ^ 2 = 1) (hv : v ^ 2 = 1) (hv1 : v ≠ 1) : u = 1 ∨ u = v := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   by_contra hcon
   obtain ⟨h1, h2⟩ := not_or.mp hcon
   have hle : (Finset.univ.filter fun a : G => a ^ 2 = 1).card ≤ 2 :=
@@ -35,7 +35,7 @@ theorem cyclic_sq_eq_one_or_eq {G : Type} [Group G] [Finite G] [IsCyclic G] {u v
   exact (not_le.mpr h3) hle
 
 theorem u3_exists_comm_conj {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A]
-    (T : Subgroup A) [T.Normal] (hT : IsSimpleGroup ↥T) (hab : ∃ a b : ↥T, a * b ≠ b * a)
+    (T : Subgroup A) [T.Normal] (_hT : IsSimpleGroup ↥T) (_hab : ∃ a b : ↥T, a * b ≠ b * a)
     (hC : Subgroup.centralizer (T : Set A) = ⊥)
     (hU3 : CFSG.ClassicalInvolution.Q3.TA3.SmallU3Ne3 ↥T)
     {R : Subgroup A} {S : Sylow 2 R} {z : A} (hd : TightDatum R S z) (hc : TightClsR r A R S z)
@@ -51,9 +51,9 @@ theorem u3_exists_comm_conj {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finit
       ((by decide : Odd 3).of_dvd_nat (Nat.gcd_dvd_left 3 _))
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hm
   have h : UnitaryFieldData p f K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP K p := h.charP
+  have := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP K p := h.charP
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have hq5 : 5 ≤ p ^ f := by
     have h3 : 3 ≤ p := by have := hp.two_le; omega
@@ -79,7 +79,7 @@ theorem u3_exists_comm_conj {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finit
       (slCentScalar_GU2 h) hF₀ h4 eJ hr'R hr'T
   have hxS' : x ∈ sylowSet S := hxS
   have hbS' : b ∈ sylowSet S := hbS
-  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup'.map _
+  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup.map _
   have hxR : x ∈ R := mem_sylowSet_le S hxS'
   have hbR : b ∈ R := mem_sylowSet_le S hbS'
   have hx2T : x ^ 2 ∈ T := by
@@ -107,7 +107,7 @@ theorem u3_exists_comm_conj {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finit
     rw [← conj_pow, hbx, inv_pow]
   obtain ⟨Al₂, hπAl₂, c₂, hc₂⟩ := hsc (x ^ 2) (R.pow_mem hxR 2) hx2T
   have hbT : b ∉ T := b_not_mem F hsc hc₂ hπAl₂ hbR hba hasq
-  haveI hcycP : IsCyclic ↥((sylowSet S).map (QuotientGroup.mk' T)) :=
+  have hcycP : IsCyclic ↥((sylowSet S).map (QuotientGroup.mk' T)) :=
     CFSG.ClassicalInvolution.Nobq.isCyclic_of_outTwoCyclic T hC hOut _
       (hP.map (QuotientGroup.mk' T))
   have hu2 : (⟨QuotientGroup.mk' T x, Subgroup.mem_map_of_mem _ hxS'⟩ :

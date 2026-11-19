@@ -67,7 +67,7 @@ private theorem wtProj_eq_zero_of_fixed {t : Fin 3 → Kˣ} {t₀ : Kˣ}
     simpa using hwmem
   have hcond : ∀ i, a i = x ∨ a i = -x := by
     by_contra hc
-    rw [hpat a, if_neg hc] at hmult
+    rw [hpat a, ite_eq_right hc] at hmult
     exact hmult rfl
   rcases hcond 0 with h0 | h0
   · exact hx (h0.symm.trans ha0)

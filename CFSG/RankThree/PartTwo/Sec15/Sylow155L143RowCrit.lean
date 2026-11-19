@@ -32,7 +32,7 @@ theorem exists_abelian_sup [Finite S] (Z : Subgroup S)
     {u : S} (hu3 : u ^ 3 = 1) (huZ : u ∉ Z) (huc : ∀ a ∈ Z, a * u = u * a) :
     ∃ E : Subgroup S, u ∈ E ∧ Z ≤ E ∧ (∀ e ∈ E, ∀ f ∈ E, e * f = f * e) ∧
       (∀ e ∈ E, e ^ 3 = 1) ∧ 27 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : ∀ a ∈ insert u (Z : Set S), ∀ b ∈ insert u (Z : Set S), a * b = b * a := by
     intro a ha b hb
     rcases ha with rfl | ha <;> rcases hb with rfl | hb
@@ -149,7 +149,7 @@ theorem exists_centralizer_nine [Finite S] (A : Subgroup S)
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hA3 : ∀ a ∈ A, a ^ 3 = 1) (hA81 : 81 ≤ Nat.card A)
     {x : S} (hx3 : x ^ 3 = 1) (hxA : ∀ a ∈ A, x * a * x⁻¹ ∈ A) :
     ∃ Z : Subgroup S, Z ≤ A ∧ (∀ z ∈ Z, z * x = x * z) ∧ 9 ≤ Nat.card Z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : A →* A :=
     { toFun := fun a => ⟨x * a * x⁻¹ * (a : S)⁻¹, A.mul_mem (hxA a a.2) (A.inv_mem a.2)⟩
       map_one' := Subtype.ext (by simp)

@@ -36,10 +36,10 @@ private theorem l05nD9_transport {N : ℕ} {Γ : Type}
         Subgroup.closure gens ∧
       Nat.card ↥(Submonoid.closure S) ≤ Nat.card ↥A := by
   classical
-  haveI : Finite (Additive ↥Bs) := inferInstance
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (Additive ↥Bs) := inferInstance
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
   let x : Γ → V := fun i => θ.symm (c i)
@@ -256,10 +256,10 @@ theorem ggTWLow_weyl_E8
       (g : V →ₗ[ZMod 3] V) = θ.symm.toLinearMap ∘ₗ y ∘ₗ θ.toLinearMap)
     (hOut : GGTWLowE8Outcome S) : GGWeylReflectionGroup 3 A := by
   obtain ⟨hh, αα, hdiag, hpair, hgen⟩ := hOut
-  haveI : Finite (Additive ↥Bs) := inferInstance
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (Additive ↥Bs) := inferInstance
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
   let s : Fin 8 → Module.End (ZMod 3) (GGTWE 3 9) := fun i => ggTWRefl (hh i) (αα i)

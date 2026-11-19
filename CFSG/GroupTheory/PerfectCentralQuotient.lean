@@ -61,8 +61,8 @@ theorem finite_of_perfect_of_finite_quotient_center {G : Type*} [Group G]
     (hG : ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤) [Finite (G ⧸ Subgroup.center G)] : Finite G := by
   have hset : Finite ↑(commutatorSet G) :=
     finite_commutatorSet_of_finite_quotient_center (G := G) inferInstance
-  haveI : Finite ↑(commutatorSet G) := hset
-  haveI : Finite ↑(commutator G) := inferInstance
+  have : Finite ↑(commutatorSet G) := hset
+  have : Finite ↑(commutator G) := inferInstance
   have hcomm : commutator G = ⊤ := by
     rw [commutator_def]
     exact hG
@@ -79,7 +79,7 @@ theorem not_dvd_card_center_of_perfect {G : Type*} [Group G] [Finite G]
     rw [commutator_def]
     exact hG
   obtain ⟨P⟩ : Nonempty (Sylow p G) := inferInstance
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   let f0 : P.toSubgroup →* G ⧸ Subgroup.center G :=
     (QuotientGroup.mk' (Subgroup.center G)).comp P.toSubgroup.subtype
   have hRdvd : Nat.card f0.range ∣ p ^ n := by
@@ -149,10 +149,10 @@ theorem exists_pow_five_eq_one_conj_sq_of_quotient_center_alternating_eight
     {J : Type*} [Group J] (hJ : ⁅(⊤ : Subgroup J), (⊤ : Subgroup J)⁆ = ⊤)
     (e : J ⧸ Subgroup.center J ≃* alternatingGroup (Fin 8)) :
     ∃ v g : J, v ^ 5 = 1 ∧ v ∉ Subgroup.center J ∧ g * v * g⁻¹ = v ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
-  haveI hfinQuot : Finite (J ⧸ Subgroup.center J) :=
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have hfinQuot : Finite (J ⧸ Subgroup.center J) :=
     Finite.of_equiv (alternatingGroup (Fin 8)) e.symm
-  haveI hfinJ : Finite J := finite_of_perfect_of_finite_quotient_center hJ
+  have hfinJ : Finite J := finite_of_perfect_of_finite_quotient_center hJ
   have hcardA : Nat.card (alternatingGroup (Fin 8)) = 20160 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide

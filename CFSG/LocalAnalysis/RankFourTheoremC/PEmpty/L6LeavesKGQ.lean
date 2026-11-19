@@ -18,7 +18,7 @@ theorem sup_le_normalizer (c : KQCfg A p Kb Sb Bb Mb z) : Kb ⊔ Sb ≤ normaliz
 
 theorem center_trivial (c : KQCfg A p Kb Sb Bb Mb z) {k : A} (hk : k ∈ Kb)
     (h : ∀ l ∈ Kb, k * l = l * k) : k = 1 := by
-  haveI := c.simple
+  have := c.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥Kb) with hbot | htop
   · have hmem : (⟨k, hk⟩ : ↥Kb) ∈ Subgroup.center ↥Kb := by
       rw [Subgroup.mem_center_iff]

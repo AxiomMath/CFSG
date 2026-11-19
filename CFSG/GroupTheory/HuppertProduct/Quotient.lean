@@ -13,7 +13,7 @@ variable {G : Type u} [Group G]
 theorem exists_quotient {H N : Subgroup G} (hN : H ≤ Subgroup.normalizer (N : Set G)) :
     ∃ (Γ : Type u) (_ : Group Γ) (π : H →* Γ), Function.Surjective π ∧
       ∀ a : H, π a = 1 ↔ (a : G) ∈ N := by
-  haveI : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
+  have : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
   exact ⟨H ⧸ N.subgroupOf H, inferInstance, QuotientGroup.mk' (N.subgroupOf H),
     QuotientGroup.mk'_surjective _, fun a => QuotientGroup.eq_one_iff a⟩
 

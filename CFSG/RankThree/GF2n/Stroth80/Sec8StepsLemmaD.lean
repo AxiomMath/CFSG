@@ -51,8 +51,8 @@ theorem sec8LemmaD_of (h310chi : Stroth310ChiStatement) (h53a : Stroth53aStateme
       Subgroup.map_mono hZV
     rwa [hc.conj_Z_eq hg] at h1
   obtain ⟨K, iF, iFin, -, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   have hq : Nat.card K = Nat.card Z := hD.card
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53a hc hs hr hD
   have hA : (A : Set M₀.E) = ↑(M₀.img (Sec8V1 M Q Z B t r)) := Set.ext hAmem
@@ -162,8 +162,8 @@ theorem sec8Invol_of (h310chi : Stroth310ChiStatement) (h53a : Stroth53aStatemen
   have hZQ : Z ≤ Q := hc.Z_le_Q
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   obtain ⟨K, iF, iFin, hchar, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : CharP K 2 := hchar
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
+  have : CharP K 2 := hchar
+  have hEfin : Module.Finite K M₀.E := M₀.fin
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53a hc hs hr hD
   obtain ⟨T, hTπ, -, -⟩ := hD.linear_of_centralizes hxM hxcz
   have hT2 : ∀ e, (T : M₀.E →ₗ[K] M₀.E) ((T : M₀.E →ₗ[K] M₀.E) e) = e := by

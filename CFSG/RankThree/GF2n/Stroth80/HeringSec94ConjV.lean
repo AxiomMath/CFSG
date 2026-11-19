@@ -147,7 +147,7 @@ theorem exists_chiTransport91 (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
       (Z.inv_mem hz)
   have hVQ' : Vt M (LB M Q B) B Z t ⊓ Q1 hc β ≤ Q :=
     fun x hx => hVQ (Subgroup.mem_inf.mp hx).1
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t ⊓ Q1 hc β)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t ⊓ Q1 hc β)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ' hv)))
   have hchiC : IsChiIso C (Rt M (LB M Q B) t) (Wt Q (Vt M (LB M Q B) B Z t))
@@ -232,7 +232,7 @@ theorem step94ConjV_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hfilt := card_Q1_mul_le_filtration hc hxM hZV hVW hWQ hβV hβW hVC₂ hC₂W
     (fun y hy => ⟨fun h => ((hC₂ y).mp h).2, fun h => (hC₂ y).mpr ⟨hy, h⟩⟩) hWC₃ hC₃Q hC₃iff
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have h3 := HS9.card_Vt_inf_Q1_plus4_91 P ht hxL hxN
   have hq : 0 < Nat.card Z := Nat.card_pos
   have hWpos : 0 < Nat.card (Wt Q (Vt M (LB M Q B) B Z t)) := Nat.card_pos
@@ -242,7 +242,7 @@ theorem step94ConjV_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     hs.card_W h34
   have hn3 : 2 < n := hs5.n_gt
   have hQ1Q : Q1 hc x ≤ Q := fun y hy => hy.1
-  haveI : (Z.subgroupOf (Ut Q Z x)).Normal :=
+  have : (Z.subgroupOf (Ut Q Z x)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q hxM hv)))
   have hQ1U : Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc x) * Nat.card ↥(Ut Q Z x) :=

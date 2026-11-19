@@ -30,7 +30,7 @@ theorem s16t_a_case168_4_two (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h
   swap
   · exact s16t_a_case168_4_two_three_small D hx h61 h127 hc hL hS hpσ h27
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   by_cases hall : ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian 3 E → 3 ^ 3 ≤ Nat.card E →
       (∃ b ∈ barSub ⊥ V hV E, ∃ i, (Y i).map b.toMonoidHom ≠ Y i) ∧
       ∃ w ∈ barSub ⊥ V hV (E3.wClos V D.k D.T), ∃ f ∈ barSub ⊥ V hV E,

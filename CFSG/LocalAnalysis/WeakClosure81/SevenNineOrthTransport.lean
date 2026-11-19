@@ -262,7 +262,7 @@ private lemma isElemAbelian_pullback {X X' : Type*} [Group X] [Group X'] {L : Su
 
 private lemma s_le_pullback {X X' : Type*} [Group X] [Group X'] {L S : Subgroup X}
     {L' S' Y' : Subgroup X'} (e : ↥L ≃* ↥L')
-    (hS : ∀ x : ↥L, (x : X) ∈ S ↔ (e x : X') ∈ S') (hSL : S ≤ L) (hS'L : S' ≤ L')
+    (hS : ∀ x : ↥L, (x : X) ∈ S ↔ (e x : X') ∈ S') (hSL : S ≤ L) (_hS'L : S' ≤ L')
     (hYmem : ∀ {y : X} (hy : y ∈ L), y ∈ pullback e Y' ↔ (e ⟨y, hy⟩ : X') ∈ Y')
     (hnorm : S' ≤ Subgroup.normalizer (Y' : Set X')) :
     S ≤ Subgroup.normalizer (pullback e Y' : Set X) := by
@@ -367,7 +367,7 @@ private lemma exists_preimage_of_mem_iSup {X X' : Type*} [Group X] [Group X']
     have h1 : (e.symm (⟨1, L'.one_mem⟩ : ↥L') : ↥L) = 1 := by
       apply e.injective
       simp
-    simpa [h1] using Subgroup.one_mem _
+    simp [h1]
   have hmul : ∀ y z : X', C y → C z → C (y * z) := by
     rintro y z ⟨hyL', hySup⟩ ⟨hzL', hzSup⟩
     refine ⟨L'.mul_mem hyL' hzL', ?_⟩

@@ -39,7 +39,7 @@ theorem exists_std6Three {Ω : Set (Subgroup G)} {K : Subgroup G} (hs : AscStand
   have hU : IsUniqueInvolution K z := hz.isUniqueInvolution (MemberType.cert_sl2 3 1)
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   set R : Subgroup G := Subgroup.map K.subtype (P : Subgroup ↥K) with hR
-  have hRp : IsPGroup 2 R := P.isPGroup'.map K.subtype
+  have hRp : IsPGroup 2 R := P.isPGroup.map K.subtype
   obtain ⟨S, hRS⟩ := hRp.exists_le_sylow
   exact ⟨S, R, z, ⟨hs, he, hU, ⟨K, hs.mem, P, rfl⟩, Subgroup.map_subtype_le _, hRS, hc, h3⟩⟩
 
@@ -60,7 +60,7 @@ theorem exists_two_generators_inf_cStar3 [IsSimpleGroup G] (hE : C19_E2Prime3) {
   set D : Subgroup G := P ⊓ cStar K with hD
   have hDT : D ≤ (S : Subgroup G) ⊓
       Subgroup.centralizer (((S : Subgroup G) ⊓ K : Subgroup G) : Set G) := fun x hx =>
-    ⟨hPS hx.1, mem_centralizer_inf_of_mem_cStar S.isPGroup' hx.2 (hPS hx.1)⟩
+    ⟨hPS hx.1, mem_centralizer_inf_of_mem_cStar S.isPGroup hx.2 (hPS hx.1)⟩
   have hDC : IsCyclic ↥(D ⊓ C) := Subgroup.isCyclic_of_le (H' := C) inf_le_right
   obtain ⟨⟨c, hc⟩, hcgen⟩ := hDC.exists_generator
   have hCz : D ⊓ C = Subgroup.zpowers c := by
@@ -102,7 +102,7 @@ theorem twoSubgroupsFourGenerated_of_e2Prime3 [IsSimpleGroup G] (hE : C19_E2Prim
     rw [hd.tight.normEq]
     exact hd.hSz
   refine fourGenerated_of_sylow S fun P hPS => ?_
-  obtain ⟨s₁, hs₁, hcl₁⟩ := hE3 P (S.isPGroup'.to_le hPS) (hPS.trans hSN)
+  obtain ⟨s₁, hs₁, hcl₁⟩ := hE3 P (S.isPGroup.to_le hPS) (hPS.trans hSN)
   obtain ⟨s₂, hs₂, hcl₂⟩ := exists_two_generators_inf_cStar3 hE hd hPS
   refine ⟨s₁ ∪ s₂, (Finset.card_union_le _ _).trans (by omega), ?_⟩
   rw [Finset.coe_union, Subgroup.closure_union, hcl₂, hcl₁]

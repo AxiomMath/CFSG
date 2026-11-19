@@ -37,7 +37,7 @@ theorem lemma4Check_true : lemma4Check = true := by
   have q01 := qCheck_of q01_ok g_q01 (by decide)
   have q10 := qCheck_of q10_ok g_q10 (by decide)
   have q11 := qCheck_of q11_ok g_q11 (by decide)
-  simp only [lemma4Check, List.all_cons, List.all_nil, List.any_cons, List.any_nil, w_relP, w_step0,
+  simp only [lemma4Check, List.all_cons, List.all_nil, w_relP, w_step0,
     w_step1, w_x0, w_x1, w_z00, w_z01, w_z10, w_z11, xDetermined_true, q00, q01, q10, q11,
     Bool.and_self]
 

@@ -27,7 +27,7 @@ theorem sec86MinOrder_of (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
   have hpts : Sec8Pts hc t r m' K φ u u' := ⟨hm', hK, hφ, hker, hact, huu', hL, hL'⟩
   have hmm : m = m' := hmSp.m_unique hpts.spMNat
   subst hmm
-  haveI : CharP K 2 := hpts.charP
+  have : CharP K 2 := hpts.charP
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   have hLR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht
   have hLCR : LB M Q (conjSubgroup r B) ≤ Rt M (LB M Q B) t := hc.LB_conj_le_Rt_of_mem ht hrR

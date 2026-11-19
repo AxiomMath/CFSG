@@ -75,7 +75,7 @@ theorem w183b2_graph_step [IsAlgClosed k] [FiniteDimensional k Q] {ρ : Represen
     (hiso : w183b2NIso ρ (A₁ ⊔ A₂) U (U.map (ρ f))) :
     ∃ Γ : Submodule k Q, w183b2SimpleSub ρ (A₁ ⊔ A₂) Γ ∧ Γ.map (ρ f) = Γ := by
   obtain ⟨θ, hθinj, hθrange, hθnlin⟩ := hiso
-  haveI hN : (A₁ ⊔ A₂).Normal := w183b2_normal_sup h
+  have hN : (A₁ ⊔ A₂).Normal := w183b2_normal_sup h
   have hf2 : f * f = 1 := by simpa [pow_two] using h.elem.2 f hf
   have hs : ρ f * ρ f = 1 := w183b2Graph_sq h hf
   have hss : ∀ x : Q, ρ f (ρ f x) = x := by
@@ -85,7 +85,7 @@ theorem w183b2_graph_step [IsAlgClosed k] [FiniteDimensional k Q] {ρ : Represen
   have hUinv : w183b2InvSub ρ (A₁ ⊔ A₂) U := hU.2.1
   have hUne : U ≠ ⊥ := hU.1
   have hUsimple := hU.2.2
-  haveI : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
+  have : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
   let τ : U →ₗ[k] U := w183b2GraphTau hs θ hθrange
   have hτnu : ∀ (n : ↥(A₁ ⊔ A₂)) (u : U),
       τ (w183b2GraphNu hUinv n u) = w183b2GraphNu hUinv (w183b2GraphConj hN f n) (τ u) :=
@@ -143,7 +143,7 @@ theorem w183b2_graph_step [IsAlgClosed k] [FiniteDimensional k Q] {ρ : Represen
       have h0 : (τ * τ) u = 0 := by rw [hττ, hγ0, zero_smul, LinearMap.zero_apply]
       simpa only [Module.End.mul_apply] using h0
     exact hu (hτinj (by rw [hzu, map_zero]))
-  obtain ⟨e, he⟩ := IsAlgClosed.exists_eq_mul_self γ
+  obtain ⟨e, he⟩ := IsAlgClosed.isSquare γ
   have hene : e ≠ 0 := by
     intro h0
     exact hγne (by rw [he, h0, mul_zero])

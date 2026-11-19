@@ -64,11 +64,11 @@ instance (priority := 2000) sl2DecEqInst : DecidableEq SL2 := sl2DecEq
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def H : Subgroup (PSL2 F25t) :=
@@ -111,7 +111,7 @@ theorem closeIter_mono : Monotone closeIter :=
 
 theorem canonSL_one : canonSL (1 : SL2) = 1 := by
   unfold canonSL
-  rw [if_pos (by decide +kernel)]
+  rw [ite_eq_left (by decide +kernel)]
 
 theorem one_mem_closeIter : (1 : SL2) ∈ closeIter N :=
   closeIter_mono (Nat.zero_le N) (Finset.mem_singleton_self 1)

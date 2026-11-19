@@ -83,7 +83,7 @@ structure CoordCtx {G : Type} [Group G] [Finite G]
 
 theorem coordLift_inv {G : Type} [Group G]
     {Bs : Subgroup G} {κ : Fin 7 → (Bs →* Multiplicative (ZMod 3))} {g : G}
-    {a b : Fin 7} (hg : g ∈ normalizer (Bs : Set G)) (h : IsCoordLift Bs κ g (Equiv.swap a b))
+    {a b : Fin 7} (_hg : g ∈ normalizer (Bs : Set G)) (h : IsCoordLift Bs κ g (Equiv.swap a b))
     (j : Fin 7) (c : Bs) (hc : g⁻¹ * c * g ∈ Bs) :
     κ j ⟨_, hc⟩ = κ (Equiv.swap a b j) c := by
   have hgb : g * (g⁻¹ * c * g) * g⁻¹ ∈ Bs := by
@@ -165,7 +165,7 @@ theorem q2p_of_named {G : Type} [Group G] [Finite G]
     have hnk : n ≠ k := Ne.symm hkn
     fin_cases i <;> fin_cases j <;>
       simp [hσ, Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne,
-        hmn, hmk, hnk, hnm, hkm, hkn]
+        hnk, hnm, hkm, hkn]
   have hrest : O1pRest Bs x L g (κ m) X Xk :=
     { T_card := hT4
       lemma81 := h81'

@@ -12,6 +12,7 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G} {n : G}
 
+omit [Finite G] in
 private lemma coordElt_injective (hι : Function.Injective ι) :
     Function.Injective (coordElt ι) := by
   intro u v huv
@@ -31,6 +32,7 @@ private theorem not_isMulCommutative_five :
 @[expose] def Fconj (n : G) (F : Subgroup G) : Subgroup G :=
   F.map (MulAut.conj n).toMonoidHom
 
+omit [Finite G] in
 theorem mem_Fconj {x : G} : x ∈ Fconj n F ↔ ∃ f ∈ F, n * f * n⁻¹ = x := by
   rw [Fconj, Subgroup.mem_map]
   constructor
@@ -39,6 +41,7 @@ theorem mem_Fconj {x : G} : x ∈ Fconj n F ↔ ∃ f ∈ F, n * f * n⁻¹ = x 
   · rintro ⟨f, hf, rfl⟩
     exact ⟨f, hf, by simp [MulAut.conj_apply]⟩
 
+omit [Finite G] in
 theorem Fconj_le_K (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (ι.range : Set G))
     (hnz : n * z₁ * n⁻¹ = z) : Fconj n F ≤ Kgrp ι z := by
   intro x hx
@@ -57,12 +60,14 @@ theorem Fconj_le_K (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer 
         _ = n * (z₁ * f) * n⁻¹ := by rw [hfz]
         _ = (n * z₁ * n⁻¹) * (n * f * n⁻¹) := by group)
 
+omit [Finite G] in
 theorem Fconj_equiv (h : Setting25 G t z z₁ ι zv R0 F) :
     Nonempty (↥(Fconj n F) ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨e⟩ := h.hD2.F_iso
   exact ⟨(Subgroup.equivMapOfInjective F (MulAut.conj n).toMonoidHom
     (MulAut.conj n).injective).symm.trans e⟩
 
+omit [Finite G] in
 theorem card_Fconj (h : Setting25 G t z z₁ ι zv R0 F) : Nat.card (Fconj n F) = 60 := by
   obtain ⟨e⟩ := Fconj_equiv (n := n) h
   calc Nat.card (Fconj n F) = Nat.card (alternatingGroup (Fin 5)) := Nat.card_congr e.toEquiv
@@ -70,6 +75,7 @@ theorem card_Fconj (h : Setting25 G t z z₁ ι zv R0 F) : Nat.card (Fconj n F) 
         rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
         norm_num
 
+omit [Finite G] in
 theorem Fconj_inf_range (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) : Fconj n F ⊓ ι.range = ⊥ := by
   have hFK : Fconj n F ≤ normalizer (ι.range : Set G) := by
@@ -79,7 +85,7 @@ theorem Fconj_inf_range (h : Setting25 G t z z₁ ι zv R0 F)
     rw [← hnf]
     exact mul_mem (mul_mem hn (h.hD2.F_le_normalizer hf)) (inv_mem hn)
   obtain ⟨e⟩ := Fconj_equiv (n := n) h
-  haveI : IsSimpleGroup ↥(Fconj n F) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(Fconj n F) := e.isSimpleGroup
   have hnorm : ((Fconj n F ⊓ ι.range).subgroupOf (Fconj n F)).Normal := by
     have h1 : (Fconj n F ⊓ ι.range).subgroupOf (Fconj n F) =
         (ι.range ⊓ Fconj n F).subgroupOf (Fconj n F) := by rw [inf_comm]
@@ -102,10 +108,11 @@ theorem Fconj_inf_range (h : Setting25 G t z z₁ ι zv R0 F)
       calc a.1 * b.1 = ι (α * β) := by rw [← hα, ← hβ, map_mul]
         _ = ι (β * α) := by rw [mul_comm]
         _ = b.1 * a.1 := by rw [map_mul, hβ, hα]
-    haveI := hcomm
+    have := hcomm
     exact not_isMulCommutative_five
       (Function.Surjective.isMulCommutative (f := e) e.surjective)
 
+omit [Finite G] in
 theorem Fconj_eichActs_eq_one (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) {f : G}
     (hf : f ∈ Fconj n F) (hE : ∃ u : V6, EichActs ι zv f u) : f = 1 := by
@@ -125,8 +132,8 @@ theorem Fconj_eichActs_eq_one (h : Setting25 G t z z₁ ι zv R0 F)
     obtain ⟨p, hpOm, hpz, hpacts⟩ := h.exists_acts_of_mem_K hgK
     exact ⟨p u, EichActs.conj hpacts (omegaMinus_le_orthMinus hpOm) hpz hu⟩
   obtain ⟨e⟩ := Fconj_equiv (n := n) h
-  haveI : IsSimpleGroup ↥(Fconj n F) := e.isSimpleGroup
-  haveI : S.Normal := hSnorm
+  have : IsSimpleGroup ↥(Fconj n F) := e.isSimpleGroup
+  have : S.Normal := hSnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal S with hbot | htop
   · have hfS : (⟨f, hf⟩ : ↥(Fconj n F)) ∈ S := hE
     rw [hbot] at hfS
@@ -152,16 +159,18 @@ theorem Fconj_eichActs_eq_one (h : Setting25 G t z z₁ ι zv R0 F)
         rw [mul_inv_rev, ← mul_assoc]
         exact hone
       exact mul_inv_eq_one.mp h_eq
-    haveI := hcomm
+    have := hcomm
     exact not_isMulCommutative_five
       (Function.Surjective.isMulCommutative (f := e) e.surjective)
 
+omit [Finite G] in
 theorem conj_t_mem_range (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) : n * t * n⁻¹ ∈ ι.range := by
   obtain ⟨g, hg⟩ := exists_acts h.injective_ι hn
   rw [← h.ι_tv, hg tv]
   exact MonoidHom.mem_range.mpr ⟨Multiplicative.ofAdd (g tv), rfl⟩
 
+omit [Finite G] in
 theorem conj_t_not_mem_Cgrp (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) :
     n * t * n⁻¹ ∉ Cgrp ι zv := by
@@ -183,6 +192,7 @@ theorem conj_t_not_mem_Cgrp (h : Setting25 G t z z₁ ι zv R0 F)
   rw [hbil0] at hbil1
   exact one_ne_zero hbil1.symm
 
+omit [Finite G] in
 theorem conj_t_sq (h : Setting25 G t z z₁ ι zv R0 F) : (n * t * n⁻¹) ^ 2 = 1 := by
   have ht2 : t ^ 2 = 1 := by
     rw [pow_two, ← h.ι_tv, ← coordElt_add, add_self_eq_zero_V6, coordElt_zero]
@@ -192,6 +202,7 @@ theorem conj_t_sq (h : Setting25 G t z z₁ ι zv R0 F) : (n * t * n⁻¹) ^ 2 =
   rw [hconj, ht2]
   group
 
+omit [Finite G] in
 theorem conj_t_comm_Fconj (h : Setting25 G t z z₁ ι zv R0 F) {f : G} (hf : f ∈ Fconj n F) :
     (n * t * n⁻¹) * f = f * (n * t * n⁻¹) := by
   rw [mem_Fconj] at hf

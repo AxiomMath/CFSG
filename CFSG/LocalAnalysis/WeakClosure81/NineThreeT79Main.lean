@@ -59,11 +59,12 @@ private theorem nine3_odd_card_fusionOddCore (Z : Type) [Group Z] [Finite Z] :
   rw [h]
   exact Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := Z))
 
+omit [Finite G] in
 private theorem nine3_quotHyp_comp {H₀ : Subgroup G} {Z : Type} [Group Z] [Finite Z]
     {s : Z} {O : Subgroup Z} (hO : O.Normal) (hpc : CFSG.pCore 2 Z = ⊥)
     (hcl : Nine3Classical Z s O) {Ψ : ↥H₀ →* Z} (hΨ : Nine3QuotHyp H₀ Ψ) :
     Nine3QuotHyp H₀ ((QuotientGroup.mk' O).comp Ψ) := by
-  letI : O.Normal := hO
+  let : O.Normal := hO
   refine ⟨?_, ?_⟩
   · intro k hk
     show (QuotientGroup.mk' O) (Ψ k) = 1
@@ -107,11 +108,11 @@ theorem nine3Thm79_holds (hCore : OddTranspositionCoreInputSCCls)
   obtain ⟨ρ, hρ⟩ := nine3_exists_fibreAct hc
   obtain ⟨Z, hZgrp, Ψ, hΨsurj, hΨquot, hpcoreZ, hsmall⟩ :=
     nine3_bar h hCore hList (h772 (nine3G1 V K g)) hIn
-  letI : Group Z := hZgrp
-  haveI : Finite Z := Finite.of_surjective Ψ hΨsurj
+  let : Group Z := hZgrp
+  have : Finite Z := Finite.of_surjective Ψ hΨsurj
   obtain ⟨s, hsS, hsne, O, hO, hcl⟩ := nine3_classical_of_smallAlt hsmall
   obtain ⟨hS2, -⟩ := hsmall
-  letI : O.Normal := hO
+  let : O.Normal := hO
   let π : ↥(nineH0 V K g) →* Z ⧸ O := (QuotientGroup.mk' O).comp Ψ
   have hπ : Nine3QuotHyp (nineH0 V K g) π := nine3_quotHyp_comp hO hpcoreZ hcl hΨquot
   obtain ⟨U, c, a, e, a', v, hU, hUfib, hc0, haA, haR, heU, heR, hvV, hconfig⟩ :=

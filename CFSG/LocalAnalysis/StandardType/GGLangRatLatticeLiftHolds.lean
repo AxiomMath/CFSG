@@ -44,10 +44,7 @@ theorem langRatSigmaT_rootChar
     (hw : ∀ γ ∈ Ψ, w • γ ∈ Ψ) (q : ℕ) (x : TSc Ψ L) (v : Fin τ.rank → ℤ) :
     rootChar (Additive.toMul (langRatPiT Ψ L (langRatSigmaT Ψ L w hw q x))) (w • v) =
       rootChar (Additive.toMul (langRatPiT Ψ L x)) v ^ q := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero, toMul_zero]
-    simp [rootChar]
+  induction x using TensorProduct.inductionOn with
   | tmul γ u =>
     have h1 : Additive.toMul (langRatPiT Ψ L (langRatSigmaT Ψ L w hw q (γ ⊗ₜ[ℤ] u))) =
         Hchar (τ := τ) (w • (γ : Fin τ.rank → ℤ)) (Additive.toMul u ^ q) := by

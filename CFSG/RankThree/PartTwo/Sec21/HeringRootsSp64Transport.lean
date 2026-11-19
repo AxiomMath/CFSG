@@ -119,7 +119,7 @@ theorem congr_restrA_apply {I A : Subgroup G} (hAI : A ≤ I) (Φ : I ≃* K)
 
 theorem isPerfect_map_subgroupOf_aux {I P : Subgroup G} (hPI : P ≤ I) (Φ : I ≃* K)
     (hP : Group.IsPerfect P) : Group.IsPerfect ((P.subgroupOf I).map Φ.toMonoidHom) := by
-  haveI : Group.IsPerfect (P.subgroupOf I) :=
+  have : Group.IsPerfect (P.subgroupOf I) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hPI).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPI).symm.surjective
   exact Group.IsPerfect.map Φ.toMonoidHom

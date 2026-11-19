@@ -67,12 +67,12 @@ theorem mats_eq : (v3s.flatMap fun r0 => v3s.flatMap fun r1 => v3s.map fun r2 =>
 
 theorem incB_go {N : Nat} : ∀ (L : List Nat) (lo : Nat),
     List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-      (fun c _ ih lo => Bool.and' (Nat.ble lo c) (Bool.and' (Nat.blt c N) (ih (Nat.succ c)))) L lo =
+      (fun c _ ih lo => _root_.Bool.and (Nat.ble lo c) (_root_.Bool.and (Nat.blt c N) (ih (Nat.succ c)))) L lo =
         true →
     (∀ x ∈ L, lo ≤ x ∧ x < N) ∧ L.Pairwise (· < ·)
   | [], _, _ => by simp
   | c :: L, lo, h => by
-    change Bool.and' (Nat.ble lo c) (Bool.and' (Nat.blt c N) _) = true at h
+    change _root_.Bool.and (Nat.ble lo c) (_root_.Bool.and (Nat.blt c N) _) = true at h
     rw [and'_eq, and'_eq, Bool.and_eq_true, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq] at h
     obtain ⟨h1, h2, h3⟩ := h
     obtain ⟨ih1, ih2⟩ := incB_go L (Nat.succ c) h3
@@ -140,7 +140,7 @@ theorem gu3s_eq {G : List Nat} (h : gOK G = true) : gu3s = G.map dmN := by
 
 @[expose] def zb (k : Nat) : ZMod 2 := if k % 2 = 1 then 1 else 0
 
-theorem zb_eq {c g : Nat} (hc : c < 82944) (hg : g < 2 ^ 18) :
+theorem zb_eq {c g : Nat} (_hc : c < 82944) (hg : g < 2 ^ 18) :
     zb (c / 41472) = if (2 ^ 18 * (c / 648) + g).testBit 24 then 1 else 0 := by
   have h : (2 ^ 18 * (c / 648) + g) / 2 ^ 24 % 2 = c / 41472 % 2 := by omega
   rw [Nat.testBit_eq_decide_div_mod_eq, h]

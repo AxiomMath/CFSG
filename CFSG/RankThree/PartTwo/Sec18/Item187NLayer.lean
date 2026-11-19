@@ -93,10 +93,10 @@ theorem isSolvable_of_layer_eq_bot
     (hrank : ∀ r : ℕ, r.Prime → 3 < r → CFSG.Open.pRank r (⊤ : Subgroup Y) ≤ 2)
     (hlayer : layer Y = ⊥) : Group.IsSolvable Y := by
   obtain ⟨U, hUn, hUodd, hq⟩ := hasNormalPComplement_two_of_layer_eq_bot h2 h3 hrank hlayer
-  haveI : Group.IsSolvable U :=
+  have : Group.IsSolvable U :=
     CFSG.Milestones.odd_order_solvable (Nat.coprime_two_left.mp hUodd)
-  haveI := hq.isNilpotent
-  haveI : Group.IsSolvable (Y ⧸ U) := inferInstance
+  have := hq.isNilpotent
+  have : Group.IsSolvable (Y ⧸ U) := inferInstance
   exact Group.isSolvable_of_ker_le_range U.subtype (QuotientGroup.mk' U)
     (by simp [QuotientGroup.ker_mk'])
 
@@ -118,7 +118,7 @@ theorem two_dvd_card_layer (hl : layer Y ≠ ⊥) : 2 ∣ Nat.card (layer Y) := 
     apply hl
     have hE : {K : Subgroup Y | IsComponent K} = ∅ := by
       ext K
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun hK => hno ⟨K, hK⟩
     show sSup {K : Subgroup Y | IsComponent K} = ⊥
     rw [hE, sSup_empty]
@@ -143,8 +143,8 @@ theorem two_dvd_card_layer (hl : layer Y ≠ ⊥) : 2 ∣ Nat.card (layer Y) := 
 theorem layer_inf_ne_bot_of_isSylowOf (hl : layer Y ≠ ⊥) {T : Subgroup Y}
     (hT : IsSylowOf 2 T ⊤) : layer Y ⊓ T ≠ ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.LocalCores.layer_characteristic (G := Y)
-  haveI : (layer Y).Normal := inferInstance
+  have := CFSG.LocalCores.layer_characteristic (G := Y)
+  have : (layer Y).Normal := inferInstance
   have hS : IsSylowOf 2 (T ⊓ layer Y) (layer Y) :=
     hT.inf_of_le_normalizer le_top (by simp [Subgroup.normalizer_eq_top])
   intro hbot
@@ -155,8 +155,8 @@ theorem layer_inf_ne_bot_of_isSylowOf (hl : layer Y ≠ ⊥) {T : Subgroup Y}
 theorem fittingSubgroup_le_layer (h2 : CFSG.pCore 2 Y = ⊥) {T : Subgroup Y}
     (hT : IsPGroup 2 T) (hY : layer Y ⊔ T = ⊤) : fittingSubgroup Y ≤ layer Y := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.LocalCores.layer_characteristic (G := Y)
-  haveI : (layer Y).Normal := inferInstance
+  have := CFSG.LocalCores.layer_characteristic (G := Y)
+  have : (layer Y).Normal := inferInstance
   have h1 : (layer Y ⊔ T).map (QuotientGroup.mk' (layer Y)) = ⊤ := by
     rw [hY, ← MonoidHom.range_eq_map]
     exact MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)

@@ -204,11 +204,11 @@ theorem twoSubgroupsFourGenerated_of_allTypeTwo' (hF : TightFStarOK G t)
       have e : x = s * (s⁻¹ * x * s) * s⁻¹ := by group
       rw [e]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hs (hRT hx')) (Subgroup.inv_mem _ hs)
-    exact conjSubgroup_eq_self_iff.mp (ht.sylow_eq Q₀ T.isPGroup' hRT hle)
+    exact conjSubgroup_eq_self_iff.mp (ht.sylow_eq Q₀ T.isPGroup hRT hle)
   have hSz : (T : Subgroup G) ≤ Subgroup.centralizer ({t} : Set G) := h.hTt
   have hSKR : (T : Subgroup G) ⊓ tightCore R ≤ R0 := by
     have h2 : IsPGroup 2 (((T : Subgroup G) ⊓ tightCore R).subgroupOf (tightCore R)) :=
-      (T.isPGroup'.to_le inf_le_left).comap_subtype
+      (T.isPGroup.to_le inf_le_left).comap_subtype
     have hle : (Q₀ : Subgroup (tightCore R)) ≤
         ((T : Subgroup G) ⊓ tightCore R).subgroupOf (tightCore R) := by
       intro x hx
@@ -228,7 +228,7 @@ theorem twoSubgroupsFourGenerated_of_allTypeTwo' (hF : TightFStarOK G t)
   have hPS : P ≤ (T : Subgroup G) := sup_le hRT (Subgroup.zpowers_le.mpr htS)
   have htzc : t' * t = t * t' := Subgroup.mem_centralizer_singleton_iff.mp (hSz htS)
   have hsd := SD.isSemidihedral_sup_of_allTypeTwo ht hA hR hRK (hSN htS) htzc htz
-  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (T.isPGroup'.to_le hPS) hsd
+  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (T.isPGroup.to_le hPS) hsd
   have hcl : fusionStronglyClosed (P : Set G) T := by
     intro x hx y hy
     have := SD.mem_sup_of_conj_mem ht hA hR hRK hRT hSKR hSN hSz htS htz hx (y := y⁻¹)
@@ -248,7 +248,7 @@ theorem twoSubgroupsFourGenerated_of_allTypeTwo' (hF : TightFStarOK G t)
   have htN : t ∈ N := Subgroup.le_normalClosure (Subgroup.mem_sup_left hzR.mem)
   have hFN : genFittingFStar G ≤ N := hF.contains N hNn htN
   have hTN : (T : Subgroup G) ⊓ N = P :=
-    hB.2.2 _ inf_le_right (T.isPGroup'.to_le inf_le_left)
+    hB.2.2 _ inf_le_right (T.isPGroup.to_le inf_le_left)
       (le_inf hPS (Subgroup.le_normalClosure))
   have hAP : ∀ X : Subgroup G, IsPGroup 2 X → X ≤ genFittingFStar G →
       ∃ g' : G, X ≤ conjSub g' P := by

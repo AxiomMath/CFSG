@@ -46,7 +46,7 @@ theorem typeII_zpowers_sup_zpowers {q : ℕ} (hq : q.Prime) {a y : G} (ha : a ^ 
     (hy : y ^ q = 1) (hy1 : y ≠ 1) (hcomm : Commute a y) (hya : y ∉ Subgroup.zpowers a) :
     IsElemAbelian q (Subgroup.zpowers a ⊔ Subgroup.zpowers y) ∧
       Nat.card (Subgroup.zpowers a ⊔ Subgroup.zpowers y : Subgroup G) = q ^ 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hacard : Nat.card (Subgroup.zpowers a) = q := by
     rw [Nat.card_zpowers, orderOf_eq_prime ha ha1]
   have hycard : Nat.card (Subgroup.zpowers y) = q := by
@@ -142,7 +142,7 @@ theorem mcl_plane {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hX 
   have hxS : x ∈ u3S P x := ⟨hc.generic.1, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   obtain ⟨a, haT, t, htT, hat⟩ : ∃ a ∈ u3T P x J, ∃ t ∈ u3T P x J, t * a ≠ a * t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hTnab (IsMulCommutative.of_setLike_mul_comm fun a ha b hb => (hcon a ha b hb).symm)
   have haS : a ∈ u3S P x := haT.1
   have hax : Commute a x := Subgroup.mem_centralizer_singleton_iff.mp haS.2
@@ -159,7 +159,7 @@ theorem mcl_plane {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hX 
   have hxU : x ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers x :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
   have hZcard : Nat.card (Subgroup.zpowers a) = 5 := by
-    haveI : Fact (5 : ℕ).Prime := ⟨hp⟩
+    have : Fact (5 : ℕ).Prime := ⟨hp⟩
     rw [Nat.card_zpowers, orderOf_eq_prime hap ha1]
   refine ⟨Subgroup.zpowers a ⊔ Subgroup.zpowers x, ⟨hel, hcard, ?_, hxU, ?_⟩, a, ⟨haU, haT⟩, t, htT, hat⟩
   · exact sup_le (Subgroup.zpowers_le.mpr haS) (Subgroup.zpowers_le.mpr hxS)

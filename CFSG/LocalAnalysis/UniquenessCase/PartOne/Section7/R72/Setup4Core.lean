@@ -34,7 +34,7 @@ theorem normalizer_le_of_theoremCAt {M : Subgroup G} (hC : TheoremCAt M) {p : �
 theorem normalizer_le_of_four_le_pRank (hU : uniqueFourUnique G) {M : Subgroup G}
     (hM : uniqueFourIsMaxTwoLocal M) {K : Subgroup G} (hKM : K ≤ M) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (h4 : 4 ≤ CFSG.Open.pRank q K) : Subgroup.normalizer (K : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hPM, hΓM⟩ := CFSG.LocalAnalysis.UniquenessCase.UC6.exists_sylow_le_of_sigma hU hM
     (CFSG.LocalAnalysis.UniquenessCase.UC6.four_le_pRank_imp_mem_sigma hU hM hq hq2
       (h4.trans (CFSG.SectionRank.pRank_mono hq.one_lt hKM)))

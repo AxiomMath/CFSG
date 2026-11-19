@@ -157,7 +157,7 @@ theorem exists_line_ne (hp : p.Prime) (hEexp : ∀ x ∈ E, x ^ p = 1) (hEcard :
     refine lt_of_le_of_ne hZ₁E fun h => ?_
     rw [h, hEcard] at hZ₁card
     nlinarith [hZ₁card, pow_pos hp.pos 2]
-  obtain ⟨x, hxE, hxZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxE, hxZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hx1 : x ≠ 1 := fun h => hxZ (h ▸ one_mem _)
   have := Fact.mk hp
   exact ⟨zpowers x, zpowers_le.2 hxE, by rw [Nat.card_zpowers, orderOf_eq_prime (hEexp x hxE) hx1],

@@ -18,7 +18,7 @@ theorem asc82CorIIIq_of_orders
   rw [top_inf_eq] at hKle hKsub
   have hsub : CFSG.Open.IsSubnormal K (centralizer ({z} : Set G)) :=
     (CFSG.Open.IsSubnormal.iff_subgroupOf hKle).2 hKsub
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   exact c3b_false_of_witness hCI hCL1 hO hS hz hzK hsub S
     (sec5c3q_quaternion_of_isSL2qMod hn hq hSL S) (sec5c3q_witness_of_isSL2qMod hn hq hSL)

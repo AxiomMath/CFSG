@@ -50,7 +50,7 @@ theorem TwoTheta.y_le_normalizer (hKF : KF207ThetaTwo) (hG : TheoremFourHyp G)
       (CFSG.pPrimeCore 3 ↥Y)
   have hLΘ : L ≤ Subgroup.normalizer (Θ : Set G) := hLY.trans hnorm
   have h3Θ : Nat.Coprime 3 (Nat.card Θ) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥Y)
     rwa [← Subgroup.card_map_of_injective Y.subtype_injective] at h
   obtain ⟨hK, hrank⟩ := TwoTheta.theta_hyps hG h3G hF2 hF1 (hΘY.trans hYF) h3Θ
@@ -58,6 +58,7 @@ theorem TwoTheta.y_le_normalizer (hKF : KF207ThetaTwo) (hG : TheoremFourHyp G)
   exact le_normalizer_of_comm_theta L Y hLY hLL hq h1 h2 h3
 
 
+omit [Finite G] in
 theorem TwoTheta.le_of_struct {K N C I R : Subgroup G} {g : G}
     (hK : K ≤ (Late.normalClosureIn (K ⊓ C) g ⊔ I) ⊔ R) (hY : Late.normalClosureIn C g ≤ N)
     (hI : I ≤ N) (hR : R ≤ N) : K ≤ N := by

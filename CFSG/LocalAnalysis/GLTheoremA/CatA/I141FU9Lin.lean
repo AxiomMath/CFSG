@@ -38,7 +38,7 @@ theorem u9_lin_pSimple {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : M
     exact h1
   have hpow : u ^ 3 = 1 := by
     rw [← hMEq, ← map_pow, hα3, map_one]
-  haveI : Finite (LargeEvenProj (StatedSL d K)) := Finite.of_equiv S e.toEquiv
+  have : Finite (LargeEvenProj (StatedSL d K)) := Finite.of_equiv S e.toEquiv
   obtain ⟨hJ', ⟨eJ⟩⟩ := chevQ_transport Nat.prime_three e hJ
   rw [hMEq] at hJ'
   obtain ⟨a, E, hEf, hEalg, hEfin, ha, ⟨φ⟩⟩ :=
@@ -47,12 +47,12 @@ theorem u9_lin_pSimple {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : M
   have hEcard : Nat.card E = 2 ^ ((canonLabel labK).n * Module.finrank K E) := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := E), hcard, ← pow_mul]
   refine ⟨a, _, E, hEf, hEfin, ha, hEcard, ?_⟩
-  haveI hperf : Group.IsPerfect ↥(J.map e.toMonoidHom) :=
+  have hperf : Group.IsPerfect ↥(J.map e.toMonoidHom) :=
     Subgroup.isPerfect_iff.2 (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ')
-  haveI hperfQ : Group.IsPerfect (↥(J.map e.toMonoidHom) ⧸ Subgroup.center ↥(J.map e.toMonoidHom)) :=
+  have hperfQ : Group.IsPerfect (↥(J.map e.toMonoidHom) ⧸ Subgroup.center ↥(J.map e.toMonoidHom)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥(J.map e.toMonoidHom)))
       (QuotientGroup.mk'_surjective _)
-  haveI hperfT : Group.IsPerfect (StatedProj (StatedSL a E)) :=
+  have hperfT : Group.IsPerfect (StatedProj (StatedSL a E)) :=
     Group.IsPerfect.ofSurjective (f := φ.toMonoidHom) φ.surjective
   have h22 : a ≠ 2 ∨ Nat.card E ≠ 2 := by
     by_contra hcon
@@ -64,8 +64,8 @@ theorem u9_lin_pSimple {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : M
       exact hcon (Or.inr h)
     subst ha2
     have hc6 := card_statedProj_statedSL_two_of_card_eq_two hE2
-    haveI : Finite (StatedProj (StatedSL 2 E)) := Nat.finite_of_card_ne_zero (by rw [hc6]; norm_num)
-    haveI : Nontrivial (StatedProj (StatedSL 2 E)) :=
+    have : Finite (StatedProj (StatedSL 2 E)) := Nat.finite_of_card_ne_zero (by rw [hc6]; norm_num)
+    have : Nontrivial (StatedProj (StatedSL 2 E)) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hc6]; norm_num)
     exact Group.IsPerfect.not_isSolvable (StatedProj (StatedSL 2 E))
       (CFSG.LieType.SemisimpleCentralizers.Held.hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 1)
@@ -85,7 +85,7 @@ theorem u9_lin_pSimple {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : M
     omega
   have hsimple : IsSimpleGroup (StatedProj (StatedSL a E)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL E ha h22 h23
-  haveI := hsimple
+  have := hsimple
   have hq : CFSG.Open.IsQuasisimple ↥(J.map e.toMonoidHom) :=
     ⟨Group.isPerfect_def.1 hperf, φ.isSimpleGroup⟩
   obtain ⟨eC⟩ := centerQuot_equiv_pSimple Nat.prime_three hJ' hq

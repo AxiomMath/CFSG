@@ -380,7 +380,7 @@ theorem exists_sylow_centralizer_Lbar {f : ℕ} (hf : 3 ≤ f) {V₁ V₂ : Subg
   refine ⟨S, le_antisymm ?_ fun x hx => ⟨⟨x, htB hx⟩, hS (mem_subgroupOf.mpr hx), rfl⟩⟩
   set S' : Subgroup w.Nbar := (S : Subgroup B).map B.subtype with hS'
   have hS'B : S' ≤ B := map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   set SG : Subgroup G := (S'.comap w.projBar).map w.N.subtype with hSG
   have hmemSG : ∀ x : G, x ∈ SG ↔ ∃ hx : x ∈ w.N, w.projBar ⟨x, hx⟩ ∈ S' := by
     intro x

@@ -14,7 +14,7 @@ theorem owCr_Q_add_eq {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module
   rw [QuadraticMap.map_add Q, hu, polar_comm, ← polarBilin_apply_apply, hau]
   abel
 
-noncomputable def owCr_N {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) (a u : U) (ha : Q a ≠ 0) : U →ₗ[K] U :=
+noncomputable def owCr_N {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) (a u : U) (_ha : Q a ≠ 0) : U →ₗ[K] U :=
   (Q a)⁻¹ • (((polarBilin Q).flip u).smulRight a)
     - (Q a)⁻¹ • ((((polarBilin Q).flip a) + ((polarBilin Q).flip u)).smulRight u)
 
@@ -23,7 +23,7 @@ theorem owCr_N_apply {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module 
       - ((polarBilin Q v a + polarBilin Q v u) / Q a) • u := by
   simp only [owCr_N, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.add_apply,
     LinearMap.smulRight_apply, LinearMap.flip_apply, polarBilin_apply_apply, smul_smul,
-    smul_sub, smul_add, div_eq_inv_mul, map_sub, map_add, map_smul]
+    div_eq_inv_mul]
 
 theorem owCr_T_apply {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) (a u : U) (ha : Q a ≠ 0)
     (ha' : Q (a + u) ≠ 0) (hu : Q u = 0) (hau : polarBilin Q u a = 0) (v : U) :
@@ -38,10 +38,9 @@ theorem owCr_T_apply {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module 
     rw [show Q a + Q a + 0 = 2 * Q a by ring]
     field_simp
     ring
-  simp only [map_sub, map_add, map_smul, LinearMap.flip_apply, polarBilin_apply_apply,
-    polar_self, polar_comm, polar_add_left, polar_smul_left, polar_neg_left, polar_sub_left,
-    hu, hau, smul_eq_mul, two_smul, LinearMap.sub_apply, LinearMap.smul_apply,
-    LinearMap.add_apply, div_eq_inv_mul, inv_pow]
+  simp only [map_sub, map_add, map_smul, polarBilin_apply_apply,
+    polar_self, polar_comm, hau, smul_eq_mul, two_smul, LinearMap.sub_apply, LinearMap.smul_apply,
+    LinearMap.add_apply, div_eq_inv_mul]
   rw [hcoef (polar Q a v) (polar Q u v)]
   module
 
@@ -61,19 +60,18 @@ theorem owCr_N_cube {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module K
   have hau' : polar Q a u = 0 := by rw [polar_comm, ← polarBilin_apply_apply, hau]
   ext v
   simp only [pow_succ, pow_zero, Module.End.mul_apply, Module.End.one_apply, owCr_N_apply,
-    map_sub, map_add, map_smul, LinearMap.flip_apply, polarBilin_apply_apply, polar_self,
-    polar_comm, polar_add_left, polar_smul_left, polar_neg_left, polar_sub_left, hu, hau, hau',
-    smul_eq_mul, two_smul, smul_zero, zero_mul, mul_zero, LinearMap.zero_apply,
-    inv_mul_cancel₀ ha, mul_inv_cancel₀ ha, inv_pow]
+    map_sub, map_smul, polarBilin_apply_apply, polar_self,
+    polar_comm, hu, hau, hau',
+    two_smul, smul_zero, LinearMap.zero_apply]
   module
 
 theorem owCr_order_orthRefl {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Module K U] {p : ℕ} [CharP K p] (hp : p.Prime) (hp3 : 3 ≤ p)
     (Q : QuadraticForm K U) (a u : U) (ha : Q a ≠ 0) (ha' : Q (a + u) ≠ 0)
     (hu : Q u = 0) (hau : polarBilin Q u a = 0) (hu_ne : u ≠ 0) :
     orderOf (owCr_orthRefl Q a ha * owCr_orthRefl Q (a + u) ha') = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha_ne : a ≠ 0 := fun h => ha (by rw [h, QuadraticMap.map_zero])
-  haveI : CharP (U →ₗ[K] U) p :=
+  have : CharP (U →ₗ[K] U) p :=
     Module.charP_end (p := p) ⟨a, (Ideal.torsionOf_eq_bot_iff_of_isTorsionFree (R := K) (M := U) a).mpr ha_ne⟩
   have h2 : (2 : K) ≠ 0 := by
     intro h
@@ -133,8 +131,8 @@ theorem owCr_wit_orth_cr {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type}
     {A : Subgroup (U ≃ₗ[ZMod p] U)} (hA : ∀ g : U ≃ₗ[ZMod p] U, g ∈ A ↔ IsIsom p Q g) :
     ∀ r ∈ A, IsRefl p r → WitCR p A r := by
   intro r hrA hr
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  let : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
   have h2K : (2 : ZMod p) ≠ 0 := by
     intro h
     have hdiv : p ∣ 2 := (CharP.cast_eq_zero_iff (ZMod p) p 2).mp h

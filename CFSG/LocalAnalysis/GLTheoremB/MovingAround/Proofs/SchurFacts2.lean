@@ -27,16 +27,16 @@ section Cyclic
 theorem isCyclic_center_of_card_roots_le {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
     (hZ : IsPGroup p (Subgroup.center Y))
     (h : Nat.card {z : Subgroup.center Y // z ^ p = 1} ≤ p) : IsCyclic (Subgroup.center Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, he⟩ := hZ.exists_card_eq
-  letI : CommGroup (Subgroup.center Y) :=
+  let : CommGroup (Subgroup.center Y) :=
     { (inferInstance : Group (Subgroup.center Y)) with
       mul_comm := fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a) }
   exact CFSG.GH74.Uniqueness.SU.SU1.isCyclic_of_card_roots_le hp e _ he h
 
 theorem isCyclic_of_isPGroup_of_dvd_twelve {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Z : Type*}
     [Group Z] [Finite Z] (hZ : IsPGroup p Z) (h12 : Nat.card Z ∣ 12) : IsCyclic Z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hZ.exists_card_eq
   apply isCyclic_of_card_dvd_prime (p := p)
   rw [hk]
@@ -463,7 +463,7 @@ theorem hasUniqueEA_of_map_eq_Psub {J : Type} [Group J] [Finite J] (ψ : J →* 
     (hψ : Function.Surjective ψ) (hker : ψ.ker = Subgroup.center J)
     (h9 : Nat.card {z : Subgroup.center J // z ^ 3 = 1} = 9) (S : Sylow 3 J)
     (hS : (S : Subgroup J).map ψ = Psub) : HasUniqueEA 3 6 (S : Subgroup J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hkerZ : ψ.ker ≤ Subgroup.center J := hker.le
   have hcomm : ∀ x ∈ thetaBar.range.comap ψ, ∀ y ∈ thetaBar.range.comap ψ, x * y = y * x :=
     fun x hx y hy => commute_of_mem_range hψ hkerZ hx hy
@@ -506,7 +506,7 @@ theorem hasUniqueEA_of_map_eq_Psub {J : Type} [Group J] [Finite J] (ψ : J →* 
     obtain ⟨s, hs, hsx⟩ := hxP
     have hz : s⁻¹ * x ∈ Subgroup.center J := by
       rw [← hker, MonoidHom.mem_ker, map_mul, map_inv, hsx, inv_mul_cancel]
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨s, hs⟩
     have hsm : s ^ 3 ^ m = 1 := congrArg Subtype.val hm
     have hsA : s ∈ thetaBar.range.comap ψ := by
       rw [Subgroup.mem_comap, hsx]
@@ -515,7 +515,7 @@ theorem hasUniqueEA_of_map_eq_Psub {J : Type} [Group J] [Finite J] (ψ : J →* 
     have hzp : (s⁻¹ * x) ^ 3 ^ (m + 1) = 1 := by
       rw [hcs.mul_pow, pow_succ, pow_mul, pow_mul', inv_pow, hsm, hx3, inv_one, one_pow,
         one_pow, one_mul]
-    haveI : (Subgroup.zpowers (s⁻¹ * x)).Normal :=
+    have : (Subgroup.zpowers (s⁻¹ * x)).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.2 hz)
     have hle := (isPGroup_zpowers_of_pow_eq_one hzp).le_sylow_of_normal S
     have hzS : s⁻¹ * x ∈ (S : Subgroup J) := hle (Subgroup.mem_zpowers _)
@@ -562,7 +562,7 @@ theorem hasUniqueEA_sylow {J : Type} [Group J] [Finite J] (ψ : J →* X₀)
     (hψ : Function.Surjective ψ) (hker : ψ.ker = Subgroup.center J)
     (h9 : Nat.card {z : Subgroup.center J // z ^ 3 = 1} = 9) (S : Sylow 3 J) :
     HasUniqueEA 3 6 (S : Subgroup J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P0 : Sylow 3 X₀ := Sylow.ofCard Psub (by rw [card_Psub, factorization_card_X₀])
   obtain ⟨S₁, hS₁⟩ := Sylow.mapSurjective_surjective hψ 3 P0
   have hS₁' : (S₁ : Subgroup J).map ψ = Psub :=
@@ -577,13 +577,13 @@ theorem u43_four {G : Type} [Group G] [Finite G] {K : Subgroup G}
     (he : Nonempty (↥K ⧸ Subgroup.center ↥K ≃* X₀))
     (h9 : Nat.card {z : Subgroup.center ↥K // z ^ 3 = 1} = 9) {S : Subgroup G}
     (hS : IsSylowIn 3 K S) : HasUniqueEA 3 6 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := he
   set ψ : ↥K →* X₀ := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K)) with hψdef
   have hψ : Function.Surjective ψ := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ψ.ker = Subgroup.center ↥K := by
     ext x
-    simp [hψdef, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [hψdef]
   have hS' := Claims11x.isSylowIn_top_subgroupOf hS
   let P : Sylow 3 ↥K :=
     { toSubgroup := S.subgroupOf K

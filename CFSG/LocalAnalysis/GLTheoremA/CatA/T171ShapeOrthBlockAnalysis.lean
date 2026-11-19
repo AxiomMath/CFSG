@@ -59,16 +59,16 @@ theorem innerCompData_orth_charTwo_of_matrixAnalysis
     have hm4 : 4 ≤ m := four_le_of_lieModel_POmega (Or.inl rfl) hLM
     obtain ⟨K, hKfield, hKfinite, hKcard, θ, x, y, hx, hy, hxp, hyp, hxy, -⟩ :=
       orthModelData_plus hS hcatD hm4
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     exact hP p L J A d b m n K x y θ hS hKcard hm4 hx hy hxp hyp hxy hbz hbJ
   · have hLM : CFSG.Blueprint.LieModel (PSimple p L) .POmegaMinus m 2 n :=
       lieModel_of_catalogIs_twistedD hcatTD
     have hm4 : 4 ≤ m := four_le_of_lieModel_POmega (Or.inr rfl) hLM
     obtain ⟨K, hKfield, hKfinite, hKcard, b₀, c₀, hbc, θ, x, y, hx, hy, hxp, hyp, hxy, -⟩ :=
       orthModelData_minus hS hcatTD hm4
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     exact hM p L J A d b m n K b₀ c₀ x y θ hS hKcard hm4 hbc hx hy hxp hyp hxy hbz hbJ
 
 theorem innerCompNonShape_orth_charTwo_of_compData

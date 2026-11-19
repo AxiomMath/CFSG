@@ -25,6 +25,7 @@ namespace OmTorus
 variable {F W : Type} [Field F] [CharP F 2] [AddCommGroup W] [Module F W]
   [FiniteDimensional F W] {Q : QuadraticForm F W}
 
+omit [CharP F 2] in
 theorem commute_of_orthogonal_supports {U₁ U₂ : Submodule F W}
     (hU₁ : PolarNondegOn Q U₁) (hU₂ : PolarNondegOn Q U₂)
     (horth : U₁ ≤ perp Q U₂)

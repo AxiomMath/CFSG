@@ -113,7 +113,7 @@ private structure TwoLines (F : A10Frame c) (D₀ U V : Subgroup G) (x : G) : Pr
   hUxnot : ¬ U ⊓ Subgroup.centralizer ({x} : Set G) ≤ D₀
   hVxnot : ¬ V ⊓ Subgroup.centralizer ({x} : Set G) ≤ D₀
 
-private theorem exists_twoLines (F : A10Frame c) (hF : A10Facts F) {D₀ U V : Subgroup G}
+private theorem exists_twoLines (F : A10Frame c) (_hF : A10Facts F) {D₀ U V : Subgroup G}
     (hU2 : IsPGroup 2 U) (hV2 : IsPGroup 2 V)
     (hAU : F.A ≤ Subgroup.normalizer (U : Set G))
     (hAV : F.A ≤ Subgroup.normalizer (V : Set G))
@@ -143,7 +143,7 @@ private theorem exists_case_b (F : A10Frame c) (hF : A10Facts F)
     {T₀ D₀ H U : Subgroup G} (hHdef : H = Subgroup.normalizer (D₀ : Set G))
     (hAD₀ : F.A ≤ H) (hU2 : IsPGroup 2 U)
     (hAU : F.A ≤ Subgroup.normalizer (U : Set G))
-    (hUH : U ≤ H) (hUT : U ≤ T₀) (hUnot : ¬ U ≤ D₀)
+    (_hUH : U ≤ H) (_hUT : U ≤ T₀) (hUnot : ¬ U ≤ D₀)
     (hnot : ¬ ∀ S' : Subgroup G, S' ≤ D.M → IsPGroup 2 S' →
       F.A ≤ Subgroup.normalizer (S' : Set G) → D₀ ≤ S' → S' = D₀) :
     ∃ (S V : Subgroup G) (x : G), S ≤ D.M ∧ IsPGroup 2 S ∧
@@ -184,7 +184,7 @@ private theorem exists_conj_le_invariant_sylow {A Y U V : Subgroup G}
   exact ⟨n, hn, S₂, hS₂.1, hAS₂, hS₂.2.1,
     by rw [hnS]; exact Subgroup.map_mono hUS₁, hVS₂⟩
 
-private theorem false_of_invariant_sylow (F : A10Frame c) (hF : A10Facts F)
+private theorem false_of_invariant_sylow (F : A10Frame c) (_hF : A10Facts F)
     {T₀ D₀ S U V W : Subgroup G} {n x : G}
     (hkey : ∀ T' : Subgroup G, IsPGroup 2 T' →
       F.A ≤ Subgroup.normalizer (T' : Set G) →
@@ -286,9 +286,9 @@ private structure CoreData (F : A10Frame c) (T₀ D₀ H U V S : Subgroup G) (x 
   hVxY : V ⊓ Subgroup.centralizer ({x} : Set G) ≤
     CFSG.Open.relPPrimeCore 3 (H ⊓ Subgroup.centralizer ({x} : Set G))
 
-private theorem exists_coreData (F : A10Frame c) (hF : A10Facts F)
+private theorem exists_coreData (F : A10Frame c) (_hF : A10Facts F)
     {T₀ D₀ H U S V : Subgroup G} {x : G} (hx : TwoLines F D₀ U V x)
-    (hHdef : H = Subgroup.normalizer (D₀ : Set G)) (hAH : F.A ≤ H)
+    (hHdef : H = Subgroup.normalizer (D₀ : Set G)) (_hAH : F.A ≤ H)
     (hAD₀ : F.A ≤ Subgroup.normalizer (D₀ : Set G))
     (hS2 : IsPGroup 2 S) (hAS : F.A ≤ Subgroup.normalizer (S : Set G))
     (hVdef : V = S ⊓ H) (hU2 : IsPGroup 2 U)

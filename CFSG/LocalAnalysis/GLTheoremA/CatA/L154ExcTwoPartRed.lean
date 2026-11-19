@@ -128,7 +128,7 @@ theorem compTwoPart3D4_ree : CompTwoPart3D4 l154ExcRee := by
   exfalso
   obtain ⟨a, K, _, _, _, θ, s, φ, ha, hK, hs, -, -, -, hindx, hindy⟩ :=
     l154_ree_setup Nat.prime_three (by norm_num) hSn hqS hSp hc hQ hxp hyp hxy hInn hF hcm
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
   have hxN := l154_mem_normalizer_of_normal hSn x
   have hJS : J ≤ S := hJ.1.trans inf_le_left
   have hTc := l154_JImage_glaPComponent Nat.prime_three hxp hxN hJ θ (MulAut.conj s) hindx

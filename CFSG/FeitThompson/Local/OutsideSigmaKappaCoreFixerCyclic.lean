@@ -107,7 +107,7 @@ theorem isCyclic_and_isPiSubgroup_tauTwoPrimes
     intro q hq P
     by_contra hnc
     have _i := Fact.mk hq
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       rw [pow_zero] at hk
@@ -119,7 +119,7 @@ theorem isCyclic_and_isPiSubgroup_tauTwoPrimes
     have hqodd : Odd q := hodd.of_dvd_nat
       (hqX.trans ((Subgroup.card_dvd_of_le hXM).trans (Subgroup.card_subgroup_dvd_card M)))
     obtain ⟨A, -, -, hAiso⟩ := exists_normal_le_mulEquiv_pi_of_not_isCyclic hq hqodd
-      P.isPGroup' (⊤ : Subgroup ↥(P : Subgroup ↥X))
+      P.isPGroup (⊤ : Subgroup ↥(P : Subgroup ↥X))
       (fun _ => hnc (isCyclic_of_surjective (⊤ : Subgroup ↥(P : Subgroup ↥X)).subtype
         fun x => ⟨⟨x, trivial⟩, rfl⟩))
     have hBX : (A.map (P : Subgroup ↥X).subtype).map X.subtype ≤ X := Subgroup.map_subtype_le _

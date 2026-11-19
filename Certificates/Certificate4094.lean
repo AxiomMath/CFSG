@@ -479,15 +479,15 @@ private theorem t0N_len : T0N.length = 9216 := by
     change Subgroup.closure {g | g ∈ k2gen} ≤ T
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [Set.mem_setOf_eq, k2gen, List.mem_append, List.mem_singleton] at hg
+    simp only [Set.mem_ofPred_eq, k2gen, List.mem_append, List.mem_singleton] at hg
     rcases hg with hg | rfl
     · refine Subgroup.subset_closure ?_
-      simp only [Set.mem_setOf_eq, tgen, List.mem_append]
+      simp only [Set.mem_ofPred_eq, tgen, List.mem_append]
       exact Or.inl hg
     · exact (hT t2X).1 ((hT0.2.2.1 t2X).1.2 (by rw [ht2X]; exact kt2))
   have hnot : ¬ T ≤ N := fun h => by
     have h3 : t3X ∈ T := Subgroup.subset_closure
-      (by simp only [Set.mem_setOf_eq, tgen, List.mem_append, List.mem_singleton, or_true])
+      (by simp only [Set.mem_ofPred_eq, tgen, List.mem_append, List.mem_singleton, or_true])
     have h3n := (hnt t3X).1 (h h3)
     rw [pN_eq, t3c, kt3N] at h3n
     exact Bool.false_ne_true h3n

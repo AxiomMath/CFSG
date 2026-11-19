@@ -81,7 +81,7 @@ private theorem even_iff_three_dvd_two_pow_sub_one (n : ℕ) : 3 ∣ 2 ^ n - 1 �
         exact ⟨k - 1, by omega⟩
 
 theorem kg5e_E6
-    {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤)
+    {X : Type} [Group X] [Finite X] (_hX : commutator X = ⊤)
     {A : Subgroup (MulAut X)} {δ : MulAut X} {J : Subgroup X}
     (hD : DatumOn (fun t => t = .E6) X A δ J)
     (hq : LargeEvenMarking X (fun lab _ _ _ _ _ => 2 ≤ lab.n)) :

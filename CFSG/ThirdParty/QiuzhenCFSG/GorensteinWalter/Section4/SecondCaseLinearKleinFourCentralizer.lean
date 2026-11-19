@@ -45,10 +45,10 @@ public theorem secondCase_linear_kleinFour_centralizer_le_M
   let VE : Subgroup d.E := V.subgroupOf d.E
   have hVE2 : IsPGroup 2 VE := by
     apply IsPGroup.of_equiv (G := V)
-      (IsPGroup.of_card (n := 2) (by simpa using hVK.card_four))
+      (IsPGroup.of_card (n := 2) (by simp))
       (Subgroup.subgroupOfEquivOfLe hVleE).symm
   have hSE2 : IsPGroup 2 ((c.S : Subgroup G).subgroupOf d.E) :=
-    c.S.isPGroup'.comap_subtype
+    c.S.isPGroup.comap_subtype
   have hSEidx : ¬ 2 ∣ ((c.S : Subgroup G).subgroupOf d.E).index := by
     have hdvd : ((c.S : Subgroup G).subgroupOf d.E).index ∣
         (c.S : Subgroup G).index := by
@@ -177,7 +177,7 @@ public theorem secondCase_linear_kleinFour_centralizer_le_M
     have hUodd : Odd (Nat.card c.U) := by
       change Odd (Nat.card (oddCoreOf c.H))
       exact odd_card_oddCoreOf c.H
-    rcases c.S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases c.S.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop : Nat.Coprime (Nat.card c.U) (Nat.card c.S) := by
       rw [hn]
       exact hUodd.coprime_two_right.pow_right n

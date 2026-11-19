@@ -59,7 +59,7 @@ theorem perm_eq_one_of_fixes_evenWeight {m : ℕ} (hm : 3 ≤ m) (σ : Equiv.Per
     have := h ⟨pairV m i j, pairV_mem m i j⟩ i
     simp only [pairV] at this
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     generalize σ⁻¹ i = k at this hcon
     simp [hij, hcon.1, hcon.2] at this
   have hfix : ∀ i, σ⁻¹ i = i := by

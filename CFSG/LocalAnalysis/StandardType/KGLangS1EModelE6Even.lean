@@ -34,8 +34,8 @@ private theorem kgLangS1EModelE6EvenAux_nonabelian {A B : Type*} [Group A] [Grou
 
 theorem kgLangS1E_J0_model_E6_even
     {n : ℕ} (hn : 1 ≤ n) {K₁ : Type} [Field K₁] [Finite K₁] (hK₁ : Nat.card K₁ = 2 ^ n)
-    (heven : Even n)
-    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 1 ≤ e) (hen : e * 3 = n)
+    (_heven : Even n)
+    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 1 ≤ e) (_hen : e * 3 = n)
     (ρ : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false) →* ModGL .E6 L)
     (Θ : ratPts .E6 L (endPow (frobTwistGL .E6 L 2 e 1) 3) →*
       MulAut (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)))
@@ -50,7 +50,7 @@ theorem kgLangS1E_J0_model_E6_even
     {K : Type} [Group K] [Finite K]
     (θ : K ⧸ Subgroup.center K ≃*
       LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false))
-    (hcomm : commutator K = ⊤) (A : Subgroup (MulAut K)) (hA : IsElemAbelian 3 A)
+    (_hcomm : commutator K = ⊤) (A : Subgroup (MulAut K)) (hA : IsElemAbelian 3 A)
     (hAI : ∀ α ∈ A, ∃ u ∈ LargeEvenChevIDImage (LargeEvenCartanE 6) K₁
         (LargeEvenChevH (LargeEvenCartanE 6) K₁ false),
       ∃ f ∈ Subgroup.closure (LargeEvenChevFieldImage (LargeEvenCartanE 6) K₁

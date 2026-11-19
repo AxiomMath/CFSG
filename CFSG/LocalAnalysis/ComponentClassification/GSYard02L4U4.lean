@@ -22,6 +22,7 @@ section Counting
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem card_sup_mul_card_inf_of_comm (L R : Subgroup K)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup K) * Nat.card (L ⊓ R : Subgroup K) = Nat.card L * Nat.card R := by
@@ -58,12 +59,12 @@ private theorem card_inf_eq_of_normal {A B N : Subgroup K} (hNB : N ≤ B)
     (hn : ∀ b ∈ B, ∀ n ∈ N, b * n * b⁻¹ ∈ N)
     (hAB : Nat.card ↥(A ⊓ B) = 2 ^ (Nat.card ↥B).factorization 2) :
     Nat.card ↥(A ⊓ N) = 2 ^ (Nat.card ↥N).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card ↥((A ⊓ B).subgroupOf B) = 2 ^ (Nat.card ↥B).factorization 2 := by
     rw [← hAB]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
   let S : Sylow 2 ↥B := Sylow.ofCard _ hS
-  haveI : (N.subgroupOf B).Normal :=
+  have : (N.subgroupOf B).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact hn g g.2 x hx⟩
@@ -86,7 +87,7 @@ private theorem card_inf_eq_of_normal {A B N : Subgroup K} (hNB : N ≤ B)
 
 private theorem card_sylow_inf_of_le (P : Sylow 2 K) {C : Subgroup K} (hPC : (P : Subgroup K) ≤ C) :
     Nat.card ↥((P : Subgroup K) ⊓ C) = 2 ^ (Nat.card ↥C).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [inf_of_le_left hPC]
   have h := Sylow.card_eq_multiplicity (P.subtype hPC)
   rw [← h]
@@ -96,7 +97,7 @@ private theorem quatIn_of_sylow_sl2 {q : ℕ} (hq : Odd q) {E₁ Q₁ : Subgroup
     (hsl2 : HasSL2Model ↥E₁ (fun r => r = q)) (hQE : Q₁ ≤ E₁)
     (hQcard : Nat.card ↥Q₁ = 2 ^ (Nat.card ↥E₁).factorization 2) (hzQ : z ∈ Q₁)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) : QuatIn z Q₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, iF, fF, hF, ⟨e⟩⟩ := hsl2
   have hFodd : Odd (Nat.card F) := by rw [show Nat.card F = q from hF]; exact hq
   let e' : ↥E₁ ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
@@ -130,6 +131,7 @@ section Pair
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem conj_mem_E₁ {E₁ E₂ : Subgroup K} (hcomm : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) {b : K}
     (hb : b ∈ E₁ ⊔ E₂) {n : K} (hn : n ∈ E₁) : b * n * b⁻¹ ∈ E₁ := by
   obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := mem_sup_of_commute hcomm hb
@@ -141,6 +143,7 @@ theorem conj_mem_E₁ {E₁ E₂ : Subgroup K} (hcomm : ∀ a ∈ E₁, ∀ b �
   rw [this]
   exact E₁.mul_mem (E₁.mul_mem ha₁ hn) (E₁.inv_mem ha₁)
 
+omit [Finite K] in
 theorem conj_mem_E₂ {E₁ E₂ : Subgroup K} (hcomm : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) {b : K}
     (hb : b ∈ E₁ ⊔ E₂) {n : K} (hn : n ∈ E₂) : b * n * b⁻¹ ∈ E₂ := by
   obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := mem_sup_of_commute hcomm hb
@@ -162,7 +165,7 @@ theorem quatPair_of_dat {q : ℕ} (hq : Odd q) (P : Sylow 2 K) {z t : K} {E₁ E
     (hint : E₁ ⊓ E₂ = zpowers z) (hcomm : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) :
     QuatPair z (P : Subgroup K) ((P : Subgroup K) ⊓ E₁) ((P : Subgroup K) ⊓ E₂) ∧
       ((P : Subgroup K) ⊓ E₁) ⊔ ((P : Subgroup K) ⊓ E₂) = (P : Subgroup K) ⊓ (E₁ ⊔ E₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : z ∈ E₁ ∧ z ∈ E₂ := by
     have : z ∈ E₁ ⊓ E₂ := by rw [hint]; exact mem_zpowers z
     exact this
@@ -304,7 +307,7 @@ theorem exists_inv_pair {Q : Subgroup K} {z f : K} (hQ : QuatIn z Q)
         _ = z⁻¹ * a := by rw [← h']
         _ = z * a := by rw [hzi]
         _ = a * z := (hzcQ a ha).symm
-  · push_neg at H
+  · push Not at H
     obtain ⟨u, hu, hne1, hnez⟩ := H
     have hfu : f * u * f⁻¹ ∈ Q := hfQ u hu
     have hg : u * (f * u * f⁻¹)⁻¹ ∈ Q := Q.mul_mem hu (Q.inv_mem hfu)
@@ -386,14 +389,14 @@ theorem reflTransGen_commFourAdj_of_dat410w {q : ℕ} (hq : Odd q) (P : Sylow 2 
       (k * w) * r ≠ r * (k * w))
     {F G : Subgroup K} (hF : IsKleinFour F) (hFP : F ≤ P) (hG : IsKleinFour G) (hGP : G ≤ P) :
     Relation.ReflTransGen (Sig.CommFourAdj K) F G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hpair, hR⟩ := quatPair_of_dat hq P hz2 hz1 hzc hzP htP hEC hEN hE₂ hsl2 hint hcomm
   have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   have hPC : ∀ g ∈ (P : Subgroup K), g ∈ centralizer ({z} : Set K) := fun g hg =>
     mem_centralizer_singleton_iff.mpr (hzc g hg)
   have hP2 : ∀ g ∈ (P : Subgroup K), ∃ k : ℕ, g ^ 2 ^ k = 1 := by
     intro g hg
-    obtain ⟨k, hk⟩ := (P.isPGroup' : IsPGroup 2 (P : Subgroup K)) ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := (P.isPGroup : IsPGroup 2 (P : Subgroup K)) ⟨g, hg⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   obtain ⟨φ, hφx, hφE₁, hφmap⟩ : ∃ φ : MulAut K, (∀ x, φ x = t * x * t⁻¹) ∧
       (∀ x ∈ E₁, φ x ∈ E₂) ∧ (∀ x ∈ E₂, ∃ a ∈ E₁, φ a = x) := by
@@ -588,15 +591,14 @@ theorem mat2_sq (A : Matrix (Fin 2) (Fin 2) F) :
     A * A = A.trace • A - A.det • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two, Matrix.trace_fin_two,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two, Matrix.trace_fin_two] <;> ring
 
 theorem mat2_pol (A B : Matrix (Fin 2) (Fin 2) F) :
     A * B + B * A = A.trace • B + B.trace • A +
       ((A * B).trace - A.trace * B.trace) • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two] <;> ring
 
 theorem sign_matrix (h2 : (2 : F) ≠ 0) {a h : Matrix (Fin 2) (Fin 2) F}
     (ha2 : a * a = -1) (hadet : a.det = 1) (hhdet : h.det = -1)
@@ -634,7 +636,7 @@ theorem sign_matrix (h2 : (2 : F) ≠ 0) {a h : Matrix (Fin 2) (Fin 2) F}
       calc h = h * (a * (-a)) := by rw [mul_neg, ha2, neg_neg, mul_one]
         _ = (h * a) * (-a) := by rw [Matrix.mul_assoc]
         _ = (κ • (1 : Matrix (Fin 2) (Fin 2) F)) * (-a) := by rw [ha1]
-        _ = (-κ) • a := by simp [smul_mul_assoc, neg_smul]
+        _ = (-κ) • a := by simp [neg_smul]
     refine ⟨-κ, hh2, ?_⟩
     have hd := hhdet
     rw [hh2, Matrix.det_smul, hadet, Fintype.card_fin] at hd
@@ -1094,7 +1096,7 @@ private theorem tP_not_mem_normalizer_lin (F : Type) [Field F] [Finite F] :
 
 private theorem sylowFourJoined_lin_three [Finite F] (h2 : (2 : F) ≠ 0) (hcard : Nat.card F = 3) :
     SylowFourJoined (PG (ModelData.lin F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd : dRefl F ∈ (ModelData.lin F).U2 := Subgroup.mem_top _
   have hq4 : Nat.card F % 4 = 3 := by rw [hcard]
   have hnoi : ∀ l : Fˣ, sc2 l ∈ (ModelData.lin F).U2 → l * l ≠ -1 := by
@@ -1265,7 +1267,7 @@ theorem leafL4_ivk {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (h
   obtain ⟨S₀, hc, hD⟩ := lin410 h2 h5' h4' (pglStmt_lin h2 h5' h4')
   have hnoi := (clsFacts_lin h2 h5' h4').no_scalar_i
   have e' : X ≃* PG (ModelData.lin F) := e
-  haveI : Finite (PG (ModelData.lin F)) := Finite.of_equiv X e'.toEquiv
+  have : Finite (PG (ModelData.lin F)) := Finite.of_equiv X e'.toEquiv
   have hsyl : SylowFourJoined (PG (ModelData.lin F)) :=
     L4U4.sylowFourJoined_of_dat410_center hodd S₀ (orderOf_yP _ h2) hc hD
       (fun k hk hkw r hr hrr =>
@@ -1275,9 +1277,9 @@ theorem leafL4_ivk {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (h
 theorem leafU4_ivk {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h5 : 5 ≤ p ^ f) (h4 : p ^ f % 4 = 1) (hmod : LieModel X .PSU 4 p f) : SylowFourJoined X := by
   obtain ⟨-, F, iF, fF, hF, ⟨e⟩⟩ := CFSG.GH74.GLS.Stage2.Final.lieModel_psu_unpack hmod
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF' : Nat.card F = p ^ (2 * f) := by rw [hF, ← pow_mul, mul_comm]
-  haveI : CharP F p := by
+  have : CharP F p := by
     have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := 2 * f) (by rw [← Nat.card_eq_fintype_card]; exact hF')
   have h2 : (2 : F) ≠ 0 := CFSG.ClassicalInvolution.two_ne_zero_of_card_eq_prime_pow hp hp2 hF'
@@ -1285,7 +1287,7 @@ theorem leafU4_ivk {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (h
   obtain ⟨S₀, hc, hD⟩ := uni410 hF hp2 h5 h4 (pglStmt_uni hF hp2 h5 h4)
   have hnoi := (clsFacts_uni hF hp2 h5 h4).no_scalar_i
   have e' : X ≃* PG (ModelData.uni hF) := e
-  haveI : Finite (PG (ModelData.uni hF)) := Finite.of_equiv X e'.toEquiv
+  have : Finite (PG (ModelData.uni hF)) := Finite.of_equiv X e'.toEquiv
   have hsyl : SylowFourJoined (PG (ModelData.uni hF)) :=
     L4U4.sylowFourJoined_of_dat410_center hodd S₀ (orderOf_yP _ h2) hc hD
       (fun k hk hkw r hr hrr =>
@@ -1308,9 +1310,9 @@ theorem leafL4_M128 {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (
 theorem leafU4_M128 {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h8 : p ^ f % 8 = 3) (hmod : LieModel X .PSU 4 p f) : SylowFourJoined X := by
   obtain ⟨-, F, iF, fF, hF, ⟨e⟩⟩ := CFSG.GH74.GLS.Stage2.Final.lieModel_psu_unpack hmod
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF' : Nat.card F = p ^ (2 * f) := by rw [hF, ← pow_mul, mul_comm]
-  haveI : CharP F p := by
+  have : CharP F p := by
     have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := 2 * f) (by rw [← Nat.card_eq_fintype_card]; exact hF')
   obtain ⟨Φ, hΦ⟩ := CFSG.GH74.GLS.Stage1.Thm3.Sec8.Fin81.exists_M128_embedding_uni hF hp2
@@ -1329,7 +1331,7 @@ theorem leafL4_three {X : Type} [Group X] [Finite X] (hmod : LieModel X .PSL 4 3
   have h2 : (2 : F) ≠ 0 :=
     CFSG.ClassicalInvolution.two_ne_zero_of_card_eq_prime_pow Nat.prime_three (by norm_num) hF
   have e' : X ≃* PG (ModelData.lin F) := e
-  haveI : Finite (PG (ModelData.lin F)) := Finite.of_equiv X e'.toEquiv
+  have : Finite (PG (ModelData.lin F)) := Finite.of_equiv X e'.toEquiv
   exact SylowFourJoined.of_mulEquiv e'.symm (L4U4.sylowFourJoined_lin_three h2 hcard)
 
 end Leaves

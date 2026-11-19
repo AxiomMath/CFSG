@@ -1089,8 +1089,8 @@ private theorem theorem_8_13_typeP_W_isMulCommutative
     · have hyCent : y ∈ elementCentralizerIn (ambientDerivedSubgroup M) x := by
         simpa [hcentW1 x hx hx1] using hy
       exact (Subgroup.mem_centralizer_singleton_iff.mp hyCent.2).symm
-  letI : IsCyclic W1 := hW1cyc
-  letI : IsCyclic W2 := hW2cyc
+  let : IsCyclic W1 := hW1cyc
+  let : IsCyclic W2 := hW2cyc
   let W : Subgroup G := W1 ⊔ W2
   let W1W : Subgroup W := W1.subgroupOf W
   let W2W : Subgroup W := W2.subgroupOf W
@@ -1120,7 +1120,7 @@ private theorem theorem_8_13_typeP_W_isMulCommutative
           y = a⁻¹ * y' * a := by simp [y', mul_assoc]
           _ = y' := hconj
       simpa [hy_eq] using hy'W2
-  haveI : W2W.Normal := by
+  have : W2W.Normal := by
     simpa [W, W2W] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -1195,7 +1195,7 @@ private theorem theorem_8_13_typeP_W_le_elementCentralizerIn_of_W2
   have hW1M : W1 ≤ M := hcompMW1.2.1
   have hW2M : W2 ≤ M := fun y hy => hMFM (hW2le hy).1
   have hWM : W1 ⊔ W2 ≤ M := sup_le hW1M hW2M
-  letI : IsMulCommutative (W1 ⊔ W2 : Subgroup G) :=
+  let : IsMulCommutative (W1 ⊔ W2 : Subgroup G) :=
     theorem_8_13_typeP_W_isMulCommutative
       (G := G) (M := M) (MF := MF) (U := U) (W1 := W1) (W2 := W2) hP0
   intro a ha
@@ -1258,7 +1258,7 @@ private theorem theorem_8_13_typeP_hatW_not_mem_ambientDerived
       simpa [hz_eq] using hz'W2
   let W1W : Subgroup W := W1.subgroupOf W
   let W2W : Subgroup W := W2.subgroupOf W
-  haveI : W2W.Normal := by
+  have : W2W.Normal := by
     simpa [W, W2W] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW2_norm_W1)
@@ -1380,7 +1380,7 @@ public theorem theorem_8_13_typeP_W1_coprime_ambientDerived
   let D : Subgroup G := ambientDerivedSubgroup M
   have hDnorm : (D.subgroupOf M).Normal := by
     simpa [D] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : (D.subgroupOf M).Normal := hDnorm
+  let : (D.subgroupOf M).Normal := hDnorm
   have hcompLocal : (W1.subgroupOf M).IsComplement' (D.subgroupOf M) :=
     theorem_8_13_complementIn_isComplement'_subgroupOf
       (M := M) (K := D) (L := W1) (by simpa [D] using hcompMW1)
@@ -1433,7 +1433,7 @@ private theorem theorem_8_13_typeP_A_conjugates_hatW_not_conjugate
   let D : Subgroup G := ambientDerivedSubgroup M
   have hDnorm : (D.subgroupOf M).Normal := by
     simpa [D] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : (D.subgroupOf M).Normal := hDnorm
+  let : (D.subgroupOf M).Normal := hDnorm
   rcases hP with
     ⟨_hMF, _hW1cyc, _hW1ne, _hW1hall, hcompMW1, _hUleD, _hUnil, _hW1normU,
       _hcompDU, _hMFnotcyc, _hM2le, _hFitEq, _hFitLeD, _hW2le, _hW2cyc, _hW2ne,
@@ -1757,7 +1757,7 @@ public theorem theorem_8_13
   classical
   dsimp [theorem_8_13_statement]
   intro hG hNotation hX
-  letI : IsMinCE G := hG
+  let : IsMinCE G := hG
   have hNotation' := hNotation
   rcases hNotation with ⟨_hM, _hMF, _hMs, _hA1, hCases⟩
   rcases hCases with hTypeI | hTypeP

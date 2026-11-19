@@ -10,7 +10,7 @@ section LTE
 
 theorem padicValNat_three_four_pow_sub_one {n : ℕ} (hn : n ≠ 0) (h3 : ¬ 3 ∣ n) :
     padicValNat 3 (4 ^ n - 1) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := padicValNat.pow_sub_pow (x := 4) (y := 1) (p := 3) (by decide) (by norm_num)
     (by norm_num) (by norm_num) hn
   rw [one_pow] at h
@@ -19,7 +19,7 @@ theorem padicValNat_three_four_pow_sub_one {n : ℕ} (hn : n ≠ 0) (h3 : ¬ 3 �
 
 theorem padicValNat_three_eight_pow_sub_one {n : ℕ} (hn : n ≠ 0) (he : Even n)
     (h3 : ¬ 3 ∣ n) : padicValNat 3 (8 ^ n - 1) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, rfl⟩ := he
   have hm : m ≠ 0 := by omega
   have hm3 : ¬ 3 ∣ m := fun h => h3 (Dvd.dvd.add h h)
@@ -36,7 +36,7 @@ theorem padicValNat_three_eight_pow_sub_one {n : ℕ} (hn : n ≠ 0) (he : Even 
 
 theorem padicValNat_three_eight_pow_add_one {n : ℕ} (ho : Odd n) (h3 : ¬ 3 ∣ n) :
     padicValNat 3 (8 ^ n + 1) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := padicValNat.pow_add_pow (x := 8) (y := 1) (p := 3) (by decide) (by norm_num)
     (by norm_num) ho
   rw [one_pow] at h
@@ -70,7 +70,7 @@ theorem odd_eight_pow_add_one {n : ℕ} (hn : n ≠ 0) : Odd (8 ^ n + 1) :=
   (Nat.even_pow.2 ⟨by decide, hn⟩).add_one
 
 theorem L3U3Order.padicValNat_three {N : ℕ} (h : L3U3Order N) : padicValNat 3 N = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, ⟨hn6, hN⟩ | ⟨hn6, hn1, hN⟩⟩ := h
   · have hn : n ≠ 0 := by omega
     have h3 : ¬ 3 ∣ n := by omega
@@ -118,7 +118,7 @@ theorem L3U3Order.ne_zero {N : ℕ} (h : L3U3Order N) : N ≠ 0 := by
 
 theorem L3U3Order.padicValNat_two {N : ℕ} (h : L3U3Order N) :
     ∃ n : ℕ, ¬ 3 ∣ n ∧ 1 ≤ n ∧ padicValNat 2 N = 3 * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN0 := h.ne_zero
   obtain ⟨n, ⟨hn6, hN⟩ | ⟨hn6, hn1, hN⟩⟩ := h
   · have hn : n ≠ 0 := by omega
@@ -151,14 +151,14 @@ theorem L3U3Order.padicValNat_two {N : ℕ} (h : L3U3Order N) :
     omega
 
 theorem L3U3Order.not_27_dvd {N : ℕ} (h : L3U3Order N) : ¬ 27 ∣ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h27
   have h3 := (padicValNat_dvd_iff_le h.ne_zero).1 (show 3 ^ 3 ∣ N by simpa using h27)
   rw [h.padicValNat_three] at h3
   omega
 
 theorem L3U3Order.nine_dvd {N : ℕ} (h : L3U3Order N) : 9 ∣ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := (padicValNat_dvd_iff_le (p := 3) (n := 2) h.ne_zero).2 h.padicValNat_three.ge
   simpa using this
 

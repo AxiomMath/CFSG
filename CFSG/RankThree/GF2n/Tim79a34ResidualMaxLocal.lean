@@ -83,8 +83,8 @@ theorem le_P_of_normalized_two_subgroup (hc : MinCex M V Q P H)
     (hQP : Q ⊓ pResidual 2 G = P) (hPG : P ≤ pResidual 2 G)
     {R : Subgroup G} (hRG : R ≤ pResidual 2 G) (hR2 : IsPGroup 2 R)
     (hMR : ∀ m ∈ M ⊓ pResidual 2 G, ∀ r ∈ R, m * r * m⁻¹ ∈ R) : R ≤ P := by
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQM : Q ≤ M := by
     rw [hc.hQ]
     exact (inSubgroup_pCore_two M).2.1
@@ -106,14 +106,14 @@ theorem le_P_of_normalized_two_subgroup (hc : MinCex M V Q P H)
     hPM.trans (residual_le_normalizer_of_conj_mem hMR)
   have hD2 : IsPGroup 2 ↥(P ⊔ R) := hc.isPGroup_P.to_sup_of_normal_right' hR2 hPR
   have hPD : P ≤ P ⊔ R := le_sup_left
-  haveI : Group.IsNilpotent ↥(P ⊔ R) := hD2.isNilpotent
+  have : Group.IsNilpotent ↥(P ⊔ R) := hD2.isNilpotent
   have hnc : NormalizerCondition ↥(P ⊔ R) := Group.normalizerCondition_of_isNilpotent
   have hne : ¬ (P ⊔ R) ≤ P := fun h => hRP (le_sup_right.trans h)
   have hlt : P.subgroupOf (P ⊔ R) < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => hne (Subgroup.subgroupOf_eq_top.mp h)
   have hlt' := hnc _ hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hPD] at hlt'
-  obtain ⟨y, hy1, hy2⟩ := SetLike.exists_of_lt hlt'
+  obtain ⟨y, hy1, hy2⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
   rw [Subgroup.mem_subgroupOf] at hy1 hy2
   have hyM : (y : G) ∈ M := hNP ▸ hy1
   obtain ⟨p, hp, r, hr, hyr⟩ := residual_exists_mul_of_mem_sup hPR y.2
@@ -130,8 +130,8 @@ theorem normalizer_inf_residual_le (cfg : ResCfg M V Q P H Φ ψ a T)
     (hMR : ∀ m ∈ M ⊓ pResidual 2 G, ∀ r ∈ R, m * r * m⁻¹ ∈ R) :
     Subgroup.normalizer (R : Set G) ⊓ pResidual 2 G ≤ M := by
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQM : Q ≤ M := by
     rw [hc.hQ]
     exact (inSubgroup_pCore_two M).2.1
@@ -143,8 +143,8 @@ theorem normalizer_inf_residual_le (cfg : ResCfg M V Q P H Φ ψ a T)
   have hZR : Z ≤ R := inf_le_left
   have hZP : Z ≤ P := hZR.trans hRP
   have hZne : Z ≠ ⊥ := by
-    haveI : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
-    haveI : Nontrivial ↥(Subgroup.center ↥R) := (hR2.center_nontrivial)
+    have : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
+    have : Nontrivial ↥(Subgroup.center ↥R) := (hR2.center_nontrivial)
     obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥R))
     have hzZ : ((z : ↥R) : G) ∈ Z := by
       refine ⟨(z : ↥R).2, Subgroup.mem_centralizer_iff.mpr fun h hh => ?_⟩
@@ -218,7 +218,7 @@ theorem residualMaxLocalStatement_holds :
       IsMaximalTwoLocal (M.subgroupOf (pResidual 2 G)) := by
   intro G _ _ M V Q P H hH hZ hn hrel hOut
   obtain ⟨n, Φ, ψ, a, T, hn3, cfg⟩ := exists_resCfg hH hZ hn
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hQP : Q ⊓ pResidual 2 G = P := inf_pResidual_eq_P hH hZ hn hrel hOut
   have hPG : P ≤ pResidual 2 G := P_le_pResidual hH hZ hn

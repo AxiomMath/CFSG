@@ -213,6 +213,7 @@ theorem le_M_of_twoLocal_of_inverted (D : Data G) (h109 : Inputs1719.UC2_10_9 D)
     (CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.uniqueMax_of_inverted_uc2_10_9
       h109 hs hp hdvd hB hcard (inU_iff_mem_uniqueSet.2 hBU) hBK hKM hinv) hH hKH
 
+omit [Finite G] in
 theorem invertedIn_sup_zpowers {b x : G} (hinv : x * b * x⁻¹ = b⁻¹) :
     UC22.F05.InvertedIn (Subgroup.zpowers b ⊔ Subgroup.zpowers x) (Subgroup.zpowers b) := by
   refine ⟨x, Subgroup.mem_sup_right (Subgroup.mem_zpowers x), ?_⟩

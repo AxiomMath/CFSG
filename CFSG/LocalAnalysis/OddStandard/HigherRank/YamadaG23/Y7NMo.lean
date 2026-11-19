@@ -18,8 +18,7 @@ private theorem frameWith_Sσ_eq (s : Setting3 G L) (g : G) :
   have hset : ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
       ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀} : Set G) ∪ {g} := by
     ext x
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union,
-      Set.mem_empty_iff_false]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
     tauto
   change Subgroup.closure ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
     s.fr.S ⊔ Subgroup.zpowers g

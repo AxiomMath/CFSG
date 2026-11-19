@@ -30,7 +30,7 @@ private lemma psuC0_coe_scalar_mul {n : ℕ} {K : Type} [Field K] (c : Kˣ) (B :
   rw [Units.val_mul, GeneralLinearGroup.coe_scalar]
   ext i j
   simp [Matrix.mul_apply, Matrix.smul_apply, Matrix.scalar_apply, Matrix.diagonal_apply,
-    Finset.sum_ite_eq, Finset.sum_ite_eq']
+    Finset.sum_ite_eq]
 
 private lemma psuC0_theta_mem {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     (h : UnitaryFieldData 2 f K) (X : primeFormUnitary h (psuJ n K)) (x : AutPSU.XJ h n) :

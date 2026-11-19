@@ -46,7 +46,7 @@ theorem commute_of_normalizes_two_of_finrank_le_four {F W : Type} [Field F] [Fin
         ext i j
         have hij : i = j := hsingle i j
         subst hij
-        rw [Matrix.diagonal_apply, if_pos rfl]
+        rw [Matrix.diagonal_apply, ite_eq_left rfl]
       have hmat : ∀ A B : Matrix (Fin (Module.finrank F W)) (Fin (Module.finrank F W)) F,
           A * B = B * A := by
         intro A B

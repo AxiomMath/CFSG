@@ -25,7 +25,7 @@ private theorem s16c11_v1_card_two_mul {X Y : Type} [Group X] [Group Y] {n : ℕ
     (hn : 2 ≤ n) (hX : IsSym X n) (hY : UC22.IsAlt Y n) : Nat.card X = 2 * Nat.card Y := by
   obtain ⟨eX⟩ := hX
   obtain ⟨eY⟩ := hY
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_congr eX.toEquiv, Nat.card_congr eY.toEquiv,
     two_mul_nat_card_alternatingGroup]
 
@@ -54,7 +54,7 @@ theorem s16c11_v1_symCore_self (n : ℕ) :
   let D := G64.symCoreModel n
   let N : Subgroup ↥D.sec := D.ker.subgroupOf D.sec
   have hN : N = ⊥ := Subgroup.bot_subgroupOf D.sec
-  haveI : N.Normal := by rw [hN]; infer_instance
+  have : N.Normal := by rw [hN]; infer_instance
   refine ⟨(G6.coreAct n).rangeRestrict, MonoidHom.rangeRestrict_surjective _, bot_le, bot_le,
     (fun h u _ => Subgroup.mem_top (h.1 u)), (fun _ z hz => ?_),
     (fun γ m hm => ?_), (fun γ m hm => ?_), ?_⟩
@@ -88,7 +88,7 @@ theorem s16c11_v1_symCore_self (n : ℕ) :
 
 theorem s16c11_v1_symCore_of_altCore {n : ℕ} (hn : 7 ≤ n) {J : Type} [CommGroup J] [Finite J]
     {H H₀ : Subgroup (MulAut J)} (hHH₀ : H ≤ H₀) (hS : IsSym ↥H₀ n) (hA : UC22.IsAlt ↥H n)
-    (hcomm : commV H = ⊤) (hR : (altCoreModel n).Realizes H ⊤ ⊥) :
+    (_hcomm : commV H = ⊤) (hR : (altCoreModel n).Realizes H ⊤ ⊥) :
     (G64.symCoreModel n).Realizes H₀ ⊤ ⊥ := by
   classical
   obtain ⟨π, hπ⟩ := hR

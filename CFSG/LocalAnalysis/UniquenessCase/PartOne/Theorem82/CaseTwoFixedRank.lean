@@ -109,7 +109,7 @@ theorem pRank_L_le_add {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
   let Y : Subgroup G := d.Lf 0 ⊔ d.Lf 1
   have hY0 : Y ≤ Subgroup.normalizer (d.Lf 0 : Set G) :=
     sup_le Subgroup.le_normalizer (d.hLnorm 0 1)
-  haveI : ((d.Lf 0).subgroupOf Y).Normal :=
+  have : ((d.Lf 0).subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : d.Lf 0 ≤ Y)).mpr hY0
   have hYL : d.L ≤ Subgroup.normalizer (Y : Set G) := by
     have h2 : d.Lf 2 ≤ Subgroup.normalizer (Y : Set G) :=
@@ -121,7 +121,7 @@ theorem pRank_L_le_add {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
     rw [d.hL]
     show Y ≤ Y ⊔ d.Lf 2
     exact le_sup_left
-  haveI : (Y.subgroupOf d.L).Normal :=
+  have : (Y.subgroupOf d.L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYLmem).mpr hYL
   have hYle : CFSG.pRank p ↥Y ≤ CFSG.pRank p ↥(d.Lf 0) + CFSG.pRank p ↥(d.Lf 1) := by
     have hsub := CFSG.RankThree.OddKernel.pRank_le_add_of_normal (p := p) hpp
@@ -234,10 +234,10 @@ theorem exists_isPGroup_le_centralizer_AA (c : Ctx812 G) {p : ℕ}
           CFSG.Open.pRank p (d.Lf 2) + 1) := by
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
-  haveI : ((c.L).subgroupOf c.S.M).Normal :=
+  have : ((c.L).subgroupOf c.S.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.hyp81.1).mpr c.le_normalizer_L
   let N : Subgroup G := c.S.M ⊓ Subgroup.normalizer (d.S : Set G)
   have hNM : N ≤ c.S.M := inf_le_left
@@ -342,13 +342,13 @@ theorem exists_isPGroup_le_centralizer_AA (c : Ctx812 G) {p : ℕ}
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank]
   obtain ⟨Q₀, hQ₀⟩ := hT
   have hQ₀cyc : IsCyclic ↥(Q₀ : Subgroup ↥N) := by
-    haveI : IsCyclic ↥((Q₀ : Subgroup ↥N).map N.subtype) := hQ₀ ▸ hTcyc
+    have : IsCyclic ↥((Q₀ : Subgroup ↥N).map N.subtype) := hQ₀ ▸ hTcyc
     exact isCyclic_of_surjective
       ((Q₀ : Subgroup ↥N).equivMapOfInjective N.subtype N.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)
   have hNcyc : ∀ Q : Sylow p ↥N, IsCyclic (Q : Subgroup ↥N) := by
     intro Q
-    haveI : IsCyclic ↥(Q₀ : Subgroup ↥N) := hQ₀cyc
+    have : IsCyclic ↥(Q₀ : Subgroup ↥N) := hQ₀cyc
     exact isCyclic_of_surjective (Sylow.equiv Q₀ Q).toMonoidHom (MulEquiv.surjective _)
   have hNrankOpen : CFSG.Open.pRank p (⊤ : Subgroup ↥N) ≤ 1 :=
     CFSG.LocalAnalysis.RankFourTheoremC.pRank_top_le_one_of_forall_sylow_isCyclic hNcyc

@@ -73,7 +73,7 @@ theorem P_comm_sq_mem_V₃ (h : d.Hyp) (hKl : d.KLinear) :
   refine ⟨hcomm, ?_⟩
   let Sq : Subgroup G :=
     { carrier := {x | x ∈ d.D₂ ⊔ U₁ ⊔ U₂ ∧ x * x ∈ d.V₃}
-      one_mem' := ⟨one_mem _, by simpa using d.V₃.one_mem⟩
+      one_mem' := ⟨one_mem _, by simp⟩
       mul_mem' := by
         rintro x y ⟨hxQ, hx2⟩ ⟨hyQ, hy2⟩
         refine ⟨mul_mem hxQ hyQ, ?_⟩

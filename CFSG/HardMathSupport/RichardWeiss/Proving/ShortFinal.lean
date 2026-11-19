@@ -68,7 +68,7 @@ theorem false_of_E0_short [Finite G] {X S L : Subgroup G} (hA : Asc81bHyp X S)
   have hθQ : ∀ m : ↥(L ⊔ S), θ m = 1 → (m : G) ∈ pCoreOf 2 (L ⊔ S) := fun m hm =>
     inf_centralizer_blockV_le_twoCore hA hL hSL ⟨hθS m hm, hf m hm⟩
   generalize pCoreOf 2 (L ⊔ S) = Q at D hQ2 hθQ
-  haveI := D.shortCtx
+  have := D.shortCtx
   have H : ShortSection Q L (blockV S L) S π θ := ⟨hequiv, hπker, hπ, hAθ, D.hker_of_hθQ hθQ⟩
   have E := e0Frame_of_short hN D H hshape hθS hθ
   have hcommS : ∀ a ∈ S, ∀ b ∈ S, ⁅a, b⁆ ∈ S := fun a ha b hb =>

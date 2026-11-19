@@ -10,7 +10,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G]
 
-theorem le_or_inf_eq_bot_of_isSubnormal {D : Subgroup G} [hDn : D.Normal] [hDs : IsSimpleGroup D]
+theorem le_or_inf_eq_bot_of_isSubnormal {D : Subgroup G} [_hDn : D.Normal] [hDs : IsSimpleGroup D]
     {H : Subgroup G} (hH : H.IsSubnormal) : D ≤ H ∨ H ⊓ D = ⊥ := by
   induction hH with
   | top => exact Or.inl le_top

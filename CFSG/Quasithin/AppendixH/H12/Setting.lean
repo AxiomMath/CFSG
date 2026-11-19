@@ -15,6 +15,7 @@ open CFSG.Quasithin.HatM22 CFSG.CharacterTheory.SteinbergBY
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {V : Type} [CommGroup V]
   {ρ : G →* MulAut V}
 
+omit [Finite G] in
 theorem normal_of_fitting (hF : CFSG.generalizedFitting G = L) : L.Normal := by
   rw [← hF]
   exact CFSG.Semidihedral.SemilinearLayerModel.generalizedFitting_normal G
@@ -57,9 +58,11 @@ theorem injective_of_fitting (hF : CFSG.generalizedFitting G = L)
   rw [← Subgroup.mem_bot, ← hkerL, Subgroup.mem_inf]
   exact ⟨hgker, hgL⟩
 
+omit [Finite G] in
 theorem finite_of_faithIrr12 (h : IsFaithIrr12 (ρ.comp L.subtype)) : Finite V :=
   Nat.finite_of_card_ne_zero (by rw [h.2.1]; norm_num)
 
+omit [Finite G] in
 theorem isHat_map (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22)
     (hinj : Function.Injective (ρ.comp L.subtype)) :
     IsHat ↥(L.map ρ) ↥CFSG.Blueprint.NativeSporadic.M22 := by
@@ -67,6 +70,7 @@ theorem isHat_map (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22)
     ((MonoidHom.ofInjective (f := ρ.comp L.subtype) hinj).trans
       (MulEquiv.subgroupCongr (by rw [MonoidHom.range_comp, Subgroup.range_subtype]))) hL
 
+omit [Finite G] in
 theorem range_le_normalizer (hF : CFSG.generalizedFitting G = L) :
     ρ.range ≤ Subgroup.normalizer ((L.map ρ : Subgroup (MulAut V)) : Set (MulAut V)) := by
   rw [Subgroup.le_normalizer_iff]
@@ -92,10 +96,11 @@ theorem centralizer_inf_range_le (hF : CFSG.generalizedFitting G = L)
     exact hcomm
   exact Subgroup.mem_map.mpr ⟨g, centralizer_le_of_fitting hF hgcent, rfl⟩
 
+omit [Finite G] in
 theorem mhat22Twelve_map
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) : Mhat22Twelve (L.map ρ) ⊤ ⊥ := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
+  have : Finite V := finite_of_faithIrr12 hρ
   have hL' : IsHat ↥(L.map ρ) ↥CFSG.Blueprint.NativeSporadic.M22 := isHat_map hL hρ.2.2.1
   have hW : Nat.card V = 4096 := by rw [hρ.2.1]; norm_num
   have hirr := M22Link.isIrrSec_of_isHat (W := V) hρ.1 hW hL'
@@ -107,8 +112,8 @@ theorem mhat22Twelve_map
 theorem card_le_two_mul_of_fitting
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) (hF : CFSG.generalizedFitting G = L)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) : Nat.card G ≤ 2 * Nat.card L := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite V := finite_of_faithIrr12 hρ
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hinjρ : Function.Injective ρ := injective_of_fitting hF hρ.2.2.1
   obtain ⟨z, -, -, -, hz1, -, hdi⟩ :=
     M22Row.exists_center_gen (V := V) hρ.1 (mhat22Twelve_map hL hρ)
@@ -121,6 +126,7 @@ theorem card_le_two_mul_of_fitting
     _ = 2 * Nat.card ↥(L.map ρ) := by rw [inf_eq_right.mpr (Subgroup.map_le_range ρ L)]
     _ = 2 * Nat.card ↥L := by rw [Subgroup.card_map_of_injective hinjρ]
 
+omit [Finite G] in
 private theorem isSylowTwoOf_map {TG : Subgroup G} (hinj : Function.Injective ρ)
     (hTG : IsSylowIn 2 TG ⊤) :
     CFSG.QuasithinUnique.IsSylowTwoOf (TG.map ρ) ρ.range := by
@@ -135,8 +141,8 @@ theorem card_fixV_sylow
     (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) (hF : CFSG.generalizedFitting G = L)
     (hρ : IsFaithIrr12 (ρ.comp L.subtype)) (hlt : L < ⊤) {TG : Subgroup G}
     (hTG : IsSylowIn 2 TG ⊤) : Nat.card ↥(fixV (TG.map ρ)) = 2 := by
-  haveI : Finite V := finite_of_faithIrr12 hρ
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite V := finite_of_faithIrr12 hρ
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hinjρ : Function.Injective ρ := injective_of_fitting hF hρ.2.2.1
   have hM : Mhat22Twelve (L.map ρ) ⊤ ⊥ := mhat22Twelve_map hL hρ
   have hL' : IsHat ↥(L.map ρ) ↥CFSG.Blueprint.NativeSporadic.M22 := isHat_map hL hρ.2.2.1

@@ -79,6 +79,7 @@ theorem k1Core_false_of_five {R Z : Subgroup X} (hR : Nat.card R = 27) (hZ : Z �
   simp only [hT, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul] at h1
   omega
 
+omit [Finite X] in
 theorem k1Core_mem_normalizer_center {R : Subgroup X} {g : X}
     (hg : g ∈ Subgroup.normalizer (R : Set X)) :
     g ∈ Subgroup.normalizer ((R ⊓ Subgroup.centralizer (R : Set X) : Subgroup X) : Set X) := by
@@ -109,6 +110,7 @@ theorem k1Core_mem_normalizer_center {R : Subgroup X} {g : X}
         _ = g * (z * r) * g⁻¹ := by group
     simpa using h2
 
+omit [Finite X] in
 theorem k1Core_map_conj_center {R : Subgroup X} {g : X}
     (hg : g ∈ Subgroup.normalizer (R : Set X)) :
     (R ⊓ Subgroup.centralizer (R : Set X)).map (MulAut.conj g).toMonoidHom =
@@ -194,7 +196,7 @@ theorem k1Core_false_of_u3 {R : Sylow 3 X} {A X₀ K B : Subgroup X}
   set Z := (R : Subgroup X) ⊓ Subgroup.centralizer ((R : Subgroup X) : Set X) with hZ
   have hZA : Z ≤ A := k1Core_center_le hR27 hnab h.A_le (by rw [h.card_A]; norm_num) h.elem.1
   have hZB : Z ≤ B := k1Core_center_le hR27 hnab hBR hBc hB.1
-  have hZne : Z ≠ ⊥ := k1Core_center_ne_bot R.isPGroup' fun hbot => by
+  have hZne : Z ≠ ⊥ := k1Core_center_ne_bot R.isPGroup fun hbot => by
     rw [hbot, Subgroup.card_bot] at hR27
     norm_num at hR27
   obtain ⟨t, -, htN, -, -, -, hlines⟩ := exists_lines_torus_u3

@@ -197,7 +197,7 @@ theorem centralizer_le_sup_oddCoreIn :
   let C₁ : Subgroup G := sec3F (Q₀ ⊔ Q) ⊓ centralizer ((Q₀ ⊔ Q : Subgroup G) : Set G)
   let P : Sylow 2 ↥C₁ := default
   have hPz : (P : Subgroup ↥C₁).map C₁.subtype ≤ zpowers z :=
-    H.le_zpowers_of_le_centralizer (P.isPGroup'.map _) ((map_subtype_le _).trans inf_le_right)
+    H.le_zpowers_of_le_centralizer (P.isPGroup.map _) ((map_subtype_le _).trans inf_le_right)
   have hPc : ∀ p ∈ (P : Subgroup ↥C₁), ∀ c : ↥C₁, c * p = p * c := by
     intro p hp c
     have hpz : (p : G) ∈ zpowers z := hPz ⟨p, hp, rfl⟩

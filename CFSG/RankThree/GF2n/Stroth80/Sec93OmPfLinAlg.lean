@@ -13,7 +13,7 @@ variable {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [FiniteDimensional (ZM
 theorem n12_strong_noncomm
     (f : LinearMap.BilinForm (ZMod 2) E) (hf : f.Nondegenerate) (halt : f.IsAlt)
     (V SB SC B P : Submodule (ZMod 2) E)
-    (hVW : V ≤ f.orthogonal V)
+    (_hVW : V ≤ f.orthogonal V)
     (hWsum : f.orthogonal V = SB ⊔ SC ⊔ V)
     (hSBiso : ∀ a ∈ SB, ∀ b ∈ SB, f a b = 0) (hSCiso : ∀ a ∈ SC, ∀ b ∈ SC, f a b = 0)
     (hBP : B ⊓ P = ⊥)

@@ -16,7 +16,7 @@ theorem excres_false_of_char3_of_index (hKD : KDCharP 3) {P : Type} [Group P] [F
     {x : P} (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) {J : Subgroup P}
     (hJ : GLAPComponent 3 (fixSub (MulAut.conj x)) J) (d : TauCeti.ValidLieTypeIndex)
     (hd : d.1.characteristic = 3) (e : P ≃* (TauCeti.CFSGIndex.lie d).Group) : False := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv P e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv P e.toEquiv
   have hord : orderOf (e x) = 3 := by
     rw [MulEquiv.orderOf_eq]
     exact orderOf_eq_prime hx3 hx1

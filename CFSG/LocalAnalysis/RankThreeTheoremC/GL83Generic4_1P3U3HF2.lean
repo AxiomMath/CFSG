@@ -73,7 +73,7 @@ theorem u3_hF {P : Sylow 3 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hJ : Is
   have hTx : ∀ t ∈ T, t * x = x * t := fun t ht => mem_centralizer_singleton_iff.mp (hPC ht.1)
   have hZP : Z ≤ (P : Subgroup G) := hPeq ▸ le_sup_right
   have hF'ab : IsMulCommutative F' := by
-    refine u3abel_isMulCommutative (P.isPGroup'.to_le hZP) hZc hZcomm (hPeq ▸ hF'P) ?_
+    refine u3abel_isMulCommutative (P.isPGroup.to_le hZP) hZc hZcomm (hPeq ▸ hF'P) ?_
     refine u3hf_inf_central hF'p (fun f hf t ht => ⟨?_, ?_⟩) ?_
     · exact (P : Subgroup G).mul_mem ((P : Subgroup G).mul_mem (hF'P hf) ht.1)
         ((P : Subgroup G).inv_mem (hF'P hf))

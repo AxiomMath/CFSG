@@ -170,8 +170,8 @@ theorem pcN_eq_card (m : Nat) :
     change pcN m n + ((m >>> n) &&& 1) = _
     rw [pcN_eq_card m n, shiftRight_and_one, Finset.range_add_one, Finset.filter_insert]
     by_cases hb : m.testBit n = true
-    · rw [if_pos hb, if_pos hb, Finset.card_insert_of_notMem (by simp)]
-    · rw [if_neg hb, if_neg hb, Nat.add_zero]
+    · rw [ite_eq_left hb, ite_eq_left hb, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right hb, ite_eq_right hb, Nat.add_zero]
 
 theorem bits_imgF {f : Nat → Nat} (hf : ∀ i < 24, f i < 24) (m : Nat) :
     (Finset.range 24).filter (fun y => (imgF f m).testBit y = true) =
@@ -188,7 +188,7 @@ theorem pc_imgF {f : Nat → Nat} (hf : ∀ i < 24, f i < 24) (hi : InjS f) (m :
     pcN (imgF f m) 24 = pcN m 24 := by
   rw [pcN_eq_card, pcN_eq_card, bits_imgF hf, Finset.card_image_of_injOn]
   intro a ha b hb e
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha hb
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha hb
   exact hi a ha.1 b hb.1 e
 
 theorem combo_zero : ∀ B : List Nat, combo B 0 = 0
@@ -204,7 +204,7 @@ theorem combo_xor : ∀ (B : List Nat) (s t : Nat), combo B s ^^^ combo B t = co
       ← combo_xor B]
     cases s.testBit 0 <;> cases t.testBit 0 <;>
       simp only [Bool.false_eq_true, ↓reduceIte, Bool.xor_false, Bool.xor_true, Bool.not_true,
-        Bool.not_false, Nat.zero_xor, Nat.xor_zero] <;> ac_nf <;> simp [Nat.xor_self]
+        Bool.not_false, Nat.zero_xor] <;> ac_nf; simp
 
 variable {B P : List Nat}
 

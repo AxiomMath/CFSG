@@ -107,7 +107,7 @@ theorem ggSixRootCommKnownLeavesI2_of_j1
       (RCKRP.rck_exc_toralII_of hR1 hD) RCKRP.rckExcCaseVReduction_holds hNbr, hK2III⟩
 
 theorem rckCarrierPairADE_of_j1
-    (h : GGSixRootCommKnownLeavesJ1) : RCKRP.RCKCarrierPairADE := by
+    (_h : GGSixRootCommKnownLeavesJ1) : RCKRP.RCKCarrierPairADE := by
   exact RCKRP.rckCarrierPairADE_of_shapes RCKRP.rckPairA1_holds RCKRP.rckPairSLInner_holds
     RCKRP.rckPairSU_holds RCKRP.rckPairDInner_holds RCKRP.rckPairTwoD_holds RCKRP.rckPairE6_holds
     RCKRP.rckPairE7_holds RCKRP.rckPairE8_holds RCKRP.rckPairTwE6_holds RCKRP.rckPairTriD4_holds

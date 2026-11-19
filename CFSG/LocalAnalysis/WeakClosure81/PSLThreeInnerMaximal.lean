@@ -167,7 +167,7 @@ private theorem psl3Inner_exists_mul_mem_centralizer
     (e : ↥L ≃* projectiveSL 3 K)
     {z : G} (hzL : z ∈ L) (hz2 : orderOf z = 2) :
     ∀ g : G, ∃ l ∈ L, l * g ∈ Subgroup.centralizer ({z} : Set G) := by
-  haveI : L.Normal := hAS.normal
+  have : L.Normal := hAS.normal
   have hodd : Odd (Nat.card K) := hK ▸ (hp.odd_of_ne_two hp2).pow
   set w : projectiveSL 3 K := e ⟨z, hzL⟩ with hwdef
   have hw2 : orderOf w = 2 := by
@@ -239,7 +239,7 @@ private theorem psl3Inner_isCoatom_std
     (hzstd : e ⟨z, hzL⟩ = proj 3 K (psl3Inner_stdSign (K := K))) :
     IsCoatom (Subgroup.centralizer ({z} : Set G)) := by
   classical
-  haveI : L.Normal := hAS.normal
+  have : L.Normal := hAS.normal
   have hodd : Odd (Nat.card K) := hK ▸ (hp.odd_of_ne_two hp2).pow
   have h2 : (2 : K) ≠ 0 := CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K hodd
   have hz2 : orderOf z = 2 := by
@@ -408,7 +408,7 @@ theorem isCoatom_centralizer_of_psl3_graph_extension
     {z : G} (hzL : z ∈ L) (hz2 : orderOf z = 2) :
     IsCoatom (Subgroup.centralizer ({z} : Set G)) := by
   classical
-  haveI : L.Normal := hAS.normal
+  have : L.Normal := hAS.normal
   have hodd : Odd (Nat.card K) := hK ▸ (hp.odd_of_ne_two hp2).pow
   have h2 : (2 : K) ≠ 0 := CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K hodd
   set w : projectiveSL 3 K := e ⟨z, hzL⟩ with hwdef
@@ -433,7 +433,7 @@ theorem isCoatom_centralizer_of_psl3_graph_extension
       apply Subtype.ext
       show y = (((e.symm g₀) * (⟨z, hzL⟩ : ↥L) * (e.symm g₀)⁻¹ : ↥L) : G)
       rw [hydef, hc₀def]
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     rw [hyeq, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply, ← hwdef]
     exact hg₀
   have hcoat_y : IsCoatom (Subgroup.centralizer ({y} : Set G)) :=

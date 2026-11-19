@@ -189,7 +189,7 @@ theorem exists_family_of_toral_data (hK : LemmaKCheck) {q : ℕ} (h3 : 3 ∣ q +
     exact hfix_y x
   have hkernel : familyKernel a = sigmaZ3 (Y : Set (Fin 6 → ZMod 3)) := by
     ext α
-    simp only [familyKernel, sigmaZ3, Set.mem_setOf_eq]
+    simp only [familyKernel, sigmaZ3, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hα, h⟩
       refine ⟨hα, fun z hz => ?_⟩

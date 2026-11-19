@@ -20,7 +20,7 @@ theorem twA5_card_F (h : UnitaryFieldData 2 3 F) : Nat.card F = 64 := by
 
 theorem twA5_card_rootsOfUnity_nine (h : UnitaryFieldData 2 3 F) :
     Nat.card (rootsOfUnity 9 F) = 9 := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
   apply CFSG.LinearGroups.card_rootsOfUnity_of_dvd
   rw [twA5_card_F h]
   norm_num
@@ -76,7 +76,6 @@ theorem twA5Hom_X_eq_diagFiveLast :
   congr 3
   · funext i
     fin_cases i <;> simp [twA5Entries, diagFiveLastEntries]
-  all_goals apply Subsingleton.elim
 
 @[expose] noncomputable def twA5X : unitaryPSU h 6 :=
   unitaryProj h 6 (twA5Hom h (twA5XParam (F := F)))
@@ -130,7 +129,7 @@ theorem isQuasisimple_blockSU_five :
 
 theorem hasLabel_blockSU_five :
     HasLabel ↥(blockSU h suFiveIndex) (· = (⟨.twA, 4, 3⟩ : GLALabel)) := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
   have hI : suFiveIndex.card < 6 := by rw [card_suFiveIndex]; norm_num
   have hSU : HasLabel (unitarySU 2 3 F 5) (· = (⟨.twA, 4, 3⟩ : GLALabel)) := by
     refine hasLabel_of_statedClassicalModel_PSU (r := 4) (n := 3)

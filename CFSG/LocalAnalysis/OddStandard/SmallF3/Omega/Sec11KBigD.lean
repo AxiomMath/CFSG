@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 
 theorem sec11KB_card_le_sylow [Finite G] {X P Y : Subgroup G} (hP : IsSylow2Of P X)
     (hY : IsPGroup 2 Y) (hYX : Y ≤ X) : Nat.card Y ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hP.exists_sylow
   have hY2 : IsPGroup 2 (Y.subgroupOf X) :=
     hY.of_equiv (Subgroup.subgroupOfEquivOfLe hYX).symm
@@ -36,7 +36,7 @@ theorem sec11KB_dih_complement [Finite G] {X P : Subgroup G} (hP : IsSylow2Of P 
     (hm : 2 ≤ m) (hPd : Nonempty (↥P ≃* DihedralGroup (2 ^ m))) {z : G} (hzX : z ∈ X)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) (hzc : ∀ x ∈ X, x * z = z * x) :
     oddCoreIn X ⊔ P = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hP.exists_sylow
   have hSsub : (S : Subgroup ↥X) = P.subgroupOf X := by
     change (S : Subgroup ↥X) = P.comap X.subtype

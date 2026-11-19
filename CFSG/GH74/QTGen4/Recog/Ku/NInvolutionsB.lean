@@ -40,6 +40,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem exists_complement_pCore (h : KuHyp G T M H P z) :
     ∃ K : Subgroup G, K ≤ pCoreOf 2 M ∧ kuV2 T M ⊓ K = ⊥ ∧ kuV2 T M ⊔ K = pCoreOf 2 M := by
   have hV : IsElemAbelian 2 (pCoreOf 2 M) := h.vElem

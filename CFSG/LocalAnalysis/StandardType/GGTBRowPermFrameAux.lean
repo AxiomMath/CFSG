@@ -18,7 +18,7 @@ theorem ggTBRowPerm_card_sumZero (m p : ℕ) [NeZero p] :
     ⟨Fin.lastCases (Multiplicative.ofAdd (-∑ i : Fin m, Multiplicative.toAdd (g i)))
       (fun i => g i), by
         rw [UCoord.mem_sumZero, Fin.sum_univ_castSucc]
-        simp [Fin.lastCases_castSucc, Fin.lastCases_last, Finset.sum_neg_distrib]⟩
+        simp [Fin.lastCases_castSucc, Fin.lastCases_last]⟩
   refine Nat.card_le_card_of_injective G (fun g g' hgg => ?_)
   funext i
   have h' := congrArg (fun f : ↥(UCoord.sumZero (m + 1) p) =>

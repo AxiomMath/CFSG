@@ -104,7 +104,7 @@ theorem normalizer_le_of_rank_two {A : Type} [Group A] [Finite A] {p : ℕ} (hp 
 theorem not_hasNormalPComplement_of_simple {K : Type} [Group K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hK : IsSimpleGroup K) (hna : ∃ a b : K, a * b ≠ b * a)
     (hdvd : p ∣ Nat.card K) : ¬ CFSG.HasNormalPComplement p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨N, hN, hcop, hQ⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · have hinj : Function.Injective (QuotientGroup.mk' N) := by
@@ -114,8 +114,8 @@ theorem not_hasNormalPComplement_of_simple {K : Type} [Group K] [Finite K] {p : 
       rw [hbot] at this
       simpa using this
     have hKp : IsPGroup p K := hQ.of_injective (QuotientGroup.mk' N) hinj
-    haveI : Nontrivial K := IsSimpleGroup.toNontrivial
-    haveI := hKp.center_nontrivial
+    have : Nontrivial K := IsSimpleGroup.toNontrivial
+    have := hKp.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K) with hc | hc
     · obtain ⟨c, hc1⟩ := exists_ne (1 : ↥(Subgroup.center K))
       apply hc1
@@ -150,7 +150,7 @@ theorem kFact64ii_coreNorm (hOuter : KFact64iiOuterSylow) (hI121 : KFact64iiI121
       (KFact64iiOuterNPC → ∃ b ∈ zpowers x ⊔ zpowers z, b ∉ zpowers z ∧
         ¬ CFSG.HasNormalPComplement p ↥(H ⊓ centralizer ({b} : Set A))) := by
   intro A _ _ p H Q M₀ x z hp hp3 hKH hxo hzo hxz hxnz hQsyl hBQ hΩ hxfr hwc hQM hM₀H hNz hnc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hQH : Q ≤ H := hQsyl.le
   have hQp : IsPGroup p Q := hQsyl.isPGroup
@@ -443,7 +443,7 @@ theorem kFact64ii_coreNorm (hOuter : KFact64iiOuterSylow) (hI121 : KFact64iiI121
         CFSG.hasNormalPComplement_of_map_subtype p H C' hhas
       have hCπ : CFSG.HasNormalPComplement p ↥(C'.map π) :=
         CFSG.RankThree.Coprime.hasNormalPComplement_map π hC'npc
-      haveI hTp : Fact (IsPGroup p ↥(zpowers b')) :=
+      have hTp : Fact (IsPGroup p ↥(zpowers b')) :=
         ⟨IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hb'o, pow_one])⟩
       have hcent : centralizer (((zpowers b').map π : Subgroup (XBar p H)) : Set (XBar p H)) =
           (centralizer ((zpowers b' : Subgroup ↥H) : Set ↥H)).map π :=

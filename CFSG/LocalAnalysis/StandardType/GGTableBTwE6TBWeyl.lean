@@ -219,7 +219,7 @@ theorem exists_smul_of_commute_reflE6 [Fact p.Prime] (hp5 : 5 ≤ p)
     have h1 := hcomm j (Pi.single i 1)
     rw [reflE6_single_adj hij, hadd, hμ i, hμ j, reflE6_smul, reflE6_single_adj hij] at h1
     have h2 := congrFun h1 j
-    simp [Pi.single_apply, hne.symm] at h2
+    simp [hne.symm] at h2
     exact h2
   obtain ⟨a02, -, a23, -, a34, -, a45, -, a13, -⟩ := cartanE6_adj
   have e02 := hedge _ _ a02

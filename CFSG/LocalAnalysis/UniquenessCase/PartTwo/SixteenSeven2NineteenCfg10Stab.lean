@@ -11,11 +11,13 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {X Fs : Subgroup (MulAut W)} {I₁ I₂ : Subgroup W}
 
+omit [Finite W] in
 private theorem s16c167_cfg10_map_mul_map (Y : Subgroup W) (g h : MulAut W) :
     (Y.map g.toMonoidHom).map h.toMonoidHom = Y.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem s16c167_cfg10_mem_stabSub_of_map_eq {Y : Subgroup W} {g : MulAut W}
     (h : Y.map g.toMonoidHom = Y) : g ∈ stabSub Y := by
   rw [mem_stabSub]
@@ -30,11 +32,13 @@ private theorem s16c167_cfg10_mem_stabSub_of_map_eq {Y : Subgroup W} {g : MulAut
     rw [← h]
     exact Subgroup.mem_map_of_mem _ hu
 
+omit [Finite W] in
 private theorem s16c167_cfg10_map_one (Y : Subgroup W) :
     Y.map (1 : MulAut W).toMonoidHom = Y := by
   ext x
   simp [Subgroup.mem_map]
 
+omit [Finite W] in
 theorem s16c167_cfg10_stab (F : Cfg10Mod X Fs I₁ I₂) {f : MulAut W} (hf : f ∈ Fs) :
     f ∈ stabSub I₁ ∧ f ∈ stabSub I₂ := by
   have hfX : f ∈ X := F.le hf
@@ -78,6 +82,7 @@ theorem s16c167_cfg10_stab (F : Cfg10Mod X Fs I₁ I₂) {f : MulAut W} (hf : f 
   exact ⟨s16c167_cfg10_mem_stabSub_of_map_eq hI1,
     s16c167_cfg10_mem_stabSub_of_map_eq hI2⟩
 
+omit [Finite W] in
 theorem s16c167_cfg10_ker_inf (F : Cfg10Mod X Fs I₁ I₂) :
     (Fs ⊓ centSub I₁) ⊓ (Fs ⊓ centSub I₂) = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -92,6 +97,7 @@ theorem s16c167_cfg10_ker_inf (F : Cfg10Mod X Fs I₁ I₂) :
   ext w
   exact mem_fixV_zpowers_iff_apply.mp (hle trivial)
 
+omit [Finite W] in
 theorem s16c167_cfg10_ker_card_eq (F : Cfg10Mod X Fs I₁ I₂) :
     Nat.card ↥(Fs ⊓ centSub I₂) = Nat.card ↥(Fs ⊓ centSub I₁) := by
   have hI₂ : I₂ ∈ conjSubs X I₁ := by rw [F.orb]; simp

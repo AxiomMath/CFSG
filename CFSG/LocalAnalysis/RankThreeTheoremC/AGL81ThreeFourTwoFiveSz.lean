@@ -34,16 +34,16 @@ theorem sz32_finite_simple_outer
     CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hA.2
   have hF' : Nat.card F = 2 ^ (2 * a + 1) := by rw [← hfa]; exact hF
   obtain ⟨hfin, -, hsimple⟩ := CFSG.LieType.Ree.suzuki_simple ha hF'
-  haveI : Finite A := Finite.of_equiv _ eF.symm.toEquiv
-  haveI hs : IsSimpleGroup A := eF.isSimpleGroup
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite A := Finite.of_equiv _ eF.symm.toEquiv
+  have hs : IsSimpleGroup A := eF.isSimpleGroup
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨T⟩ : Nonempty (Sylow 5 A) := inferInstance
   have h25 : 5 ^ 2 ∣ Nat.card A := by rw [(sz32_data A hA T).card_group]; norm_num
   refine ⟨inferInstance, hs, CFSG.AGLEmbedding.nonabelian_of_simple_of_sq_dvd Nat.prime_five h25,
     ?_⟩
   have hO : Nat.card (Outer A) = 5 := sz32_outer A hA
-  haveI : Finite (Outer A) := Nat.finite_of_card_ne_zero (by rw [hO]; norm_num)
-  haveI : Group.IsNilpotent (Outer A) :=
+  have : Finite (Outer A) := Nat.finite_of_card_ne_zero (by rw [hO]; norm_num)
+  have : Group.IsNilpotent (Outer A) :=
     (IsPGroup.of_card (p := 5) (n := 1) (by rw [hO]; norm_num)).isNilpotent
   infer_instance
 
@@ -55,7 +55,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
     (hcore : (if 3 ≤ CFSG.pRank 5 (R : Subgroup Y) then
       CFSG.Open.GLBWeakCore 5 (R : Subgroup Y) else CFSG.Open.GLBCore 5 1 E) ≤ Y₀) :
     normalizer ((T' : Subgroup K) : Set K) ≤ Y₀.subgroupOf K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set T : Subgroup Y := (R : Subgroup Y) ⊓ K with hTdef
   set C : Subgroup Y := centralizer (K : Set Y) with hCdef
   have hKC : K ⊓ C = ⊥ := inf_centralizer_self_eq_bot_of_center D.center_eq_bot
@@ -68,7 +68,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
     intro h
     rw [h, Subgroup.card_bot] at hTcard
     omega
-  obtain ⟨z, hzT, hz5, hzR⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup' hTR
+  obtain ⟨z, hzT, hz5, hzR⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup hTR
     self_le_normalizer_inf_normal hT1
   have hzK : z ∈ K := hTK hzT
   have hz' : (⟨z, hzK⟩ : K) ∈ (T' : Subgroup K) := by
@@ -79,7 +79,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
   have hnz : ∀ n ∈ normalizer ((T' : Subgroup K) : Set K),
       (n : Y) ∈ normalizer ((zpowers z : Subgroup Y) : Set Y) := by
     intro n hn
-    haveI := D.isCyclic
+    have := D.isCyclic
     have h1 := mem_normalizer_zpowers_of_cyclic_normalizer D.isCyclic hz' hn
     have h2 := Subgroup.le_normalizer_map K.subtype (Subgroup.mem_map_of_mem K.subtype h1)
     rw [MonoidHom.map_zpowers] at h2
@@ -87,7 +87,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
   intro n hn
   rw [Subgroup.mem_subgroupOf]
   by_cases h3 : 3 ≤ CFSG.pRank 5 (R : Subgroup Y)
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     have h3' : 3 ≤ CFSG.Open.pRank 5 (R : Subgroup Y) := by
       rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     have hRC : (R : Subgroup Y) ⊓ C ≠ ⊥ := by
@@ -101,7 +101,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
       have hHcard : Nat.card H = Nat.card K * (K.subgroupOf H).index := by
         rw [← Subgroup.card_mul_index (K.subgroupOf H),
           Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_left).toEquiv]
-      obtain ⟨a, ha⟩ := R.isPGroup'.exists_card_eq
+      obtain ⟨a, ha⟩ := R.isPGroup.exists_card_eq
       have hdvd : 5 ^ a ∣ 5 ^ 3 * 1301504 := by
         rw [← ha]
         refine (Subgroup.card_dvd_of_le (le_sup_right : (R : Subgroup Y) ≤ H)).trans ?_
@@ -125,12 +125,12 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
           rw [hFR']
           exact hTR (by rw [← hT']; exact Subgroup.mem_map_of_mem _ ht)
         exact Subtype.ext (by simpa using hF.2 _ htR)
-      haveI := D.isCyclic
+      have := D.isCyclic
       have h1 : Monoid.exponent (T' : Subgroup K) ∣ 5 :=
         Monoid.exponent_dvd_of_forall_pow_eq_one fun g => Subtype.ext (by simpa using hexp g g.2)
       rw [IsCyclic.exponent_eq_card, D.card_eq] at h1
       norm_num at h1
-    obtain ⟨c, hcRC, hc5, hcR⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup'
+    obtain ⟨c, hcRC, hc5, hcR⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup
       inf_le_left (self_le_normalizer_inf_normal (N := C)) hRC
     have hcC : c ∈ C := (Subgroup.mem_inf.mp hcRC).2
     have hcR' : c ∈ (R : Subgroup Y) := (Subgroup.mem_inf.mp hcRC).1
@@ -163,7 +163,7 @@ private theorem sz32_normalizer_le {Y : Type} [Group Y] [Finite Y] {K Y₀ E : S
     intro h hh
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
     exact (Commute.zpow_right (Subgroup.mem_centralizer_iff.mp hcC (n : Y) n.2) k).symm.eq
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     have h2 : CFSG.Open.pRank 5 (R : Subgroup Y) ≤ 2 := by
       rw [← CFSG.SectionRank.pRank_coe_eq_openPRank]
       omega
@@ -178,8 +178,8 @@ theorem threeFourTwoNoneAt_sz32
   obtain ⟨-, hX1, hX2, hX3⟩ := sz32_finite_simple_outer hd (MulEquiv.refl _)
   refine threeFourTwoNoneAt_of_inf hX1 hX2 hX3 ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY
-  haveI := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hKn
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := hKX
   have hK : IsSz32Type 5 K := isSz32Type_of_mulEquiv hd e
   obtain ⟨T', hT'⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K

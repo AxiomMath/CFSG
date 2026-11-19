@@ -52,15 +52,18 @@ private theorem exists_conj_of_isSylowOf {f : ℕ} [Fact f.Prime] {C S S' : Subg
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C Q Q'
   exact ⟨g, g.2, by rw [← hg, CFSG.Goldschmidt.G310.map_subtype_smul_sylow]⟩
 
+omit [Finite G] in
 private theorem centralizer_zpowers_eq (y : G) :
     centralizer ((zpowers y : Subgroup G) : Set G) = centralizer ({y} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 private theorem centralizer_le_normalizer_zpowers (y : G) :
     centralizer ({y} : Set G) ≤ normalizer ((zpowers y : Subgroup G) : Set G) := by
   rw [← centralizer_zpowers_eq]
   exact Subgroup.centralizer_le_normalizer _
 
+omit [Finite G] in
 private theorem normalizer_zpowers_le_normalizer_centralizer (y : G) :
     normalizer ((zpowers y : Subgroup G) : Set G) ≤
       normalizer ((centralizer ({y} : Set G) : Subgroup G) : Set G) := by
@@ -71,7 +74,7 @@ private theorem normalizer_zpowers_le_normalizer_centralizer (y : G) :
 private theorem normalizer_le_normalizer_zpowers {F : Subgroup G} (hcyc : IsCyclic F) {y : G}
     (hy : y ∈ F) :
     normalizer (F : Set G) ≤ normalizer ((zpowers y : Subgroup G) : Set G) := by
-  haveI := hcyc
+  have := hcyc
   intro g hg
   have hgy : g * y * g⁻¹ ∈ F := (mem_normalizer_iff.mp hg y).mp hy
   set a : F := ⟨y, hy⟩ with ha
@@ -112,7 +115,7 @@ private theorem exists_sylow_centralizer (hS : Situation G p P M) {f : ℕ} (hf 
       CFSG.ABGLocalTools.IsSylowOf f S (M ⊓ centralizer ({y} : Set G)) ∧
       CFSG.ABGLocalTools.IsSylowOf f S (centralizer ({y} : Set G)) ∧
       normalizer (S : Set G) ≤ M ∧ D1Local f F₀ M := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hyC : y ∈ centralizer ({y} : Set G) := mem_centralizer_singleton_iff.mpr rfl
   have hycard : Nat.card (zpowers y) = f := by rw [Nat.card_zpowers, hyo]
   have hyp : IsPGroup f (zpowers y) := IsPGroup.of_card (n := 1) (by rw [hycard, pow_one])
@@ -236,7 +239,7 @@ theorem p65_pRank_centralizer_le_two (hS : Situation G p P M) (hx : Point P M x)
           zpowers x ⊔ zpowers z ≤ normalizer (W' : Set G) → Nat.Coprime (Nat.card W') (2 * p) →
           W' ≤ rankThreePrimeCore p (normalizer (W : Set G)))
     {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) (h4 : 4 ≤ Open.pRank f M)
-    {F Fs R : Subgroup G} {y : G} (hF : IsPGroup f F) (hF1 : F ≠ ⊥) (hFM : F ≤ M)
+    {F Fs R : Subgroup G} {y : G} (_hF : IsPGroup f F) (_hF1 : F ≠ ⊥) (hFM : F ≤ M)
     (hBF : zpowers x ⊔ zpowers z ≤ normalizer (F : Set G))
     (hHM : ¬ normalizer (F : Set G) ≤ M) (hcyc : IsCyclic F) (hy : y ∈ F) (hyo : orderOf y = f)
     (hFs : IsPGroup f Fs) (hFsM : Fs ≤ M) (hBFs : zpowers x ⊔ zpowers z ≤ normalizer (Fs : Set G))
@@ -250,8 +253,8 @@ theorem p65_pRank_centralizer_le_two (hS : Situation G p P M) (hx : Point P M x)
   by_contra hcon
   push Not at hcon
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hpl := plane_of_central hS hx hz
   have hB3 : IsPGroup p ↥(zpowers x ⊔ zpowers z) := IsPGroup.of_card (n := 2) hpl.card_eq
   have hyM : y ∈ M := hFM hy

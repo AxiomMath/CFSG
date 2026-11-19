@@ -33,10 +33,10 @@ open scoped MatrixGroups
 theorem largeEvenProj_su_three_two_isSolvable {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin 3) F 2)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := by
-    haveI : CharP F (ringChar F) := ringChar.charP F
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
+    have : CharP F (ringChar F) := ringChar.charP F
     obtain ⟨n, hp, hcard⟩ := FiniteField.card F (ringChar F)
     have h4 : Fintype.card F = 4 := by
       rw [← Nat.card_eq_fintype_card]; exact hF

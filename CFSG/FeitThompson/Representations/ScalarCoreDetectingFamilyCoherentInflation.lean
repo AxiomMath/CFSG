@@ -79,9 +79,9 @@ theorem indClassFun_comp_mk [Fintype L] [Fintype (L ⧸ N)] (hNK : N ≤ K)
       simp [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
     rw [hmk]
     by_cases hmem : t⁻¹ * y * t ∈ K
-    · rw [dif_pos ((mk_mem_map_mk'_iff_of_le hNK _).2 hmem), dif_pos hmem]
+    · rw [dite_eq_left ((mk_mem_map_mk'_iff_of_le hNK _).2 hmem), dite_eq_left hmem]
       rfl
-    · rw [dif_neg (fun h => hmem ((mk_mem_map_mk'_iff_of_le hNK _).1 h)), dif_neg hmem]
+    · rw [dite_eq_right (fun h => hmem ((mk_mem_map_mk'_iff_of_le hNK _).1 h)), dite_eq_right hmem]
   have h1 := sum_comp_mk (N := N)
     (fun s : L ⧸ N => (if h : s⁻¹ * (QuotientGroup.mk y : L ⧸ N) * s
       ∈ Subgroup.map (QuotientGroup.mk' N) K then θ ⟨_, h⟩ else 0))

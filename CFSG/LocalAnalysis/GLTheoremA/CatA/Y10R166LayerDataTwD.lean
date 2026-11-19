@@ -18,7 +18,7 @@ section Certs
 section LabelToModel
 
 theorem exists_mulEquiv_matrixProjectiveDerived_of_isLabel_twD_gen {K : Type} [Group K]
-    [Finite K] {m n : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n)
+    [Finite K] {m n : ℕ} (hm : 4 ≤ m) (_hn : 2 ≤ n)
     (hK : HasLabel K (fun l : GLALabel => l = ⟨.twD, m, n⟩))
     (hZ : Subgroup.center K = ⊥) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2),
@@ -31,12 +31,12 @@ theorem exists_mulEquiv_matrixProjectiveDerived_of_isLabel_twD_gen {K : Type} [G
       show m ≠ 2 by omega, show m ≠ 3 by omega] using hM
   obtain ⟨-, F, hfield, hfinite, hcard, b, c, hirr, ⟨e⟩⟩ :=
     hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by rwa [← Nat.card_eq_fintype_card]
   have hchar : CharP F 2 := charP_of_card_eq_prime_pow hcard'
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   refine ⟨F, hfield, hfinite, hchar, hcard, b, c, hirr, ⟨?_⟩⟩
   let eZ : K ≃* K ⧸ Subgroup.center K :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
@@ -64,9 +64,9 @@ theorem layerData166_of_hasLabel_twD_five (hD : TwDLayerData) {J : Type} [Group 
     LayerData166 J q 4 := by
   obtain ⟨F, hfield, hfinite, hchar, hF, b, c, hirr, ⟨e⟩⟩ :=
     exists_mulEquiv_matrixProjectiveDerived_of_isLabel_twD hn hJ hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   exact LayerData166.of_mulEquiv e (hD F n q hn hF hq hq2 hqdvd b c hirr) hq
 
 end Certs

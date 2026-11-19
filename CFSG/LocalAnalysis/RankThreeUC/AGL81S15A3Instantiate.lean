@@ -14,6 +14,7 @@ open CFSG.Open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem component_perfect {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (h : IsComponentOf Ls ⊤) : Group.IsPerfect ↥Ls :=
   ⟨h.2.2.1⟩
@@ -32,6 +33,7 @@ theorem component_perfect {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     apply Subtype.ext
     rfl
 
+omit [Finite X] in
 @[simp] theorem exists_map_to_component_apply {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     {K : Subgroup X} (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype) (k : K) :
     (exists_map_to_component hKcen k : X ⧸ gnC T) = QuotientGroup.mk (k : X) :=

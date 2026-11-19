@@ -73,7 +73,7 @@ private lemma nodup_map_of_keysNodup (m : A6CModel n Γ) {L : Array Mat}
         exact Or.inr (by rw [h', a6c_toMat_negM])
     exact absurd hkey (a6c_keysNodup_sound hk hiS hjS hne)
   exact (hnd.getElem_inj_iff).mpr hij
-private theorem derivOK_strong (m : A6CModel n Γ) {step : ℕ → Mat → Mat} {k : ℕ} {x0 : Mat}
+private theorem derivOK_strong (_m : A6CModel n Γ) {step : ℕ → Mat → Mat} {k : ℕ} {x0 : Mat}
     {r : Rec} {N : ℕ} (hd : derivOK step k x0 r N = true)
     (hsim : ∀ l < k, ∀ x, A6CSimArr n x → A6CSimArr n (step l x))
     (hseed : A6CSimArr n x0) (P : Mat → Prop)

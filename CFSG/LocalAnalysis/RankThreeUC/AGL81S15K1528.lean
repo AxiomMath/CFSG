@@ -143,7 +143,7 @@ theorem coprime_subgroupOf_normal {Y : Type} [Group Y] [Finite Y] (K S : Subgrou
     unfold Subgroup.relIndex
     congr 1
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   have h4 : K.relIndex (S ⊔ K) = K.relIndex S := Subgroup.relIndex_sup_right S K
   have h5 : K.relIndex (S ⊔ K) * (S ⊔ K).index = K.index :=
     Subgroup.relIndex_mul_index le_sup_right
@@ -232,13 +232,13 @@ theorem frattini_conj {K : Type} [Group K] [Finite K] {Kb : Type} [Group Kb]
     rw [← hzy]
     exact hxSh z (hS0Sh hz)
   have hS0i : ¬ 7 ∣ S0.index := T.not_dvd_index
-  have hS1p : IsPGroup 7 S1 := T.isPGroup'.map _
+  have hS1p : IsPGroup 7 S1 := T.isPGroup.map _
   have hS1i : ¬ 7 ∣ S1.index := by
     have hidx : S1.index = S0.index := Subgroup.index_map_equiv S0 (MulAut.conj x)
     rw [hidx]
     exact hS0i
   have hT0p : IsPGroup 7 (S0.subgroupOf Sh) :=
-    T.isPGroup'.comap_of_injective Sh.subtype Subtype.val_injective
+    T.isPGroup.comap_of_injective Sh.subtype Subtype.val_injective
   have hT1p : IsPGroup 7 (S1.subgroupOf Sh) :=
     hS1p.comap_of_injective Sh.subtype Subtype.val_injective
   have hT0i : ¬ 7 ∣ (S0.subgroupOf Sh).index := fun h =>
@@ -307,7 +307,7 @@ theorem normalizer_map_le {Y : Type} [Group Y] [Finite Y] {K D : Subgroup Y} [K.
     have hsU : (s : Y) ∈ U := Subgroup.mem_map_of_mem K.subtype hs
     rw [hUb, Subgroup.mem_bot] at hsU
     exact Subgroup.mem_bot.mpr (Subtype.ext hsU)
-  have hUp : IsPGroup 7 U := T.isPGroup'.map K.subtype
+  have hUp : IsPGroup 7 U := T.isPGroup.map K.subtype
   have hUD : U ≤ D := by
     intro y hy
     obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hy
@@ -357,7 +357,7 @@ theorem seven_dvd_card_of_isL3FourCover (Kb : Type) [Group Kb] [Finite Kb]
   obtain ⟨⟨t, hv⟩, Q, hQ, ht, ⟨e⟩⟩ := h
   have ht' : t = TauCeti.LieTypeIndex.A 2 Q := ht
   subst ht'
-  haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+  have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
   have hK : Nat.card (GaloisField Q.p Q.exponent) = 4 := by
     rw [GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', ← TauCeti.PrimePower.card_def, hQ]
   have hpsl := CFSG.Quasithin.Vol2.Ch11.SecB.card_psl_eq_ordA
@@ -388,7 +388,7 @@ end K1528Proof
 theorem K1528_holds : K1528 := by
   intro Y _ _ K D hK Kb _ π hπ hD hcase
   classical
-  haveI : Finite Kb := Finite.of_surjective π hπ
+  have : Finite Kb := Finite.of_surjective π hπ
   obtain ⟨S, ⟨-, hSp, hSi'⟩, hSD⟩ := hD.exists_isSylowOf_le
   have hSi : ¬ 7 ∣ S.index := by
     rwa [Subgroup.relIndex_top_right] at hSi'
@@ -400,7 +400,7 @@ theorem K1528_holds : K1528 := by
   have hPi : ¬ 7 ∣ ((T : Subgroup K).map π).index := by
     have h := (Sylow.mapSurjective hπ T).not_dvd_index
     rwa [Sylow.coe_mapSurjective] at h
-  have hPp : IsPGroup 7 ((T : Subgroup K).map π) := T.isPGroup'.map π
+  have hPp : IsPGroup 7 ((T : Subgroup K).map π) := T.isPGroup.map π
   have h7Kb : 7 ∣ Nat.card Kb := by
     rcases hcase with ⟨hL, _⟩ | ⟨⟨eK⟩, _⟩
     · exact K1528Proof.seven_dvd_card_of_isL3FourCover Kb hL

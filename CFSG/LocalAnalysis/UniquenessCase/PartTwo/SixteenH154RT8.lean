@@ -22,8 +22,8 @@ private theorem s16h_tdata (D : Data G) (hcore : R1110Core D) {V : Subgroup G}
     (hZ : Z = T ⊓ F11.CTilde D.M ⊥ V) :
     IsPGroup p ↥T ∧ IsCyclic ↥Z ∧ Z ≤ T ∧ ⁅T, T⁆ ≤ Z ∧ ⁅T, Z⁆ = ⊥ ∧ (∀ t ∈ T, t ^ p ∈ Z) ∧
       T ≤ D.M ∧ F11.barImage11 D.M ⊥ V T = Xbar := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hXn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hXn
   obtain ⟨hPM, -, -⟩ := uc22p22u_sylow_O2p hp hp2 hP
   have hPp : IsPGroup p ↥P := (CFSG.ABGLocalTools.isSylowOf_iff.1 hP).2.1
   have h1 := (hcore ⊥ V hV p hp hp2 P hP).1
@@ -41,7 +41,7 @@ private theorem s16h_tdata (D : Data G) (hcore : R1110Core D) {V : Subgroup G}
     rw [hT] at ht
     exact uc22p22u_mem_barPreimage11.1 ht.2
   refine ⟨hPp.to_le hTP, ?_, hZT, ?_, ?_, ?_, hTM, ?_⟩
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
     obtain ⟨haM, ha'⟩ := hmemT a ha
@@ -101,7 +101,7 @@ private theorem s16h_tdata (D : Data G) (hcore : R1110Core D) {V : Subgroup G}
 theorem s16h_r1110Last_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h63 : UC6.R6_3 D)
     (h77 : F07.R77Eq D) (hcore : R1110Core D) : s16h_R1110Last D := by
   intro V hV hN p hp hp2 P hP n hn Xbar hXn hXe hXc hXle hσ v hv hv1 hrank
-  haveI hN' : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := hN
+  have hN' : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := hN
   set T : Subgroup G := P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M ⊥ V Xbar with hT
   set Z : Subgroup G := T ⊓ F11.CTilde D.M ⊥ V with hZ
   set Y : Subgroup G := F11.Omega1p p T with hYdef
@@ -121,7 +121,7 @@ theorem s16h_r1110Last_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h63 : UC6.
   have hpdvd : orderOf y ∣ p := by
     rw [orderOf_dvd_iff_pow_eq_one]
     exact Subtype.ext (hYexpP y.1 y.2)
-  haveI : Fact p'.Prime := ⟨hp'pr⟩
+  have : Fact p'.Prime := ⟨hp'pr⟩
   have hp'dvd : p' ∣ orderOf y := hYp'.dvd_orderOf hy1
   have horder : orderOf y = p := by
     rcases (Nat.dvd_prime hp).1 hpdvd with h | h

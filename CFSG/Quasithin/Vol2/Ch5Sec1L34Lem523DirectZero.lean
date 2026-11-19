@@ -37,16 +37,16 @@ theorem V₂_le_G₁ : conjClosure Z₁ D₃ ≤ Subgroup.centralizer (Z₁ : Se
   intro y hy
   rw [Subgroup.mem_centralizer_iff]
   intro z hz
-  haveI := (s.isElemAbelian_V₂).1
+  have := (s.isElemAbelian_V₂).1
   exact mul_comm_of_isMulCommutative this (le_conjClosure Z₁ D₃ (show z ∈ Z₁ from hz)) hy
 
 theorem U_le_G₁ : conjClosure (conjClosure Z₁ D₃) (Subgroup.centralizer (Z₁ : Set G)) ≤
     Subgroup.centralizer (Z₁ : Set G) :=
-  conjClosure_le fun g hg y hy => (Subgroup.centralizer (Z₁ : Set G)).mul_mem
+  conjClosure_le fun _g hg _y hy => (Subgroup.centralizer (Z₁ : Set G)).mul_mem
     ((Subgroup.centralizer (Z₁ : Set G)).mul_mem hg (s.V₂_le_G₁ hy))
     ((Subgroup.centralizer (Z₁ : Set G)).inv_mem hg)
 
-theorem U_le_normalizer_Z₁ (h5114 : Stmt5_1_14_first) (hF : L2TorusFact) :
+theorem U_le_normalizer_Z₁ (_h5114 : Stmt5_1_14_first) (_hF : L2TorusFact) :
     conjClosure (conjClosure Z₁ D₃) (Subgroup.centralizer (Z₁ : Set G)) ≤
       Subgroup.normalizer (Z₁ : Set G) :=
   (s.U_le_G₁).trans (Subgroup.centralizer_le_normalizer _)
@@ -101,7 +101,8 @@ theorem commutator_V₂_U_le (h5114 : Stmt5_1_14_first) (hF : L2TorusFact) :
   rw [e] at hU
   exact hU
 
-theorem isMulCommutative_U_of_commutator_eq_bot (h5114 : Stmt5_1_14_first) (hF : L2TorusFact)
+omit [Finite G] s in
+theorem isMulCommutative_U_of_commutator_eq_bot (_h5114 : Stmt5_1_14_first) (_hF : L2TorusFact)
     (hb : ⁅conjClosure Z₁ D₃, conjClosure (conjClosure Z₁ D₃)
       (Subgroup.centralizer (Z₁ : Set G))⁆ = ⊥) :
     IsMulCommutative ↥(conjClosure (conjClosure Z₁ D₃) (Subgroup.centralizer (Z₁ : Set G))) := by
@@ -132,7 +133,7 @@ theorem commutator_V₂_U_eq (h5114 : Stmt5_1_14_first) (hF : L2TorusFact)
   have hle := s.commutator_V₂_U_le h5114 hF
   have hne : ⁅conjClosure Z₁ D₃, conjClosure (conjClosure Z₁ D₃)
       (Subgroup.centralizer (Z₁ : Set G))⁆ ≠ ⊥ := fun hb =>
-    hU (s.isMulCommutative_U_of_commutator_eq_bot h5114 hF hb)
+    hU (Setup521.isMulCommutative_U_of_commutator_eq_bot h5114 hF hb)
   obtain ⟨⟨z, hz⟩, hz1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hne
   have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
   have hzZ : z ∈ Z₁ := hle hz

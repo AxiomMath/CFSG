@@ -178,7 +178,7 @@ theorem card_W_le (hc : L2Ctx hs W)
               Set X)).subtype) ≤ centralizer ({w ^ (orderOf w / 2) * t ^ i * z ^ j} :
                 Set X)))).comp (P : Subgroup _).subtype).codRestrict _ hmem)
           fun x y hxy => ?_
-        have hP' := P.isPGroup'.map (Subgroup.subtype (centralizer ({w ^ (orderOf w / 2) *
+        have hP' := P.isPGroup.map (Subgroup.subtype (centralizer ({w ^ (orderOf w / 2) *
           t ^ i * z ^ j} : Set X) ⊓ coreActionKernel (J.map (centralizer
             ({w ^ (orderOf w / 2) * t ^ i * z ^ j} : Set X)).subtype)))
         have hP'C := (map_subtype_le (P : Subgroup ↥(centralizer ({w ^ (orderOf w / 2) *

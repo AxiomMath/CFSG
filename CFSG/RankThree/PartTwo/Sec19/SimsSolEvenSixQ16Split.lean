@@ -136,7 +136,7 @@ theorem exists_sylow_q16S (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFS
   obtain ⟨T, hT⟩ := (isPGroup_q16S hR hQ hψ).exists_le_sylow
   refine ⟨T, hT, ?_⟩
   have hM := card_M_sym hR hQ hsurj
-  have hK2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ M) := T.isPGroup'.to_le inf_le_left
+  have hK2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ M) := T.isPGroup.to_le inf_le_left
   have hle : Nat.card ↥((T : Subgroup G) ⊓ M) ≤ 2 ^ 8 :=
     Q16Mod.card_le_of_dvd hK2 (n := 2 ^ 8 * 45) (m := 8)
       (by rw [← hM]; exact Subgroup.card_dvd_of_le inf_le_right) (by decide)
@@ -155,7 +155,7 @@ variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {C : Cfg G M X 6} (D
     (fun h => Multiplicative.toAdd (D.piQ ⟨q, h⟩)) (fun _ => 0)
 
 theorem piG_of_mem {q : G} (hq : q ∈ CFSG.Open.pCoreOf 2 M) :
-    D.piG q = Multiplicative.toAdd (D.piQ ⟨q, hq⟩) := dif_pos hq
+    D.piG q = Multiplicative.toAdd (D.piQ ⟨q, hq⟩) := dite_eq_left hq
 
 theorem piG_one : D.piG 1 = 0 := by
   rw [D.piG_of_mem (Subgroup.one_mem _)]
@@ -345,7 +345,7 @@ theorem z_conj {s : G} (hs : s ∈ C.q16S) : s * P.z * s⁻¹ = P.z := by
   rw [P.D.piG_conj hsM P.hz, P.hπz]
   exact Q16Split.barAct_zBar_of_mem_d16 hθ
 
-theorem eq_one_or_z_of_central {y : G} (hy : y ∈ C.q16S)
+theorem eq_one_or_z_of_central {y : G} (_hy : y ∈ C.q16S)
     (hc : ∀ s ∈ C.q16S, s * y = y * s) : y = 1 ∨ y = P.z := by
   have hyQ : y ∈ CFSG.Open.pCoreOf 2 M := by
     rw [← C.centralizer_Q_eq P.hR]
@@ -914,15 +914,15 @@ theorem q16_false_split (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFSG.
   by_cases hTS : (T : Subgroup G) ≤ C.q16S
   · exact D.q16_false_of_sylow_le hR hQ T (hTS.trans C.q16S_le)
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
     have hlt : C.q16S.subgroupOf (T : Subgroup G) < ⊤ := by
       refine lt_top_iff_ne_top.2 fun htop => hTS fun x hx => ?_
       have : (⟨x, hx⟩ : ↥(T : Subgroup G)) ∈ C.q16S.subgroupOf (T : Subgroup G) := by
         rw [htop]
         trivial
       exact Subgroup.mem_subgroupOf.1 this
-    obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+    obtain ⟨x, hxN, hxS⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hnorm : ∀ s ∈ C.q16S, (x : G) * s * (x : G)⁻¹ ∈ C.q16S := by
       intro s hs
       have := (Subgroup.mem_normalizer_iff.1 hxN ⟨s, hST hs⟩).1 (Subgroup.mem_subgroupOf.2 hs)

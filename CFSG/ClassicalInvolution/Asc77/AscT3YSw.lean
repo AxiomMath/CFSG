@@ -36,7 +36,7 @@ theorem Std20.y_not_mem_K' (d : Std20 p f K K' J S R R' W V z t) {e : G} (heKW :
   have hz1 : z ≠ 1 := d.viol.hzK.ne_one
   intro heK'
   have hA2 : IsPGroup 2 ↥(Subgroup.zpowers e) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS heKW.2))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS heKW.2))
   have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_K' d.ne.symm hA2
     (Subgroup.zpowers_le.mpr heKW.1) (Subgroup.zpowers_le.mpr heK')
   rw [Nat.card_zpowers] at hcard
@@ -66,7 +66,7 @@ theorem Std20.y_CSW_le_W (d : Std20 p f K K' J S R R' W V z t) (c7 : Concl20_7 S
       exact d.y_not_mem_K' heKW he2 heK'
   set X : Subgroup G := Subgroup.zpowers c with hX
   have hXS : X ≤ (S : Subgroup G) := Subgroup.zpowers_le.mpr hcS
-  have hX2 : IsPGroup 2 ↥X := S.isPGroup'.to_le hXS
+  have hX2 : IsPGroup 2 ↥X := S.isPGroup.to_le hXS
   have hXN : X ≤ Subgroup.normalizer (K : Set G) :=
     Subgroup.zpowers_le.mpr (mem_normalizer_iff_conjSub_eq.mpr hcK)
   have hXt : ∀ x ∈ X, x * t = t * x := by
@@ -114,7 +114,7 @@ theorem Std20.y_scalar (d : Std20 p f K K' J S R R' W V z t) {u : G} {k : ℕ}
   have hnJ : conjSub n J = J := by
     set X : Subgroup G := Subgroup.zpowers n with hX
     have hXS : X ≤ (S : Subgroup G) := Subgroup.zpowers_le.mpr hnS
-    have hX2 : IsPGroup 2 ↥X := S.isPGroup'.to_le hXS
+    have hX2 : IsPGroup 2 ↥X := S.isPGroup.to_le hXS
     have hXN : X ≤ Subgroup.normalizer (K : Set G) :=
       Subgroup.zpowers_le.mpr (mem_normalizer_iff_conjSub_eq.mpr hnK)
     have hXt : ∀ x ∈ X, x * t = t * x := by

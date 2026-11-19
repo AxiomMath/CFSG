@@ -49,7 +49,7 @@ theorem pcoord_entriesOp {R : Type} [CommRing R] (L : List Entry)
     by_cases h : p = e.2.1
     · subst h
       simp
-    · rw [if_neg h, if_neg (fun h' => h h'.symm)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h h'.symm)]
 
 theorem endHom_xPar_pos {K : Type} [Field K] (i : Fin Tag.D4.rank) (c : K) :
     endHom K (xPar (rootOperatorFamily Tag.D4) (Pi.single i 1) c) =

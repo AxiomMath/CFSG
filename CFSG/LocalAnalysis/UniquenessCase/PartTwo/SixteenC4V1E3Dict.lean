@@ -15,11 +15,13 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 private theorem s16c4v1e3_commutator_le_of_le_stabTil {V₀ V X : Subgroup G}
     (hX : X ≤ stabTil V₀ V) : ⁅V, X⁆ ≤ V :=
   Subgroup.le_normalizer_iff_commutator_le_left.mp
     (hX.trans (stabTil_le_normalizer V₀ V))
 
+omit [Finite G] in
 private theorem s16c4v1e3_mkTil_commutator_mem_commSub {V₀ V X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hX : X ≤ stabTil V₀ V)
     {W : Subgroup (Vtil V₀ V hV)} {v x : G} (hv : v ∈ V) (hx : x ∈ X)
@@ -46,7 +48,6 @@ private theorem s16c4v1e3_mkTil_commutator_mem_commSub {V₀ V X : Subgroup G}
     rw [show (actStab V₀ V hV ⟨x, hX hx⟩) (IntMod.mk hV ⟨v, hv⟩)⁻¹ =
         IntMod.mk hV ⟨x * v⁻¹ * x⁻¹, hmem3⟩ from by
       rw [map_inv]
-      congr 1
       apply IntMod.val_injective
       rw [IntMod.val_inv, actStab_apply_val]
       group
@@ -68,6 +69,7 @@ private theorem s16c4v1e3_mkTil_commutator_mem_commSub {V₀ V X : Subgroup G}
   rw [h2]
   exact Subgroup.subset_closure ⟨xb, actTil_mem_barSub V₀ V hV hx (hX hx), a, hW, rfl⟩
 
+omit [Finite G] in
 private theorem s16c4v1e3_imgTil_commutator_eq_commSub {V₀ V A X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hA : A ≤ V) (hX : X ≤ stabTil V₀ V) :
     imgTil V₀ V hV ⁅A, X⁆ = commSub (imgTil V₀ V hV A) (barSub V₀ V hV X) := by

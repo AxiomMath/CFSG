@@ -143,11 +143,11 @@ theorem two_local_rank_transitive_A3_family_common_normal_core
         normalizer (conjJoin M (blockQ (Kf ⟨0, hr⟩)) : Set G) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS2 : IsPGroup 2 S := T.isPGroup'.to_le hST
+  have hS2 : IsPGroup 2 S := T.isPGroup.to_le hST
   have hTsyl : IsSylowTwoOf (T : Subgroup G) M :=
-    ⟨hTM, T.isPGroup', fun h2 => T.not_dvd_index (h2.trans (relIndex_dvd_index_of_le hTM))⟩
+    ⟨hTM, T.isPGroup, fun h2 => T.not_dvd_index (h2.trans (relIndex_dvd_index_of_le hTM))⟩
   have hr2 : r ≤ 2 := le_two_of_commuting_A3_family he2 Kf hK h3 hcomm
-    (T.isPGroup'.to_le ((iSup_le hUS).trans hST))
+    (T.isPGroup.to_le ((iSup_le hUS).trans hST))
   set K₁ := Kf ⟨0, hr⟩ with hK₁
   set U₁ := blockQ K₁ with hU₁
   obtain ⟨-, -, hUcard, hUexp, hUab, -, -, -, -⟩ := SteinbergBS.ReversalPair.a3_data (hK ⟨0, hr⟩)
@@ -184,7 +184,7 @@ theorem two_local_rank_transitive_A3_family_common_normal_core
         hKt hx₀N hx₀ rfl hD₀ rfl hX hA rfl
     have hV1 : conjJoin D₀ U₁ ≠ ⊥ := fun h => hU1 (le_bot_iff.mp (h ▸ hUV))
     have hV2 : IsPGroup 2 (conjJoin D₀ U₁) :=
-      T.isPGroup'.to_le ((hVQ.trans hQP).trans inf_le_left)
+      T.isPGroup.to_le ((hVQ.trans hQP).trans inf_le_left)
     have h3X : ∀ E : Subgroup G, E ≤ X → CFSG.IsElementaryAbelian 3 E → Nat.card E ≤ 9 :=
       fun E hEX hE => card_le_nine_of_le_normalizer he2 hV1 hV2 (hEX.trans hXV) hE
     have hAU : ⁅A, U₁⁆ ≠ ⊥ := by

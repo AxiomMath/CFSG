@@ -20,7 +20,7 @@ theorem idxRel_insert {idx : Std.HashMap ℕ ℕ} {L : List (ℕ × ℕ)} (h : I
     simp [List.lookup]
   · have h1 : (y == z) = false := by simp [hz]
     have h2 : (z == y) = false := by simp [Ne.symm hz]
-    rw [h1, if_neg (by simp), ← Std.HashMap.get?_eq_getElem?, h z]
+    rw [h1, ite_eq_right (by simp), ← Std.HashMap.get?_eq_getElem?, h z]
     simp [List.lookup, h2]
 
 theorem idxRel_init (root : ℕ) :

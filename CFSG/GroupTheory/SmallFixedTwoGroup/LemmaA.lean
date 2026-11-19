@@ -32,7 +32,7 @@ private theorem exists_index_two_card_centralizer_ge_sixteen_aux :
       have htop : centralizer ({u} : Set T) = ⊤ :=
         Subgroup.centralizer_eq_top_iff_subset.mpr (by rintro x rfl; exact hucent)
       rw [htop, Subgroup.card_top, hcard16]
-    · haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+    · have : Fact (Nat.Prime 2) := Nat.fact_prime_two
       obtain ⟨k, hk⟩ := hT.exists_card_eq
       have hk4 : 4 ≤ k := by
         have h : 2 ^ 4 ≤ 2 ^ k := by
@@ -48,7 +48,7 @@ private theorem exists_index_two_card_centralizer_ge_sixteen_aux :
         rw [hk]
         calc (32 : ℕ) = 2 ^ 5 := by norm_num
           _ ≤ 2 ^ k := (Nat.pow_le_pow_iff_right (show (1 : ℕ) < 2 by norm_num)).2 hk5
-      haveI : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+      have : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp (by omega)
       obtain ⟨z, hz_center, hz_order⟩ := exists_mem_center_orderOf_eq_two hT
       have hz2 : z * z = 1 := by
         rw [← pow_two, ← hz_order]
@@ -57,7 +57,7 @@ private theorem exists_index_two_card_centralizer_ge_sixteen_aux :
         intro h
         rw [h, orderOf_one] at hz_order
         norm_num at hz_order
-      haveI : (zpowers z).Normal :=
+      have : (zpowers z).Normal :=
         Subgroup.normal_of_le_center (Subgroup.zpowers_le_of_mem hz_center)
       have hcardR : Nat.card (T ⧸ zpowers z) * 2 = Nat.card T :=
         card_quotient_zpowers (z := z) hz2 hz1

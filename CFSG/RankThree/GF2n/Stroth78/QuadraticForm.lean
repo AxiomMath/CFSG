@@ -19,7 +19,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
 theorem isExtraspecialPGroup_F (S : Setting z E F) : CFSG.IsExtraspecialPGroup 2 ↥F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Nat.card (Subgroup.center ↥F) = 2 := by
     calc
       Nat.card (Subgroup.center ↥F) =
@@ -154,6 +154,7 @@ private theorem abToQbar_injective (S : Setting z E F) :
   ext f
   rw [MonoidHom.mem_ker, toQbar_eq_one_iff]
 
+omit [Finite G] in
 private theorem mk_mul_eq_mk_of_mem_E_of_mem_F (S : Setting z E F) {e f : G}
     (he : e ∈ E) (hf : f ∈ F) :
     (QuotientGroup.mk (⟨e * f, by
@@ -166,7 +167,7 @@ private theorem mk_mul_eq_mk_of_mem_E_of_mem_F (S : Setting z E F) {e f : G}
         exact Subgroup.mul_mem_sup he hf⟩ : ↥(Q z)) /
       (⟨f, F_le_Q S hf⟩ : ↥(Q z)) : ↥(Q z)) = ⟨e, E_le_Q S he⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_div, Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv,
       div_eq_mul_inv]
     group
   rw [hdiv]

@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {p q : ℕ}
 
 private theorem i2020FixCentAt_linear (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime)
     (hq2 : q ≠ 2) (hqp : q ≠ p) {X K J : Subgroup G} {y : G}
-    (hK : GLAPComponent p X K) (hyN : y ∈ Subgroup.normalizer (K : Set G))
+    (_hK : GLAPComponent p X K) (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hyp : y ^ p = 1) {r : ℕ} (hr3 : 3 ≤ r + 1) (hr4 : r + 1 ≤ 4)
     {Q : TauCeti.PrimePower} (hQp : Q.p = q)
     (hcat : pSimpleIsLie p K (.A r Q)) (hdiv : p ∣ Q.card - 1)
@@ -26,7 +26,7 @@ private theorem i2020FixCentAt_linear (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pri
     I2020FixCentAt (chevAut p K ⟨y, hyN⟩) (chevTransfer p K J) := by
   classical
   subst hQp
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id
@@ -63,7 +63,7 @@ private theorem i2020FixCentAt_linear (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pri
 
 private theorem i2020FixCentAt_unitary (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime)
     (hq2 : q ≠ 2) (hqp : q ≠ p) {X K J : Subgroup G} {y : G}
-    (hK : GLAPComponent p X K) (hyN : y ∈ Subgroup.normalizer (K : Set G))
+    (_hK : GLAPComponent p X K) (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hyp : y ^ p = 1) {r : ℕ} (hr3 : 3 ≤ r + 1) (hr4 : r + 1 ≤ 4)
     {Q : TauCeti.PrimePower} (hQp : Q.p = q)
     (hcat : pSimpleIsLie p K (.twistedA r Q)) (hdiv : p ∣ Q.card + 1)
@@ -72,7 +72,7 @@ private theorem i2020FixCentAt_unitary (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pr
     I2020FixCentAt (chevAut p K ⟨y, hyN⟩) (chevTransfer p K J) := by
   classical
   subst hQp
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id
@@ -165,7 +165,7 @@ private theorem i2020FixCentAt_case_iii (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.P
   have hJK : J ≤ K := hJ.1.trans inf_le_left
   have hcenter : Subgroup.center (PSimple p K) = ⊥ := by
     obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hK
-    haveI := hs
+    have := hs
     exact chev_center_eq_bot_of_simple_nonabelian hna
   have hJType' : JType p q (chevTransfer p K J) := jType_chevTransfer hp hZ hJK hJType
   rcases hcase with ⟨hB | hTD, hdiv⟩
@@ -217,7 +217,7 @@ private theorem i2020FixCentAt_case_iv (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Pr
   have hJK : J ≤ K := hJ.1.trans inf_le_left
   have hcenter : Subgroup.center (PSimple p K) = ⊥ := by
     obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hK
-    haveI := hs
+    have := hs
     exact chev_center_eq_bot_of_simple_nonabelian hna
   have hJType' : JType p q (chevTransfer p K J) := jType_chevTransfer hp hZ hJK hJType
   obtain ⟨hD4, hdiv⟩ := hcase

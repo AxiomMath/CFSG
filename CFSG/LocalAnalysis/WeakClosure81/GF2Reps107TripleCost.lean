@@ -71,7 +71,7 @@ theorem w107_false_of_involution_cost_two {W : Type} [CommGroup W] [Finite W]
     (hLie : LieModel (↥K ⧸ Subgroup.center ↥K) .PSU 4 3 1)
     (htop : commSub (⊤ : Subgroup W) K = ⊤) {d : MulAut W} (hdK : d ∈ K) (hd2 : orderOf d = 2)
     (hcost : E3.mQuot ⊤ (fixV (Subgroup.zpowers d)) ≤ 2) : False := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   let π : ↥K →* ↥K ⧸ Subgroup.center ↥K := QuotientGroup.mk' (Subgroup.center ↥K)
   let δ : ↥K := ⟨d, hdK⟩

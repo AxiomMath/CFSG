@@ -37,7 +37,7 @@ theorem odd_sup_of_normal {H : Type} [Group H] [Finite H] (N N₀ : Subgroup H) 
       rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
       have : (⟨n, Subgroup.mem_sup_left hn⟩ : ↥M)⁻¹ * x = ⟨b, Subgroup.mem_sup_right hb⟩ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [← hnb]
         group
       rw [this]

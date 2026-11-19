@@ -112,6 +112,7 @@ section Rep
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {U : Type} [AddCommGroup U] [Module (ZMod 2) U] [Finite U]
 
+omit [CharP F 2] in
 theorem five_le_rank_of_finrank_sixteen
     (hF : Fintype.card F = 2 ^ 2) (ρ : Representation (ZMod 2) SL(3, F) U)
     (hirr : ρ.IsIrreducible) (hz : ∀ x ∈ LinearFlag.scalars 3 F, ρ x = 1)
@@ -145,8 +146,7 @@ theorem five_le_rank_of_finrank_sixteen
         intro g h
         ext v
         simp only [LinearMap.coe_comp, Function.comp_apply, map_mul, Module.End.mul_apply,
-          LinearEquiv.coe_toLinearMap, LinearEquiv.apply_symm_apply,
-          LinearEquiv.symm_apply_apply] }
+          LinearEquiv.coe_toLinearMap, LinearEquiv.symm_apply_apply] }
   let ρ₀ : SL(3, CFSG.Fischer.F4) →* Matrix (Fin 16) (Fin 16) (ZMod 2) :=
     { toFun := fun g => LinearMap.toMatrix' (ρ₁ g)
       map_one' := by

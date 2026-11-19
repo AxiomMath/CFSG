@@ -177,7 +177,7 @@ theorem suz_twoAdic_centralizer_T {K : Subgroup (Equiv.Perm (Fin 1782))} (hK : K
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
   set S : Subgroup (Equiv.Perm (Fin 1782)) := (P : Subgroup ↥Y).map Y.subtype with hS
   have hSY : S ≤ Y := Subgroup.map_subtype_le _
-  have hSp : IsPGroup 2 S := P.isPGroup'.map Y.subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map Y.subtype
   have hcardS : Nat.card S = 2 ^ twoAdic Y := by
     rw [hS, Subgroup.card_map_of_injective Y.subtype_injective, P.card_eq_multiplicity]
     rfl

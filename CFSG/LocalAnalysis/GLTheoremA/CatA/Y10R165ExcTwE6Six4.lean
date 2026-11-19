@@ -27,8 +27,8 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open scoped Matrix
 
 theorem exists_twE6Six_selection {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime]
-    [CharP K ℓ] (hf : 1 ≤ f) (hK : Nat.card K = (ℓ ^ f) ^ 2) {σ : K ≃+* K}
-    (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) {p : ℕ} [Fact p.Prime] (hp5 : 5 < p)
+    [CharP K ℓ] (hf : 1 ≤ f) (_hK : Nat.card K = (ℓ ^ f) ^ 2) {σ : K ≃+* K}
+    (_hσ : ∀ c, σ c = c ^ (ℓ ^ f)) {p : ℕ} [Fact p.Prime] (hp5 : 5 < p)
     (hpq : (p : ℤ) ∣ ((ℓ ^ f : ℕ) : ℤ) ^ 2 - ((ℓ ^ f : ℕ) : ℤ) + 1)
     {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
     {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p)
@@ -43,8 +43,8 @@ theorem exists_twE6Six_selection {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [
       parabolicRoots Tag.E6 tw6SixSupportA2 ⊆ torusRootKernel (psiT g0 c y) ∧
       psiT g0 c x = rootDiagUnit Tag.E6 (fun i => ζ ^ (tw6SixZx p (ℓ ^ f) i).val) ∧
       psiT g0 c y = rootDiagUnit Tag.E6 (fun i => ζ ^ (tw6SixZy p (ℓ ^ f) i).val) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hq0 : (((ℓ ^ f : ℕ)) : L) = 0 := by
     rw [Nat.cast_pow, CharP.cast_eq_zero L ℓ]
     exact zero_pow (by omega)
@@ -77,7 +77,7 @@ theorem exists_twE6Six_selection {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [
     have hb : (fun i => ζ ^ (tw6SixZx p (ℓ ^ f) i).val) = 1 :=
       rootDiagUnit_injective h1'
     have h4 := congrFun hb 4
-    have hzx4 : tw6SixZx p (ℓ ^ f) 4 = 1 := by simp [tw6SixZx, e6Index]
+    have hzx4 : tw6SixZx p (ℓ ^ f) 4 = 1 := by simp [tw6SixZx]
     rw [hzx4] at h4
     rw [ZMod.val_one] at h4
     exact hζ.ne_one (by omega : 1 < p) (by simpa using h4)

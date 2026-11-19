@@ -33,7 +33,7 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥K) := inferInstance
   set Pg := (P : Subgroup ↥K).map K.subtype with hPg
   have hPK : Pg ≤ K := Subgroup.map_subtype_le _
-  have hP3 : IsPGroup 3 Pg := P.isPGroup'.map _
+  have hP3 : IsPGroup 3 Pg := P.isPGroup.map _
   have hPe := hg.isElemAbelian_F4 h12210 hcomm hPK hP3
   have hP9 : Nat.card Pg ≤ 9 := by
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -43,9 +43,9 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
     calc 3 ^ k ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) hk2
       _ = 9 := by norm_num
 
-  obtain ⟨a, haP, haL, ha3, haV⟩ := hg.exists_elt h1E P
-  obtain ⟨b, hbP, hbL, hb3, hbV⟩ := hg.exists_elt hgE P
-  obtain ⟨d, hdP, hdL, hd3, hdV⟩ := hg.exists_elt hggE P
+  obtain ⟨a, haP, haL, ha3, haV⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.exists_elt (G := G) (T := T) (L := L) (V := V) (E := E) (z := z) (v := v) (c := c)) h1E P
+  obtain ⟨b, hbP, hbL, hb3, hbV⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.exists_elt (G := G) (T := T) (L := L) (V := V) (E := E) (z := z) (v := v) (c := c)) hgE P
+  obtain ⟨d, hdP, hdL, hd3, hdV⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.exists_elt (G := G) (T := T) (L := L) (V := V) (E := E) (z := z) (v := v) (c := c)) hggE P
   rw [B6.conjSub_one] at haL haV
   by_cases hα : c.L1 ≤ Subgroup.centralizer (B6.conjSub g V : Set G)
   ·
@@ -55,23 +55,23 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
   ·
     obtain ⟨s1, s2, s3, s4, s5⟩ := hg.sym'
     have haVg : a ∉ Subgroup.centralizer (B6.conjSub g V : Set G) := fun h => hα (by
-      have := hg.le_of_mem_centralizer h1E hgE (x := a) (by rwa [B6.conjSub_one])
+      have := CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer h1E hgE (x := a) (by rwa [B6.conjSub_one])
         ha3 (by rwa [B6.conjSub_one]) h
       rwa [B6.conjSub_one] at this)
     have haVgg : a ∉ Subgroup.centralizer (B6.conjSub (g * g) V : Set G) := fun h => hα (s1 (by
-      have := hg.le_of_mem_centralizer h1E hggE (x := a) (by rwa [B6.conjSub_one])
+      have := CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer h1E hggE (x := a) (by rwa [B6.conjSub_one])
         ha3 (by rwa [B6.conjSub_one]) h
       rwa [B6.conjSub_one] at this))
     have hbV0 : b ∉ Subgroup.centralizer (V : Set G) := fun h => hα (s2 (by
-      have := hg.le_of_mem_centralizer hgE h1E hbL hb3 hbV (by rwa [B6.conjSub_one])
+      have := CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer hgE h1E hbL hb3 hbV (by rwa [B6.conjSub_one])
       rwa [B6.conjSub_one] at this))
     have hbVgg : b ∉ Subgroup.centralizer (B6.conjSub (g * g) V : Set G) := fun h => hα (s3
-      (hg.le_of_mem_centralizer hgE hggE hbL hb3 hbV h))
+      (CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer hgE hggE hbL hb3 hbV h))
     have hdV0 : d ∉ Subgroup.centralizer (V : Set G) := fun h => hα (s4 (by
-      have := hg.le_of_mem_centralizer hggE h1E hdL hd3 hdV (by rwa [B6.conjSub_one])
+      have := CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer hggE h1E hdL hd3 hdV (by rwa [B6.conjSub_one])
       rwa [B6.conjSub_one] at this))
     have hdVg : d ∉ Subgroup.centralizer (B6.conjSub g V : Set G) := fun h => hα (s5
-      (hg.le_of_mem_centralizer hggE hgE hdL hd3 hdV h))
+      (CFSG.Quasithin.H13.N1246.Ctx.Cyc.le_of_mem_centralizer hggE hgE hdL hd3 hdV h))
 
     have hcard_eq : ∀ h : G, h ∈ Subgroup.normalizer (E : Set G) →
         B6.conjSub h c.L1 ≤ c.L1 → h ∈ Subgroup.normalizer (c.L1 : Set G) := by
@@ -82,11 +82,11 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
     have hb_a : b ∉ Subgroup.zpowers a := by
       intro hb
       have hbL1 : b ∈ c.L1 := (Subgroup.zpowers_le.2 haL) hb
-      exact hgL (hcard_eq g hgE (hg.conjL1_le_of_mem hgE hL1N hbL hbL1 hb3 hbV))
+      exact hgL (hcard_eq g hgE (CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjL1_le_of_mem hgE hL1N hbL hbL1 hb3 hbV))
     have hd_a : d ∉ Subgroup.zpowers a := by
       intro hd
       have hdL1 : d ∈ c.L1 := (Subgroup.zpowers_le.2 haL) hd
-      have hggN := hcard_eq (g * g) hggE (hg.conjL1_le_of_mem hggE hL1N hdL hdL1 hd3 hdV)
+      have hggN := hcard_eq (g * g) hggE (CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjL1_le_of_mem hggE hL1N hdL hdL1 hd3 hdV)
       apply hgL
       have hg3 := mem_normalizer_of_conjSub_eq hg.cube_conjSub.2
       have := Subgroup.mul_mem _ hg3 (Subgroup.inv_mem _ hggN)
@@ -96,7 +96,7 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
       have hdL1 : d ∈ B6.conjSub g c.L1 := (Subgroup.zpowers_le.2 hbL) hd
       have hN : K ≤ Subgroup.normalizer (B6.conjSub g c.L1 : Set G) := fun k hk =>
         mem_normalizer_of_conjSub_eq (c.CE_conjSub hgE hk).2
-      have hle := hg.conjL1_le_of_mem hggE hN hdL hdL1 hd3 hdV
+      have hle := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjL1_le_of_mem hggE hN hdL hdL1 hd3 hdV
       have heq : B6.conjSub (g * g) c.L1 = B6.conjSub g c.L1 :=
         Subgroup.eq_of_le_of_card_ge hle (by rw [B6.card_conjSub, B6.card_conjSub])
       apply hgL
@@ -148,7 +148,7 @@ theorem false_of_not_le_N_L1_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 
         · exact h1E
         · exact hgE
         · exact hggE
-      rcases hg.idx3_F4 h12210 hhE hPK hP3 haP hbP haC with h | h | h
+      rcases (CFSG.Quasithin.H13.N1246.Ctx.Cyc.idx3_F4 c) h12210 hhE hPK hP3 haP hbP haC with h | h | h
       · exact absurd h hbC
       · exact Or.inl h
       · exact Or.inr h

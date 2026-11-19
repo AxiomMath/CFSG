@@ -157,7 +157,7 @@ theorem u6Two_torus {J : Type} [Group J] [Finite J] (hperf : commutator J = ⊤)
       (by rw [hq2]) hcard (by omega) (by norm_num) (by norm_num) hq3 hperf ρ hρ hρk
   exact ⟨E, P, h1, h2, by simpa using h3, h4, h5, h6⟩
 
-theorem u6_twoLocal_witness {X : Type} [Group X] [Finite X] (hKG : CFSG.Open.IsKGroup X)
+theorem u6_twoLocal_witness {X : Type} [Group X] [Finite X] (_hKG : CFSG.Open.IsKGroup X)
     {K B : Subgroup X} {x : X} (hK : CFSG.Open.IsComponentOf K ⊤)
     (hBel : CFSG.Open.IsElemAbelian 3 B) (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (hLie : IsLieQuot ↥K IsU6EightIndex) (hx : x ∈ B) (hxI : ¬ InnerAt K x)

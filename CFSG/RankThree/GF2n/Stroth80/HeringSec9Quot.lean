@@ -43,6 +43,7 @@ theorem relIndex_two_pow_of_isPGroup {A : Subgroup G} (B : Subgroup G) (hA : IsP
   have hdvd : B.relIndex A ∣ 2 ^ m := hm ▸ Subgroup.relIndex_dvd_card B A
   exact (Nat.dvd_prime_pow Nat.prime_two).mp hdvd |>.imp fun k hk => hk.2
 
+omit [Finite G] in
 theorem normalizer_of_commutator_le {X Y Q : Subgroup G} (hQX : Q ≤ X)
     (hcomm : ∀ a ∈ X, ∀ y ∈ Y, ⁅a, y⁆ ∈ Q) : Y ≤ Subgroup.normalizer (X : Set G) := by
   have key : ∀ y ∈ Y, ∀ h ∈ X, y * h * y⁻¹ ∈ X := by

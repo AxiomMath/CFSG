@@ -25,12 +25,12 @@ theorem ggL45FieldFixKGRaw_of_torsion {p : ℕ} {lab : LargeEvenLabel} (hA : ¬ 
 theorem ggL45FieldFixKGRaw_of_vac {p : ℕ} {lab : LargeEvenLabel} (hA : GGLabelA2 lab → p ≠ 3)
     (hT : ¬ GGL45TorsionTag lab) {R : Type} [Group R] (I F : Set (MulAut R)) :
     GGL45FieldFixKGRaw p lab R I F :=
-  ⟨fun hA2 hp3 => absurd hp3 (hA hA2), fun K _ _ θ hK ψ hψ hind Q hQ =>
+  ⟨fun hA2 hp3 => absurd hp3 (hA hA2), fun _K _ _ _θ _hK _ψ _hψ _hind _Q _hQ =>
     ⟨fun ht => absurd ht hT, fun hA2 hp3 => absurd hp3 (hA hA2)⟩⟩
 
 theorem ggL45FieldFixLabelAll_of_vac {p : ℕ} {lab : LargeEvenLabel}
     (hA : GGLabelA2 lab → p ≠ 3) (hT : ¬ GGL45TorsionTag lab) :
-    LargeEvenLabelAll lab (GGL45FieldFixKGRaw p lab) := fun Q hQ =>
+    LargeEvenLabelAll lab (GGL45FieldFixKGRaw p lab) := fun _Q hQ =>
   largeEvenRawDatum_mono (fun _ _ I F hq => ⟨hq, ggL45FieldFixKGRaw_of_vac hA hT I F⟩) hQ
 
 theorem ggL45FieldFixLabelAll_of_torsion {p : ℕ} {lab : LargeEvenLabel} (hA : ¬ GGLabelA2 lab)

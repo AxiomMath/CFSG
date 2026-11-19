@@ -99,7 +99,7 @@ private theorem mem_iff_of_map_conj_eq {N : ℕ}
     have hxs : x = s := (MulAut.conj c).injective hxeq
     rwa [hxs] at hx
 
-theorem exists_conj_front (m : ℕ) (hm : 3 ≤ m) (P : Fin (m + 1 + 1)) (hP : P.val % 2 = 0) :
+theorem exists_conj_front (m : ℕ) (_hm : 3 ≤ m) (P : Fin (m + 1 + 1)) (hP : P.val % 2 = 0) :
     ∃ c : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2,
       (∀ s, s ∈ halfTorus (m + 1 + 1) ↔ c * s * c⁻¹ ∈ halfTorus (m + 1 + 1)) ∧
       c * omegaBlock (m + 1 + 1) ⟨0, Nat.succ_pos _⟩ * c⁻¹ = omegaBlock (m + 1 + 1) P ∧
@@ -274,12 +274,12 @@ theorem exists_conj_front (m : ℕ) (hm : 3 ≤ m) (P : Fin (m + 1 + 1)) (hP : P
       · intro h
         have hj0 : j = (0 : Fin (m + 1 + 1 + 1)) := π.injective (h.trans h0fact.symm)
         subst j
-        rw [Set.mem_setOf_eq, Fin.val_zero] at hj
+        rw [Set.mem_ofPred_eq, Fin.val_zero] at hj
         omega
       · intro h
         have hj1 : j = (1 : Fin (m + 1 + 1 + 1)) := π.injective (h.trans h1fact.symm)
         subst j
-        rw [Set.mem_setOf_eq, Fin.val_one] at hj
+        rw [Set.mem_ofPred_eq, Fin.val_one] at hj
         omega
     · rintro ⟨hA', hB'⟩
       refine ⟨π.symm i, ?_, π.apply_symm_apply i⟩

@@ -18,8 +18,8 @@ theorem onan77S5_of_catThreeA5
   intro Y _ _ hK hab P hcomm hcube hcard hcent
   have h : Setting Y P := ⟨hab, hcomm, hcube, hcard, hcent⟩
   obtain ⟨N, hNn, hNs, ⟨x, hx, y, hy, hxy⟩, hNc, h3⟩ := h.exists_simple_normal
-  haveI := hNn
-  haveI := hNs
+  have := hNn
+  have := hNs
   have hnc : ∃ a b : ↥N, a * b ≠ b * a :=
     ⟨⟨x, hx⟩, ⟨y, hy⟩, fun he => hxy (congrArg Subtype.val he)⟩
   have hcatN : Catalog ↥N :=

@@ -24,7 +24,7 @@ section Generic
 variable {G : Type} [Group G]
 
 theorem burnsideF4ja_orderOf_eq_two_iff {x : G} : orderOf x = 2 ↔ x ≠ 1 ∧ x * x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [orderOf_eq_prime_iff, pow_two]
   exact ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
 
@@ -99,6 +99,7 @@ theorem burnsideF4ja_conj_into_sylow {T H : Subgroup G} (hT : ChF.IsSylowOf 2 T 
     (Subgroup.zpowers_le.mpr hx) (burnsideF4ja_isPGroup_zpowers hx2)
   exact ⟨m, hm, mem_conjSub.mp (hle (Subgroup.mem_zpowers x))⟩
 
+omit [Finite G] in
 theorem burnsideF4ja_isSylowOf_conjSub {T H : Subgroup G} (hT : ChF.IsSylowOf 2 T H) {m : G}
     (hm : m ∈ H) : ChF.IsSylowOf 2 (conjSub m T) H := by
   have h := F7.isSylowTwoOf_conj (T := T) (H := H) hT m
@@ -118,7 +119,7 @@ theorem burnsideF4ja_exists_transversal (Good : Set G)
     have h : ∃ w ∈ Good, ConjClasses.mk w = ConjClasses.mk x := by
       obtain ⟨w, hw, hwx⟩ := hcov x hx
       exact ⟨w, hw, ConjClasses.mk_eq_mk_iff_isConj.mpr hwx⟩
-    have e : rep (ConjClasses.mk x) = Classical.choose h := dif_pos h
+    have e : rep (ConjClasses.mk x) = Classical.choose h := dite_eq_left h
     rw [e]
     exact Classical.choose_spec h
   let inv : Finset G := (Set.toFinite {x : G | orderOf x = 2}).toFinset
@@ -278,7 +279,7 @@ theorem burnsideF4ja_centInput_top (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hGp : G
     (hx2 : x * x = 1) (hx : ¬ ∃ g ∈ Gp, g * x * g⁻¹ ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) :
     ∃ w : E, IsConj x w ∧ Subgroup.centralizer ({w} : Set E) ≤ M₂ := by
   subst hGp
-  haveI := hyp.finite
+  have := hyp.finite
   rw [top_inf_eq] at hz₀ hx
   have h27 := as_F_4_27 κ f E ⊤ M₁ M₂ hyp rfl
   dsimp only at h27
@@ -326,8 +327,8 @@ theorem burnsideF4ja_centInput_top (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hGp : G
 theorem burnsideF4ja_not_long (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {w : E}
     (hw : w ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) {g : E} (hg : g ∈ Gp)
     (hct : Subgroup.centralizer ({g * w * g⁻¹} : Set E) ≤ M₂) : False := by
-  haveI := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSyl, hB⟩ := burnsideF4j_sylow_data hyp
   have hP := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   have hgen := burnsideF4j_parabolics_gen hP
@@ -401,7 +402,7 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 theorem burnsideF4ja_fusion_fwd (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (i j : ↥(M₁ ⊓ M₂))
     (hi : (i : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))
     (hij : IsConj (i : E) (j : E)) : IsConj (bM β ε i) (bM β ε j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨g, hgij⟩ := isConj_iff.mp hij
   obtain ⟨T, hT⟩ := burnsideF4j_exists_sylow (M₁ ⊓ M₂)
   have hST := burnsideF4j_S_le_sylow hyp.amalgam (show IsSylowTwoOf T (M₁ ⊓ M₂) from hT)
@@ -418,10 +419,10 @@ theorem burnsideF4ja_F_4_43_of (hin : burnsideF4ja_CentInput) (h35 : F_4_35) (h3
     (h39 : F_4_39) (h42 : F_4_42) : F_4_43 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL hL3
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG2d := hyp.not_G2d
   have hb₁ : Function.Injective (burnsideF4d_bOne β ε) := burnsideF4j_bOne_injective hyp
   have hb₂ : Function.Injective (burnsideF4d_bTwo β ε) := burnsideF4j_bTwo_injective hyp

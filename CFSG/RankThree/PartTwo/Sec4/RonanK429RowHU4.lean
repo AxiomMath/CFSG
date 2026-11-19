@@ -141,7 +141,7 @@ theorem u4_exists_cube_root {F : Type} [Field F] [Finite F] (h3 : 3 ∣ Nat.card
   have hdvdU : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units]
     exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g3, hg3⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 hdvdU
   have hω3 : (g3 : F) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← hg3, pow_orderOf_eq_one, Units.val_one]

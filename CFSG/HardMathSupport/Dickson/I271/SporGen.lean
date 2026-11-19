@@ -29,6 +29,7 @@ section S0
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem card_image_autOrderIn {B K : Subgroup X} (hperf : commutator ↥K = ⊤) :
     Nat.card (((B ⊓ Subgroup.normalizer (K : Set X)).subgroupOf
         (Subgroup.normalizer (K : Set X))).map
@@ -103,7 +104,7 @@ theorem center_eq_bot_of_five_le
     i271h_center_isPGroup hp (i271h_primeCore_eq_bot hH.core hH.comp)
   have hd : Nat.card (Subgroup.center ↥K) ∣ 12 :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.card_center_dvd_twelve hSpM hq name e
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZ
   rw [hn] at hd
   apply Subgroup.eq_bot_of_card_eq

@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ModDataE.w183l313_img_conjSubgroup {J E : Subgroup G} (M : ModDataE J E) {A : Subgroup G}
     (hA : A ≤ J) {y : G} (hy : y ∈ J) :
     M.img (conjSubgroup A y) = conjSubgroup (M.img A) (M.ρ ⟨y, hy⟩) := by
@@ -67,7 +68,7 @@ theorem w183l313_step0 (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.
     (hgT : vInH V H g ≤ D.T) {S : Subgroup (LGL 2 M.W)} (hS : IsSylowIn 2 S (M.img L))
     (hcen : M.img (vInH V H g) = sylowCenter S) :
     g ∈ D.M ∧ S = M.img D.T ⊓ M.img L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTH : D.T ≤ H := x.hyp.hyp171.2.1
   have hT : IsSylowIn 2 (M.img D.T) (M.img H) := M.isSylowIn_img_of_isSylowIn x.hyp.isSylowIn_T
   have hnorm : ∀ y ∈ M.img H, ∀ l ∈ M.img L, y * l * y⁻¹ ∈ M.img L :=
@@ -161,7 +162,7 @@ theorem w183l313_odd_mem (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H 
   have hyP : (y : G) ∈ FourteenTwo.PSub D.M V₀ V := hyPH.2
   obtain ⟨a, m, hmodd, hyn⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos y).ne'
   have hcop : Nat.Coprime (2 ^ a) (orderOf k) := (hodd.coprime_two_right.pow_right a).symm
-  haveI : NeZero (orderOf k) := ⟨hodd.pos.ne'⟩
+  have : NeZero (orderOf k) := ⟨hodd.pos.ne'⟩
   let u0 : (ZMod (orderOf k))ˣ := ZMod.unitOfCoprime (2 ^ a) hcop
   have hu0 : (u0 : ZMod (orderOf k)) = ((2 ^ a : ℕ) : ZMod (orderOf k)) := rfl
   obtain ⟨u, hu⟩ : ∃ u : ℕ, 2 ^ a * u ≡ 1 [MOD orderOf k] := by

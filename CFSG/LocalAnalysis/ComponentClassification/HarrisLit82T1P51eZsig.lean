@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LinearAlgebra.SL2MinimalFaithfulZsigmondy
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.ENatToNat
 public import Mathlib.Tactic.Polynomial.Basic

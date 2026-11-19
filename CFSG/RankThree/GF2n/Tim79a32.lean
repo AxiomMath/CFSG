@@ -71,6 +71,7 @@ theorem exists_mul_cPbar_of_sq_mem (hc : MinCex M V Q P H) (hd : Sec23Data V H)
     exact (piBar_eq_one_iff _).1 h1
   exact ⟨(u' : G), hu'V, (u' : G)⁻¹ * y, Subgroup.mem_inf.mpr ⟨hcP, hcX⟩, by group⟩
 
+omit [Finite G] in
 theorem exists_xOf_mul_cPbar (hc : MinCex M V Q P H) (hX : xOf V H ⊔ cPbar V H P = H) {x : G}
     (hx : x ∈ P) : ∃ y ∈ xOf V H, ∃ c ∈ cPbar V H P, x = y * c := by
   have hle : cPbar V H P ≤ Subgroup.normalizer (xOf V H : Set G) :=
@@ -153,7 +154,7 @@ theorem pCap_wOf_le_V_of_inv (hc : MinCex M V Q P H)
       · exact (Subgroup.mem_normalizer_iff.1 (hc.M_le_normalizer_P hm) t).1 ht.1
       · calc m * t * m⁻¹ * (m * t * m⁻¹) = m * (t * t) * m⁻¹ := by group
           _ = 1 := by rw [ht.2]; group
-    | one => simpa using L.one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have e : m * (a * b) * m⁻¹ = m * a * m⁻¹ * (m * b * m⁻¹) := by group
       rw [e]
@@ -235,7 +236,7 @@ theorem sq_mem_wOf_of_pCap_le (hc : MinCex M V Q P H) (hPW : P ⊓ wOf V H ≤ V
     (hA6 : ∀ v ∈ V, v ∉ wOf V H → ∀ w ∈ wOf V H, v * w = w * v → w ∈ P) :
     ∀ x ∈ P, x * x ∈ wOf V H := by
   intro x hxP
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hsqF : (⟨x, hxP⟩ : P) ^ 2 ∈ frattini ↥P :=
     CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥P) (p := 2) _
   have hxV : x * x ∈ V := hc.frattini_P_le ⟨_, hsqF, by simp [pow_two]⟩

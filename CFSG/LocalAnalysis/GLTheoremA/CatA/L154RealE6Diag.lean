@@ -124,14 +124,14 @@ variable (τ k) in
 theorem e6Ad_xUnit (i : Fin Tag.E6.rank) (c : k) :
     e6Ad τ k ⟨xUnit τ k (e6Idx i) c, xUnit_mem_subsystemGroup (e6Idx_mem_e6Set i) c⟩ =
       xElement i c := by
-  haveI := certificate123_of_kernel
+  have := certificate123_of_kernel
   change e6Isogeny k (m27Equiv τ k _) = _
   rw [m27Equiv_apply, m27ResMin_xUnit, e6Isogeny_xm_single, eltElement_simpleRoot_E6]
 
 theorem e6Ad_yUnit (i : Fin Tag.E6.rank) (c : k) :
     e6Ad τ k ⟨yUnit τ k (e6Idx i) c, yUnit_mem_subsystemGroup (e6Idx_mem_e6Set i) c⟩ =
       yElement i c := by
-  haveI := certificate123_of_kernel
+  have := certificate123_of_kernel
   change e6Isogeny k (m27Equiv τ k _) = _
   rw [m27Equiv_apply, m27ResMin_yUnit, e6Isogeny_xm_neg_single, eltElement_neg_simpleRoot_E6]
 

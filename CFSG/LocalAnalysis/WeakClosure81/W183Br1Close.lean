@@ -18,7 +18,7 @@ theorem br1_false_closing {Y T L₁ L₂ : Subgroup (LGL 2 V)} {Γ : Set (Subgro
     (h : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (htwo : Br2TwoComp Y T L₁ L₂)
     (hS : T ⊓ L₁ ∈ Γ) (hSr : mRank (T ⊓ L₁) ≤ m - i₀ - 1)
     (hmem : ∀ D ∈ Γ, 2 < Nat.card D → D ≤ L₁ ∨ D ≤ L₂) : False := by
-  haveI hsimple₁ : IsSimpleGroup ↥L₁ := htwo.simple₁
+  have hsimple₁ : IsSimpleGroup ↥L₁ := htwo.simple₁
   have hL12 : L₁ ⊓ L₂ = ⊥ :=
     w183_inf_eq_bot_of_commute (L₁ := L₁) (L₂ := L₂) htwo.nonab₁ htwo.comm
   have hSne : T ⊓ L₁ ≠ ⊥ := h.h131.ne_bot (T ⊓ L₁) hS

@@ -53,7 +53,7 @@ theorem exists_noncyclic_three_of_forall_conj {L' : Type} [Group L'] [Finite L']
     AGLEmbedding.exists_isPGroup_three_map_eq hρ (hpA.to_subgroup ⊤)
   refine ⟨U.map C.subtype, hU.map C.subtype, fun hcyc => ?_⟩
   have e := U.equivMapOfInjective C.subtype C.subtype_injective
-  haveI : IsCyclic ↥U := isCyclic_of_injective e.toMonoidHom e.injective
+  have : IsCyclic ↥U := isCyclic_of_injective e.toMonoidHom e.injective
   have hsurj : Function.Surjective (ρ.comp U.subtype) := by
     intro a
     have ha : a ∈ U.map ρ := by
@@ -61,8 +61,8 @@ theorem exists_noncyclic_three_of_forall_conj {L' : Type} [Group L'] [Finite L']
       exact Subgroup.mem_top a
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp ha
     exact ⟨⟨u, hu⟩, rfl⟩
-  haveI : IsCyclic ↥A := isCyclic_of_surjective _ hsurj
-  haveI : Finite ↥A := Finite.of_surjective ρ hρ
+  have : IsCyclic ↥A := isCyclic_of_surjective _ hsurj
+  have : Finite ↥A := Finite.of_surjective ρ hρ
   exact TableB.not_isCyclic_of_card (by norm_num) hA.2 h9 ‹_›
 
 theorem frameTB_of_twPieces {ℓ : ℕ} {R : Type} [Group R] {I : Set (MulAut R)}

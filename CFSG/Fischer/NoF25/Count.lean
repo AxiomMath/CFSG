@@ -146,7 +146,7 @@ theorem false_of_double_count {X : Type*} {B : Set X} (hBf : B.Finite) (hB : B.n
   have h𝓇 : ({F : Set X | F ⊆ B}).Finite := by
     refine Set.Finite.ofFinset (hBf.toFinset.powerset.image fun t : Finset X => (t : Set X)) ?_
     intro F
-    simp only [Finset.mem_image, Finset.mem_powerset, Set.mem_setOf_eq]
+    simp only [Finset.mem_image, Finset.mem_powerset, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨t, ht, rfl⟩ x hx
       exact hBf.mem_toFinset.mp (ht hx)

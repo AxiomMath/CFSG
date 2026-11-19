@@ -16,7 +16,7 @@ set_option linter.unusedSectionVars false
 namespace TabFi24
 
 theorem shapeRkAt_s0 : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) s0 := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hcard, hsimple, hnab, hleaf⟩ := fiN_facts
   refine shapeRkAt_of_simple_pindex Nat.prime_three
     (fun _ _ _ _ e h => LeafType.of_equiv e h) (fun _ _ _ _ _ h => h) fiN
@@ -30,7 +30,7 @@ theorem shapeRkAt_s0 : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) s0 := by
 
 theorem shapeRkAt_fi24Rep3_zero :
     ShapeRkAt 3 (LeafType 3) (fun _ _ => True) (fi24Rep3 0) := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨c, hc⟩ := isConj_iff.1 isConj_rep0_s0
   have h := ShapeRkAt.of_equiv Nat.prime_three (fun _ _ _ _ e h => LeafType.of_equiv e h)
     (fun _ _ _ _ _ h => h) (MulAut.conj c⁻¹) shapeRkAt_s0

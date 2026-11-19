@@ -46,7 +46,7 @@ theorem u6_pRank_center {K : Type} [Group K] [Finite K]
     by_contra hk
     have h2 : 3 ^ 2 ∣ Nat.card (center K) := (pow_dvd_pow 3 (by omega)).trans hd
     exact h9 (by norm_num at h2; exact h2)
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := center K) 3 h3
     have hzK : orderOf (z : K) = 3 := by rw [Subgroup.orderOf_coe]; exact hz
     have hel : CFSG.Open.IsElemAbelian 3 (zpowers (z : K)) := by
@@ -60,6 +60,7 @@ section Transfer
 
 variable {A B : Type} [Group A] [Group B] [Finite A] [Finite B]
 
+omit [Finite A] in
 theorem u6_card_comap (h : A →* B) (hs : Function.Surjective h) (E : Subgroup B) :
     Nat.card (E.comap h) = Nat.card E * Nat.card h.ker := by
   have h1 := Subgroup.card_mul_index (E.comap h)
@@ -70,6 +71,7 @@ theorem u6_card_comap (h : A →* B) (hs : Function.Surjective h) (E : Subgroup 
   apply Nat.eq_of_mul_eq_mul_right hi
   rw [h1, h3, ← h2]
   ring
+omit [Finite A] in
 theorem u6_inf_bot_of_three {S N : Subgroup A} {k : ℕ} (hS : Nat.card S = 3 ^ k)
     (hN : ¬ 3 ∣ Nat.card N) : S ⊓ N = ⊥ := by
   rw [eq_bot_iff]
@@ -87,6 +89,7 @@ theorem u6_inf_bot_of_three {S N : Subgroup A} {k : ℕ} (hS : Nat.card S = 3 ^ 
     Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hN)
   have h3 : orderOf x = 1 := Nat.eq_one_of_dvd_coprimes hcop h1 h2
   exact Subgroup.mem_bot.2 (orderOf_eq_one_iff.1 h3)
+omit [Finite A] [Finite B] in
 theorem u6_hinj {h : A →* B} {F : Subgroup A} (hFN : F ⊓ h.ker = ⊥) :
     ∀ x ∈ F, ∀ y ∈ F, h x = h y → x = y := by
   intro x hx y hy hxy
@@ -95,6 +98,7 @@ theorem u6_hinj {h : A →* B} {F : Subgroup A} (hFN : F ⊓ h.ker = ⊥) :
     rw [MonoidHom.mem_ker, map_mul, map_inv, hxy, inv_mul_cancel]
   rw [hFN, Subgroup.mem_bot] at hmem
   exact inv_mul_eq_one.1 hmem
+omit [Finite A] [Finite B] in
 theorem u6_isElemAbelian_of_hinj {h : A →* B} {F : Subgroup A} (hFN : F ⊓ h.ker = ⊥)
     {E : Subgroup B} (hE : CFSG.Open.IsElemAbelian 3 E) (hFE : ∀ x ∈ F, h x ∈ E) :
     CFSG.Open.IsElemAbelian 3 F := by
@@ -177,7 +181,7 @@ theorem u6_three_not_dvd_ker [Group.IsPerfect X] {E : Type} [Group E] [Group.IsP
   have h9 : 3 * 3 ∣ 3 * m := by
     rw [← key]; exact mul_dvd_mul h3 hd
   exact hm (by omega)
-theorem u6_pRank_le_of_covers [Group.IsPerfect X] [Finite X]
+theorem u6_pRank_le_of_covers [Group.IsPerfect X]
     {L K : Type} [Group L] [Group K] [Finite L] [Finite K]
     [Group.IsPerfect L] [Group.IsPerfect K]
     (qL : L →* X) (hqL : Function.Surjective qL) (hkL : qL.ker = center L)
@@ -185,7 +189,7 @@ theorem u6_pRank_le_of_covers [Group.IsPerfect X] [Finite X]
     {m : ℕ} (hM : Nat.card (hopfMultiplier X) = 3 * m) (hm : ¬ 3 ∣ m)
     (h3L : 3 ∣ Nat.card (center L)) (h3K : 3 ∣ Nat.card (center K)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup L) ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
-  haveI : Finite (HopfCover X) := finite_hopfCover (inferInstance : Group.IsPerfect X)
+  have : Finite (HopfCover X) := finite_hopfCover (inferInstance : Group.IsPerfect X)
   have hL := u6_pRank_source_le (hopfLift qL hqL hkL.le) (hopfLift_surjective qL hqL hkL.le)
     (u6_three_not_dvd_ker qL hqL hkL hM hm h3L)
   have hK := u6_pRank_target_le (hopfLift qK hqK hkK.le)

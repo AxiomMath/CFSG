@@ -91,7 +91,7 @@ theorem kF88SwapInv_of
   have hC₀lt : C₀ < A := lt_of_le_of_ne hC₀A fun heq => by
     rw [heq, h.card_eq] at hC₀card
     norm_num at hC₀card
-  obtain ⟨e, heA, heC⟩ := SetLike.exists_of_lt hC₀lt
+  obtain ⟨e, heA, heC⟩ := _root_.IsConcreteLE.exists_of_lt hC₀lt
   have hE := Sec5.isElemAbelian_sup_zpowers (p := 3) hC₀.1 heC (hAel.2 e heA)
     (fun s hs => hAc s (hC₀A hs) e heA)
   set E : Subgroup G := C₀ ⊔ Subgroup.zpowers e with hEdef

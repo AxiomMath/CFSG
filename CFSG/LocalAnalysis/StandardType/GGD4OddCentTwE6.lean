@@ -20,7 +20,7 @@ theorem six_le_twoLocalRank_of_threeRank {L : Subgroup G} {x : G} {T : Subgroup 
     6 ≤ LargeEvenTwoLocalRank 3 G := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have hE' : IsElemAbelian 3 (E.map L.subtype) := by
-    haveI : IsMulCommutative E := hE.1
+    have : IsMulCommutative E := hE.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
     · obtain ⟨x, hx, hax⟩ := Subgroup.mem_map.1 a.2
       obtain ⟨z, hz, hbz⟩ := Subgroup.mem_map.1 b.2
@@ -117,7 +117,7 @@ theorem ggD4OddCent_twoGroup {B : Subgroup G} {x : G} {L : Subgroup G}
     refine ⟨E.map L.subtype, Subgroup.map_subtype_le E,
       (isPGroup_of_isElemAbelian hE).map L.subtype, ?_⟩
     intro hcyc
-    letI : IsCyclic (E.map L.subtype) := hcyc
+    let : IsCyclic (E.map L.subtype) := hcyc
     obtain ⟨e, he'⟩ := IsCyclic.exists_generator (α := E.map L.subtype)
     have he3 : e ^ 3 = 1 := by
       obtain ⟨x, hx, hxe⟩ := Subgroup.mem_map.1 e.2

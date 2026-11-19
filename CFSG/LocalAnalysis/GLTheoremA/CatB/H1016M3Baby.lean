@@ -17,8 +17,8 @@ section Local
 private theorem exists_sylow_le_comap (h13 : (Nat.card NativeSporadic.B).factorization 3 = 13) :
     ∃ T : Sylow 3 NativeSporadic.B,
       (T : Subgroup NativeSporadic.B) ≤ (sylS.comap rhoThree).map LThree.subtype := by
-  haveI := finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : sylS ≤ rhoThree.range := by rw [range_rhoThree]; exact sylS_le_KThree
   have h9 : 3 ^ 9 ∣ Nat.card rhoThree.ker := by
     have := card_dvd_of_le QThree_le_ker
@@ -37,8 +37,8 @@ private theorem exists_sylow_le_comap (h13 : (Nat.card NativeSporadic.B).factori
 private theorem card_le_of_isElemAbelian
     (h13 : (Nat.card NativeSporadic.B).factorization 3 = 13) {E : Subgroup NativeSporadic.B}
     (hE : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 6 := by
-  haveI := finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := fun e => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     exact hE.2 e e.2)⟩

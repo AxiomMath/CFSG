@@ -58,7 +58,7 @@ theorem hyp : Hyp 315 j2LatK 5 3 (fun j => (J.mw.getD j []).length) (fun j l => 
     · rw [CFSG.KC.IdxF.getD_append_left (by rw [hs]; exact h3)]
       have e : imgW 9 (mc j l) = L0 (2 + l) := by
         unfold mc
-        rw [if_pos h3, L0, tw_eq]
+        rw [ite_eq_left h3, L0, tw_eq]
       rw [e]
       interval_cases l
       · exact good_T (by decide)
@@ -76,7 +76,7 @@ theorem hyp : Hyp 315 j2LatK 5 3 (fun j => (J.mw.getD j []).length) (fun j l => 
       rw [e0, List.getElem_map]
       have e : mc j (3 + k) = wW ((J.mw.getD j []).getD k []) := by
         unfold mc
-        rw [if_neg h3]
+        rw [ite_eq_right h3]
         congr 2
         omega
       have e1 : (J.mw.getD j []).getD k [] = (J.mw.getD j [])[k]'(by simpa using hk) :=

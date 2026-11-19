@@ -118,7 +118,7 @@ theorem pc3S_dg_mul (q m i : ℕ) : dg (4 ^ m * q) i = if i < m then 0 else dg q
 
 theorem pc3S_dg_of_mod {c m i : ℕ} (h : c % 4 ^ m = 0) (hi : i < m) : dg c i = 0 := by
   obtain ⟨q, rfl⟩ := Nat.dvd_of_mod_eq_zero h
-  rw [pc3S_dg_mul, if_pos hi]
+  rw [pc3S_dg_mul, ite_eq_left hi]
 
 theorem pc3S_dg_small {d : ℕ} (hd : d < 4) (j : ℕ) : dg d j = if j = 0 then d else 0 := by
   rw [pc3S_dg]
@@ -212,7 +212,7 @@ theorem pc3S_NW_sum {n a q m : ℕ} (ha : pc3NW n a) (hq : pc3NW n (4 ^ m * q)) 
     split_ifs with hi
     · exact ha.2 i
     · have h := hq.2 i
-      rwa [pc3S_dg_mul, if_neg hi] at h
+      rwa [pc3S_dg_mul, ite_eq_right hi] at h
 
 theorem pc3S_NW_split {n u : ℕ} (hu : pc3NW n u) (m : ℕ) :
     pc3NW n (u % 4 ^ m) ∧ pc3NW n (4 ^ m * (u / 4 ^ m)) := by
@@ -225,7 +225,7 @@ theorem pc3S_NW_split {n u : ℕ} (hu : pc3NW n u) (m : ℕ) :
     ⟨lt_of_le_of_lt (Nat.mul_div_le _ _) hu.1, fun i => ?_⟩⟩
   · by_cases hi : i < m
     · have h := e i
-      rw [if_pos hi] at h
+      rw [ite_eq_left hi] at h
       rw [← h]
       exact hu.2 i
     · rw [pc3S_dg_lt (lt_of_lt_of_le (Nat.mod_lt _ hpos)
@@ -235,7 +235,7 @@ theorem pc3S_NW_split {n u : ℕ} (hu : pc3NW n u) (m : ℕ) :
     split_ifs with hi
     · norm_num
     · have h := e i
-      rw [if_neg hi] at h
+      rw [ite_eq_right hi] at h
       rw [← h]
       exact hu.2 i
 
@@ -327,18 +327,18 @@ theorem pc3S_nvSum (x : ℕ → G) {n a q m : ℕ} (ha : a < 4 ^ m) :
     · rw [hge i (by omega), Nat.zero_add]
   change pc3nvF x n (dg (a + 4 ^ m * q)) = pc3nvF x n (dg a) * pc3nvF x n (dg (4 ^ m * q))
   rw [h1]
-  exact pc3S_nvF_split x (m := m) hge (fun i hi => by rw [pc3S_dg_mul, if_pos hi]) n
+  exact pc3S_nvF_split x (m := m) hge (fun i hi => by rw [pc3S_dg_mul, ite_eq_left hi]) n
 
 theorem pc3S_nv_digit (x : ℕ → G) {n k d : ℕ} (hk : k < n) (hd : d < 4) :
     nv x n (4 ^ k * d) = x k ^ d := by
   have h0 : dg (4 ^ k * d) k = d := by
-    rw [pc3S_dg_mul, if_neg (lt_irrefl k), Nat.sub_self, pc3S_dg_small hd, if_pos rfl]
+    rw [pc3S_dg_mul, ite_eq_right (lt_irrefl k), Nat.sub_self, pc3S_dg_small hd, ite_eq_left rfl]
   have hz : ∀ i < n, i ≠ k → dg (4 ^ k * d) i = 0 := by
     intro i _ hik
     rw [pc3S_dg_mul]
     split_ifs with h
     · rfl
-    · rw [pc3S_dg_small hd, if_neg (show i - k ≠ 0 by omega)]
+    · rw [pc3S_dg_small hd, ite_eq_right (show i - k ≠ 0 by omega)]
   change pc3nvF x n (dg (4 ^ k * d)) = _
   rw [pc3S_nvF_single x n hk hz, h0]
 

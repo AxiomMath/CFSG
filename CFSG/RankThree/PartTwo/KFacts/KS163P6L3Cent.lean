@@ -212,7 +212,7 @@ theorem eq_one_of_fix_of_pow_two {X : Type} [Group X] [Finite X] {p f : ℕ} [Fa
     cases π
     · exact KF163L3.eq_one_of_pow_two_projImage_unitary hK hq hp3 hτ hτ1 hdM hcM β hβd hβc hβk
     ·
-      haveI : Finite K := hK.finite
+      have : Finite K := hK.finite
       have hcardK : Nat.card K = p ^ f := by
         simpa [piCard] using hK.card
       obtain ⟨ζ, hζ⟩ : ∃ ζ : Kˣ, orderOf ζ = 2 ^ (p ^ f - 1).factorization 2 := by
@@ -265,14 +265,14 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 theorem ks163P6CentL3 : KS163P6CentL3 := by
   intro L _ _ p f _ hp2 hf hiso h9 E hEe hE9 D hD T hT hDT hcent hET
   have hp := Fact.out (p := p.Prime)
-  haveI : Nontrivial L := by
+  have : Nontrivial L := by
     have h1 : 1 < Nat.card E := by rw [hE9]; norm_num
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
     obtain ⟨⟨x, hx⟩, hne⟩ := exists_ne (1 : E)
     exact ⟨x, 1, fun h => hne (Subtype.ext h)⟩
-  haveI : Group.IsPerfect L := by
+  have : Group.IsPerfect L := by
     rcases hiso with ⟨hq, ⟨φ⟩⟩ | ⟨hq, ⟨φ⟩⟩
-    · haveI : Group.IsPerfect (projSL 3 (GaloisField p f)) :=
+    · have : Group.IsPerfect (projSL 3 (GaloisField p f)) :=
         (Sec13.isPerfect_center_projSL p f hf hq).1
       exact Group.IsPerfect.ofSurjective (f := (φ.symm : projSL 3 (GaloisField p f) →* L))
         φ.symm.surjective
@@ -284,7 +284,7 @@ theorem ks163P6CentL3 : KS163P6CentL3 := by
           · omega
         calc 2 < 3 := by norm_num
           _ ≤ p ^ f := le_trans hp3 (by simpa using Nat.pow_le_pow_right hp.pos hf)
-      haveI : Group.IsPerfect (projSU 3 p f) :=
+      have : Group.IsPerfect (projSU 3 p f) :=
         (Sec13.isPerfect_center_projSU p f hf hq hq2).1
       exact Group.IsPerfect.ofSurjective (f := (φ.symm : projSU 3 p f →* L))
         φ.symm.surjective

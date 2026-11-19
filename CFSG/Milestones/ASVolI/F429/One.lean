@@ -23,7 +23,7 @@ section F429One
 theorem burnsideF429_card_mulAut_eq {G : Type*} [Group G] [Finite G]
     (hZ : Subgroup.center G = ⊥) :
     Nat.card (MulAut G) = Nat.card (Outer G) * Nat.card G := by
-  haveI : Finite (MulAut G) :=
+  have : Finite (MulAut G) :=
     Finite.of_injective (fun f : MulAut G => (f : G → G)) fun _ _ h => MulEquiv.ext (congrFun h)
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (inner G)
   rw [h1]
@@ -68,7 +68,7 @@ theorem burnsideF429_eq_top_or_of_card_outer {E : Type} [Group E] [Finite E] {Gp
     exact (Subgroup.mem_bot).2 (Subtype.ext hzc)
   have hcardAut : Nat.card (MulAut ↥Gp) = p * Nat.card Gp := by
     rw [burnsideF429_card_mulAut_eq hZ, hout]
-  haveI : Finite (MulAut ↥Gp) :=
+  have : Finite (MulAut ↥Gp) :=
     Finite.of_injective (fun f : MulAut ↥Gp => (f : ↥Gp → ↥Gp)) fun _ _ h =>
       MulEquiv.ext (congrFun h)
   have hGmap : (Gp.map α).relIndex ((⊤ : Subgroup E).map α) = Gp.index := by
@@ -151,16 +151,16 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 theorem burnsideF429_F429_one_D4two
     (hyp : HypF_4_4 .D4tw 2 1 Gp M₁ M₂) :
     Gp = ⊤ ∨ (Gp.index = 3 ∧ Nat.card E = Nat.card (MulAut ↥Gp)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_eq_top_or_of_card_outer hyp.centralizer_trivial Nat.prime_three
     (burnsideF429_card_outer_D4two hyp.model)
 
 theorem burnsideF429_F429_one_Un_two {κ : GLKind} (hκ : κ = .U4 ∨ κ = .U5)
     (hyp : HypF_4_4 κ 2 1 Gp M₁ M₂) :
     Gp = ⊤ ∨ (Gp.index = 2 ∧ Nat.card E = Nat.card (MulAut ↥Gp)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hout : Nat.card (Outer ↥Gp) = 2 := by
     rcases hκ with rfl | rfl
     · exact burnsideF429_card_outer_U4two hyp.model
@@ -254,7 +254,7 @@ theorem burnsideF429_L3_marking {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 @[expose] def burnsideF429_restrictAut {G : Type*} [Group G] (ψ : G ≃* G) (H : Subgroup G)
     (hH : ∀ x, ψ x ∈ H ↔ x ∈ H) : MulAut ↥H where
   toFun x := ⟨ψ (x : G), (hH x).2 x.2⟩
-  invFun x := ⟨ψ.symm (x : G), (hH _).1 (by simpa using x.2)⟩
+  invFun x := ⟨ψ.symm (x : G), (hH _).1 (by simp)⟩
   left_inv x := Subtype.ext (ψ.symm_apply_apply (x : G))
   right_inv x := Subtype.ext (ψ.apply_symm_apply (x : G))
   map_mul' x y := Subtype.ext (map_mul ψ (x : G) (y : G))
@@ -342,7 +342,7 @@ theorem burnsideF429_L3_aut_inner (ψ : burnsideF4c_SL ≃* burnsideF4c_SL)
 
 theorem burnsideF429_L3_Gp_top {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   obtain ⟨θ, hθP, hθL⟩ := burnsideF429_L3_marking hyp.toHypF_4_4g
   have hconj : ∀ {M : Subgroup E} {e : E}, e ∈ M → ∀ y : E, e * y * e⁻¹ ∈ M ↔ y ∈ M := by
     intro M e he y
@@ -441,7 +441,7 @@ theorem burnsideF429_sp4_model_card (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) :
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hinj : Function.Injective marking.transport := by
     refine (injective_iff_map_eq_one marking.transport).2 fun a ha => ?_
@@ -516,8 +516,8 @@ theorem burnsideF429_xl_mem_ctr_oPPrime {K : Type} [Field K] [Finite K] [CharP K
     exact Subgroup.mem_centralizer_singleton_iff.1 hs
 
 theorem burnsideF429_top_Sp4two (hyp : HypF_4_4 .Sp4 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, _, _, _, θ, hK, hθinj, hrange, hM₁, -⟩ := burnsideF429_sp4_model_card hyp
   rw [pow_one] at hK
   let Ψ : StatedSp 2 K ≃* ↥Gp :=
@@ -604,7 +604,7 @@ theorem burnsideF429_eq_top_of_derived {E : Type} [Group E] [Finite E] {Gp : Sub
     [hGn : Gp.Normal] (hc : Subgroup.centralizer (Gp : Set E) = ⊥)
     (hcN : ∀ g ∈ Gp, (∀ n ∈ ⁅Gp, Gp⁆, g * n = n * g) → g = 1)
     (haut : Nat.card (MulAut ↥⁅Gp, Gp⁆) ≤ Nat.card Gp) : Gp = ⊤ := by
-  haveI hN : (⁅Gp, Gp⁆ : Subgroup E).Normal := Subgroup.commutator_normal Gp Gp
+  have hN : (⁅Gp, Gp⁆ : Subgroup E).Normal := Subgroup.commutator_normal Gp Gp
   have hinj : Function.Injective (MulAut.conjNormal : E →* MulAut ↥⁅Gp, Gp⁆) := by
     rw [injective_iff_map_eq_one]
     intro e he
@@ -639,7 +639,7 @@ theorem burnsideF429_eq_top_of_derived {E : Type} [Group E] [Finite E] {Gp : Sub
         _ = e * g := by group
     rw [hc, Subgroup.mem_bot] at heC
     exact heC
-  haveI := burnsideF429_finite_mulAut ↥⁅Gp, Gp⁆
+  have := burnsideF429_finite_mulAut ↥⁅Gp, Gp⁆
   have hle : Nat.card E ≤ Nat.card (MulAut ↥⁅Gp, Gp⁆) := Nat.card_le_card_of_injective _ hinj
   exact Subgroup.eq_top_of_card_eq Gp
     (le_antisymm (Subgroup.card_le_card_group Gp) (hle.trans haut))
@@ -806,12 +806,12 @@ theorem burnsideF429_titsA_card_mulAut :
 theorem burnsideF429_top_of_F4two {E : Type} [Group E] [Finite E] {Gp : Subgroup E} [Gp.Normal]
     (hc : Subgroup.centralizer (Gp : Set E) = ⊥) (hmodel : IsGenLie ↥Gp .F4tw 2 1) : Gp = ⊤ := by
   obtain ⟨-, -, ⟨-, K, fK, finK, hK, ⟨e⟩⟩ | ⟨h3, -⟩⟩ := hmodel
-  · haveI : CharP K 2 := by
+  · have : CharP K 2 := by
       have : Fintype K := Fintype.ofFinite K
       have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
-    haveI : CharP K F4.prime := (inferInstance : CharP K 2)
-    haveI : Fact (Nat.card K = 2) := ⟨hK⟩
+    have : CharP K F4.prime := (inferInstance : CharP K 2)
+    have : Fact (Nat.card K = 2) := ⟨hK⟩
     have hR : ExceptionalRoots.reeGroup K 0 = F4.reeGamma K 0 := burnsideF4gF4_reeGroup_eq
     let ψ1 : ↥(ExceptionalRoots.reeGroup K 0) ≃* ↥(F4.reeGamma K 0) := MulEquiv.subgroupCongr hR
     let ψ2 : ↥(reeFixed F4 K 0) ≃* ↥titsA := titsIso
@@ -840,8 +840,8 @@ set_option linter.unusedSectionVars false
 
 theorem burnsideF429_top_G2two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_top_of_G2two hyp.centralizer_trivial hyp.model
 
 end TopTwo
@@ -852,8 +852,8 @@ set_option linter.unusedSectionVars false
 
 theorem burnsideF429_top_F4two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .F4tw 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_top_of_F4two hyp.centralizer_trivial hyp.model
 
 end TopF4

@@ -66,7 +66,7 @@ theorem cen_count {gT : Array Tab} {cT NT : Nat} {GT TT : Nat → Nat} (hs : gT.
   rw [pts_toList (fun i => unpack 32 6 (TT i)), List.filter_map, List.length_map, hkey]
   exact h
 
-theorem eK_tabs {gE : Array Tab} {cE : Nat} {GE : Nat → Nat} (hs : gE.size = cE)
+theorem eK_tabs {gE : Array Tab} {cE : Nat} {GE : Nat → Nat} (_hs : gE.size = cE)
     (hb : ∀ k < cE, gE[k]! = unpack 32 6 (GE k)) (hG : ∀ k < cE, PP 32 6 (GE k))
     (h : eK cE GE = true) :
     (∀ i < cE, ∀ j < cE, comp 32 gE[i]! gE[j]! = comp 32 gE[j]! gE[i]!) ∧
@@ -162,7 +162,7 @@ theorem norm_tabs {gT gE : Array Tab} {cT cE NE : Nat} {GT GE TE : Nat → Nat}
     (hsT : gT.size = cT) (hbT : ∀ k < cT, gT[k]! = unpack 32 6 (GT k))
     (hGT : ∀ k < cT, PP 32 6 (GT k))
     (hsE : gE.size = cE) (hbE : ∀ k < cE, gE[k]! = unpack 32 6 (GE k))
-    (hGE : ∀ k < cE, PP 32 6 (GE k)) (hTE : ∀ i < NE, PP 32 6 (TE i))
+    (hGE : ∀ k < cE, PP 32 6 (GE k)) (_hTE : ∀ i < NE, PP 32 6 (TE i))
     (h : normK cT GT NE TE cE GE = true) :
     normalOK 32 (Array.ofFn (n := NE) fun i => unpack 32 6 (TE i.val)) gT
       (gT.map (invTab 32)) gE = true := by

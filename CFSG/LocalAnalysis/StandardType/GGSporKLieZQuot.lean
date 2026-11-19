@@ -48,7 +48,7 @@ private lemma l937z_q_lift_order {G : Type} [Group G] (Z : Subgroup G) [Z.Normal
       exact hs
     rwa [pow_one] at h
   refine ⟨y ^ (Nat.card Z * s), ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hpow : (y ^ (Nat.card Z * s)) ^ 7 = 1 := by
       calc (y ^ (Nat.card Z * s)) ^ 7 = y ^ (Nat.card Z * s * 7) := by rw [← pow_mul]
         _ = y ^ (7 * (Nat.card Z * s)) := by rw [mul_comm]
@@ -161,7 +161,7 @@ theorem lieZRow_quotient_of_central {G : Type} [Group G] [Finite G] (Z : Subgrou
   have hMq : CFSG.Open.IsQuasisimple ↥M :=
     CFSG.ComponentClassification.Components.quasisimple_of_equiv
       (Subgroup.subgroupOfEquivOfLe hJle) hJq
-  haveI hMperf : Group.IsPerfect ↥M := ⟨hMq.1⟩
+  have hMperf : Group.IsPerfect ↥M := ⟨hMq.1⟩
   let f : ↥D →* ↥Dbar :=
     CFSG.LocalAnalysis.ComponentInitial.CentralQuotientLift.centralizerProj Z x
   have hfker : f.ker ≤ Subgroup.center ↥D :=

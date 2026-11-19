@@ -121,8 +121,8 @@ theorem tabFi23_y322_recognition
     Nat.card ↥(Subgroup.closure (Set.range s)) = 4585351680 ∧
     z ∉ Subgroup.closure (Set.range s) := by
   obtain ⟨π, hπ, hker, hk⟩ := tabFi23_y322_to_om
-  haveI : Finite (YGroup 3 2 2) := Nat.finite_of_card_ne_zero (by rw [card_y322]; norm_num)
-  haveI := tabFi23_isSimpleGroup_om
+  have : Finite (YGroup 3 2 2) := Nat.finite_of_card_ne_zero (by rw [card_y322]; norm_num)
+  have := tabFi23_isSimpleGroup_om
   set φ : YGroup 3 2 2 →* G := yModelHom (y322Img s) hrel with hφ
   have hrange : φ.range = Subgroup.closure (Set.range s) := by
     rw [hφ, range_yModelHom, image_y322Img]

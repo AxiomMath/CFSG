@@ -15,6 +15,7 @@ open TauCeti
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma aux_p_apply_apply {p : OGroup Q} (hp : p * p = piOrth Q) (v : V) :
     (p : V ≃ₗ[ZMod 3] V) ((p : V ≃ₗ[ZMod 3] V) v) = -v := by
   have h : (p : V ≃ₗ[ZMod 3] V) * (p : V ≃ₗ[ZMod 3] V) = (piOrth Q : V ≃ₗ[ZMod 3] V) := by
@@ -22,10 +23,12 @@ lemma aux_p_apply_apply {p : OGroup Q} (hp : p * p = piOrth Q) (v : V) :
   have := congrArg (fun e : V ≃ₗ[ZMod 3] V => e v) h
   simpa [LinearEquiv.mul_apply, coe_piOrth_apply] using this
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma aux_Q_p {p : OGroup Q} (v : V) :
     Q ((p : V ≃ₗ[ZMod 3] V) v) = Q v :=
   TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup p.2 v
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma aux_polar {p : OGroup Q} (hp : p * p = piOrth Q) (v : V) :
     polar Q v ((p : V ≃ₗ[ZMod 3] V) v) = 0 := by
   have hpv : (p : V ≃ₗ[ZMod 3] V) ((p : V ≃ₗ[ZMod 3] V) v) = -v := aux_p_apply_apply hp v
@@ -42,6 +45,7 @@ lemma aux_polar {p : OGroup Q} (hp : p * p = piOrth Q) (v : V) :
 private lemma aux_unit_mul_self (u : ℤˣ) : u * u = 1 := by
   rcases Int.units_eq_one_or u with h | h <;> rw [h] <;> decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_plane_sign {x y : V} {a b : (ZMod 3)ˣ} (hx : Q x = a) (hy : Q y = b)
     (hxy : polar Q x y = 0) :
     quadSign (Q.restrict (LinearMap.range (Fintype.linearCombination (ZMod 3) ![x, y]))) =
@@ -55,6 +59,7 @@ private lemma aux_plane_sign {x y : V} {a b : (ZMod 3)ˣ} (hx : Q x = a) (hy : Q
   rw [← hcongr, quadSign_eq_signOf _ hP, TauCeti.formClass_presentedForm, signOf_mk_diag]
   norm_num [Fin.prod_univ_two]
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma aux_plane_nd {x y : V} {a b : (ZMod 3)ˣ} (hx : Q x = a) (hy : Q y = b)
     (hxy : polar Q x y = 0) :
     (Q.restrict (LinearMap.range (Fintype.linearCombination (ZMod 3) ![x, y]))).Nondegenerate := by
@@ -75,10 +80,10 @@ theorem aux_complex_forward :
     rcases Nat.eq_zero_or_pos n with hn0 | hnpos
     · subst hn0
       have hfin : Module.finrank (ZMod 3) V = 0 := hdim
-      haveI : Subsingleton V := Module.finrank_zero_iff.mp hfin
+      have : Subsingleton V := Module.finrank_zero_iff.mp hfin
       exact ⟨⟨0, rfl⟩, by rw [quadSign_of_subsingleton Q]; decide⟩
     · have hpos : 0 < Module.finrank (ZMod 3) V := by rw [hdim]; exact hnpos
-      haveI : Nontrivial V := Module.nontrivial_of_finrank_pos hpos
+      have : Nontrivial V := Module.nontrivial_of_finrank_pos hpos
       obtain ⟨v, hvunit⟩ := hQ.exists_isUnit
       obtain ⟨a, ha⟩ := hvunit
       set W : Submodule (ZMod 3) V :=
@@ -224,10 +229,10 @@ private theorem aux_modelLin_mem (m : ℕ) :
       (weightedSumSquares (ZMod 3) (fun _ : Fin 2 × Fin m => (1 : (ZMod 3)ˣ))) := by
   rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
   intro x
-  simp only [weightedSumSquares_apply, Pi.one_apply, one_smul]
+  simp only [weightedSumSquares_apply, one_smul]
   rw [Fintype.sum_prod_type, Fintype.sum_prod_type]
   simp only [Fin.sum_univ_two, aux_modelLin_apply, Fin.isValue, Fin.reduceEq]
-  simp only [Fin.reduceEq, if_true, if_false, neg_mul_neg]
+  simp only [ite_true, ite_false, neg_mul_neg]
   rw [add_comm]
 
 private theorem aux_model_nd (m : ℕ) :

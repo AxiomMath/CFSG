@@ -118,7 +118,7 @@ public theorem dadeTransform_eq_inducedCF_of_coset_constancy_on_support
         exact hα.2 l hlB)
       (by
         intro l hlB
-        letI : Fintype (H (l : G)) := Fintype.ofFinite (H (l : G))
+        let : Fintype (H (l : G)) := Fintype.ofFinite (H (l : G))
         have hsum :
             (∑ x : H (l : G), χfun chi ((l : G) * (x : G))) =
               (Nat.card (H (l : G)) : ℂ) * χfun chi (l : G) := by

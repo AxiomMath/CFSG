@@ -34,7 +34,7 @@ private lemma pslB2d_SL_nontrivial {F : Type} [Field F] (k : ℕ) (hk : 2 ≤ k)
   rw [CFSG.LinearGroups.coe_transvection, Matrix.SpecialLinearGroup.coe_one] at hmat
   have hentry : (1 : F) = 0 := by
     have := congrFun (congrFun hmat ⟨0, by omega⟩) ⟨1, by omega⟩
-    simpa using this
+    simp at this
   exact one_ne_zero hentry
 
 private lemma pslB2d_perfect {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -45,7 +45,7 @@ private lemma pslB2d_perfect {F : Type} [Field F] [Finite F] [CharP F 2]
   · exact Or.inl hk3
   · right
     have hk2 : k = 2 := by omega
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hcard_ne : Nat.card F ≠ 2 := fun h => hnot ⟨hk2, h⟩
     have h2 : 2 ≤ Nat.card F := by
       have := Fintype.one_lt_card (α := F)
@@ -76,15 +76,15 @@ private lemma pslB2d_SL_le_pslBlock {n : ℕ} {K : Type} [Field K] [Finite K] [C
         ∃ φ : Matrix.SpecialLinearGroup (Fin k) F →* ↥(pslBlock B e), Function.Injective φ) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, -, -, hdim, hcard, -, hrank, hpos, hψinj,
     -, hψfix, -, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   refine ⟨F, hFld, hFin, hChar, Module.finrank F (LinearMap.range e.mulVecLin), hcard, ?_, hpos, ?_⟩
   · rw [hrank, hdim]
   · intro hperf
-    haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-    haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+    have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+    have : Module.Finite F (LinearMap.range e.mulVecLin) :=
       Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
     let b : Module.Basis (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F
         (LinearMap.range e.mulVecLin) := Module.finBasis F (LinearMap.range e.mulVecLin)
@@ -114,7 +114,7 @@ private lemma pslB2d_SL_le_pslBlock {n : ℕ} {K : Type} [Field K] [Finite K] [C
         map_mul' := fun e f => by
           apply LinearEquiv.ext
           intro w
-          simp [LinearEquiv.trans_apply, map_mul] }
+          simp [LinearEquiv.trans_apply] }
     let iota : Matrix.SpecialLinearGroup
         (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F →*
         (LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin) :=
@@ -122,7 +122,7 @@ private lemma pslB2d_SL_le_pslBlock {n : ℕ} {K : Type} [Field K] [Finite K] [C
     have hIo : Function.Injective iota := conjC.injective.comp hIotaBar
     let A : Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F →*
         GL (Fin n) K := ψ.comp iota
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         (Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F) :=
       hperf
     have htriv : (Matrix.GeneralLinearGroup.det.comp A) = 1 :=
@@ -171,9 +171,9 @@ private lemma pslB2d_SL_le_pslBlock {n : ℕ} {K : Type} [Field K] [Finite K] [C
 private lemma pslB2d_SL_not_solvable {F : Type} [Field F] [Finite F] [CharP F 2]
     (k : ℕ) (hk : 2 ≤ k) (hnot : ¬ (k = 2 ∧ Nat.card F = 2)) :
     ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin k) F) := by
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin k) F) :=
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin k) F) :=
     pslB2d_SL_nontrivial k hk
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin k) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin k) F) :=
     pslB2d_perfect k hk hnot
   exact Group.IsPerfect.not_isSolvable _
 
@@ -185,8 +185,8 @@ private lemma pslB2d_not_solvable_of_SL_le {n : ℕ} {K : Type} [Field K]
     (hns : ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin k) F)) :
     ¬ Group.IsSolvable ↥(pslBlock B e) := by
   intro hsol
-  letI : Group.IsSolvable ↥(pslBlock B e) := hsol
-  exact hns (solvable_of_solvable_injective hφ)
+  let : Group.IsSolvable ↥(pslBlock B e) := hsol
+  exact hns (Group.isSolvable_of_isSolvable_injective hφ)
 
 theorem pslGraph_block_solvable_cases {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
@@ -201,9 +201,9 @@ theorem pslGraph_block_solvable_cases {n : ℕ} {K : Type} [Field K] [Finite K] 
   rw [not_or] at hcon
   obtain ⟨hne, hnot2⟩ := hcon
   obtain ⟨F, hFld, hFin, hChar, k, hcard, hrank, hkpos, hφ⟩ := pslB2d_SL_le_pslBlock S P hP e he
-  letI := hFld
-  letI := hFin
-  letI := hChar
+  let := hFld
+  let := hFin
+  let := hChar
   have hk1 : k ≠ 1 := by
     intro hk
     rw [hk, mul_one] at hrank

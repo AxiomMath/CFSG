@@ -215,7 +215,7 @@ open CFSG.Blueprint (LieModel)
 theorem K9bIn_holds :
     K9bIn := by
   intro S _ _ hS hnonab hIn hcard
-  haveI := hS
+  have := hS
   exact K9bCat_holds S hS hnonab
     (CFSG.QuasithinUnique.B1.catalog_of_inCatalog
       CFSG.RankThree.PartOne.TCB.catalogBridgeFor_all S hIn) hcard
@@ -265,13 +265,13 @@ theorem strongly_embedded_quot_of_gamma {M P T : Subgroup G} {x : G}
         (QuotientGroup.mk' ((Subgroup.zpowers x).subgroupOf
           (Subgroup.centralizer ({x} : Set G))))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hCdef
   set K : Subgroup C := (Subgroup.zpowers x).subgroupOf C with hKdef
   set N : Subgroup C := (C ⊓ M).subgroupOf C with hNdef
   set Nstar : Subgroup (C ⧸ K) := N.map (QuotientGroup.mk' K) with hNstardef
   change CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 Nstar
-  haveI hKnormal : K.Normal := by
+  have hKnormal : K.Normal := by
     rw [hKdef, hCdef]
     exact inferInstance
   have hxC : x ∈ C := by
@@ -502,12 +502,12 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 
 theorem maximal_elemAbelian_of_card27 (c : Ctx82E3 D)
-    {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    {P A : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
-    (hZA : zSub P c.L ≤ A) (hAPL : A ≤ P ⊓ c.L)
+    (hZA : zSub P c.L ≤ A) (_hAPL : A ≤ P ⊓ c.L)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
     Maximal (fun B : Subgroup G => CFSG.Open.IsElemAbelian 3 B) A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hA, ?_⟩
   intro B hB hAB
   have hBz : zSub P c.L ≤ B := hZA.trans hAB
@@ -532,9 +532,9 @@ theorem maximal_elemAbelian_of_card27 (c : Ctx82E3 D)
       _ = Nat.card A := hA27.symm)
   exact le_of_eq hEq.symm
 
-theorem isKGroup_centralizer (c : Ctx82E3 D) {x : G} (hx1 : x ≠ 1) :
+theorem isKGroup_centralizer (_c : Ctx82E3 D) {x : G} (hx1 : x ≠ 1) :
     CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({x} : Set G)) := by
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   refine D.standing.kProper.isKGroup _ ?_
   intro htop
   have hxcent : x ∈ Subgroup.center G := by
@@ -555,12 +555,12 @@ theorem isKGroup_centralizer (c : Ctx82E3 D) {x : G} (hx1 : x ≠ 1) :
   exact (Subgroup.mem_center_iff.mp (htop' ▸ Subgroup.mem_top a) b).symm
 
 theorem twoLocalPrimeRank_centralizer_le (c : Ctx82E3 D)
-    {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
-    (hAPL : A ≤ P ⊓ c.L) {x : G} (hxA : x ∈ A) (hx1 : x ≠ 1) :
+    {P A : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27)
+    (_hAPL : A ≤ P ⊓ c.L) {x : G} (_hxA : x ∈ A) (_hx1 : x ≠ 1) :
     CFSG.Open.twoLocalPrimeRank 3 ↥(Subgroup.centralizer ({x} : Set G)) ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   change CFSG.Open.twoLocalPrimeRank 3 ↥C ≤ 3
   unfold CFSG.Open.twoLocalPrimeRank
@@ -589,9 +589,9 @@ theorem twoLocalPrimeRank_centralizer_le (c : Ctx82E3 D)
   exact hstep1.trans (hstep2.trans hstep3)
 
 theorem normalizer_le_normalizer_alpha (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {E₀ : Subgroup G} (hE₀P : E₀ ≤ P) (hE₀ea : CFSG.Open.IsElemAbelian 3 E₀)
     (hE₀card : Nat.card E₀ = 9)
     (hconst : ∀ E E' : Subgroup G, E ≤ P → E' ≤ P → CFSG.Open.IsElemAbelian 3 E →
@@ -601,7 +601,7 @@ theorem normalizer_le_normalizer_alpha (c : Ctx82E3 D)
       Subgroup.normalizer (U : Set G) ≤
         Subgroup.normalizer (thetaAlpha 3 E₀ : Set G) := by
   intro U hUP hnc g hg
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hUp : IsPGroup 3 U := hP.isPGroup.to_le hUP
   obtain ⟨B, hBea, hBcard⟩ :=
     CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two (p := 3)

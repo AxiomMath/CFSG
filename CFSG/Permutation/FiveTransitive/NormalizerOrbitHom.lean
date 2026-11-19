@@ -44,7 +44,7 @@ theorem inside_le_ker {G Y : Type*} [Group G] [MulAction G Y] (Q : Subgroup G) :
   intro q hq
   exact apply_subgroup_eq_one Q ⟨q.val, hq⟩
 
-@[expose] abbrev action {G Y : Type*} [Group G] [MulAction G Y] (Q : Subgroup G) :
+abbrev action {G Y : Type*} [Group G] [MulAction G Y] (Q : Subgroup G) :
     MulAction (Subgroup.normalizer (Q : Set G)) (orbitRel.Quotient Q Y) :=
   MulAction.compHom _ (toPermHom (Y := Y) Q)
 
@@ -54,7 +54,7 @@ theorem inside_le_ker {G Y : Type*} [Group G] [MulAction G Y] (Q : Subgroup G) :
   map_one' := rfl
   map_mul' _ _ := rfl
 
-@[expose] abbrev normalAction {G Y : Type*} [Group G] [MulAction G Y]
+abbrev normalAction {G Y : Type*} [Group G] [MulAction G Y]
     (Q : Subgroup G) [Q.Normal] : MulAction G (orbitRel.Quotient Q Y) :=
   MulAction.compHom _ ((toPermHom (Y := Y) Q).comp (liftNormal Q))
 

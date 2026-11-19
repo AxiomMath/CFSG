@@ -72,7 +72,7 @@ public theorem proposition102_no_sylow_le_of_prime_index
     (hqidx : q ∣ (V.subgroupOf D).index) :
     False := by
   classical
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   rcases hRsyl with ⟨S, hS⟩
   have hRD : R ≤ D := by
     rw [hS]
@@ -124,12 +124,12 @@ public theorem proposition102_ambient_sylow_of_prime_dvd_kset
   have hqD : q ∣ Nat.card D := by
     exact hqidx.trans (V.subgroupOf D).index_dvd_card
   have hqOdd : Odd q := hDodd.of_dvd_nat hqD
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   let S : Sylow q D := Sylow.nonempty.some
   let P : Subgroup X := (S : Subgroup D).map D.subtype
   have hPD : P ≤ D := Subgroup.map_subtype_le (S : Subgroup D)
   have hPsyl : theorem4bIsSylowSubgroupOf q P D := ⟨S, rfl⟩
-  have hPp : IsPGroup q P := S.isPGroup'.map D.subtype
+  have hPp : IsPGroup q P := S.isPGroup.map D.subtype
   let alpha : conjugateCosetSpace M := QuotientGroup.mk 1
   let beta : conjugateCosetSpace M := QuotientGroup.mk t
   have hab : alpha ≠ beta := by
@@ -200,7 +200,7 @@ public theorem proposition102_ambient_sylow_of_prime_dvd_kset
   have hPsylPair : theorem4bIsSylowSubgroupOf q P
       (MulAction.stabilizer X alpha ⊓ MulAction.stabilizer X beta) := by
     rw [show MulAction.stabilizer X alpha = M by
-      simpa [alpha] using baseCoset_stabilizer M]
+      simp [alpha]]
     rw [show MulAction.stabilizer X beta = rightConjugate M t by
       simpa [beta, ht.inv_eq_self] using conjugateCoset_stabilizer M t]
     simpa [D] using hPsyl

@@ -16,16 +16,16 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.LieType.Universal CFSG.Assembly.LowTwoRank
 theorem tim81UnitaryStatement_of_theorem1_sec8 (h1 : Theorem1Statement) (h8 : Sec8Statement) :
     Tim81UnitaryStatement := by
   intro G _ _ _ hnonab hK hchar M hM B hB hTI h4 hWCQ hNWC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2 : pCore 2 G = ⊥ := by
-    haveI : (pCore 2 G).Normal := pCore_normal
+    have : (pCore 2 G).Normal := pCore_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pCore 2 G) with h | h
     · exact h
     · exfalso
       have hP : IsPGroup 2 ↥(⊤ : Subgroup G) := h ▸ CFSG.pCore_isPGroup (p := 2) (G := G)
       have hP' : IsPGroup 2 G :=
         hP.of_surjective (⊤ : Subgroup G).subtype Subgroup.topEquiv.surjective
-      haveI : Group.IsNilpotent G := hP'.isNilpotent
+      have : Group.IsNilpotent G := hP'.isNilpotent
       have hcomm : ∀ a b : G, a * b = b * a :=
         IsSimpleGroup.comm_iff_isSolvable.mpr (inferInstance : Group.IsSolvable G)
       obtain ⟨a, b, hab⟩ := hnonab

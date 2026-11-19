@@ -21,7 +21,7 @@ local instance instAddCommGroupV12 : AddCommGroup V12 :=
 
 @[simp] theorem toMatrix'_Jlin : LinearMap.toMatrix' Jlin = Jm := by
   ext i j
-  simp [Jlin, LinearMap.toMatrix'_apply, Matrix.mulVec_single_one]
+  simp [Jlin, LinearMap.toMatrix'_apply]
 
 theorem Jlin_sq : Jlin * Jlin = Jlin + 1 := by
   rw [Jlin, ← map_mul, Jm_sq, map_add, map_one]

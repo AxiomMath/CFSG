@@ -120,8 +120,8 @@ theorem uc22p22r_shape_facts (hfaith : Function.Injective ρ) {L : Subgroup H} {
           centralizer ((L ⊔ L.map (MulAut.conj t).toMonoidHom : Subgroup H) : Set H)) →
         ¬ Nat.card ↥(fixOn ρ S Y) ≡ 1 [MOD p] := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Lt := L.map (MulAut.conj t).toMonoidHom with hLt
   set X := L ⊔ Lt with hX
   set C := centralizer (X : Set H) with hC
@@ -182,7 +182,7 @@ theorem uc22p22r_shape_facts (hfaith : Function.Injective ρ) {L : Subgroup H} {
         _ = t⁻¹ * (c * (t * l * t⁻¹)) * t := by rw [h1]
         _ = t⁻¹ * c * t * l := by group
     have hc'k : (t⁻¹ * c * t) ^ (p ^ k) = 1 := by
-      have e : t⁻¹ * c * t = MulAut.conj t⁻¹ c := by simp [MulAut.conj_apply]
+      have e : t⁻¹ * c * t = MulAut.conj t⁻¹ c := by simp
       rw [e, ← map_pow, hk, map_one]
     have hc'W := hF1W _ hc' k hc'k
     have hcW' : ∀ w ∈ W', ρ c w = w := by

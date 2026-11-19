@@ -65,7 +65,7 @@ private theorem w183finSp44G3_invsA_ne {i j : Nat} (hi : i < n127) (hj : j < n12
 private theorem w183finSp44G3_mem_klein_iff {a b x : El} :
     x ∈ klein a b ↔ x = oneE ∨ x = a ∨ x = b ∨ x = gmulE a b := by
   rw [klein]
-  simp only [List.mem_cons, List.mem_nil_iff, List.not_mem_nil, false_or, or_false]
+  simp only [List.mem_cons, List.not_mem_nil, or_false]
 
 private theorem w183finSp44G3_valid_klein {a b x : El} (ha : validB a = true)
     (hb : validB b = true) (hx : x ∈ klein a b) : validB x = true := by
@@ -153,7 +153,7 @@ private theorem w183finSp44G3_check_even {a b : El} {e : Nat} (he2 : e % 2 = 0)
     (gmulE (g3Pool.getD (e / 16) 0, 0) ([a, b].getD (e / 8 % 2) oneE) ≠
       gmulE ([a, b].getD (e / 8 % 2) oneE) (g3Pool.getD (e / 16) 0, 0)) := by
   simp only [checkG3] at h
-  rw [if_pos (by rw [beq_iff_eq]; exact he2)] at h
+  rw [ite_eq_left (by rw [beq_iff_eq]; exact he2)] at h
   rw [Bool.and_eq_true] at h
   exact ⟨beq_iff_eq.mp h.1, bne_iff_ne.mp h.2⟩
 
@@ -164,7 +164,7 @@ private theorem w183finSp44G3_check_odd {a b : El} {e : Nat} (he2 : e % 2 = 1)
         memK (klein a b) (conjE (g3Pool.getD (e / 16) 0, 0) x) &&
           (conjE (g3Pool.getD (e / 16) 0, 0) x != x)) = true := by
   simp only [checkG3] at h
-  rw [if_neg (by rw [beq_iff_eq]; omega)] at h
+  rw [ite_eq_right (by rw [beq_iff_eq]; omega)] at h
   rw [Bool.and_eq_true, Bool.and_eq_true] at h
   exact ⟨beq_iff_eq.mp h.1.1, beq_iff_eq.mp h.1.2, h.2⟩
 

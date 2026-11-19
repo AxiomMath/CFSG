@@ -9,7 +9,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 
 variable {G : Type*} [Group G]
 
-theorem nonempty_mulEquiv_zmod_prod_of_commute {x y : G} {m n : ℕ} (hm : 0 < m) (hn : 0 < n)
+theorem nonempty_mulEquiv_zmod_prod_of_commute {x y : G} {m n : ℕ} (_hm : 0 < m) (_hn : 0 < n)
     (hx : orderOf x = m) (hy : orderOf y = n) (hcop : Nat.Coprime m n) (hxy : x * y = y * x) :
     Nonempty (↥(Subgroup.closure ({x, y} : Set G)) ≃* Multiplicative (ZMod m) × Multiplicative (ZMod n)) := by
   have hgx : ∀ z : Subgroup.zpowers x,

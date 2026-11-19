@@ -21,6 +21,7 @@ private theorem s11_TenP_pRank_bot {p : ℕ} (hp : 1 < p) :
   have hE' : E = ⊥ := le_bot_iff.1 hE
   simp [hE']
 
+omit [Finite G] in
 theorem s11_TenP_inf_normalizer_le {M P X : Subgroup G} {p : ℕ}
     (hXn : M ≤ normalizer (X : Set G)) :
     M ⊓ normalizer (P : Set G) ≤
@@ -43,11 +44,11 @@ theorem s11_TenP_inf_normalizer_le {M P X : Subgroup G} {p : ℕ}
 theorem s11_TenP_exists_mul {M P : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) :
     ∀ m ∈ M, ∃ u ∈ pCoreOf 2 M, ∃ n ∈ M ⊓ normalizer (P : Set G), m = u * n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O : Subgroup G := F11.O2p p M
   set H : Subgroup G := M ⊓ normalizer (P : Set G)
   have hOM : O ≤ M := uc22p21c_barPreimage_le M (CFSG.pCore p (Bar2 M))
-  haveI : (CFSG.pCore p (Bar2 M)).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p (Bar2 M)).Normal := CFSG.pCore_normal
   have hOn : M ≤ normalizer (O : Set G) := uc22p22u_barPreimage_normalizes
   have hHO : H ≤ normalizer (O : Set G) := inf_le_left.trans hOn
   have hbar : barImage M P = CFSG.pCore p (Bar2 M) := (uc22p22u_sylow_O2p hp hp2 hP).2.1
@@ -72,7 +73,7 @@ theorem s11_TenP_exists_mul {M P : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
 theorem s11_TenP_relIndex_eq_two_pow {M P : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) :
     ∃ k : ℕ, (M ⊓ normalizer (P : Set G)).relIndex M = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := M ⊓ normalizer (P : Set G)
   set O : Subgroup G := pCoreOf 2 M
   have hHM : H ≤ M := inf_le_left
@@ -113,7 +114,7 @@ theorem s11_TenP_relIndex_eq_two_pow {M P : Subgroup G} {p : ℕ} (hp : p.Prime)
 theorem s11_TenP_exists_isSylowOf_le {M P : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf r S M ∧ S ≤ M ⊓ normalizer (P : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨k, hk⟩ := s11_TenP_relIndex_eq_two_pow hp hp2 hP
   obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf r (M ⊓ normalizer (P : Set G))
   have hSH : S ≤ M ⊓ normalizer (P : Set G) := hS.le
@@ -142,7 +143,7 @@ theorem s11_TenP_pRank_inf_normalizer {M P X : Subgroup G} {p : ℕ} (hp : p.Pri
       CFSG.Open.pRank r M := by
   refine le_antisymm (CFSG.SectionRank.pRank_mono hr.one_lt inf_le_left) ?_
   obtain ⟨S, hS, hSH⟩ := s11_TenP_exists_isSylowOf_le hp hp2 hP hr hr2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   calc CFSG.Open.pRank r M ≤ CFSG.Open.pRank r S := uc22p22q_pRank_le_sylow hS
     _ ≤ CFSG.Open.pRank r (M ⊓ normalizer
           ((F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X) : Subgroup G) : Set G)) :=
@@ -154,7 +155,7 @@ theorem s11_TenP_exists_isSylowOf_le_normalizer {M P X : Subgroup G} {p : ℕ} (
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p S M ∧
       F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X) ≤ S ∧
       S ≤ normalizer ((F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X) : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Y : Subgroup G := F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X)
   set H : Subgroup G := M ⊓ normalizer (P : Set G)
   have hPM : P ≤ M := (uc22p22u_sylow_O2p hp hp2 hP).1
@@ -162,7 +163,7 @@ theorem s11_TenP_exists_isSylowOf_le_normalizer {M P X : Subgroup G} {p : ℕ} (
   have hHM : H ≤ M := inf_le_left
   have hSylH : CFSG.ABGLocalTools.IsSylowOf p S H := hSM.of_le hSH hHM
   have hPH : P ≤ H := le_inf hPM Subgroup.le_normalizer
-  haveI : (P.subgroupOf H).Normal :=
+  have : (P.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPH).2 inf_le_right
   have hPsub : IsPGroup p (P.subgroupOf H) := hP.isPGroup.comap_subtype
   obtain ⟨S₀, hS₀⟩ := hSylH.exists_sylow_eq_subgroupOf
@@ -185,7 +186,7 @@ theorem s11_TenP_permutes {M P X T : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 :
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) (hXn : M ≤ normalizer (X : Set G))
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     Permutes (F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X)) T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup G := F11.Omega1p p (P ⊓ ⁅M, M⁆ ⊓ X)
   have hYT : Y ≤ P ⊓ ⁅M, M⁆ ⊓ X :=
     (Subgroup.closure_le (P ⊓ ⁅M, M⁆ ⊓ X)).2 fun x hx => hx.1
@@ -245,7 +246,7 @@ theorem s11_TenP_rankThreeGamma_le (D : Data G) (hSg : UC6S846.SigmaStd D)
       CFSG.Open.pRank q D.M) :
     rankThreeGamma 1 p Y ≤ D.M := by
   by_cases hpσ : p ∈ D.sig
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
       hSg.sig1_sp p (h1219 ▸ hpσ)
     unfold rankThreeGamma
@@ -273,7 +274,7 @@ theorem s11_TenP_inP11 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = 
     (hXd : Xbar ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), ⊤⁆) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     F11.InP11 D (F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)) := by
-  haveI := hXn
+  have := hXn
   set Y : Subgroup G := F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)
   have hXn' : D.M ≤ normalizer ((F11.barPreimage11 D.M V₀ V Xbar : Subgroup G) : Set G) :=
     fun g hg => uc22p22u_mem_normalizer_barPreimage11 hg
@@ -290,7 +291,7 @@ theorem s11_TenP_inP11 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = 
   have hYp : IsPGroup p Y := hP.isPGroup.to_le hYP
   have hYnc : ¬ IsCyclic ↥Y := by
     intro hc
-    haveI := hc
+    have := hc
     have h1 : Monoid.exponent ↥Y ∣ p :=
       Monoid.exponent_dvd_of_forall_pow_eq_one fun g => Subtype.ext (hexp g.1 g.2)
     rw [IsCyclic.exponent_eq_card] at h1
@@ -323,7 +324,7 @@ theorem s11_TenP_card_lt_eight (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : 
     Nat.card V₀ < 8 := by
   by_contra h8
   rw [not_lt] at h8
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (F11.O2p p D.M)
   exact (h11.2.2 h8).2 _
     (s11_TenP_inP11 D hSg h1219 h1110 h77 h11 hp hp2 hn Xbar hXn hXe hXc hXd hP)

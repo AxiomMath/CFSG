@@ -15,7 +15,7 @@ open scoped Classical
 
 instance rowFinite : Finite Row := inferInstanceAs (Finite (Fin 112 → ZMod 2))
 
-@[expose] noncomputable def w₀ : Row := toRow rootV.toVec
+noncomputable def w₀ : Row := toRow rootV.toVec
 
 theorem vecAt_zero' (hF : J4NativeFacts) : vecAt 0 = w₀ := vecAt_zero hF.orbitFacts
 
@@ -24,7 +24,7 @@ theorem mem_Hj_of_smul_root (hF : J4Facts) {x : J} (h : x • w₀ = w₀) : x �
 theorem smul_root_of_mem_Hj (hM : MatFacts) {x : J} (h : x ∈ Hj) : x • w₀ = w₀ :=
   Hj_fix_root hM x h
 
-@[expose] def RIn (v : Row) (x : J) : Prop :=
+def RIn (v : Row) (x : J) : Prop :=
   ∃ g : J, g • w₀ = v ∧ g⁻¹ * x * g ∈ Eg uJ 11
 
 theorem RIn_conj (k : J) (v : Row) (x : J) : RIn (k • v) (k * x * k⁻¹) ↔ RIn v x := by
@@ -165,7 +165,7 @@ theorem Zl_trans (hM : MatFacts) : ∀ x ∈ Zl, ∀ y ∈ Zl, ∃ h ∈ Hj, h *
   rw [← e₁, ← e₂]
   group
 
-@[expose] noncomputable def vecP (O : VOrb) (p : ℕ) : Row := toRow (O.pts[p]!).toVec
+noncomputable def vecP (O : VOrb) (p : ℕ) : Row := toRow (O.pts[p]!).toVec
 
 theorem locTabs_get (hM : MatFacts) {g : ℕ} (hg : g < 3) :
     locTabs[g]! = frTable ((locMats ())[g]?.getD idRows) := by
@@ -233,13 +233,13 @@ theorem vorb_orbit_subset (hM : MatFacts) {O : VOrb} {r : V2} {m : ℕ}
   obtain ⟨q, hq, e⟩ := vorb_invariant hM hok h hh _ h0
   exact Finset.mem_image.2 ⟨q, Finset.mem_range.2 hq, e⟩
 
-@[expose] noncomputable def uElt (ℓ : ℕ) : J := pathElt (repPaths.getD ℓ [])
+noncomputable def uElt (ℓ : ℕ) : J := pathElt (repPaths.getD ℓ [])
 
-@[expose] noncomputable def rep (ℓ : ℕ) : Row := (uElt ℓ)⁻¹ • w₀
+noncomputable def rep (ℓ : ℕ) : Row := (uElt ℓ)⁻¹ • w₀
 
 theorem rep_eq (ℓ : ℕ) : rep ℓ = (uElt ℓ)⁻¹ • w₀ := rfl
 
-@[expose] def Dlt (ℓ : ℕ) : Set Row := {v | ∃ h ∈ Hj, v = h • rep ℓ}
+def Dlt (ℓ : ℕ) : Set Row := {v | ∃ h ∈ Hj, v = h • rep ℓ}
 
 theorem rep_toVec (hM : MatFacts) {ℓ : ℕ} (hℓ : ℓ < 7) :
     rep ℓ = toRow (pathVec (repPaths.getD ℓ [])).toVec := by
@@ -369,7 +369,7 @@ theorem ZE_card_le (hM : MatFacts) {ℓ : ℕ} (hℓ : ℓ < 7) {n : ℕ}
     exact ⟨hc, memEVec_of_mem hM hℓ hinv hxE⟩
   exact (Finset.card_le_card hsub).trans (List.toFinset_card_le _ |>.trans (by simpa using hn))
 
-@[expose] def Omega (z : J) : Set Row := {v | RIn v z}
+def Omega (z : J) : Set Row := {v | RIn v z}
 
 theorem pathInv_get {ℓ : ℕ} (hℓ : ℓ < 7) :
     eqRows (mulRows (pathRows (repPaths.getD ℓ [])) (invRows (pathRows (repPaths.getD ℓ []))))

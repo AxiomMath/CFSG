@@ -31,9 +31,9 @@ theorem uc22s13e_inner_of_odd {T : Type} [Group T] [Finite T]
 theorem uc22s13e_perfect_of_equiv {T W : Type*} [Group T] [Finite T] [Group W] [Nontrivial W]
     [Group.IsPerfect W] {F : Subgroup T} (E : ↥F ≃* W) :
     ⁅F, F⁆ = F ∧ ∃ z ∈ F, ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ orderOf z = q := by
-  haveI : Group.IsPerfect ↥F :=
+  have : Group.IsPerfect ↥F :=
     Group.IsPerfect.ofSurjective (f := E.symm.toMonoidHom) E.symm.surjective
-  haveI : Nontrivial ↥F := E.symm.injective.nontrivial
+  have : Nontrivial ↥F := E.symm.injective.nontrivial
   obtain ⟨z, q, hq, hq2, hz⟩ := uc22s13d_exists_odd_prime (F := ↥F)
   exact ⟨Subgroup.isPerfect_iff.1 inferInstance, z, z.2, q, hq, hq2,
     by rw [Subgroup.orderOf_coe, hz]⟩
@@ -67,8 +67,8 @@ theorem uc22s13e_fix {T : Type} [Group T] [Finite T] {a : ℕ}
       rw [hm]
       exact Nat.mul_div_cancel_left m hr.pos
     rw [hfm] at hkcard
-    haveI : Fintype k := Fintype.ofFinite k
-    haveI : CharP k 2 :=
+    have : Fintype k := Fintype.ofFinite k
+    have : CharP k 2 :=
       charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, hkcard])
     refine ⟨fun har => ?_, fun har => ?_⟩
     · have hm2 : 2 ≤ m := by
@@ -78,8 +78,8 @@ theorem uc22s13e_fix {T : Type} [Group T] [Finite T] {a : ℕ}
         rw [hkcard]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
-      haveI := CFSG.RankThree.PartOne.KCRootAxis.sl2_isPerfect h4k
-      haveI := (CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4k).toNontrivial
+      have := CFSG.RankThree.PartOne.KCRootAxis.sl2_isPerfect h4k
+      have := (CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4k).toNontrivial
       exact uc22s13e_perfect_of_equiv (eX.trans ((pslEquivCoordinateG k).symm.trans
         (CFSG.RankThree.PartOne.KCRootAxis.slEquivPSL k).symm))
     · have hm1 : m = 1 := by
@@ -88,7 +88,7 @@ theorem uc22s13e_fix {T : Type} [Group T] [Finite T] {a : ℕ}
       subst hm1
       obtain ⟨e3⟩ := CFSG.BenderSuzuki.External.huppert_II_6_14_a_psl2_card_two (K := ↥k)
         (by rw [hkcard, pow_one])
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact uc22s13e_witness_of_equiv (eX.trans ((pslEquivCoordinateG k).symm.trans e3))
         (z₀ := Equiv.swap (0 : Fin 3) 1) (t₀ := Equiv.swap (1 : Fin 3) 2) (k := 1) (by decide)
         Nat.prime_three (by norm_num) (orderOf_eq_prime (by decide) (by decide))
@@ -105,8 +105,8 @@ theorem uc22s13e_fix {T : Type} [Group T] [Finite T] {a : ℕ}
         · subst h
           omega
         · exact h
-      haveI := (CFSG.LieType.Ree.suzuki_perfect hb hkcard).2
-      haveI := (CFSG.LieType.Ree.suzuki_simple hb hkcard).2.1
+      have := (CFSG.LieType.Ree.suzuki_perfect hb hkcard).2
+      have := (CFSG.LieType.Ree.suzuki_simple hb hkcard).2.1
       exact uc22s13e_perfect_of_equiv E
     · have hb0 : b = 0 := by
         have h1 : (2 * b + 1) * r = 1 * r := by rw [hbr, one_mul, har]
@@ -118,8 +118,8 @@ theorem uc22s13e_fix {T : Type} [Group T] [Finite T] {a : ℕ}
         norm_num
       obtain ⟨h20, P, hPn, hP5, hPC, -⟩ :=
         CFSG.LieType.Ree.suzuki_two_normal_five_complement_core_trivial hk2
-      haveI : Finite (suzukiGroup 0 k) := CFSG.LieType.Ree.finite_suzukiGroup hkcard
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Finite (suzukiGroup 0 k) := CFSG.LieType.Ree.finite_suzukiGroup hkcard
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' (G := suzukiGroup 0 k) 2
         (by rw [h20]; norm_num)
       have ht₀P : t₀ ∉ centralizer (P : Set (suzukiGroup 0 k)) := by

@@ -50,7 +50,7 @@ theorem nonempty_suFrame {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {L : Type} [Fi
   have hr' : r * e ≤ n := by
     rw [← hr]
     exact Nat.div_mul_le_self n e
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ (Fact.out : Nat.Prime p).ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ (Fact.out : Nat.Prime p).ne_zero⟩
   rcases Nat.even_or_odd e with hev | hodd
   ·
     obtain ⟨k, rfl⟩ := hev.two_dvd

@@ -16,16 +16,16 @@ theorem exists_isSylowIn_normalized_of_isPGroup {p : ℕ} [Fact p.Prime] {K Q : 
     (hQ : IsPGroup p Q) (hQK : Q ≤ normalizer (K : Set G)) :
     ∃ P : Subgroup G, IsSylowIn p P K ∧ Q ≤ normalizer (P : Set G) ∧ Q ⊓ K ≤ P := by
   classical
-  letI : MulAction Q (Sylow p K) :=
+  let : MulAction Q (Sylow p K) :=
     MulAction.compHom (Sylow p K) (Subgroup.inclusion hQK)
-  haveI : Finite (Sylow p K) :=
+  have : Finite (Sylow p K) :=
     Sylow.finite_of_finiteIndex (Classical.choice (Sylow.nonempty (p := p) (G := K)))
   obtain ⟨P₀, hP₀fix⟩ :=
     hQ.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p K)
       (not_dvd_card_sylow (p := p) (G := K))
   let P : Subgroup G := (P₀ : Subgroup K).map K.subtype
   have hPK : P ≤ K := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := P₀.isPGroup'.map K.subtype
+  have hPp : IsPGroup p P := P₀.isPGroup.map K.subtype
   have hPrel : P.relIndex K = (P₀ : Subgroup K).index := by
     simpa [P, Subgroup.map_top, Subgroup.range_subtype] using
       (Subgroup.relIndex_map_map_of_injective (f := K.subtype) (P₀ : Subgroup K) ⊤

@@ -16,7 +16,7 @@ variable {p : ℕ}
 
 theorem narrowGamma_mono {K : Type*} [Group K] [Finite K] (hp : p.Prime) {T T' : Subgroup K}
     (h : T ≤ T') : narrowGamma p T ≤ narrowGamma p T' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine sup_le (iSup₂_le fun A ⟨hAT, hA, hAc⟩ => normalizer_le_narrowGamma (hAT.trans h) hA hAc)
     (iSup₂_le fun x ⟨hxT, hxo, h2⟩ => ?_)
   obtain ⟨E, hET, hE, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h2
@@ -26,7 +26,7 @@ theorem narrowGamma_mono {K : Type*} [Group K] [Finite K] (hp : p.Prime) {T T' :
 theorem narrowGamma_map_le {K L : Type*} [Group K] [Finite K] [Group L] [Finite L]
     (hp : p.Prime) (e : K ≃* L) (T : Subgroup K) :
     (narrowGamma p T).map e.toMonoidHom ≤ narrowGamma p (T.map e.toMonoidHom) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Subgroup.map_le_iff_le_comap]
   refine sup_le (iSup₂_le fun A ⟨hAT, hA, hAc⟩ => ?_) (iSup₂_le fun x ⟨hxT, hxo, h2⟩ => ?_)
   · rw [← Subgroup.map_le_iff_le_comap, Subgroup.map_equiv_normalizer_eq]
@@ -57,15 +57,15 @@ theorem narrowGamma_eq_top_of_mulEquiv {K L : Type*} [Group K] [Finite K] [Group
 theorem narrowGamma_eq_top_of_sylow {X K : Type} [Group X] [Finite X] [Group K] [Finite K]
     (hp : p.Prime) (e : X ≃* K) (Q : Sylow p X) (h : narrowGamma p (Q : Subgroup X) = ⊤)
     (T : Sylow p K) : narrowGamma p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e.symm Q.isPGroup' Q.not_dvd_index T
+  have : Fact p.Prime := ⟨hp⟩
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e.symm Q.isPGroup Q.not_dvd_index T
   rw [hΦ]
   exact narrowGamma_eq_top_of_mulEquiv hp Φ h
 
 theorem narrowGamma_eq_top_of_le_sylow {X K : Type} [Group X] [Finite X] [Group K] [Finite K]
     (hp : p.Prime) (e : X ≃* K) {Q : Subgroup X} (hQ : IsPGroup p Q)
     (h : narrowGamma p Q = ⊤) (T : Sylow p K) : narrowGamma p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q₀, hQQ₀⟩ := hQ.exists_le_sylow
   refine narrowGamma_eq_top_of_sylow hp e Q₀ (eq_top_iff.2 ?_) T
   rw [← h]
@@ -78,7 +78,7 @@ theorem narrowGamma_eq_top_of_closure_centralizer {p : ℕ} {K : Type*} [Group K
     (hAc : Nat.card A = p ^ 2)
     (h : Subgroup.closure {k : K | ∃ a ∈ A, a ≠ 1 ∧ k * a = a * k} = ⊤) :
     narrowGamma p T = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_top_iff, ← h, Subgroup.closure_le]
   rintro k ⟨a, haA, ha1, hak⟩
   refine centralizer_le_narrowGamma (hAT haA) (orderOf_eq_prime (hA.2 a haA) ha1) ?_
@@ -139,7 +139,7 @@ theorem narrowGamma_eq_top_of_seitz (hS : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo)
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) (hZ : Subgroup.center K = ⊥) {T A : Subgroup K}
     (hAT : A ≤ T) (hA : IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) : narrowGamma p T = ⊤ := by
   set L := (TauCeti.CFSGIndex.lie d).Group
-  haveI : Finite L := Finite.of_equiv K e.toEquiv
+  have : Finite L := Finite.of_equiv K e.toEquiv
   set A' : Subgroup L := A.map e.toMonoidHom with hA'
   have hA'el : IsElemAbelian p A' := isElemAbelian_map _ hA
   have hA'c : Nat.card A' = p ^ 2 := by rw [hA', Subgroup.card_map_of_injective e.injective, hAc]
@@ -176,7 +176,7 @@ theorem narrowGamma_eq_top_of_seitz (hS : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo)
       · rw [ha1]
         simp
       · apply e.injective
-        simp only [MulAut.conj_apply, MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom] at hσl
+        simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom] at hσl
         change e (e.symm l * a) = e (a * e.symm l)
         rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
         change e a * l * (e a)⁻¹ = l at hσl

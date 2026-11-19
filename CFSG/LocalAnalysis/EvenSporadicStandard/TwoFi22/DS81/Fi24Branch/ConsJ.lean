@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 private theorem mem_zpowers_of_sq_eq_one {z : G} (hz : z ^ 2 = 1) (x : G) :
     x ∈ zpowers z ↔ x = 1 ∨ x = z := by
   constructor
@@ -38,6 +39,7 @@ private theorem mem_zpowers_of_sq_eq_one {z : G} (hz : z ^ 2 = 1) (x : G) :
     · rw [hx1]; exact one_mem _
     · rw [hxz]; exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 theorem mem_Jg_iff_comm_mem (h : KleinPair t z) {g : G} (hg : g * z = z * g) :
     g ∈ Jg t z ↔ g * t * g⁻¹ * t⁻¹ ∈ zpowers z := by
   have hzp : ∀ x : G, x ∈ zpowers z ↔ x = 1 ∨ x = z :=
@@ -140,6 +142,7 @@ theorem mem_Jg_iff_comm_mem (h : KleinPair t z) {g : G} (hg : g * z = z * g) :
               rw [show g⁻¹ * (t * z) * g = (g⁻¹ * t * g) * (g⁻¹ * z * g) by group, hgz']
         rw [this]; exact mul_mem hgi_mem z_mem_Vtz
 
+omit [Finite G] in
 theorem jData (c : Core1 E t z) :
     JData (czInv z c.klein.z_sq c.klein.z_ne) (⟨t, mem_Cz_of_comm c.klein.comm⟩ : ↥(Cz z))
       ((Rg t z).subgroupOf (Cz z)) ((Jg t z).subgroupOf (Cz z)) := by
@@ -194,7 +197,7 @@ theorem jData (c : Core1 E t z) :
     rw [Subgroup.mem_subgroupOf]
     exact hle (Subgroup.mem_map.mpr ⟨w, hwW, rfl⟩)
   · obtain ⟨X, hX, π, hπs, hπk, hXU⟩ := c.jr.quot
-    letI : Group X := hX
+    let : Group X := hX
     obtain ⟨π', hπ's, hπ'k⟩ := quot_subgroupOf c.jr.J_le_C π hπs hπk
     exact ⟨X, hX, π', hπ's, hπ'k, hXU⟩
 

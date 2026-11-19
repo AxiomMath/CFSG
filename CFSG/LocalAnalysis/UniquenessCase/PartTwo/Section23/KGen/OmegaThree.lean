@@ -121,7 +121,7 @@ private theorem commute_flipGL_planeGL (X : GL (Fin 2) K) :
 
 private theorem three_dvd_sub_one_or_add_one [Finite K] [CharP K 2] :
     3 ∣ Nat.card K - 1 ∨ 3 ∣ Nat.card K + 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hcard⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have h3q : ¬ 3 ∣ Nat.card K := by

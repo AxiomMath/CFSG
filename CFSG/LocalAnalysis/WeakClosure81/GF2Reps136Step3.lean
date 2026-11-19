@@ -26,7 +26,7 @@ private theorem w1369_comm_eq_self_or_bot {W : Type} [CommGroup W]
   have hnorm : (⁅L, Subgroup.zpowers t⁆.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNL).mpr
       (Subgroup.normalizer_commutator_ge_left L (Subgroup.zpowers t))
-  haveI : (⁅L, Subgroup.zpowers t⁆.subgroupOf L).Normal := hnorm
+  have : (⁅L, Subgroup.zpowers t⁆.subgroupOf L).Normal := hnorm
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hL.2.2
       (⁅L, Subgroup.zpowers t⁆.subgroupOf L) with hcenter | htop
   · right
@@ -41,13 +41,13 @@ private theorem w1369_comm_eq_self_or_bot {W : Type} [CommGroup W]
           (K := L) (h := (⟨x, hxL⟩ : ↥L))).mpr hx)
       have hc := Subgroup.mem_center_iff.mp hxcenter (⟨y, hy⟩ : ↥L)
       exact congrArg Subtype.val hc
-    haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+    have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
     exact CFSG.ComponentClassification.Quasisimple.perfect_double_commutator L
       (Subgroup.zpowers t) hdouble
   · left
     exact le_antisymm hNL (Subgroup.subgroupOf_eq_top.mp htop)
 
-theorem exists_component_comm (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)}
+theorem exists_component_comm (_hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)}
     {t : MulAut W} (S : Std136 Y t)
     (hF : ∀ p : ℕ, p.Prime → ⁅pCoreOf p Y, Subgroup.zpowers t⁆ = ⊥)
     (hfix : ∀ K : Subgroup (MulAut W), IsComponentOf K Y →
@@ -116,7 +116,7 @@ theorem exists_component_comm (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut
       genFittingFStar ↥Y :=
     CFSG.ComponentClassification.GeneralizedFitting.centralizer_le ↥Y
   let N : Subgroup ↥Y := Subgroup.centralizer (genFittingFStar ↥Y : Set ↥Y)
-  haveI : (genFittingFStar ↥Y).Normal :=
+  have : (genFittingFStar ↥Y).Normal :=
     CFSG.ComponentClassification.GeneralizedFitting.normal ↥Y
   have hNnormal : N.Normal := inferInstance
   have hcommN : ∀ a b : N, a * b = b * a := fun a b =>
@@ -127,7 +127,7 @@ theorem exists_component_comm (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut
   let a : N := ⟨t', ht'N⟩
   have ht'ord : orderOf t' = 2 := (Subgroup.orderOf_coe t').symm.trans S.t2
   have haord : orderOf a = 2 := (Subgroup.orderOf_coe a).symm.trans ht'ord
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP0 : IsPGroup 2 (Subgroup.zpowers a) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, haord, pow_one]

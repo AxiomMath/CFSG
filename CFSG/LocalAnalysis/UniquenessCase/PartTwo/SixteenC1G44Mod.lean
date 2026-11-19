@@ -86,8 +86,8 @@ theorem s16c1G44_sel_congr {v j c c' : ℕ} (h : v.testBit j = true → c = c') 
     sel v j c = sel v j c' := by
   unfold sel
   by_cases hv : v.testBit j = true
-  · rw [if_pos hv, if_pos hv, h hv]
-  · rw [if_neg hv, if_neg hv]
+  · rw [ite_eq_left hv, ite_eq_left hv, h hv]
+  · rw [ite_eq_right hv, ite_eq_right hv]
 
 theorem s16c1G44_testBit_of_and {v M : ℕ} (h : v &&& M = v) {j : ℕ} (hj : v.testBit j = true) :
     M.testBit j = true := by
@@ -179,7 +179,7 @@ theorem s16c1G44_card_le_four_normal (E : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
     (hiso : ∀ g ∈ E, ∀ v, qModel true (g v) = qModel true v)
     (hfix : ∀ g ∈ E, g (vec 16) = vec 16)
     (hgood : ∀ g ∈ E, ∀ u < 32, qModel true (g (vec u) + vec u) = 0)
-    (hab : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) (ht : refl (vec 16) ∈ E) :
+    (hab : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) (_ht : refl (vec 16) ∈ E) :
     Nat.card E ≤ 4 := by
   have hmem : ∀ g ∈ E, ∀ m, m < 2 ^ 36 → HasCode (g : V₀ →ₗ[ZMod 2] V₀) m →
       m ∈ s16c1G44_goodList := fun g hg m hm hc =>
@@ -343,7 +343,7 @@ theorem s16c1G44_axisBound_lin (E : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
   have hωc : ω₀⁻¹ c = vec 16 := by rw [← hω₀c']; simp
   let φ : (V₀ ≃ₗ[ZMod 2] V₀) →* (V₀ ≃ₗ[ZMod 2] V₀) := (MulAut.conj ω₀⁻¹).toMonoidHom
   have hφ : ∀ g v, φ g v = ω₀⁻¹ (g (ω₀ v)) := fun g v => by
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hcard : Nat.card (E.map φ) = Nat.card E :=
     Subgroup.card_map_of_injective (MulAut.conj ω₀⁻¹).injective
   rw [← hcard]

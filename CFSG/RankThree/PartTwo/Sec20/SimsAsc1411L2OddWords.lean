@@ -29,7 +29,7 @@ theorem word1411_pglAction_mk (G : GL (Fin 2) K) (X N : SL(2, K))
     word1411 (pglAction K (ProjGenLinGroup.mk G)) (QuotientGroup.mk X : PSL2 K) 1 1 =
       QuotientGroup.mk N := by
   have hY := pglAction_mk_mk G X (N * X) (by rw [Matrix.SpecialLinearGroup.coe_mul]; exact h)
-  simp only [word1411, inv_one, mul_one, map_one, one_mul, hY]
+  simp only [word1411, inv_one, mul_one, map_one, hY]
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, mul_inv_cancel_right]
 
 theorem word1411_psl2FieldAut_mk (σ : K ≃+* K) (X₁ X₂ X₃ N : SL(2, K))
@@ -94,6 +94,7 @@ theorem orderOf_mk_eq_twentyFive {N : SL(2, K)}
   rw [hk', hk2]
   norm_num
 
+omit [Field K] in
 theorem map_fin_two_of {L : Type*} (f : K → L) (a b c d : K) :
     (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) K).map f = !![f a, f b; f c, f d] := by
   ext i j
@@ -141,6 +142,7 @@ variable {z : K} (h5 : (5 : K) = 0) (hz : z ^ 2 = 2)
 
 include h5 hz
 
+omit h5 in
 theorem not_isSquare_of_sq_eq_two [Finite K] (hK : Nat.card K = 25) : ¬ IsSquare z := by
   have := Fintype.ofFinite K
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
@@ -211,7 +213,7 @@ theorem exists_word1411_L2_25_normalForms [Finite K] (hK : Nat.card K = 25) :
     (∃ x₁ x₂ x₃ : PSL2 K,
       13 ∣ orderOf (word1411 (pglAction K (ProjGenLinGroup.mk (swapGL 1))) x₁ x₂ x₃)) ∧
     (∃ x₁ x₂ x₃ : PSL2 K, 13 ∣ orderOf (word1411 (pglAction K
-      (ProjGenLinGroup.mk (swapGL (Units.mk0 z (fun h0 => not_isSquare_of_sq_eq_two h5 hz hK
+      (ProjGenLinGroup.mk (swapGL (Units.mk0 z (fun h0 => not_isSquare_of_sq_eq_two hz hK
         (by rw [h0]; exact ⟨0, by ring⟩)))))) x₁ x₂ x₃)) ∧
     ∀ σ : K ≃+* K, (∀ x, σ x = x ^ 5) →
       ∃ x₁ x₂ x₃ : PSL2 K, 13 ∣ orderOf (word1411 (psl2FieldAut K σ) x₁ x₂ x₃) := by
@@ -252,7 +254,7 @@ theorem exists_word1411_L2_25_normalForms [Finite K] (hK : Nat.card K = 25) :
           (adjugate !![-1, 0; -z, -1] * !![0, -1 - z; -1 + z, 0]).map σ *
           adjugate !![0, -1 - z; -1 + z, 0]) = !![1 + z, -2 + z; -2 - z, 2 - 2 * z]
       simp only [Matrix.adjugate_fin_two_of, Matrix.mul_fin_two, map_fin_two_of, map_add, map_sub,
-        map_neg, map_mul, map_one, map_zero, map_ofNat, hσz]
+        map_neg, map_mul, map_one, map_zero, hσz]
       ext i j; fin_cases i <;> fin_cases j <;> simp <;> grind
 
 end Q25
@@ -260,7 +262,7 @@ end Q25
 theorem exists_word1411_L2_25 [Finite K] (hK : Nat.card K = 25) (α : MulAut (PSL2 K))
     (hα : orderOf α = 2) : ∃ x₁ x₂ x₃ : PSL2 K, 13 ∣ orderOf (word1411 α x₁ x₂ x₃) := by
   obtain ⟨h5, z, hz⟩ := exists_sq_eq_two_of_card_eq_25 hK
-  have hν := not_isSquare_of_sq_eq_two h5 hz hK
+  have hν := not_isSquare_of_sq_eq_two hz hK
   obtain ⟨h0, h1, h2⟩ := exists_word1411_L2_25_normalForms h5 hz hK
   exact exists_dvd_orderOf_word1411 (p := 5) (by norm_num) (by norm_num) (by rw [hK]; norm_num)
     _ hν h0 h1 h2 α hα
@@ -460,8 +462,7 @@ theorem exists_word1411_L2_49_normalForms [Finite K] (hK : Nat.card K = 49) :
           adjugate !![z, 1; 2, z] * (!![z, 1; 2 + z, 1 + z] *
           (adjugate !![z, 1; 2 + z, 1 + z] * !![z, 2; 1, z]).map σ *
           adjugate !![z, 2; 1, z]) = !![-2 - 2 * z, 3 + 3 * z; 3 + 3 * z, 1 - 3 * z]
-      simp only [Matrix.adjugate_fin_two_of, Matrix.mul_fin_two, map_fin_two_of, map_add, map_sub,
-        map_neg, map_mul, map_one, map_zero, map_ofNat, hσz]
+      simp only [Matrix.adjugate_fin_two_of, Matrix.mul_fin_two, map_fin_two_of, map_add, map_neg, map_mul, map_one, map_ofNat, hσz]
       ext i j; fin_cases i <;> fin_cases j <;> simp <;> grind
 
 end Q49

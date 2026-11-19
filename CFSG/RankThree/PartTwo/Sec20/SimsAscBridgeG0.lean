@@ -421,7 +421,7 @@ theorem eq_top_of_minimal (hset : Setting204 G A M L N c T i j P)
         _ = n⁻¹ * (h * o) * n := by rw [← hho]
         _ = (n⁻¹ * h * n) * (n⁻¹ * o * n) := by group
     rw [e]
-    refine Subgroup.mul_mem _ (Subgroup.mem_sup_left ⟨h, hh, by simp [MulAut.conj_apply]⟩)
+    refine Subgroup.mul_mem _ (Subgroup.mem_sup_left ⟨h, hh, by simp⟩)
       (Subgroup.mem_sup_right ?_)
     have hoO : n⁻¹ * o * n ∈ O := by
       have h1 := (Subgroup.mem_normalizer_iff.mp (hGO (G₀.inv_mem hnG)) o).mp ho
@@ -482,7 +482,7 @@ theorem coveredByNormalizer_of_coverYR
   set K₀ := oThreePrimeYR M X T c with hK₀def
   set N₁ := Subgroup.normalizer (Sec18.fourChar R k : Set G) with hN₁def
   set W := Y ⊓ N₁ with hWdef
-  haveI := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
+  have := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥YR) with hπ
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   have hYRY : YR ≤ Subgroup.normalizer (Y : Set G) := sup_le Subgroup.le_normalizer hRY
@@ -532,7 +532,7 @@ theorem coveredByNormalizer_of_coverYR
     simp only [map_mul, map_inv]
   set Yb := yAlpha M X T c with hYbdef
   have hYbWb : Yb ≤ Wb := by
-    haveI : (Wb.subgroupOf Yb).Normal := Subgroup.Normal.subgroupOf hWbn Yb
+    have : (Wb.subgroupOf Yb).Normal := Subgroup.Normal.subgroupOf hWbn Yb
     have h2 : IsPGroup 2 (↥Yb ⧸ Wb.subgroupOf Yb) := by
       intro q
       obtain ⟨⟨z, hz⟩, rfl⟩ := QuotientGroup.mk_surjective q

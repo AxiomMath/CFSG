@@ -20,6 +20,7 @@ private theorem orient_cube_character (a : Multiplicative (ZMod 3)) (ha : a ≠ 
   exact (by decide +kernel : ∀ a : Multiplicative (ZMod 3), a ≠ 1 →
     (if Multiplicative.toAdd a = 2 then a⁻¹ else a) = Multiplicative.ofAdd (1 : ZMod 3)) a ha
 
+omit [CharP K 2] in
 theorem movingU_mem_normalizer_of_full_frame
     (hK : Nat.card K = 2) {E : Subgroup (StatedSp n K)} {A₀ : StatedSp n K}
     {M : Matrix (Fin 2) (Fin 2) K} (hdet : M.det = 1) (hM : M * M + M + 1 = 0)
@@ -82,17 +83,17 @@ theorem exists_conj_movingU_of_full_frame
   congr 1
   funext j
   by_cases hji : j ∈ Set.range i
-  · rw [if_pos hji, hg']
+  · rw [ite_eq_left hji, hg']
     by_cases hj2 : Multiplicative.toAdd (k j t) = 2
-    · rw [if_pos ⟨hji, hj2⟩]
-      simp only [movingW, if_pos hj2]
+    · rw [ite_eq_left ⟨hji, hj2⟩]
+      simp only [movingW, ite_eq_left hj2]
       have h := congrArg (fun T : SL(2, K) => (T : Matrix (Fin 2) (Fin 2) K))
         (WSL_conj_pow_val hK hdet hM (k j g))
       rw [hWi] at h
       simpa only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_pow, coe_mkSL] using h
-    · rw [if_neg (fun h => hj2 h.2)]
-      simp only [movingW, if_neg hj2, Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul, Matrix.mul_one]
-  · rw [if_neg hji, hg', if_neg (fun h => hji h.1)]
+    · rw [ite_eq_right (fun h => hj2 h.2)]
+      simp only [movingW, ite_eq_right hj2, Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul, Matrix.mul_one]
+  · rw [ite_eq_right hji, hg', ite_eq_right (fun h => hji h.1)]
 
 theorem exists_aligned_moving_generator
     (hK : Nat.card K = 2) {E : Subgroup (StatedSp n K)} {A₀ : StatedSp n K}

@@ -17,7 +17,7 @@ variable {G : Type*} [Group G] {t v : G} {J : Subgroup G}
 theorem kleinV_le_of_inf_le [Finite G] (cfg : H2Cfg G t v J) (hF : fittingSubgroup G = ⊥)
     {L : Subgroup G} (hL : IsComponent L) (hle : L ⊓ centralizer ({t} : Set G) ≤ kleinV t v) :
     kleinV t v ≤ L := by
-  haveI : IsSimpleGroup ↥L := component_isSimple hF hL
+  have : IsSimpleGroup ↥L := component_isSimple hF hL
   have hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a := component_nonab hF hL
   obtain ⟨x, hxL, hx1, hxt⟩ :=
     exists_fixed_of_simple_nonab (L := L) (component_isSimple hF hL) hnab cfg.t_sq

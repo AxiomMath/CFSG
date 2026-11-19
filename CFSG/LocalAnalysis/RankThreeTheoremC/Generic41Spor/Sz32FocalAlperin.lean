@@ -64,7 +64,7 @@ theorem sylow_focal_gen_mem_commutator_normalizer {p : ℕ} [Fact p.Prime] (P : 
     | one => intro y _; simp
     | @step c n Q _ hQ hAQ hn ih =>
       intro y hy
-      have hy1 : c⁻¹ * y * c ∈ Q := hAQ ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      have hy1 : c⁻¹ * y * c ∈ Q := hAQ ⟨y, hy, by simp⟩
       have hQP : Q ≤ (P : Subgroup G) := hQ.1
       have hxQ : x ∈ Q := by
         refine hQ.2.2.1 (Subgroup.mem_inf.mpr ⟨?_, hxP⟩)
@@ -141,7 +141,7 @@ theorem exists_mem_normalizer_swap {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x e
       rw [Sylow.coe_subtype, Subgroup.subgroupOf_map_subtype]
       exact inf_eq_left.mpr hPx⟩
   have hBp : IsPGroup p ((P : Subgroup G).map (MulAut.conj h⁻¹).toMonoidHom) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   obtain ⟨k, hkC, hk⟩ :=
     CFSG.LocalAnalysis.RankFourTheoremC.exists_conj_le_of_isSylowOf hS hB hBp
   have hkx : k * x = x * k := Subgroup.mem_centralizer_singleton_iff.mp hkC

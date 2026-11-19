@@ -18,7 +18,7 @@ private theorem l05nJ_reindex_trans {α β γ : Type} (M : CoxeterMatrix α) (e 
     (f : β ≃ γ) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 private theorem l05nJ_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι}
     (h : GGIsWeylMatrix M) (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -83,11 +83,11 @@ private lemma l05nJ_A_shift_one {N : ℕ} (_hN : 5 ≤ N) (i j : Fin (N - 3)) :
       apply h
       apply Fin.ext
       have hv := congrArg Fin.val hh
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     have he : ((j.val + 1) + 1 = i.val + 1 ∨ (i.val + 1) + 1 = j.val + 1) ↔
         (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by omega
-    simp only [h, hi, if_false, he]
+    simp only [h, hi, ite_false, he]
 
 private lemma l05nJ_A_shift_zero {N : ℕ} (_hN : 5 ≤ N) (i j : Fin (N - 3)) :
     (CoxeterMatrix.A (N - 1)).M ⟨i.val, by omega⟩ ⟨j.val, by omega⟩ =
@@ -100,9 +100,9 @@ private lemma l05nJ_A_shift_zero {N : ℕ} (_hN : 5 ≤ N) (i j : Fin (N - 3)) :
       apply h
       apply Fin.ext
       have hv := congrArg Fin.val hh
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       exact hv
-    simp only [h, hi, if_false]
+    simp only [h, hi, ite_false]
 
 theorem ggTW_twoNode_J_typeA {N : ℕ} (hN : 5 ≤ N) {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {M : CoxeterMatrix Λ} (e : Fin (N - 1) ≃ Λ) (hM : M = (CoxeterMatrix.A (N - 1)).reindex e)
@@ -245,17 +245,17 @@ theorem ggLE3_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
   classical
   obtain ⟨Λ₀, i1₀, i2₀, M₀, C₀, V₀, i3₀, i4₀, ι₀, φ₀, h₀, α₀, e₀, hM₀, hW₀, hC₀,
     hlin₀, hrefl₀, hpair₀, hf₀ex, hclos₀⟩ := hXd
-  letI := i1₀
-  letI := i2₀
-  letI := i3₀
-  letI := i4₀
+  let := i1₀
+  let := i2₀
+  let := i3₀
+  let := i4₀
   obtain ⟨f₀, hf₀⟩ := hf₀ex
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V, i3, i4, ι, φ, h, α, hb, hWM, hC, hWMJ, hMJ,
     hlin, hrefl, hpair, hfex, hclos, hfJex, hclosJ, hconj⟩ := hXs
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
+  let := i1
+  let := i2
+  let := i3
+  let := i4
   obtain ⟨f, hf⟩ := hfex
   obtain ⟨fJ, hfJ⟩ := hfJex
   obtain ⟨e, hM⟩ :=
@@ -264,10 +264,10 @@ theorem ggLE3_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
   obtain ⟨eJ, hMJ'⟩ := ggTW_twoNode_J_typeA hN5 e hM hb hWMJ hMJ
   obtain ⟨ΛY, i1Y, i2Y, S, MY, CY, MJY, VY, i3Y, i4Y, ιY, φY, hY, αY, hS1, hS2, hWMY,
     hCY, hWMJY, hMJY, hlinY, hreflY, hpairY, hfYex, hclosY, hfJYex, hclosJY, hconjY⟩ := hY
-  letI := i1Y
-  letI := i2Y
-  letI := i3Y
-  letI := i4Y
+  let := i1Y
+  let := i2Y
+  let := i3Y
+  let := i4Y
   obtain ⟨fY, hfY⟩ := hfYex
   obtain ⟨fJY, hfJY⟩ := hfJYex
   have hS3 : S.card = 3 := by
@@ -283,7 +283,7 @@ theorem ggLE3_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
     have h := (Fintype.card_congr eY).symm
     simpa using h
   have hcardS : Fintype.card {j : ΛY // j ∈ S} = S.card := by
-    simpa using Fintype.card_coe S
+    simp
   have hcard : Fintype.card ΛY = N := by
     have h := Fintype.card_subtype_compl (fun j : ΛY => j ∈ S)
     rw [hcardJ, hcardS, hS3] at h

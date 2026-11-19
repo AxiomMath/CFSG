@@ -92,7 +92,7 @@ private theorem caIdent_reindex_jGL (n : ℕ) :
       Matrix.SpecialLinearGroup.coe_GL_coe_matrix, CFSG.StandardType.coe_ggInvSL,
       CFSG.StandardType.ggInvMatrix, CFSG.StandardType.ggInvNil_apply, Matrix.add_apply,
       Matrix.one_apply, caIdent_idx_inl, caIdent_idx_B, caIdent_idx_C]
-  all_goals (split_ifs <;> simp_all <;> omega)
+  all_goals (split_ifs <;> simp_all; try omega)
 
 private noncomputable def caIdent_reindexGL (n : ℕ) :
     GL (Fin (n + 3)) (ZMod 2) ≃* GL (BlkIdx 1 (n + 1)) (ZMod 2) :=
@@ -139,10 +139,10 @@ private theorem caIdent_blockMat_apply_of_not {m : ℕ} (A : Matrix (Fin 2) (Fin
     obtain ⟨hb1, hb2⟩ := h
     by_cases ha1 : a = Sum.inl 0
     · subst ha1
-      simp [hb1, hb2, Ne.symm hb1, Ne.symm hb2, Matrix.one_apply]
+      simp [hb1, hb2, Ne.symm hb1]
     · by_cases ha2 : a = Sum.inr (Sum.inr 0)
       · subst ha2
-        simp [hb1, hb2, Ne.symm hb1, Ne.symm hb2, Matrix.one_apply]
+        simp [hb1, hb2, Ne.symm hb2]
       · simp [ha1, ha2]
 
 private theorem caIdent_betaStd_mem_suppGL (m : ℕ) :
@@ -170,7 +170,7 @@ private theorem caIdent_commute_levi_betaStd (m : ℕ) (R : GL (Fin m) (ZMod 2))
     (caIdent_levi_mem_suppGL m R) (caIdent_betaStd_mem_suppGL m)
 
 private theorem caIdent_commutator_mul_mul {Γ : Type*} [Group Γ] {a₁ a₂ z₁ z₂ : Γ}
-    (h₁ : Commute a₁ z₁) (h₂ : Commute a₂ z₁) (h₃ : Commute a₁ z₂) (h₄ : Commute a₂ z₂)
+    (_h₁ : Commute a₁ z₁) (h₂ : Commute a₂ z₁) (h₃ : Commute a₁ z₂) (_h₄ : Commute a₂ z₂)
     (h₅ : Commute z₁ z₂) :
     ⁅a₁ * z₁, a₂ * z₂⁆ = ⁅a₁, a₂⁆ := by
   have hz : ⁅z₁, z₂⁆ = 1 := h₅.commutator_eq
@@ -299,7 +299,7 @@ theorem exists_blockModel {G : Type} [Group G] [Finite G] {n : ℕ} (hn : n = 5 
     have hSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (n + 1)) (ZMod 2)) :=
       CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (K := ZMod 2) (n := n + 1)
         (by omega)
-    haveI := hSL
+    have := hSL
     exact Group.IsPerfect.ofSurjective (f := eL.symm.toMonoidHom) eL.symm.surjective
   set LY : Subgroup ↥Y := L.subgroupOf Y with hLYdef
   have hLcomm : ∀ y ∈ LY,
@@ -329,12 +329,12 @@ theorem exists_blockModel {G : Type} [Group G] [Finite G] {n : ℕ} (hn : n = 5 
     exact hLcomm y hy
   have hperfLY : Group.IsPerfect ↥LY := by
     rw [hLYdef]
-    haveI := hperfL
+    have := hperfL
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hLY).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hLY).symm.surjective
   have hperfK : Group.IsPerfect ↥(LY.map φ.toMonoidHom) := by
-    haveI := hperfLY
+    have := hperfLY
     exact Group.IsPerfect.ofSurjective
       (f := (φ.subgroupMap LY).toMonoidHom) (φ.subgroupMap LY).surjective
   have hKcomm : ⁅LY.map φ.toMonoidHom, LY.map φ.toMonoidHom⁆ = LY.map φ.toMonoidHom :=

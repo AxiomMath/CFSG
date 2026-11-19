@@ -11,6 +11,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_conj_mul_eq (X : Subgroup G) (a b : G) :
     X.map (MulAut.conj (a * b)).toMonoidHom =
       (X.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom := by
@@ -19,6 +20,7 @@ private theorem map_conj_mul_eq (X : Subgroup G) (a b : G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem map_conj_inv_map (X : Subgroup G) (g : G) :
     (X.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = X := by
   rw [Subgroup.map_map]
@@ -48,7 +50,7 @@ private theorem exists_conj_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {P K U : Su
     exact ⟨y, hy, rfl⟩
   have : (MulAut.conj ((m⁻¹ : K) : G)).toMonoidHom t = (y : G) := by
     rw [← hyt']
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [this]
   exact hyP
 
@@ -59,7 +61,7 @@ theorem exists_symmetric_conj_of_not_mem_uniqueSet {M : Subgroup G}
       E ≤ Q ∧ E.map (MulAut.conj g).toMonoidHom ≤ Q ∧ Q ≤ M ∧
       Q ≤ M.map (MulAut.conj g).toMonoidHom := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hex : ∃ g : G, E ≤ M.map (MulAut.conj g).toMonoidHom ∧
       M.map (MulAut.conj g).toMonoidHom ≠ M := by
     by_contra h
@@ -77,7 +79,7 @@ theorem exists_symmetric_conj_of_not_mem_uniqueSet {M : Subgroup G}
   have hQK : Q ≤ K := Subgroup.map_subtype_le (H := K) S
   have hQH₀ : Q ≤ H₀ := hQK.trans inf_le_left
   have hQM : Q ≤ M := hQK.trans inf_le_right
-  have hQp : IsPGroup p Q := S.isPGroup'.map _
+  have hQp : IsPGroup p Q := S.isPGroup.map _
   have hEQ : E ≤ Q := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hEK]
     exact Subgroup.map_mono hES
@@ -136,6 +138,7 @@ theorem exists_symmetric_conj_of_not_mem_uniqueSet {M : Subgroup G}
     · calc Q = Q.map (MulAut.conj x).toMonoidHom := hQx.symm
         _ ≤ M.map (MulAut.conj x).toMonoidHom := Subgroup.map_mono hQM
 
+omit [Finite G] in
 theorem exists_symmetric_conj_ne_pCore {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     {p : ℕ} {E : Subgroup G} {g : G} {Q : Subgroup G}
     (hne : M.map (MulAut.conj g).toMonoidHom ≠ M) (hQ : IsPGroup p Q) (hEQ : E ≤ Q)
@@ -222,7 +225,7 @@ theorem exists_nineSettingGen_of_not_mem_uniqueSet {M : Subgroup G}
       M.map (MulAut.conj g).toMonoidHom ∈ H2Fam M Q ∧
       pCoreOf 2 (M.map (MulAut.conj g).toMonoidHom) ≠
         pCoreOf 2 (M.map (MulAut.conj g).toMonoidHom ⊓ M) := by
-  haveI := hC.cstar.simple
+  have := hC.cstar.simple
   have hM := hC.maxLocal
   have hEp : IsPGroup p E := elementary_isPGroup p E hE
   obtain ⟨g₁, Q₁, hne₁, hQp₁, hEQ₁, hEgQ₁, hQ₁M, hQ₁Mg⟩ :=
@@ -252,7 +255,7 @@ theorem exists_nineSetting_of_not_mem_uniqueSet {M : Subgroup G} (hC : CStarSett
       M.map (MulAut.conj g).toMonoidHom ∈ H2Fam M Q ∧
       pCoreOf 2 (M.map (MulAut.conj g).toMonoidHom) ≠
         pCoreOf 2 (M.map (MulAut.conj g).toMonoidHom ⊓ M) := by
-  haveI := hC.standing.simple
+  have := hC.standing.simple
   have hM := hC.maxLocal
   have hEp : IsPGroup p E := elementary_isPGroup p E hE
   obtain ⟨g₁, Q₁, hne₁, hQp₁, hEQ₁, hEgQ₁, hQ₁M, hQ₁Mg⟩ :=

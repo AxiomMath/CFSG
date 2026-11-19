@@ -70,6 +70,7 @@ private theorem conj_mem_sup_twin (hΩ : HypOmegaGen Ω) {M M' : Subgroup G} {c 
   rw [e]
   exact Subgroup.mul_mem _ h1 h2
 
+omit [Finite G] in
 private theorem exists_pow_oddQuotMk_eq_one {c : G} {M : Subgroup G}
     (h2 : IsPGroup 2 (↥M ⧸ classicalInvolutionOddCore ↥M))
     (hO : Balance.oddCoreIn M ≤ Balance.oddCoreIn (Subgroup.centralizer ({c} : Set G))) {m : G}

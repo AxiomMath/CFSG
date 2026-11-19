@@ -18,6 +18,7 @@ section Small
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))}
 
+omit [Finite X] in
 private theorem bcdSmall_sec5Comp_map {H A : Subgroup X} (hA : Sec5Comp X n H A) (φ : X ≃* X) :
     Sec5Comp X n (H.map φ.toMonoidHom) (A.map φ.toMonoidHom) := by
   obtain ⟨⟨u, hu⟩, hcov⟩ := hA

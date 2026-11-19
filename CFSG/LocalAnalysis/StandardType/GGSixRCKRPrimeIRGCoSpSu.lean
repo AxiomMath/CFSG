@@ -36,7 +36,7 @@ theorem irgIsoCompat_su_two
     {g : ℕ} (hg : 2 ≤ g) :
     ∃ e : (ggU .PSU 2 g).K ≃* (ggU .PSL 2 g).K, IRGIsoCompat e := by
   have hg1 : 1 ≤ g := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 (2 * g)) = (2 ^ g) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 g hg1
   have htgt : ggU .PSU 2 g =

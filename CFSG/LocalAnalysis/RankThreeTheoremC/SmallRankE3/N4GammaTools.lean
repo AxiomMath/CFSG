@@ -20,7 +20,7 @@ theorem n4_exists_fixed_of_pow_eq_one_aux {α : Type} [Finite α] {p : ℕ} [hp 
     (hcop : Nat.Coprime p (Nat.card α)) (σ : Equiv.Perm α) (hσ : σ ^ p = 1) :
     ∃ x, σ x = x := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have hmod := Equiv.Perm.card_compl_support_modEq (p := p) (n := 1) (σ := σ)
     (by rw [pow_one]; exact hσ)
   rw [Nat.card_eq_fintype_card] at hcop
@@ -34,10 +34,10 @@ theorem n4_exists_fixed_of_pow_eq_one_aux {α : Type} [Finite α] {p : ℕ} [hp 
   exact ⟨x, hx⟩
 
 theorem n4_exists_mul_centralizer {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {D H : Subgroup G}
-    (hDH : D ≤ H) (hN : H ≤ normalizer (D : Set G)) (hD : IsPGroup 2 D) {b : G} (hbH : b ∈ H)
-    (hbp : orderOf b = p) {l : G} (hlH : l ∈ H) (hcomm : b * l * b⁻¹ * l⁻¹ ∈ D) :
+    (_hDH : D ≤ H) (hN : H ≤ normalizer (D : Set G)) (hD : IsPGroup 2 D) {b : G} (hbH : b ∈ H)
+    (hbp : orderOf b = p) {l : G} (_hlH : l ∈ H) (hcomm : b * l * b⁻¹ * l⁻¹ ∈ D) :
     ∃ d ∈ D, ∃ c ∈ centralizer ({b} : Set G), l = d * c := by
-  clear hDH hlH
+  clear _hDH _hlH
   classical
   have hconj : ∀ g ∈ H, ∀ x ∈ D, g * x * g⁻¹ ∈ D := fun g hg x hx =>
     (Subgroup.mem_set_normalizer_iff.mp (hN hg) x).mp hx
@@ -113,7 +113,8 @@ theorem n4_exists_mul_centralizer {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {D H 
   rw [hh]
   exact hc
 
-theorem n4_mem_sup_iff {D C H : Subgroup G} (hDH : D ≤ H) (hCH : C ≤ H)
+omit [Finite G] in
+theorem n4_mem_sup_iff {D C H : Subgroup G} (_hDH : D ≤ H) (hCH : C ≤ H)
     (hN : H ≤ normalizer (D : Set G)) {w : G} :
     w ∈ D ⊔ C ↔ ∃ d ∈ D, ∃ c ∈ C, w = d * c := by
   constructor
@@ -170,7 +171,7 @@ theorem n4_false_of_hom_pSolvable {p : ℕ} [Fact p.Prime] {A : Type} [Group A] 
     {X : Type} [Group X] [Finite X] {Y N : Subgroup A} {z : A} (hsec : S622IsSimpleSection Y N)
     (hz : z ∈ Y) (hzN : z ∉ N) (hzp : z ^ p = 1) (ψ : ↥Y →* X)
     (hker : ∀ y : ↥Y, ψ y = 1 → (y : A) ∈ N) (hX : IsPSolvable p X) : False := by
-  haveI hNn : (N.subgroupOf Y).Normal := hsec.2.1
+  have hNn : (N.subgroupOf Y).Normal := hsec.2.1
   have hsimpleQ : IsSimpleGroup (↥Y ⧸ N.subgroupOf Y) :=
     CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L613.isSimpleGroup_quotient_of_section hsec
   have hnab : ¬ ∀ a ∈ Y, ∀ b ∈ Y, a * b * a⁻¹ * b⁻¹ ∈ N := hsec.2.2.2.2
@@ -212,7 +213,7 @@ theorem n4_false_of_hom_pSolvable {p : ℕ} [Fact p.Prime] {A : Type} [Group A] 
     rwa [hord] at h
   rcases hdich with hcard | hcop
   ·
-    haveI : IsCyclic (↥Y ⧸ N.subgroupOf Y) := isCyclic_of_prime_card hcard
+    have : IsCyclic (↥Y ⧸ N.subgroupOf Y) := isCyclic_of_prime_card hcard
     apply hnab
     intro a ha b hb
     obtain ⟨u, hua⟩ : ∃ u : ↥Y, (u : A) = a := ⟨⟨a, ha⟩, rfl⟩

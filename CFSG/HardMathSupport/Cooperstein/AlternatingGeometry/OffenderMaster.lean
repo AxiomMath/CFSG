@@ -3,7 +3,7 @@ module
 public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.OffenderFix
 public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.OffenderArith
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

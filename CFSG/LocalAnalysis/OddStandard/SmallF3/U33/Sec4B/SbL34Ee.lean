@@ -87,7 +87,7 @@ theorem card_W_le_sixteen (h : Crit ι P W r s) : Nat.card W ≤ 16 := by
 
 theorem exists_normal_four (h : Crit ι P W r s) :
     ∃ Z : Subgroup Λ, Z ≤ P ∧ Z.Normal ∧ Nat.card Z = 4 ∧ ¬ 2 ∣ Z.relIndex P := by
-  haveI := h.normal
+  have := h.normal
   have hnil : Group.IsNilpotent ↥P := isNilpotent_of_fpf P r h.r_cube h.fpf
   obtain ⟨Z, hZP, hZn, hZpg, hZidx⟩ := exists_normal_sylow P hnil 2
   have hr3 : r * r * r = 1 := by rw [← h.r_cube, pow_succ, pow_two]

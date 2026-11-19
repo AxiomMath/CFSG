@@ -269,7 +269,7 @@ theorem frobenius_fixed_pow_card_add_one_mem_baseChange [CharP K 2]
       rw [h0] at this
       exact zero_dvd_iff.1 this
     omega
-  haveI : Finite X := hXfin
+  have : Finite X := hXfin
   have hXC : X ≤ adjointGroup .E6 L := Subgroup.zpowers_le.2 hxC
   have hXF : ∀ y ∈ X, Units.map (entrywiseHom Fr) y = y := by
     intro y hy

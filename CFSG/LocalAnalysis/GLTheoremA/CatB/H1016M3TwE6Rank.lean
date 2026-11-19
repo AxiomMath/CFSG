@@ -13,7 +13,7 @@ open CFSG.Open
 theorem card_le_of_lieModel_twistedE6_two {X : Type} [Group X]
     (h : CFSG.Blueprint.LieModel X .twistedE6 0 2 1) (E : Subgroup X) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, hK, σ, hσ, he⟩ := CFSG.EvenSporadicStandard.Induction.twistedE6_model_data h
   have hm : CFSG.Blueprint.TwistedChevalleyModel X .E6 (2 ^ 1) := by
     unfold CFSG.Blueprint.TwistedChevalleyModel
@@ -23,7 +23,7 @@ theorem card_le_of_lieModel_twistedE6_two {X : Type} [Group X]
   obtain ⟨ε, -⟩ := CFSG.StandardType.TwE6DD2.exists_recipeEquiv le_rfl hL τ hτ
   by_contra hlt
   rw [not_le] at hlt
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hE.isPGroup
   have h6 : 3 ^ 6 ≤ Nat.card E := by
     rw [hk] at hlt ⊢

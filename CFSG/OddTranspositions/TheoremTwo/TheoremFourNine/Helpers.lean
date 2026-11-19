@@ -15,11 +15,12 @@ open CFSG.GorensteinWalter
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem le_of_odd_relIndex_of_A5 {H N X : Subgroup G} (hNH : N ≤ H)
+omit [Finite G] in
+theorem le_of_odd_relIndex_of_A5 {H N X : Subgroup G} (_hNH : N ≤ H)
     (hNn : (N.subgroupOf H).Normal) (hodd : Odd (N.relIndex H)) (hXH : X ≤ H)
     (hX : Nonempty (X ≃* alternatingGroup (Fin 5))) : X ≤ N := by
   obtain ⟨eX⟩ := hX
-  haveI := hNn
+  have := hNn
   have hdvd : N.relIndex X ∣ N.relIndex H := by
     have h := Subgroup.relIndex_dvd_index_of_normal (N.subgroupOf H) (X.subgroupOf H)
     rwa [Subgroup.relIndex_subgroupOf hXH] at h
@@ -31,7 +32,7 @@ theorem le_of_odd_relIndex_of_A5 {H N X : Subgroup G} (hNH : N ≤ H)
     have := hNn.conj_mem ⟨n, hXH hnX⟩ (by simpa [Subgroup.mem_subgroupOf] using hnN)
       ⟨g, hXH g.2⟩
     simpa [Subgroup.mem_subgroupOf] using this
-  haveI : IsSimpleGroup X := eX.isSimpleGroup
+  have : IsSimpleGroup X := eX.isSimpleGroup
   rcases hXN.eq_bot_or_eq_top with h | h
   · exfalso
     have hbot : N ⊓ X = ⊥ := by
@@ -87,7 +88,7 @@ theorem normal_of_simple_of_odd_relIndex {L N₀ X : Subgroup G} [hL : L.Normal]
       exact (Nat.eq_of_mul_eq_mul_right hpos this).symm
     rw [this]; exact hodd
   have hXN₁ := le_of_odd_relIndex_of_A5 hN₁L hN₁n hodd₁ hXL hX
-  haveI : IsSimpleGroup N₁ := ((Subgroup.equivMapOfInjective N₀ φ.toMonoidHom φ.injective).symm.isSimpleGroup)
+  have : IsSimpleGroup N₁ := ((Subgroup.equivMapOfInjective N₀ φ.toMonoidHom φ.injective).symm.isSimpleGroup)
   have hI : ((N₀ ⊓ N₁).subgroupOf N₁).Normal := by
     refine ⟨fun x hx y => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -119,12 +120,12 @@ theorem normal_of_simple_of_odd_relIndex {L N₀ X : Subgroup G} [hL : L.Normal]
   simpa [φ, MulAut.conj_apply] using this
 
 theorem centralizer_eq_bot_of_odd_relIndex {L N₀ : Subgroup G} [hL : L.Normal] [hN₀ : N₀.Normal]
-    (hL2 : L.index = 2) (hN₀L : N₀ ≤ L) (hodd : Odd (N₀.relIndex L))
+    (hL2 : L.index = 2) (_hN₀L : N₀ ≤ L) (hodd : Odd (N₀.relIndex L))
     (hZ : Subgroup.center N₀ = ⊥)
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
     (hcen : Subgroup.center G = ⊥) : Subgroup.centralizer (N₀ : Set G) = ⊥ := by
   set C := Subgroup.centralizer (N₀ : Set G)
-  haveI hCn : C.Normal := inferInstance
+  have hCn : C.Normal := inferInstance
   have hCL : C ⊓ L = ⊥ := by
     have hinf : N₀ ⊓ (C ⊓ L) = ⊥ := by
       rw [eq_bot_iff]; intro x hx
@@ -163,7 +164,7 @@ theorem centralizer_eq_bot_of_odd_relIndex {L N₀ : Subgroup G} [hL : L.Normal]
           _ = 1 := by rw [h]; group)
       have : 3 ≤ Nat.card C := by
         classical
-        letI := Fintype.ofFinite C
+        let := Fintype.ofFinite C
         rw [Nat.card_eq_fintype_card]
         have : ({1, ⟨c, hc⟩, ⟨_, hgc⟩} : Finset C).card = 3 := by
           rw [Finset.card_insert_of_notMem, Finset.card_pair]

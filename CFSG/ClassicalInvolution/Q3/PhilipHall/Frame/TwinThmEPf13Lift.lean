@@ -31,7 +31,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 variable {Λ : Set (Subgroup Y)}
 
-theorem twin_of_lift (hΩ : HypOmegaGen Λ) (h2 : ∀ J ∈ Λ, IsPGroup 2 J) (hex : ExactSylow Λ)
+theorem twin_of_lift (hΩ : HypOmegaGen Λ) (h2 : ∀ J ∈ Λ, IsPGroup 2 J) (_hex : ExactSylow Λ)
     {K M M' : Subgroup Y} (hK : K ∈ Λ) (hM : M ∈ liftFam Λ) (hM' : M' ∈ liftFam Λ) (hKM : K ≤ M)
     (hne : M' ≠ M) {z : Y} (hzM : IsUniqueInvolution M z) (hzM' : IsUniqueInvolution M' z) :
     ∃ K₂ ∈ Λ, K₂ ≤ M' ∧ K₂ ∈ twinSet Λ K ∧ K₂ ≠ K ∧ IsSylow2In K M ∧ IsSylow2In K₂ M' := by

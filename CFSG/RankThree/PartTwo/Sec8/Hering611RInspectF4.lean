@@ -24,7 +24,7 @@ section AlmostSimple
 
 theorem thirteen_dvd_card_of_sq {Y : Type} [Group Y] [Finite Y] {D : Subgroup Y}
     (hsq : ∀ y : Y, y ^ 2 ∈ D) (h13 : 13 ∣ Nat.card Y) : 13 ∣ Nat.card D := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Y) 13 h13
   have hx13 : x ^ (2 * 6 + 1) = 1 := by
     have := pow_orderOf_eq_one x
@@ -78,9 +78,9 @@ theorem simple_commutator_reeGamma {Y : Type} [Group Y] {b : ℕ} {k : Type} [Fi
         have hm : (m : R) ∈ N.map D.subtype := by rw [h]; exact m.2
         obtain ⟨m₁, hm₁, he⟩ := hm
         rwa [show m = m₁ from Subtype.ext he.symm]
-    haveI : Nontrivial D :=
+    have : Nontrivial D :=
       ⟨⟨⟨hT.g₀, hT.g₀_mem⟩, 1, fun h => hT.g₀_ne_one (congrArg Subtype.val h)⟩⟩
-    haveI hDs : IsSimpleGroup D := ⟨hsimple⟩
+    have hDs : IsSimpleGroup D := ⟨hsimple⟩
     have hsq : ∀ r : R, r ^ 2 ∈ D := by
       intro r
       have hr : r ∈ D ⊔ Subgroup.zpowers hT.g₁ := by
@@ -109,12 +109,12 @@ theorem simple_commutator_reeGamma {Y : Type} [Group Y] {b : ℕ} {k : Type} [Fi
     obtain ⟨z, hz, hzy⟩ := hmem
     rw [← f.injective hzy]
     exact hz
-  · haveI : IsSimpleGroup (ReeTag.F4.reeGamma k b) :=
+  · have : IsSimpleGroup (ReeTag.F4.reeGamma k b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hk
-    haveI : IsSimpleGroup Y := e.isSimpleGroup
-    haveI : Group.IsPerfect (ReeTag.F4.reeGamma k b) :=
+    have : IsSimpleGroup Y := e.isSimpleGroup
+    have : Group.IsPerfect (ReeTag.F4.reeGamma k b) :=
       ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb hk⟩
-    haveI : Group.IsPerfect Y :=
+    have : Group.IsPerfect Y :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hYtop : commutator Y = ⊤ := Group.IsPerfect.commutator_eq_top (G := Y)
     refine ⟨((MulEquiv.subgroupCongr hYtop).trans Subgroup.topEquiv).isSimpleGroup, fun y => ?_⟩
@@ -170,14 +170,14 @@ theorem false_of_outer_largeRee {G : Type} [Group G] [Finite G] {K : Subgroup G}
       (Subgroup.commutator_eq_self (H := P.subgroupOf (Item426.fixSub α))) hsn
   let ePD : P ≃* commutator (Item426.fixSub α) :=
     (Subgroup.subgroupOfEquivOfLe hPC).symm.trans (MulEquiv.subgroupCongr hD)
-  haveI : IsSimpleGroup ↥P := ePD.isSimpleGroup
+  have : IsSimpleGroup ↥P := ePD.isSimpleGroup
   have h360 : Nat.card P = 360 := hPsub.card_eq_of_isSimpleGroup
   have hD13 : 13 ∣ Nat.card (commutator (Item426.fixSub α)) := thirteen_dvd_card_of_sq hsq h13
   rw [← Nat.card_congr ePD.toEquiv, h360] at hD13
   omega
 
 theorem largeRee611 {G : Type} [Group G] [Finite G] {K : Subgroup G} {c : G} (hc3 : c ^ 3 = 1)
-    {n : ℕ} (hn : Odd n) (h : ReeTitsModel (K ⧸ aschbacherSolvableCore 3 K) .twistedF4 2 n)
+    {n : ℕ} (_hn : Odd n) (h : ReeTitsModel (K ⧸ aschbacherSolvableCore 3 K) .twistedF4 2 n)
     (hA6 : HasA6Cent K c) : False := by
   by_cases hin : KFacts.IsInnerAut (Item426.thetaAut K hA6.choose)
   · obtain ⟨hcN, hα3, hα1, P, hP, ⟨e6⟩⟩ := hA6

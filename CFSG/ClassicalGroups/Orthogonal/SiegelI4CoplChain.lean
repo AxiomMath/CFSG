@@ -14,8 +14,8 @@ variable {K : Type*} [Field K] {N : Type*} [AddCommGroup N] [Module K N] [Finite
 omit [FiniteDimensional K N] in
 theorem exists_notMem_pair_of_not_le {W U₁ U₂ : Submodule K N} (h₁ : ¬ W ≤ U₁)
     (h₂ : ¬ W ≤ U₂) : ∃ z ∈ W, z ∉ U₁ ∧ z ∉ U₂ := by
-  obtain ⟨u, hu, hu₁⟩ := SetLike.not_le_iff_exists.mp h₁
-  obtain ⟨v, hv, hv₂⟩ := SetLike.not_le_iff_exists.mp h₂
+  obtain ⟨u, hu, hu₁⟩ := IsConcreteLE.not_le_iff_exists.mp h₁
+  obtain ⟨v, hv, hv₂⟩ := IsConcreteLE.not_le_iff_exists.mp h₂
   by_cases hu₂ : u ∈ U₂
   · by_cases hv₁ : v ∈ U₁
     · refine ⟨u + v, W.add_mem hu hv, fun h => hu₁ ?_, fun h => hv₂ ?_⟩

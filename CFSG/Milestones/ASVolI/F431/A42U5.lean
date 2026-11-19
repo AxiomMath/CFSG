@@ -60,9 +60,9 @@ theorem burnsideF4m_A42_chart_extend_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ 
       rintro b x ⟨-, h1', h2', h3', c', -, hc'⟩
       refine ⟨x.2, fun h => h1' (Subtype.ext h), congrArg Subtype.val h2', h3', (c' : E), c'.2, ?_⟩
       cases b
-      · rw [if_neg (by decide)] at hc' ⊢
+      · rw [ite_eq_right (by decide)] at hc' ⊢
         exact ⟨_, hc', rfl⟩
-      · rw [if_pos rfl] at hc' ⊢
+      · rw [ite_eq_left rfl] at hc' ⊢
         exact ⟨_, hc', rfl⟩
   all_goals exact absurd hk (by decide)
 
@@ -89,8 +89,8 @@ theorem burnsideF4m_A42_U5 {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} {Y :
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hyp' := burnsideF4j_restrict ChF.nativeChartCompatibility hyp.amalgam
   have h27 := as_F_4_27 .U5 2 ↥Gp ⊤ _ _ hyp' rfl
   dsimp only at h27
@@ -126,9 +126,9 @@ theorem burnsideF4m_A42_U5 {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} {Y :
   have hmodel := burnsideF4g_lieModel_U5 hyp.amalgam.model
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := Un.un5_model_equiv hmodel
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
-  haveI := Un.isSimpleGroup_un5 hF
-  haveI := Finite.of_equiv (↥Gp) e.symm.toEquiv
+  have : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
+  have := Un.isSimpleGroup_un5 hF
+  have := Finite.of_equiv (↥Gp) e.symm.toEquiv
   have hU0 := Un.isSylowTwoOf_un5System hF ζ
   obtain ⟨P, P', z₀, t₀, V4, V, Uc, R, K, hPP, S1, SV, SL⟩ := Un.un5StdDatum F hF ζ
   obtain ⟨marking, hm1, hm2⟩ := burnsideF4g_marking (c := .U5) hyp.amalgam.toHypF_4_4g

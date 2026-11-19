@@ -34,7 +34,7 @@ theorem burnsideA315y_diag3_comm_blk (u w : Fˣ) (A : Matrix (Fin 2) (Fin 2) F) 
     diagonal ![(u : F), u, w] * blkMat A d = blkMat A d * diagonal ![(u : F), u, w] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blkMat, Matrix.mul_apply, Fin.sum_univ_three, diagonal] <;> ring
+    simp [blkMat, Matrix.mul_apply, diagonal] <;> ring
 
 end Diag
 
@@ -65,7 +65,7 @@ theorem burnsideA315y_l3Model_L :
 
 theorem burnsideA315y_l3_ringAut_eq_one {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p)
     (σ : RingAut F) : σ = 1 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   set e := ZMod.ringEquivOfPrime F (Fact.out : p.Prime) (by rw [← Nat.card_eq_fintype_card, hF])
   have h1 : (σ.toRingHom.comp e.toRingHom) = e.toRingHom := Subsingleton.elim _ _
   apply RingEquiv.ext
@@ -152,7 +152,7 @@ theorem burnsideA315y_l3K_range :
 theorem burnsideA315y_l3_K {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) :
     Nonempty (↥(burnsideA315y_l3Model x y hxy two_ne).K ≃*
       Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   set e := ZMod.ringEquivOfPrime F (Fact.out : p.Prime) (by rw [← Nat.card_eq_fintype_card, hF])
   exact ⟨((burnsideA315y_l3Model x y hxy two_ne).K₀EquivK.symm.trans burnsideA315y_l3K₀Equiv).trans
     (CFSG.ClassicalModels.specialLinearFieldEquiv e.symm (Fin 2))⟩
@@ -332,7 +332,7 @@ theorem burnsideA315y_l3_C₁ {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) (hp
   set M := burnsideA315y_l3Model x y hxy two_ne with hM
   have hp : p.Prime := Fact.out
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hFc : Fintype.card F = p := by rw [← Nat.card_eq_fintype_card, hF]
   set R := M.C₁.relIndex M.Γ₁ with hR
   have e1 : R * Nat.card ↥M.C₁ = Nat.card ↥M.Γ₁ := by

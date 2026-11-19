@@ -24,14 +24,14 @@ theorem card_top_eq_three {G : Type} [Group G] [Finite G] {N Y : Subgroup G}
 
 theorem card_eq_three_mul {L : Type} [Group L] [Finite L]
     (hL : Nat.card (L ⧸ CFSG.pCore 2 L) = 3) : ∃ a : ℕ, Nat.card L = 3 * 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := L))
   exact ⟨a, by rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 L), hL, ha]⟩
 
 theorem exists_decomp {L : Type} [Group L] [Finite L] (hL : Nat.card (L ⧸ CFSG.pCore 2 L) = 3)
     {t : L} (ht : orderOf t = 3) (g : L) : ∃ c ∈ CFSG.pCore 2 L, ∃ k : ℤ, g = c * t ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ht1 : (t : L ⧸ CFSG.pCore 2 L) ≠ 1 := by
     intro h
     have hmem : t ∈ CFSG.pCore 2 L := (QuotientGroup.eq_one_iff t).mp h
@@ -122,7 +122,7 @@ theorem exists_decomp_block {G : Type} [Group G] [Finite G] {N Y : Subgroup G}
 
 theorem exists_zpowers_eq {G : Type} [Group G] [Finite G] {T : Subgroup G}
     (hT : Nat.card T = 3) : ∃ t : G, orderOf t = 3 ∧ T = zpowers t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnt : Nontrivial ↥T := Finite.one_lt_card_iff_nontrivial.mp (by rw [hT]; norm_num)
   obtain ⟨t, ht1⟩ := exists_ne (1 : ↥T)
   have hord : orderOf t = 3 := by
@@ -141,7 +141,7 @@ theorem exists_invariant_three {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     {A Y : Subgroup G} (hA : IsPGroup p A) (hcop : ¬ p ∣ Nat.card Y)
     (hAY : A ≤ normalizer (Y : Set G)) {a : ℕ} (hY : Nat.card Y = 3 * 2 ^ a) :
     ∃ T : Subgroup G, T ≤ Y ∧ Nat.card T = 3 ∧ A ≤ normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbot3 : IsPGroup 3 (⊥ : Subgroup G) := IsPGroup.of_card (n := 0) (by simp)
   have hAbot : A ≤ normalizer ((⊥ : Subgroup G) : Set G) := by
     rw [normalizer_eq_top_iff.mpr inferInstance]

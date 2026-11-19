@@ -70,7 +70,7 @@ theorem burnsideF45_sp_coprime_card_torus {n : ℕ} {F : Type} [Field F] [Finite
 theorem burnsideF45_sp_iSup_torus_eq_bot {n : ℕ} {F : Type} [Field F] (hF : Nat.card F = 2) :
     (⨆ i, torus n F i : Subgroup (StatedSp n F)) = ⊥ := by
   have h1 : Nat.card Fˣ = 1 := by rw [Nat.card_units, hF]
-  haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 h1).1
+  have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 h1).1
   rw [eq_bot_iff]
   intro x hx
   obtain ⟨t, rfl⟩ := SpExtras.exists_diagonal_of_mem_iSup_torus hx
@@ -171,7 +171,7 @@ theorem burnsideF45_modelPre_faithful (F : Type) [Field F] [Finite F] :
   by_cases h2 : Nat.card F = 2
   · exact burnsideF45_pre_faithful_of_inf_eq_bot _ (burnsideF45_modelPre_inf_eq_bot h2)
   · have hlt : 1 < Nat.card F := Finite.one_lt_card
-    haveI : IsSimpleGroup (StatedProj (StatedSp 2 F)) := by
+    have : IsSimpleGroup (StatedProj (StatedSp 2 F)) := by
       refine CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp F 2 (by norm_num) ?_
       by_cases h4 : 4 ≤ Nat.card F
       · exact Or.inl (Or.inr h4)
@@ -195,7 +195,7 @@ theorem burnsideF45_sp4System_U (F : Type) [Field F] [Finite F] :
 
 theorem burnsideF45_sp4System_isSylow (F : Type) [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     [CharP F p] : ChF.IsSylowOf p (burnsideF45_sp4System F).U ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hX : ∀ γ ∈ (rootDatum 2 F).roots, IsPGroup p ((rootDatum 2 F).rootGroup γ) :=
     fun γ hγ => burnsideF45_sp_isPGroup_rootGroup hγ
   have hU : IsPGroup p (spU F) := isPGroup_iSup_pos (steinbergExtras 2 F) hX
@@ -226,12 +226,12 @@ theorem burnsideF45_facts45L_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
   · have hc : c' = .Sp4 := by
       cases c' <;> first | rfl | exact absurd hk (by decide)
     subst hc
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-    haveI : CharP marking.field p :=
+    have : CharP marking.field p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
         marking.exponent_pos hK
-    haveI : Finite (StatedProj (StatedSp 2 marking.field)) :=
+    have : Finite (StatedProj (StatedSp 2 marking.field)) :=
       CFSG.ClassicalGroups.Symplectic.finite_statedProj_statedSp 2 marking.field
     let θ₀ : StatedProj (StatedSp 2 marking.field) ≃* ↥Gp := marking.identification
     have hU := burnsideF45_sp4System_isSylow marking.field hp

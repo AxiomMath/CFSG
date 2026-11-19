@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isSylowOf_pCoreOf_sup_I9 {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hyp97 D Y H D₃ S)
     (hA5 : IsAlt (Bar2 (Opp 3 Y)) 5) (hSH : IsSylowOf 2 S H) :
     IsSylowOf 2 (pCoreOf 2 Y) (pCoreOf 2 Y ⊔ I9 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYH : Y ≤ H := hY.1.2.1.1
   have hSY : IsSylowOf 2 S Y := hY.2.2.2
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y

@@ -71,7 +71,7 @@ theorem exists_monomial_of_e6D0Char_mem [Finite K] (h3 : 3 ∣ Nat.card K - 1) {
   have hK4 : 4 ≤ Nat.card K := by
     have := Finite.one_lt_card (α := K)
     omega
-  obtain ⟨f, hf, hfi⟩ := SetLike.not_le_iff_exists.1 hEi
+  obtain ⟨f, hf, hfi⟩ := IsConcreteLE.not_le_iff_exists.1 hEi
   obtain ⟨L, hL⟩ : ∃ L : Subgroup (ModGL Tag.E6 K),
       L = rootSpan .E6 K (⋃ i, (e6LineRoots i : Set (Fin Tag.E6.rank → ℤ))) := ⟨_, rfl⟩
   have hroots : ∀ α ∈ ⋃ i, (e6LineRoots i : Set (Fin Tag.E6.rank → ℤ)), IsRoot .E6 α :=

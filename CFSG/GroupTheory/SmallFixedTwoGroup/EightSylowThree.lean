@@ -25,7 +25,7 @@ theorem false_of_relIndex_normalizer_eq_three {E : Type*} [Group E] [Finite E]
     (hcard : Nat.card (P : Subgroup E) = 8)
     (hCP : ∀ x : E, (∀ y ∈ (P : Subgroup E), x * y = y * x) → x ∈ (P : Subgroup E))
     (h3 : (P : Subgroup E).relIndex (normalizer ((P : Subgroup E) : Set E)) = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxN, hxord⟩ :=
     exists_mem_normalizer_orderOf_eq_of_prime_dvd_relIndex (T := (P : Subgroup E)) (r := 3)
       (by rw [h3])

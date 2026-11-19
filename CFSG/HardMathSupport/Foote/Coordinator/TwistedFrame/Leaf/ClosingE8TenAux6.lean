@@ -128,7 +128,7 @@ theorem strip_middle (hsupp : ∀ u ∈ U, ∀ ν, ν ∉ deg1Roots → u ν = 0
   have hh := hN _ hu'
   have e : actOp aE8 γ₃ z (u - z • Eop aE8 γ₃ u) = u := by
     simp only [actOp, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.id_apply, map_sub,
-      map_smul, hsq, smul_zero, sub_zero]
+      map_smul, hsq, smul_zero]
     module
   rwa [e] at hh
 

@@ -90,7 +90,7 @@ theorem exists_mixing_of_noncube (h : UnitaryFieldData ℓ f K)
       rw [mem_primaryFactors]
       exact ⟨hirr, monic_X_pow_sub_C _ (by norm_num), by rw [hmin]⟩⟩
   have hdeg : dualPoly h.bar (a : K[X]) = a → 2 ≤ (a : K[X]).natDegree := fun _ => by
-    simp [a, natDegree_X_pow_sub_C]
+    simp [a]
   have hcomp : ∀ v : Fin n → K,
       v ∈ primaryComponent (xl : Module.End K (Fin n → K)) (a : K[X]) := by
     intro v

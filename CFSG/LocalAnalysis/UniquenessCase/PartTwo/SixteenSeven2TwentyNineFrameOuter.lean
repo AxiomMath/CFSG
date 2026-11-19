@@ -52,10 +52,10 @@ private theorem s16c167_frame_isPerfect_prod {A B : Type*} [Group A] [Group B]
 theorem s16c167_frame_outer_square_solvable {S : Type} [Group S] [Finite S]
     (hS : SimpleCentreless S) (hout : Group.IsSolvable (Outer S)) :
     Group.IsSolvable (Outer (S × S)) := by
-  haveI : Nontrivial S := ⟨⟨hS.nontriv.choose, 1, hS.nontriv.choose_spec⟩⟩
-  haveI : IsSimpleGroup S := ⟨fun N hN => hS.simple N hN⟩
+  have : Nontrivial S := ⟨⟨hS.nontriv.choose, 1, hS.nontriv.choose_spec⟩⟩
+  have : IsSimpleGroup S := ⟨fun N hN => hS.simple N hN⟩
   have hZ : Subgroup.center S = ⊥ := s16c167_frame_center_eq_bot hS
-  haveI : Group.IsSolvable (Outer S) := hout
+  have : Group.IsSolvable (Outer S) := hout
   let ψ : ↥(presSub S) →* Outer S × Outer S :=
     ((QuotientGroup.mk' (inner S)).comp fstHom).prod
       ((QuotientGroup.mk' (inner S)).comp sndHom)
@@ -86,15 +86,15 @@ theorem s16c167_frame_outer_square_solvable {S : Type} [Group S] [Finite S]
       (f := ψ.rangeRestrict)
       (f_inv := Function.surjInv ψ.rangeRestrict_surjective)
       (Function.rightInverse_surjInv ψ.rangeRestrict_surjective) ⟨θ, hker'⟩ x
-    simpa [χ] using h
+    simp [χ]
   have hphi : inner (S × S) ≤ (SAFyHAut.phi hZ).ker := by
     intro φ hφ
     rw [MonoidHom.mem_ker, SAFyHAut.phi_eq_one_iff hZ]
     exact (s16c167_frame_inner_le_presSub hφ).1
   let Φ : Outer (S × S) →* Multiplicative (ZMod 2) :=
     QuotientGroup.lift (inner (S × S)) (SAFyHAut.phi hZ) hphi
-  haveI : Group.IsSolvable ↥ψ.range := inferInstance
-  haveI : Group.IsSolvable (Multiplicative (ZMod 2)) := inferInstance
+  have : Group.IsSolvable ↥ψ.range := inferInstance
+  have : Group.IsSolvable (Multiplicative (ZMod 2)) := inferInstance
   refine Group.isSolvable_of_ker_le_range χ Φ ?_
   intro x hx
   rw [MonoidHom.mem_ker] at hx
@@ -110,11 +110,11 @@ theorem s16c167_frame_outer_cyclic_square_solvable {F S Z : Type} [Group F] [Gro
     [Group Z] [IsCyclic Z] (hS : SimpleCentreless S) (hperf : Group.IsPerfect S)
     (hout : Group.IsSolvable (Outer S)) (e : F ≃* Z × S × S) :
     Group.IsSolvable (Outer F) := by
-  haveI : Group.IsPerfect (S × S) := s16c167_frame_isPerfect_prod hperf hperf
+  have : Group.IsPerfect (S × S) := s16c167_frame_isPerfect_prod hperf hperf
   have hcenter : Subgroup.center (S × S) = ⊥ := by
     rw [Subgroup.center_prod, s16c167_frame_center_eq_bot hS, Subgroup.bot_prod_bot]
-  haveI : Group.IsSolvable (Outer (S × S)) := s16c167_frame_outer_square_solvable hS hout
-  haveI : Group.IsSolvable (Outer ((S × S) × Z)) :=
+  have : Group.IsSolvable (Outer (S × S)) := s16c167_frame_outer_square_solvable hS hout
+  have : Group.IsSolvable (Outer ((S × S) × Z)) :=
     CFSG.ComponentClassification.CatalogueSchreierCyclicCentralFactor.outer_solvable_of_cyclic
       (L := S × S) (Z := Z) hcenter
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv
@@ -136,8 +136,8 @@ theorem s16c167_frame_le_of_perfect {A : Type*} [Group A] {X F J : Subgroup A} (
       have hx' : x⁻¹ ∈ X := X.inv_mem (hJX hx)
       have hmem := hFn x⁻¹ hx' (x * h * x⁻¹) hh
       rwa [show x⁻¹ * (x * h * x⁻¹) * (x⁻¹)⁻¹ = h by group] at hmem
-  haveI : Group.IsPerfect ↥J := hJ
-  haveI : Group.IsSolvable (Outer ↥F) := hout
+  have : Group.IsPerfect ↥J := hJ
+  have : Group.IsSolvable (Outer ↥F) := hout
   obtain ⟨k, hk⟩ := perfect_action_inner
     ((Subgroup.normalizerMonoidHom F).comp (Subgroup.inclusion hnorm)) ⟨j, hj⟩
   have hk' : ∀ f ∈ F, j * f * j⁻¹ = (k : A) * f * (k : A)⁻¹ := by

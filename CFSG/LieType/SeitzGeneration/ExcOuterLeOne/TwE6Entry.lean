@@ -84,11 +84,13 @@ private theorem twE6wm_nonroot_24 :
 
 end NoCert
 
+omit [Finite K] in
 private theorem twE6wm_weyl_eq (i : Fin 6) :
     CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) i (1 : Kˣ) =
       xE6 (ev6 i) 1 * xE6 (-ev6 i) (-1) * xE6 (ev6 i) 1 := by
   simp [CFSG.LieType.Steinberg.weylElement, xE6, ev6]
 
+omit [Finite K] in
 private theorem twE6wm_weyl_mem {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     {i : Fin 6} (hi : i ∈ ({1, 3} : Finset (Fin 6))) :
     CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) i (1 : Kˣ) ∈ R' := by
@@ -101,6 +103,7 @@ private theorem twE6wm_weyl_mem {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' 
 private theorem twE6wm_isRoot_e (i : Fin 6) : IsRoot Tag.E6 (ev6 i) :=
   IsRoot.basis (τ := Tag.E6) i
 
+omit [Finite K] in
 private theorem twE6wm_single {R' : Subgroup ↥(adjointGroup Tag.E6 K)} {i : Fin 6}
     (hi : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) i (1 : Kˣ) ∈ R')
     (α : Fin Tag.E6.rank → ℤ) : WeylMove R' α (reflect Tag.E6 i α) := by
@@ -108,6 +111,7 @@ private theorem twE6wm_single {R' : Subgroup ↥(adjointGroup Tag.E6 K)} {i : Fi
   obtain ⟨ε, hε, h1, h2⟩ := weyl_step_explicit (τ := Tag.E6) (K := K) i hα
   exact ⟨_, hi, ε, hε, h1, h2⟩
 
+omit [Finite K] in
 private theorem twE6wm_pair {R' : Subgroup ↥(adjointGroup Tag.E6 K)} {i j : Fin 6}
     (hij : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) i (1 : Kˣ) *
       CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) j (1 : Kˣ) ∈ R')
@@ -141,12 +145,14 @@ private theorem twE6wm_pair_identity {G : Type*} [Group G] {A B C D : G}
     _ = A * B * (A * C * D * C) := by rw [e1]
     _ = A * B * A * (C * D * C) := by simp only [mul_assoc]
 
+omit [Finite K] in
 private theorem twE6wm_commute (a b : K) {γ δ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hδ : IsRoot Tag.E6 δ) (hne : γ + δ ≠ 0) (hnr : γ + δ ∉ rootFinset Tag.E6) :
     Commute (xE6 γ a) (xE6 δ b) := by
   obtain ⟨D, hD, hG2⟩ := exists_adjData_valid_E (τ := Tag.E6) (Or.inl rfl)
   exact commute_xPar hD hG2 hγ hδ hne (fun h => hnr (mem_rootFinset.2 h)) a b
 
+omit [Finite K] in
 private theorem twE6wm_W_mul {R' : Subgroup ↥(adjointGroup Tag.E6 K)} {i j : Fin 6}
     (hAC : xE6 (ev6 i) (1 : K) * xE6 (ev6 j) (1 : K) ∈ R')
     (hBD : xE6 (-ev6 i) (-1 : K) * xE6 (-ev6 j) (-1 : K) ∈ R')
@@ -160,6 +166,7 @@ private theorem twE6wm_W_mul {R' : Subgroup ↥(adjointGroup Tag.E6 K)} {i j : F
   rw [twE6wm_weyl_eq i, twE6wm_weyl_eq j, ← key]
   exact R'.mul_mem (R'.mul_mem hAC hBD) hAC
 
+omit [Finite K] in
 private theorem twE6wm_W05 {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R') :
     CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) (0 : Fin 6) (1 : Kˣ) *
       CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) (5 : Fin 6) (1 : Kˣ)
@@ -178,6 +185,7 @@ private theorem twE6wm_W05 {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwG
     (twE6wm_commute (-1) 1 (isRoot_neg_single Tag.E6 5) (twE6wm_isRoot_e 0) b1 b2)
     (twE6wm_commute 1 1 (twE6wm_isRoot_e 5) (twE6wm_isRoot_e 0) c1 c2)
 
+omit [Finite K] in
 private theorem twE6wm_W24 {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R') :
     CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) (2 : Fin 6) (1 : Kˣ) *
       CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) (4 : Fin 6) (1 : Kˣ)
@@ -205,6 +213,7 @@ private theorem twE6wm_mv_root (k : ℕ) {v : Fin Tag.E6.rank → ℤ} (hv : IsR
   | 3 => exact IsRoot.reflect (τ := Tag.E6) 2 (IsRoot.reflect (τ := Tag.E6) 4 hv)
   | _ + 4 => exact hv
 
+omit [Finite K] in
 private theorem twE6wm_move_root {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     (k : ℕ) (v : Fin Tag.E6.rank → ℤ) : WeylMove R' v (twE6wmMv k v) := by
   match k with
@@ -214,6 +223,7 @@ private theorem twE6wm_move_root {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR'
   | 3 => exact twE6wm_pair (twE6wm_W24 hR') v
   | _ + 4 => exact WeylMove.refl R' v
 
+omit [Finite K] in
 private theorem twE6wm_chain {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     (l : List ℕ) (v : Fin Tag.E6.rank → ℤ) (hv : IsRoot Tag.E6 v) :
     WeylMove R' v (twE6wmApply l v) := by
@@ -223,6 +233,7 @@ private theorem twE6wm_chain {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : T
     exact WeylMove.trans (twE6wm_move_root hR' k v) (ih (twE6wmMv k v) (twE6wm_mv_root k hv))
       (twE6wm_mv_root k hv)
 
+omit [Finite K] in
 private theorem twE6wm_fixed_aux {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R') :
     ∀ (n : ℕ) (g : Fin Tag.E6.rank → ℤ), (twE6wmHt g).natAbs = n → IsRoot Tag.E6 g →
       permLattice TwistTag.E6.perm g = g → WeylMove R' g (ev6 1) := by
@@ -250,11 +261,13 @@ private theorem twE6wm_fixed_aux {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR'
       have ih' := ih (twE6wmHt (twE6wmMv k g)).natAbs hlt' (twE6wmMv k g) rfl hv hfixk
       exact WeylMove.trans (twE6wm_move_root hR' k g) ih' hv
 
+omit [Finite K] in
 private theorem twE6wm_fixed_to_e1 {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     (g : Fin Tag.E6.rank → ℤ) (hg : IsRoot Tag.E6 g)
     (hfix : permLattice TwistTag.E6.perm g = g) : WeylMove R' g (ev6 1) :=
   twE6wm_fixed_aux hR' _ g rfl hg hfix
 
+omit [Finite K] in
 theorem twE6_weylMove_fixed {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     {γ γ' : Fin Tag.E6.rank → ℤ} (hργ : permLattice TwistTag.E6.perm γ = γ)
     (hργ' : permLattice TwistTag.E6.perm γ' = γ') : WeylMove R' γ γ' := by
@@ -262,6 +275,7 @@ theorem twE6_weylMove_fixed {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : Tw
   exact (WeylMove.trans (twE6wm_fixed_to_e1 hR' γ hγ hργ)
     (WeylMove.symm (twE6wm_fixed_to_e1 hR' γ' hγ' hργ')) (twE6wm_isRoot_e 1)) hγ hγ'
 
+omit [Finite K] in
 private theorem twE6wm_nonfixed_aux {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R') :
     ∀ (n : ℕ) (g : Fin Tag.E6.rank → ℤ), (twE6wmHt g).natAbs = n → IsRoot Tag.E6 g →
       ¬ permLattice TwistTag.E6.perm g = g → WeylMove R' g (ev6 0) := by
@@ -301,11 +315,13 @@ private theorem twE6wm_nonfixed_aux {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (
       have ih' := ih (twE6wmHt (twE6wmMv k g)).natAbs hlt' (twE6wmMv k g) rfl hv hfixk
       exact WeylMove.trans (twE6wm_move_root hR' k g) ih' hv
 
+omit [Finite K] in
 private theorem twE6wm_nonfixed_to_e0 {R' : Subgroup ↥(adjointGroup Tag.E6 K)}
     (hR' : TwGens σ η R') (g : Fin Tag.E6.rank → ℤ) (hg : IsRoot Tag.E6 g)
     (hfix : ¬ permLattice TwistTag.E6.perm g = g) : WeylMove R' g (ev6 0) :=
   twE6wm_nonfixed_aux hR' _ g rfl hg hfix
 
+omit [Finite K] in
 theorem twE6_weylMove_nonfixed {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     {β β' : Fin Tag.E6.rank → ℤ} (hρβ : permLattice TwistTag.E6.perm β ≠ β)
     (hρβ' : permLattice TwistTag.E6.perm β' ≠ β') : WeylMove R' β β' := by
@@ -313,6 +329,7 @@ theorem twE6_weylMove_nonfixed {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' :
   exact (WeylMove.trans (twE6wm_nonfixed_to_e0 hR' β hβ hρβ)
     (WeylMove.symm (twE6wm_nonfixed_to_e0 hR' β' hβ' hρβ')) (twE6wm_isRoot_e 0)) hβ hβ'
 
+omit [Finite K] in
 private theorem fourMonomial_core {V : Type*} [AddCommGroup V] [Module K V]
     (hex : ∃ u : K, η u = u ∧ σ u ≠ u)
     (W : Submodule K V) (w₀ w₁ w₂ w₃ : V)
@@ -462,15 +479,18 @@ private theorem alperinE6_string :
             β - (Pi.single i 1 : Fin Tag.E6.rank → ℤ) ∉ rootFinset Tag.E6) := by
   decide +kernel
 
+omit [Finite K] in
 private theorem alperinEndHomXE6 (i : Fin Tag.E6.rank) (c : K) :
     endHom K (xE6 (Pi.single i 1) c) = xOp Tag.E6 K i c := by
   show endHom K (xPar (rootOperatorFamily Tag.E6) (Pi.single i 1) c) = _
   rw [xPar_simple, endHom_eltElement, (rootOperatorFamily Tag.E6).elt_simple]
 
+omit [Finite K] in
 private theorem alperinRootVec_zero {β : Fin Tag.E6.rank → ℤ} (hβ : ¬ IsRoot Tag.E6 β) :
     rootVec Tag.E6 K β = 0 := by
   simp [rootVec, hβ]
 
+omit [Finite K] in
 private theorem alperinXOp_rootVec_E6 (i : Fin Tag.E6.rank) (c : K) {β : Fin Tag.E6.rank → ℤ}
     (hβ : IsRoot Tag.E6 β) (h1 : β ≠ Pi.single i 1) (h2 : β ≠ -Pi.single i 1) :
     xOp Tag.E6 K i c (rootVec Tag.E6 K β) =
@@ -516,6 +536,7 @@ private theorem alperinXOp_rootVec_E6 (i : Fin Tag.E6.rank) (c : K) {β : Fin Ta
   · rw [hs, Finset.sum_range_succ, Finset.sum_range_one, hsd hs]
     simp
 
+omit [Finite K] in
 theorem twE6_orbit_col (σ : K ≃+* K) {i j : Fin 6}
     (hij : (i, j) ∈ ({(0, 5), (2, 4)} : Finset (Fin 6 × Fin 6))) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot Tag.E6 γ) (hργ : permLattice TwistTag.E6.perm γ = γ) (u : K) :
@@ -542,42 +563,49 @@ theorem twE6_orbit_col (σ : K ≃+* K) {i j : Fin 6}
     simp
 
 open _root_.Classical in
+omit [Finite K] in
 private theorem alperinCoordOr_of_isRoot {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (z : RootModule Tag.E6 K) : coordOr z γ = z (rootLabel hγ) := by
   unfold coordOr
-  rw [dif_pos hγ]
+  rw [dite_eq_left hγ]
 
 open _root_.Classical in
+omit [Finite K] in
 private theorem alperinCoordOr_of_not {δ : Fin Tag.E6.rank → ℤ} (hδ : ¬ IsRoot Tag.E6 δ)
     (z : RootModule Tag.E6 K) : coordOr z δ = 0 := by
   unfold coordOr
-  rw [dif_neg hδ]
+  rw [dite_eq_right hδ]
 
+omit [Finite K] in
 private theorem alperinCoordOr_add (f g : RootModule Tag.E6 K) (δ : Fin Tag.E6.rank → ℤ) :
     coordOr (f + g) δ = coordOr f δ + coordOr g δ := by
   unfold coordOr
   split_ifs <;> simp
 
+omit [Finite K] in
 private theorem alperinCoordOr_zero (δ : Fin Tag.E6.rank → ℤ) :
     coordOr (0 : RootModule Tag.E6 K) δ = 0 := by
   unfold coordOr
   split_ifs <;> simp
 
+omit [Finite K] in
 private theorem alperinCoordOr_smul (a : K) (f : RootModule Tag.E6 K) (δ : Fin Tag.E6.rank → ℤ) :
     coordOr (a • f) δ = a * coordOr f δ := by
   unfold coordOr
   split_ifs <;> simp
 
 open _root_.Classical in
+omit [Finite K] in
 private theorem alperinCoordOr_hVec (j : Fin Tag.E6.rank) (δ : Fin Tag.E6.rank → ℤ) :
     coordOr (CFSG.Blueprint.Chevalley.hVec Tag.E6 K j) δ = 0 := by
   have hv : (CFSG.Blueprint.Chevalley.hVec Tag.E6 K j : RootModule Tag.E6 K) =
       Finsupp.single (Sum.inl j) 1 := rfl
   rw [hv]
   unfold coordOr
-  split_ifs <;> simp [Finsupp.single_apply, rootLabel]
+  split_ifs <;> simp [rootLabel]
 
 open scoped _root_.Classical in
+omit [Finite K] in
 private theorem alperinCoordOr_rootVec (β δ : Fin Tag.E6.rank → ℤ) :
     coordOr (rootVec Tag.E6 K β) δ =
       @ite K (β = δ ∧ IsRoot Tag.E6 β) (Classical.propDecidable _) 1 0 := by
@@ -594,6 +622,7 @@ private theorem alperinCoordOr_rootVec (β δ : Fin Tag.E6.rank → ℤ) :
     simp [hβ]
 
 open _root_.Classical in
+omit [Finite K] in
 private theorem alperinCoordOr_xOp (i : Fin Tag.E6.rank) (c : K) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot Tag.E6 γ) (h1 : γ ≠ Pi.single i 1) (h2 : γ ≠ -Pi.single i 1)
     (h3 : γ - Pi.single i 1 ≠ Pi.single i 1) (z : RootModule Tag.E6 K) :
@@ -624,8 +653,7 @@ private theorem alperinCoordOr_xOp (i : Fin Tag.E6.rank) (c : K) {γ : Fin Tag.E
         by_cases hi : β = Pi.single i 1
         · subst hi
           rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_single]
-          simp [alperinCoordOr_add, alperinCoordOr_smul, alperinCoordOr_hVec,
-            alperinCoordOr_rootVec, h1', h3']
+          simp [alperinCoordOr_rootVec, h1', h3']
         · by_cases hi' : β = -Pi.single i 1
           · subst hi'
             rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single]
@@ -642,11 +670,12 @@ private theorem alperinCoordOr_xOp (i : Fin Tag.E6.rank) (c : K) {γ : Fin Tag.E
                 exact ⟨h', by rw [h']; exact hγ⟩
             simp only [alperinCoordOr_add, alperinCoordOr_smul, alperinCoordOr_rootVec]
             by_cases hR : β = γ - Pi.single i 1 ∧ IsRoot Tag.E6 β
-            · rw [if_pos hR, if_pos (key.mpr hR)]
+            · rw [ite_eq_left hR, ite_eq_left (key.mpr hR)]
               ring
-            · rw [if_neg hR, if_neg (fun hq => hR (key.mp hq))]
+            · rw [ite_eq_right hR, ite_eq_right (fun hq => hR (key.mp hq))]
               ring
 
+omit [Finite K] in
 theorem twE6_orbit_row (σ : K ≃+* K) {i j : Fin 6}
     (hij : (i, j) ∈ ({(0, 5), (2, 4)} : Finset (Fin 6 × Fin 6))) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot Tag.E6 γ) (hργ : permLattice TwistTag.E6.perm γ = γ) (z : RootModule Tag.E6 K)
@@ -732,11 +761,13 @@ theorem twE6_rootVec_mem_span (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank �
   · exact hfix1 β hβ hfix
   · exact transfer (twE6_weylMove_nonfixed hR' hβ₁nf hfix) hβ₁ hβ hβ₁S
 
+omit [Finite K] in
 private theorem twE6Root_endHom_xE6 (i : Fin Tag.E6.rank) (c : K) :
     endHom K (xE6 (Pi.single i 1) c) = xOp Tag.E6 K i c := by
   show endHom K (xPar (rootOperatorFamily Tag.E6) (Pi.single i 1) c) = _
   rw [xPar_simple, endHom_eltElement, (rootOperatorFamily Tag.E6).elt_simple]
 
+omit [Finite K] in
 private theorem twE6Root_xOp_fix {a : Fin Tag.E6.rank} {β : Fin Tag.E6.rank → ℤ}
     (hβ : IsRoot Tag.E6 β) (h1 : β ≠ Pi.single a 1) (h2 : β ≠ -Pi.single a 1)
     (hn : ¬ IsRoot Tag.E6 (β + Pi.single a 1)) (c : K) :
@@ -750,17 +781,20 @@ private theorem twE6Root_xOp_fix {a : Fin Tag.E6.rank} {β : Fin Tag.E6.rank →
   rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_of_ne a c hβ h1 h2, hs]
   simp
 
+omit [Finite K] in
 private theorem twE6Root_hVec_fix (a j : Fin Tag.E6.rank) (hc : Tag.E6.cartan j a = 0) (c : K) :
     xOp Tag.E6 K a c (hVec Tag.E6 K j) = hVec Tag.E6 K j := by
   rw [CFSG.Blueprint.Chevalley.xOp_apply_hVec, hc]
   simp
 
+omit [Finite K] in
 private theorem twE6Root_act_fixed (j : Fin Tag.E6.rank) :
     endHom K (xE6 (Pi.single j 1) 1) (rootVec Tag.E6 K (-Pi.single j 1)) =
       rootVec Tag.E6 K (-Pi.single j 1) + hVec Tag.E6 K j + rootVec Tag.E6 K (Pi.single j 1) := by
   rw [twE6Root_endHom_xE6, CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single]
   simp only [one_smul, one_pow]
 
+omit [Finite K] in
 private theorem twE6Root_act_inner (a b : Fin Tag.E6.rank) (d : K) (hd : d = 1)
     (n1 : (-Pi.single b 1 : Fin Tag.E6.rank → ℤ) ≠ Pi.single a 1)
     (n2 : (-Pi.single b 1 : Fin Tag.E6.rank → ℤ) ≠ -Pi.single a 1)
@@ -778,6 +812,7 @@ private theorem twE6Root_act_inner (a b : Fin Tag.E6.rank) (d : K) (hd : d = 1)
   rw [twE6Root_xOp_fix (isRoot_neg_single Tag.E6 b) n1 n2 n3 1, twE6Root_hVec_fix a b hc 1,
     twE6Root_xOp_fix (isRoot_single Tag.E6 b) n4 n5 n6 1]
 
+omit [Finite K] in
 private theorem twE6Root_act_outer (a b : Fin Tag.E6.rank) (d : K) (hd : d = 1)
     (n1 : (-Pi.single a 1 : Fin Tag.E6.rank → ℤ) ≠ Pi.single b 1)
     (n2 : (-Pi.single a 1 : Fin Tag.E6.rank → ℤ) ≠ -Pi.single b 1)
@@ -790,6 +825,7 @@ private theorem twE6Root_act_outer (a b : Fin Tag.E6.rank) (d : K) (hd : d = 1)
     CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single]
   simp only [one_smul, one_pow]
 
+omit [Finite K] in
 private theorem twE6Root_hVec_of_act {W : Submodule K (RootModule Tag.E6 K)} {j : Fin Tag.E6.rank}
     (r : ↥(adjointGroup Tag.E6 K)) (hrW : ∀ v ∈ W, endHom K r v ∈ W)
     (hroots : ∀ β, IsRoot Tag.E6 β → rootVec Tag.E6 K β ∈ W)
@@ -807,6 +843,7 @@ private theorem twE6Root_hVec_of_act {W : Submodule K (RootModule Tag.E6 K)} {j 
   rw [e]
   exact h2
 
+omit [Finite K] in
 theorem twE6_hVec_mem_span {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     (W : Submodule K (RootModule Tag.E6 K)) (hW : ∀ r ∈ R', ∀ v ∈ W, endHom K r v ∈ W)
     (hroots : ∀ β, IsRoot Tag.E6 β → rootVec Tag.E6 K β ∈ W) (j : Fin Tag.E6.rank) :
@@ -885,10 +922,11 @@ theorem twE6_span_orbit_eq_top (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank 
   · have := hroots β hβ
     rwa [rootVec_of_isRoot' hβ] at this
 
+omit [Finite K] in
 private theorem twE6_coordOr_eq_of_isRoot (z : RootModule Tag.E6 K) {δ : Fin Tag.E6.rank → ℤ}
     (h : IsRoot Tag.E6 δ) : coordOr z δ = z (rootLabel h) := by
   unfold coordOr
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem twE6_vanish_roots (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank → ℤ}
     (hθ : IsMaxHeightRoot Tag.E6 θ) {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
@@ -968,11 +1006,13 @@ theorem twE6_vanish_roots (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank → �
   · exact hfix hβ hβf z hz
   · exact transfer hβ hδ0 (twE6_weylMove_nonfixed hR' hβf hδ0nf) hδ0P z hz
 
+omit [Finite K] in
 private theorem twE6_rootless_bridge (i : Fin Tag.E6.rank) (c : K) :
     endHom K (xE6 (Pi.single i 1) c) = xOp Tag.E6 K i c := by
   show endHom K (xPar (rootOperatorFamily Tag.E6) (Pi.single i 1) c) = _
   rw [xPar_simple, endHom_eltElement, (rootOperatorFamily Tag.E6).elt_simple]
 
+omit [Finite K] in
 private theorem twE6_rootless_rootVec_apply {β γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot Tag.E6 γ) :
     rootVec Tag.E6 K β (rootLabel hγ) = if β = γ then 1 else 0 := by
@@ -984,12 +1024,13 @@ private theorem twE6_rootless_rootVec_apply {β γ : Fin Tag.E6.rank → ℤ}
     · have h' : ¬ ((Sum.inr ⟨β, hβ⟩ : Label Tag.E6) = rootLabel hγ) := fun e => h (by
         simp only [rootLabel, Sum.inr.injEq, Subtype.mk.injEq] at e
         exact e)
-      rw [if_neg h', if_neg h]
+      rw [ite_eq_right h', ite_eq_right h]
   · have hne : β ≠ γ := fun e => hβ (by rw [e]; exact hγ)
     have hr : rootVec Tag.E6 K β = 0 := by
-      rw [rootVec, dif_neg hβ]
+      rw [rootVec, dite_eq_right hβ]
     simp [hr, hne]
 
+omit [Finite K] in
 private theorem twE6_rootless_decomp (z : RootModule Tag.E6 K)
     (hz : ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0) :
     z = ∑ m, z (Sum.inl m) • hVec Tag.E6 K m := by
@@ -997,8 +1038,9 @@ private theorem twE6_rootless_decomp (z : RootModule Tag.E6 K)
   rcases l with m | ⟨β, hβ⟩
   · simp [hVec, Finsupp.single_apply]
   · have h : z (Sum.inr ⟨β, hβ⟩) = 0 := hz β hβ
-    simp [hVec, Finsupp.single_apply, h]
+    simp [hVec, h]
 
+omit [Finite K] in
 private theorem twE6_rootless_xOp_hSum (i : Fin Tag.E6.rank) (c : K) (a : Fin Tag.E6.rank → K) :
     xOp Tag.E6 K i c (∑ m, a m • hVec Tag.E6 K m) =
       ∑ m, a m • hVec Tag.E6 K m +
@@ -1012,6 +1054,7 @@ private theorem twE6_rootless_xOp_hSum (i : Fin Tag.E6.rank) (c : K) (a : Fin Ta
   refine Finset.sum_congr rfl fun m _ => ?_
   ring
 
+omit [Finite K] in
 private theorem twE6_rootless_yOp_hSum (i : Fin Tag.E6.rank) (c : K) (a : Fin Tag.E6.rank → K) :
     yOp Tag.E6 K i c (∑ m, a m • hVec Tag.E6 K m) =
       ∑ m, a m • hVec Tag.E6 K m +
@@ -1025,6 +1068,7 @@ private theorem twE6_rootless_yOp_hSum (i : Fin Tag.E6.rank) (c : K) (a : Fin Ta
   refine Finset.sum_congr rfl fun m _ => ?_
   ring
 
+omit [Finite K] in
 private theorem twE6_rootless_xOp_vec (z : RootModule Tag.E6 K)
     (hz : ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0) (i : Fin Tag.E6.rank) (c : K) :
     xOp Tag.E6 K i c z = z + (c * ∑ m, ((Tag.E6.cartan m i).natAbs : K) * z (Sum.inl m)) •
@@ -1038,6 +1082,7 @@ private theorem twE6_rootless_xOp_vec (z : RootModule Tag.E6 K)
   rw [hd] at h
   exact h
 
+omit [Finite K] in
 private theorem twE6_rootless_yOp_vec (z : RootModule Tag.E6 K)
     (hz : ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0) (i : Fin Tag.E6.rank) (c : K) :
     yOp Tag.E6 K i c z = z + (c * ∑ m, ((Tag.E6.cartan m i).natAbs : K) * z (Sum.inl m)) •
@@ -1051,6 +1096,7 @@ private theorem twE6_rootless_yOp_vec (z : RootModule Tag.E6 K)
   rw [hd] at h
   exact h
 
+omit [Finite K] in
 private theorem twE6_rootless_pair (Z : Submodule K (RootModule Tag.E6 K))
     (hroots : ∀ z ∈ Z, ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0)
     {z : RootModule Tag.E6 K} (hz : z ∈ Z) {i j : Fin Tag.E6.rank}
@@ -1088,10 +1134,11 @@ private theorem twE6_rootless_pair (Z : Submodule K (RootModule Tag.E6 K))
   simp only [Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul,
     twE6_rootless_rootVec_apply (isRoot_single Tag.E6 i),
     twE6_rootless_rootVec_apply (isRoot_single Tag.E6 j),
-    eq_self_iff_true, ↓reduceIte, h1, h1.symm, h3, h4, mul_one, mul_zero, add_zero,
+    ↓reduceIte, h1, h1.symm, h3, h4, mul_one, mul_zero, add_zero,
     zero_add] at e1 e2
   exact ⟨e1, e2⟩
 
+omit [Finite K] in
 private theorem twE6_rootless_fixed (Z : Submodule K (RootModule Tag.E6 K))
     (hroots : ∀ z ∈ Z, ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0)
     {z : RootModule Tag.E6 K} (hz : z ∈ Z) {i : Fin Tag.E6.rank}
@@ -1111,9 +1158,10 @@ private theorem twE6_rootless_fixed (Z : Submodule K (RootModule Tag.E6 K))
   have e := hroots _ hX (Pi.single i 1) (isRoot_single Tag.E6 i)
   simp only [Finsupp.smul_apply, smul_eq_mul,
     twE6_rootless_rootVec_apply (isRoot_single Tag.E6 i),
-    eq_self_iff_true, ↓reduceIte, mul_one, one_mul] at e
+    ↓reduceIte, mul_one, one_mul] at e
   exact e
 
+omit [Finite K] in
 theorem twE6_fixed_of_rootless {R' : Subgroup ↥(adjointGroup Tag.E6 K)} (hR' : TwGens σ η R')
     (Z : Submodule K (RootModule Tag.E6 K)) (hstab : ∀ r ∈ R', ∀ z ∈ Z, endHom K r z ∈ Z)
     (hroots : ∀ z ∈ Z, ∀ β (hβ : IsRoot Tag.E6 β), z (rootLabel hβ) = 0) :
@@ -1206,7 +1254,7 @@ private theorem twE6_E3_pairing : ∀ γ ∈ rootFinset Tag.E6, ∃ i : Fin Tag.
 private theorem twE6_E3_exists_unit (hK : 4 ≤ Nat.card K) :
     ∃ u : K, u ≠ 0 ∧ u ≠ 1 ∧ u ≠ -1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   by_contra h
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1, -1} := by
     intro u _
@@ -1291,7 +1339,7 @@ theorem eq_one_of_sub_mem_fixed (hK : 4 ≤ Nat.card K) {θ : Fin Tag.E6.rank �
       rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, map_sub, this]
     rw [e, hZ _ (hy (endHom K g⁻¹ v)) g]
     exact hy _⟩
-  haveI := isSimpleGroup_adjointGroup_of_type (K := K) (τ := Tag.E6) (Or.inl rfl)
+  have := isSimpleGroup_adjointGroup_of_type (K := K) (τ := Tag.E6) (Or.inl rfl)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · have hxN : x ∈ N := hx
     rw [h] at hxN
@@ -1313,7 +1361,7 @@ theorem eq_one_of_sub_mem_fixed (hK : 4 ≤ Nat.card K) {θ : Fin Tag.E6.rank �
         simp only [height, Pi.neg_apply, Finset.sum_neg_distrib] at h3'
         simp only [height] at this
         omega
-      simp [Finsupp.single_apply, hne]
+      simp [hne]
     simpa [hv] using h2
 
 theorem mem_twR_of_entries (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank → ℤ}

@@ -16,6 +16,7 @@ section QLevel
 
 variable {Q : Type} [Group Q] [Finite Q] {p : ℕ}
 
+omit [Finite Q] in
 theorem glaPLayer_top_normal (p : ℕ) : (GLAPLayer p (⊤ : Subgroup Q)).Normal := by
   have hle : ∀ g : Q, GLBConj g (GLAPLayer p (⊤ : Subgroup Q)) ≤ GLAPLayer p (⊤ : Subgroup Q) := by
     intro g
@@ -42,7 +43,8 @@ theorem glaPLayer_layer (hp : p.Prime) :
   exact le_sSup (CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.glaPComponent_down hp hJ
     hJY le_top)
 
-theorem gLALayer_layer (hp : p.Prime) (hcore : GLAPPrimeCore p Q = ⊥) :
+omit [Finite Q] in
+theorem gLALayer_layer (_hp : p.Prime) (hcore : GLAPPrimeCore p Q = ⊥) :
     GLALayer (GLAPLayer p (⊤ : Subgroup Q)) = GLAPLayer p (⊤ : Subgroup Q) := by
   refine le_antisymm (sSup_le fun _ hK => hK.1) ?_
   refine sSup_le fun J hJ => ?_
@@ -101,7 +103,7 @@ theorem card_barX_of_isPGroup (hp : p.Prime) {N H : Subgroup G} (hH : IsPGroup p
 theorem card_le_pow_of_isElemAbelian_quot (hp : p.Prime) {N : Subgroup G} {m : ℕ}
     (hm : CFSG.Open.pRank p N ≤ m) {A : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)}
     (hA : IsElemAbelian p A) : Nat.card ↥A ≤ p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (Lemma137.isPGroup_of_isElemAbelian hA).exists_card_eq
   have h1 : k ≤ CFSG.Open.pRank p A := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hA hk
   have h2 : CFSG.Open.pRank p A ≤
@@ -199,7 +201,7 @@ theorem kt_package (hL133 : Lemma133Statement) (hL137i : Lemma137_iStatement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hBN : B ≤ Nof T := hL137i h
@@ -231,7 +233,7 @@ theorem kt_package (hL133 : Lemma133Statement) (hL137i : Lemma137_iStatement)
     (fun h3 => hNo7 h hL h3) hΩ hA
   obtain ⟨j, hj⟩ := hidx
   have hLnt : Nontrivial (↥L ⧸ CFSG.pCore 2 ↥L) := by
-    haveI := hPiL.1.2
+    have := hPiL.1.2
     exact Function.Surjective.nontrivial
       (f := QuotientGroup.mk (s := Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)))
       QuotientGroup.mk_surjective
@@ -270,7 +272,7 @@ theorem kt_package (hL133 : Lemma133Statement) (hL137i : Lemma137_iStatement)
       · exact Or.inr (Or.inr (Or.inr ⟨ε, n, hn, h1, hfp⟩))
       · exact Or.inr (Or.inr (Or.inl ⟨ε, n, hn, hfp, e1⟩))
     · exact absurd ⟨hY.symm.trans e⟩ (hNo7 h hL h3)
-  haveI : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hsimp
+  have : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hsimp
   have hKt := Lemma137.kt_types hp hp2 hOm hKeq hnc hdvdJt hJtTypes
   have hKN : derivedInf (Nof T ⊓ L) ≤ Nof T := (Sec13d.derivedInf_le _).trans inf_le_left
   have hdvdKt : p ∣ Nat.card ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) :=
@@ -297,7 +299,7 @@ theorem lemma138_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iState
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hBp : IsPGroup p ↥B := Lemma137.isPGroup_of_isElemAbelian hBel
@@ -325,7 +327,7 @@ theorem lemma138_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iState
   have hBL : B ≤ Subgroup.normalizer (L : Set G) := h133.2.1
   have hrankBL : CFSG.Open.pRank p (B ⊓ L) = CFSG.Open.pRank p L := h133.2.2.2.2
   have hKN : derivedInf (Nof T ⊓ L) ≤ Nof T := (Sec13d.derivedInf_le _).trans inf_le_left
-  haveI : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hKs
+  have : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hKs
   obtain ⟨-, hsplit2, hdirect, -, hpRank⟩ :=
     Lemma137.barX_transfer hp hKN hBN hOK hKnc hBdec hBel hrankK
   have hBt : IsElemAbelian p (barX p (Nof T) B) := isElemAbelian_barX hBel

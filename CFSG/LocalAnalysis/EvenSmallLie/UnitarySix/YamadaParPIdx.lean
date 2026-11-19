@@ -148,6 +148,7 @@ theorem card_pSig (hF : Nat.card F = 4) : Nat.card (pSig F) = 2 ^ 6 := by
   rw [← card_map_inj _ (msigma F).subtype_injective, Subgroup.subgroupOf_map_subtype, inf_comm,
     card_msigma_inf_pstd hF]
 
+omit [Finite Γ] in
 theorem card_inf_conjR_unitary (hF : Nat.card F = 4) (ψ : SU42b × SU42b ≃* Γ) (τ : Γ →* Γ)
     (hτ : ∀ p, τ (ψ p) = ψ p.swap) (χb : msigma F →* Γ) (hχb : Function.Injective χb)
     (hfix : ∀ A, τ (χb A) = χb A) {Pb : Subgroup Γ} (hP2 : IsPGroup 2 Pb)
@@ -208,6 +209,7 @@ section Linear
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem center_SL4_eq_bot : center SL(4, F) = ⊥ := by
   rw [eq_bot_iff]
   intro A hA
@@ -232,6 +234,7 @@ theorem center_SL4_eq_bot : center SL(4, F) = ⊥ := by
   right_inv := hττ
   map_mul' := map_mul τ
 
+omit [Finite Γ] in
 theorem autOf_mul_conj (τ : Γ →* Γ) (hττ : ∀ g, τ (τ g) = g) (g : Γ) :
     autOf τ hττ * MulAut.conj g * (autOf τ hττ)⁻¹ = MulAut.conj (τ g) := by
   ext y
@@ -357,7 +360,7 @@ theorem Y13Hyp.card_inf_conjR_w [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D�
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (ElemSec D₁ V₁) := ⟨h.sec⟩
   have : (D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer h.D₁_le_nOne).mpr h.nOne_le_normalizer
+    (Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne).mpr h.nOne_le_normalizer
   obtain ⟨fV, hfV⟩ := h.exists_fV
   obtain ⟨hfix, hcase⟩ := (h.r3Hyp fV hfV).main
   set χb := (kmap h).comp χ.toMonoidHom
@@ -382,8 +385,8 @@ theorem Y13Hyp.card_inf_conjR_w [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D�
   obtain ⟨hu, hv⟩ := sY_mem_msigma' F
   set A₂ : msigma F := ⟨_, hu⟩
   set A₃ : msigma F := ⟨_, hv⟩
-  have hw₂N : w₂ ∈ nOne D₁ K₁ D₂ := hw₂ A₂ rfl ▸ h.K₁_le_nOne (χ A₂).2
-  have hw₃N : w₃ ∈ nOne D₁ K₁ D₂ := hw₃ A₃ rfl ▸ h.K₁_le_nOne (χ A₃).2
+  have hw₂N : w₂ ∈ nOne D₁ K₁ D₂ := hw₂ A₂ rfl ▸ CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne (χ A₂).2
+  have hw₃N : w₃ ∈ nOne D₁ K₁ D₂ := hw₃ A₃ rfl ▸ CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne (χ A₃).2
   have hχ₂ : χb A₂ = mkG D₁ K₁ D₂ ⟨w₂, hw₂N⟩ := by
     simp only [χb, kmap, MonoidHom.comp_apply]
     congr 1

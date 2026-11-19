@@ -103,7 +103,7 @@ private theorem CFSG.section14_7_kstar_isPi_kappa
   have hXiMsigma : Xi ≤ section10Msigma Mi :=
     proposition_14_2_b2 (G := G) (M := M) (K := K) hM hK Xi hXi Mi hMi
   have hXiNe : Xi ≠ ⊥ := section14_b1_primeOrder_ne_bot (G := G) hXi
-  haveI : Nontrivial ↥Xi := (Subgroup.nontrivial_iff_ne_bot (H := Xi)).2 hXiNe
+  have : Nontrivial ↥Xi := (Subgroup.nontrivial_iff_ne_bot (H := Xi)).2 hXiNe
   obtain ⟨x, hxXi, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial Xi
   have hxMi : Mi ∈ section14MsigmaElement x := by
     refine ⟨hMi.1, ?_⟩
@@ -118,12 +118,12 @@ private theorem CFSG.section14_7_kstar_isPi_kappa
       Xstar ∈ section12PrimeOrderSubgroups (section14KStar M K) :=
     section14_primeOrderSubgroups_of_primeOrderSubgroupsIn hXstar
   have hXstarNe : Xstar ≠ ⊥ := section14_b1_primeOrder_ne_bot (G := G) hXstarPrime
-  haveI : Nontrivial ↥Xstar := (Subgroup.nontrivial_iff_ne_bot (H := Xstar)).2 hXstarNe
+  have : Nontrivial ↥Xstar := (Subgroup.nontrivial_iff_ne_bot (H := Xstar)).2 hXstarNe
   obtain ⟨xstar, hxstarXstar, hxstarne⟩ := Subgroup.exists_ne_one_of_nontrivial Xstar
   have hxstarKstar : xstar ∈ section14KStar M K := hXstar.1 hxstarXstar
   have hXstar_le_zpow : Xstar ≤ Subgroup.zpowers xstar := by
     intro y hyXstar
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hySub :
         (⟨y, hyXstar⟩ : Xstar) ∈
           Subgroup.zpowers (⟨xstar, hxstarXstar⟩ : Xstar) :=
@@ -208,7 +208,7 @@ private theorem CFSG.section14_7_exists_hall_kappa_containing_kstar
       IsPiSubgroup (G := G) (section14KappaPrimes Mi) (section14KStar M K) :=
     section14_7_kstar_isPi_kappa
       (G := G) (M := M) (K := K) (Xi := Xi) (Mi := Mi) hM hK hXi hMi
-  letI : MulDistribMulAction Unit Mi := {
+  let : MulDistribMulAction Unit Mi := {
     smul := fun _ y => y
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -226,7 +226,7 @@ private theorem CFSG.section14_7_exists_hall_kappa_containing_kstar
     refine ⟨?_⟩
     intro _ y
     simp
-  have hsolvMi : IsSolvable Mi :=
+  have hsolvMi : Group.IsSolvable Mi :=
     IsMinCE.proper_subgroups_solvable Mi (lt_top_iff_ne_top.mpr hMi.1.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card Mi) := by simp
   obtain ⟨Kisub, hKisubHall, _hKisubInv, hKstarSubKi⟩ :=
@@ -292,7 +292,7 @@ public theorem CFSG.section14_7_exists_initial_overgroup_data
       exact hM.1.1 (top_le_iff.mp htop_le_M)
     intro hNtop
     have hXinormal : Xi.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hXinormal.eq_bot_or_eq_top with hXibot | hXitop
     · exact hXine hXibot
     · exact hXine_top hXitop
@@ -422,15 +422,15 @@ public theorem CFSG.section14_7_normalizer_le_of_unique_centralizer_primeOrder
     have hCXnormal :
         (Subgroup.centralizer (X : Set G)).Normal :=
       Subgroup.normalizer_eq_top_iff.mp hNCXtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hCXnormal.eq_bot_or_eq_top with hCXbot | hCXtop
     · have hXne : X ≠ ⊥ := section14_b1_primeOrder_ne_bot (G := G) hX
-      haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
+      have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
       obtain ⟨x, hxX, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial X
       rcases hX with ⟨_hXA, p, hXcard⟩
       have hXle_zpow : X ≤ Subgroup.zpowers x := by
         intro y hyX
-        haveI : Fact p.val.Prime := ⟨p.2⟩
+        have : Fact p.val.Prime := ⟨p.2⟩
         have hySub :
             (⟨y, hyX⟩ : X) ∈ Subgroup.zpowers (⟨x, hxX⟩ : X) :=
           mem_zpowers_of_prime_card
@@ -439,7 +439,7 @@ public theorem CFSG.section14_7_normalizer_le_of_unique_centralizer_primeOrder
             (by simpa using hxne)
         rcases Subgroup.mem_zpowers_iff.mp hySub with ⟨n, hn⟩
         exact Subgroup.mem_zpowers_iff.mpr ⟨n, congrArg Subtype.val hn⟩
-      letI : IsMulCommutative X :=
+      let : IsMulCommutative X :=
         section14_isMulCommutative_of_le
           (H := Subgroup.zpowers x) (K := X) (Subgroup.zpowers_isMulCommutative x)
           hXle_zpow
@@ -548,7 +548,7 @@ private theorem CFSG.section14_7_xi_le_kstar_of_xstar
     exact
       Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := Ki) (N := section14KStar Mi Ki) hKi_norm_Kistar
-  letI : (Kistar.subgroupOf Zi).Normal := hKistarNormal
+  let : (Kistar.subgroupOf Zi).Normal := hKistarNormal
   let q : Zi →* Zi ⧸ (Kistar.subgroupOf Zi) :=
     QuotientGroup.mk' (Kistar.subgroupOf Zi)
   have hXiMap_dvd_card :
@@ -703,7 +703,7 @@ private theorem CFSG.section14_7_kistar_isPi_kappa_of_xstar
         (G := G) (M := Mi) (K := Ki) (Xi := Xstar) (Mi := M)
         hMiP hKi hXstarKi hMcontNXstar
   have hXstarNe : Xstar ≠ ⊥ := section14_b1_primeOrder_ne_bot (G := G) hXstar
-  haveI : Nontrivial ↥Xstar := (Subgroup.nontrivial_iff_ne_bot (H := Xstar)).2 hXstarNe
+  have : Nontrivial ↥Xstar := (Subgroup.nontrivial_iff_ne_bot (H := Xstar)).2 hXstarNe
   obtain ⟨xstar, hxstarXstar, hxstarne⟩ := Subgroup.exists_ne_one_of_nontrivial Xstar
   have hxstarMsigma : xstar ∈ section10Msigma M := (hXstar.1 hxstarXstar).1
   have hxM : M ∈ section14MsigmaElement xstar := by
@@ -719,12 +719,12 @@ private theorem CFSG.section14_7_kistar_isPi_kappa_of_xstar
       Y ∈ section12PrimeOrderSubgroups Kistar :=
     section14_primeOrderSubgroups_of_primeOrderSubgroupsIn hY
   have hYNe : Y ≠ ⊥ := section14_b1_primeOrder_ne_bot (G := G) hYPrime
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot (H := Y)).2 hYNe
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot (H := Y)).2 hYNe
   obtain ⟨y, hyY, hyne⟩ := Subgroup.exists_ne_one_of_nontrivial Y
   have hyKistar : y ∈ Kistar := hY.1 hyY
   have hY_le_zpow : Y ≤ Subgroup.zpowers y := by
     intro z hzY
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hzSub :
         (⟨z, hzY⟩ : Y) ∈
           Subgroup.zpowers (⟨y, hyY⟩ : Y) :=
@@ -823,7 +823,7 @@ private theorem CFSG.section14_7_kistar_le_k_of_xstar
         Nat.card (Kistar.subgroupOf M) = Nat.card Kistar :=
       section12_card_subgroupOf_eq hKistarLeM
     exact hKistarPi p (by simpa [hcard] using hp)
-  letI : MulDistribMulAction Unit M := {
+  let : MulDistribMulAction Unit M := {
     smul := fun _ y => y
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -833,7 +833,7 @@ private theorem CFSG.section14_7_kistar_le_k_of_xstar
     refine ⟨?_⟩
     intro _ y
     simp [Kistar]
-  have hsolvM : IsSolvable M :=
+  have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
   obtain ⟨Hsub, hHsubHall, _hHsubInv, hKistarSubLeH⟩ :=
@@ -1291,7 +1291,7 @@ public theorem CFSG.section14_7_primeOrder_le_k_or_kstar_of_z
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := K) (N := section14KStar M K) hK_norm_Kstar
-    letI : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
+    let : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
     let φ : Z →* Z ⧸ ((section14KStar M K).subgroupOf Z) :=
       QuotientGroup.mk' ((section14KStar M K).subgroupOf Z)
     have hXMap_dvd_card : Nat.card ((X.subgroupOf Z).map φ) ∣ Nat.card X := by
@@ -1351,7 +1351,7 @@ public theorem CFSG.section14_7_primeOrder_le_k_or_kstar_of_z
       simpa [Z] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := section14KStar M K) (N := K) hKstar_norm_K)
-    letI : (K.subgroupOf Z).Normal := hKNormal
+    let : (K.subgroupOf Z).Normal := hKNormal
     let φ : Z →* Z ⧸ (K.subgroupOf Z) := QuotientGroup.mk' (K.subgroupOf Z)
     have hXMap_dvd_card : Nat.card ((X.subgroupOf Z).map φ) ∣ Nat.card X := by
       have hcard_sub : Nat.card (X.subgroupOf Z) = Nat.card X :=
@@ -1439,7 +1439,7 @@ private theorem CFSG.section14_7_exists_maximal_overgroup_of_primeOrderSubgroup
   have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
     intro hNtop
     have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
     · exact hXne hXbot
     · exact hXne_top hXtop
@@ -2015,7 +2015,7 @@ private theorem CFSG.section14_7_not_conjugate_of_distinct_overgroupFamily
     intro hZtop
     have htop_le : (⊤ : Subgroup G) ≤ Mi := by simpa [Z, hZtop] using hZleMi
     exact hMiP.1.1 (top_le_iff.mp htop_le)
-  have hsolvZ : IsSolvable Z :=
+  have hsolvZ : Group.IsSolvable Z :=
     IsMinCE.proper_subgroups_solvable Z (lt_top_iff_ne_top.mpr hZneTop)
   obtain ⟨z, hz⟩ :=
     exists_conj_eq_of_isHallSubgroup_of_solvable
@@ -2192,7 +2192,7 @@ private theorem CFSG.section14_7_kstarOfOvergroupFamily_le_ki_of_distinct
   have hKiNormal : (Ki.subgroupOf Z).Normal := by
     change (Ki.subgroupOf (section14Z M K)).Normal
     simpa using (hZeqZi.symm ▸ hKiNormal0)
-  letI : (Ki.subgroupOf Z).Normal := hKiNormal
+  let : (Ki.subgroupOf Z).Normal := hKiNormal
   let φ : Z →* Z ⧸ (Ki.subgroupOf Z) := QuotientGroup.mk' (Ki.subgroupOf Z)
   have hMap_card_one : Nat.card ((Kjstar.subgroupOf Z).map φ) = 1 := by
     rw [Nat.eq_one_iff_not_exists_prime_dvd]
@@ -2544,7 +2544,7 @@ private theorem CFSG.section14_7_exists_alt2_of_mem_TSet
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := K) (N := section14KStar M K) hK_norm_Kstar
-    letI : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
+    let : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
     have htop0 :
         (K.subgroupOf Z) ⊔ ((section14KStar M K).subgroupOf Z) = ⊤ := by
       change
@@ -2632,7 +2632,7 @@ private theorem CFSG.section14_7_exists_alt2_of_mem_TSet
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := Ki) (N := section14KStar Mi Ki) hKi_norm_Kistar
-    letI : (Kistar.subgroupOf Z).Normal := hKistarNormal
+    let : (Kistar.subgroupOf Z).Normal := hKistarNormal
     have htop0 : (Ki.subgroupOf Z) ⊔ (Kistar.subgroupOf Z) = ⊤ := by
       change
         (Ki.subgroupOf (Ki ⊔ section14KStar Mi Ki)) ⊔
@@ -2831,7 +2831,7 @@ private theorem CFSG.section14_7_mem_z_of_mem_TSet_of_conj_mem_z
       exact (sup_comm K0star K0) ▸ hK0Normal0'
     change (K0.subgroupOf (K0 ⊔ K0star)).Normal
     exact hK0Normal0
-  letI : (K0.subgroupOf Z0).Normal := hK0Normal
+  let : (K0.subgroupOf Z0).Normal := hK0Normal
   have htop0 : (K0.subgroupOf Z0) ⊔ (K0star.subgroupOf Z0) = ⊤ := by
     change
       (K0.subgroupOf (K0 ⊔ section14KStar M0 K0)) ⊔
@@ -2941,10 +2941,10 @@ private theorem CFSG.section14_7_TSet_nonempty
       (proposition_14_2_b1 (G := G) (M := M) (K := K) hM hK X0 hX0).2.2
   have hKstarNe : section14KStar M K ≠ ⊥ :=
     (proposition_14_2_c (G := G) (M := M) (K := K) hM hK).1
-  haveI : Nontrivial ↥(section14KStar M K) :=
+  have : Nontrivial ↥(section14KStar M K) :=
     (Subgroup.nontrivial_iff_ne_bot (H := section14KStar M K)).2 hKstarNe
   have hKNe : K ≠ ⊥ := section14_hall_kappa_ne_bot (G := G) hM hK
-  haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKNe
+  have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKNe
   obtain ⟨y, hyKstar, hyne⟩ := Subgroup.exists_ne_one_of_nontrivial (section14KStar M K)
   obtain ⟨y', hyK, hy'ne⟩ := Subgroup.exists_ne_one_of_nontrivial K
   let t : G := y * y'
@@ -3060,7 +3060,7 @@ private theorem CFSG.section14_7_factorUnion_conj_iff_of_mem_z
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := K) (N := section14KStar M K) hK_norm_Kstar
-    letI : ((section14KStar M K).subgroupOf (section14Z M K)).Normal := hBaseNormal
+    let : ((section14KStar M K).subgroupOf (section14Z M K)).Normal := hBaseNormal
     exact
       Subgroup.le_normalizer_of_normal_subgroupOf
         (H := section14KStar M K) (K := section14Z M K) le_sup_right
@@ -3098,7 +3098,7 @@ private theorem CFSG.section14_7_factorUnion_conj_iff_of_mem_z
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := Ki) (N := section14KStar Mi Ki) hKi_norm_Kistar
-    letI : (Kistar.subgroupOf (section14Z Mi Ki)).Normal := hKistarNormal
+    let : (Kistar.subgroupOf (section14Z Mi Ki)).Normal := hKistarNormal
     have hNormZi : section14Z Mi Ki ≤ Subgroup.normalizer (Kistar : Set G) :=
       Subgroup.le_normalizer_of_normal_subgroupOf
         (H := Kistar) (K := section14Z Mi Ki) le_sup_right
@@ -3384,7 +3384,7 @@ omit [IsMinCE G] in
 private theorem CFSG.section14_card_nonidentity :
     Nat.card ({g : G | g ≠ 1} : Set G) = Nat.card G - 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   simpa [Nat.card_eq_fintype_card] using (Set.card_ne_eq (1 : G))
 
 
@@ -3561,8 +3561,8 @@ private theorem CFSG.section14_7_card_conjClosure_union_self_overgroupFamily_le_
       ⋃ i : {Mi // Mi ∈ section14_7_overgroupFamily K},
         section14ConjugacyClosure (section14Tilde i.1)
   let B : Set G := {g : G | g ≠ 1}
-  letI : Fintype A := Fintype.ofFinite A
-  letI : Fintype B := Fintype.ofFinite B
+  let : Fintype A := Fintype.ofFinite A
+  let : Fintype B := Fintype.ofFinite B
   let f : A → B := fun a =>
     ⟨a.1, section14_7_conjClosure_union_self_overgroupFamily_subset_nonidentity
       (G := G) (M := M) (K := K) hM hK a.2⟩
@@ -3788,7 +3788,7 @@ private theorem CFSG.section14_card_conjClosure_tilde_eq_q_of_complement
                 (section12_card_subgroupOf_eq (section14_msigma_le M))
             rw [← hKsub, ← hσsub]
       _ = Nat.card M := by
-            simpa using hcomp'.card_mul
+            simpa using hcomp'.card_mul_card
   have hmg : Nat.card M * M.index = Nat.card G := by
     exact Subgroup.card_mul_index (H := M)
   have hclosure :
@@ -4150,7 +4150,7 @@ private theorem CFSG.section14_7_card_k_mul_card_kstar_eq_z
           rw [← natCard_subgroupOf_eq K Z le_sup_left,
             ← natCard_subgroupOf_eq (section14KStar M K) Z le_sup_right]
     _ = Nat.card Z := by
-          simpa [Nat.mul_comm] using hcomp.symm.card_mul
+          simpa [Nat.mul_comm] using hcomp.symm.card_mul_card
     _ = Nat.card (section14Z M K) := rfl
 
 private theorem CFSG.section14_7_card_ki_mul_card_kistar_eq_z
@@ -4220,7 +4220,7 @@ private theorem CFSG.section14_7_card_ki_mul_card_kistar_eq_z
           rw [← natCard_subgroupOf_eq Ki (section14Z Mi Ki) (show Ki ≤ section14Z Mi Ki from le_sup_left),
             ← natCard_subgroupOf_eq Kistar (section14Z Mi Ki) le_sup_right]
     _ = Nat.card (section14Z Mi Ki) := by
-          simpa [Nat.mul_comm] using hcomp.symm.card_mul
+          simpa [Nat.mul_comm] using hcomp.symm.card_mul_card
     _ = Nat.card (section14Z M K) := by rw [← hZeqZi]
 
 public theorem CFSG.section14_7_exists_P2_self_or_overgroupFamily
@@ -5124,7 +5124,7 @@ private theorem CFSG.section14_7_partner_hall_sigma
       section14_exists_primeOrderSubgroupIn_of_dvd_card
         (G := G) (A := section14KStar M K) (p := p) hpKstar
     exact section14_c_sigma_of_primeOrder_le_kstar (G := G) (M := M) (K := K) hM hX
-  letI : MulDistribMulAction Unit Mi := {
+  let : MulDistribMulAction Unit Mi := {
     smul := fun _ y => y
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -5142,7 +5142,7 @@ private theorem CFSG.section14_7_partner_hall_sigma
     refine ⟨?_⟩
     intro _ y
     simp
-  have hsolvMi : IsSolvable Mi :=
+  have hsolvMi : Group.IsSolvable Mi :=
     IsMinCE.proper_subgroups_solvable Mi (lt_top_iff_ne_top.mpr hMi.1.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card Mi) := by simp
   obtain ⟨Ysub, hYsubHall, _hYsubInv, hKstarSubLeY⟩ :=
@@ -5229,10 +5229,10 @@ private theorem CFSG.section14_7_cyclic_of_isZGroup_of_le_nilpotent
     IsCyclic H := by
   let Hsub : Subgroup N := H.subgroupOf N
   let e : Hsub ≃* H := Subgroup.subgroupOfEquivOfLe (H := H) (K := N) hHN
-  letI : IsZGroup H := hHZ
-  letI : IsZGroup Hsub := IsZGroup.of_injective (f := e.toMonoidHom) e.injective
-  letI : Group.IsNilpotent N := hNnil
-  letI : Group.IsNilpotent Hsub := inferInstance
+  let : IsZGroup H := hHZ
+  let : IsZGroup Hsub := IsZGroup.of_injective (f := e.toMonoidHom) e.injective
+  let : Group.IsNilpotent N := hNnil
+  let : Group.IsNilpotent Hsub := inferInstance
   exact e.isCyclic.1 inferInstance
 
 private theorem CFSG.section14_7_k_cyclic_of_partner
@@ -5246,7 +5246,7 @@ private theorem CFSG.section14_7_k_cyclic_of_partner
     (hP2Mi : M ∈ section14MFamilyP2 G ∨ Mi ∈ section14MFamilyP2 G) :
     IsCyclic K := by
   rcases hP2Mi with hMP2 | hMiP2
-  · letI : Fact (Nat.card K).Prime :=
+  · let : Fact (Nat.card K).Prime :=
         ⟨(proposition_14_2_g (G := G) (M := M) (K := K) hMP2 hK).2.1⟩
     exact isCyclic_of_prime_card (p := Nat.card K) rfl
   · have hKleMsigmaMi : K ≤ section10Msigma Mi := by
@@ -5275,7 +5275,7 @@ private theorem CFSG.section14_7_kstar_cyclic_of_partner
         (section14_hall_kappa_isZGroup (G := G) hHallKappaBase)
         (show section14KStar M K ≤ section10Msigma M from inf_le_left)
         ((proposition_14_2_g (G := G) (M := M) (K := K) hMP2 hK).2.2.1)
-  · letI : Fact (Nat.card (section14KStar M K)).Prime :=
+  · let : Fact (Nat.card (section14KStar M K)).Prime :=
         ⟨(proposition_14_2_g
           (G := G) (M := Mi) (K := section14KStar M K) hMiP2 hHallKappaBase).2.1⟩
     exact isCyclic_of_prime_card (p := Nat.card (section14KStar M K)) rfl
@@ -5416,7 +5416,7 @@ private theorem CFSG.section14_7_u_le_ambientDerived
       hHallU.p_in_pi_of_p_dvd_card q'
         (by simpa [section12_card_subgroupOf_eq hUM, q'] using hqU)
     exact hqπ (Or.inl hqκ)
-  have hsolvU : IsSolvable U :=
+  have hsolvU : Group.IsSolvable U :=
     section14_solvable_of_le_maximal hM.1 hUM
   have hUleComm : U ≤ ⁅U, K⁆ :=
     section8_le_commutator_of_subgroupCentralizerIn_eq_bot
@@ -5482,8 +5482,8 @@ private theorem CFSG.section14_7_complement_ambientDerived_of_k_cyclic
       exact (Subgroup.subgroupOfEquivOfLe (H := K) (K := M) hKM).isCyclic.2 hKcyc
     have hquotcyc : IsCyclic (M ⧸ Nsub) :=
       hcompSub.QuotientMulEquiv.isCyclic.2 hKsubcyc
-    letI : IsCyclic (M ⧸ Nsub) := hquotcyc
-    letI : CommGroup (M ⧸ Nsub) := hquotcyc.commGroup
+    let : IsCyclic (M ⧸ Nsub) := hquotcyc
+    let : CommGroup (M ⧸ Nsub) := hquotcyc.commGroup
     let q : M →* M ⧸ Nsub := QuotientGroup.mk' Nsub
     have hderLeKer : derivedSubgroup M ≤ q.ker :=
       Abelianization.commutator_subset_ker q
@@ -5537,7 +5537,7 @@ private theorem CFSG.section14_7_kappa_eq_tau1_of_complement_ambientDerived
               Nat.card ((ambientDerivedSubgroup M).subgroupOf S) := by
                 rw [natCard_subgroupOf_eq K S le_sup_left,
                   natCard_subgroupOf_eq (ambientDerivedSubgroup M) S le_sup_right]
-        _ = Nat.card S := hcomp0.symm.card_mul
+        _ = Nat.card S := hcomp0.symm.card_mul_card
     have hcardMul :
         Nat.card Ksub * Nat.card Dsub = Nat.card M := by
       calc
@@ -5587,7 +5587,7 @@ private theorem CFSG.section14_7_kappa_eq_tau1_of_complement_ambientDerived
       simpa [ambientDerivedSubgroup] using
         (Subgroup.card_map_of_injective
           (K := derivedSubgroup M) (f := M.subtype) M.subtype_injective)
-    have hmul : Nat.card Ksub * Nat.card Dsub = Nat.card M := hcompSub.card_mul
+    have hmul : Nat.card Ksub * Nat.card Dsub = Nat.card M := hcompSub.card_mul_card
     have hpKsub : p.val ∣ Nat.card Ksub := by
       have hpProd : p.val ∣ Nat.card Ksub * Nat.card Dsub := by
         rw [hmul]
@@ -5773,7 +5773,7 @@ private theorem CFSG.section14_7_elementCentralizer_eq_z_of_mem_k
       exact (hgx.zpow_right n).eq.symm
     simpa [hNormXeqZ] using hgNormX
   · refine sup_le ?_ ?_
-    · letI : CommGroup K := hKcyc.commGroup
+    · let : CommGroup K := hKcyc.commGroup
       intro g hgK
       refine ⟨hK.1 hgK, ?_⟩
       have hgx : g * x = x * g := congrArg Subtype.val (mul_comm (⟨g, hgK⟩ : K) ⟨x, hxK⟩)
@@ -5836,7 +5836,7 @@ private theorem CFSG.section14_7_elementCentralizer_partner_eq_z
       refine ⟨section14_msigma_le Mi hgPartner.1, ?_⟩
       exact Subgroup.mem_centralizer_singleton_iff.mpr <|
         (Subgroup.mem_centralizer_iff.mp hgPartner.2 y hyKstar).symm
-    · letI : CommGroup (section14KStar M K) := hKstarcyc.commGroup
+    · let : CommGroup (section14KStar M K) := hKstarcyc.commGroup
       intro g hgKstar
       refine ⟨hHallKappaBase.1 hgKstar, ?_⟩
       have hgy : g * y = y * g := by
@@ -5934,7 +5934,7 @@ private theorem CFSG.section14_7_centralizer_mul_eq_z
     have hgM : g ∈ M := hCentY_le_M hgCentY
     simpa [hInfEqZ] using (show g ∈ M ⊓ Mi from ⟨hgM, hgMi⟩)
   · refine sup_le ?_ ?_
-    · letI : CommGroup K := hKcyc.commGroup
+    · let : CommGroup K := hKcyc.commGroup
       intro g hgK
       have hgx : g * x = x * g := congrArg Subtype.val (mul_comm (⟨g, hgK⟩ : K) ⟨x, hxK⟩)
       have hgy : g * y = y * g := by
@@ -5947,7 +5947,7 @@ private theorem CFSG.section14_7_centralizer_mul_eq_z
         _ = x * (y * g) := by rw [hgy]
         _ = (x * y) * g := by simp [mul_assoc]
     · intro g hgKstar
-      letI : CommGroup (section14KStar M K) := hKstarcyc.commGroup
+      let : CommGroup (section14KStar M K) := hKstarcyc.commGroup
       have hgy : g * y = y * g := congrArg Subtype.val
         (mul_comm (⟨g, hgKstar⟩ : section14KStar M K) ⟨y, hyKstar⟩)
       have hgx : g * x = x * g := by
@@ -5987,7 +5987,7 @@ private theorem CFSG.section14_7_widehat_inter_conj_eq_empty_of_not_mem
     exact
       Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := K) (N := section14KStar M K) hK_norm_Kstar
-  letI : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
+  let : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
   have htop0 : (K.subgroupOf Z) ⊔ ((section14KStar M K).subgroupOf Z) = ⊤ := by
     change
       (K.subgroupOf (K ⊔ section14KStar M K)) ⊔
@@ -6350,7 +6350,7 @@ public theorem CFSG.theorem_14_7_exists
       ∀ H : Subgroup G, H ∈ section14MFamilyP G →
         section14ConjugateSubgroups H M ∨ section14ConjugateSubgroups H Mi := by
     intro H hH
-    have hsolvH : IsSolvable H :=
+    have hsolvH : Group.IsSolvable H :=
       IsMinCE.proper_subgroups_solvable H (lt_top_iff_ne_top.mpr hH.1.1)
     obtain ⟨L, hL⟩ :=
       section14_exists_hallSubgroupIn (G := G) hsolvH (section14KappaPrimes H)
@@ -6406,7 +6406,7 @@ public theorem CFSG.theorem_14_7_exists
       exact
         Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := L) (N := section14KStar H L) hL_norm_Lstar
-    letI : ((section14KStar H L).subgroupOf ZH).Normal := hLstarNormal
+    let : ((section14KStar H L).subgroupOf ZH).Normal := hLstarNormal
     have htop0 : (L.subgroupOf ZH) ⊔ ((section14KStar H L).subgroupOf ZH) = ⊤ := by
       change
         (L.subgroupOf (L ⊔ section14KStar H L)) ⊔
@@ -6642,9 +6642,9 @@ public theorem CFSG.proposition_14_2_a_of_fixed_sigma_complement
     intro p hpκ
     exact (theorem_14_7_c (G := G) (M := M) (K := K) hM
       ⟨hKM, hKHallM⟩).2 ▸ hpκ
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     section14_solvable_of_le_maximal hM.1 hEcomp.2.1
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -6683,9 +6683,9 @@ public theorem CFSG.proposition_14_2_a_of_fixed_sigma_complement
       ⟨⟨x, hKE hxK⟩,
         hKsubE_E₁₂sub (show (⟨x, hKE hxK⟩ : E) ∈ KsubE from hxK), rfl⟩
   have hE₁₂M : E₁₂ ≤ M := hE₁₂.1.trans hEcomp.2.1
-  have hsolvE₁₂ : IsSolvable E₁₂ :=
+  have hsolvE₁₂ : Group.IsSolvable E₁₂ :=
     section14_solvable_of_le_maximal hM.1 hE₁₂M
-  letI : MulDistribMulAction Unit E₁₂ := {
+  let : MulDistribMulAction Unit E₁₂ := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl

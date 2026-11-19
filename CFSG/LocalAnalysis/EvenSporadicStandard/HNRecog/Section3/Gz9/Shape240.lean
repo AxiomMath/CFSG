@@ -21,7 +21,7 @@ private theorem shape240_natCard_A5 : Nat.card (alternatingGroup (Fin 5)) = 60 :
   norm_num
 
 private theorem shape240_natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
@@ -85,12 +85,12 @@ private noncomputable def shape240_conjCentralizerMulEquiv (b u : A5WrTwo) :
   right_inv k := Subtype.ext (by group)
   map_mul' k l := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
-private theorem shape240_baseEmb_fst (x : alternatingGroup (Fin 5)) (hx2 : x ^ 2 = 1)
+private theorem shape240_baseEmb_fst (x : alternatingGroup (Fin 5)) (_hx2 : x ^ 2 = 1)
     (hx1 : x ≠ 1)
     (hC4 : Nat.card ↥(Subgroup.centralizer ({x} : Set (alternatingGroup (Fin 5)))) = 4) :
     IsShapeTwoTwoTimesA5
       ↥(Subgroup.centralizer ({A5WrTwo.baseEmb (x, 1)} : Set A5WrTwo)) := by
-  haveI : Finite A5WrTwo :=
+  have : Finite A5WrTwo :=
     Nat.finite_of_card_ne_zero (by rw [shape240_natCard_A5WrTwo]; norm_num)
   have hnotconj : ¬ IsConj x (1 : alternatingGroup (Fin 5)) :=
     fun h => hx1 (isConj_one_left.mp h)

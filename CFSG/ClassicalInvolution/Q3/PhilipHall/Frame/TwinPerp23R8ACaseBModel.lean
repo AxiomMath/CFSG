@@ -27,10 +27,10 @@ private theorem pairVec_eq_indv {i j : Fin 5} (hij : i ≠ j) :
   simp only [TC.Thin.indv]
   by_cases hi : x = i
   · subst hi
-    simp [hij, Ne.symm hij]
+    simp [hij]
   · by_cases hj : x = j
     · subst hj
-      simp [hi, Ne.symm hij]
+      simp [hi]
     · simp [hi, hj]
 
 private theorem indv_add_eq_indv_symmDiff (s t : Finset (Fin 5)) :
@@ -38,7 +38,7 @@ private theorem indv_add_eq_indv_symmDiff (s t : Finset (Fin 5)) :
   funext x
   rw [Pi.add_apply]
   simp only [TC.Thin.indv, Finset.mem_symmDiff]
-  by_cases hs : x ∈ s <;> by_cases ht : x ∈ t <;> simp [hs, ht] <;> decide
+  by_cases hs : x ∈ s <;> by_cases ht : x ∈ t <;> simp [hs, ht]; decide
 
 private theorem indv_union {s t : Finset (Fin 5)} (h : Disjoint s t) :
     TC.Thin.indv (s ∪ t) = TC.Thin.indv s + TC.Thin.indv t := by
@@ -60,7 +60,7 @@ private theorem mkQ_embed_w0_eq_vbar (ι : Fin 4 ↪ Fin 5) :
     · subst h1
       simp [h0]
     · have h01 : ι 0 ≠ ι 1 := ι.injective.ne (by decide)
-      simp [h0, h1, h01, Ne.symm h0, Ne.symm h1]
+      simp [h0, h1]
 
 private theorem vbar_pairVec_mul_self {n : ℕ} (i j : Fin n) :
     TL4.vbar n (TL4.pairVec i j) * TL4.vbar n (TL4.pairVec i j) = 1 := by
@@ -156,7 +156,7 @@ private theorem pairShiftOK_all :
     · have ha' : (σ a == a) = false := beq_eq_false_iff_ne.2 ha
       simp only [pairShiftOK, ha', Bool.and_false, Bool.false_and, Bool.not_false, Bool.true_or]
   · have hb' : (σ b == b) = false := beq_eq_false_iff_ne.2 hb
-    simp only [pairShiftOK, hb', Bool.and_false, Bool.false_and, Bool.not_false, Bool.true_or]
+    simp only [pairShiftOK, hb', Bool.and_false, Bool.not_false, Bool.true_or]
 
 
 private theorem pair_shift_card (p q r a b : Fin 5) (σ : Equiv.Perm (Fin 5))
@@ -341,7 +341,7 @@ private theorem all_pairVec_mem (N : Subgroup (AEQ 5))
 theorem caseB_model_normal (p : Fin 5) (ι : Fin 4 ↪ Fin 5) (hι : ∀ y, y ∈ Set.range ι ↔ y ≠ p)
     (s : AEQ 5) (hs : s ∈ (aeSub 5).map (mkQ 5)) (hs3 : IsPGroup 3 (Subgroup.zpowers s)) (hs1 : s ≠ 1)
     (hsb : s * mkQ 5 (embed ι w0) = mkQ 5 (embed ι w0) * s)
-    (N : Subgroup (AEQ 5)) (hNA : N ≤ (aeSub 5).map (mkQ 5))
+    (N : Subgroup (AEQ 5)) (_hNA : N ≤ (aeSub 5).map (mkQ 5))
     (hNn : ∀ x ∈ (aeSub 5).map (mkQ 5), ∀ m ∈ N, x * m * x⁻¹ ∈ N)
     (hc : s * (zBar (miss p) (card_miss p) * mkQ 5 (embed ι w0)) * s⁻¹ *
         (zBar (miss p) (card_miss p) * mkQ 5 (embed ι w0))⁻¹ ∈ N) :
@@ -400,7 +400,7 @@ private theorem pairVec_eq_of_pair_eq {a b c d : Fin 5} (hab : a ≠ b) (hcd : c
   rw [pairVec_eq_indv hab, pairVec_eq_indv hcd, h]
 
 private theorem ofPerm_mem_centralizer_pairVec {τ : Equiv.Perm (Fin 5)}
-    (hτ : τ ∈ alternatingGroup (Fin 5)) {u v : Fin 5} (huv : u ≠ v)
+    (_hτ : τ ∈ alternatingGroup (Fin 5)) {u v : Fin 5} (huv : u ≠ v)
     (hfix : ({τ u, τ v} : Finset (Fin 5)) = {u, v}) :
     mkQ 5 (Wr.ofPerm τ) * TL4.vbar 5 (TL4.pairVec u v) * (mkQ 5 (Wr.ofPerm τ))⁻¹ =
       TL4.vbar 5 (TL4.pairVec u v) := by
@@ -620,9 +620,9 @@ theorem caseB_model_gen (p : Fin 5) (ι : Fin 4 ↪ Fin 5) (hι : ∀ y, y ∈ S
         · rw [h, hτ2_p]
         · rw [h, hτ2_u]
       rw [hfixq, hfixr]
-    have hτ1_mem : τ1 ∈ G := Subgroup.subset_closure (by simp [G])
-    have hτ2_mem : τ2 ∈ G := Subgroup.subset_closure (by simp [G])
-    have hh_mem : h ∈ G := Subgroup.subset_closure (by simp [G])
+    have hτ1_mem : τ1 ∈ G := Subgroup.subset_closure (by simp)
+    have hτ2_mem : τ2 ∈ G := Subgroup.subset_closure (by simp)
+    have hh_mem : h ∈ G := Subgroup.subset_closure (by simp)
     have hτ1A : τ1 ∈ alternatingGroup (Fin 5) :=
       CFSG.ClassicalInvolution.Q3.AE.Block4.swap_mul_swap_mem hpι0 h01
     have hτ2A : τ2 ∈ alternatingGroup (Fin 5) :=
@@ -713,7 +713,7 @@ theorem caseB_model_gen (p : Fin 5) (ι : Fin 4 ↪ Fin 5) (hι : ∀ y, y ∈ S
       exact Equiv.Perm.isThreeCycle_swap_mul_swap_same (Ne.symm hpι0) h01 hpι1
     have hA5_le : alternatingGroup (Fin 5) ≤ G :=
       Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem hG_prim hτ1_three
-        (Subgroup.subset_closure (by simp [G]))
+        (Subgroup.subset_closure (by simp))
     intro x hx
     obtain ⟨w, hwA, rfl⟩ := hx
     have hwvec : (∑ i, w.vec i) = 0 := hwA.1

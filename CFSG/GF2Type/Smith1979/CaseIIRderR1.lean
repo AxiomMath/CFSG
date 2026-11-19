@@ -25,7 +25,7 @@ theorem isSimpleGroup_GL_three (V : Type*) [AddCommGroup V] [Module (ZMod 2) V]
   let e : Matrix.GeneralLinearGroup (Fin 3) (ZMod 2) ≃* (V ≃ₗ[ZMod 2] V) :=
     (Matrix.GeneralLinearGroup.toLin' b).trans
       (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) V)
-  haveI := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (n := 3) le_rfl
+  have := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (n := 3) le_rfl
   exact e.symm.isSimpleGroup
 
 theorem dichotomy_of_simple {A H : Type*} [Group A] [Group H] [IsSimpleGroup H] (ψ : A →* H)
@@ -173,7 +173,7 @@ theorem Rder_faithful_on_Sbar (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
     ∀ r ∈ Rder S g t, (∀ s ∈ Rder S g t ⊓ Nbar S g t, r * s * r⁻¹ = s) → r ∈ Nbar S g t := by
   intro r hr hcent
   have hle : Rder S g t ≤ Rbar S g t := Rder_le_Rbar' D hCE
-  haveI := isSimpleGroup_GL_three (Vt S g t) D.h3
+  have := isSimpleGroup_GL_three (Vt S g t) D.h3
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, hNcomm, -⟩ := Rbar_structure_II D hCE
   have hab : ∀ a ∈ (psiP D.H.conj_mem t hle).ker, ∀ b ∈ (psiP D.H.conj_mem t hle).ker,
       a * b = b * a := by

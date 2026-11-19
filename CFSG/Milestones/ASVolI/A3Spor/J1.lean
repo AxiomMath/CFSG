@@ -82,7 +82,7 @@ theorem burnsideA315s_exists_involution_comm {G : Type*} [Group G] [Finite G]
   have hPC : P ≤ C := by
     intro x hx
     rw [hC, Subgroup.mem_centralizer_singleton_iff]
-    haveI : IsCyclic ↥P := isCyclic_of_prime_card hP
+    have : IsCyclic ↥P := isCyclic_of_prime_card hP
     have := (IsCyclic.commGroup (α := ↥P)).mul_comm ⟨x, hx⟩ b
     have := congrArg Subtype.val this
     simpa using this
@@ -103,13 +103,13 @@ theorem burnsideA315s_exists_involution_comm {G : Type*} [Group G] [Finite G]
       exact absurd hb (by norm_num)
   have hfin : (P : Set G).Finite := Set.toFinite _
   have hncP : ((P : Set G) \ {1}).ncard = 6 := by
-    rw [Set.ncard_diff_singleton_of_mem P.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem P.one_mem, ← Nat.card_coe_set_eq]
     change Nat.card ↥P - 1 = 6
     rw [hP]
   have hidx : (MulAction.stabilizer (ConjAct G) (b : G)).index ≤ 6 := by
     rw [MulAction.index_stabilizer]
     rw [← hncP]
-    exact Set.ncard_le_ncard horb (hfin.diff)
+    exact Set.ncard_le_ncard horb (hfin.sdiff)
   have hcardC : Nat.card C = Nat.card (MulAction.stabilizer (ConjAct G) (b : G)) :=
     Subgroup.nat_card_centralizer_nat_card_stabilizer _
   have hmul : Nat.card (MulAction.stabilizer (ConjAct G) (b : G)) *
@@ -146,7 +146,7 @@ theorem burnsideA315s_normalizer_of_card56 {X : Type} [Group X] [Finite X] {S B 
       rw [hi]
       norm_num
     let P : Sylow 7 ↥H := hBp.toSylow hBi
-    haveI : (B.subgroupOf H).Normal := by
+    have : (B.subgroupOf H).Normal := by
       have := P.normal_of_subsingleton
       exact this
     obtain ⟨t, b, ht, hb, htb⟩ := burnsideA315s_exists_involution_comm hH hB'
@@ -161,7 +161,7 @@ theorem burnsideA315s_normalizer_of_card56 {X : Type} [Group X] [Finite X] {S B 
       rw [hi]
       norm_num
     let P : Sylow 2 ↥H := hSp.toSylow hSi
-    haveI : (S.subgroupOf H).Normal := by
+    have : (S.subgroupOf H).Normal := by
       have := P.normal_of_subsingleton
       exact this
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hSH).1 inferInstance

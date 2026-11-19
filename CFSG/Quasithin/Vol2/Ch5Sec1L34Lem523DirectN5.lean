@@ -39,7 +39,7 @@ theorem Ugrp_has_uB (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_
   by_contra hcon
   push Not at hcon
   have hK : Nat.card D.K = 4 := by rw [D.card]; norm_num
-  haveI : CharP D.K 2 :=
+  have : CharP D.K 2 :=
     CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
   have hAinv : ∀ w, D.conj ⟨uA, huAN⟩ (D.conj ⟨uA, huAN⟩ w) = w :=
     fun w => conj_invol s h5114 hF D hz hz1 hzN huA huAN w

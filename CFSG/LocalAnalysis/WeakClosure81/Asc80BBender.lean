@@ -61,7 +61,7 @@ theorem exists_fixed_involutions_of_outer_sl2 {F : Type} [Field F] [Finite F] {n
     ∃ u v : SL(2, F), φ u = u ∧ φ v = v ∧ orderOf u = 2 ∧ orderOf v = 2 ∧
       orderOf (u * v) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : CharP F 2 := char_two_of_card hcard
   have htwo : (2 : F) = 0 := CharP.cast_eq_zero F 2
   obtain ⟨a, rfl⟩ := (gammaToMulAut_bijective_of_card hcard).2 φ
@@ -128,7 +128,7 @@ theorem exists_fixed_involutions_of_outer_sl2 {F : Type} [Field F] [Finite F] {n
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [u₀, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination htwo
+      simp [u₀, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination htwo
   have hu₀_ne : u₀ ≠ 1 := by
     intro h
     have h01 := congrFun (congrFun (congrArg
@@ -139,7 +139,7 @@ theorem exists_fixed_involutions_of_outer_sl2 {F : Type} [Field F] [Finite F] {n
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [v₀, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination htwo
+      simp [v₀, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination htwo
   have hv₀_ne : v₀ ≠ 1 := by
     intro h
     have h10 := congrFun (congrFun (congrArg
@@ -151,7 +151,7 @@ theorem exists_fixed_involutions_of_outer_sl2 {F : Type} [Field F] [Finite F] {n
     rw [Matrix.SpecialLinearGroup.coe_mul]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [u₀, v₀, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination htwo
+      simp [u₀, v₀, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination htwo
   have hu₀v₀_ne : u₀ * v₀ ≠ 1 := by
     intro h
     have h00 := congrFun (congrFun (congrArg
@@ -237,7 +237,7 @@ private theorem asc80B_eq_normalizer {G : Type} [Group G] [Finite G] {H A M : Su
     (hN : ∀ P : Subgroup ↥H, (B : Subgroup ↥H) ≤ P → P ≠ ⊤ →
       P ≤ Subgroup.normalizer (B : Set ↥H)) :
     M = H ⊓ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTmax := S.maxOver_sylow hT hAT
   have hTM : T ≤ M := (isUniqueMaxOver_iff.mp hTmax).2.1
   have hTlt : T < H := lt_of_le_of_lt hTM (isUniqueMaxOver_iff.mp hTmax).1.1
@@ -264,8 +264,8 @@ private theorem asc80B_eq_normalizer {G : Type} [Group G] [Finite G] {H A M : Su
     have hHnorm : H ≤ Subgroup.normalizer (T : Set G) := heq ▸ inf_le_right
     have hTnormal : ((T.subgroupOf H : Subgroup ↥H)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hT.le).mpr hHnorm
-    haveI : ((T.subgroupOf H : Subgroup ↥H)).Normal := hTnormal
-    haveI : IsSimpleGroup ↥H := hHsimple
+    have : ((T.subgroupOf H : Subgroup ↥H)).Normal := hTnormal
+    have : IsSimpleGroup ↥H := hHsimple
     have hAsub : A.subgroupOf H ≤ T.subgroupOf H := fun x hx => hAT hx
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf H) with hbot | htop
     · have hAbot : A.subgroupOf H = ⊥ := le_bot_iff.mp (hAsub.trans_eq hbot)
@@ -284,7 +284,7 @@ private theorem asc80B_eq_normalizer {G : Type} [Group G] [Finite G] {H A M : Su
 theorem asc80ThmBCase_l2 :
     Asc80ThmBCase fun X _ => ∃ f : ℕ, CFSG.Models.LieModel X .PSL 2 2 f := by
   intro G _ _ H A M hs hnab hfam hAH hA hM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hmod⟩ := hfam
   let L : Subgroup G := Fstar H
   have hsetup := asc80BSetup hs hnab hAH hA hM
@@ -296,7 +296,7 @@ theorem asc80ThmBCase_l2 :
   obtain ⟨T, hT, hAT⟩ := exists_isSylowIn_ge 2 hAH hA.isPGroup
   have hAL : A ≤ L := by
     by_contra hnot
-    rw [SetLike.not_le_iff_exists] at hnot
+    rw [IsConcreteLE.not_le_iff_exists] at hnot
     obtain ⟨a, haA, haL⟩ := hnot
     have haH : a ∈ H := hAH haA
     have haa : a * a = 1 := by
@@ -310,9 +310,9 @@ theorem asc80ThmBCase_l2 :
         hsetup.inf_centralizer haH hl.symm)
     obtain ⟨F, hField, hFinite, hCharP, hcardF, ⟨eSL⟩⟩ :=
       P22y.exists_equiv_sl2 (P22fin.isL2Ev_of_isL2 hL2L).1
-    letI : Field F := hField
-    letI : Finite F := hFinite
-    letI : CharP F 2 := hCharP
+    let : Field F := hField
+    let : Finite F := hFinite
+    let : CharP F 2 := hCharP
     let ψ : MulAut SL(2, F) := MulAut.congr eSL
       (conjOnNormal (fstar_le_group H) (normal_subgroupOf_fstar H) a haH)
     have hψψ : ψ * ψ = 1 := by
@@ -462,7 +462,7 @@ theorem asc80ThmBCase_l2 :
   have hH : H = L := by
     rw [hsetup.eq_sup]
     exact sup_eq_left.mpr hAL
-  haveI : IsSimpleGroup ↥L := hs
+  have : IsSimpleGroup ↥L := hs
   have hHsimple : IsSimpleGroup ↥H := (MulEquiv.subgroupCongr hH).isSimpleGroup
   have hL2H : IsL2 ↥H f :=
     CFSG.Blueprint.LieModel.of_mulEquiv (MulEquiv.subgroupCongr hH).symm hL2L
@@ -478,7 +478,7 @@ theorem asc80ThmBCase_l2 :
 theorem asc80ThmBCase_sz :
     Asc80ThmBCase fun X _ => ∃ n f : ℕ, CFSG.Models.LieModel X .twistedB2 n 2 f := by
   intro G _ _ H A M hs hnab hfam hAH hA hM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, f, hmod⟩ := hfam
   let L : Subgroup G := Fstar H
   have hsetup := asc80BSetup hs hnab hAH hA hM
@@ -504,7 +504,7 @@ theorem asc80ThmBCase_sz :
       (normal_subgroupOf_fstar H)
   have hAL : A ≤ L := by
     by_contra hnot
-    rw [SetLike.not_le_iff_exists] at hnot
+    rw [IsConcreteLE.not_le_iff_exists] at hnot
     obtain ⟨a, haA, haL⟩ := hnot
     have haH : a ∈ H := hAH haA
     have haa : a * a = 1 := by
@@ -521,7 +521,7 @@ theorem asc80ThmBCase_sz :
   have hH : H = L := by
     rw [hsetup.eq_sup]
     exact sup_eq_left.mpr hAL
-  haveI : IsSimpleGroup ↥L := hs
+  have : IsSimpleGroup ↥L := hs
   have hHsimple : IsSimpleGroup ↥H := (MulEquiv.subgroupCongr hH).isSimpleGroup
   have hSzH : IsSz ↥H f :=
     CFSG.Blueprint.LieModel.of_mulEquiv (MulEquiv.subgroupCongr hH).symm hSzL
@@ -534,8 +534,8 @@ theorem asc80ThmBCase_sz :
       P ≤ Subgroup.normalizer (B : Set ↥H) := by
     intro P hP hPtop
     obtain ⟨-, b, hb1, K, hField, hFinite, hfK, hKcard, ⟨eK⟩⟩ := hSzModelH
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     have hKcard' : Nat.card K = 2 ^ (2 * b + 1) := by
       rw [← hfK]
       exact hKcard

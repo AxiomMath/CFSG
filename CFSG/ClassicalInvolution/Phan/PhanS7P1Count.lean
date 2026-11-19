@@ -3,7 +3,7 @@ module
 public import CFSG.ClassicalInvolution.Phan.PhanS5D1Basic
 public import CFSG.ClassicalInvolution.Phan.PhanS5D2Conic
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

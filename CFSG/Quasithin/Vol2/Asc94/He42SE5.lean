@@ -77,14 +77,14 @@ theorem HeSetup.fusion_facts (S : HeSetup G) (hfus : S.StepFus) {z : G} (hzZ : z
     rw [hPQ, Matrix.det_mul, Matrix.det_mul, Matrix.det_transpose] at h0
     exact mul_ne_zero (mul_ne_zero hPd hdy) hQd h0
 
-theorem HeSetup.fix_of_centralizes_B (S : HeSetup G) (hB : S.BaseFacts) (hfus : S.StepFus) {z : G}
+theorem HeSetup.fix_of_centralizes_B (S : HeSetup G) (_hB : S.BaseFacts) (hfus : S.StepFus) {z : G}
     (hzZ : z ∈ S.Z) (hz : S.m z = Matrix.of ![![0, 1], ![0, 0]])
     {c : G} (hcB : ∀ b ∈ S.B, c * b = b * c) (hc : c * z * c⁻¹ * z⁻¹ ∈ S.B) :
     c * z * c⁻¹ = z := by
   obtain ⟨hA, hA'⟩ := S.fusion_facts hfus hzZ hz
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
-  obtain ⟨b, hbB, hbm⟩ := S.hD.exists_b S.hxN S.hxa S.hx3
+  obtain ⟨b, hbB, hbm⟩ := S.hD.exists_b S.hxN S.hxa
   have hbm' : S.m b = S.g.val := hbm
   have hbZ : b ∈ S.Z := hbB.1
   have hb1 : b ≠ 1 := by
@@ -97,7 +97,7 @@ theorem HeSetup.fix_of_centralizes_B (S : HeSetup G) (hB : S.BaseFacts) (hfus : 
     apply Units.ext
     rw [Units.val_one, ← hbm', h, S.hD.ham]
   have hBel := S.hD.B_elems S.hxN S.hxa S.hx3 hbB hb1 hba
-  have haB : S.a ∈ S.B := S.hD.a_mem_B S.hxN S.hxa S.hx3
+  have haB : S.a ∈ S.B := S.hD.a_mem_B S.hxa
   have hcA : c * S.a * c⁻¹ = S.a := by
     rw [hcB S.a haB, mul_inv_cancel_right]
   obtain ⟨b₀, hb₀⟩ : ∃ b₀ : G, b₀ = c * z * c⁻¹ * z⁻¹ := ⟨_, rfl⟩

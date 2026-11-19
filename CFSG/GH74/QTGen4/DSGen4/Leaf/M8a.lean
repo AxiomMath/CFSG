@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 private theorem card_hom_units_eq (A : Type) [CommGroup A] [Finite A] :
     Nat.card (A →* ℂˣ) = Nat.card A := by
-  haveI : NeZero (Monoid.exponent A) := ⟨Monoid.exponent_ne_zero_of_finite⟩
+  have : NeZero (Monoid.exponent A) := ⟨Monoid.exponent_ne_zero_of_finite⟩
   exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity A ℂ
 
 theorem leafM8a : LeafM8a := by
@@ -159,9 +159,9 @@ theorem leafM8a : LeafM8a := by
     Finite.of_surjective (fun v : V => (Abelianization.of v : Abelianization V)) hof
   have hcardEq : Nat.card (Abelianization V →* ℂˣ) = Nat.card (Abelianization V) :=
     card_hom_units_eq _
-  haveI : Finite (Abelianization V →* ℂˣ) :=
+  have : Finite (Abelianization V →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [hcardEq]; exact (Nat.card_pos).ne')
-  haveI : IsMulCommutative (Abelianization V →* ℂˣ) :=
+  have : IsMulCommutative (Abelianization V →* ℂˣ) :=
     ⟨⟨fun φ ψ => MonoidHom.ext fun x => mul_comm (φ x) (ψ x)⟩⟩
   have hΦ1 : Abelianization.lift (f 1) = 1 := by
     apply Abelianization.hom_ext

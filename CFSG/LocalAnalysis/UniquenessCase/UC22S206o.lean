@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 theorem uc22s206o_isSylowOf_top {Y : Type*} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     (Q : Sylow p Y) : CFSG.ABGLocalTools.IsSylowOf p (Q : Subgroup Y) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]
-  exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+  exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
 
 theorem uc22s206o_mk_eq {Y : Type*} [Group Y] {C : Subgroup Y} {c c' : C}
     (h : ∀ m ∈ C, (c : Y) * m * (c : Y)⁻¹ = c' * m * (c' : Y)⁻¹) :
@@ -106,7 +106,7 @@ theorem uc22s206o_sylow [Finite G] {M K T : Subgroup G} (hKM : K ≤ M)
     (hψ : ∀ k, ∃ c : C, ψ k = c ∧ ∀ m ∈ C, φ k * m * (φ k)⁻¹ = c * m * (c : Bar2 M)⁻¹) :
     ∃ TS : Subgroup (C ⧸ Subgroup.center C), CFSG.ABGLocalTools.IsSylowOf 2 TS ⊤ ∧
       TS ≤ normalizer (ψ.range : Set (C ⧸ Subgroup.center C)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
   have hTb := uc22s206o_isSylowOf_top
     (Q.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M)))

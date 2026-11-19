@@ -71,7 +71,7 @@ theorem power_fusion_transfer_detection
   have hcomm : IsMulCommutative (G ⧸ T.ker) :=
     ⟨⟨fun a b => e.injective (by rw [map_mul, map_mul, mul_comm])⟩⟩
   have hquotp : IsPGroup p (G ⧸ T.ker) :=
-    ((S.isPGroup'.to_quotient N).to_subgroup T.range).of_equiv e.symm
+    ((S.isPGroup.to_quotient N).to_subgroup T.range).of_equiv e.symm
   exact ⟨hvalue, hnontrivial, inferInstance, hxnker, hquotient,
     inferInstance, hcomm, hquotp⟩
 

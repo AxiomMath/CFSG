@@ -44,8 +44,8 @@ private theorem two_nodes_cases (J : Finset (Fin 5)) (hJ : J.card ≤ 2) :
 private theorem cartanD_five_eq_zero_of_cross {k l : Fin 5} (hk : (k : ℕ) < 2)
     (hl : 2 ≤ (l : ℕ)) (hkl : ¬((k : ℕ) = 1 ∧ (l : ℕ) = 2)) : cartanD 5 k l = 0 := by
   have hne : k ≠ l := by rintro rfl; omega
-  simp only [cartanD, Matrix.of_apply, if_neg hne]
-  rw [if_neg (by omega)]
+  simp only [cartanD, Matrix.of_apply, ite_eq_right hne]
+  rw [ite_eq_right (by omega)]
 
 private theorem singleton_ne_univ_four (i : Fin 4) : ({i} : Finset (Fin 4)) ≠ Finset.univ :=
   (Finset.card_lt_iff_ne_univ _).mp (by simp)

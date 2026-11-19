@@ -70,7 +70,7 @@ theorem r_mul_x₁_zpow (k : ℤ) : C.D.F.ρ.r * C.D.x₁ ^ k = C.D.x₁ ^ (-k) 
 
 include C in
 theorem inf_S_eq_R : K ⊓ (S : Subgroup G) = R :=
-  C.hRsyl.2.2 _ inf_le_left S.isPGroup'.to_inf_right (le_inf C.hd.hR.2.1 C.hd.hR.2.2)
+  C.hRsyl.2.2 _ inf_le_left S.isPGroup.to_inf_right (le_inf C.hd.hR.2.1 C.hd.hR.2.2)
 
 theorem card_R : Nat.card ↥R = 2 * Nat.card ↥(Subgroup.zpowers C.D.x₁) := by
   have h := Thompson.D_card C.D.c.hp C.D.c.hq C.D.c.hΩ C.D.c.hW C.D.F.ρ.hR
@@ -206,7 +206,7 @@ theorem mem_W_of_mem_P_A {a : G} (haP : a ∈ (S : Subgroup G) ⊓ MGrp Ω W) (h
     exact h
   have hmem := (Thompson.piG_eq_one_iff haN).mp hpa
   exact Thompson.mem_of_isPGroup_of_mem_sup_OCW (Thompson.isPGroup_of_mem_WSet C.hd.hW)
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)) hmem
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)) hmem
 
 theorem eq_one_or_eq_z_of_mem_W {w : G} (hw : w ∈ W)
     (hr : C.D.F.ρ.r * w * C.D.F.ρ.r⁻¹ = w) (ht : C.D.F.ρ'.r * w * C.D.F.ρ'.r⁻¹ = w) :

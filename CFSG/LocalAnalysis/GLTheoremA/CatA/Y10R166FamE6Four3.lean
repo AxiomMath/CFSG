@@ -28,10 +28,10 @@ theorem i166On_famE6Four_of_transport
   obtain ⟨rfl, hz, rfl⟩ := hfam'
   obtain ⟨F, hFld, hFin, hFcard, ⟨e⟩⟩ :=
     exists_mulEquiv_adjointGroup_of_isLabel_E6_two rfl hlab hz
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : Finite (ModGL Tag.E6 F) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.E6 F) := inferInstance
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : Finite (ModGL Tag.E6 F) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite ↥(adjointGroup Tag.E6 F) := inferInstance
   exact htr e (p := 5)
     (exists_concl166S_adjointGroup_E6_four_of_concrete hFcard
       (exists_concl166S_e6Four (layerData166At_D le_rfl le_rfl)))

@@ -95,7 +95,7 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
       ∃ θ : ↥(M.img L) →* X, Function.Surjective θ ∧
         ∀ r : ↥(M.img L), θ r = 1 ↔ (r : LGL 2 M.W) ∈ Z := by
     intro X hXgrp φ hφs hφk
-    letI : Group X := hXgrp
+    let : Group X := hXgrp
     have hle : ψ'.ker ≤ φ.ker := by
       intro k hk
       rw [MonoidHom.mem_ker] at hk ⊢
@@ -120,7 +120,7 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
     rw [hρj]
     exact (hKk' (Subgroup.inclusion hLH l)).symm
   obtain ⟨X, hX, φ, hφs, hφk, hXsimple⟩ := hQ
-  letI : Group X := hX
+  let : Group X := hX
   obtain ⟨θ, hθs, hθker⟩ := hbuild φ hφs hφk
   let eA := Subgroup.subgroupOfEquivOfLe (M.img_mono hLH)
   set FL : Subgroup ↥(M.img L) := (F.subgroupOf A).map eA.toMonoidHom with hFL
@@ -128,8 +128,8 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
     rw [hFL]
     exact (hker.soc.normal_right.subgroupOf A).map eA.toMonoidHom eA.surjective
   have hcase : FL.map θ = ⊥ ∨ FL.map θ = ⊤ := by
-    haveI : IsSimpleGroup X := hXsimple.1
-    haveI : (FL.map θ).Normal := hFLnorm.map θ hθs
+    have : IsSimpleGroup X := hXsimple.1
+    have : (FL.map θ).Normal := hFLnorm.map θ hθs
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal (FL.map θ)
   have hFA : F = A := by
     rcases hcase with hbot | htop
@@ -228,12 +228,12 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     exact hθker r
   have hsimple : IsSimpleGroup (↥(M.img L) ⧸ Z.subgroupOf (M.img L)) := by
-    haveI : (Z.subgroupOf (M.img L)).Normal := hnormalZ
+    have : (Z.subgroupOf (M.img L)).Normal := hnormalZ
     let e : (↥(M.img L) ⧸ Z.subgroupOf (M.img L)) ≃* X :=
       (QuotientGroup.quotientMulEquivOfEq hkerθ.symm).trans
         (QuotientGroup.quotientKerEquivOfSurjective θ hθs)
     exact (MulEquiv.isSimpleGroup_congr e).mpr hXsimple.1
-  haveI : (Z.subgroupOf (M.img L)).Normal := hnormalZ
+  have : (Z.subgroupOf (M.img L)).Normal := hnormalZ
   have hquasi : CFSG.Open.IsQuasisimple ↥(M.img L) ∧ quasiCentre (M.img L) = Z :=
     isQuasisimple_of_central_simple_quot (F := M.img L) (Z := Z)
       hperfect hZle hZc hsimple
@@ -258,7 +258,7 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
   · exact hquasi.2.trans hZ
   · intro P hP hQ'
     obtain ⟨X', hX', φ', hφ's, hφ'k, hPX'⟩ := hQ'
-    letI : Group X' := hX'
+    let : Group X' := hX'
     obtain ⟨θ', hθ's, hθ'ker⟩ := hbuild φ' hφ's hφ'k
     have hkerθ' : θ'.ker = Z.subgroupOf (M.img L) := by
       ext r
@@ -269,7 +269,7 @@ theorem br3_oneCore (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
       rw [Subgroup.map_subgroupOf_eq_of_le hZle]
       show Z = quasiCentre (M.img L)
       exact hquasi.2.symm
-    haveI : (Z.subgroupOf (M.img L)).Normal := hnormalZ
+    have : (Z.subgroupOf (M.img L)).Normal := hnormalZ
     let e : (↥(M.img L) ⧸ Subgroup.center ↥(M.img L)) ≃* X' :=
       (QuotientGroup.quotientMulEquivOfEq hcenter.symm).trans
         ((QuotientGroup.quotientMulEquivOfEq hkerθ'.symm).trans

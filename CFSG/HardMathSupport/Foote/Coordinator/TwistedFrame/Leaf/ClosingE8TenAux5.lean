@@ -25,7 +25,7 @@ theorem Fv_smul (Fr : L →+* L) (a : L) (c : Fn L) : Fv Fr (a • c) = Fr a •
   carrier := {q | h⁻¹ * baseChangeGL (algebraMap K L) q * h ∈ Qθ Tag.E8 L}
   mul_mem' := by
     intro q q' hq hq'
-    simp only [Set.mem_setOf_eq] at hq hq' ⊢
+    simp only [Set.mem_ofPred_eq] at hq hq' ⊢
     have e : h⁻¹ * baseChangeGL (algebraMap K L) (q * q') * h =
         (h⁻¹ * baseChangeGL (algebraMap K L) q * h) *
           (h⁻¹ * baseChangeGL (algebraMap K L) q' * h) := by
@@ -34,12 +34,12 @@ theorem Fv_smul (Fr : L →+* L) (a : L) (c : Fn L) : Fv Fr (a • c) = Fr a •
     rw [e]
     exact mul_mem hq hq'
   one_mem' := by
-    simp only [Set.mem_setOf_eq, map_one]
+    simp only [Set.mem_ofPred_eq, map_one]
     rw [mul_one, inv_mul_cancel]
     exact one_mem _
   inv_mem' := by
     intro q hq
-    simp only [Set.mem_setOf_eq] at hq ⊢
+    simp only [Set.mem_ofPred_eq] at hq ⊢
     have e : h⁻¹ * baseChangeGL (algebraMap K L) q⁻¹ * h =
         (h⁻¹ * baseChangeGL (algebraMap K L) q * h)⁻¹ := by
       rw [map_inv]
@@ -104,7 +104,7 @@ theorem Uspace_inv (h : ModGL Tag.E8 L) (H : Subgroup (ModGL Tag.E8 K)) {x : Mod
       unfold Cc
       rw [e, hyc]
     rwa [hc] at this
-  | zero => simpa using Submodule.zero_mem _
+  | zero => simp
   | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
   | smul a x _ hx => rw [map_smul]; exact Submodule.smul_mem _ _ hx
 
@@ -121,7 +121,7 @@ theorem Uspace_sigma (h : ModGL Tag.E8 L) (H : Subgroup (ModGL Tag.E8 K)) (Fr : 
     unfold Cc
     rw [this]
     exact Cc_mem_Uspace hq.1 hq.2
-  | zero => simpa [Fv_zero] using Submodule.zero_mem _
+  | zero => simp [Fv_zero]
   | add x y _ _ hx hy => rw [Fv_add, map_add]; exact add_mem hx hy
   | smul a x _ hx => rw [Fv_smul, map_smul]; exact Submodule.smul_mem _ _ hx
 

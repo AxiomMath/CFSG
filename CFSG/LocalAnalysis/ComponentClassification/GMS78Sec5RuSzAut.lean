@@ -115,7 +115,7 @@ theorem isPGroup_centralizer_of_sz_one {Q : Type} [Group Q]
     (GaloisField.card 2 (2 * 1 + 1) (by omega)) (ψ t) hψt
   have hC : IsPGroup 2 (centralizer ({ψ t} : Set (suzukiGroup 1 (GaloisField 2 (2 * 1 + 1))))) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   intro x
   obtain ⟨k, hk⟩ := hC ⟨ψ x, by
     rw [mem_centralizer_singleton_iff, ← map_mul, ← map_mul,

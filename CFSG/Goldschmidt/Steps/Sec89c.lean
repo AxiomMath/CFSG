@@ -67,7 +67,7 @@ theorem center_le (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
     (fun z hz hz2 => hL t htS ht2 htA z hz.1
       ((Subgroup.mem_centralizer_iff.mp hz.2 t htS).symm) hz2)
   intro z hz
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨z, hz.1⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨z, hz.1⟩
   exact key k z hz (by simpa using congrArg Subtype.val hk)
 
 theorem mul_mem_of_commute (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
@@ -94,7 +94,7 @@ theorem mul_mem_of_commute (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
   obtain ⟨hE2, hc2⟩ := isElemAbelian_sup_zpowers hE1 hvE1 hv2 hvc
   have hle : A ⊔ Subgroup.zpowers u ⊔ Subgroup.zpowers v ≤ (S : Subgroup G) :=
     sup_le (sup_le hset.le (Subgroup.zpowers_le.mpr hu)) (Subgroup.zpowers_le.mpr hv)
-  obtain ⟨k, hk⟩ := (S.isPGroup'.to_le hle).exists_card_eq
+  obtain ⟨k, hk⟩ := (S.isPGroup.to_le hle).exists_card_eq
   have hk4 := CFSG.SectionRank.le_pRank one_lt_two hle hE2 hk
   have h16 : 16 ≤ 2 ^ k := by rw [← hk]; omega
   have : 2 ^ 4 ≤ 2 ^ k := by simpa using h16

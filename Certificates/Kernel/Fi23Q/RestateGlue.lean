@@ -46,7 +46,7 @@ theorem t3_fixed
     · exact ⟨544, by norm_num, h2⟩
     · exact ⟨8, by norm_num, h3⟩
   unfold CFSG.KD.Fi23Q.fixB at hf
-  simp only [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, Nat.beq_eq_true_eq, Nat.blt_eq] at hf
+  simp only [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at hf
   have hw := wvG_eq _ (t3R_ok c.isLt) x hx
   rw [t3R_prod c.isLt, Nat.eq_of_beq_eq_true hf.2, idx_of_lt _ hx] at hw
   have hfx : t3 c • (⟨x, hx⟩ : Fin 31671) = ⟨x, hx⟩ := Fin.ext hw.symm

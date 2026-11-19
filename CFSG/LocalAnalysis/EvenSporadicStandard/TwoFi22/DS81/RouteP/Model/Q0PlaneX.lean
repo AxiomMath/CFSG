@@ -108,8 +108,8 @@ theorem interAux_eq {a b : ℕ} (ha : a < 891) (hb : b < 891) :
       rw [mem_planeXN_iff hb, memRow_eq_true, ptOfNat_val (planesFacts.rowLt a ha m hm')]
     rw [interAux, ih (by omega), Finset.range_add_one, Finset.filter_insert]
     by_cases h : memRow ((planeXData ())[b]!) (((planeXData ())[a]!)[m]!) = true
-    · rw [if_pos h, if_pos (hP.2 h), Finset.card_insert_of_notMem (by simp)]
-    · rw [if_neg h, if_neg (fun h' => h (hP.1 h'))]
+    · rw [ite_eq_left h, ite_eq_left (hP.2 h), Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h (hP.1 h'))]
       simp
 
 theorem card_planeXN_inter {a b : ℕ} (ha : a < 891) (hb : b < 891) :

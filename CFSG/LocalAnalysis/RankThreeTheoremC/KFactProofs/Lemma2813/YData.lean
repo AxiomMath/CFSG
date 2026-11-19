@@ -14,6 +14,7 @@ section B
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem ys_psi_eq_iff {ψ : ↥X →* GL32} (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) (u v : ↥X) :
     ψ u = ψ v ↔ (u : A)⁻¹ * (v : A) ∈ pCoreOf 2 X := by
   have h1 : ψ u = ψ v ↔ u⁻¹ * v ∈ ψ.ker := by
@@ -21,6 +22,7 @@ theorem ys_psi_eq_iff {ψ : ↥X →* GL32} (hψk : ψ.ker = (pCoreOf 2 X).subgr
   rw [h1, hψk, Subgroup.mem_subgroupOf]
   rfl
 
+omit [Finite A] in
 theorem ys_comm_mem (h : Hyp2813 X K R P) {b : A}
     (hb : b ∈ normalizer (X : Set A)) (hbK : ⁅zpowers b, K⁆ ≤ pCoreOf 2 X) {c : A}
     (hc : c ∈ zpowers b) {x : A} (hx : x ∈ X) : x⁻¹ * (c * x * c⁻¹) ∈ pCoreOf 2 X := by
@@ -39,6 +41,7 @@ theorem ys_comm_mem (h : Hyp2813 X K R P) {b : A}
   exact (pCoreOf 2 X).mul_mem ((pCoreOf 2 X).mul_mem ((pCoreOf 2 X).inv_mem ho)
     ((pCoreOf 2 X).inv_mem hcomm)) hco
 
+omit [Finite A] in
 theorem ys_conj_psi (h : Hyp2813 X K R P) {ψ : ↥X →* GL32}
     (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) {b : A}
     (hb : b ∈ normalizer (X : Set A)) (hbK : ⁅zpowers b, K⁆ ≤ pCoreOf 2 X)
@@ -55,6 +58,7 @@ theorem ys_conj_psi (h : Hyp2813 X K R P) {ψ : ↥X →* GL32}
   rw [e]
   exact h2
 
+omit [Finite A] in
 theorem ys_key (h : Hyp2813 X K R P) {b : A} (hb : b ∈ normalizer (X : Set A))
     (hbK : ⁅zpowers b, K⁆ ≤ pCoreOf 2 X) {d₀ : A} (hd₀P : d₀ ∈ P) (hd₀3 : orderOf d₀ = 3)
     {y : A} (hy : y ∈ X ⊔ zpowers b) (hyd : y * d₀ = d₀ * y) {s : A} (hs : s ∈ pCoreOf 2 P) :
@@ -106,6 +110,7 @@ theorem ys_key (h : Hyp2813 X K R P) {b : A} (hb : b ∈ normalizer (X : Set A))
   have := (pCoreOf 2 P).mul_mem hs''S hq'
   simpa using this
 
+omit [Finite A] in
 theorem Hyp2813.normalizes_S_of_comm (h : Hyp2813 X K R P) {b : A}
     (hb : b ∈ normalizer (X : Set A)) (hbK : ⁅zpowers b, K⁆ ≤ pCoreOf 2 X) {d₀ : A} (hd₀P : d₀ ∈ P)
     (hd₀3 : orderOf d₀ = 3) {y : A} (hy : y ∈ X ⊔ zpowers b) (hyd : y * d₀ = d₀ * y) :
@@ -127,6 +132,7 @@ section B
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem yd_not_mem_X (h : Hyp2813 X K R P) {b : A} (hb3 : b ^ 3 = 1)
     (hbK : ⁅zpowers b, K⁆ ≤ pCoreOf 2 X) (hbx : ∃ x ∈ X, b * x ≠ x * b) : b ∉ X := by
   intro hbX
@@ -241,7 +247,7 @@ theorem Hyp2813.y_data (h : Hyp2813 X K R P) {D B' : Subgroup A} {b : A} (hDP : 
       ∀ d ∈ D, y * d = d * y := by
   have hbX : b ∉ X := yd_not_mem_X h hb3 hbK hbx
   have hcard : Nat.card ↥B' = 9 := yd_card_B h hb hb3 hbX hB'le hB'3 hB'i
-  haveI : IsMulCommutative ↥B' :=
+  have : IsMulCommutative ↥B' :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hcard]; norm_num)
   have hcomm : ∀ y ∈ B', ∀ d ∈ B', y * d = d * y := fun y hy d hd =>
     congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : ↥B') ⟨d, hd⟩)

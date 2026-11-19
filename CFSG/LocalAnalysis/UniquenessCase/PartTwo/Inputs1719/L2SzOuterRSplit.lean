@@ -62,8 +62,8 @@ theorem outerRSplit_one_of_isL2 {X : Type} [Group X] {n r : ℕ} (hX : IsL2 X n)
   obtain ⟨-, K, hKf, hKfin, hcp, hcard, ⟨e⟩⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecE3.exists_sl2_of_isPSL22
       ((CFSG.Blueprint.LieModel.classical_iff (by decide)).1 hX)
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have := hcp
   refine (outerRSplit_one_of_normalForm hr (CFSG.RankThree.PartOne.KCRootAxis.slFieldAut K)
     (fun α _ _ => CFSG.RankThree.PartOne.KCRootAxis.exists_conj_mul_slFieldAut α)
@@ -81,8 +81,8 @@ theorem outerRSplit_one_of_isL2 {X : Type} [Group X] {n r : ℕ} (hX : IsL2 X n)
 theorem outerRSplit_one_of_isSz {X : Type} [Group X] {n r : ℕ}
     (hX : IsSz X n) (hr : r.Prime) (hrn : r ∣ 2 ^ n - 1) : OuterRSplit X r 1 := by
   obtain ⟨-, a, ha, K, hKf, hKfin, hn, hcard, ⟨e⟩⟩ := (LieModel.suzukiModel hX).2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := hn ▸ hcard
   obtain ⟨-, ⟨E, hE⟩, -⟩ :=
     CFSG.RankThree.Automorphisms.Suzuki_full_field_automorphism_splitting a ha K hK'

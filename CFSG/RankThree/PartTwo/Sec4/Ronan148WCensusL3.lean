@@ -33,7 +33,7 @@ theorem two_pow_mod_three_cases (n : ℕ) : 2 ^ n % 3 = 1 ∨ 2 ^ n % 3 = 2 := b
 
 theorem exists_ne_one_pow_three_of_card {E : Subgroup X} (hE3 : ∀ a ∈ E, a ^ 3 = 1)
     (hE9 : Nat.card E = 9) : ∃ k ∈ E, k ≠ 1 ∧ k ^ 3 = 1 := by
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hE9]
     norm_num
   obtain ⟨k, hk⟩ := exists_ne (1 : E)
@@ -99,6 +99,7 @@ section NotInndiag
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem not_mem_linearAutGroup_of_e9 {F : Type} [Field F] [Finite F] (hmod : Nat.card F % 3 = 1)
     (τ : S ≃* projectiveSL 3 F) {σ : MulAut S} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     {K E : Subgroup S} (hEK : E ≤ K) (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
@@ -126,6 +127,7 @@ theorem not_mem_linearAutGroup_of_e9 {F : Type} [Field F] [Finite F] (hmod : Nat
     rw [hZ] at hsZ
     exact (Subgroup.mem_bot).mp hsZ
 
+omit [Finite S] in
 theorem not_mem_psuConj_range_of_e9 {n : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 2 n F)
     (hmod : 2 ^ n % 3 = 2) (hq2 : 2 < 2 ^ n) (τ : S ≃* unitaryPSU h 3) {σ : MulAut S}
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) {K E : Subgroup S} (hEK : E ≤ K)
@@ -201,7 +203,7 @@ theorem false_rowU3_L3 {n : ℕ} (hn : 1 ≤ n) (eS : X ≃* projSL 3 (GaloisFie
   set eY' : Y ≃* projSL 3 (GaloisField 2 n₀) :=
     (eY.trans (CFSG.EvenSmallLie.Child3.SelL39.projectiveSLCongr ψ)).trans φ₁.symm with heY'
   have hYs : IsSimpleGroup Y := by
-    haveI := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
+    have := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
       (k := fixedField φ) (n := 3) le_rfl
     exact eY.isSimpleGroup
   have hq3 := two_pow_mod_three_of_odd hmo
@@ -285,7 +287,7 @@ theorem rowU3_U3 {n : ℕ} (hn : 1 ≤ n) (hq : IsQuasisimple X) (eS : X ≃* pr
     (CFSG.RankThree.PartTwo.Sec21.Item223CensusResProof.psuEquiv ψ h₁ h₀ hq₀)).trans φ₁
     with heY'
   have hYs : IsSimpleGroup Y := by
-    haveI := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
+    have := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
       (h := h₀) hq₀
     exact eY.isSimpleGroup
   have hq3 := two_pow_mod_three_of_odd hmo
@@ -456,7 +458,7 @@ theorem false_rowU3_SL3 {n : ℕ} (hn : 1 ≤ n) (hq : IsQuasisimple X)
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect X := hq.1
+  have : Group.IsPerfect X := hq.1
   have hZ3 : Nat.card (Subgroup.center X) = 3 := card_center_of_isSLThreePiAt_two_pow hn hXat
   have hZodd : Odd (Nat.card (Subgroup.center X)) := by rw [hZ3]; decide
   have hZ : Subgroup.center X ≠ ⊥ := by
@@ -488,7 +490,7 @@ theorem false_rowU3_SL3 {n : ℕ} (hn : 1 ≤ n) (hq : IsQuasisimple X)
     apply hα1
     refine eq_one_of_forall_mul_inv_mem_center fun s => ?_
     have h2 := congrArg (fun φ : MulAut (X ⧸ N) => φ (s : X ⧸ N)) h1
-    simp only [hσdef, centerDescend_mk, MulAut.one_apply] at h2
+    simp only [hσdef, MulAut.one_apply] at h2
     exact QuotientGroup.eq.mp h2.symm
   set Kb : Subgroup (X ⧸ N) := Y.map (QuotientGroup.mk' N) with hKb
   set Eb : Subgroup (X ⧸ N) := E.map (QuotientGroup.mk' N) with hEb
@@ -573,13 +575,13 @@ theorem false_rowU3_SL3 {n : ℕ} (hn : 1 ≤ n) (hq : IsQuasisimple X)
           · have : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) h
             omega
         subst hn1'
-        haveI := Sec13.isSolvable_projSU_two
+        have := Sec13.isSolvable_projSU_two
         have hsol : Group.IsSolvable (X ⧸ N) :=
           Group.isSolvable_of_isSolvable_injective (f := eS.toMonoidHom) eS.injective
         have hsolX : Group.IsSolvable X := by
-          haveI := hsol
-          haveI : Group.IsSolvable N := inferInstance
-          exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
+          have := hsol
+          have : Group.IsSolvable N := inferInstance
+          exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
             rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
         have : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hq
         exact Group.IsPerfect.not_isSolvable X hsolX
@@ -625,7 +627,7 @@ theorem rowU3_L3eps (hq : IsQuasisimple X) (_hZ : IsPGroup 3 (Subgroup.center X)
     (hker : Nat.Coprime (Nat.card π.ker) 3) :
     ∃ (K : Type) (_ : Field K) (h : UnitaryFieldData 2 (3 * m) K) (e : X ≃* unitaryPSU h 3),
       (stdPinnedPSU3 h).HasKind (MulAut.congr e α) .field := by
-  haveI := hYp
+  have := hYp
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hX with hSL | ⟨⟨eS⟩⟩ | ⟨⟨eS⟩⟩
   · by_cases hat : IsSLThreePiAt X (2 ^ n)

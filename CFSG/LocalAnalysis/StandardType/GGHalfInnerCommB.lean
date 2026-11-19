@@ -53,14 +53,14 @@ private theorem ggHalfInnerCommB_slOn_two_le_eq_sup (m : ℕ) (hm : 3 ≤ m) :
   rw [slOn_sup_of_inter h1, slOn_sup_of_inter h2]
   congr 1
   ext i
-  simp only [Set.mem_union, Set.mem_setOf_eq]
+  simp only [Set.mem_union, Set.mem_ofPred_eq]
   omega
 
 private theorem ggHalfInnerCommB_tauPermInv_image_subset (m : ℕ) :
     ((tauPerm m)⁻¹ : Equiv.Perm (Fin (m + 1 + 1 + 1))) '' {i : Fin (m + 1 + 1 + 1) | i.val ≤ m} ⊆
       {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val} := by
   rintro i ⟨j, hj, rfl⟩
-  simp only [Set.mem_setOf_eq] at hj ⊢
+  simp only [Set.mem_ofPred_eq] at hj ⊢
   have hτ : tauPerm m ((tauPerm m)⁻¹ j) = j := Equiv.apply_symm_apply _ _
   have hne0 : (tauPerm m)⁻¹ j ≠ (0 : Fin (m + 1 + 1 + 1)) := by
     intro h
@@ -112,7 +112,7 @@ theorem conj_slOn_lt_four_comm_J {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs
           rw [slUpper2Hom_map_slOn]
           congr 1
           ext i
-          simp only [Set.mem_image, Set.mem_setOf_eq]
+          simp only [Set.mem_image, Set.mem_ofPred_eq]
           constructor
           · rintro ⟨hi2, him⟩
             exact ⟨⟨i.val, by have := i.isLt; omega⟩, ⟨by simpa using hi2, by simpa using him⟩,
@@ -134,14 +134,14 @@ theorem conj_slOn_lt_four_comm_J {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs
           rw [slLower2Hom_map_slOn] at h1
           refine slOn_mono ?_ h1
           rintro i ⟨j, ⟨hj2, hjm⟩, rfl⟩
-          simp only [Set.mem_setOf_eq] at hj2 hjm ⊢
+          simp only [Set.mem_ofPred_eq] at hj2 hjm ⊢
           simp only [Fin.val_succ]
           omega
         have hdisj : Disjoint ({i : Fin (m + 1 + 1 + 1) | 4 ≤ i.val} :
             Set (Fin (m + 1 + 1 + 1))) {i : Fin (m + 1 + 1 + 1) | i.val < 4} := by
           rw [Set.disjoint_left]
           intro i hi1 hi2
-          simp only [Set.mem_setOf_eq] at hi1 hi2
+          simp only [Set.mem_ofPred_eq] at hi1 hi2
           omega
         have hcommSL : slLower2Hom m y * b' = b' * slLower2Hom m y :=
           (ggHalfInnerCommB_commute_slOn_of_disjoint hdisj hlow hb').eq
@@ -152,7 +152,7 @@ theorem conj_slOn_lt_four_comm_J {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs
         intro w hw
         obtain ⟨b', hb', rfl⟩ := Subgroup.mem_map.mp hw
         exact (h.slOn_mid_pair_comm hK1 u hu b'
-          (slOn_mono (by intro i hi; simp only [Set.mem_setOf_eq] at hi ⊢; omega) hb')).symm
+          (slOn_mono (by intro i hi; simp only [Set.mem_ofPred_eq] at hi ⊢; omega) hb')).symm
       ·
         intro u hu
         rw [Subgroup.mem_comap, Subgroup.mem_centralizer_iff]

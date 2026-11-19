@@ -16,8 +16,8 @@ variable {A X Q : Subgroup (MulAut W)} {t : MulAut W} {p : ℕ}
 
 private theorem w16g_odd_card_of_isElemAbelian_p37 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Finite X := inferInstance
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 (x : MulAut W) x.2)⟩
@@ -25,6 +25,7 @@ private theorem w16g_odd_card_of_isElemAbelian_p37 {p : ℕ} (hp : p.Prime) (hp2
   rw [hn]
   exact Odd.pow (hp.odd_of_ne_two hp2)
 
+omit [Finite W] in
 private theorem w16g_map_sup {s : MulAut W} (S : Finset (Subgroup W)) :
     (S.sup id).map s.toMonoidHom = S.sup (fun U => U.map s.toMonoidHom) := by
   classical
@@ -34,6 +35,7 @@ private theorem w16g_map_sup {s : MulAut W} (S : Finset (Subgroup W)) :
       rw [Finset.sup_insert, Finset.sup_insert, Subgroup.map_sup, ih]
       rfl
 
+omit [Finite W] in
 private theorem w16g_image_map_eq_self {s : MulAut W} {S : Finset (Subgroup W)}
     [DecidableEq (Subgroup W)] (hsS : ∀ U ∈ S, U.map s.toMonoidHom ∈ S) :
     S.image (fun U => U.map s.toMonoidHom) = S := by
@@ -48,6 +50,7 @@ private theorem w16g_image_map_eq_self {s : MulAut W} {S : Finset (Subgroup W)}
     Finset.card_image_of_injective S hinj
   exact Finset.eq_of_subset_of_card_le hsub (le_of_eq hcard.symm)
 
+omit [Finite W] in
 private theorem w16g_sup_stable {s : MulAut W} {S : Finset (Subgroup W)}
     [DecidableEq (Subgroup W)] (hsS : ∀ U ∈ S, U.map s.toMonoidHom ∈ S) :
     ∀ u ∈ S.sup id, s u ∈ S.sup id := by
@@ -71,7 +74,7 @@ theorem s13_cost_eq (hW : ∀ w : W, w * w = 1) (hp : p = 3 ∨ p = 7) (hX : IsE
       p = 3 ∧ ∀ x ∈ X, s * x * s⁻¹ * x ∈ s13KerOn X U) :
     2 * rk ↥(commSub (⨆ U ∈ S, U) (Subgroup.zpowers s)) = ∑ᶠ U ∈ S, rk ↥U := by
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
   have hp' : p.Prime := by rcases hp with h | h <;> (rw [h]; norm_num)
   have hp2 : p ≠ 2 := by rcases hp with h | h <;> (rw [h]; norm_num)
@@ -319,7 +322,7 @@ theorem s13_cost_eq (hW : ∀ w : W, w * w = 1) (hp : p = 3 ∨ p = 7) (hX : IsE
           rk ↥U + (rk ↥U' + ∑ x ∈ T', rk ↥x)
         rw [← sup_assoc, hsum, mul_add, hUU'cost, ihT', hUU'rank]
         ring
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   let Sf : Finset (Subgroup W) := S.toFinset
   have hSf : (Sf : Set (Subgroup W)) = S := Set.coe_toFinset S
   have hSf_mem : ∀ U ∈ Sf, U ∈ s13IsoComps X := by
@@ -361,7 +364,7 @@ theorem cost_commSub_Q (h : HAb A X Q t p) :
       exact Q.inv_mem hq₀
     · rw [Subgroup.card_map_of_injective (MulAut.conj t).injective]
   have hQone : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
-    have h1 : MulAut.conj (1 : MulAut W) = 1 := by ext x; simp [MulAut.conj_apply]
+    have h1 : MulAut.conj (1 : MulAut W) = 1 := by ext x; simp
     rw [h1]
     exact Subgroup.map_id Q
   have hsS : ∀ U ∈ s13Supp X Q, U.map t.toMonoidHom ∈ s13Supp X Q := by

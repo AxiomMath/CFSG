@@ -156,11 +156,11 @@ theorem eight_dvd_card_centralizer_of_sigma {X : Type} [Group X] [Finite X] {t y
     rwa [e] at this
   set H : Subgroup X := Vsub k k' ⊔ zpowers t with hH
   have hVH : Vsub k k' ≤ H := le_sup_left
-  haveI hnormH : ((Vsub k k').subgroupOf H).Normal := by
+  have hnormH : ((Vsub k k').subgroupOf H).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hVH]
     exact sup_le Subgroup.le_normalizer hVn
   let τ : ↥H := ⟨t, (le_sup_right : zpowers t ≤ H) (mem_zpowers t)⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ2 : (QuotientGroup.mk τ : ↥H ⧸ (Vsub k k').subgroupOf H) ^ 2 = 1 := by
     rw [pow_two, ← QuotientGroup.mk_mul]
     rw [QuotientGroup.eq_one_iff]

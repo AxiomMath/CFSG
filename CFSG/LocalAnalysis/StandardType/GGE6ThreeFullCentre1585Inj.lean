@@ -35,12 +35,12 @@ private lemma ltrv4b_kernel_vanishes
       zero_mem' := by simp [rootChar_zero]
       add_mem' := by
         intro u w hu hw
-        simp only [Set.mem_setOf_eq] at hu hw
+        simp only [Set.mem_ofPred_eq] at hu hw
         show rootChar b (u + w) = 1
         rw [rootChar_add, hu, hw, one_mul]
       smul_mem' := by
         intro k w hw
-        simp only [Set.mem_setOf_eq] at hw
+        simp only [Set.mem_ofPred_eq] at hw
         show rootChar b (k • w) = 1
         rw [ltrv4b_rootChar_zsmul, hw, one_zpow] }
   have hle : kernelLattice ρ ≤ Kb := by

@@ -24,7 +24,7 @@ theorem two_mul_le_modCommRank_permSU_swap_of_injective {n : ℕ} {F₀ : Type} 
     have hx1 : x = 1 := by
       apply hσ
       rw [hx, map_one]
-    simpa [hx1] using Subgroup.one_mem (StatedScalars (Fin 3) F₀)
+    simp [hx1]
   rcases eq_or_lt_of_le hn with h1 | h2
   ·
     obtain rfl : n = 1 := h1.symm

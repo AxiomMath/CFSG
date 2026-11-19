@@ -14,9 +14,9 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 private lemma w16t_adj_zero_iff {ι : Type*} [Fintype ι] [DecidableEq ι] {p : ℕ} [Fact p.Prime]
     {G : SimpleGraph ι} {v : ι → ι → ι → ZMod p}
     (hv : ∀ i j, G.Adj i j → ∀ k, v i j k ≠ 0 ↔ (k = i ∨ k = j))
-    {y : ι → ZMod p} (hy : ∀ i j (h : G.Adj i j), ∑ k, v i j k * y k = 0)
-    {i j : ι} (h : G.Adj i j) : y i = 0 ↔ y j = 0 := by
-  have hne : i ≠ j := G.ne_of_adj h
+    {y : ι → ZMod p} (hy : ∀ i j (_h : G.Adj i j), ∑ k, v i j k * y k = 0)
+    {i j : ι} (_h : G.Adj i j) : y i = 0 ↔ y j = 0 := by
+  have hne : i ≠ j := G.ne_of_adj _h
   have hpair : Finset.sum ({i, j} : Finset ι) (fun k => v i j k * y k)
       = Finset.sum (Finset.univ : Finset ι) (fun k => v i j k * y k) := by
     refine Finset.sum_subset (Finset.subset_univ _) ?_
@@ -27,7 +27,7 @@ private lemma w16t_adj_zero_iff {ι : Type*} [Fintype ι] [DecidableEq ι] {p : 
       exact not_or.mp hx''
     have hx0 : v i j x = 0 := by
       by_contra hne'
-      rcases (hv i j h x).1 hne' with hxi | hxj
+      rcases (hv i j _h x).1 hne' with hxi | hxj
       · exact hx'.1 hxi
       · exact hx'.2 hxj
     simp [hx0]
@@ -35,9 +35,9 @@ private lemma w16t_adj_zero_iff {ι : Type*} [Fintype ι] [DecidableEq ι] {p : 
     rw [← hpair, Finset.sum_pair (f := fun k => v i j k * y k) hne]
   have heq : v i j i * y i + v i j j * y j = 0 := by
     rw [← hsum]
-    exact hy i j h
-  have hi : v i j i ≠ 0 := (hv i j h i).2 (Or.inl rfl)
-  have hj : v i j j ≠ 0 := (hv i j h j).2 (Or.inr rfl)
+    exact hy i j _h
+  have hi : v i j i ≠ 0 := (hv i j _h i).2 (Or.inl rfl)
+  have hj : v i j j ≠ 0 := (hv i j _h j).2 (Or.inr rfl)
   constructor
   · intro hyi
     have hzero : v i j j * y j = 0 := by simpa [hyi] using heq
@@ -58,10 +58,10 @@ private lemma w16t_eq_zero_of_sum_zero {ι : Type*} [Fintype ι] [DecidableEq ι
     [Fact p.Prime] {G : SimpleGraph ι} (hG : G.Connected) {v : ι → ι → ι → ZMod p}
     (hv : ∀ i j, G.Adj i j → ∀ k, v i j k ≠ 0 ↔ (k = i ∨ k = j))
     {i₀ : ι} {y : ι → ZMod p}
-    (hy : ∀ i j (h : G.Adj i j), ∑ k, v i j k * y k = 0) (hi₀ : y i₀ = 0) : y = 0 := by
+    (hy : ∀ i j (_h : G.Adj i j), ∑ k, v i j k * y k = 0) (hi₀ : y i₀ = 0) : y = 0 := by
   funext k
   obtain ⟨w⟩ := hG i₀ k
-  exact w16t_walk_zero (fun i j h => w16t_adj_zero_iff hv hy h) w hi₀
+  exact w16t_walk_zero (fun i j _h => w16t_adj_zero_iff hv hy _h) w hi₀
 
 theorem w16t_card_span_edges {ι : Type} [Fintype ι] [DecidableEq ι] {p : ℕ} [Fact p.Prime]
     (G : SimpleGraph ι) (hG : G.Connected) (v : ι → ι → ι → ZMod p)

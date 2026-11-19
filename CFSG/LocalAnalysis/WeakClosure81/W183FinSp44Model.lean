@@ -38,9 +38,8 @@ private theorem w183finSp44_or8_lo (a b c d e f g h : Nat) (ha : a < 4) (hb : b 
       (g <<< 12) ||| (h <<< 14) < 2^16 := by
   repeat' apply Nat.or_lt_two_pow (n := 16)
   all_goals
-    first
+    try first
     | apply Nat.shiftLeft_lt
-    | skip
   all_goals omega
 
 private theorem w183finSp44_or8_hi (a b c d e f g h : Nat) (ha : a < 4) (hb : b < 4)
@@ -98,7 +97,7 @@ private theorem w183finSp44_rhoPow_lt (n : Nat) {g : Nat} (hg : g < 4294967296) 
   | zero => simpa [rhoPow] using hg
   | succ n ih => simpa [rhoPow] using ih (g := rho g) (w183finSp44_rho_lt g)
 
-private theorem w183finSp44_mulW_lt {b : Nat} (hb : b < 256) : mulW b < 256 := by
+private theorem w183finSp44_mulW_lt {b : Nat} (_hb : b < 256) : mulW b < 256 := by
   unfold mulW
   apply Nat.or_lt_two_pow (n := 8)
   · exact lt_of_lt_of_le (Nat.and_lt_two_pow _ (y := 0x55) (n := 7) (by norm_num))
@@ -330,7 +329,7 @@ theorem validB_invE {x : El} (hx : validB x = true) : validB (invE x) = true := 
 
 theorem autOf_gmulE {x y : El} (hx : validB x = true) (hy : validB y = true) :
     autOf (gmulE x y) = autOf x * autOf y := by
-  rw [autOf, dif_pos (validB_gmulE hx hy), autOf, dif_pos hx, autOf, dif_pos hy]
+  rw [autOf, dite_eq_left (validB_gmulE hx hy), autOf, dite_eq_left hx, autOf, dite_eq_left hy]
   rw [w183finSp44_toS4_gmulE hx hy]
   simp only [gmulE]
   rw [map_mul]
@@ -339,7 +338,7 @@ theorem autOf_gmulE {x y : El} (hx : validB x = true) (hy : validB y = true) :
   group
 
 theorem autOf_oneE : autOf oneE = 1 := by
-  rw [autOf, dif_pos validB_oneE]
+  rw [autOf, dite_eq_left validB_oneE]
   simp only [oneE, pow_zero, mul_one]
   rw [w183finSp44_toS4_idM]
   exact map_one _
@@ -355,7 +354,7 @@ theorem autOf_invE {x : El} (hx : validB x = true) : autOf (invE x) = (autOf x)�
         SpChain.minorAut GF4 ^ ((4 - x.2) % 4) = 1 := by
       rw [← pow_add, ← w183finSp44_minorAut_pow_mod (x.2 + (4 - x.2) % 4), hjin, pow_zero]
     exact eq_inv_of_mul_eq_one_right h1
-  rw [autOf, dif_pos (validB_invE hx), autOf, dif_pos hx]
+  rw [autOf, dite_eq_left (validB_invE hx), autOf, dite_eq_left hx]
   rw [w183finSp44_toS4_invE hx]
   simp only [invE]
   rw [CFSG.QuasithinUnique.Setup.X7b.conj_apply_eq']

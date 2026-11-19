@@ -43,7 +43,7 @@ public theorem CFSG.hasPLengthOne_iff_hasNormalPComplement_pElements
       intro x hxS
       refine Subgroup.subset_closure ?_
       rcases
-          (IsPGroup.iff_orderOf (p := p) (G := ↥(S : Subgroup G))).1 S.isPGroup' ⟨x, hxS⟩ with
+          (IsPGroup.iff_orderOf (p := p) (G := ↥(S : Subgroup G))).1 S.isPGroup ⟨x, hxS⟩ with
         ⟨n, hn⟩
       exact ⟨n, by simpa [Subgroup.orderOf_coe] using hn⟩
     have hS_le_Op : (S : Subgroup G) ≤ Op_p'p p G := hS_le_pElems.trans hPle

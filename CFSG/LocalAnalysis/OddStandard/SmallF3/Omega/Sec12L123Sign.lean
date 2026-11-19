@@ -10,7 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G]
 
-theorem sec123_range_alt {C S : Subgroup G} (hSC : S ≤ C) (hodd : ¬ 2 ∣ S.relIndex C)
+theorem sec123_range_alt {C S : Subgroup G} (_hSC : S ≤ C) (hodd : ¬ 2 ∣ S.relIndex C)
     (Θ : ↥C →* Equiv.Perm (Fin 5))
     (hS : ∀ s : ↥C, (s : G) ∈ S → Θ s ∈ alternatingGroup (Fin 5)) :
     ∀ m : ↥C, Θ m ∈ alternatingGroup (Fin 5) := by

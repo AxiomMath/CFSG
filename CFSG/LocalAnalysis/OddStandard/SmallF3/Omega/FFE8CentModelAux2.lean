@@ -18,6 +18,7 @@ private theorem exists_sep (k : Fin 4) (y : FFE8Idx) (hy : y ≠ Sum.inr k) :
   revert k y
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_offdiag (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {γ : V ≃ₗ[ZMod 3] V}
     (h : ∀ k m : Fin 4, k ≠ m → ∀ v,
       ((fr.signChange (ffE8Hat {k, m}) : OGroup Q) : V ≃ₗ[ZMod 3] V) (γ v) =
@@ -28,7 +29,7 @@ theorem ffOutFFE8CentModel_offdiag (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {γ : V
   · obtain ⟨m, hmk, hj⟩ := exists_sep k j (Ne.symm hij)
     have h1 := ffOutFFE8CentModel_repr_comm fr (ffE8Hat {k, m}) (h k m (Ne.symm hmk)) (Sum.inr k) j
     have hi : (Sum.inr k : FFE8Idx) ∈ ffE8Hat {k, m} := by simp [ffE8Hat]
-    rw [if_pos hi, if_neg hj] at h1
+    rw [ite_eq_left hi, ite_eq_right hj] at h1
     revert h1
     generalize fr.b.repr (γ (fr.b j)) (Sum.inr k) = x
     revert x
@@ -36,12 +37,13 @@ theorem ffOutFFE8CentModel_offdiag (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {γ : V
   · obtain ⟨m, hml, hi⟩ := exists_sep l i hij
     have h1 := ffOutFFE8CentModel_repr_comm fr (ffE8Hat {l, m}) (h l m (Ne.symm hml)) i (Sum.inr l)
     have hj : (Sum.inr l : FFE8Idx) ∈ ffE8Hat {l, m} := by simp [ffE8Hat]
-    rw [if_pos hj, if_neg hi] at h1
+    rw [ite_eq_left hj, ite_eq_right hi] at h1
     revert h1
     generalize fr.b.repr (γ (fr.b (Sum.inr l))) i = x
     revert x
     decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem col_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (γ : V ≃ₗ[ZMod 3] V) (j : ι)
     (h : ∀ i, i ≠ j → fr.b.repr (γ (fr.b j)) i = 0) :
@@ -52,7 +54,7 @@ private theorem col_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMo
   · subst hij
     simp [Module.Basis.repr_self]
   · rw [h i hij]
-    simp [Module.Basis.repr_self, Finsupp.single_apply, Ne.symm hij]
+    simp [Module.Basis.repr_self, Ne.symm hij]
 
 private theorem sq_eq_unit {x m : ZMod 3} (hm : m = 1 ∨ m = -1) (h : x ^ 2 = m) : m = 1 := by
   revert h hm
@@ -75,6 +77,7 @@ private theorem hyp_minus {x y : ZMod 3} (h : x ^ 2 - y ^ 2 = -1) : x = 0 ∧ y 
   revert x y
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_diag (hε : ε = 1 ∨ ε = -1) (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {γ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ} (hγ : IsSimilitude Q γ μ)
     (hoff : ∀ i j : FFE8Idx, i ≠ j → ((∃ k, i = Sum.inr k) ∨ (∃ l, j = Sum.inr l)) →

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem eq_of_isPGroup_of_odd_relIndex {H S Q : Subgroup G} (hSQ : S ≤ Q) (hQH : Q ≤ H)
     (hQ : IsPGroup 2 Q) (hS : ¬ 2 ∣ S.relIndex H) : Q = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmul : S.relIndex Q * Q.relIndex H = S.relIndex H :=
     Subgroup.relIndex_mul_relIndex S Q H hSQ hQH
   have hdvd : S.relIndex Q ∣ S.relIndex H := ⟨Q.relIndex H, hmul.symm⟩
@@ -30,6 +30,7 @@ theorem eq_of_isPGroup_of_odd_relIndex {H S Q : Subgroup G} (hSQ : S ≤ Q) (hQH
   have htop : S.subgroupOf Q = ⊤ := Subgroup.index_eq_one.mp hidx
   exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hSQ
 
+omit [Finite G] in
 theorem not_two_dvd_relIndex_map_conj {H S : Subgroup G} (g : G) (hS : ¬ 2 ∣ S.relIndex H) :
     ¬ 2 ∣ (S.map (MulAut.conj g).toMonoidHom).relIndex (H.map (MulAut.conj g).toMonoidHom) := by
   rw [Subgroup.relIndex_map_map_of_injective S H (MulAut.conj g).injective]

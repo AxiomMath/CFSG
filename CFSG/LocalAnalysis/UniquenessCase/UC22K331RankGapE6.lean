@@ -51,14 +51,14 @@ theorem k331Idx_twistedE6 (q : PrimePower) (hv : (LieTypeIndex.twistedE6 q).Vali
   by_cases hp3 : q.p = 3
   · have hd : CFSG.AGLEmbedding.IsExceptionalIndex ⟨.twistedE6 q, hv⟩ :=
       Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨q, rfl⟩)))))
-    haveI := hs.toNontrivial
+    have := hs.toNontrivial
     obtain ⟨T⟩ : Nonempty (Sylow 3 L) := inferInstance
     have hcore := CFSG.AGLEmbedding.charPGen3At_exceptional L hs
       (exists_noncomm_of_pRank_three_eq_two hs h2) ⟨.twistedE6 q, hv⟩ hd ⟨e⟩ 3 Nat.prime_three
       (by norm_num) (by simp [hp3]) (by rintro (⟨_, h⟩ | ⟨_, h⟩ | ⟨_, h⟩) <;> cases h) T
     have := three_le_pRank_of_glbCore_eq_top (L := L) Nat.prime_three hcore
     omega
-  · haveI : Finite (Cat ⟨.twistedE6 q, hv⟩) := Finite.of_equiv L e.toEquiv
+  · have : Finite (Cat ⟨.twistedE6 q, hv⟩) := Finite.of_equiv L e.toEquiv
     obtain ⟨-, E, hE, hc⟩ := exists_isElemAbelian_card_of_not_rankLE2 Nat.prime_three
       (CFSG.LieType.SeitzGeneration.not_rankLE2_cat_twistedE6_three q hv (Ne.symm hp3))
     have := three_le_pRank_of_equiv e (CFSG.SectionRank.le_pRank (by norm_num) le_top hE hc)

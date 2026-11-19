@@ -85,7 +85,7 @@ theorem X5_prop :
   have hany : (invsOf (elems ())).any (fun s => g * s == s * g) = true :=
     List.any_eq_true.2 ⟨s, hs, by simp [hgs]⟩
   have hg' := List.all_eq_true.1 hc g hg
-  rw [if_pos hany] at hg'
+  rw [ite_eq_left hany] at hg'
   have hs' := List.all_eq_true.1 hg' s hs
   simp only [hgs, beq_self_eq_true, Bool.not_true, Bool.false_or] at hs'
   obtain ⟨c, hcC, hcv⟩ := List.any_eq_true.1 hs'
@@ -111,8 +111,8 @@ theorem oppositeFixed_of_iso
   have hK : Nat.card K = 6048 := by
     rw [Nat.card_congr e.toEquiv, card_group QP QP_ok]
     exact QP_valid.2
-  haveI : Finite K := Finite.of_equiv QP.originalSubgroup e.symm.toEquiv
-  haveI : Finite (MulAut K) := finite_mulAut e
+  have : Finite K := Finite.of_equiv QP.originalSubgroup e.symm.toEquiv
+  have : Finite (MulAut K) := finite_mulAut e
   refine oppositeFixed_of_u33_facts (card_mulAut e) hK ?_ ?_ ?_ ?_ ?_
   ·
     intro z hz

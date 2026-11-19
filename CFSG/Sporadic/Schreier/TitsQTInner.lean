@@ -64,7 +64,7 @@ theorem titsD_sylow_pointwise_inner
 theorem titsD_sylowCentralizingAutInner :
     SylowCentralizingAutInner titsD := by
   refine sylowCentralizingAutInner_of_sylow (titsSylow : Subgroup titsD)
-    (isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup', titsSylow.not_dvd_index⟩) fun β hβ => ?_
+    (isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup, titsSylow.not_dvd_index⟩) fun β hβ => ?_
   obtain ⟨b, -, hb⟩ := titsD_sylow_pointwise_inner β hβ
   exact ⟨b⁻¹, fun y => by rw [hb y, inv_inv]⟩
 

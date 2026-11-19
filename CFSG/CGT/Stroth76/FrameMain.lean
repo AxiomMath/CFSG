@@ -20,12 +20,12 @@ theorem frame_S_eq_inf_of_normalizer_le
         (((F.S : Subgroup G) ⊓ Subgroup.normalizer (F.A : Set G) : Subgroup G) : Set G) ≤
       Subgroup.normalizer (F.A : Set G)) :
     (F.S : Subgroup G) ⊓ Subgroup.normalizer (F.A : Set G) = F.S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   have hlt : (F.S : Subgroup G) ⊓ Subgroup.normalizer (F.A : Set G) < F.S :=
     lt_of_le_of_ne inf_le_left hne
-  have h := CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup F.S.isPGroup' hlt
-  obtain ⟨g, hg, hgP⟩ := SetLike.exists_of_lt h
+  have h := CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup F.S.isPGroup hlt
+  obtain ⟨g, hg, hgP⟩ := _root_.IsConcreteLE.exists_of_lt h
   exact hgP ⟨hg.1, hch hg.2⟩
 
 theorem frame_dElt_mem_centralizer_inf {d : Dc}
@@ -42,16 +42,16 @@ theorem card_eq_of_dvd_of_ne {X : Type*} [Group X] [Finite X] {A C : Subgroup X}
   have hne' : Nat.card C ≠ 32 := fun h =>
     hne (Subgroup.eq_of_le_of_card_ge hAC (by rw [h, hA])).symm
   rw [hk'] at hdvd hne' ⊢
-  interval_cases k <;> simp_all <;> omega
+  interval_cases k <;> simp_all
 
 theorem frame_arch76Lemma2_of_ne (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     (hne : Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) ≠ F.A) :
     (F.S : Subgroup G) = (Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G)) ⊔
       Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} := by
   obtain ⟨O, hON, -, hOodd, hZ⟩ := frame_exists_oddComplement F h11
-  haveI := hON
+  have := hON
   have hinj := frame_injOn_configN_A F O hOodd
-  haveI := frame_configX_normal F O hinj
+  have := frame_configX_normal F O hinj
   have hX := arch76Lemma2_of_ne (F.configN.map (QuotientGroup.mk' O) hinj)
     (frame_odd_orderOf_configX_ρ F O hinj) (frame_centralizer_configX F O hOodd hZ hinj)
     (frame_card_map_centralizerN_dvd F O h11 hOodd) (frame_map_centralizerN_ne F O hOodd hne hinj)
@@ -61,7 +61,7 @@ theorem frame_arch76Lemma2_of_ne (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
   set C := Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) with hCdef
   have hAC : F.A ≤ C := frame_A_le_centralizer_inf F
   obtain ⟨hCc, hshape⟩ := frame_arch76Lemma1 F h11 hne
-  haveI := hCc
+  have := hCc
   rcases card_eq_of_dvd_of_ne hAC F.dA.card_eq_32 (frame_card_centralizer_inf_dvd F h11) hne with
     h64 | h128
   ·
@@ -108,7 +108,7 @@ theorem frame_arch76Lemma7 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     h64 | h128
   · exfalso
     obtain ⟨hCc, hshape⟩ := frame_arch76Lemma1 F h11 hne
-    haveI := hCc
+    have := hCc
     have hS := frame_arch76Lemma2_of_ne F h11 hne
     rcases hshape with ⟨a, b, hCab, ha, hb, -⟩ | ⟨a, b, hCab, ha, hb, -⟩ |
       ⟨c, hCc', hc2, h1, h2, h3⟩ | ⟨c, hCc', hc2, h1, h2, h3⟩
@@ -140,7 +140,7 @@ theorem frame_arch76Lemma3 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
   have h7 := frame_arch76Lemma7 F h11 hAnn1
   have hne := frame_centralizer_inf_ne_A F hAnn1
   obtain ⟨hCc, hshape⟩ := frame_arch76Lemma1 F h11 hne
-  haveI := hCc
+  have := hCc
   have hS := frame_arch76Lemma2_of_ne F h11 hne
   obtain ⟨hfusE, huw, hwu, -, -, -⟩ := frame_fusion F
   refine arch76Lemma3 F.dA.toConfig hfusE huw hwu hAnn1 F.S hS hCc h7 ?_ hMason

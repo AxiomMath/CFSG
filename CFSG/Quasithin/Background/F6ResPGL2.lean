@@ -359,7 +359,7 @@ theorem not_perm_four_pair
   obtain ⟨S, hS⟩ := h.sylow
   set W := (S : Subgroup D) ⊓ pslPart ε
   have hW : Nat.card W ≤ 4 :=
-    card_le_four_of_isPGroup ε hK hq8 (S.isPGroup'.to_le inf_le_left) inf_le_right
+    card_le_four_of_isPGroup ε hK hq8 (S.isPGroup.to_le inf_le_left) inf_le_right
   have hVW : ∀ {G : Subgroup D} (e : G ≃* Equiv.Perm (Fin 4)), (S : Subgroup D) ≤ G →
       kleinOf G e = W := by
     intro G e hSG

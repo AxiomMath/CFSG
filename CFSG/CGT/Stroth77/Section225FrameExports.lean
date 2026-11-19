@@ -75,6 +75,7 @@ theorem barD_eq_single (hk : ∀ i, 2 ≤ τ.k i) {j : Fin 3} {d : D}
   · rw [Pi.single_eq_of_ne hij, Pi.single_eq_of_ne hij]
     exact ZMod.cast_zero
 
+omit [Finite G] in
 theorem commutators_of_devMat_eq_devD (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i) {s : G}
     (hs : s ∈ 𝓡[S, D]) (hd : devMat dD hk s hs = devD) :
     s * (dD.c : G) * s⁻¹ * (dD.c : G)⁻¹ = 1 ∧

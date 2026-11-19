@@ -73,9 +73,9 @@ private theorem s16k_spMapEquiv_natAct {K₁ K₂ : Type} [Field K₁] [Field K�
 private theorem s16k_statedSp_aut_eq_conj {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {m : ℕ} (hm : 3 ≤ m) (ψ : StatedSp m K ≃* StatedSp m K) :
     ∃ M : StatedSp m K, ψ = MulAut.conj M := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
-  haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hunits)
+  have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hunits)
   have hscal : StatedScalars (Fin m ⊕ Fin m) K = ⊥ := by
     unfold StatedScalars
     rw [Subgroup.eq_bot_iff_forall]
@@ -100,8 +100,8 @@ private theorem s16k_sp_module_equiv {K₁ K₂ : Type} [Field K₁] [Field K₂
     ∃ A : Multiplicative (Fin m ⊕ Fin m → K₁) ≃* Multiplicative (Fin m ⊕ Fin m → K₂),
       ∀ (γ : StatedSp m K₁) (x : Multiplicative (Fin m ⊕ Fin m → K₁)),
         A (natAct (StatedSp m K₁) γ x) = natAct (StatedSp m K₂) (φ γ) (A x) := by
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   let e : K₁ ≃+* K₂ := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h₁, h₂])
   obtain ⟨M, hM⟩ :=
@@ -117,8 +117,6 @@ private theorem s16k_sp_module_equiv {K₁ K₂ : Type} [Field K₁] [Field K₂
   change E (B (natAct (StatedSp m K₁) γ x)) =
     natAct (StatedSp m K₂) (φ γ) (E (B x))
   rw [hφγ]
-  change E (B (natAct (StatedSp m K₁) γ x)) =
-    natAct (StatedSp m K₂) (s16k_spMapEquiv e m (M * γ * M⁻¹)) (E (B x))
   rw [← s16k_spMapEquiv_natAct e (M * γ * M⁻¹) (B x)]
   change E (B (natAct (StatedSp m K₁) γ x)) =
     E (natAct (StatedSp m K₁) (M * γ * M⁻¹) (B x))
@@ -146,11 +144,11 @@ theorem s16k_sp_two_equiv {n : ℕ} (hn : 8 ≤ n) {X : Type} [Group X] [Finite 
       S16kModelsEquivVia (FFModel.nat (StatedSp (n / 2) K₁)) (FFModel.nat (StatedSp (n / 2) K₁)).act
         (FFModel.nat (StatedSp (n / 2) K₂)) π₁ π₂ := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eX⟩⟩ := hX
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   have hm : 3 ≤ n / 2 := by
     rw [Nat.le_div_iff_mul_le (by norm_num : 0 < 2)]
     omega

@@ -20,6 +20,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {L : Type} [Field L] [Algebra K L]
   {ζ : L} {E : Subgroup (StatedSp n K)} (F : ChoiceTwo.SpFrame K n ζ E)
 
+omit [Finite K] [CharP K 2] in
 theorem tor_smul (hζ : ζ ^ 3 = 1) (k : ZMod 3) (f : Fin F.s → ZMod 3) :
     F.tor (k • f) = F.tor f ^ k.val := by
   have h : ∀ m : ℕ, F.tor ((m : ZMod 3) • f) = F.tor f ^ m := by
@@ -40,12 +41,14 @@ noncomputable def torHom (hζ : ζ ^ 3 = 1) :
     Subgroup (StatedSp n K) :=
   S.toSubgroup.map (torHom F hζ)
 
+omit [Finite K] [CharP K 2] in
 theorem mem_torSub (hζ : ζ ^ 3 = 1) {S : AddSubgroup (Fin F.s → ZMod 3)} {g : StatedSp n K} :
     g ∈ torSub F hζ S ↔ ∃ f ∈ S, F.tor f = g := by
   rw [torSub, Subgroup.mem_map]
   exact ⟨fun ⟨x, hx, hg⟩ => ⟨x.toAdd, hx, hg⟩,
     fun ⟨f, hf, hg⟩ => ⟨Multiplicative.ofAdd f, hf, hg⟩⟩
 
+omit [Finite K] [CharP K 2] in
 theorem card_torSub (hζo : IsPrimitiveRoot ζ 3) (S : AddSubgroup (Fin F.s → ZMod 3)) :
     Nat.card (torSub F hζo.pow_eq_one S) = Nat.card S := by
   have hinj : Function.Injective (torHom F hζo.pow_eq_one) := by
@@ -84,6 +87,7 @@ theorem card_coordSub {s : ℕ} (T : Finset (Fin s)) : Nat.card (coordSub T) = 3
   rw [Nat.card_congr e, Nat.card_fun, Nat.card_zmod, Nat.card_eq_fintype_card,
     Fintype.card_coe]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_closure_pair_iff (hζ : ζ ^ 3 = 1) {c d : Fin F.s → ZMod 3}
     {g : StatedSp n K} :
     g ∈ Subgroup.closure {F.tor c, F.tor d} ↔ ∃ α β : ZMod 3, g = F.tor (α • c + β • d) := by
@@ -117,6 +121,7 @@ theorem mem_closure_pair_iff (hζ : ζ ^ 3 = 1) {c d : Fin F.s → ZMod 3}
     exact mul_mem (pow_mem (Subgroup.subset_closure (by simp)) _)
       (pow_mem (Subgroup.subset_closure (by simp)) _)
 
+omit [Finite K] [CharP K 2] in
 theorem isElemAbelian_closure_pair (hζ : ζ ^ 3 = 1) (c d : Fin F.s → ZMod 3) :
     CFSG.Open.IsElemAbelian 3 (Subgroup.closure {F.tor c, F.tor d}) := by
   refine ⟨isMulCommutative_iff.mpr fun x y => ?_, fun x hx => ?_⟩
@@ -133,6 +138,7 @@ theorem isElemAbelian_closure_pair (hζ : ζ ^ 3 = 1) (c d : Fin F.s → ZMod 3)
       exact F.tor_pow_three hζ (α • c + β • d)
     simpa using h3
 
+omit [Finite K] [CharP K 2] in
 theorem isPGroup_closure_pair (hζ : ζ ^ 3 = 1) (c d : Fin F.s → ZMod 3) :
     IsPGroup 3 (Subgroup.closure {F.tor c, F.tor d}) := by
   intro x
@@ -144,6 +150,7 @@ theorem isPGroup_closure_pair (hζ : ζ ^ 3 = 1) (c d : Fin F.s → ZMod 3) :
   rw [pow_one]
   exact Subtype.ext h3
 
+omit [Finite K] [CharP K 2] in
 theorem card_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s → ZMod 3}
     (hind : ∀ α β : ZMod 3, α • c + β • d = 0 → α = 0 ∧ β = 0) :
     Nat.card (Subgroup.closure {F.tor c, F.tor d}) = 9 := by
@@ -166,6 +173,7 @@ theorem card_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s → ZMod 
       exact ⟨(α, β), Subtype.ext hg'.symm⟩
   rw [← Nat.card_congr (Equiv.ofBijective _ hbij), Nat.card_prod, Nat.card_zmod]
 
+omit [Finite K] [CharP K 2] in
 theorem not_isCyclic_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s → ZMod 3}
     (hind : ∀ α β : ZMod 3, α • c + β • d = 0 → α = 0 ∧ β = 0) :
     ¬ IsCyclic (Subgroup.closure {F.tor c, F.tor d}) := by
@@ -182,6 +190,7 @@ theorem not_isCyclic_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s �
   have hle := Nat.le_of_dvd (by norm_num) hdvd
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem eq_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s → ZMod 3}
     (hind : ∀ α β : ZMod 3, α • c + β • d = 0 → α = 0 ∧ β = 0) {D : Subgroup (StatedSp n K)}
     (hD : Nat.card D = 9) (hc : F.tor c ∈ D) (hd : F.tor d ∈ D) :
@@ -192,9 +201,10 @@ theorem eq_closure_pair (hζo : IsPrimitiveRoot ζ 3) {c d : Fin F.s → ZMod 3}
     · exact hc
     · exact hd
   have hcard := card_closure_pair F hζo hind
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hD]; norm_num)
+  have : Finite D := Nat.finite_of_card_ne_zero (by rw [hD]; norm_num)
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, hD])).symm
 
+omit [Finite K] [CharP K 2] in
 theorem spPull_phi3_le_spSupported (f : Fin F.s → ZMod 3) :
     spPull (F.tor f) (ChoiceTwo.phi3 K) ≤ spSupported (F.tor f) {ChoiceTwo.phi3 K} := by
   have h : spPull (F.tor f) (ChoiceTwo.phi3 K) ≤
@@ -242,6 +252,7 @@ theorem isQuasisimple_spPull_phi3 [NeZero n] [Module.Finite K L] (hK : Nat.card 
     rw [hm] at h3
     omega
 
+omit [Finite K] [CharP K 2] in
 private theorem indep_of_coord {h₁ h₂ h₃ : Fin F.s → ZMod 3} {i₁ i₂ : Fin F.s}
     (h1i : h₁ i₁ ≠ 0) (h2i : h₂ i₂ ≠ 0) (h3ne : h₃ ≠ 0) (h2i1 : h₂ i₁ = 0)
     (h3i1 : h₃ i₁ = 0) (h1i2 : h₁ i₂ = 0) (h3i2 : h₃ i₂ = 0) :
@@ -296,7 +307,7 @@ theorem false_of_le_spSupported_phi3 [NeZero n] [Module.Finite K L] (hK : Nat.ca
         ∃ h : Fin F.s → ZMod 3, h ≠ 0 ∧ F.tor h ∈ spPull (F.tor f) (ChoiceTwo.phi3 K) ∧
           ∀ k, h k ≠ 0 → k = i ∨ k = j := by
       intro i j hi hj hij
-      haveI : Fact (Irreducible (ChoiceTwo.phi3 K)) := ⟨ChoiceTwo.phi3_irreducible hK⟩
+      have : Fact (Irreducible (ChoiceTwo.phi3 K)) := ⟨ChoiceTwo.phi3_irreducible hK⟩
       have hu : F.tor (Pi.single i (1 : ZMod 3)) ∈ spSupported (F.tor f) {ChoiceTwo.phi3 K} :=
         F.tor_mem_spSupported hK hζo f _
           (fun k hk => by rw [Pi.single_eq_of_ne (by rintro rfl; exact hi hk)])

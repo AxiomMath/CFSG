@@ -28,7 +28,7 @@ theorem oddPCoreInClosure_triality_three_even {K : Type} [Field K] [Finite K] [C
 
 theorem chevTwoPClosureOddTrialityD4Three_holds : ChevTwoPClosureOddTrialityD4Three := by
   intro p hp hp2 L _ _ hs hnab hrk hSE d hF hdi ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := d
   cases d with
   | trialityD4 q =>
@@ -42,7 +42,7 @@ theorem chevTwoPClosureOddTrialityD4Three_holds : ChevTwoPClosureOddTrialityD4Th
     obtain ⟨K, hKf, hKfin, σ, hKcard, hσ, ⟨eL⟩⟩ :=
       exists_mulEquiv_graphFixedRootGroup_card .D4 Nat.prime_two hn hCEM.2
     have hK : Nat.card K = (2 ^ q.exponent) ^ 3 := hKcard
-    haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two
+    have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two
       (k := q.exponent * 3) (by omega) (by rw [hK, pow_mul])
     refine PClosureOdd.of_mulEquiv eL.symm ?_
     intro d hd1 hdp

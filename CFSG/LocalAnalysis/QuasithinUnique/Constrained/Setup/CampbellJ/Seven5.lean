@@ -156,7 +156,7 @@ private theorem AgU_Seven5 (c : DoubleSetupJ S ρ ψ Λ α A g)
     _ = Fcore G := cj_eq_self_of_normal
 
 private theorem commutator_X_Seven5 (c : DoubleSetupJ S ρ ψ Λ α A g)
-    (hYB : YsubJ S α g ≤ BbJ S α A g) :
+    (_hYB : YsubJ S α g ≤ BbJ S α A g) :
     ⁅XsubJ_Seven5 S α, Fcore G ⊔ aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm
       (cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Fcore G)) g)⁆ =
       Zfix S := by

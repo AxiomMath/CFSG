@@ -26,7 +26,7 @@ theorem sec5m1t_index_two {M : Type} [Group M] {Y N : Subgroup M} {π : M}
     (hcov : ∀ g ∈ Y, g ∈ N ∨ π * g ∈ N) : (N.subgroupOf Y).index = 2 := by
   refine Subgroup.index_eq_two_iff.mpr ⟨⟨π, hπY⟩, fun b => ?_⟩
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
-  change Xor' ((b : M) * π ∈ N) ((b : M) ∈ N)
+  change Xor ((b : M) * π ∈ N) ((b : M) ∈ N)
   by_cases hb : (b : M) ∈ N
   · refine Or.inr ⟨hb, fun hbπ => hπN ?_⟩
     have h := N.mul_mem (N.inv_mem hb) hbπ
@@ -42,7 +42,7 @@ theorem sec5m1t_map_le_of_cover {M : Type} [Group M] {Y N : Subgroup M} {π : M}
     (hcov : ∀ g ∈ Y, g ∈ N ∨ π * g ∈ N) {K : Type} [Group K] [Finite K] (hK : IsSL23Mod K)
     (f : K →* M) (hf : ∀ k, f k ∈ Y) (k : K) : f k ∈ N := by
   have hidx := sec5m1t_index_two hπc hπY hπN hcov
-  haveI : (N.subgroupOf Y).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (N.subgroupOf Y).Normal := Subgroup.normal_of_index_eq_two hidx
   let F : K →* ↥Y ⧸ N.subgroupOf Y :=
     (QuotientGroup.mk' (N.subgroupOf Y)).comp (f.codRestrict Y hf)
   have hE2 : ∀ x : ↥Y ⧸ N.subgroupOf Y, x * x = 1 := by

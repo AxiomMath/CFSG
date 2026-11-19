@@ -142,7 +142,7 @@ private theorem e7_twoSubgroup_bot {G : Type} [Group G] [Finite G] {Y : Subgroup
     show e7ModelHom ψ d * e7ModelHom ψ r = e7ModelHom ψ r * e7ModelHom ψ d
     rw [← map_mul, ← map_mul]
     exact congrArg (e7ModelHom ψ) (Subgroup.mem_centralizer_singleton_iff.1 (hDC hd))
-  haveI hDsimple : IsSimpleGroup (EPilot.perpLevi .E7 (ZMod 2)) :=
+  have hDsimple : IsSimpleGroup (EPilot.perpLevi .E7 (ZMod 2)) :=
     E7Pilot.isSimpleGroup_perpLevi_E7 (K := ZMod 2)
   have hKsimple : IsSimpleGroup ((EPilot.perpLevi .E7 (ZMod 2)).map (e7ModelHom ψ)) :=
     (Subgroup.equivMapOfInjective _ _ hιinj).symm.isSimpleGroup
@@ -184,7 +184,7 @@ private theorem e7_exists_sylow_central :
       e7HighInv ∈ (S : Subgroup ↥(adjointGroup .E7 (ZMod 2))) ∧
         e7HighInv ∈ Subgroup.centralizer
           ((S : Subgroup ↥(adjointGroup .E7 (ZMod 2))) : Set ↥(adjointGroup .E7 (ZMod 2))) := by
-  haveI : CharP (ZMod 2) 2 := ZMod.charP 2
+  have : CharP (ZMod 2) 2 := ZMod.charP 2
   refine ⟨E8Pilot.posUnipotentSylowE .E7 (ZMod 2), ?_, ?_⟩
   · rw [E8Pilot.mem_posUnipotentSylowE]
     exact pinnedX_mem_posUnipotent_annih (isRoot_highRoot .E7) (height_highRoot_pos .E7) 1
@@ -549,7 +549,7 @@ theorem e7RootRecog_of_pieces
       rw [hCeq₀, hRbot, bot_sup_eq, inf_assoc, inf_idem]
     exact inf_eq_left.mp h.symm
   have hYs : IsSimpleGroup ↥Y := by
-    haveI : IsSimpleGroup ↥(adjointGroup .E7 (ZMod 2)) :=
+    have : IsSimpleGroup ↥(adjointGroup .E7 (ZMod 2)) :=
       E7Pilot.isSimpleGroup_adjointGroup_E7 (ZMod 2)
     exact ψ.symm.isSimpleGroup
   have hYna : ∃ a c : ↥Y, a * c ≠ c * a :=

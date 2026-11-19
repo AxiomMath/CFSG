@@ -21,7 +21,7 @@ theorem i271on_center_bot {S : Type*} [Group S] [Finite S] [IsSimpleGroup S]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    letI : CommGroup S :=
+    let : CommGroup S :=
       { ‹Group S› with
         mul_comm := fun a b => by
           have hb : b ∈ Subgroup.center S := by rw [h]; exact Subgroup.mem_top b
@@ -112,7 +112,7 @@ theorem i271AutBalanceON_holds : I271AutBalanceON := by
   have hAbel : IsElemAbelian 3 Ab := CFSG.Open.IsElemAbelian.mono hWel hAbW
   set Ab' : Subgroup (MulAut S) := Ab.map (MulAut.conj : S →* MulAut S) with hAb'
   have hAb'el : IsElemAbelian 3 Ab' := CFSG.Open.IsElemAbelian.map hAbel _
-  haveI : IsElementaryAbelian 3 ↥Ab' :=
+  have : IsElementaryAbelian 3 ↥Ab' :=
     isElementaryAbelian_of_isElemAbelian hAb'el
   have hAb'card : 3 ^ 2 ≤ Nat.card Ab' := by
     rw [hAb', Subgroup.card_map_of_injective hinj, hAb9]

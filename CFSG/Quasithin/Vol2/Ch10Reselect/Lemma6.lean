@@ -21,7 +21,7 @@ theorem isPrimeReduced_fsuVM_sup (h37 : Vol2Native.A37ForSQTKCat)
       k ∈ Subgroup.centralizer (fsuVM T L I : Set G)) :
     IsPrimeReduced 2 ((fsuVM T L I).subgroupOf (L ⊔ T)) := by
   obtain ⟨hAcomm, hAsq⟩ := isElemAbelian_fsuVM_of_h322 h322 hfsu
-  haveI := hAcomm
+  have := hAcomm
   have hAX : fsuVM T L I ≤ L ⊔ T := fsuVM_le_sup_of_h322 h322 hfsu
   have hXM : L ⊔ T ≤ fsuM T L := sup_le_fsuM T L
   have hL0X : fsuL0 T L ≤ L ⊔ T := by
@@ -31,7 +31,7 @@ theorem isPrimeReduced_fsuVM_sup (h37 : Vol2Native.A37ForSQTKCat)
   have hVn : ((fsuVM T L I).subgroupOf (L ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAX).mpr
       (hXM.trans (fsuM_le_normalizer_fsuVM T L I))
-  haveI := hVn
+  have := hVn
   have hCx : ∀ y : ↥(L ⊔ T),
       y ∈ Subgroup.centralizer (((fsuVM T L I).subgroupOf (L ⊔ T) : Subgroup ↥(L ⊔ T)) :
         Set ↥(L ⊔ T)) ↔ (y : G) ∈ Subgroup.centralizer (fsuVM T L I : Set G) := by
@@ -50,7 +50,7 @@ theorem isPrimeReduced_fsuVM_sup (h37 : Vol2Native.A37ForSQTKCat)
       Subgroup ↥(L ⊔ T)) : Set ↥(L ⊔ T))) = ⊥ := by
     apply pCore_quotient_eq_bot
     intro N hN hNx
-    haveI := hN
+    have := hN
     have hN'X : ∀ w ∈ N.map (L ⊔ T).subtype, ∀ g ∈ L ⊔ T,
         g * w * g⁻¹ ∈ N.map (L ⊔ T).subtype := by
       intro w hw g hg

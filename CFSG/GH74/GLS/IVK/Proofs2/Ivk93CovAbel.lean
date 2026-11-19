@@ -107,7 +107,7 @@ theorem ivk93cov_exists_lift_pgroup {Y Q : Type} [Group Y] [Finite Y] [Group Q] 
       (P₁.mapSurjective hπ₁).maximal_isPGroup.2 hRtop le_top
     rw [Sylow.coe_mapSurjective] at hle
     exact top_le_iff.mp hle
-  refine ⟨(P₁ : Subgroup ↥Y₁).map Y₁.subtype, P₁.isPGroup'.map Y₁.subtype, ?_⟩
+  refine ⟨(P₁ : Subgroup ↥Y₁).map Y₁.subtype, P₁.isPGroup.map Y₁.subtype, ?_⟩
   have h1 : ((P₁ : Subgroup ↥Y₁).map π₁).map R.subtype = ((P₁ : Subgroup ↥Y₁).map Y₁.subtype).map π := by
     rw [Subgroup.map_map, Subgroup.map_map]
     rfl

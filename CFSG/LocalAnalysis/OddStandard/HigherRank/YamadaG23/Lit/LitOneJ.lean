@@ -96,7 +96,7 @@ theorem lit_comm_lift [Finite Γ] {N : Subgroup Γ} (hN : Odd (Nat.card N)) {t :
         simp [h]
     rcases hk with hk | hk
     · rw [hk, commutatorElement_one_right]
-      exact ⟨one_mem _, one_mem _, fun x hx => by simpa using (litU N B).one_mem⟩
+      exact ⟨one_mem _, one_mem _, fun x hx => by simp⟩
     · rw [hk]
       have haN := hAN ha
       have haB := hAB ha
@@ -116,7 +116,7 @@ theorem lit_comm_lift [Finite Γ] {N : Subgroup Γ} (hN : Odd (Nat.card N)) {t :
             ((normalizer (B : Set Γ)).inv_mem haB) hu
           simpa using this
         · exact fun u hu => litU_conj htN htB hu
-  · exact ⟨one_mem _, one_mem _, fun x hx => by simpa using (litU N B).one_mem⟩
+  · exact ⟨one_mem _, one_mem _, fun x hx => by simp⟩
   · rintro g h _ _ ⟨hgN, hgB, hg⟩ ⟨hhN, hhB, hh⟩
     refine ⟨mul_mem hgN hhN, mul_mem hgB hhB, fun x hx => ?_⟩
     have hy : h * x * h⁻¹ ∈ litX N B := litX_conj hhN hhB hx
@@ -138,7 +138,7 @@ theorem lit_normalizer_cond {F U : Subgroup Γ} (hF : Group.IsNilpotent ↥F) (h
   have hne : U.subgroupOf F ≠ ⊤ := fun h' => hFU (Subgroup.subgroupOf_eq_top.mp h')
   have hlt : U.subgroupOf F < normalizer (U.subgroupOf F : Set ↥F) :=
     Group.normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.mpr hne)
-  obtain ⟨y, hy, hyU⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hy, hyU⟩ := IsConcreteLE.exists_of_lt hlt
   have hfwd : ∀ (z : ↥F), z ∈ normalizer (U.subgroupOf F : Set ↥F) → ∀ u ∈ U,
       (z : Γ) * u * (z : Γ)⁻¹ ∈ U := by
     intro z hz u hu

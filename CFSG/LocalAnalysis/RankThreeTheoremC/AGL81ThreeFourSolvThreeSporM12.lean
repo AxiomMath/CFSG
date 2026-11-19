@@ -20,14 +20,14 @@ theorem threeFourSolvThreeNoneAt_m12 :
   obtain ⟨e⟩ := he
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
   have f : L ≃* ↥NativeSporadic.M12 := e.trans eC.symm
-  haveI : IsSimpleGroup ↥NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+  have : IsSimpleGroup ↥NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
   refine ⟨f.isSimpleGroup, ?_, fun T => ?_,
     CFSG.AGLEmbedding.CoreE1.Datum.of_mulEquiv f CFSG.AGLEmbedding.coreE1Datum_M12⟩
   · rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence f).toEquiv,
       CFSG.ComponentClassification.M12Cover.card_outer]
     norm_num
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set S : Sylow 3 ↥NativeSporadic.M12 := T.mapSurjective (f := f.toMonoidHom) f.surjective
       with hSdef
     have h := CFSG.AGLEmbeddingD2.glbCore_map_le_of_mulEquiv Nat.prime_three 2 f.symm

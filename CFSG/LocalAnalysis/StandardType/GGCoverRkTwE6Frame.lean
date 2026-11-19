@@ -344,11 +344,11 @@ theorem exists_langFrame_recipeR
       ¬ X ≤ (MulAut.conj : TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n)).range ∧
       D.diag.range ≤ D.H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef
@@ -363,7 +363,7 @@ theorem exists_langFrame_recipeR
   have hL : IsLang Fr g := ⟨hg, hgn⟩
   obtain ⟨D₀, hD₀⟩ := exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D₀.Good :=
-    { center := tFrame_center hn hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD₀
       shape := tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD₀
       torus := tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD₀

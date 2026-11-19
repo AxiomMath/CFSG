@@ -62,7 +62,7 @@ private theorem good_comp {δ : V → Dual K V} {β : LinearMap.BilinForm K V} {
 
 private theorem rootMap_neg_comp {δ : V → Dual K V} (h1 : ∀ v, δ v v = 0) (a : V) (c : K)
     (x : V) : rootMap δ a c (rootMap δ a (-c) x) = x := by
-  simp only [rootMap_apply, map_add, map_smul, h1, smul_eq_mul, mul_zero, add_zero]
+  simp only [rootMap_apply, map_add, map_smul, h1, mul_zero]
   module
 
 private theorem rootMap_surj {δ : V → Dual K V} (h1 : ∀ v, δ v v = 0) (a : V) (c : K) :
@@ -637,7 +637,7 @@ private theorem key : ∀ (n : ℕ) (X : Type u) [AddCommGroup X] [Module K X] [
   intro X _ _ _ hn δ hD
   rcases Nat.lt_or_ge n 2 with hlt | hge
   · interval_cases n
-    · haveI : Subsingleton X := Module.finrank_zero_iff.1 hn
+    · have : Subsingleton X := Module.finrank_zero_iff.1 hn
       exact ⟨0, ⟨fun x _ => Subsingleton.elim _ _, fun y _ => Subsingleton.elim _ _⟩,
         fun x => by simp, fun v w hv => absurd (Subsingleton.elim v 0) hv⟩
     · exfalso
@@ -652,7 +652,7 @@ private theorem key : ∀ (n : ℕ) (X : Type u) [AddCommGroup X] [Module K X] [
     have hpos : 0 < finrank K X := by
       rw [hn]
       omega
-    haveI : Nontrivial X := Module.nontrivial_of_finrank_pos hpos
+    have : Nontrivial X := Module.nontrivial_of_finrank_pos hpos
     obtain ⟨e, he⟩ := exists_ne (0 : X)
     obtain ⟨f, hf⟩ : ∃ f, δ e f ≠ 0 := by
       by_contra h
@@ -702,14 +702,14 @@ theorem exists_alt_form_of_sympData (δ : V → Module.Dual K V) (hδ0 : ∀ v, 
     have hL : (1 + c • (δ a).smulRight a) * (1 - c • (δ a).smulRight a) = 1 := by
       ext x
       simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply,
-        Module.End.one_apply, LinearMap.smul_apply, map_sub, map_add, map_smul, hNN, smul_zero,
-        add_zero, sub_zero]
+        Module.End.one_apply, LinearMap.smul_apply, map_sub, map_smul, hNN, smul_zero,
+        add_zero]
       module
     have hR : (1 - c • (δ a).smulRight a) * (1 + c • (δ a).smulRight a) = 1 := by
       ext x
       simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply,
-        Module.End.one_apply, LinearMap.smul_apply, map_sub, map_add, map_smul, hNN, smul_zero,
-        add_zero, sub_zero]
+        Module.End.one_apply, LinearMap.smul_apply, map_add, map_smul, hNN, smul_zero,
+        sub_zero]
       module
     let g : LinearMap.GeneralLinearGroup K V :=
       ⟨1 + c • (δ a).smulRight a, 1 - c • (δ a).smulRight a, hL, hR⟩

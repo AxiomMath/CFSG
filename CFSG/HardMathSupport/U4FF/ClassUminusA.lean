@@ -60,7 +60,7 @@ theorem toGL_uSL (n : ℕ) (a b c d : K) :
 theorem J_mul_J : (antidiag 4 : Matrix (Fin 4) (Fin 4) K) * antidiag 4 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [antidiag, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, rev0, rev1, rev2, rev3]
+    simp [antidiag, Matrix.mul_apply, Fin.sum_univ_four, rev1, rev2, rev3]
 
 theorem J_mul_J_assoc (X : Matrix (Fin 4) (Fin 4) K) :
     (antidiag 4 : Matrix (Fin 4) (Fin 4) K) * (antidiag 4 * X) = X := by
@@ -70,7 +70,7 @@ theorem J_mul_mul_J_apply (M : Matrix (Fin 4) (Fin 4) K) (i j : Fin 4) :
     (((antidiag 4 : Matrix (Fin 4) (Fin 4) K) * M * antidiag 4 : Matrix (Fin 4) (Fin 4) K)) i j =
       M (Fin.rev i) (Fin.rev j) := by
   fin_cases i <;> fin_cases j <;>
-    simp [antidiag, Matrix.mul_apply, Fin.sum_univ_four, rev0, rev1, rev2, rev3]
+    simp [antidiag, Matrix.mul_apply, Fin.sum_univ_four, rev1, rev2, rev3]
 
 theorem J_mul_single_mul_J (i j : Fin 4) (x : K) :
     (antidiag 4 : Matrix (Fin 4) (Fin 4) K) * single i j x * antidiag 4 =
@@ -95,7 +95,7 @@ theorem wMat_eq_J_mul_uMat_mul_J (n : ℕ) (a b c d : K) :
     wMat n a b c d = antidiag 4 * uMat n a b c d * antidiag 4 := by
   ext i j
   rw [J_mul_mul_J_apply]
-  fin_cases i <;> fin_cases j <;> simp [wMat, uMat, rev0, rev1, rev2, rev3]
+  fin_cases i <;> fin_cases j <;> simp [wMat, uMat, rev1, rev2, rev3]
 
 @[expose] def jGL (K : Type) [Field K] : GL (Fin 4) K :=
   Units.mk (antidiag 4) (antidiag 4) J_mul_J J_mul_J
@@ -276,7 +276,7 @@ theorem mem_SU_J (σ : K ≃+* K) : jGL K ∈ SU σ 4 := by
   refine mem_SU.mpr ⟨det_antidiag, ?_⟩
   have hc : conjTr σ (antidiag 4 : Matrix (Fin 4) (Fin 4) K) = antidiag 4 := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [conjTr, antidiag, rev0, rev1, rev2, rev3]
+    fin_cases i <;> fin_cases j <;> simp [conjTr, antidiag, rev1, rev2, rev3]
   show conjTr σ (antidiag 4 : Matrix (Fin 4) (Fin 4) K) * antidiag 4 * antidiag 4 = antidiag 4
   rw [hc, J_mul_J, Matrix.one_mul]
 
@@ -303,10 +303,9 @@ theorem uMat_conj_mul (n : ℕ) (hK : Nat.card K = (2 ^ n) ^ 2) {a b c d : K}
   have hchar : (2 : K) = 0 := CharTwo.two_eq_zero
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [conjTr, antidiag, uMat, unitaryInvolution_apply, iterateFrobenius_def,
-      Matrix.mul_apply, Fin.sum_univ_four, pow_pow_of_card hK, h1, mul_pow, add_pow_char_pow, rev0, rev1, rev2, rev3] <;>
+    simp [conjTr, antidiag, uMat, iterateFrobenius_def,
+      Matrix.mul_apply, Fin.sum_univ_four, pow_pow_of_card hK, h1, mul_pow, add_pow_char_pow, rev1, rev2, rev3] <;>
     first
-    | ring1
     | linear_combination h2 + (a ^ 2 ^ n * b + a * b ^ 2 ^ n) * hchar
     | linear_combination (a ^ 2 ^ n * c + b ^ 2 ^ n) * hchar
     | linear_combination (a ^ 2 ^ n) * hchar
@@ -331,8 +330,7 @@ theorem uCond_of_lower (n : ℕ) {G : Matrix (Fin 4) (Fin 4) K}
   have E01 := congrFun (congrFun hE 0) 1
   have E02 := congrFun (congrFun hE 0) 2
   have E11 := congrFun (congrFun hE 1) 1
-  simp [conjTr, antidiag, Matrix.mul_apply, Fin.sum_univ_four, unitaryInvolution_apply,
-    iterateFrobenius_def, hz, hd, rev0, rev1, rev2, rev3] at E00 E01 E02 E11
+  simp [conjTr, antidiag, Matrix.mul_apply, Fin.sum_univ_four, iterateFrobenius_def, hz, hd, rev1, rev2, rev3] at E00 E01 E02 E11
   have h2 : G 3 0 + G 3 0 ^ 2 ^ n = G 1 0 ^ 2 ^ n * G 2 0 + G 1 0 * G 2 0 ^ 2 ^ n := by
     linear_combination E00 - (G 1 0 ^ 2 ^ n * G 2 0 + G 1 0 * G 2 0 ^ 2 ^ n) * hchar
   have h31 : G 3 1 = G 1 0 ^ 2 ^ n * G 2 1 + G 2 0 ^ 2 ^ n := by
@@ -345,7 +343,7 @@ theorem uCond_of_lower (n : ℕ) {G : Matrix (Fin 4) (Fin 4) K}
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uMat, hz, hd, h31, h32]
 
-theorem exists_uCond_of_mem (n : ℕ) (hK : Nat.card K = (2 ^ n) ^ 2) {g : GL (Fin 4) K}
+theorem exists_uCond_of_mem (n : ℕ) (_hK : Nat.card K = (2 ^ n) ^ 2) {g : GL (Fin 4) K}
     (hg : g ∈ SU (unitaryInvolution K 2 n) 4) (hl : IsLowerUni (g : Matrix (Fin 4) (Fin 4) K)) :
     ∃ a b c d : K, UCond n a b c d ∧ (g : Matrix (Fin 4) (Fin 4) K) = uMat n a b c d :=
   uCond_of_lower n hl.1 hl.2 (mem_SU.mp hg).2
@@ -372,9 +370,8 @@ theorem uMat_eq_prod (n : ℕ) {a b c d : K} (h : UCond n a b c d) :
       !![1, 0, 0, 0; a, 1, 0, 0; b, c, 1, 0; 0, 0, 0, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply] <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply];
       first
-      | ring1
       | linear_combination (a * c) * hchar
   have t3 : (1 + single 3 0 (d ^ 2 ^ n) : Matrix (Fin 4) (Fin 4) K) *
       !![1, 0, 0, 0; a, 1, 0, 0; b, c, 1, 0; 0, 0, 0, 1] =
@@ -387,15 +384,14 @@ theorem uMat_eq_prod (n : ℕ) {a b c d : K} (h : UCond n a b c d) :
       !![1, 0, 0, 0; a, 1, 0, 0; b, c, 1, 0; d ^ 2 ^ n + b ^ 2 ^ n * a, b ^ 2 ^ n, 0, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply] <;> ring1
+      simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply]; ring1
   have t5 :(1 + single 3 2 (a ^ 2 ^ n) : Matrix (Fin 4) (Fin 4) K) *
       !![1, 0, 0, 0; a, 1, 0, 0; b, c, 1, 0; d ^ 2 ^ n + b ^ 2 ^ n * a, b ^ 2 ^ n, 0, 1] =
       uMat n a b c d := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [uMat, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply] <;>
+      simp [uMat, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.single_apply];
       first
-      | ring1
       | linear_combination h2 + (a * b ^ 2 ^ n + a ^ 2 ^ n * b - d) * hchar
   rw [t1, t2, t3, t4, t5]
 

@@ -42,6 +42,7 @@ theorem perfectResidual_cover_of_marked {S : Set (Subgroup G)} {T : Type} [Group
     cover_facts (Marked.quotient_quasisimple hFam hK.2) inf_le_left hsupEq
   exact ⟨hsupEq, hX₀2, hX₀sup, eX₀⟩
 
+omit [Finite G] in
 theorem markedLayer_conjugate_general {S : Set (Subgroup G)} {T : Type*} [Group T]
     (hFam : IsomorphicFamily S T) (M : Subgroup G) (g : G) :
     CFSG.conjugate (markedLayer S T M) g =
@@ -87,6 +88,7 @@ theorem markedLayer_conjugate_general {S : Set (Subgroup G)} {T : Type*} [Group 
       _ ≤ (sSup (markedComponents S T M)).map φ.toMonoidHom :=
           Subgroup.map_mono (le_sSup hJmem)
 
+omit [Finite G] in
 theorem mem_markedComponents_conjugate {S : Set (Subgroup G)} {T : Type*} [Group T]
     {hFam : IsomorphicFamily S T} {M K : Subgroup G}
     (hK : K ∈ markedComponents S T M) (g : G) :
@@ -113,7 +115,7 @@ theorem mem_of_covers_of_marked_beta
     {M : Subgroup G} {g : G}
     (hAlphaCase : MarkedAlphaCase S T M g → g ∈ M)
     (hMbal : Balanced S T M)
-    (hDnorm : Subgroup.normalizer (markedLayer S T M : Set G) = M)
+    (_hDnorm : Subgroup.normalizer (markedLayer S T M : Set G) = M)
     (hCpure : ∀ K' ∈ markedComponents S T M, ∀ x ∈ K', orderOf x = 2 →
       centralizer ({x} : Set G) ≤ M)
     {K : Subgroup G} (hK : K ∈ markedComponents S T M)
@@ -249,6 +251,7 @@ theorem mem_of_covers_of_marked_beta
     (GSThmB.B5a.le_coreActionKernel_of_ne hK'.1.1 hK.1.1 hK'.1.2 hK.1.2 hK'K
       (hX₀K hsX₀))
 
+omit [Finite G] in
 theorem conjugate_ne_top {M : Subgroup G} (hM : M ≠ ⊤) (g : G) :
     CFSG.conjugate M g ≠ ⊤ := by
   intro h
@@ -258,6 +261,7 @@ theorem conjugate_ne_top {M : Subgroup G} (hM : M ≠ ⊤) (g : G) :
   rw [h, conjugate_top] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem exists_mem_markedComponents_conjugate {S : Set (Subgroup G)} {T : Type*} [Group T]
     {hFam : IsomorphicFamily S T} {M J : Subgroup G} {g : G}
     (hJ : J ∈ markedComponents S T (CFSG.conjugate M g)) :
@@ -268,6 +272,7 @@ theorem exists_mem_markedComponents_conjugate {S : Set (Subgroup G)} {T : Type*}
     rwa [UnbalancedLayer.conjugate_conjugate, mul_inv_cancel, conjugate_one_eq] at h
   · rw [UnbalancedLayer.conjugate_conjugate, inv_mul_cancel, conjugate_one_eq]
 
+omit [Finite G] in
 theorem pureCentralizers_conjugate {S : Set (Subgroup G)} {T : Type*} [Group T]
     {hFam : IsomorphicFamily S T} {M : Subgroup G} {g : G}
     (hC : ∀ K ∈ markedComponents S T M, ∀ b ∈ K, orderOf b = 2 →
@@ -290,6 +295,7 @@ theorem pureCentralizers_conjugate {S : Set (Subgroup G)} {T : Type*} [Group T]
   rw [← hxeq, ← centralizer_singleton_conjugate y g]
   exact Subgroup.map_mono hcent
 
+omit [Finite G] in
 theorem mem_of_markedComponents_eq {S : Set (Subgroup G)} {T : Type*} [Group T]
     (hFam : IsomorphicFamily S T) {M : Subgroup G}
     (hDnorm : Subgroup.normalizer (markedLayer S T M : Set G) = M) {g : G}

@@ -36,8 +36,8 @@ private def intertwiners (η : Representation F E W) (σ : Representation F E V)
 private theorem exists_inj_intertwiner [IsAlgClosed F] [FiniteDimensional F V] [FiniteDimensional F W]
     [Nontrivial W]
     (η : Representation F E W) (hη : η.IsIrreducible) (σ : Representation F E V)
-    (α : MulAut E) (r : ℕ) (hr : 0 < r) (hα : α ^ r = 1)
-    (U : W ≃ₗ[F] W) (hUr : U ^ r = 1) (T : V ≃ₗ[F] V) (hTr : T ^ r = 1)
+    (α : MulAut E) (r : ℕ) (_hr : 0 < r) (_hα : α ^ r = 1)
+    (U : W ≃ₗ[F] W) (_hUr : U ^ r = 1) (T : V ≃ₗ[F] V) (_hTr : T ^ r = 1)
     (hU : ∀ e w, U (η e w) = η (α e) (U w))
     (hT : ∀ e v, T (σ e v) = σ (α e) (T v))
     (f0 : W →ₗ[F] V) (hf0 : f0 ≠ 0) (hf0i : ∀ e w, f0 (η e w) = σ e (f0 w)) :
@@ -60,7 +60,7 @@ private theorem exists_inj_intertwiner [IsAlgClosed F] [FiniteDimensional F V] [
     rw [hUinv, hf', hT]
     simp
   let L' : End F I := L.restrict hL
-  haveI : Nontrivial I := by
+  have : Nontrivial I := by
     refine ⟨⟨f0, hf0i⟩, 0, ?_⟩
     intro h
     exact hf0 (congrArg Subtype.val h)
@@ -125,7 +125,7 @@ theorem caseA' {F : Type*} [Field F]
     exact S0.smul_mem _ ((hmemW v).1 hv)
   let e0 : W ≃ₗ[F] S0 :=
     { toFun := fun w => ⟨aE.symm w, (hmemW _).1 w.2⟩
-      invFun := fun s => ⟨aE s, (hmemW _).2 (by simpa using s.2)⟩
+      invFun := fun s => ⟨aE s, (hmemW _).2 (by simp)⟩
       map_add' := fun x y => by ext; simp
       map_smul' := fun c x => by ext; simp
       left_inv := fun w => by ext; simp
@@ -146,8 +146,8 @@ theorem caseA' {F : Type*} [Field F]
       rw [this]; exact he0 g w
     | add x y hx hy => intro w; simp [map_add, hx, hy, add_smul]
     | smul c x hx => intro w; simp [hx, smul_assoc]
-  haveI : Nontrivial S0 := IsSimpleModule.nontrivial F[E] S0
-  haveI : Nontrivial W := e0.toEquiv.nontrivial
+  have : Nontrivial S0 := IsSimpleModule.nontrivial F[E] S0
+  have : Nontrivial W := e0.toEquiv.nontrivial
   let eN : ρ.asModule ≃ₗ[F[E]] S0 :=
     { toFun := fun x => e0 (ρ.asModuleEquiv x)
       invFun := fun s => ρ.asModuleEquiv.symm (e0.symm s)
@@ -218,7 +218,7 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
   set η := Representation.subrepresentation σ W0 hW0 with hη
   have hirr : η.IsIrreducible := by
     rw [Representation.irreducible_iff_isSimpleModule_asModule]
-    haveI : IsSimpleModule F[E] S0 := inferInstance
+    have : IsSimpleModule F[E] S0 := inferInstance
     exact IsSimpleModule.congr eN
   obtain ⟨U', hU'r, hU'⟩ := CFSG.GroupTheory.CoprimeActionSupport.FiniteOrderIntertwinerNormalize.exists_normalized
     η hirr α q hq.out.pos hα U hU
@@ -245,7 +245,7 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
         obtain ⟨w, hw⟩ := f.surjective_rangeRestrict y
         exact ⟨w, hw⟩
     exact ⟨(LinearEquiv.ofBijective g hg).symm.trans eN⟩
-  haveI : Nontrivial W0 := hnt
+  have : Nontrivial W0 := hnt
   refine ⟨LinearMap.range f, ?_, hS, hfT, hS, ?_, hiso⟩
   · intro h
     rw [LinearMap.range_eq_bot] at h

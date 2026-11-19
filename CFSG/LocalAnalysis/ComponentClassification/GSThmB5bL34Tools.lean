@@ -226,7 +226,7 @@ theorem card_center_oddBar_K (hB6 : SylowKernelStatement) (hKa : conjugate h.K h
     simp only [subtype_apply, coe_mul, coe_inv]
     group
   have hR'2 : IsPGroup 2 R' :=
-    (R.isPGroup'.map Zs.subtype).map h.K.subtype
+    (R.isPGroup.map Zs.subtype).map h.K.subtype
   have h6 := hB6 H h.toHyp52
   rw [h.toHyp52.V_eq_K hKa] at h6
   obtain ⟨hBC, R₀, hR₀⟩ := h6

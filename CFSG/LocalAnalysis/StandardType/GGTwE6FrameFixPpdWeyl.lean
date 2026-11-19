@@ -68,7 +68,7 @@ private theorem pow_four_sq {F : Type} [CommRing F] (x : F) : x ^ 4 = (x ^ 2) ^ 
 
 private theorem dvd_D_twelve {r q : ℕ} (hr : r.Prime) (hq : orderOf (q : ZMod r) = 12) :
     (r : ℤ) ∣ 1 - (q : ℤ) + (q : ℤ) ^ 3 - (q : ℤ) ^ 5 + (q : ℤ) ^ 6 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h12 : (q : ZMod r) ^ 12 = 1 := by
     have h := pow_orderOf_eq_one (q : ZMod r)
     rwa [hq] at h
@@ -245,9 +245,9 @@ private theorem case_generic
           ring
         rw [heq, hp]
         by_cases hk : (k : ℕ) = 0
-        · rw [if_pos hk]
+        · rw [ite_eq_left hk]
           exact hD
-        · rw [if_neg hk]
+        · rw [ite_eq_right hk]
           exact dvd_zero _
       exact weylAct_zpow_eq_of_dvd hζ (-(q : ℤ)) hdiv
 
@@ -276,7 +276,7 @@ private theorem case6_T1
     ∃ u'' : WeylGroup Tag.E6, u'' * ω ∈ kernelWeylGroup (triChar b6) ∧
       ∃ c'' : Fin Tag.E6.rank → Kˣ, (∀ i, c'' i ^ r = 1) ∧ c'' ≠ 1 ∧
         weylAct u'' (c'' ^ (-(q : ℤ))) = c'' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq0 : (q : ZMod r) ≠ 0 := order_q_ne_zero (by norm_num) hq
   have hq1 : (q : ZMod r) ≠ 1 := order_q_ne_one (by norm_num) hq
   have hv1 : v61 (q : ℤ) f1 = -(q : ℤ) * (1 - (q : ℤ)) ^ 2 := by
@@ -302,7 +302,7 @@ private theorem pow_six_sq {F : Type} [CommRing F] (x : F) : x ^ 6 = (x ^ 3) ^ 2
 
 private theorem dvd_D_eighteen {r q : ℕ} (hr : r.Prime) (hq : orderOf (q : ZMod r) = 18) :
     (r : ℤ) ∣ 1 - (q : ℤ) ^ 3 + (q : ℤ) ^ 6 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h18 : (q : ZMod r) ^ 18 = 1 := by
     have h := pow_orderOf_eq_one (q : ZMod r)
     rwa [hq] at h
@@ -372,7 +372,7 @@ private theorem case6_T2
     ∃ u'' : WeylGroup Tag.E6, u'' * ω ∈ kernelWeylGroup (triChar b6) ∧
       ∃ c'' : Fin Tag.E6.rank → Kˣ, (∀ i, c'' i ^ r = 1) ∧ c'' ≠ 1 ∧
         weylAct u'' (c'' ^ (-(q : ℤ))) = c'' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq0 : (q : ZMod r) ≠ 0 := order_q_ne_zero (by norm_num) hq
   have hq1 : (q : ZMod r) ≠ 1 := order_q_ne_one (by norm_num) hq
   have hv1 : v62 (q : ℤ) f1 = (q : ℤ) ^ 2 * (1 - (q : ℤ)) := by
@@ -426,7 +426,7 @@ private theorem case7_T1
     ∃ u'' : WeylGroup Tag.E6, u'' * ω ∈ kernelWeylGroup (triChar b7) ∧
       ∃ c'' : Fin Tag.E6.rank → Kˣ, (∀ i, c'' i ^ r = 1) ∧ c'' ≠ 1 ∧
         weylAct u'' (c'' ^ (-(q : ℤ))) = c'' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq0 : (q : ZMod r) ≠ 0 := order_q_ne_zero (by norm_num) hq
   have hv3 : v71 (q : ℤ) f3 = -(q : ℤ) ^ 5 := by
     have h : v71 (q : ℤ) f3 = -q ^ 5 := by simp [v71, f3]
@@ -470,7 +470,7 @@ private theorem case7_T2
     ∃ u'' : WeylGroup Tag.E6, u'' * ω ∈ kernelWeylGroup (triChar b7) ∧
       ∃ c'' : Fin Tag.E6.rank → Kˣ, (∀ i, c'' i ^ r = 1) ∧ c'' ≠ 1 ∧
         weylAct u'' (c'' ^ (-(q : ℤ))) = c'' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq0 : (q : ZMod r) ≠ 0 := order_q_ne_zero (by norm_num) hq
   have hv3 : v72 (q : ℤ) f3 = (q : ℤ) := by simp [v72, f3]
   have hcast : ((v72 (q : ℤ) f3 : ℤ) : ZMod r) = (q : ZMod r) := by

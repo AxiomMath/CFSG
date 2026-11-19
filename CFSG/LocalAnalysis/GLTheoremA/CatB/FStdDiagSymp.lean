@@ -78,9 +78,9 @@ theorem fstdSymp_bc
     refine ⟨hZ, fun _ => ⟨⊤, le_top, ?_, ?_⟩⟩
     · have hne2 : ¬(m = 2 ∧ Nat.card K = 2) := fun h =>
         hmn ⟨h.1, Nat.pow_right_injective le_rfl ((hK.symm.trans h.2).trans (pow_one 2).symm)⟩
-      haveI : IsSimpleGroup (StatedProj (StatedSp m K)) :=
+      have : IsSimpleGroup (StatedProj (StatedSp m K)) :=
         (CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj hm hne2).1
-      haveI : IsSimpleGroup S := e.isSimpleGroup
+      have : IsSimpleGroup S := e.isSimpleGroup
       exact Subgroup.topEquiv.isSimpleGroup
     · refine fstdSymp_threeFree_top e ?_
       have hLC := lieCompExport_conj_sp slFactorFacts_holds slAltSixFacts_holds

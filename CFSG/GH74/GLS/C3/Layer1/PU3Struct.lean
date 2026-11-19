@@ -163,7 +163,7 @@ theorem false_of_centralizing_involution (hGen : Gen4 G) {M L₁ L₂ : Subgroup
 
 theorem only_of_good_of_noCentral {M L₁ L₂ : Subgroup G}
     (hno : NoCentralizingInvolution M L₁ L₂) (h₁ : Good M L₁) (h₂ : Good M L₂)
-    (hne : L₁ ≠ L₂) {L' : Subgroup G}
+    (_hne : L₁ ≠ L₂) {L' : Subgroup G}
     (hL' : IsPCompIn 2 M L') : L' = L₁ ∨ L' = L₂ := by
   by_contra hcon
   rw [not_or] at hcon
@@ -180,7 +180,7 @@ theorem only_of_good_of_noCentral {M L₁ L₂ : Subgroup G}
 theorem only_of_good (hGen : Gen4 G) {M L₁ L₂ : Subgroup G} (h₁ : Good M L₁) (h₂ : Good M L₂)
     (hne : L₁ ≠ L₂) {L' : Subgroup G} (hL' : IsPCompIn 2 M L') : L' = L₁ ∨ L' = L₂ :=
   only_of_good_of_noCentral
-    (fun c hc hc₁ hc₂ => false_of_centralizing_involution hGen h₁ h₂ hne hc hc₁ hc₂)
+    (fun _c hc hc₁ hc₂ => false_of_centralizing_involution hGen h₁ h₂ hne hc hc₁ hc₂)
     h₁ h₂ hne hL'
 
 omit [Finite G] in
@@ -311,7 +311,7 @@ theorem perf_of_good (hGen : Gen4 G) {M L₁ L₂ : Subgroup G} (h₁ : Good M L
     (hOut₁ : Group.IsSolvable (Outer (kBar L₁))) (hOut₂ : Group.IsSolvable (Outer (kBar L₂))) :
     ∀ Y : Subgroup G, Y ≤ M → ⁅Y, Y⁆ = Y → Y ≤ L₁ ⊔ L₂ ⊔ pPrimeCoreOf 2 M :=
   perf_of_good_of_noCentral
-    (fun c hc hc₁ hc₂ => false_of_centralizing_involution hGen h₁ h₂ hne hc hc₁ hc₂)
+    (fun _c hc hc₁ hc₂ => false_of_centralizing_involution hGen h₁ h₂ hne hc hc₁ hc₂)
     h₁ h₂ hne hOut₁ hOut₂
 
 end Struct

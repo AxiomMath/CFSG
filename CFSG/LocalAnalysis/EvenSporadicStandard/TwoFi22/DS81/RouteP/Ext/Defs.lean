@@ -22,7 +22,7 @@ variable {N : Type*} [Group N] {E : Subgroup N} {e : ↥E ≃* W11} (h : CocodeE
 @[expose] def conjE (n : N) : MulAut ↥E := @MulAut.conjNormal N _ E h.normal n
 
 theorem coe_conjE (n : N) (x : ↥E) : ((h.conjE n x : ↥E) : N) = n * x * n⁻¹ := by
-  haveI := h.normal
+  have := h.normal
   exact MulAut.conjNormal_apply n x
 
 @[expose] noncomputable def act : N →* MulAut W11 :=
@@ -94,28 +94,28 @@ theorem π_eq_one_iff {n : N} : h.π n = 1 ↔ n ∈ E := by
       have hx' : x ∈ E := h.π_eq_one_iff.1 hx
       have hy' : y ∈ E := h.π_eq_one_iff.1 hy
       have hxy : x * y ∈ E := E.mul_mem hx' hy'
-      rw [dif_pos hxy, dif_pos hx', dif_pos hy']
+      rw [dite_eq_left hxy, dite_eq_left hx', dite_eq_left hy']
       exact map_mul e ⟨x, hx'⟩ ⟨y, hy'⟩
     eT_conj := fun n x hx => by
       have hx' : x ∈ E := h.π_eq_one_iff.1 hx
       have hnx : n * x * n⁻¹ ∈ E := h.normal.conj_mem x hx' n
-      rw [dif_pos hnx, dif_pos hx']
+      rw [dite_eq_left hnx, dite_eq_left hx']
       exact (congrArg e (Subtype.ext (h.coe_conjE n ⟨x, hx'⟩).symm)).trans
         (h.π_apply_e n ⟨x, hx'⟩).symm
     eT_inj := fun x y hx hy hxy => by
       have hx' : x ∈ E := h.π_eq_one_iff.1 hx
       have hy' : y ∈ E := h.π_eq_one_iff.1 hy
-      rw [dif_pos hx', dif_pos hy'] at hxy
+      rw [dite_eq_left hx', dite_eq_left hy'] at hxy
       exact congrArg Subtype.val (e.injective hxy)
     eT_surj := fun w => by
       refine ⟨(e.symm w : N), h.π_eq_one_iff.2 (e.symm w).2, ?_⟩
-      rw [dif_pos (e.symm w).2]
+      rw [dite_eq_left (e.symm w).2]
       exact e.apply_symm_apply w }
 
 theorem toExtData_eT {x : N} (hx : x ∈ E) :
     h.toExtData.eT x = e ⟨x, hx⟩ := by
   classical
-  exact dif_pos hx
+  exact dite_eq_left hx
 
 end CocodeExtension
 

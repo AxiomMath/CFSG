@@ -305,24 +305,24 @@ theorem false_of_odd_of_involutions (D : C.PiData) (π : Perm (Fin 6)) {y₀ : G
         simp only [Subgroup.coe_mul]
         have hz' : ∀ g : Q, g * z = z * g := hzc
         rcases hHform h₁ hh₁ with p₁ | p₁ <;> rcases hHform h₂ hh₂ with p₂ | p₂
-        · rw [if_pos (Dh.mul_mem p₁ p₂), if_pos p₁, if_pos p₂, mul_one]
+        · rw [ite_eq_left (Dh.mul_mem p₁ p₂), ite_eq_left p₁, ite_eq_left p₂, mul_one]
         · have hn : h₁ * h₂ ∉ Dh := fun h => hnot _ (Hh.mul_mem hh₁ hh₂)
             ⟨h, by rw [mul_assoc]; exact Dh.mul_mem p₁ p₂⟩
           have hn2 : h₂ ∉ Dh := fun h => hnot _ hh₂ ⟨h, p₂⟩
-          rw [if_neg hn, if_pos p₁, if_neg hn2, one_mul]
+          rw [ite_eq_right hn, ite_eq_left p₁, ite_eq_right hn2, one_mul]
         · have hn : h₁ * h₂ ∉ Dh := fun h => hnot _ (Hh.mul_mem hh₁ hh₂)
             ⟨h, by
               have e : h₁ * h₂ * z = h₁ * z * h₂ := by rw [mul_assoc, hz' h₂, ← mul_assoc]
               rw [e]; exact Dh.mul_mem p₁ p₂⟩
           have hn1 : h₁ ∉ Dh := fun h => hnot _ hh₁ ⟨h, p₁⟩
-          rw [if_neg hn, if_neg hn1, if_pos p₂, mul_one]
+          rw [ite_eq_right hn, ite_eq_right hn1, ite_eq_left p₂, mul_one]
         · have hp : h₁ * h₂ ∈ Dh := by
             have e : h₁ * h₂ = h₁ * z * (h₂ * z) := by
               rw [mul_assoc, ← mul_assoc z, ← hz' h₂, mul_assoc, hz2, mul_one]
             rw [e]; exact Dh.mul_mem p₁ p₂
           have hn1 : h₁ ∉ Dh := fun h => hnot _ hh₁ ⟨h, p₁⟩
           have hn2 : h₂ ∉ Dh := fun h => hnot _ hh₂ ⟨h, p₂⟩
-          rw [if_pos hp, if_neg hn1, if_neg hn2]
+          rw [ite_eq_left hp, ite_eq_right hn1, ite_eq_right hn2]
           rfl }
   have hkey : ∀ (k : ℕ) (g₀ : Q), g₀⁻¹ * z ^ k * g₀ ∈ Hh → g₀⁻¹ * z ^ k * g₀ = z ^ k := by
     intro k g₀ _
@@ -334,7 +334,7 @@ theorem false_of_odd_of_involutions (D : C.PiData) (π : Perm (Fin 6)) {y₀ : G
     norm_num
   have hϕz : ϕ ⟨z ^ Hh.index, MonoidHom.transfer_eq_pow_aux z hkey⟩ = Multiplicative.ofAdd 1 := by
     show (if z ^ Hh.index ∈ Dh then 1 else Multiplicative.ofAdd 1) = Multiplicative.ofAdd 1
-    rw [hz45, if_neg hzD]
+    rw [hz45, ite_eq_right hzD]
   have hcomm : commutator Q = ⊤ := by
     have h1 : (commutator ↥X).map (QuotientGroup.mk' N) = commutator Q := by
       rw [commutator, commutator, Subgroup.map_commutator,

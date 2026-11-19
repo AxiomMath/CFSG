@@ -201,16 +201,16 @@ theorem k1419ClsSympCent {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.c
           (∀ y, τ y = y ^ Nat.card K) ∧ Nonempty (A₂ ≃* heldGU r E τ hτ)) := by
   classical
   have hchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [Fintype.card_eq_nat_card, hK])
-  haveI := hchar
+  have := hchar
   have h3 : (3 : K) ≠ 0 := by
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     have h31 : (3 : K) = 1 := by
       rw [show (3 : K) = 2 + 1 by norm_num, h2, zero_add]
     rw [h31]; exact one_ne_zero
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hinj : Function.Injective (proj m K) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
       (r := m) (K := K)).1
@@ -235,7 +235,7 @@ theorem k1419ClsSympCent {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.c
     exact h
   obtain ⟨h₀, hh₀, hh₀1⟩ := exists_nontrivial_primaryFactor (K := K)
     (V := Fin m ⊕ Fin m → K) h3 (spEnd_pow hx) hspEnd_ne
-  haveI : Fact (Irreducible h₀) := ⟨irreducible_of_mem_primaryFactors hh₀⟩
+  have : Fact (Irreducible h₀) := ⟨irreducible_of_mem_primaryFactors hh₀⟩
   have hcoeff : h₀.coeff 0 ≠ 0 := by
     intro h0
     obtain ⟨g, hg⟩ := dvd_cyclotomic_three_of_mem (spEnd_pow hx) hh₀ hh₀1
@@ -245,7 +245,7 @@ theorem k1419ClsSympCent {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.c
     reciprocalPolynomial_reciprocalPolynomial (monic_of_mem_primaryFactors hh₀) hcoeff
   have hpos_mult : 1 ≤ primaryMultiplicity (spEnd x) h₀ := by
     show 1 ≤ Module.finrank (AdjoinRoot h₀) ↥(primaryComponent (spEnd x) h₀)
-    haveI : Nontrivial ↥(primaryComponent (spEnd x) h₀) :=
+    have : Nontrivial ↥(primaryComponent (spEnd x) h₀) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh₀)
     exact Module.finrank_pos
   let O₂ : Set K[X] := {h₀, reciprocalPolynomial h₀}

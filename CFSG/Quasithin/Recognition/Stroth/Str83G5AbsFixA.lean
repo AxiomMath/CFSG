@@ -20,7 +20,7 @@ private theorem exists_isYSimple_of_mem_facMultiset {Y : Subgroup G} {β : Type}
   | nil =>
     intro a ha
     exfalso
-    simpa [facMultiset] using ha
+    simp [facMultiset] at ha
   | cons S l ih =>
     intro a ha
     rw [facMultiset] at ha
@@ -45,7 +45,7 @@ private theorem fst_eq_zero_or_isUnit_of_mem_chiLab {C S : Subgroup G}
     have := c.three_le
     omega
   have hNpos : 0 < 2 ^ n - 1 := lt_of_lt_of_le (by norm_num) (seven_le c.three_le)
-  haveI : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
+  have : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
   have hxne : φ.1 ∉ nonZeroDivisors (ZMod (2 ^ n - 1)) := fun hmem =>
     hxunit (isUnit_iff_mem_nonZeroDivisors_of_finite.mpr hmem)
   have hxright : φ.1 ∉ nonZeroDivisorsRight (ZMod (2 ^ n - 1)) := by
@@ -127,9 +127,9 @@ private theorem fst_eq_zero_or_isUnit_of_mem_chiLab {C S : Subgroup G}
       rw [hceq, hβ.map_mul s₀ hs₀S _ h1, h2, hinv]
       simp
     exact (hβ.eq_zero_iff _ (by rw [hceq]; exact S.mul_mem hs₀S h1)).mp hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC2 : IsPGroup 2 ↥C := c.isPGroup₁.to_le (hS.1.le.trans hSQ)
-  haveI : Group.IsNilpotent ↥C := hC2.isNilpotent
+  have : Group.IsNilpotent ↥C := hC2.isNilpotent
   have hsolv : Group.IsSolvable ↥C := inferInstance
   obtain ⟨a, ha⟩ := hC2.exists_card_eq
   have hRcard : Nat.card ↥R = orderOf δ := by

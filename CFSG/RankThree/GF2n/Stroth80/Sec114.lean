@@ -29,6 +29,7 @@ theorem Ctx.normal_inf_bar_H0 [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     _ = g * (n * (g⁻¹ * x * g)) * g⁻¹ := by rw [h1]
     _ = g * n * g⁻¹ * x := by group
 
+omit [Finite G] in
 theorem liftF_one [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) : liftF φ (1 : Mbar M Q) = 1 := by
@@ -36,6 +37,7 @@ theorem liftF_one [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
   rw [map_one, map_one] at h1
   exact h1
 
+omit [Finite G] in
 theorem liftF_mul_inv [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c : Mbar M Q}
@@ -212,7 +214,7 @@ theorem stroth_11_4_of_line [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : �
   have hL2 : IsPGroup 2 ↥(bar M Q (LB M Q B)) := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hc.isElemAbelian_bar_LB.2 x x.2⟩
-  haveI : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
+  have : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
   have hLK : bar M Q (LB M Q B) ≤ Subgroup.normalizer (Kb : Set (Mbar M Q)) := fun l hl =>
     Subgroup.mem_normalizer_fintype fun z hz => hnormK l hl z hz
   have hKL : Kb ≤ Subgroup.normalizer

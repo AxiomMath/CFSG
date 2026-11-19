@@ -198,7 +198,7 @@ theorem suzuki_point_action_cases_of_exclusion
     have hTP : T ≤ Subgroup.centralizer (Pg : Set G) := hTJc.trans (Subgroup.centralizer_le hPgJ)
     have hinfP : T ⊓ Pg = ⊥ := eq_bot_iff.mpr ((inf_le_inf_left T hPgJ).trans hTJ.le)
     have hPgT : Pg ≤ Subgroup.normalizer (T : Set G) := hPgJ.trans (hJB.trans hBT₀)
-    have hPg2 : IsPGroup 2 Pg := P.isPGroup'.map _
+    have hPg2 : IsPGroup 2 Pg := P.isPGroup.map _
     have hW2 : IsPGroup 2 (T ⊔ Pg : Subgroup G) :=
       IsPGroup.to_sup_of_normal_left' hT₀2 hPg2 hPgT
     have hdecomp : ∀ v ∈ T ⊔ Pg, v ^ 2 = 1 → ∃ y ∈ Q, ∃ j ∈ Pg, v = y * j := by
@@ -243,7 +243,7 @@ theorem suzuki_point_action_cases_of_exclusion
     have hS₁eq : (S₁ : Subgroup C).map C.subtype = T ⊔ Pg :=
       eq_of_trivial_translation hCQ (Subgroup.mem_sup_right huP)
         (hu ▸ pow_orderOf_eq_one u) hdecomp (hPgJ.trans hJQ) hX htriv hnorm
-        hWN hWodd (Subgroup.map_subtype_le _) (S₁.isPGroup'.map _)
+        hWN hWodd (Subgroup.map_subtype_le _) (S₁.isPGroup.map _)
         (fun w hw => ⟨⟨w, hWC hw⟩, hS₁ hw, rfl⟩)
     have hNodd := (relIndex_centralizer_dvd_of_normalizes hm hk ψ hTK hQK hTU hQZ hTP hinfP e he
       (N := H ⊓ Subgroup.normalizer ((T ⊔ Pg : Subgroup G) : Set G)) inf_le_right

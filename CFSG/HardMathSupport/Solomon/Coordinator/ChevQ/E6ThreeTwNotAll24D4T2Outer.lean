@@ -179,7 +179,7 @@ theorem d4t2out_three_dvd {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
         (w₀ • (Pi.single 0 1 : Fin Tag.E6.rank → ℤ)) 5 + 1 ∧
       (3 : ℤ) ∣ (w₀ • (Pi.single 5 1 : Fin Tag.E6.rank → ℤ)) 0 +
         (w₀ • (Pi.single 5 1 : Fin Tag.E6.rank → ℤ)) 5 + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker : ∀ γ, IsRoot .E6 γ → rootChar a (v • γ) = 1 →
       γ ∈ parabolicRoots .E6 (d4Nodes .E6) := by
     intro γ hγ h1
@@ -384,7 +384,7 @@ theorem d4t2out_layer_equiv {L : Type} [Field L] [IsAlgClosed L] {ℓ f : ℕ} [
     · have h₁ : ∀ c, σ.symm c = c ^ (ℓ ^ f) := fun c => by
         apply σ.injective
         rw [RingEquiv.apply_symm_apply, hσ, ← pow_mul]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         have hcard : ℓ ^ f * (ℓ ^ f) ^ 2 = Fintype.card K := by
           rw [← Nat.card_eq_fintype_card, hKc]
           ring
@@ -674,8 +674,8 @@ theorem twE6ComponentType_rational_of_outer_d4
     (hnin : ¬ twistInner (componentRoots (rootCharHom a) i)
       (S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))) :
     TwE6ComponentType (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-  haveI : Fact l.Prime := ⟨hl⟩
-  haveI : CharP L l := by
+  have : Fact l.Prime := ⟨hl⟩
+  have : CharP L l := by
     rw [CharP.charP_iff_prime_eq_zero hl]
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h

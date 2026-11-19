@@ -12,11 +12,13 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_normalizer_subtype_le' {X : Subgroup G} (Q : Subgroup ↥X) :
     (Subgroup.normalizer (Q : Set ↥X)).map X.subtype ≤
       Subgroup.normalizer (Q.map X.subtype : Set G) :=
   Subgroup.le_normalizer_map (H := Q) X.subtype
 
+omit [Finite G] in
 theorem pCoreOf_map_subtype' {X : Subgroup G} (p : ℕ) (K : Subgroup ↥X) :
     (pCoreOf p K).map X.subtype = pCoreOf p (K.map X.subtype) := by
   let e : ↥K ≃* ↥(K.map X.subtype) := K.equivMapOfInjective X.subtype X.subtype_injective
@@ -152,6 +154,7 @@ theorem isGraphFieldAut_conj' {K K' : Type} [Group K] [Group K'] (φ : K ≃* K'
     rfl
   rw [hL, he (φ.symm k'), hR]
 
+omit [Finite G] in
 theorem conjOn_map_subtype_apply' {X : Subgroup G} (L : Subgroup ↥X) {t : ↥X}
     (ht : t ∈ Subgroup.normalizer (L : Set ↥X))
     (ht' : (t : G) ∈ Subgroup.normalizer (L.map X.subtype : Set G)) (x : ↥L) :
@@ -164,6 +167,7 @@ theorem conjOn_map_subtype_apply' {X : Subgroup G} (L : Subgroup ↥X) {t : ↥X
   rw [Subgroup.coe_equivMapOfInjective_apply, map_mul, map_mul, map_inv]
   rfl
 
+omit [Finite G] in
 theorem inducesGraphField_map_subtype' {X : Subgroup G} {L : Subgroup ↥X} {t : ↥X}
     (h : UC6.InducesGraphField t L) :
     UC6.InducesGraphField (t : G) (L.map X.subtype) := by
@@ -192,6 +196,7 @@ theorem inducesGraphField_map_subtype' {X : Subgroup G} {L : Subgroup ↥X} {t :
   rw [hconj]
   exact isGraphFieldAut_conj' (Subgroup.equivMapOfInjective L X.subtype X.subtype_injective) hauto
 
+omit [Finite G] in
 theorem inducesTransposition_map_subtype' {X : Subgroup G} {L : Subgroup ↥X} {t : ↥X}
     (h : UC6.InducesTransposition t L) :
     UC6.InducesTransposition (t : G) (L.map X.subtype) := by
@@ -205,6 +210,7 @@ theorem inducesTransposition_map_subtype' {X : Subgroup G} {L : Subgroup ↥X} {
   rw [hx]
   simpa only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply] using he (eL.symm x)
 
+omit [Finite G] in
 theorem graphFieldShape_map_subtype' {X : Subgroup G} {t : ↥X} {L : Subgroup ↥X}
     (h : UC6.GraphFieldShape t L) :
     UC6.GraphFieldShape (t : G) (L.map X.subtype) := by
@@ -242,6 +248,7 @@ theorem graphFieldShape_map_subtype' {X : Subgroup G} {t : ↥X} {L : Subgroup �
       (UC6.GraphFieldShape t L ∨
         (Nonempty (↥L ≃* alternatingGroup (Fin 11)) ∧ UC6.InducesTransposition t L))
 
+omit [Finite G] in
 theorem K36Concl.toConclIn {X M : Subgroup G} {p : ℕ} (hc : K36Concl (M.subgroupOf X) p) :
     K36ConclIn X M p := by
   have hmap_eq : (M.subgroupOf X).map X.subtype = X ⊓ M := by

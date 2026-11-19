@@ -271,22 +271,22 @@ public theorem CFSG.lemma_9_4
     have hpodd : p ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hpG
     obtain ⟨S, hSscn⟩ :=
       lemma_5_1_a (p := p) hpodd
-        (R := ↥(P : Subgroup M)) P.isPGroup' hPrank
+        (R := ↥(P : Subgroup M)) P.isPGroup hPrank
     let SG : Subgroup G := section8SylowSubgroupInAmbient M P S
     have hSGunique : SG ∈ section9UniqueSubgroups G :=
       section9_unique_of_section8_unique <| by
         simpa [SG] using (hscn_unique S hSscn).2
     have hScomm : IsMulCommutative S :=
       (scnSubgroup_normal_commutative
-        (p := p) (R := ↥(P : Subgroup M)) P.isPGroup' hSscn).2
+        (p := p) (R := ↥(P : Subgroup M)) P.isPGroup hSscn).2
     have hSgen : 3 ≤ generatorRank S :=
       scnSubgroup_generatorRank_at_least_three
-        (p := p) hpodd (R := ↥(P : Subgroup M)) P.isPGroup' hSscn
+        (p := p) hpodd (R := ↥(P : Subgroup M)) P.isPGroup hSscn
     have hSGp : IsPGroup p SG := by
       let SM : Subgroup M := S.map (P : Subgroup M).subtype
       have hSG_eq : SM.map M.subtype = SG := rfl
       have hSMp : IsPGroup p (S.map (P : Subgroup M).subtype) :=
-        IsPGroup.map (p := p) (H := S) (P.isPGroup'.to_subgroup S)
+        IsPGroup.map (p := p) (H := S) (P.isPGroup.to_subgroup S)
           (P : Subgroup M).subtype
       rw [← hSG_eq]
       exact IsPGroup.map (p := p) (H := SM) hSMp M.subtype

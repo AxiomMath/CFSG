@@ -47,7 +47,7 @@ theorem classes_of_outer (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 2 A)
     have hxval : validB x = true := w183finSp44_valid_of_sclist (hSC x hxK)
     refine ⟨conjE r.2.2 x, hfwd x hxspan, ?_⟩
     rw [← hβα', ← hxβ]
-    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+    simp only [MulAut.conj_apply]
     rw [← autOf_conjE hgvalid hxval]
   · rintro ⟨y, hy, hyα⟩
     obtain ⟨x, hxspan, hxconj⟩ := hbwd y hy

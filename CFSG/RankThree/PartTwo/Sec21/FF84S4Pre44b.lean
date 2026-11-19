@@ -27,7 +27,7 @@ theorem isElemAb_E (h : FF84Sec4 b L B K b₁ b₂) :
 
 theorem card_E_ge (h : FF84Sec4 b L B K b₁ b₂) :
     9 ≤ Nat.card (Subgroup.closure ({b, b₁} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E := Subgroup.closure ({b, b₁} : Set G) with hE
   have hE3 : IsPGroup 3 E := (isPGroup_B h).to_le (closure_pair_le h)
   obtain ⟨k, hk⟩ := hE3.exists_card_eq
@@ -132,12 +132,14 @@ theorem E_four (h : FF84Sec4 b L B K b₁ b₂) {a : G}
     rw [show (i * 2) % 3 = 1 by omega, show (j * 2) % 3 = 1 by omega] at e
     simpa using e
 
+omit [Finite G] in
 theorem cen_le_of_mem_zpowers {a x : G} (hx : x ∈ Subgroup.zpowers a) : Cen a ≤ Cen x := by
   intro c hc
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   have : Commute c a := Subgroup.mem_centralizer_singleton_iff.1 hc
   exact Subgroup.mem_centralizer_singleton_iff.2 (this.zpow_right k).eq
 
+omit [Finite G] in
 theorem nor_Op {p : ℕ} [Fact p.Prime] {H : Subgroup G} {g : G} (hg : g ∈ H) :
     g ∈ Nor (Op p H) := by
   rw [Nor, Subgroup.mem_normalizer_iff]
@@ -147,6 +149,7 @@ theorem nor_Op {p : ℕ} [Fact p.Prime] {H : Subgroup G} {g : G} (hg : g ∈ H) 
   have e : g⁻¹ * (g * z * g⁻¹) * g⁻¹⁻¹ = z := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem comm_of_odd_normal {β : G} {N V X : Subgroup G} (hXN : X ≤ N)
     (hN : ∀ c ∈ Cen β, ∀ y ∈ N, c * y * c⁻¹ ∈ N) (hNodd : Odd (Nat.card N))
     (hV : IsPGroup 2 V) (hXV : ∀ x ∈ X, ∀ v ∈ V, x * v * x⁻¹ ∈ V) :

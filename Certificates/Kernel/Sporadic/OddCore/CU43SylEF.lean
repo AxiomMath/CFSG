@@ -56,7 +56,7 @@ theorem inP_all : sylInPCheck = true := by
 theorem s_cl : ∀ c < CU43S.cnt * (5 + 5), findPtK CU43S.cnt CU43S.T
     (prodQK 820 10 (mask 10) (5 + 5) CU43S.T (bothK 5 CU43S.GI CU43SI)) CU43Cl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul CU43S.cnt 10; omega)
-    (by change c < Nat.mul CU43S.cnt 10; omega)
+    (by omega)
 
 theorem enum_ok : sylEnumCheck = true := by
   have h := enumOK_of (gs := sylTabs.toList) (cap := sylCap) (m := 128) CU43Syl.base.1

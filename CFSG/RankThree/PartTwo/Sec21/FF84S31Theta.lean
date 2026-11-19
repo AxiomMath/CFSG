@@ -169,13 +169,14 @@ section Exists
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ : G}
 
+omit [Finite G] in
 theorem exists_preTheta (L : Subgroup G) (hL : ⁅L, L⁆ = L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) :
     ∃ θ : G → P8, PreTheta L θ := by
   obtain ⟨θ0, -, hL0, hker0⟩ := T0_thetaBar L hL e
   classical
   let θ1 : G → P8 := fun g => if hg : g ∈ Nor L then θ0 ⟨g, hg⟩ else 1
-  have hθ1 : ∀ (g : G) (hg : g ∈ Nor L), θ1 g = θ0 ⟨g, hg⟩ := fun g hg => dif_pos hg
+  have hθ1 : ∀ (g : G) (hg : g ∈ Nor L), θ1 g = θ0 ⟨g, hg⟩ := fun g hg => dite_eq_left hg
   refine ⟨θ1, ?_, ?_, ?_, ?_⟩
   · intro g hg k hk
     rw [hθ1 _ (mul_mem hg hk), hθ1 g hg, hθ1 k hk]
@@ -204,7 +205,7 @@ theorem exists_theta (h : FF84Sec3 b L B b₁ b₂) (hZ : Nat.card (Subgroup.cen
   have hL : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.mp h.hyp.quasi.1
   obtain ⟨θ1, P⟩ := exists_preTheta L hL e
   have hZ' : ∀ z ∈ L, z ∈ CenS L → z ^ 2 = 1 := fun z hz hc => center_sq hZ hz hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb₁L : b₁ ∈ L := (Subgroup.mem_inf.1 h.hb₁).2
   have hb₂L : b₂ ∈ L := (Subgroup.mem_inf.1 h.hb₂).2
   have hb₁N : b₁ ∈ Nor L := Subgroup.le_normalizer hb₁L

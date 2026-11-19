@@ -45,6 +45,7 @@ theorem uc22p22r_exists_sylow_normalized {q : ℕ} [Fact q.Prime] {P Y E : Subgr
   · rw [← hWeq]
     exact le_inf (hFE.trans hES') hFY
 
+omit [Finite G] in
 theorem uc22p22r_exists_pCore_conj {M P : Subgroup G} {y : G} (hy : y ∈ barPreimage M (barImage M P)) :
     ∃ k ∈ pCoreOf 2 M, uniqueFourConj y P = uniqueFourConj k P := by
   obtain ⟨hyM, hπ⟩ := uc22p21c_mem_barPreimage.1 hy
@@ -59,6 +60,7 @@ theorem uc22p22r_exists_pCore_conj {M P : Subgroup G} {y : G} (hy : y ∈ barPre
     simp
   rw [hy', ← uc22p22r_conj_conj, uc22p22r_conj_self_of_mem P hmP]
 
+omit [Finite G] in
 theorem uc22p22r_le_normalizer_centralizer {M V : Subgroup G} (h : M ≤ normalizer (V : Set G)) :
     M ≤ normalizer ((centralizer (V : Set G) : Subgroup G) : Set G) := by
   intro m hm
@@ -115,7 +117,7 @@ theorem uc22p22r_commute_of_le_normalizer {q : ℕ} [hq : Fact q.Prime] {A B : S
     rw [hk] at hle hgt ⊢
     have hk2 : k = 2 := by
       rcases Nat.lt_or_ge k 2 with h | h
-      · interval_cases k <;> simp at hgt <;> omega
+      · interval_cases k <;> simp at hgt; omega
       · rcases Nat.eq_or_lt_of_le h with h' | h'
         · exact h'.symm
         · exfalso
@@ -126,13 +128,13 @@ theorem uc22p22r_commute_of_le_normalizer {q : ℕ} [hq : Fact q.Prime] {A B : S
           omega
     rw [hk2]
   intro a ha b hb
-  have := IsPGroup.commutative_of_card_eq_prime_sq hcard
+  have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm
     (⟨a, le_sup_left (a := A) ha⟩ : ↥(A ⊔ B)) ⟨b, le_sup_right (b := B) hb⟩
   exact congrArg Subtype.val this
 
 theorem uc22p22r_sylow_cent {q : ℕ} [Fact q.Prime] {M P V : Subgroup G}
     (hPsyl : IsSylowOf q P (barPreimage M (barImage M P))) (hMV : M ≤ normalizer (V : Set G))
-    (hAcard : Nat.card ↥(P ⊓ centralizer (V : Set G)) = q) :
+    (_hAcard : Nat.card ↥(P ⊓ centralizer (V : Set G)) = q) :
     IsSylowOf q (P ⊓ centralizer (V : Set G)) (barPreimage M (barImage M P) ⊓ centralizer (V : Set G)) := by
   set A : Subgroup G := P ⊓ centralizer (V : Set G) with hAdef
   set Y₀ : Subgroup G := barPreimage M (barImage M P) with hY₀
@@ -184,8 +186,8 @@ theorem uc22p22r_sym2210_holds (D : Data G) (Ch : Choice2011 G) :
               normalizer ((uniqueFourConj g (uniqueFourConj k P) : Subgroup G) : Set G)) := by
   classical
   intro _h1930 c q hq hq2 P hPM hPq hPn hΓ hAcard z hzV _hz1 g₀ hg₀z hg₀M hAg₀
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI := hPn
+  have : Fact q.Prime := ⟨hq⟩
+  have := hPn
   set A : Subgroup G := P ⊓ centralizer (c.V : Set G) with hAdef
   set Y₀ : Subgroup G := barPreimage D.M (barImage D.M P) with hY₀
   set K' : Subgroup G := Y₀ ⊓ centralizer (c.V : Set G) with hK'

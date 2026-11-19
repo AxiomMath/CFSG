@@ -30,14 +30,14 @@ theorem outTwoAbelian_of_outTwoExpTwo
 theorem outTwoAbelian_of_outTwoCyclic (h : CFSG.ClassicalInvolution.Nobq.OutTwoCyclic X) :
     OutTwoAbelian X := by
   intro P hP x hx y hy
-  haveI : IsCyclic P := h P hP
-  have hc := (IsCyclic.commutative (α := P)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
+  have : IsCyclic P := h P hP
+  have hc := (_root_.IsCyclic.isMulCommutative (α := P)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   exact congrArg Subtype.val hc
 
 theorem outTwoCyclic_of_isCyclic_outer (h : IsCyclic (Outer X)) :
     CFSG.ClassicalInvolution.Nobq.OutTwoCyclic X := by
   intro P _
-  haveI := h
+  have := h
   exact Subgroup.isCyclic P
 
 theorem isCyclic_of_natCard_le_two {P : Type} [Group P] (hpos : 0 < Nat.card P)
@@ -45,7 +45,7 @@ theorem isCyclic_of_natCard_le_two {P : Type} [Group P] (hpos : 0 < Nat.card P)
   interval_cases hc : Nat.card P
   · have : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hc).1
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card hc
 
 theorem isCyclic_of_natCard_dvd_two {P : Type} [Group P] (hd : Nat.card P ∣ 2) : IsCyclic P :=
@@ -69,8 +69,8 @@ theorem finite_outer_of_card_dvd {m : ℕ} (hm : Odd m) (h : Nat.card (Outer X) 
 theorem natCard_dvd_two_of_card_dvd {m : ℕ} (hm : Odd m)
     (h : Nat.card (Outer X) ∣ 2 * m) (P : Subgroup (Outer X)) (hP : IsPGroup 2 P) :
     Nat.card P ∣ 2 := by
-  haveI := finite_outer_of_card_dvd hm h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_outer_of_card_dvd hm h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : Nat.card P ∣ 2 * m := (Subgroup.card_subgroup_dvd_card P).trans h
   rw [hk] at hdvd ⊢
@@ -80,7 +80,7 @@ theorem natCard_dvd_two_of_card_dvd {m : ℕ} (hm : Odd m)
 theorem outTwoExpTwo_of_card_dvd {m : ℕ} (hm : Odd m) (h : Nat.card (Outer X) ∣ 2 * m) :
     CFSG.RankThree.PartTwo.Late.OutTwoExpTwo X := by
   intro P hP x hx
-  haveI := finite_outer_of_card_dvd hm h
+  have := finite_outer_of_card_dvd hm h
   have hd := natCard_dvd_two_of_card_dvd hm h P hP
   have h2 : (⟨x, hx⟩ : P) ^ 2 = 1 :=
     orderOf_dvd_iff_pow_eq_one.mp ((orderOf_dvd_natCard _).trans hd)
@@ -99,7 +99,7 @@ theorem outTwoAbelian_of_odd_commutator (h : Odd (Nat.card (commutator (Outer X)
   have hcQ : x * y * x⁻¹ * y⁻¹ ∈ commutator (Outer X) := by
     rw [← commutatorElement_def]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top x) (Subgroup.mem_top y)
-  haveI : Finite (commutator (Outer X)) := Nat.finite_of_card_ne_zero h.pos.ne'
+  have : Finite (commutator (Outer X)) := Nat.finite_of_card_ne_zero h.pos.ne'
   obtain ⟨k, hk⟩ := hP ⟨x * y * x⁻¹ * y⁻¹, hcP⟩
   have hkc : (x * y * x⁻¹ * y⁻¹) ^ 2 ^ k = 1 := by
     simpa using congrArg Subtype.val hk
@@ -177,7 +177,7 @@ noncomputable def centerQuotEquiv {M : Type} [Group M] (e : X ≃* M) :
 theorem outTwoAbelian_of_perfect_quotient {H : Type} [Group H] (hX : Group.IsPerfect X)
     (e : X ⧸ Subgroup.center X ≃* H) (h : Odd (Nat.card (commutator (Outer H)))) :
     OutTwoAbelian X := by
-  haveI := hX
+  have := hX
   exact outTwoAbelian_of_odd_commutator
     (CFSG.GH74.Generic.S45.odd_card_commutator_outer_of_perfect hX
       (CFSG.GH74.Generic.S45.odd_card_commutator_outer_of_equiv e h))
@@ -185,7 +185,7 @@ theorem outTwoAbelian_of_perfect_quotient {H : Type} [Group H] (hX : Group.IsPer
 theorem outTwoExpTwo_of_perfect_quotient {H : Type} [Group H] (hX : Group.IsPerfect X)
     (e : X ⧸ Subgroup.center X ≃* H) (h : CFSG.RankThree.PartTwo.Late.OutTwoExpTwo H) :
     CFSG.RankThree.PartTwo.Late.OutTwoExpTwo X := by
-  haveI := hX
+  have := hX
   exact outTwoExpTwo_of_injective (centerQuotientOuterHom X)
     (CFSG.ComponentClassification.OuterAutomorphisms.centerQuotient_outer_injective X)
     (outTwoExpTwo_of_mulEquiv e h)

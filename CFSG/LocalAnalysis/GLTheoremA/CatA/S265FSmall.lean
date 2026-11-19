@@ -36,7 +36,7 @@ theorem s265f_perfect_of_simple_sub {S : Type} [Group S] {D : Subgroup S} (hs : 
 
 private theorem s265f_false_of_solvable {D : Type} [Group D] (hsol : Group.IsSolvable D) (E : Subgroup D)
     (hEs : IsSimpleGroup ↥E) (hEna : ∃ x y : ↥E, x * y ≠ y * x) : False := by
-  haveI : Group.IsSolvable ↥(⊤ : Subgroup D) :=
+  have : Group.IsSolvable ↥(⊤ : Subgroup D) :=
     Group.isSolvable_of_isSolvable_injective (f := (⊤ : Subgroup D).subtype)
       (⊤ : Subgroup D).subtype_injective
   have hne : E ≠ ⊥ := by

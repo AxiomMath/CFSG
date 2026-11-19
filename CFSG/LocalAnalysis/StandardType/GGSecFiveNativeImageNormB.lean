@@ -78,7 +78,7 @@ private theorem exists_mulSingle_of_normalizes_bCoordinateBlock {i0 : Fin n}
     ∃ (j : Fin n) (c : ZMod p), j ≠ i0 ∧ c ≠ 0 ∧
       u (Pi.mulSingle i (ofAdd 1)) = Pi.mulSingle j (ofAdd c) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set r : MulAut (Fin n → Multiplicative (ZMod p)) := u * sgnAut i * u⁻¹ with hrdef
   have hrW : r ∈ bCoordinateBlock n p i0 :=
     hu _ (Subgroup.subset_closure (Or.inl ⟨i, hi, rfl⟩))
@@ -228,13 +228,13 @@ private theorem exists_mulSingle_of_normalizes_bCoordinateBlock {i0 : Fin n}
     refine eq_of_toAdd_eq fun l => ?_
     rw [toAdd_mulSingle]
     by_cases hl : l = l₀
-    · rw [hl, if_pos rfl]
-    · rw [if_neg hl]
+    · rw [hl, ite_eq_left rfl]
+    · rw [ite_eq_right hl]
       by_contra hul
       obtain ⟨e, he⟩ := hF2 (Pi.mulSingle l₀ (ofAdd 1))
       have hel₀ := congrArg (fun f => toAdd (f l₀)) he
       have hel := congrArg (fun f => toAdd (f l)) he
-      rw [hrδ, toAdd_pow_apply, hπ, ite_eq_left rfl, if_pos rfl, hsupp l₀ hl₀] at hel₀
+      rw [hrδ, toAdd_pow_apply, hπ, ite_eq_left rfl, ite_eq_left rfl, hsupp l₀ hl₀] at hel₀
       rw [hrδ, toAdd_pow_apply, hπ, ite_eq_right hl, ite_eq_right hl, sub_zero] at hel
       have he0 : (e : ZMod p) = 0 := (coord_mul_eq_zero hp hel.symm).resolve_right hul
       rw [he0, zero_mul] at hel₀
@@ -244,7 +244,7 @@ private theorem exists_mulSingle_of_normalizes_bCoordinateBlock {i0 : Fin n}
 private theorem exists_mulSingle_axisVec_of_normalizes {i0 : Fin n}
     (hp : p.Prime) (hp2 : p ≠ 2)
     {u : MulAut (Fin n → Multiplicative (ZMod p))}
-    (hu : ∀ w ∈ bCoordinateBlock n p i0, u * w * u⁻¹ ∈ bCoordinateBlock n p i0)
+    (_hu : ∀ w ∈ bCoordinateBlock n p i0, u * w * u⁻¹ ∈ bCoordinateBlock n p i0)
     (hu' : ∀ w ∈ bCoordinateBlock n p i0, u⁻¹ * w * u ∈ bCoordinateBlock n p i0) :
     ∃ c : ZMod p, c ≠ 0 ∧
       u (axisVec (p := p) i0) = Pi.mulSingle i0 (ofAdd c) := by
@@ -281,7 +281,7 @@ private theorem exists_mulSingle_axisVec_of_normalizes {i0 : Fin n}
     · rw [hfix k hk, Pi.mulSingle_eq_of_ne hk, toAdd_one]
 
 private theorem exists_sign_mul_of_normalizes {i0 : Fin n}
-    (hp : p.Prime) (hp2 : p ≠ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2)
     {u : MulAut (Fin n → Multiplicative (ZMod p))}
     (hu : ∀ w ∈ bCoordinateBlock n p i0, u * w * u⁻¹ ∈ bCoordinateBlock n p i0)
     {i i' : Fin n} (hi : i ≠ i0) (hi' : i' ≠ i0) (hii' : i ≠ i')
@@ -291,7 +291,7 @@ private theorem exists_sign_mul_of_normalizes {i0 : Fin n}
     (hcc : c ≠ 0) :
     ∃ s : ZMod p, (s = 1 ∨ s = -1) ∧ c' = s * c := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have ht : permAut (Equiv.swap i i') ∈ bCoordinateBlock n p i0 :=
     Subgroup.subset_closure (Or.inr ⟨i, i', hii', hi, hi', rfl⟩)
   have hvW : u * permAut (Equiv.swap i i') * u⁻¹ ∈ bCoordinateBlock n p i0 := hu _ ht
@@ -394,12 +394,12 @@ private theorem permAut_mem_bCoordinateBlock_of_fix {i0 : Fin n} {π : Equiv.Per
         Equiv.Perm.ofSubtype_apply_coe, Equiv.swap_apply_def, Equiv.swap_apply_def,
         apply_ite Subtype.val, apply_ite Subtype.val]
       by_cases hx : i = (x : Fin n)
-      · rw [if_pos (show (⟨i, hi0⟩ : {j : Fin n // j ≠ i0}) = x from Subtype.ext hx), if_pos hx]
-      · rw [if_neg (fun h => hx (congrArg Subtype.val h)), if_neg hx]
+      · rw [ite_eq_left (show (⟨i, hi0⟩ : {j : Fin n // j ≠ i0}) = x from Subtype.ext hx), ite_eq_left hx]
+      · rw [ite_eq_right (fun h => hx (congrArg Subtype.val h)), ite_eq_right hx]
         by_cases hy : i = (y : Fin n)
-        · rw [if_pos (show (⟨i, hi0⟩ : {j : Fin n // j ≠ i0}) = y from Subtype.ext hy),
-            if_pos hy]
-        · rw [if_neg (fun h => hy (congrArg Subtype.val h)), if_neg hy]
+        · rw [ite_eq_left (show (⟨i, hi0⟩ : {j : Fin n // j ≠ i0}) = y from Subtype.ext hy),
+            ite_eq_left hy]
+        · rw [ite_eq_right (fun h => hy (congrArg Subtype.val h)), ite_eq_right hy]
   have key : ∀ τ : Equiv.Perm {j : Fin n // j ≠ i0},
       permAut (Equiv.Perm.ofSubtype τ) ∈ bCoordinateBlock n p i0 := by
     intro τ
@@ -444,8 +444,8 @@ private theorem scaleHom_mulSingle (γ : ZMod p) (j : Fin n) (c : ZMod p) :
   refine eq_of_toAdd_eq fun m => ?_
   rw [scaleHom_apply, toAdd_ofAdd, toAdd_mulSingle, toAdd_mulSingle]
   by_cases hm : m = j
-  · rw [if_pos hm, if_pos hm]
-  · rw [if_neg hm, if_neg hm, mul_zero]
+  · rw [ite_eq_left hm, ite_eq_left hm]
+  · rw [ite_eq_right hm, ite_eq_right hm, mul_zero]
 
 private theorem scaleHom_comp_pow (γ : ZMod p) (w : MulAut (Fin n → Multiplicative (ZMod p)))
     (a : Fin n → Multiplicative (ZMod p)) (k : ℕ) :
@@ -461,7 +461,7 @@ private theorem exists_perm_extend {i0 : Fin n}
   have hπf_apply : ∀ (i : Fin n) (hi : i ≠ i0), πf i = (σ ⟨i, hi⟩ : Fin n) := by
     intro i hi
     rw [hπfdef]
-    simp only [dif_neg hi]
+    simp only [dite_eq_right hi]
   have hπf_ne : ∀ (i : Fin n) (hi : i ≠ i0), πf i ≠ i0 := by
     intro i hi
     rw [hπf_apply i hi]
@@ -491,7 +491,7 @@ private theorem exists_perm_extend {i0 : Fin n}
   · intro i hi
     rw [hπapply, hπf_apply i hi]
 
-private theorem exists_signs_of_ratio {i0 : Fin n} {γ : ZMod p} (hγ : γ ≠ 0)
+private theorem exists_signs_of_ratio {i0 : Fin n} {γ : ZMod p} (_hγ : γ ≠ 0)
     {d : {i : Fin n // i ≠ i0} → ZMod p} {j0 : {i : Fin n // i ≠ i0}} (hbase : γ = d j0)
     (hratio : ∀ x y : {i : Fin n // i ≠ i0}, x ≠ y →
       ∃ s : ZMod p, (s = 1 ∨ s = -1) ∧ d y = s * d x) :
@@ -505,7 +505,7 @@ private theorem exists_signs_of_ratio {i0 : Fin n} {γ : ZMod p} (hγ : γ ≠ 0
       ε i = if d ⟨i, hi⟩ = γ then 1 else -1 := by
     intro i hi
     rw [hεdef]
-    simp only [dif_neg hi]
+    simp only [dite_eq_right hi]
   have hεsign : ∀ i, ε i = 1 ∨ ε i = -1 := by
     intro i
     by_cases hi : i = i0
@@ -518,9 +518,9 @@ private theorem exists_signs_of_ratio {i0 : Fin n} {γ : ZMod p} (hγ : γ ≠ 0
     intro i hi
     rw [hεval i hi]
     by_cases heq : d ⟨i, hi⟩ = γ
-    · rw [if_pos heq, mul_one]
+    · rw [ite_eq_left heq, mul_one]
       exact heq
-    · rw [if_neg heq]
+    · rw [ite_eq_right heq]
       by_cases heqi : (⟨i, hi⟩ : {j : Fin n // j ≠ i0}) = j0
       · exfalso
         exact heq (by rw [hbase, heqi])
@@ -639,7 +639,7 @@ theorem exists_smul_mem_bCoordinateBlock_of_normalizes {n p : ℕ} (hp : p.Prime
         ∀ (f : Fin n → Multiplicative (ZMod p)) (k : Fin n), k ≠ i0 →
           toAdd (u f k) = γ * toAdd (w f k) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hu' : ∀ w ∈ bCoordinateBlock n p i0, u⁻¹ * w * u ∈ bCoordinateBlock n p i0 :=
     map_conj_inv_le hu
   have hsub : ∀ i : {i : Fin n // i ≠ i0}, ∃ j : {j : Fin n // j ≠ i0}, ∃ c : ZMod p,
@@ -900,7 +900,7 @@ theorem exists_axisEquiv_coord_eq_one_of_bCoordinateBlock_eq
       ∀ (b : ↥Bs) (a : Fin r),
         (Θ.symm b).1 a = 1 ↔ eta b (ι a).val = 1 := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   choose idx hidx0 hidx using fun a : Fin r =>
     exists_sgnAut_eq_congr_liftBs hp hp2 hn Θ eta i0 hcoord a
 

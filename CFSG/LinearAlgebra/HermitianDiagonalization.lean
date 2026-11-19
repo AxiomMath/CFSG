@@ -91,11 +91,11 @@ theorem exists_orthogonal_basis [Finite K] [FiniteDimensional K V]
             simpa using he
           · have hxj : h e (bW j : V) = 0 := (bW j).property
             simp only [Fin.cons_zero, Fin.cons_succ]
-            rw [hxj, if_neg (fun h => Fin.succ_ne_zero j h.symm)]
+            rw [hxj, ite_eq_right (fun h => Fin.succ_ne_zero j h.symm)]
           · have hxi : h (bW i : V) e = 0 :=
               hsym.isRefl e (bW i) (bW i).property
             simp only [Fin.cons_zero, Fin.cons_succ]
-            rw [hxi, if_neg (Fin.succ_ne_zero i)]
+            rw [hxi, ite_eq_right (Fin.succ_ne_zero i)]
           · simp only [Fin.cons_succ, Fin.succ_inj]
             exact hbW i j
 

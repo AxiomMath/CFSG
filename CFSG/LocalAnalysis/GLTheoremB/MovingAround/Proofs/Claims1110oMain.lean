@@ -78,7 +78,7 @@ theorem e8TwoFive_inner_card_ne {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 174182400 := by
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   exact inner_big_card_ne_of_kind S hT i hk (Or.inr (Or.inr (Or.inr rfl))) hbig
 
 end Inner
@@ -144,7 +144,7 @@ theorem e8TwoFiveRatNotD4_holds : E8TwoFiveRatNotD4 := by
     have hpow : r ^ e = 2 := by rw [← hqre, hq2]
     have hdvd : r ∣ 2 := hpow ▸ dvd_pow_self r (by omega)
     exact (Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 hdvd
-  haveI : CharP L 2 := hr2 ▸ hchar
+  have : CharP L 2 := hr2 ▸ hchar
   have h5L : ((5 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_five
       (ringChar_ne_of_pow_eq_one Nat.prime_five hap h1)

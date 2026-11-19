@@ -228,7 +228,7 @@ public theorem secondCase_linear_K0_normal_H_inter_M
     refine ⟨bot_le, ?_⟩
     intro g hg x hx
     rw [Subgroup.mem_bot] at hx ⊢
-    simpa [hx]
+    simp [hx]
   · have hKconjS : ∀ r : G, r ∈ (c.S : Subgroup G) →
         ∀ x : G, x ∈ od.K → r * x * r⁻¹ ∈ od.K :=
       k_conj_mem_of_mem_S_of_reflection c od.K (od.s : G)
@@ -272,7 +272,7 @@ public theorem secondCase_linear_K0_normal_H_inter_M
         have huxK : u * (r * x * r⁻¹) * u⁻¹ ∈ od.K :=
           hKnormalX.2 u huX (r * x * r⁻¹) hruK
         rw [hgr']
-        convert huxK using 1 <;> group
+        convert huxK using 1; group
     have hFUconjC : ∀ g : G, g ∈ c.H ⊓ w.M →
         ∀ x : G, x ∈ c.FU → g * x * g⁻¹ ∈ c.FU := by
       intro g hg x hx

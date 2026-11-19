@@ -66,11 +66,11 @@ theorem g2_core {F : Type} [Field F] [Finite F] {m : ℕ} (hm : 2 ≤ m) (hF : N
     (J : Set (Fin Tag.G2.rank)) (hJ : J ≠ Set.univ)
     {z : (Module.End F (RootModule Tag.G2 F))ˣ} (hz : z ∈ parabolicSubgroup Tag.G2 F J)
     (hzp : orderOf z = p) : False := by
-  haveI : Fintype (WeylGroup Tag.G2) := Fintype.ofFinite _
+  have : Fintype (WeylGroup Tag.G2) := Fintype.ofFinite _
   have hchar : CharP F 2 := by
     have : Fintype F := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI := hchar
+  have := hchar
   have hm1 : 1 ≤ m := by omega
   have hq4 : 4 ≤ Nat.card F := by
     rw [hF]

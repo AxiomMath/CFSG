@@ -13,6 +13,7 @@ section Act
 variable {L' : Type} [Group L'] [Finite L'] {Z : Subgroup L'} {A : Subgroup (MulAut L')}
   {Φ : A →* Multiplicative (Fin 6 → ZMod 3)} {T : Subgroup L'} {w : Fin 6 → L'}
 
+omit [Finite L'] in
 theorem GGE6ThreeData.normalizer_clause (h : GGE6ThreeData Z A Φ T w) (hodd : Odd (Nat.card Z))
     {n : L'} (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))) :
     ∃ v ∈ Subgroup.closure (Set.range w), ∀ a ∈ A, a (n * v⁻¹) = n * v⁻¹ := by
@@ -20,6 +21,7 @@ theorem GGE6ThreeData.normalizer_clause (h : GGE6ThreeData Z A Φ T w) (hodd : O
   obtain ⟨v, hv, htv⟩ := hnorm n hn
   exact ⟨v, hv, fun a ha => h.fixed a ha (n * v⁻¹) htv⟩
 
+omit [Finite L'] in
 theorem GGE6ThreeData.mem_closure_involutions (h : GGE6ThreeData Z A Φ T w)
     (hodd : Odd (Nat.card Z)) {n : L'} (hn : n ∈ Subgroup.closure (Set.range w)) :
     n ∈ Subgroup.closure
@@ -32,6 +34,7 @@ theorem GGE6ThreeData.mem_closure_involutions (h : GGE6ThreeData Z A Φ T w)
     exact Subgroup.subset_closure ⟨Subgroup.subset_closure ⟨i, rfl⟩, hwi i⟩
   exact hle hn
 
+omit [Finite L'] in
 theorem GGE6ThreeData.exists_power_map (h : GGE6ThreeData Z A Φ T w)
     (f : MulAut L' → MulAut L')
     (hf1 : ∀ a ∈ heartOf Φ, f a ∈ heartOf Φ)

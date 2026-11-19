@@ -27,7 +27,7 @@ theorem exists_pGroup_inf_sylow (p : ℕ) [Fact p.Prime] (M A Z : Subgroup G) (h
   refine ⟨(Q' : Subgroup ↥M).map M.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · intro z hz
     exact ⟨⟨z, hZM hz⟩, hQ' hz, rfl⟩
-  · exact Q'.isPGroup'.map M.subtype
+  · exact Q'.isPGroup.map M.subtype
   · have e1 : (Q' : Subgroup ↥M).map M.subtype ⊓ A =
         ((Q' : Subgroup ↥M) ⊓ A.subgroupOf M).map M.subtype := by
       rw [Subgroup.map_inf_eq _ _ M.subtype M.subtype_injective,

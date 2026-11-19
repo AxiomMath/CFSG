@@ -33,8 +33,8 @@ theorem d3A4Borel_holds : D3A4Borel := by
   intro K _ _ n hK b t₁ t₂ hb3 hbQ ht₁2 ht₂2 ht₁₂c ht₁1 ht₂1 ht₁₂ hbt₁ hbt₂ A hA hAbig hfb hf1 hf2 S
     hAS hSb hSt
   classical
-  haveI := charP_three_of_card hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := charP_three_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : 1 ≤ n := one_le_of_card_field hK
   let φ : D4Model K ≃* ↥(adjointGroup Tag.D4 K) :=
     (coordinatePlusWitnessEquiv K (isoAdj K).symm).symm
@@ -80,8 +80,8 @@ theorem d3A4Borel_holds : D3A4Borel := by
     change αt (φ a) = φ a
     rw [hαt, MulAut.congr_apply]
     simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, hf1 a ha]
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨S', hS'coe⟩ : ∃ S' : Sylow 3 ↥(adjointGroup Tag.D4 K),
       (S' : Subgroup ↥(adjointGroup Tag.D4 K)) = (S : Subgroup (D4Model K)).map φ.toMonoidHom :=
     ⟨Sylow.mapSurjective (f := φ.toMonoidHom) φ.surjective S, Sylow.coe_mapSurjective _ _⟩
@@ -152,14 +152,14 @@ theorem d3A4Borel_holds : D3A4Borel := by
     rintro _ ⟨a, ha, rfl⟩
     have e : α' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ (αb a) := by
       rw [hα']
-      simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]
+      simp [MulAut.conj_apply, mul_assoc]
     change α' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ a
     rw [e, hfb' a ha]
   have hfixt : ∀ a ∈ A'', t' a = a := by
     rintro _ ⟨a, ha, rfl⟩
     have e : t' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ (αt a) := by
       rw [ht']
-      simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]
+      simp [MulAut.conj_apply, mul_assoc]
     change t' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ a
     rw [e, hf1' a ha]
   have hcard := borel_card_le α' t' hα'3 hbn' ht'2 ht'1 hb'3 hUb hUt A'' hAU hcomm hfixα hfixt

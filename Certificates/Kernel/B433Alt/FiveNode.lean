@@ -213,7 +213,7 @@ theorem p_group {k : ℕ} (hk : k < 17) :
   rcases (five_data.2 k hk).1 with ha | ha
   · have hS : pS k = {el k (pg k 0)} := by
       ext σ
-      simp only [pS, ha, Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [pS, ha, Set.mem_ofPred_eq, Set.mem_singleton_iff]
       exact ⟨fun ⟨i, hi, h⟩ => by rw [h, show i = 0 by omega], fun h => ⟨0, by norm_num, h⟩⟩
     refine ⟨?_, ?_, ?_⟩
     · refine CFSG.HardMathSupport.Dickson.I271.TabBFiveCent.pow_eq_one_of_mem_closure
@@ -236,7 +236,7 @@ theorem p_group {k : ℕ} (hk : k < 17) :
   · obtain ⟨hy5, hxy, hyx⟩ := h2 ha
     have hS : pS k = {el k (pg k 0), el k (pg k 1)} := by
       ext σ
-      simp only [pS, ha, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [pS, ha, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨i, hi, rfl⟩
         interval_cases i
@@ -371,7 +371,7 @@ theorem fixB_spec {k : ℕ} (hk : k < 17) {n : List ℕ} {m : ℕ} (hm : m ≤ (
   intro i hi
   have hb := (five_data.2 k hk).2.2.2.1 i (by omega)
   apply Fin.ext
-  have e : bF k i = ⟨_, hb⟩ := by rw [bF, dif_pos hb]
+  have e : bF k i = ⟨_, hb⟩ := by rw [bF, dite_eq_left hb]
   rw [e]
   exact (ev_spec hk n _ hb).trans (Nat.eq_of_beq_eq_true (h i hi))
 
@@ -431,7 +431,7 @@ theorem lvValid {k : ℕ} (hk : k < 17) :
       rw [andB_iff] at h
       have hb := (five_data.2 k hk).2.2.2.1 s hl
       have h3 := orbListChk_spec (tW_lt hk) hb h.2
-      have e2 : bF k s = ⟨_, hb⟩ := by rw [bF, dif_pos hb]
+      have e2 : bF k s = ⟨_, hb⟩ := by rw [bF, dite_eq_left hb]
       change ((NP.getD k []).getD s []).length ≤
         (MulAction.orbit (Subgroup.closure (lS k s)) (bF k s)).ncard
       rw [e2]

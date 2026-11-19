@@ -17,6 +17,7 @@ open scoped MatrixGroups commutatorElement
 
 variable {H : Type} [Group H] [Finite H] {L1 L2 S : Subgroup H} {m n f : ℕ}
 
+omit [Finite H] in
 private theorem u4q_scalar_eq_one_of_pow_two {K : Type} [Field K] [Fintype K]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₂ : U4qCoordRight L1 L2 S f K)
     (hU : UnitaryFieldData 2 f K) {t : H} {k : ℕ}
@@ -66,13 +67,14 @@ private theorem u4q_scalar_eq_one_of_pow_two {K : Type} [Field K] [Fintype K]
   have hspow : (s : K) ^ 2 ^ k = 1 := by
     have h := congrFun (congrFun hiterk 0) 0
     simpa [Matrix.smul_apply] using h.symm
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hsK : (s : K) = 1 := by
     have h0 : ((s : K) - 1) ^ 2 ^ k = 0 := by
       rw [sub_pow_char_pow, hspow, one_pow, sub_self]
     exact sub_eq_zero.mp ((pow_eq_zero_iff (pow_ne_zero _ two_ne_zero)).mp h0)
   exact ⟨s, hsK, hscalar⟩
 
+omit [Finite H] in
 private theorem u4q_commute_of_scalar_eq_one {K : Type} [Field K]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₂ : U4qCoordRight L1 L2 S f K) {t : H} {s : K}
     (hs : s = 1)
@@ -108,8 +110,8 @@ theorem f112ll_u4q_commute_pCoreOf_right (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) 
   have hS : Nat.card T = 2 ^ (6 * f) := f112ll_u4q_card_T hF hm hn h1 h2 hd
   have hd' : U4qLocalData Lα Lβ T f := hd
   obtain ⟨K, hKfield, hKfintype, ⟨c₂⟩⟩ := hd'.exists_coordRight hH hS
-  letI : Field K := hKfield
-  letI : Fintype K := hKfintype
+  let : Field K := hKfield
+  let : Fintype K := hKfintype
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hd'.one_le, c₂.card⟩
   have hcNβ : c ∈ Subgroup.normalizer (pCoreOf 2 Lβ : Set H) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 Lβ
@@ -159,13 +161,14 @@ private theorem u4q_commute_pCoreOf_right_of_triv {K : Type} [Field K] [Fintype 
     simpa [Matrix.smul_apply] using h.symm
   exact u4q_commute_of_scalar_eq_one c₂ hsK hscalar ht
 
+omit [Finite H] in
 private theorem u4q_alpha_eq_one_of_commute_right {F : Type*} [Field F] [Fintype F]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₁ : U4qCoordLeft L1 L2 S f F)
     {t : H} (ht : t ∈ L1) (htodd : Odd (orderOf t))
     (hcentβ : ∀ x ∈ pCoreOf 2 L2, t * x = x * t) :
     c₁.α ⟨t, ht⟩ = 1 := by
   classical
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by
     simpa [Nat.card_eq_fintype_card] using c₁.card)
   obtain ⟨u, hu⟩ := c₁.surjective_β
     (Multiplicative.ofAdd (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) F))
@@ -215,6 +218,7 @@ private theorem u4q_alpha_eq_one_of_commute_right {F : Type*} [Field F] [Fintype
       (Nat.Coprime.eq_one_of_dvd (Nat.coprime_two_right.mpr hαodd) hdvd2)
   exact hα1
 
+omit [Finite H] in
 private theorem u4q_eq_one_of_odd_of_mem_pCoreOf {L1 L2 S : Subgroup H} {f : ℕ}
     (hD : U4qLocalData L1 L2 S f) {t : H} (htodd : Odd (orderOf t))
     (htQ : t ∈ pCoreOf 2 L1) : t = 1 := by
@@ -225,6 +229,7 @@ private theorem u4q_eq_one_of_odd_of_mem_pCoreOf {L1 L2 S : Subgroup H} {f : ℕ
     (Nat.Coprime.eq_one_of_dvd
       ((Nat.coprime_two_right.mpr htodd).pow_right (5 * f)) hdvd)
 
+omit [Finite H] in
 private theorem u4q_eq_one_of_odd_of_commute_right {F : Type*} [Field F] [Fintype F]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₁ : U4qCoordLeft L1 L2 S f F)
     (hD : U4qLocalData L1 L2 S f) {t : H} (ht : t ∈ L1) (htodd : Odd (orderOf t))
@@ -246,12 +251,12 @@ theorem f112ll_u4q_eq_one_of_mem_trivOTwoQuot_right (hF : F112HypW L1 L2 S) (hm 
   have hS : Nat.card T = 2 ^ (6 * f) := f112ll_u4q_card_T hF hm hn h1 h2 hd
   have hd' : U4qLocalData Lα Lβ T f := hd
   obtain ⟨K, hKfield, hKfintype, ⟨c₂⟩⟩ := hd'.exists_coordRight hH hS
-  letI : Field K := hKfield
-  letI : Fintype K := hKfintype
+  let : Field K := hKfield
+  let : Fintype K := hKfintype
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hd'.one_le, c₂.card⟩
   obtain ⟨F, hFfield, hFfintype, ⟨c₁⟩⟩ := hd'.exists_coordLeft hH hS
-  letI : Field F := hFfield
-  letI : Fintype F := hFfintype
+  let : Field F := hFfield
+  let : Fintype F := hFfintype
   have hdNβ : d ∈ Subgroup.normalizer (pCoreOf 2 Lβ : Set H) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 Lβ
       (mem_trivOTwoQuot.mp hdβ).1
@@ -270,9 +275,9 @@ private theorem u4q_exists_additive_map_of_triv {G : Type*} [Group G]
       ∀ u : ↥(pCoreOf 2 L1),
         y (Multiplicative.toAdd (c₁.β u)) = Multiplicative.toAdd (c₁.β (ψ u)) := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; exact pow_ne_zero _ two_ne_zero)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; exact pow_ne_zero _ two_ne_zero)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by
     simpa [Nat.card_eq_fintype_card] using c₁.card)
   let Q := pCoreOf 2 L1
   have hker : ∀ u : ↥Q, c₁.β u = 1 → c₁.β (ψ u) = 1 := by
@@ -350,9 +355,9 @@ private theorem u4q_exists_mul_beta_of_triv {G : Type*} [Group G] {L1 L2 S : Sub
       Multiplicative.toAdd (c₁.β (ψ u)) = Multiplicative.toAdd (c₁.β u) * M := by
   classical
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; exact pow_ne_zero _ two_ne_zero)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; exact pow_ne_zero _ two_ne_zero)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by
     simpa [Nat.card_eq_fintype_card] using c₁.card)
   obtain ⟨y, hy⟩ := u4q_exists_additive_map_of_triv c₁ hψ hcZ
   have hycomm := u4q_additive_map_commutes_left c₁ hψ hcL hcQ y hy
@@ -360,6 +365,7 @@ private theorem u4q_exists_mul_beta_of_triv {G : Type*} [Group G] {L1 L2 S : Sub
   rw [← hy]
   exact CFSG.Quasithin.H13.L14324.eq_mul_of_comm_left y hycomm _
 
+omit [Finite H] in
 private theorem u4q_right_mul_matrix_eq_one {F : Type*} [Field F]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₁ : U4qCoordLeft L1 L2 S f F)
     {c : H} {ψ : MulAut ↥(pCoreOf 2 L1)}
@@ -403,6 +409,7 @@ private theorem u4q_right_mul_matrix_eq_one {F : Type*} [Field F]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hM00, hM01, hM10, hM11]
 
+omit [Finite H] in
 private theorem u4q_commutator_mem_center_of_mul_matrix_eq_one {F : Type*} [Field F]
     {L1 L2 S : Subgroup H} {f : ℕ} (c₁ : U4qCoordLeft L1 L2 S f F)
     {c : H} {ψ : MulAut ↥(pCoreOf 2 L1)}
@@ -446,8 +453,8 @@ theorem f112ll_u4q_commutator_mem_center_left (hF : F112HypW L1 L2 S) (hm : 2 �
   have hS : Nat.card T = 2 ^ (6 * f) := f112ll_u4q_card_T hF hm hn h1 h2 hd
   have hd' : U4qLocalData Lα Lβ T f := hd
   obtain ⟨F, hFfield, hFfintype, ⟨c₁⟩⟩ := hd'.exists_coordLeft hH hS
-  letI : Field F := hFfield
-  letI : Fintype F := hFfintype
+  let : Field F := hFfield
+  let : Fintype F := hFfintype
   have hcL : c ∈ Subgroup.normalizer (Lα : Set H) := (mem_trivOTwoQuot.mp hcα).1
   have hcN : c ∈ Subgroup.normalizer (Qα : Set H) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 Lα hcL

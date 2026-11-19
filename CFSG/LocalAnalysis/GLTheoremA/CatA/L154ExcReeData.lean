@@ -133,7 +133,7 @@ theorem l154_ree_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Gro
       (∀ g, φ ≠ MulAut.conj g) ∧ φ s = s ∧
       LargeEvenInduces θ (indRel p S x) (MulAut.conj s) ∧ LargeEvenInduces θ (indRel p S y) φ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN := l154_mem_normalizer_of_normal hSn x
   have hyN := l154_mem_normalizer_of_normal hSn y
   obtain ⟨a, K, _, _, _, ha, hK, ⟨θ⟩⟩ := l154_ree_gammaModel hQ

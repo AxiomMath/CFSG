@@ -60,8 +60,8 @@ theorem exists_det_one_scale {m : ℕ} {K : Type} [Field K] {p q : Fin m} (hpq :
     simp [Finset.prod_ite_eq', ha]
   · funext i
     by_cases hi : i = p
-    · simp [hi, hpq, ha, Matrix.mulVec_diagonal, Pi.single_apply]
-    · simp [hi, Matrix.mulVec_diagonal, Pi.single_apply]
+    · simp [hi, hpq, ha, Matrix.mulVec_diagonal]
+    · simp [hi, Matrix.mulVec_diagonal]
 
 theorem exists_det_one_pivot_single {m : ℕ} {K : Type} [Field K] {p q : Fin m}
     (hpq : p ≠ q) {x : Fin m → K} (hx : x p ≠ 0) :
@@ -77,7 +77,7 @@ theorem exists_det_one_move_pivot {m : ℕ} {K : Type} [Field K] {p j : Fin m} (
   refine ⟨1 + Matrix.replicateCol Unit (Pi.single p (1 : K))
       * Matrix.replicateRow Unit (Pi.single j (1 : K)), ?_, ?_⟩
   · apply det_transvec_eq_one
-    simp [single_dotProduct, Pi.single_apply, hjp]
+    simp [hjp]
   · rw [mulVec_transvec_eq]
     simp [single_dotProduct, hp, hj]
 
@@ -123,10 +123,10 @@ theorem exists_torus_entries {K : Type} [Field K] {m : ℕ} {p q : Fin m} (hpq :
   · intro i hi hj
     simp [hi, hj]
   · simp only [Finset.prod_mul_distrib]
-    simp [Finset.prod_ite_eq, Finset.prod_ite_eq', ha0]
+    simp [Finset.prod_ite_eq', ha0]
 
 theorem eq_one_of_elation_comm_torus {K : Type} [Field K] [CharP K 2] {m : ℕ} {p q : Fin m}
-    (hpq : p ≠ q) {a : K} (ha0 : a ≠ 0) (ha1 : a ≠ 1) {t : Fin m → K} (htp : t p = a)
+    (_hpq : p ≠ q) {a : K} (ha0 : a ≠ 0) (ha1 : a ≠ 1) {t : Fin m → K} (htp : t p = a)
     (htq : t q = a⁻¹) (hto : ∀ i, i ≠ p → i ≠ q → t i = 1) {M : Matrix (Fin m) (Fin m) K}
     (hfix : M *ᵥ Pi.single p 1 = Pi.single p 1)
     (helat : ∀ x : Fin m → K, ∃ c : K, M *ᵥ x - x = c • Pi.single p 1)
@@ -148,7 +148,7 @@ theorem eq_one_of_elation_comm_torus {K : Type} [Field K] [CharP K 2] {m : ℕ} 
     obtain ⟨c, hc⟩ := helat (Pi.single j 1)
     have h1 := congrFun hc i
     have h3 : (c • (Pi.single p (1 : K) : Fin m → K)) i = 0 := by
-      simp [Pi.single_apply, hi]
+      simp [hi]
     rw [Pi.sub_apply, hmulsingle, h3] at h1
     exact sub_eq_zero.mp h1
   have hpp : M p p = 1 := by
@@ -176,7 +176,7 @@ theorem eq_one_of_elation_comm_torus {K : Type} [Field K] [CharP K 2] {m : ℕ} 
     · rw [hj]
       simp [hpp]
     · rw [hrowp j hj]
-      simp [hj, Ne.symm hj]
+      simp [Ne.symm hj]
   · rw [hrow i j hi, Pi.single_apply]
 
 theorem exists_torus_statedSL {K : Type} [Field K] [CharP K 2] {m : ℕ} (hm : 2 ≤ m)
@@ -195,7 +195,7 @@ theorem exists_torus_statedSL {K : Type} [Field K] [CharP K 2] {m : ℕ} (hm : 2
     funext i
     by_cases hi : i = p
     · simp [hi, htp, Matrix.mulVec_diagonal]
-    · simp [hi, Matrix.mulVec_diagonal, Pi.single_apply]
+    · simp [hi, Matrix.mulVec_diagonal]
   refine ⟨g0⁻¹ * T0 * g0,
     Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hg0S) hT0S) hg0S, ?_, ?_⟩
   · rw [Units.val_mul, Units.val_mul, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hg0, hT0,

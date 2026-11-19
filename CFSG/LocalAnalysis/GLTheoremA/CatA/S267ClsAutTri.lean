@@ -22,7 +22,7 @@ section Split
 variable {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω} [S.Normal]
 
 theorem inner_split_of_chain (hp : p.Prime) {X : Type*} [Group X] (e : X ≃* ↥S)
-    (hB : IsElemAbelian p B) {D E : Subgroup (MulAut X)} (hID : Inn X ≤ D)
+    (hB : IsElemAbelian p B) {D E : Subgroup (MulAut X)} (_hID : Inn X ≤ D)
     (hD2 : ∀ δ ∈ D, δ ^ p ∈ Inn X → δ ∈ Inn X) (hBE : ∀ x ∈ B, transAut e x ∈ E)
     (hcomp : ∀ α ∈ E, ∀ β ∈ E, α ^ p ∈ D → β ^ p ∈ D →
       (∃ m : ℤ, α * β ^ m ∈ D) ∨ ∃ m : ℤ, β * α ^ m ∈ D) :
@@ -123,6 +123,7 @@ theorem card_dvd_three_of_isCyclic {C : Type*} [Group C] [Finite C] [IsCyclic C]
 
 open CFSG.RankThree.Classical.SteinbergBY in
 open scoped Pointwise in
+omit [Finite Ω] in
 theorem card_le_of_triality (hZ : Subgroup.center ↥S = ⊥) {f : ℕ}
     (hAut : Nat.card (K ≃+* K) ∣ f) (Q : QuadraticForm K (Fin d → K))
     (hgates : OrthogonalGates Q f)
@@ -134,7 +135,7 @@ theorem card_le_of_triality (hZ : Subgroup.center ↥S = ⊥) {f : ℕ}
     (hyE : transAut e y ∉ matrixProjectiveImage Q) :
     Nat.card B ≤ 3 ^ 5 ∧ (¬ 3 ∣ f → Nat.card B ≤ 3 ^ 4) := by
   classical
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun σ : K ≃+* K => (σ : K → K)) DFunLike.coe_injective
   set T := matrixProjectiveDerived Q with hTdef
   obtain ⟨-, ⟨ψ, -, hψker, hψcyc⟩, ⟨-, k, hk⟩, horb, -, hEA, -⟩ := hgates
@@ -229,8 +230,8 @@ theorem card_le_of_triality (hZ : Subgroup.center ↥S = ⊥) {f : ℕ}
     have hle : ψW.range ≤ ψ.range := by
       rw [hψW, MonoidHom.range_comp]
       exact Subgroup.map_le_range _ _
-    haveI : IsCyclic ψ.range := hψcyc
-    haveI : IsCyclic ψW.range := Subgroup.isCyclic_of_le hle
+    have : IsCyclic ψ.range := hψcyc
+    have : IsCyclic ψW.range := Subgroup.isCyclic_of_le hle
     refine ⟨card_dvd_three_of_isCyclic fun x => ?_, (Subgroup.card_subgroup_dvd_card _).trans hAut⟩
     obtain ⟨w, hw⟩ := x.2
     apply Subtype.ext
@@ -299,6 +300,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 open CFSG.RankThree.Classical.SteinbergBY CFSG.Assembly.LowTwoRank
   CFSG.LieType.Universal.Spin CFSG.ClassicalGroups.Orthogonal
   CFSG.RankThree.PartOne.KCOrthogonalDescent in
+omit [Finite Ω] in
 theorem exists_clsData_orthPlusFour_three (hcore : GLAPPrimeCore 3 ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {ℓ f : ℕ}
     (hmodel : StatedClassicalModel (PSimple 3 S) .POmegaPlus 4 ℓ f) {K : Type} [Field K]
@@ -419,6 +421,7 @@ theorem isPlus_coordinateQuadPlus_four {K : Type} [Field K] [Finite K]
 
 open CFSG.RankThree.Classical.SteinbergBY CFSG.Assembly.LowTwoRank
   CFSG.LieType.Universal.Spin CFSG.ClassicalGroups.Orthogonal in
+omit [Finite Ω] in
 theorem forall_transAut_mem_image (hTri : CFSG.LocalAnalysis.GLTheoremA.S267.Cls.D4TriRank)
     (hZ : Subgroup.center ↥S = ⊥) {ℓ f : ℕ} (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3)
     (hmodel : StatedClassicalModel (PSimple 3 S) .POmegaPlus 4 ℓ f) {K : Type} [Field K]

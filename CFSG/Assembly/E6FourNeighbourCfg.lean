@@ -23,6 +23,7 @@ private theorem largeEvenRawDatum_exists' {lab : LargeEvenLabel} {Q : LargeEvenR
     | (obtain ⟨K, _, _, -, b, c, -, hq⟩ := h; exact ⟨_, _, _, _, hq⟩)
     | (obtain ⟨K, _, _, -, hq⟩ := h; exact ⟨_, _, _, _, hq⟩)
 
+omit [Finite G] in
 theorem e6four_J_facts {p : ℕ} {J : Subgroup G}
     (hJ : LargeEvenMarking J fun lab _ _ _ _ _ =>
       LargeEvenHalfSplitE6FourException p lab (center J = ⊥)) :
@@ -55,7 +56,7 @@ theorem E6FourInnerPerfect.of_mulEquiv {J J' : Type} [Group J] [Group J'] (e : J
   intro P' hP'
   let P : Subgroup (MulAut J) := P'.map (MulAut.congr e).symm.toMonoidHom
   have hPperf : Group.IsPerfect P := by
-    haveI : Group.IsPerfect P' := hP'
+    have : Group.IsPerfect P' := hP'
     exact Group.IsPerfect.map (H := P') (f := (MulAut.congr e).symm.toMonoidHom)
   have hle := h P hPperf
   intro α hα

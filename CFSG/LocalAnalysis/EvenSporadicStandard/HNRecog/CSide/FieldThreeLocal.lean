@@ -26,9 +26,9 @@ theorem cSideFacts_three_local :
         IsShapeZpWrTwo 3 ↥(Subgroup.centralizer ({(σ : C ⧸ Q)} : Set (C ⧸ Q)))) := by
   intro C _ Q _ hE hI
   have hC : WeakHyp C Q := WeakHyp.of_cIrreducible hE hI
-  haveI : Finite C := hC.finite
-  haveI : Finite Q := hC.finite_Q
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite C := hC.finite
+  have : Finite Q := hC.finite_Q
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC.isExtraspecialPGroup
   obtain ⟨S⟩ := hC.nonempty_setup
   refine ⟨?_, ?_, ?_⟩

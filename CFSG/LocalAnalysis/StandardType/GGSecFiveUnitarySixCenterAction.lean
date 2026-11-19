@@ -71,8 +71,8 @@ theorem ggSecFiveBPermUniQTwoExc_fixed_free_b1_of_redFrame
       by_cases hi : i = 0
       · subst i
         change (χ (ofAdd (1 : ZMod 3)) : K) = if (0 : Fin 6) = 0 then _ else _
-        rw [if_pos rfl]
-      · rw [if_neg hi]
+        rw [ite_eq_left rfl]
+      · rw [ite_eq_right hi]
         have he : e₀ i = 1 := Pi.mulSingle_eq_of_ne hi _
         rw [he, map_one]
         rfl
@@ -81,7 +81,7 @@ theorem ggSecFiveBPermUniQTwoExc_fixed_free_b1_of_redFrame
           if i = 0 then (χ (ofAdd (1 : ZMod 3)) : K) else 1 :=
         Finset.prod_congr rfl (fun i _ => hcoeff i)
       _ = (χ (ofAdd (1 : ZMod 3)) : K) := by
-        simp only [Finset.prod_ite_eq', Finset.mem_univ, if_true]
+        simp only [Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   have hχne : χ (ofAdd (1 : ZMod 3)) ≠ 1 := by
     intro h
     have h1 := hF.2.2.1 (h.trans (map_one χ).symm)

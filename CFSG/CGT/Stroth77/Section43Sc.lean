@@ -15,9 +15,10 @@ namespace Stroth43Sc
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_isSylowOf_le {Q K : Subgroup G} (hQK : Q ≤ K) (hQ : IsPGroup 2 Q) :
     ∃ P : Subgroup G, IsSylowOf 2 P K ∧ Q ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ' : IsPGroup 2 (Q.subgroupOf K) := hQ.comap_subtype
   obtain ⟨R, hR⟩ := hQ'.exists_le_sylow
   refine ⟨(R : Subgroup K).map K.subtype, ⟨R, rfl⟩, fun q hq => ?_⟩
@@ -25,7 +26,7 @@ theorem exists_isSylowOf_le {Q K : Subgroup G} (hQK : Q ≤ K) (hQ : IsPGroup 2 
 
 theorem exists_conj_le_of_isSylowOf {P Q K : Subgroup G} (hP : IsSylowOf 2 P K) (hQK : Q ≤ K)
     (hQ : IsPGroup 2 Q) : ∃ c ∈ K, ∀ q ∈ Q, c⁻¹ * q * c ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P', hP', hQP'⟩ := exists_isSylowOf_le hQK hQ
   obtain ⟨c, hc, hcP⟩ := hP.exists_mem_conj hP'
   exact ⟨c, hc, fun q hq => (hcP q).mp (hQP' hq)⟩
@@ -41,10 +42,11 @@ private def conjMulAction (N : Subgroup G) : MulAction ↥N G :=
         (x : G) * ((y : G) * g * (y : G)⁻¹) * (x : G)⁻¹
       simp [mul_assoc] }
 
+omit [Finite G] in
 theorem card_eq_card_conj_mul (N : Subgroup G) (g : G) :
     Nat.card N = Nat.card {x : G | ∃ n ∈ N, n * g * n⁻¹ = x} *
       Nat.card ↥(N ⊓ Subgroup.centralizer {g}) := by
-  letI : MulAction ↥N G := conjMulAction N
+  let : MulAction ↥N G := conjMulAction N
   have horbit : MulAction.orbit ↥N g = {x : G | ∃ n ∈ N, n * g * n⁻¹ = x} := by
     ext x
     rw [MulAction.mem_orbit_iff]
@@ -67,9 +69,11 @@ theorem card_eq_card_conj_mul (N : Subgroup G) (g : G) :
       Subgroup.centralizer ({g} : Set G) ≤ N)).toEquiv] at h
   rw [h, Nat.card_coe_set_eq, mul_comm]
 
+omit [Finite G] in
 theorem conj_pow_eq (g x : G) (k : ℕ) : (g⁻¹ * x * g) ^ k = g⁻¹ * x ^ k * g := by
   simpa using conj_pow (a := g⁻¹) (b := x) (i := k)
 
+omit [Finite G] in
 theorem conj_mem_iff_of_map_eq {D : Subgroup G} {k : G}
     (hk : D.map (MulAut.conj k⁻¹).toMonoidHom = D) {x : G} : k⁻¹ * x * k ∈ D ↔ x ∈ D := by
   constructor
@@ -108,6 +112,7 @@ section Config
 variable {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {dD : StrothWeakTypeData D (.t100 m)}
   {e : G}
 
+omit [Finite G] in
 theorem c₂_sq (dD : StrothWeakTypeData D (.t100 m)) (hm : 2 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 2) * (dD.c : G) ^ 2 ^ (m - 2) = (dD.c : G) ^ 2 ^ (m - 1) := by
   rw [← pow_add, ← two_mul, ← pow_succ', show m - 2 + 1 = m - 1 by omega]
@@ -164,7 +169,7 @@ theorem map_conj_eq {k : G}
   refine h9 _ ?_ ?_ (Subgroup.card_map_of_injective (MulAut.conj k⁻¹).injective)
   · rintro _ ⟨d, hd, rfl⟩
     simpa using hk d hd
-  · haveI := dD.isMulCommutative
+  · have := dD.isMulCommutative
     exact Subgroup.map_isMulCommutative D _
 
 include hm hS heuv het hue hce hae hbe he in
@@ -206,6 +211,7 @@ theorem card_CSz_le :
         Fintype.card_bool]
       ring
 
+omit [Finite G] in
 theorem nf_comm_c₂ (dD : StrothWeakTypeData D (.t100 m)) (v : Torus (StrothTypeIndex.t100 m).k)
     (l : Bool) :
     dD.ofTorus v * dD.d8 false false l * (dD.c : G) ^ 2 ^ (m - 2) =
@@ -247,16 +253,19 @@ theorem nf_of_comm_c₂ {y : G} (hyS : y ∈ (F.S : Subgroup G))
     calc c₂ * c₂ = c₂ * c₂⁻¹ := by rw [← h2]
       _ = 1 := mul_inv_cancel c₂
 
+omit [Finite G] in
 theorem nf_mul_self_mem (dD : StrothWeakTypeData D (.t100 m))
     (v : Torus (StrothTypeIndex.t100 m).k) (l : Bool) :
     dD.ofTorus v * dD.d8 false false l * (dD.ofTorus v * dD.d8 false false l) ∈ D := by
   rw [dD.nf_mul_self_of_false v (by cases l <;> rfl)]
   exact dD.ofTorus_mem _
 
+omit [Finite G] in
 theorem e_mem_centralizer (he : e * e = (dD.c : G) ^ 2 ^ (m - 1)) :
     e ∈ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} :=
   Subgroup.mem_centralizer_singleton_iff.2 (by rw [← he, mul_assoc])
 
+omit [Finite G] in
 theorem rho_mul_c (dD : StrothWeakTypeData D (.t100 m)) :
     dD.ρ * (dD.c : G) = (dD.c : G) * dD.ρ := by
   have h := dD.conj_ofTorus dD.ρ_mem dD.ρ_conj Torus.c
@@ -265,6 +274,7 @@ theorem rho_mul_c (dD : StrothWeakTypeData D (.t100 m)) :
   calc dD.ρ * (dD.c : G) = dD.ρ * (dD.ρ⁻¹ * (dD.c : G) * dD.ρ) := by rw [h]
     _ = (dD.c : G) * dD.ρ := by group
 
+omit [Finite G] in
 theorem rho_mem_centralizer (dD : StrothWeakTypeData D (.t100 m)) :
     dD.ρ ∈ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} :=
   Subgroup.mem_centralizer_singleton_iff.2 (Commute.pow_right (rho_mul_c dD) _).eq
@@ -275,7 +285,7 @@ theorem exists_normalizer_conj_eq {g y : G}
     (hgy : g⁻¹ * y * g ∈ D) :
     ∃ n ∈ Subgroup.normalizer (D : Set G) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)},
       n⁻¹ * y * n = g⁻¹ * y * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   set y' := g⁻¹ * y * g with hy'
   set Z := Subgroup.centralizer ({z} : Set G) with hZ
@@ -287,7 +297,7 @@ theorem exists_normalizer_conj_eq {g y : G}
     Subgroup.mem_centralizer_singleton_iff.2 (hcommD d hd z hzD)
   have hDH : D ≤ H := le_inf hDz (fun d hd =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcommD d hd y' hgy))
-  have hDp : IsPGroup 2 D := F.S.isPGroup'.to_le h.le_S
+  have hDp : IsPGroup 2 D := F.S.isPGroup.to_le h.le_S
   obtain ⟨P, hP, hDP⟩ := exists_isSylowOf_le hDH hDp
   set Q₀ := D.map (MulAut.conj g⁻¹).toMonoidHom with hQ₀
   have hQ₀H : Q₀ ≤ H := by
@@ -340,7 +350,7 @@ theorem normalizer_conj_c₂ {n : G}
       Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)}) :
     n⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * n = (dD.c : G) ^ 2 ^ (m - 2) ∨
       n⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * n = ((dD.c : G) ^ 2 ^ (m - 2))⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   rw [not_or] at hne
   obtain ⟨hne1, hne2⟩ := hne
@@ -427,8 +437,8 @@ theorem normalizer_conj_c₂ {n : G}
     have q5 := hQe _ _ _ q2
     cases b₀ <;> cases b₁ <;> cases b₂ <;> cases d₀ <;> cases d₁ <;> cases d₂ <;>
       simp only [Bool.or_false, Bool.or_true, Bool.false_eq_true, Bool.xor_false,
-        Bool.xor_true, Bool.not_false, Bool.not_true, Bool.false_or] at hb hd q1 q2 q3 q4 q5 ⊢ <;>
-      first | assumption | exact absurd hb (by decide) | exact absurd hd (by decide)
+        Bool.xor_true, Bool.not_false, Bool.not_true] at hb hd q1 q2 q3 q4 q5 ⊢ <;>
+      first | assumption
   have hx₀O : n⁻¹ * c₂ * n ∈ O := ⟨n⁻¹, N.inv_mem hn, by group⟩
   have hx₀D : n⁻¹ * c₂ * n ∈ D :=
     (Subgroup.mem_normalizer_iff''.mp (Subgroup.mem_inf.1 hn).1 c₂).mp hc₂D
@@ -565,12 +575,14 @@ theorem normalizer_conj_c₂ {n : G}
   have hpos : 0 < 2 ^ (m + (m + 1) + (m + 1)) := by positivity
   nlinarith
 
+omit [Finite G] in
 theorem w₀_ne_one (dD : StrothWeakTypeData D (.t100 m)) (hm1 : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m ≠ 1 := by
   rw [dD.t100_a_pow, dD.t100_b_pow, ← dD.ofTorus_add, Stroth43Fus.om100_add, Ne,
     dD.ofTorus_eq_one_iff, ← Stroth42Core.om100_zero, Stroth42Core.om100_eq_iff hm1]
   decide
 
+omit [Finite G] in
 theorem isConj_w₀_a₁ (dD : StrothWeakTypeData D (.t100 m)) (hm1 : 1 ≤ m) :
     IsConj ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) ((dD.a : G) ^ 2 ^ m) :=
   Stroth42.isConj_of_conj_eq (g := dD.ρ * dD.ρ) (by
@@ -578,6 +590,7 @@ theorem isConj_w₀_a₁ (dD : StrothWeakTypeData D (.t100 m)) (hm1 : 1 ≤ m) :
         dD.ρ⁻¹ * (dD.ρ⁻¹ * (dD.a : G) ^ 2 ^ m * dD.ρ) * dD.ρ by group,
       Stroth43Fus.t100_rho_a₁ dD hm1, Stroth43Fus.t100_rho_b₁ dD hm1])
 
+omit [Finite G] in
 theorem d₂_sq (dD : StrothWeakTypeData D (.t100 m)) (hm1 : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1) *
         ((dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1)) =
@@ -598,6 +611,7 @@ theorem d₂_sq (dD : StrothWeakTypeData D (.t100 m)) (hm1 : 1 ≤ m) :
           ((dD.b : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1)) := by group
     _ = (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m := by rw [hp, hp]
 
+omit [Finite G] in
 theorem u_conj_ab_pow (dD : StrothWeakTypeData D (.t100 m)) (j : ℕ) :
     dD.u⁻¹ * ((dD.a : G) ^ j * (dD.b : G) ^ j) * dD.u = (dD.a : G) ^ j * (dD.b : G) ^ j := by
   rw [show dD.u⁻¹ * ((dD.a : G) ^ j * (dD.b : G) ^ j) * dD.u =
@@ -606,6 +620,7 @@ theorem u_conj_ab_pow (dD : StrothWeakTypeData D (.t100 m)) (j : ℕ) :
     Stroth43Fus.t100_u_conj_a, Stroth43Fus.t100_u_conj_b]
   exact congrArg Subtype.val (dD.isMulCommutative.is_comm.comm (dD.b ^ j) (dD.a ^ j))
 
+omit [Finite G] in
 theorem false_of_mul_eq (dD : StrothWeakTypeData D (.t100 m)) (hm : 2 ≤ m)
     (hza : ¬ IsConj ((dD.c : G) ^ 2 ^ (m - 1)) ((dD.a : G) ^ 2 ^ m)) {k y : G}
     (hy : y = (dD.c : G) ^ 2 ^ (m - 2) ∨ y = ((dD.c : G) ^ 2 ^ (m - 2))⁻¹)
@@ -663,7 +678,7 @@ theorem exists_extremal {g : G} (hg : g ∈ Subgroup.centralizer {(dD.c : G) ^ 2
       ∀ s ∈ (F.S : Subgroup G), s ∈ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         s * (g⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * g) = (g⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * g) * s →
         k⁻¹ * s * k ∈ (F.S : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   set c₂ := (dD.c : G) ^ 2 ^ (m - 2) with hc₂
   set y := g⁻¹ * c₂ * g with hy
@@ -678,7 +693,7 @@ theorem exists_extremal {g : G} (hg : g ∈ Subgroup.centralizer {(dD.c : G) ^ 2
   have hyZ : y ∈ Z := Z.mul_mem (Z.mul_mem (Z.inv_mem hg) (hDz hc₂D)) hg
   have hTyH : Ty ≤ H := fun x hx =>
     Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hx).1).2, (Subgroup.mem_inf.1 hx).2⟩
-  have hTyp : IsPGroup 2 Ty := F.S.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hTyp : IsPGroup 2 Ty := F.S.isPGroup.to_le (inf_le_left.trans inf_le_left)
   obtain ⟨R, hR, hTyR⟩ := exists_isSylowOf_le hTyH hTyp
   set Q₀ := D.map (MulAut.conj g⁻¹).toMonoidHom with hQ₀
   have hQ₀H : Q₀ ≤ H := by
@@ -690,7 +705,7 @@ theorem exists_extremal {g : G} (hg : g ∈ Subgroup.centralizer {(dD.c : G) ^ 2
     calc g⁻¹ * d * g * (g⁻¹ * c₂ * g) = g⁻¹ * (d * c₂) * g := by group
       _ = g⁻¹ * (c₂ * d) * g := by rw [this]
       _ = g⁻¹ * c₂ * g * (g⁻¹ * d * g) := by group
-  have hDp : IsPGroup 2 D := F.S.isPGroup'.to_le h.le_S
+  have hDp : IsPGroup 2 D := F.S.isPGroup.to_le h.le_S
   obtain ⟨c, hcH, hcQ⟩ := exists_conj_le_of_isSylowOf hR hQ₀H (hDp.map _)
   have hcz : c ∈ Z := (Subgroup.mem_inf.1 hcH).1
   obtain ⟨k, hkz, hkR⟩ := conj_le_S h hm hnc heN hS heuv het hue hce hae hbe he hR.isPGroup
@@ -820,6 +835,7 @@ theorem conj_c₂_ne_Du {g : G} (hg : g ∈ Subgroup.centralizer {(dD.c : G) ^ 2
   exact false_of_mul_eq dD hm hza hk1 hfin
 
 include hm heuv het hue hce hae hbe he in
+omit [Finite G] in
 theorem e_conj_d₂ :
     e * ((dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1)) * e⁻¹ =
       ((dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1))⁻¹ := by
@@ -835,6 +851,7 @@ theorem e_conj_d₂ :
   refine ⟨⟨0, by ring⟩, ⟨-(2 ^ m''), by ring⟩, ⟨-(2 ^ m''), by ring⟩⟩
 
 include hm heuv het hue hce hae hbe he in
+omit [Finite G] in
 theorem e_comm_w₀ :
     e * ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) =
       ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) * e := by
@@ -992,9 +1009,9 @@ theorem strongly_closed :
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   set x := g⁻¹ * c₂ * g with hx
   have hxj : g⁻¹ * c₂ ^ j * g = x ^ j := by
-    calc g⁻¹ * c₂ ^ j * g = MulAut.conj g⁻¹ (c₂ ^ j) := by simp [MulAut.conj_apply]
+    calc g⁻¹ * c₂ ^ j * g = MulAut.conj g⁻¹ (c₂ ^ j) := by simp
       _ = (MulAut.conj g⁻¹ c₂) ^ j := map_zpow _ _ _
-      _ = x ^ j := by simp [MulAut.conj_apply, hx]
+      _ = x ^ j := by simp [hx]
   rw [hxj] at hyS ⊢
   have hxZ : x ∈ Z := Z.mul_mem (Z.mul_mem (Z.inv_mem hg) (hDz hc₂D)) hg
   have hc₂sq : c₂ * c₂ = z := c₂_sq dD hm

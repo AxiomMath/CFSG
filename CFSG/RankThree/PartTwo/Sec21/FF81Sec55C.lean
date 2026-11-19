@@ -26,6 +26,7 @@ open S36 (hypF hypU hypA dot)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ s₀ : G}
 
+omit [Finite G] in
 theorem comm_of_conj_comm (h y v : G)
     (e : (h⁻¹ * y * h) * (h⁻¹ * v * h) = (h⁻¹ * v * h) * (h⁻¹ * y * h)) : y * v = v * y :=
   calc y * v = h * ((h⁻¹ * y * h) * (h⁻¹ * v * h)) * h⁻¹ := by group
@@ -104,6 +105,7 @@ theorem FF81Sec5.S_inf_cen_act (w : List (Fin 3)) (x : Fin 3 → ZMod 3) :
       conjBy (S55.wel g w) (Op 2 (Cen s₀) ⊓ Cen (h5.εA x)) := by
   rw [conjBy_op_two_inf_cen (S55.wel_cen hgH w), h5.wel_εA hg]
 
+omit hgH in
 theorem FF81Sec5.conj_mem_cenS_hyp {w : List (Fin 3)} {r : Fin 13} (hw : S55.Carries w r r)
     {v : G} (hv : v ∈ CenS (S55.hyp h5.εA r)) :
     (S55.wel g w)⁻¹ * v * S55.wel g w ∈ CenS (S55.hyp h5.εA r) := by
@@ -150,7 +152,7 @@ theorem FF81Sec5.not_case_eight (hS : Nat.card (Op 2 (Cen s₀)) = 2 ^ 7)
       Op 2 (Cen s₀) ⊓ Cen (h5.εA (S55.actA w ![1, 0, 0])) ≤ Cen v := fun w hw => by
     refine h5.le_cen_of_conj hgH hg ?_
     set v' := (S55.wel g w)⁻¹ * v * S55.wel g w with hv'
-    have hv'Γ := h5.conj_mem_cenS_hyp hgH hg hw hvΓ
+    have hv'Γ := h5.conj_mem_cenS_hyp hg hw hvΓ
     obtain ⟨hv'b, hv'x⟩ := h5.mem_cenS_hyp₈.mp hv'Γ
     have hv'4 : v' ^ (2 ^ 2) = 1 := by
       have hc := conj_pow (a := (S55.wel g w)⁻¹) (b := v) (i := 4)

@@ -151,7 +151,7 @@ theorem glbCore_eq_top_of_classical {L : Type} [Group L] [Finite L] (hL : IsSimp
     {A : Subgroup L} (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   classical
-  haveI : IsSimpleGroup L := hL
+  have : IsSimpleGroup L := hL
   obtain ⟨e⟩ := hd
   have hsimple : IsSimpleGroup ↥(⊤ : Subgroup L) := Subgroup.topEquiv.isSimpleGroup
   have hnc' : ∃ a b : ↥(⊤ : Subgroup L), a * b ≠ b * a := by

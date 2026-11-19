@@ -35,6 +35,7 @@ theorem not_pow_dvd_of_factors {p k : ℕ} (l : List (ℕ × ℕ)) (hl : ∀ y �
 variable {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S}
   {V : Subgroup (MulAut S)}
 
+omit [Finite S] in
 theorem list42_of_fam8 (hF : Fam8 S) : Sec4.Census.List42 S :=
   (list42_iff S).2 (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hF))))))))
 
@@ -54,7 +55,7 @@ theorem false_of_factors_outer (h : KF135Hyp S p P x u V)
 
 theorem not_dvd_of_dvd_54 (h : KF135Hyp S p P x u V) {m : ℕ} (hm : m ∣ 54) : ¬ p ∣ m :=
   fun hd => not_pow_dvd_of_factors (k := 1) [(2, 1), (3, 3)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide) (by decide)
     h.prime h.seven_le le_rfl (by rw [pow_one]; exact hd.trans hm)
 
 section Rows
@@ -65,7 +66,7 @@ include h
 theorem l52_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projSL 5 (GaloisField 2 1)) : False :=
   false_of_factors h hOut hL [(2, 10), (3, 2), (5, 1), (7, 1), (31, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr (φ.trans (Sec4.Item434SmallTwoOther.slEquivProjSL
       (by norm_num : 1 ≤ 5)).symm).toEquiv).trans
       (Sec4.Item434SmallTwoOther.L52.card_SL5.trans (by decide)))
@@ -74,7 +75,7 @@ theorem l52_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
 theorem u52_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) (φ : S ≃* projSU 5 2 1) :
     False :=
   false_of_factors h hOut hL [(2, 10), (3, 5), (5, 1), (11, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSU_five_two_gf2.trans (by decide)))
     (by decide)
@@ -91,7 +92,7 @@ theorem not_dvd_outer_projSL_two {n : ℕ} (hn : 3 ≤ n) (φ : S ≃* projSL n 
 theorem l62_false (φ : S ≃* projSL 6 (GaloisField 2 1)) : False :=
   false_of_factors_outer h (not_dvd_outer_projSL_two h (by norm_num) φ)
     [(2, 15), (3, 4), (5, 1), (7, 2), (31, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSL_six_two_gf2.trans (by decide)))
     (by decide)
@@ -99,7 +100,7 @@ theorem l62_false (φ : S ≃* projSL 6 (GaloisField 2 1)) : False :=
 theorem u62_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) (φ : S ≃* projSU 6 2 1) :
     False :=
   false_of_factors h hOut hL [(2, 15), (3, 6), (5, 1), (7, 1), (11, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSU_six_two_gf2.trans (by decide)))
     (by decide)
@@ -107,7 +108,7 @@ theorem u62_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) (φ : S ≃* pr
 theorem l72_false (φ : S ≃* projSL 7 (GaloisField 2 1)) : False :=
   false_of_factors_outer h (not_dvd_outer_projSL_two h (by norm_num) φ)
     [(2, 21), (3, 4), (5, 1), (7, 2), (31, 1), (127, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSL_seven_two_gf2.trans (by decide)))
     (by decide)
@@ -115,7 +116,7 @@ theorem l72_false (φ : S ≃* projSL 7 (GaloisField 2 1)) : False :=
 theorem sp62_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projSp 3 (GaloisField 2 1)) : False :=
   false_of_factors h hOut hL [(2, 9), (3, 4), (5, 1), (7, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSp_three_two_gf2.trans (by decide)))
     (by decide)
@@ -123,7 +124,7 @@ theorem sp62_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
 theorem sp82_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projSp 4 (GaloisField 2 1)) : False :=
   false_of_factors h hOut hL [(2, 16), (3, 5), (5, 2), (7, 1), (17, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projSp_four_two_gf2.trans (by decide)))
     (by decide)
@@ -131,7 +132,7 @@ theorem sp82_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
 theorem o8p_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projOmegaPlus 4 (GaloisField 2 1)) : False :=
   false_of_factors h hOut hL [(2, 12), (3, 5), (5, 2), (7, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.RonanEps.card_projOmegaPlus_four_two_gf2.trans (by decide)))
     (by decide)
@@ -140,7 +141,7 @@ theorem o8m_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) {b c : GaloisFi
     (hbc : ∀ s : GaloisField 2 1, s ^ 2 + b * s + c ≠ 0)
     (φ : S ≃* projOmegaMinus 3 (GaloisField 2 1) b c) : False :=
   false_of_factors h hOut hL [(2, 12), (3, 4), (5, 1), (7, 1), (17, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       ((Sec4.RonanEps.card_projOmegaMinus_four_two_gf2 hbc).trans (by decide)))
     (by decide)
@@ -148,7 +149,7 @@ theorem o8m_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) {b c : GaloisFi
 theorem l44_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projSL 4 (GaloisField 2 2)) : False :=
   false_of_factors h hOut hL [(2, 12), (3, 4), (5, 2), (7, 1), (17, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr (φ.trans KFacts.KS21.L44.equivSL).toEquiv).trans
       (KFacts.KS21.L44.card_M_eq.trans (by decide)))
     (by decide)
@@ -156,7 +157,7 @@ theorem l44_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
 theorem sp64_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
     (φ : S ≃* projSp 3 (GaloisField 2 2)) : False :=
   false_of_factors h hOut hL [(2, 18), (3, 4), (5, 3), (7, 1), (13, 1), (17, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr (φ.trans KFacts.KS21.Sp64.equivSp).toEquiv).trans
       (KFacts.KS21.Sp64.card_Sp_eq.trans (by decide)))
     (by decide)
@@ -164,7 +165,7 @@ theorem sp64_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S)
 theorem u54_false (hOut : KFactOutP) (hL : Sec4.Census.List42 S) (φ : S ≃* projSU 5 2 2) :
     False :=
   false_of_factors h hOut hL [(2, 20), (3, 2), (5, 4), (13, 1), (17, 1), (41, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr φ.toEquiv).trans
       (Sec4.Item434SmallTwoOther.U54.card_U54.trans (by decide)))
     (by decide)
@@ -178,7 +179,7 @@ theorem u58_false (φ : S ≃* projSU 5 2 3) : False := by
       exact this)
   exact false_of_factors_outer h hout
     [(2, 30), (3, 9), (5, 1), (7, 2), (11, 1), (13, 1), (19, 1), (331, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     ((Nat.card_congr (φ.trans KFacts.KS21.U58.equivSUI).toEquiv).trans
       (KFacts.KS21.U58.card_SUI.trans (by decide)))
     (by decide)
@@ -217,7 +218,7 @@ theorem f42_false (h : KF135Hyp S p P x u V)
     exact (Nat.card_congr e.toEquiv).trans (h1.trans (by norm_num [CFSG.Open.ordF4]))
   exact false_of_factors_outer h (not_dvd_of_dvd_54 h (by rw [hout2]; norm_num))
     [(2, 24), (3, 6), (5, 2), (7, 2), (13, 1), (17, 1)]
-    (by simp only [List.forall_mem_cons, List.forall_mem_nil]; norm_num) (by decide)
+    (by simp only [List.forall_mem_cons]; norm_num) (by decide)
     (hcard.trans (by decide)) (by decide)
 
 theorem _root_.CFSG.RankThree.PartTwo.Sec13.KF135Proof.kF135At_fam8 (hOut : KFactOutP) :

@@ -13,26 +13,28 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810
 section CaseThree
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
-theorem hyp3_n (h : Setup28 W K S) (h3 : Hyp28Three W K S) :
+omit [Finite X] in
+theorem hyp3_n (_h : Setup28 W K S) (h3 : Hyp28Three W K S) :
     ∃ (n : ℕ) (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))),
       5 ≤ n ∧ ActsLikeSubRootFourCQ (bar W S) (bar W K) n e := by
   obtain ⟨⟨⟨hperf, hsimple, -⟩, -⟩, -, n, e, hact⟩ := h3
   refine ⟨n, e, ?_, hact⟩
   by_contra hlt
   have hn4 : n ≤ 4 := by omega
-  haveI : Group.IsSolvable ↥(alternatingGroup (Fin n)) :=
+  have : Group.IsSolvable ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by simpa using hn4)
-  haveI : Group.IsSolvable (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) :=
+  have : Group.IsSolvable (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsPerfect ↥(bar W K) := hperf
-  haveI : Nontrivial (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) := hsimple.toNontrivial
+  have : Group.IsPerfect ↥(bar W K) := hperf
+  have : Nontrivial (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) := hsimple.toNontrivial
   exact Group.IsPerfect.not_isSolvable (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) inferInstance
 
 theorem glue_basic (h : Setup28 W K S) (hR : Red28 W K S) :
     ⁅khOf hR, khOf hR⁆ = khOf hR ∧ khOf hR ≠ ⊥ ∧ CFSG.pCore 2 ↥(khOf hR) = ⊥ :=
   ⟨Hyp3Aux.khOf_perfect h hR, Hyp3Aux.khOf_ne_bot hR, Hyp3Aux.pCore_khOf h hR⟩
 
-theorem glue_pi (h : Setup28 W K S) (hR : Red28 W K S) {n : ℕ}
+omit [Finite X] in
+theorem glue_pi (_h : Setup28 W K S) (hR : Red28 W K S) {n : ℕ}
     (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))) :
     ∃ π : ↥(khOf hR) →* ↥(alternatingGroup (Fin n)), Function.Surjective π ∧
       π.ker = Subgroup.center ↥(khOf hR) ∧ ∀ k : ↥K, π (kToKh hR k) = e (modC W K k) := by
@@ -55,6 +57,7 @@ theorem glue_pi (h : Setup28 W K S) (hR : Red28 W K S) {n : ℕ}
     exact ⟨fun hz => Hyp3Aux.kToKh_mem_center_of_zPre hR hz,
       fun hc => Hyp3Aux.mem_zPre_of_kToKh_mem_center hR hc⟩
 
+omit [Finite X] in
 theorem glue_act (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hA : Off28 W K S A)
     {n : ℕ} (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n)))
     (hact : ActsLikeSubRootFourCQ (bar W S) (bar W K) n e)
@@ -78,15 +81,17 @@ theorem glue_act (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hA : O
     exact ⟨vAct hR ⟨a, ha⟩, (Hyp3Aux.mem_ehOf_iff hR _).2 ⟨a, ha, haA, rfl⟩,
       (Hyp3Aux.act_transfer hR e π hπ ha (h.hN (hAS haA)) v).1 hv⟩
 
+omit [Finite X] in
 theorem glue_misc (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hA : Off28 W K S A) :
     IsElemAbelian 2 (ehOf hR A) ∧ ehOf hR A ≤ Subgroup.normalizer (khOf hR : Set _) ∧
-      (∀ ε ∈ ehOf hR A, (∀ k ∈ khOf hR, ε * k = k * ε) → ε = 1) ∧
+      (∀ _ε ∈ ehOf hR A, (∀ k ∈ khOf hR, _ε * k = k * _ε) → _ε = 1) ∧
       (fixV' (ehOf hR A)).index ≤ Nat.card ↥(ehOf hR A) :=
   ⟨(IsElemAbelian.subgroupOf (hA.isMax.2.1 : IsElemAbelian 2 A) (K ⊔ S)).map (vAct hR),
     Hyp3Aux.ehOf_le_normalizer h hR hA.isMax.1,
-    fun ε hε hc => Hyp3Aux.ehOf_faithful h hR hA.isMax.1 hε hc,
+    fun _ε hε hc => Hyp3Aux.ehOf_faithful h hR hA.isMax.1 hε hc,
     Hyp3Aux.fixV'_index_le hR hA⟩
 
+omit [Finite X] in
 theorem glue_card (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hA : Off28 W K S A) :
     Nat.card ↥(ehOf hR A) = Nat.card ↥(indAut W K A) := by
   rw [Hyp3Aux.card_ehOf hR hA.isMax.1, Hyp3Aux.card_indAut_eq h hA.isMax.1]
@@ -94,6 +99,7 @@ theorem glue_card (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hA : 
 theorem glue_a7 (h : Setup28 W K S) (hR : Red28 W K S) (hs : A7Struct (khOf hR)) : A7X W K S :=
   Hyp3Aux.a7x_of_struct h hR hs
 
+omit [Finite X] in
 theorem rootFour_of_card (h : Setup28 W K S) {n : ℕ}
     {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))}
     (hact : ActsLikeSubRootFourCQ (bar W S) (bar W K) n e)

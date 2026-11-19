@@ -21,8 +21,8 @@ theorem normalizer_blockGroup_ne_top_of_fStarSimple {N : Subgroup H} (hN : FStar
     normalizer (blockGroup J : Set H) ≠ ⊤ := by
   intro htop
   have hDn : (blockGroup J).Normal := normalizer_eq_top_iff.1 htop
-  haveI hNs : IsSimpleGroup ↥N := hN.isSimpleGroup
-  haveI hNn : N.Normal := hN.normal
+  have hNs : IsSimpleGroup ↥N := hN.isSimpleGroup
+  have hNn : N.Normal := hN.normal
   have hJne : J ≠ ⊥ := by
     intro h
     exact not_le_centralizer_self_of_isQuasisimple hq (by rw [h]; exact bot_le)

@@ -43,8 +43,8 @@ theorem IsExtraspecial2.toIsExtraspecialPGroup {Q : Subgroup G}
       rw [this, e1, Commute.mul_pow (hc' a).symm, hsq _ hc, one_mul]
     calc g * a ^ 2 = (g * a ^ 2 * g⁻¹) * g := by group
       _ = a ^ 2 * g := by rw [e2]
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ.1⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hQ.1, hcomm, ?_, hcard⟩
   apply le_antisymm
   · rw [CFSG.frattini_eq_closure_commutator_union_powers (R := ↥Q) (p := 2)]
@@ -55,6 +55,7 @@ theorem IsExtraspecial2.toIsExtraspecialPGroup {Q : Subgroup G}
   · rw [← hcomm]
     exact CFSG.commutator_le_frattini_of_isPGroup (R := ↥Q) (p := 2)
 
+omit [Finite G] in
 theorem IsExtraspecial2.pow_two_mem_center {Q : Subgroup G}
     (hQ : CFSG.LargeExtraspecial.Timmesfeld.IsExtraspecial2 Q) (q : ↥Q) :
     q ^ 2 ∈ Subgroup.center ↥Q := by
@@ -87,6 +88,7 @@ theorem IsExtraspecial2.pow_two_mem_center {Q : Subgroup G}
   calc g * q ^ 2 = (g * q ^ 2 * g⁻¹) * g := by group
       _ = q ^ 2 * g := by rw [e2]
 
+omit [Finite G] in
 theorem IsExtraspecial2.mul_self_mem_center_map {F : Subgroup G}
     (hF : CFSG.LargeExtraspecial.Timmesfeld.IsExtraspecial2 F) {f : G} (hf : f ∈ F) :
     f * f ∈ (Subgroup.center F).map F.subtype := by

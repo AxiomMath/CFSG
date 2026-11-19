@@ -113,7 +113,7 @@ theorem false_of_fixed898 (D : Data G) (h846 : UC22.F08.R846 D) {L : Subgroup G}
     (hC : Ctx898 D L X r g y) {q : ℕ} (hq : q.Prime) (hq3 : 3 < q) (hqn : q ∣ 2 ^ n + 1) {z : Bar2 L}
     (hzo : orderOf z = q) (hαz : rhoL L ⟨y, hC.hyN⟩ z = z) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hr2 : r ≠ 2 := by omega
   have hq2 : q ≠ 2 := by omega
   have hLM : L ≤ D.M := hL.1.le

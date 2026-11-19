@@ -456,6 +456,7 @@ private abbrev frameRight (m : ℕ) : Fin m → ι m := fun i => Sum.inr (Sum.in
 
 private abbrev anisoVec (m : ℕ) : ι m → K := Pi.single (Sum.inr (Sum.inr 0)) 1
 
+omit [Finite K] [CharP K 2] in
 private theorem eq_zero_of_frame_vanish_quadMinus {v : ι m → K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (hv : ∀ k : Fin m, v (Sum.inl k) = 0 ∧ v (Sum.inr (Sum.inl k)) = 0)

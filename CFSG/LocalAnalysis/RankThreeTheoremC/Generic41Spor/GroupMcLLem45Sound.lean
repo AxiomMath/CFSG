@@ -61,13 +61,13 @@ theorem orbitStep_rep (hNorm : checkHNormal D = true) {A : Array Tab}
     by_cases hgl : g < (nGens D).size
     · obtain ⟨m, hm, hmt, hmi⟩ := hgen g (by rwa [hng] at hgl)
       refine ⟨m * n₀, Subgroup.mul_mem _ hm hn₀, ?_⟩
-      simp only [hgl, if_true]
+      simp only [hgl, ite_true]
       have := hmt.conjTab hrep₀ hmi
       rwa [show m * (n₀ * wordVal S D.uW * n₀⁻¹) * m⁻¹ = m * n₀ * wordVal S D.uW * (m * n₀)⁻¹ by
         group] at this
     · obtain ⟨m, hm, hmt, hmi⟩ := hgen (g - (nGens D).size) (by omega)
       refine ⟨m⁻¹ * n₀, Subgroup.mul_mem _ (Subgroup.inv_mem _ hm) hn₀, ?_⟩
-      simp only [hgl, if_false]
+      simp only [hgl, ite_false]
       have hmi' : TabRep (nGens D)[g - (nGens D).size]! (m⁻¹)⁻¹ := by rwa [inv_inv]
       have := hmi.conjTab hrep₀ hmi'
       rwa [show m⁻¹ * (n₀ * wordVal S D.uW * n₀⁻¹) * (m⁻¹)⁻¹ =

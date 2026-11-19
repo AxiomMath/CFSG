@@ -21,7 +21,7 @@ open Equiv
 
 theorem enc_lt6 (g : Perm (Fin 6)) : enc g < 2 ^ 24 := by
   have h := encF_lt (a := fun i => if h : i < 6 then (g ⟨i, h⟩ : ℕ) else 0) (k := 6)
-    (fun i hi => by rw [dif_pos hi]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
+    (fun i hi => by rw [dite_eq_left hi]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
   rw [enc]
   calc _ < 16 ^ 6 := h
     _ = 2 ^ 24 := by norm_num

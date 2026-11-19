@@ -97,8 +97,8 @@ theorem l154_centMod_of_induces_one {p : ℕ} {Ω : Type} [Group Ω] {S : Subgro
   have h1 := (MI.induces_indRel_iff hxN θ).1 hind
   have h2 : MI.indAut p S x hxN = 1 :=
     (MulAut.congr θ).injective (by rw [← h1, map_one])
-  haveI : Group.IsPerfect ↥S := ⟨hperf⟩
-  haveI : Group.IsPerfect (PQuot p S) :=
+  have : Group.IsPerfect ↥S := ⟨hperf⟩
+  have : Group.IsPerfect (PQuot p S) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (GLAPPrimeCore p ↥S))
       (QuotientGroup.mk'_surjective _)
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
@@ -123,7 +123,7 @@ theorem l154_lang_noInnDiag (hInn : L154LangInnRes) {τ : Tag}
     (hM : LargeEvenMarking ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) fun _ _ _ I _ θ =>
       ∃ φ ∈ I, LargeEvenInduces θ (fun x x' => R.step0 (x : ModGL τ L) = (x' : ModGL τ L)) φ) :
     False := by
-  haveI : ExpChar L 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar L 2 := ExpChar.prime Nat.prime_two
   have hF : ∀ z : ModGL τ L, (∀ x ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i,
       R.step0 x = z * x * z⁻¹) → False := by
     intro z hz
@@ -261,13 +261,13 @@ theorem l154_excUntw_lang {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [
           (onLie fun | .trialityD4 _ => True | _ => False)) := by
   classical
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := by
-    haveI := hSn
+    have := hSn
     rw [Subgroup.normalizer_eq_top S]
     exact Subgroup.mem_top x
   obtain ⟨τ, K, _, _, e, k, θ, φx, φy, h, T, hτ, hchar, he, hK, hT, hperf, -, hhp, hfix, hhL,
     -, hφx, hφy, hindx, hindy⟩ := excUntw_marking_data hp hp2 hQ hxp hyp hxy hInn hF
-  haveI := hchar
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
+  have := hchar
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
   have hh1 : h ≠ 1 := by
     rintro rfl
     have h1 : φx = 1 := by

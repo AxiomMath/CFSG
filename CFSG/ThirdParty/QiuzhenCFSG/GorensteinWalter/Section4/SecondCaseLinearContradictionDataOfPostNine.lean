@@ -44,7 +44,7 @@ public theorem secondCase_linearContradictionData_of_postNine
     (hpdvd : post.od.p ∣ Nat.card post.equation9.Kinv) :
     LinearCaseContradictionData := by
   classical
-  letI : Fact post.od.p.Prime := ⟨post.od.hp_prime⟩
+  let : Fact post.od.p.Prime := ⟨post.od.hp_prime⟩
   have hpodd : Odd post.od.p :=
     secondCase_linear_omega_p_odd c w d post.od
   have hu_nonneg : 0 ≤ post.indices.u := Nat.zero_le _

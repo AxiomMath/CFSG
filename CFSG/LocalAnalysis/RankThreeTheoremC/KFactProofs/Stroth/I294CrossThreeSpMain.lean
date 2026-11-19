@@ -20,7 +20,7 @@ theorem three_ne_zero_of_not_dvd_card [Finite K] (h : ¬ 3 ∣ Nat.card K) : (3 
   intro h0
   have : Fintype K := Fintype.ofFinite K
   have h3 : ((3 : ℕ) : K) = 0 := by exact_mod_cast h0
-  haveI : CharP K 3 := (CharP.charP_iff_prime_eq_zero Nat.prime_three).mpr h3
+  have : CharP K 3 := (CharP.charP_iff_prime_eq_zero Nat.prime_three).mpr h3
   obtain ⟨m, -, hm⟩ := FiniteField.card K 3
   rw [← Nat.card_eq_fintype_card] at hm
   exact h (hm ▸ dvd_pow_self 3 m.pos.ne')
@@ -54,7 +54,7 @@ theorem le_pRank_of_conj_blkGL [Finite K] (g : StatedSp 3 K) (hg3 : g ^ 3 = 1)
     (hgM : (g : GL (Fin 3 ⊕ Fin 3) K) = P * blkGL M * P⁻¹) :
     3 ≤ pRank 3 (Subgroup.centralizer
       ({(QuotientGroup.mk g : StatedProj (StatedSp 3 K))} : Set (StatedProj (StatedSp 3 K)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : (g : GL (Fin 3 ⊕ Fin 3) K) = MulAut.conj P (blkGL M) := by
     rw [hgM, MulAut.conj_apply]
   have hM3 : ∀ i, M i ^ 3 = 1 := by

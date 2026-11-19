@@ -27,6 +27,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem inf_centralizer_eq_inf_centralizer_of_mem_pair {H : Subgroup G} {c d b : G}
     (hHc : H ≤ Subgroup.centralizer ({c} : Set G)) (hcd : Commute c d) (hd3 : d ^ 3 = 1)
     (hb : b ∈ ({c * d, c * d ^ 2} : Set G)) :
@@ -76,6 +77,7 @@ private theorem inf_centralizer_eq_inf_centralizer_of_mem_pair {H : Subgroup G} 
       have hxd' : Commute x d := hxd
       exact (hxc.mul_right (hxd'.pow_right 2)).eq
 
+omit [Finite G] in
 private lemma exists_mul_mem_of_mul_conj_eq {Q : Subgroup G} {q b : G} (hq : q ∈ Q)
     (hb : b ∈ Subgroup.normalizer (Q : Set G)) :
     ∃ c ∈ Q, q * b * q⁻¹ = b * c := by
@@ -86,6 +88,7 @@ private lemma exists_mul_mem_of_mul_conj_eq {Q : Subgroup G} {q b : G} (hq : q �
     simpa using (Subgroup.mem_normalizer_iff.mp hb' q).mp hq
   exact Q.mul_mem h1 (Q.inv_mem hq)
 
+omit [Finite G] in
 private theorem commutator_mem_sup_commutator_map_conj {L Q : Subgroup G} {q : G}
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) (hq : q ∈ Q) {a b : G}
     (ha : a ∈ L) (hb : b ∈ L) :
@@ -106,6 +109,7 @@ private theorem commutator_mem_sup_commutator_map_conj {L Q : Subgroup G} {q : G
     group]
   exact Subgroup.mul_mem_sup hmem (Q.inv_mem hQ)
 
+omit [Finite G] in
 private theorem le_sup_commutator_map_conj_of_le_normalizer {L Q : Subgroup G} {q : G}
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) (hL : ⁅L, L⁆ = L) (hq : q ∈ Q) :
     L ≤ ⁅L, L.map (MulAut.conj q).toMonoidHom⁆ ⊔ Q := by
@@ -115,6 +119,7 @@ private theorem le_sup_commutator_map_conj_of_le_normalizer {L Q : Subgroup G} {
     exact commutator_mem_sup_commutator_map_conj hLQ hq ha hb
   rwa [hL] at hle
 
+omit [Finite G] in
 private theorem commutator_map_conj_le_sup {L Q : Subgroup G} {q : G}
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) (hq : q ∈ Q) :
     ⁅L, L.map (MulAut.conj q).toMonoidHom⁆ ≤ L ⊔ Q := by
@@ -135,6 +140,7 @@ private theorem commutator_map_conj_le_sup {L Q : Subgroup G} {q : G}
   exact Subgroup.mul_mem_sup
     (Subgroup.commutator_le_self L (Subgroup.commutator_mem_commutator ha hb)) hQ
 
+omit [Finite G] in
 private theorem conj_mem_inf_of_mul_mem_centralizer {L Q : Subgroup G} {b l q x : G}
     (hxL : x ∈ Subgroup.normalizer (L : Set G))
     (hxQ : x ∈ Subgroup.normalizer (Q : Set G)) (hl : l ∈ L) (hq : q ∈ Q)
@@ -208,7 +214,7 @@ private theorem le_sup_centralizerPCore_of_mem_centralizer (h : Sec17Std G A c L
   have hPL : Subgroup.zpowers b ≤ Subgroup.normalizer (L : Set G) :=
     Subgroup.zpowers_le.mpr (h.mem_lA.2.1 hbA)
   have hP : IsPGroup 3 (Subgroup.zpowers b) := Sec6.isPGroup_zpowers_of_pow_three hb3
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLQp : IsPGroup 2 ((L ⊓ Q : Subgroup G)) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y₀).to_le
       (inf_le_right : L ⊓ Q ≤ Q)
@@ -252,6 +258,7 @@ private theorem le_sup_centralizerPCore_of_mem_centralizer (h : Sec17Std G A c L
   rw [hdecomp]
   exact Subgroup.mul_mem_sup hy'M (Subgroup.mem_inf.mpr ⟨hq'Q, hq'Cb⟩)
 
+omit [Finite G] in
 private theorem le_of_commutator_map_conj_le_theta {LB Qb X θX : Subgroup G} {q : G}
     (hLBcomm : ⁅LB, LB⁆ = LB) (hLBX : LB ≤ X)
     (hLBQb : LB ≤ Subgroup.normalizer (Qb : Set G))
@@ -274,7 +281,7 @@ private theorem le_of_commutator_map_conj_le_theta {LB Qb X θX : Subgroup G} {q
   have hQbNormK : (Qb.subgroupOf K).Normal := by
     rw [hK]
     exact Subgroup.normal_subgroupOf_sup_of_le_normalizer hLBQb
-  haveI : (Qb.subgroupOf K).Normal := hQbNormK
+  have : (Qb.subgroupOf K).Normal := hQbNormK
   have hHK : ⁅LB.subgroupOf K, LB.subgroupOf K⁆ = LB.subgroupOf K := by
     rw [CFSG.GroupTheory.commutator_subgroupOf_eq hLBK hLBK, hLBcomm]
   have hN0Ksolv : Group.IsSolvable
@@ -369,7 +376,7 @@ private theorem centralizerPCore_le_normalizer (h : Sec17Std G A c L Y₀)
   have hLBQb : LB ≤ Subgroup.normalizer (Qb : Set G) := by
     intro x hx
     exact Subgroup.inf_normalizer_le_normalizer_inf ⟨hLBQ hx, hLBNCb hx⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y₀
   have hQb2 : IsPGroup 2 Qb := hQ2.to_le inf_le_left
   have hQbsolv : Group.IsSolvable ↥Qb := @IsNilpotent.to_isSolvable ↥Qb _ hQb2.isNilpotent
@@ -451,6 +458,7 @@ private theorem le_sup_pCoreOf_of_isPerfect (h : Sec17Std G A c L Y₀)
     (X := L ⊓ Subgroup.centralizer ({d} : Set G)) (N := Qb) hI hMnorm hIle
   rwa [← lB_closure_eq_residual h hJ hdA hd1 hdc] at hres
 
+omit [Finite G] in
 private theorem le_of_isPerfect_of_le_sup_of_normal {X Q I : Subgroup G}
     (hQN : Q ≤ Subgroup.normalizer (X : Set G)) (hQsolv : Group.IsSolvable ↥Q)
     (hI : Group.IsPerfect ↥I) (hIXQ : I ≤ X ⊔ Q) : I ≤ X := by
@@ -466,7 +474,7 @@ private theorem le_of_isPerfect_of_le_sup_of_normal {X Q I : Subgroup G}
     have h := Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := Q) (N := X) hQN
     rw [show Q ⊔ X = K by rw [sup_comm, ← hK]] at h
     exact h
-  haveI : (X.subgroupOf K).Normal := hXnormal
+  have : (X.subgroupOf K).Normal := hXnormal
   have hQsolvK : Group.IsSolvable ↥(Q.subgroupOf K) := by
     refine Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hQK).toMonoidHom) ?_

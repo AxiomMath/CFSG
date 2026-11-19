@@ -132,12 +132,12 @@ theorem orthE2_identify_core (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStat
   have hpr : Profile ordB (f * (m * (m - 1)))
       (if ordB = ordD m (2 ^ f) then zD m f else z2D m f) := by
     rcases hordB with h | h
-    · rw [if_pos h, h]
+    · rw [ite_eq_left h, h]
       exact profile_ordD (by omega) hf1
     · by_cases h' : ordB = ordD m (2 ^ f)
-      · rw [if_pos h', h']
+      · rw [ite_eq_left h', h']
         exact profile_ordD (by omega) hf1
-      · rw [if_neg h', h]
+      · rw [ite_eq_right h', h]
         exact profile_ordTwistedD (by omega) hf1
   have hvB : ordB.factorization 2 = f * (m * (m - 1)) := factorization_two_of_profile hpr
   have v_le : ∀ {a b : ℕ}, b ≠ 0 → a ∣ b → a.factorization 2 ≤ b.factorization 2 :=
@@ -162,7 +162,7 @@ theorem orthE2_identify_core (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStat
       rw [Nat.odd_iff]
       omega
     exact factorization_two_eq_of_odd rfl hodd
-  haveI : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
+  have : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
     Finite.of_injective (fun α : MulAut (↥(Lgen M (LB M Q B)) ⧸
       Q.subgroupOf (Lgen M (LB M Q B))) => (α : _ → _)) DFunLike.coe_injective
   have hMA0 : Nat.card (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) ≠ 0 :=
@@ -289,15 +289,15 @@ theorem orthE2_identify (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement
     push Not at hlt
     interval_cases f <;> norm_num at h4
   have hf1 : 1 ≤ f := by omega
-  haveI : Finite A := Finite.of_injective (fun a : A => (e.symm (a, 1) : _)) (fun a b h => by
+  have : Finite A := Finite.of_injective (fun a : A => (e.symm (a, 1) : _)) (fun a b h => by
     have := congrArg e h
     simpa using this)
-  haveI : Finite Bo := Finite.of_injective (fun b : Bo => (e.symm (1, b) : _)) (fun a b h => by
+  have : Finite Bo := Finite.of_injective (fun b : Bo => (e.symm (1, b) : _)) (fun a b h => by
     have := congrArg e h
     simpa using this)
   obtain ⟨hAs, hAc, hAo⟩ := sl2_model_facts hf2 hA
-  haveI := hAs
-  haveI := hBs
+  have := hAs
+  have := hBs
   have h4A : 4 ∣ Nat.card A := by
     rw [hAc]
     exact Dvd.dvd.mul_right (show 2 ^ 2 ∣ 2 ^ f from pow_dvd_pow 2 hf2) _
@@ -328,12 +328,12 @@ theorem orthE2_identify (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement
     · have hpr : Profile ordB (f * (m * (m - 1)))
           (if ordB = ordD m (2 ^ f) then zD m f else z2D m f) := by
         rcases hordB with h | h
-        · rw [if_pos h, h]
+        · rw [ite_eq_left h, h]
           exact profile_ordD (by omega) hf1
         · by_cases h' : ordB = ordD m (2 ^ f)
-          · rw [if_pos h', h']
+          · rw [ite_eq_left h', h']
             exact profile_ordD (by omega) hf1
-          · rw [if_neg h', h]
+          · rw [ite_eq_right h', h]
             exact profile_ordTwistedD (by omega) hf1
       have hvB : ordB.factorization 2 = f * (m * (m - 1)) := factorization_two_of_profile hpr
       have hB0 : 0 < ordB := by
@@ -380,12 +380,12 @@ theorem orthE2_identify (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement
   have hpr : Profile ordB (f * (m * (m - 1)))
       (if ordB = ordD m (2 ^ f) then zD m f else z2D m f) := by
     rcases hordB with h | h
-    · rw [if_pos h, h]
+    · rw [ite_eq_left h, h]
       exact profile_ordD (by omega) hf1
     · by_cases h' : ordB = ordD m (2 ^ f)
-      · rw [if_pos h', h']
+      · rw [ite_eq_left h', h']
         exact profile_ordD (by omega) hf1
-      · rw [if_neg h', h]
+      · rw [ite_eq_right h', h]
         exact profile_ordTwistedD (by omega) hf1
   have hvB : ordB.factorization 2 = f * (m * (m - 1)) := factorization_two_of_profile hpr
   have hTmul : Nat.card (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) ∣

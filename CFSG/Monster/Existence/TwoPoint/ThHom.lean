@@ -291,7 +291,7 @@ theorem exists_th_two_point_of_equiv
       (∃ e : MGriess, orderOf e = 7 ∧ e ∈ cent2 α β ⊓ cent w) ∧
       ∃ K : Subgroup MGriess, K ≤ cent2 α β ∧
         Nonempty (K ≃* CFSG.Blueprint.NativeSporadic.Th) := by
-  haveI := hs
+  have := hs
   have hinj := thHom_injective
   have hw : xGriess ∈ cent2 thAlpha thBeta := by
     obtain ⟨hA, hB, -⟩ := notTau_words

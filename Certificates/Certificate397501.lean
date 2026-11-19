@@ -29,7 +29,7 @@ private theorem p43_check_eq : check () = checkG (elemsT PSp43.QP45) (elemsT PSp
   have e6 : ∀ L, sigmaChk L = sigmaChkG (Q1 ()) (Q2 ()) (a1 ()) (a2 ()) (x1 ()) (x2 ()) L :=
     fun L => by unfold sigmaChk sigmaChkG; simp only [e5]
   unfold check checkG
-  simp only [e4, e6]
+  simp only [e6]
   rfl
 
 theorem certificate397501 : P43Twin.check () = true := by
@@ -43,7 +43,7 @@ theorem certificate397501 : P43Twin.check () = true := by
   have hCA : P43T.repsA.map (centB (elemsC PSp43.QA45)) = P43T.centsA := by
     exact (map_centB_eq _ _).trans P43T.centA_ok
   unfold checkG
-  simp only [Bool.and_eq_true, localChkG]
+  simp only [Bool.and_eq_true]
   refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, P43T.sig⟩
   · exact coverB_of_pickRun _ invC conjC (genC PSp43.QP45) invC_eq conjC_eq (genC_mem PSp43.QP45)
       P43T.one0_mem _ _ P43T.cov0

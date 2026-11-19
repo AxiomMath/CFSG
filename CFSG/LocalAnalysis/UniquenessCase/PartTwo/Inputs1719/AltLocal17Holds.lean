@@ -338,8 +338,7 @@ theorem k_U33SThreePair_holds :
   have hAKnotN : ¬ AK ≤ Subgroup.normalizer (TK : Set ↥K) := hc3.not_normal
   have htoAK : AY ≤ Subgroup.normalizer (T : Set Y) →
       AK ≤ Subgroup.normalizer (TK : Set ↥K) := by
-    intro hAYT
-    intro x hx
+    intro hAYT x hx
     have hxAY : (x : Y) ∈ AY := Subgroup.mem_map_of_mem K.subtype hx
     rw [Subgroup.mem_normalizer_iff]
     intro y
@@ -379,8 +378,7 @@ theorem k_U33SThreePair_holds :
     norm_num at hcard
   have htoBK : BY ≤ Subgroup.normalizer (T : Set Y) →
       BK ≤ Subgroup.normalizer (TK : Set ↥K) := by
-    intro hBYT
-    intro x hx
+    intro hBYT x hx
     have hxBY : (x : Y) ∈ BY := Subgroup.mem_map_of_mem K.subtype hx
     rw [Subgroup.mem_normalizer_iff]
     intro y
@@ -456,7 +454,6 @@ theorem k_U33Local_holds :
       (le_top : K ≤ ⊤) (by rw [Subgroup.normalizer_eq_top_iff.mpr hKN])
     simpa [T, inf_comm] using h
   have hpair := k_U33SThreePair_holds (Y := Y) (K := K) (S := S)
-  unfold K_U33SThreePair at hpair
   obtain ⟨P₁, P₂, hSP₁, hSP₂, hsup, hbar₁, hbar₂⟩ := hpair hKY' hLie
   have hSylP₁ : IsSylowTwoOf S P₁ :=
     CFSG.Quasithin.EmptyFaithfulMultiple.L15420.isSylowTwoOf_of_le_of_le hSylY' hSP₁ le_top

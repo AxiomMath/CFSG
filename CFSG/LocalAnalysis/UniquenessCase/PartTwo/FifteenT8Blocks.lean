@@ -58,7 +58,7 @@ private theorem s15_T8_exists_enum (D : Data G) {V₀ V L : Subgroup G} (h : Hyp
   let f : D.M → Subgroup (MulAut (Vtil V₀ V h.isElemAbelian)) :=
     fun μ => barSub V₀ V h.isElemAbelian (conjSubgroup L (μ : G))
   let S : Set (Subgroup (MulAut (Vtil V₀ V h.isElemAbelian))) := Set.range f
-  haveI : Fintype S := (Set.toFinite S).fintype
+  have : Fintype S := (Set.toFinite S).fintype
   have hScard : S.ncard = 4 := (s15_Core_s15_eq_ncard_range h).symm.trans hs4
   have hFcard : Fintype.card S = 4 := by rw [Set.fintypeCard_eq_ncard, hScard]
   let e₀ : S ≃ Fin 4 := Fintype.equivFinOfCardEq hFcard
@@ -135,7 +135,7 @@ theorem s15_T8_blocks (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
   have hL3 : IsElemAbelian 3 (lBar ⊥ V hV L) :=
     s15_T7_isElemAbelian_of_directProd (s15_T7_isElemAbelian_of_cyclicOrd hKcyc) hdp
   have hLb3 : IsElemAbelian 3 (barSub ⊥ V hV L) := hL3
-  haveI : Fintype (conjSet Kb N) := (Set.toFinite _).fintype
+  have : Fintype (conjSet Kb N) := (Set.toFinite _).fintype
   have hind : sSupIndep (conjSet Kb N) := by
     rw [sSupIndep_iff]
     intro i
@@ -190,12 +190,12 @@ theorem s15_T8_blocks (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
       rw [h1, wTil, hLK]
     have h2 : rk ↥(commSub ⊤ Kb) = 2 := by
       obtain ⟨π, hπ⟩ := hnat
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hcard := CFSG.Quasithin.G64.RealizesVia.card_eq hπ
       have hmod : Nat.card (FFModel.altDn 3).Mod = 4 := by
         have h := CFSG.Quasithin.Explicit.card_dn_sec (n := 3) (by norm_num)
           CFSG.Quasithin.Explicit.AltSym.alternating
-        rw [if_neg (by decide : ¬ Even 3)] at h
+        rw [ite_eq_right (by decide : ¬ Even 3)] at h
         exact h
       have hcardU : Nat.card ↥(commSub ⊤ Kb) = 4 := by
         rw [hcard, hmod]

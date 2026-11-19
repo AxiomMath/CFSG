@@ -28,7 +28,7 @@ theorem exists_split_Q {q : ModGL Tag.E8 K} (hq : q ∈ Qθ Tag.E8 K) :
   have hf : ∀ ν, ν ∉ Deg1 Tag.E8 → f ν = 0 := by
     intro ν hν
     simp only [f]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hsr
     exact hν (mem_Deg1_E8.2 ⟨mem_rootFinset.1 (Finset.mem_filter.1 hsr).1,
       (Finset.mem_filter.1 hsr).2.1⟩)
@@ -37,7 +37,7 @@ theorem exists_split_Q {q : ModGL Tag.E8 K} (hq : q ∈ Qθ Tag.E8 K) :
     refine mem_X1_of_coord_M_zero K hsQ fun β' hβ' => ?_
     rw [hsc]
     simp only [f]
-    rw [if_neg (mRoots_ne_sRoots1' hβ')]
+    rw [ite_eq_right (mRoots_ne_sRoots1' hβ')]
   refine ⟨s, hsX1, s⁻¹ * q, mul_mem (inv_mem hsQ) hq, by group, fun ν hν => ?_⟩
   by_contra hnot
   apply hν
@@ -46,9 +46,9 @@ theorem exists_split_Q {q : ModGL Tag.E8 K} (hq : q ∈ Qθ Tag.E8 K) :
   by_cases hD : ν ∈ Deg1 Tag.E8
   · rcases Deg1_cases hD with h | h
     · exact absurd h hnot
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       ring
-  · rw [hs.support q hq ν hD, if_neg]
+  · rw [hs.support q hq ν hD, ite_eq_right]
     · ring
     · intro hsr
       exact hD (mem_Deg1_E8.2 ⟨mem_rootFinset.1 (Finset.mem_filter.1 hsr).1,
@@ -56,7 +56,7 @@ theorem exists_split_Q {q : ModGL Tag.E8 K} (hq : q ∈ Qθ Tag.E8 K) :
 
 theorem case_one {H B : Subgroup (ModGL Tag.E8 K)} (hBH : B ≤ H) (hBQ : B ≤ Qθ Tag.E8 K)
     (hnot : ¬ B ≤ XS K) : MPart K H := by
-  obtain ⟨b, hb, hbX⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hb, hbX⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   refine ⟨b, hBH hb, hBQ hb, ?_⟩
   by_contra hne
   apply hbX

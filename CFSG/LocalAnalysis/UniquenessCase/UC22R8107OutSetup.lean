@@ -28,7 +28,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem mem_uniqueSet_of_zpowers {M L A : Subgroup G} {a : G} (hL : L ∈ calC M)
     (hr : CFSG.Open.pRank 3 L = 1) (haL : a ∈ L) (ha3 : orderOf a = 3)
     (hU : zpowers a ∈ uniqueSet M) (hAL : A ≤ L) (hA : Nat.card A = 3) : A ∈ uniqueSet M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h, hh, rfl⟩ := RankThreeUC.exists_mem_map_conj_eq_of_card_eq_prime hr.le
     (zpowers_le.2 haL) hAL (by rw [Nat.card_zpowers, ha3]) hA
   exact PartTwo.conj_mem_uniqueSet hU (hL.1.le hh)

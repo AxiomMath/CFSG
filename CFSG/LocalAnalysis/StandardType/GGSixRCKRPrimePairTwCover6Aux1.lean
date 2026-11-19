@@ -32,7 +32,7 @@ theorem rckTw6_hRR
     ⁅twistedFixedGroup TwistTag.E6 (GaloisField 2 (2 * h)) (frobQ 2 h),
       twistedFixedGroup TwistTag.E6 (GaloisField 2 (2 * h)) (frobQ 2 h)⁆ =
       graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * h)) (frobQ 2 h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (finite_fixed_root_group_perfect TwistTag.E6 Nat.prime_two hh
     (GaloisField 2 (2 * h)) (card_galoisField_two_mul 2 h hh) (frobQ 2 h)
     (frobQ_apply 2 h)).2.2.1
@@ -89,11 +89,11 @@ theorem rckTw6_orbit
 theorem rckTw6_Phi
     {p₀ : ℕ} (S : LangSetup TwistTag.E6.tag GGL p₀)
     {a : Fin TwistTag.E6.tag.rank → GGLˣ}
-    (hT : rootDiagUnit TwistTag.E6.tag a ∈ S.D.torus)
+    (_hT : rootDiagUnit TwistTag.E6.tag a ∈ S.D.torus)
     (i : KernelComponent (rootCharHom a))
     (hΨ : componentRoots (rootCharHom a) i = {γ | IsRoot TwistTag.E6.tag γ})
     (hout1 : ¬ twistInner (componentRoots (rootCharHom a) i) S.ρ)
-    {h : ℕ} (hh : 0 < h) (hq : S.D.q = 2 ^ h) :
+    {h : ℕ} (_hh : 0 < h) (hq : S.D.q = 2 ^ h) :
     S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h) := by
   obtain ⟨Fr, hFr, P, hP, hΦP⟩ := S.D.steinberg
   rcases hP with hP1 | ⟨t, ht, hPt⟩
@@ -144,12 +144,12 @@ theorem rckTw6_langPkg
     {p₀ : ℕ} (S : LangSetup TwistTag.E6.tag GGL p₀) (h : ℕ) (hf : 1 ≤ h)
     (hΦtw : S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h)) :
     GGLangPkg S.D (rckTw6_iota h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ggLangPkg_twE6_adjoint hf S.D hΦtw
 
 theorem rckTw6_Gamma
     {p₀ : ℕ} (S : LangSetup TwistTag.E6.tag GGL p₀) (h : ℕ)
-    (hΦtw : S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h))
+    (_hΦtw : S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h))
     (hPkg : GGLangPkg S.D (rckTw6_iota h)) :
     S.D.Γ = (show Subgroup (ModGL TwistTag.E6.tag GGL) from (rckTw6_iota h).range).map
       (MulAut.conj S.D.g0⁻¹).toMonoidHom :=
@@ -160,7 +160,7 @@ theorem rckTw6_cover_range
     (hΦtw : S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h)) :
     ((MulAut.conj S.D.g0⁻¹).toMonoidHom.comp
       ((rckTw6_iota h).comp (rckTw6_psi h hf))).range = S.D.Γ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPkg : GGLangPkg S.D (rckTw6_iota h) := rckTw6_langPkg S h hf hΦtw
   have hΓ : S.D.Γ = (show Subgroup (ModGL TwistTag.E6.tag GGL) from
       (rckTw6_iota h).range).map (MulAut.conj S.D.g0⁻¹).toMonoidHom :=

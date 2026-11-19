@@ -590,13 +590,13 @@ theorem ggTPWeight_abstract {X : Type} [Group X] {F : Type} [Field F] [CharP F 2
   have hθx0 : θ x0 ≠ 1 := fun h => hx0notC ((hθ x0).mp h)
   let Fb := AlgebraicClosure F
   let Vb := TensorProduct F Fb V
-  haveI : CharP Fb 2 := inferInstance
-  haveI hFree : Module.Free F V := Module.Free.of_divisionRing F V
-  haveI hFlat : Module.Flat F V := Module.Flat.of_free
-  haveI : FaithfulSMul F Fb := inferInstance
-  haveI hfinVb : Module.Finite Fb Vb :=
+  have : CharP Fb 2 := inferInstance
+  have hFree : Module.Free F V := Module.Free.of_divisionRing F V
+  have hFlat : Module.Flat F V := Module.Flat.of_free
+  have : FaithfulSMul F Fb := inferInstance
+  have hfinVb : Module.Finite Fb Vb :=
     Module.Finite.of_basis ((Module.finBasis F V).baseChange Fb)
-  haveI hfdVb : FiniteDimensional Fb Vb := hfinVb
+  have hfdVb : FiniteDimensional Fb Vb := hfinVb
   have hfr : Module.finrank Fb Vb = Module.finrank F V := Module.finrank_baseChange
   let ρb : X →* Module.End Fb Vb :=
     { toFun := fun g => LinearMap.baseChange Fb (ρ g : V →ₗ[F] V)
@@ -614,7 +614,7 @@ theorem ggTPWeight_abstract {X : Type} [Group X] {F : Type} [Field F] [CharP F 2
     have hlin : (ρ g : V →ₗ[F] V) = (ρ h : V →ₗ[F] V) := hinj hgh
     exact hρ (Units.ext hlin)
   let A : Subgroup X := θ.range
-  haveI hfinA : Finite A := by
+  have hfinA : Finite A := by
     apply Finite.of_surjective (fun x : GGTPTorus => (⟨θ x, ⟨x, rfl⟩⟩ : A))
     intro a
     obtain ⟨x, hx⟩ := a.2
@@ -697,11 +697,11 @@ theorem ggTPWeight_abstract {X : Type} [Group X] {F : Type} [Field F] [CharP F 2
     { toFun := fun a => Units.mk0 (χ a) (hχne a)
       map_one' := by ext; simp [hχone]
       map_mul' := fun a b => by ext; simp [hχmul] }
-  haveI h3F : NeZero (3 : F) := ⟨by
+  have h3F : NeZero (3 : F) := ⟨by
     intro h
     have h' : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff F 2 3).mp h
     omega⟩
-  obtain ⟨ω, hω⟩ : ∃ ω : Fb, IsPrimitiveRoot ω 3 := HasEnoughRootsOfUnity.exists_primitiveRoot Fb 3
+  obtain ⟨ω, hω⟩ : ∃ ω : Fb, IsPrimitiveRoot ω 3 := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Fb 3
   have ha3 : ∀ a : A, a ^ 3 = 1 := by
     intro a
     obtain ⟨x, hx⟩ := a.2
@@ -758,7 +758,7 @@ theorem ggTPWeight_abstract {X : Type} [Group X] {F : Type} [Field F] [CharP F 2
   let orbit : Finset (GGTPTorus →* Multiplicative (ZMod 3)) :=
     Finset.univ.image (fun σ : Equiv.Perm (Fin 6) => ψS0.comp (ggTPPermAct σ))
   have horbit : 20 ≤ orbit.card := ggTP_orbit_ge' ψS0 hψS0_C hψS01
-  haveI hFintypeOrbit : Fintype ↥orbit := Finset.fintypeCoeSort orbit
+  have hFintypeOrbit : Fintype ↥orbit := Finset.fintypeCoeSort orbit
   let πOf (ψ : ↥orbit) : Equiv.Perm (Fin 6) :=
     Classical.choose (Finset.mem_image.mp ψ.2)
   have hπOf (ψ : ↥orbit) : ψS0.comp (ggTPPermAct (πOf ψ)) = ψ.1 :=

@@ -313,7 +313,7 @@ theorem exists_xData_726 (hc : Ctx726 G T L V H D) :
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   set Y := (S : Subgroup ↥(oTwoUpper H)).map (oTwoUpper H).subtype with hYdef
   have hYK : Y ≤ oTwoUpper H := Subgroup.map_subtype_le _
-  have hYp : IsPGroup 3 Y := (S.isPGroup').map _
+  have hYp : IsPGroup 3 Y := (S.isPGroup).map _
   have hY27 : Nat.card Y = 27 := by
     rw [hYdef, Subgroup.card_map_of_injective (oTwoUpper H).subtype_injective]
     exact card_sylow_three_k_726 hc S

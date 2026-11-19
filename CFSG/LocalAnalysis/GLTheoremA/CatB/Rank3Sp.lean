@@ -33,8 +33,8 @@ theorem exists_fixed_vector {T : Type*} [Group T] (hT : IsPGroup 2 T)
     (τ : T →* Module.End (ZMod 2) V) (W : Submodule (ZMod 2) V)
     (hW : ∀ t, ∀ w ∈ W, τ t w ∈ W) (hne : W ≠ ⊥) :
     ∃ w ∈ W, w ≠ 0 ∧ ∀ t, τ t w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction T ↥W :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction T ↥W :=
     { smul := fun t w => ⟨τ t w, hW t w w.2⟩
       one_smul := fun w => Subtype.ext (by
         show τ 1 (w : V) = w
@@ -44,10 +44,10 @@ theorem exists_fixed_vector {T : Type*} [Group T] (hT : IsPGroup 2 T)
         show τ (s * t) (w : V) = τ s (τ t (w : V))
         rw [map_mul]
         rfl) }
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite ↥W := inferInstance
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite ↥W := inferInstance
   have h2 : 2 ∣ Nat.card ↥W := by
-    haveI : Fintype ↥W := Fintype.ofFinite _
+    have : Fintype ↥W := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := ↥W),
       ZMod.card]
     have : 1 ≤ finrank (ZMod 2) ↥W := Submodule.one_le_finrank_iff.2 hne
@@ -73,7 +73,7 @@ theorem index_le_of_isotropic (hE3 : ∀ e : E, e ^ 3 = 1) (hB : B.Nondegenerate
     (hR : ∀ e, ∀ r ∈ R, ρ e r ∈ R) (hiso : ∀ r ∈ R, ∀ r' ∈ R, B r r' = 0) (hne : R ≠ ⊥)
     (heven : Even (finrank (ZMod 2) V)) :
     (fixSub ρ ⊤).index ≤ 3 ^ (finrank (ZMod 2) V / 2 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := B.orthogonal R with hP
   have hPinv : ∀ e, ∀ x ∈ P, ρ e x ∈ P := by
     intro e x hx
@@ -139,6 +139,7 @@ variable {E : Type*} [CommGroup E] [Finite E] {T : Type*} [Group T]
 variable (B : LinearMap.BilinForm (ZMod 2) V)
 
 include B in
+omit [Module.Finite (ZMod 2) V] [Finite E] in
 theorem orthogonal_invariant (ρ : E →* Module.End (ZMod 2) V)
     (hρ : ∀ e x y, B (ρ e x) (ρ e y) = B x y) (R : Submodule (ZMod 2) V)
     (hR : ∀ e, ∀ r ∈ R, ρ e r ∈ R) : ∀ e, ∀ x ∈ B.orthogonal R, ρ e x ∈ B.orthogonal R := by
@@ -161,7 +162,7 @@ theorem fixed_eq_top_of_full (hE3 : ∀ e : E, e ^ 3 = 1) (hB : B.Nondegenerate)
     (heven : Even (finrank (ZMod 2) V))
     (hfull : 3 ^ (finrank (ZMod 2) V / 2) ≤ (fixSub ρ ⊤).index) :
     ∀ t x, τ t x = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨t₀, x₀, hx₀⟩ := hcon
@@ -230,7 +231,7 @@ theorem eq_bot_of_full (hB : B.Nondegenerate) (hrefl : B.IsRefl)
     {E T : Subgroup G₁} (hcomm : ∀ a b : ↥E, a * b = b * a) (hE3 : ∀ e ∈ E, e ^ 3 = 1)
     (hT : IsPGroup 2 ↥T) (hN : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T)
     (hcard : 3 ^ (finrank (ZMod 2) V / 2) ≤ Nat.card E) : T = ⊥ := by
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcomm }
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcomm }
   let ρE : ↥E →* Module.End (ZMod 2) V := ρ.comp E.subtype
   let τ : ↥T →* Module.End (ZMod 2) V := ρ.comp T.subtype
   have hfix : fixSub ρE ⊤ = ⊥ := by

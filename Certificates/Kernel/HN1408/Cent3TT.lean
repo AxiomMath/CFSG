@@ -112,6 +112,7 @@ theorem ttK_le (v : Nat) : ttK RT v ≤ 1 := by
   · rw [ttK_eq hv]
     split_ifs <;> omega
 
+omit hC in
 theorem tTH_iff (hnc : ∀ i j : Fin 5, i ≠ j → ¬ IsConj (vH i) (vH j)) {y : ↥P1408} {k : Nat}
     (h0 : R k ≠ 0) (ht : RT ((R k - 1) % 8) < 5)
     (hconj : IsConj (vH ⟨RT ((R k - 1) % 8), ht⟩) y) :
@@ -134,9 +135,9 @@ theorem tTH_iff (hnc : ∀ i j : Fin 5, i ≠ j → ¬ IsConj (vH i) (vH j)) {y 
   simp only [Fin.ext_iff, v0, v2, v4]
   generalize RT ((R k - 1) % 8) = t
   by_cases hh : t = 0 ∨ t = 2 ∨ t = 4
-  · rw [if_pos hh]
+  · rw [ite_eq_left hh]
     exact ⟨fun _ => rfl, fun _ => by rcases hh with h | h | h <;> simp [h]⟩
-  · rw [if_neg hh]
+  · rw [ite_eq_right hh]
     exact ⟨fun h => absurd (by rcases h with h | h | h <;> simp [← h]) hh,
       fun h => absurd h (by norm_num)⟩
 
@@ -153,8 +154,8 @@ theorem cntN_eq (n : Nat) :
     rw [e, ih, Finset.range_add_one, Finset.filter_insert]
     have hle := ttK_le (R n)
     by_cases h1 : ttK RT (R n) = 1
-    · rw [if_pos h1, Finset.card_insert_of_notMem (by simp), h1]
-    · rw [if_neg h1]
+    · rw [ite_eq_left h1, Finset.card_insert_of_notMem (by simp), h1]
+    · rw [ite_eq_right h1]
       omega
 
 end CFSG.KD.HN1408.Cent3

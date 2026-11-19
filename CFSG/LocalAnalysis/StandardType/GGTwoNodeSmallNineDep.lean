@@ -16,7 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem tnsNine_pts_bound : ∀ P ∈ pts8 () ++ pts9 () ++ pts9m (), P.bound = bound9 := by
   intro P hP
-  simp only [List.mem_append, pts8, pts9, pts9m, List.mem_flatMap, List.mem_map, List.mem_filterMap] at hP
+  simp only [List.mem_append, pts8, pts9, pts9m, List.mem_flatMap, List.mem_map] at hP
   rcases hP with (⟨e, -, o, -, q, -, rfl⟩ | ⟨e, -, o, -, us, -, q, -, rfl⟩) | ⟨e, -, o, -, q, -, rfl⟩ <;> rfl
 
 theorem lr6NineDepPos_of_closed (hcl : ∀ P ∈ pts8 () ++ pts9 () ++ pts9m (), ∀ [Fact P.p.Prime], P.Closed) :
@@ -48,7 +48,7 @@ theorem lr6NineDepPos_of_closed (hcl : ∀ P ∈ pts8 () ++ pts9 () ++ pts9m (),
     exact h3
   obtain ⟨D, nF, gens, x', b, hmem, e, hM⟩ :=
     ninedep_model hV h α x ha αa hF hha hx s hs o ho hH hA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb : b = bound9 := tnsNine_pts_bound _ hmem
   rcases Pt.facts_transport (⟨3, D, nF, gens, x', b⟩ : Pt) h α x r ha αa t hr ht e hM
       (hcl _ hmem) with ⟨g, hg, hgt⟩ | hlt | ⟨v, hv, hvx⟩ | hweyl

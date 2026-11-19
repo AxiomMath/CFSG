@@ -49,7 +49,7 @@ theorem suz_cover_of_isPComponent
     have h1 := ClassicalInvolution.LBalanceProof.isPerfect_of_isPComponent hPc
     exact Group.IsPerfect.ofSurjective (f := (subgroupOfEquivOfLe hPt).toMonoidHom)
       (subgroupOfEquivOfLe hPt).surjective
-  haveI : Group.IsPerfect ↥P := hperfP
+  have : Group.IsPerfect ↥P := hperfP
   have hperfPb : Group.IsPerfect Pb :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' O) (QuotientGroup.mk'_surjective O)
   have hObot : pPrimeCore 2 Pb = ⊥ := by
@@ -59,7 +59,7 @@ theorem suz_cover_of_isPComponent
   obtain ⟨eC⟩ := CFSG.ComponentClassification.GrSLit.nonempty_quotient_center_equiv_fusionZStar ↥P
   have hsimpleS : IsSimpleGroup (↥P ⧸ Open.fusionZStar ↥P) :=
     CFSG.EvenSporadicStandard.Solomon78.suz_isSimpleGroup_of_isSporadic hS
-  haveI : IsSimpleGroup (↥P ⧸ Open.fusionZStar ↥P) := hsimpleS
+  have : IsSimpleGroup (↥P ⧸ Open.fusionZStar ↥P) := hsimpleS
   have hsimple : IsSimpleGroup (Pb ⧸ center Pb) := MulEquiv.isSimpleGroup eC
   have hq : CFSG.Assembly.IsQuasisimple Pb :=
     ⟨Group.isPerfect_def.mp hperfPb, hsimple⟩

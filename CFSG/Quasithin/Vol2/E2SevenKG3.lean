@@ -61,7 +61,7 @@ theorem eq_top_of_sylow_le {X : Type}
       rw [hconj, hN, Subgroup.map_equiv_normalizer_eq]
       exact Subgroup.le_normalizer
     have h2 : IsPGroup 2 ↥((P : Subgroup X) ⊓ ((y • P : Sylow 2 X) : Subgroup X)) :=
-      P.isPGroup'.to_le inf_le_left
+      P.isPGroup.to_le inf_le_left
     obtain ⟨m, hm⟩ := h2.exists_card_eq
     have hodd' := hodd.of_dvd_nat (Subgroup.card_dvd_of_le hle)
     rw [hm] at hodd'
@@ -87,8 +87,8 @@ theorem eq_top_of_sylow_le {X : Type}
       Sylow.smul_eq_iff_mem_normalizer.mp hg'
     have hgP₁ : (g : X) ∈ (P₁ : Subgroup X) := by
       have h2 : IsPGroup 2 ↥(Subgroup.zpowers (g : X) ⊔ (P₁ : Subgroup X)) :=
-        IsPGroup.to_sup_of_normal_right' (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr g.2))
-          P₁.isPGroup' (Subgroup.zpowers_le.mpr hgN)
+        IsPGroup.to_sup_of_normal_right' (P.isPGroup.to_le (Subgroup.zpowers_le.mpr g.2))
+          P₁.isPGroup (Subgroup.zpowers_le.mpr hgN)
       have := P₁.maximal_isPGroup.eq_of_ge h2 le_sup_right
       rw [← this]
       exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)

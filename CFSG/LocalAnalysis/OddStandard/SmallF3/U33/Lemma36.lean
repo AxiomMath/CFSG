@@ -443,7 +443,7 @@ private theorem card_cent_aux (t : G) (ht : orderOf t = 2) :
     have hcardCb : Nat.card {g : G // g ∈ Wseries 0 ∧ ⁅t, g⁆ ∈ Wseries 1} = Nat.card ↥Cb := rfl
     have hC'card : Nat.card ↥C' ^ 2 = Nat.card ↥(Wseries 1) := by
       simpa only [C'] using ih'
-    haveI : ((Wseries 1).subgroupOf (Wseries 0)).Normal := by
+    have : ((Wseries 1).subgroupOf (Wseries 0)).Normal := by
       rw [Subgroup.normal_subgroupOf_iff hW1]
       intro a b ha hb
       have e : b * a * b⁻¹ = ⁅b, a⁆ * a := by

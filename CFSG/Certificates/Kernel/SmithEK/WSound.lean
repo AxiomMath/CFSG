@@ -22,7 +22,7 @@ theorem getD_drop (l : List Nat) (a r : Nat) : (l.drop a).getD r 0 = l.getD (a +
 
 theorem getD_drop_take (l : List Nat) {a n r : Nat} (hr : r < n) :
     ((l.drop a).take n).getD r 0 = l.getD (a + r) 0 := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_take, List.getElem?_drop, hr]
+  simp [List.getD_eq_getElem?_getD, List.getElem?_drop, hr]
 
 theorem getD_mem {l : List Nat} {r : Nat} (hr : r < l.length) : l.getD r 0 ∈ l := by
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hr, Option.getD_some]
@@ -115,7 +115,7 @@ theorem rowK_sound {B wi mi : Nat} : ∀ (W M : List Nat) (f : Bool), rowK B wi 
     rw [rowK_cons] at h
     cases hb : B.testBit (wi ^^^ wj) with
     | true =>
-      rw [hb, cond_true, Bool.and_eq_true] at h
+      rw [hb, _root_.Bool.cond_true, Bool.and_eq_true] at h
       obtain ⟨hP, hQ⟩ := rowK_sound W M.tail _ h.2
       refine ⟨fun s hs ht => ?_, ?_⟩
       · cases s with
@@ -132,7 +132,7 @@ theorem rowK_sound {B wi mi : Nat} : ∀ (W M : List Nat) (f : Bool), rowK B wi 
           · rw [getD_succ]; exact ha
           · rw [getD_succ]; exact hne
     | false =>
-      rw [hb, cond_false] at h
+      rw [hb, Bool.cond_false] at h
       obtain ⟨hP, hQ⟩ := rowK_sound W M.tail _ h
       refine ⟨fun s hs ht => ?_, ?_⟩
       · cases s with

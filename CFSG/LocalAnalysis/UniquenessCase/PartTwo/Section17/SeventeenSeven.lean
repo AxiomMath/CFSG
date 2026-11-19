@@ -51,7 +51,7 @@ theorem isL2Odd_seven_of_isL2Over17_seven {X : Type} [Group X] (h : IsL2Over17 X
 
 theorem thin8_of_isL2Over17_seven {L : Subgroup G} (h : IsL2Over17 (Bar2 L) 7) :
     F08.Thin8 L := by
-  haveI : Finite (Bar2 L) := inferInstance
+  have : Finite (Bar2 L) := inferInstance
   intro p hp hp2
   have hodd : IsL2Odd (Bar2 L) 7 := isL2Odd_seven_of_isL2Over17_seven h
   have hle : CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) ≤ 1 := by
@@ -88,8 +88,8 @@ theorem isL2Over17_of_thin (hO : LieOrderFormulasInput) (hThin : ThinList13)
     (hthin : F08.Thin8 L) : IsL2Over17 (Bar2 L) r ∧ 5 < r := by
   have hthin13 : F13.Thin13 L := hthin
   obtain ⟨hsimple, hlist⟩ := s13_list_bar hThin D hC.memL hthin13
-  haveI : IsSimpleGroup (Bar2 L) := hsimple
-  haveI : Finite (Bar2 L) := inferInstance
+  have : IsSimpleGroup (Bar2 L) := hsimple
+  have : Finite (Bar2 L) := inferInstance
   have hcenter : Subgroup.center (Bar2 L) = ⊥ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21k_center_eq_bot hC.memL.2.2
   obtain ⟨e⟩ :=
@@ -217,7 +217,7 @@ theorem three_dvd_card_of_isL2Odd (hO : LieOrderFormulasInput) {X : Type} [Group
 theorem three_dvd_card_of_isL2Over17 (hO : LieOrderFormulasInput) {L : Subgroup G} {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) (hr3 : r ≠ 3) (h : IsL2Over17 (Bar2 L) r) :
     3 ∣ Nat.card L := by
-  haveI : Finite (Bar2 L) := inferInstance
+  have : Finite (Bar2 L) := inferInstance
   have h3 := three_dvd_card_of_isL2Odd hO hr hr2 hr3 (isL2Odd_of_isL2Over17_prime hr h)
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥L)]
   exact h3.mul_right _
@@ -226,7 +226,7 @@ theorem pRank_three_eq_one_of_thin_of_dvd {L : Subgroup G} (hthin : F08.Thin8 L)
     (h3 : 3 ∣ Nat.card L) : CFSG.Open.pRank 3 L = 1 := by
   have hle : CFSG.Open.pRank 3 L ≤ 1 := hthin 3 Nat.prime_three (by norm_num)
   have hge : 1 ≤ CFSG.Open.pRank 3 L := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3
     have hxG : orderOf ((x : ↥L) : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hx
     have hx3 : ((x : ↥L) : G) ^ 3 = 1 := by rw [← hxG]; exact pow_orderOf_eq_one _
@@ -330,7 +330,7 @@ theorem seventeen_seven_two (hO : LieOrderFormulasInput) (hThin : ThinList13)
   obtain ⟨hL2r, h5⟩ := isL2Over17_of_thin hO hThin hK hC hthin
   have key := mem_uniqueSet_of_card_three hO hC hthin hL2r h5 h8107 hU3
   obtain ⟨-, hdvd⟩ := h3mem
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(L ⊓ D.M.map (MulAut.conj g).toMonoidHom)) 3 hdvd
   set A : Subgroup G := Subgroup.zpowers ((x : ↥(L ⊓ D.M.map (MulAut.conj g).toMonoidHom)) : G)
@@ -358,7 +358,7 @@ theorem uniqueMax_of_thin (hO : LieOrderFormulasInput) (hThin : ThinList13)
   have hr3 : r ≠ 3 := by have := hC.lie.1; omega
   have hr2 : r ≠ 2 := hC.lie.2.1
   have h3L : 3 ∣ Nat.card L := three_dvd_card_of_isL2Over17 hO hC.lie.1 hr2 hr3 hL2r
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3L
   have hxG : orderOf ((x : ↥L) : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hx
   set A : Subgroup G := Subgroup.zpowers ((x : ↥L) : G) with hAdef
@@ -367,11 +367,11 @@ theorem uniqueMax_of_thin (hO : LieOrderFormulasInput) (hThin : ThinList13)
   have hAuniq : A ∈ uniqueSet D.M := key A hAL hA3
   unfold UniqueMax
   ext H
-  simp only [calMOf, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [calMOf, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hH, hLH⟩
     by_contra hne
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have htop : H ≠ ⊤ := CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hH.1
     have hnotle : ¬ H ≤ D.M := fun hle => hne (hH.2 D.M D.maxLocal.1 hle).symm
     have hhyp : Hyp919c D L A L H :=

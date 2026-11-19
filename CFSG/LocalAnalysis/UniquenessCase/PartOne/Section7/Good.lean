@@ -23,7 +23,7 @@ theorem coverActsTriviallyOnSmall_of_stronglyEmbeddedFive (k : Sec7Core4 G) (h5 
     CoverActsTriviallyOnSmall k.p
       ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   have hKH : CFSG.Open.IsKGroup ↥H :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper k.standing.kProper hH.ne_top
   have hKQ : CFSG.Open.IsKGroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H) :=
@@ -42,7 +42,7 @@ theorem exists_twoLocal_four_le_threeRank_of_coverHasLargeTwoLocal (k : Sec7Core
     (hbad : CoverHasLargeTwoLocal ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H))) :
     ∃ N : Subgroup G, CFSG.Open.IsTwoLocal N ∧ 4 ≤ CFSG.Open.pRank 3 N := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
@@ -52,7 +52,7 @@ theorem exists_twoLocal_four_le_threeRank_of_coverHasLargeTwoLocal (k : Sec7Core
   have hJperf : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (commutator_layerLift k.p H)
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -168,7 +168,7 @@ theorem good_of_stronglyEmbeddedFive_of_kIDExcluded (k : Sec7Core4 G) (h5 : 5 �
       CentralizerHasPElementOutside k.p
         (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map π
@@ -193,7 +193,7 @@ theorem step76C_of_centralizerHasPElementOutside (k : Sec7Core4 G)
     Step76C k := by
   intro H hH x y hx hy hxp hxK hyp hy2 hyp' hyK hxy
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map π
@@ -253,7 +253,7 @@ theorem step76C_of_centralizerHasPElementOutside (k : Sec7Core4 G)
   obtain ⟨cc, hccL, hccy, hccp, hccN⟩ :=
     hC H hH xbar ybar hxbarN hybarN hxbar_ne hxpbar hypbar hybar2 hybarp hxybar
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1

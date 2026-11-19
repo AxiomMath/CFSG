@@ -34,14 +34,14 @@ private theorem q2cON_false_of_orthogonal_label_iso_A {d n : ℕ} (hd : 3 ≤ d)
         change 4 ≤ rank at hr
         have hr3 : rank ≠ 3 := by omega
         have htag := congrArg LargeEvenLabel.tag hcanon
-        simpa [canonLabel, hr3] using htag
+        simp [canonLabel, hr3] at htag
       · change tag = .twD at hD
         cases hD
         change 4 ≤ rank at hr
         have hr3 : rank ≠ 3 := by omega
         have hr2 : rank ≠ 2 := by omega
         have htag := congrArg LargeEvenLabel.tag hcanon
-        simpa [canonLabel, hr3, hr2] using htag
+        simp [canonLabel, hr3, hr2] at htag
     · change tag = .A at hA1
       cases hA1
       change rank = 1 at hr
@@ -141,10 +141,10 @@ private theorem q2cON_no_dual_pair
 theorem q2cON_unitary_block_false {m Q : ℕ} {E : Type} [Field E] [Finite E] [CharP E 2]
     (hE : Nat.card E = Q ^ 2) {G : Type} [Group G] {Fε : Subgroup G}
     (e : ↥Fε ≃* ↥(GUFull m Q E)) {C : Subgroup G}
-    (hC : CFSG.Assembly.IsComponentOf C Fε) {d n : ℕ} (hd : 3 ≤ d) (hn : 2 ≤ n)
+    (hC : CFSG.Assembly.IsComponentOf C Fε) {d n : ℕ} (hd : 3 ≤ d) (_hn : 2 ≤ n)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ n)
     (θ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)) : False := by
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   exact l02qq2spb_unitary_excl hd hE hC e θ
 
 theorem q2cON_nonsplit {ι F K : Type} [Fintype ι] [DecidableEq ι] [Field F] [Finite F]
@@ -159,7 +159,7 @@ theorem q2cON_nonsplit {ι F K : Type} [Fintype ι] [DecidableEq ι] [Field F] [
     (θ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :
     False := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let b : GL ι F := s
   have hb : b ∈ StatedOmega ⇑Φ := s.2
   have hordb : orderOf b = p := by simpa [b] using hs
@@ -227,8 +227,8 @@ theorem q2cON_nonsplit {ι F K : Type} [Fintype ι] [DecidableEq ι] [Field F] [
     by_cases h1 : (b : Matrix ι ι F) * ε = ε
     · obtain ⟨ι₁, hFintype₁, hDecEq₁, Q₁, -, hform₁, hcases₁⟩ :=
         blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd hεprim h1
-      letI : Fintype ι₁ := hFintype₁
-      letI : DecidableEq ι₁ := hDecEq₁
+      let : Fintype ι₁ := hFintype₁
+      let : DecidableEq ι₁ := hDecEq₁
       obtain ⟨Φ₁, hQ₁, hΦ₁⟩ := hform₁
       rcases hcases₁ with ⟨⟨eF⟩, -⟩ | ⟨-, -, hsol, -⟩
       · let eF' : ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype ({b} : Set (GL ι F)) ε) ≃*
@@ -238,16 +238,16 @@ theorem q2cON_nonsplit {ι F K : Type} [Fintype ι] [DecidableEq ι] [Field F] [
       · exact (ResU3Three.not_isComponentOf_of_isSolvable hsol hCε).elim
     · obtain ⟨dblk, mult, E, hEfld, hEfin, hdblk, hEcard, -, -, ⟨eU⟩⟩ :=
         blockGroup_iso_Omega_unitary Φ hΦ h8 b hb hodd hεprim heprim h1
-      letI : Field E := hEfld
-      letI : Fintype E := hEfin
+      let : Field E := hEfld
+      let : Fintype E := hEfin
       obtain ⟨nF, -, hFcard⟩ := FiniteField.card F 2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hEtwo : Fintype.card E = 2 ^ ((nF : ℕ) * dblk * 2) := by
         rw [hEcard, hFcard, ← pow_mul, ← pow_mul]
         ring_nf
       have hcharE : CharP E 2 :=
         charP_of_card_eq_prime_pow (p := 2) (f := (nF : ℕ) * dblk * 2) hEtwo
-      letI : CharP E 2 := hcharE
+      let : CharP E 2 := hcharE
       have hEcard' : Nat.card E = (Fintype.card F ^ dblk) ^ 2 := by
         rw [Nat.card_eq_fintype_card]
         exact hEcard

@@ -54,7 +54,7 @@ private theorem a7v_inverts_a7w_zpowers :
   rcases Subgroup.mem_zpowers_iff.mp hx with ⟨k, rfl⟩
   calc
     a7v * a7w ^ k * a7v⁻¹ = (a7v * a7w * a7v⁻¹) ^ k := by
-      simpa using (map_zpow (MulAut.conj a7v) a7w k)
+      simp
     _ = (a7w⁻¹) ^ k := by
       rw [a7v_inverts_a7w]
     _ = (a7w ^ k)⁻¹ := by

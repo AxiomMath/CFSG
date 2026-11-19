@@ -11,6 +11,7 @@ open CFSG.LocalAnalysis.RankThreeUC.Section5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem generated {P T B Q : Subgroup G} (hP : P.Normal) (hQP : Q ≤ P)
     (hgen : P = Subgroup.closure
       {x : G | ∃ s ∈ twoCoreCommutator T B, x ∈ Q.map (MulAut.conj s).toMonoidHom}) :
@@ -31,7 +32,7 @@ theorem generated {P T B Q : Subgroup G} (hP : P.Normal) (hQP : Q ≤ P)
     · exact ⟨⟨s, hsn⟩, hs, rfl⟩
     · refine ⟨⟨q, hQP hq⟩, hq, ?_⟩
       apply Subtype.ext
-      simp only [Subgroup.normalizerMonoidHom, MulAut.conj_apply]
+      simp only [Subgroup.normalizerMonoidHom]
       rfl
   rw [eq_top_iff]
   intro x _

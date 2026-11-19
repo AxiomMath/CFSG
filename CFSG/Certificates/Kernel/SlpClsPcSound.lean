@@ -347,7 +347,6 @@ theorem clsPc_sound {q w S d T L H CM RM ONE LV HV A B Xg : ℕ}
     refine ⟨ex (tl (tl r)), fun t ht => he0 t.val (by have := Fin.le_def.1 ht; omega), ?_⟩
     have e := hconj (by omega)
     rw [hhsi i, hhsi j] at e
-    beta_reduce
     simp only [hsR]
     rw [← (hnf _ he5).2, ← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 (hnf _ he5).1.1).2, e]
   ·
@@ -359,7 +358,6 @@ theorem clsPc_sound {q w S d T L H CM RM ONE LV HV A B Xg : ℕ}
     rw [hpe, hone.2] at h2
     exact h2.symm
   ·
-    beta_reduce
     rw [Nat.eq_of_beq_eq_true hXg]
   ·
     intro e he
@@ -367,10 +365,8 @@ theorem clsPc_sound {q w S d T L H CM RM ONE LV HV A B Xg : ℕ}
     have hy := hnf e he5
     rw [← hy.2]
     refine ⟨?_, fun z hz' => ?_⟩
-    · beta_reduce
-      rw [← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 hy.1.1).2, h1]
-    · beta_reduce
-      rw [← (hmulC _ _ (hPl _).1 hy.1.1).2, ← (hmulC _ _ hy.1.1 (hPl _).1).2,
+    · rw [← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 hy.1.1).2, h1]
+    · rw [← (hmulC _ _ (hPl _).1 hy.1.1).2, ← (hmulC _ _ hy.1.1 (hPl _).1).2,
         slc_commOK _ h2 z hz']
   ·
     let P2 : ℕ → Prop := fun x => Canon q d w x ∧ ordMat q d w S x ∈ Submonoid.closure
@@ -437,7 +433,7 @@ theorem isPGroup_ext6 [Finite G] (g : Fin 6 → G)
     (hconj : ∀ i j : Fin 6, i < j → ∃ e : Fin 6 → ℕ, (∀ t, t ≤ i → e t = 0) ∧
       g j * g i = g i * nfP g e) :
     IsPGroup 5 (pcSub (fun t : Fin 6 => (ext6 g t)⁻¹) 0) := by
-  have hg : ∀ i (hi : i < 6), ext6 g i = g ⟨i, hi⟩ := fun i hi => dif_pos hi
+  have hg : ∀ i (hi : i < 6), ext6 g i = g ⟨i, hi⟩ := fun i hi => dite_eq_left hi
   refine CFSG.KD.SporCov.isPGroup_pcSub Nat.prime_five (ext6 g) ?_ ?_
   · intro i hi
     obtain ⟨e, he, h⟩ := hpow ⟨i, hi⟩
@@ -450,7 +446,7 @@ theorem ext6_mem (g : Fin 6 → G) (i : Fin 6) :
     g i ∈ pcSub (fun t : Fin 6 => (ext6 g t)⁻¹) 0 := by
   have hm : (ext6 g i.val)⁻¹ ∈ pcSub (fun t : Fin 6 => (ext6 g t)⁻¹) 0 :=
     Subgroup.subset_closure ⟨i, Nat.zero_le _, rfl⟩
-  have e : ext6 g i.val = g i := dif_pos i.isLt
+  have e : ext6 g i.val = g i := dite_eq_left i.isLt
   rw [e] at hm
   simpa using Subgroup.inv_mem _ hm
 

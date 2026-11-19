@@ -111,7 +111,7 @@ theorem langFamRatLabel_outerE
           (fun α => v • α) '' parabolicRoots Tag.E7 (e6Nodes Tag.E7) := by
         rw [← hsel, hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7
           (J := e6Nodes Tag.E7) (by decide)
-          (fun k => by simp only [e6Nodes, Set.mem_setOf_eq]; revert k; decide)]
+          (fun k => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert k; decide)]
       have hr6 : compRank (componentRoots (famCharHom a) i) = 6 := by
         rw [← hsel, hrank, hc6]
       have h72n : (componentRoots (famCharHom a) i).ncard = 72 := by
@@ -146,7 +146,7 @@ theorem langFamRatLabel_outerE
           (fun α => v • α) '' parabolicRoots Tag.E8 (e6Nodes Tag.E8) := by
         rw [← hsel, hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8
           (J := e6Nodes Tag.E8) (by decide)
-          (fun k => by simp only [e6Nodes, Set.mem_setOf_eq]; revert k; decide)]
+          (fun k => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert k; decide)]
       have hr6 : compRank (componentRoots (famCharHom a) i) = 6 := by
         rw [← hsel, hrank, hc6]
       have h72n : (componentRoots (famCharHom a) i).ncard = 72 := by

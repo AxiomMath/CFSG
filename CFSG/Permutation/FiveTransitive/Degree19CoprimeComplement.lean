@@ -90,7 +90,7 @@ theorem five_group_action_on_small_group_is_trivial
         Nat.card R = 8 ∨ Nat.card R = 27) :
     ∀ t : T, ∀ r : R, t • r = r := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let F : Subgroup R :=
     fixedPointsSubgroup T R
   have hFset :
@@ -132,7 +132,7 @@ private theorem exists_fixed_point_of_five_group_action
     (hT : IsPGroup 5 T)
     (hnotFive : ¬5 ∣ Nat.card α) :
     ∃ a : α, ∀ t : T, t • a = a := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ :=
     hT.nonempty_fixed_point_of_prime_not_dvd_card
       α hnotFive
@@ -160,8 +160,8 @@ private theorem fixed_sylow_small_action_is_trivial
             exact Subgroup.smul_mem_pointwise_smul
               (r : Q) t (R : Subgroup Q) r.prop
           rwa [hRfixed t] at hr⟩ : R) }
-  letI : SMul T R := rsmul
-  letI : MulDistribMulAction T R :=
+  let : SMul T R := rsmul
+  let : MulDistribMulAction T R :=
     Subtype.coe_injective.mulDistribMulAction
       (R : Subgroup Q).subtype (fun _ _ => rfl)
   have htr :=
@@ -182,8 +182,8 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
     (hThree : ∀ B : Sylow 3 Q, Nat.card B = b) :
     Q ≤ Subgroup.centralizer (T : Set K) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : MulDistribMulAction T Q :=
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : MulDistribMulAction T Q :=
     MulDistribMulAction.compHom Q
       ((MulAut.conjNormal (H := Q)).comp
         (T : Subgroup K).subtype)
@@ -191,7 +191,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
     rcases haCases with rfl | rfl <;> norm_num
   have hbPos : 0 < b := by
     rcases hbCases with rfl | rfl <;> norm_num
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let A₀ : Sylow 2 Q := Sylow.nonempty.some
   have hA₀index : A₀.index = b := by
     have hindexCard := A₀.index_mul_card
@@ -226,7 +226,7 @@ private theorem normal_complement_le_centralizer_of_sylow_cards
       ∀ t : T, ∀ x : A, t • (x : Q) = x :=
     fixed_sylow_small_action_is_trivial
       T Q T.isPGroup A hAfixed hAsmall
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let B₀ : Sylow 3 Q := Sylow.nonempty.some
   have hB₀index : B₀.index = a := by
     have hindexCard := B₀.index_mul_card
@@ -356,8 +356,8 @@ private theorem normal_complement_le_centralizer_of_card_six_or_two_sixteen
     (hQcard : Nat.card Q = 6 ∨ Nat.card Q = 216) :
     Q ≤ Subgroup.centralizer (T : Set K) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rcases hQcard with hQcard | hQcard
   · refine normal_complement_le_centralizer_of_sylow_cards
       T Q 2 3 (Or.inl rfl) (Or.inl rfl) ?_ ?_ ?_
@@ -435,7 +435,7 @@ theorem no_self_normalizing_sylow_five_with_small_normal_complement
             (Subgroup.normalizer (T : Set K)) := by
         rw [hnormalizerTop]
       _ = 5 := hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   rw [hTcard, hKcard] at hcardMul
   rcases hQcard with hQcard | hQcard
   · rw [hQcard] at hcardMul

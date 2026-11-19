@@ -105,7 +105,7 @@ theorem false_of_u42
     calc g * (x * x) = ((x * x) * g * (x * x)⁻¹) * (x * x) := by rw [h]
       _ = (x * x) * g := by group
   have hZ : Subgroup.center X = ⊥ := by
-    haveI : IsSimpleGroup X :=
+    have : IsSimpleGroup X :=
       CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with htop | htop
     · exact htop

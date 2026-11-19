@@ -30,7 +30,7 @@ private lemma j3a_adjoin_comm {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
   intro a ha b hb
-  haveI : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin K hcommS
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin K (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin K (Units.val '' S))
@@ -319,7 +319,7 @@ theorem blockDeg_of_fieldExt
       (e ≠ ε ∧ 2 ≤ blockDegree (Algebra.adjoin K (Units.val '' S)) e) ∨
       (e = ε ∧ blockDegree (Algebra.adjoin K (Units.val '' S)) e = 1 ∧ Matrix.rank e = 4) := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
   let G : Matrix ι ι K := LinearMap.toMatrix₂' K (QuadraticMap.polarBilin Φ)
   have hGt : Matrix.transpose G = G := polarGram_transpose Φ
@@ -341,8 +341,8 @@ theorem blockDeg_of_fieldExt
     · have h4 : 4 ≤ blockDegree A ε := by
         obtain ⟨d, m, E, hEfield, hEfintype, _, hcardE, _, hdeg, eG⟩ :=
           blockGroup_iso_Omega_unitary_S Φ hΦ h8 j hj hrange S hSU hS hodd hεA hpe h1
-        letI : Field E := hEfield
-        letI : Fintype E := hEfintype
+        let : Field E := hEfield
+        let : Fintype E := hEfintype
         have hKd : Fintype.card K ^ d = 2 ^ (f * d) := by rw [hK, ← pow_mul]
         have hcardE' : Fintype.card E = (2 ^ (f * d)) ^ 2 := by simpa [hKd] using hcardE
         have eG' : ↥(glBlockCentralizer j S ε) ≃* ↥(GUFull m (2 ^ (f * d)) E) :=
@@ -359,8 +359,8 @@ theorem blockDeg_of_fieldExt
       have hrk4 : Matrix.rank ε = 4 := by
         obtain ⟨ι₁, hι₁fin, hι₁dec, Q₁, hcardι₁, hΦ₁ex, hdisj⟩ :=
           blockGroup_iso_Omega_one_S Φ hΦ h8 j hj hrange S hSU hS hodd hεA h1
-        letI : Fintype ι₁ := hι₁fin
-        letI : DecidableEq ι₁ := hι₁dec
+        let : Fintype ι₁ := hι₁fin
+        let : DecidableEq ι₁ := hι₁dec
         have hfin : Module.finrank K (LinearMap.range (Matrix.toLin' ε)) = 4 := by
           rcases hdisj with ⟨hGiso, _⟩ | ⟨_, hcard4, _, _⟩
           · obtain ⟨Φ₁, hΦ₁eq, hΦ₁nd⟩ := hΦ₁ex
@@ -379,8 +379,8 @@ theorem blockDeg_of_fieldExt
       obtain ⟨d, m, E, hEfield, hEfintype, _, hcardE, _, hdeg, eG⟩ :=
         blockGroup_iso_Omega_linear_S Φ hΦ h8 j hj hrange S hSU hS hodd hεA heA he' hne'
           hεe
-      letI : Field E := hEfield
-      letI : Fintype E := hEfintype
+      let : Field E := hEfield
+      let : Fintype E := hEfintype
       have hKd : Fintype.card K ^ d = 2 ^ (f * d) := by rw [hK, ← pow_mul]
       have hcardE' : Fintype.card E = 2 ^ (f * d) := by simpa [hKd] using hcardE
       have eG' : ↥(glBlockCentralizer j S ε) ≃* GL (Fin m) E := by
@@ -424,7 +424,7 @@ private lemma j3c_data_plus (k f : ℕ) (hk : 1 ≤ k) (hf : 1 ≤ f) {X : Type}
 theorem ggSixTCBlockDegPOmegaPlus_holds
     : GGSixTCBlockDegPOmegaPlus := by
   intro k f hk hf X _ _ ψ hker S hSU hS hodd J' ε e hε hJ' he heε hFE
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   obtain ⟨hΦ, h8, hj, hrange, hcFn, hψ⟩ := j3c_data_plus k f hk hf ψ hker
   have hcF : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
@@ -465,7 +465,7 @@ private lemma j3c_data_minus (n f : ℕ) (hn : 4 ≤ n) (hf : 1 ≤ f) {X : Type
 theorem ggSixTCBlockDegPOmegaMinus_holds
     : GGSixTCBlockDegPOmegaMinus := by
   intro n f hn hf X _ _ ψ hker S hSU hS hodd J' ε e hε hJ' he heε hFE
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   obtain ⟨hΦ, h8, hj, hrange, hcFn, hψ⟩ := j3c_data_minus n f hn hf ψ hker
   have hcF : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]

@@ -10,8 +10,8 @@ namespace CFSG.GroupTheory
 theorem pCore_le_pPrimeCore {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q)
     (G : Type*) [Group G] [Finite G] :
     CFSG.pCore p G ≤ CFSG.pPrimeCore q G := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := p) (G := ↥(CFSG.pCore p G))).mp
     (CFSG.pCore_isPGroup (p := p) (G := G))
   refine le_sSup ⟨CFSG.pCore_normal (p := p) (G := G), ?_⟩

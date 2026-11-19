@@ -21,11 +21,11 @@ open CFSG.ClassicalGroups.Orthogonal.UnitaryOmega
 theorem ggSecFiveBCoordBSparseTwDFiveNonsplitInput_holds :
     GGSecFiveBCoordBSparseTwDFiveNonsplitInput := by
   intro _hMp _hLBal _hStd hX hTCJ hRig hTPn hA8 hraw hiso hFC hBJ
-  intro G _ _ p B Bs x L D J 𝒦 hR _hT1 n e hP hn eta i0 h𝒦 hL hLab hB hRM _hG0
+    G _ _ p B Bs x L D J 𝒦 hR _hT1 n e hP hn eta i0 h𝒦 hL hLab hB hRM _hG0
     _hSpC _hSpSpC _hOmC hDense
   classical
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcfg : GGConfig p B Bs x L D J := hR.1.1
   have h5 : 5 ≤ n := by
     obtain ⟨-, lab, -, hdat⟩ := hLab

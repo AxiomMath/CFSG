@@ -25,12 +25,12 @@ private theorem ggK1CDv_centralizer_zpowers {G : Type*} [Group G] (g : G) :
 
 theorem ggK1C_core_dvd {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
-    (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
-    {x : ↥(StatedSp r K)} {m : List ℕ} (hm : GGK1CMultOf p nf d r K x m)
+    (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    {x : ↥(StatedSp r K)} {m : List ℕ} (_hm : GGK1CMultOf p nf d r K x m)
     (hx : x ^ p = 1) :
     GGK1Dvd p (StatedProj (StatedSp r K)) (MulAut.conj (proj r K x)) := by
   classical
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   intro J hJ
   have hpF : p ∣ Nat.card K ^ 2 - 1 :=
     LayerPDiv.dvd_sq_sub_one (by rw [hK]; exact hdvd)

@@ -87,7 +87,6 @@ theorem twA5Diag_mul (a t2 t3 t4 a' t2' t3' t4' : Fˣ)
   funext i
   fin_cases i <;>
     simp [twA5Entries, Units.val_mul, mul_pow, mul_assoc, mul_left_comm, mul_comm]
-  all_goals group
 
 @[expose] def twA5Param : Subgroup (Fˣ × Fˣ × Fˣ × Fˣ) :=
   (rootsOfUnity 9 F).prod ((rootsOfUnity 3 F).prod ((rootsOfUnity 3 F).prod (rootsOfUnity 3 F)))
@@ -95,7 +94,7 @@ theorem twA5Diag_mul (a t2 t3 t4 a' t2' t3' t4' : Fˣ)
 theorem mem_twA5Param {x : Fˣ × Fˣ × Fˣ × Fˣ} :
     x ∈ twA5Param (F := F) ↔
       x.1 ^ 9 = 1 ∧ x.2.1 ^ 3 = 1 ∧ x.2.2.1 ^ 3 = 1 ∧ x.2.2.2 ^ 3 = 1 := by
-  simp only [twA5Param, Subgroup.mem_prod, mem_rootsOfUnity, and_assoc]
+  simp only [twA5Param, Subgroup.mem_prod, mem_rootsOfUnity]
 
 theorem coe_pow_eq_one {u : Fˣ} {n : ℕ} (hu : u ^ n = 1) : ((u : F)) ^ n = 1 := by
   rw [← Units.val_pow_eq_pow_val, hu, Units.val_one]
@@ -134,7 +133,7 @@ theorem twA5Hom_injective : Function.Injective (twA5Hom h) := by
   intro x y hxy
   have hmat := congrArg (fun z : unitarySU 2 3 F 6 =>
     ((z : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F)) hxy
-  simp only [twA5Hom, twA5Diag, coe_diagSU] at hmat
+  simp only [twA5Hom, twA5Diag] at hmat
   have h0 := congrFun (congrFun hmat 0) 0
   have h2 := congrFun (congrFun hmat 2) 2
   have h3 := congrFun (congrFun hmat 3) 3
@@ -172,7 +171,7 @@ theorem twA5Hom_injective : Function.Injective (twA5Hom h) := by
 
 theorem card_twA5Param (hcard : Nat.card F = 64) :
     Nat.card (twA5Param (F := F)) = 243 := by
-  letI : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hK : Nat.card Fˣ = 63 := by
     rw [Nat.card_units, hcard]
   have h9 : Nat.card (rootsOfUnity 9 F) = 9 := by

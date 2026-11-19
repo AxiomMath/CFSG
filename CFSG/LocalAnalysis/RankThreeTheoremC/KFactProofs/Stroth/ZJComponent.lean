@@ -28,8 +28,8 @@ theorem zj_quasisimple_of_central_kernel (hK : Group.IsPerfect K) {f₁ : K →*
     (hker : ∀ r ∈ f₁.ker, ∀ y : K, ⁅r, y⁆ ∈ f₂.ker) (hnt : f₂.ker ≠ ⊤) :
     CFSG.IsQuasisimple H₂ ∧
       Nonempty ((H₁ ⧸ Subgroup.center H₁) ≃* (H₂ ⧸ Subgroup.center H₂)) := by
-  haveI : Group.IsPerfect K := hK
-  haveI hperf : Group.IsPerfect H₂ := Group.IsPerfect.ofSurjective (f := f₂) hf₂
+  have : Group.IsPerfect K := hK
+  have hperf : Group.IsPerfect H₂ := Group.IsPerfect.ofSurjective (f := f₂) hf₂
   have hnt2 : Nontrivial H₂ := by
     by_contra hsub
     rw [not_nontrivial_iff_subsingleton] at hsub
@@ -41,8 +41,8 @@ theorem zj_quasisimple_of_central_kernel (hK : Group.IsPerfect K) {f₁ : K →*
   have hnonab : ∃ a b : H₂, a * b ≠ b * a := by
     by_contra hall
     push Not at hall
-    haveI : IsMulCommutative H₂ := isMulCommutative_iff.2 hall
-    haveI := Group.IsPerfect.subsingleton_of_isMulCommutative (G := H₂)
+    have : IsMulCommutative H₂ := isMulCommutative_iff.2 hall
+    have := Group.IsPerfect.subsingleton_of_isMulCommutative (G := H₂)
     exact (not_subsingleton H₂) ‹_›
   have hcen : ∀ r ∈ f₁.ker, f₂ r ∈ Subgroup.center H₂ := by
     intro r hr
@@ -97,7 +97,7 @@ theorem zj_quasisimple_of_central_kernel (hK : Group.IsPerfect K) {f₁ : K →*
   let e : (H₁ ⧸ Subgroup.center H₁) ≃* (H₂ ⧸ Subgroup.center H₂) :=
     MulEquiv.ofBijective g' ⟨hinj, hsurj⟩
   refine ⟨⟨hperf, ?_, ?_⟩, ⟨e⟩⟩
-  · haveI := hT1
+  · have := hT1
     exact e.symm.isSimpleGroup
   · obtain ⟨a, b, hab⟩ := hq.2.2
     exact ⟨e a, e b, fun h2 => hab (e.injective (by simpa using h2))⟩
@@ -117,6 +117,7 @@ theorem zj_pPrimeCore_eq_subgroupOf {p : ℕ} [Fact p.Prime] {K : Subgroup X} [K
   rw [h, Subgroup.subgroupOf_map_subtype]
   exact inf_comm _ _
 
+omit [Finite X] in
 theorem zj_mem_ker_subgroupMap {N K : Subgroup X} [N.Normal] (k : K) :
     k ∈ ((QuotientGroup.mk' N).subgroupMap K).ker ↔ (k : X) ∈ N := by
   rw [MonoidHom.mem_ker, ← Subtype.coe_inj]
@@ -136,7 +137,7 @@ theorem zj_component_image {p : ℕ} [Fact p.Prime] {K C : Subgroup X} [K.Normal
   have hf₁s : Function.Surjective f₁ := MonoidHom.subgroupMap_surjective _ _
   have hf₁nt : f₁.ker ≠ ⊤ := by
     intro htop
-    haveI := zj_quasisimple_nontrivial hK₀.1
+    have := zj_quasisimple_nontrivial hK₀.1
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))))
     obtain ⟨k, rfl⟩ := hf₁s x
     apply hx

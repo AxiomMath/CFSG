@@ -23,7 +23,7 @@ theorem chevTransfer_ne_bot {K T : Subgroup G} (hTK : T ≤ K) (hT : IsPGroup 2 
     (hnot : ¬ T ≤ GLAPPrimeCoreOf 3 K) : chevTransfer 3 K T ≠ ⊥ := by
   intro hbot
   apply hnot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTK' : IsPGroup 2 (T.subgroupOf K) := hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTK).symm
   have hYc : (T.subgroupOf K).map (pQuotHom 3 K) ≤ Subgroup.center (PQuot 3 K) := by
     rintro _ ⟨t, ht, rfl⟩
@@ -63,7 +63,7 @@ open KU6T9 in
 theorem u62t9_of_facts (hF : KU6FixCompFact) (G : Type) [Group G] [Finite G] : U62Type9At G := by
   intro X K A T hX hK hA hA3 hAN hfaith _hInn hTK hTp hTnot hAT a ha ha1 M hM
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let AN : Subgroup ↥(Subgroup.normalizer (K : Set G)) :=
     A.subgroupOf (Subgroup.normalizer (K : Set G))
   let ψA : ↥AN →* MulAut (PSimple 3 K) := (chevAut 3 K).comp AN.subtype

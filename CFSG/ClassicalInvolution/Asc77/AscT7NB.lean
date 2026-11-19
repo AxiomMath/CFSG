@@ -51,6 +51,7 @@ section Frame
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {p f : ℕ} [Fact p.Prime]
   {Ω : Set (Subgroup G)} {K K' J W : Subgroup G} {z u t : G}
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.mem_omegaNbr_of_mem_omegaStarNbr (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) {A B : Subgroup G} (hA : A ∈ dComp Ω K)
     (hB : B ∈ dComp Ω K) (hAB : B ∈ omegaStarNbr Ω A) : B ∈ omegaNbr Ω A := by
@@ -89,6 +90,7 @@ theorem Hyp21.mem_omegaNbr_of_mem_omegaStarNbr (h : Hyp21 p f Ω K K' z u J t W)
   · have := omegaNbr_conj hΩ.conjInvariant h1 (m⁻¹ * g)⁻¹
     rwa [conjSub_inv_conjSub, hxK] at this
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.exists_clique_conj (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) :
     ∃ J' ∈ Ω, IsUniqueInvolution J' t ∧ J' ≠ J ∧ J' ≠ K ∧ J' ≠ K' ∧

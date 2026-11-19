@@ -91,6 +91,7 @@ theorem exists_bad_entry_of_twGens (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.r
   push Not at h
   exact hg (mem_twR_of_entries_of_twGens hS hθ hJ₀ hgen g h)
 
+omit [Finite K] in
 private theorem twE6X2_map_u2 (c : ↥(fixSubfield σ)) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (u2 c) = u2 (c : K) := by
   refine Subtype.ext ?_
@@ -98,6 +99,7 @@ private theorem twE6X2_map_u2 (c : ↥(fixSubfield σ)) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [RingHom.mapMatrix_apply]
 
+omit [Finite K] in
 private theorem twE6X2_map_l2 (c : ↥(fixSubfield σ)) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (l2 c) = l2 (c : K) := by
   refine Subtype.ext ?_
@@ -202,7 +204,7 @@ theorem le_twR_or_eq_top_of_twGens (hS : TwE6Setup K σ η p)
   by_cases hle : H ≤ twR σ η
   · exact Or.inl hle
   right
-  obtain ⟨g, hgH, hg⟩ := SetLike.not_le_iff_exists.1 hle
+  obtain ⟨g, hgH, hg⟩ := IsConcreteLE.not_le_iff_exists.1 hle
   obtain ⟨θ, hθ⟩ := exists_maxHeightRoot Tag.E6
   have hgenH : TwGens σ η (H.map (twIncl σ)) := hgen.mono (Subgroup.map_mono hH)
   have hxR : ∀ c : K, σ c = c → η c = c → xE6 θ c ∈ H.map (twIncl σ) := by

@@ -34,22 +34,23 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem lin_eq (e₁ e₂ p : Z3) :
     lin e₁ e₂ p = (p.1 * e₁.1 + p.2 * e₂.1, p.1 * e₁.2 + p.2 * e₂.2) := by
-  ext <;> simp [lin, nsmul_eq_mul, ZMod.natCast_zmod_val]
+  ext <;> simp [lin, nsmul_eq_mul]
 
 theorem val_nsmul (e : ZMod 3) (p : Z3) : e.val • p = (e * p.1, e * p.2) := by
-  ext <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+  ext <;> simp [nsmul_eq_mul]
 
 @[expose] def linHom (e₁ e₂ : Z3) : Z3 →+ Z3 :=
   AddMonoidHom.mk' (lin e₁ e₂) (fun p q => by
     rw [lin_eq, lin_eq, lin_eq]; ext <;> simp <;> ring)
 
+omit [Finite G] in
 theorem Ctx.T_comm_formula {b : G} {J B : Subgroup G} {u v r₁ r₂ w : G}
     (C : Ctx b J B u v r₁ r₂ w) {x : G} (hx : x ∈ T b B (R u v)) (k : ZMod 3) (p : Z3) :
     x * (b ^ k.val * ψ u v p) * x⁻¹ * (b ^ k.val * ψ u v p)⁻¹ = θ b x ^ k.val := by
-  have e1 : x * b ^ k.val * x⁻¹ = (θ b x * b) ^ k.val := by rw [← C.conj_b_T hx, conj_pow]
+  have e1 : x * b ^ k.val * x⁻¹ = (θ b x * b) ^ k.val := by rw [← CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T hx, conj_pow]
   have e2 : (θ b x * b) ^ k.val = θ b x ^ k.val * b ^ k.val :=
-    (Commute.mul_pow (C.comm_bR (C.θ_mem hx)).symm _)
-  have e3 : x * ψ u v p * x⁻¹ = ψ u v p := C.T_cen hx (ψ_mem C.E p)
+    (Commute.mul_pow (C.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hx)).symm _)
+  have e3 : x * ψ u v p * x⁻¹ = ψ u v p := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hx (ψ_mem C.E p)
   calc x * (b ^ k.val * ψ u v p) * x⁻¹ * (b ^ k.val * ψ u v p)⁻¹
       = (x * b ^ k.val * x⁻¹) * (x * ψ u v p * x⁻¹) * (ψ u v p)⁻¹ * (b ^ k.val)⁻¹ := by group
     _ = θ b x ^ k.val := by rw [e1, e2, e3]; group
@@ -64,35 +65,38 @@ theorem θ_xy (q : Z3) : θ b (x ^ q.1.val * y ^ q.2.val) = ψ u v q := by
   rw [K.toCtx.θ_mul ((T b B (R u v)).pow_mem K.xT _) ((T b B (R u v)).pow_mem K.yT _),
     K.toCtx.θ_pow K.xT, K.toCtx.θ_pow K.yT, K.θx, K.θy]; rfl
 
+omit [Finite G] K in
 theorem xy_mem (q : Z3) : x ^ q.1.val * y ^ q.2.val ∈ Agrp x y u v :=
-  (Agrp x y u v).mul_mem ((Agrp x y u v).pow_mem K.xA _) ((Agrp x y u v).pow_mem K.yA _)
+  (Agrp x y u v).mul_mem ((Agrp x y u v).pow_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA (x := x) (y := y) (u := u) (v := v)) _) ((Agrp x y u v).pow_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.yA (x := x) (y := y) (u := u) (v := v)) _)
 
 theorem P_decomp {z : G} (hz : z ∈ P) : ∃ k : ZMod 3, ∃ a ∈ Agrp x y u v, z = b ^ k.val * a := by
   have hzT := K.toCtx.P_le_T K.hP hz
-  obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (K.toCtx.θ_mem hzT)
+  obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hzT)
   set a := x ^ q.1.val * y ^ q.2.val with ha
-  have haA : a ∈ Agrp x y u v := K.xy_mem q
+  have haA : a ∈ Agrp x y u v := CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xy_mem (x := x) (y := y) (u := u) (v := v) q
   have haT := K.A_le_T haA
   have hc : z * a⁻¹ ∈ B := by
     refine K.toCtx.θ_eq_one_mem_B K.hP (P.mul_mem hz (P.inv_mem (K.A_le_P haA))) ?_
     rw [K.toCtx.θ_mul hzT ((T b B (R u v)).inv_mem haT), K.toCtx.θ_inv haT, K.θ_xy q, ← hq,
       mul_inv_cancel]
   obtain ⟨k, p, hkp⟩ := (K.toCtx.mem_B_iff).mp hc
-  refine ⟨k, ψ u v p * a, (Agrp x y u v).mul_mem (K.R_le_A (ψ_mem K.toCtx.E p)) haA, ?_⟩
+  refine ⟨k, ψ u v p * a, (Agrp x y u v).mul_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A (ψ_mem K.toCtx.E p)) haA, ?_⟩
   calc z = (z * a⁻¹) * a := by group
     _ = _ := by rw [hkp, mul_assoc]
 
 theorem θ_bpow_mul {a : G} (ha : a ∈ Agrp x y u v) (k : ℕ) : θ b (b ^ k * a) = θ b a := by
-  rw [K.toCtx.θ_mul (K.toCtx.bpow_T k) (K.A_le_T ha), K.toCtx.θ_bpow, one_mul]
+  rw [K.toCtx.θ_mul (K.toCtx.bpow_T k) (K.A_le_T ha), CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_bpow, one_mul]
 
+omit [Finite G] in
 theorem mul_bpow {a : G} (ha : a ∈ T b B (R u v)) (n : ℕ) :
     a * b ^ n = θ b a ^ n * b ^ n * a := by
-  have e1 : a * b ^ n * a⁻¹ = (θ b a * b) ^ n := by rw [← K.toCtx.conj_b_T ha, conj_pow]
+  have e1 : a * b ^ n * a⁻¹ = (θ b a * b) ^ n := by rw [← CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T ha, conj_pow]
   have e2 : (θ b a * b) ^ n = θ b a ^ n * b ^ n :=
-    (Commute.mul_pow (K.toCtx.comm_bR (K.toCtx.θ_mem ha)).symm _)
+    (Commute.mul_pow (K.toCtx.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem ha)).symm _)
   calc a * b ^ n = (a * b ^ n * a⁻¹) * a := by group
     _ = _ := by rw [e1, e2]
 
+omit [Finite G] in
 theorem θ_conj_nor {m : G} {e : ZMod 3} {p : Z3} (he : m⁻¹ * b * m = b ^ e.val * ψ u v p)
     {z : G} (hz : z ∈ T b B (R u v)) : θ b (m * z * m⁻¹) = m * θ b z ^ e.val * m⁻¹ := by
   have h := K.toCtx.T_comm_formula hz e p
@@ -102,6 +106,7 @@ theorem θ_conj_nor {m : G} {e : ZMod 3} {p : Z3} (he : m⁻¹ * b * m = b ^ e.v
       = m * (z * (m⁻¹ * b * m) * z⁻¹ * (m⁻¹ * b * m)⁻¹) * m⁻¹ := by group
     _ = m * θ b z ^ e.val * m⁻¹ := by rw [h]
 
+omit [Finite G] in
 theorem u_pow_eq_v_pow {i j : ZMod 3} (h : u ^ i.val = v ^ j.val) : i = 0 ∧ j = 0 := by
   have h' : ψ u v (i, -j) = 1 := by
     show u ^ i.val * v ^ (-j).val = 1
@@ -131,7 +136,7 @@ theorem nor_A {m : G} (hm : m ∈ Nor P) (hmB : m ∈ Nor B) {a : G} (ha : a ∈
   have ha₁T := K.A_le_T ha₁
   have ha₂T := K.A_le_T ha₂
   have hc12 := K.A_comm ha₁ ha₂
-  have hb1 := (Commute.pow_right (K.toCtx.comm_bR (K.toCtx.θ_mem ha₁T)) (j.val)).pow_left i.val
+  have hb1 := (Commute.pow_right (K.toCtx.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem ha₁T)) (j.val)).pow_left i.val
   have key : θ b a₁ ^ j.val = θ b a₂ ^ i.val := by
     have l1 : b ^ i.val * a₁ * (b ^ j.val * a₂) =
         θ b a₁ ^ j.val * (b ^ i.val * b ^ j.val * (a₁ * a₂)) := by
@@ -139,14 +144,14 @@ theorem nor_A {m : G} (hm : m ∈ Nor P) (hmB : m ∈ Nor B) {a : G} (ha : a ∈
         _ = b ^ i.val * (θ b a₁ ^ j.val * b ^ j.val * a₁) * a₂ := by rw [K.mul_bpow ha₁T]
         _ = (b ^ i.val * θ b a₁ ^ j.val) * b ^ j.val * (a₁ * a₂) := by group
         _ = _ := by
-          rw [(Commute.pow_pow (K.toCtx.comm_bR (K.toCtx.θ_mem ha₁T)) i.val j.val).eq]; group
+          rw [(Commute.pow_pow (K.toCtx.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem ha₁T)) i.val j.val).eq]; group
     have l2 : b ^ j.val * a₂ * (b ^ i.val * a₁) =
         θ b a₂ ^ i.val * (b ^ i.val * b ^ j.val * (a₁ * a₂)) := by
       calc b ^ j.val * a₂ * (b ^ i.val * a₁) = b ^ j.val * (a₂ * b ^ i.val) * a₁ := by group
         _ = b ^ j.val * (θ b a₂ ^ i.val * b ^ i.val * a₂) * a₁ := by rw [K.mul_bpow ha₂T]
         _ = (b ^ j.val * θ b a₂ ^ i.val) * b ^ i.val * (a₂ * a₁) := by group
         _ = _ := by
-          rw [(Commute.pow_pow (K.toCtx.comm_bR (K.toCtx.θ_mem ha₂T)) j.val i.val).eq,
+          rw [(Commute.pow_pow (K.toCtx.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem ha₂T)) j.val i.val).eq,
             ← hc12, mul_assoc (θ b a₂ ^ i.val), ← pow_add, ← pow_add, add_comm]; group
     rw [l1, l2] at hcomm
     exact mul_right_cancel hcomm
@@ -170,20 +175,20 @@ theorem nor_A {m : G} (hm : m ∈ Nor P) (hmB : m ∈ Nor B) {a : G} (ha : a ∈
     rcases hz with rfl | rfl | rfl | rfl
     · exact hxA
     · exact hyA
-    · exact K.R_le_A (K.toCtx.nor0 hmB K.toCtx.uR)
-    · exact K.R_le_A (K.toCtx.nor0 hmB K.toCtx.vR)
+    · exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A (K.toCtx.nor0 hmB CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR)
+    · exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A (K.toCtx.nor0 hmB CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR)
   have := hle ha
   simpa [MulAut.conj_apply] using this
 
 theorem exists_cubes : ∃ c₁ c₂ : Z3, x ^ 3 = ψ u v c₁ ∧ y ^ 3 = ψ u v c₂ := by
-  obtain ⟨c₁, h1⟩ := exists_ψ K.toCtx.E (K.cube_R K.xA)
-  obtain ⟨c₂, h2⟩ := exists_ψ K.toCtx.E (K.cube_R K.yA)
+  obtain ⟨c₁, h1⟩ := exists_ψ K.toCtx.E (K.cube_R (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA (x := x) (y := y) (u := u) (v := v)))
+  obtain ⟨c₂, h2⟩ := exists_ψ K.toCtx.E (K.cube_R (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.yA (x := x) (y := y) (u := u) (v := v)))
   exact ⟨c₁, c₂, h1, h2⟩
 
 theorem cube_eq {c₁ c₂ : Z3} (h1 : x ^ 3 = ψ u v c₁) (h2 : y ^ 3 = ψ u v c₂) {a : G}
     (ha : a ∈ Agrp x y u v) {q : Z3} (hq : θ b a = ψ u v q) : a ^ 3 = ψ u v (lin c₁ c₂ q) := by
   set aq := x ^ q.1.val * y ^ q.2.val with haq
-  have haqA := K.xy_mem q
+  have haqA := CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xy_mem (x := x) (y := y) (u := u) (v := v) q
   have hr : a * aq⁻¹ ∈ R u v := by
     refine K.A_inf_B ((Agrp x y u v).mul_mem ha ((Agrp x y u v).inv_mem haqA))
       (K.toCtx.θ_eq_one_mem_B K.hP (P.mul_mem (K.A_le_P ha) (P.inv_mem (K.A_le_P haqA))) ?_)
@@ -202,7 +207,7 @@ theorem cube_equivariant {c₁ c₂ : Z3} (h1 : x ^ 3 = ψ u v c₁) (h2 : y ^ 3
     (hf₂ : m * v * m⁻¹ = ψ u v f₂) {e : ZMod 3} {p : Z3} (he : m⁻¹ * b * m = b ^ e.val * ψ u v p)
     (q : Z3) : lin c₁ c₂ (e.val • lin f₁ f₂ q) = lin f₁ f₂ (lin c₁ c₂ q) := by
   set a := x ^ q.1.val * y ^ q.2.val
-  have haA := K.xy_mem q
+  have haA := CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xy_mem (x := x) (y := y) (u := u) (v := v) q
   have hc := conj_ψ K.toCtx.E hf₁ hf₂
   have hmaA := K.nor_A hm hmB haA
   have hθ : θ b (m * a * m⁻¹) = ψ u v (e.val • lin f₁ f₂ q) := by

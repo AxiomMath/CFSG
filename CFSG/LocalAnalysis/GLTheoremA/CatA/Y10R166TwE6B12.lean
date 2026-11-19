@@ -48,6 +48,7 @@ variable {Ω : Type} [Field Ω] [CharP Ω 2]
 
 namespace TwE6B
 
+omit [CharP Ω 2] in
 theorem torusElt_eq_commutator_weylElt (i : Fin Tag.E6.rank) {t : Ωˣ} (ht : t ^ 3 = 1) :
     torusElt Tag.E6 Ω i t = ⁅weylElt Tag.E6 Ω i 1, torusElt Tag.E6 Ω i t⁆ := by
   have ht2 : t ^ (-2 : ℤ) = t := by
@@ -73,6 +74,7 @@ theorem weylElt_one_sq_eq_one (i : Fin Tag.E6.rank) :
     exact CharTwo.neg_eq 1
   rw [h, torusElt_one]
 
+omit [CharP Ω 2] in
 theorem torusElt_mem_twE6C {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hod : Odd n) {t : Ωˣ} (ht : t ^ 3 = 1) (i : Fin Tag.E6.rank) :
     torusElt Tag.E6 Ω i t ∈ twE6C Fr := by
@@ -88,7 +90,7 @@ theorem weylElt_mem_twE6C {K : Type} [Field K] [Finite K] [Algebra K Ω]
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n))
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (i : Fin Tag.E6.rank) :
     weylElt Tag.E6 Ω i 1 ∈ twE6C Fr := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg, hgn⟩ := twE6EnnolaConj (ℓ := 2) Nat.prime_two hn hK hFr
   have h3 : (weylElt Tag.E6 Ω i 1) ^ 3 ∈ ⁅TwistedDiag.thetaFixed Fr, TwistedDiag.thetaFixed Fr⁆ :=
     rgrp_pow_three_mem_derived Nat.prime_two hn hK (fun c => hσ c) hFr hg hgn
@@ -103,7 +105,7 @@ theorem le_twE6C_of_isPGroup_two {K : Type} [Field K] [Finite K] [Algebra K Ω]
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n))
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) {S : Subgroup (ModGL Tag.E6 Ω)}
     (hSR : S ≤ TwistedDiag.thetaFixed Fr) (hS2 : IsPGroup 2 ↥S) : S ≤ twE6C Fr := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg, hgn⟩ := twE6EnnolaConj (ℓ := 2) Nat.prime_two hn hK hFr
   intro x hx
   obtain ⟨e, he⟩ := hS2 ⟨x, hx⟩
@@ -113,6 +115,7 @@ theorem le_twE6C_of_isPGroup_two {K : Type} [Field K] [Finite K] [Algebra K Ω]
     simpa using congrArg Subtype.val he
   exact mem_twE6C.2 (CFSG.Quasithin.H13.NQCat.CartanL3.mem_of_pow_three_mem hx3 hpow)
 
+omit [CharP Ω 2] in
 private theorem torusElt_eq_twE6QVec_cartan (i : Fin Tag.E6.rank) {ω : Ωˣ}
     (hω3 : ω ^ 3 = 1) :
     twE6QVec (q := 3) ω hω3 (fun j : Fin 6 => (Tag.E6.cartan i j : ZMod 3)) =
@@ -148,27 +151,32 @@ private theorem twE6B0Vec_three_eq :
   funext j
   fin_cases j <;> decide
 
+omit [CharP Ω 2] in
 private theorem torusElt_sq (i : Fin Tag.E6.rank) (u : Ωˣ) :
     torusElt Tag.E6 Ω i (u ^ 2) = (torusElt Tag.E6 Ω i u) ^ 2 := by
   calc torusElt Tag.E6 Ω i (u ^ 2) = torusElt Tag.E6 Ω i (u * u) := by rw [pow_two]
     _ = torusElt Tag.E6 Ω i u * torusElt Tag.E6 Ω i u := torusElt_mul i u u
     _ = (torusElt Tag.E6 Ω i u) ^ 2 := (pow_two _).symm
 
+omit [CharP Ω 2] in
 private theorem twE6QVec_b0Vec_zero {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     twE6QVec (q := 3) ω hω3 (twE6B0Vec 0) = torusElt Tag.E6 Ω 1 ω := by
   rw [twE6B0Vec_zero_eq]
   exact torusElt_eq_twE6QVec_cartan 1 hω3
 
+omit [CharP Ω 2] in
 private theorem twE6QVec_b0Vec_one {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     twE6QVec (q := 3) ω hω3 (twE6B0Vec 1) = torusElt Tag.E6 Ω 2 ω := by
   rw [twE6B0Vec_one_eq]
   exact torusElt_eq_twE6QVec_cartan 2 hω3
 
+omit [CharP Ω 2] in
 private theorem twE6QVec_b0Vec_two {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     twE6QVec (q := 3) ω hω3 (twE6B0Vec 2) = torusElt Tag.E6 Ω 3 ω := by
   rw [twE6B0Vec_two_eq]
   exact torusElt_eq_twE6QVec_cartan 3 hω3
 
+omit [CharP Ω 2] in
 private theorem twE6QVec_b0Vec_three {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     twE6QVec (q := 3) ω hω3 (twE6B0Vec 3) =
       torusElt Tag.E6 Ω 4 (ω ^ 2) * torusElt Tag.E6 Ω 5 ω := by
@@ -195,6 +203,7 @@ private theorem twE6QVec_b0Vec_three {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     _ = (torusElt Tag.E6 Ω 4 ω) ^ 2 * torusElt Tag.E6 Ω 5 ω := by rw [hA, hB]
     _ = torusElt Tag.E6 Ω 4 (ω ^ 2) * torusElt Tag.E6 Ω 5 ω := by rw [torusElt_sq]
 
+omit [CharP Ω 2] in
 theorem twE6BZero_le_of_gens {ω : Ωˣ} (hω3 : ω ^ 3 = 1) {H : Subgroup (ModGL Tag.E6 Ω)}
     (h1 : torusElt Tag.E6 Ω 1 ω ∈ H) (h2 : torusElt Tag.E6 Ω 2 ω ∈ H)
     (h3 : torusElt Tag.E6 Ω 3 ω ∈ H)
@@ -228,6 +237,7 @@ private theorem fBar_comb_eq :
   funext j
   fin_cases j <;> decide
 
+omit [CharP Ω 2] in
 private theorem eBar_eq_twE6QVec {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     eBar (Ω := Ω) ω = twE6QVec (q := 3) ω hω3 ((2 : ℕ) • twE6B0Vec 3) := by
   have h4 : torusElt Tag.E6 Ω 4 ω =
@@ -256,12 +266,14 @@ private theorem eBar_eq_twE6QVec {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
             (2 : ℕ) • (fun j : Fin 6 => (Tag.E6.cartan 5 j : ZMod 3))) := hsplit
     _ = twE6QVec (q := 3) ω hω3 ((2 : ℕ) • twE6B0Vec 3) := by rw [hvec]
 
+omit [CharP Ω 2] in
 theorem eBar_mem_twE6BZero {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     eBar (Ω := Ω) ω ∈ twE6BZero ω hω3 := by
   have hmem := twE6B0Comb_mem ω hω3 (Pi.single 3 2)
   rw [← eBar_comb_eq] at hmem
   rwa [← eBar_eq_twE6QVec (Ω := Ω) hω3] at hmem
 
+omit [CharP Ω 2] in
 theorem fBar_mem_twE6BZero {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     fBar (Ω := Ω) ω ∈ twE6BZero ω hω3 := by
   have hfb : fBar (Ω := Ω) ω = twE6QVec (q := 3) ω hω3 (twE6B0Vec 1) :=
@@ -270,6 +282,7 @@ theorem fBar_mem_twE6BZero {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
   rw [← fBar_comb_eq] at hmem
   rwa [← hfb] at hmem
 
+omit [CharP Ω 2] in
 theorem exists_kernelComponent_omega1 {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     Nonempty (KernelComponent (rootCharHom (twE6omega1Tuple ω))) := by
   have hmem : (Pi.single (1 : Fin Tag.E6.rank) 1) ∈

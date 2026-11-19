@@ -36,7 +36,7 @@ private lemma uSL_mul {F : Type*} [Field F] (s t : F) : uSL s * uSL t = uSL (s +
   rw [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_uSL, coe_uSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uMat, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    simp [uMat, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 private lemma uSL_zero {F : Type*} [Field F] : uSL (0 : F) = 1 := by
   apply Subtype.ext
@@ -46,7 +46,7 @@ private lemma uSL_zero {F : Type*} [Field F] : uSL (0 : F) = 1 := by
 private lemma uMat_mulVec {F : Type*} [Field F] (t : F) (v : Fin 2 → F) :
     (uMat t).mulVec v = ![v 0 + t * v 1, v 1] := by
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, uMat, Matrix.mulVec, Fin.sum_univ_two]
+  fin_cases i <;> simp [vecHead, vecTail, uMat, Matrix.mulVec]
 
 private def fixedLine (F : Type*) [AddGroup F] : AddSubgroup (Fin 2 → F) where
   carrier := {v | v 1 = 0}
@@ -99,7 +99,7 @@ private lemma eq_fixedLine_of_uInvariant {F : Type*} [Field F] [Finite F]
             fun i : Fin 2 => if i = 0 then (v : Fin 2 → F) 0 else 0 := by
           funext i
           rw [uMat_mulVec]
-          fin_cases i <;> simp [div_mul_cancel₀ _ hw1] <;> ring
+          fin_cases i <;> simp [div_mul_cancel₀ _ hw1]
         rwa [heq] at h
       have hv_eq : (v : Fin 2 → F) =
           fun i : Fin 2 => if i = 0 then (v : Fin 2 → F) 0 else 0 := by
@@ -566,11 +566,12 @@ private lemma pairingL_bijective (hH : Hyp111 L1 L2 S)
     rw [hzw, hw₁β]
     simp
 
-private noncomputable def pairingY (hH : Hyp111 L1 L2 S)
-    (hD : L3qLocalData L1 L2 S f) (c₂ : VertexCoord L2 S (GaloisField 2 f))
+private noncomputable def pairingY (_hH : Hyp111 L1 L2 S)
+    (_hD : L3qLocalData L1 L2 S f) (c₂ : VertexCoord L2 S (GaloisField 2 f))
     (τ : GaloisField 2 f) : ↥(pCoreOf 2 L2) :=
   c₂.β.symm (Multiplicative.ofAdd ![0, τ])
 
+omit [Finite G] in
 private lemma pairingY_beta (hH : Hyp111 L1 L2 S)
     (hD : L3qLocalData L1 L2 S f) (c₂ : VertexCoord L2 S (GaloisField 2 f))
     (τ : GaloisField 2 f) :
@@ -721,9 +722,9 @@ private lemma pairingL_mul (hH : Hyp111 L1 L2 S)
         pairingC hH hD c₁ c₂ τ := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     have hf0 : f ≠ 0 := by have := hD.one_le; omega
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 2 ^ f := by
       rw [Fintype.card_eq_nat_card]
       exact GaloisField.card 2 f hf0

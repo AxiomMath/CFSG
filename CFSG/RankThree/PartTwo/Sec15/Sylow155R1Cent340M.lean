@@ -24,12 +24,12 @@ theorem res1340_card_le_card_img148 {A Y L : Subgroup G} [(ker148 A Y).Normal]
     (hLY : L ≤ Y ⊔ A) (hsimple : IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L))
     (h3 : 3 ∣ Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L)) :
     Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L) ≤ Nat.card (img148 A Y L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
   set f : ↥L →* ↥(Y ⊔ A) ⧸ ker148 A Y :=
     (QuotientGroup.mk' (ker148 A Y)).comp (Subgroup.inclusion hLY) with hf
   have hker : f.ker ≤ aschbacherSolvableCore 3 ↥L := by
-    haveI hn : (f.ker.map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L))).Normal :=
+    have hn : (f.ker.map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L))).Normal :=
       f.normal_ker.map _ (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (f.ker.map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L))) with hb | ht
@@ -198,7 +198,7 @@ theorem deltaZero_le_sup_of_competing
     rcases hcases with ⟨⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩ | ⟨p, f, e, hp, -, -, hiso, -⟩ | ⟨⟨φ⟩, -⟩
     · rw [Nat.card_congr φ.toEquiv, hpt hc' hL']
     · rw [Nat.card_congr φ.toEquiv, KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1]
-      rcases res1340_card hL with hc | hc <;> rw [hc] <;> norm_num
+      rcases res1340_card hL with hc | hc <;> rw [hc]; norm_num
     · exact (res1340_not_isoLThreePi (hQ' hc' hL') p (f * e) hiso).elim
     · exact (res1340_not_j2 (hQ' hc' hL') ⟨φ⟩).elim
   ·

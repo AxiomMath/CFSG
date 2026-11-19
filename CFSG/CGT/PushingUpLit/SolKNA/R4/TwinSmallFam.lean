@@ -20,11 +20,11 @@ open scoped MatrixGroups commutatorElement
 
 theorem twinCyc4_l2 {F : Type} [Group F] [Finite F] (h : SmallL2 F) : TwinCyc4 F := by
   obtain ⟨p, f, K, _, _, hp, hpodd, hf, h3, hK, ⟨e⟩⟩ := soc_l2_data h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro z hz
   have ht : orderOf (e z) = 2 := by rw [MulEquiv.orderOf_eq]; exact hz
   obtain ⟨m, hm, ⟨ψ⟩⟩ := soc_l2_centralizer_dihedral K hK hpodd hf h3 ht
-  haveI := hm
+  have := hm
   obtain ⟨c, hc⟩ : ∃ c : Subgroup.centralizer ({e z} : Set (PSL2 K)),
       ψ c = DihedralGroup.r (1 : ZMod m) :=
     ⟨ψ.symm (DihedralGroup.r (1 : ZMod m)), ψ.apply_symm_apply _⟩
@@ -71,7 +71,7 @@ theorem mem_scalar_of_solvable_subnormal {K : Type} [Field K] [Finite K]
         map_one' := Subtype.ext (by simp)
         map_mul' := fun a b => Subtype.ext (by simp) }
     have hker : Group.IsSolvable ↥φ.ker := by
-      apply isSolvable_of_comm
+      apply _root_.Group.isSolvable_of_comm
       intro a b
       obtain ⟨ωa, -, ha⟩ := hk (a : ↥M) (by
         have := congrArg Subtype.val (MonoidHom.mem_ker.mp a.2)
@@ -85,9 +85,9 @@ theorem mem_scalar_of_solvable_subnormal {K : Type} [Field K] [Finite K]
       show ((a : ↥M) : H).1 * ((b : ↥M) : H).1 = ((b : ↥M) : H).1 * ((a : ↥M) : H).1
       rw [ha, hb]
       exact scalar_mul_comm ωa _
-    haveI := hker
-    haveI := hXs
-    exact solvable_of_ker_le_range φ.ker.subtype φ (by simp)
+    have := hker
+    have := hXs
+    exact Group.isSolvable_of_ker_le_range φ.ker.subtype φ (by simp)
   have hSn : (slPart H).Normal := MonoidHom.normal_ker _
   have hQS : CFSG.IsQuasisimple ↥(slPart H) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eJ.symm
@@ -151,8 +151,8 @@ theorem twinCyc4_u3 {F : Type} [Group F] [Finite F] (h : SmallU3Ne3 F) : TwinCyc
   obtain ⟨-, h5⟩ := Q5L5U5.five_le hp hp2 hf h3
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hU.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hU.charP
   have hcardF : Nat.card (CFSG.LieType.Steinberg.fixedSubfield K p f) = p ^ f :=
     CFSG.LieType.Steinberg.card_fixedSubfield hK
   have h4 : 4 ≤ Nat.card (CFSG.LieType.Steinberg.fixedSubfield K p f) := by

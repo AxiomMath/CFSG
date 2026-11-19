@@ -24,7 +24,7 @@ theorem exists_normal_isComplement'_of_isCyclic_sylow_two (S : Sylow 2 G)
       (Nat.minFac_eq_two_iff _).mpr (even_iff_two_dvd.mp heven)
     exact ⟨_, MonoidHom.normal_ker _, hS.isComplement' hmin⟩
   · have hS1 : Nat.card S = 1 := by
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       rcases k with _ | k
       · simpa using hk
       · exfalso
@@ -61,7 +61,7 @@ theorem cyclic_sylow_normal_odd_complement (S : Sylow 2 G) (hS : IsCyclic S) :
     le_pPrimeCore_of_normal_coprime hNnormal ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr
       hNodd)
   have hKcop : Nat.Coprime 2 (Nat.card K) := pPrimeCore_coprime_card (p := 2) (G := G)
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have hKdvd : Nat.card K ∣ Nat.card N := by
     have h1 : Nat.card K ∣ Nat.card N * 2 ^ a := by
       rw [← ha, hcardNS]

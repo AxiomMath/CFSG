@@ -27,7 +27,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isSylowOf_coe_sylow (S : Sylow 2 G) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup G) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-  exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+  exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
 
 theorem isConj_of_quotient_isConj {O : Subgroup G} [O.Normal] (hOodd : Odd (Nat.card O))
     {x y : G} (hx : BenderSuzuki.PFAppendixIII.IsInvolution x)
@@ -39,6 +39,7 @@ theorem isConj_of_quotient_isConj {O : Subgroup G} [O.Normal] (hOodd : Odd (Nat.
       O hOodd hx hy ⟨gq, hgq⟩
   exact isConj_iff.mpr ⟨g, hg⟩
 
+omit [Finite G] in
 theorem normalClosure_quotient_eq_top {O : Subgroup G} [O.Normal] {a : G}
     (hgen : Subgroup.normalClosure ({a} : Set G) = ⊤) :
     Subgroup.normalClosure ({(QuotientGroup.mk' O) a} : Set (G ⧸ O)) = ⊤ := by
@@ -151,6 +152,7 @@ private theorem eq_top_of_mem_normalClosure_eq_top {Q : Type} [Group Q] {L : Sub
   rw [hgen] at hle
   exact top_le_iff.mp hle
 
+omit [Finite G] in
 private theorem conj_eq_self_of_conj_sq (v a : G) {m : ℕ}
     (hv2a : v ^ 2 * a * (v ^ 2)⁻¹ = a) (hveq : v = (v ^ 2) ^ (m + 1)) :
     v * a * v⁻¹ = a := by
@@ -168,6 +170,7 @@ private theorem conj_eq_self_of_conj_sq (v a : G) {m : ℕ}
         conv_lhs => rw [hveq]
     _ = a := hiter (m + 1)
 
+omit [Finite G] in
 private theorem not_odd_conj_abelian (S : Sylow 2 G) {a b v : G}
     (hb2 : b * b = 1) (hbS : b ∈ S) (hab : IsConj a b) (hne : a ≠ b)
     (hcl : ∀ x : G, x ∈ S → IsConj a x → x = a ∨ x = b) (hz1 : a * b ≠ 1)
@@ -211,7 +214,7 @@ private theorem twoPart_mem_of_normalizer (S : Sylow 2 G) {n u : G} {k : ℕ}
     exact (orderOf_dvd_of_mem_zpowers g.2).trans (orderOf_dvd_of_pow_eq_one huk)
   have hsupP : IsPGroup 2 (Subgroup.zpowers u ⊔ (S : Subgroup G) : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' (p := 2) (H := Subgroup.zpowers u)
-      (K := (S : Subgroup G)) hzu S.isPGroup' (Subgroup.zpowers_le.mpr huN)
+      (K := (S : Subgroup G)) hzu S.isPGroup (Subgroup.zpowers_le.mpr huN)
   have hsup_eq : (Subgroup.zpowers u ⊔ (S : Subgroup G) : Subgroup G) = S :=
     (isSylowOf_coe_sylow S).eq_of_le le_sup_right le_top hsupP
   change u ∈ (S : Subgroup G)
@@ -224,7 +227,7 @@ theorem not_sylowOf_fourGroup (S : Sylow 2 G) {a b : G}
     (hcl : ∀ x : G, x ∈ S → IsConj a x → x = a ∨ x = b)
     (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (fourGroup a b) ⊤) : False := by
   have hVleS : fourGroup a b ≤ (S : Subgroup G) := fourGroup_le haS hbS
-  have hSV : (S : Subgroup G) = fourGroup a b := hsyl.eq_of_le hVleS le_top S.isPGroup'
+  have hSV : (S : Subgroup G) = fourGroup a b := hsyl.eq_of_le hVleS le_top S.isPGroup
   have ha2 : a * a = 1 := mul_eq_one_iff_eq_inv.mpr (inv_eq_self_of_orderOf_eq_two ha).symm
   have hb2 : b * b = 1 := mul_eq_one_iff_eq_inv.mpr (inv_eq_self_of_orderOf_eq_two hb).symm
   have hcomm : a * b = b * a := mul_comm_of_conj_pair S hb haS hbS hne hcl
@@ -233,7 +236,7 @@ theorem not_sylowOf_fourGroup (S : Sylow 2 G) {a b : G}
     rw [hSV]
     exact hVea.1
   obtain ⟨nn, hnn⟩ := isConj_iff.mp hab
-  haveI : IsMulCommutative (S : Subgroup G) := hScomm
+  have : IsMulCommutative (S : Subgroup G) := hScomm
   obtain ⟨n, hn, hnconj⟩ :=
     Sylow.conj_eq_normalizer_conj_of_mem S a nn⁻¹ haS (by
       rw [show nn⁻¹⁻¹ * a * nn⁻¹ = b by simpa using hnn]
@@ -281,7 +284,7 @@ private theorem isConj_of_quotient_psu3 {M : Subgroup G} (O : Subgroup M) [O.Nor
   have hqy : orderOf ((QuotientGroup.mk' O) y) = 2 :=
     CFSG.Wreathed.InvolutionInducedCharacters.orderOf_mk_eq_two O hOodd hyord
   obtain ⟨e⟩ := hquot
-  haveI : Finite (PSU3 2 2) := Finite.of_injective e.symm e.symm.injective
+  have : Finite (PSU3 2 2) := Finite.of_injective e.symm e.symm.injective
   have hB : CFSG.BenderSuzuki.IsBenderGroup (PSU3 2 2) :=
     CFSG.BenderSuzuki.IsBenderGroup.isPSU3 2 (le_refl 2)
       (MulEquiv.subgroupCongr (CFSG.Models.benderPSU3Model_eq_psu3 2))
@@ -301,7 +304,7 @@ private theorem isConj_of_quotient_psu3 {M : Subgroup G} (O : Subgroup M) [O.Nor
       O hOodd hx hy hqconj
   exact isConj_iff.mpr ⟨g, hg⟩
 
-theorem not_quotient_psu3 (S : Sylow 2 G) {a b : G}
+theorem not_quotient_psu3 (_S : Sylow 2 G) {a b : G}
     (ha : orderOf a = 2) (hzord : orderOf (a * b) = 2)
     (hzconj : ¬ IsConj a (a * b))
     (hgen : Subgroup.normalClosure ({a} : Set G) = ⊤)
@@ -312,7 +315,7 @@ theorem not_quotient_psu3 (S : Sylow 2 G) {a b : G}
   let M : Subgroup G := Subgroup.normalClosure (fourGroup a b : Set G)
   have hMtop : M = ⊤ := normalClosure_fourGroup_eq_top hgen
   let O : Subgroup M := CFSG.Assembly.oddCore M
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     dsimp [O]
     infer_instance
   have hOodd : Odd (Nat.card O) := by
@@ -358,7 +361,7 @@ private theorem conj_class_twoGroup_quotient (S : Sylow 2 G) (O : Subgroup G) [O
       exact Nat.Coprime.pow_left 3 (Nat.coprime_two_left.mpr hOodd)
     have hSO : (S : Subgroup G) ⊓ f.ker = ⊥ := by
       rw [show f.ker = O from QuotientGroup.ker_mk' O]
-      exact Subgroup.inf_eq_bot_of_coprime hcop
+      exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
     rw [CFSG.card_map_eq_card_of_inf_ker_eq_bot f hSO, hScard]
   have hclass : ∀ g : Q, g * f a * g⁻¹ = f a ∨ g * f a * g⁻¹ = f b := by
     intro g
@@ -382,7 +385,7 @@ theorem not_isPGroup_quotient (S : Sylow 2 G) {a b : G}
     (hQ : IsPGroup 2 (G ⧸ CFSG.pPrimeCore 2 G)) : False := by
   classical
   let O : Subgroup G := CFSG.pPrimeCore 2 G
-  haveI hOn : O.Normal := CFSG.pPrimeCore_normal
+  have hOn : O.Normal := CFSG.pPrimeCore_normal
   let Q := G ⧸ O
   let f : G →* Q := QuotientGroup.mk' O
   have hQ' : IsPGroup 2 (G ⧸ O) := hQ
@@ -421,8 +424,8 @@ theorem not_psl2_quotient {a b : G}
     (eP : L ≃* CFSG.GorensteinWalter.PSL2 K) : False := by
   classical
   let O : Subgroup G := CFSG.pPrimeCore 2 G
-  haveI hOn : O.Normal := CFSG.pPrimeCore_normal
-  haveI hLN : L.Normal := hLn
+  have hOn : O.Normal := CFSG.pPrimeCore_normal
+  have hLN : L.Normal := hLn
   have hOodd : Odd (Nat.card O) := by
     dsimp [O]
     exact CFSG.Walter.W67.odd_card_pPrimeCore G
@@ -449,7 +452,7 @@ theorem not_psl2_quotient {a b : G}
     rw [MulEquiv.orderOf_eq, hxL]
   have hzP : orderOf (eP ⟨f (a * b), hfzL⟩) = 2 := by
     rw [MulEquiv.orderOf_eq, hzL]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconjP : IsConj (eP ⟨f a, hfaL⟩) (eP ⟨f (a * b), hfzL⟩) :=
     CFSG.Walter.psl2_isConj_of_orderOf_eq_two K (p := p) (f := n) hq hpodd (by omega) hxP hzP
   obtain ⟨gP, hgP⟩ := isConj_iff.mp hconjP
@@ -477,8 +480,8 @@ theorem pgl2_branch (S : Sylow 2 G) {a : G}
         Nonempty (G ⧸ CFSG.pPrimeCore 2 G ≃* CFSG.GorensteinWalter.PGL2 K') := by
   classical
   let O : Subgroup G := CFSG.pPrimeCore 2 G
-  haveI hOn : O.Normal := CFSG.pPrimeCore_normal
-  haveI hLN : L.Normal := hLn
+  have hOn : O.Normal := CFSG.pPrimeCore_normal
+  have hLN : L.Normal := hLn
   have hOodd : Odd (Nat.card O) := by
     dsimp [O]
     exact CFSG.Walter.W67.odd_card_pPrimeCore G

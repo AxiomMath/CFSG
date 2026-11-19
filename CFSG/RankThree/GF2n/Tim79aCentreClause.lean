@@ -20,7 +20,7 @@ theorem commutator_eq_top_of_four_le (hc : MinCex M V Q P H) (hd : Sec23Data V H
     omega) 1
   have hmem : ∀ x : Hbar V H, x ∈ barOf V H V → x ≠ 1 →
       ∃ y : Xbar V H, y ∈ Dy V H ∧ (y : Hbar V H) = x :=
-    fun x hx hx1 => ⟨⟨x, barOf_V_le V H hx⟩, hc.barOf_V_subset_dbarOf hx hx1, rfl⟩
+    fun x hx hx1 => ⟨⟨x, barOf_V_le V H hx⟩, CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hx hx1, rfl⟩
   obtain ⟨a', ha'D, ha'⟩ := hmem a.1 a.2 (fun h => ha1 (Subtype.ext h))
   obtain ⟨b', hb'D, hb'⟩ := hmem b.1 b.2 (fun h => hb1 (Subtype.ext h))
   have hb2 : b.1 * b.1 = 1 := by

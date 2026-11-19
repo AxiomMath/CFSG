@@ -76,7 +76,7 @@ theorem exists_isolatedTransvectionBlock {V X : Type} [CommGroup V] [Finite V] [
   have hΦodd : Odd (Nat.card Φ) := by
     rw [hΦ, Subgroup.card_map_of_injective hρ]
     exact Nat.coprime_two_left.mp pPrimeCore_coprime_card
-  haveI : Group.IsSolvable Φ := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hΦodd
+  have : Group.IsSolvable Φ := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hΦodd
   have htΦ : ∀ f ∈ Φ, ρ d * f * (ρ d)⁻¹ ∈ Φ := by
     rintro _ ⟨k, hk, rfl⟩
     exact ⟨d * k * d⁻¹, (inferInstance : O.Normal).conj_mem k hk d, by simp [map_mul, map_inv]⟩

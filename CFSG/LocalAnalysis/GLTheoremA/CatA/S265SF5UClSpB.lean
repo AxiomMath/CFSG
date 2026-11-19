@@ -73,17 +73,17 @@ theorem false_of_component_statedSp_five {r f e : ℕ} {K : Type} [Field K] [Fin
     (hZ : Subgroup.center ↥J = ⊥) (h5 : 5 ∣ 2 ^ e + 1)
     (hcard : Nat.card J = ordTwistedA 4 (2 ^ e)) : False := by
   classical
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hq : 2 ≤ 2 ^ f := Nat.le_self_pow (by omega) 2
   have he1 : 1 ≤ e := by
     rcases Nat.eq_zero_or_pos e with rfl | he
     · norm_num at h5
     · exact he
   have hπ : ∀ s, 1 ≤ s → Function.Bijective (SymplecticFlag.proj s K) := fun s hs => by
-    haveI : NeZero s := ⟨by omega⟩
+    have : NeZero s := ⟨by omega⟩
     exact UnitaryHigher.proj_bijective_of_charTwo
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [(MonoidHom.ker_eq_bot_iff _).2 (hπ r hr).1]
@@ -96,7 +96,7 @@ theorem false_of_component_statedSp_five {r f e : ℕ} {K : Type} [Field K] [Fin
   have hpK : ((5 : ℕ) : K) ≠ 0 := fun h0 =>
     absurd ((CharP.cast_eq_zero_iff K 2 5).1 h0) (by norm_num)
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   obtain ⟨⟨O, k, hk, rfl⟩, hQ, hJeq⟩ := components_conj_of_orbit_family
@@ -166,7 +166,7 @@ theorem false_of_component_statedSp_five {r f e : ℕ} {K : Type} [Field K] [Fin
       (((CFSG.Timmesfeld.card_statedClassicalModel_two hmod).2.2.1 rfl).symm.trans hcard)
   ·
     have h720 : Nat.card ↥(StatedSp 2 K) = 720 := by
-      rw [SymplecticFlag.card_statedSp_two, hK2] <;> norm_num
+      rw [SymplecticFlag.card_statedSp_two, hK2]; norm_num
     have hdvd : ordTwistedA 4 (2 ^ e) ∣ 720 := by
       rw [← hcard, ← Nat.card_congr eY.toEquiv, Nat.card_congr eS.toEquiv, ← h720]
       exact Subgroup.card_subgroup_dvd_card _

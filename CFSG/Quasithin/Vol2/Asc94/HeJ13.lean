@@ -35,11 +35,12 @@ variable {x : G} (hxN : x ∈ N) (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : 
 
 include hxN hxa hx3 hb hb1 hba hbm
 
+omit hb1 hba in
 theorem Data40.exists_rot_B : ∃ n : G, n ∈ N ∧
     n ∈ normalizer (((A ⊓ A') ⊓ centralizer ({x} : Set G) : Subgroup G) : Set G) ∧
     n * a * n⁻¹ = b ∧ n * b * n⁻¹ = a * b := by
   set g := ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2) with hg
-  have hg3 := hD.g_pow_three hxN hxa hx3
+  have hg3 := hD.g_pow_three hxN hx3
   have hg1 := hD.g_ne_one hxN hxa hx3
   obtain ⟨n, hnN, hconj⟩ := hD.exists_rot g
   have hbZ : b ∈ A ⊓ A' := hb.1
@@ -50,9 +51,9 @@ theorem Data40.exists_rot_B : ∃ n : G, n ∈ N ∧
   refine ⟨n, hnN, ?_, hnb, ?_⟩
   · apply Subgroup.mem_normalizer_fintype
     intro y hy
-    have hy' := (hD.mem_B_iff hxN hxa hx3).1 hy
+    have hy' := (hD.mem_B_iff hxN hxa).1 hy
     show n * y * n⁻¹ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G)
-    rw [hD.mem_B_iff hxN hxa hx3]
+    rw [hD.mem_B_iff hxN hxa]
     refine ⟨hD.mem_Z_conj hnN hy'.1, ?_⟩
     rw [hconj y hy'.1]
     calc g.val * (g.val * m y) = g.val * (m y * g.val) := by rw [hy'.2]

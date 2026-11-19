@@ -69,7 +69,7 @@ theorem rep_genArr :
   interval_cases l
   · have hA : Rep 100 aT (gensG 1) := by
       have h := hrep 1
-      rwa [show gensT 1 = aT from if_pos rfl] at h
+      rwa [show gensT 1 = aT from ite_eq_left rfl] at h
     exact ⟨by simpa [genArr] using hA, by
       simpa [genInvArr] using Rep.inv_of_invOK hA c_invA, hgens 1⟩
   · have hB : Rep 100 bT (gensG ((1 : ℕ) + 1 : ℕ)) := by

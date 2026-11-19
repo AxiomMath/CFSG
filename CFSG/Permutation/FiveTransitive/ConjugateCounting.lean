@@ -59,7 +59,7 @@ private theorem card_embedding_pair_pred
       right_inv := fun ab => by cases ab; rfl }
   rw [Nat.card_congr E, Nat.card_prod]
 
-@[expose] abbrev Remainder {X : Type*} (α β : X) := ↥(({α, β} : Set X)ᶜ)
+abbrev Remainder {X : Type*} (α β : X) := ↥(({α, β} : Set X)ᶜ)
 
 private theorem remainder_ne_left {X : Type*} {α β : X} (a : Remainder α β) : a.val ≠ α := by
   intro h

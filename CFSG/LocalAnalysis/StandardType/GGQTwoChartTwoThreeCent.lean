@@ -32,6 +32,7 @@ variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
       qTwoChartTwoThree_diag c * (u : GL (Fin m) F0) * (qTwoChartTwoThree_diag c)⁻¹ ∧
     ψ u' = b * ψ u * b⁻¹
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_val (c : Fin m → F0ˣ) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal fun i => (c i : F0) :=
@@ -42,7 +43,7 @@ private theorem qTwoChartTwoThree_diag_conjTr_mul (hF0 : Nat.card F0 = 4) (c : F
         ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
       ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 1 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Fintype.card F0 = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF0
@@ -58,12 +59,14 @@ private theorem qTwoChartTwoThree_diag_conjTr_mul (hF0 : Nat.card F0 = 4) (c : F
   rw [CFSG.LieType.BorelTits.unitaryInvolution_apply, show (2 : ℕ) ^ 1 = 2 from rfl]
   rw [show (c i : F0) ^ 2 * (c i : F0) = (c i : F0) ^ 3 by ring, h3 i]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_matrix_ext_mulVec {A B : Matrix (Fin m) (Fin m) F0}
     (h : ∀ i : Fin m, A *ᵥ Pi.single i 1 = B *ᵥ Pi.single i 1) : A = B := by
   ext i j
   have h' := congrFun (h j) i
   rwa [Matrix.mulVec_single_one, Matrix.mulVec_single_one] at h'
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_single_smul (i : Fin m) (x : F0) :
     Pi.single i x = x • Pi.single i 1 := by
   simpa using (Pi.single_smul' i x (1 : F0))
@@ -83,6 +86,7 @@ theorem qTwoChartTwoThree_diag_conj_mem (hF0 : Nat.card F0 = 4) (c : Fin m → F
   exact ⟨⟨qTwoChartTwoThree_diag c * (u : GL (Fin m) F0) * (qTwoChartTwoThree_diag c)⁻¹,
     CFSG.LieType.Steinberg.conj_mem_SUid hσ hD u.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_induces_of_ordModel {Bs L : Subgroup G} {ψ : Su F0 2 1 m →* G}
     (hψ : QTwoOrdModel Bs L ψ) (b : ↥Bs) :
     ∃ c : Fin m → F0ˣ, qTwoChartTwoThree_induces ψ (b : G) c := by
@@ -125,6 +129,7 @@ theorem qTwoChartTwoThree_perm_conj_diag {u : Su F0 2 1 m} {σ : Equiv.Perm (Fin
   rw [hkey]
   group
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_induces_conj {ψ : Su F0 2 1 m →* G} {b : G} {c : Fin m → F0ˣ}
     (hb : qTwoChartTwoThree_induces ψ b c) {u : Su F0 2 1 m} {σ : Equiv.Perm (Fin m)}
     (hu : ∀ i : Fin m, ((u : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ Pi.single i 1 =
@@ -153,6 +158,7 @@ theorem qTwoChartTwoThree_induces_conj {ψ : Su F0 2 1 m →* G} {b : G} {c : Fi
     rw [hcoeψ, hw'ψ, hwψ]
     group
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_induces_unique {ψ : Su F0 2 1 m →* G} {b₁ b₂ : G} {c : Fin m → F0ˣ}
     (h₁ : qTwoChartTwoThree_induces ψ b₁ c) (h₂ : qTwoChartTwoThree_induces ψ b₂ c)
     (v : Su F0 2 1 m) : b₁ * ψ v * b₁⁻¹ = b₂ * ψ v * b₂⁻¹ := by

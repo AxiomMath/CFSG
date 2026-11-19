@@ -12,6 +12,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] in
 theorem sq_eq_one_HMod (X : HMod n K) : X ^ 2 = 1 :=
   mat_injective (by rw [sq, mat_mul, mat_one, CharTwo.add_self_eq_zero])
 

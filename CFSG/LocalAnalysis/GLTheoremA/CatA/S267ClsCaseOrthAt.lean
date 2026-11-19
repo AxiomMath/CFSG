@@ -29,10 +29,10 @@ theorem badClsAt_B {n : ℕ} {Q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeInde
   rw [TauCeti.LieTypeIndex.characteristic_B] at hchar
   subst hchar
   obtain ⟨e⟩ := he
-  haveI := hSn
+  have := hSn
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B n Q, hv⟩) with hKdef
-  haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Nat.card K = Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
     (TauCeti.LieTypeIndex.characteristic_B n Q) (TauCeti.LieTypeIndex.fieldExponent_B n Q)
   let e' : PSimple p S ≃* StatedProj (StatedOmega (StatedQuadOdd n K)) :=
@@ -68,10 +68,10 @@ theorem badClsAt_D {n : ℕ} {Q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeInde
   rw [TauCeti.LieTypeIndex.characteristic_D] at hchar
   subst hchar
   obtain ⟨e⟩ := he
-  haveI := hSn
+  have := hSn
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D n Q, hv⟩) with hKdef
-  haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Nat.card K = Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
     (TauCeti.LieTypeIndex.characteristic_D n Q) (TauCeti.LieTypeIndex.fieldExponent_D n Q)
   let e' : PSimple p S ≃* StatedProj (StatedOmega (StatedQuadPlus n K)) :=
@@ -108,13 +108,13 @@ theorem badClsAt_twistedD {n : ℕ} {Q : TauCeti.PrimePower}
   rw [TauCeti.LieTypeIndex.characteristic_twistedD] at hchar
   subst hchar
   obtain ⟨e⟩ := he
-  haveI := hSn
+  have := hSn
   have hn : 4 ≤ n := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hn1 : 1 ≤ n := by omega
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD n Q, hv⟩) with hKdef
-  haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Nat.card K = Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
     (TauCeti.LieTypeIndex.characteristic_twistedD n Q)
     (TauCeti.LieTypeIndex.fieldExponent_twistedD n Q)
@@ -168,7 +168,7 @@ theorem badClsAt_D_four_of_ne_three {Q : TauCeti.PrimePower}
   rw [TauCeti.LieTypeIndex.characteristic_D] at hchar
   subst hchar
   obtain ⟨e⟩ := he
-  haveI := hSn
+  have := hSn
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     rcases (show p = 2 ∨ p = 3 ∨ p = 4 ∨ 5 ≤ p by omega) with h | h | h | h
@@ -177,8 +177,8 @@ theorem badClsAt_D_four_of_ne_three {Q : TauCeti.PrimePower}
     · exact absurd (h ▸ hp) (by norm_num)
     · exact h
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) with hKdef
-  haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Nat.card K = Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
     (TauCeti.LieTypeIndex.characteristic_D 4 Q) (TauCeti.LieTypeIndex.fieldExponent_D 4 Q)
   let e' : PSimple p S ≃* StatedProj (StatedOmega (StatedQuadPlus 4 K)) :=

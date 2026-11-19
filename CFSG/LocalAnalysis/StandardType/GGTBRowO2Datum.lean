@@ -43,8 +43,8 @@ theorem ggO2Row_datum_of_frame {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hmul := card_range_ggGamma_mul_of hp hBs hxBs hS.2.2.1 hLx hS.2.2.2.2 hN
   have hV : Module.finrank (ZMod p) V = k + 1 := by
-    haveI : Module.Finite (ZMod p) V := by
-      haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+    have : Module.Finite (ZMod p) V := by
+      have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
       exact Module.Finite.of_finite
     have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
       rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),
@@ -123,7 +123,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR5O2 :
   intro G _ _ p B Bs x L D J hHyp _ _ hL _
   have hcfg : GGConfig p B Bs x L D J := hHyp.1
   obtain ⟨hp, -, -, -, -⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hcfg.1.2.2.2.2.2.1.2.1
   have hNL : Bs ≤ Subgroup.normalizer (L : Set G) := GGInnerDiagOn.le_normalizer hHyp.2.2.1.1
   obtain ⟨k, hk4, hcard, hF | hF⟩ := ggO2Row_frame hHyp hL hNL

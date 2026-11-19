@@ -34,7 +34,7 @@ theorem isMulCommutative_commutator (hset : GoldSetting G S A) (h4 : Nat.card A 
   obtain ⟨hexp, hZA, hcard⟩ := higman_data hset h4 hAD hC2 hnab
   set D := ⁅(S : Subgroup G), (S : Subgroup G)⁆ with hD
   have hDS : D ≤ S := commutator_self_le _
-  have hDp : IsPGroup 2 D := S.isPGroup'.to_le hDS
+  have hDp : IsPGroup 2 D := S.isPGroup.to_le hDS
   set C := Subgroup.centralizer (P : Set G) with hC
   have hb2 : b * b = 1 := mul_self_eq_one hset.elem hb
   have hbi : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb2

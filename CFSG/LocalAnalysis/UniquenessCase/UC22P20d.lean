@@ -261,7 +261,7 @@ theorem uc22p20d_elemAbelian_of_commuting {X : Type*} [Group X] [Finite X] (p n 
   have hpair : (Set.range x).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ hne
     exact hcomm i j (fun h => hne (congrArg x h)) (x i) (hx i) (x j) (hx j)
-  haveI hcommE : IsMulCommutative (Subgroup.closure (Set.range x)) :=
+  have hcommE : IsMulCommutative (Subgroup.closure (Set.range x)) :=
     Subgroup.isMulCommutative_closure hpair
   refine ⟨Subgroup.closure (Set.range x), le_rfl, And.intro hcommE ?_, ?_⟩
   · intro y hy
@@ -314,7 +314,7 @@ theorem uc22p20d_lift_elemAbelian {A : Type*} [Group A] [Finite A] (N : Subgroup
     refine IsMulCommutative.of_setLike_mul_comm fun x hx y hy => ?_
     refine hinjOn (S.mul_mem hx hy) (S.mul_mem hy hx) ?_
     rw [map_mul, map_mul]
-    haveI : IsMulCommutative E₀ := hE₀.1
+    have : IsMulCommutative E₀ := hE₀.1
     exact setLike_mul_comm (hSE x hx) (hSE y hy)
   ·
     intro x hx
@@ -335,7 +335,7 @@ theorem uc22p20d_card_quotient_le {X : Type} [Group X] [Finite X] (C : Subgroup 
     Nat.card (X ⧸ normalizer (C : Set X)) ≤ 4 := by
   by_contra hlt
   push Not at hlt
-  haveI : Fintype (X ⧸ normalizer (C : Set X)) := Fintype.ofFinite _
+  have : Fintype (X ⧸ normalizer (C : Set X)) := Fintype.ofFinite _
   have hle : Fintype.card (Fin 5) ≤ Fintype.card (X ⧸ normalizer (C : Set X)) := by
     rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]
     omega
@@ -351,8 +351,8 @@ theorem uc22p20d_perfectCore_le_normalizer {X : Type} [Group X] [Finite X] (C : 
     CFSG.Quasithin.perfectCore (⊤ : Subgroup X) ≤ normalizer (C : Set X) := by
   set N : Subgroup X := normalizer (C : Set X)
   have hcard := uc22p20d_card_quotient_le C hC
-  haveI : Group.IsSolvable (Equiv.Perm (X ⧸ N)) := Equiv.Perm.isSolvable hcard
-  haveI : Group.IsPerfect (CFSG.Quasithin.perfectCore (⊤ : Subgroup X)) :=
+  have : Group.IsSolvable (Equiv.Perm (X ⧸ N)) := Equiv.Perm.isSolvable hcard
+  have : Group.IsPerfect (CFSG.Quasithin.perfectCore (⊤ : Subgroup X)) :=
     Subgroup.isPerfect_iff.mpr (CFSG.Quasithin.perfectCore_perfect ⊤)
   let ψ : CFSG.Quasithin.perfectCore (⊤ : Subgroup X) →* Equiv.Perm (X ⧸ N) :=
     (MulAction.toPermHom X (X ⧸ N)).comp (Subgroup.subtype _)
@@ -385,15 +385,15 @@ theorem uc22p20d_outSolvable_component {Q : Type} [Group Q] [Finite Q] (hQ : CFS
     {K : Subgroup Q} (hK : CFSG.IsComponent K) : CFSG.Quasithin.OutSolvable ↥K := by
   have hq : CFSG.Open.IsQuasisimple ↥K := CFSG.Quasithin.A3.isQuasisimple_iff_open.1 hK.1
   have hKK : CFSG.Open.IsKGroup ↥K := hQ.subgroup K
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥K hq
   have hcat : CFSG.Open.IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     hKK.isCatalogGroup_of_surjective ⊤ hnab
       ((QuotientGroup.mk' (Subgroup.center ↥K)).comp (Subgroup.topEquiv (G := ↥K)).toMonoidHom)
       ((QuotientGroup.mk'_surjective _).comp (Subgroup.topEquiv (G := ↥K)).surjective)
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (↥K ⧸ Subgroup.center ↥K)) :=
     hSch _ hnab hcat
   exact uc22p20d_outSolvable_of_isSolvable_outer
@@ -475,13 +475,14 @@ theorem uc22p20d_exists_five (hKP : CFSG.Open.IsKProper G)
   exact Subgroup.map_mono (by rw [uc22p20d_perfectResidual_eq]; exact key)
 
 
+omit [Finite G] in
 theorem uc22p20d_bar2Equiv {L K : Subgroup G} (hKL : K ≤ L) (hsub : CFSG.Open.IsSubnormal K L) :
     ∃ e : Bar2 K ≃* ↥((K.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))),
       ∀ k : ↥K, ((e (QuotientGroup.mk k) :
           ↥((K.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) :
           ↥L ⧸ CFSG.pCore 2 ↥L) = QuotientGroup.mk (Subgroup.inclusion hKL k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   let φ : ↥K →* ↥L ⧸ CFSG.pCore 2 ↥L :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hKL)
   have hrange : φ.range = (K.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) := by
@@ -527,14 +528,14 @@ theorem uc22p20d_bar2Equiv {L K : Subgroup G} (hKL : K ≤ L) (hsub : CFSG.Open.
   rfl
 
 theorem uc22p20d_pCore_solvable (L : Subgroup G) : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) := by
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
   infer_instance
 
 theorem uc22p20d_isComponent_image {L C : Subgroup G} (hL : OTwoE ↥L = ⊤)
     (hC : C ∈ CFSG.Quasithin.cComp L) :
     CFSG.IsComponent ((C.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   have hlayer : CFSG.layer (↥L ⧸ CFSG.pCore 2 ↥L) = ⊤ := by
     have h1 : (CFSG.layer (↥L ⧸ CFSG.pCore 2 ↥L)).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) =
         ⊤ := hL
@@ -542,7 +543,7 @@ theorem uc22p20d_isComponent_image {L C : Subgroup G} (hL : OTwoE ↥L = ⊤)
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) (CFSG.layer (↥L ⧸ CFSG.pCore 2 ↥L))
     rw [h1, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at h2
     exact h2.symm
-  haveI hPs := uc22p20d_pCore_solvable L
+  have hPs := uc22p20d_pCore_solvable L
   have hK' : C.subgroupOf L ∈ CFSG.Quasithin.cComp (⊤ : Subgroup ↥L) :=
     CFSG.Quasithin.subgroupOf_mem_cComp hC
   have hKbar := CFSG.Quasithin.map_mem_cComp_top (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
@@ -554,9 +555,9 @@ theorem uc22p20d_commute_images {L C C' : Subgroup G} (hL : OTwoE ↥L = ⊤)
     (hC : C ∈ CFSG.Quasithin.cComp L) (hC' : C' ∈ CFSG.Quasithin.cComp L) (hne : C ≠ C') :
     ∀ a ∈ (C.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)),
       ∀ b ∈ (C'.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)), a * b = b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI hPs := uc22p20d_pCore_solvable L
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have hPs := uc22p20d_pCore_solvable L
   have hA := uc22p20d_isComponent_image hL hC
   have hA' := uc22p20d_isComponent_image hL hC'
   rcases CFSG.LocalCores.distinct_components_commute hA hA' with h | h
@@ -578,22 +579,23 @@ theorem uc22p20d_commute_images {L C C' : Subgroup G} (hL : OTwoE ↥L = ⊤)
 @[expose] def uc22p20dD (U : Subgroup G) (𝒪 : Set (Subgroup G)) : Subgroup G :=
   ⨆ C ∈ 𝒪, uc22p20dB U C
 
+omit [Finite G] in
 theorem uc22p20dB_le (U C : Subgroup G) : uc22p20dB U C ≤ C := inf_le_right
 
 theorem uc22p20d_solvable_normalizer_sylow {P C : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 2 P C) :
     Group.IsSolvable ↥(normalizer (P : Set G) ⊓ C) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := normalizer (P : Set G) ⊓ C with hN
   have hPC : P ≤ C := hP.le
   have hPN : P ≤ N := le_inf Subgroup.le_normalizer hPC
   have hnorm : (P.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPN).2 inf_le_left
-  haveI := hnorm
-  haveI hPs : Group.IsSolvable ↥P := by
-    haveI : Group.IsNilpotent ↥P := hP.isPGroup.isNilpotent
+  have := hnorm
+  have hPs : Group.IsSolvable ↥P := by
+    have : Group.IsNilpotent ↥P := hP.isPGroup.isNilpotent
     infer_instance
-  haveI hPs' : Group.IsSolvable ↥(P.subgroupOf N) :=
+  have hPs' : Group.IsSolvable ↥(P.subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hPN).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPN).injective
@@ -605,10 +607,11 @@ theorem uc22p20d_solvable_normalizer_sylow {P C : Subgroup G}
     have h3 : ¬ 2 ∣ (P.subgroupOf N).index := fun h => h1 (h.trans h2)
     rw [← Subgroup.index_eq_card]
     exact Nat.odd_iff.2 (by omega)
-  haveI : Group.IsSolvable (↥N ⧸ P.subgroupOf N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable (↥N ⧸ P.subgroupOf N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   exact Group.isSolvable_of_ker_le_range (P.subgroupOf N).subtype
     (QuotientGroup.mk' (P.subgroupOf N)) (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
+omit [Finite G] in
 theorem uc22p20d_conj_mem_B {T Y U : Subgroup G} (hU : U = T ⊓ Y) {t : G} (htT : t ∈ T)
     (htY : t ∈ normalizer (Y : Set G)) {C : Subgroup G} {x : G} (hx : x ∈ uc22p20dB U C) :
     t * x * t⁻¹ ∈ uc22p20dB U (uc22p20bCj t C) := by
@@ -645,6 +648,7 @@ theorem uc22p20d_conj_mem_B {T Y U : Subgroup G} (hU : U = T ⊓ Y) {t : G} (htT
   rw [e2] at h3
   exact h1.symm.trans (h2.trans h3)
 
+omit [Finite G] in
 theorem uc22p20d_T_le_normalizer_D {T Y U : Subgroup G} (hU : U = T ⊓ Y)
     (hTY : T ≤ normalizer (Y : Set G)) (𝒪 : Set (Subgroup G))
     (h𝒪 : ∀ t ∈ T, ∀ C ∈ 𝒪, uc22p20bCj t C ∈ 𝒪) :
@@ -670,8 +674,8 @@ theorem uc22p20d_T_le_normalizer_D {T Y U : Subgroup G} (hU : U = T ⊓ Y)
 theorem uc22p20d_solvable_D {Y U : Subgroup G} (hOY : OTwoE ↥Y = ⊤)
     (hspan : sSup (CFSG.Quasithin.cComp Y) = Y) (hU : CFSG.ABGLocalTools.IsSylowOf 2 U Y) :
     Group.IsSolvable ↥(uc22p20dD U (CFSG.Quasithin.cComp Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
   have hnorm : ∀ C ∈ CFSG.Quasithin.cComp Y, Y ≤ normalizer (C : Set G) := fun C hC => by
     have h := CFSG.Quasithin.cComp_normal_span_of_le hC
     have h2 := (Subgroup.normal_subgroupOf_iff_le_normalizer h.1).1 h.2
@@ -687,8 +691,8 @@ theorem uc22p20d_solvable_D {Y U : Subgroup G} (hOY : OTwoE ↥Y = ⊤)
     ((uc22p20dB U C).subgroupOf Y).map φ
   let Bj : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y) := ⨆ C ∈ CFSG.Quasithin.cComp Y, Bbar C
   have hBbs : ∀ C ∈ CFSG.Quasithin.cComp Y, Group.IsSolvable ↥(Bbar C) := fun C hC => by
-    haveI := hBs C hC
-    haveI : Group.IsSolvable ↥((uc22p20dB U C).subgroupOf Y) :=
+    have := hBs C hC
+    have : Group.IsSolvable ↥((uc22p20dB U C).subgroupOf Y) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe (hBY C hC)).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe (hBY C hC)).injective
@@ -717,7 +721,7 @@ theorem uc22p20d_solvable_D {Y U : Subgroup G} (hOY : OTwoE ↥Y = ⊤)
       ((Subgroup.normal_subgroupOf_iff_le_normalizer (hBjC C hC)).2 (hBjn C hC)) (hBbs C hC)
   have hBjs : Group.IsSolvable ↥Bj := by
     have hle : Bj ≤ CFSG.Quasithin.solvRad Bj := iSup₂_le hBjle
-    haveI := CFSG.Quasithin.solvRad_isSolvable Bj
+    have := CFSG.Quasithin.solvRad_isSolvable Bj
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   set D : Subgroup G := uc22p20dD U (CFSG.Quasithin.cComp Y) with hD
@@ -737,7 +741,7 @@ theorem uc22p20d_solvable_D {Y U : Subgroup G} (hOY : OTwoE ↥Y = ⊤)
     rw [e]
     exact hy
   let g : ↥D →* ↥Bj := ψ.codRestrict Bj hψ
-  haveI hker : Group.IsSolvable ↥g.ker := by
+  have hker : Group.IsSolvable ↥g.ker := by
     have hk : ∀ x : ↥g.ker, Subgroup.inclusion hDY (x : ↥D) ∈ CFSG.pCore 2 ↥Y := by
       intro x
       have h1 : g x = 1 := x.2
@@ -745,12 +749,12 @@ theorem uc22p20d_solvable_D {Y U : Subgroup G} (hOY : OTwoE ↥Y = ⊤)
       exact (QuotientGroup.eq_one_iff _).1 h2
     let k : ↥g.ker →* ↥(CFSG.pCore 2 ↥Y) :=
       ((Subgroup.inclusion hDY).comp g.ker.subtype).codRestrict _ hk
-    haveI := uc22p20d_pCore_solvable Y
+    have := uc22p20d_pCore_solvable Y
     refine Group.isSolvable_of_isSolvable_injective (f := k) (fun a b hab => ?_)
     have h1 : Subgroup.inclusion hDY (a : ↥D) = Subgroup.inclusion hDY (b : ↥D) :=
       congrArg Subtype.val hab
     exact Subtype.ext (Subtype.ext (congrArg (fun z : ↥Y => (z : G)) h1))
-  haveI := hBjs
+  have := hBjs
   exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 
 
@@ -789,12 +793,14 @@ theorem uc22p20d_transport_sylow {X X' : Type} [Group X] [Group X'] [Finite X] (
     rw [map_mul, map_mul]
     exact Subgroup.mem_center_iff.mp hcen (e z)
 
+omit [Finite G] in
 theorem uc22p20d_bar2_conj (g : G) (K : Subgroup G) :
     Nonempty (Bar2 K ≃* Bar2 (uc22p20bCj g K)) :=
   ⟨QuotientGroup.congr (CFSG.pCore 2 ↥K) (CFSG.pCore 2 ↥(uc22p20bCj g K))
     (MulEquiv.subgroupMap (MulAut.conj g) K)
     (CFSG.pCore_map_iso 2 (MulEquiv.subgroupMap (MulAut.conj g) K))⟩
 
+omit [Finite G] in
 theorem uc22p20d_image_props {Y C : Subgroup G} (hCY : C ≤ Y)
     (hsub : CFSG.Open.IsSubnormal C Y) {p : ℕ} (c : ↥C)
     (hp : (QuotientGroup.mk c : Bar2 C) ^ p = 1)
@@ -825,9 +831,9 @@ theorem uc22p20d_mem_B {C U : Subgroup G} (hU : CFSG.ABGLocalTools.IsSylowOf 2 (
       orderOf x = p ∧ x ∉ Subgroup.center (Bar2 C)) :
     ∃ c : ↥C, ((c : ↥C) : G) ∈ uc22p20dB U C ∧ orderOf (QuotientGroup.mk c : Bar2 C) = p ∧
       (QuotientGroup.mk c : Bar2 C) ∉ Subgroup.center (Bar2 C) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hU.exists_sylow_eq_subgroupOf
-  haveI hOn : (CFSG.pCore 2 ↥C).Normal := CFSG.pCore_normal
+  have hOn : (CFSG.pCore 2 ↥C).Normal := CFSG.pCore_normal
   have hOQ : CFSG.pCore 2 ↥C ≤ (Q : Subgroup ↥C) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥C)).le_sylow_of_normal Q
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥C)) :=
@@ -872,10 +878,10 @@ theorem uc22p20d_mem_B {C U : Subgroup G} (hU : CFSG.ABGLocalTools.IsSylowOf 2 (
     exact ⟨fun h => absurd (Subgroup.mem_inf.1 h).2 hu, fun h => absurd (Subgroup.mem_inf.1 h).2 h2⟩
 
 theorem uc22p20d_isElemAbelian_map {A B : Type*} [Group A] [Group B] (f : A →* B)
-    (hf : Function.Injective f) {p : ℕ} {E : Subgroup A} (hE : IsElemAbelian p E) :
+    (_hf : Function.Injective f) {p : ℕ} {E : Subgroup A} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   refine ⟨?_, ?_⟩
-  · haveI := hE.1
+  · have := hE.1
     refine IsMulCommutative.of_setLike_mul_comm fun x hx y hy => ?_
     obtain ⟨a, ha, rfl⟩ := hx
     obtain ⟨b, hb, rfl⟩ := hy
@@ -913,7 +919,7 @@ theorem quasisimpleDichotomy_of_parts
   by_cases h : 3 ∣ Nat.card (X ⧸ Subgroup.center X)
   · exact Or.inl (h3 X hq hcat h)
   · refine Or.inr (hS X hq ?_)
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
     have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian X hq
     exact hKPSz _ hnab hcat h
 
@@ -930,7 +936,7 @@ theorem quasisimpleDichotomy_of_parts
 theorem uc22p20d_isSylowOf_inf_comp {Y U : Subgroup G}
     (hspan : sSup (CFSG.Quasithin.cComp Y) = Y) (hU : CFSG.ABGLocalTools.IsSylowOf 2 U Y) :
     ∀ C ∈ CFSG.Quasithin.cComp Y, CFSG.ABGLocalTools.IsSylowOf 2 (U ⊓ C) C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro C hC
   have h := CFSG.Quasithin.cComp_normal_span_of_le hC
   have h2 := (Subgroup.normal_subgroupOf_iff_le_normalizer h.1).1 h.2
@@ -947,13 +953,14 @@ theorem uc22p20d_not_mem_center_map {X X' : Type*} [Group X] [Group X'] (e : X �
   rw [map_mul, map_mul]
   exact Subgroup.mem_center_iff.mp hcen (e z)
 
+omit [Finite G] in
 theorem uc22p20d_inCatalog_bar2 (hKP : CFSG.Open.IsKProper G) {K : Subgroup G} (hK : K ≠ ⊤)
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     CFSG.Assembly.InCatalog (Bar2 K ⧸ Subgroup.center (Bar2 K)) := by
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   have hKK : CFSG.Open.IsKGroup ↥K := hKP.isKGroup K hK
   have hB : CFSG.Open.IsKGroup (Bar2 K) := hKK.quotient _
-  haveI : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hq.2
+  have : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hq.2
   have hnab :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian (Bar2 K) hq
   exact hB.isCatalogGroup_of_surjective ⊤ hnab
@@ -969,7 +976,7 @@ theorem uc22p20d_rank_data (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgrou
     ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ ∃ E : Subgroup G, E ≤ H ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 5 ∧
       (p = 3 ∨ ∃ Z : Subgroup G, D.T ≤ Z ∧ Z ≤ H ∧ Group.IsSolvable ↥Z ∧ E ≤ Z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup G := uc22p20bOrb H K with hYdef
   have hKH : K ≤ H := CFSG.Quasithin.le_of_mem_cComp hK
   have hYH : Y ≤ H := uc22p20b_orb_le le_rfl hKH
@@ -989,7 +996,7 @@ theorem uc22p20d_rank_data (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgrou
     fun i j h h' => h (hinj h')
   have e : ∀ i, Bar2 K ≃* Bar2 (uc22p20bCj (g i) K) := fun i =>
     (uc22p20d_bar2_conj (g i) K).some
-  haveI hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
+  have hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
   let φ : ↥Y →* ↥Y ⧸ CFSG.pCore 2 ↥Y := QuotientGroup.mk' (CFSG.pCore 2 ↥Y)
   let A : Fin 5 → Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y) := fun i =>
     ((uc22p20bCj (g i) K).subgroupOf Y).map φ
@@ -1066,10 +1073,10 @@ theorem uc22p20d_rank_data (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgrou
     have hTn : D.T ≤ normalizer (D' : Set G) :=
       uc22p20d_T_le_normalizer_D hU hTY (CFSG.Quasithin.cComp Y) h𝒪
     have hTs : Group.IsSolvable ↥D.T := by
-      haveI : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+      have : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
       infer_instance
-    haveI := hDsolv
-    haveI := hTs
+    have := hDsolv
+    have := hTs
     have hZs : Group.IsSolvable ↥(D' ⊔ D.T) := CFSG.Quasithin.A3.isSolvable_sup_of_le_normalizer hTn
     refine ⟨p, hp, hp2, E.map Y.subtype, (hEG.trans hD'Y).trans hYH,
       uc22p20d_isElemAbelian_map Y.subtype Y.subtype_injective hE, ?_,
@@ -1082,7 +1089,7 @@ theorem s20_3_of (D : Data G) (h20_1 : S20_1_124 D) (h20_2 : S20_2 D) (hB : List
   intro h1930 H hH
   by_contra hnot
   have hHtop : H ≠ ⊤ := by
-    haveI := D.standing.simple
+    have := D.standing.simple
     obtain ⟨N, hN, hHN⟩ := uc22p20a_exists_mem_calMOf D hH
     intro htop
     have hNtop : N = ⊤ := top_le_iff.mp (htop ▸ hHN)

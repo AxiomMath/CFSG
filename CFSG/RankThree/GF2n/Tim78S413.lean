@@ -43,7 +43,7 @@ theorem conj_le_P_of_conj_le_M (hCen : BenderCenterInput) (hU : UnitaryTwoGenera
     have := H.conj_inv_le_P_of_conj_le_P h
     rw [inv_inv] at this
     exact hgP this
-  exact hgP (h48 g (H.hyp48_of_tfull hgM (H.comm_T_le_B_of_outer hCen hU hRT h48 h412 hgM hgP)
+  exact hgP (h48 g (CFSG.RankThree.GF2n.Tim78.Hyp4.hyp48_of_tfull hgM (H.comm_T_le_B_of_outer hCen hU hRT h48 h412 hgM hgP)
     (H.comm_T_le_B_of_outer hCen hU hRT h48 h412 hgM' hgP')))
 
 theorem tim78_4_13_of_4_12 (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
@@ -54,7 +54,7 @@ theorem tim78_4_13_of_4_12 (hCen : BenderCenterInput) (hU : UnitaryTwoGeneration
   refine ⟨h1, fun b hb g hgb => ?_⟩
   by_cases hb1 : b = 1
   · rw [hb1]
-    simpa using P.one_mem
+    simp
   have hgM : conjSubgroup g B ≤ M := hRT g b hb hb1 hgb
   have hmem : g * b * g⁻¹ ∈ conjSubgroup g B := by
     rw [mem_conjSubgroup, show g⁻¹ * (g * b * g⁻¹) * g = b by group]

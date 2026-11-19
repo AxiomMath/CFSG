@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (Conclusion76)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r899c5_exists_centralizesBar {K : Subgroup G} {n p : ℕ} (hL2 : IsL2 (Bar2 K) n)
     (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} (hB : IsElemAbelian p B)
     (hBN : B ≤ normalizer (K : Set G))

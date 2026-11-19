@@ -70,7 +70,7 @@ theorem sec67_part_ii [Finite G] (h36 : Asc82Lemma36) (h66 : Asc82Lemma66) (h82 
     rw [← hconv, h]
     group
   have hy'sq : y' ^ 2 = 1 := hE'.1.2 y' hy'E'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy'2 : orderOf y' = 2 := orderOf_eq_prime hy'sq hy'1
   have hy'N : y' ∈ normalizer (L : Set G) :=
     mem_normalizer_of_conjugate_eq (conjugate_eq_self_of_lemma36 h36 hS y' hy'C)

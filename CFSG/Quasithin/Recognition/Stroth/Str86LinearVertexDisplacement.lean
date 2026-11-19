@@ -23,6 +23,7 @@ noncomputable def l2SectionAction (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   exact CFSG.Quasithin.Vol2.Ch11.SecD.quotAct hHN hHL
 
+omit [Finite G] in
 theorem l2SectionAction_mk (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     [(L.subgroupOf N).Normal] (h : ↥H) (u : ↥N) :
     l2SectionAction hstep hUH h (QuotientGroup.mk u) =
@@ -30,10 +31,11 @@ theorem l2SectionAction_mk (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   exact CFSG.Quasithin.Vol2.Ch11.SecD.quotAct_mk hHN hHL h u
 
+omit [Finite G] in
 theorem chiefQuotEquiv_l2SectionAction (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     [(L.subgroupOf N).Normal]
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (h : ↥H) (w : SectionW N L) :
@@ -42,11 +44,11 @@ theorem chiefQuotEquiv_l2SectionAction (hstep : IsChiefStep H U L N) (hUH : U �
         (D14.le_normalizer_of_isNormalIn hstep.2.1)) (l2SectionAction hstep hUH h w) =
       l2ChiefSectionAction hstep hE h (Ch3z.chiefQuotEquiv (hNL := (hstep.1.1.trans hUH).trans
         (D14.le_normalizer_of_isNormalIn hstep.2.1)) w) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   induction w using QuotientGroup.induction_on with
   | H u =>
@@ -66,21 +68,21 @@ theorem l2ChiefSectionRep_pow_le_relIndex_centralizerMod (hm2 : 2 ≤ m)
         ((hstep.1.1.trans hUH).trans (D14.le_normalizer_of_isNormalIn hstep.2.1))
     2 ^ m ≤ (centralizerMod L N (Subgroup.zpowers t)).relIndex N := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   let hE := isElemAbelian_chiefMod hstep hUH hU
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   obtain ⟨e₀⟩ := hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 m) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 m))
   let a : SL(2, GaloisField 2 m) := e (QuotientGroup.mk ⟨t, htH⟩)
   let ρ := l2ChiefSectionRep hstep hUH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
+  have : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstep hUH hE e hnc
   have hm : 1 ≤ m := by omega
   have hF : Fintype.card (GaloisField 2 m) = 2 ^ m := by

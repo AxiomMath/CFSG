@@ -61,9 +61,9 @@ theorem normPerm_apply {n : ℕ} (hn : 3 ≤ n) (σ : Equiv.Perm (Fin n))
     ((normPerm E hn σ : normOmega E n) :
       ((F × F) × (Fin n → K)) ≃ₗ[F] ((F × F) × (Fin n → K))) v =
         (v.1, fun j => v.2 (σ⁻¹ j)) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   obtain ⟨⟨a, b⟩, x⟩ := v
   rw [normPerm_eq_aux E hn]
   unfold normPermAux
@@ -81,7 +81,7 @@ theorem normPerm_conj_normPlaneTorus {r p : ℕ} (hr : 3 ≤ r)
   apply LinearEquiv.ext
   intro v
   rw [← map_inv]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_mul]
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   rw [normPerm_apply E hr (σ⁻¹),
     normPlaneTorus_apply E (by omega : 2 ≤ r) hpq χ u,
@@ -95,7 +95,7 @@ theorem normPerm_conj_normPlaneTorus {r p : ℕ} (hr : 3 ≤ r)
     (coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S)).subgroupOf (normOmega E n)
 
 theorem normBlock_mono (n : ℕ) : Monotone (normBlock E n) := by
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   intro S T hST
   simp only [normBlock]
   have hsup : coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S ≤
@@ -114,9 +114,9 @@ theorem normBlock_mono (n : ℕ) : Monotone (normBlock E n) := by
       (hQE := normQuad_polarBilin_nondegenerate E) T
 
 theorem normBlock_univ (n : ℕ) : normBlock E n Finset.univ = ⊤ := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   simp only [normBlock]
   rw [coordSupport_univ, coordAnchor_sup_coordActive,
     CFSG.RankThree.PartOne.supportedDerived_top_eq_orthDerived
@@ -127,9 +127,9 @@ theorem map_normBlock_normPerm {n : ℕ} (hn : 3 ≤ n) (σ : Equiv.Perm (Fin n)
     (S : Finset (Fin n)) :
     (normBlock E n S).map (MulAut.conj (normPerm E hn σ)).toMonoidHom =
       normBlock E n (S.image σ) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   simpa only [normBlock, normPerm] using
     (map_coordSupport_subgroup (QR := hypPlane F) (QE := normQuad E)
       (LinearEquiv.refl F ((F × F) × (Fin n → K)))
@@ -139,9 +139,9 @@ theorem map_normBlock_normPerm {n : ℕ} (hn : 3 ≤ n) (σ : Equiv.Perm (Fin n)
 theorem normPerm_commute_normBlock_pair {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j)
     (σ : Equiv.Perm (Fin n)) (x : normBlock E n {i, j}) (hi : σ i = i) (hj : σ j = j) :
     normPerm E hn σ * (x : normOmega E n) = (x : normOmega E n) * normPerm E hn σ := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   rw [normPerm_eq_aux E hn]
   unfold normPermAux
   let ρ : normOmega E n :=
@@ -182,9 +182,9 @@ private theorem suEmb_apply_smul (m : ℕ) (g : SUid (unitaryInvolution K 2 f) m
 theorem normPerm_eq_uniEmb (h : UnitaryFieldData 2 f K) {n : ℕ} (hn : 3 ≤ n)
     (σ : Equiv.Perm (Fin n)) :
     normPerm E hn σ = uniEmb E h n (permSUHom h σ) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   apply Subtype.ext
   apply LinearEquiv.ext
   intro v
@@ -249,8 +249,8 @@ private theorem blkMat_permMatrix_castSucc {R : Type} [Field R] {m : ℕ}
       CFSG.RankThree.Classical.permMatrix_apply',
       CFSG.RankThree.Classical.permMatrix_apply', hinv_cast a]
     by_cases h : σ'⁻¹ a = b
-    · rw [if_pos h, if_pos (by rw [h])]
-    · rw [if_neg h, if_neg (fun hq => h (Fin.castSucc_injective m hq))]
+    · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+    · rw [ite_eq_right h, ite_eq_right (fun hq => h (Fin.castSucc_injective m hq))]
   · rw [blkMat_apply_of_not_mem_right ((σ'⁻¹).permMatrix R) (Fin.castSucc a)
         (j := Fin.last m) (fun y => (Fin.castSucc_ne_last y).symm),
       CFSG.RankThree.Classical.permMatrix_apply', hinv_cast a, Matrix.one_apply]

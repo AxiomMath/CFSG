@@ -16,6 +16,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem e8f_pow_conj_fix {c k z : G} (hc1 : c * k * c⁻¹ = k) (hc2 : c * z * c⁻¹ = z)
     (n : ℕ) : c ^ n * k * (c ^ n)⁻¹ = k ∧ c ^ n * z * (c ^ n)⁻¹ = z := by
   induction n with
@@ -30,6 +31,7 @@ private theorem e8f_pow_conj_fix {c k z : G} (hc1 : c * k * c⁻¹ = k) (hc2 : c
         _ = c ^ n * z * (c ^ n)⁻¹ := by rw [hc2]
         _ = z := ih.2
 
+omit [Finite G] in
 private theorem e8f_sq_of_q8 {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : G}
     (hx : x ∈ K) (hxz : x ∉ Subgroup.zpowers z) : x * x = z := by
   have hzz : z * z = 1 := hQ.inv.sq
@@ -67,6 +69,7 @@ private theorem e8f_sq_of_q8 {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) 
       _ = (z * z) * ((i * j) * (i * j)) := by group
       _ = z := by rw [hzz, hww, one_mul]
 
+omit [Finite G] in
 private theorem e8f_ij_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     (i * j) * (i * j) = z := by
   have hzz : z * z = 1 := hQ.inv.sq
@@ -78,6 +81,7 @@ private theorem e8f_ij_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     _ = z * (i * i) * (j * j) := by group
     _ = z := by rw [hQ.sq_i, hQ.sq_j, hzz, one_mul]
 
+omit [Finite G] in
 private theorem e8f_orderOf_four {k z : G} (hzz : z * z = 1) (hz1 : z ≠ 1) (hkk : k * k = z) :
     orderOf k = 4 := by
   have hnot : ¬ k ^ 2 ^ 1 = 1 := by
@@ -215,10 +219,12 @@ private theorem e8f_symm {V : Type*} [Group V] {bf : V → V → ZMod 2}
   have key : ∀ p q : ZMod 2, p + q = 0 → p = q := by decide
   exact key _ _ h
 
+omit [Finite G] in
 private theorem e8f_closure_zPoints (Ω : Set (Subgroup G)) :
     Subgroup.closure (zPoints Ω) = ⊤ :=
   Subgroup.closure_closure_coe_preimage (k := zSet Ω)
 
+omit [Finite G] in
 private theorem e8f_eq_of_eq_on_zPoints {Ω : Set (Subgroup G)}
     (hgen : Subgroup.closure (zPoints Ω) = ⊤) {F F' : zGroup Ω → ZMod 2}
     (hF : ∀ x y, F (x * y) = F x + F y) (hF' : ∀ x y, F' (x * y) = F' x + F' y)
@@ -232,6 +238,7 @@ private theorem e8f_eq_of_eq_on_zPoints {Ω : Set (Subgroup G)}
   | mul y z _ _ hy hz => rw [hF, hF', hy, hz]
   | inv y _ hy => rw [e8f_map_inv hF, e8f_map_inv hF', hy]
 
+omit [Finite G] in
 private theorem e8f_conj_mem {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) {a : G}
     (ha : a ∈ zGroup Ω) : g * a * g⁻¹ ∈ zGroup Ω :=
   (zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant).conj_mem a ha g
@@ -239,10 +246,12 @@ private theorem e8f_conj_mem {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) {a 
 private def e8f_cj {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) (a : zGroup Ω) : zGroup Ω :=
   ⟨g * a.1 * g⁻¹, e8f_conj_mem h g a.2⟩
 
+omit [Finite G] in
 private theorem e8f_cj_val {Ω : Set (Subgroup G)} (h : EndHyp Ω) (g : G) (a : zGroup Ω) :
     (e8f_cj h g a).1 = g * a.1 * g⁻¹ :=
   rfl
 
+omit [Finite G] in
 private theorem e8f_normalizer_conj (g d : G) (A : Subgroup G) :
     g * d * g⁻¹ ∈ Subgroup.normalizer (conjSub g A : Set G) ↔
       d ∈ Subgroup.normalizer (A : Set G) := by
@@ -253,13 +262,14 @@ private theorem e8f_normalizer_conj (g d : G) (A : Subgroup G) :
   exact (conjSub_injective g).eq_iff
 
 open Classical in
+omit [Finite G] in
 private theorem e8f_bnorm_eq_zero_iff (M : Subgroup G) (d : G) :
     bnorm M d = 0 ↔ d ∈ Subgroup.normalizer (M : Set G) := by
   unfold bnorm
   by_cases hd : d ∈ Subgroup.normalizer (M : Set G)
-  · rw [if_pos hd]
+  · rw [ite_eq_left hd]
     exact ⟨fun _ => hd, fun _ => rfl⟩
-  · rw [if_neg hd]
+  · rw [ite_eq_right hd]
     exact ⟨fun h1 => absurd h1 (by decide), fun h1 => absurd h1 hd⟩
 
 private theorem e8f_mul_normalizer (H : Hyp Ω) {B : Subgroup G} (hB : B ∈ Ω) {x y : G}
@@ -291,20 +301,20 @@ private theorem e8f_bnorm_mul (H : Hyp Ω) {B : Subgroup G} (hB : B ∈ Ω) {d d
   unfold bnorm
   by_cases h1 : d ∈ Subgroup.normalizer (B : Set G) <;>
     by_cases h2 : d' ∈ Subgroup.normalizer (B : Set G)
-  · rw [if_pos h1, if_pos h2, if_pos (Subgroup.mul_mem _ h1 h2)]
+  · rw [ite_eq_left h1, ite_eq_left h2, ite_eq_left (Subgroup.mul_mem _ h1 h2)]
     decide
   · have h3 : d * d' ∉ Subgroup.normalizer (B : Set G) := fun h => h2 (by
       have := Subgroup.mul_mem _ (Subgroup.inv_mem _ h1) h
       simpa using this)
-    rw [if_pos h1, if_neg h2, if_neg h3]
+    rw [ite_eq_left h1, ite_eq_right h2, ite_eq_right h3]
     decide
   · have h3 : d * d' ∉ Subgroup.normalizer (B : Set G) := fun h => h1 (by
       have := Subgroup.mul_mem _ h (Subgroup.inv_mem _ h2)
       simpa using this)
-    rw [if_neg h1, if_pos h2, if_neg h3]
+    rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right h3]
     decide
   · have h3 := e8f_mul_normalizer H hB hd hd' h1 h2
-    rw [if_neg h1, if_neg h2, if_pos h3]
+    rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]
     decide
 
 open Classical in
@@ -326,11 +336,11 @@ private theorem e8f_betaPt_eq (H : Hyp Ω) {M : Subgroup G} (hM : M ∈ Ω) {b :
     · intro h
       exact (Subgroup.mem_inf.mp (h'.mpr (Subgroup.mem_inf.mpr ⟨hd, h⟩))).2
   unfold betaPt
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   unfold bnorm
   by_cases h0 : d ∈ Subgroup.normalizer (hex.choose : Set G)
-  · rw [if_pos h0, if_pos (hiff.mp h0)]
-  · rw [if_neg h0, if_neg (fun h1 => h0 (hiff.mpr h1))]
+  · rw [ite_eq_left h0, ite_eq_left (hiff.mp h0)]
+  · rw [ite_eq_right h0, ite_eq_right (fun h1 => h0 (hiff.mpr h1))]
 
 private theorem e8f_betaPt_mul (H : Hyp Ω) {b : G} (hb : b ∈ zSet Ω) {d d' : G}
     (hd : d ∈ zGroup Ω) (hd' : d' ∈ zGroup Ω) :
@@ -354,8 +364,8 @@ private theorem e8f_betaPt_conj (H : Hyp Ω) (g : G) {b : G} (hb : b ∈ zSet Ω
     e8f_betaPt_eq H hB hbB hd]
   unfold bnorm
   by_cases hdN : d ∈ Subgroup.normalizer (B : Set G)
-  · rw [if_pos hdN, if_pos ((e8f_normalizer_conj g d B).mpr hdN)]
-  · rw [if_neg hdN, if_neg (fun h' => hdN ((e8f_normalizer_conj g d B).mp h'))]
+  · rw [ite_eq_left hdN, ite_eq_left ((e8f_normalizer_conj g d B).mpr hdN)]
+  · rw [ite_eq_right hdN, ite_eq_right (fun h' => hdN ((e8f_normalizer_conj g d B).mp h'))]
 
 private theorem e8f_betaPt_symm (H : Hyp Ω) {a b : G} (ha : a ∈ zSet Ω) (hb : b ∈ zSet Ω) :
     betaPt Ω b a = betaPt Ω a b := by
@@ -366,8 +376,8 @@ private theorem e8f_betaPt_symm (H : Hyp Ω) {a b : G} (ha : a ∈ zSet Ω) (hb 
     e8f_betaPt_eq H hA hau (Subgroup.subset_closure ⟨B, hB, hbu⟩)]
   unfold bnorm
   by_cases hd : a ∈ Subgroup.normalizer (B : Set G)
-  · rw [if_pos hd, if_pos (hiff.mp hd)]
-  · rw [if_neg hd, if_neg (fun h' => hd (hiff.mpr h'))]
+  · rw [ite_eq_left hd, ite_eq_left (hiff.mp hd)]
+  · rw [ite_eq_right hd, ite_eq_right (fun h' => hd (hiff.mpr h'))]
 
 private noncomputable def e8f_beta (Ω : Set (Subgroup G)) (a x : zGroup Ω) : ZMod 2 :=
   betaPt Ω a.1 x.1
@@ -548,7 +558,7 @@ theorem exists_member_mul_of_normalizes (H : Hyp Ω) {K J : Subgroup G} (hK : K 
     hJn ((TC.mem_omegaNbr_iff H.endHyp.thmD.hyp H.endHyp.thmD.two).mpr ⟨hJ, hJne, hle⟩)
   obtain ⟨t, ht, htn⟩ : ∃ t ∈ J, t ∉ Subgroup.normalizer (K : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnotle hcon
   have hmul : t * a * t⁻¹ = a * b :=
     conj_involution_eq_mul H.endHyp hK hstar hJn ha hb ht htn
@@ -688,6 +698,7 @@ private theorem e8f_conj_twin (H : Hyp Ω) {K : Subgroup G} (hK : K ∈ Ω) {s :
   rw [e] at hc
   exact ⟨H.endHyp.thmD.hyp.conjInvariant s L hLΩ, w, hwK, hc⟩
 
+omit [Finite G] in
 private theorem e8f_le_normalizer_of_comm {A B : Subgroup G}
     (hc : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) : A ≤ Subgroup.normalizer (B : Set G) := by
   intro x hx

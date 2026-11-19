@@ -719,7 +719,7 @@ theorem le_mParam_of_forall {X : Subgroup (MulAut W)} {c : ℕ}
     ⟨_, t₀, ht₀X, ht₀, rfl⟩
   obtain ⟨t, htX, ht2, htEq⟩ := Nat.sInf_mem hne
   unfold E3.mParam
-  rw [if_pos hev, htEq]
+  rw [ite_eq_left hev, htEq]
   exact h t htX ht2
 
 theorem rk_commSub_le_rkIdx_fixV (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (hp : p.Prime)

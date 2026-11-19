@@ -15,7 +15,7 @@ theorem q14_ncard_modEq_fixed {rho : G} (hρ : rho ^ 3 = 1) {Ω : Set G}
     (hΩ : ∀ x ∈ Ω, rho * x * rho⁻¹ ∈ Ω) :
     Ω.ncard ≡ {x | x ∈ Ω ∧ rho * x * rho⁻¹ = x}.ncard [MOD 3] := by
   classical
-  letI : Fintype ↥Ω := Fintype.ofFinite ↥Ω
+  let : Fintype ↥Ω := Fintype.ofFinite ↥Ω
   let f : Function.End ↥Ω := fun x => ⟨rho * (x : G) * rho⁻¹, hΩ x x.2⟩
   have hr3 : rho * rho * rho = 1 := by simpa [pow_three'] using hρ
   have hf : f ^ 3 ^ 1 = 1 := by
@@ -53,7 +53,7 @@ theorem q14_exists_fixed_coset {rho w : G} {N : Subgroup G} (hρ : rho ^ 3 = 1)
     ∃ x : G, x * w⁻¹ ∈ N ∧ rho * x * rho⁻¹ = x := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   let Ω : Set G := {x : G | x * w⁻¹ ∈ N}
   have hΩ : ∀ x ∈ Ω, rho * x * rho⁻¹ ∈ Ω := by
     intro x hx

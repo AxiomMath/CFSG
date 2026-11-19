@@ -20,7 +20,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData (AutThreePowInner)
 
 
 theorem fieldSize_two_of_alphaRed {Ω : Type} [Group Ω] [Finite Ω] {B : Subgroup Ω} {x : Ω}
-    {L : Subgroup Ω} (hGA : CFSG.Open.GriessAllModelsStatement)
+    {L : Subgroup Ω} (_hGA : CFSG.Open.GriessAllModelsStatement)
     (hA : AlphaRed) (hU42res : CFSG.LocalAnalysis.GLTheoremA.I1431C2.U42InnField)
     (hA6res : A6InnField)
     (hK : CFSG.Open.IsKGroup Ω) (hcfg : CFSG.LocalAnalysis.GLTheoremA.S171.Cfg Ω 3 B x L)
@@ -30,9 +30,9 @@ theorem fieldSize_two_of_alphaRed {Ω : Type} [Group Ω] [Finite Ω] {B : Subgro
     (d : TauCeti.ValidLieTypeIndex) (hIso : Nonempty (↥L ⧸ Subgroup.center ↥L ≃* d.Group))
     (hdchar : d.1.characteristic = 2) (hdne : d.1 ≠ .tits) :
     KD264Lie.fieldSize d.1 = 2 := by
-  haveI : Finite d.Group := (CFSG.Assembly.lie_finite_simple d).1
-  haveI : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
-  haveI : Nontrivial d.Group := IsSimpleGroup.toNontrivial
+  have : Finite d.Group := (CFSG.Assembly.lie_finite_simple d).1
+  have : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
+  have : Nontrivial d.Group := IsSimpleGroup.toNontrivial
   obtain ⟨α, hα3, hα1, hαin, J, hJcomp, hJisComp, hJtype, hJsmall⟩ :=
     hA Ω B x L hK hcfg hLn hMax hstd hsmall d hIso
   have hJqs : CFSG.Open.IsQuasisimple ↥J := hJisComp.2.2
@@ -48,8 +48,8 @@ theorem fieldSize_two_of_alphaRed {Ω : Type} [Group Ω] [Finite Ω] {B : Subgro
       exact (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
   have hJnab : ∃ a b : d.Group, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
-    haveI : IsMulCommutative ↥J := isMulCommutative_iff.2 (fun a b => Subtype.ext (h a b))
+    push Not at h
+    have : IsMulCommutative ↥J := isMulCommutative_iff.2 (fun a b => Subtype.ext (h a b))
     have hbot : commutator ↥J = ⊥ := commutator_eq_bot_iff (G := ↥J).2 inferInstance
     have hsub : Subsingleton ↥J := by
       have htop : (⊤ : Subgroup ↥J) = ⊥ := by

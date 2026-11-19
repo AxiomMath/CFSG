@@ -124,7 +124,7 @@ private theorem mem_normalizer_kleinV_of_conj {c : alternatingGroup (Fin 11)}
     change (MulAut.conj c) a ∈ kleinV
     rw [mem_kleinV] at ha
     rcases ha with rfl | rfl | rfl | rfl
-    · simpa using kleinV.one_mem
+    · simp
     · simpa only [MulAut.conj_apply] using h1
     · simpa only [MulAut.conj_apply] using h2
     · rw [map_mul]
@@ -235,7 +235,7 @@ private theorem O98Red.shape_not_isA11_rank {X : Type} [Group X] [Finite X]
     (hVXne : VX ≠ ⊥) (hVX2 : IsPGroup 2 VX) (hTXelem : IsElemAbelian 3 TX)
     (hTXcard : Nat.card TX = 27) (hTXnorm : TX ≤ Subgroup.normalizer (VX : Set X))
     (hzTX : z ∉ TX) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE81elem, hE81card⟩ :=
     CFSG.Quasithin.exists_elemAbelian_sup_zpowers (p := 3) hTXelem h.order_z
       (fun e _ => Subgroup.mem_center_iff.mp h.center_z e) hzTX
@@ -257,7 +257,7 @@ private theorem O98Red.shape_not_isA11_rank {X : Type} [Group X] [Finite X]
   omega
 
 private theorem O98Red.shape_not_isA11 {X : Type} [Group X] [Finite X] {E Y S : Subgroup X} {z : X}
-    (h : O98Red X E Y S z) {L : Subgroup X} (hL : CFSG.IsComponent L)
+    (h : O98Red X E Y S z) {L : Subgroup X} (_hL : CFSG.IsComponent L)
     (hAK : CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsA11Type
       ↥(L.subgroupOf (Subgroup.normalizer (L : Set X)))) : False := by
   have hzL := O98Red.shape_not_isA11_z_not_mem h hAK
@@ -643,25 +643,25 @@ private theorem two_and_three_dvd_card_of_isL34Type {L : Type*} [Group L] [Finit
 private theorem exists_orderOf_two_of_isL34Type {L : Type*} [Group L] [Finite L]
     (hL34 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsL34Type L) :
     ∃ t : L, orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact exists_prime_orderOf_dvd_card' 2 (two_and_three_dvd_card_of_isL34Type hL34).1
 
 private theorem exists_order_three_noncentral {X : Type*} [Group X] [Finite X]
     {C : Subgroup X} (hC : CFSG.IsComponent C) (h3 : 3 ∣ Nat.card ↥C) :
     ∃ a : C, a ^ 3 = 1 ∧ a ∉ Subgroup.center C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥C := hC.1.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥C := hC.1.1
   exact CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center
     (by norm_num : (3 : ℕ) ≠ 2) h3
 
 private theorem extend_elemAbelian_of_component {X : Type*} [Group X] [Finite X]
-    {C : Subgroup X} (hC : CFSG.IsComponent C) {E : Subgroup X}
+    {C : Subgroup X} (_hC : CFSG.IsComponent C) {E : Subgroup X}
     (hE : CFSG.Open.IsElemAbelian 3 E)
     (hEcent : E ≤ Subgroup.centralizer (C : Set X)) {a : X} (ha_mem : a ∈ C)
     (ha3 : a ^ 3 = 1) (ha_noncent : (⟨a, ha_mem⟩ : C) ∉ Subgroup.center C) :
     CFSG.Open.IsElemAbelian 3 (E ⊔ Subgroup.zpowers a) ∧
       Nat.card ↥(E ⊔ Subgroup.zpowers a) = Nat.card E * 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha_ne : a ≠ 1 := by
     intro h
     apply ha_noncent
@@ -786,7 +786,7 @@ private theorem seven_elemAbelian {X : Type} [Group X] [Finite X]
     (hne23 : C 2 ≠ C 3) (hne24 : C 2 ≠ C 4) (hne34 : C 3 ≠ C 4)
     {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hneL1 : C 1 ≠ L) (hneL2 : C 2 ≠ L) (hneL3 : C 3 ≠ L) (hneL4 : C 4 ≠ L)
-    {tX : X} (htX_ord : orderOf tX = 2) (htmem : tX ∈ L) :
+    {tX : X} (_htX_ord : orderOf tX = 2) (htmem : tX ∈ L) :
     4 ≤ CFSG.Open.pRank 3 (Subgroup.normalizer (Subgroup.zpowers tX : Set X)) := by
   obtain ⟨E2, hE2elem, hE2card, hE2cent3, hE2cent4, hE2centT⟩ :=
     seven_elemAbelian_two (hCcomp 1) (hCcomp 2) (hCcomp 3) (hCcomp 4)
@@ -811,7 +811,7 @@ private theorem seven_aux {X : Type} [Group X] [Finite X] {E Y S : Subgroup X} {
   have hy_ne : y ≠ 1 := by
     intro h1
     exact hyN (by rw [h1]; exact Subgroup.one_mem _)
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hy_ord : orderOf y = 7 := orderOf_eq_prime hy hy_ne
   let C : ℕ → Subgroup X := fun i => conjSub (y ^ i) L
   have hCcomp : ∀ i, CFSG.IsComponent (C i) := fun i => isComponent_conjSub hL _
@@ -862,7 +862,7 @@ private theorem seven_aux {X : Type} [Group X] [Finite X] {E Y S : Subgroup X} {
 theorem O98Red.seven {X : Type} [Group X] [Finite X] {E Y S : Subgroup X} {z : X}
     (h : O98Red X E Y S z) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hL34 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsL34Type ↥L) :
-    ∀ y : X, y ^ 7 = 1 → y ∈ Subgroup.normalizer (L : Set X) :=
-  fun y hy => seven_aux h hL hL34 hy
+    ∀ _y : X, _y ^ 7 = 1 → _y ∈ Subgroup.normalizer (L : Set X) :=
+  fun _y hy => seven_aux h hL hL34 hy
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section15

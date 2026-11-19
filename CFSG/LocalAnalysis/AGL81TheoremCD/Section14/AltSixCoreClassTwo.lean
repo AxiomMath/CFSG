@@ -184,7 +184,7 @@ private theorem index_centralizer_le_pow_card_center {r : ℕ} [Fact r.Prime] {D
         apply relIndex_eq_of_card_eq_mul (le_of_lt hKltB)
         rw [hBcard, hKcard]
         ring
-      obtain ⟨x, hxB, hxK⟩ := SetLike.exists_of_lt hKltB
+      obtain ⟨x, hxB, hxK⟩ := _root_.IsConcreteLE.exists_of_lt hKltB
       have hKabel : IsMulCommutative K :=
         ⟨⟨fun x y => Subtype.ext (by
           show (x : D) * (y : D) = (y : D) * (x : D)

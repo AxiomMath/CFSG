@@ -43,7 +43,7 @@ theorem fixRankTwo_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime] (hℓ2 
         rw [hT, hT, ← pow_mul, sq]
       exact ⟨T⁻¹, 2, Or.inr rfl, hinv, fixedSubgroup_twistedEntrywiseAut_D4_two T⟩
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   obtain ⟨-, -, hΓ, -, -⟩ := triality_both_field_orientations_simple_full_ambient_fixed_group
     ℓ e hℓ he K hK L r hr σ.toRingHom (fun c => hσ c) (iterateFrobenius L ℓ e)
     (fun c => iterateFrobenius_def ℓ e c)
@@ -74,10 +74,10 @@ theorem fixRankTwo_d4_graphField {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ2 : ℓ ≠
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ) (hε : ε < 3) (hε0 : ε ≠ 0) (hσ : σ ≠ 1)
     (hα : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     FixRankTwo α := by
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
   have hσ3 := sigma_pow_three_eq_one_of_cube α hα3 g a σ ε hα
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ
   have hf : 1 ≤ f := by
     by_contra hf

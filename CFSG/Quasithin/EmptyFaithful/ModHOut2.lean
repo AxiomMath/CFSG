@@ -55,7 +55,7 @@ theorem quotSylow_of_ctx (c : CtxComp2 T Mc M V₁ V₂ Yp I L t)
       (le_inf hLI Subgroup.le_normalizer) inf_le_right
   obtain ⟨Tsyl, hT, -, -⟩ := R3c10.exists_quotSylow hZ hQsyl
   rw [← hT]
-  exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+  exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
 
 omit [Finite G] in
 theorem rho_surjective (hLI : L ≤ I) (ρ : ↥I →* ↥L ⧸ Subgroup.center ↥L)

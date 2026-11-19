@@ -33,7 +33,7 @@ theorem zSub_map_le_center (c : Ctx82E3 D)
     ((zSub P c.L).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) ≤ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -112,7 +112,7 @@ theorem tripleCover_perfectCoreL
     IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
       (alternatingGroup (Fin 6)) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let aL : ↥c.L := ⟨a, haL⟩
@@ -193,12 +193,12 @@ theorem tripleCover_perfectCoreL
     exact ⟨(QuotientGroup.quotientMulEquivOfEq hcenterJ).trans eA⟩
   have hJeq : (CFSG.perfectResidual ↥C).map C.subtype = J := by
     refine le_antisymm ?_ ?_
-    · haveI : (J.subgroupOf C).Normal :=
+    · have : (J.subgroupOf C).Normal :=
         CFSG.GroupTheory.normal_subgroupOf_of_commutator_le (le_refl J)
       have hiscomm : IsMulCommutative (↥C ⧸ J.subgroupOf C) :=
         CFSG.GroupTheory.isMulCommutative_quotient_subgroupOf_of_commutator_le
           (V := J) (W := C) (le_refl J)
-      letI : IsMulCommutative (↥C ⧸ J.subgroupOf C) := hiscomm
+      let : IsMulCommutative (↥C ⧸ J.subgroupOf C) := hiscomm
       have hsolv : Group.IsSolvable (↥C ⧸ J.subgroupOf C) :=
         Group.isSolvable_of_comm (fun a b => (IsMulCommutative.is_comm).comm a b)
       have hle :=
@@ -230,7 +230,7 @@ theorem tripleCover_perfectCoreL
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, ha_order]
     norm_num
-  letI : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
+  let : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
   have hcopO : Nat.Coprime 3 (Nat.card O) :=
     (Nat.prime_three.coprime_iff_not_dvd).mpr
       (CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3)
@@ -240,12 +240,11 @@ theorem tripleCover_perfectCoreL
       (T := Subgroup.zpowers aL) (M := O) (by infer_instance) hcopO
   have hzp_map : Subgroup.map (QuotientGroup.mk' O) (Subgroup.zpowers aL) =
       Subgroup.zpowers x := by
-    simpa [x, π] using MonoidHom.map_zpowers (QuotientGroup.mk' O) aL
+    simp [x, π]
   have hcent_zp : Subgroup.centralizer (Subgroup.zpowers aL : Set ↥c.L) = H := by
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
     ext x
-    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
-      Subgroup.mem_centralizer_iff, Subgroup.mem_centralizer_singleton_iff]
+    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
     constructor
     · intro h
       exact congrArg Subtype.val h
@@ -302,9 +301,9 @@ theorem tripleCover_perfectCoreL
     exact hzφ
   have hpcoreJ : CFSG.pCore 2 ↥J = ⊥ := by
     have hJcomm : commutator ↥J = ⊤ := Group.isPerfect_def.mp hJperf
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := by
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := by
       obtain ⟨eA⟩ := hAlt
-      haveI : IsSimpleGroup (↥J ⧸ (Subgroup.center c.Lbar).subgroupOf J) := eA.isSimpleGroup
+      have : IsSimpleGroup (↥J ⧸ (Subgroup.center c.Lbar).subgroupOf J) := eA.isSimpleGroup
       exact (QuotientGroup.quotientMulEquivOfEq hcenterJ).isSimpleGroup
     have hqJ : CFSG.Open.IsQuasisimple ↥J := ⟨hJcomm, inferInstance⟩
     have hpc_le_center : CFSG.pCore 2 ↥J ≤ Subgroup.center ↥J :=
@@ -426,7 +425,7 @@ theorem image_not_center_of_not_mem_zSub
     {a : G} (haP : a ∈ P) (haL : a ∈ c.L) (haZ : a ∉ zSub P c.L) :
     QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) ⟨a, haL⟩ ∉ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let aL : ↥c.L := ⟨a, haL⟩
@@ -503,7 +502,7 @@ theorem zSub_le_perfectCoreL
     (haZ : a ∉ zSub P c.L) :
     zSub P c.L ≤ perfectCoreL c a := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let aL : ↥c.L := ⟨a, (Subgroup.mem_inf.mp (hAPL ha)).2⟩
@@ -570,7 +569,7 @@ theorem zSub_le_perfectCoreL
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, haLord]
     norm_num
-  letI : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
+  let : Fact (IsPGroup 3 ↥(Subgroup.zpowers aL)) := ⟨hzp3⟩
   have hcopO : Nat.Coprime 3 (Nat.card O) :=
     (Nat.prime_three.coprime_iff_not_dvd).mpr
       (CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3)
@@ -579,12 +578,11 @@ theorem zSub_le_perfectCoreL
     CFSG.centralizer_map_quotient_eq_map_centralizer (p := 3)
       (T := Subgroup.zpowers aL) (M := O) (by infer_instance) hcopO
   have hzp_map : Subgroup.map π (Subgroup.zpowers aL) = Subgroup.zpowers x := by
-    simpa [x, π] using MonoidHom.map_zpowers π aL
+    simp [x, π]
   have hcent_zp : Subgroup.centralizer (Subgroup.zpowers aL : Set ↥c.L) = H := by
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
     ext y
-    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
-      Subgroup.mem_centralizer_iff, Subgroup.mem_centralizer_singleton_iff]
+    simp [H, K, aL, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
     constructor
     · intro h
       exact congrArg Subtype.val h
@@ -677,12 +675,12 @@ theorem f9PerfectCore_holds
     (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
-    (hZA : zSub P c.L ≤ A) (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A)
+    (hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27)
+    (_hZA : zSub P c.L ≤ A) (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A)
     (haZ : a ∉ zSub P c.L) :
     F9PerfectCore c P a := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   have haPL : a ∈ P ⊓ c.L := hAPL ha

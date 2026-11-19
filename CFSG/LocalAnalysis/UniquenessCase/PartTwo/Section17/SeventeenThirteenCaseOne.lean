@@ -51,8 +51,7 @@ theorem eq_char_of_isLieOverOdd17_of_isL3EpsOdd17
     · rcases ht with rfl | rfl
       · interval_cases n
         · exact hL2 ⟨r, 3, hr, hr2, rfl, by norm_num, hm⟩
-        all_goals (simp only [CFSG.ComponentClassification.CatLeaf.lieSylowExponent] at hN1 <;>
-          omega)
+        all_goals (simp only [CFSG.ComponentClassification.CatLeaf.lieSylowExponent] at hN1; omega)
       · have h3n : 3 ≤ n := hadm.2.2.1
         interval_cases n <;>
           simp only [CFSG.ComponentClassification.CatLeaf.lieSylowExponent] at hN1 <;> omega
@@ -78,7 +77,7 @@ theorem delta17_12_case_one_triple
   have h9' : 3 < q := by
     unfold R17_9At at h9
     exact h9
-  rw [Delta17_12, dif_pos h1] at hH
+  rw [Delta17_12, dite_eq_left h1] at hH
   obtain ⟨x, hxM, rfl⟩ := hH
   set U : Subgroup G := L.map (MulAut.conj x).toMonoidHom with hU
   have hLM : L ≤ D.M := hC.memL.1.le

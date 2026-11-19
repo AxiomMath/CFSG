@@ -26,12 +26,12 @@ private theorem card_A5 : Nat.card A5 = 60 := by
 private def c₃ : A5 := ⟨swap 0 1 * swap 1 2, mem_alternatingGroup.2 (by decide)⟩
 
 private theorem orderOf_c₃ : orderOf c₃ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   rw [orderOf_eq_prime_iff]
   exact ⟨by decide +kernel, by decide +kernel⟩
 
 private theorem c₃_ne_one : c₃ ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact (orderOf_eq_prime_iff.mp orderOf_c₃).2
 
 private theorem three_not_dvd_two_pow (k : ℕ) : ¬ (3 ∣ 2 ^ k) := by
@@ -103,8 +103,8 @@ private theorem snd_eq_one_of_N2_eq_bot {N : Subgroup (A5 × A5)} [N.Normal]
 
 theorem eq_bot_of_normal_of_two_power (K : Subgroup (A5 × A5)) [K.Normal]
     (hK : ∀ p ∈ K, ∃ k : ℕ, p ^ (2 ^ k) = 1) : K = ⊥ := by
-  haveI hK1n : (N1 K).Normal := (inferInstance : K.Normal).comap (MonoidHom.inl A5 A5)
-  haveI hK2n : (N2 K).Normal := (inferInstance : K.Normal).comap (MonoidHom.inr A5 A5)
+  have hK1n : (N1 K).Normal := (inferInstance : K.Normal).comap (MonoidHom.inl A5 A5)
+  have hK2n : (N2 K).Normal := (inferInstance : K.Normal).comap (MonoidHom.inr A5 A5)
   have hK1 : N1 K ≠ ⊤ := by
     intro htop
     have hc : c₃ ∈ N1 K := by rw [htop]; trivial
@@ -133,8 +133,8 @@ theorem eq_bot_of_normal_of_two_power (K : Subgroup (A5 × A5)) [K.Normal]
 
 theorem normal_card_sixty (N : Subgroup (A5 × A5)) [N.Normal] (hN : Nat.card N = 60) :
     (∀ p : A5 × A5, p ∈ N ↔ p.2 = 1) ∨ (∀ p : A5 × A5, p ∈ N ↔ p.1 = 1) := by
-  haveI hN1n : (N1 N).Normal := (inferInstance : N.Normal).comap (MonoidHom.inl A5 A5)
-  haveI hN2n : (N2 N).Normal := (inferInstance : N.Normal).comap (MonoidHom.inr A5 A5)
+  have hN1n : (N1 N).Normal := (inferInstance : N.Normal).comap (MonoidHom.inl A5 A5)
+  have hN2n : (N2 N).Normal := (inferInstance : N.Normal).comap (MonoidHom.inr A5 A5)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N1 N) with h1 | h1
   · rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N2 N) with h2 | h2
     · exfalso
@@ -268,10 +268,10 @@ private theorem swaps_of_map_eq (φ : A5 × A5 ≃* A5 × A5)
 theorem exists_preserves_or_swaps (φ : A5 × A5 ≃* A5 × A5) :
     (PreservesFactorsAut φ ∧ PreservesFactorsAut φ.symm) ∨
       (SwapsFactorsAut φ ∧ SwapsFactorsAut φ.symm) := by
-  haveI hnorm1 : (φ.mapSubgroup F1).Normal := by
+  have hnorm1 : (φ.mapSubgroup F1).Normal := by
     rw [MulEquiv.coe_mapSubgroup]
     exact MulEquiv.normal_map_iff.mpr (inferInstance : F1.Normal)
-  haveI hnorm2 : (φ.mapSubgroup F2).Normal := by
+  have hnorm2 : (φ.mapSubgroup F2).Normal := by
     rw [MulEquiv.coe_mapSubgroup]
     exact MulEquiv.normal_map_iff.mpr (inferInstance : F2.Normal)
   have hc1 : Nat.card (φ.mapSubgroup F1) = 60 := card_map_F1 φ

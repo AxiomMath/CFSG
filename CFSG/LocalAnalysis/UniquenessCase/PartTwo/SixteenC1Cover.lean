@@ -39,19 +39,19 @@ private theorem s16c1_statedClassicalModel_psu_four_one {L : Type} [Group L]
 
 theorem isU4_of_isOmegaMinus_six {X : Type} [Group X] (h : IsOmegaMinus X 6 1) : IsU4 X 1 := by
   have hdiv : (6 : ℕ) / 2 = 3 := by norm_num
-  simp only [IsOmegaMinus, hdiv] at h
+  simp only [IsOmegaMinus] at h
   obtain ⟨-, K, hKfield, hKfinite, b, c, hcard, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hcard2 : Nat.card K = 2 := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [Fintype.card_eq_nat_card, hcard2])
   have hfacts :=
     CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
       (n := 3) (b := b) (c := c) (Or.inr rfl) hirr
-  haveI : IsSimpleGroup (StatedOmega (StatedQuadMinus 3 K b c)) := hfacts.1
+  have : IsSimpleGroup (StatedOmega (StatedQuadMinus 3 K b c)) := hfacts.1
   have hqΩ :=
     CFSG.ComponentClassification.RankTwoClassical.isQuasisimple_of_isSimpleGroup hfacts.2.2
   have hSbot : (StatedScalars (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) K).subgroupOf

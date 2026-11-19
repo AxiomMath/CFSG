@@ -113,6 +113,7 @@ section Solvable
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem isSolvable_fixed_of_spCent (A : gsp 2 K) (hs : Group.IsSolvable (spCent 2 K A)) :
     Group.IsSolvable (fixedSubgroup (conjAut 2 K A)) := by
   set θ := conjSp 2 K A with hθ
@@ -123,19 +124,19 @@ theorem isSolvable_fixed_of_spCent (A : gsp 2 K) (hs : Group.IsSolvable (spCent 
     change α (proj 2 K g) = proj 2 K g
     rw [hθα]
     exact congrArg (proj 2 K) hg
-  haveI : Group.IsSolvable (spScalars 2 K) :=
+  have : Group.IsSolvable (spScalars 2 K) :=
     Group.isSolvable_of_comm fun a b => Subtype.ext
       (Subgroup.mem_center_iff.mp (CatFactsSp4.mem_center_of_mem_spScalars b.2)
         (a : StatedSp 2 K))
-  haveI : Group.IsSolvable ↥(CatFactsSp4.fixOf θ) := hs
+  have : Group.IsSolvable ↥(CatFactsSp4.fixOf θ) := hs
   have hFs : Group.IsSolvable F := by
-    refine solvable_of_ker_le_range (Subgroup.inclusion hle) (CatFactsSp4.twistHom θ hθα) ?_
+    refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hle) (CatFactsSp4.twistHom θ hθα) ?_
     intro g hg
     rw [MonoidHom.mem_ker] at hg
     have h' := congrArg Subtype.val hg
     change θ g * (g : StatedSp 2 K)⁻¹ = 1 at h'
     refine ⟨⟨g, mul_inv_eq_one.mp h'⟩, Subtype.ext rfl⟩
-  exact solvable_of_surjective (f := (proj 2 K).subgroupComap (CatFactsSp4.fixOf α))
+  exact Group.isSolvable_of_surjective (f := (proj 2 K).subgroupComap (CatFactsSp4.fixOf α))
     ((proj 2 K).subgroupComap_surjective (CatFactsSp4.fixOf α) proj_surjective)
 
 end Solvable
@@ -146,6 +147,7 @@ variable {K : Type} [Field K] [Finite K]
 
 local notation "𝐌" A => (((A : gsp 2 K) : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)
 
+omit [Finite K] in
 theorem conjAut_statedSp_eq_conj (B : StatedSp 2 K) :
     conjAut 2 K ⟨(B : GL (Fin 2 ⊕ Fin 2) K), statedSp_le_gsp B.2⟩ =
       MulAut.conj (proj 2 K B) := by

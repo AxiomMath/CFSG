@@ -38,7 +38,7 @@ theorem suzuki_nonab (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 
 theorem suzuki_quasisimple (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     CFSG.IsQuasisimple (suzukiGroup a K) ∧ Subgroup.center (suzukiGroup a K) = ⊥ := by
-  haveI := (suzuki_simple ha hK).2.2
+  have := (suzuki_simple ha hK).2.2
   exact CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (suzuki_nonab ha hK)
 
 end Suzuki

@@ -70,7 +70,7 @@ theorem mem_of_commutators_mem_of_simpleNonabelianModulo {L D : Subgroup G}
     (h : SimpleNonabelianModulo L D) {x : G} (hxL : x ∈ L)
     (hx : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ D) : x ∈ D := by
   obtain ⟨hn, hs, hnab⟩ := h
-  haveI := hn
+  have := hn
   have := OrdinaryProofs.center_quotient_eq_bot_of_simple (L := L) (D := D) hnab ⟨x, hxL⟩
     (fun l => Subgroup.mem_subgroupOf.mpr (hx l l.2))
   exact Subgroup.mem_subgroupOf.mp this

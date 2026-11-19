@@ -265,7 +265,7 @@ theorem eq_top_of_pow_three_mem {T : Type*} [Group T] [Finite T] (hperf : Group.
     obtain Q : Sylow 3 (T ⧸ θ) := Classical.arbitrary _
     have hQc : (Q : Subgroup (T ⧸ θ)) ≤ Subgroup.center (T ⧸ θ) := by
       intro x hx
-      obtain ⟨k, hk⟩ := (Q.isPGroup' ⟨x, hx⟩)
+      obtain ⟨k, hk⟩ := (Q.isPGroup ⟨x, hx⟩)
       have : x ^ 3 ^ k = 1 := congrArg Subtype.val hk
       exact hcent (hA x k this)
     have hP : Subgroup.normalizer (Q : Set (T ⧸ θ)) ≤ Subgroup.centralizer (Q : Set (T ⧸ θ)) := by

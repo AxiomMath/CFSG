@@ -13,11 +13,11 @@ open CFSG.LargeExtraspecial.O62 Subgroup
 
 private lemma s16c1c_conj_apply (g x : V₀ ≃ₗ[ZMod 2] V₀) (u : V₀) :
     (g⁻¹ * x * g) (g⁻¹ u) = g⁻¹ (x u) := by
-  simp [mul_apply]
+  simp
 
 private lemma s16c1c_conj_apply' (g e : V₀ ≃ₗ[ZMod 2] V₀) (v : V₀) :
     (g * e * g⁻¹) (g v) = g (e v) := by
-  simp [mul_apply]
+  simp
 
 private lemma s16c1c_apply_conj (g x : V₀ ≃ₗ[ZMod 2] V₀) (u : V₀) :
     x u = g ((g⁻¹ * x * g) (g⁻¹ u)) := by

@@ -50,7 +50,7 @@ theorem ggRCSS_primeResidual_quasisimple [Finite A] {p : ℕ} (hp : p.Prime)
     have : Group.IsPerfect A := hA.1
     let P : Sylow p A := Classical.choice inferInstance
     have hPc : (P : Subgroup A) ≤ Subgroup.center A :=
-      (pSubgroup_le_residual p _ P.isPGroup').trans h
+      (pSubgroup_le_residual p _ P.isPGroup).trans h
     have : IsMulCommutative (P : Subgroup A) := isMulCommutative_iff.mpr
       fun x y => Subtype.ext ((Subgroup.mem_center_iff.mp (hPc x.property)) y).symm
     have hnorm : Subgroup.normalizer (P : Set A) ≤ Subgroup.centralizer (P : Set A) := by

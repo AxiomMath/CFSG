@@ -76,7 +76,7 @@ noncomputable def recS {NC nr : ℕ} {CP : ℕ → ℕ}
 theorem recS_spec {NC nr : ℕ} {CP : ℕ → ℕ}
     (hex : ∀ i < NC, ∃ s ∈ centS0 (sElt nr), repK s (CP i)) {j : ℕ} (hj : j < NC) :
     recS hex j ∈ centS0 (sElt nr) ∧ repK (recS hex j) (CP j) := by
-  simp only [recS, dif_pos hj]
+  simp only [recS, dite_eq_left hj]
   exact (hex j hj).choose_spec
 
 noncomputable def liftX {NC nr : ℕ} {CP : ℕ → ℕ}
@@ -88,7 +88,7 @@ theorem liftX_spec {NC nr : ℕ} {CP : ℕ → ℕ}
     (hL : L j < 512) :
     repK ((liftX hex L j : Cz) : K) (mulV (CP j) (QKt (L j))) ∧
       repK (piC (liftX hex L j)) (CP j) := by
-  simp only [liftX, dif_pos hj]
+  simp only [liftX, dite_eq_left hj]
   refine ⟨repK_czmul (recS_spec hex hj).2 (repK_qE hL), ?_⟩
   rw [map_mul, piC_qE, mul_one, piC_S0 (recS_spec hex hj).1.1]
   exact (recS_spec hex hj).2

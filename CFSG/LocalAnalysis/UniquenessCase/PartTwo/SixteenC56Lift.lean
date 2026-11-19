@@ -31,11 +31,11 @@ theorem exists_noncyclic_pGroup_of_perfect_section {H Z : Type*} [Group H] [Fini
       exact ⟨fun hx => congrArg Subtype.val hx, fun hx => Subtype.ext hx⟩
     rw [h1]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hker_le).toEquiv
-  haveI : Group.IsPerfect P₀ := hP₀
+  have : Group.IsPerfect P₀ := hP₀
   obtain ⟨P : Sylow p H₂⟩ := Sylow.nonempty (p := p) (G := H₂)
   have hPnc : ¬ IsCyclic (P : Subgroup H₂) :=
     not_isCyclic_sylow_of_perfect_quotient φ hφ hpP₀ (hφker.symm ▸ hpker) P
-  refine ⟨(P : Subgroup H₂).map H₂.subtype, (P.isPGroup').map H₂.subtype, ?_⟩
+  refine ⟨(P : Subgroup H₂).map H₂.subtype, (P.isPGroup).map H₂.subtype, ?_⟩
   intro hc
   exact hPnc ((MulEquiv.isCyclic
     (Subgroup.equivMapOfInjective (P : Subgroup H₂) H₂.subtype H₂.subtype_injective)).2 hc)

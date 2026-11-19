@@ -54,7 +54,7 @@ theorem glaPComponent_unique_of_langSetup {τ : Tag} {L : Type} [Field L] [IsAlg
   have hCdrange : S.Γ ⊓ Subgroup.centralizer {d} ≤ ι.range := fun x hx => by
     rw [hrange]
     exact (Subgroup.mem_inf.1 hx).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
   have hcompR : ∀ i : KernelComponent (rootCharHom a), CFSG.IsQuasisimple (R i) →
       IsComponentOf (R i) (S.Γ ⊓ Subgroup.centralizer {d}) := by
@@ -77,7 +77,7 @@ theorem glaPComponent_unique_of_langSetup {τ : Tag} {L : Type} [Field L] [IsAlg
     obtain ⟨i₀, hi₀⟩ : ∃ i, CFSG.IsQuasisimple (R i) := by
       by_contra hcon
       push Not at hcon
-      haveI : IsEmpty {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)} :=
+      have : IsEmpty {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)} :=
         ⟨fun ⟨i, hi⟩ => hcon i hi⟩
       rw [iSup_of_empty] at h2
       exact hne ((Subgroup.map_eq_bot_iff_of_injective _ hι).1 (le_bot_iff.1 h2))
@@ -137,7 +137,7 @@ theorem twE6UniqModel_of_ratQuasiEq (hR : RatQuasiEq) : TwE6UniqModel := by
   have hTame := langSetup_hTame_of_prime S Nat.prime_three hpL (fun h => absurd h (by decide)) hT
     hap h1
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) :=
+  have : Finite ↥(twistedE6RootGroup K σ) :=
     Finite.of_injective (fun x => (x : ModGL TwistTag.E6.tag K)) Subtype.val_injective
   exact glaPComponent_unique_of_langSetup S Nat.prime_three ι hinj hrange _ hconj hT hap h1 hTame
     (hR (AlgebraicClosure K) 5 S a (by rw [hq]; norm_num) hT hap h1) hJ hJ'

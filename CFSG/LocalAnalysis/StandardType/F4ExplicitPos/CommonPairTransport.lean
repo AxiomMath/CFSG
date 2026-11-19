@@ -33,7 +33,7 @@ theorem componentRoots_subset_of_common_selected_joint
     componentRoots χD i ⊆ componentRoots χe j :=
   CommonFactorJoint.componentRoots_subset_of_common_selected i j hker hJ hK hKspan
     hJnonabel
-    (fun {k l} hkl x hx y hy =>
+    (fun {_k _l} hkl x hx y hy =>
       CyclicFinish.f4_orbit_commute_rootSpan_rationalRoots hkerρ hform hkl x hx y hy)
     horbit1
 

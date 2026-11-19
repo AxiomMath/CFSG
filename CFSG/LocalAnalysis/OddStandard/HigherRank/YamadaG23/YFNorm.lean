@@ -12,15 +12,18 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 
+omit [Finite G] in
 private lemma yfn_comm_inv {l t : G} (h : l * t = t * l) : t * l⁻¹ = l⁻¹ * t := by
   rw [mul_inv_eq_iff_eq_mul, mul_assoc, ← h]
   group
 
+omit [Finite G] in
 private lemma yfn_conj_mul_eq {z t l : G} (h : l * t = t * l) :
     l * (z * t) * l⁻¹ = (l * z * l⁻¹) * t := by
   rw [show l * (z * t) * l⁻¹ = l * z * (t * l⁻¹) by group, yfn_comm_inv h]
   group
 
+omit [Finite G] in
 private lemma yfn_conj_mul (g a b : G) :
     (g * a) * b * (g * a)⁻¹ = g * (a * b * a⁻¹) * g⁻¹ := by
   group
@@ -94,7 +97,7 @@ theorem s3_inv_arg (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (
   have hcl : closure (invols X) ≤ X.comap (MulAut.conj x).toMonoidHom := by
     rw [Subgroup.closure_le]
     intro u hu
-    simp only [invols, Set.mem_setOf_eq] at hu
+    simp only [invols, Set.mem_ofPred_eq] at hu
     exact key u hu.1 hu.2
   intro y hy
   have hy' : y ∈ X.comap (MulAut.conj x).toMonoidHom := (hgen ▸ hcl) hy

@@ -222,7 +222,7 @@ theorem centralizer_sylow_is_global (D : Set G)
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C := Subgroup.centralizer ({(z : G)} : Set G)
   let H := (S : Subgroup C).map C.subtype
-  have hHtwo : IsPGroup 2 H := S.isPGroup'.map C.subtype
+  have hHtwo : IsPGroup 2 H := S.isPGroup.map C.subtype
   obtain ⟨n, hcard⟩ := hHtwo.exists_card_eq
   have hno : ¬ 2 ∣ H.index := by
     intro hindex

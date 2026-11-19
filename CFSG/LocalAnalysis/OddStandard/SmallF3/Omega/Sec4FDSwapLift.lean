@@ -60,7 +60,7 @@ theorem Sec4FDCover.mem_conjClassIn_swap (h : Sec4FDCover L s X y ρ) {v : G} (h
   set b : G := s * v with hb_def
   have hab_m : a * b = (m : G) := by
     rw [ha_def, hb_def, hm_def]
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     rw [coe_sec4IConj, hsinv, Subgroup.coe_inv]
     group
   have haa : a * a = 1 := by

@@ -158,12 +158,12 @@ private def l3TwoU0 : Subgroup l3TwoSL3 where
   one_mem' := Or.inl rfl
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rcases ha with h1 | h1 | h1 | h1 <;> rw [h1] <;>
       rcases hb with h2 | h2 | h2 | h2 <;> rw [h2] <;> decide
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rcases ha with h1 | h1 | h1 | h1 <;> rw [h1] <;> decide
 
 private instance l3TwoU0_decidableMem : DecidablePred (fun x : l3TwoSL3 => x ∈ l3TwoU0) :=
@@ -245,7 +245,7 @@ private theorem l3Two_exists_kleinFour_of_mulEquiv {P : Type} [Group P]
         _ = e u := congrArg e hbu
         _ = y := by
           rw [← hyu]
-          simpa using MulEquiv.apply_symm_apply e y
+          simp
     rw [← hyu, hy1, map_one]
 
 private theorem l3Two_normal_action {G : Type*} [Group G] {T T₀ P : Subgroup G}
@@ -288,7 +288,7 @@ theorem l3Two_quotient_fixedPointFree {G : Type*} [Group G] {T T₀ P : Subgroup
       ∀ x, τ ⟨b, hbP⟩ x = x → x = 1 := by
   classical
   let N : Subgroup ↥T := T₀.subgroupOf T
-  haveI hNnormal : N.Normal := hN
+  have hNnormal : N.Normal := hN
   obtain ⟨σ, hcoe, hmap⟩ := l3Two_normal_action hPT hPT₀
   let τ : ↥P →* MulAut (↥T ⧸ N) :=
     { toFun := fun g => QuotientGroup.congr N N (σ g) (by simpa using hmap g)
@@ -325,7 +325,7 @@ theorem l3Two_quotient_fixedPointFree {G : Type*} [Group G] {T T₀ P : Subgroup
   exact Subgroup.mem_subgroupOf.mpr htT₀
 
 private theorem l3Two_exists_abelian_characteristic (X : Type) [Group X]
-    (hne : ¬ Subsingleton X) (hsol : IsSolvable X) :
+    (hne : ¬ Subsingleton X) (hsol : Group.IsSolvable X) :
     ∃ A : Subgroup X, A.Characteristic ∧ A ≠ ⊥ ∧ ⁅A, A⁆ = ⊥ := by
   classical
   let p : ℕ → Prop := fun k => derivedSeries X k = ⊥
@@ -352,7 +352,7 @@ private theorem l3Two_exists_prime_order_element {X : Type*} [Group X] [Finite X
     ∃ (p : ℕ) (_ : p.Prime) (a : X), a ∈ A ∧ orderOf a = p := by
   have hcard : Nat.card A ≠ 1 := fun h => hAne (Subgroup.eq_bot_of_card_eq A h)
   obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := A) p hpdvd
   exact ⟨p, hp, (a : X), a.2, (Subgroup.orderOf_coe a).trans ha⟩
 
@@ -361,13 +361,13 @@ private theorem l3Two_exists_elementaryAbelian {X : Type*} [Group X]
     (hp : p.Prime) {a : X} (haA : a ∈ A) (haord : orderOf a = p) :
     ∃ V : Subgroup X, V.Characteristic ∧ a ∈ V ∧ IsElementaryAbelian p V := by
   classical
-  haveI hAcomm : IsMulCommutative A := Subgroup.commutator_self_eq_bot_iff.mp hAab
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  have hAcomm : IsMulCommutative A := Subgroup.commutator_self_eq_bot_iff.mp hAab
+  let : CommGroup A := IsMulCommutative.instCommGroup
   let K : Subgroup A := (powMonoidHom p : A →* A).ker
   have hKchar : K.Characteristic := CFSG.Wielandt.powMonoidHom_ker_characteristic p
   let V : Subgroup X := K.map A.subtype
-  haveI : A.Characteristic := hAchar
-  haveI : K.Characteristic := hKchar
+  have : A.Characteristic := hAchar
+  have : K.Characteristic := hKchar
   have hVchar : V.Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic
   have haV : a ∈ V := by
@@ -379,8 +379,8 @@ private theorem l3Two_exists_elementaryAbelian {X : Type*} [Group X]
     rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
     intro y
     exact Subtype.ext (by simpa [powMonoidHom_apply] using MonoidHom.mem_ker.mp y.2)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsElementaryAbelian p K := hKelem
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsElementaryAbelian p K := hKelem
   exact ⟨V, hVchar, haV, IsElementaryAbelian.map_subtype⟩
 
 private theorem l3Two_false_of_trivial_action {k : Type*} [Field k] {P V : Type} [Group P]
@@ -404,7 +404,7 @@ private theorem l3Two_false_of_rep {p : ℕ} (hp : p.Prime) {P : Type} {W : Type
     [AddCommGroup W] [Module (ZMod p) W] (ρ : Representation (ZMod p) P W) {b : P}
     (hb : orderOf b = 3) (hCV : ∀ w : W, ρ b w = w → w = 0)
     (hbNotKer : b ∉ ρ.ker) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb3 : b ^ 3 = 1 := by
     have h : orderOf b ∣ 3 := by rw [hb]
     exact orderOf_dvd_iff_pow_eq_one.mp h
@@ -412,7 +412,7 @@ private theorem l3Two_false_of_rep {p : ℕ} (hp : p.Prime) {P : Type} {W : Type
   · subst hp7
     obtain ⟨U, hUcard, hUnorm, hUfix⟩ :=
       l3Two_exists_kleinFour_of_mulEquiv (b := b) eP hb
-    haveI : Fintype U := Fintype.ofFinite U
+    have : Fintype U := Fintype.ofFinite U
     have hUne : U ≠ ⊥ := by
       intro h
       rw [h, Subgroup.card_bot] at hUcard
@@ -426,7 +426,7 @@ private theorem l3Two_false_of_rep {p : ℕ} (hp : p.Prime) {P : Type} {W : Type
   · obtain ⟨C, -, hCcard, hCnorm, hCfix⟩ :=
       CFSG.LocalAnalysis.UniquenessCase.UCK.l3SingerFact_holds.1 P 2 1
         (l3Two_statedClassicalModel eP) (by decide) b hb
-    haveI : Fintype C := Fintype.ofFinite C
+    have : Fintype C := Fintype.ofFinite C
     have hCne : C ≠ ⊥ := by
       intro h
       rw [h, Subgroup.card_bot] at hCcard
@@ -441,21 +441,21 @@ private theorem l3Two_false_of_rep {p : ℕ} (hp : p.Prime) {P : Type} {W : Type
 theorem l3TwoFixedPointFree_holds :
     ∀ (P X : Type) [Group P] [Group X] [Finite X],
       Nonempty (P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) →
-      ∀ (φ : P →* MulAut X) (b : P), orderOf b = 3 → IsSolvable X →
+      ∀ (φ : P →* MulAut X) (b : P), orderOf b = 3 → Group.IsSolvable X →
         (∀ x : X, φ b x = x → x = 1) → Subsingleton X := by
   intro P X _ _ _ hP φ b hb hsol hfix
   classical
   obtain ⟨eP⟩ := hP
-  haveI : Finite P := Finite.of_injective eP.toMonoidHom eP.injective
-  haveI : IsSimpleGroup P := l3Two_isSimpleGroup eP
+  have : Finite P := Finite.of_injective eP.toMonoidHom eP.injective
+  have : IsSimpleGroup P := l3Two_isSimpleGroup eP
   by_contra hne
   obtain ⟨A, hAchar, hAne, hAab⟩ := l3Two_exists_abelian_characteristic X hne hsol
   obtain ⟨p, hp, a, haA, haord⟩ := l3Two_exists_prime_order_element hAne
   obtain ⟨V, hVchar, haV, hVexp⟩ := l3Two_exists_elementaryAbelian hAchar hAab hp haA haord
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsElementaryAbelian p V := hVexp
-  letI : CommGroup V := IsMulCommutative.instCommGroup
-  letI : V.Characteristic := hVchar
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsElementaryAbelian p V := hVexp
+  let : CommGroup V := IsMulCommutative.instCommGroup
+  let : V.Characteristic := hVchar
   let ψ : P →* MulAut V := (MulAut.characteristic V).comp φ
   let ρ : Representation (ZMod p) P (Additive V) :=
     CFSG.OrderReductions.ElementaryRepresentation.linearRepresentation p ψ
@@ -487,15 +487,15 @@ theorem le_of_l3TwoFixedPointFree {G : Type} [Group G] [Finite G] {T T₀ P : Su
     (hT₀T : T₀ ≤ T) (hT₀ : T ≤ Subgroup.normalizer (T₀ : Set G))
     (hPT : P ≤ Subgroup.normalizer (T : Set G)) (hPT₀ : P ≤ Subgroup.normalizer (T₀ : Set G))
     (hP : Nonempty (↥P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2))) {b : G} (hbP : b ∈ P)
-    (hb : orderOf b = 3) (hsol : IsSolvable ↥T)
+    (hb : orderOf b = 3) (hsol : Group.IsSolvable ↥T)
     (hfix : ∀ t ∈ T, b * t * b⁻¹ * t⁻¹ ∈ T₀ → t ∈ T₀) : T ≤ T₀ := by
   classical
-  haveI hNnormal : (T₀.subgroupOf T).Normal :=
+  have hNnormal : (T₀.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hT₀
   obtain ⟨τ, hfixτ⟩ := l3Two_quotient_fixedPointFree hPT hPT₀ hbP hfix
   let N : Subgroup ↥T := T₀.subgroupOf T
-  haveI : N.Normal := hNnormal
-  have hquot : IsSolvable (↥T ⧸ N) :=
+  have : N.Normal := hNnormal
+  have hquot : Group.IsSolvable (↥T ⧸ N) :=
     @Group.isSolvable_of_surjective ↥T (↥T ⧸ N) _ _ (QuotientGroup.mk' N)
       (QuotientGroup.mk'_surjective N) hsol
   have hsub : Subsingleton (↥T ⧸ N) :=

@@ -69,6 +69,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
     (e : ↥S ⧸ Subgroup.center ↥S ≃* G) (b : Ω) : MulAut G :=
   (e.symm.trans (actQuot S b)).trans e
 
+omit [Finite Ω] in
 theorem fixSubgroup_transAut {S : Subgroup Ω} [S.Normal] {G : Type} [Group G]
     (e : ↥S ⧸ Subgroup.center ↥S ≃* G) (b : Ω) :
     fixSubgroup (transAut e b) = (fixSubgroup (actQuot S b)).map e.toMonoidHom := by
@@ -92,6 +93,7 @@ theorem fixSubgroup_transAut {S : Subgroup Ω} [S.Normal] {G : Type} [Group G]
     change e (actQuot S (x * y) (e.symm g)) = e (actQuot S x (e.symm (e (actQuot S y (e.symm g)))))
     rw [map_mul, MulAut.mul_apply, MulEquiv.symm_apply_apply]
 
+omit [Finite Ω] in
 theorem transAut_pow_eq_one {S : Subgroup Ω} [S.Normal] {G : Type} [Group G]
     (e : ↥S ⧸ Subgroup.center ↥S ≃* G) {b : Ω} {p : ℕ} (hb : b ^ p = 1) : transAut e b ^ p = 1 := by
   have h := map_pow (transAutHom e) b p
@@ -193,7 +195,7 @@ theorem s2019Omega_of_fixCentralizes {p : ℕ} (hp : p.Prime) {S B D J : Subgrou
     intro y hy x _
     have hy1 : y = 1 := e.injective (by rw [map_one]; exact (Subgroup.mem_inf.1 hy).2)
     rw [hy1, mul_one, one_mul]
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv
+  have : Finite G := Finite.of_equiv _ e.toEquiv
   have hJ₂ := (CFSG.glaPComponent_map_bijective_of_ker_le_center hp e.toMonoidHom hsubG).1 _ hJ₁
   rw [← fixSubgroup_transAut] at hJ₂
   have hT₂ : IsPGroup 2 ((T₀.map ψ).map e.toMonoidHom) := by
@@ -267,8 +269,8 @@ theorem s2019FactClassicalOn_linear (hI5 : S2019LinInner (5 ≤ ·)) (hI3 : S201
       rintro rfl
       exact hA1 trivial
     omega
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI := hSn
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have := hSn
   set F := GaloisField Q.p Q.exponent
   let e : ↥S ⧸ Subgroup.center ↥S ≃* LinearFlag.projectiveSL (m + 1) F :=
     (pSimpleEquivQuotCenter hSp).symm.trans (e₀.trans
@@ -307,7 +309,7 @@ theorem s2019FactClassicalOn_unitary (hI5 : S2019UniInner (5 ≤ ·)) (hI3 : S20
     rw [TauCeti.LieTypeIndex.inStandardRange_iff] at hv'
     obtain ⟨⟨h1, -⟩, -⟩ := hv'
     exact h1
-  haveI := hSn
+  have := hSn
   obtain ⟨-, K, _, _, hK, ⟨e₁⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m Q hv e₀
   have h : UnitaryFieldData Q.p Q.exponent K :=

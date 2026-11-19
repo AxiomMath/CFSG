@@ -11,11 +11,13 @@ open Module CFSG.Assembly
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
   {h : Fin 6 → V} {α : Fin 6 → Dual (ZMod 3) V} {B : LinearMap.BilinForm (ZMod 3) V}
 
+omit [Finite V] in
 theorem root_ne_zero {v : V} (hv : B v v = 2) : v ≠ 0 := by
   rintro rfl
   rw [map_zero] at hv
   exact absurd hv (by decide)
 
+omit [Finite V] in
 theorem rootRefl_fix_iff {v : V} (hv : B v v = 2) (d : V) :
     rootRefl (B := B) v hv d = d ↔ B v d = 0 := by
   rw [rootRefl_apply]
@@ -27,14 +29,17 @@ theorem rootRefl_fix_iff {v : V} (hv : B v v = 2) (d : V) :
   · intro h
     rw [h, zero_smul, sub_zero]
 
+omit [Finite V] in
 private theorem two_smul_two_smul (v : V) : (2 : ZMod 3) • (2 : ZMod 3) • v = v := by
   rw [smul_smul, show (2 * 2 : ZMod 3) = 1 by decide, one_smul]
 
+omit [Finite V] in
 private theorem two_smul_eq_neg (v : V) : (2 : ZMod 3) • v = -v := by
   apply eq_neg_of_add_eq_zero_left
   calc (2 : ZMod 3) • v + v = ((2 : ZMod 3) + 1) • v := by rw [add_smul, one_smul]
     _ = 0 := by rw [show ((2 : ZMod 3) + 1) = 0 by decide, zero_smul]
 
+omit [Finite V] in
 theorem rootRefl_eq_iff {a b : V} (ha : B a a = 2) (hb : B b b = 2) :
     rootRefl (B := B) a ha = rootRefl (B := B) b hb ↔ a = b ∨ a = -b := by
   constructor
@@ -92,12 +97,14 @@ theorem rootRefl_commute (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMo
       rw [h0] at h3
       exact (smul_right_injective V (by decide : (2 : ZMod 3) ≠ 0) h3).symm
 
+omit [Finite V] in
 theorem root_ne_neg_self {v : V} (hv : B v v = 2) : v ≠ -v := by
   intro h
   have h2 : B v v = B v (-v) := by rw [← h]
   rw [LinearMap.BilinForm.neg_right, hv] at h2
   exact absurd h2 (by decide)
 
+omit [Finite V] in
 theorem rootRefl_conj_iso {g : V ≃ₗ[ZMod 3] V}
     (hg : ∀ a b, B (g a) (g b) = B a b) {v : V} (hv : B v v = 2) :
     g * rootRefl (B := B) v hv * g⁻¹ = rootRefl (B := B) (g v) (by rw [hg, hv]) := by

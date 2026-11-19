@@ -13,7 +13,7 @@ theorem ambient {G : Type*} [Group G] [Finite G]
     ∃ ambient : Sylow 2 G, (ambient : Subgroup G) = (sylow : Subgroup subgroup).map subgroup.subtype := by
   let image := (sylow : Subgroup subgroup).map subgroup.subtype
   have himage : image ≤ subgroup := Subgroup.map_subtype_le _
-  obtain ⟨ambient, hambient⟩ := (sylow.isPGroup'.map subgroup.subtype).exists_le_sylow
+  obtain ⟨ambient, hambient⟩ := (sylow.isPGroup.map subgroup.subtype).exists_le_sylow
   let inside := image.subgroupOf (ambient : Subgroup G)
   let normalizer := Subgroup.normalizer (inside : Set (ambient : Subgroup G))
   let normalizerImage := normalizer.map (ambient : Subgroup G).subtype
@@ -24,7 +24,7 @@ theorem ambient {G : Type*} [Group G] [Finite G]
     exact hlift
   have hnormalizerSubgroup : normalizerImage ≤ subgroup := hnormalizerImage.trans hnormalizer
   have hnormalizerTwo : IsPGroup 2 normalizerImage :=
-    (ambient.isPGroup'.to_subgroup normalizer).map (ambient : Subgroup G).subtype
+    (ambient.isPGroup.to_subgroup normalizer).map (ambient : Subgroup G).subtype
   have himageNormalizer : image ≤ normalizerImage := by
     intro member hmember
     exact Subgroup.mem_map.mpr ⟨⟨member, hambient hmember⟩,
@@ -43,7 +43,7 @@ theorem ambient {G : Type*} [Group G] [Finite G]
     apply le_antisymm _ Subgroup.le_normalizer
     intro member hmember
     exact hnormalizerLeImage (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
-  let : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup.isNilpotent
   have htop : inside = ⊤ :=
     (normalizerCondition_iff_only_full_group_self_normalizing.mp Group.normalizerCondition_of_isNilpotent) inside hnormalizerEq
   have hreverse : (ambient : Subgroup G) ≤ image := Subgroup.subgroupOf_eq_top.mp htop

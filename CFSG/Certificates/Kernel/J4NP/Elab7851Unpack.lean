@@ -98,11 +98,11 @@ theorem pairOK_spec {KK Ka Ca Pa x : ℕ} (h : pairOK KK Ka Ca Pa x = true) :
   obtain ⟨h1, h2⟩ := andB_true h
   rw [boolRec_eq, bitB_eq] at h2
   refine ⟨fun e => by rw [e, notB_eq] at h1; simp at h1, fun hb => ?_, fun hb => ?_⟩
-  · rw [if_pos hb] at h2
+  · rw [ite_eq_left hb] at h2
     obtain ⟨h3, h4⟩ := andB_true h2
     obtain ⟨h5, h6⟩ := andB_true h4
     exact ⟨beq_true h3, lt_of_blt h5, beq_true h6⟩
-  · rw [hb, if_neg (by decide)] at h2
+  · rw [hb, ite_eq_right (by decide)] at h2
     intro e
     rw [e, notB_eq] at h2
     simp at h2

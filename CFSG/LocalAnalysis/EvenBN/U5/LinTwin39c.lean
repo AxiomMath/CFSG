@@ -73,12 +73,12 @@ theorem lin_Y₂_mem_odd (hl : d.LinCtx) (k8 : d.Know8) : d.Sec39cY₂ := by
     have ha₀E : a₀ ∈ d.E := hd.A₂_le_E hGMS ha₀
     have hV : d.s * a₀ * d.s⁻¹ * a₀⁻¹ ∈ d.V := (sec39c_mem_centMod.1 hsmem.1).2 a₀ ha₀E
     exact hnZ (by rw [← hd.V_inf_A₂]; exact ⟨hV, hA⟩)
-  haveI := hΛs
+  have := hΛs
   have hnorm : (Kb.subgroupOf (layer (sec39cQ d))).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hKn (g : sec39cQ d) g.2 n hn
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Kb.subgroupOf (layer (sec39cQ d))) with h0 | h1
   · have hmH := sec39c_M₂_le_H d hm
     refine ⟨hmH, ?_⟩

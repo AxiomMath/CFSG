@@ -164,13 +164,13 @@ theorem evMat_diagZ (hp : p ≠ 2) (φ : R →+* ZMod p) (i : Fin n) :
     Matrix.diagonal_apply, smul_eq_mul, pow_one]
   by_cases hjk : j = k
   · subst hjk
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     by_cases hji : j = i
     · subst hji
-      rw [if_pos rfl, if_pos rfl, map_neg, map_ofNat, mul_neg,
+      rw [ite_eq_left rfl, ite_eq_left rfl, map_neg, map_ofNat, mul_neg,
         inv_mul_cancel₀ (evMat_two_ne_zero hp)]
-    · rw [if_neg hji, if_neg hji, map_ofNat, inv_mul_cancel₀ (evMat_two_ne_zero hp)]
-  · rw [if_neg hjk, if_neg hjk, map_zero, mul_zero]
+    · rw [ite_eq_right hji, ite_eq_right hji, map_ofNat, inv_mul_cancel₀ (evMat_two_ne_zero hp)]
+  · rw [ite_eq_right hjk, ite_eq_right hjk, map_zero, mul_zero]
 
 theorem evMat_ne_one (φ : R →+* ZMod p) {good : R → Prop} (hgood : ∀ x, good x → φ x ≠ 0)
     {k : ℕ} {M : Matrix (Fin n) (Fin n) R} {a b : Fin n}

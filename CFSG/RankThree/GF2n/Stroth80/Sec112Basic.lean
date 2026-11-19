@@ -13,10 +13,12 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 @[expose] def A2Set (M Q Z : Subgroup G) [(Q.subgroupOf M).Normal] : Set (Mbar M Q) :=
   {τ | ∃ e : M, (e : Mbar M Q) = τ ∧ IsA2 Q Z (e : G)}
 
+omit [Finite G] in
 theorem Ctx.mk_mem_A2Set [(Q.subgroupOf M).Normal] {a : G} (ha : a ∈ M) (hA : IsA2 Q Z a) :
     (QuotientGroup.mk (⟨a, ha⟩ : ↥M) : Mbar M Q) ∈ A2Set M Q Z :=
   ⟨⟨a, ha⟩, rfl, hA⟩
 
+omit [Finite G] in
 theorem Ctx.orderOf_eq_two_of_mem_A2Set [(Q.subgroupOf M).Normal] {τ : Mbar M Q}
     (hτ : τ ∈ A2Set M Q Z) : orderOf τ = 2 := by
   obtain ⟨e, rfl, hA⟩ := hτ
@@ -29,10 +31,12 @@ theorem Ctx.orderOf_eq_two_of_mem_A2Set [(Q.subgroupOf M).Normal] {τ : Mbar M Q
     exact Subgroup.mem_subgroupOf.mpr hA.2.2.1
   exact orderOf_eq_prime hsq hne
 
+omit [Finite G] in
 theorem Ctx.orderOf_eq_two_of_mem_Ebar [(Q.subgroupOf M).Normal] {τ : Mbar M Q}
     (hτ : τ ∈ Ebar M Q Z B) : orderOf τ = 2 :=
   Ctx.orderOf_eq_two_of_mem_A2Set hτ.1
 
+omit [Finite G] in
 theorem Ctx.Ebar_nonempty [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     (ha : ∃ a ∈ LB M Q B, IsA2 Q Z a) : (Ebar M Q Z B).Nonempty := by
   obtain ⟨a, haL, hA⟩ := ha

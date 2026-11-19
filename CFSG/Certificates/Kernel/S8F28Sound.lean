@@ -291,6 +291,7 @@ theorem g4_lt {L : List Nat} (hL : ∀ a ∈ L, a < 44) {l : Nat} (hl : l < 44)
   · obtain ⟨f, hf, rfl⟩ := List.mem_map.1 ha
     exact (T.prod f (hL f hf) l hl (List.all_eq_true.1 h f hf)).1
 
+omit T in
 theorem contains4_false {k i j m : Nat} (hk : iv k ∉ [iv 43, iv i, iv j, iv m]) :
     [43, i, j, m].contains k = false := by
   rw [Bool.eq_false_iff]
@@ -299,6 +300,7 @@ theorem contains4_false {k i j m : Nat} (hk : iv k ∉ [iv 43, iv i, iv j, iv m]
   rw [List.contains_iff_mem] at hc
   exact List.mem_map_of_mem (f := iv) hc
 
+omit T in
 theorem contains_false {L : List Nat} {l : Nat} (hl : iv l ∉ L.map iv) : L.contains l = false := by
   rw [Bool.eq_false_iff]
   intro hc
@@ -332,7 +334,7 @@ theorem c3w_of (h : ∀ i < 43, c3K CM MT FMK i = true) : C3w := by
   have cjk := (T.comm j (by omega) k (by omega)).1 hcjk
   have hpij := T.prod i (by omega) j (by omega) cij
   have hkn' : [43, i, j, mt MT i j].contains k = false := by
-    refine contains4_false T ?_
+    refine contains4_false ?_
     rw [iv43, ← hpij.2]
     exact hkn
   rw [blt_t hij, blt_t hjk, cij, cik, cjk, hkn'] at h2
@@ -364,7 +366,7 @@ theorem c4w_of (h : ∀ i < 43, c4K CM MT FMK i = true) : C4w := by
   have cjk := (T.comm j (by omega) k (by omega)).1 hcjk
   have hpij := T.prod i (by omega) j (by omega) cij
   have hkn' : [43, i, j, mt MT i j].contains k = false := by
-    refine contains4_false T ?_
+    refine contains4_false ?_
     rw [iv43, ← hpij.2]
     exact hkn
   rw [blt_t hij, blt_t hjk, cij, cik, cjk, hkn'] at h2
@@ -378,7 +380,7 @@ theorem c4w_of (h : ∀ i < 43, c4K CM MT FMK i = true) : C4w := by
   rw [grp3_eq T G] at hln
   rw [blt_t hkl, (T.comm i (by omega) l (by omega)).1 cil,
     (T.comm j (by omega) l (by omega)).1 cjl, (T.comm k (by omega) l (by omega)).1 ckl,
-    contains_false T hln] at h4
+    contains_false hln] at h4
   simp only [Bool.not_false, Bool.and_self, Bool.not_true, Bool.false_or, Bool.and_eq_true] at h4
   obtain ⟨⟨hall, hr4⟩, hmax⟩ := h4
   rw [grp3_eq T G, grp4_eq T (g3_lt T G) (by omega) hall]

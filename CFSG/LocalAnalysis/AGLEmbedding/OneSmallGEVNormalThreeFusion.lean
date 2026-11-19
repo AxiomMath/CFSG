@@ -56,7 +56,7 @@ theorem D1OneSmallData.mul_mem_fusionSet (hOut : KFactSmallOutPPrime)
   obtain ⟨hzT, hTcard'⟩ := hd.d1LiftX_facts hz
   have hTcard : Nat.card T = 3 ^ 2 := hTcard'.trans hcard
   obtain ⟨x, hxP, hxN, hxR, -⟩ := hd.exists_moving_elt hz hB0
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hpdvd : 3 ∣ (fusionSet R z).ncard := p_dvd_ncard_fusionSet hzp hxN hxk hxR
     (fun y hy hyz hyk => hd.mem_of_mem_normalizer_of_commute hB0 hy hyz hyk)

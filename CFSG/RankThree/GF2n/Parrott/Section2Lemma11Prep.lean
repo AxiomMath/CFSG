@@ -11,6 +11,7 @@ open CFSG CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem pCore_centralizer_centerIn_eq (h : Tim79a.ParrottHyp z) :
     CFSG.Open.pCoreOf 2 (Subgroup.centralizer (centerIn (J z) : Set G)) = J z := by
   set C : Subgroup G := Subgroup.centralizer (centerIn (J z) : Set G) with hC

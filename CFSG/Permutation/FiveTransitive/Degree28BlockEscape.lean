@@ -48,7 +48,7 @@ private theorem cycle_factor_support_card_eq_three
     ((fixedPart r u x : Function.fixedPoints r) : X) = u.1 x :=
   rfl
 
-@[expose] abbrev cyclePart
+abbrev cyclePart
     {X : Type*} [Fintype X] [DecidableEq X]
     (r : Equiv.Perm X)
     (u : Subgroup.centralizer ({r} : Set (Equiv.Perm X))) :
@@ -277,7 +277,7 @@ private theorem centralizer_pow_nine_eq_one
         _ = rCycle ^ (m * 3) := (zpow_mul rCycle m 3).symm
         _ = rCycle ^ (3 * m) := by rw [mul_comm]
         _ = (rCycle ^ (3 : ℤ)) ^ m := zpow_mul rCycle 3 m
-        _ = 1 := by simp [zpow_natCast, hrCycle3]
+        _ = 1 := by simp [hrCycle3]
     have happ := congrArg
       (fun e : Equiv.Perm c.1.support => e ⟨x, hxc⟩)
       hu3Restricted3
@@ -462,8 +462,8 @@ theorem five_stabilizer_card_eq
     Nat.card (fixingSubgroup P s) =
       Nat.card (fixingSubgroup P t) := by
   classical
-  letI : Fintype s := Fintype.ofFinite s
-  letI : Fintype t := Fintype.ofFinite t
+  let : Fintype s := Fintype.ofFinite s
+  let : Fintype t := Fintype.ofFinite t
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, hs]
   have htCard : Fintype.card t = 5 := by
@@ -713,24 +713,24 @@ private theorem exists_order_three_support_le_eighteen_of_solvable_aux_actions
   let cycleK : K →* alternatingGroup r.cycleFactorsFinset :=
     cycleKBase.codRestrict
       (alternatingGroup r.cycleFactorsFinset) hcycleEven
-  letI : IsSimpleGroup
+  let : IsSimpleGroup
       (alternatingGroup (Function.fixedPoints r)) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card, hrFixed]
       norm_num)
   have hcycleCard : Fintype.card r.cycleFactorsFinset = 7 := by
     rw [cycleFactorsFinset_card, hrCycles]
-  letI : IsSimpleGroup (alternatingGroup r.cycleFactorsFinset) :=
+  let : IsSimpleGroup (alternatingGroup r.cycleFactorsFinset) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card, hcycleCard]
       norm_num)
-  letI : Group.IsPerfect
+  let : Group.IsPerfect
       (alternatingGroup (Function.fixedPoints r)) := by
     rw [Group.isPerfect_def]
     exact commutator_alternatingGroup_eq_top (by
       rw [Nat.card_eq_fintype_card, hrFixed]
       norm_num)
-  letI : Group.IsPerfect
+  let : Group.IsPerfect
       (alternatingGroup r.cycleFactorsFinset) := by
     rw [Group.isPerfect_def]
     exact commutator_alternatingGroup_eq_top (by
@@ -782,7 +782,7 @@ private theorem exists_order_three_support_le_eighteen_of_solvable_aux_actions
       change cycleRaw z.1 = cyclePart r (centerIncl (toBase z))
       exact hcycleCompat (toBase z))
 
-@[expose] abbrev cyclicConjugation
+abbrev cyclicConjugation
     {X : Type*} (P : Subgroup (Equiv.Perm X)) (r : P) :
     FiveTransitive.PrimeCyclicFixedAction.cyclicNormalizer P r →*
       MulAut (FiveTransitive.PrimeCyclicFixedAction.cyclicSubgroup P r) :=
@@ -863,7 +863,7 @@ private theorem alternatingGroup_le_cyclicNormalizerFixedHom_range
         (Function.fixedPoints ((r : P) : Equiv.Perm X)) ≤
       (cyclicNormalizerFixedHom P r).range := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let R : Subgroup P :=
     FiveTransitive.PrimeCyclicFixedAction.cyclicSubgroup P r
   let N : Subgroup P :=
@@ -944,7 +944,7 @@ private theorem alternatingGroup_le_cyclicNormalizerFixedHom_range
     (r : Equiv.Perm X) : Equiv.Perm r.support :=
   r.subtypePerm fun _ => Equiv.Perm.apply_mem_support
 
-@[expose] abbrev supportOrbitQuotient
+abbrev supportOrbitQuotient
     {X : Type*} [Fintype X] [DecidableEq X]
     (r : Equiv.Perm X) :=
   MulAction.orbitRel.Quotient
@@ -1210,14 +1210,14 @@ private theorem orderOf_supportRestriction
     by_contra hx
     have hmem : x ∈ r.support := Equiv.Perm.mem_support.mpr hx
     rw [hempty] at hmem
-    simpa using hmem
+    simp at hmem
   obtain ⟨x, hx⟩ := hsupp
   let y : r.support := ⟨x, hx⟩
   have hrpNe : supportRestriction r ≠ 1 := by
     intro hOne
     apply supportRestriction_fixedPointFree r y
     exact congrFun (congrArg DFunLike.coe hOne) y
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime hrpPow hrpNe
 
 private theorem cyclicNormalizerSupportRangeOrbitHom_ker_isSolvable
@@ -1273,7 +1273,7 @@ private theorem range_card_lt_alternating_of_card_eq_seven
     (hY : Fintype.card Y = 7)
     (hnot : ¬alternatingGroup Y ≤ f.range) :
     Nat.card f.range < Nat.card (alternatingGroup Y) := by
-  letI : Nontrivial Y :=
+  let : Nontrivial Y :=
     Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   by_contra hlt
   have hle : Nat.card (alternatingGroup Y) ≤ Nat.card f.range :=
@@ -1347,7 +1347,7 @@ private theorem alternatingGroup_le_of_canonical_cycle_range_small
   let orbitMap : B →*
       Equiv.Perm (supportOrbitQuotient rawR) :=
     cyclicNormalizerSupportRangeOrbitHom P r
-  letI : Group.IsSolvable orbitMap.ker := by
+  let : Group.IsSolvable orbitMap.ker := by
     simpa only [orbitMap, rawR] using
       (cyclicNormalizerSupportRangeOrbitHom_ker_isSolvable
         P r (by norm_num) hr)
@@ -1367,11 +1367,11 @@ private theorem alternatingGroup_le_of_canonical_cycle_range_small
     have hYcard : Fintype.card Y = 7 := by
       simpa only [Y, rawR] using hfixed
     omega
-  letI : IsSimpleGroup (alternatingGroup Y) :=
+  let : IsSimpleGroup (alternatingGroup Y) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card]
       exact hYfive)
-  letI : Group.IsPerfect (alternatingGroup Y) := by
+  let : Group.IsPerfect (alternatingGroup Y) := by
     rw [Group.isPerfect_def]
     exact commutator_alternatingGroup_eq_top (by
       rw [Nat.card_eq_fintype_card]
@@ -1616,7 +1616,7 @@ private theorem exists_order_three_support_le_eighteen_of_cyclic_normalizer_acti
       g ∈ P ∧ orderOf g = 3 ∧ g.support.card ≤ 18 := by
   let R := FiveTransitive.PrimeCyclicFixedAction.cyclicSubgroup P rP
   let N := FiveTransitive.PrimeCyclicFixedAction.cyclicNormalizer P rP
-  letI : Group.IsSolvable (MulAut R) := by
+  let : Group.IsSolvable (MulAut R) := by
     exact Group.isSolvable_of_isSolvable_injective
       (f := (IsCyclic.mulAutMulEquiv R).toMonoidHom)
       (IsCyclic.mulAutMulEquiv R).injective
@@ -1708,10 +1708,10 @@ theorem alternating_or_exists_order_three_support_le_eighteen
     have hcycleSmall :=
       range_card_lt_alternating_of_card_eq_seven
         (cyclicNormalizerCycleHom P rP) hcycleCard hAltCycles
-    letI : Nontrivial
+    let : Nontrivial
         (((rP : P) : Equiv.Perm X).cycleFactorsFinset) :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
-    letI : Nontrivial
+    let : Nontrivial
         (Function.fixedPoints ((rP : P) : Equiv.Perm X)) :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     have hAltCardEq :

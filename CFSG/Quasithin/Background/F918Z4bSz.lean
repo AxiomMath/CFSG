@@ -60,7 +60,7 @@ theorem rk_le_of_isElemAb2_suzukiGroup {a : ℕ} {K : Type}
     refine lt_of_le_of_ne (Subgroup.card_le_of_le hEQ) fun h => ?_
     have heq : E = Q := Subgroup.eq_of_le_of_card_ge hEQ (le_of_eq h.symm)
     exact hz2 (hE.2 z (heq ▸ hzQ))
-  have hQ2 : IsPGroup 2 (Q : Subgroup (suzukiGroup a K)) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup (suzukiGroup a K)) := Q.isPGroup
   rw [hE.card_eq_two_pow, card_eq_two_pow_of_isPGroup hQ2] at hlt
   have hrk : rk E < rk (Q : Subgroup (suzukiGroup a K)) :=
     (Nat.pow_lt_pow_iff_right (by norm_num)).mp hlt

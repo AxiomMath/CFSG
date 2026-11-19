@@ -18,6 +18,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem gg6D5_conjAut_fixed_of_gamma_fixed {p : ℕ} (hp : p.Prime)
     {Bs L : Subgroup G} {x : G}
     (hBs : IsElemAbelian p Bs) (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -112,6 +113,7 @@ private theorem gg6D5_conjAut_fixed_of_gamma_fixed {p : ℕ} (hp : p.Prime)
   calc n * (l * x ^ k) * n⁻¹ = (n * l * n⁻¹) * (n * x ^ k * n⁻¹) := by group
     _ = l * x ^ k := by rw [hconjeq, hnxk]
 
+omit [Finite G] in
 private theorem gg6D5_card_fix {p : ℕ} (hp : p.Prime)
     {Bs L : Subgroup G} {x : G}
     (hBs : IsElemAbelian p Bs) (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -159,7 +161,7 @@ private theorem gg6D5_card_fix {p : ℕ} (hp : p.Prime)
         exact hb
   have hker' : Nat.card ↥((ggGamma L hBsN).rangeRestrict.domRestrict Fψ).ker =
       Nat.card ↥(ggGamma L hBsN).ker := by
-    rw [MonoidHom.ker_restrict, MonoidHom.ker_rangeRestrict]
+    rw [MonoidHom.ker_domRestrict, MonoidHom.ker_rangeRestrict]
     have h := Subgroup.card_subtype Fψ ((ggGamma L hBsN).ker.subgroupOf Fψ)
     rw [Subgroup.subgroupOf_map_subtype,
       le_antisymm inf_le_left (le_inf le_rfl hle)] at h

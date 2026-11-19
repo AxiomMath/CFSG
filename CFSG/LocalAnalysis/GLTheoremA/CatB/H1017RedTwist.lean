@@ -20,7 +20,7 @@ theorem exists_phiC_eq_conj (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime)
     (γ : ↥(Subgroup.normalizer (L : Set G))) (hγ : γ ^ p = 1) :
     ∃ s : PSimple p L, L62.phiC p L γ = MulAut.conj s := by
   have hq : CFSG.Open.IsQuasisimple (PQuot p L) := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI : IsSimpleGroup (PSimple p L) := hq.2
+  have : IsSimpleGroup (PSimple p L) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
   obtain ⟨i, hi, ⟨e⟩⟩ := hsp
   cases i with
@@ -45,6 +45,7 @@ theorem exists_phiC_eq_conj (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime)
   | alternating _ _ => exact absurd hi (by simp [isSporIndex])
   | lie _ => exact absurd hi (by simp [isSporIndex])
 
+omit [Finite G] in
 private theorem phiC_piL (p : ℕ) (L : Subgroup G) (γ : ↥(Subgroup.normalizer (L : Set G)))
     (l : ↥L) : L62.phiC p L γ (piL p L l) = piL p L (L.normalizerMonoidHom γ l) :=
   L62.phiC_apply_mk p L γ l
@@ -90,9 +91,9 @@ theorem exists_twist_pSimple (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime
     ∃ E V : Subgroup (PSimple p L), IsElemAbelian p E ∧ Nat.card E * p = Nat.card B ∧
       IsPGroup 2 V ∧ E ≤ Subgroup.normalizer (V : Set (PSimple p L)) ∧
       ¬ ∀ e ∈ E, ∀ v ∈ V, e * v = v * e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p L) := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI : IsSimpleGroup (PSimple p L) := hq.2
+  have : IsSimpleGroup (PSimple p L) := hq.2
   have hcen : Subgroup.center (PSimple p L) = ⊥ := center_eq_bot_of_isSimpleGroup
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq)
   have hinj := conj_injective_of_center hcen

@@ -31,7 +31,7 @@ private theorem natCard_centralizer_dvd_72 {n : ℕ} (hn : n = 5 ∨ n = 6 ∨ n
   have hcard : Nat.card (Subgroup.centralizer ({a} : Set (Equiv.Perm (Fin n)))) =
       Nat.factorial (n - k * 3) * 3 ^ k * Nat.factorial k := by
     rw [Equiv.Perm.nat_card_centralizer, hk, Multiset.sum_replicate, Multiset.prod_replicate,
-      Multiset.toFinset_replicate, if_neg hk0, Finset.prod_singleton,
+      Multiset.toFinset_replicate, ite_eq_right hk0, Finset.prod_singleton,
       Multiset.count_replicate_self, Fintype.card_fin, smul_eq_mul]
   have hk1 : 1 ≤ k := Nat.one_le_iff_ne_zero.2 hk0
   have hk2 : k ≤ 2 := by omega
@@ -82,7 +82,7 @@ theorem kdClubAt_alternating (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 7) :
       (alternatingGroup (Fin n))) ≠ 0 := fun h => by
     rw [h] at hOut
     norm_num at hOut
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (alternatingGroup (Fin n))) := Nat.finite_of_card_ne_zero hne
   have hq3 : (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (alternatingGroup (Fin n))) α) ^ 3 = 1 := by

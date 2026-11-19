@@ -73,8 +73,8 @@ theorem apply_eq_neg_of_mul_self {Q k V : Type*} [Group Q] [CommRing k] [AddComm
 theorem le_pCore_two_of_normal {Γ : Type*} [Group Γ] [Finite Γ]
     (hs : IsSimpleGroup (Γ ⧸ CFSG.pCore 2 Γ)) (h3 : 3 ∣ Nat.card (Γ ⧸ CFSG.pCore 2 Γ))
     {N : Subgroup Γ} [N.Normal] (hN : ¬ 3 ∣ Nat.card N) : N ≤ CFSG.pCore 2 Γ := by
-  haveI := hs
-  haveI : (N.map (QuotientGroup.mk' (CFSG.pCore 2 Γ))).Normal :=
+  have := hs
+  have : (N.map (QuotientGroup.mk' (CFSG.pCore 2 Γ))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (CFSG.pCore 2 Γ)))
     with h | h

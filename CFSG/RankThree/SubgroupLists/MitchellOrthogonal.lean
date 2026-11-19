@@ -12,6 +12,7 @@ local notation "V₄" => Fin 2 ⊕ Fin 2
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem false_of_forall_cliffB_trivial {p : ℕ} [Fact p.Prime] [CharP K p] (hp2 : p ≠ 2)
     {G : Subgroup (GL V₄ K)} (hGS : G ≤ StatedSp 2 K) (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)

@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -24,6 +25,7 @@ private theorem w16f_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgrou
       rw [← MulAut.mul_apply, inv_mul_cancel, MulAut.one_apply]] at h1,
     h x hx u⟩
 
+omit [Finite W] in
 private theorem w16f_mem_stabSub_of_maps {t : MulAut W} (ht2 : orderOf t = 2) {U : Subgroup W}
     (h : ∀ u ∈ U, t u ∈ U) : t ∈ stabSub U := by
   have ht : t * t = 1 := by rw [← pow_two, ← ht2]; exact pow_orderOf_eq_one t
@@ -40,7 +42,7 @@ private theorem w16f_map_conj_one {G : Type*} [Group G] (H : Subgroup (MulAut G)
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply] using hy
   · intro hx
-    exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    exact ⟨x, hx, by simp⟩
 
 private theorem w16f_commute_of_commutator_eq_bot {G : Type*} [Group G] {X : Subgroup G}
     (h : ⁅X, X⁆ = ⊥) : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := by
@@ -78,6 +80,7 @@ private theorem w16f_isMatTensor2_congr_right {G : Type} [CommGroup G]
   subst h
   exact hT
 
+omit [Finite W] in
 private theorem w16f_sec_hntK {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : Subgroup W}
     (hKs : K ≤ secStabAll U U₀) (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
     (hts : t ∈ secStabAll U U₀)
@@ -95,6 +98,7 @@ private theorem w16f_sec_hntK {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U :
     simp
   exact hnt ((secImg_eq_bot_iff hX).mp hbot)
 
+omit [Finite W] in
 private theorem w16f_sec_stab {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : Subgroup W}
     (hirr : IsIrrOn (K ⊔ K.map (MulAut.conj t).toMonoidHom) U U₀)
     (htU : ∀ u ∈ U, t u ∈ U) (htU₀ : ∀ u ∈ U₀, t u ∈ U₀) (ht2 : orderOf t = 2) :
@@ -109,6 +113,7 @@ private theorem w16f_sec_stab {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U :
       (w16f_le_stabSub_of_stable hirr.2.2.1) (Subgroup.mem_sup_right hg)⟩
   · exact ⟨w16f_mem_stabSub_of_maps ht2 htU, w16f_mem_stabSub_of_maps ht2 htU₀⟩
 
+omit [Finite W] in
 private theorem w16f_sec_false_of_eq {K : Subgroup (MulAut W)} {t : MulAut W}
     {U₀ U : Subgroup W} (hKs : K ≤ secStabAll U U₀)
     (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
@@ -125,6 +130,7 @@ private theorem w16f_sec_false_of_eq {K : Subgroup (MulAut W)} {t : MulAut W}
   exact w16f_not_abelian_of_isQuasisimple (X := secImg K U U₀) hKq
     (w16f_commute_of_commutator_eq_bot hcommKK)
 
+omit [Finite W] in
 private theorem w16f_sec_t_nontrivial {K : Subgroup (MulAut W)} {t : MulAut W}
     {U₀ U : Subgroup W} (hKs : K ≤ secStabAll U U₀)
     (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
@@ -138,12 +144,13 @@ private theorem w16f_sec_t_nontrivial {K : Subgroup (MulAut W)} {t : MulAut W}
     (secImg_eq_bot_iff hts').mpr htI
   have hτ1 : secAut U U₀ ⟨t, hts⟩ = 1 := by
     have hmem : secAut U U₀ ⟨t, hts⟩ ∈ secImg (Subgroup.zpowers t) U U₀ :=
-      mem_secImg.mpr ⟨⟨t, hts⟩, by simpa using Subgroup.mem_zpowers t, rfl⟩
+      mem_secImg.mpr ⟨⟨t, hts⟩, by simp, rfl⟩
     rwa [hzbot, Subgroup.mem_bot] at hmem
   have hK'eq : secImg (K.map (MulAut.conj t).toMonoidHom) U U₀ = secImg K U U₀ := by
     rw [secImg_map_conj hKs hts, hτ1, w16f_map_conj_one]
   exact w16f_sec_false_of_eq hKs hK's hcomm hKq hK'eq
 
+omit [Finite W] in
 private theorem w16f_sec_move {K : Subgroup (MulAut W)} {t : MulAut W}
     {U₀ U : Subgroup W} (hKs : K ≤ secStabAll U U₀)
     (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
@@ -157,6 +164,7 @@ private theorem w16f_sec_move {K : Subgroup (MulAut W)} {t : MulAut W}
     rw [secImg_map_conj hKs hts, h]
   exact w16f_sec_false_of_eq hKs hK's hcomm hKq hK'eq
 
+omit [Finite W] in
 private theorem w16f_sec_comm {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : Subgroup W}
     (hKs : K ≤ secStabAll U U₀) (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
     (hts : t ∈ secStabAll U U₀)
@@ -169,6 +177,7 @@ private theorem w16f_sec_comm {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U :
     simp [secImg]
   exact h1
 
+omit [Finite W] in
 private theorem w16f_sec_irr {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : Subgroup W}
     (hU₀U : U₀ ≤ U) (hirr : IsIrrOn (K ⊔ K.map (MulAut.conj t).toMonoidHom) U U₀)
     (hKs : K ≤ secStabAll U U₀) (hK's : K.map (MulAut.conj t).toMonoidHom ≤ secStabAll U U₀)
@@ -178,6 +187,7 @@ private theorem w16f_sec_irr {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : 
   rw [← secImg_map_conj hKs hts, ← secImg_sup hKs hK's]
   exact (isIrrOn_secImg_iff hU₀U (sup_le hKs hK's)).mpr hirr
 
+omit [Finite W] in
 private theorem w16f_sec_exp_two {U₀ U : Subgroup W} (hW : ∀ w : W, w ^ 2 = 1) :
     ∀ f : SecT U U₀, f ^ 2 = 1 := by
   intro f
@@ -216,7 +226,7 @@ private theorem w16f_swap_module {V : Type} [CommGroup V]
 
 theorem swap_chief_nat (hW : ∀ w : W, w ^ 2 = 1)
     {K : Subgroup (MulAut W)} {t : MulAut W} (hK : IsQuasisimple ↥K) (ht2 : orderOf t = 2)
-    (hmove : K.map (MulAut.conj t).toMonoidHom ≠ K)
+    (_hmove : K.map (MulAut.conj t).toMonoidHom ≠ K)
     (hcomm : ⁅K, K.map (MulAut.conj t).toMonoidHom⁆ = ⊥)
     (htr : ∀ a ∈ K, ∀ u ∈ commSub ⊤ (Subgroup.zpowers t), (a * (t * a * t⁻¹)) u = u)
     (hrk : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) {U₀ U : Subgroup W}

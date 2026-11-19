@@ -39,7 +39,7 @@ theorem s16sm_simple_small [Finite V] (ρ : Representation (ZMod 2) G6 V) (hρ :
     (hnt : ∃ g v, ρ g v ≠ v) (h8 : Module.finrank (ZMod 2) V ≤ 8) :
     Module.finrank (ZMod 2) V = 8 ∨
       ∃ β : V ≃ₗ[ZMod 2] (Fin 6 → ZMod 2), ∀ (g : G6) (v : V), β (ρ g v) = natRep g (β v) := by
-  haveI : Nontrivial V := hρ.1
+  have : Nontrivial V := hρ.1
   obtain ⟨y, hy, hy0⟩ := exists_fixU_ne ρ
   have h1 : Th ρ 1 y = 0 := by
     by_contra h

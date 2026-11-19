@@ -14,7 +14,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.LieType.Stei
 open CFSG.RankThree.GF2n.Smith81.S81Z.IdealEnum
 
 
-theorem Rd6_subset_Rpos : Rd6 ⊆ Rpos := fun γ hγ =>
+theorem Rd6_subset_Rpos : Rd6 ⊆ Rpos := fun _γ hγ =>
   mem_Rpos.2 ⟨(perp_iff.1 (mem_Rd6.1 hγ).1).1, (mem_Rd6.1 hγ).2⟩
 
 theorem Rd6_coord_le_one {γ : Rt} (hγ : γ ∈ Rd6) :
@@ -26,9 +26,9 @@ theorem Rd6_coord_le_one {γ : Rt} (hγ : γ ∈ Rd6) :
       (rtD6 i nodeNu = 0 ∨ rtD6 i nodeNu = 1) := by decide +kernel
   exact key i hi
 
-theorem hfA2 : ∀ γ ∈ Rd6, fA2 γ = 0 ∨ fA2 γ = 1 := fun γ hγ => (Rd6_coord_le_one hγ).1
+theorem hfA2 : ∀ _γ ∈ Rd6, fA2 _γ = 0 ∨ fA2 _γ = 1 := fun _γ hγ => (Rd6_coord_le_one hγ).1
 
-theorem hfNu : ∀ γ ∈ Rd6, fNu γ = 0 ∨ fNu γ = 1 := fun γ hγ => (Rd6_coord_le_one hγ).2
+theorem hfNu : ∀ _γ ∈ Rd6, fNu _γ = 0 ∨ fNu _γ = 1 := fun _γ hγ => (Rd6_coord_le_one hγ).2
 
 theorem ht_le_Rd6 : ∀ α ∈ Rd6, ht α ≤ 17 := fun α hα => ht_le_seventeen α (Rd6_subset_Rpos hα)
 

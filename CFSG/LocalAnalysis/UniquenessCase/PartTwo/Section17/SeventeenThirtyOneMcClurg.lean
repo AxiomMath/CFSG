@@ -26,11 +26,11 @@ theorem w4McClurg2F4_of_irredBound
     (h : TwistedF4IrredBound) :
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.W4McClurg2F4 := by
   intro W _ _ hW Y L n hLY hN h2F4 hfix
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite ↥L := Subtype.finite
   have hS : IsSimpleGroup ↥L :=
     (CFSG.LieType.Simplicity.fam_2f4_simplicity ↥L 2 n h2F4).2
-  haveI : IsSimpleGroup ↥L := hS
+  have : IsSimpleGroup ↥L := hS
   obtain ⟨k, hk1, hcardk⟩ :=
     CFSG.Quasithin.H13.card_eq_ordTwistedF4_of_reeTitsModel h2F4
   have hqpow : 2 ^ 12 ∣ (2 ^ (2 * k + 1)) ^ 12 := by
@@ -49,7 +49,7 @@ theorem w4McClurg2F4_of_irredBound
     omega
   have hnonab : ¬ IsMulCommutative ↥L := by
     intro hcomm
-    haveI : IsMulCommutative ↥L := hcomm
+    have : IsMulCommutative ↥L := hcomm
     have hp : (Nat.card ↥L).Prime :=
       (Group.is_simple_iff_prime_card (α := ↥L)).1 hS
     rcases Nat.Prime.eq_one_or_self_of_dvd hp 2 h2dvd with h1 | h2
@@ -74,13 +74,13 @@ theorem w4McClurg3D4_of_irredBound
     (h : TrialityD4IrredBound) :
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.W4McClurg3D4 := by
   intro W _ _ hW Y L n hLY hN h3D4 hfix hnodd
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite ↥L := Subtype.finite
   have hX' : CFSG.Blueprint.ChevalleyExceptionalModel ↥L .trialityD4 2 n :=
     ((CFSG.Blueprint.LieModel.chevalleyExceptional_iff (by decide)).1 h3D4).2
   have hS : IsSimpleGroup ↥L :=
     (CFSG.LieType.Simplicity.fam_3d4_simplicity ↥L 2 n hX').2
-  haveI : IsSimpleGroup ↥L := hS
+  have : IsSimpleGroup ↥L := hS
   obtain ⟨-, -, -, -, h4, -⟩ :=
     CFSG.LieType.Chevalley.graph_twisted_exceptional_model_outer_two_part_bound
       ↥L .trialityD4 2 n 3 hX' (Or.inr ⟨rfl, rfl⟩)
@@ -95,7 +95,7 @@ theorem w4McClurg3D4_of_irredBound
       Nat.card_pos.ne').2 (by omega)
   have hnonab : ¬ IsMulCommutative ↥L := by
     intro hcomm
-    haveI : IsMulCommutative ↥L := hcomm
+    have : IsMulCommutative ↥L := hcomm
     have hp : (Nat.card ↥L).Prime :=
       (Group.is_simple_iff_prime_card (α := ↥L)).1 hS
     rcases Nat.Prime.eq_one_or_self_of_dvd hp 2 h2dvd with h1 | h2

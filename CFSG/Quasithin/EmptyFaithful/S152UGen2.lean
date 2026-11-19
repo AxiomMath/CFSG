@@ -135,7 +135,7 @@ theorem exists_normal_of_card_twenty (hH : Nat.card H = 20) :
   obtain ⟨P⟩ : Nonempty (Sylow 5 H) := inferInstance
   have hnd := Sylow.not_dvd_index P
   have hmul := Subgroup.card_mul_index (P : Subgroup H)
-  obtain ⟨n, hn⟩ := (P.isPGroup').exists_card_eq
+  obtain ⟨n, hn⟩ := (P.isPGroup).exists_card_eq
   have hP : Nat.card (P : Subgroup H) = 5 := by
     rw [hn, hH] at hmul
     rcases n with _ | _ | n

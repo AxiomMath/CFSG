@@ -61,7 +61,7 @@ theorem ExtremalObstruction.pow_eq_one_and_commutator_mem {p : ℕ} {P : Sylow p
   classical
   have hfact : Fact p.Prime := ⟨hp⟩
   have hDP : D ≤ P := hext.obstruction.2.1
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   obtain ⟨hchar, hmem, hcomm, hnc⟩ :=
     CFSG.RankThree.PartOne.pgOddSecondCenterPrimeTorsion D p hp hp2 hDp
   set W : Subgroup D :=
@@ -147,7 +147,7 @@ theorem ExtremalObstruction.card_center_eq {p : ℕ} {P : Sylow p G} {M D : Subg
       exact Nat.one_lt_pow (by rw [hext.rank_eq]; norm_num) hp.one_lt
     have hEbot : E ≠ ⊥ := (one_lt_card_iff_ne_bot E).1 hE1
     exact (nontrivial_iff_ne_bot D).2 fun h => hEbot (le_bot_iff.1 (h ▸ hED))
-  have hZnt : Nontrivial (center D) := (P.isPGroup'.to_le hext.obstruction.2.1).center_nontrivial
+  have hZnt : Nontrivial (center D) := (P.isPGroup.to_le hext.obstruction.2.1).center_nontrivial
   have hcardZ : Nat.card Z = Nat.card (center D) := card_map_of_injective D.subtype_injective
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -167,7 +167,7 @@ theorem ExtremalObstruction.exists_normal_plane (hS : Setting G) {p : ℕ}
   have hodd := sigmaA_odd p hp
   have hfact : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hM, hDP, -, -⟩ := hext.obstruction
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hP3 := (sylow_le_of_isCoreMaxLocal hS hp hM).2
   obtain ⟨A, hAP, hA, hAc⟩ := pRank_attained p (P : Subgroup G) (by rw [hP3]; norm_num)
   rw [hP3] at hAc

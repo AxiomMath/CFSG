@@ -19,6 +19,7 @@ section Printed
 
 variable (D : StrothTypeData B (StrothTypeIndex.t310 (t + 2) hm))
 
+omit [Finite S] in
 theorem ec_conj_uv_c310 : D.ec (conjBy D.uv_mem D.c) =
     (-3 : ℤ) • (𝔨 t 0) + (2 * 2 ^ t - 1 : ℤ) • (𝔨 t 1) + (-1 : ℤ) • (𝔨 t 2) := by
   have h := D.uv_conj D.c
@@ -30,12 +31,14 @@ theorem ec_conj_uv_c310 : D.ec (conjBy D.uv_mem D.c) =
     exact h''
   exact h.trans h'
 
+omit [Finite S] in
 theorem ec_conj_uv_a310 : D.ec (conjBy D.uv_mem D.a) =
     (4 : ℤ) • (𝔨 t 0) + (1 : ℤ) • (𝔨 t 1) + (2 : ℤ) • (𝔨 t 2) := by
   have h := D.uv_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
   exact h.trans (Type310.uv_a (t + 2) hm)
 
+omit [Finite S] in
 theorem ec_conj_uv_b310 : D.ec (conjBy D.uv_mem D.b) =
     (-32 * 2 ^ t + 4 : ℤ) • (𝔨 t 0) + (-8 * 2 ^ t + 2 : ℤ) • (𝔨 t 1) +
       (-8 * 2 ^ t + 1 : ℤ) • (𝔨 t 2) := by
@@ -49,6 +52,7 @@ theorem ec_conj_uv_b310 : D.ec (conjBy D.uv_mem D.b) =
     exact h''
   exact h.trans h'
 
+omit [Finite S] in
 theorem ec_conj_u_c310 : D.ec (conjBy D.u_mem D.c) = (2 * 2 ^ t + 1 : ℤ) • (𝔨 t 0) := by
   have h := D.u_conj D.c
   rw [show D.e (Additive.ofMul D.c) = Torus.c from D.ec_c] at h
@@ -59,6 +63,7 @@ theorem ec_conj_u_c310 : D.ec (conjBy D.u_mem D.c) = (2 * 2 ^ t + 1 : ℤ) • (
     exact h''
   exact (h.trans h').trans (by module)
 
+omit [Finite S] in
 theorem ec_conj_u_a310 : D.ec (conjBy D.u_mem D.a) = (1 : ℤ) • (𝔨 t 2) := by
   have h := D.u_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
@@ -66,6 +71,7 @@ theorem ec_conj_u_a310 : D.ec (conjBy D.u_mem D.a) = (1 : ℤ) • (𝔨 t 2) :=
       (0 : ℤ) • (𝔨 t 0) + (0 : ℤ) • (𝔨 t 1) + (1 : ℤ) • (𝔨 t 2) := Type310.u_a (t + 2) hm
   exact (h.trans h').trans (by module)
 
+omit [Finite S] in
 theorem ec_conj_u_b310 : D.ec (conjBy D.u_mem D.b) = (1 : ℤ) • (𝔨 t 1) := by
   have h := D.u_conj D.b
   rw [show D.e (Additive.ofMul D.b) = Torus.b from D.ec_b] at h
@@ -73,6 +79,7 @@ theorem ec_conj_u_b310 : D.ec (conjBy D.u_mem D.b) = (1 : ℤ) • (𝔨 t 1) :=
       (0 : ℤ) • (𝔨 t 0) + (1 : ℤ) • (𝔨 t 1) + (0 : ℤ) • (𝔨 t 2) := Type310.u_b (t + 2) hm
   exact (h.trans h').trans (by module)
 
+omit [Finite S] in
 theorem ec_conj_ρ_c310 : D.ec (conjBy D.ρ_mem D.c) = (1 : ℤ) • (𝔨 t 0) := by
   have h := D.ρ_conj D.c
   rw [show D.e (Additive.ofMul D.c) = Torus.c from D.ec_c] at h
@@ -80,6 +87,7 @@ theorem ec_conj_ρ_c310 : D.ec (conjBy D.ρ_mem D.c) = (1 : ℤ) • (𝔨 t 0) 
       (1 : ℤ) • (𝔨 t 0) + (0 : ℤ) • (𝔨 t 1) + (0 : ℤ) • (𝔨 t 2) := Type310.rho_c (t + 2) hm
   exact (h.trans h').trans (by module)
 
+omit [Finite S] in
 theorem ec_conj_ρ_a310 : D.ec (conjBy D.ρ_mem D.a) = (1 : ℤ) • (𝔨 t 2) := by
   have h := D.ρ_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
@@ -87,18 +95,21 @@ theorem ec_conj_ρ_a310 : D.ec (conjBy D.ρ_mem D.a) = (1 : ℤ) • (𝔨 t 2) 
       (0 : ℤ) • (𝔨 t 0) + (0 : ℤ) • (𝔨 t 1) + (1 : ℤ) • (𝔨 t 2) := Type310.rho_a (t + 2) hm
   exact (h.trans h').trans (by module)
 
+omit [Finite S] in
 theorem ec_conj_ρ_b310 : D.ec (conjBy D.ρ_mem D.b) =
     (-4 : ℤ) • (𝔨 t 0) + (-1 : ℤ) • (𝔨 t 1) + (-1 : ℤ) • (𝔨 t 2) := by
   have h := D.ρ_conj D.b
   rw [show D.e (Additive.ofMul D.b) = Torus.b from D.ec_b] at h
   exact h.trans (Type310.rho_b (t + 2) hm)
 
+omit [Finite S] in
 theorem conjBy_ρ_a310 : conjBy D.ρ_mem D.a = D.b := by
   apply D.ec_injective
   rw [ec_conj_ρ_a310, D.ec_b, one_smul]
 
 end Printed
 
+omit [Finite S] in
 theorem conj_ρ_sq310 (D : StrothTypeData B (StrothTypeIndex.t310 (t + 2) hm)) (hBC : B ≤ C)
     (hL : D.L ≤ Subgroup.normalizer C) {e : C} (he : e * e = ⟨D.a, hBC D.a.2⟩) :
     conjBy (hL D.ρ_mem_L) e * conjBy (hL D.ρ_mem_L) e = ⟨D.b, hBC D.b.2⟩ := by
@@ -261,6 +272,7 @@ variable (D : StrothTypeData B (StrothTypeIndex.t310 (t + 2) hm)) (hBC : B ≤ C
   (he : e * e = ⟨D.a, hBC D.a.2⟩)
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_incl310 (β : B) {i j l : ℤ}
     (h : D.ec β = i • (𝔨 t 0) + j • (𝔨 t 1) + l • (𝔨 t 2)) :
     E.symm (Additive.ofMul (⟨β, hBC β.2⟩ : C)) = i • (𝔤 (t + 1) 0) + (2 * j) • (𝔤 (t + 1) 1) +
@@ -278,6 +290,7 @@ theorem E_symm_incl310 (β : B) {i j l : ℤ}
     ← two_zsmul, ← two_zsmul, smul_smul, smul_smul, mul_comm j 2, mul_comm l 2]
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem alpha_incl310 {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (β : B) {i j l : ℤ}
     (h : D.ec (conjBy hgB β) = i • (𝔨 t 0) + j • (𝔨 t 1) + l • (𝔨 t 2)) :
@@ -290,12 +303,14 @@ theorem alpha_incl310 {g : S} (hgC : g ∈ Subgroup.normalizer C)
   exact E_symm_incl310 D hBC hL E hE0 hE1 hE2 he _ h
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_c310 : E.symm (Additive.ofMul (⟨D.c, hBC D.c.2⟩ : C)) = (𝔤 (t + 1) 0) := by
   rw [E_symm_incl310 D hBC hL E hE0 hE1 hE2 he D.c (i := 1) (j := 0) (l := 0)
     (by rw [D.ec_c]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_a310 : E.symm (Additive.ofMul (⟨D.a, hBC D.a.2⟩ : C)) =
     (2 : ℤ) • (𝔤 (t + 1) 1) := by
   rw [E_symm_incl310 D hBC hL E hE0 hE1 hE2 he D.a (i := 0) (j := 1) (l := 0)
@@ -303,6 +318,7 @@ theorem E_symm_a310 : E.symm (Additive.ofMul (⟨D.a, hBC D.a.2⟩ : C)) =
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_b310 : E.symm (Additive.ofMul (⟨D.b, hBC D.b.2⟩ : C)) =
     (2 : ℤ) • (𝔤 (t + 1) 2) := by
   rw [E_symm_incl310 D hBC hL E hE0 hE1 hE2 he D.b (i := 0) (j := 0) (l := 1)
@@ -322,6 +338,7 @@ theorem uv_b_extra310 :
     exact ⟨2, by ring⟩
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem transport310 :
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 (t + 1) 0) = (𝔤 (t + 1) 0) ∧
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 (t + 1) 1) = (𝔤 (t + 1) 2) ∧

@@ -147,10 +147,10 @@ theorem exists_eq_sum_smul_single (E : QuadExt F K σ) (n : ℕ) (x : Fin n → 
   refine ⟨a, b, ?_⟩
   ext j
   rw [Finset.sum_apply, Finset.sum_eq_single j]
-  · rw [hterm j j, if_pos rfl]
+  · rw [hterm j j, ite_eq_left rfl]
     exact hab j
   · intro i _ hij
-    rw [hterm i j, if_neg (Ne.symm hij)]
+    rw [hterm i j, ite_eq_right (Ne.symm hij)]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -165,7 +165,7 @@ theorem bcDelta_smul_stdE (E : QuadExt F K σ) (n : ℕ) (i : Fin n) :
     · subst h
       simp [stdE, Pi.single_eq_same, Algebra.smul_def, bcDelta, bcSigmaTheta, add_comm]
     · have hne' : i ≠ j := Ne.symm h
-      simp only [stdE_inl, if_neg h, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+      simp only [stdE_inl, ite_eq_right h, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
         jEmb_apply_inl, Pi.single_eq_of_ne' hne', mul_zero, add_zero]
   | inr j =>
     by_cases h : j = i
@@ -193,7 +193,7 @@ theorem bcDelta_smul_stdF (E : QuadExt F K σ) (n : ℕ) (i : Fin n) :
     · subst h
       simp [stdF, Pi.single_eq_same, Algebra.smul_def, bcDelta, bcSigmaTheta]
     · have hne' : i ≠ j := Ne.symm h
-      simp only [stdF_inr, if_neg h, Pi.add_apply, Pi.smul_apply, smul_eq_mul, jEmb_apply_inr,
+      simp only [stdF_inr, ite_eq_right h, Pi.add_apply, Pi.smul_apply, smul_eq_mul, jEmb_apply_inr,
         Pi.single_eq_of_ne' hne', mul_zero, map_zero, add_zero]
 
 theorem stdE_mem_span_range_jEmb (E : QuadExt F K σ) (n : ℕ) (i : Fin n) :
@@ -298,16 +298,16 @@ theorem bcLin_jEmb_single (E : QuadExt F K σ) (n : ℕ)
     intro k
     by_cases hk : k = i
     · subst hk
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Pi.single_eq_same, map_one, smul_eq_mul, mul_one, CharTwo.add_self_eq_zero,
         zero_smul, add_zero]
       rw [show bcSigmaTheta E + bcTheta E = bcDelta E by rw [add_comm]; rfl]
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       simp [Pi.single_eq_of_ne' (Ne.symm hk)]
   rw [Finset.sum_congr rfl fun k _ => hterm k, Finset.sum_eq_single i]
-  · rw [if_pos rfl, smul_smul, inv_mul_cancel₀ hδ, one_smul]
+  · rw [ite_eq_left rfl, smul_smul, inv_mul_cancel₀ hδ, one_smul]
   · intro k _ hki
-    rw [if_neg hki]
+    rw [ite_eq_right hki]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -330,17 +330,17 @@ theorem bcLin_jEmb_bcTheta_single (E : QuadExt F K σ) (n : ℕ)
     intro k
     by_cases hk : k = i
     · subst hk
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Pi.single_eq_same, Pi.smul_apply, smul_eq_mul, mul_one, bcSigmaTheta]
       rw [show σ (bcTheta E) * bcTheta E + bcTheta E * σ (bcTheta E) = 0 from by
             rw [mul_comm (σ (bcTheta E)) (bcTheta E), CharTwo.add_self_eq_zero],
         show bcTheta E + σ (bcTheta E) = bcDelta E from rfl, zero_smul, zero_add]
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       simp [Pi.single_eq_of_ne' (Ne.symm hk)]
   rw [Finset.sum_congr rfl fun k _ => hterm k, Finset.sum_eq_single i]
-  · rw [if_pos rfl, smul_smul, inv_mul_cancel₀ hδ, one_smul]
+  · rw [ite_eq_left rfl, smul_smul, inv_mul_cancel₀ hδ, one_smul]
   · intro k _ hki
-    rw [if_neg hki]
+    rw [ite_eq_right hki]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -409,18 +409,18 @@ theorem bcLin_dFlip (E : QuadExt F K σ) (n : ℕ)
   let W : Submodule K (Fin n ⊕ Fin n → K) :=
     { carrier := {v | bcLin E n g (dFlip σ v) = dFlip σ (bcLin E n g v)}
       zero_mem' := by
-        rw [Set.mem_setOf_eq, map_zero]
+        rw [Set.mem_ofPred_eq, map_zero]
         have h0 : dFlip σ (0 : Fin n ⊕ Fin n → K) = 0 := by
           ext x
           cases x <;> simp [dFlip]
         rw [h0, map_zero]
       add_mem' := by
         intro u v hu hv
-        rw [Set.mem_setOf_eq] at hu hv ⊢
+        rw [Set.mem_ofPred_eq] at hu hv ⊢
         rw [dFlip_add, map_add, hu, hv, ← dFlip_add, map_add]
       smul_mem' := by
         intro c u hu
-        rw [Set.mem_setOf_eq] at hu ⊢
+        rw [Set.mem_ofPred_eq] at hu ⊢
         rw [dFlip_smul, map_smul, hu, ← dFlip_smul, ← map_smul] }
   have htop : W = ⊤ := by
     rw [eq_top_iff, ← span_range_jEmb E n]
@@ -740,16 +740,16 @@ theorem bcLin_tauAt (E : QuadExt F K σ) (n : ℕ) (k : Fin n) :
       if i = k then jEmb E n x (Sum.inr i) else jEmb E n x (Sum.inl i)
     rw [tauAt_apply]
     by_cases h : i = k
-    · rw [if_pos h, if_pos h, jEmb_apply_inr]
-    · rw [if_neg h, if_neg h, jEmb_apply_inl]
+    · rw [ite_eq_left h, ite_eq_left h, jEmb_apply_inr]
+    · rw [ite_eq_right h, ite_eq_right h, jEmb_apply_inl]
   | inr i =>
     rw [bcLin_jEmb, swapAt_inr]
     change σ ((tauAt E k : (Fin n → K) ≃ₗ[F] (Fin n → K)) x i) =
       if i = k then jEmb E n x (Sum.inl i) else jEmb E n x (Sum.inr i)
     rw [tauAt_apply]
     by_cases h : i = k
-    · rw [if_pos h, if_pos h, jEmb_apply_inl, E.isUnitary.invol]
-    · rw [if_neg h, if_neg h, jEmb_apply_inr]
+    · rw [ite_eq_left h, ite_eq_left h, jEmb_apply_inl, E.isUnitary.invol]
+    · rw [ite_eq_right h, ite_eq_right h, jEmb_apply_inr]
 
 theorem bc_tauAt (E : QuadExt F K σ) (n : ℕ) (k : Fin n) (v : Fin n ⊕ Fin n → K) :
     (∀ i : Fin n, bc E n (tauAt E k) v (Sum.inl i) =

@@ -16,7 +16,7 @@ theorem conclusion {G : Type} [Group G] [Finite G] {p : ℕ}
     (hCV : (⨅ d ∈ D, LinearMap.ker (ρ d - LinearMap.id)) = (⊥ : Submodule (ZMod p) V))
     (Q : Subgroup G) (hQD : ⁅D, Q⁆ = Q) (hQ1 : Q ≠ ⊥) (hQq : IsPGroup q Q) :
     q = 2 ∧ ∃ k : ℕ, orderOf (2 : ZMod r) = 2 ^ k := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hr2 : r ≠ 2 :=
     CFSG.LocalAnalysis.RankThreeUC.ProofSupport.OddOperatorPrime.ne_two hS hq hr hqp hrp hqr D hD hCV Q hQD hQ1 hQq
   obtain ⟨H, _, _, W, _, _, _, _, τ, hfaith, hirr, E, D', hE1, hEq, hD', hDE, hsup, hCV',

@@ -18,7 +18,7 @@ theorem exists_perfect_lift {A B : Type*} [Group A] [Finite A] [Group B] (f : A 
     (hf : Function.Surjective f) {N : Subgroup A}
     (hN : ⁅(⊤ : Subgroup A), (⊤ : Subgroup A)⁆ ≤ N) {Y : Subgroup B} (hY : ⁅Y, Y⁆ = Y) :
     ∃ P : Subgroup A, P ≤ N ∧ ⁅P, P⁆ = P ∧ P.map f = Y := by
-  haveI : Finite (Subgroup A) :=
+  have : Finite (Subgroup A) :=
     Finite.of_injective (fun H : Subgroup A => (H : Set A))
       (SetLike.coe_injective : Function.Injective (fun H : Subgroup A => (H : Set A)))
   let D : ℕ → Subgroup A := fun k => Nat.rec (Y.comap f) (fun _ H => ⁅H, H⁆) k

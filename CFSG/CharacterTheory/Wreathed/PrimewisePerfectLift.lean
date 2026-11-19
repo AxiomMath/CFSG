@@ -126,7 +126,7 @@ theorem actual_Sylow_intersection_centralizes_invariant_prime_Sylow
   let Rb := R.subgroupOf B
   let : D.Normal := inferInstance
   let f := QuotientGroup.mk' D
-  have hTodd : IsPGroup 2 T := S.isPGroup'.to_inf_left.comap_subtype
+  have hTodd : IsPGroup 2 T := S.isPGroup.to_inf_left.comap_subtype
   have hRbodd : Odd (Nat.card Rb) := by
     have hcard : Nat.card Rb = Nat.card (R ⊓ B : Subgroup G) := by
       rw [← Subgroup.card_map_of_injective B.subtype_injective,
@@ -177,7 +177,7 @@ theorem primewise_coverage_Sylow_intersection_centralizes_kernel
     apply eq_top_of_one_Sylow_per_prime
     intro ell hell hdiv
     obtain ⟨P, hSP⟩ := CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow
-      2 ell Nat.prime_two hell (S : Subgroup G) R S.isPGroup'
+      2 ell Nat.prime_two hell (S : Subgroup G) R S.isPGroup
       Subgroup.le_normalizer_of_normal hR.coprime_two_left
     refine ⟨P, ?_⟩
     have hTP := actual_Sylow_intersection_centralizes_invariant_prime_Sylow

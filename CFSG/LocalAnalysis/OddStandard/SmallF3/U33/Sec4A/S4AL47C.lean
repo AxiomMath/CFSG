@@ -14,6 +14,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp]
   refine (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr ?_
@@ -26,6 +27,7 @@ private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseG
     exact Subgroup.pow_mem _
       (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))) 2
 
+omit [Finite G] in
 private theorem baseGrp_le_m12Grp (x₁ x₂ lam tau : G) :
     baseGrp x₁ x₂ ≤ m12Grp x₁ x₂ lam tau := by
   rw [baseGrp]
@@ -38,6 +40,7 @@ private theorem baseGrp_le_m12Grp (x₁ x₂ lam tau : G) :
   · rw [hg]
     exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private theorem fourGrp_le_m12Grp (x₁ x₂ lam tau : G) :
     fourGrp x₁ x₂ ≤ m12Grp x₁ x₂ lam tau :=
   le_trans (fourGrp_le_baseGrp x₁ x₂) (baseGrp_le_m12Grp x₁ x₂ lam tau)
@@ -51,7 +54,7 @@ private theorem zpowers_t_commute_S (h : Ctx t L S x₁ x₂ lam rho tau) {p : G
 
 private theorem baseGrp_le_centralizer_x₁_sq (h : Ctx t L S x₁ x₂ lam rho tau) :
     baseGrp x₁ x₂ ≤ centralizer ({x₁ ^ 2} : Set G) := by
-  haveI : IsMulCommutative ↥(baseGrp x₁ x₂) := h.wreath.baseGrp_eq.1
+  have : IsMulCommutative ↥(baseGrp x₁ x₂) := h.wreath.baseGrp_eq.1
   have hx₁sq : x₁ ^ 2 ∈ baseGrp x₁ x₂ :=
     Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) 2
   intro a ha
@@ -98,7 +101,7 @@ theorem lemma4_7c_of (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoCore t = zp
     (h44 : tau ^ 2 = 1) : Lemma4_7cConcl t S x₁ x₂ tau := by
   intro Y hY hy
   obtain ⟨hYS, hYea, hYcard⟩ := hY
-  haveI : IsMulCommutative ↥Y := hYea.1
+  have : IsMulCommutative ↥Y := hYea.1
   have hYsq : ∀ x ∈ Y, x ^ 2 = 1 := hYea.2
   have htY : t ∈ Y := t_mem_of_isE16 h h43 h44 ⟨hYS, hYea, hYcard⟩
   have hzY : (x₁ * x₂) ^ 2 ∈ Y := z_mem_of_isE16 h h43 h44 ⟨hYS, hYea, hYcard⟩

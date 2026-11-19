@@ -117,8 +117,8 @@ theorem uc22s2112r2_exists_fixHom {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple
         ↥(signalizerFixedSubgroup (inducedBarInfAutHom L ⟨b, hb⟩)),
       Function.Surjective φ ∧ IsPGroup 2 φ.ker := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrad := solvableRadical_eq_pCore_of_center_bar2_eq_bot hq hZ
   set α : MulAut ↥L := L.normalizerMonoidHom ⟨b, hb⟩ with hαdef
   have hN : ∀ n ∈ CFSG.solvableRadical ↥L, α n ∈ CFSG.solvableRadical ↥L := fun n hn => by
@@ -188,7 +188,7 @@ theorem uc22s2112r2_exists_fixHom {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple
 theorem uc22s2112r2_le_pRank {A : Subgroup G} {Q : Type} [Group Q] [Finite Q] (φ : ↥A →* Q)
     (hφ : Function.Surjective φ) (hker : IsPGroup 2 φ.ker) {q k : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hk : k ≤ CFSG.pRank q Q) : k ≤ Open.pRank q A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : q.Coprime (Nat.card φ.ker) := by
     obtain ⟨n, hn⟩ := hker.exists_card_eq
     rw [hn]
@@ -211,6 +211,7 @@ theorem uc22s2112r2_exists_perfect {A : Subgroup G} {S : Type} [Group S] [Group.
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.1 (hPmap ▸ Subgroup.mem_top s)
     exact ⟨e ⟨a, ha⟩, by simp⟩
 
+omit [Finite G] in
 theorem uc22s2112r2_not_inv {L : Subgroup G} {p f : ℕ} [Fact p.Prime]
     (hX : LieModel (BarInf L) .PSL 2 p f) {b m : G} (hb : b ∈ normalizer (L : Set G))
     (hm : m ∈ normalizer (L : Set G)) (hbo : Odd (orderOf b))
@@ -265,7 +266,7 @@ theorem uc22s2112r2_setup (hGA : GriessAllModelsStatement) {M L : Subgroup G} (h
       (4 ≤ p ^ (f / r) → ∃ D0 : Subgroup G, D0 ≤ L ⊓ centralizer ({b} : Set G) ∧
         ⁅D0, D0⁆ = D0 ∧ ∃ f0 : ↥D0 →* PSL(2, GaloisField p (f / r)), Function.Surjective f0) := by
   have hp : p.Prime := Fact.out
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set θ := inducedBarInfAutHom L ⟨b, hb⟩ with hθdef
   have hbpow : (⟨b, hb⟩ : ↥(normalizer (L : Set G))) ^ r = 1 := by
     rw [← hbr, ← Subgroup.orderOf_mk b hb]
@@ -298,7 +299,7 @@ theorem uc22s2112r2_setup (hGA : GriessAllModelsStatement) {M L : Subgroup G} (h
   have h2 : f / r ≤ Open.pRank p (L ⊓ centralizer ({b} : Set G)) :=
     uc22s2112r2_le_pRank φ hφ hker hp hp2 (CFSG.Quasithin.H13.S3320.le_pRank_of_psl2 hfr0 eF)
   refine ⟨hrf, h1, h2, fun h4 => ?_⟩
-  haveI : Group.IsPerfect PSL(2, GaloisField p (f / r)) :=
+  have : Group.IsPerfect PSL(2, GaloisField p (f / r)) :=
     (uc22s2112r2_psl2_facts hp2 hfr0 h4).2.2.1
   exact uc22s2112r2_exists_perfect (eF.toMonoidHom.comp φ) (eF.surjective.comp hφ)
 

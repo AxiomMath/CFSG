@@ -38,8 +38,8 @@ theorem involutionCentralizerHasPElementOutside_of_single {p : ℕ} (hp : p.Prim
   have h1 : 1 < Nat.card A := by
     rw [hAc]
     exact Nat.one_lt_pow (by norm_num) hp.one_lt
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp h1
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp h1
   obtain ⟨⟨x, hxA⟩, hx1⟩ := exists_ne (1 : A)
   have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
   have hxp : x ^ p = 1 := hA.2 x hxA
@@ -62,7 +62,7 @@ theorem goodZ_of_kIDExcluded (k : Sec7Core4 G) (h5 : 5 ≤ k.p) (hno : KIDExclud
       AbelianPSubgroupLeFStar k.p
         (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' K₀)
   have hKH : CFSG.Open.IsKGroup ↥H :=

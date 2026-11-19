@@ -171,8 +171,8 @@ theorem map_perfectCore_centralizer_uStdTorus_le (hk : 4 ≤ Nat.card h.fixedFie
     refine ⟨_, ⟨_, ⟨_, ⟨κ₀, rfl⟩, rfl⟩, rfl⟩, ?_⟩
     rw [coe_gramSUToSL, coe_uModelSU_rootTorusHom_zero, diagonal_apply_eq, diagonal_apply_eq]
     fin_cases i <;> fin_cases j <;> simp [offPlaneSL] at hij hIJ ⊢ <;>
-      first | exact hκ₀ | exact e1 | exact e1.symm | exact e2 | exact e2.symm | exact e3 |
-        exact e3.symm | exact e4 | exact e4.symm
+      first | exact hκ₀ | exact e1.symm |
+        exact e4 | exact e4.symm
 
 omit [CharP h.fixedField 2] in
 theorem specialLinearGroup_map_subtype_injective {n : ℕ} :

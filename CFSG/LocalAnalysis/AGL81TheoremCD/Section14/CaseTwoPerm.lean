@@ -111,7 +111,7 @@ private lemma a11CycleThree'_orderOf : orderOf a11CycleThree' = 3 := by
   exact h4 h3
 
 private lemma a11CycleFive_orderOf : orderOf a11CycleFive = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime a11CycleFive_pow_five a11CycleFive_ne_one
 
 private lemma a11CycleThree_mem : a11CycleThree ∈ a11TwoSetStab 9 10 := by
@@ -269,7 +269,7 @@ private lemma not_isPSolvable_centralizer_cycles :
     rfl
   have hnot : ¬ CFSG.HallHigman.IsPSolvable 3 (alternatingGroup (Fin 5)) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.not_isPSolvable_of_simple
-      alternatingGroup.isSimpleGroup_five
+      (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       (by
         rw [alternatingGroup.isMulCommutative_iff_card_le_three, Nat.card_eq_fintype_card,
           Fintype.card_fin]
@@ -300,7 +300,7 @@ private lemma exists_sylow_stab_contains_cycles :
       (⟨a11CycleThree', a11CycleThree'_mem⟩ : a11TwoSetStab 9 10) ∈
         (P₀ : Subgroup _) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup (alternatingGroup (Fin 11)) := a11TwoSetStab 9 10
   have hσ1S : a11CycleThree ∈ S := a11CycleThree_mem
   have hσ2S : a11CycleThree' ∈ S := a11CycleThree'_mem
@@ -332,7 +332,7 @@ private lemma exists_conj_mem_sylow (T : Sylow 3 (alternatingGroup (Fin 11)))
       (MulAut.conj g) a11CycleThree ∈ (T : Subgroup (alternatingGroup (Fin 11))) ∧
       (MulAut.conj g) a11CycleThree' ∈ (T : Subgroup (alternatingGroup (Fin 11))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup (alternatingGroup (Fin 11)) := a11TwoSetStab 9 10
   obtain ⟨P₀, hσ1P₀, hσ2P₀⟩ := exists_sylow_stab_contains_cycles
   let Tsub : Sylow 3 S := T.subtype hT

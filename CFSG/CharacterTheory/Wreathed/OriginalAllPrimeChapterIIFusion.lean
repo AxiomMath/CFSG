@@ -130,7 +130,7 @@ end Automizer
 theorem isSylowOf_of_le (P : Sylow 2 G) {K : Subgroup G} (hPK : (P : Subgroup G) ≤ K) :
     IsSylowOf 2 (P : Subgroup G) K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact isSylowOf_iff.mpr ⟨hPK, P.isPGroup', fun hdvd =>
+  exact isSylowOf_iff.mpr ⟨hPK, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPK))⟩
 
 theorem mem_normalizer_of_conj_mem {J : Subgroup G} {g : G}
@@ -192,7 +192,7 @@ theorem sylow_le_of_normal_of_isQDGroup (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G)
   have hρy : ρ y = 1 := (QuotientGroup.eq_one_iff y).mpr hyX
   have hρ : ρ ⟨s, hSH hs⟩ = ρ (y⁻¹ * ⟨s, hSH hs⟩) := by
     rw [map_mul, map_inv, hρy, inv_one, one_mul]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨s, hs⟩
   have h1 : orderOf (ρ ⟨s, hSH hs⟩) ∣ 2 ^ k := by
     rw [← hk, Subgroup.orderOf_mk]
     have := orderOf_map_dvd ρ ⟨s, hSH hs⟩

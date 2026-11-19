@@ -189,15 +189,15 @@ theorem s16t3_normalizer_omminus_four_le {K : Type} [Field K] [Finite K] (hK : N
     Subgroup.normalizer (StatedOmega (StatedQuadMinus 2 K b c) :
       Set (GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K)) ≤
       CFSG.MatrixModel.isometryCore (StatedQuadMinus 2 K b c) := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   intro M hM
   obtain ⟨c, hc, hf⟩ :=
     CFSG.RankThree.GF2n.Smith81.Smith23E1.KFLin.normalizerOmegaFor_minus K b c hbc M
       (fun g hg => (Subgroup.mem_set_normalizer_iff.mp hM g).1 hg)
   have hc1 : c = 1 := by
-    haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by
+    have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by
       have h1 : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
       omega)
     have h := congrArg (fun u : Kˣ => (u : K)) (Subsingleton.elim (Units.mk0 c hc) 1)

@@ -209,6 +209,7 @@ theorem mixedFittingCentralizer_le (M E : Subgroup G) :
 theorem mixedFittingCentralizer_le_centralizer (M E : Subgroup G) :
     mixedFittingCentralizer M E ≤ centralizer (E : Set G) := inf_le_right
 
+omit [Finite G] in
 theorem isMulCommutative_centreIn (X : Subgroup G) : IsMulCommutative ↥(centreIn X) := by
   refine ⟨⟨fun x y => Subtype.ext ?_⟩⟩
   push_cast
@@ -313,6 +314,7 @@ theorem dvd_natCard_centreIn {q : ℕ} (hq : q.Prime)
       (Subgroup.equivMapOfInjective _ F.subtype F.subtype_injective).toEquiv).symm
   exact hcard ▸ hqZ
 
+omit h in
 theorem pCoreIn_centreIn_ne_bot {q : ℕ} (hq : q.Prime)
     (hqF : q ∈ (Nat.card ↥(mixedFitting M)).primeFactors) :
     pCoreIn q (centreIn (mixedFitting M)) ≠ ⊥ :=
@@ -339,7 +341,7 @@ theorem normalizer_pCoreIn_centreIn_eq [IsSimpleGroup G] {q : ℕ} (hq : q.Prime
   set Z := pCoreIn q (centreIn (mixedFitting M)) with hZ
   have hZM : Z ≤ M :=
     (pCoreIn_le q _).trans ((centreIn_le _).trans (mixedFitting_le M))
-  have hbot : ⊥ < Z := lt_of_le_of_ne bot_le (Ne.symm (h.pCoreIn_centreIn_ne_bot hq hqF))
+  have hbot : ⊥ < Z := lt_of_le_of_ne bot_le (Ne.symm (CFSG.FeitThompson.IsMixedFittingSetup.pCoreIn_centreIn_ne_bot hq hqF))
   have htop : Z < ⊤ := lt_of_le_of_lt hZM (lt_of_le_of_ne le_top h.ne_top)
   have hlt : normalizer (Z : Set G) < ⊤ := normalizer_lt_top_of_isSimpleGroup hbot htop
   rcases eq_or_lt_of_le (le_normalizer_pCoreIn_centreIn_mixedFitting q M) with heq | hlt2
@@ -385,7 +387,7 @@ theorem primeFactors_mixedFittingCentralizer :
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | hpos
     · rw [pow_zero, Subgroup.card_eq_one] at hn
-      exact absurd hn (h.pCoreIn_centreIn_ne_bot hqp hq)
+      exact absurd hn (CFSG.FeitThompson.IsMixedFittingSetup.pCoreIn_centreIn_ne_bot hqp hq)
     · exact hpos
   rw [hn]
   exact dvd_pow_self q (by omega)

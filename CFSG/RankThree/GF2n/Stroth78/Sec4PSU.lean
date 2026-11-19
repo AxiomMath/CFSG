@@ -45,7 +45,7 @@ theorem stroth78_44 (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
   have hns : ¬ IsSymplecticType (threeResidualClass d₀) := fun hs =>
     not_isSymplecticType_DU (m := m) (by omega) (by
       have := hs.image (φ₀ : ↥(threeResidualQuot d₀) →* U2 m)
-      rwa [MonoidHom.coe_coe, hφ₀] at this)
+      rwa [_root_.MonoidHom.coe_ofClass, hφ₀] at this)
   have hstep := derivedSeries_two_le_ker_rhoW S h h217 h3 hd₀R hd₀1 hns
   have hA : ∀ j ∈ ⁅⁅threeResidualJoin d₀, threeResidualJoin d₀⁆,
       ⁅threeResidualJoin d₀, threeResidualJoin d₀⁆⁆, rhoZ S (j : Hbar z) = 1 := by

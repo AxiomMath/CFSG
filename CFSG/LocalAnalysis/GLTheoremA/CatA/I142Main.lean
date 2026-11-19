@@ -35,7 +35,7 @@ theorem isElemAbelian_map_of {X Y : Type} [Group X] [Group Y] {p : ℕ} {A : Sub
     rw [← hxy, ← map_pow, hA.2 x hx, map_one]
 
 theorem exists_component_dvd_of_pComp [Finite G] {p : ℕ} [hp : Fact p.Prime] {K E : Subgroup G}
-    (hEN : E ≤ Subgroup.normalizer (K : Set G)) (hE : IsElemAbelian p E)
+    (_hEN : E ≤ Subgroup.normalizer (K : Set G)) (_hE : IsElemAbelian p E)
     {Y J₀ : Subgroup G} (hY : Y ≤ K ⊓ Subgroup.centralizer (E : Set G))
     (hJ₀ : GLAPComponent p Y J₀)
     (hS : ∀ P : Subgroup (PSimple p K), P ≤ centFix (Ebar p K E) → ⁅P, P⁆ = P →
@@ -119,7 +119,7 @@ theorem i142At_of_E (h : LieSemisimpleCentE) (G : Type) [Group G] [Finite G] :
     I142At G := by
   unfold I142At
   intro p' X K E Y hp hp2 hX hK hS hE hEN hY hYlay
-  haveI : Fact p'.Prime := ⟨hp⟩
+  have : Fact p'.Prime := ⟨hp⟩
   obtain ⟨J₀, hJ₀⟩ : ∃ J₀ : Subgroup G, GLAPComponent p' Y J₀ := by
     by_contra hne
     apply hYlay

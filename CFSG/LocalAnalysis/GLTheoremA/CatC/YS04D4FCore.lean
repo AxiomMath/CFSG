@@ -124,7 +124,7 @@ theorem exists_outside_linear {S : Type} [Group S] [Finite S] (K : Type) [Field 
     rw [← hxa']
     exact map_one _
   have ha3 : a ^ 3 = 1 := hXexp a haX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf a = 3 := orderOf_eq_prime ha3 ha1
   have hQv := exists_nonzero_value (coordinateQuadPlus 4 K) hQ
   have hnotlin : a ∉ (linearConjugationHom (coordinateQuadPlus 4 K)).range := fun hL =>

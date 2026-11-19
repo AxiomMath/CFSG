@@ -12,7 +12,8 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem exists_inv_mul_mem_centralizer_of_inverts {F : Subgroup G} {y : G} (hy1 : y ≠ 1)
+omit [Finite G] in
+theorem exists_inv_mul_mem_centralizer_of_inverts {F : Subgroup G} {y : G} (_hy1 : y ≠ 1)
     (hy2 : y * y = 1) (hinv : ∀ a ∈ F, y * a * y⁻¹ = a⁻¹)
     (hodd : ¬ 2 ∣ Nat.card (centralizer (F : Set G))) :
     ∀ g ∈ normalizer (F : Set G), ∃ c ∈ centralizer (F : Set G),
@@ -149,6 +150,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_self_mem_centralizer_of_mem_normalizer {x m : G} (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     (hm : m ∈ normalizer (zpowers x : Set G)) : m * m ∈ centralizer ({x} : Set G) := by
   have hc : m * x * m⁻¹ ∈ zpowers x :=
@@ -195,6 +197,7 @@ theorem mul_self_mem_centralizer_of_mem_normalizer {x m : G} (hx1 : x ≠ 1) (hx
       _ = x * m * m := by rw [hd]
       _ = x * (m * m) := by rw [mul_assoc]
 
+omit [Finite G] in
 theorem mem_of_mul_self_mem_of_odd {A : Subgroup G} {h : G} (hodd : ¬ 2 ∣ orderOf h)
     (hh : h * h ∈ A) : h ∈ A := by
   have hk : h = (h * h) ^ ((orderOf h + 1) / 2) := by
@@ -212,6 +215,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a5_conj_mem_centralizer {F : Subgroup G} {n c : G}
     (hn : n ∈ normalizer (F : Set G)) (hc : c ∈ centralizer (F : Set G)) :
     n * c * n⁻¹ ∈ centralizer (F : Set G) := by
@@ -236,6 +240,7 @@ private def r10a5_prod {C Z : Subgroup G} (hZ : ∀ a ∈ Z, ∀ c ∈ C, a * c 
     exact ⟨a⁻¹ * c⁻¹ * a⁻¹⁻¹, hZ a⁻¹ (inv_mem ha) c⁻¹ (inv_mem hc), a⁻¹, inv_mem ha,
       by group⟩
 
+omit [Finite G] in
 private theorem r10a5_mem_prod {C Z : Subgroup G} (hZ : ∀ a ∈ Z, ∀ c ∈ C, a * c * a⁻¹ ∈ C)
     {g : G} : g ∈ r10a5_prod hZ ↔ ∃ c ∈ C, ∃ a ∈ Z, g = c * a :=
   Iff.rfl
@@ -248,7 +253,7 @@ theorem exists_inv_mul_mem_of_odd {M F : Subgroup G} {x y : G} (hy1 : y ≠ 1) (
     ∀ h ∈ normalizer (F : Set G), ¬ 2 ∣ orderOf h →
       ∃ c ∈ centralizer (F : Set G), c⁻¹ * h ∈ M ⊓ centralizer ({x} : Set G) := by
   intro h hh hoddh
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCN : centralizer (F : Set G) ≤ normalizer (F : Set G) :=
     Subgroup.centralizer_le_normalizer _
   have hnorm : ∀ n ∈ normalizer (F : Set G), ∀ c ∈ centralizer (F : Set G),
@@ -310,6 +315,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a4_isPGroup_zpowers {r s : ℕ} {x : G} (hx : x ^ (r ^ s) = 1) :
     IsPGroup r (zpowers x) := by
   intro g
@@ -318,6 +324,7 @@ private theorem r10a4_isPGroup_zpowers {r s : ℕ} {x : G} (hx : x ^ (r ^ s) = 1
   rw [Subgroup.coe_pow, Subgroup.coe_one, ← hm, ← zpow_natCast (x ^ m) (r ^ s), ← zpow_mul,
     mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
 
+omit [Finite G] in
 private theorem r10a4_mem_of_isCoprime {C : Subgroup G} {h : G} {a b : ℕ}
     (ha : h ^ a ∈ C) (hb : h ^ b ∈ C) (hab : IsCoprime (a : ℤ) (b : ℤ)) : h ∈ C := by
   obtain ⟨u, v, huv⟩ := hab

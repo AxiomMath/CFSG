@@ -83,7 +83,7 @@ theorem FF81Hyp.four_le_localRank_of_torus (h : FF81Hyp b L) (hT : KF_Sp6Torus)
   have hself_le : L ⊓ Subgroup.centralizer
       ((Subgroup.closure ({b₁, b₂, b₃} : Set G) : Subgroup G) : Set G) ≤
       Subgroup.closure ({b₁, b₂, b₃} : Set G) := hself.le
-  haveI : IsSimpleGroup G := h.simple
+  have : IsSimpleGroup G := h.simple
   have hperf : commutator G = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator G) with hbot | htop
     · exfalso

@@ -22,6 +22,7 @@ theorem WreathK.map_conj_conjSub_eq_or (hK : WreathK t A K) (g : X) :
   exact eq_or_eq_of_isComponent_of_layer hK.comp hK.comp_conjSub hK.layer
     (CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj g) hK.comp_conjSub)
 
+omit [Finite X] in
 theorem WreathK.t_notMem_normalizer (hK : WreathK t A K) : t ∉ normalizer (K : Set X) := by
   intro ht
   exact hK.ne (by
@@ -46,7 +47,7 @@ theorem WreathK.map_conj_conjSub_eq_of_notMem (hK : WreathK t A K) {u : X} (hu2 
           rw [show MulAut.conj (1 : X) = 1 from map_one MulAut.conj]
           exact Subgroup.map_id K
 
-theorem WreathK.index_normalizer (hK : WreathK t A K) (ht : t * t = 1) :
+theorem WreathK.index_normalizer (hK : WreathK t A K) (_ht : t * t = 1) :
     (normalizer (K : Set X)).index = 2 := by
   rw [Subgroup.index_eq_two_iff]
   refine ⟨t, fun b => ?_⟩

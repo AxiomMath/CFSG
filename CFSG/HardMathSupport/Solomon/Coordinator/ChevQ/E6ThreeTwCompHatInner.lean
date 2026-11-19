@@ -110,7 +110,7 @@ variable {K : Type} [Field K] {σ : K ≃+* K} {h₀ : ModGL TwistTag.E6.tag K}
 theorem TwCompFrames.twExists_hat_torsion (F : TwCompFrames K σ h₀ L T n hU Fr g₀ Hc ρ A)
     (hl : TwE6ThreeA2Line K σ h₀ L T n) (hconj : TwE6ThreeA2ConjAt K σ) :
     ∃ e ∈ twTorusHat K σ g₀, e ∉ T ∧ e ^ 3 = 1 := by
-  haveI : Finite K := F.twFinite
+  have : Finite K := F.twFinite
   obtain ⟨d, hd, hdC⟩ :=
     twExists_inndiag_notMem_root σ F.pic.card_eq F.pic.σ_apply F.twThree_dvd
   obtain ⟨ĝ, hĝ, hĝC, hĝh⟩ := twExists_inndiag_comm_notMem_root hconj hl.h₀_mem hl.h₀_pow

@@ -14,8 +14,8 @@ theorem noSmall_of_isTE6two {S : Type} [Group S] (h : catalogIs S S9.isTE6two) :
     HStdExcl.NoSmall S := by
   obtain ⟨K, hfield, hfinite, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.CatB.I2610.exists_twistedE6RootGroup_of_catalogIs_isTE6two h
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   exact noSmall_of_mulEquiv e (CFSG.LocalAnalysis.GLTheoremA.HStdExcl.exclTE6_holds K σ hK hσ)
 
 theorem noSmall_lie_twistedE6 (q : TauCeti.PrimePower)

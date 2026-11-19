@@ -13,14 +13,14 @@ open CFSG.Open Subgroup
 theorem isMulCommutative_sylow_statedProj_gl3 {K : Type} [Field K] [Finite K] {r : ℕ}
     (hr : r.Prime) (h5 : 5 ≤ r) (hrK : ¬ r ∣ Nat.card K) (H : Subgroup (GL (Fin 3) K))
     (R : Sylow r (StatedProj H)) : IsMulCommutative (R : Subgroup (StatedProj H)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective
     (f := QuotientGroup.mk' ((StatedScalars (Fin 3) K).subgroupOf H))
     (QuotientGroup.mk'_surjective _) r R
   rw [Sylow.coe_mapSurjective]
   have h1 : IsMulCommutative ((S : Subgroup H).map H.subtype) :=
     CFSG.SignalizerFunctorTheorem.McBride.UnitaryO.isMulCommutative_of_isPGroup_gl3 hr h5 hrK
-      (S.isPGroup'.map _)
+      (S.isPGroup.map _)
   have h2 : IsMulCommutative (S : Subgroup H) :=
     .of_setLike_mul_comm fun a ha b hb => Subtype.ext
       (setLike_mul_comm (s := (S : Subgroup H).map H.subtype) ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩)
@@ -29,7 +29,7 @@ theorem isMulCommutative_sylow_statedProj_gl3 {K : Type} [Field K] [Finite K] {r
 theorem crossSylowAbelianAt_linearTwo {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) : CrossSylowAbelianAt ⟨.A 2 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   have hdp' : q.p ≠ p := by simpa using hdp
@@ -44,7 +44,7 @@ theorem crossSylowAbelianAt_unitaryTwo {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedA 2 q).Valid) :
     CrossSylowAbelianAt ⟨.twistedA 2 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv e
   have hdp' : q.p ≠ p := by simpa using hdp

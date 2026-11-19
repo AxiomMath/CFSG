@@ -80,7 +80,7 @@ private theorem nmh_conj_nmSgn {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} 
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp only [spMat_apply, if_true, nmSgn, Matrix.diagonal_apply]
+    simp only [spMat_apply, ite_true, nmSgn, Matrix.diagonal_apply]
     have hmem : σ⁻¹ i ∈ A ↔ i ∈ A.image σ := by
       constructor
       · intro hi
@@ -93,11 +93,11 @@ private theorem nmh_conj_nmSgn {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} 
         rwa [hx_eq]
     simp only [hmem]
     by_cases hAi : i ∈ A.image σ
-    · simp only [if_pos hAi]
+    · simp only [ite_eq_left hAi]
       rcases hs (σ.symm i) with hsign | hsign
       · simp [hsign]
       · simp [hsign]
-    · simp only [if_neg hAi]
+    · simp only [ite_eq_right hAi]
       rcases hs (σ.symm i) with hsign | hsign
       · simp [hsign]
       · simp [hsign]

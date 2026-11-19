@@ -49,7 +49,7 @@ theorem s16h_e3_CycTwoMaster
       simpa using h
     exact hu (Subtype.ext (F.z_fpf (u : X) u.2 hfix))
   have hzord₁ : orderOf z₁ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hz₁_pow hz₁_ne
   have hfpf₁ : ∀ w : ↥U, z₁ w = w → w = 1 := by
     intro w hw
@@ -127,7 +127,7 @@ theorem s16h_e3_CycTwoMaster
     intro d hd hd1 hdfix
     have hdA : d ∈ autSub (s16h_CycN Mb z) U := hDA hd
     have hd3 : orderOf d = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime (hDe.2 d hd) hd1
     exact s16h_e3_CycTwoHline_not_fixed F hu₀ hK h2 d hdA hd1 hd3 hdfix
   have hcent : ∀ c ∈ autSub (s16h_CycN Mb z) U,

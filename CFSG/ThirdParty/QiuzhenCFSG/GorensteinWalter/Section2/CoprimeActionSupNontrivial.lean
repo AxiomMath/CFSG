@@ -22,7 +22,7 @@ public theorem commutator_right_ne_bot_of_sup_subnormal_selfCentralizing_coprime
     (hself : K ⊓ Subgroup.centralizer ((O ⊔ R : Subgroup G) : Set G) ≤ O ⊔ R)
     (hQO : Q ≤ Subgroup.centralizer (O : Set G))
     (hcop : Nat.Coprime (Nat.card Q) (Nat.card K))
-    (hsolv : IsSolvable K)
+    (hsolv : Group.IsSolvable K)
     (hnontriv : ¬ Q ≤ Subgroup.centralizer (K : Set G)) :
     ⁅R, Q⁆ ≠ ⊥ := by
   intro hRQ

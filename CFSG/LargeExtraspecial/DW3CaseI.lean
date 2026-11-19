@@ -76,6 +76,7 @@ private theorem cl_conj_notMem_clSub (hA : MaxEA S A) {h : G}
   intro hv
   exact hxA (by rw [← hA.clPre_clSub]; exact ⟨hxQ, hv⟩)
 
+omit [IsElementaryAbelian 2 ↥A] in
 private theorem polar_axisKernelImage {h : G}
     {v : S.Qt} (hv : v ∈ axisKernelImage S A h) :
     polar S.q v (S.cl (h * S.z * h⁻¹)) = 0 := by
@@ -236,7 +237,7 @@ theorem exists_involution_maxEA_of_not_mem (hA : MaxEA S A)
     MulAction S.Mbar (tsCompl S.q (S.clSub A)) where
   smul g W :=
     ⟨W.1.map (((g : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) : S.Qt →ₗ[ZMod 2] S.Qt), by
-      haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+      have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
       exact map_mem_tsCompl (((g : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt))
         (fun v => TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (g : S.O).2 v)
         (fun u hu => apply_mem_clSub hM g.2 hu) W.2⟩
@@ -256,6 +257,7 @@ theorem exists_involution_maxEA_of_not_mem (hA : MaxEA S A)
     rw [← Submodule.map_comp]
     congr 1
 
+omit [Finite G] in
 private theorem mem_normalizer_Qa_of_mem_M {h y : G}
     (hyx : y * (h * S.z * h⁻¹) = (h * S.z * h⁻¹) * y) :
     y ∈ normalizer (S.Qa h : Set G) := by
@@ -268,7 +270,7 @@ private theorem clSub_inf_mem_tsCompl (hA : MaxEA S A)
     (hM : S.M ≤ normalizer (A : Set G)) {h : G}
     (hxQ : h * S.z * h⁻¹ ∈ S.QG) (hxA : h * S.z * h⁻¹ ∉ A) :
     S.clSub (S.QG ⊓ S.Qa h) ∈ tsCompl S.q (S.clSub A) := by
-  haveI : IsElementaryAbelian 2 (S.QG ⊓ S.Qa h : Subgroup G) :=
+  have : IsElementaryAbelian 2 (S.QG ⊓ S.Qa h : Subgroup G) :=
     S.isElementaryAbelian_QG_inf_Qa (hA.conj_ne_z hxA)
   have hB := hA.maxEA_inf hM hxQ hxA
   constructor
@@ -347,16 +349,16 @@ theorem exists_hyp_of_not_mem (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set
     (hw : S.width = 3) :
     ∃ W₂ : Submodule (ZMod 2) S.Qt, ∃ H : W3.Hyp S (S.clSub A) W₂,
       Function.Surjective H.res := by
-  letI : MulAction S.Mbar (tsCompl S.q (S.clSub A)) := tsComplAction (S := S) (A := A) hM
+  let : MulAction S.Mbar (tsCompl S.q (S.clSub A)) := tsComplAction (S := S) (A := A) hM
   have h2w : 2 ≤ S.width := by omega
   obtain ⟨y, hyC, hyQ, hy2, -⟩ := hA.exists_involution_of_not_mem hM hxQ hxA h2w
   let B : Submodule (ZMod 2) S.Qt := S.clSub (S.QG ⊓ S.Qa h)
   have hBmem : B ∈ tsCompl S.q (S.clSub A) := hA.clSub_inf_mem_tsCompl hM hxQ hxA
   obtain ⟨e⟩ := hA.nonempty_Mbar_mulEquiv_of_not_mem hM hxQ hxA
   rw [hw] at e
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.Quasithin.H13.L619.isSimpleGroup_GL_zmod_two (by norm_num)
-  haveI : IsSimpleGroup S.Mbar := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup S.Mbar := MulEquiv.isSimpleGroup e
   have hcardMbar : Nat.card S.Mbar = 168 := by
     rw [Nat.card_congr e.toEquiv, CFSG.Quasithin.H13.L619.card_GL32]
   let x₀ : tsCompl S.q (S.clSub A) := ⟨B, hBmem⟩
@@ -380,8 +382,8 @@ theorem exists_hyp_of_not_mem (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set
     have hdiv : orderOf g ∣ Nat.card (MulAction.stabilizer S.Mbar x₀) :=
       orderOf_dvd_natCard g
     rwa [hg] at hdiv
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
-  haveI : IsElementaryAbelian 2 (S.QG ⊓ S.Qa h : Subgroup G) :=
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : IsElementaryAbelian 2 (S.QG ⊓ S.Qa h : Subgroup G) :=
     S.isElementaryAbelian_QG_inf_Qa (hA.conj_ne_z hxA)
   have hXcard : Nat.card (tsCompl S.q (S.clSub A)) = 8 := by
     refine card_tsCompl_eq_eight S.q_nondegenerate hBmem.1 (fun u hu => q_clSub hu)

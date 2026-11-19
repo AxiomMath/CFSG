@@ -49,8 +49,8 @@ theorem half_two_step {X₀ T J : Subgroup G} (hR : E111Reduced G X₀ T) (hJ : 
     have := Subgroup.relIndex_mul_relIndex S U (J ⊔ S) hSU hUJS
     rw [← this]
     exact Dvd.dvd.mul_right h2 _
-  haveI hXn' : (X.subgroupOf U).Normal := normal_subgroupOf_of_conj hXU hXn
-  haveI hYn' : (Y.subgroupOf U).Normal := normal_subgroupOf_of_conj hYU hYn
+  have hXn' : (X.subgroupOf U).Normal := normal_subgroupOf_of_conj hXU hXn
+  have hYn' : (Y.subgroupOf U).Normal := normal_subgroupOf_of_conj hYU hYn
   have hSylQ : IsSylowIn 2 (S.subgroupOf U) ⊤ := by
     rw [← E1.isSylowIn_map_of_injective U.subtype_injective,
       Subgroup.map_subgroupOf_eq_of_le hSU, Subgroup.map_top, Subgroup.range_subtype]
@@ -115,7 +115,7 @@ theorem half_two_step {X₀ T J : Subgroup G} (hR : E111Reduced G X₀ T) (hJ : 
     rw [Subgroup.map_subgroupOf_eq_of_le hSU, Subgroup.map_subgroupOf_eq_of_le hXU,
       Subgroup.map_subgroupOf_eq_of_le hYU] at hSM'
     have hYsol : Group.IsSolvable ↥Y := by
-      haveI := hYs
+      have := hYs
       exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hYU).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hYU).surjective
     have hnorm : ∀ {Z : Subgroup G}, (∀ u ∈ U, ∀ z ∈ Z, u * z * u⁻¹ ∈ Z) →
@@ -146,7 +146,7 @@ theorem half_two_step {X₀ T J : Subgroup G} (hR : E111Reduced G X₀ T) (hJ : 
     have hset : DiagSetting X₀ T A₀ J C :=
       ⟨hR, hA₀T, hA₀ab, hJ, hCZ.trans hZ₀A,
         le_bot_iff.mp ((inf_le_inf_right _ hCZ).trans hZ₀V.le)⟩
-    haveI : Fintype ↥C := Fintype.ofFinite _
+    have : Fintype ↥C := Fintype.ofFinite _
     have hzCV : z ∉ C ⊔ V₀ := by
       intro hzm
       have hVC : V₀ ≤ Subgroup.normalizer (C : Set G) :=
@@ -169,7 +169,7 @@ theorem half_two_step {X₀ T J : Subgroup G} (hR : E111Reduced G X₀ T) (hJ : 
       have hvW : v ∈ W₀ := hV₀ hv
       have hvU : v ∈ U := hSU (hW₀S hvW)
       have hW₀U' : W₀ ≤ U := hW₀S.trans hSU
-      haveI hW' : (W₀.subgroupOf U).Normal := normal_subgroupOf_of_conj hW₀U' hW₀U
+      have hW' : (W₀.subgroupOf U).Normal := normal_subgroupOf_of_conj hW₀U' hW₀U
       have hW2 : IsPGroup 2 ↥(W₀.subgroupOf U) :=
         (hT.2.1.to_le (hW₀S.trans hST)).of_equiv (Subgroup.subgroupOfEquivOfLe hW₀U').symm
       have h1 := hW (W₀.subgroupOf U) hW' hW2

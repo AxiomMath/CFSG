@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma normalizes_closure_commutator {B Y : Subgroup G} {b : G}
     (hB : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b)
     (hBY : B ≤ Subgroup.normalizer (Y : Set G)) (hb : b ∈ B) :
@@ -166,7 +167,7 @@ private lemma exists_commutator_mem_of_fixed_coset {p : ℕ} [Fact p.Prime]
   classical
   have hCnormal : (C.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_of_lt hCX)).mpr hXC
-  letI : (C.subgroupOf X).Normal := hCnormal
+  let : (C.subgroupOf X).Normal := hCnormal
   let : SMul P X :=
     ⟨fun a x => ⟨(a : G) * (x : G) * (a : G)⁻¹,
       (Subgroup.mem_normalizer_iff.mp (hPX a.2) (x : G)).mp x.2⟩⟩
@@ -175,7 +176,7 @@ private lemma exists_commutator_mem_of_fixed_coset {p : ℕ} [Fact p.Prime]
   let : MulAction P X :=
     { one_smul := fun x => Subtype.ext (by rw [hsmul]; simp)
       mul_smul := fun a b x => Subtype.ext (by simp only [hsmul]; simp [mul_assoc]) }
-  letI : MulAction.QuotientAction P (C.subgroupOf X) :=
+  let : MulAction.QuotientAction P (C.subgroupOf X) :=
     ⟨fun a x y h => by
       rw [Subgroup.mem_subgroupOf] at h ⊢
       have hconj : (a : G) * ((x⁻¹ * y : X) : G) * (a : G)⁻¹ ∈ C :=

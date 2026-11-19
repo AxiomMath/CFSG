@@ -16,7 +16,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 open scoped commutatorElement Matrix
 
 theorem sec7_secOrder_ge {G : Type} [Group G] [Finite G] {V P : Subgroup G} (hVP : V < P)
-    {q e k : ℕ} (hq : 1 < q) (he : 1 ≤ e) (h : Nat.card P = Nat.card V * q ^ (e * k)) :
+    {q e k : ℕ} (hq : 1 < q) (_he : 1 ≤ e) (h : Nat.card P = Nat.card V * q ^ (e * k)) :
     Nat.card V * q ^ e ≤ Nat.card P := by
   have hk : 1 ≤ k := by
     by_contra h0

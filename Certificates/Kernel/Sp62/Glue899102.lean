@@ -183,7 +183,7 @@ open CFSG.KD.Sp62.T899102
 
 open CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII
   CFSG.RankThree.PartTwo.Sec4.Item434Kit in
-open Certificates in
+open _root_.CFSG.Certificates in
 theorem gen899102_holds : 
     (∃ p : H6, p * zH 0 * p⁻¹ = zH 1 ∧ p * zH 1 * p⁻¹ = zH 0 ∧ p * zH 2 * p⁻¹ = zH 2) ∧
     (∃ p : H6, p * zH 0 * p⁻¹ = zH 0 ∧ p * zH 1 * p⁻¹ = zH 2 ∧ p * zH 2 * p⁻¹ = zH 1) ∧

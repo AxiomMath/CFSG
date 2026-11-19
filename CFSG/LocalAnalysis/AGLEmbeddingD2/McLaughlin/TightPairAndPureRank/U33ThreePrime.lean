@@ -99,7 +99,7 @@ theorem u33_threePrime_bound
         simpa using h
 
 theorem u33Atlas_proved :
-    U33Atlas := fun X _ hX =>
+    U33Atlas := fun _X _ hX =>
   ⟨card_of_isUThreeThree hX, u33_threePrime_bound hX⟩
 
 end CFSG.AGLEmbeddingD2.McLaughlin

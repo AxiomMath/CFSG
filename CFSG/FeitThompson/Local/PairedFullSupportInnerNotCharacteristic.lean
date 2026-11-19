@@ -375,7 +375,7 @@ theorem eq_primeLine_of_image_fixedSubmodule_eq [Finite G] {S W₁ W₂ : Subgro
 theorem exists_scalar_field_model [Finite G]
     (h₁ : _root_.CFSG.FeitThompson.Statements.FCH_type_p_action_kernel_ratio.{u})
     (h₂ : _root_.CFSG.FeitThompson.Statements.FNI_type_p_elementary_core_structure.{u})
-    (h₃ : _root_.CFSG.FeitThompson.Statements.FTS_type_II_extended_support_ti.{u})
+    (_h₃ : _root_.CFSG.FeitThompson.Statements.FTS_type_II_extended_support_ti.{u})
     (hG : CFSG.FeitThompson.IsOddSimpleMinimal G) {S T L U V W₁ W₂ : Subgroup G} {y : G}
     (hsetup : CFSG.FeitThompson.IsPairedSupportingSetup S T L U V W₁ W₂ y)
     (hU : Nat.card ↥U = ((Nat.card ↥W₂) ^ Nat.card ↥W₁ - 1) / (Nat.card ↥W₂ - 1))

@@ -27,7 +27,7 @@ theorem yx_eq_u (hM : Ly0.ModelChecks) : Ly0.y0G = Yu ∧ Ly0.xG = Xu := by
 theorem yIso (hM : Ly0.ModelChecks) (hY : Ly1080.YOK)
     (hcY : Nat.card Ly0.Y0 ≤ 349920) :
     ∃ Φy : ↥Ly0.UYperm ≃* ↥Ly1080.Y0,
-      (∀ k (hk : k < 4) (hmem : Ly0.uG k ∈ Ly0.UYperm),
+      (∀ k (_hk : k < 4) (hmem : Ly0.uG k ∈ Ly0.UYperm),
         (Φy ⟨Ly0.uG k, hmem⟩ : Perm (Fin 1080)) = Ly1080.ug k) ∧
       (∀ (l : ℕ) (_ : l < 5) (hmem : Glue.txyBp l ∈ Ly0.UYperm),
         (Φy ⟨Glue.txyBp l, hmem⟩ : Perm (Fin 1080)) = Ly1080.txyG l) ∧
@@ -68,7 +68,7 @@ theorem yIso (hM : Ly0.ModelChecks) (hY : Ly1080.YOK)
       Ly1080.words_range₄ hY _ (List.mem_append_right _ (Ly1080.txyWords_get_mem hY hj)) l hl
   have hT : prodP baseP (uEs (Ly1080.txyWords.getD j [])) = Glue.txyBp j := by
     rw [prodP_uEs hM.tab _ hr, Glue.txyBp, txyWords_getD hj]
-  have hk : lyConjK (uEs (Ly1080.txyWords.getD j [])) (cdE Ly0.wordX) = true ∧
+  have _hk : lyConjK (uEs (Ly1080.txyWords.getD j [])) (cdE Ly0.wordX) = true ∧
       lyConjK (uEs (Ly1080.txyWords.getD j [])) yShort = true ∧
       lyConjK (uEs (Ly1080.txyWords.getD j [])) wShort = true := by
     have h := allN_spec (n := 5) k_txyConj j hj
@@ -76,12 +76,12 @@ theorem yIso (hM : Ly0.ModelChecks) (hY : Ly1080.YOK)
     obtain ⟨a3, a4⟩ := (bAnd_iff _ _).1 a2
     exact ⟨a1, a3, a4⟩
   rcases hx with rfl | rfl | rfl
-  · have h := lyConjK_spec hM hk.1
+  · have h := lyConjK_spec hM _hk.1
     rwa [hT, prodP_cdE hM.tab Ly0.wordX (fun l hl => Ly0.decodeWord_mem _ l hl),
       ← xG_eq_word hM] at h
-  · have h := lyConjK_spec hM hk.2.1
+  · have h := lyConjK_spec hM _hk.2.1
     rwa [hT, prodP_yShort hM] at h
-  · have h := lyConjK_spec hM hk.2.2
+  · have h := lyConjK_spec hM _hk.2.2
     rwa [hT, prodP_wShort hM, ← hweq] at h
 
 end CertificateChecks.KernelLy

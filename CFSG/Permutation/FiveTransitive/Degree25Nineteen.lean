@@ -78,7 +78,7 @@ private theorem centralizer_card_eq_nineteen_of_not_alternating
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcop : Nat.Coprime q 19)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -203,7 +203,7 @@ theorem nineteen_not_dvd_card_of_not_alternating
     ¬19 ∣ Nat.card P := by
   classical
   intro hnineteen
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 19 hnineteen
   have hcentralizer :
@@ -212,7 +212,7 @@ theorem nineteen_not_dvd_card_of_not_alternating
     centralizer_card_eq_nineteen_of_not_alternating
       X P hcard h5 hnotAlt u huorder
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
@@ -264,13 +264,13 @@ theorem nineteen_not_dvd_card_of_not_alternating
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
-  letI : Nonempty (Fin 5 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : Nonempty (Fin 5 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin,
         hcard]
       exact Nat.descFactorial_pos.mpr (by norm_num))
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 5 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

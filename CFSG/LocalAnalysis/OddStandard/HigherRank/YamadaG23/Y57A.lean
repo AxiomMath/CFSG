@@ -11,7 +11,7 @@ open CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1 Module
 variable {F : Type} [Group F]
 
 private lemma mul_comm_of_isE (hF : IsE 3 F) : ∀ a b : F, a * b = b * a := by
-  haveI : IsMulCommutative (⊤ : Subgroup F) := hF.1.1
+  have : IsMulCommutative (⊤ : Subgroup F) := hF.1.1
   intro a b
   exact congrArg Subtype.val
     (mul_comm' (M := (⊤ : Subgroup F)) ⟨a, Subgroup.mem_top a⟩ ⟨b, Subgroup.mem_top b⟩)
@@ -53,7 +53,7 @@ private lemma exists_basis_pair {A : Type*} [AddCommGroup A] [Module (ZMod 2) A]
     rw [htop] at h1
     have : Module.finrank (ZMod 2) A = 2 := by simpa using h1
     omega
-  obtain ⟨c, -, hc⟩ := SetLike.exists_of_lt hproper
+  obtain ⟨c, -, hc⟩ := _root_.IsConcreteLE.exists_of_lt hproper
   have hli3 : LinearIndependent (ZMod 2) (Fin.snoc ![a, b] c) :=
     LinearIndependent.finSnoc hli2 hc
   have hcard : Fintype.card (Fin 3) = Module.finrank (ZMod 2) A := by simp [hfin]
@@ -77,15 +77,15 @@ private lemma alt_pair_zero {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
   let T1 : V →ₗ[ZMod 2] V := B.constr (ZMod 2) ![B 0, B 1, B 2 + B 0]
   let T2 : V →ₗ[ZMod 2] V := B.constr (ZMod 2) ![B 0, B 1 + B 0, B 2]
   let T3 : V →ₗ[ZMod 2] V := B.constr (ZMod 2) ![B 1, B 0, B 2]
-  have hT1_0 : T1 (B 0) = B 0 := by simp [T1, Basis.constr_basis]
-  have hT1_1 : T1 (B 1) = B 1 := by simp [T1, Basis.constr_basis]
-  have hT1_2 : T1 (B 2) = B 2 + B 0 := by simp [T1, Basis.constr_basis]
-  have hT2_0 : T2 (B 0) = B 0 := by simp [T2, Basis.constr_basis]
-  have hT2_1 : T2 (B 1) = B 1 + B 0 := by simp [T2, Basis.constr_basis]
-  have hT2_2 : T2 (B 2) = B 2 := by simp [T2, Basis.constr_basis]
-  have hT3_0 : T3 (B 0) = B 1 := by simp [T3, Basis.constr_basis]
-  have hT3_1 : T3 (B 1) = B 0 := by simp [T3, Basis.constr_basis]
-  have hT3_2 : T3 (B 2) = B 2 := by simp [T3, Basis.constr_basis]
+  have hT1_0 : T1 (B 0) = B 0 := by simp [T1]
+  have hT1_1 : T1 (B 1) = B 1 := by simp [T1]
+  have hT1_2 : T1 (B 2) = B 2 + B 0 := by simp [T1]
+  have hT2_0 : T2 (B 0) = B 0 := by simp [T2]
+  have hT2_1 : T2 (B 1) = B 1 + B 0 := by simp [T2]
+  have hT2_2 : T2 (B 2) = B 2 := by simp [T2]
+  have hT3_0 : T3 (B 0) = B 1 := by simp [T3]
+  have hT3_1 : T3 (B 1) = B 0 := by simp [T3]
+  have hT3_2 : T3 (B 2) = B 2 := by simp [T3]
   have hT1 : Function.Involutive T1 := by
     intro x
     have hcomp : T1.comp T1 = LinearMap.id := by
@@ -118,15 +118,15 @@ private lemma alt_pair_zero {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
   let u : V := d (B 0) (B 1)
   have hu1 : u = T1 u := by
     have h := hσ (LinearEquiv.ofInvolutive T1 hT1) (B 0) (B 1)
-    simp only [LinearEquiv.coe_ofInvolutive, hT1_0, hT1_1, u] at h
+    simp only [LinearEquiv.coe_ofInvolutive, hT1_0, hT1_1] at h
     exact h
   have hu2 : u = T2 u := by
     have h := hσ (LinearEquiv.ofInvolutive T2 hT2) (B 0) (B 1)
-    simp only [LinearEquiv.coe_ofInvolutive, hT2_0, hT2_1, hr, halt, add_zero, u] at h
+    simp only [LinearEquiv.coe_ofInvolutive, hT2_0, hT2_1, hr, halt, add_zero] at h
     exact h
   have hu3 : u = T3 u := by
     have h := hσ (LinearEquiv.ofInvolutive T3 hT3) (B 0) (B 1)
-    simp only [LinearEquiv.coe_ofInvolutive, hT3_0, hT3_1, hsym, u] at h
+    simp only [LinearEquiv.coe_ofInvolutive, hT3_0, hT3_1, hsym] at h
     exact h
   have hcoord : (B.equivFun (T1 u)) 0 = (B.equivFun u) 0 + (B.equivFun u) 2 := by
     have hT1u : T1 u = ∑ i, (B.equivFun u) i • (![B 0, B 1, B 2 + B 0] : Fin 3 → V) i := by
@@ -134,7 +134,7 @@ private lemma alt_pair_zero {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
         ∑ i, (B.equivFun u) i • (![B 0, B 1, B 2 + B 0] : Fin 3 → V) i
       rw [Basis.constr_apply_fintype]
     rw [hT1u]
-    simp [Fin.sum_univ_three, Basis.equivFun_self, mul_add]
+    simp [Fin.sum_univ_three]
   have hc2 : (B.equivFun u) 2 = 0 := by
     have h0 : (B.equivFun u) 0 = (B.equivFun u) 0 + (B.equivFun u) 2 := by
       have h := congrFun (congrArg (fun w => B.equivFun w) hu1) 0
@@ -148,7 +148,7 @@ private lemma alt_pair_zero {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
         ∑ i, (B.equivFun u) i • (![B 0, B 1 + B 0, B 2] : Fin 3 → V) i
       rw [Basis.constr_apply_fintype]
     rw [hT2u]
-    simp [Fin.sum_univ_three, Basis.equivFun_self, mul_add]
+    simp [Fin.sum_univ_three]
   have hc1 : (B.equivFun u) 1 = 0 := by
     have h0 : (B.equivFun u) 0 = (B.equivFun u) 0 + (B.equivFun u) 1 := by
       have h := congrFun (congrArg (fun w => B.equivFun w) hu2) 0
@@ -162,7 +162,7 @@ private lemma alt_pair_zero {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
         ∑ i, (B.equivFun u) i • (![B 1, B 0, B 2] : Fin 3 → V) i
       rw [Basis.constr_apply_fintype]
     rw [hT3u]
-    simp [Fin.sum_univ_three, Basis.equivFun_self, mul_add]
+    simp [Fin.sum_univ_three]
   have hc0 : (B.equivFun u) 0 = 0 := by
     have h0 : (B.equivFun u) 0 = (B.equivFun u) 1 := by
       have h := congrFun (congrArg (fun w => B.equivFun w) hu3) 0
@@ -201,13 +201,13 @@ theorem gl_alt_zero (hF : IsE 3 F) (c : F → F → F)
   by_cases hab : a = b
   · rw [hab]; exact halt b
   have hcomm := mul_comm_of_isE hF
-  letI : CommGroup F := { ‹Group F› with mul_comm := hcomm }
+  let : CommGroup F := { ‹Group F› with mul_comm := hcomm }
   have h2 : ∀ x : F, x ^ 2 = 1 := fun x => hF.1.2 x trivial
-  letI : Module (ZMod 2) (Additive F) :=
+  let : Module (ZMod 2) (Additive F) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       rw [← toMul_eq_one, toMul_nsmul, h2]
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
-  haveI : Fintype (Additive F) := Fintype.ofFinite (Additive F)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
+  have : Fintype (Additive F) := Fintype.ofFinite (Additive F)
   have hcardV : Fintype.card (Additive F) = 8 := by
     rw [Fintype.card_eq_nat_card, ← Nat.card_congr Additive.ofMul, hF.2]
     norm_num

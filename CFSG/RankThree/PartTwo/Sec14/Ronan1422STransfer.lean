@@ -25,7 +25,7 @@ private theorem transfer_ne_one_of_fixed {G : Type} [Group G] [Finite G] {P : Su
     (hϕ : ∀ (g : G) (h : g⁻¹ * c * g ∈ P), ϕ ⟨g⁻¹ * c * g, h⟩ = ϕ ⟨c, hcP⟩)
     (hPsyl : ¬ 3 ∣ P.index) (hx3 : ϕ ⟨c, hcP⟩ ^ 3 = 1) (hx1 : ϕ ⟨c, hcP⟩ ≠ 1) :
     MonoidHom.transfer ϕ c ≠ 1 := by
-  haveI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers c) (G ⧸ P))) :=
+  have : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers c) (G ⧸ P))) :=
     Fintype.ofFinite _
   have hn : ∀ q : G ⧸ P, Function.minimalPeriod (c • ·) q = 1 ∨
       Function.minimalPeriod (c • ·) q = 3 := fun q =>
@@ -44,7 +44,7 @@ private theorem transfer_ne_one_of_fixed {G : Type} [Group G] [Finite G] {P : Su
           QuotientGroup.out_conj_pow_minimalPeriod_mem P c q.out⟩ : P) =
           ⟨q.out.out⁻¹ * c * q.out.out, hmem⟩ :=
         Subtype.ext (by simp [h1])
-      rw [e, if_pos h1]
+      rw [e, ite_eq_left h1]
       exact hϕ _ hmem
     · have e : (⟨q.out.out⁻¹ * c ^ Function.minimalPeriod (c • ·) q.out * q.out.out,
           QuotientGroup.out_conj_pow_minimalPeriod_mem P c q.out⟩ : P) = 1 :=
@@ -73,7 +73,7 @@ theorem false_of_conj_mem_coset {G : Type} [Group G] [Finite G] (hG : IsSimpleGr
     (hidx : Nat.card P = 3 * Nat.card N) {c : G} (hcP : c ∈ P) (hcN : c ∉ N)
     (hc3 : c ^ 3 = 1)
     (hconj : ∀ g : G, g⁻¹ * c * g ∈ P → c⁻¹ * (g⁻¹ * c * g) ∈ N) : False := by
-  haveI := hNn
+  have := hNn
   have hQ : Nat.card (↥P ⧸ N.subgroupOf P) = 3 := by
     rw [← Subgroup.index_eq_card]
     have h1 := Subgroup.card_mul_index (N.subgroupOf P)
@@ -82,8 +82,8 @@ theorem false_of_conj_mem_coset {G : Type} [Group G] [Finite G] (hG : IsSimpleGr
     rw [h2, hidx] at h1
     apply Nat.eq_of_mul_eq_mul_left (Nat.card_pos (α := ↥N))
     rw [h1, mul_comm]
-  haveI : IsCyclic (↥P ⧸ N.subgroupOf P) := isCyclic_of_prime_card hQ
-  letI : CommGroup (↥P ⧸ N.subgroupOf P) := IsCyclic.commGroup
+  have : IsCyclic (↥P ⧸ N.subgroupOf P) := isCyclic_of_prime_card hQ
+  let : CommGroup (↥P ⧸ N.subgroupOf P) := IsCyclic.commGroup
   obtain ⟨ϕ, hϕdef⟩ : ∃ ϕ : P →* (↥P ⧸ N.subgroupOf P),
       ∀ x : P, ϕ x = (x : ↥P ⧸ N.subgroupOf P) :=
     ⟨QuotientGroup.mk' (N.subgroupOf P), fun _ => rfl⟩

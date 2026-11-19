@@ -44,7 +44,7 @@ theorem exists_pComplement_P7 [Finite Γ] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   refine ⟨(R : Subgroup X).map X.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨r, -, rfl⟩
     exact r.2
-  · obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  · obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup
     rw [Subgroup.card_map_of_injective X.subtype_injective]
     show Odd (Nat.card (R : Subgroup X))
     rw [hn]

@@ -21,7 +21,7 @@ theorem X1_isIrrOn_of_isIrrOn {W : Type} [CommGroup W] {L : Subgroup (MulAut W)}
   refine ⟨?_, ?_⟩
   · by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
-    haveI := hnt
+    have := hnt
     exact (ne_of_lt h.1) (Subgroup.ext (fun x => by simp [Subsingleton.elim x 1]))
   · intro U hU
     exact h.2.2.2 U hU bot_le le_top
@@ -74,7 +74,7 @@ theorem isSpor_barSub_of_isSpor_bar2_of_pcore
     (hSpor : IsSpor (Bar2 L) .J2) :
     IsSpor (barSub V₀ V hV L) .J2 := by
   obtain ⟨e⟩ := hSpor
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   obtain ⟨eψ⟩ := nonempty_bar2_mulEquiv_barSub_of_isSimpleGroup hV hL h2 hL1
     (MulEquiv.isSimpleGroup e)
@@ -120,9 +120,9 @@ theorem mQuot_le_four_of_J2
   have hSpor : IsSpor (barSub V₀ V hV.isElemAbelian L) .J2 :=
     isSpor_barSub_of_isSpor_bar2_of_pcore hV.isElemAbelian hLs h2 hL1 (h17_23 L c)
   obtain ⟨e⟩ := hSpor
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup ↥(barSub V₀ V hV.isElemAbelian L) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup ↥(barSub V₀ V hV.isElemAbelian L) := MulEquiv.isSimpleGroup e
   have hcardL : Nat.card ↥(barSub V₀ V hV.isElemAbelian L) = 604800 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2

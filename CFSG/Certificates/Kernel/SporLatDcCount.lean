@@ -14,6 +14,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {n : ℕ} [MulAction Γ (Fin n)]
 
 variable (P : DcSoundCtx Γ n)
 
+omit [Finite Γ] in
 theorem lab_lab {x : List ℕ} (hx : PtValid n x) (g h : Γ) :
     lab n ptLab (lab n ptLab x h) g = lab n ptLab x (g * h) :=
   (lab_mul (A := ptLab) (Δ := x) hlaw hx g h).symm
@@ -24,14 +25,14 @@ private theorem Sx_shift {x : List ℕ} (hx : PtValid n x) {g : Γ} (hg : g ∈ 
   obtain ⟨s, hs, rfl⟩ := hM
   exact ⟨g * s, P.S.mul_mem hg hs, lab_lab hx g s⟩
 
-private theorem Sx_shift_inv {x : List ℕ} (hx : PtValid n x) {g : Γ} (hg : g ∈ P.S)
+private theorem Sx_shift_inv {x : List ℕ} (hx : PtValid n x) {g : Γ} (_hg : g ∈ P.S)
     {M : List ℕ} (hM : M ∈ P.Sx x) :
     lab n ptLab (lab n ptLab M g) g⁻¹ = M := by
   rw [mem_Sx] at hM
   obtain ⟨s, hs, rfl⟩ := hM
   rw [lab_lab hx g s, lab_lab hx g⁻¹ (g * s), inv_mul_cancel_left]
 
-private theorem Sx_shift_inv' {x : List ℕ} (hx : PtValid n x) {g : Γ} (hg : g ∈ P.S)
+private theorem Sx_shift_inv' {x : List ℕ} (hx : PtValid n x) {g : Γ} (_hg : g ∈ P.S)
     {M : List ℕ} (hM : M ∈ P.Sx x) :
     lab n ptLab (lab n ptLab M g⁻¹) g = M := by
   rw [mem_Sx] at hM
@@ -64,7 +65,7 @@ private theorem card_filter_shift {x : List ℕ} (hx : PtValid n x) {g : Γ} (hg
     rw [← hgp, ← act_mul _ _ hp, mul_inv_cancel, act_one hp]
 
 private theorem card_filter_of_mem_Oj {x : List ℕ} (hx : PtValid n x) {j : ℕ}
-    (hj : j < P.D.obase.length) {p : ℕ} (hp : p ∈ P.Oj j) :
+    (_hj : j < P.D.obase.length) {p : ℕ} (hp : p ∈ P.Oj j) :
     ((P.Sx x).filter (fun M => p ∈ M)).card =
       ((P.Sx x).filter (fun M => P.D.obase.getD j 0 ∈ M)).card := by
   rw [mem_Oj] at hp
@@ -106,7 +107,7 @@ private theorem pairSet_mem_iff {x : List ℕ} {j : ℕ} {a : List ℕ × ℕ} :
     exact ⟨a.2, Finset.mem_filter.mpr ⟨hp, ho⟩, rfl⟩
 
 private theorem pairSet_card₁ {x : List ℕ} (hx : PtValid n x) (hnd : x.Nodup) (j : ℕ)
-    (hj : j < P.D.obase.length) :
+    (_hj : j < P.D.obase.length) :
     (P.pairSet x j).card = (P.Sx x).card * cntO P.D x j := by
   rw [pairSet, Finset.card_biUnion]
   · rw [Finset.sum_congr rfl (fun M hM => ?_), Finset.sum_const, smul_eq_mul]
@@ -119,13 +120,13 @@ private theorem pairSet_card₁ {x : List ℕ} (hx : PtValid n x) (hnd : x.Nodup
     change Disjoint _ _
     rw [Finset.disjoint_left]
     intro a ha1 ha2
-    simp only [Finset.mem_image, Finset.mem_filter, Prod.mk.injEq] at ha1 ha2
+    simp only [Finset.mem_image, Finset.mem_filter] at ha1 ha2
     obtain ⟨p, -, rfl⟩ := ha1
     obtain ⟨p', -, h2⟩ := ha2
     exact hne (Prod.mk.inj h2).1.symm
 
 private theorem pairSet_fst {x : List ℕ} (hx : PtValid n x) {j : ℕ}
-    (hj : j < P.D.obase.length) :
+    (_hj : j < P.D.obase.length) :
     Set.MapsTo (fun a : List ℕ × ℕ => a.2) (↑(P.pairSet x j) : Set (List ℕ × ℕ))
       (↑(P.Oj j) : Set ℕ) := by
   rintro ⟨M, p⟩ hp
@@ -136,7 +137,7 @@ private theorem pairSet_fst {x : List ℕ} (hx : PtValid n x) {j : ℕ}
   have hpM : p ∈ M := List.mem_toFinset.mp (by simpa using hp'.2.1)
   exact ⟨Sx_lt P (fun q hq => hx.2 q hq) hp'.1 p hpM, hp'.2.2⟩
 
-private theorem pairSet_card₂ {x : List ℕ} (hx : PtValid n x) (hnd : x.Nodup) {j : ℕ}
+private theorem pairSet_card₂ {x : List ℕ} (hx : PtValid n x) (_hnd : x.Nodup) {j : ℕ}
     (hj : j < P.D.obase.length) (h0 : 0 < (P.D.K.getD j []).length)
     (hpaths : pathsOK P.C P.D x j = true) :
     (P.pairSet x j).card = P.D.osz.getD j 0 * (imgs P.C P.D x j).length := by
@@ -165,7 +166,7 @@ private theorem pairSet_card₂ {x : List ℕ} (hx : PtValid n x) (hnd : x.Nodup
         ((P.Sx x).filter (fun M => p ∈ M)).card := by
       rw [← himg, Finset.card_image_of_injOn]
       rintro ⟨a1, a2⟩ ha ⟨b1, b2⟩ hb hab
-      simp only [Finset.mem_coe, Finset.mem_filter, Prod.fst, Prod.mk.injEq] at ha hb hab ⊢
+      simp only [Finset.mem_coe, Finset.mem_filter, Prod.mk.injEq] at ha hb hab ⊢
       exact ⟨hab, ha.2.trans hb.2.symm⟩
     rw [hcard, card_filter_of_mem_Oj P hx hj hp,
       ← imgs_length P hj h0 (fun p hp => hx.2 p hp) hpaths]

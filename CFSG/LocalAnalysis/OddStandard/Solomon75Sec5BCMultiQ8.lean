@@ -33,7 +33,7 @@ theorem q8_support_card_eq (hn : n < 16) {τ : Perm (Fin n)} {W : Subgroup (Perm
   omega
 
 theorem eq_of_commute_of_fixCount (hn : n < 16) {τ σ : Perm (Fin n)}
-    {W : Subgroup (Perm (Fin n))} (hτ2 : τ * τ = 1) (hτW : τ ∈ W) (h8 : τ.support.card = 8)
+    {W : Subgroup (Perm (Fin n))} (_hτ2 : τ * τ = 1) (hτW : τ ∈ W) (h8 : τ.support.card = 8)
     (hW8 : Nat.card ↥W = 8) (hWτ : ∀ g ∈ W, g ≠ 1 → τ ∈ zpowers g) (hσ2 : σ * σ = 1)
     (hσW : ∀ g ∈ W, g * σ = σ * g) (hfix : fixCount σ = n - 8) : σ = τ := by
   classical
@@ -155,9 +155,10 @@ section PermData
 
 variable {X : Type} [Group X] [Finite X] {n : ℕ}
 
+omit [Finite X] in
 theorem q8_perm_data_range (hn : 8 ≤ n) {B : Subgroup X} (M : AhatModel X n B) {Q : Subgroup X}
     (hQB : Q ≤ normalizer (B : Set X)) (hQ8 : Nat.card ↥Q = 8) {u : X} (huQ : u ∈ Q)
-    (hQpow : ∀ q ∈ Q, q ≠ 1 → u ∈ zpowers q) (hu2 : u * u = 1)
+    (hQpow : ∀ q ∈ Q, q ≠ 1 → u ∈ zpowers q) (_hu2 : u * u = 1)
     (hτ : M.perm u (hQB huQ) ≠ 1) :
     ∃ W : Subgroup (Perm (Fin n)), Nat.card ↥W = 8 ∧ M.perm u (hQB huQ) ∈ W ∧
       (∀ g ∈ W, g ≠ 1 → M.perm u (hQB huQ) ∈ zpowers g) ∧
@@ -203,6 +204,7 @@ theorem q8_perm_data_range (hn : 8 ≤ n) {B : Subgroup X} (M : AhatModel X n B)
   · rintro g ⟨q, rfl⟩
     exact ⟨(q : X), q.2, rfl⟩
 
+omit [Finite X] in
 theorem q8_perm_data (hn : 8 ≤ n) {B : Subgroup X} (M : AhatModel X n B) {Q : Subgroup X}
     (hQB : Q ≤ normalizer (B : Set X)) (hQ8 : Nat.card ↥Q = 8) {u : X} (huQ : u ∈ Q)
     (hQpow : ∀ q ∈ Q, q ≠ 1 → u ∈ zpowers q) (hu2 : u * u = 1)

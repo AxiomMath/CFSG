@@ -20,7 +20,7 @@ section ClassA
 theorem suzFi22_shapeRkAt_xP
     (hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥) :
     ShapeRkAt 3 (fun _ _ => True) (fun T _ => Subgroup.center T = ⊥) xP := by
-  haveI := isSimpleGroup_lSub
+  have := isSimpleGroup_lSub
   refine shapeRkAt_of_subgroup_data_solvable Nat.prime_three
     (fun _ _ _ _ _ h => h) (fun _ _ _ _ e h => center_bot_of_equiv e h) fi22P xP lSub ?_
     lSub_normalized_cent isSimpleGroup_lSub nonabelian_lSub ?_ hcore (m := 6) ?_ (by norm_num)
@@ -45,7 +45,7 @@ open CFSG.Sporadic.Fi22 CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 theorem suzFi22_shapeRkAt_xRep_three :
     ShapeRkAt 3 (fun _ _ => True) (fun T _ => Subgroup.center T = ⊥) (xRep 3) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hOP : OPrimeCoreTrivialAt 3 ↥fi22P :=
     @OPrimeCoreTrivialAt.of_mulEquiv 3 ↥fi22P _ ↥CFSG.Sporadic.Fi22.J inferInstance eJP.symm oPrimeCoreTrivialAt_Fi22J
   have hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥ :=
@@ -79,8 +79,8 @@ theorem suzFi22_shapeRkAt_xRep_three :
 
 theorem suzFi22_centShapeRk :
     CentShapeRk 3 (fun _ _ => True) (fun T _ => Subgroup.center T = ⊥) CFSG.Sporadic.Fi22.J := by
-  haveI := finite_J_tab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J_tab
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Subgroup.center T = ⊥ →
       Subgroup.center T' = ⊥ := fun _ _ _ _ e h => center_bot_of_equiv e h
@@ -105,8 +105,8 @@ theorem suzFi22_centShapeRk :
 theorem suzFi22_centShapeRk_native :
     CentShapeRk 3 (fun _ _ => True) (fun T _ => Subgroup.center T = ⊥)
       (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) := by
-  haveI := finite_J_tab
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
+  have := finite_J_tab
+  have : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
     Finite.of_equiv CFSG.Sporadic.Fi22.J (CFSG.Sporadic.Fi22.fi22EquivJ.symm.toEquiv)
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Subgroup.center T = ⊥ →
@@ -120,9 +120,9 @@ theorem centRow_fi22 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporadi
     CentRow .Fi22 fun (T : Type) [Group T] => Subgroup.center T = ⊥ := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) = 64561751654400 :=
     CFSG.Sporadic.Fi22.card_Fi22
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
     CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
   exact centRow_of_centShapeRk hOut (hbr .Fi22).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))

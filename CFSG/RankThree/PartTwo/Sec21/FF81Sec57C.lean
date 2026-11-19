@@ -17,9 +17,9 @@ theorem S57.holt_mod (hH : KF_HoltThm1) {C Z M T : Subgroup G} (hZC : Z ≤ C) (
     (hTC : T ≤ C) (hTz : T ≤ Cen z) (hzT : z ∈ T) (hT2 : IsPGroup 2 T)
     (hTmax : ∀ P : Subgroup G, P ≤ C → IsPGroup 2 P → T ≤ P → P = T)
     (hfix : ∀ g ∈ C, g⁻¹ * z * g ∈ Z ⊔ M → g ∈ Z ⊔ M) : C ≤ Z ⊔ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z' := Z.subgroupOf C with hZ'
-  haveI hZ'n : Z'.Normal := ⟨fun x hx c => by
+  have hZ'n : Z'.Normal := ⟨fun x hx c => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hZn c c.2 x hx⟩
   set π := QuotientGroup.mk' Z' with hπ

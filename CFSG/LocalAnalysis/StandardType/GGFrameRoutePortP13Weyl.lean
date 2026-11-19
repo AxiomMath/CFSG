@@ -615,10 +615,10 @@ theorem p13a3_D6_pointwise_stabilizer (ψ : Fin 6 → ZMod 3) (hψ : ψ ≠ 0)
       smul_eq_mul]
     rw [Equiv.apply_symm_apply, ← mul_assoc, hεsq (σ.symm j), one_mul]
   let g : (Fin 6 → ZMod 3) ≃ₗ[ZMod 3] (Fin 6 → ZMod 3) :=
-    LinearEquiv.ofLinear f f' (LinearMap.ext hf'f_apply) (LinearMap.ext hff'_apply)
+    LinearEquiv.ofLinearMap f f' (LinearMap.ext hf'f_apply) (LinearMap.ext hff'_apply)
   have hg_apply : ∀ x, g x = w x := by
     intro x
-    simp only [g, LinearEquiv.ofLinear_apply]
+    simp only [g, LinearEquiv.coe_ofLinearMap]
     exact hf_apply x
   have hg : ∀ x y, p13wAux_dotB (g x) (g y) = p13wAux_dotB x y := by
     intro x y

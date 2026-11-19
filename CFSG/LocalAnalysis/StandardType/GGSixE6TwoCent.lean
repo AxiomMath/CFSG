@@ -27,7 +27,7 @@ private lemma uSL_one_mul_vSL_one :
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two];
     linear_combination gf2_two
 
 private lemma uSL_one_mul_vSL_one_pow_three : (uSL (1 : F2) * vSL (1 : F2)) ^ 3 = 1 := by
@@ -35,7 +35,7 @@ private lemma uSL_one_mul_vSL_one_pow_three : (uSL (1 : F2) * vSL (1 : F2)) ^ 3 
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one, uSL_one_mul_vSL_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_succ, pow_zero, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+    simp [pow_succ, pow_zero, Matrix.mul_apply, Fin.sum_univ_two] <;>
     linear_combination gf2_two
 
 private lemma uSL_one_mul_vSL_one_ne_one : (uSL (1 : F2) * vSL (1 : F2)) ≠ 1 := by
@@ -47,7 +47,7 @@ private lemma uSL_one_mul_vSL_one_ne_one : (uSL (1 : F2) * vSL (1 : F2)) ≠ 1 :
 private lemma zE_eq_rootSL2_omega :
     zE = ⟨rootSL2 .E6 F2 (highRoot .E6) (uSL 1 * vSL 1),
       E6Pilot.rootSL2_highRoot_mem_adjointGroup _⟩ := by
-  haveI : CharP F2 2 := inferInstance
+  have : CharP F2 2 := inferInstance
   have h2 : (2 : F2) = 0 := gf2_two
   apply Subtype.ext
   simp only [zE, xr, Subgroup.coe_mul]
@@ -73,12 +73,12 @@ theorem zE_pow_three : zE ^ 3 = 1 := by
   exact h
 
 theorem zE_mem_sTheta : zE ∈ sTheta := by
-  haveI : CharP F2 2 := inferInstance
+  have : CharP F2 2 := inferInstance
   rw [zE_eq_rootSL2_omega, sTheta, Subgroup.mem_subgroupOf]
   exact E6Pilot.rootSL2_highRoot_mem_highRootSL2 _
 
 theorem card_sTheta : Nat.card sTheta = 6 := by
-  haveI : CharP F2 2 := inferInstance
+  have : CharP F2 2 := inferInstance
   have hcardF : Nat.card F2 = 2 := by rw [GaloisField.card 2 1 (by norm_num), pow_one]
   have h1 : Nat.card sTheta = Nat.card (EPilot.highRootSL2 .E6 F2) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe EPilot.highRootSL2_le_adjointGroup).toEquiv
@@ -86,7 +86,7 @@ theorem card_sTheta : Nat.card sTheta = 6 := by
   have h2 : Nat.card (rootSL2 .E6 F2 (highRoot .E6)).range = Nat.card (SL2 F2) :=
     Nat.card_congr (MonoidHom.ofInjective (E6Pilot.rootSL2_highRoot_injective)).symm.toEquiv
   rw [h2]
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   have hSL : Nat.card (SL2 F2) = Nat.card F2 * (Nat.card F2 ^ 2 - 1) := by
     have h := Matrix.card_SL_field (𝔽 := F2) 2
     rw [Fin.prod_univ_two] at h
@@ -105,7 +105,7 @@ theorem card_sTheta : Nat.card sTheta = 6 := by
 theorem centralizer_zE :
     Subgroup.centralizer ({zE} : Set EC) = Subgroup.zpowers zE ⊔ lE ∧
       Disjoint (Subgroup.zpowers zE) lE ∧ Subgroup.zpowers zE ≤ Subgroup.centralizer (lE : Set EC) := by
-  haveI : CharP F2 2 := inferInstance
+  have : CharP F2 2 := inferInstance
   have hF : Nat.card F2 = 2 := by rw [GaloisField.card 2 1 (by norm_num), pow_one]
   have hXJ : Subgroup.zpowers zE ≤ sTheta := Subgroup.zpowers_le.2 zE_mem_sTheta
   have hX : Nat.card (Subgroup.zpowers zE) = Nat.card F2 + 1 := by

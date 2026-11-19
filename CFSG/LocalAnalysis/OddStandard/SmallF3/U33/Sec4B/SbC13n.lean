@@ -74,7 +74,7 @@ theorem c13_inf_Q_le_V (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {A : Subgrou
   have hxY : x ∈ ctxYq t tau x₁ x₂ rho :=
     (mem_ctxYq_iff hc.q_iso x).mpr ⟨hxQ, hx2⟩
   have hcommA : a * x = x * a := by
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     exact congrArg Subtype.val (mul_comm' (⟨a, haA⟩ : ↥A) (⟨x, hxA⟩ : ↥A))
   have hqx : ∀ q ∈ ctxQ t tau x₁ x₂ rho, q * x = x * q := fun q hq => hc.Q_comm q hq x hxQ
   have hfin : ∀ q ∈ ctxQ t tau x₁ x₂ rho,
@@ -121,7 +121,7 @@ theorem c13_E32_le (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian 2 A) (hcard : Nat.card A = 32) :
     A ≤ ctxQ t tau x₁ x₂ rho ⊔ zpowers tau := by
   by_contra h
-  obtain ⟨a, haA, ha⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨a, haA, ha⟩ := IsConcreteLE.not_le_iff_exists.mp h
   have hle : A ⊓ ctxQ t tau x₁ x₂ rho ≤ fourGrp x₁ x₂ :=
     c13_inf_Q_le_V hc hAR hA haA ha
   have hcard_inf : Nat.card ↥(A ⊓ ctxQ t tau x₁ x₂ rho) ≤ 4 := by

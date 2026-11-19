@@ -43,7 +43,7 @@ theorem setting (h : F.IsD D dD)
     (hns : IsSylowIn 2 (Subgroup.normalizer (D : Set G))
       ((F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G))) :
     Local.Setting (F.S : Subgroup G) D :=
-  ⟨F.S.isPGroup', h.le_S, dD.isMulCommutative, h.cent, hns⟩
+  ⟨F.S.isPGroup, h.le_S, dD.isMulCommutative, h.cent, hns⟩
 
 theorem uv_mem_S (h : F.IsD D dD) : dD.uv ∈ (F.S : Subgroup G) := h.uv_eq ▸ F.uv_mem_S
 

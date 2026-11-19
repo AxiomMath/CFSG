@@ -121,13 +121,13 @@ theorem sum_lane {w N : ℕ} {x : ℕ → ℕ} (hx : ∀ L < N, x L < 2 ^ w) (L0
       have e : x (L0 + 1 + d) * 2 ^ (w * (L0 + 1 + d)) =
           2 ^ w * (x (L0 + 1 + d) * 2 ^ (w * d)) * 2 ^ (w * L0) := by ring
       rw [Finset.sum_range_succ, e, Nat.add_mul_div_right _ _ (by positivity),
-        Nat.add_mul_mod_self_left, ih hx', if_pos h, if_pos (by omega)]
+        Nat.add_mul_mod_self_left, ih hx', ite_eq_left h, ite_eq_left (by omega)]
     · subst h
       rw [Finset.sum_range_succ, Nat.add_mul_div_right _ _ (by positivity), Nat.div_eq_of_lt hlt,
-        zero_add, Nat.mod_eq_of_lt (hx L0 (by omega)), if_pos (by omega)]
+        zero_add, Nat.mod_eq_of_lt (hx L0 (by omega)), ite_eq_left (by omega)]
     · rw [Nat.div_eq_of_lt (lt_of_lt_of_le hlt'
         (Nat.pow_le_pow_right (by norm_num) (Nat.mul_le_mul_left _ h))), Nat.zero_mod,
-        if_neg (by omega)]
+        ite_eq_right (by omega)]
 
 theorem lane_add {X d m : ℕ} (hX : X / 2 ^ (32 * m) % 2 ^ 32 = 0) (hd : d < 2 ^ 32) (L : ℕ) :
     (X + d * 2 ^ (32 * m)) / 2 ^ (32 * L) % 2 ^ 32 =
@@ -142,11 +142,11 @@ theorem lane_add {X d m : ℕ} (hX : X / 2 ^ (32 * m) % 2 ^ 32 = 0) (hd : d < 2 
   rcases lt_trichotomy L m with hL | rfl | hL
   · obtain ⟨e, rfl⟩ : ∃ e, m = L + 1 + e := ⟨m - L - 1, by omega⟩
     have he : d * 2 ^ (32 * (L + 1 + e)) = 2 ^ 32 * (d * 2 ^ (32 * e)) * 2 ^ (32 * L) := by ring
-    rw [if_neg (by omega), he, Nat.add_mul_div_right _ _ (by positivity),
+    rw [ite_eq_right (by omega), he, Nat.add_mul_div_right _ _ (by positivity),
       Nat.add_mul_mod_self_left]
   · have he : lo + 2 ^ (32 * L) * (2 ^ 32 * h) + d * 2 ^ (32 * L) =
         lo + (2 ^ 32 * h + d) * 2 ^ (32 * L) := by ring
-    rw [if_pos rfl, he, Nat.add_mul_div_right _ _ (by positivity), Nat.div_eq_of_lt hlo, zero_add,
+    rw [ite_eq_left rfl, he, Nat.add_mul_div_right _ _ (by positivity), Nat.div_eq_of_lt hlo, zero_add,
       Nat.mul_add_mod, Nat.mod_eq_of_lt hd]
   · obtain ⟨e, rfl⟩ : ∃ e, L = m + 1 + e := ⟨L - m - 1, by omega⟩
     have hP : (2 : ℕ) ^ (32 * (m + 1 + e)) = 2 ^ (32 * (m + 1)) * 2 ^ (32 * e) := by
@@ -161,7 +161,7 @@ theorem lane_add {X d m : ℕ} (hX : X / 2 ^ (32 * m) % 2 ^ 32 = 0) (hd : d < 2 
       omega
     have hb' : lo < 2 ^ (32 * (m + 1)) :=
       lt_of_lt_of_le hlo (Nat.pow_le_pow_right (by norm_num) (by omega))
-    rw [if_neg (by omega), h1, h2, hP, ← Nat.div_div_eq_div_mul, ← Nat.div_div_eq_div_mul,
+    rw [ite_eq_right (by omega), h1, h2, hP, ← Nat.div_div_eq_div_mul, ← Nat.div_div_eq_div_mul,
       Nat.add_mul_div_right _ _ (by positivity), Nat.add_mul_div_right _ _ (by positivity),
       Nat.div_eq_of_lt hb, Nat.div_eq_of_lt hb']
 
@@ -229,7 +229,7 @@ theorem rt_foldr (vp : ℕ) : ∀ N c, (List.range N).foldr (fun b acc =>
 theorem rt_block (vp : ℕ) {k r : ℕ} (hk : k < 6) (hr : r < 72) :
     rt vp / 2 ^ (384 * (72 * k + r)) % 2 ^ 384 = blk vp k r := by
   unfold rt
-  rw [rt_foldr, zero_add, sum_lane (fun _ _ => blk_lt _ _ _), if_pos (by omega)]
+  rw [rt_foldr, zero_add, sum_lane (fun _ _ => blk_lt _ _ _), ite_eq_left (by omega)]
   congr 1 <;> omega
 
 @[expose] def rIdx (p v k : ℕ) : ℕ := lane p (lane v (wkRho.getD k 0))
@@ -303,9 +303,9 @@ theorem getD_eraseIdx (l : List (Fin 6)) (j k : ℕ) :
 theorem val_succAbove {m : ℕ} (j : Fin (m + 1)) (k : Fin m) :
     (j.succAbove k : ℕ) = if (k : ℕ) < j then (k : ℕ) else (k : ℕ) + 1 := by
   rcases lt_or_ge (k : ℕ) j with h | h
-  · rw [Fin.succAbove_of_castSucc_lt _ _ (by rw [Fin.lt_def]; exact h), if_pos h]
+  · rw [Fin.succAbove_of_castSucc_lt _ _ (by rw [Fin.lt_def]; exact h), ite_eq_left h]
     rfl
-  · rw [Fin.succAbove_of_le_castSucc _ _ (by rw [Fin.le_def]; exact h), if_neg (by omega)]
+  · rw [Fin.succAbove_of_le_castSucc _ _ (by rw [Fin.le_def]; exact h), ite_eq_right (by omega)]
     rfl
 
 theorem Dl_succ (A : Matrix (Fin 6) (Fin 6) R) {m : ℕ} (hm : m + 1 ≤ 6) (l : List (Fin 6)) :
@@ -383,7 +383,7 @@ theorem length_bitsOf (S : ℕ) : (bitsOf S).length ≤ 6 := by
   rw [List.length_map]
   exact (List.length_filter_le _ _).trans (by simp)
 
-theorem aval_eq (A : Matrix (Fin 6) (Fin 6) Z) {s r c : ℕ} (hs : s < 2) (hr : r < 6)
+theorem aval_eq (A : Matrix (Fin 6) (Fin 6) Z) {s r c : ℕ} (_hs : s < 2) (hr : r < 6)
     (hc : c < 6) : aval A (36 * s + 6 * r + c) = (-1) ^ s * A ⟨r, hr⟩ ⟨c, hc⟩ := by
   have e1 : (36 * s + 6 * r + c) / 36 = s := by omega
   unfold aval
@@ -405,11 +405,11 @@ theorem inv_step {A : Matrix (Fin 6) (Fin 6) Z} {T S : ℕ} {done : List ℕ}
   have hd : dotT T (termsOf S) % 2 ^ 32 < 2 ^ 32 := Nat.mod_lt _ (by norm_num)
   have hstep := lnT_step h0 hd
   refine ⟨fun e he => ?_, fun S0 hS0' => ?_, fun S0 h1 h2 h3 => ?_⟩
-  · rw [hstep, if_neg (by omega)]
+  · rw [hstep, ite_eq_right (by omega)]
     exact hA e he
   · by_cases hSS : S0 = S
     · subst hSS
-      rw [hstep, if_pos rfl, ZMod.natCast_mod, dotT_cast]
+      rw [hstep, ite_eq_left rfl, ZMod.natCast_mod, dotT_cast]
       set l := bitsOf S0 with hl
       obtain ⟨m, hm⟩ : ∃ m, l.length = m + 1 := ⟨l.length - 1, by omega⟩
       have hm6 : m + 1 ≤ 6 := by
@@ -434,11 +434,11 @@ theorem inv_step {A : Matrix (Fin 6) (Fin 6) Z} {T S : ℕ} {done : List ℕ}
         aval_eq A (Nat.mod_lt _ (by norm_num)) (by omega : 5 - m < 6) hlj, Fin.eta, DS, hj2,
         List.length_eraseIdx_of_lt (by omega), hm, Nat.add_sub_cancel,
         ← neg_one_pow_eq_pow_mod_two]
-    · rw [hstep, if_neg (by omega)]
+    · rw [hstep, ite_eq_right (by omega)]
       rcases hS0' with h | h
       · exact hD S0 (Or.inl h)
       · exact hD S0 (Or.inr ((List.mem_cons.1 h).resolve_left hSS))
-  · rw [hstep, if_neg (by
+  · rw [hstep, ite_eq_right (by
       intro h
       exact h3 (by rw [List.mem_cons]; left; omega))]
     exact hZ S0 h1 h2 fun h => h3 (List.mem_cons_of_mem _ h)
@@ -474,30 +474,30 @@ theorem cast_wrap {a b : ℕ} (hb : b ≤ 2 ^ 32) :
 theorem inv_tabA {vp p v : ℕ} (hr : ∀ k < 6, rIdx p v k < 72) :
     Inv ((AZ vp p v).map (Int.cast : ℤ → Z)) (tabA (rt vp) p v) [] := by
   refine ⟨fun e he => ?_, fun S hS => ?_, fun S h1 h2 _ => ?_⟩
-  · rw [lnT_tabA hr, if_pos (by omega)]
+  · rw [lnT_tabA hr, ite_eq_left (by omega)]
     unfold xL aval
     simp only [Matrix.map_apply, AZ, Matrix.of_apply]
     by_cases h36 : e < 36
     · have e1 : e / 36 = 0 := by omega
       have e2 : e % 36 = e := by omega
-      rw [if_pos h36, bA, cast_wrap (by split_ifs <;> norm_num), e1, pow_zero, one_mul]
+      rw [ite_eq_left h36, bA, cast_wrap (by split_ifs <;> norm_num), e1, pow_zero, one_mul]
       simp only [e2]
       split_ifs <;> push_cast <;> ring
     · have e1 : e / 36 = 1 := by omega
       have e2 : e % 36 = e - 36 := by omega
       have e3 : e % 6 = (e - 36) % 6 := by omega
       have hc := crd_lt vp (rIdx p v ((e - 36) / 6)) ((e - 36) % 6)
-      rw [if_neg h36, if_pos he, bB, cast_wrap (by omega), e1, pow_one]
+      rw [ite_eq_right h36, ite_eq_left he, bB, cast_wrap (by omega), e1, pow_one]
       simp only [e2, e3]
       split_ifs <;> push_cast <;> ring
   · have hS0 : S = 0 := hS.resolve_right (List.not_mem_nil)
     subst hS0
     have hb : bitsOf 0 = [] := by decide +kernel
-    rw [lnT_tabA hr, if_pos (by omega)]
+    rw [lnT_tabA hr, ite_eq_left (by omega)]
     unfold DS xL
     rw [hb, List.length_nil, Dl_zero]
     simp
-  · rw [lnT_tabA hr, if_neg (by omega)]
+  · rw [lnT_tabA hr, ite_eq_right (by omega)]
 
 theorem Dl_six (A : Matrix (Fin 6) (Fin 6) Z) : Dl A 6 [0, 1, 2, 3, 4, 5] = A.det := by
   unfold Dl
@@ -642,10 +642,10 @@ theorem inv_graft {A B : Matrix (Fin 6) (Fin 6) Z} {G T : ℕ} {done : List ℕ}
     (hG : Inv A G []) (hT : Inv B T done) (hD : ∀ S, S = 0 ∨ S ∈ done → DS A S = DS B S) :
     Inv A (graft G T) done := by
   refine ⟨fun e he => ?_, fun S hS => ?_, fun S h1 h2 h3 => ?_⟩
-  · rw [lnT_graft, if_pos he]
+  · rw [lnT_graft, ite_eq_left he]
     exact hG.1 e he
-  · rw [lnT_graft, if_neg (by omega), hT.2.1 S hS, hD S hS]
-  · rw [lnT_graft, if_neg (by omega)]
+  · rw [lnT_graft, ite_eq_right (by omega), hT.2.1 S hS, hD S hS]
+  · rw [lnT_graft, ite_eq_right (by omega)]
     exact hT.2.2 S h1 h2 h3
 
 theorem DS_agree {A B : Matrix (Fin 6) (Fin 6) Z} {S r : ℕ} (hS : (bitsOf S).length ≤ 6 - r)

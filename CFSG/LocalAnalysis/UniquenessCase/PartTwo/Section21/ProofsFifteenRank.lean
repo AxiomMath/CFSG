@@ -20,7 +20,8 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem not_dvd_center_and_dvd_of_mem_conjSetOf {M L : Subgroup G} (hL : L ∈ calC M)
+omit [Finite G] in
+private theorem not_dvd_center_and_dvd_of_mem_conjSetOf {M L : Subgroup G} (_hL : L ∈ calC M)
     {r : ℕ} (hZ : ¬ r ∣ Nat.card (center (Bar2 L))) (hrL : r ∣ Nat.card (Bar2 L))
     {K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     (¬ r ∣ Nat.card (center (Bar2 K))) ∧ r ∣ Nat.card (Bar2 K) := by
@@ -42,7 +43,7 @@ private theorem exists_barImage_pow_eq_one_not_center {M L : Subgroup G} (hL : L
     (hrL : r ∣ Nat.card (Bar2 L)) {K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     ∃ z ∈ barImage M K, z ^ r = 1 ∧ ∃ a ∈ barImage M K, a * z ≠ z * a := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hZK, hrK⟩ := not_dvd_center_and_dvd_of_mem_conjSetOf hL hZ hrL hK
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := Bar2 K) r hrK
   have hyZ : y ∉ Subgroup.center (Bar2 K) := by
@@ -71,8 +72,8 @@ private theorem exists_elemAbelian_card_pow_ncard {M L : Subgroup G} (hL : L ∈
     ∃ E : Subgroup (Bar2 M), IsElemAbelian r E ∧
       Nat.card E = r ^ (conjSetOf M L).ncard := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI : Fintype (conjSetOf M L) := Fintype.ofFinite _
+  have : Fact r.Prime := ⟨hr⟩
+  let : Fintype (conjSetOf M L) := Fintype.ofFinite _
   let e : Fin (Fintype.card (conjSetOf M L)) ≃ conjSetOf M L :=
     (Fintype.equivFin (conjSetOf M L)).symm
   let A : Fin (Fintype.card (conjSetOf M L)) → Subgroup (Bar2 M) :=
@@ -102,7 +103,7 @@ theorem ncard_conjSetOf_le_pRank {M L : Subgroup G} (hL : L ∈ calC M) {r : ℕ
     (hr : r.Prime) (hr2 : r ≠ 2) (hZ : ¬ r ∣ Nat.card (center (Bar2 L)))
     (hrL : r ∣ Nat.card (Bar2 L)) :
     (conjSetOf M L).ncard ≤ CFSG.Open.pRank r M := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨E₀, hE₀ea, hE₀card⟩ := exists_elemAbelian_card_pow_ncard hL hr hZ hrL
   obtain ⟨E, -, hEea, hEcard⟩ :=
     uc22p20d_lift_elemAbelian (A := ↥M) (CFSG.pCore 2 ↥M) CFSG.pCore_isPGroup hr hr2
@@ -126,9 +127,9 @@ private theorem sub_one_dvd_ordA_one_two_pow {n : ℕ} (hn : 1 ≤ n) :
 
 theorem s21_15Rank_of (D : Data G) (Ch : Choice2011 G) : S21_15Rank D Ch := by
   intro h1930 c L hL n hshape r hr hr2 hrdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hZ : ¬ r ∣ Nat.card (center (Bar2 L)) := by
-    haveI : IsSimpleGroup (Bar2 L) := by
+    have : IsSimpleGroup (Bar2 L) := by
       rcases hshape with hL2 | hSz
       · exact CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
       · exact CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
@@ -147,8 +148,8 @@ theorem s21_15Rank_of (D : Data G) (Ch : Choice2011 G) : S21_15Rank D Ch := by
         (CFSG.Blueprint.LieModel.suzukiModel hSz).2
       unfold CFSG.Blueprint.SuzukiModel at hSz'
       obtain ⟨-, a, ha, K, hKfield, hKfinite, hn, hKcard, ⟨eK⟩⟩ := hSz'
-      letI := hKfield
-      letI := hKfinite
+      let := hKfield
+      let := hKfinite
       have eSM : Bar2 L ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a :=
         eK.trans (CFSG.ShultStronglyClosedTI.SuzukiModel.suzukiGroupEquivSuzukiMatrixGroup
           (a := a) (K := K) (by rw [hKcard, hn]))

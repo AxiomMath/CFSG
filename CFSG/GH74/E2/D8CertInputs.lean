@@ -7,7 +7,7 @@ public section
 
 namespace CFSG.GH74.E2
 
-@[expose] abbrev D8M : Type := DihedralGroup 4
+abbrev D8M : Type := DihedralGroup 4
 
 section Relations
 

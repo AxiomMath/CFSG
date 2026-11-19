@@ -150,7 +150,7 @@ theorem mem_jInv : ∀ ψ : Equiv.Perm (Fin 6), ψ ∈ lamS → ψ ∉ lam0 → 
   rw [beq_iff_eq] at hE
   have h := allK_iff.1 q5_ok _ (memK_iff.1 ((mem_lamS_K ψ).1 h1))
   rw [q5, involK_of ψ h3, invertsK_of ψ h4] at h
-  simp only [Bool.not_true, Bool.or_false, Bool.false_or, Bool.or_eq_true] at h
+  simp only [Bool.not_true, Bool.or_false, Bool.or_eq_true] at h
   rcases h with h | h
   · exact absurd (Subgroup.mem_inf.2 ⟨h1, (mem_stabS_K ψ).2 h⟩) h2
   · rw [mem_iff_enc h6, hE]

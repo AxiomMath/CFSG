@@ -339,7 +339,7 @@ theorem exists_inverted_by_t0 {ℓ : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
       (d : Matrix (Fin 2) (Fin 2) F) * M
     ext i j
     fin_cases i <;> fin_cases j <;> simp [h₀, d, Matrix.mul_apply, Fin.sum_univ_two] <;>
-      ((try field_simp); all_goals first | ring1 | linear_combination hμτ)
+      ((try field_simp); all_goals first | linear_combination hμτ)
   refine ⟨h₀, ?_, ?_⟩
   · rw [hconj, ← MulAut.conj_apply, MulEquiv.orderOf_eq, hh]
   · apply eq_inv_of_mul_eq_one_left

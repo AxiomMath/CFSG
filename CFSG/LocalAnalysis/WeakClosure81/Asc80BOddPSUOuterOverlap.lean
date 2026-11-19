@@ -271,17 +271,17 @@ theorem eq_top_of_comm_unitary_conj (h : UnitaryFieldData p f K) (hp : p ≠ 2) 
         have hkj : k ≠ j := by
           intro h
           exact hss (by rw [← hsk, h])
-        have hx : herm σ (b' i) (b' i) = 1 := by rw [he, if_pos rfl]
-        have hz : herm σ (b' k) (b' k) = 1 := by rw [he, if_pos rfl]
-        have hxz : herm σ (b' i) (b' k) = 0 := by rw [he, if_neg hik]
+        have hx : herm σ (b' i) (b' i) = 1 := by rw [he, ite_eq_left rfl]
+        have hz : herm σ (b' k) (b' k) = 1 := by rw [he, ite_eq_left rfl]
+        have hxz : herm σ (b' i) (b' k) = 0 := by rw [he, ite_eq_right hik]
         obtain ⟨t, ht, htx, hfix⟩ := USeitz.exists_mem_of_orthonormal hσ'
           (H := H) (x := b' i) (z := b' k) hx hz hxz
           (fun α β hαβ => hpairA i k hik hsk.symm α β hαβ) 0 1 (by simp)
         have htx' : t • b' i = b' k := by simpa using htx
         have htj : t • b' j = b' j := by
           refine hfix (b' j) ?_ ?_
-          · rw [he, if_neg hij]
-          · rw [he, if_neg hkj]
+          · rw [he, ite_eq_right hij]
+          · rw [he, ite_eq_right hkj]
         have hts : t • (x • b' i + y • b' j) = x • b' k + y • b' j := by
           rw [smul_add, smul_comm t x (b' i), smul_comm t y (b' j), htx', htj]
         have hcenter : USeitz.UCentre H (x • b' k + y • b' j) :=
@@ -295,17 +295,17 @@ theorem eq_top_of_comm_unitary_conj (h : UnitaryFieldData p f K) (hp : p ≠ 2) 
         have hik : i ≠ k := by
           intro h
           exact hss (by rw [h, hsk])
-        have hx : herm σ (b' j) (b' j) = 1 := by rw [he, if_pos rfl]
-        have hz : herm σ (b' k) (b' k) = 1 := by rw [he, if_pos rfl]
-        have hxz : herm σ (b' j) (b' k) = 0 := by rw [he, if_neg hjk]
+        have hx : herm σ (b' j) (b' j) = 1 := by rw [he, ite_eq_left rfl]
+        have hz : herm σ (b' k) (b' k) = 1 := by rw [he, ite_eq_left rfl]
+        have hxz : herm σ (b' j) (b' k) = 0 := by rw [he, ite_eq_right hjk]
         obtain ⟨t, ht, htx, hfix⟩ := USeitz.exists_mem_of_orthonormal hσ'
           (H := H) (x := b' j) (z := b' k) hx hz hxz
           (fun α β hαβ => hpairA j k hjk hsk.symm α β hαβ) 0 1 (by simp)
         have htx' : t • b' j = b' k := by simpa using htx
         have hti : t • b' i = b' i := by
           refine hfix (b' i) ?_ ?_
-          · rw [he, if_neg hij.symm]
-          · rw [he, if_neg (Ne.symm hik)]
+          · rw [he, ite_eq_right hij.symm]
+          · rw [he, ite_eq_right (Ne.symm hik)]
         have hts : t • (x • b' i + y • b' j) = x • b' i + y • b' k := by
           rw [smul_add, smul_comm t x (b' i), smul_comm t y (b' j), hti, htx']
         have hcenter : USeitz.UCentre H (x • b' i + y • b' k) :=

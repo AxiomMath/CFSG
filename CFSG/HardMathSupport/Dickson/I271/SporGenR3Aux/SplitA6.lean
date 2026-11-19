@@ -87,7 +87,7 @@ theorem center_eq_bot_of_det
     (hgen : ∀ g ∈ E, ∃ i j : ℕ, g = q x ^ i * q y ^ j) (hxy : q x * q y = q y * q x)
     (a b c d : ℕ) (hτx : q (τ x) = q x ^ a * q y ^ b) (hτy : q (τ y) = q x ^ c * q y ^ d)
     (hdet : a * d ≡ b * c + 2 [MOD 3]) : Subgroup.center J = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcenLg : Subgroup.center Lg = ⊥ := center_eq_bot_of_equiv_alt6 eL
   have hZker : Subgroup.center J ≤ q.ker := by
     intro z hz

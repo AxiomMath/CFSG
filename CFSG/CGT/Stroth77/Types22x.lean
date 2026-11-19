@@ -31,7 +31,7 @@ theorem iV_eq_eight_GV_add_nineteen (s : ℕ) :
     have h1 : (3 : ℤ) ∣ (4 : ℤ) ^ (s + 3) - 1 := by
       simpa using sub_one_dvd_pow_sub_one (4 : ℤ) (s + 3)
     have h6 : (3 : ℤ) ∣ (6 : ℤ) := by norm_num
-    convert dvd_sub h1 h6 using 1 <;> ring
+    convert dvd_sub h1 h6 using 1; ring
   obtain ⟨c, hc⟩ := hdvd
   have h8 : (2 : ℤ) ^ (2 * (s + 4) + 1) = 8 * 4 ^ (s + 3) := by
     rw [show 2 * (s + 4) + 1 = 2 * (s + 3) + 3 by ring, pow_add]
@@ -54,7 +54,7 @@ theorem FV_eq_four_GV_add_nine (s : ℕ) :
     have h1 : (3 : ℤ) ∣ (4 : ℤ) ^ (s + 3) - 1 := by
       simpa using sub_one_dvd_pow_sub_one (4 : ℤ) (s + 3)
     have h6 : (3 : ℤ) ∣ (6 : ℤ) := by norm_num
-    convert dvd_sub h1 h6 using 1 <;> ring
+    convert dvd_sub h1 h6 using 1; ring
   obtain ⟨c, hc⟩ := hdvd
   have hdiv : (3 : ℤ) ∣ (4 : ℤ) ^ (s + 4) - 1 := by
     refine ⟨4 * c + 9, ?_⟩
@@ -76,7 +76,7 @@ theorem three_mul_GV_add_seven (s : ℕ) :
     have h1 : (3 : ℤ) ∣ (4 : ℤ) ^ (s + 3) - 1 := by
       simpa using sub_one_dvd_pow_sub_one (4 : ℤ) (s + 3)
     have h6 : (3 : ℤ) ∣ (6 : ℤ) := by norm_num
-    convert dvd_sub h1 h6 using 1 <;> ring
+    convert dvd_sub h1 h6 using 1; ring
   obtain ⟨c, hc⟩ := hdvd
   have hG := Int.mul_ediv_cancel' (⟨c, hc⟩ : (3 : ℤ) ∣ (4 : ℤ) ^ (s + 3) - 7)
   have h4 : (4 : ℤ) ^ (s + 3) = 64 * (((2 : ℤ) ^ s)) ^ 2 := by
@@ -118,7 +118,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 
 @[expose] def ρM : IntMat := ofCols ![1, 0, 0] ![0, 0, 1] ![-1, -1, -1]
 
-@[expose] def uvA (i F G : ℤ) : Fin 3 → ℤ := ![F * i, -5 * i, 2 * i]
+@[expose] def uvA (i F _G : ℤ) : Fin 3 → ℤ := ![F * i, -5 * i, 2 * i]
 
 @[expose] def tM (i F G : ℤ) : IntMat :=
   ofCols ![4 - i, 4, 8] ![2 * G * i, -7 * i, -8 * i] (ρM *ᵥ uvA i F G)
@@ -126,7 +126,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 @[expose] def uvM (i F G : ℤ) : IntMat :=
   ofCols ![-i, 4, -4] (uvA i F G) (ρM *ᵥ (tM i F G *ᵥ uvA i F G))
 
-@[expose] def uM (i F G : ℤ) : IntMat := uMat ![-1, 0, 0] (-2 * F)
+@[expose] def uM (_i F _G : ℤ) : IntMat := uMat ![-1, 0, 0] (-2 * F)
 
 attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
   Fin.sum_univ_three Matrix.mulVec dotProduct Matrix.one_apply k
@@ -136,28 +136,28 @@ theorem compat_uv {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uvM
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 19, 128*G^2 + 592*G + 684, -1536*G^3 - 13184*G^2 - 36568*G - 33060; 1, -40*G - 95, -1920*G^2 - 9088*G - 10754; -1, 16*G + 38, 192*G^2 + 928*G + 1121]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (tM i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 15, 64*G^2 + 152*G, 128*G^2 + 528*G + 532; 1, -56*G - 133, -16*G - 38; 2, -64*G - 152, -56*G - 133]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uM i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-1, -32*G - 72, -32*G - 72; 0, 0, 1; 0, 1, 0]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) ρM := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add]; ring
 
 theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uvM i F G) * (uvM i F G)) (1) := by
@@ -186,21 +186,21 @@ theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) (by
     intro r c
-    fin_cases r <;> fin_cases c <;> simp <;> ring1)
+    fin_cases r <;> fin_cases c <;> simp)
 theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM i F G) * (uM i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) (by
     intro r c
-    fin_cases r <;> fin_cases c <;> simp <;> ring1)
+    fin_cases r <;> fin_cases c <;> simp)
 theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * ((uM i F G) * (ρM * (uM i F G)))) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 8, 0; 0, 0, 0; 0, 0, 0]) (by
     intro r c
-    fin_cases r <;> fin_cases c <;> simp <;> ring1)
+    fin_cases r <;> fin_cases c <;> simp; ring1)
 theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (uvM i F G)) ((tM i F G) * ρM) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -261,7 +261,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 
 @[expose] def ρM : IntMat := ofCols ![1, 0, 0] ![0, 0, 1] ![-1, -1, -1]
 
-@[expose] def uvA (s : ℕ) (i F G : ℤ) : Fin 3 → ℤ := ![F * i, -5 * i, 2 * i + 8 * ((2 : ℤ) ^ s)]
+@[expose] def uvA (s : ℕ) (i F _G : ℤ) : Fin 3 → ℤ := ![F * i, -5 * i, 2 * i + 8 * ((2 : ℤ) ^ s)]
 
 @[expose] def tM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![4 - i, 4, 8] ![2 * G * i, -7 * i + 8 * ((2 : ℤ) ^ s), -8 * i] (ρM *ᵥ uvA s i F G)
@@ -269,7 +269,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 @[expose] def uvM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![-i, 4, -4] (uvA s i F G) (ρM *ᵥ (tM s i F G *ᵥ uvA s i F G))
 
-@[expose] def uM (s : ℕ) (i F G : ℤ) : IntMat := uMat ![-1, 0, 0] (-2 * F)
+@[expose] def uM (_s : ℕ) (_i F _G : ℤ) : IntMat := uMat ![-1, 0, 0] (-2 * F)
 
 attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
   Fin.sum_univ_three Matrix.mulVec dotProduct Matrix.one_apply k
@@ -279,28 +279,28 @@ theorem compat_uv {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uvM
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 19, 128*G^2 + 592*G + 684, -1536*G^3 + 1024*G^2*((2 : ℤ) ^ s) - 13184*G^2 + 6016*G*((2 : ℤ) ^ s) - 36568*G + 8512*((2 : ℤ) ^ s) - 33060; 1, -40*G - 95, -1920*G^2 + 576*G*((2 : ℤ) ^ s) - 9088*G + 64*((2 : ℤ) ^ s)^2 + 1368*((2 : ℤ) ^ s) - 10754; -1, 16*G + 8*((2 : ℤ) ^ s) + 38, 192*G^2 + 928*G + 1121]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (tM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 15, 64*G^2 + 152*G, 128*G^2 + 528*G - 32*((2 : ℤ) ^ s) + 532; 1, -56*G + 8*((2 : ℤ) ^ s) - 133, -16*G - 8*((2 : ℤ) ^ s) - 38; 2, -64*G - 152, -56*G - 8*((2 : ℤ) ^ s) - 133]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-1, -32*G - 72, -32*G - 72; 0, 0, 1; 0, 1, 0]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) ρM := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add]; ring
 
 theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uvM s i F G) * (uvM s i F G)) (1) := by
@@ -313,17 +313,17 @@ theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (13824*G^2 + 294912*G*((2 : ℤ) ^ s)^2 - 9216*G*((2 : ℤ) ^ s) + 88128*G + 6291456*((2 : ℤ) ^ s)^4 - 196608*((2 : ℤ) ^ s)^3 + 1191936*((2 : ℤ) ^ s)^2 - 32640*((2 : ℤ) ^ s) + 131544) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-55296*G^3 - 1179648*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) - 490752*G^2 - 25165824*G*((2 : ℤ) ^ s)^4 + 196608*G*((2 : ℤ) ^ s)^3 - 7698432*G*((2 : ℤ) ^ s)^2 + 45312*G*((2 : ℤ) ^ s) - 1395360*G - 536870912*((2 : ℤ) ^ s)^6 + 4194304*((2 : ℤ) ^ s)^5 - 105512960*((2 : ℤ) ^ s)^4 + 507904*((2 : ℤ) ^ s)^3 - 11696384*((2 : ℤ) ^ s)^2 + 56848*((2 : ℤ) ^ s) - 1286604) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-663552*G^4 - 14155776*G^3*((2 : ℤ) ^ s)^2 + 442368*G^3*((2 : ℤ) ^ s) - 7879680*G^3 - 301989888*G^2*((2 : ℤ) ^ s)^4 + 9437184*G^2*((2 : ℤ) ^ s)^3 - 135069696*G^2*((2 : ℤ) ^ s)^2 + 3852288*G^2*((2 : ℤ) ^ s) - 33685632*G^2 - 6442450944*G*((2 : ℤ) ^ s)^6 + 201326592*G*((2 : ℤ) ^ s)^5 - 2176843776*G*((2 : ℤ) ^ s)^4 + 60162048*G*((2 : ℤ) ^ s)^3 - 403445760*G*((2 : ℤ) ^ s)^2 + 10841856*G*((2 : ℤ) ^ s) - 62224848*G - 137438953472*((2 : ℤ) ^ s)^8 + 4294967296*((2 : ℤ) ^ s)^7 - 31406948352*((2 : ℤ) ^ s)^6 + 813694976*((2 : ℤ) ^ s)^5 - 3527540736*((2 : ℤ) ^ s)^4 + 90914816*((2 : ℤ) ^ s)^3 - 386004736*((2 : ℤ) ^ s)^2 + 9947488*((2 : ℤ) ^ s) - 42224004) * hG
+      · simp [pow_add]; linear_combination (13824*G^2 + 294912*G*((2 : ℤ) ^ s)^2 - 9216*G*((2 : ℤ) ^ s) + 88128*G + 6291456*((2 : ℤ) ^ s)^4 - 196608*((2 : ℤ) ^ s)^3 + 1191936*((2 : ℤ) ^ s)^2 - 32640*((2 : ℤ) ^ s) + 131544) * hG
+      · simp [pow_add]; linear_combination (-55296*G^3 - 1179648*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) - 490752*G^2 - 25165824*G*((2 : ℤ) ^ s)^4 + 196608*G*((2 : ℤ) ^ s)^3 - 7698432*G*((2 : ℤ) ^ s)^2 + 45312*G*((2 : ℤ) ^ s) - 1395360*G - 536870912*((2 : ℤ) ^ s)^6 + 4194304*((2 : ℤ) ^ s)^5 - 105512960*((2 : ℤ) ^ s)^4 + 507904*((2 : ℤ) ^ s)^3 - 11696384*((2 : ℤ) ^ s)^2 + 56848*((2 : ℤ) ^ s) - 1286604) * hG
+      · simp [pow_add]; linear_combination (-663552*G^4 - 14155776*G^3*((2 : ℤ) ^ s)^2 + 442368*G^3*((2 : ℤ) ^ s) - 7879680*G^3 - 301989888*G^2*((2 : ℤ) ^ s)^4 + 9437184*G^2*((2 : ℤ) ^ s)^3 - 135069696*G^2*((2 : ℤ) ^ s)^2 + 3852288*G^2*((2 : ℤ) ^ s) - 33685632*G^2 - 6442450944*G*((2 : ℤ) ^ s)^6 + 201326592*G*((2 : ℤ) ^ s)^5 - 2176843776*G*((2 : ℤ) ^ s)^4 + 60162048*G*((2 : ℤ) ^ s)^3 - 403445760*G*((2 : ℤ) ^ s)^2 + 10841856*G*((2 : ℤ) ^ s) - 62224848*G - 137438953472*((2 : ℤ) ^ s)^8 + 4294967296*((2 : ℤ) ^ s)^7 - 31406948352*((2 : ℤ) ^ s)^6 + 813694976*((2 : ℤ) ^ s)^5 - 3527540736*((2 : ℤ) ^ s)^4 + 90914816*((2 : ℤ) ^ s)^3 - 386004736*((2 : ℤ) ^ s)^2 + 9947488*((2 : ℤ) ^ s) - 42224004) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (69120*G + 1474560*((2 : ℤ) ^ s)^2 - 20736*((2 : ℤ) ^ s) + 164160) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-276480*G^2 - 5898240*G*((2 : ℤ) ^ s)^2 - 55296*G*((2 : ℤ) ^ s) - 1304640*G - 125829120*((2 : ℤ) ^ s)^4 - 1179648*((2 : ℤ) ^ s)^3 - 14019072*((2 : ℤ) ^ s)^2 - 131328*((2 : ℤ) ^ s) - 1538784) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-3317760*G^3 - 70778880*G^2*((2 : ℤ) ^ s)^2 + 995328*G^2*((2 : ℤ) ^ s) - 23321088*G^2 - 1509949440*G*((2 : ℤ) ^ s)^4 + 21233664*G*((2 : ℤ) ^ s)^3 - 332255232*G*((2 : ℤ) ^ s)^2 + 4654080*G*((2 : ℤ) ^ s) - 54646272*G - 32212254720*((2 : ℤ) ^ s)^6 + 452984832*((2 : ℤ) ^ s)^5 - 3564896256*((2 : ℤ) ^ s)^4 + 49741824*((2 : ℤ) ^ s)^3 - 390013440*((2 : ℤ) ^ s)^2 + 5446464*((2 : ℤ) ^ s) - 42685704) * hG
+      · simp [pow_add]; linear_combination (69120*G + 1474560*((2 : ℤ) ^ s)^2 - 20736*((2 : ℤ) ^ s) + 164160) * hG
+      · simp [pow_add]; linear_combination (-276480*G^2 - 5898240*G*((2 : ℤ) ^ s)^2 - 55296*G*((2 : ℤ) ^ s) - 1304640*G - 125829120*((2 : ℤ) ^ s)^4 - 1179648*((2 : ℤ) ^ s)^3 - 14019072*((2 : ℤ) ^ s)^2 - 131328*((2 : ℤ) ^ s) - 1538784) * hG
+      · simp [pow_add]; linear_combination (-3317760*G^3 - 70778880*G^2*((2 : ℤ) ^ s)^2 + 995328*G^2*((2 : ℤ) ^ s) - 23321088*G^2 - 1509949440*G*((2 : ℤ) ^ s)^4 + 21233664*G*((2 : ℤ) ^ s)^3 - 332255232*G*((2 : ℤ) ^ s)^2 + 4654080*G*((2 : ℤ) ^ s) - 54646272*G - 32212254720*((2 : ℤ) ^ s)^6 + 452984832*((2 : ℤ) ^ s)^5 - 3564896256*((2 : ℤ) ^ s)^4 + 49741824*((2 : ℤ) ^ s)^3 - 390013440*((2 : ℤ) ^ s)^2 + 5446464*((2 : ℤ) ^ s) - 42685704) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6912*G - 147456*((2 : ℤ) ^ s)^2 - 16416) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G^2 + 589824*G*((2 : ℤ) ^ s)^2 + 13824*G*((2 : ℤ) ^ s) + 127872*G + 12582912*((2 : ℤ) ^ s)^4 + 294912*((2 : ℤ) ^ s)^3 + 1351680*((2 : ℤ) ^ s)^2 + 31680*((2 : ℤ) ^ s) + 147744) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (331776*G^3 + 7077888*G^2*((2 : ℤ) ^ s)^2 + 2170368*G^2 + 150994944*G*((2 : ℤ) ^ s)^4 + 29786112*G*((2 : ℤ) ^ s)^2 - 64512*G*((2 : ℤ) ^ s) + 4713984*G + 3221225472*((2 : ℤ) ^ s)^6 + 283115520*((2 : ℤ) ^ s)^4 - 1376256*((2 : ℤ) ^ s)^3 + 31114752*((2 : ℤ) ^ s)^2 - 163968*((2 : ℤ) ^ s) + 3398328) * hG
+      · simp [pow_add]; linear_combination (-6912*G - 147456*((2 : ℤ) ^ s)^2 - 16416) * hG
+      · simp [pow_add]; linear_combination (27648*G^2 + 589824*G*((2 : ℤ) ^ s)^2 + 13824*G*((2 : ℤ) ^ s) + 127872*G + 12582912*((2 : ℤ) ^ s)^4 + 294912*((2 : ℤ) ^ s)^3 + 1351680*((2 : ℤ) ^ s)^2 + 31680*((2 : ℤ) ^ s) + 147744) * hG
+      · simp [pow_add]; linear_combination (331776*G^3 + 7077888*G^2*((2 : ℤ) ^ s)^2 + 2170368*G^2 + 150994944*G*((2 : ℤ) ^ s)^4 + 29786112*G*((2 : ℤ) ^ s)^2 - 64512*G*((2 : ℤ) ^ s) + 4713984*G + 3221225472*((2 : ℤ) ^ s)^6 + 283115520*((2 : ℤ) ^ s)^4 - 1376256*((2 : ℤ) ^ s)^3 + 31114752*((2 : ℤ) ^ s)^2 - 163968*((2 : ℤ) ^ s) + 3398328) * hG
 theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (tM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -335,17 +335,17 @@ theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (1152*G + 24576*((2 : ℤ) ^ s)^2 + 1656) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 384*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 8192*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 + 1552*((2 : ℤ) ^ s) - 25992) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 - 1152*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 - 24576*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 144*((2 : ℤ) ^ s) - 25308) * hG
+      · simp [pow_add]; linear_combination (1152*G + 24576*((2 : ℤ) ^ s)^2 + 1656) * hG
+      · simp [pow_add]; linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 384*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 8192*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 + 1552*((2 : ℤ) ^ s) - 25992) * hG
+      · simp [pow_add]; linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 - 1152*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 - 24576*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 144*((2 : ℤ) ^ s) - 25308) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 - 1152*((2 : ℤ) ^ s) + 30168) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 + 2688*((2 : ℤ) ^ s) + 13680) * hG
+      · simp [pow_add]; linear_combination (-1152) * hG
+      · simp [pow_add]; linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 - 1152*((2 : ℤ) ^ s) + 30168) * hG
+      · simp [pow_add]; linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 + 2688*((2 : ℤ) ^ s) + 13680) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (21888*G + 466944*((2 : ℤ) ^ s)^2 + 51984) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (13248*G + 282624*((2 : ℤ) ^ s)^2 + 4224*((2 : ℤ) ^ s) + 31536) * hG
+      · simp [pow_add]; linear_combination (-2304) * hG
+      · simp [pow_add]; linear_combination (21888*G + 466944*((2 : ℤ) ^ s)^2 + 51984) * hG
+      · simp [pow_add]; linear_combination (13248*G + 282624*((2 : ℤ) ^ s)^2 + 4224*((2 : ℤ) ^ s) + 31536) * hG
 theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (uvM s i F G)) ((uvM s i F G) * (tM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -357,17 +357,17 @@ theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G^2 + 589824*G*((2 : ℤ) ^ s)^2 - 18432*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^4 - 393216*((2 : ℤ) ^ s)^3 + 2273280*((2 : ℤ) ^ s)^2 - 65280*((2 : ℤ) ^ s) + 250344) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 + 147456*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 + 3145728*G*((2 : ℤ) ^ s)^3 - 29392896*G*((2 : ℤ) ^ s)^2 + 872448*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 + 67108864*((2 : ℤ) ^ s)^5 - 392167424*((2 : ℤ) ^ s)^4 + 11272192*((2 : ℤ) ^ s)^3 - 43409408*((2 : ℤ) ^ s)^2 + 1245184*((2 : ℤ) ^ s) - 4748328) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-387072*G^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 + 165888*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 176160768*G*((2 : ℤ) ^ s)^4 + 3538944*G*((2 : ℤ) ^ s)^3 - 31724544*G*((2 : ℤ) ^ s)^2 + 679680*G*((2 : ℤ) ^ s) - 4823712*G - 3758096384*((2 : ℤ) ^ s)^6 + 75497472*((2 : ℤ) ^ s)^5 - 265748480*((2 : ℤ) ^ s)^4 + 6242304*((2 : ℤ) ^ s)^3 - 28751744*((2 : ℤ) ^ s)^2 + 683520*((2 : ℤ) ^ s) - 3151872) * hG
+      · simp [pow_add]; linear_combination (27648*G^2 + 589824*G*((2 : ℤ) ^ s)^2 - 18432*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^4 - 393216*((2 : ℤ) ^ s)^3 + 2273280*((2 : ℤ) ^ s)^2 - 65280*((2 : ℤ) ^ s) + 250344) * hG
+      · simp [pow_add]; linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 + 147456*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 + 3145728*G*((2 : ℤ) ^ s)^3 - 29392896*G*((2 : ℤ) ^ s)^2 + 872448*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 + 67108864*((2 : ℤ) ^ s)^5 - 392167424*((2 : ℤ) ^ s)^4 + 11272192*((2 : ℤ) ^ s)^3 - 43409408*((2 : ℤ) ^ s)^2 + 1245184*((2 : ℤ) ^ s) - 4748328) * hG
+      · simp [pow_add]; linear_combination (-387072*G^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 + 165888*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 176160768*G*((2 : ℤ) ^ s)^4 + 3538944*G*((2 : ℤ) ^ s)^3 - 31724544*G*((2 : ℤ) ^ s)^2 + 679680*G*((2 : ℤ) ^ s) - 4823712*G - 3758096384*((2 : ℤ) ^ s)^6 + 75497472*((2 : ℤ) ^ s)^5 - 265748480*((2 : ℤ) ^ s)^4 + 6242304*((2 : ℤ) ^ s)^3 - 28751744*((2 : ℤ) ^ s)^2 + 683520*((2 : ℤ) ^ s) - 3151872) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (138240*G + 2949120*((2 : ℤ) ^ s)^2 - 41472*((2 : ℤ) ^ s) + 331776) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1105920*G^2 - 23592960*G*((2 : ℤ) ^ s)^2 + 331776*G*((2 : ℤ) ^ s) - 5282496*G - 503316480*((2 : ℤ) ^ s)^4 + 7077888*((2 : ℤ) ^ s)^3 - 57606144*((2 : ℤ) ^ s)^2 + 799488*((2 : ℤ) ^ s) - 6307848) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-41472*G^2 - 884736*G*((2 : ℤ) ^ s)^2 - 281088*G*((2 : ℤ) ^ s) - 228096*G - 18874368*((2 : ℤ) ^ s)^4 - 5996544*((2 : ℤ) ^ s)^3 - 2718720*((2 : ℤ) ^ s)^2 - 668352*((2 : ℤ) ^ s) - 307800) * hG
+      · simp [pow_add]; linear_combination (138240*G + 2949120*((2 : ℤ) ^ s)^2 - 41472*((2 : ℤ) ^ s) + 331776) * hG
+      · simp [pow_add]; linear_combination (-1105920*G^2 - 23592960*G*((2 : ℤ) ^ s)^2 + 331776*G*((2 : ℤ) ^ s) - 5282496*G - 503316480*((2 : ℤ) ^ s)^4 + 7077888*((2 : ℤ) ^ s)^3 - 57606144*((2 : ℤ) ^ s)^2 + 799488*((2 : ℤ) ^ s) - 6307848) * hG
+      · simp [pow_add]; linear_combination (-41472*G^2 - 884736*G*((2 : ℤ) ^ s)^2 - 281088*G*((2 : ℤ) ^ s) - 228096*G - 18874368*((2 : ℤ) ^ s)^4 - 5996544*((2 : ℤ) ^ s)^3 - 2718720*((2 : ℤ) ^ s)^2 - 668352*((2 : ℤ) ^ s) - 307800) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-13824*G - 294912*((2 : ℤ) ^ s)^2 - 36288) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (110592*G^2 + 2359296*G*((2 : ℤ) ^ s)^2 + 565056*G + 50331648*((2 : ℤ) ^ s)^4 + 6549504*((2 : ℤ) ^ s)^2 - 2304*((2 : ℤ) ^ s) + 718200) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1078272*G^2 + 23003136*G*((2 : ℤ) ^ s)^2 - 313344*G*((2 : ℤ) ^ s) + 5111424*G + 490733568*((2 : ℤ) ^ s)^4 - 6684672*((2 : ℤ) ^ s)^3 + 55332864*((2 : ℤ) ^ s)^2 - 734208*((2 : ℤ) ^ s) + 6057504) * hG
+      · simp [pow_add]; linear_combination (-13824*G - 294912*((2 : ℤ) ^ s)^2 - 36288) * hG
+      · simp [pow_add]; linear_combination (110592*G^2 + 2359296*G*((2 : ℤ) ^ s)^2 + 565056*G + 50331648*((2 : ℤ) ^ s)^4 + 6549504*((2 : ℤ) ^ s)^2 - 2304*((2 : ℤ) ^ s) + 718200) * hG
+      · simp [pow_add]; linear_combination (1078272*G^2 + 23003136*G*((2 : ℤ) ^ s)^2 - 313344*G*((2 : ℤ) ^ s) + 5111424*G + 490733568*((2 : ℤ) ^ s)^4 - 6684672*((2 : ℤ) ^ s)^3 + 55332864*((2 : ℤ) ^ s)^2 - 734208*((2 : ℤ) ^ s) + 6057504) * hG
 theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -379,17 +379,17 @@ theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -401,17 +401,17 @@ theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * ((uM s i F G) * (ρM * (uM s i F G)))) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -423,17 +423,17 @@ theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (8) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (8) * hG
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (uvM s i F G)) ((tM s i F G) * ρM) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -445,17 +445,17 @@ theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 + 768*G*((2 : ℤ) ^ s) - 7632*G - 524288*((2 : ℤ) ^ s)^4 + 16384*((2 : ℤ) ^ s)^3 - 105472*((2 : ℤ) ^ s)^2 + 2720*((2 : ℤ) ^ s) - 11916) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 + 768*G*((2 : ℤ) ^ s) - 7632*G - 524288*((2 : ℤ) ^ s)^4 + 16384*((2 : ℤ) ^ s)^3 - 105472*((2 : ℤ) ^ s)^2 + 2720*((2 : ℤ) ^ s) - 11916) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-576*G - 12288*((2 : ℤ) ^ s)^2 - 1656) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-576*G - 12288*((2 : ℤ) ^ s)^2 - 1656) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 1728*((2 : ℤ) ^ s) - 15624) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 1728*((2 : ℤ) ^ s) - 15624) * hG
 theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * ρM)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -467,17 +467,17 @@ theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (193536*G^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 - 64512*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 88080384*G*((2 : ℤ) ^ s)^4 - 1376256*G*((2 : ℤ) ^ s)^3 + 5913600*G*((2 : ℤ) ^ s)^2 - 86784*G*((2 : ℤ) ^ s) + 196992*G + 1879048192*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 79364096*((2 : ℤ) ^ s)^4 + 1359872*((2 : ℤ) ^ s)^3 - 9617792*((2 : ℤ) ^ s)^2 + 157712*((2 : ℤ) ^ s) - 1052676) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-193536*G^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 + 64512*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 88080384*G*((2 : ℤ) ^ s)^4 + 1376256*G*((2 : ℤ) ^ s)^3 - 5987328*G*((2 : ℤ) ^ s)^2 + 89088*G*((2 : ℤ) ^ s) - 200880*G - 1879048192*((2 : ℤ) ^ s)^6 + 29360128*((2 : ℤ) ^ s)^5 + 77791232*((2 : ℤ) ^ s)^4 - 1310720*((2 : ℤ) ^ s)^3 + 9706880*((2 : ℤ) ^ s)^2 - 154736*((2 : ℤ) ^ s) + 1062936) * hG
+      · simp [pow_add]; linear_combination (864) * hG
+      · simp [pow_add]; linear_combination (193536*G^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 - 64512*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 88080384*G*((2 : ℤ) ^ s)^4 - 1376256*G*((2 : ℤ) ^ s)^3 + 5913600*G*((2 : ℤ) ^ s)^2 - 86784*G*((2 : ℤ) ^ s) + 196992*G + 1879048192*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 79364096*((2 : ℤ) ^ s)^4 + 1359872*((2 : ℤ) ^ s)^3 - 9617792*((2 : ℤ) ^ s)^2 + 157712*((2 : ℤ) ^ s) - 1052676) * hG
+      · simp [pow_add]; linear_combination (-193536*G^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 + 64512*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 88080384*G*((2 : ℤ) ^ s)^4 + 1376256*G*((2 : ℤ) ^ s)^3 - 5987328*G*((2 : ℤ) ^ s)^2 + 89088*G*((2 : ℤ) ^ s) - 200880*G - 1879048192*((2 : ℤ) ^ s)^6 + 29360128*((2 : ℤ) ^ s)^5 + 77791232*((2 : ℤ) ^ s)^4 - 1310720*((2 : ℤ) ^ s)^3 + 9706880*((2 : ℤ) ^ s)^2 - 154736*((2 : ℤ) ^ s) + 1062936) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-926208*G^2 - 19759104*G*((2 : ℤ) ^ s)^2 + 433152*G*((2 : ℤ) ^ s) - 4399488*G - 421527552*((2 : ℤ) ^ s)^4 + 9240576*((2 : ℤ) ^ s)^3 - 47760384*((2 : ℤ) ^ s)^2 + 1035264*((2 : ℤ) ^ s) - 5224392) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (926208*G^2 + 19759104*G*((2 : ℤ) ^ s)^2 - 433152*G*((2 : ℤ) ^ s) + 4418496*G + 421527552*((2 : ℤ) ^ s)^4 - 9240576*((2 : ℤ) ^ s)^3 + 48165888*((2 : ℤ) ^ s)^2 - 1040448*((2 : ℤ) ^ s) + 5269536) * hG
+      · simp [pow_add]; linear_combination (1728) * hG
+      · simp [pow_add]; linear_combination (-926208*G^2 - 19759104*G*((2 : ℤ) ^ s)^2 + 433152*G*((2 : ℤ) ^ s) - 4399488*G - 421527552*((2 : ℤ) ^ s)^4 + 9240576*((2 : ℤ) ^ s)^3 - 47760384*((2 : ℤ) ^ s)^2 + 1035264*((2 : ℤ) ^ s) - 5224392) * hG
+      · simp [pow_add]; linear_combination (926208*G^2 + 19759104*G*((2 : ℤ) ^ s)^2 - 433152*G*((2 : ℤ) ^ s) + 4418496*G + 421527552*((2 : ℤ) ^ s)^4 - 9240576*((2 : ℤ) ^ s)^3 + 48165888*((2 : ℤ) ^ s)^2 - 1040448*((2 : ℤ) ^ s) + 5269536) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-981504*G^2 - 20938752*G*((2 : ℤ) ^ s)^2 + 327168*G*((2 : ℤ) ^ s) - 4636224*G - 446693376*((2 : ℤ) ^ s)^4 + 6979584*((2 : ℤ) ^ s)^3 - 50012160*((2 : ℤ) ^ s)^2 + 771072*((2 : ℤ) ^ s) - 5474736) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (981504*G^2 + 20938752*G*((2 : ℤ) ^ s)^2 - 327168*G*((2 : ℤ) ^ s) + 4653504*G + 446693376*((2 : ℤ) ^ s)^4 - 6979584*((2 : ℤ) ^ s)^3 + 50380800*((2 : ℤ) ^ s)^2 - 776256*((2 : ℤ) ^ s) + 5515776) * hG
+      · simp [pow_add]; linear_combination (864) * hG
+      · simp [pow_add]; linear_combination (-981504*G^2 - 20938752*G*((2 : ℤ) ^ s)^2 + 327168*G*((2 : ℤ) ^ s) - 4636224*G - 446693376*((2 : ℤ) ^ s)^4 + 6979584*((2 : ℤ) ^ s)^3 - 50012160*((2 : ℤ) ^ s)^2 + 771072*((2 : ℤ) ^ s) - 5474736) * hG
+      · simp [pow_add]; linear_combination (981504*G^2 + 20938752*G*((2 : ℤ) ^ s)^2 - 327168*G*((2 : ℤ) ^ s) + 4653504*G + 446693376*((2 : ℤ) ^ s)^4 - 6979584*((2 : ℤ) ^ s)^3 + 50380800*((2 : ℤ) ^ s)^2 - 776256*((2 : ℤ) ^ s) + 5515776) * hG
 theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uvM s i F G)) ((uvM s i F G) * (uM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -489,17 +489,17 @@ theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1152*G^2 + 24576*G*((2 : ℤ) ^ s)^2 - 768*G*((2 : ℤ) ^ s) + 7488*G + 524288*((2 : ℤ) ^ s)^4 - 16384*((2 : ℤ) ^ s)^3 + 102400*((2 : ℤ) ^ s)^2 - 2912*((2 : ℤ) ^ s) + 11286) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (42624*G^2 + 909312*G*((2 : ℤ) ^ s)^2 - 14592*G*((2 : ℤ) ^ s) + 199296*G + 19398656*((2 : ℤ) ^ s)^4 - 311296*((2 : ℤ) ^ s)^3 + 2128384*((2 : ℤ) ^ s)^2 - 34400*((2 : ℤ) ^ s) + 232902) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (1152*G^2 + 24576*G*((2 : ℤ) ^ s)^2 - 768*G*((2 : ℤ) ^ s) + 7488*G + 524288*((2 : ℤ) ^ s)^4 - 16384*((2 : ℤ) ^ s)^3 + 102400*((2 : ℤ) ^ s)^2 - 2912*((2 : ℤ) ^ s) + 11286) * hG
+      · simp [pow_add]; linear_combination (42624*G^2 + 909312*G*((2 : ℤ) ^ s)^2 - 14592*G*((2 : ℤ) ^ s) + 199296*G + 19398656*((2 : ℤ) ^ s)^4 - 311296*((2 : ℤ) ^ s)^3 + 2128384*((2 : ℤ) ^ s)^2 - 34400*((2 : ℤ) ^ s) + 232902) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 - 1728*((2 : ℤ) ^ s) + 13968) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (576*G + 12288*((2 : ℤ) ^ s)^2 + 1656) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 - 1728*((2 : ℤ) ^ s) + 13968) * hG
+      · simp [pow_add]; linear_combination (576*G + 12288*((2 : ℤ) ^ s)^2 + 1656) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-576*G - 12288*((2 : ℤ) ^ s)^2 - 1656) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-5760*G - 122880*((2 : ℤ) ^ s)^2 + 1728*((2 : ℤ) ^ s) - 13968) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-576*G - 12288*((2 : ℤ) ^ s)^2 - 1656) * hG
+      · simp [pow_add]; linear_combination (-5760*G - 122880*((2 : ℤ) ^ s)^2 + 1728*((2 : ℤ) ^ s) - 13968) * hG
 theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * (uM s i F G))) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -511,17 +511,17 @@ theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (193536*G^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 - 64512*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 88080384*G*((2 : ℤ) ^ s)^4 - 1376256*G*((2 : ℤ) ^ s)^3 + 5913600*G*((2 : ℤ) ^ s)^2 - 86784*G*((2 : ℤ) ^ s) + 197856*G + 1879048192*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 79364096*((2 : ℤ) ^ s)^4 + 1359872*((2 : ℤ) ^ s)^3 - 9599360*((2 : ℤ) ^ s)^2 + 159440*((2 : ℤ) ^ s) - 1050624) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 - 2304*G*((2 : ℤ) ^ s) + 1728*G + 1572864*((2 : ℤ) ^ s)^4 - 49152*((2 : ℤ) ^ s)^3 - 135168*((2 : ℤ) ^ s)^2 + 480*((2 : ℤ) ^ s) - 15390) * hG
+      · simp [pow_add]; linear_combination (-1728) * hG
+      · simp [pow_add]; linear_combination (193536*G^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 - 64512*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 88080384*G*((2 : ℤ) ^ s)^4 - 1376256*G*((2 : ℤ) ^ s)^3 + 5913600*G*((2 : ℤ) ^ s)^2 - 86784*G*((2 : ℤ) ^ s) + 197856*G + 1879048192*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 79364096*((2 : ℤ) ^ s)^4 + 1359872*((2 : ℤ) ^ s)^3 - 9599360*((2 : ℤ) ^ s)^2 + 159440*((2 : ℤ) ^ s) - 1050624) * hG
+      · simp [pow_add]; linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 - 2304*G*((2 : ℤ) ^ s) + 1728*G + 1572864*((2 : ℤ) ^ s)^4 - 49152*((2 : ℤ) ^ s)^3 - 135168*((2 : ℤ) ^ s)^2 + 480*((2 : ℤ) ^ s) - 15390) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-926208*G^2 - 19759104*G*((2 : ℤ) ^ s)^2 + 433152*G*((2 : ℤ) ^ s) - 4413312*G - 421527552*((2 : ℤ) ^ s)^4 + 9240576*((2 : ℤ) ^ s)^3 - 48055296*((2 : ℤ) ^ s)^2 + 1039872*((2 : ℤ) ^ s) - 5257224) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-32832*G - 700416*((2 : ℤ) ^ s)^2 + 9792*((2 : ℤ) ^ s) - 77976) * hG
+      · simp [pow_add]; linear_combination (-1728) * hG
+      · simp [pow_add]; linear_combination (-926208*G^2 - 19759104*G*((2 : ℤ) ^ s)^2 + 433152*G*((2 : ℤ) ^ s) - 4413312*G - 421527552*((2 : ℤ) ^ s)^4 + 9240576*((2 : ℤ) ^ s)^3 - 48055296*((2 : ℤ) ^ s)^2 + 1039872*((2 : ℤ) ^ s) - 5257224) * hG
+      · simp [pow_add]; linear_combination (-32832*G - 700416*((2 : ℤ) ^ s)^2 + 9792*((2 : ℤ) ^ s) - 77976) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-981504*G^2 - 20938752*G*((2 : ℤ) ^ s)^2 + 327168*G*((2 : ℤ) ^ s) - 4643136*G - 446693376*((2 : ℤ) ^ s)^4 + 6979584*((2 : ℤ) ^ s)^3 - 50159616*((2 : ℤ) ^ s)^2 + 773376*((2 : ℤ) ^ s) - 5491152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-24192*G - 516096*((2 : ℤ) ^ s)^2 + 7488*((2 : ℤ) ^ s) - 57456) * hG
+      · simp [pow_add]; linear_combination (-864) * hG
+      · simp [pow_add]; linear_combination (-981504*G^2 - 20938752*G*((2 : ℤ) ^ s)^2 + 327168*G*((2 : ℤ) ^ s) - 4643136*G - 446693376*((2 : ℤ) ^ s)^4 + 6979584*((2 : ℤ) ^ s)^3 - 50159616*((2 : ℤ) ^ s)^2 + 773376*((2 : ℤ) ^ s) - 5491152) * hG
+      · simp [pow_add]; linear_combination (-24192*G - 516096*((2 : ℤ) ^ s)^2 + 7488*((2 : ℤ) ^ s) - 57456) * hG
 
 @[expose] def action {s : ℕ} {i F G : ℤ} (h : Data s i F G) : SigmaFourAction (k s) :=
   SigmaFourAction.ofMatEq (uvM s i F G) (tM s i F G) (uM s i F G) ρM
@@ -554,7 +554,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 
 @[expose] def ρM : IntMat := ofCols ![1, 0, 0] ![0, 0, 1] ![-1, -1, -1]
 
-@[expose] def uvA (s : ℕ) (i F G : ℤ) : Fin 3 → ℤ := ![2 * ((2 : ℤ) ^ s) + F * i, -5 * i + 8 * ((2 : ℤ) ^ s), 2 * i - 4 * ((2 : ℤ) ^ s)]
+@[expose] def uvA (s : ℕ) (i F _G : ℤ) : Fin 3 → ℤ := ![2 * ((2 : ℤ) ^ s) + F * i, -5 * i + 8 * ((2 : ℤ) ^ s), 2 * i - 4 * ((2 : ℤ) ^ s)]
 
 @[expose] def tM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![4 - i, 4, 8 + 8 * ((2 : ℤ) ^ s)] ![2 * ((2 : ℤ) ^ s) + 2 * G * i, -7 * i - 4 * ((2 : ℤ) ^ s), -8 * i + 8 * ((2 : ℤ) ^ s)] (ρM *ᵥ uvA s i F G)
@@ -562,7 +562,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 @[expose] def uvM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![-i, 4 + 8 * ((2 : ℤ) ^ s), -4] (uvA s i F G) (ρM *ᵥ (tM s i F G *ᵥ uvA s i F G))
 
-@[expose] def uM (s : ℕ) (i F G : ℤ) : IntMat := uMat ![-1 + 2 * ((2 : ℤ) ^ s), 0, 0] (-2 * F + 2 * ((2 : ℤ) ^ s))
+@[expose] def uM (s : ℕ) (_i F _G : ℤ) : IntMat := uMat ![-1 + 2 * ((2 : ℤ) ^ s), 0, 0] (-2 * F + 2 * ((2 : ℤ) ^ s))
 
 attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
   Fin.sum_univ_three Matrix.mulVec dotProduct Matrix.one_apply k
@@ -572,28 +572,28 @@ theorem compat_uv {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uvM
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 19, 128*G^2 + 592*G + 8*((2 : ℤ) ^ s) + 684, -1536*G^3 - 1024*G^2*((2 : ℤ) ^ s) - 13184*G^2 - 3968*G*((2 : ℤ) ^ s) - 36568*G - 160*((2 : ℤ) ^ s)^2 - 3680*((2 : ℤ) ^ s) - 33060; 2*((2 : ℤ) ^ s) + 1, -40*G + 8*((2 : ℤ) ^ s) - 95, -256*G^2*((2 : ℤ) ^ s) - 1920*G^2 - 768*G*((2 : ℤ) ^ s) - 9088*G - 32*((2 : ℤ) ^ s)^2 - 396*((2 : ℤ) ^ s) - 10754; -1, 16*G - 4*((2 : ℤ) ^ s) + 38, -256*G^2*((2 : ℤ) ^ s) + 192*G^2 - 928*G*((2 : ℤ) ^ s) + 928*G - 80*((2 : ℤ) ^ s)^2 - 768*((2 : ℤ) ^ s) + 1121]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (tM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 15, 64*G^2 + 152*G + 8*((2 : ℤ) ^ s), 128*G^2 + 528*G + 24*((2 : ℤ) ^ s) + 532; 1, -56*G - 4*((2 : ℤ) ^ s) - 133, -16*G + 4*((2 : ℤ) ^ s) - 38; 2*((2 : ℤ) ^ s) + 2, -64*G + 8*((2 : ℤ) ^ s) - 152, -56*G + 12*((2 : ℤ) ^ s) - 133]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![2*((2 : ℤ) ^ s) - 1, -32*G + 8*((2 : ℤ) ^ s) - 72, 64*G*((2 : ℤ) ^ s) - 32*G - 16*((2 : ℤ) ^ s)^2 + 152*((2 : ℤ) ^ s) - 72; 0, 0, 1; 0, 1, 0]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) ρM := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add]; ring
 
 theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uvM s i F G) * (uvM s i F G)) (1) := by
@@ -606,17 +606,17 @@ theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (41472*G^2 + 884736*G*((2 : ℤ) ^ s)^2 + 34560*G*((2 : ℤ) ^ s) + 264384*G + 18874368*((2 : ℤ) ^ s)^4 + 737280*((2 : ℤ) ^ s)^3 + 3575808*((2 : ℤ) ^ s)^2 + 58464*((2 : ℤ) ^ s) + 394632) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^3 - 3538944*G^2*((2 : ℤ) ^ s)^2 - 69120*G^2*((2 : ℤ) ^ s) - 1472256*G^2 - 75497472*G*((2 : ℤ) ^ s)^4 - 1474560*G*((2 : ℤ) ^ s)^3 - 23122944*G*((2 : ℤ) ^ s)^2 - 167040*G*((2 : ℤ) ^ s) - 4186080*G - 1610612736*((2 : ℤ) ^ s)^6 - 31457280*((2 : ℤ) ^ s)^5 - 317128704*((2 : ℤ) ^ s)^4 - 122880*((2 : ℤ) ^ s)^3 - 35259648*((2 : ℤ) ^ s)^2 - 8760*((2 : ℤ) ^ s) - 3859812) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2654208*G^4*((2 : ℤ) ^ s) - 1990656*G^4 + 56623104*G^3*((2 : ℤ) ^ s)^3 - 40697856*G^3*((2 : ℤ) ^ s)^2 + 24662016*G^3*((2 : ℤ) ^ s) - 23639040*G^3 + 1207959552*G^2*((2 : ℤ) ^ s)^5 - 868220928*G^2*((2 : ℤ) ^ s)^4 + 394002432*G^2*((2 : ℤ) ^ s)^3 - 395237376*G^2*((2 : ℤ) ^ s)^2 + 83003904*G^2*((2 : ℤ) ^ s) - 101056896*G^2 + 25769803776*G*((2 : ℤ) ^ s)^7 - 18522046464*G*((2 : ℤ) ^ s)^6 + 5586812928*G*((2 : ℤ) ^ s)^5 - 6405881856*G*((2 : ℤ) ^ s)^4 + 852240384*G*((2 : ℤ) ^ s)^3 - 1190266368*G*((2 : ℤ) ^ s)^2 + 119135424*G*((2 : ℤ) ^ s) - 186674544*G + 549755813888*((2 : ℤ) ^ s)^9 - 395136991232*((2 : ℤ) ^ s)^8 + 59055800320*((2 : ℤ) ^ s)^7 - 93440704512*((2 : ℤ) ^ s)^6 + 5145231360*((2 : ℤ) ^ s)^5 - 10445291520*((2 : ℤ) ^ s)^4 + 556139776*((2 : ℤ) ^ s)^3 - 1142896672*((2 : ℤ) ^ s)^2 + 60685904*((2 : ℤ) ^ s) - 126672012) * hG
+      · simp [pow_add]; linear_combination (41472*G^2 + 884736*G*((2 : ℤ) ^ s)^2 + 34560*G*((2 : ℤ) ^ s) + 264384*G + 18874368*((2 : ℤ) ^ s)^4 + 737280*((2 : ℤ) ^ s)^3 + 3575808*((2 : ℤ) ^ s)^2 + 58464*((2 : ℤ) ^ s) + 394632) * hG
+      · simp [pow_add]; linear_combination (-165888*G^3 - 3538944*G^2*((2 : ℤ) ^ s)^2 - 69120*G^2*((2 : ℤ) ^ s) - 1472256*G^2 - 75497472*G*((2 : ℤ) ^ s)^4 - 1474560*G*((2 : ℤ) ^ s)^3 - 23122944*G*((2 : ℤ) ^ s)^2 - 167040*G*((2 : ℤ) ^ s) - 4186080*G - 1610612736*((2 : ℤ) ^ s)^6 - 31457280*((2 : ℤ) ^ s)^5 - 317128704*((2 : ℤ) ^ s)^4 - 122880*((2 : ℤ) ^ s)^3 - 35259648*((2 : ℤ) ^ s)^2 - 8760*((2 : ℤ) ^ s) - 3859812) * hG
+      · simp [pow_add]; linear_combination (2654208*G^4*((2 : ℤ) ^ s) - 1990656*G^4 + 56623104*G^3*((2 : ℤ) ^ s)^3 - 40697856*G^3*((2 : ℤ) ^ s)^2 + 24662016*G^3*((2 : ℤ) ^ s) - 23639040*G^3 + 1207959552*G^2*((2 : ℤ) ^ s)^5 - 868220928*G^2*((2 : ℤ) ^ s)^4 + 394002432*G^2*((2 : ℤ) ^ s)^3 - 395237376*G^2*((2 : ℤ) ^ s)^2 + 83003904*G^2*((2 : ℤ) ^ s) - 101056896*G^2 + 25769803776*G*((2 : ℤ) ^ s)^7 - 18522046464*G*((2 : ℤ) ^ s)^6 + 5586812928*G*((2 : ℤ) ^ s)^5 - 6405881856*G*((2 : ℤ) ^ s)^4 + 852240384*G*((2 : ℤ) ^ s)^3 - 1190266368*G*((2 : ℤ) ^ s)^2 + 119135424*G*((2 : ℤ) ^ s) - 186674544*G + 549755813888*((2 : ℤ) ^ s)^9 - 395136991232*((2 : ℤ) ^ s)^8 + 59055800320*((2 : ℤ) ^ s)^7 - 93440704512*((2 : ℤ) ^ s)^6 + 5145231360*((2 : ℤ) ^ s)^5 - 10445291520*((2 : ℤ) ^ s)^4 + 556139776*((2 : ℤ) ^ s)^3 - 1142896672*((2 : ℤ) ^ s)^2 + 60685904*((2 : ℤ) ^ s) - 126672012) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G*((2 : ℤ) ^ s) + 207360*G + 589824*((2 : ℤ) ^ s)^3 + 4423680*((2 : ℤ) ^ s)^2 + 8064*((2 : ℤ) ^ s) + 492480) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^2*((2 : ℤ) ^ s) - 829440*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 - 17667072*G*((2 : ℤ) ^ s)^2 - 122112*G*((2 : ℤ) ^ s) - 3913920*G - 50331648*((2 : ℤ) ^ s)^5 - 376897536*((2 : ℤ) ^ s)^4 + 2899968*((2 : ℤ) ^ s)^3 - 42204672*((2 : ℤ) ^ s)^2 + 322080*((2 : ℤ) ^ s) - 4616352) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 + 11943936*G^3*((2 : ℤ) ^ s) - 9953280*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 + 254803968*G^2*((2 : ℤ) ^ s)^3 - 204742656*G^2*((2 : ℤ) ^ s)^2 + 72852480*G^2*((2 : ℤ) ^ s) - 69963264*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 + 5435817984*G*((2 : ℤ) ^ s)^5 - 4455923712*G*((2 : ℤ) ^ s)^4 + 960417792*G*((2 : ℤ) ^ s)^3 - 983657472*G*((2 : ℤ) ^ s)^2 + 143152128*G*((2 : ℤ) ^ s) - 163938816*G + 17179869184*((2 : ℤ) ^ s)^8 + 115964116992*((2 : ℤ) ^ s)^7 - 96938754048*((2 : ℤ) ^ s)^6 + 7805337600*((2 : ℤ) ^ s)^5 - 10587537408*((2 : ℤ) ^ s)^4 + 815397888*((2 : ℤ) ^ s)^3 - 1157830528*((2 : ℤ) ^ s)^2 + 89064912*((2 : ℤ) ^ s) - 128057112) * hG
+      · simp [pow_add]; linear_combination (27648*G*((2 : ℤ) ^ s) + 207360*G + 589824*((2 : ℤ) ^ s)^3 + 4423680*((2 : ℤ) ^ s)^2 + 8064*((2 : ℤ) ^ s) + 492480) * hG
+      · simp [pow_add]; linear_combination (-110592*G^2*((2 : ℤ) ^ s) - 829440*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 - 17667072*G*((2 : ℤ) ^ s)^2 - 122112*G*((2 : ℤ) ^ s) - 3913920*G - 50331648*((2 : ℤ) ^ s)^5 - 376897536*((2 : ℤ) ^ s)^4 + 2899968*((2 : ℤ) ^ s)^3 - 42204672*((2 : ℤ) ^ s)^2 + 322080*((2 : ℤ) ^ s) - 4616352) * hG
+      · simp [pow_add]; linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 + 11943936*G^3*((2 : ℤ) ^ s) - 9953280*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 + 254803968*G^2*((2 : ℤ) ^ s)^3 - 204742656*G^2*((2 : ℤ) ^ s)^2 + 72852480*G^2*((2 : ℤ) ^ s) - 69963264*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 + 5435817984*G*((2 : ℤ) ^ s)^5 - 4455923712*G*((2 : ℤ) ^ s)^4 + 960417792*G*((2 : ℤ) ^ s)^3 - 983657472*G*((2 : ℤ) ^ s)^2 + 143152128*G*((2 : ℤ) ^ s) - 163938816*G + 17179869184*((2 : ℤ) ^ s)^8 + 115964116992*((2 : ℤ) ^ s)^7 - 96938754048*((2 : ℤ) ^ s)^6 + 7805337600*((2 : ℤ) ^ s)^5 - 10587537408*((2 : ℤ) ^ s)^4 + 815397888*((2 : ℤ) ^ s)^3 - 1157830528*((2 : ℤ) ^ s)^2 + 89064912*((2 : ℤ) ^ s) - 128057112) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G*((2 : ℤ) ^ s) - 20736*G + 589824*((2 : ℤ) ^ s)^3 - 442368*((2 : ℤ) ^ s)^2 + 39168*((2 : ℤ) ^ s) - 49248) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^2*((2 : ℤ) ^ s) + 82944*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 + 1797120*G*((2 : ℤ) ^ s)^2 - 426240*G*((2 : ℤ) ^ s) + 383616*G - 50331648*((2 : ℤ) ^ s)^5 + 38338560*((2 : ℤ) ^ s)^4 - 3588096*((2 : ℤ) ^ s)^3 + 4056192*((2 : ℤ) ^ s)^2 - 381792*((2 : ℤ) ^ s) + 443232) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 - 2654208*G^3*((2 : ℤ) ^ s) + 995328*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 - 56623104*G^2*((2 : ℤ) ^ s)^3 + 29933568*G^2*((2 : ℤ) ^ s)^2 - 16367616*G^2*((2 : ℤ) ^ s) + 6511104*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 - 1207959552*G*((2 : ℤ) ^ s)^5 + 550502400*G*((2 : ℤ) ^ s)^4 - 215949312*G*((2 : ℤ) ^ s)^3 + 102125568*G*((2 : ℤ) ^ s)^2 - 32131584*G*((2 : ℤ) ^ s) + 14141952*G + 17179869184*((2 : ℤ) ^ s)^8 - 25769803776*((2 : ℤ) ^ s)^7 + 9865003008*((2 : ℤ) ^ s)^6 - 1788346368*((2 : ℤ) ^ s)^5 + 894173184*((2 : ℤ) ^ s)^4 - 177583104*((2 : ℤ) ^ s)^3 + 97948160*((2 : ℤ) ^ s)^2 - 19558272*((2 : ℤ) ^ s) + 10194984) * hG
+      · simp [pow_add]; linear_combination (27648*G*((2 : ℤ) ^ s) - 20736*G + 589824*((2 : ℤ) ^ s)^3 - 442368*((2 : ℤ) ^ s)^2 + 39168*((2 : ℤ) ^ s) - 49248) * hG
+      · simp [pow_add]; linear_combination (-110592*G^2*((2 : ℤ) ^ s) + 82944*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 + 1797120*G*((2 : ℤ) ^ s)^2 - 426240*G*((2 : ℤ) ^ s) + 383616*G - 50331648*((2 : ℤ) ^ s)^5 + 38338560*((2 : ℤ) ^ s)^4 - 3588096*((2 : ℤ) ^ s)^3 + 4056192*((2 : ℤ) ^ s)^2 - 381792*((2 : ℤ) ^ s) + 443232) * hG
+      · simp [pow_add]; linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 - 2654208*G^3*((2 : ℤ) ^ s) + 995328*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 - 56623104*G^2*((2 : ℤ) ^ s)^3 + 29933568*G^2*((2 : ℤ) ^ s)^2 - 16367616*G^2*((2 : ℤ) ^ s) + 6511104*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 - 1207959552*G*((2 : ℤ) ^ s)^5 + 550502400*G*((2 : ℤ) ^ s)^4 - 215949312*G*((2 : ℤ) ^ s)^3 + 102125568*G*((2 : ℤ) ^ s)^2 - 32131584*G*((2 : ℤ) ^ s) + 14141952*G + 17179869184*((2 : ℤ) ^ s)^8 - 25769803776*((2 : ℤ) ^ s)^7 + 9865003008*((2 : ℤ) ^ s)^6 - 1788346368*((2 : ℤ) ^ s)^5 + 894173184*((2 : ℤ) ^ s)^4 - 177583104*((2 : ℤ) ^ s)^3 + 97948160*((2 : ℤ) ^ s)^2 - 19558272*((2 : ℤ) ^ s) + 10194984) * hG
 theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (tM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -628,17 +628,17 @@ theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) + 1152*G + 16384*((2 : ℤ) ^ s)^3 + 24576*((2 : ℤ) ^ s)^2 + 1376*((2 : ℤ) ^ s) + 1656) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 576*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 12288*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 - 168*((2 : ℤ) ^ s) - 25992) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 + 1344*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 + 28672*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 824*((2 : ℤ) ^ s) - 25308) * hG
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) + 1152*G + 16384*((2 : ℤ) ^ s)^3 + 24576*((2 : ℤ) ^ s)^2 + 1376*((2 : ℤ) ^ s) + 1656) * hG
+      · simp [pow_add]; linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 576*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 12288*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 - 168*((2 : ℤ) ^ s) - 25992) * hG
+      · simp [pow_add]; linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 + 1344*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 + 28672*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 824*((2 : ℤ) ^ s) - 25308) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-384*((2 : ℤ) ^ s) - 1152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 + 192*((2 : ℤ) ^ s) + 30168) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 - 1728*((2 : ℤ) ^ s) + 13680) * hG
+      · simp [pow_add]; linear_combination (-384*((2 : ℤ) ^ s) - 1152) * hG
+      · simp [pow_add]; linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 + 192*((2 : ℤ) ^ s) + 30168) * hG
+      · simp [pow_add]; linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 - 1728*((2 : ℤ) ^ s) + 13680) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1536*((2 : ℤ) ^ s) - 2304) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (384*G*((2 : ℤ) ^ s) + 21888*G + 8192*((2 : ℤ) ^ s)^3 + 466944*((2 : ℤ) ^ s)^2 - 4208*((2 : ℤ) ^ s) + 51984) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) + 13248*G + 16384*((2 : ℤ) ^ s)^3 + 282624*((2 : ℤ) ^ s)^2 - 3808*((2 : ℤ) ^ s) + 31536) * hG
+      · simp [pow_add]; linear_combination (-1536*((2 : ℤ) ^ s) - 2304) * hG
+      · simp [pow_add]; linear_combination (384*G*((2 : ℤ) ^ s) + 21888*G + 8192*((2 : ℤ) ^ s)^3 + 466944*((2 : ℤ) ^ s)^2 - 4208*((2 : ℤ) ^ s) + 51984) * hG
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) + 13248*G + 16384*((2 : ℤ) ^ s)^3 + 282624*((2 : ℤ) ^ s)^2 - 3808*((2 : ℤ) ^ s) + 31536) * hG
 theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (uvM s i F G)) ((uvM s i F G) * (tM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -650,17 +650,17 @@ theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G^2*((2 : ℤ) ^ s) + 27648*G^2 + 589824*G*((2 : ℤ) ^ s)^3 + 608256*G*((2 : ℤ) ^ s)^2 + 192384*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^5 + 12976128*((2 : ℤ) ^ s)^4 + 2727936*((2 : ℤ) ^ s)^3 + 2301696*((2 : ℤ) ^ s)^2 + 283488*((2 : ℤ) ^ s) + 250344) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 - 119808*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 - 2555904*G*((2 : ℤ) ^ s)^3 - 29374464*G*((2 : ℤ) ^ s)^2 - 403584*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 - 54525952*((2 : ℤ) ^ s)^5 - 391774208*((2 : ℤ) ^ s)^4 - 2646016*((2 : ℤ) ^ s)^3 - 43404032*((2 : ℤ) ^ s)^2 - 282592*((2 : ℤ) ^ s) - 4748328) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 387072*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 - 580608*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 176160768*G*((2 : ℤ) ^ s)^4 - 6881280*G*((2 : ℤ) ^ s)^3 - 31770624*G*((2 : ℤ) ^ s)^2 - 964800*G*((2 : ℤ) ^ s) - 4823712*G - 1073741824*((2 : ℤ) ^ s)^7 - 3758096384*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 266731520*((2 : ℤ) ^ s)^4 - 4526080*((2 : ℤ) ^ s)^3 - 28854464*((2 : ℤ) ^ s)^2 - 489120*((2 : ℤ) ^ s) - 3151872) * hG
+      · simp [pow_add]; linear_combination (27648*G^2*((2 : ℤ) ^ s) + 27648*G^2 + 589824*G*((2 : ℤ) ^ s)^3 + 608256*G*((2 : ℤ) ^ s)^2 + 192384*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^5 + 12976128*((2 : ℤ) ^ s)^4 + 2727936*((2 : ℤ) ^ s)^3 + 2301696*((2 : ℤ) ^ s)^2 + 283488*((2 : ℤ) ^ s) + 250344) * hG
+      · simp [pow_add]; linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 - 119808*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 - 2555904*G*((2 : ℤ) ^ s)^3 - 29374464*G*((2 : ℤ) ^ s)^2 - 403584*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 - 54525952*((2 : ℤ) ^ s)^5 - 391774208*((2 : ℤ) ^ s)^4 - 2646016*((2 : ℤ) ^ s)^3 - 43404032*((2 : ℤ) ^ s)^2 - 282592*((2 : ℤ) ^ s) - 4748328) * hG
+      · simp [pow_add]; linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 387072*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 - 580608*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 176160768*G*((2 : ℤ) ^ s)^4 - 6881280*G*((2 : ℤ) ^ s)^3 - 31770624*G*((2 : ℤ) ^ s)^2 - 964800*G*((2 : ℤ) ^ s) - 4823712*G - 1073741824*((2 : ℤ) ^ s)^7 - 3758096384*((2 : ℤ) ^ s)^6 - 29360128*((2 : ℤ) ^ s)^5 - 266731520*((2 : ℤ) ^ s)^4 - 4526080*((2 : ℤ) ^ s)^3 - 28854464*((2 : ℤ) ^ s)^2 - 489120*((2 : ℤ) ^ s) - 3151872) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 156672*G*((2 : ℤ) ^ s) + 138240*G + 393216*((2 : ℤ) ^ s)^4 + 3342336*((2 : ℤ) ^ s)^3 + 2961408*((2 : ℤ) ^ s)^2 + 340608*((2 : ℤ) ^ s) + 331776) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-147456*G^2*((2 : ℤ) ^ s) - 1105920*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 - 23574528*G*((2 : ℤ) ^ s)^2 - 311424*G*((2 : ℤ) ^ s) - 5282496*G - 67108864*((2 : ℤ) ^ s)^5 - 502923264*((2 : ℤ) ^ s)^4 + 696320*((2 : ℤ) ^ s)^3 - 57649152*((2 : ℤ) ^ s)^2 + 100688*((2 : ℤ) ^ s) - 6307848) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (36864*G^2*((2 : ℤ) ^ s) - 41472*G^2 + 786432*G*((2 : ℤ) ^ s)^3 - 857088*G*((2 : ℤ) ^ s)^2 + 407040*G*((2 : ℤ) ^ s) - 228096*G + 16777216*((2 : ℤ) ^ s)^5 - 18284544*((2 : ℤ) ^ s)^4 + 6848512*((2 : ℤ) ^ s)^3 - 2777472*((2 : ℤ) ^ s)^2 + 777664*((2 : ℤ) ^ s) - 307800) * hG
+      · simp [pow_add]; linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 156672*G*((2 : ℤ) ^ s) + 138240*G + 393216*((2 : ℤ) ^ s)^4 + 3342336*((2 : ℤ) ^ s)^3 + 2961408*((2 : ℤ) ^ s)^2 + 340608*((2 : ℤ) ^ s) + 331776) * hG
+      · simp [pow_add]; linear_combination (-147456*G^2*((2 : ℤ) ^ s) - 1105920*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 - 23574528*G*((2 : ℤ) ^ s)^2 - 311424*G*((2 : ℤ) ^ s) - 5282496*G - 67108864*((2 : ℤ) ^ s)^5 - 502923264*((2 : ℤ) ^ s)^4 + 696320*((2 : ℤ) ^ s)^3 - 57649152*((2 : ℤ) ^ s)^2 + 100688*((2 : ℤ) ^ s) - 6307848) * hG
+      · simp [pow_add]; linear_combination (36864*G^2*((2 : ℤ) ^ s) - 41472*G^2 + 786432*G*((2 : ℤ) ^ s)^3 - 857088*G*((2 : ℤ) ^ s)^2 + 407040*G*((2 : ℤ) ^ s) - 228096*G + 16777216*((2 : ℤ) ^ s)^5 - 18284544*((2 : ℤ) ^ s)^4 + 6848512*((2 : ℤ) ^ s)^3 - 2777472*((2 : ℤ) ^ s)^2 + 777664*((2 : ℤ) ^ s) - 307800) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 4608*G*((2 : ℤ) ^ s) - 13824*G + 393216*((2 : ℤ) ^ s)^4 + 98304*((2 : ℤ) ^ s)^3 - 271104*((2 : ℤ) ^ s)^2 - 15936*((2 : ℤ) ^ s) - 36288) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-147456*G^2*((2 : ℤ) ^ s) + 110592*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 + 2377728*G*((2 : ℤ) ^ s)^2 - 552192*G*((2 : ℤ) ^ s) + 565056*G - 67108864*((2 : ℤ) ^ s)^5 + 50724864*((2 : ℤ) ^ s)^4 - 4440064*((2 : ℤ) ^ s)^3 + 6527232*((2 : ℤ) ^ s)^2 - 484768*((2 : ℤ) ^ s) + 718200) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (119808*G^2*((2 : ℤ) ^ s) + 1078272*G^2 + 2555904*G*((2 : ℤ) ^ s)^3 + 22966272*G*((2 : ℤ) ^ s)^2 + 119040*G*((2 : ℤ) ^ s) + 5111424*G + 54525952*((2 : ℤ) ^ s)^5 + 489947136*((2 : ℤ) ^ s)^4 - 3424256*((2 : ℤ) ^ s)^3 + 55347456*((2 : ℤ) ^ s)^2 - 384176*((2 : ℤ) ^ s) + 6057504) * hG
+      · simp [pow_add]; linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 4608*G*((2 : ℤ) ^ s) - 13824*G + 393216*((2 : ℤ) ^ s)^4 + 98304*((2 : ℤ) ^ s)^3 - 271104*((2 : ℤ) ^ s)^2 - 15936*((2 : ℤ) ^ s) - 36288) * hG
+      · simp [pow_add]; linear_combination (-147456*G^2*((2 : ℤ) ^ s) + 110592*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 + 2377728*G*((2 : ℤ) ^ s)^2 - 552192*G*((2 : ℤ) ^ s) + 565056*G - 67108864*((2 : ℤ) ^ s)^5 + 50724864*((2 : ℤ) ^ s)^4 - 4440064*((2 : ℤ) ^ s)^3 + 6527232*((2 : ℤ) ^ s)^2 - 484768*((2 : ℤ) ^ s) + 718200) * hG
+      · simp [pow_add]; linear_combination (119808*G^2*((2 : ℤ) ^ s) + 1078272*G^2 + 2555904*G*((2 : ℤ) ^ s)^3 + 22966272*G*((2 : ℤ) ^ s)^2 + 119040*G*((2 : ℤ) ^ s) + 5111424*G + 54525952*((2 : ℤ) ^ s)^5 + 489947136*((2 : ℤ) ^ s)^4 - 3424256*((2 : ℤ) ^ s)^3 + 55347456*((2 : ℤ) ^ s)^2 - 384176*((2 : ℤ) ^ s) + 6057504) * hG
 theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -672,17 +672,17 @@ theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -694,17 +694,17 @@ theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (32*((2 : ℤ) ^ s)^2 - 32*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (32*((2 : ℤ) ^ s)^2 - 32*((2 : ℤ) ^ s)) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * ((uM s i F G) * (ρM * (uM s i F G)))) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -716,17 +716,17 @@ theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (24 - 32*((2 : ℤ) ^ s)) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (32*((2 : ℤ) ^ s)^2 - 16*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (24 - 32*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (32*((2 : ℤ) ^ s)^2 - 16*((2 : ℤ) ^ s)) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (uvM s i F G)) ((tM s i F G) * ρM) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -738,17 +738,17 @@ theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 - 7632*G - 524288*((2 : ℤ) ^ s)^4 - 105472*((2 : ℤ) ^ s)^2 - 192*((2 : ℤ) ^ s) - 11916) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 - 7632*G - 524288*((2 : ℤ) ^ s)^4 - 105472*((2 : ℤ) ^ s)^2 - 192*((2 : ℤ) ^ s) - 11916) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) - 576*G + 16384*((2 : ℤ) ^ s)^3 - 12288*((2 : ℤ) ^ s)^2 + 992*((2 : ℤ) ^ s) - 1656) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) - 576*G + 16384*((2 : ℤ) ^ s)^3 - 12288*((2 : ℤ) ^ s)^2 + 992*((2 : ℤ) ^ s) - 1656) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 480*((2 : ℤ) ^ s) - 15624) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 480*((2 : ℤ) ^ s) - 15624) * hG
 theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * ρM)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -760,17 +760,17 @@ theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*G*((2 : ℤ) ^ s) - 24576*((2 : ℤ) ^ s)^3 - 48*((2 : ℤ) ^ s) + 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 493056*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 5013504*G*((2 : ℤ) ^ s)^3 + 5968896*G*((2 : ℤ) ^ s)^2 + 717504*G*((2 : ℤ) ^ s) + 196992*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 10485760*((2 : ℤ) ^ s)^5 - 78184448*((2 : ℤ) ^ s)^4 + 3608576*((2 : ℤ) ^ s)^3 - 9557888*((2 : ℤ) ^ s)^2 + 397768*((2 : ℤ) ^ s) - 1052676) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 193536*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 - 493056*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 88080384*G*((2 : ℤ) ^ s)^4 - 5013504*G*((2 : ℤ) ^ s)^3 - 6042624*G*((2 : ℤ) ^ s)^2 - 716352*G*((2 : ℤ) ^ s) - 200880*G - 1073741824*((2 : ℤ) ^ s)^7 - 1879048192*((2 : ℤ) ^ s)^6 + 10485760*((2 : ℤ) ^ s)^5 + 76611584*((2 : ℤ) ^ s)^4 - 3584000*((2 : ℤ) ^ s)^3 + 9646976*((2 : ℤ) ^ s)^2 - 399736*((2 : ℤ) ^ s) + 1062936) * hG
+      · simp [pow_add]; linear_combination (-1152*G*((2 : ℤ) ^ s) - 24576*((2 : ℤ) ^ s)^3 - 48*((2 : ℤ) ^ s) + 864) * hG
+      · simp [pow_add]; linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 493056*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 5013504*G*((2 : ℤ) ^ s)^3 + 5968896*G*((2 : ℤ) ^ s)^2 + 717504*G*((2 : ℤ) ^ s) + 196992*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 10485760*((2 : ℤ) ^ s)^5 - 78184448*((2 : ℤ) ^ s)^4 + 3608576*((2 : ℤ) ^ s)^3 - 9557888*((2 : ℤ) ^ s)^2 + 397768*((2 : ℤ) ^ s) - 1052676) * hG
+      · simp [pow_add]; linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 193536*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 - 493056*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 88080384*G*((2 : ℤ) ^ s)^4 - 5013504*G*((2 : ℤ) ^ s)^3 - 6042624*G*((2 : ℤ) ^ s)^2 - 716352*G*((2 : ℤ) ^ s) - 200880*G - 1073741824*((2 : ℤ) ^ s)^7 - 1879048192*((2 : ℤ) ^ s)^6 + 10485760*((2 : ℤ) ^ s)^5 + 76611584*((2 : ℤ) ^ s)^4 - 3584000*((2 : ℤ) ^ s)^3 + 9646976*((2 : ℤ) ^ s)^2 - 399736*((2 : ℤ) ^ s) + 1062936) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (4032*((2 : ℤ) ^ s) + 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 594432*G*((2 : ℤ) ^ s) - 4399488*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 - 4423680*((2 : ℤ) ^ s)^3 - 47773056*((2 : ℤ) ^ s)^2 - 484704*((2 : ℤ) ^ s) - 5224392) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (165888*G^2*((2 : ℤ) ^ s) + 926208*G^2 + 3538944*G*((2 : ℤ) ^ s)^3 + 19759104*G*((2 : ℤ) ^ s)^2 + 594432*G*((2 : ℤ) ^ s) + 4418496*G + 75497472*((2 : ℤ) ^ s)^5 + 421527552*((2 : ℤ) ^ s)^4 + 4423680*((2 : ℤ) ^ s)^3 + 48178560*((2 : ℤ) ^ s)^2 + 479232*((2 : ℤ) ^ s) + 5269536) * hG
+      · simp [pow_add]; linear_combination (4032*((2 : ℤ) ^ s) + 1728) * hG
+      · simp [pow_add]; linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 594432*G*((2 : ℤ) ^ s) - 4399488*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 - 4423680*((2 : ℤ) ^ s)^3 - 47773056*((2 : ℤ) ^ s)^2 - 484704*((2 : ℤ) ^ s) - 5224392) * hG
+      · simp [pow_add]; linear_combination (165888*G^2*((2 : ℤ) ^ s) + 926208*G^2 + 3538944*G*((2 : ℤ) ^ s)^3 + 19759104*G*((2 : ℤ) ^ s)^2 + 594432*G*((2 : ℤ) ^ s) + 4418496*G + 75497472*((2 : ℤ) ^ s)^5 + 421527552*((2 : ℤ) ^ s)^4 + 4423680*((2 : ℤ) ^ s)^3 + 48178560*((2 : ℤ) ^ s)^2 + 479232*((2 : ℤ) ^ s) + 5269536) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (5184*((2 : ℤ) ^ s) + 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20874240*G*((2 : ℤ) ^ s)^2 - 612864*G*((2 : ℤ) ^ s) - 4636224*G - 113246208*((2 : ℤ) ^ s)^5 - 445317120*((2 : ℤ) ^ s)^4 - 688128*((2 : ℤ) ^ s)^3 - 50031360*((2 : ℤ) ^ s)^2 - 62832*((2 : ℤ) ^ s) - 5474736) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (248832*G^2*((2 : ℤ) ^ s) + 981504*G^2 + 5308416*G*((2 : ℤ) ^ s)^3 + 20874240*G*((2 : ℤ) ^ s)^2 + 615168*G*((2 : ℤ) ^ s) + 4653504*G + 113246208*((2 : ℤ) ^ s)^5 + 445317120*((2 : ℤ) ^ s)^4 + 737280*((2 : ℤ) ^ s)^3 + 50400000*((2 : ℤ) ^ s)^2 + 59184*((2 : ℤ) ^ s) + 5515776) * hG
+      · simp [pow_add]; linear_combination (5184*((2 : ℤ) ^ s) + 864) * hG
+      · simp [pow_add]; linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20874240*G*((2 : ℤ) ^ s)^2 - 612864*G*((2 : ℤ) ^ s) - 4636224*G - 113246208*((2 : ℤ) ^ s)^5 - 445317120*((2 : ℤ) ^ s)^4 - 688128*((2 : ℤ) ^ s)^3 - 50031360*((2 : ℤ) ^ s)^2 - 62832*((2 : ℤ) ^ s) - 5474736) * hG
+      · simp [pow_add]; linear_combination (248832*G^2*((2 : ℤ) ^ s) + 981504*G^2 + 5308416*G*((2 : ℤ) ^ s)^3 + 20874240*G*((2 : ℤ) ^ s)^2 + 615168*G*((2 : ℤ) ^ s) + 4653504*G + 113246208*((2 : ℤ) ^ s)^5 + 445317120*((2 : ℤ) ^ s)^4 + 737280*((2 : ℤ) ^ s)^3 + 50400000*((2 : ℤ) ^ s)^2 + 59184*((2 : ℤ) ^ s) + 5515776) * hG
 theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uvM s i F G)) ((uvM s i F G) * (uM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -782,17 +782,17 @@ theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*((2 : ℤ) ^ s)) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 + 5184*G*((2 : ℤ) ^ s) + 22464*G + 1572864*((2 : ℤ) ^ s)^4 + 110592*((2 : ℤ) ^ s)^3 + 306048*((2 : ℤ) ^ s)^2 + 9576*((2 : ℤ) ^ s) + 33858) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-36864*G^2*((2 : ℤ) ^ s)^2 + 57600*G^2*((2 : ℤ) ^ s) + 127872*G^2 - 786432*G*((2 : ℤ) ^ s)^4 + 1238016*G*((2 : ℤ) ^ s)^3 + 2576640*G*((2 : ℤ) ^ s)^2 + 179520*G*((2 : ℤ) ^ s) + 597888*G - 16777216*((2 : ℤ) ^ s)^6 + 26411008*((2 : ℤ) ^ s)^5 + 56803328*((2 : ℤ) ^ s)^4 + 962944*((2 : ℤ) ^ s)^3 + 6257504*((2 : ℤ) ^ s)^2 + 104740*((2 : ℤ) ^ s) + 698706) * hG
+      · simp [pow_add]; linear_combination (-1152*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 + 5184*G*((2 : ℤ) ^ s) + 22464*G + 1572864*((2 : ℤ) ^ s)^4 + 110592*((2 : ℤ) ^ s)^3 + 306048*((2 : ℤ) ^ s)^2 + 9576*((2 : ℤ) ^ s) + 33858) * hG
+      · simp [pow_add]; linear_combination (-36864*G^2*((2 : ℤ) ^ s)^2 + 57600*G^2*((2 : ℤ) ^ s) + 127872*G^2 - 786432*G*((2 : ℤ) ^ s)^4 + 1238016*G*((2 : ℤ) ^ s)^3 + 2576640*G*((2 : ℤ) ^ s)^2 + 179520*G*((2 : ℤ) ^ s) + 597888*G - 16777216*((2 : ℤ) ^ s)^6 + 26411008*((2 : ℤ) ^ s)^5 + 56803328*((2 : ℤ) ^ s)^4 + 962944*((2 : ℤ) ^ s)^3 + 6257504*((2 : ℤ) ^ s)^2 + 104740*((2 : ℤ) ^ s) + 698706) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2304*G*((2 : ℤ) ^ s) + 17280*G + 49152*((2 : ℤ) ^ s)^3 + 368640*((2 : ℤ) ^ s)^2 + 2112*((2 : ℤ) ^ s) + 41904) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s) + 1728*G - 49152*((2 : ℤ) ^ s)^3 + 35712*((2 : ℤ) ^ s)^2 - 2976*((2 : ℤ) ^ s) + 4968) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (2304*G*((2 : ℤ) ^ s) + 17280*G + 49152*((2 : ℤ) ^ s)^3 + 368640*((2 : ℤ) ^ s)^2 + 2112*((2 : ℤ) ^ s) + 41904) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s) + 1728*G - 49152*((2 : ℤ) ^ s)^3 + 35712*((2 : ℤ) ^ s)^2 - 2976*((2 : ℤ) ^ s) + 4968) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2304*G*((2 : ℤ) ^ s) - 1728*G + 49152*((2 : ℤ) ^ s)^3 - 36864*((2 : ℤ) ^ s)^2 + 2976*((2 : ℤ) ^ s) - 4968) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s) - 17280*G - 49152*((2 : ℤ) ^ s)^3 - 368640*((2 : ℤ) ^ s)^2 - 960*((2 : ℤ) ^ s) - 41904) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (2304*G*((2 : ℤ) ^ s) - 1728*G + 49152*((2 : ℤ) ^ s)^3 - 36864*((2 : ℤ) ^ s)^2 + 2976*((2 : ℤ) ^ s) - 4968) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s) - 17280*G - 49152*((2 : ℤ) ^ s)^3 - 368640*((2 : ℤ) ^ s)^2 - 960*((2 : ℤ) ^ s) - 41904) * hG
 theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * (uM s i F G))) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -804,17 +804,17 @@ theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s)^2 + 1152*G*((2 : ℤ) ^ s) - 49152*((2 : ℤ) ^ s)^4 + 24576*((2 : ℤ) ^ s)^3 + 1056*((2 : ℤ) ^ s)^2 + 2352*((2 : ℤ) ^ s) - 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 502272*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 5210112*G*((2 : ℤ) ^ s)^3 + 5966592*G*((2 : ℤ) ^ s)^2 + 729696*G*((2 : ℤ) ^ s) + 197856*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 6291456*((2 : ℤ) ^ s)^5 - 78233600*((2 : ℤ) ^ s)^4 + 3409920*((2 : ℤ) ^ s)^3 - 9534944*((2 : ℤ) ^ s)^2 + 374900*((2 : ℤ) ^ s) - 1050624) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-18432*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) + 3456*G^2 - 393216*G*((2 : ℤ) ^ s)^4 + 201216*G*((2 : ℤ) ^ s)^3 + 29184*G*((2 : ℤ) ^ s)^2 + 28608*G*((2 : ℤ) ^ s) + 1728*G - 8388608*((2 : ℤ) ^ s)^6 + 4292608*((2 : ℤ) ^ s)^5 + 1540096*((2 : ℤ) ^ s)^4 + 149440*((2 : ℤ) ^ s)^3 - 131744*((2 : ℤ) ^ s)^2 + 17128*((2 : ℤ) ^ s) - 15390) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s)^2 + 1152*G*((2 : ℤ) ^ s) - 49152*((2 : ℤ) ^ s)^4 + 24576*((2 : ℤ) ^ s)^3 + 1056*((2 : ℤ) ^ s)^2 + 2352*((2 : ℤ) ^ s) - 1728) * hG
+      · simp [pow_add]; linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 502272*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 5210112*G*((2 : ℤ) ^ s)^3 + 5966592*G*((2 : ℤ) ^ s)^2 + 729696*G*((2 : ℤ) ^ s) + 197856*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 6291456*((2 : ℤ) ^ s)^5 - 78233600*((2 : ℤ) ^ s)^4 + 3409920*((2 : ℤ) ^ s)^3 - 9534944*((2 : ℤ) ^ s)^2 + 374900*((2 : ℤ) ^ s) - 1050624) * hG
+      · simp [pow_add]; linear_combination (-18432*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) + 3456*G^2 - 393216*G*((2 : ℤ) ^ s)^4 + 201216*G*((2 : ℤ) ^ s)^3 + 29184*G*((2 : ℤ) ^ s)^2 + 28608*G*((2 : ℤ) ^ s) + 1728*G - 8388608*((2 : ℤ) ^ s)^6 + 4292608*((2 : ℤ) ^ s)^5 + 1540096*((2 : ℤ) ^ s)^4 + 149440*((2 : ℤ) ^ s)^3 - 131744*((2 : ℤ) ^ s)^2 + 17128*((2 : ℤ) ^ s) - 15390) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (8064*((2 : ℤ) ^ s)^2 - 576*((2 : ℤ) ^ s) - 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 626688*G*((2 : ℤ) ^ s) - 4413312*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 - 5111808*((2 : ℤ) ^ s)^3 - 48062208*((2 : ℤ) ^ s)^2 - 557472*((2 : ℤ) ^ s) - 5257224) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (64512*G*((2 : ℤ) ^ s)^2 - 4608*G*((2 : ℤ) ^ s) - 32832*G + 1376256*((2 : ℤ) ^ s)^4 - 109824*((2 : ℤ) ^ s)^3 - 549120*((2 : ℤ) ^ s)^2 - 7968*((2 : ℤ) ^ s) - 77976) * hG
+      · simp [pow_add]; linear_combination (8064*((2 : ℤ) ^ s)^2 - 576*((2 : ℤ) ^ s) - 1728) * hG
+      · simp [pow_add]; linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 626688*G*((2 : ℤ) ^ s) - 4413312*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 - 5111808*((2 : ℤ) ^ s)^3 - 48062208*((2 : ℤ) ^ s)^2 - 557472*((2 : ℤ) ^ s) - 5257224) * hG
+      · simp [pow_add]; linear_combination (64512*G*((2 : ℤ) ^ s)^2 - 4608*G*((2 : ℤ) ^ s) - 32832*G + 1376256*((2 : ℤ) ^ s)^4 - 109824*((2 : ℤ) ^ s)^3 - 549120*((2 : ℤ) ^ s)^2 - 7968*((2 : ℤ) ^ s) - 77976) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (10368*((2 : ℤ) ^ s)^2 - 3456*((2 : ℤ) ^ s) - 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20874240*G*((2 : ℤ) ^ s)^2 - 654336*G*((2 : ℤ) ^ s) - 4643136*G - 113246208*((2 : ℤ) ^ s)^5 - 445317120*((2 : ℤ) ^ s)^4 - 1572864*((2 : ℤ) ^ s)^3 - 50163840*((2 : ℤ) ^ s)^2 - 157296*((2 : ℤ) ^ s) - 5491152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (82944*G*((2 : ℤ) ^ s)^2 - 29952*G*((2 : ℤ) ^ s) - 24192*G + 1769472*((2 : ℤ) ^ s)^4 - 668928*((2 : ℤ) ^ s)^3 - 312192*((2 : ℤ) ^ s)^2 - 64320*((2 : ℤ) ^ s) - 57456) * hG
+      · simp [pow_add]; linear_combination (10368*((2 : ℤ) ^ s)^2 - 3456*((2 : ℤ) ^ s) - 864) * hG
+      · simp [pow_add]; linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20874240*G*((2 : ℤ) ^ s)^2 - 654336*G*((2 : ℤ) ^ s) - 4643136*G - 113246208*((2 : ℤ) ^ s)^5 - 445317120*((2 : ℤ) ^ s)^4 - 1572864*((2 : ℤ) ^ s)^3 - 50163840*((2 : ℤ) ^ s)^2 - 157296*((2 : ℤ) ^ s) - 5491152) * hG
+      · simp [pow_add]; linear_combination (82944*G*((2 : ℤ) ^ s)^2 - 29952*G*((2 : ℤ) ^ s) - 24192*G + 1769472*((2 : ℤ) ^ s)^4 - 668928*((2 : ℤ) ^ s)^3 - 312192*((2 : ℤ) ^ s)^2 - 64320*((2 : ℤ) ^ s) - 57456) * hG
 
 @[expose] def action {s : ℕ} {i F G : ℤ} (h : Data s i F G) : SigmaFourAction (k s) :=
   SigmaFourAction.ofMatEq (uvM s i F G) (tM s i F G) (uM s i F G) ρM
@@ -847,7 +847,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 
 @[expose] def ρM : IntMat := ofCols ![1, 0, 0] ![0, 0, 1] ![-1, -1, -1]
 
-@[expose] def uvA (s : ℕ) (i F G : ℤ) : Fin 3 → ℤ := ![2 * ((2 : ℤ) ^ s) + F * i, -5 * i + 8 * ((2 : ℤ) ^ s), 2 * i + 4 * ((2 : ℤ) ^ s)]
+@[expose] def uvA (s : ℕ) (i F _G : ℤ) : Fin 3 → ℤ := ![2 * ((2 : ℤ) ^ s) + F * i, -5 * i + 8 * ((2 : ℤ) ^ s), 2 * i + 4 * ((2 : ℤ) ^ s)]
 
 @[expose] def tM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![4 - i, 4, 8 + 8 * ((2 : ℤ) ^ s)] ![2 * ((2 : ℤ) ^ s) + 2 * G * i, -7 * i + 4 * ((2 : ℤ) ^ s), -8 * i + 8 * ((2 : ℤ) ^ s)] (ρM *ᵥ uvA s i F G)
@@ -855,7 +855,7 @@ theorem data (s : ℕ) : Data s (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type1
 @[expose] def uvM (s : ℕ) (i F G : ℤ) : IntMat :=
   ofCols ![-i, 4 + 8 * ((2 : ℤ) ^ s), -4] (uvA s i F G) (ρM *ᵥ (tM s i F G *ᵥ uvA s i F G))
 
-@[expose] def uM (s : ℕ) (i F G : ℤ) : IntMat := uMat ![-1 + 2 * ((2 : ℤ) ^ s), 0, 0] (-2 * F + 2 * ((2 : ℤ) ^ s))
+@[expose] def uM (s : ℕ) (_i F _G : ℤ) : IntMat := uMat ![-1 + 2 * ((2 : ℤ) ^ s), 0, 0] (-2 * F + 2 * ((2 : ℤ) ^ s))
 
 attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
   Fin.sum_univ_three Matrix.mulVec dotProduct Matrix.one_apply k
@@ -865,28 +865,28 @@ theorem compat_uv {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uvM
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 19, 128*G^2 + 592*G + 8*((2 : ℤ) ^ s) + 684, -1536*G^3 - 13184*G^2 + 2048*G*((2 : ℤ) ^ s) - 36568*G - 352*((2 : ℤ) ^ s)^2 + 4832*((2 : ℤ) ^ s) - 33060; 2*((2 : ℤ) ^ s) + 1, -40*G + 8*((2 : ℤ) ^ s) - 95, -256*G^2*((2 : ℤ) ^ s) - 1920*G^2 - 192*G*((2 : ℤ) ^ s) - 9088*G - 96*((2 : ℤ) ^ s)^2 + 972*((2 : ℤ) ^ s) - 10754; -1, 16*G + 4*((2 : ℤ) ^ s) + 38, -256*G^2*((2 : ℤ) ^ s) + 192*G^2 - 928*G*((2 : ℤ) ^ s) + 928*G - 80*((2 : ℤ) ^ s)^2 - 768*((2 : ℤ) ^ s) + 1121]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (tM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![-8*G - 15, 64*G^2 + 152*G + 8*((2 : ℤ) ^ s), 128*G^2 + 528*G - 8*((2 : ℤ) ^ s) + 532; 1, -56*G + 4*((2 : ℤ) ^ s) - 133, -16*G - 4*((2 : ℤ) ^ s) - 38; 2*((2 : ℤ) ^ s) + 2, -64*G + 8*((2 : ℤ) ^ s) - 152, -56*G + 4*((2 : ℤ) ^ s) - 133]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) (uM s i F G) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![2*((2 : ℤ) ^ s) - 1, -32*G + 8*((2 : ℤ) ^ s) - 72, 64*G*((2 : ℤ) ^ s) - 32*G - 16*((2 : ℤ) ^ s)^2 + 152*((2 : ℤ) ^ s) - 72; 0, 0, 1; 0, 1, 0]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> ring
 
 theorem compat_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) : Compat (k s) ρM := by
   obtain ⟨hi, hF, hG, hs⟩ := h
   subst hi hF
   refine Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) ?_
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [pow_add] <;> norm_num <;> ring
+  fin_cases r <;> fin_cases c <;> simp [pow_add]; ring
 
 theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uvM s i F G) * (uvM s i F G)) (1) := by
@@ -899,17 +899,17 @@ theorem uv_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (41472*G^2 + 884736*G*((2 : ℤ) ^ s)^2 + 6912*G*((2 : ℤ) ^ s) + 264384*G + 18874368*((2 : ℤ) ^ s)^4 + 147456*((2 : ℤ) ^ s)^3 + 3575808*((2 : ℤ) ^ s)^2 - 39456*((2 : ℤ) ^ s) + 394632) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^3 - 3538944*G^2*((2 : ℤ) ^ s)^2 - 41472*G^2*((2 : ℤ) ^ s) - 1472256*G^2 - 75497472*G*((2 : ℤ) ^ s)^4 - 884736*G*((2 : ℤ) ^ s)^3 - 23150592*G*((2 : ℤ) ^ s)^2 - 31104*G*((2 : ℤ) ^ s) - 4186080*G - 1610612736*((2 : ℤ) ^ s)^6 - 18874368*((2 : ℤ) ^ s)^5 - 317718528*((2 : ℤ) ^ s)^4 + 1400832*((2 : ℤ) ^ s)^3 - 35267712*((2 : ℤ) ^ s)^2 + 161784*((2 : ℤ) ^ s) - 3859812) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2654208*G^4*((2 : ℤ) ^ s) - 1990656*G^4 + 56623104*G^3*((2 : ℤ) ^ s)^3 - 42467328*G^3*((2 : ℤ) ^ s)^2 + 25989120*G^3*((2 : ℤ) ^ s) - 23639040*G^3 + 1207959552*G^2*((2 : ℤ) ^ s)^5 - 905969664*G^2*((2 : ℤ) ^ s)^4 + 422313984*G^2*((2 : ℤ) ^ s)^3 - 407918592*G^2*((2 : ℤ) ^ s)^2 + 94560768*G^2*((2 : ℤ) ^ s) - 101056896*G^2 + 25769803776*G*((2 : ℤ) ^ s)^7 - 19327352832*G*((2 : ℤ) ^ s)^6 + 6190792704*G*((2 : ℤ) ^ s)^5 - 6588334080*G*((2 : ℤ) ^ s)^4 + 1032505344*G*((2 : ℤ) ^ s)^3 - 1218682368*G*((2 : ℤ) ^ s)^2 + 151660992*G*((2 : ℤ) ^ s) - 186674544*G + 549755813888*((2 : ℤ) ^ s)^9 - 412316860416*((2 : ℤ) ^ s)^8 + 71940702208*((2 : ℤ) ^ s)^7 - 95453970432*((2 : ℤ) ^ s)^6 + 7581597696*((2 : ℤ) ^ s)^5 - 10625777664*((2 : ℤ) ^ s)^4 + 827354368*((2 : ℤ) ^ s)^3 - 1162515744*((2 : ℤ) ^ s)^2 + 90528368*((2 : ℤ) ^ s) - 126672012) * hG
+      · simp [pow_add]; linear_combination (41472*G^2 + 884736*G*((2 : ℤ) ^ s)^2 + 6912*G*((2 : ℤ) ^ s) + 264384*G + 18874368*((2 : ℤ) ^ s)^4 + 147456*((2 : ℤ) ^ s)^3 + 3575808*((2 : ℤ) ^ s)^2 - 39456*((2 : ℤ) ^ s) + 394632) * hG
+      · simp [pow_add]; linear_combination (-165888*G^3 - 3538944*G^2*((2 : ℤ) ^ s)^2 - 41472*G^2*((2 : ℤ) ^ s) - 1472256*G^2 - 75497472*G*((2 : ℤ) ^ s)^4 - 884736*G*((2 : ℤ) ^ s)^3 - 23150592*G*((2 : ℤ) ^ s)^2 - 31104*G*((2 : ℤ) ^ s) - 4186080*G - 1610612736*((2 : ℤ) ^ s)^6 - 18874368*((2 : ℤ) ^ s)^5 - 317718528*((2 : ℤ) ^ s)^4 + 1400832*((2 : ℤ) ^ s)^3 - 35267712*((2 : ℤ) ^ s)^2 + 161784*((2 : ℤ) ^ s) - 3859812) * hG
+      · simp [pow_add]; linear_combination (2654208*G^4*((2 : ℤ) ^ s) - 1990656*G^4 + 56623104*G^3*((2 : ℤ) ^ s)^3 - 42467328*G^3*((2 : ℤ) ^ s)^2 + 25989120*G^3*((2 : ℤ) ^ s) - 23639040*G^3 + 1207959552*G^2*((2 : ℤ) ^ s)^5 - 905969664*G^2*((2 : ℤ) ^ s)^4 + 422313984*G^2*((2 : ℤ) ^ s)^3 - 407918592*G^2*((2 : ℤ) ^ s)^2 + 94560768*G^2*((2 : ℤ) ^ s) - 101056896*G^2 + 25769803776*G*((2 : ℤ) ^ s)^7 - 19327352832*G*((2 : ℤ) ^ s)^6 + 6190792704*G*((2 : ℤ) ^ s)^5 - 6588334080*G*((2 : ℤ) ^ s)^4 + 1032505344*G*((2 : ℤ) ^ s)^3 - 1218682368*G*((2 : ℤ) ^ s)^2 + 151660992*G*((2 : ℤ) ^ s) - 186674544*G + 549755813888*((2 : ℤ) ^ s)^9 - 412316860416*((2 : ℤ) ^ s)^8 + 71940702208*((2 : ℤ) ^ s)^7 - 95453970432*((2 : ℤ) ^ s)^6 + 7581597696*((2 : ℤ) ^ s)^5 - 10625777664*((2 : ℤ) ^ s)^4 + 827354368*((2 : ℤ) ^ s)^3 - 1162515744*((2 : ℤ) ^ s)^2 + 90528368*((2 : ℤ) ^ s) - 126672012) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G*((2 : ℤ) ^ s) + 207360*G + 589824*((2 : ℤ) ^ s)^3 + 4423680*((2 : ℤ) ^ s)^2 - 54144*((2 : ℤ) ^ s) + 492480) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^2*((2 : ℤ) ^ s) - 829440*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 - 17722368*G*((2 : ℤ) ^ s)^2 - 288000*G*((2 : ℤ) ^ s) - 3913920*G - 50331648*((2 : ℤ) ^ s)^5 - 378077184*((2 : ℤ) ^ s)^4 - 638976*((2 : ℤ) ^ s)^3 - 42206976*((2 : ℤ) ^ s)^2 - 71904*((2 : ℤ) ^ s) - 4616352) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 + 11943936*G^3*((2 : ℤ) ^ s) - 9953280*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 + 254803968*G^2*((2 : ℤ) ^ s)^3 - 208723968*G^2*((2 : ℤ) ^ s)^2 + 75838464*G^2*((2 : ℤ) ^ s) - 69963264*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 + 5435817984*G*((2 : ℤ) ^ s)^5 - 4540858368*G*((2 : ℤ) ^ s)^4 + 1024561152*G*((2 : ℤ) ^ s)^3 - 998532096*G*((2 : ℤ) ^ s)^2 + 157114368*G*((2 : ℤ) ^ s) - 163938816*G + 17179869184*((2 : ℤ) ^ s)^8 + 115964116992*((2 : ℤ) ^ s)^7 - 98750693376*((2 : ℤ) ^ s)^6 + 9173729280*((2 : ℤ) ^ s)^5 - 10706681856*((2 : ℤ) ^ s)^4 + 963950592*((2 : ℤ) ^ s)^3 - 1170428800*((2 : ℤ) ^ s)^2 + 105404304*((2 : ℤ) ^ s) - 128057112) * hG
+      · simp [pow_add]; linear_combination (27648*G*((2 : ℤ) ^ s) + 207360*G + 589824*((2 : ℤ) ^ s)^3 + 4423680*((2 : ℤ) ^ s)^2 - 54144*((2 : ℤ) ^ s) + 492480) * hG
+      · simp [pow_add]; linear_combination (-110592*G^2*((2 : ℤ) ^ s) - 829440*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 - 17722368*G*((2 : ℤ) ^ s)^2 - 288000*G*((2 : ℤ) ^ s) - 3913920*G - 50331648*((2 : ℤ) ^ s)^5 - 378077184*((2 : ℤ) ^ s)^4 - 638976*((2 : ℤ) ^ s)^3 - 42206976*((2 : ℤ) ^ s)^2 - 71904*((2 : ℤ) ^ s) - 4616352) * hG
+      · simp [pow_add]; linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 + 11943936*G^3*((2 : ℤ) ^ s) - 9953280*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 + 254803968*G^2*((2 : ℤ) ^ s)^3 - 208723968*G^2*((2 : ℤ) ^ s)^2 + 75838464*G^2*((2 : ℤ) ^ s) - 69963264*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 + 5435817984*G*((2 : ℤ) ^ s)^5 - 4540858368*G*((2 : ℤ) ^ s)^4 + 1024561152*G*((2 : ℤ) ^ s)^3 - 998532096*G*((2 : ℤ) ^ s)^2 + 157114368*G*((2 : ℤ) ^ s) - 163938816*G + 17179869184*((2 : ℤ) ^ s)^8 + 115964116992*((2 : ℤ) ^ s)^7 - 98750693376*((2 : ℤ) ^ s)^6 + 9173729280*((2 : ℤ) ^ s)^5 - 10706681856*((2 : ℤ) ^ s)^4 + 963950592*((2 : ℤ) ^ s)^3 - 1170428800*((2 : ℤ) ^ s)^2 + 105404304*((2 : ℤ) ^ s) - 128057112) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G*((2 : ℤ) ^ s) - 20736*G + 589824*((2 : ℤ) ^ s)^3 - 442368*((2 : ℤ) ^ s)^2 + 39168*((2 : ℤ) ^ s) - 49248) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^2*((2 : ℤ) ^ s) + 82944*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 + 1741824*G*((2 : ℤ) ^ s)^2 - 384768*G*((2 : ℤ) ^ s) + 383616*G - 50331648*((2 : ℤ) ^ s)^5 + 37158912*((2 : ℤ) ^ s)^4 - 2703360*((2 : ℤ) ^ s)^3 + 3984768*((2 : ℤ) ^ s)^2 - 286752*((2 : ℤ) ^ s) + 443232) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 - 2654208*G^3*((2 : ℤ) ^ s) + 995328*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 - 56623104*G^2*((2 : ℤ) ^ s)^3 + 29933568*G^2*((2 : ℤ) ^ s)^2 - 16367616*G^2*((2 : ℤ) ^ s) + 6511104*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 - 1207959552*G*((2 : ℤ) ^ s)^5 + 550502400*G*((2 : ℤ) ^ s)^4 - 215949312*G*((2 : ℤ) ^ s)^3 + 102070272*G*((2 : ℤ) ^ s)^2 - 32325120*G*((2 : ℤ) ^ s) + 14141952*G + 17179869184*((2 : ℤ) ^ s)^8 - 25769803776*((2 : ℤ) ^ s)^7 + 9865003008*((2 : ℤ) ^ s)^6 - 1788346368*((2 : ℤ) ^ s)^5 + 892993536*((2 : ℤ) ^ s)^4 - 181711872*((2 : ℤ) ^ s)^3 + 97945856*((2 : ℤ) ^ s)^2 - 20050176*((2 : ℤ) ^ s) + 10194984) * hG
+      · simp [pow_add]; linear_combination (27648*G*((2 : ℤ) ^ s) - 20736*G + 589824*((2 : ℤ) ^ s)^3 - 442368*((2 : ℤ) ^ s)^2 + 39168*((2 : ℤ) ^ s) - 49248) * hG
+      · simp [pow_add]; linear_combination (-110592*G^2*((2 : ℤ) ^ s) + 82944*G^2 - 2359296*G*((2 : ℤ) ^ s)^3 + 1741824*G*((2 : ℤ) ^ s)^2 - 384768*G*((2 : ℤ) ^ s) + 383616*G - 50331648*((2 : ℤ) ^ s)^5 + 37158912*((2 : ℤ) ^ s)^4 - 2703360*((2 : ℤ) ^ s)^3 + 3984768*((2 : ℤ) ^ s)^2 - 286752*((2 : ℤ) ^ s) + 443232) * hG
+      · simp [pow_add]; linear_combination (1769472*G^3*((2 : ℤ) ^ s)^2 - 2654208*G^3*((2 : ℤ) ^ s) + 995328*G^3 + 37748736*G^2*((2 : ℤ) ^ s)^4 - 56623104*G^2*((2 : ℤ) ^ s)^3 + 29933568*G^2*((2 : ℤ) ^ s)^2 - 16367616*G^2*((2 : ℤ) ^ s) + 6511104*G^2 + 805306368*G*((2 : ℤ) ^ s)^6 - 1207959552*G*((2 : ℤ) ^ s)^5 + 550502400*G*((2 : ℤ) ^ s)^4 - 215949312*G*((2 : ℤ) ^ s)^3 + 102070272*G*((2 : ℤ) ^ s)^2 - 32325120*G*((2 : ℤ) ^ s) + 14141952*G + 17179869184*((2 : ℤ) ^ s)^8 - 25769803776*((2 : ℤ) ^ s)^7 + 9865003008*((2 : ℤ) ^ s)^6 - 1788346368*((2 : ℤ) ^ s)^5 + 892993536*((2 : ℤ) ^ s)^4 - 181711872*((2 : ℤ) ^ s)^3 + 97945856*((2 : ℤ) ^ s)^2 - 20050176*((2 : ℤ) ^ s) + 10194984) * hG
 theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (tM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -921,17 +921,17 @@ theorem t_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) + 1152*G + 16384*((2 : ℤ) ^ s)^3 + 24576*((2 : ℤ) ^ s)^2 + 1376*((2 : ℤ) ^ s) + 1656) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 960*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 20480*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 + 1384*((2 : ℤ) ^ s) - 25992) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 + 192*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 + 4096*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 968*((2 : ℤ) ^ s) - 25308) * hG
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) + 1152*G + 16384*((2 : ℤ) ^ s)^3 + 24576*((2 : ℤ) ^ s)^2 + 1376*((2 : ℤ) ^ s) + 1656) * hG
+      · simp [pow_add]; linear_combination (-9216*G^2 - 196608*G*((2 : ℤ) ^ s)^2 + 960*G*((2 : ℤ) ^ s) - 32832*G - 4194304*((2 : ℤ) ^ s)^4 + 20480*((2 : ℤ) ^ s)^3 - 241664*((2 : ℤ) ^ s)^2 + 1384*((2 : ℤ) ^ s) - 25992) * hG
+      · simp [pow_add]; linear_combination (-6912*G^2 - 147456*G*((2 : ℤ) ^ s)^2 + 192*G*((2 : ℤ) ^ s) - 27072*G - 3145728*((2 : ℤ) ^ s)^4 + 4096*((2 : ℤ) ^ s)^3 - 233472*((2 : ℤ) ^ s)^2 + 968*((2 : ℤ) ^ s) - 25308) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-384*((2 : ℤ) ^ s) - 1152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 - 960*((2 : ℤ) ^ s) + 30168) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 + 960*((2 : ℤ) ^ s) + 13680) * hG
+      · simp [pow_add]; linear_combination (-384*((2 : ℤ) ^ s) - 1152) * hG
+      · simp [pow_add]; linear_combination (12672*G + 270336*((2 : ℤ) ^ s)^2 - 960*((2 : ℤ) ^ s) + 30168) * hG
+      · simp [pow_add]; linear_combination (5760*G + 122880*((2 : ℤ) ^ s)^2 + 960*((2 : ℤ) ^ s) + 13680) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1536*((2 : ℤ) ^ s) - 2304) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (384*G*((2 : ℤ) ^ s) + 21888*G + 8192*((2 : ℤ) ^ s)^3 + 466944*((2 : ℤ) ^ s)^2 - 4208*((2 : ℤ) ^ s) + 51984) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) + 13248*G + 16384*((2 : ℤ) ^ s)^3 + 282624*((2 : ℤ) ^ s)^2 + 416*((2 : ℤ) ^ s) + 31536) * hG
+      · simp [pow_add]; linear_combination (-1536*((2 : ℤ) ^ s) - 2304) * hG
+      · simp [pow_add]; linear_combination (384*G*((2 : ℤ) ^ s) + 21888*G + 8192*((2 : ℤ) ^ s)^3 + 466944*((2 : ℤ) ^ s)^2 - 4208*((2 : ℤ) ^ s) + 51984) * hG
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) + 13248*G + 16384*((2 : ℤ) ^ s)^3 + 282624*((2 : ℤ) ^ s)^2 + 416*((2 : ℤ) ^ s) + 31536) * hG
 theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((tM s i F G) * (uvM s i F G)) ((uvM s i F G) * (tM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -943,17 +943,17 @@ theorem uv_comm_t {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (27648*G^2*((2 : ℤ) ^ s) + 27648*G^2 + 589824*G*((2 : ℤ) ^ s)^3 + 589824*G*((2 : ℤ) ^ s)^2 + 173952*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^5 + 12582912*((2 : ℤ) ^ s)^4 + 2334720*((2 : ℤ) ^ s)^3 + 2236416*((2 : ℤ) ^ s)^2 + 218208*((2 : ℤ) ^ s) + 250344) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 + 27648*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 + 589824*G*((2 : ℤ) ^ s)^3 - 29392896*G*((2 : ℤ) ^ s)^2 + 468864*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 + 12582912*((2 : ℤ) ^ s)^5 - 392167424*((2 : ℤ) ^ s)^4 + 8626176*((2 : ℤ) ^ s)^3 - 43496960*((2 : ℤ) ^ s)^2 + 962592*((2 : ℤ) ^ s) - 4748328) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 387072*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 - 414720*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 176160768*G*((2 : ℤ) ^ s)^4 - 3342336*G*((2 : ℤ) ^ s)^3 - 31789056*G*((2 : ℤ) ^ s)^2 - 285120*G*((2 : ℤ) ^ s) - 4823712*G - 1073741824*((2 : ℤ) ^ s)^7 - 3758096384*((2 : ℤ) ^ s)^6 + 46137344*((2 : ℤ) ^ s)^5 - 267124736*((2 : ℤ) ^ s)^4 + 1716224*((2 : ℤ) ^ s)^3 - 28902464*((2 : ℤ) ^ s)^2 + 194400*((2 : ℤ) ^ s) - 3151872) * hG
+      · simp [pow_add]; linear_combination (27648*G^2*((2 : ℤ) ^ s) + 27648*G^2 + 589824*G*((2 : ℤ) ^ s)^3 + 589824*G*((2 : ℤ) ^ s)^2 + 173952*G*((2 : ℤ) ^ s) + 171072*G + 12582912*((2 : ℤ) ^ s)^5 + 12582912*((2 : ℤ) ^ s)^4 + 2334720*((2 : ℤ) ^ s)^3 + 2236416*((2 : ℤ) ^ s)^2 + 218208*((2 : ℤ) ^ s) + 250344) * hG
+      · simp [pow_add]; linear_combination (-221184*G^3 - 4718592*G^2*((2 : ℤ) ^ s)^2 + 27648*G^2*((2 : ℤ) ^ s) - 1893888*G^2 - 100663296*G*((2 : ℤ) ^ s)^4 + 589824*G*((2 : ℤ) ^ s)^3 - 29392896*G*((2 : ℤ) ^ s)^2 + 468864*G*((2 : ℤ) ^ s) - 5249664*G - 2147483648*((2 : ℤ) ^ s)^6 + 12582912*((2 : ℤ) ^ s)^5 - 392167424*((2 : ℤ) ^ s)^4 + 8626176*((2 : ℤ) ^ s)^3 - 43496960*((2 : ℤ) ^ s)^2 + 962592*((2 : ℤ) ^ s) - 4748328) * hG
+      · simp [pow_add]; linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 387072*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 8257536*G^2*((2 : ℤ) ^ s)^2 - 414720*G^2*((2 : ℤ) ^ s) - 2391552*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 176160768*G*((2 : ℤ) ^ s)^4 - 3342336*G*((2 : ℤ) ^ s)^3 - 31789056*G*((2 : ℤ) ^ s)^2 - 285120*G*((2 : ℤ) ^ s) - 4823712*G - 1073741824*((2 : ℤ) ^ s)^7 - 3758096384*((2 : ℤ) ^ s)^6 + 46137344*((2 : ℤ) ^ s)^5 - 267124736*((2 : ℤ) ^ s)^4 + 1716224*((2 : ℤ) ^ s)^3 - 28902464*((2 : ℤ) ^ s)^2 + 194400*((2 : ℤ) ^ s) - 3151872) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 156672*G*((2 : ℤ) ^ s) + 138240*G + 393216*((2 : ℤ) ^ s)^4 + 3342336*((2 : ℤ) ^ s)^3 + 2919936*((2 : ℤ) ^ s)^2 + 299136*((2 : ℤ) ^ s) + 331776) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-147456*G^2*((2 : ℤ) ^ s) - 1105920*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 - 23574528*G*((2 : ℤ) ^ s)^2 + 20352*G*((2 : ℤ) ^ s) - 5282496*G - 67108864*((2 : ℤ) ^ s)^5 - 502923264*((2 : ℤ) ^ s)^4 + 7774208*((2 : ℤ) ^ s)^3 - 57727488*((2 : ℤ) ^ s)^2 + 900176*((2 : ℤ) ^ s) - 6307848) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (36864*G^2*((2 : ℤ) ^ s) - 41472*G^2 + 786432*G*((2 : ℤ) ^ s)^3 - 875520*G*((2 : ℤ) ^ s)^2 + 125952*G*((2 : ℤ) ^ s) - 228096*G + 16777216*((2 : ℤ) ^ s)^5 - 18677760*((2 : ℤ) ^ s)^4 + 851968*((2 : ℤ) ^ s)^3 - 2778240*((2 : ℤ) ^ s)^2 + 109312*((2 : ℤ) ^ s) - 307800) * hG
+      · simp [pow_add]; linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 156672*G*((2 : ℤ) ^ s) + 138240*G + 393216*((2 : ℤ) ^ s)^4 + 3342336*((2 : ℤ) ^ s)^3 + 2919936*((2 : ℤ) ^ s)^2 + 299136*((2 : ℤ) ^ s) + 331776) * hG
+      · simp [pow_add]; linear_combination (-147456*G^2*((2 : ℤ) ^ s) - 1105920*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 - 23574528*G*((2 : ℤ) ^ s)^2 + 20352*G*((2 : ℤ) ^ s) - 5282496*G - 67108864*((2 : ℤ) ^ s)^5 - 502923264*((2 : ℤ) ^ s)^4 + 7774208*((2 : ℤ) ^ s)^3 - 57727488*((2 : ℤ) ^ s)^2 + 900176*((2 : ℤ) ^ s) - 6307848) * hG
+      · simp [pow_add]; linear_combination (36864*G^2*((2 : ℤ) ^ s) - 41472*G^2 + 786432*G*((2 : ℤ) ^ s)^3 - 875520*G*((2 : ℤ) ^ s)^2 + 125952*G*((2 : ℤ) ^ s) - 228096*G + 16777216*((2 : ℤ) ^ s)^5 - 18677760*((2 : ℤ) ^ s)^4 + 851968*((2 : ℤ) ^ s)^3 - 2778240*((2 : ℤ) ^ s)^2 + 109312*((2 : ℤ) ^ s) - 307800) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 4608*G*((2 : ℤ) ^ s) - 13824*G + 393216*((2 : ℤ) ^ s)^4 + 98304*((2 : ℤ) ^ s)^3 - 271104*((2 : ℤ) ^ s)^2 - 15936*((2 : ℤ) ^ s) - 36288) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-147456*G^2*((2 : ℤ) ^ s) + 110592*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 + 2377728*G*((2 : ℤ) ^ s)^2 - 552192*G*((2 : ℤ) ^ s) + 565056*G - 67108864*((2 : ℤ) ^ s)^5 + 50724864*((2 : ℤ) ^ s)^4 - 4440064*((2 : ℤ) ^ s)^3 + 6527232*((2 : ℤ) ^ s)^2 - 487072*((2 : ℤ) ^ s) + 718200) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (119808*G^2*((2 : ℤ) ^ s) + 1078272*G^2 + 2555904*G*((2 : ℤ) ^ s)^3 + 22984704*G*((2 : ℤ) ^ s)^2 - 194304*G*((2 : ℤ) ^ s) + 5111424*G + 54525952*((2 : ℤ) ^ s)^5 + 490340352*((2 : ℤ) ^ s)^4 - 10108928*((2 : ℤ) ^ s)^3 + 55491072*((2 : ℤ) ^ s)^2 - 1118384*((2 : ℤ) ^ s) + 6057504) * hG
+      · simp [pow_add]; linear_combination (18432*G*((2 : ℤ) ^ s)^2 + 4608*G*((2 : ℤ) ^ s) - 13824*G + 393216*((2 : ℤ) ^ s)^4 + 98304*((2 : ℤ) ^ s)^3 - 271104*((2 : ℤ) ^ s)^2 - 15936*((2 : ℤ) ^ s) - 36288) * hG
+      · simp [pow_add]; linear_combination (-147456*G^2*((2 : ℤ) ^ s) + 110592*G^2 - 3145728*G*((2 : ℤ) ^ s)^3 + 2377728*G*((2 : ℤ) ^ s)^2 - 552192*G*((2 : ℤ) ^ s) + 565056*G - 67108864*((2 : ℤ) ^ s)^5 + 50724864*((2 : ℤ) ^ s)^4 - 4440064*((2 : ℤ) ^ s)^3 + 6527232*((2 : ℤ) ^ s)^2 - 487072*((2 : ℤ) ^ s) + 718200) * hG
+      · simp [pow_add]; linear_combination (119808*G^2*((2 : ℤ) ^ s) + 1078272*G^2 + 2555904*G*((2 : ℤ) ^ s)^3 + 22984704*G*((2 : ℤ) ^ s)^2 - 194304*G*((2 : ℤ) ^ s) + 5111424*G + 54525952*((2 : ℤ) ^ s)^5 + 490340352*((2 : ℤ) ^ s)^4 - 10108928*((2 : ℤ) ^ s)^3 + 55491072*((2 : ℤ) ^ s)^2 - 1118384*((2 : ℤ) ^ s) + 6057504) * hG
 theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -965,17 +965,17 @@ theorem rho_cube {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uM s i F G)) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -987,17 +987,17 @@ theorem u_sq {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (32*((2 : ℤ) ^ s)^2 - 32*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (32*((2 : ℤ) ^ s)^2 - 32*((2 : ℤ) ^ s)) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * ((uM s i F G) * (ρM * (uM s i F G)))) (1) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -1009,17 +1009,17 @@ theorem u_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (24 - 32*((2 : ℤ) ^ s)) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (32*((2 : ℤ) ^ s)^2 - 16*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (24 - 32*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (32*((2 : ℤ) ^ s)^2 - 16*((2 : ℤ) ^ s)) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]
 theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (uvM s i F G)) ((tM s i F G) * ρM) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -1031,17 +1031,17 @@ theorem uv_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 + 768*G*((2 : ℤ) ^ s) - 7632*G - 524288*((2 : ℤ) ^ s)^4 + 16384*((2 : ℤ) ^ s)^3 - 105472*((2 : ℤ) ^ s)^2 + 2528*((2 : ℤ) ^ s) - 11916) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-1152*G^2 - 24576*G*((2 : ℤ) ^ s)^2 + 768*G*((2 : ℤ) ^ s) - 7632*G - 524288*((2 : ℤ) ^ s)^4 + 16384*((2 : ℤ) ^ s)^3 - 105472*((2 : ℤ) ^ s)^2 + 2528*((2 : ℤ) ^ s) - 11916) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (768*G*((2 : ℤ) ^ s) - 576*G + 16384*((2 : ℤ) ^ s)^3 - 12288*((2 : ℤ) ^ s)^2 + 992*((2 : ℤ) ^ s) - 1656) * hG
+      · simp [pow_add]
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (768*G*((2 : ℤ) ^ s) - 576*G + 16384*((2 : ℤ) ^ s)^3 - 12288*((2 : ℤ) ^ s)^2 + 992*((2 : ℤ) ^ s) - 1656) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 2208*((2 : ℤ) ^ s) - 15624) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]
+      · simp [pow_add]; linear_combination (-6336*G - 135168*((2 : ℤ) ^ s)^2 + 2208*((2 : ℤ) ^ s) - 15624) * hG
 theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) (ρM * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * ρM)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -1053,17 +1053,17 @@ theorem t_rho {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*G*((2 : ℤ) ^ s) - 24576*((2 : ℤ) ^ s)^3 - 48*((2 : ℤ) ^ s) + 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 428544*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 3637248*G*((2 : ℤ) ^ s)^3 + 5959680*G*((2 : ℤ) ^ s)^2 + 630720*G*((2 : ℤ) ^ s) + 196992*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 39845888*((2 : ℤ) ^ s)^5 - 78381056*((2 : ℤ) ^ s)^4 + 4968448*((2 : ℤ) ^ s)^3 - 9595136*((2 : ℤ) ^ s)^2 + 555480*((2 : ℤ) ^ s) - 1052676) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 193536*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 - 428544*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 88080384*G*((2 : ℤ) ^ s)^4 - 3637248*G*((2 : ℤ) ^ s)^3 - 6033408*G*((2 : ℤ) ^ s)^2 - 627264*G*((2 : ℤ) ^ s) - 200880*G - 1073741824*((2 : ℤ) ^ s)^7 - 1879048192*((2 : ℤ) ^ s)^6 + 39845888*((2 : ℤ) ^ s)^5 + 76808192*((2 : ℤ) ^ s)^4 - 4894720*((2 : ℤ) ^ s)^3 + 9684224*((2 : ℤ) ^ s)^2 - 554472*((2 : ℤ) ^ s) + 1062936) * hG
+      · simp [pow_add]; linear_combination (-1152*G*((2 : ℤ) ^ s) - 24576*((2 : ℤ) ^ s)^3 - 48*((2 : ℤ) ^ s) + 864) * hG
+      · simp [pow_add]; linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 428544*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 3637248*G*((2 : ℤ) ^ s)^3 + 5959680*G*((2 : ℤ) ^ s)^2 + 630720*G*((2 : ℤ) ^ s) + 196992*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 39845888*((2 : ℤ) ^ s)^5 - 78381056*((2 : ℤ) ^ s)^4 + 4968448*((2 : ℤ) ^ s)^3 - 9595136*((2 : ℤ) ^ s)^2 + 555480*((2 : ℤ) ^ s) - 1052676) * hG
+      · simp [pow_add]; linear_combination (-110592*G^3*((2 : ℤ) ^ s) - 193536*G^3 - 2359296*G^2*((2 : ℤ) ^ s)^3 - 4128768*G^2*((2 : ℤ) ^ s)^2 - 428544*G^2*((2 : ℤ) ^ s) - 732672*G^2 - 50331648*G*((2 : ℤ) ^ s)^5 - 88080384*G*((2 : ℤ) ^ s)^4 - 3637248*G*((2 : ℤ) ^ s)^3 - 6033408*G*((2 : ℤ) ^ s)^2 - 627264*G*((2 : ℤ) ^ s) - 200880*G - 1073741824*((2 : ℤ) ^ s)^7 - 1879048192*((2 : ℤ) ^ s)^6 + 39845888*((2 : ℤ) ^ s)^5 + 76808192*((2 : ℤ) ^ s)^4 - 4894720*((2 : ℤ) ^ s)^3 + 9684224*((2 : ℤ) ^ s)^2 - 554472*((2 : ℤ) ^ s) + 1062936) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (4032*((2 : ℤ) ^ s) + 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 161280*G*((2 : ℤ) ^ s) - 4399488*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 + 4816896*((2 : ℤ) ^ s)^3 - 47837568*((2 : ℤ) ^ s)^2 + 550560*((2 : ℤ) ^ s) - 5224392) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (165888*G^2*((2 : ℤ) ^ s) + 926208*G^2 + 3538944*G*((2 : ℤ) ^ s)^3 + 19759104*G*((2 : ℤ) ^ s)^2 + 161280*G*((2 : ℤ) ^ s) + 4418496*G + 75497472*((2 : ℤ) ^ s)^5 + 421527552*((2 : ℤ) ^ s)^4 - 4816896*((2 : ℤ) ^ s)^3 + 48243072*((2 : ℤ) ^ s)^2 - 561216*((2 : ℤ) ^ s) + 5269536) * hG
+      · simp [pow_add]; linear_combination (4032*((2 : ℤ) ^ s) + 1728) * hG
+      · simp [pow_add]; linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 161280*G*((2 : ℤ) ^ s) - 4399488*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 + 4816896*((2 : ℤ) ^ s)^3 - 47837568*((2 : ℤ) ^ s)^2 + 550560*((2 : ℤ) ^ s) - 5224392) * hG
+      · simp [pow_add]; linear_combination (165888*G^2*((2 : ℤ) ^ s) + 926208*G^2 + 3538944*G*((2 : ℤ) ^ s)^3 + 19759104*G*((2 : ℤ) ^ s)^2 + 161280*G*((2 : ℤ) ^ s) + 4418496*G + 75497472*((2 : ℤ) ^ s)^5 + 421527552*((2 : ℤ) ^ s)^4 - 4816896*((2 : ℤ) ^ s)^3 + 48243072*((2 : ℤ) ^ s)^2 - 561216*((2 : ℤ) ^ s) + 5269536) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (5184*((2 : ℤ) ^ s) + 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20911104*G*((2 : ℤ) ^ s)^2 - 285696*G*((2 : ℤ) ^ s) - 4636224*G - 113246208*((2 : ℤ) ^ s)^5 - 446103552*((2 : ℤ) ^ s)^4 + 6291456*((2 : ℤ) ^ s)^3 - 50198784*((2 : ℤ) ^ s)^2 + 708240*((2 : ℤ) ^ s) - 5474736) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (248832*G^2*((2 : ℤ) ^ s) + 981504*G^2 + 5308416*G*((2 : ℤ) ^ s)^3 + 20911104*G*((2 : ℤ) ^ s)^2 + 288000*G*((2 : ℤ) ^ s) + 4653504*G + 113246208*((2 : ℤ) ^ s)^5 + 446103552*((2 : ℤ) ^ s)^4 - 6242304*((2 : ℤ) ^ s)^3 + 50567424*((2 : ℤ) ^ s)^2 - 717072*((2 : ℤ) ^ s) + 5515776) * hG
+      · simp [pow_add]; linear_combination (5184*((2 : ℤ) ^ s) + 864) * hG
+      · simp [pow_add]; linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20911104*G*((2 : ℤ) ^ s)^2 - 285696*G*((2 : ℤ) ^ s) - 4636224*G - 113246208*((2 : ℤ) ^ s)^5 - 446103552*((2 : ℤ) ^ s)^4 + 6291456*((2 : ℤ) ^ s)^3 - 50198784*((2 : ℤ) ^ s)^2 + 708240*((2 : ℤ) ^ s) - 5474736) * hG
+      · simp [pow_add]; linear_combination (248832*G^2*((2 : ℤ) ^ s) + 981504*G^2 + 5308416*G*((2 : ℤ) ^ s)^3 + 20911104*G*((2 : ℤ) ^ s)^2 + 288000*G*((2 : ℤ) ^ s) + 4653504*G + 113246208*((2 : ℤ) ^ s)^5 + 446103552*((2 : ℤ) ^ s)^4 - 6242304*((2 : ℤ) ^ s)^3 + 50567424*((2 : ℤ) ^ s)^2 - 717072*((2 : ℤ) ^ s) + 5515776) * hG
 theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (uvM s i F G)) ((uvM s i F G) * (uM s i F G)) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -1075,17 +1075,17 @@ theorem uv_comm_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-1152*((2 : ℤ) ^ s)) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 + 2880*G*((2 : ℤ) ^ s) + 22464*G + 1572864*((2 : ℤ) ^ s)^4 + 61440*((2 : ℤ) ^ s)^3 + 307200*((2 : ℤ) ^ s)^2 + 840*((2 : ℤ) ^ s) + 33858) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-36864*G^2*((2 : ℤ) ^ s)^2 + 57600*G^2*((2 : ℤ) ^ s) + 127872*G^2 - 786432*G*((2 : ℤ) ^ s)^4 + 1238016*G*((2 : ℤ) ^ s)^3 + 2581248*G*((2 : ℤ) ^ s)^2 + 135744*G*((2 : ℤ) ^ s) + 597888*G - 16777216*((2 : ℤ) ^ s)^6 + 26411008*((2 : ℤ) ^ s)^5 + 56901632*((2 : ℤ) ^ s)^4 + 29056*((2 : ℤ) ^ s)^3 + 6288800*((2 : ℤ) ^ s)^2 + 1540*((2 : ℤ) ^ s) + 698706) * hG
+      · simp [pow_add]; linear_combination (-1152*((2 : ℤ) ^ s)) * hG
+      · simp [pow_add]; linear_combination (3456*G^2 + 73728*G*((2 : ℤ) ^ s)^2 + 2880*G*((2 : ℤ) ^ s) + 22464*G + 1572864*((2 : ℤ) ^ s)^4 + 61440*((2 : ℤ) ^ s)^3 + 307200*((2 : ℤ) ^ s)^2 + 840*((2 : ℤ) ^ s) + 33858) * hG
+      · simp [pow_add]; linear_combination (-36864*G^2*((2 : ℤ) ^ s)^2 + 57600*G^2*((2 : ℤ) ^ s) + 127872*G^2 - 786432*G*((2 : ℤ) ^ s)^4 + 1238016*G*((2 : ℤ) ^ s)^3 + 2581248*G*((2 : ℤ) ^ s)^2 + 135744*G*((2 : ℤ) ^ s) + 597888*G - 16777216*((2 : ℤ) ^ s)^6 + 26411008*((2 : ℤ) ^ s)^5 + 56901632*((2 : ℤ) ^ s)^4 + 29056*((2 : ℤ) ^ s)^3 + 6288800*((2 : ℤ) ^ s)^2 + 1540*((2 : ℤ) ^ s) + 698706) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2304*G*((2 : ℤ) ^ s) + 17280*G + 49152*((2 : ℤ) ^ s)^3 + 368640*((2 : ℤ) ^ s)^2 - 3072*((2 : ℤ) ^ s) + 41904) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s) + 1728*G - 49152*((2 : ℤ) ^ s)^3 + 35712*((2 : ℤ) ^ s)^2 - 2976*((2 : ℤ) ^ s) + 4968) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (2304*G*((2 : ℤ) ^ s) + 17280*G + 49152*((2 : ℤ) ^ s)^3 + 368640*((2 : ℤ) ^ s)^2 - 3072*((2 : ℤ) ^ s) + 41904) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s) + 1728*G - 49152*((2 : ℤ) ^ s)^3 + 35712*((2 : ℤ) ^ s)^2 - 2976*((2 : ℤ) ^ s) + 4968) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (0) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (2304*G*((2 : ℤ) ^ s) - 1728*G + 49152*((2 : ℤ) ^ s)^3 - 36864*((2 : ℤ) ^ s)^2 + 2976*((2 : ℤ) ^ s) - 4968) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s) - 17280*G - 49152*((2 : ℤ) ^ s)^3 - 368640*((2 : ℤ) ^ s)^2 + 4224*((2 : ℤ) ^ s) - 41904) * hG
+      · simp [pow_add]; linear_combination (0) * hG
+      · simp [pow_add]; linear_combination (2304*G*((2 : ℤ) ^ s) - 1728*G + 49152*((2 : ℤ) ^ s)^3 - 36864*((2 : ℤ) ^ s)^2 + 2976*((2 : ℤ) ^ s) - 4968) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s) - 17280*G - 49152*((2 : ℤ) ^ s)^3 - 368640*((2 : ℤ) ^ s)^2 + 4224*((2 : ℤ) ^ s) - 41904) * hG
 theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
     MatEq (k s) ((uM s i F G) * (tM s i F G)) ((tM s i F G) * ((uvM s i F G) * (uM s i F G))) := by
   obtain ⟨hi, hF, hG, hs⟩ := h
@@ -1097,17 +1097,17 @@ theorem t_u {s : ℕ} {i F G : ℤ} (h : Data s i F G) :
   · intro r c
     fin_cases r
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (-2304*G*((2 : ℤ) ^ s)^2 + 1152*G*((2 : ℤ) ^ s) - 49152*((2 : ℤ) ^ s)^4 + 24576*((2 : ℤ) ^ s)^3 + 1056*((2 : ℤ) ^ s)^2 + 2352*((2 : ℤ) ^ s) - 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 437760*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 3833856*G*((2 : ℤ) ^ s)^3 + 5957376*G*((2 : ℤ) ^ s)^2 + 642912*G*((2 : ℤ) ^ s) + 197856*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 35651584*((2 : ℤ) ^ s)^5 - 78430208*((2 : ℤ) ^ s)^4 + 4769792*((2 : ℤ) ^ s)^3 - 9572192*((2 : ℤ) ^ s)^2 + 534340*((2 : ℤ) ^ s) - 1050624) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-18432*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) + 3456*G^2 - 393216*G*((2 : ℤ) ^ s)^4 + 201216*G*((2 : ℤ) ^ s)^3 + 29184*G*((2 : ℤ) ^ s)^2 + 26304*G*((2 : ℤ) ^ s) + 1728*G - 8388608*((2 : ℤ) ^ s)^6 + 4292608*((2 : ℤ) ^ s)^5 + 1540096*((2 : ℤ) ^ s)^4 + 100288*((2 : ℤ) ^ s)^3 - 137504*((2 : ℤ) ^ s)^2 + 17608*((2 : ℤ) ^ s) - 15390) * hG
+      · simp [pow_add]; linear_combination (-2304*G*((2 : ℤ) ^ s)^2 + 1152*G*((2 : ℤ) ^ s) - 49152*((2 : ℤ) ^ s)^4 + 24576*((2 : ℤ) ^ s)^3 + 1056*((2 : ℤ) ^ s)^2 + 2352*((2 : ℤ) ^ s) - 1728) * hG
+      · simp [pow_add]; linear_combination (110592*G^3*((2 : ℤ) ^ s) + 193536*G^3 + 2359296*G^2*((2 : ℤ) ^ s)^3 + 4128768*G^2*((2 : ℤ) ^ s)^2 + 437760*G^2*((2 : ℤ) ^ s) + 729216*G^2 + 50331648*G*((2 : ℤ) ^ s)^5 + 88080384*G*((2 : ℤ) ^ s)^4 + 3833856*G*((2 : ℤ) ^ s)^3 + 5957376*G*((2 : ℤ) ^ s)^2 + 642912*G*((2 : ℤ) ^ s) + 197856*G + 1073741824*((2 : ℤ) ^ s)^7 + 1879048192*((2 : ℤ) ^ s)^6 - 35651584*((2 : ℤ) ^ s)^5 - 78430208*((2 : ℤ) ^ s)^4 + 4769792*((2 : ℤ) ^ s)^3 - 9572192*((2 : ℤ) ^ s)^2 + 534340*((2 : ℤ) ^ s) - 1050624) * hG
+      · simp [pow_add]; linear_combination (-18432*G^2*((2 : ℤ) ^ s)^2 + 9216*G^2*((2 : ℤ) ^ s) + 3456*G^2 - 393216*G*((2 : ℤ) ^ s)^4 + 201216*G*((2 : ℤ) ^ s)^3 + 29184*G*((2 : ℤ) ^ s)^2 + 26304*G*((2 : ℤ) ^ s) + 1728*G - 8388608*((2 : ℤ) ^ s)^6 + 4292608*((2 : ℤ) ^ s)^5 + 1540096*((2 : ℤ) ^ s)^4 + 100288*((2 : ℤ) ^ s)^3 - 137504*((2 : ℤ) ^ s)^2 + 17608*((2 : ℤ) ^ s) - 15390) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (8064*((2 : ℤ) ^ s)^2 - 576*((2 : ℤ) ^ s) - 1728) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 193536*G*((2 : ℤ) ^ s) - 4413312*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 + 4128768*((2 : ℤ) ^ s)^3 - 48122112*((2 : ℤ) ^ s)^2 + 482400*((2 : ℤ) ^ s) - 5257224) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (64512*G*((2 : ℤ) ^ s)^2 - 4608*G*((2 : ℤ) ^ s) - 32832*G + 1376256*((2 : ℤ) ^ s)^4 - 119040*((2 : ℤ) ^ s)^3 - 553728*((2 : ℤ) ^ s)^2 + 1824*((2 : ℤ) ^ s) - 77976) * hG
+      · simp [pow_add]; linear_combination (8064*((2 : ℤ) ^ s)^2 - 576*((2 : ℤ) ^ s) - 1728) * hG
+      · simp [pow_add]; linear_combination (-165888*G^2*((2 : ℤ) ^ s) - 926208*G^2 - 3538944*G*((2 : ℤ) ^ s)^3 - 19759104*G*((2 : ℤ) ^ s)^2 - 193536*G*((2 : ℤ) ^ s) - 4413312*G - 75497472*((2 : ℤ) ^ s)^5 - 421527552*((2 : ℤ) ^ s)^4 + 4128768*((2 : ℤ) ^ s)^3 - 48122112*((2 : ℤ) ^ s)^2 + 482400*((2 : ℤ) ^ s) - 5257224) * hG
+      · simp [pow_add]; linear_combination (64512*G*((2 : ℤ) ^ s)^2 - 4608*G*((2 : ℤ) ^ s) - 32832*G + 1376256*((2 : ℤ) ^ s)^4 - 119040*((2 : ℤ) ^ s)^3 - 553728*((2 : ℤ) ^ s)^2 + 1824*((2 : ℤ) ^ s) - 77976) * hG
     · fin_cases c
-      · simp [pow_add] <;> norm_num <;> linear_combination (10368*((2 : ℤ) ^ s)^2 - 3456*((2 : ℤ) ^ s) - 864) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20911104*G*((2 : ℤ) ^ s)^2 - 327168*G*((2 : ℤ) ^ s) - 4643136*G - 113246208*((2 : ℤ) ^ s)^5 - 446103552*((2 : ℤ) ^ s)^4 + 5406720*((2 : ℤ) ^ s)^3 - 50331264*((2 : ℤ) ^ s)^2 + 616080*((2 : ℤ) ^ s) - 5491152) * hG
-      · simp [pow_add] <;> norm_num <;> linear_combination (82944*G*((2 : ℤ) ^ s)^2 - 29952*G*((2 : ℤ) ^ s) - 24192*G + 1769472*((2 : ℤ) ^ s)^4 - 668928*((2 : ℤ) ^ s)^3 - 316800*((2 : ℤ) ^ s)^2 - 56832*((2 : ℤ) ^ s) - 57456) * hG
+      · simp [pow_add]; linear_combination (10368*((2 : ℤ) ^ s)^2 - 3456*((2 : ℤ) ^ s) - 864) * hG
+      · simp [pow_add]; linear_combination (-248832*G^2*((2 : ℤ) ^ s) - 981504*G^2 - 5308416*G*((2 : ℤ) ^ s)^3 - 20911104*G*((2 : ℤ) ^ s)^2 - 327168*G*((2 : ℤ) ^ s) - 4643136*G - 113246208*((2 : ℤ) ^ s)^5 - 446103552*((2 : ℤ) ^ s)^4 + 5406720*((2 : ℤ) ^ s)^3 - 50331264*((2 : ℤ) ^ s)^2 + 616080*((2 : ℤ) ^ s) - 5491152) * hG
+      · simp [pow_add]; linear_combination (82944*G*((2 : ℤ) ^ s)^2 - 29952*G*((2 : ℤ) ^ s) - 24192*G + 1769472*((2 : ℤ) ^ s)^4 - 668928*((2 : ℤ) ^ s)^3 - 316800*((2 : ℤ) ^ s)^2 - 56832*((2 : ℤ) ^ s) - 57456) * hG
 
 @[expose] def action {s : ℕ} {i F G : ℤ} (h : Data s i F G) : SigmaFourAction (k s) :=
   SigmaFourAction.ofMatEq (uvM s i F G) (tM s i F G) (uM s i F G) ρM

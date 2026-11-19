@@ -102,9 +102,9 @@ noncomputable def autCtx_of_compat {E : Type} [Group E] {M₁ M₂ : Subgroup E}
   classical
   subst hr₁ hr₂
   let θ₁ : ↥P1h →* ↥M₁ := ((Θ.symm.toMonoidHom).comp P1h.subtype).codRestrict M₁ (fun x =>
-    (h1 _).1 (by simpa using x.2))
+    (h1 _).1 (by simp))
   let θ₂ : ↥P2h →* ↥M₂ := ((Θ.symm.toMonoidHom).comp P2h.subtype).codRestrict M₂ (fun x =>
-    (h2 _).1 (by simpa using x.2))
+    (h2 _).1 (by simp))
   have hθ₁ : ∀ x : ↥P1h, ((θ₁ x : ↥M₁) : E) = Θ.symm (x : Ah) := fun x => rfl
   have hθ₂ : ∀ x : ↥P2h, ((θ₂ x : ↥M₂) : E) = Θ.symm (x : Ah) := fun x => rfl
   have hθ₁inj : Function.Injective θ₁ := fun x y hxy =>

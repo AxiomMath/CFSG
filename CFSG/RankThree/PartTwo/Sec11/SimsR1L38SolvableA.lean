@@ -50,7 +50,7 @@ theorem not_dvd_card_ker_of_cover {E J : Type} [Group E] [Finite E] [Group.IsPer
   set S : Subgroup E := pw.range.map π.ker.subtype with hS
   have hSker : S ≤ π.ker := Subgroup.map_subtype_le _
   have hSc : S ≤ Subgroup.center E := hSker.trans hC
-  haveI hSn : S.Normal := Subgroup.normal_of_le_center hSc
+  have hSn : S.Normal := Subgroup.normal_of_le_center hSc
   have hpS : ∀ x ∈ π.ker, x ^ p ∈ S := fun x hx =>
     ⟨pw ⟨x, hx⟩, ⟨⟨x, hx⟩, rfl⟩, rfl⟩
   let η : E ⧸ S →* J := QuotientGroup.lift S π (fun x hx => hSker hx)
@@ -120,7 +120,7 @@ theorem isCyclic_sylow_of_ne_seven {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp7 :
         Nat.factorization_eq_zero_of_not_dvd (by norm_num), zero_add,
         Nat.Prime.factorization_self (by norm_num)]
     rw [hfac, pow_one] at hQ
-    haveI : Fact (Nat.Prime (Nat.card Q)) := ⟨by rw [hQ]; exact hp⟩
+    have : Fact (Nat.Prime (Nat.card Q)) := ⟨by rw [hQ]; exact hp⟩
     exact isCyclic_of_prime_card hQ
   · have hnd : ¬ p ∣ 16482816 := by
       intro hd
@@ -144,7 +144,7 @@ theorem isCyclic_sylow_of_ne_seven {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp7 :
 theorem cover_seven {E : Type} [Group E] [Finite E] [Group.IsPerfect E]
     (π : E →* projSL 3 (GaloisField 2 3)) (hπ : Function.Surjective π)
     (hC : π.ker ≤ Subgroup.center E) (hCp : IsPGroup 7 π.ker) : π.ker = ⊥ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set ε := equivPSL 3 (GaloisField 2 3) with hε
   set φ : E →* PSL(3, GaloisField 2 3) := ε.toMonoidHom.comp π with hφ
   have hφs : Function.Surjective φ := ε.surjective.comp hπ
@@ -171,7 +171,7 @@ theorem cover_seven {E : Type} [Group E] [Finite E] [Group.IsPerfect E]
   have hPSLcard : Nat.card PSL(3, GaloisField 2 3) = 16482816 := by
     rw [← Nat.card_congr ε.toEquiv]
     exact card_projSL_three_eight
-  haveI : Finite PSL(3, GaloisField 2 3) :=
+  have : Finite PSL(3, GaloisField 2 3) :=
     Nat.finite_of_card_ne_zero (by rw [hPSLcard]; norm_num)
   have hDidx : ¬ 7 ∣ D.index := by
     have hmul := D.card_mul_index
@@ -202,7 +202,7 @@ theorem cover_seven {E : Type} [Group E] [Finite E] [Group.IsPerfect E]
   have hPle : (P : Subgroup E) ≤ D.comap φ := fun x hx => by
     rw [Subgroup.mem_comap, ← hPD]
     exact Subgroup.mem_map_of_mem φ hx
-  haveI : IsMulCommutative (P : Subgroup E) :=
+  have : IsMulCommutative (P : Subgroup E) :=
     ⟨⟨fun a b => Subtype.ext (hDcomm a (hPle a.2) b (hPle b.2))⟩⟩
   have hPbot : commutator (P : Subgroup E) = ⊥ := commutator_eq_bot (P : Subgroup E)
   have h := CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow_derived P π.ker hC hCp
@@ -212,7 +212,7 @@ theorem cover_seven {E : Type} [Group E] [Finite E] [Group.IsPerfect E]
 theorem cover_large_prime {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) {E : Type} [Group E] [Finite E]
     [Group.IsPerfect E] (π : E →* projSL 3 (GaloisField 2 3)) (hπ : Function.Surjective π)
     (hC : π.ker ≤ Subgroup.center E) (hCp : IsPGroup p π.ker) : π.ker = ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_cases hp7 : p = 7
   · subst hp7
     exact cover_seven π hπ hC hCp
@@ -233,7 +233,7 @@ theorem kernel_eq_bot_of_central {E : Type} [Group E] [Finite E] [Group.IsPerfec
     (hC : π.ker ≤ Subgroup.center E) (h3 : ¬ 3 ∣ Nat.card π.ker) : π.ker = ⊥ := by
   have hall : ∀ p : ℕ, p.Prime → ¬ p ∣ Nat.card π.ker := by
     intro p hp
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     by_cases h2 : p = 2
     · subst h2
       exact not_dvd_card_ker_of_cover π hπ hC 2 fun E' _ _ _ π' hπ' hC' hp' =>
@@ -272,7 +272,7 @@ theorem exists_klein_of_surjective {Y G : Type*} [Group Y] [Finite Y] [Group G]
       (Subtype.val_injective.comp Subtype.val_injective) h)
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hS : (S : Subgroup P) = ⊤ := by
-    exact S.maximal_isPGroup.eq_of_le (P.isPGroup'.to_subgroup ⊤) le_top
+    exact S.maximal_isPGroup.eq_of_le (P.isPGroup.to_subgroup ⊤) le_top
   set θ : (S : Subgroup P) →* U :=
     (πU.comp (P : Subgroup Ut).subtype).comp (S : Subgroup P).subtype with hθ
   have hθ : Function.Surjective θ := by

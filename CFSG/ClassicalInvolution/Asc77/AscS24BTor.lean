@@ -81,7 +81,7 @@ include C in
 theorem inf_S_eq_R' : K' ⊓ (S : Subgroup G) = R' := by
   have hR'syl : IsSylow2In R' K' := T7C.isSylow2In_of_mem_RSet_of_le C.hs.stand.odd
     C.hs.stand.hyp C.hs.hK'.1 C.hd.hR'.1 C.hd.hR'.2.1
-  exact hR'syl.2.2 _ inf_le_left S.isPGroup'.to_inf_right (le_inf C.hd.hR'.2.1 C.hd.hR'.2.2)
+  exact hR'syl.2.2 _ inf_le_left S.isPGroup.to_inf_right (le_inf C.hd.hR'.2.1 C.hd.hR'.2.2)
 
 theorem card_R' : Nat.card ↥R' = 2 * Nat.card ↥(Subgroup.zpowers C.D.x₂) := by
   have h := Thompson.D_card C.D.c.hp C.D.c.hq C.D.c.hΩ C.D.c.hW C.D.F.ρ'.hR
@@ -177,7 +177,7 @@ theorem exists_T3 : ∃ T₃ : Subgroup G, IsSylow2In T₃ C.D.F.ρ₃.K ∧ C.D
   have hx₃H : C.D.x₃ ∈ H₁ := ⟨C.x₃_mem_J, hx₃N⟩
   have hQS : Q ≤ (S : Subgroup G) :=
     sup_le (C.Dg_le_A.trans C.A_le_S) (Subgroup.zpowers_le.mpr (C.hd.hWS C.D.x₃_mem))
-  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup.to_le hQS
   have hDH : C.Dg ≤ Subgroup.normalizer (H₁ : Set G) := by
     intro d hd
     have hdA := C.Dg_le_A hd
@@ -255,7 +255,7 @@ theorem exists_inj_D [IsSimpleGroup G] (h3 : H3 p f) :
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp d.2.2 y hy
   apply Subtype.ext
-  refine eq_one_of_forall_pow (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (C.A_le_S hdA)))
+  refine eq_one_of_forall_pow (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (C.A_le_S hdA)))
     fun k hk => ?_
   exact h3 G Ω K K' W S R R' z u C.hs C.hd C.h8 C.D C.hK C.hK' C.hR C.hR' _ hk
     (le_centralizer_pow hdR k) (le_centralizer_pow hdR' k) T₃ hT₃ hTW (le_centralizer_pow hT k)

@@ -55,7 +55,7 @@ theorem s1614_ln_pivot (K : Type) [Field K] {c : Fin 4 → K} (hc : c ≠ 0) :
   rw [hPmv]
   change (Q.mulVec (v ∘ σ)) 3 = dotProduct c v
   rw [hQ, Matrix.mulVec_apply_eq_sum]
-  simp only [Matrix.of_apply, Function.comp_apply, dotProduct, if_true]
+  simp only [Matrix.of_apply, Function.comp_apply, dotProduct, ite_true]
   exact Equiv.sum_comp σ (fun i => c i * v i)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

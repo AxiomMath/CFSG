@@ -50,7 +50,7 @@ private theorem langRatR_compMap_of_mem {τ : Tag} {M M' : Type*} [CommGroup M] 
     (γ₀ : kernelRoots χ') {x : kernelRoots χ}
     (hx : (x : Fin τ.rank → ℤ) ∈ componentRoots χ i) :
     langRatR_compMap i hsub γ₀ x = ⟨(x : Fin τ.rank → ℤ), hsub (x : Fin τ.rank → ℤ) hx⟩ := by
-  simp only [langRatR_compMap, dif_pos hx]
+  simp only [langRatR_compMap, dite_eq_left hx]
 
 private theorem langRatR_compMap_rel
     {τ : Tag} {M M' : Type*} [CommGroup M] [CommGroup M']
@@ -86,10 +86,10 @@ private theorem langRatR_compMap_rel
       exact hx ⟨x.2, by rw [hrel]; exact hyi⟩
     · have hx' : (langRatR_compMap i hsub γ₀ x : Fin τ.rank → ℤ) =
           (γ₀ : Fin τ.rank → ℤ) := by
-        simp only [langRatR_compMap, dif_neg hx]
+        simp only [langRatR_compMap, dite_eq_right hx]
       have hy' : (langRatR_compMap i hsub γ₀ y : Fin τ.rank → ℤ) =
           (γ₀ : Fin τ.rank → ℤ) := by
-        simp only [langRatR_compMap, dif_neg hy]
+        simp only [langRatR_compMap, dite_eq_right hy]
       show (langRatR_compMap i hsub γ₀ x : Fin τ.rank → ℤ) ⬝ᵥ
         (τ.symmetrizedCartan *ᵥ (langRatR_compMap i hsub γ₀ y : Fin τ.rank → ℤ)) ≠ 0
       rw [hx', hy', dotProduct_mulVec_eq_iform]

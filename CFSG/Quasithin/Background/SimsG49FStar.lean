@@ -49,8 +49,8 @@ theorem isComponent_subgroupOf {G N M : Subgroup Γ} (hNM : N ≤ M) (hMG : M �
     (hM : ∀ g ∈ G, ∀ m ∈ M, g * m * g⁻¹ ∈ M) (hN : ∀ g ∈ M, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (hs : IsSimpleGroup ↥N) (hnab : ∃ x ∈ N, ∃ y ∈ N, x * y ≠ y * x) :
     CFSG.IsComponent (N.subgroupOf G) := by
-  haveI := hs
-  haveI : IsSimpleGroup ↥(N.subgroupOf G) :=
+  have := hs
+  have : IsSimpleGroup ↥(N.subgroupOf G) :=
     (Subgroup.subgroupOfEquivOfLe (hNM.trans hMG)).isSimpleGroup
   refine ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
     (nonabelian_subgroupOf (hNM.trans hMG) hnab)).1, ?_⟩
@@ -66,9 +66,9 @@ theorem fStarOf_eq_of_simple_normal {G N : Subgroup Γ} [Finite G] (hNG : N ≤ 
     (hN : ∀ g ∈ G, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hs : IsSimpleGroup ↥N)
     (hnab : ∃ x ∈ N, ∃ y ∈ N, x * y ≠ y * x)
     (hC : ∀ g ∈ G, (∀ n ∈ N, g * n = n * g) → g = 1) : fStarOf G = N := by
-  haveI := hs
-  haveI := G49.normal_subgroupOf hN
-  haveI : IsSimpleGroup ↥(N.subgroupOf G) := (Subgroup.subgroupOfEquivOfLe hNG).isSimpleGroup
+  have := hs
+  have := G49.normal_subgroupOf hN
+  have : IsSimpleGroup ↥(N.subgroupOf G) := (Subgroup.subgroupOfEquivOfLe hNG).isSimpleGroup
   rw [fStarOf, CFSG.Adapters.generalizedFitting_eq_of_normal_simple_of_centralizer_eq_bot _
     (G49.nonabelian_subgroupOf hNG hnab) (G49.centralizer_subgroupOf_eq_bot hNG hC),
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hNG]

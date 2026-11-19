@@ -196,7 +196,7 @@ theorem Setup.Kc_card (S : Setup a y N) {t : PX a} (ht : t ∈ Kc y) (ht1 : t �
 theorem Setup.Kc_sq (S : Setup a y N) {k : PX a} (hk : k ∈ Kc y) : k * k = 1 :=
   central_sq' S.hcase (Subgroup.mem_center_iff.mp (Kc_le_center hk))
 
-theorem Setup.Kc_pow_two_ne (S : Setup a y N) {t : PX a} (ht : t ∈ Kc y) (hyt : y t ≠ t) :
+theorem Setup.Kc_pow_two_ne (S : Setup a y N) {t : PX a} (_ht : t ∈ Kc y) (hyt : y t ≠ t) :
     y (y t) ≠ t := by
   intro h
   have key : ∀ m, (y ^ (2 * m)) t = t := by
@@ -338,7 +338,7 @@ theorem part1 (h0 : a 0 = 1) (h1 : 2 ≤ a 1) (h2 : 2 ≤ a 2) (y : MulAut (PX a
   have S : Setup a y N := ⟨h0, h1, h2, hN, hyN⟩
   by_cases hex : ∃ w : PX a, w ∈ Subgroup.center (PX a) ∧ y w ≠ w
   swap
-  · push_neg at hex
+  · push Not at hex
     exact absurd (S.case_fixed fun c hc => hex c (Subgroup.mem_center_iff.mpr hc)) hy
   obtain ⟨w, hw, hyw⟩ := hex
   have ht : w⁻¹ * y w ∈ Kc y := mem_Kc.mpr ⟨w, hw, rfl⟩

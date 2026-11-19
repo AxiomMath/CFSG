@@ -202,6 +202,7 @@ theorem img148_yd_facts_of_j2
   · rw [hYdeq]; exact hC6
   · rw [hYdeq]; exact hCp
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup_of_commute {U V : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)}
     (hUV : ∀ u ∈ U, ∀ v ∈ V, u * v = v * u) {x : ↥(Y ⊔ A) ⧸ ker148 A Y} (hx : x ∈ U ⊔ V) :
     ∃ u ∈ U, ∃ v ∈ V, x = u * v := by
@@ -494,7 +495,7 @@ theorem step148HJHJOuter2_of_cent
       rw [hCmap, HJRes2.card_of_isTripleCover_six hYd6] at h1
       rw [← h1]
       norm_num
-    haveI := hHp
+    have := hHp
     have hMp : Group.IsPerfect ↥(H.subgroupOf (img148 A Y J)) :=
       Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hHJ).symm.toMonoidHom) (MulEquiv.surjective _)

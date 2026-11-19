@@ -213,7 +213,7 @@ theorem rank_eq_two_of_shortAt_of_central_cover
    
     ↥J _ _ hJ _ hm hLM _ _ hPos'
   have hU : ggU .PSU m 1 = ⟨SU SUσ m, Unitary.rootDatum rckSU_suF_card m⟩ := by
-    simp only [ggU, lieUniversal, dif_pos (show 1 ≤ (1 : ℕ) from le_rfl)]
+    simp only [ggU, lieUniversal, dite_eq_left (show 1 ≤ (1 : ℕ) from le_rfl)]
   rw [hU] at hPacket
   obtain ⟨β, R, hβ, hlong, h2β, hVia, hrR⟩ := hPacket
   obtain ⟨φ, hφrange, hφker, u, hR⟩ := hVia

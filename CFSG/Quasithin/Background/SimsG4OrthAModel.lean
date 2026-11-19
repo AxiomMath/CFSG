@@ -125,7 +125,7 @@ theorem exists_basis_normalForm [Finite K] [CharP K 2] (Q : QuadraticForm K W)
     (∃ b : Module.Basis (Fin 4) K W, ∀ v, Q (∑ i, v i • b i) = qPlus K v) ∨
       ∃ c : K, (¬ ∃ x : K, x ^ 2 + x + c = 0) ∧
         ∃ b : Module.Basis (Fin 4) K W, ∀ v, Q (∑ i, v i • b i) = qMinus K c v := by
-  haveI : FiniteDimensional K W := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K W := Module.finite_of_finrank_pos (by omega)
   have hQ := CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_of_forall hnd
   rcases (CFSG.ComponentClassification.UnbalancedCatalog.finite_even_regular_quadratic_normal_forms
       Q hQ).2.2.1 2 (by norm_num) (by omega) with ⟨b, hb⟩ | ⟨β, γ, hβ, hroot, b, hb⟩
@@ -166,8 +166,8 @@ theorem isO4Type_of_orthGroup [Finite K] [CharP K 2] (Q : QuadraticForm K W)
     (hdim : Module.finrank K W = 4) (hnd : ∀ x, (∀ y, QuadraticMap.polar Q x y = 0) → x = 0)
     {k : ℕ} (hk : 0 < k) (hK : Nat.card K = 2 ^ k) {X : Type} [Group X]
     (e : X ≃* orthGroup (⇑Q)) : IsO4Type k X := by
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite (GaloisField 2 k)
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite (GaloisField 2 k)
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 k) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, GaloisField.card 2 k hk.ne']
   let σ : K ≃+* GaloisField 2 k := FiniteField.ringEquivOfCardEq hcard

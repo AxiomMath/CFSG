@@ -16,17 +16,20 @@ section Quotients
 
 variable {P : Type} [Group P] [Finite P]
 
+omit [Finite P] in
 theorem not_isSolvable_of_simple [Group.IsPerfect P] {R : Subgroup P} [R.Normal]
     (hs : IsSimpleGroup (P ⧸ R)) : ¬ Group.IsSolvable P := by
   intro h
-  haveI := h
+  have := h
   have : Nontrivial (P ⧸ R) := IsSimpleGroup.toNontrivial
   exact Group.IsPerfect.not_isSolvable (P ⧸ R) inferInstance
 
+omit [Finite P] in
 theorem not_comm_of_simple [Group.IsPerfect P] {R : Subgroup P} [R.Normal]
     (hs : IsSimpleGroup (P ⧸ R)) : ¬ ∀ a b : P, a * b = b * a := fun h =>
-  not_isSolvable_of_simple hs (isSolvable_of_comm h)
+  not_isSolvable_of_simple hs (_root_.Group.isSolvable_of_comm h)
 
+omit [Finite P] in
 theorem eq_of_simple_quotients [Group.IsPerfect P] {R N : Subgroup P} [R.Normal] [N.Normal]
     (hRs : Group.IsSolvable R) (hR : IsSimpleGroup (P ⧸ R)) (hN : IsSimpleGroup (P ⧸ N)) :
     R = N := by
@@ -39,7 +42,7 @@ theorem eq_of_simple_quotients [Group.IsPerfect P] {R N : Subgroup P} [R.Normal]
       obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
       exact hab (QuotientGroup.eq.2 (h ▸ mem_top _))
   refine le_antisymm ?_ hNR
-  haveI : (R.map (QuotientGroup.mk' N)).Normal :=
+  have : (R.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
   rcases hN.eq_bot_or_eq_top_of_normal (R.map (QuotientGroup.mk' N)) with h | h
   · intro x hx
@@ -52,8 +55,8 @@ theorem eq_of_simple_quotients [Group.IsPerfect P] {R N : Subgroup P} [R.Normal]
       have hz : z ∈ R.map (QuotientGroup.mk' N) := h ▸ mem_top z
       obtain ⟨y, hy, rfl⟩ := mem_map.1 hz
       exact ⟨⟨y, hy⟩, rfl⟩
-    haveI := hRs
-    have hsolv : Group.IsSolvable (P ⧸ N) := solvable_of_surjective hsurj
+    have := hRs
+    have hsolv : Group.IsSolvable (P ⧸ N) := Group.isSolvable_of_surjective hsurj
     have : Nontrivial (P ⧸ N) := IsSimpleGroup.toNontrivial
     exact Group.IsPerfect.not_isSolvable (P ⧸ N) hsolv
 
@@ -63,7 +66,7 @@ theorem exists_range_quotient_equiv {L G : Type*} [Group L] [Group G] (φ : L �
     (Y : Subgroup L) [Y.Normal] (hφ : φ.ker ≤ Y) :
     ∃ _ : (Y.map φ.rangeRestrict).Normal,
       Nonempty (φ.range ⧸ Y.map φ.rangeRestrict ≃* L ⧸ Y) := by
-  haveI hR : (Y.map φ.rangeRestrict).Normal :=
+  have hR : (Y.map φ.rangeRestrict).Normal :=
     Subgroup.Normal.map inferInstance _ φ.rangeRestrict_surjective
   set f : L →* φ.range ⧸ Y.map φ.rangeRestrict :=
     (QuotientGroup.mk' (Y.map φ.rangeRestrict)).comp φ.rangeRestrict with hf
@@ -180,8 +183,7 @@ theorem exists_lower_of_reducible {L : Type} [Group L] [Finite L] [Group.IsPerfe
       exact this
     · have := congrArg (fun T : Module.End (ZMod q) ((Fin d → ZMod q) ⧸ W) =>
         T (Submodule.Quotient.mk v)) hg2
-      simp only [quotRep, MonoidHom.coe_mk, OneHom.coe_mk, Submodule.mapQ_apply,
-        Matrix.toLin'_apply, Module.End.one_apply] at this
+      simp only [quotRep, MonoidHom.coe_mk, OneHom.coe_mk, Module.End.one_apply] at this
       exact (Submodule.Quotient.eq W).1 this
   have hpg : IsPGroup q φ.range := by
     rintro ⟨_, g, rfl⟩
@@ -199,8 +201,8 @@ theorem exists_lower_of_reducible {L : Type} [Group L] [Finite L] [Group.IsPerfe
     rw [MonoidHom.mem_ker]
     have : φ g ∈ φ.range := ⟨g, rfl⟩
     rwa [hbot, mem_bot] at this
-  haveI := hYs
-  exact solvable_of_surjective (f := Y.subtype) fun g => ⟨⟨g, hYt ▸ mem_top g⟩, rfl⟩
+  have := hYs
+  exact Group.isSolvable_of_surjective (f := Y.subtype) fun g => ⟨⟨g, hYt ▸ mem_top g⟩, rfl⟩
 
 end Reducible
 

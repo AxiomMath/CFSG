@@ -71,7 +71,7 @@ private theorem w85g_bar_ker_eq_pCore {G : Type} [Group G] {K : Subgroup G} {X :
 
 private theorem w85g_bar_ker_isPGroup {G : Type} [Group G] [Finite G] {K : Subgroup G} {X : Type}
     [Group X] {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) : IsPGroup 2 φ.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [w85g_bar_ker_eq_pCore hφ]
   exact CFSG.LieType.BorelTits.pCore_isPGroup (r := 2) (G := ↥K)
 
@@ -106,8 +106,8 @@ private theorem w85g_finrank_sub_le_rk {G : Type} [Group G] [Finite G] {I : Subg
     [Fact (IsElemAbelian 2 I)] (H : Subgroup G) :
     Module.finrank (ZMod 2) (CFSG.Goldschmidt.G2.sub I H) ≤ rk ↥H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Module.Finite (ZMod 2) (Additive ↥I) := w85g_moduleFinite_of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Module.Finite (ZMod 2) (Additive ↥I) := w85g_moduleFinite_of_finite
   have hI2 : IsPGroup 2 I :=
     isPGroup_two_of_sq_eq_one (fun x => Subtype.ext ((Fact.out : IsElemAbelian 2 I).2 x x.2))
   have hIinf : IsPGroup 2 (I ⊓ H : Subgroup G) := hI2.to_le inf_le_left
@@ -127,8 +127,8 @@ private theorem w85g_finrank_sub_le_rk {G : Type} [Group G] [Finite G] {I : Subg
 theorem bar_odd_card_center {G : Type} [Group G] [Finite G] {K : Subgroup G} {X : Type}
     [Group X] {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) :
     Odd (Nat.card (Subgroup.center X)) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.CGT.Timmesfeld75.odd_card_center (K := X) ?_
   intro N hN hP
   have hpker : IsPGroup 2 φ.ker := w85g_bar_ker_isPGroup hφ
@@ -154,7 +154,7 @@ theorem bar_involution_not_mem_center {G : Type} [Group G] [Finite G] {K : Subgr
   have hodd := bar_odd_card_center hφ
   have hvv : v * v = 1 := Subtype.ext hv
   have hsq : φ v ^ 2 = 1 := by rw [pow_two, ← map_mul, hvv, map_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (φ v) = 2 := orderOf_eq_prime hsq h1
   have hdvd : orderOf (⟨φ v, hc⟩ : Subgroup.center X) ∣ Nat.card (Subgroup.center X) :=
     orderOf_dvd_natCard _
@@ -199,7 +199,7 @@ theorem bar_commutator_facts {G : Type} [Group G] [Finite G] {K : Subgroup G} {X
     (hperf : Group.IsPerfect (X ⧸ Subgroup.center X)) (hnt : Nontrivial (X ⧸ Subgroup.center X))
     {v : ↥K} (hv : (v : G) * (v : G) = 1) :
     φ v ∈ commutator X ∧ Group.IsPerfect ↥(commutator X) ∧ commutator X ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXeq : commutator X ⊔ Subgroup.center X = ⊤ :=
     CFSG.RankThree.PartOne.U5K.commutator_sup_center_eq_top (X := X) hperf
   have hYperf : Group.IsPerfect ↥(commutator X) :=
@@ -210,7 +210,7 @@ theorem bar_commutator_facts {G : Type} [Group G] [Finite G] {K : Subgroup G} {X
       have h := hXeq
       rw [hbot, bot_sup_eq] at h
       exact h
-    haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+    have : Subsingleton (X ⧸ Subgroup.center X) := by
       rw [hcenter]
       exact QuotientGroup.subsingleton_quotient_top
     obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
@@ -260,8 +260,8 @@ theorem not_isPGroup_range_conjRep {G : Type} [Group G] [Finite G] {K I : Subgro
       (((CFSG.Goldschmidt.G2.conjRep hK).comp ((commutator X).comap φ).subtype).range) := by
   intro hP
   obtain ⟨ψ, hψs, hψφ, _⟩ := w85g_bar_restrict hφ
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup ↥K := (commutator X).comap φ
   let ρ : ↥M →* LGL 2 (Additive ↥I) := (CFSG.Goldschmidt.G2.conjRep hK).comp (Subgroup.subtype M)
   have hPρ : IsPGroup 2 ρ.range := hP
@@ -287,8 +287,8 @@ theorem not_isPGroup_range_conjRep {G : Type} [Group G] [Finite G] {K I : Subgro
       exact hm⟩
   have hg'surj : Function.Surjective g' := hgsurj.comp e.symm.surjective
   have hYp : IsPGroup 2 ↥(commutator X) := hPρ.of_surjective g' hg'surj
-  haveI : Group.IsPerfect ↥(commutator X) := hperf
-  haveI : Nontrivial ↥(commutator X) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Group.IsPerfect ↥(commutator X) := hperf
+  have : Nontrivial ↥(commutator X) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   exact (Group.IsPerfect.not_isNilpotent ↥(commutator X)) hYp.isNilpotent
 
 theorem exists_bar_restriction {G : Type} [Group G] [Finite G] {K : Subgroup G} {X : Type}
@@ -303,8 +303,8 @@ theorem exists_sigma_of_bar {M Y : Type} [Group M] [Group Y] (ψ : M →* Y)
     ∃ σ : Y →* LGL 2 F, (∀ m, σ (ψ m) = σM m) ∧ IsChiefFactor σ ⊤ ⊥ := by
   classical
   obtain ⟨hlt, hW1, hW2, hmin⟩ := hirr
-  obtain ⟨hle, x, hx, hxn⟩ := SetLike.lt_iff_le_and_exists.mp hlt
-  haveI : Nontrivial F := ⟨x, 0, fun h => hxn (by rw [h]; exact Submodule.zero_mem _)⟩
+  obtain ⟨hle, x, hx, hxn⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
+  have : Nontrivial F := ⟨x, 0, fun h => hxn (by rw [h]; exact Submodule.zero_mem _)⟩
   have hle_ker : ψ.ker ≤ σM.ker := by
     have hirr' : ∀ U : Submodule (ZMod 2) F,
         (∀ k ∈ σM.range, ∀ u ∈ U, k u ∈ U) → U = ⊥ ∨ U = ⊤ := by
@@ -350,7 +350,7 @@ theorem modCommRank_sectionRep_le {N : Type} [Group N] {V : Type} [AddCommGroup 
     (h₁ : ∀ g : N, ∀ w ∈ W₁, ρ g w ∈ W₁) (h₂ : ∀ g : N, ∀ w ∈ W₂, ρ g w ∈ W₂) (t : N) :
     modCommRank (sectionRep ρ W₁ W₂ h₁ h₂ t) ≤ modCommRank (ρ t) := by
   classical
-  haveI : Module.Finite (ZMod 2) V := w85g_moduleFinite_of_finite
+  have : Module.Finite (ZMod 2) V := w85g_moduleFinite_of_finite
   let f : ↥W₁ →ₗ[ZMod 2] ↥W₁ := (ρ t).restrict (h₁ t)
   let g : ↥W₁ →ₗ[ZMod 2] ↥W₁ := f - LinearMap.id
   let R : Submodule (ZMod 2) ↥W₁ := LinearMap.range g
@@ -396,7 +396,7 @@ theorem modCommRank_conjRep_le_rk {G : Type} [Group G] [Finite G] {K I : Subgrou
     [Fact (IsElemAbelian 2 I)] (hK : K ≤ Subgroup.normalizer (I : Set G)) (t : ↥K) :
     modCommRank (CFSG.Goldschmidt.G2.conjRep hK t) ≤ rk ↥⁅I, Subgroup.zpowers (t : G)⁆ := by
   classical
-  haveI : Module.Finite (ZMod 2) (Additive ↥I) := w85g_moduleFinite_of_finite
+  have : Module.Finite (ZMod 2) (Additive ↥I) := w85g_moduleFinite_of_finite
   calc modCommRank (CFSG.Goldschmidt.G2.conjRep hK t)
       = Module.finrank (ZMod 2) (CFSG.Goldschmidt.G2.comSp (CFSG.Goldschmidt.G2.conjRep hK t)) :=
         rfl
@@ -451,7 +451,7 @@ theorem sigma_ne_one_of_not_mem_center {X : Type} [Group X]
     intro hbot
     exact hne1 (Subgroup.mem_bot.mp (hbot ▸ hmem))
   have hMqtop : Mq = ⊤ := by
-    haveI : Mq.Normal := hMqnorm
+    have : Mq.Normal := hMqnorm
     rcases hS.eq_bot_or_eq_top_of_normal Mq with h | h
     · exact absurd h hMqne
     · exact h
@@ -496,15 +496,15 @@ theorem exists_irreducible_section_of_bar {G : Type} [Group G] [Finite G] {K I :
     ∃ hvX : φ v ∈ commutator X, ∃ (F : Type) (_ : AddCommGroup F) (_ : Module (ZMod 2) F)
       (_ : Finite F) (σ : ↥(commutator X) →* LGL 2 F), IsChiefFactor σ ⊤ ⊥ ∧
         σ ⟨φ v, hvX⟩ ≠ 1 ∧ modCommRank (σ ⟨φ v, hvX⟩) ≤ rk ↥⁅I, Subgroup.zpowers (v : G)⁆ := by
-  haveI : Fact (IsElemAbelian 2 I) := ⟨hI⟩
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := hS.toNontrivial
+  have : Fact (IsElemAbelian 2 I) := ⟨hI⟩
+  have : Nontrivial (X ⧸ Subgroup.center X) := hS.toNontrivial
   obtain ⟨hvX, hYperf, hYne⟩ := bar_commutator_facts hφ hperf inferInstance hv
   obtain ⟨ψ, hψs, hψφ, hψker⟩ := exists_bar_restriction hφ
   let ρ : ↥((commutator X).comap φ) →* LGL 2 (Additive ↥I) :=
     (CFSG.Goldschmidt.G2.conjRep hK).comp ((commutator X).comap φ).subtype
   obtain ⟨W₁, W₂, hcf, hnc⟩ := exists_noncentral_chief_factor ρ
     (not_isPGroup_range_conjRep hK hC hφ hYperf hYne)
-  haveI : Finite (SecMod W₁ W₂) :=
+  have : Finite (SecMod W₁ W₂) :=
     Finite.of_surjective (Submodule.Quotient.mk (p := W₂.comap W₁.subtype))
       (Submodule.Quotient.mk_surjective (p := W₂.comap W₁.subtype))
   obtain ⟨σ, hσ, hσirr⟩ := exists_sigma_of_bar ψ hψs hψker

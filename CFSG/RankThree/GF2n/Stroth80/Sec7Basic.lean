@@ -20,15 +20,19 @@ theorem exists_isCentrePre {R : Subgroup G} (hQR : Q ≤ R) :
   refine ⟨S ⊓ R, fun x => ?_⟩
   rw [Subgroup.mem_inf, hS, and_comm]
 
+omit [Finite G] in
 theorem IsCentrePre.le {Z0 R : Subgroup G} (h : IsCentrePre Z0 R Q) : Z0 ≤ R :=
   fun _ hx => ((h _).mp hx).1
 
+omit [Finite G] in
 theorem IsCentrePre.comm_mem {Z0 R : Subgroup G} (h : IsCentrePre Z0 R Q) {x r : G} (hx : x ∈ Z0)
     (hr : r ∈ R) : ⁅x, r⁆ ∈ Q := ((h _).mp hx).2 r hr
 
+omit [Finite G] in
 theorem IsCentrePre.mem_iff {Z0 R : Subgroup G} (h : IsCentrePre Z0 R Q) {x : G} :
     x ∈ Z0 ↔ x ∈ R ∧ ∀ r ∈ R, ⁅x, r⁆ ∈ Q := h x
 
+omit [Finite G] in
 theorem IsCentrePre.Q_le {Z0 R : Subgroup G} (h : IsCentrePre Z0 R Q) (hQR : Q ≤ R)
     (hnorm : ∀ r ∈ R, ∀ y ∈ Q, r * y * r⁻¹ ∈ Q) : Q ≤ Z0 := by
   intro x hx
@@ -48,6 +52,7 @@ theorem Ctx.exists_centre (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     ∃ Z0 : Subgroup G, IsCentrePre Z0 (Rt M (LB M Q B) t) Q :=
   exists_isCentrePre (hc.Q_le_Rt ht)
 
+omit [Finite G] in
 theorem ConjMod.of_mem {t : G} (ht : t ∈ M) : ConjMod M Q t t := by
   unfold ConjMod
   refine ⟨ht, 1, M.one_mem, ?_⟩
@@ -110,17 +115,21 @@ theorem Ut_le_Wt_of_vanish (hc : Ctx M Q Z B) {V : Subgroup G} (hVQ : V ≤ Q) {
     refine ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun v hv => ?_⟩
     exact (hc.hyp.toHyp79.V_central hz (hVQ hv)).symm
 
+omit [Finite G] in
 theorem Fgen_le (M Q L Z0 : Subgroup G) : Fgen M Q L Z0 ≤ L :=
   (Subgroup.closure_le L).mpr fun _ hx => hx.1
 
+omit [Finite G] in
 theorem Z0_le_Fgen {L Z0 : Subgroup G} (hZL : Z0 ≤ L) (hZM : Z0 ≤ M) (Q : Subgroup G) :
     Z0 ≤ Fgen M Q L Z0 := fun z hz =>
-  Subgroup.subset_closure ⟨hZL hz, z, hz, hZM hz, 1, M.one_mem, by simpa using Q.one_mem⟩
+  Subgroup.subset_closure ⟨hZL hz, z, hz, hZM hz, 1, M.one_mem, by simp⟩
 
+omit [Finite G] in
 theorem Q_le_Fgen {L Z0 : Subgroup G} (hQL : Q ≤ L) (hQM : Q ≤ M) :
     Q ≤ Fgen M Q L Z0 := fun q hq =>
   Subgroup.subset_closure ⟨hQL hq, 1, Z0.one_mem, hQM hq, 1, M.one_mem, by simpa using hq⟩
 
+omit [Finite G] in
 theorem Ut_conj_of_normalizes {g : G} (hgQ : conjSubgroup g Q = Q)
     (hgZ : conjSubgroup g Z = Z) (u : G) :
     Ut Q Z (g * u * g⁻¹) = conjSubgroup g (Ut Q Z u) := by
@@ -131,11 +140,13 @@ theorem Ut_conj_of_normalizes {g : G} (hgQ : conjSubgroup g Q = Q)
   unfold Ut
   rw [conjSubgroup_sup', conjSubgroup_commutator, hgQ, hgZ, hzp]
 
+omit [Finite G] in
 theorem card_Ut_conj (hc : Ctx M Q Z B) {g : G} (hg : g ∈ M) (u : G) :
     Nat.card ↥(Ut Q Z (g * u * g⁻¹)) = Nat.card ↥(Ut Q Z u) := by
   rw [Ut_conj_of_normalizes (hc.conj_Q_eq hg) (hc.conj_Z_eq hg) u,
     CFSG.CGT.Timmesfeld75.card_conjSubgroup]
 
+omit [Finite G] in
 theorem stronglyClosedMod_of_card (hc : Ctx M Q Z B) {L N : Subgroup G} (c : ℕ)
     (hα : ∀ x ∈ N, Nat.card ↥(Ut Q Z x) ≤ c)
     (hβ : ∀ y ∈ L, y ∉ N → c < Nat.card ↥(Ut Q Z y)) :
@@ -191,11 +202,13 @@ theorem IsCentrePre.mem_normalizer {Z0 R : Subgroup G} (h : IsCentrePre Z0 R Q)
     exact hnorm r hr _ hq
   exact hrz
 
+omit [Finite G] in
 theorem Ctx.Q_le_centre (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {Z0 : Subgroup G}
     (h : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Q ≤ Z0 :=
-  h.Q_le (hc.Q_le_Rt ht) fun r hr y hy =>
+  h.Q_le (hc.Q_le_Rt ht) fun _r hr y hy =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hc.Rt_le_M t hr)) y).mp hy
 
+omit [Finite G] in
 theorem Ctx.centre_le_M (hc : Ctx M Q Z B) (t : G) {Z0 : Subgroup G}
     (h : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Z0 ≤ M :=
   h.le.trans (hc.Rt_le_M t)

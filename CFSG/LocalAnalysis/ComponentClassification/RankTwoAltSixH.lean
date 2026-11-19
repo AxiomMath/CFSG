@@ -116,7 +116,7 @@ theorem y0_conj_c1 (hco : AltCoords 6 A B ψA ψB) : y0 ψB * c1 ψA * (y0 ψB)�
     have hne : β 4 ≠ β 5 := fun h => absurd (β.injective h) (by decide)
     rw [← swap_apply_apply]
     rcases hge 4 (by norm_num) with h4 | h4 <;> rcases hge 5 (by norm_num) with h5 | h5 <;>
-      rw [h4, h5] at hne ⊢ <;> first | exact absurd rfl hne | rfl | exact swap_comm _ _
+      rw [h4, h5] at hne ⊢ <;> first | exact absurd rfl hne | exact swap_comm _ _
   rw [hβ45] at hae
   have hae' : (ψA ⟨_, ha⟩ : Perm (Fin 6)) = ((e450⁻¹ : alternatingGroup (Fin 6)) :
       Perm (Fin 6)) := by

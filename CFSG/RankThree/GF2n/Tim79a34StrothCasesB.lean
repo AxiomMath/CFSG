@@ -132,7 +132,7 @@ theorem sc_lift {M Q : Subgroup G} [(Q.subgroupOf M).Normal]
     (hQ2 : IsPGroup 2 ↥Q) {C : Subgroup (↥M ⧸ Q.subgroupOf M)} (hC3 : Nat.card C = 3) :
     ∃ ρ : G, ∃ hρ : ρ ∈ M, orderOf ρ = 3 ∧
       (QuotientGroup.mk (⟨ρ, hρ⟩ : ↥M) : ↥M ⧸ Q.subgroupOf M) ∈ C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnt : Nontrivial C := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
   obtain ⟨⟨c, hcC⟩, hc1⟩ := exists_ne (1 : C)
   have hc1' : c ≠ 1 := fun h => hc1 (Subtype.ext h)
@@ -264,7 +264,7 @@ theorem strothCaseVI_false {M V Q P H : Subgroup G} {n : ℕ}
   have hset : {y : G | ∃ x ∈ centerIn (Qa cfg.aG), y = ρ * x * ρ⁻¹ * x⁻¹} = {1} := by
     rw [hcV]
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨x, hx, rfl⟩
       rw [hcentV x hx, mul_inv_cancel]

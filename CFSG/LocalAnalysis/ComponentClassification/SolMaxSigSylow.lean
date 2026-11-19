@@ -82,7 +82,7 @@ theorem card_two_eq_of_sup (h33 : Sol78.BalanceLemmaInput) (h35 : SignalizerLemm
   have hS₀S₁ : S₀ ≤ S₁ := fun x hx => ⟨⟨x, hS₀H hx⟩, hQ hx, rfl⟩
   have hS₁card : Nat.card S₁ = 2 ^ (Nat.card H).factorization 2 := by
     rw [hS₁def, card_map_of_injective H.subtype_injective, Q.card_eq_multiplicity]
-  have hS₁2 : IsPGroup 2 S₁ := Q.isPGroup'.map _
+  have hS₁2 : IsPGroup 2 S₁ := Q.isPGroup.map _
   have htM : t ∈ normalizer (M : Set X) := hHN (hS₀H htS₀)
   have htK : t ∈ UnbalancedLayer.coreActionKernel M :=
     Sol78H.mem_coreActionKernel_of_sup_le_centralizer htM S.pair.1.2.1 hsup

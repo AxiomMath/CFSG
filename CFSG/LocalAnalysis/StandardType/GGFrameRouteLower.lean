@@ -47,7 +47,7 @@ theorem exists_elemAbelian_two_of_lines {τ : Tag} (β : Fin τ.rank → Fin τ.
     { carrier := {w | ∀ j, w • β j = β j ∨ w • β j = -β j}
       mul_mem' := by
         intro a b ha hb j
-        simp only [Set.mem_setOf_eq, mul_smul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, mul_smul] at ha hb ⊢
         rcases hb j with h | h <;> rw [h]
         · exact ha j
         · rw [smul_neg]
@@ -55,7 +55,7 @@ theorem exists_elemAbelian_two_of_lines {τ : Tag} (β : Fin τ.rank → Fin τ.
       one_mem' := by intro j; simp
       inv_mem' := by
         intro a ha j
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rcases ha j with h | h
         · exact Or.inl (inv_smul_eq_iff.mpr h.symm)
         · refine Or.inr (inv_smul_eq_iff.mpr ?_)
@@ -104,13 +104,13 @@ theorem exists_elemAbelian_two_of_lines {τ : Tag} (β : Fin τ.rank → Fin τ.
     constructor
     · intro hj
       by_contra hj'
-      rw [if_pos hj] at h1
-      rw [if_neg hj'] at h2
+      rw [ite_eq_left hj] at h1
+      rw [ite_eq_right hj'] at h2
       exact hne (h2.symm.trans h1)
     · intro hj'
       by_contra hj
-      rw [if_neg hj] at h1
-      rw [if_pos hj'] at h2
+      rw [ite_eq_right hj] at h1
+      rw [ite_eq_left hj'] at h2
       exact hne (h1.symm.trans h2)
 
 @[expose] def betaE7 : Fin Tag.E7.rank → Fin Tag.E7.rank → ℤ :=

@@ -26,8 +26,8 @@ private theorem natSpn_map_conj {W : Type} [CommGroup W] {L : Subgroup (MulAut W
     (ht : ∀ l ∈ L, g * l * g⁻¹ ∈ L) (ht' : ∀ l ∈ L, g⁻¹ * l * g ∈ L) :
     NatSpn L (I.map g.toMonoidHom) ⊥ m a := by
   obtain ⟨hm, K, hKf, hKfin, hcard, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π, hreal'⟩ := hreal
   refine ⟨hm, K, hKf, hKfin, hcard, ?_⟩
   exact ⟨_, by
@@ -38,8 +38,8 @@ private theorem natSpn_of_secIsoOn {W : Type} [CommGroup W] {L : Subgroup (MulAu
     {I J : Subgroup W} {m a : ℕ} (h : NatSpn L I ⊥ m a) (hiso : SecIsoOn L I ⊥ J ⊥)
     (hIinv : XMod.IsInv ↥L I) (hJinv : XMod.IsInv ↥L J) : NatSpn L J ⊥ m a := by
   obtain ⟨hm, K, hKf, hKfin, hcard, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π, hreal'⟩ := hreal
   have hisoIJ : XMod.Iso ↥L I J := iso_of_secIsoOn_bot hiso
   have hisoJI : XMod.Iso ↥L J I := XMod.Iso.symm hIinv hisoIJ
@@ -75,7 +75,7 @@ private theorem faithful_of_mem_irrSet {W : Type} [CommGroup W] [Finite W]
 private theorem bParam_le_two_mul {W : Type} [CommGroup W] [Finite W] {n : ℕ}
     (hb : W4Lem4_17Sp4G2N) (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)}
     (hO2 : O2Trivial Y) (hL : IsComponentOf L Y) (hLn : (L.subgroupOf Y).Normal)
-    (hfix : fixV L = ⊥) (hodd : Odd n) (hn : 1 < n)
+    (hfix : fixV L = ⊥) (_hodd : Odd n) (hn : 1 < n)
     (hSG : CFSG.LocalAnalysis.UniquenessCase.UC22.IsSp4 ↥L n ∨
       CFSG.LocalAnalysis.UniquenessCase.UC22.IsG2 ↥L n) :
     bParam L Y ≤ 2 * n := by
@@ -95,14 +95,14 @@ private theorem bParam_le_two_mul {W : Type} [CommGroup W] [Finite W] {n : ℕ}
   have hOddC : Odd (Nat.card ↥(Subgroup.center ↥L)) :=
     GF2Reps13Alt.odd_card_center_of_o2Trivial hO2 hL.1
       (fun y hy l hl => (Subgroup.mem_normalizer_iff.mp (hNY hy) l).mp hl)
-  haveI hWnt : Nontrivial W := by
-    haveI hs : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
-    haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := inferInstance
-    haveI hLnt : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+  have hWnt : Nontrivial W := by
+    have hs : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+    have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := inferInstance
+    have hLnt : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI : Subsingleton W := h
-    haveI : Subsingleton (MulAut W) :=
+    have : Subsingleton W := h
+    have : Subsingleton (MulAut W) :=
       ⟨fun f g => MulEquiv.ext (fun x => Subsingleton.elim _ _)⟩
     exact not_subsingleton ↥L inferInstance
   have hfixT : fixV T ≠ fixV (L ⊔ T) := by
@@ -241,7 +241,7 @@ theorem concl146_of_caseI_Sp4
     have hJI : J ≠ I := hJmem.2
     have hsIJ : s = {I, J} := by
       have hins : s = insert I (s \ {I}) := by
-        rw [Set.insert_diff_singleton, Set.insert_eq_of_mem hIs]
+        rw [Set.insert_sdiff_singleton, Set.insert_eq_of_mem hIs]
       rw [hins, hJt]
     have hdisj : I ⊓ J = ⊥ := by
       have hpair : sSupIndep ({I, J} : Set (Subgroup W)) := by rwa [← hsIJ]
@@ -256,8 +256,8 @@ theorem concl146_of_caseI_Sp4
       simpa [hfix] using h.2
     have hLI : L ≤ stabSub I := Thm14_5.le_stabSub_of_mem_irrSet hI
     obtain ⟨hm4, K, hKf, hKfin, hcard, hrealS⟩ := hNatS
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨π, hrealS'⟩ := hrealS
     have hrealI : (FFModel.nat (StatedSp 2 K)).Realizes L I ⊥ :=
       Thm14_5.realizes_of_autSub hLI (faithful_of_mem_irrSet hI hfix hsimple)

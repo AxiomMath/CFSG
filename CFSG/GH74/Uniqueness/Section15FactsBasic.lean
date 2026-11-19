@@ -253,7 +253,7 @@ theorem ZDSetup.oTwoIn_comm
       have e : s⁻¹ * (s * y * s⁻¹) * s⁻¹⁻¹ = y := by group
       rwa [e] at this
   have hsup : IsPGroup 2 ↥(oTwoIn M ⊔ (T : Subgroup X)) :=
-    IsPGroup.to_sup_of_normal_left' (oTwoIn_isPGroup M) T.isPGroup' hVn
+    IsPGroup.to_sup_of_normal_left' (oTwoIn_isPGroup M) T.isPGroup hVn
   have hVT : oTwoIn M ≤ (T : Subgroup X) :=
     le_trans le_sup_left (T.maximal_isPGroup.2 hsup le_sup_right)
   exact hTx v (hVT hv)

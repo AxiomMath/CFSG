@@ -12,10 +12,11 @@ variable {X : Type*} [Group X] [Finite X]
 
 private def fixedBy (a : MulAut X) : Subgroup X where
   carrier := {x | a x = x}
-  mul_mem' := by intro x y hx hy; simp only [Set.mem_setOf_eq] at *; rw [map_mul, hx, hy]
-  one_mem' := by simp only [Set.mem_setOf_eq]; exact map_one a
-  inv_mem' := by intro x hx; simp only [Set.mem_setOf_eq] at *; rw [map_inv, hx]
+  mul_mem' := by intro x y hx hy; simp only [Set.mem_ofPred_eq] at *; rw [map_mul, hx, hy]
+  one_mem' := by simp only [Set.mem_ofPred_eq]; exact map_one a
+  inv_mem' := by intro x hx; simp only [Set.mem_ofPred_eq] at *; rw [map_inv, hx]
 
+omit [Finite X] in
 private lemma mem_fixedBy {a : MulAut X} {x : X} : x ∈ fixedBy a ↔ a x = x := Iff.rfl
 
 private lemma map_eq_self_of_isPGroup_two_of_odd_index {Y : Subgroup X} [Y.Normal]
@@ -68,6 +69,7 @@ private lemma exists_fixed_of_involutive_odd {α : Type*} [Fintype α] [Decidabl
   rw [pow_one, pow_two]
   exact hf
 
+omit [Finite X] in
 private lemma exists_mulAut_quotient_of_normalizes {Y : Subgroup X} [Y.Normal] (a : MulAut X)
     (ha : a * a = 1) (hY : Y.map a.toMonoidHom = Y) :
     ∃ ā : MulAut (X ⧸ Y),
@@ -152,7 +154,7 @@ private lemma mem_sup_of_inv_mul_mem_sup {Y V : Subgroup X} [Y.Normal] {a : MulA
     refine Odd.of_dvd_nat hodd ?_
     rw [Subgroup.index]
     exact Subgroup.card_subgroup_dvd_card B
-  haveI := Fintype.ofFinite B
+  have := Fintype.ofFinite B
   classical
   obtain ⟨b, hb⟩ := exists_fixed_of_involutive_odd ⟨ψ, ψ, hψ, hψ⟩ hψp hBodd
   have hbv : b₀ * ā b.1 = b.1 := congrArg Subtype.val hb
@@ -176,6 +178,7 @@ private lemma mem_sup_of_inv_mul_mem_sup {Y V : Subgroup X} [Y.Normal] {a : MulA
     simpa [mul_assoc] using this
   exact mul_mem_cancel_right hhH |>.mp hrhH
 
+omit [Finite X] in
 private lemma mem_of_pow_mem_of_pow_mem_of_coprime {H : Subgroup X} {x : X} {m n : ℕ}
     (hcop : Nat.Coprime m n) (hm : x ^ m ∈ H) (hn : x ^ n ∈ H) : x ∈ H := by
   have hxP : x ∈ Subgroup.zpowers x := Subgroup.mem_zpowers x
@@ -244,7 +247,7 @@ private lemma relIndex_sup_zpowers_dvd_orderOf {V : Subgroup X} {x : X}
   rwa [Nat.card_zpowers] at h
 
 private lemma exists_odd_pow_of_notMem {Y V : Subgroup X} [Y.Normal] {a : MulAut X}
-    (ha : a * a = 1) (hY : IsPGroup 2 Y) (hodd : Odd Y.index) {x : X}
+    (_ha : a * a = 1) (hY : IsPGroup 2 Y) (hodd : Odd Y.index) {x : X}
     (hxinv : a x = x⁻¹) (hxH : x ∉ V ⊔ Y) :
     ∃ x' : X, Odd (orderOf x') ∧ a x' = x'⁻¹ ∧ x' ∈ Subgroup.zpowers x ∧
       x' ∉ V ⊔ Y := by
@@ -275,6 +278,7 @@ private lemma exists_odd_pow_of_notMem {Y V : Subgroup X} [Y.Normal] {a : MulAut
       ((le_sup_right : Y ≤ V ⊔ Y) hxd_mem))
 
 
+omit [Finite X] in
 private lemma mem_normalizer_of_cj_eq_self {V : Subgroup X} {g : X}
     (h : CFSG.Walter.W67.Sec6.cj g V = V) : g ∈ Subgroup.normalizer (V : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -328,7 +332,7 @@ theorem exists_complement_invariant_of_involution {Y : Subgroup X} [Y.Normal] (h
   let 𝒮 : Set (Subgroup X) := {V | Odd (Nat.card V) ∧ (∀ v ∈ V, a v ∈ V) ∧ fixedBy a ≤ V ⊔ Y}
   have h𝒮ne : 𝒮.Nonempty := ⟨U, hUodd, hUinv, hUsup⟩
   have h𝒮fin : 𝒮.Finite := by
-    haveI : Finite (Subgroup X) :=
+    have : Finite (Subgroup X) :=
       Finite.of_injective (fun H : Subgroup X => (H : Set X)) SetLike.coe_injective
     exact Set.Finite.subset Set.finite_univ (Set.subset_univ _)
   obtain ⟨V, hVmem, hVmax⟩ := Finset.exists_max_image h𝒮fin.toFinset (fun V => Nat.card V)
@@ -356,7 +360,7 @@ theorem exists_complement_invariant_of_involution {Y : Subgroup X} [Y.Normal] (h
   ·
     set H : Subgroup X := V ⊔ Y with hH
     have hHlt : H < ⊤ := lt_top_iff_ne_top.mpr htop
-    haveI := hnil
+    have := hnil
     have hnc : NormalizerCondition (X ⧸ Y) := Group.normalizerCondition_of_isNilpotent
     have hkerle : (QuotientGroup.mk' Y).ker ≤ H := by
       rw [QuotientGroup.ker_mk']
@@ -367,7 +371,7 @@ theorem exists_complement_invariant_of_involution {Y : Subgroup X} [Y.Normal] (h
       apply htop
       have h1 := congrArg (Subgroup.comap (QuotientGroup.mk' Y)) hcon
       rwa [Subgroup.comap_map_eq_self hkerle, Subgroup.comap_top] at h1
-    obtain ⟨z, hzN, hzH⟩ := SetLike.exists_of_lt (hnc (H.map (QuotientGroup.mk' Y)) hHmap_lt)
+    obtain ⟨z, hzN, hzH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (H.map (QuotientGroup.mk' Y)) hHmap_lt)
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective Y z
     have hgH : g ∉ H := fun hg => hzH (Subgroup.mem_map_of_mem _ hg)
     have hgN : g ∈ Subgroup.normalizer (H : Set X) := by

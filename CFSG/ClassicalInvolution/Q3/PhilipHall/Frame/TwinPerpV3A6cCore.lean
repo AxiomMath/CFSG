@@ -12,12 +12,14 @@ section Core
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem comm_of_comm_eq_one {a b : Y} (h : a * b * a⁻¹ * b⁻¹ = 1) : a * b = b * a := by
   calc a * b = a * b * a⁻¹ * b⁻¹ * (b * a) := by group
     _ = b * a := by rw [h, one_mul]
 
-theorem comm_shift {e x s s' : Y} (hse : s * e = e * s) (hsx : s * x = x * s) (hss : s * s' = s' * s)
-    (hs'e : s' * e = e * s') (hs'x : s' * x = x * s') :
+omit [Finite Y] in
+theorem comm_shift {e x s s' : Y} (_hse : s * e = e * s) (hsx : s * x = x * s) (hss : s * s' = s' * s)
+    (hs'e : s' * e = e * s') (_hs'x : s' * x = x * s') :
     e * s * (x * s') * (e * s)⁻¹ * (x * s')⁻¹ = e * x * e⁻¹ * x⁻¹ := by
   have h1 : s' * e⁻¹ = e⁻¹ * s' := (show Commute s' e from hs'e).inv_right.eq
   have h2 : s * s' * s⁻¹ = s' := by rw [hss]; group
@@ -37,6 +39,7 @@ variable {c t j a d : Y} {X E K₃ K₄ : Subgroup Y} {ρ : Y → AEQ 6} {α : F
 
 include S T
 
+omit [Finite Y] in
 theorem rho_comm_lab {g : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y)) (h3 : ∀ k ∈ K₃, g * k = k * g)
     (h4 : ∀ k ∈ K₄, g * k = k * g) :
     (∀ k ∈ memBar α h b, k * ρ g = ρ g * k) ∧ (∀ k ∈ memBar α h (!b), k * ρ g = ρ g * k) := by
@@ -82,7 +85,7 @@ theorem card_inf_le (F : AE6Fin) : 16 ≤ Nat.card ↥(E ⊓ conjE j E) := by
     · simp [F', hρe]
     · have hcC : c ∈ Subgroup.centralizer ({c} : Set Y) := S.XC S.c_mem
       have heC : e i ∈ Subgroup.centralizer ({c} : Set Y) := S.E_le_C (he i).1
-      simp only [F', if_true]
+      simp only [F', ite_true]
       rw [S.rho_mul c hcC (e i) heC, S.rho_c, one_mul, hρe]
   have hinj : Function.Injective F' := by
     rintro ⟨i, s⟩ ⟨i', s'⟩ hFF
@@ -97,16 +100,17 @@ theorem card_inf_le (F : AE6Fin) : 16 ≤ Nat.card ↥(E ⊓ conjE j E) := by
       cases s <;> cases s'
       · exact hne rfl
       · have := congrArg Subtype.val hFF
-        simp only [F', Bool.false_eq_true, if_false, if_true] at this
+        simp only [F', Bool.false_eq_true, ite_false, ite_true] at this
         exact hcne this.symm
       · have := congrArg Subtype.val hFF
-        simp only [F', Bool.false_eq_true, if_false, if_true] at this
+        simp only [F', Bool.false_eq_true, ite_false, ite_true] at this
         exact hcne this
       · exact hne rfl
     rw [hss]
   have := Nat.card_le_card_of_injective F' hinj
   simpa using this
 
+omit [Finite Y] in
 theorem exists_dd (F : AE6Fin) : ∃ dd : Y, dd ∈ Subgroup.centralizer ({c} : Set Y) ∧
     TC.Thin.permQ 6 (ρ dd) = 1 ∧ (∀ k ∈ K₃, dd * k = k * dd) ∧ (∀ k ∈ K₄, dd * k = k * dd) ∧
     ρ dd ≠ 1 ∧ ρ dd ≠ zBar α h ∧ (j⁻¹ * dd * j = dd ∨ j⁻¹ * dd * j = dd * t) := by
@@ -189,8 +193,8 @@ theorem pair_core (F : AE6Fin) : ∀ e ∈ E, ∀ e' ∈ E, e * (j * e' * j⁻¹
     have := Subgroup.card_dvd_of_le (inf_le_left : E ⊓ conjE j E ≤ E)
     rwa [S.E_card] at this
   by_cases hEle : E ≤ conjE j E
-  · exact Ej_abel S T (hEle he) hx
-  obtain ⟨e₀, he₀, he₀'⟩ := SetLike.not_le_iff_exists.mp hEle
+  · exact Ej_abel S (hEle he) hx
+  obtain ⟨e₀, he₀, he₀'⟩ := IsConcreteLE.not_le_iff_exists.mp hEle
   have hcard : Nat.card ↥(E ⊓ conjE j E) = 16 := by
     have hmem : Nat.card ↥(E ⊓ conjE j E) ∈ Nat.divisors 32 :=
       Nat.mem_divisors.2 ⟨hdvd, by norm_num⟩
@@ -217,7 +221,7 @@ theorem pair_core (F : AE6Fin) : ∀ e ∈ E, ∀ e' ∈ E, e * (j * e' * j⁻¹
     intro hle
     have heq : conjE j E = E := Subgroup.eq_of_le_of_card_ge hle (by rw [hEjc, S.E_card])
     exact hEle heq.ge
-  obtain ⟨e₀', he₀'Ej, he₀'E⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨e₀', he₀'Ej, he₀'E⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   have hindep : ∀ e₁ ∈ E, e₁ ∉ conjE j E → ∀ x₁ ∈ conjE j E, x₁ ∉ E → ∀ f₁ ∈ E, f₁ ∉ conjE j E →
       ∀ y₁ ∈ conjE j E, y₁ ∉ E → e₁ * x₁ * e₁⁻¹ * x₁⁻¹ = f₁ * y₁ * f₁⁻¹ * y₁⁻¹ := by
     intro e₁ he₁ he₁' x₁ hx₁ hx₁' f₁ hf₁ hf₁' y₁ hy₁ hy₁'
@@ -237,10 +241,10 @@ theorem pair_core (F : AE6Fin) : ∀ e ∈ E, ∀ e' ∈ E, e * (j * e' * j⁻¹
     have hy' : y₁ = x₁ * s' := by rw [hs'def]; group
     rw [hf', hy']
     have hse : s * e₁ = e₁ * s := S.E_comm hs.1 he₁
-    have hsx : s * x₁ = x₁ * s := Ej_abel S T hs.2 hx₁
+    have hsx : s * x₁ = x₁ * s := Ej_abel S hs.2 hx₁
     have hss : s * s' = s' * s := S.E_comm hs.1 hs'.1
     have hs'e : s' * e₁ = e₁ * s' := S.E_comm hs'.1 he₁
-    have hs'x : s' * x₁ = x₁ * s' := Ej_abel S T hs'.2 hx₁
+    have hs'x : s' * x₁ = x₁ * s' := Ej_abel S hs'.2 hx₁
     exact (comm_shift hse hsx hss hs'e hs'x).symm
   obtain ⟨cm, hcmdef⟩ : ∃ cm, cm = e₀ * e₀' * e₀⁻¹ * e₀'⁻¹ := ⟨_, rfl⟩
   have hB1 : ∀ e₁ ∈ E, ∀ x₁ ∈ conjE j E,
@@ -248,7 +252,7 @@ theorem pair_core (F : AE6Fin) : ∀ e ∈ E, ∀ e' ∈ E, e * (j * e' * j⁻¹
     intro e₁ he₁ x₁ hx₁
     by_cases h1 : e₁ ∈ conjE j E
     · left
-      have := Ej_abel S T h1 hx₁
+      have := Ej_abel S h1 hx₁
       rw [this]
       group
     by_cases h2 : x₁ ∈ E
@@ -273,17 +277,17 @@ theorem pair_core (F : AE6Fin) : ∀ e ∈ E, ∀ e' ∈ E, e * (j * e' * j⁻¹
     have hkX : k ∈ X := hk.elim (T.K₃X k) (T.K₄X k)
     have hjk : j * k = k * j := hk.elim (T.j_K₃ k) (T.j_K₄ k)
     have hjk' : j * k⁻¹ = k⁻¹ * j := (show Commute j k from hjk).inv_right.eq
-    have h1 : k * e₀ * k⁻¹ ∈ E := K_conj_E S T hkX he₀
+    have h1 : k * e₀ * k⁻¹ ∈ E := K_conj_E S hkX he₀
     have h1' : k * e₀ * k⁻¹ ∉ conjE j E := by
       intro hh
-      have := K_conj_Ej S T (X.inv_mem hkX) hjk' hh
+      have := K_conj_Ej S (X.inv_mem hkX) hjk' hh
       have e2 : k⁻¹ * (k * e₀ * k⁻¹) * k⁻¹⁻¹ = e₀ := by group
       rw [e2] at this
       exact he₀' this
-    have h2 : k * e₀' * k⁻¹ ∈ conjE j E := K_conj_Ej S T hkX hjk he₀'Ej
+    have h2 : k * e₀' * k⁻¹ ∈ conjE j E := K_conj_Ej S hkX hjk he₀'Ej
     have h2' : k * e₀' * k⁻¹ ∉ E := by
       intro hh
-      have := K_conj_E S T (X.inv_mem hkX) hh
+      have := K_conj_E S (X.inv_mem hkX) hh
       have e2 : k⁻¹ * (k * e₀' * k⁻¹) * k⁻¹⁻¹ = e₀' := by group
       rw [e2] at this
       exact he₀'E this

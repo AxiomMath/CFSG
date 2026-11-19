@@ -202,12 +202,12 @@ section Transfer
 variable {Y D : Subgroup Q} [Y.Normal]
 
 theorem mem_centralizer_quot_iff [D.Normal]
-    (hZ : D.map (QuotientGroup.mk' Y) ⊓ centMod D Y = ⊥) {S : Subgroup Q} (hYS : Y ≤ S)
+    (hZ : D.map (QuotientGroup.mk' Y) ⊓ centMod D Y = ⊥) {S : Subgroup Q} (_hYS : Y ≤ S)
     (hSD : S ≤ D) (x : Q) :
     QuotientGroup.mk' (centMod D Y) (QuotientGroup.mk' Y x) ∈
         Subgroup.centralizer ((((S.map (QuotientGroup.mk' Y)).map
           (QuotientGroup.mk' (centMod D Y)) : Subgroup _)) : Set _) ↔ x ∈ Cmod S Y := by
-  haveI : (D.map (QuotientGroup.mk' Y)).Normal :=
+  have : (D.map (QuotientGroup.mk' Y)).Normal :=
     Subgroup.Normal.map ‹D.Normal› _ (QuotientGroup.mk'_surjective Y)
   rw [transfer_centralizer hZ (Subgroup.map_mono (f := QuotientGroup.mk' Y) hSD)
     (QuotientGroup.mk' Y x)]
@@ -220,7 +220,7 @@ theorem mem_normalizer_quot_iff [D.Normal]
         Subgroup.normalizer ((((S.map (QuotientGroup.mk' Y)).map
           (QuotientGroup.mk' (centMod D Y)) : Subgroup _)) : Set _) ↔
       x ∈ Subgroup.normalizer (S : Set Q) := by
-  haveI : (D.map (QuotientGroup.mk' Y)).Normal :=
+  have : (D.map (QuotientGroup.mk' Y)).Normal :=
     Subgroup.Normal.map ‹D.Normal› _ (QuotientGroup.mk'_surjective Y)
   rw [transfer_normalizer hZ (Subgroup.map_mono (f := QuotientGroup.mk' Y) hSD)
     (QuotientGroup.mk' Y x)]
@@ -233,7 +233,7 @@ theorem card_actOn_quot [D.Normal]
         ((A.map (QuotientGroup.mk' Y)).map (QuotientGroup.mk' (centMod D Y)))) =
       (A ⊓ Subgroup.normalizer (S : Set Q) ⊓ Cmod S Y).relIndex
         (A ⊓ Subgroup.normalizer (S : Set Q)) := by
-  haveI : (D.map (QuotientGroup.mk' Y)).Normal :=
+  have : (D.map (QuotientGroup.mk' Y)).Normal :=
     Subgroup.Normal.map ‹D.Normal› _ (QuotientGroup.mk'_surjective Y)
   refine transfer_card_actOn_of_hom
     ((QuotientGroup.mk' (centMod D Y)).comp (QuotientGroup.mk' Y))

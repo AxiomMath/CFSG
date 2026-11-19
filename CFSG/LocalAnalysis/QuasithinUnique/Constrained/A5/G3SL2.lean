@@ -246,7 +246,7 @@ theorem solvable_of_le_normalizer [Finite F] {n : ℕ} (hn : 1 ≤ n) (hF : Nat.
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hXQ⟩ := hX.exists_le_sylow
   obtain ⟨g, hg⟩ :=
-    exists_conj_Ugrp hn hF (V := (Q : Subgroup SL(2, F))) Q.isPGroup' Q.not_dvd_index
+    exists_conj_Ugrp hn hF (V := (Q : Subgroup SL(2, F))) Q.isPGroup Q.not_dvd_index
   obtain ⟨x, hx1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hX1
   have hxX : (x : SL(2, F)) ∈ X := x.2
   have hxQ : (x : SL(2, F)) ∈ (Q : Subgroup SL(2, F)) := hXQ hxX

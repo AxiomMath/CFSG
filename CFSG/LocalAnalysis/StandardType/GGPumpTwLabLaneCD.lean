@@ -23,12 +23,12 @@ private theorem l04fHL3_blockA_d1 (r nf : ℕ) :
 private theorem l04fHL3_blockA_d2_ge (r nf : ℕ) (hr : 2 ≤ r) :
     ggMultBlockA r nf 2 = ⟨⟨.twA, r, nf⟩, decide (¬ (r = 2 ∧ nf = 1))⟩ := by
   simp only [ggMultBlockA]
-  rw [if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_pos hr]
+  rw [ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_left hr]
 
 private theorem l04fHL3_blockA_d2_le (r nf : ℕ) (hr : ¬ 2 ≤ r) :
     ggMultBlockA r nf 2 = ⟨⟨.A, 1, nf⟩, decide (¬ (nf = 1))⟩ := by
   simp only [ggMultBlockA]
-  rw [if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_neg hr]
+  rw [ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_right hr]
 
 private theorem l04fHL3_blockA_d1_lab (r nf : ℕ) :
     (ggMultBlockA r nf 1).lab = ⟨.A, r, nf⟩ := by rw [l04fHL3_blockA_d1]
@@ -77,13 +77,13 @@ private theorem l04fHL3_v0_three_false (nf : ℕ) :
 
 private theorem l04fHL3_v0_ge_four_true (a nf : ℕ) (ha1 : ¬ a ≤ 1) (ha2 : a ≠ 2) (ha3 : a ≠ 3) :
     ggMultV0 a true nf = [⟨⟨.D, a, nf⟩, true⟩] := by
-  simp only [ggMultV0, if_neg ha1, if_neg ha2, if_neg ha3]
-  rw [if_pos trivial]
+  simp only [ggMultV0, ite_eq_right ha1, ite_eq_right ha2, ite_eq_right ha3]
+  rw [ite_eq_left trivial]
 
 private theorem l04fHL3_v0_ge_four_false (a nf : ℕ) (ha1 : ¬ a ≤ 1) (ha2 : a ≠ 2) (ha3 : a ≠ 3) :
     ggMultV0 a false nf = [⟨⟨.twD, a, nf⟩, true⟩] := by
-  simp only [ggMultV0, if_neg ha1, if_neg ha2, if_neg ha3]
-  rw [if_neg (by decide : ¬ (false = true))]
+  simp only [ggMultV0, ite_eq_right ha1, ite_eq_right ha2, ite_eq_right ha3]
+  rw [ite_eq_right (by decide : ¬ (false = true))]
 
 private theorem l04fHL3_not_dvd_both (m : ℕ) : ¬ (3 ∣ 2 ^ m - 1 ∧ 3 ∣ 2 ^ m + 1) := by
   rintro ⟨h1, h2⟩
@@ -97,13 +97,13 @@ private theorem l04fHL3_ggMultOrd_ne_zero {nf : ℕ} :
     ggMultOrd 3 nf ≠ 0 ↔ 3 ∣ 2 ^ nf - 1 ∨ 3 ∣ 2 ^ nf + 1 := by
   unfold ggMultOrd
   by_cases h1 : 3 ∣ 2 ^ nf - 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact ⟨fun _ => Or.inl h1, fun _ => by simp⟩
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : 3 ∣ 2 ^ nf + 1
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       exact ⟨fun _ => Or.inr h2, fun _ => by simp⟩
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       constructor
       · intro h; exact absurd rfl h
       · rintro (h | h)
@@ -114,15 +114,15 @@ private theorem l04fHL3_ggMultOrd_eq_one {nf : ℕ} (h : ggMultOrd 3 nf = 1) :
     3 ∣ 2 ^ nf - 1 := by
   by_contra hc
   by_cases h2 : 3 ∣ 2 ^ nf + 1
-  · rw [ggMultOrd, if_neg hc, if_pos h2] at h; norm_num at h
-  · rw [ggMultOrd, if_neg hc, if_neg h2] at h; norm_num at h
+  · rw [ggMultOrd, ite_eq_right hc, ite_eq_left h2] at h; norm_num at h
+  · rw [ggMultOrd, ite_eq_right hc, ite_eq_right h2] at h; norm_num at h
 
 private theorem l04fHL3_ggMultOrd_eq_two {nf : ℕ} (h : ggMultOrd 3 nf = 2) :
     3 ∣ 2 ^ nf + 1 := by
   by_contra hc
   by_cases h1 : 3 ∣ 2 ^ nf - 1
-  · rw [ggMultOrd, if_pos h1] at h; norm_num at h
-  · rw [ggMultOrd, if_neg h1, if_neg hc] at h; norm_num at h
+  · rw [ggMultOrd, ite_eq_left h1] at h; norm_num at h
+  · rw [ggMultOrd, ite_eq_right h1, ite_eq_right hc] at h; norm_num at h
 
 private theorem l04fHL3_ggMultOrd_cases {nf : ℕ} (h : ggMultOrd 3 nf ≠ 0) :
     ggMultOrd 3 nf = 1 ∨ ggMultOrd 3 nf = 2 := by
@@ -263,7 +263,7 @@ private theorem l04fHL3_mem_D_orbit {nf d : ℕ} {tw : Bool} {a b : ℕ} {o : GG
       (2 ≤ b ∧ o = ggMultBlockA (b - 1) nf d) := by
   rw [l04fHL3_datumD_orbits, List.mem_append] at ho
   by_cases hb : 2 ≤ b <;>
-    simp only [hb, if_true, if_false, List.mem_cons, List.mem_nil_iff, or_false] at ho <;>
+    simp only [hb, ite_true, ite_false, List.mem_cons, List.mem_nil_iff, or_false] at ho <;>
     tauto
 
 private theorem l04fHL3_D_shape {nf : ℕ} {tw : Bool} {a b : ℕ} {o : GGKacOrbit} {f : ℕ}
@@ -313,7 +313,7 @@ private theorem l04fHL3_orbit_D
   rcases htag with hD | htwD
   · subst hD
     simp only [ggKacTypeClOfLabel] at hT
-    rw [if_pos hr4] at hT
+    rw [ite_eq_left hr4] at hT
     simp only [Option.some.injEq, Prod.mk.injEq] at hT
     obtain ⟨rfl, rfl, rfl⟩ := hT
     obtain ⟨m, hmlen, hmsum, _hadm, hDeq⟩ := (mem_ggMultTableCl_D hd).mp hDmem
@@ -338,7 +338,7 @@ private theorem l04fHL3_orbit_D
       · rw [hk]; exact Nat.odd_iff.mpr hbodd
   · subst htwD
     simp only [ggKacTypeClOfLabel] at hT
-    rw [if_pos hr4] at hT
+    rw [ite_eq_left hr4] at hT
     simp only [Option.some.injEq, Prod.mk.injEq] at hT
     obtain ⟨rfl, rfl, rfl⟩ := hT
     obtain ⟨m, hmlen, hmsum, _hadm, hDeq⟩ := (mem_ggMultTableCl_D hd).mp hDmem
@@ -444,7 +444,7 @@ private theorem l04fHL3_laneC
     obtain ⟨T, tw, nf, hT, hDmem⟩ := hvalid
     simp only [ggKacTypeClOfLabel] at hT
     by_cases hr : 2 ≤ r
-    · rw [if_pos hr, Option.some.injEq, Prod.mk.injEq] at hT
+    · rw [ite_eq_left hr, Option.some.injEq, Prod.mk.injEq] at hT
       obtain ⟨rfl, rfl, rfl⟩ := hT
       have hdiv : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1 := hF.1.2.2.1
       have hd : ggMultOrd 3 n ≠ 0 := l04fHL3_ggMultOrd_ne_zero.mpr hdiv
@@ -453,7 +453,7 @@ private theorem l04fHL3_laneC
       obtain ⟨a, b, rfl⟩ := l04fHL3_length_two hmlen2
       rw [hDeq] at ho
       exact (l04fHL3_C_vacuous hd ho hrig).elim
-    · rw [if_neg hr] at hT
+    · rw [ite_eq_right hr] at hT
       exact absurd hT (by simp)
 
 theorem ggPumpTwLab_laneCD

@@ -128,6 +128,7 @@ variable (D : QuotientData (z := z) hN)
 
 omit
   hN in
+omit [Finite G] in
 theorem conjV_pi_eq_iff (h : Tim79a.ParrottHyp z) (g : ↥(H z)) (x : ↥(J z)) :
     conjV h g (QuotientV.pi z x) = QuotientV.pi z x ↔
       (g : G) * (x : G) * (g : G)⁻¹ * (x : G)⁻¹ ∈ centerIn (J z) := by
@@ -137,6 +138,7 @@ theorem conjV_pi_eq_iff (h : Tim79a.ParrottHyp z) (g : ↥(H z)) (x : ↥(J z)) 
   rw [QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf, div_eq_mul_inv]
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjJ'_apply_coe]
 
+omit [Finite G] in
 private theorem conjV_eq_of_qH_eq_aux (h : Tim79a.ParrottHyp z) {a b : ↥(H z)}
     (hab : qH D a = qH D b) : conjV h a = conjV h b := by
   rw [← actionA_mk h a, ← actionA_mk h b, mk_eq_of_qH_eq D hab]
@@ -315,11 +317,13 @@ theorem conjV_eq_self_of_mem_Fsub_of_qH_mem_QP45 (h : Tim79a.ParrottHyp z) {σ�
 
 omit
   hN in
+omit [Finite G] in
 theorem mul_comm_V (h : Tim79a.ParrottHyp z) (v w : QuotientV.V z) : v * w = w * v :=
   (QuotientV.isMulCommutative_V h).is_comm.comm v w
 
 omit
   hN in
+omit [Finite G] in
 theorem mul_self_eq_one_V (h : Tim79a.ParrottHyp z) (v : QuotientV.V z) : v * v = 1 := by
   rw [← sq]
   exact QuotientV.pow_two_eq_one_V h v
@@ -327,6 +331,7 @@ theorem mul_self_eq_one_V (h : Tim79a.ParrottHyp z) (v : QuotientV.V z) : v * v 
 private theorem exists_eq_two_pow_of_dvd {m n : ℕ} (hm : m ∣ 2 ^ n) : ∃ k ≤ n, m = 2 ^ k :=
   (Nat.dvd_prime_pow Nat.prime_two).mp hm
 
+omit [Finite G] in
 theorem mem_commutatorV_iff (h : Tim79a.ParrottHyp z) (b : ↥(H z)) {r : QuotientV.V z} :
     r ∈ commutatorV h b ↔ ∃ w : QuotientV.V z, conjV h b w * w⁻¹ = r := by
   let : CommGroup (QuotientV.V z) := commGroupV h

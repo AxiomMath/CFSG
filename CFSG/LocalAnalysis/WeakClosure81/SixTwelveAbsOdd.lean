@@ -75,12 +75,12 @@ theorem exists_ne_one_centralizes {P W : Subgroup X} (hP : IsPGroup 2 P) (hW : I
   have hQ : IsPGroup 2 Q := IsPGroup.to_sup_of_normal_left' hW hP hPW
   have hWQ : W ≤ Q := le_sup_left
   have hnormW : Q ≤ Subgroup.normalizer (W : Set X) := sup_le Subgroup.le_normalizer hPW
-  haveI : Finite ↥Q := Finite.of_injective (fun q : ↥Q => (q : X)) (fun a b h => Subtype.ext h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Finite ↥Q := Finite.of_injective (fun q : ↥Q => (q : X)) (fun a b h => Subtype.ext h)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hNormal : (W.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWQ).mpr hnormW
-  haveI := hNormal
+  have := hNormal
   have hne : W.subgroupOf Q ≠ ⊥ := by
     intro hbot
     apply hW1
@@ -130,7 +130,7 @@ theorem conjSubgroup_eq_of_le_normalizer (h : Abs612 T T₁ Z E) {y : X}
 theorem odd_ncard_orbit (h : Abs612 T T₁ Z E) {Y : Subgroup X} (hTY : T ≤ Y) :
     Odd (conjSubgroupOrbit Y T).ncard :=
   odd_ncard_conjSubgroupOrbit hTY h.elem.isPGroup
-    (fun y _ hy => h.conjSubgroup_eq_of_le_normalizer hy)
+    (fun _y _ hy => h.conjSubgroup_eq_of_le_normalizer hy)
 
 theorem exists_fixed_orbit (h : Abs612 T T₁ Z E) :
     ∃ x : X, ∀ s ∈ T₁, conjSubgroup s (conjSubgroup x T) = conjSubgroup x T := by

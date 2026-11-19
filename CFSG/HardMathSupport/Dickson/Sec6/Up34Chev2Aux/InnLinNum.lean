@@ -114,10 +114,10 @@ theorem not_isLThreeFour_sl_four_two {F : Type} [Group F]
   have hX := statedClassicalModel_of_lieModel_psl (isL34Type_of_isLThreeFour hL)
   obtain ⟨-, hcent, -⟩ :=
     CFSG.ComponentClassification.PSL3Four.excludes_alternating_models_stated.{0} _ hX
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hE]; norm_num)
   let φ : ZMod 2 →+* E := ZMod.castHom (dvd_refl 2) E
   let Φ : Matrix.SpecialLinearGroup (Fin 4) (ZMod 2) →* Matrix.SpecialLinearGroup (Fin 4) E :=
@@ -158,8 +158,8 @@ theorem exists_central_three_sl_three_four {F : Type} [Group F] {E : Type} [Fiel
     (hE : Nat.card E = 4) (e : F ≃* Matrix.SpecialLinearGroup (Fin 3) E) :
     ∃ z : F, z ∈ Subgroup.center F ∧ z ^ 3 = 1 ∧ z ≠ 1 := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hcube : ∀ a : E, a ≠ 0 → a ^ 3 = 1 := by
     intro a ha
     have h4 : Fintype.card E = 4 := by rw [← Nat.card_eq_fintype_card, hE]

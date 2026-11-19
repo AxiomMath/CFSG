@@ -25,7 +25,7 @@ theorem t1010S_of_mulEquiv {K₁ K₂ : Type} [Group K₁] [Group K₂] [Finite 
       (∃ r ∈ (R : Subgroup K₂), ∃ s ∈ (R : Subgroup K₂), r * s ≠ s * r) ∧
       ∀ r ∈ (R : Subgroup K₂), r ^ 3 = 1 := by
   intro R
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hc, ⟨r, hr, s, hs, hrs⟩, hexp⟩ :=
     h (Sylow.mapSurjective (f := (e.symm : K₂ →* K₁)) e.symm.surjective R)
   have hmap : ((Sylow.mapSurjective (f := (e.symm : K₂ →* K₁)) e.symm.surjective R :
@@ -37,7 +37,7 @@ theorem t1010S_of_mulEquiv {K₁ K₂ : Type} [Group K₁] [Group K₂] [Finite 
   · obtain ⟨r', hr', rfl⟩ := hr
     obtain ⟨s', hs', rfl⟩ := hs
     refine ⟨r', hr', s', hs', fun h' => hrs ?_⟩
-    simp only [MulEquiv.coe_toMonoidHom, ← map_mul]
+    simp only [← map_mul]
     exact congrArg e.symm h'
   · intro r' hr'
     have := hexp (e.symm r') ⟨r', hr', rfl⟩
@@ -48,7 +48,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem i1132UsedAt_of_kd (T : Tables112) (TL : TableL2) (TT : Tables112Types)
     (TM : Tables112More) (h2028 : KD2028S) (hSU3 : KDSU3) (hsimple : IsSimpleGroup G)
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hKP : CFSG.Open.IsKProper G) {p : ℕ} (hp : p.Prime)
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (hKP : CFSG.Open.IsKProper G) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : I1132UsedAt G p := by
   classical
   intro B x L hB hx hL hnL

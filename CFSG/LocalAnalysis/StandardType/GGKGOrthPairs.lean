@@ -91,7 +91,7 @@ private theorem kGL_image_wordProd_D4std :
       {γ | IsRoot Tag.E6 γ ∧
         ((iform γ (highRoot Tag.E6) + iform γ (Pi.single 5 1) : ℤ) : ZMod 3) = 0} := by
   ext γ
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   by_cases hγ : γ ∈ rootFinset Tag.E6
   · have hiff : (((List.foldl (fun x i => reflect Tag.E6 i x) γ kGLE6D4Word) 0 = 0 ∧
         (List.foldl (fun x i => reflect Tag.E6 i x) γ kGLE6D4Word) 5 = 0) ↔
@@ -187,7 +187,7 @@ private theorem kGL_zmodPowHom_ofAdd_eq_one_iff {K : Type} [Field K] {ζ : Kˣ}
     simpa using h1
   · intro h
     rw [h]
-    simpa using map_one (CFSG.RankThree.CentralCover.zmodPowHom ζ hζ)
+    simp
 
 private theorem kGL_sum_mul_kgExpVec (γ β : Fin Tag.E6.rank → ℤ) :
     (∑ i, ((γ i : ℤ) : ZMod 3) * kgExpVec β i) = ((iform γ β : ℤ) : ZMod 3) := by
@@ -225,7 +225,7 @@ theorem famKernel_kgExpVec_single {K : Type} [Field K] {ζ : Kˣ} (hζo : orderO
     (hζ : ζ ^ 3 = 1) {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β) :
     famKernel {zetaVec ζ hζ (kgExpVec β)} = {γ | IsRoot Tag.E6 γ ∧ iform γ β = 0} := by
   ext γ
-  simp only [famKernel, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+  simp only [famKernel, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
   constructor
   · rintro ⟨hγ, h1⟩
     exact ⟨hγ, (iform_zmod_three_eq_zero_iff hγ hβ).mp
@@ -239,7 +239,7 @@ theorem famKernel_kgExpVec_add {K : Type} [Field K] {ζ : Kˣ} (hζo : orderOf �
     famKernel {zetaVec ζ hζ (kgExpVec α + kgExpVec β)} =
       {γ | IsRoot Tag.E6 γ ∧ ((iform γ α + iform γ β : ℤ) : ZMod 3) = 0} := by
   ext γ
-  simp only [famKernel, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+  simp only [famKernel, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
   constructor
   · rintro ⟨hγ, h1⟩
     refine ⟨hγ, ?_⟩
@@ -256,7 +256,7 @@ theorem famKernel_kgExpVec_pair {K : Type} [Field K] {ζ : Kˣ} (hζo : orderOf 
     famKernel {zetaVec ζ hζ (kgExpVec α), zetaVec ζ hζ (kgExpVec β)} =
       {γ | IsRoot Tag.E6 γ ∧ iform γ α = 0 ∧ iform γ β = 0} := by
   ext γ
-  simp only [famKernel, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff,
+  simp only [famKernel, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff,
     forall_eq_or_imp, forall_eq]
   constructor
   · rintro ⟨hγ, h1, h2⟩
@@ -372,7 +372,7 @@ theorem exists_weyl_smul_d4 {α β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.
       (v := Pi.single 5 1) (R := fun a b => ((a + b : ℤ) : ZMod 3) = 0)
     simpa [hwθ, hwα] using h
   rw [← himg, ← kGL_image_wordProd_D4std]
-  simp only [Set.image_image, Function.comp_apply, mul_smul]
+  simp only [Set.image_image, mul_smul]
 
 theorem exists_root_kgL4 {α β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
     (hβ : IsRoot Tag.E6 β) (hαβ : iform α β = 0) :

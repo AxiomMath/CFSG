@@ -28,7 +28,7 @@ theorem burnsideMS93R_clause_core
     (h4 : C134CorrLocal.IsC134Case4Corr (K ⊔ R) R K) :
     c134CQ (K ⊔ R) K ≤ CFSG.Quasithin.centerOf (K ⊔ R) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set G₀ := K ⊔ R with hG₀
   set P := pCoreOf 2 G₀ with hP
   have hQdef : c134Q G₀ K = ⁅P, K⁆ := rfl

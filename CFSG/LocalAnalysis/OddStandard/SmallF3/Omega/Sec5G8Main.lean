@@ -25,7 +25,7 @@ theorem sec5g8_main (hB3 : GoldschmidtB3Tmp) (hSH8 : Sec5SH8Statement) (hy : Sec
     (hker : π.ker = (zpowers z).subgroupOf (centralizer ({z} : Set G))) :
     Sec5G8Outcome (((sec5p510_T t z (sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂))).subgroupOf
       (centralizer ({z} : Set G))).map π) := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hTR : sec5p510_T t z (sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂)) =
       sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂) := hs.T_cases.resolve_left hTE
   obtain ⟨P, -, hle, hSC⟩ := sec5z8_exists_sylow_strongly_closed hy h55 h58d hFB h4 hU hSq h hs

@@ -34,7 +34,7 @@ theorem exists_coherentFrame {k : ℕ} {U : Fin k → Submodule F V} {e : Fin k 
     ∃ (e' : Fin k → ↥(orthDerived Q)) (u : Fin k → V) (c t : F),
       IsCoherentFrame Q p U e' E u c t ∧ ∀ j, e' j ∈ Subgroup.zpowers (e j) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hex : ∀ j : Fin k, ∃ h : F[X], h ∈ primaryFactors (e j : V ≃ₗ[F] V).toLinearMap ∧
       U j ≤ primaryComponent (e j : V ≃ₗ[F] V).toLinearMap h := by
     intro j
@@ -74,11 +74,11 @@ theorem exists_coherentFrame {k : ℕ} {U : Fin k → Submodule F V} {e : Fin k 
     CoordSU.dvd_cyclotomic_of_dvd hp (hirr j) (hmon j) (by simpa using hdvd j) (hne j)
   have hdeg : ∀ j, (h j).natDegree = 2 := by
     intro j
-    haveI : Fact (Irreducible (h j)) := ⟨hirr j⟩
+    have : Fact (Irreducible (h j)) := ⟨hirr j⟩
     exact SpNS.natDegree_eq_two hp hp2 hpK (hcyc j) hpq
   have hcoeff0 : ∀ j, (h j).coeff 0 = 1 := by
     intro j
-    haveI : Fact (Irreducible (h j)) := ⟨hirr j⟩
+    have : Fact (Irreducible (h j)) := ⟨hirr j⟩
     have hnorm := SpNS.norm_root_eq_one hp hp2 hpK (hcyc j) hpq
     have hnorm_eq : Algebra.norm F (AdjoinRoot.root (h j)) = (h j).coeff 0 := by
       have h1 := Algebra.PowerBasis.norm_gen_eq_coeff_zero_minpoly (CoordSL.rootPB (h j))

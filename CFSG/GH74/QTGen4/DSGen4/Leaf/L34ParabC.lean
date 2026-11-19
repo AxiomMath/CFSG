@@ -36,17 +36,17 @@ theorem only_E16 {F : Type} [Field F] [CharP F 2] (hq : Nat.card F = 4) :
       rwa [pow_two] at h2
     exact involution_mem_V1_or_V2 (F := F) ⟨g, hgU⟩ (Subtype.ext hsq)
   have hV1 : Nat.card (CFSG.QuasithinUnique.Fin257.L3.V1 : Subgroup (projectiveSL 3 F)) = 16 := by
-    rw [card_V1, hq] <;> norm_num
+    rw [card_V1, hq]; norm_num
   have hV2 : Nat.card (CFSG.QuasithinUnique.Fin257.L3.V2 : Subgroup (projectiveSL 3 F)) = 16 := by
-    rw [card_V2, hq] <;> norm_num
+    rw [card_V2, hq]; norm_num
   rcases le_or_le_of_forall_mem_or_mem CFSG.QuasithinUnique.Fin257.L3.V1
       CFSG.QuasithinUnique.Fin257.L3.V2 E hmem with hEV1 | hEV2
   · right
-    haveI : Finite (CFSG.QuasithinUnique.Fin257.L3.V1 : Subgroup (projectiveSL 3 F)) :=
+    have : Finite (CFSG.QuasithinUnique.Fin257.L3.V1 : Subgroup (projectiveSL 3 F)) :=
       Nat.finite_of_card_ne_zero (by rw [hV1]; norm_num)
     exact Subgroup.eq_of_le_of_card_ge hEV1 (hV1.trans hcard.symm).le
   · left
-    haveI : Finite (CFSG.QuasithinUnique.Fin257.L3.V2 : Subgroup (projectiveSL 3 F)) :=
+    have : Finite (CFSG.QuasithinUnique.Fin257.L3.V2 : Subgroup (projectiveSL 3 F)) :=
       Nat.finite_of_card_ne_zero (by rw [hV2]; norm_num)
     exact Subgroup.eq_of_le_of_card_ge hEV2 (hV2.trans hcard.symm).le
 

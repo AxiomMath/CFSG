@@ -23,7 +23,7 @@ theorem k34odd_of_tables
   by_cases h3 : 3 ∣ Nat.card (Subgroup.center L)
   · exact Or.inl (k34odd_threeCover_of_three_dvd hGA hAlt hSpor L hq hcat h3 hrk)
   · refine Or.inr ⟨h3, ?_⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hrkX : CFSG.Open.pRank 3 (⊤ : Subgroup (L ⧸ Subgroup.center L)) = 3 :=
       (CFSG.SectionRank.pRank_quotient_eq (Subgroup.center L) h3).trans hrk
     obtain ⟨i, ⟨e⟩⟩ := hcat

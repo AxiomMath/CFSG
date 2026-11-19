@@ -36,9 +36,9 @@ variable {G : Type} [Group G]
 private theorem comm_of_isPGroup_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     (hS : ∀ P : Sylow 3 H, IsCyclic ↥(P : Subgroup H)) {R : Subgroup H} (hR : IsPGroup 3 R)
     {r s : H} (hr : r ∈ R) (hs : s ∈ R) : r * s = s * r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hRP⟩ := hR.exists_le_sylow
-  haveI := hS P
+  have := hS P
   exact congrArg Subtype.val
     ((inferInstance : IsMulCommutative ↥(P : Subgroup H)).is_comm.comm ⟨r, hRP hr⟩ ⟨s, hRP hs⟩)
 
@@ -46,7 +46,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     (hS : ∀ P : Sylow 3 H, IsCyclic ↥(P : Subgroup H)) {u v : H} (hu3 : u ^ 3 = 1)
     (hu1 : u ≠ 1) (hv3 : v ^ 3 = 1) (hv1 : v ≠ 1) (huv : Commute u v) :
     u ∈ Subgroup.zpowers v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hou : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hov : orderOf v = 3 := orderOf_eq_prime hv3 hv1
   have hzu : IsPGroup 3 (Subgroup.zpowers u) :=
@@ -62,7 +62,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
     exact huv.symm.zpow_left k
   obtain ⟨P, hP⟩ := (IsPGroup.to_sup_of_normal_right' hzu hzv hle).exists_le_sylow
-  haveI := hS P
+  have := hS P
   have hmu : u ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_left (Subgroup.mem_zpowers u))
   have hmv : v ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_right (Subgroup.mem_zpowers v))
   have hu' : orderOf (⟨u, hmu⟩ : (P : Subgroup H)) = 3 := by
@@ -82,7 +82,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
 private theorem ffStandardJ_of_cyc [Finite G] {b : G} {L : Subgroup G} (hord : orderOf b = 3)
     (hLC : L ≤ Cen b) (hLN : Cen b ≤ Nor L) (hLq : CFSG.IsQuasisimple L)
     (hcyc : FFCentCyclicSylow L) : FFStandardJ b L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3 : b ^ 3 = 1 := by rw [← hord]; exact pow_orderOf_eq_one b
   have ha1 : b ≠ 1 := fun h => by simp [h] at hord
   have hXC : L ≤ Subgroup.centralizer ({b} : Set G) := hLC
@@ -155,7 +155,7 @@ private theorem ffStandardJ_of_cyc [Finite G] {b : G} {L : Subgroup G} (hord : o
     let φ : ↥K →* ↥D := (Cc.subtype.comp K.subtype).codRestrict D (fun k => hKD k.1 k.2)
     have hφ : Function.Injective φ := fun u v huv =>
       Subtype.ext (Subtype.ext (congrArg (fun z : ↥D => (z : G)) huv))
-    have hR : IsPGroup 3 ((P : Subgroup ↥K).map φ) := P.isPGroup'.map φ
+    have hR : IsPGroup 3 ((P : Subgroup ↥K).map φ) := P.isPGroup.map φ
     intro y hy z hz
     apply hφ
     rw [map_mul, map_mul]
@@ -181,11 +181,11 @@ private theorem ker_conj_eq_center' {X : Type*} [Group X] :
 private theorem card_le_three_of_cyclic_sylow {Y : Type} [Group Y] [Finite Y]
     (hcyc : ∀ S : Sylow 3 Y, IsCyclic ↥(S : Subgroup Y)) {A : Subgroup Y}
     (hA : IsElemAbelian 3 A) : Nat.card A ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAp : IsPGroup 3 A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   obtain ⟨S, hS⟩ := hAp.exists_le_sylow
-  haveI := hcyc S
-  haveI : IsCyclic A := isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hS).toMonoidHom
+  have := hcyc S
+  have : IsCyclic A := isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hS).toMonoidHom
     (Subgroup.subgroupOfEquivOfLe hS).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := A)
   rw [← orderOf_eq_card_of_forall_mem_zpowers hg]
@@ -195,7 +195,7 @@ private theorem card_le_three_of_cyclic_sylow {Y : Type} [Group Y] [Finite Y]
 private theorem card_le_27 [Finite G] {L : Subgroup G} (hq : CFSG.IsQuasisimple L)
     (hmod : IsTypeLnq 4 2 1 L) (hcyc : FFCentCyclicSylow L) {E : Subgroup G}
     (hE : IsElemAbelian 3 E) (hEN : E ≤ Nor L) : Nat.card E ≤ 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.RankThree.GF2n.Tim81.nonempty_mulEquiv_alternating_eight_of_psl4_model hmod
   have hInn : Nat.card (MulAut.conj : ↥L →* MulAut ↥L).range = 20160 := by
     have h1 := Nat.card_congr
@@ -269,7 +269,7 @@ private theorem card_le_27 [Finite G] {L : Subgroup G} (hq : CFSG.IsQuasisimple 
 private theorem false_of_central_three {X : Type} [Group X] [Finite X]
     (hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center X)) (e : X) (he : e ∈ Subgroup.center X)
     (he3 : e ^ 3 = 1) (he1 : e ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let z : ↥(Subgroup.center X) := ⟨e, he⟩
   have hz3 : z ^ 3 = 1 := Subtype.ext he3
   have hz1 : z ≠ 1 := fun h => he1 (congrArg (fun w : ↥(Subgroup.center X) => (w : X)) h)
@@ -280,7 +280,7 @@ private theorem exists_e27 [Finite G] {b : G} {L : Subgroup G} (hord : orderOf b
     (hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center ↥L)) :
     ∃ K V : Subgroup ↥(Cen b), IsElemAbelian 3 K ∧ Nat.card K = 27 ∧ V ≠ ⊥ ∧ IsPGroup 2 V ∧
       K ≤ Subgroup.normalizer (V : Set ↥(Cen b)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₀, V₀, hE₀, hE₀9, hV₀, hV₀2, hE₀V₀⟩ := fFKE9_holds ↥L hq hZ3 (Or.inl hmod)
   have ha3 : b ^ 3 = 1 := by rw [← hord]; exact pow_orderOf_eq_one b
   have ha1 : b ≠ 1 := fun h => by simp [h] at hord
@@ -335,7 +335,7 @@ private theorem localRank_eq_pRank [Finite G] {b : G} {L : Subgroup G} (hord : o
     (hmod : IsTypeLnq 4 2 1 L) (hcyc : FFCentCyclicSylow L)
     (hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center ↥L)) :
     localRank 3 ↥(Cen b) = CFSG.Open.pRank 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, V, hKab, hK27, hVne, hV2, hKN⟩ := exists_e27 hord hLC hq hmod hZ3
   have hbd : ∀ E : Subgroup ↥(Cen b), IsElemAbelian 3 E → Nat.card E ≤ 27 := by
     intro E hE
@@ -422,7 +422,7 @@ theorem ff84_2_1_of4
     · exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
     · exact Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
     · exact Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
-  haveI := hE27.1
+  have := hE27.1
   have hcomm : ∀ x ∈ Subgroup.zpowers b, ∀ y ∈ Subgroup.closure ({b₁, b₂} : Set G),
       x * y = y * x := by
     intro x hx y hy

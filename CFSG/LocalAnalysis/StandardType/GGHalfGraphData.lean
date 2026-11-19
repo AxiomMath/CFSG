@@ -26,7 +26,7 @@ private theorem ggHalfGraphData_f2 (x : F2) : x = 0 ∨ x = 1 := by
 private theorem ggHalfGraphData_slE_eq (a b : Fin 6) (h : a ≠ b) :
     slE a b = SpecialLinearGroup.transvection h 1 := by
   unfold slE
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private theorem ggHalfGraphData_slE_closure :
     Subgroup.closure {s : SpecialLinearGroup (Fin 6) F2 | ∃ c d, c ≠ d ∧ s = slE c d} = ⊤ := by
@@ -66,7 +66,7 @@ private theorem ggHalfGraphData_torus_bot :
 private theorem ggHalfGraphData_theta
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J K : Subgroup G} {y : G} {φ₁ φ₂ : SpecialLinearGroup (Fin 6) F2 →* G}
-    (h : GGHalfCtx p B Bs x L D J 3 y K φ₁ φ₂) (m : GGHalfE6Model) (hm : m.Good)
+    (_h : GGHalfCtx p B Bs x L D J 3 y K φ₁ φ₂) (m : GGHalfE6Model) (hm : m.Good)
     (φ : GGE6Two →* G)
     (hL : ∀ c d : Fin 6, c ≠ d →
       φ (ggE6x (m.frame .L (GGHalfBlk.L.lab c) (GGHalfBlk.L.lab d))) = φ₁ (slE c d)) :
@@ -90,9 +90,9 @@ private theorem ggHalfGraphData_theta
     exact hL c d hcd
   · simp
   · intro a b _ _ iha ihb
-    simp only [MonoidHom.comp_apply, map_mul, iha, ihb]
+    simp only [map_mul, iha, ihb]
   · intro a _ iha
-    simp only [MonoidHom.comp_apply, map_inv, iha]
+    simp only [map_inv, iha]
 
 private theorem ggHalfGraphData_ggG0_le_range
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}

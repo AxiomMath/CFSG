@@ -50,7 +50,7 @@ private lemma pCore_eq_bot_of_not_le
 private lemma center_eq_bot_of_pCore_eq_bot {L : Subgroup X}
     (hcore : CFSG.pPrimeCore 3 X = ⊥) (hL : CFSG.IsComponent L)
     (hp : CFSG.pCore 3 ↥L = ⊥) : Subgroup.center ↥L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcore' : CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := X) 3 = ⊥ := hcore
   have hZ : IsPGroup 3 (Subgroup.center ↥L) :=
     CFSG.AGLEmbedding.isPGroup_center_of_isComponentOf Nat.prime_three hcore'
@@ -101,7 +101,7 @@ private lemma exists_order_three_pair
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) :
     ∃ a x₀ : X, a ∈ A ∧ orderOf a = 3 ∧ x₀ ∈ L ∧ orderOf x₀ = 3 ∧
       x₀ ∉ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3L : 3 ∣ Nat.card L :=
     CFSG.LocalAnalysis.RankThreeTheoremC.thc_dvd_card Nat.prime_three h.core hL
   obtain ⟨x₀L, hx₀ordL⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3L
@@ -347,7 +347,7 @@ private lemma elemAbelian_card_27_of_chain
         ((Subgroup.zpowers a ⊔ Subgroup.zpowers x₀) ⊔ Subgroup.zpowers x₁) ∧
       Nat.card (((Subgroup.zpowers a ⊔ Subgroup.zpowers x₀) ⊔ Subgroup.zpowers x₁ :
         Subgroup X)) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3 : a ^ 3 = 1 := by
     rw [← haord]
     exact pow_orderOf_eq_one a
@@ -395,7 +395,7 @@ private lemma four_le_pRank_of_elemAbelian_chain
     (hx₁_not : x₁ ∉ Subgroup.zpowers a ⊔ Subgroup.zpowers x₀)
     (hx₂_not : x₂ ∉ (Subgroup.zpowers a ⊔ Subgroup.zpowers x₀) ⊔ Subgroup.zpowers x₁) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE0_x₁, hE1el, hE1card⟩ :=
     elemAbelian_card_27_of_chain haord hx₀ord hx₁ord hax₀ hax₁ hx₀x₁ hx₀_not hx₁_not
   have hE0_x₂ : ∀ e ∈ (Subgroup.zpowers a ⊔ Subgroup.zpowers x₀ : Subgroup X),
@@ -457,7 +457,7 @@ private lemma false_of_moved
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) {g : X} (hgP : g ∈ P)
     (hgN : g ∉ Subgroup.normalizer (L : Set X)) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgY : g ∈ Y := h.le_Y hgP
   let L₁ : Subgroup X := L.map (MulAut.conj g).toMonoidHom
   let L₂ : Subgroup X := L.map (MulAut.conj (g * g)).toMonoidHom
@@ -523,7 +523,7 @@ private lemma inf_component_ne_bot
     (hKA : CFSG.LocalAnalysis.RankFourTheoremC.GL83ComponentPCoreTrivial)
     (h : O1517bRed X p P A Y) {L : Subgroup X}
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) : P ⊓ L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPN : P ≤ Subgroup.normalizer (L : Set X) :=
     O1517bRed.le_normalizer hKA h hL hLY
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf 3 P (Subgroup.normalizer (L : Set X)) :=
@@ -545,7 +545,7 @@ private lemma exists_order_three_mem_inf_center
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) :
     ∃ zP : ↥P, zP ∈ (P ⊓ L).subgroupOf P ∧ zP ∈ Subgroup.center ↥P ∧
       orderOf zP = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP3 : IsPGroup 3 ↥P := h.sylow.isPGroup
   have hPN : P ≤ Subgroup.normalizer (L : Set X) :=
     O1517bRed.le_normalizer hKA h hL hLY
@@ -581,7 +581,7 @@ private lemma false_of_cyclic_center_shape
     (h : O1517bRed X p P A Y) {L : Subgroup X}
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y)
     (hcyc : IsCyclic ↥(Subgroup.center ↥P)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAP : A ≤ P := h.le_P
   obtain ⟨zP, hzPN, hzPcenter, hzPord⟩ :=
     exists_order_three_mem_inf_center hKA h hL hLY
@@ -593,7 +593,7 @@ private lemma false_of_cyclic_center_shape
   have hzXord : orderOf zX = 3 := by
     simpa [zX] using (Subgroup.orderOf_coe zP).trans hzPord
   have hAle : A.subgroupOf P ≤ Subgroup.center ↥P := by
-    haveI : Fact (IsPGroup 3 ↥P) := ⟨h.sylow.isPGroup⟩
+    have : Fact (IsPGroup 3 ↥P) := ⟨h.sylow.isPGroup⟩
     have hNcard : Nat.card (A.subgroupOf P) = 3 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAP).toEquiv, h.card_A]
     have hPN : P ≤ Subgroup.normalizer (A : Set X) := fun x _ => by
@@ -639,7 +639,7 @@ theorem O1517bRed.inf_centralizer_eq
   apply le_antisymm ?_ ?_
   · intro x hx
     by_contra hxA
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hpcore : CFSG.Open.IsElemAbelian 3 P ∧ Nat.card P = 27 :=
       O1517bRed.elem hKA h hL hLY
     have hxP : x ∈ P := hx.1

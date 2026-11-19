@@ -141,7 +141,7 @@ theorem transfer_eq_one_of_sq {A : Type} [CommGroup A] (ϕ : (S : Subgroup G) �
         _ = 1 := by rw [hz2]; group
     · exact Or.inl (Tr34.cv_of_not_mem ϕ hX)
   · rw [hy2]
-    refine Tr34.four_dvd_card_zEps (S : Subgroup G) S.isPGroup' ϕ z C.D.x₁ ε hε1 ?_
+    refine Tr34.four_dvd_card_zEps (S : Subgroup G) S.isPGroup ϕ z C.D.x₁ ε hε1 ?_
       (C.hd.hR.2.2 C.x₁_mem_R) (C.x₁_mem_of_index_le_two) ?_
     · intro s hs
       exact Subgroup.mem_centralizer_singleton_iff.mp (C.le_centralizer_z hs)

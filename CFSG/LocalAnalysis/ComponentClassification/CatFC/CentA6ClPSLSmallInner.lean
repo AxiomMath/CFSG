@@ -31,12 +31,14 @@ theorem inner_proj_data (hn : 2 ≤ n) (hpar : 3 ≤ n ∨ 5 ≤ Nat.card K) {A 
     CatalogueBHigherLinearInner.inner_involution_projective_data n K hn hpar A hne hsq
   exact ⟨h1, h2⟩
 
+omit [Finite K] in
 theorem card_fixed_dvd (A : GL (Fin n) K) :
     Nat.card (fixedSubgroup (innerDiagonalAction n K A)) ∣
       Nat.card (Subgroup.centralizer ({ProjGenLinGroup.mk A} : Set (ProjGenLinGroup (Fin n) K))) := by
   rw [Nat.card_congr (CatalogueBHigherLinearInner.innerFixedCentralizerEquiv n K A).toEquiv]
   exact Subgroup.card_subgroup_dvd_card _
 
+omit [Finite K] in
 theorem card_pglCentralizer (A : GL (Fin n) K) :
     Nat.card (Subgroup.centralizer ({ProjGenLinGroup.mk A} : Set (ProjGenLinGroup (Fin n) K))) =
       Nat.card (ordinaryCentralizerProjection A).range *
@@ -46,13 +48,13 @@ theorem card_pglCentralizer (A : GL (Fin n) K) :
 theorem isSolvable_fixed_of_solvable_centralizer [Nonempty (Fin n)] (A : GL (Fin n) K)
     [Group.IsSolvable (Subgroup.centralizer ({A} : Set (GL (Fin n) K)))] :
     Group.IsSolvable (fixedSubgroup (innerDiagonalAction n K A)) := by
-  haveI : Group.IsSolvable (ordinaryCentralizerProjection A).range :=
-    solvable_of_surjective (ordinaryCentralizerProjection A).rangeRestrict_surjective
-  haveI : Group.IsSolvable (Subgroup.centralizer ({ProjGenLinGroup.mk A} : Set (ProjGenLinGroup (Fin n) K))) :=
-    solvable_of_ker_le_range (ordinaryCentralizerProjection A).range.subtype
+  have : Group.IsSolvable (ordinaryCentralizerProjection A).range :=
+    Group.isSolvable_of_surjective (ordinaryCentralizerProjection A).rangeRestrict_surjective
+  have : Group.IsSolvable (Subgroup.centralizer ({ProjGenLinGroup.mk A} : Set (ProjGenLinGroup (Fin n) K))) :=
+    Group.isSolvable_of_ker_le_range (ordinaryCentralizerProjection A).range.subtype
       (projectiveScalarCharacter A) (by
         rw [projectiveScalarCharacter_kernel_eq, Subgroup.range_subtype])
-  exact solvable_of_solvable_injective
+  exact Group.isSolvable_of_isSolvable_injective
     (f := ((CatalogueBHigherLinearInner.localPSLRange n K (ProjGenLinGroup.mk A)).subtype.comp
       (CatalogueBHigherLinearInner.innerFixedCentralizerEquiv n K A).toMonoidHom))
     (Subtype.val_injective.comp (CatalogueBHigherLinearInner.innerFixedCentralizerEquiv n K A).injective)
@@ -61,7 +63,7 @@ theorem gl_comm_of_le_one {R : Type*} [CommRing R] {r : ℕ} (hr : r ≤ 1) (a b
     a * b = b * a := by
   apply Units.ext
   ext i j
-  haveI : Subsingleton (Fin r) := ⟨fun x y => by ext; omega⟩
+  have : Subsingleton (Fin r) := ⟨fun x y => by ext; omega⟩
   rw [Units.val_mul, Units.val_mul, Matrix.mul_apply, Matrix.mul_apply,
     Fintype.sum_subsingleton _ i, Fintype.sum_subsingleton _ i]
   have hj : j = i := Subsingleton.elim _ _
@@ -82,20 +84,20 @@ theorem inner_two_false (hpar : 5 ≤ Nat.card K) (htwo : (2 : K) ≠ 0) {A : GL
     generalize negativeMatrixDimension A b.val = s at *
     have hr1 : r ≤ 1 := by omega
     have hs1 : s ≤ 1 := by omega
-    haveI : Group.IsSolvable (GL (Fin r) K × GL (Fin s) K) :=
-      isSolvable_of_comm fun a b => Prod.ext (gl_comm_of_le_one hr1 _ _) (gl_comm_of_le_one hs1 _ _)
-    haveI : Group.IsSolvable (Subgroup.centralizer ({A} : Set (GL (Fin 2) K))) :=
-      solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    have : Group.IsSolvable (GL (Fin r) K × GL (Fin s) K) :=
+      _root_.Group.isSolvable_of_comm fun a b => Prod.ext (gl_comm_of_le_one hr1 _ _) (gl_comm_of_le_one hs1 _ _)
+    have : Group.IsSolvable (Subgroup.centralizer ({A} : Set (GL (Fin 2) K))) :=
+      Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact isSolvable_fixed_of_solvable_centralizer A
-  · haveI : Fact (¬ IsSquare lambda.val) := ⟨hsquare⟩
+  · have : Fact (¬ IsSquare lambda.val) := ⟨hsquare⟩
     have hdim := CatalogueBProjectiveQuadratic.matrixDimension_twice A lambda hsq
     simp only [Fintype.card_fin] at hdim
     have hm1 : CatalogueBProjectiveQuadratic.matrixDimension A lambda hsq ≤ 1 := by omega
-    haveI : Group.IsSolvable (GL (Fin (CatalogueBProjectiveQuadratic.matrixDimension A lambda hsq))
+    have : Group.IsSolvable (GL (Fin (CatalogueBProjectiveQuadratic.matrixDimension A lambda hsq))
         (CatalogueBProjectiveQuadratic.extension lambda.val)) :=
-      isSolvable_of_comm fun a b => gl_comm_of_le_one hm1 _ _
-    haveI : Group.IsSolvable (Subgroup.centralizer ({A} : Set (GL (Fin 2) K))) :=
-      solvable_of_solvable_injective
+      _root_.Group.isSolvable_of_comm fun a b => gl_comm_of_le_one hm1 _ _
+    have : Group.IsSolvable (Subgroup.centralizer ({A} : Set (GL (Fin 2) K))) :=
+      Group.isSolvable_of_isSolvable_injective
         (f := (CatalogueBProjectiveQuadratic.matrixCentralizerQuadraticEquiv A lambda hsq).toMonoidHom)
         (CatalogueBProjectiveQuadratic.matrixCentralizerQuadraticEquiv A lambda hsq).injective
     exact isSolvable_fixed_of_solvable_centralizer A
@@ -124,7 +126,7 @@ theorem inner_three_false (hK : Nat.card K = 9) (htwo : (2 : K) ≠ 0) {A : GL (
       let e' := e.trans MulEquiv.prodComm
       have := inner_factor_card_le h hr e' (fun c => by simp [e', hesc c]) hperf2
       omega
-  · haveI : Fact (¬ IsSquare lambda.val) := ⟨hsquare⟩
+  · have : Fact (¬ IsSquare lambda.val) := ⟨hsquare⟩
     have hdim := CatalogueBProjectiveQuadratic.matrixDimension_twice A lambda hsq
     simp only [Fintype.card_fin] at hdim
     omega

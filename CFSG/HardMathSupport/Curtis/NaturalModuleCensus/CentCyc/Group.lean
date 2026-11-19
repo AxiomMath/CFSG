@@ -60,7 +60,7 @@ theorem normal_pPrime_of_cycSylow {D : Type*} [Group D] [Finite D] {p : ℕ} (hp
   obtain ⟨Q, hyQ⟩ := hyP.exists_le_sylow
   have hxP'' : x ∈ (P : Subgroup D) := hxP' (mem_zpowers x)
   obtain ⟨g, hg⟩ := exists_conj_mem_sylow P Q (hyQ (mem_zpowers y))
-  have : IsCyclic (P : Subgroup D) := hcyc _ P.isPGroup'
+  have : IsCyclic (P : Subgroup D) := hcyc _ P.isPGroup
   have hord : orderOf (⟨g⁻¹ * y * g, hg⟩ : (P : Subgroup D)) =
       orderOf (⟨x, hxP''⟩ : (P : Subgroup D)) := by
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk, hxo, ← hyD]
@@ -96,7 +96,7 @@ theorem cyc_of_sylow_dvd {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.Prim
   have hSR : (S : Subgroup K) = R := rfl
   have hRle : R ≤ Dh := Subgroup.map_subtype_le _
   have hRcyc : IsCyclic R := hcyc R hRle (by
-    have : IsPGroup p (P' : Subgroup Dh) := P'.isPGroup'
+    have : IsPGroup p (P' : Subgroup Dh) := P'.isPGroup
     exact (this.map Dh.subtype))
   obtain ⟨Q, hAQ⟩ := hA.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K S Q

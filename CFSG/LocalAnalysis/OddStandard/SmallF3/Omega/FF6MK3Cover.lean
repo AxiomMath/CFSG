@@ -67,7 +67,7 @@ theorem ff6m_frameNorm_eq (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1
   exact congrArg (fun u : (ZMod 3)ˣ => (u : ZMod 3)) hunit
 
 theorem ff6m_K3_cover_of_data (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) {t : OGroup Q} (htt : t * t = 1) {c : ZMod 3} (hc : c ≠ 0)
+    (hsgn : quadSign Q = -1) {t : OGroup Q} (_htt : t * t = 1) {c : ZMod 3} (hc : c ≠ 0)
     {u v u' v' : V} (hu : Q u = c) (hv : Q v = c) (hu' : Q u' = c) (hv' : Q v' = c)
     (huv : polar Q u v = 0) (huu' : polar Q u u' = 0) (huv' : polar Q u v' = 0)
     (hvu' : polar Q v u' = 0) (hvv' : polar Q v v' = 0) (hu'v' : polar Q u' v' = 0)

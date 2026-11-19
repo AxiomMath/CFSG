@@ -71,7 +71,7 @@ theorem modA_E25_rk_summand (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
     (hpow : ∀ g ∈ Jbar ρ x, ∃ k : ℕ, ∀ v ∈ M, g v = (ρ x) ^ k • v) {s : B}
     (hs2 : ρ s * ρ s = 1) (hs : ρ s ∈ modA_stab M) :
     rk (modA_restr M ⟨ρ s, hs⟩) = 0 ∨ rk (modA_restr M ⟨ρ s, hs⟩) = 2 := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   set a₁ : M ≃ₗ[ZMod 2] M := modA_resJ (Jbar ρ x) M sM ⟨ρ x, E25_rho_mem_Jbar ρ x⟩ with ha₁
   set g₁ : M ≃ₗ[ZMod 2] M := modA_restr M ⟨ρ s, hs⟩ with hg₁
   have hinv : (ρ s)⁻¹ = ρ s := inv_eq_of_mul_eq_one_right hs2
@@ -107,12 +107,13 @@ theorem modA_E25_rk_summand (H : HypM ρ x t z h) {M : Submodule (ZMod 2) V}
     rwa [hM] at this
   omega
 
+omit [Finite B] in
 theorem modA_E25_no_rank_three (H : HypM ρ x t z h)
     (hab : ∀ a ∈ Jbar ρ x, ∀ b ∈ Jbar ρ x, a * b = b * a) {s : B} (hs2 : ρ s * ρ s = 1) :
     rk (ρ s) ≠ 3 := by
   intro hs3
   obtain ⟨-, V₁, V₂, hd₁, hc, hV₂, hst, hperm, hpow, -⟩ := module_E25_abs H hab
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   have hd₂ : finrank (ZMod 2) V₂ = 4 := by
     rw [hV₂]
     exact (LinearEquiv.finrank_map_eq (ρ t) V₁).trans hd₁
@@ -133,7 +134,7 @@ theorem modA_A6_rk_four (H : HypM ρ x t z h)
     (hg : g ∈ Jbar ρ x) (hg2 : g * g = 1) (hg1 : g ≠ 1) : rk g = 4 := by
   obtain ⟨V₁, V₂, hd₁, hc, hV₂, hst, -, -, -, -, -, -, -⟩ := module_A6_abs H hA6
   have Bs := modA_base H hA6
-  haveI : Module.Finite (ZMod 2) V := modA_finite Bs
+  have : Module.Finite (ZMod 2) V := modA_finite Bs
   have hd₂ : finrank (ZMod 2) V₂ = 4 := by
     rw [hV₂]
     exact (LinearEquiv.finrank_map_eq (ρ t) V₁).trans hd₁
@@ -151,7 +152,7 @@ theorem modA_A6_not_mem (H : HypM ρ x t z h)
     (hA6 : Nonempty (Jbar ρ x ≃* alternatingGroup (Fin 6))) {s : B} (hs2 : ρ s * ρ s = 1)
     (hs3 : rk (ρ s) = 3) : ρ s ∉ Jbar ρ x := by
   intro hmem
-  haveI : Module.Finite (ZMod 2) V := modA_finite (modA_base H hA6)
+  have : Module.Finite (ZMod 2) V := modA_finite (modA_base H hA6)
   have hne : ρ s ≠ 1 := fun h1 => by
     rw [h1, modA_rk_one] at hs3
     omega
@@ -167,7 +168,7 @@ theorem rank_three_abs (H : HypM ρ x t z h) {s : B}
         IsCompl V₁ (V₁.map (ρ t : V →ₗ[ZMod 2] V)) ∧ V₁.map (ρ s : V →ₗ[ZMod 2] V) = V₁ := by
   rcases hJ with hA6 | hab
   · obtain ⟨V₁, V₂, hd₁, hc, hV₂, hst, -, -, -, -, -, -, hperm⟩ := module_A6_abs H hA6
-    haveI : Module.Finite (ZMod 2) V := modA_finite (modA_base H hA6)
+    have : Module.Finite (ZMod 2) V := modA_finite (modA_base H hA6)
     refine ⟨hA6, modA_A6_not_mem H hA6 hs2 hs3, V₁, hd₁, fun g hg => (hst g hg).1,
       hV₂ ▸ hc, ?_⟩
     rcases hperm s with ⟨e1, -⟩ | ⟨e1, -⟩

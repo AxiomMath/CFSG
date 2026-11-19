@@ -22,12 +22,14 @@ section Bridge
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {r : ℕ} [NeZero r]
 
+omit [Finite K] in
 theorem sympA6_spRep_proj (x : StatedSp r K) (v : Fin r ⊕ Fin r → K) :
     (SmallRule.spRep (proj r K x) : Module.End K (Fin r ⊕ Fin r → K)) v = spEnd x v := by
   have h : TableBSymp.spProjEquivSp (K := K) (m := r) (proj r K x) = x :=
     CFSG.SeitzReduction.F4Pilot.spProjEquiv_symm_proj x
   rw [SmallRule.spRep_apply, h, spEnd_apply, mat_apply]
 
+omit [Finite K] in
 theorem sympA6_mem_fixSpace (x : StatedSp r K) (v : Fin r ⊕ Fin r → K) :
     v ∈ SmallRule.fixSpaceOf SmallRule.spRep (Subgroup.zpowers (proj r K x)) ↔
       spEnd x v = v := by
@@ -67,6 +69,7 @@ theorem sympA6_mem_fixSpace (x : StatedSp r K) (v : Fin r ⊕ Fin r → K) :
     have hu' : u ∈ S := Subgroup.zpowers_le.mpr hxS hu
     exact hu'
 
+omit [Finite K] in
 theorem sympA6_finrank_fixSpace (x : StatedSp r K) :
     Module.finrank K (SmallRule.fixSpaceOf SmallRule.spRep (Subgroup.zpowers (proj r K x))) =
       spFixedDim x := by
@@ -83,10 +86,12 @@ section Fixer
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {r : ℕ} [NeZero r]
 
+omit [Finite K] [CharP K 2] [NeZero r] in
 theorem sympA6_spEnd_cube {x : StatedSp r K} (hx3 : x ^ 3 = 1) (v : Fin r ⊕ Fin r → K) :
     spEnd x (spEnd x (spEnd x v)) = v := by
   rw [← spEnd_mul_apply, ← spEnd_mul_apply, ← pow_three', hx3, spEnd_one_apply]
 
+omit [Finite K] in
 theorem sympA6_spBilin_spEnd (x : StatedSp r K) (a b : Fin r ⊕ Fin r → K) :
     SmallRule.spBilin K r (spEnd x a) (spEnd x b) = SmallRule.spBilin K r a b := by
   rw [← sympA6_spRep_proj, ← sympA6_spRep_proj]

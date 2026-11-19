@@ -19,6 +19,7 @@ section Aux
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem i271h_autOrderIn_dvd_card_mulAut {B K : Subgroup X}
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hperf : commutator ↥K = ⊤) :
     autOrderIn B K ∣ Nat.card (MulAut (↥K ⧸ Subgroup.center ↥K)) := by
@@ -108,11 +109,11 @@ theorem i271AltNdiv_holds : I271AltNdiv := by
       have hle' : p ≤ 37 := by nlinarith
       interval_cases p <;> first
         | omega
-        | (exfalso; revert hp; norm_num; done)
+        | (exfalso; revert hp; norm_num)
     have hpn : p ≤ n := by
       have hdvdK := i116e_dvd_card hp hH.core hH.comp
       obtain ⟨φ⟩ := exists_mulEquiv_of_center_eq_bot hZ e
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       rw [Nat.card_congr φ.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
         Fintype.card_fin] at hdvdK
       have h2 : 2 ∣ Nat.factorial n := Nat.dvd_factorial (by norm_num) (by omega)

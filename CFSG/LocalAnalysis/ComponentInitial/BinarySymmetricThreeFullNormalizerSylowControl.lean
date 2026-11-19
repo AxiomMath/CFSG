@@ -401,7 +401,7 @@ theorem exists_sylow_eq_map (hM : M = Subgroup.normalizer (R : Set G))
     have h2 := Subgroup.map_mono (f := M.subtype) h1
     rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left hRM] at h2
   refine ⟨hRSG, ?_⟩
-  have hSG2 : IsPGroup 2 SG := S.isPGroup'.map M.subtype
+  have hSG2 : IsPGroup 2 SG := S.isPGroup.map M.subtype
   obtain ⟨Q, hQ⟩ := hSG2.exists_le_sylow
   refine ⟨Q, le_antisymm ?_ hQ⟩
   have hT : (Q : Subgroup G) ⊓ Subgroup.normalizer (SG : Set G) ≤ SG := by
@@ -412,7 +412,7 @@ theorem exists_sylow_eq_map (hM : M = Subgroup.normalizer (R : Set G))
       ⟨hQ ⟨x, hx, rfl⟩, Subgroup.le_normalizer ⟨x, hx, rfl⟩⟩
     have hT2 : IsPGroup 2
         (((Q : Subgroup G) ⊓ Subgroup.normalizer (SG : Set G)).subgroupOf M) :=
-      (Q.isPGroup'.to_le inf_le_left).comap_of_injective M.subtype M.subtype_injective
+      (Q.isPGroup.to_le inf_le_left).comap_of_injective M.subtype M.subtype_injective
     have heq := S.maximal_isPGroup.eq_of_ge hT2 hST
     intro g hg
     have hgM : (⟨g, hTM hg⟩ : M) ∈
@@ -422,7 +422,7 @@ theorem exists_sylow_eq_map (hM : M = Subgroup.normalizer (R : Set G))
   by_contra hne
   have hlt : SG.subgroupOf Q < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => hne (Subgroup.subgroupOf_eq_top.mp h)
-  have hnc := p_group_normalizer_condition Q.isPGroup' hlt
+  have hnc := p_group_normalizer_condition Q.isPGroup hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hQ] at hnc
   obtain ⟨x, hx, hxS⟩ := IsConcreteLE.exists_of_lt hnc
   exact hxS (hT ⟨x.2, hx⟩)

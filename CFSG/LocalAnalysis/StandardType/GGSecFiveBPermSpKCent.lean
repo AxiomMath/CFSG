@@ -80,12 +80,12 @@ theorem card_bstar_inf_center_le_of_bCoordinateBlock {G : Type} [Group G] {p n :
     (eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))) (i0 : Fin n)
     (hAut : (ggAutomizer X Bs).map (MulAut.congr eta).toMonoidHom = bCoordinateBlock n p i0) :
     Nat.card ↥(Bs ⊓ X ⊓ Subgroup.centralizer (X : Set G)) ≤ p := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Finite ↥Bs :=
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
+  let : Finite ↥Bs :=
     Finite.of_equiv (Fin n → Multiplicative (ZMod p)) eta.toEquiv.symm
   let hCB : Bs ⊓ Subgroup.centralizer (X : Set G) ≤ Bs := inf_le_left
-  letI : Finite ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) :=
+  let : Finite ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) :=
     Finite.of_injective (Subgroup.inclusion hCB) (Subgroup.inclusion_injective hCB)
   have hC : Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) ≤ p :=
     ggSecFiveBPermSpK_card_inf_centralizer_le hp2 hAut

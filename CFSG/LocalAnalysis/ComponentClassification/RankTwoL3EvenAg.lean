@@ -147,7 +147,7 @@ theorem exists_two_lift_of_isPGroup
   set P := (Q₀ : Subgroup Uh).map Uh.subtype with hP
   have hPU : P ≤ Uh := map_subtype_le _
   have hPA : P ≤ A := hPU.trans liftIn_le
-  refine ⟨P, hPA, Q₀.isPGroup'.map _, fun p hp => (mem_liftIn.1 (hPU hp)).2, fun s hs => ?_⟩
+  refine ⟨P, hPA, Q₀.isPGroup.map _, fun p hp => (mem_liftIn.1 (hPU hp)).2, fun s hs => ?_⟩
   have hmem : (⟨s, hs⟩ : S) ∈ ((Q₀.mapSurjective hf : Sylow 2 S) : Subgroup S) := by
     rw [htop]
     exact mem_top _

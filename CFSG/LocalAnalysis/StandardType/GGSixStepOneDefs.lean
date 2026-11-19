@@ -282,7 +282,7 @@ theorem centralizer_eq_bot_of_signalizers {p : ℕ} {G₀ D J : Subgroup G} (hch
     have := T.not_dvd_index
     rw [hT1, Subgroup.index_bot] at this
     exact this hJ
-  have hT'p : IsPGroup 2 T' := T.isPGroup'.map J.subtype
+  have hT'p : IsPGroup 2 T' := T.isPGroup.map J.subtype
   set Nn := Subgroup.normalizer (T' : Set G) with hNn
   have hcharN := hchar Nn ⟨T', hT'ne, hT'p, rfl⟩
   set Q := pCoreOf 2 Nn with hQ

@@ -35,8 +35,8 @@ private theorem sec4FD_glue_facts [Finite G] (hQ : Q.Nondegenerate)
       (invType ((ρ ⟨v, hvL⟩ : ↥(omegaGroup hQ)) : OGroup Q) = (2, -1) ∨
         invType ((ρ ⟨v, hvL⟩ : ↥(omegaGroup hQ)) : OGroup Q) = (6, -1)) ∧
       fixSp t ≤ commSp ((ρ ⟨v, hvL⟩ : ↥(omegaGroup hQ)) : OGroup Q) := by
-  haveI : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have hvv : v * v = 1 := by
     have h1 := pow_orderOf_eq_one v
     rw [hvord, pow_two] at h1
@@ -84,8 +84,8 @@ theorem sec4FD_concl_of_model [Finite G] (hQ : Q.Nondegenerate)
         (InducesTypeSome L v 7 1 r α ↔
           invType ((ρ ⟨v, hvL⟩ : ↥(omegaGroup hQ)) : OGroup Q) = (r, α))) :
     Sec4FDConcl L s (L ⊓ centralizer ({s} : Set G)) := by
-  haveI : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have htt : t * t = 1 := h.y_sq
   unfold Sec4FDConcl
   refine ⟨?_, ?_, ?_, ?_, ?_⟩

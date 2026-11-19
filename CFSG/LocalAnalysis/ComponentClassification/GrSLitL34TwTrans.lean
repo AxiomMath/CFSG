@@ -16,7 +16,7 @@ private theorem exists_conj_le_map_of_sylow_trn {M Y : Type*} [Group M] [Finite 
     (f : M →* Y) (P₀ : Sylow 2 M) {P : Subgroup Y} (hP : IsPGroup 2 P) (hPr : P ≤ f.range) :
     ∃ m : M, ∀ p ∈ P, (f m)⁻¹ * p * f m ∈ (P₀ : Subgroup M).map f := by
   have hf : Function.Surjective f.rangeRestrict := f.rangeRestrict_surjective
-  haveI : Finite ↥f.range := Finite.of_surjective _ hf
+  have : Finite ↥f.range := Finite.of_surjective _ hf
   obtain ⟨Q₁, hQ₁⟩ := (hP.comap_subtype (K := f.range)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥f.range (P₀.mapSurjective hf) Q₁
   obtain ⟨m, rfl⟩ := hf g
@@ -188,7 +188,7 @@ theorem invol_conj_of_type (h : TwHyp G a x J S' W K T t)
   group
 
 theorem exists_conj_le_imgT (h : TwHyp G a x J S' W K T t)
-    (hρ : TwModel (normalizer (W : Set G)) K t ρ) {P : Subgroup WrE} (hP : IsPGroup 2 P)
+    (_hρ : TwModel (normalizer (W : Set G)) K t ρ) {P : Subgroup WrE} (hP : IsPGroup 2 P)
     (hPr : P ≤ ρ.range) :
     ∃ m : ↥(normalizer (W : Set G)),
       ∀ p ∈ P, (ρ m)⁻¹ * p * ρ m ∈ imgT T (normalizer (W : Set G)) ρ := by

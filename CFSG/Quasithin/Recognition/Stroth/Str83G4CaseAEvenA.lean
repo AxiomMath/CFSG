@@ -70,7 +70,7 @@ theorem caseA_even_Z_sup_Qy
   have hdiamond : (A ⊓ B).relIndex A = B.relIndex (A ⊔ B) := by
     rw [Subgroup.inf_relIndex_left]
     exact (CFSG.ABGTheoremB.relIndex_sup_right_of_le_normalizer (hA_S.trans hN)).symm
-  obtain ⟨y, hyA0, hynotQ⟩ := SetLike.not_le_iff_exists.mp hx.not_le
+  obtain ⟨y, hyA0, hynotQ⟩ := IsConcreteLE.not_le_iff_exists.mp hx.not_le
   have hyS : y ∈ caseAS (x b) (x (b - 1)) := by
     have hyQbm1 : y ∈ CosetGeom.Qy (x (b - 1)) :=
       hx.ball (x 0) (x (b - 1)) hx.type_two (le_of_eq hdist_0_bm1) hyA0
@@ -82,14 +82,14 @@ theorem caseA_even_Z_sup_Qy
     Subgroup.centralizer ({y} : Set (f112Amalgam L1 L2 S).Ghat)
   have hA_le_stab : A ≤ CosetGeom.stab (x b) :=
     (caseA_Z_le_Qy (x b)).trans (caseA_Qy_le_stab (x b))
-  haveI : Finite ↥A := by
-    haveI : Finite ↥(CosetGeom.stab (x b)) := caseA_finite_stab L1 L2 S (x b)
+  have : Finite ↥A := by
+    have : Finite ↥(CosetGeom.stab (x b)) := caseA_finite_stab L1 L2 S (x b)
     exact Finite.of_injective (Subgroup.inclusion hA_le_stab)
       (Subgroup.inclusion_injective hA_le_stab)
-  haveI : Finite ↥(A ⊓ C) :=
+  have : Finite ↥(A ⊓ C) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : A ⊓ C ≤ A))
       (Subgroup.inclusion_injective (inf_le_left : A ⊓ C ≤ A))
-  haveI : Nonempty ↥(A ⊓ C) := ⟨1⟩
+  have : Nonempty ↥(A ⊓ C) := ⟨1⟩
   have ht2 : y * y = 1 := by
     rw [← pow_two]
     exact A4.sq_eq_one_of_mem_omegaOneCenterOf hyA0
@@ -330,7 +330,7 @@ private theorem evenab_bad_contra
     show GPath.cons ε (GPath.cons w p h1) h2 (c + 1) = x (c - 1)
     rw [GPath.cons_succ]
     show (if c = 0 then w else p (c - 1)) = x (c - 1)
-    rw [if_neg (by omega : c ≠ 0)]
+    rw [ite_eq_right (by omega : c ≠ 0)]
     exact GPath.take_apply_of_le x c hcx (by omega)
   have hz1 : z 1 = w := by
     show GPath.cons ε (GPath.cons w p h1) h2 1 = w
@@ -362,7 +362,7 @@ private theorem evenab_bad_contra
     rw [hZw]
     exact (caseA_Z_le_Z_of_adj hfr hc1v hc1adj).trans (hx.ball (x c) (x (c + 2)) hcv hcd2)
   obtain ⟨t, htZ, htQ⟩ :=
-    SetLike.not_le_iff_exists.mp (caseA_not_Z_le_Qy_start hfr hx hbe hb)
+    IsConcreteLE.not_le_iff_exists.mp (caseA_not_Z_le_Qy_start hfr hx hbe hb)
   have hE1 := caseA_even_Z_sup_Qy hfr hx hbe hb
   have htS : t ∈ caseAS (x 0) (x 1) := by
     rw [← hE1]

@@ -43,7 +43,7 @@ private theorem lre6bx1_card_sup_zpowers_dvd {G : Type*} [Group G]
   have hTCnorm : T ≤ Subgroup.normalizer (C : Set G) := by
     change Subgroup.zpowers P ⊔ C ≤ Subgroup.normalizer (C : Set G)
     exact sup_le hnorm Subgroup.le_normalizer
-  haveI : (C.subgroupOf T).Normal :=
+  have : (C.subgroupOf T).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hTCnorm
   have hiso : Nat.card (Subgroup.zpowers P ⧸ C.subgroupOf (Subgroup.zpowers P)) =
       Nat.card (T ⧸ C.subgroupOf T) :=
@@ -74,10 +74,10 @@ theorem ordBMBound_D4_two :
   · have hSc : StatedClassicalModel R .POmegaPlus 4 2 1 := hc
     dsimp only [StatedClassicalModel] at hc
     rcases hc with ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Finite K := hKfinite
     have hK2 : Nat.card K = 2 := by rw [hKcard, pow_one]
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         (p := 2) (k := 1) Nat.prime_two (by norm_num) hKcard
     have hringChar : ringChar K = 2 := ringChar.eq K 2
@@ -92,12 +92,12 @@ theorem ordBMBound_D4_two :
       (Nat.card_congr (e.trans e').toEquiv).symm.trans hcardR
     have hAutEq : Nat.card (MulAut R) = Nat.card (MulAut C) :=
       Nat.card_congr (MulAut.congr (e.trans e')).toEquiv
-    haveI : Finite (ModGL Tag.D4 K) :=
+    have : Finite (ModGL Tag.D4 K) :=
       CFSG.LieType.Chevalley.finite_modGL (τ := Tag.D4) (K := K)
-    haveI : Finite C := inferInstance
-    haveI : Finite (MulAut C) := inferInstance
-    haveI : Fact ℓ.Prime := ⟨hℓprime⟩
-    haveI : Subsingleton (K ≃+* K) := lre6bx1_subsingleton_ringAut K hK2
+    have : Finite C := inferInstance
+    have : Finite (MulAut C) := inferInstance
+    have : Fact ℓ.Prime := ⟨hℓprime⟩
+    have : Subsingleton (K ≃+* K) := lre6bx1_subsingleton_ringAut K hK2
     have hPnorm : d4P K ∈ Subgroup.normalizer (C : Set (ModGL Tag.D4 K)) := by
       simpa only [C] using d4P_mem_normalizer_adjointGroup (K := K)
     have hP3 : (d4P K) ^ 3 = 1 := d4P_pow_three (K := K)
@@ -111,7 +111,7 @@ theorem ordBMBound_D4_two :
     obtain ⟨S⟩ := Sylow.nonempty (p := ℓ) (G := MulAut C)
     let Rsub : Subgroup (MulAut C) := S
     have hRsub_isP : IsPGroup ℓ Rsub := by
-      simpa only [Rsub] using S.isPGroup'
+      simpa only [Rsub] using S.isPGroup
     have hS_card : Nat.card Rsub = ℓ ^ (Nat.card (MulAut C)).factorization ℓ := by
       simpa only [Rsub] using Sylow.card_eq_multiplicity S
     have hS_le_range : Rsub ≤ Φ.range := by

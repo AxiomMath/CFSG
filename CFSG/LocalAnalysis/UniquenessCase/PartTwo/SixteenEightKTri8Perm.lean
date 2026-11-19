@@ -52,10 +52,10 @@ theorem s16k_tri8_perm (h : S16gRowCtx D V₀ V L hV)
 
 theorem s16k_tri8_fix_of_rk (h : S16gRowCtx D V₀ V L hV)
     (hc : S16kTri8Cfg D V₀ V L hV I₁ I₂ π₁ π₂) {t : MulAut (Vtil V₀ V hV)}
-    (ht : t ∈ Mbar D.M V₀ V hV) (ht2 : t ^ 2 = 1)
+    (ht : t ∈ Mbar D.M V₀ V hV) (_ht2 : t ^ 2 = 1)
     (hrk : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) :
     I₁.map t.toMonoidHom = I₁ ∧ I₂.map t.toMonoidHom = I₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup (MulAut (Vtil V₀ V hV)) := lBar V₀ V hV L
   let Z : Subgroup (Vtil V₀ V hV) := fixV (lBar V₀ V hV L)
   rcases s16k_tri8_perm h hc ht with hfix | hswap

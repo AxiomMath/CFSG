@@ -24,7 +24,7 @@ theorem R_isPretransitive : MulAction.IsPretransitive ↥R (Fin 306936) := by
 theorem not_forall_fix_of_card_seven_sq {E : Subgroup ↥R} (hE : Nat.card E = 7 ^ 2)
     (k : Fin 306936) : ¬ ∀ q ∈ E, q • k = k := by
   intro h
-  haveI := R_isPretransitive
+  have := R_isPretransitive
   have hle : E ≤ MulAction.stabilizer ↥R k := fun q hq =>
     MulAction.mem_stabilizer_iff.2 (h q hq)
   have hE49 : Nat.card E = 49 := by rw [hE]; norm_num
@@ -91,7 +91,7 @@ theorem gLAPPrimeCoreOf_R_eq_bot_of_plane {d : ↥R}
   set N : Subgroup ↥R := GLAPPrimeCoreOf 7 C
   have hNJ : N ⊓ JR = ⊥ :=
     le_bot_iff.1 ((gLAPPrimeCoreOf_inf_le Nat.prime_seven C JR).trans hJ.le)
-  haveI hJn : (JR : Subgroup ↥R).Normal := CFSG.Sporadic.Fi24.normal_JR
+  have hJn : (JR : Subgroup ↥R).Normal := CFSG.Sporadic.Fi24.normal_JR
   have hidx : (JR : Subgroup ↥R).index = 2 := CFSG.Sporadic.Fi24.index_JR
   by_contra hne
   obtain ⟨n, hnN, hn1⟩ : ∃ n ∈ N, n ≠ 1 := by

@@ -18,11 +18,14 @@ namespace Z4Pre
 variable (hp : Z4Pre t L S x₁ x₂ lam rho tau)
 include hp
 
+omit [Finite G] hp in
 theorem t_mem_X : t ∈ ctxX t tau x₁ x₂ := subset_closure (by simp)
 
+omit [Finite G] hp in
 theorem tau_mem_X : tau ∈ ctxX t tau x₁ x₂ := subset_closure (by simp)
 
-theorem ttau_mem_X : t * tau ∈ ctxX t tau x₁ x₂ := mul_mem hp.t_mem_X hp.tau_mem_X
+omit [Finite G] hp in
+theorem ttau_mem_X : t * tau ∈ ctxX t tau x₁ x₂ := mul_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X
 
 theorem comm_mem {g a : G} (hg : g ∈ ctxX t tau x₁ x₂) (ha : a ∈ ctxO t tau x₁ x₂) :
     z4Comm g a ∈ fourGrp x₁ x₂ := by
@@ -54,6 +57,7 @@ theorem comm_inv {g a : G} (hg : g ∈ ctxX t tau x₁ x₂) (ha : a ∈ ctxQ t 
   rw [h1] at h
   exact eq_inv_of_mul_eq_one_right h.symm
 
+omit [Finite G] hp in
 theorem comm_conj {g c : G} (hgc : g * c = c * g) (a : G) :
     z4Comm g (c * a * c⁻¹) = c * z4Comm g a * c⁻¹ := by
   have h : g = c * g * c⁻¹ := by rw [← hgc]; group
@@ -64,12 +68,13 @@ theorem comm_conj {g c : G} (hgc : g * c = c * g) (a : G) :
 
 theorem comm_ttau {a : G} (ha : a ∈ ctxQ t tau x₁ x₂ rho) :
     z4Comm (t * tau) a = z4Comm tau a * z4Comm t a := by
-  have hv := hp.comm_mem hp.tau_mem_X (hp.Q_le_O ha)
+  have hv := hp.comm_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hp.Q_le_O ha)
   have h1 : t * z4Comm tau a * t⁻¹ = z4Comm tau a := by rw [hp.t_comm_V _ hv]; group
   calc z4Comm (t * tau) a = t * (z4Comm tau a * a) * t⁻¹ * a⁻¹ := by unfold z4Comm; group
     _ = (t * z4Comm tau a * t⁻¹) * (t * a * t⁻¹ * a⁻¹) := by group
     _ = z4Comm tau a * z4Comm t a := by rw [h1]; rfl
 
+omit [Finite G] hp in
 theorem comm_eq_one_iff {g a : G} : z4Comm g a = 1 ↔ g * a = a * g := by
   unfold z4Comm
   constructor

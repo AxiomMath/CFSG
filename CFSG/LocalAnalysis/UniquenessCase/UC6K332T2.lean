@@ -18,6 +18,7 @@ section Generic
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_conj_eq_of_not_dvd (hout : ¬ 3 ∣ Nat.card (Outer X)) {α : MulAut X}
     (hα : α ^ 3 = 1) : ∃ j : X, MulAut.conj j = α := by
   have h1 : (QuotientGroup.mk' (inner X) α) ^ 3 = 1 := by rw [← map_pow, hα, map_one]
@@ -29,6 +30,7 @@ theorem exists_conj_eq_of_not_dvd (hout : ¬ 3 ∣ Nat.card (Outer X)) {α : Mul
   obtain ⟨j, hj⟩ := (QuotientGroup.eq_one_iff _).mp h2
   exact ⟨j, hj⟩
 
+omit [Finite X] in
 theorem isPGroup_zpowers_of_pow {j : X} (hj : j ^ 3 = 1) : IsPGroup 3 (zpowers j) := by
   rcases (Nat.dvd_prime Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hj) with h1 | h3
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h1, pow_zero])
@@ -36,9 +38,9 @@ theorem isPGroup_zpowers_of_pow {j : X} (hj : j ^ 3 = 1) : IsPGroup 3 (zpowers j
 
 theorem two_le_pRank_of_not_isCyclic {T : Subgroup X} (hT : IsPGroup 3 T) (hnc : ¬ IsCyclic T) :
     2 ≤ CFSG.Open.pRank 3 T := by
-  haveI : Fact (IsPGroup 3 T) := ⟨hT⟩
+  have : Fact (IsPGroup 3 T) := ⟨hT⟩
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
-  haveI := hEel
+  have := hEel
   refine CFSG.SectionRank.le_pRank (by norm_num) (Subgroup.map_subtype_le E)
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 _).mp
       CFSG.IsElementaryAbelian.map_subtype) ?_
@@ -58,7 +60,7 @@ theorem false_of_weakClosure (hWC : KFactWeakClosure) [IsSimpleGroup X]
     (h2 : 2 ≤ CFSG.Open.pRank 3 T) {j : X} (hjT : j ∈ T) (hjo : orderOf j = 3)
     (hkey : ∀ k : X, k⁻¹ * j * k ∈ T → k⁻¹ * j * k ∈ zpowers j) : False := by
   obtain ⟨P, hP⟩ := N588A.exists_sylow_of_isSylowOf_top hT
-  haveI : IsSimpleGroup (⊤ : Subgroup X) := (Subgroup.topEquiv (G := X)).isSimpleGroup
+  have : IsSimpleGroup (⊤ : Subgroup X) := (Subgroup.topEquiv (G := X)).isSimpleGroup
   have hnab' : ∃ a b : (⊤ : Subgroup X), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨⟨a, trivial⟩, ⟨b, trivial⟩, fun e => hab (congrArg Subtype.val e)⟩
@@ -248,7 +250,7 @@ theorem le_and_isCyclic (hM3 : UCK.KMult3Ab) (hD : DichThree) (hIA : KFactInnerA
     (hZJ : ¬ Z ≤ Subgroup.centralizer (J : Set G)) :
     Z ≤ J ∧ IsCyclic (S.subgroupOf J) := by
   have hc := h.center_eq_bot hM3 hcore hJ
-  haveI hs : IsSimpleGroup J := N588A.isSimpleGroup_of_center_eq_bot hJ.1.2.1 hc
+  have hs : IsSimpleGroup J := N588A.isSimpleGroup_of_center_eq_bot hJ.1.2.1 hc
   have hnab := exists_ne_of_isComponent hJ
   have hKJ : CFSG.Open.IsKGroup J := h.isKGroup.subgroup J
   have hcat : CFSG.Open.IsCatalogGroup J :=

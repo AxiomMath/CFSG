@@ -71,11 +71,11 @@ def iotaC (qq : Perm (Fin 6) × Perm (Fin 2)) : P8 :=
 
 theorem iotaC_apply_inl (qq : Perm (Fin 6) × Perm (Fin 2)) (i : Fin 6) :
     iotaC qq (e62 (Sum.inl i)) = e62 (Sum.inl (qq.1 i)) := by
-  simp [iotaC, Equiv.permCongr_apply, Equiv.Perm.sumCongr_apply]
+  simp [iotaC, Equiv.permCongr_apply]
 
 theorem iotaC_apply_inr (qq : Perm (Fin 6) × Perm (Fin 2)) (j : Fin 2) :
     iotaC qq (e62 (Sum.inr j)) = e62 (Sum.inr (qq.2 j)) := by
-  simp [iotaC, Equiv.permCongr_apply, Equiv.Perm.sumCongr_apply]
+  simp [iotaC, Equiv.permCongr_apply]
 
 theorem iotaC_injective : Function.Injective iotaC := by
   rintro ⟨p, q⟩ ⟨p', q'⟩ h
@@ -114,8 +114,8 @@ theorem iotaC_surj (σ : P8) (hσ : σ ∈ Subgroup.centralizer ({τ₀} : Set P
   let F : Perm (Fin 6) × Perm (Fin 2) → ↥(Subgroup.centralizer ({τ₀} : Set P8)) :=
     fun qq => ⟨iotaC qq, Subgroup.mem_centralizer_singleton_iff.2 (iotaC_comm_tau qq)⟩
   have hF : Function.Injective F := fun a b h => iotaC_injective (congrArg Subtype.val h)
-  letI := Fintype.ofFinite (Perm (Fin 6) × Perm (Fin 2))
-  letI := Fintype.ofFinite ↥(Subgroup.centralizer ({τ₀} : Set P8))
+  let := Fintype.ofFinite (Perm (Fin 6) × Perm (Fin 2))
+  let := Fintype.ofFinite ↥(Subgroup.centralizer ({τ₀} : Set P8))
   have hbij := (Fintype.bijective_iff_injective_and_card F).2
     ⟨hF, by rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; exact hcard⟩
   obtain ⟨qq, hqq⟩ := hbij.2 ⟨σ, hσ⟩

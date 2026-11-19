@@ -81,7 +81,7 @@ theorem hEN : enumBFS pairData.n (nGens pairData) pairData.nOrder =
       penumRec 1755 11 TitsD.NE.cnt TitsD.NE.T TitsD.NE.PL ∧
     enumOK pairData.n (nGens pairData) (penumRec 1755 11 TitsD.NE.cnt TitsD.NE.T TitsD.NE.PL) =
       true :=
-  penumK_left_sound szOK1755 hgN TitsD.k_nh (fun i hi => TitsD.n_pt hi)
+  penumK_left_sound szOK1755 hgN TitsD.k_nh (fun _i hi => TitsD.n_pt hi)
 
 theorem hP : checkP pairData = true := checkP_ofT hEP rfl
 
@@ -167,7 +167,7 @@ theorem hSide : checkSide pairData = true :=
   kw := 66
   PT := r32 TitsD.PT
   FS := TitsD.FS
-  KS := TitsD.KS
+  KSt := TitsD.KS
   RB := RB
   H := H
   CN := r32 CN
@@ -323,7 +323,7 @@ theorem hPair : pairCheck pairData = true := by
   kw := 33
   PT := r32 LPT
   FS := LFS
-  KS := LKS
+  KSt := LKS
   RB := LRB
   H := LH
   CN := r32 LCN
@@ -453,7 +453,7 @@ theorem lTabs_eq : lTabs () = Certificates.MaxD2Perm.nGens lMaxData := rfl
   kw := 11
   PT := r32 CPT
   FS := CFS
-  KS := CKS
+  KSt := CKS
   RB := CRB
   H := CH
   CN := r32 CCN

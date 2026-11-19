@@ -16,7 +16,7 @@ theorem isPGroup_zpowers_iff {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.
 theorem fendel_mem_sylow_of_normalizer {X : Type*} [Group X] {p : ℕ} (P : Sylow p X) {n : X}
     (hn : n ∈ normalizer (P : Set X)) (hp : IsPGroup p (zpowers n)) : n ∈ P := by
   have h := P.maximal_isPGroup.eq_of_ge
-    (IsPGroup.to_sup_of_normal_left' P.isPGroup' hp (zpowers_le.2 hn)) le_sup_left
+    (IsPGroup.to_sup_of_normal_left' P.isPGroup hp (zpowers_le.2 hn)) le_sup_left
   have hm : n ∈ (P : Subgroup X) ⊔ zpowers n := mem_sup_right (mem_zpowers n)
   rw [h] at hm
   exact hm
@@ -29,7 +29,7 @@ theorem not_dvd_index_of_normalizer {X : Type*} [Group X] [Finite X] {p : ℕ} [
     rw [le_antisymm hQP hPQ]
     exact P.not_dvd_index
   by_contra hne
-  have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hlt : Q.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne fun x hx => ?_
     have : (⟨x, hx⟩ : P) ∈ Q.subgroupOf P := htop ▸ mem_top _
@@ -51,7 +51,7 @@ theorem not_dvd_index_of_normalizer {X : Type*} [Group X] [Finite X] {p : ℕ} [
           ((P : Subgroup X).inv_mem n.2) h1) n.2
         simpa [mul_assoc] using h2
       exact mem_subgroupOf.1 ((hnN ⟨x, hxP⟩).2 (mem_subgroupOf.2 hx))
-  · obtain ⟨k, hk⟩ := (isPGroup_zpowers_iff n).1 (P.isPGroup'.to_subgroup (zpowers n))
+  · obtain ⟨k, hk⟩ := (isPGroup_zpowers_iff n).1 (P.isPGroup.to_subgroup (zpowers n))
     exact ⟨k, by rw [Subgroup.orderOf_coe]; exact hk⟩
 
 theorem exists_conj_sylow_iff {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]

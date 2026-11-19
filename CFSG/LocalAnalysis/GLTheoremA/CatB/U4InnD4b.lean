@@ -66,7 +66,7 @@ theorem u4InnInner_d4two {S : Type} [Group S] [Finite S]
   · have hnc : ¬ ∀ a b : S, a * b = b * a := by
       intro hcomm
       apply hq.not_isSolvable
-      exact isSolvable_of_comm fun a b => Subtype.ext (hcomm a b)
+      exact _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (hcomm a b)
     have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple_of_not_comm hnc
     have hg3 : g ^ 3 = 1 := by
       have h1 : MulAut.conj (g ^ 3) = 1 := by rw [map_pow]; exact hu3

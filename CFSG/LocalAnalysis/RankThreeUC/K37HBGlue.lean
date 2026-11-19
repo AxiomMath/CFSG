@@ -35,10 +35,11 @@ private theorem le_pRank_of_card' {p k : ℕ} (hp : 1 < p) {H E : Subgroup X} (h
   have h1 : p ^ m ≤ Nat.card X := hF ▸ Subgroup.card_le_card_group F
   exact (Nat.lt_pow_self hp).le.trans h1
 
+omit [Finite X] in
 private theorem le_normalizer_of_abelian {p : ℕ} {B E : Subgroup X} (hB : IsElemAbelian p B)
     (hEB : E ≤ B) : B ≤ Subgroup.normalizer (E : Set X) := by
   intro b hb
-  haveI := hB.1
+  have := hB.1
   refine Subgroup.centralizer_le_normalizer (E : Set X)
     (Subgroup.mem_centralizer_iff.2 fun e he => ?_)
   have h : (⟨e, hEB he⟩ : B) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨e, hEB he⟩ := mul_comm' _ _
@@ -55,13 +56,13 @@ theorem k37b_exists_scp {K E S : Subgroup X} (h : K37Setting X K E S) :
 
 theorem k37b_inf_centralizer_eq_bot {K E S : Subgroup X} (h : K37Setting X K E S) :
     E ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   rintro f ⟨hfE, hfC⟩
   by_contra hf
   have hf1 : f ≠ 1 := fun h1 => hf (Subgroup.mem_bot.2 h1)
   have hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy => by
-    haveI := h.elem.1
+    have := h.elem.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   set Q := Subgroup.zpowers f with hQ
   have hQE : Q ≤ E := (Subgroup.zpowers_le).2 hfE
@@ -96,7 +97,7 @@ theorem k37b_card_le_autOrderIn {Y : Type} [Group Y] [Finite Y] {B K : Subgroup 
 
 theorem k37b_coprime_card {K E S : Subgroup X} (h : K37Setting X K E S) :
     Nat.Coprime 3 (Nat.card S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h.two.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right n (by norm_num)

@@ -293,7 +293,7 @@ private theorem exists_sylow_sym_fixing {m : ℕ} (hm : 2 ≤ m)
     have hodd : Odd (2 ^ m + 1) := (Nat.even_pow.2 ⟨even_two, by omega⟩).add_one
     exact fun h => (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h)
   obtain ⟨S, hT₀S⟩ := (hT₀p.comap_subtype (K := H)).exists_le_sylow
-  refine ⟨(S : Subgroup ↥H).map H.subtype, S.isPGroup'.map H.subtype, ?_, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥H).map H.subtype, S.isPGroup.map H.subtype, ?_, ?_, ?_⟩
   · rw [Subgroup.index_map_subtype, hHindex]
     exact Nat.Prime.not_dvd_mul Nat.prime_two S.not_dvd_index hoddn
   · rintro t ⟨u, -, rfl⟩

@@ -99,6 +99,7 @@ theorem actQuot_mk_eq_iff (g : normDY D Y) (x : D) :
   rw [hh, eq_comm, QuotientGroup.eq, Subgroup.mem_subgroupOf]
   exact inv_mul_mem_iff D Y x (conj_mem_D D Y g.2 x.2)
 
+omit [(Y.subgroupOf D).Normal] in
 theorem card_D_eq (hYD : Y ≤ D) :
     Nat.card D = Nat.card (D ⧸ Y.subgroupOf D) * Nat.card Y := by
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Y.subgroupOf D)]

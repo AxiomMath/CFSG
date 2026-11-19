@@ -52,8 +52,8 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 theorem le_pCore_of_forall_le_centralizer (h : Case2Data p P T D F x)
     (hT : ∀ L : Subgroup Y, IsComponentOf L ⊤ → T ≤ centralizer (L : Set Y)) :
     T ≤ CFSG.pCore p Y := by
-  haveI : Fact p.Prime := h.fact
-  haveI hOn : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := h.fact
+  have hOn : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
   have hTE : T ≤ centralizer (CFSG.layer Y : Set Y) := by
     have hlay : CFSG.layer Y ≤ centralizer (T : Set Y) := by
       rw [CFSG.layer.eq_sSup]

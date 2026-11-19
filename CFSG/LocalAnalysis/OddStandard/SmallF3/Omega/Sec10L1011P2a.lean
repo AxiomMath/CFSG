@@ -31,9 +31,10 @@ private theorem sec1011p_f4 (x : Fin 5 → ZMod 2) (hx : IsEvenVec x) :
   unfold IsEvenVec sec1011_wfour
   decide +kernel
 
+omit [Finite A] in
 theorem sec1011_phi6_vtriple (h : Sec1011Core B t K φ) :
     sec1011_phi6 t φ sec1011_vtriple = t * φ sec1011_w0 := by
-  letI : CommGroup A := { ‹Group A› with mul_comm := h.comm }
+  let : CommGroup A := { ‹Group A› with mul_comm := h.comm }
   have e0 := sec1011_phi6_single h 0
   have e1 := sec1011_phi6_single h 1
   have e2 := sec1011_phi6_single h 2
@@ -47,6 +48,7 @@ theorem sec1011_phi6_vtriple (h : Sec1011Core B t K φ) :
       = (t * t) * (t * (φ (sec1011_wfour 0) * φ (sec1011_wfour 1))) := by ac_rfl
     _ = t * (φ (sec1011_wfour 0) * φ (sec1011_wfour 1)) := by rw [h.t_sq, one_mul]
 
+omit [Finite A] in
 theorem sec1011_phi6_mem_B (h : Sec1011Core B t K φ) {u : Fin 6 → ZMod 2} (hu : IsEvenVec u) :
     sec1011_phi6 t φ u ∈ B := by
   have hu' : (∑ i, u i) = 0 := hu
@@ -54,6 +56,7 @@ theorem sec1011_phi6_mem_B (h : Sec1011Core B t K φ) {u : Fin 6 → ZMod 2} (hu
   rw [hu', ZMod.val_zero, pow_zero, one_mul]
   exact h.mem (sec1011p_u_even u)
 
+omit [Finite A] in
 theorem sec1011_phi6_even_surj (h : Sec1011Core B t K φ) {b : A} (hb : b ∈ B) :
     ∃ u : Fin 6 → ZMod 2, IsEvenVec u ∧ sec1011_phi6 t φ u = b := by
   obtain ⟨x, hx, hxφ⟩ := (h.mem_B b).1 hb
@@ -63,6 +66,7 @@ theorem sec1011_phi6_even_surj (h : Sec1011Core B t K φ) {b : A} (hb : b ∈ B)
   unfold sec1011_phi6
   rw [hv', hvu, ZMod.val_zero, pow_zero, one_mul, hxφ]
 
+omit [Finite A] in
 theorem sec1011_p2_abs (h : Sec1011A2 B t K φ) :
     ∃ α₁ ∈ K, ∃ α₂ ∈ K,
       α₁ (t * φ sec1011_w0) = t * φ sec1011_w0 ∧ α₂ (t * φ sec1011_w0) = t * φ sec1011_w0 ∧

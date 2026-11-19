@@ -162,7 +162,7 @@ theorem orthFC_inner (hC : OrthInnerCases) (hD : OrthBlockFrame)
   have hBK : B ≤ Subgroup.normalizer (K : Set Y) := ctx.norm
   have hKq : CFSG.Open.IsQuasisimple ↥K := ctx.comp.2.2
   have hJK : J ≤ K := hJ.1.trans inf_le_left
-  haveI : NeZero d := ⟨hd.ne'⟩
+  have : NeZero d := ⟨hd.ne'⟩
   have hS := KCOrthogonalD4.conj_injective_projOrthDerived Q hQ hT
   have hat : uniAut e ⟨a, hBK haB⟩ = MulAut.conj (e s) := by
     show MulAut.congr e (actHom K ⟨a, hBK haB⟩) = _

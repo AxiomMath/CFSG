@@ -128,7 +128,6 @@ theorem reach_far {m : ℕ} (hm : m < 137632) (h : trIsFar RI m = true) :
     have hr := CFSG.KC.VecK.Reach.step (f := fun l x => ap PHI[l]! x) hp hlv
     have hlt : xiGens[l]! < 31671 := by rw [e]; exact x.isLt
     refine ⟨_, hr, phi_lt l hlv p hpl, ?_⟩
-    beta_reduce
     rw [ap_phi hl hpl, vS_tA hlt hpl, e, fp_of]
   obtain ⟨g, hg, e⟩ := cfg_ok.N2_trans v0_N2' (N2_of_far hm h)
   obtain ⟨p, hp, hpl, ep⟩ := orbit_sub hT hX g hg
@@ -156,8 +155,8 @@ theorem far_ok : trFarOK orbLit orb (trD orb) (trBi orb) (pOf (pZero ()) (trData
     · exact Or.inr (inTreeB_of_reach (by norm_num) v0_lt lv32 phi_lt (reach_far hm h))
     · exact Or.inl (Bool.eq_false_iff.2 h)
 
-theorem hFv : ∀ h < 31671, pBit orb.sets[V0]! h = false → tA h V0 < 137632 :=
-  fun h hh _ => tA_lt hh v0_lt
+theorem hFv : ∀ _h < 31671, pBit orb.sets[V0]! _h = false → tA _h V0 < 137632 :=
+  fun _h hh _ => tA_lt hh v0_lt
 
 theorem mu_facts : MU.2.size = MU.1.size ∧
     (∀ i < MU.1.size, MU.2[i]! < 31671 ∧ pBit orb.sets[V0]! MU.2[i]! = false ∧
@@ -203,8 +202,8 @@ theorem ms_size : 1 < MU.1.size := by
     (Finset.card_range MU.1.size).le
   omega
 
-theorem hFms : ∀ i < MU.1.size, ∀ h < 31671, pBit orb.sets[MU.1[i]!]! h = false →
-    tA h MU.1[i]! < 137632 := fun i hi h hh _ => tA_lt hh (ms_lt i hi)
+theorem hFms : ∀ i < MU.1.size, ∀ _h < 31671, pBit orb.sets[MU.1[i]!]! _h = false →
+    tA _h MU.1[i]! < 137632 := fun i hi _h hh _ => tA_lt hh (ms_lt i hi)
 
 theorem mt_facts : MT.2.1.size = MT.1.size ∧ MT.2.2.1.size = MT.1.size ∧
     MT.2.2.2.1.size = MT.1.size ∧ 0 < MT.1.size ∧ MT.1[0]! = MU.1[0]! ∧
@@ -325,12 +324,12 @@ theorem ed_wit : ∀ h < 31671, pBit orb.sets[V0]! h = false → trIsFar RI (tA 
   exact ⟨k, hk, g.val, g.isLt, (not_mem_vS g.isLt).2 (by rwa [fp_of]),
     vS_inj (tA_lt g.isLt (ord_lt k hk)) hm e2⟩
 
-theorem ed_facts : ∀ h < 31671, pBit orb.sets[V0]! h = false → trIsFar RI (tA h V0) = true →
-    ED.1[h]! < MT.1.size ∧ ED.2[h]! < 31671 ∧ pBit orb.sets[MT.1[ED.1[h]!]!]! ED.2[h]! = false ∧
-      tA ED.2[h]! MT.1[ED.1[h]!]! = tA h V0 :=
+theorem ed_facts : ∀ _h < 31671, pBit orb.sets[V0]! _h = false → trIsFar RI (tA _h V0) = true →
+    ED.1[_h]! < MT.1.size ∧ ED.2[_h]! < 31671 ∧ pBit orb.sets[MT.1[ED.1[_h]!]!]! ED.2[_h]! = false ∧
+      tA ED.2[_h]! MT.1[ED.1[_h]!]! = tA _h V0 :=
   mkEd_spec _ _ _ _ _ _ ord_lt mt_facts.2.2.2.2.2.2.1 mt_facts.2.2.2.2.2.2.2.2.1
     (mt_facts.2.2.2.2.2.2.2.2.2.2.1 ms_size) mt_facts.2.2.2.2.2.2.2.2.2.1
-    (fun i hi h hh _ => tA_lt hh (ord_lt i hi)) hFv ed_wit
+    (fun i hi _h hh _ => tA_lt hh (ord_lt i hi)) hFv ed_wit
 
 theorem ed_ok : trEdOK orbLit orb (trD orb) (trBi orb) RI V0 MT.1 ED.1 ED.2 = true := by
   unfold trEdOK

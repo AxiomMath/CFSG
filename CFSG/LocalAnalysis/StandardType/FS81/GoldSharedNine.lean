@@ -31,7 +31,7 @@ private def q2cN7n_U0 {X : Type} [Group X] (P : Sylow 2 X) (t : X) (Q : Subgroup
     Subgroup X :=
   ((P : Subgroup X) ⊓ Subgroup.normalizer (Q : Set X)) ⊓ q2cN7n_C0 t Q
 
-private def q2cN7n_Claim {X : Type} [Group X] (P : Sylow 2 X) (t : X) (A : Subgroup X)
+private def q2cN7n_Claim {X : Type} [Group X] (_P : Sylow 2 X) (_t : X) (A : Subgroup X)
     (Q : Subgroup X) : Prop :=
   ∀ n ∈ Subgroup.normalizer (Q : Set X), ∀ x ∈ A ⊓ Q, n⁻¹ * x * n ∈ A
 
@@ -55,7 +55,7 @@ private theorem q2cN7n_conj_mem_A {X : Type} [Group X] {P : Sylow 2 X} {t : X} {
     intro x hx'
     induction hx' using Subgroup.closure_induction with
     | mem y hy => exact hg y hy.1 hy.2
-    | one => simpa using one_mem A
+    | one => simp
     | mul a b _ _ ha hb =>
       have e : g⁻¹ * (a * b) * g = (g⁻¹ * a * g) * (g⁻¹ * b * g) := by group
       rw [e]
@@ -157,7 +157,7 @@ private theorem q2cN7n_A_le_Q {X : Type} [Group X] [Finite X] {P : Sylow 2 X} {t
   by_contra hAQ
   have hQP : Q ≤ (P : Subgroup X) := hQ.1
   have hsupP : Q ⊔ A ≤ (P : Subgroup X) := sup_le hQP (q2cN7n_le_P D)
-  have h2 : IsPGroup 2 (Q ⊔ A : Subgroup X) := P.isPGroup'.to_le hsupP
+  have h2 : IsPGroup 2 (Q ⊔ A : Subgroup X) := P.isPGroup.to_le hsupP
   have hne : Q ≠ Q ⊔ A := fun heq => hAQ (heq.symm ▸ le_sup_right)
   obtain ⟨x, hxQW, hxN, hxQ⟩ :=
     CFSG.Walter.Huppert.exists_mem_normalizer_not_mem h2 le_sup_left hne
@@ -186,8 +186,8 @@ private theorem q2cN7n_claim_of_le {X : Type} [Group X] [Finite X] {P : Sylow 2 
   exact q2cN7n_mem_A D (hQ.1 h1) (n⁻¹ * m) (by group)
 
 private theorem q2cN7n_decomposition_step {X : Type} [Group X] [Finite X] {P : Sylow 2 X}
-    {t : X} {A : Subgroup X} (D : q2cN7n_Data P t A) {Q₀ R : Subgroup X}
-    (hRP : R ≤ (P : Subgroup X)) (hcard : Nat.card Q₀ < Nat.card R)
+    {t : X} {A : Subgroup X} (_D : q2cN7n_Data P t A) {Q₀ R : Subgroup X}
+    (_hRP : R ≤ (P : Subgroup X)) (hcard : Nat.card Q₀ < Nat.card R)
     (ih : ∀ Q' : Subgroup X, IsAlperinSubgroup 2 (P : Subgroup X) Q' →
       Nat.card Q₀ < Nat.card Q' → q2cN7n_Claim P t A Q')
     {c : X} (hc : AlperinDecomposition 2 (P : Subgroup X) R c) :
@@ -222,7 +222,7 @@ private theorem q2cN7n_claim_of_not_le {X : Type} [Group X] [Finite X] {P : Sylo
         (Subgroup.normalizer (Q : Set X))).index := hQ.2.1
   have hfac := exists_mul_normalizer_inf_sylow (N := Subgroup.normalizer (Q : Set X))
     (C := q2cN7n_C0 t Q) (S₀ := (P : Subgroup X) ⊓ Subgroup.normalizer (Q : Set X))
-    inf_le_left q2cN7n_normalizes_C0 inf_le_right P.isPGroup'.to_inf_left hidx
+    inf_le_left q2cN7n_normalizes_C0 inf_le_right P.isPGroup.to_inf_left hidx
   intro n hn x hx
   obtain ⟨c, hcC0, m, hmN, hnm, hmU0⟩ := hfac n hn
   rw [hnm]

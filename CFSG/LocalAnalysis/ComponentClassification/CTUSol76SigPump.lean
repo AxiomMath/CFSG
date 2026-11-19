@@ -22,7 +22,7 @@ theorem commutator_le_oddCoreIn_of_le_coreActionKernel {J S : Subgroup G}
   rwa [commutatorElement_def]
 
 theorem commutator_sup_le_of_le {A B V O : Subgroup G} (hBA : B ≤ normalizer (A : Set G))
-    (hAO : A ≤ normalizer (O : Set G)) (hBO : B ≤ normalizer (O : Set G))
+    (hAO : A ≤ normalizer (O : Set G)) (_hBO : B ≤ normalizer (O : Set G))
     (hA : ⁅A, V⁆ ≤ O) (hB : ⁅B, V⁆ ≤ O) : ⁅A ⊔ B, V⁆ ≤ O := by
   rw [commutator_le]
   intro x hx v hv

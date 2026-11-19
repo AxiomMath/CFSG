@@ -43,20 +43,20 @@ theorem ptZ_eq_lP (NW : Nat → Nat → Nat) (z : Int) (x : Nat) : ptZ NW z x = 
   | ofNat m =>
     by_cases hm : m = 0
     · subst hm
-      have e : lP NW (Int.ofNat 0) = pR (NW (lidx 0)) := if_pos rfl
+      have e : lP NW (Int.ofNat 0) = pR (NW (lidx 0)) := ite_eq_left rfl
       rw [e, ← ptR_eq]
       rfl
-    · have e : lP NW (Int.ofNat m) = pF (NW (lidx m)) := if_neg hm
+    · have e : lP NW (Int.ofNat m) = pF (NW (lidx m)) := ite_eq_right hm
       rw [e, ← ptF_eq]
       change nIf(Nat.beq m (nat_lit 0), ptR (NW (lidx m)) x, ptF (NW (lidx m)) x) = _
       rw [beq_false hm]
   | negSucc n =>
     by_cases hn : n = 0
     · subst hn
-      have e : lP NW (Int.negSucc 0) = pF (NW 0) := if_pos rfl
+      have e : lP NW (Int.negSucc 0) = pF (NW 0) := ite_eq_left rfl
       rw [e, ← ptF_eq]
       rfl
-    · have e : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := if_neg hn
+    · have e : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := ite_eq_right hn
       rw [e, ← ptR_eq]
       change nIf(Nat.beq n (nat_lit 0), ptF (NW (nat_lit 0)) x, ptR (NW (lidx (Nat.succ n))) x) = _
       rw [beq_false hn]
@@ -66,13 +66,13 @@ theorem lP_cases (NW : Nat → Nat → Nat) (z : Int) :
   cases z with
   | ofNat m =>
     by_cases hm : m = 0
-    · exact Or.inr (if_pos hm)
-    · exact Or.inl (if_neg hm)
+    · exact Or.inr (ite_eq_left hm)
+    · exact Or.inl (ite_eq_right hm)
   | negSucc n =>
     by_cases hn : n = 0
     · subst hn
-      exact Or.inl (if_pos rfl)
-    · exact Or.inr (if_neg hn)
+      exact Or.inl (ite_eq_left rfl)
+    · exact Or.inr (ite_eq_right hn)
 
 theorem foldr_lP_eq (NW : Nat → Nat → Nat) : ∀ (w : List Int) (q : Nat),
     w.foldr (lP NW) q = apZ NW w q
@@ -270,7 +270,7 @@ theorem orb_le_goodP {H : Subgroup J} {y c P : Nat} (hy : y < 306936) (hG : Good
   have himg : (↑((Finset.range 524288).filter (fun x => P.testBit x = true)) : Set ℕ) =
       Fin.val '' T := by
     ext x
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq, Set.mem_image, hT]
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq, Set.mem_image, hT]
     constructor
     · rintro ⟨hx, hb⟩
       exact ⟨⟨x, (hG x hx hb).1⟩, hb, rfl⟩

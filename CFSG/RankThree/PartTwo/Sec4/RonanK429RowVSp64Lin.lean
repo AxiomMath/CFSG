@@ -446,7 +446,7 @@ theorem sp_trivial_or_regular_of_commute_pow_seven' {F : Type*} [Field F] [Finit
     (∀ i, b i = 1) ∨ ∀ i, b i ≠ 1 := by
   have hpow4 : ∀ x : F, x ^ 4 = x := by
     intro x
-    letI := Fintype.ofFinite F
+    let := Fintype.ofFinite F
     have h := FiniteField.pow_card x
     rw [← Nat.card_eq_fintype_card, hF] at h
     exact h

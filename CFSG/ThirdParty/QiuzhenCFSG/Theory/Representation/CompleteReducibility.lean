@@ -28,7 +28,7 @@ public theorem Representation.isCompletelyReducible_of_ringChar_eq_zero_or_prime
     [AddCommGroup V] [Module F V] (ρ : Representation F G V)
     (hchar : ringChar F = 0 ∨ (Nat.Prime (ringChar F) ∧ Nat.Coprime (ringChar F) (Nat.card G))) :
     ρ.IsCompletelyReducible := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hne_card : (Fintype.card G : F) ≠ 0 := by
     intro hcard0
     have hdiv : ringChar F ∣ Fintype.card G := (ringChar.spec F (Fintype.card G)).1 hcard0
@@ -41,5 +41,5 @@ public theorem Representation.isCompletelyReducible_of_ringChar_eq_zero_or_prime
         exact Nat.Coprime.dvd_of_dvd_mul_right (k := ringChar F) (n := Fintype.card G) (m := 1)
           hcop' (by simpa [one_mul] using hdiv)
       exact hprime.not_dvd_one hdiv1
-  letI : NeZero (Fintype.card G : F) := ⟨hne_card⟩
+  let : NeZero (Fintype.card G : F) := ⟨hne_card⟩
   exact MonoidAlgebra.Submodule.instIsSemisimpleModule'

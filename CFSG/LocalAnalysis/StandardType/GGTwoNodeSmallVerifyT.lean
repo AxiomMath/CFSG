@@ -17,7 +17,7 @@ private lemma pwt_vec_eq_natCast_ent (P : Pt) (v : Vec) (j : Fin P.D) :
 
 private lemma pwt_vec_ne_zero_of_vecNZ (P : Pt) [Fact P.p.Prime] {v : Vec}
     (h : P.vecNZ v = true) : P.vec v ≠ 0 := by
-  haveI : NeZero P.p := ⟨(Fact.out (p := P.p.Prime)).ne_zero⟩
+  have : NeZero P.p := ⟨(Fact.out (p := P.p.Prime)).ne_zero⟩
   intro hv
   rw [Pt.vecNZ, List.any_eq_true] at h
   obtain ⟨j, hjmem, hjnz⟩ := h
@@ -37,7 +37,7 @@ private lemma pwt_sum_single {p D : ℕ} (w : Fin D → ZMod p) :
   rw [Finset.sum_eq_single j]
   · simp
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     · simp
     · exact fun hbj => hb hbj.symm
   · intro hj
@@ -67,7 +67,7 @@ private lemma pwt_phi_unit (P : Pt) (φ : Vec) (i : Fin P.D) :
   rw [Finset.sum_eq_single i]
   · simp [pwt_vec_eq_natCast_ent]
   · intro b _ hb
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
     simp
   · intro hi
     exact (hi (Finset.mem_univ i)).elim
@@ -143,7 +143,7 @@ theorem verifyT_sound {P : Pt} [Fact P.p.Prime] (hwf : P.WF) {t : TWit} (h : ver
         simp
       · have hnat : (i : ℕ) ≠ (j : ℕ) := fun he => hij (Fin.ext he)
         have hji : ¬ j = i := fun hji => hij hji.symm
-        rw [if_neg hnat, if_neg hji]
+        rw [ite_eq_right hnat, ite_eq_right hji]
         simp
     rw [hif]
   have hlin : ∀ w : P.V, γ w = w + pwt_phi P t.φ w • P.vec t.u :=

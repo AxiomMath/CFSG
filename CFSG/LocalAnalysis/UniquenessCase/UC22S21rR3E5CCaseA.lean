@@ -62,6 +62,7 @@ theorem uc22r3e5c_card_le_sq_of_le_cartan {X L K : Subgroup G} {C : Subgroup G}
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEX).toEquiv] at hcard
   exact hcard
 
+omit [Finite G] in
 theorem uc22r3e5c_dvd_card_of_map_prod {X L K : Subgroup G} {C : Subgroup G}
     (hCX : C ≤ X) (e : Bar2 X ≃* Bar2 L × Bar2 K) {DL : Subgroup (Bar2 L)} {DK : Subgroup (Bar2 K)}
     (hCe : (barImage X C).map e.toMonoidHom = DL.prod DK) {r : ℕ} (hr : r ∣ Nat.card DL) :
@@ -84,7 +85,7 @@ theorem uc22r3e5c_dvd_card_inf_of_mul {C C₁ C₂ : Subgroup G}
     (hCmul : (C : Set G) = (C₁ : Set G) * (C₂ : Set G))
     {r : ℕ} (hr : r.Prime) (hrC : r ∣ Nat.card C) :
     r ∣ Nat.card C₁ ∨ r ∣ Nat.card C₂ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hxo⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) r hrC
   have hxmem : (x : G) ∈ (C₁ : Set G) * (C₂ : Set G) := by
     rw [← hCmul]; exact x.2
@@ -112,6 +113,7 @@ theorem uc22r3e5c_dvd_card_inf_of_mul {C C₁ C₂ : Subgroup G}
   rw [horder] at hord
   exact hr.dvd_mul.mp hord
 
+omit [Finite G] in
 private theorem uc22r3e5c_projector_aux {X L K : Subgroup G}
     {DL : Subgroup (Bar2 L)} {DK : Subgroup (Bar2 K)}
     (hLX : L ≤ X) (hKX : K ≤ X)
@@ -144,7 +146,7 @@ private theorem uc22r3e5c_projector_aux {X L K : Subgroup G}
       (z.1 ^ eK, z.2 ^ eK) := by
     have hsub : (⟨a ^ eK, X.pow_mem haX eK⟩ : ↥X) = ⟨a, haX⟩ ^ eK := by
       ext
-      simp [Subgroup.coe_pow]
+      simp
     rw [hsub, QuotientGroup.mk_pow, map_pow, ← hz]
     rfl
   have hX : b * a * b⁻¹ * (a ^ eK)⁻¹ ∈ X :=
@@ -165,6 +167,7 @@ private theorem uc22r3e5c_projector_aux {X L K : Subgroup G}
   simp only [QuotientGroup.mk'_apply]
   rw [h1, h2, Prod.inv_mk, Prod.mk_mul_mk, mul_inv_cancel]
 
+omit [Finite G] in
 private theorem uc22r3e5c_projector_ne {X L K : Subgroup G}
     {DL : Subgroup (Bar2 L)} {DK : Subgroup (Bar2 K)}
     (hLX : L ≤ X) (hKX : K ≤ X)
@@ -175,13 +178,13 @@ private theorem uc22r3e5c_projector_ne {X L K : Subgroup G}
       e (QuotientGroup.mk x) = (1, QuotientGroup.mk (⟨(x : G), hx⟩ : ↥K)))
     {b : G} (hbXn : b ∈ normalizer (X : Set G)) (hbL : b ∈ normalizer (L : Set G))
     (hbK : b ∈ normalizer (K : Set G))
-    {eL eK r : ℕ} (hr : r.Prime) (hreL : (eL : ZMod r) ≠ eK)
+    {eL eK r : ℕ} (_hr : r.Prime) (hreL : (eL : ZMod r) ≠ eK)
     (hαL : ∀ d ∈ DL, UC6S846.rhoL L ⟨b, hbL⟩ d = d ^ eL)
     (hαK : ∀ d ∈ DK, UC6S846.rhoL K ⟨b, hbK⟩ d = d ^ eK)
     {a : G} (haX : a ∈ X) {z : Bar2 L × Bar2 K}
     (hz : z = e (QuotientGroup.mk ⟨a, haX⟩))
     (hzL : z.1 ∈ DL) (hzK : z.2 ∈ DK)
-    (hz1ord : orderOf z.1 = r) (hz1 : z.1 ≠ 1)
+    (hz1ord : orderOf z.1 = r) (_hz1 : z.1 ≠ 1)
     (a' : ↥X) (ha' : (a' : G) = b * a * b⁻¹ * (a ^ eK)⁻¹) :
     (a' : G) ≠ 1 := by
   intro hone
@@ -198,6 +201,7 @@ private theorem uc22r3e5c_projector_ne {X L K : Subgroup G}
     rwa [hz1ord] at h
   exact hreL ((ZMod.natCast_eq_natCast_iff _ _ _).2 hmod)
 
+omit [Finite G] in
 private theorem uc22r3e5c_projector_pow {C A : Subgroup G}
     (hAC : A ≤ C) (hCcomm : IsMulCommutative ↥C)
     {a b : G} {eK r : ℕ} (haC : a ∈ C) (haA : a ∈ A)
@@ -391,7 +395,7 @@ theorem uc22r3e5c_false_of_dvd_inf {D : Data G} {Ch : Choice2011 G}
     (hαL : ∀ d ∈ DL, UC6S846.rhoL L ⟨b, hbL⟩ d = d ^ eL)
     (hαK : ∀ d ∈ DK, UC6S846.rhoL K ⟨b, hbK⟩ d = d ^ eK)
     (hrH : r ∣ Nat.card (C ⊓ H : Subgroup G)) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hLX, hKX, hLXn, hKXn⟩ := uc22r3e5c_pair_facts hL hKC hKne hset
   have hbX : b ∈ normalizer (conjClosure D.M L : Set G) := by
     rw [conjClosure_eq_sup_of_conjSetOf_eq hset]
@@ -457,7 +461,7 @@ theorem uc22r3e5c_false_of_caseA {D : Data G} {Ch : Choice2011 G}
     (h211 : S21_1 D Ch) (h1930 : H1930 D) (c : Ctx21 D Ch)
     (he : CFSG.Open.evenRank G = 3) {H₁ H₂ : Subgroup G}
     (hH₁ : H₁ ∈ hSet D.T D.M) (hH₂ : H₂ ∈ hSet D.T D.M) {L K : Subgroup G}
-    (hL : L ∈ calC D.M) (hKC : K ∈ calC D.M) (hc2 : (conjSetOf D.M L).ncard = 2)
+    (hL : L ∈ calC D.M) (hKC : K ∈ calC D.M) (_hc2 : (conjSetOf D.M L).ncard = 2)
     (hKne : K ≠ L) (hset : conjSetOf D.M L = {L, K}) {n : ℕ}
     (hSz : IsSz (Bar2 L) n) (hSzK : IsSz (Bar2 K) n)
     {C : Subgroup G} (hCX : C ≤ conjClosure D.M L) (hCodd : Odd (Nat.card C))

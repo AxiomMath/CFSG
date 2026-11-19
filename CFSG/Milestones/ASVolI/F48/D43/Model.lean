@@ -57,6 +57,7 @@ variable {K : Type} [Field K] [CharP K 3] (σ : K →+* K) (ω : K)
 variable (hK : Nat.card K = 27) (hσ : ∀ c, σ c = c ^ 3) (hω : ω ^ 3 = ω + 1)
 
 include hK hσ hω in
+omit [CharP K 3] in
 theorem burnsideF48d_g_mem_C0 (k : Fin 8) :
     ((burnsideF48d_g σ ω k : adjointGroup d4 K) : ModGL d4 K) ∈
       graphFixedRootGroup TwistTag.D4 K σ := by
@@ -127,6 +128,7 @@ theorem burnsideF48d_range_ρ : (burnsideF48d_ρ σ ω hK hσ hω).range = burns
     exact ⟨_, burnsideF48d_ρ_g σ ω hK hσ hω k⟩
 
 include hK hσ in
+omit [CharP K 3] in
 theorem burnsideF48d_card_C0 :
     Nat.card ↥(graphFixedRootGroup TwistTag.D4 K σ) = 20560831566912 := by
   have h := (CFSG.LieType.Chevalley.triality_both_orientations_exact_finite_order 3 1
@@ -137,7 +139,7 @@ theorem burnsideF48d_card_C0 :
 
 include hK hσ hω in
 theorem burnsideF48d_card_X_le : Nat.card ↥burnsideF48d_X ≤ 20560831566912 := by
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ) :=
     Nat.finite_of_card_ne_zero (by rw [burnsideF48d_card_C0 σ hK hσ]; norm_num)
   rw [← burnsideF48d_card_C0 σ hK hσ, ← burnsideF48d_range_ρ σ ω hK hσ hω]
   exact Nat.card_le_card_of_surjective _ (burnsideF48d_ρ σ ω hK hσ hω).rangeRestrict_surjective

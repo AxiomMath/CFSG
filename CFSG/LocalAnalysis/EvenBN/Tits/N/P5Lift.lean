@@ -14,7 +14,7 @@ theorem exists_mul_normalizer_of_normalizer_map {M Q : Type*} [Group M] [Finite 
     (π : M →* Q) (hker : Odd (Nat.card π.ker)) {A : Subgroup M} (hA : IsPGroup 2 A) {m : M}
     (hm : π m ∈ normalizer ((A.map π : Subgroup Q) : Set Q)) :
     ∃ k ∈ A, ∃ n ∈ normalizer (A : Set M), π m = π k * π n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup M := (A.map π).comap π with hH
   have hAH : A ≤ H := fun a ha => ⟨a, ha, rfl⟩
   have hHeq : H = π.ker ⊔ A := by
@@ -78,12 +78,12 @@ theorem exists_mul_normalizer_of_normalizer_map {M Q : Type*} [Group M] [Finite 
 theorem exists_fixed_of_involutive {α : Type*} [Finite α] {f : α → α} (hf : ∀ a, f (f a) = a)
     (hα : Odd (Nat.card α)) : ∃ a, f a = a := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have hinv : Function.Involutive f := hf
   have hσ : (hinv.toPerm f) ^ 2 ^ 1 = 1 := by
     rw [pow_one, sq]
     exact Equiv.ext fun x => hinv x
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : ¬ 2 ∣ Fintype.card α := by
     rw [← Nat.card_eq_fintype_card]
     intro h
@@ -125,8 +125,8 @@ theorem isSolvable_fixSub_of_odd_kernel {M Q : Type*} [Group M] [Finite M] [Grou
     refine ⟨⟨m₀ * k, mem_fixSub.2 hτm⟩, Subtype.ext ?_⟩
     show π (m₀ * (k : M)) = π m₀
     rw [map_mul, MonoidHom.mem_ker.1 k.2, mul_one]
-  haveI := hs
-  exact solvable_of_surjective hg
+  have := hs
+  exact Group.isSolvable_of_surjective hg
 
 theorem card_sub_one_dvd_card_imgIn {Γ : Type*} [Group Γ] [Finite Γ] (A : Subgroup Γ) (hA : A ≠ ⊥)
     (htrans : ∀ a ∈ A, ∀ b ∈ A, a ≠ 1 → b ≠ 1 →
@@ -141,14 +141,14 @@ theorem card_sub_one_dvd_card_imgIn {Γ : Type*} [Group Γ] [Finite Γ] (A : Sub
     rw [eq_bot_iff]
     intro x hx
     exact Subgroup.mem_bot.2 (congrArg Subtype.val (h ⟨x, hx⟩))
-  haveI : Fintype ↥I := Fintype.ofFinite _
-  haveI : Fintype ↥A := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit ↥I a₀) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥I a₀) := Fintype.ofFinite _
+  have : Fintype ↥I := Fintype.ofFinite _
+  have : Fintype ↥A := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥I a₀) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥I a₀) := Fintype.ofFinite _
   have key := MulAction.card_orbit_mul_card_stabilizer_eq_card_group ↥I a₀
   have horb : MulAction.orbit ↥I a₀ = {a | a ≠ 1} := by
     ext b
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨σ, rfl⟩ h1
       have : (σ : MulAut ↥A) a₀ = 1 := h1

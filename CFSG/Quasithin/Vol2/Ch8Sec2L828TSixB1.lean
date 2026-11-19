@@ -93,7 +93,7 @@ theorem s828_T_norm_I {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative
   have hPJ : P ≤ J := CFSG.LieType.BorelTits.pCoreOf_le 2 J
   have hJP : J ≤ Subgroup.normalizer (P : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 J
-  haveI hNP : (P.subgroupOf J).Normal := by
+  have hNP : (P.subgroupOf J).Normal := by
     rw [← hkerI]
     infer_instance
   let e' : ↥J ⧸ P.subgroupOf J ≃* DihedralGroup 5 :=

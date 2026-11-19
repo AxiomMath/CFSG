@@ -186,7 +186,7 @@ private theorem exists_elemAbelian_ge_27_of_components {X : Type} [Group X] [Fin
 private theorem exists_orderOf_three_of_dvd {X : Type} [Group X] [Finite X] (J : Subgroup X)
     (h : 3 ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     ∃ x : ↥J, orderOf (x : ↥J ⧸ Subgroup.center ↥J) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 h
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
   exact ⟨x, hy⟩
@@ -227,19 +227,19 @@ private theorem censusBody_of_rankLE2 (d : TauCeti.ValidLieTypeIndex)
 
 theorem censusBodyG2 : CensusBodyG2 := by
   intro q hv hq
-  haveI := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.G2 q, hv⟩).1
+  have := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.G2 q, hv⟩).1
   exact censusBody_of_rankLE2 _
     (K1419E.l3u3Rank_g2 q hv hq (MulEquiv.refl _)).2
 
 theorem censusBodyTriD4 : CensusBodyTriD4 := by
   intro q hv hq
-  haveI := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.trialityD4 q, hv⟩).1
+  have := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.trialityD4 q, hv⟩).1
   exact censusBody_of_rankLE2 _
     (K1419E.l3u3Rank_triD4 q hv hq (MulEquiv.refl _)).2
 
 theorem censusBodyReeF4 : CensusBodyReeF4 := by
   intro m hv
-  haveI := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.reeF4 m, hv⟩).1
+  have := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.reeF4 m, hv⟩).1
   exact censusBody_of_rankLE2 _
     (K1419E.l3u3Rank_reeF4 hv (MulEquiv.refl _)).2
 

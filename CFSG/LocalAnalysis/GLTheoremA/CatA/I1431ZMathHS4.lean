@@ -66,7 +66,7 @@ theorem noU42Comp_xA : NoU42Comp 3 (⟨fuseXA, fuseXA_mem⟩ : ↥suzM) := by
   have hz3 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ^ 3 = 1 := Subtype.ext (by simpa using fuseXA_pow)
   have hz1 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ≠ 1 := fun h => fuseXA_ne_one (congrArg Subtype.val h)
   have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine noU42Comp_of_centralizer_equiv e hq ?_ (by rw [card_aSub]; norm_num) ?_
   · have h3 : IsPGroup 3 ↥(Subgroup.zpowers (⟨fuseXA, aX_mem⟩ : ↥aSub)) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
@@ -117,7 +117,7 @@ theorem row_suz (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOute
   have hc : Nat.card ↥suzM = 448345497600 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Suz.card_Suz
-  haveI : IsSimpleGroup ↥suzM :=
+  have : IsSimpleGroup ↥suzM :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Suz.isSimpleGroup_Suz e.symm
   exact row_of_model (s := .Suz) (Q := ↥suzM) hOut (e.symm.trans (hbr .Suz).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))

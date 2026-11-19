@@ -294,9 +294,9 @@ theorem mem_normalizer_of_map_mem_normalizer (hZ : Odd (Nat.card (Subgroup.cente
     (hker : φ.ker = Subgroup.center K) (P : Sylow 2 K) {x : K}
     (hx : φ x ∈ Subgroup.normalizer (((P : Subgroup K).map φ : Subgroup _) :
       Set PSL(2, GaloisField 2 f))) : x ∈ Subgroup.normalizer ((P : Subgroup K) : Set K) := by
-  obtain ⟨k, hk⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup'
+  obtain ⟨k, hk⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup
   refine mem_normalizer_of_conj_mem' fun y hy => ?_
-  refine mem_of_map_mem_of_ker_eq_center hZ hker P.isPGroup' (kS := k) ?_ ?_
+  refine mem_of_map_mem_of_ker_eq_center hZ hker P.isPGroup (kS := k) ?_ ?_
   · rw [conj_pow, hk y hy, mul_one, mul_inv_cancel]
   · rw [map_mul, map_mul, map_inv]
     exact (Subgroup.mem_normalizer_iff.mp hx (φ y)).mp ⟨y, hy, rfl⟩
@@ -355,7 +355,7 @@ theorem exists_torus_of_surjective (hf : 2 ≤ f) (hK : commutator K = ⊤)
     rw [orderOf_eq_one_iff] at h3
     exact hφne r hr2 hr1 (congrArg Subtype.val h3)
   ·
-    obtain ⟨kP, hkP⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup'
+    obtain ⟨kP, hkP⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup
     have hφ1 : ∀ u ∈ (P : Subgroup K), u ≠ 1 → φ u ≠ 1 := by
       intro u hu hu1 h
       apply hu1
@@ -365,7 +365,7 @@ theorem exists_torus_of_surjective (hf : 2 ≤ f) (hK : commutator K = ⊤)
     obtain ⟨rb, hrb, hrbuv⟩ := hRtr (φ u) (hPb ▸ ⟨u, hu, rfl⟩) (hφ1 u hu hu1) (φ v)
       (hPb ▸ ⟨v, hv, rfl⟩) (hφ1 v hv hv1)
     obtain ⟨r, rfl⟩ := hφ rb
-    refine ⟨r, hrb, eq_of_map_eq_of_ker_eq_center hZ hker P.isPGroup'
+    refine ⟨r, hrb, eq_of_map_eq_of_ker_eq_center hZ hker P.isPGroup
       ((Subgroup.mem_normalizer_iff.mp (hRN hrb) u).mp hu) hv ?_⟩
     rw [map_mul, map_mul, map_inv, hrbuv]
   ·

@@ -171,7 +171,7 @@ variable [Finite G]
 private theorem oddCore_preimg (N : Subgroup (G ⧸ classicalInvolutionOddCore G)) [N.Normal] :
     classicalInvolutionOddCore ↥(preimg N) =
       (classicalInvolutionOddCore G).subgroupOf (preimg N) := by
-  haveI : (preimg N).Normal := ‹N.Normal›.comap _
+  have : (preimg N).Normal := ‹N.Normal›.comap _
   have h : (classicalInvolutionOddCore ↥(preimg N)).map (preimg N).subtype =
       preimg N ⊓ classicalInvolutionOddCore G :=
     CFSG.ComponentClassification.OddCore.normal_intersection G (preimg N)
@@ -359,9 +359,9 @@ theorem frameC201U3Section_of_model
     FrameC201U3Section := by
   intro T _ _ H hrow
   obtain ⟨N, hNn, hidx, hmodel⟩ := hrow
-  haveI := hNn
+  have := hNn
   obtain ⟨hNs, hNab⟩ := hsimple ↥N hmodel
-  haveI := hNs
+  have := hNs
   have hcard : 2 * Nat.card ↥N ≤ Nat.card ↥(⊤ : Subgroup ↥H) := by
     rw [← hidx, Subgroup.index_mul_card]
     exact Nat.card_le_card_of_surjective _ (QuotientGroup.mk'_surjective _)

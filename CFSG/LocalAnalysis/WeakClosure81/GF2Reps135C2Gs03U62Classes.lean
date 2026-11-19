@@ -41,7 +41,7 @@ theorem gs03_u62_outer_classes {Q : Type} [Group Q]
           MulAut.conj (c⁻¹ (sixProj h (tElt h k))) := by
         ext u
         simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv,
-          MulAut.inv_apply_self, MulAut.apply_inv_self]
+          MulAut.inv_apply_self]
       refine ⟨c⁻¹ (sixProj h (tElt h k)), ?_⟩
       rw [← hconj_inv, hα'eq]
     have hinnerα : α ∈ inner Q := by

@@ -71,7 +71,7 @@ theorem ne_dsCentMod [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P S Q') 
     dsCentMod P L (pCoreOf 2 L) ≠ pCoreOf 2 L := by
   classical
   intro hCeq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := pCoreOf 2 L with hQdef
   set C := dsCentMod P L Q with hCdef
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) := le_normalizer_pCoreOf_of_le_normalizer h.norm
@@ -157,7 +157,7 @@ theorem sup_dsCentMod_eq [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P S 
 theorem exists_order_three [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P S Q') :
     ∃ τ ∈ dsCentMod P L (pCoreOf 2 L), orderOf τ = 3 ∧ τ ∉ L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := pCoreOf 2 L with hQdef
   set C := dsCentMod P L Q with hCdef
   have hsup : C ⊔ L = P := sup_dsCentMod_eq h
@@ -185,8 +185,8 @@ theorem centralizer_pCoreOf_eq_bot [Finite G]
     (hτC : τ ∈ dsCentMod P L (pCoreOf 2 L)) (hτ3 : orderOf τ = 3) :
     pCoreOf 2 L ⊓ Subgroup.centralizer ({τ} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
   set Q := pCoreOf 2 L with hQdef
   have hQleL : Q ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) := le_normalizer_pCoreOf_of_le_normalizer h.norm
@@ -422,11 +422,11 @@ theorem centralizer_pCoreOf_eq_bot [Finite G]
         _ = τ * y := by group)
 
 theorem exists_pCoreOf_mul_centralizer [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P S Q') {τ : G}
-    (hτC : τ ∈ dsCentMod P L (pCoreOf 2 L)) (hτ3 : orderOf τ = 3)
+    (hτC : τ ∈ dsCentMod P L (pCoreOf 2 L)) (_hτ3 : orderOf τ = 3)
     (hff : ∀ q ∈ pCoreOf 2 L, τ * q * τ⁻¹ = q → q = 1) :
     ∀ x ∈ L, ∃ q ∈ pCoreOf 2 L, ∃ k ∈ L ⊓ Subgroup.centralizer ({τ} : Set G), q * k = x := by
   classical
-  haveI hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
+  have hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
   set Q := pCoreOf 2 L with hQdef
   have hQleL : Q ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) := le_normalizer_pCoreOf_of_le_normalizer h.norm
@@ -512,7 +512,7 @@ theorem Sp44Side.exists_torus [Finite G]
       (∀ x ∈ L, ∃ q ∈ pCoreOf 2 L, ∃ k ∈ L ⊓ Subgroup.centralizer {τ}, q * k = x) ∧
       (∀ p ∈ P, ∃ x ∈ L, ∃ i : ℕ, i < 3 ∧ x * τ ^ i = p) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := pCoreOf 2 L with hQdef
   obtain ⟨τ, hτC, hτ3, hτL⟩ := exists_order_three h
   have hτP : τ ∈ P := (dsa6_mem_K.mp hτC).1
@@ -604,7 +604,7 @@ theorem Sp44Side.exists_torus [Finite G]
   exact ⟨τ, hτP, hτ3, hτL, hτQ, hff, hKQ, hdec, hmem_le⟩
 
 theorem Sp44Side.inf_sylow [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P S Q')
-    {τ : G} (hτP : τ ∈ P) (hτ3 : orderOf τ = 3) (hτL : τ ∉ L)
+    {τ : G} (_hτP : τ ∈ P) (_hτ3 : orderOf τ = 3) (_hτL : τ ∉ L)
     (hff : ∀ q ∈ pCoreOf 2 L, τ * q * τ⁻¹ = q → q = 1)
     (hdec : ∀ x ∈ L, ∃ q ∈ pCoreOf 2 L,
       ∃ k ∈ L ⊓ Subgroup.centralizer ({τ} : Set G), q * k = x) :
@@ -613,9 +613,9 @@ theorem Sp44Side.inf_sylow [Finite G] {L P S Q' : Subgroup G} (h : Sp44Side L P 
       pCoreOf 2 L ⊓ Q' ≤ Subgroup.centralizer
         ((S ⊓ (L ⊓ Subgroup.centralizer ({τ} : Set G)) : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
-  haveI hQ'comm : IsMulCommutative ↥Q' := h.other_elem.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQcomm : IsMulCommutative ↥(pCoreOf 2 L) := h.elem.1
+  have hQ'comm : IsMulCommutative ↥Q' := h.other_elem.1
   set Q := pCoreOf 2 L with hQdef
   set K := L ⊓ Subgroup.centralizer ({τ} : Set G) with hKdef
   have hQleL : Q ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L

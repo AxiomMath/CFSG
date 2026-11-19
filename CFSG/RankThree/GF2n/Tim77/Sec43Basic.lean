@@ -46,13 +46,14 @@ theorem sa_card_sup_le {X Y : Subgroup G} (hc : ∀ x ∈ X, ∀ y ∈ Y, x * y 
   obtain ⟨u, hu, v, hv, huv⟩ := CFSG.RankThree.GF2n.exists_mul_of_mem_sup hYX x.2
   exact ⟨(⟨u, hu⟩, ⟨v, hv⟩), Subtype.ext huv.symm⟩
 
+omit [Finite G] in
 theorem sa_card_subgroupOf {H K : Subgroup G} (h : H ≤ K) :
     Nat.card (H.subgroupOf K) = Nat.card H :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe h).toEquiv
 
 theorem sa_count {V P Q T : Subgroup G} {s : G} (hV : IsElemAbelian 2 V)
     (hsV : ∀ v ∈ V, s * v * s⁻¹ ∈ V) (hss : s * s ∈ V) (hPV : P ≤ V) (hQV : Q ≤ V)
-    (hTV : T ≤ V) (hgen : V = P ⊔ Q ⊔ conjSubgroup s Q) (hP : ∀ p ∈ P, s * p * s⁻¹ = p)
+    (hTV : T ≤ V) (hgen : V = P ⊔ Q ⊔ conjSubgroup s Q) (_hP : ∀ p ∈ P, s * p * s⁻¹ = p)
     (hQQ : Q ⊓ conjSubgroup s Q = ⊥) (hPQ : Nat.card Q = Nat.card P)
     (hT : ∀ t ∈ T, s * t * s⁻¹ = t) (hTc : Nat.card P ^ 2 ≤ Nat.card T) :
     Nat.card P ^ 3 ≤ Nat.card V ∧ ∀ q ∈ Q, q * (s * q * s⁻¹) ∈ T := by
@@ -183,30 +184,37 @@ section SA
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
 
+omit [Finite G] in
 theorem sa_A0_le_N : Section3.A0 A Abar ≤ Section3.N A Abar s := by
   unfold Section3.N
   exact le_sup_left.trans le_sup_left
 
+omit [Finite G] in
 theorem sa_Abar0_le_N : Section3.Abar0 A Abar ≤ Section3.N A Abar s := by
   unfold Section3.N
   exact le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 theorem sa_conj_Abar0_le_N : conjSubgroup s (Section3.Abar0 A Abar) ≤ Section3.N A Abar s := by
   unfold Section3.N
   exact le_sup_right
 
+omit [Finite G] in
 theorem sa_A_le_Y : A ≤ Section3.Y A Abar s := by
   unfold Section3.Y
   exact le_sup_left.trans le_sup_left
 
+omit [Finite G] in
 theorem sa_Abar_le_Y : Abar ≤ Section3.Y A Abar s := by
   unfold Section3.Y
   exact le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 theorem sa_conj_Abar_le_Y : conjSubgroup s Abar ≤ Section3.Y A Abar s := by
   unfold Section3.Y
   exact le_sup_right
 
+omit [Finite G] in
 theorem sa_sq_of_mem_B (h : Sec3Ctx A Abar S₀ B) {b : G} (hb : b ∈ B) : b * b = 1 := by
   obtain ⟨g, hg⟩ := h.nota.conj
   rw [← sq]
@@ -516,7 +524,7 @@ theorem sa_field_contra (h : Sec3Ctx A Abar S₀ B) (hs : Section3.IsSChoice A A
         _ = y * (s * y * s⁻¹) := by rw [hcc, one_mul]
     calc a * (y * (s * y * s⁻¹)) = (a * (y * (s * y * s⁻¹)) * a⁻¹) * a := by group
       _ = (y * (s * y * s⁻¹)) * a := by rw [e]
-  obtain ⟨t, htA, htL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
+  obtain ⟨t, htA, htL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
   have hyA₀ : ∀ y ∈ Section3.Abar0 A Abar, y * (s * y * s⁻¹) ∈ Section3.A0 A Abar := by
     intro y hy
     have hm : y * (s * y * s⁻¹) ∈
@@ -633,6 +641,7 @@ section SA7
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
 
+omit [Finite G] in
 theorem sa_mul_mem_of_index_two {T T₀ : Subgroup G} (hidx : T₀.relIndex T = 2) {x t : G}
     (hx : x ∈ T) (ht : t ∈ T) (hxN : x ∉ T₀) (htN : t ∉ T₀) : x * t ∈ T₀ := by
   have h := (Subgroup.mul_mem_iff_of_index_two (H := T₀.subgroupOf T) hidx
@@ -641,7 +650,7 @@ theorem sa_mul_mem_of_index_two {T T₀ : Subgroup G} (hidx : T₀.relIndex T = 
       fun h => absurd (Subgroup.mem_subgroupOf.mp h) htN⟩
   exact Subgroup.mem_subgroupOf.mp h
 
-theorem sa_closure_top (h : Sec3Ctx A Abar S₀ B) (hs : Section3.IsSChoice A Abar S₀ B s)
+theorem sa_closure_top (h : Sec3Ctx A Abar S₀ B) (_hs : Section3.IsSChoice A Abar S₀ B s)
     (hq : Section3.q A Abar = 2)
     [((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal]
     {a β γ : ↥(Section3.Y A Abar s)} (haA : (a : G) ∈ A) (haN : (a : G) ∉ Section3.A0 A Abar)
@@ -866,7 +875,7 @@ theorem sa_eq_of_commute {R : Type} [Group R] [Finite R] {D : Set R}
     (hO2 : CFSG.pCore 2 R ≤ Subgroup.center R)
     (hinj : ∀ d ∈ D, ∀ z ∈ Subgroup.center R, z ≠ 1 → d * z ∉ D)
     {d e : R} (hd : d ∈ D) (he : e ∈ D) (hde : Commute d e) : d = e := by
-  haveI : (CFSG.pCore 2 R).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 R).Normal := CFSG.pCore_normal
   have hRI : CFSG.Timmesfeld.IsRootInvolutionSet D := by
     refine ⟨hS.oddT.1, fun x hx y hy => ?_, fun x hx y hy h4 => ?_⟩
     · rcases hS.oddT.2 x hx y hy with h2 | hodd

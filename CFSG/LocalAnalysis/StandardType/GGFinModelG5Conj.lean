@@ -134,7 +134,7 @@ theorem ggG5_Y_conj_uMap
     congr 1
     congr 1
     funext j
-    by_cases h : k = j <;> simp [Pi.single_apply, h, eq_comm]
+    by_cases h : k = j <;> simp [h, eq_comm]
   have hT_single : ∀ k : Fin (ggU (absTag t) 6 f).D.rank,
       T (Pi.single k 1) = ggLangReidx hR.symm (u • Pi.single (Fin.cast hR k) 1) := by
     intro k

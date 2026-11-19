@@ -21,8 +21,8 @@ theorem orderOf_le_of_outer_involution_psl_odd {J : Type} [Group J] [Finite J] {
     orderOf y ≤ p ^ f + 1 := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hp : p.Prime := hL.admissible.1
   have hodd : Odd f :=
     CFSG.RankThree.PartTwo.Sec20.L3OddGroup.odd_of_pow_mod_three_eq_two hq

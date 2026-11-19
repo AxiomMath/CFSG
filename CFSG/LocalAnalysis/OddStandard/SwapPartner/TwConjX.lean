@@ -42,7 +42,7 @@ theorem exists_conj_abar (hC : CentData z ι) (hx : IsConj z (ι τ₀))
     intro ρ
     exact Agrp_le_centralizer_x₂ hC (mem_Agrp_iff.2 ⟨(ρ : Perm (Fin 8)), ρ.2, rfl⟩)
   let N : Subgroup ↥C := zpowers (selfC (z * ι τ₀))
-  haveI : N.Normal := normal_zpowers_selfC (z * ι τ₀)
+  have : N.Normal := normal_zpowers_selfC (z * ι τ₀)
   let f : alternatingGroup (Fin 8) →* TwoSec (z * ι τ₀) :=
     (QuotientGroup.mk' N).comp (g.codRestrict C hmem)
   have hker : ∀ ρ : alternatingGroup (Fin 8), f ρ = 1 → ρ = 1 := by

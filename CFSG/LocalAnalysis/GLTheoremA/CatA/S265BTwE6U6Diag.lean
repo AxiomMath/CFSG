@@ -21,7 +21,7 @@ private theorem scalar_mem_uU_six (c : xunKˣ) :
     exact Good.pow_three_eq_one_of_ne_zero (Units.ne_zero c)
   ext i j
   simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.transpose_apply,
-    Matrix.map_apply, Matrix.mul_apply, Matrix.diagonal_apply, Units.val_one, Matrix.one_apply]
+    Matrix.map_apply, Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
     simp [h1]

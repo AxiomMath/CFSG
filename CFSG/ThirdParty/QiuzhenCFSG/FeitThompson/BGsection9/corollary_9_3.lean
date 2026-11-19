@@ -481,7 +481,7 @@ public theorem CFSG.corollary_9_3
     exact Group.rank_congr (Subgroup.subgroupOfEquivOfLe (H := Cc) (K := Psub) hCc_le_P)
   have hCₚgen : 3 ≤ generatorRank Cₚ := by
     simpa [hCₚgen_eq] using hCcgen
-  have : Fact (IsPGroup p Psub) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p Psub) := ⟨P.isPGroup⟩
   have hPnoncyc : ¬ IsCyclic Psub := by
     intro hPcyc
     let : IsCyclic Psub := hPcyc

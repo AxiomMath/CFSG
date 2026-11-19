@@ -18,13 +18,13 @@ variable {N : Type} [Group N] [Finite N]
 theorem IsNatSum.fixed_eq_one_aux_fix (hN : Nat.card N = 8) {σ : MulAut N}
     (hσ : orderOf σ = 7) {n : N} (hn : σ n = n) : n = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hG : IsPGroup 7 (Subgroup.zpowers σ) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hσ]; norm_num)
   have hmod := hG.card_modEq_card_fixedPoints N
   have hfix : MulAction.fixedPoints (Subgroup.zpowers σ) N = {x | σ x = x} := by
     ext x
-    simp only [MulAction.mem_fixedPoints, Set.mem_setOf_eq]
+    simp only [MulAction.mem_fixedPoints, Set.mem_ofPred_eq]
     constructor
     · intro h
       exact h ⟨σ, Subgroup.mem_zpowers σ⟩
@@ -90,7 +90,7 @@ theorem IsNatSum.fixed_eq_one_aux_orbit (hN : Nat.card N = 8) {σ : MulAut N}
     · exact IsNatSum.fixed_eq_one_aux_pow_ne hN hσ h₀ h' j.2 h
     · exact IsNatSum.fixed_eq_one_aux_pow_ne hN hσ h₀ h' i.2 h.symm
   have hcard : Nat.card {m : N // m ≠ 1} = 7 := by
-    haveI := Fintype.ofFinite N
+    have := Fintype.ofFinite N
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun m : N => m = 1),
       Fintype.card_subtype_eq, ← Nat.card_eq_fintype_card, hN]
   have hbij : Function.Bijective F :=
@@ -216,8 +216,8 @@ theorem IsNatSum.fixed_eq_one_aux_proj (hG : ∀ a b : G, a * b = b * a)
 
 theorem IsNatSum.fixed_eq_one_aux_exists {N : Type} [Group N] {A : Subgroup (MulAut N)}
     (hA : Nat.card A = 168) : ∃ σ ∈ A, orderOf σ = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := A) 7 (by rw [hA]; norm_num)
   exact ⟨x, x.2, by rw [Subgroup.orderOf_coe]; exact hx⟩
 
@@ -328,8 +328,8 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_two [Finite G] (hG : ∀ a b : G, 
     (f : N₁ ≃* N₂) (hf : ∀ l a, f (ρ₁ l a) = ρ₂ l (f a)) :
     Nat.card (Subgroup.centralizer (ρ.range : Set (MulAut G))) ∣ 6 := by
   classical
-  haveI : Finite N₁ := Finite.of_injective j₁ hj₁
-  haveI : Nontrivial N₁ := Finite.one_lt_card_iff_nontrivial.1 (by rw [c₁]; norm_num)
+  have : Finite N₁ := Finite.of_injective j₁ hj₁
+  have : Nontrivial N₁ := Finite.one_lt_card_iff_nontrivial.1 (by rw [c₁]; norm_num)
   obtain ⟨π₁, π₂, hπ⟩ := IsNatSum.fixed_eq_one_aux_proj hG j₁ j₂ hj₁ hj₂ hrange hinf
   have hdec : ∀ g, g = j₁ (π₁ g) * j₂ (π₂ g) := by
     intro g
@@ -389,7 +389,7 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_two [Finite G] (hG : ∀ a b : G, 
       _ = 3 := by
         rw [Nat.card_eq_fintype_card]
         decide
-  haveI : Finite (EqvHom ρ ρ₁) := by
+  have : Finite (EqvHom ρ ρ₁) := by
     refine Finite.of_injective (fun h : EqvHom ρ ρ₁ => (h.1 : N₁ → G)) ?_
     intro h h' hh
     exact Subtype.ext (DFunLike.coe_injective hh)
@@ -427,8 +427,8 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_one [Finite G] (ρ : Lg →* MulAu
     (hsurj : Function.Surjective j₁) (hρ₁ : ∀ l a, j₁ (ρ₁ l a) = ρ l (j₁ a))
     (c₁ : Nat.card N₁ = 8) (r₁ : Nat.card ρ₁.range = 168) :
     Nat.card (Subgroup.centralizer (ρ.range : Set (MulAut G))) ∣ 6 := by
-  haveI : Finite N₁ := Finite.of_injective j₁ hj₁
-  haveI : Nontrivial N₁ := Finite.one_lt_card_iff_nontrivial.1 (by rw [c₁]; norm_num)
+  have : Finite N₁ := Finite.of_injective j₁ hj₁
+  have : Nontrivial N₁ := Finite.one_lt_card_iff_nontrivial.1 (by rw [c₁]; norm_num)
   let e : N₁ ≃* G := MulEquiv.ofBijective j₁ ⟨hj₁, hsurj⟩
   have he : ∀ a, e a = j₁ a := fun a => rfl
   have htriv : ∀ α : MulAut G, α ∈ Subgroup.centralizer (ρ.range : Set (MulAut G)) → α = 1 := by
@@ -456,7 +456,7 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_one [Finite G] (ρ : Lg →* MulAu
       have h4 : e.symm (α (e a)) = a := by simpa [φ] using this
       have h5 : α (e a) = e a := by simpa using congrArg e h4
       simpa using h5
-  haveI : Subsingleton (Subgroup.centralizer (ρ.range : Set (MulAut G))) :=
+  have : Subsingleton (Subgroup.centralizer (ρ.range : Set (MulAut G))) :=
     ⟨fun α β => Subtype.ext ((htriv _ α.2).trans (htriv _ β.2).symm)⟩
   rw [Nat.card_of_subsingleton 1]
   exact one_dvd 6
@@ -467,6 +467,7 @@ section XLevel
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem IsNatSum.card_centralizer_dvd_six_aux_range {L N : Subgroup X}
     (hN : IsNaturalLThreeTwo L N) : Nat.card (actOn L N hN.2.2.1).range = 168 := by
   have h := hN.2.2.1
@@ -479,10 +480,12 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_range {L N : Subgroup X}
   rw [hker]
   exact hN.2.2.2
 
+omit [Finite X] in
 theorem IsNatSum.card_centralizer_dvd_six_aux_card {L N : Subgroup X}
     (hN : IsNaturalLThreeTwo L N) : Nat.card N = 8 := by
   rw [hN.2.1]; norm_num
 
+omit [Finite X] in
 theorem IsNatSum.card_centralizer_dvd_six_aux_mem_sup {s t : Subgroup X}
     (hc : ∀ a ∈ s, ∀ b ∈ t, a * b = b * a) {x : X} (hx : x ∈ s ⊔ t) :
     ∃ y ∈ s, ∃ z ∈ t, y * z = x := by
@@ -502,6 +505,7 @@ theorem IsNatSum.card_centralizer_dvd_six_aux_mem_sup {s t : Subgroup X}
     calc y⁻¹ * z⁻¹ = (z * y)⁻¹ := by group
       _ = (y * z)⁻¹ := by rw [hc y hy z hz]
 
+omit [Finite X] in
 theorem IsNatSum.fixed_eq_one_aux_le_normalizer {L U : Subgroup X} (h : IsNatSum L U) :
     L ≤ Subgroup.normalizer (U : Set X) := by
   obtain ⟨N₁, N₂, hN₁, hsup, h2⟩ := h
@@ -632,6 +636,7 @@ theorem sevenElement_centralizes_of_isNatSum_of_comm {L U : Subgroup X}
   have := congrArg (fun β : MulAut ↥U => ((β ⟨u, hu⟩ : U) : X)) hα1
   exact this
 
+omit [Finite X] in
 theorem IsNatSum.conj_aux_centralizer (m : X) (N : Subgroup X) :
     Subgroup.centralizer ((conjSub m N : Subgroup X) : Set X) =
       conjSub m (Subgroup.centralizer (N : Set X)) := by
@@ -657,6 +662,7 @@ theorem IsNatSum.conj_aux_centralizer (m : X) (N : Subgroup X) :
       _ = m * (c * n) * m⁻¹ := by rw [this]
       _ = m * c * m⁻¹ * (m * n * m⁻¹) := by group
 
+omit [Finite X] in
 theorem IsNatSum.conj_aux_natural {L N : Subgroup X} (m : X) (hN : IsNaturalLThreeTwo L N) :
     IsNaturalLThreeTwo (conjSub m L) (conjSub m N) := by
   obtain ⟨⟨hcomm, hexp⟩, hcard, hnorm, hrel⟩ := hN
@@ -677,6 +683,7 @@ theorem IsNatSum.conj_aux_natural {L N : Subgroup X} (m : X) (hN : IsNaturalLThr
       Subgroup.relIndex_map_map_of_injective _ _ hinj]
     exact hrel
 
+omit [Finite X] in
 theorem IsNatSum.conj {L U : Subgroup X} (h : IsNatSum L U) (m : X) :
     IsNatSum (conjSub m L) (conjSub m U) := by
   obtain ⟨N₁, N₂, hN₁, hsup, h2⟩ := h
@@ -725,10 +732,10 @@ variable {X : Type} [Group X] [Finite X]
 theorem IsC2.hom_eq_one_of_card_dvd_six_aux_comm {K : Type} [Group K] [Finite K]
     (h : Nat.card K ∣ 3) (a b : K) : a * b = b * a := by
   rcases (Nat.dvd_prime (by norm_num : Nat.Prime 3)).1 h with h1 | h3
-  · haveI : Subsingleton K := (Nat.card_eq_one_iff_unique.1 h1).1
+  · have : Subsingleton K := (Nat.card_eq_one_iff_unique.1 h1).1
     exact Subsingleton.elim _ _
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : IsCyclic K := isCyclic_of_prime_card h3
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : IsCyclic K := isCyclic_of_prime_card h3
     exact mul_comm' a b
 
 theorem IsC2.hom_eq_one_of_card_dvd_six_aux_gen {K : Type} [Group K] [Finite K]
@@ -760,7 +767,7 @@ theorem IsC2.hom_eq_one_of_card_dvd_six_aux_gen {K : Type} [Group K] [Finite K]
   · exact h3 (by norm_num)
   · omega
   · omega
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := K) 3 (by rw [hc]; norm_num)
     refine key (Subgroup.zpowers y) ?_
     have h1 := Subgroup.index_mul_card (Subgroup.zpowers y)
@@ -772,7 +779,7 @@ theorem IsC2.hom_eq_one_of_card_dvd_six {L : Subgroup X} (hL : IsC2 L) {H : Type
   obtain ⟨-, hodd, hcomp⟩ := hL
   let ψ' : ↥L →* ↥ψ.range := ψ.rangeRestrict
   have hsurj : Function.Surjective ψ' := ψ.rangeRestrict_surjective
-  haveI : Finite ψ.range := Finite.of_surjective ψ' hsurj
+  have : Finite ψ.range := Finite.of_surjective ψ' hsurj
   have hK : Nat.card ψ.range ∣ 6 := (Subgroup.card_subgroup_dvd_card ψ.range).trans hH
   have hTgen : Subgroup.closure {y : ↥L | Odd (orderOf y)} = ⊤ := by
     apply Subgroup.map_injective (Subgroup.subtype_injective L)
@@ -862,7 +869,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem comm_of_le_gnV {T : Subgroup X} (hX : GNSetting X T) {U : Subgroup X} (hU : U ≤ gnV T) :
     ∀ x ∈ U, ∀ y ∈ U, x * y = y * x := by
   have hVea := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV T hX
-  haveI := hVea.1
+  have := hVea.1
   intro x hx y hy
   exact congrArg Subtype.val (mul_comm' (⟨x, hU hx⟩ : ↥(gnV T)) ⟨y, hU hy⟩)
 

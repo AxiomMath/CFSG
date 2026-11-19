@@ -67,7 +67,7 @@ theorem Ctx.exists_elation_action (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n
       (∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • (b : M₀.E)) ∧
       (∀ g, θ g b = b) ∧ (∀ (g : ↥(LB M Q B)) (u : W), ∃ c : K, θ g u = u + c • b) ∧
       (∀ g : ↥(LB M Q B), θ g = 1 ↔ (g : G) ∈ Q) ∧ Module.finrank K W = n ∧
-      (∀ (g : ↥(LB M Q B)) (y : G) (hyL : y ∈ Q ⊓ QB B) (hyW : M₀.π y ∈ W),
+      (∀ (g : ↥(LB M Q B)) (y : G) (_hyL : y ∈ Q ⊓ QB B) (hyW : M₀.π y ∈ W),
         ((θ g ⟨M₀.π y, hyW⟩ : W) : M₀.E) = M₀.π y ↔ ⁅(g : G), y⁆ ∈ Z) ∧
       ∀ (g : ↥(LB M Q B)) (S : M₀.E ≃ₗ[K] M₀.E),
         (∀ x ∈ Q, M₀.π ((g : G) * x * (g : G)⁻¹) = S (M₀.π x)) →
@@ -170,8 +170,8 @@ theorem Ctx.exists_elation_action (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n
       Nat.card_congr (Equiv.subtypeEquivRight fun v => hW v)
     rw [Module.natCard_eq_pow_finrank (K := K), himg] at hWcard
     exact Nat.pow_right_injective hK hWcard
-  · intro g y hyL hyW
-    have hyQ : y ∈ Q := hyL.1
+  · intro g y _hyL hyW
+    have hyQ : y ∈ Q := _hyL.1
     rw [hθ]
     show φL g (M₀.π y) = M₀.π y ↔ _
     rw [← hφL g y hyQ]

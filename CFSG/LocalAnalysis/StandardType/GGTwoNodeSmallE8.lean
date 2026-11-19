@@ -149,10 +149,10 @@ theorem linWeyl_E8_of_simple_system {p : ℕ} [Fact p.Prime] {V : Type} [AddComm
     apply Subtype.ext
     change f₀ g = (r : V ≃ₗ[ZMod p] V)
     exact hg
-  haveI : Finite CoxeterMatrix.E₈.Group := tne_finite_E8
-  haveI : Finite R := Finite.of_surjective f₁ hsurj
-  haveI : Fintype CoxeterMatrix.E₈.Group := Fintype.ofFinite _
-  haveI : Fintype R := Fintype.ofFinite _
+  have : Finite CoxeterMatrix.E₈.Group := tne_finite_E8
+  have : Finite R := Finite.of_surjective f₁ hsurj
+  have : Fintype CoxeterMatrix.E₈.Group := Fintype.ofFinite _
+  have : Fintype R := Fintype.ofFinite _
   have hcard_eq : Fintype.card CoxeterMatrix.E₈.Group = Fintype.card R := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact le_antisymm hcard (Nat.card_le_card_of_surjective f₁ hsurj)

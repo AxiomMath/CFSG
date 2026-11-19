@@ -20,7 +20,7 @@ theorem stronglyEmbedded_of_zpowers (hS : Situation G p P M) {f : ℕ} (hf : f.P
     (hkey : ∀ y ∈ (F₀ : Subgroup G), y ≠ 1 → y ^ f = 1 →
       normalizer ((zpowers y : Subgroup G) : Set G) ≤ M) :
     GLBStronglyEmbedded f M := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hFC := hS.toGlobal.fullCore
   have hF₀M : (F₀ : Subgroup G) ≤ M := sylow_le_of_core hD
   have hP : ∀ X : Subgroup G, X ≤ (F₀ : Subgroup G) → IsPGroup f X → X ≠ ⊥ →
@@ -74,7 +74,7 @@ theorem stronglyEmbedded_of_rank (hS : Situation G p P M) {f : ℕ} (hf : f.Prim
     (hy : f < p → ∀ y ∈ M, orderOf y = f →
       3 ≤ Open.pRank f (M ⊓ centralizer ({y} : Set G))) :
     GLBStronglyEmbedded f M := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨Fh, hFh⟩ := CFSG.ABGLocalTools.exists_isSylowOf f M
   have hFhM : Fh ≤ M := hFh.le
   have hFhp : IsPGroup f Fh := hFh.isPGroup

@@ -22,7 +22,7 @@ open scoped Matrix Pointwise commutatorElement
 
 private theorem charP_two_of_card_eq_two_pow {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) : CharP K 2 := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK
   exact charP_of_card_eq_prime_pow hK
 
@@ -37,7 +37,7 @@ private theorem card_fixedPointSubgroup_eq_two_pow_of_realizes {W : Type} [CommG
     letI : MulDistribMulAction ↥S W :=
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   have h := KTabA.card_fixedPointSubgroup_sylow_of_realizes (W := W) (p := 2) (K := K)
     hR hline S
   rw [h, hK]
@@ -49,10 +49,10 @@ private theorem card_fixedPoint_of_binaryNaturalSL {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin d) := Fin.pos_iff_nonempty.mp hd
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin d) := Fin.pos_iff_nonempty.mp hd
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedSL (K := K) 2 d
   exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK hR ⟨U, e, hU, hfix⟩ S
 
@@ -63,10 +63,10 @@ private theorem card_fixedPoint_of_natSpn {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin (N / 2)) := Fin.pos_iff_nonempty.mp hN
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin (N / 2)) := Fin.pos_iff_nonempty.mp hN
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedSp (K := K) 2 (N / 2)
   exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK hR ⟨U, e, hU, hfix⟩ S
 
@@ -77,10 +77,10 @@ private theorem card_fixedPoint_of_natOmegaMinus {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hbc, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin 2) := Fin.pos_iff_nonempty.mp (by norm_num)
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin 2) := Fin.pos_iff_nonempty.mp (by norm_num)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   obtain ⟨U, e, hU, hfix⟩ :=
     KTabA.exists_fixedLine_statedOmega_minus (K := K) (m := N / 2) hN hbc
   exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK hR ⟨U, e, hU, hfix⟩ S
@@ -92,10 +92,10 @@ private theorem card_fixedPoint_of_natOmegaPlus {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin (N / 2)) := Fin.pos_iff_nonempty.mp (lt_of_lt_of_le (by norm_num) hN)
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin (N / 2)) := Fin.pos_iff_nonempty.mp (lt_of_lt_of_le (by norm_num) hN)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedOmega_plus (K := K) 2 hN
   exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK hR ⟨U, e, hU, hfix⟩ S
 
@@ -106,10 +106,10 @@ private theorem card_fixedPoint_of_natOmegaPlusFour {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin 2) := Fin.pos_iff_nonempty.mp (by norm_num)
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin 2) := Fin.pos_iff_nonempty.mp (by norm_num)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK
   by_cases hK2 : 2 < Nat.card K
   · obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedOmega_plus_two (K := K) 2 hK2
     exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK hR ⟨U, e, hU, hfix⟩ S
@@ -128,11 +128,11 @@ private theorem card_fixedPoint_of_natSUn {W : Type} [CommGroup W]
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) = 2 ^ n := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Nonempty (Fin 4) := Fin.pos_iff_nonempty.mp (by norm_num)
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Nonempty (Fin 4) := Fin.pos_iff_nonempty.mp (by norm_num)
   have hK' : Nat.card K = 2 ^ n := by rw [hn, hK, ← pow_mul, Nat.mul_comm a 2]
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK'
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK'
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedSU (K := K) (r := 2 ^ a) (d := 4) hK
   exact card_fixedPointSubgroup_eq_two_pow_of_realizes hK' hR ⟨U, e, hU, hfix⟩ S
 
